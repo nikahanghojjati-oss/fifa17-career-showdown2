@@ -33,16 +33,16 @@ assert.equal(readiness.currentScore,readiness.domains.reduce((sum,d)=>sum+d.earn
 assert.deepEqual(readiness.domains.map(d=>d.earned),[20,20,20,30,10]);
 assert.equal(bootstrap.remoteJoiningReadiness?.score,100);
 assert.equal(bootstrap.remoteJoiningReadiness?.remaining,0);
-assert.equal(bootstrap.currentPublicationCheckpoint?.pullRequest,198);
-assert.equal(bootstrap.currentPublicationCheckpoint?.state,"open");
-assert.equal(bootstrap.currentPublicationCheckpoint?.baseSha,"264237056896d2b9d84f69c908da5b14e2b8e97d");
+assert.equal(bootstrap.historicalPr198PublicationCheckpoint?.pullRequest,198);
+assert.equal(bootstrap.historicalPr198PublicationCheckpoint?.state,"merged");
+assert.equal(bootstrap.historicalPr198PublicationCheckpoint?.baseSha,"264237056896d2b9d84f69c908da5b14e2b8e97d");
 assert.equal(bootstrap.currentPublicationCheckpoint?.finalSealedHead,null);
 assert.equal(bootstrap.currentPublicationCheckpoint?.finalSealedHeadMustBeFetchedLive,true);
 assert.equal(bootstrap.currentPublicationCheckpoint?.runtimeChanged,false);
 assert.equal(bootstrap.currentPublicationCheckpoint?.rulesChanged,false);
 assert.equal(bootstrap.currentPublicationCheckpoint?.providerMutationRequired,false);
 assert.equal(bootstrap.currentPublicationCheckpoint?.publicationWorkRjrCredit,0);
-assert.equal(bootstrap.immediateNextTask?.name,"publish-pr198-rjr100-and-generate-sns");
+assert.equal(bootstrap.immediateNextTask?.name,"ssjr1-authoritative-setup-foundation");
 assert.equal(bootstrap.runtime?.applicationVersion,"1.9.1");
 assert.equal(bootstrap.runtime?.productionRuntimeRevision,"1.9.1-r2");
 assert.equal(bootstrap.runtime?.productionStatus,"production-proven");
@@ -66,10 +66,15 @@ assert.equal(predecessor.assessment?.decision,"HANDOFF_AT_CHECKPOINT");
 assert.equal(wec.lifecycle,"active");
 assert.notEqual(wec.environmentId,predecessor.environmentId);
 assert.equal(wec.environmentId,bootstrap.currentWec?.environmentId);
-assert.equal(wec.repository?.predecessorEnvironmentId,predecessor.environmentId);
-assert.equal(wec.signals?.handoffCompleteness,99);
-assert.equal(bootstrap.transition?.handoffCompleteness,99);
-assert.equal(bootstrap.transition?.continuationDecision,"CONTINUE");
+assert.equal(wec.repository?.predecessorEnvironmentId,"we-2026-09-05-pr196-publication-physical-acceptance-e9072");
+assert.equal(json(wec.repository.predecessorArchive).environmentId,wec.repository.predecessorEnvironmentId);
+assert.equal(bootstrap.historicalPr198PublicationCheckpoint?.mergeSha,"39ffe88d61dcda973df03a18e0266fcfe4cf5638");
+assert.equal(bootstrap.historicalPr198PublicationCheckpoint?.exactFinalHead,"165b21a1e9a269fae87efa06ebd1df89cfc48e04");
+assert.equal(bootstrap.historicalPr198PublicationCheckpoint?.postMergeWorkflowFamiliesSuccessful,15);
+assert.equal(bootstrap.sharedShowdownJourneyReadiness?.score,json("SHARED_SHOWDOWN_JOURNEY_READINESS.json").currentScore);
+assert.equal(wec.signals?.handoffCompleteness,bootstrap.transition?.handoffCompleteness);
+assert.ok(bootstrap.transition?.handoffCompleteness >= 0 && bootstrap.transition?.handoffCompleteness <= 100);
+assert.equal(bootstrap.transition?.continuationDecision,wec.assessment?.decision);
 
 // Old RJR89/RJR91 packages remain immutable historical provenance.
 for(const [p,marker] of [
@@ -79,4 +84,4 @@ for(const [p,marker] of [
  ["SUCCESSOR_HANDOFF_PR191_MERGED_RJR91_STAGE5G_AUTOMATION_SLE_2026-09-04.md",/91\/100|RJR91/i]
 ]) assert.match(read(p),marker);
 
-process.stdout.write("PASS SLE packaging: the completed v1.4.43 PR196 package remains immutable while current authority advances to accepted RJR100/PR198; a new SNS is not claimed before clean Handoff proximity 100%.\n");
+process.stdout.write("PASS SLE packaging: the completed v1.4.43 PR196 package remains immutable while current authority advances past merged RJR100/PR198 into fixed SSJR-1; a new SNS is not claimed before clean Handoff proximity 100%.\n");

@@ -1,31 +1,34 @@
-# CURRENT TASK — PUBLISH ACCEPTED RJR100 THEN GENERATE SNS
+# CURRENT TASK — SSJR-1 AUTHORITATIVE SETUP FOUNDATION
 
-Current environment: `we-2026-09-05-pr196-publication-physical-acceptance-e9072`
-Starting independently verified live main: `2302e8daba6c9417954bc610f537aba41c4d3d87`
+Current environment: `we-2026-09-05-ssjr-setup-foundation-28cf84`
+Starting independently verified live main: `39ffe88d61dcda973df03a18e0266fcfe4cf5638`
 
-Production is independently proven `v1.9.1 / 1.9.1-r2`; previous known-good whole-shell recovery target is `1.9.1-r1`. Fixed `RJR-1` is complete at `100/100` with domain vector `20/20`, `20/20`, `20/20`, `30/30`, `10/10`. The physical Chromebook/Home WiFi + iPhone/cellular Remote Joining acceptance and final stable release acceptance (the final stable Remote Joining release acceptance) are consumed evidence. Do not repeat or re-credit them.
+Shared Showdown Journey Readiness (SSJR-1) is fixed at 100 points. Its explicit initial baseline is 0/100; RJR-1 remains COMPLETE/FROZEN at 100/100. See SHARED_SHOWDOWN_JOURNEY_MODEL.json, SHARED_SHOWDOWN_JOURNEY_READINESS.json and SSJR1_BASELINE_AND_SETUP_FOUNDATION_2026-09-05.md. No SSJR credit is awarded for source, tests or publication mechanics.
 
-Consumed RJR physical-evidence audit tooling remains available as provenance: `npm run test:rjr-physical-preflight` re-proves the automated Stage 5H/5I boundary, and `npm run validate:rjr-physical -- <host-export.json> <peer-export.json>` validates the two sanitized recorder exports. These commands are retained for audit/regression purposes only; the accepted physical run is complete and must not be repeated or re-credited without a proven regression that invalidates its evidence.
-
-PR #198, `Publish final fixed RJR-1 100/100 acceptance`, is evidence/continuity publication only. It changes no runtime, Rules, Firebase provider state, IAM or billing and earns zero RJR credit.
-
-Work Environment Continuity remains mandatory. Reassess only this environment's own live status; do not inherit the predecessor's transition decision.
+Production: `v1.9.1 / 1.9.1-r2`. Previous known-good whole-shell recovery remains 1.9.1-r1. PR #198 is MERGED at 39ffe88d61dcda973df03a18e0266fcfe4cf5638 with 15/15 PR and 15/15 push workflows successful. That merge published RJR-1 100/100. RJR physical Chromebook/Home WiFi plus iPhone/cellular acceptance and final stable release acceptance are complete and consumed.
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
-1. Fetch live PR #198 and require every current permanent workflow family green on the same exact reviewed PR head. Do not combine evidence from superseded heads.
-2. Review the exact final diff. Reject any runtime/provider/Rules/billing mutation or historical provenance rewrite.
-3. Merge only with expected-head protection.
-4. Fetch the resulting live `main` and require the complete permanent main-push publication set green. Production must remain `v1.9.1 / 1.9.1-r2` and Firebase Spark with billing permanently off.
-5. Reassess this WEC. If and only if publication is clean and there is no unresolved failure, set `Handoff proximity: 100%`, generate the SNS/SLE successor package and stop before implementing another substantial milestone.
-6. The SNS must route the new session directly into codifying the owner's post-RJR100 end-to-end shared gameplay roadmap as a fixed numerical 0–100 program, provisionally `Shared Showdown Journey Readiness (SSJR-1)`, with milestones, evidence rules, anti-double-counting and a state-machine/process map.
+Verify live main, this branch/PR, both readiness ledgers, current production identity and the fresh WEC. Treat handoff files as orientation only. Current source and later owner instructions win.
 
-The next major product goal is not more generic Remote Joining infrastructure. It is the complete supported remote Showdown journey: select both managers → private pair → exact Connected Rivalry → Host → Join → ACTIVE → authoritative shared setup → one authoritative League Wheel result → authoritative club assignments → authoritative season length → Showdown confirmation → both players run their matching FIFA 17 Career Modes locally → supported season results/scoring/history/progression synchronize → final season reconciles → Showdown closes terminally without resurrection.
+Complete the fixed SSJR model and provider-neutral Shared Setup candidate on `ssjr/authoritative-setup-foundation-2026-09-05`, including adversarial contracts, two-browser WebCrypto/immutability proof, the full repository suite, exact-head review, every permanent PR workflow, expected-head merge and post-merge verification. This candidate does not activate production Shared Setup or change provider Rules. After publication, the next product dependency is a Spark-compatible exact-path transaction adapter and candidate Rules with direct modified-client emulator negatives before runtime/UI activation.
 
-League Wheel and club assignment should be designed to happen after both legitimate managers are attached to the exact Connected Rivalry and the Remote Joining session is ACTIVE, so the setup is committed once under shared authority instead of reconciling two independently randomized local setups.
+The shared journey must enter an exact Connected Rivalry and ACTIVE session before one authoritative League Wheel draw, same-league distinct permanent club assignments, one 1/3/5/10 season length and both managers confirming the same setup. Existing private sessions last 15 minutes by default; a fresh ACTIVE session for the same rivalry must resume existing setup without resetting it.
 
-Career Mode Showdown synchronizes the supported competitive Showdown state; it does not stream, network or control the FIFA 17 match engine itself.
+The supported journey continues through local FIFA17 careers, transfer challenges, per-manager results, canonical scoring/history, multi-season convergence, final reconciliation and terminal close without resurrection. Career Mode Showdown does not stream, network or control the FIFA17 match engine.
 
-The Installable Offline App, v1.3.0 Recovery & Device Resilience baseline, Local Profiles / Save Library and all canonical local-first guarantees remain protected.
+The Installable Offline App, v1.3.0 Recovery & Device Resilience baseline, Local Profiles and Save Library remain protected. Candidate setup is not yet wired to gameplay.
+
+Report SSJR at every substantive checkpoint and explain the capability contribution or concrete dependency removed. RJR100 remains frozen. The owner now requires `Estimated focused sessions to genuine SSJR100`, initially ~8–14 based on remaining stages. Handoff proximity remains a separate WEC transition signal.
 
 Permanent locks: Billing must never be activated. Firebase remains Spark. App Check enforcement remains OFF. Firestore browser persistence remains memory-only. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes. Canonical localStorage is exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, `careerModeShowdown.preferences`. Candidate A remains non-mutating; Candidate B remains read-only; Candidate C remains the sole destructive remote-to-local gameplay Apply authority with transaction-owned strict exact raw-snapshot rollback. Exactly two private managers remain mandatory. No public discovery/listing/lobby/matchmaking/community/rankings/global leaderboards. Never durably retain raw private capabilities or raw account/device/rivalry/session authority IDs. Never destructively test the protected historical rivalry.
+
+Work Environment Continuity remains mandatory under `00_WORK_ENVIRONMENT_CONTINUITY.md` and `WORK_ENVIRONMENT_STATUS.json`. Validate the inherited record before replacement, archive closure evidence, initialize a fresh unique WEC with reset counters, then run `npm run work:assess` and obey its decision.
+
+The final stable Remote Joining release acceptance is complete. Publication work earns zero RJR credit and zero SSJR credit.
+
+Consumed RJR physical-evidence audit tooling remains available as provenance: `npm run test:rjr-physical-preflight` re-proves the automated Stage 5H/5I boundary, and `npm run validate:rjr-physical -- <host-export.json> <peer-export.json>` validates the two sanitized recorder exports. These commands are retained for audit/regression purposes only; the accepted physical run is complete and must not be repeated or re-credited without a proven regression that invalidates its evidence.
+
+Owner clarification during this session is preserved in `authority-history/OWNER_SSJR_REPORTING_AND_PAIRING_ORDER_2026-09-05.md`: the final shared UI and provider must require pairing and ACTIVE before league or club selection. The owner authorizes necessary changes to achieve that order and a production-proven playable two-manager remote journey at SSJR100. The focused-session estimate now targets SSJR100.
+
+Publication gate: require every current permanent workflow family green on the same exact reviewed PR head, zero unresolved review blockers, and an expected-head protected merge. Verify the complete post-merge publication set before claiming release completion.

@@ -134,6 +134,25 @@ Owner-instruction provenance for the original reporting format is preserved at `
 
 Every successor handoff and fresh Work environment inherits this eight-line format recursively unless the owner explicitly changes it. Every such successor handoff must also be packaged as SLE under `00_SLE_HANDOFF_PROTOCOL.md`.
 
+## Current owner reporting override — SSJR, 2026-09-05
+
+The owner's later explicit instruction in `authority-history/OWNER_SSJR_REPORTING_AND_PAIRING_ORDER_2026-09-05.md` supersedes the old RJR feature and session-estimate labels above for current and future work. RJR-1 is complete/frozen at 100/100. The current eight-line report is:
+
+```text
+Handoff proximity: X%
+Shared Showdown Journey readiness: Y/100
+Estimated focused sessions to genuine SSJR100: ~N–M
+Current lane: <current bounded engineering lane>
+Concrete dependency completed: <most recent concrete dependency completed>
+Next unlock: <next dependency or proof gate>
+Blocker: <current blocker, or NONE>
+Sidequest check: <NONE, or NECESSARY because ...>
+```
+
+Report SSJR from `SHARED_SHOWDOWN_JOURNEY_READINESS.json` at every substantive checkpoint, even when unchanged. Explain how the action proves a fixed capability or removes a specific dependency. Estimate sessions from remaining engineering/proof stages, never from score arithmetic; explain material forecast changes. SSJR100 means a production-proven playable supported Shared Showdown Journey for two remote managers. Automate every feasible test and ask only for the minimum unavoidable physical/account action after prerequisites are complete.
+
+The shared journey must pair both legitimate managers to the exact Connected Rivalry and reach ACTIVE before league or club selection. Enforce that order in both UI and provider authority. A pre-draw local Save/profile shell may satisfy identity binding without committing a league or clubs. Do not change the fixed SSJR-1 model or claim production capability from candidate code alone. Preserve this reporting override and product order recursively in successor packages.
+
 ## Interruption and tooling-resilience guardrails
 
 Treat a tool/session interruption as a recoverable infrastructure event, never as permission to infer success or restart work from memory.

@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "modelVersion": "SSJR-1",
+  "modelFile": "SHARED_SHOWDOWN_JOURNEY_MODEL.json",
+  "modelSha256": "246aa4572600bc00e14b505e0de15308373fdb57575015a60092d84935697f4e",
+  "denominator": 100,
+  "currentScore": 0,
+  "baseline": {
+    "eventId": "ssjr1-initial-backcast",
+    "sourceSha": "39ffe88d61dcda973df03a18e0266fcfe4cf5638",
+    "runtimeRevision": "1.9.1-r2",
+    "score": 0,
+    "creditedCapabilityIds": [],
+    "evidenceRecord": "SSJR1_BASELINE_AND_SETUP_FOUNDATION_2026-09-05.md",
+    "reason": "No SSJR capability is fully production-proven. RJR100 transport and local-only setup/results/scoring remain valuable prerequisites. Existing full-save publication does not enforce the new setup/result journey transitions."
+  },
+  "evidenceBundles": [],
+  "events": [],
+  "candidateEvidence": [
+    {
+      "id": "ssjr1-setup-protocol-candidate",
+      "layers": [
+        "deterministic-behavior",
+        "isolated-browser-protocol"
+      ],
+      "references": [
+        "tests/contracts/shared-showdown-setup-contracts.cjs",
+        "tests/browser/shared-showdown-setup-audit.cjs"
+      ],
+      "relatedCapabilityIds": [
+        "entry-binding",
+        "setup-league",
+        "setup-clubs",
+        "setup-length",
+        "setup-confirmation"
+      ],
+      "credit": 0,
+      "missingLayers": [
+        "provider-enforcement",
+        "production-two-account"
+      ],
+      "finding": "65 immutable accepted/rejected cases, concurrent CAS/replay and two real Chromium-context hashes/dual confirmation/local immutability. Synthetic authority; not production or physical proof."
+    }
+  ],
+  "remainingCapabilityIds": [
+    "entry-binding",
+    "entry-before-draw",
+    "setup-league",
+    "setup-clubs",
+    "setup-length",
+    "setup-confirmation",
+    "career-start",
+    "transfer-challenge",
+    "results-publication",
+    "season-commit",
+    "canonical-scoring",
+    "history-convergence",
+    "multi-season",
+    "journey-reconnect",
+    "journey-conflicts",
+    "local-reconciliation",
+    "final-reconciliation",
+    "terminal-close",
+    "physical-journey",
+    "stable-journey-release"
+  ],
+  "planningEstimate": {
+    "focusedSessionsToSSJR100": {
+      "minimum": 8,
+      "maximum": 14
+    },
+    "isForecastNotReadinessEvidence": true,
+    "basis": [
+      "Complete foundation publication",
+      "Spark adapter and provider Rules: roughly 1\u20132 sessions",
+      "Pre-draw entry, shared setup UI and safe local integration: roughly 1\u20132",
+      "Transfer and result ownership with shared season commit: roughly 2\u20133",
+      "Scoring, histories and 1/3/5/10 progression: roughly 1\u20132",
+      "Journey recovery, contention and terminal close: roughly 1\u20132",
+      "Integrated physical acceptance and stable release: roughly 1\u20132"
+    ],
+    "assumptions": [
+      "No new major provider limitation or release-blocking regression",
+      "Owner available for the smallest final physical/account actions",
+      "All infrastructure remains free; no billing workarounds"
+    ],
+    "reviseWhen": "Provider design, integrated scope, acceptance availability or regression evidence changes the critical path; do not calculate from score percentage."
+  }
+}

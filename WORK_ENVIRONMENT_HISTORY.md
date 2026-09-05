@@ -971,3 +971,10 @@ This file is a recovery-safe append payload only. It exists because the current 
 - Both P2 findings are corrected and re-proven locally. The corrected final SLE seal is the last intended branch mutation; its exact remote SHA must be fetched live because this archive cannot self-reference its own commit.
 - Fixed RJR-1 remains exactly `91/100`. Source, validator, tests, PR, CI, review, WEC and SLE work earn zero readiness credit. Billing remains permanently forbidden, Firebase remains Spark, App Check enforcement remains OFF and every privacy/storage/Candidate C/two-manager/no-public-discovery lock remains unchanged.
 - Final decision `HANDOFF_AT_CHECKPOINT` belongs only to this closed environment and must not be inherited. Successor validates `WORK_ENVIRONMENT_ARCHIVE/we-2026-09-05-physical-acceptance-evidence.json`, initializes a fresh unique WEC from live main, finishes corrected PR #196 exact-head publication, and only then requests the bounded physical owner run.
+
+
+## Successor-verified closure — we-2026-09-05-pr196-publication-physical-acceptance-e9072
+
+- Verified 2026-09-05T21:22:26Z: PR #198 merged exact head 165b21a1e9a269fae87efa06ebd1df89cfc48e04 to live main 39ffe88d61dcda973df03a18e0266fcfe4cf5638. All 15 PR and 15 push families succeeded; Stability 33990982219 and Burn-In 33990982204 succeeded. Reviews empty. Closure comment 5554721311 records Handoff proximity 100% / TRANSITION.
+- Exact predecessor source snapshot archived at `WORK_ENVIRONMENT_ARCHIVE/we-2026-09-05-pr196-publication-physical-acceptance-e9072.json`. Its active 99% source snapshot predates closure; the live merge, Actions and closure comment establish the completed boundary. No source-only reclosure milestone is needed.
+- Production service worker independently fetched as 1.9.1-r2 with previous 1.9.1-r1. RJR-1 remains complete/frozen at 100/100. Billing remains forbidden, Firebase Spark. Successor does not inherit predecessor counters or decision.

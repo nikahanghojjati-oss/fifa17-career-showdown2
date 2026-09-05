@@ -1,50 +1,50 @@
 {
   "schemaVersion": 1,
-  "environmentId": "we-2026-09-05-pr196-publication-physical-acceptance-e9072",
+  "environmentId": "we-2026-09-05-ssjr-setup-foundation-28cf84",
   "lifecycle": "active",
-  "recordedAt": "2026-09-05T20:03:00Z",
+  "recordedAt": "2026-09-05T22:03:05Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
-    "startingMainSha": "2302e8daba6c9417954bc610f537aba41c4d3d87",
-    "workingBranch": "rjr/final-rjr100-acceptance-2026-09-05",
-    "handoffBranch": "rjr/final-rjr100-acceptance-2026-09-05",
-    "predecessorEnvironmentId": "we-2026-09-05-physical-acceptance-evidence",
-    "predecessorArchive": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-05-physical-acceptance-evidence.json"
+    "startingMainSha": "39ffe88d61dcda973df03a18e0266fcfe4cf5638",
+    "workingBranch": "ssjr/authoritative-setup-foundation-2026-09-05",
+    "handoffBranch": "ssjr/authoritative-setup-foundation-2026-09-05",
+    "predecessorEnvironmentId": "we-2026-09-05-pr196-publication-physical-acceptance-e9072",
+    "predecessorArchive": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-05-pr196-publication-physical-acceptance-e9072.json"
   },
   "signals": {
-    "contextComplexity": "high",
-    "projectComplexity": "very-high",
+    "contextComplexity": "very-high",
+    "projectComplexity": "high",
     "compactionCount": 1,
     "majorPhasesCompleted": 3,
-    "largeEvidenceEvents": 6,
-    "toolRoutingErrors": 4,
-    "correctedFailures": 3,
-    "repeatedMistakes": 0,
-    "staleFactCorrections": 2,
+    "largeEvidenceEvents": 4,
+    "toolRoutingErrors": 3,
+    "correctedFailures": 2,
+    "repeatedMistakes": 1,
+    "staleFactCorrections": 0,
     "unresolvedFailures": 0,
     "newMilestoneNext": false,
     "usageRemainingPercent": null,
     "usageSource": "unavailable",
     "usageWarning": false,
-    "handoffCompleteness": 99,
+    "handoffCompleteness": 85,
     "unrecordedDecisions": 0,
     "atomicOperation": false
   },
   "assessment": {
-    "decision": "CONTINUE",
-    "reason": "Fixed RJR-1 is accepted at 100/100. Only exact-head PR #198 publication, expected-head merge, post-merge main verification and SNS generation remain before this environment can close cleanly.",
+    "decision": "HANDOFF_AT_CHECKPOINT",
+    "reason": "Observed compaction and current evidence produce context pressure 100, quality risk 44, continuation risk 64, transition cost 23.3 and transition advantage 40.8. Complete current tested foundation publication and full SLE seal; stop before the distinct provider milestone.",
     "decisionInheritedFromPredecessor": false,
     "usageExcludedBecauseUnavailable": true
   },
   "continuity": {
-    "currentTask": "Publish PR #198 for accepted fixed RJR-1 100/100, verify exact-head and post-merge proof, then generate SNS at Handoff proximity 100%.",
-    "lastSafeCheckpoint": "Production remains v1.9.1 / 1.9.1-r2 under Spark with billing permanently off. Genuine Chromebook/Home WiFi plus iPhone/cellular Remote Joining acceptance passed. The final stable-release acceptance passed. REMOTE_JOINING_READINESS.json is reconciled to fixed RJR-1 100/100 on PR #198; publication mechanics receive zero RJR credit.",
-    "nextSafeAction": "Require the unchanged PR #198 head to pass every applicable permanent PR family, review the exact diff, merge with expected-head protection, verify live main and all main-push publication families, then generate the SNS and stop before implementing the post-RJR100 Shared Showdown Journey roadmap.",
+    "currentTask": "Study and codify fixed SSJR-1 once, establish a source/evidence-backed baseline, then implement the smallest authoritative shared setup dependency in this same candidate.",
+    "lastSafeCheckpoint": "All 89 repository-suite files plus static release and post-suite acceptance contracts PASS; targeted setup tests PASS; two-context Chromium audit PASS. Candidate setup remains outside production loader. SSJR0/RJR100.",
+    "nextSafeAction": "Publish the tested setup foundation, final-seal complete mirrored v1.4.46 SLE, verify all exact-head publication gates and post-merge proof, then stop before the distinct provider adapter/Rules milestone.",
     "unfinishedWork": [
-      "PR #198 exact-head permanent CI and exact-diff review.",
-      "Expected-head merge plus live-main and post-merge publication verification.",
-      "Generate the successor SNS at clean Handoff proximity 100%."
+      "Create reviewed candidate PR and final mirrored SLE seal",
+      "All 15 exact-head PR workflow families, clean reviews/threads, expected-head merge",
+      "Post-merge publication proof then successor provider adapter/Rules milestone"
     ],
     "knownHazards": [
       "Billing is permanently forbidden and Firebase must remain Spark; never link Cloud Billing, enable Blaze, add a payment method, use Cloud Run, Cloud Functions, purchased credits or any billing-required service.",
@@ -55,15 +55,22 @@
       "Never request, expose, quote, paste, log or durably retain the full private session capability or raw account, device, rivalry or session IDs.",
       "Never destructively test the protected historical rivalry.",
       "RJR-1 is complete at 100/100. Never award scores above 100 or duplicate points for PR, CI, review, merge, deployment, WEC, SLE, SNS or documentation.",
-      "Do not begin the next substantial Shared Showdown Journey milestone in this environment; hand it to the successor after clean publication and SNS generation."
+      "RJR100 is a completed prerequisite. SSJR is a separate fixed model; no numeric SSJR claim before its one-time baseline calculation."
     ],
     "evidenceNotes": [
-      "Physical production acceptance used two real devices and independent networks: Chromebook on Home WiFi and iPhone on cellular.",
-      "The accepted sequence proved same-session Host/Join, ACTIVE revision 1, real offline/online recovery, terminal CLOSED revision 2 and no resurrection using privacy-safe sanitized evidence.",
-      "Final stable-release acceptance closes the last fixed RJR-1 point. Domain vector is 20/20, 20/20, 20/20, 30/30, 10/10.",
-      "Production runtime is unchanged by PR #198: application v1.9.1, runtime 1.9.1-r2.",
-      "PR #198 is evidence/continuity publication only and must receive zero RJR credit.",
-      "The post-RJR100 product objective requested by the owner is the full start-to-finish remote Shared Showdown Journey. It will be codified numerically by the successor, not implemented before this WEC closes."
+      "GitHub CLI 2.100.0 checksum-verified installed; unauthenticated. Connected GitHub tools remain available; no new authentication required for supported operations.",
+      "GitHub connector tags collection unsupported; inspect tags through git. Public web fetch failed; direct production service-worker GET succeeded.",
+      "Physical RJR acceptance is consumed and will not be repeated without a proven regression.",
+      "Initial SSJR-1 fixed definition has weights 10/25/20/20/15/5/5, 20 whole capabilities, baseline zero. RJR100 is not rescored.",
+      "Incorrect guessed browser-helper/workflow filenames corrected from repository file discovery; no product failure.",
+      "Independent deployment verification matched all 100 runtime files at 1.9.1-r2.",
+      "Two isolated Chromium contexts passed real WebCrypto draw and peer-first dual confirmation, identical setup state, no page errors and exact canonical local-byte immutability.",
+      "Full contracts initially rejected generic helper names fail/canonical in the candidate via the repository namespace audit; prefixed them with ssj without relaxing the audit or changing semantics.",
+      "Current SSJR authority refresh initially used only the WEC acronym; the permanent contract requires explicit Work Environment Continuity routing. Restored the full protocol pointer and lifecycle instruction without weakening the gate.",
+      "Full suite green after preserving exact existing authority routing/labels and updating only obsolete current-task assertions from completed PR198 to the explicit owner-authorized SSJR candidate. Historical RJR/PR proofs and security tests unchanged.",
+      "Owner explicitly replaces focused-session estimate label with genuine SSJR100; initial forecast 8\u201314, not score-derived. Pairing plus ACTIVE before league/clubs must be enforced in UI and provider.",
+      "No actual provider or production UI capability is claimed for the setup candidate; SSJR score stays 0.",
+      "One observed context compaction. Resume recovered the same source checkpoint; a repeated guessed WEC helper/protocol filename was immediately corrected by file discovery. No authority, product or historical evidence changed."
     ]
   }
 }
