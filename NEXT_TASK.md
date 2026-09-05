@@ -1,6 +1,6 @@
-# CURRENT OVERRIDE — PR #192 STAGE 5G RECONNECT CANDIDATE / PR #191 MERGED / STAGE 5F ACCEPTED / RJR91 — 2026-09-04 UTC
+# CURRENT OVERRIDE — PR #191 MERGED / STAGE 5F ACCEPTED / RJR91 / STAGE 5G NETWORK HARDENING — 2026-09-04 UTC
 
-Status: ACTIVE STAGE 5G CANDIDATE; PRODUCTION REMAINS v1.9.0-r5
+Status: ACTIVE PR #192 STAGE 5G RECONNECT CANDIDATE; PRODUCTION REMAINS v1.9.0-r5
 
 Current live main is still PR #191 expected-head squash merge `7ca132a607cbf4fd78710b14526b4bec849ac2d2`. Exact reviewed PR #191 head `72f7031797592a3866f7c62da07fa42959cb30fb` passed all 15 pull-request workflow families. All 15 exact-main push workflows passed afterward, including Pages `33913035742` and Stability `33913035721`; independent verification matched all 99 deployed runtime files byte-for-byte.
 
