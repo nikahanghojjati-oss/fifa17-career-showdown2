@@ -41,3 +41,7 @@ Billing must never be activated. Billing is permanently forbidden. Firebase rema
 App Check enforcement remains OFF. Firestore browser persistence remains memory-only. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes. The canonical localStorage keys remain exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, and `careerModeShowdown.preferences`. Candidate A remains non-mutating export. Candidate B remains read-only analysis. Candidate C remains the sole destructive remote-to-local gameplay Apply authority with transaction-owned strict exact raw-snapshot rollback. Exactly two private managers remain mandatory. No public discovery, listing, lobby, matchmaking, community, rankings or global leaderboards are authorized. Trusted-runtime IAM remains unactivated/unbroadened. Never retain a full private pairing/session capability in durable evidence and never destructively test the protected historical rivalry.
 
 Historical task overrides remain in prior versioned handoffs and repository history; this current override replaces stale inline routing.
+
+<!-- Historical compatibility marker for the frozen Phase 1E harness contract only; NOT current execution authority.
+# CURRENT OVERRIDE — PR #191 MERGED / STAGE 5F ACCEPTED / RJR91 / STAGE 5G NETWORK HARDENING — 2026-09-04 UTC
+-->
