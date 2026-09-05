@@ -178,7 +178,7 @@ function makeRuntime({accountId,deviceId,rivalryId,provider,accountState,pairing
   assert.equal(guarded.api.getState().pendingAction,"host","authority-context mismatch discarded unresolved recovery authority");
   assert.equal(guarded.api.getState().capabilityCopyAllowed,false);
 
-  assert.deepEqual(host.api.canonicalStorageKeys,["careerModeShowdown.saveLibrary","careerModeShowdown.legacyShowdowns","careerModeShowdown.preferences"]);
+  assert.deepEqual(Array.from(host.api.canonicalStorageKeys),["careerModeShowdown.saveLibrary","careerModeShowdown.legacyShowdowns","careerModeShowdown.preferences"]);
   assert.equal(host.api.canonicalStorageMutation,false);
   assert.equal(host.api.billingRequired,false);
   assert.equal(host.api.blazeRequired,false);
