@@ -1,0 +1,153 @@
+name: One-time RJR100 authority refresh v3
+
+on:
+  push:
+    branches:
+      - "rjr/final-rjr100-acceptance-2026-09-05"
+    paths:
+      - ".github/workflows/one-time-rjr100-authority-refresh-v3.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: rjr/final-rjr100-acceptance-2026-09-05
+      - uses: actions/setup-node@v5
+        with:
+          node-version: "24"
+      - name: Refresh durable live authority while preserving historical packages
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          main_sha='264237056896d2b9d84f69c908da5b14e2b8e97d'
+          branch='rjr/final-rjr100-acceptance-2026-09-05'
+          wec_id='we-2026-09-05-pr196-publication-physical-acceptance-e9072'
+
+          bpath=Path('SESSION_BOOTSTRAP.json')
+          b=json.loads(bpath.read_text())
+          if b.get('starter',{}).get('version')!='1.4.43':
+            raise SystemExit('Expected existing completed starter v1.4.43')
+          b['recordedAt']='2026-09-05T19:52:00Z'
+          b['bootstrapBranch']=branch
+          b['lastVerifiedMainSha']=main_sha
+          b['lastVerifiedRuntimeMainSha']=main_sha
+          b['currentPublicationCheckpoint']={
+            'pullRequest':198,
+            'title':'Publish final fixed RJR-1 100/100 acceptance',
+            'state':'open',
+            'workingBranch':branch,
+            'baseSha':main_sha,
+            'finalSealedHead':None,
+            'finalSealedHeadMustBeFetchedLive':True,
+            'exactHeadWorkflowFamiliesSuccessfulAtPackaging':0,
+            'expectedHeadProtectionRequired':True,
+            'postMergeWorkflowFamiliesSuccessful':0,
+            'runtimeChanged':False,
+            'rulesChanged':False,
+            'providerMutationRequired':False,
+            'publicationWorkRjrCredit':0
+          }
+          s=b.setdefault('stage5gStage5hStage5i',{})
+          s['physicalTwoDeviceTwoIndependentNetworkAcceptancePending']=False
+          s['physicalTwoDeviceTwoIndependentNetworkAcceptanceAccepted']=True
+          s['pairedEvidenceValidatorImplemented']=True
+          s['pairedEvidenceValidatorPublished']=True
+          s['pairedEvidenceValidatorRjrCredit']=0
+          b['currentLane']='Publish evidence-only PR #198 for accepted fixed RJR-1 100/100, verify exact-head and post-merge publication proof, then generate the SNS only when Handoff proximity reaches 100%. Do not begin the next substantial product milestone in this environment.'
+          b['remoteJoiningReadiness']={
+            'authority':'REMOTE_JOINING_READINESS.json','model':'RJR-1','score':100,'denominator':100,'remaining':0,
+            'domainVector':{'deterministicSyncRecovery':'20/20','identityAuthTrust':'20/20','productionCloudSecurity':'20/20','devicesPairingConnectedRivalryRemoteJoining':'30/30','realDeviceHardeningRelease':'10/10'},
+            'rule':'RJR-1 is complete. Future product expansion does not create scores above 100. PR, CI, review, merge, deployment, WEC, SLE, SNS and documentation receive zero RJR credit.'
+          }
+          b['currentWec']={
+            'environmentId':wec_id,'startingMainSha':'2302e8daba6c9417954bc610f537aba41c4d3d87','lifecycle':'active','finalDecision':None,
+            'decisionInheritedFromPredecessor':False,'predecessorEnvironmentId':'we-2026-09-05-physical-acceptance-evidence',
+            'predecessorArchive':'WORK_ENVIRONMENT_ARCHIVE/we-2026-09-05-physical-acceptance-evidence.json','progressRecord':'FINAL_RJR100_REMOTE_JOINING_ACCEPTANCE_2026-09-05.md'
+          }
+          b['immediateNextTask']={'name':'publish-pr198-rjr100-and-generate-sns','summary':'Finish PR #198 on one unchanged reviewed head, merge with expected-head protection, verify live main and the complete post-merge publication set, then generate SNS at Handoff proximity 100% and stop before the next substantial product milestone.','mustNotInsertGenericPrerequisiteLane':True,'mustStartAsRealProjectWork':True}
+          b['transition']={'contextTransitionRequired':True,'handoffCompleteness':99,'continuationDecision':'CONTINUE','predecessorDecisionMustNotBeInherited':True}
+          bpath.write_text(json.dumps(b,indent=2)+'\n')
+
+          wpath=Path('WORK_ENVIRONMENT_STATUS.json')
+          w=json.loads(wpath.read_text())
+          w['recordedAt']='2026-09-05T19:52:00Z'
+          w['repository']['workingBranch']=branch
+          w['repository']['handoffBranch']=branch
+          w['signals']['handoffCompleteness']=99
+          w['signals']['unresolvedFailures']=0
+          w['signals']['newMilestoneNext']=False
+          w['assessment']={'decision':'CONTINUE','reason':'RJR100 evidence is accepted and machine-reconciled; only exact-head PR #198 publication, expected-head merge, post-merge main verification and SNS packaging remain.','decisionInheritedFromPredecessor':False,'usageExcludedBecauseUnavailable':True}
+          w['continuity']['currentTask']='Publish evidence-only PR #198 for accepted fixed RJR-1 100/100, then verify main and generate SNS.'
+          w['continuity']['lastSafeCheckpoint']='Production remains v1.9.1 / 1.9.1-r2. The two-physical-device/two-independent-network acceptance passed, PR #197 post-merge proof is fully green, and REMOTE_JOINING_READINESS.json is machine-reconciled to fixed RJR-1 100/100 on the PR #198 branch.'
+          w['continuity']['nextSafeAction']='Require the unchanged PR #198 head to pass all applicable PR families, review it, merge with expected-head protection, verify live main and the 15-family main publication set, then generate SNS and stop.'
+          w['continuity']['unfinishedWork']=['PR #198 exact-head publication gates and review.','Expected-head merge plus live-main/post-merge publication verification.','SNS generation at Handoff proximity 100%.']
+          wpath.write_text(json.dumps(w,indent=2)+'\n')
+
+          prefix='''# CURRENT RJR100 PUBLICATION OVERRIDE — 2026-09-05\n\nFixed `RJR-1` is evidence-accepted and machine-reconciled at `100/100` on PR #198. Production remains unchanged at `v1.9.1 / 1.9.1-r2`. The genuine Chromebook/Home WiFi plus iPhone/cellular physical acceptance passed, and final stable-release proof is green. PR #198 is evidence/continuity publication only and earns zero RJR credit.\n\nIMMEDIATE NEXT TASK AFTER FULL STUDY: finish PR #198 on one unchanged reviewed head, merge with expected-head protection, verify live `main` and the complete post-merge publication set, then generate SNS at Handoff proximity 100% and stop before the next substantial product milestone.\n\nBilling must never be activated; Firebase remains Spark. App Check enforcement remains OFF. Firestore browser persistence remains memory-only. Google Auth remains popup-only `browserSessionPersistence`. Candidate C remains the sole destructive remote-to-local gameplay Apply authority. Exactly two private managers remain mandatory. No public discovery, listing, lobby, matchmaking, community, rankings or global leaderboards.\n\nThe older material below is retained as historical orientation only and is superseded by this top override.\n\n'''
+          for name in ['00_CURRENT_HANDOFF.md','NEXT_TASK.md','PROJECT_STATE.md','00_DEVELOPER_START_HERE.md']:
+            p=Path(name); text=p.read_text()
+            if not text.startswith('# CURRENT RJR100 PUBLICATION OVERRIDE'):
+              p.write_text(prefix+text)
+
+          immediate=r'''const assert=require("node:assert/strict");
+const fs=require("node:fs");
+const read=p=>fs.readFileSync(p,"utf8");
+const json=p=>JSON.parse(read(p));
+const readiness=json("REMOTE_JOINING_READINESS.json");
+const bootstrap=json("SESSION_BOOTSTRAP.json");
+const wec=json("WORK_ENVIRONMENT_STATUS.json");
+const finalAcceptance=read("FINAL_RJR100_REMOTE_JOINING_ACCEPTANCE_2026-09-05.md");
+assert.equal(readiness.modelVersion,"RJR-1"); assert.equal(readiness.denominator,100); assert.equal(readiness.currentScore,100);
+assert.deepEqual(readiness.domains.map(d=>d.earned),[20,20,20,30,10]);
+assert.equal(readiness.evidenceHistory.at(-2)?.eventId,"production-rjr-physical-two-device-two-network-acceptance");
+assert.equal(readiness.evidenceHistory.at(-1)?.eventId,"production-rjr-final-stable-release-acceptance");
+assert.match(finalAcceptance,/Chromebook[\s\S]+Home WiFi[\s\S]+iPhone[\s\S]+cellular/i); assert.match(finalAcceptance,/ACTIVE[^\n]+revision 1/i); assert.match(finalAcceptance,/CLOSED[^\n]+revision 2/i);
+assert.equal(bootstrap.runtime?.applicationVersion,"1.9.1"); assert.equal(bootstrap.runtime?.productionRuntimeRevision,"1.9.1-r2"); assert.equal(bootstrap.runtime?.productionStatus,"production-proven");
+assert.equal(bootstrap.starter?.version,"1.4.43","The last completed successor package remains v1.4.43 until SNS is actually generated.");
+assert.equal(bootstrap.currentPublicationCheckpoint?.pullRequest,198); assert.equal(bootstrap.currentPublicationCheckpoint?.state,"open"); assert.equal(bootstrap.currentPublicationCheckpoint?.runtimeChanged,false); assert.equal(bootstrap.currentPublicationCheckpoint?.rulesChanged,false); assert.equal(bootstrap.currentPublicationCheckpoint?.publicationWorkRjrCredit,0);
+assert.equal(bootstrap.remoteJoiningReadiness?.score,100); assert.equal(bootstrap.remoteJoiningReadiness?.remaining,0); assert.equal(bootstrap.immediateNextTask?.name,"publish-pr198-rjr100-and-generate-sns");
+assert.equal(bootstrap.currentWec?.environmentId,wec.environmentId); assert.equal(bootstrap.currentWec?.lifecycle,"active"); assert.equal(bootstrap.transition?.handoffCompleteness,99);
+for(const p of ["00_CURRENT_HANDOFF.md","NEXT_TASK.md","PROJECT_STATE.md","00_DEVELOPER_START_HERE.md"]){const top=read(p).slice(0,2600); assert.match(top,/RJR100|100\/100/i); assert.match(top,/PR #198/i); assert.match(top,/Billing must never be activated/i); assert.match(top,/Firebase remains Spark/i); assert.match(top,/IMMEDIATE NEXT TASK AFTER FULL STUDY/i);}
+for(const [p,pr,rjr] of [["START_NEXT_SESSION_V1.4.37_PR187_R5_OWNER_ACCEPTED_RJR89.md",187,/89\/100|RJR89/i],["SUCCESSOR_HANDOFF_PR187_R5_OWNER_ACCEPTED_SLE_2026-09-03.md",187,/89\/100|RJR89/i],["START_NEXT_SESSION_V1.4.40_PR191_MERGED_RJR91_STAGE5G_AUTOMATION.md",191,/91\/100|RJR91/i],["SUCCESSOR_HANDOFF_PR191_MERGED_RJR91_STAGE5G_AUTOMATION_SLE_2026-09-04.md",191,/91\/100|RJR91/i],["START_NEXT_SESSION_V1.4.43_PR196_RJR91_PHYSICAL_ACCEPTANCE_VALIDATOR.md",196,/91\/100|RJR91/i]]){const t=read(p); assert.match(t,new RegExp(`PR #${pr}`,'i')); assert.match(t,rjr);}
+const predecessor=json("WORK_ENVIRONMENT_ARCHIVE/we-2026-09-05-physical-acceptance-evidence.json"); assert.equal(predecessor.lifecycle,"closed"); assert.equal(wec.lifecycle,"active"); assert.equal(wec.signals?.handoffCompleteness,99); assert.match(wec.continuity?.currentTask||"",/PR #198[\s\S]+100\/100/i); assert.match(wec.continuity?.nextSafeAction||"",/expected-head[\s\S]+SNS/i);
+process.stdout.write("PASS current authority: fixed RJR-1 100/100 is accepted; historical RJR89/RJR91 packages remain historical; production stays v1.9.1-r2; active WEC owns only PR198 publication, main verification and SNS packaging.\n");
+'''
+          Path('tests/contracts/handoff-immediate-next-task-contracts.cjs').write_text(immediate)
+
+          packaging=r'''const assert=require("node:assert/strict");
+const fs=require("node:fs"); const read=p=>fs.readFileSync(p,"utf8"); const json=p=>JSON.parse(read(p));
+const bootstrap=json("SESSION_BOOTSTRAP.json"); const readiness=json("REMOTE_JOINING_READINESS.json"); const wec=json("WORK_ENVIRONMENT_STATUS.json");
+assert.match(read("00_SLE_HANDOFF_PROTOCOL.md"),/Smart Lean Efficient/i); assert.match(read("00_HANDOFF_GOLDEN_RULE.md"),/Handoff proximity:?\s*100%|Handoff proximity reaches `100%`/i); assert.match(read("00_OWNER_EAGLE_EYE_GOLDEN_RULE.md"),/Owner's Eagle Eye/i);
+assert.equal(bootstrap.starter?.version,"1.4.43"); assert.equal(bootstrap.starter?.checkpoint,"PR196-CORRECTED-VALIDATOR-SEALED-RJR91-PUBLICATION-NEXT");
+const starter=read(bootstrap.starter.canonical); const starterMirror=read(bootstrap.starter.projectMirror); const handoff=read(bootstrap.currentHandoff.canonical); const handoffMirror=read(bootstrap.currentHandoff.projectMirror);
+assert.equal(starter,starterMirror); assert.equal(handoff,handoffMirror); assert.match(starter,/PR #196/i); assert.match(starter,/91\/100|RJR91/i); assert.match(handoff,/PR #196/i); assert.match(handoff,/91\/100|RJR91/i);
+assert.equal(readiness.modelVersion,"RJR-1"); assert.equal(readiness.denominator,100); assert.equal(readiness.currentScore,100); assert.deepEqual(readiness.domains.map(d=>d.earned),[20,20,20,30,10]);
+assert.equal(bootstrap.remoteJoiningReadiness?.score,100); assert.equal(bootstrap.currentPublicationCheckpoint?.pullRequest,198); assert.equal(bootstrap.currentPublicationCheckpoint?.state,"open"); assert.equal(bootstrap.currentPublicationCheckpoint?.runtimeChanged,false); assert.equal(bootstrap.currentPublicationCheckpoint?.rulesChanged,false); assert.equal(bootstrap.immediateNextTask?.name,"publish-pr198-rjr100-and-generate-sns");
+assert.equal(bootstrap.runtime?.applicationVersion,"1.9.1"); assert.equal(bootstrap.runtime?.productionRuntimeRevision,"1.9.1-r2"); assert.equal(bootstrap.runtime?.productionStatus,"production-proven");
+for(const p of ["00_CURRENT_HANDOFF.md","NEXT_TASK.md","PROJECT_STATE.md","00_DEVELOPER_START_HERE.md"]){const top=read(p).slice(0,2600); assert.match(top,/RJR100|100\/100/i); assert.match(top,/PR #198/i); assert.match(top,/Billing must never be activated/i); assert.match(top,/Firebase remains Spark/i);}
+const archive=json("WORK_ENVIRONMENT_ARCHIVE/we-2026-09-05-physical-acceptance-evidence.json"); assert.equal(archive.lifecycle,"closed"); assert.equal(archive.assessment?.decision,"HANDOFF_AT_CHECKPOINT"); assert.equal(wec.lifecycle,"active"); assert.notEqual(wec.environmentId,archive.environmentId); assert.equal(wec.environmentId,bootstrap.currentWec?.environmentId); assert.equal(wec.signals?.handoffCompleteness,99);
+assert.match(read("FINAL_RJR100_REMOTE_JOINING_ACCEPTANCE_2026-09-05.md"),/RJR-1 100\/100/i);
+process.stdout.write("PASS SLE packaging: completed v1.4.43 PR196 package remains immutable while current live authority advances to accepted RJR100/PR198; new SNS is not claimed before Handoff proximity 100%.\n");
+'''
+          Path('tests/contracts/sle-handoff-packaging-contracts.cjs').write_text(packaging)
+          PY
+      - name: Prove full contract suite
+        run: |
+          npm ci
+          npm run test:contracts
+      - name: Commit durable authority and remove this one-time helper
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add SESSION_BOOTSTRAP.json WORK_ENVIRONMENT_STATUS.json 00_CURRENT_HANDOFF.md NEXT_TASK.md PROJECT_STATE.md 00_DEVELOPER_START_HERE.md tests/contracts/handoff-immediate-next-task-contracts.cjs tests/contracts/sle-handoff-packaging-contracts.cjs
+          git rm .github/workflows/one-time-rjr100-authority-refresh-v3.yml
+          git commit -m "Refresh durable current authority for accepted RJR100"
+          git push origin HEAD:rjr/final-rjr100-acceptance-2026-09-05
