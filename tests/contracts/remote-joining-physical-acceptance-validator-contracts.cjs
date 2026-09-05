@@ -123,6 +123,41 @@ function evidence({role,deviceLabel,networkLabel,device,interrupt=false,fp=finge
   assert.equal(JSON.stringify(pathFailure).includes("private-key-must-not-be-echoed"),false);
   assert.equal(JSON.stringify(pathFailure).includes(untrustedPath["private-key-must-not-be-echoed"].sessionId),false);
 
+  // Machine-controlled strings are closed enums/formats, so a raw authority value cannot hide in an allowed scalar field.
+  const authorityToken=`device_${"e".repeat(32)}`;
+  for(const [location,value] of [
+    [["records",2,"type"],authorityToken],
+    [["records",2,"status"],authorityToken],
+    [["records",2,"sessionState"],authorityToken],
+    [["records",2,"pendingAction"],authorityToken],
+    [["records",2,"runtimeRevision"],authorityToken],
+    [["records",2,"errorCode"],authorityToken]
+  ]){
+    const injected=structuredClone(peer);
+    location.slice(0,-1).reduce((target,key)=>target[key],injected)[location.at(-1)]=value;
+    const rejected=validatePhysicalAcceptancePair(host,injected);
+    assert.equal(rejected.passed,false,`Machine string injection must fail at ${location.join(".")}`);
+    assert.equal(rejected.checks.privacySafe,false);
+    assert.ok(rejected.issues.some(item=>item.code==="MACHINE_FIELD_INVALID"));
+    assert.equal(JSON.stringify(rejected).includes(authorityToken),false,"Rejected authority values must never be echoed.");
+  }
+
+  // Free-form labels/browser annotations are accepted only when they stay bounded and human-readable, never opaque identifier carriers.
+  const opaqueToken="Z".repeat(28);
+  for(const location of [["deviceLabel"],["networkLabel"],["device","userAgent"],["device","platform"]]){
+    const injected=structuredClone(peer);
+    const container=location.slice(0,-1).reduce((target,key)=>target[key],injected);
+    container[location.at(-1)]=`${container[location.at(-1)]||"annotation"} ${opaqueToken}`;
+    const rejected=validatePhysicalAcceptancePair(host,injected);
+    assert.equal(rejected.passed,false,`Opaque annotation injection must fail at ${location.join(".")}`);
+    assert.equal(rejected.checks.privacySafe,false);
+    assert.ok(rejected.issues.some(item=>item.code==="UNSAFE_ANNOTATION"));
+    assert.equal(JSON.stringify(rejected).includes(opaqueToken),false,"Rejected annotation values must never be echoed.");
+  }
+  const recordLabelInjection=structuredClone(peer);recordLabelInjection.records[2].deviceLabel=`peer ${opaqueToken}`;
+  const recordLabelFailure=validatePhysicalAcceptancePair(host,recordLabelInjection);
+  assert.equal(recordLabelFailure.passed,false);assert.equal(recordLabelFailure.checks.privacySafe,false);assert.ok(recordLabelFailure.issues.some(item=>item.code==="UNSAFE_ANNOTATION"));assert.equal(JSON.stringify(recordLabelFailure).includes(opaqueToken),false);
+
   const wrongRuntime=structuredClone(peer);wrongRuntime.runtimeRevision="1.9.1-r1";
   const runtimeFailure=validatePhysicalAcceptancePair(host,wrongRuntime);
   assert.equal(runtimeFailure.passed,false);assert.ok(runtimeFailure.issues.some(item=>item.code==="RUNTIME_REVISION_MISMATCH"));

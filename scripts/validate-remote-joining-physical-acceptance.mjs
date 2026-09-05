@@ -7,8 +7,14 @@ export const RESULT_SCHEMA="career-mode-showdown.remote-joining-physical-accepta
 
 const FINGERPRINT=/^[a-f0-9]{64}$/;
 const RAW_CAPABILITY=/\b(?:pair|session)_[a-f0-9]{64}\b/i;
+const OPAQUE_ANNOTATION_TOKEN=/\b[A-Za-z0-9_-]{20,}\b/;
 const FORBIDDEN_AUTHORITY_KEYS=new Set(["sessionid","accountid","deviceid","rivalryid"]);
 const VALID_ROLES=new Set(["host","peer"]);
+const VALID_RECORD_TYPES=new Set(["labels-updated","remote-state","remote-loaded","remote-panel-opened","recorder-error","manual-checkpoint","browser-online","browser-offline","recorder-started","export-checkpoint"]);
+const VALID_STATUSES=new Set([null,"idle","ready","recovery-pending","retrying-host","retrying-join","retrying-close","error","hosting","joining","refreshing","revoking","closing"]);
+const VALID_SESSION_STATES=new Set([null,"unresolved","open","active","closed"]);
+const VALID_PENDING_ACTIONS=new Set([null,"host","join","close"]);
+const ERROR_CODE=/^(?:RECORDER|REMOTE_JOINING)_[A-Z0-9_]{1,96}$/;
 const ROOT_FIELDS=new Set(["schema","generatedAt","appVersion","runtimeRevision","acceptanceMode","recorderStorage","recorderNetworkRequests","rawCapabilityIncluded","rawAccountIdIncluded","rawDeviceIdIncluded","rawRivalryIdIncluded","device","deviceLabel","networkLabel","records"]);
 const DEVICE_FIELDS=new Set(["userAgent","platform","maxTouchPoints","screenWidth","screenHeight"]);
 const RECORD_FIELDS=new Set(["sequence","at","type","online","deviceLabel","networkLabel","capabilityFingerprint","status","role","sessionState","revision","pendingAction","capabilityPresent","capabilityCopyAllowed","busy","runtimeRevision","errorCode"]);
@@ -40,6 +46,22 @@ function validateFieldTypes(value,types,source,issues,location){
       valid=false;
     }
   }
+  return valid;
+}
+function validateAnnotation(value,maxLength,source,issues,label){
+  if(value===null||value===undefined)return true;
+  const valid=typeof value==="string"&&value.trim().length>0&&value.length<=maxLength&&!/[\u0000-\u001f\u007f]/.test(value)&&!RAW_CAPABILITY.test(value)&&!OPAQUE_ANNOTATION_TOKEN.test(value);
+  return add(issues,valid,"UNSAFE_ANNOTATION",source,`${label} is not a bounded human/browser annotation safe for acceptance evidence.`);
+}
+function validateMachineStrings(record,source,issues,expectedRuntimeRevision){
+  let valid=true;
+  valid=add(issues,VALID_RECORD_TYPES.has(record.type),"MACHINE_FIELD_INVALID",source,"Record type is outside the Stage 5I recorder contract.")&&valid;
+  valid=add(issues,VALID_STATUSES.has(record.status),"MACHINE_FIELD_INVALID",source,"Remote Joining status is outside the accepted runtime state contract.")&&valid;
+  valid=add(issues,record.role===null||VALID_ROLES.has(record.role),"MACHINE_FIELD_INVALID",source,"Remote Joining role is outside the accepted host/peer contract.")&&valid;
+  valid=add(issues,VALID_SESSION_STATES.has(record.sessionState),"MACHINE_FIELD_INVALID",source,"Remote Joining session state is outside the accepted lifecycle contract.")&&valid;
+  valid=add(issues,VALID_PENDING_ACTIONS.has(record.pendingAction),"MACHINE_FIELD_INVALID",source,"Remote Joining pending action is outside the accepted operation contract.")&&valid;
+  if(Object.hasOwn(record,"runtimeRevision"))valid=add(issues,record.runtimeRevision===expectedRuntimeRevision,"MACHINE_FIELD_INVALID",source,"Recorder runtime revision does not match the validated production boundary.")&&valid;
+  if(Object.hasOwn(record,"errorCode"))valid=add(issues,ERROR_CODE.test(record.errorCode),"MACHINE_FIELD_INVALID",source,"Recorder error code is outside the bounded recorder/runtime code format.")&&valid;
   return valid;
 }
 
@@ -85,6 +107,10 @@ function validateSingle(evidence,source,{expectedAppVersion,expectedRuntimeRevis
   add(issues,evidence.runtimeRevision===expectedRuntimeRevision,"RUNTIME_REVISION_MISMATCH",source,"Export runtime revision does not match the validated production boundary.");
   add(issues,nonEmpty(evidence.deviceLabel)&&evidence.deviceLabel.trim().length<=80,"DEVICE_LABEL_REQUIRED",source,"A concise device label is required.");
   add(issues,nonEmpty(evidence.networkLabel)&&evidence.networkLabel.trim().length<=80,"NETWORK_LABEL_REQUIRED",source,"A concise network label is required.");
+  validateAnnotation(evidence.deviceLabel,80,source,issues,"Device label");
+  validateAnnotation(evidence.networkLabel,80,source,issues,"Network label");
+  validateAnnotation(evidence.device.userAgent,512,source,issues,"Browser user agent");
+  validateAnnotation(evidence.device.platform,120,source,issues,"Browser platform");
   const signature=deviceSignature(evidence.device);
   add(issues,!!signature,"DEVICE_FACTS_REQUIRED",source,"Browser device facts are required.");
   add(issues,Number.isFinite(Date.parse(evidence.generatedAt)),"GENERATED_AT_INVALID",source,"generatedAt must be a valid timestamp.");
@@ -100,6 +126,9 @@ function validateSingle(evidence,source,{expectedAppVersion,expectedRuntimeRevis
     if(!plainObject(record)){issues.push(issue("RECORD_NOT_OBJECT",source,"Every lifecycle record must be an object."));continue;}
     rejectUnknownFields(record,RECORD_FIELDS,source,issues,"$.records[]");
     if(!validateFieldTypes(record,RECORD_TYPES,source,issues,"$.records[]"))continue;
+    validateMachineStrings(record,source,issues,expectedRuntimeRevision);
+    validateAnnotation(record.deviceLabel,80,source,issues,"Record device label");
+    validateAnnotation(record.networkLabel,80,source,issues,"Record network label");
     add(issues,Number.isInteger(record.sequence)&&record.sequence>priorSequence,"RECORD_SEQUENCE_INVALID",source,"Record sequence values must be strictly increasing positive integers.");
     if(Number.isInteger(record.sequence))priorSequence=record.sequence;
     const timestamp=Date.parse(record.at);
@@ -154,6 +183,7 @@ export function validatePhysicalAcceptancePair(first,second,options={}){
   add(issues,signatures.size===2,"DISTINCT_DEVICE_FACTS_REQUIRED","pair","Browser device facts must distinguish the two physical devices.");
   add(issues,facts.some(item=>item.orderedRecovery),"ORDERED_NETWORK_RECOVERY_MISSING","pair","At least one participating device must show ACTIVE revision 1, offline, online recovery and then CLOSED revision 2 in order.");
 
+  const privacyIssueCodes=new Set(["UNKNOWN_FIELD","INVALID_FIELD_TYPE","EXPORT_NOT_OBJECT","RECORD_NOT_OBJECT","MACHINE_FIELD_INVALID","UNSAFE_ANNOTATION"]);
   const passed=issues.length===0;
   return Object.freeze({
     schema:RESULT_SCHEMA,
@@ -164,7 +194,7 @@ export function validatePhysicalAcceptancePair(first,second,options={}){
     expectedProduction:{appVersion:expectedAppVersion,runtimeRevision:expectedRuntimeRevision},
     checks:Object.freeze({
       exportCount:2,
-      privacySafe:!issues.some(item=>item.code.startsWith("RAW_")||item.code.includes("RECORDER_")||["UNKNOWN_FIELD","INVALID_FIELD_TYPE","EXPORT_NOT_OBJECT","RECORD_NOT_OBJECT"].includes(item.code)),
+      privacySafe:!issues.some(item=>item.code.startsWith("RAW_")||item.code.includes("RECORDER_")||privacyIssueCodes.has(item.code)),
       hostPeerPair:roles.size===2&&roles.has("host")&&roles.has("peer"),
       sameSessionFingerprint:fingerprints.size===1&&facts.every(item=>item.fingerprint),
       distinctDeviceLabels:deviceLabels.size===2,
