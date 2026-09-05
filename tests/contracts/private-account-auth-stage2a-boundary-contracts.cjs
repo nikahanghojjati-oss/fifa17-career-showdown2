@@ -69,7 +69,7 @@ assert.equal(bootstrap.ownerZeroBillingAuthorization?.firebasePlanMustRemain,"Sp
 assert.equal(bootstrap.ownerZeroBillingAuthorization?.cloudBillingAccountMayBeLinked,false,"Cloud Billing linkage must remain forbidden.");
 assert.equal(bootstrap.runtime?.firestorePersistence,"memory-only","Firestore persistence must remain memory-only.");
 assert.equal(bootstrap.runtime?.googleAuthPersistence,"browserSessionPersistence-popup-only-no-extra-scopes","Google Auth must remain popup-only browserSessionPersistence with no extra scopes.");
-assert.match(state,/Installable Offline App[\s\S]+local-first startup\/recovery baseline|Installable Offline App[\s\S]+local-first startup and recovery baseline/i,"Current PROJECT_STATE must preserve the offline recovery baseline rather than inline stale Stage 2A authority.");
+assert.match(state,/Installable Offline App[\s\S]+(?:local-first startup\/recovery baseline|local-first startup and recovery baseline|v1\.3\.0 Recovery & Device Resilience baseline)/i,"Current PROJECT_STATE must preserve the offline recovery baseline rather than inline stale Stage 2A authority.");
 assert.match(state,/Candidate C remains the sole destructive remote-to-local(?: gameplay)? Apply authority/i,"Current PROJECT_STATE must preserve Candidate C destructive Apply authority.");
 assert.equal(readiness.modelVersion,"RJR-1","Stage 2A current-state checks must use the fixed RJR-1 model.");
 assert.equal(readiness.currentScore,91,"Stage 2A current-state checks must expose the live fixed RJR91 boundary.");
