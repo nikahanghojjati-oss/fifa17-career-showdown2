@@ -1,4 +1,4 @@
-# CURRENT OVERRIDE — PR #192 / v1.9.1-r1 STAGE 5G RELEASE CANDIDATE / RJR91
+# CURRENT OVERRIDE — PR #192 / STAGE 5F ACCEPTED / RJR91 / STAGE 5G RELEASE CANDIDATE v1.9.1-r1
 
 Status: RELEASE CANDIDATE / NOT PRODUCTION-PROVEN
 
@@ -22,7 +22,7 @@ Current Work Environment Continuity (WEC) execution authority is `we-2026-09-04-
 
 ## Current lane
 
-Finish v1.9.1-r1 exact-head automation, review, expected-head merge, post-merge validation and deployed-byte/runtime proof. The automated capability target is Remote Joining-specific two-device/two-network reconnect and adverse-network hardening: exact Host/Join/Close retry after ambiguous acknowledgement loss, one provider session, no phantom success, lifecycle monotonicity, capability privacy and unchanged canonical local Save bytes.
+Finish v1.9.1-r1 exact-head automation, review, expected-head merge, post-merge validation and deployed-byte/runtime proof. Stage 5G two-device/two-network reconnect and adverse-network hardening is the active automated capability target: exact Host/Join/Close retry after ambiguous acknowledgement loss, one provider session, no phantom success, lifecycle monotonicity, capability privacy and unchanged canonical local Save bytes.
 
 Only after every automatable boundary is exhausted should owner interaction be requested for genuinely physical two-device/two-independent-network behavior that cannot be simulated or provider-proven. After that boundary is genuinely evidence-complete, final stable Remote Joining release acceptance remains the explicit last lane toward genuine RJR100.
 
