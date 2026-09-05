@@ -36,7 +36,7 @@ ledger.evidenceHistory.push({
   reason:"Accepted sanitized Stage 5I evidence from a Chromebook host on Home WiFi and iPhone peer on independent cellular proves the entire previously uncredited physical Remote Joining capability cluster: one same private session across two physical devices, both ACTIVE revision 1, a real participating-device offline -> online recovery back to that same session without duplicate/replacement authority, both CLOSED revision 2, and no resurrection. The +8 is exactly the remaining capacity of the fixed 30-point domain and is awarded once for closure of that capability cluster, not as separate points for Host, Join, refresh, offline, online or Close. The evidence files are sanitized and authority-safe; PR #197, validator correction, source, tests, CI, review, merge, deployment, WEC and SNS receive zero credit."
 });
 ledger.evidenceHistory.push({
-  recordedAt:"2026-09-05T17:33:00.000Z",
+  recordedAt:"2026-09-05T17:34:00.000Z",
   eventId:"production-rjr-final-stable-release-acceptance",
   score:100,
   delta:1,
