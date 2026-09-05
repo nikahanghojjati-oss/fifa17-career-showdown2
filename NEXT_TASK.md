@@ -25,4 +25,6 @@ Consumed historical RJR evidence remains immutable. Stage 5F accepted production
 
 Consumed RJR physical-evidence audit tooling remains available for provenance and regression audit only: `npm run test:rjr-physical-preflight` re-proves the automated Stage 5H/5I boundary, and `npm run validate:rjr-physical -- <host-export.json> <peer-export.json>` validates the two sanitized recorder exports. These commands do not award readiness credit. The accepted physical run is complete and must not be repeated or re-credited unless a proven regression invalidates its evidence.
 
+Publication discipline remains exact-head and dynamic: require every current permanent workflow family green on the same exact reviewed PR head, zero unresolved review blockers, and expected-head protected merge. After merge, verify the complete post-merge workflow set before claiming publication completion.
+
 Current SLE package is `START_NEXT_SESSION_V1.4.47_PR199_POSTMERGE_GREEN_SSJR_PROVIDER_NEXT.md` with deep reference `SUCCESSOR_HANDOFF_PR199_POSTMERGE_GREEN_SSJR_PROVIDER_NEXT_SLE_2026-09-05.md`. Use the exact eight-line SSJR progress block in every substantive project response. Estimated focused sessions to genuine SSJR100 remains ~8–14 until fresh evidence changes the dependency graph.
