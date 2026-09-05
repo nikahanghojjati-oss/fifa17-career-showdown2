@@ -2,7 +2,7 @@
 
 Status: RELEASE CANDIDATE / NOT PRODUCTION-PROVEN
 
-Authorized product candidate: `v1.9.1 / 1.9.1-r1` on PR #192. Production remains independently verified `v1.9.0 / 1.9.0-r5` on live main PR #191 merge `7ca132a607cbf4fd78710b14526b4bec849ac2d2`; exact PR #187 runtime merge `277f1b55dc362ee84d285445b99172b9fbed8509` remains the production runtime provenance. The previous known-good whole shell and rollback target is `1.9.0-r5` until the candidate is merged and independently proven live.
+Authorized product candidate: `v1.9.1 / 1.9.1-r1` on PR #192. Candidate status: NOT PRODUCTION-PROVEN. Production remains independently verified `v1.9.0 / 1.9.0-r5` on live main PR #191 merge `7ca132a607cbf4fd78710b14526b4bec849ac2d2`; exact PR #187 runtime merge `277f1b55dc362ee84d285445b99172b9fbed8509` remains the production runtime provenance. The previous known-good whole shell and rollback target is `1.9.0-r5` until the candidate is merged and independently proven live.
 
 PR #192 packages the genuinely uncredited Stage 5G Remote Joining-specific same-capability reconnect hardening. If Host, Join or Close commits at the provider but its acknowledgement is lost, the page retains only the exact unresolved capability in memory and retries that same operation. It does not generate a replacement session, expose the full unresolved capability for copy, permit Forget/replacement Host/Join while unresolved, accept authority-context drift, mutate canonical local saves, or resurrect terminal state.
 
