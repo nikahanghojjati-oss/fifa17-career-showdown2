@@ -40,7 +40,7 @@ async function preparePage(browser,identity){
   const errors=[];
   page.on("pageerror",error=>errors.push(error.stack||error.message));
   await page.exposeFunction("__stage5gProviderCall",(action,sessionId)=>providerCall(identity.accountId,identity.deviceId,identity.rivalryId,action,sessionId));
-  await page.addInitScript(()=>{window.requestIdleCallback=callback=>window.setTimeout(()=>callback({didTimeout:false,timeRemaining:()=>50}),4200);});
+  await page.addInitScript(()=>{window.requestIdleCallback=()=>1;window.cancelIdleCallback=()=>{};});
   await page.goto(baseUrl.href,{waitUntil:"domcontentloaded"});
   await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:12000});
   const before=await page.evaluate(()=>["careerModeShowdown.saveLibrary","careerModeShowdown.legacyShowdowns","careerModeShowdown.preferences"].map(key=>[key,localStorage.getItem(key)]));
