@@ -19,9 +19,11 @@ const optional = read("js/optionalModules.js");
 const worker = read("service-worker.js");
 const pkg = JSON.parse(read("package.json"));
 const lock = read("package-lock.json");
-const currentProduction = bootstrap.runtime?.productionRuntimeRevision === "1.9.0-r5"
-  && bootstrap.lastProductionProvenRuntime?.pullRequest === 187
-  && bootstrap.lastProductionProvenRuntime?.runtimeRevision === "1.9.0-r5";
+const currentProduction = bootstrap.runtime?.productionRuntimeRevision === "1.9.1-r2"
+  && bootstrap.latestRuntimeMerge?.pullRequest === 194
+  && bootstrap.latestRuntimeMerge?.runtimeRevision === "1.9.1-r2"
+  && bootstrap.lastProductionProvenRuntime?.pullRequest === 194
+  && bootstrap.lastProductionProvenRuntime?.runtimeRevision === "1.9.1-r2";
 
 assert.equal(firebaseRc.projects.default, "demo-career-mode-showdown-phase1f");
 assert.match(firebaseRc.projects.default, /^demo-/);
@@ -97,21 +99,24 @@ assert.doesNotMatch(lock.slice(0, 1200), /"firebase"|"@firebase\/rules-unit-test
 assert.match(phase1e, /DONE \/ MERGED \/ PROTECTED/i);
 assert.match(phase1e, /PR #80/);
 
-// Phase 1F and PR #125 are immutable historical architecture provenance. PR #166 remains the
-// rollback provenance anchor and PR #187 remains the production-r5 runtime provenance anchor.
-// Live execution authority has advanced through accepted Stage 5F evidence to RJR91 / Stage 5G.
-assert.equal(currentProduction,true,"Production runtime provenance must remain PR #187 / v1.9.0-r5 without erasing historical rollback provenance.");
-assert.equal(bootstrap.latestRuntimeMerge?.pullRequest,166,"Historical rollback provenance must remain anchored to PR #166.");
-assert.equal(bootstrap.latestRuntimeMerge?.runtimeRevision,"1.8.1-r5","Historical rollback provenance must retain the restored r5 runtime.");
-assert.equal(bootstrap.remoteJoiningReadiness?.score,91,"Current bootstrap must expose the sealed v1.4.40 RJR91 snapshot while PR187 remains production-runtime provenance.");
+// Phase 1F and PR #125 remain immutable historical architecture provenance. Live runtime authority
+// is PR #194 / v1.9.1-r2; PR #187 / v1.9.0-r5 remains explicit consumed historical provenance.
+assert.equal(currentProduction,true,"Production runtime authority must identify PR #194 / v1.9.1-r2 while preserving historical PR187/r5 provenance.");
+assert.equal(bootstrap.historicalPr187PublicationCheckpoint?.pullRequest,187,"Historical PR187 capability provenance must remain explicit.");
+assert.equal(bootstrap.historicalPr187PublicationCheckpoint?.runtimeRevision,"1.9.0-r5","Historical PR187 runtime provenance must remain 1.9.0-r5.");
+assert.equal(bootstrap.historicalPr187PublicationCheckpoint?.mergeSha,"277f1b55dc362ee84d285445b99172b9fbed8509","Historical PR187 merge provenance must remain immutable.");
+assert.equal(bootstrap.previousProductionProvenRuntime?.runtimeRevision,"1.9.1-r1","Current rollback whole-shell authority must remain the prior production-proven r1 shell.");
+assert.equal(bootstrap.remoteJoiningReadiness?.score,91,"Current bootstrap must expose the sealed RJR91 snapshot while publication work remains uncredited.");
 assert.equal(readiness.currentScore,91,"Live RJR authority must include accepted Stage 5F production-negative evidence.");
-assert.match(next, /CURRENT OVERRIDE[\s\S]+STAGE 5F[\s\S]+RJR91[\s\S]+STAGE 5G/i,"Current NEXT_TASK must expose Stage 5F accepted / RJR91 / Stage 5G rather than revive a consumed Phase 1F or Stage 5A lane.");
-assert.match(next, /Remote Joining-specific[\s\S]+two-device\/two-network reconnect\/adverse-network hardening/i,"Current NEXT_TASK must expose the current genuinely uncredited Stage 5G capability gap.");
-assert.match(next, /App Check enforcement remains OFF/i,"Current NEXT_TASK must preserve the App Check enforcement-off lock after the historical Phase 1F boundary.");
-assert.match(next, /Firebase remains (?:on )?Spark(?: \/ zero billing)?/i,"Current NEXT_TASK must preserve the Spark zero-billing lock after the historical Phase 1F boundary.");
-assert.match(next, /Firestore (?:browser persistence )?remains memory-only/i,"Current NEXT_TASK must preserve the memory-only Firestore lock after the historical Phase 1F boundary.");
-assert.match(next, /do not repeat generic Connected Rivalry adverse-network proof/i,"Current NEXT_TASK must reject duplicate-credit revival of already consumed network proof.");
-assert.match(next, /Do not award RJR for source, CI, PR, merge, deployment, documentation, WEC/i,"Current NEXT_TASK must preserve evidence-only RJR movement.");
+assert.match(next, /CURRENT OVERRIDE[\s\S]+PR #194[\s\S]+v1\.9\.1-r2[\s\S]+RJR91[\s\S]+PHYSICAL ACCEPTANCE NEXT/i,"Current NEXT_TASK must expose PR194/r2 production-proven RJR91 physical acceptance authority rather than revive a consumed Phase 1F or Stage 5G lane.");
+assert.match(next, /two physical devices[\s\S]+two independent networks/i,"Current NEXT_TASK must expose the genuine physical Remote Joining acceptance gap.");
+assert.equal(bootstrap.runtime?.appCheckEnforcement,false,"Current authority must preserve the App Check enforcement-off lock after the historical Phase 1F boundary.");
+assert.equal(bootstrap.ownerZeroBillingAuthorization?.firebasePlanMustRemain,"Spark","Current authority must preserve the Spark zero-billing lock after the historical Phase 1F boundary.");
+assert.equal(bootstrap.ownerZeroBillingAuthorization?.cloudBillingAccountMayBeLinked,false,"Cloud Billing linkage must remain forbidden.");
+assert.equal(bootstrap.ownerZeroBillingAuthorization?.blazeMayBeEnabled,false,"Blaze must remain forbidden.");
+assert.equal(bootstrap.runtime?.firestorePersistence,"memory-only","Current authority must preserve memory-only Firestore after the historical Phase 1F boundary.");
+assert.equal(bootstrap.runtime?.googleAuthPersistence,"browserSessionPersistence-popup-only-no-extra-scopes","Current authority must preserve popup-only browser-session Auth with no extra scopes.");
+assert.match(next, /publication and automation add zero readiness credit|PR\/CI\/review\/merge\/deployment\/docs\/WEC\/SLE\/SNS[\s\S]+zero credit/i,"Current NEXT_TASK must preserve evidence-only RJR movement.");
 
 assert.match(preR3Next, /CURRENT IMPLEMENTATION AUTHORITY — PR #125 SPARK PRIVATE CONNECTED ACCOUNT RUNTIME/i,"Lossless pre-r3 authority must preserve the completed PR #125 Connected Account milestone.");
 assert.match(preR3Next, /Historical gateway heading retained only as provenance: CURRENT IMPLEMENTATION AUTHORITY — TRUSTED SHARED MUTATION GATEWAY/i,"Lossless pre-r3 authority must preserve the trusted gateway heading as provenance.");
@@ -120,4 +125,4 @@ assert.match(preR3Next, /Authorized product candidate:[\s\S]{0,120}v1\.5\.0[\s\S
 assert.match(preR3Next, /Cloud\/sync runtime remains NOT YET IMPLEMENTATION-AUTHORIZED/i,"Lossless pre-r3 authority must preserve the historical Phase 1F provider-runtime prohibition.");
 assert.match(historicalNext, /Cloud\/sync production runtime remains NOT YET IMPLEMENTATION-AUTHORIZED/i,"Archived Phase 1F-era authority must retain the exact production-runtime prohibition that applied during that prerequisite.");
 
-process.stdout.write("PASS Phase 1F Firebase emulator, deny-by-default Security Rules and provider-boundary contracts; immutable archives preserve historical Phase 1F/PR125/PR166/PR187 provenance while live Stage 5F accepted / RJR91 / Stage 5G authority remains explicit\n");
+process.stdout.write("PASS Phase 1F Firebase emulator, deny-by-default Security Rules and provider-boundary contracts; immutable archives preserve historical Phase 1F/PR125/PR187 provenance while live PR194/r2 production, RJR91 and physical Remote Joining acceptance authority remain explicit\n");
