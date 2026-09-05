@@ -1,30 +1,30 @@
-# CURRENT OVERRIDE — PR #191 MERGED / STAGE 5F ACCEPTED / RJR91 / STAGE 5G NEXT
+# CURRENT OVERRIDE — PR #192 / v1.9.1-r1 STAGE 5G RELEASE CANDIDATE / RJR91
 
-Status: DEPLOYED / PRODUCTION-PROVEN
+Status: RELEASE CANDIDATE / NOT PRODUCTION-PROVEN
 
-Current independently verified live main is PR #191 expected-head squash merge `7ca132a607cbf4fd78710b14526b4bec849ac2d2`. Its exact reviewed head `72f7031797592a3866f7c62da07fa42959cb30fb` passed all 15 pull-request workflow families. All 15 post-merge push workflows passed, including Pages `33913035742`, release integration burn-in `33913035727` and Stability `33913035721` through the complete deployed browser journey.
+Authorized product candidate: `v1.9.1 / 1.9.1-r1` on PR #192. Production remains independently verified `v1.9.0 / 1.9.0-r5` on live main PR #191 merge `7ca132a607cbf4fd78710b14526b4bec849ac2d2`; exact PR #187 runtime merge `277f1b55dc362ee84d285445b99172b9fbed8509` remains the production runtime provenance. The previous known-good whole shell and rollback target is `1.9.0-r5` until the candidate is merged and independently proven live.
 
-Application/runtime remain `v1.9.0 / 1.9.0-r5`, anchored to exact PR #187 runtime merge `277f1b55dc362ee84d285445b99172b9fbed8509`. Independent post-merge verification matched all 99 deployed runtime files byte-for-byte. PR #191 changed only evidence, current authority and contracts; runtime gameplay identity did not change. PR187's one-paste/zero-manual proof remains immutable.
+PR #192 packages the genuinely uncredited Stage 5G Remote Joining-specific same-capability reconnect hardening. If Host, Join or Close commits at the provider but its acknowledgement is lost, the page retains only the exact unresolved capability in memory and retries that same operation. It does not generate a replacement session, expose the full unresolved capability for copy, permit Forget/replacement Host/Join while unresolved, accept authority-context drift, mutate canonical local saves, or resurrect terminal state.
 
-Owner production evidence on 2026-09-04 closes both Stage 5F authenticated negative boundaries. Sanitized record: `PRODUCTION_STAGE5F_AUTHENTICATED_NEGATIVES_ACCEPTANCE_2026-09-04.md`.
+Stage 5F production acceptance remains PASS in `PRODUCTION_STAGE5F_AUTHENTICATED_NEGATIVES_ACCEPTANCE_2026-09-04.md`.
 
-Fixed RJR-1 is **91/100** with domain vector:
+Fixed RJR-1 remains `91/100` with domain vector:
 
 - deterministic sync and recovery safety: 20/20
-- identity, authentication, authorization and trust: **20/20**
+- identity, authentication, authorization and trust: 20/20
 - production cloud and security activation: 20/20
 - devices, pairing, Connected Rivalry and actual Remote Joining: 22/30
 - real-device hardening and stable release: 9/10
 
-The +2 from 89 is exactly two new production authorization capabilities: revoked-device protected-mutation provider denial (+1) and authenticated unrelated-account exact private-read denial (+1). No source, review, CI, merge, deployment or repeated-proof credit is included.
+No source, test, review, CI, merge, deployment, release-version, documentation, WEC or repeated-proof credit is included. A score increase requires genuinely new accepted Remote Joining-specific capability evidence.
 
-Closing Work Environment Continuity (WEC) record `we-2026-09-04-pr191-publication-stage5g` owns `HANDOFF_NOW`. A successor validates/archives it, initializes a fresh unique WEC with reset counters, and assesses independently before product work.
+Current active WEC: `we-2026-09-04-stage5g-reconnect-recovery`. The predecessor `we-2026-09-04-pr191-publication-stage5g` remains immutable archived transition provenance.
 
 ## Current lane
 
-Stage 5G: Remote Joining-specific two-device/two-network reconnect and adverse-network hardening. Automate deterministic/runtime/two-context-browser/Auth+Firestore-emulator evidence first. The proof must exercise the real private-session path through transient loss and recovery without duplicate authority, phantom success, terminal resurrection, privacy/listing expansion, durable capability retention or canonical local Save mutation. Owner interaction is required only for genuine physical-device/network behavior that cannot be simulated or otherwise proven.
+Finish v1.9.1-r1 exact-head automation, review, expected-head merge, post-merge validation and deployed-byte/runtime proof. The automated capability target is Remote Joining-specific two-device/two-network reconnect and adverse-network hardening: exact Host/Join/Close retry after ambiguous acknowledgement loss, one provider session, no phantom success, lifecycle monotonicity, capability privacy and unchanged canonical local Save bytes.
 
-After that lane is genuinely evidence-complete, the explicit remaining milestone is final stable Remote Joining release acceptance.
+Only after every automatable boundary is exhausted should owner interaction be requested for genuinely physical two-device/two-independent-network behavior that cannot be simulated or provider-proven. After that boundary is genuinely evidence-complete, final stable Remote Joining release acceptance remains the explicit last lane toward genuine RJR100.
 
 ## Protected baselines and permanent locks
 
