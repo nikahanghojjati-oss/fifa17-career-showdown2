@@ -4,6 +4,8 @@ Production is independently proven `v1.9.1 / 1.9.1-r2`; previous known-good whol
 
 PR #198, `Publish final fixed RJR-1 100/100 acceptance`, is evidence/continuity publication only. It changes no runtime, Rules, Firebase provider state, IAM or billing and earns zero RJR credit.
 
+Work Environment Continuity remains mandatory. Reassess only this environment's own live status; do not inherit the predecessor's transition decision.
+
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
 1. Fetch live PR #198 and require every applicable permanent workflow family green on one unchanged final head.
