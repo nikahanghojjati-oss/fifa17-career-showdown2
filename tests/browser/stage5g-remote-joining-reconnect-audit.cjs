@@ -60,14 +60,8 @@ async function preparePage(browser,identity){
     window.CareerModeSparkConnectedRivalry={async initialize(){},getState(){return {attached:true,rivalryId:identity.rivalryId,accountId:identity.accountId,deviceId:identity.deviceId};}};
     window.CareerModeSparkPrivateSession=protocol;
     window.CareerModeSparkStandardAuthPrivateSession=protocol;
-    const existing=document.querySelector('script[data-runtime-script="rj"]');
-    if(existing)existing.remove();
-    delete window.CareerModeSparkRemoteJoining;
-    const script=document.createElement("script");
-    script.src=`js/sparkRemoteJoining.js?stage5g=${Date.now()}`;
-    script.dataset.stage5gAudit="true";
-    document.head.appendChild(script);
-    await new Promise((resolve,reject)=>{script.addEventListener("load",resolve,{once:true});script.addEventListener("error",reject,{once:true});});
+    if(typeof loadRuntimeScript!=="function")throw new Error("Release-owned runtime loader is unavailable.");
+    await loadRuntimeScript("rj","js/sparkRemoteJoining.js",()=>window.CareerModeSparkRemoteJoining);
   },identity);
   return {context,page,errors,before};
 }
