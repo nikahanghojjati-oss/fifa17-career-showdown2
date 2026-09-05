@@ -6,7 +6,7 @@ Production remains DEPLOYED / PRODUCTION-PROVEN `v1.9.1 / 1.9.1-r2`. The current
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
-Use connected GitHub first. Independently verify current `main`, current authority files, production `v1.9.1 / 1.9.1-r2`, RJR-1 100/100, SSJR-1.1 0/100, PR #199 final publication evidence, and closing WEC `we-2026-09-05-pr199-postmerge-recovery-a47`. Treat handoffs as orientation only. Validate/archive the inherited WEC, initialize a fresh unique WEC with current main and reset counters, run the repository assessment, and obey the new environment's own decision.
+Work Environment Continuity is mandatory. Use connected GitHub first. Independently verify current `main`, current authority files, production `v1.9.1 / 1.9.1-r2`, RJR-1 100/100, SSJR-1.1 0/100, PR #199 final publication evidence, and closing WEC `we-2026-09-05-pr199-postmerge-recovery-a47`. Treat handoffs as orientation only. Validate/archive the inherited WEC, initialize a fresh unique WEC with current main and reset counters, run the repository assessment, and obey the new environment's own decision.
 
 Then implement the smallest Spark-compatible exact-path Shared Remote Setup provider transaction adapter and candidate Firestore Rules with direct modified-client emulator negatives. The provider transaction must derive authenticated account, registered device, exact rivalry binding, manager slot and ACTIVE session from protected provider records in the same transaction. Never trust caller-supplied JavaScript authority, role/binding fields, a client-computed hash, or arbitrary client-prepared league/club outcomes.
 
