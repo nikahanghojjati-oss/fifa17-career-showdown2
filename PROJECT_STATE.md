@@ -4,7 +4,7 @@ Shared Showdown Journey Readiness is fixed SSJR-1.1, denominator 100, current ev
 
 Production remains DEPLOYED / PRODUCTION-PROVEN `v1.9.1 / 1.9.1-r2`, with production runtime lineage PR #194 merge `11bb681527a9b78884baf0c384350c90493dc9bd`; previous whole-shell recovery is `1.9.1-r1`. Historical PR #198 merged at `39ffe88d61dcda973df03a18e0266fcfe4cf5638` and completed RJR100. PR #199 exact reviewed head `378931e7bec2a4e95fb31912d4879e294b63d79f` passed all 15 PR workflow families, was expected-head squash merged, and produced main `780abd7b779cda5acd722b75fd59ef1e82c71f97`; all 15 post-merge workflow families passed including Release Integration Burn-In `33996909745`.
 
-The recovered continuity environment is `we-2026-09-05-pr199-postmerge-recovery-a47` on `handoff/pr199-postmerge-ssjr-provider-next-2026-09-05`, transition-prepared at Handoff proximity 100%. Its predecessor is `we-2026-09-05-ssjr-setup-foundation-28cf84`; predecessor decisions are not inherited.
+Work Environment Continuity remains mandatory. The recovered continuity environment is `we-2026-09-05-pr199-postmerge-recovery-a47` on `handoff/pr199-postmerge-ssjr-provider-next-2026-09-05`, transition-prepared at Handoff proximity 100%. Its predecessor is `we-2026-09-05-ssjr-setup-foundation-28cf84`; predecessor decisions are not inherited.
 
 The Installable Offline App, v1.3.0 Recovery & Device Resilience baseline, Local Profiles and Save Library remain protected. Candidate A is non-mutating, Candidate B read-only, and Candidate C remains the sole destructive remote-to-local gameplay Apply authority with transaction-owned strict exact raw-snapshot rollback.
 
