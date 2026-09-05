@@ -73,6 +73,8 @@ async function preparePage(browser,identity){
   const peer=await preparePage(browser,{accountId:"peer-browser-account",deviceId:"device-browser-peer",rivalryId:"rivalry-stage5g-browser"});
   try{
     const hostFirst=await host.page.evaluate(()=>window.CareerModeSparkRemoteJoining.hostSession());
+    const hostFirstState=await host.page.evaluate(()=>{const state=window.CareerModeSparkRemoteJoining.getState();return {status:state.status,pendingAction:state.pendingAction,sessionState:state.sessionState,generated:window.__stage5gGenerateCount||0};});
+    console.log("Stage 5G Host first diagnostic",JSON.stringify({ok:hostFirst&&hostFirst.ok,code:hostFirst&&hostFirst.code||null,recoverable:hostFirst&&hostFirst.recoverable===true,message:hostFirst&&hostFirst.message||null,providerOpenCalls:counts.open,state:hostFirstState}));
     assert.equal(hostFirst.ok,false);
     assert.equal(hostFirst.recoverable,true);
     const hostPending=await host.page.evaluate(()=>{const api=window.CareerModeSparkRemoteJoining;api.openPanel();const state=api.getState();return {pendingAction:state.pendingAction,sessionState:state.sessionState,copy:state.capabilityCopyAllowed,fullVisible:document.getElementById("sparkRemoteJoiningOverlay").innerText.includes(state.sessionId),generated:window.__stage5gGenerateCount};});
