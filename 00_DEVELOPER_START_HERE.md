@@ -6,7 +6,7 @@ RJR-1 is COMPLETE/FROZEN at 100/100. SSJR-1.1 is fixed at 100 points and remains
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
-Validate the inherited transition-prepared WEC `we-2026-09-05-pr199-postmerge-recovery-a47`, archive its final facts, initialize a fresh unique WEC from live main with reset counters, and run/obey the repository work assessment. Then implement the smallest Spark-compatible exact-path Shared Remote Setup provider transaction adapter plus candidate Firestore Rules and direct modified-client emulator negatives. Require exact pairing and ACTIVE session before League Wheel or clubs; derive authority from protected provider records in the same transaction.
+Work Environment Continuity is mandatory. Validate the inherited transition-prepared WEC `we-2026-09-05-pr199-postmerge-recovery-a47`, archive its final facts, initialize a fresh unique WEC from live main with reset counters, and run/obey the repository work assessment. Then implement the smallest Spark-compatible exact-path Shared Remote Setup provider transaction adapter plus candidate Firestore Rules and direct modified-client emulator negatives. Require exact pairing and ACTIVE session before League Wheel or clubs; derive authority from protected provider records in the same transaction.
 
 The Installable Offline App, v1.3.0 Recovery & Device Resilience baseline, Local Profiles and Save Library remain protected. Candidate C remains the sole destructive remote-to-local gameplay Apply authority with transaction-owned strict exact raw-snapshot rollback.
 
