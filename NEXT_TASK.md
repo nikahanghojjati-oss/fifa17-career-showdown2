@@ -1,5 +1,8 @@
 # CURRENT TASK — PUBLISH ACCEPTED RJR100 THEN GENERATE SNS
 
+Current environment: `we-2026-09-05-pr196-publication-physical-acceptance-e9072`
+Starting independently verified live main: `2302e8daba6c9417954bc610f537aba41c4d3d87`
+
 Production is independently proven `v1.9.1 / 1.9.1-r2`; previous known-good whole-shell recovery target is `1.9.1-r1`. Fixed `RJR-1` is complete at `100/100` with domain vector `20/20`, `20/20`, `20/20`, `30/30`, `10/10`. The physical Chromebook/Home WiFi + iPhone/cellular Remote Joining acceptance and final stable release acceptance are consumed evidence. Do not repeat or re-credit them.
 
 PR #198, `Publish final fixed RJR-1 100/100 acceptance`, is evidence/continuity publication only. It changes no runtime, Rules, Firebase provider state, IAM or billing and earns zero RJR credit.
