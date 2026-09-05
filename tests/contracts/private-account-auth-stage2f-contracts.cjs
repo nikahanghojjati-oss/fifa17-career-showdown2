@@ -176,11 +176,12 @@ assert.match(trustedAuth.providerIdentitySource, /Firebase Auth uid[\s\S]+verify
   assert.match(preR3Next,/Private Account \/ Authentication \/ Authorization Stages 2A through 2I are DONE \/ MERGED \/ PROVEN/i);
   assert.match(preR3Next,/Authorized product candidate:[\s\S]{0,120}v1\.5\.0[\s\S]{0,120}1\.5\.0-r1/i);
 
-  // Rolling authority is PR194/r2 production-proven at fixed RJR91 with physical acceptance next.
-  assert.match(next,/^# CURRENT OVERRIDE — PR #194 MERGED \/ v1\.9\.1-r2 PRODUCTION-PROVEN \/ RJR91 \/ PHYSICAL ACCEPTANCE NEXT — 2026-09-05 UTC$/im,"Live NEXT_TASK must identify exact PR194/r2 production-proven RJR91 physical-acceptance authority.");
+  // Stage 2F/2G remain immutable historical provenance. Current live authority is production-proven PR194/r2 with evidence-accepted RJR100; PR198 publishes before SSJR-1 begins.
+  assert.match(next,/^# CURRENT TASK — PUBLISH ACCEPTED RJR100 THEN GENERATE SNS$/im,"Live NEXT_TASK must identify accepted RJR100 / PR198 publication authority.");
+  assert.match(next,/100\/100[\s\S]+PR #198/i);
   assert.match(next,/App Check enforcement remains OFF/i,"Live authority must keep App Check enforcement off.");
-  assert.match(next,/two physical devices[\s\S]+two independent networks|two-physical-device\/two-independent-network/i,"Live authority must route to the genuinely uncredited physical Remote Joining acceptance gap after RJR91.");
-  assert.match(next,/Do not assume RJR100|Do not assume the score becomes 100|Do not assume.*100/i,"Live authority must preserve evidence-only readiness movement rather than revive the historical Stage 2F lane.");
+  assert.match(next,/physical Chromebook[\s\S]+iPhone|Chromebook[\s\S]+cellular/i,"Live authority must preserve the class of genuine physical evidence already accepted.");
+  assert.match(next,/Shared Showdown Journey Readiness|SSJR-1/i,"Live authority must route successor work to SSJR-1 rather than revive the historical Stage 2F lane.");
 
   const archivalSources = [
     ["POST_V1_ROADMAP_EXECUTION.md", roadmap],
@@ -194,22 +195,30 @@ assert.match(trustedAuth.providerIdentitySource, /Firebase Auth uid[\s\S]+verify
     assert.match(text, /production Firebase[\s\S]{0,700}(disconnected|NOT CONNECTED)/i, `${name} must preserve historical production Firebase isolation.`);
     assert.match(text, /Private Remote Joining[\s\S]{0,900}(?:DEPENDENCY-GATED|NOT YET IMPLEMENTATION-AUTHORIZED|blocked)/i, `${name} must preserve the gated Private Remote Joining boundary.`);
   }
-  assert.match(currentHandoff,/PR #194[\s\S]+1\.9\.1-r2[\s\S]+91\/100|PR #194[\s\S]+1\.9\.1-r2[\s\S]+RJR91/i,"Rolling handoff must expose current PR194/r2/RJR91 authority.");
+  assert.match(currentHandoff,/RJR-1[^\n]{0,100}100\/100|RJR100/i,"Rolling handoff must expose current RJR100 authority.");
+  assert.match(currentHandoff,/v1\.9\.1[\s\S]+1\.9\.1-r2[\s\S]+PR #198/i,"Rolling handoff must preserve r2 runtime identity and PR198 publication authority.");
+  assert.match(currentHandoff,/Shared Showdown Journey Readiness|SSJR-1/i,"Rolling handoff must route successor work to SSJR-1.");
   assert.match(historicalR5Handoff,/PR #187[\s\S]+89\/100/i,"Immutable PR187 handoff must preserve fixed RJR89 provenance.");
   assert.match(historicalR5Handoff,/one[- ]paste[\s\S]+zero manual Connected Rivalry Verify\/Reattach|zero manual Connected Rivalry Verify\/Reattach[\s\S]+one[- ]paste/i,"Immutable PR187 handoff must preserve the production capability that moved RJR88 to RJR89.");
-  assert.match(start,/1\.9\.1-r2[\s\S]+RJR91/i,"Developer start must expose current r2/RJR91 authority.");
+  assert.match(start,/RJR-1[\s\S]+100\/100|RJR100/i,"Developer start must expose completed RJR100 authority.");
+  assert.match(start,/Shared Showdown Journey Readiness|SSJR-1/i,"Developer start must route to SSJR-1.");
   assert.match(preR3State,/PR #115[\s\S]+production App Check runtime/i);
   assert.match(preR3State,/Private Account \/ Authentication \/ Authorization Stages 2A through 2I are DONE \/ MERGED \/ PROVEN/i,"Immutable pre-r3 PROJECT_STATE must preserve completed Stage 2A-through-2I authority.");
   assert.match(preR3State,/Active release candidate[\s\S]+v1\.5\.0[\s\S]+NOT production/i);
   assert.match(preR3State,/Private Remote Joining[\s\S]+DEPENDENCY-GATED/i);
-  assert.match(state,/CURRENT OVERRIDE[\s\S]+PR #194[\s\S]+v1\.9\.1-r2[\s\S]+RJR91[\s\S]+PHYSICAL ACCEPTANCE NEXT/i,"Live PROJECT_STATE must identify PR194/r2 production-proven RJR91 physical-acceptance authority.");
+  assert.match(state,/RJR-1 COMPLETE 100\/100|RJR100/i,"Live PROJECT_STATE must identify completed RJR100 authority.");
+  assert.match(state,/v1\.9\.1[\s\S]+1\.9\.1-r2[\s\S]+PR #198/i,"Live PROJECT_STATE must preserve r2 runtime identity and PR198 publication authority.");
   assert.match(state,/Installable Offline App[\s\S]+(?:local-first startup(?:\/| and )recovery baseline|v1\.3\.0 Recovery & Device Resilience baseline)/i,"Live PROJECT_STATE must preserve the offline recovery baseline.");
   assert.equal(readiness.modelVersion,"RJR-1");
-  assert.equal(readiness.currentScore,91,"Stage 2F live readiness must expose fixed RJR91.");
+  assert.equal(readiness.currentScore,100,"Stage 2F live readiness must expose fixed RJR100.");
   const stage5eRjrEvidence=readiness.evidenceHistory?.find(entry=>entry.eventId==="production-stage5e-r3-provider-live-remote-joining-lifecycle");
   assert.equal(stage5eRjrEvidence?.score,88,"STAGE2F must preserve the evidence-only Stage 5E provider-live lifecycle transition to RJR88.");
   assert.equal(stage5eRjrEvidence?.delta,1,"STAGE2F must preserve one bounded capability credit for the Stage 5E provider-live lifecycle.");
-  assert.match(state,new RegExp("Fixed RJR-1 is \\*\\*"+readiness.currentScore+"\\/100\\*\\*|RJR"+readiness.currentScore,"i"),"Live PROJECT_STATE must carry the current fixed-RJR authority without a superseded score.");
+  const physicalAcceptance=readiness.evidenceHistory?.find(entry=>entry.eventId==="production-rjr-physical-two-device-two-network-acceptance");
+  const stableReleaseAcceptance=readiness.evidenceHistory?.find(entry=>entry.eventId==="production-rjr-final-stable-release-acceptance");
+  assert.equal(physicalAcceptance?.score,99);assert.equal(physicalAcceptance?.delta,8);
+  assert.equal(stableReleaseAcceptance?.score,100);assert.equal(stableReleaseAcceptance?.delta,1);
+  assert.match(state,new RegExp("RJR-1[^\\n]{0,80}"+readiness.currentScore+"\\/100|RJR"+readiness.currentScore,"i"),"Live PROJECT_STATE must carry the current fixed-RJR authority.");
 
   const indexRevision=(index.match(/app-asset-revision"\s+content="([^"]+)/)||[])[1];
   const workerRevision=(worker.match(/RUNTIME_REVISION\s*=\s*"([^"]+)/)||[])[1];
@@ -225,7 +234,7 @@ assert.match(trustedAuth.providerIdentitySource, /Firebase Auth uid[\s\S]+verify
   assert.equal(Object.prototype.hasOwnProperty.call(pkg.devDependencies || {}, "firebase-admin"), false);
   assert.doesNotMatch(lock.slice(0, 1800), /"firebase-admin"|"firebase"|"@firebase\/rules-unit-testing"|"firebase-tools"/);
 
-  process.stdout.write("PASS Private Account/Auth Stage 2F trusted request authentication with immutable historical Stage 2E/2F and PR187/RJR89 provenance preserved while current PR194/r2/RJR91 physical acceptance authority is explicit\n");
+  process.stdout.write("PASS Private Account/Auth Stage 2F trusted request authentication with immutable historical Stage 2E/2F and PR187/RJR89 provenance preserved while current PR194/r2 production, evidence-accepted RJR100 and PR198-to-SSJR publication authority remain explicit\n");
 })().catch(error => {
   process.stderr.write(`${error && error.stack ? error.stack : error}\n`);
   process.exit(1);

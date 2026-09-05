@@ -84,10 +84,11 @@ assert.match(preR3Next,/Stage 3 Registered Devices \/ Private Pairing remains bl
 assert.match(preR3Next,/Connected Rivalry and actual Private Remote Joining remain downstream/i);
 assert.match(preR3Next,/Private Remote Joining remains PRIORITIZED LONG-TERM/i);
 
-// Stage 2D is immutable non-runtime preflight provenance. Current live authority is PR194/r2 production-proven at fixed RJR91 with physical acceptance next.
-assert.match(next,/CURRENT OVERRIDE[\s\S]+PR #194[\s\S]+v1\.9\.1-r2[\s\S]+RJR91[\s\S]+PHYSICAL ACCEPTANCE NEXT/i,"Live NEXT_TASK must identify PR194/r2 production-proven RJR91 physical acceptance authority.");
+// Stage 2D is immutable non-runtime preflight provenance. Current live authority is PR194/r2 production-proven with evidence-accepted RJR100; PR198 publishes that evidence before SSJR-1 begins.
+assert.match(next,/CURRENT TASK[\s\S]+100\/100[\s\S]+PR #198/i,"Live NEXT_TASK must identify evidence-accepted RJR100 / PR198 publication authority.");
+assert.match(next,/Shared Showdown Journey Readiness|SSJR-1/i,"Live transition authority must route to SSJR-1 only after clean RJR100 publication.");
 assert.match(next,/App Check enforcement remains OFF/i,"Live transition authority must keep App Check enforcement off.");
-assert.match(next,/two physical devices[\s\S]+two independent networks|two-physical-device\/two-independent-network/i,"Live transition authority must route to the genuinely uncredited physical Remote Joining acceptance gap.");
+assert.match(next,/physical Chromebook[\s\S]+iPhone|Chromebook[\s\S]+cellular/i,"Live transition authority must retain the class of genuine physical evidence already accepted.");
 
 assert.equal(firebaseRc.projects.default,"demo-career-mode-showdown-phase1f","Repository Firebase default must remain emulator-only during the historical Stage 2D proof.");
 assert.match(firebaseRc.projects.default,/^demo-/);
@@ -109,4 +110,4 @@ assert.equal(Object.prototype.hasOwnProperty.call(pkg.dependencies||{},"firebase
 assert.equal(Object.prototype.hasOwnProperty.call(pkg.devDependencies||{},"firebase-admin"),false);
 assert.doesNotMatch(lock.slice(0,1800),/"firebase-admin"|"firebase"|"@firebase\/rules-unit-testing"|"firebase-tools"/);
 
-process.stdout.write("PASS Private Account/Auth Stage 2D preflight with historical selection authority preserved and current PR194/r2/RJR91 physical acceptance authority explicit\n");
+process.stdout.write("PASS Private Account/Auth Stage 2D preflight with historical selection authority preserved while current PR194/r2 production, evidence-accepted RJR100 and PR198-to-SSJR publication authority remain explicit\n");

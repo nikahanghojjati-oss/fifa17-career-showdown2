@@ -59,29 +59,39 @@ assert.match(preR3Next,/Private Account \/ Authentication \/ Authorization Stage
 assert.match(preR3Next,/currently published application-client Firestore create\/update\/delete boundary remains deny-all|browser Firestore (?:create\/update\/delete remains deny-all|writes deny-all)/i,"Immutable pre-r3 authority must preserve the deployed deny-all Firestore boundary that applied to the PR #125 candidate.");
 
 // Stage 2B is immutable lifecycle/revocation provenance. Current execution authority is PR194/r2
-// production-proven at fixed RJR91, with genuine two-physical-device/two-independent-network acceptance next.
-assert.match(next,/CURRENT OVERRIDE[\s\S]+PR #194[\s\S]+v1\.9\.1-r2[\s\S]+RJR91[\s\S]+PHYSICAL ACCEPTANCE NEXT/i,"Live NEXT_TASK must identify PR194/r2 production-proven RJR91 physical acceptance authority.");
-assert.match(next,/two physical devices[\s\S]+two independent networks/i,"Live NEXT_TASK must retain the genuine physical Remote Joining acceptance gap.");
+// production-proven with evidence-accepted fixed RJR100; PR198 publishes that evidence before SSJR-1 begins.
+assert.match(next,/CURRENT TASK[\s\S]+100\/100[\s\S]+PR #198/i,"Live NEXT_TASK must identify evidence-accepted RJR100 / PR198 publication authority.");
+assert.match(next,/physical Chromebook[\s\S]+iPhone|Chromebook[\s\S]+cellular/i,"Live NEXT_TASK must preserve the class of genuine physical Remote Joining evidence already accepted.");
+assert.match(next,/Shared Showdown Journey Readiness|SSJR-1/i,"Live NEXT_TASK must route the successor to the next numerical milestone only after clean RJR100 publication.");
 
 assert.match(preR3State, /PR #115[\s\S]+Firebase App \+ App Check/i);
 assert.match(preR3State, /Private Account \/ Authentication \/ Authorization Stages 2A through 2I are DONE \/ MERGED \/ PROVEN/i,"Immutable pre-r3 PROJECT_STATE must preserve the dormant Stage 2A-2I prerequisite boundaries at their proven boundaries.");
 assert.match(preR3State, /Active release candidate[\s\S]+v1\.5\.0[\s\S]+NOT production/i,"Immutable pre-r3 PROJECT_STATE must preserve the bounded v1.5.0 candidate provenance.");
-assert.match(state,/CURRENT OVERRIDE[\s\S]+PR #194[\s\S]+v1\.9\.1-r2[\s\S]+RJR91[\s\S]+PHYSICAL ACCEPTANCE NEXT/i,"Live PROJECT_STATE must expose current PR194/r2 production-proven RJR91 physical acceptance authority.");
+assert.match(state,/RJR-1 COMPLETE 100\/100|RJR100/i,"Live PROJECT_STATE must expose evidence-accepted RJR100 authority.");
+assert.match(state,/v1\.9\.1[\s\S]+1\.9\.1-r2[\s\S]+PR #198/i,"Live PROJECT_STATE must preserve PR194/r2 runtime identity while exposing PR198 evidence publication.");
 assert.match(state,/Installable Offline App[\s\S]+(?:local-first startup(?:\/| and )recovery baseline|v1\.3\.0 Recovery & Device Resilience baseline)/i,"Live PROJECT_STATE must preserve the local-first recovery baseline.");
 assert.equal(readiness.modelVersion,"RJR-1","Stage 2B current-state checks must use the fixed RJR-1 model.");
-assert.equal(readiness.currentScore,91,"Stage 2B current-state checks must expose the fixed RJR91 boundary.");
+assert.equal(readiness.currentScore,100,"Stage 2B current-state checks must expose evidence-accepted fixed RJR100.");
 const stage5eRjrEvidence=readiness.evidenceHistory?.find(entry=>entry.eventId==="production-stage5e-r3-provider-live-remote-joining-lifecycle");
 assert.equal(stage5eRjrEvidence?.score,88,"Stage 2B current-state checks must preserve the evidence-only Stage 5E provider-live lifecycle transition to RJR88.");
 assert.equal(stage5eRjrEvidence?.delta,1,"Stage 2B current-state checks must preserve one bounded capability credit for the Stage 5E provider-live lifecycle.");
-assert.match(state,new RegExp("Fixed RJR-1 is \\*\\*"+readiness.currentScore+"\\/100\\*\\*|RJR"+readiness.currentScore,"i"),"Live PROJECT_STATE must report the current evidence-backed readiness score from the fixed RJR ledger rather than a stale reconciliation-only literal.");
+const physicalAcceptance=readiness.evidenceHistory?.find(entry=>entry.eventId==="production-rjr-physical-two-device-two-network-acceptance");
+const stableReleaseAcceptance=readiness.evidenceHistory?.find(entry=>entry.eventId==="production-rjr-final-stable-release-acceptance");
+assert.equal(physicalAcceptance?.score,99);assert.equal(physicalAcceptance?.delta,8);
+assert.equal(stableReleaseAcceptance?.score,100);assert.equal(stableReleaseAcceptance?.delta,1);
+assert.match(state,new RegExp("RJR-1[^\\n]{0,80}"+readiness.currentScore+"\\/100|RJR"+readiness.currentScore,"i"),"Live PROJECT_STATE must report the current evidence-backed readiness score from the fixed RJR ledger.");
 assert.equal(bootstrap.runtime?.productionRuntimeRevision,"1.9.1-r2","Current production runtime must remain r2.");
 assert.equal(bootstrap.lastProductionProvenRuntime?.pullRequest,194,"Current production runtime provenance must remain PR194.");
 assert.equal(bootstrap.historicalPr187PublicationCheckpoint?.pullRequest,187,"Historical PR187 publication provenance must remain explicit.");
 assert.equal(bootstrap.historicalPr187PublicationCheckpoint?.runtimeRevision,"1.9.0-r5","Historical PR187 r5 provenance must remain immutable.");
+assert.equal(bootstrap.remoteJoiningReadiness?.score,100,"Current bootstrap must expose evidence-accepted RJR100.");
+assert.equal(bootstrap.remoteJoiningReadiness?.remaining,0);
 assert.equal(bootstrap.runtime?.appCheckEnforcement,false,"Current authority must keep App Check enforcement off.");
 assert.equal(bootstrap.ownerZeroBillingAuthorization?.firebasePlanMustRemain,"Spark","Current authority must preserve Spark zero billing.");
 assert.equal(bootstrap.ownerZeroBillingAuthorization?.cloudBillingAccountMayBeLinked,false,"Cloud Billing linkage must remain forbidden.");
 assert.equal(bootstrap.ownerZeroBillingAuthorization?.blazeMayBeEnabled,false,"Blaze must remain forbidden.");
+assert.equal(bootstrap.ownerZeroBillingAuthorization?.cloudRunAllowed,false,"Cloud Run must remain forbidden under the zero-billing architecture.");
+assert.equal(bootstrap.ownerZeroBillingAuthorization?.cloudFunctionsAllowed,false,"Cloud Functions must remain forbidden under the zero-billing architecture.");
 assert.equal(bootstrap.runtime?.firestorePersistence,"memory-only","Firestore persistence must remain memory-only.");
 assert.equal(bootstrap.runtime?.googleAuthPersistence,"browserSessionPersistence-popup-only-no-extra-scopes","Google Auth persistence must remain popup-only browserSessionPersistence with no extra scopes.");
 assert.match(roadmap, /Stage 2B — Provider Session Lifecycle & Revocation Boundary[\s\S]+DONE \/ MERGED \/ PROVEN/i);
@@ -91,9 +101,10 @@ assert.match(remoteRoadmap, /Stage 2B — Provider Session Lifecycle & Revocatio
 assert.match(remoteRoadmap, /Stage 2C — Production Authentication Policy & Static-Hosting Compatibility Boundary[\s\S]+DONE \/ MERGED \/ PROVEN/i);
 assert.match(remoteRoadmap, /Stage 2D — Production Firebase Environment & Configuration Preflight[\s\S]+CURRENT/i);
 assert.match(remoteRoadmap, /Stage 3[\s\S]+BLOCKED until Stage 2 is proven/i);
-assert.match(currentHandoff, /PR #194[\s\S]+1\.9\.1-r2[\s\S]+91\/100|PR #194[\s\S]+1\.9\.1-r2[\s\S]+RJR91/i,"Rolling handoff must expose current PR194/r2/RJR91 authority.");
-assert.match(currentHandoff, /Work Environment Continuity[\s\S]+we-2026-09-04-stage5g-reconnect-recovery/i,"Rolling handoff must expose the closing WEC boundary.");
-assert.match(currentHandoff, /physical acceptance|two-physical-device|two physical devices/i,"Rolling handoff must route the successor to genuine physical Remote Joining acceptance.");
+assert.match(currentHandoff, /RJR-1[^\n]{0,100}100\/100|RJR100/i,"Rolling handoff must expose current RJR100 authority.");
+assert.match(currentHandoff, /v1\.9\.1[\s\S]+1\.9\.1-r2[\s\S]+PR #198/i,"Rolling handoff must preserve r2 runtime identity and PR198 publication authority.");
+assert.match(currentHandoff, /Work Environment Continuity/i,"Rolling handoff must preserve WEC governance.");
+assert.match(currentHandoff, /Shared Showdown Journey Readiness|SSJR-1/i,"Rolling handoff must route the successor to the next numerical milestone after clean publication.");
 
 assert.equal(firebaseRc.projects.default, "demo-career-mode-showdown-phase1f");
 assert.equal(firebaseConfig.emulators.auth.host, "127.0.0.1");
@@ -147,4 +158,4 @@ assert.equal(Object.prototype.hasOwnProperty.call(pkg.dependencies || {}, "fireb
 assert.equal(Object.prototype.hasOwnProperty.call(pkg.devDependencies || {}, "firebase"), false);
 assert.doesNotMatch(lock.slice(0, 1600), /"firebase-admin"|"firebase"|"@firebase\/rules-unit-testing"|"firebase-tools"/);
 
-process.stdout.write("PASS Private Account/Auth Stage 2B provider lifecycle/revocation proof with immutable historical successor checkpoints preserved and current PR194/r2/RJR91 physical acceptance authority explicit\n");
+process.stdout.write("PASS Private Account/Auth Stage 2B provider lifecycle/revocation proof with immutable historical successor checkpoints preserved while current PR194/r2 production, evidence-accepted RJR100 and PR198-to-SSJR publication authority remain explicit\n");

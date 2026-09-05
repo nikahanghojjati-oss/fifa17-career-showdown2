@@ -68,12 +68,16 @@ assert.match(preR3NextTask,/Stage 2H[\s\S]+firebaseauth\.users\.get[\s\S]+datast
 assert.match(preR3NextTask,/Current production Installable Offline App runtime: `1\.4\.0-r2`/i);
 assert.match(preR3NextTask,/Immediate candidate rollback\/recovery runtime: `1\.4\.0-r2`/i);
 assert.match(preR3NextTask,/Finish only PR #125[\s\S]+source validation first/i);
-assert.match(nextTask,/^# CURRENT OVERRIDE — PR #194 MERGED \/ v1\.9\.1-r2 PRODUCTION-PROVEN \/ RJR91 \/ PHYSICAL ACCEPTANCE NEXT — 2026-09-05 UTC$/im,"Live NEXT_TASK must identify exact PR194/r2 production-proven RJR91 physical-acceptance authority rather than revive historical export or prior transition lanes.");
+
+// Current authority has advanced beyond the historical PR194/RJR91 physical-acceptance boundary.
+assert.match(nextTask,/^# CURRENT TASK — PUBLISH ACCEPTED RJR100 THEN GENERATE SNS$/im,"Live NEXT_TASK must identify accepted RJR100 / PR198 publication authority rather than revive historical export or RJR91 transition lanes.");
+assert.match(nextTask,/100\/100[\s\S]+PR #198/i);
 assert.match(nextTask,/App Check enforcement remains OFF/i);
 assert.match(nextTask,/Firestore(?: browser persistence)? remains memory-only/i);
 assert.match(nextTask,/Candidate C remains the sole destructive (?=[^\n]*Apply authority)(?=[^\n]*remote-to-local)[^\n]+/i,"Live NEXT_TASK must preserve Candidate C as the sole destructive remote-to-local Apply authority without pinning one sentence order.");
-assert.match(nextTask,/Stage 5G\/5H automation[\s\S]+two physical devices[\s\S]+two independent networks|genuine production Remote Joining acceptance[\s\S]+two physical devices[\s\S]+two independent networks/i,"Live NEXT_TASK must route from accepted RJR91 to the genuinely uncredited physical Remote Joining acceptance gap after consumed Stage 5G/5H automation.");
-assert.match(nextTask,/Do not assume RJR100|Do not assume[\s\S]+RJR100/i,"Live NEXT_TASK must preserve evidence-only readiness movement and consumed-proof discipline.");
+assert.match(nextTask,/physical Chromebook[\s\S]+iPhone|Chromebook[\s\S]+cellular/i,"Live NEXT_TASK must preserve the genuine physical Remote Joining evidence class already accepted.");
+assert.match(nextTask,/Shared Showdown Journey Readiness|SSJR-1/i,"Live NEXT_TASK must route the successor to the next fixed numerical SSJR milestone after RJR100 publication.");
+assert.match(nextTask,/Do not repeat or re-credit|must not be repeated or re-credited/i,"Live NEXT_TASK must preserve evidence-only readiness movement and consumed-proof discipline after RJR100.");
 
 assert.equal(production.activation.appCheckEnforcement,false);
 assert.equal(production.activation.trustedRuntimeIam,"not-activated-yet");
@@ -114,4 +118,4 @@ assert.equal(runtimeVersion,pkg.version,"Current release identity must remain co
 assert.equal(workerRevision,indexRevision,"Service Worker and shell runtime identities must remain coherent.");
 assert.equal(pkg.dependencies,undefined);
 
-process.stdout.write("PASS trusted connected data account export boundary: private explicit portability, exact entitlement/read scope, peer-identity minimization, secret exclusion, dormant trusted-export isolation and unchanged IAM/browser-write locks remain protected while current PR194/r2/RJR91 authority routes only to genuine physical Remote Joining acceptance.\n");
+process.stdout.write("PASS trusted connected data account export boundary: private explicit portability, exact entitlement/read scope, peer-identity minimization, secret exclusion, dormant trusted-export isolation and unchanged IAM/browser-write locks remain protected while current evidence-accepted RJR100/PR198 authority routes successor work to SSJR-1.\n");
