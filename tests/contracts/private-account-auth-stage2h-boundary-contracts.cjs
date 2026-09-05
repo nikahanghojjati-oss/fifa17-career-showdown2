@@ -51,15 +51,17 @@ assert.match(historicalNextTask,/Do not provision production Cloud Run|do not pr
 assert.match(historicalProjectState,/Stage 2G[\s\S]+DONE \/ MERGED \/ PROVEN/);
 assert.match(historicalProjectState,/Stage 2H[\s\S]+AUTHORIZED NEXT PREREQUISITE/);
 
-// Live authority has advanced through production-proven r5 and provider-proven strengthened Rules.
-assert.match(liveNextTask,/CURRENT OVERRIDE[\s\S]+PR #171 MERGED[\s\S]+RJR87[\s\S]+STAGE 5A/i,"Live NEXT_TASK must expose current PR #171 closure / RJR87 authority rather than revive Stage 2H.");
+// Live authority is PR194/r2 production-proven at fixed RJR91 with physical acceptance next; Stage 2H stays immutable historical provenance.
+assert.match(liveNextTask,/CURRENT OVERRIDE[\s\S]+PR #194[\s\S]+v1\.9\.1-r2[\s\S]+RJR91[\s\S]+PHYSICAL ACCEPTANCE NEXT/i,"Live NEXT_TASK must expose current PR194/r2/RJR91 physical-acceptance authority rather than revive Stage 2H.");
 assert.match(liveNextTask,/App Check enforcement remains OFF/i);
-assert.match(liveNextTask,/STAGE 5A IS AUTHORIZED NEXT[\s\S]+runtime implementation has not started/i);
-assert.match(liveProjectState,/Production runtime:\s*`1\.8\.1-r5`[\s\S]+Immediate known-good rollback runtime:\s*`1\.8\.1-r4`/i,"Live PROJECT_STATE must identify production r5 and r4 recovery.");
-assert.match(liveProjectState,/PRODUCTION_FIRESTORE_RULES_PROVIDER_PROOF_2026-08-29\.md[\s\S]+firestore\.spark\.rules/i,"Live PROJECT_STATE must preserve direct strengthened Rules provider proof.");
-assert.match(handoff,/PR #172[\s\S]+1\.8\.1-r5[\s\S]+87\/100/i,"Rolling handoff must expose current PR #172/r5/RJR87 authority.");
-assert.match(handoff,/provider-abuse proof[\s\S]+Stage 5A is authorized next/i,"Rolling handoff must preserve provider-abuse acceptance before Stage 5 reassessment.");
-assert.match(developerStart,/PR #172[\s\S]+1\.8\.1-r5[\s\S]+87\/100/i,"Developer start must expose current PR #172/r5/RJR87 authority.");
+assert.match(liveNextTask,/two physical devices[\s\S]+two independent networks|two-physical-device\/two-independent-network/i,"Live NEXT_TASK must route to genuine physical Remote Joining acceptance.");
+assert.match(liveProjectState,/CURRENT OVERRIDE[\s\S]+PR #194[\s\S]+v1\.9\.1-r2[\s\S]+RJR91[\s\S]+PHYSICAL ACCEPTANCE NEXT/i,"Live PROJECT_STATE must identify production-proven r2 and physical acceptance next.");
+assert.match(liveProjectState,/Billing is permanently forbidden|Billing must never be activated/i);
+assert.match(liveProjectState,/Firebase remains Spark/i);
+assert.match(handoff,/PR #194[\s\S]+1\.9\.1-r2[\s\S]+91\/100|PR #194[\s\S]+1\.9\.1-r2[\s\S]+RJR91/i,"Rolling handoff must expose current PR194/r2/RJR91 authority.");
+assert.match(handoff,/physical acceptance|two-physical-device|two physical devices/i,"Rolling handoff must route to physical acceptance after production proof.");
+assert.match(developerStart,/PR #194[\s\S]+1\.9\.1-r2[\s\S]+RJR91/i,"Developer start must expose current PR194/r2/RJR91 authority.");
+assert.match(developerStart,/physical acceptance|two physical devices/i,"Developer start must route to genuine physical acceptance.");
 assert.match(roadmap,/Stage 2G[\s\S]+DONE \/ MERGED \/ PROVEN/);
 assert.match(roadmap,/Stage 2H[\s\S]+AUTHORIZED NEXT PREREQUISITE/);
 
@@ -75,4 +77,4 @@ assert.equal(runtimeVersion,pkg.version,"Current release identity must remain co
 assert.equal(workerRevision,indexRevision,"Service Worker and shell runtime identities must remain coherent after later release-owned runtime integration.");
 assert.equal(pkg.dependencies,undefined,"Historical Stage 2H authorization boundary must not add production dependencies.");
 
-process.stdout.write("PASS Stage 2H trusted production execution/IAM authorization boundary contracts: immutable historical selection is preserved while current PR #171 closure / RJR87 production authority remains explicit\n");
+process.stdout.write("PASS Stage 2H trusted production execution/IAM authorization boundary contracts: immutable historical selection is preserved while current PR194/r2/RJR91 physical acceptance authority remains explicit\n");
