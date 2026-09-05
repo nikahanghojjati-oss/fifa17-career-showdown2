@@ -6,6 +6,8 @@ Fixed `RJR-1` is evidence-accepted at `100/100` with domain vector `20/20 + 20/2
 
 Production remains DEPLOYED / PRODUCTION-PROVEN `v1.9.1 / 1.9.1-r2`; previous known-good whole-shell recovery remains `1.9.1-r1`. PR #198 is evidence and continuity publication only. It changes no gameplay runtime, Firebase configuration, Firestore Rules, IAM, provider, storage or billing state and earns zero RJR credit.
 
+Work Environment Continuity remains mandatory. This active WEC owns the publication checkpoint and must not inherit the predecessor's transition decision.
+
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
 Independently verify live `main`, exact PR #198 head/diff, `REMOTE_JOINING_READINESS.json`, this current authority and the active WEC. Require every applicable permanent PR workflow family green on one unchanged head, review that exact diff, merge with expected-head protection, then verify live `main` and the complete permanent main-push publication set. Only after that clean checkpoint, generate the successor SNS at `Handoff proximity: 100%` and stop before starting the next substantial product milestone.
