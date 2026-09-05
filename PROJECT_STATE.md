@@ -1,14 +1,16 @@
-# CURRENT OVERRIDE — PR #192 / STAGE 5F ACCEPTED / RJR91 / STAGE 5G RELEASE CANDIDATE v1.9.1-r1
+# CURRENT OVERRIDE — PR #194 / STAGE 5H PRODUCTION-PROVEN / RJR91 / STAGE 5I RELEASE CANDIDATE v1.9.1-r2
 
 Status: RELEASE CANDIDATE / NOT PRODUCTION-PROVEN
 
-Authorized product candidate: `v1.9.1 / 1.9.1-r1` on PR #192. Candidate status: NOT PRODUCTION-PROVEN. Production remains independently verified `v1.9.0 / 1.9.0-r5` on live main PR #191 merge `7ca132a607cbf4fd78710b14526b4bec849ac2d2`; exact PR #187 runtime merge `277f1b55dc362ee84d285445b99172b9fbed8509` remains the production runtime provenance. The previous known-good whole shell and rollback target is `1.9.0-r5` until the candidate is merged and independently proven live.
+Authorized product candidate: `v1.9.1 / 1.9.1-r2` on PR #194. Candidate status: NOT PRODUCTION-PROVEN. Production remains independently verified `v1.9.1 / 1.9.1-r1` on live main `65399fc2f214d3bbdf3ef47fb47428c8b34d2017`; `1.9.1-r1` is the previous known-good whole shell and rollback target until the r2 candidate is merged and independently proven live.
 
-PR #192 packages the genuinely uncredited Stage 5G Remote Joining-specific same-capability reconnect hardening. If Host, Join or Close commits at the provider but its acknowledgement is lost, the page retains only the exact unresolved capability in memory and retries that same operation. It does not generate a replacement session, expose the full unresolved capability for copy, permit Forget/replacement Host/Join while unresolved, accept authority-context drift, mutate canonical local saves, or resurrect terminal state.
+The accepted Stage 5F production boundary remains sealed and credited exactly once: production denies revoked-device protected mutation and denies authenticated unrelated-account exact private reads. Those two accepted negatives already account for the fixed RJR91 boundary and must not be repeated or re-credited.
 
-Stage 5F production acceptance remains PASS in `PRODUCTION_STAGE5F_AUTHENTICATED_NEGATIVES_ACCEPTANCE_2026-09-04.md`.
+PR #192 Stage 5G began the Remote Joining-specific two-device/two-network reconnect and adverse-network hardening lane by establishing same-capability recovery after ambiguous Host/Join/Close acknowledgement loss. PR #193 Stage 5H then proved the automatable browser portion of that lane with real-browser offline/online transitions across two isolated Chromium contexts: no provider mutation while offline, exactly one session and one Host/Join/Close mutation after recovery, active revision 1, terminal revision 2, extra online events without duplicate mutation, unchanged canonical local Save storage, and no paid-service dependency. Exact-head and deployed-site browser suites passed.
 
-Fixed RJR-1 remains `91/100` with domain vector:
+Historical production provenance retained for the PR191 / Stage 5F / RJR91 boundary and early Stage 5G authority: `v1.9.0 / 1.9.0-r5` was the production runtime before PR #192 and PR #193 promoted `v1.9.1 / 1.9.1-r1`. `v1.9.0 / 1.9.0-r5` is historical provenance only and is NOT the current production runtime.
+
+Stage 5H is intentionally zero-credit under fixed RJR-1 because two browser contexts are not two physical devices on two independent networks. Fixed RJR-1 remains `91/100` with domain vector:
 
 - deterministic sync and recovery safety: 20/20
 - identity, authentication, authorization and trust: 20/20
@@ -18,19 +20,21 @@ Fixed RJR-1 remains `91/100` with domain vector:
 
 No source, test, review, CI, merge, deployment, release-version, documentation, WEC or repeated-proof credit is included. A score increase requires genuinely new accepted Remote Joining-specific capability evidence.
 
-Current Work Environment Continuity (WEC) execution authority is `we-2026-09-04-stage5g-reconnect-recovery`. Future environments must enter through the Work Environment Continuity system, independently validate live repository/provider evidence, archive the predecessor only at its actual closure boundary, initialize a fresh unique WEC with reset counters, and obey that fresh environment's own assessment. The predecessor `we-2026-09-04-pr191-publication-stage5g` remains immutable archived transition provenance.
+Current Work Environment Continuity (WEC) execution authority remains `we-2026-09-04-stage5g-reconnect-recovery`; the same active environment has advanced through Stage 5H into Stage 5I. Its current working branch is `stage5i/physical-acceptance-recorder-2026-09-05`. The predecessor `we-2026-09-04-pr191-publication-stage5g` remains immutable archived transition provenance.
 
 ## Current lane
 
-Finish v1.9.1-r1 exact-head automation, review, expected-head merge, post-merge validation and deployed-byte/runtime proof. Stage 5G two-device/two-network reconnect and adverse-network hardening is the active automated capability target: exact Host/Join/Close retry after ambiguous acknowledgement loss, one provider session, no phantom success, lifecycle monotonicity, capability privacy and unchanged canonical local Save bytes.
+Finish PR #194 / Stage 5I `v1.9.1 / 1.9.1-r2` exact-head automation, review, expected-head merge, post-merge validation and deployed-byte/runtime proof. Stage 5I adds an explicit `?rjr-acceptance=1` physical-acceptance recorder designed to automate the final evidence capture while keeping normal production unchanged.
 
-Only after every automatable boundary is exhausted should owner interaction be requested for genuinely physical two-device/two-independent-network behavior that cannot be simulated or provider-proven. After that boundary is genuinely evidence-complete, final stable Remote Joining release acceptance remains the explicit last lane toward genuine RJR100.
+The recorder is page-memory-only, performs no recorder network or localStorage writes, never exports raw account ID, registered device ID, rivalry ID or full private session capability, and correlates the same 256-bit session only by SHA-256 fingerprint. It records sanitized Remote Joining state/revision/pending action, real browser online/offline events, timestamps, coarse device facts and owner-entered device/network labels. The startup budget remains protected at 163072 raw / 37499 compressed initial bytes without raising any threshold.
+
+Only after r2 is independently production-proven should owner interaction be requested for genuinely physical two-device/two-independent-network behavior that automation cannot substitute. The intended minimal acceptance is Chromebook on Wi-Fi plus iPhone on cellular, producing two sanitized JSON evidence files. After that boundary is genuinely evidence-complete, final stable Remote Joining release acceptance and evidence-based RJR-1 reconciliation remain the explicit last lane toward genuine RJR100.
 
 ## Protected baselines and permanent locks
 
 The Installable Offline App remains the local-first startup/recovery baseline. The v1.3.0 Recovery & Device Resilience baseline and Local Profiles / Save Library remain protected. Canonical local storage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, `careerModeShowdown.preferences`.
 
-Billing is permanently forbidden and Firebase remains Spark. App Check enforcement remains OFF. Firestore browser persistence remains memory-only. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes. Cloud Run and Cloud Functions remain forbidden because they require billing under this architecture. Trusted-runtime IAM remains unactivated/unbroadened.
+Billing is permanently forbidden and Billing must never be activated. Firebase remains Spark. App Check enforcement remains OFF. Firestore browser persistence remains memory-only. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes. Cloud Run and Cloud Functions remain forbidden because they require billing under this architecture. Trusted-runtime IAM remains unactivated/unbroadened.
 
 Candidate A is non-mutating; Candidate B is read-only; Candidate C remains the sole destructive remote-to-local gameplay Apply authority with strict exact raw snapshot and transaction-owned rollback. Exactly two private managers remain mandatory. No public discovery/listing/lobby/matchmaking/community/rankings/global leaderboards. Never durably retain full private pairing/session capabilities. The protected historical rivalry must not be used for destructive testing.
 

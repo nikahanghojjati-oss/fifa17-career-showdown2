@@ -399,11 +399,24 @@ function consumeEarlyInstallPrompt(){
     }
 }
 
+async function initializeRemoteJoiningAcceptance(){
+    if(new URLSearchParams(location.search).get("rjr-acceptance")!=="1"){ return; }
+    try{
+        if(typeof window.loadRuntimeScript!=="function"){ throw new Error("Release-owned runtime loader is unavailable."); }
+        await window.loadRuntimeScript("rjr-acceptance","js/remoteJoiningAcceptance.js",()=>window.CareerModeRemoteJoiningAcceptance);
+        if(typeof window.CareerModeRemoteJoiningAcceptance?.initialize!=="function"){ throw new Error("Acceptance recorder API is unavailable."); }
+        window.CareerModeRemoteJoiningAcceptance.initialize();
+    }catch(error){
+        window.reportApplicationError?.("Remote Joining acceptance recorder could not start",error);
+    }
+}
+
 function initializeOfflineApplication(){
     ensureOfflineStyles();
     consumeEarlyInstallPrompt();
     installedStandalone=isStandaloneDisplay();
     renderConnectivity();
+    void initializeRemoteJoiningAcceptance();
 
     window.addEventListener("offline",()=>setConnectivityState("offline",true));
     window.addEventListener("online",()=>{
