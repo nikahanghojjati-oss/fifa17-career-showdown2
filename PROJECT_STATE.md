@@ -13,6 +13,8 @@ Fixed `RJR-1` is now `100/100`:
 
 The closing evidence includes a genuine two-physical-device/two-independent-network production run (Chromebook on Home WiFi plus iPhone on cellular), same-session Host/Join, ACTIVE revision 1, real offline→online recovery, terminal CLOSED revision 2, no resurrection and final stable-release acceptance. PR/CI/review/merge/deployment/docs/WEC/SLE/SNS receive zero RJR credit.
 
+Work Environment Continuity remains mandatory. The active environment owns its own 99% publication checkpoint; the predecessor's handoff decision is historical only.
+
 Current lane: finish exact-head PR #198 publication, merge with expected-head protection, verify live main and the complete post-merge publication set, then generate the SNS at clean Handoff proximity 100%. Do not begin the next substantial milestone before the handoff.
 
 Post-RJR100 dominant product direction requested by the owner: codify and build a fixed 0–100 `Shared Showdown Journey Readiness (SSJR-1)` roadmap covering the supported remote journey from both manager profiles through private pairing, exact Connected Rivalry, ACTIVE Remote Joining, authoritative League Wheel/club/season setup, multi-season synchronized results/scoring/history/progression, final reconciliation and terminal close. This is the next major product program after RJR-1.
