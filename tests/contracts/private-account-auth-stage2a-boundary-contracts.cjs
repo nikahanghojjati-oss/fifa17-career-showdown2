@@ -60,7 +60,7 @@ assert.equal(currentProduction,true,"Current runtime provenance must identify pr
 assert.equal(bootstrap.latestRuntimeMerge?.pullRequest,166,"Historical rollback merge provenance must remain PR #166.");
 assert.equal(bootstrap.latestRuntimeMerge?.mergeSha,"32c32afb1365c9ae6120d810a68e5c72c4b8229a","Historical rollback merge SHA must remain exact.");
 assert.equal(bootstrap.latestRuntimeMerge?.rollbackRunId,33190961085,"Historical rollback proof run must remain exact.");
-assert.equal(bootstrap.remoteJoiningReadiness?.score,91,"Current bootstrap must expose the sealed v1.4.39 RJR91 snapshot while PR187 remains runtime provenance.");
+assert.equal(bootstrap.remoteJoiningReadiness?.score,91,"Current bootstrap must expose the sealed v1.4.40 RJR91 snapshot while PR187 remains runtime provenance.");
 assert.match(next,/App Check enforcement remains OFF/i,"Current NEXT_TASK must keep App Check enforcement off.");
 assert.match(next,/Firebase remains (?:on )?Spark(?: \/ zero billing)?/i,"Current NEXT_TASK must preserve Spark zero billing.");
 assert.match(state,/Installable Offline App[\s\S]+local-first startup\/recovery baseline|Installable Offline App[\s\S]+local-first startup and recovery baseline/i,"Current PROJECT_STATE must preserve the offline recovery baseline rather than inline stale Stage 2A authority.");

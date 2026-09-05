@@ -23,7 +23,7 @@ for(const [name,text] of [["SLE protocol",sle],["bootstrap protocol",bootstrapPr
   assert.match(text,/START_NEXT_SESSION_/i,`${name} must route the successor to the current starter.`);
 }
 
-assert.equal(bootstrap.starter?.canonical,"START_NEXT_SESSION_V1.4.39_PR191_RJR91_STAGE5G_HANDOFF.md");
+assert.equal(bootstrap.starter?.canonical,"START_NEXT_SESSION_V1.4.40_PR191_MERGED_RJR91_STAGE5G_AUTOMATION.md");
 const starter=read(bootstrap.starter.canonical);
 const starterMirror=read(bootstrap.starter.projectMirror);
 const handoff=read(bootstrap.currentHandoff.canonical);
@@ -59,7 +59,7 @@ assert.match(checkedPrompt,/PR #191/i);
 assert.match(checkedPrompt,/v1\.9\.0 \/ 1\.9\.0-r5/i);
 assert.match(checkedPrompt,/91\/100/i);
 assert.match(checkedPrompt,/fresh unique WEC/i);
-assert.match(checkedPrompt,/finish PR #191 exact-head gates/i);
+assert.match(checkedPrompt,/Stage 5G[\s\S]+automation first/i);
 assert.match(checkedPrompt,/Billing must never be activated/i);
 
-process.stdout.write("PASS next-developer prompt: v1.4.39 mirrored package and repository-first generated/current prompts route a fresh successor through PR191 r5 RJR91 into Stage 5G.\n");
+process.stdout.write("PASS next-developer prompt: v1.4.40 mirrored package and repository-first generated/current prompts route a fresh successor from merged PR191/r5/RJR91 directly into Stage 5G automation.\n");

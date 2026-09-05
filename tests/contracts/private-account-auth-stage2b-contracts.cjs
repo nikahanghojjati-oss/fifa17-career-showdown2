@@ -82,7 +82,7 @@ assert.match(remoteRoadmap, /Stage 2C — Production Authentication Policy & Sta
 assert.match(remoteRoadmap, /Stage 2D — Production Firebase Environment & Configuration Preflight[\s\S]+CURRENT/i);
 assert.match(remoteRoadmap, /Stage 3[\s\S]+BLOCKED until Stage 2 is proven/i);
 assert.match(currentHandoff, /PR #191[\s\S]+1\.9\.0-r5[\s\S]+91\/100/i,"Rolling handoff must expose current PR191/r5/RJR91 transition authority.");
-assert.match(currentHandoff, /HANDOFF_NOW[\s\S]+handoff completeness\s+100/i,"Rolling handoff must expose the current complete predecessor transition boundary rather than an older checkpoint.");
+assert.match(currentHandoff, /HANDOFF_NOW[\s\S]+handoff completeness\s+100/i,"Rolling handoff must expose the current complete predecessor hard-transition boundary rather than an older checkpoint.");
 assert.match(currentHandoff, /Stage 5F[\s\S]+authenticated-negative acceptance is PASS/i,"Rolling handoff must preserve the accepted Stage 5F production capability boundary that moved RJR89 to RJR91.");
 
 assert.equal(firebaseRc.projects.default, "demo-career-mode-showdown-phase1f");

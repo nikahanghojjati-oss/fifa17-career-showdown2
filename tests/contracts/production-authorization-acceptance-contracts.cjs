@@ -8,7 +8,9 @@ const page=fs.readFileSync(path.join(root,'production-authorization-acceptance.h
 const source=fs.readFileSync(path.join(root,'js/productionAuthorizationAcceptance.js'),'utf8');
 const deployWorkflow=fs.readFileSync(path.join(root,'.github/workflows/deploy-github-pages.yml'),'utf8');
 const worker=fs.readFileSync(path.join(root,'service-worker.js'),'utf8');
-const runtimeRevision=(worker.match(/const RUNTIME_REVISION = "([^"]+)";/)||[])[1];
+const projectState=fs.readFileSync(path.join(root,'PROJECT_STATE.md'),'utf8');
+const candidateRuntimeRevision=(worker.match(/const RUNTIME_REVISION = "([^"]+)";/)||[])[1];
+const productionRuntimeRevision=(projectState.match(/Production remains independently verified `v[^`]+ \/ ([^`]+)`/)||[])[1];
 
 function storage(entries={}){
   const keys=Object.keys(entries);
@@ -19,7 +21,9 @@ const user={uid:'acct_legitimate_third'};
 const rivalryId=`pair_${'a'.repeat(64)}`;
 
 (async()=>{
-  assert.ok(runtimeRevision,'Current production runtime revision must be discoverable from the service worker.');
+  assert.ok(candidateRuntimeRevision,'Current source candidate runtime revision must be discoverable from the service worker.');
+  assert.ok(productionRuntimeRevision,'Current production runtime revision must be discoverable from PROJECT_STATE.');
+  assert.notEqual(candidateRuntimeRevision,productionRuntimeRevision,'A preproduction release candidate must not silently overwrite production evidence identity.');
   assert.equal(acceptance.rjrCreditOnImplementation,false);
   assert.equal(acceptance.accountBootstrapAllowed,false);
   assert.equal(acceptance.providerWriteCreationAllowed,false);
@@ -27,7 +31,7 @@ const rivalryId=`pair_${'a'.repeat(64)}`;
   assert.deepEqual(acceptance.canonicalLocalStorageKeys,[
     'careerModeShowdown.saveLibrary','careerModeShowdown.legacyShowdowns','careerModeShowdown.preferences'
   ]);
-  assert.ok(page.includes(`app-asset-revision" content="${runtimeRevision}"`),'Acceptance page must expose the current production runtime revision.');
+  assert.ok(page.includes(`app-asset-revision" content="${productionRuntimeRevision}"`),'Acceptance page must expose the independently verified production runtime revision, not a preproduction candidate revision.');
   assert.match(page,/<script src="js\/sparkPrivatePairing\.js"><\/script>/);
   assert.match(page,/<script src="js\/productionFirebaseRuntime\.js"><\/script>/);
   assert.match(page,/<script src="js\/productionAuthorizationAcceptance\.js"><\/script>/);
@@ -132,9 +136,9 @@ const rivalryId=`pair_${'a'.repeat(64)}`;
   },user);
   assert.equal(missing.active,false);
 
-  const record=acceptance.evidenceRecord(third,{runtimeRevision,origin:'https://example.test'});
+  const record=acceptance.evidenceRecord(third,{runtimeRevision:productionRuntimeRevision,origin:'https://example.test'});
   assert.equal(record.result,'PASS');
   assert.equal(record.rjrCreditOnImplementation,undefined);
-  assert.equal(record.runtimeRevision,runtimeRevision);
-  process.stdout.write('PASS production authorization negative acceptance contracts\n');
+  assert.equal(record.runtimeRevision,productionRuntimeRevision);
+  process.stdout.write(`PASS production authorization negative acceptance contracts: production ${productionRuntimeRevision} remains distinct from candidate ${candidateRuntimeRevision}\n`);
 })().catch(error=>{console.error(error.stack||error);process.exit(1);});
