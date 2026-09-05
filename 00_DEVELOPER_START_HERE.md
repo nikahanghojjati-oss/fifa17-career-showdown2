@@ -6,6 +6,8 @@ Mandatory GitHub CLI bootstrap: use the connected GitHub App connector first. If
 
 Current product boundary: Remote Joining Readiness `RJR-1` is evidence-accepted at `100/100`. Production remains `v1.9.1 / 1.9.1-r2`; previous known-good whole-shell recovery remains `1.9.1-r1`. The genuine Chromebook/Home WiFi plus iPhone/cellular physical Remote Joining acceptance and final stable-release acceptance are complete. PR #198 is evidence/continuity publication only and receives zero RJR credit.
 
+The shipped Installable Offline App, the completed `v1.3.0 Recovery & Device Resilience baseline`, and the completed Local Profiles / Save Library chain remain protected prerequisites. Do not reopen or weaken those completed local-first systems while beginning post-RJR work.
+
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
 Finish PR #198 on one unchanged final head with every applicable permanent PR workflow family green and exact-diff review; merge with expected-head protection; verify live main and the complete permanent post-merge publication set; then generate/publish the SNS when this active WEC genuinely reaches `Handoff proximity: 100%`. Do not implement the next substantial milestone in this environment.
