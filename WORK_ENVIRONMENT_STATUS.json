@@ -1,76 +1,66 @@
 {
   "schemaVersion": 1,
-  "environmentId": "we-2026-09-05-pr196-publication-physical-acceptance-e9072",
+  "environmentId": "we-2026-09-05-physical-acceptance-final-6b3c9",
   "lifecycle": "active",
-  "recordedAt": "2026-09-05T15:33:13Z",
+  "recordedAt": "2026-09-05T16:24:00Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
-    "startingMainSha": "2302e8daba6c9417954bc610f537aba41c4d3d87",
-    "workingBranch": "rjr/pr196-publication-physical-acceptance-2026-09-05",
-    "handoffBranch": "rjr/pr196-publication-physical-acceptance-2026-09-05",
-    "predecessorEnvironmentId": "we-2026-09-05-physical-acceptance-evidence",
-    "predecessorArchive": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-05-physical-acceptance-evidence.json"
+    "startingMainSha": "2ac16f74c3b46c8af3a648b21dbb71662a97c076",
+    "workingBranch": "rjr/physical-acceptance-final-2026-09-05",
+    "handoffBranch": "rjr/physical-acceptance-final-2026-09-05",
+    "predecessorEnvironmentId": "we-2026-09-05-pr196-publication-physical-acceptance-e9072",
+    "predecessorArchive": null
   },
   "signals": {
-    "contextComplexity": "moderate",
+    "contextComplexity": "low",
     "projectComplexity": "very-high",
     "compactionCount": 0,
-    "majorPhasesCompleted": 1,
-    "largeEvidenceEvents": 3,
-    "toolRoutingErrors": 3,
-    "correctedFailures": 1,
+    "majorPhasesCompleted": 0,
+    "largeEvidenceEvents": 1,
+    "toolRoutingErrors": 0,
+    "correctedFailures": 0,
     "repeatedMistakes": 0,
-    "staleFactCorrections": 0,
+    "staleFactCorrections": 1,
     "unresolvedFailures": 0,
     "newMilestoneNext": false,
     "usageRemainingPercent": null,
     "usageSource": "unavailable",
     "usageWarning": false,
-    "handoffCompleteness": 90,
+    "handoffCompleteness": 0,
     "unrecordedDecisions": 0,
     "atomicOperation": false
   },
   "assessment": {
     "decision": "CONTINUE",
-    "reason": "Active bounded publication correction; reassessment records the classified source-transport limit.",
+    "reason": "Fresh successor environment independently verified live main, merged PR196 publication proof, fixed RJR91 and the stale predecessor WEC. The only scoreable lane is genuine physical Remote Joining acceptance followed by evidence reconciliation and final stable release acceptance.",
     "decisionInheritedFromPredecessor": false,
     "usageExcludedBecauseUnavailable": true
   },
   "continuity": {
-    "currentTask": "Correct the final-head nested-scalar privacy bypass in PR196 physical-acceptance-evidence tooling, revalidate and publish, then run bounded physical acceptance.",
-    "lastSafeCheckpoint": "Corrected candidate passes the full 87-file contract suite and Stage 5H/5I physical preflight. Prior reviewed head ffb1d757 passed 15/15 but is superseded by the nested-scalar privacy correction. Live main remains 2302e8daba6c9417954bc610f537aba41c4d3d87; production 100-file byte proof is 1.9.1-r2; RJR is fixed at 91.",
-    "nextSafeAction": "Validate the strict primitive-or-null schema and its adversarial regressions; publish the corrected PR196 candidate; obtain review and all 15 workflow families on one unchanged new head before expected-head merge and post-merge proof.",
+    "currentTask": "Run the no-mutation physical-acceptance preflight confirmation, then conduct genuine two-physical-device/two-independent-network production Remote Joining acceptance and validate exactly two sanitized Stage 5I exports.",
+    "lastSafeCheckpoint": "Live main independently verified at 2ac16f74c3b46c8af3a648b21dbb71662a97c076. PR196 is merged at final exact head 5cf0b896e9092dbec8674cec3bcda636b93da640. Fifteen main-push workflow runs exist for the merge head and the fixed RJR-1 ledger remains 91/100. Production identity remains v1.9.1 / 1.9.1-r2 per the accepted publication evidence.",
+    "nextSafeAction": "Run npm run test:rjr-physical-preflight against unchanged main if shell execution is available. Then request the bounded Chromebook-on-Wi-Fi plus iPhone-on-cellular production acceptance, export exactly two sanitized evidence JSON files, and validate them without exposing raw capabilities or authority IDs.",
     "unfinishedWork": [
-      "Corrected exact-head review, workflow, merge and post-merge publication proof for PR #196.",
-      "Genuine Remote Joining-specific two-physical-device/two-independent-network reconnect/adverse-network production acceptance.",
-      "Evidence-based RJR-1 reconciliation and final stable Remote Joining release acceptance."
+      "No-mutation exact-main physical acceptance preflight confirmation.",
+      "Genuine two-physical-device/two-independent-network production Remote Joining acceptance with sanitized host and peer exports.",
+      "Fixed-ledger evidence reconciliation and final stable Remote Joining release acceptance."
     ],
     "knownHazards": [
       "Billing is permanently forbidden and Firebase must remain Spark; never link Cloud Billing, enable Blaze, add a payment method, use Cloud Run, Cloud Functions, purchased credits or any billing-required service.",
       "App Check enforcement remains OFF; Firestore browser persistence remains memory-only; Google Auth remains popup-only browserSessionPersistence with no extra scopes.",
       "Canonical localStorage remains exactly careerModeShowdown.saveLibrary, careerModeShowdown.legacyShowdowns and careerModeShowdown.preferences.",
-      "Candidate C remains the sole destructive remote-to-local gameplay Apply authority with transaction-owned strict exact raw-snapshot rollback.",
+      "Candidate C remains the sole destructive remote-to-local gameplay Apply authority.",
       "Exactly two private managers remain mandatory; no public discovery, listing, lobby, matchmaking, community, rankings or global leaderboards.",
-      "Never request, expose, quote, paste, log or durably retain the full private session capability or raw account, device or rivalry IDs; acceptance evidence may retain only a one-way SHA-256 capability fingerprint.",
+      "Never request, expose, quote, paste, log or durably retain the full private Remote Joining capability or raw account, device, rivalry or session IDs; acceptance evidence may retain only the one-way capability fingerprint.",
       "Never destructively test the protected historical rivalry.",
-      "Do not award RJR points for source, validator tooling, contracts, PR, CI, review, merge, deployment, WEC, SLE/SNS, Stage 5H browser simulation, Stage 5I recorder tooling or repeated evidence.",
-      "Do not assume physical acceptance automatically reaches RJR100; reconcile the fixed ledger only after valid evidence."
+      "Do not award RJR for tooling, CI, WEC, documentation, deployment repetition or validator success by itself; reconcile only genuinely new fixed-domain evidence."
     ],
     "evidenceNotes": [
-      "Predecessor status validates and is byte-identical to its closed archive; canonical history already contains its closure, so no duplicate append is needed.",
-      "Fresh unique WEC resets predecessor observations; this session has one dense live-state evidence batch and one unsupported GitHub tags-fetch route, classified and replaced by standard git metadata access.",
-      "Exact checkout tree matches live GitHub commit tree. No PR196 head mutation is needed for successor WEC; local continuity work stays on the successor branch.",
-      "Live RJR ledger remains 91; production bytes are being independently verified.",
-      "15/15 final-head PR runs and 15/15 pre-merge main runs are independently fetched; final-head bot review requested in comment 5552759559.",
-      "Checksum-verified gh 2.100.0 installed without authentication; connected GitHub capabilities cover publication, so no login request or credential reuse is needed.",
-      "Usage unavailable. Billing permanently off, Firebase Spark required; no provider mutation planned.",
-      "Final-head Codex review on ffb1d757, thread PRRT_kwDOTomsDM6fkYGU, found nested objects under known scalar fields could pass and be marked privacySafe. New regressions reproduce the gap; typed scalar validation now rejects object/array payloads and invalid primitive types without echoing their values or untrusted property paths.",
-      "Fresh WEC and capsule now travel with this real validator correction. Prior closed WEC bytes remain pinned in archival contracts; active successor ownership is checked separately, avoiding inheritance of the predecessor closed decision.",
-      "All 100 production runtime files independently matched 1.9.1-r2 byte for byte. The exact ffb1d757 contract suite passed all 87 files before correction; its CI proof is historical and will not authorize a changed head.",
-      "Second minor route correction was a guessed recorder filename; rg located the actual js/remoteJoiningAcceptance.js immediately. No product failure resulted.",
-      "Corrected-candidate npm run test:rjr-physical-preflight passed all 87 contract files and both Stage 5H/5I browser audits. Added diagnostic property-name non-echo regression also passes. All later exact-head CI and review gates remain pending.",
-      "A combined source transport exceeded the shell output budget before any remote mutation. Switched to bounded per-file reads; the reviewed source and publication boundary remain unchanged."
+      "Fresh WEC starts from exact independently verified main and resets predecessor counters and handoff completeness to 0.",
+      "The checked-in predecessor WEC on main is stale and is not inherited as current authority.",
+      "Main itself remains unmodified; this continuity record lives only on the fresh successor branch pending capability evidence.",
+      "RJR-1 starts this environment at 91/100 and receives zero credit for environment initialization."
     ]
   }
 }
