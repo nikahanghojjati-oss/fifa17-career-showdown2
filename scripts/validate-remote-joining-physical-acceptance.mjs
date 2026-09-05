@@ -65,9 +65,11 @@ function validateMachineStrings(record,source,issues,expectedRuntimeRevision){
   return valid;
 }
 function validateNullableRemoteFlags(record,source,issues){
-  if(record.capabilityCopyAllowed!==null&&record.busy!==null)return true;
-  const valid=record.status===null&&record.role===null&&record.sessionState===null&&record.revision===null&&record.pendingAction===null&&record.capabilityPresent===false&&record.capabilityFingerprint===null;
-  return add(issues,valid,"NULL_REMOTE_FLAG_CONTEXT_INVALID",source,"Nullable pre-runtime flags are allowed only before a Remote Joining state exists.");
+  const bothBoolean=typeof record.capabilityCopyAllowed==="boolean"&&typeof record.busy==="boolean";
+  if(bothBoolean)return true;
+  const bothNull=record.capabilityCopyAllowed===null&&record.busy===null;
+  const preRuntime=record.status===null&&record.role===null&&record.sessionState===null&&record.revision===null&&record.pendingAction===null&&record.capabilityPresent===false&&record.capabilityFingerprint===null;
+  return add(issues,bothNull&&preRuntime,"NULL_REMOTE_FLAG_CONTEXT_INVALID",source,"Nullable pre-runtime flags must both be null and are allowed only before a Remote Joining state exists.");
 }
 
 function inspectPrivacy(value,source,issues,location="$"){
@@ -78,6 +80,7 @@ function inspectPrivacy(value,source,issues,location="$"){
   if(plainObject(value)){
     for(const [key,entry] of Object.entries(value)){
       if(FORBIDDEN_AUTHORITY_KEYS.has(normalizedKey(key)))issues.push(issue("RAW_AUTHORITY_FIELD",source,`Forbidden raw authority field at ${location}.`));
+      // Field names are untrusted too; never echo an attacker-controlled key path.
       inspectPrivacy(entry,source,issues,`${location}.field`);
     }
     return;
