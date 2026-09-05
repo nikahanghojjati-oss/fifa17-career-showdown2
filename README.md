@@ -1,3 +1,15 @@
+# CURRENT PRODUCTION OVERRIDE — v1.9.1-r2 / RJR91
+
+PR #194 exact reviewed head `42f91df5ec1d5a576f0907836fa03f5994d7646b` merged to live `main` as `11bb681527a9b78884baf0c384350c90493dc9bd`. The independently verified production application is `v1.9.1 / 1.9.1-r2`; `1.9.1-r1` is the previous production-proven whole-shell recovery target. Canonical production proof is `V1.9.1_R2_PRODUCTION_PROOF.md`.
+
+Stage 5G/5H same-capability reconnect and adverse-network automation is consumed proof and receives zero duplicate RJR credit. Stage 5I's query-gated privacy-safe physical acceptance recorder is production-proven but also receives zero RJR credit by itself. Fixed `RJR-1` remains **91/100**. The next genuinely scoreable lane is one bounded Remote Joining acceptance on two physical devices over two independent networks, followed by final stable Remote Joining release acceptance and evidence-based reconciliation.
+
+Billing must never be activated; Firebase remains Spark. App Check enforcement remains OFF. Firestore browser persistence remains memory-only. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes. Candidate C remains the sole destructive remote-to-local gameplay Apply authority with strict exact raw snapshot and transaction-owned rollback. Exactly two private managers remain mandatory; public discovery/listing/lobby/matchmaking/community/rankings/global leaderboards remain prohibited.
+
+The retained release notes and older “current” labels below are historical where they conflict with this override.
+
+---
+
 # CURRENT PRODUCTION — v1.9.0-r5 / RJR91
 
 PR #191 is the independently verified live main boundary at `7ca132a607cbf4fd78710b14526b4bec849ac2d2`. The production application remains `v1.9.0 / 1.9.0-r5`; runtime provenance is anchored to PR #187 merge `277f1b55dc362ee84d285445b99172b9fbed8509`. The whole `1.9.0-r5` shell is production-proven and remains the previous known-good recovery target while PR #192 is a release candidate. Fixed Remote Joining readiness is `91/100` under RJR-1.

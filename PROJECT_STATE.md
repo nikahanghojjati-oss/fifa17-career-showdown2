@@ -1,16 +1,16 @@
-# CURRENT OVERRIDE — PR #194 / STAGE 5H PRODUCTION-PROVEN / RJR91 / STAGE 5I RELEASE CANDIDATE v1.9.1-r2
+# CURRENT OVERRIDE — PR #194 MERGED / v1.9.1-r2 PRODUCTION-PROVEN / RJR91 / PHYSICAL ACCEPTANCE NEXT
 
-Status: RELEASE CANDIDATE / NOT PRODUCTION-PROVEN
+Status: DEPLOYED / PRODUCTION-PROVEN / HANDOFF BOUNDARY
 
-Authorized product candidate: `v1.9.1 / 1.9.1-r2` on PR #194. Candidate status: NOT PRODUCTION-PROVEN. Production remains independently verified `v1.9.1 / 1.9.1-r1` on live main `65399fc2f214d3bbdf3ef47fb47428c8b34d2017`; `1.9.1-r1` is the previous known-good whole shell and rollback target until the r2 candidate is merged and independently proven live.
+Production: `v1.9.1 / 1.9.1-r2`, independently verified on PR #194 merge/main `11bb681527a9b78884baf0c384350c90493dc9bd`. PR #194 exact reviewed head: `42f91df5ec1d5a576f0907836fa03f5994d7646b`. All 15 exact-head workflow families passed, no review threads remained, and merge used expected-head protection. All 15 main-push workflow families completed successfully. Release Integration Burn-In `33947112248` passed two independent complete journeys. Stability `33947112190` completed contracts, Chromium and the entire deployed-site smoke; deployed-site job `101255587827` verified every runtime byte, runtime provenance, App Check path, Home/Save Library/identity/analytics/football visuals, Candidate A/B/C, offline/install boundaries and the complete deployed journey.
 
-The accepted Stage 5F production boundary remains sealed and credited exactly once: production denies revoked-device protected mutation and denies authenticated unrelated-account exact private reads. Those two accepted negatives already account for the fixed RJR91 boundary and must not be repeated or re-credited.
+Previous production-proven rollback whole shell: `v1.9.1 / 1.9.1-r1`.
 
-PR #192 Stage 5G began the Remote Joining-specific two-device/two-network reconnect and adverse-network hardening lane by establishing same-capability recovery after ambiguous Host/Join/Close acknowledgement loss. PR #193 Stage 5H then proved the automatable browser portion of that lane with real-browser offline/online transitions across two isolated Chromium contexts: no provider mutation while offline, exactly one session and one Host/Join/Close mutation after recovery, active revision 1, terminal revision 2, extra online events without duplicate mutation, unchanged canonical local Save storage, and no paid-service dependency. Exact-head and deployed-site browser suites passed.
+Stage 5F production acceptance remains sealed and credited exactly once: provider denial of revoked-device protected mutation and authenticated unrelated-account exact private reads moved fixed RJR89 → RJR91. PR #187 one-paste/zero-manual Connected Rivalry convergence remains immutable consumed RJR89 provenance.
 
-Historical production provenance retained for the PR191 / Stage 5F / RJR91 boundary and early Stage 5G authority: `v1.9.0 / 1.9.0-r5` was the production runtime before PR #192 and PR #193 promoted `v1.9.1 / 1.9.1-r1`. `v1.9.0 / 1.9.0-r5` is historical provenance only and is NOT the current production runtime.
+PR #192 Stage 5G added exact same-capability Host/Join/Close recovery after ambiguous acknowledgement loss. PR #193 Stage 5H added real Playwright offline/online Host, Join and Close recovery across isolated browser contexts with one session, bounded online recovery, active revision 1, terminal revision 2, no duplicate mutation and unchanged canonical storage. PR #194 Stage 5I adds an explicit `?rjr-acceptance=1` privacy-safe physical acceptance recorder: normal production leaves it unloaded/invisible; acceptance evidence is page-memory-only/export-only, performs no recorder network/localStorage writes, never exports raw account/device/rivalry IDs or a raw session capability, and correlates one session only by SHA-256 fingerprint.
 
-Stage 5H is intentionally zero-credit under fixed RJR-1 because two browser contexts are not two physical devices on two independent networks. Fixed RJR-1 remains `91/100` with domain vector:
+Stage 5H/5I automation receives zero RJR credit because it does not substitute for two physical devices on two independent networks. Fixed `RJR-1` remains **91/100**:
 
 - deterministic sync and recovery safety: 20/20
 - identity, authentication, authorization and trust: 20/20
@@ -18,24 +18,22 @@ Stage 5H is intentionally zero-credit under fixed RJR-1 because two browser cont
 - devices, pairing, Connected Rivalry and actual Remote Joining: 22/30
 - real-device hardening and stable release: 9/10
 
-No source, test, review, CI, merge, deployment, release-version, documentation, WEC or repeated-proof credit is included. A score increase requires genuinely new accepted Remote Joining-specific capability evidence.
+No source, test, review, CI, merge, deployment, release-version, documentation, WEC, SLE/SNS or repeated-proof credit is included.
 
-Current Work Environment Continuity (WEC) execution authority remains `we-2026-09-04-stage5g-reconnect-recovery`; the same active environment has advanced through Stage 5H into Stage 5I. Its current working branch is `stage5i/physical-acceptance-recorder-2026-09-05`. The predecessor `we-2026-09-04-pr191-publication-stage5g` remains immutable archived transition provenance.
+Current closing Work Environment Continuity (WEC) record: `we-2026-09-04-stage5g-reconnect-recovery`. This environment reached the clean production boundary through Stage 5I and now closes for a fresh physical-acceptance milestone. The successor must validate the closed archive, initialize a fresh unique WEC with reset counters and current independently observed main, and must not inherit the predecessor transition decision.
 
 ## Current lane
 
-Finish PR #194 / Stage 5I `v1.9.1 / 1.9.1-r2` exact-head automation, review, expected-head merge, post-merge validation and deployed-byte/runtime proof. Stage 5I adds an explicit `?rjr-acceptance=1` physical-acceptance recorder designed to automate the final evidence capture while keeping normal production unchanged.
+All automatable Stage 5I publication and production proof is complete. The first successor engineering/evidence task is one bounded genuine Remote Joining physical acceptance on two physical devices and two independent networks, preferably Chromebook host on Wi-Fi plus iPhone peer on cellular, using the production `?rjr-acceptance=1` recorder. Required evidence: same one-way session fingerprint, Host/Join active revision 1, real offline/online interruption and same-session recovery, terminal Close revision 2, no resurrection, no raw authority/capability leakage and unchanged canonical local save storage.
 
-The recorder is page-memory-only, performs no recorder network or localStorage writes, never exports raw account ID, registered device ID, rivalry ID or full private session capability, and correlates the same 256-bit session only by SHA-256 fingerprint. It records sanitized Remote Joining state/revision/pending action, real browser online/offline events, timestamps, coarse device facts and owner-entered device/network labels. The startup budget remains protected at 163072 raw / 37499 compressed initial bytes without raising any threshold.
-
-Only after r2 is independently production-proven should owner interaction be requested for genuinely physical two-device/two-independent-network behavior that automation cannot substitute. The intended minimal acceptance is Chromebook on Wi-Fi plus iPhone on cellular, producing two sanitized JSON evidence files. After that boundary is genuinely evidence-complete, final stable Remote Joining release acceptance and evidence-based RJR-1 reconciliation remain the explicit last lane toward genuine RJR100.
+After accepted physical evidence, recalculate only genuinely new RJR-1 capability evidence and perform final stable Remote Joining release acceptance. Do not assume a score of 100 until the ledger proves it.
 
 ## Protected baselines and permanent locks
 
-The Installable Offline App remains the local-first startup/recovery baseline. The v1.3.0 Recovery & Device Resilience baseline and Local Profiles / Save Library remain protected. Canonical local storage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, `careerModeShowdown.preferences`.
+The Installable Offline App, v1.3.0 Recovery & Device Resilience baseline and Local Profiles / Save Library remain protected. Canonical local storage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, `careerModeShowdown.preferences`.
 
-Billing is permanently forbidden and Billing must never be activated. Firebase remains Spark. App Check enforcement remains OFF. Firestore browser persistence remains memory-only. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes. Cloud Run and Cloud Functions remain forbidden because they require billing under this architecture. Trusted-runtime IAM remains unactivated/unbroadened.
+Billing is permanently forbidden and Billing must never be activated. Firebase remains Spark. App Check enforcement remains OFF. Firestore browser persistence remains memory-only. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes. Cloud Billing, Blaze, payment methods, Cloud Run, Cloud Functions, purchased credits and billing-required services remain forbidden. Trusted-runtime IAM remains unactivated/unbroadened.
 
 Candidate A is non-mutating; Candidate B is read-only; Candidate C remains the sole destructive remote-to-local gameplay Apply authority with strict exact raw snapshot and transaction-owned rollback. Exactly two private managers remain mandatory. No public discovery/listing/lobby/matchmaking/community/rankings/global leaderboards. Never durably retain full private pairing/session capabilities. The protected historical rivalry must not be used for destructive testing.
 
-Historical project-state overrides remain available through versioned prior handoffs and repository history; this current override intentionally replaces stale inline state.
+Historical project-state overrides remain available through prior versioned handoffs and repository history; this current override replaces stale Stage 5I candidate state.
