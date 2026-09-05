@@ -1,0 +1,42 @@
+name: One-time RJR provenance byte restore
+
+on:
+  push:
+    branches:
+      - "rjr/final-rjr100-acceptance-2026-09-05"
+    paths:
+      - ".github/workflows/one-time-rjr-provenance-byte-restore.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  restore:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: rjr/final-rjr100-acceptance-2026-09-05
+      - name: Restore historical escaped middle dot representation
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('REMOTE_JOINING_READINESS.json')
+          text=p.read_text()
+          old='Today · 7:48 AM'
+          new='Today ' + chr(92) + 'u00b7 7:48 AM'
+          if old not in text:
+              raise SystemExit('Expected rewritten historical representation not found')
+          p.write_text(text.replace(old,new,1))
+          PY
+      - name: Verify JSON and ledger contracts
+        run: |
+          node tests/contracts/remote-joining-readiness-contracts.cjs
+          node tests/contracts/rjr-reporting-authority-contracts.cjs
+      - name: Commit restored historical representation
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add REMOTE_JOINING_READINESS.json
+          git commit -m "Restore historical RJR provenance byte representation [skip ci]"
+          git push origin HEAD:rjr/final-rjr100-acceptance-2026-09-05
