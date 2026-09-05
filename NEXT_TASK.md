@@ -1,4 +1,4 @@
-# CURRENT TASK — PR199 POST-MERGE GREEN → SSJR PROVIDER ENFORCEMENT
+# CURRENT TASK — SSJR-1 AUTHORITATIVE SETUP FOUNDATION
 
 Current environment: `we-2026-09-05-ssjr-setup-foundation-28cf84`
 Starting independently verified live main: `39ffe88d61dcda973df03a18e0266fcfe4cf5638`
