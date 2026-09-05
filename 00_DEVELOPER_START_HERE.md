@@ -1,6 +1,6 @@
 # CURRENT PRODUCTION — v1.9.1-r2 / PR #194 MERGED / STAGE 5I PRODUCTION-PROVEN / RJR91 / PHYSICAL ACCEPTANCE NEXT
 
-Treat repository handoffs as orientation only. Independently verify current live `main`, active/just-merged PRs, deployment/runtime identity, `REMOTE_JOINING_READINESS.json`, `NEXT_TASK.md`, `PROJECT_STATE.md` and the current Work Environment Continuity record before acting. Current source/live provider evidence and later owner instructions win over stale recorded facts.
+Treat repository handoffs as orientation only. Independently verify current live `main`, active/just-merged PRs, deployment/runtime identity, `REMOTE_JOINING_READINESS.json`, `NEXT_TASK.md`, `PROJECT_STATE.md` and the current Work Environment Continuity (current WEC) record before acting. Current source/live provider evidence and later owner instructions win over stale recorded facts.
 
 `00_HANDOFF_GOLDEN_RULE.md` remains the handoff integrity rule. `00_OWNER_EAGLE_EYE_GOLDEN_RULE.md` is a co-equal permanent owner-visibility rule. Enter and preserve the repository Work Environment Continuity system for every environment transition; never inherit a predecessor transition decision. `NEXT_TASK.md` remains live execution authority after independent verification.
 
