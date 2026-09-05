@@ -78,6 +78,7 @@ async function preparePage(browser,identity){
     const hostPending=await host.page.evaluate(()=>{const api=window.CareerModeSparkRemoteJoining;api.openPanel();const state=api.getState();return {pendingAction:state.pendingAction,sessionState:state.sessionState,copy:state.capabilityCopyAllowed,fullVisible:document.getElementById("sparkRemoteJoiningOverlay").innerText.includes(state.sessionId),generated:window.__stage5gGenerateCount};});
     assert.deepEqual(hostPending,{pendingAction:"host",sessionState:"unresolved",copy:false,fullVisible:false,generated:1});
     assert.equal(sessions.size,1);
+    console.log("PASS Stage 5G Host lost-acknowledgement state is unresolved and capability-hidden");
 
     const hostRetry=await host.page.evaluate(()=>window.CareerModeSparkRemoteJoining.retryPendingOperation());
     assert.equal(hostRetry.ok,true);
@@ -86,6 +87,7 @@ async function preparePage(browser,identity){
     assert.equal(sessions.size,1);
     const hostReady=await host.page.evaluate(()=>{const state=window.CareerModeSparkRemoteJoining.getState();return {state:state.sessionState,revision:state.revision,copy:state.capabilityCopyAllowed,generated:window.__stage5gGenerateCount};});
     assert.deepEqual(hostReady,{state:"open",revision:0,copy:true,generated:1});
+    console.log("PASS Stage 5G Host exact-capability retry recovered without duplicate session");
 
     const peerFirst=await peer.page.evaluate(code=>window.CareerModeSparkRemoteJoining.joinSession(code),capability);
     assert.equal(peerFirst.ok,false);
@@ -93,6 +95,7 @@ async function preparePage(browser,identity){
     const peerPending=await peer.page.evaluate(()=>{const api=window.CareerModeSparkRemoteJoining;api.openPanel();const state=api.getState();return {pendingAction:state.pendingAction,sessionState:state.sessionState,copy:state.capabilityCopyAllowed,fullVisible:document.getElementById("sparkRemoteJoiningOverlay").innerText.includes(state.sessionId)};});
     assert.deepEqual(peerPending,{pendingAction:"join",sessionState:"unresolved",copy:false,fullVisible:false});
     assert.equal(sessions.get(capability).state,"active");
+    console.log("PASS Stage 5G Join lost-acknowledgement state is unresolved and capability-hidden");
 
     const peerRetry=await peer.page.evaluate(()=>window.CareerModeSparkRemoteJoining.retryPendingOperation());
     assert.equal(peerRetry.ok,true);
@@ -101,6 +104,7 @@ async function preparePage(browser,identity){
     await host.page.evaluate(()=>window.CareerModeSparkRemoteJoining.refreshSession());
     assert.deepEqual(await host.page.evaluate(()=>{const state=window.CareerModeSparkRemoteJoining.getState();return [state.sessionState,state.revision];}),["active",1]);
     assert.deepEqual(await peer.page.evaluate(()=>{const state=window.CareerModeSparkRemoteJoining.getState();return [state.sessionState,state.revision];}),["active",1]);
+    console.log("PASS Stage 5G both contexts converged to the one active session at revision 1");
 
     const closeFirst=await peer.page.evaluate(()=>window.CareerModeSparkRemoteJoining.closeSession());
     assert.equal(closeFirst.ok,false);
@@ -114,6 +118,7 @@ async function preparePage(browser,identity){
     assert.deepEqual(await peer.page.evaluate(()=>{const state=window.CareerModeSparkRemoteJoining.getState();return [state.sessionState,state.revision];}),["closed",2]);
     await host.page.evaluate(()=>window.CareerModeSparkRemoteJoining.refreshSession());
     assert.deepEqual(await host.page.evaluate(()=>{const state=window.CareerModeSparkRemoteJoining.getState();return [state.sessionState,state.revision];}),["closed",2]);
+    console.log("PASS Stage 5G bounded online retry converged both contexts to terminal revision 2");
 
     for(const entry of [host,peer]){
       const after=await entry.page.evaluate(()=>["careerModeShowdown.saveLibrary","careerModeShowdown.legacyShowdowns","careerModeShowdown.preferences"].map(key=>[key,localStorage.getItem(key)]));
@@ -125,8 +130,7 @@ async function preparePage(browser,identity){
     assert.equal(counts.close,2);
     console.log(`PASS Stage 5G two-context same-capability reconnect audit at ${baseUrl.href}`);
   }finally{
-    await host.context.close();
-    await peer.context.close();
-    await browser.close();
+    await Promise.allSettled([host.context.close(),peer.context.close()]);
+    if(browser.isConnected())await browser.close().catch(()=>{});
   }
 })().catch(error=>{console.error("STAGE 5G REMOTE JOINING RECONNECT AUDIT FAILED");console.error(error.stack||error);process.exit(1);});
