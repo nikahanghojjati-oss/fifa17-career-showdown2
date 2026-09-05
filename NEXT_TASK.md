@@ -14,6 +14,9 @@ Fixed `RJR-1` remains **91/100**. Domain vector remains 20/20 deterministic sync
 
 Current closing Work Environment Continuity environment: `we-2026-09-04-stage5g-reconnect-recovery`. This handoff package closes it. A successor must validate its archive, initialize a fresh unique WEC with reset counters and independently observed live main, and must not inherit the predecessor transition decision.
 
+Current environment: `we-2026-09-04-stage5g-reconnect-recovery`
+Starting independently verified live main: `7ca132a607cbf4fd78710b14526b4bec849ac2d2`
+
 The Installable Offline App, v1.3.0 Recovery & Device Resilience baseline, Local Profiles / Save Library and all canonical local-first/Candidate C guarantees remain protected.
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
