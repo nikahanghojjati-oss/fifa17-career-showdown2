@@ -1,12 +1,15 @@
 # CURRENT TASK — PR199 POST-MERGE GREEN → SSJR PROVIDER ENFORCEMENT
 
+Current environment: `we-2026-09-05-ssjr-setup-foundation-28cf84`
+Starting independently verified live main: `39ffe88d61dcda973df03a18e0266fcfe4cf5638`
+
 Shared Showdown Journey Readiness uses fixed model SSJR-1.1 and remains evidence-backed 0/100. RJR-1 remains COMPLETE/FROZEN at 100/100. Source, tests, PR, CI, review, merge, WEC, SLE/SNS and documentation earn zero SSJR credit unless a fixed capability evidence contract is actually satisfied.
 
 Production remains DEPLOYED / PRODUCTION-PROVEN `v1.9.1 / 1.9.1-r2`. The current production runtime lineage is PR #194, merge `11bb681527a9b78884baf0c384350c90493dc9bd`; previous whole-shell recovery remains `1.9.1-r1`. Historical PR #198 merged at `39ffe88d61dcda973df03a18e0266fcfe4cf5638` and completed RJR-1 100/100. PR #199 is now merged/post-merge green at main `780abd7b779cda5acd722b75fd59ef1e82c71f97` after exact reviewed head `378931e7bec2a4e95fb31912d4879e294b63d79f` passed 15/15 PR workflow families and 15/15 post-merge workflow families.
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
-Work Environment Continuity is mandatory. Use connected GitHub first. Independently verify current `main`, current authority files, production `v1.9.1 / 1.9.1-r2`, RJR-1 100/100, SSJR-1.1 0/100, PR #199 final publication evidence, and closing WEC `we-2026-09-05-pr199-postmerge-recovery-a47`. Treat handoffs as orientation only. Validate/archive the inherited WEC, initialize a fresh unique WEC with current main and reset counters, run the repository assessment, and obey the new environment's own decision.
+Work Environment Continuity is mandatory. Use connected GitHub first. Independently verify current `main`, current authority files, production `v1.9.1 / 1.9.1-r2`, RJR-1 100/100, SSJR-1.1 0/100, PR #199 final publication evidence, and closing WEC `we-2026-09-05-pr199-postmerge-recovery-a47`. Treat handoffs as orientation only. The two provenance lines above intentionally retain the most recently published implementation-authority environment and its starting main; they do not transfer its transition decision to the successor. Validate/archive the inherited WEC, initialize a fresh unique WEC with current main and reset counters, run the repository assessment, and obey the new environment's own decision.
 
 Then implement the smallest Spark-compatible exact-path Shared Remote Setup provider transaction adapter and candidate Firestore Rules with direct modified-client emulator negatives. The provider transaction must derive authenticated account, registered device, exact rivalry binding, manager slot and ACTIVE session from protected provider records in the same transaction. Never trust caller-supplied JavaScript authority, role/binding fields, a client-computed hash, or arbitrary client-prepared league/club outcomes.
 
