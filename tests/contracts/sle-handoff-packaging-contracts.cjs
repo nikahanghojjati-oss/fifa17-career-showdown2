@@ -80,7 +80,7 @@ for(const [name,text] of [["starter",starter],["handoff",handoff]]){
   assert.match(text,/two physical devices|two-physical-device/i);
   assert.match(text,/independent network|two-independent-network/i);
   assert.match(text,/Billing must never be activated|billing[\s\S]+permanently forbidden/i);
-  assert.match(text,/Firebase[\s\S]+Spark/i);assert.match(text,/App Check enforcement remains OFF/i);assert.match(text,/memory-only/i);assert.match(text,/browserSessionPersistence/i);
+  assert.match(text,/Firebase[\s\S]+Spark/i);assert.match(text,/App Check enforcement remains(?: \*\*)?OFF(?:\*\*)?/i);assert.match(text,/memory-only/i);assert.match(text,/browserSessionPersistence/i);
   assert.match(text,/Candidate C[\s\S]+sole destructive/i);assert.match(text,/exactly two private managers/i);assert.match(text,/public discovery|No public discovery/i);
   assert.doesNotMatch(text,/pair_[0-9a-f]{32,}/i);
 }
