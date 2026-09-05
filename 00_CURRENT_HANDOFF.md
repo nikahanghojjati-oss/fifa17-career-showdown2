@@ -2,7 +2,7 @@
 
 Shared Showdown Journey Readiness uses fixed model SSJR-1.1. Current evidence-backed score remains 0/100. RJR-1 remains COMPLETE/FROZEN at 100/100. Publication mechanics, documentation, WEC, SLE/SNS and dormant candidate code earn zero SSJR credit.
 
-Production remains the previously proven `v1.9.1 / 1.9.1-r2`; previous known-good whole-shell recovery remains `1.9.1-r1`. PR #199 did not activate production Shared Setup, change Firestore Rules or require billing.
+Production remains the previously proven `v1.9.1 / 1.9.1-r2`; previous known-good whole-shell recovery remains `1.9.1-r1`. Historical PR #198 merged at `39ffe88d61dcda973df03a18e0266fcfe4cf5638` and completed the accepted RJR-1 100/100 publication boundary. PR #199 did not activate production Shared Setup, change Firestore Rules or require billing.
 
 PR #199 final exact reviewed head `378931e7bec2a4e95fb31912d4879e294b63d79f` passed all 15 permanent PR workflow families after the valid draw-selection P1 correction. The correction makes league/club outcomes deterministic from paired-rivalry binding + catalog and rejects alternate schema-valid modified-client outcomes with `SETUP_DRAW_MISMATCH`. The review thread was resolved, expected-head squash merge completed, and live `main` became `780abd7b779cda5acd722b75fd59ef1e82c71f97`. All 15 post-merge main workflow families completed successfully, including Release Integration Burn-In run `33996909745`.
 
