@@ -1,53 +1,22 @@
-# CURRENT OVERRIDE — PR #196 OPEN / CORRECTED VALIDATOR SEALED / RJR91 / PUBLICATION THEN PHYSICAL ACCEPTANCE
+# PROJECT STATE — RJR-1 COMPLETE 100/100 / PR #198 PUBLICATION
 
-Status: TOOLING CORRECTIONS SEALED / FINAL EXACT-HEAD PUBLICATION PROOF PENDING
+Status: REMOTE JOINING READINESS COMPLETE / PRODUCTION-PROVEN / EVIDENCE PUBLICATION IN PROGRESS
 
-Live main at packaging is PR #195 squash `2302e8daba6c9417954bc610f537aba41c4d3d87`. PR #196 initial exact head `95e40e83e0228ef4ed438f09fcf6db5ddbbc7636` passed all 15 workflow families. The closed-schema privacy and direct-server teardown review findings are corrected in the sealed tree. Fetch the final PR head live and repeat exact-head CI/review/expected-head merge/post-merge gates.
+Production application is `v1.9.1`; production runtime revision is `1.9.1-r2`; previous known-good whole-shell recovery is `1.9.1-r1`. The current PR #198 does not change runtime bytes or provider state.
 
-Production remains DEPLOYED / PRODUCTION-PROVEN `v1.9.1 / 1.9.1-r2` from PR #194 merge `11bb681527a9b78884baf0c384350c90493dc9bd`; prior whole-shell recovery remains `1.9.1-r1`. Fixed `RJR-1` remains `91/100`; PR196 tooling/publication adds zero credit.
+Fixed `RJR-1` is now `100/100`:
+- deterministic sync/recovery safety: 20/20
+- identity/authentication/authorization/trust: 20/20
+- production cloud/security activation: 20/20
+- devices/pairing/Connected Rivalry/Remote Joining: 30/30
+- real-device hardening/stable release: 10/10
 
-Closed Work Environment Continuity record `we-2026-09-05-physical-acceptance-evidence` has `HANDOFF_AT_CHECKPOINT`. A fresh successor WEC finishes PR196 publication, then owns the genuine two-physical-device/two-independent-network acceptance and final stable Remote Joining release reconciliation.
+The closing evidence includes a genuine two-physical-device/two-independent-network production run (Chromebook on Home WiFi plus iPhone on cellular), same-session Host/Join, ACTIVE revision 1, real offline→online recovery, terminal CLOSED revision 2, no resurrection and final stable-release acceptance. PR/CI/review/merge/deployment/docs/WEC/SLE/SNS receive zero RJR credit.
 
-Billing must never be activated; Firebase remains Spark. Preserve App Check enforcement OFF, memory-only Firestore, popup-only `browserSessionPersistence`, exactly three canonical localStorage keys, Candidate C as sole destructive remote-to-local Apply authority with transaction-owned strict exact raw-snapshot rollback, exactly two private managers, no public discovery, and no durable raw capability or authority IDs. The Installable Offline App, v1.3.0 Recovery & Device Resilience baseline, Local Profiles and Save Library remain protected.
+Current lane: finish exact-head PR #198 publication, merge with expected-head protection, verify live main and the complete post-merge publication set, then generate the SNS at clean Handoff proximity 100%. Do not begin the next substantial milestone before the handoff.
 
-## Retained production runtime detail
+Post-RJR100 dominant product direction requested by the owner: codify and build a fixed 0–100 `Shared Showdown Journey Readiness (SSJR-1)` roadmap covering the supported remote journey from both manager profiles through private pairing, exact Connected Rivalry, ACTIVE Remote Joining, authoritative League Wheel/club/season setup, multi-season synchronized results/scoring/history/progression, final reconciliation and terminal close. This is the next major product program after RJR-1.
 
-# CURRENT OVERRIDE — PR #194 MERGED / v1.9.1-r2 PRODUCTION-PROVEN / RJR91 / PHYSICAL ACCEPTANCE NEXT
+The Installable Offline App, v1.3.0 Recovery & Device Resilience baseline, Local Profiles and Save Library remain protected. Career Mode Showdown remains a shared competition layer around locally played FIFA 17 Career Modes; it does not network or stream FIFA 17's match engine.
 
-Status: DEPLOYED / PRODUCTION-PROVEN / HANDOFF BOUNDARY
-
-Production: `v1.9.1 / 1.9.1-r2`, independently verified on PR #194 merge/main `11bb681527a9b78884baf0c384350c90493dc9bd`. PR #194 exact reviewed head: `42f91df5ec1d5a576f0907836fa03f5994d7646b`. All 15 exact-head workflow families passed, no review threads remained, and merge used expected-head protection. All 15 main-push workflow families completed successfully. Release Integration Burn-In `33947112248` passed two independent complete journeys. Stability `33947112190` completed contracts, Chromium and the entire deployed-site smoke; deployed-site job `101255587827` verified every runtime byte, runtime provenance, App Check path, Home/Save Library/identity/analytics/football visuals, Candidate A/B/C, offline/install boundaries and the complete deployed journey.
-
-Previous production-proven rollback whole shell: `v1.9.1 / 1.9.1-r1`.
-
-Stage 5F production acceptance remains sealed and credited exactly once: provider denial of revoked-device protected mutation and authenticated unrelated-account exact private reads moved fixed RJR89 → RJR91. PR #187 one-paste/zero-manual Connected Rivalry convergence remains immutable consumed RJR89 provenance.
-
-PR #192 Stage 5G added exact same-capability Host/Join/Close recovery after ambiguous acknowledgement loss. PR #193 Stage 5H added real Playwright offline/online Host, Join and Close recovery across isolated browser contexts with one session, bounded online recovery, active revision 1, terminal revision 2, no duplicate mutation and unchanged canonical storage. PR #194 Stage 5I adds an explicit `?rjr-acceptance=1` privacy-safe physical acceptance recorder: normal production leaves it unloaded/invisible; acceptance evidence is page-memory-only/export-only, performs no recorder network/localStorage writes, never exports raw account/device/rivalry IDs or a raw session capability, and correlates one session only by SHA-256 fingerprint.
-
-Stage 5H/5I automation receives zero RJR credit because it does not substitute for two physical devices on two independent networks. Fixed `RJR-1` remains **91/100**:
-
-- deterministic sync and recovery safety: 20/20
-- identity, authentication, authorization and trust: 20/20
-- production cloud and security activation: 20/20
-- devices, pairing, Connected Rivalry and actual Remote Joining: 22/30
-- real-device hardening and stable release: 9/10
-
-No source, test, review, CI, merge, deployment, release-version, documentation, WEC, SLE/SNS or repeated-proof credit is included.
-
-Current closing Work Environment Continuity (WEC) record: `we-2026-09-04-stage5g-reconnect-recovery`. This environment reached the clean production boundary through Stage 5I and now closes for a fresh physical-acceptance milestone. The successor must validate the closed archive, initialize a fresh unique WEC with reset counters and current independently observed main, and must not inherit the predecessor transition decision.
-
-## Current lane
-
-All automatable Stage 5I publication and production proof is complete. The first successor engineering/evidence task is one bounded genuine Remote Joining physical acceptance on two physical devices and two independent networks, preferably Chromebook host on Wi-Fi plus iPhone peer on cellular, using the production `?rjr-acceptance=1` recorder. Required evidence: same one-way session fingerprint, Host/Join active revision 1, real offline/online interruption and same-session recovery, terminal Close revision 2, no resurrection, no raw authority/capability leakage and unchanged canonical local save storage.
-
-After accepted physical evidence, recalculate only genuinely new RJR-1 capability evidence and perform final stable Remote Joining release acceptance. Do not assume a score of 100 until the ledger proves it.
-
-## Protected baselines and permanent locks
-
-The Installable Offline App, v1.3.0 Recovery & Device Resilience baseline and Local Profiles / Save Library remain protected. Canonical local storage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, `careerModeShowdown.preferences`.
-
-Billing is permanently forbidden and Billing must never be activated. Firebase remains Spark. App Check enforcement remains OFF. Firestore browser persistence remains memory-only. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes. Cloud Billing, Blaze, payment methods, Cloud Run, Cloud Functions, purchased credits and billing-required services remain forbidden. Trusted-runtime IAM remains unactivated/unbroadened.
-
-Candidate A is non-mutating; Candidate B is read-only; Candidate C remains the sole destructive remote-to-local gameplay Apply authority with strict exact raw snapshot and transaction-owned rollback. Exactly two private managers remain mandatory. No public discovery/listing/lobby/matchmaking/community/rankings/global leaderboards. Never durably retain full private pairing/session capabilities. The protected historical rivalry must not be used for destructive testing.
-
-Historical project-state overrides remain available through prior versioned handoffs and repository history; this current override replaces stale Stage 5I candidate state.
+Billing must never be activated. Firebase remains Spark. No Cloud Billing, Blaze, payment method, Cloud Run, Cloud Functions, purchased credits or billing-required service. App Check enforcement remains OFF. Firestore browser persistence remains memory-only. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes. Canonical localStorage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, `careerModeShowdown.preferences`. Candidate A remains non-mutating. Candidate B remains read-only. Candidate C remains the sole destructive remote-to-local gameplay Apply authority with transaction-owned strict exact raw-snapshot rollback. Exactly two private managers remain mandatory. No public discovery/listing/lobby/matchmaking/community/rankings/global leaderboards. No durable full private capability or raw authority IDs. Protected historical rivalry is never used for destructive testing.
