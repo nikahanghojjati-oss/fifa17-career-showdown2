@@ -20,7 +20,7 @@ Stage 5H/5I automation receives zero RJR credit because it does not substitute f
 
 No source, test, review, CI, merge, deployment, release-version, documentation, WEC, SLE/SNS or repeated-proof credit is included.
 
-Current closing WEC: `we-2026-09-04-stage5g-reconnect-recovery`. This environment reached the clean production boundary through Stage 5I and now closes for a fresh physical-acceptance milestone. The successor must validate the closed archive, initialize a fresh unique WEC with reset counters and current independently observed main, and must not inherit the predecessor transition decision.
+Current closing Work Environment Continuity (WEC) record: `we-2026-09-04-stage5g-reconnect-recovery`. This environment reached the clean production boundary through Stage 5I and now closes for a fresh physical-acceptance milestone. The successor must validate the closed archive, initialize a fresh unique WEC with reset counters and current independently observed main, and must not inherit the predecessor transition decision.
 
 ## Current lane
 
