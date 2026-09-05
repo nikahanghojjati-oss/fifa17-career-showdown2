@@ -18,6 +18,7 @@ const next=read("NEXT_TASK.md");
 const project=read("PROJECT_STATE.md");
 const rolling=read("project-documents/START_NEXT_SESSION.md");
 const prompt=read("NEXT_CHAT_HANDOFF_PROMPT.md");
+const productionProof=read("V1.9.1_R2_PRODUCTION_PROOF.md");
 
 assert.match(protocol,/Smart Lean Efficient/i);
 assert.match(protocol,/mandatory/i);
@@ -52,6 +53,15 @@ assert.equal(bootstrap.runtime?.productionStatus,"production-proven");
 assert.equal(bootstrap.runtime?.previousProductionRuntimeRevision,"1.9.1-r1");
 assert.equal(bootstrap.remoteJoiningReadiness?.score,91);
 assert.equal(bootstrap.immediateNextTask?.name,"physical-two-device-two-independent-network-remote-joining-acceptance");
+
+assert.match(productionProof,/Status:\s*PASS \/ DEPLOYED \/ PRODUCTION-PROVEN/i);
+assert.match(productionProof,/42f91df5ec1d5a576f0907836fa03f5994d7646b/i);
+assert.match(productionProof,/11bb681527a9b78884baf0c384350c90493dc9bd/i);
+assert.match(productionProof,/all 15 permanent pull-request workflow families/i);
+assert.match(productionProof,/15 permanent workflow runs[\s\S]+all completed successfully/i);
+assert.match(productionProof,/Billing must never be activated/i);
+assert.match(productionProof,/Firebase remains Spark/i);
+assert.match(productionProof,/91\/100/i);
 
 assert.equal(readiness.modelVersion,"RJR-1");
 assert.equal(readiness.currentScore,91);
