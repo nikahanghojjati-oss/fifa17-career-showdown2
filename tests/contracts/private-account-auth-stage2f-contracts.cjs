@@ -177,7 +177,7 @@ assert.match(trustedAuth.providerIdentitySource, /Firebase Auth uid[\s\S]+verify
   assert.match(preR3Next,/Authorized product candidate:[\s\S]{0,120}v1\.5\.0[\s\S]{0,120}1\.5\.0-r1/i);
 
   // Stage 2F/2G remain immutable historical provenance. Current live authority is production-proven PR194/r2 with evidence-accepted RJR100; PR198 publishes before SSJR-1 begins.
-  assert.match(next,/^# CURRENT TASK — PUBLISH ACCEPTED RJR100 THEN GENERATE SNS$/im,"Live NEXT_TASK must identify accepted RJR100 / PR198 publication authority.");
+  assert.match(next,/^# CURRENT TASK — SSJR-1 AUTHORITATIVE SETUP FOUNDATION$/im,"Live NEXT_TASK must identify the SSJR-1 setup candidate after verified RJR100 / PR198 closure.");
   assert.match(next,/100\/100[\s\S]+PR #198/i);
   assert.match(next,/App Check enforcement remains OFF/i,"Live authority must keep App Check enforcement off.");
   assert.match(next,/physical Chromebook[\s\S]+iPhone|Chromebook[\s\S]+cellular/i,"Live authority must preserve the class of genuine physical evidence already accepted.");

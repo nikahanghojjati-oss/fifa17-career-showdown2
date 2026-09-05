@@ -38,17 +38,17 @@ assert.equal(bootstrap.runtime?.applicationVersion,"1.9.1");
 assert.equal(bootstrap.runtime?.productionRuntimeRevision,"1.9.1-r2");
 assert.equal(bootstrap.runtime?.productionStatus,"production-proven");
 assert.equal(bootstrap.runtime?.previousProductionRuntimeRevision,"1.9.1-r1");
-assert.equal(bootstrap.starter?.version,"1.4.43","The previous completed SNS remains the packaged starter until the new SNS is genuinely generated at handoff 100.");
-assert.equal(bootstrap.currentPublicationCheckpoint?.pullRequest,198);
-assert.equal(bootstrap.currentPublicationCheckpoint?.state,"open");
+assert.equal(bootstrap.starter?.version,"1.4.46","The complete current mirrored SNS must route to the SSJR provider milestone after PR199 publication.");
+assert.equal(bootstrap.historicalPr198PublicationCheckpoint?.pullRequest,198);
+assert.equal(bootstrap.historicalPr198PublicationCheckpoint?.state,"merged");
 assert.equal(bootstrap.currentPublicationCheckpoint?.runtimeChanged,false);
 assert.equal(bootstrap.currentPublicationCheckpoint?.rulesChanged,false);
 assert.equal(bootstrap.currentPublicationCheckpoint?.providerMutationRequired,false);
 assert.equal(bootstrap.currentPublicationCheckpoint?.publicationWorkRjrCredit,0);
 assert.equal(bootstrap.remoteJoiningReadiness?.score,100);
 assert.equal(bootstrap.remoteJoiningReadiness?.remaining,0);
-assert.equal(bootstrap.immediateNextTask?.name,"publish-pr198-rjr100-and-generate-sns");
-assert.equal(bootstrap.transition?.handoffCompleteness,99);
+assert.equal(bootstrap.immediateNextTask?.name,"ssjr1-provider-enforcement-after-foundation-publication");
+assert.ok(bootstrap.transition?.handoffCompleteness >= 0 && bootstrap.transition?.handoffCompleteness <= 100);
 
 for(const [name,text] of [["00_CURRENT_HANDOFF",current],["NEXT_TASK",next],["PROJECT_STATE",project],["00_DEVELOPER_START_HERE",start]]){
   assert.match(text,/RJR-1|RJR100/i,`${name} must expose RJR100 authority.`);
@@ -87,13 +87,18 @@ assert.equal(bootstrap.historicalPr187PublicationCheckpoint?.mergeSha,"277f1b55d
 const predecessor=json("WORK_ENVIRONMENT_ARCHIVE/we-2026-09-05-physical-acceptance-evidence.json");
 assert.equal(predecessor.lifecycle,"closed");
 assert.equal(predecessor.assessment?.decision,"HANDOFF_AT_CHECKPOINT");
-assert.equal(wec.lifecycle,"active");
+assert.equal(wec.lifecycle,"transition-prepared");
 assert.notEqual(wec.environmentId,predecessor.environmentId);
 assert.equal(wec.environmentId,bootstrap.currentWec?.environmentId);
-assert.equal(wec.repository?.predecessorEnvironmentId,predecessor.environmentId);
-assert.equal(wec.signals?.handoffCompleteness,99);
+assert.equal(wec.repository?.predecessorEnvironmentId,"we-2026-09-05-pr196-publication-physical-acceptance-e9072");
+assert.equal(json(wec.repository.predecessorArchive).environmentId,wec.repository.predecessorEnvironmentId);
+assert.equal(bootstrap.historicalPr198PublicationCheckpoint?.mergeSha,"39ffe88d61dcda973df03a18e0266fcfe4cf5638");
+assert.equal(bootstrap.historicalPr198PublicationCheckpoint?.exactFinalHead,"165b21a1e9a269fae87efa06ebd1df89cfc48e04");
+assert.equal(bootstrap.historicalPr198PublicationCheckpoint?.postMergeWorkflowFamiliesSuccessful,15);
+assert.equal(bootstrap.sharedShowdownJourneyReadiness?.score,json("SHARED_SHOWDOWN_JOURNEY_READINESS.json").currentScore);
+assert.equal(wec.signals?.handoffCompleteness,bootstrap.transition?.handoffCompleteness);
 assert.equal(wec.signals?.unresolvedFailures,0);
-assert.match(wec.continuity?.currentTask||"",/PR #198[\s\S]+100\/100/i);
-assert.match(wec.continuity?.nextSafeAction||"",/expected-head[\s\S]+SNS/i);
+assert.match(wec.continuity?.currentTask||"",/SSJR[\s\S]+[Ss]etup/i);
+assert.match(wec.continuity?.nextSafeAction||"",/expected-head|provider|Rules|publication/i);
 
-process.stdout.write("PASS current authority: fixed RJR-1 is accepted at 100/100, production remains v1.9.1-r2, historical RJR89/RJR91 packages remain immutable, and the active WEC owns only PR198 publication/main verification/SNS before SSJR-1 begins.\n");
+process.stdout.write("PASS current authority: fixed RJR-1 is accepted at 100/100, production remains v1.9.1-r2, historical RJR89/RJR91 packages remain immutable, and the fresh WEC advances fixed SSJR-1 with no process credit.\n");
