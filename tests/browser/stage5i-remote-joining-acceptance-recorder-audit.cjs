@@ -34,13 +34,32 @@ async function load(browser,acceptance){
   return {context,page,pageErrors};
 }
 
+async function launchCase(runtime,acceptance){
+  const browser=await chromium.launch({executablePath:runtime.executablePath,headless:true,args:runtime.args});
+  try{
+    const entry=await load(browser,acceptance);
+    return {browser,...entry};
+  }catch(error){
+    if(browser.isConnected())await browser.close().catch(()=>{});
+    throw error;
+  }
+}
+
+async function closeCase(entry){
+  if(!entry)return;
+  await entry.context.close().catch(()=>{});
+  if(entry.browser.isConnected())await entry.browser.close().catch(()=>{});
+}
+
 (async()=>{
   const runtime=await resolveChromiumRuntime();
-  const browser=await chromium.launch({executablePath:runtime.executablePath,headless:true,args:runtime.args});
   let normal=null;
   let acceptance=null;
   try{
-    normal=await load(browser,false);
+    // The CI runtime is intentionally --single-process. Use an independent Chromium
+    // process for each query-gating case so service-worker/controller lifecycle from
+    // one isolated app instance cannot terminate or reload the other instance.
+    normal=await launchCase(runtime,false);
     await normal.page.waitForTimeout(550);
     assert.equal(await normal.page.locator("#remoteJoiningAcceptanceRecorder").count(),0,"normal production mode must not expose the acceptance recorder");
     assert.equal(await normal.page.evaluate(()=>Boolean(window.CareerModeRemoteJoiningAcceptance)),false,"normal production mode must not load acceptance code");
@@ -48,11 +67,9 @@ async function load(browser,acceptance){
     assert.deepEqual(helperRequests,[],"normal production mode must not request the acceptance recorder asset");
     assert.deepEqual(normal.pageErrors,[]);
     console.log("PASS Stage 5I recorder remains unloaded and invisible without the explicit acceptance query parameter");
+    await closeCase(normal);normal=null;
 
-    // The CI Chromium runtime uses --single-process. Keep the normal context alive while the
-    // acceptance context is created so closing the only context cannot terminate the shared
-    // browser process between the two isolation checks.
-    acceptance=await load(browser,true);
+    acceptance=await launchCase(runtime,true);
     await acceptance.page.locator("#remoteJoiningAcceptanceRecorder").waitFor({state:"visible",timeout:5000});
     const before=await acceptance.page.evaluate(keys=>keys.map(key=>[key,localStorage.getItem(key)]),canonicalKeys);
     const contract=await acceptance.page.evaluate(()=>({
@@ -120,8 +137,7 @@ async function load(browser,acceptance){
     console.log("PASS Stage 5I recorder captures real offline/online lifecycle while exporting only a one-way capability fingerprint");
     console.log("PASS Stage 5I evidence excludes raw capability/account/device/rivalry identifiers and preserves canonical local storage");
   }finally{
-    if(acceptance)await acceptance.context.close().catch(()=>{});
-    if(normal)await normal.context.close().catch(()=>{});
-    if(browser.isConnected())await browser.close();
+    await closeCase(acceptance);
+    await closeCase(normal);
   }
 })().catch(error=>{console.error("STAGE 5I REMOTE JOINING ACCEPTANCE RECORDER AUDIT FAILED");console.error(error.stack||error);process.exit(1);});
