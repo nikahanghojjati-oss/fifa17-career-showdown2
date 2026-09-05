@@ -4,6 +4,8 @@ Status: RELEASE CANDIDATE / NOT PRODUCTION-PROVEN
 
 Authorized product candidate: `v1.9.1 / 1.9.1-r2` on PR #194. Candidate status: NOT PRODUCTION-PROVEN. Production remains independently verified `v1.9.1 / 1.9.1-r1` on live main `65399fc2f214d3bbdf3ef47fb47428c8b34d2017`; `1.9.1-r1` is the previous known-good whole shell and rollback target until the r2 candidate is merged and independently proven live.
 
+The accepted Stage 5F production boundary remains sealed and credited exactly once: production denies revoked-device protected mutation and denies authenticated unrelated-account exact private reads. Those two accepted negatives already account for the fixed RJR91 boundary and must not be repeated or re-credited.
+
 PR #192 Stage 5G established same-capability recovery after ambiguous Host/Join/Close acknowledgement loss. PR #193 Stage 5H then proved real-browser offline/online transitions across two isolated Chromium contexts: no provider mutation while offline, exactly one session and one Host/Join/Close mutation after recovery, active revision 1, terminal revision 2, extra online events without duplicate mutation, unchanged canonical local Save storage, and no paid-service dependency. Exact-head and deployed-site browser suites passed.
 
 Stage 5H is intentionally zero-credit under fixed RJR-1 because two browser contexts are not two physical devices on two independent networks. Fixed RJR-1 remains `91/100` with domain vector:
