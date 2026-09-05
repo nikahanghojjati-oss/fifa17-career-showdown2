@@ -11,19 +11,21 @@ assert.match(read("00_SLE_HANDOFF_PROTOCOL.md"),/Smart Lean Efficient/i);
 assert.match(read("00_HANDOFF_GOLDEN_RULE.md"),/Handoff proximity:?\s*100%|Handoff proximity reaches `100%`/i);
 assert.match(read("00_OWNER_EAGLE_EYE_GOLDEN_RULE.md"),/Owner's Eagle Eye/i);
 
-// The completed v1.4.43 PR196 package stays byte-stable until the new SNS is actually generated.
-assert.equal(bootstrap.starter?.version,"1.4.43");
-assert.equal(bootstrap.starter?.checkpoint,"PR196-CORRECTED-VALIDATOR-SEALED-RJR91-PUBLICATION-NEXT");
-assert.equal(bootstrap.starter?.canonical,"START_NEXT_SESSION_V1.4.43_PR196_RJR91_PHYSICAL_ACCEPTANCE_VALIDATOR.md");
-assert.equal(bootstrap.currentHandoff?.canonical,"SUCCESSOR_HANDOFF_PR196_RJR91_PHYSICAL_ACCEPTANCE_VALIDATOR_SLE_2026-09-05.md");
-const starter=read(bootstrap.starter.canonical);
-const starterMirror=read(bootstrap.starter.projectMirror);
-const handoff=read(bootstrap.currentHandoff.canonical);
-const handoffMirror=read(bootstrap.currentHandoff.projectMirror);
-assert.equal(starter,starterMirror,"Completed v1.4.43 starter mirror must remain byte-identical.");
-assert.equal(handoff,handoffMirror,"Completed PR196 SLE mirror must remain byte-identical.");
-assert.match(starter,/PR #196/i); assert.match(starter,/91\/100|RJR91/i);
-assert.match(handoff,/PR #196/i); assert.match(handoff,/91\/100|RJR91/i);
+// Current SSJR package is complete; historical packages remain immutable below.
+assert.equal(bootstrap.starter?.version,"1.4.46");
+assert.equal(bootstrap.starter?.checkpoint,"PR199-SSJR1-SETUP-FOUNDATION-SEALED");
+assert.equal(bootstrap.starter?.canonical,"START_NEXT_SESSION_V1.4.46_PR199_SSJR1_SETUP_FOUNDATION.md");
+assert.equal(bootstrap.currentHandoff?.canonical,"SUCCESSOR_HANDOFF_PR199_SSJR1_SETUP_FOUNDATION_SLE_2026-09-05.md");
+for(const [canonical,mirror] of [[bootstrap.starter.canonical,bootstrap.starter.projectMirror],[bootstrap.currentHandoff.canonical,bootstrap.currentHandoff.projectMirror]]){
+  const text=read(canonical);assert.equal(text,read(mirror));
+  assert.match(text,/PR #199/i);assert.match(text,/SSJR-1/i);assert.match(text,/0\/100/);assert.match(text,/100\/100/);
+  assert.match(text,/Smart Lean Efficient/);assert.match(text,/IMMEDIATE NEXT TASK AFTER FULL STUDY/);
+  assert.match(text,/pairing[\s\S]+before[\s\S]+league/i);
+  assert.match(text,/Estimated focused sessions to genuine SSJR100/);
+  assert.match(text,/provider[\s\S]+Rules/);assert.match(text,/fresh (?:unique )?(?:successor )?WEC/i);
+}
+assert.equal(read("START_NEXT_SESSION_V1.4.43_PR196_RJR91_PHYSICAL_ACCEPTANCE_VALIDATOR.md"),read("project-documents/session-starts/START_NEXT_SESSION_V1.4.43_PR196_RJR91_PHYSICAL_ACCEPTANCE_VALIDATOR.md"));
+assert.equal(read("SUCCESSOR_HANDOFF_PR196_RJR91_PHYSICAL_ACCEPTANCE_VALIDATOR_SLE_2026-09-05.md"),read("project-documents/handoffs/SUCCESSOR_HANDOFF_PR196_RJR91_PHYSICAL_ACCEPTANCE_VALIDATOR_SLE_2026-09-05.md"));
 
 // Current live authority has advanced independently of the last completed SNS package.
 assert.equal(readiness.modelVersion,"RJR-1");
@@ -42,7 +44,7 @@ assert.equal(bootstrap.currentPublicationCheckpoint?.runtimeChanged,false);
 assert.equal(bootstrap.currentPublicationCheckpoint?.rulesChanged,false);
 assert.equal(bootstrap.currentPublicationCheckpoint?.providerMutationRequired,false);
 assert.equal(bootstrap.currentPublicationCheckpoint?.publicationWorkRjrCredit,0);
-assert.equal(bootstrap.immediateNextTask?.name,"ssjr1-authoritative-setup-foundation");
+assert.equal(bootstrap.immediateNextTask?.name,"ssjr1-provider-enforcement-after-foundation-publication");
 assert.equal(bootstrap.runtime?.applicationVersion,"1.9.1");
 assert.equal(bootstrap.runtime?.productionRuntimeRevision,"1.9.1-r2");
 assert.equal(bootstrap.runtime?.productionStatus,"production-proven");
@@ -63,7 +65,10 @@ assert.match(read("FINAL_RJR100_REMOTE_JOINING_ACCEPTANCE_2026-09-05.md"),/RJR-1
 const predecessor=json("WORK_ENVIRONMENT_ARCHIVE/we-2026-09-05-physical-acceptance-evidence.json");
 assert.equal(predecessor.lifecycle,"closed");
 assert.equal(predecessor.assessment?.decision,"HANDOFF_AT_CHECKPOINT");
-assert.equal(wec.lifecycle,"active");
+assert.equal(wec.lifecycle,"transition-prepared");
+assert.deepEqual(wec,json(bootstrap.currentWec.archive));
+assert.equal(wec.signals.handoffCompleteness,100);
+assert.equal(bootstrap.currentPublicationCheckpoint.pullRequest,199);
 assert.notEqual(wec.environmentId,predecessor.environmentId);
 assert.equal(wec.environmentId,bootstrap.currentWec?.environmentId);
 assert.equal(wec.repository?.predecessorEnvironmentId,"we-2026-09-05-pr196-publication-physical-acceptance-e9072");
@@ -84,4 +89,4 @@ for(const [p,marker] of [
  ["SUCCESSOR_HANDOFF_PR191_MERGED_RJR91_STAGE5G_AUTOMATION_SLE_2026-09-04.md",/91\/100|RJR91/i]
 ]) assert.match(read(p),marker);
 
-process.stdout.write("PASS SLE packaging: the completed v1.4.43 PR196 package remains immutable while current authority advances past merged RJR100/PR198 into fixed SSJR-1; a new SNS is not claimed before clean Handoff proximity 100%.\n");
+process.stdout.write("PASS SLE packaging: mirrored v1.4.46 PR199 package, frozen RJR100/SSJR0, live publication routing, archived WEC and recursive paired-first provider milestone.\n");

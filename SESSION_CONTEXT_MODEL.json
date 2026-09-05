@@ -1,19 +1,27 @@
 {
   "schemaVersion": 2,
-  "recordedAt": "2026-09-05T08:09:54Z",
+  "recordedAt": "2026-09-05T22:10:22Z",
   "modelType": "hybrid-information-retrieval-graph-online-learning",
-  "trainingState": "cold-start-priors-twenty-one-labeled-sessions-supervised-evaluation-not-yet-adopted",
+  "trainingState": "cold-start-priors-observed-sessions-supervised-evaluation-not-yet-adopted",
   "purpose": "SLE: minimize startup context cost while preserving critical project knowledge",
-  "weights": {"taskAffinity":0.24,"authority":0.18,"delta":0.16,"dependency":0.14,"riskCriticality":0.12,"contradictionValue":0.08,"learnedUtility":0.08,"stalenessPenalty":-0.1,"tokenCostPenalty":-0.1},
+  "weights": {
+    "taskAffinity": 0.24,
+    "authority": 0.18,
+    "delta": 0.16,
+    "dependency": 0.14,
+    "riskCriticality": 0.12,
+    "contradictionValue": 0.08,
+    "learnedUtility": 0.08,
+    "stalenessPenalty": -0.1,
+    "tokenCostPenalty": -0.1
+  },
   "mandatoryBypass": [
-    "CURRENT: live main is PR195 squash 2302e8daba6c9417954bc610f537aba41c4d3d87; PR196 is open, its initial exact head 95e40e83e0228ef4ed438f09fcf6db5ddbbc7636 passed all 15 workflow families, and two valid P2 findings are corrected in the final SLE seal whose exact head must be fetched live",
-    "production runtime remains PR194 v1.9.1 / 1.9.1-r2: exact head 42f91df5ec1d5a576f0907836fa03f5994d7646b, merge 11bb681527a9b78884baf0c384350c90493dc9bd, all exact-head and main-push families plus two burn-in journeys and complete deployed-site smoke passed",
-    "current application/runtime identity v1.9.1 / 1.9.1-r2 production-proven; previous rollback shell 1.9.1-r1",
-    "REMOTE_JOINING_READINESS.json fixed RJR numerical authority = 91/100 at this checkpoint",
-    "Stage 5F is the only reason RJR moved 89 to 91; Stage 5G/5H automation, Stage 5I recorder, PR, CI, review, merge, deployment, WEC, SLE/SNS and documentation add zero RJR credit",
-    "closed WEC we-2026-09-05-physical-acceptance-evidence has HANDOFF_AT_CHECKPOINT and must never be inherited as successor decision",
-    "successor validates the closed archive, creates a fresh unique WEC with reset counters from independently observed live main, and assesses it before finishing PR196 publication",
-    "first substantive successor task is finish corrected PR196 on one exact reviewed 15/15 head with expected-head merge and post-merge proof; only then run one bounded genuine two-physical-device/two-independent-network acceptance using the Stage 5I privacy-safe recorder and strict paired-export validator",
+    "CURRENT: verify PR199 final sealed head and publication live; last independently verified base main 39ffe88d61dcda973df03a18e0266fcfe4cf5638.",
+    "Production remains v1.9.1 / 1.9.1-r2; dormant setup candidate is not gameplay.",
+    "RJR-1 is complete/frozen 100/100; fixed SSJR-1 initial baseline is 0/100. Candidate code, tests and process receive zero credit.",
+    "Pair both legitimate managers to the exact Connected Rivalry and ACTIVE before league or club selection in UI and provider.",
+    "Closing WEC we-2026-09-05-ssjr-setup-foundation-28cf84 requires a fresh unique successor WEC, never inheritance of its decision.",
+    "Independently verify PR #199 final exact head/tree/state, all 15 workflow families, reviews/threads, merge and post-merge evidence. If publication is unfinished, complete that exact-head gate first. Once publication is proven, immediately implement the Spark-compatible exact-path Shared Setup transaction adapter and candidate Firestore Rules, with direct modified-client emulator negatives. Derive authority from protected provider records in the same transaction; never trust caller-supplied JavaScript authority or a client-computed hash. Enforce paired managers and an ACTIVE session before any league or club commitment. Update NEXT_TASK.md in that substantive implementation candidate, with no separate continuity-only PR.",
     "billing must never be activated; Firebase stays Spark; Cloud Billing, Blaze, payment method, Cloud Run, Cloud Functions, purchased credits and billing-required services are forbidden",
     "App Check enforcement remains OFF",
     "Firestore browser persistence remains memory-only",
@@ -24,20 +32,60 @@
     "never request, quote, paste, log or durably retain full private pairing/session capabilities",
     "mandatory SLE recursion: at Handoff proximity 100 create mirrored starter/full handoff, refresh current pointers, close/archive WEC and stop before another substantial milestone"
   ],
-  "contextBudgets": {"tier0BootstrapApproxTokens":[1000,2000],"tier1TaskPacketAdditionalApproxTokens":[3000,6000],"tier2LiveDeltaAdditionalApproxTokens":[5000,10000],"tier3DeepFallback":"unbounded-only-when-evidence-requires"},
+  "contextBudgets": {
+    "tier0BootstrapApproxTokens": [
+      1000,
+      2000
+    ],
+    "tier1TaskPacketAdditionalApproxTokens": [
+      3000,
+      6000
+    ],
+    "tier2LiveDeltaAdditionalApproxTokens": [
+      5000,
+      10000
+    ],
+    "tier3DeepFallback": "unbounded-only-when-evidence-requires"
+  },
   "rankingProcedure": [
-    "Read the v1.4.43 starter first, then independently verify current live main, PR #196 final exact head/tree/review/workflows, production r2, RJR91 and the closed WEC.",
-    "Validate/archive the closing WEC, initialize a fresh unique WEC with reset counters and assess it without inheriting HANDOFF_AT_CHECKPOINT.",
-    "Read current RJR only from REMOTE_JOINING_READINESS.json; never infer score from milestone count, PRs, WEC or deployment volume.",
-    "After fresh WEC initialization, finish corrected PR196 publication and post-merge proof first; then execute the genuine physical two-device/two-independent-network acceptance without inserting a continuity-only PR.",
-    "Use Stage 5I sanitized JSON evidence and never copy raw private capabilities or authority IDs into durable evidence.",
-    "For any defect, fix only observed behavior, add smallest regression automation and re-prove production before retrying physical acceptance.",
-    "Represent zero-billing, storage, Candidate C, private-scope and capability-secret locks in Tier 0 regardless of rank."
+    "Read START_NEXT_SESSION_V1.4.46_PR199_SSJR1_SETUP_FOUNDATION.md, capsule and current authority; independently verify PR199/main/runtime/both ledgers/WEC.",
+    "Initialize a fresh WEC from live facts after inherited validation.",
+    "Independently verify PR #199 final exact head/tree/state, all 15 workflow families, reviews/threads, merge and post-merge evidence. If publication is unfinished, complete that exact-head gate first. Once publication is proven, immediately implement the Spark-compatible exact-path Shared Setup transaction adapter and candidate Firestore Rules, with direct modified-client emulator negatives. Derive authority from protected provider records in the same transaction; never trust caller-supplied JavaScript authority or a client-computed hash. Enforce paired managers and an ACTIVE session before any league or club commitment. Update NEXT_TASK.md in that substantive implementation candidate, with no separate continuity-only PR.",
+    "Use baseline study and exact provider/runtime source mappings before deep history. Preserve every security/recovery lock regardless of ranking."
   ],
-  "onlineLearning": {"enabled":true,"method":"conservative-exponential-moving-average","initialUtility":0.5,"alpha":0.2,"constraint":"learned utility can never suppress mandatory bypass locks"},
-  "supervisedLearningGate": {"minimumMaterialSessionOutcomes":20,"preferredEvaluationStart":30,"adoptionRequirement":"held-out startup simulations must reduce context cost without increasing missed-critical-context incidents"},
+  "onlineLearning": {
+    "enabled": true,
+    "method": "conservative-exponential-moving-average",
+    "initialUtility": 0.5,
+    "alpha": 0.2,
+    "constraint": "learned utility can never suppress mandatory bypass locks"
+  },
+  "supervisedLearningGate": {
+    "minimumMaterialSessionOutcomes": 20,
+    "preferredEvaluationStart": 30,
+    "adoptionRequirement": "held-out startup simulations must reduce context cost without increasing missed-critical-context incidents"
+  },
   "optimizationObjective": "minimize startup context cost and latency subject to zero increase in missed critical security, recovery, authority, RJR or publication information",
   "latestCheckpoint": {
+    "latestMainSha": "39ffe88d61dcda973df03a18e0266fcfe4cf5638",
+    "runtimeRevision": "1.9.1-r2",
+    "knownGoodRollbackRuntime": "1.9.1-r1",
+    "rjrScore": 100,
+    "ssjrScore": 0,
+    "publicationPullRequest": 199,
+    "publicationState": "fetch-live-final-seal",
+    "publicationInitialExactHead": "18e08bb96b7a6da7f9cb845aef03c79e8cd91f8e",
+    "publicationExactFinalHead": null,
+    "publicationFinalHeadMustBeFetchedLive": true,
+    "publicationMergeSha": null,
+    "starter": "START_NEXT_SESSION_V1.4.46_PR199_SSJR1_SETUP_FOUNDATION.md",
+    "fullHandoff": "SUCCESSOR_HANDOFF_PR199_SSJR1_SETUP_FOUNDATION_SLE_2026-09-05.md",
+    "next": "shared-setup-provider-enforcement-after-pr199-publication",
+    "billingActivationForbidden": true,
+    "firebasePlan": "Spark",
+    "appCheckEnforcement": false
+  },
+  "historicalPr196Checkpoint": {
     "runtimeMainSha": "2302e8daba6c9417954bc610f537aba41c4d3d87",
     "latestMainSha": "2302e8daba6c9417954bc610f537aba41c4d3d87",
     "runtimeRevision": "1.9.1-r2",

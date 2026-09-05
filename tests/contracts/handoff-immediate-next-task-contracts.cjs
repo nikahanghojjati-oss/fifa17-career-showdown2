@@ -38,7 +38,7 @@ assert.equal(bootstrap.runtime?.applicationVersion,"1.9.1");
 assert.equal(bootstrap.runtime?.productionRuntimeRevision,"1.9.1-r2");
 assert.equal(bootstrap.runtime?.productionStatus,"production-proven");
 assert.equal(bootstrap.runtime?.previousProductionRuntimeRevision,"1.9.1-r1");
-assert.equal(bootstrap.starter?.version,"1.4.43","The previous completed SNS remains the packaged starter until the new SNS is genuinely generated at handoff 100.");
+assert.equal(bootstrap.starter?.version,"1.4.46","The complete current mirrored SNS must route to the SSJR provider milestone after PR199 publication.");
 assert.equal(bootstrap.historicalPr198PublicationCheckpoint?.pullRequest,198);
 assert.equal(bootstrap.historicalPr198PublicationCheckpoint?.state,"merged");
 assert.equal(bootstrap.currentPublicationCheckpoint?.runtimeChanged,false);
@@ -47,7 +47,7 @@ assert.equal(bootstrap.currentPublicationCheckpoint?.providerMutationRequired,fa
 assert.equal(bootstrap.currentPublicationCheckpoint?.publicationWorkRjrCredit,0);
 assert.equal(bootstrap.remoteJoiningReadiness?.score,100);
 assert.equal(bootstrap.remoteJoiningReadiness?.remaining,0);
-assert.equal(bootstrap.immediateNextTask?.name,"ssjr1-authoritative-setup-foundation");
+assert.equal(bootstrap.immediateNextTask?.name,"ssjr1-provider-enforcement-after-foundation-publication");
 assert.ok(bootstrap.transition?.handoffCompleteness >= 0 && bootstrap.transition?.handoffCompleteness <= 100);
 
 for(const [name,text] of [["00_CURRENT_HANDOFF",current],["NEXT_TASK",next],["PROJECT_STATE",project],["00_DEVELOPER_START_HERE",start]]){
@@ -87,7 +87,7 @@ assert.equal(bootstrap.historicalPr187PublicationCheckpoint?.mergeSha,"277f1b55d
 const predecessor=json("WORK_ENVIRONMENT_ARCHIVE/we-2026-09-05-physical-acceptance-evidence.json");
 assert.equal(predecessor.lifecycle,"closed");
 assert.equal(predecessor.assessment?.decision,"HANDOFF_AT_CHECKPOINT");
-assert.equal(wec.lifecycle,"active");
+assert.equal(wec.lifecycle,"transition-prepared");
 assert.notEqual(wec.environmentId,predecessor.environmentId);
 assert.equal(wec.environmentId,bootstrap.currentWec?.environmentId);
 assert.equal(wec.repository?.predecessorEnvironmentId,"we-2026-09-05-pr196-publication-physical-acceptance-e9072");

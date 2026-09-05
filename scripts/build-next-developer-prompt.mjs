@@ -17,7 +17,7 @@ function buildNextDeveloperPrompt(bootstrap = readBootstrap()){
   return [
     `Open the live repository \`${repository}\` and read \`${starter}\` first.`,
     "Follow its SLE/deep references as needed.",
-    "Independently verify current `main`, relevant PR state, production/runtime/deployment state, `REMOTE_JOINING_READINESS.json`, `NEXT_TASK.md`, and the closing WEC.",
+    "Independently verify current `main`, relevant PR state, production/runtime/deployment state, `REMOTE_JOINING_READINESS.json`, `SHARED_SHOWDOWN_JOURNEY_READINESS.json`, `NEXT_TASK.md`, and the closing WEC.",
     "Then initialize a fresh WEC and execute `IMMEDIATE NEXT TASK AFTER FULL STUDY`.",
     "Treat the handoff as orientation only; current source and live GitHub/provider/deployment evidence win."
   ].join(" ");
