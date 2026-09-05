@@ -46,9 +46,11 @@ assert.match(start,/Stage 5G[\s\S]+reconnect\/adverse-network hardening/i);
 assert.match(next,/predecessor Work Environment Continuity record[\s\S]+already closed and archived[\s\S]+Current active environment:[\s\S]+we-2026-09-04-stage5g-reconnect-recovery/i,"NEXT_TASK must distinguish immutable PR191 closure from the active Stage 5G WEC.");
 assert.match(next,/Do not initialize another successor WEC while this environment remains active and coherent/i,"NEXT_TASK must not restart the WEC loop during active Stage 5G execution.");
 
-assert.equal(pkg.version,"1.9.0");
-assert.equal(bootstrap.runtime?.applicationVersion,"1.9.0");
-assert.equal(bootstrap.runtime?.productionRuntimeRevision,"1.9.0-r5");
+assert.equal(pkg.version,"1.9.1","Current source package must identify the active v1.9.1 Stage 5G release candidate.");
+assert.match(project,/v1\.9\.1[\s\S]+1\.9\.1-r1[\s\S]+NOT PRODUCTION-PROVEN/i,"PROJECT_STATE must distinguish the current candidate from production.");
+assert.match(next,/Authorized release candidate:[\s\S]+v1\.9\.1[\s\S]+1\.9\.1-r1[\s\S]+Production remains[\s\S]+1\.9\.0-r5/i,"NEXT_TASK must expose current candidate and unchanged production identity together.");
+assert.equal(bootstrap.runtime?.applicationVersion,"1.9.0","The sealed PR191 bootstrap must retain its historical application version.");
+assert.equal(bootstrap.runtime?.productionRuntimeRevision,"1.9.0-r5","The sealed PR191 bootstrap must retain its historical production runtime.");
 // SESSION_BOOTSTRAP/00_CURRENT_HANDOFF identify the merged/deployed PR191/RJR91 handoff package.
 // The earlier PR187/RJR89 package and closed PR191 publication WEC remain immutable provenance.
 assert.equal(bootstrap.starter?.canonical,"START_NEXT_SESSION_V1.4.40_PR191_MERGED_RJR91_STAGE5G_AUTOMATION.md");
@@ -145,4 +147,4 @@ assert.match(wec.continuity?.currentTask||"",/Stage 5G[\s\S]+same-capability[\s\
 assert.match((wec.continuity?.knownHazards||[]).join("\n"),/Billing is permanently forbidden/i);
 assert.match((wec.continuity?.evidenceNotes||[]).join("\n"),/local candidate commit 2452b03 was never published/i);
 
-process.stdout.write("PASS current immediate-next-task authority: archived PR191/RJR91 publication provenance is immutable while NEXT_TASK and the fresh reset WEC both identify active PR192 Stage 5G same-capability reconnect execution with zero-billing locks intact.\n");
+process.stdout.write("PASS current immediate-next-task authority: current v1.9.1-r1 PR192 candidate is distinct from immutable PR191/v1.9.0-r5 production provenance while the fresh reset WEC executes Stage 5G same-capability reconnect with zero-billing locks intact.\n");
