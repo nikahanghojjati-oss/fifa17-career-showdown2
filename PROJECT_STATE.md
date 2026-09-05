@@ -1,3 +1,17 @@
+# CURRENT OVERRIDE — PR #196 OPEN / CORRECTED VALIDATOR SEALED / RJR91 / PUBLICATION THEN PHYSICAL ACCEPTANCE
+
+Status: TOOLING CORRECTIONS SEALED / FINAL EXACT-HEAD PUBLICATION PROOF PENDING
+
+Live main at packaging is PR #195 squash `2302e8daba6c9417954bc610f537aba41c4d3d87`. PR #196 initial exact head `95e40e83e0228ef4ed438f09fcf6db5ddbbc7636` passed all 15 workflow families. The closed-schema privacy and direct-server teardown review findings are corrected in the sealed tree. Fetch the final PR head live and repeat exact-head CI/review/expected-head merge/post-merge gates.
+
+Production remains DEPLOYED / PRODUCTION-PROVEN `v1.9.1 / 1.9.1-r2` from PR #194 merge `11bb681527a9b78884baf0c384350c90493dc9bd`; prior whole-shell recovery remains `1.9.1-r1`. Fixed `RJR-1` remains `91/100`; PR196 tooling/publication adds zero credit.
+
+Closed Work Environment Continuity record `we-2026-09-05-physical-acceptance-evidence` has `HANDOFF_AT_CHECKPOINT`. A fresh successor WEC finishes PR196 publication, then owns the genuine two-physical-device/two-independent-network acceptance and final stable Remote Joining release reconciliation.
+
+Billing must never be activated; Firebase remains Spark. Preserve App Check enforcement OFF, memory-only Firestore, popup-only `browserSessionPersistence`, exactly three canonical localStorage keys, Candidate C as sole destructive remote-to-local Apply authority with transaction-owned strict exact raw-snapshot rollback, exactly two private managers, no public discovery, and no durable raw capability or authority IDs. The Installable Offline App, v1.3.0 Recovery & Device Resilience baseline, Local Profiles and Save Library remain protected.
+
+## Retained production runtime detail
+
 # CURRENT OVERRIDE — PR #194 MERGED / v1.9.1-r2 PRODUCTION-PROVEN / RJR91 / PHYSICAL ACCEPTANCE NEXT
 
 Status: DEPLOYED / PRODUCTION-PROVEN / HANDOFF BOUNDARY

@@ -52,6 +52,11 @@ for(const workflowFile of workflowFiles){
     const source = fs.readFileSync(path.join(workflowDirectory, workflowFile), "utf8");
     const blocks = extractLiteralRunBlocks(source);
     blocks.forEach((block, blockIndex) => {
+        if(workflowFile === "deploy-firestore-rules-zero-billing.yml"){
+            process.stdout.write(`DEFER ${workflowFile} block ${blockIndex + 1}/${blocks.length}: production provider deployment is CI-only and must never run from the local validation harness.\n`);
+            deferred += 1;
+            return;
+        }
         if(/firebase\s+emulators:exec/.test(block) && (!Number.isInteger(javaMajor) || javaMajor < 21)){
             process.stdout.write(`DEFER ${workflowFile} block ${blockIndex + 1}/${blocks.length}: Firebase CLI requires Java 21; exact workflow CI owns this provider gate (local Java ${javaMajor || "unavailable"}).\n`);
             deferred += 1;
@@ -71,9 +76,9 @@ for(const workflowFile of workflowFiles){
     });
 }
 
-assert.equal(executed + deferred, 30, `Expected 30 permanent executable workflow blocks; accounted for ${executed + deferred}.`);
+assert.equal(executed + deferred, 34, `Expected 34 permanent executable workflow blocks; accounted for ${executed + deferred}.`);
 if(deferred){
-    process.stdout.write(`PASS  ${executed} permanent workflow blocks passed locally; ${deferred} Java-21 Firebase provider block deferred explicitly to exact workflow CI. Production Pages deployment is accounted separately.\n`);
+    process.stdout.write(`PASS  ${executed} permanent workflow blocks passed locally; ${deferred} provider-owned blocks deferred explicitly to exact workflow CI. Production Pages deployment is accounted separately.\n`);
 }else{
     process.stdout.write(`All ${executed} permanent GitHub workflow blocks passed locally. Production Pages deployment is accounted separately from validation topology.\n`);
 }

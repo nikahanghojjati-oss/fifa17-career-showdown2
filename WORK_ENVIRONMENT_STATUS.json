@@ -1,58 +1,48 @@
 {
   "schemaVersion": 1,
-  "environmentId": "we-2026-09-04-stage5g-reconnect-recovery",
-  "lifecycle": "closed",
-  "recordedAt": "2026-09-05T05:48:31Z",
+  "environmentId": "we-2026-09-05-pr196-publication-physical-acceptance-e9072",
+  "lifecycle": "active",
+  "recordedAt": "2026-09-05T15:33:13Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
-    "startingMainSha": "7ca132a607cbf4fd78710b14526b4bec849ac2d2",
-    "workingBranch": "handoff/pr194-r2-production-rjr91-physical-acceptance-2026-09-05",
-    "handoffBranch": "handoff/pr194-r2-production-rjr91-physical-acceptance-2026-09-05",
-    "predecessorEnvironmentId": "we-2026-09-04-pr191-publication-stage5g",
-    "predecessorArchive": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-04-pr191-publication-stage5g.json"
+    "startingMainSha": "2302e8daba6c9417954bc610f537aba41c4d3d87",
+    "workingBranch": "rjr/pr196-publication-physical-acceptance-2026-09-05",
+    "handoffBranch": "rjr/pr196-publication-physical-acceptance-2026-09-05",
+    "predecessorEnvironmentId": "we-2026-09-05-physical-acceptance-evidence",
+    "predecessorArchive": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-05-physical-acceptance-evidence.json"
   },
   "signals": {
-    "contextComplexity": "very-high",
+    "contextComplexity": "moderate",
     "projectComplexity": "very-high",
-    "compactionCount": 1,
-    "majorPhasesCompleted": 5,
-    "largeEvidenceEvents": 12,
-    "toolRoutingErrors": 1,
-    "correctedFailures": 5,
+    "compactionCount": 0,
+    "majorPhasesCompleted": 1,
+    "largeEvidenceEvents": 3,
+    "toolRoutingErrors": 3,
+    "correctedFailures": 1,
     "repeatedMistakes": 0,
-    "staleFactCorrections": 5,
+    "staleFactCorrections": 0,
     "unresolvedFailures": 0,
-    "newMilestoneNext": true,
+    "newMilestoneNext": false,
     "usageRemainingPercent": null,
     "usageSource": "unavailable",
     "usageWarning": false,
-    "handoffCompleteness": 100,
+    "handoffCompleteness": 90,
     "unrecordedDecisions": 0,
     "atomicOperation": false
   },
   "assessment": {
-    "decision": "HANDOFF_NOW",
-    "reason": "Stage 5G same-capability recovery, Stage 5H real-browser adverse-network automation, Stage 5I privacy-safe acceptance recorder publication and full v1.9.1-r2 production proof are complete. The next substantial action is the distinct genuine two-physical-device/two-independent-network acceptance milestone. One observed compaction, five completed phases, dense exact-head/deployment evidence and the recorded correction load make a fresh environment safer now that the SLE package is complete. No atomic operation or unresolved failure remains.",
+    "decision": "CONTINUE",
+    "reason": "Active bounded publication correction; reassessment records the classified source-transport limit.",
     "decisionInheritedFromPredecessor": false,
-    "usageExcludedBecauseUnavailable": true,
-    "scores": {
-      "contextPressure": 100,
-      "qualityRisk": 86,
-      "quotaRisk": null,
-      "nextTaskSeparation": 80,
-      "handoffReadiness": 100,
-      "atomicRisk": 0,
-      "continuationRisk": 91,
-      "transitionCost": 13.5,
-      "transitionAdvantage": 77.5
-    }
+    "usageExcludedBecauseUnavailable": true
   },
   "continuity": {
-    "currentTask": "Stage 5I publication and v1.9.1-r2 production proof are complete. Seal the exact automation boundary and transition before the genuine two-physical-device/two-independent-network Remote Joining acceptance milestone.",
-    "lastSafeCheckpoint": "PR #194 exact reviewed head 42f91df5ec1d5a576f0907836fa03f5994d7646b passed all 15 permanent PR workflow families with zero review threads and was expected-head squash merged to 11bb681527a9b78884baf0c384350c90493dc9bd. All 15 main-push workflow families passed; Release Integration Burn-In 33947112248 passed two complete journeys; Stability 33947112190 and deployed-site-smoke job 101255587827 passed every production byte/runtime, App Check, recovery, offline/install and complete-journey gate. Production is v1.9.1/1.9.1-r2. Fixed RJR remains 91/100.",
-    "nextSafeAction": "A fresh successor validates this closed archive, creates a fresh unique WEC with reset counters and independently observed live main, then runs one bounded genuine two-physical-device/two-independent-network production Remote Joining acceptance using the Stage 5I privacy-safe recorder. Reconcile RJR only from genuinely new physical evidence, then perform final stable Remote Joining release acceptance.",
+    "currentTask": "Correct the final-head nested-scalar privacy bypass in PR196 physical-acceptance-evidence tooling, revalidate and publish, then run bounded physical acceptance.",
+    "lastSafeCheckpoint": "Corrected candidate passes the full 87-file contract suite and Stage 5H/5I physical preflight. Prior reviewed head ffb1d757 passed 15/15 but is superseded by the nested-scalar privacy correction. Live main remains 2302e8daba6c9417954bc610f537aba41c4d3d87; production 100-file byte proof is 1.9.1-r2; RJR is fixed at 91.",
+    "nextSafeAction": "Validate the strict primitive-or-null schema and its adversarial regressions; publish the corrected PR196 candidate; obtain review and all 15 workflow families on one unchanged new head before expected-head merge and post-merge proof.",
     "unfinishedWork": [
+      "Corrected exact-head review, workflow, merge and post-merge publication proof for PR #196.",
       "Genuine Remote Joining-specific two-physical-device/two-independent-network reconnect/adverse-network production acceptance.",
       "Evidence-based RJR-1 reconciliation and final stable Remote Joining release acceptance."
     ],
@@ -62,19 +52,25 @@
       "Canonical localStorage remains exactly careerModeShowdown.saveLibrary, careerModeShowdown.legacyShowdowns and careerModeShowdown.preferences.",
       "Candidate C remains the sole destructive remote-to-local gameplay Apply authority with transaction-owned strict exact raw-snapshot rollback.",
       "Exactly two private managers remain mandatory; no public discovery, listing, lobby, matchmaking, community, rankings or global leaderboards.",
-      "Never request, expose, quote, paste, log or durably retain the full private session capability; Stage 5I evidence may retain only its one-way SHA-256 fingerprint.",
+      "Never request, expose, quote, paste, log or durably retain the full private session capability or raw account, device or rivalry IDs; acceptance evidence may retain only a one-way SHA-256 capability fingerprint.",
       "Never destructively test the protected historical rivalry.",
-      "Do not award RJR points for source, contracts, PR, CI, review, merge, deployment, WEC, SLE/SNS, Stage 5H browser simulation, Stage 5I tooling or repeated evidence.",
-      "Do not assume the physical acceptance automatically reaches RJR100; reconcile the fixed ledger from evidence."
+      "Do not award RJR points for source, validator tooling, contracts, PR, CI, review, merge, deployment, WEC, SLE/SNS, Stage 5H browser simulation, Stage 5I recorder tooling or repeated evidence.",
+      "Do not assume physical acceptance automatically reaches RJR100; reconcile the fixed ledger only after valid evidence."
     ],
     "evidenceNotes": [
-      "PR #192 Stage 5G exact same-capability Host/Join/Close recovery and PR #193 Stage 5H real-browser offline/online recovery are production-proven but intentionally zero-credit under the physical-device ledger gap.",
-      "PR #194 Stage 5I recorder is explicit-query-only, page-memory-only and export-only, writes no recorder network/localStorage state and exports neither raw authority IDs nor raw session capability.",
-      "Stage 5I Chromium audit encountered two single-process lifecycle failures. The final safe correction isolated normal and acceptance checks into separate Chromium processes without weakening production code or privacy assertions.",
-      "PR #194 exact head 42f91df5ec1d5a576f0907836fa03f5994d7646b passed all 15 permanent workflow families; zero review threads remained; expected-head squash merge produced 11bb681527a9b78884baf0c384350c90493dc9bd.",
-      "All 15 main-push workflow families passed with zero failures/cancellations. Release Integration Burn-In 33947112248 passed two independent complete journeys. Stability 33947112190 and deployed-site smoke 101255587827 passed fully.",
-      "Fixed RJR-1 remains exactly 91/100. Publication, deployment and handoff work receive zero capability credit.",
-      "Usage remained unavailable and was not fabricated."
+      "Predecessor status validates and is byte-identical to its closed archive; canonical history already contains its closure, so no duplicate append is needed.",
+      "Fresh unique WEC resets predecessor observations; this session has one dense live-state evidence batch and one unsupported GitHub tags-fetch route, classified and replaced by standard git metadata access.",
+      "Exact checkout tree matches live GitHub commit tree. No PR196 head mutation is needed for successor WEC; local continuity work stays on the successor branch.",
+      "Live RJR ledger remains 91; production bytes are being independently verified.",
+      "15/15 final-head PR runs and 15/15 pre-merge main runs are independently fetched; final-head bot review requested in comment 5552759559.",
+      "Checksum-verified gh 2.100.0 installed without authentication; connected GitHub capabilities cover publication, so no login request or credential reuse is needed.",
+      "Usage unavailable. Billing permanently off, Firebase Spark required; no provider mutation planned.",
+      "Final-head Codex review on ffb1d757, thread PRRT_kwDOTomsDM6fkYGU, found nested objects under known scalar fields could pass and be marked privacySafe. New regressions reproduce the gap; typed scalar validation now rejects object/array payloads and invalid primitive types without echoing their values or untrusted property paths.",
+      "Fresh WEC and capsule now travel with this real validator correction. Prior closed WEC bytes remain pinned in archival contracts; active successor ownership is checked separately, avoiding inheritance of the predecessor closed decision.",
+      "All 100 production runtime files independently matched 1.9.1-r2 byte for byte. The exact ffb1d757 contract suite passed all 87 files before correction; its CI proof is historical and will not authorize a changed head.",
+      "Second minor route correction was a guessed recorder filename; rg located the actual js/remoteJoiningAcceptance.js immediately. No product failure resulted.",
+      "Corrected-candidate npm run test:rjr-physical-preflight passed all 87 contract files and both Stage 5H/5I browser audits. Added diagnostic property-name non-echo regression also passes. All later exact-head CI and review gates remain pending.",
+      "A combined source transport exceeded the shell output budget before any remote mutation. Switched to bounded per-file reads; the reviewed source and publication boundary remain unchanged."
     ]
   }
 }

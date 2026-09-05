@@ -1,3 +1,17 @@
+# CURRENT CHECKPOINT — PR #196 OPEN / CORRECTED VALIDATOR SEALED / RJR91
+
+Read `START_NEXT_SESSION_V1.4.43_PR196_RJR91_PHYSICAL_ACCEPTANCE_VALIDATOR.md` first. Treat it as orientation only and independently verify live `main`, PR #196's final exact head/tree/review/workflows, production/runtime/deployment state, `REMOTE_JOINING_READINESS.json`, `NEXT_TASK.md`, `PROJECT_STATE.md` and the closed Work Environment Continuity archive.
+
+PR #196 initial exact head `95e40e83e0228ef4ed438f09fcf6db5ddbbc7636` passed all 15 workflow families. Its two valid review findings are corrected in the sealed tree. Production remains `v1.9.1 / 1.9.1-r2` from PR #194 merge `11bb681527a9b78884baf0c384350c90493dc9bd`; fixed `RJR-1` remains `91/100`; the previous whole-shell recovery target remains `1.9.1-r1`.
+
+## IMMEDIATE NEXT TASK AFTER FULL STUDY
+
+Validate/archive closed WEC `we-2026-09-05-physical-acceptance-evidence`, initialize a fresh unique WEC without inheriting `HANDOFF_AT_CHECKPOINT`, and finish corrected PR #196 on one unchanged final head with all 15 workflow families, final-head review, expected-head merge and all post-merge proof. Then run `npm run test:rjr-physical-preflight` and request the bounded genuine two-physical-device/two-independent-network acceptance. Validate the two sanitized exports with `npm run validate:rjr-physical -- <host-export.json> <peer-export.json>`. Passing tooling is an evidence candidate only and earns zero RJR.
+
+Billing must never be activated and Firebase remains Spark. Preserve App Check enforcement OFF, memory-only Firestore, popup-only `browserSessionPersistence`, exactly three canonical localStorage keys, Candidate C as sole destructive Apply authority, exactly two private managers, no public discovery, and no durable raw capability or authority ID.
+
+## Retained production-boundary detail
+
 # CURRENT PRODUCTION — v1.9.1-r2 / PR #194 MERGED / STAGE 5I PRODUCTION-PROVEN / RJR91 / PHYSICAL ACCEPTANCE NEXT
 
 Treat repository handoffs as orientation only. Independently verify current live `main`, active/just-merged PRs, deployment/runtime identity, `REMOTE_JOINING_READINESS.json`, `NEXT_TASK.md`, `PROJECT_STATE.md` and the current Work Environment Continuity (current WEC) record before acting. Current source/live provider evidence and later owner instructions win over stale recorded facts.
