@@ -8,6 +8,8 @@ The accepted Stage 5F production boundary remains sealed and credited exactly on
 
 PR #192 Stage 5G began the Remote Joining-specific two-device/two-network reconnect and adverse-network hardening lane by establishing same-capability recovery after ambiguous Host/Join/Close acknowledgement loss. PR #193 Stage 5H then proved the automatable browser portion of that lane with real-browser offline/online transitions across two isolated Chromium contexts: no provider mutation while offline, exactly one session and one Host/Join/Close mutation after recovery, active revision 1, terminal revision 2, extra online events without duplicate mutation, unchanged canonical local Save storage, and no paid-service dependency. Exact-head and deployed-site browser suites passed.
 
+Historical production provenance retained for the PR191 / Stage 5F / RJR91 boundary and early Stage 5G authority: `v1.9.0 / 1.9.0-r5` was the production runtime before PR #192 and PR #193 promoted `v1.9.1 / 1.9.1-r1`. `v1.9.0 / 1.9.0-r5` is historical provenance only and is NOT the current production runtime.
+
 Stage 5H is intentionally zero-credit under fixed RJR-1 because two browser contexts are not two physical devices on two independent networks. Fixed RJR-1 remains `91/100` with domain vector:
 
 - deterministic sync and recovery safety: 20/20
