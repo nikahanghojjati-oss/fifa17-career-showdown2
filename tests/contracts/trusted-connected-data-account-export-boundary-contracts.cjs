@@ -70,7 +70,7 @@ assert.match(preR3NextTask,/Immediate candidate rollback\/recovery runtime: `1\.
 assert.match(preR3NextTask,/Finish only PR #125[\s\S]+source validation first/i);
 
 // Current authority has advanced beyond the historical PR194/RJR91 physical-acceptance boundary.
-assert.match(nextTask,/^# CURRENT TASK — PUBLISH ACCEPTED RJR100 THEN GENERATE SNS$/im,"Live NEXT_TASK must identify accepted RJR100 / PR198 publication authority rather than revive historical export or RJR91 transition lanes.");
+assert.match(nextTask,/^# CURRENT TASK — SSJR-1 AUTHORITATIVE SETUP FOUNDATION$/im,"Live NEXT_TASK must identify the SSJR-1 setup candidate after verified RJR100 / PR198 closure rather than revive historical export or RJR91 transition lanes.");
 assert.match(nextTask,/100\/100[\s\S]+PR #198/i);
 assert.match(nextTask,/App Check enforcement remains OFF/i);
 assert.match(nextTask,/Firestore(?: browser persistence)? remains memory-only/i);

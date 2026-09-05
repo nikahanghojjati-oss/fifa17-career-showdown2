@@ -1,30 +1,253 @@
 {
   "schemaVersion": 2,
-  "recordedAt": "2026-09-05T08:09:54Z",
+  "recordedAt": "2026-09-05T22:10:22Z",
   "purpose": "SLE compact dependency and provenance graph for successor context retrieval",
   "nodes": [
-    {"id":"rjr1-ledger","type":"reporting-authority","source":"REMOTE_JOINING_READINESS.json","denominator":100,"recordedScore":91,"rule":"fixed capability evidence only; source, PR, CI, review, merge, deployment, WEC, SLE/SNS and documentation add zero duplicate credit","authority":1,"riskCriticality":1},
-    {"id":"stage5e-r3-production-session-lifecycle","type":"completed-production-capability","state":"provider-live-host-join-active-read-close-closed-consumed-rjr88","rjrScoreAfterProof":88,"rjrDelta":1,"authority":1,"riskCriticality":1},
-    {"id":"stage5e-r5-production-proof","type":"completed-production-runtime-capability","state":"pr187-r5-production-proven-owner-accepted","pullRequest":187,"exactFinalHead":"e30f34ffade1cc64d0fb268a66eb8109b27c376c","mergeSha":"277f1b55dc362ee84d285445b99172b9fbed8509","applicationVersion":"1.9.0","runtimeRevision":"1.9.0-r5","ownerAcceptanceProven":true,"onePasteConfirmed":true,"playerOnePostJoinAutoAttachProven":true,"exactConnectedRivalryEqualityProven":true,"zeroManualVerifyReattachProven":true,"rjrScoreAfterProof":89,"rjrDelta":1,"authority":1,"riskCriticality":1},
-    {"id":"stage5f-production-authenticated-negatives","type":"completed-production-authorization-capability","state":"revoked-device-mutation-and-authenticated-third-account-reads-provider-denied","proof":"PRODUCTION_STAGE5F_AUTHENTICATED_NEGATIVES_ACCEPTANCE_2026-09-04.md","rjrScoreBeforeProof":89,"rjrScoreAfterProof":91,"rjrDelta":2,"creditedDomain":"identity-auth-trust","publicationWorkRjrCredit":0,"authority":1,"riskCriticality":1},
-    {"id":"stage5g-h-i-network-hardening","type":"completed-production-hardening-automation","state":"same-capability-recovery-real-browser-adverse-network-and-privacy-safe-physical-recorder-production-proven","pullRequests":[192,193,194],"applicationVersion":"1.9.1","runtimeRevision":"1.9.1-r2","exactFinalHead":"42f91df5ec1d5a576f0907836fa03f5994d7646b","mergeSha":"11bb681527a9b78884baf0c384350c90493dc9bd","exactHeadWorkflowFamiliesSuccessful":15,"postMergeWorkflowFamiliesSuccessful":15,"releaseIntegrationRunId":33947112248,"stabilityRunId":33947112190,"deployedSiteSmokeJobId":101255587827,"productionProven":true,"rjrCredit":0,"reasonZeroCredit":"browser automation and recorder tooling do not substitute for the explicit two-physical-device/two-independent-network gap","authority":1,"riskCriticality":1},
-    {"id":"pr196-physical-evidence-validator","type":"completed-zero-credit-evidence-automation-candidate","state":"open-pr-initial-head-15-of-15-two-valid-p2-findings-corrected-final-sle-seal","pullRequest":196,"baseSha":"2302e8daba6c9417954bc610f537aba41c4d3d87","initialExactHead":"95e40e83e0228ef4ed438f09fcf6db5ddbbc7636","initialWorkflowFamiliesSuccessful":15,"validReviewFindings":2,"correctedLocally":true,"finalHeadMustBeFetchedLive":true,"runtimeChanged":false,"rulesChanged":false,"rjrCredit":0,"authority":1,"riskCriticality":1},
-    {"id":"closing-current-wec","type":"environment-transition","state":"pr196-corrected-validator-sealed-rjr91-publication-next","environmentId":"we-2026-09-05-physical-acceptance-evidence","startingMainSha":"2302e8daba6c9417954bc610f537aba41c4d3d87","transitionPullRequest":196,"transitionPullRequestState":"open","initialExactHead":"95e40e83e0228ef4ed438f09fcf6db5ddbbc7636","publicationStatus":"corrected-final-seal-pending-exact-head-revalidation","finalDecision":"HANDOFF_AT_CHECKPOINT","handoffProximity":100,"rjrScore":91,"starter":"START_NEXT_SESSION_V1.4.43_PR196_RJR91_PHYSICAL_ACCEPTANCE_VALIDATOR.md","fullHandoff":"SUCCESSOR_HANDOFF_PR196_RJR91_PHYSICAL_ACCEPTANCE_VALIDATOR_SLE_2026-09-05.md","archive":"WORK_ENVIRONMENT_ARCHIVE/we-2026-09-05-physical-acceptance-evidence.json","authority":1,"riskCriticality":1},
-    {"id":"successor-selection","type":"successor-immediate-decision","state":"fresh-wec-required-finish-pr196-then-physical-two-device-two-independent-network-acceptance","preferredFirstGap":"finish-corrected-pr196-exact-head-publication-before-owner-physical-acceptance","rule":"successor independently verifies live main, PR196 final sealed head/review/workflows and RJR91, validates the closed WEC, initializes a fresh unique WEC with reset counters without inheriting HANDOFF_AT_CHECKPOINT, completes expected-head publication and post-merge proof, then runs one bounded genuine physical acceptance using sanitized Stage 5I evidence","authority":1,"riskCriticality":1},
-    {"id":"stage5-private-remote-joining","type":"highest-priority-product-destination","state":"rjr91-validator-publication-then-physical-acceptance","knownRemainingGaps":["PR196 corrected exact-head publication and post-merge proof","Remote Joining-specific two-physical-device/two-independent-network reconnect/adverse-network acceptance","final stable Remote Joining release acceptance"],"nextSlice":"finish PR196 publication, then one bounded genuine production physical acceptance using the strict paired-export validator","authority":1},
-    {"id":"canonical-storage","type":"data-authority-lock","keys":["careerModeShowdown.saveLibrary","careerModeShowdown.legacyShowdowns","careerModeShowdown.preferences"],"activeShowdownCanonical":false,"candidateA":"non-mutating-export","candidateB":"read-only-analysis","candidateC":"sole-destructive-local-apply-authority","candidateCRollback":"transaction-owned-strict-exact-raw-snapshot","authority":1,"riskCriticality":1},
-    {"id":"security-zero-billing","type":"security-authority-lock","firebaseSpark":true,"billingActivationForbidden":true,"allNonBillingRemoteJoiningDecisionsAuthorized":true,"cloudRunAllowed":false,"cloudFunctionsAllowed":false,"appCheckEnforcement":false,"persistentFirestoreCache":false,"googleAuthPersistence":"browserSessionPersistence-popup-only-no-extra-scopes","publicDiscovery":false,"publicCommunity":false,"publicMatchmaking":false,"globalLeaderboardsRankings":false,"authority":1,"riskCriticality":1}
+    {
+      "id": "rjr1-ledger",
+      "type": "reporting-authority",
+      "source": "REMOTE_JOINING_READINESS.json",
+      "denominator": 100,
+      "recordedScore": 100,
+      "rule": "fixed capability evidence only; source, PR, CI, review, merge, deployment, WEC, SLE/SNS and documentation add zero duplicate credit",
+      "authority": 1,
+      "riskCriticality": 1,
+      "state": "complete-frozen",
+      "proof": "FINAL_RJR100_REMOTE_JOINING_ACCEPTANCE_2026-09-05.md"
+    },
+    {
+      "id": "stage5e-r3-production-session-lifecycle",
+      "type": "completed-production-capability",
+      "state": "provider-live-host-join-active-read-close-closed-consumed-rjr88",
+      "rjrScoreAfterProof": 88,
+      "rjrDelta": 1,
+      "authority": 1,
+      "riskCriticality": 1
+    },
+    {
+      "id": "stage5e-r5-production-proof",
+      "type": "completed-production-runtime-capability",
+      "state": "pr187-r5-production-proven-owner-accepted",
+      "pullRequest": 187,
+      "exactFinalHead": "e30f34ffade1cc64d0fb268a66eb8109b27c376c",
+      "mergeSha": "277f1b55dc362ee84d285445b99172b9fbed8509",
+      "applicationVersion": "1.9.0",
+      "runtimeRevision": "1.9.0-r5",
+      "ownerAcceptanceProven": true,
+      "onePasteConfirmed": true,
+      "playerOnePostJoinAutoAttachProven": true,
+      "exactConnectedRivalryEqualityProven": true,
+      "zeroManualVerifyReattachProven": true,
+      "rjrScoreAfterProof": 89,
+      "rjrDelta": 1,
+      "authority": 1,
+      "riskCriticality": 1
+    },
+    {
+      "id": "stage5f-production-authenticated-negatives",
+      "type": "completed-production-authorization-capability",
+      "state": "revoked-device-mutation-and-authenticated-third-account-reads-provider-denied",
+      "proof": "PRODUCTION_STAGE5F_AUTHENTICATED_NEGATIVES_ACCEPTANCE_2026-09-04.md",
+      "rjrScoreBeforeProof": 89,
+      "rjrScoreAfterProof": 91,
+      "rjrDelta": 2,
+      "creditedDomain": "identity-auth-trust",
+      "publicationWorkRjrCredit": 0,
+      "authority": 1,
+      "riskCriticality": 1
+    },
+    {
+      "id": "stage5g-h-i-network-hardening",
+      "type": "completed-production-hardening-automation",
+      "state": "same-capability-recovery-real-browser-adverse-network-and-privacy-safe-physical-recorder-production-proven",
+      "pullRequests": [
+        192,
+        193,
+        194
+      ],
+      "applicationVersion": "1.9.1",
+      "runtimeRevision": "1.9.1-r2",
+      "exactFinalHead": "42f91df5ec1d5a576f0907836fa03f5994d7646b",
+      "mergeSha": "11bb681527a9b78884baf0c384350c90493dc9bd",
+      "exactHeadWorkflowFamiliesSuccessful": 15,
+      "postMergeWorkflowFamiliesSuccessful": 15,
+      "releaseIntegrationRunId": 33947112248,
+      "stabilityRunId": 33947112190,
+      "deployedSiteSmokeJobId": 101255587827,
+      "productionProven": true,
+      "rjrCredit": 0,
+      "reasonZeroCredit": "browser automation and recorder tooling do not substitute for the explicit two-physical-device/two-independent-network gap",
+      "authority": 1,
+      "riskCriticality": 1
+    },
+    {
+      "id": "pr196-physical-evidence-validator",
+      "type": "completed-zero-credit-evidence-automation-candidate",
+      "state": "historical-completed-pr198-rjr100-prerequisite",
+      "pullRequest": 196,
+      "baseSha": "2302e8daba6c9417954bc610f537aba41c4d3d87",
+      "initialExactHead": "95e40e83e0228ef4ed438f09fcf6db5ddbbc7636",
+      "initialWorkflowFamiliesSuccessful": 15,
+      "validReviewFindings": 2,
+      "correctedLocally": true,
+      "finalHeadMustBeFetchedLive": true,
+      "runtimeChanged": false,
+      "rulesChanged": false,
+      "rjrCredit": 0,
+      "authority": 1,
+      "riskCriticality": 1,
+      "historicalOnly": true
+    },
+    {
+      "id": "closing-current-wec",
+      "type": "environment-transition",
+      "state": "pr199-ssjr-foundation-final-seal",
+      "environmentId": "we-2026-09-05-ssjr-setup-foundation-28cf84",
+      "startingMainSha": "39ffe88d61dcda973df03a18e0266fcfe4cf5638",
+      "transitionPullRequest": 199,
+      "transitionPullRequestState": "fetch-live",
+      "initialExactHead": "18e08bb96b7a6da7f9cb845aef03c79e8cd91f8e",
+      "publicationStatus": "final-seal-requires-exact-head-gates",
+      "finalDecision": "HANDOFF_NOW",
+      "handoffProximity": 100,
+      "rjrScore": 100,
+      "starter": "START_NEXT_SESSION_V1.4.46_PR199_SSJR1_SETUP_FOUNDATION.md",
+      "fullHandoff": "SUCCESSOR_HANDOFF_PR199_SSJR1_SETUP_FOUNDATION_SLE_2026-09-05.md",
+      "archive": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-05-ssjr-setup-foundation-28cf84.json",
+      "authority": 1,
+      "riskCriticality": 1,
+      "ssjrScore": 0
+    },
+    {
+      "id": "successor-selection",
+      "type": "successor-immediate-decision",
+      "state": "fresh-wec-verify-pr199-then-provider-enforcement",
+      "preferredFirstGap": "shared-setup-provider-transactions-and-rules",
+      "rule": "Independently verify PR #199 final exact head/tree/state, all 15 workflow families, reviews/threads, merge and post-merge evidence. If publication is unfinished, complete that exact-head gate first. Once publication is proven, immediately implement the Spark-compatible exact-path Shared Setup transaction adapter and candidate Firestore Rules, with direct modified-client emulator negatives. Derive authority from protected provider records in the same transaction; never trust caller-supplied JavaScript authority or a client-computed hash. Enforce paired managers and an ACTIVE session before any league or club commitment. Update NEXT_TASK.md in that substantive implementation candidate, with no separate continuity-only PR.",
+      "authority": 1,
+      "riskCriticality": 1
+    },
+    {
+      "id": "stage5-private-remote-joining",
+      "type": "highest-priority-product-destination",
+      "state": "complete-rjr100-prerequisite",
+      "knownRemainingGaps": [],
+      "nextSlice": "SSJR-1 shared journey",
+      "authority": 1,
+      "historicalOnly": true
+    },
+    {
+      "id": "canonical-storage",
+      "type": "data-authority-lock",
+      "keys": [
+        "careerModeShowdown.saveLibrary",
+        "careerModeShowdown.legacyShowdowns",
+        "careerModeShowdown.preferences"
+      ],
+      "activeShowdownCanonical": false,
+      "candidateA": "non-mutating-export",
+      "candidateB": "read-only-analysis",
+      "candidateC": "sole-destructive-local-apply-authority",
+      "candidateCRollback": "transaction-owned-strict-exact-raw-snapshot",
+      "authority": 1,
+      "riskCriticality": 1
+    },
+    {
+      "id": "security-zero-billing",
+      "type": "security-authority-lock",
+      "firebaseSpark": true,
+      "billingActivationForbidden": true,
+      "allNonBillingRemoteJoiningDecisionsAuthorized": true,
+      "cloudRunAllowed": false,
+      "cloudFunctionsAllowed": false,
+      "appCheckEnforcement": false,
+      "persistentFirestoreCache": false,
+      "googleAuthPersistence": "browserSessionPersistence-popup-only-no-extra-scopes",
+      "publicDiscovery": false,
+      "publicCommunity": false,
+      "publicMatchmaking": false,
+      "globalLeaderboardsRankings": false,
+      "authority": 1,
+      "riskCriticality": 1
+    },
+    {
+      "id": "ssjr1-ledger",
+      "type": "reporting-authority",
+      "source": "SHARED_SHOWDOWN_JOURNEY_READINESS.json",
+      "definition": "SHARED_SHOWDOWN_JOURNEY_MODEL.json",
+      "recordedScore": 0,
+      "denominator": 100,
+      "authority": 1,
+      "riskCriticality": 1,
+      "modelVersion": "SSJR-1.1"
+    },
+    {
+      "id": "ssjr1-setup-foundation",
+      "type": "candidate-protocol",
+      "source": "js/sharedShowdownSetup.js",
+      "pullRequest": 199,
+      "productionEnabled": false,
+      "ssjrCredit": 0,
+      "requiresPairingAndActiveBeforeSelection": true,
+      "authority": 1,
+      "riskCriticality": 1
+    }
   ],
   "edges": [
-    {"from":"stage5e-r3-production-session-lifecycle","to":"stage5e-r5-production-proof","relation":"r5-closes-separate-one-paste-zero-manual-reattach-gap"},
-    {"from":"stage5e-r5-production-proof","to":"stage5f-production-authenticated-negatives","relation":"stage5f-adds-two-distinct-production-authorization-capabilities-after-rjr89"},
-    {"from":"stage5f-production-authenticated-negatives","to":"rjr1-ledger","relation":"adds-exactly-two-new-production-capabilities-rjr91"},
-    {"from":"stage5f-production-authenticated-negatives","to":"stage5g-h-i-network-hardening","relation":"subsequent-network-hardening-remains-zero-credit-until-physical-gap-is-proven"},
-    {"from":"stage5g-h-i-network-hardening","to":"pr196-physical-evidence-validator","relation":"production-recorder-enables-strict-paired-export-validation"},
-    {"from":"pr196-physical-evidence-validator","to":"closing-current-wec","relation":"corrected-validator-sealed-at-mandatory-transition-checkpoint"},
-    {"from":"closing-current-wec","to":"successor-selection","relation":"fresh-successor-wec-required"},
-    {"from":"successor-selection","to":"stage5-private-remote-joining","relation":"continue-only-with-genuine-physical-rjr91-gap"},
-    {"from":"canonical-storage","to":"stage5-private-remote-joining","relation":"permanent-data-authority-lock"},
-    {"from":"security-zero-billing","to":"stage5-private-remote-joining","relation":"permanent-provider-privacy-and-billing-lock"}
+    {
+      "from": "stage5e-r3-production-session-lifecycle",
+      "to": "stage5e-r5-production-proof",
+      "relation": "r5-closes-separate-one-paste-zero-manual-reattach-gap"
+    },
+    {
+      "from": "stage5e-r5-production-proof",
+      "to": "stage5f-production-authenticated-negatives",
+      "relation": "stage5f-adds-two-distinct-production-authorization-capabilities-after-rjr89"
+    },
+    {
+      "from": "stage5f-production-authenticated-negatives",
+      "to": "rjr1-ledger",
+      "relation": "adds-exactly-two-new-production-capabilities-rjr91"
+    },
+    {
+      "from": "stage5f-production-authenticated-negatives",
+      "to": "stage5g-h-i-network-hardening",
+      "relation": "subsequent-network-hardening-remains-zero-credit-until-physical-gap-is-proven"
+    },
+    {
+      "from": "stage5g-h-i-network-hardening",
+      "to": "pr196-physical-evidence-validator",
+      "relation": "production-recorder-enables-strict-paired-export-validation"
+    },
+    {
+      "from": "canonical-storage",
+      "to": "stage5-private-remote-joining",
+      "relation": "permanent-data-authority-lock"
+    },
+    {
+      "from": "security-zero-billing",
+      "to": "stage5-private-remote-joining",
+      "relation": "permanent-provider-privacy-and-billing-lock"
+    },
+    {
+      "to": "ssjr1-setup-foundation",
+      "relation": "completed-transport-prerequisite-zero-SSJR-credit",
+      "from": "rjr1-ledger"
+    },
+    {
+      "to": "closing-current-wec",
+      "relation": "publication-and-seal",
+      "from": "ssjr1-setup-foundation"
+    },
+    {
+      "to": "successor-selection",
+      "relation": "fresh-wec-required",
+      "from": "closing-current-wec"
+    },
+    {
+      "to": "ssjr1-ledger",
+      "relation": "provider-enforcement-before-capability-credit",
+      "from": "successor-selection"
+    }
   ]
 }

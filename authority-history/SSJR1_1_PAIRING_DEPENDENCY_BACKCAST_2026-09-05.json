@@ -1,0 +1,27 @@
+{
+  "fromModelVersion": "SSJR-1",
+  "fromModelSha256": "246aa4572600bc00e14b505e0de15308373fdb57575015a60092d84935697f4e",
+  "fromModelArchive": "authority-history/SSJR1_MODEL_BEFORE_PR199_PAIRING_REVIEW_2026-09-05.json",
+  "toModelVersion": "SSJR-1.1",
+  "toModelSha256": "37ce4423e2cc2bb4bd601c5f773ffe5647208412a2ab7a4ac97d6c8a390f9e53",
+  "denominatorBefore": 100,
+  "denominatorAfter": 100,
+  "scoreBefore": 0,
+  "scoreAfter": 0,
+  "baselineEventId": "ssjr1-initial-backcast",
+  "baselineSourceSha": "39ffe88d61dcda973df03a18e0266fcfe4cf5638",
+  "creditedCapabilitiesBefore": [],
+  "creditedCapabilitiesAfter": [],
+  "scopeAndWeightsUnchanged": true,
+  "dependencyCorrection": {
+    "capabilityId": "setup-league",
+    "before": [
+      "entry-binding"
+    ],
+    "after": [
+      "entry-before-draw"
+    ]
+  },
+  "reviewComment": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/199#discussion_r3942232042",
+  "reason": "P1 review proved the original candidate could reach 95/100 without paired-first entry and did not cascade an ordering regression. Versioned dependency correction preserves the original one-time baseline, all weights and all outcomes; no readiness credit is created."
+}

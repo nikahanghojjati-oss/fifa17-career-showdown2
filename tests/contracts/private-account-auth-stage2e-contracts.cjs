@@ -173,7 +173,7 @@ assert.match(preR3Next,/Authorized product candidate:[\s\S]{0,120}v1\.5\.0[\s\S]
 assert.match(preR3Next,/Stage 3 Registered Devices \/ Private Pairing remains blocked/i);
 
 // Stage 2E/2F/2G remain immutable historical provenance. Current live authority is production-proven PR194/r2 with evidence-accepted fixed RJR100; PR198 publishes the completed ledger before SSJR-1 begins.
-assert.match(next,/^# CURRENT TASK — PUBLISH ACCEPTED RJR100 THEN GENERATE SNS$/im,"Live NEXT_TASK must identify accepted RJR100 / PR198 publication authority.");
+assert.match(next,/^# CURRENT TASK — SSJR-1 AUTHORITATIVE SETUP FOUNDATION$/im,"Live NEXT_TASK must identify the owner-authorized SSJR-1 engineering candidate after verified PR198 closure.");
 assert.match(next,/100\/100[\s\S]+PR #198/i);
 assert.match(next,/App Check enforcement remains OFF/i,"Live authority must keep App Check enforcement off.");
 assert.match(next,/(?:Billing must never be activated[\s\S]{0,180}Firebase remains Spark|Firebase remains Spark[\s\S]{0,180}billing permanently off)/i,"Live authority must preserve the permanent Spark zero-billing boundary.");

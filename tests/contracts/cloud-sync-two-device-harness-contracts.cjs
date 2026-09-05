@@ -29,7 +29,7 @@ assert.match(phase1e,/recursively frozen/i);
 assert.match(phase1e,/Phase 1F[\s\S]+remains blocked/i);
 assert.match(historicalNext,/CURRENT SUCCESSOR AUTHORITY — POST-PR #99 REMOTE JOINING RESTART/i,"Archived post-PR100/pre-gateway authority must retain its actual post-PR #99 successor heading as provenance.");
 assert.match(historicalNext,/Stage 1 — Cloud \/ Sync Readiness Phase 1A through 1F — DONE \/ MERGED \/ PROTECTED/i,"Archived post-PR #99 authority must preserve completed Stage 1 Cloud/Sync truth.");
-assert.match(next,/^# CURRENT TASK — PUBLISH ACCEPTED RJR100 THEN GENERATE SNS$/im,"Current NEXT_TASK must advance beyond historical Phase 1E/Stage5G and consumed physical-acceptance lanes to the evidence-accepted RJR100 / PR198 publication authority.");
+assert.match(next,/^# CURRENT TASK — SSJR-1 AUTHORITATIVE SETUP FOUNDATION$/im,"Current NEXT_TASK must advance beyond historical Phase 1E/Stage5G and consumed physical-acceptance lanes to the owner-authorized SSJR-1 setup foundation after verified RJR100 / PR198 closure.");
 assert.match(next,/PR #198[\s\S]+100\/100/i,"Current NEXT_TASK must identify the exact accepted RJR100 publication checkpoint.");
 assert.match(next,/Shared Showdown Journey Readiness|SSJR-1/i,"Current NEXT_TASK must route the successor toward the post-RJR100 shared-journey program after clean handoff.");
 assert.doesNotMatch(next,/Phase 1E[\s\S]{0,160}CURRENT BOUNDED CANDIDATE/i,"Current NEXT_TASK must not revive historical Phase 1E as active product authority.");

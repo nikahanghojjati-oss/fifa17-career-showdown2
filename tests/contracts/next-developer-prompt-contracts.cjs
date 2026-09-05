@@ -16,7 +16,7 @@ for(const [name,text] of [["SLE protocol",sle],["bootstrap protocol",bootstrapPr
   assert.match(text,/work:next-prompt/i);assert.match(text,/START_NEXT_SESSION_/i);
 }
 
-assert.equal(bootstrap.starter?.canonical,"START_NEXT_SESSION_V1.4.43_PR196_RJR91_PHYSICAL_ACCEPTANCE_VALIDATOR.md");
+assert.equal(bootstrap.starter?.canonical,"START_NEXT_SESSION_V1.4.46_PR199_SSJR1_SETUP_FOUNDATION.md");
 const starter=read(bootstrap.starter.canonical);
 const starterMirror=read(bootstrap.starter.projectMirror);
 const handoff=read(bootstrap.currentHandoff.canonical);
@@ -26,9 +26,9 @@ for(const [name,text] of [["current starter",starter],["current full handoff",ha
   assert.match(text,/IMMEDIATE NEXT TASK AFTER FULL STUDY/i,`${name} must retain immediate successor routing.`);
   assert.match(text,/fresh (?:unique )?(?:successor )?WEC/i);
   assert.match(text,/orientation/i);
-  assert.match(text,/PR #196/i);
+  assert.match(text,/PR #199/i);
   assert.match(text,/1\.9\.1-r2/i);
-  assert.match(text,/91\/100|RJR91/i);
+  assert.match(text,/0\/100|SSJR0/i);
   assert.match(text,/two physical devices|two-physical-device/i);
   assert.match(text,/independent network|two-independent-network/i);
 }
@@ -44,14 +44,17 @@ assert.match(prompt,/REMOTE_JOINING_READINESS\.json/);assert.match(prompt,/NEXT_
 
 assert.match(checkedPrompt,new RegExp(esc(bootstrap.repository)));
 assert.match(checkedPrompt,new RegExp(esc(bootstrap.starter.canonical)));
-assert.match(checkedPrompt,/PR #196/i);
+assert.match(checkedPrompt,/PR #199/i);
 assert.match(checkedPrompt,/final exact head\/tree\/state|final exact head/i);
 assert.match(checkedPrompt,/all 15 workflow families/i);
 assert.match(checkedPrompt,/v1\.9\.1 \/ 1\.9\.1-r2/i);
-assert.match(checkedPrompt,/91\/100|RJR91/i);
+assert.match(checkedPrompt,/0\/100|SSJR0/i);
 assert.match(checkedPrompt,/fresh WEC/i);
 assert.match(checkedPrompt,/two-physical-device|physical/i);
 assert.match(checkedPrompt,/Billing must remain permanently OFF|Billing must never be activated/i);
 assert.match(checkedPrompt,/Firebase[\s\S]+Spark/i);
 
-process.stdout.write("PASS next-developer prompt: v1.4.43 mirrored PR196 package and generated/current prompts route a fresh successor through corrected exact-head publication before genuine physical Remote Joining acceptance.\n");
+assert.match(prompt,/SHARED_SHOWDOWN_JOURNEY_READINESS\.json/);
+assert.match(checkedPrompt,/Estimated focused sessions to genuine SSJR100/);
+assert.match(checkedPrompt,/pairing[\s\S]+before[\s\S]+league/i);
+process.stdout.write("PASS next-developer prompt: v1.4.46 mirrored PR199 SSJR package and generated/current prompts route fresh WEC to provider enforcement after verified publication.\n");

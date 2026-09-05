@@ -1,38 +1,165 @@
 {
   "schemaVersion": 1,
-  "recordedAt": "2026-09-05T08:09:54Z",
-  "materialSessionsObserved": 21,
-  "learningState": "cold-start-priors-with-twenty-one-labeled-sessions-supervised-evaluation-not-adopted",
+  "recordedAt": "2026-09-05T22:10:22Z",
+  "materialSessionsObserved": 22,
+  "learningState": "cold-start-priors-with-recorded-session-outcomes-supervised-evaluation-not-adopted",
   "defaultUtility": 0.5,
   "alpha": 0.2,
   "items": {
-    "WORK_ENVIRONMENT_STATUS.json": {"loaded":true,"usedInDecision":true,"requiredForPublicationSecurityOrRecovery":true,"normalizedOutcome":1,"learnedUtility":0.85,"note":"One WEC safely carried Stage 5G, Stage 5H and Stage 5I through production proof, then correctly closes before the distinct physical milestone with no inherited predecessor decision."},
-    "workflow-job-logs": {"loaded":true,"usedInDecision":true,"preventedErrorOrResolvedContradiction":true,"normalizedOutcome":1,"learnedUtility":0.92,"note":"Exact Stage 5I Chromium jobs isolated two CI single-process lifecycle failures and proved the final separate-browser-process harness fix without weakening production code."},
-    "successor-entrypoint-coherence": {"loaded":true,"usedInDecision":true,"requiredForPublicationSecurityOrRecovery":true,"preventedErrorOrResolvedContradiction":true,"normalizedOutcome":1,"learnedUtility":0.9,"note":"Starter, deep SLE, bootstrap, graph/model/learning, current handoff, project state, next task and rolling prompt must all advance from r2 candidate language to r2 production-proven physical-acceptance routing together."},
-    "rjr-score-provenance-search": {"loaded":true,"usedInDecision":true,"preventedErrorOrResolvedContradiction":true,"normalizedOutcome":1,"learnedUtility":0.9,"note":"Fixed RJR-1 correctly remains 91 after Stage 5G/5H/5I, 15 exact-head successes, merge, 15 main-push successes, burn-in and complete deployment proof because those do not satisfy the explicit physical-device gap."},
-    "capability-secret-redaction": {"loaded":true,"usedInDecision":true,"requiredForPublicationSecurityOrRecovery":true,"normalizedOutcome":1,"learnedUtility":0.75,"note":"Stage 5I converts the unavoidable physical acceptance into sanitized JSON with a one-way session fingerprint, avoiding durable raw capability/account/device/rivalry identifiers."},
-    "pr194-exact-head-publication": {"loaded":true,"usedInDecision":true,"requiredForPublicationSecurityOrRecovery":true,"preventedErrorOrResolvedContradiction":true,"normalizedOutcome":1,"learnedUtility":0.75,"note":"Freeze one exact PR194 head, require all 15 families and zero review threads, expected-head merge, all 15 main-push families, two burn-in journeys and complete deployed-site smoke before calling r2 production-proven."},
-    "pr196-physical-evidence-validator": {"loaded":true,"usedInDecision":true,"requiredForPublicationSecurityOrRecovery":true,"preventedErrorOrResolvedContradiction":true,"normalizedOutcome":1,"learnedUtility":0.75,"note":"A physical-evidence validator needs a closed schema, normalized forbidden authority-key detection and non-echoing failures; passing remains a zero-credit candidate until genuine device/network facts are accepted."},
-    "local-workflow-and-server-lifecycle-safety": {"loaded":true,"usedInDecision":true,"requiredForPublicationSecurityOrRecovery":true,"preventedErrorOrResolvedContradiction":true,"normalizedOutcome":1,"learnedUtility":0.75,"note":"Local all-workflow replay must defer every authenticated production Rules publication block, and a self-contained browser preflight must own and terminate the direct server process so repeated runs cannot leak the port."}
+    "WORK_ENVIRONMENT_STATUS.json": {
+      "loaded": true,
+      "usedInDecision": true,
+      "requiredForPublicationSecurityOrRecovery": true,
+      "normalizedOutcome": 1,
+      "learnedUtility": 0.85,
+      "note": "One WEC safely carried Stage 5G, Stage 5H and Stage 5I through production proof, then correctly closes before the distinct physical milestone with no inherited predecessor decision."
+    },
+    "workflow-job-logs": {
+      "loaded": true,
+      "usedInDecision": true,
+      "preventedErrorOrResolvedContradiction": true,
+      "normalizedOutcome": 1,
+      "learnedUtility": 0.92,
+      "note": "Exact Stage 5I Chromium jobs isolated two CI single-process lifecycle failures and proved the final separate-browser-process harness fix without weakening production code."
+    },
+    "successor-entrypoint-coherence": {
+      "loaded": true,
+      "usedInDecision": true,
+      "requiredForPublicationSecurityOrRecovery": true,
+      "preventedErrorOrResolvedContradiction": true,
+      "normalizedOutcome": 1,
+      "learnedUtility": 0.9,
+      "note": "Starter, deep SLE, bootstrap, graph/model/learning, current handoff, project state, next task and rolling prompt must all advance from r2 candidate language to r2 production-proven physical-acceptance routing together."
+    },
+    "rjr-score-provenance-search": {
+      "loaded": true,
+      "usedInDecision": true,
+      "preventedErrorOrResolvedContradiction": true,
+      "normalizedOutcome": 1,
+      "learnedUtility": 0.9,
+      "note": "Fixed RJR-1 correctly remains 91 after Stage 5G/5H/5I, 15 exact-head successes, merge, 15 main-push successes, burn-in and complete deployment proof because those do not satisfy the explicit physical-device gap."
+    },
+    "capability-secret-redaction": {
+      "loaded": true,
+      "usedInDecision": true,
+      "requiredForPublicationSecurityOrRecovery": true,
+      "normalizedOutcome": 1,
+      "learnedUtility": 0.75,
+      "note": "Stage 5I converts the unavoidable physical acceptance into sanitized JSON with a one-way session fingerprint, avoiding durable raw capability/account/device/rivalry identifiers."
+    },
+    "pr194-exact-head-publication": {
+      "loaded": true,
+      "usedInDecision": true,
+      "requiredForPublicationSecurityOrRecovery": true,
+      "preventedErrorOrResolvedContradiction": true,
+      "normalizedOutcome": 1,
+      "learnedUtility": 0.75,
+      "note": "Freeze one exact PR194 head, require all 15 families and zero review threads, expected-head merge, all 15 main-push families, two burn-in journeys and complete deployed-site smoke before calling r2 production-proven."
+    },
+    "pr196-physical-evidence-validator": {
+      "loaded": true,
+      "usedInDecision": true,
+      "requiredForPublicationSecurityOrRecovery": true,
+      "preventedErrorOrResolvedContradiction": true,
+      "normalizedOutcome": 1,
+      "learnedUtility": 0.75,
+      "note": "A physical-evidence validator needs a closed schema, normalized forbidden authority-key detection and non-echoing failures; passing remains a zero-credit candidate until genuine device/network facts are accepted."
+    },
+    "local-workflow-and-server-lifecycle-safety": {
+      "loaded": true,
+      "usedInDecision": true,
+      "requiredForPublicationSecurityOrRecovery": true,
+      "preventedErrorOrResolvedContradiction": true,
+      "normalizedOutcome": 1,
+      "learnedUtility": 0.75,
+      "note": "Local all-workflow replay must defer every authenticated production Rules publication block, and a self-contained browser preflight must own and terminate the direct server process so repeated runs cannot leak the port."
+    }
   },
   "sessionMetrics": [
-    {"sessionId":"we-2026-09-03-stage5e-r4-production-convergence-acceptance","directRemoteJoiningPrerequisiteReached":true,"nextRealProductMilestoneUnblocked":"fresh-successor-select-smallest-uncredited-rjr89-gap","fullHistoryPreloaded":false,"githubConnectorSufficient":true,"deepFallbackUsed":true,"missedCriticalContextIncident":false,"staleAuthorityCorrection":true},
-    {"sessionId":"we-2026-09-03-stage5f-authenticated-negatives","directRemoteJoiningPrerequisiteReached":true,"nextRealProductMilestoneUnblocked":"stage5g-remote-joining-network-hardening-after-pr191-publication","fullHistoryPreloaded":false,"githubConnectorSufficient":true,"deepFallbackUsed":true,"missedCriticalContextIncident":false,"staleAuthorityCorrection":true},
-    {"sessionId":"we-2026-09-04-pr191-publication-stage5g","directRemoteJoiningPrerequisiteReached":true,"nextRealProductMilestoneUnblocked":"stage5g-remote-joining-network-hardening-automation","fullHistoryPreloaded":false,"githubConnectorSufficient":true,"deepFallbackUsed":true,"missedCriticalContextIncident":false,"staleAuthorityCorrection":true},
-    {"sessionId":"we-2026-09-04-stage5g-reconnect-recovery","directRemoteJoiningPrerequisiteReached":true,"nextRealProductMilestoneUnblocked":"physical-two-device-two-independent-network-remote-joining-acceptance","fullHistoryPreloaded":false,"githubConnectorSufficient":true,"deepFallbackUsed":true,"deepFallbackReason":"Exact PR192/193/194 runtime, workflow and deployment evidence plus WEC/SLE authority were needed to exhaust automation without inflating RJR and to make the final physical step privacy-safe.","missedCriticalContextIncident":false,"staleAuthorityCorrection":true,"routeFailureCluster":"Stage 5I Chromium single-process behavior invalidated two sequential context-isolation assumptions; separate browser processes resolved the harness issue without production changes.","ciTriageLesson":"When the production contract is sound but Chromium dies during context lifecycle, isolate the browser runtime behavior before changing application semantics. Preserve every privacy and storage assertion.","productionEvidenceLesson":"Exact-head green plus merge is insufficient: r2 became production-proven only after all main-push families, two burn-in journeys, every deployed runtime byte and the complete deployed journey passed.","authorityLesson":"Automation can harden and instrument the remaining gap but cannot be relabeled as two physical devices/two independent networks. Stop at the clean production boundary and hand the genuine physical evidence milestone to a fresh WEC."},
-    {"sessionId":"we-2026-09-05-physical-acceptance-evidence","directRemoteJoiningPrerequisiteReached":true,"nextRealProductMilestoneUnblocked":"finish-pr196-corrected-publication-then-physical-acceptance","fullHistoryPreloaded":false,"githubConnectorSufficient":true,"deepFallbackUsed":true,"deepFallbackReason":"The PR195 starter, live PR196 workflow/review state, exact WEC transition rules and repository-wide authority contracts were needed to automate the final evidence boundary without inflating RJR.","missedCriticalContextIncident":false,"staleAuthorityCorrection":true,"validReviewFindings":2,"reviewFindingsCorrected":2,"initialExactHeadWorkflowFamiliesSuccessful":15,"rjrCredit":0,"privacyLesson":"Closed schemas must reject both unknown fields and normalized aliases of raw authority keys, and error output must never echo rejected values.","processLesson":"Own the direct static-server PID and verify consecutive preflight teardown; trapping an npm wrapper does not prove child cleanup.","authorityLesson":"Seal at HANDOFF_AT_CHECKPOINT after the corrected PR package; a fresh successor finishes final-head publication before requesting physical evidence."}
+    {
+      "sessionId": "we-2026-09-03-stage5e-r4-production-convergence-acceptance",
+      "directRemoteJoiningPrerequisiteReached": true,
+      "nextRealProductMilestoneUnblocked": "fresh-successor-select-smallest-uncredited-rjr89-gap",
+      "fullHistoryPreloaded": false,
+      "githubConnectorSufficient": true,
+      "deepFallbackUsed": true,
+      "missedCriticalContextIncident": false,
+      "staleAuthorityCorrection": true
+    },
+    {
+      "sessionId": "we-2026-09-03-stage5f-authenticated-negatives",
+      "directRemoteJoiningPrerequisiteReached": true,
+      "nextRealProductMilestoneUnblocked": "stage5g-remote-joining-network-hardening-after-pr191-publication",
+      "fullHistoryPreloaded": false,
+      "githubConnectorSufficient": true,
+      "deepFallbackUsed": true,
+      "missedCriticalContextIncident": false,
+      "staleAuthorityCorrection": true
+    },
+    {
+      "sessionId": "we-2026-09-04-pr191-publication-stage5g",
+      "directRemoteJoiningPrerequisiteReached": true,
+      "nextRealProductMilestoneUnblocked": "stage5g-remote-joining-network-hardening-automation",
+      "fullHistoryPreloaded": false,
+      "githubConnectorSufficient": true,
+      "deepFallbackUsed": true,
+      "missedCriticalContextIncident": false,
+      "staleAuthorityCorrection": true
+    },
+    {
+      "sessionId": "we-2026-09-04-stage5g-reconnect-recovery",
+      "directRemoteJoiningPrerequisiteReached": true,
+      "nextRealProductMilestoneUnblocked": "physical-two-device-two-independent-network-remote-joining-acceptance",
+      "fullHistoryPreloaded": false,
+      "githubConnectorSufficient": true,
+      "deepFallbackUsed": true,
+      "deepFallbackReason": "Exact PR192/193/194 runtime, workflow and deployment evidence plus WEC/SLE authority were needed to exhaust automation without inflating RJR and to make the final physical step privacy-safe.",
+      "missedCriticalContextIncident": false,
+      "staleAuthorityCorrection": true,
+      "routeFailureCluster": "Stage 5I Chromium single-process behavior invalidated two sequential context-isolation assumptions; separate browser processes resolved the harness issue without production changes.",
+      "ciTriageLesson": "When the production contract is sound but Chromium dies during context lifecycle, isolate the browser runtime behavior before changing application semantics. Preserve every privacy and storage assertion.",
+      "productionEvidenceLesson": "Exact-head green plus merge is insufficient: r2 became production-proven only after all main-push families, two burn-in journeys, every deployed runtime byte and the complete deployed journey passed.",
+      "authorityLesson": "Automation can harden and instrument the remaining gap but cannot be relabeled as two physical devices/two independent networks. Stop at the clean production boundary and hand the genuine physical evidence milestone to a fresh WEC."
+    },
+    {
+      "sessionId": "we-2026-09-05-physical-acceptance-evidence",
+      "directRemoteJoiningPrerequisiteReached": true,
+      "nextRealProductMilestoneUnblocked": "finish-pr196-corrected-publication-then-physical-acceptance",
+      "fullHistoryPreloaded": false,
+      "githubConnectorSufficient": true,
+      "deepFallbackUsed": true,
+      "deepFallbackReason": "The PR195 starter, live PR196 workflow/review state, exact WEC transition rules and repository-wide authority contracts were needed to automate the final evidence boundary without inflating RJR.",
+      "missedCriticalContextIncident": false,
+      "staleAuthorityCorrection": true,
+      "validReviewFindings": 2,
+      "reviewFindingsCorrected": 2,
+      "initialExactHeadWorkflowFamiliesSuccessful": 15,
+      "rjrCredit": 0,
+      "privacyLesson": "Closed schemas must reject both unknown fields and normalized aliases of raw authority keys, and error output must never echo rejected values.",
+      "processLesson": "Own the direct static-server PID and verify consecutive preflight teardown; trapping an npm wrapper does not prove child cleanup.",
+      "authorityLesson": "Seal at HANDOFF_AT_CHECKPOINT after the corrected PR package; a fresh successor finishes final-head publication before requesting physical evidence."
+    },
+    {
+      "sessionId": "we-2026-09-05-ssjr-setup-foundation-28cf84",
+      "directSharedShowdownPrerequisiteReached": true,
+      "nextRealProductMilestoneUnblocked": "shared-setup-provider-enforcement",
+      "fullHistoryPreloaded": false,
+      "githubConnectorSufficient": true,
+      "deepFallbackUsed": true,
+      "missedCriticalContextIncident": false,
+      "ssjrCredit": 0,
+      "lesson": "Fix one model baseline once. Pure authority simulation is not provider security or gameplay. Pairing must precede selection; stable journey identity outlives the short session. Preserve historical proof while refreshing current routing."
+    }
   ],
   "latestLesson": {
-    "rjrScore": 91,
-    "publicationPullRequest": 196,
-    "publicationState": "open",
-    "publicationInitialExactHead": "95e40e83e0228ef4ed438f09fcf6db5ddbbc7636",
-    "publicationExactFinalHead": null,
-    "publicationFinalHeadMustBeFetchedLive": true,
-    "publicationMergeSha": null,
-    "publicationStatus": "open-corrected-final-sle-seal-pending-exact-head-revalidation",
+    "rjrScore": 100,
+    "ssjrScore": 0,
+    "publicationPullRequest": 199,
+    "publicationState": "fetch-live-final-seal",
     "runtimeRevision": "1.9.1-r2",
-    "next": "finish-pr196-corrected-publication-then-physical-acceptance",
-    "lesson": "Treat validation automation, publication proof and physical capability evidence separately. PR196's initial head passed all 15 families, but its two valid review findings required a corrected sealed head and a fresh exact-head cycle. The successor finishes that publication first, then performs one sanitized genuine physical acceptance and reconciles RJR from evidence rather than process volume."
+    "next": "shared-setup-provider-enforcement",
+    "lesson": "The owner requires a playable remote shared journey. Candidate test success earns zero capability credit until equivalent provider enforcement and production two-account outcomes are proven.",
+    "ssjrModelVersion": "SSJR-1.1",
+    "reviewCorrection": "PR #199 P1 review correction: fixed model SSJR-1.1 supersedes the unmerged SSJR-1 candidate through an explicit 0/100 \u2192 0/100 comparable backcast. League setup now depends on proven entry-before-draw, so missing pairing-order proof blocks all downstream credit and an ordering regression removes 95 points from a synthetic fully credited ledger. Scope, weights, denominator, original baseline and real evidence remain unchanged. Original candidate definition and fingerprint are archived in `authority-history/SSJR1_MODEL_BEFORE_PR199_PAIRING_REVIEW_2026-09-05.json`; the versioned correction is in `authority-history/SSJR1_1_PAIRING_DEPENDENCY_BACKCAST_2026-09-05.json`. The regression test reproduced the old loophole before the correction and passes afterward. The corrected final seal requires fresh exact-head CI and review before merge."
   }
 }

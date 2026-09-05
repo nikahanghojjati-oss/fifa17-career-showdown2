@@ -84,7 +84,7 @@ assert.match(`${preR3NextTask}\n${preR3ProjectState}`,/App Check enforcement(?: 
 assert.match(`${preR3NextTask}\n${preR3ProjectState}`,/firebaseauth\.users\.get[\s\S]+datastore\.databases\.get[\s\S]+datastore\.entities\.get[\s\S]+datastore\.entities\.create/i);
 
 // Historical Stage 2I security/provenance stays immutable; live authority is production-proven PR194/r2 with evidence-accepted RJR100, published by PR198 before SSJR-1 begins.
-assert.match(nextTask,/^# CURRENT TASK — PUBLISH ACCEPTED RJR100 THEN GENERATE SNS$/im,"Live NEXT_TASK must identify accepted RJR100 / PR198 publication authority.");
+assert.match(nextTask,/^# CURRENT TASK — SSJR-1 AUTHORITATIVE SETUP FOUNDATION$/im,"Live NEXT_TASK must identify the SSJR-1 setup candidate after verified RJR100 / PR198 closure.");
 assert.match(nextTask,/100\/100[\s\S]+PR #198/i);
 assert.match(nextTask,/App Check enforcement remains OFF/i);
 assert.match(nextTask,/physical Chromebook[\s\S]+iPhone|Chromebook[\s\S]+cellular/i,"Live authority must retain the genuine physical evidence class already accepted.");

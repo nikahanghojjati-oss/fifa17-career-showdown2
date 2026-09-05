@@ -63,3 +63,8 @@ assert.match(provenance, /Never guess the next feature from old roadmap order/i)
 assert.match(provenance, /Every successor handoff and fresh Work environment must preserve this reporting behavior recursively/i);
 
 process.stdout.write("PASS owner eight-line progress reporting, roadmap-based RJR100 session forecasting, Remote Joining readiness lifecycle and historical provenance policy\n");
+
+const ssjrOverride=agents.slice(agents.indexOf("## Current owner reporting override"));
+assert.match(ssjrOverride,/Shared Showdown Journey readiness: Y\/100[\s\S]+Estimated focused sessions to genuine SSJR100:/);
+assert.match(ssjrOverride,/both UI and provider authority/);
+assert.match(ssjrOverride,/before league or club selection/);

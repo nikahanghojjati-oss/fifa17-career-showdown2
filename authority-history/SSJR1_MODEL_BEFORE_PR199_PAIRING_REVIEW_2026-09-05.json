@@ -1,0 +1,526 @@
+{
+  "modelVersion": "SSJR-1",
+  "denominator": 100,
+  "frozenAt": "2026-09-05",
+  "prerequisite": {
+    "model": "RJR-1",
+    "minimumScore": 100,
+    "credit": 0
+  },
+  "domains": [
+    {
+      "id": "shared-entry",
+      "label": "Shared identity and journey entry",
+      "weight": 10,
+      "weightRationale": "Correct identity and pre-draw entry are required before a shared journey can exist.",
+      "capabilities": [
+        {
+          "id": "entry-binding",
+          "weight": 5,
+          "outcome": "Create one shared journey bound to the exact active rivalry, two manager profiles and their local Save identities.",
+          "acceptance": "Provider-enforced two-account entry with inactive, wrong-rivalry, wrong-profile and wrong-Save denial.",
+          "requiredEvidenceLayers": [
+            "deterministic-behavior",
+            "provider-enforcement",
+            "production-two-account"
+          ],
+          "dependsOn": []
+        },
+        {
+          "id": "entry-before-draw",
+          "weight": 5,
+          "outcome": "Reach shared setup from both profiles without first committing two independent local league or club draws.",
+          "acceptance": "Production browser journey from fresh profiles through pairing, ACTIVE and the same empty shared setup.",
+          "requiredEvidenceLayers": [
+            "deterministic-behavior",
+            "provider-enforcement",
+            "production-two-account"
+          ],
+          "dependsOn": [
+            "entry-binding"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "shared-setup",
+      "label": "Authoritative shared setup",
+      "weight": 25,
+      "weightRationale": "The highest immediate gap: every later season depends on the same locked league, clubs and season plan.",
+      "capabilities": [
+        {
+          "id": "setup-league",
+          "weight": 8,
+          "outcome": "Both managers see one immutable authoritative League Wheel outcome.",
+          "acceptance": "Production two-account draw convergence plus racing requests, stale base and lost acknowledgement replay.",
+          "requiredEvidenceLayers": [
+            "deterministic-behavior",
+            "provider-enforcement",
+            "production-two-account"
+          ],
+          "dependsOn": [
+            "entry-binding"
+          ]
+        },
+        {
+          "id": "setup-clubs",
+          "weight": 8,
+          "outcome": "Both managers receive different permanent clubs from that same committed league.",
+          "acceptance": "Production same-league distinct-club convergence, wrong-league/duplicate denial and no reroll.",
+          "requiredEvidenceLayers": [
+            "deterministic-behavior",
+            "provider-enforcement",
+            "production-two-account"
+          ],
+          "dependsOn": [
+            "setup-league"
+          ]
+        },
+        {
+          "id": "setup-length",
+          "weight": 4,
+          "outcome": "Commit one supported 1/3/5/10 season length.",
+          "acceptance": "All supported values and unsupported-value denial; the peer sees the exact committed value.",
+          "requiredEvidenceLayers": [
+            "deterministic-behavior",
+            "provider-enforcement",
+            "production-two-account"
+          ],
+          "dependsOn": [
+            "setup-clubs"
+          ]
+        },
+        {
+          "id": "setup-confirmation",
+          "weight": 5,
+          "outcome": "Each entitled manager confirms the exact setup before shared play starts.",
+          "acceptance": "Production role-isolated confirmation with stale setup rejection and identical final setup on both devices.",
+          "requiredEvidenceLayers": [
+            "deterministic-behavior",
+            "provider-enforcement",
+            "production-two-account"
+          ],
+          "dependsOn": [
+            "setup-length"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "season-results",
+      "label": "Season lifecycle and result publication",
+      "weight": 20,
+      "weightRationale": "Repeated two-manager competition needs isolated results and transfer-phase ownership.",
+      "capabilities": [
+        {
+          "id": "career-start",
+          "weight": 4,
+          "outcome": "Both managers acknowledge starting the matching local FIFA17 careers.",
+          "acceptance": "Role-isolated acknowledgements bind the confirmed clubs and season plan without implying console control.",
+          "requiredEvidenceLayers": [
+            "deterministic-behavior",
+            "provider-enforcement",
+            "production-two-account"
+          ],
+          "dependsOn": [
+            "setup-confirmation"
+          ]
+        },
+        {
+          "id": "transfer-challenge",
+          "weight": 6,
+          "outcome": "Preserve the supported transfer challenge and its phase locks across both managers.",
+          "acceptance": "Two-account transfer timer, guesses, signings and completion proof with role ownership and no lost update.",
+          "requiredEvidenceLayers": [
+            "deterministic-behavior",
+            "provider-enforcement",
+            "production-two-account"
+          ],
+          "dependsOn": [
+            "career-start"
+          ]
+        },
+        {
+          "id": "results-publication",
+          "weight": 6,
+          "outcome": "Each manager publishes and reviews supported results for their own exact season.",
+          "acceptance": "Production separate-account submissions, field bounds, wrong-role denial and deliberate review before commit.",
+          "requiredEvidenceLayers": [
+            "deterministic-behavior",
+            "provider-enforcement",
+            "production-two-account"
+          ],
+          "dependsOn": [
+            "transfer-challenge"
+          ]
+        },
+        {
+          "id": "season-commit",
+          "weight": 4,
+          "outcome": "Commit one reconciled season only after both reviewed results are ready.",
+          "acceptance": "Production atomic commit with incomplete/duplicate/stale input denied and both manager acknowledgements.",
+          "requiredEvidenceLayers": [
+            "deterministic-behavior",
+            "provider-enforcement",
+            "production-two-account"
+          ],
+          "dependsOn": [
+            "results-publication"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "scoring-progression",
+      "label": "Scoring, history and multi-season convergence",
+      "weight": 20,
+      "weightRationale": "The competition must stay correct across every supported season length.",
+      "capabilities": [
+        {
+          "id": "canonical-scoring",
+          "weight": 7,
+          "outcome": "Recompute canonical scores and winner from authoritative supported results.",
+          "acceptance": "All trophy weights, both bonus caps and existing zero-score-only tiebreak rule proven without trusting submitted totals.",
+          "requiredEvidenceLayers": [
+            "deterministic-behavior",
+            "provider-enforcement",
+            "production-two-account"
+          ],
+          "dependsOn": [
+            "season-commit"
+          ]
+        },
+        {
+          "id": "history-convergence",
+          "weight": 5,
+          "outcome": "Both devices show matching season history, manager records and trophy attribution.",
+          "acceptance": "Production identity-safe history/statistics/trophy projections from the same accepted result revision.",
+          "requiredEvidenceLayers": [
+            "deterministic-behavior",
+            "provider-enforcement",
+            "production-two-account"
+          ],
+          "dependsOn": [
+            "canonical-scoring"
+          ]
+        },
+        {
+          "id": "multi-season",
+          "weight": 8,
+          "outcome": "Advance exactly once through every season of 1/3/5/10 plans with fixed clubs.",
+          "acceptance": "Automated complete two-account journeys for all four lengths, no skipped/duplicate season, production progression proof.",
+          "requiredEvidenceLayers": [
+            "deterministic-behavior",
+            "provider-enforcement",
+            "production-two-account"
+          ],
+          "dependsOn": [
+            "history-convergence"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "recovery-conflicts",
+      "label": "Shared journey recovery and conflict safety",
+      "weight": 15,
+      "weightRationale": "Existing transport recovery does not yet cover shared setup/results or new mutation ownership.",
+      "capabilities": [
+        {
+          "id": "journey-reconnect",
+          "weight": 5,
+          "outcome": "Recover shared setup and season work after offline, reload, expiry and fresh-session re-entry.",
+          "acceptance": "Stage-specific adverse-network proof preserves the committed journey and never treats an expired session as active.",
+          "requiredEvidenceLayers": [
+            "deterministic-behavior",
+            "provider-enforcement",
+            "production-two-account"
+          ],
+          "dependsOn": [
+            "setup-confirmation",
+            "season-commit"
+          ]
+        },
+        {
+          "id": "journey-conflicts",
+          "weight": 5,
+          "outcome": "Reject stale, replay-altered and unauthorized shared journey changes.",
+          "acceptance": "Two-account contention, role/account/device revocation, receipt expiry and quota-failure tests plus provider enforcement.",
+          "requiredEvidenceLayers": [
+            "deterministic-behavior",
+            "provider-enforcement",
+            "production-two-account"
+          ],
+          "dependsOn": [
+            "season-commit"
+          ]
+        },
+        {
+          "id": "local-reconciliation",
+          "weight": 5,
+          "outcome": "Preserve exact local Save authority while reconciling shared journey state.",
+          "acceptance": "Read-only Candidate B preview and explicit backup-first Candidate C Apply with exact rollback, unrelated-save immutability and offline fallback.",
+          "requiredEvidenceLayers": [
+            "deterministic-behavior",
+            "provider-enforcement",
+            "production-two-account"
+          ],
+          "dependsOn": [
+            "history-convergence"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "completion",
+      "label": "Final reconciliation and terminal closure",
+      "weight": 5,
+      "weightRationale": "Completion is a bounded terminal outcome, not a second transport program.",
+      "capabilities": [
+        {
+          "id": "final-reconciliation",
+          "weight": 3,
+          "outcome": "Reconcile the final season into exactly one completed Showdown on both devices.",
+          "acceptance": "Production final results and history converge with correct winner and no additional season.",
+          "requiredEvidenceLayers": [
+            "deterministic-behavior",
+            "provider-enforcement",
+            "production-two-account"
+          ],
+          "dependsOn": [
+            "multi-season",
+            "local-reconciliation"
+          ]
+        },
+        {
+          "id": "terminal-close",
+          "weight": 2,
+          "outcome": "Close the completed shared journey terminally without resurrection.",
+          "acceptance": "Production CLOSED remains terminal under delayed publishes, retries, session re-entry and later reads.",
+          "requiredEvidenceLayers": [
+            "deterministic-behavior",
+            "provider-enforcement",
+            "production-two-account"
+          ],
+          "dependsOn": [
+            "final-reconciliation"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "full-journey-release",
+      "label": "Physical full journey and stable release",
+      "weight": 5,
+      "weightRationale": "Integrated physical proof earns only the final residual acceptance points.",
+      "capabilities": [
+        {
+          "id": "physical-journey",
+          "weight": 3,
+          "outcome": "Complete the integrated journey on two physical devices and independent networks.",
+          "acceptance": "Sanitized Chromebook/Home WiFi plus iPhone/cellular equivalent full shared journey with offline recovery, final reconciliation and terminal closure.",
+          "requiredEvidenceLayers": [
+            "deterministic-behavior",
+            "provider-enforcement",
+            "production-two-account",
+            "physical-two-device-two-network"
+          ],
+          "dependsOn": [
+            "terminal-close",
+            "journey-reconnect",
+            "journey-conflicts"
+          ]
+        },
+        {
+          "id": "stable-journey-release",
+          "weight": 2,
+          "outcome": "Accept the integrated Shared Showdown Journey as a stable production release.",
+          "acceptance": "Exact deployed runtime complete journey, all mandatory release gates and no open release-blocking journey regression; owner-facing acceptance where required.",
+          "requiredEvidenceLayers": [
+            "deterministic-behavior",
+            "provider-enforcement",
+            "production-two-account",
+            "stable-release-acceptance"
+          ],
+          "dependsOn": [
+            "physical-journey"
+          ]
+        }
+      ]
+    }
+  ],
+  "creditPolicy": {
+    "unit": "whole-capability",
+    "partialCredit": false,
+    "fixedWeights": true,
+    "duplicateCapabilityCredit": false,
+    "processOnlyCredit": 0,
+    "zeroCreditActivities": [
+      "source creation",
+      "PR",
+      "CI count",
+      "review",
+      "merge",
+      "deployment alone",
+      "documentation",
+      "WEC",
+      "SLE",
+      "SNS",
+      "test tooling alone"
+    ],
+    "baselinePolicy": "One explicit backcast at the verified starting source; existing evidence must satisfy the same full capability criteria. RJR transport completion and local-only gameplay are prerequisites, not automatic SSJR credit.",
+    "regressionPolicy": "Append invalidation for the proven failed capability and all currently credited dependents. Preserve old evidence and weights. Recredit requires a new evidence bundle proving the repair.",
+    "modelChangePolicy": "SSJR-1 is frozen. Changed scope or weights require a new modelVersion with rationale and a separately comparable backcast; never silently rewrite SSJR-1."
+  },
+  "acceptance100": "All fixed capabilities are credited at their required evidence layers, the complete supported two-manager shared journey is production-proven, physical two-device/two-network proof is accepted, no unresolved release blocker remains, and every permanent lock is preserved.",
+  "permanentLocks": {
+    "billingEnabled": false,
+    "firebasePlan": "Spark",
+    "cloudRun": false,
+    "cloudFunctions": false,
+    "appCheckEnforcement": false,
+    "firestorePersistence": "memory-only",
+    "googleAuth": "popup-only-browserSessionPersistence-no-extra-scopes",
+    "managerCount": 2,
+    "publicDiscovery": false,
+    "durableClientRawAuthorityIds": false,
+    "localApplyAuthority": "Candidate C only",
+    "canonicalLocalStorage": [
+      "careerModeShowdown.saveLibrary",
+      "careerModeShowdown.legacyShowdowns",
+      "careerModeShowdown.preferences"
+    ]
+  },
+  "processMap": {
+    "states": [
+      "PROFILE_A + PROFILE_B",
+      "PRIVATE_PAIRING",
+      "CONNECTED_RIVALRY_ATTACHED",
+      "REMOTE_SESSION_HOSTED",
+      "REMOTE_PEER_JOINED",
+      "ACTIVE",
+      "SHARED_SETUP_OPEN",
+      "LEAGUE_WHEEL_COMMITTED",
+      "CLUB_ASSIGNMENTS_COMMITTED",
+      "SEASON_LENGTH_COMMITTED",
+      "SHOWDOWN_CONFIRMED",
+      "LOCAL_FIFA17_CAREERS_STARTED",
+      "SEASON_IN_PROGRESS",
+      "SUPPORTED_RESULTS_PUBLISHED",
+      "AUTHORITATIVE_SCORING_RECONCILED",
+      "BOTH_MANAGERS_CONVERGED",
+      "FINAL_SEASON_RECONCILED",
+      "SHOWDOWN_COMPLETE",
+      "CLOSED",
+      "NO_RESURRECTION"
+    ],
+    "forwardEdges": [
+      {
+        "from": "PROFILE_A + PROFILE_B",
+        "to": "PRIVATE_PAIRING"
+      },
+      {
+        "from": "PRIVATE_PAIRING",
+        "to": "CONNECTED_RIVALRY_ATTACHED"
+      },
+      {
+        "from": "CONNECTED_RIVALRY_ATTACHED",
+        "to": "REMOTE_SESSION_HOSTED"
+      },
+      {
+        "from": "REMOTE_SESSION_HOSTED",
+        "to": "REMOTE_PEER_JOINED"
+      },
+      {
+        "from": "REMOTE_PEER_JOINED",
+        "to": "ACTIVE"
+      },
+      {
+        "from": "ACTIVE",
+        "to": "SHARED_SETUP_OPEN"
+      },
+      {
+        "from": "SHARED_SETUP_OPEN",
+        "to": "LEAGUE_WHEEL_COMMITTED"
+      },
+      {
+        "from": "LEAGUE_WHEEL_COMMITTED",
+        "to": "CLUB_ASSIGNMENTS_COMMITTED"
+      },
+      {
+        "from": "CLUB_ASSIGNMENTS_COMMITTED",
+        "to": "SEASON_LENGTH_COMMITTED"
+      },
+      {
+        "from": "SEASON_LENGTH_COMMITTED",
+        "to": "SHOWDOWN_CONFIRMED"
+      },
+      {
+        "from": "SHOWDOWN_CONFIRMED",
+        "to": "LOCAL_FIFA17_CAREERS_STARTED"
+      },
+      {
+        "from": "LOCAL_FIFA17_CAREERS_STARTED",
+        "to": "SEASON_IN_PROGRESS"
+      },
+      {
+        "from": "SEASON_IN_PROGRESS",
+        "to": "SUPPORTED_RESULTS_PUBLISHED"
+      },
+      {
+        "from": "SUPPORTED_RESULTS_PUBLISHED",
+        "to": "AUTHORITATIVE_SCORING_RECONCILED"
+      },
+      {
+        "from": "AUTHORITATIVE_SCORING_RECONCILED",
+        "to": "BOTH_MANAGERS_CONVERGED"
+      },
+      {
+        "from": "BOTH_MANAGERS_CONVERGED",
+        "to": "FINAL_SEASON_RECONCILED"
+      },
+      {
+        "from": "FINAL_SEASON_RECONCILED",
+        "to": "SHOWDOWN_COMPLETE"
+      },
+      {
+        "from": "SHOWDOWN_COMPLETE",
+        "to": "CLOSED"
+      },
+      {
+        "from": "CLOSED",
+        "to": "NO_RESURRECTION"
+      }
+    ],
+    "seasonLoop": {
+      "from": "BOTH_MANAGERS_CONVERGED",
+      "to": "SEASON_IN_PROGRESS",
+      "guard": "completedSeason < committedSeasonLength; exactly one increment; clubs immutable"
+    },
+    "finalGuard": "completedSeason == committedSeasonLength before FINAL_SEASON_RECONCILED",
+    "interruptions": [
+      {
+        "state": "OFFLINE_LOCAL_AVAILABLE",
+        "resume": "Read exact committed journey after reconnect; no speculative authority writes."
+      },
+      {
+        "state": "CONFLICT_REVIEW_REQUIRED",
+        "resume": "Retain original intent/base. Refresh and obtain fresh explicit confirmation; never silently rebase."
+      },
+      {
+        "state": "SESSION_EXPIRED_OR_CLOSED",
+        "resume": "Acquire a fresh ACTIVE session for the same entitled rivalry. Resume the existing journey; never recreate or reset it."
+      },
+      {
+        "state": "ACCOUNT_OR_DEVICE_REVOKED",
+        "resume": "Deny protected operations immediately; local-only play stays available."
+      },
+      {
+        "state": "SPARK_QUOTA_EXHAUSTED",
+        "resume": "Fail closed, preserve local state and pending intent; never enable billing."
+      }
+    ],
+    "terminalPolicy": "A terminal journey cannot be recreated by a new session or a delayed write; session closure alone is not full-journey completion.",
+    "fifa17Boundary": "FIFA17 matches are played locally; no match-engine streaming, console control or frame synchronization."
+  }
+}
