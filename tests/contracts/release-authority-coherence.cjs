@@ -125,10 +125,12 @@ if(candidateRecord && currentProductionProven){
         A.ok(currentState.includes(previousRuntime) && currentNext.includes(previousRuntime), "Candidate authority must preserve the immediate production/recovery runtime.");
     }
 }else{
+    // Live release identity belongs to current authority documents, not the append-only historical roadmap ledger.
     for(const [file, text] of [
         ["README.md", readme], ["PROJECT_STATE.md", state], ["NEXT_TASK.md", next],
-        ["00_DEVELOPER_START_HERE.md", start], ["POST_V1_ROADMAP_EXECUTION.md", roadmap]
+        ["00_DEVELOPER_START_HERE.md", start]
     ]) A.ok(text.includes(revision), `${file} must acknowledge promoted runtime ${revision}.`);
+    A.match(roadmap,/Current source, live GitHub\/provider\/deployment evidence, `NEXT_TASK\.md`, `PROJECT_STATE\.md`[\s\S]+override every retained historical roadmap body below/i,"Historical roadmap must explicitly defer live release authority to current source and authority documents.");
     const changelogHead = changelog.slice(0, 1800);
     A.match(changelogHead, new RegExp(`##\\s+v${version.replace(/\./g, "\\.")}`), "CHANGELOG must identify the current promoted application near the top.");
     A.ok(changelogHead.includes(revision), "CHANGELOG must identify the current promoted runtime near the top.");
