@@ -22,7 +22,7 @@ The Installable Offline App, v1.3.0 Recovery & Device Resilience baseline, Local
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
 1. Continue PR #192 exact-head Stage 5G validation from the active WEC. Do not initialize another successor WEC while this environment remains active and coherent.
-2. Finish automated same-capability reconnect/adverse-network proof for the real Stage 5 production path in `js/sparkRemoteJoining.js`, `js/sparkPrivateSession.js` and `js/sparkStandardAuthPrivateSession.js`.
+2. Finish automated Remote Joining-specific two-device/two-network reconnect/adverse-network hardening for the real Stage 5 production path in `js/sparkRemoteJoining.js`, `js/sparkPrivateSession.js` and `js/sparkStandardAuthPrivateSession.js`, beginning with deterministic same-capability recovery.
 3. Prove two independent manager contexts around one exact private session across transient provider/network acknowledgement loss and recovery: Host, Join and Close must retry the same capability without duplicate session creation, phantom success, capability leakage or canonical local-save mutation.
 4. Preserve exact two-manager entitlement, lifecycle monotonicity and terminal no-resurrection, privacy/no listing, page-memory-only capability handling, exactly three canonical localStorage keys, canonical local Save immutability and bounded failure/recovery semantics.
 5. Do not repeat generic Connected Rivalry adverse-network proof or re-credit it. Do not award RJR for source, CI, PR, merge, deployment, documentation, WEC, review or repeated Stage 5F evidence. Recalculate only after genuinely new Remote Joining-specific capability evidence exists.
