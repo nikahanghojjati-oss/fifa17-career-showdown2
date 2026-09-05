@@ -11,6 +11,7 @@ Stage 5F production acceptance remains PASS in `PRODUCTION_STAGE5F_AUTHENTICATED
 The predecessor Work Environment Continuity record `we-2026-09-04-pr191-publication-stage5g` is already closed and archived with `HANDOFF_NOW`. It is historical transition provenance, not current execution authority.
 
 Current environment: `we-2026-09-04-stage5g-reconnect-recovery`
+Current active environment: `we-2026-09-04-stage5g-reconnect-recovery`
 Starting independently verified live main: `7ca132a607cbf4fd78710b14526b4bec849ac2d2`
 Working branch: `stage5g/remote-reconnect-recovery-2026-09-04`
 Current pull request: `#192`
