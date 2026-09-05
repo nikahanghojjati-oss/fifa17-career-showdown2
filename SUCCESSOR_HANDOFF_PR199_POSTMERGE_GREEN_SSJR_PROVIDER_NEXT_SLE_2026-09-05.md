@@ -53,7 +53,7 @@ Supported order:
 
 A fresh ACTIVE session for the same rivalry must resume the existing competition and must not reset setup. Pairing and ACTIVE session must be enforced before league/club selection in provider authority and final UI.
 
-## 5. Immediate next substantive milestone
+## 5. IMMEDIATE NEXT TASK AFTER FULL STUDY — Shared Remote Setup provider enforcement
 
 After independently verifying live main and initializing a fresh WEC, implement the smallest Spark-compatible exact-path Shared Remote Setup provider transaction adapter plus candidate Firestore Rules and emulator tests.
 
