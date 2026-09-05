@@ -2,6 +2,8 @@
 
 Treat repository handoffs as orientation only. Independently verify live `main`, current PRs, workflow/review state, production/deployment identity, `REMOTE_JOINING_READINESS.json`, `NEXT_TASK.md`, `PROJECT_STATE.md` and the current Work Environment Continuity record before acting. Current source and live GitHub/provider evidence win.
 
+Mandatory GitHub CLI bootstrap: use the connected GitHub App connector first. If substantial repository work requires local `gh`, run `npm run work:gh:bootstrap`; the repository-owned bootstrap reuses an authenticated local tool when available or installs the official stable Linux GitHub CLI with checksum verification, workspace-local credentials and `gh auth status`. Never extract, copy or repurpose connector credentials.
+
 Current product boundary: Remote Joining Readiness `RJR-1` is evidence-accepted at `100/100`. Production remains `v1.9.1 / 1.9.1-r2`; previous known-good whole-shell recovery remains `1.9.1-r1`. The genuine Chromebook/Home WiFi plus iPhone/cellular physical Remote Joining acceptance and final stable-release acceptance are complete. PR #198 is evidence/continuity publication only and receives zero RJR credit.
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
