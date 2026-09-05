@@ -2,7 +2,7 @@
 
 Status: REMOTE JOINING READINESS COMPLETE / PRODUCTION-PROVEN / EVIDENCE PUBLICATION IN PROGRESS
 
-Production application is `v1.9.1`; production runtime revision is `1.9.1-r2`; previous known-good whole-shell recovery is `1.9.1-r1`. The current PR #198 does not change runtime bytes or provider state.
+Production: `v1.9.1 / 1.9.1-r2`. Previous known-good whole-shell recovery is `1.9.1-r1`. The current PR #198 does not change runtime bytes or provider state.
 
 Fixed `RJR-1` is now `100/100`:
 - deterministic sync/recovery safety: 20/20
