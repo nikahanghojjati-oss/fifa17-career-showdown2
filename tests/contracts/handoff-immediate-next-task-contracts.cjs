@@ -48,8 +48,8 @@ assert.match(next,/Closing (?:Work Environment Continuity \(WEC\)|WEC)[\s\S]+HAN
 assert.equal(pkg.version,"1.9.0");
 assert.equal(bootstrap.runtime?.applicationVersion,"1.9.0");
 assert.equal(bootstrap.runtime?.productionRuntimeRevision,"1.9.0-r5");
-// SESSION_BOOTSTRAP/00_CURRENT_HANDOFF now identify the merged/deployed PR191/RJR91 handoff package.
-// The earlier PR187/RJR89 package remains immutable historical provenance below.
+// SESSION_BOOTSTRAP/00_CURRENT_HANDOFF identify the merged/deployed PR191/RJR91 handoff package.
+// The earlier PR187/RJR89 package and closed PR191 publication WEC remain immutable provenance.
 assert.equal(bootstrap.starter?.canonical,"START_NEXT_SESSION_V1.4.40_PR191_MERGED_RJR91_STAGE5G_AUTOMATION.md");
 assert.equal(bootstrap.currentHandoff?.canonical,"SUCCESSOR_HANDOFF_PR191_MERGED_RJR91_STAGE5G_AUTOMATION_SLE_2026-09-04.md");
 assert.equal(bootstrap.currentPublicationCheckpoint?.state,"merged");
@@ -123,13 +123,25 @@ assert.equal(predecessorWec.environmentId,"we-2026-09-03-stage5f-authenticated-n
 assert.equal(predecessorWec.lifecycle,"closed");
 assert.equal(predecessorWec.assessment?.decision,"HANDOFF_NOW");
 assert.equal(predecessorWec.assessment?.decisionInheritedFromPredecessor,false);
-assert.equal(wec.environmentId,"we-2026-09-04-pr191-publication-stage5g");
-assert.equal(wec.lifecycle,"closed");
-assert.equal(wec.repository?.predecessorEnvironmentId,predecessorWec.environmentId);
-assert.equal(wec.assessment?.decision,"HANDOFF_NOW");
-assert.equal(wec.assessment?.decisionInheritedFromPredecessor,false);
-assert.deepEqual(wec,closingWec,"Closing WEC archive must match final status semantics exactly.");
-assert.match(wec.continuity?.currentTask||"",/PR #191[\s\S]+complete[\s\S]+Stage 5G/i,"Closing WEC must prove PR191 publication complete and stop before Stage 5G.");
-assert.match((wec.continuity?.evidenceNotes||[]).join("\n"),/Fixed RJR-1 is 91\/100/i,"WEC must record the current fixed RJR without inventing an unsupported schema field.");
+assert.equal(closingWec.environmentId,"we-2026-09-04-pr191-publication-stage5g");
+assert.equal(closingWec.lifecycle,"closed");
+assert.equal(closingWec.repository?.predecessorEnvironmentId,predecessorWec.environmentId);
+assert.equal(closingWec.assessment?.decision,"HANDOFF_NOW");
+assert.equal(closingWec.assessment?.decisionInheritedFromPredecessor,false);
+assert.match(closingWec.continuity?.currentTask||"",/PR #191[\s\S]+complete[\s\S]+Stage 5G/i,"Archived publication WEC must prove PR191 publication complete and stop before Stage 5G.");
+assert.match((closingWec.continuity?.evidenceNotes||[]).join("\n"),/Fixed RJR-1 is 91\/100/i,"Archived publication WEC must record the fixed RJR91 boundary.");
 
-process.stdout.write("PASS current immediate-next-task authority: merged PR191 and deployed r5 are exact, Stage 5F/RJR91 and Owner's Eagle Eye remain fixed, the closed publication WEC routes a fresh successor directly into genuinely uncredited Stage 5G automation, and prior PR187 provenance remains immutable.\n");
+assert.equal(wec.environmentId,"we-2026-09-04-stage5g-reconnect-recovery");
+assert.equal(wec.lifecycle,"active");
+assert.equal(wec.repository?.startingMainSha,"7ca132a607cbf4fd78710b14526b4bec849ac2d2");
+assert.equal(wec.repository?.predecessorEnvironmentId,closingWec.environmentId);
+assert.equal(wec.repository?.predecessorArchive,"WORK_ENVIRONMENT_ARCHIVE/we-2026-09-04-pr191-publication-stage5g.json");
+assert.equal(wec.assessment?.decision,"CONTINUE");
+assert.equal(wec.assessment?.decisionInheritedFromPredecessor,false);
+assert.equal(wec.signals?.compactionCount,0);
+assert.equal(wec.signals?.majorPhasesCompleted,0);
+assert.match(wec.continuity?.currentTask||"",/Stage 5G[\s\S]+same-capability[\s\S]+Host[\s\S]+Join[\s\S]+Close/i);
+assert.match((wec.continuity?.knownHazards||[]).join("\n"),/Billing is permanently forbidden/i);
+assert.match((wec.continuity?.evidenceNotes||[]).join("\n"),/local candidate commit 2452b03 was never published/i);
+
+process.stdout.write("PASS current immediate-next-task authority: PR191/RJR91 publication remains immutable archived provenance while the fresh reset WEC actively executes genuinely uncredited Stage 5G same-capability reconnect automation with zero-billing locks intact.\n");
