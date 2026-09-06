@@ -44,13 +44,19 @@ for(const required of [
   "exactPairedRivalry(rivalryId)",
   "activeAccount(data.managerSlots[0].accountId)",
   "activeAccount(data.managerSlots[1].accountId)",
-  "activeOwnedDevice(root.updatedByDeviceId)",
-  "activeSession(rivalryId, root.activeSessionId)",
+  "writeAuthorityValid(rivalryId, root.updatedByDeviceId, root.activeSessionId)",
+  "actor in rivalry.authorizedAccountIds",
+  "slot0Account.data.data.status == 'active'",
+  "slot1Account.data.data.status == 'active'",
+  "device.data.data.state == 'active'",
+  "sessionData.state == 'active'",
+  "sessionData.expiresAt > request.time",
   "sessionHostIsActor(rivalryId, after.activeSessionId)",
   "match /sharedSetup/authoritative",
   "allow create: if validCreateLedger(rivalryId)",
   "allow update: if validUpdateLedger(rivalryId)"
 ]) assert.ok(candidateRules.includes(required),`Candidate Shared Setup Rules must enforce: ${required}`);
+assert.match(candidateRules,/evaluated once per candidate Shared Setup[\s\S]+1,000-expression ceiling/i,"Candidate write authority must remain intentionally bounded under Firestore's expression ceiling.");
 
 assert.equal(candidateRules.includes("allow list, delete: if false;"),true,"Shared Setup authority must remain non-listable and non-deletable from modified clients.");
 assert.equal(productionRules.includes("sharedSetup"),false,"Candidate Shared Setup Rules must not silently alter production Firestore authority.");
@@ -62,4 +68,4 @@ for(const source of ["index.html","js/optionalModules.js","service-worker.js"]){
 }
 assert.ok(packageJson.scripts["test:ssjr"].includes("shared-showdown-provider-contracts.cjs"),"The SSJR contract command must permanently include provider-boundary regression proof.");
 
-process.stdout.write("PASS Shared Showdown Spark provider boundary contracts: exact ACTIVE session identity, immutable repository catalog, actor-bound replay, exactly-two-manager Rules gates, zero billing, no canonical local mutation, candidate-only production isolation.\n");
+process.stdout.write("PASS Shared Showdown Spark provider boundary contracts: exact ACTIVE session identity, immutable repository catalog, actor-bound replay, bounded exactly-two-manager Rules authority, zero billing, no canonical local mutation, candidate-only production isolation.\n");
