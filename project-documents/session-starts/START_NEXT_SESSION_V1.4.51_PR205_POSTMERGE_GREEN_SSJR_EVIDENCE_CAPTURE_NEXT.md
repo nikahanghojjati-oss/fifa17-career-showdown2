@@ -5,7 +5,15 @@ SLE = Smart Lean Efficient. Treat this starter as orientation only. Current sour
 Repository: `nikahanghojjati-oss/fifa17-career-showdown2`
 Public site: https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/
 
-Read `AGENTS.md`, `SESSION_BOOTSTRAP.json`, `00_CURRENT_HANDOFF.md`, `NEXT_TASK.md`, `WORK_ENVIRONMENT_STATUS.json`, `SHARED_SHOWDOWN_JOURNEY_MODEL.json`, and `SHARED_SHOWDOWN_JOURNEY_READINESS.json` first. Expand to `SUCCESSOR_HANDOFF_PR205_POSTMERGE_GREEN_SSJR_EVIDENCE_CAPTURE_NEXT_SLE_2026-09-06.md` only as needed.
+Read `AGENTS.md`, `00_BUILD_FIRST_PRODUCT_POLICY.md`, `00_HANDOFF_PROXIMITY_STAGE_GATES.md`, `SESSION_BOOTSTRAP.json`, `00_CURRENT_HANDOFF.md`, `NEXT_TASK.md`, `WORK_ENVIRONMENT_STATUS.json`, `SHARED_SHOWDOWN_JOURNEY_MODEL.json`, and `SHARED_SHOWDOWN_JOURNEY_READINESS.json` first. Expand to `SUCCESSOR_HANDOFF_PR205_POSTMERGE_GREEN_SSJR_EVIDENCE_CAPTURE_NEXT_SLE_2026-09-06.md` only as needed.
+
+## Owner process correction — build first, honest proximity
+
+The owner explicitly changed the development process on 2026-09-06 after repeated handoff closeouts spent hours at a misleading 99% while broad CI uncovered one wording mismatch at a time.
+
+`00_BUILD_FIRST_PRODUCT_POLICY.md` now targets approximately 75% actual product implementation and 25% validation/maintenance/continuity. Use the smallest relevant tests while building. Batch coherent connector changes into one Git tree/commit when possible. Do not use the full permanent matrix as an iterative linter after every small edit. For authority/handoff changes, run `npm run test:handoff-preflight` before publication-grade CI when a usable local shell exists.
+
+`00_HANDOFF_PROXIMITY_STAGE_GATES.md` supersedes the older heuristic Handoff-proximity interpretation where inconsistent. Pending terminal validation is 70%; a frozen candidate with publication CI pending is 85%; exact-head publication green is 90%; merged-main verification is 96%; post-publication green is 98%; 99% is reserved for a fully sealed SLE/WEC package with no repository mutation remaining; 100% means generate SNS immediately and stop. Any newly discovered blocker moves the percentage back to the stage actually supported by evidence.
 
 ## Verified boundary
 
@@ -40,16 +48,16 @@ PR205 published `scripts/validate-ssjr-shared-setup-production-evidence.mjs`. It
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
-1. Independently verify live main beginning from `66abde6d51ade2e8fbe8296ba60ac46e18a2a353` or its newer legitimate continuity-only successor, PR205 merged/post-merge state, PR203 production r3/Rules authority, frozen RJR100 and fixed SSJR0.
-2. Validate/archive closing WEC `we-2026-09-06-ssjr-production-shared-setup-a50` and initialize a fresh unique successor WEC. Never inherit its `HANDOFF_NOW` decision.
-3. Use two legitimate private manager accounts and two independent registered browser identities on deployed r3. Do not fabricate account evidence in CI.
-4. Prove exact Connected Rivalry pairing plus exact ACTIVE exists before any shared league or club action.
-5. Prove both managers converge on one authoritative league, two distinct permanent clubs from that same league, supported `1/3/5/10` season length and two role-distinct confirmations through exact `SHOWDOWN_CONFIRMED` revision 6.
-6. Prove reload/reconnect and a fresh ACTIVE same-rivalry session resume the identical setup without reset/redraw.
-7. Prove wrong/expired session, unrelated account, revoked identity, stale revision, replay/conflict, direct field substitution and coordinator bypass fail closed.
-8. Prove Shared Setup operation itself leaves canonical local gameplay storage unchanged.
-9. Feed only privacy-safe evidence to the PR205 validator. Recalculate SSJR only if the fixed production-two-account whole-capability layer genuinely passes.
-10. Do not begin transfer/results/scoring transport until this Shared Setup evidence boundary is credited or a concrete blocker is isolated.
+1. Independently verify live main beginning from `66abde6d51ade2e8fbe8296ba60ac46e18a2a353` or its newer legitimate continuity/process-only successor, PR #205 merged/post-merge state, PR #203 production r3/Rules authority, frozen RJR100 and fixed SSJR0.
+2. Verify the just-published PR #206 process/handoff closeout if it is already merged; it changes development process/continuity only and must not replace PR203 runtime authority or earn SSJR credit.
+3. Validate/archive closing WEC `we-2026-09-06-ssjr-production-shared-setup-a50` and initialize a fresh unique successor WEC. Never inherit its `HANDOFF_NOW` decision.
+4. Use two legitimate private manager accounts and two independent registered browser identities on deployed r3. Do not fabricate account evidence in CI.
+5. Prove exact Connected Rivalry pairing plus exact ACTIVE exists before any shared league or club action.
+6. Prove both managers converge on one authoritative league, two distinct permanent clubs from that same league, supported `1/3/5/10` season length and two role-distinct confirmations through exact `SHOWDOWN_CONFIRMED` revision 6.
+7. Prove reload/reconnect and a fresh ACTIVE same-rivalry session resume the identical setup without reset/redraw.
+8. Prove wrong/expired session, unrelated account, revoked identity, stale revision, replay/conflict, direct field substitution and coordinator bypass fail closed.
+9. Prove Shared Setup operation itself leaves canonical local gameplay storage unchanged; feed only privacy-safe evidence to the PR205 validator and recalculate SSJR only if the fixed production-two-account layer genuinely passes.
+10. Do not begin transfer/results/scoring transport until this Shared Setup evidence boundary is credited or a concrete blocker is isolated. Once credited, immediately return to product-building under the 75/25 build-first policy and begin the next authorized transfer/results/scoring capability rather than extending the proof lane.
 
 ## Permanent locks
 
@@ -74,4 +82,4 @@ Blocker: ...
 Sidequest check: NONE
 ```
 
-At Handoff proximity 100%, recursively create the complete mirrored SLE/SNS package, archive/finalize the current WEC, refresh current pointers, provide one short repository-first successor prompt, and stop before the next substantial milestone.
+Use `00_HANDOFF_PROXIMITY_STAGE_GATES.md` for the percentage. At Handoff proximity 100%, the complete mirrored SLE/WEC package must already be sealed and applicable publication/post-publication gates must already be green; generate the SNS immediately and stop before the next substantial milestone.
