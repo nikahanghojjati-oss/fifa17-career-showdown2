@@ -12,79 +12,43 @@ const optional=fs.readFileSync("js/optionalModules.js","utf8");
 const pkg=JSON.parse(fs.readFileSync("package.json","utf8"));
 const bootstrap=JSON.parse(fs.readFileSync("SESSION_BOOTSTRAP.json","utf8"));
 const readiness=JSON.parse(fs.readFileSync("REMOTE_JOINING_READINESS.json","utf8"));
-const productionR2=bootstrap.runtime?.productionRuntimeRevision==="1.9.1-r2"&&bootstrap.runtime?.productionStatus==="production-proven";
+const productionR3=bootstrap.runtime?.productionRuntimeRevision==="1.9.1-r3"&&bootstrap.runtime?.productionStatus==="production-proven";
 
-for(const term of ["accountId","profileId","saveId","seasonId","deviceId","installationId","baseRevision","tombstone","idempotency"]){
-  assert.ok(policy.includes(term),`Phase 1C lost required identity/sync term: ${term}`);
-}
-for(const heading of [
-  "Account principal metadata","Account-to-profile authorization linkage","Connected rivalry / shared Save authority","Registered device metadata","Private pairing / invite records","Private session membership / authorization","Mutation idempotency / replay metadata","Tombstones / deletion authority","Minimal security/audit metadata"
-])assert.ok(policy.includes(heading),`Missing remote data class: ${heading}`);
+for(const term of ["accountId","profileId","saveId","seasonId","deviceId","installationId","baseRevision","tombstone","idempotency"]){assert.ok(policy.includes(term),`Phase 1C lost required identity/sync term: ${term}`);}
+for(const heading of ["Account principal metadata","Account-to-profile authorization linkage","Connected rivalry / shared Save authority","Registered device metadata","Private pairing / invite records","Private session membership / authorization","Mutation idempotency / replay metadata","Tombstones / deletion authority","Minimal security/audit metadata"])assert.ok(policy.includes(heading),`Missing remote data class: ${heading}`);
 
-assert.match(policy,/Candidate A export files[\s\S]+Candidate B analysis[\s\S]+Candidate C raw restore snapshots/i,"Local recovery material must remain local-only by default.");
-assert.match(policy,/unshared Save Library Saves/i,"Unshared Saves must remain local-only by default.");
-assert.match(policy,/Remote Joining does not authorize automatic upload of every local Save/i,"Remote Joining must not silently become full cloud backup.");
-assert.match(policy,/Optional Private Cloud Backup remains a separate future opt-in product/i,"Cloud Backup must remain separate and opt-in.");
+assert.match(policy,/Candidate A export files[\s\S]+Candidate B analysis[\s\S]+Candidate C raw restore snapshots/i);
+assert.match(policy,/unshared Save Library Saves/i);
+assert.match(policy,/Remote Joining does not authorize automatic upload of every local Save/i);
+assert.match(policy,/Optional Private Cloud Backup remains a separate future opt-in product/i);
 assert.match(policy,/Public community|public community/i);assert.match(policy,/global leaderboards or global rankings/i);assert.match(policy,/public matchmaking/i);assert.match(policy,/No public lobby or discoverability index is allowed/i);
+assert.match(policy,/Tombstones[\s\S]+lifetime of the owning account\/connected namespace/i);assert.match(policy,/Tombstones must not retain deleted gameplay content/i);assert.match(policy,/Pairing \/ invite records[\s\S]+no more than 7 days/i);assert.match(policy,/Idempotency metadata[\s\S]+7 days by default/i);assert.match(policy,/Security\/audit metadata[\s\S]+30 days by default/i);assert.match(policy,/account-deletion request must immediately revoke normal remote access and new mutation authority/i);assert.match(policy,/shared two-owner rivalry when only one account requests deletion[\s\S]+Phase 1D/i);
+for(const forbidden of ["passwords","raw authentication tokens","raw invite secrets","full Save payloads"]){assert.match(policy,new RegExp(`Do not log[\\s\\S]+${forbidden}`,"i"));}
+assert.match(policy,/detailed browsing history, unrelated device telemetry, exact location/i);assert.match(policy,/Do not use timestamps as conflict authority/i);assert.match(policy,/No Firebase\/Firestore region is selected in Phase 1C/i);assert.match(policy,/local-only use must remain available/i);assert.match(policy,/Candidate A export, Candidate B analysis, Candidate C recovery and formatVersion 2 portability must remain available/i);assert.match(policy,/no remote module may bypass local transaction authority/i);
 
-assert.match(policy,/Tombstones[\s\S]+lifetime of the owning account\/connected namespace/i,"Tombstone metadata must remain strong enough for long-offline anti-resurrection.");
-assert.match(policy,/Tombstones must not retain deleted gameplay content/i,"Tombstones must not become deleted-content backups.");
-assert.match(policy,/Pairing \/ invite records[\s\S]+no more than 7 days/i,"Expired pairing metadata must have bounded retention.");
-assert.match(policy,/Idempotency metadata[\s\S]+7 days by default/i,"Idempotency metadata must have bounded retention.");
-assert.match(policy,/Security\/audit metadata[\s\S]+30 days by default/i,"App security/audit metadata must have bounded retention.");
-assert.match(policy,/account-deletion request must immediately revoke normal remote access and new mutation authority/i,"Account deletion must revoke connected authority immediately.");
-assert.match(policy,/shared two-owner rivalry when only one account requests deletion[\s\S]+Phase 1D/i,"Shared-object deletion ambiguity must remain documented in the historical policy lineage.");
-
-for(const forbidden of ["passwords","raw authentication tokens","raw invite secrets","full Save payloads"]){assert.match(policy,new RegExp(`Do not log[\\s\\S]+${forbidden}`,"i"),`Policy must prohibit logging ${forbidden}.`);}
-assert.match(policy,/detailed browsing history, unrelated device telemetry, exact location/i,"Device metadata must remain minimized.");
-assert.match(policy,/Do not use timestamps as conflict authority/i);assert.match(policy,/No Firebase\/Firestore region is selected in Phase 1C/i);assert.match(policy,/local-only use must remain available/i);assert.match(policy,/Candidate A export, Candidate B analysis, Candidate C recovery and formatVersion 2 portability must remain available/i);assert.match(policy,/no remote module may bypass local transaction authority/i);
-
-// Phase 1C itself remains historical architecture/policy, not a retroactive runtime authorization.
 assert.match(policy,/Status:\s*Cloud\/Sync Readiness Phase 1C architecture authority/i);
 assert.match(policy,/Runtime status:\s*architecture\/policy only;\s*no Firebase SDK[\s\S]{0,240}is authorized by this document/i);
 const runtimeRevision=(index.match(/app-asset-revision"\s+content="([^"]+)/)||[])[1];
 const runtimeVersion=(runtimeRevision.match(/^(\d+\.\d+\.\d+)-r[1-9]\d*$/)||[])[1];
-assert.equal(runtimeVersion,pkg.version,"Current application/runtime release identity must remain coherent while historical Phase 1C stays version-neutral.");
-assert.doesNotMatch(index,/firebase|firestore/i,"Firebase/Firestore production integration must remain lazy rather than hardwired into the static shell markup.");
-assert.doesNotMatch(optional,/firebase|firestore/i,"Historical optional-module boundary must not become an implicit Firebase connector.");
-assert.doesNotMatch(policy,/Firebase SDK installation:\s*AUTHORIZED|Firestore collection\/schema creation:\s*AUTHORIZED/i);
-assert.match(historicalNext,/Cloud\/sync runtime remains NOT YET IMPLEMENTATION-AUTHORIZED/i,"Historical Phase 1C authorization provenance must remain preserved without overriding later explicit runtime authority.");
+assert.equal(runtimeVersion,pkg.version);
+assert.doesNotMatch(index,/firebase|firestore/i);assert.doesNotMatch(optional,/firebase|firestore/i);assert.doesNotMatch(policy,/Firebase SDK installation:\s*AUTHORIZED|Firestore collection\/schema creation:\s*AUTHORIZED/i);assert.match(historicalNext,/Cloud\/sync runtime remains NOT YET IMPLEMENTATION-AUTHORIZED/i);
 
-// Current privacy authority follows production-proven PR194/r2. PR187/r5 and Stage 5F remain immutable consumed provenance; RJR100 requires later accepted physical/stable-release evidence without relaxing privacy.
-assert.equal(productionR2,true,"Current privacy authority must identify production-proven v1.9.1-r2.");
-assert.equal(bootstrap.lastProductionProvenRuntime?.pullRequest,194);
-assert.equal(bootstrap.lastProductionProvenRuntime?.runtimeRevision,"1.9.1-r2");
-assert.equal(bootstrap.lastProductionProvenRuntime?.mergeSha,"11bb681527a9b78884baf0c384350c90493dc9bd");
-assert.equal(bootstrap.historicalPr187PublicationCheckpoint?.pullRequest,187);
-assert.equal(bootstrap.historicalPr187PublicationCheckpoint?.runtimeRevision,"1.9.0-r5");
-assert.equal(bootstrap.historicalPr187PublicationCheckpoint?.mergeSha,"277f1b55dc362ee84d285445b99172b9fbed8509");
-assert.equal(bootstrap.historicalPr187PublicationCheckpoint?.rjrAfterEvidence,89);
-assert.equal(bootstrap.previousProductionProvenRuntime?.runtimeRevision,"1.9.1-r1");
-assert.equal(bootstrap.remoteJoiningReadiness?.score,100,"Current bootstrap may expose fixed RJR100 only after accepted physical and stable-release evidence.");
-assert.equal(bootstrap.remoteJoiningReadiness?.remaining,0);
-assert.equal(readiness.currentScore,100);assert.equal(readiness.modelVersion,"RJR-1");
-assert.match(acceptance,/PASS \/ OWNER PRODUCTION ACCEPTANCE/i);assert.match(acceptance,/zero manual Verify\/Reattach/i);assert.doesNotMatch(acceptance,/pair_[0-9a-f]{32,}/i,"Durable production evidence must not retain a full private pairing capability.");
-assert.match(stage5fAcceptance,/PASS/i);assert.match(stage5fAcceptance,/revoked-device/i);assert.match(stage5fAcceptance,/third-account|third account/i);assert.match(stage5fAcceptance,/91\/100/i);assert.doesNotMatch(stage5fAcceptance,/pair_[0-9a-f]{32,}/i,"Stage 5F evidence must preserve capability-secret minimization.");
+// Current privacy authority follows production-proven PR203/r3. PR194/r2 is rollback provenance; PR187/r5 and Stage 5F remain immutable consumed provenance.
+assert.equal(productionR3,true,"Current privacy authority must identify production-proven v1.9.1-r3.");
+assert.equal(bootstrap.lastProductionProvenRuntime?.pullRequest,203);
+assert.equal(bootstrap.lastProductionProvenRuntime?.runtimeRevision,"1.9.1-r3");
+assert.equal(bootstrap.lastProductionProvenRuntime?.mergeSha,"65d88b1b413501b328bdf722bc6e8a0aa0d46ef2");
+assert.equal(bootstrap.historicalPr187PublicationCheckpoint?.pullRequest,187);assert.equal(bootstrap.historicalPr187PublicationCheckpoint?.runtimeRevision,"1.9.0-r5");assert.equal(bootstrap.historicalPr187PublicationCheckpoint?.mergeSha,"277f1b55dc362ee84d285445b99172b9fbed8509");assert.equal(bootstrap.historicalPr187PublicationCheckpoint?.rjrAfterEvidence,89);
+assert.equal(bootstrap.previousProductionProvenRuntime?.runtimeRevision,"1.9.1-r2");
+assert.equal(bootstrap.remoteJoiningReadiness?.score,100);assert.equal(bootstrap.remoteJoiningReadiness?.remaining,0);assert.equal(readiness.currentScore,100);assert.equal(readiness.modelVersion,"RJR-1");
+assert.match(acceptance,/PASS \/ OWNER PRODUCTION ACCEPTANCE/i);assert.match(acceptance,/zero manual Verify\/Reattach/i);assert.doesNotMatch(acceptance,/pair_[0-9a-f]{32,}/i);
+assert.match(stage5fAcceptance,/PASS/i);assert.match(stage5fAcceptance,/revoked-device/i);assert.match(stage5fAcceptance,/third-account|third account/i);assert.match(stage5fAcceptance,/91\/100/i);assert.doesNotMatch(stage5fAcceptance,/pair_[0-9a-f]{32,}/i);
 const physicalAcceptance=readiness.evidenceHistory?.find(entry=>entry.eventId==="production-rjr-physical-two-device-two-network-acceptance");
 const stableReleaseAcceptance=readiness.evidenceHistory?.find(entry=>entry.eventId==="production-rjr-final-stable-release-acceptance");
-assert.equal(physicalAcceptance?.score,99);assert.equal(physicalAcceptance?.delta,8);
-assert.equal(stableReleaseAcceptance?.score,100);assert.equal(stableReleaseAcceptance?.delta,1);
-assert.equal(readiness.evidenceHistory?.at(-2)?.eventId,physicalAcceptance?.eventId);
-assert.equal(readiness.evidenceHistory?.at(-1)?.eventId,stableReleaseAcceptance?.eventId);
-assert.match(finalRjrAcceptance,/RJR-1 100\/100/i);
-assert.match(finalRjrAcceptance,/privacy-safe|sanitized/i);
-assert.doesNotMatch(finalRjrAcceptance,/pair_[0-9a-f]{32,}/i,"Final RJR100 durable acceptance must not retain a full private pairing capability.");
+assert.equal(physicalAcceptance?.score,99);assert.equal(physicalAcceptance?.delta,8);assert.equal(stableReleaseAcceptance?.score,100);assert.equal(stableReleaseAcceptance?.delta,1);assert.equal(readiness.evidenceHistory?.at(-2)?.eventId,physicalAcceptance?.eventId);assert.equal(readiness.evidenceHistory?.at(-1)?.eventId,stableReleaseAcceptance?.eventId);
+assert.match(finalRjrAcceptance,/RJR-1 100\/100/i);assert.match(finalRjrAcceptance,/privacy-safe|sanitized/i);assert.doesNotMatch(finalRjrAcceptance,/pair_[0-9a-f]{32,}/i);
 
-assert.match(next,/100\/100|RJR100/i,"Current NEXT_TASK must expose accepted fixed RJR100 rather than route back to consumed physical acceptance.");
-assert.match(next,/PR #198/i,"Current NEXT_TASK must expose the evidence-only RJR100 publication checkpoint.");
-assert.match(next,/physical Chromebook[\s\S]+iPhone|Chromebook[\s\S]+cellular/i,"Current NEXT_TASK must preserve the class of genuine physical evidence already accepted.");
-assert.match(next,/evidence\/continuity publication only[\s\S]+zero RJR credit|earns zero RJR credit/i,"Current NEXT_TASK must preserve evidence-only RJR movement and forbid publication credit.");
-assert.match(next,/Billing must never be activated[\s\S]+Firebase remains Spark/i,"Current NEXT_TASK must preserve zero-billing provider/privacy locks.");
-assert.match(next,/Firestore browser persistence remains memory-only/i,"Current NEXT_TASK must preserve memory-only Firestore.");
-assert.match(next,/Google Auth remains popup-only `browserSessionPersistence` with no extra scopes/i,"Current NEXT_TASK must preserve popup-only browser-session Auth.");
-assert.match(next,/App Check enforcement remains OFF/i,"Current NEXT_TASK must preserve the App Check enforcement-off lock.");
-assert.match(next,/No public discovery[\s\S]+global leaderboards/i,"Current NEXT_TASK must preserve private-only product scope.");
-assert.match(next,/Never durably retain[\s\S]+private capabilit|Never paste the raw private capability/i,"Current NEXT_TASK must preserve capability-secret minimization.");
-assert.match(providerProof,/Status: PROVIDER-VERIFIED DEPLOYED[\s\S]+firestore\.spark\.rules[\s\S]+Today · 7:48 AM/i,"Privacy authority must retain direct provider provenance for strengthened Rules publication.");
+assert.match(next,/100\/100|RJR100/i);assert.match(next,/PR #198/i);assert.match(next,/physical proof used a Chromebook[\s\S]+iPhone|Chromebook[\s\S]+cellular/i);assert.match(next,/evidence\/continuity publication only[\s\S]+zero RJR credit|earns zero RJR credit/i);assert.match(next,/Billing must never be activated[\s\S]+Firebase remains Spark/i);assert.match(next,/Firestore browser persistence remains memory-only/i);assert.match(next,/Google Auth remains popup-only `browserSessionPersistence` with no extra scopes/i);assert.match(next,/App Check enforcement remains OFF/i);assert.match(next,/No public discovery[\s\S]+global leaderboards/i);assert.match(next,/Never durably retain[\s\S]+private capabilit|Never paste the raw private capability/i);
+assert.match(providerProof,/Status: PROVIDER-VERIFIED DEPLOYED[\s\S]+firestore\.spark\.rules[\s\S]+Today · 7:48 AM/i);
 
-process.stdout.write("PASS Phase 1C remote data inventory, privacy, retention, anti-resurrection, deletion and local-only boundaries; historical non-runtime provenance remains archived while production-proven PR194/r2, immutable PR187/r5 and Stage5F evidence, live evidence-accepted RJR100 and capability-secret minimization are explicit.\n");
+process.stdout.write("PASS Phase 1C remote data inventory, privacy, retention, anti-resurrection, deletion and local-only boundaries; historical non-runtime provenance remains archived while production-proven PR203/r3, r2 rollback, immutable PR187/r5 and Stage5F evidence, live evidence-accepted RJR100 and capability-secret minimization are explicit.\n");
