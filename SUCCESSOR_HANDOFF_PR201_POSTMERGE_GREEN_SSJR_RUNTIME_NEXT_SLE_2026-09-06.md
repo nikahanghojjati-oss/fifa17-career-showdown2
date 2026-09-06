@@ -131,7 +131,7 @@ Scope stop: do not begin transfer/result/scoring transport until the shared-entr
 
 ## Permanent zero-billing / security / privacy locks
 
-Billing must never be activated. Billing must remain permanently OFF. Firebase must remain Spark. Never link Cloud Billing, enable Blaze, add payment methods, use purchased credits, Cloud Run, Cloud Functions or billing-required services.
+Billing must never be activated. Billing must remain permanently OFF. Firebase remains Spark. Never link Cloud Billing, enable Blaze, add payment methods, use purchased credits, Cloud Run, Cloud Functions or billing-required services.
 
 App Check enforcement remains OFF. Firestore browser persistence remains memory-only. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes.
 
