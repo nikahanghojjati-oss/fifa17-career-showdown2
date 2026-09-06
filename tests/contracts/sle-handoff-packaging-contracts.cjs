@@ -11,6 +11,22 @@ assert.equal(bootstrap.currentHandoff?.canonical,"SUCCESSOR_HANDOFF_PR203_POSTME
 for(const [canonical,mirror] of [[bootstrap.starter.canonical,bootstrap.starter.projectMirror],[bootstrap.currentHandoff.canonical,bootstrap.currentHandoff.projectMirror]]){const text=read(canonical);assert.equal(text,read(mirror));assert.match(text,/PR #203/i);assert.match(text,/SSJR-1\.1/i);assert.match(text,/0\/100/);assert.match(text,/100\/100/);assert.match(text,/Smart Lean Efficient/);assert.match(text,/IMMEDIATE NEXT TASK AFTER FULL STUDY/);assert.match(text,/production-two-account|production two-account/i);assert.match(text,/pairing[\s\S]+ACTIVE/i);assert.match(text,/Estimated focused sessions to genuine SSJR100/);assert.match(text,/Billing must never be activated|Billing must remain permanently OFF/i);assert.match(text,/Spark/i);}
 assert.equal(readiness.currentScore,100);assert.equal(ssjr.currentScore,0);assert.equal(bootstrap.remoteJoiningReadiness?.score,100);assert.equal(bootstrap.sharedShowdownJourneyReadiness?.score,0);assert.equal(bootstrap.sharedShowdownJourneyReadiness?.estimatedFocusedSessionsToGenuine100,"5-10");assert.equal(bootstrap.currentPublicationCheckpoint?.pullRequest,203);assert.match(bootstrap.currentPublicationCheckpoint?.state,/production-proven/);assert.equal(bootstrap.currentPublicationCheckpoint?.exactHeadWorkflowFamiliesSuccessful,15);assert.equal(bootstrap.currentPublicationCheckpoint?.postMergeWorkflowFamiliesSuccessful,15);assert.equal(bootstrap.currentPublicationCheckpoint?.rulesProductionEnabled,true);assert.equal(bootstrap.currentPublicationCheckpoint?.productionTwoAccountEvidence,false);
 for(const p of ["00_CURRENT_HANDOFF.md","NEXT_TASK.md","PROJECT_STATE.md","00_DEVELOPER_START_HERE.md"]){const text=read(p);assert.match(text,/100\/100/i);assert.match(text,/PR #203/i);assert.match(text,/v1\.9\.1[\s\S]+1\.9\.1-r3/i);assert.match(text,/Billing must never be activated|Billing must remain permanently OFF/i);assert.match(text,/Spark/i);}
-const archived=json(bootstrap.currentWec.archive);assert.equal(archived.lifecycle,"transition-prepared");assert.equal(archived.signals.handoffCompleteness,100);assert.equal(archived.environmentId,"we-2026-09-05-ssjr-production-shared-setup-a49");assert.equal(archived.assessment.decision,"HANDOFF_NOW");assert.equal(archived.assessment.decisionInheritedFromPredecessor,false);assert.equal(wec.environmentId,archived.environmentId);assert.equal(wec.lifecycle,"transition-prepared");assert.equal(wec.assessment?.decision,"HANDOFF_NOW");assert.equal(wec.signals?.unresolvedFailures,0);
+const archived=json(bootstrap.currentWec.archive);assert.equal(archived.lifecycle,"transition-prepared");assert.equal(archived.signals.handoffCompleteness,100);assert.equal(archived.environmentId,"we-2026-09-05-ssjr-production-shared-setup-a49");assert.equal(archived.assessment.decision,"HANDOFF_NOW");assert.equal(archived.assessment.decisionInheritedFromPredecessor,false);
+if(wec.lifecycle==="active"){
+  assert.notEqual(wec.environmentId,archived.environmentId,"active successor must have a unique environment id");
+  assert.equal(wec.repository?.predecessorEnvironmentId,archived.environmentId,"active successor must descend from the sealed SLE bootstrap WEC");
+  assert.equal(wec.repository?.predecessorArchive,bootstrap.currentWec.archive,"active successor must point to the exact sealed SLE bootstrap archive");
+  assert.equal(wec.assessment?.decision,"CONTINUE");
+  assert.equal(wec.assessment?.decisionInheritedFromPredecessor,false);
+  assert.equal(wec.signals?.unresolvedFailures,0);
+  assert.match(wec.continuity?.currentTask||"",/production-two-account|production two-account|PR205/i);
+  assert.match(wec.continuity?.nextSafeAction||"",/production-two-account|production two-account|PR205|workflow/i);
+}else{
+  assert.equal(wec.environmentId,archived.environmentId);
+  assert.equal(wec.lifecycle,"transition-prepared");
+  assert.equal(wec.assessment?.decision,"HANDOFF_NOW");
+  assert.equal(wec.assessment?.decisionInheritedFromPredecessor,false);
+  assert.equal(wec.signals?.unresolvedFailures,0);
+}
 const prod=(ssjr.candidateEvidence||[]).find(x=>x.id==="ssjr1-spark-provider-enforcement-pr203-production");assert.ok(prod);assert.equal(prod.credit,0);assert.ok(prod.missingLayers.includes("production-two-account"));assert.equal(ssjr.planningEstimate?.focusedSessionsToSSJR100?.minimum,5);assert.equal(ssjr.planningEstimate?.focusedSessionsToSSJR100?.maximum,10);
-process.stdout.write("PASS SLE packaging: mirrored v1.4.49 PR203 production-proven package, sealed a49 WEC, frozen RJR100/SSJR0 and production-two-account successor task are protected.\n");
+process.stdout.write("PASS SLE packaging: mirrored v1.4.49 PR203 production-proven package, sealed a49 WEC or strict active successor, frozen RJR100/SSJR0 and production-two-account successor task are protected.\n");

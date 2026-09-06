@@ -63,12 +63,23 @@ assert.equal(archived.environmentId,bootstrap.currentWec.environmentId);
 assert.equal(archived.lifecycle,"transition-prepared");
 assert.equal(archived.assessment?.decision,"HANDOFF_NOW");
 assert.equal(archived.assessment?.decisionInheritedFromPredecessor,false);
-assert.equal(wec.environmentId,bootstrap.currentWec.environmentId);
-assert.equal(wec.lifecycle,"transition-prepared");
-assert.equal(wec.assessment?.decision,"HANDOFF_NOW");
-assert.equal(wec.assessment?.decisionInheritedFromPredecessor,false);
-assert.equal(wec.signals?.unresolvedFailures,0);
-assert.match(wec.continuity?.nextSafeAction||"",/production-two-account|production two-account/i);
+if(wec.lifecycle==="active"){
+  assert.notEqual(wec.environmentId,bootstrap.currentWec.environmentId,"active successor must have a unique environment id");
+  assert.equal(wec.repository?.predecessorEnvironmentId,bootstrap.currentWec.environmentId,"active successor must descend from the sealed bootstrap WEC");
+  assert.equal(wec.repository?.predecessorArchive,bootstrap.currentWec.archive,"active successor must point to the exact sealed predecessor archive");
+  assert.equal(wec.assessment?.decision,"CONTINUE");
+  assert.equal(wec.assessment?.decisionInheritedFromPredecessor,false);
+  assert.equal(wec.signals?.unresolvedFailures,0);
+  assert.match(wec.continuity?.currentTask||"",/production-two-account|production two-account|PR205/i);
+  assert.match(wec.continuity?.nextSafeAction||"",/production-two-account|production two-account|PR205|workflow/i);
+}else{
+  assert.equal(wec.environmentId,bootstrap.currentWec.environmentId);
+  assert.equal(wec.lifecycle,"transition-prepared");
+  assert.equal(wec.assessment?.decision,"HANDOFF_NOW");
+  assert.equal(wec.assessment?.decisionInheritedFromPredecessor,false);
+  assert.equal(wec.signals?.unresolvedFailures,0);
+  assert.match(wec.continuity?.nextSafeAction||"",/production-two-account|production two-account/i);
+}
 assert.match(read(bootstrap.starter.canonical),/fresh (?:unique )?(?:successor )?WEC/i);
 assert.match(read(bootstrap.currentHandoff.canonical),/fresh (?:unique )?(?:successor )?WEC/i);
-process.stdout.write("PASS current authority: PR203 production Shared Setup is proven, RJR100 remains frozen, SSJR-1.1 remains 0/100, a49 is sealed, and production-two-account evidence is next without billing.\n");
+process.stdout.write("PASS current authority: PR203 production Shared Setup is proven, RJR100 remains frozen, SSJR-1.1 remains 0/100, sealed a49 remains bootstrap authority, and a fresh active successor is allowed only as a strict descendant while production-two-account evidence remains next without billing.\n");
