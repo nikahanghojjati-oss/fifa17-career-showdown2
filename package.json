@@ -31,7 +31,7 @@
     "test:multi-save-browser": "node tests/browser/multi-save-portability-audit.cjs",
     "test:stage4-reconciliation-browser": "node tests/browser/stage4-remote-local-reconciliation-audit.cjs && node tests/browser/stage5e-remote-joining-audit.cjs",
     "ssjr:assess": "node scripts/assess-shared-showdown-readiness.mjs",
-    "test:ssjr": "node tests/contracts/shared-showdown-readiness-contracts.cjs && node tests/contracts/shared-showdown-setup-contracts.cjs && node tests/contracts/shared-showdown-provider-contracts.cjs",
+    "test:ssjr": "node tests/contracts/shared-showdown-readiness-contracts.cjs && node tests/contracts/shared-showdown-setup-contracts.cjs && node tests/contracts/shared-showdown-provider-contracts.cjs && node tests/contracts/shared-showdown-production-runtime-contracts.cjs",
     "test:ssjr:browser": "node tests/browser/shared-showdown-setup-audit.cjs"
   },
   "devDependencies": {
