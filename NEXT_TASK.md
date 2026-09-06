@@ -25,6 +25,8 @@ Closing environment: `we-2026-09-06-ssjr-production-shared-setup-a50`.
 
 Do not begin transfer/results/scoring transport until this Shared Setup evidence boundary is credited or a concrete blocker is isolated.
 
+The Installable Offline App, v1.3.0 Recovery & Device Resilience baseline, Local Profiles and Save Library remain protected throughout this successor task.
+
 Permanent locks: Billing must never be activated and Firebase remains Spark. App Check enforcement remains OFF. Firestore browser persistence remains memory-only. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes. Canonical localStorage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, `careerModeShowdown.preferences`. Candidate C remains the sole destructive remote-to-local gameplay Apply authority with transaction-owned strict exact raw-snapshot rollback. Exactly two private managers; no public discovery/listing/lobby/matchmaking/community/rankings/global leaderboards. Never durably retain raw private capabilities or raw account/device/rivalry/session authority IDs. Consumed RJR physical acceptance is not repeated or re-credited absent a proven regression.
 
 Estimated focused sessions to genuine SSJR100: ~5–10.
