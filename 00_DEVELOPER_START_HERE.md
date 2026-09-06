@@ -20,4 +20,10 @@ The Installable Offline App, v1.3.0 Recovery & Device Resilience baseline, Local
 
 Permanent locks: Billing must never be activated. Firebase remains Spark. App Check enforcement OFF. Firestore persistence memory-only. Google Auth popup-only `browserSessionPersistence` with no extra scopes. Exactly two private managers. Canonical localStorage exactly three approved keys. No public discovery/listing/lobby/matchmaking/community/rankings/global leaderboards. Consumed RJR two-device/two-independent-network acceptance is not repeated absent a proven regression.
 
+Historical compatibility marker only — SUPERSEDED, DO NOT EXECUTE:
+
+```text
+PR #194 / 1.9.1-r2 / RJR91 / PHYSICAL ACCEPTANCE NEXT — two physical devices / two independent networks
+```
+
 SLE = Smart Lean Efficient. Starter: `START_NEXT_SESSION_V1.4.49_PR203_POSTMERGE_GREEN_SSJR_EVIDENCE_NEXT.md`. Deep handoff: `SUCCESSOR_HANDOFF_PR203_POSTMERGE_GREEN_SSJR_EVIDENCE_NEXT_SLE_2026-09-06.md`. Preserve the exact eight-line SSJR reporting block and current ~5–10 focused-session estimate.
