@@ -11,6 +11,7 @@ const stage3=fs.readFileSync('.github/workflows/validate-stage3-private-pairing.
 const publisher=fs.readFileSync('scripts/publish-firestore-rules-zero-billing.mjs','utf8');
 const productionEmulator=fs.readFileSync('tests/firebase/shared-showdown-setup-production-provider-emulator.cjs','utf8');
 const app=fs.readFileSync('js/app.js','utf8');
+const bootstrap=fs.readFileSync('js/ssjr.js','utf8');
 const entry=fs.readFileSync('js/productionSharedJourneyEntry.js','utf8');
 const guard=fs.readFileSync('js/productionSharedJourneyGuard.js','utf8');
 const setup=fs.readFileSync('js/productionSharedShowdownSetup.js','utf8');
@@ -37,6 +38,7 @@ assert.ok(generated.endsWith(base.slice(-700)),'Generated authority must retain 
 
 assert.match(workflow,/FIREBASE_RULES_FILE: firestore\.spark\.generated\.rules/,'Zero-billing workflow must publish generated authority.');
 assert.match(workflow,/node scripts\/build-production-firestore-rules\.mjs/,'Deployment must deterministically rebuild reviewed source.');
+assert.match(workflow,/shared-showdown-setup-production-provider-emulator\.cjs/,'Deployment must reprove generated Shared Setup Rules with the adversarial provider matrix before authentication and publication.');
 assert.match(workflow,/node scripts\/publish-firestore-rules-zero-billing\.mjs/,'Deployment must use the reviewed Rules-only publisher.');
 assert.match(publisher,/urn:ietf:params:oauth:grant-type:jwt-bearer/,'Publisher must use canonical OAuth JWT bearer grant.');
 assert.match(publisher,/firebaserules\.googleapis\.com\/v1/,'Publisher must remain Firebase Rules API-only.');
@@ -51,8 +53,12 @@ assert.match(productionEmulator,/shared-showdown-setup-provider-emulator\.cjs/,'
 assert.match(productionEmulator,/firestore\.shared-setup-candidate\.rules/,'Production wrapper must identify the exact candidate Rules source seam.');
 assert.match(productionEmulator,/firestore\.spark\.generated\.rules/,'Production wrapper must substitute only the generated provider authority.');
 
-assert.match(app,/productionSharedJourneyEntry\.js/,'Production startup must install paired-first Shared Journey entry.');
-assert.match(app,/productionSharedJourneyGuard\.js/,'Production startup must install the direct draw bypass guard.');
+assert.match(app,/js\/ssjr\.js/,'Protected startup shell must lazy-load the SSJR bootstrap during the startup splash.');
+assert.match(bootstrap,/productionFirebaseRuntime\.js/,'Lazy SSJR bootstrap must preserve the production Firebase runtime.');
+assert.match(bootstrap,/productionSharedJourneyEntry\.js/,'Lazy SSJR bootstrap must install paired-first Shared Journey entry.');
+assert.match(bootstrap,/productionSharedJourneyGuard\.js/,'Lazy SSJR bootstrap must install the direct draw bypass guard.');
+assert.match(bootstrap,/api\.install/,'Lazy SSJR bootstrap must install paired-first runtime surfaces after loading.');
+assert.doesNotMatch(bootstrap,/localStorage/,'Lazy SSJR bootstrap must never touch canonical local saves.');
 assert.match(entry,/START SHARED SHOWDOWN/);
 assert.match(entry,/setPending\(true\)[\s\S]+createShowdown\(\)/,'Shared journey lock must exist before the pre-draw Save shell routes to local league UI.');
 assert.match(entry,/spinLeague/);
@@ -87,4 +93,4 @@ assert.doesNotMatch(setup,/options\.catalog|caller.*catalog/i,'Production runtim
 assert.match(adapter,/createProtocol\(\{catalog:catalogModule\.catalog,cryptoImpl\}\)/,'Production path must retain immutable repository-owned catalog authority.');
 assert.doesNotMatch(adapter,/options\.catalog/);
 
-process.stdout.write('PASS SSJR production paired-first runtime: exact pairing + ACTIVE before draw, direct and lazy-loaded local-draw bypass denial, generated zero-billing Rules authority, candidate-equivalent production provider emulator coverage, immutable provider catalog, fresh-session resume path, and canonical local-save non-mutation are permanently gated.\n');
+process.stdout.write('PASS SSJR production paired-first runtime: exact pairing + ACTIVE before draw, lazy startup bootstrap, direct and lazy-loaded local-draw bypass denial, generated zero-billing Rules authority, candidate-equivalent production provider emulator coverage before PR merge and deploy publication, immutable provider catalog, fresh-session resume path, and canonical local-save non-mutation are permanently gated.\n');
