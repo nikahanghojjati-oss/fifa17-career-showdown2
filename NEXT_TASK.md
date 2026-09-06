@@ -21,6 +21,8 @@ PR210 final head `c863e1c2506bf34ff9521ed22bd989c221b437a6`, tree `85b9350bd7ac6
 
 The Installable Offline App, v1.3.0 Recovery & Device Resilience baseline, Local Profiles and Save Library remain protected shipped foundations and must not be reopened absent a demonstrated regression.
 
+Current environment: `we-2026-09-06-ssjr-production-storage-observation-a53`
+Starting independently verified live main: `9d19d7c4b02e40219c4253bbb266b07c418ba6fa`
 Closing environment: `we-2026-09-06-ssjr-production-storage-observation-a53`.
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
