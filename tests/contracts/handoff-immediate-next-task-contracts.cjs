@@ -14,7 +14,7 @@ assert.equal(ssjr.currentScore,0);assert.equal(ssjr.denominator,100);
 assert.match(finalAcceptance,/Chromebook[\s\S]+Home WiFi[\s\S]+iPhone[\s\S]+cellular/i);
 assert.equal(bootstrap.runtime?.applicationVersion,"1.9.1");assert.equal(bootstrap.runtime?.productionRuntimeRevision,"1.9.1-r3");
 assert.equal(bootstrap.lastProductionProvenRuntime?.pullRequest,203);assert.equal(bootstrap.lastProductionProvenRuntime?.mergeSha,"65d88b1b413501b328bdf722bc6e8a0aa0d46ef2");
-assert.equal(bootstrap.starter?.version,"1.4.52");
+assert.equal(bootstrap.starter?.version,"1.4.53");
 assert.equal(bootstrap.currentPublicationCheckpoint?.pullRequest,207);
 assert.match(bootstrap.currentPublicationCheckpoint?.state,/postmerge-green.*evidence-recorder-proven/i);
 assert.equal(bootstrap.currentPublicationCheckpoint?.finalSealedHead,"c6bf6b2cb0d492f2da727b8591e8fb7f118e3db6");
@@ -58,9 +58,9 @@ const next=read("NEXT_TASK.md");
 assert.match(next,/Connected Rivalry[\s\S]+ACTIVE[\s\S]+league/i);assert.match(next,/production-two-account|production two-account/i);
 assert.match(next,/modified-client|modified client/i);assert.match(next,/record:ssjr-production-shared-setup/i);assert.match(next,/validate:ssjr-production-shared-setup/i);
 assert.match(next,/Do not begin transfer\/results\/scoring|Do not start transfer\/results\/scoring/i);
-assert.equal(bootstrap.currentWec?.environmentId,"we-2026-09-06-ssjr-production-shared-setup-a51");
-assert.equal(bootstrap.currentWec?.startingMainSha,"1f68dba26006b8215b8e58d4678035be7a506cab");
-assert.equal(bootstrap.currentWec?.finalMainSha,"791b5f9ad48e8d6d5623fd7271300f7266cfae1e");
+assert.equal(bootstrap.currentWec?.environmentId,"we-2026-09-06-ssjr-production-browser-usage-guard-a52");
+assert.equal(bootstrap.currentWec?.startingMainSha,"9d19d7c4b02e40219c4253bbb266b07c418ba6fa");
+assert.equal(bootstrap.currentWec?.finalMainSha,"9d19d7c4b02e40219c4253bbb266b07c418ba6fa");
 assert.equal(bootstrap.currentWec?.lifecycle,"transition-prepared");assert.equal(bootstrap.currentWec?.finalDecision,"HANDOFF_NOW");assert.equal(bootstrap.currentWec?.decisionInheritedFromPredecessor,false);
 const archived=json(bootstrap.currentWec.archive);assert.equal(archived.environmentId,bootstrap.currentWec.environmentId);assert.equal(archived.lifecycle,"transition-prepared");assert.equal(archived.signals?.handoffCompleteness,100);assert.equal(archived.assessment?.decision,"HANDOFF_NOW");assert.equal(archived.assessment?.decisionInheritedFromPredecessor,false);
 if(wec.lifecycle==="active"){
@@ -73,4 +73,4 @@ if(wec.lifecycle==="active"){
 }
 assert.match(read(bootstrap.starter.canonical),/fresh (?:unique )?(?:successor )?WEC/i);
 assert.match(read(bootstrap.currentHandoff.canonical),/fresh (?:unique )?(?:successor )?WEC/i);
-process.stdout.write("PASS current authority: PR207 recorder is reviewed/merged/post-merge green, PR205 validator remains strict authority, PR203 remains r3 production runtime authority, RJR100 is frozen, SSJR-1.1 remains 0/100, sealed a51 is bootstrap authority, and genuine production-two-account evidence remains next without billing.\n");
+process.stdout.write("PASS current authority: PR207 recorder is reviewed/merged/post-merge green, PR205 validator remains strict authority, PR203 remains r3 production runtime authority, RJR100 is frozen, SSJR-1.1 remains 0/100, sealed a52 is recovery bootstrap authority, and genuine production-two-account evidence remains next without billing.\n");

@@ -986,3 +986,92 @@ Started from independently verified main `39ffe88d61dcda973df03a18e0266fcfe4cf56
 ## 2026-09-05T22:22:31Z — PR199 final-review correction and replacement seal
 
 The prior seal `82126f776d7e33a1ffde8f0580a0addc857ccb7f` passed all 15 PR workflow families. Final review `5123221602` nevertheless found valid P1 `3942232042`: missing entry-before-draw dependency allowed a synthetic 95/100 without pairing-order proof. A failing regression reproduced it. Fixed through explicitly versioned SSJR-1.1 and comparable 0-to-0 backcast; original SSJR-1 model/fingerprint archived unchanged, all weights/scope/denominator and the original baseline preserved. New tests prove missing-order credit denial and ordering-regression cascade from synthetic 100 to 5. Corrected full local contracts pass; this replacement WEC/SLE seal requires fresh exact-head CI, resolution of the addressed review thread, expected-head merge and post-merge evidence. Real SSJR remains 0/100; RJR100 frozen. No distinct provider milestone started.
+
+
+## 2026-09-06 — a51 successor validation before a52 production inspection
+
+Sealed a51 validated successfully. Its exact preexisting archive is WORK_ENVIRONMENT_ARCHIVE/we-2026-09-06-ssjr-production-shared-setup-a51.json. Live PR208 merge 9d19d7c4b02e40219c4253bbb266b07c418ba6fa, tree 5b7daa956719be877d58f324e4e61ea67fa0058b, exact-head and post-merge 15/15 green, five resolved review threads independently verified. a52 owns fresh counters and does not inherit HANDOFF_NOW. No raw private observations were captured.
+
+
+## a52 final recovery checkpoint
+
+{
+  "schemaVersion": 1,
+  "environmentId": "we-2026-09-06-ssjr-production-browser-usage-guard-a52",
+  "lifecycle": "transition-prepared",
+  "recordedAt": "2026-09-06T18:10:37.521416+00:00",
+  "repository": {
+    "name": "nikahanghojjati-oss/fifa17-career-showdown2",
+    "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
+    "startingMainSha": "9d19d7c4b02e40219c4253bbb266b07c418ba6fa",
+    "startingMainTreeSha": "5b7daa956719be877d58f324e4e61ea67fa0058b",
+    "workingBranch": "recovery/ssjr-a52-early-sns-2026-09-06",
+    "predecessorEnvironmentId": "we-2026-09-06-ssjr-production-shared-setup-a51",
+    "predecessorArchive": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-06-ssjr-production-shared-setup-a51.json"
+  },
+  "signals": {
+    "contextComplexity": "moderate",
+    "projectComplexity": "high",
+    "compactionCount": 0,
+    "majorPhasesCompleted": 3,
+    "largeEvidenceEvents": 5,
+    "toolRoutingErrors": 5,
+    "correctedFailures": 0,
+    "repeatedMistakes": 0,
+    "staleFactCorrections": 0,
+    "unresolvedFailures": 0,
+    "newMilestoneNext": true,
+    "usageRemainingPercent": 50,
+    "usageSource": "user-reported",
+    "usageWarning": false,
+    "handoffCompleteness": 100,
+    "unrecordedDecisions": 0,
+    "atomicOperation": false
+  },
+  "assessment": {
+    "decision": "HANDOFF_NOW",
+    "reason": "Owner-requested conservative guard closeout after explicit 50-percent continuation; PR208 verified and PR207 recorder remains unchanged. This records guard urgency, not a fabricated WEC heuristic or hidden quota.",
+    "decisionSource": "owner-requested-session-guard",
+    "decisionInheritedFromPredecessor": false,
+    "usageExcludedBecauseUnavailable": false
+  },
+  "continuity": {
+    "currentTask": "PR208 verified; PR207/PR205 unchanged; owner-requested early SNS guard tested, first production account registered, genuine production-two-account capture blocked by independent-context and exact snapshot limitations.",
+    "lastSafeCheckpoint": "Main 9d19d7c4b02e40219c4253bbb266b07c418ba6fa; all seven SSJR contract families passed; first production account/browser confirmed; no pairing or shared setup started.",
+    "nextSafeAction": "Inspect the paired-first production entry and available legitimate private authentication; automate non-private preparation and use unchanged PR207 recorder/PR205 validator only on real observations.",
+    "unfinishedWork": [
+      "Two legitimate accounts and distinct registered devices are not authenticated in this environment.",
+      "Live provider control-plane identity remains independently unverified.",
+      "Implement and preserve the owner-requested time/usage guard and final early SNS."
+    ],
+    "knownHazards": [
+      "Billing permanently off; Firebase Spark only; no Blaze, Cloud Billing, payment method, Cloud Run, Cloud Functions or purchased credits.",
+      "Pairing plus exact ACTIVE must precede every shared league or club action.",
+      "App Check enforcement remains OFF; Firestore browser persistence remains memory-only; Google Auth remains popup-only browserSessionPersistence with no extra scopes.",
+      "Exactly two private managers; no public discovery, lobby, matchmaking, community, rankings or global leaderboards.",
+      "Never durably retain raw account, device, rivalry, session, pairing code or private capability values in evidence artifacts.",
+      "Canonical local gameplay storage remains exactly careerModeShowdown.saveLibrary, careerModeShowdown.legacyShowdowns and careerModeShowdown.preferences and must remain unchanged by Shared Setup.",
+      "Candidate C remains the sole destructive remote-to-local gameplay Apply authority with transaction-owned strict exact raw-snapshot rollback.",
+      "Consumed RJR physical acceptance must not be repeated or re-credited absent a proven regression.",
+      "PR, CI, deployment, WEC, SLE, SNS, recorder and synthetic evidence earn zero SSJR credit.",
+      "Use Handoff Proximity V2; any meaningful unresolved failure caps visible proximity at 70.",
+      "No quota telemetry exposed; percentage remains unknown. Initial conservative closeout at minute 15 and SNS delivery by minute 20.",
+      "The GitHub tags collection is unsupported by generic connector fetch; avoid repeating this noncritical route.",
+      "A new cloud browser tab is not proof of a distinct device identity.",
+      "Browser read-only evaluator does not expose localStorage. Exact canonical capture attempt failed; no snapshot exists.",
+      "Google auth handoff metadata rejected empty-fields and single-option requests before any UI appeared. The sole Google entry button subsequently authenticated successfully; no credentials were printed.",
+      "Optional gh bootstrap timed out. Connector remains functional; do not repeat the CLI bootstrap."
+    ],
+    "evidenceNotes": [
+      "The sealed a51 archive already exists; preserve its bytes and do not create a history-only publication.",
+      "Startup documentation inspection found the later compact-bootstrap override: skip mandatory gh bootstrap when connector works. An already-started bootstrap is diagnostic only; do not repeat it.",
+      "Owner supplied 50% remaining and explicitly directed continuation at 2026-09-06T18:00:35.992853+00:00. Continue a short bounded production-access batch with current SNS saved; request another optional reading before extending."
+    ]
+  },
+  "usageObservation": {
+    "at": "2026-09-06T18:00:35.992853+00:00",
+    "remainingPercent": 50,
+    "resetAt": null,
+    "basis": "Owner explicitly reports 50 percent left and instructs continuation. No burn rate inferred."
+  }
+}
