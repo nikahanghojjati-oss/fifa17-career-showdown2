@@ -2,7 +2,7 @@
 
 Shared Showdown Journey Readiness is fixed SSJR-1.1, denominator 100, current evidence-backed score 0/100. RJR-1 remains COMPLETE/FROZEN at 100/100. Candidate implementation, tests, CI/review/merge, WEC and SLE/SNS earn zero SSJR credit without whole production evidence.
 
-Production remains proven `v1.9.1 / 1.9.1-r2`; previous whole-shell recovery is `1.9.1-r1`. PR #201 final exact head `2c99e0746d6a3c5df946aa96f2c010da208bf70f`, exact tree `87ddbde2550facccdfba0ec02a3a625ea81d1a08`, passed all 15 permanent PR workflow families and was expected-head squash merged as `0cf810f99460bc66d41b4a036d42befb5bb5ef39`.
+Production: `v1.9.1 / 1.9.1-r2`. Previous whole-shell recovery is `1.9.1-r1`. PR #201 final exact head `2c99e0746d6a3c5df946aa96f2c010da208bf70f`, exact tree `87ddbde2550facccdfba0ec02a3a625ea81d1a08`, passed all 15 permanent PR workflow families and was expected-head squash merged as `0cf810f99460bc66d41b4a036d42befb5bb5ef39`.
 
 Historical RJR100 publication provenance remains immutable: PR #198 published the fixed RJR-1 COMPLETE 100/100 acceptance after the final stable-release acceptance, while the Installable Offline App and v1.3.0 Recovery & Device Resilience baseline remained protected. The consumed physical proof used a Chromebook on Home WiFi and an iPhone on cellular across two independent networks; it is historical acceptance evidence, not a request to rerun it.
 
