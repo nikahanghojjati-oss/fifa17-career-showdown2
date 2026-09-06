@@ -1,34 +1,26 @@
-# CURRENT HANDOFF — PR199 POST-MERGE GREEN, SSJR PROVIDER NEXT
+# CURRENT HANDOFF — PR201 PROVIDER CANDIDATE PUBLISHED / SSJR PRODUCTION RUNTIME NEXT
 
-Shared Showdown Journey Readiness uses fixed model SSJR-1.1. Current evidence-backed score remains 0/100. RJR-1 remains COMPLETE/FROZEN at 100/100. Publication mechanics, documentation, WEC, SLE/SNS and dormant candidate code earn zero SSJR credit.
+Shared Showdown Journey Readiness uses fixed model SSJR-1.1 and remains evidence-backed `0/100`. RJR-1 remains COMPLETE/FROZEN at `100/100`. Candidate source, emulator proof, PR, CI, merge, WEC, SLE/SNS and documentation earn zero SSJR credit without the required production-two-account whole-capability evidence.
 
-Production remains the previously proven `v1.9.1 / 1.9.1-r2`; previous known-good whole-shell recovery remains `1.9.1-r1`. Historical PR #198 merged at `39ffe88d61dcda973df03a18e0266fcfe4cf5638` and completed the accepted RJR-1 100/100 publication boundary. PR #199 did not activate production Shared Setup, change Firestore Rules or require billing.
+Production remains the previously proven `v1.9.1 / 1.9.1-r2`; previous whole-shell recovery remains `1.9.1-r1`. PR #201 final exact head `2c99e0746d6a3c5df946aa96f2c010da208bf70f`, tree `87ddbde2550facccdfba0ec02a3a625ea81d1a08`, passed all 15 permanent PR workflow families and was expected-head squash merged as main `0cf810f99460bc66d41b4a036d42befb5bb5ef39`.
 
-Historical immutable provenance remains explicit: PR191/RJR91 records the consumed Stage 5F-era readiness checkpoint only; it is not current authority and must not be reopened or re-credited. Later accepted physical and stable-release evidence completed RJR-1 at 100/100.
-
-PR #199 final exact reviewed head `378931e7bec2a4e95fb31912d4879e294b63d79f` passed all 15 permanent PR workflow families after the valid draw-selection P1 correction. The correction makes league/club outcomes deterministic from paired-rivalry binding + catalog and rejects alternate schema-valid modified-client outcomes with `SETUP_DRAW_MISMATCH`. The review thread was resolved, expected-head squash merge completed, and live `main` became `780abd7b779cda5acd722b75fd59ef1e82c71f97`. All 15 post-merge main workflow families completed successfully, including Release Integration Burn-In run `33996909745`.
-
-Do not repeat PR199 publication without evidence of a regression. No SSJR points are awarded for this publication.
+PR201 added the Spark-compatible exact-path Shared Setup provider candidate, immutable repository-owned catalog, candidate Firestore Rules and permanent direct modified-client emulator proof. Production Shared Setup remains intentionally not activated by PR201. Billing must never be activated. Firebase remains Spark.
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
-Work Environment Continuity is mandatory. Use connected GitHub first and independently verify current live state. Validate the inherited WEC, preserve its final facts, initialize a fresh unique WEC with reset counters/current main, run the repository work assessment, and obey the fresh environment decision.
+Validate/archive closing WEC `we-2026-09-05-ssjr-provider-adapter-a48`, initialize a fresh unique WEC from current live main and never inherit the closing HANDOFF decision.
 
-Then implement the smallest Spark-compatible exact-path Shared Remote Setup provider transaction adapter and candidate Firestore Rules with direct modified-client emulator negatives. Provider authority must be derived from protected provider records inside the same transaction. Never trust caller-supplied JavaScript authority, role/binding fields, a client-computed hash, or arbitrary client-prepared league/club outcomes. Exactly two paired managers plus an ACTIVE exact-rivalry session must exist before league or club commitment.
+Then wire the PR201 provider candidate into the production browser journey only after exact Connected Rivalry pairing and exact ACTIVE session, and prepare the smallest Spark-only production Rules promotion for the exact Shared Setup path. Both managers must reach the same empty setup after ACTIVE, then one authoritative league, two distinct permanent same-league clubs, a 1/3/5/10 length and identical dual confirmation. A fresh ACTIVE session for the same rivalry resumes existing setup; it never resets or redraws.
 
-Automate the provider positive/negative matrix before owner action: authenticated paired manager success; unpaired/unrelated account denial; inactive/revoked device or manager denial; wrong rivalry/session and expired/inactive session denial; stale base revision; idempotent replay/conflict; repeated prepare non-redrawability; alternate valid league denial; alternate valid club-pair denial; malformed/extra-field rejection; and forbidden direct writes that bypass the transaction contract. Preserve canonical local-save bytes.
+Automate production-oriented browser/provider evidence before owner action: paired-first order, no pre-pair/pre-ACTIVE league or club selection, deterministic non-redrawable outcomes, direct modified-client denials, wrong/expired session, unrelated account, revoked device, inactive peer, stale revision, idempotency/conflict, racing coordinator requests, reload/reconnect/fresh-session resume, and zero canonical local-save mutation.
 
-Required journey order is locked: Profiles and pre-draw Save shell → exact Connected Rivalry pairing → ACTIVE session → authoritative league draw → two distinct permanent same-league clubs → 1/3/5/10 season length → both managers confirm identical setup → transfer/results/scoring/history/progression → multi-season convergence → final reconciliation → terminal close without resurrection. Pairing and ACTIVE must precede league/club selection in both provider and final UI.
+Do not begin transfer/results/scoring transport until this shared-entry/shared-setup production evidence boundary is proven. Do not repeat consumed generic RJR physical acceptance unless a proven regression invalidates it.
 
-Permanent Firebase control-plane inheritance is mandatory. Read `00_FIREBASE_PERMANENT_ZERO_BILLING_CONTROL_PLANE.md` and `HANDOFF_FIREBASE_CONTROL_PLANE_PERMANENT_ACCESS_ADDENDUM_2026-09-01.md` before any Rules publication. The only standing Rules publication workflow is `.github/workflows/deploy-firestore-rules-zero-billing.yml`, using the repository secret `FIREBASE_RULES_SERVICE_ACCOUNT_JSON`; never expose or ask the owner to paste that credential. Firebase remains Spark and billing remains permanently forbidden.
+Permanent locks: Billing must never be activated. Firebase remains Spark. App Check enforcement remains OFF. Firestore browser persistence remains memory-only. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes. Canonical localStorage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, `careerModeShowdown.preferences`. Candidate A non-mutating; Candidate B read-only; Candidate C sole destructive remote-to-local gameplay Apply authority. Exactly two private managers. No public discovery/listing/lobby/matchmaking/community/rankings/global leaderboards.
 
-Permanent locks: Billing must never be activated. Firebase remains Spark. Never link Cloud Billing, enable Blaze, add a payment method, use purchased credits, Cloud Run, Cloud Functions or another billing-required service. App Check enforcement remains OFF. Firestore browser persistence remains memory-only. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes. Exactly two private managers; no public discovery/listing/lobby/matchmaking/community/rankings/global leaderboards. Never durably retain raw private capabilities or raw account/device/rivalry/session authority IDs. Never destructively test the protected historical rivalry.
+SLE = Smart Lean Efficient. Current compact starter: `START_NEXT_SESSION_V1.4.48_PR201_POSTMERGE_GREEN_SSJR_RUNTIME_NEXT.md`. Deep handoff: `SUCCESSOR_HANDOFF_PR201_POSTMERGE_GREEN_SSJR_RUNTIME_NEXT_SLE_2026-09-06.md`. Root/project mirrors are byte-identical.
 
-Canonical localStorage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, `careerModeShowdown.preferences`. Candidate A remains non-mutating, Candidate B read-only, Candidate C the sole destructive remote-to-local gameplay Apply authority with transaction-owned strict exact raw-snapshot rollback.
-
-SLE = Smart Lean Efficient. Current compact successor starter: `START_NEXT_SESSION_V1.4.47_PR199_POSTMERGE_GREEN_SSJR_PROVIDER_NEXT.md`. Deep reference: `SUCCESSOR_HANDOFF_PR199_POSTMERGE_GREEN_SSJR_PROVIDER_NEXT_SLE_2026-09-05.md`. Root/project mirrors must remain byte-identical. At every future Handoff proximity 100%, generate the complete mirrored SLE package, refresh pointers/bootstraps, archive/finalize the WEC, and stop before the next substantial milestone.
-
-Use this exact progress block at every substantive checkpoint:
+Every substantive response must use exactly:
 
 ```text
 Handoff proximity: X%
@@ -41,4 +33,4 @@ Blocker: ...
 Sidequest check: NONE
 ```
 
-Current forecast remains ~8–14 focused sessions until fresh evidence changes the dependency estimate.
+Current forecast: `~6–11` focused sessions to genuine SSJR100. At Handoff proximity 100%, recursively package SLE, finalize/archive WEC and stop before the next substantial milestone.
