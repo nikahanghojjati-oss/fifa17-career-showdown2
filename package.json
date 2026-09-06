@@ -13,7 +13,7 @@
     "serve:test": "node tests/support/static-server.cjs",
     "test:contracts": "node tests/contracts/static-app-release-contracts.cjs && node tests/support/run-contract-suite.cjs && node tests/contracts/r2-production-proof-publication-contracts.cjs && node tests/contracts/stage5g-remote-joining-reconnect-contracts.cjs && node tests/contracts/remote-joining-physical-acceptance-real-recorder-null-contracts.cjs",
     "test:legacy-workflows": "node tests/support/run-workflow-blocks.cjs",
-    "test:browser": "node tests/browser/stability-audit.cjs && node tests/browser/connected-account-settings-audit.cjs && node tests/browser/stage3-private-pairing-audit.cjs && node tests/browser/pairing-four-code-automation-audit.cjs && node tests/browser/stage4-remote-local-reconciliation-audit.cjs && node tests/browser/stage5e-remote-joining-audit.cjs && node tests/browser/stage5g-remote-joining-reconnect-audit.cjs && node tests/browser/stage5h-remote-joining-adverse-network-audit.cjs && node tests/browser/stage5i-remote-joining-acceptance-recorder-audit.cjs && node tests/browser/shared-showdown-setup-audit.cjs",
+    "test:browser": "node tests/browser/stability-audit.cjs && node tests/browser/connected-account-settings-audit.cjs && node tests/browser/stage3-private-pairing-audit.cjs && node tests/browser/pairing-four-code-automation-audit.cjs && node tests/browser/stage4-remote-local-reconciliation-audit.cjs && node tests/browser/stage5e-remote-joining-audit.cjs && node tests/browser/stage5g-remote-joining-reconnect-audit.cjs && node tests/browser/stage5h-remote-joining-adverse-network-audit.cjs && node tests/browser/stage5i-remote-joining-acceptance-recorder-audit.cjs && node tests/browser/shared-showdown-setup-audit.cjs && node tests/browser/shared-showdown-paired-first-entry-audit.cjs",
     "test:stage5h": "node tests/browser/stage5h-remote-joining-adverse-network-audit.cjs",
     "test:stage5i": "node tests/browser/stage5i-remote-joining-acceptance-recorder-audit.cjs",
     "test:rjr-physical-preflight": "npm run test:contracts && bash tests/support/run-rjr-physical-preflight.sh",
@@ -32,7 +32,7 @@
     "test:stage4-reconciliation-browser": "node tests/browser/stage4-remote-local-reconciliation-audit.cjs && node tests/browser/stage5e-remote-joining-audit.cjs",
     "ssjr:assess": "node scripts/assess-shared-showdown-readiness.mjs",
     "test:ssjr": "node tests/contracts/shared-showdown-readiness-contracts.cjs && node tests/contracts/shared-showdown-setup-contracts.cjs && node tests/contracts/shared-showdown-provider-contracts.cjs && node tests/contracts/shared-showdown-production-runtime-contracts.cjs",
-    "test:ssjr:browser": "node tests/browser/shared-showdown-setup-audit.cjs"
+    "test:ssjr:browser": "node tests/browser/shared-showdown-setup-audit.cjs && node tests/browser/shared-showdown-paired-first-entry-audit.cjs"
   },
   "devDependencies": {
     "@sparticuz/chromium": "149.0.0",
