@@ -97,14 +97,7 @@ jobs:
           node tests/contracts/shared-showdown-production-runtime-contracts.cjs
 
       - name: Reprove generated production Shared Setup Rules with adversarial provider matrix
-        shell: bash
-        run: |
-          set -euo pipefail
-          candidate_backup="$(mktemp)"
-          cp firestore.shared-setup-candidate.rules "${candidate_backup}"
-          trap 'cp "${candidate_backup}" firestore.shared-setup-candidate.rules; rm -f "${candidate_backup}"' EXIT
-          cp "${FIREBASE_RULES_FILE}" firestore.shared-setup-candidate.rules
-          npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-career-mode-showdown-shared-setup-production-deploy "node tests/firebase/shared-showdown-setup-provider-emulator.cjs"
+        run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-career-mode-showdown-shared-setup-production-deploy "node tests/firebase/shared-showdown-setup-production-provider-emulator.cjs"
 
       - name: Authenticate permanent Firebase Rules service account
         id: google-auth

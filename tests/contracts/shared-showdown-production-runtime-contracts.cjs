@@ -7,7 +7,9 @@ const base=fs.readFileSync('firestore.spark.rules','utf8');
 const generated=fs.readFileSync('firestore.spark.generated.rules','utf8');
 const fragment=fs.readFileSync('firestore.shared-setup-production.fragment.rules','utf8');
 const workflow=fs.readFileSync('.github/workflows/deploy-firestore-rules-zero-billing.yml','utf8');
+const stage3=fs.readFileSync('.github/workflows/validate-stage3-private-pairing.yml','utf8');
 const publisher=fs.readFileSync('scripts/publish-firestore-rules-zero-billing.mjs','utf8');
+const productionEmulator=fs.readFileSync('tests/firebase/shared-showdown-setup-production-provider-emulator.cjs','utf8');
 const app=fs.readFileSync('js/app.js','utf8');
 const entry=fs.readFileSync('js/productionSharedJourneyEntry.js','utf8');
 const guard=fs.readFileSync('js/productionSharedJourneyGuard.js','utf8');
@@ -42,6 +44,13 @@ assert.match(publisher,/Creating a ruleset compiles\/validates/,'Provider compil
 assert.match(publisher,/Provider source did not exactly match generated production authority/,'Provider publication must end with exact source readback.');
 assert.doesNotMatch(`${workflow}\n${publisher}`,/enable-billing|billingAccounts|cloudfunctions\.googleapis|run\.googleapis/i,'Publication must never activate billing, Functions or Cloud Run.');
 
+assert.match(stage3,/node scripts\/build-production-firestore-rules\.mjs/,'Permanent Stage 3 family must build the exact generated production Rules authority before emulator proof.');
+assert.match(stage3,/shared-showdown-setup-production-provider-emulator\.cjs/,'Permanent Stage 3 family must execute the production generated-Rules provider emulator.');
+assert.match(stage3,/firebase-tools@15\.28\.1 emulators:exec/,'Production provider emulator must remain on the pinned Firebase emulator toolchain.');
+assert.match(productionEmulator,/shared-showdown-setup-provider-emulator\.cjs/,'Production Rules proof must reuse the already-reviewed two-manager provider harness.');
+assert.match(productionEmulator,/firestore\.shared-setup-candidate\.rules/,'Production wrapper must identify the exact candidate Rules source seam.');
+assert.match(productionEmulator,/firestore\.spark\.generated\.rules/,'Production wrapper must substitute only the generated provider authority.');
+
 assert.match(app,/productionSharedJourneyEntry\.js/,'Production startup must install paired-first Shared Journey entry.');
 assert.match(app,/productionSharedJourneyGuard\.js/,'Production startup must install the direct draw bypass guard.');
 assert.match(entry,/START SHARED SHOWDOWN/);
@@ -55,6 +64,8 @@ assert.match(entry,/remote\.deviceId===pairing\.deviceId/);
 assert.doesNotMatch(entry,/localStorage/,'Shared journey entry marker must never use canonical localStorage.');
 for(const functionName of ['handleLeagueWheelAction','spinLeagueWheel','confirmLeagueSelectionAndContinue','prepareClubAssignment','assignClubs','continueToShowdownHome'])assert.ok(guard.includes(`"${functionName}"`),`Shared mode must guard direct ${functionName} calls.`);
 assert.match(guard,/if\(pending\(\)\)return deny\(name\)/,'Direct local draw calls must fail closed while shared mode is pending.');
+assert.match(guard,/root\.loadRuntimeScript/,'Bypass guard must hook lazy gameplay script loading.');
+assert.match(guard,/Promise\.resolve\(original\.apply\(this,args\)\)\.then\(value=>\{\s*install\(\)/,'Lazy-loaded draw functions must be guarded before the runtime loader resolves to its caller.');
 assert.doesNotMatch(guard,/localStorage/,'Bypass guard must never touch canonical localStorage.');
 
 for(const required of [
@@ -76,4 +87,4 @@ assert.doesNotMatch(setup,/options\.catalog|caller.*catalog/i,'Production runtim
 assert.match(adapter,/createProtocol\(\{catalog:catalogModule\.catalog,cryptoImpl\}\)/,'Production path must retain immutable repository-owned catalog authority.');
 assert.doesNotMatch(adapter,/options\.catalog/);
 
-process.stdout.write('PASS SSJR production paired-first runtime: exact pairing + ACTIVE before draw, direct local-draw bypass denial, generated zero-billing Rules authority, immutable provider catalog, fresh-session resume path, and canonical local-save non-mutation are permanently gated.\n');
+process.stdout.write('PASS SSJR production paired-first runtime: exact pairing + ACTIVE before draw, direct and lazy-loaded local-draw bypass denial, generated zero-billing Rules authority, candidate-equivalent production provider emulator coverage, immutable provider catalog, fresh-session resume path, and canonical local-save non-mutation are permanently gated.\n');

@@ -11,6 +11,7 @@
     "continueToShowdownHome"
   ]);
   const WRAPPED=Symbol("ssjrSharedJourneyGuard");
+  const LOADER_WRAPPED=Symbol("ssjrSharedJourneyGuardLoader");
   let timer=null;
 
   function pending(){
@@ -39,11 +40,27 @@
     root[name]=guarded;
     return true;
   }
+  function hookRuntimeLoader(){
+    const original=root.loadRuntimeScript;
+    if(typeof original!=="function"||original[LOADER_WRAPPED])return false;
+    function guardedRuntimeLoader(...args){
+      return Promise.resolve(original.apply(this,args)).then(value=>{
+        install();
+        return value;
+      });
+    }
+    Object.defineProperty(guardedRuntimeLoader,LOADER_WRAPPED,{value:true});
+    Object.defineProperty(guardedRuntimeLoader,"ssjrOriginal",{value:original});
+    root.loadRuntimeScript=guardedRuntimeLoader;
+    return true;
+  }
   function install(){
+    hookRuntimeLoader();
     GUARDED.forEach(wrap);
     if(timer===null&&typeof root.setInterval==="function"){
       let attempts=0;
       timer=root.setInterval(()=>{
+        hookRuntimeLoader();
         GUARDED.forEach(wrap);
         attempts+=1;
         if(attempts>=120){root.clearInterval(timer);timer=null;}
@@ -56,6 +73,7 @@
     contractVersion:1,
     feature:"ssjr-local-draw-bypass-guard",
     guardedFunctions:GUARDED,
+    hooksLazyRuntimeLoader:true,
     usesSessionStorageOnly:true,
     canonicalLocalStorageMutation:false,
     billingRequired:false,
