@@ -1,0 +1,236 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() { return request.auth != null; }
+    function validRivalryId(value) { return value is string && value.matches('^pair_[0-9a-f]{64}$'); }
+    function validSessionId(value) { return value is string && value.matches('^session_[0-9a-f]{64}$'); }
+    function validDeviceId(value) { return value is string && value.matches('^device_[0-9a-f]{32}$'); }
+    function validOperationId(value) { return value is string && value.matches('^setup_op_[0-9a-f]{32}$'); }
+    function activeAccount(accountId) {
+      let account = get(/databases/$(database)/documents/accounts/$(accountId));
+      return account.data.objectType == 'account'
+        && account.data.objectId == accountId
+        && account.data.lifecycleState == 'live'
+        && account.data.data.status == 'active';
+    }
+    function activeActor() { return signedIn() && activeAccount(request.auth.uid); }
+    function activeOwnedDevice(deviceId) {
+      let device = get(/databases/$(database)/documents/accounts/$(request.auth.uid)/devices/$(deviceId));
+      return activeActor()
+        && validDeviceId(deviceId)
+        && device.data.objectType == 'device'
+        && device.data.objectId == deviceId
+        && device.data.lifecycleState == 'live'
+        && device.data.data.deviceId == deviceId
+        && device.data.data.state == 'active';
+    }
+    function rivalryData(rivalryId) { return get(/databases/$(database)/documents/rivalries/$(rivalryId)).data.data; }
+    function exactPairedRivalry(rivalryId) {
+      let root = get(/databases/$(database)/documents/rivalries/$(rivalryId));
+      let data = root.data.data;
+      return validRivalryId(rivalryId)
+        && root.data.objectType == 'rivalry'
+        && root.data.objectId == rivalryId
+        && root.data.lifecycleState == 'live'
+        && data.connectionState == 'active'
+        && data.authorizedAccountIds is list
+        && data.authorizedAccountIds.size() == 2
+        && data.authorizedAccountIds[0] != data.authorizedAccountIds[1]
+        && data.managerSlots is list
+        && data.managerSlots.size() == 2
+        && data.managerSlots[0].slotId == 'playerOne'
+        && data.managerSlots[1].slotId == 'playerTwo'
+        && data.managerSlots[0].accountId != data.managerSlots[1].accountId
+        && data.managerSlots[0].entitlementState == 'active'
+        && data.managerSlots[1].entitlementState == 'active'
+        && data.managerSlots[0].accountId in data.authorizedAccountIds
+        && data.managerSlots[1].accountId in data.authorizedAccountIds
+        && activeAccount(data.managerSlots[0].accountId)
+        && activeAccount(data.managerSlots[1].accountId);
+    }
+    function entitled(rivalryId) {
+      return activeActor() && exactPairedRivalry(rivalryId) && request.auth.uid in rivalryData(rivalryId).authorizedAccountIds;
+    }
+    function actorRole(rivalryId) {
+      return rivalryData(rivalryId).managerSlots[0].accountId == request.auth.uid ? 'playerOne' : 'playerTwo';
+    }
+    function activeSession(rivalryId, sessionId) {
+      let session = get(/databases/$(database)/documents/rivalries/$(rivalryId)/sessions/$(sessionId));
+      let data = session.data.data;
+      let rivalry = rivalryData(rivalryId);
+      return entitled(rivalryId)
+        && validSessionId(sessionId)
+        && session.data.objectType == 'session'
+        && session.data.objectId == sessionId
+        && session.data.lifecycleState == 'live'
+        && data.rivalryId == rivalryId
+        && data.state == 'active'
+        && data.memberAccountIds is list
+        && data.memberAccountIds.size() == 2
+        && data.memberAccountIds[0] != data.memberAccountIds[1]
+        && rivalry.authorizedAccountIds[0] in data.memberAccountIds
+        && rivalry.authorizedAccountIds[1] in data.memberAccountIds
+        && request.auth.uid in data.memberAccountIds
+        && data.expiresAt is timestamp
+        && data.expiresAt > request.time;
+    }
+    function sessionHostIsActor(rivalryId, sessionId) {
+      return get(/databases/$(database)/documents/rivalries/$(rivalryId)/sessions/$(sessionId)).data.data.hostAccountId == request.auth.uid;
+    }
+    function exactLedgerKeys(root) {
+      return root.keys().hasOnly([
+        'schemaVersion','objectType','rivalryId','revision','phase','coordinatorRole',
+        'operationIds','operationTypes','baseRevisions','actorRoles','totalSeasons',
+        'confirmedRoles','activeSessionId','updatedAt','updatedByDeviceId'
+      ]);
+    }
+    function validLedgerBase(root, rivalryId) {
+      return exactLedgerKeys(root)
+        && root.schemaVersion == 1
+        && root.objectType == 'sharedSetupLedger'
+        && root.rivalryId == rivalryId
+        && root.revision is int
+        && root.revision >= 1
+        && root.revision <= 6
+        && (root.coordinatorRole == 'playerOne' || root.coordinatorRole == 'playerTwo')
+        && root.operationIds is list
+        && root.operationTypes is list
+        && root.baseRevisions is list
+        && root.actorRoles is list
+        && root.operationIds.size() == root.revision
+        && root.operationTypes.size() == root.revision
+        && root.baseRevisions.size() == root.revision
+        && root.actorRoles.size() == root.revision
+        && root.confirmedRoles is list
+        && validSessionId(root.activeSessionId)
+        && root.updatedAt == request.time
+        && activeOwnedDevice(root.updatedByDeviceId)
+        && activeSession(rivalryId, root.activeSessionId);
+    }
+    function validCreateLedger(rivalryId) {
+      let after = request.resource.data;
+      return validLedgerBase(after, rivalryId)
+        && after.revision == 1
+        && after.phase == 'SHARED_SETUP_OPEN'
+        && after.coordinatorRole == actorRole(rivalryId)
+        && after.operationIds[0] != null && validOperationId(after.operationIds[0])
+        && after.operationTypes[0] == 'open'
+        && after.baseRevisions[0] == 0
+        && after.actorRoles[0] == after.coordinatorRole
+        && after.totalSeasons == null
+        && after.confirmedRoles.size() == 0
+        && sessionHostIsActor(rivalryId, after.activeSessionId);
+    }
+    function prefixPreserved(before, after) {
+      return after.operationIds[0] == before.operationIds[0]
+        && after.operationTypes[0] == before.operationTypes[0]
+        && after.baseRevisions[0] == before.baseRevisions[0]
+        && after.actorRoles[0] == before.actorRoles[0]
+        && (before.revision < 2 || (
+          after.operationIds[1] == before.operationIds[1] && after.operationTypes[1] == before.operationTypes[1]
+          && after.baseRevisions[1] == before.baseRevisions[1] && after.actorRoles[1] == before.actorRoles[1]))
+        && (before.revision < 3 || (
+          after.operationIds[2] == before.operationIds[2] && after.operationTypes[2] == before.operationTypes[2]
+          && after.baseRevisions[2] == before.baseRevisions[2] && after.actorRoles[2] == before.actorRoles[2]))
+        && (before.revision < 4 || (
+          after.operationIds[3] == before.operationIds[3] && after.operationTypes[3] == before.operationTypes[3]
+          && after.baseRevisions[3] == before.baseRevisions[3] && after.actorRoles[3] == before.actorRoles[3]))
+        && (before.revision < 5 || (
+          after.operationIds[4] == before.operationIds[4] && after.operationTypes[4] == before.operationTypes[4]
+          && after.baseRevisions[4] == before.baseRevisions[4] && after.actorRoles[4] == before.actorRoles[4]));
+    }
+    function newOperationValid(before, after) {
+      let index = before.revision;
+      return validOperationId(after.operationIds[index])
+        && !(after.operationIds[index] in before.operationIds)
+        && after.baseRevisions[index] == before.revision
+        && after.actorRoles[index] == actorRole(after.rivalryId);
+    }
+    function validUpdateLedger(rivalryId) {
+      let before = resource.data;
+      let after = request.resource.data;
+      let i = before.revision;
+      return validLedgerBase(after, rivalryId)
+        && exactLedgerKeys(before)
+        && after.revision == before.revision + 1
+        && after.coordinatorRole == before.coordinatorRole
+        && prefixPreserved(before, after)
+        && newOperationValid(before, after)
+        && (
+          (i == 1
+            && before.phase == 'SHARED_SETUP_OPEN'
+            && after.phase == 'LEAGUE_WHEEL_COMMITTED'
+            && after.operationTypes[i] == 'commit-league'
+            && after.actorRoles[i] == before.coordinatorRole
+            && before.totalSeasons == null && after.totalSeasons == null
+            && after.confirmedRoles.size() == 0)
+          ||
+          (i == 2
+            && before.phase == 'LEAGUE_WHEEL_COMMITTED'
+            && after.phase == 'CLUB_ASSIGNMENTS_COMMITTED'
+            && after.operationTypes[i] == 'commit-clubs'
+            && after.actorRoles[i] == before.coordinatorRole
+            && before.totalSeasons == null && after.totalSeasons == null
+            && after.confirmedRoles.size() == 0)
+          ||
+          (i == 3
+            && before.phase == 'CLUB_ASSIGNMENTS_COMMITTED'
+            && after.phase == 'SEASON_LENGTH_COMMITTED'
+            && after.operationTypes[i] == 'commit-length'
+            && after.actorRoles[i] == before.coordinatorRole
+            && before.totalSeasons == null
+            && (after.totalSeasons == 1 || after.totalSeasons == 3 || after.totalSeasons == 5 || after.totalSeasons == 10)
+            && after.confirmedRoles.size() == 0)
+          ||
+          (i == 4
+            && before.phase == 'SEASON_LENGTH_COMMITTED'
+            && after.phase == 'SEASON_LENGTH_COMMITTED'
+            && after.operationTypes[i] == 'confirm'
+            && after.totalSeasons == before.totalSeasons
+            && before.confirmedRoles.size() == 0
+            && after.confirmedRoles.size() == 1
+            && after.confirmedRoles[0] == after.actorRoles[i])
+          ||
+          (i == 5
+            && before.phase == 'SEASON_LENGTH_COMMITTED'
+            && after.phase == 'SHOWDOWN_CONFIRMED'
+            && after.operationTypes[i] == 'confirm'
+            && after.totalSeasons == before.totalSeasons
+            && before.confirmedRoles.size() == 1
+            && after.confirmedRoles.size() == 2
+            && after.confirmedRoles[0] == before.confirmedRoles[0]
+            && after.confirmedRoles[1] == after.actorRoles[i]
+            && after.confirmedRoles[1] != after.confirmedRoles[0])
+        );
+    }
+
+    match /accounts/{accountId} {
+      allow get: if signedIn() && request.auth.uid == accountId;
+      allow list, create, update, delete: if false;
+      match /devices/{deviceId} {
+        allow get: if signedIn() && request.auth.uid == accountId;
+        allow list, create, update, delete: if false;
+      }
+      match /{document=**} { allow read, write: if false; }
+    }
+    match /rivalries/{rivalryId} {
+      allow get: if entitled(rivalryId);
+      allow list, create, update, delete: if false;
+      match /sessions/{sessionId} {
+        allow get: if entitled(rivalryId)
+          && resource.data.objectType == 'session'
+          && resource.data.data.memberAccountIds is list
+          && request.auth.uid in resource.data.data.memberAccountIds;
+        allow list, create, update, delete: if false;
+      }
+      match /sharedSetup/authoritative {
+        allow get: if entitled(rivalryId);
+        allow list, delete: if false;
+        allow create: if validCreateLedger(rivalryId);
+        allow update: if validUpdateLedger(rivalryId);
+      }
+      match /{document=**} { allow read, write: if false; }
+    }
+    match /{document=**} { allow read, write: if false; }
+  }
+}
