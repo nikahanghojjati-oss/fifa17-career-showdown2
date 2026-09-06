@@ -4,6 +4,7 @@ const fs=require("node:fs");
 const firestoreSdk=require("firebase/firestore");
 const {Timestamp,doc,getDoc,setDoc,serverTimestamp}=firestoreSdk;
 const {initializeTestEnvironment,assertFails}=require("@firebase/rules-unit-testing");
+const CATALOG=require("../../js/sharedShowdownCatalog.js").catalog;
 
 let localTouches=0;
 global.localStorage={
@@ -24,15 +25,8 @@ const S2=`session_${"2".repeat(64)}`;
 const SWRONG=`session_${"3".repeat(64)}`;
 const SEXP=`session_${"4".repeat(64)}`;
 const DA=`device_${"a".repeat(32)}`,DB=`device_${"b".repeat(32)}`,DC=`device_${"c".repeat(32)}`;
-const PA=`profile_${"1".repeat(24)}`,PB=`profile_${"2".repeat(24)}`,PC=`profile_${"3".repeat(24)}`;
-const SA=`save_${"1".repeat(24)}`,SB=`save_${"2".repeat(24)}`,SC=`save_${"3".repeat(24)}`;
-const CATALOG=Object.freeze({
-  premier_league:["Arsenal","Chelsea","Liverpool","Manchester City"],
-  laliga:["Atletico Madrid","Barcelona","Real Madrid","Sevilla"],
-  bundesliga:["Bayern Munich","Borussia Dortmund","Leverkusen","Leipzig"],
-  serie_a:["Inter","Juventus","Milan","Roma"],
-  ligue_1:["Lille","Lyon","Marseille","Paris SG"]
-});
+const PA=`profile_${"1".repeat(24)}`,PB=`profile_${"2".repeat(24)}`;
+const SA=`save_${"1".repeat(24)}`,SB=`save_${"2".repeat(24)}`;
 function sdk(){return {Timestamp,doc,runTransaction:firestoreSdk.runTransaction,serverTimestamp};}
 function account(id,status="active"){return {objectType:"account",objectId:id,lifecycleState:"live",data:{status}};}
 function device(id,state="active"){return {objectType:"device",objectId:id,lifecycleState:"live",data:{deviceId:id,state}};}
@@ -44,14 +38,14 @@ function rivalry(id=R,authorized=[A,B],managerSlots=slots()){return {objectType:
 function session(id,rivalryId,state,host,members,expiresAt){return {objectType:"session",objectId:id,lifecycleState:"live",data:{rivalryId,state,hostAccountId:host,memberAccountIds:members,expiresAt}};}
 function op(char){return `setup_op_${char.repeat(32)}`;}
 function options(db,user,deviceId,sessionId,now,type,baseRevision,operationId,extra={}){
-  return {user:{uid:user},firestore:db,firebaseSdk:sdk(),deviceId,rivalryId:R,sessionId,nowEpochMs:now,type,baseRevision,operationId,catalog:CATALOG,cryptoImpl:crypto.webcrypto,...extra};
+  return {user:{uid:user},firestore:db,firebaseSdk:sdk(),deviceId,rivalryId:R,sessionId,nowEpochMs:now,type,baseRevision,operationId,cryptoImpl:crypto.webcrypto,...extra};
 }
 async function seed(testEnv,now){
   await testEnv.withSecurityRulesDisabled(async context=>{
     const db=context.firestore();
     const future=Timestamp.fromMillis(now+10*60*1000);
     const past=Timestamp.fromMillis(now-1000);
-    for(const [id,status] of [[A,"active"],[B,"active"],[C,"active"]])await setDoc(doc(db,"accounts",id),account(id,status));
+    for(const id of [A,B,C])await setDoc(doc(db,"accounts",id),account(id));
     await setDoc(doc(db,"accounts",A,"devices",DA),device(DA));
     await setDoc(doc(db,"accounts",B,"devices",DB),device(DB));
     await setDoc(doc(db,"accounts",C,"devices",DC),device(DC));
@@ -84,8 +78,8 @@ async function seed(testEnv,now){
     assert.equal(open.status,"accepted");
     assert.equal(open.revision,1);
     assert.equal(open.state.phase,"SHARED_SETUP_OPEN");
-    assert.equal(open.state.leagueId,null,"No league may exist before paired ACTIVE-session setup open.");
-    assert.equal(open.state.clubs,null,"No clubs may exist before paired ACTIVE-session setup open.");
+    assert.equal(open.state.leagueId,null);
+    assert.equal(open.state.clubs,null);
 
     const replay=await provider.mutate(options(dbA,A,DA,S1,now+1,"open",0,op("1")));
     assert.equal(replay.ok,true,JSON.stringify(replay));
@@ -95,39 +89,36 @@ async function seed(testEnv,now){
     assert.equal(conflict.ok,false);
     assert.equal(conflict.code,"SETUP_IDEMPOTENCY_CONFLICT");
 
-    const unrelated=await provider.read({user:{uid:C},firestore:dbC,firebaseSdk:sdk(),deviceId:DC,rivalryId:R,sessionId:S1,nowEpochMs:now+3,catalog:CATALOG,cryptoImpl:crypto.webcrypto});
+    const unrelated=await provider.read({user:{uid:C},firestore:dbC,firebaseSdk:sdk(),deviceId:DC,rivalryId:R,sessionId:S1,nowEpochMs:now+3,cryptoImpl:crypto.webcrypto});
     assert.equal(unrelated.ok,false,"An unrelated authenticated account must be denied.");
-
-    const wrongSession=await provider.read({user:{uid:A},firestore:dbA,firebaseSdk:sdk(),deviceId:DA,rivalryId:R,sessionId:SWRONG,nowEpochMs:now+4,catalog:CATALOG,cryptoImpl:crypto.webcrypto});
+    const wrongSession=await provider.read({user:{uid:A},firestore:dbA,firebaseSdk:sdk(),deviceId:DA,rivalryId:R,sessionId:SWRONG,nowEpochMs:now+4,cryptoImpl:crypto.webcrypto});
     assert.equal(wrongSession.ok,false);
     assert.ok(["SETUP_ACTIVE_SESSION_REQUIRED","permission-denied"].includes(wrongSession.code),wrongSession.code);
-    const expired=await provider.read({user:{uid:A},firestore:dbA,firebaseSdk:sdk(),deviceId:DA,rivalryId:R,sessionId:SEXP,nowEpochMs:now+4,catalog:CATALOG,cryptoImpl:crypto.webcrypto});
+    const expired=await provider.read({user:{uid:A},firestore:dbA,firebaseSdk:sdk(),deviceId:DA,rivalryId:R,sessionId:SEXP,nowEpochMs:now+4,cryptoImpl:crypto.webcrypto});
     assert.equal(expired.ok,false);
     assert.ok(["SETUP_ACTIVE_SESSION_REQUIRED","permission-denied"].includes(expired.code),expired.code);
 
     const openLedger=(await getDoc(setupRefA)).data();
-    const maliciousLeague={...openLedger,
+    await assertFails(setDoc(setupRefA,{...openLedger,
       revision:2,phase:"LEAGUE_WHEEL_COMMITTED",
       operationIds:[...openLedger.operationIds,op("2")],operationTypes:[...openLedger.operationTypes,"commit-league"],
       baseRevisions:[...openLedger.baseRevisions,1],actorRoles:[...openLedger.actorRoles,"playerOne"],
       updatedAt:serverTimestamp(),leagueId:"laliga"
-    };
-    await assertFails(setDoc(setupRefA,maliciousLeague));
+    }));
 
     const league=await provider.mutate(options(dbA,A,DA,S1,now+10,"commit-league",1,op("2")));
     assert.equal(league.ok,true,JSON.stringify(league));
     assert.equal(league.revision,2);
-    assert.ok(league.state.leagueId);
     const leagueId=league.state.leagueId;
+    assert.ok(Object.hasOwn(CATALOG,leagueId));
 
     const leagueLedger=(await getDoc(setupRefA)).data();
-    const maliciousClubs={...leagueLedger,
+    await assertFails(setDoc(setupRefA,{...leagueLedger,
       revision:3,phase:"CLUB_ASSIGNMENTS_COMMITTED",
       operationIds:[...leagueLedger.operationIds,op("3")],operationTypes:[...leagueLedger.operationTypes,"commit-clubs"],
       baseRevisions:[...leagueLedger.baseRevisions,2],actorRoles:[...leagueLedger.actorRoles,"playerOne"],
       updatedAt:serverTimestamp(),clubs:{playerOne:CATALOG[leagueId][0],playerTwo:CATALOG[leagueId][1]}
-    };
-    await assertFails(setDoc(setupRefA,maliciousClubs));
+    }));
 
     const clubs=await provider.mutate(options(dbA,A,DA,S1,now+20,"commit-clubs",2,op("3")));
     assert.equal(clubs.ok,true,JSON.stringify(clubs));
@@ -136,21 +127,18 @@ async function seed(testEnv,now){
     assert.ok(CATALOG[leagueId].includes(clubs.state.clubs.playerOne));
     assert.ok(CATALOG[leagueId].includes(clubs.state.clubs.playerTwo));
 
-    const firstRead=await provider.read({user:{uid:A},firestore:dbA,firebaseSdk:sdk(),deviceId:DA,rivalryId:R,sessionId:S1,nowEpochMs:now+21,catalog:CATALOG,cryptoImpl:crypto.webcrypto});
-    const secondRead=await provider.read({user:{uid:B},firestore:dbB,firebaseSdk:sdk(),deviceId:DB,rivalryId:R,sessionId:S1,nowEpochMs:now+22,catalog:CATALOG,cryptoImpl:crypto.webcrypto});
+    const firstRead=await provider.read({user:{uid:A},firestore:dbA,firebaseSdk:sdk(),deviceId:DA,rivalryId:R,sessionId:S1,nowEpochMs:now+21,cryptoImpl:crypto.webcrypto});
+    const secondRead=await provider.read({user:{uid:B},firestore:dbB,firebaseSdk:sdk(),deviceId:DB,rivalryId:R,sessionId:S1,nowEpochMs:now+22,cryptoImpl:crypto.webcrypto});
     assert.equal(firstRead.ok,true,JSON.stringify(firstRead));
     assert.equal(secondRead.ok,true,JSON.stringify(secondRead));
-    assert.equal(firstRead.state.leagueId,secondRead.state.leagueId,"Repeated prepare/read cannot redraw the league.");
-    assert.deepEqual(firstRead.state.clubs,secondRead.state.clubs,"Repeated prepare/read cannot redraw clubs.");
+    assert.equal(firstRead.state.leagueId,secondRead.state.leagueId,"Repeated read cannot redraw the league.");
+    assert.deepEqual(firstRead.state.clubs,secondRead.state.clubs,"Repeated read cannot redraw clubs.");
 
     const stale=await provider.mutate(options(dbB,B,DB,S1,now+23,"commit-length",2,op("4"),{totalSeasons:3}));
     assert.equal(stale.ok,false);
     assert.equal(stale.code,"SETUP_STALE_BASE_REVISION");
 
-    await testEnv.withSecurityRulesDisabled(async context=>{
-      const db=context.firestore();
-      await setDoc(doc(db,"accounts",A,"devices",DA),device(DA,"revoked"));
-    });
+    await testEnv.withSecurityRulesDisabled(async context=>setDoc(doc(context.firestore(),"accounts",A,"devices",DA),device(DA,"revoked")));
     const revoked=await provider.mutate(options(dbA,A,DA,S1,now+24,"commit-length",3,op("4"),{totalSeasons:3}));
     assert.equal(revoked.ok,false);
     assert.ok(["SETUP_DEVICE_INACTIVE","permission-denied"].includes(revoked.code),revoked.code);
@@ -183,11 +171,11 @@ async function seed(testEnv,now){
     assert.equal(confirmB.state.phase,"SHOWDOWN_CONFIRMED");
     assert.deepEqual(confirmB.state.confirmedRoles,["playerOne","playerTwo"]);
 
-    const finalA=await provider.read({user:{uid:A},firestore:dbA,firebaseSdk:sdk(),deviceId:DA,rivalryId:R,sessionId:S2,nowEpochMs:now+51,catalog:CATALOG,cryptoImpl:crypto.webcrypto});
-    const finalB=await provider.read({user:{uid:B},firestore:dbB,firebaseSdk:sdk(),deviceId:DB,rivalryId:R,sessionId:S2,nowEpochMs:now+51,catalog:CATALOG,cryptoImpl:crypto.webcrypto});
+    const finalA=await provider.read({user:{uid:A},firestore:dbA,firebaseSdk:sdk(),deviceId:DA,rivalryId:R,sessionId:S2,nowEpochMs:now+51,cryptoImpl:crypto.webcrypto});
+    const finalB=await provider.read({user:{uid:B},firestore:dbB,firebaseSdk:sdk(),deviceId:DB,rivalryId:R,sessionId:S2,nowEpochMs:now+51,cryptoImpl:crypto.webcrypto});
     assert.equal(finalA.ok,true,JSON.stringify(finalA));
     assert.equal(finalB.ok,true,JSON.stringify(finalB));
-    assert.deepEqual(finalA.state,finalB.state,"Both paired managers must materialize byte-equivalent confirmed setup state.");
+    assert.deepEqual(finalA.state,finalB.state,"Both managers must materialize byte-equivalent confirmed setup state.");
 
     const badTwoManager=await provider.mutate({...options(dbA,A,DA,S1,now+60,"open",0,op("7")),rivalryId:RBAD});
     assert.equal(badTwoManager.ok,false,"A rivalry that is not exactly two managers must be denied.");
@@ -195,10 +183,10 @@ async function seed(testEnv,now){
     const stored=(await getDoc(setupRefA)).data();
     assert.equal(Object.hasOwn(stored,"leagueId"),false,"Caller-selectable league must never be persisted as provider authority.");
     assert.equal(Object.hasOwn(stored,"clubs"),false,"Caller-selectable clubs must never be persisted as provider authority.");
-    assert.equal(stored.activeSessionId,S2,"Continuity may advance to a fresh ACTIVE session without resetting the rivalry setup.");
+    assert.equal(stored.activeSessionId,S2,"A fresh ACTIVE session may continue but never reset the same rivalry setup.");
     assert.equal(localTouches,0,"Provider persistence must not read or mutate canonical local saves.");
 
-    console.log("Shared Showdown Setup Spark provider emulator proof passed: paired ACTIVE-session authority, exact-two-manager gating, CAS/idempotency, deterministic non-redrawable league/clubs, direct modified-client denial, same-rivalry fresh-session continuity, identical confirmation, and zero canonical local-save mutation.");
+    console.log("Shared Showdown Setup Spark provider emulator proof passed: paired ACTIVE-session authority, exact-two-manager gating, CAS/idempotency, canonical deterministic non-redrawable league/clubs, direct modified-client denial, same-rivalry fresh-session continuity, identical confirmation, and zero canonical local-save mutation.");
   }finally{
     await testEnv.cleanup();
   }
