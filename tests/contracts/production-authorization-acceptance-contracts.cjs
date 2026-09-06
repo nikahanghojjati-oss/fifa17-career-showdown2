@@ -35,8 +35,8 @@ const rivalryId=`pair_${'a'.repeat(64)}`;
   if(currentRuntimeRevision!==productionRuntimeRevision){
     assert.equal(activeCandidateWec,true,'Source may differ from production authority only for an explicit active release-candidate publication WEC.');
     assert.equal(previousRuntimeRevision,productionRuntimeRevision,'An active release candidate must retain the production-proven whole-shell runtime as its rollback target.');
-    assert.match(currentRelease,new RegExp(`Runtime asset revision: \\`${currentRuntimeRevision.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')}\\``),'Release-candidate record must identify the source shell exactly.');
-    assert.match(currentRelease,new RegExp(`Previous known-good runtime: \\`${productionRuntimeRevision.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')}\\``),'Release-candidate record must preserve current production as previous known-good authority.');
+    assert.ok(currentRelease.includes('Runtime asset revision: `'+currentRuntimeRevision+'`'),'Release-candidate record must identify the source shell exactly.');
+    assert.ok(currentRelease.includes('Previous known-good runtime: `'+productionRuntimeRevision+'`'),'Release-candidate record must preserve current production as previous known-good authority.');
   }else{
     assert.equal(currentRuntimeRevision,productionRuntimeRevision,'Outside an active release candidate, shipped shell and production authority must agree.');
   }
