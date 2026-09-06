@@ -5,6 +5,7 @@ const bootstrap=require("../../js/productionAppCheckBootstrap.js");
 const read=file=>fs.readFileSync(file,"utf8");
 const index=read("index.html");
 const app=read("js/app.js");
+const ssjrBootstrap=read("js/ssjr.js");
 const worker=read("service-worker.js");
 const manifest=read("manifest.webmanifest");
 const runtimeSource=read("js/productionFirebaseRuntime.js");
@@ -75,7 +76,9 @@ for(const path of ["js/storage.js","js/showdown.js","js/scoring.js","js/screens.
   assert.ok(index.includes(`${path}?v=${currentRevision}`),`${path} must use the current candidate shell revision.`);
 }
 assert.ok(app.includes(`visual-fidelity-r3.css?v=${currentRevision}`));
-assert.match(app,/productionFirebaseRuntime\.js\?v=\$\{r\}/);
+assert.match(app,/f\.src=`js\/ssjr\.js\?v=\$\{r\}`/,"Protected startup shell must version-load the SSJR bootstrap instead of directly loading production Firebase.");
+assert.doesNotMatch(app,/productionFirebaseRuntime\.js\?v=\$\{r\}/,"Production Firebase must remain behind the lazy SSJR bootstrap to preserve startup budget.");
+assert.match(ssjrBootstrap,/load\("firebase-runtime","js\/productionFirebaseRuntime\.js"/,"SSJR bootstrap must retain the production Firebase runtime behind the existing version-aware runtime loader.");
 assert.match(app,/requestAnimationFrame\(\(\)=>\{ra\(\);so\(\);sd\(\);\}\)/,"Firebase must remain post-local-startup/lazy rather than blocking application initialization.");
 assert.ok(worker.includes(`const RUNTIME_REVISION = "${currentRevision}";`));
 const previousKnownGood=(currentRelease.match(/Previous known-good runtime:\s*`([^`]+)`/i)||[])[1];

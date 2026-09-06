@@ -70,7 +70,7 @@ jobs:
             const source = fs.readFileSync(path.join(workflowDir, name), 'utf8');
             return total + (source.match(/^\s*run:\s*\|\s*$/gm) || []).length;
           }, 0);
-          assert.equal(literalBlocks, 34, `Permanent executable validation topology drifted: expected 34 literal blocks, found ${literalBlocks}.`);
+          assert.equal(literalBlocks, 35, `Permanent executable validation topology drifted: expected 35 literal blocks, found ${literalBlocks}.`);
           assert.ok(files.includes('validate-atomic-restore.yml'), 'Candidate C permanent workflow is missing.');
           assert.ok(files.includes('validate-v110-release-burnin.yml'), 'Five-pass release Burn-In workflow is missing.');
           assert.ok(files.includes('validate-stage3-private-pairing.yml'), 'Stage 3 private pairing permanent workflow is missing.');

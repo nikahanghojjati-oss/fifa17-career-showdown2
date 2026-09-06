@@ -1,0 +1,194 @@
+// SSJR_SHARED_SETUP_FUNCTIONS_BEGIN
+    function ssjrValidRivalryId(value) { return value is string && value.matches('^pair_[0-9a-f]{64}$'); }
+    function ssjrValidDeviceId(value) { return value is string && value.matches('^device_[0-9a-f]{32}$'); }
+    function ssjrValidOperationId(value) { return value is string && value.matches('^setup_op_[0-9a-f]{32}$'); }
+    function ssjrRivalryData(rivalryId) { return get(/databases/$(database)/documents/rivalries/$(rivalryId)).data.data; }
+    function ssjrExactPairedRivalry(rivalryId) {
+      let root = get(/databases/$(database)/documents/rivalries/$(rivalryId));
+      let data = root.data.data;
+      return ssjrValidRivalryId(rivalryId)
+        && root.data.objectType == 'rivalry'
+        && root.data.objectId == rivalryId
+        && root.data.lifecycleState == 'live'
+        && data.connectionState == 'active'
+        && data.authorizedAccountIds is list
+        && data.authorizedAccountIds.size() == 2
+        && data.authorizedAccountIds[0] != data.authorizedAccountIds[1]
+        && data.managerSlots is list
+        && data.managerSlots.size() == 2
+        && data.managerSlots[0].slotId == 'playerOne'
+        && data.managerSlots[1].slotId == 'playerTwo'
+        && data.managerSlots[0].accountId != data.managerSlots[1].accountId
+        && validProfileId(data.managerSlots[0].profileId)
+        && validProfileId(data.managerSlots[1].profileId)
+        && validSaveId(data.managerSlots[0].saveId)
+        && validSaveId(data.managerSlots[1].saveId)
+        && data.managerSlots[0].entitlementState == 'active'
+        && data.managerSlots[1].entitlementState == 'active'
+        && data.managerSlots[0].accountId in data.authorizedAccountIds
+        && data.managerSlots[1].accountId in data.authorizedAccountIds
+        && activeAccount(data.managerSlots[0].accountId)
+        && activeAccount(data.managerSlots[1].accountId);
+    }
+    function ssjrEntitled(rivalryId) {
+      return ssjrValidRivalryId(rivalryId) && activePairedRivalry(rivalryId);
+    }
+    function ssjrActorRole(rivalryId) {
+      return ssjrRivalryData(rivalryId).managerSlots[0].accountId == request.auth.uid ? 'playerOne' : 'playerTwo';
+    }
+
+    // Shared Setup write authority is evaluated once per write. Only the exact
+    // account/device/rivalry/session facts required by this namespaced ledger
+    // are rechecked so the production Rules remain under Firestore's expression ceiling.
+    function ssjrWriteAuthorityValid(rivalryId, deviceId, sessionId) {
+      let actor = request.auth.uid;
+      let rivalryRoot = get(/databases/$(database)/documents/rivalries/$(rivalryId));
+      let rivalry = rivalryRoot.data.data;
+      let slot0AccountId = rivalry.managerSlots[0].accountId;
+      let slot1AccountId = rivalry.managerSlots[1].accountId;
+      let slot0Account = get(/databases/$(database)/documents/accounts/$(slot0AccountId));
+      let slot1Account = get(/databases/$(database)/documents/accounts/$(slot1AccountId));
+      let device = get(/databases/$(database)/documents/accounts/$(actor)/devices/$(deviceId));
+      let session = get(/databases/$(database)/documents/rivalries/$(rivalryId)/sessions/$(sessionId));
+      let sessionData = session.data.data;
+      return signedIn()
+        && ssjrValidRivalryId(rivalryId)
+        && ssjrValidDeviceId(deviceId)
+        && validSessionId(sessionId)
+        && rivalryRoot.data.lifecycleState == 'live'
+        && rivalry.connectionState == 'active'
+        && rivalry.authorizedAccountIds is list
+        && rivalry.authorizedAccountIds.size() == 2
+        && rivalry.authorizedAccountIds[0] != rivalry.authorizedAccountIds[1]
+        && rivalry.managerSlots is list
+        && rivalry.managerSlots.size() == 2
+        && rivalry.managerSlots[0].slotId == 'playerOne'
+        && rivalry.managerSlots[1].slotId == 'playerTwo'
+        && slot0AccountId != slot1AccountId
+        && rivalry.managerSlots[0].entitlementState == 'active'
+        && rivalry.managerSlots[1].entitlementState == 'active'
+        && slot0AccountId in rivalry.authorizedAccountIds
+        && slot1AccountId in rivalry.authorizedAccountIds
+        && actor in rivalry.authorizedAccountIds
+        && slot0Account.data.data.status == 'active'
+        && slot1Account.data.data.status == 'active'
+        && device.data.objectId == deviceId
+        && device.data.data.state == 'active'
+        && session.data.objectId == sessionId
+        && sessionData.rivalryId == rivalryId
+        && sessionData.state == 'active'
+        && sessionData.memberAccountIds is list
+        && sessionData.memberAccountIds.size() == 2
+        && rivalry.authorizedAccountIds[0] in sessionData.memberAccountIds
+        && rivalry.authorizedAccountIds[1] in sessionData.memberAccountIds
+        && sessionData.expiresAt is timestamp
+        && sessionData.expiresAt > request.time;
+    }
+    function ssjrSessionHostIsActor(rivalryId, sessionId) {
+      return get(/databases/$(database)/documents/rivalries/$(rivalryId)/sessions/$(sessionId)).data.data.hostAccountId == request.auth.uid;
+    }
+    function ssjrExactLedgerKeys(root) {
+      return root.keys().hasOnly([
+        'schemaVersion','objectType','rivalryId','revision','phase','coordinatorRole',
+        'operationIds','operationTypes','baseRevisions','actorRoles','totalSeasons',
+        'confirmedRoles','activeSessionId','updatedAt','updatedByDeviceId'
+      ]);
+    }
+    function ssjrValidLedgerBase(root, rivalryId) {
+      let historySize = root.operationIds.size();
+      return ssjrExactLedgerKeys(root)
+        && root.schemaVersion == 1
+        && root.objectType == 'sharedSetupLedger'
+        && root.rivalryId == rivalryId
+        && root.revision is int
+        && root.revision >= 1
+        && root.revision <= 6
+        && (root.coordinatorRole == 'playerOne' || root.coordinatorRole == 'playerTwo')
+        && root.operationIds is list
+        && root.operationTypes is list
+        && root.baseRevisions is list
+        && root.actorRoles is list
+        && historySize == root.revision
+        && root.operationTypes.size() == historySize
+        && root.baseRevisions.size() == historySize
+        && root.actorRoles.size() == historySize
+        && root.confirmedRoles is list
+        && root.updatedAt == request.time
+        && ssjrWriteAuthorityValid(rivalryId, root.updatedByDeviceId, root.activeSessionId);
+    }
+    function ssjrValidCreateLedger(rivalryId) {
+      let after = request.resource.data;
+      return ssjrValidLedgerBase(after, rivalryId)
+        && after.revision == 1
+        && after.phase == 'SHARED_SETUP_OPEN'
+        && after.coordinatorRole == ssjrActorRole(rivalryId)
+        && ssjrValidOperationId(after.operationIds[0])
+        && after.operationTypes[0] == 'open'
+        && after.baseRevisions[0] == 0
+        && after.actorRoles[0] == after.coordinatorRole
+        && after.totalSeasons == null
+        && after.confirmedRoles.size() == 0
+        && ssjrSessionHostIsActor(rivalryId, after.activeSessionId);
+    }
+    function ssjrPrefixPreserved(before, after) {
+      let n = before.revision;
+      return after.operationIds[0:n] == before.operationIds
+        && after.operationTypes[0:n] == before.operationTypes
+        && after.baseRevisions[0:n] == before.baseRevisions
+        && after.actorRoles[0:n] == before.actorRoles;
+    }
+    function ssjrNewOperationValid(before, after) {
+      let index = before.revision;
+      return ssjrValidOperationId(after.operationIds[index])
+        && !(after.operationIds[index] in before.operationIds)
+        && after.baseRevisions[index] == before.revision
+        && after.actorRoles[index] == ssjrActorRole(after.rivalryId);
+    }
+    function ssjrTransitionShapeValid(before, after) {
+      let i = before.revision;
+      let nextTypes = ['unused','commit-league','commit-clubs','commit-length','confirm','confirm'];
+      let nextPhases = ['unused','LEAGUE_WHEEL_COMMITTED','CLUB_ASSIGNMENTS_COMMITTED','SEASON_LENGTH_COMMITTED','SEASON_LENGTH_COMMITTED','SHOWDOWN_CONFIRMED'];
+      return i >= 1
+        && i <= 5
+        && after.operationTypes[i] == nextTypes[i]
+        && after.phase == nextPhases[i]
+        && (i >= 4 || after.actorRoles[i] == before.coordinatorRole)
+        && (
+          (i <= 2 && before.totalSeasons == null && after.totalSeasons == null)
+          || (i == 3 && before.totalSeasons == null && (after.totalSeasons == 1 || after.totalSeasons == 3 || after.totalSeasons == 5 || after.totalSeasons == 10))
+          || (i >= 4 && after.totalSeasons == before.totalSeasons)
+        )
+        && (
+          (i <= 3 && after.confirmedRoles.size() == 0)
+          || (i == 4
+            && before.confirmedRoles.size() == 0
+            && after.confirmedRoles.size() == 1
+            && after.confirmedRoles[0] == after.actorRoles[i])
+          || (i == 5
+            && before.confirmedRoles.size() == 1
+            && after.confirmedRoles.size() == 2
+            && after.confirmedRoles[0] == before.confirmedRoles[0]
+            && after.confirmedRoles[1] == after.actorRoles[i]
+            && after.confirmedRoles[1] != after.confirmedRoles[0])
+        );
+    }
+    function ssjrValidUpdateLedger(rivalryId) {
+      let before = resource.data;
+      let after = request.resource.data;
+      return ssjrValidLedgerBase(after, rivalryId)
+        && after.revision == before.revision + 1
+        && after.coordinatorRole == before.coordinatorRole
+        && ssjrPrefixPreserved(before, after)
+        && ssjrNewOperationValid(before, after)
+        && ssjrTransitionShapeValid(before, after);
+    }
+// SSJR_SHARED_SETUP_FUNCTIONS_END
+
+// SSJR_SHARED_SETUP_MATCH_BEGIN
+      match /sharedSetup/authoritative {
+        allow get: if ssjrEntitled(rivalryId);
+        allow list, delete: if false;
+        allow create: if ssjrValidCreateLedger(rivalryId);
+        allow update: if ssjrValidUpdateLedger(rivalryId);
+      }
+// SSJR_SHARED_SETUP_MATCH_END

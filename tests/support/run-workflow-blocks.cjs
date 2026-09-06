@@ -76,7 +76,7 @@ for(const workflowFile of workflowFiles){
     });
 }
 
-assert.equal(executed + deferred, 34, `Expected 34 permanent executable workflow blocks; accounted for ${executed + deferred}.`);
+assert.equal(executed + deferred, 35, `Expected 35 permanent executable workflow blocks; accounted for ${executed + deferred}.`);
 if(deferred){
     process.stdout.write(`PASS  ${executed} permanent workflow blocks passed locally; ${deferred} provider-owned blocks deferred explicitly to exact workflow CI. Production Pages deployment is accounted separately.\n`);
 }else{
