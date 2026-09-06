@@ -29,7 +29,7 @@ assert.match(workflow,/actions\/deploy-pages@v4/);
 assert.match(workflow,/environment:\s*\n\s*name:\s*github-pages/);
 assert.match(workflow,/node-version:\s*24/);
 assert.match(workflow,/cp index\.html manifest\.webmanifest service-worker\.js firebase\.runtime-config\.json \.pages-artifact\//);
-assert.match(workflow,/cp -R assets css data js \.pages-artifact\//);
+assert.match(workflow,/cp -R acceptance assets css data js \.pages-artifact\//);
 assert.match(workflow,/node \.pages-artifact\/scripts\/render-production-firebase-public-config\.mjs/);
 assert.match(workflow,/rm -rf \.pages-artifact\/scripts/);
 assert.doesNotMatch(workflow,/firebase\s+deploy|firebase-hosting|Firebase Hosting/i,"Pages deployment must not introduce Firebase Hosting.");
@@ -68,4 +68,4 @@ try{
   fs.rmSync(tempRoot,{recursive:true,force:true});
 }
 
-process.stdout.write("PASS production Pages deployment renders App Check browser-public config only into the deployment artifact, fails closed without controlled variables, and never commits or logs provider values\n");
+process.stdout.write("PASS production Pages deployment renders App Check browser-public config only into the deployment artifact, fails closed without controlled variables, stages the bounded SSJR acceptance observer, and never commits or logs provider values\n");
