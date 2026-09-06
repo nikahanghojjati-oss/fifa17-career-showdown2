@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "environmentId": "we-2026-09-06-ssjr-production-shared-setup-a51",
   "lifecycle": "transition-prepared",
-  "recordedAt": "2026-09-06T16:35:19Z",
+  "recordedAt": "2026-09-06T16:39:23Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -25,9 +25,9 @@
     "projectComplexity": "high",
     "compactionCount": 1,
     "majorPhasesCompleted": 2,
-    "largeEvidenceEvents": 7,
+    "largeEvidenceEvents": 8,
     "toolRoutingErrors": 4,
-    "correctedFailures": 7,
+    "correctedFailures": 8,
     "repeatedMistakes": 1,
     "staleFactCorrections": 1,
     "unresolvedFailures": 0,
@@ -41,13 +41,13 @@
   },
   "assessment": {
     "decision": "HANDOFF_NOW",
-    "reason": "PR207 privacy-safe production Shared Setup recorder is exact-head 15/15 green, merged as main 791b5f9ad48e8d6d5623fd7271300f7266cfae1e with reviewed tree eed8b9c21bcb814a36d96ff43af93bf129a3766c preserved, and post-merge 15/15 green. PR208 publication diagnostics found only continuity/provenance defects, not runtime or provider regressions. c94006a704b6191510e5415afdcf67c6832c72ce omitted the protected GitHub CLI bootstrap sentence. 555707c124ec4fc9ad215a8e5f33a3d385fb7214 restored it and then exposed the contracted PROJECT_STATE final stable-release wording; Stage5F's own security checks, Candidate C and the complete Stage3/SSJR/Rules emulator chain were green. cf2cf0fcdaa98f02787b5326621a7a0b20cd424a restored PROJECT_STATE and review then surfaced the remaining contracted rolling-handoff RJR lineage plus NEXT_TASK heading/stable-release phrases. This final batched reseal restores all current P1 contract shapes without changing runtime/provider/Rules/gameplay/SSJR evidence. The score-enabling boundary remains genuine production-two-account observation with two legitimate private manager accounts.",
+    "reason": "PR207 recorder authority remains exact-head/post-merge proven on unchanged 1.9.1-r3 production. PR208 diagnostics have remained continuity-only: GitHub CLI bootstrap wording, stable-release provenance, rolling RJR lineage and exact NEXT_TASK contract phrases. Head e5958301380a279aeb1035bd4985e53fd5f3e5b2 passed every repository contract through Stage5E and the cloud/identity/RJR/SSJR authorities before release-authority-coherence.cjs exposed that two preserved historical contracts require both phrases: final stable release acceptance and final stable Remote Joining release acceptance. This reseal retains both phrases simultaneously. No runtime/provider/Rules/gameplay/SSJR evidence changes. The remaining score-enabling boundary is genuine production-two-account observation with two legitimate private manager accounts.",
     "decisionInheritedFromPredecessor": false,
     "usageExcludedBecauseUnavailable": true
   },
   "continuity": {
     "currentTask": "PR207 recorder publication is complete; publish the fully corrected PR207 successor package and route the fresh successor directly to genuine production-two-account Shared Setup observation and validation.",
-    "lastSafeCheckpoint": "Live main 791b5f9ad48e8d6d5623fd7271300f7266cfae1e / tree eed8b9c21bcb814a36d96ff43af93bf129a3766c remains PR207 post-merge authority. PR208 diagnostics prove the application/runtime/security surface unchanged: Candidate C browser recovery is green, Stage5F chooser/authenticated negatives are green, and Stage3 completed all deterministic, browser, Firestore, Stage5, SSJR, Spark-emulator and generated production Rules proofs green. Remaining PR208 findings are bounded authority-document contract preservation only. Production remains v1.9.1 / 1.9.1-r3 from PR203, Firebase Spark-only and billing permanently off. RJR is frozen 100/100 and SSJR remains 0/100.",
+    "lastSafeCheckpoint": "Live main 791b5f9ad48e8d6d5623fd7271300f7266cfae1e / tree eed8b9c21bcb814a36d96ff43af93bf129a3766c remains PR207 post-merge authority. PR208 diagnostics prove the application/runtime/security surface unchanged: Candidate C browser recovery is green, Stage5F chooser/authenticated negatives are green, and Stage3 completed all deterministic, browser, Firestore, Stage5, SSJR, Spark-emulator and generated production Rules proofs green. Head e5958301380a279aeb1035bd4985e53fd5f3e5b2 additionally passed cloud-foundation, Phase1E, Stage2C and Stage5E contract authority before the dual historical stable-release phrase mismatch. Production remains v1.9.1 / 1.9.1-r3 from PR203, Firebase Spark-only and billing permanently off. RJR is frozen 100/100 and SSJR remains 0/100.",
     "nextSafeAction": "Validate/archive a51, initialize a fresh unique successor WEC without inheriting HANDOFF_NOW, then use two legitimate private manager accounts and two distinct registered browser identities on deployed 1.9.1-r3. Capture each manager observation through npm run record:ssjr-production-shared-setup and validate the resulting privacy-safe pair through npm run validate:ssjr-production-shared-setup -- <player-one-evidence.json> <player-two-evidence.json>. Pairing plus exact ACTIVE must precede league or club selection.",
     "unfinishedWork": [
       "Obtain genuine production-two-account Shared Setup observations on deployed 1.9.1-r3 using two legitimate manager accounts and two distinct registered browser identities.",
@@ -68,11 +68,11 @@
       "Use Handoff Proximity V2; any meaningful unresolved failure caps visible proximity at 70."
     ],
     "evidenceNotes": [
-      "PR207 final exact reviewed head c6bf6b2cb0d492f2da727b8591e8fb7f118e3db6; tree eed8b9c21bcb814a36d96ff43af93bf129a3766c; exact-head 15/15; review threads 0; expected-head merge/main 791b5f9ad48e8d6d5623fd7271300f7266cfae1e; post-merge 15/15.",
-      "Post-merge Stability run 34041920689 attempt 2 passed unchanged 1.9.1-r3 bytes and the complete deployed journey after attempt 1 isolated one nonreproducing Save Library reduced-motion focus assertion.",
+      "PR207 final exact reviewed head c6bf6b2cb0d492f2da727b8591e8fb7f118e3db6; tree eed8b9c21bcb814a36d96ff43af93bf129a3766c; exact-head 15/15; expected-head merge/main 791b5f9ad48e8d6d5623fd7271300f7266cfae1e; post-merge 15/15; Stability 34041920689 attempt 2 green on unchanged production bytes.",
       "PR207 recorder hashes raw private identifiers only in memory and is permanently wired into test:contracts and test:ssjr. PR205 remains the strict pair-validator authority. PR203 remains production runtime/provider authority at v1.9.1 / 1.9.1-r3.",
-      "PR208 first exact head c94006a704b6191510e5415afdcf67c6832c72ce exposed the missing GitHub CLI bootstrap/checksum-verification sentence. Corrected head 555707c124ec4fc9ad215a8e5f33a3d385fb7214 restored it and exposed the PROJECT_STATE final stable-release acceptance marker. cf2cf0fcdaa98f02787b5326621a7a0b20cd424a restored that marker.",
-      "Codex review on stale c940 identified all remaining still-current P1 contract shapes before another full fanout: 00_CURRENT_HANDOFF must retain completed RJR100/PR198, historical PR191/RJR91 and r2 rollback provenance; NEXT_TASK must keep the exact PRODUCTION TWO-ACCOUNT heading and contiguous final stable release acceptance phrase. This final batch restores all of them.",
+      "PR208 c94006a704b6191510e5415afdcf67c6832c72ce exposed GitHub CLI bootstrap wording. 555707c124ec4fc9ad215a8e5f33a3d385fb7214 restored it and exposed PROJECT_STATE final stable-release provenance. cf2cf0fcdaa98f02787b5326621a7a0b20cd424a restored that. Codex review then identified rolling-handoff RJR lineage and NEXT_TASK heading/stable-release phrase contracts, all fixed in e5958301380a279aeb1035bd4985e53fd5f3e5b2.",
+      "Head e5958301380a279aeb1035bd4985e53fd5f3e5b2 passed every contract up to release-authority-coherence.cjs:104, which requires final stable Remote Joining release acceptance, while cloud-foundation separately requires final stable release acceptance. This reseal preserves both exact historical phrases rather than replacing either one.",
+      "All five Codex P1 review threads from stale c940 have been resolved after their fixes were present. No reviewer finding has been dismissed without correction.",
       "Two inert accidental connector branches, handoff/pr207-postmerge-ssjr-production-evidence-next-INVALID and noop-do-not-use, are not main, PR, runtime or handoff authority. This connector exposes no delete-ref action; a successor with delete-ref capability may remove them as optional hygiene.",
       "No safe CI substitute exists for two legitimate private account sign-ins and real deployed-session observations. Everything after those observations is automated.",
       "The owner's next-environment Astra Work Max instruction is takeover-specific only and must not become permanent recursive project authority.",
