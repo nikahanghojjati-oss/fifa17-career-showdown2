@@ -2,7 +2,9 @@
 
 RJR-1 remains COMPLETE/FROZEN at 100/100. SSJR-1.1 remains evidence-backed 0/100. Production remains proven `v1.9.1 / 1.9.1-r2`; PR #201 was candidate-only and did not production-enable Shared Setup or require billing.
 
-PR #201 final exact head `2c99e0746d6a3c5df946aa96f2c010da208bf70f`, tree `87ddbde2550facccdfba0ec02a3a625ea81d1a08`, passed all 15 permanent PR workflow families and was expected-head squash merged as `0cf810f99460bc66d41b4a036d42befb5bb5ef39`. It added the Spark exact-path Shared Setup provider adapter, immutable catalog, candidate Rules and permanent direct modified-client emulator negatives. Candidate/provider proof earns 0 SSJR points until production-two-account evidence satisfies a whole capability.
+PR #201 final exact head `2c99e0746d6a3c5df946aa96f2c010da208bf70f`, tree `87ddbde2550facccdfba0ec02a3a625ea81d1a08`, passed all 15 permanent PR workflow families and all 15 post-merge workflow families and was expected-head squash merged as `0cf810f99460bc66d41b4a036d42befb5bb5ef39`. It added the Spark exact-path Shared Setup provider adapter, immutable catalog, candidate Rules and permanent direct modified-client emulator negatives. Candidate/provider proof earns 0 SSJR points until production-two-account evidence satisfies a whole capability.
+
+The Installable Offline App, v1.3.0 Recovery & Device Resilience baseline, Local Profiles and Save Library remain protected throughout this milestone. Remote Shared Setup integration must fail closed without damaging local-only play, offline startup or canonical local saves.
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
