@@ -2,6 +2,8 @@
 
 Work Environment Continuity (WEC) is mandatory for every successor environment.
 
+Production: `v1.9.1 / 1.9.1-r3`
+
 Production is DEPLOYED / PRODUCTION-PROVEN `v1.9.1 / 1.9.1-r3` at main `65d88b1b413501b328bdf722bc6e8a0aa0d46ef2` from PR #203 exact final head `1f9ccf781354f22cf56a16f816500c7df017d3b8` and tree `e7e317d847dcf3b25e9959ce6c67f9dbb492596d`. `1.9.1-r2` remains the previous known-good whole-shell recovery target.
 
 PR203 passed all 15 exact-head workflow families, all review blockers were resolved, expected-head merge protection was used, all 15 permanent post-merge families are green, and the main-only zero-billing Rules publisher is green. Stability run `34011054148` completed successfully on the same immutable main after a one-off deployed Save Library DOM-detachment click timeout did not reproduce.
