@@ -9,6 +9,14 @@ Starting independently verified live main: `13dcf6bd3f2e8a6d2682db46ae0f7da3cbde
 
 Historical RJR100 provenance remains immutable: PR #198 published the fixed RJR-1 COMPLETE 100/100 acceptance after the final stable release acceptance. The consumed physical acceptance used a Chromebook on Home WiFi and an iPhone on cellular across two independent networks. The protected order placed Connected Rivalry and exact ACTIVE before the League Wheel; this remains historical proof and must not be repeated absent a proven regression.
 
+Historical consumed setup-foundation heading retained only as provenance for older immutable readers; it is not current implementation authority and must not be reactivated:
+
+```text
+# CURRENT TASK — SSJR-1 AUTHORITATIVE SETUP FOUNDATION
+```
+
+That foundation was consumed by the later deterministic setup/provider work through PR201. The live authority is the first heading in this file: SSJR-1.1 paired-first production Shared Setup.
+
 The Installable Offline App, v1.3.0 Recovery & Device Resilience baseline, Local Profiles and Save Library remain protected throughout this milestone. Remote Shared Setup integration must fail closed without damaging local-only play, offline startup or canonical local saves.
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
