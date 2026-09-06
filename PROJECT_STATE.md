@@ -18,6 +18,6 @@ Consumed RJR physical acceptance used two physical devices on two independent ne
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
-Validate/archive closing WEC `we-2026-09-05-ssjr-provider-adapter-a48`, initialize a fresh WEC from live main, then execute the paired-first production Shared Setup runtime/Rules milestone in `NEXT_TASK.md`. Automate all feasible two-account browser/provider positives and modified-client/adverse negatives before requesting owner evidence. Do not start transfer/results/scoring transport before this setup boundary is proven.
+Work Environment Continuity is mandatory. Validate/archive closing WEC `we-2026-09-05-ssjr-provider-adapter-a48`, initialize a fresh WEC from live main, then execute the paired-first production Shared Setup runtime/Rules milestone in `NEXT_TASK.md`. Automate all feasible two-account browser/provider positives and modified-client/adverse negatives before requesting owner evidence. Do not start transfer/results/scoring transport before this setup boundary is proven.
 
 SLE = Smart Lean Efficient. Starter: `START_NEXT_SESSION_V1.4.48_PR201_POSTMERGE_GREEN_SSJR_RUNTIME_NEXT.md`. Full handoff: `SUCCESSOR_HANDOFF_PR201_POSTMERGE_GREEN_SSJR_RUNTIME_NEXT_SLE_2026-09-06.md`. Estimated focused sessions to genuine SSJR100: ~6–11.
