@@ -1,49 +1,50 @@
 {
   "schemaVersion": 1,
-  "environmentId": "we-2026-09-05-pr199-postmerge-recovery-a47",
-  "lifecycle": "transition-prepared",
-  "recordedAt": "2026-09-05T23:38:00Z",
+  "environmentId": "we-2026-09-05-ssjr-provider-adapter-a48",
+  "lifecycle": "active",
+  "recordedAt": "2026-09-05T23:52:00Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
-    "startingMainSha": "780abd7b779cda5acd722b75fd59ef1e82c71f97",
-    "workingBranch": "handoff/pr199-postmerge-ssjr-provider-next-2026-09-05",
-    "handoffBranch": "handoff/pr199-postmerge-ssjr-provider-next-2026-09-05",
-    "predecessorEnvironmentId": "we-2026-09-05-ssjr-setup-foundation-28cf84",
-    "predecessorArchive": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-05-ssjr-setup-foundation-28cf84.json"
+    "startingMainSha": "13dcf6bd3f2e8a6d2682db46ae0f7da3cbde7885",
+    "workingBranch": "codex/ssjr-spark-provider-adapter",
+    "handoffBranch": null,
+    "predecessorEnvironmentId": "we-2026-09-05-pr199-postmerge-recovery-a47",
+    "predecessorArchive": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-05-pr199-postmerge-recovery-a47.json"
   },
   "signals": {
     "contextComplexity": "high",
     "projectComplexity": "high",
     "compactionCount": 1,
-    "majorPhasesCompleted": 2,
-    "largeEvidenceEvents": 6,
-    "toolRoutingErrors": 1,
-    "correctedFailures": 2,
+    "majorPhasesCompleted": 0,
+    "largeEvidenceEvents": 1,
+    "toolRoutingErrors": 0,
+    "correctedFailures": 0,
     "repeatedMistakes": 0,
-    "staleFactCorrections": 5,
+    "staleFactCorrections": 1,
     "unresolvedFailures": 0,
-    "newMilestoneNext": true,
+    "newMilestoneNext": false,
     "usageRemainingPercent": null,
     "usageSource": "unavailable",
     "usageWarning": false,
-    "handoffCompleteness": 100,
+    "handoffCompleteness": 0,
     "unrecordedDecisions": 0,
     "atomicOperation": false
   },
   "assessment": {
-    "decision": "HANDOFF_NOW",
-    "reason": "Recovered and completed PR199 publication, then repaired the successor package after PR200 CI exposed stale pre-publication bootstrap/current-authority assertions. Current SLE/SNS authority now routes directly from verified PR199 post-merge main to the fresh-WEC Spark provider/Rules milestone. Stop before substantive provider work.",
+    "decision": "CONTINUE",
+    "reason": "Fresh successor independently verified current main, PR199 exact reviewed head/tree/merge state, 15/15 PR workflows, 15/15 post-merge workflows, fixed RJR-1 100/100 and SSJR-1.1 0/100, and the byte-identical archived predecessor WEC. Begin the bounded Spark-compatible Shared Remote Setup provider/Rules milestone without inheriting the predecessor HANDOFF_NOW decision.",
     "decisionInheritedFromPredecessor": false,
     "usageExcludedBecauseUnavailable": true
   },
   "continuity": {
-    "currentTask": "Finish the interrupted PR199 post-merge SLE/SNS publication, remove stale pre-publication authority, and publish one coherent successor package without billing.",
-    "lastSafeCheckpoint": "PR199 exact reviewed head 378931e7bec2a4e95fb31912d4879e294b63d79f passed all 15 permanent PR workflow families; expected-head squash merge produced main 780abd7b779cda5acd722b75fd59ef1e82c71f97; all 15 post-merge families succeeded including Release Integration Burn-In 33996909745. PR200 continuity CI correctly exposed stale v1.4.46/PR198-current assumptions; those assumptions were advanced to v1.4.47/PR199 post-merge authority rather than weakening product gates.",
-    "nextSafeAction": "Initialize a fresh WEC from current live main and implement the smallest Spark-compatible exact-path Shared Remote Setup transaction adapter plus candidate Firestore Rules and direct modified-client emulator negatives. Derive authority inside the provider transaction and require exact pairing plus ACTIVE session before league or club commitment.",
+    "currentTask": "Implement the smallest Spark-compatible exact-path Shared Remote Setup provider transaction adapter plus candidate Firestore Rules and direct modified-client emulator negatives, requiring exact pairing and ACTIVE session before any league or club selection.",
+    "lastSafeCheckpoint": "Live main 13dcf6bd3f2e8a6d2682db46ae0f7da3cbde7885 is PR200 continuity packaging on PR199 squash merge 780abd7b779cda5acd722b75fd59ef1e82c71f97. PR199 final reviewed head 378931e7bec2a4e95fb31912d4879e294b63d79f has exact tree caef86d9a8bf3cb4252e461e80b3405724fdc86f and passed all 15 permanent PR workflow families; merge main passed all 15 post-merge workflow families including Release Integration Burn-In 33996909745. The predecessor WEC is already archived byte-identically and has been independently validated.",
+    "nextSafeAction": "Map the existing Firestore provider/rules/emulator surfaces on this branch, then add only the exact-path transaction adapter, candidate Rules and provider-positive/direct-modified-client emulator negative matrix. Do not wire production UI or mutate production Rules in this milestone.",
     "unfinishedWork": [
-      "Shared Remote Setup provider transaction adapter and candidate Firestore Rules with emulator negative matrix.",
-      "Paired-first production Shared Setup UI/transport, then remaining transfer/results/scoring/progression/recovery/closure SSJR journey."
+      "Shared Remote Setup exact-path provider transaction adapter.",
+      "Candidate Firestore Rules and direct modified-client emulator negative matrix.",
+      "Paired-first production Shared Setup UI/transport after provider persistence is proven."
     ],
     "knownHazards": [
       "Billing is permanently forbidden and Firebase must remain Spark; never link Cloud Billing, enable Blaze, add a payment method, use Cloud Run, Cloud Functions, purchased credits or any billing-required service.",
@@ -51,17 +52,15 @@
       "Canonical localStorage remains exactly careerModeShowdown.saveLibrary, careerModeShowdown.legacyShowdowns and careerModeShowdown.preferences.",
       "Candidate C remains the sole destructive remote-to-local gameplay Apply authority with transaction-owned strict exact raw-snapshot rollback.",
       "Exactly two private managers remain mandatory; no public discovery, listing, lobby, matchmaking, community, rankings or global leaderboards.",
-      "RJR-1 is complete/frozen at 100/100; SSJR-1.1 remains separate and publication mechanics earn zero SSJR credit.",
-      "Pairing and ACTIVE session must precede league or club selection in provider authority and final UI."
+      "Pairing and exact ACTIVE session must precede league or club selection in provider authority and final UI.",
+      "A fresh ACTIVE session for the same rivalry must resume existing Shared Setup and never reset the competition.",
+      "Never trust caller-supplied authority, role/binding fields, client-computed hashes or repeated client-side draw preparation as provider authority.",
+      "The consumed two-device/two-network RJR physical acceptance must not be repeated unless a proven regression invalidates it."
     ],
     "evidenceNotes": [
-      "Recovered from owner screenshots plus live GitHub rather than trusting stale pre-publication pointers.",
-      "Modified-client draw-selection P1 was corrected with deterministic non-redrawable outcomes and automated Node/two-Chromium proof.",
-      "PR199 final exact head 378931e7bec2a4e95fb31912d4879e294b63d79f passed 15/15 PR families; merge main 780abd7b779cda5acd722b75fd59ef1e82c71f97 passed 15/15 post-merge families.",
-      "PR200 first CI attempt caught stale successor contracts that still treated PR198/v1.4.46 as current. Recovery advanced bootstrap/current authority and tests to PR199/v1.4.47 instead of masking the contradiction.",
-      "Codex review could not run on PR200 because the review quota was exhausted; no credits or billing were enabled to bypass that limit.",
-      "SSJR remains 0/100 because no production provider persistence or shared setup UI evidence has satisfied a whole fixed capability.",
-      "Exact eight-line SSJR reporting remains mandatory in the v1.4.47 starter/current handoff."
+      "RJR-1 remains frozen at 100/100 and SSJR-1.1 remains 0/100; this candidate milestone earns no SSJR credit by itself.",
+      "Production source authority is application v1.9.1 with runtime asset revision 1.9.1-r2; deployment provenance remains a verification item before publication closeout.",
+      "Exact eight-line SSJR reporting remains mandatory."
     ]
   }
 }
