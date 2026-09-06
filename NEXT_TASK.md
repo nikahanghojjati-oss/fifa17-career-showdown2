@@ -8,7 +8,7 @@ The Installable Offline App, v1.3.0 Recovery & Device Resilience baseline, Local
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
-Use connected GitHub first. Independently verify current `main`, PR #201 exact-head/merge/post-merge state, production `v1.9.1 / 1.9.1-r2`, `REMOTE_JOINING_READINESS.json`, fixed `SHARED_SHOWDOWN_JOURNEY_MODEL.json`, `SHARED_SHOWDOWN_JOURNEY_READINESS.json` and closing WEC `we-2026-09-05-ssjr-provider-adapter-a48`. Validate/archive that WEC, initialize a fresh unique WEC from current main with reset counters and never inherit the predecessor's transition decision.
+Work Environment Continuity is mandatory. Use connected GitHub first. Independently verify current `main`, PR #201 exact-head/merge/post-merge state, production `v1.9.1 / 1.9.1-r2`, `REMOTE_JOINING_READINESS.json`, fixed `SHARED_SHOWDOWN_JOURNEY_MODEL.json`, `SHARED_SHOWDOWN_JOURNEY_READINESS.json` and closing WEC `we-2026-09-05-ssjr-provider-adapter-a48`. Validate/archive that WEC, initialize a fresh unique WEC from current main with reset counters and never inherit the predecessor's transition decision.
 
 Then implement the smallest score-enabling paired-first production Shared Setup runtime milestone:
 
