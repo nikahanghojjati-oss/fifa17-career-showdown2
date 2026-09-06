@@ -79,7 +79,7 @@ const MENU_MEDIA_SOURCES = Object.freeze({
 });
 
 const MARCO_REUS_IMAGE = Object.freeze({
-    thumbnail: "assets/marco-reus-2015-cc-by.webp?v=1.9.1-r2",
+    thumbnail: "assets/marco-reus-2015-cc-by.webp?v=1.9.1-r3",
     source: "https://commons.wikimedia.org/wiki/File:Marco_Reus_(16204330530)_(cropped).jpg",
     license: "https://creativecommons.org/licenses/by/2.0/"
 });
@@ -257,7 +257,6 @@ function ensureMarcoReusTreatment(){
     menuExperienceUI = null;
     cacheMenuExperienceUI();
 }
-
 function refreshMainMenuExperience(){
     const ui = getMenuExperienceUI();
     if(!ui.continueButton){ return; }
@@ -517,7 +516,6 @@ function getMenuFeedbackInteractionClock(){
         ? performance.now()
         : Date.now();
 }
-
 function isMenuFeedbackInteractionTarget(target){
     const button = target instanceof Element ? target.closest("button") : null;
     if(
