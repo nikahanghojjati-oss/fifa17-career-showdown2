@@ -9,9 +9,16 @@ const source=fs.readFileSync(path.join(root,'js/productionAuthorizationAcceptanc
 const deployWorkflow=fs.readFileSync(path.join(root,'.github/workflows/deploy-github-pages.yml'),'utf8');
 const worker=fs.readFileSync(path.join(root,'service-worker.js'),'utf8');
 const projectState=fs.readFileSync(path.join(root,'PROJECT_STATE.md'),'utf8');
+const wec=JSON.parse(fs.readFileSync(path.join(root,'WORK_ENVIRONMENT_STATUS.json'),'utf8'));
 const currentRuntimeRevision=(worker.match(/const RUNTIME_REVISION = "([^"]+)";/)||[])[1];
+const previousRuntimeRevision=(worker.match(/const PREVIOUS_RUNTIME_REVISION = "([^"]+)";/)||[])[1];
 const productionRuntimeRevision=(projectState.match(/Production:\s*`v[^`]+ \/ ([^`]+)`/)||[])[1];
 const acceptanceArtifactRuntimeRevision=(page.match(/app-asset-revision"\s+content="([^"]+)"/)||[])[1];
+const currentRuntimeParts=(currentRuntimeRevision&&currentRuntimeRevision.match(/^(\d+\.\d+\.\d+)-r(\d+)$/))||[];
+const currentReleasePath=currentRuntimeParts.length?`RELEASE_V${currentRuntimeParts[1]}_R${currentRuntimeParts[2]}.md`:'';
+const currentRelease=currentReleasePath&&fs.existsSync(path.join(root,currentReleasePath))?fs.readFileSync(path.join(root,currentReleasePath),'utf8'):'';
+const currentReleaseCandidate=/Status:\s*RELEASE CANDIDATE/i.test(currentRelease);
+const activeCandidateWec=Boolean(currentReleaseCandidate&&wec.lifecycle==='active'&&wec.assessment?.decision==='CONTINUE'&&/release candidate|publish|converg/i.test(wec.continuity?.currentTask||''));
 
 function storage(entries={}){
   const keys=Object.keys(entries);
@@ -25,8 +32,15 @@ const rivalryId=`pair_${'a'.repeat(64)}`;
   assert.ok(currentRuntimeRevision,'Current source runtime revision must be discoverable from the service worker.');
   assert.ok(productionRuntimeRevision,'Current production runtime revision must be discoverable from PROJECT_STATE.');
   assert.ok(acceptanceArtifactRuntimeRevision,'Historical production-authorization acceptance artifact revision must remain explicit.');
-  assert.equal(currentRuntimeRevision,productionRuntimeRevision,'The shipped shell and current production authority must agree after PR #194/r2 production proof.');
-  assert.equal(acceptanceArtifactRuntimeRevision,'1.9.1-r1','The bounded authorization-acceptance page remains the prior r1 auxiliary artifact; handoff publication must not rewrite it as fresh r2 acceptance evidence.');
+  if(currentRuntimeRevision!==productionRuntimeRevision){
+    assert.equal(activeCandidateWec,true,'Source may differ from production authority only for an explicit active release-candidate publication WEC.');
+    assert.equal(previousRuntimeRevision,productionRuntimeRevision,'An active release candidate must retain the production-proven whole-shell runtime as its rollback target.');
+    assert.match(currentRelease,new RegExp(`Runtime asset revision: \\`${currentRuntimeRevision.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')}\\``),'Release-candidate record must identify the source shell exactly.');
+    assert.match(currentRelease,new RegExp(`Previous known-good runtime: \\`${productionRuntimeRevision.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')}\\``),'Release-candidate record must preserve current production as previous known-good authority.');
+  }else{
+    assert.equal(currentRuntimeRevision,productionRuntimeRevision,'Outside an active release candidate, shipped shell and production authority must agree.');
+  }
+  assert.equal(acceptanceArtifactRuntimeRevision,'1.9.1-r1','The bounded authorization-acceptance page remains the prior r1 auxiliary artifact; later handoff publication must not rewrite it as fresh acceptance evidence.');
   assert.notEqual(acceptanceArtifactRuntimeRevision,productionRuntimeRevision,'Historical authorization-acceptance artifact identity must remain distinct from the newer production shell unless the acceptance itself is rerun.');
   assert.equal(acceptance.rjrCreditOnImplementation,false);
   assert.equal(acceptance.accountBootstrapAllowed,false);
@@ -144,5 +158,5 @@ const rivalryId=`pair_${'a'.repeat(64)}`;
   assert.equal(record.result,'PASS');
   assert.equal(record.rjrCreditOnImplementation,undefined);
   assert.equal(record.runtimeRevision,acceptanceArtifactRuntimeRevision);
-  process.stdout.write(`PASS production authorization negative acceptance contracts: current production ${productionRuntimeRevision}; bounded auxiliary acceptance artifact remains ${acceptanceArtifactRuntimeRevision}\n`);
+  process.stdout.write(`PASS production authorization negative acceptance contracts: production-proven ${productionRuntimeRevision}; source ${currentRuntimeRevision}${currentReleaseCandidate?' release candidate':''}; bounded auxiliary acceptance artifact remains ${acceptanceArtifactRuntimeRevision}\n`);
 })().catch(error=>{console.error(error.stack||error);process.exit(1);});
