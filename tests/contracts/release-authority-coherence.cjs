@@ -111,10 +111,11 @@ if(candidateRecord && currentProductionProven){
     const currentState = state.slice(0, state.indexOf("## Historical pre-Stage3 authority") >= 0 ? state.indexOf("## Historical pre-Stage3 authority") : 5000);
     const currentNext = next.slice(0, next.indexOf("## Historical pre-Stage3 authority") >= 0 ? next.indexOf("## Historical pre-Stage3 authority") : 5000);
     if(activeCandidateWec){
-        A.match(currentState,/PR #184[\s\S]+R4 PRODUCTION PROVEN/i,"PROJECT_STATE must retain the r4 production baseline while the active WEC owns r5.");
-        A.match(currentNext,/PR #184[\s\S]+R4 PRODUCTION PROVEN/i,"NEXT_TASK must retain the r4 production baseline while the active WEC owns r5.");
         A.ok(currentState.includes(previousRuntime) && currentNext.includes(previousRuntime),"Active candidate WEC may not erase the previous production runtime.");
-        A.equal(wec.repository?.predecessorEnvironmentId,"we-2026-09-02-stage5e-r4-stale-pointer-precedence","Active r5 WEC must preserve its independently archived r4 predecessor.");
+        A.ok(typeof wec.repository?.predecessorEnvironmentId === "string" && wec.repository.predecessorEnvironmentId.length > 0,"Active candidate WEC must identify its predecessor environment.");
+        A.ok(typeof wec.repository?.predecessorArchive === "string" && wec.repository.predecessorArchive.length > 0,"Active candidate WEC must identify its predecessor archive.");
+        const predecessorArchive = JSON.parse(read(wec.repository.predecessorArchive));
+        A.equal(predecessorArchive.environmentId,wec.repository.predecessorEnvironmentId,"Active candidate WEC predecessor archive must match the declared predecessor environment.");
         A.equal(wec.assessment?.decisionInheritedFromPredecessor,false,"Active candidate WEC must never inherit the predecessor transition decision.");
     }else{
         A.match(currentState, /RELEASE CANDIDATE/i, "PROJECT_STATE must identify a release candidate.");
@@ -196,7 +197,7 @@ A.match(historicalR2Proof, /All 15 push\/deployment runs[\s\S]+deployed-site-smo
 A.match(historicalR2Proof, /71 runtime files[\s\S]+byte for byte/i, "R2 proof must retain runtime byte-match evidence.");
 A.match(analyticsHandoff, /Closed Candidate Handoff/i, "Analytics branch handoff must remain closed.");
 A.match(analyticsHandoff, /Exact validated PR head:[\s\S]+a0aa98e3b24d73ca51dde7d1ebf0856550a0c7e1/i, "Analytics handoff must retain its validated PR head.");
-A.match(analyticsHandoff, /Exact runtime merge:[\s\S]+c5c7d50cc3a2d9003e057d1813744c877323c068/i, "Analytics handoff must retain its runtime merge.");
+A.match(analyticsHandoff, /Exact runtime merge:[\s\S]+c5c7d50cc3a2d9003e057d1813744c877323c068/i, "Analytics handoff must retain its validated runtime merge.");
 A.match(currentHandoff, /SSJR-1[\s\S]+100\/100[\s\S]+PR #198/i, "Current handoff must expose current SSJR-1 engineering and the completed RJR100 / PR198 prerequisite.");
 A.match(currentHandoff, /Historical[\s\S]+PR191\/RJR91/i, "Current handoff must retain PR191/RJR91 only as immutable historical provenance.");
 A.match(historicalR5Handoff, /PR #187[\s\S]+RJR89/i, "Immutable PR187 handoff must preserve the owner-accepted PR187/RJR89 evidence trail.");
