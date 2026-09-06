@@ -29,9 +29,11 @@ assert.match(phase1e,/recursively frozen/i);
 assert.match(phase1e,/Phase 1F[\s\S]+remains blocked/i);
 assert.match(historicalNext,/CURRENT SUCCESSOR AUTHORITY — POST-PR #99 REMOTE JOINING RESTART/i,"Archived post-PR100/pre-gateway authority must retain its actual post-PR #99 successor heading as provenance.");
 assert.match(historicalNext,/Stage 1 — Cloud \/ Sync Readiness Phase 1A through 1F — DONE \/ MERGED \/ PROTECTED/i,"Archived post-PR #99 authority must preserve completed Stage 1 Cloud/Sync truth.");
-assert.match(next,/^# CURRENT TASK — SSJR-1 AUTHORITATIVE SETUP FOUNDATION$/im,"Current NEXT_TASK must advance beyond historical Phase 1E/Stage5G and consumed physical-acceptance lanes to the owner-authorized SSJR-1 setup foundation after verified RJR100 / PR198 closure.");
+assert.match(next,/^# CURRENT TASK — SSJR-1\.1 PAIRED-FIRST PRODUCTION SHARED SETUP$/im,"Current NEXT_TASK must remain beyond historical Phase 1E/Stage5G and the already-published SSJR setup/provider candidate milestones, routing to paired-first production Shared Setup after verified PR201 closure.");
+assert.match(next,/PR #201[\s\S]+production-two-account/i,"Current NEXT_TASK must preserve PR201 provider-candidate closure and require the still-missing production two-account layer before SSJR credit.");
 assert.match(next,/PR #198[\s\S]+100\/100/i,"Current NEXT_TASK must identify the exact accepted RJR100 publication checkpoint.");
 assert.match(next,/Shared Showdown Journey Readiness|SSJR-1/i,"Current NEXT_TASK must route the successor toward the post-RJR100 shared-journey program after clean handoff.");
+assert.match(next,/Connected Rivalry[\s\S]+ACTIVE[\s\S]+league/i,"Current NEXT_TASK must preserve pairing plus exact ACTIVE session before any league selection.");
 assert.doesNotMatch(next,/Phase 1E[\s\S]{0,160}CURRENT BOUNDED CANDIDATE/i,"Current NEXT_TASK must not revive historical Phase 1E as active product authority.");
 assert.match(historicalStage5a,/^# START NEXT SESSION — v1\.4\.30 \/ PR #172 \/ RJR87 \/ Stage 5A Private Session Protocol$/im,"The immutable Stage 5A starter must preserve its exact PR172 / RJR87 / Stage 5A identity as historical provenance.");
 assert.match(historicalStage5a,/PR #171 exact final head:[\s\S]{0,120}`d5c8549924244ee177065559043e0697d0c810c3`/i,"The immutable Stage 5A starter must preserve exact PR171 closure provenance.");
@@ -143,7 +145,7 @@ assert.equal(h.submitIntent(revokedIntent.intent).status,"device-revoked");asser
 
 h.setAccountState("acct_b","disabled");
 const disabledIntent=h.createIntent("device_b",{operation:"put",idempotencyKey:"disabled",contentHash:hash("6"),payload:payload("disabled")});
-assert.equal(h.submitIntent(disabledIntent.intent).status,"account-disabled");assert.equal(h.authority().revision,beforeInvalid);
+assert.equal(disabledIntent.status,"account-disabled");assert.equal(h.authority().revision,beforeInvalid);
 h.setAccountState("acct_b","active");
 const staleRelationshipIntent=h.createIntent("device_b",{operation:"put",idempotencyKey:"relationship-old",contentHash:hash("6"),payload:payload("relationship-old")});
 h.setRelationshipState("revoked-read-only");
@@ -215,4 +217,4 @@ function deterministicRun(){
 }
 assert.deepEqual(deterministicRun(),deterministicRun());
 
-process.stdout.write("PASS Phase 1E deterministic two-device/offline/reconnect synchronization harness contracts; historical dormant PR171/RJR87/Stage5A proof remains version-neutral while current evidence-accepted RJR100/PR198 publication authority stays coherent before SSJR-1 begins\n");
+process.stdout.write("PASS Phase 1E deterministic two-device/offline/reconnect synchronization harness contracts; historical dormant PR171/RJR87/Stage5A proof remains version-neutral while current RJR100/PR198 provenance stays coherent and NEXT_TASK advances beyond PR201 into paired-first production Shared Setup\n");
