@@ -1,28 +1,20 @@
 {
   "schemaVersion": 1,
-  "recordedAt": "2026-09-05T23:38:00Z",
-  "materialSessionsObserved": 23,
+  "recordedAt": "2026-09-06T04:50:00Z",
+  "materialSessionsObserved": 24,
   "learningState": "cold-start-priors-with-recorded-session-outcomes-supervised-evaluation-not-adopted",
   "defaultUtility": 0.5,
   "alpha": 0.2,
   "items": {
-    "WORK_ENVIRONMENT_STATUS.json": {"loaded":true,"usedInDecision":true,"requiredForPublicationSecurityOrRecovery":true,"normalizedOutcome":1,"learnedUtility":0.9,"note":"A recovery WEC must be resealed only after current bootstrap/pointers/contracts agree with the actual post-merge boundary."},
-    "workflow-job-logs": {"loaded":true,"usedInDecision":true,"preventedErrorOrResolvedContradiction":true,"normalizedOutcome":1,"learnedUtility":0.94,"note":"PR200 CI immediately exposed stale current-authority assertions after PR199 had already merged; inspect the first failing contract rather than weakening unrelated product gates."},
-    "successor-entrypoint-coherence": {"loaded":true,"usedInDecision":true,"requiredForPublicationSecurityOrRecovery":true,"preventedErrorOrResolvedContradiction":true,"normalizedOutcome":1,"learnedUtility":0.95,"note":"Starter, deep SLE, bootstrap, graph/model/learning, current handoff, project state, next task and rolling prompt must advance together from pre-publication PR199 to post-merge provider routing."},
-    "ssjr-score-discipline": {"loaded":true,"usedInDecision":true,"preventedErrorOrResolvedContradiction":true,"normalizedOutcome":1,"learnedUtility":0.95,"note":"Corrected candidate code and complete publication remove dependencies but remain 0 SSJR credit until fixed provider/runtime evidence satisfies a whole capability."}
+    "WORK_ENVIRONMENT_STATUS.json": {"loaded":true,"usedInDecision":true,"requiredForPublicationSecurityOrRecovery":true,"normalizedOutcome":1,"learnedUtility":0.92,"note":"A runtime publication WEC closes only after exact-head, merge, provider publication and deployed-site evidence are coherent, then successor work becomes a distinct evidence milestone."},
+    "workflow-job-logs": {"loaded":true,"usedInDecision":true,"preventedErrorOrResolvedContradiction":true,"normalizedOutcome":1,"learnedUtility":0.96,"note":"PR203/PR204 logs separated real provider/runtime failures from stale continuity assertions and a non-reproducible deployed DOM race; inspect first failure rather than weakening gates."},
+    "successor-entrypoint-coherence": {"loaded":true,"usedInDecision":true,"requiredForPublicationSecurityOrRecovery":true,"preventedErrorOrResolvedContradiction":true,"normalizedOutcome":1,"learnedUtility":0.96,"note":"Starter, deep SLE, bootstrap, context graph/model/learning, current handoff, project state, next task and prompt must all advance to PR203/r3/a49 together."},
+    "ssjr-score-discipline": {"loaded":true,"usedInDecision":true,"preventedErrorOrResolvedContradiction":true,"normalizedOutcome":1,"learnedUtility":0.97,"note":"Production runtime and Rules proof are major dependency progress but remain zero SSJR credit until two legitimate production accounts satisfy the fixed whole-capability evidence layer."}
   },
   "sessionMetrics": [
     {"sessionId":"we-2026-09-05-ssjr-setup-foundation-28cf84","directSharedShowdownPrerequisiteReached":true,"nextRealProductMilestoneUnblocked":"shared-setup-provider-enforcement","githubConnectorSufficient":true,"deepFallbackUsed":true,"missedCriticalContextIncident":false,"ssjrCredit":0,"lesson":"Pairing must precede league/club selection; provider-neutral simulation is not provider security or gameplay."},
-    {"sessionId":"we-2026-09-05-pr199-postmerge-recovery-a47","directSharedShowdownPrerequisiteReached":true,"nextRealProductMilestoneUnblocked":"fresh-wec-shared-setup-provider-enforcement","githubConnectorSufficient":true,"deepFallbackUsed":true,"missedCriticalContextIncident":false,"staleAuthorityCorrection":true,"ssjrCredit":0,"lesson":"After a publication closes, successor contracts and bootstraps must be advanced to the actual merged head before sealing SNS. CI catching a stale PR198/v1.4.46 assumption is a continuity defect, not a reason to re-open product work or award readiness credit."}
+    {"sessionId":"we-2026-09-05-pr199-postmerge-recovery-a47","directSharedShowdownPrerequisiteReached":true,"nextRealProductMilestoneUnblocked":"fresh-wec-shared-setup-provider-enforcement","githubConnectorSufficient":true,"deepFallbackUsed":true,"missedCriticalContextIncident":false,"staleAuthorityCorrection":true,"ssjrCredit":0,"lesson":"After publication, current authority and continuity contracts must advance to the actual merged head before SNS sealing."},
+    {"sessionId":"we-2026-09-05-ssjr-production-shared-setup-a49","directSharedShowdownPrerequisiteReached":true,"nextRealProductMilestoneUnblocked":"production-two-account-shared-setup-evidence","githubConnectorSufficient":true,"deepFallbackUsed":true,"missedCriticalContextIncident":false,"staleAuthorityCorrection":true,"productionRuntimeProven":true,"productionRulesProven":true,"ssjrCredit":0,"lesson":"PR203 proved paired-first r3 and Spark Rules in production. Same-main deployed rerun classified a Save Library click timeout as non-reproducible. Production prerequisite completion still earns zero SSJR until two-account evidence satisfies the fixed layer."}
   ],
-  "latestLesson": {
-    "rjrScore":100,
-    "ssjrScore":0,
-    "publicationPullRequest":199,
-    "publicationState":"merged-postmerge-green",
-    "runtimeRevision":"1.9.1-r2",
-    "next":"shared-setup-provider-enforcement",
-    "lesson":"The next genuine dependency is provider transaction/Rules enforcement. Candidate and publication success remain zero SSJR until provider/runtime evidence satisfies fixed SSJR-1.1 capabilities.",
-    "ssjrModelVersion":"SSJR-1.1"
-  }
+  "latestLesson": {"rjrScore":100,"ssjrScore":0,"publicationPullRequest":203,"publicationState":"merged-postmerge-green-production-proven","runtimeRevision":"1.9.1-r3","next":"production-two-account-shared-setup-evidence","lesson":"The next genuine dependency is real production-two-account Shared Setup evidence on the already-proven r3 runtime; automate every feasible evidence step first and do not broaden into transfer/results/scoring yet.","ssjrModelVersion":"SSJR-1.1"}
 }

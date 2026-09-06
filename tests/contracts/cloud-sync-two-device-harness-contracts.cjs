@@ -29,8 +29,8 @@ assert.match(phase1e,/recursively frozen/i);
 assert.match(phase1e,/Phase 1F[\s\S]+remains blocked/i);
 assert.match(historicalNext,/CURRENT SUCCESSOR AUTHORITY — POST-PR #99 REMOTE JOINING RESTART/i,"Archived post-PR100/pre-gateway authority must retain its actual post-PR #99 successor heading as provenance.");
 assert.match(historicalNext,/Stage 1 — Cloud \/ Sync Readiness Phase 1A through 1F — DONE \/ MERGED \/ PROTECTED/i,"Archived post-PR #99 authority must preserve completed Stage 1 Cloud/Sync truth.");
-assert.match(next,/^# CURRENT TASK — SSJR-1\.1 PAIRED-FIRST PRODUCTION SHARED SETUP$/im,"Current NEXT_TASK must remain beyond historical Phase 1E/Stage5G and the already-published SSJR setup/provider candidate milestones, routing to paired-first production Shared Setup after verified PR201 closure.");
-assert.match(next,/PR #201[\s\S]+production-two-account/i,"Current NEXT_TASK must preserve PR201 provider-candidate closure and require the still-missing production two-account layer before SSJR credit.");
+assert.match(next,/^# CURRENT TASK — SSJR-1\.1 PRODUCTION TWO-ACCOUNT SHARED SETUP EVIDENCE$/im,"Current NEXT_TASK must remain beyond historical Phase 1E/Stage5G and the now-production-proven Shared Setup milestone, routing to genuine production-two-account evidence after verified PR203 closure.");
+assert.match(next,/PR #203[\s\S]+production-two-account/i,"Current NEXT_TASK must preserve PR203 production closure and require the still-missing production-two-account layer before SSJR credit.");
 assert.match(next,/PR #198[\s\S]+100\/100/i,"Current NEXT_TASK must identify the exact accepted RJR100 publication checkpoint.");
 assert.match(next,/Shared Showdown Journey Readiness|SSJR-1/i,"Current NEXT_TASK must route the successor toward the post-RJR100 shared-journey program after clean handoff.");
 assert.match(next,/Connected Rivalry[\s\S]+ACTIVE[\s\S]+league/i,"Current NEXT_TASK must preserve pairing plus exact ACTIVE session before any league selection.");
@@ -217,4 +217,4 @@ function deterministicRun(){
 }
 assert.deepEqual(deterministicRun(),deterministicRun());
 
-process.stdout.write("PASS Phase 1E deterministic two-device/offline/reconnect synchronization harness contracts; historical dormant PR171/RJR87/Stage5A proof remains version-neutral while current RJR100/PR198 provenance stays coherent and NEXT_TASK advances beyond PR201 into paired-first production Shared Setup\n");
+process.stdout.write("PASS Phase 1E deterministic two-device/offline/reconnect synchronization harness contracts; historical dormant PR171/RJR87/Stage5A proof remains version-neutral while current RJR100/PR198 provenance stays coherent and NEXT_TASK advances beyond PR203 production Shared Setup into production-two-account evidence\n");

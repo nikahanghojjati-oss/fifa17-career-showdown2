@@ -115,8 +115,8 @@ assert.doesNotMatch(proof,/accountIdFingerprint|accountFingerprint|sha256:[0-9a-
 assert.match(proof,/did not create or mutate an account, registered device, pairing capability, rivalry, shared gameplay state, session, or revocation state/i);
 assert.match(proof,/86\/100 -> 87\/100/);
 
-// Historical Stage 5A/5B/5C transition details remain immutable. Current live authority is completed fixed RJR100; PR198 publishes that evidence before SSJR-1 begins.
-assert.match(next,/^# CURRENT TASK — SSJR-1 AUTHORITATIVE SETUP FOUNDATION$/im,"Live NEXT_TASK must identify the SSJR-1 setup candidate after verified RJR100 / PR198 closure.");
+// Historical Stage 5A/5B/5C transition details remain immutable. Current live authority is completed fixed RJR100; PR198 publishes that evidence before SSJR-1 begins, while PR203/r3 is the current production runtime.
+assert.match(next,/^# CURRENT TASK — SSJR-1 AUTHORITATIVE SETUP FOUNDATION$/im,"Live NEXT_TASK must retain the historical SSJR-1 setup marker after verified RJR100 / PR198 closure while current task advances beyond it.");
 assert.match(next,/100\/100[\s\S]+PR #198/i);
 assert.match(next,/Stage 5F[\s\S]+accepted production negatives|Stage 5F[\s\S]+production evidence|RJR100/i,"Live NEXT_TASK must preserve consumed Stage 5F evidence rather than reopen it.");
 assert.match(next,/physical Chromebook[\s\S]+iPhone|Chromebook[\s\S]+cellular/i,"Live NEXT_TASK must retain the accepted genuine physical evidence class.");
@@ -124,7 +124,8 @@ assert.match(next,/Shared Showdown Journey Readiness|SSJR-1/i,"Live NEXT_TASK mu
 assert.match(next,/Billing must never be activated[\s\S]{0,180}Firebase remains Spark/i,"Live NEXT_TASK must preserve the permanent zero-billing Spark boundary.");
 assert.match(next,/App Check enforcement remains OFF/i,"Live NEXT_TASK must keep App Check enforcement off.");
 assert.match(state,/RJR-1 COMPLETE 100\/100|RJR100/i,"Live PROJECT_STATE must identify completed RJR100 authority.");
-assert.match(state,/Production:\s*`v1\.9\.1 \/ 1\.9\.1-r2`/i,"Live PROJECT_STATE must expose the production runtime identity in canonical parseable form.");
+assert.match(state,/Production:\s*`v1\.9\.1 \/ 1\.9\.1-r3`/i,"Live PROJECT_STATE must expose current PR203/r3 production runtime identity in canonical parseable form.");
+assert.match(state,/1\.9\.1-r2[\s\S]+previous known-good|previous known-good[\s\S]+1\.9\.1-r2/i,"Live PROJECT_STATE must retain r2 as rollback provenance rather than current runtime authority.");
 assert.match(state,/Installable Offline App[\s\S]+(?:local-first startup\/recovery baseline|local-first startup and recovery baseline|v1\.3\.0 Recovery & Device Resilience baseline)/i,"Live PROJECT_STATE must preserve local-first recovery authority.");
 assert.match(state,/Candidate C remains the sole destructive remote-to-local(?: gameplay)? Apply authority/i,"Live PROJECT_STATE must preserve Candidate C destructive Apply authority.");
 
@@ -169,4 +170,4 @@ assert.match(rules,/STAGE5C_CANDIDATE_SESSION_FUNCTIONS_BEGIN[\s\S]+registeredSe
 assert.match(rules,/match \/sessions\/\{sessionId\}[\s\S]+allow get: if sessionCanRead\(rivalryId, sessionId\);[\s\S]+allow create: if validOpenSessionCreate\(rivalryId, sessionId\);[\s\S]+allow update: if validSessionUpdate\(rivalryId, sessionId\);[\s\S]+allow list, delete: if false;/);
 assert.doesNotMatch(stage4,/sessions\/|sessionId|private-session/,"Stage 5 must remain separate from the protected Stage 4 Connected Rivalry module.");
 
-process.stdout.write("PASS Stage 5 activation authority: immutable historical provider-abuse/Stage5A-5F evidence remains consumed once; genuine physical Remote Joining acceptance and final stable-release acceptance complete fixed RJR-1 at 100/100; publication mechanics earn zero credit and current authority routes to SSJR-1 after verified PR198 closure.\n");
+process.stdout.write("PASS Stage 5 activation authority: immutable historical provider-abuse/Stage5A-5F evidence remains consumed once; genuine physical Remote Joining acceptance and final stable-release acceptance complete fixed RJR-1 at 100/100; PR203/r3 is current production, r2 remains rollback provenance, publication mechanics earn zero credit and current authority advances beyond the historical SSJR-1 setup marker.\n");

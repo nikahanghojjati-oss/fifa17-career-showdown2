@@ -2,79 +2,15 @@ const assert=require("node:assert/strict");
 const fs=require("node:fs");
 const read=p=>fs.readFileSync(p,"utf8");
 const json=p=>JSON.parse(read(p));
-const bootstrap=json("SESSION_BOOTSTRAP.json");
-const readiness=json("REMOTE_JOINING_READINESS.json");
-const ssjr=json("SHARED_SHOWDOWN_JOURNEY_READINESS.json");
-const wec=json("WORK_ENVIRONMENT_STATUS.json");
+const bootstrap=json("SESSION_BOOTSTRAP.json"),readiness=json("REMOTE_JOINING_READINESS.json"),ssjr=json("SHARED_SHOWDOWN_JOURNEY_READINESS.json"),wec=json("WORK_ENVIRONMENT_STATUS.json");
 assert.match(read("00_SLE_HANDOFF_PROTOCOL.md"),/Smart Lean Efficient/i);
-assert.equal(bootstrap.starter?.version,"1.4.48");
-assert.equal(bootstrap.starter?.checkpoint,"PR201-POSTMERGE-GREEN-SSJR-RUNTIME-NEXT");
-assert.equal(bootstrap.starter?.canonical,"START_NEXT_SESSION_V1.4.48_PR201_POSTMERGE_GREEN_SSJR_RUNTIME_NEXT.md");
-assert.equal(bootstrap.currentHandoff?.canonical,"SUCCESSOR_HANDOFF_PR201_POSTMERGE_GREEN_SSJR_RUNTIME_NEXT_SLE_2026-09-06.md");
-for(const [canonical,mirror] of [[bootstrap.starter.canonical,bootstrap.starter.projectMirror],[bootstrap.currentHandoff.canonical,bootstrap.currentHandoff.projectMirror]]){
- const text=read(canonical);
- assert.equal(text,read(mirror),`${canonical} mirror must be byte-identical`);
- assert.match(text,/PR #201/i);
- assert.match(text,/SSJR-1\.1/i);
- assert.match(text,/0\/100/);
- assert.match(text,/100\/100/);
- assert.match(text,/Smart Lean Efficient/);
- assert.match(text,/IMMEDIATE NEXT TASK AFTER FULL STUDY/);
- assert.match(text,/pairing[\s\S]+ACTIVE[\s\S]+before[\s\S]+league|pairing[\s\S]+ACTIVE[\s\S]+league/i);
- assert.match(text,/Estimated focused sessions to genuine SSJR100/);
- assert.match(text,/production[\s\S]+Rules/i);
- assert.match(text,/two-account/i);
- assert.match(text,/modified-client|modified client/i);
- assert.match(text,/fresh (?:unique )?(?:successor )?WEC/i);
- assert.match(text,/Billing must never be activated/i);
- assert.match(text,/Firebase remains Spark/i);
-}
-assert.equal(readiness.currentScore,100);
-assert.equal(ssjr.currentScore,0);
-assert.equal(bootstrap.remoteJoiningReadiness?.score,100);
-assert.equal(bootstrap.sharedShowdownJourneyReadiness?.score,0);
-assert.equal(bootstrap.sharedShowdownJourneyReadiness?.estimatedFocusedSessionsToGenuine100,"6-11");
-assert.equal(bootstrap.currentPublicationCheckpoint?.pullRequest,201);
-assert.equal(bootstrap.currentPublicationCheckpoint?.state,"merged-postmerge-green");
-assert.equal(bootstrap.currentPublicationCheckpoint?.finalSealedHeadMustBeFetchedLive,false);
-assert.equal(bootstrap.currentPublicationCheckpoint?.exactHeadWorkflowFamiliesSuccessful,15);
-assert.equal(bootstrap.currentPublicationCheckpoint?.postMergeWorkflowFamiliesSuccessful,15);
-assert.equal(bootstrap.currentPublicationCheckpoint?.rulesProductionEnabled,false);
-for(const p of ["00_CURRENT_HANDOFF.md","NEXT_TASK.md","PROJECT_STATE.md","00_DEVELOPER_START_HERE.md"]){
- const text=read(p);
- assert.match(text,/100\/100/i);
- assert.match(text,/PR #201/i);
- assert.match(text,/v1\.9\.1[\s\S]+1\.9\.1-r2/i);
- assert.match(text,/Billing must never be activated/i);
- assert.match(text,/Firebase remains Spark/i);
-}
-const archivedWec=json(bootstrap.currentWec.archive);
-assert.equal(archivedWec.lifecycle,"transition-prepared");
-assert.equal(archivedWec.signals.handoffCompleteness,100);
-assert.equal(archivedWec.environmentId,"we-2026-09-05-ssjr-provider-adapter-a48");
-assert.equal(archivedWec.environmentId,bootstrap.currentWec.environmentId);
-assert.equal(archivedWec.repository.startingMainSha,"13dcf6bd3f2e8a6d2682db46ae0f7da3cbde7885");
-assert.equal(archivedWec.repository.predecessorEnvironmentId,"we-2026-09-05-pr199-postmerge-recovery-a47");
-assert.equal(json(archivedWec.repository.predecessorArchive).environmentId,archivedWec.repository.predecessorEnvironmentId);
-assert.equal(bootstrap.transition.continuationDecision,archivedWec.assessment.decision);
-assert.equal(archivedWec.assessment.decision,"HANDOFF_NOW");
-assert.equal(archivedWec.assessment.decisionInheritedFromPredecessor,false);
-assert.equal(wec.environmentId,"we-2026-09-05-ssjr-production-shared-setup-a49");
-assert.equal(wec.repository?.predecessorEnvironmentId,archivedWec.environmentId);
-assert.equal(wec.repository?.predecessorArchive,bootstrap.currentWec.archive);
-assert.equal(wec.assessment?.decisionInheritedFromPredecessor,false);
-assert.equal(wec.signals?.unresolvedFailures,0);
-assert.ok(["active","transition-prepared"].includes(wec.lifecycle),"Fresh a49 WEC must remain active or be cleanly transition-prepared.");
-if(wec.lifecycle==="active"){
- assert.equal(wec.assessment?.decision,"CONTINUE");
-}else{
- assert.equal(wec.assessment?.decision,"HANDOFF_NOW");
- assert.equal(wec.signals?.handoffCompleteness,100);
-}
-const providerCandidate=(ssjr.candidateEvidence||[]).find(x=>x.id==="ssjr1-spark-provider-enforcement-candidate-pr201");
-assert.ok(providerCandidate,"PR201 provider candidate evidence must be recorded");
-assert.equal(providerCandidate.credit,0);
-assert.ok(providerCandidate.missingLayers.includes("production-two-account"));
-assert.equal(ssjr.planningEstimate?.focusedSessionsToSSJR100?.minimum,6);
-assert.equal(ssjr.planningEstimate?.focusedSessionsToSSJR100?.maximum,11);
-process.stdout.write("PASS SLE packaging: mirrored v1.4.48 PR201 runtime-next package, sealed archived a48 predecessor, fresh non-inherited a49 WEC, frozen RJR100/SSJR0, zero-credit provider candidate evidence, and paired-first production successor task are protected.\n");
+assert.equal(bootstrap.starter?.version,"1.4.49");
+assert.equal(bootstrap.starter?.checkpoint,"PR203-POSTMERGE-GREEN-SSJR-EVIDENCE-NEXT");
+assert.equal(bootstrap.starter?.canonical,"START_NEXT_SESSION_V1.4.49_PR203_POSTMERGE_GREEN_SSJR_EVIDENCE_NEXT.md");
+assert.equal(bootstrap.currentHandoff?.canonical,"SUCCESSOR_HANDOFF_PR203_POSTMERGE_GREEN_SSJR_EVIDENCE_NEXT_SLE_2026-09-06.md");
+for(const [canonical,mirror] of [[bootstrap.starter.canonical,bootstrap.starter.projectMirror],[bootstrap.currentHandoff.canonical,bootstrap.currentHandoff.projectMirror]]){const text=read(canonical);assert.equal(text,read(mirror));assert.match(text,/PR #203/i);assert.match(text,/SSJR-1\.1/i);assert.match(text,/0\/100/);assert.match(text,/100\/100/);assert.match(text,/Smart Lean Efficient/);assert.match(text,/IMMEDIATE NEXT TASK AFTER FULL STUDY/);assert.match(text,/production-two-account|production two-account/i);assert.match(text,/pairing[\s\S]+ACTIVE/i);assert.match(text,/Estimated focused sessions to genuine SSJR100/);assert.match(text,/Billing must never be activated|Billing must remain permanently OFF/i);assert.match(text,/Spark/i);}
+assert.equal(readiness.currentScore,100);assert.equal(ssjr.currentScore,0);assert.equal(bootstrap.remoteJoiningReadiness?.score,100);assert.equal(bootstrap.sharedShowdownJourneyReadiness?.score,0);assert.equal(bootstrap.sharedShowdownJourneyReadiness?.estimatedFocusedSessionsToGenuine100,"5-10");assert.equal(bootstrap.currentPublicationCheckpoint?.pullRequest,203);assert.match(bootstrap.currentPublicationCheckpoint?.state,/production-proven/);assert.equal(bootstrap.currentPublicationCheckpoint?.exactHeadWorkflowFamiliesSuccessful,15);assert.equal(bootstrap.currentPublicationCheckpoint?.postMergeWorkflowFamiliesSuccessful,15);assert.equal(bootstrap.currentPublicationCheckpoint?.rulesProductionEnabled,true);assert.equal(bootstrap.currentPublicationCheckpoint?.productionTwoAccountEvidence,false);
+for(const p of ["00_CURRENT_HANDOFF.md","NEXT_TASK.md","PROJECT_STATE.md","00_DEVELOPER_START_HERE.md"]){const text=read(p);assert.match(text,/100\/100/i);assert.match(text,/PR #203/i);assert.match(text,/v1\.9\.1[\s\S]+1\.9\.1-r3/i);assert.match(text,/Billing must never be activated|Billing must remain permanently OFF/i);assert.match(text,/Spark/i);}
+const archived=json(bootstrap.currentWec.archive);assert.equal(archived.lifecycle,"transition-prepared");assert.equal(archived.signals.handoffCompleteness,100);assert.equal(archived.environmentId,"we-2026-09-05-ssjr-production-shared-setup-a49");assert.equal(archived.assessment.decision,"HANDOFF_NOW");assert.equal(archived.assessment.decisionInheritedFromPredecessor,false);assert.equal(wec.environmentId,archived.environmentId);assert.equal(wec.lifecycle,"transition-prepared");assert.equal(wec.assessment?.decision,"HANDOFF_NOW");assert.equal(wec.signals?.unresolvedFailures,0);
+const prod=(ssjr.candidateEvidence||[]).find(x=>x.id==="ssjr1-spark-provider-enforcement-pr203-production");assert.ok(prod);assert.equal(prod.credit,0);assert.ok(prod.missingLayers.includes("production-two-account"));assert.equal(ssjr.planningEstimate?.focusedSessionsToSSJR100?.minimum,5);assert.equal(ssjr.planningEstimate?.focusedSessionsToSSJR100?.maximum,10);
+process.stdout.write("PASS SLE packaging: mirrored v1.4.49 PR203 production-proven package, sealed a49 WEC, frozen RJR100/SSJR0 and production-two-account successor task are protected.\n");
