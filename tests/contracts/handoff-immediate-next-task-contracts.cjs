@@ -32,13 +32,28 @@ for(const [name,text] of docs){
 }
 assert.match(read("NEXT_TASK.md"),/Connected Rivalry[\s\S]+ACTIVE[\s\S]+League Wheel/i);
 assert.match(read("NEXT_TASK.md"),/does not stream|does not network/i);
-assert.equal(wec.lifecycle,"transition-prepared");
-assert.equal(wec.environmentId,bootstrap.currentWec?.environmentId);
-assert.equal(wec.repository?.predecessorEnvironmentId,"we-2026-09-05-ssjr-setup-foundation-28cf84");
+
+// The handoff bootstrap describes the predecessor that a new environment must
+// validate and consume. Once the successor owns WORK_ENVIRONMENT_STATUS.json,
+// its fresh WEC must not inherit that predecessor's transition decision.
+assert.equal(bootstrap.currentWec?.environmentId,"we-2026-09-05-pr199-postmerge-recovery-a47");
+assert.equal(bootstrap.currentWec?.lifecycle,"transition-prepared");
+assert.equal(bootstrap.currentWec?.finalDecision,"HANDOFF_NOW");
+assert.equal(bootstrap.currentWec?.decisionInheritedFromPredecessor,false);
+assert.notEqual(wec.environmentId,bootstrap.currentWec.environmentId,"A successor must own a fresh WEC ID after consuming the handoff.");
+assert.equal(wec.repository?.predecessorEnvironmentId,bootstrap.currentWec.environmentId,"The fresh WEC must point to the exact inherited predecessor.");
+assert.equal(wec.repository?.predecessorArchive,bootstrap.currentWec.archive,"The fresh WEC must point to the predecessor archive declared by the bootstrap.");
 assert.equal(json(wec.repository.predecessorArchive).environmentId,wec.repository.predecessorEnvironmentId);
+assert.equal(wec.assessment?.decisionInheritedFromPredecessor,false,"The successor must make its own WEC decision.");
+assert.ok(["active","transition-prepared"].includes(wec.lifecycle),"Current successor WEC lifecycle must be valid for active work or a prepared transition.");
+if(wec.lifecycle==="active"){
+ assert.equal(wec.assessment?.decision,"CONTINUE","An active successor record checked into a working PR must own an explicit CONTINUE decision.");
+ assert.ok(Number.isInteger(wec.signals?.handoffCompleteness)&&wec.signals.handoffCompleteness>=0&&wec.signals.handoffCompleteness<=100);
+}else{
+ assert.ok(["HANDOFF_AT_CHECKPOINT","HANDOFF_NOW"].includes(wec.assessment?.decision),"A transition-prepared successor must carry its own handoff decision.");
+}
 assert.equal(bootstrap.historicalPr191PublicationCheckpoint?.mergeSha,"7ca132a607cbf4fd78710b14526b4bec849ac2d2");
 assert.equal(bootstrap.historicalPr187PublicationCheckpoint?.mergeSha,"277f1b55dc362ee84d285445b99172b9fbed8509");
-assert.equal(wec.signals?.handoffCompleteness,bootstrap.transition?.handoffCompleteness);
 assert.equal(wec.signals?.unresolvedFailures,0);
 assert.match(wec.continuity?.nextSafeAction||"",/provider|Rules/i);
-process.stdout.write("PASS current authority: PR199 publication is complete, RJR100 remains frozen, SSJR-1.1 remains 0/100, and the fresh successor routes to Spark provider enforcement.\n");
+process.stdout.write("PASS current authority: PR199 publication is complete, RJR100 remains frozen, SSJR-1.1 remains 0/100, the inherited transition is archived, and the fresh successor independently owns the Spark provider enforcement lane.\n");
