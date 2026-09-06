@@ -18,11 +18,11 @@ const index = read("index.html");
 const optional = read("js/optionalModules.js");
 const worker = read("service-worker.js");
 const pkg = JSON.parse(read("package.json"));
-const currentProduction = bootstrap.runtime?.productionRuntimeRevision === "1.9.1-r2"
-  && bootstrap.latestRuntimeMerge?.pullRequest === 194
-  && bootstrap.latestRuntimeMerge?.runtimeRevision === "1.9.1-r2"
-  && bootstrap.lastProductionProvenRuntime?.pullRequest === 194
-  && bootstrap.lastProductionProvenRuntime?.runtimeRevision === "1.9.1-r2";
+const currentProduction = bootstrap.runtime?.productionRuntimeRevision === "1.9.1-r3"
+  && bootstrap.latestRuntimeMerge?.pullRequest === 203
+  && bootstrap.latestRuntimeMerge?.runtimeRevision === "1.9.1-r3"
+  && bootstrap.lastProductionProvenRuntime?.pullRequest === 203
+  && bootstrap.lastProductionProvenRuntime?.runtimeRevision === "1.9.1-r3";
 
 assert.match(stage2a, /AUTHORIZED NEXT PREREQUISITE \/ IMPLEMENTATION NOT STARTED/i);
 assert.match(stage2a, /demo-career-mode-showdown-phase1f/);
@@ -49,7 +49,7 @@ assert.match(phase1f, /every application-client (?:Firestore )?write(?: path)? r
 assert.match(phase1f, /idempotencyKeyHash[\s\S]+sibling[\s\S]+idempotency receipt/i);
 
 // Stage 2A is immutable prerequisite provenance, not current execution authority. Later connected-account
-// runtime work superseded it; live authority is now PR194/r2 production-proven with fixed RJR100 accepted and PR198 publication current.
+// runtime work superseded it; live authority is now PR203/r3 production-proven with fixed RJR100 accepted. PR194/r2 remains rollback provenance and PR198 remains the historical RJR100 publication checkpoint.
 assert.match(historicalNext, /Current authorized prerequisite candidate[\s\S]+Private Account \/ Authentication Stage 2A/i,"Archived predecessor authority must preserve the historical Stage 2A selection boundary.");
 assert.match(preR3Next,/Historical gateway heading retained only as provenance: CURRENT IMPLEMENTATION AUTHORITY — TRUSTED SHARED MUTATION GATEWAY/i,"Lossless pre-r3 authority must retain the completed gateway prerequisite as historical provenance.");
 assert.match(preR3Next,/Private Account \/ Authentication \/ Authorization Stages 2A through 2I are DONE \/ MERGED \/ PROVEN/i,"Lossless pre-r3 authority must preserve Stage 2A through 2I completion.");
@@ -58,12 +58,12 @@ assert.match(preR3State, /Phase 1F[\s\S]+DONE \/ MERGED \/ PROTECTED[\s\S]+PR #8
 assert.match(preR3State, /Private Account \/ Authentication \/ Authorization Stages 2A through 2I are DONE \/ MERGED \/ PROVEN/i,"Lossless pre-r3 PROJECT_STATE must preserve Stage 2A completion inside the Stage 2A-through-2I authority.");
 assert.match(next,/CURRENT TASK[\s\S]+100\/100[\s\S]+PR #198/i,"Current NEXT_TASK must identify evidence-accepted RJR100 / PR198 publication authority before immutable Stage 2A history.");
 assert.match(state,/RJR-1 COMPLETE 100\/100|RJR100/i,"Current PROJECT_STATE must identify evidence-accepted RJR100 before immutable Stage 2A history.");
-assert.match(state,/v1\.9\.1[\s\S]+1\.9\.1-r2[\s\S]+PR #198/i,"Current PROJECT_STATE must preserve PR194/r2 runtime identity while exposing PR198 evidence publication.");
-assert.equal(currentProduction,true,"Current runtime provenance must identify production-proven PR #194 / v1.9.1-r2.");
+assert.match(state,/v1\.9\.1[\s\S]+1\.9\.1-r3[\s\S]+PR #203/i,"Current PROJECT_STATE must identify PR203/r3 production while retaining older release lineage as provenance.");
+assert.equal(currentProduction,true,"Current runtime provenance must identify production-proven PR #203 / v1.9.1-r3.");
 assert.equal(bootstrap.historicalPr187PublicationCheckpoint?.pullRequest,187,"Historical PR187 publication provenance must remain explicit.");
 assert.equal(bootstrap.historicalPr187PublicationCheckpoint?.runtimeRevision,"1.9.0-r5","Historical PR187 runtime provenance must remain 1.9.0-r5.");
 assert.equal(bootstrap.historicalPr187PublicationCheckpoint?.mergeSha,"277f1b55dc362ee84d285445b99172b9fbed8509","Historical PR187 merge provenance must remain exact.");
-assert.equal(bootstrap.previousProductionProvenRuntime?.runtimeRevision,"1.9.1-r1","Current rollback whole-shell authority must remain the previous production-proven r1 shell.");
+assert.equal(bootstrap.previousProductionProvenRuntime?.runtimeRevision,"1.9.1-r2","Current rollback whole-shell authority must remain the previous production-proven r2 shell.");
 assert.equal(bootstrap.remoteJoiningReadiness?.score,100,"Current bootstrap must expose evidence-accepted fixed RJR100 while publication work remains uncredited.");
 assert.equal(bootstrap.remoteJoiningReadiness?.remaining,0);
 assert.equal(bootstrap.runtime?.appCheckEnforcement,false,"Current authority must keep App Check enforcement off.");
@@ -105,4 +105,4 @@ assert.doesNotMatch(index, /firebase-admin|firebase\/auth|firestore/i, "Stage 2A
 assert.doesNotMatch(optional, /firebase-admin|firebase\/auth|firestore/i, "Stage 2A boundary must not connect Firebase Auth/Admin/Firestore through production optional modules.");
 assert.doesNotMatch(worker, /firebase-admin|firebase-auth|firebase\/auth|firestore|private-account-auth-stage2a/i, "Stage 2A Auth/emulator runtime must remain absent from the production Service Worker even when later reviewed Firebase runtime assets are shell-cached indirectly.");
 
-process.stdout.write("PASS Private Account/Auth Stage 2A emulator-only identity boundary with immutable historical selection/completion preserved while live PR194/r2 production, evidence-accepted RJR100 and PR198 publication authority are explicit\n");
+process.stdout.write("PASS Private Account/Auth Stage 2A emulator-only identity boundary with immutable historical selection/completion preserved while live PR203/r3 production, r2 rollback, evidence-accepted RJR100 and PR198 publication authority remain explicit\n");
