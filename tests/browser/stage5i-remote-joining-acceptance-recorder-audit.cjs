@@ -80,8 +80,10 @@ async function closeCase(entry){
       networkRequests:window.CareerModeRemoteJoiningAcceptance.networkRequests
     }));
     assert.deepEqual(contract,{enabled:true,pageMemoryOnly:true,rawCapabilityExported:false,rawAuthorityIdsExported:false,networkRequests:false});
+    const activeRevision=await acceptance.page.evaluate(()=>document.querySelector('meta[name="app-asset-revision"]')?.content||"");
+    assert.match(activeRevision,/^\d+\.\d+\.\d+-r\d+$/,"acceptance recorder proof requires a valid active runtime revision");
     const recorderResource=await acceptance.page.evaluate(()=>performance.getEntriesByType("resource").find(entry=>entry.name.includes("remoteJoiningAcceptance.js"))?.name||"");
-    assert.match(recorderResource,/remoteJoiningAcceptance\.js\?v=1\.9\.1-r2$/,"acceptance recorder must load through the exact release-owned r2 loader");
+    assert.ok(recorderResource.endsWith(`remoteJoiningAcceptance.js?v=${activeRevision}`),"acceptance recorder must load through the exact active release-owned loader");
 
     await acceptance.page.evaluate(async()=>{
       const api=window.CareerModeRemoteJoiningAcceptance;
@@ -113,7 +115,7 @@ async function closeCase(entry){
     assert.equal(evidence.rawAccountIdIncluded,false);
     assert.equal(evidence.rawDeviceIdIncluded,false);
     assert.equal(evidence.rawRivalryIdIncluded,false);
-    assert.equal(evidence.runtimeRevision,"1.9.1-r2");
+    assert.equal(evidence.runtimeRevision,activeRevision,"acceptance evidence must identify the exact active runtime revision");
     assert.equal(evidence.deviceLabel,"Chromebook host");
     assert.equal(evidence.networkLabel,"Home Wi-Fi");
     assert.ok(evidence.records.length>=6,"acceptance recorder should capture startup, labels, remote state, network transitions and export checkpoint");
