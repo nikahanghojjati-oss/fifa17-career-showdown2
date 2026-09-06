@@ -12,6 +12,8 @@ Historical current-at-the-time marker only — SUPERSEDED, DO NOT EXECUTE: PR #1
 
 Production Shared Setup Rules are live on Firebase Spark: `cloud.firestore` ruleset `73b4435e-85a8-49f9-92ef-8ffe3ce0f91c`, generated-source Git blob `5bcde9297f6b2927a2184605192ab5b6cd46fb29`. Billing remains permanently OFF.
 
+Permanent Firebase control-plane inheritance remains mandatory: `00_FIREBASE_PERMANENT_ZERO_BILLING_CONTROL_PLANE.md`, `HANDOFF_FIREBASE_CONTROL_PLANE_PERMANENT_ACCESS_ADDENDUM_2026-09-01.md`, and `.github/workflows/deploy-firestore-rules-zero-billing.yml`. The workflow uses repository secret `FIREBASE_RULES_SERVICE_ACCOUNT_JSON` only on the main-only reviewed Rules path. Firebase remains Spark and billing remains permanently forbidden.
+
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
 Validate/archive closing WEC `we-2026-09-05-ssjr-production-shared-setup-a49`, initialize a fresh unique WEC, then obtain genuine production-two-account Shared Setup evidence on r3. Automate every feasible preflight/negative/recorder step first. Pairing plus exact ACTIVE must precede shared league/clubs; both managers must converge on one immutable league, two distinct permanent same-league clubs, supported length, dual confirmation and same-rivalry reconnect/fresh-session resume without redraw. Preserve canonical local saves and direct modified-client denials.
