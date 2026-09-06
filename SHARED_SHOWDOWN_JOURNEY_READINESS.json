@@ -12,59 +12,37 @@
     "score": 0,
     "creditedCapabilityIds": [],
     "evidenceRecord": "SSJR1_BASELINE_AND_SETUP_FOUNDATION_2026-09-05.md",
-    "reason": "No SSJR capability is fully production-proven. RJR100 transport and local-only setup/results/scoring remain valuable prerequisites. Existing full-save publication does not enforce the new setup/result journey transitions."
+    "reason": "No SSJR capability is fully production-two-account proven yet."
   },
   "evidenceBundles": [],
   "events": [],
   "candidateEvidence": [
     {
       "id": "ssjr1-setup-protocol-candidate",
-      "layers": ["deterministic-behavior","isolated-browser-protocol"],
-      "references": ["tests/contracts/shared-showdown-setup-contracts.cjs","tests/browser/shared-showdown-setup-audit.cjs"],
-      "relatedCapabilityIds": ["entry-binding","setup-league","setup-clubs","setup-length","setup-confirmation"],
-      "credit": 0,
-      "missingLayers": ["provider-enforcement","production-two-account"],
-      "finding": "65 immutable accepted/rejected cases, concurrent CAS/replay and two real Chromium-context hashes/dual confirmation/local immutability. Synthetic authority; not production or physical proof."
-    },
-    {
-      "id": "ssjr1-spark-provider-enforcement-candidate-pr201",
-      "layers": ["deterministic-behavior","provider-enforcement"],
-      "references": [
-        "js/sparkSharedShowdownSetup.js",
-        "js/sharedShowdownCatalog.js",
-        "firestore.shared-setup-candidate.rules",
-        "tests/contracts/shared-showdown-provider-contracts.cjs",
-        "tests/firebase/shared-showdown-setup-provider-emulator.cjs",
-        "tests/firebase/shared-showdown-setup-provider-session-emulator.cjs",
-        "PR #201 exact head 2c99e0746d6a3c5df946aa96f2c010da208bf70f",
-        "PR #201 merge 0cf810f99460bc66d41b4a036d42befb5bb5ef39"
-      ],
-      "relatedCapabilityIds": ["entry-binding","entry-before-draw","setup-league","setup-clubs","setup-length","setup-confirmation","journey-reconnect","journey-conflicts"],
+      "layers": ["deterministic-behavior", "isolated-browser-protocol"],
+      "references": ["tests/contracts/shared-showdown-setup-contracts.cjs", "tests/browser/shared-showdown-setup-audit.cjs"],
+      "relatedCapabilityIds": ["entry-binding", "setup-league", "setup-clubs", "setup-length", "setup-confirmation"],
       "credit": 0,
       "missingLayers": ["production-two-account"],
-      "finding": "Spark candidate transaction and candidate Rules derive authority from paired protected records and an exact ACTIVE session; immutable catalog prevents caller-selected draws; direct modified-client, stale/CAS/replay, revoked/inactive identity, wrong/expired session, fresh-session continuity and zero-local-mutation emulator negatives pass. Candidate is not production activated, so no whole SSJR capability is credited."
+      "finding": "Provider-neutral deterministic setup foundation remains useful but zero-credit without production-two-account evidence."
+    },
+    {
+      "id": "ssjr1-spark-provider-enforcement-pr203-production",
+      "layers": ["deterministic-behavior", "provider-enforcement", "deployed-runtime"],
+      "references": ["PR #201 provider candidate", "PR #203 exact head 1f9ccf781354f22cf56a16f816500c7df017d3b8", "PR #203 merge 65d88b1b413501b328bdf722bc6e8a0aa0d46ef2", "V1.9.1_R3_PRODUCTION_PROOF.md", "firestore.shared-setup-production.fragment.rules", "tests/firebase/shared-showdown-setup-provider-emulator.cjs", "tests/browser/shared-showdown-production-audit.cjs"],
+      "relatedCapabilityIds": ["entry-binding", "entry-before-draw", "setup-league", "setup-clubs", "setup-length", "setup-confirmation", "journey-reconnect", "journey-conflicts"],
+      "credit": 0,
+      "missingLayers": ["production-two-account"],
+      "finding": "Paired-first r3 runtime and Spark production Rules are deployed and provider/adversarial/deployed-smoke proven. Two legitimate production accounts have not yet been recorded completing the scored Shared Setup journey, so no whole capability is credited."
     }
   ],
-  "remainingCapabilityIds": [
-    "entry-binding","entry-before-draw","setup-league","setup-clubs","setup-length","setup-confirmation","career-start","transfer-challenge","results-publication","season-commit","canonical-scoring","history-convergence","multi-season","journey-reconnect","journey-conflicts","local-reconciliation","final-reconciliation","terminal-close","physical-journey","stable-journey-release"
-  ],
+  "remainingCapabilityIds": ["entry-binding", "entry-before-draw", "setup-league", "setup-clubs", "setup-length", "setup-confirmation", "career-start", "transfer-challenge", "results-publication", "season-commit", "canonical-scoring", "history-convergence", "multi-season", "journey-reconnect", "journey-conflicts", "local-reconciliation", "final-reconciliation", "terminal-close", "physical-journey", "stable-journey-release"],
   "planningEstimate": {
-    "focusedSessionsToSSJR100": {"minimum": 6,"maximum": 11},
+    "focusedSessionsToSSJR100": {"minimum": 5, "maximum": 10},
     "isForecastNotReadinessEvidence": true,
-    "basis": [
-      "PR201 completed the Spark adapter/candidate Rules/provider-emulator dependency without earning readiness credit",
-      "Paired-first production Shared Setup runtime/UI, safe Rules promotion and two-account production proof: roughly 1–2 sessions",
-      "Transfer and result ownership with shared season commit: roughly 2–3",
-      "Scoring, histories and 1/3/5/10 progression: roughly 1–2",
-      "Journey recovery, contention and terminal close: roughly 1–2",
-      "Integrated physical acceptance and stable release: roughly 1–2"
-    ],
-    "assumptions": [
-      "No new major provider limitation or release-blocking regression",
-      "Owner available for the smallest final physical/account actions",
-      "All infrastructure remains free; no billing workarounds"
-    ],
-    "reviseWhen": "Provider design, integrated scope, acceptance availability or regression evidence changes the critical path; do not calculate from score percentage."
+    "basis": ["PR203 completed paired-first production runtime and Spark Rules without production-two-account score credit", "Production-two-account Shared Setup evidence: roughly 1 focused session", "Transfer/results/shared season commit: roughly 1-3", "Scoring/history/multi-season progression: roughly 1-2", "Recovery/conflict/final reconciliation/terminal close: roughly 1-2", "Integrated physical acceptance and stable SSJR release: roughly 1-2"],
+    "assumptions": ["No major provider regression", "Owner available for smallest unavoidable real-account actions", "Infrastructure remains free with billing off"],
+    "reviseWhen": "Production evidence, integrated scope, owner-action availability or regression changes the critical path."
   },
   "modelBackcasts": ["authority-history/SSJR1_1_PAIRING_DEPENDENCY_BACKCAST_2026-09-05.json"]
 }
