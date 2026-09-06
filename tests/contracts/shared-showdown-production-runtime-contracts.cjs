@@ -7,8 +7,10 @@ const base=fs.readFileSync('firestore.spark.rules','utf8');
 const generated=fs.readFileSync('firestore.spark.generated.rules','utf8');
 const fragment=fs.readFileSync('firestore.shared-setup-production.fragment.rules','utf8');
 const workflow=fs.readFileSync('.github/workflows/deploy-firestore-rules-zero-billing.yml','utf8');
+const publisher=fs.readFileSync('scripts/publish-firestore-rules-zero-billing.mjs','utf8');
 const app=fs.readFileSync('js/app.js','utf8');
 const entry=fs.readFileSync('js/productionSharedJourneyEntry.js','utf8');
+const guard=fs.readFileSync('js/productionSharedJourneyGuard.js','utf8');
 const setup=fs.readFileSync('js/productionSharedShowdownSetup.js','utf8');
 const adapter=fs.readFileSync('js/sparkSharedShowdownSetup.js','utf8');
 
@@ -33,10 +35,15 @@ assert.ok(generated.endsWith(base.slice(-700)),'Generated authority must retain 
 
 assert.match(workflow,/FIREBASE_RULES_FILE: firestore\.spark\.generated\.rules/,'Zero-billing workflow must publish generated authority.');
 assert.match(workflow,/node scripts\/build-production-firestore-rules\.mjs/,'Deployment must deterministically rebuild reviewed source.');
-assert.match(workflow,/firebaserules\.googleapis\.com/,'Deployment must remain Rules-API-only.');
-assert.doesNotMatch(workflow,/enable-billing|billingAccounts|cloudfunctions\.googleapis|run\.googleapis/i,'Deployment workflow must never activate billing, Functions or Cloud Run.');
+assert.match(workflow,/node scripts\/publish-firestore-rules-zero-billing\.mjs/,'Deployment must use the reviewed Rules-only publisher.');
+assert.match(publisher,/urn:ietf:params:oauth:grant-type:jwt-bearer/,'Publisher must use canonical OAuth JWT bearer grant.');
+assert.match(publisher,/firebaserules\.googleapis\.com\/v1/,'Publisher must remain Firebase Rules API-only.');
+assert.match(publisher,/Creating a ruleset compiles\/validates/,'Provider compilation must precede release mutation.');
+assert.match(publisher,/Provider source did not exactly match generated production authority/,'Provider publication must end with exact source readback.');
+assert.doesNotMatch(`${workflow}\n${publisher}`,/enable-billing|billingAccounts|cloudfunctions\.googleapis|run\.googleapis/i,'Publication must never activate billing, Functions or Cloud Run.');
 
 assert.match(app,/productionSharedJourneyEntry\.js/,'Production startup must install paired-first Shared Journey entry.');
+assert.match(app,/productionSharedJourneyGuard\.js/,'Production startup must install the direct draw bypass guard.');
 assert.match(entry,/START SHARED SHOWDOWN/);
 assert.match(entry,/setPending\(true\)[\s\S]+createShowdown\(\)/,'Shared journey lock must exist before the pre-draw Save shell routes to local league UI.');
 assert.match(entry,/spinLeague/);
@@ -46,6 +53,9 @@ assert.match(entry,/remote\.rivalryId===rivalry\.rivalryId/);
 assert.match(entry,/remote\.accountId===account\.accountId/);
 assert.match(entry,/remote\.deviceId===pairing\.deviceId/);
 assert.doesNotMatch(entry,/localStorage/,'Shared journey entry marker must never use canonical localStorage.');
+for(const functionName of ['handleLeagueWheelAction','spinLeagueWheel','confirmLeagueSelectionAndContinue','prepareClubAssignment','assignClubs','continueToShowdownHome'])assert.ok(guard.includes(`"${functionName}"`),`Shared mode must guard direct ${functionName} calls.`);
+assert.match(guard,/if\(pending\(\)\)return deny\(name\)/,'Direct local draw calls must fail closed while shared mode is pending.');
+assert.doesNotMatch(guard,/localStorage/,'Bypass guard must never touch canonical localStorage.');
 
 for(const required of [
   'productionEnabled:true',
@@ -66,4 +76,4 @@ assert.doesNotMatch(setup,/options\.catalog|caller.*catalog/i,'Production runtim
 assert.match(adapter,/createProtocol\(\{catalog:catalogModule\.catalog,cryptoImpl\}\)/,'Production path must retain immutable repository-owned catalog authority.');
 assert.doesNotMatch(adapter,/options\.catalog/);
 
-process.stdout.write('PASS SSJR production paired-first runtime: exact pairing + ACTIVE before draw, generated zero-billing Rules authority, immutable provider catalog, fresh-session resume path, and canonical local-save non-mutation are permanently gated.\n');
+process.stdout.write('PASS SSJR production paired-first runtime: exact pairing + ACTIVE before draw, direct local-draw bypass denial, generated zero-billing Rules authority, immutable provider catalog, fresh-session resume path, and canonical local-save non-mutation are permanently gated.\n');
