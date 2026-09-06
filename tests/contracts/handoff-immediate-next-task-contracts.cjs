@@ -65,7 +65,11 @@ assert.equal(bootstrap.currentWec?.environmentId,"we-2026-09-05-ssjr-provider-ad
 assert.equal(bootstrap.currentWec?.lifecycle,"transition-prepared");
 assert.equal(bootstrap.currentWec?.finalDecision,"HANDOFF_NOW");
 assert.equal(bootstrap.currentWec?.decisionInheritedFromPredecessor,false);
-assert.deepEqual(json(bootstrap.currentWec.archive),json(bootstrap.currentWec.archive),"Sealed predecessor archive must remain readable JSON authority.");
+const predecessorWec=json(bootstrap.currentWec.archive);
+assert.equal(predecessorWec.environmentId,bootstrap.currentWec.environmentId);
+assert.equal(predecessorWec.lifecycle,"transition-prepared");
+assert.equal(predecessorWec.assessment?.decision,"HANDOFF_NOW");
+assert.equal(predecessorWec.assessment?.decisionInheritedFromPredecessor,false);
 assert.equal(wec.environmentId,"we-2026-09-05-ssjr-production-shared-setup-a49");
 assert.equal(wec.repository?.predecessorEnvironmentId,bootstrap.currentWec.environmentId);
 assert.equal(wec.repository?.predecessorArchive,bootstrap.currentWec.archive);
