@@ -4,6 +4,8 @@ Work Environment Continuity (WEC) is mandatory for every successor environment.
 
 Owner build-first policy is repository authority at `00_BUILD_FIRST_PRODUCT_POLICY.md`: default focused-session allocation is approximately 75% actual product implementation and 25% validation/maintenance/continuity, with targeted checks during building and the full permanent matrix reserved for publication, release/security boundaries, or demonstrated regressions.
 
+Owner Handoff proximity override V2 is repository authority at `00_HANDOFF_PROXIMITY_STAGE_GATES.md`. The old heuristic high-90s interpretation is superseded where inconsistent. Handoff proximity now measures clean-stop readiness with hard stage ceilings: unresolved terminal failures cannot exceed 70%; pending publication CI is 85%; 99% requires the sealed SLE/WEC handoff package and no remaining repository mutation; 100% means SNS can be generated immediately and the environment stops.
+
 SSJR-1.1 is the current engineering model and follows the completed RJR-1 prerequisite at `100/100`, published by PR #198. SSJR-1.1 remains evidence-backed `0/100`; PR/CI/review/merge/deploy/WEC/SLE/SNS and validator success earn zero SSJR without genuine production-two-account whole-capability evidence.
 
 Historical immutable checkpoint only: PR191/RJR91 is retained solely as provenance and is not current execution authority. Later physical and final stable Remote Joining acceptance completed RJR-1 at 100/100 and remain consumed absent a proven regression.
@@ -13,6 +15,8 @@ PR #205 `SSJR: automate two-account Shared Setup evidence validation` is merged 
 Production is DEPLOYED / PRODUCTION-PROVEN `v1.9.1 / 1.9.1-r3`; runtime/provider authority remains PR #203 from merge `65d88b1b413501b328bdf722bc6e8a0aa0d46ef2`, exact head `1f9ccf781354f22cf56a16f816500c7df017d3b8`. Historical rollback/publication lineage only: `v1.9.1 / 1.9.1-r2` was the previous whole-shell recovery runtime at the PR #194 boundary; PR #198 later published the fixed RJR-1 `100/100` evidence. This r2/PR198 lineage is not current runtime authority and must not be re-credited. Production Shared Setup Rules remain Firebase Spark `cloud.firestore` ruleset `73b4435e-85a8-49f9-92ef-8ffe3ce0f91c`, generated-source blob `5bcde9297f6b2927a2184605192ab5b6cd46fb29`. Billing remains permanently OFF.
 
 Permanent Firebase control-plane inheritance remains mandatory: `00_FIREBASE_PERMANENT_ZERO_BILLING_CONTROL_PLANE.md`, `HANDOFF_FIREBASE_CONTROL_PLANE_PERMANENT_ACCESS_ADDENDUM_2026-09-01.md`, and `.github/workflows/deploy-firestore-rules-zero-billing.yml`. The workflow may use repository secret `FIREBASE_RULES_SERVICE_ACCOUNT_JSON` only on its reviewed main-only Firestore Rules path. Firebase remains Spark and billing remains permanently forbidden. Never extract or paste provider credentials into chat or source.
+
+Process correction for successor sessions: do not open a PR early merely to use the 15-family matrix as an iterative wording linter when targeted/preflight validation is available. Run `npm run test:handoff-preflight` for handoff/authority edits, batch coherent connector changes into one Git tree/commit, evaluate only the latest exact head, and reserve the complete matrix for the publication boundary.
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 

@@ -4,6 +4,8 @@ Work Environment Continuity (WEC) is mandatory for every successor environment.
 
 Owner build-first policy is now repository authority at `00_BUILD_FIRST_PRODUCT_POLICY.md`: default focused-session allocation is approximately 75% actual product implementation and 25% validation/maintenance/continuity, with targeted checks during building and the full permanent matrix reserved for publication, release/security boundaries, or demonstrated regressions. This does not weaken any real security, data-integrity or release gate.
 
+Owner Handoff proximity override V2 is `00_HANDOFF_PROXIMITY_STAGE_GATES.md`. Use stage-gated clean-stop readiness rather than the old heuristic. Pending terminal validation is 70%; pending publication CI is 85%; 99% requires a sealed handoff package with no mutation left; 100% means generate SNS immediately and stop.
+
 Permanent cloud locks are current authority: Billing must never be activated. Firebase remains Spark. App Check enforcement remains OFF. Firestore browser persistence remains memory-only. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes.
 
 RJR100 remains COMPLETE/FROZEN `100/100`. Historical PR #198 published the fixed RJR-1 `100/100` acceptance after the final stable release acceptance for Remote Joining. The consumed physical proof used a Chromebook on Home WiFi and an iPhone on cellular across two independent networks; it must not be repeated or re-credited absent a proven regression. Its historical validator commands are `npm run validate:rjr-physical` and `npm run test:rjr-physical-preflight`; preserve them for provenance but do not rerun them absent a proven regression.
@@ -38,7 +40,9 @@ Historical compatibility marker only; the line inside this comment is not curren
 9. Feed only schema-closed privacy-safe evidence to `scripts/validate-ssjr-shared-setup-production-evidence.mjs`.
 10. Recalculate SSJR only if the fixed production-two-account layer genuinely passes.
 
-Publication discipline: every current permanent workflow family must be green on the same exact reviewed PR head before merge. Do not combine evidence from different heads or rely on a stale family count.
+Authority/handoff iteration rule: run `npm run test:handoff-preflight` before publication-grade full CI when a usable local shell exists. In connector-only environments, inspect the complete failing assertion class and batch coherent changes into one Git tree/commit before the next exact-head fanout.
+
+Publication discipline: every current permanent workflow family green on the same exact reviewed PR head before merge. Do not combine evidence from different heads or rely on a stale family count.
 
 Do not begin transfer/results/scoring transport until this Shared Setup evidence boundary is credited or a concrete blocker is isolated. Once that boundary is accepted, apply the build-first policy and move directly into the next unbuilt product capability instead of extending the proof lane.
 

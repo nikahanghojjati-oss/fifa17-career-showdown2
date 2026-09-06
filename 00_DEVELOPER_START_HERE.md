@@ -2,9 +2,11 @@
 
 Work Environment Continuity (WEC) is mandatory for every successor environment.
 
-Read `AGENTS.md`, `00_HANDOFF_GOLDEN_RULE.md`, `SESSION_BOOTSTRAP.json`, `00_CURRENT_HANDOFF.md`, `NEXT_TASK.md`, `PROJECT_STATE.md`, `WORK_ENVIRONMENT_STATUS.json`, `SHARED_SHOWDOWN_JOURNEY_MODEL.json`, and `SHARED_SHOWDOWN_JOURNEY_READINESS.json`. Treat handoff material as orientation only; live source/provider/deployment evidence wins.
+Read `AGENTS.md`, `00_HANDOFF_GOLDEN_RULE.md`, `00_BUILD_FIRST_PRODUCT_POLICY.md`, `00_HANDOFF_PROXIMITY_STAGE_GATES.md`, `SESSION_BOOTSTRAP.json`, `00_CURRENT_HANDOFF.md`, `NEXT_TASK.md`, `PROJECT_STATE.md`, `WORK_ENVIRONMENT_STATUS.json`, `SHARED_SHOWDOWN_JOURNEY_MODEL.json`, and `SHARED_SHOWDOWN_JOURNEY_READINESS.json`. Treat handoff material as orientation only; live source/provider/deployment evidence wins.
 
-Owner build-first policy is repository authority at `00_BUILD_FIRST_PRODUCT_POLICY.md`: plan approximately 75% of focused-session work for actual product implementation and 25% for validation/maintenance/continuity. Use targeted checks while building and reserve the full permanent workflow matrix for publication, release/security boundaries, or demonstrated regressions.
+Owner build-first policy is repository authority at `00_BUILD_FIRST_PRODUCT_POLICY.md`: plan approximately 75% of focused-session work for actual product implementation and 25% for validation/maintenance/continuity. Use targeted checks while building, batch coherent connector writes into one Git tree/commit when possible, and reserve the full permanent workflow matrix for publication, release/security boundaries, or demonstrated regressions.
+
+Visible Handoff proximity follows the later owner stage-gated model in `00_HANDOFF_PROXIMITY_STAGE_GATES.md`. Do not use the older heuristic to race into the high 90s. Pending terminal contracts are 70%; pending exact-head publication CI is 85%; 99% is reserved for a sealed handoff package with no repository mutation remaining; 100% means generate SNS immediately and stop.
 
 RJR-1 is COMPLETE/FROZEN `100/100`. SSJR-1.1 remains `0/100`.
 
@@ -19,6 +21,8 @@ The Installable Offline App, v1.3.0 Recovery & Device Resilience baseline, Local
 Validate/archive closing WEC `we-2026-09-06-ssjr-production-shared-setup-a50`, initialize a fresh unique WEC, then obtain genuine production-two-account Shared Setup evidence with `scripts/validate-ssjr-shared-setup-production-evidence.mjs`. Automate everything feasible before private human sign-in. Two legitimate manager accounts and two distinct registered browser identities must prove pairing + exact ACTIVE before league/clubs, identical authoritative final `SHOWDOWN_CONFIRMED` revision 6, reload/fresh-session continuity without redraw, required modified-client/adverse denials, and canonical local-save preservation.
 
 Do not begin transfer/results/scoring transport until this evidence boundary is resolved. Once accepted, return immediately to product-building under `00_BUILD_FIRST_PRODUCT_POLICY.md` rather than extending the proof lane.
+
+For authority/handoff edits, run `npm run test:handoff-preflight` before publication-grade full CI whenever a usable local shell exists. In connector-only environments, inspect the whole failing assertion class and make one atomic multi-file correction batch before evaluating another full exact-head fanout.
 
 GitHub CLI bootstrap remains repository-owned through `npm run work:gh:bootstrap`; preserve its release checksum verification. Connected GitHub App access remains connector-first and credentials must never be extracted or repurposed.
 
