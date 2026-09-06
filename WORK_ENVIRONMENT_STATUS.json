@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "environmentId": "we-2026-09-06-ssjr-production-shared-setup-a51",
   "lifecycle": "active",
-  "recordedAt": "2026-09-06T15:07:00Z",
+  "recordedAt": "2026-09-06T15:13:33Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -19,7 +19,7 @@
     "majorPhasesCompleted": 0,
     "largeEvidenceEvents": 0,
     "toolRoutingErrors": 0,
-    "correctedFailures": 0,
+    "correctedFailures": 1,
     "repeatedMistakes": 0,
     "staleFactCorrections": 0,
     "unresolvedFailures": 0,
@@ -38,7 +38,7 @@
     "usageExcludedBecauseUnavailable": true
   },
   "continuity": {
-    "currentTask": "Implement and validate the missing privacy-safe SSJR production Shared Setup evidence recorder, then use it only with genuine two-account production observations from deployed 1.9.1-r3.",
+    "currentTask": "Implement and validate the missing privacy-safe SSJR production Shared Setup evidence recorder, then use it only with genuine production-two-account observations from deployed 1.9.1-r3.",
     "lastSafeCheckpoint": "Live main 1f68dba26006b8215b8e58d4678035be7a506cab / tree 260a0b723c676ba1c571eaab0e931c7e57e9b48c, PR206 merge, its 15/15 exact-head and 15/15 post-merge families, PR205 validator authority, PR203 r3 production authority, frozen RJR100 and fixed SSJR0 were independently verified. Predecessor a50 archive is present and coherent.",
     "nextSafeAction": "Commit the stdin-only recorder and targeted contracts atomically, prove its output against the existing PR205 pair validator, then publish the bounded tooling fix before asking for the irreducible two-private-account production interaction.",
     "unfinishedWork": [
@@ -64,7 +64,8 @@
       "NEXT_TASK.md names scripts/record-ssjr-shared-setup-production-evidence.mjs, but that recorder is absent from verified main; the PR205 validator exists and remains authority.",
       "The live validator requires two closed-schema manager bundles for exact runtime 1.9.1-r3, distinct account/device fingerprints, one rivalry, matching initial and fresh sessions, pairing plus ACTIVE before setup, exact final revision 6 SHOWDOWN_CONFIRMED convergence, reload/fresh-session resume, eight denied negatives per manager and unchanged canonical storage.",
       "The recorder design accepts raw private identifiers only via stdin, hashes them in memory, emits only sha256 fingerprints, and rejects unknown privateIdentifier fields such as a raw capability.",
-      "Targeted local recorder contracts passed before repository mutation; no SSJR credit is claimed."
+      "Targeted local recorder contracts passed before repository mutation; no SSJR credit is claimed.",
+      "PR207 first exact-head publication pass exposed one continuity wording defect: the active successor currentTask said two-account production instead of the contract-canonical production-two-account/PR205 wording. The recorder implementation was not implicated; the WEC wording is corrected and correctedFailures is now 1."
     ]
   }
 }
