@@ -47,6 +47,15 @@ jobs:
           node tests/browser/pairing-four-code-automation-audit.cjs
           node tests/browser/stage5b-device-credential-audit.cjs
 
+      - name: Prove paired-first durable reload and actual local-draw click denial
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm run serve:test > /tmp/cms-ssjr-entry-server.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          node tests/browser/shared-showdown-paired-first-entry-audit.cjs
+
       - name: Prove explicit Stage 4 remote-to-local reconciliation in browser
         shell: bash
         run: |
@@ -84,8 +93,17 @@ jobs:
       - name: Run deterministic Stage 5 candidate and production Rules contracts
         run: node tests/contracts/stage5a-private-session-contracts.cjs && node tests/contracts/stage5b-device-credential-contracts.cjs && node tests/contracts/stage5c-zero-billing-standard-auth-session-contracts.cjs && node tests/contracts/stage5d-production-session-rules-contracts.cjs
 
+      - name: Run complete SSJR deterministic production contract gate
+        run: npm run test:ssjr
+
       - name: Run Stage 5A, Stage 5B, and Stage 5C Firebase emulator proofs
         run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-career-mode-showdown-stage5a "node tests/firebase/stage5a-private-session-emulator.cjs" && npx --yes firebase-tools@15.28.1 emulators:exec --only auth,firestore --project demo-career-mode-showdown-stage5b "node tests/firebase/stage5b-device-credential-emulator.cjs" && npx --yes firebase-tools@15.28.1 emulators:exec --only auth,firestore --project demo-career-mode-showdown-stage5c "node tests/firebase/stage5c-zero-billing-standard-auth-session-emulator.cjs"
 
       - name: Run Shared Showdown Setup Spark candidate emulator proofs
         run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-career-mode-showdown-shared-setup "node tests/firebase/shared-showdown-setup-provider-emulator.cjs && node tests/firebase/shared-showdown-setup-provider-session-emulator.cjs"
+
+      - name: Build deterministic production Shared Setup Rules authority
+        run: node scripts/build-production-firestore-rules.mjs
+
+      - name: Run generated production Rules Shared Setup provider emulator proof
+        run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-career-mode-showdown-shared-setup-production "node tests/firebase/shared-showdown-setup-production-provider-emulator.cjs"

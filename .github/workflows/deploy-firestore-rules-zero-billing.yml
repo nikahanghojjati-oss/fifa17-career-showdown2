@@ -12,6 +12,9 @@ on:
       - main
     paths:
       - firestore.spark.rules
+      - firestore.shared-setup-production.fragment.rules
+      - scripts/build-production-firestore-rules.mjs
+      - scripts/publish-firestore-rules-zero-billing.mjs
       - firebase.production.rules.json
       - ops/firebase-rules-deploy-request.json
 
@@ -25,7 +28,8 @@ concurrency:
 env:
   FIREBASE_PROJECT_ID: fifa17-career-showdown-prod
   FIREBASE_CONFIG_FILE: firebase.production.rules.json
-  FIREBASE_RULES_FILE: firestore.spark.rules
+  FIREBASE_RULES_BASE_FILE: firestore.spark.rules
+  FIREBASE_RULES_FILE: firestore.spark.generated.rules
 
 jobs:
   deploy-firestore-rules:
@@ -45,6 +49,12 @@ jobs:
           node-version: 24
           package-manager-cache: false
 
+      - name: Set up Java 21 for local Firestore emulator proof
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 21
+
       - name: Assert permanent zero-billing deployment boundary
         shell: bash
         run: |
@@ -56,15 +66,38 @@ jobs:
           const fs = require('node:fs');
           const cfg = JSON.parse(fs.readFileSync('firebase.production.rules.json', 'utf8'));
           if (cfg?.firestore?.rules !== 'firestore.spark.rules') {
-            throw new Error('firebase.production.rules.json must deploy only firestore.spark.rules for this workflow.');
+            throw new Error('firebase.production.rules.json must retain firestore.spark.rules as the reviewed Spark base authority.');
           }
           NODE
+
+      - name: Build deterministic additive production Rules authority
+        run: node scripts/build-production-firestore-rules.mjs
+
+      - name: Refuse generated Rules that weaken the permanent Spark boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s "${FIREBASE_RULES_FILE}"
+          grep -Fq "match /sharedSetup/authoritative" "${FIREBASE_RULES_FILE}"
+          grep -Fq "allow create: if ssjrValidCreateLedger(rivalryId)" "${FIREBASE_RULES_FILE}"
+          grep -Fq "allow update: if ssjrValidUpdateLedger(rivalryId)" "${FIREBASE_RULES_FILE}"
+          grep -Fq "allow list, delete: if false" "${FIREBASE_RULES_FILE}"
+          grep -Fq "match /{document=**}" "${FIREBASE_RULES_FILE}"
+          ! grep -Eqi "cloud[[:space:]_-]*run|cloud[[:space:]_-]*functions|billing|blaze|payment|purchased[[:space:]_-]*credits" firestore.shared-setup-production.fragment.rules
 
       - name: Install locked repository dependencies
         run: npm ci
 
-      - name: Prove reviewed Stage 5D production Rules contract
-        run: node tests/contracts/stage5d-production-session-rules-contracts.cjs
+      - name: Install pinned Firebase emulator test dependencies
+        run: npm install --no-save --package-lock=false firebase@12.17.1 @firebase/rules-unit-testing@5.0.1 firebase-admin@14.2.0
+
+      - name: Prove reviewed production Rules contracts
+        run: |
+          node tests/contracts/stage5d-production-session-rules-contracts.cjs
+          node tests/contracts/shared-showdown-production-runtime-contracts.cjs
+
+      - name: Reprove generated production Shared Setup Rules with adversarial provider matrix
+        run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-career-mode-showdown-shared-setup-production-deploy "node tests/firebase/shared-showdown-setup-production-provider-emulator.cjs"
 
       - name: Authenticate permanent Firebase Rules service account
         id: google-auth
@@ -81,244 +114,8 @@ jobs:
           test -n "${GOOGLE_APPLICATION_CREDENTIALS:-}"
           test -f "${GOOGLE_APPLICATION_CREDENTIALS}"
 
-      - name: Publish only Firestore Security Rules through Firebase Rules API
-        run: |
-          set -euo pipefail
-          node - <<'NODE'
-          const fs = require('node:fs');
-          const crypto = require('node:crypto');
-
-          const project = process.env.FIREBASE_PROJECT_ID;
-          const rulesFile = process.env.FIREBASE_RULES_FILE;
-          const credentialsPath = process.env.GOOGLE_APPLICATION_CREDENTIALS;
-          if (!credentialsPath || !fs.existsSync(credentialsPath)) {
-            throw new Error('GOOGLE_APPLICATION_CREDENTIALS is missing after google-github-actions/auth.');
-          }
-          const credentials = JSON.parse(fs.readFileSync(credentialsPath, 'utf8'));
-          if (!credentials.client_email || !credentials.private_key) {
-            throw new Error('ADC service-account credential is missing client_email or private_key.');
-          }
-          const local = fs.readFileSync(rulesFile, 'utf8');
-
-          function base64urlJson(value) {
-            return Buffer.from(JSON.stringify(value), 'utf8').toString('base64url');
-          }
-
-          async function mintAccessToken() {
-            const now = Math.floor(Date.now() / 1000);
-            const unsigned = [
-              base64urlJson({ alg: 'RS256', typ: 'JWT' }),
-              base64urlJson({
-                iss: credentials.client_email,
-                scope: 'https://www.googleapis.com/auth/cloud-platform',
-                aud: 'https://oauth2.googleapis.com/token',
-                iat: now,
-                exp: now + 3600
-              })
-            ].join('.');
-            const signature = crypto.sign(
-              'RSA-SHA256',
-              Buffer.from(unsigned, 'utf8'),
-              credentials.private_key
-            ).toString('base64url');
-            const assertion = `${unsigned}.${signature}`;
-            const response = await fetch('https://oauth2.googleapis.com/token', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-              body: new URLSearchParams({
-                grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
-                assertion
-              })
-            });
-            const body = await response.text();
-            if (!response.ok) {
-              throw new Error(`Google OAuth token exchange failed with HTTP ${response.status}.`);
-            }
-            const parsed = JSON.parse(body);
-            if (!parsed.access_token) {
-              throw new Error('Google OAuth token exchange returned no access_token.');
-            }
-            return parsed.access_token;
-          }
-
-          async function rulesRequest(method, path, token, body, allow404 = false) {
-            const response = await fetch(`https://firebaserules.googleapis.com/v1/${path}`, {
-              method,
-              headers: {
-                Authorization: `Bearer ${token}`,
-                ...(body ? { 'Content-Type': 'application/json' } : {})
-              },
-              ...(body ? { body: JSON.stringify(body) } : {})
-            });
-            const text = await response.text();
-            if (allow404 && response.status === 404) {
-              return null;
-            }
-            if (!response.ok) {
-              throw new Error(`Firebase Rules API ${method} ${path} failed with HTTP ${response.status}: ${text}`);
-            }
-            return text ? JSON.parse(text) : {};
-          }
-
-          (async () => {
-            const token = await mintAccessToken();
-            const ruleset = await rulesRequest(
-              'POST',
-              `projects/${project}/rulesets`,
-              token,
-              { source: { files: [{ name: rulesFile, content: local }] } }
-            );
-            if (!ruleset?.name || !ruleset.name.startsWith(`projects/${project}/rulesets/`)) {
-              throw new Error('Firebase Rules API did not return a valid created ruleset name.');
-            }
-
-            const releasePath = `projects/${project}/releases/cloud.firestore`;
-            const existingRelease = await rulesRequest('GET', releasePath, token, null, true);
-            let release;
-            if (existingRelease) {
-              release = await rulesRequest(
-                'PATCH',
-                releasePath,
-                token,
-                {
-                  release: {
-                    name: releasePath,
-                    rulesetName: ruleset.name
-                  },
-                  updateMask: 'rulesetName'
-                }
-              );
-            } else {
-              release = await rulesRequest(
-                'POST',
-                `projects/${project}/releases`,
-                token,
-                {
-                  name: releasePath,
-                  rulesetName: ruleset.name
-                }
-              );
-            }
-
-            if (release?.rulesetName !== ruleset.name) {
-              throw new Error(`Firebase Rules release did not point to the newly created ruleset. expected=${ruleset.name} actual=${release?.rulesetName || '(missing)'}`);
-            }
-
-            console.log(`PROVIDER_FIRESTORE_RULES_RELEASE_UPDATED ${ruleset.name}`);
-          })().catch(error => {
-            console.error(error);
-            process.exit(1);
-          });
-          NODE
-
-      - name: Independently read provider Rules back and prove exact source identity
-        run: |
-          set -euo pipefail
-          node - <<'NODE'
-          const fs = require('node:fs');
-          const crypto = require('node:crypto');
-
-          const project = process.env.FIREBASE_PROJECT_ID;
-          const credentialsPath = process.env.GOOGLE_APPLICATION_CREDENTIALS;
-          if (!credentialsPath || !fs.existsSync(credentialsPath)) {
-            throw new Error('GOOGLE_APPLICATION_CREDENTIALS is missing after google-github-actions/auth.');
-          }
-          const credentials = JSON.parse(fs.readFileSync(credentialsPath, 'utf8'));
-          if (!credentials.client_email || !credentials.private_key) {
-            throw new Error('ADC service-account credential is missing client_email or private_key.');
-          }
-          const local = fs.readFileSync(process.env.FIREBASE_RULES_FILE, 'utf8');
-
-          function gitBlobSha(content) {
-            const bytes = Buffer.from(content, 'utf8');
-            return crypto.createHash('sha1')
-              .update(Buffer.from(`blob ${bytes.length}\0`, 'utf8'))
-              .update(bytes)
-              .digest('hex');
-          }
-
-          function base64urlJson(value) {
-            return Buffer.from(JSON.stringify(value), 'utf8').toString('base64url');
-          }
-
-          async function mintAccessToken() {
-            const now = Math.floor(Date.now() / 1000);
-            const unsigned = [
-              base64urlJson({ alg: 'RS256', typ: 'JWT' }),
-              base64urlJson({
-                iss: credentials.client_email,
-                scope: 'https://www.googleapis.com/auth/cloud-platform',
-                aud: 'https://oauth2.googleapis.com/token',
-                iat: now,
-                exp: now + 3600
-              })
-            ].join('.');
-            const signature = crypto.sign(
-              'RSA-SHA256',
-              Buffer.from(unsigned, 'utf8'),
-              credentials.private_key
-            ).toString('base64url');
-            const assertion = `${unsigned}.${signature}`;
-            const response = await fetch('https://oauth2.googleapis.com/token', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-              body: new URLSearchParams({
-                grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
-                assertion
-              })
-            });
-            const body = await response.text();
-            if (!response.ok) {
-              throw new Error(`Google OAuth token exchange failed with HTTP ${response.status}.`);
-            }
-            const parsed = JSON.parse(body);
-            if (!parsed.access_token) {
-              throw new Error('Google OAuth token exchange returned no access_token.');
-            }
-            return parsed.access_token;
-          }
-
-          async function googleGet(url, token) {
-            const response = await fetch(url, {
-              headers: { Authorization: `Bearer ${token}` }
-            });
-            const body = await response.text();
-            if (!response.ok) {
-              throw new Error(`Firebase Rules API ${response.status}: ${body}`);
-            }
-            return JSON.parse(body);
-          }
-
-          (async () => {
-            const token = await mintAccessToken();
-            const release = await googleGet(
-              `https://firebaserules.googleapis.com/v1/projects/${project}/releases/cloud.firestore`, token
-            );
-            if (!release.rulesetName) {
-              throw new Error('Live cloud.firestore release did not expose rulesetName.');
-            }
-
-            const ruleset = await googleGet(
-              `https://firebaserules.googleapis.com/v1/${release.rulesetName}`, token
-            );
-            const files = ruleset?.source?.files || [];
-            const exact = files.filter(file => file?.content === local);
-            if (exact.length !== 1) {
-              const names = files.map(file => file?.name || '(unnamed)').join(', ');
-              throw new Error(`Provider source did not exactly match ${process.env.FIREBASE_RULES_FILE}. Provider files: ${names}`);
-            }
-
-            const localBlob = gitBlobSha(local);
-            const providerBlob = gitBlobSha(exact[0].content);
-            if (localBlob !== providerBlob) {
-              throw new Error(`Provider blob mismatch: local=${localBlob} provider=${providerBlob}`);
-            }
-
-            console.log(`PROVIDER_FIRESTORE_RULES_EXACT_SOURCE_PASS ${providerBlob}`);
-            console.log(`Provider release: ${release.name}`);
-            console.log(`Provider ruleset: ${release.rulesetName}`);
-          })().catch(error => {
-            console.error(error);
-            process.exit(1);
-          });
-          NODE
+      # The helper uses only Google OAuth and https://firebaserules.googleapis.com.
+      # Ruleset creation compiles the generated source before the cloud.firestore release changes.
+      # No Cloud Run, Cloud Functions, billing API, Blaze plan, payment method or purchased credit exists in this workflow.
+      - name: Compile, publish and independently read back exact Firestore Rules source
+        run: node scripts/publish-firestore-rules-zero-billing.mjs

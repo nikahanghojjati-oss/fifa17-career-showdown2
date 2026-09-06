@@ -57,13 +57,24 @@ assert.equal(archivedWec.repository.startingMainSha,"13dcf6bd3f2e8a6d2682db46ae0
 assert.equal(archivedWec.repository.predecessorEnvironmentId,"we-2026-09-05-pr199-postmerge-recovery-a47");
 assert.equal(json(archivedWec.repository.predecessorArchive).environmentId,archivedWec.repository.predecessorEnvironmentId);
 assert.equal(bootstrap.transition.continuationDecision,archivedWec.assessment.decision);
-assert.deepEqual(wec,archivedWec,"Closing WEC must be sealed exactly into its archive before successor transition.");
-assert.equal(wec.assessment.decision,"HANDOFF_NOW");
-assert.equal(wec.assessment.decisionInheritedFromPredecessor,false);
+assert.equal(archivedWec.assessment.decision,"HANDOFF_NOW");
+assert.equal(archivedWec.assessment.decisionInheritedFromPredecessor,false);
+assert.equal(wec.environmentId,"we-2026-09-05-ssjr-production-shared-setup-a49");
+assert.equal(wec.repository?.predecessorEnvironmentId,archivedWec.environmentId);
+assert.equal(wec.repository?.predecessorArchive,bootstrap.currentWec.archive);
+assert.equal(wec.assessment?.decisionInheritedFromPredecessor,false);
+assert.equal(wec.signals?.unresolvedFailures,0);
+assert.ok(["active","transition-prepared"].includes(wec.lifecycle),"Fresh a49 WEC must remain active or be cleanly transition-prepared.");
+if(wec.lifecycle==="active"){
+ assert.equal(wec.assessment?.decision,"CONTINUE");
+}else{
+ assert.equal(wec.assessment?.decision,"HANDOFF_NOW");
+ assert.equal(wec.signals?.handoffCompleteness,100);
+}
 const providerCandidate=(ssjr.candidateEvidence||[]).find(x=>x.id==="ssjr1-spark-provider-enforcement-candidate-pr201");
 assert.ok(providerCandidate,"PR201 provider candidate evidence must be recorded");
 assert.equal(providerCandidate.credit,0);
 assert.ok(providerCandidate.missingLayers.includes("production-two-account"));
 assert.equal(ssjr.planningEstimate?.focusedSessionsToSSJR100?.minimum,6);
 assert.equal(ssjr.planningEstimate?.focusedSessionsToSSJR100?.maximum,11);
-process.stdout.write("PASS SLE packaging: mirrored v1.4.48 PR201 runtime-next package, archived a48 WEC, frozen RJR100/SSJR0, zero-credit provider candidate evidence, and paired-first production successor task are sealed.\n");
+process.stdout.write("PASS SLE packaging: mirrored v1.4.48 PR201 runtime-next package, sealed archived a48 predecessor, fresh non-inherited a49 WEC, frozen RJR100/SSJR0, zero-credit provider candidate evidence, and paired-first production successor task are protected.\n");

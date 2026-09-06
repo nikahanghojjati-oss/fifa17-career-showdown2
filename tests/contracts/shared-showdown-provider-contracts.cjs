@@ -13,7 +13,7 @@ const packageJson=JSON.parse(fs.readFileSync("package.json","utf8"));
 
 assert.equal(provider.contractVersion,1);
 assert.equal(provider.implementationState,"candidate-spark-exact-path");
-assert.equal(provider.productionEnabled,false,"Shared Setup provider must remain candidate-only until publication gates are complete.");
+assert.equal(provider.productionEnabled,false,"Shared Setup provider must remain candidate-only even when used behind the separately reviewed production wrapper.");
 assert.equal(provider.billingRequired,false,"Shared Setup provider must remain Spark-compatible and billing-free.");
 assert.equal(provider.canonicalStorageMutation,false,"Remote setup authority must not mutate canonical local saves.");
 assert.equal(provider.setupPath,"rivalries/{rivalryId}/sharedSetup/authoritative");
@@ -59,13 +59,16 @@ for(const required of [
 assert.match(candidateRules,/evaluated once per candidate Shared Setup[\s\S]+1,000-expression ceiling/i,"Candidate write authority must remain intentionally bounded under Firestore's expression ceiling.");
 
 assert.equal(candidateRules.includes("allow list, delete: if false;"),true,"Shared Setup authority must remain non-listable and non-deletable from modified clients.");
-assert.equal(productionRules.includes("sharedSetup"),false,"Candidate Shared Setup Rules must not silently alter production Firestore authority.");
+assert.equal(productionRules.includes("sharedSetup"),false,"Reviewed Spark base must remain unchanged; production Shared Setup authority is generated additively and tested separately.");
 
-for(const source of ["index.html","js/optionalModules.js","service-worker.js"]){
+for(const source of ["index.html","js/optionalModules.js"]){
   const runtimeSource=fs.readFileSync(source,"utf8");
-  assert.equal(runtimeSource.includes("sparkSharedShowdownSetup.js"),false,`${source} must not activate the candidate provider before publication gates.`);
-  assert.equal(runtimeSource.includes("sharedShowdownCatalog.js"),false,`${source} must not activate the candidate catalog before publication gates.`);
+  assert.equal(runtimeSource.includes("sparkSharedShowdownSetup.js"),false,`${source} must not directly activate the candidate provider.`);
+  assert.equal(runtimeSource.includes("sharedShowdownCatalog.js"),false,`${source} must not directly activate the candidate catalog.`);
 }
+const workerSource=fs.readFileSync("service-worker.js","utf8");
+assert.equal(workerSource.includes('"js/sparkSharedShowdownSetup.js"'),true,"Installed r3 shell must cache the candidate adapter only because the separately reviewed production wrapper depends on it.");
+assert.equal(workerSource.includes('"js/sharedShowdownCatalog.js"'),true,"Installed r3 shell must cache the immutable catalog only because the separately reviewed production wrapper depends on it.");
 assert.ok(packageJson.scripts["test:ssjr"].includes("shared-showdown-provider-contracts.cjs"),"The SSJR contract command must permanently include provider-boundary regression proof.");
 
-process.stdout.write("PASS Shared Showdown Spark provider boundary contracts: exact ACTIVE session identity, immutable repository catalog, actor-bound replay, bounded exactly-two-manager Rules authority, zero billing, no canonical local mutation, candidate-only production isolation.\n");
+process.stdout.write("PASS Shared Showdown Spark provider boundary contracts: exact ACTIVE session identity, immutable repository catalog, actor-bound replay, bounded exactly-two-manager Rules authority, zero billing, no canonical local mutation, reviewed Spark base isolation, and candidate adapter/catalog remain non-production authorities behind the production wrapper.\n");
