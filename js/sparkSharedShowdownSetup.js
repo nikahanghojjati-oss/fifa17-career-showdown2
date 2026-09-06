@@ -6,6 +6,7 @@
   "use strict";
 
   const protocolModule=typeof require==="function"?require("./sharedShowdownSetup.js"):root.CareerModeSharedShowdownSetup;
+  const catalogModule=typeof require==="function"?require("./sharedShowdownCatalog.js"):root.CareerModeSharedShowdownCatalog;
   const ROLES=Object.freeze(["playerOne","playerTwo"]);
   const TYPES=Object.freeze(["open","commit-league","commit-clubs","commit-length","confirm","confirm"]);
   const PHASES=Object.freeze(["SHARED_SETUP_OPEN","LEAGUE_WHEEL_COMMITTED","CLUB_ASSIGNMENTS_COMMITTED","SEASON_LENGTH_COMMITTED","SHOWDOWN_CONFIRMED"]);
@@ -36,6 +37,10 @@
     if(!firestore)fail("SETUP_PROVIDER_UNAVAILABLE");
     for(const name of ["doc","runTransaction"]){if(!sdk||typeof sdk[name]!=="function")fail("SETUP_PROVIDER_UNAVAILABLE");}
     if(typeof sdk.serverTimestamp!=="function"&&(!sdk.Timestamp||typeof sdk.Timestamp.fromMillis!=="function"))fail("SETUP_PROVIDER_UNAVAILABLE");
+  }
+  async function createCanonicalProtocol(cryptoImpl){
+    if(!protocolModule||typeof protocolModule.createProtocol!=="function"||!catalogModule||catalogModule.version!=="shared-showdown-catalog-v1"||!catalogModule.catalog)fail("SETUP_PROVIDER_UNAVAILABLE");
+    return protocolModule.createProtocol({catalog:catalogModule.catalog,cryptoImpl});
   }
   function updatedAt(sdk,epochMs){return typeof sdk.serverTimestamp==="function"?sdk.serverTimestamp():sdk.Timestamp.fromMillis(epochMs);}
   function assertAccount(value,id){
@@ -178,22 +183,25 @@
       if(!Number.isInteger(baseRevision)||baseRevision<0)fail("SETUP_COMMAND_INVALID");
       if(type==="commit-length"&&!LENGTHS.includes(options.totalSeasons))fail("SETUP_LENGTH_INVALID");
       validateSdk(options.firestore,options.firebaseSdk);
-      if(!protocolModule||typeof protocolModule.createProtocol!=="function")fail("SETUP_PROVIDER_UNAVAILABLE");
-      const protocol=await protocolModule.createProtocol({catalog:options.catalog,cryptoImpl:options.cryptoImpl||root.crypto});
+      const cryptoImpl=options.cryptoImpl||root.crypto;
+      const protocol=await createCanonicalProtocol(cryptoImpl);
       return await options.firebaseSdk.runTransaction(options.firestore,async transaction=>{
         const ctx=await context(options,transaction);
         const prior=ctx.ledger;
-        const priorState=await rebuild(protocol,prior,ctx.rivalry,ctx.rivalryId,options.cryptoImpl||root.crypto);
+        const priorState=await rebuild(protocol,prior,ctx.rivalry,ctx.rivalryId,cryptoImpl);
+        const actorRole=ctx.rivalry.actor.slotId;
         if(prior){
           const existing=prior.operationIds.indexOf(operationId);
           if(existing!==-1){
-            const same=prior.operationTypes[existing]===type&&prior.baseRevisions[existing]===baseRevision&&(type!=="commit-length"||prior.totalSeasons===options.totalSeasons);
+            const same=prior.operationTypes[existing]===type
+              && prior.baseRevisions[existing]===baseRevision
+              && prior.actorRoles[existing]===actorRole
+              && (type!=="commit-length"||prior.totalSeasons===options.totalSeasons);
             if(!same)fail("SETUP_IDEMPOTENCY_CONFLICT");
             return Object.freeze({ok:true,status:"replayed",replayed:true,revision:prior.revision,state:priorState});
           }
         }
         if(baseRevision!==(prior?prior.revision:0))fail("SETUP_STALE_BASE_REVISION");
-        const actorRole=ctx.rivalry.actor.slotId;
         const host=ctx.rivalry.slots.find(item=>item.accountId===ctx.session.data.hostAccountId);
         if(!host)fail("SETUP_SESSION_MEMBERS_MISMATCH");
         const auth=authority({rivalryId:ctx.rivalryId,rivalry:ctx.rivalry,session:ctx.session,role:actorRole,deviceId:ctx.deviceId,epochMs:ctx.epochMs,hostRole:host.slotId});
@@ -225,12 +233,12 @@
   async function read(options={}){
     try{
       validateSdk(options.firestore,options.firebaseSdk);
-      if(!protocolModule||typeof protocolModule.createProtocol!=="function")fail("SETUP_PROVIDER_UNAVAILABLE");
-      const protocol=await protocolModule.createProtocol({catalog:options.catalog,cryptoImpl:options.cryptoImpl||root.crypto});
+      const cryptoImpl=options.cryptoImpl||root.crypto;
+      const protocol=await createCanonicalProtocol(cryptoImpl);
       return await options.firebaseSdk.runTransaction(options.firestore,async transaction=>{
         const ctx=await context(options,transaction);
         if(!ctx.ledger)return Object.freeze({ok:true,status:"empty",revision:0,state:null});
-        const state=await rebuild(protocol,ctx.ledger,ctx.rivalry,ctx.rivalryId,options.cryptoImpl||root.crypto);
+        const state=await rebuild(protocol,ctx.ledger,ctx.rivalry,ctx.rivalryId,cryptoImpl);
         return Object.freeze({ok:true,status:"live",revision:ctx.ledger.revision,state});
       });
     }catch(error){return resultError(error);}
@@ -243,6 +251,7 @@
     billingRequired:false,
     canonicalStorageMutation:false,
     canonicalStorageKeys:CANONICAL_KEYS,
+    catalogVersion:catalogModule&&catalogModule.version||null,
     setupPath:"rivalries/{rivalryId}/sharedSetup/authoritative",
     mutate,
     read
