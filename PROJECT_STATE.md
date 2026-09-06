@@ -20,4 +20,12 @@ The Installable Offline App, v1.3.0 Recovery & Device Resilience baseline, Local
 
 Billing must never be activated. Firebase remains Spark. App Check enforcement remains OFF. Firestore browser persistence remains memory-only. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes. Canonical localStorage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, `careerModeShowdown.preferences`. Exactly two private managers. No public discovery/listing/lobby/matchmaking/community/rankings/global leaderboards.
 
+## Historical compatibility marker — SUPERSEDED, DO NOT EXECUTE
+
+The following literal marker records the current-at-the-time PR194 boundary for legacy security contracts only. It does not override PR203/r3 or revive consumed acceptance work.
+
+```text
+CURRENT OVERRIDE — PR #194 / v1.9.1-r2 / RJR91 / PHYSICAL ACCEPTANCE NEXT
+```
+
 SLE starter: `START_NEXT_SESSION_V1.4.49_PR203_POSTMERGE_GREEN_SSJR_EVIDENCE_NEXT.md`. Full handoff: `SUCCESSOR_HANDOFF_PR203_POSTMERGE_GREEN_SSJR_EVIDENCE_NEXT_SLE_2026-09-06.md`. Estimated focused sessions to genuine SSJR100: ~5–10.
