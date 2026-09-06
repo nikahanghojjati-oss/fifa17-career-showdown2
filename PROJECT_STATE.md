@@ -18,6 +18,8 @@ PR209/PR210 changed no production gameplay runtime revision, Firestore Rules, Au
 
 RJR100 remains COMPLETE/FROZEN `100/100`. Fixed SSJR-1.1 remains evidence-backed `0/100`. PR209/PR210 are dependency progress but zero readiness credit until genuine production-two-account evidence passes the unchanged PR207 recorder + PR205 validator layer.
 
+The Installable Offline App, v1.3.0 Recovery & Device Resilience baseline, Local Profiles and Save Library remain protected shipped foundations and must not be reopened absent a demonstrated regression.
+
 Required journey order remains: Profiles/pre-draw Save shell → exact Connected Rivalry pairing → exact ACTIVE → authoritative league → two distinct permanent same-league clubs → 1/3/5/10 season length → both managers confirm identical setup → career-start acknowledgement → transfer/results/season commit → scoring/history/progression → recovery/conflict safety → final reconciliation → terminal close/no resurrection.
 
 Next score-enabling boundary: genuine production-two-account Shared Setup observations on deployed r3 using two legitimate private manager accounts and two genuinely distinct registered browser/device identities. The deployed observer removes the exact-canonical-storage visibility blocker; PR207 sanitizes each private observation; PR205 validates the pair.
