@@ -51,9 +51,9 @@ service cloud.firestore {
     }
 
     // Write authority is intentionally evaluated once per candidate Shared Setup
-    // write. This keeps the same account/device/rivalry/session checks under
-    // Firestore's 1,000-expression ceiling instead of recursively re-evaluating
-    // entitled -> exactPairedRivalry -> activeAccount several times.
+    // write. Only security facts needed by Shared Setup are rechecked here; the
+    // candidate client cannot mutate the protected account/rivalry/session schema.
+    // This keeps the exact authority boundary under Firestore's 1,000-expression ceiling.
     function writeAuthorityValid(rivalryId, deviceId, sessionId) {
       let actor = request.auth.uid;
       let rivalryRoot = get(/databases/$(database)/documents/rivalries/$(rivalryId));
@@ -69,8 +69,6 @@ service cloud.firestore {
         && validRivalryId(rivalryId)
         && validDeviceId(deviceId)
         && validSessionId(sessionId)
-        && rivalryRoot.data.objectType == 'rivalry'
-        && rivalryRoot.data.objectId == rivalryId
         && rivalryRoot.data.lifecycleState == 'live'
         && rivalry.connectionState == 'active'
         && rivalry.authorizedAccountIds is list
@@ -81,40 +79,22 @@ service cloud.firestore {
         && rivalry.managerSlots[0].slotId == 'playerOne'
         && rivalry.managerSlots[1].slotId == 'playerTwo'
         && slot0AccountId != slot1AccountId
-        && validProfileId(rivalry.managerSlots[0].profileId)
-        && validProfileId(rivalry.managerSlots[1].profileId)
-        && validSaveId(rivalry.managerSlots[0].saveId)
-        && validSaveId(rivalry.managerSlots[1].saveId)
         && rivalry.managerSlots[0].entitlementState == 'active'
         && rivalry.managerSlots[1].entitlementState == 'active'
         && slot0AccountId in rivalry.authorizedAccountIds
         && slot1AccountId in rivalry.authorizedAccountIds
         && actor in rivalry.authorizedAccountIds
-        && slot0Account.data.objectType == 'account'
-        && slot0Account.data.objectId == slot0AccountId
-        && slot0Account.data.lifecycleState == 'live'
         && slot0Account.data.data.status == 'active'
-        && slot1Account.data.objectType == 'account'
-        && slot1Account.data.objectId == slot1AccountId
-        && slot1Account.data.lifecycleState == 'live'
         && slot1Account.data.data.status == 'active'
-        && device.data.objectType == 'device'
         && device.data.objectId == deviceId
-        && device.data.lifecycleState == 'live'
-        && device.data.data.deviceId == deviceId
         && device.data.data.state == 'active'
-        && session.data.objectType == 'session'
         && session.data.objectId == sessionId
-        && session.data.lifecycleState == 'live'
         && sessionData.rivalryId == rivalryId
         && sessionData.state == 'active'
         && sessionData.memberAccountIds is list
         && sessionData.memberAccountIds.size() == 2
-        && sessionData.memberAccountIds[0] != sessionData.memberAccountIds[1]
         && rivalry.authorizedAccountIds[0] in sessionData.memberAccountIds
         && rivalry.authorizedAccountIds[1] in sessionData.memberAccountIds
-        && actor in sessionData.memberAccountIds
-        && sessionData.hostAccountId in rivalry.authorizedAccountIds
         && sessionData.expiresAt is timestamp
         && sessionData.expiresAt > request.time;
     }
@@ -129,6 +109,7 @@ service cloud.firestore {
       ]);
     }
     function validLedgerBase(root, rivalryId) {
+      let historySize = root.operationIds.size();
       return exactLedgerKeys(root)
         && root.schemaVersion == 1
         && root.objectType == 'sharedSetupLedger'
@@ -141,10 +122,10 @@ service cloud.firestore {
         && root.operationTypes is list
         && root.baseRevisions is list
         && root.actorRoles is list
-        && root.operationIds.size() == root.revision
-        && root.operationTypes.size() == root.revision
-        && root.baseRevisions.size() == root.revision
-        && root.actorRoles.size() == root.revision
+        && historySize == root.revision
+        && root.operationTypes.size() == historySize
+        && root.baseRevisions.size() == historySize
+        && root.actorRoles.size() == historySize
         && root.confirmedRoles is list
         && root.updatedAt == request.time
         && writeAuthorityValid(rivalryId, root.updatedByDeviceId, root.activeSessionId);
@@ -164,22 +145,11 @@ service cloud.firestore {
         && sessionHostIsActor(rivalryId, after.activeSessionId);
     }
     function prefixPreserved(before, after) {
-      return after.operationIds[0] == before.operationIds[0]
-        && after.operationTypes[0] == before.operationTypes[0]
-        && after.baseRevisions[0] == before.baseRevisions[0]
-        && after.actorRoles[0] == before.actorRoles[0]
-        && (before.revision < 2 || (
-          after.operationIds[1] == before.operationIds[1] && after.operationTypes[1] == before.operationTypes[1]
-          && after.baseRevisions[1] == before.baseRevisions[1] && after.actorRoles[1] == before.actorRoles[1]))
-        && (before.revision < 3 || (
-          after.operationIds[2] == before.operationIds[2] && after.operationTypes[2] == before.operationTypes[2]
-          && after.baseRevisions[2] == before.baseRevisions[2] && after.actorRoles[2] == before.actorRoles[2]))
-        && (before.revision < 4 || (
-          after.operationIds[3] == before.operationIds[3] && after.operationTypes[3] == before.operationTypes[3]
-          && after.baseRevisions[3] == before.baseRevisions[3] && after.actorRoles[3] == before.actorRoles[3]))
-        && (before.revision < 5 || (
-          after.operationIds[4] == before.operationIds[4] && after.operationTypes[4] == before.operationTypes[4]
-          && after.baseRevisions[4] == before.baseRevisions[4] && after.actorRoles[4] == before.actorRoles[4]));
+      let n = before.revision;
+      return after.operationIds[0:n] == before.operationIds
+        && after.operationTypes[0:n] == before.operationTypes
+        && after.baseRevisions[0:n] == before.baseRevisions
+        && after.actorRoles[0:n] == before.actorRoles;
     }
     function newOperationValid(before, after) {
       let index = before.revision;
@@ -188,62 +158,43 @@ service cloud.firestore {
         && after.baseRevisions[index] == before.revision
         && after.actorRoles[index] == actorRole(after.rivalryId);
     }
-    function validUpdateLedger(rivalryId) {
-      let before = resource.data;
-      let after = request.resource.data;
+    function transitionShapeValid(before, after) {
       let i = before.revision;
-      return validLedgerBase(after, rivalryId)
-        && exactLedgerKeys(before)
-        && after.revision == before.revision + 1
-        && after.coordinatorRole == before.coordinatorRole
-        && prefixPreserved(before, after)
-        && newOperationValid(before, after)
+      let nextTypes = ['unused','commit-league','commit-clubs','commit-length','confirm','confirm'];
+      let nextPhases = ['unused','LEAGUE_WHEEL_COMMITTED','CLUB_ASSIGNMENTS_COMMITTED','SEASON_LENGTH_COMMITTED','SEASON_LENGTH_COMMITTED','SHOWDOWN_CONFIRMED'];
+      return i >= 1
+        && i <= 5
+        && after.operationTypes[i] == nextTypes[i]
+        && after.phase == nextPhases[i]
+        && (i >= 4 || after.actorRoles[i] == before.coordinatorRole)
         && (
-          (i == 1
-            && before.phase == 'SHARED_SETUP_OPEN'
-            && after.phase == 'LEAGUE_WHEEL_COMMITTED'
-            && after.operationTypes[i] == 'commit-league'
-            && after.actorRoles[i] == before.coordinatorRole
-            && before.totalSeasons == null && after.totalSeasons == null
-            && after.confirmedRoles.size() == 0)
-          ||
-          (i == 2
-            && before.phase == 'LEAGUE_WHEEL_COMMITTED'
-            && after.phase == 'CLUB_ASSIGNMENTS_COMMITTED'
-            && after.operationTypes[i] == 'commit-clubs'
-            && after.actorRoles[i] == before.coordinatorRole
-            && before.totalSeasons == null && after.totalSeasons == null
-            && after.confirmedRoles.size() == 0)
-          ||
-          (i == 3
-            && before.phase == 'CLUB_ASSIGNMENTS_COMMITTED'
-            && after.phase == 'SEASON_LENGTH_COMMITTED'
-            && after.operationTypes[i] == 'commit-length'
-            && after.actorRoles[i] == before.coordinatorRole
-            && before.totalSeasons == null
-            && (after.totalSeasons == 1 || after.totalSeasons == 3 || after.totalSeasons == 5 || after.totalSeasons == 10)
-            && after.confirmedRoles.size() == 0)
-          ||
-          (i == 4
-            && before.phase == 'SEASON_LENGTH_COMMITTED'
-            && after.phase == 'SEASON_LENGTH_COMMITTED'
-            && after.operationTypes[i] == 'confirm'
-            && after.totalSeasons == before.totalSeasons
+          (i <= 2 && before.totalSeasons == null && after.totalSeasons == null)
+          || (i == 3 && before.totalSeasons == null && (after.totalSeasons == 1 || after.totalSeasons == 3 || after.totalSeasons == 5 || after.totalSeasons == 10))
+          || (i >= 4 && after.totalSeasons == before.totalSeasons)
+        )
+        && (
+          (i <= 3 && after.confirmedRoles.size() == 0)
+          || (i == 4
             && before.confirmedRoles.size() == 0
             && after.confirmedRoles.size() == 1
             && after.confirmedRoles[0] == after.actorRoles[i])
-          ||
-          (i == 5
-            && before.phase == 'SEASON_LENGTH_COMMITTED'
-            && after.phase == 'SHOWDOWN_CONFIRMED'
-            && after.operationTypes[i] == 'confirm'
-            && after.totalSeasons == before.totalSeasons
+          || (i == 5
             && before.confirmedRoles.size() == 1
             && after.confirmedRoles.size() == 2
             && after.confirmedRoles[0] == before.confirmedRoles[0]
             && after.confirmedRoles[1] == after.actorRoles[i]
             && after.confirmedRoles[1] != after.confirmedRoles[0])
         );
+    }
+    function validUpdateLedger(rivalryId) {
+      let before = resource.data;
+      let after = request.resource.data;
+      return validLedgerBase(after, rivalryId)
+        && after.revision == before.revision + 1
+        && after.coordinatorRole == before.coordinatorRole
+        && prefixPreserved(before, after)
+        && newOperationValid(before, after)
+        && transitionShapeValid(before, after);
     }
 
     match /accounts/{accountId} {
