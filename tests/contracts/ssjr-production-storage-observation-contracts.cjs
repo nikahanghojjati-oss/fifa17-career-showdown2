@@ -2,7 +2,8 @@ const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const vm=require('node:vm');
 
-const source=fs.readFileSync('js/ssjrProductionStorageObservation.js','utf8');
+const observerPath='acceptance/ssjrProductionStorageObservation.js';
+const source=fs.readFileSync(observerPath,'utf8');
 const html=fs.readFileSync('production-authorization-acceptance.html','utf8');
 const keys=[
   'careerModeShowdown.saveLibrary',
@@ -11,7 +12,8 @@ const keys=[
 ];
 
 assert.match(html,/production-authorization-acceptance/i,'Observer must remain on the existing bounded production acceptance surface.');
-assert.match(html,/js\/ssjrProductionStorageObservation\.js/,'Network-only acceptance page must load the SSJR storage observer.');
+assert.match(html,/acceptance\/ssjrProductionStorageObservation\.js/,'Network-only acceptance page must load the SSJR storage observer outside the ordinary game runtime directory.');
+assert.equal(fs.existsSync('js/ssjrProductionStorageObservation.js'),false,'Raw localStorage observer must not enter the ordinary js runtime boundary.');
 for(const key of keys)assert.ok(source.includes(key),`Observer must read canonical key ${key}.`);
 assert.match(source,/for\(const key of CANONICAL_STORAGE_KEYS\)\{\s*snapshot\[key\]=storage\.getItem\(key\);/,'Observer must capture each canonical value with exact raw getItem semantics.');
 assert.match(source,/output\.textContent=JSON\.stringify\(snapshot\)/,'Raw snapshot may be exposed only as text, never HTML.');
@@ -36,7 +38,7 @@ assert.match(source,/privateIdentifierCapture:false/);
 
 const context={console};
 vm.createContext(context);
-vm.runInContext(source,context,{filename:'ssjrProductionStorageObservation.js'});
+vm.runInContext(source,context,{filename:observerPath});
 const api=context.CareerModeSSJRProductionStorageObservation;
 assert.ok(api,'Observer API must be exposed for deterministic contract proof.');
 assert.equal(api.readOnly,true);
@@ -62,4 +64,4 @@ assert.throws(
   'A failed canonical read must fail the whole observation instead of fabricating a partial snapshot.'
 );
 
-process.stdout.write('PASS SSJR production storage observation: existing network-only acceptance surface exposes an explicit transient exact-raw three-key snapshot with no writes, network transport, private identifier capture or durable evidence artifact.\n');
+process.stdout.write('PASS SSJR production storage observation: existing network-only acceptance surface exposes an explicit transient exact-raw three-key snapshot outside the ordinary game runtime directory with no writes, network transport, private identifier capture or durable evidence artifact.\n');
