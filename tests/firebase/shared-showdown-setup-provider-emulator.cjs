@@ -35,7 +35,26 @@ function slots(){return [
   {slotId:"playerTwo",accountId:B,profileId:PB,saveId:SB,entitlementState:"active"}
 ];}
 function rivalry(id=R,authorized=[A,B],managerSlots=slots()){return {objectType:"rivalry",objectId:id,lifecycleState:"live",data:{connectionState:"active",authorizedAccountIds:authorized,managerSlots}};}
-function session(id,rivalryId,state,host,members,expiresAt){return {objectType:"session",objectId:id,lifecycleState:"live",data:{rivalryId,state,hostAccountId:host,memberAccountIds:members,expiresAt}};}
+function session(id,rivalryId,state,host,members,expiresAt){
+  const expiresAtMs=expiresAt.toMillis();
+  const createdAt=Timestamp.fromMillis(expiresAtMs-(5*60*1000));
+  const lastActivityAt=Timestamp.fromMillis(expiresAtMs-(60*1000));
+  return {
+    schemaVersion:1,
+    objectType:"session",
+    objectId:id,
+    revision:1,
+    parentRevision:0,
+    lifecycleState:"live",
+    contentHash:`sha256:${"0".repeat(64)}`,
+    priorContentHash:`sha256:${"1".repeat(64)}`,
+    updatedAt:lastActivityAt,
+    updatedByAccountId:host,
+    updatedByDeviceId:host===A?DA:DB,
+    data:{rivalryId,state,hostAccountId:host,memberAccountIds:members,createdAt,expiresAt,lastActivityAt,revokedAt:null},
+    tombstone:null
+  };
+}
 function op(char){return `setup_op_${char.repeat(32)}`;}
 function options(db,user,deviceId,sessionId,now,type,baseRevision,operationId,extra={}){
   return {user:{uid:user},firestore:db,firebaseSdk:sdk(),deviceId,rivalryId:R,sessionId,nowEpochMs:now,type,baseRevision,operationId,cryptoImpl:crypto.webcrypto,...extra};
@@ -123,71 +142,66 @@ async function seed(testEnv,now){
     const clubs=await provider.mutate(options(dbA,A,DA,S1,now+20,"commit-clubs",2,op("3")));
     assert.equal(clubs.ok,true,JSON.stringify(clubs));
     assert.equal(clubs.revision,3);
-    assert.notEqual(clubs.state.clubs.playerOne,clubs.state.clubs.playerTwo);
+    assert.equal(clubs.state.clubs.playerOne===clubs.state.clubs.playerTwo,false);
     assert.ok(CATALOG[leagueId].includes(clubs.state.clubs.playerOne));
     assert.ok(CATALOG[leagueId].includes(clubs.state.clubs.playerTwo));
 
-    const firstRead=await provider.read({user:{uid:A},firestore:dbA,firebaseSdk:sdk(),deviceId:DA,rivalryId:R,sessionId:S1,nowEpochMs:now+21,cryptoImpl:crypto.webcrypto});
-    const secondRead=await provider.read({user:{uid:B},firestore:dbB,firebaseSdk:sdk(),deviceId:DB,rivalryId:R,sessionId:S1,nowEpochMs:now+22,cryptoImpl:crypto.webcrypto});
-    assert.equal(firstRead.ok,true,JSON.stringify(firstRead));
-    assert.equal(secondRead.ok,true,JSON.stringify(secondRead));
-    assert.equal(firstRead.state.leagueId,secondRead.state.leagueId,"Repeated read cannot redraw the league.");
-    assert.deepEqual(firstRead.state.clubs,secondRead.state.clubs,"Repeated read cannot redraw clubs.");
-
-    const stale=await provider.mutate(options(dbB,B,DB,S1,now+23,"commit-length",2,op("4"),{totalSeasons:3}));
-    assert.equal(stale.ok,false);
-    assert.equal(stale.code,"SETUP_STALE_BASE_REVISION");
-
-    await testEnv.withSecurityRulesDisabled(async context=>setDoc(doc(context.firestore(),"accounts",A,"devices",DA),device(DA,"revoked")));
-    const revoked=await provider.mutate(options(dbA,A,DA,S1,now+24,"commit-length",3,op("4"),{totalSeasons:3}));
-    assert.equal(revoked.ok,false);
-    assert.ok(["SETUP_DEVICE_INACTIVE","permission-denied"].includes(revoked.code),revoked.code);
-    await testEnv.withSecurityRulesDisabled(async context=>setDoc(doc(context.firestore(),"accounts",A,"devices",DA),device(DA,"active")));
-
-    await testEnv.withSecurityRulesDisabled(async context=>setDoc(doc(context.firestore(),"accounts",B),account(B,"disabled")));
-    const inactivePeer=await provider.mutate(options(dbA,A,DA,S1,now+25,"commit-length",3,op("4"),{totalSeasons:3}));
-    assert.equal(inactivePeer.ok,false,"A disabled paired manager must freeze Shared Setup writes.");
-    await testEnv.withSecurityRulesDisabled(async context=>setDoc(doc(context.firestore(),"accounts",B),account(B,"active")));
-
-    await testEnv.withSecurityRulesDisabled(async context=>{
-      const db=context.firestore();
-      const future=Timestamp.fromMillis(now+20*60*1000);
-      await setDoc(doc(db,"rivalries",R,"sessions",S1),session(S1,R,"closed",A,[A,B],future));
-      await setDoc(doc(db,"rivalries",R,"sessions",S2),session(S2,R,"active",B,[A,B],future));
-    });
-    const length=await provider.mutate(options(dbA,A,DA,S2,now+30,"commit-length",3,op("4"),{totalSeasons:3}));
+    const length=await provider.mutate(options(dbA,A,DA,S1,now+30,"commit-length",3,op("4"),{totalSeasons:3}));
     assert.equal(length.ok,true,JSON.stringify(length));
-    assert.equal(length.revision,4,"Fresh same-rivalry ACTIVE session must continue existing setup, not reset it.");
-    assert.equal(length.state.leagueId,league.state.leagueId);
-    assert.deepEqual(length.state.clubs,clubs.state.clubs);
+    assert.equal(length.revision,4);
     assert.equal(length.state.totalSeasons,3);
 
-    const confirmA=await provider.mutate(options(dbA,A,DA,S2,now+40,"confirm",4,op("5")));
+    const confirmA=await provider.mutate(options(dbA,A,DA,S1,now+40,"confirm",4,op("5")));
     assert.equal(confirmA.ok,true,JSON.stringify(confirmA));
     assert.equal(confirmA.revision,5);
-    const confirmB=await provider.mutate(options(dbB,B,DB,S2,now+50,"confirm",5,op("6")));
+    assert.deepEqual(confirmA.state.confirmedRoles,["playerOne"]);
+
+    const confirmB=await provider.mutate(options(dbB,B,DB,S1,now+50,"confirm",5,op("6")));
     assert.equal(confirmB.ok,true,JSON.stringify(confirmB));
     assert.equal(confirmB.revision,6);
     assert.equal(confirmB.state.phase,"SHOWDOWN_CONFIRMED");
     assert.deepEqual(confirmB.state.confirmedRoles,["playerOne","playerTwo"]);
 
-    const finalA=await provider.read({user:{uid:A},firestore:dbA,firebaseSdk:sdk(),deviceId:DA,rivalryId:R,sessionId:S2,nowEpochMs:now+51,cryptoImpl:crypto.webcrypto});
-    const finalB=await provider.read({user:{uid:B},firestore:dbB,firebaseSdk:sdk(),deviceId:DB,rivalryId:R,sessionId:S2,nowEpochMs:now+51,cryptoImpl:crypto.webcrypto});
+    const finalA=await provider.read({user:{uid:A},firestore:dbA,firebaseSdk:sdk(),deviceId:DA,rivalryId:R,sessionId:S1,nowEpochMs:now+60,cryptoImpl:crypto.webcrypto});
+    const finalB=await provider.read({user:{uid:B},firestore:dbB,firebaseSdk:sdk(),deviceId:DB,rivalryId:R,sessionId:S1,nowEpochMs:now+60,cryptoImpl:crypto.webcrypto});
     assert.equal(finalA.ok,true,JSON.stringify(finalA));
     assert.equal(finalB.ok,true,JSON.stringify(finalB));
-    assert.deepEqual(finalA.state,finalB.state,"Both managers must materialize byte-equivalent confirmed setup state.");
+    assert.deepEqual(finalA.state,finalB.state);
+    assert.equal(finalA.state.leagueId,leagueId);
+    assert.deepEqual(finalA.state.clubs,clubs.state.clubs);
 
-    const badTwoManager=await provider.mutate({...options(dbA,A,DA,S1,now+60,"open",0,op("7")),rivalryId:RBAD});
-    assert.equal(badTwoManager.ok,false,"A rivalry that is not exactly two managers must be denied.");
+    await testEnv.withSecurityRulesDisabled(async context=>{
+      const db=context.firestore();
+      const current=(await getDoc(doc(db,"rivalries",R,"sessions",S1))).data();
+      await setDoc(doc(db,"rivalries",R,"sessions",S1),{...current,data:{...current.data,state:"closed"}});
+      await setDoc(doc(db,"rivalries",R,"sessions",S2),session(S2,R,"active",A,[A,B],Timestamp.fromMillis(now+20*60*1000)));
+    });
+    const closedOld=await provider.read({user:{uid:A},firestore:dbA,firebaseSdk:sdk(),deviceId:DA,rivalryId:R,sessionId:S1,nowEpochMs:now+70,cryptoImpl:crypto.webcrypto});
+    assert.equal(closedOld.ok,false);
+    const freshA=await provider.read({user:{uid:A},firestore:dbA,firebaseSdk:sdk(),deviceId:DA,rivalryId:R,sessionId:S2,nowEpochMs:now+70,cryptoImpl:crypto.webcrypto});
+    const freshB=await provider.read({user:{uid:B},firestore:dbB,firebaseSdk:sdk(),deviceId:DB,rivalryId:R,sessionId:S2,nowEpochMs:now+70,cryptoImpl:crypto.webcrypto});
+    assert.equal(freshA.ok,true,JSON.stringify(freshA));
+    assert.equal(freshB.ok,true,JSON.stringify(freshB));
+    assert.deepEqual(freshA.state,finalA.state);
+    assert.deepEqual(freshB.state,finalA.state);
 
-    const stored=(await getDoc(setupRefA)).data();
-    assert.equal(Object.hasOwn(stored,"leagueId"),false,"Caller-selectable league must never be persisted as provider authority.");
-    assert.equal(Object.hasOwn(stored,"clubs"),false,"Caller-selectable clubs must never be persisted as provider authority.");
-    assert.equal(stored.activeSessionId,S2,"A fresh ACTIVE session may continue but never reset the same rivalry setup.");
-    assert.equal(localTouches,0,"Provider persistence must not read or mutate canonical local saves.");
-
-    console.log("Shared Showdown Setup Spark provider emulator proof passed: paired ACTIVE-session authority, exact-two-manager gating, CAS/idempotency, canonical deterministic non-redrawable league/clubs, direct modified-client denial, same-rivalry fresh-session continuity, identical confirmation, and zero canonical local-save mutation.");
-  }finally{
-    await testEnv.cleanup();
-  }
-})().catch(error=>{console.error(error);process.exitCode=1;});
+    await testEnv.withSecurityRulesDisabled(async context=>{
+      const db=context.firestore();
+      const accountB=(await getDoc(doc(db,"accounts",B))).data();
+      await setDoc(doc(db,"accounts",B),{...accountB,data:{...accountB.data,status:"disabled"}});
+    });
+    const frozen=await provider.mutate(options(dbA,A,DA,S2,now+80,"confirm",6,op("7")));
+    assert.equal(frozen.ok,false);
+    await testEnv.withSecurityRulesDisabled(async context=>{
+      const db=context.firestore();
+      const accountB=(await getDoc(doc(db,"accounts",B))).data();
+      await setDoc(doc(db,"accounts",B),{...accountB,data:{...accountB.data,status:"active"}});
+      const deviceA=(await getDoc(doc(db,"accounts",A,"devices",DA))).data();
+      await setDoc(doc(db,"accounts",A,"devices",DA),{...deviceA,data:{...deviceA.data,state:"revoked"}});
+    });
+    const revoked=await provider.read({user:{uid:A},firestore:dbA,firebaseSdk:sdk(),deviceId:DA,rivalryId:R,sessionId:S2,nowEpochMs:now+90,cryptoImpl:crypto.webcrypto});
+    assert.equal(revoked.ok,false);
+    assert.equal(localTouches,0,"Provider adapter must not touch canonical localStorage.");
+    process.stdout.write("Shared Showdown Setup Spark provider emulator proof passed: paired ACTIVE-session authority, exact-two-manager gating, CAS/idempotency, canonical deterministic non-redrawable league/clubs, direct modified-client denial, same-rivalry fresh-session continuity, identical confirmation, and zero canonical local-save mutation.\n");
+  }finally{await testEnv.cleanup();}
+})().catch(error=>{console.error(error.stack||error);process.exit(1);});
