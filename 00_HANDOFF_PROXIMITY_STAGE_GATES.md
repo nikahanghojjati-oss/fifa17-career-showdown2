@@ -1,61 +1,71 @@
-# HANDOFF PROXIMITY STAGE GATES — OWNER OVERRIDE V2
+# Handoff Proximity — Deterministic Transfer Readiness HTR-1
 
 Owner direction: 2026-09-06.
 
-This file replaces the old heuristic interpretation of `Handoff proximity` wherever older continuity prose conflicts with it. WEC still owns transition urgency and may require an earlier handoff. This file owns the visible percentage reported to the owner.
+This file replaces every earlier visible-percentage interpretation of `Handoff proximity` wherever older continuity prose conflicts with it. Handoff proximity now measures only successor transfer readiness.
 
-## Why this change exists
+## Definition
 
-The previous percentage could race into the high 90s while broad contracts, review, merge or post-merge validation could still uncover entire classes of work. In practice, `99%` sometimes meant hours of unknown cleanup. That made the number misleading and encouraged maintenance loops.
+`Handoff proximity` measures how completely the current Work environment has been converted into durable, independently recoverable successor authority.
 
-`Handoff proximity` now means clean-stop readiness: how close this environment is to a bounded, evidence-complete repository state from which the successor handoff/SNS can be generated immediately. Raw context pressure is not folded into this percentage. WEC reports transition pressure separately.
+It is not product completion, roadmap completion, CI progress, PR publication progress, SSJR progress, or an estimate of how long the current environment can continue.
 
-The percentage may decrease when a newly discovered blocker invalidates a later stage. It must not hover at 99% while unresolved failures, unknown broad gates or repository mutations remain.
+The metric is intentionally stable. It is computed from five repository-verifiable transfer pillars worth exactly 20 points each. A pillar is earned only when its evidence exists durably in repository state. Once earned during one handoff cycle, a pillar is append-only and must not be removed merely because later engineering work discovers a test failure, review finding, deployment problem, or new blocker. Those facts change the recorded work status and blocker; they do not erase already-established transfer recoverability.
 
-## Canonical stage gates
+## HTR-1 pillars
 
-Use `npm run work:proximity -- --stage <stage>` when a local shell is available. In connector-only environments, use the same stage table directly and cite the live evidence that justifies the stage.
+1. `durable-state` — 20 points
+   - All substantive current work is committed or otherwise durably checkpointed.
+   - No material implementation decision exists only in chat.
 
-| Stage | Canonical proximity | Required meaning |
-|---|---:|---|
-| `active-work` | 45% | Product/engineering work is still materially in progress. |
-| `targeted-validation` | 60% | The implementation batch exists and targeted validation/corrections are underway. |
-| `terminal-validation-pending` | 70% | The final local/contract preflight for the bounded batch has not yet reached terminal green. |
-| `terminal-validation-green` | 80% | The bounded batch passes its terminal local/contract preflight; publication-grade CI has not yet completed. |
-| `publication-gate-pending` | 85% | The exact publication candidate is frozen and the full required gate is running/pending. |
-| `publication-gate-green` | 90% | Every required publication workflow family is green on the same exact candidate head. |
-| `review-merge-ready` | 93% | Review is clean/resolved and expected-head protection has been reverified. |
-| `merged-main-verified` | 96% | Merge/publication completed and exact live main is independently verified. |
-| `post-publication-gate-pending` | 97% | Required post-publication/post-merge verification is running. |
-| `post-publication-green` | 98% | Required post-publication/post-merge verification is fully green. |
-| `handoff-package-sealed` | 99% | WEC/archive/SLE handoff package is fully sealed, no branch mutation remains, and only final owner-facing SNS emission/clean stop remains. |
-| `handoff-ready` | 100% | All repository work for the environment is complete and coherent; generate SNS immediately and stop. |
+2. `authority-snapshot` — 20 points
+   - Current live main, active branch/PR/head, runtime/deployment authority, readiness authority, and current lane are recorded with exact identifiers where available.
 
-A task that does not require PR/merge/deployment may skip inapplicable publication stages, but it may not claim a later stage until all evidence applicable to that task is complete.
+3. `open-work-classified` — 20 points
+   - Every known unresolved failure, blocker, rejected approach, or unfinished operation is explicitly classified.
+   - A known technical failure is compatible with this pillar when the failure is durably named with a safe next action. Hidden or unclassified failure is not.
 
-## Hard caps and anti-99 rules
+4. `successor-execution-contract` — 20 points
+   - The immediate next task, permanent locks, predecessor non-inheritance rule, first safe action, and scope stop are explicit enough for a fresh environment to resume without asking the owner to reconstruct context.
 
-1. Any unresolved meaningful failure caps Handoff proximity at 70%.
-2. Any atomic/unsafe-to-interrupt mutation caps it at 60%.
-3. Any unrecorded material decision caps it at 80%.
-4. Handoff recording below 90% completeness caps it at 85%.
-5. `99%` requires a `transition-prepared` or `closed` WEC, `handoffCompleteness: 100`, zero unresolved failures, zero unrecorded decisions and no atomic operation.
-6. `100%` has the same requirements as 99% plus live evidence that every applicable publication/post-publication gate is already complete. At 100%, generate the complete SNS immediately and stop before new product work.
-7. Never report 99% because “only CI remains” when CI can still reveal unclassified failures. Pending broad CI is 85% or 97% depending on whether it is pre-merge or post-merge.
-8. Never keep 99% unchanged after discovering a new blocker. Move back to the stage supported by current evidence.
+5. `sealed-transfer-package` — 20 points
+   - The WEC/archive, current pointers, canonical starter/deep handoff, and owner-facing SNS are coherent at one exact boundary.
+   - The WEC is `transition-prepared` or `closed`, `handoffCompleteness` is 100, `unrecordedDecisions` is 0, and `atomicOperation` is false.
 
-## CI and wording-loop prevention
+`Handoff proximity = 20 × number of earned HTR-1 pillars`.
 
-The project must not spend hours discovering one historical wording mismatch per full workflow fanout.
+Only these values are valid: `0`, `20`, `40`, `60`, `80`, `100`.
 
-1. Before opening a PR for an ordinary implementation batch, run the smallest targeted tests and `npm run test:handoff-preflight` when authority/handoff files changed. Open the PR only after that fast preflight is green when the environment has a usable local shell.
-2. In connector-only environments, inspect the whole failing assertion class before the next write and batch all coherent file changes into one Git tree/commit when the connector supports it. Do not create one commit per wording correction.
-3. Once a PR exists, stale workflow runs from prior heads are diagnostic history only. Publication authority comes only from the latest exact head.
-4. Do not run or wait for the entire permanent matrix after each tiny correction. Use targeted/preflight evidence to build the final candidate, then require the complete matrix once at the publication boundary.
-5. The final transition-prepared WEC seal remains the last branch mutation. If a later mutation occurs, the seal is invalid and must be regenerated.
+## Monotonicity rule
 
-## Product-work priority
+Within one handoff cycle, Handoff proximity is monotonic. Previously earned pillars remain earned. New engineering evidence can create a blocker that must be recorded, prevent the final transfer-package pillar until the package is coherent, or require a new successor task. It must not make the visible Handoff proximity bounce backward after transfer evidence already exists.
 
-This stage model works together with `00_BUILD_FIRST_PRODUCT_POLICY.md`. A normal focused session should spend roughly 75% of its effort building the playable product and 25% validating/maintaining it. The purpose of validation is to protect product work and make future building faster, not to become the dominant project activity.
+If a previously claimed pillar was factually false, correct the repository record and explicitly classify that as a metric-recording defect. Do not silently rewrite the percentage.
 
-For the current SSJR roadmap, once genuine production two-account Shared Setup evidence is accepted, move directly into the next authorized transfer/results/scoring product capability rather than extending the proof lane.
+## Meaning of 100%
+
+`Handoff proximity: 100%` means one thing only:
+
+> A fresh environment can resume immediately and safely from durable repository authority with no hidden chat-only dependency and no atomic operation abandoned in flight.
+
+It does not mean the current PR is merged, all tests are green, the product is complete, or SSJR is 100. An open PR or known failing check may be handed off at 100 when its exact state and safe next action are fully classified and the transfer package itself is sealed.
+
+At 100%, automatically provide the current repository-first SNS and stop before beginning another substantial milestone.
+
+## Reporting rule
+
+Every substantive project progress response keeps the owner’s standard line:
+
+`Handoff proximity: X%`
+
+The percentage must come from HTR-1 repository transfer state. Report engineering health separately through `Current lane`, `Next unlock`, and `Blocker`; never encode those changing technical conditions by arbitrarily moving Handoff proximity backward.
+
+No resource-budget, allowance, elapsed-session, context-budget, or similar capacity signal is an HTR-1 input. The visible percentage is derived exclusively from durable repository transfer evidence.
+
+## Tooling authority
+
+`scripts/handoff-proximity-stage.mjs` is the deterministic executable authority for HTR-1. `npm run work:proximity` reads `WORK_ENVIRONMENT_STATUS.json` and computes the score from its append-only `handoffTransferReadiness.earnedPillars` array.
+
+`npm run test:handoff-preflight` must remain green before claiming a newly sealed transfer package when the environment can run it. If a validation failure is the reason for handoff, record the exact failure and safe next action; do not disguise it as transfer unreadiness after the first four pillars have already been earned.
+
+This policy is recursive. Every successor environment inherits HTR-1 unless the owner explicitly replaces it with a later deterministic repository-state model.

@@ -1,31 +1,41 @@
-# CURRENT HANDOFF — PR207 RECORDER POST-MERGE GREEN / GENUINE PRODUCTION-TWO-ACCOUNT SSJR CAPTURE NEXT
+# CURRENT HANDOFF — PR210 POST-MERGE GREEN / PRODUCTION OBSERVER DEPLOYED / PRIVATE TWO-ACCOUNT SSJR NEXT
 
-Work Environment Continuity (WEC) is mandatory for every successor environment.
-
-Owner build-first policy is repository authority at `00_BUILD_FIRST_PRODUCT_POLICY.md`: default focused-session allocation is approximately 75% actual product implementation and 25% validation/maintenance/continuity, with targeted checks during building and the full permanent matrix reserved for publication, release/security boundaries, or demonstrated regressions.
-
-Owner Handoff proximity override V2 is repository authority at `00_HANDOFF_PROXIMITY_STAGE_GATES.md`. Handoff proximity measures clean-stop readiness: unresolved terminal failures cannot exceed 70%; pending publication CI is 85%; post-publication green is 98%; 99% requires the sealed SLE/WEC package with no repository mutation left; 100% means SNS can be generated immediately and the environment stops.
+Work Environment Continuity (WEC) is mandatory for every successor environment. SLE = Smart Lean Efficient.
 
 SSJR-1.1 is the current engineering model and follows the completed RJR-1 prerequisite at `100/100`, published by PR #198 after final stable release acceptance. SSJR-1.1 remains evidence-backed `0/100`; PR/CI/review/merge/deployment/WEC/SLE/SNS, recorder success, validator success, and synthetic evidence earn zero SSJR without genuine production-two-account whole-capability evidence.
 
 Historical immutable checkpoint only: PR191/RJR91 is retained solely as provenance and is not current execution authority. Later physical and final stable Remote Joining release acceptance completed RJR-1 at 100/100 and remain consumed absent a proven regression.
 
-PR #207 `SSJR: add privacy-safe production evidence recorder` is merged and post-merge green. Final reviewed head `c6bf6b2cb0d492f2da727b8591e8fb7f118e3db6`; exact tree `eed8b9c21bcb814a36d96ff43af93bf129a3766c`; expected-head merge/current main `791b5f9ad48e8d6d5623fd7271300f7266cfae1e`; main tree `eed8b9c21bcb814a36d96ff43af93bf129a3766c`; exact-head 15/15; zero review threads; post-merge 15/15. Stability run `34041920689` is green on attempt 2 after the first attempt isolated one nonreproducing deployed Save Library reduced-motion focus assertion; unchanged `1.9.1-r3` bytes then passed that exact path and the complete deployed journey. No runtime hotfix was justified.
+Production remains DEPLOYED / PRODUCTION-PROVEN `v1.9.1 / 1.9.1-r3` from PR #203 merge `65d88b1b413501b328bdf722bc6e8a0aa0d46ef2`. Production Shared Setup Rules remain Firebase Spark ruleset `73b4435e-85a8-49f9-92ef-8ffe3ce0f91c`, exact generated-source blob `5bcde9297f6b2927a2184605192ab5b6cd46fb29`. Billing remains permanently OFF.
 
-PR207 publishes `scripts/record-ssjr-shared-setup-production-evidence.mjs`, an stdin-only privacy-safe recorder. Raw account/device/rivalry/session values are hashed in memory and never emitted; recorder contracts are permanently wired into `test:contracts` and `test:ssjr`.
+PR #207 remains the stdin-only privacy-safe evidence recorder authority. PR #205 remains the strict pair-validator authority.
 
-PR #205 remains strict pair-validator authority through `scripts/validate-ssjr-shared-setup-production-evidence.mjs`. Production remains DEPLOYED / PRODUCTION-PROVEN `v1.9.1 / 1.9.1-r3`; runtime/provider authority remains PR #203 merge `65d88b1b413501b328bdf722bc6e8a0aa0d46ef2`, exact head `1f9ccf781354f22cf56a16f816500c7df017d3b8`. Historical rollback/publication lineage only: `v1.9.1 / 1.9.1-r2` was the previous known-good whole-shell recovery runtime at the PR #194 boundary; PR #198 later published the fixed RJR-1 `100/100` evidence after final stable release acceptance. This r2/PR198 lineage is not current runtime authority and must not be re-credited. Production Shared Setup Rules remain Firebase Spark `cloud.firestore` ruleset `73b4435e-85a8-49f9-92ef-8ffe3ce0f91c`, generated-source blob `5bcde9297f6b2927a2184605192ab5b6cd46fb29`. Billing remains permanently OFF.
+PR #209 published the read-only exact three-key canonical-storage observer. Final head `215831180a5a61d6a86be3f37feecfc5a47db53d`; merge `e4d5321cee548c2cfe29253559bd4419fa019dd7`.
+
+PR #210 fixed Pages staging and the cached-404 edge case. Final reviewed head `c863e1c2506bf34ff9521ed22bd989c221b437a6`; tree `85b9350bd7ac6f708b5bc7d303ad23d354fa1ac0`; expected-head squash merge `a1b4a34f8a2abcc4e361c4239da684ace9a4a40a`; exact-head `15/15`; one P2 review finding fixed and sole thread resolved; post-merge push `15/15`; Stability `34060301345` fully green through complete deployed journey; Pages `34060301380` green. Artifact `9997244445` proves both acceptance host and observer bytes are in the deployed package. Host uses `acceptance/ssjrProductionStorageObservation.js?v=20260906-a54` to bypass the preceding unversioned cached miss.
+
+Closing WEC is `we-2026-09-06-pr211-recovery-private-setup-a54`. The recovered a52 usage guard remains supplemental branch-only provenance and does not replace a51 as a53's sealed mainline predecessor.
+
+Historical rollback/publication lineage only: `v1.9.1 / 1.9.1-r2` was the previous known-good whole-shell recovery runtime at the PR #194 boundary; PR #198 later published the fixed RJR-1 `100/100` evidence after final stable release acceptance. This r2/PR198 lineage is not current runtime authority and must not be re-credited.
 
 Permanent Firebase control-plane inheritance remains mandatory: `00_FIREBASE_PERMANENT_ZERO_BILLING_CONTROL_PLANE.md`, `HANDOFF_FIREBASE_CONTROL_PLANE_PERMANENT_ACCESS_ADDENDUM_2026-09-01.md`, and `.github/workflows/deploy-firestore-rules-zero-billing.yml`. The workflow may use repository secret `FIREBASE_RULES_SERVICE_ACCOUNT_JSON` only on its reviewed main-only Firestore Rules path. Firebase remains Spark and billing remains permanently forbidden. Never extract or paste provider credentials into chat or source.
 
+Active PR #211 recovery: `PR211_RECOVERY_CHECKPOINT.md`; fresh WEC `we-2026-09-06-pr211-recovery-private-setup-a54`. Finish its exact-head gates before production-two-account execution.
+
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
-Validate/archive sealed WEC `we-2026-09-06-ssjr-production-shared-setup-a51`, initialize a fresh unique WEC, then obtain genuine production-two-account Shared Setup observations on deployed r3. Use two legitimate private manager accounts and two distinct registered browser identities. Exact Connected Rivalry pairing + exact ACTIVE must precede league/clubs. For each manager, feed the private observation only through stdin to `npm run record:ssjr-production-shared-setup`; retain only the privacy-safe output. Then validate both outputs with `npm run validate:ssjr-production-shared-setup -- <player-one-evidence.json> <player-two-evidence.json>`.
+Validate/archive the inherited WEC, initialize a fresh unique WEC, then obtain genuine production-two-account Shared Setup observations on deployed r3 using two legitimate private manager accounts and two genuinely distinct registered browser/device identities. Exact Connected Rivalry pairing + exact ACTIVE must precede league/clubs.
 
-The pair must prove one authoritative league, two distinct permanent same-league clubs, supported 1/3/5/10 season length, dual confirmation through exact `SHOWDOWN_CONFIRMED` revision 6, identical reload/fresh-session resume without redraw, all eight required adverse denials for each manager, and unchanged canonical local saves. Do not loosen the recorder or validator to make evidence pass.
+Use the deployed read-only observer only transiently for the exact three-key canonical snapshot. Pipe each complete private observation only through stdin to `npm run record:ssjr-production-shared-setup`; retain only privacy-safe outputs. Validate the pair with `npm run validate:ssjr-production-shared-setup -- <player-one-evidence.json> <player-two-evidence.json>`.
 
-Do not start transfer/results/scoring transport until this evidence boundary is genuinely credited or a concrete production blocker is isolated. Once accepted, return immediately to product-building under `00_BUILD_FIRST_PRODUCT_POLICY.md`.
+The pair must prove exact `SHOWDOWN_CONFIRMED` revision 6, authoritative league/two distinct same-league clubs/supported season length, reload and fresh ACTIVE same-rivalry continuity without redraw, all eight adverse/modified-client denials for both managers, and unchanged canonical gameplay storage. Do not weaken the recorder or validator.
+
+The only irreducible owner/private boundary is authenticating the second legitimate manager on a genuinely independent registered browser/device and performing the real two-sided production interactions. Automate and sanitize everything else; never ask the owner to paste raw private identifiers into chat.
+
+Do not begin transfer/results/scoring transport until this Shared Setup evidence boundary is genuinely credited or a concrete blocker is isolated. Once accepted, return immediately to product-building under `00_BUILD_FIRST_PRODUCT_POLICY.md`.
 
 Permanent locks: Billing must never be activated. Firebase remains Spark. App Check enforcement remains OFF. Firestore browser persistence memory-only. Google Auth popup-only `browserSessionPersistence` with no extra scopes. Exactly two private managers. Candidate C remains the sole destructive remote-to-local gameplay Apply authority with transaction-owned strict exact raw-snapshot rollback. Canonical localStorage remains exactly the three approved keys. No public discovery/listing/lobby/matchmaking/community/rankings/global leaderboards. Consumed RJR two-device/two-independent-network acceptance must not be repeated absent a proven regression.
 
-SLE = Smart Lean Efficient. Starter: `START_NEXT_SESSION_V1.4.52_PR207_POSTMERGE_GREEN_SSJR_PRODUCTION_TWO_ACCOUNT_NEXT.md`. Deep handoff: `SUCCESSOR_HANDOFF_PR207_POSTMERGE_GREEN_SSJR_PRODUCTION_TWO_ACCOUNT_NEXT_SLE_2026-09-06.md`. Estimated focused sessions to genuine SSJR100: ~5–10.
+Starter: `START_NEXT_SESSION_V1.4.55_PR211_RECOVERY_PRIVATE_TWO_ACCOUNT_NEXT.md`. Deep handoff: `SUCCESSOR_HANDOFF_PR211_RECOVERY_PRIVATE_TWO_ACCOUNT_NEXT_SLE_2026-09-06.md`. Estimated focused sessions to genuine SSJR100: ~5–10.
+
+Current PR #211 source seal: correction `7d131703eaf559b33ce2f418acf76404008edbbd`; final exact-head CI/merge/post-merge results must be verified live. The a54 archive records a genuine private-account blocker, zero SSJR credit, and the owner requirement to generate an SNS after every substantial task. HTR-1 alone defines transfer readiness; older stage/CI percentage language is superseded.
