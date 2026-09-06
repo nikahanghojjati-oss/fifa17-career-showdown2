@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "environmentId": "we-2026-09-05-ssjr-provider-adapter-a48",
   "lifecycle": "active",
-  "recordedAt": "2026-09-06T00:28:00Z",
+  "recordedAt": "2026-09-06T00:34:00Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -17,11 +17,11 @@
     "projectComplexity": "high",
     "compactionCount": 1,
     "majorPhasesCompleted": 1,
-    "largeEvidenceEvents": 3,
+    "largeEvidenceEvents": 4,
     "toolRoutingErrors": 1,
-    "correctedFailures": 2,
+    "correctedFailures": 4,
     "repeatedMistakes": 0,
-    "staleFactCorrections": 2,
+    "staleFactCorrections": 4,
     "unresolvedFailures": 0,
     "newMilestoneNext": false,
     "usageRemainingPercent": null,
@@ -33,13 +33,13 @@
   },
   "assessment": {
     "decision": "CONTINUE",
-    "reason": "Fresh successor independently verified the inherited PR199/RJR100 authority, implemented the bounded Spark Shared Setup provider candidate, added candidate Rules and direct modified-client emulator coverage, then corrected exact-session identity, caller-controlled catalog bias, cross-manager replay, repository-wide helper uniqueness and stale predecessor/successor WEC-test assumptions without weakening gates. PR201 exact-head CI remains the current safe publication lane.",
+    "reason": "Fresh successor independently verified the inherited PR199/RJR100 authority, implemented the bounded Spark Shared Setup provider candidate, added candidate Rules and direct modified-client emulator coverage, then corrected exact-session identity, caller-controlled catalog bias, cross-manager replay, repository-wide helper uniqueness and stale predecessor/successor continuity assumptions without weakening gates. PR201 exact-head CI remains the current safe publication lane.",
     "decisionInheritedFromPredecessor": false,
     "usageExcludedBecauseUnavailable": true
   },
   "continuity": {
     "currentTask": "Finish PR201 exact-head validation of the Spark-compatible Shared Remote Setup provider adapter, immutable repository-owned draw catalog, candidate Firestore Rules and automated modified-client emulator negatives.",
-    "lastSafeCheckpoint": "PR201 is open from branch codex/ssjr-spark-provider-adapter. Candidate provider authority is bound inside Firestore transactions to signed-in account, active registered device, exact active two-manager rivalry and exact ACTIVE session; caller catalog input is ignored; idempotent replay is actor-role-bound; production firestore.spark.rules and production runtime remain unchanged. Provider boundary contracts pass inside the repository contract suite. The first two CI iterations exposed and led to corrections for repository-wide helper-name uniqueness and stale successor-WEC contract assumptions.",
+    "lastSafeCheckpoint": "PR201 is open from branch codex/ssjr-spark-provider-adapter. Candidate provider authority is bound inside Firestore transactions to signed-in account, active registered device, exact active two-manager rivalry and exact ACTIVE session; caller catalog input is ignored; idempotent replay is actor-role-bound; production firestore.spark.rules and production runtime remain unchanged. Provider boundary contracts pass inside the repository contract suite. CI has exposed and led to corrections for helper-name uniqueness plus several stale predecessor-versus-successor continuity assumptions.",
     "nextSafeAction": "Run all 15 existing PR workflow families on the newest exact PR201 head. Inspect the Validate Stage 3 Private Pairing job specifically to prove both Shared Setup emulator suites execute green. Repair failures without weakening Rules, SSJR gates or WEC semantics; only then review and expected-head merge PR201.",
     "unfinishedWork": [
       "Obtain a fresh all-15 exact-head green PR201 workflow set including the Shared Setup provider emulator matrix.",
@@ -55,11 +55,13 @@
       "Pairing and exact ACTIVE session must precede league or club selection in provider authority and final UI.",
       "A fresh ACTIVE session for the same rivalry must resume existing Shared Setup and never reset the competition.",
       "Never trust caller-supplied authority, role/binding fields, client-computed hashes, caller-supplied draw catalogs or repeated client-side draw preparation as provider authority.",
-      "The consumed two-device/two-network RJR physical acceptance must not be repeated unless a proven regression invalidates it."
+      "The consumed two-device/two-network RJR physical acceptance must not be repeated unless a proven regression invalidates it.",
+      "The predecessor a47 HANDOFF_NOW decision is historical closing-environment-only authority. Fresh successor a48 must not inherit predecessor transition authority and independently owns CONTINUE until its own WEC assessment changes."
     ],
     "evidenceNotes": [
       "RJR-1 remains frozen at 100/100 and SSJR-1.1 remains 0/100; candidate implementation and automation remove dependencies but earn no SSJR credit by themselves.",
       "Production source authority remains application v1.9.1 with runtime asset revision 1.9.1-r2; PR201 intentionally does not alter production runtime or production Firestore Rules.",
+      "The sealed a47 predecessor archive remains immutable orientation evidence; current successor a48 is intentionally divergent and decisionInheritedFromPredecessor remains false.",
       "Exact eight-line SSJR reporting remains mandatory."
     ]
   }
