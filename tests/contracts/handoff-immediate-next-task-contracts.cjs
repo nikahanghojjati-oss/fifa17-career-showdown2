@@ -10,7 +10,7 @@ const docs=[["00_CURRENT_HANDOFF",read("00_CURRENT_HANDOFF.md")],["NEXT_TASK",re
 assert.equal(readiness.modelVersion,"RJR-1"); assert.equal(readiness.currentScore,100); assert.equal(readiness.denominator,100);
 assert.equal(ssjr.currentScore,0); assert.equal(ssjr.denominator,100);
 assert.equal(bootstrap.runtime?.applicationVersion,"1.9.1"); assert.equal(bootstrap.runtime?.productionRuntimeRevision,"1.9.1-r3");
-assert.equal(bootstrap.starter?.version,"1.4.54");
+assert.equal(bootstrap.starter?.version,"1.4.55");
 assert.equal(bootstrap.currentPublicationCheckpoint?.pullRequest,210);
 assert.match(bootstrap.currentPublicationCheckpoint?.state,/postmerge-green.*observer.*proven/i);
 assert.equal(bootstrap.currentPublicationCheckpoint?.finalSealedHead,"c863e1c2506bf34ff9521ed22bd989c221b437a6");
@@ -43,12 +43,12 @@ for(const [name,text] of docs){
 }
 const closingId=bootstrap.currentWec?.environmentId;
 const closingArchive=bootstrap.currentWec?.archive||bootstrap.currentWec?.plannedArchive;
-assert.equal(closingId,"we-2026-09-06-ssjr-production-storage-observation-a53");
+assert.equal(closingId,"we-2026-09-06-pr211-recovery-private-setup-a54");
 assert.equal(wec.signals?.unresolvedFailures,0);
 assert.equal(wec.assessment?.decisionInheritedFromPredecessor,false);
 if(wec.lifecycle==="active" && wec.environmentId!==closingId){
- assert.equal(wec.repository?.predecessorEnvironmentId,closingId,"fresh active successor must descend from sealed a53");
- assert.equal(wec.repository?.predecessorArchive,closingArchive,"fresh active successor must point to the exact a53 archive");
+ assert.equal(wec.repository?.predecessorEnvironmentId,closingId,"fresh active successor must descend from sealed a54");
+ assert.equal(wec.repository?.predecessorArchive,closingArchive,"fresh active successor must point to the exact a54 archive");
  assert.equal(wec.assessment?.decision,"CONTINUE");
 }else if(wec.lifecycle==="active"){
  assert.equal(wec.environmentId,closingId);
@@ -58,12 +58,12 @@ if(wec.lifecycle==="active" && wec.environmentId!==closingId){
  assert.equal(wec.environmentId,closingId);
  assert.equal(wec.lifecycle,"transition-prepared");
  assert.equal(wec.signals?.handoffCompleteness,100);
- assert.equal(wec.assessment?.decision,"HANDOFF_NOW");
+ assert.equal(wec.assessment?.decision,"HANDOFF_AT_CHECKPOINT");
  const archived=json(closingArchive);
  assert.equal(archived.environmentId,wec.environmentId);
  assert.equal(archived.lifecycle,"transition-prepared");
  assert.equal(archived.signals?.handoffCompleteness,100);
- assert.equal(archived.assessment?.decision,"HANDOFF_NOW");
+ assert.equal(archived.assessment?.decision,"HANDOFF_AT_CHECKPOINT");
 }
 const next=read("NEXT_TASK.md");
 assert.match(next,/Connected Rivalry[\s\S]+ACTIVE[\s\S]+league/i);
@@ -71,4 +71,4 @@ assert.match(next,/two legitimate private manager|production-two-account|product
 assert.match(next,/record:ssjr-production-shared-setup/i);
 assert.match(next,/validate:ssjr-production-shared-setup/i);
 assert.match(next,/Do not begin transfer\/results\/scoring|Do not start transfer\/results\/scoring/i);
-process.stdout.write("PASS current authority: PR210/PR209 observer deployment is post-merge green, PR207 recorder and PR205 validator remain strict authorities, PR203 remains r3 runtime authority, RJR100 is frozen, SSJR-1.1 remains 0/100, sealed/current a53 is bootstrap authority, and a fresh active successor WEC is permitted.\n");
+process.stdout.write("PASS current authority: PR210/PR209 observer deployment is post-merge green, PR207 recorder and PR205 validator remain strict authorities, PR203 remains r3 runtime authority, RJR100 is frozen, SSJR-1.1 remains 0/100, sealed/current a54 is bootstrap authority, and a fresh active successor WEC is permitted.\n");

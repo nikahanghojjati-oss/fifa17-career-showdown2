@@ -25,7 +25,7 @@ The Installable Offline App, v1.3.0 Recovery & Device Resilience baseline, Local
 
 Current environment: `we-2026-09-06-pr211-recovery-private-setup-a54`
 Starting independently verified live main: `a1b4a34f8a2abcc4e361c4239da684ace9a4a40a`
-Closing environment: `we-2026-09-06-ssjr-production-storage-observation-a53`.
+Closing environment: `we-2026-09-06-pr211-recovery-private-setup-a54`.
 
 Historical compatibility marker only; the line inside this comment is not current execution authority:
 <!--
@@ -56,3 +56,5 @@ Do not start transfer/results/scoring before this Shared Setup evidence boundary
 Permanent locks: Billing must never be activated and Firebase remains Spark. App Check enforcement remains OFF. Firestore browser persistence remains memory-only. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes. Canonical localStorage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, `careerModeShowdown.preferences`. Candidate C remains the sole destructive remote-to-local gameplay Apply authority with transaction-owned strict exact raw-snapshot rollback. Exactly two private managers. No public discovery/listing/lobby/matchmaking/community/rankings/global leaderboards. Never durably retain raw private capabilities or raw account/device/rivalry/session/pairing IDs.
 
 Estimated focused sessions to genuine SSJR100: ~5–10.
+
+At interruption or task completion, generate a fresh SNS even below HTR-1 100. Current compact starter: `START_NEXT_SESSION_V1.4.55_PR211_RECOVERY_PRIVATE_TWO_ACCOUNT_NEXT.md`. The a54 source seal defers its own final CI/merge result to live GitHub. No genuine two-account evidence has been obtained.

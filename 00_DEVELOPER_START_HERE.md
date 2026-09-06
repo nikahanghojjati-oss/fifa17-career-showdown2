@@ -12,7 +12,7 @@ PR #209 published the read-only exact three-key production storage observer. PR 
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
-Validate/archive closing WEC `we-2026-09-06-ssjr-production-storage-observation-a53`, initialize a fresh unique WEC, then obtain genuine production-two-account Shared Setup observations. Use two legitimate manager accounts and two genuinely distinct registered browser/device identities. Exact Connected Rivalry pairing + exact ACTIVE must precede league/clubs.
+Validate/archive closing WEC `we-2026-09-06-pr211-recovery-private-setup-a54`, initialize a fresh unique WEC, then obtain genuine production-two-account Shared Setup observations. Use two legitimate manager accounts and two genuinely distinct registered browser/device identities. Exact Connected Rivalry pairing + exact ACTIVE must precede league/clubs.
 
 Use the observer only transiently for the exact canonical three-key snapshot; clear it immediately. Pipe each complete private observation through `npm run record:ssjr-production-shared-setup`, retain only privacy-safe output, and validate the pair through `npm run validate:ssjr-production-shared-setup -- <player-one-evidence.json> <player-two-evidence.json>`.
 
@@ -28,4 +28,6 @@ GitHub CLI bootstrap remains repository-owned through `npm run work:gh:bootstrap
 
 Permanent locks: Billing must never be activated. Firebase remains Spark. App Check enforcement OFF. Firestore persistence memory-only. Google Auth popup-only `browserSessionPersistence` with no extra scopes. Exactly two private managers. Candidate C remains sole destructive remote-to-local Apply authority with transaction-owned strict exact raw-snapshot rollback. Canonical localStorage exactly three approved keys. No public discovery/listing/lobby/matchmaking/community/rankings/global leaderboards. Consumed RJR physical acceptance is not repeated absent a proven regression.
 
-SLE = Smart Lean Efficient. Starter: `START_NEXT_SESSION_V1.4.54_PR210_POSTMERGE_GREEN_SSJR_PRIVATE_TWO_ACCOUNT_NEXT.md`. Deep handoff: `SUCCESSOR_HANDOFF_PR210_POSTMERGE_GREEN_SSJR_PRIVATE_TWO_ACCOUNT_NEXT_SLE_2026-09-06.md`. Preserve the exact eight-line SSJR reporting block and current ~5–10 focused-session estimate.
+SLE = Smart Lean Efficient. Starter: `START_NEXT_SESSION_V1.4.55_PR211_RECOVERY_PRIVATE_TWO_ACCOUNT_NEXT.md`. Deep handoff: `SUCCESSOR_HANDOFF_PR211_RECOVERY_PRIVATE_TWO_ACCOUNT_NEXT_SLE_2026-09-06.md`. Preserve the exact eight-line SSJR reporting block and current ~5–10 focused-session estimate.
+
+Current PR #211 source seal: correction `7d131703eaf559b33ce2f418acf76404008edbbd`; final exact-head CI/merge/post-merge results must be verified live. The a54 archive records a genuine private-account blocker, zero SSJR credit, and the owner requirement to generate an SNS after every substantial task. HTR-1 alone defines transfer readiness; older stage/CI percentage language is superseded.
