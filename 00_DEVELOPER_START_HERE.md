@@ -22,6 +22,8 @@ The only irreducible owner/private boundary is the second legitimate account on 
 
 Do not begin transfer/results/scoring transport until the evidence boundary is resolved. Once accepted, return immediately to product-building.
 
+The Installable Offline App, v1.3.0 Recovery & Device Resilience baseline, Local Profiles and Save Library remain protected shipped foundations and must not be reopened absent a demonstrated regression.
+
 GitHub CLI bootstrap remains repository-owned through `npm run work:gh:bootstrap`; preserve its release checksum verification. Connected GitHub App access remains connector-first and credentials must never be extracted, copied, or repurposed.
 
 Permanent locks: Billing must never be activated. Firebase remains Spark. App Check enforcement OFF. Firestore persistence memory-only. Google Auth popup-only `browserSessionPersistence` with no extra scopes. Exactly two private managers. Candidate C remains sole destructive remote-to-local Apply authority with transaction-owned strict exact raw-snapshot rollback. Canonical localStorage exactly three approved keys. No public discovery/listing/lobby/matchmaking/community/rankings/global leaderboards. Consumed RJR physical acceptance is not repeated absent a proven regression.
