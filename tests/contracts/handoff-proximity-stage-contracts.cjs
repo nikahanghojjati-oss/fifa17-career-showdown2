@@ -5,47 +5,77 @@ const { pathToFileURL } = require("node:url");
 
 (async () => {
   const moduleUrl = pathToFileURL(path.resolve("scripts/handoff-proximity-stage.mjs")).href;
-  const { computeHandoffProximity, stageScores } = await import(moduleUrl);
+  const { computeHandoffProximity, model, orderedPillars, pillarScores } = await import(moduleUrl);
 
-  const base = {
+  assert.equal(model, "HTR-1");
+  assert.deepEqual(orderedPillars, [
+    "durable-state",
+    "authority-snapshot",
+    "open-work-classified",
+    "successor-execution-contract",
+    "sealed-transfer-package"
+  ]);
+  assert.ok(orderedPillars.every(pillar => pillarScores[pillar] === 20));
+
+  const state = {
     lifecycle: "active",
     signals: {
-      handoffCompleteness: 100,
-      unresolvedFailures: 0,
+      handoffCompleteness: 80,
+      unresolvedFailures: 3,
       unrecordedDecisions: 0,
       atomicOperation: false
+    },
+    handoffTransferReadiness: {
+      model: "HTR-1",
+      earnedPillars: [
+        "durable-state",
+        "authority-snapshot",
+        "open-work-classified",
+        "successor-execution-contract"
+      ]
     }
   };
 
-  assert.equal(stageScores["terminal-validation-pending"], 70);
-  assert.equal(stageScores["handoff-package-sealed"], 99);
-  assert.equal(stageScores["handoff-ready"], 100);
-  assert.equal(computeHandoffProximity(base, "active-work").score, 45);
-  assert.equal(computeHandoffProximity(base, "publication-gate-pending").score, 85);
+  const eighty = computeHandoffProximity(state);
+  assert.equal(eighty.score, 80);
+  assert.equal(eighty.ready, false);
+  assert.deepEqual(eighty.remainingPillars, ["sealed-transfer-package"]);
 
-  const failing = structuredClone(base);
-  failing.signals.unresolvedFailures = 1;
-  assert.equal(computeHandoffProximity(failing, "post-publication-green").score, 70, "Unresolved failures must prevent a misleading high-90s proximity.");
+  const moreFailures = structuredClone(state);
+  moreFailures.signals.unresolvedFailures = 99;
+  assert.equal(
+    computeHandoffProximity(moreFailures).score,
+    80,
+    "A newly discovered but already classified technical failure must not erase established transfer readiness."
+  );
 
-  const atomic = structuredClone(base);
-  atomic.signals.atomicOperation = true;
-  assert.equal(computeHandoffProximity(atomic, "publication-gate-green").score, 60, "Atomic work must cap proximity before the high end.");
+  const incomplete = structuredClone(state);
+  incomplete.handoffTransferReadiness.earnedPillars = ["durable-state", "authority-snapshot"];
+  assert.equal(computeHandoffProximity(incomplete).score, 40);
 
-  const incomplete = structuredClone(base);
-  incomplete.signals.handoffCompleteness = 80;
-  assert.equal(computeHandoffProximity(incomplete, "post-publication-green").score, 85, "Incomplete handoff recording must cap proximity.");
+  const invalidSeal = structuredClone(state);
+  invalidSeal.handoffTransferReadiness.earnedPillars.push("sealed-transfer-package");
+  assert.throws(() => computeHandoffProximity(invalidSeal), /transition-prepared or closed/);
 
-  assert.throws(() => computeHandoffProximity(base, "handoff-package-sealed"), /transition-prepared or closed/);
-  const sealed = structuredClone(base);
+  const sealed = structuredClone(invalidSeal);
   sealed.lifecycle = "transition-prepared";
-  assert.equal(computeHandoffProximity(sealed, "handoff-package-sealed").score, 99);
-  assert.equal(computeHandoffProximity(sealed, "handoff-ready").score, 100);
+  sealed.signals.handoffCompleteness = 100;
+  assert.equal(computeHandoffProximity(sealed).score, 100);
+  assert.equal(computeHandoffProximity(sealed).ready, true);
+
+  const duplicate = structuredClone(state);
+  duplicate.handoffTransferReadiness.earnedPillars.push("durable-state");
+  assert.throws(() => computeHandoffProximity(duplicate), /duplicates/);
 
   const policy = fs.readFileSync("00_HANDOFF_PROXIMITY_STAGE_GATES.md", "utf8");
-  assert.match(policy, /99%[\s\S]+handoff package/i);
-  assert.match(policy, /100%[\s\S]+SNS/i);
-  assert.match(policy, /must not hover at 99%/i);
-  assert.match(policy, /test:handoff-preflight/i);
+  assert.match(policy, /five repository-verifiable transfer pillars worth exactly 20 points each/i);
+  assert.match(policy, /Within one handoff cycle, Handoff proximity is monotonic/i);
+  assert.match(policy, /open PR or known failing check may be handed off at 100/i);
+  assert.match(policy, /fresh environment can resume immediately and safely from durable repository authority/i);
+  assert.match(policy, /It does not mean the current PR is merged, all tests are green, the product is complete, or SSJR is 100/i);
+  assert.match(policy, /At 100%[\s\S]+SNS[\s\S]+stop before beginning another substantial milestone/i);
+  assert.match(policy, /derived exclusively from durable repository transfer evidence/i);
+  assert.doesNotMatch(policy, /dashboard|cli \/status|remaining percentage/i);
 
   const buildFirst = fs.readFileSync("00_BUILD_FIRST_PRODUCT_POLICY.md", "utf8");
   assert.match(buildFirst, /atomic multi-file tree commit/i);
@@ -56,7 +86,7 @@ const { pathToFileURL } = require("node:url");
   assert.equal(pkg.scripts["work:proximity"], "node scripts/handoff-proximity-stage.mjs");
   assert.equal(pkg.scripts["test:handoff-preflight"], "node tests/support/run-handoff-preflight.cjs");
 
-  process.stdout.write("PASS stage-gated Handoff proximity: high-90s require bounded publication/handoff evidence and 100 is reserved for immediate SNS-ready clean stop.\n");
+  process.stdout.write("PASS HTR-1 Handoff proximity: five append-only repository transfer pillars produce a deterministic monotonic 0/20/40/60/80/100 score and 100 means safe successor recoverability.\n");
 })().catch(error => {
   process.stderr.write(`${error.stack || error.message}\n`);
   process.exitCode = 1;

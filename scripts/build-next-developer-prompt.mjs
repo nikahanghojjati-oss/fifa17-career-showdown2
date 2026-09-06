@@ -16,10 +16,12 @@ function buildNextDeveloperPrompt(bootstrap = readBootstrap()){
   }
   return [
     `Open the live repository \`${repository}\` and read \`${starter}\` first.`,
-    "Follow its SLE/deep references as needed.",
+    ...(bootstrap.successorPackage?.handoffBranch ? [`If that starter is not on main, fetch the live handoff branch \`${bootstrap.successorPackage.handoffBranch}\`.`] : []),
+    "Follow its SLE/deep references as needed, including `00_HANDOFF_PROXIMITY_STAGE_GATES.md` for HTR-1.",
     "Independently verify current `main`, relevant PR state, production/runtime/deployment state, `REMOTE_JOINING_READINESS.json`, `SHARED_SHOWDOWN_JOURNEY_READINESS.json`, `NEXT_TASK.md`, and the closing WEC.",
-    "Then initialize a fresh WEC and execute `IMMEDIATE NEXT TASK AFTER FULL STUDY`.",
-    "Treat the handoff as orientation only; current source and live GitHub/provider/deployment evidence win."
+    "Validate/archive the inherited WEC, then initialize a fresh WEC with a unique ID without inheriting its transition decision and execute `IMMEDIATE NEXT TASK AFTER FULL STUDY`.",
+    "Treat the handoff as orientation only; current source and live GitHub/provider/deployment evidence win.",
+    "Billing must remain permanently OFF and Firebase must remain Spark. Generate an SNS after every substantial task; do not wait for HTR-1 100."
   ].join(" ");
 }
 
