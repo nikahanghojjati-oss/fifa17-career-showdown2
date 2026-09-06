@@ -31,13 +31,18 @@ assert.equal(bootstrap.historicalPr209PublicationCheckpoint?.pullRequest,209);
 assert.equal(bootstrap.historicalPr207PublicationCheckpoint?.pullRequest,207);
 assert.equal(bootstrap.historicalPr205PublicationCheckpoint?.pullRequest,205);
 assert.equal(bootstrap.lastProductionProvenRuntime?.pullRequest,203);
-assert.equal(wec.environmentId,"we-2026-09-06-ssjr-production-storage-observation-a53");
+const closingId=bootstrap.currentWec?.environmentId;
+const closingArchive=bootstrap.currentWec?.archive||bootstrap.currentWec?.plannedArchive;
+assert.equal(closingId,"we-2026-09-06-ssjr-production-storage-observation-a53");
 assert.equal(wec.signals?.unresolvedFailures,0);
-if(wec.lifecycle==="active"){
+if(wec.lifecycle==="active" && wec.environmentId!==closingId){
+ assert.equal(wec.repository?.predecessorEnvironmentId,closingId);
+ assert.equal(wec.repository?.predecessorArchive,closingArchive);
  assert.equal(wec.assessment?.decision,"CONTINUE");
+}else if(wec.lifecycle==="active"){
+ assert.equal(wec.environmentId,closingId); assert.equal(wec.assessment?.decision,"CONTINUE");
 }else{
- assert.equal(wec.lifecycle,"transition-prepared"); assert.equal(wec.signals?.handoffCompleteness,100); assert.equal(wec.assessment?.decision,"HANDOFF_NOW");
- const archivePath=bootstrap.currentWec.archive||bootstrap.currentWec.plannedArchive; const archived=json(archivePath);
- assert.equal(archived.environmentId,wec.environmentId); assert.equal(archived.lifecycle,"transition-prepared"); assert.equal(archived.signals?.handoffCompleteness,100);
+ assert.equal(wec.environmentId,closingId); assert.equal(wec.lifecycle,"transition-prepared"); assert.equal(wec.signals?.handoffCompleteness,100); assert.equal(wec.assessment?.decision,"HANDOFF_NOW");
+ const archived=json(closingArchive); assert.equal(archived.environmentId,wec.environmentId); assert.equal(archived.lifecycle,"transition-prepared"); assert.equal(archived.signals?.handoffCompleteness,100);
 }
-process.stdout.write("PASS SLE packaging: mirrored v1.4.54 PR210/PR209 observer package preserves PR207 recorder, PR205 validator, PR203 r3 production authority, frozen RJR100/SSJR0, a53 WEC, and genuine private two-account successor task without billing.\n");
+process.stdout.write("PASS SLE packaging: mirrored v1.4.54 PR210/PR209 observer package preserves PR207 recorder, PR205 validator, PR203 r3 production authority, frozen RJR100/SSJR0, sealed/current a53 bootstrap authority, and permits a fresh successor WEC.\n");

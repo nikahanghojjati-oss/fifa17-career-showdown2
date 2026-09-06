@@ -41,19 +41,25 @@ for(const [name,text] of docs){
  assert.match(text,/Billing must never be activated|Billing must remain permanently OFF/i); assert.match(text,/Spark/i);
  assert.match(text,/production.two.account|two legitimate private manager/i);
 }
-assert.equal(bootstrap.currentWec?.environmentId,"we-2026-09-06-ssjr-production-storage-observation-a53");
-assert.equal(wec.environmentId,bootstrap.currentWec.environmentId);
+const closingId=bootstrap.currentWec?.environmentId;
+const closingArchive=bootstrap.currentWec?.archive||bootstrap.currentWec?.plannedArchive;
+assert.equal(closingId,"we-2026-09-06-ssjr-production-storage-observation-a53");
 assert.equal(wec.signals?.unresolvedFailures,0);
 assert.equal(wec.assessment?.decisionInheritedFromPredecessor,false);
-if(wec.lifecycle==="active"){
+if(wec.lifecycle==="active" && wec.environmentId!==closingId){
+ assert.equal(wec.repository?.predecessorEnvironmentId,closingId,"fresh active successor must descend from sealed a53");
+ assert.equal(wec.repository?.predecessorArchive,closingArchive,"fresh active successor must point to the exact a53 archive");
+ assert.equal(wec.assessment?.decision,"CONTINUE");
+}else if(wec.lifecycle==="active"){
+ assert.equal(wec.environmentId,closingId);
  assert.equal(wec.assessment?.decision,"CONTINUE");
  assert.match(wec.continuity?.nextSafeAction||"",/PR209|PR210|two-account|two account|evidence/i);
 }else{
+ assert.equal(wec.environmentId,closingId);
  assert.equal(wec.lifecycle,"transition-prepared");
  assert.equal(wec.signals?.handoffCompleteness,100);
  assert.equal(wec.assessment?.decision,"HANDOFF_NOW");
- const archivePath=bootstrap.currentWec.archive||bootstrap.currentWec.plannedArchive;
- const archived=json(archivePath);
+ const archived=json(closingArchive);
  assert.equal(archived.environmentId,wec.environmentId);
  assert.equal(archived.lifecycle,"transition-prepared");
  assert.equal(archived.signals?.handoffCompleteness,100);
@@ -65,4 +71,4 @@ assert.match(next,/two legitimate private manager|production-two-account|product
 assert.match(next,/record:ssjr-production-shared-setup/i);
 assert.match(next,/validate:ssjr-production-shared-setup/i);
 assert.match(next,/Do not begin transfer\/results\/scoring|Do not start transfer\/results\/scoring/i);
-process.stdout.write("PASS current authority: PR210/PR209 observer deployment is post-merge green, PR207 recorder and PR205 validator remain strict authorities, PR203 remains r3 runtime authority, RJR100 is frozen, SSJR-1.1 remains 0/100, a53 is the current WEC, and genuine private two-account evidence remains next without billing.\n");
+process.stdout.write("PASS current authority: PR210/PR209 observer deployment is post-merge green, PR207 recorder and PR205 validator remain strict authorities, PR203 remains r3 runtime authority, RJR100 is frozen, SSJR-1.1 remains 0/100, sealed/current a53 is bootstrap authority, and a fresh active successor WEC is permitted.\n");
