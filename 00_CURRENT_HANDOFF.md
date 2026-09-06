@@ -6,6 +6,8 @@ Production remains the previously proven `v1.9.1 / 1.9.1-r2`; previous whole-she
 
 PR201 added the Spark-compatible exact-path Shared Setup provider candidate, immutable repository-owned catalog, candidate Firestore Rules and permanent direct modified-client emulator proof. Production Shared Setup remains intentionally not activated by PR201. Billing must never be activated. Firebase remains Spark.
 
+Permanent Firebase control-plane inheritance remains governed by `00_FIREBASE_PERMANENT_ZERO_BILLING_CONTROL_PLANE.md` and `HANDOFF_FIREBASE_CONTROL_PLANE_PERMANENT_ACCESS_ADDENDUM_2026-09-01.md`, using `.github/workflows/deploy-firestore-rules-zero-billing.yml` and the controlled secret name `FIREBASE_RULES_SERVICE_ACCOUNT_JSON`. Firebase remains Spark and billing remains permanently forbidden.
+
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
 Work Environment Continuity is mandatory. Validate/archive closing WEC `we-2026-09-05-ssjr-provider-adapter-a48`, initialize a fresh unique WEC from current live main and never inherit the closing HANDOFF decision.
