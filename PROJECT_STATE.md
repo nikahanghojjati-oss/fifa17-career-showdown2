@@ -17,6 +17,8 @@ Next score-enabling boundary: genuine production-two-account Shared Setup eviden
 
 Do not start transfer/results/scoring transport before the Shared Setup production evidence boundary is credited or a concrete blocker is isolated.
 
+The Installable Offline App, v1.3.0 Recovery & Device Resilience baseline, Local Profiles and Save Library remain protected.
+
 Permanent locks: Billing must never be activated. Firebase remains Spark. App Check enforcement remains OFF. Firestore browser persistence remains memory-only. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes. Canonical localStorage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, `careerModeShowdown.preferences`. Candidate A non-mutating, Candidate B read-only, Candidate C sole destructive remote-to-local gameplay Apply authority with transaction-owned strict exact raw-snapshot rollback. Exactly two private managers. No public discovery/listing/lobby/matchmaking/community/rankings/global leaderboards. Consumed RJR physical acceptance remains historical and is not repeated absent a proven regression.
 
 SLE starter: `START_NEXT_SESSION_V1.4.51_PR205_POSTMERGE_GREEN_SSJR_EVIDENCE_CAPTURE_NEXT.md`. Full handoff: `SUCCESSOR_HANDOFF_PR205_POSTMERGE_GREEN_SSJR_EVIDENCE_CAPTURE_NEXT_SLE_2026-09-06.md`. Estimated focused sessions to genuine SSJR100: ~5–10.
