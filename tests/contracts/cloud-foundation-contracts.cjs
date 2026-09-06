@@ -29,7 +29,7 @@ const remotePriority = read("REMOTE_JOINING_PRIORITY_AMENDMENT_2026-08-17.md");
 const restore = read("js/restore.js");
 const transaction = read("js/storageTransaction.js");
 const storage = read("js/storage.js");
-const productionR2 = bootstrap.runtime?.productionRuntimeRevision === "1.9.1-r2" && bootstrap.runtime?.productionStatus === "production-proven";
+const productionR3 = bootstrap.runtime?.productionRuntimeRevision === "1.9.1-r3" && bootstrap.runtime?.productionStatus === "production-proven";
 
 // Historical roadmap/provenance remains immutable even though current product authority has advanced far beyond it.
 assert.match(roadmap, /Historical profile identity mapping \| FOUNDATION DONE \/ UNRESOLVED RECORDS PERMITTED/i);
@@ -40,20 +40,19 @@ assert.match(roadmap, /Cloud Readiness \| PHASE 1A DONE \/ 1B DONE \/ 1C DONE \/
 assert.match(roadmap, /Cloud Backup \| BLOCKED/i);
 assert.match(roadmap, /Private Remote Joining \| PRIORITIZED LONG-TERM \/ DEPENDENCY-GATED \/ NOT YET AUTHORIZED/i);
 
-// Current live cloud authority follows the newest production-proven runtime and fixed RJR ledger.
-// PR187/r5 remains immutable consumed historical provenance; PR194/r2 is current production runtime authority.
-assert.equal(productionR2,true,"Current runtime identity must be production-proven v1.9.1-r2.");
-assert.equal(bootstrap.latestRuntimeMerge?.pullRequest,194,"Latest runtime merge must be PR #194.");
-assert.equal(bootstrap.latestRuntimeMerge?.runtimeRevision,"1.9.1-r2","Latest runtime merge must identify production r2.");
+// Current live cloud authority follows PR203/r3; PR187/r5 and PR194/r2 remain immutable consumed/rollback provenance.
+assert.equal(productionR3,true,"Current runtime identity must be production-proven v1.9.1-r3.");
+assert.equal(bootstrap.latestRuntimeMerge?.pullRequest,203,"Latest runtime merge must be PR #203.");
+assert.equal(bootstrap.latestRuntimeMerge?.runtimeRevision,"1.9.1-r3","Latest runtime merge must identify production r3.");
 assert.equal(bootstrap.latestRuntimeMerge?.productionProofRecorded,true);
-assert.equal(bootstrap.lastProductionProvenRuntime?.pullRequest,194,"Current production runtime provenance must be anchored to PR #194.");
-assert.equal(bootstrap.lastProductionProvenRuntime?.runtimeRevision,"1.9.1-r2","Current production runtime provenance must identify 1.9.1-r2.");
-assert.equal(bootstrap.lastProductionProvenRuntime?.mergeSha,"11bb681527a9b78884baf0c384350c90493dc9bd");
+assert.equal(bootstrap.lastProductionProvenRuntime?.pullRequest,203,"Current production runtime provenance must be anchored to PR #203.");
+assert.equal(bootstrap.lastProductionProvenRuntime?.runtimeRevision,"1.9.1-r3","Current production runtime provenance must identify 1.9.1-r3.");
+assert.equal(bootstrap.lastProductionProvenRuntime?.mergeSha,"65d88b1b413501b328bdf722bc6e8a0aa0d46ef2");
 assert.equal(bootstrap.historicalPr187PublicationCheckpoint?.pullRequest,187,"Historical PR187 provenance must remain explicit.");
 assert.equal(bootstrap.historicalPr187PublicationCheckpoint?.mergeSha,"277f1b55dc362ee84d285445b99172b9fbed8509");
 assert.equal(bootstrap.historicalPr187PublicationCheckpoint?.runtimeRevision,"1.9.0-r5");
 assert.equal(bootstrap.historicalPr187PublicationCheckpoint?.rjrAfterEvidence,89);
-assert.equal(bootstrap.previousProductionProvenRuntime?.runtimeRevision,"1.9.1-r1","Previous production-proven whole-shell rollback must remain r1.");
+assert.equal(bootstrap.previousProductionProvenRuntime?.runtimeRevision,"1.9.1-r2","Previous production-proven whole-shell rollback must remain r2 after r3 publication.");
 assert.equal(readiness.modelVersion,"RJR-1");
 assert.equal(readiness.currentScore,100,"Live RJR authority may reach 100 only from accepted capability evidence, never Stage 5G/H/I process or automation credit.");
 assert.equal(bootstrap.remoteJoiningReadiness?.score,100,"Bootstrap must expose evidence-accepted fixed RJR100 after the physical and stable-release acceptance events.");
@@ -87,9 +86,9 @@ assert.equal(readiness.evidenceHistory?.at(-2)?.eventId,physicalAcceptance?.even
 assert.equal(readiness.evidenceHistory?.at(-1)?.eventId,stableReleaseAcceptance?.eventId);
 assert.equal(readiness.domains.reduce((sum,domain)=>sum+domain.earned,0),100);
 
-// Current live state/next-task files advance to RJR100 while retaining runtime/security/product locks.
-assert.match(state,/RJR-1 COMPLETE 100\/100|RJR100/i);
-assert.match(state,/v1\.9\.1[\s\S]+1\.9\.1-r2/i);
+// Current live state/next-task files advance to PR203/r3 and RJR100 while retaining runtime/security/product locks.
+assert.match(state,/RJR-1 COMPLETE\/FROZEN `100\/100`|RJR-1 100\/100|RJR100/i);
+assert.match(state,/v1\.9\.1[\s\S]+1\.9\.1-r3/i);
 assert.match(state,/PR #198/i);
 assert.match(state,/Installable Offline App[\s\S]+v1\.3\.0 Recovery & Device Resilience/i);
 assert.match(state,/final stable-release acceptance|final stable Remote Joining release acceptance/i);
@@ -113,7 +112,7 @@ assert.match(next,/Candidate C remains the sole destructive remote-to-local game
 assert.match(next,/No public discovery[\s\S]+global leaderboards/i);
 assert.match(next,/Billing must never be activated[\s\S]+Firebase remains Spark/i);
 assert.match(next,/Shared Showdown Journey Readiness|SSJR-1/i);
-assert.match(next,/League Wheel[\s\S]+Connected Rivalry[\s\S]+ACTIVE|Connected Rivalry[\s\S]+ACTIVE[\s\S]+League Wheel/i);
+assert.match(next,/Connected Rivalry[\s\S]+ACTIVE[\s\S]+(?:league|clubs)/i);
 assert.doesNotMatch(next,/Production rollback proof remains uncredited/i);
 
 // Zero-billing authorization is permanent and current, independent of historical candidate architecture.
@@ -200,4 +199,4 @@ assert.ok(storage.includes("applyCareerModeRawStorageTransaction"),"Canonical lo
 assert.ok(transaction.includes("preconditionMismatches"),"Future revision-safe sync depends on permanent local precondition semantics.");
 assert.ok(transaction.includes("rollbackOwnershipConflicts"),"Future revision-safe sync depends on permanent rollback ownership semantics.");
 
-process.stdout.write(`PASS Cloud/Sync authority: production-proven 1.9.1-r2 / PR194 runtime, historical PR187/r5 capability provenance, live fixed RJR${readiness.currentScore}, permanent zero-billing/provider/privacy/recovery locks, accepted Stage 5F production negatives and immutable historical Cloud Readiness provenance are protected.\n`);
+process.stdout.write(`PASS Cloud/Sync authority: production-proven 1.9.1-r3 / PR203 runtime, r2 whole-shell rollback, historical PR187/r5 capability provenance, live fixed RJR${readiness.currentScore}, permanent zero-billing/provider/privacy/recovery locks, accepted Stage 5F production negatives and immutable historical Cloud Readiness provenance are protected.\n`);
