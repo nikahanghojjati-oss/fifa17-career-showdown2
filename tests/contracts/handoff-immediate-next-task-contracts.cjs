@@ -59,20 +59,22 @@ assert.match(next,/two-account/i);
 assert.match(next,/production-two-account|production two-account/i);
 assert.match(next,/Do not start transfer\/results\/scoring/i);
 
-// This package seals the closing a48 environment. The successor must consume
-// this exact record/archive and create its own WEC; it must not rewrite a48 as active.
+// SESSION_BOOTSTRAP intentionally preserves the sealed a48 predecessor package.
+// The live successor WEC must be fresh, active and explicitly rooted in that archive.
 assert.equal(bootstrap.currentWec?.environmentId,"we-2026-09-05-ssjr-provider-adapter-a48");
 assert.equal(bootstrap.currentWec?.lifecycle,"transition-prepared");
 assert.equal(bootstrap.currentWec?.finalDecision,"HANDOFF_NOW");
 assert.equal(bootstrap.currentWec?.decisionInheritedFromPredecessor,false);
-assert.equal(wec.environmentId,bootstrap.currentWec.environmentId);
-assert.equal(wec.lifecycle,"transition-prepared");
-assert.equal(wec.assessment?.decision,"HANDOFF_NOW");
+assert.deepEqual(json(bootstrap.currentWec.archive),json(bootstrap.currentWec.archive),"Sealed predecessor archive must remain readable JSON authority.");
+assert.equal(wec.environmentId,"we-2026-09-05-ssjr-production-shared-setup-a49");
+assert.equal(wec.repository?.predecessorEnvironmentId,bootstrap.currentWec.environmentId);
+assert.equal(wec.repository?.predecessorArchive,bootstrap.currentWec.archive);
+assert.equal(wec.lifecycle,"active");
+assert.equal(wec.assessment?.decision,"CONTINUE");
 assert.equal(wec.assessment?.decisionInheritedFromPredecessor,false);
-assert.equal(wec.signals?.handoffCompleteness,100);
 assert.equal(wec.signals?.unresolvedFailures,0);
-assert.deepEqual(wec,json(bootstrap.currentWec.archive),"Closing WEC and archive must be byte-equivalent JSON authority.");
-assert.match(wec.continuity?.nextSafeAction||"",/production browser|Shared Setup|Rules/i);
+assert.match(wec.continuity?.currentTask||"",/Production-enable|Shared Setup/i);
+assert.match(wec.continuity?.nextSafeAction||"",/production|Shared Setup|Rules/i);
 assert.match(read(bootstrap.starter.canonical),/fresh (?:unique )?(?:successor )?WEC/i);
 assert.match(read(bootstrap.currentHandoff.canonical),/fresh (?:unique )?(?:successor )?WEC/i);
-process.stdout.write("PASS current authority: PR201 provider candidate is published, RJR100 remains frozen, SSJR-1.1 remains 0/100, a48 is sealed, and the successor is routed to paired-first production Shared Setup without billing.\n");
+process.stdout.write("PASS current authority: PR201 provider candidate is published, RJR100 remains frozen, SSJR-1.1 remains 0/100, sealed a48 remains predecessor authority, and fresh a49 is the active paired-first production Shared Setup WEC without billing.\n");
