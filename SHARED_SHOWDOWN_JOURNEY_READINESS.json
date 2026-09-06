@@ -19,65 +19,45 @@
   "candidateEvidence": [
     {
       "id": "ssjr1-setup-protocol-candidate",
-      "layers": [
-        "deterministic-behavior",
-        "isolated-browser-protocol"
-      ],
-      "references": [
-        "tests/contracts/shared-showdown-setup-contracts.cjs",
-        "tests/browser/shared-showdown-setup-audit.cjs"
-      ],
-      "relatedCapabilityIds": [
-        "entry-binding",
-        "setup-league",
-        "setup-clubs",
-        "setup-length",
-        "setup-confirmation"
-      ],
+      "layers": ["deterministic-behavior","isolated-browser-protocol"],
+      "references": ["tests/contracts/shared-showdown-setup-contracts.cjs","tests/browser/shared-showdown-setup-audit.cjs"],
+      "relatedCapabilityIds": ["entry-binding","setup-league","setup-clubs","setup-length","setup-confirmation"],
       "credit": 0,
-      "missingLayers": [
-        "provider-enforcement",
-        "production-two-account"
-      ],
+      "missingLayers": ["provider-enforcement","production-two-account"],
       "finding": "65 immutable accepted/rejected cases, concurrent CAS/replay and two real Chromium-context hashes/dual confirmation/local immutability. Synthetic authority; not production or physical proof."
+    },
+    {
+      "id": "ssjr1-spark-provider-enforcement-candidate-pr201",
+      "layers": ["deterministic-behavior","provider-enforcement"],
+      "references": [
+        "js/sparkSharedShowdownSetup.js",
+        "js/sharedShowdownCatalog.js",
+        "firestore.shared-setup-candidate.rules",
+        "tests/contracts/shared-showdown-provider-contracts.cjs",
+        "tests/firebase/shared-showdown-setup-provider-emulator.cjs",
+        "tests/firebase/shared-showdown-setup-provider-session-emulator.cjs",
+        "PR #201 exact head 2c99e0746d6a3c5df946aa96f2c010da208bf70f",
+        "PR #201 merge 0cf810f99460bc66d41b4a036d42befb5bb5ef39"
+      ],
+      "relatedCapabilityIds": ["entry-binding","entry-before-draw","setup-league","setup-clubs","setup-length","setup-confirmation","journey-reconnect","journey-conflicts"],
+      "credit": 0,
+      "missingLayers": ["production-two-account"],
+      "finding": "Spark candidate transaction and candidate Rules derive authority from paired protected records and an exact ACTIVE session; immutable catalog prevents caller-selected draws; direct modified-client, stale/CAS/replay, revoked/inactive identity, wrong/expired session, fresh-session continuity and zero-local-mutation emulator negatives pass. Candidate is not production activated, so no whole SSJR capability is credited."
     }
   ],
   "remainingCapabilityIds": [
-    "entry-binding",
-    "entry-before-draw",
-    "setup-league",
-    "setup-clubs",
-    "setup-length",
-    "setup-confirmation",
-    "career-start",
-    "transfer-challenge",
-    "results-publication",
-    "season-commit",
-    "canonical-scoring",
-    "history-convergence",
-    "multi-season",
-    "journey-reconnect",
-    "journey-conflicts",
-    "local-reconciliation",
-    "final-reconciliation",
-    "terminal-close",
-    "physical-journey",
-    "stable-journey-release"
+    "entry-binding","entry-before-draw","setup-league","setup-clubs","setup-length","setup-confirmation","career-start","transfer-challenge","results-publication","season-commit","canonical-scoring","history-convergence","multi-season","journey-reconnect","journey-conflicts","local-reconciliation","final-reconciliation","terminal-close","physical-journey","stable-journey-release"
   ],
   "planningEstimate": {
-    "focusedSessionsToSSJR100": {
-      "minimum": 8,
-      "maximum": 14
-    },
+    "focusedSessionsToSSJR100": {"minimum": 6,"maximum": 11},
     "isForecastNotReadinessEvidence": true,
     "basis": [
-      "Complete foundation publication",
-      "Spark adapter and provider Rules: roughly 1\u20132 sessions",
-      "Pre-draw entry, shared setup UI and safe local integration: roughly 1\u20132",
-      "Transfer and result ownership with shared season commit: roughly 2\u20133",
-      "Scoring, histories and 1/3/5/10 progression: roughly 1\u20132",
-      "Journey recovery, contention and terminal close: roughly 1\u20132",
-      "Integrated physical acceptance and stable release: roughly 1\u20132"
+      "PR201 completed the Spark adapter/candidate Rules/provider-emulator dependency without earning readiness credit",
+      "Paired-first production Shared Setup runtime/UI, safe Rules promotion and two-account production proof: roughly 1–2 sessions",
+      "Transfer and result ownership with shared season commit: roughly 2–3",
+      "Scoring, histories and 1/3/5/10 progression: roughly 1–2",
+      "Journey recovery, contention and terminal close: roughly 1–2",
+      "Integrated physical acceptance and stable release: roughly 1–2"
     ],
     "assumptions": [
       "No new major provider limitation or release-blocking regression",
@@ -86,7 +66,5 @@
     ],
     "reviseWhen": "Provider design, integrated scope, acceptance availability or regression evidence changes the critical path; do not calculate from score percentage."
   },
-  "modelBackcasts": [
-    "authority-history/SSJR1_1_PAIRING_DEPENDENCY_BACKCAST_2026-09-05.json"
-  ]
+  "modelBackcasts": ["authority-history/SSJR1_1_PAIRING_DEPENDENCY_BACKCAST_2026-09-05.json"]
 }

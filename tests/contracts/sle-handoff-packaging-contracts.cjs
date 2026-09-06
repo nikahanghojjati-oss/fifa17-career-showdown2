@@ -7,32 +7,63 @@ const readiness=json("REMOTE_JOINING_READINESS.json");
 const ssjr=json("SHARED_SHOWDOWN_JOURNEY_READINESS.json");
 const wec=json("WORK_ENVIRONMENT_STATUS.json");
 assert.match(read("00_SLE_HANDOFF_PROTOCOL.md"),/Smart Lean Efficient/i);
-assert.equal(bootstrap.starter?.version,"1.4.47");
-assert.equal(bootstrap.starter?.checkpoint,"PR199-POSTMERGE-GREEN-SSJR-PROVIDER-NEXT");
-assert.equal(bootstrap.starter?.canonical,"START_NEXT_SESSION_V1.4.47_PR199_POSTMERGE_GREEN_SSJR_PROVIDER_NEXT.md");
-assert.equal(bootstrap.currentHandoff?.canonical,"SUCCESSOR_HANDOFF_PR199_POSTMERGE_GREEN_SSJR_PROVIDER_NEXT_SLE_2026-09-05.md");
+assert.equal(bootstrap.starter?.version,"1.4.48");
+assert.equal(bootstrap.starter?.checkpoint,"PR201-POSTMERGE-GREEN-SSJR-RUNTIME-NEXT");
+assert.equal(bootstrap.starter?.canonical,"START_NEXT_SESSION_V1.4.48_PR201_POSTMERGE_GREEN_SSJR_RUNTIME_NEXT.md");
+assert.equal(bootstrap.currentHandoff?.canonical,"SUCCESSOR_HANDOFF_PR201_POSTMERGE_GREEN_SSJR_RUNTIME_NEXT_SLE_2026-09-06.md");
 for(const [canonical,mirror] of [[bootstrap.starter.canonical,bootstrap.starter.projectMirror],[bootstrap.currentHandoff.canonical,bootstrap.currentHandoff.projectMirror]]){
- const text=read(canonical); assert.equal(text,read(mirror)); assert.match(text,/PR #199/i); assert.match(text,/SSJR-1/i); assert.match(text,/0\/100/); assert.match(text,/100\/100/); assert.match(text,/Smart Lean Efficient/); assert.match(text,/IMMEDIATE NEXT TASK AFTER FULL STUDY/); assert.match(text,/pairing[\s\S]+before[\s\S]+league/i); assert.match(text,/Estimated focused sessions to genuine SSJR100/); assert.match(text,/provider[\s\S]+Rules/i); assert.match(text,/fresh (?:unique )?(?:successor )?WEC/i);
+ const text=read(canonical);
+ assert.equal(text,read(mirror),`${canonical} mirror must be byte-identical`);
+ assert.match(text,/PR #201/i);
+ assert.match(text,/SSJR-1\.1/i);
+ assert.match(text,/0\/100/);
+ assert.match(text,/100\/100/);
+ assert.match(text,/Smart Lean Efficient/);
+ assert.match(text,/IMMEDIATE NEXT TASK AFTER FULL STUDY/);
+ assert.match(text,/pairing[\s\S]+ACTIVE[\s\S]+before[\s\S]+league|pairing[\s\S]+ACTIVE[\s\S]+league/i);
+ assert.match(text,/Estimated focused sessions to genuine SSJR100/);
+ assert.match(text,/production[\s\S]+Rules/i);
+ assert.match(text,/two-account/i);
+ assert.match(text,/modified-client|modified client/i);
+ assert.match(text,/fresh (?:unique )?(?:successor )?WEC/i);
+ assert.match(text,/Billing must never be activated/i);
+ assert.match(text,/Firebase remains Spark/i);
 }
-assert.equal(readiness.currentScore,100); assert.equal(ssjr.currentScore,0); assert.equal(bootstrap.remoteJoiningReadiness?.score,100); assert.equal(bootstrap.sharedShowdownJourneyReadiness?.score,0);
-assert.equal(bootstrap.currentPublicationCheckpoint?.state,"merged-postmerge-green"); assert.equal(bootstrap.currentPublicationCheckpoint?.finalSealedHeadMustBeFetchedLive,false); assert.equal(bootstrap.currentPublicationCheckpoint?.exactHeadWorkflowFamiliesSuccessful,15); assert.equal(bootstrap.currentPublicationCheckpoint?.postMergeWorkflowFamiliesSuccessful,15);
-for(const p of ["00_CURRENT_HANDOFF.md","NEXT_TASK.md","PROJECT_STATE.md","00_DEVELOPER_START_HERE.md"]){ const text=read(p); assert.match(text,/100\/100/i); assert.match(text,/PR #199/i); assert.match(text,/v1\.9\.1[\s\S]+1\.9\.1-r2/i); assert.match(text,/Billing must never be activated/i); assert.match(text,/Firebase remains Spark/i); }
-
-// SLE packaging seals the inherited predecessor. A successor must validate that
-// archived package, then replace WORK_ENVIRONMENT_STATUS.json with its own fresh
-// record rather than remaining byte-identical to the predecessor forever.
-const inheritedWec=json(bootstrap.currentWec.archive);
-assert.equal(inheritedWec.lifecycle,"transition-prepared");
-assert.equal(inheritedWec.signals.handoffCompleteness,100);
-assert.equal(inheritedWec.environmentId,bootstrap.currentWec.environmentId);
-assert.equal(inheritedWec.repository.startingMainSha,"780abd7b779cda5acd722b75fd59ef1e82c71f97");
-assert.equal(inheritedWec.repository.predecessorEnvironmentId,"we-2026-09-05-ssjr-setup-foundation-28cf84");
-assert.equal(json(inheritedWec.repository.predecessorArchive).environmentId,inheritedWec.repository.predecessorEnvironmentId);
-assert.equal(bootstrap.transition.continuationDecision,inheritedWec.assessment.decision);
-assert.notDeepEqual(wec,inheritedWec,"The live successor WEC must not remain the archived predecessor record.");
-assert.notEqual(wec.environmentId,inheritedWec.environmentId,"The successor must own a fresh WEC identity.");
-assert.equal(wec.repository.predecessorEnvironmentId,inheritedWec.environmentId,"The successor must chain directly from the sealed SLE predecessor.");
-assert.equal(wec.repository.predecessorArchive,bootstrap.currentWec.archive,"The successor must preserve the exact SLE predecessor archive reference.");
-assert.equal(wec.assessment.decisionInheritedFromPredecessor,false,"The successor must not inherit the predecessor's HANDOFF decision.");
-assert.ok(["active","transition-prepared"].includes(wec.lifecycle));
-process.stdout.write("PASS SLE packaging: mirrored v1.4.47 PR199 post-merge package is sealed in its archived WEC, frozen RJR100/SSJR0 remain intact, and the fresh successor independently owns the provider milestone.\n");
+assert.equal(readiness.currentScore,100);
+assert.equal(ssjr.currentScore,0);
+assert.equal(bootstrap.remoteJoiningReadiness?.score,100);
+assert.equal(bootstrap.sharedShowdownJourneyReadiness?.score,0);
+assert.equal(bootstrap.sharedShowdownJourneyReadiness?.estimatedFocusedSessionsToGenuine100,"6-11");
+assert.equal(bootstrap.currentPublicationCheckpoint?.pullRequest,201);
+assert.equal(bootstrap.currentPublicationCheckpoint?.state,"merged-postmerge-green");
+assert.equal(bootstrap.currentPublicationCheckpoint?.finalSealedHeadMustBeFetchedLive,false);
+assert.equal(bootstrap.currentPublicationCheckpoint?.exactHeadWorkflowFamiliesSuccessful,15);
+assert.equal(bootstrap.currentPublicationCheckpoint?.postMergeWorkflowFamiliesSuccessful,15);
+assert.equal(bootstrap.currentPublicationCheckpoint?.rulesProductionEnabled,false);
+for(const p of ["00_CURRENT_HANDOFF.md","NEXT_TASK.md","PROJECT_STATE.md","00_DEVELOPER_START_HERE.md"]){
+ const text=read(p);
+ assert.match(text,/100\/100/i);
+ assert.match(text,/PR #201/i);
+ assert.match(text,/v1\.9\.1[\s\S]+1\.9\.1-r2/i);
+ assert.match(text,/Billing must never be activated/i);
+ assert.match(text,/Firebase remains Spark/i);
+}
+const archivedWec=json(bootstrap.currentWec.archive);
+assert.equal(archivedWec.lifecycle,"transition-prepared");
+assert.equal(archivedWec.signals.handoffCompleteness,100);
+assert.equal(archivedWec.environmentId,"we-2026-09-05-ssjr-provider-adapter-a48");
+assert.equal(archivedWec.environmentId,bootstrap.currentWec.environmentId);
+assert.equal(archivedWec.repository.startingMainSha,"13dcf6bd3f2e8a6d2682db46ae0f7da3cbde7885");
+assert.equal(archivedWec.repository.predecessorEnvironmentId,"we-2026-09-05-pr199-postmerge-recovery-a47");
+assert.equal(json(archivedWec.repository.predecessorArchive).environmentId,archivedWec.repository.predecessorEnvironmentId);
+assert.equal(bootstrap.transition.continuationDecision,archivedWec.assessment.decision);
+assert.deepEqual(wec,archivedWec,"Closing WEC must be sealed exactly into its archive before successor transition.");
+assert.equal(wec.assessment.decision,"HANDOFF_NOW");
+assert.equal(wec.assessment.decisionInheritedFromPredecessor,false);
+const providerCandidate=(ssjr.candidateEvidence||[]).find(x=>x.id==="ssjr1-spark-provider-enforcement-candidate-pr201");
+assert.ok(providerCandidate,"PR201 provider candidate evidence must be recorded");
+assert.equal(providerCandidate.credit,0);
+assert.ok(providerCandidate.missingLayers.includes("production-two-account"));
+assert.equal(ssjr.planningEstimate?.focusedSessionsToSSJR100?.minimum,6);
+assert.equal(ssjr.planningEstimate?.focusedSessionsToSSJR100?.maximum,11);
+process.stdout.write("PASS SLE packaging: mirrored v1.4.48 PR201 runtime-next package, archived a48 WEC, frozen RJR100/SSJR0, zero-credit provider candidate evidence, and paired-first production successor task are sealed.\n");
