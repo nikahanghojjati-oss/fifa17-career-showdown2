@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "environmentId": "we-2026-09-05-ssjr-production-shared-setup-a49",
   "lifecycle": "active",
-  "recordedAt": "2026-09-06T03:05:00Z",
+  "recordedAt": "2026-09-06T03:34:00Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -17,11 +17,11 @@
     "projectComplexity": "high",
     "compactionCount": 0,
     "majorPhasesCompleted": 0,
-    "largeEvidenceEvents": 0,
+    "largeEvidenceEvents": 1,
     "toolRoutingErrors": 0,
-    "correctedFailures": 4,
+    "correctedFailures": 8,
     "repeatedMistakes": 0,
-    "staleFactCorrections": 2,
+    "staleFactCorrections": 4,
     "unresolvedFailures": 0,
     "newMilestoneNext": false,
     "usageRemainingPercent": null,
@@ -33,19 +33,20 @@
   },
   "assessment": {
     "decision": "CONTINUE",
-    "reason": "Fresh successor independently verified current main, PR201/PR202 publication evidence, frozen RJR100 and SSJR-1.1 baseline. The bounded current milestone is the smallest paired-first production Shared Setup activation under permanent zero-billing/Spark locks.",
+    "reason": "Fresh successor independently verified the inherited RJR100/SSJR0 boundary, implemented the bounded paired-first production Shared Setup, and is now publishing and converging the v1.9.1-r3 release candidate under permanent zero-billing/Spark locks before any production-two-account SSJR credit can be considered.",
     "decisionInheritedFromPredecessor": false,
     "usageExcludedBecauseUnavailable": true
   },
   "continuity": {
-    "currentTask": "Production-enable the already-proven Spark Shared Setup only after exact Connected Rivalry pairing and exact ACTIVE private session, promote only its bounded Rules delta, automate positive/adverse evidence, and stop before transfer/results/scoring transport.",
-    "lastSafeCheckpoint": "PR203 branch head 3e662ddef30f766baf589ce4ea4817f1aa697858 contains paired-first production Shared Setup, generated Spark production Rules proof, startup-budget-safe lazy bootstrap, canonical storage authority routing, and fresh-successor WEC packaging corrections. Exact-head CI is being rerun before merge; production remains v1.9.1 / 1.9.1-r2, RJR-1 remains frozen 100/100, and SSJR-1.1 remains 0/100.",
-    "nextSafeAction": "Finish the exact-head PR203 15-family workflow gate, correct only independently reproduced failures without weakening gates, merge with expected-head protection, verify post-merge production Rules and deployed runtime evidence, then seal a49 and generate the successor package.",
+    "currentTask": "Publish and converge the v1.9.1-r3 paired-first production Shared Setup release candidate through PR203 exact-head CI/review, expected-head merge, zero-billing Rules publication, deployed-runtime verification and final SLE/SNS handoff without starting transfer/results/scoring transport.",
+    "lastSafeCheckpoint": "PR203 branch head bb5f8d5d843cc9fbf7953602d2f5677fb69a7595 carries the v1.9.1-r3 release-candidate identity, r2 whole-shell rollback target, complete installed-app SSJR dependency cache, paired-first durable reload/capture-path browser protections, generated production Rules adversarial proof and corrected candidate-isolation contracts. Production truth remains v1.9.1 / 1.9.1-r2 until r3 is merged and post-merge/deployment-proven; RJR-1 remains frozen 100/100 and SSJR-1.1 remains 0/100.",
+    "nextSafeAction": "Run all 15 permanent PR workflow families on the fresh exact head produced by this WEC update; correct only independently reproduced failures without weakening gates, then resolve the three P1 review threads with exact evidence, merge PR203 using expected-head protection, verify main push/Rules/deployment evidence, and only then prepare and finally seal the a49 SLE/SNS package.",
     "unfinishedWork": [
-      "Complete PR203 exact-head CI, review, expected-head merge and post-merge production verification.",
-      "Verify bounded production Firestore Rules publication remains exact, Spark-only and zero-billing.",
-      "Record honest production two-account Shared Setup evidence before any SSJR credit.",
-      "Seal and archive a49 with a complete SLE/SNS successor package at Handoff proximity 100%.",
+      "Obtain 15/15 exact-head PR203 workflow success on the current v1.9.1-r3 release candidate, including the paired-first reload/capture browser proof and generated production Rules emulator proof.",
+      "Reply to and resolve all three P1 review threads only after the corrected exact head is proven green.",
+      "Merge PR203 with expected-head protection and verify post-merge 15-family main evidence plus exact Spark-only Firestore Rules publication/readback and deployed r3 runtime identity.",
+      "Record honest production two-account Shared Setup evidence before any SSJR credit; if real account/device action is still unavoidable, preserve it as the next bounded evidence dependency rather than fabricating credit.",
+      "Generate the complete mirrored SLE/SNS successor package, archive a49 and make the transition-prepared WEC seal the final intended branch mutation at Handoff proximity 100%.",
       "Later transfer/results/scoring/history/recovery/final journey milestones remain required for genuine SSJR100."
     ],
     "knownHazards": [
@@ -54,16 +55,22 @@
       "Exactly two private managers; exact Connected Rivalry plus exact ACTIVE session must precede Shared Setup league or club actions.",
       "A fresh ACTIVE session for the same rivalry resumes existing Shared Setup and never redraws it.",
       "Caller-controlled catalog input, direct league/club injection, stale CAS, conflicting replay and cross-manager idempotency must fail closed.",
-      "Candidate C remains sole destructive remote-to-local gameplay Apply authority; Shared Setup must not mutate canonical local saves.",
+      "The durable shared-mode marker must remain scoped to the pre-draw active Save Library shell and actual lexical-bound league/club click paths must remain capture-denied while setup is pending.",
+      "The installed r3 PWA shell must include the complete SSJR runtime dependency chain; never publish executable Shared Setup changes under the already-deployed r2 cache identity or construct a mixed-version rollback.",
+      "Candidate C remains sole destructive remote-to-local gameplay Apply authority; Shared Setup must not mutate canonical local saves merely by being observed or operated.",
       "Consumed RJR physical acceptance is not repeatable/recreditable absent a proven regression.",
-      "Candidate code, tests, CI, PR, deployment and WEC earn zero SSJR credit without the fixed production-two-account evidence layer."
+      "Source, candidate code, tests, CI, PR, deployment, Rules publication and WEC/SLE packaging earn zero SSJR credit without the fixed production-two-account evidence layer."
     ],
     "evidenceNotes": [
       "The sealed a48 predecessor archive was independently present and validated before this fresh successor WEC was initialized; a48 HANDOFF_NOW is historical closing-environment authority only and was not inherited by a49.",
       "a49 independently reset its decision to CONTINUE with decisionInheritedFromPredecessor=false and owns the paired-first production Shared Setup milestone as a distinct successor environment.",
-      "The existing sparkRemoteJoining runtime exposes exact page-memory ACTIVE session, rivalry, account, device and role state and already resolves the production Firebase account/firestore authority; the Shared Setup integration reuses that authority rather than creating a parallel identity path.",
-      "SHARED_SHOWDOWN_JOURNEY_MODEL.json remains frozen SSJR-1.1 and SHARED_SHOWDOWN_JOURNEY_READINESS.json remains 0/100 with no credited capabilities.",
-      "PR203 correction work preserved the protected 37,500-byte compressed startup budget at 37,488 bytes and did not activate billing or broaden provider scope."
+      "PR203 P1 corrections now persist the non-secret shared-mode lock with the pre-draw Save Library shell, recover it after sessionStorage-cleared reload, and capture-block the actual league/club control paths before bound lexical handlers even when a modified client re-enables those controls.",
+      "The generated production Firestore Rules are contractually required to equal the reviewed Spark base plus only the two bounded Shared Setup fragment splices, and the same adversarial provider matrix runs against generated Rules in PR CI and before main-only production Rules authentication/publication.",
+      "The production Rules publisher is project-hard-locked to fifa17-career-showdown-prod, uses only OAuth plus firebaserules.googleapis.com, compiles by creating a ruleset before changing the cloud.firestore release, and requires exact provider source/Git-blob readback; no billing, Cloud Run or Cloud Functions control plane is present.",
+      "v1.9.1-r3 is correctly a RELEASE CANDIDATE because executable browser behavior changed; r2 remains the production-proven whole-shell recovery target until r3 publication is independently proven.",
+      "The r3 Service Worker shell includes js/ssjr.js, productionSharedJourneyEntry.js, productionSharedJourneyGuard.js, productionSharedShowdownSetup.js, sharedShowdownSetup.js, sharedShowdownCatalog.js and sparkSharedShowdownSetup.js so an already-installed controlled PWA cannot fail versioned SSJR dependency requests.",
+      "The protected initial shell remains within the 37,500-byte compressed ceiling; the latest r3 CI measurement before this WEC refresh was 37,494 bytes compressed.",
+      "SHARED_SHOWDOWN_JOURNEY_MODEL.json remains frozen SSJR-1.1 and SHARED_SHOWDOWN_JOURNEY_READINESS.json remains 0/100 with no credited capabilities."
     ]
   }
 }
