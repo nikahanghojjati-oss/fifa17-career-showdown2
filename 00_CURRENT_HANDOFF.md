@@ -2,7 +2,7 @@
 
 Work Environment Continuity (WEC) is mandatory for every successor environment.
 
-RJR-1 is COMPLETE/FROZEN at `100/100`. SSJR-1.1 remains evidence-backed `0/100`; publication mechanics and deployed smoke do not earn SSJR credit without the required production-two-account whole-capability evidence.
+RJR-1 is COMPLETE/FROZEN at `100/100`. SSJR-1.1 remains evidence-backed `0/100`; publication mechanics and deployed smoke do not earn SSJR credit without the required production-two-account whole-capability evidence. Current SSJR-1.1 engineering begins only after the completed RJR-1 `100/100` prerequisite published by PR #198.
 
 Production is DEPLOYED / PRODUCTION-PROVEN `v1.9.1 / 1.9.1-r3` at main `65d88b1b413501b328bdf722bc6e8a0aa0d46ef2` from PR #203 final head `1f9ccf781354f22cf56a16f816500c7df017d3b8` and exact tree `e7e317d847dcf3b25e9959ce6c67f9dbb492596d`. Exact-head 15/15, review resolution, expected-head merge, 15-family post-merge, zero-billing Rules publication and complete same-main deployed Stability rerun are green.
 
