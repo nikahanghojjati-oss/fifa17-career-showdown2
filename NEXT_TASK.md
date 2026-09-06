@@ -7,6 +7,8 @@ PR #201 final exact head `2c99e0746d6a3c5df946aa96f2c010da208bf70f`, tree `87ddb
 Current environment: `we-2026-09-05-ssjr-provider-adapter-a48`
 Starting independently verified live main: `13dcf6bd3f2e8a6d2682db46ae0f7da3cbde7885`
 
+Historical RJR100 provenance remains immutable: PR #198 published the fixed RJR-1 COMPLETE 100/100 acceptance after the final stable release acceptance. The consumed physical acceptance used a Chromebook on Home WiFi and an iPhone on cellular across two independent networks. The protected order placed Connected Rivalry and exact ACTIVE before the League Wheel; this remains historical proof and must not be repeated absent a proven regression.
+
 The Installable Offline App, v1.3.0 Recovery & Device Resilience baseline, Local Profiles and Save Library remain protected throughout this milestone. Remote Shared Setup integration must fail closed without damaging local-only play, offline startup or canonical local saves.
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
@@ -27,6 +29,6 @@ Do not start transfer/results/scoring transport until the shared-entry/shared-se
 
 Required product order: Profiles/pre-draw Save shell → exact Connected Rivalry pairing → exact ACTIVE session → SHARED_SETUP_OPEN → authoritative league → two permanent distinct same-league clubs → 1/3/5/10 seasons → both confirm identical setup → remaining shared journey.
 
-Permanent locks: Billing must never be activated. Firebase remains Spark. App Check enforcement remains OFF. Firestore persistence remains memory-only. Google Auth popup-only `browserSessionPersistence` with no extra scopes. Canonical localStorage exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, `careerModeShowdown.preferences`. Candidate C remains sole destructive remote-to-local gameplay Apply authority. Exactly two private managers. No public discovery/listing/lobby/matchmaking/community/rankings/global leaderboards.
+Permanent locks: Billing must never be activated. Firebase remains Spark. App Check enforcement remains OFF. Firestore persistence remains memory-only. Google Auth popup-only `browserSessionPersistence` with no extra scopes. Canonical localStorage exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, `careerModeShowdown.preferences`. Candidate C remains the sole destructive remote-to-local gameplay Apply authority. Exactly two private managers. No public discovery/listing/lobby/matchmaking/community/rankings/global leaderboards.
 
 Current SLE starter: `START_NEXT_SESSION_V1.4.48_PR201_POSTMERGE_GREEN_SSJR_RUNTIME_NEXT.md`. Deep handoff: `SUCCESSOR_HANDOFF_PR201_POSTMERGE_GREEN_SSJR_RUNTIME_NEXT_SLE_2026-09-06.md`. Estimated focused sessions to genuine SSJR100: ~6–11.
