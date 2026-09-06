@@ -8,14 +8,16 @@ PR203 passed all 15 exact-head workflow families, all review blockers were resol
 
 Production Rules are live on Firebase Spark at `cloud.firestore` ruleset `73b4435e-85a8-49f9-92ef-8ffe3ce0f91c`, exact generated-source Git blob `5bcde9297f6b2927a2184605192ab5b6cd46fb29`. Billing remains permanently OFF.
 
-RJR-1 remains COMPLETE/FROZEN `100/100`. Fixed SSJR-1.1 remains `0/100`. PR203 removed the production runtime/provider prerequisite but does not itself earn SSJR points because the production-two-account evidence layer is still missing.
+RJR-1 remains COMPLETE/FROZEN `100/100`. Historical PR #198 published the fixed RJR100 acceptance after the final stable Remote Joining release acceptance; the consumed physical proof used a Chromebook on Home WiFi and an iPhone on cellular across two independent networks. It is historical evidence and must not be repeated or re-credited absent a proven regression.
+
+Fixed SSJR-1.1 remains `0/100`. PR203 removed the production runtime/provider prerequisite but does not itself earn SSJR points because the production-two-account evidence layer is still missing.
 
 Required journey order: Profiles/pre-draw Save shell → exact Connected Rivalry pairing → exact ACTIVE → authoritative league → two distinct permanent same-league clubs → 1/3/5/10 season length → both managers confirm identical setup → career-start acknowledgement → transfer/results/season commit → scoring/history/progression → recovery/conflict safety → final reconciliation → terminal close/no resurrection.
 
 Next score-enabling boundary: genuine production-two-account evidence for the shared-entry/shared-setup cluster on deployed r3. Automate every feasible preflight and adverse test before requesting owner action. Do not start transfer/results/scoring transport first.
 
-The Installable Offline App, v1.3.0 Recovery & Device Resilience baseline, Local Profiles and Save Library remain protected. Candidate A non-mutating, Candidate B read-only, Candidate C sole destructive remote-to-local Apply authority with transaction-owned strict exact raw-snapshot rollback.
+The Installable Offline App, v1.3.0 Recovery & Device Resilience baseline, Local Profiles and Save Library remain protected. Candidate A non-mutating, Candidate B read-only, Candidate C remains the sole destructive remote-to-local gameplay Apply authority with transaction-owned strict exact raw-snapshot rollback.
 
-Billing must never be activated. Firebase remains Spark. App Check enforcement remains OFF. Firestore browser persistence remains memory-only. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes. Canonical localStorage remains exactly the three approved keys. Exactly two private managers. No public discovery/listing/lobby/matchmaking/community/rankings/global leaderboards.
+Billing must never be activated. Firebase remains Spark. App Check enforcement remains OFF. Firestore browser persistence remains memory-only. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes. Canonical localStorage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, `careerModeShowdown.preferences`. Exactly two private managers. No public discovery/listing/lobby/matchmaking/community/rankings/global leaderboards.
 
 SLE starter: `START_NEXT_SESSION_V1.4.49_PR203_POSTMERGE_GREEN_SSJR_EVIDENCE_NEXT.md`. Full handoff: `SUCCESSOR_HANDOFF_PR203_POSTMERGE_GREEN_SSJR_EVIDENCE_NEXT_SLE_2026-09-06.md`. Estimated focused sessions to genuine SSJR100: ~5–10.
