@@ -1,6 +1,6 @@
 # Career Mode Showdown v1.9.1-r3 Production Release
 
-Status: CANDIDATE / NOT YET PRODUCTION-PROVEN
+Status: RELEASE CANDIDATE / NOT YET PRODUCTION-PROVEN
 
 Application version: `v1.9.1`
 
