@@ -10,7 +10,7 @@ Previous known-good runtime: `1.9.1-r2`
 
 ## Production scope
 
-This runtime revision introduces the smallest paired-first production Shared Showdown Setup milestone for exactly two private managers.
+This runtime revision introduces the smallest paired-first production Shared Showdown Setup milestone for exactly two private managers. It advances the existing private Remote Joining journey by making pairing plus an exact ACTIVE private session the mandatory authority before any shared league or club selection.
 
 The shared path now preserves this mandatory order:
 
