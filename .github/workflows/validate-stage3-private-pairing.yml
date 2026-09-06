@@ -89,3 +89,14 @@ jobs:
 
       - name: Run Shared Showdown Setup Spark candidate emulator proofs
         run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-career-mode-showdown-shared-setup "node tests/firebase/shared-showdown-setup-provider-emulator.cjs && node tests/firebase/shared-showdown-setup-provider-session-emulator.cjs"
+
+      - name: Prove generated production Shared Setup Rules with the same adversarial provider matrix
+        shell: bash
+        run: |
+          set -euo pipefail
+          node scripts/build-production-firestore-rules.mjs
+          candidate_backup="$(mktemp)"
+          cp firestore.shared-setup-candidate.rules "${candidate_backup}"
+          trap 'cp "${candidate_backup}" firestore.shared-setup-candidate.rules; rm -f "${candidate_backup}"' EXIT
+          cp firestore.spark.generated.rules firestore.shared-setup-candidate.rules
+          npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-career-mode-showdown-shared-setup-production "node tests/firebase/shared-showdown-setup-provider-emulator.cjs"
