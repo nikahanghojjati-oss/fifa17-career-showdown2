@@ -1,8 +1,15 @@
 #!/usr/bin/env node
 import fs from 'node:fs';
 import crypto from 'node:crypto';
+import { createRequire } from 'node:module';
+
+const require = createRequire(import.meta.url);
+const { catalog: SHARED_CATALOG } = require('../js/sharedShowdownCatalog.js');
 
 const EVIDENCE_TYPE = 'SSJR-1.1-production-shared-setup';
+const EXPECTED_RUNTIME_REVISION = '1.9.1-r3';
+const FINAL_PHASE = 'SHOWDOWN_CONFIRMED';
+const FINAL_REVISION = 6;
 const ALLOWED_SEASONS = new Set([1, 3, 5, 10]);
 const REQUIRED_NEGATIVES = [
   'wrongSession', 'expiredSession', 'unrelatedAccount', 'revokedIdentity',
@@ -15,12 +22,49 @@ const REQUIRED_CHECKPOINTS = [
   'reload-resume',
   'fresh-active-session-resume'
 ];
+const ROOT_FIELDS = new Set([
+  'schemaVersion', 'evidenceType', 'capturedAt', 'runtimeRevision', 'managerRole', 'remoteRole',
+  'accountFingerprint', 'deviceFingerprint', 'rivalryFingerprint', 'canonicalStorageBeforeHash',
+  'canonicalStorageAfterHash', 'checkpoints', 'negatives', 'finalSetup'
+]);
+const FINAL_SETUP_FIELDS = new Set(['leagueId', 'clubs', 'clubLeagueIds', 'totalSeasons', 'confirmedRoles', 'phase', 'revision', 'digest']);
+const CLUB_FIELDS = new Set(['playerOne', 'playerTwo']);
+const NEGATIVE_FIELDS = new Set(REQUIRED_NEGATIVES);
+const CHECKPOINT_FIELDS = Object.freeze({
+  'paired-active-before-setup': new Set(['name', 'at', 'paired', 'sessionState', 'setupMutationSeen', 'sessionFingerprint']),
+  'authoritative-setup-observed': new Set(['name', 'at', 'revision', 'setupDigest']),
+  'identical-final-setup': new Set(['name', 'at', 'setupDigest']),
+  'reload-resume': new Set(['name', 'at', 'setupDigest', 'resetOrRedraw']),
+  'fresh-active-session-resume': new Set(['name', 'at', 'setupDigest', 'resetOrRedraw', 'sessionFingerprint'])
+});
+const FORBIDDEN_AUTHORITY_KEYS = new Set(['accountid', 'deviceid', 'rivalryid', 'sessionid', 'capability', 'capabilitytoken', 'pairingcode']);
+const RAW_AUTHORITY_VALUE = /\b(?:pair|session)_[a-f0-9]{64}\b|\bdevice_[a-f0-9]{32}\b|\b(?:profile|save)_[a-f0-9]{24}\b/i;
 
 function fail(message) { throw new Error(message); }
 function readJson(path) {
   if (!path) fail('Two evidence JSON paths are required.');
   const raw = fs.readFileSync(path, 'utf8');
   return { path, raw, value: JSON.parse(raw) };
+}
+function plain(value) { return !!value && typeof value === 'object' && !Array.isArray(value); }
+function normalizedKey(value) { return String(value || '').replace(/[^a-z0-9]/gi, '').toLowerCase(); }
+function rejectUnknownFields(value, allowed, label) {
+  if (!plain(value)) fail(`${label} must be an object.`);
+  for (const key of Object.keys(value)) if (!allowed.has(key)) fail(`${label}: unknown evidence field is not allowed.`);
+}
+function inspectPrivacy(value, label = '$') {
+  if (Array.isArray(value)) {
+    value.forEach((entry, index) => inspectPrivacy(entry, `${label}[${index}]`));
+    return;
+  }
+  if (plain(value)) {
+    for (const [key, entry] of Object.entries(value)) {
+      if (FORBIDDEN_AUTHORITY_KEYS.has(normalizedKey(key))) fail(`Forbidden raw authority field at ${label}.`);
+      inspectPrivacy(entry, `${label}.field`);
+    }
+    return;
+  }
+  if (typeof value === 'string' && RAW_AUTHORITY_VALUE.test(value)) fail(`Raw private authority value appears at ${label}.`);
 }
 function isHash(value) { return /^sha256:[a-f0-9]{64}$/.test(String(value || '')); }
 function validIso(value) { return Number.isFinite(Date.parse(String(value || ''))); }
@@ -35,13 +79,14 @@ function digest(value) { return `sha256:${crypto.createHash('sha256').update(JSO
 function checkpoint(bundle, name) { return bundle.checkpoints.find(item => item && item.name === name); }
 function assertCheckpointOrder(bundle) {
   const names = bundle.checkpoints.map(item => item?.name);
-  for (const name of REQUIRED_CHECKPOINTS) if (!names.includes(name)) fail(`${bundle.managerRole}: missing checkpoint ${name}.`);
-  const positions = REQUIRED_CHECKPOINTS.map(name => names.indexOf(name));
-  for (let index = 1; index < positions.length; index += 1) {
-    if (positions[index] <= positions[index - 1]) fail(`${bundle.managerRole}: checkpoints are not in required journey order.`);
+  if (new Set(names).size !== names.length) fail(`${bundle.managerRole}: checkpoint names must be unique.`);
+  if (names.length !== REQUIRED_CHECKPOINTS.length) fail(`${bundle.managerRole}: checkpoints must contain exactly the required journey checkpoints.`);
+  for (let index = 0; index < REQUIRED_CHECKPOINTS.length; index += 1) {
+    if (names[index] !== REQUIRED_CHECKPOINTS[index]) fail(`${bundle.managerRole}: checkpoints are not in required journey order.`);
   }
   let last = 0;
   for (const item of bundle.checkpoints) {
+    rejectUnknownFields(item, CHECKPOINT_FIELDS[item.name] || new Set(), `${bundle.managerRole}.checkpoint`);
     if (!validIso(item?.at)) fail(`${bundle.managerRole}: checkpoint ${item?.name || '(unnamed)'} has invalid timestamp.`);
     const at = Date.parse(item.at);
     if (at < last) fail(`${bundle.managerRole}: checkpoint timestamps are not monotonic.`);
@@ -49,16 +94,20 @@ function assertCheckpointOrder(bundle) {
   }
 }
 function validateFinalSetup(setup, label) {
-  if (!setup || typeof setup !== 'object') fail(`${label}: finalSetup is required.`);
+  rejectUnknownFields(setup, FINAL_SETUP_FIELDS, `${label}.finalSetup`);
   requireString(setup.leagueId, `${label}.finalSetup.leagueId`);
-  if (!setup.clubs || typeof setup.clubs !== 'object') fail(`${label}: finalSetup.clubs is required.`);
+  if (!Object.hasOwn(SHARED_CATALOG, setup.leagueId)) fail(`${label}: finalSetup.leagueId is outside the authoritative catalog.`);
+  rejectUnknownFields(setup.clubs, CLUB_FIELDS, `${label}.finalSetup.clubs`);
   requireString(setup.clubs.playerOne, `${label}.finalSetup.clubs.playerOne`);
   requireString(setup.clubs.playerTwo, `${label}.finalSetup.clubs.playerTwo`);
   if (setup.clubs.playerOne === setup.clubs.playerTwo) fail(`${label}: permanent clubs must be distinct.`);
-  if (!setup.clubLeagueIds || setup.clubLeagueIds.playerOne !== setup.leagueId || setup.clubLeagueIds.playerTwo !== setup.leagueId) fail(`${label}: both permanent clubs must belong to the shared league.`);
+  if (!SHARED_CATALOG[setup.leagueId].includes(setup.clubs.playerOne) || !SHARED_CATALOG[setup.leagueId].includes(setup.clubs.playerTwo)) fail(`${label}: both permanent clubs must belong to the shared league in the authoritative repository catalog.`);
+  rejectUnknownFields(setup.clubLeagueIds, CLUB_FIELDS, `${label}.finalSetup.clubLeagueIds`);
+  if (setup.clubLeagueIds.playerOne !== setup.leagueId || setup.clubLeagueIds.playerTwo !== setup.leagueId) fail(`${label}: clubLeagueIds must match the authoritative shared league.`);
   if (!ALLOWED_SEASONS.has(setup.totalSeasons)) fail(`${label}: totalSeasons must be 1, 3, 5, or 10.`);
-  if (!Array.isArray(setup.confirmedRoles) || !setup.confirmedRoles.includes('playerOne') || !setup.confirmedRoles.includes('playerTwo') || new Set(setup.confirmedRoles).size !== 2) fail(`${label}: both distinct manager roles must confirm the setup.`);
-  if (!Number.isInteger(setup.revision) || setup.revision < 2) fail(`${label}: finalSetup.revision must prove at least revision 2 convergence.`);
+  if (!Array.isArray(setup.confirmedRoles) || setup.confirmedRoles.length !== 2 || !setup.confirmedRoles.includes('playerOne') || !setup.confirmedRoles.includes('playerTwo') || new Set(setup.confirmedRoles).size !== 2) fail(`${label}: both distinct manager roles must confirm the setup.`);
+  if (setup.phase !== FINAL_PHASE) fail(`${label}: finalSetup.phase must be ${FINAL_PHASE}.`);
+  if (setup.revision !== FINAL_REVISION) fail(`${label}: finalSetup.revision must be exact production revision ${FINAL_REVISION}.`);
   requireHash(setup.digest, `${label}.finalSetup.digest`);
   const canonical = {
     leagueId: setup.leagueId,
@@ -66,40 +115,43 @@ function validateFinalSetup(setup, label) {
     clubLeagueIds: setup.clubLeagueIds,
     totalSeasons: setup.totalSeasons,
     confirmedRoles: [...setup.confirmedRoles].sort(),
+    phase: setup.phase,
     revision: setup.revision
   };
   if (setup.digest !== digest(canonical)) fail(`${label}: finalSetup.digest does not match canonical setup content.`);
 }
 function validateBundle(bundle, label) {
-  if (!bundle || typeof bundle !== 'object') fail(`${label}: evidence root must be an object.`);
+  if (!plain(bundle)) fail(`${label}: evidence root must be an object.`);
+  inspectPrivacy(bundle);
+  rejectUnknownFields(bundle, ROOT_FIELDS, label);
   if (bundle.schemaVersion !== 1) fail(`${label}: schemaVersion must be 1.`);
   if (bundle.evidenceType !== EVIDENCE_TYPE) fail(`${label}: evidenceType must be ${EVIDENCE_TYPE}.`);
   if (!validIso(bundle.capturedAt)) fail(`${label}: capturedAt must be an ISO timestamp.`);
-  if (!/^1\.9\.1-r\d+$/.test(String(bundle.runtimeRevision || ''))) fail(`${label}: runtimeRevision must identify a v1.9.1 whole-shell runtime.`);
+  if (bundle.runtimeRevision !== EXPECTED_RUNTIME_REVISION) fail(`${label}: runtimeRevision must be exact deployed production runtime ${EXPECTED_RUNTIME_REVISION}.`);
   if (!['playerOne', 'playerTwo'].includes(bundle.managerRole)) fail(`${label}: managerRole must be playerOne or playerTwo.`);
   if (!['host', 'peer'].includes(bundle.remoteRole)) fail(`${label}: remoteRole must be host or peer.`);
   for (const key of ['accountFingerprint', 'deviceFingerprint', 'rivalryFingerprint']) requireHash(bundle[key], `${label}.${key}`);
   requireHash(bundle.canonicalStorageBeforeHash, `${label}.canonicalStorageBeforeHash`);
   requireHash(bundle.canonicalStorageAfterHash, `${label}.canonicalStorageAfterHash`);
   if (bundle.canonicalStorageBeforeHash !== bundle.canonicalStorageAfterHash) fail(`${label}: Shared Setup mutated canonical local gameplay storage.`);
-  if (!Array.isArray(bundle.checkpoints) || bundle.checkpoints.length < REQUIRED_CHECKPOINTS.length) fail(`${label}: checkpoints are incomplete.`);
+  if (!Array.isArray(bundle.checkpoints)) fail(`${label}: checkpoints are required.`);
   assertCheckpointOrder(bundle);
   const first = checkpoint(bundle, 'paired-active-before-setup');
   if (first.paired !== true || first.sessionState !== 'active' || first.setupMutationSeen === true) fail(`${label}: pairing + exact ACTIVE must precede every Shared Setup mutation.`);
   requireHash(first.sessionFingerprint, `${label}.paired-active-before-setup.sessionFingerprint`);
   const observed = checkpoint(bundle, 'authoritative-setup-observed');
-  if (!Number.isInteger(observed.revision) || observed.revision < 1) fail(`${label}: authoritative setup seed was not observed.`);
+  if (!Number.isInteger(observed.revision) || observed.revision < 1 || observed.revision >= FINAL_REVISION) fail(`${label}: authoritative setup seed revision is invalid.`);
   requireHash(observed.setupDigest, `${label}.authoritative-setup-observed.setupDigest`);
   const identical = checkpoint(bundle, 'identical-final-setup');
   requireHash(identical.setupDigest, `${label}.identical-final-setup.setupDigest`);
   const reload = checkpoint(bundle, 'reload-resume');
   const fresh = checkpoint(bundle, 'fresh-active-session-resume');
-  if (reload.resetOrRedraw === true || fresh.resetOrRedraw === true) fail(`${label}: reload/reconnect or fresh-session resume reset/redrew Shared Setup.`);
+  if (reload.resetOrRedraw !== false || fresh.resetOrRedraw !== false) fail(`${label}: reload/reconnect or fresh-session resume reset/redrew Shared Setup or failed to prove no redraw.`);
   requireHash(reload.setupDigest, `${label}.reload-resume.setupDigest`);
   requireHash(fresh.setupDigest, `${label}.fresh-active-session-resume.setupDigest`);
   requireHash(fresh.sessionFingerprint, `${label}.fresh-active-session-resume.sessionFingerprint`);
   if (fresh.sessionFingerprint === first.sessionFingerprint) fail(`${label}: fresh ACTIVE session resume must use a fresh session fingerprint.`);
-  if (!bundle.negatives || typeof bundle.negatives !== 'object') fail(`${label}: negative matrix is required.`);
+  rejectUnknownFields(bundle.negatives, NEGATIVE_FIELDS, `${label}.negatives`);
   for (const key of REQUIRED_NEGATIVES) if (bundle.negatives[key] !== 'denied') fail(`${label}: negative ${key} must be denied.`);
   validateFinalSetup(bundle.finalSetup, label);
   if (identical.setupDigest !== bundle.finalSetup.digest || reload.setupDigest !== bundle.finalSetup.digest || fresh.setupDigest !== bundle.finalSetup.digest) fail(`${label}: final, reload and fresh-session setup digests must remain identical.`);
@@ -130,9 +182,12 @@ function validatePair(a, b) {
     rivalryFingerprint: a.rivalryFingerprint,
     finalSetupDigest: a.finalSetup.digest,
     finalRevision: a.finalSetup.revision,
+    finalPhase: a.finalSetup.phase,
     managers: [a.managerRole, b.managerRole].sort(),
     negativesProvenPerManager: REQUIRED_NEGATIVES.length,
     canonicalStoragePreserved: true,
+    authoritativeCatalogValidated: true,
+    rawAuthorityRejected: true,
     reloadResumeProven: true,
     freshSessionResumeProven: true
   };
