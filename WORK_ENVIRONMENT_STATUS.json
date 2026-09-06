@@ -2,24 +2,27 @@
   "schemaVersion": 1,
   "environmentId": "we-2026-09-06-ssjr-production-storage-observation-a53",
   "lifecycle": "active",
-  "recordedAt": "2026-09-06T18:29:57Z",
+  "recordedAt": "2026-09-06T18:35:00Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
     "startingMainSha": "9d19d7c4b02e40219c4253bbb266b07c418ba6fa",
     "startingMainTreeSha": "5b7daa956719be877d58f324e4e61ea67fa0058b",
     "workingBranch": "ssjr/a53-production-observation-surface",
-    "predecessorEnvironmentId": "we-2026-09-06-ssjr-production-browser-usage-guard-a52",
-    "predecessorArchive": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-06-ssjr-production-browser-usage-guard-a52.json"
+    "predecessorEnvironmentId": "we-2026-09-06-ssjr-production-shared-setup-a51",
+    "predecessorArchive": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-06-ssjr-production-shared-setup-a51.json",
+    "recoveredEnvironmentId": "we-2026-09-06-ssjr-production-browser-usage-guard-a52",
+    "recoveredEnvironmentArchive": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-06-ssjr-production-browser-usage-guard-a52.json",
+    "recoveredEnvironmentBranch": "recovery/ssjr-a52-early-sns-2026-09-06"
   },
   "signals": {
     "contextComplexity": "moderate",
     "projectComplexity": "high",
     "compactionCount": 1,
     "majorPhasesCompleted": 1,
-    "largeEvidenceEvents": 2,
+    "largeEvidenceEvents": 3,
     "toolRoutingErrors": 0,
-    "correctedFailures": 1,
+    "correctedFailures": 2,
     "repeatedMistakes": 0,
     "staleFactCorrections": 0,
     "unresolvedFailures": 0,
@@ -27,22 +30,22 @@
     "usageRemainingPercent": null,
     "usageSource": "unavailable",
     "usageWarning": false,
-    "handoffCompleteness": 45,
+    "handoffCompleteness": 50,
     "unrecordedDecisions": 0,
     "atomicOperation": false
   },
   "assessment": {
     "decision": "CONTINUE",
-    "reason": "The predecessor production snapshot blocker has been reduced to one bounded reviewed change on a fresh branch: an exact read-only three-key observer on the already network-only production acceptance page. The recorder, validator, game runtime revision, Firebase Rules, authentication policy and zero-billing architecture remain unchanged. Publication gates are not yet complete and no SSJR credit is claimed.",
+    "reason": "The production snapshot blocker has been reduced to one bounded reviewed change: an exact read-only three-key observer on the already network-only production acceptance page. a51 remains the sealed mainline bootstrap predecessor required by current repository authority; recovered a52 is preserved separately as session-guard provenance and is not falsely promoted over the mainline WEC. The recorder, validator, game runtime revision, Firebase Rules, authentication policy and zero-billing architecture remain unchanged. Publication gates are not yet complete and no SSJR credit is claimed.",
     "decisionInheritedFromPredecessor": false,
     "usageExcludedBecauseUnavailable": true
   },
   "continuity": {
     "currentTask": "Validate and publish the bounded SSJR exact canonical-storage observation surface, then resume genuine two-account production Shared Setup evidence without changing PR207 recorder or PR205 validator.",
-    "lastSafeCheckpoint": "Live main independently reverified at 9d19d7c4b02e40219c4253bbb266b07c418ba6fa / tree 5b7daa956719be877d58f324e4e61ea67fa0058b. PR208 is merged. Branch ssjr/a53-production-observation-surface adds only a read-only exact three-key observer, its permanent contract, acceptance-page loader and predecessor WEC archive so far.",
-    "nextSafeAction": "Run permanent contract/SSJR gates on the exact branch head, correct only genuine failures, publish through an exact-head PR with review and post-merge proof, verify the network-only acceptance page deploy, then obtain the second legitimate authenticated registered browser and execute the unchanged recorder/validator production evidence path.",
+    "lastSafeCheckpoint": "Live main independently reverified at 9d19d7c4b02e40219c4253bbb266b07c418ba6fa / tree 5b7daa956719be877d58f324e4e61ea67fa0058b. PR209 exact head d02847be1776ed09078cf34c93aa214b0de349d2 restored the ordinary game-js localStorage boundary by moving the read-only observer to acceptance/. CI then proved the observer/static boundary green through the repository suite until the WEC ancestry contract correctly exposed that active mainline a53 must descend from sealed a51 rather than recovered branch-only a52.",
+    "nextSafeAction": "Run the fresh PR209 exact-head workflow set after the corrected WEC ancestry, correct only genuine failures, obtain clean review, publish with expected-head protection, verify post-merge/deployment of the network-only observer, then obtain the second legitimate authenticated registered browser and execute the unchanged recorder/validator production evidence path.",
     "unfinishedWork": [
-      "Run exact-head repository gates for the SSJR storage observation change and correct any genuine regressions.",
+      "Run exact-head repository gates for the corrected SSJR storage observation change and correct any genuine regressions.",
       "Publish the bounded observer through reviewed PR and post-merge/deployment proof without changing v1.9.1-r3 game runtime authority.",
       "Establish a second independent registered browser with the second legitimate private manager account.",
       "Capture both genuine production Shared Setup observations and pass the unchanged PR207 recorder plus PR205 pair validator before any SSJR credit.",
@@ -62,7 +65,7 @@
       "Use Handoff Proximity V2; any meaningful unresolved failure caps visible proximity at 70."
     ],
     "evidenceNotes": [
-      "Predecessor a52 was recovered from recovery/ssjr-a52-early-sns-2026-09-06 and archived byte-for-byte on the current implementation branch.",
+      "Canonical mainline WEC predecessor remains sealed a51 per SESSION_BOOTSTRAP.json and handoff-immediate-next-task-contracts.cjs. Recovered a52 remains preserved byte-for-byte as supplemental session-guard provenance and is explicitly recorded in repository.recoveredEnvironment* fields.",
       "productionSharedShowdownSetup.js already reads exact raw canonical storage before every Shared Setup read/mutation and byte-compares the three values afterward; no new canonical storage semantics were invented.",
       "service-worker.js already routes production-authorization-acceptance.html network-only and leaves unversioned same-origin assets to the network, so the bounded observer can deploy without changing or revving the installed v1.9.1-r3 application shell.",
       "The new observer reads exactly three getItem values, preserves raw strings/null, performs no storage writes or network calls, captures no account/device/rivalry/session identifiers, and clears its transient DOM output on explicit command.",
