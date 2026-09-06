@@ -19,6 +19,8 @@ PR #210 made that observer deployable and cache-safe on Pages without changing r
 
 PR210 final head `c863e1c2506bf34ff9521ed22bd989c221b437a6`, tree `85b9350bd7ac6f708b5bc7d303ad23d354fa1ac0`, merge `a1b4a34f8a2abcc4e361c4239da684ace9a4a40a`; exact-head `15/15`; sole P2 thread fixed/resolved; post-merge `15/15`; Pages `34060301380`; Stability `34060301345`; deployed artifact `9997244445` contains both acceptance host and observer. Host requests `acceptance/ssjrProductionStorageObservation.js?v=20260906-a54`.
 
+The Installable Offline App, v1.3.0 Recovery & Device Resilience baseline, Local Profiles and Save Library remain protected shipped foundations and must not be reopened absent a demonstrated regression.
+
 Closing environment: `we-2026-09-06-ssjr-production-storage-observation-a53`.
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
