@@ -2,6 +2,8 @@
 
 Work Environment Continuity (WEC) is mandatory for every successor environment.
 
+Owner build-first policy: `00_BUILD_FIRST_PRODUCT_POLICY.md`. Default focused-session allocation is approximately 75% actual product implementation and 25% validation/maintenance/continuity, while preserving real security, data-integrity and publication gates.
+
 Production: `v1.9.1 / 1.9.1-r3`
 Status: DEPLOYED / PRODUCTION-PROVEN
 
@@ -15,10 +17,10 @@ Required journey order remains: Profiles/pre-draw Save shell → exact Connected
 
 Next score-enabling boundary: genuine production-two-account Shared Setup evidence on deployed r3 using two legitimate private manager accounts and two distinct registered browser identities. The PR205 validator requires exact r3, schema-closed privacy, authoritative club catalog membership, exact `SHOWDOWN_CONFIRMED` revision 6, pairing + ACTIVE before setup, dual convergence, reload/fresh-session continuity, all adverse denials and unchanged canonical local saves.
 
-Do not start transfer/results/scoring transport before the Shared Setup production evidence boundary is credited or a concrete blocker is isolated.
+Do not start transfer/results/scoring transport before the Shared Setup production evidence boundary is credited or a concrete blocker is isolated. Once it is accepted, return immediately to product-building under `00_BUILD_FIRST_PRODUCT_POLICY.md` rather than extending the proof lane.
 
 The Installable Offline App, v1.3.0 Recovery & Device Resilience baseline, Local Profiles and Save Library remain protected.
 
-Permanent locks: Billing must never be activated. Firebase remains Spark. App Check enforcement remains OFF. Firestore browser persistence remains memory-only. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes. Canonical localStorage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, `careerModeShowdown.preferences`. Candidate A non-mutating, Candidate B read-only, Candidate C sole destructive remote-to-local gameplay Apply authority with transaction-owned strict exact raw-snapshot rollback. Exactly two private managers. No public discovery/listing/lobby/matchmaking/community/rankings/global leaderboards. Consumed RJR physical acceptance remains historical and is not repeated absent a proven regression.
+Permanent locks: Billing must never be activated. Firebase remains Spark. App Check enforcement remains OFF. Firestore browser persistence remains memory-only. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes. Canonical localStorage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, `careerModeShowdown.preferences`. Candidate A is non-mutating; Candidate B is read-only; Candidate C remains the sole destructive remote-to-local gameplay Apply authority with transaction-owned strict exact raw-snapshot rollback. Exactly two private managers. No public discovery/listing/lobby/matchmaking/community/rankings/global leaderboards. Consumed RJR physical acceptance remains historical and is not repeated absent a proven regression.
 
 SLE starter: `START_NEXT_SESSION_V1.4.51_PR205_POSTMERGE_GREEN_SSJR_EVIDENCE_CAPTURE_NEXT.md`. Full handoff: `SUCCESSOR_HANDOFF_PR205_POSTMERGE_GREEN_SSJR_EVIDENCE_CAPTURE_NEXT_SLE_2026-09-06.md`. Estimated focused sessions to genuine SSJR100: ~5–10.
