@@ -31,7 +31,7 @@
         && activeAccount(data.managerSlots[1].accountId);
     }
     function ssjrEntitled(rivalryId) {
-      return signedIn() && ssjrExactPairedRivalry(rivalryId) && request.auth.uid in ssjrRivalryData(rivalryId).authorizedAccountIds;
+      return ssjrValidRivalryId(rivalryId) && activePairedRivalry(rivalryId);
     }
     function ssjrActorRole(rivalryId) {
       return ssjrRivalryData(rivalryId).managerSlots[0].accountId == request.auth.uid ? 'playerOne' : 'playerTwo';
