@@ -8,6 +8,8 @@ Production is DEPLOYED / PRODUCTION-PROVEN `v1.9.1 / 1.9.1-r3` at main `65d88b1b
 
 Historical rollback/publication lineage only: `v1.9.1 / 1.9.1-r2` is the previous known-good whole-shell runtime, and PR #198 published the fixed RJR-1 `100/100` evidence. This r2/PR198 lineage is not current runtime authority and must not be re-credited.
 
+Historical current-at-the-time marker only — SUPERSEDED, DO NOT EXECUTE: PR #194 / `1.9.1-r2` / RJR91 / PHYSICAL ACCEPTANCE NEXT, using two physical devices on two independent networks. That physical acceptance was later consumed on the path to frozen RJR100.
+
 Production Shared Setup Rules are live on Firebase Spark: `cloud.firestore` ruleset `73b4435e-85a8-49f9-92ef-8ffe3ce0f91c`, generated-source Git blob `5bcde9297f6b2927a2184605192ab5b6cd46fb29`. Billing remains permanently OFF.
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
