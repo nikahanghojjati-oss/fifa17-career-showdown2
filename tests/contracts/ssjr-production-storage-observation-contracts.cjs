@@ -5,13 +5,15 @@ const vm=require('node:vm');
 const observerPath='acceptance/ssjrProductionStorageObservation.js';
 const source=fs.readFileSync(observerPath,'utf8');
 const html=fs.readFileSync('production-authorization-acceptance.html','utf8');
+const worker=fs.readFileSync('service-worker.js','utf8');
 const keys=[
   'careerModeShowdown.saveLibrary',
   'careerModeShowdown.legacyShowdowns',
   'careerModeShowdown.preferences'
 ];
 
-assert.match(html,/production-authorization-acceptance/i,'Observer must remain on the existing bounded production acceptance surface.');
+assert.match(html,/<title>Production Authorization Acceptance · Career Mode Showdown<\/title>/,'Observer must remain on the existing bounded production acceptance surface.');
+assert.match(worker,/NETWORK_ONLY_NAVIGATION_PATHS[\s\S]*production-authorization-acceptance\.html/,'Observer host page must remain explicitly network-only under the service worker.');
 assert.match(html,/acceptance\/ssjrProductionStorageObservation\.js/,'Network-only acceptance page must load the SSJR storage observer outside the ordinary game runtime directory.');
 assert.equal(fs.existsSync('js/ssjrProductionStorageObservation.js'),false,'Raw localStorage observer must not enter the ordinary js runtime boundary.');
 for(const key of keys)assert.ok(source.includes(key),`Observer must read canonical key ${key}.`);
