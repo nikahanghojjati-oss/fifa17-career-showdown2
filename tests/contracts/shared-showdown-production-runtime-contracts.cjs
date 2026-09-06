@@ -60,14 +60,18 @@ assert.match(stage3,/node scripts\/build-production-firestore-rules\.mjs/,'Perma
 assert.match(stage3,/shared-showdown-setup-production-provider-emulator\.cjs/,'Permanent Stage 3 family must execute the production generated-Rules provider emulator.');
 assert.match(stage3,/firebase-tools@15\.28\.1 emulators:exec/,'Production provider emulator must remain on the pinned Firebase emulator toolchain.');
 assert.match(productionEmulator,/shared-showdown-setup-provider-emulator\.cjs/,'Production Rules proof must reuse the already-reviewed two-manager provider harness.');
-assert.match(productionEmulator,/firestore\.shared-setup-candidate\.rules/,'Production wrapper must identify the exact candidate Rules source seam.');
-assert.match(productionEmulator,/firestore\.spark\.generated\.rules/,'Production wrapper must substitute only the generated provider authority.');
+assert.match(productionEmulator,/const candidatePattern=/,'Production wrapper must declare the exact candidate Rules source seam as one transform pattern.');
+assert.ok(productionEmulator.includes('firestore\\.shared-setup-candidate\\.rules'),'Production wrapper must identify the exact escaped candidate Rules source seam.');
+assert.match(productionEmulator,/assert\.equal\(matches\.length,1/,'Production wrapper must require exactly one reviewed candidate Rules seam before substitution.');
+assert.match(productionEmulator,/source\.replace\(candidatePattern,'fs\.readFileSync\("firestore\.spark\.generated\.rules","utf8"\)'\)/,'Production wrapper must substitute only the generated provider authority at that one seam.');
 
 assert.match(app,/js\/ssjr\.js/,'Protected startup shell must lazy-load the SSJR bootstrap during the startup splash.');
 assert.match(bootstrap,/productionFirebaseRuntime\.js/,'Lazy SSJR bootstrap must preserve the production Firebase runtime.');
 assert.match(bootstrap,/productionSharedJourneyEntry\.js/,'Lazy SSJR bootstrap must install paired-first Shared Journey entry.');
 assert.match(bootstrap,/productionSharedJourneyGuard\.js/,'Lazy SSJR bootstrap must install the direct draw bypass guard.');
-assert.match(bootstrap,/api\.install/,'Lazy SSJR bootstrap must install paired-first runtime surfaces after loading.');
+assert.match(bootstrap,/\.then\(\(\)=>\{\s*const api=root\[key\]/,'Lazy SSJR bootstrap must re-read the named API after the boolean runtime-loader completion signal.');
+assert.match(bootstrap,/if\(!api\|\|typeof api\.install!=="function"\)throw/,'Lazy SSJR bootstrap must fail closed if the loaded entry or guard is not installable.');
+assert.match(bootstrap,/api\.install\(\)/,'Lazy SSJR bootstrap must install paired-first runtime surfaces after loading.');
 assert.doesNotMatch(bootstrap,/localStorage/,'Lazy SSJR bootstrap must never touch canonical local saves.');
 assert.match(worker,/const RUNTIME_REVISION = "1\.9\.1-r3";/,'Paired-first production runtime must publish under a fresh whole-shell revision.');
 assert.match(worker,/const PREVIOUS_RUNTIME_REVISION = "1\.9\.1-r2";/,'The last production-proven r2 shell must remain the whole-shell rollback target.');
