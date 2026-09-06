@@ -32,4 +32,13 @@ The Installable Offline App, v1.3.0 Recovery & Device Resilience baseline, Local
 
 Permanent locks: Billing must never be activated and Firebase remains Spark. App Check enforcement remains OFF. Firestore browser persistence remains memory-only. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes. Canonical localStorage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, `careerModeShowdown.preferences`. Candidate C remains the sole destructive remote-to-local gameplay Apply authority with transaction-owned strict exact raw-snapshot rollback. Exactly two private managers; no public discovery/listing/lobby/matchmaking/community/rankings/global leaderboards. Never durably retain raw private capabilities or raw account/device/rivalry/session authority IDs.
 
+## Historical compatibility markers — SUPERSEDED, DO NOT EXECUTE
+
+These literal markers preserve current-at-the-time provenance required by older security/continuity contracts. They are historical only and do not override the current PR203/r3 authority or the task above.
+
+```text
+# CURRENT TASK — SSJR-1 AUTHORITATIVE SETUP FOUNDATION
+CURRENT OVERRIDE — PR #194 / v1.9.1-r2 / RJR91 / PHYSICAL ACCEPTANCE NEXT
+```
+
 Estimated focused sessions to genuine SSJR100: ~5–10.
