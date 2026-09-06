@@ -16,6 +16,9 @@ const entry=fs.readFileSync('js/productionSharedJourneyEntry.js','utf8');
 const guard=fs.readFileSync('js/productionSharedJourneyGuard.js','utf8');
 const setup=fs.readFileSync('js/productionSharedShowdownSetup.js','utf8');
 const adapter=fs.readFileSync('js/sparkSharedShowdownSetup.js','utf8');
+const worker=fs.readFileSync('service-worker.js','utf8');
+const menu=fs.readFileSync('js/menuExperience.js','utf8');
+const release=fs.readFileSync('RELEASE_V1.9.1_R3.md','utf8');
 
 function between(source,start,end){const a=source.indexOf(start),b=source.indexOf(end);assert.ok(a>=0&&b>a,`Missing exact splice markers ${start} / ${end}`);return source.slice(a+start.length,b).trimEnd();}
 function once(source,needle,replacement,label){const first=source.indexOf(needle);assert.ok(first>=0,`Missing ${label} sentinel`);assert.equal(source.indexOf(needle,first+needle.length),-1,`Duplicate ${label} sentinel`);return source.slice(0,first)+replacement+source.slice(first);}
@@ -66,6 +69,14 @@ assert.match(bootstrap,/productionSharedJourneyEntry\.js/,'Lazy SSJR bootstrap m
 assert.match(bootstrap,/productionSharedJourneyGuard\.js/,'Lazy SSJR bootstrap must install the direct draw bypass guard.');
 assert.match(bootstrap,/api\.install/,'Lazy SSJR bootstrap must install paired-first runtime surfaces after loading.');
 assert.doesNotMatch(bootstrap,/localStorage/,'Lazy SSJR bootstrap must never touch canonical local saves.');
+assert.match(worker,/const RUNTIME_REVISION = "1\.9\.1-r3";/,'Paired-first production runtime must publish under a fresh whole-shell revision.');
+assert.match(worker,/const PREVIOUS_RUNTIME_REVISION = "1\.9\.1-r2";/,'The last production-proven r2 shell must remain the whole-shell rollback target.');
+for(const path of ['js/ssjr.js','js/productionSharedJourneyEntry.js','js/productionSharedJourneyGuard.js','js/productionSharedShowdownSetup.js','js/sharedShowdownSetup.js','js/sharedShowdownCatalog.js','js/sparkSharedShowdownSetup.js'])assert.ok(worker.includes(`"${path}"`),`Installed-app r3 shell must cache ${path}.`);
+assert.match(menu,/assets\/marco-reus-2015-cc-by\.webp\?v=1\.9\.1-r3/,'Lazy menu visual must use the current r3 shell identity.');
+assert.match(release,/Runtime asset revision: `1\.9\.1-r3`/);
+assert.match(release,/Previous known-good runtime: `1\.9\.1-r2`/);
+assert.match(release,/SSJR-1\.1[\s\S]+`0\/100`/,'r3 publication record must not claim SSJR credit from source or deployment.');
+
 assert.match(entry,/START SHARED SHOWDOWN/);
 assert.match(entry,/setPending\(true\)[\s\S]+createShowdown\(\)[\s\S]+persistPendingMarker\(\)/,'Shared journey must establish its transient lock, create the pre-draw shell, then persist the durable shared-mode marker before setup continues.');
 assert.match(entry,/sharedJourney=\{contractVersion:1,mode:"shared",setupPending:true\}/,'The non-secret shared-mode marker must live with the saved shell.');
@@ -105,4 +116,4 @@ assert.doesNotMatch(setup,/options\.catalog|caller.*catalog/i,'Production runtim
 assert.match(adapter,/createProtocol\(\{catalog:catalogModule\.catalog,cryptoImpl\}\)/,'Production path must retain immutable repository-owned catalog authority.');
 assert.doesNotMatch(adapter,/options\.catalog/);
 
-process.stdout.write('PASS SSJR production paired-first runtime: exact reviewed Rules splice, exact pairing + ACTIVE before draw, durable pre-draw shared-mode marker, capture-phase actual click-path denial, lazy startup bootstrap, generated zero-billing Rules authority, candidate-equivalent production provider emulator coverage before PR merge and deploy publication, immutable provider catalog, fresh-session resume path, and canonical local-save non-mutation are permanently gated.\n');
+process.stdout.write('PASS SSJR production paired-first runtime: exact reviewed Rules splice, exact pairing + ACTIVE before draw, durable pre-draw shared-mode marker, capture-phase actual click-path denial, r3 whole-shell installed-app delivery with r2 recovery, lazy startup bootstrap, generated zero-billing Rules authority, candidate-equivalent production provider emulator coverage before PR merge and deploy publication, immutable provider catalog, fresh-session resume path, and canonical local-save non-mutation are permanently gated.\n');
