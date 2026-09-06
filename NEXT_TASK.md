@@ -14,6 +14,11 @@ Current environment: `we-2026-09-06-ssjr-production-shared-setup-a50`
 Starting independently verified live main: `bea3951e0295a9df5c532d1e22c3f8fd645d42a3`
 Closing environment: `we-2026-09-06-ssjr-production-shared-setup-a50`.
 
+Historical compatibility marker only; the line inside this comment is not current execution authority:
+<!--
+# CURRENT TASK — SSJR-1 AUTHORITATIVE SETUP FOUNDATION
+-->
+
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
 1. Validate/archive sealed a50 and initialize a fresh unique successor WEC from live main.
