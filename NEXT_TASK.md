@@ -2,7 +2,7 @@
 
 Work Environment Continuity (WEC) is mandatory for every successor environment.
 
-RJR-1 remains COMPLETE/FROZEN `100/100`. Historical PR #198 published the fixed RJR100 acceptance after the final stable release acceptance for Remote Joining. The consumed physical proof used a Chromebook on Home WiFi and an iPhone on cellular across two independent networks; it must not be repeated or re-credited absent a proven regression. SSJR-1.1 remains `0/100` until fixed whole-capability production evidence qualifies. Publication and continuity work earns zero SSJR credit.
+RJR-1 remains COMPLETE/FROZEN `100/100`. Historical PR #198 published the fixed RJR100 acceptance after the final stable release acceptance for Remote Joining. The consumed physical proof used a Chromebook on Home WiFi and an iPhone on cellular across two independent networks; it must not be repeated or re-credited absent a proven regression. Evidence/continuity publication only earns zero RJR credit. SSJR-1.1 remains `0/100` until fixed whole-capability production evidence qualifies. Publication and continuity work earns zero SSJR credit.
 
 PR #205 evidence tooling is published: exact reviewed head `55d1bcb5f88bb8dcd598090acbcee59887932a97`, expected-head squash merge/main `66abde6d51ade2e8fbe8296ba60ac46e18a2a353`, tree `72c6063793c8e2908f9b7175f57ad15f7b420d27`, exact-head 15/15, five P1 review threads fixed/resolved, post-merge 15/15, deployed Stability `34033617877` green. Validator: `scripts/validate-ssjr-shared-setup-production-evidence.mjs`.
 
