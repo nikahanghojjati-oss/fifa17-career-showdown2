@@ -17,5 +17,22 @@ for(const [canonical,mirror] of [[bootstrap.starter.canonical,bootstrap.starter.
 assert.equal(readiness.currentScore,100); assert.equal(ssjr.currentScore,0); assert.equal(bootstrap.remoteJoiningReadiness?.score,100); assert.equal(bootstrap.sharedShowdownJourneyReadiness?.score,0);
 assert.equal(bootstrap.currentPublicationCheckpoint?.state,"merged-postmerge-green"); assert.equal(bootstrap.currentPublicationCheckpoint?.finalSealedHeadMustBeFetchedLive,false); assert.equal(bootstrap.currentPublicationCheckpoint?.exactHeadWorkflowFamiliesSuccessful,15); assert.equal(bootstrap.currentPublicationCheckpoint?.postMergeWorkflowFamiliesSuccessful,15);
 for(const p of ["00_CURRENT_HANDOFF.md","NEXT_TASK.md","PROJECT_STATE.md","00_DEVELOPER_START_HERE.md"]){ const text=read(p); assert.match(text,/100\/100/i); assert.match(text,/PR #199/i); assert.match(text,/v1\.9\.1[\s\S]+1\.9\.1-r2/i); assert.match(text,/Billing must never be activated/i); assert.match(text,/Firebase remains Spark/i); }
-assert.equal(wec.lifecycle,"transition-prepared"); assert.deepEqual(wec,json(bootstrap.currentWec.archive)); assert.equal(wec.signals.handoffCompleteness,100); assert.equal(wec.environmentId,bootstrap.currentWec.environmentId); assert.equal(wec.repository.startingMainSha,"780abd7b779cda5acd722b75fd59ef1e82c71f97"); assert.equal(wec.repository.predecessorEnvironmentId,"we-2026-09-05-ssjr-setup-foundation-28cf84"); assert.equal(json(wec.repository.predecessorArchive).environmentId,wec.repository.predecessorEnvironmentId); assert.equal(bootstrap.transition.continuationDecision,wec.assessment.decision);
-process.stdout.write("PASS SLE packaging: mirrored v1.4.47 PR199 post-merge package, frozen RJR100/SSJR0, recovery WEC and recursive provider milestone.\n");
+
+// SLE packaging seals the inherited predecessor. A successor must validate that
+// archived package, then replace WORK_ENVIRONMENT_STATUS.json with its own fresh
+// record rather than remaining byte-identical to the predecessor forever.
+const inheritedWec=json(bootstrap.currentWec.archive);
+assert.equal(inheritedWec.lifecycle,"transition-prepared");
+assert.equal(inheritedWec.signals.handoffCompleteness,100);
+assert.equal(inheritedWec.environmentId,bootstrap.currentWec.environmentId);
+assert.equal(inheritedWec.repository.startingMainSha,"780abd7b779cda5acd722b75fd59ef1e82c71f97");
+assert.equal(inheritedWec.repository.predecessorEnvironmentId,"we-2026-09-05-ssjr-setup-foundation-28cf84");
+assert.equal(json(inheritedWec.repository.predecessorArchive).environmentId,inheritedWec.repository.predecessorEnvironmentId);
+assert.equal(bootstrap.transition.continuationDecision,inheritedWec.assessment.decision);
+assert.notDeepEqual(wec,inheritedWec,"The live successor WEC must not remain the archived predecessor record.");
+assert.notEqual(wec.environmentId,inheritedWec.environmentId,"The successor must own a fresh WEC identity.");
+assert.equal(wec.repository.predecessorEnvironmentId,inheritedWec.environmentId,"The successor must chain directly from the sealed SLE predecessor.");
+assert.equal(wec.repository.predecessorArchive,bootstrap.currentWec.archive,"The successor must preserve the exact SLE predecessor archive reference.");
+assert.equal(wec.assessment.decisionInheritedFromPredecessor,false,"The successor must not inherit the predecessor's HANDOFF decision.");
+assert.ok(["active","transition-prepared"].includes(wec.lifecycle));
+process.stdout.write("PASS SLE packaging: mirrored v1.4.47 PR199 post-merge package is sealed in its archived WEC, frozen RJR100/SSJR0 remain intact, and the fresh successor independently owns the provider milestone.\n");
