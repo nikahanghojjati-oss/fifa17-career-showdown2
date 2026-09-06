@@ -2,7 +2,12 @@
   "use strict";
   const load=root.loadRuntimeScript;
   if(typeof load!=="function")return;
-  const install=(id,path,key)=>load(id,path,()=>root[key]).then(api=>{if(api&&typeof api.install==="function")api.install();return api;});
+  const install=(id,path,key)=>load(id,path,()=>root[key]).then(()=>{
+    const api=root[key];
+    if(!api||typeof api.install!=="function")throw new Error(`${path} loaded without an installable ${key} API.`);
+    api.install();
+    return api;
+  });
   Promise.all([
     load("firebase-runtime","js/productionFirebaseRuntime.js",()=>root.CareerModeProductionFirebaseRuntime),
     install("ssjr-production-entry","js/productionSharedJourneyEntry.js","CareerModeProductionSharedJourneyEntry"),
