@@ -18,7 +18,7 @@ Closing environment: `we-2026-09-06-ssjr-production-shared-setup-a50`.
 4. Prove exact Connected Rivalry pairing + exact ACTIVE precedes every shared league/club action.
 5. Prove one authoritative repository-catalog league, two distinct permanent same-league clubs, supported `1/3/5/10` season length, and two role-distinct confirmations converge through exact `SHOWDOWN_CONFIRMED` revision 6.
 6. Prove reload/reconnect and a fresh ACTIVE same-rivalry session resume the identical setup without reset/redraw.
-7. Prove `wrongSession`, `expiredSession`, `unrelatedAccount`, `revokedIdentity`, `staleRevision`, `replayConflict`, `directFieldSubstitution`, and `coordinatorBypass` all fail closed.
+7. Prove direct modified-client and adverse attempts fail closed: `wrongSession`, `expiredSession`, `unrelatedAccount`, `revokedIdentity`, `staleRevision`, `replayConflict`, `directFieldSubstitution`, and `coordinatorBypass` must all be denied.
 8. Prove Shared Setup operation itself does not mutate canonical local gameplay save keys.
 9. Feed only schema-closed privacy-safe evidence to `scripts/validate-ssjr-shared-setup-production-evidence.mjs`.
 10. Recalculate SSJR only if the fixed production-two-account layer genuinely passes.
