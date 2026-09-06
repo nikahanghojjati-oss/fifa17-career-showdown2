@@ -145,7 +145,7 @@ assert.equal(h.submitIntent(revokedIntent.intent).status,"device-revoked");asser
 
 h.setAccountState("acct_b","disabled");
 const disabledIntent=h.createIntent("device_b",{operation:"put",idempotencyKey:"disabled",contentHash:hash("6"),payload:payload("disabled")});
-assert.equal(disabledIntent.status,"account-disabled");assert.equal(h.authority().revision,beforeInvalid);
+assert.equal(h.submitIntent(disabledIntent.intent).status,"account-disabled");assert.equal(h.authority().revision,beforeInvalid);
 h.setAccountState("acct_b","active");
 const staleRelationshipIntent=h.createIntent("device_b",{operation:"put",idempotencyKey:"relationship-old",contentHash:hash("6"),payload:payload("relationship-old")});
 h.setRelationshipState("revoked-read-only");
