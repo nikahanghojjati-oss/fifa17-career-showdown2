@@ -86,3 +86,6 @@ jobs:
 
       - name: Run Stage 5A, Stage 5B, and Stage 5C Firebase emulator proofs
         run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-career-mode-showdown-stage5a "node tests/firebase/stage5a-private-session-emulator.cjs" && npx --yes firebase-tools@15.28.1 emulators:exec --only auth,firestore --project demo-career-mode-showdown-stage5b "node tests/firebase/stage5b-device-credential-emulator.cjs" && npx --yes firebase-tools@15.28.1 emulators:exec --only auth,firestore --project demo-career-mode-showdown-stage5c "node tests/firebase/stage5c-zero-billing-standard-auth-session-emulator.cjs"
+
+      - name: Run Shared Showdown Setup Spark candidate emulator proofs
+        run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-career-mode-showdown-shared-setup "node tests/firebase/shared-showdown-setup-provider-emulator.cjs && node tests/firebase/shared-showdown-setup-provider-session-emulator.cjs"
