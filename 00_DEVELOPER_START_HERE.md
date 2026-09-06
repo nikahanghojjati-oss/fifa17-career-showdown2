@@ -8,6 +8,8 @@ RJR-1 is COMPLETE/FROZEN `100/100`. SSJR-1.1 remains `0/100`.
 
 Production is DEPLOYED / PRODUCTION-PROVEN `v1.9.1 / 1.9.1-r3`, main `65d88b1b413501b328bdf722bc6e8a0aa0d46ef2`, PR #203 final exact head `1f9ccf781354f22cf56a16f816500c7df017d3b8`. `1.9.1-r2` remains the previous whole-shell recovery runtime. Production Shared Setup Rules are live on Firebase Spark and billing remains permanently OFF.
 
+GitHub CLI bootstrap is repository-owned: when local `gh` access is needed, use `npm run work:gh:bootstrap` and preserve its release checksum verification. Connected GitHub App access remains connector-first; never extract, copy or repurpose connector credentials.
+
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
 Validate/archive closing WEC `we-2026-09-05-ssjr-production-shared-setup-a49`, initialize a fresh unique WEC, then obtain genuine production-two-account Shared Setup evidence. Automate every feasible preflight/negative/evidence-recorder step before owner action. Pairing + exact ACTIVE must precede league/clubs. Both managers must converge on the same immutable setup and reconnect/fresh-session resume must not redraw. Canonical local saves must remain untouched merely by operating Shared Setup.
