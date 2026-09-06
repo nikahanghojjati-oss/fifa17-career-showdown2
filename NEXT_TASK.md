@@ -20,7 +20,7 @@ Current closing environment: `we-2026-09-05-ssjr-production-shared-setup-a49`.
 4. On two legitimate private manager accounts, prove exact pairing + ACTIVE precedes shared league/clubs.
 5. Prove one shared league, two distinct permanent same-league clubs, supported 1/3/5/10 length and two distinct manager confirmations converge identically.
 6. Prove reload/reconnect and a fresh ACTIVE same-rivalry session resume the same setup without reset/redraw.
-7. Prove wrong/expired session, unrelated account, revoked/inactive identity, stale revision, replay/conflict, direct draw/field substitution and coordinator bypass fail closed.
+7. Prove modified-client attempts—including wrong/expired session, unrelated account, revoked/inactive identity, stale revision, replay/conflict, direct draw/field substitution and coordinator bypass—fail closed.
 8. Prove Shared Setup operation itself does not mutate the canonical local gameplay save keys.
 9. Record the evidence bundle and recalculate SSJR only if the fixed SSJR-1.1 production-two-account layer is truly satisfied.
 
