@@ -10,6 +10,8 @@ PR #203 final exact head `1f9ccf781354f22cf56a16f816500c7df017d3b8` passed all 1
 
 Production Shared Setup is now live only after exact Connected Rivalry pairing plus exact ACTIVE session. Production Firestore Rules release `cloud.firestore` points to ruleset `73b4435e-85a8-49f9-92ef-8ffe3ce0f91c` with exact generated-source Git blob `5bcde9297f6b2927a2184605192ab5b6cd46fb29`.
 
+Current environment: `we-2026-09-05-ssjr-production-shared-setup-a49`
+Starting independently verified live main: `f7495255a375bb099d44bca077681ee4ea05bec3`
 Current closing environment: `we-2026-09-05-ssjr-production-shared-setup-a49`.
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
