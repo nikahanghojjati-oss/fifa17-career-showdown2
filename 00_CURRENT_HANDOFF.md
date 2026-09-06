@@ -4,7 +4,9 @@ Work Environment Continuity (WEC) is mandatory for every successor environment.
 
 Owner build-first policy is repository authority at `00_BUILD_FIRST_PRODUCT_POLICY.md`: default focused-session allocation is approximately 75% actual product implementation and 25% validation/maintenance/continuity, with targeted checks during building and the full permanent matrix reserved for publication, release/security boundaries, or demonstrated regressions.
 
-RJR-1 is COMPLETE/FROZEN at `100/100`. SSJR-1.1 remains evidence-backed `0/100`; PR/CI/review/merge/deploy/WEC/SLE/SNS and validator success earn zero SSJR without genuine production-two-account whole-capability evidence.
+SSJR-1.1 is the current engineering model and follows the completed RJR-1 prerequisite at `100/100`, published by PR #198. SSJR-1.1 remains evidence-backed `0/100`; PR/CI/review/merge/deploy/WEC/SLE/SNS and validator success earn zero SSJR without genuine production-two-account whole-capability evidence.
+
+Historical immutable checkpoint only: PR191/RJR91 is retained solely as provenance and is not current execution authority. Later physical and final stable Remote Joining acceptance completed RJR-1 at 100/100 and remain consumed absent a proven regression.
 
 PR #205 `SSJR: automate two-account Shared Setup evidence validation` is merged and post-merge green. Final reviewed head `55d1bcb5f88bb8dcd598090acbcee59887932a97`; expected-head squash merge/evidence-tooling main `66abde6d51ade2e8fbe8296ba60ac46e18a2a353`; tree `72c6063793c8e2908f9b7175f57ad15f7b420d27`; exact-head 15/15, five P1 review threads fixed/resolved, post-merge 15/15, Stability `34033617877` complete through deployed exact bytes and the full deployed journey.
 
