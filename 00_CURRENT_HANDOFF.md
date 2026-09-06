@@ -6,7 +6,7 @@ RJR-1 is COMPLETE/FROZEN at `100/100`. SSJR-1.1 remains evidence-backed `0/100`;
 
 Production is DEPLOYED / PRODUCTION-PROVEN `v1.9.1 / 1.9.1-r3` at main `65d88b1b413501b328bdf722bc6e8a0aa0d46ef2` from PR #203 final head `1f9ccf781354f22cf56a16f816500c7df017d3b8` and exact tree `e7e317d847dcf3b25e9959ce6c67f9dbb492596d`. Exact-head 15/15, review resolution, expected-head merge, 15-family post-merge, zero-billing Rules publication and complete same-main deployed Stability rerun are green.
 
-Historical rollback/publication lineage only: `v1.9.1 / 1.9.1-r2` is the previous known-good whole-shell runtime, and PR #198 published the fixed RJR-1 `100/100` evidence. This r2/PR198 lineage is not current runtime authority and must not be re-credited.
+Historical rollback/publication lineage only: `v1.9.1 / 1.9.1-r2` is the previous known-good whole-shell runtime, and PR #198 published the fixed RJR-1 `100/100` evidence. This r2/PR198 lineage is not current runtime authority and must not be re-credited. Historical immutable checkpoint: PR191/RJR91 is retained only as provenance and is not current execution authority.
 
 Historical current-at-the-time marker only — SUPERSEDED, DO NOT EXECUTE: PR #194 / `1.9.1-r2` / RJR91 / PHYSICAL ACCEPTANCE NEXT, using two physical devices on two independent networks. That physical acceptance was later consumed on the path to frozen RJR100.
 
