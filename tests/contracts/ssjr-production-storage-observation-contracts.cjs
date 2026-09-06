@@ -15,7 +15,8 @@ const keys=[
 
 assert.match(html,/<title>Production Authorization Acceptance · Career Mode Showdown<\/title>/,'Observer must remain on the existing bounded production acceptance surface.');
 assert.match(worker,/NETWORK_ONLY_NAVIGATION_PATHS[\s\S]*production-authorization-acceptance\.html/,'Observer host page must remain explicitly network-only under the service worker.');
-assert.match(html,/acceptance\/ssjrProductionStorageObservation\.js/,'Network-only acceptance page must load the SSJR storage observer outside the ordinary game runtime directory.');
+assert.match(html,/acceptance\/ssjrProductionStorageObservation\.js\?v=20260906-a54/,'First deployed observer request must use the a54 cache-busted URL so a preceding unversioned 404 cannot be reused by the browser HTTP cache.');
+assert.doesNotMatch(html,/src="acceptance\/ssjrProductionStorageObservation\.js"/,'The acceptance page must not regress to the previously miss-cacheable unversioned observer request.');
 assert.match(pagesWorkflow,/cp -R acceptance assets css data js \.pages-artifact\//,'GitHub Pages deployment must stage the acceptance directory so the observer referenced by the deployed HTML cannot 404.');
 assert.match(pagesWorkflow,/cp production-authorization-acceptance\.html \.pages-artifact\//,'GitHub Pages deployment must keep staging the bounded acceptance host page with its observer dependency.');
 assert.equal(fs.existsSync('js/ssjrProductionStorageObservation.js'),false,'Raw localStorage observer must not enter the ordinary js runtime boundary.');
@@ -69,4 +70,4 @@ assert.throws(
   'A failed canonical read must fail the whole observation instead of fabricating a partial snapshot.'
 );
 
-process.stdout.write('PASS SSJR production storage observation: existing network-only acceptance surface and Pages packaging expose an explicit transient exact-raw three-key snapshot outside the ordinary game runtime directory with no writes, network transport, private identifier capture or durable evidence artifact.\n');
+process.stdout.write('PASS SSJR production storage observation: network-only host navigation, a54 cached-miss bypass and Pages packaging expose an explicit transient exact-raw three-key snapshot outside the ordinary game runtime directory with no writes, network transport, private identifier capture or durable evidence artifact.\n');
