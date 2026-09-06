@@ -232,7 +232,7 @@ for(const excludedStatefulWorkflow of [
     "prove-production-pages-rollback.yml"
 ]) A.ok(topology.includes(`"${excludedStatefulWorkflow}"`), `Local workflow-block execution must exclude stateful workflow ${excludedStatefulWorkflow}.`);
 A.match(topology,/name\.endsWith\("\.yml"\)[\s\S]+\.includes\(name\)/,"Authoritative workflow topology scope changed unexpectedly.");
-A.ok(topology.includes('assert.equal(executed + deferred, 34'), "Protected 34-block workflow accounting invariant changed unexpectedly.");
+A.ok(topology.includes('assert.equal(executed + deferred, 35'), "Protected 35-block workflow accounting invariant changed unexpectedly.");
 A.match(topology,/Firebase CLI requires Java 21[\s\S]+exact workflow CI owns this provider gate/i,"Local topology must explicitly defer Java-21-only provider execution rather than misreport it as passed.");
 A.match(topology,/deploy-firestore-rules-zero-billing\.yml[\s\S]+production provider deployment is CI-only[\s\S]+must never run from the local validation harness/i,"Local topology must defer the authenticated production Rules workflow to its protected CI route.");
 A.ok(read(".github/workflows/validate-static-app.yml").includes("validate-stage3-private-pairing.yml"), "Static topology must explicitly require the permanent Stage 3 workflow.");
