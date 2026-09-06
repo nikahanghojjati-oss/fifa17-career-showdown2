@@ -36,6 +36,8 @@ Historical compatibility marker only; the line inside this comment is not curren
 9. Feed only schema-closed privacy-safe evidence to `scripts/validate-ssjr-shared-setup-production-evidence.mjs`.
 10. Recalculate SSJR only if the fixed production-two-account layer genuinely passes.
 
+Publication discipline: every current permanent workflow family must be green on the same exact reviewed PR head before merge. Do not combine evidence from different heads or rely on a stale family count.
+
 Do not begin transfer/results/scoring transport until this Shared Setup evidence boundary is credited or a concrete blocker is isolated. Once that boundary is accepted, apply the build-first policy and move directly into the next unbuilt product capability instead of extending the proof lane.
 
 The Installable Offline App, v1.3.0 Recovery & Device Resilience baseline, Local Profiles and Save Library remain protected throughout this successor task.
