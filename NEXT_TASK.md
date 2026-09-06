@@ -8,6 +8,8 @@ PR #205 evidence tooling is published: exact reviewed head `55d1bcb5f88bb8dcd598
 
 Production remains DEPLOYED / PRODUCTION-PROVEN `v1.9.1 / 1.9.1-r3` from PR #203 merge `65d88b1b413501b328bdf722bc6e8a0aa0d46ef2`. Production Shared Setup Rules remain live on Firebase Spark at `cloud.firestore` ruleset `73b4435e-85a8-49f9-92ef-8ffe3ce0f91c`, exact generated-source blob `5bcde9297f6b2927a2184605192ab5b6cd46fb29`.
 
+Current environment: `we-2026-09-06-ssjr-production-shared-setup-a50`
+Starting independently verified live main: `bea3951e0295a9df5c532d1e22c3f8fd645d42a3`
 Closing environment: `we-2026-09-06-ssjr-production-shared-setup-a50`.
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
