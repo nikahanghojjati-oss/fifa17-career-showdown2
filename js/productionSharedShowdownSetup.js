@@ -26,7 +26,7 @@
   const listeners=new Set();
   let state=freeze({
     status:"idle",open:false,busy:false,ready:false,revision:0,phase:null,
-    rivalryId:null,sessionId:null,accountId:null,deviceId:null,managerRole:null,
+    rivalryId:null,sessionId:null,accountId:null,deviceId:null,managerRole:null,remoteRole:null,
     setup:null,message:"Shared Setup is locked until the exact paired rivalry has an ACTIVE private session."
   });
 
@@ -36,9 +36,9 @@
   }
   function fail(code,message){const error=new Error(message||code);error.code=code;throw error;}
   function revision(){
-    if(!root.document)return "1.9.1-r2";
+    if(!root.document)return "1.9.1-r3";
     const meta=root.document.querySelector('meta[name="app-asset-revision"]');
-    return meta&&meta.content?meta.content.trim()||"1.9.1-r2":"1.9.1-r2";
+    return meta&&meta.content?meta.content.trim()||"1.9.1-r3":"1.9.1-r3";
   }
   function versionedUrl(path){
     if(!root.document||!root.location)return path;
@@ -109,26 +109,31 @@
     if(rivalryState.deviceId&&rivalryState.deviceId!==pairingState.deviceId)fail("SHARED_SETUP_AUTHORITY_MISMATCH");
     const managerRole=rivalryState.binding.managerRole;
     if(managerRole!=="playerOne"&&managerRole!=="playerTwo")fail("SHARED_SETUP_BINDING_INVALID","The attached rivalry does not expose a valid manager role.");
+    const remoteRole=remoteState.role;
+    if(remoteRole!=="host"&&remoteRole!=="peer")fail("SHARED_SETUP_SESSION_ROLE_INVALID","The ACTIVE private session does not expose a valid host or peer role.");
     const services=await runtime.ensureAccountServices();
     if(!services||services.ok!==true||!services.auth||!services.firestore||!services.firestoreSdk)fail("SHARED_SETUP_PROVIDER_UNAVAILABLE","Private Firebase services are unavailable.");
     const user=services.auth.currentUser;
     if(!user||user.uid!==accountState.accountId)fail("SHARED_SETUP_AUTH_MISMATCH","The current Google account no longer matches Connected Account authority.");
     if(!adapter||typeof adapter.read!=="function"||typeof adapter.mutate!=="function")fail("SHARED_SETUP_PROVIDER_UNAVAILABLE","Shared Setup transaction authority is unavailable.");
-    return Object.freeze({adapter,services,user,rivalryId:rivalryState.rivalryId,sessionId:remoteState.sessionId,accountId:user.uid,deviceId:pairingState.deviceId,managerRole,remoteRole:remoteState.role});
+    return Object.freeze({adapter,services,user,rivalryId:rivalryState.rivalryId,sessionId:remoteState.sessionId,accountId:user.uid,deviceId:pairingState.deviceId,managerRole,remoteRole});
   }
   function providerOptions(context){
     return {firestore:context.services.firestore,firebaseSdk:context.services.firestoreSdk,user:context.user,rivalryId:context.rivalryId,sessionId:context.sessionId,deviceId:context.deviceId,nowEpochMs:Date.now(),cryptoImpl:root.crypto};
   }
   function accept(result,context,message){
     if(!result||result.ok!==true)fail(result&&result.code||"SHARED_SETUP_PROVIDER_FAILED");
-    return setState({status:"ready",busy:false,ready:true,revision:result.revision||0,phase:result.state&&result.state.phase||null,rivalryId:context.rivalryId,sessionId:context.sessionId,accountId:context.accountId,deviceId:context.deviceId,managerRole:context.managerRole,setup:result.state||null,message});
+    return setState({status:"ready",busy:false,ready:true,revision:result.revision||0,phase:result.state&&result.state.phase||null,rivalryId:context.rivalryId,sessionId:context.sessionId,accountId:context.accountId,deviceId:context.deviceId,managerRole:context.managerRole,remoteRole:context.remoteRole,setup:result.state||null,message});
   }
   async function refresh(){
     const before=storageSnapshot();setState({status:"reading",busy:true,message:"Reading the authoritative Shared Setup for this exact ACTIVE session…"});
     try{
       const context=await resolveContext();const result=await context.adapter.read(providerOptions(context));assertStorageUnchanged(before);
       if(!result||result.ok!==true)fail(result&&result.code||"SHARED_SETUP_READ_FAILED");
-      return accept(result,context,result.status==="empty"?"The paired managers have reached an empty Shared Setup. The session host may open it now.":"Authoritative Shared Setup resumed without reset or redraw.");
+      const message=result.status==="empty"
+        ? context.remoteRole==="host"?"The paired managers have reached an empty Shared Setup. Open it once for both managers.":"The paired managers have reached an empty Shared Setup. Waiting for the session host to open it."
+        : "Authoritative Shared Setup resumed without reset or redraw.";
+      return accept(result,context,message);
     }catch(error){
       try{assertStorageUnchanged(before);}catch(storageError){error=storageError;}
       return setState({status:"locked",busy:false,ready:false,message:error&&error.message&&error.message!==error.code?error.message:String(safeError(error,"SHARED_SETUP_UNAVAILABLE")).replace(/_/g," ")});
@@ -139,6 +144,7 @@
     const before=storageSnapshot();setState({status:`writing-${type}`,busy:true,message:"Submitting one authoritative Shared Setup transition…"});
     try{
       const context=await resolveContext();
+      if(type==="open"&&context.remoteRole!=="host")fail("SHARED_SETUP_HOST_REQUIRED","Only the ACTIVE session host may open an empty Shared Setup.");
       const current=await context.adapter.read(providerOptions(context));
       if(!current||current.ok!==true)fail(current&&current.code||"SHARED_SETUP_READ_FAILED");
       const result=await context.adapter.mutate({...providerOptions(context),type,operationId:randomOperationId(),baseRevision:current.revision||0,...extra});
@@ -159,7 +165,8 @@
     if(!setup){
       summary.append(create("strong","remoteJoiningState","EMPTY · REV 0"),create("p","remoteJoiningMeta","Pairing and the exact ACTIVE session are proven. No league or club has been drawn yet."));
       const actions=create("div","remoteJoiningActions");
-      if(state.ready)actions.append(action("OPEN SHARED SETUP",()=>void mutate("open"),state.busy));
+      if(state.ready&&state.remoteRole==="host")actions.append(action("OPEN SHARED SETUP",()=>void mutate("open"),state.busy));
+      else if(state.ready)summary.append(create("p","remoteJoiningMeta","Waiting for the ACTIVE session host to open this authoritative setup. No local draw is available."));
       actions.append(action("REFRESH",()=>void refresh(),state.busy));summary.append(actions);body.append(summary);return;
     }
     summary.append(create("strong","remoteJoiningState",`${setup.phase} · REV ${setup.revision}`));
