@@ -2,7 +2,7 @@
 
 Work Environment Continuity (WEC) is mandatory for every successor environment.
 
-RJR-1 remains COMPLETE/FROZEN at `100/100`. Historical PR #198 published the fixed RJR100 acceptance after the final stable release acceptance, specifically the final stable Remote Joining release acceptance. The consumed physical proof used a Chromebook on Home WiFi and an iPhone on cellular across two independent networks; do not repeat or re-credit it absent a proven regression. Evidence/continuity publication only earns zero RJR credit. SSJR-1.1 remains `0/100` until whole production evidence qualifies.
+RJR-1 remains COMPLETE/FROZEN at `100/100`. Historical PR #198 published the fixed RJR-1 `100/100` acceptance after the final stable release acceptance, specifically the final stable Remote Joining release acceptance. The consumed physical proof used a Chromebook on Home WiFi and an iPhone on cellular across two independent networks; do not repeat or re-credit it absent a proven regression. Evidence/continuity publication only earns zero RJR credit. SSJR-1.1 remains `0/100` until whole production evidence qualifies.
 
 Current production is DEPLOYED / PRODUCTION-PROVEN `v1.9.1 / 1.9.1-r3`, PR #203 merge `65d88b1b413501b328bdf722bc6e8a0aa0d46ef2`, previous known-good whole-shell `1.9.1-r2`. Stage 5F historical accepted evidence advanced RJR89 to RJR91 by proving the revoked-device boundary and authenticated unrelated-account denial. Later Remote Joining-specific two-device/two-network reconnect/adverse-network hardening and the final stable Remote Joining release acceptance were completed and consumed on the path to frozen RJR100; do not repeat generic Connected Rivalry adverse-network proof.
 
