@@ -14,8 +14,43 @@
   let installed=false,busy=false;
 
   function revision(){const meta=root.document&&root.document.querySelector('meta[name="app-asset-revision"]');return meta&&meta.content?meta.content:"1.9.1-r2";}
-  function pending(){try{return root.sessionStorage&&root.sessionStorage.getItem(PENDING_KEY)==="1";}catch(_error){return false;}}
+  function activeSavedShowdown(){
+    try{
+      const runtime=root.CareerModeSaveLibraryRuntime;
+      if(!runtime||typeof runtime.isReady!=="function"||!runtime.isReady()||typeof runtime.getLibrarySnapshot!=="function")return null;
+      const library=runtime.getLibrarySnapshot();
+      if(!library||!library.activeSaveId||!Array.isArray(library.saves))return null;
+      const entry=library.saves.find(item=>item&&item.saveId===library.activeSaveId);
+      return entry&&entry.showdown||null;
+    }catch(_error){return null;}
+  }
+  function persistedPending(){
+    const showdown=activeSavedShowdown();
+    return Boolean(showdown&&showdown.sharedJourney&&showdown.sharedJourney.mode==="shared"&&showdown.sharedJourney.setupPending===true);
+  }
+  function pending(){
+    if(persistedPending())return true;
+    try{return root.sessionStorage&&root.sessionStorage.getItem(PENDING_KEY)==="1";}catch(_error){return false;}
+  }
   function setPending(value){try{if(root.sessionStorage){if(value)root.sessionStorage.setItem(PENDING_KEY,"1");else root.sessionStorage.removeItem(PENDING_KEY);}}catch(_error){}applyLocalDrawLock();}
+  function currentSaveShell(){try{return typeof currentShowdown!=="undefined"?currentShowdown:null;}catch(_error){return null;}}
+  function persistPendingMarker(){
+    const showdown=currentSaveShell();
+    if(!showdown||showdown.selectedLeague||showdown.clubs&&((showdown.clubs.playerOne)||(showdown.clubs.playerTwo))||Array.isArray(showdown.rounds)&&showdown.rounds.length){throw new Error("Shared mode marker can be attached only to a pre-draw Save shell.");}
+    const runtime=root.CareerModeSaveLibraryRuntime;
+    if(!runtime||typeof runtime.isReady!=="function"||!runtime.isReady()||typeof runtime.saveCurrentShowdown!=="function")throw new Error("Save Library authority is unavailable for the shared-mode marker.");
+    const previous=showdown.sharedJourney;
+    showdown.sharedJourney={contractVersion:1,mode:"shared",setupPending:true};
+    if(runtime.saveCurrentShowdown()!==true){showdown.sharedJourney=previous;throw new Error("The durable shared-mode marker could not be saved with the pre-draw shell.");}
+    if(!persistedPending()){showdown.sharedJourney=previous;runtime.saveCurrentShowdown();throw new Error("The durable shared-mode marker did not round-trip through Save Library authority.");}
+    return true;
+  }
+  function discardUnmarkedShell(){
+    try{
+      const runtime=root.CareerModeSaveLibraryRuntime;
+      if(runtime&&typeof runtime.isReady==="function"&&runtime.isReady()&&typeof runtime.clearActiveShowdown==="function")runtime.clearActiveShowdown();
+    }catch(_error){}
+  }
   function create(tag,className,text){const element=root.document.createElement(tag);if(className)element.className=className;if(text!==undefined)element.textContent=String(text);return element;}
   function report(context,error){if(typeof root.reportApplicationError==="function")root.reportApplicationError(context,error);else console.error(context,error);}
   async function loadScript(key,path,ready){
@@ -49,15 +84,19 @@
   }
   async function startShared(){
     if(busy)return false;busy=true;const button=root.document.getElementById(SHARED_START_ID);if(button)button.disabled=true;
-    const round=root.document.getElementById("roundAmount");const priorRound=round?round.value:null;
+    const round=root.document.getElementById("roundAmount");const priorRound=round?round.value:null;let shellCreated=false,markerPersisted=false;
     try{
       await ensureSaveAuthority();setPending(true);
       if(round)round.value="1";
       if(typeof root.createShowdown!=="function")throw new Error("Pre-draw Save shell authority is unavailable.");
-      const created=await root.createShowdown();
+      const created=await root.createShowdown();shellCreated=Boolean(created);
       if(!created)throw new Error("The pre-draw Save shell could not be created.");
+      persistPendingMarker();markerPersisted=true;
       applyLocalDrawLock();await openPanel();return true;
-    }catch(error){setPending(false);report("Unable to start paired-first Shared Showdown",error);return false;}
+    }catch(error){
+      if(shellCreated&&!markerPersisted)discardUnmarkedShell();
+      setPending(false);report("Unable to start paired-first Shared Showdown",error);return false;
+    }
     finally{if(round&&priorRound!==null)round.value=priorRound;if(button)button.disabled=false;busy=false;}
   }
   async function openSaveLibrary(){
@@ -142,5 +181,5 @@
     if(pending())setTimeout(()=>void openPanel(),0);return true;
   }
 
-  return Object.freeze({contractVersion:1,feature:"ssjr-production-paired-first-entry",productionEnabled:true,pairingBeforeLeagueClub:true,activeSessionBeforeLeagueClub:true,canonicalLocalSaveMutationDuringSharedSetup:false,billingRequired:false,install,openPanel,closePanel,isPending:pending});
+  return Object.freeze({contractVersion:1,feature:"ssjr-production-paired-first-entry",productionEnabled:true,pairingBeforeLeagueClub:true,activeSessionBeforeLeagueClub:true,persistedSaveMarker:true,canonicalLocalSaveMutationDuringSharedSetup:false,billingRequired:false,install,openPanel,closePanel,isPending:pending});
 });
