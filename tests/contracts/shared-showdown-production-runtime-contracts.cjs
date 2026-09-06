@@ -17,6 +17,15 @@ const guard=fs.readFileSync('js/productionSharedJourneyGuard.js','utf8');
 const setup=fs.readFileSync('js/productionSharedShowdownSetup.js','utf8');
 const adapter=fs.readFileSync('js/sparkSharedShowdownSetup.js','utf8');
 
+function between(source,start,end){const a=source.indexOf(start),b=source.indexOf(end);assert.ok(a>=0&&b>a,`Missing exact splice markers ${start} / ${end}`);return source.slice(a+start.length,b).trimEnd();}
+function once(source,needle,replacement,label){const first=source.indexOf(needle);assert.ok(first>=0,`Missing ${label} sentinel`);assert.equal(source.indexOf(needle,first+needle.length),-1,`Duplicate ${label} sentinel`);return source.slice(0,first)+replacement+source.slice(first);}
+const functionMarker='// SSJR_SHARED_SETUP_FUNCTIONS_BEGIN',functionEnd='// SSJR_SHARED_SETUP_FUNCTIONS_END',matchMarker='// SSJR_SHARED_SETUP_MATCH_BEGIN',matchEnd='// SSJR_SHARED_SETUP_MATCH_END';
+let expectedGenerated=base;
+expectedGenerated=once(expectedGenerated,'    function capabilityCanReadPendingRivalry(rivalryId) {',`    ${functionMarker}\n${between(fragment,functionMarker,functionEnd)}\n    ${functionEnd}\n\n`,'top-level function insertion');
+expectedGenerated=once(expectedGenerated,'      // STAGE5C_CANDIDATE_SESSION_MATCH_BEGIN',`      ${matchMarker}\n${between(fragment,matchMarker,matchEnd)}\n      ${matchEnd}\n\n`,'rivalry child-match insertion');
+if(!expectedGenerated.endsWith('\n'))expectedGenerated+='\n';
+assert.equal(generated,expectedGenerated,'Generated production Rules must be the exact reviewed Spark base plus only the two bounded Shared Setup fragment splices.');
+
 assert.equal(base.includes('match /sharedSetup/authoritative'),false,'Reviewed Spark base must remain unchanged; Shared Setup is additive at build time.');
 assert.equal((generated.match(/match \/sharedSetup\/authoritative/g)||[]).length,1,'Generated provider authority must contain exactly one Shared Setup match.');
 for(const required of [
@@ -33,8 +42,6 @@ for(const required of [
 ]) assert.ok(generated.includes(required),`Generated production Rules missing ${required}`);
 for(const forbidden of [/cloud\s*run/i,/cloud\s*functions/i,/blaze/i,/payment method/i,/purchased credits/i])assert.doesNotMatch(fragment,forbidden,'Shared Setup production Rules must remain zero-billing/Spark compatible.');
 assert.match(generated,/match \/\{document=\*\*\} \{\s*allow read, write: if false;/,'Generated authority must retain global deny-by-default fallback.');
-assert.ok(generated.includes(base.slice(0,4000)),'Generated authority must retain the audited Spark base prefix.');
-assert.ok(generated.endsWith(base.slice(-700)),'Generated authority must retain the audited Spark base deny-by-default suffix.');
 
 assert.match(workflow,/FIREBASE_RULES_FILE: firestore\.spark\.generated\.rules/,'Zero-billing workflow must publish generated authority.');
 assert.match(workflow,/node scripts\/build-production-firestore-rules\.mjs/,'Deployment must deterministically rebuild reviewed source.');
@@ -60,19 +67,24 @@ assert.match(bootstrap,/productionSharedJourneyGuard\.js/,'Lazy SSJR bootstrap m
 assert.match(bootstrap,/api\.install/,'Lazy SSJR bootstrap must install paired-first runtime surfaces after loading.');
 assert.doesNotMatch(bootstrap,/localStorage/,'Lazy SSJR bootstrap must never touch canonical local saves.');
 assert.match(entry,/START SHARED SHOWDOWN/);
-assert.match(entry,/setPending\(true\)[\s\S]+createShowdown\(\)/,'Shared journey lock must exist before the pre-draw Save shell routes to local league UI.');
-assert.match(entry,/spinLeague/);
-assert.match(entry,/openClubPack/);
+assert.match(entry,/setPending\(true\)[\s\S]+createShowdown\(\)[\s\S]+persistPendingMarker\(\)/,'Shared journey must establish its transient lock, create the pre-draw shell, then persist the durable shared-mode marker before setup continues.');
+assert.match(entry,/sharedJourney=\{contractVersion:1,mode:"shared",setupPending:true\}/,'The non-secret shared-mode marker must live with the saved shell.');
+assert.match(entry,/runtime\.saveCurrentShowdown\(\)!==true/,'The shared-mode marker must be committed through Save Library authority.');
+assert.match(entry,/if\(!persistedPending\(\)\)/,'The saved marker must round-trip before shared setup continues.');
+assert.match(entry,/if\(shellCreated&&!markerPersisted\)discardUnmarkedShell\(\)/,'A failed durable marker write must not leave an unmarked bypassable shell.');
 assert.match(entry,/remote\.sessionState==="active"/,'Shared Setup entry must require exact ACTIVE private session.');
 assert.match(entry,/remote\.rivalryId===rivalry\.rivalryId/);
 assert.match(entry,/remote\.accountId===account\.accountId/);
 assert.match(entry,/remote\.deviceId===pairing\.deviceId/);
-assert.doesNotMatch(entry,/localStorage/,'Shared journey entry marker must never use canonical localStorage.');
+assert.doesNotMatch(entry,/localStorage/,'Shared journey entry marker must never use raw canonical localStorage.');
 for(const functionName of ['handleLeagueWheelAction','spinLeagueWheel','confirmLeagueSelectionAndContinue','prepareClubAssignment','assignClubs','continueToShowdownHome'])assert.ok(guard.includes(`"${functionName}"`),`Shared mode must guard direct ${functionName} calls.`);
-assert.match(guard,/if\(pending\(\)\)return deny\(name\)/,'Direct local draw calls must fail closed while shared mode is pending.');
+assert.match(guard,/CLICK_TARGETS=Object\.freeze\(\{spinLeague:"league selection",openClubPack:"club assignment",continueClubAssignment:"local rivalry confirmation"\}\)/,'Actual bound league/club controls must be capture-gated.');
+assert.match(guard,/root\.document\.addEventListener\("click"[\s\S]+stopImmediatePropagation\(\)[\s\S]+,true\)/,'Shared mode must intercept actual click paths in capture phase before lexical handlers.');
+assert.match(guard,/usesPersistedSaveMarker:true/,'Bypass guard must recover shared-mode authority from the durable active Save Library shell.');
+assert.match(guard,/if\(blockLocalDraw\(name\)\)return false/,'Direct global calls must remain fail-closed while shared mode is pending.');
 assert.match(guard,/root\.loadRuntimeScript/,'Bypass guard must hook lazy gameplay script loading.');
 assert.match(guard,/Promise\.resolve\(original\.apply\(this,args\)\)\.then\(value=>\{\s*install\(\)/,'Lazy-loaded draw functions must be guarded before the runtime loader resolves to its caller.');
-assert.doesNotMatch(guard,/localStorage/,'Bypass guard must never touch canonical localStorage.');
+assert.doesNotMatch(guard,/localStorage/,'Bypass guard must never touch raw canonical localStorage.');
 
 for(const required of [
   'productionEnabled:true',
@@ -93,4 +105,4 @@ assert.doesNotMatch(setup,/options\.catalog|caller.*catalog/i,'Production runtim
 assert.match(adapter,/createProtocol\(\{catalog:catalogModule\.catalog,cryptoImpl\}\)/,'Production path must retain immutable repository-owned catalog authority.');
 assert.doesNotMatch(adapter,/options\.catalog/);
 
-process.stdout.write('PASS SSJR production paired-first runtime: exact pairing + ACTIVE before draw, lazy startup bootstrap, direct and lazy-loaded local-draw bypass denial, generated zero-billing Rules authority, candidate-equivalent production provider emulator coverage before PR merge and deploy publication, immutable provider catalog, fresh-session resume path, and canonical local-save non-mutation are permanently gated.\n');
+process.stdout.write('PASS SSJR production paired-first runtime: exact reviewed Rules splice, exact pairing + ACTIVE before draw, durable pre-draw shared-mode marker, capture-phase actual click-path denial, lazy startup bootstrap, generated zero-billing Rules authority, candidate-equivalent production provider emulator coverage before PR merge and deploy publication, immutable provider catalog, fresh-session resume path, and canonical local-save non-mutation are permanently gated.\n');
