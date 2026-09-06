@@ -8,7 +8,7 @@ PR201 added the Spark-compatible exact-path Shared Setup provider candidate, imm
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
-Validate/archive closing WEC `we-2026-09-05-ssjr-provider-adapter-a48`, initialize a fresh unique WEC from current live main and never inherit the closing HANDOFF decision.
+Work Environment Continuity is mandatory. Validate/archive closing WEC `we-2026-09-05-ssjr-provider-adapter-a48`, initialize a fresh unique WEC from current live main and never inherit the closing HANDOFF decision.
 
 Then wire the PR201 provider candidate into the production browser journey only after exact Connected Rivalry pairing and exact ACTIVE session, and prepare the smallest Spark-only production Rules promotion for the exact Shared Setup path. Both managers must reach the same empty setup after ACTIVE, then one authoritative league, two distinct permanent same-league clubs, a 1/3/5/10 length and identical dual confirmation. A fresh ACTIVE session for the same rivalry resumes existing setup; it never resets or redraws.
 
