@@ -13,7 +13,7 @@ Historical rollback/publication lineage only: `v1.9.1 / 1.9.1-r2` was the previo
 
 PR #205 published the production evidence validator without changing runtime/provider behavior. Final reviewed head `55d1bcb5f88bb8dcd598090acbcee59887932a97`; expected-head squash merge/evidence-tooling main `66abde6d51ade2e8fbe8296ba60ac46e18a2a353`; tree `72c6063793c8e2908f9b7175f57ad15f7b420d27`; exact-head 15/15; five P1 review threads fixed/resolved; post-merge 15/15; Stability `34033617877` green through exact deployed bytes and complete deployed journey.
 
-RJR-1 remains COMPLETE/FROZEN `100/100`. Fixed SSJR-1.1 remains evidence-backed `0/100`. PR205 is dependency progress but zero readiness credit until genuine production-two-account evidence passes the fixed validator.
+RJR100 remains COMPLETE/FROZEN at `100/100`. Fixed SSJR-1.1 remains evidence-backed `0/100`. PR205 is dependency progress but zero readiness credit until genuine production-two-account evidence passes the fixed validator.
 
 Required journey order remains: Profiles/pre-draw Save shell → exact Connected Rivalry pairing → exact ACTIVE → authoritative league → two distinct permanent same-league clubs → 1/3/5/10 season length → both managers confirm identical setup → career-start acknowledgement → transfer/results/season commit → scoring/history/progression → recovery/conflict safety → final reconciliation → terminal close/no resurrection.
 
