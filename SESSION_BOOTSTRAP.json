@@ -1,12 +1,12 @@
 {
   "schemaVersion": 5,
   "purpose": "SLE-live-first-low-context-adaptive-successor-bootstrap",
-  "recordedAt": "2026-09-05T23:35:00Z",
+  "recordedAt": "2026-09-06T01:02:00Z",
   "repository": "nikahanghojjati-oss/fifa17-career-showdown2",
-  "bootstrapBranch": "handoff/pr199-postmerge-ssjr-provider-next-2026-09-05",
+  "bootstrapBranch": "handoff/pr201-postmerge-ssjr-runtime-next",
   "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
-  "lastVerifiedMainSha": "780abd7b779cda5acd722b75fd59ef1e82c71f97",
-  "lastVerifiedRuntimeMainSha": "780abd7b779cda5acd722b75fd59ef1e82c71f97",
+  "lastVerifiedMainSha": "0cf810f99460bc66d41b4a036d42befb5bb5ef39",
+  "lastVerifiedRuntimeMainSha": "0cf810f99460bc66d41b4a036d42befb5bb5ef39",
   "latestRuntimeMerge": {
     "pullRequest": 194,
     "title": "Stage 5I: add privacy-safe physical acceptance recorder",
@@ -20,33 +20,64 @@
     "historicalRollbackProvenance": true
   },
   "currentPublicationCheckpoint": {
-    "pullRequest": 199,
-    "title": "Define SSJR-1 and prove authoritative Shared Setup protocol",
+    "pullRequest": 201,
+    "title": "SSJR: add Spark Shared Setup provider transaction and emulator proof",
     "state": "merged-postmerge-green",
-    "workingBranch": "ssjr/authoritative-setup-foundation-2026-09-05",
-    "baseSha": "39ffe88d61dcda973df03a18e0266fcfe4cf5638",
-    "finalSealedHead": "378931e7bec2a4e95fb31912d4879e294b63d79f",
+    "workingBranch": "codex/ssjr-spark-provider-adapter",
+    "baseSha": "13dcf6bd3f2e8a6d2682db46ae0f7da3cbde7885",
+    "finalSealedHead": "2c99e0746d6a3c5df946aa96f2c010da208bf70f",
+    "exactTree": "87ddbde2550facccdfba0ec02a3a625ea81d1a08",
     "finalSealedHeadMustBeFetchedLive": false,
     "expectedHeadProtectionRequired": true,
     "expectedHeadProtectionUsed": true,
+    "mergeSha": "0cf810f99460bc66d41b4a036d42befb5bb5ef39",
+    "exactHeadWorkflowFamiliesSuccessful": 15,
+    "postMergeWorkflowFamiliesSuccessful": 15,
+    "postMergeStabilityRunId": 34002238464,
+    "reviewBlockersResolved": true,
+    "runtimeChanged": false,
+    "rulesChanged": true,
+    "rulesProductionEnabled": false,
+    "providerMutationRequired": false,
+    "providerCandidatePublished": true,
+    "productionTwoAccountEvidence": false,
+    "publicationWorkRjrCredit": 0,
+    "publicationWorkSsjrCredit": 0,
+    "sharedSetupProviderEmulatorPassed": true,
+    "sharedSetupSessionModifiedClientEmulatorPassed": true
+  },
+  "historicalPr199PublicationCheckpoint": {
+    "pullRequest": 199,
+    "title": "Define SSJR-1 and prove authoritative Shared Setup protocol",
+    "exactFinalHead": "378931e7bec2a4e95fb31912d4879e294b63d79f",
+    "exactTree": "caef86d9a8bf3cb4252e461e80b3405724fdc86f",
     "mergeSha": "780abd7b779cda5acd722b75fd59ef1e82c71f97",
     "exactHeadWorkflowFamiliesSuccessful": 15,
     "postMergeWorkflowFamiliesSuccessful": 15,
-    "releaseIntegrationRunId": 33996909745,
-    "reviewBlockersResolved": true,
+    "runtimeChanged": false,
+    "rulesChanged": false,
+    "productionEnabled": false,
+    "publicationWorkSsjrCredit": 0,
+    "immutableHistoricalProvenance": true
+  },
+  "historicalPr198PublicationCheckpoint": {
+    "pullRequest": 198,
+    "title": "Publish final fixed RJR-1 100/100 acceptance",
+    "state": "merged",
+    "workingBranch": "rjr/final-rjr100-acceptance-2026-09-05",
+    "baseSha": "264237056896d2b9d84f69c908da5b14e2b8e97d",
+    "finalSealedHead": "165b21a1e9a269fae87efa06ebd1df89cfc48e04",
+    "exactHeadWorkflowFamiliesSuccessfulAtPackaging": 15,
+    "expectedHeadProtectionRequired": true,
+    "postMergeWorkflowFamiliesSuccessful": 15,
     "runtimeChanged": false,
     "rulesChanged": false,
     "providerMutationRequired": false,
     "publicationWorkRjrCredit": 0,
-    "publicationWorkSsjrCredit": 0,
-    "initialExactHead": "18e08bb96b7a6da7f9cb845aef03c79e8cd91f8e",
-    "initialTree": "3c206c63d780fbff415c884d683ae77caa633019",
-    "publicationEvidenceMustBeFetchedLive": false,
-    "initialExactHeadWorkflowFamiliesSuccessful": 15,
-    "reviewedPriorSeal": "82126f776d7e33a1ffde8f0580a0addc857ccb7f",
-    "reviewedPriorSealWorkflowFamiliesSuccessful": 15,
-    "validReviewFindings": 2,
-    "reviewFindingsCorrectedLocally": 2
+    "exactFinalHead": "165b21a1e9a269fae87efa06ebd1df89cfc48e04",
+    "mergeSha": "39ffe88d61dcda5acd722b75fd59ef1e82c71f97",
+    "closureCommentId": 5554721311,
+    "immutableHistoricalProvenance": true
   },
   "historicalPr195PublicationCheckpoint": {
     "pullRequest": 195,
@@ -159,7 +190,7 @@
     "storageInitialized": false,
     "functionsInitialized": false
   },
-  "currentLane": "PR199 post-merge green; SSJR Shared Remote Setup provider enforcement is next after fresh WEC activation.",
+  "currentLane": "PR201 provider candidate is merged/post-merge green; paired-first production Shared Setup runtime and smallest safe Spark-only Rules promotion are next after fresh WEC activation.",
   "remoteJoiningReadiness": {
     "authority": "REMOTE_JOINING_READINESS.json",
     "model": "RJR-1",
@@ -174,6 +205,22 @@
       "realDeviceHardeningRelease": "10/10"
     },
     "rule": "RJR-1 is complete/frozen. Future product expansion does not create scores above 100. PR, CI, review, merge, deployment, WEC, SLE, SNS and documentation receive zero duplicate credit."
+  },
+  "sharedShowdownJourneyReadiness": {
+    "authority": "SHARED_SHOWDOWN_JOURNEY_READINESS.json",
+    "definition": "SHARED_SHOWDOWN_JOURNEY_MODEL.json",
+    "model": "SSJR-1.1",
+    "score": 0,
+    "denominator": 100,
+    "remaining": 100,
+    "candidateEvidenceCredit": 0,
+    "providerEnforcementCandidatePublished": true,
+    "providerEnforcementCandidateId": "ssjr1-spark-provider-enforcement-candidate-pr201",
+    "productionTwoAccountLayerMissing": true,
+    "baselineSourceSha": "39ffe88d61dcda973df03a18e0266fcfe4cf5638",
+    "versionedBackcast": "authority-history/SSJR1_1_PAIRING_DEPENDENCY_BACKCAST_2026-09-05.json",
+    "estimatedFocusedSessionsToGenuine100": "6-11",
+    "rule": "Only fixed evidence-backed whole capabilities earn SSJR credit; publication mechanics and candidate code/emulator proof earn zero without production-two-account evidence."
   },
   "ownerEagleEye": {
     "authority": "00_OWNER_EAGLE_EYE_GOLDEN_RULE.md",
@@ -190,43 +237,43 @@
     ]
   },
   "predecessorClosure": {
-    "environmentId": "we-2026-09-05-ssjr-setup-foundation-28cf84",
-    "archive": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-05-ssjr-setup-foundation-28cf84.json",
-    "mergeSha": "780abd7b779cda5acd722b75fd59ef1e82c71f97",
+    "environmentId": "we-2026-09-05-pr199-postmerge-recovery-a47",
+    "archive": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-05-pr199-postmerge-recovery-a47.json",
+    "mergeSha": "13dcf6bd3f2e8a6d2682db46ae0f7da3cbde7885",
     "decisionMustNotBeInherited": true
   },
   "currentWec": {
-    "environmentId": "we-2026-09-05-pr199-postmerge-recovery-a47",
-    "startingMainSha": "780abd7b779cda5acd722b75fd59ef1e82c71f97",
+    "environmentId": "we-2026-09-05-ssjr-provider-adapter-a48",
+    "startingMainSha": "13dcf6bd3f2e8a6d2682db46ae0f7da3cbde7885",
     "lifecycle": "transition-prepared",
     "finalDecision": "HANDOFF_NOW",
     "decisionInheritedFromPredecessor": false,
-    "predecessorEnvironmentId": "we-2026-09-05-ssjr-setup-foundation-28cf84",
-    "predecessorArchive": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-05-ssjr-setup-foundation-28cf84.json",
-    "archive": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-05-pr199-postmerge-recovery-a47.json"
+    "predecessorEnvironmentId": "we-2026-09-05-pr199-postmerge-recovery-a47",
+    "predecessorArchive": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-05-pr199-postmerge-recovery-a47.json",
+    "archive": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-05-ssjr-provider-adapter-a48.json"
   },
   "currentHandoff": {
-    "canonical": "SUCCESSOR_HANDOFF_PR199_POSTMERGE_GREEN_SSJR_PROVIDER_NEXT_SLE_2026-09-05.md",
-    "projectMirror": "project-documents/handoffs/SUCCESSOR_HANDOFF_PR199_POSTMERGE_GREEN_SSJR_PROVIDER_NEXT_SLE_2026-09-05.md",
-    "status": "current-complete-sle-postmerge-provider-next"
+    "canonical": "SUCCESSOR_HANDOFF_PR201_POSTMERGE_GREEN_SSJR_RUNTIME_NEXT_SLE_2026-09-06.md",
+    "projectMirror": "project-documents/handoffs/SUCCESSOR_HANDOFF_PR201_POSTMERGE_GREEN_SSJR_RUNTIME_NEXT_SLE_2026-09-06.md",
+    "status": "current-complete-sle-postmerge-runtime-next"
   },
   "starter": {
-    "version": "1.4.47",
-    "checkpoint": "PR199-POSTMERGE-GREEN-SSJR-PROVIDER-NEXT",
-    "canonical": "START_NEXT_SESSION_V1.4.47_PR199_POSTMERGE_GREEN_SSJR_PROVIDER_NEXT.md",
-    "projectMirror": "project-documents/session-starts/START_NEXT_SESSION_V1.4.47_PR199_POSTMERGE_GREEN_SSJR_PROVIDER_NEXT.md",
+    "version": "1.4.48",
+    "checkpoint": "PR201-POSTMERGE-GREEN-SSJR-RUNTIME-NEXT",
+    "canonical": "START_NEXT_SESSION_V1.4.48_PR201_POSTMERGE_GREEN_SSJR_RUNTIME_NEXT.md",
+    "projectMirror": "project-documents/session-starts/START_NEXT_SESSION_V1.4.48_PR201_POSTMERGE_GREEN_SSJR_RUNTIME_NEXT.md",
     "ownerInitialDelivery": "short-repository-first-prompt",
     "fallbackPackNeededByDefault": false
   },
   "successorPackage": {
-    "compactStarter": "START_NEXT_SESSION_V1.4.47_PR199_POSTMERGE_GREEN_SSJR_PROVIDER_NEXT.md",
-    "fullHandoff": "SUCCESSOR_HANDOFF_PR199_POSTMERGE_GREEN_SSJR_PROVIDER_NEXT_SLE_2026-09-05.md",
+    "compactStarter": "START_NEXT_SESSION_V1.4.48_PR201_POSTMERGE_GREEN_SSJR_RUNTIME_NEXT.md",
+    "fullHandoff": "SUCCESSOR_HANDOFF_PR201_POSTMERGE_GREEN_SSJR_RUNTIME_NEXT_SLE_2026-09-06.md",
     "handoffProtocol": "00_SLE_HANDOFF_PROTOCOL.md",
     "ownerEagleEyeRule": "00_OWNER_EAGLE_EYE_GOLDEN_RULE.md",
     "liveAuthority": "NEXT_TASK.md",
     "liveState": "PROJECT_STATE.md",
     "wecStatus": "WORK_ENVIRONMENT_STATUS.json",
-    "handoffBranch": "handoff/pr199-postmerge-ssjr-provider-next-2026-09-05"
+    "handoffBranch": "handoff/pr201-postmerge-ssjr-runtime-next"
   },
   "slePolicy": {
     "authority": "00_SLE_HANDOFF_PROTOCOL.md",
@@ -249,8 +296,7 @@
     "PROJECT_STATE.md",
     "SHARED_SHOWDOWN_JOURNEY_READINESS.json",
     "SHARED_SHOWDOWN_JOURNEY_MODEL.json",
-    "SSJR1_BASELINE_AND_SETUP_FOUNDATION_2026-09-05.md",
-    "START_NEXT_SESSION_V1.4.47_PR199_POSTMERGE_GREEN_SSJR_PROVIDER_NEXT.md"
+    "START_NEXT_SESSION_V1.4.48_PR201_POSTMERGE_GREEN_SSJR_RUNTIME_NEXT.md"
   ],
   "criticalLocks": {
     "canonicalStorage": [
@@ -273,10 +319,11 @@
     "standingMergeDeployAuthorizedAfterRequiredGates": true
   },
   "immediateNextTask": {
-    "name": "ssjr1-provider-enforcement-after-foundation-publication",
-    "summary": "Initialize a fresh WEC from live main, then implement the smallest Spark-compatible exact-path Shared Remote Setup transaction adapter plus candidate Firestore Rules and direct modified-client emulator negatives. Derive authority from protected provider records in the same transaction; require exact paired managers and an ACTIVE exact-rivalry session before any league or club commitment.",
+    "name": "ssjr1-paired-first-production-shared-setup",
+    "summary": "Initialize a fresh WEC from live main, then wire the proven PR201 Shared Setup provider adapter into the production browser journey only after exact pairing plus exact ACTIVE session, promote the smallest safe Spark-only Shared Setup Rules delta, and automate production-oriented two-account positives plus modified-client/adverse negatives before any SSJR credit.",
     "mustNotInsertGenericPrerequisiteLane": true,
-    "mustStartAsRealProjectWork": true
+    "mustStartAsRealProjectWork": true,
+    "scopeStopBeforeTransferResultsScoring": true
   },
   "transition": {
     "contextTransitionRequired": true,
@@ -285,40 +332,7 @@
     "predecessorDecisionMustNotBeInherited": true
   },
   "wec100PackagingRule": "At Handoff proximity 100%, create the complete mirrored SLE = Smart Lean Efficient package, refresh capsule/current pointers, final-seal and archive the WEC, and stop before the next substantial milestone.",
-  "historicalPr198PublicationCheckpoint": {
-    "pullRequest": 198,
-    "title": "Publish final fixed RJR-1 100/100 acceptance",
-    "state": "merged",
-    "workingBranch": "rjr/final-rjr100-acceptance-2026-09-05",
-    "baseSha": "264237056896d2b9d84f69c908da5b14e2b8e97d",
-    "finalSealedHead": "165b21a1e9a269fae87efa06ebd1df89cfc48e04",
-    "finalSealedHeadMustBeFetchedLive": false,
-    "exactHeadWorkflowFamiliesSuccessfulAtPackaging": 15,
-    "expectedHeadProtectionRequired": true,
-    "postMergeWorkflowFamiliesSuccessful": 15,
-    "runtimeChanged": false,
-    "rulesChanged": false,
-    "providerMutationRequired": false,
-    "publicationWorkRjrCredit": 0,
-    "exactFinalHead": "165b21a1e9a269fae87efa06ebd1df89cfc48e04",
-    "mergeSha": "39ffe88d61dcda973df03a18e0266fcfe4cf5638",
-    "closureCommentId": 5554721311,
-    "immutableHistoricalProvenance": true
-  },
-  "sharedShowdownJourneyReadiness": {
-    "authority": "SHARED_SHOWDOWN_JOURNEY_READINESS.json",
-    "definition": "SHARED_SHOWDOWN_JOURNEY_MODEL.json",
-    "model": "SSJR-1.1",
-    "score": 0,
-    "denominator": 100,
-    "remaining": 100,
-    "candidateEvidenceCredit": 0,
-    "baselineSourceSha": "39ffe88d61dcda973df03a18e0266fcfe4cf5638",
-    "versionedBackcast": "authority-history/SSJR1_1_PAIRING_DEPENDENCY_BACKCAST_2026-09-05.json",
-    "estimatedFocusedSessionsToGenuine100": "8-14",
-    "rule": "Only fixed evidence-backed whole capabilities earn SSJR credit; publication mechanics and dormant candidate code earn zero."
-  },
-  "activeWorkRecord": "SSJR1_BASELINE_AND_SETUP_FOUNDATION_2026-09-05.md",
+  "activeWorkRecord": "SUCCESSOR_HANDOFF_PR201_POSTMERGE_GREEN_SSJR_RUNTIME_NEXT_SLE_2026-09-06.md",
   "ownerSsjrDirection": {
     "authority": "authority-history/OWNER_SSJR_REPORTING_AND_PAIRING_ORDER_2026-09-05.md",
     "sessionEstimateLabel": "Estimated focused sessions to genuine SSJR100",
