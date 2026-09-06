@@ -30,7 +30,7 @@ Then implement the smallest score-enabling paired-first production Shared Setup 
 3. Review and promote only the proven `firestore.shared-setup-candidate.rules` Shared Setup delta into the zero-billing production Rules source, preserving all existing account/device/rivalry/session protections.
 4. Automate two isolated browser/account journeys: same empty setup after ACTIVE; one authoritative league; two distinct permanent same-league clubs; 1/3/5/10 season length; dual identical confirmation; reload/reconnect/fresh-session resume without reset or redraw.
 5. Automate modified-client/adverse negatives: pre-ACTIVE selection, unrelated account, wrong/expired session, revoked device, inactive peer, stale revision, conflicting replay, cross-manager replay, direct league/club injection, caller-catalog bias, coordinator races/rerolls, provider outage/quota failure with zero canonical local-save mutation.
-6. Publish only after every current permanent workflow family is green on the same exact reviewed PR head, all valid review findings are resolved, expected-head merge protection is used and the complete post-merge workflow set is green.
+6. Publication requires every current permanent workflow family green on the same exact reviewed PR head, all valid review findings resolved, expected-head merge protection used, and the complete post-merge workflow set green.
 7. Award SSJR credit only after exact deployed runtime + production two-account evidence satisfies the fixed whole-capability contracts.
 
 Do not start transfer/results/scoring transport until the shared-entry/shared-setup production boundary is proven. Do not repeat the consumed generic RJR two-device/two-network physical acceptance unless a proven regression invalidates it.
