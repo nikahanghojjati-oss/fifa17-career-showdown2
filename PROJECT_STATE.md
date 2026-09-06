@@ -3,6 +3,7 @@
 Work Environment Continuity (WEC) is mandatory for every successor environment.
 
 Production: `v1.9.1 / 1.9.1-r3`
+Status: DEPLOYED / PRODUCTION-PROVEN
 
 Production is DEPLOYED / PRODUCTION-PROVEN `v1.9.1 / 1.9.1-r3` at main `65d88b1b413501b328bdf722bc6e8a0aa0d46ef2` from PR #203 exact final head `1f9ccf781354f22cf56a16f816500c7df017d3b8` and tree `e7e317d847dcf3b25e9959ce6c67f9dbb492596d`. `1.9.1-r2` remains the previous known-good whole-shell recovery target.
 
