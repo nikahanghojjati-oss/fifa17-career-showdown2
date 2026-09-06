@@ -9,7 +9,7 @@ Status: DEPLOYED / PRODUCTION-PROVEN
 
 Production runtime/provider authority remains PR #203 at merge `65d88b1b413501b328bdf722bc6e8a0aa0d46ef2`, exact head `1f9ccf781354f22cf56a16f816500c7df017d3b8`, tree `e7e317d847dcf3b25e9959ce6c67f9dbb492596d`. Production Rules remain Firebase Spark `cloud.firestore` ruleset `73b4435e-85a8-49f9-92ef-8ffe3ce0f91c`, exact generated-source blob `5bcde9297f6b2927a2184605192ab5b6cd46fb29`. Billing remains permanently OFF.
 
-Historical rollback/publication lineage only: `v1.9.1 / 1.9.1-r2` was the previous known-good production-proven whole-shell runtime at the PR #194 boundary. PR #198 later published fixed RJR-1 `100/100`; consumed two-device/two-independent-network physical acceptance remains immutable historical evidence and must not be repeated or re-credited absent a proven regression.
+Historical rollback/publication lineage only: `v1.9.1 / 1.9.1-r2` was the previous known-good production-proven whole-shell runtime at the PR #194 boundary. PR #198 later published fixed RJR-1 `100/100` after the final stable Remote Joining release acceptance; that final stable-release acceptance and the consumed two-device/two-independent-network physical acceptance remain immutable historical evidence and must not be repeated or re-credited absent a proven regression.
 
 PR #205 published the strict production Shared Setup pair validator without changing runtime/provider behavior. It remains validator authority.
 
