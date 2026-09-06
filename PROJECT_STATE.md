@@ -12,7 +12,7 @@ Production Shared Setup remains intentionally not activated by PR201. The next s
 
 Required journey order: Profiles/pre-draw Save shell → exact Connected Rivalry pairing → exact ACTIVE → authoritative league → two distinct permanent same-league clubs → 1/3/5/10 season length → both managers confirm identical setup → transfer/results/scoring/history/progression → multi-season convergence → final reconciliation → terminal close/no resurrection. Pairing + ACTIVE must precede league/club selection.
 
-The Installable Offline App, recovery baseline, Local Profiles and Save Library remain protected. Canonical localStorage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, `careerModeShowdown.preferences`. Candidate A non-mutating, Candidate B read-only. Candidate C remains the sole destructive remote-to-local gameplay Apply authority with strict transaction-owned rollback.
+The Installable Offline App, v1.3.0 Recovery & Device Resilience baseline, Local Profiles and Save Library remain protected. Canonical localStorage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, `careerModeShowdown.preferences`. Candidate A non-mutating, Candidate B read-only. Candidate C remains the sole destructive remote-to-local gameplay Apply authority with transaction-owned strict exact raw-snapshot rollback semantics.
 
 Billing must never be activated. Firebase remains Spark. App Check enforcement remains OFF. Firestore browser persistence remains memory-only. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes. Exactly two private managers; no public discovery/listing/lobby/matchmaking/community/rankings/global leaderboards.
 
