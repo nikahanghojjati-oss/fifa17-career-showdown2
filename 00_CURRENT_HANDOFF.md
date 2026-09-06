@@ -6,6 +6,8 @@ RJR-1 is COMPLETE/FROZEN at `100/100`. SSJR-1.1 remains evidence-backed `0/100`;
 
 Production is DEPLOYED / PRODUCTION-PROVEN `v1.9.1 / 1.9.1-r3` at main `65d88b1b413501b328bdf722bc6e8a0aa0d46ef2` from PR #203 final head `1f9ccf781354f22cf56a16f816500c7df017d3b8` and exact tree `e7e317d847dcf3b25e9959ce6c67f9dbb492596d`. Exact-head 15/15, review resolution, expected-head merge, 15-family post-merge, zero-billing Rules publication and complete same-main deployed Stability rerun are green.
 
+Historical rollback/publication lineage only: `v1.9.1 / 1.9.1-r2` is the previous known-good whole-shell runtime, and PR #198 published the fixed RJR-1 `100/100` evidence. This r2/PR198 lineage is not current runtime authority and must not be re-credited.
+
 Production Shared Setup Rules are live on Firebase Spark: `cloud.firestore` ruleset `73b4435e-85a8-49f9-92ef-8ffe3ce0f91c`, generated-source Git blob `5bcde9297f6b2927a2184605192ab5b6cd46fb29`. Billing remains permanently OFF.
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
