@@ -1,6 +1,8 @@
-# CURRENT TASK — SSJR-1.1 GENUINE PRODUCTION TWO-ACCOUNT SHARED SETUP EVIDENCE
+# CURRENT TASK — SSJR-1.1 PRODUCTION TWO-ACCOUNT SHARED SETUP EVIDENCE
 
 Work Environment Continuity (WEC) is mandatory for every successor environment.
+
+Owner build-first policy is now repository authority at `00_BUILD_FIRST_PRODUCT_POLICY.md`: default focused-session allocation is approximately 75% actual product implementation and 25% validation/maintenance/continuity, with targeted checks during building and the full permanent matrix reserved for publication, release/security boundaries, or demonstrated regressions. This does not weaken any real security, data-integrity or release gate.
 
 RJR-1 remains COMPLETE/FROZEN `100/100`. Historical PR #198 published the fixed RJR100 acceptance after the final stable release acceptance for Remote Joining. The consumed physical proof used a Chromebook on Home WiFi and an iPhone on cellular across two independent networks; it must not be repeated or re-credited absent a proven regression. Evidence/continuity publication only earns zero RJR credit. SSJR-1.1 remains `0/100` until fixed whole-capability production evidence qualifies. Publication and continuity work earns zero SSJR credit.
 
@@ -25,7 +27,7 @@ Closing environment: `we-2026-09-06-ssjr-production-shared-setup-a50`.
 9. Feed only schema-closed privacy-safe evidence to `scripts/validate-ssjr-shared-setup-production-evidence.mjs`.
 10. Recalculate SSJR only if the fixed production-two-account layer genuinely passes.
 
-Do not begin transfer/results/scoring transport until this Shared Setup evidence boundary is credited or a concrete blocker is isolated.
+Do not begin transfer/results/scoring transport until this Shared Setup evidence boundary is credited or a concrete blocker is isolated. Once that boundary is accepted, apply the build-first policy and move directly into the next unbuilt product capability instead of extending the proof lane.
 
 The Installable Offline App, v1.3.0 Recovery & Device Resilience baseline, Local Profiles and Save Library remain protected throughout this successor task.
 
