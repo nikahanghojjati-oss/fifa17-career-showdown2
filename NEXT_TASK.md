@@ -34,11 +34,13 @@ Permanent locks: Billing must never be activated and Firebase remains Spark. App
 
 ## Historical compatibility markers — SUPERSEDED, DO NOT EXECUTE
 
-These literal markers preserve current-at-the-time provenance required by older security/continuity contracts. They are historical only and do not override the current PR203/r3 authority or the task above.
+These literal markers preserve current-at-the-time provenance required by older security/continuity contracts. They are historical only and do not override the current PR203/r3 authority or the task above. The physical validator commands below are preserved because they were the accepted evidence tooling; their physical run is consumed and must not be repeated absent a proven regression.
 
 ```text
 # CURRENT TASK — SSJR-1 AUTHORITATIVE SETUP FOUNDATION
 CURRENT OVERRIDE — PR #194 / v1.9.1-r2 / RJR91 / PHYSICAL ACCEPTANCE NEXT
+validate:rjr-physical
+test:rjr-physical-preflight
 ```
 
 Estimated focused sessions to genuine SSJR100: ~5–10.
