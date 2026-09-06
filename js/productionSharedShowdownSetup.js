@@ -65,12 +65,19 @@
     state=freeze({...state,...next});for(const listener of listeners){try{listener(state);}catch(_error){}}render();return state;
   }
   function storageSnapshot(){
-    if(!root.localStorage)return null;
-    const snapshot={};for(const key of CANONICAL_KEYS)snapshot[key]=root.localStorage.getItem(key);return snapshot;
+    if(typeof root.captureCareerModeRawBackupInputs!=="function")return null;
+    const raw=root.captureCareerModeRawBackupInputs();
+    return {
+      [CANONICAL_KEYS[0]]:raw.saveLibrary,
+      [CANONICAL_KEYS[1]]:raw.legacyShowdowns,
+      [CANONICAL_KEYS[2]]:raw.preferences
+    };
   }
   function assertStorageUnchanged(before){
-    if(!before||!root.localStorage)return true;
-    for(const key of CANONICAL_KEYS){if(root.localStorage.getItem(key)!==before[key])fail("SHARED_SETUP_LOCAL_SAVE_MUTATION","Shared Setup must never mutate canonical local saves.");}
+    if(!before)return true;
+    const after=storageSnapshot();
+    if(!after)fail("SHARED_SETUP_STORAGE_AUTHORITY_UNAVAILABLE","Canonical storage authority became unavailable during Shared Setup.");
+    for(const key of CANONICAL_KEYS){if(after[key]!==before[key])fail("SHARED_SETUP_LOCAL_SAVE_MUTATION","Shared Setup must never mutate canonical local saves.");}
     return true;
   }
   function randomOperationId(){
