@@ -9,6 +9,8 @@ const read = file => fs.readFileSync(path.join(root, file), 'utf8');
 const html = read('index.html');
 const app = read('js/app.js');
 const optional = read('js/optionalModules.js');
+const offlineApp = read('js/offlineApp.js');
+const worker = read('service-worker.js');
 const pkg = JSON.parse(read('package.json'));
 const lock = JSON.parse(read('package-lock.json'));
 const state = read('PROJECT_STATE.md');
@@ -66,7 +68,12 @@ A.ok(gold.includes('Every developer or ChatGPT session') && gold.includes('conti
 A.ok(optional.includes('getApplicationAssetRevision()'));
 A.ok(app.includes(`css/visual-fidelity-r3.css?v=${revision}`));
 A.ok(app.includes('contentScriptData\\.init_ts') && app.includes('isFirstPartyRuntimeError') && app.includes('suppressedExternalRuntimeErrors'));
-A.ok(/Installable Offline App/i.test(state) && /Installable Offline App/i.test(next));
+
+// Protect the shipped offline capability itself rather than requiring a milestone phrase in NEXT_TASK.md.
+A.ok(fs.existsSync(path.join(root, 'manifest.webmanifest')), 'Installable offline app manifest must remain shipped.');
+A.ok(worker.includes('"manifest.webmanifest"') && worker.includes('"js/offlineApp.js"') && worker.includes('"css/offline.css"'), 'Service worker shell must retain install/offline runtime assets.');
+A.equal((worker.match(/const RUNTIME_REVISION = "([^"]+)"/) || [])[1], revision, 'Service worker cache revision must match the current runtime shell.');
+A.ok(offlineApp.includes('function registerOfflineApplication()') && offlineApp.includes('navigator.serviceWorker'), 'Offline application module must retain real service-worker registration behavior.');
 
 const refs = [...html.matchAll(/(?:src|href)="((?:css|js|data|assets)\/[^"?]+)(?:\?v=([^"]+))?"/g)];
 A.ok(refs.length >= 9);
