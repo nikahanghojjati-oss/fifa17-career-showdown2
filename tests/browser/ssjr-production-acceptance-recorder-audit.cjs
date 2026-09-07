@@ -32,8 +32,9 @@ async function openCase(browser,acceptance,mode="ready"){
   const context=await browser.newContext({viewport:{width:390,height:844},deviceScaleFactor:2,isMobile:true,hasTouch:true,locale:"en-US"});
   const page=await context.newPage();
   const pageErrors=[];page.on("pageerror",error=>pageErrors.push(error.stack||error.message));
-  await page.addInitScript(({raw,finalSetup,seedSetup,mode,recorderCatalog})=>{
+  await page.addInitScript(({raw,finalSetup,seedSetup,mode,recorderCatalog,acceptance})=>{
     const listeners=new Set();
+    if(acceptance){try{sessionStorage.setItem("careerModeShowdown.sharedJourneyPending.v1","1");}catch(_error){}}
     let restoredFinal=false;
     try{restoredFinal=sessionStorage.getItem("__ssjrRecorderTestMode")==="final";}catch(_error){}
     if(mode==="stale-runtime"){
@@ -66,7 +67,7 @@ async function openCase(browser,acceptance,mode="ready"){
     localStorage.setItem("careerModeShowdown.saveLibrary",JSON.stringify(canonicalLibrary));
     localStorage.setItem("careerModeShowdown.legacyShowdowns",JSON.stringify([]));
     localStorage.setItem("careerModeShowdown.preferences",JSON.stringify({private:"value"}));
-  },{raw,finalSetup,seedSetup,mode,recorderCatalog});
+  },{raw,finalSetup,seedSetup,mode,recorderCatalog,acceptance});
   const url=new URL(baseUrl.href);if(acceptance)url.searchParams.set("ssjr-acceptance","1");
   await page.goto(url.href,{waitUntil:"domcontentloaded"});
   await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:12000});
