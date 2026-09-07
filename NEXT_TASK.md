@@ -37,6 +37,9 @@ Permanent regressions cover ACTIVE-session recorder routing, expired-session rou
 
 Automation boundary: automate every reproducible protocol, Rules, browser, storage, recorder, validator, adverse and deployment test. The only irreducible owner work is the real two-account/two-independent-browser interaction. A second tab/window sharing one browser identity is insufficient.
 
-Current environment: `we-2026-09-06-ssjr-production-two-account-a55`. Current production main before PR213 merge: `710dd4613c2cb915ddec7dd7a7525911277cb333`. Estimated focused sessions to genuine SSJR100: ~5–10.
+Current environment: `we-2026-09-06-ssjr-production-two-account-a55`.
+Starting independently verified live main: `ae89974dfc91753d4a57d83c0f2ca449fc7eacd6`.
+Current production main before PR213 merge: `710dd4613c2cb915ddec7dd7a7525911277cb333`.
+Estimated focused sessions to genuine SSJR100: ~5–10.
 
 At interruption or task completion, generate a fresh SNS even below HTR-1 100. Do not wait for HTR100 to preserve continuity.
