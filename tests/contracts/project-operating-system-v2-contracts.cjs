@@ -3,13 +3,14 @@ const fs = require("node:fs");
 
 const read = file => fs.readFileSync(file, "utf8");
 const guards = JSON.parse(read("CURRENT_PRODUCT_GUARDS.json"));
-const productSuite = read("tests/support/run-contract-suite.cjs");
+const manifest = JSON.parse(read("CURRENT_PRODUCT_TEST_MANIFEST.json"));
 const legacySuite = read("tests/support/run-legacy-provenance-audit.cjs");
 const staticWorkflow = read(".github/workflows/validate-static-app.yml");
 const securityWorkflow = read(".github/workflows/validate-stage5f-authenticated-negatives.yml");
 const policy = read("PROJECT_OPERATING_SYSTEM_V2.md");
 
 assert.equal(guards.operatingSystem, "POS-2");
+assert.equal(manifest.operatingSystem, "POS-2");
 assert.equal(guards.provider.billingEnabled, false);
 assert.equal(guards.provider.firebasePlan, "Spark");
 assert.equal(guards.product.managerCount, 2);
@@ -20,11 +21,11 @@ assert.equal(guards.testing.historicalWordingMayBlock, false);
 assert.equal(guards.testing.exactWorkflowCountMayBlock, false);
 
 for (const processOnly of [
-  "work-environment-continuity-runtime-contracts.cjs",
-  "session-handoff-proximity-contracts.cjs",
-  "work-environment-forward-progress-contracts.cjs"
+  "tests/contracts/work-environment-continuity-runtime-contracts.cjs",
+  "tests/contracts/session-handoff-proximity-contracts.cjs",
+  "tests/contracts/work-environment-forward-progress-contracts.cjs"
 ]) {
-  assert.doesNotMatch(productSuite, new RegExp(processOnly.replaceAll(".", "\\.")), `${processOnly} must not block the current product suite.`);
+  assert.ok(!manifest.tests.includes(processOnly), `${processOnly} must not block the current product suite.`);
 }
 
 for (const historical of [
