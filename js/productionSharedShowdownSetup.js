@@ -202,7 +202,7 @@
   async function openPanel(){
     if(!root.document)return false;let overlay=root.document.getElementById(PANEL_ID);
     if(!overlay){overlay=create("div","remoteJoiningOverlay");overlay.id=PANEL_ID;overlay.setAttribute("role","dialog");overlay.setAttribute("aria-modal","true");overlay.setAttribute("aria-label","Shared Showdown Setup");const shell=create("div","remoteJoiningShell");const header=create("div","remoteJoiningHeader");header.append(create("strong","","CAREER MODE SHOWDOWN // 17"));const dismiss=create("button","remoteJoiningDismiss","×");dismiss.type="button";dismiss.setAttribute("aria-label","Close Shared Showdown Setup");dismiss.addEventListener("click",closePanel);header.append(dismiss);const body=create("div","remoteJoiningBody");shell.append(header,body);overlay.append(shell);root.document.body.append(overlay);}
-    overlay.classList.remove("hidden");setState({open:true});await refresh();const focus=overlay.querySelector("button");if(focus)focus();return true;
+    overlay.classList.remove("hidden");setState({open:true});await refresh();const focusTarget=overlay.querySelector("button");if(focusTarget&&typeof focusTarget.focus==="function")focusTarget.focus();return true;
   }
   function closePanel(){const overlay=root.document&&root.document.getElementById(PANEL_ID);if(overlay)overlay.classList.add("hidden");state=freeze({...state,open:false});return true;}
   function subscribe(listener){if(typeof listener!=="function")return()=>{};listeners.add(listener);return()=>listeners.delete(listener);}

@@ -26,25 +26,32 @@ const finalSetup={
 };
 const seedSetup={...finalSetup,revision:4,phase:"SEASON_LENGTH_COMMITTED",confirmedRoles:[]};
 
-async function openCase(browser,acceptance){
+async function openCase(browser,acceptance,mode="ready"){
   const context=await browser.newContext({viewport:{width:390,height:844},deviceScaleFactor:2,isMobile:true,hasTouch:true,locale:"en-US"});
   const page=await context.newPage();
   const pageErrors=[];page.on("pageerror",error=>pageErrors.push(error.stack||error.message));
-  await page.addInitScript(({raw,finalSetup,seedSetup})=>{
+  await page.addInitScript(({raw,finalSetup,seedSetup,mode})=>{
     const listeners=new Set();
     let restoredFinal=false;
     try{restoredFinal=sessionStorage.getItem("__ssjrRecorderTestMode")==="final";}catch(_error){}
-    let state=restoredFinal
-      ? {status:"ready",open:false,busy:false,ready:true,revision:6,phase:"SHOWDOWN_CONFIRMED",rivalryId:raw.rivalry,sessionId:raw.initialSession,accountId:raw.account,deviceId:raw.device,managerRole:"playerOne",remoteRole:"host",setup:structuredClone(finalSetup),message:"test-reload"}
-      : {status:"ready",open:false,busy:false,ready:true,revision:0,phase:null,rivalryId:raw.rivalry,sessionId:raw.initialSession,accountId:raw.account,deviceId:raw.device,managerRole:"playerOne",remoteRole:"host",setup:null,message:"test"};
+    let state=mode==="active-locked"
+      ? {status:"locked",open:false,busy:false,ready:false,revision:0,phase:null,rivalryId:null,sessionId:null,accountId:null,deviceId:null,managerRole:null,remoteRole:null,setup:null,message:"Registered browser authority is unavailable."}
+      : restoredFinal
+        ? {status:"ready",open:false,busy:false,ready:true,revision:6,phase:"SHOWDOWN_CONFIRMED",rivalryId:raw.rivalry,sessionId:raw.initialSession,accountId:raw.account,deviceId:raw.device,managerRole:"playerOne",remoteRole:"host",setup:structuredClone(finalSetup),message:"test-reload"}
+        : {status:"ready",open:false,busy:false,ready:true,revision:0,phase:null,rivalryId:raw.rivalry,sessionId:raw.initialSession,accountId:raw.account,deviceId:raw.device,managerRole:"playerOne",remoteRole:"host",setup:null,message:"test"};
     const emit=()=>{for(const listener of listeners)listener(Object.freeze({...state}));};
+    window.__ssjrSetupPanelOpens=0;
+    window.__ssjrRemotePanelOpens=0;
     window.CareerModeProductionSharedShowdownSetup={
       getState(){return Object.freeze({...state});},
       subscribe(listener){listeners.add(listener);return()=>listeners.delete(listener);},
-      async refresh(){emit();return Object.freeze({ok:true});},
-      async openPanel(){state={...state,open:true};emit();return true;}
+      async refresh(){emit();return Object.freeze({ok:state.ready===true});},
+      async openPanel(){window.__ssjrSetupPanelOpens+=1;state={...state,open:true};emit();return true;}
     };
-    window.CareerModeSparkRemoteJoining={openPanel(){return true;}};
+    window.CareerModeSparkRemoteJoining={
+      openPanel(){window.__ssjrRemotePanelOpens+=1;return true;},
+      getState(){return Object.freeze({sessionState:"active",sessionId:raw.initialSession,pendingAction:null,role:"host"});}
+    };
     window.__ssjrRecorderSetSeed=()=>{state={...state,revision:4,phase:"SEASON_LENGTH_COMMITTED",setup:structuredClone(seedSetup)};emit();};
     window.__ssjrRecorderSetFinal=()=>{state={...state,revision:6,phase:"SHOWDOWN_CONFIRMED",setup:structuredClone(finalSetup)};emit();};
     window.__ssjrRecorderPrepareReload=()=>{sessionStorage.setItem("__ssjrRecorderTestMode","final");};
@@ -53,7 +60,7 @@ async function openCase(browser,acceptance){
     localStorage.setItem("careerModeShowdown.saveLibrary",JSON.stringify(canonicalLibrary));
     localStorage.setItem("careerModeShowdown.legacyShowdowns",JSON.stringify([]));
     localStorage.setItem("careerModeShowdown.preferences",JSON.stringify({private:"value"}));
-  },{raw,finalSetup,seedSetup});
+  },{raw,finalSetup,seedSetup,mode});
   const url=new URL(baseUrl.href);if(acceptance)url.searchParams.set("ssjr-acceptance","1");
   await page.goto(url.href,{waitUntil:"domcontentloaded"});
   await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:12000});
@@ -63,7 +70,7 @@ async function openCase(browser,acceptance){
 (async()=>{
   const runtime=await resolveChromiumRuntime();
   const browser=await chromium.launch({executablePath:runtime.executablePath,headless:true,args:runtime.args});
-  let normal=null,acceptance=null;
+  let normal=null,acceptance=null,activeLocked=null;
   try{
     normal=await openCase(browser,false);
     await normal.page.waitForTimeout(1800);
@@ -71,6 +78,18 @@ async function openCase(browser,acceptance){
     assert.equal(await normal.page.evaluate(()=>Boolean(window.CareerModeSSJRProductionAcceptanceRecorder)),false,"normal production mode must not load the SSJR recorder API");
     const normalRequests=await normal.page.evaluate(()=>performance.getEntriesByType("resource").filter(entry=>entry.name.includes("ssjrProductionAcceptanceRecorder.js")).map(entry=>entry.name));
     assert.deepEqual(normalRequests,[],"normal production mode must not request the SSJR recorder asset");
+
+    activeLocked=await openCase(browser,true,"active-locked");
+    await activeLocked.page.locator("#ssjrProductionAcceptanceRecorder").waitFor({state:"visible",timeout:7000});
+    await activeLocked.page.waitForFunction(()=>window.CareerModeSSJRProductionAcceptanceRecorder.getState().remoteSessionActive===true,{timeout:5000});
+    assert.match(await activeLocked.page.locator(".ssjrPrimary").textContent(),/CHECK SHARED SETUP/,"an already ACTIVE private session must never loop the owner back to OPEN PRIVATE SESSION");
+    const lockedGuidance=await activeLocked.page.locator(".ssjrNext").textContent();
+    assert.match(lockedGuidance,/Private session is ACTIVE/,"simple mode must acknowledge the already ACTIVE session");
+    assert.match(lockedGuidance,/Registered browser authority is unavailable/,"simple mode must surface the Shared Setup blocker instead of hiding it");
+    await activeLocked.page.locator(".ssjrPrimary").click();
+    assert.equal(await activeLocked.page.evaluate(()=>window.__ssjrSetupPanelOpens),1,"ACTIVE-session guidance must route the primary action to Shared Setup diagnostics");
+    assert.equal(await activeLocked.page.evaluate(()=>window.__ssjrRemotePanelOpens),0,"ACTIVE-session guidance must not reopen Private Remote Joining");
+    assert.deepEqual(activeLocked.pageErrors,[]);
 
     acceptance=await openCase(browser,true);
     await acceptance.page.locator("#ssjrProductionAcceptanceRecorder").waitFor({state:"visible",timeout:7000});
@@ -132,11 +151,13 @@ async function openCase(browser,acceptance){
     }
     assert.deepEqual(acceptance.pageErrors,[]);
     console.log("PASS SSJR recorder is query-gated and absent from normal production mode");
+    console.log("PASS SSJR recorder routes an already ACTIVE session to Shared Setup diagnostics instead of looping Private Remote Joining");
     console.log("PASS SSJR recorder simple mode exposes one context-aware NEXT STEP control while fallback controls stay collapsed");
     console.log("PASS SSJR recorder auto-captures paired-first, rev4, rev6, a real browser reload and fresh-session positive checkpoints");
     console.log("PASS SSJR recorder persists only sanitized SHA-256 evidence and preserves canonical local save bytes");
   }finally{
     if(normal)await normal.context.close().catch(()=>{});
+    if(activeLocked)await activeLocked.context.close().catch(()=>{});
     if(acceptance)await acceptance.context.close().catch(()=>{});
     await browser.close().catch(()=>{});
   }
