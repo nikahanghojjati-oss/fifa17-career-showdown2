@@ -8,9 +8,13 @@
     api.install();
     return api;
   });
+  const acceptanceEnabled=!!(root.location&&new URLSearchParams(root.location.search).get("ssjr-acceptance")==="1");
   Promise.all([
     load("firebase-runtime","js/productionFirebaseRuntime.js",()=>root.CareerModeProductionFirebaseRuntime),
     install("ssjr-production-entry","js/productionSharedJourneyEntry.js","CareerModeProductionSharedJourneyEntry"),
     install("ssjr-production-guard","js/productionSharedJourneyGuard.js","CareerModeProductionSharedJourneyGuard")
-  ]).catch(error=>root.console?.warn?.("[Career Mode Showdown] Shared Journey bootstrap unavailable.",error));
+  ]).then(async()=>{
+    if(!acceptanceEnabled)return;
+    await install("ssjr-production-acceptance-recorder","js/ssjrProductionAcceptanceRecorder.js","CareerModeSSJRProductionAcceptanceRecorder");
+  }).catch(error=>root.console?.warn?.("[Career Mode Showdown] Shared Journey bootstrap unavailable.",error));
 })(typeof window!=="undefined"?window:globalThis);

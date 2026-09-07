@@ -12,7 +12,7 @@ function observation(managerRole, remoteRole, suffix){
   const storage=Object.fromEntries(canonicalKeys.map(key=>[key, key.endsWith('preferences')?{music:true}:[]]));
   const seed={leagueId:'premier_league',phase:'SHARED_SETUP_OPEN',revision:1};
   return {
-    schemaVersion:1,capturedAt:'2026-09-06T15:30:00Z',runtimeRevision:'1.9.1-r3',managerRole,remoteRole,
+    schemaVersion:1,capturedAt:'2026-09-06T15:30:00Z',runtimeRevision:'1.9.1-r4',managerRole,remoteRole,
     privateIdentifiers:{account:`account-${suffix}`,device:`device-${suffix}`,rivalry:'rivalry-shared',initialSession:'session-initial',freshSession:'session-fresh'},
     canonicalStorageBefore:storage,canonicalStorageAfter:structuredClone(storage),
     pairedActiveBeforeSetup:{at:'2026-09-06T15:30:01Z',paired:true,sessionState:'active',setupMutationSeen:false},
