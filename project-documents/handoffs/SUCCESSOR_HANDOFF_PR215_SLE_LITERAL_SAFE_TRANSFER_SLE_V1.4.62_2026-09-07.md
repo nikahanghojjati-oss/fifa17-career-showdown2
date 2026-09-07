@@ -34,7 +34,7 @@ At the last exact pre-seal workflow snapshot on `7cb09c9d...`, 10 permanent fami
 
 The second a64 validation remained red on a newly exposed packaging assertion, so the recursive anti-spiral circuit breaker fired. No third V1.4.61 correction was attempted. The V1.4.62 successor package itself explicitly expands `SLE = Smart Lean Efficient` because every successor package must recursively preserve the SLE definition; that packaging is not authority to reuse `7cb09c9d...` CI on the later seal head.
 
-## Immediate next task after full study
+## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
 1. Validate the a64 archive and current V1.4.62 capsule.
 2. Independently fetch current main, live PR215 head/tree/state, all 15 exact-head workflow families, reviews/comments/threads, production/runtime/deployment state and readiness ledgers.
