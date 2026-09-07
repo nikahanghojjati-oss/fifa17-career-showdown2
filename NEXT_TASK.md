@@ -2,13 +2,13 @@
 
 Work Environment Continuity (WEC) is mandatory for every successor environment. Owner build-first policy remains `00_BUILD_FIRST_PRODUCT_POLICY.md`. Handoff proximity follows `00_HANDOFF_PROXIMITY_STAGE_GATES.md` / HTR-1 only.
 
-Permanent locks: Billing must never be activated. Firebase remains Spark. App Check enforcement remains OFF. Firestore browser persistence remains memory-only. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes. Canonical localStorage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, `careerModeShowdown.preferences`. Candidate C remains the sole destructive remote-to-local gameplay Apply authority with transaction-owned strict exact raw-snapshot rollback. Exactly two private managers. No public discovery/listing/lobby/matchmaking/community/rankings/global leaderboards.
+Permanent locks: Billing must never be activated. Firebase remains Spark. App Check enforcement remains OFF. Firestore browser persistence remains memory-only. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes. Canonical localStorage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, `careerModeShowdown.preferences`. Candidate C remains the sole destructive remote-to-local gameplay Apply authority with transaction-owned strict exact raw-snapshot rollback. Exactly two private managers. No public discovery/listing/lobby/matchmaking/community/rankings/global leaderboards. Never durably retain raw private capabilities or raw account/device/rivalry/session/pairing IDs.
 
 RJR-1 remains COMPLETE/FROZEN `100/100`. Consumed RJR physical acceptance must not be repeated or re-credited absent a proven regression. SSJR-1.1 remains fixed `0/100` until whole-capability production evidence qualifies; source, PRs, CI, reviews, merges, deployments, recorder/validator/observer tooling, WEC/SLE/SNS and synthetic proof earn zero SSJR credit by themselves.
 
 The Installable Offline App, v1.3.0 Recovery & Device Resilience baseline, Local Profiles and Save Library remain protected shipped foundations and must not be reopened absent a demonstrated regression.
 
-Historical RJR provenance remains explicit: PR #198 completed the final stable release acceptance that froze RJR100. The accepted physical lane used the Chromebook and iPhone on genuinely independent network identities, including cellular for the peer path; that proof is consumed and is not being repeated here absent regression.
+Historical RJR provenance remains explicit: PR #198 completed the final stable release acceptance that froze RJR100. The accepted physical proof used a Chromebook on Home WiFi and an iPhone on cellular across two independent networks; that proof is consumed and is not being repeated here absent regression. Evidence/continuity publication only earns zero RJR credit.
 
 Current production: DEPLOYED / PRODUCTION-PROVEN `v1.9.1 / 1.9.1-r4`, published by PR #212 merge `710dd4613c2cb915ddec7dd7a7525911277cb333`. Genuine owner acceptance displayed runtime `1.9.1-r4` and reached a real paired ACTIVE host private session plus authoritative Shared Setup `EMPTY · REV 0` before any league or club draw. Live Spark Shared Setup Rules remain ruleset `73b4435e-85a8-49f9-92ef-8ffe3ce0f91c`, generated-source blob `5bcde9297f6b2927a2184605192ab5b6cd46fb29`.
 
@@ -45,3 +45,34 @@ Current production main before PR213 merge: `710dd4613c2cb915ddec7dd7a7525911277
 Estimated focused sessions to genuine SSJR100: ~5–10.
 
 At interruption or task completion, generate a fresh SNS even below HTR-1 100. Do not wait for HTR100 to preserve continuity.
+
+## HISTORICAL COMPATIBILITY SNAPSHOT — NOT CURRENT EXECUTION AUTHORITY
+
+The following retained wording preserves immutable continuity/security provenance. Current execution authority is the PR213/r5 section above.
+
+Historical task: SSJR-1.1 production two-account Shared Setup evidence. Permanent cloud locks: Billing must never be activated. Firebase remains Spark. App Check enforcement remains OFF. Firestore browser persistence remains memory-only. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes.
+
+RJR100 remains COMPLETE/FROZEN `100/100`. Historical PR #198 published the fixed RJR-1 `100/100` acceptance after the final stable release acceptance for Remote Joining, also retained under its historical phrase `final stable Remote Joining release acceptance`. The consumed physical proof used a Chromebook on Home WiFi and an iPhone on cellular across two independent networks; it must not be repeated or re-credited absent a proven regression. Its historical validator commands are `npm run validate:rjr-physical` and `npm run test:rjr-physical-preflight`; preserve them for provenance but do not rerun them absent a proven regression.
+
+Historical consumed RJR closeout markers only: Stage 5F accepted production negatives advanced the historical ledger from RJR89 to `91/100`, including revoked-device denial and authenticated unrelated-account denial. Do not repeat generic Connected Rivalry adverse-network proof. Remote Joining-specific two-device/two-network reconnect/adverse-network hardening and final stable release acceptance for Remote Joining (the final stable Remote Joining release acceptance) were subsequently completed and are consumed evidence; they are not current work and must not be reopened absent a proven regression. Evidence/continuity publication only earns zero RJR credit.
+
+SSJR-1.1 remains `0/100` until fixed whole-capability production evidence qualifies. Publication, observer, recorder, validator and continuity work earn zero SSJR credit.
+
+Historical production checkpoint remained DEPLOYED / PRODUCTION-PROVEN `v1.9.1 / 1.9.1-r3` from PR #203 merge `65d88b1b413501b328bdf722bc6e8a0aa0d46ef2`. Live Spark Shared Setup Rules remained ruleset `73b4435e-85a8-49f9-92ef-8ffe3ce0f91c`, generated-source blob `5bcde9297f6b2927a2184605192ab5b6cd46fb29`.
+
+PR #205 remains strict pair-validator historical authority through `scripts/validate-ssjr-shared-setup-production-evidence.mjs`.
+PR #207 remains privacy-safe stdin recorder historical authority through `scripts/record-ssjr-shared-setup-production-evidence.mjs`.
+PR #209 published the bounded exact three-key read-only production observer.
+PR #210 made that observer deployable and cache-safe on Pages without changing r3 runtime/service-worker authority.
+
+PR210 final head `c863e1c2506bf34ff9521ed22bd989c221b437a6`, tree `85b9350bd7ac6f708b5bc7d303ad23d354fa1ac0`, merge `a1b4a34f8a2abcc4e361c4239da684ace9a4a40a`; exact-head `15/15`; sole P2 thread fixed/resolved; post-merge `15/15`; Pages `34060301380`; Stability `34060301345`; deployed artifact `9997244445` contains both acceptance host and observer. Host requests `acceptance/ssjrProductionStorageObservation.js?v=20260906-a54`.
+
+The Installable Offline App, v1.3.0 Recovery & Device Resilience baseline, Local Profiles and Save Library remain protected shipped foundations and must not be reopened absent a demonstrated regression.
+
+Historical closing environment: `we-2026-09-06-pr211-recovery-private-setup-a54`. Historical starting independently verified live main: `a1b4a34f8a2abcc4e361c4239da684ace9a4a40a`.
+
+Historical execution sequence preserved for compatibility: validate/archive inherited WEC and initialize a fresh successor; verify PR210/PR209/PR207/PR205/PR203 authority; prepare two legitimate private manager accounts and two genuinely distinct registered browser/device identities; prove exact Connected Rivalry pairing + exact ACTIVE precedes every shared league or club action; prove one repository-catalog league, two distinct permanent same-league clubs, supported 1/3/5/10 season length and two confirmations through SHOWDOWN_CONFIRMED revision 6; prove reload/reconnect plus a fresh ACTIVE same-rivalry session resumes without reset/redraw; prove wrongSession, expiredSession, unrelatedAccount, revokedIdentity, staleRevision, replayConflict, directFieldSubstitution and coordinatorBypass fail closed; preserve exact canonical storage; pipe observations only through `npm run record:ssjr-production-shared-setup`; validate with `npm run validate:ssjr-production-shared-setup -- <player-one-evidence.json> <player-two-evidence.json>`; recalculate SSJR only if the fixed layer passes.
+
+Do not start transfer/results/scoring before this Shared Setup evidence boundary is resolved. Do not replace real production observations with CI fabrication.
+
+Permanent locks: Billing must never be activated and Firebase remains Spark. App Check enforcement remains OFF. Firestore browser persistence remains memory-only. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes. Canonical localStorage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, `careerModeShowdown.preferences`. Candidate C remains the sole destructive remote-to-local gameplay Apply authority with transaction-owned strict exact raw-snapshot rollback. Exactly two private managers. No public discovery/listing/lobby/matchmaking/community/rankings/global leaderboards. Never durably retain raw private capabilities or raw account/device/rivalry/session/pairing IDs.
