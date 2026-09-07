@@ -6,6 +6,8 @@ Permanent locks: Billing must never be activated. Firebase remains Spark. App Ch
 
 RJR-1 remains COMPLETE/FROZEN `100/100`. Consumed RJR physical acceptance must not be repeated or re-credited absent a proven regression. SSJR-1.1 remains fixed `0/100` until whole-capability production evidence qualifies; source, PRs, CI, reviews, merges, deployments, recorder/validator/observer tooling, WEC/SLE/SNS and synthetic proof earn zero SSJR credit by themselves.
 
+The Installable Offline App, v1.3.0 Recovery & Device Resilience baseline, Local Profiles and Save Library remain protected shipped foundations and must not be reopened absent a demonstrated regression.
+
 Current production: DEPLOYED / PRODUCTION-PROVEN `v1.9.1 / 1.9.1-r4`, published by PR #212 merge `710dd4613c2cb915ddec7dd7a7525911277cb333`. Genuine owner acceptance displayed runtime `1.9.1-r4` and reached a real paired ACTIVE host private session plus authoritative Shared Setup `EMPTY · REV 0` before any league or club draw. Live Spark Shared Setup Rules remain ruleset `73b4435e-85a8-49f9-92ef-8ffe3ce0f91c`, generated-source blob `5bcde9297f6b2927a2184605192ab5b6cd46fb29`.
 
 Current release candidate: PR #213, `v1.9.1 / 1.9.1-r5`, branch `fix/ssjr-recorder-active-session-guidance`.
