@@ -10,7 +10,7 @@ const {resolveChromiumRuntime}=require("../support/chromium-runtime.cjs");
   const deviceId="device_"+"1".repeat(32);
   const rivalryId="pair_"+"2".repeat(64);
   const sessionId="session_"+"3".repeat(64);
-  const html=`<!doctype html><html><head><meta name="app-asset-revision" content="1.9.1-r4"></head><body>
+  const html=`<!doctype html><html><head><meta charset="utf-8"><meta name="app-asset-revision" content="1.9.1-r4"></head><body>
 <script>
 (()=>{
   const accountId=${JSON.stringify(accountId)},deviceId=${JSON.stringify(deviceId)},rivalryId=${JSON.stringify(rivalryId)},sessionId=${JSON.stringify(sessionId)};
@@ -35,8 +35,8 @@ const {resolveChromiumRuntime}=require("../support/chromium-runtime.cjs");
 })();
 </script><script src="/setup.js"></script></body></html>`;
   const server=http.createServer((request,response)=>{
-    if(request.url==="/setup.js"){response.setHeader("content-type","text/javascript");response.end(source);return;}
-    response.setHeader("content-type","text/html");response.end(html);
+    if(request.url==="/setup.js"){response.setHeader("content-type","text/javascript; charset=utf-8");response.end(source);return;}
+    response.setHeader("content-type","text/html; charset=utf-8");response.end(html);
   });
   await new Promise(resolve=>server.listen(0,"127.0.0.1",resolve));
   let browser;
