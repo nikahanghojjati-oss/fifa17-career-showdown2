@@ -78,7 +78,7 @@ if(activeCandidateWec){
     A.ok(handoff.includes(previousRuntime),"Candidate maintenance record must preserve the whole-shell recovery target.");
 }
 
-if(candidateRecord && currentProductionProven){
+if(candidateRecord && currentProductionProven && !activeCandidateWec){
     // The runtime release note is an immutable candidate-era record. A later production proof or
     // owner-accepted production checkpoint may supersede its candidate label without rewriting it.
     A.ok(previousRuntime, "The retained candidate-era release record must name its previous known-good whole-runtime shell.");
