@@ -13,26 +13,38 @@ assert.equal(bootstrap.remoteJoiningReadiness?.score,100); assert.equal(bootstra
 for(const [name,text] of docs){
  assert.match(text,/RJR-1|RJR100/i,`${name} must expose RJR100 authority`); assert.match(text,/100\/100/); assert.match(text,/PR #215/i); assert.match(text,/PR #203/i); assert.match(text,/v1\.9\.1/i); assert.match(text,/Billing must never be activated|Billing must remain permanently OFF/i); assert.match(text,/Spark/i); assert.match(text,/production.two.account|two legitimate private manager|SSJR-1/i);
 }
-const historicalBootstrapClosingId="we-2026-09-07-pr214-mdp1-a58";
-assert.equal(bootstrap.closingWec?.environmentId,historicalBootstrapClosingId,"V1.4.56 bootstrap closing a58 remains immutable historical provenance");
-const currentStarter="START_NEXT_SESSION_V1.4.59_PR215_RECURSIVE_ANTI_SPIRAL_SAFE_TRANSFER_NEXT.md";
-assert.ok(fs.existsSync(path.join(process.cwd(),currentStarter)),"Current V1.4.59 recursive anti-spiral starter must remain durable.");
-const currentStarterText=read(currentStarter); assert.match(currentStarterText,/we-2026-09-07-pr215-r6-publication-a61/i); assert.match(currentStarterText,/anti-spiral|circuit breaker/i);
-const closingId="we-2026-09-07-pr215-r6-publication-a61";
-const closingArchive="WORK_ENVIRONMENT_ARCHIVE/we-2026-09-07-pr215-r6-publication-a61.json";
-const successorId="we-2026-09-07-pr215-r6-publication-a62";
-assert.ok(fs.existsSync(path.join(process.cwd(),closingArchive)),"Closing a61 archive must remain durable.");
+assert.equal(bootstrap.closingWec?.environmentId,"we-2026-09-07-pr214-mdp1-a58","V1.4.56 bootstrap closing a58 remains immutable historical provenance");
+const currentOverride=bootstrap.currentSuccessorOverride;
+assert.ok(currentOverride?.capsule,"Current successor override must route through a versioned capsule.");
+const currentCapsule=json(currentOverride.capsule);
+assert.equal(currentOverride.starter,currentCapsule.starter?.canonical);
+assert.equal(currentOverride.deepHandoff,currentCapsule.currentHandoff?.canonical);
+const currentStarter=currentCapsule.starter.canonical;
+assert.ok(fs.existsSync(path.join(process.cwd(),currentStarter)),"Current versioned successor starter must remain durable.");
+const currentStarterText=read(currentStarter);
+assert.match(currentStarterText,/anti-spiral|circuit breaker/i);
+assert.match(currentStarterText,/IMMEDIATE NEXT TASK AFTER FULL STUDY/i);
+const closingId=currentCapsule.closingEnvironmentId;
+const closingArchive=currentCapsule.closingArchive;
+assert.ok(closingId&&closingArchive,"Current capsule must name its closing environment and archive.");
+assert.ok(fs.existsSync(path.join(process.cwd(),closingArchive)),"Current closing archive must remain durable.");
+const sealed=json(closingArchive);
+assert.equal(sealed.environmentId,closingId);
+assert.equal(sealed.lifecycle,"transition-prepared");
+assert.equal(sealed.signals?.handoffCompleteness,100);
 assert.equal(wec.assessment?.decisionInheritedFromPredecessor,false);
-assert.equal(wec.environmentId,successorId,"Current successor WEC must be the fresh a62 environment.");
-assert.equal(wec.repository?.predecessorEnvironmentId,closingId,"Fresh successor must descend explicitly from closing a61.");
-assert.equal(wec.repository?.predecessorArchive,closingArchive,"Fresh successor must point to the immutable closing a61 archive.");
 if(wec.lifecycle==="active"){
+ assert.notEqual(wec.environmentId,closingId,"A fresh active successor must not reuse the sealed closing environment ID.");
+ assert.equal(wec.repository?.predecessorEnvironmentId,closingId,"Fresh successor must descend from the current capsule closing environment.");
+ assert.equal(wec.repository?.predecessorArchive,closingArchive,"Fresh successor must point to the current capsule closing archive.");
  assert.ok(["CONTINUE","PREPARE_HANDOFF"].includes(wec.assessment?.decision));
  assert.match(wec.continuity?.currentTask||"",/release-candidate|publish|converge/i);
  assert.equal(wec.sessionHandoffProximity?.environmentId,wec.environmentId);
  assert.equal(wec.sessionHandoffProximity?.checkpoints?.[0]?.note,"New session: reset to 0%.");
 }else{
- assert.equal(wec.lifecycle,"transition-prepared"); assert.equal(wec.signals?.handoffCompleteness,100); assert.equal(wec.assessment?.decision,"HANDOFF_AT_CHECKPOINT");
+ assert.equal(wec.environmentId,closingId,"A sealed current WEC must be the closing environment routed by the current capsule.");
+ assert.equal(wec.lifecycle,"transition-prepared"); assert.equal(wec.signals?.handoffCompleteness,100);
+ assert.ok(["HANDOFF_AT_CHECKPOINT","HANDOFF_NOW"].includes(wec.assessment?.decision),"A sealed WEC must record its independently derived handoff decision.");
 }
 const next=read("NEXT_TASK.md"); assert.match(next,/Connected Rivalry[\s\S]+ACTIVE[\s\S]+league/i); assert.match(next,/two legitimate private manager|production-two-account|production two-account/i); assert.match(next,/record:ssjr-production-shared-setup/i); assert.match(next,/validate:ssjr-production-shared-setup/i); assert.match(next,/Do not begin transfer\/results\/scoring|Do not start transfer\/results\/scoring/i); assert.match(next,/release-candidate|publish|converge/i);
-process.stdout.write("PASS current authority: live PR215 r6 publication checkpoint, fresh a62 successor descending from immutable closing a61, historical V1.4.56/a58 and PR210/209/207/205/203 provenance preserved, r5 production/r6 candidate, RJR100, SSJR0 and MDP39 coherent.\n");
+process.stdout.write("PASS current authority: immutable V1.4.56/a58 and PR210/209/207/205/203 history stay fixed while current successor routing follows the versioned override capsule, its sealed closing WEC, fresh zero-reset ancestry and independently derived lifecycle decision.\n");
