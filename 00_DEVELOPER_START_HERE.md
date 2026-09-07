@@ -7,7 +7,7 @@ Read `START_NEXT_SESSION_V1.4.60_PR215_AUTHORITY_CONTRACT_SAFE_TRANSFER_NEXT.md`
 
 Work Environment Continuity (WEC) is mandatory. Treat every handoff as orientation only and independently verify live repository, PR, CI, deployment and provider state before mutation.
 
-Use the connected GitHub app/connector first. If native `gh` is genuinely required and unavailable, use the repository-owned bootstrap. Never extract, copy or repurpose connector credentials.
+Use the connected GitHub app/connector first. If native `gh` is genuinely required and unavailable, use the repository-owned GitHub CLI bootstrap. Never extract, copy or repurpose connector credentials.
 
 Current successor entrypoint: `START_NEXT_SESSION_V1.4.57_PR215_ANTI_SPIRAL_SAFE_TRANSFER_NEXT.md`.
 Current compact bootstrap: `SESSION_BOOTSTRAP_V1.4.57.json`.
