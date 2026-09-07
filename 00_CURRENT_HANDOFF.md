@@ -21,7 +21,7 @@ Historical immutable production/evidence provenance remains required. The histor
 
 Historical rollback/publication lineage only: `v1.9.1 / 1.9.1-r2` was a previous known-good whole-shell recovery runtime; PR #198 later published fixed RJR-1 `100/100`. This lineage is consumed and must not be re-credited absent a proven regression.
 
-Permanent Firebase control-plane inheritance remains mandatory: `00_FIREBASE_PERMANENT_ZERO_BILLING_CONTROL_PLANE.md`, `HANDOFF_FIREBASE_CONTROL_PLANE_PERMANENT_ACCESS_ADDENDUM_2026-09-01.md`, and `.github/workflows/deploy-firestore-rules-zero-billing.yml`. Never extract or paste provider credentials into chat or source.
+Permanent Firebase control-plane inheritance remains mandatory: `00_FIREBASE_PERMANENT_ZERO_BILLING_CONTROL_PLANE.md`, `HANDOFF_FIREBASE_CONTROL_PLANE_PERMANENT_ACCESS_ADDENDUM_2026-09-01.md`, and `.github/workflows/deploy-firestore-rules-zero-billing.yml`. The permanent GitHub Actions secret name is `FIREBASE_RULES_SERVICE_ACCOUNT_JSON`; its value must never be retrieved, pasted into chat, committed, or printed. The fixed provider project remains `fifa17-career-showdown-prod` and the least-privilege target remains `roles/firebaserules.admin`. Firebase remains Spark and billing remains permanently forbidden. Provider Rules must be independently read back and source-identity verified after deployment. Provider-control-plane installation or automation earns zero RJR by itself.
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
