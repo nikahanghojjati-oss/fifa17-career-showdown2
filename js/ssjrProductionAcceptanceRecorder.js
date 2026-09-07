@@ -268,25 +268,45 @@
       ["6 · FRESH ACTIVE SESSION + RESUME",!!safe.freshActiveSessionResume]
     ];
   }
+  function hasCanonicalViolation(){return safe.canonicalStorageViolation===true||Boolean(safe.canonicalStorageBeforeHash&&safe.canonicalStorageAfterHash&&safe.canonicalStorageBeforeHash!==safe.canonicalStorageAfterHash);}
+  function primaryActionLabel(){
+    if(runtimeError)return "CHECK AGAIN";
+    if(!safe.pairedActiveBeforeSetup)return "NEXT STEP · OPEN PRIVATE SESSION";
+    if(!safe.authoritativeSetupObserved||!safe.identicalFinalSetup)return "NEXT STEP · OPEN SHARED SETUP";
+    if(hasCanonicalViolation())return "STOP · SHOW RECORDER ERROR";
+    if(!safe.reloadResume)return "NEXT STEP · RELOAD & VERIFY";
+    if(!safe.freshActiveSessionResume)return "NEXT STEP · OPEN FRESH SESSION";
+    return "FINISH · DOWNLOAD SAFE RESULT";
+  }
+  async function runPrimaryAction(){
+    runtimeError=null;
+    if(!safe.pairedActiveBeforeSetup)return openRemoteJoining();
+    if(!safe.authoritativeSetupObserved||!safe.identicalFinalSetup)return openSetup();
+    if(hasCanonicalViolation())return false;
+    if(!safe.reloadResume)return armReload(true);
+    if(!safe.freshActiveSessionResume)return openRemoteJoining();
+    return downloadDraft();
+  }
   function nextInstruction(){
-    if(!safe.pairedActiveBeforeSetup)return "Pair the two managers, make the exact private session ACTIVE, then press CHECK NOW before drawing any league or clubs.";
-    if(!safe.authoritativeSetupObserved)return "Open Shared Setup on both devices. Draw league + clubs, choose 1/3/5/10 seasons, then pause at REV 4 until both recorders show step 2 PASS.";
-    if(!safe.identicalFinalSetup)return "Each manager confirms from their own device. Stop when both sides show SHOWDOWN_CONFIRMED · REV 6.";
-    if(safe.canonicalStorageViolation===true||safe.canonicalStorageBeforeHash&&safe.canonicalStorageAfterHash&&safe.canonicalStorageBeforeHash!==safe.canonicalStorageAfterHash)return "STOP: canonical local gameplay storage changed. Send me the recorder screen; do not continue.";
-    if(!safe.reloadResume)return safe.reloadArmed?"Reload armed. Rejoin the same private session after reload, open this acceptance URL again if needed, then press CHECK NOW.":"Keep the current session code somewhere safe, then use ARM + RELOAD on this device. Rejoin that SAME session and press CHECK NOW.";
-    if(!safe.freshActiveSessionResume)return "Create a FRESH private session for the SAME rivalry, join it from the other manager, then press CHECK NOW on both devices. No league or club should redraw.";
-    return "Positive Shared Setup evidence is complete on this device. The remaining denial probes will be automated/recorded separately before SSJR credit is awarded.";
+    if(!safe.pairedActiveBeforeSetup)return "Pair the two managers and make the same private session ACTIVE on both devices. The recorder checks automatically; use the big NEXT STEP button to open the session controls.";
+    if(!safe.authoritativeSetupObserved)return "Use the big NEXT STEP button. Draw one league, two different clubs, and choose 1/3/5/10 seasons. Pause when both recorders mark step 2 PASS.";
+    if(!safe.identicalFinalSetup)return "Each manager confirms on their own device. The recorder automatically detects SHOWDOWN_CONFIRMED · REV 6.";
+    if(hasCanonicalViolation())return "STOP: canonical local gameplay storage changed. Send me only a screenshot of this recorder panel; do not continue.";
+    if(!safe.reloadResume)return safe.reloadArmed?"Reload is armed. Rejoin the SAME session if needed; the recorder will verify the resume automatically.":"Press the big NEXT STEP button. It will arm the proof and reload this device automatically.";
+    if(!safe.freshActiveSessionResume)return "Press the big NEXT STEP button, create one FRESH private session for the SAME rivalry, and join it on the other device. No league or club should redraw.";
+    return "Done on this device. Press the big FINISH button to download the privacy-safe result. No raw IDs or screenshots are needed unless the recorder reports an error.";
   }
   function create(tag,className,text){const element=root.document.createElement(tag);if(className)element.className=className;if(text!==undefined)element.textContent=String(text);return element;}
   function ensureStyle(){
     if(!root.document||root.document.getElementById("ssjrProductionAcceptanceRecorderStyle"))return;
     const style=create("style");style.id="ssjrProductionAcceptanceRecorderStyle";style.textContent=`
-#${PANEL_ID}{position:fixed;right:12px;bottom:12px;z-index:2147483001;width:min(430px,calc(100vw - 24px));max-height:78vh;overflow:auto;background:#0d1520;color:#f4f7fa;border:1px solid rgba(255,255,255,.24);border-radius:12px;box-shadow:0 18px 50px rgba(0,0,0,.48);font:14px/1.35 system-ui,sans-serif;padding:14px}#${PANEL_ID} h2{font-size:17px;margin:0}#${PANEL_ID} p{margin:7px 0;color:#c9d2dc}#${PANEL_ID} .ssjrTop{display:flex;align-items:center;justify-content:space-between;gap:8px}#${PANEL_ID} .ssjrTop button{padding:5px 8px}#${PANEL_ID} button{border:0;border-radius:7px;padding:8px 10px;font-weight:750;cursor:pointer}#${PANEL_ID} .ssjrButtons{display:flex;flex-wrap:wrap;gap:7px;margin:10px 0}#${PANEL_ID} .ssjrRow{display:flex;justify-content:space-between;gap:12px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.1)}#${PANEL_ID} .ssjrRow strong{font-size:12px}#${PANEL_ID} .ssjrNext{background:#172332;border-radius:8px;padding:9px;margin-top:10px}#${PANEL_ID} .ssjrPrivacy{font-size:11px;color:#9eb0c1}#${PANEL_ID}[data-collapsed="true"]>*:not(.ssjrTop){display:none}`;root.document.head.appendChild(style);
+#${PANEL_ID}{position:fixed;right:12px;bottom:12px;z-index:2147483001;width:min(430px,calc(100vw - 24px));max-height:78vh;overflow:auto;background:#0d1520;color:#f4f7fa;border:1px solid rgba(255,255,255,.24);border-radius:12px;box-shadow:0 18px 50px rgba(0,0,0,.48);font:14px/1.35 system-ui,sans-serif;padding:14px}#${PANEL_ID} h2{font-size:17px;margin:0}#${PANEL_ID} p{margin:7px 0;color:#c9d2dc}#${PANEL_ID} .ssjrTop{display:flex;align-items:center;justify-content:space-between;gap:8px}#${PANEL_ID} .ssjrTop button{padding:5px 8px}#${PANEL_ID} button{border:0;border-radius:7px;padding:8px 10px;font-weight:750;cursor:pointer}#${PANEL_ID} .ssjrPrimary{display:block;width:100%;margin:10px 0;padding:12px 14px;background:#f4f7fa;color:#0d1520;font-size:15px}#${PANEL_ID} .ssjrAdvanced{margin:8px 0;color:#c9d2dc}#${PANEL_ID} .ssjrAdvanced summary{cursor:pointer;font-weight:700}#${PANEL_ID} .ssjrButtons{display:flex;flex-wrap:wrap;gap:7px;margin:9px 0}#${PANEL_ID} .ssjrRow{display:flex;justify-content:space-between;gap:12px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.1)}#${PANEL_ID} .ssjrRow strong{font-size:12px}#${PANEL_ID} .ssjrNext{background:#172332;border-radius:8px;padding:9px;margin-top:10px}#${PANEL_ID} .ssjrPrivacy{font-size:11px;color:#9eb0c1}#${PANEL_ID}[data-collapsed="true"]>*:not(.ssjrTop){display:none}`;root.document.head.appendChild(style);
   }
   function render(){
     if(!enabled||!root.document)return null;
     let panel=root.document.getElementById(PANEL_ID);if(!panel)return createPanel();
     const list=panel.querySelector(".ssjrStatus");if(list){list.replaceChildren();for(const [label,passed] of statusRows()){const row=create("div","ssjrRow");row.append(create("span","",label),create("strong","",passed?"PASS":"PENDING"));list.append(row);}}
+    const primary=panel.querySelector(".ssjrPrimary");if(primary){primary.textContent=primaryActionLabel();primary.disabled=hasCanonicalViolation();}
     const next=panel.querySelector(".ssjrNext");if(next)next.textContent=runtimeError?`RECORDER ERROR: ${runtimeError.message||runtimeError}`:nextInstruction();
     const meta=panel.querySelector(".ssjrMeta");if(meta)meta.textContent=`ROLE: ${safe.managerRole||"not resolved"} · REMOTE: ${safe.remoteRole||"not resolved"} · RUNTIME: ${safe.runtimeRevision||revision()}`;
     return panel;
@@ -295,9 +315,11 @@
     if(!enabled||!root.document)return null;ensureStyle();
     const panel=create("aside");panel.id=PANEL_ID;panel.dataset.collapsed="false";panel.setAttribute("aria-label","SSJR production acceptance recorder");
     const top=create("div","ssjrTop");top.append(create("h2","","SSJR GUIDED RECORDER"));const collapse=create("button","","MINIMIZE");collapse.type="button";collapse.addEventListener("click",()=>{const next=panel.dataset.collapsed!=="true";panel.dataset.collapsed=String(next);collapse.textContent=next?"OPEN":"MINIMIZE";});top.append(collapse);panel.append(top);
-    panel.append(create("p","","This recorder watches the real two-account Shared Setup test and captures privacy-safe proof automatically."));
+    panel.append(create("p","","Simple mode: follow the one big NEXT STEP button. The recorder watches the real test and marks proof automatically."));
     panel.append(create("p","ssjrMeta",""));
     panel.append(create("div","ssjrStatus"));
+    const primary=create("button","ssjrPrimary",primaryActionLabel());primary.type="button";primary.addEventListener("click",()=>void runPrimaryAction().catch(error=>{runtimeError=error;render();}));panel.append(primary);
+    const advanced=create("details","ssjrAdvanced");advanced.append(create("summary","","MORE CONTROLS — only if needed"));
     const buttons=create("div","ssjrButtons");
     const check=create("button","","CHECK NOW");check.type="button";check.addEventListener("click",()=>void checkNow().catch(error=>{runtimeError=error;render();}));
     const setup=create("button","","OPEN SHARED SETUP");setup.type="button";setup.addEventListener("click",()=>void openSetup().catch(error=>{runtimeError=error;render();}));
@@ -306,7 +328,7 @@
     const copy=create("button","","COPY SAFE DRAFT");copy.type="button";copy.addEventListener("click",async()=>{try{copy.textContent=await copyDraft()?"COPIED":"COPY UNAVAILABLE";}catch(error){runtimeError=error;}root.setTimeout(()=>{copy.textContent="COPY SAFE DRAFT";render();},1400);});
     const download=create("button","","DOWNLOAD SAFE DRAFT");download.type="button";download.addEventListener("click",()=>void downloadDraft().catch(error=>{runtimeError=error;render();}));
     const reset=create("button","","RESET RECORDER");reset.type="button";reset.addEventListener("click",clearSafe);
-    buttons.append(check,setup,remote,reload,copy,download,reset);panel.append(buttons);
+    buttons.append(check,setup,remote,reload,copy,download,reset);advanced.append(buttons);panel.append(advanced);
     panel.append(create("p","ssjrNext",""));
     panel.append(create("p","ssjrPrivacy","Only SHA-256 fingerprints and Shared Setup facts survive reload. Raw account, device, rivalry, session capability and canonical storage values are never exported or written to recorder storage. Firebase remains Spark; this recorder cannot enable billing, Blaze, Cloud Run, Cloud Functions or App Check enforcement."));
     root.document.body.append(panel);render();return panel;
@@ -346,8 +368,8 @@
     cloudRunRequired:false,
     cloudFunctionsRequired:false,
     appCheckEnforcementRequired:false,
-    install,destroy,checkNow,openSetup,openRemoteJoining,armReload,clearSafe,
+    install,destroy,checkNow,openSetup,openRemoteJoining,armReload,runPrimaryAction,clearSafe,
     getDraftEvidence,copyDraft,downloadDraft,
-    getState:()=>Object.freeze({enabled,initialized,completed:safe.completed,managerRole:safe.managerRole,remoteRole:safe.remoteRole,statusRows:statusRows().map(([label,passed])=>({label,passed}))})
+    getState:()=>Object.freeze({enabled,initialized,completed:safe.completed,managerRole:safe.managerRole,remoteRole:safe.remoteRole,primaryActionLabel:primaryActionLabel(),statusRows:statusRows().map(([label,passed])=>({label,passed}))})
   });
 });
