@@ -49,8 +49,9 @@ async function openCase(browser,acceptance){
     window.__ssjrRecorderSetFinal=()=>{state={...state,revision:6,phase:"SHOWDOWN_CONFIRMED",setup:structuredClone(finalSetup)};emit();};
     window.__ssjrRecorderPrepareReload=()=>{sessionStorage.setItem("__ssjrRecorderTestMode","final");};
     window.__ssjrRecorderSetFresh=()=>{state={...state,sessionId:raw.freshSession,revision:6,phase:"SHOWDOWN_CONFIRMED",setup:structuredClone(finalSetup)};emit();};
-    localStorage.setItem("careerModeShowdown.saveLibrary",JSON.stringify([{marker:raw.canonical}]));
-    localStorage.setItem("careerModeShowdown.legacyShowdowns","null");
+    const canonicalLibrary={schemaVersion:1,activeSaveId:null,profiles:[],saves:[],migration:{fixtureMarker:raw.canonical}};
+    localStorage.setItem("careerModeShowdown.saveLibrary",JSON.stringify(canonicalLibrary));
+    localStorage.setItem("careerModeShowdown.legacyShowdowns",JSON.stringify([]));
     localStorage.setItem("careerModeShowdown.preferences",JSON.stringify({private:"value"}));
   },{raw,finalSetup,seedSetup});
   const url=new URL(baseUrl.href);if(acceptance)url.searchParams.set("ssjr-acceptance","1");
