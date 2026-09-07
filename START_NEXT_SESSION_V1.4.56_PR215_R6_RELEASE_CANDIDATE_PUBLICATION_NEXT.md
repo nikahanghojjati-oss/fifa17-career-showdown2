@@ -4,6 +4,8 @@ SLE = Smart Lean Efficient. This is the compact successor entrypoint. Treat this
 
 Repository: `nikahanghojjati-oss/fifa17-career-showdown2`
 Public site: `https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/`
+Production authority at this handoff: `v1.9.1 / 1.9.1-r5`.
+Source/runtime release candidate: `v1.9.1 / 1.9.1-r6`.
 
 ## VERIFIED HANDOFF BOUNDARY
 
@@ -22,7 +24,14 @@ Pending MDP unlock: combined `+2.50` only after `setup-league`, `setup-clubs`, `
 Estimated focused sessions to genuine SSJR100: `~5-10` until live evidence changes the model.
 Genuine SSJR evidence still requires two legitimate private manager accounts on genuinely distinct registered browsers/devices; synthetic or publication evidence cannot substitute.
 
-Every meaningful engineering checkpoint must report `MDP task delta: +X.XX (AA.AA -> BB.BB)`. Use `+0.00` when no lifecycle stage closes. Report Session handoff proximity frequently from SHP-2 observable proxies; reset it to `0%` in the fresh successor session. Never use HTR-1 as session pressure.
+Every meaningful engineering checkpoint must preserve this exact compact footer, in this order:
+
+```text
+MDP task delta: +X.XX (AA.AA → BB.BB)
+Session handoff proximity: X%
+```
+
+Use `+0.00` when no lifecycle stage closes. The existing SSJR/MDP Eagle Eye snapshot may appear above this footer; the two-line footer itself is mandatory. Every future successor handoff and fresh Work environment must preserve it recursively. Session handoff proximity resets to `0%` in the fresh successor session and remains governed by SHP-2 observable proxies. Never use HTR-1 as session pressure.
 
 ## PERMANENT DUAL-FULL-SCREEN RULE
 
@@ -55,4 +64,4 @@ The evidence commands remain `npm run record:ssjr-production-shared-setup` and `
 
 Use the complete deep handoff `SUCCESSOR_HANDOFF_PR215_R6_RELEASE_CANDIDATE_PUBLICATION_SLE_2026-09-07.md` when deeper reconstruction is genuinely needed.
 
-Recursive rule: every future handoff must again use Smart Lean Efficient SLE packaging, generate a newest versioned starter plus byte-identical mirrors and a fresh repository-first owner prompt, verify the package, and stop at Session handoff proximity 100 before beginning another substantial milestone.
+Recursive rule: every future handoff must again use Smart Lean Efficient SLE packaging, generate a newest versioned starter plus byte-identical mirrors and a fresh repository-first owner prompt, verify the package, preserve the mandatory two-line `MDP task delta` / `Session handoff proximity` footer, and stop at Session handoff proximity 100 before beginning another substantial milestone.
