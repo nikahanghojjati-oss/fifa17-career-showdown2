@@ -23,6 +23,8 @@ This bounded runtime hotfix fixes defects exposed by the first genuine two-accou
 
 This hotfix and its automated tests earn zero SSJR points by themselves. SSJR-1.1 remains `0/100` until genuine two-account production evidence satisfies the fixed model and strict validator. The next evidence action after a green deployment is to resume the real two-device acceptance and prove the paired ACTIVE session advances through authoritative Shared Setup to identical `SHOWDOWN_CONFIRMED · REV 6`.
 
+While this WEC owns an unmerged r5 release candidate, `1.9.1-r4` remains production authority and `SESSION_BOOTSTRAP.json` must not be promoted to r5 merely because current authority documents describe both the production runtime and the candidate. Promotion occurs only after exact-head publication gates, merge and deployment proof.
+
 ## Whole-shell boundary
 
 `1.9.1-r5` is a new whole-shell identity because executable browser behavior changed. Do not certify a mixed r4/r5 shell. The r5 HTML revision, directly referenced shell assets, manifest icons, Service Worker cache identity and lazy-loaded Shared Setup/recorder assets must resolve coherently to r5. The previous coherent r4 shell remains the immediate recovery target.
