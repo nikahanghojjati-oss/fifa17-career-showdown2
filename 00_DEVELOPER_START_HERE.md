@@ -1,51 +1,59 @@
-# DEVELOPER START HERE — PR215 ANTI-SPIRAL SAFE TRANSFER / MDP-1 / DUAL FULL SCREEN
+# DEVELOPER START HERE — POS v2
 
-## Current successor routing V1.4.60
+This is the current low-context entrypoint for Career Mode Showdown.
 
-Read `START_NEXT_SESSION_V1.4.60_PR215_AUTHORITY_CONTRACT_SAFE_TRANSFER_NEXT.md` and `SESSION_BOOTSTRAP_V1.4.60.json` for the current a62 safe-transfer boundary. Earlier numbered-session prose below is preserved historical orientation and does not override this routing or fresh live source. Closing WEC: `we-2026-09-07-pr215-r6-publication-a62`. Current bounded task remains Converge PR215 r6 release-candidate publication; no merge, MDP increase or owner testing until the complete r6 gate passes. The demonstrated remaining blocker is the current-versus-historical WEC ancestry/lifecycle contract class. Validate the exact current failure before correcting that class together in one bounded candidate. Two local a62 correction cycles stopped under the recursive anti-spiral rule; no third correction.
+Do not preload historical handoffs, old START_NEXT_SESSION files, old RJR milestone records or the entire continuity archive. Current verified source and later owner instructions win.
 
+## Minimum startup set
 
-Work Environment Continuity (WEC) is mandatory. Treat every handoff as orientation only and independently verify live repository, PR, CI, deployment and provider state before mutation.
+Read only these first:
 
-Use the connected GitHub app/connector first. If native `gh` is genuinely required and unavailable, use the repository-owned GitHub CLI bootstrap with checksum verification. Never extract, copy or repurpose connector credentials.
+1. `AGENTS.md`
+2. `PROJECT_OPERATING_SYSTEM_V2.md`
+3. `CURRENT_PRODUCT_GUARDS.json`
+4. `NEXT_TASK.md`
+5. `SHARED_SHOWDOWN_JOURNEY_READINESS.json` and `MILESTONE_DELIVERY_PROGRESS.json`
 
-Current successor entrypoint: `START_NEXT_SESSION_V1.4.57_PR215_ANTI_SPIRAL_SAFE_TRANSFER_NEXT.md`.
-Current compact bootstrap: `SESSION_BOOTSTRAP_V1.4.57.json`.
-Current deep handoff: `SUCCESSOR_HANDOFF_PR215_ANTI_SPIRAL_SAFE_TRANSFER_SLE_2026-09-07.md`.
-Current owner SNS copy: `owner-sns/OWNER_SNS_V1.4.57_PR215_ANTI_SPIRAL_SAFE_TRANSFER.md`.
-Historical `SESSION_BOOTSTRAP.json` remains pre-V1.4.57 provenance and is not the current anti-spiral successor pointer.
+Then independently resolve live `main`, the active PR/branch/head, relevant current checks, and deployed/provider state only when the current task needs it.
 
-Read `AGENTS.md`, `00_HANDOFF_GOLDEN_RULE.md`, `00_OWNER_DOWNLOADABLE_SNS_GOLDEN_RULE.md`, `00_BUILD_FIRST_PRODUCT_POLICY.md`, `00_SESSION_HANDOFF_PROXIMITY_V2.md`, `00_HANDOFF_PROXIMITY_STAGE_GATES.md`, `00_MILESTONE_DELIVERY_PROGRESS.md`, `MILESTONE_DELIVERY_PROGRESS_MODEL.json`, `MILESTONE_DELIVERY_PROGRESS.json`, `00_SHARED_SHOWDOWN_DUAL_FULL_SCREEN_RULE.md`, `SHARED_SHOWDOWN_DUAL_SCREEN_EXPERIENCE.json`, `SESSION_BOOTSTRAP_V1.4.57.json`, `00_CURRENT_HANDOFF.md`, `NEXT_TASK.md`, `PROJECT_STATE.md`, `WORK_ENVIRONMENT_STATUS.json`, `SHARED_SHOWDOWN_JOURNEY_MODEL.json`, and `SHARED_SHOWDOWN_JOURNEY_READINESS.json`.
+Load another file only because the current task, a concrete failure, or a safety question requires it. Historical handoffs and authority-history remain available as evidence but are not default startup context.
 
-RJR-1 remains COMPLETE/FROZEN `100/100`. SSJR-1.1 remains `0/100`. MDP-1 remains `39.00/100`; MDP never grants SSJR credit.
+## Current product direction
 
-Recorded main is `420d0dd21480c660d4fe139ba011eca1ccb987a9`. Recorded production authority is `v1.9.1 / 1.9.1-r5`; source/runtime release candidate is `v1.9.1 / 1.9.1-r6`. PR #215 remains the bounded release-candidate publication lane until independently verified live.
-Historical PR #203 V1.4.56/a58 bootstrap provenance remains immutable historical authority and must not be rewritten as current PR215 authority.
+RJR-1 is complete/frozen 100/100 historical evidence. The active milestone is Shared Showdown Journey.
 
-The predecessor intentionally stopped under the owner-directed SHP-2 debug-spiral circuit breaker. Exact failure-evidence head `fc129cf8ee5066ac7dc82cc94a5cbecc25a8686c` had Stability, Static App and Stage 5F Authenticated Negatives red only through the shared complete repository-contract-suite surface. Static syntax/architecture and Stage 5F's dedicated account-chooser/zero-billing negative checks passed first. Seal commits advance the branch beyond that head; never combine CI across heads.
+SSJR answers whether the two-manager journey is genuinely evidence-proven.
 
-Permanent anti-spiral rule: a fresh successor resets Session Handoff Proximity to 0%. Repeated failed correction/validation with active red state, multiple unresolved debug loops, or repeated debugging combined with context damage forces safe full-SNS transfer at the first coherent checkpoint. Do not remain at 99% for hours trying to force gates green. HTR-1 remains separate transfer readiness and never supplies SHP-2.
+MDP answers how far the current milestone capabilities have moved through design, implementation, automated verification, defect resolution, regression retest and product integration.
 
-Permanent owner-downloadable SNS golden rule: once any WEC/SHP transition decision is made, generating a fresh owner-facing SNS copy is mandatory handoff completion work. Store a versioned SNS artifact durably in `owner-sns/` when repository writes are available and provide a directly downloadable copy to the owner when the chat environment supports file delivery. The SNS must reflect the final safe boundary, not be copied forward stale. A transition is not owner-complete until this artifact exists and is delivered. Read `00_OWNER_DOWNLOADABLE_SNS_GOLDEN_RULE.md` for the complete recursive requirements.
+Continue the exact current dependency in `NEXT_TASK.md`; do not create a documentation, continuity, wording or archive milestone while safe product work is available.
 
-Permanent dual-screen rule: both legitimate managers individually experience every canonical Shared Showdown gameplay screen on their own device. Late/reloaded/offline peers replay missed screens in order. A toast/status/background update does not satisfy a full-screen witness.
+## Current test lanes
 
-## IMMEDIATE NEXT TASK AFTER FULL STUDY
+`npm run test:contracts` is the blocking current product suite.
 
-1. Validate the sealed a59 WEC/archive, initialize a fresh unique active WEC without inheriting its decision, and reset SHP-2 to 0%.
-2. Independently resolve live main, PR215 exact head/tree/state, reviews/comments, all permanent workflows, production/runtime/deployment authority and readiness ledgers.
-3. Inspect only the current exact shared repository-suite failing assertion before editing. Do not reopen gameplay/provider lanes without evidence.
-4. Make the smallest objective continuity/current-authority correction required by that exact failure. Never weaken tests or security/provider gates.
-5. Revalidate every required workflow family on one exact new head. Preserve the anti-spiral circuit breaker; if the new session itself enters the trigger state, seal and transfer rather than loop.
-6. Only when all required workflows are green on the same exact reviewed head, expected-head squash merge PR215.
-7. Verify exact post-merge main, Stability including Chromium/deployed-site smoke, Pages/deployed coherent r6, and Release Integration Burn-In.
-8. Only after that whole boundary is clean may Shared Setup MDP integration move `39.00 -> 41.50` with `MDP task delta: +2.50`; SSJR remains unchanged.
-9. Only then say `YOUR TESTING TIME` and resume genuine Chromebook/iPhone two-account Shared Setup acceptance after pairing + exact ACTIVE, with both managers individually seeing full League Wheel, Club Pack, season-length and confirmation screens.
-10. Record only privacy-safe stdin evidence and validate the pair through the unchanged recorder/validator. Do not begin transfer/results/scoring before the Shared Setup evidence boundary resolves unless later owner instruction changes authority.
+`npm run test:ops` is the POS/continuity tooling self-test and is used when those tools change.
 
-Permanent locks: Billing must remain permanently OFF. Firebase remains Spark. Never enable Blaze, a billing account, Cloud Run or Cloud Functions. App Check enforcement OFF. Firestore browser persistence memory-only. Google Auth popup-only `browserSessionPersistence` with no extra scopes. Exactly two private managers. Pairing + exact ACTIVE before league/clubs. Canonical localStorage exactly the three approved keys. Candidate C sole destructive remote-to-local Apply authority with strict transaction-owned raw-snapshot rollback. No public discovery/listing/lobby/matchmaking/community/rankings/global leaderboards.
+`npm run test:legacy-provenance` is a manual historical audit. It is not a normal product-release gate.
 
-Generate a tiny VTLS SNS after every substantial task/state change at any percentage.
+Do not require exact workflow counts or old milestone wording. A failure blocks only when it protects meaningful current/future product behavior, security, privacy, data/storage, synchronization, recovery, provider/billing safety, UI/UX, executable authority, evidence validity or release correctness.
 
-MDP task delta: +0.00 (39.00 → 39.00)
-Session handoff proximity: 100%
+## Session quality
+
+Use `npm run work:health` for POS-2 session health. ADB-1 dynamically chooses a failed correction/validation allowance from 2 to 20 based on the specific environment. Two failures alone do not require transfer.
+
+Legacy SHP and HTR percentage commands remain compatibility tools, not normal project metrics.
+
+If a real handoff becomes necessary, run `npm run work:handoff-checklist`. Satisfy the five useful transfer facts and produce one compact current successor snapshot. Do not generate repetitive SNS/VTLS artifacts during ordinary progress.
+
+## Permanent safety
+
+`CURRENT_PRODUCT_GUARDS.json` is the compact authority. Billing remains OFF, Firebase remains Spark, exactly two private managers are allowed, pairing plus exact ACTIVE precedes league/clubs, Candidate C remains the only destructive remote-to-local Apply authority, the three canonical local storage keys remain fixed, public discovery/matchmaking/community/rankings remain forbidden, and `SSJR-DUAL-FULL-SCREEN-1` remains required.
+
+## Rule of thumb
+
+If something is only useful to explain how the project got here, keep it as history.
+
+If it prevents a current or future product defect, security/privacy problem, data loss, recovery failure, provider risk, broken user journey or invalid release, keep it active.
+
+If it helps developers work safely but does not protect the product itself, keep it in the operations lane.
