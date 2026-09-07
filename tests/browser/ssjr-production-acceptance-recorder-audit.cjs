@@ -93,7 +93,9 @@ async function openCase(browser,acceptance,mode="ready"){
     assert.match(lockedGuidance,/Private session is ACTIVE/,"simple mode must acknowledge the already ACTIVE session");
     assert.match(lockedGuidance,/Registered browser authority is unavailable/,"simple mode must surface the Shared Setup blocker instead of hiding it");
     await activeLocked.page.locator(".ssjrPrimary").click();
-    assert.equal(await activeLocked.page.evaluate(()=>window.__ssjrSetupPanelOpens),1,"ACTIVE-session guidance must route the primary action to Shared Setup diagnostics");
+    await activeLocked.page.waitForFunction(()=>window.CareerModeProductionSharedShowdownPresentation?.isPresentationActive()===true,{timeout:5000});
+    assert.equal(await activeLocked.page.evaluate(()=>window.__ssjrSetupPanelOpens),0,"acceptance guidance must not reopen the engineering Shared Setup panel");
+    assert.equal(await activeLocked.page.locator("#leagueWheelScreen").isVisible(),true,"acceptance guidance must route into the polished Shared Showdown presentation");
     assert.equal(await activeLocked.page.evaluate(()=>window.__ssjrRemotePanelOpens),0,"ACTIVE-session guidance must not reopen Private Remote Joining");
     assert.deepEqual(activeLocked.pageErrors,[]);
 
@@ -122,6 +124,10 @@ async function openCase(browser,acceptance,mode="ready"){
 
     await acceptance.page.waitForFunction(()=>window.CareerModeSSJRProductionAcceptanceRecorder.getState().statusRows[0].passed===true,{timeout:5000});
     assert.match(await acceptance.page.locator(".ssjrPrimary").textContent(),/OPEN SHARED SETUP/,"simple mode should advance the one primary control after ACTIVE is captured");
+    await acceptance.page.locator(".ssjrPrimary").click();
+    await acceptance.page.waitForFunction(()=>window.CareerModeProductionSharedShowdownPresentation?.isPresentationActive()===true,{timeout:5000});
+    assert.equal(await acceptance.page.locator("#leagueWheelScreen").isVisible(),true,"OPEN SHARED SETUP must open the polished League Wheel presentation");
+    assert.equal(await acceptance.page.evaluate(()=>window.__ssjrSetupPanelOpens),0,"OPEN SHARED SETUP must keep the engineering panel hidden");
     await acceptance.page.evaluate(()=>window.__ssjrRecorderSetSeed());
     await acceptance.page.waitForFunction(()=>window.CareerModeSSJRProductionAcceptanceRecorder.getState().statusRows[1].passed===true,{timeout:5000});
     await acceptance.page.evaluate(()=>window.__ssjrRecorderSetFinal());
@@ -167,7 +173,7 @@ async function openCase(browser,acceptance,mode="ready"){
     }
     assert.deepEqual(acceptance.pageErrors,[]);
     console.log("PASS SSJR recorder is query-gated and absent from normal production mode");
-    console.log("PASS SSJR recorder routes an already ACTIVE session to Shared Setup diagnostics instead of looping Private Remote Joining");
+    console.log("PASS SSJR recorder routes an already ACTIVE session into polished Shared Showdown instead of looping Remote Joining or opening engineering diagnostics");
     console.log("PASS SSJR recorder rejects stale cross-runtime evidence instead of mislabeling the live shell");
     console.log("PASS SSJR recorder validates real protocol league + club names against the repository catalog and derives safe club league identities");
     console.log("PASS SSJR recorder simple mode exposes one context-aware NEXT STEP control while fallback controls stay collapsed");
