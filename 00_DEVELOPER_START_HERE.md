@@ -18,6 +18,8 @@ Current MDP interpretation: `entry-binding` and `entry-before-draw` are integrat
 
 Historical continuity remains explicit and must not be erased by currentization: PR #203 is the production-proven `v1.9.1 / 1.9.1-r3` gameplay/provider baseline; PR #205 published the strict Shared Setup pair validator; PR #207 published the privacy-safe stdin evidence recorder; PR #209 published the bounded canonical-storage observer; PR #210 made that observer deployable/cache-safe and was post-merge green. These historical checkpoints remain provenance while current runtime authority advances. Billing must never be activated and Firebase remains Spark. Genuine SSJR evidence still requires two legitimate private manager accounts and never comes from PR/CI/deployment alone.
 
+Protected shipped foundations remain closed absent a demonstrated regression: the Installable Offline App, the v1.3.0 Recovery & Device Resilience baseline, Local Profiles, and Save Library. Preserve this shipped dependency chain while current PR215 work remains bounded to release-authority convergence.
+
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
 1. Reconstruct exact live `main`, PR215 head and current check state.
