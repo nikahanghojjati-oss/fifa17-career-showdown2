@@ -1,36 +1,44 @@
-# CURRENT HANDOFF — PR215 ANTI-SPIRAL SAFE TRANSFER / V1.4.57 SLE
+# CURRENT HANDOFF POINTER — POS v2
 
-## Current successor routing V1.4.60
+This file is a recovery pointer, not a normal startup dependency and not implementation authority.
 
-Read `START_NEXT_SESSION_V1.4.60_PR215_AUTHORITY_CONTRACT_SAFE_TRANSFER_NEXT.md` and `SESSION_BOOTSTRAP_V1.4.60.json` for the current a62 safe-transfer boundary. Earlier numbered-session prose below is preserved historical orientation and does not override this routing or fresh live source. Closing WEC: `we-2026-09-07-pr215-r6-publication-a62`. Current bounded task remains Converge PR215 r6 release-candidate publication; no merge, MDP increase or owner testing until the complete r6 gate passes. The demonstrated remaining blocker is the current-versus-historical WEC ancestry/lifecycle contract class. Validate the exact current failure before correcting that class together in one bounded candidate. Two local a62 correction cycles stopped under the recursive anti-spiral rule; no third correction.
+Normal startup uses `00_DEVELOPER_START_HERE.md`, which routes to `AGENTS.md`, `PROJECT_OPERATING_SYSTEM_V2.md`, `CURRENT_PRODUCT_GUARDS.json`, `NEXT_TASK.md`, SSJR and MDP.
 
+## Current recoverable state
 
-Work Environment Continuity (WEC) is mandatory. SLE = Smart Lean Efficient. Current source and live GitHub/provider/deployment evidence override this orientation record.
+Current active publication/product branch: PR #215, `fix/pr214-postmerge-dual-screen-contract`.
 
-Current lane remains PR #215 `fix/pr214-postmerge-dual-screen-contract`, converging the `v1.9.1 / 1.9.1-r6` release-candidate publication correction. Recorded main is `420d0dd21480c660d4fe139ba011eca1ccb987a9`. Production authority remains `v1.9.1 / 1.9.1-r5` from PR #213 until one coherent r6 merge and post-merge release boundary is proven.
+The live PR head, required checks, review state and live `main` must always be re-resolved from GitHub. Never copy a recorded head forward as current evidence.
 
-Closing WEC is `we-2026-09-07-pr215-r6-publication-a59`. The predecessor intentionally handed off under the owner-directed SHP-2 debug-spiral circuit breaker rather than enter a third correction/validation loop. Exact failure-evidence head `fc129cf8ee5066ac7dc82cc94a5cbecc25a8686c` had three red permanent workflow families: Stability, Static App and Stage 5F Authenticated Negatives. All three failed on the shared complete repository-contract-suite surface. Static App syntax/static architecture passed first; Stage 5F's dedicated account-chooser and zero-billing authenticated-negative contracts passed first. PR215 had no reviews/comments at the boundary. The V1.4.57/SLE seal commits advance the branch beyond that exact head, so the successor must resolve the live head again and never combine CI across heads.
+Production authority remains `v1.9.1 / 1.9.1-r5` until a later coherent r6 merge and post-merge deployment boundary is independently proven. `v1.9.1 / 1.9.1-r6` remains the candidate line while PR215 is open.
 
-RJR-1 remains COMPLETE/FROZEN `100/100`. SSJR-1.1 remains `0/100`. MDP-1 remains `39.00/100`. Publication/continuity/SLE work grants zero SSJR and `MDP task delta: +0.00`. The four Shared Setup capabilities may receive combined `+2.50` MDP integration credit only after coherent r6 merge plus post-merge Stability/Chromium/deployed-site smoke, Pages and Release Integration Burn-In.
+RJR-1 is complete/frozen 100/100 historical evidence.
 
-Permanent SHP-2 anti-spiral rule is now repository-owned in `00_SESSION_HANDOFF_PROXIMITY_V2.md`: repeated failed validation with active red state, multiple unresolved debug loops, or repeated debugging combined with context damage forces full SNS at the first safe checkpoint. Known red CI may be transferred when exact state and next action are durable. HTR-1 remains separate repository transfer readiness and never supplies session pressure. Every fresh successor resets SHP-2 to `0%` and never inherits predecessor counters, flags or transition decision.
+SSJR-1.1 is the active two-manager outcome/evidence milestone.
 
-Permanent `SSJR-DUAL-FULL-SCREEN-1`: both legitimate managers individually experience every canonical Shared Showdown gameplay screen on their own device; missed screens after reload/reconnect/offline replay in order.
+MDP-1 is the active engineering lifecycle metric.
 
-Historical authority remains immutable: PR #198 froze RJR100; PR #203 is the production-proven r3 paired-first Shared Setup baseline; PR #205 the strict pair validator; PR #207 the stdin privacy-safe recorder; PR #209 the bounded canonical-storage observer; PR #210 its Pages/cache-safe publication; PR #213 current production-proven r5; PR #214 recorded r6 merge/main. Preserve this provenance but do not treat stale heads as current CI authority.
+## Recovery action
 
-## IMMEDIATE NEXT TASK AFTER FULL STUDY
+1. Resolve live main and PR215 exact head.
+2. Read `NEXT_TASK.md`.
+3. Inspect only the currently relevant red/current risk-domain checks.
+4. Apply POS-2 classification: fix meaningful product/safety/release defects; do not patch harmless historical wording.
+5. Continue product work while `npm run work:health` is HEALTHY/CAUTION and the current atomic task remains safe.
+6. If a real handoff is required, run `npm run work:handoff-checklist` and create one compact successor snapshot at the exact safe boundary.
 
-Read `START_NEXT_SESSION_V1.4.57_PR215_ANTI_SPIRAL_SAFE_TRANSFER_NEXT.md` first. Validate the sealed a59 WEC/archive, initialize a fresh unique active WEC with SHP-2 reset to 0 and no inherited decision, independently resolve live main/PR215 exact head/reviews/comments/workflows/production/deployment, then inspect only the current shared repository-suite failing assertion. Make only the smallest objective continuity/authority correction if live evidence requires it. Preserve the anti-spiral circuit breaker and do not weaken tests.
+## Historical transfer material
 
-Only after every required workflow family is green on one exact reviewed head may PR215 be expected-head squash merged. Then verify exact main, Stability including Chromium/deployed-site smoke, Pages/deployed coherent r6 and Release Integration Burn-In. Only then may MDP move `39.00 -> 41.50`.
+Earlier START_NEXT_SESSION, SLE handoffs, owner SNS files, WEC archives, SHP percentages and HTR scores remain in repository/Git history as provenance. They are not current gates and do not need to be recopied or regenerated during normal product progress.
 
-Only after clean r6 proof say `YOUR TESTING TIME` and resume genuine Chromebook/iPhone two-account Shared Setup acceptance. Pairing + exact ACTIVE precedes league. Both managers individually witness full League Wheel, Club Pack, season-length and confirmation screens. Record only privacy-safe stdin evidence with `npm run record:ssjr-production-shared-setup`; validate with `npm run validate:ssjr-production-shared-setup -- <player-one-evidence.json> <player-two-evidence.json>`. Do not begin transfer/results/scoring before this boundary resolves unless later owner instruction changes authority.
+SLE remains the Smart Lean Efficient principle: load only enough context to resume correctly.
 
-Permanent locks: Billing must remain permanently OFF. Firebase remains Spark. Never enable Blaze, billing account, Cloud Run or Cloud Functions. App Check enforcement OFF. Firestore browser persistence memory-only. Google Auth popup-only `browserSessionPersistence` with no extra scopes. Exactly two private managers. Canonical localStorage remains exactly the three approved keys. Candidate C remains sole destructive remote-to-local gameplay Apply authority with strict transaction-owned raw-snapshot rollback. No public discovery/listing/lobby/matchmaking/community/rankings/global leaderboards.
+SNS is now an actual-handoff artifact, not an after-every-task ritual.
 
-Starter: `START_NEXT_SESSION_V1.4.57_PR215_ANTI_SPIRAL_SAFE_TRANSFER_NEXT.md`.
-Deep handoff: `SUCCESSOR_HANDOFF_PR215_ANTI_SPIRAL_SAFE_TRANSFER_SLE_2026-09-07.md`.
+HTR-1 score is retired from normal operation; its five useful transfer conditions survive as the POS-2 handoff checklist.
 
-MDP task delta: +0.00 (39.00 → 39.00)
-Session handoff proximity: 100%
+SHP-2 percentage is compatibility/diagnostic only; POS-2 session health plus ADB-1 govern whether the current environment can safely continue.
+
+## Permanent safety
+
+Use `CURRENT_PRODUCT_GUARDS.json`. Billing stays OFF, Firebase stays Spark, exactly two private managers are allowed, pairing plus exact ACTIVE precedes league/clubs, Candidate C remains the only destructive remote-to-local Apply authority, canonical storage remains fixed, public discovery/matchmaking/community/rankings remain forbidden, and `SSJR-DUAL-FULL-SCREEN-1` remains required.
