@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "environmentId": "we-2026-09-07-pr214-mdp1-a58",
-  "lifecycle": "closed",
+  "lifecycle": "transition-prepared",
   "recordedAt": "2026-09-07T18:27:33Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
@@ -49,16 +49,17 @@
     ]
   },
   "assessment": {
-    "decision": "HANDOFF_NOW",
-    "reason": "SHP-2 reached the owner-requested transition band. PR215 substantive head 7cbd35ebc03be97e1cb54d14afad4c5d481f6d3d proved every current permanent workflow family green on one exact head, objective review state was clear, the SLE starter/deep mirrors were already generated and byte-verified, the rolling handoff and owner SNS were refreshed, and this WEC is now sealed. Stop before merge; the successor must independently verify the live seal head because continuity commits advance the branch beyond the substantive 15/15 head.",
+    "decision": "HANDOFF_AT_CHECKPOINT",
+    "reason": "SHP-2 reached the owner-requested transition band. PR215 substantive head 7cbd35ebc03be97e1cb54d14afad4c5d481f6d3d proved every current permanent workflow family green on one exact head, objective review state was clear, the SLE starter/deep mirrors were already generated and byte-verified, the rolling handoff and owner SNS were refreshed, and this WEC is transition-prepared with a sealed transfer package. Stop before merge; the successor must independently initialize a fresh active WEC and verify the live seal head because continuity commits advance the branch beyond the substantive 15/15 head.",
     "decisionInheritedFromPredecessor": false
   },
   "continuity": {
-    "currentTask": "Converge PR215 r6 release-candidate publication, then hand off before merge so the successor independently verifies the final continuity-seal head and publishes only if every current permanent workflow family is green on that same exact reviewed head.",
+    "currentTask": "Converge PR215 r6 release-candidate publication, then hand off before merge so the successor independently initializes a fresh active WEC, verifies the final continuity-seal head and publishes only if every current permanent workflow family is green on that same exact reviewed head.",
     "lastSafeCheckpoint": "Final substantive pre-seal PR215 head 7cbd35ebc03be97e1cb54d14afad4c5d481f6d3d passed 15/15 permanent workflow families. Stage 5F passed the complete repository and post-suite contract surface, including release-authority coherence, production authorization, zero-billing Firebase control-plane inheritance, CI orchestration and final hardening. PR215 was open, mergeable and non-draft with zero review submissions and zero PR/review comments. Rolling handoff commit f517d0c88043399b492881e4362650ad336de124 and owner SNS commit 2bed3c3cddc6236fe8151c8ccd536a2f2f4bf02e preserve the exact boundary while explicitly requiring live-head revalidation after the seal commits.",
-    "nextSafeAction": "Initialize a fresh unique successor WEC with Session handoff proximity reset to 0%, independently resolve current main and the exact live PR215 seal head, require every current permanent workflow family green on that same exact reviewed head with objective review state clear, then squash merge with expected-head protection. After merge, verify exact main, Stability including Chromium/deployed-site smoke, Pages/deployed coherent r6 shell and Release Integration Burn-In before changing MDP.",
+    "nextSafeAction": "Initialize a fresh unique successor WEC with lifecycle active, decision CONTINUE or PREPARE_HANDOFF, currentTask explicitly matching release candidate/publish/converge, and Session handoff proximity reset to 0%. Then independently resolve current main and the exact live PR215 seal head, require every current permanent workflow family green on that same exact reviewed head with objective review state clear, and squash merge with expected-head protection. After merge, verify exact main, Stability including Chromium/deployed-site smoke, Pages/deployed coherent r6 shell and Release Integration Burn-In before changing MDP.",
     "unfinishedWork": [
-      "The final continuity/archive/status seal commits advance PR215 beyond the substantive 15/15 head 7cbd35ebc03be97e1cb54d14afad4c5d481f6d3d; the successor must independently verify the exact live seal head before merge.",
+      "The final continuity/archive/status seal commits advance PR215 beyond the substantive 15/15 head 7cbd35ebc03be97e1cb54d14afad4c5d481f6d3d; the successor must initialize a fresh active WEC and independently verify the exact live seal head before merge.",
+      "The transition-prepared seal is intentionally not an active release-candidate WEC. While source r6 differs from production r5, production-authorization acceptance requires the successor's fresh active WEC before the shared repository suite can be publication-green again.",
       "PR215 remains intentionally unmerged in this closing environment; merge only with expected-head protection after live exact-head publication gates are green.",
       "Post-merge main must prove Stability including chromium-stability and deployed-site-smoke, while Pages and Release Integration Burn-In remain coherent r6 evidence.",
       "Only after that boundary may setup-league, setup-clubs, setup-length and setup-confirmation receive their combined +2.50 MDP product-integration credit, moving MDP 39.00 to 41.50.",
@@ -69,6 +70,7 @@
       "Billing permanently OFF; Firebase Spark only; never enable Blaze, Cloud Billing, payment methods, Cloud Run or Cloud Functions.",
       "Do not call r6 production-proven until PR215 is merged and post-merge Stability/deployed-smoke plus Pages/Burn-In are coherent.",
       "Do not combine CI evidence across different heads; the 15/15 proof belongs exactly to 7cbd35ebc03be97e1cb54d14afad4c5d481f6d3d.",
+      "The sealed transition-prepared WEC is a handoff state, not active release-candidate publication authority; a fresh successor WEC must become active before expecting production-authorization acceptance to pass while r6 differs from production r5.",
       "App Check enforcement remains OFF; Firestore browser persistence remains memory-only; Google Auth remains popup-only browserSessionPersistence with no extra scopes.",
       "Exactly two private managers; exact pairing plus ACTIVE private session must precede league or club authority.",
       "Both managers must individually experience every canonical Shared Journey gameplay screen; missed screens must remain replayable in order.",
@@ -83,6 +85,7 @@
       "PR214 merge/main remains 420d0dd21480c660d4fe139ba011eca1ccb987a9; exact-sha r6 Pages deployment and Release Integration Burn-In had already succeeded.",
       "PR215 debugging corrected sequential stale current-authority/provenance assertions without weakening runtime, provider, privacy, storage, IAM, pairing or Rules gates.",
       "Named package verification record SLE-VERIFY-PR215-7CBD-15OF15-20260907: exact head 7cbd35ebc03be97e1cb54d14afad4c5d481f6d3d completed all 15 permanent workflow families successfully; Stage 5F confirmed the full 93-file repository suite and post-suite publication guards; GitHub PR metadata showed open, mergeable, non-draft; reviews endpoint returned []; PR discussion/review comments returned [].",
+      "Final seal verification discovered that current handoff authority requires lifecycle transition-prepared with decision HANDOFF_AT_CHECKPOINT, not closed/HANDOFF_NOW. The first seal-head shared-suite failure was exactly this continuity-state assertion; archive and live status were corrected without touching product/runtime/provider behavior.",
       "Starter `START_NEXT_SESSION_V1.4.56_PR215_R6_RELEASE_CANDIDATE_PUBLICATION_NEXT.md` and deep handoff `SUCCESSOR_HANDOFF_PR215_R6_RELEASE_CANDIDATE_PUBLICATION_SLE_2026-09-07.md` were previously generated with byte-identical project mirrors; their live-first instructions remain safe under the final seal.",
       "Rolling handoff `00_CURRENT_HANDOFF.md` was refreshed at commit f517d0c88043399b492881e4362650ad336de124; owner-facing SNS `NEXT_CHAT_HANDOFF_PROMPT.md` was refreshed at commit 2bed3c3cddc6236fe8151c8ccd536a2f2f4bf02e."
     ]
@@ -231,7 +234,7 @@
     "successorPackage": {
       "generated": true,
       "verified": true,
-      "verification": "SLE-VERIFY-PR215-7CBD-15OF15-20260907: starter/deep mirrors already byte-verified; substantive head 7cbd35ebc03be97e1cb54d14afad4c5d481f6d3d passed 15/15 permanent workflow families; PR reviews/comments were empty; rolling handoff and owner SNS were refreshed; WEC archive is sealed with HTR-1 100 and explicit live-seal-head revalidation as the first successor action."
+      "verification": "SLE-VERIFY-PR215-7CBD-15OF15-20260907: starter/deep mirrors already byte-verified; substantive head 7cbd35ebc03be97e1cb54d14afad4c5d481f6d3d passed 15/15 permanent workflow families; PR reviews/comments were empty; rolling handoff and owner SNS were refreshed; the final seal-state correction to transition-prepared/HANDOFF_AT_CHECKPOINT is classified and the successor's fresh active WEC is the first safe publication action."
     }
   }
 }
