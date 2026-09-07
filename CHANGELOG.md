@@ -1,3 +1,19 @@
+## v1.9.1-r4 — Guided SSJR Production Acceptance Recorder — release candidate
+
+Candidate runtime: `1.9.1-r4`
+Previous production-proven runtime: `1.9.1-r3`
+Current production remains: `v1.9.1 / 1.9.1-r3` — production-proven until r4 is merged, deployed and verified.
+Fixed SSJR-1.1: `0/100`
+
+- adds the query-gated `?ssjr-acceptance=1` guided recorder for the genuine two-account Shared Setup acceptance;
+- automatically captures privacy-safe paired+ACTIVE-before-setup, authoritative setup, identical revision-6 final setup, canonical-storage preservation, real reload/resume and fresh-session resume checkpoints;
+- persists/exports only sanitized SHA-256 fingerprints and Shared Setup facts, never raw account/device/rivalry/session authority or canonical storage bytes;
+- keeps ordinary production mode free of recorder UI/runtime loading;
+- preserves Firebase Spark, billing permanently OFF, App Check enforcement OFF, memory-only Firestore, popup-only `browserSessionPersistence`, exactly two private managers, no public discovery/matchmaking and Candidate C's sole destructive remote-to-local gameplay Apply authority;
+- earns zero SSJR credit by itself; genuine two-account production evidence remains required.
+
+---
+
 ## v1.9.1-r2 — Stage 5I Privacy-Safe Physical Acceptance Recorder — production-proven
 
 Production runtime: `1.9.1-r2`
@@ -59,7 +75,7 @@ Previous production-proven runtime: `1.9.0-r3`
 * permanently tests pending, expired and authorization-mismatched B preserving A, plus exact active B replacing A for Player One and Player Two;
 * preserves exactly one Player Two paste, zero manual Connected Rivalry Verify/Reattach actions and unchanged canonical localStorage;
 * changes no provider rivalry merely to retire a stale local pointer and changes no Firebase Rules, billing, persistence, App Check enforcement, public-discovery boundary or Candidate C authority;
-* records the separate evidence-only RJR-1 recalculation from `87/100` to `88/100` for the previously supplied provider-live r3 actual Remote Joining lifecycle; r4 implementation/release work earns zero RJR credit.
+* records the separate evidence-only RJR-1 recalculation from `87/100` to `88/100` for the previously supplied provider-live r3 actual Remote Joining lifecycle; r4 implementation/release work earns zero readiness credit.
 
 ## v1.9.0-r3 — Pairing Copy + Four-Code One-Paste Hardening — release candidate
 

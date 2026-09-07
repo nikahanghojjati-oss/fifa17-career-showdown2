@@ -1,5 +1,5 @@
-const RUNTIME_REVISION = "1.9.1-r3";
-const PREVIOUS_RUNTIME_REVISION = "1.9.1-r2";
+const RUNTIME_REVISION = "1.9.1-r4";
+const PREVIOUS_RUNTIME_REVISION = "1.9.1-r3";
 const CACHE_PREFIX = "career-mode-showdown-shell-";
 const MODE_CACHE_PREFIX = "career-mode-showdown-runtime-mode-";
 const CACHE_NAME = `${CACHE_PREFIX}${RUNTIME_REVISION}`;
@@ -53,6 +53,7 @@ const SHELL_PATHS = Object.freeze([
     "js/optionalModules.js",
     "js/productionFirebaseRuntime.js",
     "js/ssjr.js",
+    "js/ssjrProductionAcceptanceRecorder.js",
     "js/productionSharedJourneyEntry.js",
     "js/productionSharedJourneyGuard.js",
     "js/productionSharedShowdownSetup.js",
