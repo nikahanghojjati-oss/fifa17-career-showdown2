@@ -22,13 +22,21 @@ assert.equal(bootstrap.liveBoundary?.activePullRequest,215); assert.equal(bootst
 assert.equal(bootstrap.liveRuntime?.productionRuntimeRevision,"1.9.1-r5"); assert.equal(bootstrap.liveRuntime?.releaseCandidateRuntimeRevision,"1.9.1-r6");
 assert.equal(bootstrap.currentPublicationCheckpoint?.pullRequest,210,"Historical PR210 bootstrap root provenance must remain immutable.");
 assert.equal(bootstrap.currentWec?.environmentId,"we-2026-09-06-pr211-recovery-private-setup-a54","Historical a54 bootstrap root provenance must remain immutable.");
-assert.equal(bootstrap.closingWec?.environmentId,"we-2026-09-07-pr214-mdp1-a58");
-assert.equal(wec.environmentId,"we-2026-09-07-pr214-mdp1-a58"); assert.equal(wec.signals?.unresolvedFailures,0); assert.equal(wec.assessment?.decisionInheritedFromPredecessor,false);
+const closingId="we-2026-09-07-pr214-mdp1-a58";
+const archive=bootstrap.closingWec?.plannedArchive||bootstrap.closingWec?.archive;
+assert.equal(bootstrap.closingWec?.environmentId,closingId);
+assert.ok(archive&&fs.existsSync(path.join(process.cwd(),archive)),"Closing a58 archive must remain durable.");
+const sealed=json(archive); assert.equal(sealed.environmentId,closingId); assert.equal(sealed.lifecycle,"transition-prepared"); assert.equal(sealed.signals?.handoffCompleteness,100);
+assert.equal(wec.assessment?.decisionInheritedFromPredecessor,false);
 if(wec.lifecycle==="active"){
+ assert.notEqual(wec.environmentId,closingId,"Fresh successor package execution must use a unique environment ID.");
+ assert.equal(wec.repository?.predecessorEnvironmentId,closingId);
+ assert.equal(wec.repository?.predecessorArchive,archive);
  assert.ok(["CONTINUE","PREPARE_HANDOFF"].includes(wec.assessment?.decision));
  assert.match(wec.continuity?.currentTask||"",/release-candidate|publish|converge/i);
+ assert.equal(wec.sessionHandoffProximity?.environmentId,wec.environmentId);
+ assert.equal(wec.sessionHandoffProximity?.checkpoints?.[0]?.note,"New session: reset to 0%.");
 }else{
- assert.equal(wec.lifecycle,"transition-prepared"); assert.equal(wec.signals?.handoffCompleteness,100); assert.equal(wec.assessment?.decision,"HANDOFF_AT_CHECKPOINT");
- const archive=bootstrap.closingWec?.plannedArchive||bootstrap.closingWec?.archive; assert.ok(archive); assert.ok(fs.existsSync(path.join(process.cwd(),archive))); const sealed=json(archive); assert.equal(sealed.environmentId,wec.environmentId); assert.equal(sealed.lifecycle,"transition-prepared"); assert.equal(sealed.signals?.handoffCompleteness,100);
+ assert.equal(wec.environmentId,closingId); assert.equal(wec.lifecycle,"transition-prepared"); assert.equal(wec.signals?.handoffCompleteness,100); assert.equal(wec.assessment?.decision,"HANDOFF_AT_CHECKPOINT");
 }
-process.stdout.write("PASS SLE packaging: mirrored v1.4.56 PR215 r6 publication package preserves PR210/209/207/205/203 historical provenance, current r5 production/r6 candidate truth, RJR100/SSJR0/MDP39, closing a58 continuity and permanent zero-billing/dual-full-screen locks.\n");
+process.stdout.write("PASS SLE packaging: mirrored v1.4.56 PR215 r6 package preserves immutable closing a58 provenance while permitting a fresh active successor WEC, plus PR210/209/207/205/203 history, r5 production/r6 candidate truth, RJR100/SSJR0/MDP39 and zero-billing/dual-full-screen locks.\n");
