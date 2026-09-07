@@ -7,7 +7,7 @@ const require = createRequire(import.meta.url);
 const { catalog: SHARED_CATALOG } = require('../js/sharedShowdownCatalog.js');
 
 const EVIDENCE_TYPE = 'SSJR-1.1-production-shared-setup';
-const EXPECTED_RUNTIME_REVISION = '1.9.1-r5';
+const EXPECTED_RUNTIME_REVISION = '1.9.1-r6';
 const FINAL_PHASE = 'SHOWDOWN_CONFIRMED';
 const FINAL_REVISION = 6;
 const ALLOWED_SEASONS = new Set([1, 3, 5, 10]);
