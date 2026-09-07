@@ -1,7 +1,7 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "operatingSystem": "POS-2",
-  "purpose": "Blocking current product contract manifest. Process/continuity and historical/provenance tests are deliberately excluded.",
+  "purpose": "Registry of blocking current product contracts plus their single automatic CI owners. Process/continuity and historical/provenance tests are deliberately excluded.",
   "tests": [
     "tests/contracts/shared-showdown-readiness-contracts.cjs",
     "tests/contracts/shared-showdown-setup-contracts.cjs",
@@ -83,5 +83,45 @@
     "tests/contracts/release-authority-coherence.cjs",
     "tests/contracts/ci-orchestration-contracts.cjs",
     "tests/contracts/final-release-hardening.cjs"
-  ]
+  ],
+  "specialistOwners": {
+    "candidate-b-import-analysis": [
+      "tests/contracts/import-analysis-contracts.cjs"
+    ],
+    "candidate-c-atomic-restore": [
+      "tests/contracts/restore-storage-contracts.cjs",
+      "tests/contracts/restore-plan-contracts.cjs",
+      "tests/contracts/restore-stale-state-contracts.cjs",
+      "tests/contracts/restore-maintenance-contracts.cjs"
+    ],
+    "final-polish": [
+      "tests/contracts/final-polish-transition.cjs",
+      "tests/contracts/final-polish-feedback.cjs",
+      "tests/contracts/final-polish-presentation.cjs"
+    ],
+    "licensed-football-visuals": [
+      "tests/contracts/licensed-football-visuals-contract.cjs"
+    ],
+    "season-review": [
+      "tests/contracts/season-review-snapshot.cjs",
+      "tests/contracts/season-review-architecture.cjs"
+    ],
+    "statistics": [
+      "tests/contracts/statistics-fixtures.cjs",
+      "tests/contracts/statistics-architecture.cjs"
+    ],
+    "private-remote-foundation": [
+      "tests/contracts/stage3-private-pairing-contracts.cjs",
+      "tests/contracts/pairing-four-code-automation-contracts.cjs",
+      "tests/contracts/stage4-connected-rivalry-contracts.cjs",
+      "tests/contracts/stage4-connected-rivalry-pointer-restore-contracts.cjs",
+      "tests/contracts/stage4-adverse-network-contracts.cjs",
+      "tests/contracts/stage4-abuse-hardening-contracts.cjs",
+      "tests/contracts/stage4-remote-local-reconciliation-contracts.cjs",
+      "tests/contracts/stage5a-private-session-contracts.cjs",
+      "tests/contracts/stage5b-device-credential-contracts.cjs",
+      "tests/contracts/stage5c-zero-billing-standard-auth-session-contracts.cjs",
+      "tests/contracts/stage5d-production-session-rules-contracts.cjs"
+    ]
+  }
 }
