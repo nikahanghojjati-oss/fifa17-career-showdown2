@@ -40,9 +40,17 @@ assert.match(recorder,/async function openSetup\(\)\{const api=await ensureSetup
 assert.ok(bootstrap.indexOf("ssjr-acceptance-polished-bridge")<bootstrap.indexOf("ssjr-production-acceptance-recorder"),"Acceptance bridge must load before the guided recorder.");
 
 for(const source of [presentation,entry,guard,bridge]){
-  assert.doesNotMatch(source,/Blaze|Cloud Run|Cloud Functions/i);
+  assert.doesNotMatch(source,/billingRequired\s*:\s*true/i);
+  assert.doesNotMatch(source,/blazeRequired\s*:\s*true/i);
+  assert.doesNotMatch(source,/cloudRunRequired\s*:\s*true/i);
+  assert.doesNotMatch(source,/cloudFunctionsRequired\s*:\s*true/i);
+  assert.doesNotMatch(source,/appCheckEnforcementRequired\s*:\s*true/i);
 }
 assert.match(presentation,/billingRequired:false/);
+assert.match(presentation,/blazeRequired:false/);
+assert.match(presentation,/cloudRunRequired:false/);
+assert.match(presentation,/cloudFunctionsRequired:false/);
+assert.match(presentation,/appCheckEnforcementRequired:false/);
 assert.match(bridge,/billingRequired:false/);
 
 process.stdout.write("PASS Shared Showdown polished presentation contracts: both manager roles must witness the real league wheel and club packs, peer authority auto-refreshes, provider draw authority remains sole, and the acceptance recorder is bridged away from the engineering panel.\n");
