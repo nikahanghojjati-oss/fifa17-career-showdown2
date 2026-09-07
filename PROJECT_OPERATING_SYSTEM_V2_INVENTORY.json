@@ -20,7 +20,8 @@
     {"id":"SESSION_BOOTSTRAP_LEGACY_CAPSULES","status":"COMPATIBILITY_HISTORICAL","reason":"Large accumulated provenance remains available; new startup uses current guards/task/metrics."},
     {"id":"WORK_ENVIRONMENT_HISTORY","status":"HISTORICAL_ON_DEMAND","reason":"Useful recovery provenance, not default startup context or automatic append milestone."},
     {"id":"CURRENT_PRODUCT_GUARDS","status":"ACTIVE_MACHINE_AUTHORITY","reason":"Stable current provider/product/privacy safety invariants without prose coupling."},
-    {"id":"CURRENT_PRODUCT_TEST_MANIFEST","status":"ACTIVE_BLOCKING_MANIFEST","reason":"Makes every blocking current product test explicit and separates operations/history."}
+    {"id":"CURRENT_PRODUCT_TEST_MANIFEST","status":"ACTIVE_BLOCKING_MANIFEST","reason":"Makes every blocking current product test explicit and separates operations/history."},
+    {"id":"DORMANT_ARCHITECTURE_TEST_MANIFEST","status":"MANUAL_ARCHIVE","reason":"Preserves deliberately unshipped or rejected architecture tests such as the former trusted Cloud Run and dormant device credential lanes without automatic CI compute."}
   ],
   "gateClasses": {
     "PRODUCT_CRITICAL": "Blocking when protecting current/future runtime, UI/UX, data, recovery, security, privacy, provider safety, executable authority, evidence validity or release correctness.",
@@ -33,6 +34,7 @@
     "exactWorkflowCountGateAllowed": false,
     "specialistWorkflowMayRerunFullProductSuite": false,
     "stabilityOwnsFullProductSuite": true,
-    "oldStageNameAloneIsArchiveReason": false
+    "oldStageNameAloneIsArchiveReason": false,
+    "dormantArchitectureMayBlockCurrentProductCI": false
   }
 }
