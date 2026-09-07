@@ -1,5 +1,10 @@
 # DEVELOPER START HERE — PR215 ANTI-SPIRAL SAFE TRANSFER / MDP-1 / DUAL FULL SCREEN
 
+## Current successor routing V1.4.60
+
+Read `START_NEXT_SESSION_V1.4.60_PR215_AUTHORITY_CONTRACT_SAFE_TRANSFER_NEXT.md` and `SESSION_BOOTSTRAP_V1.4.60.json` for the current a62 safe-transfer boundary. Earlier numbered-session prose below is preserved historical orientation and does not override this routing or fresh live source. Closing WEC: `we-2026-09-07-pr215-r6-publication-a62`. Current bounded task remains Converge PR215 r6 release-candidate publication; no merge, MDP increase or owner testing until the complete r6 gate passes. The demonstrated remaining blocker is the current-versus-historical WEC ancestry/lifecycle contract class. Validate the exact current failure before correcting that class together in one bounded candidate. Two local a62 correction cycles stopped under the recursive anti-spiral rule; no third correction.
+
+
 Work Environment Continuity (WEC) is mandatory. Treat every handoff as orientation only and independently verify live repository, PR, CI, deployment and provider state before mutation.
 
 Use the connected GitHub app/connector first. If native `gh` is genuinely required and unavailable, use the repository-owned bootstrap. Never extract, copy or repurpose connector credentials.

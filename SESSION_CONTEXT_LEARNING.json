@@ -6,16 +6,89 @@
   "defaultUtility": 0.5,
   "alpha": 0.2,
   "items": {
-    "WORK_ENVIRONMENT_STATUS.json": {"loaded":true,"usedInDecision":true,"requiredForPublicationSecurityOrRecovery":true,"normalizedOutcome":1,"learnedUtility":0.96,"note":"Do not claim SHP100 until the transition-prepared a58 root WEC is truly the final intended branch mutation and its archive exists."},
-    "workflow-job-logs": {"loaded":true,"usedInDecision":true,"preventedErrorOrResolvedContradiction":true,"normalizedOutcome":1,"learnedUtility":0.98,"note":"Exact Static App logs repeatedly reduced three red families to one sequential repository-authority assertion; inspect one shared failing job before touching runtime/provider code."},
-    "successor-entrypoint-coherence": {"loaded":true,"usedInDecision":true,"requiredForPublicationSecurityOrRecovery":true,"preventedErrorOrResolvedContradiction":true,"normalizedOutcome":1,"learnedUtility":0.99,"note":"V1.4.56 starter/deep mirrors are insufficient by themselves; SESSION_BOOTSTRAP, context model/learning, prompt and package validators must move together before seal."},
-    "ssjr-score-discipline": {"loaded":true,"usedInDecision":true,"preventedErrorOrResolvedContradiction":true,"normalizedOutcome":1,"learnedUtility":0.99,"note":"PR214/215, r6 publication, CI and SLE work earn zero SSJR until two legitimate production accounts satisfy the fixed whole-capability evidence layer."},
-    "mdp-score-discipline": {"loaded":true,"usedInDecision":true,"preventedErrorOrResolvedContradiction":true,"normalizedOutcome":1,"learnedUtility":0.98,"note":"MDP remains 39.00 until the full coherent r6 release boundary closes; package/CI fixes alone are +0.00."}
+    "WORK_ENVIRONMENT_STATUS.json": {
+      "loaded": true,
+      "usedInDecision": true,
+      "requiredForPublicationSecurityOrRecovery": true,
+      "normalizedOutcome": 1,
+      "learnedUtility": 0.96,
+      "note": "Do not claim SHP100 until the transition-prepared a58 root WEC is truly the final intended branch mutation and its archive exists."
+    },
+    "workflow-job-logs": {
+      "loaded": true,
+      "usedInDecision": true,
+      "preventedErrorOrResolvedContradiction": true,
+      "normalizedOutcome": 1,
+      "learnedUtility": 0.98,
+      "note": "Exact Static App logs repeatedly reduced three red families to one sequential repository-authority assertion; inspect one shared failing job before touching runtime/provider code."
+    },
+    "successor-entrypoint-coherence": {
+      "loaded": true,
+      "usedInDecision": true,
+      "requiredForPublicationSecurityOrRecovery": true,
+      "preventedErrorOrResolvedContradiction": true,
+      "normalizedOutcome": 1,
+      "learnedUtility": 0.99,
+      "note": "V1.4.56 starter/deep mirrors are insufficient by themselves; SESSION_BOOTSTRAP, context model/learning, prompt and package validators must move together before seal."
+    },
+    "ssjr-score-discipline": {
+      "loaded": true,
+      "usedInDecision": true,
+      "preventedErrorOrResolvedContradiction": true,
+      "normalizedOutcome": 1,
+      "learnedUtility": 0.99,
+      "note": "PR214/215, r6 publication, CI and SLE work earn zero SSJR until two legitimate production accounts satisfy the fixed whole-capability evidence layer."
+    },
+    "mdp-score-discipline": {
+      "loaded": true,
+      "usedInDecision": true,
+      "preventedErrorOrResolvedContradiction": true,
+      "normalizedOutcome": 1,
+      "learnedUtility": 0.98,
+      "note": "MDP remains 39.00 until the full coherent r6 release boundary closes; package/CI fixes alone are +0.00."
+    }
   },
   "sessionMetrics": [
-    {"sessionId":"we-2026-09-06-ssjr-production-storage-observation-a53","directSharedShowdownPrerequisiteReached":true,"nextRealProductMilestoneUnblocked":"genuine-private-two-account-shared-setup-evidence","githubConnectorSufficient":true,"deepFallbackUsed":true,"missedCriticalContextIncident":false,"productionObserverDeployed":true,"ssjrCredit":0,"lesson":"Validate the full SLE tree before sealing; a starter/deep handoff alone is insufficient when bootstrap/context/WEC/contracts remain stale."},
-    {"sessionId":"we-2026-09-07-pr214-mdp1-a58","directSharedShowdownPrerequisiteReached":true,"nextRealProductMilestoneUnblocked":"pr215-r6-publication-convergence-then-two-account-evidence","githubConnectorSufficient":true,"deepFallbackUsed":true,"missedCriticalContextIncident":false,"releaseCandidatePagesDeployed":true,"releaseCandidateBurnInPassed":true,"ssjrCredit":0,"mdpCredit":0,"lesson":"When rolling current-authority docs expose sequential legacy wording assertions, preserve the historical facts exactly but keep the active live boundary separate; do not weaken tests or reopen runtime/provider lanes without evidence."}
+    {
+      "sessionId": "we-2026-09-06-ssjr-production-storage-observation-a53",
+      "directSharedShowdownPrerequisiteReached": true,
+      "nextRealProductMilestoneUnblocked": "genuine-private-two-account-shared-setup-evidence",
+      "githubConnectorSufficient": true,
+      "deepFallbackUsed": true,
+      "missedCriticalContextIncident": false,
+      "productionObserverDeployed": true,
+      "ssjrCredit": 0,
+      "lesson": "Validate the full SLE tree before sealing; a starter/deep handoff alone is insufficient when bootstrap/context/WEC/contracts remain stale."
+    },
+    {
+      "sessionId": "we-2026-09-07-pr214-mdp1-a58",
+      "directSharedShowdownPrerequisiteReached": true,
+      "nextRealProductMilestoneUnblocked": "pr215-r6-publication-convergence-then-two-account-evidence",
+      "githubConnectorSufficient": true,
+      "deepFallbackUsed": true,
+      "missedCriticalContextIncident": false,
+      "releaseCandidatePagesDeployed": true,
+      "releaseCandidateBurnInPassed": true,
+      "ssjrCredit": 0,
+      "mdpCredit": 0,
+      "lesson": "When rolling current-authority docs expose sequential legacy wording assertions, preserve the historical facts exactly but keep the active live boundary separate; do not weaken tests or reopen runtime/provider lanes without evidence."
+    }
   ],
-  "latestLesson": {"rjrScore":100,"ssjrScore":0,"mdpScore":39.0,"publicationPullRequest":215,"publicationState":"open-unmerged-r6-convergence","productionRuntimeRevision":"1.9.1-r5","releaseCandidateRuntimeRevision":"1.9.1-r6","next":"converge-pr215-r6-release-candidate-publication","lesson":"Exact-head CI, SLE packaging and publication authority must converge before merge; only a clean post-merge r6 boundary can unlock the +2.50 MDP integration delta, and only real two-account production evidence can unlock SSJR credit.","ssjrModelVersion":"SSJR-1.1"},
-  "latestRecoveryLesson": "Repeated context compactions and shared-contract failures justify early SNS packaging. Preserve live-current fields separately from immutable PR203/205/207/209/210 and a54 bootstrap provenance, then make the final transition-prepared WEC the last intended mutation."
+  "latestLesson": {
+    "rjrScore": 100,
+    "ssjrScore": 0,
+    "mdpScore": 39.0,
+    "publicationPullRequest": 215,
+    "publicationState": "open-unmerged-r6-convergence",
+    "productionRuntimeRevision": "1.9.1-r5",
+    "releaseCandidateRuntimeRevision": "1.9.1-r6",
+    "next": "converge-pr215-r6-release-candidate-publication",
+    "lesson": "Exact-head CI, SLE packaging and publication authority must converge before merge; only a clean post-merge r6 boundary can unlock the +2.50 MDP integration delta, and only real two-account production evidence can unlock SSJR credit.",
+    "ssjrModelVersion": "SSJR-1.1"
+  },
+  "latestRecoveryLesson": {
+    "recordedAt": "2026-09-07T20:17:41.098781+00:00",
+    "environmentId": "we-2026-09-07-pr215-r6-publication-a62",
+    "lesson": "Read 00_SESSION_BOOTSTRAP.md early; its later owner loading/tooling overrides avoid broad history preload and unnecessary gh startup. Summarize each targeted output before emitting it. Fresh-WEC initialization repeatedly exposes current assertions pinned to inconsistent historical generations; inspect the demonstrated predicate class together while preserving immutable archive assertions. Do not claim invalid predecessor SHP/HTR records validate."
+  }
 }

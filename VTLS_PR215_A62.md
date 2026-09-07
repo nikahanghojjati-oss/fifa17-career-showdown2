@@ -1,0 +1,1 @@
+PR215/88d85df1eb3de44927e340a726fa1e7d462f7259 (remote baseline; final seal needs own checks) | SHP 95 pending verified seal; SSJR 0/100; MDP 39.00/100 | NEXT_TASK phrase and a62 current-authority checks pass locally | SLE current predecessor pinned to a58; sealed-state predicates incompatible | fresh successor resolves exact current authority class; no third a62 correction

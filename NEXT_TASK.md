@@ -1,5 +1,10 @@
 # CURRENT TASK — PR215 SHARED REPOSITORY-SUITE RED / ANTI-SPIRAL SAFE SUCCESSOR
 
+## Current successor routing V1.4.60
+
+Read `START_NEXT_SESSION_V1.4.60_PR215_AUTHORITY_CONTRACT_SAFE_TRANSFER_NEXT.md` and `SESSION_BOOTSTRAP_V1.4.60.json` for the current a62 safe-transfer boundary. Earlier numbered-session prose below is preserved historical orientation and does not override this routing or fresh live source. Closing WEC: `we-2026-09-07-pr215-r6-publication-a62`. Current bounded task remains Converge PR215 r6 release-candidate publication; no merge, MDP increase or owner testing until the complete r6 gate passes. The demonstrated remaining blocker is the current-versus-historical WEC ancestry/lifecycle contract class. Validate the exact current failure before correcting that class together in one bounded candidate. Two local a62 correction cycles stopped under the recursive anti-spiral rule; no third correction.
+
+
 Work Environment Continuity (WEC) is mandatory. SLE = Smart Lean Efficient. Current source and live GitHub/provider/deployment evidence override handoff facts.
 
 RJR-1 remains COMPLETE/FROZEN `100/100`. SSJR-1.1 remains `0/100`. Milestone Delivery Progress MDP-1 remains `39.00/100`. The current publication/continuity/SLE transfer earns `MDP task delta: +0.00` and zero SSJR credit.
@@ -30,7 +35,7 @@ This is classified as one shared repository/continuity-contract blocker until th
 9. Only when all required workflow families are green on the same exact reviewed head, squash merge PR215 with expected-head protection.
 10. Verify exact post-merge main, Stability including Chromium and deployed-site smoke, Pages/deployed coherent `v1.9.1 / 1.9.1-r6`, and Release Integration Burn-In.
 11. Only if that whole r6 boundary is clean may `setup-league`, `setup-clubs`, `setup-length`, and `setup-confirmation` receive combined `+2.50` MDP product-integration credit, moving `39.00 -> 41.50`. SSJR remains unchanged.
-12. Only then say `YOUR TESTING TIME` and conduct the minimum unavoidable genuine Chromebook/iPhone two-account Shared Setup acceptance. Connected Rivalry pairing + exact ACTIVE must precede league. Both legitimate managers individually witness full League Wheel, Club Pack, season-length and confirmation screens.
+12. Only then say `YOUR TESTING TIME` and conduct the minimum unavoidable genuine Chromebook/iPhone two-account Shared Setup acceptance. Connected Rivalry pairing + exact ACTIVE must precede league. The two legitimate private managers individually witness full League Wheel, Club Pack, season-length and confirmation screens.
 13. Pipe each private observation only through stdin using `npm run record:ssjr-production-shared-setup`; validate with `npm run validate:ssjr-production-shared-setup -- <player-one-evidence.json> <player-two-evidence.json>`. Retain only sanitized output.
 14. Recalculate SSJR only if the unchanged validator/model accepts genuine production evidence.
 15. Do not begin transfer/results/scoring transport before this Shared Setup evidence boundary resolves unless a later explicit owner instruction changes authority.

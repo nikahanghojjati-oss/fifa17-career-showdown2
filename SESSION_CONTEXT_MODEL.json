@@ -4,7 +4,17 @@
   "modelType": "hybrid-information-retrieval-graph-online-learning",
   "trainingState": "cold-start-priors-observed-sessions-supervised-evaluation-not-yet-adopted",
   "purpose": "SLE: minimize successor startup cost while preserving PR215 r6 release-candidate publication, historical PR203/205/207/209/210 authority, and permanent security/gameplay locks",
-  "weights": {"taskAffinity":0.24,"authority":0.18,"delta":0.16,"dependency":0.14,"riskCriticality":0.12,"contradictionValue":0.08,"learnedUtility":0.08,"stalenessPenalty":-0.1,"tokenCostPenalty":-0.1},
+  "weights": {
+    "taskAffinity": 0.24,
+    "authority": 0.18,
+    "delta": 0.16,
+    "dependency": 0.14,
+    "riskCriticality": 0.12,
+    "contradictionValue": 0.08,
+    "learnedUtility": 0.08,
+    "stalenessPenalty": -0.1,
+    "tokenCostPenalty": -0.1
+  },
   "mandatoryBypass": [
     "CURRENT main is 420d0dd21480c660d4fe139ba011eca1ccb987a9 from PR214; production remains v1.9.1 / 1.9.1-r5 from PR213 while source/release candidate is 1.9.1-r6.",
     "PR215 is open/unmerged on fix/pr214-postmerge-dual-screen-contract and is a bounded release-candidate publication/convergence correction. Exact live head must be independently verified by the successor.",
@@ -18,7 +28,21 @@
     "Exactly two private managers; no public discovery/listing/lobby/matchmaking/community/rankings/global leaderboards.",
     "At Session handoff proximity 100, mirrored SLE package, current bootstrap/context/prompt contracts and final WEC seal must already be complete; emit SNS and stop."
   ],
-  "contextBudgets": {"tier0BootstrapApproxTokens":[1000,2200],"tier1TaskPacketAdditionalApproxTokens":[3000,6000],"tier2LiveDeltaAdditionalApproxTokens":[5000,10000],"tier3DeepFallback":"unbounded-only-when-evidence-requires"},
+  "contextBudgets": {
+    "tier0BootstrapApproxTokens": [
+      1000,
+      2200
+    ],
+    "tier1TaskPacketAdditionalApproxTokens": [
+      3000,
+      6000
+    ],
+    "tier2LiveDeltaAdditionalApproxTokens": [
+      5000,
+      10000
+    ],
+    "tier3DeepFallback": "unbounded-only-when-evidence-requires"
+  },
   "rankingProcedure": [
     "Read START_NEXT_SESSION_V1.4.56_PR215_R6_RELEASE_CANDIDATE_PUBLICATION_NEXT.md and compact bootstrap first.",
     "Verify live main and PR215 exact head/checks/reviews/deployment, validate/archive a58, then initialize a fresh WEC without inherited transition decisions.",
@@ -34,15 +58,16 @@
     "ssjrScore": 0,
     "mdpScore": 39.0,
     "publicationPullRequest": 215,
-    "publicationState": "open-unmerged-sle-publication-checkpoint",
+    "publicationState": "open-red-safe-transfer",
     "preSleSubstantiveHead": "da099afa12b5b760bf85728857685a7913d25ba3",
-    "starter": "START_NEXT_SESSION_V1.4.56_PR215_R6_RELEASE_CANDIDATE_PUBLICATION_NEXT.md",
-    "next": "converge-pr215-r6-release-candidate-publication",
+    "starter": "START_NEXT_SESSION_V1.4.60_PR215_AUTHORITY_CONTRACT_SAFE_TRANSFER_NEXT.md",
+    "next": "resolve-demonstrated-current-vs-historical-wec-publication-contracts",
     "billingActivationForbidden": true,
     "firebasePlan": "Spark",
     "ssjrModelVersion": "SSJR-1.1",
     "estimatedFocusedSessionsToGenuineSSJR100": "5-10",
-    "closingEnvironmentId": "we-2026-09-07-pr214-mdp1-a58",
-    "fullHandoff": "SUCCESSOR_HANDOFF_PR215_R6_RELEASE_CANDIDATE_PUBLICATION_SLE_2026-09-07.md"
+    "closingEnvironmentId": "we-2026-09-07-pr215-r6-publication-a62",
+    "fullHandoff": "SUCCESSOR_HANDOFF_PR215_AUTHORITY_CONTRACT_SAFE_TRANSFER_SLE_V1.4.60_2026-09-07.md",
+    "capsule": "SESSION_BOOTSTRAP_V1.4.60.json"
   }
 }

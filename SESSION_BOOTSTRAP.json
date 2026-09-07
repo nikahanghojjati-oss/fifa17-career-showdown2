@@ -256,7 +256,13 @@
   "handoffTransferReadiness": {
     "model": "HTR-1",
     "score": 100,
-    "earnedPillars": ["durable-state","authority-snapshot","open-work-classified","successor-execution-contract","sealed-transfer-package"],
+    "earnedPillars": [
+      "durable-state",
+      "authority-snapshot",
+      "open-work-classified",
+      "successor-execution-contract",
+      "sealed-transfer-package"
+    ],
     "remainingPillars": [],
     "rule": "HTR-1 measures repository transfer readiness only; it never supplies Session Handoff Proximity v2."
   },
@@ -282,7 +288,15 @@
     "authority": "00_OWNER_EAGLE_EYE_GOLDEN_RULE.md",
     "permanentGoldenRule": true,
     "automationBeforeOwnerAction": true,
-    "reportFrequently": ["current SSJR","remaining capability gaps","estimated focused sessions to genuine SSJR100","concrete dependency contribution","next unlock","blocker and owner action","Session handoff proximity"]
+    "reportFrequently": [
+      "current SSJR",
+      "remaining capability gaps",
+      "estimated focused sessions to genuine SSJR100",
+      "concrete dependency contribution",
+      "next unlock",
+      "blocker and owner action",
+      "Session handoff proximity"
+    ]
   },
   "predecessorClosure": {
     "environmentId": "we-2026-09-07-pr214-session-proximity-v2-a57",
@@ -344,9 +358,27 @@
     "requiredAtHandoffProximity100": true,
     "recursiveInheritance": true
   },
-  "minimalReads": ["00_SESSION_HANDOFF_PROXIMITY_V2.md","00_DEVELOPER_START_HERE.md","SESSION_BOOTSTRAP.json","00_CURRENT_HANDOFF.md","WORK_ENVIRONMENT_STATUS.json","00_HANDOFF_PROXIMITY_STAGE_GATES.md","REMOTE_JOINING_READINESS.json","SHARED_SHOWDOWN_JOURNEY_READINESS.json","SHARED_SHOWDOWN_JOURNEY_MODEL.json","MILESTONE_DELIVERY_PROGRESS.json","NEXT_TASK.md","PROJECT_STATE.md","START_NEXT_SESSION_V1.4.56_PR215_R6_RELEASE_CANDIDATE_PUBLICATION_NEXT.md"],
+  "minimalReads": [
+    "00_SESSION_HANDOFF_PROXIMITY_V2.md",
+    "00_DEVELOPER_START_HERE.md",
+    "SESSION_BOOTSTRAP.json",
+    "00_CURRENT_HANDOFF.md",
+    "WORK_ENVIRONMENT_STATUS.json",
+    "00_HANDOFF_PROXIMITY_STAGE_GATES.md",
+    "REMOTE_JOINING_READINESS.json",
+    "SHARED_SHOWDOWN_JOURNEY_READINESS.json",
+    "SHARED_SHOWDOWN_JOURNEY_MODEL.json",
+    "MILESTONE_DELIVERY_PROGRESS.json",
+    "NEXT_TASK.md",
+    "PROJECT_STATE.md",
+    "START_NEXT_SESSION_V1.4.56_PR215_R6_RELEASE_CANDIDATE_PUBLICATION_NEXT.md"
+  ],
   "criticalLocks": {
-    "canonicalStorage": ["careerModeShowdown.saveLibrary","careerModeShowdown.legacyShowdowns","careerModeShowdown.preferences"],
+    "canonicalStorage": [
+      "careerModeShowdown.saveLibrary",
+      "careerModeShowdown.legacyShowdowns",
+      "careerModeShowdown.preferences"
+    ],
     "candidateC": "sole-destructive-remote-to-local-gameplay-apply-authority",
     "candidateCRollback": "transaction-owned-strict-exact-raw-snapshot",
     "appCheck": "production-proven-enforcement-off",
@@ -408,5 +440,14 @@
     "vtlsIndependentOfProximity": true,
     "requiredLabel": "Session handoff proximity",
     "neverUseHtrForSessionPressure": true
+  },
+  "currentSuccessorOverride": {
+    "version": "1.4.60",
+    "capsule": "SESSION_BOOTSTRAP_V1.4.60.json",
+    "starter": "START_NEXT_SESSION_V1.4.60_PR215_AUTHORITY_CONTRACT_SAFE_TRANSFER_NEXT.md",
+    "deepHandoff": "SUCCESSOR_HANDOFF_PR215_AUTHORITY_CONTRACT_SAFE_TRANSFER_SLE_V1.4.60_2026-09-07.md",
+    "ownerSns": "owner-sns/OWNER_SNS_V1.4.60_PR215_AUTHORITY_CONTRACT_SAFE_TRANSFER.md",
+    "closingEnvironmentId": "we-2026-09-07-pr215-r6-publication-a62",
+    "precedence": "Current successor routing. All pre-existing V1.4.56/a58 fields remain unchanged historical provenance."
   }
 }

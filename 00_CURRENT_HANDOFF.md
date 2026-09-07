@@ -1,5 +1,10 @@
 # CURRENT HANDOFF — PR215 ANTI-SPIRAL SAFE TRANSFER / V1.4.57 SLE
 
+## Current successor routing V1.4.60
+
+Read `START_NEXT_SESSION_V1.4.60_PR215_AUTHORITY_CONTRACT_SAFE_TRANSFER_NEXT.md` and `SESSION_BOOTSTRAP_V1.4.60.json` for the current a62 safe-transfer boundary. Earlier numbered-session prose below is preserved historical orientation and does not override this routing or fresh live source. Closing WEC: `we-2026-09-07-pr215-r6-publication-a62`. Current bounded task remains Converge PR215 r6 release-candidate publication; no merge, MDP increase or owner testing until the complete r6 gate passes. The demonstrated remaining blocker is the current-versus-historical WEC ancestry/lifecycle contract class. Validate the exact current failure before correcting that class together in one bounded candidate. Two local a62 correction cycles stopped under the recursive anti-spiral rule; no third correction.
+
+
 Work Environment Continuity (WEC) is mandatory. SLE = Smart Lean Efficient. Current source and live GitHub/provider/deployment evidence override this orientation record.
 
 Current lane remains PR #215 `fix/pr214-postmerge-dual-screen-contract`, converging the `v1.9.1 / 1.9.1-r6` release-candidate publication correction. Recorded main is `420d0dd21480c660d4fe139ba011eca1ccb987a9`. Production authority remains `v1.9.1 / 1.9.1-r5` from PR #213 until one coherent r6 merge and post-merge release boundary is proven.
