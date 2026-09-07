@@ -62,8 +62,13 @@ assert.equal(
 );
 
 assert.equal(readiness.modelVersion, "RJR-1");
+assert.equal(readiness.denominator, 100);
 assert.equal(readiness.currentScore, 100);
-assert.equal(readiness.remaining, 0);
+assert.equal(
+  readiness.domains.reduce((total, domain) => total + domain.earned, 0),
+  readiness.currentScore,
+  "Frozen RJR completion must remain backed by its actual capability-domain evidence."
+);
 
 assert.match(next, /Billing must never be activated[\s\S]+Firebase remains Spark/i);
 assert.match(next, /Firestore browser persistence remains memory-only/i);
