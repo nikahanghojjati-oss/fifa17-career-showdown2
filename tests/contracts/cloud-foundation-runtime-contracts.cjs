@@ -32,8 +32,13 @@ assert.equal(productionEnvironment.activation?.productionSecurityRulesSource, "f
 assert.ok(productionEnvironment.activation?.productionSecurityRulesSourceBlobSha, "Production Rules source must remain pinned to a recorded blob.");
 
 assert.equal(readiness.modelVersion, "RJR-1");
+assert.equal(readiness.denominator, 100);
 assert.equal(readiness.currentScore, 100);
-assert.equal(readiness.remaining, 0);
+assert.equal(
+  readiness.domains.reduce((total, domain) => total + domain.earned, 0),
+  readiness.currentScore,
+  "Frozen RJR score must remain the sum of its actual capability-domain evidence."
+);
 
 assert.match(remoteContract, /two-owner|two owner|both owners/i);
 assert.match(remoteContract, /deny-by-default|deny by default/i);
