@@ -1,5 +1,6 @@
 # Career Mode Showdown v1.9.1-r5 Runtime Hotfix
 
+Status: RELEASE CANDIDATE
 Application version: `v1.9.1`
 Runtime asset revision: `1.9.1-r5`
 Previous known-good runtime: `1.9.1-r4`
