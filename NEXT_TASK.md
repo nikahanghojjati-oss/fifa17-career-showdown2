@@ -8,6 +8,8 @@ Current production authority: `v1.9.1 / 1.9.1-r5` from PR #213. Current source/r
 
 Permanent `SSJR-DUAL-FULL-SCREEN-1`: both legitimate managers must individually see every canonical Shared Showdown gameplay screen on their own device. Role controls may differ, but no screen may be skipped. Missed screens after reload/reconnect/offline periods must replay in order. This applies to League Wheel, Club Packs and every later Shared Journey screen through terminal completion.
 
+Protected shipped foundations remain out of scope absent a demonstrated regression: the Installable Offline App, v1.3.0 Recovery & Device Resilience baseline, Local Profiles, and Save Library.
+
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
 1. Run repository/tool preflight where available. Validate/archive inherited WEC `we-2026-09-07-pr214-mdp1-a58`, then initialize a fresh unique successor WEC without inheriting the predecessor transition decision. Reset Session handoff proximity to 0%.
