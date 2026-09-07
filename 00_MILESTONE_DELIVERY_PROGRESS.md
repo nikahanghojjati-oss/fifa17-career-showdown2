@@ -52,6 +52,36 @@ For the current SSJR-1.1 milestone, MDP reuses the exact 20 frozen SSJR capabili
 
 For a future milestone, MDP-1 must bind to that milestone's explicit weighted feature map. If no such map exists, define and review it before reporting a score; never invent a denominator opportunistically.
 
+## Per-task MDP reporting
+
+Every meaningful engineering checkpoint must report the MDP actually earned by the task that just completed.
+
+Use:
+
+```text
+MDP task delta: +X.XX (AA.AA -> BB.BB)
+```
+
+If the work is important but did not complete a lifecycle stage, report `+0.00`. Do not hide useful zero-delta work and do not manufacture partial points merely because effort occurred.
+
+When a task has a clear future MDP unlock that is not yet earned, it may also report:
+
+```text
+MDP pending unlock: +X.XX if <explicit lifecycle exit condition>
+```
+
+Pending points never change `currentScore` until the lifecycle exit condition is actually satisfied.
+
+Report these deltas frequently at meaningful checkpoints, but batch low-level tool operations so progress reporting does not become a performance drag or replace product work.
+
+## Dual full-screen feature exit rule
+
+Every user-facing Shared Showdown capability is governed by `SSJR-DUAL-FULL-SCREEN-1` in `SHARED_SHOWDOWN_DUAL_SCREEN_EXPERIENCE.json` and `00_SHARED_SHOWDOWN_DUAL_FULL_SCREEN_RULE.md`.
+
+Both managers must individually experience every canonical gameplay screen belonging to that capability on their own device. Role-specific controls may differ, but one role cannot skip the canonical screen. A late, reloaded or temporarily offline device must replay missed canonical screens in order before its local gameplay experience proceeds beyond them.
+
+A user-facing feature cannot complete the MDP implementation, primary automated verification, regression re-test or product-integration stage while that dual-full-screen invariant is false. Adding or strengthening this rule does not automatically earn MDP; points move only when a lifecycle stage truly closes.
+
 ## Current baseline — 39.00/100
 
 The 2026-09-07 baseline was reconstructed from live `main`, PR214/r6, the fixed SSJR-1.1 roadmap, current source modules, browser/contracts, production provenance and the existing SSJR candidate-evidence ledger.
@@ -96,6 +126,7 @@ MDP must never be cited as SSJR evidence, never consume SSJR evidence, never low
 5. A proven regression invalidates any lifecycle stages it makes untrue; MDP can decrease.
 6. Do not create tests or bugs merely to move MDP. Tests protect real feature behavior; bug correction follows actual findings.
 7. Human/physical acceptance remains where SSJR requires it. MDP cannot substitute for that evidence.
+8. For user-facing Shared Journey features, dual full-screen participation by both managers is a mandatory lifecycle exit condition rather than optional polish.
 
 ## Repository authorities
 
@@ -103,7 +134,8 @@ MDP must never be cited as SSJR evidence, never consume SSJR evidence, never low
 - Current ledger: `MILESTONE_DELIVERY_PROGRESS.json`
 - Deterministic assessor: `scripts/assess-milestone-delivery-progress.mjs`
 - Contract: `tests/contracts/milestone-delivery-progress-contracts.cjs`
+- Dual full-screen authority: `SHARED_SHOWDOWN_DUAL_SCREEN_EXPERIENCE.json`
 - Current SSJR readiness remains: `SHARED_SHOWDOWN_JOURNEY_READINESS.json`
 - Current SSJR model remains frozen: `SHARED_SHOWDOWN_JOURNEY_MODEL.json`
 
-Run `npm run mdp:assess` for the deterministic current score. Every substantive owner-facing development update and every successor handoff must report both SSJR and MDP, followed separately by Session Handoff Proximity.
+Run `npm run mdp:assess` for the deterministic current score. Every substantive owner-facing development update and every successor handoff must report SSJR, MDP, the latest MDP task delta and Session Handoff Proximity.

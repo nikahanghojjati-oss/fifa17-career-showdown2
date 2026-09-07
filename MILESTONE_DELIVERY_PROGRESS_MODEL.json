@@ -52,6 +52,9 @@
     }
   ],
   "allowedStageStates": ["not_started", "in_progress", "complete"],
+  "crossCuttingFeatureExitRules": {
+    "dualFullScreenExperience": "Every user-facing Shared Journey capability is governed by SSJR-DUAL-FULL-SCREEN-1: both managers must individually experience every canonical gameplay screen for that capability on their own device, with ordered replay for missed screens. Role-specific actions may differ, but screen skipping is forbidden. A user-facing feature cannot complete implementation, automated-test, regression-retest or product-integration while that invariant is false."
+  },
   "scoringRules": {
     "featureLifecyclePercent": "Sum the lifecycle-stage weights whose state is complete. In-progress stages earn zero until their exit rule is satisfied.",
     "featureContribution": "milestoneFeatureWeight * featureLifecyclePercent / 100",
@@ -76,9 +79,13 @@
   "reporting": {
     "label": "Milestone Delivery Progress",
     "format": "Milestone Delivery Progress: NN.NN/100",
+    "taskDeltaFormat": "MDP task delta: +X.XX (AA.AA -> BB.BB)",
+    "pendingDeltaFormat": "MDP pending unlock: +X.XX if <explicit lifecycle exit condition>",
     "sourceFile": "MILESTONE_DELIVERY_PROGRESS.json",
     "replaces": "Estimated focused sessions to genuine SSJR100",
     "coexistsWith": "Shared Showdown Journey readiness",
-    "updateRule": "Recalculate whenever a current-milestone feature enters or completes a lifecycle stage, a qualifying regression invalidates a stage, or product integration changes."
+    "updateRule": "Recalculate whenever a current-milestone feature enters or completes a lifecycle stage, a qualifying regression invalidates a stage, or product integration changes.",
+    "taskDeltaRule": "At each meaningful work checkpoint, report how many MDP points the just-completed task actually earned. Use +0.00 when useful work did not close a lifecycle stage. Pending/unearned points may be reported separately but must never be added to currentScore early.",
+    "cadenceRule": "Report task delta and Session Handoff Proximity at frequent meaningful checkpoints, batching low-level operations so reporting does not materially slow product work."
   }
 }
