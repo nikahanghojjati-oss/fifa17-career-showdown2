@@ -21,7 +21,7 @@ At minimum the snapshot must state:
 - estimated **major stages remaining**;
 - estimated **genuinely new evidence bundles remaining**;
 - blocker status and whether **owner action is required now**;
-- current **Handoff proximity: X%**.
+- current **Session handoff proximity: X%**.
 
 When useful, also state the fixed-domain vector and the next evidence that could actually move RJR.
 
@@ -34,7 +34,7 @@ The Eagle Eye report must make the difference between fact and forecast unmistak
 3. Runway counts for tasks, stages and evidence bundles are forecasts, not denominator math. Prefix or phrase them as estimates and revise them when live evidence changes the path.
 4. If a score does not move, say why. This is an important Eagle Eye signal, not a failure to report progress.
 5. Never hide a rejected proof, regression, stale-head invalidation, provider limitation, unresolved failure or owner-only boundary merely to make the runway look shorter.
-6. Never manufacture a hidden account/model usage percentage. Handoff proximity remains governed by `00_HANDOFF_GOLDEN_RULE.md` and the WEC system.
+6. Never manufacture a hidden account/model usage percentage. Session handoff proximity remains governed by `00_HANDOFF_GOLDEN_RULE.md` and the WEC system.
 
 ## Owner-effort rule
 
@@ -46,6 +46,6 @@ Before asking the owner to act, complete all automatable prerequisites and reduc
 
 Every future SLE/SNS successor package and every fresh WEC must preserve this rule. Successor bootstrap material must make the owner-visible RJR runway easy to reconstruct from live repository state.
 
-At `Handoff proximity: 100%`, obey the existing handoff golden rule: finish only the current safe bounded checkpoint, generate and publish the complete successor package/SNS, seal and archive the WEC, give the owner the concise repository-first continuation prompt, and stop before another substantial milestone.
+At `Session handoff proximity: 100%`, obey the existing handoff golden rule: finish only the current safe bounded checkpoint, generate and publish the complete successor package/SNS, seal and archive the WEC, give the owner the concise repository-first continuation prompt, and stop before another substantial milestone.
 
 This file is permanent project operating policy and should be read alongside `00_HANDOFF_GOLDEN_RULE.md`, `REMOTE_JOINING_READINESS.json`, `00_WORK_ENVIRONMENT_CONTINUITY.md`, `NEXT_TASK.md` and `PROJECT_STATE.md`.

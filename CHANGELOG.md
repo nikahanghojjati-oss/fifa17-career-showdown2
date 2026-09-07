@@ -1,14 +1,15 @@
-## v1.9.1-r4 — Guided SSJR Production Acceptance Recorder — release candidate
+## v1.9.1-r6 — Polished Shared Showdown + Guided SSJR Acceptance — release candidate
 
-Candidate runtime: `1.9.1-r4`
-Previous production-proven runtime: `1.9.1-r3`
-Current production remains: `v1.9.1 / 1.9.1-r3` — production-proven until r4 is merged, deployed and verified.
+Candidate runtime: `1.9.1-r6`
+Previous production-proven runtime: `1.9.1-r5`
+Current production remains: `v1.9.1 / 1.9.1-r5` — production-proven until r6 is merged, deployed and verified.
 Fixed SSJR-1.1: `0/100`
 
-- adds the query-gated `?ssjr-acceptance=1` guided recorder for the genuine two-account Shared Setup acceptance;
-- automatically captures privacy-safe paired+ACTIVE-before-setup, authoritative setup, identical revision-6 final setup, canonical-storage preservation, real reload/resume and fresh-session resume checkpoints;
-- persists/exports only sanitized SHA-256 fingerprints and Shared Setup facts, never raw account/device/rivalry/session authority or canonical storage bytes;
-- keeps ordinary production mode free of recorder UI/runtime loading;
+- fixes the guided SSJR recorder catalog proof against the immutable repository-owned league/club catalog and resets acceptance evidence across runtime revisions;
+- restores the real League Wheel and original Club Pack reveal as the player-facing Shared Showdown flow only after exact pairing plus an ACTIVE private session;
+- requires both Player 1 and Player 2 to locally witness the same provider-authoritative League Wheel result and both club-pack reveals before confirmation;
+- keeps Firebase/provider state as sole league/club draw authority, with no presentation-owned reroll or caller-controlled catalog;
+- bridges the query-gated acceptance recorder into the polished Shared Showdown presentation while keeping the engineering Shared Setup overlay diagnostic-only;
 - preserves Firebase Spark, billing permanently OFF, App Check enforcement OFF, memory-only Firestore, popup-only `browserSessionPersistence`, exactly two private managers, no public discovery/matchmaking and Candidate C's sole destructive remote-to-local gameplay Apply authority;
 - earns zero SSJR credit by itself; genuine two-account production evidence remains required.
 
@@ -116,8 +117,8 @@ Current production runtime: `1.8.1-r1` — deployed and 89-file byte-proven.
 Previous known-good runtime: `1.8.0-r1`
 Status: PR #138 merged at `ca0cb6ce8628c5f993669c08ff33e8f64c634870`; Pages run `32793956319` succeeded.
 
-- preserves the selected private manager by stable role/profile/save identity through busy, success and failure rerenders;
-- keeps a pasted one-use pairing code intact when the local manager selection changes;
+- preserves the selected Player One/Player Two manager by stable role/profile/save identity through Private Pairing busy, success and failure rerenders;
+- preserves pasted capability text on selector-only changes;
 - replaces raw permission-denied/opaque capability errors with non-enumerating instructions to use a fresh code or the existing Connected Rivalry;
 - updates stale Stage 3 copy to point at the already-shipped explicit Connected Rivalry actions;
 - adds deterministic and rendered mobile-browser regressions for Player Two persistence and denied redemption;

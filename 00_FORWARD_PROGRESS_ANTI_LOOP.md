@@ -92,4 +92,4 @@ One bounded engineering milestone should normally produce one engineering PR. Cu
 
 A separate preliminary authority/history PR is the exception, not the default.
 
-This policy does not weaken exact-head CI, clean review/thread requirements, expected-head merge protection, interruption recovery, WEC decisions, Handoff proximity reporting, or source-first authority.
+This policy does not weaken exact-head CI, clean review/thread requirements, expected-head merge protection, interruption recovery, WEC decisions, Session handoff proximity reporting, or source-first authority.

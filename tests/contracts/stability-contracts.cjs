@@ -49,8 +49,15 @@ A.ok(currentDocsCarryRevision || activeCandidateWec, 'Current runtime revision m
 if(candidate){
     const previous = (release.match(/Previous known-good runtime:\s*`([^`]+)`/i) || [])[1];
     A.ok(previous, 'A release candidate must name its previous known-good whole-runtime shell.');
-    A.ok(readme.includes(previous) && /production-proven|production proven/i.test(readme));
-    A.ok(changelog.includes(previous));
+    const maintenancePath = gen === 1
+        ? `CAREER_MODE_SHOWDOWN_V${version}_MAINTENANCE_HANDOFF.md`
+        : `CAREER_MODE_SHOWDOWN_V${version}_R${gen}_MAINTENANCE_HANDOFF.md`;
+    A.ok(fs.existsSync(path.join(root, maintenancePath)), 'A release candidate must carry a matching maintenance handoff.');
+    const maintenance = read(maintenancePath);
+    const candidateAuthority = `${release}\n${maintenance}\n${JSON.stringify(wec)}`;
+    A.ok(candidateAuthority.includes(previous) && /production-proven|production proven/i.test(candidateAuthority), 'Candidate release/maintenance/WEC authority must identify the previous production-proven whole shell.');
+    A.equal(wec.repository?.productionRuntimeRevision, previous, 'Active candidate WEC must preserve the previous production-proven runtime as current production truth.');
+    A.equal(wec.repository?.releaseCandidateRuntimeRevision, revision, 'Active candidate WEC must carry the exact candidate runtime revision.');
 }else{
     A.ok(readme.includes(revision) && changelog.includes(revision));
 }

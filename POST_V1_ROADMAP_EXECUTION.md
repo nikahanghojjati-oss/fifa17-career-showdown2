@@ -216,7 +216,7 @@ Stage 2G requires Stage 2F revocation-aware `verifyIdToken(idToken, true)` authe
 
 The dependency order remains Cloud/Sync DONE → Private Account/Auth Stage 2 CURRENT with 2A–2F DONE and 2G CURRENT → Stage 3 pairing BLOCKED → Stage 4 Connected Rivalry BLOCKED → Private Remote Joining final dependency-gated destination. Public/community/rankings remain eliminated.
 
-Every substantive owner-facing project response visibly includes `Handoff proximity: X%`; at 100%, finish only the current safe bounded checkpoint, automatically generate the complete successor handoff and stop before another substantial milestone. Never fabricate unavailable usage.
+Every substantive owner-facing project response visibly includes `Session handoff proximity: X%`; at 100%, finish only the current safe bounded checkpoint, automatically generate the complete successor handoff and stop before another substantial milestone. Never fabricate unavailable usage.
 
 The complete body below is retained as historical/proven contract provenance. Its Stage 2D-current wording is not current implementation authority.
 
@@ -263,7 +263,7 @@ Data-safety integrity: canonical storage remains exactly three public keys. Cand
 
 Validation integrity: 14 permanent workflow families and 27 protected multiline executable blocks remain. Normal PRs generally exercise 13; Release Integration Burn In remains main/manual release authority. Performance ceilings and timeouts are not knobs to obtain green CI.
 
-Continuity integrity: every substantive owner-facing project response visibly includes `Handoff proximity: X%`; at 100% the environment automatically generates the complete successor handoff and stops after the current safe checkpoint. Unknown usage is never fabricated, WEC is authoritative when stricter and generated handoffs propagate the rule recursively.
+Continuity integrity: every substantive owner-facing project response visibly includes `Session handoff proximity: X%`; at 100% the environment automatically generates the complete successor handoff and stops after the current safe checkpoint. Unknown usage is never fabricated, WEC is authoritative when stricter and generated handoffs propagate the rule recursively.
 
 Product philosophy lock: Career Mode Showdown is a private two-manager companion. Public community features and global leaderboard/rankings are ELIMINATED. Private Remote Joining is PRIORITIZED LONG-TERM / DEPENDENCY-GATED / NOT YET IMPLEMENTATION-AUTHORIZED.
 
@@ -511,3 +511,5 @@ Historical post-PR #86 current authority: remaining Stage 2 prerequisites — NO
 At the historical Stage 2A boundary, Stage 2A — Firebase Auth Emulator Identity Boundary was AUTHORIZED NEXT PREREQUISITE / IMPLEMENTATION NOT STARTED.
 
 Those transitions are completed. Current authority is Stage 2A DONE / Stage 2B DONE / Stage 2C DONE / PR #86 DONE / PR #87 DONE / Stage 2D CURRENT. Stage 2D is the only current bounded prerequisite and no later Stage 2 gate is selected by roadmap order alone.
+
+Current reporting authority: `00_SESSION_HANDOFF_PROXIMITY_V2.md` / SHP-2; reset to 0% each new session, monotonic observable proxies thereafter. HTR-1 remains separate repository transfer readiness.

@@ -1,12 +1,12 @@
-# Handoff Proximity — Deterministic Transfer Readiness HTR-1
+# HTR-1 — Deterministic Repository Transfer Readiness
 
 Owner direction: 2026-09-06.
 
-This file replaces every earlier visible-percentage interpretation of `Handoff proximity` wherever older continuity prose conflicts with it. Handoff proximity now measures only successor transfer readiness.
+Preserved repository transfer authority, with reporting superseded by the later owner instruction of 2026-09-07. `00_SESSION_HANDOFF_PROXIMITY_V2.md` separately owns Session Handoff Proximity v2. This HTR-1 model measures only successor transfer readiness and never session pressure.
 
 ## Definition
 
-`Handoff proximity` measures how completely the current Work environment has been converted into durable, independently recoverable successor authority.
+`HTR-1 transfer readiness` measures how completely the current Work environment has been converted into durable, independently recoverable successor authority.
 
 It is not product completion, roadmap completion, CI progress, PR publication progress, SSJR progress, or an estimate of how long the current environment can continue.
 
@@ -32,39 +32,39 @@ The metric is intentionally stable. It is computed from five repository-verifiab
    - The WEC/archive, current pointers, canonical starter/deep handoff, and owner-facing SNS are coherent at one exact boundary.
    - The WEC is `transition-prepared` or `closed`, `handoffCompleteness` is 100, `unrecordedDecisions` is 0, and `atomicOperation` is false.
 
-`Handoff proximity = 20 × number of earned HTR-1 pillars`.
+`HTR-1 transfer readiness = 20 × number of earned HTR-1 pillars`.
 
 Only these values are valid: `0`, `20`, `40`, `60`, `80`, `100`.
 
 ## Monotonicity rule
 
-Within one handoff cycle, Handoff proximity is monotonic. Previously earned pillars remain earned. New engineering evidence can create a blocker that must be recorded, prevent the final transfer-package pillar until the package is coherent, or require a new successor task. It must not make the visible Handoff proximity bounce backward after transfer evidence already exists.
+Within one handoff cycle, HTR-1 transfer readiness is monotonic. Previously earned pillars remain earned. New engineering evidence can create a blocker that must be recorded, prevent the final transfer-package pillar until the package is coherent, or require a new successor task. It must not make the visible HTR-1 transfer readiness bounce backward after transfer evidence already exists.
 
 If a previously claimed pillar was factually false, correct the repository record and explicitly classify that as a metric-recording defect. Do not silently rewrite the percentage.
 
 ## Meaning of 100%
 
-`Handoff proximity: 100%` means one thing only:
+`HTR-1 transfer readiness: 100%` means one thing only:
 
 > A fresh environment can resume immediately and safely from durable repository authority with no hidden chat-only dependency and no atomic operation abandoned in flight.
 
 It does not mean the current PR is merged, all tests are green, the product is complete, or SSJR is 100. An open PR or known failing check may be handed off at 100 when its exact state and safe next action are fully classified and the transfer package itself is sealed.
 
-At 100%, automatically provide the current repository-first SNS and stop before beginning another substantial milestone.
+At 100%, the transfer package is ready. A final session transition also follows Session Handoff Proximity v2 and WEC; after providing the final SNS, stop before beginning another substantial milestone.
 
 ## Reporting rule
 
-Every substantive project progress response keeps the owner’s standard line:
+When repository recoverability is relevant, report this separate optional line:
 
-`Handoff proximity: X%`
+`HTR-1 transfer readiness: X%`
 
-The percentage must come from HTR-1 repository transfer state. Report engineering health separately through `Current lane`, `Next unlock`, and `Blocker`; never encode those changing technical conditions by arbitrarily moving Handoff proximity backward.
+This separate percentage must come from HTR-1 repository transfer state; the required session-pressure line comes from SHP-2. Report engineering health separately through `Current lane`, `Next unlock`, and `Blocker`; never encode those changing technical conditions by arbitrarily moving HTR-1 transfer readiness backward.
 
 No resource-budget, allowance, elapsed-session, context-budget, or similar capacity signal is an HTR-1 input. The visible percentage is derived exclusively from durable repository transfer evidence.
 
 ## Tooling authority
 
-`scripts/handoff-proximity-stage.mjs` is the deterministic executable authority for HTR-1. `npm run work:proximity` reads `WORK_ENVIRONMENT_STATUS.json` and computes the score from its append-only `handoffTransferReadiness.earnedPillars` array.
+`scripts/handoff-proximity-stage.mjs` is the deterministic executable authority for HTR-1. `npm run work:transfer-readiness` reads `WORK_ENVIRONMENT_STATUS.json` and computes the score from its append-only `handoffTransferReadiness.earnedPillars` array.
 
 `npm run test:handoff-preflight` must remain green before claiming a newly sealed transfer package when the environment can run it. If a validation failure is the reason for handoff, record the exact failure and safe next action; do not disguise it as transfer unreadiness after the first four pillars have already been earned.
 

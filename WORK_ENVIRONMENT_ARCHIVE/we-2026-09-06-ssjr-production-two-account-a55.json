@@ -1,0 +1,71 @@
+{
+  "schemaVersion": 1,
+  "environmentId": "we-2026-09-06-ssjr-production-two-account-a55",
+  "lifecycle": "closed",
+  "recordedAt": "2026-09-07T13:18:00Z",
+  "repository": {
+    "name": "nikahanghojjati-oss/fifa17-career-showdown2",
+    "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
+    "startingMainSha": "ae89974dfc91753d4a57d83c0f2ca449fc7eacd6",
+    "workingBranch": "fix/ssjr-recorder-active-session-guidance",
+    "activePullRequest": 213,
+    "verifiedMainSha": "24d644efe0702ef4672e0655465b66e658ed4e3a",
+    "productionVersion": "v1.9.1",
+    "productionRuntimeRevision": "1.9.1-r5",
+    "predecessorEnvironmentId": "we-2026-09-06-pr211-recovery-private-setup-a54",
+    "predecessorArchive": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-06-pr211-recovery-private-setup-a54.json"
+  },
+  "signals": {
+    "contextComplexity": "high",
+    "projectComplexity": "high",
+    "compactionCount": 0,
+    "majorPhasesCompleted": 1,
+    "largeEvidenceEvents": 6,
+    "toolRoutingErrors": 0,
+    "correctedFailures": 13,
+    "repeatedMistakes": 0,
+    "staleFactCorrections": 5,
+    "unresolvedFailures": 0,
+    "newMilestoneNext": true,
+    "usageRemainingPercent": null,
+    "usageSource": "unavailable",
+    "usageWarning": false,
+    "handoffCompleteness": 80,
+    "unrecordedDecisions": 0,
+    "atomicOperation": false
+  },
+  "handoffTransferReadiness": {
+    "model": "HTR-1",
+    "earnedPillars": ["durable-state","authority-snapshot","open-work-classified","successor-execution-contract"]
+  },
+  "assessment": {
+    "decision": "CONTINUE",
+    "reason": "PR213 merged and coherent r5 production was independently proven. Genuine two-account acceptance then reached SHOWDOWN_CONFIRMED revision 6 but exposed a recorder catalog-shape false negative and a player-facing Shared Journey UX regression. Close this environment and continue in a fresh successor without inheriting its transition decision.",
+    "decisionInheritedFromPredecessor": false,
+    "handoffMetricAuthority": "00_HANDOFF_PROXIMITY_STAGE_GATES.md / HTR-1"
+  },
+  "continuity": {
+    "currentTask": "Archive the r5 acceptance environment after the physical run exposed the recorder catalog proof defect and Shared Journey presentation regression.",
+    "lastSafeCheckpoint": "Production r5 is green and deployed. Owner physical evidence reached paired ACTIVE, authoritative setup revision 4, and SHOWDOWN_CONFIRMED revision 6 with LaLiga, Osasuna, Espanyol and one season before the recorder falsely rejected nonexistent provider clubLeagueIds. The engineering Shared Setup overlay was also confirmed as the normal path and rejected as product direction.",
+    "nextSafeAction": "Fresh successor must implement provider-authoritative League Wheel and Club Pack presentation on both manager devices, repair catalog-based recorder validation, publish coherent r6 and only then ask the owner to retest.",
+    "unfinishedWork": [
+      "Restore the real League Wheel and Club Pack reveal to normal Shared Showdown while preserving provider-only draw authority.",
+      "Require both manager browsers to witness the authoritative league and both pack reveals.",
+      "Fix recorder catalog proof and cross-runtime evidence state, publish coherent r6, then resume genuine two-device acceptance."
+    ],
+    "knownHazards": [
+      "Billing permanently OFF; Firebase Spark only; no Blaze, Cloud Billing, Cloud Run or Cloud Functions.",
+      "App Check enforcement remains OFF and Firestore browser persistence remains memory-only.",
+      "Pairing plus exact ACTIVE session must precede league and club authority.",
+      "Canonical gameplay storage remains exactly careerModeShowdown.saveLibrary, careerModeShowdown.legacyShowdowns and careerModeShowdown.preferences.",
+      "Candidate C remains sole destructive remote-to-local gameplay Apply authority.",
+      "No public discovery, lobby, matchmaking, community or rankings.",
+      "CI, PR, recorder, deployment and WEC mechanics earn zero SSJR credit."
+    ],
+    "evidenceNotes": [
+      "RJR-1 remains frozen 100/100; SSJR-1.1 remains fixed 0/100.",
+      "Owner explicitly requires lightweight SNS checkpoints after substantial milestones and a full handoff if HTR reaches 100.",
+      "Raw private account/device/rivalry/session identifiers and raw canonical storage bytes are not retained in this archive."
+    ]
+  }
+}

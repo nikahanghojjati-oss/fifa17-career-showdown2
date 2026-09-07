@@ -10,7 +10,7 @@
     "assignClubs",
     "continueToShowdownHome"
   ]);
-  const CLICK_TARGETS=Object.freeze({spinLeague:"league selection",openClubPack:"club assignment",continueClubAssignment:"local rivalry confirmation"});
+  const CLICK_TARGETS=Object.freeze({spinLeague:"league selection",openClubPack:"club assignment",continueClubAssignment:"shared rivalry confirmation"});
   const WRAPPED=Symbol("ssjrSharedJourneyGuard");
   const LOADER_WRAPPED=Symbol("ssjrSharedJourneyGuardLoader");
   let timer=null,eventGateInstalled=false;
@@ -34,7 +34,7 @@
   function deny(name){
     if(typeof root.showAppNotice==="function"){
       root.showAppNotice(
-        `Shared Showdown blocks local ${name}. Exact pairing, the exact ACTIVE private session and authoritative Shared Setup own league and club selection.`,
+        `Shared Showdown blocks local ${name}. Exact pairing, the exact ACTIVE private session and provider-authoritative Shared Setup own the outcome.`,
         "error",
         9000
       );
@@ -54,14 +54,26 @@
     root[name]=guarded;
     return true;
   }
+  function routePresentationClick(target){
+    const presentation=root.CareerModeProductionSharedShowdownPresentation;
+    if(!presentation||typeof presentation.handlesControl!=="function"||typeof presentation.handleControlClick!=="function")return false;
+    if(!presentation.handlesControl(target.id))return false;
+    Promise.resolve(presentation.handleControlClick(target.id)).catch(error=>{
+      if(typeof root.reportApplicationError==="function")root.reportApplicationError("Shared Showdown polished presentation action failed",error);
+      else console.error(error);
+    });
+    return true;
+  }
   function installEventGate(){
     if(eventGateInstalled||!root.document||typeof root.document.addEventListener!=="function")return false;
     root.document.addEventListener("click",event=>{
       const source=event&&event.target;
       const target=source&&typeof source.closest==="function"?source.closest("#spinLeague,#openClubPack,#continueClubAssignment"):null;
-      if(!target||!blockLocalDraw(CLICK_TARGETS[target.id]||target.id))return;
+      if(!target||!pending())return;
       event.preventDefault();
       event.stopImmediatePropagation();
+      if(routePresentationClick(target))return;
+      deny(CLICK_TARGETS[target.id]||target.id);
     },true);
     eventGateInstalled=true;return true;
   }
@@ -94,10 +106,11 @@
 
   const api=Object.freeze({
     contractVersion:1,
-    feature:"ssjr-local-draw-bypass-guard",
+    feature:"ssjr-local-random-authority-guard",
     guardedFunctions:GUARDED,
     hooksLazyRuntimeLoader:true,
     capturesActualDrawClicks:true,
+    routesPolishedPresentationClicks:true,
     usesPersistedSaveMarker:true,
     canonicalLocalStorageMutation:false,
     billingRequired:false,

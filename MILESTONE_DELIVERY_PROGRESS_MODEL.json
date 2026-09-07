@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 1,
+  "trackerId": "MDP-1",
+  "name": "Milestone Delivery Progress",
+  "scale": 100,
+  "precision": 2,
+  "purpose": "Measure how much engineering work for the current milestone has actually moved through feature design, implementation, automated verification, defect/review correction, regression re-test and product integration. MDP is a delivery-maturity tracker, not acceptance evidence and not a forecast.",
+  "milestoneBindingRules": {
+    "featureDenominator": "The active milestone must have an explicit finite feature/capability map whose weights sum to 100.",
+    "reuseAuthoritativeWeights": true,
+    "currentMilestone": "SSJR-1.1",
+    "currentMilestoneFile": "SHARED_SHOWDOWN_JOURNEY_MODEL.json",
+    "currentBinding": "For SSJR-1.1, reuse the exact 20 frozen capability IDs and their exact SSJR weights. MDP does not alter SSJR scope, dependencies, weights, evidence layers or credit policy.",
+    "futureMilestones": "When the owner selects a later milestone, bind MDP-1 to that milestone's explicit feature map. If no authoritative weighted feature map exists, define and review one before reporting an MDP score."
+  },
+  "lifecycleStages": [
+    {
+      "id": "design",
+      "label": "Design and contract",
+      "weight": 10,
+      "completionRule": "The feature outcome, authority boundary, dependencies, supported states and material failure behavior are explicitly defined."
+    },
+    {
+      "id": "implementation",
+      "label": "Implementation",
+      "weight": 30,
+      "completionRule": "The milestone-specific end-to-end feature behavior is built. Reusable predecessor infrastructure by itself does not complete this stage."
+    },
+    {
+      "id": "automated-test",
+      "label": "Primary automated verification",
+      "weight": 20,
+      "completionRule": "Deterministic automated coverage exercises the implemented feature's required success, denial and state-transition behavior at the relevant layers."
+    },
+    {
+      "id": "defect-resolution",
+      "label": "Defect and review resolution",
+      "weight": 15,
+      "completionRule": "Known qualifying implementation defects and objective review findings for the feature are corrected. If none are found, a completed review/test triage may close this stage; never manufacture a bug for credit."
+    },
+    {
+      "id": "regression-retest",
+      "label": "Regression re-test",
+      "weight": 15,
+      "completionRule": "The corrected/reviewed feature is re-tested and its required regression gates pass on one coherent candidate head."
+    },
+    {
+      "id": "product-integration",
+      "label": "Product integration",
+      "weight": 10,
+      "completionRule": "The feature is part of the authoritative product after the preceding lifecycle stages pass; runtime features must be merged and deployed/proven as the coherent product shell when deployment applies."
+    }
+  ],
+  "allowedStageStates": ["not_started", "in_progress", "complete"],
+  "crossCuttingFeatureExitRules": {
+    "dualFullScreenExperience": "Every user-facing Shared Journey capability is governed by SSJR-DUAL-FULL-SCREEN-1: both managers must individually experience every canonical gameplay screen for that capability on their own device, with ordered replay for missed screens. Role-specific actions may differ, but screen skipping is forbidden. A user-facing feature cannot complete implementation, automated-test, regression-retest or product-integration while that invariant is false."
+  },
+  "scoringRules": {
+    "featureLifecyclePercent": "Sum the lifecycle-stage weights whose state is complete. In-progress stages earn zero until their exit rule is satisfied.",
+    "featureContribution": "milestoneFeatureWeight * featureLifecyclePercent / 100",
+    "milestoneScore": "Sum all feature contributions and round to two decimal places.",
+    "sequentialLifecycle": true,
+    "candidateWorkCanAdvanceMDP": true,
+    "candidateWorkCannotEarnProductIntegration": true,
+    "productIntegrationRequiresAllPriorStagesComplete": true,
+    "regressionCanReduceScore": true,
+    "staleOrInvalidatedWorkMustBeRemoved": true,
+    "reusableFoundationCredit": "Do not mark a milestone-specific implementation stage complete merely because a reusable local, RJR, provider or reconciliation foundation exists. Count it only when wired into the specific milestone feature end to end.",
+    "noTimeForecasting": true
+  },
+  "separationFromReadiness": {
+    "doesNotReplaceSSJR": true,
+    "doesNotGrantSSJRCredit": true,
+    "doesNotSatisfyHumanEvidence": true,
+    "doesNotConsumeEvidence": true,
+    "typicalRelationship": "MDP will often be numerically above evidence-gated readiness because engineering can be complete before physical/production acceptance, but no invariant requires MDP to remain above SSJR.",
+    "example": "A feature may reach 100% MDP lifecycle maturity while remaining zero-credit in SSJR until every fixed SSJR evidence layer is accepted."
+  },
+  "reporting": {
+    "label": "Milestone Delivery Progress",
+    "format": "Milestone Delivery Progress: NN.NN/100",
+    "taskDeltaFormat": "MDP task delta: +X.XX (AA.AA -> BB.BB)",
+    "pendingDeltaFormat": "MDP pending unlock: +X.XX if <explicit lifecycle exit condition>",
+    "sourceFile": "MILESTONE_DELIVERY_PROGRESS.json",
+    "replaces": "Estimated focused sessions to genuine SSJR100",
+    "coexistsWith": "Shared Showdown Journey readiness",
+    "updateRule": "Recalculate whenever a current-milestone feature enters or completes a lifecycle stage, a qualifying regression invalidates a stage, or product integration changes.",
+    "taskDeltaRule": "At each meaningful work checkpoint, report how many MDP points the just-completed task actually earned. Use +0.00 when useful work did not close a lifecycle stage. Pending/unearned points may be reported separately but must never be added to currentScore early.",
+    "cadenceRule": "Report task delta and Session Handoff Proximity at frequent meaningful checkpoints, batching low-level operations so reporting does not materially slow product work."
+  }
+}

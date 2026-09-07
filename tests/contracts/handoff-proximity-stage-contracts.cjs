@@ -69,7 +69,7 @@ const { pathToFileURL } = require("node:url");
 
   const policy = fs.readFileSync("00_HANDOFF_PROXIMITY_STAGE_GATES.md", "utf8");
   assert.match(policy, /five repository-verifiable transfer pillars worth exactly 20 points each/i);
-  assert.match(policy, /Within one handoff cycle, Handoff proximity is monotonic/i);
+  assert.match(policy, /Within one handoff cycle, HTR-1 transfer readiness is monotonic/i);
   assert.match(policy, /open PR or known failing check may be handed off at 100/i);
   assert.match(policy, /fresh environment can resume immediately and safely from durable repository authority/i);
   assert.match(policy, /It does not mean the current PR is merged, all tests are green, the product is complete, or SSJR is 100/i);
@@ -83,10 +83,10 @@ const { pathToFileURL } = require("node:url");
   assert.match(buildFirst, /75% actual product implementation/i);
 
   const pkg = JSON.parse(fs.readFileSync("package.json", "utf8"));
-  assert.equal(pkg.scripts["work:proximity"], "node scripts/handoff-proximity-stage.mjs");
+  assert.equal(pkg.scripts["work:transfer-readiness"], "node scripts/handoff-proximity-stage.mjs");
   assert.equal(pkg.scripts["test:handoff-preflight"], "node tests/support/run-handoff-preflight.cjs");
 
-  process.stdout.write("PASS HTR-1 Handoff proximity: five append-only repository transfer pillars produce a deterministic monotonic 0/20/40/60/80/100 score and 100 means safe successor recoverability.\n");
+  process.stdout.write("PASS HTR-1 transfer readiness: five append-only repository transfer pillars produce a deterministic monotonic 0/20/40/60/80/100 score and 100 means safe successor recoverability.\n");
 })().catch(error => {
   process.stderr.write(`${error.stack || error.message}\n`);
   process.exitCode = 1;

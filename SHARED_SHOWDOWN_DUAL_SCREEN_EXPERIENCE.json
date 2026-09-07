@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "contractId": "SSJR-DUAL-FULL-SCREEN-1",
+  "ownerInstructionDate": "2026-09-07",
+  "purpose": "Guarantee that both private managers individually experience every canonical Shared Showdown gameplay screen from shared entry through terminal completion. Role authority may differ, but neither role may silently skip a gameplay screen.",
+  "permanentRules": {
+    "exactlyTwoManagers": true,
+    "bothManagersMustRenderEveryCanonicalGameplayScreen": true,
+    "roleSpecificActionsMayDiffer": true,
+    "roleSpecificScreenSkippingForbidden": true,
+    "lateOrReloadedPeerMustReplayMissedCanonicalScreensInOrder": true,
+    "providerMayAdvanceAuthorityOnlyWhenMissedScreensRemainReplayable": true,
+    "terminalProgressMustNotEraseUnwitnessedCanonicalScreens": true,
+    "diagnosticAndErrorSurfacesAreNotCanonicalGameplayScreens": true,
+    "canonicalGameplayScreenAdditionsInheritThisRuleAutomatically": true,
+    "pairingAndExactActiveStillPrecedeLeagueOrClubAuthority": true
+  },
+  "witnessSemantics": {
+    "fullScreen": "The manager's own device visibly renders the complete canonical gameplay surface for that stage, including the authoritative outcome or stage state, not merely a toast, badge, background refresh, summary line or the other manager's screenshot.",
+    "individualWitness": "Each role has its own local witness. One manager seeing a screen never satisfies the other manager's witness.",
+    "orderedExperience": "A device that reconnects, reloads or arrives after provider authority advanced must locally replay any missed canonical screens in journey order before it may proceed beyond them.",
+    "roleAuthority": "A host/coordinator may own a mutation while the peer observes the same full screen with waiting/read-only controls. Different controls are allowed; different gameplay-screen participation is not.",
+    "persistence": "Witness tracking must never mutate the three canonical gameplay localStorage keys merely to prove presentation. Provider-authoritative acknowledgements may be added when a future stage needs a global both-role progression gate."
+  },
+  "canonicalJourneyStages": [
+    {"id":"private-pairing-active","capabilityIds":["entry-binding","entry-before-draw"],"screenRequirement":"Both managers individually see the private pairing/session entry state and exact ACTIVE transition before Shared Setup gameplay begins.","currentEngineeringStatus":"integrated_foundation"},
+    {"id":"shared-entry","capabilityIds":["entry-binding","entry-before-draw"],"screenRequirement":"Both managers individually enter the Shared Showdown experience bound to the same rivalry/save identities.","currentEngineeringStatus":"integrated_foundation"},
+    {"id":"league-wheel","capabilityIds":["setup-league"],"screenRequirement":"Both managers individually see the complete League Wheel screen and authoritative league reveal before their local experience proceeds to Club Packs.","currentEngineeringStatus":"r6_pre_integration_complete"},
+    {"id":"club-packs","capabilityIds":["setup-clubs"],"screenRequirement":"Both managers individually see the complete Club Pack screen and both authoritative club reveals before their local experience proceeds.","currentEngineeringStatus":"r6_pre_integration_complete"},
+    {"id":"season-length","capabilityIds":["setup-length"],"screenRequirement":"Both managers individually see the complete shared season-length choice/locked-result screen, including the peer's authoritative committed value.","currentEngineeringStatus":"r6_pre_integration_complete"},
+    {"id":"setup-confirmation","capabilityIds":["setup-confirmation"],"screenRequirement":"Both managers individually see the complete final Shared Setup confirmation screen and their own role-specific confirmation state.","currentEngineeringStatus":"r6_pre_integration_complete"},
+    {"id":"career-start","capabilityIds":["career-start"],"screenRequirement":"Both managers individually see the complete career-start acknowledgement screen for the same locked clubs and season plan.","currentEngineeringStatus":"design_only"},
+    {"id":"transfer-challenge","capabilityIds":["transfer-challenge"],"screenRequirement":"Both managers individually experience every canonical Transfer Challenge screen and phase, including timer/guess/signing/completion surfaces; action ownership may differ.","currentEngineeringStatus":"design_only"},
+    {"id":"results-publication","capabilityIds":["results-publication"],"screenRequirement":"Both managers individually see the full results-entry and review flow; each manager owns only permitted inputs but neither skips the canonical screens.","currentEngineeringStatus":"design_only"},
+    {"id":"season-commit-review","capabilityIds":["season-commit"],"screenRequirement":"Both managers individually see the reconciled season review/commit screen and its committed outcome.","currentEngineeringStatus":"design_only"},
+    {"id":"canonical-score-result","capabilityIds":["canonical-scoring"],"screenRequirement":"Both managers individually see the complete canonical score/winner result screen computed from authoritative season results.","currentEngineeringStatus":"design_only"},
+    {"id":"history-records-trophies","capabilityIds":["history-convergence"],"screenRequirement":"Both managers individually see the same canonical history, manager-record and trophy-attribution gameplay surfaces for the committed season.","currentEngineeringStatus":"design_only"},
+    {"id":"next-season-transition","capabilityIds":["multi-season"],"screenRequirement":"Both managers individually see each season transition/advance screen exactly once and retain the fixed clubs across the selected plan.","currentEngineeringStatus":"design_only"},
+    {"id":"reconnect-resume","capabilityIds":["journey-reconnect"],"screenRequirement":"After reconnect/reload/fresh-session re-entry, the affected device replays or resumes the complete canonical current/missed gameplay screen sequence rather than jumping ahead.","currentEngineeringStatus":"design_only"},
+    {"id":"conflict-resolution-state","capabilityIds":["journey-conflicts"],"screenRequirement":"When contention changes authoritative state, both managers' next canonical gameplay screen reflects the same accepted state; conflict handling must not silently skip a normal stage for either role.","currentEngineeringStatus":"design_only"},
+    {"id":"local-reconciliation","capabilityIds":["local-reconciliation"],"screenRequirement":"Both managers individually see the canonical reconciliation/preview state relevant to the shared journey; destructive Apply remains separately role/transaction-authorized.","currentEngineeringStatus":"design_only"},
+    {"id":"final-reconciliation","capabilityIds":["final-reconciliation"],"screenRequirement":"Both managers individually see the complete final reconciliation screen with the same final winner/history state.","currentEngineeringStatus":"design_only"},
+    {"id":"terminal-close","capabilityIds":["terminal-close"],"screenRequirement":"Both managers individually see the complete terminal completed/closed gameplay screen before the journey becomes non-resurrectable.","currentEngineeringStatus":"design_only"},
+    {"id":"physical-full-journey","capabilityIds":["physical-journey"],"screenRequirement":"Physical acceptance must prove the two devices independently traversed the canonical full-screen sequence rather than inferring one role's UI from the other.","currentEngineeringStatus":"design_only"},
+    {"id":"stable-release","capabilityIds":["stable-journey-release"],"screenRequirement":"Stable release acceptance must retain the dual-full-screen invariant across the entire deployed journey with no open screen-skipping regression.","currentEngineeringStatus":"design_only"}
+  ],
+  "implementationGate": {
+    "appliesToAllCurrentAndFutureSharedJourneyGameplayScreens": true,
+    "mdpRule": "A user-facing capability cannot complete MDP implementation, automated-test, regression-retest or product-integration stages unless its canonical gameplay screens satisfy this dual-full-screen contract.",
+    "ssjrRule": "This contract does not change SSJR weights or grant SSJR credit. It strengthens the product behavior required by the owner's later instruction and must be reflected in applicable production evidence.",
+    "currentR6Rule": "League Wheel, Club Packs, season length and setup confirmation must preserve per-device ordered witness behavior for both roles; a late/reloaded peer must not skip committed setup screens."
+  }
+}

@@ -41,17 +41,17 @@ Otherwise the value must be `null` and `usageSource` must be `unavailable`. Do n
 
 Every substantive owner-facing development response must visibly report:
 
-`Handoff proximity: X%`
+`Session handoff proximity: X%`
 
 This percentage is a human-readable companion to the deterministic WEC assessment. It estimates proximity to a recommended Work environment transition, not completion of the current engineering task. It should consider the same observable evidence families used by WEC plus remaining safe-boundary work and whether the next substantial action is a separate milestone.
 
-The number may stay unchanged across several responses and may decrease after a fresh successor initialization or after material uncertainty is safely externalized. It must never be mechanically incremented merely because another message was sent.
+Session Handoff Proximity v2 resets to 0% only at a new session. Within one session it is monotonic, even after uncertainty is externalized. Its deterministic observable-proxy model, risk floors and operating bands are owned by `00_SESSION_HANDOFF_PROXIMITY_V2.md`; HTR-1 separately measures repository transfer readiness.
 
-Unknown account/model usage is never fabricated for this estimate. If approved usage information is unavailable, Handoff proximity must be derived only from observable continuity evidence while `usageRemainingPercent` remains `null` / `unavailable` in the machine-readable state.
+Unknown account/model usage is never fabricated for this estimate. If approved usage information is unavailable, Session handoff proximity must be derived only from observable continuity evidence while `usageRemainingPercent` remains `null` / `unavailable` in the machine-readable state.
 
-At `Handoff proximity: 100%`, the current environment must automatically generate the complete successor handoff, finish only the current safe bounded checkpoint and stop before beginning another substantial milestone.
+At `Session handoff proximity: 100%`, the current environment must automatically generate the complete successor handoff, finish only the current safe bounded checkpoint and stop before beginning another substantial milestone.
 
-WEC remains authoritative when it requires an earlier or stricter transition. A lower Handoff proximity percentage never authorizes continuing past `PREPARE_HANDOFF`, `HANDOFF_AT_CHECKPOINT`, `HANDOFF_NOW` or `FINISH_SAFE_BOUNDARY` requirements.
+WEC remains authoritative when it requires an earlier or stricter transition. A lower Session handoff proximity percentage never authorizes continuing past `PREPARE_HANDOFF`, `HANDOFF_AT_CHECKPOINT`, `HANDOFF_NOW` or `FINISH_SAFE_BOUNDARY` requirements.
 
 Every generated successor handoff must recursively contain this Handoff Proximity policy so later environments inherit the visible reporting rule, honest unknown-usage requirement, 100% automatic handoff/stop behavior and WEC precedence.
 
@@ -221,3 +221,7 @@ Never rewrite a prior history record to make the path look cleaner. Add a dated 
 ## Calibration rule
 
 The initial weights are intentionally conservative and deterministic. Change them only in a separately reviewed repository update with scenario tests showing why the prior model alerted too early or too late. Never tune a threshold merely to avoid a handoff already recommended by current evidence.
+
+## Later owner reporting authority, 2026-09-07
+
+`00_SESSION_HANDOFF_PROXIMITY_V2.md` owns Session Handoff Proximity v2 (SHP-2). New sessions initialize a zero ledger before recording catch-up. `npm run work:proximity` computes its high-water mark; `npm run work:transfer-readiness` separately computes HTR-1. WEC evaluation preserves existing stricter decisions and applies v2 stop bands. VTLS checkpoints may occur at any percentage. Never inherit either the predecessor percentage or its transition decision.

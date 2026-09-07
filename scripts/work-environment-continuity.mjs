@@ -1,4 +1,5 @@
 import fs from "node:fs";
+import { computeSessionHandoffProximity } from "./session-handoff-proximity.mjs";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
@@ -41,12 +42,13 @@ const decisions = Object.freeze({
 });
 
 const handoffProximityRule = Object.freeze([
-    "MANDATORY HANDOFF PROXIMITY RULE",
-    "Every substantive owner-facing project response must visibly include: Handoff proximity: X%",
-    "Handoff proximity estimates Work environment transition proximity, not task completion. Base it on observable continuity evidence and do not mechanically increase it after every response.",
-    "Never fabricate account/model usage to calculate Handoff proximity. If usage is unavailable, use only observable continuity evidence and keep usage unknown.",
-    "At Handoff proximity: 100%, automatically generate the complete successor handoff, finish only the current safe bounded checkpoint and stop before beginning another substantial milestone.",
-    "WEC remains authoritative when it requires an earlier or stricter transition; Handoff proximity never weakens a WEC decision.",
+    "MANDATORY SESSION HANDOFF PROXIMITY V2 RULE",
+    "Read 00_SESSION_HANDOFF_PROXIMITY_V2.md. Reset to 0% for every new session, then use monotonic observable proxies and v2 risk floors/operating bands. HTR-1 is separate repository transfer readiness. VTLS is independent of proximity; 100 means successor package generated/verified and session stops.",
+    "Every substantive owner-facing project response must visibly include: Session handoff proximity: X%",
+    "Session handoff proximity estimates Work environment transition proximity, not task completion. Base it on observable continuity evidence and do not mechanically increase it after every response.",
+    "Never fabricate account/model usage to calculate Session handoff proximity. If usage is unavailable, use only observable continuity evidence and keep usage unknown.",
+    "At Session handoff proximity: 100%, automatically generate the complete successor handoff, finish only the current safe bounded checkpoint and stop before beginning another substantial milestone.",
+    "WEC remains authoritative when it requires an earlier or stricter transition; Session handoff proximity never weakens a WEC decision.",
     "Every successor handoff must recursively preserve this same Handoff Proximity rule unless the owner explicitly changes it."
 ]);
 
@@ -127,6 +129,7 @@ function validateState(state){
     for(const field of ["unfinishedWork", "knownHazards", "evidenceNotes"]){
         ensure(Array.isArray(continuity[field]) && continuity[field].every(item => typeof item === "string" && item.trim()), `continuity.${field} must be an array of non-empty strings.`);
     }
+    if(state.sessionHandoffProximity) computeSessionHandoffProximity(state);
     return state;
 }
 
@@ -231,10 +234,11 @@ function assessState(state, repositoryState = collectRepositoryState()){
         + atomicRisk * 0.15;
     const transitionAdvantage = continuationRisk - transitionCost;
 
-    const hardTransition = signals.usageWarning
+    const sessionProximity = state.sessionHandoffProximity ? computeSessionHandoffProximity(state) : null;
+    const hardTransition = (sessionProximity?.score >= 95) || signals.usageWarning
         || (signals.usageRemainingPercent !== null && signals.usageRemainingPercent <= 10)
         || qualityRisk >= 80;
-    const transitionRecommended = hardTransition || continuationRisk >= 70 || transitionAdvantage >= 25;
+    const transitionRecommended = hardTransition || sessionProximity?.score >= 85 || continuationRisk >= 70 || transitionAdvantage >= 25;
 
     let decision = decisions.CONTINUE;
     if(signals.atomicOperation && transitionRecommended){
@@ -243,11 +247,12 @@ function assessState(state, repositoryState = collectRepositoryState()){
         decision = decisions.HANDOFF_NOW;
     }else if(transitionRecommended){
         decision = decisions.HANDOFF_AT_CHECKPOINT;
-    }else if(continuationRisk >= 50 || transitionAdvantage >= 10){
+    }else if(sessionProximity?.score >= 50 || continuationRisk >= 50 || transitionAdvantage >= 10){
         decision = decisions.PREPARE_HANDOFF;
     }
 
     const reasons = [];
+    if(sessionProximity) reasons.push(`Session Handoff Proximity v2: ${sessionProximity.score}% (${sessionProximity.band}); observable proxies only.`);
     if(contextPressure >= 70){ reasons.push(`observable context pressure is high (${round(contextPressure)}/100)`); }
     if(qualityRisk >= 50){ reasons.push(`quality-risk signals are elevated (${round(qualityRisk)}/100)`); }
     if(signals.newMilestoneNext){ reasons.push("the next substantial task is a distinct milestone or investigation"); }
@@ -262,6 +267,7 @@ function assessState(state, repositoryState = collectRepositoryState()){
     return {
         environmentId: state.environmentId,
         lifecycle: state.lifecycle,
+        sessionProximity,
         decision,
         scores: {
             contextPressure: round(contextPressure),
@@ -306,6 +312,7 @@ function formatAssessment(state, assessment){
         `Environment: ${assessment.environmentId}`,
         `Lifecycle: ${assessment.lifecycle}`,
         `Decision: ${assessment.decision}`,
+        ...(assessment.sessionProximity ? [`Session handoff proximity: ${assessment.sessionProximity.score}%`] : []),
         `Context pressure: ${assessment.scores.contextPressure}/100`,
         `Quality risk: ${assessment.scores.qualityRisk}/100`,
         `Usage risk: ${usage}`,

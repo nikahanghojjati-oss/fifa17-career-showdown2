@@ -18,6 +18,7 @@ const files = [
   "tests/contracts/handoff-immediate-next-task-contracts.cjs",
   "tests/contracts/work-environment-continuity-contracts.cjs",
   "tests/contracts/handoff-proximity-stage-contracts.cjs",
+    "tests/contracts/session-handoff-proximity-contracts.cjs",
   "tests/contracts/owner-progress-reporting-contracts.cjs",
   "tests/contracts/sle-handoff-packaging-contracts.cjs",
   "tests/contracts/next-developer-prompt-contracts.cjs",

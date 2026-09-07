@@ -1,6 +1,16 @@
+# CURRENT TASK — PR214 R6 AND SESSION HANDOFF PROXIMITY V2
+
+Current owner instruction (2026-09-07 attachment) supersedes the historical PR213 task below. First implement Session Handoff Proximity v2 and its deterministic reporting contracts, keeping HTR-1 separate. Then fix only the faithful `active-locked` fixture in `tests/browser/ssjr-production-acceptance-recorder-audit.cjs`; do not weaken fail-closed production contracts. Drive PR214 to all 15 exact-head workflow families, clear review state, squash merge with expected-head protection, verify main/post-merge Pages/Stability and the coherent public 1.9.1-r6 shell. Only then say `YOUR TESTING TIME` and request the minimum genuine Chromebook/iPhone two-account retest. Both devices must visibly witness League Wheel and Club Packs after pairing + exact ACTIVE. SSJR remains 0/100 until the unchanged evidence gate accepts. Billing remains OFF, Firebase Spark.
+
+## IMMEDIATE NEXT TASK AFTER FULL STUDY
+
+Execute that sequence on live PR214 `fix/ssjr-recorder-catalog-proof-r6`, verifying its exact head before writes. No transfer/results/scoring lane before the Shared Setup evidence boundary. Session reporting uses `00_SESSION_HANDOFF_PROXIMITY_V2.md`; VTLS contains only `PR/head | metric | completed | blocker | next`.
+
+## Historical PR213 execution record, superseded by the current task above
+
 # CURRENT TASK — PUBLISH PR213 R5 HOTFIX, THEN RESUME GENUINE SSJR TWO-ACCOUNT ACCEPTANCE
 
-Work Environment Continuity (WEC) is mandatory for every successor environment. Owner build-first policy remains `00_BUILD_FIRST_PRODUCT_POLICY.md`. Handoff proximity follows `00_HANDOFF_PROXIMITY_STAGE_GATES.md` / HTR-1 only.
+Work Environment Continuity (WEC) is mandatory for every successor environment. Owner build-first policy remains `00_BUILD_FIRST_PRODUCT_POLICY.md`. Session handoff proximity follows `00_SESSION_HANDOFF_PROXIMITY_V2.md` / SHP-2; HTR-1 is separate repository transfer readiness.
 
 Permanent locks: Billing must never be activated. Firebase remains Spark. App Check enforcement remains OFF. Firestore browser persistence remains memory-only. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes. Canonical localStorage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, `careerModeShowdown.preferences`. Candidate C remains the sole destructive remote-to-local gameplay Apply authority with transaction-owned strict exact raw-snapshot rollback. Exactly two private managers. No public discovery/listing/lobby/matchmaking/community/rankings/global leaderboards. Never durably retain raw private capabilities or raw account/device/rivalry/session/pairing IDs.
 
