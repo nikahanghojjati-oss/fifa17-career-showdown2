@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "environmentId": "we-2026-09-06-ssjr-production-two-account-a55",
   "lifecycle": "active",
-  "recordedAt": "2026-09-07T09:40:00Z",
+  "recordedAt": "2026-09-07T09:46:00Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -15,7 +15,7 @@
     "productionRuntimeRevision": "1.9.1-r4",
     "releaseCandidateVersion": "v1.9.1",
     "releaseCandidateRuntimeRevision": "1.9.1-r5",
-    "releaseCandidateHeadSha": "befaee2c92ed9d414b882afe6752dfb100f465ec",
+    "releaseCandidateHeadSha": "60214f1f45afd824e0f1a1ceee4cb5e45868865c",
     "predecessorEnvironmentId": "we-2026-09-06-pr211-recovery-private-setup-a54",
     "predecessorArchive": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-06-pr211-recovery-private-setup-a54.json"
   },
@@ -26,7 +26,7 @@
     "majorPhasesCompleted": 0,
     "largeEvidenceEvents": 3,
     "toolRoutingErrors": 0,
-    "correctedFailures": 8,
+    "correctedFailures": 9,
     "repeatedMistakes": 0,
     "staleFactCorrections": 2,
     "unresolvedFailures": 0,
@@ -80,6 +80,7 @@
     "evidenceNotes": [
       "PR211 merged to ae89974dfc91753d4a57d83c0f2ca449fc7eacd6; its continuity-only publication earns zero SSJR credit.",
       "PR212 merged to 710dd4613c2cb915ddec7dd7a7525911277cb333 and the public acceptance page exposed runtime 1.9.1-r4 during the owner's genuine test.",
+      "The predecessor a54 HANDOFF_AT_CHECKPOINT decision is historical closing-environment-only authority and is not inherited by this active successor WEC; decisionInheritedFromPredecessor remains false.",
       "The owner reached a real paired ACTIVE host private session on the Chromebook and the peer joined from the second manager device; no raw authority value is retained in this WEC.",
       "The recorder initially failed to advance because Shared Setup authority had not yet been resolved even though page-memory Remote Joining was ACTIVE; PR213 now routes that state to Shared Setup diagnostics.",
       "The follow-up production screenshot proved recorder step 1 PASS, managerRole playerOne, remoteRole host, and authoritative Shared Setup EMPTY revision 0 before any league or club draw.",
