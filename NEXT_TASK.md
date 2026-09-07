@@ -12,6 +12,10 @@ RJR-1 remains COMPLETE/FROZEN `100/100`. SSJR-1.1 remains `0/100`. Milestone Del
 Recorded main authority remains `420d0dd21480c660d4fe139ba011eca1ccb987a9`. Recorded production authority remains `v1.9.1 / 1.9.1-r5`; source/runtime release candidate remains `v1.9.1 / 1.9.1-r6` until independently reverified live.
 Historical production publication provenance remains PR #203 and must not be rewritten while current PR #215 publication authority is converged.
 
+Implementation-authority provenance retained from the last published product execution record:
+Current environment: `we-2026-09-06-ssjr-production-two-account-a55`.
+Starting independently verified live main: `ae89974dfc91753d4a57d83c0f2ca449fc7eacd6`.
+
 Closing WEC: `we-2026-09-07-pr215-r6-publication-a59`.
 Current starter: `START_NEXT_SESSION_V1.4.57_PR215_ANTI_SPIRAL_SAFE_TRANSFER_NEXT.md`.
 Current deep handoff: `SUCCESSOR_HANDOFF_PR215_ANTI_SPIRAL_SAFE_TRANSFER_SLE_2026-09-07.md`.
