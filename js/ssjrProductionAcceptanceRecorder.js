@@ -13,6 +13,7 @@
     "careerModeShowdown.legacyShowdowns",
     "careerModeShowdown.preferences"
   ]);
+  const ALLOWED_SEASONS=new Set([1,3,5,10]);
   const enabled=!!(root.location&&new URLSearchParams(root.location.search).get(PARAM)==="1");
   let initialized=false;
   let setupApi=null;
@@ -49,6 +50,7 @@
     rivalryFingerprint:null,
     canonicalStorageBeforeHash:null,
     canonicalStorageAfterHash:null,
+    canonicalStorageViolation:false,
     pairedActiveBeforeSetup:null,
     authoritativeSetupObserved:null,
     identicalFinalSetup:null,
@@ -70,7 +72,7 @@
     try{if(root.sessionStorage)root.sessionStorage.setItem(SAFE_STORE_KEY,JSON.stringify(safe));}catch(_error){}
   }
   function clearSafe(){
-    safe=safeTemplate();
+    safe=safeTemplate();runtimeError=null;
     try{if(root.sessionStorage)root.sessionStorage.removeItem(SAFE_STORE_KEY);}catch(_error){}
     render();
     return true;
@@ -90,8 +92,8 @@
         playerTwo:setup.clubs&&setup.clubs.playerTwo||null
       },
       clubLeagueIds:{
-        playerOne:setup.clubLeagueIds&&setup.clubLeagueIds.playerOne||setup.leagueId||null,
-        playerTwo:setup.clubLeagueIds&&setup.clubLeagueIds.playerTwo||setup.leagueId||null
+        playerOne:setup.clubLeagueIds&&setup.clubLeagueIds.playerOne||null,
+        playerTwo:setup.clubLeagueIds&&setup.clubLeagueIds.playerTwo||null
       },
       totalSeasons:setup.totalSeasons||null,
       confirmedRoles:Array.isArray(setup.confirmedRoles)?[...setup.confirmedRoles].sort():[],
@@ -99,8 +101,19 @@
       revision:Number.isInteger(setup.revision)?setup.revision:null
     };
   }
+  function assertObservedFinalSetup(finalSetup){
+    if(!finalSetup||typeof finalSetup.leagueId!=="string"||!finalSetup.leagueId)throw new Error("Final Shared Setup did not expose an observed league.");
+    if(typeof finalSetup.clubs.playerOne!=="string"||!finalSetup.clubs.playerOne||typeof finalSetup.clubs.playerTwo!=="string"||!finalSetup.clubs.playerTwo)throw new Error("Final Shared Setup did not expose both observed clubs.");
+    if(finalSetup.clubs.playerOne===finalSetup.clubs.playerTwo)throw new Error("Final Shared Setup exposed duplicate permanent clubs.");
+    if(finalSetup.clubLeagueIds.playerOne!==finalSetup.leagueId||finalSetup.clubLeagueIds.playerTwo!==finalSetup.leagueId)throw new Error("Observed club league identities do not match the authoritative league.");
+    if(!ALLOWED_SEASONS.has(finalSetup.totalSeasons))throw new Error("Observed Shared Setup has an unsupported season length.");
+    if(finalSetup.phase!=="SHOWDOWN_CONFIRMED"||finalSetup.revision!==6)throw new Error("Observed Shared Setup is not exact SHOWDOWN_CONFIRMED revision 6.");
+    if(finalSetup.confirmedRoles.length!==2||finalSetup.confirmedRoles[0]!=="playerOne"||finalSetup.confirmedRoles[1]!=="playerTwo")throw new Error("Both distinct manager roles have not confirmed the observed Shared Setup.");
+    return finalSetup;
+  }
   async function finalDigest(finalSetup){return sha256Text(JSON.stringify(stable(finalSetup)));}
   function updateSafe(next){safe={...safe,...next};persistSafe();render();return safe;}
+  function requireStableIdentity(label,prior,next){if(prior&&prior!==next)throw new Error(`${label} changed during one SSJR acceptance run.`);}
 
   async function observe(state){
     if(!enabled||!state)return;
@@ -108,11 +121,19 @@
       const next={};
       const hasAuthority=state.ready===true&&state.accountId&&state.deviceId&&state.rivalryId&&state.sessionId&&state.managerRole&&state.remoteRole;
       if(hasAuthority){
+        const accountFingerprint=await sha256Text(state.accountId);
+        const deviceFingerprint=await sha256Text(state.deviceId);
+        const rivalryFingerprint=await sha256Text(state.rivalryId);
+        requireStableIdentity("Manager role",safe.managerRole,state.managerRole);
+        requireStableIdentity("Remote role",safe.remoteRole,state.remoteRole);
+        requireStableIdentity("Account authority",safe.accountFingerprint,accountFingerprint);
+        requireStableIdentity("Registered browser authority",safe.deviceFingerprint,deviceFingerprint);
+        requireStableIdentity("Connected Rivalry authority",safe.rivalryFingerprint,rivalryFingerprint);
         next.managerRole=state.managerRole;
         next.remoteRole=state.remoteRole;
-        next.accountFingerprint=await sha256Text(state.accountId);
-        next.deviceFingerprint=await sha256Text(state.deviceId);
-        next.rivalryFingerprint=await sha256Text(state.rivalryId);
+        next.accountFingerprint=accountFingerprint;
+        next.deviceFingerprint=deviceFingerprint;
+        next.rivalryFingerprint=rivalryFingerprint;
       }
 
       if(hasAuthority&&!safe.pairedActiveBeforeSetup&&(!state.setup||state.revision===0)){
@@ -128,12 +149,15 @@
       }
 
       if(hasAuthority&&state.setup&&state.revision===6&&state.setup.phase==="SHOWDOWN_CONFIRMED"){
-        const finalSetup=canonicalFinalSetup(state.setup);
+        const finalSetup=assertObservedFinalSetup(canonicalFinalSetup(state.setup));
         const digest=await finalDigest(finalSetup);
         finalSetup.digest=digest;
+        const afterHash=await canonicalHash();
         next.finalSetup=finalSetup;
-        next.canonicalStorageAfterHash=await canonicalHash();
+        next.canonicalStorageAfterHash=afterHash;
+        next.canonicalStorageViolation=safe.canonicalStorageViolation===true||Boolean(safe.canonicalStorageBeforeHash&&afterHash!==safe.canonicalStorageBeforeHash);
         if(!safe.identicalFinalSetup)next.identicalFinalSetup={at:now(),setupDigest:digest};
+        else if(safe.identicalFinalSetup.setupDigest!==digest)throw new Error("Final Shared Setup changed after it was confirmed.");
 
         if(safe.reloadArmed&&!safe.reloadResume&&safe.identicalFinalSetup&&safe.identicalFinalSetup.setupDigest===digest){
           next.reloadArmed=false;
@@ -153,6 +177,7 @@
         merged.pairedActiveBeforeSetup&&merged.authoritativeSetupObserved&&merged.identicalFinalSetup&&
         merged.reloadResume&&merged.freshActiveSessionResume&&merged.finalSetup&&
         merged.canonicalStorageBeforeHash&&merged.canonicalStorageAfterHash&&
+        merged.canonicalStorageViolation!==true&&
         merged.canonicalStorageBeforeHash===merged.canonicalStorageAfterHash
       );
       safe=merged;persistSafe();render();
@@ -228,7 +253,7 @@
   }
 
   function statusRows(){
-    const preserved=Boolean(safe.canonicalStorageBeforeHash&&safe.canonicalStorageAfterHash&&safe.canonicalStorageBeforeHash===safe.canonicalStorageAfterHash);
+    const preserved=Boolean(safe.canonicalStorageBeforeHash&&safe.canonicalStorageAfterHash&&safe.canonicalStorageViolation!==true&&safe.canonicalStorageBeforeHash===safe.canonicalStorageAfterHash);
     return [
       ["1 · PAIRED + ACTIVE BEFORE SETUP",!!safe.pairedActiveBeforeSetup],
       ["2 · AUTHORITATIVE SETUP REV 4",!!safe.authoritativeSetupObserved],
@@ -242,7 +267,7 @@
     if(!safe.pairedActiveBeforeSetup)return "Pair the two managers, make the exact private session ACTIVE, then press CHECK NOW before drawing any league or clubs.";
     if(!safe.authoritativeSetupObserved)return "Open Shared Setup on both devices. Draw league + clubs, choose 1/3/5/10 seasons, then pause at REV 4 until both recorders show step 2 PASS.";
     if(!safe.identicalFinalSetup)return "Each manager confirms from their own device. Stop when both sides show SHOWDOWN_CONFIRMED · REV 6.";
-    if(safe.canonicalStorageBeforeHash&&safe.canonicalStorageAfterHash&&safe.canonicalStorageBeforeHash!==safe.canonicalStorageAfterHash)return "STOP: canonical local gameplay storage changed. Send me the recorder screen; do not continue.";
+    if(safe.canonicalStorageViolation===true||safe.canonicalStorageBeforeHash&&safe.canonicalStorageAfterHash&&safe.canonicalStorageBeforeHash!==safe.canonicalStorageAfterHash)return "STOP: canonical local gameplay storage changed. Send me the recorder screen; do not continue.";
     if(!safe.reloadResume)return safe.reloadArmed?"Reload armed. Rejoin the same private session after reload, open this acceptance URL again if needed, then press CHECK NOW.":"Keep the current session code somewhere safe, then use ARM + RELOAD on this device. Rejoin that SAME session and press CHECK NOW.";
     if(!safe.freshActiveSessionResume)return "Create a FRESH private session for the SAME rivalry, join it from the other manager, then press CHECK NOW on both devices. No league or club should redraw.";
     return "Positive Shared Setup evidence is complete on this device. The remaining denial probes will be automated/recorded separately before SSJR credit is awarded.";
