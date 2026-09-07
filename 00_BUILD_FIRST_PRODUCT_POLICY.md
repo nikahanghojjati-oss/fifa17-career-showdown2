@@ -10,6 +10,8 @@ Default focused-session allocation should be approximately 75% actual product im
 
 `00_SESSION_HANDOFF_PROXIMITY_V2.md` is the later owner authority for visible Session handoff proximity. It uses monotonic observable session-pressure proxies, risk floors and stop bands. `00_HANDOFF_PROXIMITY_STAGE_GATES.md` preserves separate HTR-1 repository transfer readiness. Neither is SSJR progress.
 
+The owner's later 2026-09-07 instruction adds `Milestone Delivery Progress (MDP-1)` as the continuous engineering-delivery tracker. MDP replaces the visible SSJR focused-session forecast but does not replace SSJR readiness. Use `MILESTONE_DELIVERY_PROGRESS_MODEL.json` and `MILESTONE_DELIVERY_PROGRESS.json`; do not manufacture progress from documentation, test count or reusable predecessor code that has not been wired into the current milestone feature.
+
 ## Build-first operating rules
 
 1. Start each continuing environment from the next owner-authorized unbuilt product dependency. Prefer implementation that visibly advances the playable journey over documentation, test expansion or historical cleanup.
@@ -23,7 +25,8 @@ Default focused-session allocation should be approximately 75% actual product im
 9. Do not create standalone maintenance, continuity, documentation, test-only or provenance milestones unless they remove an objective blocker to safe product implementation/publication or are required for the current clean handoff boundary.
 10. Automated tests should primarily protect implemented behavior and speed future building. Do not expand test surface merely to increase test count or create new process obligations without a concrete product risk.
 11. Once a required evidence gate is satisfied, move directly to the next unbuilt SSJR capability instead of extending the proof lane. For the current roadmap, after genuine production-two-account Shared Setup evidence is accepted, the next product-building lane is the authorized transfer/results/scoring journey transport unless live source or a later owner instruction identifies a different blocker.
-12. Never trade away permanent locks: billing remains OFF, Firebase remains Spark, pairing + exact ACTIVE precedes league/clubs, exactly two private managers, canonical local save protections remain intact, and Candidate C remains the sole destructive remote-to-local gameplay Apply authority.
+12. Use MDP to expose actual feature-delivery movement while continuing to report SSJR independently. Advance a capability only when its lifecycle exit rule is true; regressions may reduce MDP. Do not delay direct product building merely to increase MDP, and do not build artificial tests or process work just to move the meter.
+13. Never trade away permanent locks: billing remains OFF, Firebase remains Spark, pairing + exact ACTIVE precedes league/clubs, exactly two private managers, canonical local save protections remain intact, and Candidate C remains the sole destructive remote-to-local gameplay Apply authority.
 
 ## Session budget guardrail
 
@@ -31,4 +34,4 @@ If validation/maintenance exceeds roughly one third of a focused session, classi
 
 ## Success criterion
 
-A healthy session should normally leave the playable product materially more capable, not merely better documented or more repeatedly tested. If validation/maintenance begins consuming most of a session without discovering a real product blocker, stop the maintenance loop, record the accepted evidence, and return to implementation.
+A healthy session should normally leave the playable product materially more capable, not merely better documented or more repeatedly tested. MDP should normally move when that feature work closes lifecycle stages, while SSJR may correctly remain unchanged until its stricter evidence gates are met. If validation/maintenance begins consuming most of a session without discovering a real product blocker, stop the maintenance loop, record the accepted evidence, and return to implementation.

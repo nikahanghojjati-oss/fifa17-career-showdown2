@@ -49,7 +49,9 @@ At the start of every development environment, read these files before substanti
 7. `00_DEVELOPER_START_HERE.md`
 8. `00_CURRENT_HANDOFF.md`
 9. `PROJECT_STATE.md`
-10. `NEXT_TASK.md`
+10. `00_MILESTONE_DELIVERY_PROGRESS.md`
+11. `MILESTONE_DELIVERY_PROGRESS.json`
+12. `NEXT_TASK.md`
 
 Then follow this order:
 
@@ -134,14 +136,14 @@ Owner-instruction provenance for the original reporting format is preserved at `
 
 Every successor handoff and fresh Work environment inherits this eight-line format recursively unless the owner explicitly changes it. Every such successor handoff must also be packaged as SLE under `00_SLE_HANDOFF_PROTOCOL.md`.
 
-## Current owner reporting override — SSJR, 2026-09-05
+## Current owner reporting override — SSJR + MDP-1, 2026-09-07
 
-The owner's later explicit instruction in `authority-history/OWNER_SSJR_REPORTING_AND_PAIRING_ORDER_2026-09-05.md` supersedes the old RJR feature and session-estimate labels above for current and future work. RJR-1 is complete/frozen at 100/100. The current eight-line report is:
+The owner's 2026-09-05 instruction made SSJR-1.1 the current evidence-readiness milestone and froze RJR-1 at 100/100. The owner's later explicit 2026-09-07 instruction replaces only the visible `Estimated focused sessions to genuine SSJR100` forecast with the separate Milestone Delivery Progress tracker. The current eight-line report is:
 
 ```text
 Session handoff proximity: X%
 Shared Showdown Journey readiness: Y/100
-Estimated focused sessions to genuine SSJR100: ~N–M
+Milestone Delivery Progress: NN.NN/100
 Current lane: <current bounded engineering lane>
 Concrete dependency completed: <most recent concrete dependency completed>
 Next unlock: <next dependency or proof gate>
@@ -149,9 +151,13 @@ Blocker: <current blocker, or NONE>
 Sidequest check: <NONE, or NECESSARY because ...>
 ```
 
-Report SSJR from `SHARED_SHOWDOWN_JOURNEY_READINESS.json` at every substantive checkpoint, even when unchanged. Explain how the action proves a fixed capability or removes a specific dependency. Estimate sessions from remaining engineering/proof stages, never from score arithmetic; explain material forecast changes. SSJR100 means a production-proven playable supported Shared Showdown Journey for two remote managers. Automate every feasible test and ask only for the minimum unavoidable physical/account action after prerequisites are complete.
+Report SSJR from `SHARED_SHOWDOWN_JOURNEY_READINESS.json` at every substantive checkpoint, even when unchanged. Report MDP from `MILESTONE_DELIVERY_PROGRESS.json` at the same checkpoints and recalculate it when a current-milestone feature lifecycle stage completes, becomes in progress, is invalidated by a regression, or reaches product integration. MDP is engineering delivery maturity and does not grant SSJR credit, satisfy human/physical evidence, consume evidence or weaken the frozen SSJR model. It will often lead SSJR numerically, but no invariant requires it to remain above SSJR. The governing lifecycle model and anti-inflation rules are `MILESTONE_DELIVERY_PROGRESS_MODEL.json` and `00_MILESTONE_DELIVERY_PROGRESS.md`.
 
-The shared journey must pair both legitimate managers to the exact Connected Rivalry and reach ACTIVE before league or club selection. Enforce that order in both UI and provider authority. A pre-draw local Save/profile shell may satisfy identity binding without committing a league or clubs. Do not change the fixed SSJR-1.1 model or claim production capability from candidate code alone. Its explicit SSJR-1 to SSJR-1.1 zero-to-zero backcast preserves all scope and weights while correcting the reviewed paired-first dependency; see authority-history/SSJR1_1_PAIRING_DEPENDENCY_BACKCAST_2026-09-05.json. Preserve this reporting override and product order recursively in successor packages.
+For the current SSJR milestone, MDP must reuse the exact 20 SSJR-1.1 capability IDs and exact weights as its feature denominator. The six MDP lifecycle stages are design/contract, implementation, primary automated verification, defect/review resolution, regression re-test and product integration. Reusable local/RJR/provider foundations do not complete a milestone-specific implementation stage until they are wired end to end into that exact Shared Journey capability. Candidate work may advance MDP through pre-integration stages, but the product-integration stage requires the feature to be part of the authoritative product and deployed coherent runtime when deployment applies. A proven regression can reduce MDP.
+
+SSJR100 still means a production-proven playable supported Shared Showdown Journey for two remote managers. Automate every feasible test and ask only for the minimum unavoidable physical/account action after prerequisites are complete. MDP100 means the milestone's feature engineering lifecycle is fully delivered; it is not permission to declare SSJR100 without the fixed evidence.
+
+The shared journey must pair both legitimate managers to the exact Connected Rivalry and reach ACTIVE before league or club selection. Enforce that order in both UI and provider authority. A pre-draw local Save/profile shell may satisfy identity binding without committing a league or clubs. Do not change the fixed SSJR-1.1 model or claim production capability from candidate code alone. Its explicit SSJR-1 to SSJR-1.1 zero-to-zero backcast preserves all scope and weights while correcting the reviewed paired-first dependency; see `authority-history/SSJR1_1_PAIRING_DEPENDENCY_BACKCAST_2026-09-05.json`. Owner provenance for MDP is `authority-history/OWNER_MILESTONE_DELIVERY_PROGRESS_2026-09-07.md`. Preserve this reporting override, MDP/SSJR separation and product order recursively in successor packages.
 
 ## Interruption and tooling-resilience guardrails
 

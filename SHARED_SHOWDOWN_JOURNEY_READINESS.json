@@ -37,12 +37,17 @@
     }
   ],
   "remainingCapabilityIds": ["entry-binding", "entry-before-draw", "setup-league", "setup-clubs", "setup-length", "setup-confirmation", "career-start", "transfer-challenge", "results-publication", "season-commit", "canonical-scoring", "history-convergence", "multi-season", "journey-reconnect", "journey-conflicts", "local-reconciliation", "final-reconciliation", "terminal-close", "physical-journey", "stable-journey-release"],
-  "planningEstimate": {
-    "focusedSessionsToSSJR100": {"minimum": 5, "maximum": 10},
-    "isForecastNotReadinessEvidence": true,
-    "basis": ["PR203 completed paired-first production runtime and Spark Rules without production-two-account score credit", "Production-two-account Shared Setup evidence: roughly 1 focused session", "Transfer/results/shared season commit: roughly 1-3", "Scoring/history/multi-season progression: roughly 1-2", "Recovery/conflict/final reconciliation/terminal close: roughly 1-2", "Integrated physical acceptance and stable SSJR release: roughly 1-2"],
-    "assumptions": ["No major provider regression", "Owner available for smallest unavoidable real-account actions", "Infrastructure remains free with billing off"],
-    "reviseWhen": "Production evidence, integrated scope, owner-action availability or regression changes the critical path."
+  "deliveryProgressTracker": {
+    "trackerId": "MDP-1",
+    "name": "Milestone Delivery Progress",
+    "modelFile": "MILESTONE_DELIVERY_PROGRESS_MODEL.json",
+    "ledgerFile": "MILESTONE_DELIVERY_PROGRESS.json",
+    "currentScore": 39,
+    "formattedScore": "39.00/100",
+    "reportingReplacesFocusedSessionEstimate": true,
+    "doesNotReplaceSSJR": true,
+    "doesNotGrantSSJRCredit": true,
+    "purpose": "Track current-milestone engineering lifecycle maturity independently from SSJR evidence acceptance."
   },
   "modelBackcasts": ["authority-history/SSJR1_1_PAIRING_DEPENDENCY_BACKCAST_2026-09-05.json"]
 }
