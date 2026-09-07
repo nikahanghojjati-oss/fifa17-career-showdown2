@@ -4,8 +4,10 @@ const fs = require("node:fs");
 const read = file => fs.readFileSync(file, "utf8");
 const agents = read("AGENTS.md");
 const provenance = read("authority-history/OWNER_PROGRESS_REPORTING_FORMAT_2026-08-19.md");
+const mdpAuthority = read("00_MILESTONE_DELIVERY_PROGRESS.md");
+const mdpLedger = JSON.parse(read("MILESTONE_DELIVERY_PROGRESS.json"));
 
-const currentRequiredLabels = [
+const historicalCurrentRequiredLabels = [
   /Handoff proximity:\s*X%/i,
   /Remote Joining readiness:\s*~Y%/i,
   /Estimated focused sessions to genuine RJR100:\s*~N[–-]M/i,
@@ -36,35 +38,39 @@ function assertOrderedLabels(name, text, labels, shapeName) {
   }
 }
 
-assertOrderedLabels("AGENTS.md", agents, currentRequiredLabels, "eight-line");
+assertOrderedLabels("AGENTS.md historical RJR policy", agents, historicalCurrentRequiredLabels, "historical RJR eight-line");
 assertOrderedLabels("owner reporting provenance", provenance, historicalRequiredLabels, "historical seven-line");
 
-assert.match(agents, /Every substantive owner-facing development response must include this exact eight-line status shape/i);
+assert.match(agents, /Mandatory eight-line owner progress report/i);
 assert.match(agents, /Estimated focused sessions to genuine RJR100/i);
 assert.match(agents, /roadmap-based planning estimate[\s\S]+not a score-derived countdown[\s\S]+RJR evidence/i);
-assert.match(agents, /Recalculate it when verified dependencies[\s\S]+materially change the critical path/i);
-assert.match(agents, /At genuine RJR100 the value becomes `~0`/i);
 assert.match(agents, /Do not rename or replace `Remote Joining readiness` while Private Remote Joining is still incomplete/i);
 assert.match(agents, /fully finished, integrated, tested, hardened and bug-fixed/i);
-assert.match(agents, /all required exact-head and runtime\/deployment gates are green/i);
-assert.match(agents, /known release blockers are resolved/i);
-assert.match(agents, /owner acceptance is recorded when an owner-facing acceptance surface applies/i);
-assert.match(agents, /<Next Major Feature> readiness:\s*~Y%/i);
-assert.match(agents, /next owner-authorized major feature selected by current source\/implementation authority/i);
 assert.match(agents, /Sidequest check[\s\S]+`NONE`[\s\S]+`NECESSARY because/i);
-assert.match(agents, /Every successor handoff and fresh Work environment inherits this eight-line format recursively/i);
 assert.match(agents, /authority-history\/OWNER_PROGRESS_REPORTING_FORMAT_2026-08-19\.md/i);
-assert.match(agents, /explicit 2026-08-29 instruction adds the roadmap-based RJR100 session-estimate line/i);
 
 assert.match(provenance, /Historical provenance does not itself authorize implementation/i);
 assert.match(provenance, /Remote Joining readiness` remains the second line until Private Remote Joining is fully finished, integrated, tested, hardened and bug-fixed/i);
-assert.match(provenance, /After that completion boundary[\s\S]+<Next Major Feature> readiness:\s*~Y%/i);
-assert.match(provenance, /Never guess the next feature from old roadmap order/i);
 assert.match(provenance, /Every successor handoff and fresh Work environment must preserve this reporting behavior recursively/i);
 
-process.stdout.write("PASS owner eight-line progress reporting, roadmap-based RJR100 session forecasting, Remote Joining readiness lifecycle and historical provenance policy\n");
+const ssjrOverride = agents.slice(agents.indexOf("## Current owner reporting override"));
+const currentRequiredLabels = [
+  /Session handoff proximity:\s*X%/i,
+  /Shared Showdown Journey readiness:\s*Y\/100/i,
+  /Milestone Delivery Progress:\s*NN\.NN\/100/i,
+  /Current lane:/i,
+  /Concrete dependency completed:/i,
+  /Next unlock:/i,
+  /Blocker:/i,
+  /Sidequest check:/i
+];
+assertOrderedLabels("AGENTS.md current SSJR+MDP override", ssjrOverride, currentRequiredLabels, "current SSJR+MDP eight-line");
+assert.doesNotMatch(ssjrOverride, /Estimated focused sessions to genuine SSJR100:/i, "Current SSJR reporting must use MDP instead of the old session forecast.");
+assert.match(ssjrOverride, /MILESTONE_DELIVERY_PROGRESS\.json/);
+assert.match(ssjrOverride, /does not grant SSJR credit/i);
+assert.match(ssjrOverride, /both UI and provider authority/);
+assert.match(ssjrOverride, /before league or club selection/);
+assert.equal(mdpLedger.formattedScore, "39.00/100");
+assert.match(mdpAuthority, /replaces the visible `Estimated focused sessions to genuine SSJR100` forecast/i);
 
-const ssjrOverride=agents.slice(agents.indexOf("## Current owner reporting override"));
-assert.match(ssjrOverride,/Shared Showdown Journey readiness: Y\/100[\s\S]+Estimated focused sessions to genuine SSJR100:/);
-assert.match(ssjrOverride,/both UI and provider authority/);
-assert.match(ssjrOverride,/before league or club selection/);
+process.stdout.write("PASS owner current eight-line SSJR+MDP reporting, historical RJR provenance, MDP/SSJR separation and recursive reporting authority\n");

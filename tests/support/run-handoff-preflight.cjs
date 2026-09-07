@@ -1,6 +1,8 @@
 const { spawnSync } = require("node:child_process");
 
 const files = [
+  "tests/contracts/session-handoff-proximity-contracts.cjs",
+  "tests/contracts/handoff-proximity-stage-contracts.cjs",
   "tests/contracts/handoff-immediate-next-task-contracts.cjs",
   "tests/contracts/work-environment-continuity-contracts.cjs",
   "tests/contracts/owner-progress-reporting-contracts.cjs",

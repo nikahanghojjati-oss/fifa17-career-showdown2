@@ -1,0 +1,1347 @@
+{
+  "ownerInstruction": "START_NEXT_SESSION_PR214_R6_HANDOFF_PROXIMITY_V2.md",
+  "policy": "00_SESSION_HANDOFF_PROXIMITY_V2.md",
+  "rule": "Historical statements retain provenance; current policy and generated reporting use SHP-2. HTR math and historical facts preserved.",
+  "files": [
+    {
+      "path": "00_BUILD_FIRST_PRODUCT_POLICY.md",
+      "references": 2,
+      "classification": "active-surface-audited"
+    },
+    {
+      "path": "00_CURRENT_HANDOFF.md",
+      "references": 1,
+      "classification": "active-surface-audited"
+    },
+    {
+      "path": "00_DEVELOPER_START_HERE.md",
+      "references": 3,
+      "classification": "active-surface-audited"
+    },
+    {
+      "path": "00_FORWARD_PROGRESS_ANTI_LOOP.md",
+      "references": 1,
+      "classification": "active-surface-audited"
+    },
+    {
+      "path": "00_HANDOFF_GOLDEN_RULE.md",
+      "references": 7,
+      "classification": "active-surface-audited"
+    },
+    {
+      "path": "00_HANDOFF_PROXIMITY_STAGE_GATES.md",
+      "references": 18,
+      "classification": "active-surface-audited"
+    },
+    {
+      "path": "00_OWNER_EAGLE_EYE_GOLDEN_RULE.md",
+      "references": 3,
+      "classification": "active-surface-audited"
+    },
+    {
+      "path": "00_SESSION_BOOTSTRAP.md",
+      "references": 1,
+      "classification": "active-surface-audited"
+    },
+    {
+      "path": "00_SLE_HANDOFF_PROTOCOL.md",
+      "references": 1,
+      "classification": "active-surface-audited"
+    },
+    {
+      "path": "00_WORK_ENVIRONMENT_CONTINUITY.md",
+      "references": 10,
+      "classification": "active-surface-audited"
+    },
+    {
+      "path": "AGENTS.md",
+      "references": 13,
+      "classification": "active-surface-audited"
+    },
+    {
+      "path": "CAREER_MODE_SHOWDOWN_V1.4.0_R2_MAINTENANCE_HANDOFF.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "CAREER_MODE_SHOWDOWN_V1.5.0_MAINTENANCE_HANDOFF.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "CAREER_MODE_SHOWDOWN_V1.6.0_MAINTENANCE_HANDOFF.md",
+      "references": 1,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "CAREER_MODE_SHOWDOWN_V1.7.0_MAINTENANCE_HANDOFF.md",
+      "references": 1,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "CAREER_MODE_SHOWDOWN_V1.9.0_R2_MAINTENANCE_HANDOFF.md",
+      "references": 1,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "CAREER_MODE_SHOWDOWN_V1.9.0_R3_MAINTENANCE_HANDOFF.md",
+      "references": 1,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "CAREER_MODE_SHOWDOWN_V1.9.0_R4_MAINTENANCE_HANDOFF.md",
+      "references": 1,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "NEXT_CHAT_HANDOFF_PROMPT.md",
+      "references": 2,
+      "classification": "active-surface-audited"
+    },
+    {
+      "path": "NEXT_TASK.md",
+      "references": 6,
+      "classification": "active-surface-audited"
+    },
+    {
+      "path": "POST_V1_ROADMAP_EXECUTION.md",
+      "references": 5,
+      "classification": "active-surface-audited"
+    },
+    {
+      "path": "PR211_RECOVERY_CHECKPOINT.md",
+      "references": 4,
+      "classification": "active-surface-audited"
+    },
+    {
+      "path": "PROJECT_STATE.md",
+      "references": 2,
+      "classification": "active-surface-audited"
+    },
+    {
+      "path": "REMOTE_JOINING_EXECUTION_ROADMAP.md",
+      "references": 1,
+      "classification": "active-surface-audited"
+    },
+    {
+      "path": "REMOTE_JOINING_READINESS.json",
+      "references": 1,
+      "classification": "active-surface-audited"
+    },
+    {
+      "path": "SESSION_BOOTSTRAP.json",
+      "references": 10,
+      "classification": "active-surface-audited"
+    },
+    {
+      "path": "SESSION_CONTEXT_MODEL.json",
+      "references": 3,
+      "classification": "active-surface-audited"
+    },
+    {
+      "path": "SSJR1_BASELINE_AND_SETUP_FOUNDATION_2026-09-05.md",
+      "references": 1,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "START_NEXT_SESSION_PR116_APP_CHECK_DEPLOYMENT_PROOF_2026-08-20.md",
+      "references": 1,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "START_NEXT_SESSION_V1.0.0_PR113.md",
+      "references": 1,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "START_NEXT_SESSION_V1.1.0_PR113.md",
+      "references": 1,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "START_NEXT_SESSION_V1.2.0_PR114.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "START_NEXT_SESSION_V1.3.0_PR114.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "START_NEXT_SESSION_V1.3.1_PR115.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "START_NEXT_SESSION_V1.4.0_PR119.md",
+      "references": 4,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "START_NEXT_SESSION_V1.4.10_V1.8.0_PRODUCTION_RECONCILIATION_PROOF.md",
+      "references": 1,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "START_NEXT_SESSION_V1.4.11_V1.8.0_RIVALRY_AUTHORITY_MISMATCH.md",
+      "references": 1,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "START_NEXT_SESSION_V1.4.12_V1.8.1_PAIRING_IDENTITY_UX_HARDENING_PR.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "START_NEXT_SESSION_V1.4.13_V1.8.1_PAIRING_UX_PRODUCTION_PROOF.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "START_NEXT_SESSION_V1.4.14_RJR_SCORE_PROVENANCE_AUDIT.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "START_NEXT_SESSION_V1.4.15_PLAYER_TWO_UNAVAILABLE_CODE_PROOF.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "START_NEXT_SESSION_V1.4.16_PLAYER_TWO_OWNER_DEVICE_PROOF.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "START_NEXT_SESSION_V1.4.17_R2_RIVALRY_RECOVERY_OWNER_PROOF.md",
+      "references": 1,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "START_NEXT_SESSION_V1.4.19_STAGE4_RECONCILIATION_PROVEN.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "START_NEXT_SESSION_V1.4.1_PR125.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "START_NEXT_SESSION_V1.4.21_PR154_MERGED_POSTMERGE_GREEN.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "START_NEXT_SESSION_V1.4.22_PR158_MERGED_POSTMERGE_GREEN.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "START_NEXT_SESSION_V1.4.23_PR160_R4_PRODUCTION_POSTMERGE_GREEN.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "START_NEXT_SESSION_V1.4.24_PR162_STRUCTURAL_ABUSE_RJR83_TRANSITION.md",
+      "references": 4,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "START_NEXT_SESSION_V1.4.25_PR163_R5_PRODUCTION_RJR84_TRANSITION.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "START_NEXT_SESSION_V1.4.26_PR166_PRODUCTION_ROLLBACK_RJR85_TRANSITION.md",
+      "references": 3,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "START_NEXT_SESSION_V1.4.29_PR171_RJR86_PROVIDER_ABUSE_ACCEPTANCE.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "START_NEXT_SESSION_V1.4.2_PR125.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "START_NEXT_SESSION_V1.4.30_PR172_RJR87_STAGE5A_PRIVATE_SESSION_PROTOCOL.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "START_NEXT_SESSION_V1.4.31_PR173_STAGE5A_CANDIDATE_PROVEN.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "START_NEXT_SESSION_V1.4.32_PR174_STAGE5B_CREDENTIAL_CANDIDATE.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "START_NEXT_SESSION_V1.4.33_PR174_ZERO_BILLING_AUTHORIZED.md",
+      "references": 3,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "START_NEXT_SESSION_V1.4.34_PR175_STAGE5C_STANDARD_AUTH_CANDIDATE.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "START_NEXT_SESSION_V1.4.35_PR176_STAGE5D_PROVIDER_PENDING.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "START_NEXT_SESSION_V1.4.35_PR176_STAGE5D_RULES_SOURCE_MERGED_PROVIDER_PENDING.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "START_NEXT_SESSION_V1.4.36_PR184_R4_PRODUCTION_PROVEN.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "START_NEXT_SESSION_V1.4.37_PR187_R5_OWNER_ACCEPTED_RJR89.md",
+      "references": 4,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "START_NEXT_SESSION_V1.4.39_PR191_RJR91_STAGE5G_HANDOFF.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "START_NEXT_SESSION_V1.4.3_STAGE3.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "START_NEXT_SESSION_V1.4.40_PR191_MERGED_RJR91_STAGE5G_AUTOMATION.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "START_NEXT_SESSION_V1.4.41_PR194_R2_PRODUCTION_RJR91_PHYSICAL_ACCEPTANCE.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "START_NEXT_SESSION_V1.4.43_PR196_RJR91_PHYSICAL_ACCEPTANCE_VALIDATOR.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "START_NEXT_SESSION_V1.4.46_PR199_SSJR1_SETUP_FOUNDATION.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "START_NEXT_SESSION_V1.4.47_PR199_POSTMERGE_GREEN_SSJR_PROVIDER_NEXT.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "START_NEXT_SESSION_V1.4.48_PR201_POSTMERGE_GREEN_SSJR_RUNTIME_NEXT.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "START_NEXT_SESSION_V1.4.49_PR203_POSTMERGE_GREEN_SSJR_EVIDENCE_NEXT.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "START_NEXT_SESSION_V1.4.4_STAGE4.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "START_NEXT_SESSION_V1.4.51_PR205_POSTMERGE_GREEN_SSJR_EVIDENCE_CAPTURE_NEXT.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "START_NEXT_SESSION_V1.4.52_PR207_POSTMERGE_GREEN_SSJR_PRODUCTION_TWO_ACCOUNT_NEXT.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "START_NEXT_SESSION_V1.4.54_PR210_POSTMERGE_GREEN_SSJR_PRIVATE_TWO_ACCOUNT_NEXT.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "START_NEXT_SESSION_V1.4.55_PR211_RECOVERY_PRIVATE_TWO_ACCOUNT_NEXT.md",
+      "references": 4,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "START_NEXT_SESSION_V1.4.5_PR130_STAGE4_PROVIDER.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "START_NEXT_SESSION_V1.4.6_STAGE4_R2_PRODUCTION_PROOF.md",
+      "references": 1,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "START_NEXT_SESSION_V1.4.7_STAGE4_HUMAN_APPCHECK_PROOF.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "START_NEXT_SESSION_V1.4.8_STAGE4_RECONCILIATION.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "START_NEXT_SESSION_V1.4.9_V1.8.0_RECONCILIATION_PR.md",
+      "references": 1,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "SUCCESSOR_HANDOFF_PLAYER_TWO_OWNER_DEVICE_PROOF_SLE_2026-08-25.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "SUCCESSOR_HANDOFF_POST_PR127_TO_STAGE3_PAIRING_SLE_2026-08-21.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "SUCCESSOR_HANDOFF_POST_PR136_V1.8.0_RECONCILIATION_PRODUCTION_PROOF_SLE_2026-08-24.md",
+      "references": 1,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "SUCCESSOR_HANDOFF_POST_PR138_V1.8.1_PAIRING_UX_PRODUCTION_PROOF_SLE_2026-08-24.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "SUCCESSOR_HANDOFF_POST_PR144_R2_RIVALRY_RECOVERY_OWNER_PROOF_SLE_2026-08-25.md",
+      "references": 1,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "SUCCESSOR_HANDOFF_POST_PR154_EXACT_REPLAY_PROVEN_SLE_2026-08-25.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "SUCCESSOR_HANDOFF_POST_PR158_ADVERSE_NETWORK_PROVEN_WEC100_SLE_2026-08-26.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "SUCCESSOR_HANDOFF_POST_PR160_TOKEN_LIFECYCLE_R4_PRODUCTION_SLE_2026-08-27.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "SUCCESSOR_HANDOFF_POST_RJR_BACKCAST_PLAYER_TWO_PROOF_SLE_2026-08-25.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "SUCCESSOR_HANDOFF_POST_STAGE3_PRODUCTION_PAIRING_SLE_2026-08-21.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "SUCCESSOR_HANDOFF_POST_STAGE4_RECONCILIATION_PROVEN_SLE_2026-08-25.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "SUCCESSOR_HANDOFF_PR112_TO_PRODUCTION_FIRESTORE_RULES_2026-08-19.md",
+      "references": 3,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "SUCCESSOR_HANDOFF_PR113_TO_APP_CHECK_2026-08-19.md",
+      "references": 3,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "SUCCESSOR_HANDOFF_PR114_APP_CHECK_SLE_2026-08-20.md",
+      "references": 3,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "SUCCESSOR_HANDOFF_PR115_APP_CHECK_RUNTIME_SLE_2026-08-20.md",
+      "references": 4,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "SUCCESSOR_HANDOFF_PR116_APP_CHECK_DEPLOYMENT_BOUNDARY_2026-08-20.md",
+      "references": 10,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "SUCCESSOR_HANDOFF_PR116_APP_CHECK_DEPLOYMENT_PROOF_2026-08-20.md",
+      "references": 8,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "SUCCESSOR_HANDOFF_PR119_APP_CHECK_PRODUCTION_PROOF_SLE_2026-08-20.md",
+      "references": 3,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "SUCCESSOR_HANDOFF_PR125_SPARK_CONNECTED_ACCOUNT_SOURCE_SEAL_SLE_2026-08-21.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "SUCCESSOR_HANDOFF_PR125_SPARK_RULES_SOURCE_RESEAL_SLE_2026-08-21.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "SUCCESSOR_HANDOFF_PR130_STAGE4_SOURCE_SEAL_SLE_2026-08-21.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "SUCCESSOR_HANDOFF_PR130_STAGE4_SOURCE_SEAL_SLE_GROK_INTEGRATED_2026-08-21.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "SUCCESSOR_HANDOFF_PR162_STRUCTURAL_ABUSE_RJR83_SLE_2026-08-27.md",
+      "references": 6,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "SUCCESSOR_HANDOFF_PR163_R5_PRODUCTION_RJR84_SLE_2026-08-27.md",
+      "references": 5,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "SUCCESSOR_HANDOFF_PR166_PRODUCTION_ROLLBACK_RJR85_SLE_2026-08-28.md",
+      "references": 6,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "SUCCESSOR_HANDOFF_PR171_RJR86_PROVIDER_ABUSE_ACCEPTANCE_SLE_2026-08-29.md",
+      "references": 3,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "SUCCESSOR_HANDOFF_PR172_RJR87_STAGE5A_PRIVATE_SESSION_PROTOCOL_SLE_2026-08-29.md",
+      "references": 3,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "SUCCESSOR_HANDOFF_PR173_STAGE5A_CANDIDATE_PROVEN_SLE_2026-08-31.md",
+      "references": 3,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "SUCCESSOR_HANDOFF_PR174_STAGE5B_CREDENTIAL_CANDIDATE_SLE_2026-08-31.md",
+      "references": 3,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "SUCCESSOR_HANDOFF_PR174_STAGE5B_ZERO_BILLING_SLE_2026-08-31.md",
+      "references": 3,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "SUCCESSOR_HANDOFF_PR175_STAGE5C_STANDARD_AUTH_CANDIDATE_SLE_2026-09-01.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "SUCCESSOR_HANDOFF_PR176_STAGE5D_PROVIDER_PENDING_SLE_2026-09-01.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "SUCCESSOR_HANDOFF_PR176_STAGE5D_RULES_SOURCE_MERGED_PROVIDER_PENDING_SLE_2026-09-01.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "SUCCESSOR_HANDOFF_PR184_R4_PRODUCTION_PROVEN_SLE_2026-09-03.md",
+      "references": 3,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "SUCCESSOR_HANDOFF_PR187_R5_OWNER_ACCEPTED_SLE_2026-09-03.md",
+      "references": 4,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "SUCCESSOR_HANDOFF_PR191_MERGED_RJR91_STAGE5G_AUTOMATION_SLE_2026-09-04.md",
+      "references": 3,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "SUCCESSOR_HANDOFF_PR191_RJR91_STAGE5G_PENDING_SLE_2026-09-04.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "SUCCESSOR_HANDOFF_PR194_R2_PRODUCTION_RJR91_PHYSICAL_ACCEPTANCE_SLE_2026-09-05.md",
+      "references": 3,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "SUCCESSOR_HANDOFF_PR196_RJR91_PHYSICAL_ACCEPTANCE_VALIDATOR_SLE_2026-09-05.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "SUCCESSOR_HANDOFF_PR199_POSTMERGE_GREEN_SSJR_PROVIDER_NEXT_SLE_2026-09-05.md",
+      "references": 3,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "SUCCESSOR_HANDOFF_PR199_SSJR1_SETUP_FOUNDATION_SLE_2026-09-05.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "SUCCESSOR_HANDOFF_PR201_POSTMERGE_GREEN_SSJR_RUNTIME_NEXT_SLE_2026-09-06.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "SUCCESSOR_HANDOFF_PR203_POSTMERGE_GREEN_SSJR_EVIDENCE_NEXT_SLE_2026-09-06.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "SUCCESSOR_HANDOFF_PR205_POSTMERGE_GREEN_SSJR_EVIDENCE_CAPTURE_NEXT_SLE_2026-09-06.md",
+      "references": 4,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "SUCCESSOR_HANDOFF_PR207_POSTMERGE_GREEN_SSJR_PRODUCTION_TWO_ACCOUNT_NEXT_SLE_2026-09-06.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "SUCCESSOR_HANDOFF_PR210_POSTMERGE_GREEN_SSJR_PRIVATE_TWO_ACCOUNT_NEXT_SLE_2026-09-06.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "SUCCESSOR_HANDOFF_PR211_RECOVERY_PRIVATE_TWO_ACCOUNT_NEXT_SLE_2026-09-06.md",
+      "references": 5,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "SUCCESSOR_HANDOFF_RJR_SCORE_PROVENANCE_AUDIT_SLE_2026-08-24.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "SUCCESSOR_HANDOFF_STAGE4_HUMAN_APPCHECK_PROOF_SLE_2026-08-22.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "SUCCESSOR_HANDOFF_STAGE4_PRODUCTION_PROOF_TO_RECONCILIATION_SLE_2026-08-24.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "SUCCESSOR_HANDOFF_STAGE4_R2_PRODUCTION_PROOF_SLE_2026-08-22.md",
+      "references": 3,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "SUCCESSOR_HANDOFF_V1.8.0_RECONCILIATION_CANDIDATE_TO_PR_SLE_2026-08-24.md",
+      "references": 1,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "SUCCESSOR_HANDOFF_V1.8.0_RIVALRY_AUTHORITY_MISMATCH_SLE_2026-08-24.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "SUCCESSOR_HANDOFF_V1.8.1_PAIRING_IDENTITY_UX_HARDENING_PR_SLE_2026-08-24.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-02-stage5e-r4-stale-pointer-precedence.json",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-03-stage5e-r4-production-convergence-acceptance.json",
+      "references": 1,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-05-pr196-publication-physical-acceptance-e9072.json",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-06-pr211-recovery-private-setup-a54.json",
+      "references": 7,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-06-ssjr-production-browser-usage-guard-a52.json",
+      "references": 1,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-06-ssjr-production-shared-setup-a50.json",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-06-ssjr-production-shared-setup-a51.json",
+      "references": 1,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-06-ssjr-production-storage-observation-a53.json",
+      "references": 12,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-06-ssjr-production-two-account-a55.json",
+      "references": 3,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "WORK_ENVIRONMENT_HISTORY.md",
+      "references": 15,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "WORK_ENVIRONMENT_STATUS.json",
+      "references": 7,
+      "classification": "active-surface-audited"
+    },
+    {
+      "path": "authority-history/NEXT_TASK_POST_PR100_PRE_GATEWAY_FULL.md",
+      "references": 5,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "authority-history/NEXT_TASK_PRE_PR98_TRANSITION_FULL.md",
+      "references": 5,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "authority-history/OWNER_PROGRESS_REPORTING_FORMAT_2026-08-19.md",
+      "references": 4,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "authority-history/OWNER_SSJR_REPORTING_AND_PAIRING_ORDER_2026-09-05.md",
+      "references": 1,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "authority-history/REMOTE_JOINING_READINESS_MODEL_RJR1_2026-08-20.md",
+      "references": 1,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "authority-history/WORK_ENVIRONMENT_CLOSURE_2026-08-27_PR162_RJR83_PREPUBLICATION.md",
+      "references": 1,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "authority-history/WORK_ENVIRONMENT_CLOSURE_2026-08-27_PR163_R5_PRODUCTION_RJR84_SLE.md",
+      "references": 1,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "authority-history/WORK_ENVIRONMENT_CLOSURE_2026-08-28_PR166_PRODUCTION_ROLLBACK_RJR85_SLE.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/00_CURRENT_HANDOFF.md",
+      "references": 1,
+      "classification": "active-surface-audited"
+    },
+    {
+      "path": "project-documents/START_NEXT_SESSION.md",
+      "references": 1,
+      "classification": "active-surface-audited"
+    },
+    {
+      "path": "project-documents/handoffs/SUCCESSOR_HANDOFF_PLAYER_TWO_OWNER_DEVICE_PROOF_SLE_2026-08-25.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/handoffs/SUCCESSOR_HANDOFF_POST_PR127_TO_STAGE3_PAIRING_SLE_2026-08-21.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/handoffs/SUCCESSOR_HANDOFF_POST_PR136_V1.8.0_RECONCILIATION_PRODUCTION_PROOF_SLE_2026-08-24.md",
+      "references": 1,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/handoffs/SUCCESSOR_HANDOFF_POST_PR138_V1.8.1_PAIRING_UX_PRODUCTION_PROOF_SLE_2026-08-24.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/handoffs/SUCCESSOR_HANDOFF_POST_PR144_R2_RIVALRY_RECOVERY_OWNER_PROOF_SLE_2026-08-25.md",
+      "references": 1,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/handoffs/SUCCESSOR_HANDOFF_POST_PR154_EXACT_REPLAY_PROVEN_SLE_2026-08-25.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/handoffs/SUCCESSOR_HANDOFF_POST_PR158_ADVERSE_NETWORK_PROVEN_WEC100_SLE_2026-08-26.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/handoffs/SUCCESSOR_HANDOFF_POST_PR160_TOKEN_LIFECYCLE_R4_PRODUCTION_SLE_2026-08-27.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/handoffs/SUCCESSOR_HANDOFF_POST_RJR_BACKCAST_PLAYER_TWO_PROOF_SLE_2026-08-25.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/handoffs/SUCCESSOR_HANDOFF_POST_STAGE3_PRODUCTION_PAIRING_SLE_2026-08-21.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/handoffs/SUCCESSOR_HANDOFF_POST_STAGE4_RECONCILIATION_PROVEN_SLE_2026-08-25.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/handoffs/SUCCESSOR_HANDOFF_PR113_TO_APP_CHECK_2026-08-19.md",
+      "references": 3,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/handoffs/SUCCESSOR_HANDOFF_PR114_APP_CHECK_SLE_2026-08-20.md",
+      "references": 3,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/handoffs/SUCCESSOR_HANDOFF_PR115_APP_CHECK_RUNTIME_SLE_2026-08-20.md",
+      "references": 4,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/handoffs/SUCCESSOR_HANDOFF_PR119_APP_CHECK_PRODUCTION_PROOF_SLE_2026-08-20.md",
+      "references": 3,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/handoffs/SUCCESSOR_HANDOFF_PR125_SPARK_CONNECTED_ACCOUNT_SOURCE_SEAL_SLE_2026-08-21.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/handoffs/SUCCESSOR_HANDOFF_PR125_SPARK_RULES_SOURCE_RESEAL_SLE_2026-08-21.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/handoffs/SUCCESSOR_HANDOFF_PR130_STAGE4_SOURCE_SEAL_SLE_2026-08-21.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/handoffs/SUCCESSOR_HANDOFF_PR130_STAGE4_SOURCE_SEAL_SLE_GROK_INTEGRATED_2026-08-21.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/handoffs/SUCCESSOR_HANDOFF_PR162_STRUCTURAL_ABUSE_RJR83_SLE_2026-08-27.md",
+      "references": 6,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/handoffs/SUCCESSOR_HANDOFF_PR163_R5_PRODUCTION_RJR84_SLE_2026-08-27.md",
+      "references": 5,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/handoffs/SUCCESSOR_HANDOFF_PR166_PRODUCTION_ROLLBACK_RJR85_SLE_2026-08-28.md",
+      "references": 6,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/handoffs/SUCCESSOR_HANDOFF_PR171_RJR86_PROVIDER_ABUSE_ACCEPTANCE_SLE_2026-08-29.md",
+      "references": 3,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/handoffs/SUCCESSOR_HANDOFF_PR172_RJR87_STAGE5A_PRIVATE_SESSION_PROTOCOL_SLE_2026-08-29.md",
+      "references": 3,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/handoffs/SUCCESSOR_HANDOFF_PR173_STAGE5A_CANDIDATE_PROVEN_SLE_2026-08-31.md",
+      "references": 3,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/handoffs/SUCCESSOR_HANDOFF_PR174_STAGE5B_CREDENTIAL_CANDIDATE_SLE_2026-08-31.md",
+      "references": 3,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/handoffs/SUCCESSOR_HANDOFF_PR174_STAGE5B_ZERO_BILLING_SLE_2026-08-31.md",
+      "references": 3,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/handoffs/SUCCESSOR_HANDOFF_PR175_STAGE5C_STANDARD_AUTH_CANDIDATE_SLE_2026-09-01.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/handoffs/SUCCESSOR_HANDOFF_PR176_STAGE5D_PROVIDER_PENDING_SLE_2026-09-01.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/handoffs/SUCCESSOR_HANDOFF_PR184_R4_PRODUCTION_PROVEN_SLE_2026-09-03.md",
+      "references": 3,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/handoffs/SUCCESSOR_HANDOFF_PR187_R5_OWNER_ACCEPTED_SLE_2026-09-03.md",
+      "references": 4,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/handoffs/SUCCESSOR_HANDOFF_PR191_MERGED_RJR91_STAGE5G_AUTOMATION_SLE_2026-09-04.md",
+      "references": 3,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/handoffs/SUCCESSOR_HANDOFF_PR191_RJR91_STAGE5G_PENDING_SLE_2026-09-04.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/handoffs/SUCCESSOR_HANDOFF_PR194_R2_PRODUCTION_RJR91_PHYSICAL_ACCEPTANCE_SLE_2026-09-05.md",
+      "references": 3,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/handoffs/SUCCESSOR_HANDOFF_PR196_RJR91_PHYSICAL_ACCEPTANCE_VALIDATOR_SLE_2026-09-05.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/handoffs/SUCCESSOR_HANDOFF_PR199_POSTMERGE_GREEN_SSJR_PROVIDER_NEXT_SLE_2026-09-05.md",
+      "references": 3,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/handoffs/SUCCESSOR_HANDOFF_PR199_SSJR1_SETUP_FOUNDATION_SLE_2026-09-05.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/handoffs/SUCCESSOR_HANDOFF_PR201_POSTMERGE_GREEN_SSJR_RUNTIME_NEXT_SLE_2026-09-06.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/handoffs/SUCCESSOR_HANDOFF_PR203_POSTMERGE_GREEN_SSJR_EVIDENCE_NEXT_SLE_2026-09-06.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/handoffs/SUCCESSOR_HANDOFF_PR205_POSTMERGE_GREEN_SSJR_EVIDENCE_CAPTURE_NEXT_SLE_2026-09-06.md",
+      "references": 4,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/handoffs/SUCCESSOR_HANDOFF_PR207_POSTMERGE_GREEN_SSJR_PRODUCTION_TWO_ACCOUNT_NEXT_SLE_2026-09-06.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/handoffs/SUCCESSOR_HANDOFF_PR210_POSTMERGE_GREEN_SSJR_PRIVATE_TWO_ACCOUNT_NEXT_SLE_2026-09-06.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/handoffs/SUCCESSOR_HANDOFF_PR211_RECOVERY_PRIVATE_TWO_ACCOUNT_NEXT_SLE_2026-09-06.md",
+      "references": 5,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/handoffs/SUCCESSOR_HANDOFF_RJR_SCORE_PROVENANCE_AUDIT_SLE_2026-08-24.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/handoffs/SUCCESSOR_HANDOFF_STAGE4_HUMAN_APPCHECK_PROOF_SLE_2026-08-22.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/handoffs/SUCCESSOR_HANDOFF_STAGE4_PRODUCTION_PROOF_TO_RECONCILIATION_SLE_2026-08-24.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/handoffs/SUCCESSOR_HANDOFF_STAGE4_R2_PRODUCTION_PROOF_SLE_2026-08-22.md",
+      "references": 3,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/handoffs/SUCCESSOR_HANDOFF_V1.8.0_RECONCILIATION_CANDIDATE_TO_PR_SLE_2026-08-24.md",
+      "references": 1,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/handoffs/SUCCESSOR_HANDOFF_V1.8.0_RIVALRY_AUTHORITY_MISMATCH_SLE_2026-08-24.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/handoffs/SUCCESSOR_HANDOFF_V1.8.1_PAIRING_IDENTITY_UX_HARDENING_PR_SLE_2026-08-24.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/session-starts/START_NEXT_SESSION_V1.0.0_PR113.md",
+      "references": 1,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/session-starts/START_NEXT_SESSION_V1.1.0_PR113.md",
+      "references": 1,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/session-starts/START_NEXT_SESSION_V1.2.0_PR114.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/session-starts/START_NEXT_SESSION_V1.3.0_PR114.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/session-starts/START_NEXT_SESSION_V1.3.1_PR115.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/session-starts/START_NEXT_SESSION_V1.4.0_PR119.md",
+      "references": 4,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/session-starts/START_NEXT_SESSION_V1.4.10_V1.8.0_PRODUCTION_RECONCILIATION_PROOF.md",
+      "references": 1,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/session-starts/START_NEXT_SESSION_V1.4.11_V1.8.0_RIVALRY_AUTHORITY_MISMATCH.md",
+      "references": 1,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/session-starts/START_NEXT_SESSION_V1.4.12_V1.8.1_PAIRING_IDENTITY_UX_HARDENING_PR.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/session-starts/START_NEXT_SESSION_V1.4.13_V1.8.1_PAIRING_UX_PRODUCTION_PROOF.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/session-starts/START_NEXT_SESSION_V1.4.14_RJR_SCORE_PROVENANCE_AUDIT.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/session-starts/START_NEXT_SESSION_V1.4.15_PLAYER_TWO_UNAVAILABLE_CODE_PROOF.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/session-starts/START_NEXT_SESSION_V1.4.16_PLAYER_TWO_OWNER_DEVICE_PROOF.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/session-starts/START_NEXT_SESSION_V1.4.17_R2_RIVALRY_RECOVERY_OWNER_PROOF.md",
+      "references": 1,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/session-starts/START_NEXT_SESSION_V1.4.19_STAGE4_RECONCILIATION_PROVEN.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/session-starts/START_NEXT_SESSION_V1.4.1_PR125.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/session-starts/START_NEXT_SESSION_V1.4.21_PR154_MERGED_POSTMERGE_GREEN.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/session-starts/START_NEXT_SESSION_V1.4.22_PR158_MERGED_POSTMERGE_GREEN.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/session-starts/START_NEXT_SESSION_V1.4.23_PR160_R4_PRODUCTION_POSTMERGE_GREEN.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/session-starts/START_NEXT_SESSION_V1.4.24_PR162_STRUCTURAL_ABUSE_RJR83_TRANSITION.md",
+      "references": 4,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/session-starts/START_NEXT_SESSION_V1.4.25_PR163_R5_PRODUCTION_RJR84_TRANSITION.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/session-starts/START_NEXT_SESSION_V1.4.26_PR166_PRODUCTION_ROLLBACK_RJR85_TRANSITION.md",
+      "references": 3,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/session-starts/START_NEXT_SESSION_V1.4.29_PR171_RJR86_PROVIDER_ABUSE_ACCEPTANCE.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/session-starts/START_NEXT_SESSION_V1.4.2_PR125.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/session-starts/START_NEXT_SESSION_V1.4.30_PR172_RJR87_STAGE5A_PRIVATE_SESSION_PROTOCOL.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/session-starts/START_NEXT_SESSION_V1.4.31_PR173_STAGE5A_CANDIDATE_PROVEN.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/session-starts/START_NEXT_SESSION_V1.4.32_PR174_STAGE5B_CREDENTIAL_CANDIDATE.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/session-starts/START_NEXT_SESSION_V1.4.33_PR174_ZERO_BILLING_AUTHORIZED.md",
+      "references": 3,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/session-starts/START_NEXT_SESSION_V1.4.34_PR175_STAGE5C_STANDARD_AUTH_CANDIDATE.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/session-starts/START_NEXT_SESSION_V1.4.35_PR176_STAGE5D_PROVIDER_PENDING.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/session-starts/START_NEXT_SESSION_V1.4.35_PR176_STAGE5D_RULES_SOURCE_MERGED_PROVIDER_PENDING.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/session-starts/START_NEXT_SESSION_V1.4.36_PR184_R4_PRODUCTION_PROVEN.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/session-starts/START_NEXT_SESSION_V1.4.37_PR187_R5_OWNER_ACCEPTED_RJR89.md",
+      "references": 4,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/session-starts/START_NEXT_SESSION_V1.4.39_PR191_RJR91_STAGE5G_HANDOFF.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/session-starts/START_NEXT_SESSION_V1.4.3_STAGE3.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/session-starts/START_NEXT_SESSION_V1.4.40_PR191_MERGED_RJR91_STAGE5G_AUTOMATION.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/session-starts/START_NEXT_SESSION_V1.4.41_PR194_R2_PRODUCTION_RJR91_PHYSICAL_ACCEPTANCE.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/session-starts/START_NEXT_SESSION_V1.4.43_PR196_RJR91_PHYSICAL_ACCEPTANCE_VALIDATOR.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/session-starts/START_NEXT_SESSION_V1.4.46_PR199_SSJR1_SETUP_FOUNDATION.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/session-starts/START_NEXT_SESSION_V1.4.47_PR199_POSTMERGE_GREEN_SSJR_PROVIDER_NEXT.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/session-starts/START_NEXT_SESSION_V1.4.48_PR201_POSTMERGE_GREEN_SSJR_RUNTIME_NEXT.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/session-starts/START_NEXT_SESSION_V1.4.49_PR203_POSTMERGE_GREEN_SSJR_EVIDENCE_NEXT.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/session-starts/START_NEXT_SESSION_V1.4.4_STAGE4.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/session-starts/START_NEXT_SESSION_V1.4.51_PR205_POSTMERGE_GREEN_SSJR_EVIDENCE_CAPTURE_NEXT.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/session-starts/START_NEXT_SESSION_V1.4.52_PR207_POSTMERGE_GREEN_SSJR_PRODUCTION_TWO_ACCOUNT_NEXT.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/session-starts/START_NEXT_SESSION_V1.4.54_PR210_POSTMERGE_GREEN_SSJR_PRIVATE_TWO_ACCOUNT_NEXT.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/session-starts/START_NEXT_SESSION_V1.4.55_PR211_RECOVERY_PRIVATE_TWO_ACCOUNT_NEXT.md",
+      "references": 4,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/session-starts/START_NEXT_SESSION_V1.4.5_PR130_STAGE4_PROVIDER.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/session-starts/START_NEXT_SESSION_V1.4.6_STAGE4_R2_PRODUCTION_PROOF.md",
+      "references": 1,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/session-starts/START_NEXT_SESSION_V1.4.7_STAGE4_HUMAN_APPCHECK_PROOF.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/session-starts/START_NEXT_SESSION_V1.4.8_STAGE4_RECONCILIATION.md",
+      "references": 2,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "project-documents/session-starts/START_NEXT_SESSION_V1.4.9_V1.8.0_RECONCILIATION_PR.md",
+      "references": 1,
+      "classification": "historical-provenance-preserved"
+    },
+    {
+      "path": "scripts/build-next-developer-prompt.mjs",
+      "references": 3,
+      "classification": "active-surface-audited"
+    },
+    {
+      "path": "scripts/handoff-proximity-stage.mjs",
+      "references": 9,
+      "classification": "active-surface-audited"
+    },
+    {
+      "path": "scripts/work-environment-continuity.mjs",
+      "references": 17,
+      "classification": "active-surface-audited"
+    },
+    {
+      "path": "tests/contracts/handoff-proximity-stage-contracts.cjs",
+      "references": 16,
+      "classification": "active-surface-audited"
+    },
+    {
+      "path": "tests/contracts/owner-progress-reporting-contracts.cjs",
+      "references": 2,
+      "classification": "active-surface-audited"
+    },
+    {
+      "path": "tests/contracts/private-account-auth-stage2b-contracts.cjs",
+      "references": 1,
+      "classification": "active-surface-audited"
+    },
+    {
+      "path": "tests/contracts/private-account-auth-stage2c-policy-contracts.cjs",
+      "references": 1,
+      "classification": "active-surface-audited"
+    },
+    {
+      "path": "tests/contracts/remote-joining-readiness-contracts.cjs",
+      "references": 1,
+      "classification": "active-surface-audited"
+    },
+    {
+      "path": "tests/contracts/rjr-reporting-authority-contracts.cjs",
+      "references": 2,
+      "classification": "active-surface-audited"
+    },
+    {
+      "path": "tests/contracts/work-environment-continuity-contracts.cjs",
+      "references": 9,
+      "classification": "active-surface-audited"
+    }
+  ]
+}

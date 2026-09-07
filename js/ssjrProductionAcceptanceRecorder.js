@@ -63,10 +63,16 @@
   };}
   function loadSafe(){
     try{
+      const current=safeTemplate();
       const raw=root.sessionStorage&&root.sessionStorage.getItem(SAFE_STORE_KEY);
-      if(!raw)return safeTemplate();
+      if(!raw)return current;
       const parsed=JSON.parse(raw);
-      return plain(parsed)&&parsed.schemaVersion===1?{...safeTemplate(),...parsed}:safeTemplate();
+      if(!plain(parsed)||parsed.schemaVersion!==1)return current;
+      if(parsed.runtimeRevision!==current.runtimeRevision){
+        try{root.sessionStorage.removeItem(SAFE_STORE_KEY);}catch(_error){}
+        return current;
+      }
+      return {...current,...parsed};
     }catch(_error){return safeTemplate();}
   }
   function persistSafe(){
@@ -89,17 +95,26 @@
   }
   async function canonicalHash(){return sha256Text(JSON.stringify(stable(canonicalSnapshot())));}
   async function setupDigest(setup){return sha256Text(JSON.stringify(stable(setup)));}
+  function repositoryLeagueClubs(leagueId){
+    const catalogModule=root.CareerModeSharedShowdownCatalog;
+    if(!catalogModule||catalogModule.version!=="shared-showdown-catalog-v1"||!plain(catalogModule.catalog))return null;
+    const clubs=catalogModule.catalog[leagueId];
+    return Array.isArray(clubs)?clubs:null;
+  }
   function canonicalFinalSetup(setup){
     if(!plain(setup))return null;
+    const leagueId=setup.leagueId||null;
+    const clubs={
+      playerOne:setup.clubs&&setup.clubs.playerOne||null,
+      playerTwo:setup.clubs&&setup.clubs.playerTwo||null
+    };
+    const leagueClubs=repositoryLeagueClubs(leagueId);
     return {
-      leagueId:setup.leagueId||null,
-      clubs:{
-        playerOne:setup.clubs&&setup.clubs.playerOne||null,
-        playerTwo:setup.clubs&&setup.clubs.playerTwo||null
-      },
+      leagueId,
+      clubs,
       clubLeagueIds:{
-        playerOne:setup.clubLeagueIds&&setup.clubLeagueIds.playerOne||null,
-        playerTwo:setup.clubLeagueIds&&setup.clubLeagueIds.playerTwo||null
+        playerOne:leagueClubs&&leagueClubs.includes(clubs.playerOne)?leagueId:null,
+        playerTwo:leagueClubs&&leagueClubs.includes(clubs.playerTwo)?leagueId:null
       },
       totalSeasons:setup.totalSeasons||null,
       confirmedRoles:Array.isArray(setup.confirmedRoles)?[...setup.confirmedRoles].sort():[],
@@ -111,7 +126,7 @@
     if(!finalSetup||typeof finalSetup.leagueId!=="string"||!finalSetup.leagueId)throw new Error("Final Shared Setup did not expose an observed league.");
     if(typeof finalSetup.clubs.playerOne!=="string"||!finalSetup.clubs.playerOne||typeof finalSetup.clubs.playerTwo!=="string"||!finalSetup.clubs.playerTwo)throw new Error("Final Shared Setup did not expose both observed clubs.");
     if(finalSetup.clubs.playerOne===finalSetup.clubs.playerTwo)throw new Error("Final Shared Setup exposed duplicate permanent clubs.");
-    if(finalSetup.clubLeagueIds.playerOne!==finalSetup.leagueId||finalSetup.clubLeagueIds.playerTwo!==finalSetup.leagueId)throw new Error("Observed club league identities do not match the authoritative league.");
+    if(finalSetup.clubLeagueIds.playerOne!==finalSetup.leagueId||finalSetup.clubLeagueIds.playerTwo!==finalSetup.leagueId)throw new Error("Observed clubs are not both members of the authoritative repository league catalog.");
     if(!ALLOWED_SEASONS.has(finalSetup.totalSeasons))throw new Error("Observed Shared Setup has an unsupported season length.");
     if(finalSetup.phase!=="SHOWDOWN_CONFIRMED"||finalSetup.revision!==6)throw new Error("Observed Shared Setup is not exact SHOWDOWN_CONFIRMED revision 6.");
     if(finalSetup.confirmedRoles.length!==2||finalSetup.confirmedRoles[0]!=="playerOne"||finalSetup.confirmedRoles[1]!=="playerTwo")throw new Error("Both distinct manager roles have not confirmed the observed Shared Setup.");
@@ -356,7 +371,7 @@
     const primary=panel.querySelector(".ssjrPrimary");if(primary){primary.textContent=primaryActionLabel();primary.disabled=hasCanonicalViolation();}
     const next=panel.querySelector(".ssjrNext");if(next)next.textContent=runtimeError?`RECORDER ERROR: ${runtimeError.message||runtimeError}`:nextInstruction();
     const progress=remoteProgress();
-    const meta=panel.querySelector(".ssjrMeta");if(meta)meta.textContent=`ROLE: ${safe.managerRole||"not resolved"} · REMOTE: ${safe.remoteRole||"not resolved"} · SESSION: ${progress.active?"ACTIVE":progress.expired?"EXPIRED":"not resolved"} · RUNTIME: ${safe.runtimeRevision||revision()}`;
+    const meta=panel.querySelector(".ssjrMeta");if(meta)meta.textContent=`ROLE: ${safe.managerRole||"not resolved"} · REMOTE: ${safe.remoteRole||"not resolved"} · SESSION: ${progress.active?"ACTIVE":progress.expired?"EXPIRED":"not resolved"} · RUNTIME: ${revision()}`;
     return panel;
   }
   function createPanel(){

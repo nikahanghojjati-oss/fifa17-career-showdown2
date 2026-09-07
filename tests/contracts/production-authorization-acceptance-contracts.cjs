@@ -18,7 +18,7 @@ const currentRuntimeParts=(currentRuntimeRevision&&currentRuntimeRevision.match(
 const currentReleasePath=currentRuntimeParts.length?`RELEASE_V${currentRuntimeParts[1]}_R${currentRuntimeParts[2]}.md`:'';
 const currentRelease=currentReleasePath&&fs.existsSync(path.join(root,currentReleasePath))?fs.readFileSync(path.join(root,currentReleasePath),'utf8'):'';
 const currentReleaseCandidate=/Status:\s*RELEASE CANDIDATE/i.test(currentRelease);
-const activeCandidateWec=Boolean(currentReleaseCandidate&&wec.lifecycle==='active'&&wec.assessment?.decision==='CONTINUE'&&/release candidate|publish|converg/i.test(wec.continuity?.currentTask||''));
+const activeCandidateWec=Boolean(currentReleaseCandidate&&wec.lifecycle==='active'&&['CONTINUE','PREPARE_HANDOFF'].includes(wec.assessment?.decision)&&/release candidate|publish|converg/i.test(wec.continuity?.currentTask||''));
 
 function storage(entries={}){
   const keys=Object.keys(entries);

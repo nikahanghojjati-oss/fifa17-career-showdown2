@@ -1,0 +1,205 @@
+{
+  "schemaVersion": 1,
+  "environmentId": "we-2026-09-07-pr214-session-proximity-v2-a57",
+  "lifecycle": "active",
+  "recordedAt": "2026-09-07T14:44:52.574549+00:00",
+  "repository": {
+    "name": "nikahanghojjati-oss/fifa17-career-showdown2",
+    "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
+    "startingMainSha": "24d644efe0702ef4672e0655465b66e658ed4e3a",
+    "startingMainTreeSha": "e856c498e5a15838002a6bd5ae45853698a95e6e",
+    "workingBranch": "fix/ssjr-recorder-catalog-proof-r6",
+    "activePullRequest": 214,
+    "verifiedMainSha": "24d644efe0702ef4672e0655465b66e658ed4e3a",
+    "productionVersion": "v1.9.1",
+    "productionRuntimeRevision": "1.9.1-r5",
+    "releaseCandidateVersion": "v1.9.1",
+    "releaseCandidateRuntimeRevision": "1.9.1-r6",
+    "releaseCandidateHeadSha": "3d94684cc3b24c823d8a74e317c56d9218ce75cc",
+    "predecessorEnvironmentId": "we-2026-09-07-ssjr-polished-shared-setup-r6-a56",
+    "predecessorArchive": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-07-ssjr-polished-shared-setup-r6-a56.json"
+  },
+  "signals": {
+    "contextComplexity": "high",
+    "projectComplexity": "high",
+    "compactionCount": 0,
+    "majorPhasesCompleted": 0,
+    "largeEvidenceEvents": 8,
+    "toolRoutingErrors": 3,
+    "correctedFailures": 2,
+    "repeatedMistakes": 2,
+    "staleFactCorrections": 0,
+    "unresolvedFailures": 0,
+    "newMilestoneNext": false,
+    "usageRemainingPercent": null,
+    "usageSource": "unavailable",
+    "usageWarning": false,
+    "handoffCompleteness": 50,
+    "unrecordedDecisions": 0,
+    "atomicOperation": false
+  },
+  "handoffTransferReadiness": {
+    "model": "HTR-1",
+    "earnedPillars": []
+  },
+  "assessment": {
+    "decision": "PREPARE_HANDOFF",
+    "reason": "SHP-2 70 requires bounded tasks and VTLS after state changes; strengthen records and finish this existing PR214 publication checkpoint before another milestone.",
+    "decisionInheritedFromPredecessor": false
+  },
+  "continuity": {
+    "currentTask": "Publish the PR214 r6 release candidate: first implement Session Handoff Proximity v2, then faithfully correct the recorder fixture, finish all 15 exact-head gates and verify production.",
+    "lastSafeCheckpoint": "Local v2 commit 727ea4c85c1e49dd45eca5992084c5ec24718d64 passes full contracts; recorder fixture corrected and all three targeted browser audits pass. Four existing P1 review threads are resolved; no change-requesting review.",
+    "nextSafeAction": "Publish these verified changes onto live PR214 only if its head remains 3d94684cc3b24c823d8a74e317c56d9218ce75cc; require 15/15 on the new exact head, clear review state, expected-head squash merge and r6 post-merge/deployment proof.",
+    "unfinishedWork": [
+      "PR214 must reach 15/15 terminal green on one final exact head.",
+      "Both manager roles must remain permanently regression-covered for League Wheel and both Club Pack reveals, including a late peer.",
+      "PR214 must merge with expected-head protection and post-merge deployment must prove one coherent 1.9.1-r6 shell with r5 retained as previous recovery.",
+      "Only after deployed r6 is independently proven should the owner resume the genuine two-device acceptance through final revision 6, reload/resume and fresh same-rivalry ACTIVE session resume.",
+      "Strict evidence still requires privacy-safe fingerprints, unchanged canonical storage hashes, five positive checkpoints and eight denied production negatives before SSJR credit can change."
+    ],
+    "knownHazards": [
+      "Billing permanently OFF; Firebase Spark only; never enable Blaze, Cloud Billing, payment methods, purchased credits, Cloud Run or Cloud Functions.",
+      "Production authority remains v1.9.1 / 1.9.1-r5 until r6 is merged, deployed and independently verified; do not rewrite production truth early.",
+      "App Check enforcement remains OFF; Firestore browser persistence remains memory-only; Google Auth remains popup-only browserSessionPersistence with no extra scopes.",
+      "Exactly two private managers; exact pairing plus ACTIVE private session must precede every shared league or club authority transition.",
+      "Both Player 1 and Player 2 must visibly witness the real League Wheel and both original Club Pack reveals on their own browser before confirmation.",
+      "The provider remains sole league/club draw authority; presentation may animate/reveal but may not reintroduce local reroll or random draw authority.",
+      "Canonical gameplay storage remains exactly careerModeShowdown.saveLibrary, careerModeShowdown.legacyShowdowns and careerModeShowdown.preferences; Shared Setup presentation/recorder must not mutate them merely to establish setup.",
+      "Never durably retain raw account, device, rivalry, session, pairing code or capability values; only privacy-safe fingerprints may persist/export.",
+      "Candidate C remains sole destructive remote-to-local gameplay Apply authority with transaction-owned exact raw-snapshot rollback.",
+      "No public discovery, listing, lobby, matchmaking, community, rankings or global leaderboards.",
+      "PR, CI, deployment, WEC, SNS, recorder and synthetic/browser evidence earn zero SSJR credit by themselves.",
+      "Session Handoff Proximity v2 resets to zero per session; HTR-1 is separately named transfer readiness and never supplies the session pressure percentage."
+    ],
+    "evidenceNotes": [
+      "Inherited WEC validated and archived exactly. Later owner PR214 attachment explicitly requires v2 before SSJR development.",
+      "Prior 41 commits and CI attempts do not count as this session workload. GitHub CLI installed and checksum-verified but unauthenticated; connected GitHub app remains available.",
+      "Repeated oversized source outputs were truncated; v2 floor 70 applies. Narrowed reads and bounded tasks; no hidden context or account usage inferred.",
+      "Predecessor decisions/counters are archived facts only and must not be inherited by this successor. Public index and service worker independently return HTTP200 with r5 current and r4 recovery.",
+      "Full test:contracts passed after isolating quiet WEC fixtures and permitting PREPARE_HANDOFF to finish existing active release candidates. Runtime/provider fail-closed gates unchanged.",
+      "Recorder fixture supplied missing mutate method with unconditional locked denial. Assertions prove locked disabled wheel, ready=false, null setup, zero mutation calls. No production fail-closed behavior changed.",
+      "Two large tree-payload reads exceeded output limits. Stopped whole-file payload reads and switched to bounded 12,000-character streaming, which prepared the exact 38-file candidate successfully. No remote ref was changed during the failed reads."
+    ]
+  },
+  "sessionHandoffProximity": {
+    "model": "SHP-2",
+    "environmentId": "we-2026-09-07-pr214-session-proximity-v2-a57",
+    "startedAt": "2026-09-07T14:44:52.574549+00:00",
+    "checkpoints": [
+      {
+        "at": "2026-09-07T14:44:52.574549+00:00",
+        "note": "New session: reset to 0%.",
+        "observations": {
+          "messageToolEvents": 0,
+          "longEvidenceReads": 0,
+          "truncations": 0,
+          "recoveries": 0,
+          "compactions": 0,
+          "boundedReads": 0,
+          "editedFiles": 0,
+          "commits": 0,
+          "ciDebugCycles": 0,
+          "deployments": 0,
+          "elapsedMinutes": 0,
+          "taskLanes": 0,
+          "unmergedBranches": 0,
+          "redCiFamilies": 0,
+          "inFlightDeployments": 0,
+          "unresolvedStates": 0,
+          "unresolvedDebugLoops": 0,
+          "ownerTestPending": false,
+          "hardStateReconstruction": false,
+          "ownerRequestedWrap": false,
+          "nextSubstantialTaskRisksLoss": false
+        }
+      },
+      {
+        "at": "2026-09-07T14:49:57.027Z",
+        "note": "Catch-up and v2 implementation: conservative visible operation counts; three oversized source batches were truncated, activating the owner-required 70 floor. No predecessor CI cycles inherited.",
+        "observations": {
+          "messageToolEvents": 42,
+          "longEvidenceReads": 8,
+          "truncations": 3,
+          "recoveries": 0,
+          "compactions": 0,
+          "boundedReads": 30,
+          "editedFiles": 23,
+          "commits": 0,
+          "ciDebugCycles": 0,
+          "deployments": 0,
+          "elapsedMinutes": 18,
+          "taskLanes": 1,
+          "unmergedBranches": 1,
+          "redCiFamilies": 1,
+          "inFlightDeployments": 0,
+          "unresolvedStates": 1,
+          "unresolvedDebugLoops": 0,
+          "ownerTestPending": true,
+          "hardStateReconstruction": false,
+          "ownerRequestedWrap": false,
+          "nextSubstantialTaskRisksLoss": false
+        }
+      },
+      {
+        "at": "2026-09-07T14:55:55.283Z",
+        "note": "V2 full contract suite passed. Counts conservatively summarize bounded tool/source operations and three local contract correction cycles; truncated outputs activate floor70. All old HTR mathematical invariants remain covered.",
+        "observations": {
+          "messageToolEvents": 68,
+          "longEvidenceReads": 10,
+          "truncations": 6,
+          "recoveries": 0,
+          "compactions": 0,
+          "boundedReads": 45,
+          "editedFiles": 37,
+          "commits": 0,
+          "ciDebugCycles": 3,
+          "deployments": 0,
+          "elapsedMinutes": 35,
+          "taskLanes": 1,
+          "unmergedBranches": 1,
+          "redCiFamilies": 1,
+          "inFlightDeployments": 0,
+          "unresolvedStates": 1,
+          "unresolvedDebugLoops": 0,
+          "ownerTestPending": true,
+          "hardStateReconstruction": false,
+          "ownerRequestedWrap": false,
+          "nextSubstantialTaskRisksLoss": false
+        }
+      },
+      {
+        "at": "2026-09-07T14:57:52.395Z",
+        "note": "All three targeted production setup, two-role polished presentation and recorder browser audits pass. Before-fix local recorder reproduced the exact CI failure; after-fix locked wheel remains disabled with zero provider mutations.",
+        "observations": {
+          "messageToolEvents": 76,
+          "longEvidenceReads": 10,
+          "truncations": 6,
+          "recoveries": 0,
+          "compactions": 0,
+          "boundedReads": 45,
+          "editedFiles": 38,
+          "commits": 1,
+          "ciDebugCycles": 4,
+          "deployments": 0,
+          "elapsedMinutes": 40,
+          "taskLanes": 1,
+          "unmergedBranches": 1,
+          "redCiFamilies": 1,
+          "inFlightDeployments": 0,
+          "unresolvedStates": 1,
+          "unresolvedDebugLoops": 0,
+          "ownerTestPending": true,
+          "hardStateReconstruction": false,
+          "ownerRequestedWrap": false,
+          "nextSubstantialTaskRisksLoss": false
+        }
+      }
+    ],
+    "successorPackage": {
+      "generated": false,
+      "verified": false,
+      "verification": null
+    }
+  }
+}

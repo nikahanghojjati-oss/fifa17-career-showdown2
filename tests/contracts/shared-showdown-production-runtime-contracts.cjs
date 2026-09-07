@@ -102,7 +102,7 @@ assert.match(entry,/remote\.accountId===account\.accountId/);
 assert.match(entry,/remote\.deviceId===pairing\.deviceId/);
 assert.doesNotMatch(entry,/localStorage/,'Shared journey entry marker must never use raw canonical localStorage.');
 for(const functionName of ['handleLeagueWheelAction','spinLeagueWheel','confirmLeagueSelectionAndContinue','prepareClubAssignment','assignClubs','continueToShowdownHome'])assert.ok(guard.includes(`"${functionName}"`),`Shared mode must guard direct ${functionName} calls.`);
-assert.match(guard,/CLICK_TARGETS=Object\.freeze\(\{spinLeague:"league selection",openClubPack:"club assignment",continueClubAssignment:"local rivalry confirmation"\}\)/,'Actual bound league/club controls must be capture-gated.');
+assert.match(guard,/CLICK_TARGETS=Object\.freeze\(\{spinLeague:"league selection",openClubPack:"club assignment",continueClubAssignment:"shared rivalry confirmation"\}\)/,'Actual bound league/club controls must be capture-gated.');
 assert.match(guard,/root\.document\.addEventListener\("click"[\s\S]+stopImmediatePropagation\(\)[\s\S]+,true\)/,'Shared mode must intercept actual click paths in capture phase before lexical handlers.');
 assert.match(guard,/usesPersistedSaveMarker:true/,'Bypass guard must recover shared-mode authority from the durable active Save Library shell.');
 assert.match(guard,/if\(blockLocalDraw\(name\)\)return false/,'Direct global calls must remain fail-closed while shared mode is pending.');

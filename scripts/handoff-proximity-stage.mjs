@@ -70,7 +70,7 @@ function main(){
     process.stdout.write(`${JSON.stringify(result, null, 2)}\n`);
     return;
   }
-  process.stdout.write(`Handoff proximity: ${result.score}%\n`);
+  process.stdout.write(`HTR-1 transfer readiness: ${result.score}%\n`);
   process.stdout.write(`Model: ${result.model}\n`);
   process.stdout.write(`Earned pillars: ${result.earnedPillars.join(", ") || "none"}\n`);
   if(result.remainingPillars.length) process.stdout.write(`Remaining pillars: ${result.remainingPillars.join(", ")}\n`);

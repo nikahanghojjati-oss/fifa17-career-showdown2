@@ -14,7 +14,7 @@ Treat every handoff as orientation, never as implementation authority. Before ch
 
 The repository uses `SLE` as the project label for its live-first, low-context adaptive successor-loading system. Later explicit owner authority in `00_SLE_HANDOFF_PROTOCOL.md` defines `SLE = Smart Lean Efficient` and supersedes the older unexpanded-label wording. Preserve that exact definition in every generated SLE starter and handoff unless the owner later changes it.
 
-A project handoff is incomplete if it is only a chat prompt or a single unmirrored Markdown file. At every `Handoff proximity: 100%`, `HANDOFF_AT_CHECKPOINT`, `HANDOFF_NOW`, or equivalent final transition boundary, the closing developer must complete the SLE package defined by `00_SLE_HANDOFF_PROTOCOL.md` and `00_SESSION_BOOTSTRAP.md`: complete root SLE handoff plus byte-identical project mirror, new versioned root START_NEXT_SESSION plus byte-identical project mirror, refreshed `SESSION_BOOTSTRAP.json` current pointers, progressive context refresh when materially needed, explicit immediate successor task, exact live/WEC/security/RJR evidence, applicable SLE contract validation, and the clean stop before the next substantial milestone.
+A project handoff is incomplete if it is only a chat prompt or a single unmirrored Markdown file. At every `Session handoff proximity: 100%`, `HANDOFF_AT_CHECKPOINT`, `HANDOFF_NOW`, or equivalent final transition boundary, the closing developer must complete the SLE package defined by `00_SLE_HANDOFF_PROTOCOL.md` and `00_SESSION_BOOTSTRAP.md`: complete root SLE handoff plus byte-identical project mirror, new versioned root START_NEXT_SESSION plus byte-identical project mirror, refreshed `SESSION_BOOTSTRAP.json` current pointers, progressive context refresh when materially needed, explicit immediate successor task, exact live/WEC/security/RJR evidence, applicable SLE contract validation, and the clean stop before the next substantial milestone.
 
 Every generated SLE handoff and starter must recursively preserve this same SLE requirement so future developers cannot silently fall back to a non-SLE handoff unless the owner explicitly changes the policy.
 
@@ -49,7 +49,9 @@ At the start of every development environment, read these files before substanti
 7. `00_DEVELOPER_START_HERE.md`
 8. `00_CURRENT_HANDOFF.md`
 9. `PROJECT_STATE.md`
-10. `NEXT_TASK.md`
+10. `00_MILESTONE_DELIVERY_PROGRESS.md`
+11. `MILESTONE_DELIVERY_PROGRESS.json`
+12. `NEXT_TASK.md`
 
 Then follow this order:
 
@@ -93,15 +95,15 @@ This anti-loop rule never permits skipping a real security, recovery, dependency
 
 Every substantive owner-facing response while meaningful project work is underway must visibly include exactly the reporting label:
 
-`Handoff proximity: X%`
+`Session handoff proximity: X%`
 
 The percentage is an evidence-based estimate of proximity to a recommended Work environment transition. It is not task-completion percentage and must not mechanically increase after every message. Consider observable context pressure, WEC state, completed milestones, evidence volume, corrected failures, tooling friction, unresolved failures, remaining atomic work, handoff readiness and whether the next task is a separate milestone.
 
-Never fabricate account/model usage to calculate Handoff proximity. If usage is unavailable, base the estimate only on observable continuity evidence and leave `usageRemainingPercent` unavailable in the WEC record.
+Never fabricate account/model usage to calculate Session handoff proximity. If usage is unavailable, base the estimate only on observable continuity evidence and leave `usageRemainingPercent` unavailable in the WEC record.
 
-At `Handoff proximity: 100%` the current environment must automatically generate the complete successor handoff as the full SLE package, finish only the current safe bounded checkpoint and stop before beginning another substantial milestone. A plain ready-to-paste prompt alone does not satisfy this boundary.
+At `Session handoff proximity: 100%` the current environment must automatically generate the complete successor handoff as the full SLE package, finish only the current safe bounded checkpoint and stop before beginning another substantial milestone. A plain ready-to-paste prompt alone does not satisfy this boundary.
 
-The repository Work Environment Continuity decision is authoritative when it requires an earlier or stricter transition. Handoff proximity complements WEC and never weakens `PREPARE_HANDOFF`, `HANDOFF_AT_CHECKPOINT`, `HANDOFF_NOW` or `FINISH_SAFE_BOUNDARY`.
+The repository Work Environment Continuity decision is authoritative when it requires an earlier or stricter transition. Session handoff proximity complements WEC and never weakens `PREPARE_HANDOFF`, `HANDOFF_AT_CHECKPOINT`, `HANDOFF_NOW` or `FINISH_SAFE_BOUNDARY`.
 
 Every successor SLE handoff must recursively preserve this same Handoff Proximity rule and the mandatory recursive SLE packaging rule so both requirements propagate to every later environment unless the owner explicitly changes them.
 
@@ -110,7 +112,7 @@ Every successor SLE handoff must recursively preserve this same Handoff Proximit
 Every substantive owner-facing development response must include this exact eight-line status shape, in this order, with values updated from current evidence:
 
 ```text
-Handoff proximity: X%
+Session handoff proximity: X%
 Remote Joining readiness: ~Y%
 Estimated focused sessions to genuine RJR100: ~N–M
 Current lane: <current bounded engineering lane>
@@ -120,7 +122,7 @@ Blocker: <current blocker, or NONE>
 Sidequest check: <NONE, or NECESSARY because ...>
 ```
 
-`Handoff proximity` remains the WEC transition-proximity signal above. `Remote Joining readiness` is separate and estimates end-to-end readiness of the owner-prioritized Private Remote Joining major feature, including its infrastructure, prerequisites, implementation, exact-head validation, deployment/public proof when applicable, hardening and known release-blocking bug closure.
+`Session handoff proximity` remains the WEC transition-proximity signal above. `Remote Joining readiness` is separate and estimates end-to-end readiness of the owner-prioritized Private Remote Joining major feature, including its infrastructure, prerequisites, implementation, exact-head validation, deployment/public proof when applicable, hardening and known release-blocking bug closure.
 
 `Estimated focused sessions to genuine RJR100` is a roadmap-based planning estimate, not a score-derived countdown, promise, or RJR evidence. Recalculate it when verified dependencies, provider behavior, Stage 5 scope, physical-device/network acceptance, review findings, reconnect/token hardening, or final release work materially change the critical path. Use a realistic focused-session range from current authority; where uncertainty is material, explain the contingency outside the eight-line block rather than hiding it. At genuine RJR100 the value becomes `~0`.
 
@@ -134,14 +136,14 @@ Owner-instruction provenance for the original reporting format is preserved at `
 
 Every successor handoff and fresh Work environment inherits this eight-line format recursively unless the owner explicitly changes it. Every such successor handoff must also be packaged as SLE under `00_SLE_HANDOFF_PROTOCOL.md`.
 
-## Current owner reporting override — SSJR, 2026-09-05
+## Current owner reporting override — SSJR + MDP-1, 2026-09-07
 
-The owner's later explicit instruction in `authority-history/OWNER_SSJR_REPORTING_AND_PAIRING_ORDER_2026-09-05.md` supersedes the old RJR feature and session-estimate labels above for current and future work. RJR-1 is complete/frozen at 100/100. The current eight-line report is:
+The owner's 2026-09-05 instruction made SSJR-1.1 the current evidence-readiness milestone and froze RJR-1 at 100/100. The owner's later explicit 2026-09-07 instruction replaces only the visible `Estimated focused sessions to genuine SSJR100` forecast with the separate Milestone Delivery Progress tracker. The current eight-line report is:
 
 ```text
-Handoff proximity: X%
+Session handoff proximity: X%
 Shared Showdown Journey readiness: Y/100
-Estimated focused sessions to genuine SSJR100: ~N–M
+Milestone Delivery Progress: NN.NN/100
 Current lane: <current bounded engineering lane>
 Concrete dependency completed: <most recent concrete dependency completed>
 Next unlock: <next dependency or proof gate>
@@ -149,9 +151,13 @@ Blocker: <current blocker, or NONE>
 Sidequest check: <NONE, or NECESSARY because ...>
 ```
 
-Report SSJR from `SHARED_SHOWDOWN_JOURNEY_READINESS.json` at every substantive checkpoint, even when unchanged. Explain how the action proves a fixed capability or removes a specific dependency. Estimate sessions from remaining engineering/proof stages, never from score arithmetic; explain material forecast changes. SSJR100 means a production-proven playable supported Shared Showdown Journey for two remote managers. Automate every feasible test and ask only for the minimum unavoidable physical/account action after prerequisites are complete.
+Report SSJR from `SHARED_SHOWDOWN_JOURNEY_READINESS.json` at every substantive checkpoint, even when unchanged. Report MDP from `MILESTONE_DELIVERY_PROGRESS.json` at the same checkpoints and recalculate it when a current-milestone feature lifecycle stage completes, becomes in progress, is invalidated by a regression, or reaches product integration. MDP is engineering delivery maturity and does not grant SSJR credit, satisfy human/physical evidence, consume evidence or weaken the frozen SSJR model. It will often lead SSJR numerically, but no invariant requires it to remain above SSJR. The governing lifecycle model and anti-inflation rules are `MILESTONE_DELIVERY_PROGRESS_MODEL.json` and `00_MILESTONE_DELIVERY_PROGRESS.md`.
 
-The shared journey must pair both legitimate managers to the exact Connected Rivalry and reach ACTIVE before league or club selection. Enforce that order in both UI and provider authority. A pre-draw local Save/profile shell may satisfy identity binding without committing a league or clubs. Do not change the fixed SSJR-1.1 model or claim production capability from candidate code alone. Its explicit SSJR-1 to SSJR-1.1 zero-to-zero backcast preserves all scope and weights while correcting the reviewed paired-first dependency; see authority-history/SSJR1_1_PAIRING_DEPENDENCY_BACKCAST_2026-09-05.json. Preserve this reporting override and product order recursively in successor packages.
+For the current SSJR milestone, MDP must reuse the exact 20 SSJR-1.1 capability IDs and exact weights as its feature denominator. The six MDP lifecycle stages are design/contract, implementation, primary automated verification, defect/review resolution, regression re-test and product integration. Reusable local/RJR/provider foundations do not complete a milestone-specific implementation stage until they are wired end to end into that exact Shared Journey capability. Candidate work may advance MDP through pre-integration stages, but the product-integration stage requires the feature to be part of the authoritative product and deployed coherent runtime when deployment applies. A proven regression can reduce MDP.
+
+SSJR100 still means a production-proven playable supported Shared Showdown Journey for two remote managers. Automate every feasible test and ask only for the minimum unavoidable physical/account action after prerequisites are complete. MDP100 means the milestone's feature engineering lifecycle is fully delivered; it is not permission to declare SSJR100 without the fixed evidence.
+
+The shared journey must pair both legitimate managers to the exact Connected Rivalry and reach ACTIVE before league or club selection. Enforce that order in both UI and provider authority. A pre-draw local Save/profile shell may satisfy identity binding without committing a league or clubs. Do not change the fixed SSJR-1.1 model or claim production capability from candidate code alone. Its explicit SSJR-1 to SSJR-1.1 zero-to-zero backcast preserves all scope and weights while correcting the reviewed paired-first dependency; see `authority-history/SSJR1_1_PAIRING_DEPENDENCY_BACKCAST_2026-09-05.json`. Owner provenance for MDP is `authority-history/OWNER_MILESTONE_DELIVERY_PROGRESS_2026-09-07.md`. Preserve this reporting override, MDP/SSJR separation and product order recursively in successor packages.
 
 ## Interruption and tooling-resilience guardrails
 
@@ -173,3 +179,7 @@ These guardrails exist to prevent chat/tool instability from becoming repository
 Run the smallest relevant checks during implementation and the repository contract suite before publication. Do not weaken tests, workflow topology, recovery guarantees, performance ceilings or protected product semantics merely to obtain green results.
 
 The continuity/SLE system is repository development infrastructure. Do not add it to the Career Mode Showdown website runtime, Service Worker shell, browser storage or user interface.
+
+## Current owner session-pressure override, 2026-09-07
+
+`00_SESSION_HANDOFF_PROXIMITY_V2.md` is the current reporting authority. Session Handoff Proximity v2 (SHP-2) resets to 0% per new chat, then uses observable proxies and a monotonic session ledger. Use `Session handoff proximity: X%` in the current eight-line SSJR report. HTR-1 remains separate repository transfer readiness under `00_HANDOFF_PROXIMITY_STAGE_GATES.md`; its five fixed pillars never supply the session-pressure percentage. Preserve the v2 risk floors and operating bands recursively. Generate VTLS after substantial state changes, independently of proximity, containing only `PR/head | metric | completed | blocker | next`. At 95–99 generate the full SNS immediately; at 100 its SLE package is generated/verified and the session stops. Existing WEC stricter transitions remain binding.
