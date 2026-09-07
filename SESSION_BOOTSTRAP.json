@@ -442,12 +442,12 @@
     "neverUseHtrForSessionPressure": true
   },
   "currentSuccessorOverride": {
-    "version": "1.4.60",
-    "capsule": "SESSION_BOOTSTRAP_V1.4.60.json",
-    "starter": "START_NEXT_SESSION_V1.4.60_PR215_AUTHORITY_CONTRACT_SAFE_TRANSFER_NEXT.md",
-    "deepHandoff": "SUCCESSOR_HANDOFF_PR215_AUTHORITY_CONTRACT_SAFE_TRANSFER_SLE_V1.4.60_2026-09-07.md",
-    "ownerSns": "owner-sns/OWNER_SNS_V1.4.60_PR215_AUTHORITY_CONTRACT_SAFE_TRANSFER.md",
-    "closingEnvironmentId": "we-2026-09-07-pr215-r6-publication-a62",
+    "version": "1.4.61",
+    "capsule": "SESSION_BOOTSTRAP_V1.4.61.json",
+    "starter": "START_NEXT_SESSION_V1.4.61_PR215_GITHUB_CLI_BOOTSTRAP_SAFE_TRANSFER_NEXT.md",
+    "deepHandoff": "SUCCESSOR_HANDOFF_PR215_GITHUB_CLI_BOOTSTRAP_SAFE_TRANSFER_SLE_V1.4.61_2026-09-07.md",
+    "ownerSns": "owner-sns/OWNER_SNS_V1.4.61_PR215_GITHUB_CLI_BOOTSTRAP_SAFE_TRANSFER.md",
+    "closingEnvironmentId": "we-2026-09-07-pr215-r6-publication-a63",
     "precedence": "Current successor routing. All pre-existing V1.4.56/a58 fields remain unchanged historical provenance."
   }
 }

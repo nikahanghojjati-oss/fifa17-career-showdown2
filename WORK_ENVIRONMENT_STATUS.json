@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "environmentId": "we-2026-09-07-pr215-r6-publication-a64",
   "lifecycle": "active",
-  "recordedAt": "2026-09-07T21:27:00.000Z",
+  "recordedAt": "2026-09-07T21:35:00.000Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -15,7 +15,7 @@
     "releaseCandidateVersion": "v1.9.1",
     "releaseCandidateRuntimeRevision": "1.9.1-r6",
     "liveHeadAtInitialization": "b19ad7151bc93bda6fb5489f11e3621f3141256d",
-    "finalSubstantiveInspectedHead": "b19ad7151bc93bda6fb5489f11e3621f3141256d",
+    "finalSubstantiveInspectedHead": "41764fbf8ebb4b9c34df3eaa9b55bb1b864494c9",
     "predecessorEnvironmentId": "we-2026-09-07-pr215-r6-publication-a63",
     "predecessorArchive": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-07-pr215-r6-publication-a63.json",
     "archive": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-07-pr215-r6-publication-a64.json",
@@ -27,11 +27,11 @@
     "projectComplexity": "high",
     "compactionCount": 0,
     "majorPhasesCompleted": 0,
-    "largeEvidenceEvents": 1,
+    "largeEvidenceEvents": 2,
     "toolRoutingErrors": 0,
-    "correctedFailures": 0,
+    "correctedFailures": 1,
     "repeatedMistakes": 0,
-    "staleFactCorrections": 0,
+    "staleFactCorrections": 1,
     "unresolvedFailures": 1,
     "newMilestoneNext": false,
     "usageRemainingPercent": null,
@@ -44,29 +44,30 @@
   "assessment": {
     "decision": "CONTINUE",
     "decisionInheritedFromPredecessor": false,
-    "reason": "Fresh a64 reset from the sealed a63 HANDOFF_NOW decision. Live main and PR215 seal head were independently revalidated, and one bounded objective authority wording correction remains available without reopening prior failed correction classes."
+    "reason": "The first a64 correction cycle resolved the GitHub CLI bootstrap terminology assertion and exposed one later current-routing mismatch. One final bounded routing correction remains available; no predecessor decision or counters are inherited."
   },
   "continuity": {
-    "currentTask": "Converge PR215 r6 release-candidate publication by resolving the exact GitHub CLI bootstrap terminology contract while preserving connector-first authority and repository-owned fallback security.",
-    "lastSafeCheckpoint": "Exact live PR215 seal head b19ad7151bc93bda6fb5489f11e3621f3141256d completed all 15 permanent workflow families at 12 green / 3 red / 0 pending; the three red families fail through the shared repository-contract suite, while PR215 has no reviews, comments or review threads.",
-    "nextSafeAction": "Publish one bounded candidate that initializes this fresh a64 WEC and changes only the developer-entrypoint fallback wording from repository-owned bootstrap to repository-owned GitHub CLI bootstrap, then evaluate all 15 workflow families on that single exact new head before any merge.",
+    "currentTask": "Converge PR215 r6 release-candidate publication by correcting the stale additive current-successor pointer so the durable V1.4.61/a63 package, fresh a64 ancestry and generated next-chat routing agree without altering immutable historical bootstrap provenance.",
+    "lastSafeCheckpoint": "Exact PR215 head 41764fbf8ebb4b9c34df3eaa9b55bb1b864494c9 proved the GitHub CLI bootstrap terminology contract now passes, then Stability failed at handoff-immediate-next-task-contracts.cjs:38 because SESSION_BOOTSTRAP.json still routed currentSuccessorOverride to V1.4.60/a62 while the valid V1.4.61 capsule closes a63.",
+    "nextSafeAction": "Atomically repoint only SESSION_BOOTSTRAP.json currentSuccessorOverride to V1.4.61/a63, refresh NEXT_CHAT_HANDOFF_PROMPT.md to the generator-equivalent V1.4.61 route, preserve this a64 checkpoint, and require all 15 permanent workflow families green on that one exact new head. If it remains red, stop correction work and seal a64 under the recursive anti-spiral rule.",
     "unfinishedWork": [
       "PR215 must reach all 15 permanent workflow families green on one exact reviewed head before expected-head squash merge.",
       "After merge, exact-main Stability including Chromium/deployed-site smoke, Pages/deployed coherent r6 and Release Integration Burn-In must pass before r6 promotion or MDP +2.50.",
       "Genuine two-account Shared Setup evidence remains required after clean r6 publication before transfer/results/scoring work."
     ],
     "knownHazards": [
-      "Do not inherit predecessor a63 HANDOFF_NOW pressure, counters or anti-spiral correction count into this fresh a64 environment.",
-      "Never combine CI evidence across exact heads; b19ad715 evidence applies only to b19ad715.",
+      "This is the second and final bounded a64 correction batch; if its exact-head validation remains red, do not attempt a third correction loop.",
+      "Never combine CI evidence across exact heads; 41764fb evidence applies only to 41764fb.",
+      "Do not rewrite immutable historical V1.4.56/a58 or PR210/209/207/205/203 bootstrap provenance while updating only the additive currentSuccessorOverride.",
       "Billing remains permanently OFF and Firebase remains Spark only; never enable Blaze, Cloud Billing, a billing account, Cloud Run or Cloud Functions.",
       "Preserve connector-first GitHub access, credential safety, App Check enforcement OFF, memory-only Firestore browser persistence and popup-only Google Auth browserSessionPersistence with no extra scopes.",
       "Exactly two private managers; pairing plus exact ACTIVE precedes league or club authority; Candidate C remains sole destructive remote-to-local gameplay Apply authority with strict transaction-owned raw-snapshot rollback."
     ],
     "evidenceNotes": [
-      "Validated predecessor archive WORK_ENVIRONMENT_ARCHIVE/we-2026-09-07-pr215-r6-publication-a63.json against its sealed status and V1.4.61 successor capsule.",
-      "Current main remains 420d0dd21480c660d4fe139ba011eca1ccb987a9 and live PR215 seal head is b19ad7151bc93bda6fb5489f11e3621f3141256d.",
-      "All 15 permanent workflow families are complete on b19ad715: 12 green and 3 red; Stability, Static App and Stage 5F Authenticated Negatives fail at their shared repository-contract-suite surface.",
-      "The current contract explicitly requires /GitHub CLI bootstrap/i in 00_DEVELOPER_START_HERE.md, while AGENTS.md establishes connector-first authority plus a repository-owned verified GitHub CLI fallback; the smallest semantic correction is terminology in the developer entrypoint, not weakening the test.",
+      "Validated predecessor a63 archive and independently initialized a64 with literal SHP-2 zero reset.",
+      "Exact head b19ad715 completed all 15 permanent workflow families at 12 green / 3 red and isolated the GitHub CLI bootstrap terminology assertion.",
+      "Exact head 41764fb resolved that terminology assertion without weakening connector-first authority; Stability then advanced to handoff-immediate-next-task-contracts.cjs:38.",
+      "That exact assertion derives its expected predecessor from SESSION_BOOTSTRAP.json currentSuccessorOverride; the root currently points to V1.4.60/a62 while SESSION_BOOTSTRAP_V1.4.61.json durably closes a63. The correction is therefore the additive current pointer and generated prompt, not the a64 predecessor identity.",
       "RJR-1 remains 100/100, SSJR-1.1 remains 0/100 and MDP-1 remains 39.00/100 with MDP task delta +0.00."
     ]
   },
@@ -95,6 +96,33 @@
           "redCiFamilies": 0,
           "inFlightDeployments": 0,
           "unresolvedStates": 0,
+          "unresolvedDebugLoops": 0,
+          "ownerTestPending": false,
+          "hardStateReconstruction": false,
+          "ownerRequestedWrap": false,
+          "nextSubstantialTaskRisksLoss": false
+        }
+      },
+      {
+        "at": "2026-09-07T21:35:00.000Z",
+        "note": "First a64 correction cycle resolved GitHub CLI bootstrap terminology and exposed stale V1.4.60/a62 additive current routing; second bounded routing correction prepared.",
+        "observations": {
+          "messageToolEvents": 28,
+          "longEvidenceReads": 9,
+          "truncations": 0,
+          "recoveries": 0,
+          "compactions": 0,
+          "boundedReads": 18,
+          "editedFiles": 4,
+          "commits": 3,
+          "ciDebugCycles": 1,
+          "deployments": 0,
+          "elapsedMinutes": 8,
+          "taskLanes": 1,
+          "unmergedBranches": 1,
+          "redCiFamilies": 3,
+          "inFlightDeployments": 0,
+          "unresolvedStates": 1,
           "unresolvedDebugLoops": 0,
           "ownerTestPending": false,
           "hardStateReconstruction": false,
