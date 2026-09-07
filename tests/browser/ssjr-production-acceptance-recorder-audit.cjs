@@ -88,21 +88,21 @@ async function openCase(browser,acceptance,mode="ready"){
 
     activeLocked=await openCase(browser,true,"active-locked");
     await activeLocked.page.locator("#ssjrProductionAcceptanceRecorder").waitFor({state:"visible",timeout:7000});
-    await activeLocked.page.waitForFunction(()=>window.CareerModeSSJRProductionAcceptanceRecorder.getState().remoteSessionActive===true,{timeout:5000});
+    await activeLocked.page.waitForFunction(()=>window.CareerModeSSJRProductionAcceptanceRecorder.getState().remoteSessionActive===true,null,{timeout:5000});
     assert.match(await activeLocked.page.locator(".ssjrPrimary").textContent(),/CHECK SHARED SETUP/,"an already ACTIVE private session must never loop the owner back to OPEN PRIVATE SESSION");
     const lockedGuidance=await activeLocked.page.locator(".ssjrNext").textContent();
     assert.match(lockedGuidance,/Private session is ACTIVE/,"simple mode must acknowledge the already ACTIVE session");
     assert.match(lockedGuidance,/Registered browser authority is unavailable/,"simple mode must surface the Shared Setup blocker instead of hiding it");
     await activeLocked.page.locator(".ssjrPrimary").click();
-    await activeLocked.page.waitForFunction(()=>window.CareerModeProductionSharedShowdownPresentation?.isPresentationActive()===true,{timeout:5000});
+    await activeLocked.page.locator("#leagueWheelScreen").waitFor({state:"visible",timeout:5000});
+    assert.equal(await activeLocked.page.evaluate(()=>window.CareerModeProductionSharedShowdownPresentation?.isPresentationActive()===true),true,"visible League Wheel must be owned by the active polished presentation");
     assert.equal(await activeLocked.page.evaluate(()=>window.__ssjrSetupPanelOpens),0,"acceptance guidance must not reopen the engineering Shared Setup panel");
-    assert.equal(await activeLocked.page.locator("#leagueWheelScreen").isVisible(),true,"acceptance guidance must route into the polished Shared Showdown presentation");
     assert.equal(await activeLocked.page.evaluate(()=>window.__ssjrRemotePanelOpens),0,"ACTIVE-session guidance must not reopen Private Remote Joining");
     assert.deepEqual(activeLocked.pageErrors,[]);
 
     staleRuntime=await openCase(browser,true,"stale-runtime");
     await staleRuntime.page.locator("#ssjrProductionAcceptanceRecorder").waitFor({state:"visible",timeout:7000});
-    await staleRuntime.page.waitForFunction(()=>window.CareerModeSSJRProductionAcceptanceRecorder.getState().statusRows[0].passed===true,{timeout:5000});
+    await staleRuntime.page.waitForFunction(()=>window.CareerModeSSJRProductionAcceptanceRecorder.getState().statusRows[0].passed===true,null,{timeout:5000});
     const runtimeCoherence=await staleRuntime.page.evaluate(()=>({draft:window.CareerModeSSJRProductionAcceptanceRecorder.getDraftEvidence(),live:document.querySelector('meta[name="app-asset-revision"]')?.content||"unknown"}));
     assert.equal(runtimeCoherence.draft.runtimeRevision,runtimeCoherence.live,"stale recorder evidence must be reset instead of crossing runtime revisions");
     assert.equal(runtimeCoherence.draft.managerRole,"playerOne","stale cross-runtime recorder role must not survive into the live evidence shell");
@@ -123,16 +123,16 @@ async function openCase(browser,acceptance,mode="ready"){
     }));
     assert.deepEqual(contract,{enabled:true,productionEnabled:true,rawPersistence:false,sanitizedOnly:true,canonicalMutation:false,billing:false,blaze:false,appCheck:false});
 
-    await acceptance.page.waitForFunction(()=>window.CareerModeSSJRProductionAcceptanceRecorder.getState().statusRows[0].passed===true,{timeout:5000});
+    await acceptance.page.waitForFunction(()=>window.CareerModeSSJRProductionAcceptanceRecorder.getState().statusRows[0].passed===true,null,{timeout:5000});
     assert.match(await acceptance.page.locator(".ssjrPrimary").textContent(),/OPEN SHARED SETUP/,"simple mode should advance the one primary control after ACTIVE is captured");
     await acceptance.page.locator(".ssjrPrimary").click();
-    await acceptance.page.waitForFunction(()=>window.CareerModeProductionSharedShowdownPresentation?.isPresentationActive()===true,{timeout:5000});
-    assert.equal(await acceptance.page.locator("#leagueWheelScreen").isVisible(),true,"OPEN SHARED SETUP must open the polished League Wheel presentation");
+    await acceptance.page.locator("#leagueWheelScreen").waitFor({state:"visible",timeout:5000});
+    assert.equal(await acceptance.page.evaluate(()=>window.CareerModeProductionSharedShowdownPresentation?.isPresentationActive()===true),true,"OPEN SHARED SETUP must finish activation before the League Wheel is accepted");
     assert.equal(await acceptance.page.evaluate(()=>window.__ssjrSetupPanelOpens),0,"OPEN SHARED SETUP must keep the engineering panel hidden");
     await acceptance.page.evaluate(()=>window.__ssjrRecorderSetSeed());
-    await acceptance.page.waitForFunction(()=>window.CareerModeSSJRProductionAcceptanceRecorder.getState().statusRows[1].passed===true,{timeout:5000});
+    await acceptance.page.waitForFunction(()=>window.CareerModeSSJRProductionAcceptanceRecorder.getState().statusRows[1].passed===true,null,{timeout:5000});
     await acceptance.page.evaluate(()=>window.__ssjrRecorderSetFinal());
-    await acceptance.page.waitForFunction(()=>window.CareerModeSSJRProductionAcceptanceRecorder.getState().statusRows[2].passed===true,{timeout:5000});
+    await acceptance.page.waitForFunction(()=>window.CareerModeSSJRProductionAcceptanceRecorder.getState().statusRows[2].passed===true,null,{timeout:5000});
     assert.match(await acceptance.page.locator(".ssjrPrimary").textContent(),/RELOAD & VERIFY/,"simple mode should turn the primary control into reload proof after revision 6");
 
     await acceptance.page.evaluate(()=>window.__ssjrRecorderPrepareReload());
@@ -142,11 +142,11 @@ async function openCase(browser,acceptance,mode="ready"){
     ]);
     await acceptance.page.locator("#loadingScreen").waitFor({state:"hidden",timeout:12000});
     await acceptance.page.locator("#ssjrProductionAcceptanceRecorder").waitFor({state:"visible",timeout:7000});
-    await acceptance.page.waitForFunction(()=>window.CareerModeSSJRProductionAcceptanceRecorder.getState().statusRows[4].passed===true,{timeout:5000});
+    await acceptance.page.waitForFunction(()=>window.CareerModeSSJRProductionAcceptanceRecorder.getState().statusRows[4].passed===true,null,{timeout:5000});
     assert.match(await acceptance.page.locator(".ssjrPrimary").textContent(),/OPEN FRESH SESSION/,"simple mode should request only a fresh session after reload proof");
 
     await acceptance.page.evaluate(()=>window.__ssjrRecorderSetFresh());
-    await acceptance.page.waitForFunction(()=>window.CareerModeSSJRProductionAcceptanceRecorder.getState().completed===true,{timeout:5000});
+    await acceptance.page.waitForFunction(()=>window.CareerModeSSJRProductionAcceptanceRecorder.getState().completed===true,null,{timeout:5000});
     assert.match(await acceptance.page.locator(".ssjrPrimary").textContent(),/DOWNLOAD SAFE RESULT/,"completed simple mode should reduce the final action to one safe download");
 
     const result=await acceptance.page.evaluate(()=>({state:window.CareerModeSSJRProductionAcceptanceRecorder.getState(),draft:window.CareerModeSSJRProductionAcceptanceRecorder.getDraftEvidence(),stored:sessionStorage.getItem("careerModeShowdown.ssjrAcceptance.safe.v1")}));
