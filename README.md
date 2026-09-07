@@ -1,3 +1,15 @@
+# CURRENT PRODUCTION / RELEASE CANDIDATE OVERRIDE — v1.9.1-r3 production / v1.9.1-r4 candidate
+
+Current production runtime: `v1.9.1 / 1.9.1-r3` — production-proven.
+Current release candidate: `v1.9.1 / 1.9.1-r4` on PR #212 — not production-proven until exact-head merge, deployment and verification.
+Previous known-good whole-shell recovery target for the r4 candidate: `1.9.1-r3` — production-proven.
+
+PR #212 adds only the query-gated guided SSJR production acceptance recorder and its release-safe whole-shell identity. It does not earn SSJR credit by itself; fixed SSJR-1.1 remains `0/100` until genuine two-account production evidence qualifies. Firebase remains Spark, billing permanently OFF, App Check enforcement OFF, memory-only Firestore, exactly two private managers, no public discovery/matchmaking, and Candidate C remains the sole destructive remote-to-local gameplay Apply authority.
+
+The retained older “current” labels below are historical where they conflict with this override.
+
+---
+
 # CURRENT PRODUCTION OVERRIDE — v1.9.1-r2 / RJR91
 
 PR #194 exact reviewed head `42f91df5ec1d5a576f0907836fa03f5994d7646b` merged to live `main` as `11bb681527a9b78884baf0c384350c90493dc9bd`. The independently verified production application is `v1.9.1 / 1.9.1-r2`; `1.9.1-r1` is the previous production-proven whole-shell recovery target. Canonical production proof is `V1.9.1_R2_PRODUCTION_PROOF.md`.
@@ -32,11 +44,11 @@ PR #184 merged v1.9.0 / 1.9.0-r4 and proved that shell in production at `2bfb765
 
 # HISTORICAL RELEASE CANDIDATE — v1.9.0-r4 Stale Connected Rivalry Pointer Precedence
 
-Historical source candidate: `v1.9.0 / 1.9.0-r4`. Previous production-proven whole-shell recovery target at that checkpoint: `v1.9.0 / 1.9.0-r3`. This bounded hotfix preserves durable Connected Rivalry pointer A unless the current Private Pairing candidate B passes the existing exact provider-authorized attachment checks, then persists B automatically for the correct account/device/manager/profile/save. Permanent regression proof requires exactly one Player Two paste, automatic Player One/Player Two convergence on B, zero manual Connected Rivalry Verify/Reattach actions, preservation of A for pending/expired/mismatched B, and unchanged canonical localStorage. Firebase remains Spark and billing remains permanently forbidden. Fixed RJR-1 was `88/100` at that checkpoint; r4 source, CI and deployment earned zero readiness credit.
+Historical source candidate: `v1.9.0 / 1.9.0-r4`. Previous production-proven whole-shell recovery target at that checkpoint: `v1.9.0 / 1.9.0-r3`. This bounded hotfix preserves durable Connected Rivalry pointer A unless the current Private Pairing candidate B passes the existing exact provider-authorized attachment checks, then persists B automatically for the correct account/device/manager/profile/save. Permanent regression proof requires exactly one Player Two paste, automatic Player One/Player Two convergence on B, zero manual Connected Rivalry Verify/Reattach actions, preservation of A for pending/expired/mismatched B, and unchanged canonical localStorage. Firebase remains Spark and billing remains permanently forbidden. Fixed RJR91 was `88/100` at that checkpoint; r4 source, CI and deployment earned zero readiness credit.
 
 # HISTORICAL RELEASE CANDIDATE — v1.9.0-r3 Pairing One-Paste Hardening
 
-Historical source candidate: `v1.9.0 / 1.9.0-r3`. Previous production-proven whole-shell recovery target: `v1.9.0 / 1.9.0-r2`. This bounded patch gives Player One one direct pairing Copy action, requires exactly one Player Two paste, auto-propagates the exact private pairing identity into both Connected Rivalry contexts, and prevents late device-registration completion from clobbering an in-flight/open/paired state. Firebase remains Spark, billing remains forbidden, Firestore remains memory-only, App Check enforcement remains OFF, public discovery remains prohibited, canonical local saves remain untouched by Remote Joining, and Candidate C remains sole destructive remote-to-local gameplay Apply authority. Fixed RJR-1 remained `87/100` until new owner production capability evidence.
+Historical source candidate: `v1.9.0 / 1.9.0-r3`. Previous production-proven whole-shell recovery target: `v1.9.0 / 1.9.0-r2`. This bounded patch gives Player One one direct pairing Copy action, requires exactly one Player Two paste, auto-propagates the exact private pairing identity into both Connected Rivalry contexts, and prevents late device-registration completion from clobbering an in-flight/open/paired state. Firebase remains Spark, billing remains forbidden, Firestore remains memory-only, App Check enforcement remains OFF, public discovery remains prohibited, canonical local saves remain untouched by Remote Joining, and Candidate C remains sole destructive remote-to-local gameplay Apply authority. Fixed RJR-1 remained `87/100` until new owner production evidence.
 
 # HISTORICAL RELEASE CANDIDATE — v1.9.0 Private Remote Joining
 
