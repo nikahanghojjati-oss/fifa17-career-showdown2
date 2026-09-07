@@ -2,11 +2,13 @@
 
 Work Environment Continuity (WEC) is mandatory for every successor environment. Owner build-first policy remains `00_BUILD_FIRST_PRODUCT_POLICY.md`. Handoff proximity follows `00_HANDOFF_PROXIMITY_STAGE_GATES.md` / HTR-1 only.
 
-Permanent locks: Billing must never be activated. Firebase remains Spark. App Check enforcement remains OFF. Firestore browser persistence remains memory-only. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes. Canonical localStorage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, `careerModeShowdown.preferences`. Candidate C remains sole destructive remote-to-local gameplay Apply authority with transaction-owned strict exact raw-snapshot rollback. Exactly two private managers. No public discovery/listing/lobby/matchmaking/community/rankings/global leaderboards.
+Permanent locks: Billing must never be activated. Firebase remains Spark. App Check enforcement remains OFF. Firestore browser persistence remains memory-only. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes. Canonical localStorage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, `careerModeShowdown.preferences`. Candidate C remains the sole destructive remote-to-local gameplay Apply authority with transaction-owned strict exact raw-snapshot rollback. Exactly two private managers. No public discovery/listing/lobby/matchmaking/community/rankings/global leaderboards.
 
 RJR-1 remains COMPLETE/FROZEN `100/100`. Consumed RJR physical acceptance must not be repeated or re-credited absent a proven regression. SSJR-1.1 remains fixed `0/100` until whole-capability production evidence qualifies; source, PRs, CI, reviews, merges, deployments, recorder/validator/observer tooling, WEC/SLE/SNS and synthetic proof earn zero SSJR credit by themselves.
 
 The Installable Offline App, v1.3.0 Recovery & Device Resilience baseline, Local Profiles and Save Library remain protected shipped foundations and must not be reopened absent a demonstrated regression.
+
+Historical RJR provenance remains explicit: PR #198 completed the final stable release acceptance that froze RJR100. The accepted physical lane used the Chromebook and iPhone on genuinely independent network identities, including cellular for the peer path; that proof is consumed and is not being repeated here absent regression.
 
 Current production: DEPLOYED / PRODUCTION-PROVEN `v1.9.1 / 1.9.1-r4`, published by PR #212 merge `710dd4613c2cb915ddec7dd7a7525911277cb333`. Genuine owner acceptance displayed runtime `1.9.1-r4` and reached a real paired ACTIVE host private session plus authoritative Shared Setup `EMPTY · REV 0` before any league or club draw. Live Spark Shared Setup Rules remain ruleset `73b4435e-85a8-49f9-92ef-8ffe3ce0f91c`, generated-source blob `5bcde9297f6b2927a2184605192ab5b6cd46fb29`.
 
@@ -21,7 +23,7 @@ PR213 fixes three concrete production-acceptance hazards:
 
 Permanent regressions cover ACTIVE-session recorder routing, expired-session routing, and ACTIVE host → `EMPTY · REV 0` → `SHARED_SETUP_OPEN · REV 1` without the focus exception. The r5 candidate retains r4 as its previous known-good whole-shell recovery target.
 
-## IMMEDIATE NEXT TASK
+## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
 1. Finish PR #213 exact-head publication discipline. Every one of the 15 permanent workflow families must be terminal green on one exact head. Do not combine evidence across heads.
 2. Resolve all objective PR review threads only after the corresponding issue is demonstrably fixed and regression-covered.
