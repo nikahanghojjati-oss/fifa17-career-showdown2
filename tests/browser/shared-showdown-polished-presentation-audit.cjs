@@ -8,14 +8,14 @@ function setupState({phase,revision,leagueId=null,clubs=null,totalSeasons=null,c
   return {schemaVersion:1,bindingHash:"sha256:"+"1".repeat(64),catalogHash:"sha256:"+"2".repeat(64),coordinatorRole:"playerOne",phase,revision,leagueId,clubs,totalSeasons,confirmedRoles,receipts:[],contentHash:"sha256:"+"3".repeat(64)};
 }
 
-async function prepare(page,{managerRole,remoteRole,initialSetup}){
+async function prepare(page,{managerRole,remoteRole,initialSetup,reducedMotion=true}){
   await page.goto(baseUrl.href,{waitUntil:"domcontentloaded"});
   await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:12000});
   await page.waitForFunction(()=>typeof window.ensureGameplayModules==="function"&&typeof window.loadRuntimeScript==="function",null,{timeout:12000});
-  await page.evaluate(async({managerRole,remoteRole,initialSetup})=>{
+  await page.evaluate(async({managerRole,remoteRole,initialSetup,reducedMotion})=>{
     sessionStorage.setItem("careerModeShowdown.sharedJourneyPending.v1","1");
     window.CareerModeProductionSharedJourneyEntry={isPending:()=>true};
-    window.isReducedClubMotionPreferred=()=>true;
+    window.isReducedClubMotionPreferred=()=>reducedMotion;
     await ensureGameplayModules();
     let serverSetup=initialSetup;
     let current={status:"ready",open:false,busy:false,ready:true,revision:serverSetup?serverSetup.revision:0,phase:serverSetup?serverSetup.phase:null,rivalryId:"pair_"+"a".repeat(64),sessionId:"session_"+"b".repeat(64),accountId:managerRole==="playerOne"?"account_one":"account_two",deviceId:managerRole==="playerOne"?"device_"+"1".repeat(32):"device_"+"2".repeat(32),managerRole,remoteRole,setup:serverSetup,message:"ready"};
@@ -39,7 +39,7 @@ async function prepare(page,{managerRole,remoteRole,initialSetup}){
     await loadRuntimeScript("ssjr-polished-presentation-audit","js/productionSharedShowdownPresentation.js",()=>window.CareerModeProductionSharedShowdownPresentation);
     CareerModeProductionSharedShowdownPresentation.install();
     await CareerModeProductionSharedShowdownPresentation.activate();
-  },{managerRole,remoteRole,initialSetup});
+  },{managerRole,remoteRole,initialSetup,reducedMotion});
 }
 
 (async()=>{
@@ -51,7 +51,7 @@ async function prepare(page,{managerRole,remoteRole,initialSetup}){
   const peer=await peerContext.newPage();
   const errors=[];host.on("pageerror",e=>errors.push(`host: ${e.message}`));peer.on("pageerror",e=>errors.push(`peer: ${e.message}`));
   try{
-    await prepare(host,{managerRole:"playerOne",remoteRole:"host",initialSetup:null});
+    await prepare(host,{managerRole:"playerOne",remoteRole:"host",initialSetup:null,reducedMotion:false});
     assert.equal(await host.locator("#leagueWheelScreen").isVisible(),true,"Player 1 must enter the real League Wheel screen.");
     await host.locator("#spinLeague").click();
     await host.waitForFunction(()=>document.getElementById("leagueWheelScreen")?.dataset.sharedLeagueWitnessed==="laliga",null,{timeout:5000});
@@ -60,13 +60,13 @@ async function prepare(page,{managerRole,remoteRole,initialSetup}){
     await host.locator("#spinLeague").click();
     await host.locator("#clubWheelScreen").waitFor({state:"visible",timeout:5000});
     await host.locator("#openClubPack").click();
-    await host.waitForFunction(()=>Boolean(document.getElementById("clubWheelScreen")?.dataset.sharedClubPacksWitnessed),null,{timeout:5000});
+    await host.waitForFunction(()=>Boolean(document.getElementById("clubWheelScreen")?.dataset.sharedClubPacksWitnessed),null,{timeout:6500});
     assert.equal(await host.locator("#clubNameOne").textContent(),"Osasuna");
     assert.equal(await host.locator("#clubNameTwo").textContent(),"Espanyol");
     assert.equal(await host.locator("#clubWheelScreen").getAttribute("data-shared-presentation-role"),"playerOne");
 
     const peerLateSetup=setupState({phase:"CLUB_ASSIGNMENTS_COMMITTED",revision:3,leagueId:"laliga",clubs:{playerOne:"Osasuna",playerTwo:"Espanyol"}});
-    await prepare(peer,{managerRole:"playerTwo",remoteRole:"peer",initialSetup:peerLateSetup});
+    await prepare(peer,{managerRole:"playerTwo",remoteRole:"peer",initialSetup:peerLateSetup,reducedMotion:true});
     assert.equal(await peer.locator("#leagueWheelScreen").isVisible(),true,"Player 2 must see League Wheel even when provider authority has already advanced to clubs.");
     await peer.waitForFunction(()=>document.getElementById("leagueWheelScreen")?.dataset.sharedLeagueWitnessed==="laliga",null,{timeout:5000});
     assert.equal(await peer.locator("#selectedLeague").textContent(),"LaLiga");
@@ -78,7 +78,7 @@ async function prepare(page,{managerRole,remoteRole,initialSetup}){
     assert.equal(await peer.locator("#clubNameTwo").textContent(),"Espanyol");
     assert.equal(await peer.locator("#clubWheelScreen").getAttribute("data-shared-presentation-role"),"playerTwo");
     assert.deepEqual(errors,[],"Polished two-role presentation emitted page errors.");
-    process.stdout.write("PASS Shared Showdown polished presentation: Player 1 and Player 2 each witness the real League Wheel and original two-pack club reveal, including late peer authority, while provider state remains authoritative.\n");
+    process.stdout.write("PASS Shared Showdown polished presentation: Player 1 normal-motion reveal survives provider polling, and Player 1/Player 2 each witness the real League Wheel and original two-pack club reveal while provider state remains authoritative.\n");
   }finally{
     await hostContext.close().catch(()=>{});await peerContext.close().catch(()=>{});await browser.close().catch(()=>{});
   }
