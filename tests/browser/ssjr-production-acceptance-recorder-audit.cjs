@@ -11,35 +11,41 @@ const raw={
   freshSession:"session_"+"4".repeat(64),
   canonical:"PRIVATE_CANONICAL_SAVE_BYTES"
 };
+// Mirror the actual Shared Showdown protocol shape: leagueId + club names are
+// authoritative. There is deliberately NO provider-supplied clubLeagueIds field.
 const finalSetup={
-  schemaVersion:1,
-  objectType:"sharedShowdownSetup",
-  rivalryId:raw.rivalry,
   revision:6,
   phase:"SHOWDOWN_CONFIRMED",
   coordinatorRole:"playerOne",
-  leagueId:"premier-league",
-  clubs:{playerOne:"Arsenal",playerTwo:"Chelsea"},
-  clubLeagueIds:{playerOne:"premier-league",playerTwo:"premier-league"},
+  leagueId:"laliga",
+  clubs:{playerOne:"Osasuna",playerTwo:"Espanyol"},
   totalSeasons:1,
   confirmedRoles:["playerOne","playerTwo"]
 };
 const seedSetup={...finalSetup,revision:4,phase:"SEASON_LENGTH_COMMITTED",confirmedRoles:[]};
+const recorderCatalog={
+  version:"shared-showdown-catalog-v1",
+  catalog:{laliga:["Alavés","Athletic Club","Atlético Madrid","Barcelona","Celta Vigo","Deportivo La Coruña","Eibar","Espanyol","Granada","Las Palmas","Leganés","Málaga","Osasuna","Real Betis","Real Madrid","Real Sociedad","Sevilla","Sporting Gijón","Valencia","Villarreal"]}
+};
 
 async function openCase(browser,acceptance,mode="ready"){
   const context=await browser.newContext({viewport:{width:390,height:844},deviceScaleFactor:2,isMobile:true,hasTouch:true,locale:"en-US"});
   const page=await context.newPage();
   const pageErrors=[];page.on("pageerror",error=>pageErrors.push(error.stack||error.message));
-  await page.addInitScript(({raw,finalSetup,seedSetup,mode})=>{
+  await page.addInitScript(({raw,finalSetup,seedSetup,mode,recorderCatalog})=>{
     const listeners=new Set();
     let restoredFinal=false;
     try{restoredFinal=sessionStorage.getItem("__ssjrRecorderTestMode")==="final";}catch(_error){}
+    if(mode==="stale-runtime"){
+      try{sessionStorage.setItem("careerModeShowdown.ssjrAcceptance.safe.v1",JSON.stringify({schemaVersion:1,runtimeRevision:"1.9.1-r0",managerRole:"stale-role",pairedActiveBeforeSetup:{at:"stale"}}));}catch(_error){}
+    }
     let state=mode==="active-locked"
       ? {status:"locked",open:false,busy:false,ready:false,revision:0,phase:null,rivalryId:null,sessionId:null,accountId:null,deviceId:null,managerRole:null,remoteRole:null,setup:null,message:"Registered browser authority is unavailable."}
       : restoredFinal
         ? {status:"ready",open:false,busy:false,ready:true,revision:6,phase:"SHOWDOWN_CONFIRMED",rivalryId:raw.rivalry,sessionId:raw.initialSession,accountId:raw.account,deviceId:raw.device,managerRole:"playerOne",remoteRole:"host",setup:structuredClone(finalSetup),message:"test-reload"}
         : {status:"ready",open:false,busy:false,ready:true,revision:0,phase:null,rivalryId:raw.rivalry,sessionId:raw.initialSession,accountId:raw.account,deviceId:raw.device,managerRole:"playerOne",remoteRole:"host",setup:null,message:"test"};
     const emit=()=>{for(const listener of listeners)listener(Object.freeze({...state}));};
+    window.CareerModeSharedShowdownCatalog=Object.freeze({version:recorderCatalog.version,catalog:Object.freeze({laliga:Object.freeze([...recorderCatalog.catalog.laliga])})});
     window.__ssjrSetupPanelOpens=0;
     window.__ssjrRemotePanelOpens=0;
     window.CareerModeProductionSharedShowdownSetup={
@@ -60,7 +66,7 @@ async function openCase(browser,acceptance,mode="ready"){
     localStorage.setItem("careerModeShowdown.saveLibrary",JSON.stringify(canonicalLibrary));
     localStorage.setItem("careerModeShowdown.legacyShowdowns",JSON.stringify([]));
     localStorage.setItem("careerModeShowdown.preferences",JSON.stringify({private:"value"}));
-  },{raw,finalSetup,seedSetup,mode});
+  },{raw,finalSetup,seedSetup,mode,recorderCatalog});
   const url=new URL(baseUrl.href);if(acceptance)url.searchParams.set("ssjr-acceptance","1");
   await page.goto(url.href,{waitUntil:"domcontentloaded"});
   await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:12000});
@@ -70,7 +76,7 @@ async function openCase(browser,acceptance,mode="ready"){
 (async()=>{
   const runtime=await resolveChromiumRuntime();
   const browser=await chromium.launch({executablePath:runtime.executablePath,headless:true,args:runtime.args});
-  let normal=null,acceptance=null,activeLocked=null;
+  let normal=null,acceptance=null,activeLocked=null,staleRuntime=null;
   try{
     normal=await openCase(browser,false);
     await normal.page.waitForTimeout(1800);
@@ -90,6 +96,13 @@ async function openCase(browser,acceptance,mode="ready"){
     assert.equal(await activeLocked.page.evaluate(()=>window.__ssjrSetupPanelOpens),1,"ACTIVE-session guidance must route the primary action to Shared Setup diagnostics");
     assert.equal(await activeLocked.page.evaluate(()=>window.__ssjrRemotePanelOpens),0,"ACTIVE-session guidance must not reopen Private Remote Joining");
     assert.deepEqual(activeLocked.pageErrors,[]);
+
+    staleRuntime=await openCase(browser,true,"stale-runtime");
+    await staleRuntime.page.locator("#ssjrProductionAcceptanceRecorder").waitFor({state:"visible",timeout:7000});
+    await staleRuntime.page.waitForFunction(()=>window.CareerModeSSJRProductionAcceptanceRecorder.getState().statusRows[0].passed===true,{timeout:5000});
+    const runtimeCoherence=await staleRuntime.page.evaluate(()=>({draft:window.CareerModeSSJRProductionAcceptanceRecorder.getDraftEvidence(),live:document.querySelector('meta[name="app-asset-revision"]')?.content||"unknown"}));
+    assert.equal(runtimeCoherence.draft.runtimeRevision,runtimeCoherence.live,"stale recorder evidence must be reset instead of crossing runtime revisions");
+    assert.equal(runtimeCoherence.draft.managerRole,"playerOne","stale cross-runtime recorder role must not survive into the live evidence shell");
 
     acceptance=await openCase(browser,true);
     await acceptance.page.locator("#ssjrProductionAcceptanceRecorder").waitFor({state:"visible",timeout:7000});
@@ -143,8 +156,11 @@ async function openCase(browser,acceptance,mode="ready"){
     assert.match(result.draft.freshActiveSessionResume.sessionFingerprint,/^sha256:[a-f0-9]{64}$/);
     assert.notEqual(result.draft.pairedActiveBeforeSetup.sessionFingerprint,result.draft.freshActiveSessionResume.sessionFingerprint);
     assert.equal(result.draft.canonicalStorageBeforeHash,result.draft.canonicalStorageAfterHash,"canonical storage must remain byte-identical through positive acceptance");
-    assert.equal(result.draft.finalSetup.clubLeagueIds.playerOne,"premier-league");
-    assert.equal(result.draft.finalSetup.clubLeagueIds.playerTwo,"premier-league");
+    assert.equal(result.draft.finalSetup.leagueId,"laliga");
+    assert.equal(result.draft.finalSetup.clubs.playerOne,"Osasuna");
+    assert.equal(result.draft.finalSetup.clubs.playerTwo,"Espanyol");
+    assert.equal(result.draft.finalSetup.clubLeagueIds.playerOne,"laliga","recorder must derive playerOne league identity from repository catalog membership");
+    assert.equal(result.draft.finalSetup.clubLeagueIds.playerTwo,"laliga","recorder must derive playerTwo league identity from repository catalog membership");
     for(const secret of Object.values(raw)){
       assert.equal(JSON.stringify(result.draft).includes(secret),false,`safe draft leaked raw private value: ${secret}`);
       assert.equal(String(result.stored||"").includes(secret),false,`sanitized session storage leaked raw private value: ${secret}`);
@@ -152,12 +168,15 @@ async function openCase(browser,acceptance,mode="ready"){
     assert.deepEqual(acceptance.pageErrors,[]);
     console.log("PASS SSJR recorder is query-gated and absent from normal production mode");
     console.log("PASS SSJR recorder routes an already ACTIVE session to Shared Setup diagnostics instead of looping Private Remote Joining");
+    console.log("PASS SSJR recorder rejects stale cross-runtime evidence instead of mislabeling the live shell");
+    console.log("PASS SSJR recorder validates real protocol league + club names against the repository catalog and derives safe club league identities");
     console.log("PASS SSJR recorder simple mode exposes one context-aware NEXT STEP control while fallback controls stay collapsed");
     console.log("PASS SSJR recorder auto-captures paired-first, rev4, rev6, a real browser reload and fresh-session positive checkpoints");
     console.log("PASS SSJR recorder persists only sanitized SHA-256 evidence and preserves canonical local save bytes");
   }finally{
     if(normal)await normal.context.close().catch(()=>{});
     if(activeLocked)await activeLocked.context.close().catch(()=>{});
+    if(staleRuntime)await staleRuntime.context.close().catch(()=>{});
     if(acceptance)await acceptance.context.close().catch(()=>{});
     await browser.close().catch(()=>{});
   }
