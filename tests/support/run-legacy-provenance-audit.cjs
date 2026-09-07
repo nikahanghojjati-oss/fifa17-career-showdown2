@@ -13,7 +13,9 @@ const files = [
   "tests/contracts/remote-joining-physical-acceptance-validator-contracts.cjs",
   "tests/contracts/r2-production-proof-publication-contracts.cjs",
   "tests/contracts/remote-joining-physical-acceptance-real-recorder-null-contracts.cjs",
-  "tests/contracts/cloud-foundation-contracts.cjs"
+  "tests/contracts/cloud-foundation-contracts.cjs",
+  "tests/contracts/work-environment-continuity-contracts.cjs",
+  "tests/contracts/work-environment-interruption-resilience-contracts.cjs"
 ];
 
 function escape(value){
