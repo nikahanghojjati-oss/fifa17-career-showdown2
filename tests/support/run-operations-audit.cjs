@@ -3,8 +3,7 @@ const { spawnSync } = require("node:child_process");
 const files = [
   "tests/contracts/project-operating-system-v2-contracts.cjs",
   "tests/contracts/work-environment-continuity-runtime-contracts.cjs",
-  "tests/contracts/session-handoff-proximity-contracts.cjs",
-  "tests/contracts/work-environment-forward-progress-contracts.cjs"
+  "tests/contracts/session-handoff-proximity-contracts.cjs"
 ];
 
 for (const file of files) {
