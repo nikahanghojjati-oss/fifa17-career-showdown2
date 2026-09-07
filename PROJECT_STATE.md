@@ -23,6 +23,7 @@ Current WEC: `we-2026-09-06-ssjr-production-two-account-a55`; active branch `fix
 
 The following retained baseline wording is historical provenance required by immutable continuity/security contracts. Current execution authority is the r4/r5 section above.
 
+Production: `v1.9.1 / 1.9.1-r3`
 Production historical baseline: `v1.9.1 / 1.9.1-r3`
 Historical status: DEPLOYED / PRODUCTION-PROVEN
 
