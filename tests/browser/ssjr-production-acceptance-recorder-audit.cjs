@@ -32,7 +32,11 @@ async function openCase(browser,acceptance){
   const pageErrors=[];page.on("pageerror",error=>pageErrors.push(error.stack||error.message));
   await page.addInitScript(({raw,finalSetup,seedSetup})=>{
     const listeners=new Set();
-    let state={status:"ready",open:false,busy:false,ready:true,revision:0,phase:null,rivalryId:raw.rivalry,sessionId:raw.initialSession,accountId:raw.account,deviceId:raw.device,managerRole:"playerOne",remoteRole:"host",setup:null,message:"test"};
+    let restoredFinal=false;
+    try{restoredFinal=sessionStorage.getItem("__ssjrRecorderTestMode")==="final";}catch(_error){}
+    let state=restoredFinal
+      ? {status:"ready",open:false,busy:false,ready:true,revision:6,phase:"SHOWDOWN_CONFIRMED",rivalryId:raw.rivalry,sessionId:raw.initialSession,accountId:raw.account,deviceId:raw.device,managerRole:"playerOne",remoteRole:"host",setup:structuredClone(finalSetup),message:"test-reload"}
+      : {status:"ready",open:false,busy:false,ready:true,revision:0,phase:null,rivalryId:raw.rivalry,sessionId:raw.initialSession,accountId:raw.account,deviceId:raw.device,managerRole:"playerOne",remoteRole:"host",setup:null,message:"test"};
     const emit=()=>{for(const listener of listeners)listener(Object.freeze({...state}));};
     window.CareerModeProductionSharedShowdownSetup={
       getState(){return Object.freeze({...state});},
@@ -43,9 +47,10 @@ async function openCase(browser,acceptance){
     window.CareerModeSparkRemoteJoining={openPanel(){return true;}};
     window.__ssjrRecorderSetSeed=()=>{state={...state,revision:4,phase:"SEASON_LENGTH_COMMITTED",setup:structuredClone(seedSetup)};emit();};
     window.__ssjrRecorderSetFinal=()=>{state={...state,revision:6,phase:"SHOWDOWN_CONFIRMED",setup:structuredClone(finalSetup)};emit();};
+    window.__ssjrRecorderPrepareReload=()=>{sessionStorage.setItem("__ssjrRecorderTestMode","final");};
     window.__ssjrRecorderSetFresh=()=>{state={...state,sessionId:raw.freshSession,revision:6,phase:"SHOWDOWN_CONFIRMED",setup:structuredClone(finalSetup)};emit();};
     localStorage.setItem("careerModeShowdown.saveLibrary",raw.canonical);
-    localStorage.setItem("careerModeShowdown.legacyShowdowns",null);
+    localStorage.setItem("careerModeShowdown.legacyShowdowns","null");
     localStorage.setItem("careerModeShowdown.preferences",JSON.stringify({private:"value"}));
   },{raw,finalSetup,seedSetup});
   const url=new URL(baseUrl.href);if(acceptance)url.searchParams.set("ssjr-acceptance","1");
@@ -86,18 +91,26 @@ async function openCase(browser,acceptance){
     await acceptance.page.waitForFunction(()=>window.CareerModeSSJRProductionAcceptanceRecorder.getState().statusRows[1].passed===true,{timeout:5000});
     await acceptance.page.evaluate(()=>window.__ssjrRecorderSetFinal());
     await acceptance.page.waitForFunction(()=>window.CareerModeSSJRProductionAcceptanceRecorder.getState().statusRows[2].passed===true,{timeout:5000});
-    await acceptance.page.evaluate(()=>window.CareerModeSSJRProductionAcceptanceRecorder.armReload(false));
-    await acceptance.page.evaluate(()=>window.__ssjrRecorderSetFinal());
+
+    await acceptance.page.evaluate(()=>window.__ssjrRecorderPrepareReload());
+    await Promise.all([
+      acceptance.page.waitForNavigation({waitUntil:"domcontentloaded"}),
+      acceptance.page.evaluate(()=>window.CareerModeSSJRProductionAcceptanceRecorder.armReload(true))
+    ]);
+    await acceptance.page.locator("#loadingScreen").waitFor({state:"hidden",timeout:12000});
+    await acceptance.page.locator("#ssjrProductionAcceptanceRecorder").waitFor({state:"visible",timeout:7000});
     await acceptance.page.waitForFunction(()=>window.CareerModeSSJRProductionAcceptanceRecorder.getState().statusRows[4].passed===true,{timeout:5000});
+
     await acceptance.page.evaluate(()=>window.__ssjrRecorderSetFresh());
     await acceptance.page.waitForFunction(()=>window.CareerModeSSJRProductionAcceptanceRecorder.getState().completed===true,{timeout:5000});
 
     const result=await acceptance.page.evaluate(()=>({state:window.CareerModeSSJRProductionAcceptanceRecorder.getState(),draft:window.CareerModeSSJRProductionAcceptanceRecorder.getDraftEvidence(),stored:sessionStorage.getItem("careerModeShowdown.ssjrAcceptance.safe.v1")}));
-    assert.equal(result.state.completed,true,"guided positive recorder should complete after fresh-session resume");
+    assert.equal(result.state.completed,true,"guided positive recorder should complete after a real reload and fresh-session resume");
     assert.equal(result.draft.evidenceType,"SSJR-1.1-production-shared-setup-guided-positive-draft");
     assert.equal(result.draft.privacySafe,true);
     assert.equal(result.draft.rawAuthorityIncluded,false);
     assert.equal(result.draft.canonicalStorageRawIncluded,false);
+    assert.equal(result.draft.canonicalStorageViolation,false);
     assert.match(result.draft.accountFingerprint,/^sha256:[a-f0-9]{64}$/);
     assert.match(result.draft.deviceFingerprint,/^sha256:[a-f0-9]{64}$/);
     assert.match(result.draft.rivalryFingerprint,/^sha256:[a-f0-9]{64}$/);
@@ -105,13 +118,15 @@ async function openCase(browser,acceptance){
     assert.match(result.draft.freshActiveSessionResume.sessionFingerprint,/^sha256:[a-f0-9]{64}$/);
     assert.notEqual(result.draft.pairedActiveBeforeSetup.sessionFingerprint,result.draft.freshActiveSessionResume.sessionFingerprint);
     assert.equal(result.draft.canonicalStorageBeforeHash,result.draft.canonicalStorageAfterHash,"canonical storage must remain byte-identical through positive acceptance");
+    assert.equal(result.draft.finalSetup.clubLeagueIds.playerOne,"premier-league");
+    assert.equal(result.draft.finalSetup.clubLeagueIds.playerTwo,"premier-league");
     for(const secret of Object.values(raw)){
       assert.equal(JSON.stringify(result.draft).includes(secret),false,`safe draft leaked raw private value: ${secret}`);
       assert.equal(String(result.stored||"").includes(secret),false,`sanitized session storage leaked raw private value: ${secret}`);
     }
     assert.deepEqual(acceptance.pageErrors,[]);
     console.log("PASS SSJR recorder is query-gated and absent from normal production mode");
-    console.log("PASS SSJR recorder auto-captures paired-first, rev4, rev6, reload and fresh-session positive checkpoints");
+    console.log("PASS SSJR recorder auto-captures paired-first, rev4, rev6, a real browser reload and fresh-session positive checkpoints");
     console.log("PASS SSJR recorder persists only sanitized SHA-256 evidence and preserves canonical local save bytes");
   }finally{
     if(normal)await normal.context.close().catch(()=>{});
