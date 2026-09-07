@@ -13,8 +13,21 @@ assert.equal(bootstrap.remoteJoiningReadiness?.score,100); assert.equal(bootstra
 for(const [name,text] of docs){
  assert.match(text,/RJR-1|RJR100/i,`${name} must expose RJR100 authority`); assert.match(text,/100\/100/); assert.match(text,/PR #215/i); assert.match(text,/PR #203/i); assert.match(text,/v1\.9\.1/i); assert.match(text,/Billing must never be activated|Billing must remain permanently OFF/i); assert.match(text,/Spark/i); assert.match(text,/production.two.account|two legitimate private manager|SSJR-1/i);
 }
-assert.equal(bootstrap.closingWec?.environmentId,"we-2026-09-07-pr214-mdp1-a58"); assert.equal(wec.environmentId,"we-2026-09-07-pr214-mdp1-a58"); assert.equal(wec.signals?.unresolvedFailures,0); assert.equal(wec.assessment?.decisionInheritedFromPredecessor,false);
-if(wec.lifecycle==="active") assert.ok(["CONTINUE","PREPARE_HANDOFF"].includes(wec.assessment?.decision));
-else { assert.equal(wec.lifecycle,"transition-prepared"); assert.equal(wec.signals?.handoffCompleteness,100); assert.equal(wec.assessment?.decision,"HANDOFF_AT_CHECKPOINT"); const archive=bootstrap.closingWec?.plannedArchive; assert.ok(archive&&fs.existsSync(path.join(process.cwd(),archive))); }
+const closingId="we-2026-09-07-pr214-mdp1-a58";
+const closingArchive=bootstrap.closingWec?.plannedArchive||bootstrap.closingWec?.archive;
+assert.equal(bootstrap.closingWec?.environmentId,closingId);
+assert.ok(closingArchive&&fs.existsSync(path.join(process.cwd(),closingArchive)),"Closing a58 archive must remain durable.");
+assert.equal(wec.assessment?.decisionInheritedFromPredecessor,false);
+if(wec.lifecycle==="active"){
+ assert.notEqual(wec.environmentId,closingId,"Fresh successor WEC must not reuse the closing environment ID.");
+ assert.equal(wec.repository?.predecessorEnvironmentId,closingId,"Fresh successor must descend explicitly from closing a58.");
+ assert.equal(wec.repository?.predecessorArchive,closingArchive,"Fresh successor must point to the immutable closing a58 archive.");
+ assert.ok(["CONTINUE","PREPARE_HANDOFF"].includes(wec.assessment?.decision));
+ assert.match(wec.continuity?.currentTask||"",/release-candidate|publish|converge/i);
+ assert.equal(wec.sessionHandoffProximity?.environmentId,wec.environmentId);
+ assert.equal(wec.sessionHandoffProximity?.checkpoints?.[0]?.note,"New session: reset to 0%.");
+}else{
+ assert.equal(wec.environmentId,closingId); assert.equal(wec.lifecycle,"transition-prepared"); assert.equal(wec.signals?.handoffCompleteness,100); assert.equal(wec.assessment?.decision,"HANDOFF_AT_CHECKPOINT");
+}
 const next=read("NEXT_TASK.md"); assert.match(next,/Connected Rivalry[\s\S]+ACTIVE[\s\S]+league/i); assert.match(next,/two legitimate private manager|production-two-account|production two-account/i); assert.match(next,/record:ssjr-production-shared-setup/i); assert.match(next,/validate:ssjr-production-shared-setup/i); assert.match(next,/Do not begin transfer\/results\/scoring|Do not start transfer\/results\/scoring/i); assert.match(next,/release-candidate|publish|converge/i);
-process.stdout.write("PASS current authority: live PR215 r6 publication checkpoint, r5 production/r6 candidate, RJR100, SSJR0, MDP39, historical PR210/209/207/205/203 provenance and closing a58 continuity are coherent.\n");
+process.stdout.write("PASS current authority: live PR215 r6 publication checkpoint, fresh successor WEC descending from immutable closing a58, r5 production/r6 candidate, RJR100, SSJR0, MDP39 and historical PR210/209/207/205/203 provenance are coherent.\n");
