@@ -12,7 +12,7 @@ Permanent owner rule `SSJR-DUAL-FULL-SCREEN-1`: both legitimate managers must in
 
 PR215 debug history is bounded and process-only: the dual-screen MDP rule was strengthened to literally require both managers; omitted PR203/205/207/209/210 provenance was restored; stale WEC resolved-failure counters were corrected; the GitHub CLI bootstrap authority was restored. The latest proven remaining assertion before SLE packaging was `tests/contracts/production-authorization-acceptance-contracts.cjs`: source r6 may differ from production r5 only while the active WEC explicitly describes a release candidate / publish / converge task. The closing WEC is being sealed with explicit `Converge PR215 r6 release-candidate publication` wording. Do not weaken that contract.
 
-Historical immutable production/evidence provenance remains required:
+Historical immutable production/evidence provenance remains required. The historical production baseline `v1.9.1 / 1.9.1-r3` remains PR #203 authority and must not be overwritten by the r5 production shell or r6 release candidate.
 - PR #203: production-proven `v1.9.1 / 1.9.1-r3` paired-first Shared Setup baseline, merge `65d88b1b413501b328bdf722bc6e8a0aa0d46ef2`; Firebase Spark Rules ruleset `73b4435e-85a8-49f9-92ef-8ffe3ce0f91c`, generated-source blob `5bcde9297f6b2927a2184605192ab5b6cd46fb29`.
 - PR #205: strict production Shared Setup pair validator.
 - PR #207: stdin-only privacy-safe evidence recorder.
