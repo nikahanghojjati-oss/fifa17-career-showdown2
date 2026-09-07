@@ -34,7 +34,7 @@ This is classified as one shared repository/continuity-contract blocker until th
 14. Recalculate SSJR only if the unchanged validator/model accepts genuine production evidence.
 15. Do not begin transfer/results/scoring transport before this Shared Setup evidence boundary resolves unless a later explicit owner instruction changes authority.
 
-Automation boundary: automate every reproducible contract, browser, Rules, storage, adverse-network, deployment and evidence-validation test. The only irreducible owner work remains genuine two-account/two-independent-browser interaction.
+Automation boundary: automate every reproducible contract, browser, Rules, storage, adverse-network, deployment and evidence-validation test. Preserve the shipped Installable Offline App foundation. The only irreducible owner work remains genuine two-account/two-independent-browser interaction.
 
 Permanent locks: Billing must remain permanently OFF. Firebase remains Spark. Never enable Blaze, a billing account, Cloud Run or Cloud Functions. App Check enforcement remains OFF. Firestore browser persistence remains memory-only. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes. Exactly two private managers. Pairing + exact ACTIVE before league/clubs. Canonical localStorage exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, `careerModeShowdown.preferences`. Candidate C remains sole destructive remote-to-local gameplay Apply authority with transaction-owned strict exact raw-snapshot rollback. No public discovery/listing/lobby/matchmaking/community/rankings/global leaderboards. Never durably retain raw private capability/account/device/rivalry/session/pairing identifiers.
 
