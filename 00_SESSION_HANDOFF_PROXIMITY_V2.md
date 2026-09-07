@@ -44,11 +44,32 @@ one diagnosis/correction/validation attempt, not each check poll. Count distinct
 files cumulatively. These are observable proxies with deterministic arithmetic, not a
 claim of access to a hidden token percentage. Actual usage warnings retain stricter WEC priority.
 
+## Debug-spiral circuit breaker
+
+A session must not remain at 95-99 while repeatedly attempting increasingly error-prone
+fix/validate loops. The first safe checkpoint becomes the transfer boundary when repeated
+validation failure plus current red state shows the environment is losing efficiency or
+context quality. The successor may finish the remaining tests or correction; known red CI is
+handoff-compatible when exact head, failing families, evidence and next safe action are durable.
+
+The circuit breaker uses observable state only:
+
+- two or more unresolved debug loops require at least 95 and full SNS immediately;
+- three or more CI/debug cycles while any red CI family or unresolved state remains require at least 95;
+- two or more CI/debug cycles plus at least two truncation/recovery/compaction events while a red/unresolved state remains require at least 95;
+- two or more CI/debug cycles with at least two red CI families require at least 85 so no broad lane may begin and full SNS preparation starts;
+- hard state reconstruction alone requires at least 80; repeated unresolved loops escalate beyond it to 95.
+
+The purpose is quality preservation, not avoidance of difficult work. Finish or safely revert only
+an atomic operation that cannot be interrupted, classify the exact blocker, seal recoverable state,
+and transition. Never weaken tests merely to escape the circuit breaker.
+
 Risk floors apply before the session high-water mark: two or more observed truncation,
-interruption/recovery or compaction events give at least 70; two or more currently unresolved
-CI/debug loops or hard state reconstruction give at least 80; an owner wrap/transition
-request or another substantial task that risks loss gives at least 95. Ordinary catch-up
-or the predecessor's red check alone does not count as hard reconstruction or repeated loops.
+interruption/recovery or compaction events give at least 70; hard state reconstruction gives
+at least 80; the multi-family repeated-validation condition above gives at least 85; the
+circuit-breaker conditions above give at least 95. An owner wrap/transition request or another
+substantial task that risks loss also gives at least 95. Ordinary catch-up or the predecessor's
+red check alone does not count as hard reconstruction or a repeated loop.
 
 | Range | Required action |
 | --- | --- |
@@ -64,13 +85,13 @@ successfully verified with a named evidence record, and HTR-1's sealed-transfer-
 checks pass. 100 means handoff complete, NOT project complete. A new task, red CI or owner
 test does not prevent a truthful handoff when its exact state and next action are recorded.
 
-VTLS SNS generation is independent of proximity and may happen at any percentage.
-Write only `PR/head | metric | completed | blocker | next` at substantial diagnosis,
-implementation, CI, merge/deploy and physical-test milestones. Full SLE remains required
-at a final transition; tiny VTLS checkpoints do not falsely certify it.
+VTLS SNS generation is independent of proximity. Under the owner instruction of 2026-09-07,
+generate a tiny VTLS SNS after every substantial task or substantial state change at any
+percentage. Write only `PR/head | metric | completed | blocker | next`. Full SLE remains
+required at a final transition; tiny VTLS checkpoints do not falsely certify it.
 
 WEC can require an earlier or stricter transition. v2 never weakens that decision.
 Every future starter, SLE handoff, generated prompt and current reporting rule must preserve
-this separation, zero reset, proxy honesty, monotonicity, risk floors and stop behavior.
-Historical archives/dated starters remain unchanged provenance. Current pointer documents
-must explicitly route readers to v2 instead of restoring historical HTR reporting.
+this separation, zero reset, proxy honesty, monotonicity, debug-spiral circuit breaker, risk
+floors and stop behavior. Historical archives/dated starters remain unchanged provenance.
+Current pointer documents must explicitly route readers to v2 instead of restoring historical HTR reporting.
