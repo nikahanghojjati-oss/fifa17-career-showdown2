@@ -73,6 +73,8 @@ async function openCase(browser,acceptance){
 
     acceptance=await openCase(browser,true);
     await acceptance.page.locator("#ssjrProductionAcceptanceRecorder").waitFor({state:"visible",timeout:7000});
+    assert.equal(await acceptance.page.locator("#ssjrProductionAcceptanceRecorder .ssjrPrimary").count(),1,"acceptance mode must expose one primary NEXT STEP control");
+    assert.equal(await acceptance.page.locator("#ssjrProductionAcceptanceRecorder details.ssjrAdvanced").count(),1,"fallback controls must remain collapsed behind MORE CONTROLS");
     const contract=await acceptance.page.evaluate(()=>({
       enabled:window.CareerModeSSJRProductionAcceptanceRecorder.enabled,
       productionEnabled:window.CareerModeSSJRProductionAcceptanceRecorder.productionEnabled,
@@ -86,10 +88,12 @@ async function openCase(browser,acceptance){
     assert.deepEqual(contract,{enabled:true,productionEnabled:true,rawPersistence:false,sanitizedOnly:true,canonicalMutation:false,billing:false,blaze:false,appCheck:false});
 
     await acceptance.page.waitForFunction(()=>window.CareerModeSSJRProductionAcceptanceRecorder.getState().statusRows[0].passed===true,{timeout:5000});
+    assert.match(await acceptance.page.locator(".ssjrPrimary").textContent(),/OPEN SHARED SETUP/,"simple mode should advance the one primary control after ACTIVE is captured");
     await acceptance.page.evaluate(()=>window.__ssjrRecorderSetSeed());
     await acceptance.page.waitForFunction(()=>window.CareerModeSSJRProductionAcceptanceRecorder.getState().statusRows[1].passed===true,{timeout:5000});
     await acceptance.page.evaluate(()=>window.__ssjrRecorderSetFinal());
     await acceptance.page.waitForFunction(()=>window.CareerModeSSJRProductionAcceptanceRecorder.getState().statusRows[2].passed===true,{timeout:5000});
+    assert.match(await acceptance.page.locator(".ssjrPrimary").textContent(),/RELOAD & VERIFY/,"simple mode should turn the primary control into reload proof after revision 6");
 
     await acceptance.page.evaluate(()=>window.__ssjrRecorderPrepareReload());
     await Promise.all([
@@ -99,9 +103,11 @@ async function openCase(browser,acceptance){
     await acceptance.page.locator("#loadingScreen").waitFor({state:"hidden",timeout:12000});
     await acceptance.page.locator("#ssjrProductionAcceptanceRecorder").waitFor({state:"visible",timeout:7000});
     await acceptance.page.waitForFunction(()=>window.CareerModeSSJRProductionAcceptanceRecorder.getState().statusRows[4].passed===true,{timeout:5000});
+    assert.match(await acceptance.page.locator(".ssjrPrimary").textContent(),/OPEN FRESH SESSION/,"simple mode should request only a fresh session after reload proof");
 
     await acceptance.page.evaluate(()=>window.__ssjrRecorderSetFresh());
     await acceptance.page.waitForFunction(()=>window.CareerModeSSJRProductionAcceptanceRecorder.getState().completed===true,{timeout:5000});
+    assert.match(await acceptance.page.locator(".ssjrPrimary").textContent(),/DOWNLOAD SAFE RESULT/,"completed simple mode should reduce the final action to one safe download");
 
     const result=await acceptance.page.evaluate(()=>({state:window.CareerModeSSJRProductionAcceptanceRecorder.getState(),draft:window.CareerModeSSJRProductionAcceptanceRecorder.getDraftEvidence(),stored:sessionStorage.getItem("careerModeShowdown.ssjrAcceptance.safe.v1")}));
     assert.equal(result.state.completed,true,"guided positive recorder should complete after a real reload and fresh-session resume");
@@ -125,6 +131,7 @@ async function openCase(browser,acceptance){
     }
     assert.deepEqual(acceptance.pageErrors,[]);
     console.log("PASS SSJR recorder is query-gated and absent from normal production mode");
+    console.log("PASS SSJR recorder simple mode exposes one context-aware NEXT STEP control while fallback controls stay collapsed");
     console.log("PASS SSJR recorder auto-captures paired-first, rev4, rev6, a real browser reload and fresh-session positive checkpoints");
     console.log("PASS SSJR recorder persists only sanitized SHA-256 evidence and preserves canonical local save bytes");
   }finally{
