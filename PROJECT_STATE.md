@@ -1,27 +1,27 @@
-# PROJECT STATE — RJR-1 100/100 / SSJR-1.1 0/100 / PR213 R5 HOTFIX CANDIDATE
+# PROJECT STATE — RJR-1 100/100 / SSJR-1.1 0/100 / PR214 R6 POLISHED SHARED SETUP CANDIDATE
 
 Work Environment Continuity (WEC) is mandatory for every successor environment.
 
-Production: `v1.9.1 / 1.9.1-r4`
-Status: DEPLOYED / PRODUCTION-PROVEN DURING GENUINE TWO-ACCOUNT ACCEPTANCE
+Production: `v1.9.1 / 1.9.1-r5`
+Status: DEPLOYED / PRODUCTION-PROVEN
 
-PR #212 merged to main at `710dd4613c2cb915ddec7dd7a7525911277cb333` and published coherent runtime `1.9.1-r4`. The owner then exercised the public `?ssjr-acceptance=1` path with two legitimate private manager/device identities and the production page itself exposed runtime `1.9.1-r4`, proving the r4 shell was genuinely serving during the production-two-account test.
+PR #213 merged to main at `24d644efe0702ef4672e0655465b66e658ed4e3a` and published coherent runtime `1.9.1-r5`. Post-merge GitHub Pages, Release Integration Burn-In, Stability contracts, Chromium integration, deployed-runtime byte verification and deployed-site smoke all succeeded on that exact main generation before the owner resumed genuine two-account production acceptance.
 
 Provider/Rules authority remains the previously reviewed Firebase Spark path from PR #203. Production Rules remain Firebase Spark `cloud.firestore` ruleset `73b4435e-85a8-49f9-92ef-8ffe3ce0f91c`, exact generated-source blob `5bcde9297f6b2927a2184605192ab5b6cd46fb29`. Billing must never be activated and must remain permanently OFF. Firebase remains Spark. App Check enforcement remains OFF. Firestore browser persistence remains memory-only. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes.
 
-Current release candidate: `v1.9.1 / 1.9.1-r5` on PR #213. Genuine production acceptance exposed three bounded hazards before any Shared Setup league/club draw: an already-ACTIVE recorder routing loop, the `focus is not a function` Shared Setup overlay crash after authoritative `EMPTY · REV 0`, and an expired-session false-ACTIVE routing edge. PR213 fixes all three and permanently regression-tests ACTIVE-session routing, expired-session routing, and ACTIVE host → `EMPTY · REV 0` → `SHARED_SETUP_OPEN · REV 1` with no focus exception. The r5 candidate retains current production r4 as its previous known-good whole-shell recovery target.
+Current release candidate: `v1.9.1 / 1.9.1-r6` on PR #214. Genuine production acceptance on r5 reached authoritative `SHOWDOWN_CONFIRMED · REV 6` with LaLiga, Osasuna, Espanyol, one season and both role confirmations, then exposed two first-party defects: the guided recorder falsely required a provider `clubLeagueIds` field that the canonical protocol never stores, and the normal Shared Journey replaced the app's core League Wheel / Club Pack presentation with an engineering-style Shared Setup overlay. r6 fixes the recorder by validating clubs against the repository-owned authoritative catalog, resets stale cross-runtime recorder state, and restores the intended game-companion flow after exact pairing + ACTIVE authority: real League Wheel on both devices → original Club Pack reveal on both devices → season length → each manager confirms. Provider/Firebase remains sole draw authority and no local reroll authority is reintroduced. The r6 candidate retains current production r5 as its previous known-good whole-shell recovery target.
 
-RJR100 remains COMPLETE/FROZEN `100/100`. Fixed SSJR-1.1 remains evidence-backed `0/100`. PR213 implementation, tests, CI, review, merge and deployment earn zero SSJR credit by themselves. The genuine production test already established a real paired ACTIVE host path and authoritative Shared Setup `EMPTY · REV 0`; after r5 publication the score-enabling boundary is to resume the same two-account acceptance through identical `SHOWDOWN_CONFIRMED · REV 6`, reload/resume and fresh-ACTIVE same-rivalry resume without redraw/reset.
+RJR100 remains COMPLETE/FROZEN `100/100`. Fixed SSJR-1.1 remains evidence-backed `0/100`. PR214 implementation, tests, CI, review, merge and deployment earn zero SSJR credit by themselves. The score-enabling boundary remains one fresh genuine two-account production acceptance on coherent r6 proving both browsers witnessed the League Wheel and Club Packs, identical `SHOWDOWN_CONFIRMED · REV 6`, unchanged canonical storage, reload/resume and a fresh ACTIVE same-rivalry session without reset/redraw.
 
 The Installable Offline App, v1.3.0 Recovery & Device Resilience baseline, Local Profiles and Save Library remain protected shipped foundations and must not be reopened absent a demonstrated regression.
 
-Canonical localStorage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, `careerModeShowdown.preferences`. Shared Setup/recorder must not mutate them. Candidate A is non-mutating; Candidate B is read-only; Candidate C remains the sole destructive remote-to-local gameplay Apply authority with transaction-owned strict exact raw-snapshot rollback. Exactly two private managers. No public discovery/listing/lobby/matchmaking/community/rankings/global leaderboards.
+Canonical localStorage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, `careerModeShowdown.preferences`. Shared Setup/presentation/recorder must not mutate them. Candidate A is non-mutating; Candidate B is read-only; Candidate C remains the sole destructive remote-to-local gameplay Apply authority with transaction-owned strict exact raw-snapshot rollback. Exactly two private managers. No public discovery/listing/lobby/matchmaking/community/rankings/global leaderboards.
 
-Current WEC: `we-2026-09-06-ssjr-production-two-account-a55`; active branch `fix/ssjr-recorder-active-session-guidance`; active PR #213. HTR-1 alone defines Handoff proximity and remains separate from SSJR and CI health. Estimated focused sessions to genuine SSJR100: ~5–10.
+Current WEC: `we-2026-09-07-ssjr-polished-shared-setup-r6-a56`; active branch `fix/ssjr-recorder-catalog-proof-r6`; active PR #214. HTR-1 alone defines Handoff proximity and remains separate from SSJR and CI health. Handoff proximity remains 80%. Estimated focused sessions to genuine SSJR100: ~5–10.
 
 ## HISTORICAL COMPATIBILITY SNAPSHOT — NOT CURRENT EXECUTION AUTHORITY
 
-The following retained baseline wording is historical provenance required by immutable continuity/security contracts. Current execution authority is the r4/r5 section above.
+The following retained baseline wording is historical provenance required by immutable continuity/security contracts. Current execution authority is the r5/r6 section above.
 
 Production: `v1.9.1 / 1.9.1-r3`
 Production historical baseline: `v1.9.1 / 1.9.1-r3`
