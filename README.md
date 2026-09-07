@@ -1,10 +1,10 @@
-# CURRENT PRODUCTION / RELEASE CANDIDATE OVERRIDE — v1.9.1-r3 production / v1.9.1-r4 candidate
+# CURRENT PRODUCTION / RELEASE CANDIDATE OVERRIDE — v1.9.1-r5 production / v1.9.1-r6 candidate
 
-Current production runtime: `v1.9.1 / 1.9.1-r3` — production-proven.
-Current release candidate: `v1.9.1 / 1.9.1-r4` on PR #212 — not production-proven until exact-head merge, deployment and verification.
-Previous known-good whole-shell recovery target for the r4 candidate: `1.9.1-r3` — production-proven.
+Current production runtime: `v1.9.1 / 1.9.1-r5` — production-proven.
+Current release candidate: `v1.9.1 / 1.9.1-r6` on PR #214 — not production-proven until exact-head merge, deployment and verification.
+Previous known-good whole-shell recovery target for the r6 candidate: `1.9.1-r5` — production-proven.
 
-PR #212 adds only the query-gated guided SSJR production acceptance recorder and its release-safe whole-shell identity. It does not earn SSJR credit by itself; fixed SSJR-1.1 remains `0/100` until genuine two-account production evidence qualifies. Firebase remains Spark, billing permanently OFF, App Check enforcement OFF, memory-only Firestore, exactly two private managers, no public discovery/matchmaking, and Candidate C remains the sole destructive remote-to-local gameplay Apply authority.
+PR #214 fixes the guided SSJR recorder catalog proof, restores the real League Wheel and original Club Pack presentation for both private managers after exact pairing + ACTIVE session, and publishes the coherent r6 whole-shell candidate. Provider/Firebase state remains the sole league/club draw authority; presentation never regains local reroll authority. This work earns zero SSJR credit by itself; fixed SSJR-1.1 remains `0/100` until genuine two-account production evidence qualifies. Firebase remains Spark, billing permanently OFF, App Check enforcement OFF, memory-only Firestore, exactly two private managers, no public discovery/matchmaking, and Candidate C remains the sole destructive remote-to-local gameplay Apply authority.
 
 The retained older “current” labels below are historical where they conflict with this override.
 
