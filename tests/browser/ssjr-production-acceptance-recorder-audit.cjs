@@ -1,0 +1,121 @@
+const assert=require("node:assert/strict");
+const {chromium}=require("playwright");
+const {resolveChromiumRuntime}=require("../support/chromium-runtime.cjs");
+
+const baseUrl=new URL(process.env.CMS_BASE_URL||"http://127.0.0.1:4173/");
+const raw={
+  account:"ssjr-private-account-a",
+  device:"device_11111111111111111111111111111111",
+  rivalry:"pair_"+"2".repeat(64),
+  initialSession:"session_"+"3".repeat(64),
+  freshSession:"session_"+"4".repeat(64),
+  canonical:"PRIVATE_CANONICAL_SAVE_BYTES"
+};
+const finalSetup={
+  schemaVersion:1,
+  objectType:"sharedShowdownSetup",
+  rivalryId:raw.rivalry,
+  revision:6,
+  phase:"SHOWDOWN_CONFIRMED",
+  coordinatorRole:"playerOne",
+  leagueId:"premier-league",
+  clubs:{playerOne:"Arsenal",playerTwo:"Chelsea"},
+  clubLeagueIds:{playerOne:"premier-league",playerTwo:"premier-league"},
+  totalSeasons:1,
+  confirmedRoles:["playerOne","playerTwo"]
+};
+const seedSetup={...finalSetup,revision:4,phase:"SEASON_LENGTH_COMMITTED",confirmedRoles:[]};
+
+async function openCase(browser,acceptance){
+  const context=await browser.newContext({viewport:{width:390,height:844},deviceScaleFactor:2,isMobile:true,hasTouch:true,locale:"en-US"});
+  const page=await context.newPage();
+  const pageErrors=[];page.on("pageerror",error=>pageErrors.push(error.stack||error.message));
+  await page.addInitScript(({raw,finalSetup,seedSetup})=>{
+    const listeners=new Set();
+    let state={status:"ready",open:false,busy:false,ready:true,revision:0,phase:null,rivalryId:raw.rivalry,sessionId:raw.initialSession,accountId:raw.account,deviceId:raw.device,managerRole:"playerOne",remoteRole:"host",setup:null,message:"test"};
+    const emit=()=>{for(const listener of listeners)listener(Object.freeze({...state}));};
+    window.CareerModeProductionSharedShowdownSetup={
+      getState(){return Object.freeze({...state});},
+      subscribe(listener){listeners.add(listener);return()=>listeners.delete(listener);},
+      async refresh(){emit();return Object.freeze({ok:true});},
+      async openPanel(){state={...state,open:true};emit();return true;}
+    };
+    window.CareerModeSparkRemoteJoining={openPanel(){return true;}};
+    window.__ssjrRecorderSetSeed=()=>{state={...state,revision:4,phase:"SEASON_LENGTH_COMMITTED",setup:structuredClone(seedSetup)};emit();};
+    window.__ssjrRecorderSetFinal=()=>{state={...state,revision:6,phase:"SHOWDOWN_CONFIRMED",setup:structuredClone(finalSetup)};emit();};
+    window.__ssjrRecorderSetFresh=()=>{state={...state,sessionId:raw.freshSession,revision:6,phase:"SHOWDOWN_CONFIRMED",setup:structuredClone(finalSetup)};emit();};
+    localStorage.setItem("careerModeShowdown.saveLibrary",raw.canonical);
+    localStorage.setItem("careerModeShowdown.legacyShowdowns",null);
+    localStorage.setItem("careerModeShowdown.preferences",JSON.stringify({private:"value"}));
+  },{raw,finalSetup,seedSetup});
+  const url=new URL(baseUrl.href);if(acceptance)url.searchParams.set("ssjr-acceptance","1");
+  await page.goto(url.href,{waitUntil:"domcontentloaded"});
+  await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:12000});
+  return {context,page,pageErrors};
+}
+
+(async()=>{
+  const runtime=await resolveChromiumRuntime();
+  const browser=await chromium.launch({executablePath:runtime.executablePath,headless:true,args:runtime.args});
+  let normal=null,acceptance=null;
+  try{
+    normal=await openCase(browser,false);
+    await normal.page.waitForTimeout(1800);
+    assert.equal(await normal.page.locator("#ssjrProductionAcceptanceRecorder").count(),0,"normal production mode must not expose the SSJR recorder");
+    assert.equal(await normal.page.evaluate(()=>Boolean(window.CareerModeSSJRProductionAcceptanceRecorder)),false,"normal production mode must not load the SSJR recorder API");
+    const normalRequests=await normal.page.evaluate(()=>performance.getEntriesByType("resource").filter(entry=>entry.name.includes("ssjrProductionAcceptanceRecorder.js")).map(entry=>entry.name));
+    assert.deepEqual(normalRequests,[],"normal production mode must not request the SSJR recorder asset");
+    await normal.context.close();normal=null;
+
+    acceptance=await openCase(browser,true);
+    await acceptance.page.locator("#ssjrProductionAcceptanceRecorder").waitFor({state:"visible",timeout:7000});
+    const contract=await acceptance.page.evaluate(()=>({
+      enabled:window.CareerModeSSJRProductionAcceptanceRecorder.enabled,
+      productionEnabled:window.CareerModeSSJRProductionAcceptanceRecorder.productionEnabled,
+      rawPersistence:window.CareerModeSSJRProductionAcceptanceRecorder.pageRawAuthorityPersistence,
+      sanitizedOnly:window.CareerModeSSJRProductionAcceptanceRecorder.sanitizedSessionStorageOnly,
+      canonicalMutation:window.CareerModeSSJRProductionAcceptanceRecorder.canonicalStorageMutation,
+      billing:window.CareerModeSSJRProductionAcceptanceRecorder.billingRequired,
+      blaze:window.CareerModeSSJRProductionAcceptanceRecorder.blazeRequired,
+      appCheck:window.CareerModeSSJRProductionAcceptanceRecorder.appCheckEnforcementRequired
+    }));
+    assert.deepEqual(contract,{enabled:true,productionEnabled:true,rawPersistence:false,sanitizedOnly:true,canonicalMutation:false,billing:false,blaze:false,appCheck:false});
+
+    await acceptance.page.waitForFunction(()=>window.CareerModeSSJRProductionAcceptanceRecorder.getState().statusRows[0].passed===true,{timeout:5000});
+    await acceptance.page.evaluate(()=>window.__ssjrRecorderSetSeed());
+    await acceptance.page.waitForFunction(()=>window.CareerModeSSJRProductionAcceptanceRecorder.getState().statusRows[1].passed===true,{timeout:5000});
+    await acceptance.page.evaluate(()=>window.__ssjrRecorderSetFinal());
+    await acceptance.page.waitForFunction(()=>window.CareerModeSSJRProductionAcceptanceRecorder.getState().statusRows[2].passed===true,{timeout:5000});
+    await acceptance.page.evaluate(()=>window.CareerModeSSJRProductionAcceptanceRecorder.armReload(false));
+    await acceptance.page.evaluate(()=>window.__ssjrRecorderSetFinal());
+    await acceptance.page.waitForFunction(()=>window.CareerModeSSJRProductionAcceptanceRecorder.getState().statusRows[4].passed===true,{timeout:5000});
+    await acceptance.page.evaluate(()=>window.__ssjrRecorderSetFresh());
+    await acceptance.page.waitForFunction(()=>window.CareerModeSSJRProductionAcceptanceRecorder.getState().completed===true,{timeout:5000});
+
+    const result=await acceptance.page.evaluate(()=>({state:window.CareerModeSSJRProductionAcceptanceRecorder.getState(),draft:window.CareerModeSSJRProductionAcceptanceRecorder.getDraftEvidence(),stored:sessionStorage.getItem("careerModeShowdown.ssjrAcceptance.safe.v1")}));
+    assert.equal(result.state.completed,true,"guided positive recorder should complete after fresh-session resume");
+    assert.equal(result.draft.evidenceType,"SSJR-1.1-production-shared-setup-guided-positive-draft");
+    assert.equal(result.draft.privacySafe,true);
+    assert.equal(result.draft.rawAuthorityIncluded,false);
+    assert.equal(result.draft.canonicalStorageRawIncluded,false);
+    assert.match(result.draft.accountFingerprint,/^sha256:[a-f0-9]{64}$/);
+    assert.match(result.draft.deviceFingerprint,/^sha256:[a-f0-9]{64}$/);
+    assert.match(result.draft.rivalryFingerprint,/^sha256:[a-f0-9]{64}$/);
+    assert.match(result.draft.pairedActiveBeforeSetup.sessionFingerprint,/^sha256:[a-f0-9]{64}$/);
+    assert.match(result.draft.freshActiveSessionResume.sessionFingerprint,/^sha256:[a-f0-9]{64}$/);
+    assert.notEqual(result.draft.pairedActiveBeforeSetup.sessionFingerprint,result.draft.freshActiveSessionResume.sessionFingerprint);
+    assert.equal(result.draft.canonicalStorageBeforeHash,result.draft.canonicalStorageAfterHash,"canonical storage must remain byte-identical through positive acceptance");
+    for(const secret of Object.values(raw)){
+      assert.equal(JSON.stringify(result.draft).includes(secret),false,`safe draft leaked raw private value: ${secret}`);
+      assert.equal(String(result.stored||"").includes(secret),false,`sanitized session storage leaked raw private value: ${secret}`);
+    }
+    assert.deepEqual(acceptance.pageErrors,[]);
+    console.log("PASS SSJR recorder is query-gated and absent from normal production mode");
+    console.log("PASS SSJR recorder auto-captures paired-first, rev4, rev6, reload and fresh-session positive checkpoints");
+    console.log("PASS SSJR recorder persists only sanitized SHA-256 evidence and preserves canonical local save bytes");
+  }finally{
+    if(normal)await normal.context.close().catch(()=>{});
+    if(acceptance)await acceptance.context.close().catch(()=>{});
+    await browser.close().catch(()=>{});
+  }
+})().catch(error=>{console.error("SSJR PRODUCTION ACCEPTANCE RECORDER AUDIT FAILED");console.error(error.stack||error);process.exit(1);});
