@@ -9,7 +9,7 @@ Public site: `https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/`
 
 PR #214 was expected-head squash merged. Recorded main after that merge is `420d0dd21480c660d4fe139ba011eca1ccb987a9`. The exact r6 Pages build/deploy succeeded and Release Integration Burn-In passed the complete browser journey, including paired-first Shared Setup, League Wheel and Club Packs.
 
-The remaining publication blocker is bounded PR #215 on branch `fix/pr214-postmerge-dual-screen-contract`. Pre-SLE substantive head `da099afa12b5b760bf85728857685a7913d25ba3` restored the GitHub CLI bootstrap authority. A fresh exact-head contract run then advanced to one known continuity assertion in `tests/contracts/production-authorization-acceptance-contracts.cjs`: source `1.9.1-r6` may differ from production authority `1.9.1-r5` only while the active WEC explicitly identifies a release-candidate publication/convergence task. The current WEC is active/CONTINUE on PR215, but its older `currentTask` wording says only “release correction”, so the guard is false. This is continuity metadata drift, not a demonstrated runtime/provider regression.
+The remaining publication lane is bounded PR #215 on branch `fix/pr214-postmerge-dual-screen-contract`. Pre-SLE substantive head `da099afa12b5b760bf85728857685a7913d25ba3` restored the GitHub CLI bootstrap authority. Subsequent exact-head contract debugging proved the red shared workflow families were repository-authority continuity assertions rather than a demonstrated runtime/provider regression. During SLE packaging the active WEC task was corrected to explicit r6 release-candidate publication/convergence wording and the live V1.4.56 bootstrap/context/prompt authority was currentized. PR215 intentionally remains unmerged at this handoff checkpoint.
 
 Do not merge PR215 from this handoff record alone. Independently resolve the live PR215 head and exact check state first.
 
@@ -20,6 +20,7 @@ SSJR-1.1: `0/100`. PR/CI/deployment/SLE/MDP work grants zero SSJR credit.
 Milestone Delivery Progress (MDP-1): `39.00/100`.
 Pending MDP unlock: combined `+2.50` only after `setup-league`, `setup-clubs`, `setup-length`, and `setup-confirmation` complete the final product-integration gate through a clean coherent r6 release boundary.
 Estimated focused sessions to genuine SSJR100: `~5-10` until live evidence changes the model.
+Genuine SSJR evidence still requires two legitimate private manager accounts on genuinely distinct registered browsers/devices; synthetic or publication evidence cannot substitute.
 
 Every meaningful engineering checkpoint must report `MDP task delta: +X.XX (AA.AA -> BB.BB)`. Use `+0.00` when no lifecycle stage closes. Report Session handoff proximity frequently from SHP-2 observable proxies; reset it to `0%` in the fresh successor session. Never use HTR-1 as session pressure.
 
