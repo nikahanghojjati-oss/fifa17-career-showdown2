@@ -30,6 +30,10 @@ Permanent locks: Billing must remain permanently OFF. Firebase remains Spark. Ne
 
 Historical compatibility/provenance that must remain explicit: PR #203 was the production-proven `v1.9.1 / 1.9.1-r3` paired-first Shared Setup baseline; PR #205 published the strict pair validator; PR #207 published the privacy-safe stdin recorder; PR #209 published the bounded exact canonical-storage observer; PR #210 made that observer deployable/cache-safe on Pages. Historical PR #198 published final stable RJR-1 `100/100` acceptance. These are provenance, not current execution authority, and must not be re-credited.
 
+Most recently published implementation-authority provenance retained for interruption recovery only:
+Current environment: `we-2026-09-06-ssjr-production-two-account-a55`.
+Starting independently verified live main: `ae89974dfc91753d4a57d83c0f2ca449fc7eacd6`.
+
 Historical PR210/a54 bootstrap lineage remains repository-owned under `WORK_ENVIRONMENT_ARCHIVE/we-2026-09-06-pr211-recovery-private-setup-a54.json`; current successors must preserve the chain but use live PR215/V1.4.56 authority.
 
 Current SLE starter: `START_NEXT_SESSION_V1.4.56_PR215_R6_RELEASE_CANDIDATE_PUBLICATION_NEXT.md`.
