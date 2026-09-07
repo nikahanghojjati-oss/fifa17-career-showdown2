@@ -14,6 +14,7 @@ const files = [
   "tests/contracts/r2-production-proof-publication-contracts.cjs",
   "tests/contracts/remote-joining-physical-acceptance-real-recorder-null-contracts.cjs",
   "tests/contracts/cloud-foundation-contracts.cjs",
+  "tests/contracts/cloud-sync-two-device-harness-contracts.cjs",
   "tests/contracts/work-environment-continuity-contracts.cjs",
   "tests/contracts/work-environment-interruption-resilience-contracts.cjs"
 ];
