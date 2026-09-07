@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "operatingSystem": "POS-2",
+  "purpose": "Stable machine-readable current product and safety invariants. Prose, handoff wording, historical PR numbers and completed milestone narration are deliberately not authority here.",
+  "provider": {
+    "billingEnabled": false,
+    "firebasePlan": "Spark",
+    "cloudBillingAccountAllowed": false,
+    "blazeAllowed": false,
+    "cloudRunAllowed": false,
+    "cloudFunctionsAllowed": false,
+    "appCheckEnforcement": false,
+    "firestoreBrowserPersistence": "memory-only",
+    "googleAuthPersistence": "browserSessionPersistence-popup-only-no-extra-scopes",
+    "productionRulesSource": "firestore.spark.rules"
+  },
+  "product": {
+    "managerCount": 2,
+    "pairingAndExactActiveBeforeLeagueOrClubs": true,
+    "candidateCOnlyDestructiveRemoteToLocalApply": true,
+    "canonicalLocalStorageKeys": [
+      "careerModeShowdown.saveLibrary",
+      "careerModeShowdown.legacyShowdowns",
+      "careerModeShowdown.preferences"
+    ],
+    "dualFullScreenContract": "SSJR-DUAL-FULL-SCREEN-1"
+  },
+  "privacy": {
+    "publicDiscovery": false,
+    "publicListing": false,
+    "publicLobby": false,
+    "publicMatchmaking": false,
+    "community": false,
+    "rankings": false,
+    "globalLeaderboards": false,
+    "durableRawPrivateIdentifiersAllowed": false
+  },
+  "testing": {
+    "blockingGateRule": "A blocking gate must protect current or future runtime behavior, data integrity, recovery, security, privacy, provider safety, UI/UX, executable schema/API authority, current evidence validity or release correctness.",
+    "historicalWordingMayBlock": false,
+    "completedMilestoneNarrationMayBlock": false,
+    "exactWorkflowCountMayBlock": false
+  }
+}
