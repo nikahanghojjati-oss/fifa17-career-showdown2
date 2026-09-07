@@ -49,7 +49,7 @@ async function openCase(browser,acceptance){
     window.__ssjrRecorderSetFinal=()=>{state={...state,revision:6,phase:"SHOWDOWN_CONFIRMED",setup:structuredClone(finalSetup)};emit();};
     window.__ssjrRecorderPrepareReload=()=>{sessionStorage.setItem("__ssjrRecorderTestMode","final");};
     window.__ssjrRecorderSetFresh=()=>{state={...state,sessionId:raw.freshSession,revision:6,phase:"SHOWDOWN_CONFIRMED",setup:structuredClone(finalSetup)};emit();};
-    localStorage.setItem("careerModeShowdown.saveLibrary",raw.canonical);
+    localStorage.setItem("careerModeShowdown.saveLibrary",JSON.stringify([{marker:raw.canonical}]));
     localStorage.setItem("careerModeShowdown.legacyShowdowns","null");
     localStorage.setItem("careerModeShowdown.preferences",JSON.stringify({private:"value"}));
   },{raw,finalSetup,seedSetup});
@@ -70,7 +70,6 @@ async function openCase(browser,acceptance){
     assert.equal(await normal.page.evaluate(()=>Boolean(window.CareerModeSSJRProductionAcceptanceRecorder)),false,"normal production mode must not load the SSJR recorder API");
     const normalRequests=await normal.page.evaluate(()=>performance.getEntriesByType("resource").filter(entry=>entry.name.includes("ssjrProductionAcceptanceRecorder.js")).map(entry=>entry.name));
     assert.deepEqual(normalRequests,[],"normal production mode must not request the SSJR recorder asset");
-    await normal.context.close();normal=null;
 
     acceptance=await openCase(browser,true);
     await acceptance.page.locator("#ssjrProductionAcceptanceRecorder").waitFor({state:"visible",timeout:7000});
