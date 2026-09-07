@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-09-07T21:12:43.000Z",
+  "repository": "nikahanghojjati-oss/fifa17-career-showdown2",
+  "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
+  "starter": {
+    "version": "1.4.61",
+    "canonical": "START_NEXT_SESSION_V1.4.61_PR215_GITHUB_CLI_BOOTSTRAP_SAFE_TRANSFER_NEXT.md",
+    "projectMirror": "project-documents/session-starts/START_NEXT_SESSION_V1.4.61_PR215_GITHUB_CLI_BOOTSTRAP_SAFE_TRANSFER_NEXT.md"
+  },
+  "currentHandoff": {
+    "canonical": "SUCCESSOR_HANDOFF_PR215_GITHUB_CLI_BOOTSTRAP_SAFE_TRANSFER_SLE_V1.4.61_2026-09-07.md",
+    "projectMirror": "project-documents/handoffs/SUCCESSOR_HANDOFF_PR215_GITHUB_CLI_BOOTSTRAP_SAFE_TRANSFER_SLE_V1.4.61_2026-09-07.md"
+  },
+  "successorPackage": {
+    "handoffBranch": "fix/pr214-postmerge-dual-screen-contract"
+  },
+  "ownerSns": "owner-sns/OWNER_SNS_V1.4.61_PR215_GITHUB_CLI_BOOTSTRAP_SAFE_TRANSFER.md",
+  "closingEnvironmentId": "we-2026-09-07-pr215-r6-publication-a63",
+  "closingArchive": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-07-pr215-r6-publication-a63.json",
+  "recordedMainSha": "420d0dd21480c660d4fe139ba011eca1ccb987a9",
+  "activePullRequest": 215,
+  "lastRemoteCiInspectedHeadSha": "71d4b630bcbffac7c2291aeef8a8efe6b4e24f5a",
+  "remoteCiSnapshot": {
+    "green": 12,
+    "red": 3,
+    "pending": 0,
+    "scope": "exact second a63 correction head; continuity/SNS seal advances branch and must be independently revalidated"
+  },
+  "correctionCycles": 2,
+  "thirdCorrectionAttempted": false,
+  "antiSpiralTriggered": true,
+  "exactBlocker": "tests/contracts/github-cli-bootstrap-contracts.cjs:28 expects /GitHub CLI bootstrap/i in 00_DEVELOPER_START_HERE.md after all earlier current-authority/WEC/HTR/SHP/SLE/prompt/interruption/anti-loop contracts pass",
+  "productionRuntimeRevision": "1.9.1-r5",
+  "observedReleaseCandidateRuntimeRevision": "1.9.1-r6",
+  "readiness": {
+    "rjr": 100,
+    "ssjr": 0,
+    "mdp": 39,
+    "mdpDelta": 0
+  },
+  "permanentLocks": "Billing must remain permanently OFF. Firebase remains Spark only. Never enable Blaze, Cloud Billing, a billing account, Cloud Run or Cloud Functions. App Check enforcement remains OFF. Firestore browser persistence remains memory-only. Google Auth remains popup-only browserSessionPersistence with no extra scopes. Exactly two private managers. Connected Rivalry pairing plus exact ACTIVE precedes league or club authority. Candidate C remains the sole destructive remote-to-local gameplay Apply authority with transaction-owned strict exact raw-snapshot rollback. Preserve the three canonical storage keys and SSJR-DUAL-FULL-SCREEN-1. No public discovery, listing, lobby, matchmaking, community, rankings or global leaderboards.",
+  "sessionRules": "SLE = Smart Lean Efficient. A fresh successor validates and archives a63, initializes a unique WEC without inheriting decision/counters, resets SHP-2 to literal 0 and uses monotonic observable proxies. HTR-1 remains separate transfer readiness. Generate tiny VTLS after every substantial state change. Preserve the recursive anti-spiral circuit breaker and never combine CI across heads. Every final transition requires fresh mirrored SLE/starter packaging, current routing and a downloadable owner SNS.",
+  "immediateNextTask": "Inspect the exact current shared repository-suite assertion around tests/contracts/github-cli-bootstrap-contracts.cjs:28 together with current 00_DEVELOPER_START_HERE.md GitHub-access/bootstrap wording in one bounded batch. Determine the smallest objective authority correction while preserving connector-first access, repository-owned fallback, credential safety, WEC/SLE/lifecycle/publication/security/provider/evidence/zero-billing gates and immutable historical provenance. Then require all 15 permanent workflow families green on one exact reviewed head before expected-head merge.",
+  "integrationGates": "Only all 15 current permanent workflow families green on ONE exact reviewed head permit expected-head squash merge of PR215. Refresh live head/reviews/comments/threads immediately before merge. Post-merge prove exact-main Stability including Chromium/deployed-site smoke, Pages/deployed coherent v1.9.1 / 1.9.1-r6 and Release Integration Burn-In. Only then MDP may move 39.00 to 41.50 with +2.50; SSJR gets zero publication credit. Only after clean r6 proof say YOUR TESTING TIME and resume genuine Chromebook/iPhone production-two-account Shared Setup acceptance after pairing plus exact ACTIVE.",
+  "neverCombineCiAcrossHeads": true,
+  "historicalBootstrap": "SESSION_BOOTSTRAP.json fields predating additive currentSuccessorOverride remain immutable historical provenance"
+}
