@@ -107,6 +107,9 @@ const cleanRepository = {
 
   const quiet = structuredClone(status);
   quiet.lifecycle = "active";
+  // This scenario is a fresh quiet session, not the live WEC pressure ledger.
+  const { initializeSession } = await import(pathToFileURL(path.resolve("scripts/session-handoff-proximity.mjs")).href);
+  quiet.sessionHandoffProximity = initializeSession(quiet.environmentId, quiet.recordedAt);
   Object.assign(quiet.signals, {
     contextComplexity: "low",
     projectComplexity: "low",
@@ -192,7 +195,7 @@ const cleanRepository = {
   assert.match(prompt, /IMMEDIATE NEXT TASK AFTER FULL STUDY/i);
   assert.match(prompt, /Do not invent an exact usage percentage/i);
   assert.match(prompt, /Maintain the same continuity system recursively/i);
-  assert.match(prompt, /MANDATORY HANDOFF PROXIMITY RULE/i);
+  assert.match(prompt, /MANDATORY SESSION HANDOFF PROXIMITY V2 RULE/i);
   assert.match(prompt, /Handoff proximity:\s*X%/i);
   assert.match(prompt, /Handoff proximity:\s*100%[\s\S]+automatically generate the complete successor handoff[\s\S]+stop before beginning another substantial milestone/i);
   assert.match(prompt, /Never fabricate account\/model usage[\s\S]+usage is unavailable/i);

@@ -58,7 +58,7 @@ Every future developer, ChatGPT session or Work Environment that reaches a hando
 
 Every future SLE handoff must explicitly preserve the owner definition `SLE = Smart Lean Efficient` unless the owner later changes it.
 
-At every `Handoff proximity: 100%`, `HANDOFF_AT_CHECKPOINT`, `HANDOFF_NOW`, or other final transition boundary, the closing developer must, before stopping:
+At every `Session handoff proximity: 100%`, `HANDOFF_AT_CHECKPOINT`, `HANDOFF_NOW`, or other final transition boundary, the closing developer must, before stopping:
 
 1. verify the exact current live-main / branch / PR / deployment boundary;
 2. create or refresh the complete root `SUCCESSOR_HANDOFF_..._SLE_...md`;

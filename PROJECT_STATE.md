@@ -17,7 +17,7 @@ The Installable Offline App, v1.3.0 Recovery & Device Resilience baseline, Local
 
 Canonical localStorage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, `careerModeShowdown.preferences`. Shared Setup/presentation/recorder must not mutate them. Candidate A is non-mutating; Candidate B is read-only; Candidate C remains the sole destructive remote-to-local gameplay Apply authority with transaction-owned strict exact raw-snapshot rollback. Exactly two private managers. No public discovery/listing/lobby/matchmaking/community/rankings/global leaderboards.
 
-Current WEC: `we-2026-09-07-ssjr-polished-shared-setup-r6-a56`; active branch `fix/ssjr-recorder-catalog-proof-r6`; active PR #214. HTR-1 alone defines Handoff proximity and remains separate from SSJR and CI health. Handoff proximity remains 80%. Estimated focused sessions to genuine SSJR100: ~5–10.
+Current WEC: `we-2026-09-07-ssjr-polished-shared-setup-r6-a56`; active branch `fix/ssjr-recorder-catalog-proof-r6`; active PR #214. Session Handoff Proximity v2 resets to 0% for every new chat and rises from observable session pressure; HTR-1 remains separate transfer readiness. Use the current WEC session ledger for its live value. Estimated focused sessions to genuine SSJR100: ~5–10.
 
 ## HISTORICAL COMPATIBILITY SNAPSHOT — NOT CURRENT EXECUTION AUTHORITY
 

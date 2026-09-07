@@ -8,7 +8,7 @@ The project exists to build and ship a playable two-manager Shared Showdown Jour
 
 Default focused-session allocation should be approximately 75% actual product implementation and 25% validation, maintenance, continuity and publication work. This is a planning target rather than permission to skip a real safety, security, data-integrity or release gate.
 
-`00_HANDOFF_PROXIMITY_STAGE_GATES.md` is the later owner authority for visible Handoff proximity. It prevents the old 99%-for-hours failure mode by tying high percentages to completed publication and handoff stages rather than intuition.
+`00_SESSION_HANDOFF_PROXIMITY_V2.md` is the later owner authority for visible Session handoff proximity. It uses monotonic observable session-pressure proxies, risk floors and stop bands. `00_HANDOFF_PROXIMITY_STAGE_GATES.md` preserves separate HTR-1 repository transfer readiness. Neither is SSJR progress.
 
 ## Build-first operating rules
 

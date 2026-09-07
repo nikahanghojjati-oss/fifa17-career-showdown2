@@ -74,10 +74,10 @@ function assertDescendsFromSealedClosingEnvironment(current){
 }
 if(wec.lifecycle==="active" && wec.environmentId!==closingId){
  assertDescendsFromSealedClosingEnvironment(wec);
- assert.equal(wec.assessment?.decision,"CONTINUE");
+ assert.ok(["CONTINUE","PREPARE_HANDOFF"].includes(wec.assessment?.decision), "An active successor may prepare its handoff while finishing the current bounded checkpoint.");
 }else if(wec.lifecycle==="active"){
  assert.equal(wec.environmentId,closingId);
- assert.equal(wec.assessment?.decision,"CONTINUE");
+ assert.ok(["CONTINUE","PREPARE_HANDOFF"].includes(wec.assessment?.decision), "An active successor may prepare its handoff while finishing the current bounded checkpoint.");
  assert.match(wec.continuity?.nextSafeAction||"",/PR209|PR210|two-account|two account|evidence/i);
 }else{
  assert.equal(wec.environmentId,closingId);

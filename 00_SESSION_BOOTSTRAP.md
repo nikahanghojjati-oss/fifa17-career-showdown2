@@ -177,7 +177,7 @@ A handoff is not considered fully packaged until both copies exist and the compa
 
 ## Versioned START_NEXT_SESSION rule
 
-At every future `Handoff proximity: 100%` / final WEF checkpoint, the closing developer must also generate a new owner-downloadable versioned starter file.
+At every future `Session handoff proximity: 100%` / final WEF checkpoint, the closing developer must also generate a new owner-downloadable versioned starter file.
 
 Starter versioning is independent from the website application version:
 
@@ -204,3 +204,5 @@ The goal is not the fewest possible facts. The goal is the fewest loaded bytes/t
 ## Anti-sidequest rule
 
 This bootstrap/context system exists to accelerate substantive development. Do not create repeated documentation-only milestones merely to maintain it. Refresh it naturally at real clean checkpoints, merges, or handoffs.
+
+Current reporting uses Session Handoff Proximity v2 / SHP-2 from `00_SESSION_HANDOFF_PROXIMITY_V2.md`, reset to 0% per new session with monotonic observable proxies. HTR-1 is separate transfer readiness. All current starters and deep handoffs must preserve this later override; dated artifacts are historical orientation only.

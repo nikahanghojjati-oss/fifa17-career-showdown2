@@ -11,4 +11,6 @@ PR #196 initial head `95e40e83e0228ef4ed438f09fcf6db5ddbbc7636` passed all 15 wo
 
 Billing must never be activated. Firebase remains Spark. App Check enforcement remains OFF. Firestore persistence remains memory-only. Candidate C remains sole destructive local Apply authority. Exactly two private managers; no public discovery/matchmaking/community/rankings and no durable raw capability or authority ID.
 
-SLE = Smart Lean Efficient remains mandatory and recursive. At Handoff proximity 100%, close/archive WEC, refresh the complete mirrored package and stop before another substantial milestone.
+SLE = Smart Lean Efficient remains mandatory and recursive. At Session handoff proximity 100%, close/archive WEC, refresh the complete mirrored package and stop before another substantial milestone.
+
+Current reporting authority: `00_SESSION_HANDOFF_PROXIMITY_V2.md` / SHP-2; reset to 0% each new session, monotonic observable proxies thereafter. HTR-1 remains separate repository transfer readiness.

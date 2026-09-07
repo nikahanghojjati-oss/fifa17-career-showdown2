@@ -4,7 +4,7 @@ Work Environment Continuity (WEC) is mandatory for every successor environment.
 
 Read `AGENTS.md`, `00_HANDOFF_GOLDEN_RULE.md`, `00_BUILD_FIRST_PRODUCT_POLICY.md`, `00_HANDOFF_PROXIMITY_STAGE_GATES.md`, `SESSION_BOOTSTRAP.json`, `00_CURRENT_HANDOFF.md`, `NEXT_TASK.md`, `PROJECT_STATE.md`, `WORK_ENVIRONMENT_STATUS.json`, `SHARED_SHOWDOWN_JOURNEY_MODEL.json`, and `SHARED_SHOWDOWN_JOURNEY_READINESS.json`. Treat handoff material as orientation only; live source/provider/deployment evidence wins.
 
-Visible Handoff proximity follows `00_HANDOFF_PROXIMITY_STAGE_GATES.md`. RJR-1 is COMPLETE/FROZEN `100/100`. SSJR-1.1 remains `0/100`.
+Visible Session handoff proximity follows `00_SESSION_HANDOFF_PROXIMITY_V2.md`; HTR-1 is separate repository transfer readiness. RJR-1 is COMPLETE/FROZEN `100/100`. SSJR-1.1 remains `0/100`.
 
 Production authority remains PR #203, DEPLOYED / PRODUCTION-PROVEN `v1.9.1 / 1.9.1-r3`, with Spark Rules and billing permanently OFF. PR #205 remains the strict pair validator. PR #207 remains the privacy-safe stdin recorder.
 

@@ -7,7 +7,7 @@
     "check": "npm run test:contracts",
     "work:assess": "node scripts/work-environment-continuity.mjs assess",
     "work:handoff": "node scripts/work-environment-continuity.mjs handoff",
-    "work:proximity": "node scripts/handoff-proximity-stage.mjs",
+    "work:proximity": "node scripts/session-handoff-proximity.mjs",
     "work:next-prompt": "node scripts/build-next-developer-prompt.mjs",
     "work:continuity:validate": "node scripts/work-environment-continuity.mjs validate",
     "work:gh:bootstrap": "node scripts/bootstrap-github-cli.mjs",
@@ -36,7 +36,8 @@
     "record:ssjr-production-shared-setup": "node scripts/record-ssjr-shared-setup-production-evidence.mjs",
     "validate:ssjr-production-shared-setup": "node scripts/validate-ssjr-shared-setup-production-evidence.mjs",
     "test:ssjr": "node tests/contracts/shared-showdown-readiness-contracts.cjs && node tests/contracts/shared-showdown-setup-contracts.cjs && node tests/contracts/shared-showdown-provider-contracts.cjs && node tests/contracts/shared-showdown-production-runtime-contracts.cjs && node tests/contracts/shared-showdown-host-peer-ui-contracts.cjs && node tests/contracts/shared-showdown-polished-presentation-contracts.cjs && node tests/contracts/ssjr-production-shared-setup-evidence-validator-contracts.cjs && node tests/contracts/ssjr-production-shared-setup-evidence-recorder-contracts.cjs && node tests/contracts/ssjr-production-storage-observation-contracts.cjs",
-    "test:ssjr:browser": "node tests/browser/production-shared-setup-overlay-audit.cjs && node tests/browser/shared-showdown-setup-audit.cjs && node tests/browser/shared-showdown-paired-first-entry-audit.cjs && CMS_CHROMIUM_MULTI_CONTEXT=1 node tests/browser/shared-showdown-polished-presentation-audit.cjs && CMS_CHROMIUM_MULTI_CONTEXT=1 node tests/browser/ssjr-production-acceptance-recorder-audit.cjs"
+    "test:ssjr:browser": "node tests/browser/production-shared-setup-overlay-audit.cjs && node tests/browser/shared-showdown-setup-audit.cjs && node tests/browser/shared-showdown-paired-first-entry-audit.cjs && CMS_CHROMIUM_MULTI_CONTEXT=1 node tests/browser/shared-showdown-polished-presentation-audit.cjs && CMS_CHROMIUM_MULTI_CONTEXT=1 node tests/browser/ssjr-production-acceptance-recorder-audit.cjs",
+    "work:transfer-readiness": "node scripts/handoff-proximity-stage.mjs"
   },
   "devDependencies": {
     "@sparticuz/chromium": "149.0.0",

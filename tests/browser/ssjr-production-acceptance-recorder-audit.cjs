@@ -49,10 +49,14 @@ async function openCase(browser,acceptance,mode="ready"){
     window.CareerModeSharedShowdownCatalog=Object.freeze({version:recorderCatalog.version,catalog:Object.freeze({laliga:Object.freeze([...recorderCatalog.catalog.laliga])})});
     window.__ssjrSetupPanelOpens=0;
     window.__ssjrRemotePanelOpens=0;
+    window.__ssjrSetupMutationCalls=0;
     window.CareerModeProductionSharedShowdownSetup={
       getState(){return Object.freeze({...state});},
       subscribe(listener){listeners.add(listener);return()=>listeners.delete(listener);},
       async refresh(){emit();return Object.freeze({ok:state.ready===true});},
+      // The real presentation requires the complete provider API even when locked.
+      // This recorder-only fixture never grants mutation authority or creates a draw.
+      async mutate(){window.__ssjrSetupMutationCalls+=1;return Object.freeze({ok:false,code:"SHARED_SETUP_LOCKED"});},
       async openPanel(){window.__ssjrSetupPanelOpens+=1;state={...state,open:true};emit();return true;}
     };
     window.CareerModeSparkRemoteJoining={
@@ -98,6 +102,10 @@ async function openCase(browser,acceptance,mode="ready"){
     assert.equal(await activeLocked.page.evaluate(()=>window.CareerModeProductionSharedShowdownPresentation?.isPresentationActive()===true),true,"visible League Wheel must be owned by the active polished presentation");
     assert.equal(await activeLocked.page.evaluate(()=>window.__ssjrSetupPanelOpens),0,"acceptance guidance must not reopen the engineering Shared Setup panel");
     assert.equal(await activeLocked.page.evaluate(()=>window.__ssjrRemotePanelOpens),0,"ACTIVE-session guidance must not reopen Private Remote Joining");
+    assert.equal(await activeLocked.page.locator("#spinLeague").isDisabled(),true,"locked registered-browser authority must keep the league draw disabled");
+    assert.equal(await activeLocked.page.evaluate(()=>window.CareerModeProductionSharedShowdownSetup.getState().ready),false,"opening guidance must not manufacture ready provider authority");
+    assert.equal(await activeLocked.page.evaluate(()=>window.CareerModeProductionSharedShowdownSetup.getState().setup),null,"locked guidance must not create any setup or draw");
+    assert.equal(await activeLocked.page.evaluate(()=>window.__ssjrSetupMutationCalls),0,"displaying locked guidance must not invoke a provider mutation");
     assert.deepEqual(activeLocked.pageErrors,[]);
 
     staleRuntime=await openCase(browser,true,"stale-runtime");

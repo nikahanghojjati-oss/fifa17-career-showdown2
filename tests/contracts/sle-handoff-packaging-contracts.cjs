@@ -63,10 +63,10 @@ function assertDescendsFromSealedClosingEnvironment(current){
 }
 if(wec.lifecycle==="active" && wec.environmentId!==closingId){
  assertDescendsFromSealedClosingEnvironment(wec);
- assert.equal(wec.assessment?.decision,"CONTINUE");
+ assert.ok(["CONTINUE","PREPARE_HANDOFF"].includes(wec.assessment?.decision), "An active successor may prepare its handoff while finishing the current bounded checkpoint.");
  assert.equal(wec.assessment?.decisionInheritedFromPredecessor,false);
 }else if(wec.lifecycle==="active"){
- assert.equal(wec.environmentId,closingId); assert.equal(wec.assessment?.decision,"CONTINUE");
+ assert.equal(wec.environmentId,closingId); assert.ok(["CONTINUE","PREPARE_HANDOFF"].includes(wec.assessment?.decision), "An active successor may prepare its handoff while finishing the current bounded checkpoint.");
 }else{
  assert.equal(wec.environmentId,closingId); assert.equal(wec.lifecycle,"transition-prepared"); assert.equal(wec.signals?.handoffCompleteness,100); assert.equal(wec.assessment?.decision,"HANDOFF_AT_CHECKPOINT");
  const archived=json(closingArchive); assert.equal(archived.environmentId,wec.environmentId); assert.equal(archived.lifecycle,"transition-prepared"); assert.equal(archived.signals?.handoffCompleteness,100);

@@ -1,3 +1,5 @@
+Current pointer: read root `00_CURRENT_HANDOFF.md`, live `NEXT_TASK.md` and `00_SESSION_HANDOFF_PROXIMITY_V2.md`. The PR172 record below is historical provenance, including its old Handoff proximity wording. Session pressure now uses SHP-2, resets to 0% per new chat, and never uses HTR-1.
+
 # Active PR196 publication correction, 2026-09-05
 
 The fresh successor WEC is `we-2026-09-05-pr196-publication-physical-acceptance-e9072`, active and assessed independently. The predecessor's closed WEC remains immutable. See `PR196_PUBLICATION_PROGRESS_2026-09-05.md` for current review and publication evidence.

@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "environmentId": "we-2026-09-07-ssjr-polished-shared-setup-r6-a56",
+  "environmentId": "we-2026-09-07-pr214-session-proximity-v2-a57",
   "lifecycle": "active",
-  "recordedAt": "2026-09-07T13:20:00Z",
+  "recordedAt": "2026-09-07T14:44:52.574549+00:00",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -15,48 +15,42 @@
     "productionRuntimeRevision": "1.9.1-r5",
     "releaseCandidateVersion": "v1.9.1",
     "releaseCandidateRuntimeRevision": "1.9.1-r6",
-    "releaseCandidateHeadSha": "8f82f958d9457e0fad3e5af29e9bcb3f4d7c9f93",
-    "predecessorEnvironmentId": "we-2026-09-06-ssjr-production-two-account-a55",
-    "predecessorArchive": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-06-ssjr-production-two-account-a55.json"
+    "releaseCandidateHeadSha": "3d94684cc3b24c823d8a74e317c56d9218ce75cc",
+    "predecessorEnvironmentId": "we-2026-09-07-ssjr-polished-shared-setup-r6-a56",
+    "predecessorArchive": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-07-ssjr-polished-shared-setup-r6-a56.json"
   },
   "signals": {
     "contextComplexity": "high",
     "projectComplexity": "high",
     "compactionCount": 0,
     "majorPhasesCompleted": 0,
-    "largeEvidenceEvents": 2,
-    "toolRoutingErrors": 1,
+    "largeEvidenceEvents": 8,
+    "toolRoutingErrors": 3,
     "correctedFailures": 2,
-    "repeatedMistakes": 0,
-    "staleFactCorrections": 2,
+    "repeatedMistakes": 2,
+    "staleFactCorrections": 0,
     "unresolvedFailures": 0,
     "newMilestoneNext": false,
     "usageRemainingPercent": null,
     "usageSource": "unavailable",
     "usageWarning": false,
-    "handoffCompleteness": 80,
+    "handoffCompleteness": 50,
     "unrecordedDecisions": 0,
     "atomicOperation": false
   },
   "handoffTransferReadiness": {
     "model": "HTR-1",
-    "earnedPillars": [
-      "durable-state",
-      "authority-snapshot",
-      "open-work-classified",
-      "successor-execution-contract"
-    ]
+    "earnedPillars": []
   },
   "assessment": {
-    "decision": "CONTINUE",
-    "reason": "Production v1.9.1 / 1.9.1-r5 is independently proven. The owner's genuine two-account test reached authoritative SHOWDOWN_CONFIRMED revision 6 and exposed two bounded defects: recorder validation expected nonexistent provider clubLeagueIds, and normal Shared Journey bypassed the core League Wheel and Club Pack experience. PR214 is the r6 release candidate that repairs both while preserving provider-only draw authority. Continue through exact-head 15/15 CI, review, expected-head merge and independently verified r6 Pages before asking the owner to retest.",
-    "decisionInheritedFromPredecessor": false,
-    "handoffMetricAuthority": "00_HANDOFF_PROXIMITY_STAGE_GATES.md / HTR-1"
+    "decision": "PREPARE_HANDOFF",
+    "reason": "SHP-2 70 requires bounded tasks and VTLS after state changes; strengthen records and finish this existing PR214 publication checkpoint before another milestone.",
+    "decisionInheritedFromPredecessor": false
   },
   "continuity": {
-    "currentTask": "Publish PR214 r6 release candidate: finish coherent r6 shell/evidence metadata, permanently prove both playerOne and playerTwo witness the real League Wheel and both Club Pack reveals, reach all 15 exact-head workflow families green, resolve review state, squash merge with expected-head protection, verify post-merge Pages/Stability and deployed r6, then ask the owner to resume the genuine two-device SSJR acceptance.",
-    "lastSafeCheckpoint": "PR214 is open from exact r5 production main. Recorder catalog proof and cross-runtime state are fixed. Acceptance recorder is bridged away from the engineering panel. Shared Journey now uses provider-authoritative League Wheel and original Club Pack presentation, with per-browser witness gates for both manager roles and peer auto-refresh. r6 release and maintenance records exist, Service Worker is r6 with r5 recovery, and evidence recorder/validator are being retargeted to exact r6.",
-    "nextSafeAction": "Run PR214 exact-head permanent CI. Fix only objective r6 release, browser, contract or WEC failures without weakening pairing-first, provider authority, storage, privacy or no-billing gates. Require both manager roles to retain League Wheel and Club Pack witness coverage. After 15/15 and clean review state, merge with expected-head protection, verify Pages and deployed-site r6, then tell the owner it is testing time.",
+    "currentTask": "Publish the PR214 r6 release candidate: first implement Session Handoff Proximity v2, then faithfully correct the recorder fixture, finish all 15 exact-head gates and verify production.",
+    "lastSafeCheckpoint": "Local v2 commit 727ea4c85c1e49dd45eca5992084c5ec24718d64 passes full contracts; recorder fixture corrected and all three targeted browser audits pass. Four existing P1 review threads are resolved; no change-requesting review.",
+    "nextSafeAction": "Publish these verified changes onto live PR214 only if its head remains 3d94684cc3b24c823d8a74e317c56d9218ce75cc; require 15/15 on the new exact head, clear review state, expected-head squash merge and r6 post-merge/deployment proof.",
     "unfinishedWork": [
       "PR214 must reach 15/15 terminal green on one final exact head.",
       "Both manager roles must remain permanently regression-covered for League Wheel and both Club Pack reveals, including a late peer.",
@@ -76,16 +70,136 @@
       "Candidate C remains sole destructive remote-to-local gameplay Apply authority with transaction-owned exact raw-snapshot rollback.",
       "No public discovery, listing, lobby, matchmaking, community, rankings or global leaderboards.",
       "PR, CI, deployment, WEC, SNS, recorder and synthetic/browser evidence earn zero SSJR credit by themselves.",
-      "HTR-1 is separate from SSJR and CI; Handoff proximity remains 80 until sealed-transfer-package is genuinely earned. If it reaches 100, generate the complete successor handoff and stop at the safe checkpoint."
+      "Session Handoff Proximity v2 resets to zero per session; HTR-1 is separately named transfer readiness and never supplies the session pressure percentage."
     ],
     "evidenceNotes": [
-      "PR213 merged to production main 24d644efe0702ef4672e0655465b66e658ed4e3a and r5 post-merge deployed-site Stability was fully green.",
-      "Owner physical r5 run reached SHOWDOWN_CONFIRMED revision 6 with LaLiga, Osasuna, Espanyol, one season and both role confirmations; recorder false-negative arose from nonexistent provider clubLeagueIds, not invalid club membership.",
-      "Current r6 recorder derives club league identity only after repository-catalog membership succeeds and resets safe recorder state when runtimeRevision differs from the live shell.",
-      "Current r6 polished presentation forces each browser to witness League Wheel before Club Packs and both pack reveals before confirmation; peer authority auto-refreshes while waiting.",
-      "Engineering Shared Setup overlay is diagnostic-only; the normal player-facing path is pair → ACTIVE → League Wheel → Club Packs → season length → both confirmations.",
-      "User requires lightweight SNS generation after substantial diagnosis, implementation, CI/PR, merge/deploy and physical-test milestones; do not wait for HTR100.",
-      "RJR-1 remains frozen 100/100; SSJR-1.1 remains fixed 0/100 until genuine production evidence qualifies."
+      "Inherited WEC validated and archived exactly. Later owner PR214 attachment explicitly requires v2 before SSJR development.",
+      "Prior 41 commits and CI attempts do not count as this session workload. GitHub CLI installed and checksum-verified but unauthenticated; connected GitHub app remains available.",
+      "Repeated oversized source outputs were truncated; v2 floor 70 applies. Narrowed reads and bounded tasks; no hidden context or account usage inferred.",
+      "Predecessor decisions/counters are archived facts only and must not be inherited by this successor. Public index and service worker independently return HTTP200 with r5 current and r4 recovery.",
+      "Full test:contracts passed after isolating quiet WEC fixtures and permitting PREPARE_HANDOFF to finish existing active release candidates. Runtime/provider fail-closed gates unchanged.",
+      "Recorder fixture supplied missing mutate method with unconditional locked denial. Assertions prove locked disabled wheel, ready=false, null setup, zero mutation calls. No production fail-closed behavior changed.",
+      "Two large tree-payload reads exceeded output limits. Stopped whole-file payload reads and switched to bounded 12,000-character streaming, which prepared the exact 38-file candidate successfully. No remote ref was changed during the failed reads."
     ]
+  },
+  "sessionHandoffProximity": {
+    "model": "SHP-2",
+    "environmentId": "we-2026-09-07-pr214-session-proximity-v2-a57",
+    "startedAt": "2026-09-07T14:44:52.574549+00:00",
+    "checkpoints": [
+      {
+        "at": "2026-09-07T14:44:52.574549+00:00",
+        "note": "New session: reset to 0%.",
+        "observations": {
+          "messageToolEvents": 0,
+          "longEvidenceReads": 0,
+          "truncations": 0,
+          "recoveries": 0,
+          "compactions": 0,
+          "boundedReads": 0,
+          "editedFiles": 0,
+          "commits": 0,
+          "ciDebugCycles": 0,
+          "deployments": 0,
+          "elapsedMinutes": 0,
+          "taskLanes": 0,
+          "unmergedBranches": 0,
+          "redCiFamilies": 0,
+          "inFlightDeployments": 0,
+          "unresolvedStates": 0,
+          "unresolvedDebugLoops": 0,
+          "ownerTestPending": false,
+          "hardStateReconstruction": false,
+          "ownerRequestedWrap": false,
+          "nextSubstantialTaskRisksLoss": false
+        }
+      },
+      {
+        "at": "2026-09-07T14:49:57.027Z",
+        "note": "Catch-up and v2 implementation: conservative visible operation counts; three oversized source batches were truncated, activating the owner-required 70 floor. No predecessor CI cycles inherited.",
+        "observations": {
+          "messageToolEvents": 42,
+          "longEvidenceReads": 8,
+          "truncations": 3,
+          "recoveries": 0,
+          "compactions": 0,
+          "boundedReads": 30,
+          "editedFiles": 23,
+          "commits": 0,
+          "ciDebugCycles": 0,
+          "deployments": 0,
+          "elapsedMinutes": 18,
+          "taskLanes": 1,
+          "unmergedBranches": 1,
+          "redCiFamilies": 1,
+          "inFlightDeployments": 0,
+          "unresolvedStates": 1,
+          "unresolvedDebugLoops": 0,
+          "ownerTestPending": true,
+          "hardStateReconstruction": false,
+          "ownerRequestedWrap": false,
+          "nextSubstantialTaskRisksLoss": false
+        }
+      },
+      {
+        "at": "2026-09-07T14:55:55.283Z",
+        "note": "V2 full contract suite passed. Counts conservatively summarize bounded tool/source operations and three local contract correction cycles; truncated outputs activate floor70. All old HTR mathematical invariants remain covered.",
+        "observations": {
+          "messageToolEvents": 68,
+          "longEvidenceReads": 10,
+          "truncations": 6,
+          "recoveries": 0,
+          "compactions": 0,
+          "boundedReads": 45,
+          "editedFiles": 37,
+          "commits": 0,
+          "ciDebugCycles": 3,
+          "deployments": 0,
+          "elapsedMinutes": 35,
+          "taskLanes": 1,
+          "unmergedBranches": 1,
+          "redCiFamilies": 1,
+          "inFlightDeployments": 0,
+          "unresolvedStates": 1,
+          "unresolvedDebugLoops": 0,
+          "ownerTestPending": true,
+          "hardStateReconstruction": false,
+          "ownerRequestedWrap": false,
+          "nextSubstantialTaskRisksLoss": false
+        }
+      },
+      {
+        "at": "2026-09-07T14:57:52.395Z",
+        "note": "All three targeted production setup, two-role polished presentation and recorder browser audits pass. Before-fix local recorder reproduced the exact CI failure; after-fix locked wheel remains disabled with zero provider mutations.",
+        "observations": {
+          "messageToolEvents": 76,
+          "longEvidenceReads": 10,
+          "truncations": 6,
+          "recoveries": 0,
+          "compactions": 0,
+          "boundedReads": 45,
+          "editedFiles": 38,
+          "commits": 1,
+          "ciDebugCycles": 4,
+          "deployments": 0,
+          "elapsedMinutes": 40,
+          "taskLanes": 1,
+          "unmergedBranches": 1,
+          "redCiFamilies": 1,
+          "inFlightDeployments": 0,
+          "unresolvedStates": 1,
+          "unresolvedDebugLoops": 0,
+          "ownerTestPending": true,
+          "hardStateReconstruction": false,
+          "ownerRequestedWrap": false,
+          "nextSubstantialTaskRisksLoss": false
+        }
+      }
+    ],
+    "successorPackage": {
+      "generated": false,
+      "verified": false,
+      "verification": null
+    }
   }
 }
