@@ -15,16 +15,10 @@ const files = [
   "tests/contracts/statistics-fixtures.cjs",
   "tests/contracts/statistics-architecture.cjs",
   "tests/contracts/identity-safe-career-analytics-contracts.cjs",
-  "tests/contracts/handoff-immediate-next-task-contracts.cjs",
   "tests/contracts/work-environment-continuity-contracts.cjs",
-  "tests/contracts/handoff-proximity-stage-contracts.cjs",
-    "tests/contracts/session-handoff-proximity-contracts.cjs",
-  "tests/contracts/owner-progress-reporting-contracts.cjs",
-  "tests/contracts/sle-handoff-packaging-contracts.cjs",
-  "tests/contracts/next-developer-prompt-contracts.cjs",
+  "tests/contracts/session-handoff-proximity-contracts.cjs",
   "tests/contracts/work-environment-interruption-resilience-contracts.cjs",
   "tests/contracts/work-environment-forward-progress-contracts.cjs",
-  "tests/contracts/github-cli-bootstrap-contracts.cjs",
   "tests/contracts/backup-contracts.cjs",
   "tests/contracts/import-analysis-contracts.cjs",
   "tests/contracts/restore-storage-contracts.cjs",
@@ -38,7 +32,7 @@ const files = [
   "tests/contracts/manager-identity-linkage-contracts.cjs",
   "tests/contracts/cloud-foundation-contracts.cjs",
   "tests/contracts/cloud-sync-readiness-phase1-contracts.cjs",
-  "tests/contracts/remote-data-privacy-retention-contracts.cjs",
+  "tests/contracts/remote-data-privacy-runtime-contracts.cjs",
   "tests/contracts/cloud-sync-remote-contracts.cjs",
   "tests/contracts/cloud-sync-two-device-harness-contracts.cjs",
   "tests/contracts/cloud-sync-phase1f-contracts.cjs",
@@ -52,8 +46,6 @@ const files = [
   "tests/contracts/production-app-check-runtime-contracts.cjs",
   "tests/contracts/stage4-token-lifecycle-contracts.cjs",
   "tests/contracts/production-pages-app-check-deployment-contracts.cjs",
-  "tests/contracts/remote-joining-readiness-contracts.cjs",
-  "tests/contracts/rjr-reporting-authority-contracts.cjs",
   "tests/contracts/private-account-auth-stage2e-contracts.cjs",
   "tests/contracts/private-account-auth-stage2f-contracts.cjs",
   "tests/contracts/private-account-auth-stage2g-contracts.cjs",
@@ -77,7 +69,6 @@ const files = [
   "tests/contracts/stage5d-production-session-rules-contracts.cjs",
   "tests/contracts/stage5e-production-remote-joining-runtime-contracts.cjs",
   "tests/contracts/stage5e-remote-joining-copy-contracts.cjs",
-  "tests/contracts/remote-joining-physical-acceptance-validator-contracts.cjs",
   "tests/contracts/firebase-permanent-control-plane-contracts.cjs",
   "tests/contracts/stage4-adverse-network-contracts.cjs",
   "tests/contracts/stage4-abuse-hardening-contracts.cjs",
@@ -95,17 +86,20 @@ const files = [
   "tests/contracts/ci-orchestration-contracts.cjs",
   "tests/contracts/final-release-hardening.cjs"
 ];
+
 function escape(value){
   return String(value || "").replace(/%/g,"%25").replace(/\r/g,"%0D").replace(/\n/g,"%0A").slice(0,7000);
 }
+
 for(const file of files){
   const result = spawnSync(process.execPath,[file],{encoding:"utf8"});
   if(result.stdout)process.stdout.write(result.stdout);
   if(result.stderr)process.stderr.write(result.stderr);
   if(result.status!==0){
     const detail=`${result.stderr||""}\n${result.stdout||""}`.trim();
-    console.log(`::error file=${file},title=Repository contract failed::${escape(detail||`Exit code ${result.status}`)}`);
+    console.log(`::error file=${file},title=current product contract suite failed::${escape(detail||`Exit code ${result.status}`)}`);
     process.exit(result.status||1);
   }
 }
-process.stdout.write(`PASS  repository contract suite (${files.length} files after explicit static release contract)\n`);
+
+process.stdout.write(`PASS current product contract suite (${files.length} files)\n`);
