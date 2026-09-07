@@ -1,7 +1,7 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "operatingSystem": "POS-2",
-  "purpose": "Stable machine-readable current product and safety invariants. Prose, handoff wording, historical PR numbers and completed milestone narration are deliberately not authority here.",
+  "purpose": "Stable machine-readable current product and safety invariants. Prose, handoff wording, historical PR numbers, completed milestone narration and frozen RJR scoring are deliberately not authority here.",
   "provider": {
     "billingEnabled": false,
     "firebasePlan": "Spark",
@@ -26,6 +26,9 @@
     "dualFullScreenContract": "SSJR-DUAL-FULL-SCREEN-1"
   },
   "privacy": {
+    "remoteByNeedOnly": true,
+    "unsharedSaveLibraryAutoUpload": false,
+    "localOnlyUseAvailable": true,
     "publicDiscovery": false,
     "publicListing": false,
     "publicLobby": false,
@@ -33,12 +36,28 @@
     "community": false,
     "rankings": false,
     "globalLeaderboards": false,
-    "durableRawPrivateIdentifiersAllowed": false
+    "durableRawPrivateIdentifiersAllowed": false,
+    "timestampsAsConflictAuthority": false,
+    "tombstonesMayRetainDeletedGameplayContent": false,
+    "accountDeletionImmediateRemoteRevocation": true,
+    "pairingInviteRetentionMaxDays": 7,
+    "idempotencyRetentionDefaultDays": 7,
+    "securityAuditRetentionDefaultDays": 30,
+    "forbiddenDurableLogs": [
+      "passwords",
+      "raw-authentication-tokens",
+      "raw-invite-secrets",
+      "full-save-payloads",
+      "exact-location",
+      "unrelated-device-telemetry",
+      "detailed-browsing-history"
+    ]
   },
   "testing": {
     "blockingGateRule": "A blocking gate must protect current or future runtime behavior, data integrity, recovery, security, privacy, provider safety, UI/UX, executable schema/API authority, current evidence validity or release correctness.",
     "historicalWordingMayBlock": false,
     "completedMilestoneNarrationMayBlock": false,
+    "frozenRjrScoreMayBlockUnrelatedProductWork": false,
     "exactWorkflowCountMayBlock": false
   }
 }
