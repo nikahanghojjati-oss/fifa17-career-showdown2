@@ -6,7 +6,7 @@ SLE = Smart Lean Efficient. This is a safe red-CI transfer created after the fre
 
 Repository: `nikahanghojjati-oss/fifa17-career-showdown2`
 Branch: `fix/pr214-postmerge-dual-screen-contract`
-Active PR: #215
+Active PR #215
 Independently verified main at a64 start: `420d0dd21480c660d4fe139ba011eca1ccb987a9`
 Closing WEC: `we-2026-09-07-pr215-r6-publication-a64`
 Closing archive: `WORK_ENVIRONMENT_ARCHIVE/we-2026-09-07-pr215-r6-publication-a64.json`
