@@ -11,6 +11,7 @@ RJR-1 remains COMPLETE/FROZEN `100/100`. SSJR-1.1 remains `0/100`. Milestone Del
 
 Recorded main authority remains `420d0dd21480c660d4fe139ba011eca1ccb987a9`. Recorded production authority remains `v1.9.1 / 1.9.1-r5`; source/runtime release candidate remains `v1.9.1 / 1.9.1-r6` until independently reverified live.
 Historical production publication provenance remains PR #203 and must not be rewritten while current PR #215 publication authority is converged.
+Historical compatibility provenance retained for permanent contracts: PR #198 published final stable release acceptance and froze RJR-1 at `100/100`; that physical proof remains consumed. Billing must never be activated. Firebase remains Spark.
 
 Implementation-authority provenance retained from the last published product execution record:
 Current environment: `we-2026-09-06-ssjr-production-two-account-a55`.
@@ -37,7 +38,7 @@ This is classified as one shared repository/continuity-contract blocker until th
 7. Make the smallest objective continuity/current-authority correction required by the exact failure. Do not weaken `tests/contracts/production-authorization-acceptance-contracts.cjs`, security/provider gates, zero-billing controls, RJR/SSJR evidence rules or historical provenance.
 8. Re-run every required permanent workflow family on one exact new head. Recheck objective review state. Preserve the SHP-2 anti-spiral circuit breaker; if this new session itself enters repeated failed validation/context-degraded debugging, seal and transfer again rather than lingering at 99%.
 9. Only when all required workflow families are green on the same exact reviewed head, squash merge PR215 with expected-head protection.
-10. Verify exact post-merge main, Stability including Chromium and deployed-site smoke, Pages/deployed coherent `v1.9.1 / 1.9.1-r6`, and Release Integration Burn-In.
+10. Verify exact post-merge main, Stability including Chromium/deployed-site smoke, Pages/deployed coherent `v1.9.1 / 1.9.1-r6`, and Release Integration Burn-In.
 11. Only if that whole r6 boundary is clean may `setup-league`, `setup-clubs`, `setup-length`, and `setup-confirmation` receive combined `+2.50` MDP product-integration credit, moving `39.00 -> 41.50`. SSJR remains unchanged.
 12. Only then say `YOUR TESTING TIME` and conduct the minimum unavoidable genuine Chromebook/iPhone two-account Shared Setup acceptance. Connected Rivalry pairing + exact ACTIVE must precede league. The two legitimate private managers individually witness full League Wheel, Club Pack, season-length and confirmation screens.
 13. Pipe each private observation only through stdin using `npm run record:ssjr-production-shared-setup`; validate with `npm run validate:ssjr-production-shared-setup -- <player-one-evidence.json> <player-two-evidence.json>`. Retain only sanitized output.
@@ -46,7 +47,7 @@ This is classified as one shared repository/continuity-contract blocker until th
 
 Automation boundary: automate every reproducible contract, browser, Rules, storage, adverse-network, deployment and evidence-validation test. Preserve the shipped Installable Offline App foundation. The only irreducible owner work remains genuine two-account/two-independent-browser interaction.
 
-Permanent locks: Billing must remain permanently OFF. Firebase remains Spark. Never enable Blaze, a billing account, Cloud Run or Cloud Functions. App Check enforcement remains OFF. Firestore browser persistence remains memory-only. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes. Exactly two private managers. Pairing + exact ACTIVE before league/clubs. Canonical localStorage exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, `careerModeShowdown.preferences`. Candidate C remains sole destructive remote-to-local gameplay Apply authority with transaction-owned strict exact raw-snapshot rollback. No public discovery/listing/lobby/matchmaking/community/rankings/global leaderboards. Never durably retain raw private capability/account/device/rivalry/session/pairing identifiers.
+Permanent locks: Billing must remain permanently OFF. Firebase remains Spark. Never enable Blaze, a billing account, Cloud Run or Cloud Functions. App Check enforcement remains OFF. Firestore browser persistence remains memory-only. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes. Exactly two private managers. Pairing + exact ACTIVE before league/clubs. Canonical localStorage exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, `careerModeShowdown.preferences`. Candidate C remains the sole destructive remote-to-local gameplay Apply authority with transaction-owned strict exact raw-snapshot rollback. No public discovery/listing/lobby/matchmaking/community/rankings/global leaderboards. Never durably retain raw private capability/account/device/rivalry/session/pairing identifiers.
 
 Permanent `SSJR-DUAL-FULL-SCREEN-1`: both legitimate managers individually experience every canonical Shared Showdown gameplay screen on their own device. Missed screens after reload/reconnect/offline replay in order.
 
