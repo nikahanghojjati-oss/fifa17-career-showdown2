@@ -1,5 +1,6 @@
 const assert=require("node:assert/strict");
 const fs=require("node:fs");
+const path=require("node:path");
 const read=p=>fs.readFileSync(p,"utf8"),json=p=>JSON.parse(read(p));
 const bootstrap=json("SESSION_BOOTSTRAP.json"),readiness=json("REMOTE_JOINING_READINESS.json"),ssjr=json("SHARED_SHOWDOWN_JOURNEY_READINESS.json"),wec=json("WORK_ENVIRONMENT_STATUS.json");
 assert.match(read("00_SLE_HANDOFF_PROTOCOL.md"),/Smart Lean Efficient/i);
@@ -35,14 +36,39 @@ const closingId=bootstrap.currentWec?.environmentId;
 const closingArchive=bootstrap.currentWec?.archive||bootstrap.currentWec?.plannedArchive;
 assert.equal(closingId,"we-2026-09-06-pr211-recovery-private-setup-a54");
 assert.equal(wec.signals?.unresolvedFailures,0);
+function assertDescendsFromSealedClosingEnvironment(current){
+ const seen=new Set([current.environmentId]);
+ let node=current;
+ let reached=false;
+ for(let hops=0;hops<12;hops+=1){
+  if(node.environmentId===closingId){reached=true;break;}
+  const predecessorId=node.repository?.predecessorEnvironmentId;
+  const archive=node.repository?.predecessorArchive;
+  assert.ok(predecessorId&&archive,"Fresh SLE successor must name its direct predecessor and archive.");
+  assert.match(archive,/^WORK_ENVIRONMENT_ARCHIVE\/[A-Za-z0-9._-]+\.json$/,"Fresh SLE successor archive must remain repository-owned.");
+  assert.ok(!seen.has(predecessorId),"Fresh SLE successor lineage must not contain cycles.");
+  const archivePath=path.join(process.cwd(),archive);
+  assert.ok(fs.existsSync(archivePath),"Fresh SLE successor predecessor archive must exist.");
+  const predecessor=json(archivePath);
+  assert.equal(predecessor.environmentId,predecessorId,"Fresh SLE successor archive must match predecessorEnvironmentId.");
+  seen.add(predecessorId);
+  node=predecessor;
+ }
+ assert.equal(reached,true,"Fresh SLE successor must descend through the archived chain from sealed a54.");
+ const sealed=json(closingArchive);
+ assert.equal(sealed.environmentId,closingId);
+ assert.equal(sealed.lifecycle,"transition-prepared");
+ assert.equal(sealed.signals?.handoffCompleteness,100);
+ assert.equal(sealed.assessment?.decision,"HANDOFF_AT_CHECKPOINT");
+}
 if(wec.lifecycle==="active" && wec.environmentId!==closingId){
- assert.equal(wec.repository?.predecessorEnvironmentId,closingId);
- assert.equal(wec.repository?.predecessorArchive,closingArchive);
+ assertDescendsFromSealedClosingEnvironment(wec);
  assert.equal(wec.assessment?.decision,"CONTINUE");
+ assert.equal(wec.assessment?.decisionInheritedFromPredecessor,false);
 }else if(wec.lifecycle==="active"){
  assert.equal(wec.environmentId,closingId); assert.equal(wec.assessment?.decision,"CONTINUE");
 }else{
  assert.equal(wec.environmentId,closingId); assert.equal(wec.lifecycle,"transition-prepared"); assert.equal(wec.signals?.handoffCompleteness,100); assert.equal(wec.assessment?.decision,"HANDOFF_AT_CHECKPOINT");
  const archived=json(closingArchive); assert.equal(archived.environmentId,wec.environmentId); assert.equal(archived.lifecycle,"transition-prepared"); assert.equal(archived.signals?.handoffCompleteness,100);
 }
-process.stdout.write("PASS SLE packaging: mirrored v1.4.55 PR210/PR209 observer package preserves PR207 recorder, PR205 validator, PR203 r3 production authority, frozen RJR100/SSJR0, sealed/current a54 bootstrap authority, and permits a fresh successor WEC.\n");
+process.stdout.write("PASS SLE packaging: mirrored v1.4.55 PR210/PR209 observer package preserves PR207 recorder, PR205 validator, PR203 r3 production authority, frozen RJR100/SSJR0, sealed a54 bootstrap root authority, and permits fresh successors through the repository-owned archived WEC chain.\n");
