@@ -1,0 +1,153 @@
+{
+  "schemaVersion": 1,
+  "environmentId": "we-2026-09-07-pr215-r6-publication-a66",
+  "lifecycle": "active",
+  "recordedAt": "2026-09-07T22:15:09.000Z",
+  "repository": {
+    "name": "nikahanghojjati-oss/fifa17-career-showdown2",
+    "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
+    "startingMainSha": "420d0dd21480c660d4fe139ba011eca1ccb987a9",
+    "verifiedMainSha": "420d0dd21480c660d4fe139ba011eca1ccb987a9",
+    "workingBranch": "fix/pr214-postmerge-dual-screen-contract",
+    "activePullRequest": 215,
+    "productionVersion": "v1.9.1",
+    "productionRuntimeRevision": "1.9.1-r5",
+    "releaseCandidateVersion": "v1.9.1",
+    "releaseCandidateRuntimeRevision": "1.9.1-r6",
+    "liveHeadAtInitialization": "ae590e239eda3a8248f5873d0d2ed02e43860404",
+    "predecessorEnvironmentId": "we-2026-09-07-pr215-r6-publication-a65",
+    "predecessorArchive": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-07-pr215-r6-publication-a65.json"
+  },
+  "signals": {
+    "contextComplexity": "moderate",
+    "projectComplexity": "high",
+    "compactionCount": 0,
+    "majorPhasesCompleted": 0,
+    "largeEvidenceEvents": 2,
+    "toolRoutingErrors": 0,
+    "correctedFailures": 2,
+    "repeatedMistakes": 0,
+    "staleFactCorrections": 0,
+    "unresolvedFailures": 1,
+    "newMilestoneNext": false,
+    "usageRemainingPercent": null,
+    "usageSource": "unavailable",
+    "usageWarning": false,
+    "handoffCompleteness": 80,
+    "unrecordedDecisions": 0,
+    "atomicOperation": false
+  },
+  "assessment": {
+    "decision": "CONTINUE",
+    "decisionInheritedFromPredecessor": false,
+    "reason": "The first a66 correction/validation cycle cleared the checksum bootstrap contract and exposed one later cloud-foundation historical compatibility contract on NEXT_TASK.md. Continue with one bounded batch containing all objectively required literals from that exact contract, then perform the second decisive exact-head validation."
+  },
+  "continuity": {
+    "currentTask": "Converge PR215 r6 release-candidate publication on one exact all-green reviewed head without combining CI across heads.",
+    "lastSafeCheckpoint": "Exact PR215 head 31640d35fe4a2bfc8acf6d06cd3d82b888b2efbb cleared the GitHub CLI bootstrap checksum contract. Stability, Static App and Stage 5F Authenticated Negatives are red through the same shared repository suite; Stability run 34165933266 job 101876847277 next fails at tests/contracts/cloud-foundation-contracts.cjs:113 because NEXT_TASK.md omits historical PR #198 compatibility. The same bounded contract also requires the phrases final stable release acceptance and Billing must never be activated before Firebase remains Spark. At the last exact poll, 11 families were green, 3 red and Stage 3 Private Pairing remained in progress.",
+    "nextSafeAction": "Add only the historical PR #198/final stable release acceptance and permanent zero-billing compatibility wording required by the exact cloud-foundation contract, then run all 15 permanent workflow families on one new exact head. If the second a66 validation remains red, obey the recursive anti-spiral circuit breaker instead of starting an unbounded third correction.",
+    "unfinishedWork": [
+      "All 15 permanent PR workflow families must be green on one exact PR215 head.",
+      "Refresh reviews, comments and review threads against that same exact head.",
+      "Expected-head squash merge only after exact-head all-green and review gates pass.",
+      "Verify exact post-merge Stability including Chromium and deployed-site smoke, coherent Pages r6 deployment and Release Integration Burn-In.",
+      "Only after full r6 production proof may MDP add +2.50 for Shared Setup product integration and the owner be told YOUR TESTING TIME.",
+      "Genuine Chromebook/iPhone production-two-account Shared Setup evidence remains required before transfer/results/scoring work."
+    ],
+    "knownHazards": [
+      "Never combine CI evidence across heads.",
+      "Recursive anti-spiral circuit breaker: make only the bounded current correction justified by the exact live failure; do not rewrite historical V1.4.62 transfer evidence or weaken permanent tests.",
+      "Billing remains permanently OFF and Firebase remains Spark only; never enable Blaze, Cloud Billing, a billing account, Cloud Run or Cloud Functions.",
+      "App Check enforcement remains OFF; Firestore browser persistence remains memory-only; Google Auth remains popup-only browserSessionPersistence with no extra scopes.",
+      "Exactly two private managers; Connected Rivalry pairing plus exact ACTIVE precedes league or club authority.",
+      "Candidate C remains sole destructive remote-to-local gameplay Apply authority with transaction-owned strict exact raw-snapshot rollback.",
+      "Preserve exactly careerModeShowdown.saveLibrary, careerModeShowdown.legacyShowdowns, careerModeShowdown.preferences and SSJR-DUAL-FULL-SCREEN-1; no public discovery, listing, lobby, matchmaking, community, rankings or global leaderboards."
+    ],
+    "evidenceNotes": [
+      "The a65 archive exists byte-identical to the predecessor WORK_ENVIRONMENT_STATUS.json and is treated as immutable transfer evidence.",
+      "Live main independently verified at 420d0dd21480c660d4fe139ba011eca1ccb987a9.",
+      "Live PR215 head independently verified at ae590e239eda3a8248f5873d0d2ed02e43860404.",
+      "All 15 permanent workflow families completed 12 green and 3 red on ae590e239eda3a8248f5873d0d2ed02e43860404; Stability run 34165162919 job 101874650879 fails at the shared repository-contract step.",
+      "Current exact Stability logs prove the V1.4.63 SLE packaging and next-developer production-authority prompt contracts pass before github-cli-bootstrap-contracts.cjs:29 fails on checksum verification wording.",
+      "PR215 has no submitted reviews, comments or review threads at initialization.",
+      "RJR-1 remains 100/100, SSJR-1.1 remains 0/100 and MDP-1 remains 39.00/100; this publication/continuity work earns zero SSJR credit and MDP task delta +0.00.",
+      "First a66 correction head 31640d35fe4a2bfc8acf6d06cd3d82b888b2efbb proves the GitHub CLI bootstrap contract now passes before cloud-foundation-contracts.cjs:113 fails on missing PR #198 in NEXT_TASK.md.",
+      "The exact cloud-foundation contract requires NEXT_TASK.md to retain PR #198, final stable release acceptance, and Billing must never be activated followed by Firebase remains Spark; these are compatible with existing PROJECT_STATE.md historical/permanent authority and can be restored without changing current PR215/r6 authority."
+    ]
+  },
+  "handoffTransferReadiness": {
+    "model": "HTR-1",
+    "earnedPillars": [
+      "durable-state",
+      "authority-snapshot",
+      "open-work-classified",
+      "successor-execution-contract"
+    ]
+  },
+  "sessionHandoffProximity": {
+    "model": "SHP-2",
+    "environmentId": "we-2026-09-07-pr215-r6-publication-a66",
+    "startedAt": "2026-09-07T22:11:47.000Z",
+    "checkpoints": [
+      {
+        "at": "2026-09-07T22:11:47.000Z",
+        "note": "New session: reset to 0%.",
+        "observations": {
+          "messageToolEvents": 0,
+          "longEvidenceReads": 0,
+          "truncations": 0,
+          "recoveries": 0,
+          "compactions": 0,
+          "boundedReads": 0,
+          "editedFiles": 0,
+          "commits": 0,
+          "ciDebugCycles": 0,
+          "deployments": 0,
+          "elapsedMinutes": 0,
+          "taskLanes": 0,
+          "unmergedBranches": 0,
+          "redCiFamilies": 0,
+          "inFlightDeployments": 0,
+          "unresolvedStates": 0,
+          "unresolvedDebugLoops": 0,
+          "ownerTestPending": false,
+          "hardStateReconstruction": false,
+          "ownerRequestedWrap": false,
+          "nextSubstantialTaskRisksLoss": false
+        }
+      },
+      {
+        "at": "2026-09-07T22:15:09.000Z",
+        "note": "First a66 correction/validation cycle cleared the checksum bootstrap contract and exposed one later shared-suite historical compatibility contract. A second bounded batch is prepared from the complete exact contract rather than sequential literal guessing.",
+        "observations": {
+          "messageToolEvents": 30,
+          "longEvidenceReads": 6,
+          "truncations": 0,
+          "recoveries": 0,
+          "compactions": 0,
+          "boundedReads": 16,
+          "editedFiles": 4,
+          "commits": 2,
+          "ciDebugCycles": 1,
+          "deployments": 0,
+          "elapsedMinutes": 4,
+          "taskLanes": 1,
+          "unmergedBranches": 1,
+          "redCiFamilies": 3,
+          "inFlightDeployments": 0,
+          "unresolvedStates": 1,
+          "unresolvedDebugLoops": 0,
+          "ownerTestPending": false,
+          "hardStateReconstruction": false,
+          "ownerRequestedWrap": false,
+          "nextSubstantialTaskRisksLoss": false
+        }
+      }
+    ],
+    "successorPackage": {
+      "generated": false,
+      "verified": false,
+      "verification": null
+    }
+  }
+}
