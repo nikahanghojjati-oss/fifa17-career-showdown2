@@ -16,7 +16,8 @@ const files = [
   "tests/contracts/cloud-foundation-contracts.cjs",
   "tests/contracts/cloud-sync-two-device-harness-contracts.cjs",
   "tests/contracts/work-environment-continuity-contracts.cjs",
-  "tests/contracts/work-environment-interruption-resilience-contracts.cjs"
+  "tests/contracts/work-environment-interruption-resilience-contracts.cjs",
+  "tests/contracts/work-environment-forward-progress-contracts.cjs"
 ];
 
 function escape(value){
