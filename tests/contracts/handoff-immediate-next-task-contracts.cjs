@@ -1,5 +1,6 @@
 const assert=require("node:assert/strict");
 const fs=require("node:fs");
+const path=require("node:path");
 const read=p=>fs.readFileSync(p,"utf8");
 const json=p=>JSON.parse(read(p));
 const readiness=json("REMOTE_JOINING_READINESS.json");
@@ -46,9 +47,33 @@ const closingArchive=bootstrap.currentWec?.archive||bootstrap.currentWec?.planne
 assert.equal(closingId,"we-2026-09-06-pr211-recovery-private-setup-a54");
 assert.equal(wec.signals?.unresolvedFailures,0);
 assert.equal(wec.assessment?.decisionInheritedFromPredecessor,false);
+function assertDescendsFromSealedClosingEnvironment(current){
+ const seen=new Set([current.environmentId]);
+ let node=current;
+ let reached=false;
+ for(let hops=0;hops<12;hops+=1){
+  if(node.environmentId===closingId){reached=true;break;}
+  const predecessorId=node.repository?.predecessorEnvironmentId;
+  const archive=node.repository?.predecessorArchive;
+  assert.ok(predecessorId&&archive,"Fresh successor continuity must name its direct predecessor environment and archive.");
+  assert.match(archive,/^WORK_ENVIRONMENT_ARCHIVE\/[A-Za-z0-9._-]+\.json$/,"Successor predecessor archive must remain repository-owned.");
+  assert.ok(!seen.has(predecessorId),"Successor lineage must not contain cycles.");
+  const archivePath=path.join(process.cwd(),archive);
+  assert.ok(fs.existsSync(archivePath),"Successor predecessor archive must exist.");
+  const predecessor=json(archivePath);
+  assert.equal(predecessor.environmentId,predecessorId,"Archived predecessor environment must match predecessorEnvironmentId.");
+  seen.add(predecessorId);
+  node=predecessor;
+ }
+ assert.equal(reached,true,"Fresh successor continuity must descend through the archived chain from the sealed predecessor environment.");
+ const sealed=json(closingArchive);
+ assert.equal(sealed.environmentId,closingId,"Bootstrap closing archive must preserve the sealed a54 environment.");
+ assert.equal(sealed.lifecycle,"transition-prepared","Bootstrap closing archive must preserve transition-prepared a54 truth.");
+ assert.equal(sealed.signals?.handoffCompleteness,100,"Bootstrap closing archive must preserve a54 HTR100.");
+ assert.equal(sealed.assessment?.decision,"HANDOFF_AT_CHECKPOINT","Bootstrap closing archive must preserve the sealed a54 decision.");
+}
 if(wec.lifecycle==="active" && wec.environmentId!==closingId){
- assert.equal(wec.repository?.predecessorEnvironmentId,closingId,"fresh active successor must descend from sealed a54");
- assert.equal(wec.repository?.predecessorArchive,closingArchive,"fresh active successor must point to the exact a54 archive");
+ assertDescendsFromSealedClosingEnvironment(wec);
  assert.equal(wec.assessment?.decision,"CONTINUE");
 }else if(wec.lifecycle==="active"){
  assert.equal(wec.environmentId,closingId);
@@ -71,4 +96,4 @@ assert.match(next,/two legitimate private manager|production-two-account|product
 assert.match(next,/record:ssjr-production-shared-setup/i);
 assert.match(next,/validate:ssjr-production-shared-setup/i);
 assert.match(next,/Do not begin transfer\/results\/scoring|Do not start transfer\/results\/scoring/i);
-process.stdout.write("PASS current authority: PR210/PR209 observer deployment is post-merge green, PR207 recorder and PR205 validator remain strict authorities, PR203 remains r3 runtime authority, RJR100 is frozen, SSJR-1.1 remains 0/100, sealed/current a54 is bootstrap authority, and a fresh active successor WEC is permitted.\n");
+process.stdout.write("PASS current authority: PR210/PR209 observer deployment is post-merge green, PR207 recorder and PR205 validator remain strict authorities, PR203 remains r3 runtime authority, RJR100 is frozen, SSJR-1.1 remains 0/100, sealed a54 remains bootstrap root authority, and fresh active successor WECs may descend through the repository-owned archived chain.\n");
