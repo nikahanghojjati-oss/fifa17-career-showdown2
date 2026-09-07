@@ -5,6 +5,7 @@ Work Environment Continuity (WEC) is mandatory. SLE = Smart Lean Efficient. Curr
 RJR-1 remains COMPLETE/FROZEN `100/100`. SSJR-1.1 remains `0/100`. Milestone Delivery Progress MDP-1 remains `39.00/100`. The current publication/continuity/SLE transfer earns `MDP task delta: +0.00` and zero SSJR credit.
 
 Recorded main authority remains `420d0dd21480c660d4fe139ba011eca1ccb987a9`. Recorded production authority remains `v1.9.1 / 1.9.1-r5`; source/runtime release candidate remains `v1.9.1 / 1.9.1-r6` until independently reverified live.
+Historical production publication provenance remains PR #203 and must not be rewritten while current PR #215 publication authority is converged.
 
 Closing WEC: `we-2026-09-07-pr215-r6-publication-a59`.
 Current starter: `START_NEXT_SESSION_V1.4.57_PR215_ANTI_SPIRAL_SAFE_TRANSFER_NEXT.md`.
