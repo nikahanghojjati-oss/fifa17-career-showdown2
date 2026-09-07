@@ -18,10 +18,19 @@ const setup=fs.readFileSync('js/productionSharedShowdownSetup.js','utf8');
 const adapter=fs.readFileSync('js/sparkSharedShowdownSetup.js','utf8');
 const worker=fs.readFileSync('service-worker.js','utf8');
 const menu=fs.readFileSync('js/menuExperience.js','utf8');
-const release=fs.readFileSync('RELEASE_V1.9.1_R3.md','utf8');
+const runtimeRevision=(worker.match(/const RUNTIME_REVISION = "([^"]+)";/)||[])[1];
+const previousRuntimeRevision=(worker.match(/const PREVIOUS_RUNTIME_REVISION = "([^"]+)";/)||[])[1];
+assert.match(runtimeRevision||'',/^1\.9\.1-r[1-9]\d*$/,'SSJR production runtime must use a v1.9.1 whole-shell identity.');
+assert.match(previousRuntimeRevision||'',/^1\.9\.1-r[1-9]\d*$/,'SSJR production runtime must retain one v1.9.1 previous whole-shell identity.');
+const runtimeGeneration=Number(runtimeRevision.match(/-r(\d+)$/)[1]);
+const previousGeneration=Number(previousRuntimeRevision.match(/-r(\d+)$/)[1]);
+const releasePath=runtimeGeneration===1?'RELEASE_V1.9.1.md':`RELEASE_V1.9.1_R${runtimeGeneration}.md`;
+assert.ok(fs.existsSync(releasePath),`${releasePath} must exist for the current whole-shell runtime.`);
+const release=fs.readFileSync(releasePath,'utf8');
 
 function between(source,start,end){const a=source.indexOf(start),b=source.indexOf(end);assert.ok(a>=0&&b>a,`Missing exact splice markers ${start} / ${end}`);return source.slice(a+start.length,b).trimEnd();}
 function once(source,needle,replacement,label){const first=source.indexOf(needle);assert.ok(first>=0,`Missing ${label} sentinel`);assert.equal(source.indexOf(needle,first+needle.length),-1,`Duplicate ${label} sentinel`);return source.slice(0,first)+replacement+source.slice(first);}
+function escapeRegExp(value){return String(value).replace(/[.*+?^${}()|[\]\\]/g,'\\$&');}
 const functionMarker='// SSJR_SHARED_SETUP_FUNCTIONS_BEGIN',functionEnd='// SSJR_SHARED_SETUP_FUNCTIONS_END',matchMarker='// SSJR_SHARED_SETUP_MATCH_BEGIN',matchEnd='// SSJR_SHARED_SETUP_MATCH_END';
 let expectedGenerated=base;
 expectedGenerated=once(expectedGenerated,'    function capabilityCanReadPendingRivalry(rivalryId) {',`    ${functionMarker}\n${between(fragment,functionMarker,functionEnd)}\n    ${functionEnd}\n\n`,'top-level function insertion');
@@ -73,13 +82,13 @@ assert.match(bootstrap,/\.then\(\(\)=>\{\s*const api=root\[key\]/,'Lazy SSJR boo
 assert.match(bootstrap,/if\(!api\|\|typeof api\.install!=="function"\)throw/,'Lazy SSJR bootstrap must fail closed if the loaded entry or guard is not installable.');
 assert.match(bootstrap,/api\.install\(\)/,'Lazy SSJR bootstrap must install paired-first runtime surfaces after loading.');
 assert.doesNotMatch(bootstrap,/localStorage/,'Lazy SSJR bootstrap must never touch canonical local saves.');
-assert.match(worker,/const RUNTIME_REVISION = "1\.9\.1-r3";/,'Paired-first production runtime must publish under a fresh whole-shell revision.');
-assert.match(worker,/const PREVIOUS_RUNTIME_REVISION = "1\.9\.1-r2";/,'The last production-proven r2 shell must remain the whole-shell rollback target.');
-for(const path of ['js/ssjr.js','js/productionSharedJourneyEntry.js','js/productionSharedJourneyGuard.js','js/productionSharedShowdownSetup.js','js/sharedShowdownSetup.js','js/sharedShowdownCatalog.js','js/sparkSharedShowdownSetup.js'])assert.ok(worker.includes(`"${path}"`),`Installed-app r3 shell must cache ${path}.`);
-assert.match(menu,/assets\/marco-reus-2015-cc-by\.webp\?v=1\.9\.1-r3/,'Lazy menu visual must use the current r3 shell identity.');
-assert.match(release,/Runtime asset revision: `1\.9\.1-r3`/);
-assert.match(release,/Previous known-good runtime: `1\.9\.1-r2`/);
-assert.match(release,/SSJR-1\.1[\s\S]+`0\/100`/,'r3 publication record must not claim SSJR credit from source or deployment.');
+assert.ok(runtimeGeneration>=3,'Paired-first production runtime must publish under r3 or a newer fresh whole-shell revision.');
+assert.equal(previousGeneration,runtimeGeneration-1,'Current SSJR whole-shell runtime must retain the immediately previous whole-shell revision as recovery target.');
+for(const path of ['js/ssjr.js','js/productionSharedJourneyEntry.js','js/productionSharedJourneyGuard.js','js/productionSharedShowdownSetup.js','js/sharedShowdownSetup.js','js/sharedShowdownCatalog.js','js/sparkSharedShowdownSetup.js'])assert.ok(worker.includes(`"${path}"`),`Installed-app ${runtimeRevision} shell must cache ${path}.`);
+assert.match(menu,new RegExp(`assets\\/marco-reus-2015-cc-by\\.webp\\?v=${escapeRegExp(runtimeRevision)}`),'Lazy menu visual must use the current whole-shell identity.');
+assert.ok(release.includes(`Runtime asset revision: \`${runtimeRevision}\``),'Current release record must identify the exact whole-shell revision.');
+assert.ok(release.includes(`Previous known-good runtime: \`${previousRuntimeRevision}\``),'Current release record must identify the exact previous whole-shell recovery target.');
+assert.match(release,/SSJR-1\.1[\s\S]+`0\/100`/,'Current publication record must not claim SSJR credit from source or deployment.');
 
 assert.match(entry,/START SHARED SHOWDOWN/);
 assert.match(entry,/setPending\(true\)[\s\S]+createShowdown\(\)[\s\S]+persistPendingMarker\(\)/,'Shared journey must establish its transient lock, create the pre-draw shell, then persist the durable shared-mode marker before setup continues.');
@@ -120,4 +129,4 @@ assert.doesNotMatch(setup,/options\.catalog|caller.*catalog/i,'Production runtim
 assert.match(adapter,/createProtocol\(\{catalog:catalogModule\.catalog,cryptoImpl\}\)/,'Production path must retain immutable repository-owned catalog authority.');
 assert.doesNotMatch(adapter,/options\.catalog/);
 
-process.stdout.write('PASS SSJR production paired-first runtime: exact reviewed Rules splice, exact pairing + ACTIVE before draw, durable pre-draw shared-mode marker, capture-phase actual click-path denial, r3 whole-shell installed-app delivery with r2 recovery, lazy startup bootstrap, generated zero-billing Rules authority, candidate-equivalent production provider emulator coverage before PR merge and deploy publication, immutable provider catalog, fresh-session resume path, and canonical local-save non-mutation are permanently gated.\n');
+process.stdout.write(`PASS SSJR production paired-first runtime: exact reviewed Rules splice, exact pairing + ACTIVE before draw, durable pre-draw shared-mode marker, capture-phase actual click-path denial, ${runtimeRevision} whole-shell installed-app delivery with ${previousRuntimeRevision} recovery, lazy startup bootstrap, generated zero-billing Rules authority, candidate-equivalent production provider emulator coverage before PR merge and deploy publication, immutable provider catalog, fresh-session resume path, and canonical local-save non-mutation are permanently gated.\n`);
