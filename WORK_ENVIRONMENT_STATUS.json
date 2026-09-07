@@ -26,10 +26,10 @@
     "majorPhasesCompleted": 0,
     "largeEvidenceEvents": 1,
     "toolRoutingErrors": 0,
-    "correctedFailures": 3,
+    "correctedFailures": 4,
     "repeatedMistakes": 0,
     "staleFactCorrections": 1,
-    "unresolvedFailures": 1,
+    "unresolvedFailures": 0,
     "newMilestoneNext": false,
     "usageRemainingPercent": null,
     "usageSource": "unavailable",
@@ -55,8 +55,8 @@
   },
   "continuity": {
     "currentTask": "Finish PR212 r4 release candidate proof: keep production v1.9.1 / 1.9.1-r3 authoritative until publication, make the guided SSJR acceptance recorder simpler and privacy-safe, get all 15 exact-head workflow families green, merge with expected-head protection, verify deployed 1.9.1-r4, then provide the recorder URL for the irreducible two-account test.",
-    "lastSafeCheckpoint": "PR212 head 280d4645748ed2909d30dd7981d52f71c2a05fd2 carries the query-gated guided SSJR recorder and coherent 1.9.1-r4 whole-shell release candidate. Dynamic static release architecture passes r4. Earlier CI exposed and corrected recorder storage-authority and hardened-browser audit defects. The latest remaining contract failure is continuity metadata because this WEC still described only production r3; this update records r4 as release candidate without rewriting current production truth.",
-    "nextSafeAction": "Re-run and inspect all 15 permanent PR workflow families on the new WEC head. Fix only objective exact-head failures. When 15/15 are terminal green and review-thread state is clear, merge PR212 with expected-head SHA protection. Then verify exact post-merge main, Pages/deployment and public runtime 1.9.1-r4 before giving the owner the query-gated recorder URL.",
+    "lastSafeCheckpoint": "PR212 r4 release-candidate metadata, previous-known-good r3 provenance, Home portrait cache identity, recorder storage authority and hardened-browser recorder audit defects have all been corrected. The remaining failed exact-head runs at the prior checkpoint were caused by the stale WEC unresolvedFailures signal itself; no underlying product failure remained attached to that signal.",
+    "nextSafeAction": "Run and inspect all 15 permanent PR workflow families on this clean WEC head. Fix only objective exact-head failures. When 15/15 are terminal green and review-thread state is clear, merge PR212 with expected-head SHA protection. Then verify exact post-merge main, Pages/deployment and public runtime 1.9.1-r4 before giving the owner the query-gated recorder URL.",
     "unfinishedWork": [
       "PR212 must reach 15/15 exact-head green after this WEC correction.",
       "PR212 must merge with expected-head protection and post-merge deployment must prove the public site serves one coherent 1.9.1-r4 shell.",
