@@ -43,9 +43,20 @@ export function scoreObservations(o) {
   const weighted = Math.round(Object.entries(weights).reduce((sum, [k, w]) => sum + components[k] * w, 0));
   let floor = 0;
   const reasons = [];
-  if (o.truncations + o.recoveries + o.compactions >= 2) { floor = 70; reasons.push("Repeated truncation/interruption/recovery."); }
-  if (o.unresolvedDebugLoops >= 2 || o.hardStateReconstruction) { floor = 80; reasons.push("Multiple unresolved CI/debug loops or hard state reconstruction."); }
-  if (o.ownerRequestedWrap || o.nextSubstantialTaskRisksLoss) { floor = 95; reasons.push("Owner requested transition or another substantial task risks loss."); }
+  const contextDamageEvents = o.truncations + o.recoveries + o.compactions;
+  const activeFailure = o.redCiFamilies > 0 || o.unresolvedStates > 0;
+  const repeatedFailedValidation = o.ciDebugCycles >= 3 && activeFailure;
+  const contextAmplifiedDebugSpiral = o.ciDebugCycles >= 2 && contextDamageEvents >= 2 && activeFailure;
+  const multiFamilyRepeatRisk = o.ciDebugCycles >= 2 && o.redCiFamilies >= 2;
+
+  if (contextDamageEvents >= 2) { floor = Math.max(floor, 70); reasons.push("Repeated truncation/interruption/recovery."); }
+  if (o.hardStateReconstruction) { floor = Math.max(floor, 80); reasons.push("Hard state reconstruction."); }
+  if (multiFamilyRepeatRisk) { floor = Math.max(floor, 85); reasons.push("Repeated validation work still has multiple red CI families; finish only the current atomic correction and prepare transfer state."); }
+  if (o.unresolvedDebugLoops >= 2 || repeatedFailedValidation || contextAmplifiedDebugSpiral) {
+    floor = Math.max(floor, 95);
+    reasons.push("Debug-spiral circuit breaker: repeated failed correction/validation rounds or unresolved loops require full SNS at the first safe checkpoint.");
+  }
+  if (o.ownerRequestedWrap || o.nextSubstantialTaskRisksLoss) { floor = Math.max(floor, 95); reasons.push("Owner requested transition or another substantial task risks loss."); }
   return { score: Math.min(99, Math.max(weighted, floor)), weighted, floor, components, reasons };
 }
 
