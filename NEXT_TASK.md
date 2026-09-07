@@ -25,7 +25,7 @@ Permanent regressions cover ACTIVE-session recorder routing, expired-session rou
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
-1. Finish PR #213 exact-head publication discipline. Every one of the 15 permanent workflow families must be terminal green on one exact head. Do not combine evidence across heads.
+1. Finish PR #213 exact-head publication discipline: require every current permanent workflow family green on the same exact reviewed PR head. The present topology has 15 permanent workflow families, and evidence must never be combined across heads.
 2. Resolve all objective PR review threads only after the corresponding issue is demonstrably fixed and regression-covered.
 3. Merge PR #213 with expected-head SHA protection only after exact-head CI is fully green and review-thread state is clear.
 4. Verify post-merge `main`, GitHub Pages/deployment, Release Integration Burn-In/Stability as applicable, and independently verify the public site serves one coherent `v1.9.1 / 1.9.1-r5` shell. Do not ask the owner to test before that verification.
