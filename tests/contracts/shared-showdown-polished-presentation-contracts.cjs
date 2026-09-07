@@ -24,6 +24,7 @@ assert.match(presentation,/dataset\.sharedLeagueWitnessed/);
 assert.match(presentation,/dataset\.sharedClubPacksWitnessed/);
 assert.match(presentation,/setInterval\(\(\)=>void ssjpPoll\(\),POLL_MS\)/);
 assert.match(presentation,/if\(witnessedLeagueId!==setup\.leagueId\)\{ssjpForceScreen\("leagueWheelScreen"\);return ssjpRenderLeague\(\);\}/);
+assert.match(presentation,/if\(revealingClubDigest===digest&&!clubRevealComplete\)return;/,"A provider poll must preserve an in-progress club-pack reveal for the same authoritative digest.");
 
 assert.match(entry,/CONTINUE TO LEAGUE WHEEL/);
 assert.match(entry,/productionSharedShowdownPresentation\.js/);
@@ -53,4 +54,4 @@ assert.match(presentation,/cloudFunctionsRequired:false/);
 assert.match(presentation,/appCheckEnforcementRequired:false/);
 assert.match(bridge,/billingRequired:false/);
 
-process.stdout.write("PASS Shared Showdown polished presentation contracts: both manager roles must witness the real league wheel and club packs, peer authority auto-refreshes, provider draw authority remains sole, and the acceptance recorder is bridged away from the engineering panel.\n");
+process.stdout.write("PASS Shared Showdown polished presentation contracts: both manager roles must witness the real league wheel and club packs, in-progress normal-motion pack reveals survive provider polling, provider draw authority remains sole, and the acceptance recorder is bridged away from the engineering panel.\n");
