@@ -78,8 +78,13 @@
     return true;
   }
   function canonicalSnapshot(){
-    if(!root.localStorage)return Object.fromEntries(CANONICAL_KEYS.map(key=>[key,null]));
-    return Object.fromEntries(CANONICAL_KEYS.map(key=>[key,root.localStorage.getItem(key)]));
+    if(typeof root.captureCareerModeRawBackupInputs!=="function")throw new Error("Canonical storage read authority is unavailable.");
+    const raw=root.captureCareerModeRawBackupInputs();
+    return {
+      [CANONICAL_KEYS[0]]:raw&&Object.hasOwn(raw,"saveLibrary")?raw.saveLibrary:null,
+      [CANONICAL_KEYS[1]]:raw&&Object.hasOwn(raw,"legacyShowdowns")?raw.legacyShowdowns:null,
+      [CANONICAL_KEYS[2]]:raw&&Object.hasOwn(raw,"preferences")?raw.preferences:null
+    };
   }
   async function canonicalHash(){return sha256Text(JSON.stringify(stable(canonicalSnapshot())));}
   async function setupDigest(setup){return sha256Text(JSON.stringify(stable(setup)));}
