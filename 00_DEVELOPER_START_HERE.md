@@ -2,6 +2,8 @@
 
 Work Environment Continuity (WEC) is mandatory for every successor environment. Treat handoffs as orientation only and independently verify live repository, PR, CI, deployment and provider state before mutation.
 
+GitHub CLI bootstrap: use the connected GitHub app/connector first. If substantial repository work genuinely requires native `gh` and it is unavailable, run `npm run work:gh:bootstrap`; the repository-owned bootstrap installs only the official release with checksum verification into ignored environment-local tooling, then verify with `gh auth status`. Never extract, copy, or repurpose connector credentials.
+
 Read `AGENTS.md`, `00_HANDOFF_GOLDEN_RULE.md`, `00_BUILD_FIRST_PRODUCT_POLICY.md`, `00_SESSION_HANDOFF_PROXIMITY_V2.md`, `00_HANDOFF_PROXIMITY_STAGE_GATES.md`, `00_MILESTONE_DELIVERY_PROGRESS.md`, `MILESTONE_DELIVERY_PROGRESS_MODEL.json`, `MILESTONE_DELIVERY_PROGRESS.json`, `00_SHARED_SHOWDOWN_DUAL_FULL_SCREEN_RULE.md`, `SHARED_SHOWDOWN_DUAL_SCREEN_EXPERIENCE.json`, `SESSION_BOOTSTRAP.json`, `00_CURRENT_HANDOFF.md`, `NEXT_TASK.md`, `PROJECT_STATE.md`, `WORK_ENVIRONMENT_STATUS.json`, `SHARED_SHOWDOWN_JOURNEY_MODEL.json`, and `SHARED_SHOWDOWN_JOURNEY_READINESS.json`.
 
 RJR-1 remains COMPLETE/FROZEN `100/100`. SSJR-1.1 remains evidence-gated and currently `0/100`. MDP-1 is the separate engineering-delivery tracker and currently `39.00/100` until repository-owned lifecycle evidence changes it. MDP never grants SSJR credit.
