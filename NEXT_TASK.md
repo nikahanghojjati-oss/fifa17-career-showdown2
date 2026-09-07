@@ -51,6 +51,7 @@ At interruption or task completion, generate a fresh SNS even below HTR-1 100. D
 The following retained wording preserves immutable continuity/security provenance. Current execution authority is the PR213/r5 section above.
 
 # CURRENT TASK — SSJR-1.1 PRODUCTION TWO-ACCOUNT SHARED SETUP EVIDENCE
+# CURRENT TASK — SSJR-1 AUTHORITATIVE SETUP FOUNDATION
 
 Historical task: SSJR-1.1 production two-account Shared Setup evidence. Permanent cloud locks: Billing must never be activated. Firebase remains Spark. App Check enforcement remains OFF. Firestore browser persistence remains memory-only. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes.
 
