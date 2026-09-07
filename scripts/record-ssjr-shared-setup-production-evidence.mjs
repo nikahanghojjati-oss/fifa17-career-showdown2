@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import crypto from 'node:crypto';
 
-const EXPECTED_RUNTIME_REVISION = '1.9.1-r5';
+const EXPECTED_RUNTIME_REVISION = '1.9.1-r6';
 const EVIDENCE_TYPE = 'SSJR-1.1-production-shared-setup';
 const CANONICAL_STORAGE_KEYS = [
   'careerModeShowdown.saveLibrary',
