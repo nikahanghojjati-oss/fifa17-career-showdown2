@@ -21,6 +21,7 @@
   let pollTimer=null;
   let queue=Promise.resolve();
   let runtimeError=null;
+  let latestSetupState=null;
   let safe=loadSafe();
 
   function now(){return new Date().toISOString();}
@@ -119,9 +120,27 @@
   async function finalDigest(finalSetup){return sha256Text(JSON.stringify(stable(finalSetup)));}
   function updateSafe(next){safe={...safe,...next};persistSafe();render();return safe;}
   function requireStableIdentity(label,prior,next){if(prior&&prior!==next)throw new Error(`${label} changed during one SSJR acceptance run.`);}
+  function remoteProgress(){
+    const remote=root.CareerModeSparkRemoteJoining;
+    if(!remote||typeof remote.getState!=="function")return Object.freeze({active:false});
+    try{
+      const state=remote.getState();
+      return Object.freeze({active:Boolean(state&&state.sessionState==="active"&&state.sessionId&&!state.pendingAction)});
+    }catch(_error){return Object.freeze({active:false});}
+  }
+  function setupBlocker(){
+    let current=latestSetupState;
+    if(!current&&setupApi&&typeof setupApi.getState==="function"){
+      try{current=setupApi.getState();}catch(_error){}
+    }
+    if(!current||current.ready===true||(current.status!=="locked"&&current.status!=="error"))return "";
+    const message=typeof current.message==="string"?current.message.trim():"";
+    return message||"Shared Setup authority has not resolved yet.";
+  }
 
   async function observe(state){
     if(!enabled||!state)return;
+    latestSetupState=state;
     queue=queue.then(async()=>{
       const next={};
       const hasAuthority=state.ready===true&&state.accountId&&state.deviceId&&state.rivalryId&&state.sessionId&&state.managerRole&&state.remoteRole;
@@ -271,7 +290,7 @@
   function hasCanonicalViolation(){return safe.canonicalStorageViolation===true||Boolean(safe.canonicalStorageBeforeHash&&safe.canonicalStorageAfterHash&&safe.canonicalStorageBeforeHash!==safe.canonicalStorageAfterHash);}
   function primaryActionLabel(){
     if(runtimeError)return "CHECK AGAIN";
-    if(!safe.pairedActiveBeforeSetup)return "NEXT STEP · OPEN PRIVATE SESSION";
+    if(!safe.pairedActiveBeforeSetup)return remoteProgress().active?"NEXT STEP · CHECK SHARED SETUP":"NEXT STEP · OPEN PRIVATE SESSION";
     if(!safe.authoritativeSetupObserved||!safe.identicalFinalSetup)return "NEXT STEP · OPEN SHARED SETUP";
     if(hasCanonicalViolation())return "STOP · SHOW RECORDER ERROR";
     if(!safe.reloadResume)return "NEXT STEP · RELOAD & VERIFY";
@@ -280,7 +299,7 @@
   }
   async function runPrimaryAction(){
     runtimeError=null;
-    if(!safe.pairedActiveBeforeSetup)return openRemoteJoining();
+    if(!safe.pairedActiveBeforeSetup)return remoteProgress().active?openSetup():openRemoteJoining();
     if(!safe.authoritativeSetupObserved||!safe.identicalFinalSetup)return openSetup();
     if(hasCanonicalViolation())return false;
     if(!safe.reloadResume)return armReload(true);
@@ -288,7 +307,13 @@
     return downloadDraft();
   }
   function nextInstruction(){
-    if(!safe.pairedActiveBeforeSetup)return "Pair the two managers and make the same private session ACTIVE on both devices. The recorder checks automatically; use the big NEXT STEP button to open the session controls.";
+    if(!safe.pairedActiveBeforeSetup){
+      if(remoteProgress().active){
+        const blocker=setupBlocker();
+        return blocker?`Private session is ACTIVE. Shared Setup has not resolved yet: ${blocker} Press the big NEXT STEP button to inspect Shared Setup. Do not host another session.`:"Private session is ACTIVE. Press the big NEXT STEP button to check Shared Setup. Do not host another session.";
+      }
+      return "Pair the two managers and make the same private session ACTIVE on both devices. The recorder checks automatically; use the big NEXT STEP button to open the session controls.";
+    }
     if(!safe.authoritativeSetupObserved)return "Use the big NEXT STEP button. Draw one league, two different clubs, and choose 1/3/5/10 seasons. Pause when both recorders mark step 2 PASS.";
     if(!safe.identicalFinalSetup)return "Each manager confirms on their own device. The recorder automatically detects SHOWDOWN_CONFIRMED · REV 6.";
     if(hasCanonicalViolation())return "STOP: canonical local gameplay storage changed. Send me only a screenshot of this recorder panel; do not continue.";
@@ -308,7 +333,7 @@
     const list=panel.querySelector(".ssjrStatus");if(list){list.replaceChildren();for(const [label,passed] of statusRows()){const row=create("div","ssjrRow");row.append(create("span","",label),create("strong","",passed?"PASS":"PENDING"));list.append(row);}}
     const primary=panel.querySelector(".ssjrPrimary");if(primary){primary.textContent=primaryActionLabel();primary.disabled=hasCanonicalViolation();}
     const next=panel.querySelector(".ssjrNext");if(next)next.textContent=runtimeError?`RECORDER ERROR: ${runtimeError.message||runtimeError}`:nextInstruction();
-    const meta=panel.querySelector(".ssjrMeta");if(meta)meta.textContent=`ROLE: ${safe.managerRole||"not resolved"} · REMOTE: ${safe.remoteRole||"not resolved"} · RUNTIME: ${safe.runtimeRevision||revision()}`;
+    const meta=panel.querySelector(".ssjrMeta");if(meta)meta.textContent=`ROLE: ${safe.managerRole||"not resolved"} · REMOTE: ${safe.remoteRole||"not resolved"} · SESSION: ${remoteProgress().active?"ACTIVE":"not resolved"} · RUNTIME: ${safe.runtimeRevision||revision()}`;
     return panel;
   }
   function createPanel(){
@@ -370,6 +395,6 @@
     appCheckEnforcementRequired:false,
     install,destroy,checkNow,openSetup,openRemoteJoining,armReload,runPrimaryAction,clearSafe,
     getDraftEvidence,copyDraft,downloadDraft,
-    getState:()=>Object.freeze({enabled,initialized,completed:safe.completed,managerRole:safe.managerRole,remoteRole:safe.remoteRole,primaryActionLabel:primaryActionLabel(),statusRows:statusRows().map(([label,passed])=>({label,passed}))})
+    getState:()=>Object.freeze({enabled,initialized,completed:safe.completed,managerRole:safe.managerRole,remoteRole:safe.remoteRole,remoteSessionActive:remoteProgress().active,primaryActionLabel:primaryActionLabel(),statusRows:statusRows().map(([label,passed])=>({label,passed}))})
   });
 });
