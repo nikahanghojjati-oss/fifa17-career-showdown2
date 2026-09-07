@@ -12,12 +12,12 @@ function observation(managerRole, remoteRole, suffix){
   const storage=Object.fromEntries(canonicalKeys.map(key=>[key, key.endsWith('preferences')?{music:true}:[]]));
   const seed={leagueId:'premier_league',phase:'SHARED_SETUP_OPEN',revision:1};
   return {
-    schemaVersion:1,capturedAt:'2026-09-06T15:30:00Z',runtimeRevision:'1.9.1-r4',managerRole,remoteRole,
+    schemaVersion:1,capturedAt:'2026-09-07T09:30:00Z',runtimeRevision:'1.9.1-r5',managerRole,remoteRole,
     privateIdentifiers:{account:`account-${suffix}`,device:`device-${suffix}`,rivalry:'rivalry-shared',initialSession:'session-initial',freshSession:'session-fresh'},
     canonicalStorageBefore:storage,canonicalStorageAfter:structuredClone(storage),
-    pairedActiveBeforeSetup:{at:'2026-09-06T15:30:01Z',paired:true,sessionState:'active',setupMutationSeen:false},
-    authoritativeSetupObserved:{at:'2026-09-06T15:30:02Z',revision:1,setup:seed},
-    identicalFinalSetup:{at:'2026-09-06T15:30:03Z'},reloadResume:{at:'2026-09-06T15:30:04Z',resetOrRedraw:false},freshActiveSessionResume:{at:'2026-09-06T15:30:05Z',resetOrRedraw:false},
+    pairedActiveBeforeSetup:{at:'2026-09-07T09:30:01Z',paired:true,sessionState:'active',setupMutationSeen:false},
+    authoritativeSetupObserved:{at:'2026-09-07T09:30:02Z',revision:1,setup:seed},
+    identicalFinalSetup:{at:'2026-09-07T09:30:03Z'},reloadResume:{at:'2026-09-07T09:30:04Z',resetOrRedraw:false},freshActiveSessionResume:{at:'2026-09-07T09:30:05Z',resetOrRedraw:false},
     negatives:{wrongSession:'denied',expiredSession:'denied',unrelatedAccount:'denied',revokedIdentity:'denied',staleRevision:'denied',replayConflict:'denied',directFieldSubstitution:'denied',coordinatorBypass:'denied'},
     finalSetup:{leagueId:'premier_league',clubs:{playerOne:'Arsenal',playerTwo:'Liverpool'},clubLeagueIds:{playerOne:'premier_league',playerTwo:'premier_league'},totalSeasons:3,confirmedRoles:['playerOne','playerTwo'],phase:'SHOWDOWN_CONFIRMED',revision:6}
   };
@@ -32,6 +32,8 @@ for(const raw of ['account-one','account-two','device-one','device-two','rivalry
   assert.equal(one.stdout.includes(raw),false,`raw private value leaked: ${raw}`);
   assert.equal(two.stdout.includes(raw),false,`raw private value leaked: ${raw}`);
 }
+assert.equal(a.runtimeRevision,'1.9.1-r5');
+assert.equal(b.runtimeRevision,'1.9.1-r5');
 assert.equal(a.accountFingerprint,hash('account-one'));
 assert.equal(b.accountFingerprint,hash('account-two'));
 assert.equal(a.rivalryFingerprint,b.rivalryFingerprint);
@@ -50,13 +52,15 @@ if (process.env.SKIP_PAIR_VALIDATOR !== '1') {
   const validated=spawnSync(process.execPath,[validator,onePath,twoPath],{encoding:'utf8'});
   fs.rmSync(dir,{recursive:true,force:true});
   assert.equal(validated.status,0,validated.stderr);
-  const summary=JSON.parse(validated.stdout);assert.equal(summary.ok,true);assert.equal(summary.finalRevision,6);assert.equal(summary.negativesProvenPerManager,8);
+  const summary=JSON.parse(validated.stdout);assert.equal(summary.ok,true);assert.equal(summary.runtimeRevision,'1.9.1-r5');assert.equal(summary.finalRevision,6);assert.equal(summary.negativesProvenPerManager,8);
 }
 
 const sameSession=structuredClone(rawOne);sameSession.privateIdentifiers.freshSession=sameSession.privateIdentifiers.initialSession;
 let bad=record(sameSession);assert.notEqual(bad.status,0);assert.match(bad.stderr,/different raw session identity/i);
 const badNegative=structuredClone(rawOne);badNegative.negatives.wrongSession='allowed';
 bad=record(badNegative);assert.notEqual(bad.status,0);assert.match(bad.stderr,/wrongSession must be denied/i);
+const staleRuntime=structuredClone(rawOne);staleRuntime.runtimeRevision='1.9.1-r4';
+bad=record(staleRuntime);assert.notEqual(bad.status,0);assert.match(bad.stderr,/runtimeRevision must be 1\.9\.1-r5/i);
 const extra=structuredClone(rawOne);extra.privateIdentifiers.capability='pair_secret';
 bad=record(extra);assert.notEqual(bad.status,0);assert.match(bad.stderr,/unknown field capability/i);
-console.log('PASS SSJR production Shared Setup evidence recorder contracts: stdin-only raw authority is sanitized, closed-schema output is deterministic, and validator-compatible pair evidence is produced.');
+console.log('PASS SSJR production Shared Setup evidence recorder contracts: stdin-only raw authority is sanitized, exact r5 is enforced, closed-schema output is deterministic, and validator-compatible pair evidence is produced.');
