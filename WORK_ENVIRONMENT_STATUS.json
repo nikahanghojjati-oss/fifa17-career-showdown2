@@ -26,7 +26,7 @@
     "majorPhasesCompleted": 0,
     "largeEvidenceEvents": 1,
     "toolRoutingErrors": 0,
-    "correctedFailures": 4,
+    "correctedFailures": 5,
     "repeatedMistakes": 0,
     "staleFactCorrections": 1,
     "unresolvedFailures": 0,
@@ -49,14 +49,14 @@
   },
   "assessment": {
     "decision": "CONTINUE",
-    "reason": "PR212 is real acceptance-tooling product work on an explicit v1.9.1 / 1.9.1-r4 release candidate. Current production truth remains v1.9.1 / 1.9.1-r3 until merge, deployment and exact production verification complete. The active WEC now carries both identities explicitly and the bounded task is to get the r4 exact head through all permanent gates, merge with expected-head protection, verify deployment, then run the genuine two-account recorder-assisted acceptance.",
+    "reason": "PR212 is real acceptance-tooling product work on an explicit v1.9.1 / 1.9.1-r4 release candidate. Current production truth remains v1.9.1 / 1.9.1-r3 until merge, deployment and exact production verification complete. The active WEC explicitly owns publication of the r4 candidate and the bounded task is to get its exact head through all permanent gates, merge with expected-head protection, verify deployment, then run the genuine two-account recorder-assisted acceptance.",
     "decisionInheritedFromPredecessor": false,
     "handoffMetricAuthority": "00_HANDOFF_PROXIMITY_STAGE_GATES.md / HTR-1"
   },
   "continuity": {
-    "currentTask": "Finish PR212 r4 release candidate proof: keep production v1.9.1 / 1.9.1-r3 authoritative until publication, make the guided SSJR acceptance recorder simpler and privacy-safe, get all 15 exact-head workflow families green, merge with expected-head protection, verify deployed 1.9.1-r4, then provide the recorder URL for the irreducible two-account test.",
-    "lastSafeCheckpoint": "PR212 r4 release-candidate metadata, previous-known-good r3 provenance, Home portrait cache identity, recorder storage authority and hardened-browser recorder audit defects have all been corrected. The remaining failed exact-head runs at the prior checkpoint were caused by the stale WEC unresolvedFailures signal itself; no underlying product failure remained attached to that signal.",
-    "nextSafeAction": "Run and inspect all 15 permanent PR workflow families on this clean WEC head. Fix only objective exact-head failures. When 15/15 are terminal green and review-thread state is clear, merge PR212 with expected-head SHA protection. Then verify exact post-merge main, Pages/deployment and public runtime 1.9.1-r4 before giving the owner the query-gated recorder URL.",
+    "currentTask": "Publish PR212 r4 release candidate: keep production v1.9.1 / 1.9.1-r3 authoritative until publication, preserve the simplified privacy-safe guided recorder, get all 15 exact-head workflow families green, merge with expected-head protection, verify deployed 1.9.1-r4, then provide the recorder URL for the irreducible two-account test.",
+    "lastSafeCheckpoint": "PR212 now carries coherent r4 runtime/manifest/Home cache identity, r3 recovery provenance, matching release and maintenance records, a clean active successor WEC, and a one-button guided recorder simple mode. Prior failures were release-packaging provenance defects and have been corrected without weakening product, storage, provider or SSJR evidence gates.",
+    "nextSafeAction": "Run and inspect all 15 permanent PR workflow families on this publication-owned WEC head. Fix only objective exact-head failures. When 15/15 are terminal green and review-thread state is clear, merge PR212 with expected-head SHA protection. Then verify exact post-merge main, Pages/deployment and public runtime 1.9.1-r4 before giving the owner the query-gated recorder URL.",
     "unfinishedWork": [
       "PR212 must reach 15/15 exact-head green after this WEC correction.",
       "PR212 must merge with expected-head protection and post-merge deployment must prove the public site serves one coherent 1.9.1-r4 shell.",
@@ -82,6 +82,7 @@
       "Production v1.9.1 / 1.9.1-r3 remains the current public authority while PR212 is open.",
       "PR212 introduces a query-gated guided recorder and therefore correctly uses a new whole-shell runtime identity 1.9.1-r4 with r3 retained as previous known-good recovery.",
       "The guided recorder is acceptance tooling only and earns zero SSJR credit by itself.",
+      "The recorder default UI now exposes one context-aware NEXT STEP action; detailed controls remain collapsed fallback only.",
       "The recorder is designed to auto-capture paired+ACTIVE-before-setup, authoritative setup observation, identical final revision 6, canonical-storage preservation, real reload/resume and fresh ACTIVE same-rivalry session resume while keeping raw private authority out of durable evidence.",
       "The provider emulator already covers paired ACTIVE authority, stale/idempotency conflict behavior, wrong/expired session denial, unrelated account denial, direct modified-client denial, same-rivalry fresh-session continuity, identical confirmation, revoked identity denial and zero canonical local-storage touches.",
       "RJR-1 remains frozen 100/100; SSJR-1.1 remains fixed 0/100 and the live readiness forecast remains approximately 5-10 focused sessions until evidence proves otherwise.",
