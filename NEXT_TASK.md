@@ -1,58 +1,60 @@
-# CURRENT TASK — PR215 CURRENT PRODUCT GATE CONVERGENCE, THEN SHARED SETUP
+# CURRENT TASK — POS-2 PR215 CONVERGENCE, THEN SHARED SETUP
 
-Work Environment Continuity (WEC) is mandatory. Current source and live GitHub/provider/deployment evidence override every handoff or recorded SHA.
+`PROJECT_OPERATING_SYSTEM_V2.md` governs process. `CURRENT_PRODUCT_GUARDS.json` governs stable product/safety invariants. Current verified source and live GitHub/provider/deployment evidence override recorded SHAs and historical handoffs.
 
-Current environment: `we-2026-09-07-pr215-r6-publication-a67`.
-Starting independently verified live main: `420d0dd21480c660d4fe139ba011eca1ccb987a9`.
 Active pull request: PR #215 on `fix/pr214-postmerge-dual-screen-contract`.
-Production authority: `v1.9.1 / 1.9.1-r5`.
-Release candidate: `v1.9.1 / 1.9.1-r6` until exact-head merge and post-merge production proof complete.
+Production authority remains `v1.9.1 / 1.9.1-r5` until a later exact merge/deployment boundary is independently proven.
+Release candidate remains `v1.9.1 / 1.9.1-r6`.
 
-RJR-1 is COMPLETE/FROZEN `100/100`. It is historical completed capability evidence, not the active engineering milestone. Shared Showdown Journey Readiness `SSJR-1.1` remains the active end-to-end product target. MDP-1 remains the engineering delivery-progress authority.
+RJR-1 is complete/frozen 100/100 historical evidence. Do not spend current development revalidating its score, publication narration or old milestone routing unless a still-used shipped capability has a demonstrated regression.
 
-## CURRENT GATE POLICY
+The active product target is SSJR-1.1. MDP-1 remains the engineering lifecycle tracker.
 
-Use `00_SESSION_HANDOFF_PROXIMITY_V2.md` and executable `SHP-2 / ADB-1`.
+## Immediate next task
 
-The anti-spiral circuit breaker remains mandatory, but the old fixed two-failure cutoff is retired. ADB-1 chooses a contextual debug budget from 2 through 20 attempts. A focused low-damage environment may continue substantially longer; context damage, broad red state, hard reconstruction and long-session risk reduce the allowance.
+1. Resolve the exact current PR #215 head, current required checks and review/thread state. Never combine evidence across heads.
+2. Validate the POS-2 current product suite and the specialist checks triggered by the actual changed risk domains.
+3. For any red result, inspect the exact failure and classify it by POS-2:
+   - fix it when it protects runtime behavior, UI/UX, data/storage, synchronization, recovery, security/auth, privacy, provider/billing safety, executable schema/API authority, current evidence validity or release correctness;
+   - move it out of blocking product CI when it protects only old PR numbers, completed milestone narration, handoff formatting, exact workflow topology or historical wording.
+4. Run `npm run test:ops` when POS/WEC/ADB tooling changes. Run `npm run test:legacy-provenance` only when intentionally auditing historical compatibility; it is not a product-release prerequisite.
+5. When all required current product/security/release checks are green on one exact reviewed head, merge PR #215 with expected-head protection.
+6. Verify the post-merge runtime/deployment boundary appropriate to r6, including canonical Stability browser/deployed proof and release integration proof. Do not manufacture extra continuity publication cycles.
+7. If r6 Shared Setup product integration is proven, update MDP only for lifecycle stages whose exit rules are actually satisfied.
+8. Then conduct the minimum unavoidable genuine two-account Shared Setup acceptance and recalculate SSJR only from accepted sanitized production evidence.
+9. After Shared Setup resolves, continue directly into the next unfinished SSJR capability: career start / transfer challenge / results / season commit / scoring / history and subsequent journey capabilities according to the current dependency graph.
 
-A blocking failure must protect a meaningful current property: runtime behavior, infrastructure/deployment, security/authentication/authorization, privacy/data retention, synchronization/storage/recovery integrity, UI/UX behavior, current schema/API/machine-readable authority, evidence validity, or release correctness. Pure historical wording, exact old PR prose, continuity formatting and archival presentation do not block product development. Preserve those records and checks through `npm run test:legacy-provenance` instead of editing current product authority to satisfy obsolete literals.
+## Current testing lanes
 
-Never weaken a gate whose wording is itself executable, security-sensitive, user-visible, schema/API authority, current evidence input, or otherwise capable of changing product behavior or safety.
+- `npm run test:contracts`: blocking current product contracts from `CURRENT_PRODUCT_TEST_MANIFEST.json`.
+- `npm run test:ops`: non-product POS/continuity tooling self-test when those tools change.
+- `npm run test:legacy-provenance`: manual historical/provenance audit.
+- `npm run test:contracts:all`: deliberate full audit only, not the default product loop.
 
-## IMMEDIATE NEXT TASK AFTER FULL STUDY
+Stability owns the complete current product suite once. Static App and specialist workflows must remain focused and must not duplicate the full suite. Exact workflow counts and exact YAML run-block counts are not product gates.
 
-1. Independently resolve the exact live PR #215 head and run all 15 current PR workflow families on that one head. Never combine CI across heads.
-2. For each red result, inspect the exact failing assertion and classify it under the current meaningful-gate policy.
-3. Fix genuine product, security, privacy, data, UI/UX, infrastructure, recovery or release defects. Move harmless retired-milestone/provenance wording assertions to the non-blocking legacy audit without deleting their files or historical evidence.
-4. Revalidate all current workflow families on one exact head. Refresh reviews, comments and review threads on that same head.
-5. When all meaningful current gates are green, squash merge PR #215 with expected-head protection.
-6. Verify exact post-merge Stability including Chromium and deployed-site smoke, coherent Pages `1.9.1-r6`, and Release Integration Burn-In.
-7. Only after that production boundary is proven may Shared Setup product integration receive its pending MDP credit and genuine production-two-account Shared Setup acceptance begin.
-8. After Shared Setup evidence resolves, continue the SSJR roadmap into transfer/challenge, results, scoring, season commit/review, history and later shared-journey capabilities. Do not return to completed RJR milestone work unless a real shipped-capability regression is demonstrated.
+## Anti-spiral
 
-## PERMANENT PRODUCT AND SAFETY LOCKS
+ADB-1 remains mandatory and chooses an environment-specific failed correction/validation allowance from 2 through 20. A clean narrow blocker can receive a large allowance; context damage, reconstruction, breadth and multiple unresolved risks reduce it. Two failed tests alone do not force a transition.
 
-Billing must never be activated. Firebase remains Spark. Never enable Blaze, Cloud Billing, a billing account, Cloud Run or Cloud Functions.
+Only meaningful failed correction/validation cycles consume ADB. Reading, diagnosis, polling and successful investigation do not.
 
-App Check enforcement remains OFF. Firestore browser persistence remains memory-only. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes.
+Use POS-2 session health rather than treating SHP/HTR percentages as project progress. A real handoff is required only when context/session health warrants it, an explicit usage warning requires it, the owner requests it or the current atomic boundary must be transferred safely.
 
-Exactly two private managers. Connected Rivalry pairing plus exact ACTIVE precedes league or clubs. No league or club authority may be established before that boundary.
+## Permanent product locks
 
-Candidate C remains the sole destructive remote-to-local gameplay Apply authority with transaction-owned strict exact raw-snapshot rollback.
+The canonical machine-readable summary is `CURRENT_PRODUCT_GUARDS.json`.
+
+Billing remains OFF and Firebase remains Spark. Never enable Blaze, Cloud Billing/account linkage, Cloud Run or Cloud Functions. App Check enforcement remains OFF. Firestore browser persistence remains memory-only. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes.
+
+Exactly two private managers. Connected Rivalry pairing plus exact ACTIVE precedes league or club authority. Candidate C remains the sole destructive remote-to-local gameplay Apply authority with exact transaction-owned rollback.
 
 Canonical local storage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, and `careerModeShowdown.preferences`.
 
-No public discovery, listing, lobby, matchmaking, community, rankings or global leaderboards.
+No public discovery, listing, lobby, matchmaking, community, rankings or global leaderboards. Never durably retain raw private capability/account/device/rivalry/session/pairing identifiers.
 
-Never durably retain raw private capability, account, device, rivalry, session or pairing identifiers. Never paste the raw private capability into durable evidence.
+`SSJR-DUAL-FULL-SCREEN-1` remains permanent: both legitimate managers individually experience every canonical Shared Showdown gameplay screen on their own device, including ordered replay of missed screens after reload/reconnect/offline recovery.
 
-Permanent `SSJR-DUAL-FULL-SCREEN-1`: both legitimate managers individually experience every canonical Shared Showdown gameplay screen on their own device. Role-specific controls may differ, but one role may not skip the canonical gameplay screen. Missed screens after reload, reconnect or offline replay must be presented in order.
+Use `npm run record:ssjr-production-shared-setup` for private Shared Setup observations and `npm run validate:ssjr-production-shared-setup -- <player-one-evidence.json> <player-two-evidence.json>` for sanitized validation.
 
-Automate every reproducible contract, browser, Rules, storage, adverse-network, deployment and evidence-validation test. Genuine two-account/two-independent-browser interaction remains the irreducible owner acceptance boundary when the automated gate reaches it.
-
-Use `npm run record:ssjr-production-shared-setup` for each private Shared Setup observation and `npm run validate:ssjr-production-shared-setup -- <player-one-evidence.json> <player-two-evidence.json>` for sanitized validation.
-
-Generate tiny VTLS checkpoints after substantial state changes using `PR/head | metric | completed | blocker | next`.
-
-MDP task delta: +0.00 until a capability exit rule is actually satisfied.
+MDP task delta remains +0.00 until a capability lifecycle exit rule is genuinely satisfied.
