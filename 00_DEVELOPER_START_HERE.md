@@ -15,6 +15,7 @@ Read `AGENTS.md`, `00_HANDOFF_GOLDEN_RULE.md`, `00_OWNER_DOWNLOADABLE_SNS_GOLDEN
 RJR-1 remains COMPLETE/FROZEN `100/100`. SSJR-1.1 remains `0/100`. MDP-1 remains `39.00/100`; MDP never grants SSJR credit.
 
 Recorded main is `420d0dd21480c660d4fe139ba011eca1ccb987a9`. Recorded production authority is `v1.9.1 / 1.9.1-r5`; source/runtime release candidate is `v1.9.1 / 1.9.1-r6`. PR #215 remains the bounded release-candidate publication lane until independently verified live.
+Historical PR #203 V1.4.56/a58 bootstrap provenance remains immutable historical authority and must not be rewritten as current PR215 authority.
 
 The predecessor intentionally stopped under the owner-directed SHP-2 debug-spiral circuit breaker. Exact failure-evidence head `fc129cf8ee5066ac7dc82cc94a5cbecc25a8686c` had Stability, Static App and Stage 5F Authenticated Negatives red only through the shared complete repository-contract-suite surface. Static syntax/architecture and Stage 5F's dedicated account-chooser/zero-billing negative checks passed first. Seal commits advance the branch beyond that head; never combine CI across heads.
 
