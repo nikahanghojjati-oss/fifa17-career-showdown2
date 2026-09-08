@@ -14,6 +14,8 @@
     "work:next-prompt": "node scripts/build-next-developer-prompt.mjs",
     "work:continuity:validate": "node scripts/work-environment-continuity.mjs validate",
     "work:gh:bootstrap": "node scripts/bootstrap-github-cli.mjs",
+    "work:transition": "node scripts/pos3-transition.mjs",
+    "work:resume-capsule": "node scripts/build-resume-capsule.mjs",
     "test:handoff-preflight": "node tests/support/run-handoff-preflight.cjs",
     "serve:test": "node tests/support/static-server.cjs",
     "test:contracts": "node tests/contracts/static-app-release-contracts.cjs && node tests/contracts/shared-showdown-polished-presentation-contracts.cjs && node tests/contracts/milestone-delivery-progress-contracts.cjs && node tests/contracts/shared-showdown-dual-full-screen-contracts.cjs && node tests/support/run-current-product-contracts.cjs && node tests/contracts/ssjr-production-shared-setup-evidence-recorder-contracts.cjs && node tests/contracts/ssjr-production-storage-observation-contracts.cjs && node tests/contracts/stage5g-remote-joining-reconnect-contracts.cjs",

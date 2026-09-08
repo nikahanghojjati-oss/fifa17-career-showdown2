@@ -1,9 +1,8 @@
 const { spawnSync } = require("node:child_process");
 
 const files = [
-  "tests/contracts/project-operating-system-v2-contracts.cjs",
-  "tests/contracts/work-environment-continuity-runtime-contracts.cjs",
-  "tests/contracts/pos2-session-operations-contracts.cjs"
+  "tests/contracts/project-operating-system-v3-contracts.cjs",
+  "tests/contracts/pos3-session-operations-contracts.cjs"
 ];
 
 for (const file of files) {
@@ -13,4 +12,4 @@ for (const file of files) {
   if (result.status !== 0) process.exit(result.status || 1);
 }
 
-process.stdout.write(`PASS POS v2 operations audit (${files.length} files)\n`);
+process.stdout.write(`PASS POS v3 operations audit (${files.length} files)\n`);

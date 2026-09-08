@@ -2,8 +2,8 @@ const { spawnSync } = require("node:child_process");
 const fs = require("node:fs");
 
 const manifest = JSON.parse(fs.readFileSync("CURRENT_PRODUCT_TEST_MANIFEST.json", "utf8"));
-if (manifest.operatingSystem !== "POS-2" || !Array.isArray(manifest.tests) || !manifest.tests.length) {
-  throw new Error("POS-2 current product test manifest is invalid.");
+if (!Number.isInteger(manifest.schemaVersion) || manifest.schemaVersion < 1 || !Array.isArray(manifest.tests) || !manifest.tests.length) {
+  throw new Error("Current product test manifest is invalid.");
 }
 
 const seen = new Set();
@@ -23,4 +23,4 @@ for (const file of manifest.tests) {
   }
 }
 
-process.stdout.write(`PASS POS-2 current product contract suite (${manifest.tests.length} tests)\n`);
+process.stdout.write(`PASS current product contract suite (${manifest.tests.length} tests)\n`);

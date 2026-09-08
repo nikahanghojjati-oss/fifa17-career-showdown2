@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "operatingSystem": "POS-3",
+  "basis": "Recent repository history through PR215 plus exact-head Stability diagnoses during POS2/POS3 cleanup.",
+  "classes": [
+    {
+      "id": "STATE_CONVERGENCE_RECOVERY",
+      "blocking": "KEEP_OR_STRENGTHEN",
+      "examples": [
+        "PR187 creator-side rivalry convergence",
+        "PR192 lost acknowledgement recovery",
+        "PR193 real offline/online recovery"
+      ],
+      "rule": "Protect exact capability identity, bounded retries, stale-pointer precedence, idempotent replay and deterministic convergence."
+    },
+    {
+      "id": "ACCEPTANCE_RUNTIME_REALITY",
+      "blocking": "KEEP_OR_STRENGTHEN",
+      "examples": [
+        "PR197 real recorder null-field shape",
+        "PR213 ACTIVE-session recorder routing and DOM focus failure"
+      ],
+      "rule": "Acceptance tooling must match real browser/runtime payloads and fail closed without inventing evidence."
+    },
+    {
+      "id": "DEPLOYMENT_ARTIFACT_COMPLETENESS",
+      "blocking": "KEEP_OR_STRENGTHEN",
+      "examples": [
+        "PR210 observer absent from Pages artifact and cached prior miss"
+      ],
+      "rule": "Protect staged assets, cache-busting/service-worker boundaries and deployed availability."
+    },
+    {
+      "id": "TWO_MANAGER_PRESENTATION_AUTHORITY",
+      "blocking": "KEEP_OR_STRENGTHEN",
+      "examples": [
+        "PR214 repository catalog mismatch and restored wheel/club-pack UX"
+      ],
+      "rule": "Both managers must witness canonical screens while provider state remains sole gameplay authority."
+    },
+    {
+      "id": "SECURITY_PRIVACY_PROVIDER",
+      "blocking": "KEEP_OR_STRENGTHEN",
+      "examples": [
+        "Stage5F third-account/revoked-device denials",
+        "Spark exact-path Rules"
+      ],
+      "rule": "Keep direct current auth, privacy, exact-path denial, no-listing, zero-billing and canonical-storage protection."
+    },
+    {
+      "id": "ATOMIC_LOCAL_RECOVERY",
+      "blocking": "KEEP_OR_STRENGTHEN",
+      "examples": [
+        "Candidate C transaction-owned rollback and quota/write-failure coverage"
+      ],
+      "rule": "Protect exact raw snapshots, stale preconditions and non-clobber rollback ownership."
+    },
+    {
+      "id": "PROCESS_PROVENANCE_DRIFT",
+      "blocking": "ARCHIVE_MANUAL",
+      "examples": [
+        "PR211 SNS mirror/provenance mismatch",
+        "PR189 stale successor/predecessor assertions",
+        "PR215 exact NEXT_TASK/provenance wording failures"
+      ],
+      "rule": "Current product CI may not fail solely because handoff wording, old PR numbers, completed milestone narration or continuity mirrors changed."
+    },
+    {
+      "id": "DORMANT_ARCHITECTURE",
+      "blocking": "ARCHIVE_MANUAL",
+      "examples": [
+        "Stage2 trusted-server family",
+        "Cloud Run trusted runtime",
+        "Stage5A custom-device-claim candidate",
+        "Stage5B device credential candidate"
+      ],
+      "rule": "Preserve source/tests manually until reactivated; spend zero normal product CI on rejected or superseded architecture."
+    },
+    {
+      "id": "TOPOLOGY_MAGIC_NUMBER",
+      "blocking": "REMOVE_OR_REWRITE",
+      "examples": [
+        "exact workflow counts",
+        "exact YAML run-block counts",
+        "historical timeout and command-count calculations"
+      ],
+      "rule": "Test bounded/nonduplicative behavior, not one historical implementation count."
+    },
+    {
+      "id": "TEXT_SELF_REFERENCE_FALSE_POSITIVE",
+      "blocking": "REWRITE",
+      "examples": [
+        "zero-billing guard failed because a workflow warning comment named Blaze/Cloud Run"
+      ],
+      "rule": "Safety gates inspect executable behavior/configuration, not explanatory text that names a forbidden action in order to forbid it."
+    }
+  ]
+}

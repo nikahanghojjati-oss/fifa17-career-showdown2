@@ -19,8 +19,7 @@ const runtimeRevision = (index.match(/app-asset-revision"\s+content="([^"]+)/) |
 const runtimeVersion = (runtimeRevision?.match(/^(\d+\.\d+\.\d+)-r[1-9]\d*$/) || [])[1];
 assert.equal(runtimeVersion, pkg.version, "Published runtime revision must remain coherent with package version.");
 
-// POS-2 permanent provider/product/privacy authority.
-assert.equal(guards.operatingSystem, "POS-2");
+// Permanent provider/product/privacy authority. Product correctness is intentionally independent of the process OS label.
 assert.equal(guards.provider.billingEnabled, false);
 assert.equal(guards.provider.firebasePlan, "Spark");
 assert.equal(guards.provider.cloudBillingAccountAllowed, false);
@@ -88,7 +87,6 @@ assert.match(deploymentWorkflow, /build-production-firestore-rules\.mjs/);
 assert.match(deploymentWorkflow, /shared-showdown-setup-production-provider-emulator\.cjs/);
 assert.match(deploymentWorkflow, /publish-firestore-rules-zero-billing\.mjs/);
 assert.match(deploymentWorkflow, /cancel-in-progress:\s*false/);
-// Safety assertions inspect executable workflow text, not explanatory comments that may explicitly name forbidden services.
 const executableWorkflow = deploymentWorkflow
   .split("\n")
   .filter(line => !/^\s*#/.test(line))
@@ -101,4 +99,4 @@ assert.match(privacy, /local-only use must remain available/i);
 assert.match(privacy, /no remote module may bypass local transaction authority/i);
 assert.match(privacy, /No public lobby or discoverability index is allowed/i);
 
-process.stdout.write("PASS POS-2 active cloud foundation: current Spark project/config/Rules/deployment authority and permanent product/privacy locks are protected without historical run IDs, RJR scoring, WEC or old deployment-guide narration.\n");
+process.stdout.write("PASS active cloud foundation: current Spark project/config/Rules/deployment authority and permanent product/privacy locks are protected independently of process-version labels and historical provenance.\n");
