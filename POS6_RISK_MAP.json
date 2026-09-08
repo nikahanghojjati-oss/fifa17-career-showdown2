@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 2,
+  "model": "RACE-6",
+  "tiers": ["FAST", "FURIOUS", "ACCURATE"],
+  "orchestrator": ".github/workflows/validate-pos6-race.yml",
+  "fast": {
+    "alwaysForKnownNonDocumentProductChanges": true,
+    "owns": ["syntax-when-required", "all-current-deterministic-contracts"],
+    "operationsOnlyWhenOperatingSystemOrFullSealChanges": true
+  },
+  "furiousDomains": {
+    "shared": ["shared-showdown", "shared-setup", "ssjr"],
+    "remote": ["firebase", "firestore-rules", "pairing", "connected-rivalry", "remote-joining", "auth"],
+    "storage": ["storage", "backup", "import", "restore", "save-library"],
+    "visual": ["css", "assets", "settings", "league-wheel", "club-assignment", "season-review", "statistics", "transfer"]
+  },
+  "accurateEscalation": [
+    "package-or-lockfile",
+    "current-product-guards",
+    "current-product-test-manifest",
+    "workflow-topology",
+    "service-worker",
+    "missing-changed-file-evidence",
+    "unknown-non-document-change"
+  ],
+  "migrationRule": "A routing-topology change must first pass one overlapping FULL_SEAL head before superseded heavyweight PR triggers are retired.",
+  "failSafe": true
+}

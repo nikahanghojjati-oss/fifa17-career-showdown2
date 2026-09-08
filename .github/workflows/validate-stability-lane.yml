@@ -5,18 +5,15 @@ on:
     branches: [main]
     paths-ignore:
       - "**/*.md"
-  pull_request:
-    paths-ignore:
-      - "**/*.md"
   workflow_dispatch:
 
 permissions:
   contents: read
 
-# Fresh first-attempt PR/push runs may replace stale work. A deliberate rerun or
+# Fresh first-attempt push runs may replace stale work. A deliberate rerun or
 # workflow_dispatch must never cancel an already-running proof for the same lane.
 concurrency:
-  group: stability-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref_name }}
+  group: stability-${{ github.workflow }}-${{ github.ref_name }}
   cancel-in-progress: ${{ github.run_attempt == 1 && github.event_name != 'workflow_dispatch' }}
 
 jobs:

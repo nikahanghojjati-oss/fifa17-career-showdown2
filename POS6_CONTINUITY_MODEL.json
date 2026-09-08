@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "model": "CWS-6",
+  "purpose": "Weighted engineering transition-risk signal for deciding whether the current developer environment should continue, checkpoint, finish the active atomic unit, or transition.",
+  "scoreRange": [0, 100],
+  "scoreMeaning": "ENGINEERING_TRANSITION_RISK_ONLY",
+  "weights": {
+    "recoverability": 35,
+    "contextIntegrity": 25,
+    "failurePressure": 20,
+    "concurrencyRisk": 10,
+    "debugPressure": 10
+  },
+  "zeroWeightSignals": [
+    "messageCount",
+    "toolCallCount",
+    "successfulReads",
+    "successfulTests",
+    "elapsedTime",
+    "commitCount",
+    "ordinaryPolling"
+  ],
+  "decisionBands": {
+    "CONTINUE": [0, 44],
+    "CHECKPOINT": [45, 64],
+    "TRANSITION_AFTER_ATOMIC": [65, 84],
+    "TRANSITION_NOW": [85, 100]
+  },
+  "hardFloors": {
+    "liveAuthorityUnavailable": 90,
+    "crashLossBudgetExceeded": 90,
+    "nextAtomicUnitRisksLoss": 80,
+    "adaptiveDebugBudgetExhausted": 80,
+    "reconstructedContextWithRepeatedDamage": 75,
+    "oneAtomicUnitAheadOfStaleBeacon": 45,
+    "explicitOwnerTransitionRequest": 100
+  },
+  "recoveryAuthority": "ACTIVE_PR_METADATA",
+  "ownerFacingFormat": "Continuity: <DECISION> · <SCORE>/100 · <SHORT_REASON>",
+  "reportingRule": "REPORT_AT_END_OF_EVERY_COMPLETED_SUBSTANTIVE_RESPONSE",
+  "productCredit": 0
+}

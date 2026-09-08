@@ -1,29 +1,29 @@
 # Career Mode Showdown — Repository Agent Instructions
 
-These instructions apply to the entire repository. `PROJECT_OPERATING_SYSTEM_V2.md` is the current process authority. `CURRENT_PRODUCT_GUARDS.json` is the stable machine-readable product/safety guard authority. `NEXT_TASK.md` owns the current implementation task.
+These instructions apply to the entire repository. `PROJECT_OPERATING_SYSTEM_V6.md` is the current process authority. `CURRENT_PRODUCT_GUARDS.json` is the stable machine-readable product/safety authority. `NEXT_TASK.md` owns the current implementation task.
 
 ## 1. Source first
 
-Before a write, resolve the live repository boundary that matters to the task: current `main`, active PR/branch/head, relevant checks, current source, and deployed/provider state when applicable. A later explicit owner instruction and verified live source override handoffs, old SHAs, milestone history, archived tests and historical prose.
+Before a write, resolve the live boundary that matters: current `main`, active PR/branch/head, relevant checks, current source, and deployed/provider state when applicable. Later explicit owner instruction and verified live source override relay artifacts, old SHAs, milestone history and historical prose.
 
-Do not restart a full repository study when the exact current boundary is already known. Read only what is needed to safely continue the current task.
+Do not restart a full repository study when the exact current boundary is already known. Never combine validation evidence across heads.
 
-## 2. Product direction and metrics
+## 2. Product direction
 
 The active milestone is Shared Showdown Journey.
 
-- SSJR is the accepted end-to-end two-manager product evidence metric.
-- MDP is the current milestone engineering lifecycle metric.
-- RJR-1 is complete and frozen at 100/100. Preserve it as historical evidence. Do not spend current work re-earning, rewording or republishing RJR unless a real still-used runtime capability regresses.
+- RJR-1 is frozen historical 100/100 unless a real still-used product regression is reproduced.
+- SSJR-1.1 is the active product acceptance target.
+- MDP-1 is the current engineering lifecycle tracker.
+- Operating-system work earns zero SSJR/MDP credit.
 
-Normal progress should reduce the next SSJR/MDP dependency. Do not manufacture continuity, wording, archival or authority-sync milestones while product work is safely available.
+Once an operating-system change is safely merged, return immediately to the next product dependency.
 
 ## 3. Permanent product and safety guards
 
 Protect `CURRENT_PRODUCT_GUARDS.json` and the executable/configuration sources it summarizes.
 
 At minimum:
-
 - Billing stays OFF and Firebase stays Spark.
 - No Cloud Billing account, Blaze, Cloud Run or Cloud Functions.
 - App Check enforcement stays OFF.
@@ -35,102 +35,55 @@ At minimum:
 - Canonical local storage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, and `careerModeShowdown.preferences`.
 - No public discovery, listing, lobby, matchmaking, community, rankings or global leaderboards.
 - Do not durably retain raw private capability/account/device/rivalry/session/pairing identifiers.
-- `SSJR-DUAL-FULL-SCREEN-1` remains product authority: both legitimate managers individually experience every canonical Shared Showdown gameplay screen.
+- `SSJR-DUAL-FULL-SCREEN-1` remains product authority.
 
-Never weaken a gate that protects one of these or another genuine runtime, data, recovery, privacy, security, UI/UX, executable schema/API, evidence-validity or release property.
+Never weaken a gate protecting a genuine runtime, data, recovery, privacy, security, provider, UI/UX, executable schema/API, evidence-validity or release property.
 
-## 4. POS v2 test lanes
+## 4. POS6 Fast / Furious / Accurate validation
 
-Use the lane that matches the change.
+`FAST` is the normal first gate. It runs syntax plus every current deterministic blocking contract exactly once through `CURRENT_PRODUCT_TEST_MANIFEST.json`. POS6 operations tests run only when operating-system code changes.
 
-`npm run test:contracts`
+`FURIOUS` uses RACE-6 to select only the browser/emulator risk lanes implicated by changed files. Shared Setup, remote/security/provider, storage/restore and visual/presentation are independent risk domains and may run in parallel.
 
-Blocking current product contracts. This is the normal product gate. Its membership is explicit in `CURRENT_PRODUCT_TEST_MANIFEST.json`.
+`ACCURATE` is the complete seal for cross-cutting, dependency, product-guard, workflow-topology, test-manifest, service-worker or unknown non-document changes. Unknown means broader proof, never less proof.
 
-`npm run test:ops`
+Historical workflow topology, exact workflow counts and completed milestone narration are not product invariants.
 
-Project Operating System and continuity-tool self-tests. Run when POS, WEC, ADB or related operations tooling changes. These tests do not block an unrelated product change merely because process prose changed.
+## 5. Failure handling
 
-`npm run test:legacy-provenance`
+FC-2 must collect the whole deterministic current-product failure set before returning red. Group failures by protected invariant and correct coherent classes together.
 
-Manual historical/provenance audit. It preserves old RJR, SLE, HTR, handoff, dated publication and historical wording checks. It is not an automatic product-release gate.
+ADB-6 is the adaptive correction budget. Only a meaningful correction followed by failed validation consumes a cycle. Reads, polling, successful checks and an unreproduced infrastructure flake consume zero.
 
-`npm run test:contracts:all`
+Before a write, re-resolve the branch head. If it moved, compare first and never overwrite concurrent work blindly.
 
-Intentional full audit across all three lanes. Use when deliberately validating the operating system or archive, not as the default response to every product edit.
+## 6. Recovery and relay
 
-A specialist workflow owns its specialist risk. Do not append the entire repository suite to every specialist workflow for reassurance. Stability owns the complete current product suite once. Do not gate on exact workflow counts, exact YAML run-block counts, old PR numbers, handoff sentence wording or completed-milestone narration.
+Keep one Atomic Work Unit per mutation lane and preserve CLB-1: at most one coherent AWU may be ahead of durable recovery state.
 
-A test named after an old Stage or RJR is not automatically obsolete. Keep it active when it still protects current authentication, synchronization, recovery, reconnect, storage, privacy or other shipped behavior. Archive it when it protects only milestone history/prose.
+RB-2 is the active PR recovery beacon. It changes no Git head and remains bounded. DRF-1 is the external developer relay file used only for an actual relay. Do not create continuity-only commits or pull requests.
 
-## 5. Anti-spiral and session health
+Relay when the owner explicitly requests it, current live authority cannot be safely resolved/written, CLB-1 would be exceeded, ADB-6 is exhausted with meaningful unresolved failure, or severe reconstruction damage makes continuation unsafe.
 
-ADB-1 is the active anti-spiral mechanism. It assigns a contextual failed correction/validation budget from 2 through 20 attempts. A narrow deterministic blocker in a healthy context may receive a high budget. Broad red state, context damage, hard reconstruction, multiple unresolved lanes and long-session risk reduce it.
+## 7. Active command surface
 
-Only meaningful failed correction/validation cycles consume the budget. Reading logs, polling, investigation, successful tests and harmless archival cleanup are not failed attempts.
+Normal commands:
+- `npm run test:contracts` — deterministic current-product census.
+- `npm run test:ops` — POS6 self-tests when POS6 tooling changes.
+- `npm run test:ssjr:browser` — focused Shared Showdown browser proof.
+- `npm run test:browser:seal` — complete browser seal when ACCURATE is required.
+- `npm run work:transition` — TDS-6 / ADB-6 assessment.
+- `npm run work:recovery-beacon` — RB-2 builder/upsert.
+- `npm run work:relay-file` — DRF-1 builder.
 
-Do not transition merely because two tests failed. Transition when the adaptive budget is genuinely exhausted, context quality is materially degraded, a supported usage warning requires it, the owner asks to wrap, or continuing would risk losing a coherent boundary.
+Superseded WEC/SHP/HTR/resume-capsule command surfaces are not part of current operation.
 
-Legacy SHP-2 percentage remains available for compatibility while POS v2 migrates tooling, but it is not a product metric and does not independently justify routine continuity work. HTR-1 percentage is retired from normal operation; use only the five-item handoff checklist at an actual transfer.
+## 8. Publication discipline
 
-Never invent a hidden token/context/account-usage percentage.
+Required merge evidence must belong to one exact current head. Re-fetch reviews/comments/threads and required checks immediately before merge and use expected-head protection.
 
-## 6. Minimal continuity
+After a release-changing merge, verify the deployed/runtime/provider boundary appropriate to that change. Main retains the complete release/deployment seal.
 
-Continuity exists for recovery, not as a parallel product.
+## 9. Core POS6 rule
 
-Keep enough durable state to recover after interruption:
-
-1. repository/PR/branch/exact head,
-2. current task,
-3. last safe checkpoint,
-4. current blocker or unresolved risk,
-5. next safe action,
-6. permanent safety locks when relevant.
-
-`WORK_ENVIRONMENT_STATUS.json` may continue to carry legacy-compatible fields, but do not create a standalone continuity PR or repeated archive/seal cycle unless a concrete recovery/publication hazard requires it.
-
-After interruption, reconstruct the exact live boundary and resume from the last coherent checkpoint. Do not restart the entire project study.
-
-Use optimistic locking for GitHub file writes: fetch the current blob SHA before update/delete. If a stale-SHA conflict occurs, refetch and reevaluate before one retry.
-
-## 7. SLE, SNS and handoff
-
-SLE means Smart Lean Efficient. Under POS v2 it is a principle: give a successor the minimum reliable context needed to resume correctly. It is not a product CI gate and does not require wording mirroring during normal development.
-
-SNS is remodeled as the compact successor snapshot produced when a real handoff/recovery boundary occurs. Do not generate a new SNS/VTLS artifact after every ordinary task or state change.
-
-No active SNL mechanism has been identified. Do not invent one.
-
-At a real handoff, satisfy the five useful transfer checks:
-
-1. durable current state,
-2. verified authority snapshot,
-3. open work/blockers classified,
-4. explicit successor next action,
-5. compact successor snapshot sealed at a safe boundary.
-
-Historical HTR-1 scoring and historical SLE packaging remain available as provenance but are not normal product gates.
-
-## 8. Owner reporting
-
-Normal substantive project reporting should prioritize useful product information:
-
-- Shared Showdown Journey readiness from `SHARED_SHOWDOWN_JOURNEY_READINESS.json`
-- Milestone Delivery Progress from `MILESTONE_DELIVERY_PROGRESS.json`
-- current engineering lane
-- concrete capability/dependency completed
-- current blocker, if any
-- next product unlock
-
-Report session health/ADB when it materially affects whether this environment should continue. Do not make a continuity percentage compete with product progress.
-
-## 9. Publication discipline
-
-Do not merge from mixed-head evidence. Required merge evidence must belong to one exact current head. Re-fetch reviews/comments/threads and required check state before merge. Use expected-head protection when merging.
-
-After a release-changing merge, verify the actual deployed/runtime/provider boundary appropriate to that change. Do not run expensive deployment proof for documentation-only historical edits unless the changed artifact is itself current executable authority.
-
-## 10. Core POS v2 rule
-
-If a failure cannot plausibly change product behavior, safety, data integrity, recovery, privacy, security, infrastructure/provider safety, UI/UX, executable authority, evidence validity or release correctness, it must not block current product development merely because historical wording or process formatting changed.
+Make the cheapest test that can reliably detect the changed risk run first. Run expensive proof only when the changed risk requires it. If classification is uncertain, escalate to ACCURATE. Never trade away a genuine safety invariant for speed.

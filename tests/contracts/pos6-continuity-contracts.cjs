@@ -1,0 +1,26 @@
+const assert=require('node:assert/strict');
+const {pathToFileURL}=require('node:url');
+(async()=>{
+  const m=await import(pathToFileURL('scripts/pos6-continuity.mjs'));
+  const clean=m.emptySignals();
+  let r=m.scoreContinuity(clean);
+  assert.equal(r.model,'CWS-6');
+  assert.equal(r.decision,'CONTINUE');
+  assert.equal(r.score,0);
+  assert.equal(r.scoreMeaning,'engineering transition risk only');
+  assert.deepStrictEqual(Object.keys(r.weights),['recoverability','contextIntegrity','failurePressure','concurrencyRisk','debugPressure']);
+  const checkpoint=m.scoreContinuity({...clean,recoveryBeaconFresh:false,uncheckpointedAtomicUnits:1});
+  assert.equal(checkpoint.decision,'CHECKPOINT');
+  const transition=m.scoreContinuity({...clean,uncheckpointedAtomicUnits:2,atomicOperation:true});
+  assert.equal(transition.decision,'TRANSITION_NOW');
+  assert.ok(transition.score>=85);
+  const reconstructed=m.scoreContinuity({...clean,failureClass:'PRODUCT_DEFECT',failureReproduced:true,unresolvedFailureFamilies:2,unresolvedStates:2,contextDamageEvents:2,hardStateReconstruction:true,failedCorrectionCycles:5,atomicOperation:true});
+  assert.ok(['TRANSITION_AFTER_ATOMIC','TRANSITION_NOW'].includes(reconstructed.decision));
+  const processBudget=m.computeDebugBudget({...clean,failureClass:'PROCESS_DRIFT'});
+  const productBudget=m.computeDebugBudget({...clean,failureClass:'PRODUCT_DEFECT',criticalSafetyFailure:true,unresolvedFailureFamilies:4,unresolvedStates:4,contextDamageEvents:2,hardStateReconstruction:true,activeMutationLanes:2});
+  assert.ok(processBudget>productBudget);
+  assert.ok(processBudget<=20&&productBudget>=3);
+  const flake=m.scoreContinuity({...clean,failureClass:'INFRA_FLAKE',failureReproduced:false,unresolvedFailureFamilies:1,unresolvedStates:1,failedCorrectionCycles:19});
+  assert.equal(flake.consumedCorrectionCycles,0);
+  console.log('PASS CWS-6 weighted continuity: recovery/context dominate, non-observable activity has zero weight, ADB-6 adapts by failure risk.');
+})().catch(e=>{console.error(e);process.exitCode=1;});
