@@ -11,7 +11,7 @@
     "^NEXT_TASK\\.md$",
     "^00_.*\\.md$",
     "^PROJECT_(?:STATE|OPERATING_SYSTEM_POS10)\\.md$",
-    "^POS10_(?:CURRENT_FILE_INDEX|FILING_SCHEMA|RETIRED_CONCEPTS)\\.json$",
+    "^POS10_(?:CURRENT_FILE_INDEX|FILING_SCHEMA|RETIRED_CONCEPTS|RESPONSE_CONTRACT)\\.json$",
     "^scripts/pos10-(?:recovery|publication)\\.mjs$",
     "^tests/operations/",
     "^tests/support/run-operations-audit\\.cjs$",

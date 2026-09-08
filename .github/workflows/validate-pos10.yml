@@ -1,4 +1,4 @@
-name: Validate POS10 IMPACT
+name: Validate POS10
 
 on:
   pull_request:

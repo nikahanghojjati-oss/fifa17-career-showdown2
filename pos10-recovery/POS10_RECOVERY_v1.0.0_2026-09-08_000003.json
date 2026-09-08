@@ -1,0 +1,23 @@
+{
+  "observedHeads": {
+    "main": "831a13ee93ac1b279c1f7c0985c1c5111922829f",
+    "candidate": "831a13ee93ac1b279c1f7c0985c1c5111922829f",
+    "recovery": "338dd305dcdee2bc398fb030c2abe727b1eba267"
+  },
+  "candidateBranch": "ops/pos10-unified-operating-system",
+  "recoveryBranch": "recovery/pos10-unified-operating-system",
+  "atomicWorkUnit": "Publish POS10 as the sole active process authority",
+  "lastSafeCheckpoint": "Active startup surfaces migrated; POS10 native publication preflight and response contract implemented; operations census still needs replacement and validation",
+  "nextExactAction": "Build POS10 operations regression tests for recovery, freshness, privacy, authority isolation, routing and protected publication; collect local failures and correct only real defects",
+  "phase": "IMPLEMENTING",
+  "decision": "CONTINUE",
+  "operatingSystem": "POS10",
+  "filingVersion": "v1.0.0",
+  "generatedAt": "2026-09-08T06:02:38.948Z",
+  "repository": "nikahanghojjati-oss/fifa17-career-showdown2",
+  "artifactRole": "recovery-manifest",
+  "recoveryState": "RECOVERY_READY",
+  "liveFactsMustBeResolved": true,
+  "sourceFingerprint": "e329f5af6dd8b1d0fe4c25d1f6f94acfbb5d3594a77c7ef3f0dccb103fc1a92e",
+  "supersedes": "pos10-recovery/POS10_RECOVERY_v1.0.0_2026-09-08_000002.json"
+}

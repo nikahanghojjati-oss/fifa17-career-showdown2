@@ -3,7 +3,10 @@
   "filingVersion": "v1.0.0",
   "artifactRole": "process-authority",
   "status": "implementation-candidate",
-  "productCredit": {"SSJR": 0, "MDP": 0},
+  "productCredit": {
+    "SSJR": 0,
+    "MDP": 0
+  },
   "maxOpenAtomicUnits": 1,
   "maxLocalUnpublishedPackets": 1,
   "recoveryBranchesPerCandidate": 1,
@@ -11,7 +14,13 @@
   "candidateMutationDuringPendingValidation": false,
   "mergeRequiresExpectedHead": true,
   "unknownRisk": "FULL_SEAL",
-  "precedence": ["explicit-current-owner-instruction", "verified-live-source-and-provider-state", "POS10-current-file-index", "current-product-ledgers", "inert-history"],
+  "precedence": [
+    "explicit-current-owner-instruction",
+    "verified-live-source-and-provider-state",
+    "POS10-current-file-index",
+    "current-product-ledgers",
+    "inert-history"
+  ],
   "machineAuthority": {
     "currentIndex": "POS10_CURRENT_FILE_INDEX.json",
     "filingSchema": "POS10_FILING_SCHEMA.json",
@@ -22,7 +31,27 @@
     "impactRouter": "scripts/pos10-impact-router.mjs",
     "proofRunner": "scripts/pos10-proof-runner.mjs",
     "recovery": "scripts/pos10-recovery.mjs",
-    "publication": "scripts/pos10-publication.mjs"
+    "publication": "scripts/pos10-publication.mjs",
+    "responseContract": "POS10_RESPONSE_CONTRACT.json"
   },
-  "afterVerifiedMerge": "Immediately resume production two-account Shared Setup evidence and the next unfinished Shared Showdown Journey product dependency."
+  "afterVerifiedMerge": "Immediately resume production two-account Shared Setup evidence and the next unfinished Shared Showdown Journey product dependency.",
+  "activeStartupSurfaces": [
+    "AGENTS.md",
+    "00_DEVELOPER_START_HERE.md",
+    "NEXT_TASK.md",
+    "README.md",
+    "00_CURRENT_HANDOFF.md",
+    "00_SESSION_BOOTSTRAP.md",
+    "00_MASTER_DEVELOPER_CONTEXT.md",
+    "00_HANDOFF_GOLDEN_RULE.md",
+    "00_FORWARD_PROGRESS_ANTI_LOOP.md",
+    "00_CONTEXT_RETRIEVAL_ENGINE.md",
+    "00_BUILD_FIRST_PRODUCT_POLICY.md",
+    "PROJECT_STATE.md",
+    "NEXT_CHAT_HANDOFF_PROMPT.md",
+    "project-documents/00_CURRENT_HANDOFF.md",
+    "project-documents/policies/NEXT_DEVELOPER_PROMPT_STANDARD.md",
+    "PROJECT_OPERATING_SYSTEM_POS10.md"
+  ],
+  "archivedProcessRoot": "authority-history/pos10-retired/"
 }
