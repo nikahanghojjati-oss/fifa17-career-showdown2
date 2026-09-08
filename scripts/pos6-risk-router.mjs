@@ -7,18 +7,20 @@ const norm=v=>String(v||"").replace(/\\/g,"/").replace(/^\.\//,"");
 const any=(files,patterns)=>files.some(file=>patterns.some(pattern=>pattern.test(file)));
 
 const groups={
-  operations:[/^AGENTS\.md$/, /^NEXT_TASK\.md$/, /^PROJECT_OPERATING_SYSTEM_V6(?:\.|_)/, /^scripts\/pos6-/, /^tests\/contracts\/(?:project-operating-system-v6|pos6-)/, /^tests\/support\/run-operations-audit\.cjs$/],
+  operations:[/^AGENTS\.md$/, /^NEXT_TASK\.md$/, /^PROJECT_OPERATING_SYSTEM_V6(?:\.|_)/, /^POS6_(?:CONTINUITY_MODEL|RISK_MAP)\.json$/, /^scripts\/pos6-/, /^tests\/contracts\/(?:project-operating-system-v6|pos6-)/, /^tests\/support\/run-operations-audit\.cjs$/],
   docs:[/\.md$/],
-  release:[/^\.github\/workflows\//,/^package(?:-lock)?\.json$/,/^service-worker\.js$/,/^manifest\.webmanifest$/,/^CURRENT_PRODUCT_GUARDS\.json$/,/^scripts\/verify-deployment\.mjs$/,/^scripts\/pos6-risk-router\.mjs$/],
+  release:[/^\.github\/workflows\//,/^package(?:-lock)?\.json$/,/^service-worker\.js$/,/^manifest\.webmanifest$/,/^CURRENT_PRODUCT_GUARDS\.json$/,/^CURRENT_PRODUCT_TEST_MANIFEST\.json$/,/^scripts\/verify-deployment\.mjs$/,/^scripts\/pos6-risk-router\.mjs$/],
   remote:[/^firestore(?:\.|-)/,/^firebase(?:\.|-)/,/^\.firebaserc$/,/^js\/(?:firebase|connected|stage[345]|sharedShowdown|pairing|remote)/i,/^scripts\/build-production-firestore-rules\.mjs$/,/^tests\/(?:firebase|browser|contracts)\/(?:stage[345]|pairing|shared-showdown|cloud|remote-data|spark|production-app-check|firebase-permanent)/i],
   storage:[/^js\/(?:storage|backup|import|restore|save)/i,/^tests\/(?:browser|contracts)\/(?:backup|import|restore|save-library|multi-save)/i],
   visual:[/^assets\//,/^css\//,/^data\//,/^tests\/browser\/(?:home-visual|loading-visual|football-visual|shared-showdown-polished-presentation)/,/^tests\/contracts\/(?:licensed-football-visuals|final-polish|shared-showdown-polished-presentation)/],
   runtime:[/^index\.html$/,/^js\//,/^tests\/browser\//,/^tests\/contracts\//]
 };
 
+const fullRun=operations=>({deterministic:true,operations,browser:"FULL",remoteEmulator:true,storageBrowser:true,visualBrowser:true,staticSpark:true});
+
 export function routeFiles(input){
   const files=[...new Set((input||[]).map(norm).filter(Boolean))];
-  if(!files.length)return {model,profile:"FULL_SEAL",files,reason:"No changed-file evidence; fail closed.",run:{deterministic:true,operations:true,browser:"FULL",remoteEmulator:true,storageBrowser:true,visualBrowser:true,staticSpark:true}};
+  if(!files.length)return {model,profile:"FULL_SEAL",files,reason:"No changed-file evidence; fail closed.",run:fullRun(true)};
   const nonDocs=files.filter(f=>!groups.docs.some(p=>p.test(f)));
   const opsOnly=nonDocs.length>0&&nonDocs.every(f=>groups.operations.some(p=>p.test(f)));
   const docOnly=nonDocs.length===0;
@@ -26,14 +28,14 @@ export function routeFiles(input){
   if(opsOnly)return {model,profile:"OPS_ONLY",files,reason:"Operating-system-only change.",run:{deterministic:false,operations:true,browser:"NONE",remoteEmulator:false,storageBrowser:false,visualBrowser:false,staticSpark:false}};
   const release=any(files,groups.release),remote=any(files,groups.remote),storage=any(files,groups.storage),visual=any(files,groups.visual),runtime=any(files,groups.runtime);
   const domains=[remote,storage,visual].filter(Boolean).length;
-  if(release||domains>=3)return {model,profile:"FULL_SEAL",files,reason:release?"Release/workflow/core authority changed.":"Three or more product risk domains changed.",run:{deterministic:true,operations:any(files,groups.operations),browser:"FULL",remoteEmulator:true,storageBrowser:true,visualBrowser:true,staticSpark:true}};
+  if(release||domains>=3)return {model,profile:"FULL_SEAL",files,reason:release?"Release/workflow/core authority changed.":"Three or more product risk domains changed.",run:fullRun(true)};
   if(remote&&storage)return {model,profile:"REMOTE_STORAGE",files,reason:"Remote and storage authority changed.",run:{deterministic:true,operations:any(files,groups.operations),browser:"REMOTE",remoteEmulator:true,storageBrowser:true,visualBrowser:false,staticSpark:true}};
   if(remote)return {model,profile:"REMOTE",files,reason:"Remote/pairing/session/provider authority changed.",run:{deterministic:true,operations:any(files,groups.operations),browser:"REMOTE",remoteEmulator:true,storageBrowser:false,visualBrowser:false,staticSpark:true}};
   if(storage)return {model,profile:"STORAGE",files,reason:"Save/import/restore authority changed.",run:{deterministic:true,operations:any(files,groups.operations),browser:"STORAGE",remoteEmulator:false,storageBrowser:true,visualBrowser:false,staticSpark:false}};
   if(visual&&!runtime)return {model,profile:"VISUAL",files,reason:"Visual-only product surface changed.",run:{deterministic:true,operations:any(files,groups.operations),browser:"VISUAL",remoteEmulator:false,storageBrowser:false,visualBrowser:true,staticSpark:false}};
   if(visual)return {model,profile:"VISUAL_RUNTIME",files,reason:"Visual plus runtime surface changed.",run:{deterministic:true,operations:any(files,groups.operations),browser:"VISUAL",remoteEmulator:false,storageBrowser:false,visualBrowser:true,staticSpark:false}};
   if(runtime)return {model,profile:"GENERAL_RUNTIME",files,reason:"General executable runtime changed.",run:{deterministic:true,operations:any(files,groups.operations),browser:"FULL",remoteEmulator:false,storageBrowser:false,visualBrowser:false,staticSpark:false}};
-  return {model,profile:"DETERMINISTIC",files,reason:"Product/test change has no heavy-domain match.",run:{deterministic:true,operations:any(files,groups.operations),browser:"NONE",remoteEmulator:false,storageBrowser:false,visualBrowser:false,staticSpark:false}};
+  return {model,profile:"FULL_SEAL",files,reason:"Unclassified non-document change; fail closed.",run:fullRun(true)};
 }
 
 if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.url)){
