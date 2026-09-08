@@ -1,9 +1,9 @@
 {
-  "schemaVersion": 3,
-  "recordedAt": "2026-09-06T22:38:05.127709+00:00",
+  "schemaVersion": 4,
+  "recordedAt": "2026-09-07T17:22:00Z",
   "modelType": "hybrid-information-retrieval-graph-online-learning",
   "trainingState": "cold-start-priors-observed-sessions-supervised-evaluation-not-yet-adopted",
-  "purpose": "SLE: minimize startup context cost while preserving critical PR210/private-two-account authority",
+  "purpose": "SLE: minimize successor startup cost while preserving PR215 r6 release-candidate publication, historical PR203/205/207/209/210 authority, and permanent security/gameplay locks",
   "weights": {
     "taskAffinity": 0.24,
     "authority": 0.18,
@@ -16,19 +16,17 @@
     "tokenCostPenalty": -0.1
   },
   "mandatoryBypass": [
-    "CURRENT substantive main is PR210 merge a1b4a34f8a2abcc4e361c4239da684ace9a4a40a; PR210 exact head c863e1c2506bf34ff9521ed22bd989c221b437a6 passed 15/15 exact-head and 15/15 post-merge families.",
-    "Production remains v1.9.1 / 1.9.1-r3 from PR203; PR209/PR210 are zero-credit observer/deployment helpers and do not change runtime authority.",
-    "Pages run 34060301380 and Stability 34060301345 are green; the deployed observer uses cache-busted acceptance/ssjrProductionStorageObservation.js?v=20260906-a54.",
-    "RJR-1 is complete/frozen 100/100; SSJR-1.1 remains evidence-backed 0/100 until genuine production-two-account evidence passes.",
-    "PR207 recorder and PR205 strict pair validator remain unchanged authorities.",
+    "CURRENT main is 420d0dd21480c660d4fe139ba011eca1ccb987a9 from PR214; production remains v1.9.1 / 1.9.1-r5 from PR213 while source/release candidate is 1.9.1-r6.",
+    "PR215 is open/unmerged on fix/pr214-postmerge-dual-screen-contract and is a bounded release-candidate publication/convergence correction. Exact live head must be independently verified by the successor.",
+    "PR214 exact-sha Pages deployed r6 and Release Integration Burn-In passed, but r6 is not production-proven until PR215 exact-head CI/merge and resulting post-merge Stability/deployed-site smoke plus Pages/Burn-In are coherent.",
+    "Historical PR203 r3 production baseline, PR205 validator, PR207 recorder, PR209 observer and PR210 Pages observer remain immutable provenance and must not be overwritten or re-credited.",
+    "RJR-1 is complete/frozen 100/100; SSJR-1.1 remains evidence-backed 0/100; MDP-1 remains 39.00/100 until a defined engineering lifecycle stage closes.",
     "Exact Connected Rivalry pairing and exact ACTIVE must precede league or club selection.",
-    "Next real task needs two legitimate private managers on two genuinely distinct registered browser/device identities; CI must not fabricate them.",
+    "SSJR-DUAL-FULL-SCREEN-1 requires both legitimate managers individually to experience every canonical Shared Journey screen; missed screens replay in order.",
     "Billing must never be activated; Firebase stays Spark; App Check enforcement remains OFF; Firestore persistence is memory-only; Google Auth is popup-only browserSessionPersistence.",
-    "Canonical storage is exactly three approved localStorage keys and Candidate C remains sole destructive remote-to-local Apply authority.",
+    "Canonical storage is exactly three approved localStorage keys and Candidate C remains the sole destructive remote-to-local Apply authority with exact rollback.",
     "Exactly two private managers; no public discovery/listing/lobby/matchmaking/community/rankings/global leaderboards.",
-    "Consumed RJR physical acceptance must not be repeated absent a proven regression.",
-    "At Session handoff proximity 100, mirrored SLE package and final WEC seal must already be complete; emit SNS and stop.",
-    "Session Handoff Proximity v2 / SHP-2 resets to 0% for each new chat; uses monotonic observable proxies, risk floors and operating bands. HTR-1 separately measures repository transfer readiness and never supplies session pressure."
+    "At Session handoff proximity 100, mirrored SLE package, current bootstrap/context/prompt contracts and final WEC seal must already be complete; emit SNS and stop."
   ],
   "contextBudgets": {
     "tier0BootstrapApproxTokens": [
@@ -46,33 +44,30 @@
     "tier3DeepFallback": "unbounded-only-when-evidence-requires"
   },
   "rankingProcedure": [
-    "Read START_NEXT_SESSION_V1.4.55_PR211_RECOVERY_PRIVATE_TWO_ACCOUNT_NEXT.md and compact bootstrap first.",
-    "Verify live main/PR211 final checks and post-merge evidence, validate/archive a54, then initialize a fresh WEC without inherited decisions.",
-    "Proceed directly to genuine private two-account Shared Setup evidence, using observer + PR207 recorder + PR205 validator.",
-    "Preserve all zero-billing, privacy, storage, pairing-order and recovery locks."
+    "Read START_NEXT_SESSION_V1.4.56_PR215_R6_RELEASE_CANDIDATE_PUBLICATION_NEXT.md and compact bootstrap first.",
+    "Verify live main and PR215 exact head/checks/reviews/deployment, validate/archive a58, then initialize a fresh WEC without inherited transition decisions.",
+    "Proceed directly to Converge PR215 r6 release-candidate publication. Require one exact head with all 15 families green before expected-head merge.",
+    "After clean post-merge r6 proof, only then award the defined +2.50 MDP integration delta and move to genuine two-account Shared Setup evidence.",
+    "Preserve all zero-billing, privacy, storage, pairing-order, dual-full-screen and recovery locks."
   ],
   "latestCheckpoint": {
-    "latestSubstantiveMainSha": "a1b4a34f8a2abcc4e361c4239da684ace9a4a40a",
-    "runtimeRevision": "1.9.1-r3",
+    "latestSubstantiveMainSha": "420d0dd21480c660d4fe139ba011eca1ccb987a9",
+    "productionRuntimeRevision": "1.9.1-r5",
+    "releaseCandidateRuntimeRevision": "1.9.1-r6",
     "rjrScore": 100,
     "ssjrScore": 0,
-    "publicationPullRequest": 210,
-    "publicationState": "merged-postmerge-green-observer-deployment-proven",
-    "publicationExactFinalHead": "c863e1c2506bf34ff9521ed22bd989c221b437a6",
-    "publicationExactTree": "85b9350bd7ac6f708b5bc7d303ad23d354fa1ac0",
-    "exactHeadWorkflowFamiliesSuccessful": 15,
-    "postMergeWorkflowFamiliesSuccessful": 15,
-    "postMergeStabilityRunId": 34060301345,
-    "pagesRunId": 34060301380,
-    "starter": "START_NEXT_SESSION_V1.4.55_PR211_RECOVERY_PRIVATE_TWO_ACCOUNT_NEXT.md",
-    "next": "genuine-production-private-two-account-shared-setup-evidence",
+    "mdpScore": 39.0,
+    "publicationPullRequest": 215,
+    "publicationState": "open-red-safe-transfer",
+    "preSleSubstantiveHead": "da099afa12b5b760bf85728857685a7913d25ba3",
+    "starter": "START_NEXT_SESSION_V1.4.60_PR215_AUTHORITY_CONTRACT_SAFE_TRANSFER_NEXT.md",
+    "next": "resolve-demonstrated-current-vs-historical-wec-publication-contracts",
     "billingActivationForbidden": true,
     "firebasePlan": "Spark",
     "ssjrModelVersion": "SSJR-1.1",
     "estimatedFocusedSessionsToGenuineSSJR100": "5-10",
-    "continuityPullRequest": 211,
-    "continuityCorrectionHead": "7d131703eaf559b33ce2f418acf76404008edbbd",
-    "closingEnvironmentId": "we-2026-09-06-pr211-recovery-private-setup-a54",
-    "fullHandoff": "SUCCESSOR_HANDOFF_PR211_RECOVERY_PRIVATE_TWO_ACCOUNT_NEXT_SLE_2026-09-06.md"
+    "closingEnvironmentId": "we-2026-09-07-pr215-r6-publication-a62",
+    "fullHandoff": "SUCCESSOR_HANDOFF_PR215_AUTHORITY_CONTRACT_SAFE_TRANSFER_SLE_V1.4.60_2026-09-07.md",
+    "capsule": "SESSION_BOOTSTRAP_V1.4.60.json"
   }
 }

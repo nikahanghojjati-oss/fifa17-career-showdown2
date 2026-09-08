@@ -29,8 +29,10 @@ assert.match(phase1e,/recursively frozen/i);
 assert.match(phase1e,/Phase 1F[\s\S]+remains blocked/i);
 assert.match(historicalNext,/CURRENT SUCCESSOR AUTHORITY — POST-PR #99 REMOTE JOINING RESTART/i,"Archived post-PR100/pre-gateway authority must retain its actual post-PR #99 successor heading as provenance.");
 assert.match(historicalNext,/Stage 1 — Cloud \/ Sync Readiness Phase 1A through 1F — DONE \/ MERGED \/ PROTECTED/i,"Archived post-PR #99 authority must preserve completed Stage 1 Cloud/Sync truth.");
-assert.match(next,/^# CURRENT TASK — SSJR-1\.1 PRODUCTION TWO-ACCOUNT SHARED SETUP EVIDENCE$/im,"Current NEXT_TASK must remain beyond historical Phase 1E/Stage5G and the now-production-proven Shared Setup milestone, routing to genuine production-two-account evidence after verified PR203 closure.");
-assert.match(next,/PR #203[\s\S]+production-two-account/i,"Current NEXT_TASK must preserve PR203 production closure and require the still-missing production-two-account layer before SSJR credit.");
+assert.match(next,/^# CURRENT TASK — CONVERGE PR215 R6 RELEASE-CANDIDATE PUBLICATION, THEN RESUME GENUINE SSJR SHARED SETUP ACCEPTANCE$/im,"Current NEXT_TASK must preserve the bounded PR215 r6 publication/convergence gate before genuine production-two-account acceptance resumes.");
+assert.match(next,/PR #215[\s\S]+1\.9\.1-r6/i,"Current NEXT_TASK must preserve live PR215 and r6 release-candidate publication authority.");
+assert.match(next,/PR #203[\s\S]+paired-first Shared Setup baseline/i,"Current NEXT_TASK must preserve PR203/r3 historical production Shared Setup provenance.");
+assert.match(next,/production-two-account/i,"Current NEXT_TASK must retain the still-missing genuine production-two-account evidence layer before SSJR credit.");
 assert.match(next,/PR #198[\s\S]+100\/100/i,"Current NEXT_TASK must identify the exact accepted RJR100 publication checkpoint.");
 assert.match(next,/Shared Showdown Journey Readiness|SSJR-1/i,"Current NEXT_TASK must route the successor toward the post-RJR100 shared-journey program after clean handoff.");
 assert.match(next,/Connected Rivalry[\s\S]+ACTIVE[\s\S]+league/i,"Current NEXT_TASK must preserve pairing plus exact ACTIVE session before any league selection.");
@@ -217,4 +219,4 @@ function deterministicRun(){
 }
 assert.deepEqual(deterministicRun(),deterministicRun());
 
-process.stdout.write("PASS Phase 1E deterministic two-device/offline/reconnect synchronization harness contracts; historical dormant PR171/RJR87/Stage5A proof remains version-neutral while current RJR100/PR198 provenance stays coherent and NEXT_TASK advances beyond PR203 production Shared Setup into production-two-account evidence\n");
+process.stdout.write("PASS Phase 1E deterministic two-device/offline/reconnect synchronization harness contracts; historical dormant PR171/RJR87/Stage5A proof remains version-neutral while current RJR100/PR198 provenance stays coherent, PR215 r6 publication remains bounded, and genuine production-two-account evidence remains the next SSJR layer\n");

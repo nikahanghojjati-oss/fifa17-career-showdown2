@@ -6,6 +6,9 @@ const agents = read("AGENTS.md");
 const provenance = read("authority-history/OWNER_PROGRESS_REPORTING_FORMAT_2026-08-19.md");
 const mdpAuthority = read("00_MILESTONE_DELIVERY_PROGRESS.md");
 const mdpLedger = JSON.parse(read("MILESTONE_DELIVERY_PROGRESS.json"));
+const eagleEye = read("00_OWNER_EAGLE_EYE_GOLDEN_RULE.md");
+const bootstrap = JSON.parse(read("SESSION_BOOTSTRAP.json"));
+const currentStarter = read(bootstrap.starter.canonical);
 
 const historicalCurrentRequiredLabels = [
   /Handoff proximity:\s*X%/i,
@@ -73,4 +76,11 @@ assert.match(ssjrOverride, /before league or club selection/);
 assert.equal(mdpLedger.formattedScore, "39.00/100");
 assert.match(mdpAuthority, /replaces the visible `Estimated focused sessions to genuine SSJR100` forecast/i);
 
-process.stdout.write("PASS owner current eight-line SSJR+MDP reporting, historical RJR provenance, MDP/SSJR separation and recursive reporting authority\n");
+const compactFooter = /MDP task delta:\s*\+X\.XX\s*\(AA\.AA\s*→\s*BB\.BB\)[\s\S]+Session handoff proximity:\s*X%/i;
+assert.match(eagleEye, /Mandatory compact checkpoint footer/i);
+assert.match(eagleEye, compactFooter);
+assert.match(eagleEye, /Every successor handoff, versioned starter, fresh Work environment and future reporting authority must preserve this two-line footer recursively/i);
+assert.match(currentStarter, compactFooter);
+assert.match(currentStarter, /Every future successor handoff and fresh Work environment must preserve it recursively/i);
+
+process.stdout.write("PASS owner current eight-line SSJR+MDP reporting, permanent two-line MDP task delta/session handoff footer, historical RJR provenance, MDP/SSJR separation and recursive reporting authority\n");

@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 1,
+  "operatingSystem": "POS-3",
+  "status": "current",
+  "purpose": "Ship product work with strong current invariants while making continuity cheap, categorical and nonblocking.",
+  "startupLoadSet": [
+    "PROJECT_OPERATING_SYSTEM_V3.md",
+    "CURRENT_PRODUCT_GUARDS.json",
+    "NEXT_TASK.md"
+  ],
+  "metrics": {
+    "SSJR-1.1": {
+      "status": "ACTIVE_PRODUCT_ACCEPTANCE",
+      "decision": "KEEP"
+    },
+    "MDP-1": {
+      "status": "ACTIVE_ENGINEERING_MATURITY_TRANSITIONAL",
+      "decision": "KEEP_UNTIL_REVIEWED_MDP2_MIGRATION"
+    },
+    "RJR-1": {
+      "status": "FROZEN_HISTORICAL_100",
+      "decision": "DO_NOT_RECALCULATE"
+    }
+  },
+  "session": {
+    "transferDecisionModel": "TDS-1",
+    "states": [
+      "CONTINUE",
+      "CHECKPOINT_SOON",
+      "FINISH_ATOMIC_THEN_TRANSFER",
+      "TRANSFER_NOW"
+    ],
+    "percentageScore": false,
+    "reportOnlyOnStateChangeOrOwnerRequest": true,
+    "ownerUsageWarningIsHardTransferTrigger": true,
+    "healthyAgeOrActivityAloneMayTriggerTransfer": false,
+    "adaptiveDebugBudget": "ADB-2"
+  },
+  "resumeCapsule": {
+    "model": "RCP-1",
+    "replaces": [
+      "SNS",
+      "routine SLE successor packaging",
+      "VTLS successor checkpoints"
+    ],
+    "generatedOnlyAtRealTransfer": true,
+    "defaultDelivery": "external-chat-artifact",
+    "repositoryCommitRequired": false,
+    "continuityOnlyPullRequestAllowed": false,
+    "singleArtifact": true,
+    "mirrorsRequired": false,
+    "versionChainRequired": false,
+    "recordedHeadIsOrientationOnly": true,
+    "successorMustReverifyLiveAuthority": true
+  },
+  "legacy": {
+    "SHP-2": "RETIRED_PERCENTAGE",
+    "HTR-1": "RETIRED_SCORE_CHECKS_FOLDED_INTO_RCP",
+    "WEC": "LEGACY_RECOVERY_PROVENANCE_ONLY",
+    "SLE": "NONBLOCKING_PRINCIPLE_ONLY",
+    "SNS": "SUPERSEDED_FOR_NEW_TRANSFERS",
+    "START_NEXT_SESSION_FAMILIES": "HISTORICAL_ON_DEMAND",
+    "DEEP_SLE_MIRRORS": "HISTORICAL_ON_DEMAND"
+  },
+  "ci": {
+    "stabilityOwnsCompleteCurrentProductSuite": true,
+    "specialistsRunFocusedRiskOnly": true,
+    "targetedChecksDuringDevelopment": true,
+    "fullFanoutReservedForPublicationReleaseSecurityOrBroadRisk": true,
+    "coherentChangeShouldPreferOneTestedCommit": true,
+    "continuityOnlyChangeMustNotTriggerHeavyProductCI": true,
+    "historicalNarrationMayBlockProductCI": false,
+    "exactWorkflowCountMayBlock": false
+  }
+}

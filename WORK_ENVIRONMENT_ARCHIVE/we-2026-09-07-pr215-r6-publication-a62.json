@@ -1,0 +1,187 @@
+{
+  "schemaVersion": 1,
+  "environmentId": "we-2026-09-07-pr215-r6-publication-a62",
+  "lifecycle": "transition-prepared",
+  "recordedAt": "2026-09-07T20:18:58.641Z",
+  "repository": {
+    "name": "nikahanghojjati-oss/fifa17-career-showdown2",
+    "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
+    "startingMainSha": "420d0dd21480c660d4fe139ba011eca1ccb987a9",
+    "verifiedMainSha": "420d0dd21480c660d4fe139ba011eca1ccb987a9",
+    "workingBranch": "fix/pr214-postmerge-dual-screen-contract",
+    "activePullRequest": 215,
+    "productionVersion": "v1.9.1",
+    "productionRuntimeRevision": "1.9.1-r5",
+    "releaseCandidateVersion": "v1.9.1",
+    "releaseCandidateRuntimeRevision": "1.9.1-r6",
+    "liveHeadAtInitialization": "88d85df1eb3de44927e340a726fa1e7d462f7259",
+    "predecessorEnvironmentId": "we-2026-09-07-pr215-r6-publication-a61",
+    "predecessorArchive": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-07-pr215-r6-publication-a61.json",
+    "archive": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-07-pr215-r6-publication-a62.json",
+    "successorStarter": "START_NEXT_SESSION_V1.4.60_PR215_AUTHORITY_CONTRACT_SAFE_TRANSFER_NEXT.md",
+    "successorDeepHandoff": "SUCCESSOR_HANDOFF_PR215_AUTHORITY_CONTRACT_SAFE_TRANSFER_SLE_V1.4.60_2026-09-07.md",
+    "successorOwnerSns": "owner-sns/OWNER_SNS_V1.4.60_PR215_AUTHORITY_CONTRACT_SAFE_TRANSFER.md",
+    "lastRemoteCiInspectedHeadSha": "88d85df1eb3de44927e340a726fa1e7d462f7259",
+    "failureEvidenceHeadMustRemainDistinctFromSealHead": true,
+    "expectedNextEnvironmentIdIfUnused": "we-2026-09-07-pr215-r6-publication-a63"
+  },
+  "signals": {
+    "contextComplexity": "high",
+    "projectComplexity": "high",
+    "compactionCount": 0,
+    "majorPhasesCompleted": 2,
+    "largeEvidenceEvents": 12,
+    "toolRoutingErrors": 0,
+    "correctedFailures": 2,
+    "repeatedMistakes": 1,
+    "staleFactCorrections": 0,
+    "unresolvedFailures": 0,
+    "newMilestoneNext": false,
+    "usageRemainingPercent": null,
+    "usageSource": "unavailable",
+    "usageWarning": false,
+    "handoffCompleteness": 100,
+    "unrecordedDecisions": 0,
+    "atomicOperation": false
+  },
+  "assessment": {
+    "decision": "HANDOFF_NOW",
+    "decisionInheritedFromPredecessor": false,
+    "reason": "Recursive SHP-2 circuit breaker after two local correction/validation cycles with classified red state and six observed truncations; immediately seal and stop. No third correction or merge."
+  },
+  "handoffTransferReadiness": {
+    "model": "HTR-1",
+    "earnedPillars": [
+      "durable-state",
+      "authority-snapshot",
+      "open-work-classified",
+      "successor-execution-contract",
+      "sealed-transfer-package"
+    ],
+    "note": "All work, exact source/remote baseline, local failures, next action and mirrored final package are recorded. Final source commit publication remains required before delivery."
+  },
+  "continuity": {
+    "currentTask": "Converge PR215 r6 release-candidate publication through the exact current NEXT_TASK wording correction and required fresh-WEC authority.",
+    "lastSafeCheckpoint": "NEXT_TASK private-manager marker and fresh a62 authority passed the targeted preflight. The next assertion failed at sle-handoff-packaging-contracts.cjs:33 because current predecessor a61 is compared with historical a58. Last remote CI snapshot remains exact 88d85df1eb3de44927e340a726fa1e7d462f7259, before these corrections. Final seal must receive its own complete permanent workflow snapshot.",
+    "nextSafeAction": "Validate the a62 archive, independently resolve live main and exact PR215 head/checks/reviews, initialize a fresh unique WEC (a63 only if unused) with literal SHP-2 0 and no inherited counters or decision. Inspect the exact current shared repository-suite assertion before mutation. The demonstrated blocker class is contradictory current-session ancestry/lifecycle assertions across handoff-immediate-next-task-contracts.cjs and sle-handoff-packaging-contracts.cjs. Inspect their surrounding current-WEC predicates together in one bounded batch. Preserve immutable historical V1.4.56/a58 and PR210/209/207/205/203 provenance; current successor checks must follow genuine current ancestry, literal zero reset and independently derived decisions. Do not weaken lifecycle, publication, security, provider, evidence or billing gates. Do not reopen the corrected NEXT_TASK private-manager wording or PR203 provenance without a reproduced regression. No product-runtime work is authorized before publication and Shared Setup evidence resolve.",
+    "unfinishedWork": [
+      "Current-vs-historical WEC ancestry and final lifecycle/decision predicate conflicts remain red. Do not conflate the targeted active-a62 pass with the final sealed state.",
+      "Revalidate every permanent workflow family on one exact reviewed head, expected-head merge only when green, and prove complete post-merge r6 boundary.",
+      "No MDP +2.50 or genuine two-account Shared Setup owner testing before clean r6 integration."
+    ],
+    "knownHazards": [
+      "Billing remains permanently OFF and Firebase remains Spark; never enable Blaze, Cloud Billing, a billing account, Cloud Run or Cloud Functions.",
+      "App Check enforcement remains OFF; Firestore browser persistence remains memory-only; Google Auth remains popup-only browserSessionPersistence with no extra scopes.",
+      "Exactly two private managers; pairing plus exact ACTIVE private session must precede league or club authority.",
+      "Candidate C remains sole destructive remote-to-local gameplay Apply authority with transaction-owned strict exact raw-snapshot rollback.",
+      "No public discovery, listing, lobby, matchmaking, community, rankings or global leaderboards.",
+      "Do not weaken production-authorization, security, provider, RJR/SSJR evidence, zero-billing or historical provenance contracts to make CI green.",
+      "Preserve the recursive SHP-2 anti-spiral circuit breaker in every successor; repeated failed correction/validation loops or context-damaged debugging with active red state require another safe transfer rather than unbounded retries."
+    ],
+    "evidenceNotes": [
+      "Inherited a61 record and immutable archive are byte-identical; validation FAILED: signals.contextComplexity is invalid.. Archive preserved unchanged. Static inspection also shows an incomplete second SHP observation and non-string package verification, so predecessor 100% is not a validated SHP-2/HTR-1 result.",
+      "Exact live PR215 88d85df1eb3de44927e340a726fa1e7d462f7259 has 12 successful and 3 failed permanent families. Stability run 34157683131 job 101852798113 reproduces NEXT_TASK explicit private-manager wording failure. Prior PR203/a61 authority assertions pass on that head. Reviews/comments empty.",
+      "Live main 420d0dd21480c660d4fe139ba011eca1ccb987a9; Pages 34141665424 and Burn-In 34141665501 pass; main Stability/Static remain red. Live service worker serves r6 with previous r5. Release-proven authority remains r5; served r6 is unaccepted release candidate.",
+      "Official checksum-verified gh 2.100.0 installed; unauthenticated. Connected GitHub app remains available for supported writes. No credential copying or owner authentication needed for this lane.",
+      "Actual session catch-up required dense policy reads. Six output-truncation events were observed, including repeated overlarge batches. No compaction or recovery. Narrow output summaries now used. No predecessor counters or decision inherited.",
+      "RJR-1 frozen 100/100; SSJR-1.1 0/100; MDP-1 39.00/100. Billing permanently OFF, Spark only. No provider control-plane mutation or new owner evidence.",
+      "Local cycle 1 log: targeted current-WEC assertion rejected a62 as it required a61. Local cycle 2: handoff preflight passed SHP/HTR/immediate-next-task/WEC/owner-reporting, then sle-handoff-packaging-contracts.cjs:33 expected current predecessor a58 rather than actual a61. No third correction.",
+      "Final accurate HANDOFF_NOW decision and transition-prepared lifecycle will expose existing closed-state predicates; these conflicts are documented and not hidden by a fabricated WEC decision.",
+      "V1.4.60 complete mirrored starter/SLE and current versioned capsule preserve all existing root V1.4.56 historical fields through an additive currentSuccessorOverride. Current root authority docs route to the new capsule. Default historical prompt remains unchanged; exported builder generates the fresh owner prompt using the explicit current capsule.",
+      "Additional handoff verification independently reproduced an inherited prompt mismatch: NEXT_CHAT_HANDOFF_PROMPT.md still names V1.4.57 while its unchanged generator/contract expects root V1.4.56. This was not corrected after the circuit breaker. The new owner SNS correctly uses V1.4.60 through the same exported builder and explicit current capsule. Include this proven current-versus-historical prompt conflict when resolving the bounded publication class; no test may be weakened."
+    ]
+  },
+  "sessionHandoffProximity": {
+    "model": "SHP-2",
+    "environmentId": "we-2026-09-07-pr215-r6-publication-a62",
+    "startedAt": "2026-09-07T20:10:47.655Z",
+    "checkpoints": [
+      {
+        "at": "2026-09-07T20:10:47.655Z",
+        "note": "New session: reset to 0%.",
+        "observations": {
+          "messageToolEvents": 0,
+          "longEvidenceReads": 0,
+          "truncations": 0,
+          "recoveries": 0,
+          "compactions": 0,
+          "boundedReads": 0,
+          "editedFiles": 0,
+          "commits": 0,
+          "ciDebugCycles": 0,
+          "deployments": 0,
+          "elapsedMinutes": 0,
+          "taskLanes": 0,
+          "unmergedBranches": 0,
+          "redCiFamilies": 0,
+          "inFlightDeployments": 0,
+          "unresolvedStates": 0,
+          "unresolvedDebugLoops": 0,
+          "ownerTestPending": false,
+          "hardStateReconstruction": false,
+          "ownerRequestedWrap": false,
+          "nextSubstantialTaskRisksLoss": false
+        }
+      },
+      {
+        "at": "2026-09-07T20:10:47.655Z",
+        "note": "Observed bounded catch-up cost only; six truncated batches trigger SHP-2 floor 70. Current exact CI failure classified; no correction/validation cycle yet.",
+        "observations": {
+          "messageToolEvents": 45,
+          "longEvidenceReads": 12,
+          "truncations": 6,
+          "recoveries": 0,
+          "compactions": 0,
+          "boundedReads": 28,
+          "editedFiles": 0,
+          "commits": 0,
+          "ciDebugCycles": 0,
+          "deployments": 0,
+          "elapsedMinutes": 15,
+          "taskLanes": 1,
+          "unmergedBranches": 1,
+          "redCiFamilies": 3,
+          "inFlightDeployments": 0,
+          "unresolvedStates": 1,
+          "unresolvedDebugLoops": 0,
+          "ownerTestPending": false,
+          "hardStateReconstruction": false,
+          "ownerRequestedWrap": false,
+          "nextSubstantialTaskRisksLoss": false
+        }
+      },
+      {
+        "at": "2026-09-07T20:18:58.641Z",
+        "note": "Two local correction/validation cycles: NEXT_TASK phrase corrected; mandatory fresh a62 exposed pinned a61; current contract rolled to a62; preflight passed five subcontracts then failed SLE current ancestry a61 versus historical a58. No third correction. Final package mutations are transfer completion only.",
+        "observations": {
+          "messageToolEvents": 78,
+          "longEvidenceReads": 18,
+          "truncations": 6,
+          "recoveries": 0,
+          "compactions": 0,
+          "boundedReads": 43,
+          "editedFiles": 20,
+          "commits": 0,
+          "ciDebugCycles": 2,
+          "deployments": 0,
+          "elapsedMinutes": 35,
+          "taskLanes": 1,
+          "unmergedBranches": 1,
+          "redCiFamilies": 3,
+          "inFlightDeployments": 0,
+          "unresolvedStates": 1,
+          "unresolvedDebugLoops": 1,
+          "ownerTestPending": false,
+          "hardStateReconstruction": false,
+          "ownerRequestedWrap": false,
+          "nextSubstantialTaskRisksLoss": false
+        }
+      }
+    ],
+    "successorPackage": {
+      "generated": true,
+      "verified": true,
+      "verification": "HANDOFF_VERIFICATION_PR215_A62.json: exact archive equality, mirror hashes, current versioned capsule routing, fresh zero reset, safety locks and executable SHP/HTR; known permanent publication preflight failures classified separately."
+    }
+  }
+}

@@ -12,7 +12,8 @@ const optional=fs.readFileSync("js/optionalModules.js","utf8");
 const pkg=JSON.parse(fs.readFileSync("package.json","utf8"));
 const bootstrap=JSON.parse(fs.readFileSync("SESSION_BOOTSTRAP.json","utf8"));
 const readiness=JSON.parse(fs.readFileSync("REMOTE_JOINING_READINESS.json","utf8"));
-const productionR3=bootstrap.runtime?.productionRuntimeRevision==="1.9.1-r3"&&bootstrap.runtime?.productionStatus==="production-proven";
+const historicalProductionR3=bootstrap.runtime?.productionRuntimeRevision==="1.9.1-r3"&&bootstrap.runtime?.productionStatus==="historical-pr203-bootstrap-baseline";
+const currentProductionR5=bootstrap.liveRuntime?.productionRuntimeRevision==="1.9.1-r5"&&bootstrap.liveRuntime?.productionStatus==="production-proven-r5-r6-publication-convergence-open";
 
 for(const term of ["accountId","profileId","saveId","seasonId","deviceId","installationId","baseRevision","tombstone","idempotency"]){assert.ok(policy.includes(term),`Phase 1C lost required identity/sync term: ${term}`);}
 for(const heading of ["Account principal metadata","Account-to-profile authorization linkage","Connected rivalry / shared Save authority","Registered device metadata","Private pairing / invite records","Private session membership / authorization","Mutation idempotency / replay metadata","Tombstones / deletion authority","Minimal security/audit metadata"])assert.ok(policy.includes(heading),`Missing remote data class: ${heading}`);
@@ -33,11 +34,16 @@ const runtimeVersion=(runtimeRevision.match(/^(\d+\.\d+\.\d+)-r[1-9]\d*$/)||[])[
 assert.equal(runtimeVersion,pkg.version);
 assert.doesNotMatch(index,/firebase|firestore/i);assert.doesNotMatch(optional,/firebase|firestore/i);assert.doesNotMatch(policy,/Firebase SDK installation:\s*AUTHORIZED|Firestore collection\/schema creation:\s*AUTHORIZED/i);assert.match(historicalNext,/Cloud\/sync runtime remains NOT YET IMPLEMENTATION-AUTHORIZED/i);
 
-// Current privacy authority follows production-proven PR203/r3. PR194/r2 is rollback provenance; PR187/r5 and Stage 5F remain immutable consumed provenance.
-assert.equal(productionR3,true,"Current privacy authority must identify production-proven v1.9.1-r3.");
+// Current privacy/runtime authority follows production-proven PR213/r5. PR203/r3 remains historical Shared Setup/bootstrap provenance; PR194/r2 is rollback provenance; PR187/r5 and Stage 5F remain immutable consumed provenance.
+assert.equal(currentProductionR5,true,"Current privacy authority must identify production-proven v1.9.1-r5 while r6 publication convergence remains open.");
+assert.equal(bootstrap.currentProductionProvenRuntime?.pullRequest,213);
+assert.equal(bootstrap.currentProductionProvenRuntime?.runtimeRevision,"1.9.1-r5");
+assert.equal(bootstrap.currentProductionProvenRuntime?.mergeSha,"24d644efe0702ef4672e0655465b66e658ed4e3a");
+assert.equal(historicalProductionR3,true,"Historical privacy/bootstrap authority must preserve PR203 v1.9.1-r3 provenance.");
 assert.equal(bootstrap.lastProductionProvenRuntime?.pullRequest,203);
 assert.equal(bootstrap.lastProductionProvenRuntime?.runtimeRevision,"1.9.1-r3");
 assert.equal(bootstrap.lastProductionProvenRuntime?.mergeSha,"65d88b1b413501b328bdf722bc6e8a0aa0d46ef2");
+assert.equal(bootstrap.lastProductionProvenRuntime?.historicalCompatibilityAuthority,true);
 assert.equal(bootstrap.historicalPr187PublicationCheckpoint?.pullRequest,187);assert.equal(bootstrap.historicalPr187PublicationCheckpoint?.runtimeRevision,"1.9.0-r5");assert.equal(bootstrap.historicalPr187PublicationCheckpoint?.mergeSha,"277f1b55dc362ee84d285445b99172b9fbed8509");assert.equal(bootstrap.historicalPr187PublicationCheckpoint?.rjrAfterEvidence,89);
 assert.equal(bootstrap.previousProductionProvenRuntime?.runtimeRevision,"1.9.1-r2");
 assert.equal(bootstrap.remoteJoiningReadiness?.score,100);assert.equal(bootstrap.remoteJoiningReadiness?.remaining,0);assert.equal(readiness.currentScore,100);assert.equal(readiness.modelVersion,"RJR-1");
@@ -51,4 +57,4 @@ assert.match(finalRjrAcceptance,/RJR-1 100\/100/i);assert.match(finalRjrAcceptan
 assert.match(next,/100\/100|RJR100/i);assert.match(next,/PR #198/i);assert.match(next,/physical proof used a Chromebook[\s\S]+iPhone|Chromebook[\s\S]+cellular/i);assert.match(next,/evidence\/continuity publication only[\s\S]+zero RJR credit|earns zero RJR credit/i);assert.match(next,/Billing must never be activated[\s\S]+Firebase remains Spark/i);assert.match(next,/Firestore browser persistence remains memory-only/i);assert.match(next,/Google Auth remains popup-only `browserSessionPersistence` with no extra scopes/i);assert.match(next,/App Check enforcement remains OFF/i);assert.match(next,/No public discovery[\s\S]+global leaderboards/i);assert.match(next,/Never durably retain[\s\S]+private capabilit|Never paste the raw private capability/i);
 assert.match(providerProof,/Status: PROVIDER-VERIFIED DEPLOYED[\s\S]+firestore\.spark\.rules[\s\S]+Today · 7:48 AM/i);
 
-process.stdout.write("PASS Phase 1C remote data inventory, privacy, retention, anti-resurrection, deletion and local-only boundaries; historical non-runtime provenance remains archived while production-proven PR203/r3, r2 rollback, immutable PR187/r5 and Stage5F evidence, live evidence-accepted RJR100 and capability-secret minimization are explicit.\n");
+process.stdout.write("PASS Phase 1C remote data inventory, privacy, retention, anti-resurrection, deletion and local-only boundaries; current production-proven PR213/r5 authority, historical PR203/r3 bootstrap provenance, r2 rollback, immutable PR187/r5 and Stage5F evidence, live evidence-accepted RJR100 and capability-secret minimization are explicit.\n");

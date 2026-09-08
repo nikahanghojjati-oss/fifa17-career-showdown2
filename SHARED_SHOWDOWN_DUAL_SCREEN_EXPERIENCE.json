@@ -46,7 +46,7 @@
   ],
   "implementationGate": {
     "appliesToAllCurrentAndFutureSharedJourneyGameplayScreens": true,
-    "mdpRule": "A user-facing capability cannot complete MDP implementation, automated-test, regression-retest or product-integration stages unless its canonical gameplay screens satisfy this dual-full-screen contract.",
+    "mdpRule": "A user-facing capability cannot complete MDP implementation, automated-test, regression-retest or product-integration stages unless both managers individually experience every canonical gameplay screen for that capability and the screens satisfy this dual-full-screen contract.",
     "ssjrRule": "This contract does not change SSJR weights or grant SSJR credit. It strengthens the product behavior required by the owner's later instruction and must be reflected in applicable production evidence.",
     "currentR6Rule": "League Wheel, Club Packs, season length and setup confirmation must preserve per-device ordered witness behavior for both roles; a late/reloaded peer must not skip committed setup screens."
   }

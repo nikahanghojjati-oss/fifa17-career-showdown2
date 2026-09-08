@@ -1,0 +1,197 @@
+{
+  "schemaVersion": 1,
+  "environmentId": "we-2026-09-07-pr215-r6-publication-a63",
+  "lifecycle": "transition-prepared",
+  "recordedAt": "2026-09-07T21:12:43.000Z",
+  "repository": {
+    "name": "nikahanghojjati-oss/fifa17-career-showdown2",
+    "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
+    "startingMainSha": "420d0dd21480c660d4fe139ba011eca1ccb987a9",
+    "verifiedMainSha": "420d0dd21480c660d4fe139ba011eca1ccb987a9",
+    "workingBranch": "fix/pr214-postmerge-dual-screen-contract",
+    "activePullRequest": 215,
+    "productionVersion": "v1.9.1",
+    "productionRuntimeRevision": "1.9.1-r5",
+    "releaseCandidateVersion": "v1.9.1",
+    "releaseCandidateRuntimeRevision": "1.9.1-r6",
+    "liveHeadAtInitialization": "6e3a4869328292a7da346e43c52f86c70531361c",
+    "finalSubstantiveInspectedHead": "71d4b630bcbffac7c2291aeef8a8efe6b4e24f5a",
+    "predecessorEnvironmentId": "we-2026-09-07-pr215-r6-publication-a62",
+    "predecessorArchive": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-07-pr215-r6-publication-a62.json",
+    "archive": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-07-pr215-r6-publication-a63.json",
+    "successorCapsule": "SESSION_BOOTSTRAP_V1.4.61.json",
+    "packageSealHeadLiveVerifyRequired": true
+  },
+  "signals": {
+    "contextComplexity": "high",
+    "projectComplexity": "high",
+    "compactionCount": 0,
+    "majorPhasesCompleted": 0,
+    "largeEvidenceEvents": 2,
+    "toolRoutingErrors": 0,
+    "correctedFailures": 1,
+    "repeatedMistakes": 0,
+    "staleFactCorrections": 1,
+    "unresolvedFailures": 1,
+    "newMilestoneNext": false,
+    "usageRemainingPercent": null,
+    "usageSource": "unavailable",
+    "usageWarning": false,
+    "handoffCompleteness": 100,
+    "unrecordedDecisions": 0,
+    "atomicOperation": false
+  },
+  "assessment": {
+    "decision": "HANDOFF_NOW",
+    "decisionInheritedFromPredecessor": false,
+    "reason": "Fresh a63 independently triggered the recursive SHP-2 anti-spiral circuit breaker after two bounded correction/validation cycles remained red. Exact second-cycle head 71d4b630 had all 15 workflow families complete at 12 green / 3 red; all current authority/WEC/HTR/SHP/SLE/prompt/interruption/anti-loop contracts passed before a new github-cli-bootstrap-contracts.cjs:28 wording assertion failed. No third correction is permitted in a63; the coherent safe boundary is sealed and transferred."
+  },
+  "continuity": {
+    "currentTask": "Converge PR215 r6 release-candidate publication by resolving the exact GitHub CLI bootstrap authority-contract failure without weakening publication or security gates.",
+    "lastSafeCheckpoint": "Exact PR215 head 71d4b630bcbffac7c2291aeef8a8efe6b4e24f5a completed all 15 permanent workflow families at 12 green / 3 red / 0 pending. Stability run 34162087837 job 101865812226 passed current-authority, WEC, HTR, SHP, owner-reporting, SLE packaging, current prompt, interruption-resilience and anti-loop contracts before failing tests/contracts/github-cli-bootstrap-contracts.cjs:28 because 00_DEVELOPER_START_HERE.md did not match literal /GitHub CLI bootstrap/i. PR215 had no reviews, issue comments or inline review comments at the final pre-seal check.",
+    "nextSafeAction": "Successor validates the a63 archive, independently resolves live main and exact PR215 head/checks/reviews, initializes a fresh unique WEC with literal SHP-2 0 and no inherited decision/counters, then inspects github-cli-bootstrap-contracts.cjs:28 together with current 00_DEVELOPER_START_HERE.md connector-first/repository-owned-bootstrap wording in one bounded batch. Make only the smallest objective authority correction and require all 15 permanent workflow families green on one exact reviewed head before merge.",
+    "unfinishedWork": [
+      "Exact second-cycle blocker: tests/contracts/github-cli-bootstrap-contracts.cjs:28 expects /GitHub CLI bootstrap/i in 00_DEVELOPER_START_HERE.md.",
+      "PR215 must reach all 15 permanent workflow families green on one exact reviewed head before expected-head squash merge.",
+      "After merge, exact-main Stability including Chromium/deployed-site smoke, Pages/deployed coherent r6 and Release Integration Burn-In must pass before r6 promotion or MDP +2.50.",
+      "Genuine two-account Shared Setup evidence remains required after clean r6 publication before transfer/results/scoring work."
+    ],
+    "knownHazards": [
+      "Do not make a third correction in a63; the recursive anti-spiral breaker is already active.",
+      "Continuity/SNS seal commits advance the branch beyond 71d4b630; never apply 71d CI evidence to the seal head or any later head.",
+      "Billing remains permanently OFF and Firebase remains Spark only; never enable Blaze, Cloud Billing, a billing account, Cloud Run or Cloud Functions.",
+      "App Check enforcement remains OFF; Firestore browser persistence remains memory-only; Google Auth remains popup-only browserSessionPersistence with no extra scopes.",
+      "Exactly two private managers; Connected Rivalry pairing plus exact ACTIVE precedes league or club authority.",
+      "Candidate C remains sole destructive remote-to-local gameplay Apply authority with transaction-owned strict exact raw-snapshot rollback.",
+      "Do not weaken lifecycle, publication, security, provider, evidence, zero-billing, RJR/SSJR, immutable historical provenance or GitHub credential-safety gates."
+    ],
+    "evidenceNotes": [
+      "a63 began with literal SHP-2 0 and did not inherit a62 decision or counters.",
+      "First a63 candidate head 84cf92278b1c7eb8f441c032de824363aec01137 proved the current authority/WEC/HTR/SHP/SLE/prompt corrections and exposed missing NEXT_TASK implementation-authority provenance; only those markers were restored.",
+      "Second a63 exact head 71d4b630bcbffac7c2291aeef8a8efe6b4e24f5a proved interruption resilience and forward-progress anti-loop after the provenance restoration, then failed at github-cli-bootstrap-contracts.cjs:28. Exact CI snapshot 12 green / 3 red / 0 pending.",
+      "PR215 had zero reviews, zero issue comments and zero inline review comments at the final pre-seal check.",
+      "RJR-1 remains 100/100, SSJR-1.1 remains 0/100 and MDP-1 remains 39.00/100; a63 earns +0.00 MDP and zero SSJR."
+    ]
+  },
+  "sessionHandoffProximity": {
+    "model": "SHP-2",
+    "environmentId": "we-2026-09-07-pr215-r6-publication-a63",
+    "startedAt": "2026-09-07T20:49:00.000Z",
+    "checkpoints": [
+      {
+        "at": "2026-09-07T20:49:00.000Z",
+        "note": "New session: reset to 0%.",
+        "observations": {
+          "messageToolEvents": 0,
+          "longEvidenceReads": 0,
+          "truncations": 0,
+          "recoveries": 0,
+          "compactions": 0,
+          "boundedReads": 0,
+          "editedFiles": 0,
+          "commits": 0,
+          "ciDebugCycles": 0,
+          "deployments": 0,
+          "elapsedMinutes": 0,
+          "taskLanes": 0,
+          "unmergedBranches": 0,
+          "redCiFamilies": 0,
+          "inFlightDeployments": 0,
+          "unresolvedStates": 0,
+          "unresolvedDebugLoops": 0,
+          "ownerTestPending": false,
+          "hardStateReconstruction": false,
+          "ownerRequestedWrap": false,
+          "nextSubstantialTaskRisksLoss": false
+        }
+      },
+      {
+        "at": "2026-09-07T21:00:09.000Z",
+        "note": "First bounded a63 authority-contract candidate published; exact-head CI required.",
+        "observations": {
+          "messageToolEvents": 30,
+          "longEvidenceReads": 12,
+          "truncations": 0,
+          "recoveries": 0,
+          "compactions": 0,
+          "boundedReads": 20,
+          "editedFiles": 7,
+          "commits": 1,
+          "ciDebugCycles": 0,
+          "deployments": 0,
+          "elapsedMinutes": 11,
+          "taskLanes": 1,
+          "unmergedBranches": 1,
+          "redCiFamilies": 3,
+          "inFlightDeployments": 0,
+          "unresolvedStates": 1,
+          "unresolvedDebugLoops": 0,
+          "ownerTestPending": false,
+          "hardStateReconstruction": false,
+          "ownerRequestedWrap": false,
+          "nextSubstantialTaskRisksLoss": false
+        }
+      },
+      {
+        "at": "2026-09-07T21:05:03.000Z",
+        "note": "First exact-head correction cycle classified; second bounded correction restored only NEXT_TASK implementation-authority provenance.",
+        "observations": {
+          "messageToolEvents": 50,
+          "longEvidenceReads": 16,
+          "truncations": 0,
+          "recoveries": 0,
+          "compactions": 0,
+          "boundedReads": 30,
+          "editedFiles": 10,
+          "commits": 2,
+          "ciDebugCycles": 1,
+          "deployments": 0,
+          "elapsedMinutes": 16,
+          "taskLanes": 1,
+          "unmergedBranches": 1,
+          "redCiFamilies": 3,
+          "inFlightDeployments": 0,
+          "unresolvedStates": 1,
+          "unresolvedDebugLoops": 0,
+          "ownerTestPending": false,
+          "hardStateReconstruction": false,
+          "ownerRequestedWrap": false,
+          "nextSubstantialTaskRisksLoss": false
+        }
+      },
+      {
+        "at": "2026-09-07T21:12:43.000Z",
+        "note": "Second exact-head correction/validation cycle remained red on a new GitHub CLI bootstrap authority assertion; recursive anti-spiral breaker fired and the verified successor package was generated.",
+        "observations": {
+          "messageToolEvents": 78,
+          "longEvidenceReads": 22,
+          "truncations": 0,
+          "recoveries": 0,
+          "compactions": 0,
+          "boundedReads": 42,
+          "editedFiles": 18,
+          "commits": 3,
+          "ciDebugCycles": 2,
+          "deployments": 0,
+          "elapsedMinutes": 24,
+          "taskLanes": 1,
+          "unmergedBranches": 1,
+          "redCiFamilies": 3,
+          "inFlightDeployments": 0,
+          "unresolvedStates": 1,
+          "unresolvedDebugLoops": 1,
+          "ownerTestPending": false,
+          "hardStateReconstruction": false,
+          "ownerRequestedWrap": false,
+          "nextSubstantialTaskRisksLoss": true
+        }
+      }
+    ],
+    "successorPackage": {
+      "generated": true,
+      "verified": true,
+      "verification": "V1.4.61 canonical starter and deep handoff have byte-identical project mirrors; versioned capsule and owner SNS route to the same a63 boundary. Seal commit has independent CI and is not substantive-head evidence."
+    },
+    "finalPercent": 100
+  }
+}

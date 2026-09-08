@@ -69,15 +69,16 @@ assert.match(preR3NextTask,/Current production Installable Offline App runtime: 
 assert.match(preR3NextTask,/Immediate candidate rollback\/recovery runtime: `1\.4\.0-r2`/i);
 assert.match(preR3NextTask,/Finish only PR #125[\s\S]+source validation first/i);
 
-// Current authority has advanced beyond the historical PR194/RJR91 physical-acceptance boundary.
-assert.match(nextTask,/^# CURRENT TASK — SSJR-1 AUTHORITATIVE SETUP FOUNDATION$/im,"Live NEXT_TASK must identify the SSJR-1 setup candidate after verified RJR100 / PR198 closure rather than revive historical export or RJR91 transition lanes.");
+// Current authority has advanced beyond the historical PR194/RJR91 physical-acceptance boundary and now carries a bounded PR215 r6 publication gate before genuine SSJR Shared Setup evidence resumes.
+assert.match(nextTask,/^# CURRENT TASK — CONVERGE PR215 R6 RELEASE-CANDIDATE PUBLICATION, THEN RESUME GENUINE SSJR SHARED SETUP ACCEPTANCE$/im,"Live NEXT_TASK must identify the bounded PR215 r6 publication gate after verified RJR100 / PR198 closure rather than revive historical export or RJR91 transition lanes.");
 assert.match(nextTask,/100\/100[\s\S]+PR #198/i);
+assert.match(nextTask,/Current production authority:[\s\S]{0,180}1\.9\.1-r5[\s\S]{0,180}PR #213/i,"Live NEXT_TASK must preserve current PR213/r5 production authority while the r6 candidate is bounded.");
 assert.match(nextTask,/App Check enforcement remains OFF/i);
 assert.match(nextTask,/Firestore(?: browser persistence)? remains memory-only/i);
 assert.match(nextTask,/Candidate C remains the sole destructive (?=[^\n]*Apply authority)(?=[^\n]*remote-to-local)[^\n]+/i,"Live NEXT_TASK must preserve Candidate C as the sole destructive remote-to-local Apply authority without pinning one sentence order.");
-assert.match(nextTask,/physical Chromebook[\s\S]+iPhone|Chromebook[\s\S]+cellular/i,"Live NEXT_TASK must preserve the genuine physical Remote Joining evidence class already accepted.");
+assert.match(nextTask,/physical(?: proof)?[^\n]{0,120}Chromebook[\s\S]+iPhone|Chromebook[\s\S]+cellular/i,"Live NEXT_TASK must preserve the genuine physical Remote Joining evidence class already accepted.");
 assert.match(nextTask,/Shared Showdown Journey Readiness|SSJR-1/i,"Live NEXT_TASK must route the successor to the next fixed numerical SSJR milestone after RJR100 publication.");
-assert.match(nextTask,/Do not repeat or re-credit|must not be repeated or re-credited/i,"Live NEXT_TASK must preserve evidence-only readiness movement and consumed-proof discipline after RJR100.");
+assert.match(nextTask,/must not be re-credited|not repeated or re-credited|Do not repeat or re-credit/i,"Live NEXT_TASK must preserve evidence-only readiness movement and consumed-proof discipline after RJR100.");
 
 assert.equal(production.activation.appCheckEnforcement,false);
 assert.equal(production.activation.trustedRuntimeIam,"not-activated-yet");
@@ -118,4 +119,4 @@ assert.equal(runtimeVersion,pkg.version,"Current release identity must remain co
 assert.equal(workerRevision,indexRevision,"Service Worker and shell runtime identities must remain coherent.");
 assert.equal(pkg.dependencies,undefined);
 
-process.stdout.write("PASS trusted connected data account export boundary: private explicit portability, exact entitlement/read scope, peer-identity minimization, secret exclusion, dormant trusted-export isolation and unchanged IAM/browser-write locks remain protected while current evidence-accepted RJR100/PR198 authority routes successor work to SSJR-1.\n");
+process.stdout.write("PASS trusted connected data account export boundary: private explicit portability, exact entitlement/read scope, peer-identity minimization, secret exclusion, dormant trusted-export isolation and unchanged IAM/browser-write locks remain protected while current PR213/r5 production plus bounded PR215/r6 publication routes successor work to SSJR-1.\n");

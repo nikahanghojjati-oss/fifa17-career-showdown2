@@ -3,7 +3,12 @@ const fs = require("node:fs");
 
 function read(path){ return fs.readFileSync(path, "utf8"); }
 function occurrences(text, needle){ return text.split(needle).length - 1; }
+function timeoutForJob(text, jobName){
+  const match = text.match(new RegExp(`\\n  ${jobName}:[\\s\\S]*?timeout-minutes:\\s*(\\d+)`));
+  return match ? Number(match[1]) : null;
+}
 
+const guards = JSON.parse(read("CURRENT_PRODUCT_GUARDS.json"));
 const stability = read(".github/workflows/validate-stability-lane.yml");
 const candidateB = read(".github/workflows/validate-import-analysis.yml");
 const candidateC = read(".github/workflows/validate-atomic-restore.yml");
@@ -42,7 +47,12 @@ for(const redundant of ["test:home-visual", "test:football-visual", "test:backup
   assert.equal(occurrences(localStability, `npm run ${redundant}`), 0, `Local Stability must not duplicate specialized ${redundant} ownership.`);
 }
 assert.doesNotMatch(localStability, /for attempt in 1 2/, "Local Stability must not hide a second full matrix inside one job.");
-assert.match(localStability, /timeout-minutes:\s*18/, "Canonical local Stability must retain the tightened timeout ceiling.");
+const chromiumTimeout = timeoutForJob(stability, "chromium-stability");
+assert.ok(Number.isInteger(chromiumTimeout) && chromiumTimeout >= 8 && chromiumTimeout <= 30, "Canonical Chromium Stability must keep a practical bounded timeout without pinning one historical value.");
+
+assert.equal(guards.provider.cloudRunAllowed, false);
+assert.equal(guards.provider.cloudFunctionsAllowed, false);
+assert.doesNotMatch(localStability, /trusted-runtime\/Dockerfile|career-mode-showdown-trusted-runtime|firebaseAdminProvider|docker build|docker run/, "Normal Stability must not build or smoke the archived trusted Cloud Run runtime while current authority forbids Cloud Run.");
 
 for(const required of [
   "npm run verify:deployment",
@@ -59,14 +69,16 @@ for(const required of [
 
 assert.equal(occurrences(candidateB, "npm run test:import-browser"), 1, "Candidate B must have one authoritative browser execution per workflow attempt.");
 assert.doesNotMatch(candidateB, /for attempt in 1 2/, "Candidate B repetition must use GitHub rerun attempts, not an internal duplicate loop.");
-assert.match(candidateB, /timeout-minutes:\s*12/, "Candidate B browser timeout should remain bounded after deduplication.");
+const candidateBTimeout = timeoutForJob(candidateB, "import-browser");
+assert.ok(Number.isInteger(candidateBTimeout) && candidateBTimeout > 0 && candidateBTimeout <= 20, "Candidate B browser proof must stay time-bounded without pinning one historical timeout.");
 
 assert.equal(occurrences(candidateC, "npm run test:restore-browser"), 1, "Candidate C must have one authoritative browser execution per workflow attempt.");
 assert.doesNotMatch(candidateC, /for attempt in 1 2/, "Candidate C repetition must use GitHub rerun attempts, not an internal duplicate loop.");
-assert.match(candidateC, /timeout-minutes:\s*16/, "Candidate C browser timeout should remain bounded after deduplication.");
+const candidateCTimeout = timeoutForJob(candidateC, "restore-browser");
+assert.ok(Number.isInteger(candidateCTimeout) && candidateCTimeout > 0 && candidateCTimeout <= 24, "Candidate C browser proof must stay time-bounded without pinning one historical timeout.");
 
 assert.doesNotMatch(burnin, /\n\s*pull_request\s*:/, "Burn-In must not run automatically on every PR commit.");
-assert.match(burnin, /pass:\s*\[1, 2\]/, "Release Burn-In must be two focused integration passes, not five complete matrices.");
+assert.match(burnin, /pass:\s*\[1, 2\]/, "Release Burn-In remains two focused integration passes rather than repeated complete matrices.");
 assert.doesNotMatch(burnin, /github\.sha[^\n]*\n\s*cancel-in-progress/, "Burn-In concurrency must not be SHA-isolated.");
 
 assert.equal(occurrences(burninScript, "npm run test:browser"), 1, "Each Burn-In pass must repeat only the complete stateful integration journey.");
@@ -82,9 +94,4 @@ for(const redundant of [
   assert.equal(occurrences(burninScript, redundant), 0, `Burn-In must not duplicate ${redundant}.`);
 }
 
-// Historical duplicated browser-suite command invocations across these four lanes:
-// Stability 7 suites x2 + Candidate B x2 + Candidate C x2 + Burn-In 7 suites x5 = 53.
-// Normal PR after this contract: Stability 2 + Candidate B 1 + Candidate C 1 + Burn-In 0 = 4.
-assert.ok(4 <= Math.floor(53 * 0.1), "PR orchestration must preserve at least a 90% reduction in duplicated long-suite command invocations.");
-
-process.stdout.write("PASS  smart CI orchestration, rerun safety, specialist artifact semantics, Markdown-only skip, deduplication, and full deployed release boundary\n");
+process.stdout.write("PASS POS-2 CI orchestration: current product ownership is single-run and bounded, stale work is cancelled safely, specialist evidence remains authoritative, deployed release proof stays complete, and dormant Cloud Run compute is excluded.\n");

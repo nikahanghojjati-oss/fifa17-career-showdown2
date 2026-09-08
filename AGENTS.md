@@ -1,185 +1,136 @@
 # Career Mode Showdown — Repository Agent Instructions
 
-These instructions apply to the entire repository.
+These instructions apply to the entire repository. `PROJECT_OPERATING_SYSTEM_V2.md` is the current process authority. `CURRENT_PRODUCT_GUARDS.json` is the stable machine-readable product/safety guard authority. `NEXT_TASK.md` owns the current implementation task.
 
-## Source-first authority
+## 1. Source first
 
-Treat every handoff as orientation, never as implementation authority. Before changing anything, independently fetch and inspect live `main`, recent commits, tags, releases, open pull requests, active branches, repository authority documents, current tests and the deployed site. Current verified source and a later explicit owner instruction override recorded SHAs and historical prose.
+Before a write, resolve the live repository boundary that matters to the task: current `main`, active PR/branch/head, relevant checks, current source, and deployed/provider state when applicable. A later explicit owner instruction and verified live source override handoffs, old SHAs, milestone history, archived tests and historical prose.
 
-`NEXT_TASK.md` is the sole repository owner of implementation authorization. Do not infer permission from roadmap order, an old branch, an old PR or an available idea. Development-process documentation and tests do not authorize product-runtime changes.
+Do not restart a full repository study when the exact current boundary is already known. Read only what is needed to safely continue the current task.
 
-## Mandatory SLE successor packaging
+## 2. Product direction and metrics
 
-`00_SLE_HANDOFF_PROTOCOL.md` is permanent repository policy and applies recursively to every current and future developer/ChatGPT Work Environment.
+The active milestone is Shared Showdown Journey.
 
-The repository uses `SLE` as the project label for its live-first, low-context adaptive successor-loading system. Later explicit owner authority in `00_SLE_HANDOFF_PROTOCOL.md` defines `SLE = Smart Lean Efficient` and supersedes the older unexpanded-label wording. Preserve that exact definition in every generated SLE starter and handoff unless the owner later changes it.
+- SSJR is the accepted end-to-end two-manager product evidence metric.
+- MDP is the current milestone engineering lifecycle metric.
+- RJR-1 is complete and frozen at 100/100. Preserve it as historical evidence. Do not spend current work re-earning, rewording or republishing RJR unless a real still-used runtime capability regresses.
 
-A project handoff is incomplete if it is only a chat prompt or a single unmirrored Markdown file. At every `Session handoff proximity: 100%`, `HANDOFF_AT_CHECKPOINT`, `HANDOFF_NOW`, or equivalent final transition boundary, the closing developer must complete the SLE package defined by `00_SLE_HANDOFF_PROTOCOL.md` and `00_SESSION_BOOTSTRAP.md`: complete root SLE handoff plus byte-identical project mirror, new versioned root START_NEXT_SESSION plus byte-identical project mirror, refreshed `SESSION_BOOTSTRAP.json` current pointers, progressive context refresh when materially needed, explicit immediate successor task, exact live/WEC/security/RJR evidence, applicable SLE contract validation, and the clean stop before the next substantial milestone.
+Normal progress should reduce the next SSJR/MDP dependency. Do not manufacture continuity, wording, archival or authority-sync milestones while product work is safely available.
 
-Every generated SLE handoff and starter must recursively preserve this same SLE requirement so future developers cannot silently fall back to a non-SLE handoff unless the owner explicitly changes the policy.
+## 3. Permanent product and safety guards
 
-For fresh-session loading, prefer the newest versioned `START_NEXT_SESSION_...md` and compact `SESSION_BOOTSTRAP.json` path defined by `00_SESSION_BOOTSTRAP.md`; do not preload all history merely because the SLE deep-reference handoff exists.
+Protect `CURRENT_PRODUCT_GUARDS.json` and the executable/configuration sources it summarizes.
 
-## Mandatory GitHub tooling bootstrap
+At minimum:
 
-The connected GitHub app is the connector-first authority for repository, pull-request and issue metadata and supported writes. The `gh` CLI fills local workflow gaps such as authentication checks, current-branch discovery and GitHub Actions evidence; its availability never reverses that authority order.
+- Billing stays OFF and Firebase stays Spark.
+- No Cloud Billing account, Blaze, Cloud Run or Cloud Functions.
+- App Check enforcement stays OFF.
+- Firestore browser persistence stays memory-only.
+- Google Auth stays popup-only `browserSessionPersistence` with no extra scopes.
+- Exactly two private managers.
+- Connected Rivalry pairing plus exact ACTIVE precedes league or club authority.
+- Candidate C is the sole destructive remote-to-local gameplay Apply authority with transaction-owned exact rollback.
+- Canonical local storage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, and `careerModeShowdown.preferences`.
+- No public discovery, listing, lobby, matchmaking, community, rankings or global leaderboards.
+- Do not durably retain raw private capability/account/device/rivalry/session/pairing identifiers.
+- `SSJR-DUAL-FULL-SCREEN-1` remains product authority: both legitimate managers individually experience every canonical Shared Showdown gameplay screen.
 
-Before substantial GitHub work in every fresh Work environment, run:
+Never weaken a gate that protects one of these or another genuine runtime, data, recovery, privacy, security, UI/UX, executable schema/API, evidence-validity or release property.
 
-```sh
-npm run work:gh:bootstrap
-```
+## 4. POS v2 test lanes
 
-The repository-owned bootstrap checks for an existing `gh`. When it is absent, it resolves the current official stable GitHub CLI release, downloads the matching Linux archive from `cli/cli`, verifies that archive against the release's published SHA-256 checksum and installs a rootless launcher under ignored `.work-tools/`. It then runs `gh --version` and `gh auth status` using a writable environment-local configuration directory.
+Use the lane that matches the change.
 
-If `gh` is not authenticated, use only the supported user-directed `gh auth login` flow printed by the bootstrap and rerun the status check. Never extract, copy or repurpose connector credentials, never place a token on a command line and never commit `.work-tools/` or GitHub authentication state. An environment-local installation or login must not be assumed to survive a Work environment transition.
+`npm run test:contracts`
 
-If the Work command layer cancels the npm wrapper before execution, run the exact owner directly with `node scripts/bootstrap-github-cli.mjs`; do not infer a bootstrap or authentication result from an unexecuted wrapper.
+Blocking current product contracts. This is the normal product gate. Its membership is explicit in `CURRENT_PRODUCT_TEST_MANIFEST.json`.
 
-## Mandatory Work Environment Continuity loop
+`npm run test:ops`
 
-At the start of every development environment, read these files before substantial work:
+Project Operating System and continuity-tool self-tests. Run when POS, WEC, ADB or related operations tooling changes. These tests do not block an unrelated product change merely because process prose changed.
 
-1. `00_HANDOFF_GOLDEN_RULE.md`
-2. `00_SLE_HANDOFF_PROTOCOL.md`
-3. `00_WORK_ENVIRONMENT_CONTINUITY.md`
-4. `00_FORWARD_PROGRESS_ANTI_LOOP.md`
-5. `WORK_ENVIRONMENT_STATUS.json`
-6. `WORK_ENVIRONMENT_HISTORY.md`
-7. `00_DEVELOPER_START_HERE.md`
-8. `00_CURRENT_HANDOFF.md`
-9. `PROJECT_STATE.md`
-10. `00_MILESTONE_DELIVERY_PROGRESS.md`
-11. `MILESTONE_DELIVERY_PROGRESS.json`
-12. `NEXT_TASK.md`
+`npm run test:legacy-provenance`
 
-Then follow this order:
+Manual historical/provenance audit. It preserves old RJR, SLE, HTR, handoff, dated publication and historical wording checks. It is not an automatic product-release gate.
 
-1. Validate the inherited status record with `npm run work:continuity:validate` before changing it.
-2. If the record belongs to an earlier environment, preserve its final facts. When a safe additions-only route is genuinely available, append its final facts to `WORK_ENVIRONMENT_HISTORY.md`. If the available tool cannot append without risking rewrite/truncation, preserve an exact recovery-safe payload instead and do not let that deferred append block the next owner-authorized engineering milestone unless a permanent gate actually requires the canonical append. Replace the predecessor record with a new unique environment ID, reset every per-environment observation and record the live `main` SHA in `repository.startingMainSha`.
-3. Record the current bounded task, safe checkpoint, next action, unfinished work and hazards.
-4. Only after the current environment owns `WORK_ENVIRONMENT_STATUS.json`, run `npm run work:assess` and obey that new environment's decision.
+`npm run test:contracts:all`
 
-A closed or transition-prepared decision can correctly stop its owning environment. Never treat the predecessor's transition decision as the successor's starting decision, and never let it prevent the successor from initializing its own record.
+Intentional full audit across all three lanes. Use when deliberately validating the operating system or archive, not as the default response to every product edit.
 
-When a fresh successor is allowed to continue and current source plus owner direction identify the next real engineering dependency, the successor may activate that task in `NEXT_TASK.md` atomically with the same bounded engineering candidate. Do not create a preliminary authority-only PR merely because the predecessor checkpoint is still named in current files.
+A specialist workflow owns its specialist risk. Do not append the entire repository suite to every specialist workflow for reassurance. Stability owns the complete current product suite once. Do not gate on exact workflow counts, exact YAML run-block counts, old PR numbers, handoff sentence wording or completed-milestone narration.
 
-Update `WORK_ENVIRONMENT_STATUS.json` at every meaningful checkpoint described by the protocol, then run `npm run work:assess` again.
+A test named after an old Stage or RJR is not automatically obsolete. Keep it active when it still protects current authentication, synchronization, recovery, reconnect, storage, privacy or other shipped behavior. Archive it when it protects only milestone history/prose.
 
-Never guess an exact hidden context-token or account-usage value. `usageRemainingPercent` stays `null` with `usageSource: "unavailable"` unless the product usage dashboard, CLI `/status` or the owner supplies a value. An explicit usage warning may be recorded without a percentage.
+## 5. Anti-spiral and session health
 
-Obey the assessment decision:
+ADB-1 is the active anti-spiral mechanism. It assigns a contextual failed correction/validation budget from 2 through 20 attempts. A narrow deterministic blocker in a healthy context may receive a high budget. Broad red state, context damage, hard reconstruction, multiple unresolved lanes and long-session risk reduce it.
 
-- `CONTINUE`: continue only the currently authorized bounded task.
-- `PREPARE_HANDOFF`: update continuity records and finish the current checkpoint before another milestone.
-- `HANDOFF_AT_CHECKPOINT`: finish or safely revert the bounded operation, freeze evidence, run `npm run work:handoff`, alert the owner, complete the mandatory SLE package, and stop before new substantial work.
-- `HANDOFF_NOW`: start no more work; seal the current coherent boundary, complete the mandatory SLE package and stop.
-- `FINISH_SAFE_BOUNDARY`: complete or safely revert only the minimum atomic work needed for coherence, then perform the mandatory SLE handoff immediately.
+Only meaningful failed correction/validation cycles consume the budget. Reading logs, polling, investigation, successful tests and harmless archival cleanup are not failed attempts.
 
-When an environment closes, append its final record to `WORK_ENVIRONMENT_HISTORY.md` through a safe additions-only route when available. If no safe append route exists, preserve the exact recovery payload and do not manufacture a history-only milestone solely to perform that append. Give the owner the newest versioned SLE `START_NEXT_SESSION_...md` as the normal next-session entrypoint; the complete deep-reference handoff remains repository-native fallback. The next environment inherits this loop recursively.
+Do not transition merely because two tests failed. Transition when the adaptive budget is genuinely exhausted, context quality is materially degraded, a supported usage warning requires it, the owner asks to wrap, or continuing would risk losing a coherent boundary.
 
-## Mandatory forward-progress / anti-loop rule
+Legacy SHP-2 percentage remains available for compatibility while POS v2 migrates tooling, but it is not a product metric and does not independently justify routine continuity work. HTR-1 percentage is retired from normal operation; use only the five-item handoff checklist at an actual transfer.
 
-`00_FORWARD_PROGRESS_ANTI_LOOP.md` is permanent repository policy. Continuity, history and current-authority maintenance protect engineering; they are not the project destination.
+Never invent a hidden token/context/account-usage percentage.
 
-1. After a fresh WEC allows continuation, advance the smallest safe owner-prioritized engineering dependency. For the current project direction, prefer work that materially reduces dependency distance to a workable private Remote Joining session.
-2. Do not open a standalone continuity/history/authority PR unless an objective blocker exists: a failing permanent contract, contradictory current implementation authority, unsafe publication/recovery state, data-loss/security risk, or another demonstrated condition that prevents safe engineering or publication.
-3. Stale historical prose that cannot override current source, an unappended non-authoritative history payload, naming cleanup or general documentation cleanliness is not by itself a blocker.
-4. Do not create history-of-history repair loops or a new history-only milestone merely because the prior closeout produced more history.
-5. If live `main` advances before publication because another environment already merged equivalent or superseding work, stop the stale candidate, compare outcomes, close/abandon duplicate work when satisfied, adopt live `main`, and continue to the next real dependency. Do not create a reconciliation PR solely because the base SHA changed.
-6. After an interruption, reconstruct exact branch/PR/CI/live-main state and resume from the last coherent engineering checkpoint. Do not restart the entire repository study when the current fresh WEC and source boundary remain valid.
+## 6. Minimal continuity
 
-This anti-loop rule never permits skipping a real security, recovery, dependency, testing, WEC, SLE or publication requirement.
+Continuity exists for recovery, not as a parallel product.
 
-## Mandatory Handoff Proximity owner reporting
+Keep enough durable state to recover after interruption:
 
-Every substantive owner-facing response while meaningful project work is underway must visibly include exactly the reporting label:
+1. repository/PR/branch/exact head,
+2. current task,
+3. last safe checkpoint,
+4. current blocker or unresolved risk,
+5. next safe action,
+6. permanent safety locks when relevant.
 
-`Session handoff proximity: X%`
+`WORK_ENVIRONMENT_STATUS.json` may continue to carry legacy-compatible fields, but do not create a standalone continuity PR or repeated archive/seal cycle unless a concrete recovery/publication hazard requires it.
 
-The percentage is an evidence-based estimate of proximity to a recommended Work environment transition. It is not task-completion percentage and must not mechanically increase after every message. Consider observable context pressure, WEC state, completed milestones, evidence volume, corrected failures, tooling friction, unresolved failures, remaining atomic work, handoff readiness and whether the next task is a separate milestone.
+After interruption, reconstruct the exact live boundary and resume from the last coherent checkpoint. Do not restart the entire project study.
 
-Never fabricate account/model usage to calculate Session handoff proximity. If usage is unavailable, base the estimate only on observable continuity evidence and leave `usageRemainingPercent` unavailable in the WEC record.
+Use optimistic locking for GitHub file writes: fetch the current blob SHA before update/delete. If a stale-SHA conflict occurs, refetch and reevaluate before one retry.
 
-At `Session handoff proximity: 100%` the current environment must automatically generate the complete successor handoff as the full SLE package, finish only the current safe bounded checkpoint and stop before beginning another substantial milestone. A plain ready-to-paste prompt alone does not satisfy this boundary.
+## 7. SLE, SNS and handoff
 
-The repository Work Environment Continuity decision is authoritative when it requires an earlier or stricter transition. Session handoff proximity complements WEC and never weakens `PREPARE_HANDOFF`, `HANDOFF_AT_CHECKPOINT`, `HANDOFF_NOW` or `FINISH_SAFE_BOUNDARY`.
+SLE means Smart Lean Efficient. Under POS v2 it is a principle: give a successor the minimum reliable context needed to resume correctly. It is not a product CI gate and does not require wording mirroring during normal development.
 
-Every successor SLE handoff must recursively preserve this same Handoff Proximity rule and the mandatory recursive SLE packaging rule so both requirements propagate to every later environment unless the owner explicitly changes them.
+SNS is remodeled as the compact successor snapshot produced when a real handoff/recovery boundary occurs. Do not generate a new SNS/VTLS artifact after every ordinary task or state change.
 
-## Mandatory eight-line owner progress report
+No active SNL mechanism has been identified. Do not invent one.
 
-Every substantive owner-facing development response must include this exact eight-line status shape, in this order, with values updated from current evidence:
+At a real handoff, satisfy the five useful transfer checks:
 
-```text
-Session handoff proximity: X%
-Remote Joining readiness: ~Y%
-Estimated focused sessions to genuine RJR100: ~N–M
-Current lane: <current bounded engineering lane>
-Concrete dependency completed: <most recent concrete dependency completed>
-Next unlock: <next dependency or proof gate>
-Blocker: <current blocker, or NONE>
-Sidequest check: <NONE, or NECESSARY because ...>
-```
+1. durable current state,
+2. verified authority snapshot,
+3. open work/blockers classified,
+4. explicit successor next action,
+5. compact successor snapshot sealed at a safe boundary.
 
-`Session handoff proximity` remains the WEC transition-proximity signal above. `Remote Joining readiness` is separate and estimates end-to-end readiness of the owner-prioritized Private Remote Joining major feature, including its infrastructure, prerequisites, implementation, exact-head validation, deployment/public proof when applicable, hardening and known release-blocking bug closure.
+Historical HTR-1 scoring and historical SLE packaging remain available as provenance but are not normal product gates.
 
-`Estimated focused sessions to genuine RJR100` is a roadmap-based planning estimate, not a score-derived countdown, promise, or RJR evidence. Recalculate it when verified dependencies, provider behavior, Stage 5 scope, physical-device/network acceptance, review findings, reconnect/token hardening, or final release work materially change the critical path. Use a realistic focused-session range from current authority; where uncertainty is material, explain the contingency outside the eight-line block rather than hiding it. At genuine RJR100 the value becomes `~0`.
+## 8. Owner reporting
 
-Do not rename or replace `Remote Joining readiness` while Private Remote Joining is still incomplete. The label changes only after current source proves Private Remote Joining is fully finished, integrated, tested, hardened and bug-fixed at the authoritative production boundary, all required exact-head and runtime/deployment gates are green, known release blockers are resolved, and owner acceptance is recorded when an owner-facing acceptance surface applies.
+Normal substantive project reporting should prioritize useful product information:
 
-After that completion boundary, replace only the second-line feature label with `<Next Major Feature> readiness: ~Y%`, where `<Next Major Feature>` is the next owner-authorized major feature selected by current source/implementation authority. Never infer that feature only from old roadmap order. The remaining seven reporting lines keep the same meaning; the RJR100 session estimate remains `~0` after genuine RJR100 unless the owner explicitly replaces that metric.
+- Shared Showdown Journey readiness from `SHARED_SHOWDOWN_JOURNEY_READINESS.json`
+- Milestone Delivery Progress from `MILESTONE_DELIVERY_PROGRESS.json`
+- current engineering lane
+- concrete capability/dependency completed
+- current blocker, if any
+- next product unlock
 
-`Sidequest check` is `NONE` for direct authorized roadmap/dependency work. Use `NECESSARY because ...` only for objectively required safety, continuity, correctness, security, recovery, publication or owner-mandated process work. Do not create optional cleanup merely to fill this field.
+Report session health/ADB when it materially affects whether this environment should continue. Do not make a continuity percentage compete with product progress.
 
-Owner-instruction provenance for the original reporting format is preserved at `authority-history/OWNER_PROGRESS_REPORTING_FORMAT_2026-08-19.md`. The owner's explicit 2026-08-29 instruction adds the roadmap-based RJR100 session-estimate line. Historical provenance never overrides newer verified source or a later explicit owner instruction.
+## 9. Publication discipline
 
-Every successor handoff and fresh Work environment inherits this eight-line format recursively unless the owner explicitly changes it. Every such successor handoff must also be packaged as SLE under `00_SLE_HANDOFF_PROTOCOL.md`.
+Do not merge from mixed-head evidence. Required merge evidence must belong to one exact current head. Re-fetch reviews/comments/threads and required check state before merge. Use expected-head protection when merging.
 
-## Current owner reporting override — SSJR + MDP-1, 2026-09-07
+After a release-changing merge, verify the actual deployed/runtime/provider boundary appropriate to that change. Do not run expensive deployment proof for documentation-only historical edits unless the changed artifact is itself current executable authority.
 
-The owner's 2026-09-05 instruction made SSJR-1.1 the current evidence-readiness milestone and froze RJR-1 at 100/100. The owner's later explicit 2026-09-07 instruction replaces only the visible `Estimated focused sessions to genuine SSJR100` forecast with the separate Milestone Delivery Progress tracker. The current eight-line report is:
+## 10. Core POS v2 rule
 
-```text
-Session handoff proximity: X%
-Shared Showdown Journey readiness: Y/100
-Milestone Delivery Progress: NN.NN/100
-Current lane: <current bounded engineering lane>
-Concrete dependency completed: <most recent concrete dependency completed>
-Next unlock: <next dependency or proof gate>
-Blocker: <current blocker, or NONE>
-Sidequest check: <NONE, or NECESSARY because ...>
-```
-
-Report SSJR from `SHARED_SHOWDOWN_JOURNEY_READINESS.json` at every substantive checkpoint, even when unchanged. Report MDP from `MILESTONE_DELIVERY_PROGRESS.json` at the same checkpoints and recalculate it when a current-milestone feature lifecycle stage completes, becomes in progress, is invalidated by a regression, or reaches product integration. MDP is engineering delivery maturity and does not grant SSJR credit, satisfy human/physical evidence, consume evidence or weaken the frozen SSJR model. It will often lead SSJR numerically, but no invariant requires it to remain above SSJR. The governing lifecycle model and anti-inflation rules are `MILESTONE_DELIVERY_PROGRESS_MODEL.json` and `00_MILESTONE_DELIVERY_PROGRESS.md`.
-
-For the current SSJR milestone, MDP must reuse the exact 20 SSJR-1.1 capability IDs and exact weights as its feature denominator. The six MDP lifecycle stages are design/contract, implementation, primary automated verification, defect/review resolution, regression re-test and product integration. Reusable local/RJR/provider foundations do not complete a milestone-specific implementation stage until they are wired end to end into that exact Shared Journey capability. Candidate work may advance MDP through pre-integration stages, but the product-integration stage requires the feature to be part of the authoritative product and deployed coherent runtime when deployment applies. A proven regression can reduce MDP.
-
-SSJR100 still means a production-proven playable supported Shared Showdown Journey for two remote managers. Automate every feasible test and ask only for the minimum unavoidable physical/account action after prerequisites are complete. MDP100 means the milestone's feature engineering lifecycle is fully delivered; it is not permission to declare SSJR100 without the fixed evidence.
-
-The shared journey must pair both legitimate managers to the exact Connected Rivalry and reach ACTIVE before league or club selection. Enforce that order in both UI and provider authority. A pre-draw local Save/profile shell may satisfy identity binding without committing a league or clubs. Do not change the fixed SSJR-1.1 model or claim production capability from candidate code alone. Its explicit SSJR-1 to SSJR-1.1 zero-to-zero backcast preserves all scope and weights while correcting the reviewed paired-first dependency; see `authority-history/SSJR1_1_PAIRING_DEPENDENCY_BACKCAST_2026-09-05.json`. Owner provenance for MDP is `authority-history/OWNER_MILESTONE_DELIVERY_PROGRESS_2026-09-07.md`. Preserve this reporting override, MDP/SSJR separation and product order recursively in successor packages.
-
-## Interruption and tooling-resilience guardrails
-
-Treat a tool/session interruption as a recoverable infrastructure event, never as permission to infer success or restart work from memory.
-
-1. Before a long multi-tool or multi-file sequence, make `WORK_ENVIRONMENT_STATUS.json` describe the exact branch/HEAD safe checkpoint, current task, next safe action and hazards. Material decisions must not live only in chat while additional repository mutations continue.
-2. Do not create temporary self-modifying GitHub Actions workflows to append history, mutate the working branch, initialize WEC or work around a missing connector route. Use the connected GitHub contents/ref APIs or a real checkout. A repository workflow may mutate state only when it is already a reviewed permanent workflow explicitly designed for that operation.
-3. Apply a route circuit breaker. After one unsupported or malformed tool route, correct the route once. After a second materially similar failure, stop retrying that route, record the limitation and switch to a different supported path or finish at the nearest coherent checkpoint.
-4. Apply optimistic-lock discipline to GitHub file writes. Fetch the exact branch blob SHA immediately before update/delete. If GitHub rejects a write with stale-SHA/409 semantics, do not retry from cached state; refetch the file, re-evaluate the intended patch and then retry once.
-5. Do not issue identical CI/status polling calls consecutively on an unchanged exact head. Inspect another useful source/evidence item between checks, and treat in-progress CI as pending rather than a failure. Never create repository mutations merely to force a poll or dispatch.
-6. For append-only authority such as `WORK_ENVIRONMENT_HISTORY.md`, inspect the resulting per-file PR patch before accepting the mutation. The patch must contain no deletion/rewrite of prior history; corrections are new appended dated entries.
-7. The final transition-prepared WEC seal must be the last branch mutation. Any later branch mutation invalidates that seal and requires a new final seal plus a fresh exact-head validation gate.
-8. After an unexpected interruption, resume by re-fetching current PR metadata, exact branch HEAD, changed filenames and current workflow state before any write. Never assume the last attempted tool call completed.
-
-These guardrails exist to prevent chat/tool instability from becoming repository-state ambiguity. They change development process only and never authorize product runtime behavior.
-
-## Validation and product safety
-
-Run the smallest relevant checks during implementation and the repository contract suite before publication. Do not weaken tests, workflow topology, recovery guarantees, performance ceilings or protected product semantics merely to obtain green results.
-
-The continuity/SLE system is repository development infrastructure. Do not add it to the Career Mode Showdown website runtime, Service Worker shell, browser storage or user interface.
-
-## Current owner session-pressure override, 2026-09-07
-
-`00_SESSION_HANDOFF_PROXIMITY_V2.md` is the current reporting authority. Session Handoff Proximity v2 (SHP-2) resets to 0% per new chat, then uses observable proxies and a monotonic session ledger. Use `Session handoff proximity: X%` in the current eight-line SSJR report. HTR-1 remains separate repository transfer readiness under `00_HANDOFF_PROXIMITY_STAGE_GATES.md`; its five fixed pillars never supply the session-pressure percentage. Preserve the v2 risk floors and operating bands recursively. Generate VTLS after substantial state changes, independently of proximity, containing only `PR/head | metric | completed | blocker | next`. At 95–99 generate the full SNS immediately; at 100 its SLE package is generated/verified and the session stops. Existing WEC stricter transitions remain binding.
+If a failure cannot plausibly change product behavior, safety, data integrity, recovery, privacy, security, infrastructure/provider safety, UI/UX, executable authority, evidence validity or release correctness, it must not block current product development merely because historical wording or process formatting changed.

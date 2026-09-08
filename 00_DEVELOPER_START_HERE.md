@@ -1,31 +1,59 @@
-# DEVELOPER START HERE — PR214 R6 / MDP-1 / DUAL FULL SCREEN
+# DEVELOPER START HERE — POS v2
 
-Work Environment Continuity (WEC) is mandatory for every successor environment. Treat handoffs as orientation only and independently verify live repository, PR, CI, deployment and provider state before mutation.
+This is the current low-context entrypoint for Career Mode Showdown.
 
-Read `AGENTS.md`, `00_HANDOFF_GOLDEN_RULE.md`, `00_BUILD_FIRST_PRODUCT_POLICY.md`, `00_SESSION_HANDOFF_PROXIMITY_V2.md`, `00_HANDOFF_PROXIMITY_STAGE_GATES.md`, `00_MILESTONE_DELIVERY_PROGRESS.md`, `MILESTONE_DELIVERY_PROGRESS_MODEL.json`, `MILESTONE_DELIVERY_PROGRESS.json`, `00_SHARED_SHOWDOWN_DUAL_FULL_SCREEN_RULE.md`, `SHARED_SHOWDOWN_DUAL_SCREEN_EXPERIENCE.json`, `SESSION_BOOTSTRAP.json`, `00_CURRENT_HANDOFF.md`, `NEXT_TASK.md`, `PROJECT_STATE.md`, `WORK_ENVIRONMENT_STATUS.json`, `SHARED_SHOWDOWN_JOURNEY_MODEL.json`, and `SHARED_SHOWDOWN_JOURNEY_READINESS.json`.
+Do not preload historical handoffs, old START_NEXT_SESSION files, old RJR milestone records or the entire continuity archive. Current verified source and later owner instructions win.
 
-RJR-1 remains COMPLETE/FROZEN `100/100`. SSJR-1.1 remains evidence-gated and currently `0/100`. MDP-1 is the separate engineering-delivery tracker and currently `39.00/100` until repository-owned lifecycle evidence changes it. MDP never grants SSJR credit.
+## Minimum startup set
 
-Every meaningful engineering checkpoint must report `MDP task delta: +X.XX (AA.AA -> BB.BB)`. Use `+0.00` when important work does not complete a lifecycle stage. Pending points may be reported separately but never added early. Report Session Handoff Proximity frequently at meaningful checkpoints without turning reporting into a work bottleneck.
+Read only these first:
 
-Permanent dual-screen rule: both legitimate managers must individually experience every canonical Shared Showdown gameplay screen on their own device from shared entry through terminal completion. Role-specific controls may differ, but one role may not skip a gameplay screen. Late/reloaded/offline peers must replay missed canonical screens in order before their local experience proceeds. A toast/status/background update does not satisfy a full-screen witness. New Shared Journey screens automatically inherit this rule.
+1. `AGENTS.md`
+2. `PROJECT_OPERATING_SYSTEM_V2.md`
+3. `CURRENT_PRODUCT_GUARDS.json`
+4. `NEXT_TASK.md`
+5. `SHARED_SHOWDOWN_JOURNEY_READINESS.json` and `MILESTONE_DELIVERY_PROGRESS.json`
 
-Current production remains `v1.9.1 / 1.9.1-r5` until r6 is merged, deployed and independently verified. Current release candidate is PR #214 on `fix/ssjr-recorder-catalog-proof-r6`. PR214 restores the real League Wheel and original Club Pack presentation for both roles after exact pairing + ACTIVE, preserves provider draw authority, and targets coherent `v1.9.1 / 1.9.1-r6` with r5 recovery.
+Then independently resolve live `main`, the active PR/branch/head, relevant current checks, and deployed/provider state only when the current task needs it.
 
-Current MDP interpretation: `entry-binding` and `entry-before-draw` are integrated. `setup-league`, `setup-clubs`, `setup-length`, and `setup-confirmation` are at 90% lifecycle maturity on the r6 candidate. Their final product-integration stage is worth a combined +2.50 MDP and is earned only after PR214 final exact-head publication, merge and coherent deployed r6 proof. Fourteen later SSJR capabilities remain design-defined only for MDP despite reusable local/RJR foundations.
+Load another file only because the current task, a concrete failure, or a safety question requires it. Historical handoffs and authority-history remain available as evidence but are not default startup context.
 
-## IMMEDIATE NEXT TASK AFTER FULL STUDY
+## Current product direction
 
-1. Reconstruct exact live PR214 head and current check state.
-2. Correct only objective failures. The first MDP-augmented exact-head run exposed the same WEC initialization issue in `validate` and `stability-contracts`: fresh session observations must begin at zero. Do not weaken the continuity contract.
-3. Preserve `SSJR-DUAL-FULL-SCREEN-1` and its contract. Current r6 setup must ensure both roles individually traverse League Wheel, Club Packs, season-length state and setup confirmation; late/reloaded peer behavior must not skip committed setup screens.
-4. Require all 15 permanent workflow families green on one final exact reviewed head and clear objective review threads.
-5. Squash merge PR214 with expected-head protection only after exact-head gates are satisfied.
-6. Verify post-merge `main`, Pages/deployment, Stability/Burn-In as applicable, and one coherent public `v1.9.1 / 1.9.1-r6` shell.
-7. Only after r6 is independently proven should the owner resume minimum unavoidable Chromebook/iPhone two-account Shared Setup acceptance.
-8. SSJR stays unchanged unless the fixed evidence validator accepts genuine production-two-account evidence.
-9. Do not begin transfer/results/scoring transport before the existing Shared Setup evidence boundary is resolved unless a later explicit owner instruction changes that authority.
+RJR-1 is complete/frozen 100/100 historical evidence. The active milestone is Shared Showdown Journey.
 
-Permanent locks: billing permanently OFF; Firebase Spark only; App Check enforcement OFF; Firestore browser persistence memory-only; Google Auth popup-only `browserSessionPersistence` with no extra scopes; exactly two private managers; pairing + exact ACTIVE before league/clubs; canonical localStorage exactly three approved keys; Candidate C sole destructive remote-to-local Apply authority with transaction-owned exact raw-snapshot rollback; no public discovery/listing/lobby/matchmaking/community/rankings/global leaderboards; never durably retain raw private identifiers/capabilities.
+SSJR answers whether the two-manager journey is genuinely evidence-proven.
 
-SLE = Smart Lean Efficient. At Session Handoff Proximity 95–99 generate SNS immediately; at 100 the complete verified SLE successor package must exist and the session must stop before another substantial milestone. HTR-1 remains separate transfer readiness and never supplies the SHP-2 percentage.
+MDP answers how far the current milestone capabilities have moved through design, implementation, automated verification, defect resolution, regression retest and product integration.
+
+Continue the exact current dependency in `NEXT_TASK.md`; do not create a documentation, continuity, wording or archive milestone while safe product work is available.
+
+## Current test lanes
+
+`npm run test:contracts` is the blocking current product suite.
+
+`npm run test:ops` is the POS/continuity tooling self-test and is used when those tools change.
+
+`npm run test:legacy-provenance` is a manual historical audit. It is not a normal product-release gate.
+
+Do not require exact workflow counts or old milestone wording. A failure blocks only when it protects meaningful current/future product behavior, security, privacy, data/storage, synchronization, recovery, provider/billing safety, UI/UX, executable authority, evidence validity or release correctness.
+
+## Session quality
+
+Use `npm run work:health` for POS-2 session health. ADB-1 dynamically chooses a failed correction/validation allowance from 2 to 20 based on the specific environment. Two failures alone do not require transfer.
+
+Legacy SHP and HTR percentage commands remain compatibility tools, not normal project metrics.
+
+If a real handoff becomes necessary, run `npm run work:handoff-checklist`. Satisfy the five useful transfer facts and produce one compact current successor snapshot. Do not generate repetitive SNS/VTLS artifacts during ordinary progress.
+
+## Permanent safety
+
+`CURRENT_PRODUCT_GUARDS.json` is the compact authority. Billing remains OFF, Firebase remains Spark, exactly two private managers are allowed, pairing plus exact ACTIVE precedes league/clubs, Candidate C remains the only destructive remote-to-local Apply authority, the three canonical local storage keys remain fixed, public discovery/matchmaking/community/rankings remain forbidden, and `SSJR-DUAL-FULL-SCREEN-1` remains required.
+
+## Rule of thumb
+
+If something is only useful to explain how the project got here, keep it as history.
+
+If it prevents a current or future product defect, security/privacy problem, data loss, recovery failure, provider risk, broken user journey or invalid release, keep it active.
+
+If it helps developers work safely but does not protect the product itself, keep it in the operations lane.

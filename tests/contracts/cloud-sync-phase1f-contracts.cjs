@@ -19,9 +19,13 @@ const optional = read("js/optionalModules.js");
 const worker = read("service-worker.js");
 const pkg = JSON.parse(read("package.json"));
 const lock = read("package-lock.json");
-const currentProduction = bootstrap.runtime?.productionRuntimeRevision === "1.9.1-r3"
-  && bootstrap.latestRuntimeMerge?.pullRequest === 203
-  && bootstrap.latestRuntimeMerge?.runtimeRevision === "1.9.1-r3"
+const currentProduction = bootstrap.liveRuntime?.productionRuntimeRevision === "1.9.1-r5"
+  && bootstrap.latestRuntimeMerge?.pullRequest === 213
+  && bootstrap.latestRuntimeMerge?.runtimeRevision === "1.9.1-r5"
+  && bootstrap.currentProductionProvenRuntime?.pullRequest === 213
+  && bootstrap.currentProductionProvenRuntime?.runtimeRevision === "1.9.1-r5";
+const historicalProductionR3 = bootstrap.runtime?.productionRuntimeRevision === "1.9.1-r3"
+  && bootstrap.runtime?.productionStatus === "historical-pr203-bootstrap-baseline"
   && bootstrap.lastProductionProvenRuntime?.pullRequest === 203
   && bootstrap.lastProductionProvenRuntime?.runtimeRevision === "1.9.1-r3";
 
@@ -99,9 +103,11 @@ assert.doesNotMatch(lock.slice(0, 1200), /"firebase"|"@firebase\/rules-unit-test
 assert.match(phase1e, /DONE \/ MERGED \/ PROTECTED/i);
 assert.match(phase1e, /PR #80/);
 
-// Phase 1F and PR #125 remain immutable historical architecture provenance. Live runtime authority
-// is PR #203 / v1.9.1-r3; PR #194 / r2 is the whole-shell rollback and PR #187 / r5 remains consumed historical provenance.
-assert.equal(currentProduction,true,"Production runtime authority must identify PR #203 / v1.9.1-r3 while preserving historical PR194/r2 rollback and PR187/r5 provenance.");
+// Phase 1F and PR #125 remain immutable historical architecture provenance. Current production runtime authority
+// is PR #213 / v1.9.1-r5; PR #203 / r3 remains historical Shared Setup/bootstrap authority, PR #194 / r2 is the whole-shell rollback,
+// and PR #187 / r5 remains consumed historical capability provenance.
+assert.equal(currentProduction,true,"Production runtime authority must identify PR #213 / v1.9.1-r5 while preserving historical PR203/r3, PR194/r2 rollback and PR187/r5 provenance.");
+assert.equal(historicalProductionR3,true,"Historical PR203 / v1.9.1-r3 Shared Setup/bootstrap authority must remain explicit.");
 assert.equal(bootstrap.historicalPr187PublicationCheckpoint?.pullRequest,187,"Historical PR187 capability provenance must remain explicit.");
 assert.equal(bootstrap.historicalPr187PublicationCheckpoint?.runtimeRevision,"1.9.0-r5","Historical PR187 runtime provenance must remain 1.9.0-r5.");
 assert.equal(bootstrap.historicalPr187PublicationCheckpoint?.mergeSha,"277f1b55dc362ee84d285445b99172b9fbed8509","Historical PR187 merge provenance must remain immutable.");
@@ -116,14 +122,14 @@ assert.equal(stableReleaseAcceptance?.score,100);assert.equal(stableReleaseAccep
 assert.match(next, /100\/100/i,"Current NEXT_TASK must expose evidence-accepted RJR100 rather than revive a consumed Phase 1F, Stage5G or physical-acceptance lane.");
 assert.match(next, /PR #198/i,"Current NEXT_TASK must preserve the PR198 publication checkpoint.");
 assert.match(next, /physical proof used a Chromebook[\s\S]+iPhone|Chromebook[\s\S]+cellular/i,"Current NEXT_TASK must retain the class of genuine two-device/two-network evidence already accepted.");
-assert.equal(bootstrap.runtime?.appCheckEnforcement,false,"Current authority must preserve the App Check enforcement-off lock after the historical Phase 1F boundary.");
+assert.equal(bootstrap.liveRuntime?.appCheckEnforcement,false,"Current authority must preserve the App Check enforcement-off lock after the historical Phase 1F boundary.");
 assert.equal(bootstrap.ownerZeroBillingAuthorization?.firebasePlanMustRemain,"Spark","Current authority must preserve the Spark zero-billing lock after the historical Phase 1F boundary.");
 assert.equal(bootstrap.ownerZeroBillingAuthorization?.cloudBillingAccountMayBeLinked,false,"Cloud Billing linkage must remain forbidden.");
 assert.equal(bootstrap.ownerZeroBillingAuthorization?.blazeMayBeEnabled,false,"Blaze must remain forbidden.");
 assert.equal(bootstrap.ownerZeroBillingAuthorization?.cloudRunAllowed,false,"Cloud Run must remain forbidden under the zero-billing architecture.");
 assert.equal(bootstrap.ownerZeroBillingAuthorization?.cloudFunctionsAllowed,false,"Cloud Functions must remain forbidden under the zero-billing architecture.");
-assert.equal(bootstrap.runtime?.firestorePersistence,"memory-only","Current authority must preserve memory-only Firestore after the historical Phase 1F boundary.");
-assert.equal(bootstrap.runtime?.googleAuthPersistence,"browserSessionPersistence-popup-only-no-extra-scopes","Current authority must preserve popup-only browser-session Auth with no extra scopes.");
+assert.equal(bootstrap.liveRuntime?.firestorePersistence,"memory-only","Current authority must preserve memory-only Firestore after the historical Phase 1F boundary.");
+assert.equal(bootstrap.liveRuntime?.googleAuthPersistence,"browserSessionPersistence-popup-only-no-extra-scopes","Current authority must preserve popup-only browser-session Auth with no extra scopes.");
 assert.match(next, /evidence\/continuity publication only[\s\S]+zero RJR credit|earns zero RJR credit/i,"Current NEXT_TASK must preserve evidence-only RJR movement and forbid process credit.");
 assert.match(next, /Shared Showdown Journey Readiness|SSJR-1/i,"Current NEXT_TASK must route beyond completed RJR-1 only after clean publication and handoff.");
 
@@ -134,4 +140,4 @@ assert.match(preR3Next, /Authorized product candidate:[\s\S]{0,120}v1\.5\.0[\s\S
 assert.match(preR3Next, /Cloud\/sync runtime remains NOT YET IMPLEMENTATION-AUTHORIZED/i,"Lossless pre-r3 authority must preserve the historical Phase 1F provider-runtime prohibition.");
 assert.match(historicalNext, /Cloud\/sync production runtime remains NOT YET IMPLEMENTATION-AUTHORIZED/i,"Archived Phase 1F-era authority must retain the exact production-runtime prohibition that applied during that prerequisite.");
 
-process.stdout.write("PASS Phase 1F Firebase emulator, deny-by-default Security Rules and provider-boundary contracts; immutable archives preserve historical Phase 1F/PR125/PR187 provenance while live PR203/r3 production, r2 rollback, evidence-accepted RJR100 and PR198-to-SSJR authority remain explicit\n");
+process.stdout.write("PASS Phase 1F Firebase emulator, deny-by-default Security Rules and provider-boundary contracts; immutable archives preserve historical Phase 1F/PR125/PR203/PR187 provenance while live PR213/r5 production, r2 rollback, evidence-accepted RJR100 and PR198-to-SSJR authority remain explicit\n");

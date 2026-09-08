@@ -4,6 +4,7 @@ import { fileURLToPath } from "node:url";
 import { computeHandoffProximity as computeTransferReadiness } from "./handoff-proximity-stage.mjs";
 
 export const model = "SHP-2";
+export const debugBudgetModel = "ADB-1";
 export const weights = Object.freeze({ context: 0.45, workload: 0.25, continuity: 0.20, ageBreadth: 0.10 });
 export const cumulativeFields = Object.freeze([
   "messageToolEvents", "longEvidenceReads", "truncations", "recoveries", "compactions",
@@ -32,6 +33,29 @@ function validateObservations(o) {
   for (const k of flagFields) ensure(typeof o[k] === "boolean", `${k} must be boolean.`);
 }
 
+export function computeDebugBudget(o) {
+  validateObservations(o);
+  const contextDamageEvents = o.truncations + o.recoveries + o.compactions;
+  let budget = 6;
+
+  // A focused, low-damage session with a narrow blocker can safely iterate longer.
+  if (o.redCiFamilies <= 1) budget += 3;
+  if (o.unresolvedStates <= 1) budget += 2;
+  if (contextDamageEvents === 0) budget += 4;
+  else if (contextDamageEvents === 1) budget += 2;
+  else if (contextDamageEvents >= 4) budget -= 3;
+  if (o.taskLanes <= 1) budget += 2;
+  if (o.elapsedMinutes <= 90) budget += 2;
+  else if (o.elapsedMinutes >= 150) budget -= 2;
+
+  // Broad or reconstruction-heavy debugging should transfer sooner.
+  if (o.hardStateReconstruction) budget -= 2;
+  if (o.redCiFamilies >= 4) budget -= 2;
+  if (o.unresolvedStates >= 4) budget -= 2;
+
+  return Math.min(20, Math.max(2, budget));
+}
+
 export function scoreObservations(o) {
   validateObservations(o);
   const components = {
@@ -43,10 +67,34 @@ export function scoreObservations(o) {
   const weighted = Math.round(Object.entries(weights).reduce((sum, [k, w]) => sum + components[k] * w, 0));
   let floor = 0;
   const reasons = [];
-  if (o.truncations + o.recoveries + o.compactions >= 2) { floor = 70; reasons.push("Repeated truncation/interruption/recovery."); }
-  if (o.unresolvedDebugLoops >= 2 || o.hardStateReconstruction) { floor = 80; reasons.push("Multiple unresolved CI/debug loops or hard state reconstruction."); }
-  if (o.ownerRequestedWrap || o.nextSubstantialTaskRisksLoss) { floor = 95; reasons.push("Owner requested transition or another substantial task risks loss."); }
-  return { score: Math.min(99, Math.max(weighted, floor)), weighted, floor, components, reasons };
+  const contextDamageEvents = o.truncations + o.recoveries + o.compactions;
+  const activeFailure = o.redCiFamilies > 0 || o.unresolvedStates > 0;
+  const debugBudget = computeDebugBudget(o);
+  const contextDegradedBudget = Math.max(2, Math.ceil(debugBudget / 2));
+  const prepareBudget = Math.max(2, Math.ceil(debugBudget * 0.6));
+  const reachedAdaptiveBudget =
+    o.unresolvedDebugLoops >= debugBudget ||
+    (o.ciDebugCycles >= debugBudget && activeFailure);
+  const contextAmplifiedDebugSpiral =
+    o.ciDebugCycles >= contextDegradedBudget &&
+    contextDamageEvents >= 2 &&
+    activeFailure;
+  const multiFamilyRepeatRisk =
+    o.ciDebugCycles >= prepareBudget &&
+    o.redCiFamilies >= 2;
+
+  if (contextDamageEvents >= 2) { floor = Math.max(floor, 70); reasons.push("Repeated truncation/interruption/recovery."); }
+  if (o.hardStateReconstruction) { floor = Math.max(floor, 80); reasons.push("Hard state reconstruction."); }
+  if (multiFamilyRepeatRisk) {
+    floor = Math.max(floor, 85);
+    reasons.push(`Adaptive debug budget ${debugBudget}: repeated validation still has multiple red CI families; finish only the current atomic correction and prepare transfer state.`);
+  }
+  if (reachedAdaptiveBudget || contextAmplifiedDebugSpiral) {
+    floor = Math.max(floor, 95);
+    reasons.push(`Debug-spiral circuit breaker ADB-1: adaptive budget ${debugBudget} reached, or context damage reduced the safe budget to ${contextDegradedBudget}; full SNS at the first safe checkpoint.`);
+  }
+  if (o.ownerRequestedWrap || o.nextSubstantialTaskRisksLoss) { floor = Math.max(floor, 95); reasons.push("Owner requested transition or another substantial task risks loss."); }
+  return { score: Math.min(99, Math.max(weighted, floor)), weighted, floor, components, reasons, debugBudgetModel, debugBudget, contextDegradedBudget, prepareBudget };
 }
 
 export function operatingBand(score) {
@@ -106,6 +154,6 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
       else throw new Error(`Unknown argument: ${args[i]}`);
     }
     const result = computeSessionHandoffProximity(JSON.parse(fs.readFileSync(path.resolve(root, statePath), "utf8")));
-    process.stdout.write(json ? `${JSON.stringify(result, null, 2)}\n` : `Session handoff proximity: ${result.score}%\nModel: ${model}\nBand: ${result.band}\n${result.proxyNotice}\n`);
+    process.stdout.write(json ? `${JSON.stringify(result, null, 2)}\n` : `Session handoff proximity: ${result.score}%\nModel: ${model}\nAdaptive debug budget: ${result.latest?.debugBudget ?? "n/a"}/20 (${debugBudgetModel})\nBand: ${result.band}\n${result.proxyNotice}\n`);
   } catch (error) { process.stderr.write(`${error.message}\n`); process.exitCode = 1; }
 }

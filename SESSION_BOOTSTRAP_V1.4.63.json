@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-09-07T21:56:00.000Z",
+  "repository": "nikahanghojjati-oss/fifa17-career-showdown2",
+  "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
+  "starter": {
+    "version": "1.4.63",
+    "canonical": "START_NEXT_SESSION_V1.4.63_PR215_PRODUCTION_AUTHORITY_LITERAL_SAFE_TRANSFER_NEXT.md",
+    "projectMirror": "project-documents/session-starts/START_NEXT_SESSION_V1.4.63_PR215_PRODUCTION_AUTHORITY_LITERAL_SAFE_TRANSFER_NEXT.md"
+  },
+  "currentHandoff": {
+    "canonical": "SUCCESSOR_HANDOFF_PR215_PRODUCTION_AUTHORITY_LITERAL_SAFE_TRANSFER_SLE_V1.4.63_2026-09-07.md",
+    "projectMirror": "project-documents/handoffs/SUCCESSOR_HANDOFF_PR215_PRODUCTION_AUTHORITY_LITERAL_SAFE_TRANSFER_SLE_V1.4.63_2026-09-07.md"
+  },
+  "successorPackage": {
+    "handoffBranch": "fix/pr214-postmerge-dual-screen-contract"
+  },
+  "ownerSns": "owner-sns/OWNER_SNS_V1.4.63_PR215_PRODUCTION_AUTHORITY_LITERAL_SAFE_TRANSFER.md",
+  "closingEnvironmentId": "we-2026-09-07-pr215-r6-publication-a65",
+  "closingArchive": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-07-pr215-r6-publication-a65.json",
+  "recordedMainSha": "420d0dd21480c660d4fe139ba011eca1ccb987a9",
+  "activePullRequest": 215,
+  "lastRemoteCiInspectedHeadSha": "b3e6b4ba9885b4fe54ad1b821672f7834d303ff3",
+  "remoteCiSnapshot": {
+    "green": 12,
+    "red": 3,
+    "pending": 0,
+    "pendingFamilies": [],
+    "redFamilies": ["Validate Stability Lane", "Validate Static App", "Validate Stage 5F Authenticated Negatives"],
+    "scope": "all 15 permanent workflow families completed on the exact second a65 validation head; continuity/SNS seal advances branch and successor must independently resolve the live seal head"
+  },
+  "correctionCycles": 2,
+  "thirdCorrectionAttempted": false,
+  "antiSpiralTriggered": true,
+  "exactBlocker": "tests/contracts/next-developer-prompt-contracts.cjs:15 expects /1.9.1-r5/i in the currently routed V1.4.62 starter after the entire SLE packaging contract passes",
+  "productionRuntimeRevision": "1.9.1-r5",
+  "observedReleaseCandidateRuntimeRevision": "1.9.1-r6",
+  "readiness": {
+    "rjr": 100,
+    "ssjr": 0,
+    "mdp": 39,
+    "mdpDelta": 0
+  },
+  "permanentLocks": "Billing must remain permanently OFF. Firebase remains Spark only. Never enable Blaze, Cloud Billing, a billing account, Cloud Run or Cloud Functions. App Check enforcement remains OFF. Firestore browser persistence remains memory-only. Google Auth remains popup-only browserSessionPersistence with no extra scopes. Exactly two private managers. Connected Rivalry pairing plus exact ACTIVE precedes league or club authority. Candidate C remains the sole destructive remote-to-local gameplay Apply authority with transaction-owned strict exact raw-snapshot rollback. Preserve the three canonical storage keys and SSJR-DUAL-FULL-SCREEN-1. No public discovery, listing, lobby, matchmaking, community, rankings or global leaderboards.",
+  "sessionRules": "SLE = Smart Lean Efficient. A fresh successor validates and archives a65, initializes a unique WEC without inheriting HANDOFF_NOW decision/counters, resets SHP-2 to literal 0 and uses monotonic observable proxies. HTR-1 remains separate transfer readiness. Generate tiny VTLS after every substantial state change. Preserve the recursive anti-spiral circuit breaker and never combine CI across heads. Every final transition requires fresh mirrored SLE/starter packaging, current routing, a sealed WEC archive and a downloadable owner SNS.",
+  "immediateNextTask": "Independently revalidate the exact live PR215 head and current shared repository-suite failure. If the live head still reproduces tests/contracts/next-developer-prompt-contracts.cjs:15, inspect that assertion together with the currently routed starter/capsule and production authority, then make only the smallest objective current-authority correction without rewriting historical V1.4.62 evidence. Require all 15 permanent workflow families green on one exact reviewed head before expected-head merge.",
+  "integrationGates": "Only all 15 current permanent workflow families green on ONE exact reviewed head permit expected-head squash merge of PR215. Refresh live head/reviews/comments/threads immediately before merge. Post-merge prove exact-main Stability including Chromium/deployed-site smoke, Pages/deployed coherent v1.9.1 / 1.9.1-r6 and Release Integration Burn-In. Only then MDP may move 39.00 to 41.50 with +2.50; SSJR gets zero publication credit. Only after clean r6 proof say YOUR TESTING TIME and resume genuine Chromebook/iPhone production-two-account Shared Setup acceptance after pairing plus exact ACTIVE. Use npm run record:ssjr-production-shared-setup and npm run validate:ssjr-production-shared-setup for sanitized evidence.",
+  "neverCombineCiAcrossHeads": true,
+  "historicalBootstrap": "SESSION_BOOTSTRAP.json fields predating additive currentSuccessorOverride remain immutable historical provenance"
+}

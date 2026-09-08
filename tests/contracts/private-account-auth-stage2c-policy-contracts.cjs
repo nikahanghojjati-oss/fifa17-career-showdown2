@@ -74,7 +74,8 @@ assert.match(preR3Next,/Historical heading: CURRENT IMPLEMENTATION AUTHORITY —
 assert.match(preR3Next,/Private Account \/ Authentication \/ Authorization Stages 2A through 2I are DONE \/ MERGED \/ PROVEN/i);
 assert.match(preR3Next,/Authorized product candidate:[\s\S]{0,120}v1\.5\.0[\s\S]{0,120}1\.5\.0-r1/i,"Immutable pre-r3 NEXT_TASK must preserve the bounded v1.5.0 / 1.5.0-r1 candidate provenance.");
 
-// Stage 2C remains immutable policy provenance. Current live authority is PR194/r2 production-proven with evidence-accepted RJR100; PR198 publishes that evidence before SSJR-1 begins.
+// Stage 2C remains immutable policy provenance. Current live production authority is PR213/r5 with evidence-accepted RJR100.
+// PR203/r3 remains historical Shared Setup/bootstrap provenance, PR194/r2 remains rollback provenance, and PR198 remains the consumed RJR100 publication checkpoint.
 assert.match(next,/CURRENT TASK[\s\S]+100\/100[\s\S]+PR #198/i,"Live NEXT_TASK must identify evidence-accepted RJR100 / PR198 publication authority.");
 assert.match(next,/Shared Showdown Journey Readiness|SSJR-1/i,"Live NEXT_TASK must route the successor to the next numerical milestone only after clean RJR100 publication.");
 assert.match(next,/App Check enforcement remains OFF/i,"Live transition authority must keep App Check enforcement off.");
@@ -90,8 +91,10 @@ assert.match(preR3State, /PR #115 `Connect production App Check runtime safely` 
 assert.match(preR3State, /PR #116 `Add controlled GitHub Pages App Check deployment`[\s\S]+current direct Remote Joining prerequisite/i);
 assert.match(preR3State, /Private Account \/ Authentication \/ Authorization Stages 2A through 2I are DONE \/ MERGED \/ PROVEN/i,"Immutable pre-r3 PROJECT_STATE must preserve completed Stage 2A-through-2I prerequisite authority.");
 assert.match(preR3State, /Active release candidate[\s\S]+v1\.5\.0[\s\S]+NOT production/i,"Immutable pre-r3 PROJECT_STATE must preserve the v1.5.0 bounded candidate provenance.");
-assert.match(state,/RJR-1 COMPLETE 100\/100|RJR100/i,"Live PROJECT_STATE must expose evidence-accepted RJR100 authority.");
-assert.match(state,/v1\.9\.1[\s\S]+1\.9\.1-r2[\s\S]+PR #198/i,"Live PROJECT_STATE must preserve PR194/r2 runtime identity while exposing PR198 evidence publication.");
+assert.match(state,/RJR-1[^\n]{0,40}100\/100|RJR100/i,"Live PROJECT_STATE must expose evidence-accepted RJR100 authority.");
+assert.match(state,/Production authority:[\s\S]{0,80}1\.9\.1-r5[\s\S]+PR #213/i,"Live PROJECT_STATE must identify current PR213/r5 production authority.");
+assert.match(state,/HISTORICAL COMPATIBILITY SNAPSHOT[\s\S]+1\.9\.1-r3[\s\S]+PR #203/i,"Live PROJECT_STATE must preserve PR203/r3 historical Shared Setup/bootstrap authority.");
+assert.match(state,/Historical `v1\.9\.1 \/ 1\.9\.1-r2`[\s\S]+PR #198/i,"Live PROJECT_STATE must preserve r2 rollback provenance and PR198 RJR publication history.");
 assert.equal(readiness.modelVersion,"RJR-1","Stage 2C current-state checks must use the fixed RJR-1 model.");
 assert.equal(readiness.currentScore,100,"Stage 2C current-state checks must expose fixed RJR100.");
 const stage5eRjrEvidence=readiness.evidenceHistory?.find(entry=>entry.eventId==="production-stage5e-r3-provider-live-remote-joining-lifecycle");
@@ -107,7 +110,9 @@ assert.match(roadmap, /Stage 2D — Production Firebase Environment & Configurat
 assert.match(remoteRoadmap, /Stage 2C — Production Authentication Policy & Static-Hosting Compatibility Boundary[\s\S]+DONE \/ MERGED \/ PROVEN/i);
 assert.match(remoteRoadmap, /Stage 2D — Production Firebase Environment & Configuration Preflight[\s\S]+CURRENT/i);
 assert.match(currentHandoff, /RJR-1[^\n]{0,100}100\/100|RJR100/i,"Rolling handoff must expose current RJR100 authority.");
-assert.match(currentHandoff, /v1\.9\.1[\s\S]+1\.9\.1-r2[\s\S]+PR #198/i,"Rolling handoff must preserve r2 runtime identity and PR198 publication authority.");
+assert.match(currentHandoff, /Production authority at this handoff[\s\S]+1\.9\.1-r5[\s\S]+PR #213/i,"Rolling handoff must identify current r5 runtime and PR213 production authority.");
+assert.match(currentHandoff, /historical production baseline[\s\S]+1\.9\.1-r3[\s\S]+PR #203/i,"Rolling handoff must preserve PR203/r3 historical production authority.");
+assert.match(currentHandoff, /v1\.9\.1 \/ 1\.9\.1-r2[\s\S]+PR #198/i,"Rolling handoff must preserve r2 rollback and PR198 publication provenance.");
 assert.match(currentHandoff, /Shared Showdown Journey Readiness|SSJR-1/i,"Rolling handoff must route the successor to the next numerical milestone after clean publication.");
 assert.match(historicalR5Handoff, /PR #187[\s\S]+89\/100/i,"Immutable PR187 handoff must preserve fixed RJR89 provenance.");
 assert.match(historicalR5Handoff, /one-paste[\s\S]+zero manual Connected Rivalry Verify\/Reattach/i,"Immutable PR187 handoff must preserve the accepted capability that moved RJR88 to RJR89.");
@@ -133,4 +138,4 @@ assert.equal(Object.prototype.hasOwnProperty.call(pkg.dependencies || {}, "fireb
 assert.equal(Object.prototype.hasOwnProperty.call(pkg.devDependencies || {}, "firebase-admin"), false);
 assert.doesNotMatch(lock.slice(0, 1600), /"firebase-admin"|"firebase"|"@firebase\/rules-unit-testing"|"firebase-tools"/);
 
-process.stdout.write("PASS Private Account/Auth Stage 2C policy with immutable historical Stage 2D and PR187/RJR89 provenance preserved while current PR194/r2 production, evidence-accepted RJR100 and PR198-to-SSJR publication authority remain explicit\n");
+process.stdout.write("PASS Private Account/Auth Stage 2C policy with immutable historical Stage 2D and PR187/RJR89 provenance preserved while current PR213/r5 production, historical PR203/r3 bootstrap, r2 rollback, evidence-accepted RJR100 and PR198-to-SSJR publication authority remain explicit\n");

@@ -6,9 +6,16 @@ const moduleSource=fs.readFileSync("js/sparkAccountBootstrap.js","utf8");
 const candidateRules=fs.readFileSync("firestore.spark.rules","utf8");
 const deployedRules=fs.readFileSync("firestore.rules","utf8");
 const workflow=fs.readFileSync(".github/workflows/validate-static-app.yml","utf8");
-const readiness=JSON.parse(fs.readFileSync("REMOTE_JOINING_READINESS.json","utf8"));
+const guards=JSON.parse(fs.readFileSync("CURRENT_PRODUCT_GUARDS.json","utf8"));
 
-// Preserve the original zero-billing account-bootstrap module contract.
+// Preserve the current zero-billing Spark account-bootstrap behavior. Completed RJR
+// scoring/provenance is intentionally not a dependency of this product contract under POS-2.
+assert.equal(guards.operatingSystem,"POS-2");
+assert.equal(guards.provider.billingEnabled,false);
+assert.equal(guards.provider.firebasePlan,"Spark");
+assert.equal(guards.provider.blazeAllowed,false);
+assert.equal(guards.provider.cloudRunAllowed,false);
+assert.equal(guards.provider.cloudFunctionsAllowed,false);
 assert.equal(spark.contractVersion,1);
 assert.equal(spark.providerMode,"firebase-spark-client");
 assert.equal(spark.billingRequired,false);
@@ -43,7 +50,7 @@ assert.match(candidateRules,/allow create: if validSelfAccountBootstrap\(account
 assert.match(candidateRules,/match \/accounts\/\{accountId\}[\s\S]+allow list, update, delete: if false;/);
 
 // Every later-stage write remains operation-specific. Stage 4 shared state and Stage 5D
-// private sessions may now create/update through their reviewed validators, but collection
+// private sessions may create/update through their reviewed validators, while collection
 // listing, direct delete and catch-all escape authority remain denied.
 assert.match(candidateRules,/match \/devices\/\{deviceId\}[\s\S]+allow create: if validDeviceCreate\(accountId, deviceId\);[\s\S]+allow update: if validDeviceRevoke\(accountId, deviceId\);[\s\S]+allow list, delete: if false;/);
 assert.match(candidateRules,/match \/rivalries\/\{rivalryId\}[\s\S]+allow create: if validInitialRivalryCreate\(rivalryId\);[\s\S]+allow update: if validRivalryRedeem\(rivalryId\);[\s\S]+allow list, delete: if false;/);
@@ -53,17 +60,7 @@ assert.match(candidateRules,/match \/\{document=\*\*\}[\s\S]+allow read, write: 
 assert.doesNotMatch(candidateRules,/allow\s+(?:write|update|delete)[^\n]*if\s+true/i);
 
 assert.match(deployedRules,/match \/accounts\/\{accountId\}[\s\S]+allow list, create, update, delete: if false;/,"The repository's historical deny-all root rules file remains distinct from the isolated production Rules source.");
-assert.match(workflow,/spark-account-bootstrap-emulator\.cjs/,"Permanent Static App validation must execute the Spark account bootstrap emulator proof.");
-assert.ok(Number.isInteger(readiness.currentScore)&&readiness.currentScore>=61&&readiness.currentScore<=100,"RJR must remain on the fixed RJR-1 denominator and move only with verified capability evidence.");
-assert.ok(readiness.evidenceHistory.some(event=>event.eventId==="production-app-check-runtime-proof"&&event.score===61),"The historical 61-point pre-Spark-production baseline must remain preserved.");
-if(readiness.currentScore>61){
-  assert.ok(readiness.evidenceHistory.some(event=>event.score>61&&event.delta>0),"Post-61 capability growth must be backed by explicit positive evidence events.");
-}
-const latestReadinessEvent=readiness.evidenceHistory.at(-1);
-assert.ok(latestReadinessEvent,"RJR must retain an evidence history.");
-assert.equal(latestReadinessEvent.score,readiness.currentScore,"Current RJR must equal the latest explicit evidence event rather than float independently of provenance.");
-if(latestReadinessEvent.delta<0){
-  assert.equal(latestReadinessEvent.invalidation,true,"A readiness decrease must be an explicit invalidation/regression event.");
-}
+assert.match(workflow,/spark-account-bootstrap-emulator\.cjs/,"Static App must retain the current Spark account bootstrap emulator proof.");
+assert.doesNotMatch(workflow,/private-account-auth-stage2[a-z0-9-]*-emulator\.cjs/,"Archived Stage 2 emulator fixtures must not define the current Spark account product gate.");
 
-process.stdout.write("PASS zero-billing Spark account bootstrap remains strict while Stage 4 shared-state and Stage 5D exact private-session Rules stay operation-scoped, no-list, no-delete and deny-by-default.\n");
+process.stdout.write("PASS current zero-billing Spark account bootstrap and operation-scoped Rules authority without frozen RJR/provenance coupling.\n");
