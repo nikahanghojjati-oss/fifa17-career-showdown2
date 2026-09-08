@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "operatingSystem": "POS20",
+  "purpose": "Blocking deterministic product contracts added by POS20 above the frozen POS10 manifest. Entries are explicit, closed, and may only strengthen the inherited test floor.",
+  "tests": [
+    {
+      "path": "tests/contracts/ssjr-production-safe-evidence-assembly-contracts.cjs",
+      "patterns": [
+        "^js/ssjrProductionNegativeEvidence\\.js$",
+        "^scripts/assemble-ssjr-shared-setup-safe-evidence\\.mjs$",
+        "^tests/contracts/ssjr-production-safe-evidence-assembly-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    }
+  ]
+}

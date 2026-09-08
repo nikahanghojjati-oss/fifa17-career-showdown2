@@ -5,14 +5,14 @@
   "liveFactsMustBeResolved": true,
   "observedHeads": {
     "main": "30251181f457d1df1ed990001de54919885eea73",
-    "candidate": "43b6518d3552b0f70a363b257bdb79745780ee2d",
-    "recovery": "43b6518d3552b0f70a363b257bdb79745780ee2d"
+    "candidate": "a3b9b13b7d466590f6cc927230d98cf94a799352",
+    "recovery": "a3b9b13b7d466590f6cc927230d98cf94a799352"
   },
   "candidateBranch": "ops/ssjr-production-evidence-automation",
   "recoveryBranch": "recovery/ssjr-production-evidence-automation",
-  "cognitiveDecision": "STRENGTHEN_POS20_SSJR_TEST_OWNERSHIP",
-  "selectedAction": "Add the new privacy-safe evidence assembly contract as a POS20 supplemental blocking test and as part of the explicit SSJR contract command while leaving the frozen POS10 kernel unchanged.",
+  "cognitiveDecision": "REGISTER_POS20_SUPPLEMENTAL_BLOCKING_TEST",
+  "selectedAction": "Register the new SSJR safe-evidence contract in a fail-closed POS20 supplemental test authority and teach the shared deterministic runner to accept exactly the POS10 floor plus registered POS20 supplements.",
   "evidenceDebt": {"count": 1, "blocking": 1, "items": ["production-two-account-shared-setup"]},
-  "exactBlocker": "Exact head 43b6518 passed the inherited deterministic census, but that inherited 60-test route did not directly execute the new SSJR safe-evidence assembly contract.",
-  "nextVerification": "Require POS20 operations to prove supplemental-test ownership and require the exact candidate census to execute and pass ssjr-production-safe-evidence-assembly-contracts.cjs."
+  "exactBlocker": "Exact head a3b9b13 selected the new test but the deterministic runner correctly rejected it because it was outside every registered blocking-test authority.",
+  "nextVerification": "Require the exact candidate census to execute 61 registered tests and emit the SSJR safe-evidence assembly PASS line, with POS20 operations proving unknown unregistered tests remain rejected."
 }
