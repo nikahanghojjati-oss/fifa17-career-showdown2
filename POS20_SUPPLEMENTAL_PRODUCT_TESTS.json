@@ -7,6 +7,10 @@
       "path": "tests/contracts/ssjr-production-safe-evidence-assembly-contracts.cjs",
       "patterns": [
         "^js/ssjrProductionNegativeEvidence\\.js$",
+        "^js/ssjrProductionNegativeProbeRunner\\.js$",
+        "^js/ssjrProductionAcceptanceRecorder\\.js$",
+        "^js/ssjr\\.js$",
+        "^scripts/validate-ssjr-shared-setup-production-evidence\\.mjs$",
         "^scripts/assemble-ssjr-shared-setup-safe-evidence\\.mjs$",
         "^tests/contracts/ssjr-production-safe-evidence-assembly-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"

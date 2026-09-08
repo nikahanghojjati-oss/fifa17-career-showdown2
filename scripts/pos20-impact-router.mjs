@@ -30,7 +30,8 @@ export function routeFiles(files,context={}){
   const escalation=Boolean(context.forceFull||context.uncertainty==='HIGH'||Number(context.evidenceDebt||0)>=3||context.repeatedFailure===true||context.authorityChange===true);
   const base=pos10Route(files,{forceFull:false});
   const selected=escalation?pos10Route(files,{forceFull:true}):base;
-  const tests=uniq([...(selected.tests||[]),...supplementalTests(files)]);
+  const supplemental=selected.fullSeal?supplementalRegistry.tests.map(entry=>entry.path):supplementalTests(files);
+  const tests=uniq([...(selected.tests||[]),...supplemental]);
   superset(base.tests,tests,'tests');superset(base.proofs,selected.proofs,'proofs');
   const added=tests.filter(test=>!(selected.tests||[]).includes(test));
   const reason=escalation

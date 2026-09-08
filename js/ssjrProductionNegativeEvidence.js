@@ -35,12 +35,14 @@
     if(parsed.managerRole!==null&&!['playerOne','playerTwo'].includes(parsed.managerRole))return null;
     for(const key of ["accountFingerprint","deviceFingerprint","rivalryFingerprint"])if(parsed[key]!==null&&!ssjrNegEvidenceValidHash(parsed[key]))return null;
     const observations={};for(const [name,o] of Object.entries(parsed.observations)){if(!REQUIRED.includes(name)||!ssjrNegEvidenceValidObservation(name,o))return null;observations[name]={at:o.at,status:"denied",source:o.source,code:o.code,localStorageUnchanged:true,provenance:PROVENANCE};}
+    if(Object.keys(observations).length&&(!parsed.managerRole||["accountFingerprint","deviceFingerprint","rivalryFingerprint"].some(key=>!ssjrNegEvidenceValidHash(parsed[key]))))return null;
     return {...base,managerRole:parsed.managerRole,accountFingerprint:parsed.accountFingerprint,deviceFingerprint:parsed.deviceFingerprint,rivalryFingerprint:parsed.rivalryFingerprint,observations};
   }
-  function ssjrNegEvidenceLoad(){const base=ssjrNegEvidenceFresh();try{const raw=root.sessionStorage&&root.sessionStorage.getItem(STORE_KEY);if(!raw)return base;return ssjrNegEvidenceSanitize(JSON.parse(raw),base)||base;}catch(_e){return base;}}
+  function ssjrNegEvidenceLoad(){const base=ssjrNegEvidenceFresh();try{const raw=root.sessionStorage&&root.sessionStorage.getItem(STORE_KEY);if(!raw)return base;const clean=ssjrNegEvidenceSanitize(JSON.parse(raw),base);if(clean)return clean;}catch(_e){}try{root.sessionStorage?.removeItem(STORE_KEY);}catch(_e){}return base;}
   let state=ssjrNegEvidenceLoad();
+  let ssjrNegEvidenceRunEpoch=0;
   function ssjrNegEvidencePersist(){try{if(root.sessionStorage)root.sessionStorage.setItem(STORE_KEY,JSON.stringify(state));}catch(_e){}return state;}
-  function ssjrNegEvidenceClear(){state=ssjrNegEvidenceFresh();try{if(root.sessionStorage)root.sessionStorage.removeItem(STORE_KEY);}catch(_e){}return true;}
+  function ssjrNegEvidenceClear(){ssjrNegEvidenceRunEpoch+=1;state=ssjrNegEvidenceFresh();root.CareerModeSSJRProductionNegativeProbeRunner?.reset?.();try{if(root.sessionStorage)root.sessionStorage.removeItem(STORE_KEY);}catch(_e){}return true;}
   function ssjrNegEvidenceBindIdentity({managerRole,accountFingerprint,deviceFingerprint,rivalryFingerprint}={}){
     if(!['playerOne','playerTwo'].includes(managerRole))ssjrNegEvidenceFail("SSJR_NEGATIVE_ROLE_INVALID");
     for(const [label,value] of Object.entries({accountFingerprint,deviceFingerprint,rivalryFingerprint}))if(!ssjrNegEvidenceValidHash(value))ssjrNegEvidenceFail("SSJR_NEGATIVE_FINGERPRINT_INVALID",`${label} must be privacy-safe sha256 evidence.`);
@@ -51,7 +53,10 @@
   async function ssjrNegEvidenceRunProbe(name,options={}){
     if(!REQUIRED.includes(name))ssjrNegEvidenceFail("SSJR_NEGATIVE_NAME_INVALID");if(ssjrNegEvidenceRevision()!==RUNTIME)ssjrNegEvidenceFail("SSJR_NEGATIVE_RUNTIME_INVALID",`Exact runtime ${RUNTIME} is required.`);
     if(!state.managerRole||!ssjrNegEvidenceValidHash(state.accountFingerprint)||!ssjrNegEvidenceValidHash(state.deviceFingerprint)||!ssjrNegEvidenceValidHash(state.rivalryFingerprint))ssjrNegEvidenceFail("SSJR_NEGATIVE_IDENTITY_REQUIRED","Bind the current privacy-safe manager identity before running denials.");
+    const epoch=ssjrNegEvidenceRunEpoch;
+    const identity=Object.fromEntries(["managerRole","accountFingerprint","deviceFingerprint","rivalryFingerprint"].map(key=>[key,state[key]]));
     const result=await ssjrNegEvidenceRunner().run(name,options);const rule=RULES[name];
+    if(epoch!==ssjrNegEvidenceRunEpoch||Object.entries(identity).some(([key,value])=>state[key]!==value||result?.[key]!==value))ssjrNegEvidenceFail("SSJR_NEGATIVE_IDENTITY_CHANGED","The probe must use the exact bound manager, account, device and rivalry throughout capture.");
     if(!ssjrNegEvidencePlain(result)||result.ok!==true||result.probeContract!=="ssjr-negative-probe-runner-v1"||result.denied!==true||result.source!==rule.source||!rule.codes.includes(result.code)||result.localStorageUnchanged!==true)ssjrNegEvidenceFail("SSJR_NEGATIVE_PROOF_NOT_ACCEPTED",`${name} did not satisfy the direct production probe contract.`);
     const observation=Object.freeze({at:ssjrNegEvidenceNow(),status:"denied",source:rule.source,code:String(result.code),localStorageUnchanged:true,provenance:PROVENANCE});
     state={...state,observations:{...state.observations,[name]:observation}};ssjrNegEvidencePersist();return observation;
