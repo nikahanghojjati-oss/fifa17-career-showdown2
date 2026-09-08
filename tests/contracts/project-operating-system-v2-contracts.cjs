@@ -16,8 +16,11 @@ const policy = read("PROJECT_OPERATING_SYSTEM_V2.md");
 assert.equal(guards.operatingSystem, "POS-2");
 assert.equal(manifest.operatingSystem, "POS-2");
 assert.equal(dormant.operatingSystem, "POS-2");
+assert.equal(dormant.schemaVersion, 2);
 assert.equal(dormant.classification, "HISTORICAL_DORMANT_ARCHITECTURE");
 assert.equal(dormant.automaticCI, false);
+assert.ok(Array.isArray(dormant.tests));
+assert.ok(Array.isArray(dormant.emulatorTests));
 assert.equal(inventory.operatingSystem, "POS-2");
 assert.equal(guards.provider.billingEnabled, false);
 assert.equal(guards.provider.firebasePlan, "Spark");
@@ -54,6 +57,12 @@ for (const archived of dormant.tests) {
 }
 assert.match(dormantSuite, /DORMANT_ARCHITECTURE_TEST_MANIFEST\.json/, "Dormant architecture must remain manually auditable from its manifest.");
 assert.equal(new Set(dormant.tests).size, dormant.tests.length, "Dormant architecture manifest must not contain duplicate tests.");
+assert.equal(new Set(dormant.emulatorTests).size, dormant.emulatorTests.length, "Dormant emulator archive must not contain duplicate fixtures.");
+for (const archivedEmulator of dormant.emulatorTests) {
+  assert.ok(fs.existsSync(archivedEmulator), `${archivedEmulator} must remain preserved as historical emulator source.`);
+  const escaped = archivedEmulator.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  assert.doesNotMatch(staticWorkflow, new RegExp(escaped), `${archivedEmulator} is archived and must not consume normal Static App CI compute.`);
+}
 
 for (const cloudRunHistorical of [
   "tests/contracts/private-account-auth-stage2h-contracts.cjs",
@@ -64,6 +73,7 @@ for (const cloudRunHistorical of [
   assert.ok(dormant.tests.includes(cloudRunHistorical), `${cloudRunHistorical} must remain archived while Cloud Run is forbidden by current product authority.`);
 }
 assert.ok(dormant.tests.includes("tests/contracts/stage5b-device-credential-contracts.cjs"), "Dormant Stage 5B device credential candidate must not return to blocking CI until explicitly reactivated.");
+assert.ok(dormant.emulatorTests.includes("tests/firebase/stage5b-device-credential-emulator.cjs"), "Dormant Stage 5B emulator must remain manual-only while its architecture is inactive.");
 
 const concept = id => inventory.concepts.find(item => item.id === id)?.status;
 assert.equal(concept("SSJR"), "ACTIVE_PRODUCT_METRIC");
@@ -83,6 +93,9 @@ assert.doesNotMatch(operationsSuite, /session-handoff-proximity-contracts\.cjs/,
 
 assert.equal((staticWorkflow.match(/npm run test:contracts/g) || []).length, 0, "Static App must not duplicate the full product suite.");
 assert.doesNotMatch(staticWorkflow, /literalBlocks|expected 35 literal blocks|workflow block topology/i, "Workflow-count topology must not be a product gate.");
+assert.match(staticWorkflow, /spark-account-bootstrap-emulator\.cjs/, "Static App must retain the current Spark account/Rules emulator proof.");
+assert.match(staticWorkflow, /--only firestore/, "Static App must start only the provider emulator required by its current Spark proof.");
+assert.doesNotMatch(staticWorkflow, /firebase-admin@/, "Static App must not install Firebase Admin solely for archived trusted-server emulator proofs.");
 assert.equal((securityWorkflow.match(/npm run test:contracts/g) || []).length, 0, "Specialist authenticated-negative CI must not duplicate the full product suite.");
 assert.doesNotMatch(securityWorkflow, /handoff-immediate-next-task|sle-handoff-packaging|WORK_ENVIRONMENT_STATUS/, "Specialist security CI must not trigger from continuity-only files.");
 
@@ -94,4 +107,4 @@ assert.match(policy, /HTR-1[\s\S]+ARCHIVE THE SCORE/i);
 assert.match(policy, /SLE[\s\S]+NOT A GATE/i);
 assert.match(policy, /SNS[\s\S]+REMODEL/i);
 
-process.stdout.write("PASS POS v2 operations policy: product, operations, dormant architecture and historical gates are separated; permanent guards and concept inventory remain machine-readable; duplicated suite execution and workflow-count gating are forbidden.\n");
+process.stdout.write("PASS POS v2 operations policy: product, operations, dormant architecture and historical gates are separated; permanent guards and concept inventory remain machine-readable; dormant emulator compute, duplicated suite execution and workflow-count gating are forbidden.\n");
