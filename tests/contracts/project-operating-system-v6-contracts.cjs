@@ -4,7 +4,13 @@ const pkg=JSON.parse(fs.readFileSync("package.json","utf8"));
 const manifest=JSON.parse(fs.readFileSync("CURRENT_PRODUCT_TEST_MANIFEST.json","utf8"));
 const risk=JSON.parse(fs.readFileSync("POS6_RISK_MAP.json","utf8"));
 const continuity=JSON.parse(fs.readFileSync("POS6_CONTINUITY_MODEL.json","utf8"));
-const requiredFiles=["PROJECT_OPERATING_SYSTEM_V6.md","PROJECT_OPERATING_SYSTEM_V6.json","scripts/pos6-continuity.mjs","scripts/pos6-risk-router.mjs"];
+const requiredFiles=[
+  "PROJECT_OPERATING_SYSTEM_V6.md",
+  "PROJECT_OPERATING_SYSTEM_V6.json",
+  "scripts/pos6-continuity.mjs",
+  "scripts/pos6-risk-router.mjs",
+  ".github/workflows/validate-pos6-race.yml"
+];
 for(const file of requiredFiles)assert.ok(fs.existsSync(file),`Missing POS6 authority: ${file}`);
 assert.equal(pkg.scripts["test:contracts"],"node tests/support/run-current-product-contracts.cjs");
 assert.equal(pkg.scripts["work:transition"],"node scripts/pos6-continuity.mjs");
@@ -30,5 +36,14 @@ for(const test of [
   "tests/contracts/stage5g-remote-joining-reconnect-contracts.cjs"
 ])assert.ok(manifest.tests.includes(test),`POS6 deterministic owner missing current contract: ${test}`);
 assert.equal(risk.model,"RACE-6");
+assert.equal(risk.orchestrator,".github/workflows/validate-pos6-race.yml");
+assert.ok(risk.accurateEscalation.includes("unknown-non-document-change"));
+assert.ok(risk.accurateEscalation.includes("missing-changed-file-evidence"));
 assert.equal(continuity.model,"CWS-6");
-console.log(`PASS POS6 authority: lean command surface, one ${manifest.tests.length}-contract automatic product owner, RACE-6 routing, CWS-6 continuity.`);
+const orchestrator=fs.readFileSync(risk.orchestrator,"utf8");
+assert.ok(orchestrator.includes("node scripts/pos6-risk-router.mjs"),"POS6 orchestrator must execute machine RACE-6 authority.");
+assert.ok(orchestrator.includes("POS6 Accurate Summary"),"POS6 orchestrator must expose one stable final summary job.");
+assert.ok(orchestrator.includes("needs.route.outputs.run_remote_emulator == 'true'"),"Remote emulator proof must be routed rather than unconditional.");
+assert.ok(orchestrator.includes("needs.route.outputs.run_storage_browser == 'true'"),"Storage browser proof must be routed rather than unconditional.");
+assert.ok(orchestrator.includes("needs.route.outputs.run_visual_browser == 'true'"),"Visual browser proof must be routed rather than unconditional.");
+console.log(`PASS POS6 authority: lean command surface, one ${manifest.tests.length}-contract automatic product owner, routed RACE-6 CI, CWS-6 continuity.`);
