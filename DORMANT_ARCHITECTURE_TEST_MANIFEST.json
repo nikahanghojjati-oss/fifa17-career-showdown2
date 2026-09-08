@@ -7,6 +7,9 @@
   "archiveRule": "A test belongs here only when its protected implementation is deliberately dormant, superseded, or rejected by current product authority and an active product gate protects any still-current invariant that the historical design helped establish.",
   "reactivationRule": "Before any archived architecture becomes product runtime again, move the relevant tests back through POS-2 classification, update them to the current provider/runtime authority, and make only the current behavior blocking.",
   "tests": [
+    "tests/contracts/cloud-sync-readiness-phase1-contracts.cjs",
+    "tests/contracts/cloud-sync-remote-contracts.cjs",
+    "tests/contracts/cloud-sync-phase1f-runtime-contracts.cjs",
     "tests/contracts/private-account-auth-stage2a-boundary-contracts.cjs",
     "tests/contracts/private-account-auth-stage2a-contracts.cjs",
     "tests/contracts/private-account-auth-stage2b-contracts.cjs",
@@ -37,6 +40,7 @@
     "tests/firebase/stage5b-device-credential-emulator.cjs"
   ],
   "rationale": {
+    "cloudSyncPredecessorPhases": "Phase 1A/1D/1F contracts are predecessor architecture/test-only models: the revision/schema modules are unloaded from the current shell and Phase 1F points at the legacy firestore.rules plus its archived emulator. Current cloud-foundation, remote-data-privacy, two-device runtime, Spark Rules/Connected Rivalry and Stage 4/5 gates retain the still-current CAS, replay, tombstone, two-owner governance, privacy, reconnect and deny-by-default invariants.",
     "stage2a": "The Stage 2A contracts and emulator describe a predecessor identity boundary against the legacy deny-all Rules source. The shipped Spark account bootstrap now has its own current emulator and runtime contracts. The old Stage 2A boundary additionally coupled current NEXT_TASK and frozen RJR/PR narration to immutable history, causing a current Stability failure with no product regression.",
     "stage2bThrough2g": "Stages 2B through 2G are predecessor policy, emulator, non-runtime or trusted-server architecture. Their wrappers repeatedly bind current NEXT_TASK, old PR numbers, frozen RJR publication narration, historical handoffs and disconnected-era roadmaps to immutable predecessor proof. Current Spark Connected Account, Spark account bootstrap, production provider/Rules gates and Stage 5F authenticated negatives protect the shipped Google popup, session persistence, memory-only Firestore, zero-billing, account bootstrap and authorization behavior. The old wrappers and emulator fixtures remain available only for deliberate historical or migration audits.",
     "phase1fEmulator": "The Phase 1F emulator loads the legacy firestore.rules source and reconstructs the pre-Spark provider-neutral mutation model. Its still-current CAS, replay, tombstone, privacy and denial invariants are protected by current Spark Connected Rivalry, current Rules and synchronization tests; the old fixture remains manual provenance.",
