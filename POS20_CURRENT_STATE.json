@@ -5,14 +5,14 @@
   "liveFactsMustBeResolved": true,
   "observedHeads": {
     "main": "30251181f457d1df1ed990001de54919885eea73",
-    "candidate": "f8a6c52891bbbef833630b6687518270f2a96d0c",
-    "recovery": "f8a6c52891bbbef833630b6687518270f2a96d0c"
+    "candidate": "388adf2d8250a3bf815932e77702d549f781ebea",
+    "recovery": "388adf2d8250a3bf815932e77702d549f781ebea"
   },
   "candidateBranch": "ops/ssjr-production-evidence-automation",
   "recoveryBranch": "recovery/ssjr-production-evidence-automation",
-  "cognitiveDecision": "HARDEN_PRODUCTION_DENIAL_PROVENANCE",
-  "selectedAction": "Replace caller-supplied denial objects with direct production probe execution, rebuild persisted evidence from a closed schema, enforce the exact denial rule table in assembly, and load all acceptance-only denial tooling through the r6 shell authority.",
+  "cognitiveDecision": "CORRECT_STATIC_RELEASE_NAMESPACE",
+  "selectedAction": "Keep the direct-production-probe provenance design unchanged while removing ordinary-module localStorage ownership and namespacing the probe runner helpers to satisfy the static release authority.",
   "evidenceDebt": {"count": 1, "blocking": 1, "items": ["production-two-account-shared-setup"]},
-  "exactBlocker": "PR #224 exact head f8a6c528 passed the complete POS20 seal, but Codex review identified four unresolved P1 provenance/runtime blockers in the new negative-evidence path.",
-  "nextVerification": "Require the replacement exact head to pass the 61-contract deterministic census, full inherited proof seal, and a fresh Codex review proving caller fabrication, poisoned persisted state, invented source/code pairs, and missing acceptance runtime loading are all closed."
+  "exactBlocker": "Exact head 388adf2d passed the hardened SSJR provenance contract but STATIC_APP_RELEASE rejected the new probe runner because it named localStorage directly as an ordinary module.",
+  "nextVerification": "Require the replacement exact head to pass STATIC_APP_RELEASE, all 61 deterministic contracts including the hardened SSJR evidence contract, the complete POS20 proof matrix, and a fresh after-resolution Codex review."
 }
