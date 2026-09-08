@@ -1,18 +1,16 @@
 # Career Mode Showdown — Repository Agent Instructions
 
-These instructions apply to the entire repository. `PROJECT_OPERATING_SYSTEM_V7.md` is the current process authority. `CURRENT_PRODUCT_GUARDS.json` is stable machine-readable product/safety authority. `POS7_IMPACT_GRAPH.json` owns current change-to-proof selection. `NEXT_TASK.md` owns the current implementation task.
+These instructions apply to the entire repository. `PROJECT_OPERATING_SYSTEM_V8.md` is current process authority. `CURRENT_PRODUCT_GUARDS.json` is stable product/safety authority. IMPACT-7 remains the exact product validation engine through `POS7_IMPACT_GRAPH.json`. `NEXT_TASK.md` owns the current implementation task.
 
 ## 1. Source first
 
-Before a write, resolve the live boundary that matters: current `main`, active PR/branch/head, relevant checks, current source, and deployed/provider state when applicable. Later explicit owner instruction and verified live source override relay artifacts, old SHAs, milestone history and historical prose.
-
-Do not restart a full repository study when the exact current boundary is already known. Never combine validation evidence across heads.
+Before any write, resolve the live boundary that matters: main, active PR candidate branch/head, shadow recovery branch/head, current source, current checks, and deployed/provider state when applicable. Later explicit owner instruction and verified live source override recorded SHAs or relay artifacts. Never combine validation evidence across heads.
 
 ## 2. Product direction
 
-The active milestone is Shared Showdown Journey. RJR-1 is frozen historical 100/100 unless a real still-used product regression is reproduced. SSJR-1.1 is the active product acceptance target. MDP-1 is current. Operating-system work earns zero SSJR/MDP credit.
+The active milestone is Shared Showdown Journey. RJR-1 is frozen historical 100/100 unless a real still-used product regression is reproduced. SSJR-1.1 is the active acceptance target. MDP-1 remains current. POS8 earns zero SSJR/MDP credit.
 
-Once POS7 is safely merged, return immediately to production Shared Setup integration/evidence and the next unfinished two-manager SSJR dependency.
+After POS8 publication, stop operating-system work and return immediately to production Shared Setup integration/evidence and the next unfinished two-manager SSJR dependency.
 
 ## 3. Permanent product and safety guards
 
@@ -20,40 +18,44 @@ Protect `CURRENT_PRODUCT_GUARDS.json` and the executable/configuration sources i
 
 Never weaken a gate protecting genuine runtime, data, recovery, privacy, security, provider, UI/UX, executable schema/API, evidence-validity or release behavior.
 
-## 4. POS7 IMPACT-7 validation
+## 4. POS8 TX-8 crash shield
 
-`POS7_IMPACT_GRAPH.json` assigns every current deterministic blocking contract to exactly one invariant owner and declares transitive consumers plus exact heavy-proof IDs.
+Durability and candidate publication are separate.
 
-For a changed artifact, `scripts/pos7-impact-router.mjs` must either resolve the affected invariant closure or fail closed to `FULL_SEAL`. Workflow/dependency/product-guard/test-manifest/service-worker/router/proof-authority changes and unknown non-document artifacts always take the full seal.
+Before mutation, write WAL-8 intent into active PR metadata: exact candidate branch/head, one shadow recovery branch/head, current Atomic Work Unit, last safe checkpoint and exact next action. The recovery block changes no Git head and is capped at 4 KiB.
 
-`tests/support/run-selected-product-contracts.cjs` may execute only tests listed in `CURRENT_PRODUCT_TEST_MANIFEST.json`. `scripts/pos7-proof-runner.mjs` may execute only proof IDs in the impact graph. Byte-preserved legacy inline proof sources live under `tests/proof-sources/workflows/` and are hash-checked before execution.
+Do unfinished work on the single shadow recovery branch. Checkpoint there often enough that no more than one tiny local mutation packet can be lost. The shadow branch has no PR and is not a candidate CI surface.
 
-There is one automatic pull-request orchestrator: `.github/workflows/validate-pos7-impact.yml`. Do not reintroduce unconditional specialist PR workflows. Main push validation is forced to the complete seal. Deployment/provider publication authority remains main-only where applicable.
+Only after one coherent Atomic Work Unit is durable and its targeted validation is green may PG-8 fast-forward the PR candidate branch once to that shadow head. Do not mutate the candidate while its exact-head validation is pending. If the candidate head moved, compare first and never overwrite blindly.
 
-## 5. Failure handling
+At most one Atomic Work Unit and one local unpublished packet may be open. Never widen into a second independent mutation lane before the first is durable or abandoned.
 
-Collect the coherent selected failure set before editing. ADB-7 counts only a meaningful correction followed by failed validation. Reads, diagnosis, polling, successful checks and an unreproduced infrastructure flake consume zero cycles.
+After abrupt interruption, normal recovery reads only the live PR recovery block, candidate head, recovery head, and the candidate's exact-head workflow result when published. Do not recursively reload historical handoffs unless a real provenance question requires them.
 
-Before a write, re-resolve the branch head. If it moved, compare first and never overwrite concurrent work blindly.
+Never infer platform limit pressure from account plan, message count, tool-call count or elapsed time. A real owner-reported platform warning, severe observable context damage, or unavailable live authority is a hard transition input. Checkpoint the one volatile packet to the shadow branch first when possible.
 
-## 6. Recovery and continuity
+## 5. IMPACT-7 validation remains active
 
-Keep one coherent atomic work unit per mutation lane. Durable Git/PR metadata is the recovery boundary; do not create continuity-only commits or PRs.
+`POS7_IMPACT_GRAPH.json` assigns every current deterministic blocking contract to exactly one invariant owner and declares transitive consumers plus exact heavy-proof IDs. `scripts/pos7-impact-router.mjs` must resolve affected invariant closure or fail closed to `FULL_SEAL`. Workflow/dependency/product-guard/test-manifest/service-worker/router/proof-authority changes and unknown non-document artifacts take the complete seal.
 
-CWS-7 adds observable `contextSaturation`. Use exact environment context telemetry when genuinely available; otherwise only observable compaction/reconstruction/detail-loss/retrieval/volatile-state/reasoning-breadth signals. Never infer context pressure from account plan, five-hour or weekly usage limits, message count, tool-call count, or elapsed time.
+Product contracts must test product behavior only and must not import POS7/POS8 process, continuity, recovery or routing authority. POS8 operations tests own that process behavior.
 
-Transition when the owner explicitly requests it, required live authority cannot be resolved/written, crash-loss risk would exceed one coherent atomic unit, ADB-7 is exhausted with meaningful unresolved failure, or severe context reconstruction makes continuation unsafe.
+`tests/support/run-selected-product-contracts.cjs` executes the deterministic product registry. `scripts/pos7-proof-runner.mjs` executes registered heavy proof IDs. Byte-preserved legacy inline proof sources under `tests/proof-sources/workflows/` remain hash checked.
 
-## 7. Active command surface
+There is one automatic pull-request orchestrator: `.github/workflows/validate-pos7-impact.yml`. Do not restore unconditional specialist PR fanout. Main push validation remains the complete seal.
 
-`npm run test:contracts` runs the complete deterministic current-product census. `npm run test:impact:all` runs the same complete census through the IMPACT-7 selected runner. `npm run test:ops` runs POS7 self-tests. `npm run test:ssjr:browser` runs focused Shared Showdown browser proof. `npm run work:route` runs IMPACT-7 selection. `npm run work:transition` runs CWS-7 / ADB-7 assessment.
+## 6. Failure handling
 
-Superseded WEC/SHP/HTR/resume-capsule and POS6 RACE command surfaces are not current authority.
+Collect the coherent selected failure set before editing. Reads, diagnosis, polling, successful checks and unreproduced infrastructure flakes are not correction cycles. Product failures and process failures remain separate classes.
+
+## 7. Active commands
+
+`npm run test:contracts` runs the complete deterministic product census. `npm run test:impact:all` runs the same complete registry through the IMPACT-7 selected runner. `npm run test:ops` runs POS8 operations self-tests. `npm run work:route` runs IMPACT-7 selection. `npm run work:transition` and `npm run work:crash-shield` run TX-8 recovery assessment.
 
 ## 8. Publication discipline
 
-Required merge evidence must belong to one exact current head. Re-fetch reviews/comments/threads and selected checks immediately before merge and use expected-head protection. After a release-changing merge, verify the deployed/runtime/provider boundary appropriate to that change. Never combine evidence across heads.
+Required merge evidence belongs to one exact current candidate head. Re-fetch reviews/comments/threads and selected checks immediately before merge and use expected-head protection. After a release-changing merge, verify the appropriate deployed/runtime/provider boundary. Never combine evidence across heads.
 
-## 9. Core POS7 rule
+## 9. Core POS8 rule
 
-Run every proof that can detect the actual changed risk and no unrelated expensive proof merely from historical workflow habit. If impact classification is incomplete or uncertain, escalate to the complete seal. Never trade away a genuine safety invariant for speed.
+Checkpoint unfinished work cheaply on the shadow recovery branch, promote a coherent candidate once, then prove exactly the changed risk through IMPACT-7. An external interruption may stop a session, but it should not erase meaningful work or force reconstruction from chat history.
