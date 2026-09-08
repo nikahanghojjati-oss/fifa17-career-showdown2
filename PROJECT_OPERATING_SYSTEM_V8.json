@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "operatingSystem": "POS-8",
+  "impactSelectionModel": "IMPACT-7",
+  "recoveryModel": "TX-8",
+  "shadowRecoveryModel": "SRB-8",
+  "writeAheadModel": "WAL-8",
+  "promotionModel": "PG-8",
+  "productCredit": 0,
+  "machineAuthority": {
+    "productGuards": "CURRENT_PRODUCT_GUARDS.json",
+    "testManifest": "CURRENT_PRODUCT_TEST_MANIFEST.json",
+    "impactGraph": "POS7_IMPACT_GRAPH.json",
+    "impactRouter": "scripts/pos7-impact-router.mjs",
+    "proofRunner": "scripts/pos7-proof-runner.mjs",
+    "recoveryModel": "POS8_RECOVERY_MODEL.json",
+    "crashShield": "scripts/pos8-crash-shield.mjs"
+  },
+  "candidateCiPolicy": "shadow-first-single-promotion",
+  "maxOpenAtomicUnits": 1,
+  "maxLocalUnpublishedPackets": 1,
+  "failClosed": true,
+  "unknownDependencyAction": "FULL_SEAL",
+  "externalCrashTriggerClaim": "unknown-without-platform-telemetry",
+  "productReturnAfterMerge": "production Shared Setup integration/evidence"
+}
