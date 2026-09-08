@@ -1,13 +1,22 @@
 {
-  "schemaVersion": 2,
-  "operatingSystem": "POS-2",
-  "purpose": "Registry of blocking current product contracts plus their single automatic CI owners. Process/continuity, historical/provenance, and dormant rejected architecture tests are deliberately excluded.",
+  "schemaVersion": 3,
+  "operatingSystem": "POS-6",
+  "purpose": "Single automatic registry for blocking current deterministic product contracts. Operations/continuity, historical/provenance, and dormant rejected-architecture tests are excluded from ordinary product validation.",
+  "automaticOwner": "tests/support/run-current-product-contracts.cjs",
   "tests": [
     "tests/contracts/shared-showdown-readiness-contracts.cjs",
     "tests/contracts/shared-showdown-setup-contracts.cjs",
     "tests/contracts/shared-showdown-provider-contracts.cjs",
+    "tests/contracts/shared-showdown-production-runtime-contracts.cjs",
+    "tests/contracts/shared-showdown-host-peer-ui-contracts.cjs",
+    "tests/contracts/shared-showdown-polished-presentation-contracts.cjs",
+    "tests/contracts/shared-showdown-dual-full-screen-contracts.cjs",
     "tests/contracts/ssjr-production-shared-setup-evidence-validator-contracts.cjs",
+    "tests/contracts/ssjr-production-shared-setup-evidence-recorder-contracts.cjs",
+    "tests/contracts/ssjr-production-storage-observation-contracts.cjs",
+    "tests/contracts/milestone-delivery-progress-contracts.cjs",
     "tests/contracts/stability-contracts.cjs",
+    "tests/contracts/static-app-release-contracts.cjs",
     "tests/contracts/final-polish-transition.cjs",
     "tests/contracts/final-polish-feedback.cjs",
     "tests/contracts/final-polish-presentation.cjs",
@@ -45,6 +54,7 @@
     "tests/contracts/stage5d-production-session-rules-contracts.cjs",
     "tests/contracts/stage5e-production-remote-joining-runtime-contracts.cjs",
     "tests/contracts/stage5e-remote-joining-copy-contracts.cjs",
+    "tests/contracts/stage5g-remote-joining-reconnect-contracts.cjs",
     "tests/contracts/firebase-permanent-control-plane-contracts.cjs",
     "tests/contracts/stage4-adverse-network-contracts.cjs",
     "tests/contracts/stage4-abuse-hardening-contracts.cjs",
@@ -55,7 +65,20 @@
     "tests/contracts/ci-orchestration-contracts.cjs",
     "tests/contracts/final-release-hardening.cjs"
   ],
-  "specialistOwners": {
+  "heavyProofGroups": {
+    "shared-showdown": [
+      "tests/contracts/shared-showdown-readiness-contracts.cjs",
+      "tests/contracts/shared-showdown-setup-contracts.cjs",
+      "tests/contracts/shared-showdown-provider-contracts.cjs",
+      "tests/contracts/shared-showdown-production-runtime-contracts.cjs",
+      "tests/contracts/shared-showdown-host-peer-ui-contracts.cjs",
+      "tests/contracts/shared-showdown-polished-presentation-contracts.cjs",
+      "tests/contracts/shared-showdown-dual-full-screen-contracts.cjs",
+      "tests/contracts/ssjr-production-shared-setup-evidence-validator-contracts.cjs",
+      "tests/contracts/ssjr-production-shared-setup-evidence-recorder-contracts.cjs",
+      "tests/contracts/ssjr-production-storage-observation-contracts.cjs",
+      "tests/contracts/milestone-delivery-progress-contracts.cjs"
+    ],
     "candidate-b-import-analysis": [
       "tests/contracts/import-analysis-contracts.cjs"
     ],
@@ -90,7 +113,14 @@
       "tests/contracts/stage4-abuse-hardening-contracts.cjs",
       "tests/contracts/stage4-remote-local-reconciliation-contracts.cjs",
       "tests/contracts/stage5c-zero-billing-standard-auth-session-contracts.cjs",
-      "tests/contracts/stage5d-production-session-rules-contracts.cjs"
+      "tests/contracts/stage5d-production-session-rules-contracts.cjs",
+      "tests/contracts/stage5e-production-remote-joining-runtime-contracts.cjs",
+      "tests/contracts/stage5g-remote-joining-reconnect-contracts.cjs"
     ]
-  }
+  },
+  "excludedAutomaticClasses": [
+    "operations-continuity",
+    "historical-provenance",
+    "dormant-rejected-architecture"
+  ]
 }
