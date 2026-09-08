@@ -1,0 +1,25 @@
+# START NEXT SESSION V1.4.61 — PR215 GITHUB CLI BOOTSTRAP SAFE TRANSFER
+
+Open the live repository `nikahanghojjati-oss/fifa17-career-showdown2` and treat this file as orientation only. If it is not on `main`, fetch `fix/pr214-postmerge-dual-screen-contract`. Read `SESSION_BOOTSTRAP_V1.4.61.json`, then follow only the SLE/deep references needed to execute the immediate task. Current source and live GitHub/provider/deployment evidence override handoff facts.
+
+Closing WEC: `we-2026-09-07-pr215-r6-publication-a63`. Validate its durable archive, initialize a fresh unique successor WEC (`a64` only if unused), do not inherit a63's decision/counters, and reset Session Handoff Proximity v2 to literal `0%`. HTR-1 remains separate transfer readiness and must never be used as session pressure.
+
+Independently verify current `main`, PR #215 exact live head/tree/state, all 15 permanent workflow families on that exact head, reviews/comments/threads, production/runtime/deployment authority, `REMOTE_JOINING_READINESS.json`, `SHARED_SHOWDOWN_JOURNEY_READINESS.json`, `MILESTONE_DELIVERY_PROGRESS.json`, `NEXT_TASK.md`, and the closing WEC. Never combine CI across heads.
+
+Last substantive exact head inspected before this seal package: `71d4b630bcbffac7c2291aeef8a8efe6b4e24f5a`. Its final exact CI snapshot was 12 green / 3 red / 0 pending. The red families were Stability, Static App and Stage 5F Authenticated Negatives through the shared repository contract suite. Stability run `34162087837`, job `101865812226`, proved all current-authority, WEC, HTR, SHP, owner-reporting, SLE packaging, prompt, interruption-resilience and anti-loop contracts green before failing `tests/contracts/github-cli-bootstrap-contracts.cjs:28`: `00_DEVELOPER_START_HERE.md` does not match literal `/GitHub CLI bootstrap/i`. This is the first safe assertion to inspect in the successor. Do not assume the test or document is wrong until surrounding bootstrap authority is read together.
+
+The previous a63 correction cycle on exact head `84cf92278b1c7eb8f441c032de824363aec01137` failed because `NEXT_TASK.md` lost two historical implementation-authority provenance markers. Those exact markers were restored on `71d4b630...`, and the interruption-resilience contract then passed. Do not reopen that correction without reproduced regression.
+
+The a63 recursive anti-spiral circuit breaker fired after the second correction/validation cycle remained red. No third correction was attempted. The continuity/SNS seal commit necessarily advances the branch beyond `71d4b630...`; independently resolve and revalidate the live PR215 head before any merge. CI from `71d4b630...` applies only to that head.
+
+## IMMEDIATE NEXT TASK AFTER FULL STUDY
+
+Inspect the exact current shared repository-suite assertion around `tests/contracts/github-cli-bootstrap-contracts.cjs:28` and the corresponding current `00_DEVELOPER_START_HERE.md` bootstrap wording in one bounded batch. Determine whether the intended current authority requires the literal `GitHub CLI bootstrap` provenance phrase, an equivalent repository-owned bootstrap reference, or a contract update that follows the existing connector-first policy. Make the smallest objective correction without weakening GitHub access, WEC, SLE, lifecycle, publication, security, provider, evidence, zero-billing, RJR/SSJR, historical provenance or anti-spiral gates. Then require all 15 permanent workflow families green on one exact reviewed head before expected-head squash merge of PR215.
+
+After merge, prove exact-main Stability including Chromium and deployed-site smoke, Pages/deployed coherent `v1.9.1 / 1.9.1-r6`, and Release Integration Burn-In. Only then may Shared Setup product-integration MDP move `39.00 -> 41.50` with `MDP task delta: +2.50`; SSJR receives zero publication credit. Only after that clean r6 boundary say `YOUR TESTING TIME` and resume genuine Chromebook/iPhone production-two-account Shared Setup acceptance after pairing plus exact ACTIVE.
+
+Permanent locks: Billing must remain permanently OFF. Firebase remains Spark only. Never enable Blaze, Cloud Billing, a billing account, Cloud Run or Cloud Functions. App Check enforcement remains OFF. Firestore browser persistence remains memory-only. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes. Exactly two private managers. Connected Rivalry pairing plus exact ACTIVE precedes league or club authority. Candidate C remains the sole destructive remote-to-local gameplay Apply authority with transaction-owned strict exact raw-snapshot rollback. Preserve the three canonical storage keys and `SSJR-DUAL-FULL-SCREEN-1`. No public discovery, listing, lobby, matchmaking, community, rankings or global leaderboards.
+
+RJR-1: `100/100` frozen. SSJR-1.1: `0/100`. MDP-1: `39.00/100`. MDP task delta: `+0.00`.
+
+Generate a tiny VTLS SNS after every substantial state change at any percentage. Preserve the recursive anti-spiral circuit breaker. At a final transition, generate fresh mirrored SLE/starter packaging, current routing and a downloadable owner SNS.

@@ -1,5 +1,7 @@
 name: Validate Stage 5F Authenticated Negatives
 
+# Historical workflow name retained for check-name compatibility. Under POS-2 this is a
+# current specialist authentication/authorization security lane, not an RJR milestone gate.
 on:
   pull_request:
     paths:
@@ -7,38 +9,22 @@ on:
       - "js/productionAuthorizationAcceptance.js"
       - "js/stage5fAcceptanceAccountChooser.js"
       - "js/stage5fProductionAuthenticatedNegatives.js"
-      - "scripts/validate-remote-joining-physical-acceptance.mjs"
       - "tests/contracts/stage5f-account-chooser-contracts.cjs"
       - "tests/contracts/stage5f-authenticated-negatives-contracts.cjs"
       - "tests/contracts/production-authorization-acceptance-contracts.cjs"
       - "tests/contracts/production-provider-abuse-acceptance-contracts.cjs"
-      - "tests/contracts/handoff-immediate-next-task-contracts.cjs"
-      - "tests/contracts/sle-handoff-packaging-contracts.cjs"
-      - "tests/contracts/remote-joining-physical-acceptance-validator-contracts.cjs"
-      - "tests/contracts/remote-joining-physical-acceptance-real-recorder-null-contracts.cjs"
-      - "package.json"
-      - "WORK_ENVIRONMENT_STATUS.json"
       - ".github/workflows/validate-stage5f-authenticated-negatives.yml"
   push:
-    branches:
-      - "hardening/stage5f-authenticated-negatives-2026-09-03"
-      - "fix/stage5f-third-account-account-chooser-2026-09-03"
+    branches: [main]
     paths:
       - "production-authorization-acceptance.html"
       - "js/productionAuthorizationAcceptance.js"
       - "js/stage5fAcceptanceAccountChooser.js"
       - "js/stage5fProductionAuthenticatedNegatives.js"
-      - "scripts/validate-remote-joining-physical-acceptance.mjs"
       - "tests/contracts/stage5f-account-chooser-contracts.cjs"
       - "tests/contracts/stage5f-authenticated-negatives-contracts.cjs"
       - "tests/contracts/production-authorization-acceptance-contracts.cjs"
       - "tests/contracts/production-provider-abuse-acceptance-contracts.cjs"
-      - "tests/contracts/handoff-immediate-next-task-contracts.cjs"
-      - "tests/contracts/sle-handoff-packaging-contracts.cjs"
-      - "tests/contracts/remote-joining-physical-acceptance-validator-contracts.cjs"
-      - "tests/contracts/remote-joining-physical-acceptance-real-recorder-null-contracts.cjs"
-      - "package.json"
-      - "WORK_ENVIRONMENT_STATUS.json"
       - ".github/workflows/validate-stage5f-authenticated-negatives.yml"
   workflow_dispatch:
 
@@ -52,7 +38,7 @@ concurrency:
 jobs:
   stage5f-authenticated-negatives:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 8
     steps:
       - name: Checkout exact candidate
         uses: actions/checkout@v5
@@ -63,9 +49,7 @@ jobs:
           cache: npm
       - name: Install locked dependencies
         run: npm ci
-      - name: Verify Stage 5F explicit Google account chooser contract
+      - name: Verify explicit Google account chooser contract
         run: node tests/contracts/stage5f-account-chooser-contracts.cjs
-      - name: Verify Stage 5F zero-billing authenticated-negative contracts
+      - name: Verify zero-billing authenticated-negative contracts
         run: node tests/contracts/stage5f-authenticated-negatives-contracts.cjs
-      - name: Verify repository contract suite remains green
-        run: npm run test:contracts

@@ -1,29 +1,25 @@
-const assert=require("node:assert/strict");
-const fs=require("node:fs");
+const assert = require("node:assert/strict");
+const fs = require("node:fs");
 
-const agents=fs.readFileSync("AGENTS.md","utf8");
-const antiLoop=fs.readFileSync("00_FORWARD_PROGRESS_ANTI_LOOP.md","utf8");
+const agents = fs.readFileSync("AGENTS.md", "utf8");
+const antiLoop = fs.readFileSync("00_FORWARD_PROGRESS_ANTI_LOOP.md", "utf8");
+const pkg = JSON.parse(fs.readFileSync("package.json", "utf8"));
 
-assert.match(agents,/Mandatory forward-progress \/ anti-loop rule/i);
-assert.match(agents,/00_FORWARD_PROGRESS_ANTI_LOOP\.md/);
-assert.match(agents,/may activate that task in `NEXT_TASK\.md` atomically with the same bounded engineering candidate/i);
-assert.match(agents,/Do not create a preliminary authority-only PR/i);
-assert.match(agents,/do not let that deferred append block the next owner-authorized engineering milestone/i);
-assert.match(agents,/do not manufacture a history-only milestone solely to perform that append/i);
-assert.match(agents,/Do not create history-of-history repair loops/i);
-assert.match(agents,/another environment already merged equivalent or superseding work[\s\S]+close\/abandon duplicate work/i);
-assert.match(agents,/Do not create a reconciliation PR solely because the base SHA changed/i);
-assert.match(agents,/After an interruption[\s\S]+resume from the last coherent engineering checkpoint/i);
-assert.match(agents,/Do not restart the entire repository study/i);
+assert.match(agents, /00_FORWARD_PROGRESS_ANTI_LOOP\.md/);
+assert.match(antiLoop, /Forward Progress \/ Anti-Loop Policy/i);
+assert.match(antiLoop, /Meaningful gate rule/i);
+assert.match(antiLoop, /Retired milestone gate handling/i);
+assert.match(antiLoop, /Adaptive anti-spiral behavior/i);
+assert.match(antiLoop, /2 through 20 attempts/i);
+assert.match(antiLoop, /nonfunctional wording-only mismatch/i);
+assert.match(antiLoop, /No history-of-history loops/i);
+assert.match(antiLoop, /Interruption recovery must resume implementation/i);
+assert.match(antiLoop, /Product priority test/i);
+assert.match(antiLoop, /separate preliminary authority\/history PR is the exception/i);
+assert.match(antiLoop, /does not weaken exact-head CI/i);
 
-assert.match(antiLoop,/Successor authority activation is not a separate milestone/i);
-assert.match(antiLoop,/History append cannot become a progress deadlock/i);
-assert.match(antiLoop,/Concurrent equivalent-work collapse rule/i);
-assert.match(antiLoop,/No history-of-history loops/i);
-assert.match(antiLoop,/Interruption recovery must resume implementation/i);
-assert.match(antiLoop,/Remote Joining priority test/i);
-assert.match(antiLoop,/One bounded engineering milestone should normally produce one engineering PR/i);
-assert.match(antiLoop,/A separate preliminary authority\/history PR is the exception, not the default/i);
-assert.match(antiLoop,/never permits skipping a real security, recovery, dependency, testing, WEC or publication requirement/i);
+assert.equal(pkg.scripts["test:legacy-provenance"], "node tests/support/run-legacy-provenance-audit.cjs");
+assert.match(pkg.scripts["test:contracts:all"], /test:legacy-provenance/);
+assert.doesNotMatch(pkg.scripts["test:contracts"], /run-legacy-provenance-audit/);
 
-process.stdout.write("PASS forward-progress anti-loop policy: successor activation, deferred history, concurrent duplicate collapse and interruption resume cannot become self-perpetuating continuity milestones.\n");
+process.stdout.write("PASS forward-progress anti-loop policy: meaningful current gates stay blocking, legacy wording is preserved outside the product gate, and ADB-1 remains a bounded 2..20 context-sensitive circuit breaker.\n");

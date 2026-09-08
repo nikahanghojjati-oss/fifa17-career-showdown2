@@ -1,74 +1,38 @@
 const assert=require("node:assert/strict");
-const crypto=require("node:crypto");
 const fs=require("node:fs");
-
 const read=path=>fs.readFileSync(path,"utf8");
 const readJson=path=>JSON.parse(read(path));
-const gitBlobSha=source=>crypto.createHash("sha1")
-  .update(`blob ${Buffer.byteLength(source)}\0`)
-  .update(source)
-  .digest("hex");
 
-const productionRules=read("firestore.spark.rules");
-const provenStage5cRules=read("firestore.stage5c.rules");
-const rootFirebase=readJson("firebase.json");
+const rules=read("firestore.spark.rules");
 const productionFirebase=readJson("firebase.production.rules.json");
 const productionEnvironment=readJson("firebase.production.environment.json");
+const guards=readJson("CURRENT_PRODUCT_GUARDS.json");
 const adapter=read("js/sparkStandardAuthPrivateSession.js");
-const zeroBillingAuthorization=read("00_OWNER_ZERO_BILLING_REMOTE_JOINING_AUTHORIZATION.md");
-const zeroBillingDecision=read("ZERO_BILLING_REMOTE_JOINING_ARCHITECTURE_DECISION_2026-08-31.md");
-const stage5dProof=read("STAGE5D_MINIMUM_PRODUCTION_SESSION_RULES_GATE_PROOF_2026-09-01.md");
-const providerLiveProof=read("STAGE5D_PRODUCTION_RULES_PROVIDER_LIVE_PROOF_2026-09-02.md");
+const worker=read("service-worker.js");
 
-assert.equal(productionRules,provenStage5cRules,
-  "The Stage 5D production Rules source must be the exact already-emulator-proven Stage 5C Rules bytes.");
-assert.equal(gitBlobSha(productionRules),"363af783d7e5436fdfaa3766d4aa413fc9952a08",
-  "The reviewed minimum production session Rules source must preserve the exact Stage 5C blob lineage.");
-
-for(const invariant of [
-  /STAGE5C_CANDIDATE_SESSION_FUNCTIONS_BEGIN[\s\S]+registeredSessionDeviceMetadata[\s\S]+validOpenSessionCreate[\s\S]+validSessionJoin[\s\S]+validSessionUpdate[\s\S]+STAGE5C_CANDIDATE_SESSION_FUNCTIONS_END/,
-  /sessionWriteUsesRegisteredDeviceMetadata\(root\)[\s\S]+root\.updatedByAccountId == request\.auth\.uid[\s\S]+registeredSessionDeviceMetadata\(root\.updatedByDeviceId\)/,
-  /match \/sessions\/\{sessionId\}[\s\S]+allow get: if sessionCanRead\(rivalryId, sessionId\);[\s\S]+allow create: if validOpenSessionCreate\(rivalryId, sessionId\);[\s\S]+allow update: if validSessionUpdate\(rivalryId, sessionId\);[\s\S]+allow list, delete: if false;/,
-  /match \/\{document=\*\*\} \{[\s\S]+allow read, write: if false;/
-]) assert.match(productionRules,invariant);
-
-assert.doesNotMatch(productionRules,/request\.auth\.token\.device_|deviceCredentials/,
-  "Production session Rules must use ordinary Firebase uid authority, not Stage 5B custom device claims.");
-assert.doesNotMatch(productionRules,/allow list: if true|allow read, write: if true/,
-  "The production Rules promotion must not introduce discovery or an allow-all escape hatch.");
-assert.doesNotMatch(adapter,/\blocalStorage\b|\bindexedDB\b|\bcollection\s*\(|\bgetDocs\b/,
-  "The dormant adapter must remain exact-path, memory-only and free of new browser storage authority.");
-
-assert.equal(rootFirebase.firestore.rules,"firestore.rules",
-  "The Phase 1F/emulator root config must remain isolated from production publication.");
-assert.equal(productionFirebase.firestore.rules,"firestore.spark.rules",
-  "The isolated production deployment config must target the promoted Rules source only.");
+assert.equal(productionFirebase.firestore.rules,guards.provider.productionRulesSource,"Production deployment config must target the current reviewed Spark Rules source.");
 assert.equal(productionEnvironment.projectId,"fifa17-career-showdown-prod");
 assert.equal(productionEnvironment.firestore.databaseId,"(default)");
-assert.equal(productionEnvironment.activation.productionSecurityRulesSourceBlobSha,"363af783d7e5436fdfaa3766d4aa413fc9952a08",
-  "After independent provider publication/readback proof, the production manifest must record the exact provider-live Stage 5D Rules blob.");
-assert.match(productionEnvironment.activation.productionSecurityRulesVerificationEvidence,/33575616044[\s\S]+100078816667[\s\S]+30b5b1be-0f61-4983-bdb2-c79f93f99be4[\s\S]+363af783d7e5436fdfaa3766d4aa413fc9952a08/i,
-  "Production environment must retain the authenticated provider publication and exact readback provenance.");
-assert.match(providerLiveProof,/Status: VERIFIED PROVIDER-LIVE/i);
-assert.match(providerLiveProof,/PROVIDER_FIRESTORE_RULES_EXACT_SOURCE_PASS 363af783d7e5436fdfaa3766d4aa413fc9952a08/i);
-assert.match(providerLiveProof,/33575616044[\s\S]+100078816667[\s\S]+30b5b1be-0f61-4983-bdb2-c79f93f99be4/i);
+assert.equal(productionEnvironment.activation.productionSecurityRulesSource,guards.provider.productionRulesSource);
+assert.equal(guards.provider.billingEnabled,false);
+assert.equal(guards.provider.firebasePlan,"Spark");
+assert.equal(guards.provider.cloudRunAllowed,false);
+assert.equal(guards.provider.cloudFunctionsAllowed,false);
 
+for(const invariant of [
+  /registeredSessionDeviceMetadata/,
+  /validOpenSessionCreate/,
+  /validSessionJoin/,
+  /validSessionUpdate/,
+  /sessionWriteUsesRegisteredDeviceMetadata\(root\)[\s\S]+root\.updatedByAccountId == request\.auth\.uid/,
+  /match \/sessions\/\{sessionId\}[\s\S]+allow get: if sessionCanRead\(rivalryId, sessionId\);[\s\S]+allow create: if validOpenSessionCreate\(rivalryId, sessionId\);[\s\S]+allow update: if validSessionUpdate\(rivalryId, sessionId\);[\s\S]+allow list, delete: if false;/,
+  /match \/\{document=\*\*\} \{[\s\S]+allow read, write: if false;/
+]) assert.match(rules,invariant);
+assert.doesNotMatch(rules,/request\.auth\.token\.device_|deviceCredentials/,"Current production session Rules must use standard Firebase uid authority, not the superseded custom-device-claim design.");
+assert.doesNotMatch(rules,/allow list: if true|allow read, write: if true/,"Current production Rules must not introduce discovery or an allow-all escape hatch.");
+assert.doesNotMatch(adapter,/\blocalStorage\b|\bindexedDB\b|\bcollection\s*\(|\bgetDocs\b/,"Standard-auth session adapter must remain exact-path and memory-only.");
 for(const runtimeOwner of ["index.html","js/app.js","js/productionFirebaseRuntime.js"]){
-  assert.doesNotMatch(read(runtimeOwner),/sparkStandardAuthPrivateSession\.js/,
-    `${runtimeOwner} must not directly bootstrap host/join runtime during ordinary startup.`);
+  assert.doesNotMatch(read(runtimeOwner),/sparkStandardAuthPrivateSession\.js/,`${runtimeOwner} must not eagerly bootstrap host/join runtime.`);
 }
-const stage5eWorker=read("service-worker.js");
-assert.match(stage5eWorker,/"js\/sparkStandardAuthPrivateSession\.js"/,
-  "The separate Stage 5E runtime slice may precache the already-reviewed standard-auth adapter after Stage 5D provider publication without executing it during ordinary startup.");
-
-assert.match(zeroBillingAuthorization,/billing must never be activated/i);
-assert.match(zeroBillingAuthorization,/Firebase Spark/i);
-assert.match(zeroBillingDecision,/Publish the minimum reviewed session Rules only after exact-head gates pass/i);
-assert.match(zeroBillingDecision,/then add host\/join UX in a separate reviewed runtime slice/i);
-assert.match(stage5dProof,/Codex remains the preferred final-head automated reviewer/i);
-assert.match(stage5dProof,/purchasing credits or enabling paid review is forbidden/i);
-assert.match(stage5dProof,/documented exact-head fallback review[\s\S]+audits the complete PR diff[\s\S]+all 14 exact-head workflow families[\s\S]+Java 21 Stage 5 emulator lane[\s\S]+zero valid unresolved review threads/i,
-  "A paid code-review quota may not force billing or silently waive the mandatory review/thread gate.");
-assert.match(stage5dProof,/A quota refusal by itself is never a passing review and never earns RJR credit/i);
-
-process.stdout.write("PASS Stage 5D production session Rules: exact Stage 5C bytes are provider-live with authenticated exact-source readback; standard Firebase uid authority, no listing, exactly-two-account lifecycle, mutation-only registered-device metadata, deny-by-default, zero-billing review fallback and Stage 5E lazy runtime separation remain locked.\n");
+assert.match(worker,/"js\/sparkStandardAuthPrivateSession\.js"/,"The session adapter may remain a lazy precached runtime asset without executing at startup.");
+process.stdout.write("PASS current Stage 5D session Rules: standard uid authority, registered-device mutation metadata, exact no-list two-account lifecycle, deny-by-default, lazy runtime separation and Spark zero-billing locks remain protected without dated provider-proof or candidate-lineage coupling.\n");

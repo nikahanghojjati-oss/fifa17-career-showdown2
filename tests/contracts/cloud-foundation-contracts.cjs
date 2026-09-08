@@ -29,7 +29,8 @@ const remotePriority = read("REMOTE_JOINING_PRIORITY_AMENDMENT_2026-08-17.md");
 const restore = read("js/restore.js");
 const transaction = read("js/storageTransaction.js");
 const storage = read("js/storage.js");
-const productionR3 = bootstrap.runtime?.productionRuntimeRevision === "1.9.1-r3" && bootstrap.runtime?.productionStatus === "production-proven";
+const historicalProductionR3 = bootstrap.runtime?.productionRuntimeRevision === "1.9.1-r3" && bootstrap.runtime?.productionStatus === "historical-pr203-bootstrap-baseline";
+const currentProductionR5 = bootstrap.liveRuntime?.productionRuntimeRevision === "1.9.1-r5" && bootstrap.liveRuntime?.productionStatus === "production-proven-r5-r6-publication-convergence-open";
 
 // Historical roadmap/provenance remains immutable even though current product authority has advanced far beyond it.
 assert.match(roadmap, /Historical profile identity mapping \| FOUNDATION DONE \/ UNRESOLVED RECORDS PERMITTED/i);
@@ -40,19 +41,24 @@ assert.match(roadmap, /Cloud Readiness \| PHASE 1A DONE \/ 1B DONE \/ 1C DONE \/
 assert.match(roadmap, /Cloud Backup \| BLOCKED/i);
 assert.match(roadmap, /Private Remote Joining \| PRIORITIZED LONG-TERM \/ DEPENDENCY-GATED \/ NOT YET AUTHORIZED/i);
 
-// Current live cloud authority follows PR203/r3; PR187/r5 and PR194/r2 remain immutable consumed/rollback provenance.
-assert.equal(productionR3,true,"Current runtime identity must be production-proven v1.9.1-r3.");
-assert.equal(bootstrap.latestRuntimeMerge?.pullRequest,203,"Latest runtime merge must be PR #203.");
-assert.equal(bootstrap.latestRuntimeMerge?.runtimeRevision,"1.9.1-r3","Latest runtime merge must identify production r3.");
+// Current production authority is PR213/r5 while PR203/r3 remains the immutable historical Shared Setup/bootstrap authority.
+assert.equal(currentProductionR5,true,"Current runtime identity must be production-proven v1.9.1-r5 while r6 publication convergence remains open.");
+assert.equal(bootstrap.latestRuntimeMerge?.pullRequest,213,"Latest runtime merge must be PR #213.");
+assert.equal(bootstrap.latestRuntimeMerge?.runtimeRevision,"1.9.1-r5","Latest runtime merge must identify production r5.");
 assert.equal(bootstrap.latestRuntimeMerge?.productionProofRecorded,true);
-assert.equal(bootstrap.lastProductionProvenRuntime?.pullRequest,203,"Current production runtime provenance must be anchored to PR #203.");
-assert.equal(bootstrap.lastProductionProvenRuntime?.runtimeRevision,"1.9.1-r3","Current production runtime provenance must identify 1.9.1-r3.");
+assert.equal(bootstrap.currentProductionProvenRuntime?.pullRequest,213,"Current production runtime provenance must be anchored to PR #213.");
+assert.equal(bootstrap.currentProductionProvenRuntime?.runtimeRevision,"1.9.1-r5","Current production runtime provenance must identify 1.9.1-r5.");
+assert.equal(bootstrap.currentProductionProvenRuntime?.mergeSha,"24d644efe0702ef4672e0655465b66e658ed4e3a");
+assert.equal(historicalProductionR3,true,"Historical PR203 bootstrap runtime identity must remain explicit as v1.9.1-r3.");
+assert.equal(bootstrap.lastProductionProvenRuntime?.pullRequest,203,"Historical compatibility runtime provenance must remain anchored to PR #203.");
+assert.equal(bootstrap.lastProductionProvenRuntime?.runtimeRevision,"1.9.1-r3","Historical compatibility runtime provenance must identify 1.9.1-r3.");
 assert.equal(bootstrap.lastProductionProvenRuntime?.mergeSha,"65d88b1b413501b328bdf722bc6e8a0aa0d46ef2");
+assert.equal(bootstrap.lastProductionProvenRuntime?.historicalCompatibilityAuthority,true);
 assert.equal(bootstrap.historicalPr187PublicationCheckpoint?.pullRequest,187,"Historical PR187 provenance must remain explicit.");
 assert.equal(bootstrap.historicalPr187PublicationCheckpoint?.mergeSha,"277f1b55dc362ee84d285445b99172b9fbed8509");
 assert.equal(bootstrap.historicalPr187PublicationCheckpoint?.runtimeRevision,"1.9.0-r5");
 assert.equal(bootstrap.historicalPr187PublicationCheckpoint?.rjrAfterEvidence,89);
-assert.equal(bootstrap.previousProductionProvenRuntime?.runtimeRevision,"1.9.1-r2","Previous production-proven whole-shell rollback must remain r2 after r3 publication.");
+assert.equal(bootstrap.previousProductionProvenRuntime?.runtimeRevision,"1.9.1-r2","Historical whole-shell rollback provenance must remain r2.");
 assert.equal(readiness.modelVersion,"RJR-1");
 assert.equal(readiness.currentScore,100,"Live RJR authority may reach 100 only from accepted capability evidence, never Stage 5G/H/I process or automation credit.");
 assert.equal(bootstrap.remoteJoiningReadiness?.score,100,"Bootstrap must expose evidence-accepted fixed RJR100 after the physical and stable-release acceptance events.");
@@ -86,7 +92,7 @@ assert.equal(readiness.evidenceHistory?.at(-2)?.eventId,physicalAcceptance?.even
 assert.equal(readiness.evidenceHistory?.at(-1)?.eventId,stableReleaseAcceptance?.eventId);
 assert.equal(readiness.domains.reduce((sum,domain)=>sum+domain.earned,0),100);
 
-// Current live state/next-task files advance to PR203/r3 and RJR100 while retaining runtime/security/product locks.
+// Current live state/next-task files retain the historical PR203/r3 markers while advancing production to PR213/r5 and preserving RJR100/security/product locks.
 assert.match(state,/RJR-1 COMPLETE\/FROZEN `100\/100`|RJR-1 100\/100|RJR100/i);
 assert.match(state,/v1\.9\.1[\s\S]+1\.9\.1-r3/i);
 assert.match(state,/PR #198/i);
@@ -122,9 +128,9 @@ assert.equal(bootstrap.ownerZeroBillingAuthorization?.cloudBillingAccountMayBeLi
 assert.equal(bootstrap.ownerZeroBillingAuthorization?.blazeMayBeEnabled,false);
 assert.equal(bootstrap.ownerZeroBillingAuthorization?.cloudRunAllowed,false);
 assert.equal(bootstrap.ownerZeroBillingAuthorization?.cloudFunctionsAllowed,false);
-assert.equal(bootstrap.runtime?.appCheckEnforcement,false);
-assert.equal(bootstrap.runtime?.firestorePersistence,"memory-only");
-assert.match(bootstrap.runtime?.googleAuthPersistence||"",/browserSessionPersistence-popup-only-no-extra-scopes/i);
+assert.equal(bootstrap.liveRuntime?.appCheckEnforcement,false);
+assert.equal(bootstrap.liveRuntime?.firestorePersistence,"memory-only");
+assert.match(bootstrap.liveRuntime?.googleAuthPersistence||"",/browserSessionPersistence-popup-only-no-extra-scopes/i);
 
 // Provider-authoritative and owner-production evidence remain independently protected.
 assert.match(reconciliationProof,/Gate result[\s\S]+PASS/i);
@@ -199,4 +205,4 @@ assert.ok(storage.includes("applyCareerModeRawStorageTransaction"),"Canonical lo
 assert.ok(transaction.includes("preconditionMismatches"),"Future revision-safe sync depends on permanent local precondition semantics.");
 assert.ok(transaction.includes("rollbackOwnershipConflicts"),"Future revision-safe sync depends on permanent rollback ownership semantics.");
 
-process.stdout.write(`PASS Cloud/Sync authority: production-proven 1.9.1-r3 / PR203 runtime, r2 whole-shell rollback, historical PR187/r5 capability provenance, live fixed RJR${readiness.currentScore}, permanent zero-billing/provider/privacy/recovery locks, accepted Stage 5F production negatives and immutable historical Cloud Readiness provenance are protected.\n`);
+process.stdout.write(`PASS Cloud/Sync authority: current production-proven 1.9.1-r5 / PR213 runtime, historical PR203/r3 Shared Setup/bootstrap authority, r2 whole-shell rollback provenance, historical PR187/r5 capability provenance, live fixed RJR${readiness.currentScore}, permanent zero-billing/provider/privacy/recovery locks, accepted Stage 5F production negatives and immutable historical Cloud Readiness provenance are protected.\n`);

@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "operatingSystem": "POS-2",
+  "principle": "Keep current/future product protection active; keep useful operations support nonblocking; preserve history without automatic compute.",
+  "concepts": [
+    {"id":"SSJR","status":"ACTIVE_PRODUCT_METRIC","reason":"Measures accepted end-to-end two-manager capability evidence for the current milestone."},
+    {"id":"MDP","status":"ACTIVE_ENGINEERING_METRIC","reason":"Measures current milestone feature lifecycle delivery maturity; distinct from SSJR evidence."},
+    {"id":"RJR-1","status":"FROZEN_HISTORICAL","reason":"Completed 100/100 milestone; preserve evidence but do not recalculate or gate unrelated current work."},
+    {"id":"ADB-1","status":"ACTIVE_OPERATIONS_SAFETY","reason":"Adaptive 2-20 failed correction/validation budget protects quality without a fixed two-failure stop."},
+    {"id":"SHP-2","status":"COMPATIBILITY_ONLY","reason":"Underlying context observations remain useful to ADB; visible percentage retired from normal operation."},
+    {"id":"HTR-1","status":"SCORE_ARCHIVED_CHECKLIST_RETAINED","reason":"Five transfer conditions are useful; 0/20/40/60/80/100 score is not."},
+    {"id":"WEC","status":"REMODELED_MINIMAL_RECOVERY","reason":"Keep exact recoverable state; stop score/archival/continuity cycles from becoming milestones."},
+    {"id":"SLE","status":"ACTIVE_PRINCIPLE_NONBLOCKING","reason":"Smart Lean Efficient remains valuable; mirrored/versioned packaging ritual retired."},
+    {"id":"SNS","status":"REMODELED_REAL_HANDOFF_ONLY","reason":"One compact successor snapshot at an actual transfer; no after-every-task artifacts."},
+    {"id":"SNL","status":"NO_ACTIVE_IMPLEMENTATION_FOUND","reason":"No source mechanism identified; do not invent a gate."},
+    {"id":"VTLS_SNS_CHECKPOINTS","status":"RETIRED","reason":"Duplicated durable state and generated documentation churn without product protection."},
+    {"id":"EIGHT_LINE_LEGACY_REPORT","status":"HISTORICAL","reason":"Superseded by product-focused SSJR/MDP reporting and session health only when relevant."},
+    {"id":"START_NEXT_SESSION_VERSION_FAMILIES","status":"HISTORICAL_ON_DEMAND","reason":"Preserve prior files but do not generate/read by default."},
+    {"id":"DEEP_SLE_HANDOFF_MIRRORS","status":"HISTORICAL_ON_DEMAND","reason":"Preserve prior files but no mirrored-copy requirement under POS-2."},
+    {"id":"SESSION_BOOTSTRAP_LEGACY_CAPSULES","status":"COMPATIBILITY_HISTORICAL","reason":"Large accumulated provenance remains available; new startup uses current guards/task/metrics."},
+    {"id":"WORK_ENVIRONMENT_HISTORY","status":"HISTORICAL_ON_DEMAND","reason":"Useful recovery provenance, not default startup context or automatic append milestone."},
+    {"id":"CURRENT_PRODUCT_GUARDS","status":"ACTIVE_MACHINE_AUTHORITY","reason":"Stable current provider/product/privacy safety invariants without prose coupling."},
+    {"id":"CURRENT_PRODUCT_TEST_MANIFEST","status":"ACTIVE_BLOCKING_MANIFEST","reason":"Makes every blocking current product test explicit and separates operations/history."},
+    {"id":"DORMANT_ARCHITECTURE_TEST_MANIFEST","status":"MANUAL_ARCHIVE","reason":"Preserves deliberately unshipped or rejected architecture tests such as the former trusted Cloud Run and dormant device credential lanes without automatic CI compute."}
+  ],
+  "gateClasses": {
+    "PRODUCT_CRITICAL": "Blocking when protecting current/future runtime, UI/UX, data, recovery, security, privacy, provider safety, executable authority, evidence validity or release correctness.",
+    "CURRENT_ENGINEERING_QUALITY": "Blocking when relevant; deduplicate expensive suite ownership.",
+    "OPERATIONS_CONTINUITY": "Nonblocking for unrelated product work; run when the operating tooling changes.",
+    "HISTORICAL_PROVENANCE": "Manual/on-demand only; preserve evidence without automatic product compute."
+  },
+  "workflowPolicy": {
+    "preserveRequiredCheckNamesUntilBranchProtectionIsObservable": true,
+    "exactWorkflowCountGateAllowed": false,
+    "specialistWorkflowMayRerunFullProductSuite": false,
+    "stabilityOwnsFullProductSuite": true,
+    "oldStageNameAloneIsArchiveReason": false,
+    "dormantArchitectureMayBlockCurrentProductCI": false
+  }
+}

@@ -12,7 +12,7 @@ const projectState=fs.readFileSync(path.join(root,'PROJECT_STATE.md'),'utf8');
 const wec=JSON.parse(fs.readFileSync(path.join(root,'WORK_ENVIRONMENT_STATUS.json'),'utf8'));
 const currentRuntimeRevision=(worker.match(/const RUNTIME_REVISION = "([^"]+)";/)||[])[1];
 const previousRuntimeRevision=(worker.match(/const PREVIOUS_RUNTIME_REVISION = "([^"]+)";/)||[])[1];
-const productionRuntimeRevision=(projectState.match(/Production:\s*`v[^`]+ \/ ([^`]+)`/)||[])[1];
+const productionRuntimeRevision=(projectState.match(/Production(?: authority)?:\s*`v[^`]+ \/ ([^`]+)`/)||[])[1];
 const acceptanceArtifactRuntimeRevision=(page.match(/app-asset-revision"\s+content="([^"]+)"/)||[])[1];
 const currentRuntimeParts=(currentRuntimeRevision&&currentRuntimeRevision.match(/^(\d+\.\d+\.\d+)-r(\d+)$/))||[];
 const currentReleasePath=currentRuntimeParts.length?`RELEASE_V${currentRuntimeParts[1]}_R${currentRuntimeParts[2]}.md`:'';

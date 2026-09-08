@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "operatingSystem": "POS-2",
+  "status": "reviewed-proposal",
+  "principle": "A metric or operating concept survives only when it changes a useful product, engineering, safety, recovery, or transfer decision. Process activity never earns product-readiness credit.",
+  "decisions": [
+    {
+      "id": "SSJR-1.1",
+      "decision": "KEEP_UNCHANGED",
+      "class": "ACTIVE_PRODUCT_ACCEPTANCE",
+      "reason": "It measures accepted end-to-end two-manager capability evidence with fixed capability weights and required evidence layers. It prevents PR/CI/documentation effort from being mistaken for a playable shared journey."
+    },
+    {
+      "id": "RJR-1",
+      "decision": "FREEZE_ARCHIVE",
+      "class": "COMPLETED_PRODUCT_EVIDENCE",
+      "reason": "Remote Joining reached accepted 100/100. Preserve its evidence and regression relevance, but do not recalculate it or gate unrelated SSJR work."
+    },
+    {
+      "id": "MDP-1",
+      "decision": "REMODEL_TO_MDP-2_AFTER_GREEN_MIGRATION",
+      "class": "ACTIVE_ENGINEERING_MATURITY",
+      "reason": "The lifecycle concept is useful, but MDP-1 gives design 10% and final product integration only 10%. That overstates design-only maturity and understates the difference between a tested candidate and an integrated product feature.",
+      "currentScore": 39.00,
+      "proposedBackcastScore": 33.25,
+      "migrationRule": "Do not rewrite MDP-1 history. Introduce MDP-2 explicitly, backcast the same feature states once, update reporting authority atomically, and preserve SSJR unchanged.",
+      "proposedLifecycleWeights": [
+        {"id":"design","weight":5},
+        {"id":"implementation","weight":30},
+        {"id":"automated-test","weight":20},
+        {"id":"defect-resolution","weight":10},
+        {"id":"regression-retest","weight":15},
+        {"id":"product-integration","weight":20}
+      ],
+      "sameStateBackcast": {
+        "integratedCapabilities": {"count":2,"lifecyclePercent":100},
+        "preIntegrationCompleteCapabilities": {"count":4,"lifecyclePercent":80},
+        "designDefinedOnlyCapabilities": {"count":14,"lifecyclePercent":5}
+      }
+    },
+    {
+      "id": "SHP-2",
+      "decision": "RETIRE_VISIBLE_PERCENTAGE",
+      "class": "SESSION_HEALTH_COMPATIBILITY",
+      "reason": "A percentage encouraged ritualized handoff work and was repeatedly confused with project progress. Context/session-health observations remain useful inputs to ADB and real handoff decisions."
+    },
+    {
+      "id": "HTR-1",
+      "decision": "ARCHIVE_SCORE_KEEP_CHECKLIST",
+      "class": "TRANSFER_READINESS",
+      "reason": "Its five transfer conditions are useful at a real handoff; the 0/20/40/60/80/100 score adds no product or engineering information and can be mistaken for progress."
+    },
+    {
+      "id": "ADB-1",
+      "decision": "KEEP",
+      "class": "ACTIVE_OPERATIONS_SAFETY",
+      "reason": "An adaptive bounded correction/validation budget prevents both runaway fix spirals and premature transfers caused by a universal two-failure stop."
+    },
+    {
+      "id": "WEC",
+      "decision": "KEEP_MINIMAL_RECOVERY_ONLY",
+      "class": "RECOVERY_STATE",
+      "reason": "Exact recoverable task/head/hazard state is useful after interruption. Environment scoring, repetitive archival cycles and continuity publication must not become milestones."
+    },
+    {
+      "id": "SLE",
+      "decision": "KEEP_AS_NONBLOCKING_PRINCIPLE",
+      "class": "DESIGN_PRINCIPLE",
+      "reason": "Smart Lean Efficient is a useful optimization rule. The historical acronym changed meaning and literal packaging checks caused false failures, so SLE wording/mirror/version rituals must never block product CI."
+    },
+    {
+      "id": "SNS",
+      "decision": "REMODEL_REAL_HANDOFF_ONLY",
+      "class": "TRANSFER_ARTIFACT",
+      "reason": "One compact successor snapshot is valuable at a genuine transfer or recovery boundary. Per-task SNS/VTLS generation duplicates durable state and creates documentation churn."
+    },
+    {
+      "id": "VTLS_SNS_CHECKPOINTS",
+      "decision": "RETIRE",
+      "class": "HISTORICAL_PROCESS",
+      "reason": "They duplicate WEC/current task state and consume effort without protecting product behavior."
+    }
+  ],
+  "gateDecisionRule": {
+    "keepOrStrengthen": "Current runtime/UI/data/sync/recovery/security/privacy/provider/cost/release/evidence behavior whose regression would harm the product.",
+    "update": "A useful product gate that also contains stale narration, fixed topology, completed-milestone score, old PR or handoff coupling; retain the executable invariant and remove the administrative dependency.",
+    "archiveManual": "Superseded, dormant or rejected architecture, completed milestone provenance, old routing/packaging or historical exact wording whose remaining ideas have active replacement coverage.",
+    "delete": "Only duplicated generated material with no independent historical, recovery, legal, design or debugging value. Default to archive rather than delete when uncertain."
+  }
+}

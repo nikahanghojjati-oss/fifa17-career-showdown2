@@ -1,90 +1,95 @@
 {
   "schemaVersion": 1,
-  "environmentId": "we-2026-09-07-pr214-mdp1-a58",
+  "environmentId": "we-2026-09-07-pr215-r6-publication-a67",
   "lifecycle": "active",
-  "recordedAt": "2026-09-07T16:00:52Z",
+  "recordedAt": "2026-09-07T23:18:30.000Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
-    "startingMainSha": "24d644efe0702ef4672e0655465b66e658ed4e3a",
-    "workingBranch": "fix/ssjr-recorder-catalog-proof-r6",
-    "activePullRequest": 214,
-    "verifiedMainSha": "24d644efe0702ef4672e0655465b66e658ed4e3a",
+    "startingMainSha": "420d0dd21480c660d4fe139ba011eca1ccb987a9",
+    "verifiedMainSha": "420d0dd21480c660d4fe139ba011eca1ccb987a9",
+    "workingBranch": "fix/pr214-postmerge-dual-screen-contract",
+    "activePullRequest": 215,
     "productionVersion": "v1.9.1",
     "productionRuntimeRevision": "1.9.1-r5",
     "releaseCandidateVersion": "v1.9.1",
     "releaseCandidateRuntimeRevision": "1.9.1-r6",
-    "releaseCandidateHeadSha": "7a4d44585c31ac8461d8260f379e8c3efea447a4",
-    "predecessorEnvironmentId": "we-2026-09-07-pr214-session-proximity-v2-a57",
-    "predecessorArchive": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-07-pr214-session-proximity-v2-a57.json"
+    "liveHeadAtInitialization": "f9b1faecfffb299a0bb875f472e818a84693d2ce",
+    "predecessorEnvironmentId": "we-2026-09-07-pr215-r6-publication-a66",
+    "predecessorArchive": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-07-pr215-r6-publication-a66.json"
   },
   "signals": {
-    "contextComplexity": "high",
+    "contextComplexity": "low",
     "projectComplexity": "high",
     "compactionCount": 0,
-    "majorPhasesCompleted": 1,
-    "largeEvidenceEvents": 9,
-    "toolRoutingErrors": 1,
-    "correctedFailures": 1,
+    "majorPhasesCompleted": 0,
+    "largeEvidenceEvents": 0,
+    "toolRoutingErrors": 0,
+    "correctedFailures": 0,
     "repeatedMistakes": 0,
     "staleFactCorrections": 0,
-    "unresolvedFailures": 2,
+    "unresolvedFailures": 0,
     "newMilestoneNext": false,
     "usageRemainingPercent": null,
     "usageSource": "unavailable",
     "usageWarning": false,
-    "handoffCompleteness": 30,
+    "handoffCompleteness": 50,
     "unrecordedDecisions": 0,
     "atomicOperation": false
   },
-  "handoffTransferReadiness": {
-    "model": "HTR-1",
-    "earnedPillars": []
-  },
   "assessment": {
     "decision": "CONTINUE",
-    "reason": "The current bounded PR214 publication task remains coherent and owner-authorized. SHP-2 is now at its 70% repeated-truncation floor, so work must remain bounded with VTLS/checkpoint updates after material state changes. No WEC condition yet requires immediate handoff before correcting the known continuity failure and finishing the current release candidate boundary.",
-    "decisionInheritedFromPredecessor": false
+    "decisionInheritedFromPredecessor": false,
+    "reason": "Fresh a67 owns the owner-authorized adaptive anti-spiral and obsolete-gate cleanup. The predecessor's fixed two-cycle stop is not inherited. Continue through exact-head validation and classify only meaningful current product/safety failures as blocking."
   },
   "continuity": {
-    "currentTask": "Finish PR214 r6 publication while repository-owning MDP per-task delta reporting and the permanent dual-full-screen Shared Journey invariant. Correct the fresh-WEC observation defect, require exact-head CI, merge with expected-head protection and prove coherent r6 deployment.",
-    "lastSafeCheckpoint": "PR214 remains open and mergeable. Exact head 7a4d44585c31ac8461d8260f379e8c3efea447a4 contains MDP-1 at 39.00/100 and preserves SSJR-1.1 at 0/100. MDP and product contracts passed before the workflow stopped at one continuity defect: the fresh WEC incorrectly had staleFactCorrections=1. The two red workflow families are the same defect, not separate product failures. All four prior P1 review threads are resolved.",
-    "nextSafeAction": "Publish one bounded correction batch: restore fresh-session zero observations, add MDP task-delta authority/contracts and SSJR-DUAL-FULL-SCREEN-1 authority/contracts, then require a fresh exact-head workflow matrix. Do not merge while any permanent workflow family is red or pending.",
+    "currentTask": "Converge PR215 by finishing the adaptive anti-spiral and retired-gate cleanup, validate one exact head against meaningful current product and safety gates, then publish r6 and resume Shared Setup product progress when green.",
+    "lastSafeCheckpoint": "The a66 status was archived unchanged. PR215 remained open on main 420d0dd21480c660d4fe139ba011eca1ccb987a9. ADB-1 now supplies a context-sensitive 2-to-20 debug budget, and historical wording/provenance checks are being separated from current product-blocking contracts without deleting their files or evidence.",
+    "nextSafeAction": "Finish the current test-orchestration cleanup, make NEXT_TASK a concise current product pointer, then run all 15 PR workflow families on one exact live head. For every red result, distinguish a meaningful runtime/security/privacy/data/UI/UX/release defect from archival wording drift; fix the former and demote the latter without deleting history.",
     "unfinishedWork": [
-      "Correct the WEC initialization defect without weakening continuity contracts.",
-      "Repository-own frequent MDP task-delta reporting and the dual-full-screen rule for every canonical Shared Journey gameplay screen.",
-      "PR214 must reach all 15 permanent workflow families terminal green on one final exact reviewed head.",
-      "PR214 must squash merge with expected-head protection and post-merge/deployment prove one coherent v1.9.1 / 1.9.1-r6 shell.",
-      "After deployed r6 proof, the four Shared Setup capabilities may earn their final combined +2.50 MDP product-integration points if no regression invalidates prior lifecycle stages.",
-      "Only after r6 production proof should the owner resume genuine two-account Shared Setup evidence; SSJR remains 0/100 until the unchanged evidence gate accepts."
+      "Finish the active-vs-legacy contract-suite separation and concise current NEXT_TASK routing.",
+      "Run all 15 permanent workflow families on one exact PR215 head and inspect only failures from that head.",
+      "Refresh reviews, comments and threads against the same exact head.",
+      "Expected-head squash merge only after all meaningful current gates are green.",
+      "Verify exact post-merge Stability including Chromium/deployed-site smoke, coherent Pages r6 deployment and Release Integration Burn-In.",
+      "After full r6 production proof, resume genuine Shared Setup product integration and production-two-account evidence work before transfer/results/scoring."
     ],
     "knownHazards": [
-      "Billing permanently OFF; Firebase Spark only; never enable Blaze, Cloud Billing, payment methods, Cloud Run or Cloud Functions.",
-      "Production authority remains v1.9.1 / 1.9.1-r5 until r6 is merged, deployed and independently verified.",
+      "Never combine CI evidence across heads.",
+      "ADB-1 is dynamic from 2 through 20 and must shrink when context damage, broad red state, hard reconstruction or long-session risk appears; it is not a universal 20-attempt quota.",
+      "Nonfunctional historical wording drift is archival/provenance audit material, not a product blocker; do not weaken a wording contract that is itself executable, security-sensitive, user-visible, schema/API authority or evidence input.",
+      "Billing remains permanently OFF and Firebase remains Spark only; never enable Blaze, Cloud Billing, a billing account, Cloud Run or Cloud Functions.",
       "App Check enforcement remains OFF; Firestore browser persistence remains memory-only; Google Auth remains popup-only browserSessionPersistence with no extra scopes.",
-      "Exactly two private managers; exact pairing plus ACTIVE private session must precede league or club authority.",
-      "Both managers must individually experience every canonical Shared Journey gameplay screen on their own device. Role-specific actions may differ; screen skipping is forbidden and missed screens must remain replayable in order.",
-      "Candidate C remains sole destructive remote-to-local gameplay Apply authority with transaction-owned exact raw-snapshot rollback.",
-      "No public discovery, listing, lobby, matchmaking, community, rankings or global leaderboards.",
-      "MDP measures engineering lifecycle maturity only and never grants SSJR credit or substitutes for production/physical evidence.",
-      "At SHP-2 >=70 keep tasks bounded and record VTLS/checkpoints after material state changes. At 95-99 generate SNS immediately; 100 requires generated and verified SLE plus sealed HTR-1 transfer package."
+      "Exactly two private managers; Connected Rivalry pairing plus exact ACTIVE precedes league or club authority.",
+      "Candidate C remains sole destructive remote-to-local gameplay Apply authority with transaction-owned strict exact raw-snapshot rollback.",
+      "Preserve careerModeShowdown.saveLibrary, careerModeShowdown.legacyShowdowns, careerModeShowdown.preferences and SSJR-DUAL-FULL-SCREEN-1; no public discovery, listing, lobby, matchmaking, community, rankings or global leaderboards."
     ],
     "evidenceNotes": [
-      "Inherited a57 WEC was archived and predecessor decision was not inherited.",
-      "MDP-1 was repository-owned on head 7a4d4458... with exact 20-capability SSJR denominator and 39.00/100 baseline; SSJR stayed 0/100.",
-      "PR214 review state has four resolved P1 threads and no unresolved review thread.",
-      "Exact-head validate and stability-contracts logs both show MDP, Shared Setup, provider, stability, presentation, season review, statistics and authority contracts passing before the same work-environment-continuity assertion failed.",
-      "The failing assertion was caused by staleFactCorrections=1 in the fresh a58 WEC. The initial SHP checkpoint itself correctly began at all-zero observations; the correction restores the top-level fresh observation signal and records later session pressure in a second SHP checkpoint instead.",
-      "Owner later required per-task MDP delta reporting and generalized the two-role League Wheel/Club Pack rule to every canonical gameplay screen from start to finish. New authority is being added without changing SSJR weights or provider draw authority."
+      "Predecessor a66 was archived at WORK_ENVIRONMENT_ARCHIVE/we-2026-09-07-pr215-r6-publication-a66.json before a67 initialization.",
+      "Live main was independently verified at 420d0dd21480c660d4fe139ba011eca1ccb987a9 and PR215 remained open/unmerged.",
+      "The predecessor exact 9abc6e3 head had 12 green and 3 red families, all three red through the shared repository suite before Chromium/deployed-site smoke.",
+      "Inspection proved the old privacy and cloud-foundation blockers mixed real permanent safety invariants with exact historical NEXT_TASK/PR/RJR wording.",
+      "ADB-1 implementation and scenario tests now replace fixed two/three-cycle handoff thresholds while preserving context-damage and owner-wrap safety floors.",
+      "Old RJR/continuity/provenance tests remain in tests/contracts and are callable through test:legacy-provenance; current replacements preserve live privacy, cloud, WEC and safety invariants without historical prose locks.",
+      "RJR-1 remains frozen 100/100, SSJR-1.1 remains 0/100 and MDP-1 remains 39.00/100 until later evidence-backed product progress."
+    ]
+  },
+  "handoffTransferReadiness": {
+    "model": "HTR-1",
+    "earnedPillars": [
+      "durable-state",
+      "authority-snapshot",
+      "open-work-classified",
+      "successor-execution-contract"
     ]
   },
   "sessionHandoffProximity": {
     "model": "SHP-2",
-    "environmentId": "we-2026-09-07-pr214-mdp1-a58",
-    "startedAt": "2026-09-07T15:17:00Z",
+    "environmentId": "we-2026-09-07-pr215-r6-publication-a67",
+    "startedAt": "2026-09-07T23:18:30.000Z",
     "checkpoints": [
       {
-        "at": "2026-09-07T15:17:00Z",
+        "at": "2026-09-07T23:18:30.000Z",
         "note": "New session: reset to 0%.",
         "observations": {
           "messageToolEvents": 0,
@@ -104,33 +109,6 @@
           "inFlightDeployments": 0,
           "unresolvedStates": 0,
           "unresolvedDebugLoops": 0,
-          "ownerTestPending": false,
-          "hardStateReconstruction": false,
-          "ownerRequestedWrap": false,
-          "nextSubstantialTaskRisksLoss": false
-        }
-      },
-      {
-        "at": "2026-09-07T16:00:52Z",
-        "note": "MDP-1 repository-owned; exact PR214 CI inspected; repeated oversized/truncated evidence reads trigger SHP-2 floor 70. Two red workflow families collapse to one WEC initialization defect. Dual-full-screen and per-task MDP reporting batch prepared; remain on bounded publication work only.",
-        "observations": {
-          "messageToolEvents": 44,
-          "longEvidenceReads": 9,
-          "truncations": 4,
-          "recoveries": 0,
-          "compactions": 0,
-          "boundedReads": 18,
-          "editedFiles": 11,
-          "commits": 2,
-          "ciDebugCycles": 1,
-          "deployments": 0,
-          "elapsedMinutes": 44,
-          "taskLanes": 2,
-          "unmergedBranches": 1,
-          "redCiFamilies": 2,
-          "inFlightDeployments": 0,
-          "unresolvedStates": 2,
-          "unresolvedDebugLoops": 1,
           "ownerTestPending": false,
           "hardStateReconstruction": false,
           "ownerRequestedWrap": false,

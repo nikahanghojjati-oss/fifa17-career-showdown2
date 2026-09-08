@@ -25,6 +25,19 @@ At minimum the snapshot must state:
 
 When useful, also state the fixed-domain vector and the next evidence that could actually move RJR.
 
+## Mandatory compact checkpoint footer — owner override 2026-09-07
+
+Every substantive owner-facing development checkpoint must preserve this exact compact two-line footer, in this order, with current evidence values:
+
+```text
+MDP task delta: +X.XX (AA.AA → BB.BB)
+Session handoff proximity: X%
+```
+
+`MDP task delta` is the change attributable to the just-completed bounded task under the repository-owned Milestone Delivery Progress model. Use `+0.00` when no defined lifecycle stage closes; never award points for effort, CI churn, documentation, continuity work or SLE packaging alone. `Session handoff proximity` remains the SHP-2 transition-pressure signal and is not task completion.
+
+This footer supplements the current SSJR/MDP Eagle Eye snapshot rather than replacing its other required evidence fields. Every successor handoff, versioned starter, fresh Work environment and future reporting authority must preserve this two-line footer recursively unless the owner explicitly changes it later.
+
 ## Evidence and uncertainty rules
 
 The Eagle Eye report must make the difference between fact and forecast unmistakable.

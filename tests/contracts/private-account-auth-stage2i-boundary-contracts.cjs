@@ -83,18 +83,22 @@ for(const document of [preR3NextTask,preR3ProjectState,roadmap,postV1]){
 assert.match(`${preR3NextTask}\n${preR3ProjectState}`,/App Check enforcement(?: remains)?:? OFF/i);
 assert.match(`${preR3NextTask}\n${preR3ProjectState}`,/firebaseauth\.users\.get[\s\S]+datastore\.databases\.get[\s\S]+datastore\.entities\.get[\s\S]+datastore\.entities\.create/i);
 
-// Historical Stage 2I security/provenance stays immutable; live authority is production-proven PR194/r2 with evidence-accepted RJR100, published by PR198 before SSJR-1 begins.
-assert.match(nextTask,/^# CURRENT TASK — SSJR-1 AUTHORITATIVE SETUP FOUNDATION$/im,"Live NEXT_TASK must identify the SSJR-1 setup candidate after verified RJR100 / PR198 closure.");
+// Historical Stage 2I security/provenance stays immutable. Current live authority is production-proven PR213/r5 with r6 as the bounded PR215 release candidate; PR203/r3 is historical Shared Setup/bootstrap provenance, PR194/r2 remains rollback provenance, and PR198 remains the consumed RJR100 publication checkpoint.
+assert.match(nextTask,/^# CURRENT TASK — CONVERGE PR215 R6 RELEASE-CANDIDATE PUBLICATION, THEN RESUME GENUINE SSJR SHARED SETUP ACCEPTANCE$/im,"Live NEXT_TASK must identify the bounded PR215 r6 publication gate before genuine production-two-account Shared Setup evidence resumes.");
 assert.match(nextTask,/100\/100[\s\S]+PR #198/i);
+assert.match(nextTask,/Current production authority:[\s\S]{0,180}1\.9\.1-r5[\s\S]{0,180}PR #213/i,"Live NEXT_TASK must identify PR213/r5 as current production authority.");
+assert.match(nextTask,/PR #203[\s\S]{0,240}1\.9\.1-r3/i,"Live NEXT_TASK must preserve historical PR203/r3 Shared Setup/bootstrap provenance.");
 assert.match(nextTask,/App Check enforcement remains OFF/i);
-assert.match(nextTask,/physical Chromebook[\s\S]+iPhone|Chromebook[\s\S]+cellular/i,"Live authority must retain the genuine physical evidence class already accepted.");
+assert.match(nextTask,/physical(?: proof)?[^\n]{0,120}Chromebook[\s\S]+iPhone|Chromebook[\s\S]+cellular/i,"Live authority must retain the genuine physical evidence class already accepted.");
 assert.match(nextTask,/Shared Showdown Journey Readiness|SSJR-1/i,"Live authority must route the successor to SSJR-1 instead of reviving Stage 2I-era work.");
 assert.match(`${nextTask}\n${projectState}`,/Public community|public discovery|global leaderboard|global ranking|No public discovery/i);
-assert.match(projectState,/RJR-1 COMPLETE 100\/100|RJR100/i,"Live PROJECT_STATE must identify completed RJR100 authority.");
-assert.match(projectState,/v1\.9\.1[\s\S]+1\.9\.1-r2[\s\S]+PR #198/i,"Live PROJECT_STATE must preserve r2 runtime identity and PR198 publication authority.");
+assert.match(projectState,/RJR-1[^\n]{0,120}100\/100|RJR100/i,"Live PROJECT_STATE must identify completed RJR100 authority.");
+assert.match(projectState,/v1\.9\.1[\s\S]+1\.9\.1-r5[\s\S]+PR #213/i,"Live PROJECT_STATE must identify PR213/r5 as current production authority.");
+assert.match(projectState,/v1\.9\.1[\s\S]+1\.9\.1-r2[\s\S]+PR #198/i,"Live PROJECT_STATE must retain r2 rollback identity and PR198 publication provenance.");
 assert.match(projectState,/Installable Offline App[\s\S]+(?:local-first startup(?:\/| and )recovery baseline|v1\.3\.0 Recovery & Device Resilience baseline)/i,"Live PROJECT_STATE must preserve local-first recovery authority.");
 assert.match(handoff,/RJR-1[^\n]{0,100}100\/100|RJR100/i,"Rolling handoff must expose current RJR100 authority.");
-assert.match(handoff,/v1\.9\.1[\s\S]+1\.9\.1-r2[\s\S]+PR #198/i,"Rolling handoff must preserve r2 runtime identity and PR198 publication authority.");
+assert.match(handoff,/v1\.9\.1[\s\S]+1\.9\.1-r5[\s\S]+PR #213/i,"Rolling handoff must identify PR213/r5 as current production authority.");
+assert.match(handoff,/v1\.9\.1[\s\S]+1\.9\.1-r2[\s\S]+PR #198/i,"Rolling handoff must retain r2 rollback identity and PR198 publication provenance.");
 assert.match(handoff,/Shared Showdown Journey Readiness|SSJR-1/i,"Rolling handoff must route successor work to SSJR-1.");
 assert.match(historicalR5Handoff,/PR #187[\s\S]+89\/100/i,"Immutable PR187 handoff must preserve fixed RJR89 provenance.");
 assert.match(historicalR5Handoff,/one[- ]paste[\s\S]+zero manual Connected Rivalry Verify\/Reattach|zero manual Connected Rivalry Verify\/Reattach[\s\S]+one[- ]paste/i,"Immutable PR187 handoff must preserve the capability that moved RJR88 to RJR89.");
@@ -162,4 +166,4 @@ const runtimeVersion=(indexRevision.match(/^(\d+\.\d+\.\d+)-r[1-9]\d*$/)||[])[1]
 assert.equal(runtimeVersion,pkg.version,"Current release identity must remain coherent while historical Stage 2I proof stays version-neutral.");
 assert.equal(workerRevision,indexRevision,"Service Worker and shell runtime identities must remain coherent after later release-owned runtime integration.");
 
-process.stdout.write("PASS Stage 2I historical security plus PR187/RJR89 provenance locks remain protected while current PR194/r2 production, evidence-accepted RJR100 and PR198-to-SSJR successor authority is source-driven.\n");
+process.stdout.write("PASS Stage 2I historical security plus PR203/r3, PR194/r2, PR198 and PR187/RJR89 provenance locks remain protected while current PR213/r5 production and bounded PR215/r6-to-SSJR successor authority are source-driven.\n");

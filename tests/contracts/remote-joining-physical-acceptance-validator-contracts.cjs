@@ -41,8 +41,8 @@ function evidence({role,deviceLabel,networkLabel,device,interrupt=false,fp=finge
   assert.match(preflight,/CMS_BASE_URL="\$base_url" npm run test:stage5i/);
   assert.match(preflight,/trap cleanup EXIT/);
   assert.match(runner,/remote-joining-physical-acceptance-validator-contracts\.cjs/);
-  assert.match(next,/validate:rjr-physical/);
-  assert.match(next,/test:rjr-physical-preflight/);
+  assert.match(next,/consumed physical proof[\s\S]+Chromebook[\s\S]+iPhone|physical proof[\s\S]+must not be re-credited/i,"Live NEXT_TASK must preserve the already-consumed physical RJR evidence class without reopening the validator lane.");
+  assert.match(next,/must not be re-credited|not repeated or re-credited|do not repeat/i,"Live NEXT_TASK must forbid duplicate RJR credit for consumed physical evidence.");
   assert.doesNotMatch(source,/setItem\(|addDoc\(|setDoc\(|updateDoc\(|deleteDoc\(|runTransaction\(/);
 
   const host=evidence({role:"host",deviceLabel:"Chromebook host",networkLabel:"Home Wi-Fi",interrupt:true,device:{userAgent:"ChromeOS Chrome",platform:"Linux x86_64",maxTouchPoints:0,screenWidth:1366,screenHeight:768}});

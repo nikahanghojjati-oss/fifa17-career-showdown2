@@ -1,27 +1,64 @@
 {
-  "schemaVersion": 5,
+  "schemaVersion": 6,
   "purpose": "SLE-live-first-low-context-adaptive-successor-bootstrap",
-  "recordedAt": "2026-09-06T22:38:05.127709+00:00",
+  "recordedAt": "2026-09-07T17:22:00Z",
   "repository": "nikahanghojjati-oss/fifa17-career-showdown2",
-  "bootstrapBranch": "handoff/pr210-postmerge-ssjr-private-two-account-next",
+  "bootstrapBranch": "fix/pr214-postmerge-dual-screen-contract",
   "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
-  "lastVerifiedMainSha": "a1b4a34f8a2abcc4e361c4239da684ace9a4a40a",
-  "lastVerifiedRuntimeMainSha": "65d88b1b413501b328bdf722bc6e8a0aa0d46ef2",
+  "lastVerifiedMainSha": "420d0dd21480c660d4fe139ba011eca1ccb987a9",
+  "lastVerifiedRuntimeMainSha": "24d644efe0702ef4672e0655465b66e658ed4e3a",
+  "liveBoundary": {
+    "mainSha": "420d0dd21480c660d4fe139ba011eca1ccb987a9",
+    "activePullRequest": 215,
+    "branch": "fix/pr214-postmerge-dual-screen-contract",
+    "productionApplicationVersion": "1.9.1",
+    "productionRuntimeRevision": "1.9.1-r5",
+    "releaseCandidateApplicationVersion": "1.9.1",
+    "releaseCandidateRuntimeRevision": "1.9.1-r6",
+    "releaseCandidateState": "open-unmerged-sle-checkpoint",
+    "preSleSubstantiveHead": "da099afa12b5b760bf85728857685a7913d25ba3",
+    "headMustBeLiveVerified": true,
+    "runtimeChangedByPr215": false,
+    "rulesChangedByPr215": false,
+    "ssjrCredit": 0,
+    "mdpCredit": 0
+  },
   "latestRuntimeMerge": {
-    "pullRequest": 203,
-    "title": "SSJR: publish paired-first production Shared Setup",
-    "mergeSha": "65d88b1b413501b328bdf722bc6e8a0aa0d46ef2",
+    "pullRequest": 213,
+    "title": "Fix guided SSJR recorder active-session loop",
+    "mergeSha": "24d644efe0702ef4672e0655465b66e658ed4e3a",
     "applicationVersion": "1.9.1",
-    "runtimeRevision": "1.9.1-r3",
+    "runtimeRevision": "1.9.1-r5",
     "runtimeChanged": true,
     "productionProofRecorded": true,
-    "productionProof": "Stability run 34011054148 / same-main deployed-site-smoke complete",
     "historicalRollbackProvenance": true
+  },
+  "currentProductionProvenRuntime": {
+    "pullRequest": 213,
+    "mergeSha": "24d644efe0702ef4672e0655465b66e658ed4e3a",
+    "applicationVersion": "1.9.1",
+    "runtimeRevision": "1.9.1-r5",
+    "productionProven": true
+  },
+  "livePublicationCheckpoint": {
+    "pullRequest": 215,
+    "title": "Fix post merge dual-screen MDP contract wording",
+    "branch": "fix/pr214-postmerge-dual-screen-contract",
+    "baseMainSha": "420d0dd21480c660d4fe139ba011eca1ccb987a9",
+    "state": "open-unmerged-release-candidate-publication-convergence",
+    "releaseCandidateRuntimeRevision": "1.9.1-r6",
+    "preSleSubstantiveHead": "da099afa12b5b760bf85728857685a7913d25ba3",
+    "exactHeadMustBeLiveVerified": true,
+    "expectedHeadProtectionRequiredForMerge": true,
+    "runtimeChanged": false,
+    "rulesChanged": false,
+    "publicationWorkSsjrCredit": 0,
+    "publicationWorkMdpCredit": 0
   },
   "currentPublicationCheckpoint": {
     "pullRequest": 210,
     "title": "SSJR: stage production observer in Pages artifact",
-    "state": "merged-postmerge-green-observer-deployment-proven",
+    "state": "merged-postmerge-green-observer-deployment-proven-historical-bootstrap-root",
     "workingBranch": "ssjr/a54-pages-stage-observer",
     "baseSha": "e4d5321cee548c2cfe29253559bd4419fa019dd7",
     "finalSealedHead": "c863e1c2506bf34ff9521ed22bd989c221b437a6",
@@ -151,7 +188,8 @@
     "runtimeRevision": "1.9.1-r3",
     "proofRecord": "V1.9.1_R3_PRODUCTION_PROOF.md / Stability 34011054148",
     "currentRegression": null,
-    "productionProven": true
+    "productionProven": true,
+    "historicalCompatibilityAuthority": true
   },
   "previousProductionProvenRuntime": {
     "applicationVersion": "1.9.1",
@@ -161,7 +199,7 @@
   "runtime": {
     "applicationVersion": "1.9.1",
     "productionRuntimeRevision": "1.9.1-r3",
-    "productionStatus": "production-proven",
+    "productionStatus": "historical-pr203-bootstrap-baseline",
     "firebaseAppConnected": true,
     "appCheckConnected": true,
     "appCheckEnforcement": false,
@@ -172,6 +210,17 @@
     "billingRequired": false,
     "storageInitialized": false,
     "functionsInitialized": false
+  },
+  "liveRuntime": {
+    "applicationVersion": "1.9.1",
+    "productionRuntimeRevision": "1.9.1-r5",
+    "releaseCandidateRuntimeRevision": "1.9.1-r6",
+    "productionStatus": "production-proven-r5-r6-publication-convergence-open",
+    "appCheckEnforcement": false,
+    "firestorePersistence": "memory-only",
+    "googleAuthPersistence": "browserSessionPersistence-popup-only-no-extra-scopes",
+    "billingRequired": false,
+    "firebasePlan": "Spark"
   },
   "remoteJoiningReadiness": {
     "authority": "REMOTE_JOINING_READINESS.json",
@@ -196,6 +245,14 @@
     "estimatedFocusedSessionsToGenuine100": "5-10",
     "rule": "Only fixed evidence-backed whole capabilities earn SSJR credit; PR/CI/deploy/SLE/recorder/observer work is zero-credit without genuine production-two-account evidence."
   },
+  "milestoneDeliveryProgress": {
+    "authority": "MILESTONE_DELIVERY_PROGRESS.json",
+    "model": "MDP-1",
+    "score": 39.0,
+    "denominator": 100,
+    "pendingSharedSetupProductIntegrationCredit": 2.5,
+    "rule": "MDP is engineering lifecycle maturity only and never grants SSJR credit."
+  },
   "handoffTransferReadiness": {
     "model": "HTR-1",
     "score": 100,
@@ -209,7 +266,7 @@
     "remainingPillars": [],
     "rule": "HTR-1 measures repository transfer readiness only; it never supplies Session Handoff Proximity v2."
   },
-  "currentLane": "PR211 recovery source sealed; verify exact live publication state, then genuine private two-account Shared Setup evidence.",
+  "currentLane": "Converge PR215 r6 release-candidate publication with exact-head CI, then successor publishes/validates r6 and resumes genuine two-account Shared Setup evidence.",
   "ownerStandingAuthorization": {
     "scope": "all-current-and-future-project-pull-requests-through-full-project-completion",
     "mergeAndDeployWithoutRepeatedOwnerApproval": true,
@@ -242,8 +299,8 @@
     ]
   },
   "predecessorClosure": {
-    "environmentId": "we-2026-09-06-ssjr-production-storage-observation-a53",
-    "archive": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-06-ssjr-production-storage-observation-a53.json",
+    "environmentId": "we-2026-09-07-pr214-session-proximity-v2-a57",
+    "archive": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-07-pr214-session-proximity-v2-a57.json",
     "decisionMustNotBeInherited": true
   },
   "currentWec": {
@@ -256,30 +313,41 @@
     "decisionInheritedFromPredecessor": false,
     "predecessorEnvironmentId": "we-2026-09-06-ssjr-production-storage-observation-a53",
     "predecessorArchive": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-06-ssjr-production-storage-observation-a53.json",
-    "archive": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-06-pr211-recovery-private-setup-a54.json"
+    "archive": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-06-pr211-recovery-private-setup-a54.json",
+    "historicalBootstrapRoot": true
+  },
+  "closingWec": {
+    "environmentId": "we-2026-09-07-pr214-mdp1-a58",
+    "workingBranch": "fix/pr214-postmerge-dual-screen-contract",
+    "activePullRequest": 215,
+    "lifecycleAtPackageBuild": "active",
+    "decisionAtPackageBuild": "PREPARE_HANDOFF",
+    "decisionInheritedFromPredecessor": false,
+    "plannedArchive": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-07-pr214-mdp1-a58.json",
+    "finalDecision": "HANDOFF_AT_CHECKPOINT"
   },
   "currentHandoff": {
-    "canonical": "SUCCESSOR_HANDOFF_PR211_RECOVERY_PRIVATE_TWO_ACCOUNT_NEXT_SLE_2026-09-06.md",
-    "projectMirror": "project-documents/handoffs/SUCCESSOR_HANDOFF_PR211_RECOVERY_PRIVATE_TWO_ACCOUNT_NEXT_SLE_2026-09-06.md",
-    "status": "complete-sealed-pr211-a54-transfer"
+    "canonical": "SUCCESSOR_HANDOFF_PR215_R6_RELEASE_CANDIDATE_PUBLICATION_SLE_2026-09-07.md",
+    "projectMirror": "project-documents/handoffs/SUCCESSOR_HANDOFF_PR215_R6_RELEASE_CANDIDATE_PUBLICATION_SLE_2026-09-07.md",
+    "status": "complete-mirrored-pr215-r6-publication-checkpoint"
   },
   "starter": {
-    "version": "1.4.55",
-    "checkpoint": "PR211-RECOVERY-PRIVATE-TWO-ACCOUNT-NEXT",
-    "canonical": "START_NEXT_SESSION_V1.4.55_PR211_RECOVERY_PRIVATE_TWO_ACCOUNT_NEXT.md",
-    "projectMirror": "project-documents/session-starts/START_NEXT_SESSION_V1.4.55_PR211_RECOVERY_PRIVATE_TWO_ACCOUNT_NEXT.md",
+    "version": "1.4.56",
+    "checkpoint": "PR215-R6-RELEASE-CANDIDATE-PUBLICATION-NEXT",
+    "canonical": "START_NEXT_SESSION_V1.4.56_PR215_R6_RELEASE_CANDIDATE_PUBLICATION_NEXT.md",
+    "projectMirror": "project-documents/session-starts/START_NEXT_SESSION_V1.4.56_PR215_R6_RELEASE_CANDIDATE_PUBLICATION_NEXT.md",
     "ownerInitialDelivery": "short-repository-first-prompt",
     "fallbackPackNeededByDefault": false
   },
   "successorPackage": {
-    "compactStarter": "START_NEXT_SESSION_V1.4.55_PR211_RECOVERY_PRIVATE_TWO_ACCOUNT_NEXT.md",
-    "fullHandoff": "SUCCESSOR_HANDOFF_PR211_RECOVERY_PRIVATE_TWO_ACCOUNT_NEXT_SLE_2026-09-06.md",
+    "compactStarter": "START_NEXT_SESSION_V1.4.56_PR215_R6_RELEASE_CANDIDATE_PUBLICATION_NEXT.md",
+    "fullHandoff": "SUCCESSOR_HANDOFF_PR215_R6_RELEASE_CANDIDATE_PUBLICATION_SLE_2026-09-07.md",
     "handoffProtocol": "00_SLE_HANDOFF_PROTOCOL.md",
     "ownerEagleEyeRule": "00_OWNER_EAGLE_EYE_GOLDEN_RULE.md",
     "liveAuthority": "NEXT_TASK.md",
     "liveState": "PROJECT_STATE.md",
     "wecStatus": "WORK_ENVIRONMENT_STATUS.json",
-    "handoffBranch": "handoff/pr210-postmerge-ssjr-private-two-account-next",
+    "handoffBranch": "fix/pr214-postmerge-dual-screen-contract",
     "ownerPrompt": "NEXT_CHAT_HANDOFF_PROMPT.md"
   },
   "slePolicy": {
@@ -300,9 +368,10 @@
     "REMOTE_JOINING_READINESS.json",
     "SHARED_SHOWDOWN_JOURNEY_READINESS.json",
     "SHARED_SHOWDOWN_JOURNEY_MODEL.json",
+    "MILESTONE_DELIVERY_PROGRESS.json",
     "NEXT_TASK.md",
     "PROJECT_STATE.md",
-    "START_NEXT_SESSION_V1.4.55_PR211_RECOVERY_PRIVATE_TWO_ACCOUNT_NEXT.md"
+    "START_NEXT_SESSION_V1.4.56_PR215_R6_RELEASE_CANDIDATE_PUBLICATION_NEXT.md"
   ],
   "criticalLocks": {
     "canonicalStorage": [
@@ -322,11 +391,12 @@
     "globalLeaderboardsRankings": false,
     "exactlyTwoPrivateManagers": true,
     "fullPrivateCapabilityDurableRetention": false,
-    "standingMergeDeployAuthorizedAfterRequiredGates": true
+    "standingMergeDeployAuthorizedAfterRequiredGates": true,
+    "dualFullScreenRule": "SSJR-DUAL-FULL-SCREEN-1"
   },
   "immediateNextTask": {
-    "name": "ssjr1-pr211-verify-then-production-two-account-shared-setup-evidence",
-    "summary": "Verify live PR211 final publication state and finish only remaining exact-head gates if necessary. Then obtain genuine private two-account Shared Setup evidence using independent registered browsers; the available cloud browser was signed out. Do not fabricate evidence or request private identifiers.",
+    "name": "converge-pr215-r6-release-candidate-publication",
+    "summary": "Validate/archive closing a58, initialize a fresh WEC, independently verify current live PR215 exact head and all 15 workflow families, keep the task explicitly release-candidate publication/convergence, correct only objective exact-head failures, then expected-head squash merge and verify post-merge Stability/Pages/Burn-In before any MDP credit or owner two-account Shared Setup acceptance.",
     "mustNotInsertGenericPrerequisiteLane": true,
     "mustStartAsRealProjectWork": true,
     "scopeStopBeforeTransferResultsScoring": true
@@ -338,28 +408,28 @@
     "predecessorDecisionMustNotBeInherited": true
   },
   "wec100PackagingRule": "Session Handoff Proximity v2 reaches 100 only after SLE package generation and successful verification plus sealed HTR-1 transfer readiness. Stop the closing session; reset SHP-2 to zero in the successor.",
-  "activeWorkRecord": "SUCCESSOR_HANDOFF_PR211_RECOVERY_PRIVATE_TWO_ACCOUNT_NEXT_SLE_2026-09-06.md",
+  "activeWorkRecord": "SUCCESSOR_HANDOFF_PR215_R6_RELEASE_CANDIDATE_PUBLICATION_SLE_2026-09-07.md",
   "ownerSsjrDirection": {
     "sessionEstimateLabel": "Estimated focused sessions to genuine SSJR100",
     "pairingAndActiveBeforeLeagueOrClubs": true,
     "necessaryProductChangesAuthorized": true,
     "ssjr100RequiresPlayableRemoteTwoManagerJourney": true,
     "automateEveryFeasibleTest": true,
-    "snsAfterEverySubstantialTask": true
+    "snsAfterEverySubstantialTask": true,
+    "bothManagersEveryCanonicalScreen": true
   },
   "continuityPublicationCheckpoint": {
-    "pullRequest": 211,
-    "branch": "handoff/pr210-postmerge-ssjr-private-two-account-next",
-    "entryHead": "2cda07cbc4c2918076b3fdd276020456c334c571",
-    "correctionHead": "7d131703eaf559b33ce2f418acf76404008edbbd",
-    "correctionTree": "a429bc2bbabbb7a493012756a1e89c7d49774b38",
-    "state": "source-sealed-final-head-publication-requires-live-verification",
+    "pullRequest": 215,
+    "branch": "fix/pr214-postmerge-dual-screen-contract",
+    "baseMainSha": "420d0dd21480c660d4fe139ba011eca1ccb987a9",
+    "preSleSubstantiveHead": "da099afa12b5b760bf85728857685a7913d25ba3",
+    "state": "open-unmerged-release-candidate-publication-convergence-sle-checkpoint",
     "runtimeChanged": false,
     "rulesChanged": false,
     "ssjrCredit": 0,
-    "localContractSuitePassed": true,
-    "localHandoffPreflightPassed": true,
-    "knownOwnerBlocker": "two legitimate private account sign-ins and real two-sided interactions on independent registered browsers"
+    "mdpCredit": 0,
+    "headMustBeLiveVerified": true,
+    "knownOwnerBlockerAfterPublication": "two legitimate private account sign-ins and real two-sided interactions on independent registered browsers"
   },
   "sessionHandoffProximity": {
     "model": "SHP-2",
@@ -370,5 +440,14 @@
     "vtlsIndependentOfProximity": true,
     "requiredLabel": "Session handoff proximity",
     "neverUseHtrForSessionPressure": true
+  },
+  "currentSuccessorOverride": {
+    "version": "1.4.63",
+    "capsule": "SESSION_BOOTSTRAP_V1.4.63.json",
+    "starter": "START_NEXT_SESSION_V1.4.63_PR215_PRODUCTION_AUTHORITY_LITERAL_SAFE_TRANSFER_NEXT.md",
+    "deepHandoff": "SUCCESSOR_HANDOFF_PR215_PRODUCTION_AUTHORITY_LITERAL_SAFE_TRANSFER_SLE_V1.4.63_2026-09-07.md",
+    "ownerSns": "owner-sns/OWNER_SNS_V1.4.63_PR215_PRODUCTION_AUTHORITY_LITERAL_SAFE_TRANSFER.md",
+    "closingEnvironmentId": "we-2026-09-07-pr215-r6-publication-a65",
+    "precedence": "Current successor routing. All pre-existing V1.4.56/a58 fields remain unchanged historical provenance."
   }
 }

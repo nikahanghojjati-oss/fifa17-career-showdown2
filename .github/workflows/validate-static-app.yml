@@ -40,42 +40,9 @@ jobs:
           set -euo pipefail
           node tests/contracts/static-app-release-contracts.cjs
 
-      - name: Validate complete repository contracts including Candidate C
+      - name: Validate current Spark account and Rules boundary
         shell: bash
         run: |
           set -euo pipefail
-          npm run test:contracts
-          npm install --no-save --package-lock=false --ignore-scripts firebase@12.17.1 @firebase/rules-unit-testing@5.0.1 firebase-admin@14.2.0 firebase-tools@15.27.0
-          npx --no-install firebase emulators:exec --project demo-career-mode-showdown-phase1f --only auth,firestore "node tests/firebase/cloud-sync-phase1f-emulator.cjs && node tests/firebase/private-account-auth-stage2a-emulator.cjs && node tests/firebase/private-account-auth-stage2b-lifecycle-emulator.cjs && node tests/firebase/private-account-auth-stage2e-bootstrap-emulator.cjs && node tests/firebase/private-account-auth-stage2f-token-verification-emulator.cjs && node tests/firebase/private-account-auth-stage2g-bootstrap-execution-emulator.cjs && node tests/firebase/spark-account-bootstrap-emulator.cjs"
-
-      - name: Validate permanent workflow block topology
-        shell: bash
-        run: |
-          set -euo pipefail
-          node <<'NODE'
-          const assert = require('node:assert/strict');
-          const fs = require('node:fs');
-          const path = require('node:path');
-          const root = process.cwd();
-          const workflowDir = path.join(root, '.github/workflows');
-          const nonPermanentWorkflows = new Set([
-            'deploy-github-pages.yml',
-            'prove-production-pages-rollback.yml',
-            'validate-stability-lane.yml'
-          ]);
-          const files = fs.readdirSync(workflowDir)
-            .filter(name => name.endsWith('.yml') && !nonPermanentWorkflows.has(name))
-            .sort();
-          const literalBlocks = files.reduce((total, name) => {
-            const source = fs.readFileSync(path.join(workflowDir, name), 'utf8');
-            return total + (source.match(/^\s*run:\s*\|\s*$/gm) || []).length;
-          }, 0);
-          assert.equal(literalBlocks, 35, `Permanent executable validation topology drifted: expected 35 literal blocks, found ${literalBlocks}.`);
-          assert.ok(files.includes('validate-atomic-restore.yml'), 'Candidate C permanent workflow is missing.');
-          assert.ok(files.includes('validate-v110-release-burnin.yml'), 'Five-pass release Burn-In workflow is missing.');
-          assert.ok(files.includes('validate-stage3-private-pairing.yml'), 'Stage 3 private pairing permanent workflow is missing.');
-          assert.ok(files.includes('deploy-firestore-rules-zero-billing.yml'), 'Permanent zero-billing Firebase Rules deployment workflow is missing.');
-          assert.ok(fs.existsSync(path.join(workflowDir, 'deploy-github-pages.yml')), 'Production Pages deployment workflow is missing.');
-          assert.ok(fs.existsSync(path.join(workflowDir, 'prove-production-pages-rollback.yml')), 'One-shot production rollback proof workflow is missing.');
-          process.stdout.write(`PASS  Permanent validation topology: ${files.length} workflows / ${literalBlocks} executable blocks; production Pages deployment, Stability and one-shot rollback proof are accounted separately.\n`);
-          NODE
+          npm install --no-save --package-lock=false --ignore-scripts firebase@12.17.1 @firebase/rules-unit-testing@5.0.1 firebase-tools@15.27.0
+          npx --no-install firebase emulators:exec --project demo-career-mode-showdown-phase1f --only firestore "node tests/firebase/spark-account-bootstrap-emulator.cjs"
