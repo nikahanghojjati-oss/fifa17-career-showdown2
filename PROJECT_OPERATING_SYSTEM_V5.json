@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "operatingSystem": "POS-5",
+  "purpose": "Crash-resistant, product-first operating system that bounds volatile work loss to one atomic unit and removes continuity-driven compute churn.",
+  "startupLoadSet": [
+    "DEVELOPER_RELAY_POS5.md_IF_SUPPLIED",
+    "LIVE_MAIN_AND_ACTIVE_PR",
+    "ACTIVE_PR_RB2_IF_PRESENT",
+    "PROJECT_OPERATING_SYSTEM_V5.md",
+    "CURRENT_PRODUCT_GUARDS.json",
+    "NEXT_TASK.md"
+  ],
+  "metrics": {
+    "SSJR-1.1": "ACTIVE_PRODUCT_ACCEPTANCE",
+    "MDP-1": "ACTIVE_ENGINEERING_MATURITY_PENDING_REVIEWED_MDP2_MIGRATION",
+    "RJR-1": "FROZEN_HISTORICAL_100"
+  },
+  "resilience": {
+    "atomicWorkUnit": "AWU-1",
+    "crashLossBudget": "CLB-1",
+    "maximumUncheckpointedAtomicUnits": 1,
+    "recoveryBeacon": "RB-2",
+    "relayDecision": "TDS-3",
+    "relayFile": "DRF-1",
+    "relayFilename": "DEVELOPER_RELAY_POS5.md",
+    "relayFileMaxBytes": 8192,
+    "gitMutationRequiredForRecovery": false,
+    "continuityOnlyPullRequestAllowed": false
+  },
+  "debugging": {
+    "adaptiveBudget": "ADB-4",
+    "minAttempts": 3,
+    "maxAttempts": 20,
+    "failureClasses": ["PRODUCT_DEFECT", "TEST_DEFECT", "PROCESS_DRIFT", "DORMANT_PROVENANCE", "INFRA_FLAKE", "HEAD_MOVED", "UNKNOWN"],
+    "unreproducedInfraFlakeConsumesAttempt": false
+  },
+  "testing": {
+    "failureCensus": "FC-2",
+    "gatePurity": "GP-2",
+    "repositoryRunnerCollectsAllIndependentFailures": true,
+    "childTimeoutsRequired": true,
+    "historicalNarrationMayBlockProductCI": false,
+    "stabilityOwnsFullCurrentProductSuite": true,
+    "specialistsRunFocusedRiskOnly": true,
+    "historicalAndDormantAutomaticCI": false
+  },
+  "legacy": {
+    "SHP": "RETIRED",
+    "HTR-1": "RETIRED",
+    "WEC": "HISTORICAL_ONLY",
+    "SLE": "NONBLOCKING_PRINCIPLE",
+    "SNS": "SUPERSEDED",
+    "RCP-2": "SUPERSEDED_BY_DRF1",
+    "POS-2": "HISTORICAL",
+    "POS-3": "HISTORICAL",
+    "POS-4": "UNMERGED_DESIGN_PROVENANCE"
+  }
+}
