@@ -15,6 +15,20 @@
         "^tests/contracts/ssjr-production-safe-evidence-assembly-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/ssjr-production-actor-evidence-v2-contracts.cjs",
+      "patterns": [
+        "^js/ssjrProductionNegativeEvidence\\.js$",
+        "^js/ssjr\\.js$",
+        "^scripts/ssjr-actor-evidence-v2\\.mjs$",
+        "^scripts/assemble-ssjr-shared-setup-actor-evidence\\.mjs$",
+        "^scripts/validate-ssjr-shared-setup-actor-evidence\\.mjs$",
+        "^tests/contracts/ssjr-production-actor-evidence-v2-contracts\\.cjs$",
+        "^tests/browser/ssjr-production-actor-evidence-v2-audit\\.cjs$",
+        "^package\\.json$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
