@@ -5,21 +5,20 @@
   "liveFactsMustBeResolved": true,
   "observedHeads": {
     "main": "30251181f457d1df1ed990001de54919885eea73",
-    "candidate": "e631fd5b63deb793f5228f3b8807e0a41e79db69",
-    "recovery": "e631fd5b63deb793f5228f3b8807e0a41e79db69"
+    "candidate": "65d6485062baf8ad8d6782cf414838e14a44095e",
+    "recovery": "65d6485062baf8ad8d6782cf414838e14a44095e"
   },
   "candidateBranch": "ops/ssjr-production-evidence-automation",
   "recoveryBranch": "recovery/ssjr-production-evidence-automation",
-  "cognitiveDecision": "REFRAME_ACCEPTANCE_ACTOR_CONTRACT",
-  "selectedAction": "Validate and review the bounded PR224 safety and operator-control corrections on one frozen head. Keep publication blocked until the contradictory per-manager negative actor requirements are explicitly reconciled.",
+  "cognitiveDecision": "PUBLISH_RECONCILED_ACTOR_ATTRIBUTION_V2",
+  "selectedAction": "Validate the authority-only successor head on one exact head, obtain a fresh after-resolution Codex review, and merge PR224 with expected-head protection only if every required check and review remains clean. Production SSJR evidence capture remains a separate post-publication task.",
   "evidenceDebt": {
-    "count": 2,
-    "blocking": 2,
+    "count": 1,
+    "blocking": 1,
     "items": [
-      "production-two-account-shared-setup",
-      "negative-evidence-actor-contract"
+      "production-two-account-shared-setup"
     ]
   },
-  "exactBlocker": "The strict validator requires eight denials per bound manager. Direct draw substitution requires the coordinator; coordinator bypass requires the other manager; an unrelated account cannot also be either bound manager of this same rivalry. Do not fabricate roles, copy observations, or weaken the validator to force completion.",
-  "nextVerification": "Require all 61 registered product contracts, all selected inherited proof lanes, the POS20 exact-head seal, and fresh after-resolution Codex review. Review PR224_ACCEPTANCE_ACTOR_CONTRACT_REVIEW.md before any merge or production acceptance request."
+  "exactBlocker": "The actor-contract contradiction is reconciled by the versioned v2 path. The remaining SSJR blocker is missing genuine production evidence: both complete manager journeys plus the required actor-attributed direct denial observations and unrelated-account witness proof must still be captured and validated. CI, emulator evidence and PR publication grant zero SSJR credit.",
+  "nextVerification": "Require the complete 62-contract product census, all selected inherited POS20 proof lanes, the POS20 exact-head cognitive seal, synchronized recovery continuity, and one fresh after-resolution Codex review on the final PR224 head before any expected-head-protected merge."
 }
