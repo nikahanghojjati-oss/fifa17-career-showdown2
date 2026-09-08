@@ -5,8 +5,8 @@
   "liveFactsMustBeResolved": true,
   "observedHeads": {
     "main": "2ff738fe093f7409cebc40b8b1499f57ddd82b3d",
-    "candidate": "2ff738fe093f7409cebc40b8b1499f57ddd82b3d",
-    "recovery": "2ff738fe093f7409cebc40b8b1499f57ddd82b3d"
+    "candidate": "0a9d8d7f8d920fdd536a3cf5bd44e3366cd1848d",
+    "recovery": "0a9d8d7f8d920fdd536a3cf5bd44e3366cd1848d"
   },
   "candidateBranch": "ops/pos20-cognitive-control-plane",
   "recoveryBranch": "recovery/pos20-cognitive-control-plane",

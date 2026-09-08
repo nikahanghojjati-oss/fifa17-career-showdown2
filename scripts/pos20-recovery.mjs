@@ -34,7 +34,7 @@ export function validateCurrentState(s){
   ensure(typeof s.candidateBranch==='string'&&s.candidateBranch.startsWith('ops/'),'POS20 candidate branch required');
   ensure(typeof s.recoveryBranch==='string'&&s.recoveryBranch.startsWith('recovery/'),'POS20 recovery branch required');
   ensure(s.candidateBranch!==s.recoveryBranch,'Candidate and recovery branches must differ');
-  ensure(s.observedHeads&&['main','candidate','recovery'].every(k=>shaPattern.test(s.observedHeads[k]||'')),'Exact observed heads required');
+  ensure(s.observedHeads&&Object.keys(s.observedHeads).length===3&&['main','candidate','recovery'].every(k=>shaPattern.test(s.observedHeads[k]||'')),'Exact observed heads required');
   ensure(s.evidenceDebt&&Number.isInteger(s.evidenceDebt.count)&&s.evidenceDebt.count>=0,'Evidence debt count required');
   for(const k of ['cognitiveDecision','selectedAction','exactBlocker','nextVerification'])ensure(typeof s[k]==='string'&&s[k].trim(),`${k} required`);
   const serialized=JSON.stringify(s);
@@ -71,26 +71,77 @@ function exactSha(value,label){ensure(shaPattern.test(value||''),`${label} must 
 function splitRepo(repository){ensure(/^[^/\s]+\/[^/\s]+$/.test(repository||''),'repository must be owner/name');return repository;}
 function refEndpoint(repository,ref){return `repos/${repository}/git/ref/heads/${encodeURIComponent(ref)}`;}
 function refSha(client,repository,ref){const data=client.rest(refEndpoint(repository,ref));return exactSha(data?.object?.sha,`live ${ref}`);}
-function validateLiveContinuityConfig(input){
-  validateContinuityInput(input);
+function boundedArray(value,label){ensure(Array.isArray(value),`${label} must be an array`);ensure(value.length<100,`${label} reached pagination boundary; refuse incomplete evidence`);return value;}
+const liveRequestFields=['repository','continuityState','ownerRequestsTransfer','openAtomicUnits','unpublishedPackets'];
+function validateLiveContinuityRequest(input){
+  ensure(input&&typeof input==='object'&&!Array.isArray(input),'Live continuity request must be an object');
+  for(const key of Object.keys(input))ensure(liveRequestFields.includes(key),`Caller-controlled live authority field forbidden: ${key}`);
+  for(const key of liveRequestFields)ensure(Object.hasOwn(input,key),`Missing live continuity field: ${key}`);
   splitRepo(input.repository);
-  for(const key of ['expectedMainHead','expectedCandidateHead','expectedRecoveryHead','checkpointHead'])exactSha(input[key],key);
+  ensure(continuityStates.includes(input.continuityState),'Invalid continuity state');
+  ensure(typeof input.ownerRequestsTransfer==='boolean','ownerRequestsTransfer must be boolean');
+  for(const k of ['openAtomicUnits','unpublishedPackets'])ensure(Number.isInteger(input[k])&&input[k]>=0,`${k} must be a nonnegative integer`);
   return input;
 }
+function compare(client,repository,base,head){return client.rest(`repos/${repository}/compare/${base}...${head}`);}
+function exactOrOneAhead(client,repository,anchor,live){
+  if(anchor===live)return true;
+  const relation=compare(client,repository,anchor,live);
+  return relation?.merge_base_commit?.sha===anchor&&relation?.status==='ahead'&&relation?.ahead_by===1&&relation?.behind_by===0;
+}
+function latestByName(runs){
+  const latest=new Map();
+  const time=run=>Date.parse(run?.completed_at||run?.started_at||run?.created_at||0)||0;
+  for(const run of runs){
+    const name=String(run?.name||'');if(!name)continue;
+    const prior=latest.get(name);
+    const stamp=time(run);const priorStamp=prior?time(prior):-1;
+    if(!prior||stamp>priorStamp||(stamp===priorStamp&&Number(run?.id||0)>=Number(prior?.id||0)))latest.set(name,run);
+  }
+  return [...latest.values()];
+}
+export function resolveLiveCandidateValidation(repository,candidateBranch,candidateHead,client=liveRecoveryGitHubClient){
+  const owner=repository.split('/')[0];
+  const pullRows=boundedArray(client.rest(`repos/${repository}/pulls?state=open&head=${encodeURIComponent(`${owner}:${candidateBranch}`)}&per_page=100`),'candidate pull requests');
+  if(pullRows.length===0)return {state:'NOT_PUBLISHED',prNumber:null,checks:0};
+  ensure(pullRows.length===1,'Multiple open pull requests target the POS20 candidate; reconcile first');
+  const pr=pullRows[0];
+  ensure(pr?.state==='open'&&pr?.base?.ref==='main','Candidate pull request must be open against canonical main');
+  ensure(pr?.head?.ref===candidateBranch&&pr?.head?.sha===candidateHead,'Live pull request head disagrees with candidate ref');
+  const data=client.rest(`repos/${repository}/commits/${candidateHead}/check-runs?per_page=100`);
+  const runs=boundedArray(data?.check_runs,'candidate check runs');
+  ensure(Number.isInteger(data?.total_count)&&data.total_count===runs.length,'Candidate check-run evidence is incomplete');
+  for(const run of runs)if(run?.head_sha)ensure(run.head_sha===candidateHead,'Mixed-head candidate check evidence forbidden');
+  const pos20=latestByName(runs.filter(run=>/^POS20\b/.test(String(run?.name||''))));
+  if(pos20.some(run=>run.status!=='completed'))return {state:'PENDING',prNumber:pr.number,checks:pos20.length};
+  const seal=pos20.find(run=>run.name==='POS20 exact-head cognitive seal');
+  if(seal)return {state:seal.conclusion==='success'?'GREEN':'FAILED',prNumber:pr.number,checks:pos20.length};
+  const failed=pos20.some(run=>run.status==='completed'&&!['success','skipped','neutral'].includes(String(run.conclusion||'')));
+  return {state:failed?'FAILED':'PENDING',prNumber:pr.number,checks:pos20.length};
+}
 export function resolveLiveContinuity(input,authorityState,client=liveRecoveryGitHubClient){
-  validateLiveContinuityConfig(input);
+  validateLiveContinuityRequest(input);
   const authority=validateCurrentState(authorityState);
   const repository=input.repository;
   const mainHead=refSha(client,repository,'main');
   const candidateHead=refSha(client,repository,authority.candidateBranch);
   const recoveryHead=refSha(client,repository,authority.recoveryBranch);
-  const comparison=client.rest(`repos/${repository}/compare/${candidateHead}...${recoveryHead}`);
-  const recoveryDescendsFromCandidate=comparison?.merge_base_commit?.sha===candidateHead&&['ahead','identical'].includes(comparison?.status);
-  const headsMatchExpectation=mainHead===input.expectedMainHead&&candidateHead===input.expectedCandidateHead&&recoveryHead===input.expectedRecoveryHead;
-  const durableCheckpoint=input.checkpointHead===recoveryHead;
-  const computed={continuityState:input.continuityState,ownerRequestsTransfer:input.ownerRequestsTransfer,liveAuthorityResolved:true,durableCheckpoint,headsMatchExpectation,recoveryDescendsFromCandidate,openAtomicUnits:input.openAtomicUnits,unpublishedPackets:input.unpublishedPackets,candidateValidation:input.candidateValidation};
+  const candidateValidation=resolveLiveCandidateValidation(repository,authority.candidateBranch,candidateHead,client);
+  const recoveryRelation=compare(client,repository,candidateHead,recoveryHead);
+  const recoveryDescendsFromCandidate=recoveryRelation?.merge_base_commit?.sha===candidateHead&&['ahead','identical'].includes(recoveryRelation?.status);
+  const mainMatches=mainHead===authority.observedHeads.main;
+  const candidateUnchanged=candidateHead===authority.observedHeads.candidate;
+  const recoveryBounded=exactOrOneAhead(client,repository,authority.observedHeads.recovery,recoveryHead);
+  const candidateBounded=exactOrOneAhead(client,repository,authority.observedHeads.candidate,candidateHead);
+  const published=candidateValidation.state!=='NOT_PUBLISHED';
+  const transactionShape=published
+    ? candidateBounded&&recoveryHead===candidateHead
+    : candidateUnchanged&&recoveryBounded;
+  const headsMatchExpectation=mainMatches&&transactionShape;
+  const durableCheckpoint=recoveryBounded;
+  const computed={continuityState:input.continuityState,ownerRequestsTransfer:input.ownerRequestsTransfer,liveAuthorityResolved:true,durableCheckpoint,headsMatchExpectation,recoveryDescendsFromCandidate,openAtomicUnits:input.openAtomicUnits,unpublishedPackets:input.unpublishedPackets,candidateValidation:candidateValidation.state};
   const decision=assessContinuity(computed);
-  return {...decision,live:{repository,mainHead,candidateHead,recoveryHead,candidateBranch:authority.candidateBranch,recoveryBranch:authority.recoveryBranch,durableCheckpoint,headsMatchExpectation,recoveryDescendsFromCandidate}};
+  return {...decision,live:{repository,mainHead,candidateHead,recoveryHead,candidateBranch:authority.candidateBranch,recoveryBranch:authority.recoveryBranch,durableAnchors:{...authority.observedHeads},durableCheckpoint,headsMatchExpectation,recoveryDescendsFromCandidate,candidateValidation:candidateValidation.state,prNumber:candidateValidation.prNumber,checkCount:candidateValidation.checks}};
 }
 
 if(process.argv[1]&&process.argv[1].endsWith('pos20-recovery.mjs')){
