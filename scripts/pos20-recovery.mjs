@@ -72,13 +72,12 @@ function splitRepo(repository){ensure(/^[^/\s]+\/[^/\s]+$/.test(repository||''),
 function refEndpoint(repository,ref){return `repos/${repository}/git/ref/heads/${encodeURIComponent(ref)}`;}
 function refSha(client,repository,ref){const data=client.rest(refEndpoint(repository,ref));return exactSha(data?.object?.sha,`live ${ref}`);}
 function boundedArray(value,label){ensure(Array.isArray(value),`${label} must be an array`);ensure(value.length<100,`${label} reached pagination boundary; refuse incomplete evidence`);return value;}
-const liveRequestFields=['repository','continuityState','ownerRequestsTransfer','openAtomicUnits','unpublishedPackets'];
+const liveRequestFields=['repository','ownerRequestsTransfer','openAtomicUnits','unpublishedPackets'];
 function validateLiveContinuityRequest(input){
   ensure(input&&typeof input==='object'&&!Array.isArray(input),'Live continuity request must be an object');
   for(const key of Object.keys(input))ensure(liveRequestFields.includes(key),`Caller-controlled live authority field forbidden: ${key}`);
   for(const key of liveRequestFields)ensure(Object.hasOwn(input,key),`Missing live continuity field: ${key}`);
   splitRepo(input.repository);
-  ensure(continuityStates.includes(input.continuityState),'Invalid continuity state');
   ensure(typeof input.ownerRequestsTransfer==='boolean','ownerRequestsTransfer must be boolean');
   for(const k of ['openAtomicUnits','unpublishedPackets'])ensure(Number.isInteger(input[k])&&input[k]>=0,`${k} must be a nonnegative integer`);
   return input;
@@ -139,9 +138,9 @@ export function resolveLiveContinuity(input,authorityState,client=liveRecoveryGi
     : candidateUnchanged&&recoveryBounded;
   const headsMatchExpectation=mainMatches&&transactionShape;
   const durableCheckpoint=recoveryBounded;
-  const computed={continuityState:input.continuityState,ownerRequestsTransfer:input.ownerRequestsTransfer,liveAuthorityResolved:true,durableCheckpoint,headsMatchExpectation,recoveryDescendsFromCandidate,openAtomicUnits:input.openAtomicUnits,unpublishedPackets:input.unpublishedPackets,candidateValidation:candidateValidation.state};
+  const computed={continuityState:authority.continuityState,ownerRequestsTransfer:input.ownerRequestsTransfer,liveAuthorityResolved:true,durableCheckpoint,headsMatchExpectation,recoveryDescendsFromCandidate,openAtomicUnits:input.openAtomicUnits,unpublishedPackets:input.unpublishedPackets,candidateValidation:candidateValidation.state};
   const decision=assessContinuity(computed);
-  return {...decision,live:{repository,mainHead,candidateHead,recoveryHead,candidateBranch:authority.candidateBranch,recoveryBranch:authority.recoveryBranch,durableAnchors:{...authority.observedHeads},durableCheckpoint,headsMatchExpectation,recoveryDescendsFromCandidate,candidateValidation:candidateValidation.state,prNumber:candidateValidation.prNumber,checkCount:candidateValidation.checks}};
+  return {...decision,live:{repository,mainHead,candidateHead,recoveryHead,candidateBranch:authority.candidateBranch,recoveryBranch:authority.recoveryBranch,durableAnchors:{...authority.observedHeads},durableContinuityState:authority.continuityState,durableCheckpoint,headsMatchExpectation,recoveryDescendsFromCandidate,candidateValidation:candidateValidation.state,prNumber:candidateValidation.prNumber,checkCount:candidateValidation.checks}};
 }
 
 if(process.argv[1]&&process.argv[1].endsWith('pos20-recovery.mjs')){
