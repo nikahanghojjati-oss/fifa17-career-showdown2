@@ -1,0 +1,23 @@
+{
+  "observedHeads": {
+    "main": "831a13ee93ac1b279c1f7c0985c1c5111922829f",
+    "candidate": "831a13ee93ac1b279c1f7c0985c1c5111922829f",
+    "recovery": "ab094c8494a3d72f5601d88224367753f2580b01"
+  },
+  "candidateBranch": "ops/pos10-unified-operating-system",
+  "recoveryBranch": "recovery/pos10-unified-operating-system",
+  "atomicWorkUnit": "Publish POS10 as the sole active process authority",
+  "lastSafeCheckpoint": "60 product contracts, 23 operations tests and syntax for 215 active sources pass. Home/League inline proofs pass. Local Settings inline proof requires locked npm dependencies; no product defect reproduced",
+  "nextExactAction": "Install locked test dependencies, finish available local proof, revalidate the durable target, promote once and require full exact-head CI; refresh recovery after candidate movement",
+  "phase": "READY_TO_PROMOTE",
+  "decision": "CONTINUE",
+  "operatingSystem": "POS10",
+  "filingVersion": "v1.0.0",
+  "generatedAt": "2026-09-08T06:15:36.295Z",
+  "repository": "nikahanghojjati-oss/fifa17-career-showdown2",
+  "artifactRole": "recovery-manifest",
+  "recoveryState": "RECOVERY_READY",
+  "liveFactsMustBeResolved": true,
+  "sourceFingerprint": "3212f009f9c2719d163aa55a086477290c6ba130a9f88a610d5ebd17a31a8531",
+  "supersedes": "pos10-recovery/POS10_RECOVERY_v1.0.0_2026-09-08_000007.json"
+}

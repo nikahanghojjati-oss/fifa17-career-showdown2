@@ -1,0 +1,11 @@
+{
+  "operatingSystem": "POS10",
+  "filingVersion": "v1.0.0",
+  "artifactRole": "response-contract",
+  "statusFields": ["Recovery readiness", "SSJR", "MDP", "Current lane", "Concrete dependency completed", "Next unlock", "Blocker"],
+  "allowedRecoveryStates": ["RECOVERY_READY", "RECOVERY_STALE", "RECOVERY_BLOCKED"],
+  "finalLinePattern": "^Decision: (CONTINUE|TRANSITION)$",
+  "decisionCount": 1,
+  "continueRequires": ["current durable successor", "resolved live authority", "safe exact next action", "single work unit and bounded packet"],
+  "transitionInputs": ["owner requests transfer", "real platform warning", "severe observed context degradation", "required live authority unavailable", "recovery cannot be refreshed", "stop at durable checkpoint"]
+}

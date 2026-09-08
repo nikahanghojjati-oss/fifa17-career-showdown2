@@ -1,0 +1,13 @@
+{
+  "operatingSystem": "POS10",
+  "filingVersion": "v1.0.0",
+  "artifactRole": "retired-concept-registry",
+  "purpose": "These strings are rejection data, never active authority or reporting.",
+  "forbiddenPatterns": [
+    "\\bPOS[- ]?[2-9]\\b", "\\bpos[2-9]-", "PROJECT_OPERATING_SYSTEM_V[2-9]", "\\bIMPACT-7\\b", "\\b(?:TX|SRB|WAL|PG)-8\\b",
+    "handoff proximity", "\\bSHP(?:-2)?\\b", "\\bHTR(?:-1)?\\b", "\\bADB-1\\b", "\\bDRF-1\\b", "\\bVTLS\\b",
+    "estimated focused sessions", "session health", "remaining model quota", "guessed context remaining"
+  ],
+  "forbiddenStateFields": ["accountPlan", "messageCount", "toolCallCount", "elapsedSessionTime", "contextRemaining", "fiveHourUsage", "weeklyUsage", "remainingQuota", "sessionPressure", "handoffProximity"],
+  "historyPolicy": "Historical artifacts are excluded from the active dependency graph. Registry literals are test data only."
+}

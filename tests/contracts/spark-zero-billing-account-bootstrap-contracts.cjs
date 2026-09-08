@@ -8,7 +8,7 @@ const deployedRules=fs.readFileSync("firestore.rules","utf8");
 const guards=JSON.parse(fs.readFileSync("CURRENT_PRODUCT_GUARDS.json","utf8"));
 
 // Product-only authority: preserve the zero-billing Spark account bootstrap and
-// operation-scoped Rules behavior. Process/routing ownership belongs to POS8 ops tests.
+// operation-scoped Rules behavior. Process/routing ownership belongs to operations tests.
 assert.equal(guards.provider.billingEnabled,false);
 assert.equal(guards.provider.firebasePlan,"Spark");
 assert.equal(guards.provider.blazeAllowed,false);

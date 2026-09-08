@@ -2,7 +2,6 @@ const assert=require("node:assert/strict"),fs=require("node:fs"),path=require("n
 const root=path.resolve(__dirname,"../.."),read=p=>fs.readFileSync(path.join(root,p),"utf8");
 const source=read("js/sparkRemoteJoining.js"),html=read("index.html"),worker=read("service-worker.js"),runtime=read("js/productionFirebaseRuntime.js"),guards=JSON.parse(read("CURRENT_PRODUCT_GUARDS.json"));
 
-assert.equal(guards.operatingSystem,"POS-2");
 assert.equal(guards.provider.billingEnabled,false);
 assert.equal(guards.provider.firebasePlan,"Spark");
 assert.equal(guards.provider.cloudRunAllowed,false);

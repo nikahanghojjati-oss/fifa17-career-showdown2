@@ -1,40 +1,17 @@
-# CURRENT TASK — POS8 CRASH SHIELD PUBLICATION, THEN SHARED SETUP PRODUCT WORK
+# Current task: POS10 publication, then Shared Showdown Journey
 
-`PROJECT_OPERATING_SYSTEM_V8.md` is candidate process authority on PR #220. `CURRENT_PRODUCT_GUARDS.json` remains stable product/safety authority. IMPACT-7 remains the exact product validation engine. Current verified source and live GitHub/provider/deployment evidence override recorded SHAs.
+POS10_CURRENT_FILE_INDEX.json and PROJECT_OPERATING_SYSTEM_POS10.md are the sole process routing authority. CURRENT_PRODUCT_GUARDS.json retains all product and infrastructure locks.
 
-POS6 is merged on main. POS7 exact impact selection is incorporated into PR #220. POS8 adds TX-8 transactional recovery and earns zero SSJR/MDP product credit.
+## Current work unit
 
-RJR-1 remains frozen historical 100/100. SSJR-1.1 remains the active product acceptance target. MDP-1 remains current.
+Publish POS10 as the only active process authority. Candidate branch: ops/pos10-unified-operating-system. Recovery branch: recovery/pos10-unified-operating-system. Resolve both live heads and any candidate PR before mutation. The current versioned recovery packet records the checkpoint and exact next action; do not infer completion from this static task description.
 
-## Live publication lane
+Complete native filing/recovery/routing/publication controls and migrate active startup, machine authority, commands and workflows. Validate operations and the changed product risk. Promote one coherent durable unit once, pause mutation while exact-head validation is pending, recheck reviews/comments/threads, merge with expected-head protection, independently resolve main and refresh recovery. Once that boundary is proven this process task is complete; do not reopen it for packaging polish.
 
-Candidate PR: #220
-Candidate branch: `ops/pos7-impact-authority`
-Shadow recovery branch: `recovery/pr220-pos8-tx8`
+## Immediate product task after verified publication
 
-Recorded heads are orientation only. Resolve both live refs before every promotion or correction.
+Continue SSJR-1.1 production two-account Shared Setup evidence. Read SHARED_SHOWDOWN_JOURNEY_READINESS.json and MILESTONE_DELIVERY_PROGRESS.json for current scores. POS10 contributes zero to both.
 
-## Immediate next task
+Inventory the denial/adverse observations required by the current evidence validator. Reuse the existing production recorder, provider enforcement and browser automation. Build only missing privacy-safe guided automation. Automate everything safely possible. Ask the owner for two-account or physical-device interaction only when the available authenticated accounts/devices cannot be replaced by automation. Never fabricate production evidence from emulator or simulated-account tests.
 
-1. Finish the current POS8 Atomic Work Unit only on the shadow recovery branch.
-2. Keep product gates product-only; process/routing/recovery assertions belong to POS8 operations tests.
-3. Run targeted static/operations validation on the coherent shadow head.
-4. Verify the shadow head descends from the unchanged candidate head.
-5. Update WAL-8 recovery metadata to `SHADOW_READY` and promote the candidate branch exactly once with a fast-forward.
-6. While candidate validation is pending, do not mutate that candidate head.
-7. Require the exact candidate head to pass the IMPACT-7 complete seal because this operating-system change touches workflow/dependency/test authority.
-8. Recheck PR reviews/comments/threads, mark ready, and merge only with expected-head protection.
-9. Verify resulting main authority.
-10. Stop operating-system work and immediately resume production Shared Setup integration/evidence, then the next unfinished two-manager SSJR dependency.
-
-## Interruption recovery
-
-After an abrupt stop, read the live PR #220 recovery block, resolve the candidate head, resolve `recovery/pr220-pos8-tx8`, and read exact-head workflow state only if a candidate has been published. Do not reconstruct work from historical SNS/SLE/WEC chains unless a real provenance question requires it.
-
-## Permanent locks
-
-Billing remains permanently OFF and Firebase remains Spark. Never enable Blaze, Cloud Billing/account linkage, Cloud Run or Cloud Functions. App Check enforcement remains OFF. Firestore browser persistence remains memory-only. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes.
-
-Exactly two private managers. Connected Rivalry pairing plus exact ACTIVE precedes league/club authority. Candidate C remains the sole destructive remote-to-local Apply authority with transaction-owned exact rollback.
-
-Canonical local storage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, and `careerModeShowdown.preferences`. No public discovery/listing/lobby/matchmaking/community/rankings/global leaderboards. `SSJR-DUAL-FULL-SCREEN-1` remains permanent.
+Pairing and an exact ACTIVE session must precede league/club authority. Preserve both managers' full-screen product experience, Candidate C sole destructive Apply with exact transaction-owned rollback, all three canonical local storage keys, private two-manager scope, permanent zero billing, Firebase Spark, App Check enforcement OFF, memory-only Firestore and popup-only Google Auth without extra scopes.

@@ -6,7 +6,6 @@ const productionEnvironment = JSON.parse(fs.readFileSync("firebase.production.en
 const index = fs.readFileSync("index.html", "utf8");
 const pkg = JSON.parse(fs.readFileSync("package.json", "utf8"));
 
-assert.equal(guards.operatingSystem, "POS-2");
 assert.equal(guards.schemaVersion >= 2, true);
 
 const privacy = guards.privacy;

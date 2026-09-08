@@ -1,0 +1,12 @@
+{
+  "operatingSystem": "POS10",
+  "filingVersion": "v1.0.0",
+  "artifactRole": "filing-schema",
+  "semanticVersionPattern": "^v[0-9]+\\.[0-9]+\\.[0-9]+$",
+  "requiredRecoveryFields": ["operatingSystem", "filingVersion", "generatedAt", "repository", "artifactRole", "recoveryState", "liveFactsMustBeResolved", "observedHeads", "candidateBranch", "recoveryBranch", "atomicWorkUnit", "lastSafeCheckpoint", "nextExactAction", "phase", "decision", "sourceFingerprint", "supersedes"],
+  "recoveryStates": ["RECOVERY_READY", "RECOVERY_STALE", "RECOVERY_BLOCKED"],
+  "versionBumps": {"patch": "Corrections that preserve required fields and behavior", "minor": "Backward-compatible additions or stronger validation", "major": "Incompatible schema changes with explicit migration"},
+  "activation": "Immutable versioned artifacts first; atomically replace the sole current index last; checkpoint the complete packet in one Git commit.",
+  "fingerprint": "SHA-256 of sorted source path, file kind/executable mode, byte length and content. Exclude only generated recovery directory and current index to avoid self-reference. Index artifact hashes and exact generated text are validated separately.",
+  "liveHeads": "Recorded main/candidate/recovery heads are observations before generation, not future commit predictions. Resolve live refs and compare source fingerprints and transaction expectations before mutation."
+}

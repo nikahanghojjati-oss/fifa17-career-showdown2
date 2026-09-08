@@ -1,0 +1,23 @@
+{
+  "observedHeads": {
+    "main": "831a13ee93ac1b279c1f7c0985c1c5111922829f",
+    "candidate": "831a13ee93ac1b279c1f7c0985c1c5111922829f",
+    "recovery": "a1afeeedb7bbac13509101ca31a92bce9687bbd5"
+  },
+  "candidateBranch": "ops/pos10-unified-operating-system",
+  "recoveryBranch": "recovery/pos10-unified-operating-system",
+  "atomicWorkUnit": "Publish POS10 as the sole active process authority",
+  "lastSafeCheckpoint": "Versioned filing and source-bound successor generation implemented; syntax checked; migration remains incomplete",
+  "nextExactAction": "Migrate the validation graph, router, proof runner, operations tests and active startup/workflow surfaces to POS10; validate the one coherent unit before candidate promotion",
+  "phase": "IMPLEMENTING",
+  "decision": "CONTINUE",
+  "operatingSystem": "POS10",
+  "filingVersion": "v1.0.0",
+  "generatedAt": "2026-09-08T05:53:55.671Z",
+  "repository": "nikahanghojjati-oss/fifa17-career-showdown2",
+  "artifactRole": "recovery-manifest",
+  "recoveryState": "RECOVERY_READY",
+  "liveFactsMustBeResolved": true,
+  "sourceFingerprint": "bc632ef727aeb300a3ae2d4325fcad73ba412c85095d4b8605b448fcfdf38b5e",
+  "supersedes": null
+}

@@ -1,0 +1,23 @@
+{
+  "observedHeads": {
+    "main": "831a13ee93ac1b279c1f7c0985c1c5111922829f",
+    "candidate": "831a13ee93ac1b279c1f7c0985c1c5111922829f",
+    "recovery": "ab094c8494a3d72f5601d88224367753f2580b01"
+  },
+  "candidateBranch": "ops/pos10-unified-operating-system",
+  "recoveryBranch": "recovery/pos10-unified-operating-system",
+  "atomicWorkUnit": "Publish POS10 as the sole active process authority",
+  "lastSafeCheckpoint": "POS10 operations regression suite and complete product-preservation baseline implemented; targeted validation is next",
+  "nextExactAction": "Run POS10 operations and complete deterministic product validation, correct the coherent failure set, checkpoint the green unit, then promote once for exact-head complete CI",
+  "phase": "IMPLEMENTING",
+  "decision": "CONTINUE",
+  "operatingSystem": "POS10",
+  "filingVersion": "v1.0.0",
+  "generatedAt": "2026-09-08T06:09:32.946Z",
+  "repository": "nikahanghojjati-oss/fifa17-career-showdown2",
+  "artifactRole": "recovery-manifest",
+  "recoveryState": "RECOVERY_READY",
+  "liveFactsMustBeResolved": true,
+  "sourceFingerprint": "bec5b4b066bb52db61d4450c71712e7f1df7563f07e8f5d0216c414c55632cf9",
+  "supersedes": "pos10-recovery/POS10_RECOVERY_v1.0.0_2026-09-08_000003.json"
+}
