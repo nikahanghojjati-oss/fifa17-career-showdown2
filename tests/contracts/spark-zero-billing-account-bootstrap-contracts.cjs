@@ -5,12 +5,13 @@ const spark=require("../../js/sparkAccountBootstrap.js");
 const moduleSource=fs.readFileSync("js/sparkAccountBootstrap.js","utf8");
 const candidateRules=fs.readFileSync("firestore.spark.rules","utf8");
 const deployedRules=fs.readFileSync("firestore.rules","utf8");
-const workflow=fs.readFileSync(".github/workflows/validate-static-app.yml","utf8");
+const impactWorkflow=fs.readFileSync(".github/workflows/validate-pos7-impact.yml","utf8");
+const impactGraph=JSON.parse(fs.readFileSync("POS7_IMPACT_GRAPH.json","utf8"));
+const proofRunner=fs.readFileSync("scripts/pos7-proof-runner.mjs","utf8");
 const guards=JSON.parse(fs.readFileSync("CURRENT_PRODUCT_GUARDS.json","utf8"));
 
 // Preserve the current zero-billing Spark account-bootstrap behavior. Completed RJR
-// scoring/provenance is intentionally not a dependency of this product contract under POS-2.
-assert.equal(guards.operatingSystem,"POS-2");
+// scoring/provenance is intentionally not a dependency of this product contract.
 assert.equal(guards.provider.billingEnabled,false);
 assert.equal(guards.provider.firebasePlan,"Spark");
 assert.equal(guards.provider.blazeAllowed,false);
@@ -60,7 +61,9 @@ assert.match(candidateRules,/match \/\{document=\*\*\}[\s\S]+allow read, write: 
 assert.doesNotMatch(candidateRules,/allow\s+(?:write|update|delete)[^\n]*if\s+true/i);
 
 assert.match(deployedRules,/match \/accounts\/\{accountId\}[\s\S]+allow list, create, update, delete: if false;/,"The repository's historical deny-all root rules file remains distinct from the isolated production Rules source.");
-assert.match(workflow,/spark-account-bootstrap-emulator\.cjs/,"Static App must retain the current Spark account bootstrap emulator proof.");
-assert.doesNotMatch(workflow,/private-account-auth-stage2[a-z0-9-]*-emulator\.cjs/,"Archived Stage 2 emulator fixtures must not define the current Spark account product gate.");
+assert.ok(impactGraph.proofBundles.STATIC_SPARK.includes("SPARK_ACCOUNT_BOOTSTRAP_EMULATOR"),"IMPACT-7 STATIC_SPARK must retain the current Spark account bootstrap emulator proof.");
+assert.match(proofRunner,/SPARK_ACCOUNT_BOOTSTRAP_EMULATOR:[\s\S]*spark-account-bootstrap-emulator\.cjs/,"IMPACT-7 proof runner must execute the exact Spark account bootstrap emulator fixture.");
+assert.match(impactWorkflow,/--force-full/,"Main push validation must force the complete IMPACT-7 seal, including Spark provider safety.");
+assert.doesNotMatch(proofRunner,/private-account-auth-stage2[a-z0-9-]*-emulator\.cjs/,"Archived Stage 2 emulator fixtures must not define the current Spark account product gate.");
 
-process.stdout.write("PASS current zero-billing Spark account bootstrap and operation-scoped Rules authority without frozen RJR/provenance coupling.\n");
+process.stdout.write("PASS current zero-billing Spark account bootstrap and operation-scoped Rules authority under exact IMPACT-7 provider proof ownership.\n");
