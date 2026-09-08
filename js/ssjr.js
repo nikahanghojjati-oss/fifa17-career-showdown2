@@ -20,5 +20,13 @@
     const actor=root.CareerModeSSJRProductionActorEvidence;
     if(!actor||typeof actor.install!=="function")throw new Error("js/ssjrProductionNegativeEvidence.js loaded without the actor-attributed v2 acceptance sidecar.");
     actor.install();
+    if(!witnessEnabled&&root.document){
+      const recorder=root.document.getElementById("ssjrProductionAcceptanceRecorder");
+      const actorPanel=root.document.getElementById("ssjrActorEvidenceV2");
+      if(recorder&&actorPanel){
+        actorPanel.style.cssText="position:static;max-width:100%;max-height:none;overflow:visible;margin:12px 0 0;padding:12px;background:#111;color:#fff;border:1px solid #777;border-radius:8px;font:14px/1.4 system-ui";
+        recorder.append(actorPanel);
+      }
+    }
   }).catch(error=>root.console?.warn?.("[Career Mode Showdown] Shared Journey bootstrap unavailable.",error));
 })(typeof window!=="undefined"?window:globalThis);
