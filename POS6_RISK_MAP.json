@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "model": "RACE-6",
+  "tiers": ["FAST", "FURIOUS", "ACCURATE"],
+  "fast": {
+    "alwaysForNonDocumentChanges": true,
+    "owns": ["syntax", "all-current-deterministic-contracts"],
+    "operationsOnlyWhenOperatingSystemChanges": true
+  },
+  "furiousDomains": {
+    "shared": ["shared-showdown", "shared-setup", "ssjr"],
+    "remote": ["firebase", "firestore-rules", "pairing", "connected-rivalry", "remote-joining", "auth"],
+    "storage": ["storage", "backup", "import", "restore", "save-library"],
+    "visual": ["css", "assets", "settings", "league-wheel", "club-assignment", "season-review", "statistics", "transfer"]
+  },
+  "accurateEscalation": [
+    "package-or-lockfile",
+    "current-product-guards",
+    "current-product-test-manifest",
+    "workflow-topology",
+    "service-worker",
+    "unknown-non-document-change"
+  ],
+  "failSafe": true
+}
