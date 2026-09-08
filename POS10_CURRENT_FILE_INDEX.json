@@ -1,31 +1,45 @@
 {
   "operatingSystem": "POS10",
   "filingVersion": "v1.0.0",
-  "generatedAt": "2026-09-08T05:53:55.671Z",
+  "generatedAt": "2026-09-08T05:57:43.196Z",
   "repository": "nikahanghojjati-oss/fifa17-career-showdown2",
   "artifactRole": "current-file-index",
   "liveFactsMustBeResolved": true,
   "recoveryState": "RECOVERY_READY",
-  "nextExactAction": "Migrate the validation graph, router, proof runner, operations tests and active startup/workflow surfaces to POS10; validate the one coherent unit before candidate promotion",
+  "nextExactAction": "Finish POS10-native publication guards, active startup docs and operations tests; refresh successor, run targeted operations/product validation, then promote candidate once",
   "decision": "CONTINUE",
   "currentAuthority": "PROJECT_OPERATING_SYSTEM_POS10.json",
   "currentProductTask": "NEXT_TASK.md",
-  "currentRecoveryManifest": "pos10-recovery/POS10_RECOVERY_v1.0.0_2026-09-08_000001.json",
-  "currentSuccessor": "pos10-recovery/START_NEXT_DEVELOPER_POS10_TRANSFER_v1.0.0_2026-09-08_000001.md",
+  "currentRecoveryManifest": "pos10-recovery/POS10_RECOVERY_v1.0.0_2026-09-08_000002.json",
+  "currentSuccessor": "pos10-recovery/START_NEXT_DEVELOPER_POS10_TRANSFER_v1.0.0_2026-09-08_000002.md",
   "artifacts": [
     {
       "path": "pos10-recovery/POS10_RECOVERY_v1.0.0_2026-09-08_000001.json",
       "role": "recovery-manifest",
-      "status": "active",
+      "status": "historical",
       "sha256": "8ca958818f39ccd6c2d0737b9235cc48aeaa3e7297f1bb9ee784af3e464c5141",
       "supersedes": null
     },
     {
       "path": "pos10-recovery/START_NEXT_DEVELOPER_POS10_TRANSFER_v1.0.0_2026-09-08_000001.md",
       "role": "successor-transfer",
-      "status": "active",
+      "status": "historical",
       "sha256": "c6bc82599e64c550e9c8e70e1c70755fa2d2214442334b236281c7124f34b627",
       "supersedes": null
+    },
+    {
+      "path": "pos10-recovery/POS10_RECOVERY_v1.0.0_2026-09-08_000002.json",
+      "role": "recovery-manifest",
+      "status": "active",
+      "sha256": "59b0a8d4b044b3111008e11b150dff6c90c98077ac0470a29cd27013fc1998a0",
+      "supersedes": "pos10-recovery/POS10_RECOVERY_v1.0.0_2026-09-08_000001.json"
+    },
+    {
+      "path": "pos10-recovery/START_NEXT_DEVELOPER_POS10_TRANSFER_v1.0.0_2026-09-08_000002.md",
+      "role": "successor-transfer",
+      "status": "active",
+      "sha256": "8d77b01cbe5b45934638dd6d35faa944da943cea733bfe109cb7d2abb233dc50",
+      "supersedes": "pos10-recovery/START_NEXT_DEVELOPER_POS10_TRANSFER_v1.0.0_2026-09-08_000001.md"
     }
   ]
 }

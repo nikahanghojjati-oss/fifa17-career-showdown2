@@ -94,4 +94,4 @@ for(const redundant of [
   assert.equal(occurrences(burninScript, redundant), 0, `Burn-In must not duplicate ${redundant}.`);
 }
 
-process.stdout.write("PASS POS-2 CI orchestration: current product ownership is single-run and bounded, stale work is cancelled safely, specialist evidence remains authoritative, deployed release proof stays complete, and dormant Cloud Run compute is excluded.\n");
+process.stdout.write("PASS CI orchestration: current product ownership is single-run and bounded, stale work is cancelled safely, specialist evidence remains authoritative, deployed release proof stays complete, and dormant Cloud Run compute is excluded.\n");

@@ -20,7 +20,6 @@ const revision = (html.match(/app-asset-revision"\s+content="([^"]+)/) || [])[1]
 const footer = (html.match(/<footer>[\s\S]*?v([^<\s]+)\s*·\s*(?:Stable|Product Deepening|Private Connected Account Foundation|Registered Devices & Private Pairing|Connected Rivalry|Private Remote Joining)/i) || [])[1];
 const gen = Number((revision.match(/-r(\d+)$/) || [])[1]);
 
-A.equal(guards.operatingSystem, 'POS-2');
 A.equal(guards.provider.billingEnabled, false);
 A.equal(guards.provider.firebasePlan, 'Spark');
 A.equal(guards.provider.cloudRunAllowed, false);

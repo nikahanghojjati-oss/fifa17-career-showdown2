@@ -16,7 +16,7 @@ for(let i=0;i<args.length;i++){
 if(all) selected = [...manifest.tests];
 selected = [...new Set(selected.map(v=>String(v||'').trim()).filter(Boolean))];
 if(!selected.length){
-  console.log('PASS IMPACT-7 selected deterministic census: no product contracts selected.');
+  console.log('PASS POS10 selected deterministic census: no product contracts selected.');
   process.exit(0);
 }
 const unknown = selected.filter(file=>!manifest.tests.includes(file));
@@ -34,9 +34,9 @@ for(const file of selected){
   if(result.status !== 0 || result.error) failures.push({file,error:result.error?.message || `exit ${result.status}`});
 }
 if(failures.length){
-  console.error(`IMPACT-7 selected deterministic census failed in ${failures.length}/${selected.length} contract(s):`);
+  console.error(`POS10 selected deterministic census failed in ${failures.length}/${selected.length} contract(s):`);
   for(const failure of failures) console.error(`- ${failure.file}: ${failure.error}`);
   process.exitCode = 1;
 }else{
-  console.log(`PASS IMPACT-7 selected deterministic census (${selected.length}/${manifest.tests.length} current blocking contracts).`);
+  console.log(`PASS POS10 selected deterministic census (${selected.length}/${manifest.tests.length} current blocking contracts).`);
 }

@@ -11,7 +11,6 @@ const index=read("index.html");
 const optional=read("js/optionalModules.js");
 const worker=read("service-worker.js");
 
-assert.equal(guards.operatingSystem,"POS-2");
 assert.equal(guards.provider.billingEnabled,false);
 assert.equal(guards.provider.firebasePlan,"Spark");
 assert.equal(guards.provider.appCheckEnforcement,false);
