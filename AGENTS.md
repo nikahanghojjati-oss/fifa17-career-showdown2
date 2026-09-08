@@ -1,6 +1,6 @@
 # Career Mode Showdown — Repository Agent Instructions
 
-These instructions apply to the entire repository. `PROJECT_OPERATING_SYSTEM_V6.md` is the current process authority. `CURRENT_PRODUCT_GUARDS.json` is the stable machine-readable product/safety authority. `NEXT_TASK.md` owns the current implementation task.
+These instructions apply to the entire repository. `PROJECT_OPERATING_SYSTEM_V7.md` is the current process authority. `CURRENT_PRODUCT_GUARDS.json` is stable machine-readable product/safety authority. `POS7_IMPACT_GRAPH.json` owns current change-to-proof selection. `NEXT_TASK.md` owns the current implementation task.
 
 ## 1. Source first
 
@@ -10,80 +10,50 @@ Do not restart a full repository study when the exact current boundary is alread
 
 ## 2. Product direction
 
-The active milestone is Shared Showdown Journey.
+The active milestone is Shared Showdown Journey. RJR-1 is frozen historical 100/100 unless a real still-used product regression is reproduced. SSJR-1.1 is the active product acceptance target. MDP-1 is current. Operating-system work earns zero SSJR/MDP credit.
 
-- RJR-1 is frozen historical 100/100 unless a real still-used product regression is reproduced.
-- SSJR-1.1 is the active product acceptance target.
-- MDP-1 is the current engineering lifecycle tracker.
-- Operating-system work earns zero SSJR/MDP credit.
-
-Once an operating-system change is safely merged, return immediately to the next product dependency.
+Once POS7 is safely merged, return immediately to production Shared Setup integration/evidence and the next unfinished two-manager SSJR dependency.
 
 ## 3. Permanent product and safety guards
 
-Protect `CURRENT_PRODUCT_GUARDS.json` and the executable/configuration sources it summarizes.
+Protect `CURRENT_PRODUCT_GUARDS.json` and the executable/configuration sources it summarizes. Billing stays OFF and Firebase stays Spark. No Cloud Billing account, Blaze, Cloud Run or Cloud Functions. App Check enforcement stays OFF. Firestore browser persistence stays memory-only. Google Auth stays popup-only `browserSessionPersistence` with no extra scopes. Exactly two private managers. Connected Rivalry pairing plus exact ACTIVE precedes league or club authority. Candidate C is the sole destructive remote-to-local gameplay Apply authority with transaction-owned exact rollback. Canonical local storage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, and `careerModeShowdown.preferences`. No public discovery, listing, lobby, matchmaking, community, rankings or global leaderboards. Do not durably retain raw private capability/account/device/rivalry/session/pairing identifiers. `SSJR-DUAL-FULL-SCREEN-1` remains product authority.
 
-At minimum:
-- Billing stays OFF and Firebase stays Spark.
-- No Cloud Billing account, Blaze, Cloud Run or Cloud Functions.
-- App Check enforcement stays OFF.
-- Firestore browser persistence stays memory-only.
-- Google Auth stays popup-only `browserSessionPersistence` with no extra scopes.
-- Exactly two private managers.
-- Connected Rivalry pairing plus exact ACTIVE precedes league or club authority.
-- Candidate C is the sole destructive remote-to-local gameplay Apply authority with transaction-owned exact rollback.
-- Canonical local storage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, and `careerModeShowdown.preferences`.
-- No public discovery, listing, lobby, matchmaking, community, rankings or global leaderboards.
-- Do not durably retain raw private capability/account/device/rivalry/session/pairing identifiers.
-- `SSJR-DUAL-FULL-SCREEN-1` remains product authority.
+Never weaken a gate protecting genuine runtime, data, recovery, privacy, security, provider, UI/UX, executable schema/API, evidence-validity or release behavior.
 
-Never weaken a gate protecting a genuine runtime, data, recovery, privacy, security, provider, UI/UX, executable schema/API, evidence-validity or release property.
+## 4. POS7 IMPACT-7 validation
 
-## 4. POS6 Fast / Furious / Accurate validation
+`POS7_IMPACT_GRAPH.json` assigns every current deterministic blocking contract to exactly one invariant owner and declares transitive consumers plus exact heavy-proof IDs.
 
-`FAST` is the normal first gate. It runs syntax plus every current deterministic blocking contract exactly once through `CURRENT_PRODUCT_TEST_MANIFEST.json`. POS6 operations tests run only when operating-system code changes.
+For a changed artifact, `scripts/pos7-impact-router.mjs` must either resolve the affected invariant closure or fail closed to `FULL_SEAL`. Workflow/dependency/product-guard/test-manifest/service-worker/router/proof-authority changes and unknown non-document artifacts always take the full seal.
 
-`FURIOUS` uses RACE-6 to select only the browser/emulator risk lanes implicated by changed files. Shared Setup, remote/security/provider, storage/restore and visual/presentation are independent risk domains and may run in parallel.
+`tests/support/run-selected-product-contracts.cjs` may execute only tests listed in `CURRENT_PRODUCT_TEST_MANIFEST.json`. `scripts/pos7-proof-runner.mjs` may execute only proof IDs in the impact graph. Byte-preserved legacy inline proof sources live under `tests/proof-sources/workflows/` and are hash-checked before execution.
 
-`ACCURATE` is the complete seal for cross-cutting, dependency, product-guard, workflow-topology, test-manifest, service-worker or unknown non-document changes. Unknown means broader proof, never less proof.
-
-Historical workflow topology, exact workflow counts and completed milestone narration are not product invariants.
+There is one automatic pull-request orchestrator: `.github/workflows/validate-pos7-impact.yml`. Do not reintroduce unconditional specialist PR workflows. Main push validation is forced to the complete seal. Deployment/provider publication authority remains main-only where applicable.
 
 ## 5. Failure handling
 
-FC-2 must collect the whole deterministic current-product failure set before returning red. Group failures by protected invariant and correct coherent classes together.
-
-ADB-6 is the adaptive correction budget. Only a meaningful correction followed by failed validation consumes a cycle. Reads, polling, successful checks and an unreproduced infrastructure flake consume zero.
+Collect the coherent selected failure set before editing. ADB-7 counts only a meaningful correction followed by failed validation. Reads, diagnosis, polling, successful checks and an unreproduced infrastructure flake consume zero cycles.
 
 Before a write, re-resolve the branch head. If it moved, compare first and never overwrite concurrent work blindly.
 
-## 6. Recovery and relay
+## 6. Recovery and continuity
 
-Keep one Atomic Work Unit per mutation lane and preserve CLB-1: at most one coherent AWU may be ahead of durable recovery state.
+Keep one coherent atomic work unit per mutation lane. Durable Git/PR metadata is the recovery boundary; do not create continuity-only commits or PRs.
 
-RB-2 is the active PR recovery beacon. It changes no Git head and remains bounded. DRF-1 is the external developer relay file used only for an actual relay. Do not create continuity-only commits or pull requests.
+CWS-7 adds observable `contextSaturation`. Use exact environment context telemetry when genuinely available; otherwise only observable compaction/reconstruction/detail-loss/retrieval/volatile-state/reasoning-breadth signals. Never infer context pressure from account plan, five-hour or weekly usage limits, message count, tool-call count, or elapsed time.
 
-Relay when the owner explicitly requests it, current live authority cannot be safely resolved/written, CLB-1 would be exceeded, ADB-6 is exhausted with meaningful unresolved failure, or severe reconstruction damage makes continuation unsafe.
+Transition when the owner explicitly requests it, required live authority cannot be resolved/written, crash-loss risk would exceed one coherent atomic unit, ADB-7 is exhausted with meaningful unresolved failure, or severe context reconstruction makes continuation unsafe.
 
 ## 7. Active command surface
 
-Normal commands:
-- `npm run test:contracts` — deterministic current-product census.
-- `npm run test:ops` — POS6 self-tests when POS6 tooling changes.
-- `npm run test:ssjr:browser` — focused Shared Showdown browser proof.
-- `npm run test:browser:seal` — complete browser seal when ACCURATE is required.
-- `npm run work:transition` — TDS-6 / ADB-6 assessment.
-- `npm run work:recovery-beacon` — RB-2 builder/upsert.
-- `npm run work:relay-file` — DRF-1 builder.
+`npm run test:contracts` runs the complete deterministic current-product census. `npm run test:impact:all` runs the same complete census through the IMPACT-7 selected runner. `npm run test:ops` runs POS7 self-tests. `npm run test:ssjr:browser` runs focused Shared Showdown browser proof. `npm run work:route` runs IMPACT-7 selection. `npm run work:transition` runs CWS-7 / ADB-7 assessment.
 
-Superseded WEC/SHP/HTR/resume-capsule command surfaces are not part of current operation.
+Superseded WEC/SHP/HTR/resume-capsule and POS6 RACE command surfaces are not current authority.
 
 ## 8. Publication discipline
 
-Required merge evidence must belong to one exact current head. Re-fetch reviews/comments/threads and required checks immediately before merge and use expected-head protection.
+Required merge evidence must belong to one exact current head. Re-fetch reviews/comments/threads and selected checks immediately before merge and use expected-head protection. After a release-changing merge, verify the deployed/runtime/provider boundary appropriate to that change. Never combine evidence across heads.
 
-After a release-changing merge, verify the deployed/runtime/provider boundary appropriate to that change. Main retains the complete release/deployment seal.
+## 9. Core POS7 rule
 
-## 9. Core POS6 rule
-
-Make the cheapest test that can reliably detect the changed risk run first. Run expensive proof only when the changed risk requires it. If classification is uncertain, escalate to ACCURATE. Never trade away a genuine safety invariant for speed.
+Run every proof that can detect the actual changed risk and no unrelated expensive proof merely from historical workflow habit. If impact classification is incomplete or uncertain, escalate to the complete seal. Never trade away a genuine safety invariant for speed.

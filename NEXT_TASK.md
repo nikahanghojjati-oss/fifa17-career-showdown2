@@ -1,22 +1,20 @@
-# CURRENT TASK — POS6 FAST / FURIOUS / ACCURATE, THEN SSJR SHARED SETUP
+# CURRENT TASK — POS7 IMPACT AUTHORITY, THEN SHARED SETUP PRODUCT WORK
 
-`PROJECT_OPERATING_SYSTEM_V6.md` governs process on the POS6 branch. `CURRENT_PRODUCT_GUARDS.json` remains stable product/safety machine authority. Current verified source and live GitHub/provider/deployment evidence override recorded SHAs and relay artifacts.
+`PROJECT_OPERATING_SYSTEM_V7.md` governs process on the POS7 branch. `CURRENT_PRODUCT_GUARDS.json` remains stable product/safety authority. Current verified source and live GitHub/provider/deployment evidence override recorded SHAs and relay artifacts.
 
-POS5 is merged on main at the verified starting boundary `88bc6d6bdcda1032aee81565b9830966f460cc36`. POS6 itself earns zero SSJR/MDP product credit.
+POS6 merged to main at `f20047a7edac4a267331f4fea7682991f015e33b`. POS7 earns zero SSJR/MDP product credit.
 
 RJR-1 remains frozen historical 100/100. SSJR-1.1 remains the active product acceptance target. MDP-1 remains current.
 
 ## Immediate next task
 
-1. Publish POS6 as one coherent operating-system PR.
-2. Collapse all deterministic blocking product contracts into `CURRENT_PRODUCT_TEST_MANIFEST.json` and run them exactly once in FAST.
-3. Activate RACE-6 so expensive browser/emulator proof runs only for changed risk domains; unknown/cross-cutting changes escalate to ACCURATE.
-4. Remove the old unconditional specialist pull-request matrix from active Actions while preserving its useful invariants in FAST/FURIOUS/ACCURATE.
-5. Keep the complete post-merge release/deployment seal on main.
-6. Keep RB-2 + DRF-1, AWU-1 and CLB-1; retire stale active continuity command surfaces.
-7. Remove obsolete unobservable external-session signals from current operating/tooling authority.
-8. Validate POS6 on one exact head, resolve real review findings, and merge with expected-head protection.
-9. Immediately resume product work: production Shared Setup integration/evidence, then the next unfinished two-manager SSJR capability.
+1. Publish `POS7_IMPACT_GRAPH.json`, the exact selector, selected deterministic runner, exact proof runner, CWS-7 and POS7 operations tests.
+2. Preserve still-unique Home, League, Settings, Transfer and V1 Visual inline assertions byte-for-byte as non-workflow proof sources.
+3. Remove the superseded automatic specialist pull-request matrix and POS6 RACE PR workflow so `Validate POS7 IMPACT` is the sole automatic PR orchestrator.
+4. Require unknown, workflow, dependency, guard, manifest, service-worker and IMPACT-authority changes to fail closed to 60/60 deterministic contracts plus every registered heavy proof.
+5. Validate POS7 on one exact head, resolve only genuine current-head failures, recheck reviews/comments/threads, and merge with expected-head protection.
+6. Verify resulting main complete seal.
+7. Stop operating-system work and immediately resume production Shared Setup integration/evidence, then the next unfinished two-manager SSJR dependency.
 
 ## Permanent locks
 
