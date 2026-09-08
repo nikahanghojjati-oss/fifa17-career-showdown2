@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "operatingSystem": "POS-2",
   "classification": "HISTORICAL_DORMANT_ARCHITECTURE",
   "automaticCI": false,
@@ -27,11 +27,21 @@
     "tests/contracts/trusted-connected-data-account-export-boundary-contracts.cjs",
     "tests/contracts/trusted-connected-data-account-export-contracts.cjs"
   ],
+  "emulatorTests": [
+    "tests/firebase/cloud-sync-phase1f-emulator.cjs",
+    "tests/firebase/private-account-auth-stage2a-emulator.cjs",
+    "tests/firebase/private-account-auth-stage2b-lifecycle-emulator.cjs",
+    "tests/firebase/private-account-auth-stage2e-bootstrap-emulator.cjs",
+    "tests/firebase/private-account-auth-stage2f-token-verification-emulator.cjs",
+    "tests/firebase/private-account-auth-stage2g-bootstrap-execution-emulator.cjs",
+    "tests/firebase/stage5b-device-credential-emulator.cjs"
+  ],
   "rationale": {
-    "stage2a": "The Stage 2A contracts describe an emulator-only predecessor boundary and explicitly call that proof historical/version-neutral. Static App still executes the real current Auth/Firestore emulator safety checks directly. The boundary contract additionally coupled current NEXT_TASK and frozen RJR/PR narration to immutable Stage 2A history, causing a current Stability failure with no product regression.",
-    "stage2bThrough2g": "Stages 2B through 2G are predecessor policy, emulator, non-runtime or trusted-server architecture contracts. Their wrappers repeatedly bind current NEXT_TASK, old PR numbers, frozen RJR publication narration, historical handoffs and disconnected-era roadmaps to immutable predecessor proof. Static App still executes the current relevant Auth/Firestore emulator proofs for 2B, 2E, 2F and 2G; production-firebase-environment-activation still exercises the Stage 2D preflight against current provider authority; spark-production-connected-account and current Rules/provider gates protect the shipped Google popup, session persistence, memory-only Firestore, zero-billing, account bootstrap and authorization behavior. Therefore the old Stage 2 wrappers are preserved for manual history/architecture audit but no longer block current product CI.",
+    "stage2a": "The Stage 2A contracts and emulator describe a predecessor identity boundary against the legacy deny-all Rules source. The shipped Spark account bootstrap now has its own current emulator and runtime contracts. The old Stage 2A boundary additionally coupled current NEXT_TASK and frozen RJR/PR narration to immutable history, causing a current Stability failure with no product regression.",
+    "stage2bThrough2g": "Stages 2B through 2G are predecessor policy, emulator, non-runtime or trusted-server architecture. Their wrappers repeatedly bind current NEXT_TASK, old PR numbers, frozen RJR publication narration, historical handoffs and disconnected-era roadmaps to immutable predecessor proof. Current Spark Connected Account, Spark account bootstrap, production provider/Rules gates and Stage 5F authenticated negatives protect the shipped Google popup, session persistence, memory-only Firestore, zero-billing, account bootstrap and authorization behavior. The old wrappers and emulator fixtures remain available only for deliberate historical or migration audits.",
+    "phase1fEmulator": "The Phase 1F emulator loads the legacy firestore.rules source and reconstructs the pre-Spark provider-neutral mutation model. Its still-current CAS, replay, tombstone, privacy and denial invariants are protected by current Spark Connected Rivalry, current Rules and synchronization tests; the old fixture remains manual provenance.",
     "trustedCloudRun": "Current product authority permanently forbids Cloud Run and Cloud Functions under the Spark-only zero-billing architecture. Stage 2H, Stage 2I and the production trusted-runtime activation proof target the older trusted Cloud Run path and are deliberately disconnected from the browser runtime.",
-    "deviceCredential": "Stage 5B identifies itself as a dormant candidate, requires permissions not present in current production, states that Cloud Run is unavailable on Spark, and is not the active Standard Auth session path.",
+    "deviceCredential": "Stage 5B identifies itself as a dormant candidate, requires permissions not present in current production, states that Cloud Run is unavailable on Spark, and is not the active Standard Auth session path. Its contract and emulator remain manual architecture evidence.",
     "trustedMutationDeletionExport": "These modules explicitly report productionRuntimeConnected=false and productionProvisioningAuthorized=false and their contracts prove that they are not loaded by the production shell. Their CAS, deletion-safety, privacy and authorization ideas remain useful provenance, while current Spark/Rules/Connected Rivalry gates protect the shipped behavior."
   }
 }
