@@ -1,5 +1,6 @@
 export const operatingSystem='POS20';
 export const continuityStates=Object.freeze(['READY','STALE','BLOCKED']);
+export const candidateValidationStates=Object.freeze(['NOT_PUBLISHED','PENDING','FAILED','GREEN']);
 function ensure(ok,msg){if(!ok)throw new Error(msg);}
 export function validateCurrentState(s){
   ensure(s&&typeof s==='object'&&!Array.isArray(s),'POS20 current state must be an object');
@@ -20,7 +21,16 @@ export function validateCurrentState(s){
   ensure(!/password|bearer\s|private key|raw[-_ ]?token/i.test(serialized),'Private credential material forbidden');
   return s;
 }
-export function assessContinuity(input){
+function validateContinuityInput(input){
+  ensure(input&&typeof input==='object'&&!Array.isArray(input),'Continuity input must be an object');
+  ensure(continuityStates.includes(input.continuityState),'Invalid continuity state');
+  ensure(candidateValidationStates.includes(input.candidateValidation),'Invalid candidate validation state');
+  for(const key of ['ownerRequestsTransfer','liveAuthorityResolved','durableCheckpoint','headsMatchExpectation','recoveryDescendsFromCandidate'])ensure(typeof input[key]==='boolean',`${key} must be boolean`);
+  for(const key of ['openAtomicUnits','unpublishedPackets'])ensure(Number.isInteger(input[key])&&input[key]>=0,`${key} must be a nonnegative integer`);
+  return input;
+}
+export function assessContinuity(rawInput){
+  const input=validateContinuityInput(rawInput);
   const r=(continuityState,action,decision,reason)=>({operatingSystem,continuityState,action,decision,reason});
   if(input.ownerRequestsTransfer)return r(input.continuityState,'CHECKPOINT_AND_TRANSFER','TRANSITION','Owner requested transfer.');
   if(!input.liveAuthorityResolved)return r('BLOCKED','RESOLVE_LIVE_AUTHORITY','TRANSITION','Live authority is unresolved.');

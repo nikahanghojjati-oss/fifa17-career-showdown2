@@ -32,7 +32,21 @@ function exactSha(value,label){ensure(/^[a-f0-9]{40}$/.test(value||''),`${label}
 function refEndpoint(repository,ref){return `repos/${repository}/git/ref/heads/${encodeURIComponent(ref)}`;}
 function refSha(client,repository,ref){const data=client.rest(refEndpoint(repository,ref));return exactSha(data?.object?.sha,`live ${ref}`);}
 function boundedArray(value,label){ensure(Array.isArray(value),`${label} must be an array`);ensure(value.length<100,`${label} reached pagination boundary; refuse incomplete evidence`);return value;}
-function latestReviewStates(reviews){const latest=new Map();for(const review of reviews){const who=review?.user?.login||review?.author?.login||String(review?.id||'unknown');const when=Date.parse(review?.submitted_at||review?.submittedAt||review?.created_at||0)||0;const prior=latest.get(who);if(!prior||when>=prior.when)latest.set(who,{when,state:String(review?.state||'').toUpperCase()});}return [...latest.values()];}
+function activeReviewStates(reviews){
+  const state=new Map();
+  const ordered=[...reviews].sort((a,b)=>(Date.parse(a?.submitted_at||a?.submittedAt||a?.created_at||0)||0)-(Date.parse(b?.submitted_at||b?.submittedAt||b?.created_at||0)||0));
+  for(const review of ordered){
+    const who=review?.user?.login||review?.author?.login||String(review?.id||'unknown');
+    const when=Date.parse(review?.submitted_at||review?.submittedAt||review?.created_at||0)||0;
+    const reviewState=String(review?.state||'').toUpperCase();
+    const prior=state.get(who)||{when:0,state:'',activeChangeRequest:false};
+    let activeChangeRequest=prior.activeChangeRequest;
+    if(reviewState==='CHANGES_REQUESTED')activeChangeRequest=true;
+    else if(reviewState==='APPROVED'||reviewState==='DISMISSED')activeChangeRequest=false;
+    state.set(who,{when,state:reviewState,activeChangeRequest});
+  }
+  return [...state.values()];
+}
 function newestTime(items){return items.reduce((max,item)=>Math.max(max,Date.parse(item?.updated_at||item?.created_at||0)||0),0);}
 const THREAD_QUERY=`query($owner:String!,$name:String!,$number:Int!){repository(owner:$owner,name:$name){pullRequest(number:$number){reviewThreads(first:100){nodes{isResolved comments(first:100){nodes{createdAt updatedAt author{login}} pageInfo{hasNextPage}}} pageInfo{hasNextPage}}}}}`;
 
@@ -44,13 +58,14 @@ export function resolveLivePublication(config,client=liveGitHubClient){
   const pr=client.rest(`repos/${repository}/pulls/${prNumber}`);
   ensure(pr&&pr.state==='open','Pull request must be open');
   const baseRef=pr.base?.ref;const candidateRef=pr.head?.ref;ensure(baseRef&&candidateRef,'Live pull request refs are required');
+  const expectedBaseRef=config.expectedBaseRef||'main';ensure(baseRef===expectedBaseRef,`Pull request base changed; expected ${expectedBaseRef}`);
   if(config.candidateRef)ensure(config.candidateRef===candidateRef,'Candidate ref changed during publication preflight');
-  const mainHead=refSha(client,repository,baseRef);const candidateHead=refSha(client,repository,candidateRef);const recoveryHead=refSha(client,repository,config.recoveryRef);
+  const mainHead=refSha(client,repository,expectedBaseRef);const candidateHead=refSha(client,repository,candidateRef);const recoveryHead=refSha(client,repository,config.recoveryRef);
   exactSha(pr.head?.sha,'live PR head');ensure(pr.head.sha===candidateHead,'Pull request head and candidate ref disagree');
   if(config.expectedHead)ensure(config.expectedHead===candidateHead,'expected_head is stale against live candidate');
   ensure(recoveryHead===candidateHead,'Recovery branch must contain the exact candidate');
   const comparison=client.rest(`repos/${repository}/compare/${mainHead}...${candidateHead}`);
-  ensure(comparison?.merge_base_commit?.sha===mainHead,'Candidate does not descend from current main');
+  ensure(comparison?.merge_base_commit?.sha===mainHead,`Candidate does not descend from current ${expectedBaseRef}`);
   ensure(['ahead','identical'].includes(comparison?.status),'Candidate ancestry is not publication-safe');
   const fileRows=boundedArray(client.rest(`repos/${repository}/pulls/${prNumber}/files?per_page=100`),'changed files');
   const changedFiles=fileRows.map(row=>row.filename).filter(Boolean);ensure(changedFiles.length>0,'Live pull request has no changed files');
@@ -65,7 +80,7 @@ export function resolveLivePublication(config,client=liveGitHubClient){
   ensure(threads&&!threads.pageInfo?.hasNextPage,'review threads reached pagination boundary; refuse incomplete evidence');
   for(const thread of threads.nodes||[])ensure(!thread?.comments?.pageInfo?.hasNextPage,'review thread comments reached pagination boundary; refuse incomplete evidence');
   const unresolvedThreads=(threads.nodes||[]).filter(thread=>thread?.isResolved!==true).length;
-  const reviewStates=latestReviewStates(reviewRows);const changeRequests=reviewStates.filter(review=>review.state==='CHANGES_REQUESTED').length;
+  const reviewStates=activeReviewStates(reviewRows);const changeRequests=reviewStates.filter(review=>review.activeChangeRequest).length;
   const latestReviewAt=reviewRows.reduce((max,review)=>Math.max(max,Date.parse(review?.submitted_at||review?.submittedAt||0)||0),0);
   const newestConversation=Math.max(newestTime(issueComments),newestTime(reviewComments));
   const commentsReviewed=newestConversation===0||latestReviewAt>=newestConversation;

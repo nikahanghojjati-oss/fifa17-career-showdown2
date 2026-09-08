@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {permanentGuardViolations,permanentGuards} from '../../scripts/pos20-cognitive-controller.mjs';
 import {resolveLivePublication,requiredChecks} from '../../scripts/pos20-publication.mjs';
+import {assessContinuity} from '../../scripts/pos20-recovery.mjs';
 import {routeFiles} from '../../scripts/pos20-impact-router.mjs';
 
 const main='b'.repeat(40);const head='a'.repeat(40);
@@ -10,8 +11,9 @@ function fakeClient(options={}){
   const reviews=options.reviews||[{id:1,state:'COMMENTED',submitted_at:'2026-09-08T18:00:00Z',user:{login:'reviewer'}}];
   return {
     rest(endpoint){
-      if(endpoint==='repos/o/r/pulls/7')return {state:'open',base:{ref:'main'},head:{ref:'ops/pos20',sha:options.prHead||head}};
+      if(endpoint==='repos/o/r/pulls/7')return {state:'open',base:{ref:options.baseRef||'main'},head:{ref:'ops/pos20',sha:options.prHead||head}};
       if(endpoint.includes('git/ref/heads/main'))return {object:{sha:main}};
+      if(endpoint.includes('git/ref/heads/release'))return {object:{sha:main}};
       if(endpoint.includes('git/ref/heads/ops%2Fpos20'))return {object:{sha:options.candidateHead||head}};
       if(endpoint.includes('git/ref/heads/recovery%2Fpos20'))return {object:{sha:options.recoveryHead||head}};
       if(endpoint.includes('/compare/'))return {status:'ahead',merge_base_commit:{sha:options.mergeBase||main}};
@@ -45,6 +47,12 @@ test('live publication preflight resolves refs, ancestry, route, checks and revi
   assert.equal(decision.allowed,true);assert.equal(decision.expected_head_sha,head);assert.equal(decision.live.mainHead,main);assert.equal(decision.live.candidateHead,head);assert.equal(decision.routeProfile,'POS20_DOC_ONLY');
 });
 
+test('live publication preflight pins the canonical base and rejects retargeting unless explicitly configured',()=>{
+  assert.throws(()=>resolveLivePublication(config,fakeClient({baseRef:'release'})),/expected main/);
+  const configured=resolveLivePublication({...config,expectedBaseRef:'release'},fakeClient({baseRef:'release'}));
+  assert.equal(configured.live.baseRef,'release');
+});
+
 test('live publication preflight rejects branch drift and stale recovery rather than trusting captured heads',()=>{
   assert.throws(()=>resolveLivePublication(config,fakeClient({candidateHead:'c'.repeat(40)})),/disagree/);
   assert.throws(()=>resolveLivePublication(config,fakeClient({recoveryHead:'c'.repeat(40)})),/Recovery branch/);
@@ -56,6 +64,16 @@ test('live publication preflight recomputes the changed-file route and refuses m
   assert.throws(()=>resolveLivePublication(config,fakeClient({changedFiles:['scripts/pos20-cognitive-controller.mjs'],checks:docChecks})),/Required exact-head check missing or red/);
 });
 
+test('live publication preflight preserves active change requests through later comment-only reviews',()=>{
+  const reviews=[
+    {id:1,state:'CHANGES_REQUESTED',submitted_at:'2026-09-08T18:00:00Z',user:{login:'reviewer'}},
+    {id:2,state:'COMMENTED',submitted_at:'2026-09-08T18:01:00Z',user:{login:'reviewer'}}
+  ];
+  assert.throws(()=>resolveLivePublication(config,fakeClient({reviews})),/Material review concerns/);
+  const cleared=[...reviews,{id:3,state:'APPROVED',submitted_at:'2026-09-08T18:02:00Z',user:{login:'reviewer'}}];
+  assert.equal(resolveLivePublication(config,fakeClient({reviews:cleared})).allowed,true);
+});
+
 test('live publication preflight re-reads review state and blocks unresolved or newer unreviewed conversation',()=>{
   const unresolved=[{isResolved:false,comments:{nodes:[],pageInfo:{hasNextPage:false}}}];
   assert.throws(()=>resolveLivePublication(config,fakeClient({threads:unresolved})),/Material review concerns/);
@@ -63,4 +81,12 @@ test('live publication preflight re-reads review state and blocks unresolved or 
   assert.throws(()=>resolveLivePublication(config,fakeClient({issueComments})),/Material review concerns/);
   const changes=[{id:2,state:'CHANGES_REQUESTED',submitted_at:'2026-09-08T18:02:00Z',user:{login:'reviewer'}}];
   assert.throws(()=>resolveLivePublication(config,fakeClient({reviews:changes})),/Material review concerns/);
+});
+
+test('continuity assessment fails closed on missing or unknown candidate-validation state',()=>{
+  const base={continuityState:'READY',ownerRequestsTransfer:false,liveAuthorityResolved:true,durableCheckpoint:true,headsMatchExpectation:true,recoveryDescendsFromCandidate:true,openAtomicUnits:1,unpublishedPackets:0,candidateValidation:'NOT_PUBLISHED'};
+  assert.equal(assessContinuity(base).action,'EXECUTE_SELECTED_ACTION');
+  assert.throws(()=>assessContinuity({...base,candidateValidation:'PENDNG'}),/Invalid candidate validation state/);
+  const missing={...base};delete missing.candidateValidation;assert.throws(()=>assessContinuity(missing),/Invalid candidate validation state/);
+  assert.equal(assessContinuity({...base,candidateValidation:'PENDING'}).action,'WAIT_VALIDATION');
 });
