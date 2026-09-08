@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "operatingSystem": "POS-7",
+  "selectionModel": "IMPACT-7",
+  "continuityModel": "CWS-7",
+  "debugModel": "ADB-7",
+  "productCredit": 0,
+  "machineAuthority": {
+    "impactGraph": "POS7_IMPACT_GRAPH.json",
+    "impactRouter": "scripts/pos7-impact-router.mjs",
+    "selectedContractRunner": "tests/support/run-selected-product-contracts.cjs",
+    "proofRunner": "scripts/pos7-proof-runner.mjs",
+    "continuity": "scripts/pos7-continuity.mjs"
+  },
+  "failClosed": true,
+  "unknownDependencyAction": "FULL_SEAL",
+  "deployedProofRemainsMainOnly": true,
+  "productReturnAfterMerge": "production Shared Setup integration/evidence"
+}

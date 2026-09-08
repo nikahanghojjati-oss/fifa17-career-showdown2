@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "model": "TX-8",
+  "shadowRecoveryModel": "SRB-8",
+  "writeAheadModel": "WAL-8",
+  "promotionModel": "PG-8",
+  "purpose": "Make developer-session interruption cheap and deterministic by separating durable work-in-progress checkpoints from the pull-request candidate head that owns expensive CI.",
+  "productCredit": 0,
+  "limits": {
+    "maxOpenAtomicUnits": 1,
+    "maxLocalUnpublishedPackets": 1,
+    "prRecoveryBlockMaxBytes": 4096,
+    "maxRecoveryBranchesPerPullRequest": 1
+  },
+  "states": [
+    "NO_INTENT",
+    "INTENT_DURABLE",
+    "SHADOW_WORKING",
+    "SHADOW_READY",
+    "CANDIDATE_PUBLISHED",
+    "EXACT_HEAD_GREEN",
+    "MERGED"
+  ],
+  "normalFlow": [
+    "RECORD_INTENT",
+    "WRITE_SHADOW",
+    "CONTINUE_SHADOW",
+    "PROMOTE_CANDIDATE",
+    "WAIT_EXACT_HEAD_SEAL",
+    "MERGE_READY"
+  ],
+  "hardActions": [
+    "RECONCILE_HEADS",
+    "CHECKPOINT_SHADOW_THEN_TRANSITION",
+    "TRANSITION_NOW_RECOVERABLE",
+    "HALT_AND_CHECKPOINT"
+  ],
+  "startupReadSet": [
+    "live pull request body",
+    "live candidate branch head",
+    "live recovery branch head",
+    "exact-head workflow result only when candidate has been published"
+  ],
+  "forbiddenRecoveryData": [
+    "password",
+    "token",
+    "secret",
+    "rawCapability",
+    "accountId",
+    "deviceId",
+    "rivalryId",
+    "sessionId",
+    "pairingCode",
+    "fullSavePayload"
+  ],
+  "forbiddenTelemetryInference": [
+    "account plan",
+    "message count",
+    "tool-call count",
+    "elapsed time",
+    "five-hour usage estimate",
+    "weekly usage estimate"
+  ],
+  "candidateCiRule": "Recovery checkpoints go to the shadow recovery branch. The pull-request candidate branch moves only when one coherent atomic work unit is ready for exact-head validation.",
+  "unknownExternalCrashCause": "Do not claim the platform interruption trigger is known without direct platform telemetry. Optimize the observable project-side amplification path instead."
+}

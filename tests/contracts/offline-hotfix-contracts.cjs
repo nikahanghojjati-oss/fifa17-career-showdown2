@@ -14,10 +14,4 @@ for(const forbidden of ['offlineAppRail','offlineAppPanel','ensureOfflineUI','of
 A.equal(/position\s*:\s*(fixed|sticky)/i.test(offlineCss),false,'offline/install CSS may not create fixed or sticky presentation');
 A.ok(settings.includes('createOfflinePanel')&&settings.includes('settingsOfflineInstallButton'),'Settings Offline App panel/action missing');A.ok(settings.includes('requestOfflineAppInstall')&&settings.includes('activateWaitingOfflineUpdate'),'Settings must delegate install/update to controller');A.ok(settingsCss.includes('.settingsOfflinePanel')&&settingsCss.includes('.settingsOfflineInstallButton'));
 A.ok(offlineCss.includes('--startup-mobile-top-band:clamp(46px,12vw,54px)'));A.ok(offlineCss.includes('height:calc(100% - var(--startup-mobile-top-band))'));A.ok(offlineCss.includes('object-fit:cover')&&offlineCss.includes('object-position:54% 50%'));A.ok(offlineCss.includes('startupAthleteMobileIn'));A.equal(/\b100(?:d|s|l)?vh\b/i.test(offlineCss),false,'loading art must not use raw viewport-height growth');
-const workflowDir=path.join(root,'.github/workflows'),workflows=fs.readdirSync(workflowDir).filter(f=>/\.ya?ml$/i.test(f)).map(f=>({f,s:read('.github/workflows/'+f)})),owners=re=>workflows.flatMap(x=>[...x.s.matchAll(re)].map(()=>x.f)).sort();
-A.deepEqual(owners(/tests\/browser\/offline-boundary-audit\.cjs/g),['validate-pos6-race.yml','validate-stability-lane.yml','validate-stability-lane.yml']);
-A.deepEqual(owners(/tests\/browser\/offline-cache-lifecycle-v2-audit\.cjs/g),['validate-pos6-race.yml','validate-stability-lane.yml']);
-A.deepEqual(owners(/tests\/browser\/offline-app-audit\.cjs/g),[]);
-A.deepEqual(owners(/tests\/browser\/settings-install-audit\.cjs/g),['validate-settings-workstream.yml']);
-A.ok(read('.github/workflows/validate-pos6-race.yml').includes("needs.route.outputs.browser == 'FULL'"),'POS6 offline browser ownership must remain conditional on the routed full-browser profile.');
-console.log(`Offline hotfix contracts passed for ${revision}: install activation boundary, Settings-only install UI, bounded standalone art, and routed/deployed audit ownership.`);
+console.log(`Offline hotfix contracts passed for ${revision}: install activation boundary, Settings-only install UI, bounded standalone art, verified recovery shell, and product behavior without process-routing coupling.`);

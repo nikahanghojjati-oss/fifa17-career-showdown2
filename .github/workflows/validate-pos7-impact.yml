@@ -1,0 +1,158 @@
+name: Validate POS7 IMPACT
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pos7-impact-${{ github.event.pull_request.number || github.ref_name || github.run_id }}
+  cancel-in-progress: ${{ github.run_attempt == 1 && github.event_name != 'workflow_dispatch' }}
+
+jobs:
+  route:
+    name: IMPACT-7 exact selector
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    outputs:
+      profile: ${{ steps.route.outputs.profile }}
+      tests_csv: ${{ steps.route.outputs.tests_csv }}
+      proofs_csv: ${{ steps.route.outputs.proofs_csv }}
+      proof_groups_json: ${{ steps.route.outputs.proof_groups_json }}
+      run_operations: ${{ steps.route.outputs.run_operations }}
+      full_seal: ${{ steps.route.outputs.full_seal }}
+      test_count: ${{ steps.route.outputs.test_count }}
+      proof_count: ${{ steps.route.outputs.proof_count }}
+      selected_proof_cost: ${{ steps.route.outputs.selected_proof_cost }}
+      full_proof_cost: ${{ steps.route.outputs.full_proof_cost }}
+      proof_cost_saved_percent: ${{ steps.route.outputs.proof_cost_saved_percent }}
+    steps:
+      - name: Check out exact candidate with history
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+      - name: Resolve exact changed artifacts
+        shell: bash
+        run: |
+          set -euo pipefail
+          changed=/tmp/pos7-changed-files.txt
+          : > "$changed"
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            git diff --name-only "${{ github.event.pull_request.base.sha }}" "${{ github.event.pull_request.head.sha }}" > "$changed"
+          elif [[ "${{ github.event_name }}" == "push" && -n "${{ github.event.before }}" && ! "${{ github.event.before }}" =~ ^0+$ ]]; then
+            git diff --name-only "${{ github.event.before }}" "${{ github.sha }}" > "$changed"
+          fi
+          sort -u -o "$changed" "$changed"
+          printf 'IMPACT-7 changed artifacts:\n'
+          cat "$changed" || true
+      - name: Compute exact IMPACT-7 selection
+        id: route
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "${{ github.event_name }}" == "push" ]]; then
+            node scripts/pos7-impact-router.mjs --files-file /tmp/pos7-changed-files.txt --force-full --github-output "$GITHUB_OUTPUT" --json
+          else
+            node scripts/pos7-impact-router.mjs --files-file /tmp/pos7-changed-files.txt --github-output "$GITHUB_OUTPUT" --json
+          fi
+
+  operations:
+    name: POS7 operations authority
+    needs: route
+    if: needs.route.outputs.run_operations == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+      - run: npm run test:ops
+
+  deterministic:
+    name: IMPACT-7 selected deterministic census
+    needs: route
+    if: needs.route.outputs.tests_csv != ''
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Run exact selected current-product contracts
+        env:
+          POS7_SELECTED_TESTS: ${{ needs.route.outputs.tests_csv }}
+        run: node tests/support/run-selected-product-contracts.cjs --tests "$POS7_SELECTED_TESTS"
+
+  proofs:
+    name: IMPACT-7 proof ${{ matrix.group }}
+    needs: route
+    if: needs.route.outputs.proof_groups_json != '[]'
+    strategy:
+      fail-fast: false
+      matrix:
+        group: ${{ fromJSON(needs.route.outputs.proof_groups_json) }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '21'
+      - run: npm ci
+      - name: Run exact selected heavy proofs for this group
+        env:
+          POS7_SELECTED_PROOFS: ${{ needs.route.outputs.proofs_csv }}
+          POS7_PROOF_GROUP: ${{ matrix.group }}
+        run: node scripts/pos7-proof-runner.mjs --proofs "$POS7_SELECTED_PROOFS" --group "$POS7_PROOF_GROUP"
+
+  exact-head-summary:
+    name: POS7 exact-head seal
+    needs: [route, operations, deterministic, proofs]
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Require every selected lane to pass
+        shell: bash
+        run: |
+          set -euo pipefail
+          printf 'profile=%s tests=%s proofs=%s proof_cost=%s/%s saved=%s%% full_seal=%s\n' \
+            "${{ needs.route.outputs.profile }}" \
+            "${{ needs.route.outputs.test_count }}" \
+            "${{ needs.route.outputs.proof_count }}" \
+            "${{ needs.route.outputs.selected_proof_cost }}" \
+            "${{ needs.route.outputs.full_proof_cost }}" \
+            "${{ needs.route.outputs.proof_cost_saved_percent }}" \
+            "${{ needs.route.outputs.full_seal }}"
+          for result in \
+            "route:${{ needs.route.result }}" \
+            "operations:${{ needs.operations.result }}" \
+            "deterministic:${{ needs.deterministic.result }}" \
+            "proofs:${{ needs.proofs.result }}"; do
+            case "${result#*:}" in
+              success|skipped) ;;
+              *) echo "IMPACT-7 selected lane failed: $result" >&2; exit 1 ;;
+            esac
+          done
+          echo 'PASS POS7 exact-head seal: every selected deterministic and heavy proof lane passed on one head.'

@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "model": "CWS-7",
+  "purpose": "Weighted engineering transition-risk signal with observable context-saturation risk. It does not infer or model account usage limits.",
+  "scoreRange": [0, 100],
+  "scoreMeaning": "ENGINEERING_TRANSITION_RISK_ONLY",
+  "weights": {
+    "recoverability": 30,
+    "contextIntegrity": 20,
+    "failurePressure": 15,
+    "concurrencyRisk": 10,
+    "debugPressure": 10,
+    "contextSaturation": 15
+  },
+  "contextSaturation": {
+    "exactTelemetryRule": "If the environment exposes exact context capacity and remaining fraction, use the real remaining percentage directly.",
+    "fallbackSignals": [
+      "compactionEvents",
+      "stateReconstructionEvents",
+      "earlierExactDetailLossEvents",
+      "repeatedRetrievalEvents",
+      "volatileFactsOutsideGit",
+      "simultaneousReasoningBreadth"
+    ],
+    "forbiddenInputs": [
+      "accountPlan",
+      "fiveHourUsageLimit",
+      "weeklyUsageLimit",
+      "messageCount",
+      "toolCallCount",
+      "elapsedTime"
+    ]
+  },
+  "decisionBands": {
+    "CONTINUE": [0, 44],
+    "CHECKPOINT": [45, 64],
+    "TRANSITION_AFTER_ATOMIC": [65, 84],
+    "TRANSITION_NOW": [85, 100]
+  },
+  "recoveryAuthority": "ACTIVE_PR_METADATA",
+  "ownerFacingFormat": "Continuity: <DECISION> · <SCORE>/100 · <SHORT_REASON>",
+  "productCredit": 0
+}

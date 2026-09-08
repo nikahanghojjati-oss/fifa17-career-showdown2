@@ -1,22 +1,35 @@
-# CURRENT TASK — POS6 FAST / FURIOUS / ACCURATE, THEN SSJR SHARED SETUP
+# CURRENT TASK — POS8 CRASH SHIELD PUBLICATION, THEN SHARED SETUP PRODUCT WORK
 
-`PROJECT_OPERATING_SYSTEM_V6.md` governs process on the POS6 branch. `CURRENT_PRODUCT_GUARDS.json` remains stable product/safety machine authority. Current verified source and live GitHub/provider/deployment evidence override recorded SHAs and relay artifacts.
+`PROJECT_OPERATING_SYSTEM_V8.md` is candidate process authority on PR #220. `CURRENT_PRODUCT_GUARDS.json` remains stable product/safety authority. IMPACT-7 remains the exact product validation engine. Current verified source and live GitHub/provider/deployment evidence override recorded SHAs.
 
-POS5 is merged on main at the verified starting boundary `88bc6d6bdcda1032aee81565b9830966f460cc36`. POS6 itself earns zero SSJR/MDP product credit.
+POS6 is merged on main. POS7 exact impact selection is incorporated into PR #220. POS8 adds TX-8 transactional recovery and earns zero SSJR/MDP product credit.
 
 RJR-1 remains frozen historical 100/100. SSJR-1.1 remains the active product acceptance target. MDP-1 remains current.
 
+## Live publication lane
+
+Candidate PR: #220
+Candidate branch: `ops/pos7-impact-authority`
+Shadow recovery branch: `recovery/pr220-pos8-tx8`
+
+Recorded heads are orientation only. Resolve both live refs before every promotion or correction.
+
 ## Immediate next task
 
-1. Publish POS6 as one coherent operating-system PR.
-2. Collapse all deterministic blocking product contracts into `CURRENT_PRODUCT_TEST_MANIFEST.json` and run them exactly once in FAST.
-3. Activate RACE-6 so expensive browser/emulator proof runs only for changed risk domains; unknown/cross-cutting changes escalate to ACCURATE.
-4. Remove the old unconditional specialist pull-request matrix from active Actions while preserving its useful invariants in FAST/FURIOUS/ACCURATE.
-5. Keep the complete post-merge release/deployment seal on main.
-6. Keep RB-2 + DRF-1, AWU-1 and CLB-1; retire stale active continuity command surfaces.
-7. Remove obsolete unobservable external-session signals from current operating/tooling authority.
-8. Validate POS6 on one exact head, resolve real review findings, and merge with expected-head protection.
-9. Immediately resume product work: production Shared Setup integration/evidence, then the next unfinished two-manager SSJR capability.
+1. Finish the current POS8 Atomic Work Unit only on the shadow recovery branch.
+2. Keep product gates product-only; process/routing/recovery assertions belong to POS8 operations tests.
+3. Run targeted static/operations validation on the coherent shadow head.
+4. Verify the shadow head descends from the unchanged candidate head.
+5. Update WAL-8 recovery metadata to `SHADOW_READY` and promote the candidate branch exactly once with a fast-forward.
+6. While candidate validation is pending, do not mutate that candidate head.
+7. Require the exact candidate head to pass the IMPACT-7 complete seal because this operating-system change touches workflow/dependency/test authority.
+8. Recheck PR reviews/comments/threads, mark ready, and merge only with expected-head protection.
+9. Verify resulting main authority.
+10. Stop operating-system work and immediately resume production Shared Setup integration/evidence, then the next unfinished two-manager SSJR dependency.
+
+## Interruption recovery
+
+After an abrupt stop, read the live PR #220 recovery block, resolve the candidate head, resolve `recovery/pr220-pos8-tx8`, and read exact-head workflow state only if a candidate has been published. Do not reconstruct work from historical SNS/SLE/WEC chains unless a real provenance question requires it.
 
 ## Permanent locks
 
