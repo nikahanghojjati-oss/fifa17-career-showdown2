@@ -1,0 +1,23 @@
+{
+  "observedHeads": {
+    "main": "2ff738fe093f7409cebc40b8b1499f57ddd82b3d",
+    "candidate": "26cc69bb7636be61a87b57f4fdf03654a9de09a4",
+    "recovery": "b2f6872c69300b54a3efe87dac8166fec185ae3d"
+  },
+  "candidateBranch": "ops/pos10-unified-operating-system",
+  "recoveryBranch": "recovery/pos10-unified-operating-system",
+  "atomicWorkUnit": "Continue SSJR-1.1 production two-account Shared Setup evidence",
+  "lastSafeCheckpoint": "PR222 exact candidate 26cc69bb7636be61a87b57f4fdf03654a9de09a4 passed the complete POS10 seal, merged with expected-head protection to main 2ff738fe093f7409cebc40b8b1499f57ddd82b3d, and the recovery branch was anchored to that merged boundary",
+  "nextExactAction": "Read current SSJR and MDP ledgers plus the production Shared Setup evidence validator, inventory required denial and adverse observations, then build only missing privacy-safe automation before requesting owner interaction",
+  "phase": "MERGED",
+  "decision": "CONTINUE",
+  "operatingSystem": "POS10",
+  "filingVersion": "v1.0.0",
+  "generatedAt": "2026-09-08T06:25:14.000Z",
+  "repository": "nikahanghojjati-oss/fifa17-career-showdown2",
+  "artifactRole": "recovery-manifest",
+  "recoveryState": "RECOVERY_READY",
+  "liveFactsMustBeResolved": true,
+  "sourceFingerprint": "3212f009f9c2719d163aa55a086477290c6ba130a9f88a610d5ebd17a31a8531",
+  "supersedes": "pos10-recovery/POS10_RECOVERY_v1.0.0_2026-09-08_000009.json"
+}
