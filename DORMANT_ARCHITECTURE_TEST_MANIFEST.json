@@ -3,10 +3,12 @@
   "operatingSystem": "POS-2",
   "classification": "HISTORICAL_DORMANT_ARCHITECTURE",
   "automaticCI": false,
-  "purpose": "Preserve reviewed but currently unshipped architecture proofs without spending normal product CI compute. These tests may be run manually when their architecture is reconsidered, reactivated, migrated, or audited for provenance.",
-  "archiveRule": "A test belongs here only when its protected implementation is deliberately dormant or rejected by current product authority and an active product gate protects any still-current invariant that the historical design helped establish.",
+  "purpose": "Preserve reviewed but currently unshipped or superseded architecture proofs without spending normal product CI compute. These tests may be run manually when their architecture is reconsidered, reactivated, migrated, or audited for provenance.",
+  "archiveRule": "A test belongs here only when its protected implementation is deliberately dormant, superseded, or rejected by current product authority and an active product gate protects any still-current invariant that the historical design helped establish.",
   "reactivationRule": "Before any archived architecture becomes product runtime again, move the relevant tests back through POS-2 classification, update them to the current provider/runtime authority, and make only the current behavior blocking.",
   "tests": [
+    "tests/contracts/private-account-auth-stage2a-boundary-contracts.cjs",
+    "tests/contracts/private-account-auth-stage2a-contracts.cjs",
     "tests/contracts/private-account-auth-stage2h-contracts.cjs",
     "tests/contracts/private-account-auth-stage2i-boundary-contracts.cjs",
     "tests/contracts/private-account-auth-stage2i-contracts.cjs",
@@ -20,6 +22,7 @@
     "tests/contracts/trusted-connected-data-account-export-contracts.cjs"
   ],
   "rationale": {
+    "stage2a": "The Stage 2A contracts describe an emulator-only predecessor boundary and explicitly call that proof historical/version-neutral. Static App still executes the real current Auth/Firestore emulator safety checks directly. The boundary contract additionally coupled current NEXT_TASK and frozen RJR/PR narration to immutable Stage 2A history, causing a current Stability failure with no product regression.",
     "trustedCloudRun": "Current product authority permanently forbids Cloud Run and Cloud Functions under the Spark-only zero-billing architecture. Stage 2H, Stage 2I and the production trusted-runtime activation proof target the older trusted Cloud Run path and are deliberately disconnected from the browser runtime.",
     "deviceCredential": "Stage 5B identifies itself as a dormant candidate, requires permissions not present in current production, states that Cloud Run is unavailable on Spark, and is not the active Standard Auth session path.",
     "trustedMutationDeletionExport": "These modules explicitly report productionRuntimeConnected=false and productionProvisioningAuthorized=false and their contracts prove that they are not loaded by the production shell. Their CAS, deletion-safety, privacy and authorization ideas remain useful provenance, while current Spark/Rules/Connected Rivalry gates protect the shipped behavior."
