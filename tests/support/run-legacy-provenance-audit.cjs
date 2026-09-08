@@ -13,6 +13,8 @@ const files = [
   "tests/contracts/remote-joining-physical-acceptance-validator-contracts.cjs",
   "tests/contracts/r2-production-proof-publication-contracts.cjs",
   "tests/contracts/remote-joining-physical-acceptance-real-recorder-null-contracts.cjs",
+  "tests/contracts/production-authorization-acceptance-contracts.cjs",
+  "tests/contracts/production-provider-abuse-acceptance-contracts.cjs",
   "tests/contracts/cloud-foundation-contracts.cjs",
   "tests/contracts/cloud-sync-two-device-harness-contracts.cjs",
   "tests/contracts/release-authority-coherence.cjs",
