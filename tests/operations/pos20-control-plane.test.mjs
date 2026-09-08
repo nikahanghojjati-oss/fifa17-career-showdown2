@@ -27,9 +27,12 @@ test('kernel baseline pins proven POS10 executable safety mechanisms',()=>{const
 
 import {routeFiles as routePos20} from '../../scripts/pos20-impact-router.mjs';
 import {execFileSync} from 'node:child_process';
+const safeEvidenceContract='tests/contracts/ssjr-production-safe-evidence-assembly-contracts.cjs';
 
 test('POS20 accepts low-risk inherited routing without reducing it',()=>{const r=routePos20(['README.md']);assert.equal(r.model,'POS20');assert.equal(r.profile,'POS20_DOC_ONLY');assert.equal(r.cognitiveEscalation,false);});
 test('POS20 preserves transitive product consumers from the POS10 kernel',()=>{const r=routePos20(['js/stage4ConnectedRivalry.js']);for(const id of ['PAIRING_RIVALRY','REMOTE_JOINING','SHARED_SETUP'])assert.ok(r.invariants.includes(id));});
+test('POS20 adds the SSJR safe-evidence contract without modifying the frozen POS10 manifest',()=>{for(const file of ['js/ssjrProductionNegativeEvidence.js','scripts/assemble-ssjr-shared-setup-safe-evidence.mjs','tests/contracts/ssjr-production-safe-evidence-assembly-contracts.cjs']){const r=routePos20([file]);assert.ok(r.tests.includes(safeEvidenceContract),file);assert.ok(r.testsAddedByPos20.includes(safeEvidenceContract),file);assert.equal(r.testCount,r.tests.length);}});
+test('unrelated docs do not accidentally select the SSJR supplemental contract',()=>{assert.equal(routePos20(['README.md']).tests.includes(safeEvidenceContract),false);});
 test('high uncertainty escalates to a complete inherited seal',()=>{const r=routePos20(['README.md'],{uncertainty:'HIGH'});assert.equal(r.profile,'COGNITIVE_FULL_SEAL');assert.equal(r.fullSeal,true);});
 test('evidence debt or repeated failure can escalate proof confidence',()=>{assert.equal(routePos20(['README.md'],{evidenceDebt:3}).fullSeal,true);assert.equal(routePos20(['README.md'],{repeatedFailure:true}).fullSeal,true);});
 const repoFixture=fs.existsSync('.git')&&fs.existsSync('CURRENT_PRODUCT_GUARDS.json');
