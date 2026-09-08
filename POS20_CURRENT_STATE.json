@@ -5,14 +5,14 @@
   "liveFactsMustBeResolved": true,
   "observedHeads": {
     "main": "30251181f457d1df1ed990001de54919885eea73",
-    "candidate": "30251181f457d1df1ed990001de54919885eea73",
-    "recovery": "30251181f457d1df1ed990001de54919885eea73"
+    "candidate": "a1bf21b0607d4817dad7393059ff8f4525ed1e86",
+    "recovery": "a1bf21b0607d4817dad7393059ff8f4525ed1e86"
   },
   "candidateBranch": "ops/ssjr-production-evidence-automation",
   "recoveryBranch": "recovery/ssjr-production-evidence-automation",
-  "cognitiveDecision": "BUILD_MISSING_PRIVACY_SAFE_SSJR_EVIDENCE_AUTOMATION",
-  "selectedAction": "Build a sanitized production-denial ledger and assemble the existing guided positive draft into the exact SSJR validator schema without raw authority.",
+  "cognitiveDecision": "CORRECT_CURRENT_EXACT_HEAD_STATIC_COLLISION",
+  "selectedAction": "Namespace every helper in the new denial-ledger module without changing proof semantics, then re-run the exact product proof route.",
   "evidenceDebt": {"count": 1, "blocking": 1, "items": ["production-two-account-shared-setup"]},
-  "exactBlocker": "The guided positive recorder is privacy-safe but the eight required production denial observations are not yet captured and joined into validator-ready evidence.",
-  "nextVerification": "Prove closed-schema denial normalization and validator-compatible safe assembly, then run the exact product proof route before publication."
+  "exactBlocker": "Exact head a1bf21b failed static release contracts because generic helper function names collided with existing release modules.",
+  "nextVerification": "Require the static release contract and deterministic census to pass on one corrected exact candidate head before trusting any broader proof."
 }
