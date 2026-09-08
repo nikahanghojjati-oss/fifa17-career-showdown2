@@ -5,7 +5,10 @@
   "description": "Repository-owned stability and browser validation for Career Mode Showdown.",
   "scripts": {
     "check": "npm run test:contracts",
-    "work:route": "node scripts/pos10-impact-router.mjs",
+    "work:plan": "node scripts/pos20-cognitive-controller.mjs",
+    "work:benchmark": "node scripts/pos20-benchmark.mjs",
+    "work:route": "node scripts/pos20-impact-router.mjs",
+    "work:kernel:route": "node scripts/pos10-impact-router.mjs",
     "work:gh:bootstrap": "node scripts/bootstrap-github-cli.mjs",
     "serve:test": "node tests/support/static-server.cjs",
     "test:contracts": "node tests/support/run-selected-product-contracts.cjs --all",
@@ -36,18 +39,13 @@
     "test:ssjr": "node tests/contracts/shared-showdown-readiness-contracts.cjs && node tests/contracts/milestone-delivery-progress-contracts.cjs && node tests/contracts/shared-showdown-dual-full-screen-contracts.cjs && node tests/contracts/shared-showdown-setup-contracts.cjs && node tests/contracts/shared-showdown-provider-contracts.cjs && node tests/contracts/shared-showdown-production-runtime-contracts.cjs && node tests/contracts/shared-showdown-host-peer-ui-contracts.cjs && node tests/contracts/shared-showdown-polished-presentation-contracts.cjs && node tests/contracts/ssjr-production-shared-setup-evidence-validator-contracts.cjs && node tests/contracts/ssjr-production-shared-setup-evidence-recorder-contracts.cjs && node tests/contracts/ssjr-production-storage-observation-contracts.cjs",
     "test:ssjr:browser": "node tests/browser/production-shared-setup-overlay-audit.cjs && node tests/browser/shared-showdown-setup-audit.cjs && node tests/browser/shared-showdown-paired-first-entry-audit.cjs && CMS_CHROMIUM_MULTI_CONTEXT=1 node tests/browser/shared-showdown-polished-presentation-audit.cjs && CMS_CHROMIUM_MULTI_CONTEXT=1 node tests/browser/ssjr-production-acceptance-recorder-audit.cjs",
     "work:proofs": "node scripts/pos10-proof-runner.mjs",
-    "work:recovery": "node scripts/pos10-recovery.mjs assess",
-    "work:successor": "node scripts/pos10-recovery.mjs generate",
-    "work:successor:check": "node scripts/pos10-recovery.mjs check",
-    "work:response:check": "node scripts/pos10-recovery.mjs response",
-    "work:publication": "node scripts/pos10-publication.mjs"
+    "work:recovery": "node scripts/pos20-recovery.mjs",
+    "work:publication": "node scripts/pos20-publication.mjs"
   },
   "devDependencies": {
     "@sparticuz/chromium": "149.0.0",
     "axe-core": "4.13.0",
     "playwright": "1.62.1"
   },
-  "engines": {
-    "node": ">=24"
-  }
+  "engines": {"node": ">=24"}
 }

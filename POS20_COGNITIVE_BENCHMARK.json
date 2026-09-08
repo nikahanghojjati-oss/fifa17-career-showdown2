@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "benchmarkId": "POS20-COGNITIVE-DOMINANCE-20",
+  "description": "Twenty adversarial project-management decisions. POS20 must score 20/20 and exceed the conservative POS10 migration baseline by at least 25 points before activation.",
+  "minimumCases": 20,
+  "requiredPos20Correct": 20,
+  "baselineCorrect": 14,
+  "minimumAdvantagePoints": 25,
+  "cases": [
+    {"id":"owner-product-priority","expected":"BUILD_PRODUCT","ownerPriority":"BUILD_PRODUCT"},
+    {"id":"billing-unsafe","expected":"SAFE_SPARK","unsafe":"UNSAFE_BILLING"},
+    {"id":"process-sufficient","expected":"BUILD_PRODUCT","processSufficient":true},
+    {"id":"automate-evidence","expected":"AUTOMATE_EVIDENCE"},
+    {"id":"physical-only","expected":"ASK_OWNER_PHYSICAL","physicalOnly":true},
+    {"id":"anti-loop","expected":"REFRAME_HYPOTHESIS","failedTwice":true},
+    {"id":"new-evidence-reopens","expected":"RETRY_WITH_NEW_EVIDENCE","failedTwice":true,"newEvidence":true},
+    {"id":"pending-freeze","expected":"WAIT_VALIDATION","validation":"PENDING"},
+    {"id":"failed-candidate","expected":"INSPECT_EXACT_FAILURES","validation":"FAILED"},
+    {"id":"green-merge","expected":"MERGE_EXPECTED_HEAD","validation":"GREEN","reviewsClean":true},
+    {"id":"head-drift","expected":"RECONCILE_HEADS","headsMatch":false},
+    {"id":"stale-recovery","expected":"REFRESH_RECOVERY","recovery":"RECOVERY_STALE"},
+    {"id":"missing-live-authority","expected":"RESOLVE_LIVE_AUTHORITY","liveAuthority":false},
+    {"id":"owner-transfer","expected":"TRANSFER","ownerTransfer":true},
+    {"id":"fake-credit-rejected","expected":"REAL_EVIDENCE","fabricated":"FAKE_CREDIT"},
+    {"id":"unlock-value","expected":"HIGH_UNLOCK"},
+    {"id":"info-gain","expected":"DIAGNOSTIC"},
+    {"id":"risk-reduction","expected":"SAFE_FIX"},
+    {"id":"automation-over-manual","expected":"AUTOMATE"},
+    {"id":"private-data-safe","expected":"PRIVACY_SAFE","unsafe":"RAW_PRIVATE"}
+  ]
+}

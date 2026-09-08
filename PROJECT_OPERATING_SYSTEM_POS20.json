@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "operatingSystem": "POS20",
+  "title": "Cognitive Control Plane",
+  "status": "activation-candidate",
+  "productCredit": {"SSJR": 0, "MDP": 0},
+  "controlLoop": ["OBSERVE","MODEL","HYPOTHESIZE","PLAN","ACT","VERIFY","LEARN","RECOVER"],
+  "decisionAuthority": "scripts/pos20-cognitive-controller.mjs",
+  "benchmark": "POS20_COGNITIVE_BENCHMARK.json",
+  "benchmarkRunner": "scripts/pos20-benchmark.mjs",
+  "currentState": "POS20_CURRENT_STATE.json",
+  "retiredConcepts": "POS20_RETIRED_CONCEPTS.json",
+  "inheritedSafetyKernel": {
+    "name": "POS10",
+    "impactRouter": "scripts/pos10-impact-router.mjs",
+    "proofRunner": "scripts/pos10-proof-runner.mjs",
+    "minimumRule": "POS20 may escalate but never reduce tests or proofs selected by POS10"
+  },
+  "nativeTools": {
+    "route": "scripts/pos20-impact-router.mjs",
+    "recovery": "scripts/pos20-recovery.mjs",
+    "publication": "scripts/pos20-publication.mjs"
+  },
+  "hardRules": {
+    "singleAtomicWorkUnit": true,
+    "singleRecoveryBranch": true,
+    "candidateMutationWhileValidationPending": false,
+    "mergeRequiresExpectedHead": true,
+    "mixedHeadEvidenceForbidden": true,
+    "fakeProductCreditForbidden": true,
+    "physicalInteractionOnlyWhenNotAutomatable": true,
+    "repeatedFailedHypothesisSameEvidenceForcesReframe": true,
+    "newEvidenceMayReopenHypothesis": true,
+    "processOptimizationPenaltyAfterProcessSufficient": true
+  },
+  "activationGate": {
+    "benchmarkCases": 20,
+    "requiredCorrect": 20,
+    "minimumAdvantagePointsOverPos10MigrationBaseline": 25,
+    "sameHeadRequired": true,
+    "requiredChecks": ["POS20 cognitive benchmark","POS20 exact-head cognitive seal"]
+  },
+  "permanentGuardSource": "CURRENT_PRODUCT_GUARDS.json",
+  "nextProductLane": "NEXT_TASK.md"
+}

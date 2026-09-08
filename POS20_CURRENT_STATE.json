@@ -1,0 +1,18 @@
+{
+  "operatingSystem": "POS20",
+  "objective": "Use the cognitive control plane to maximize safe evidence-backed progress toward genuine SSJR100 and MDP100, beginning with the unfinished production two-account Shared Setup evidence lane.",
+  "continuityState": "READY",
+  "liveFactsMustBeResolved": true,
+  "observedHeads": {
+    "main": "2ff738fe093f7409cebc40b8b1499f57ddd82b3d",
+    "candidate": "b2e987a57be4014bf2c83c4a9bed0595679bba01",
+    "recovery": "b2e987a57be4014bf2c83c4a9bed0595679bba01"
+  },
+  "candidateBranch": "ops/pos20-cognitive-control-plane",
+  "recoveryBranch": "recovery/pos20-cognitive-control-plane",
+  "cognitiveDecision": "RESOLVE_LIVE_AUTHORITY_THEN_EXECUTE_CONTROLLER",
+  "selectedAction": "Resume the highest-value safe product dependency after POS20 activation evidence is exact-head green.",
+  "evidenceDebt": {"count": 1, "blocking": 1, "items": ["production-two-account-shared-setup"]},
+  "exactBlocker": "No durable production-two-account Shared Setup evidence has yet satisfied the current SSJR acceptance layer.",
+  "nextVerification": "Re-resolve live refs and provider/deployment authority, then execute the POS20 controller against current SSJR/MDP evidence debt."
+}

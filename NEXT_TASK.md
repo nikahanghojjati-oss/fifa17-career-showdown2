@@ -1,17 +1,9 @@
-# Current task: POS10 publication, then Shared Showdown Journey
+# Current product task under POS20
 
-POS10_CURRENT_FILE_INDEX.json and PROJECT_OPERATING_SYSTEM_POS10.md are the sole process routing authority. CURRENT_PRODUCT_GUARDS.json retains all product and infrastructure locks.
+After POS20 activation is exact-head green and merged, immediately resume genuine SSJR-1.1 production two-account Shared Setup evidence. POS20 itself earns zero SSJR and zero MDP credit.
 
-## Current work unit
+Read the current SSJR and MDP ledgers and the production evidence validator. Resolve live deployment/provider authority. Inventory the exact missing production-two-account observations, including required denial/adverse evidence. Reuse existing recorder/provider/runtime/browser automation and build only missing privacy-safe automation.
 
-Publish POS10 as the only active process authority. Candidate branch: ops/pos10-unified-operating-system. Recovery branch: recovery/pos10-unified-operating-system. Resolve both live heads and any candidate PR before mutation. The current versioned recovery packet records the checkpoint and exact next action; do not infer completion from this static task description.
+Do not fabricate production evidence from emulator, simulated account, CI, review, merge or deployment proof. Ask the owner for two-account or physical-device interaction only when authenticated production evidence genuinely cannot be replaced by automation.
 
-Complete native filing/recovery/routing/publication controls and migrate active startup, machine authority, commands and workflows. Validate operations and the changed product risk. Promote one coherent durable unit once, pause mutation while exact-head validation is pending, recheck reviews/comments/threads, merge with expected-head protection, independently resolve main and refresh recovery. Once that boundary is proven this process task is complete; do not reopen it for packaging polish.
-
-## Immediate product task after verified publication
-
-Continue SSJR-1.1 production two-account Shared Setup evidence. Read SHARED_SHOWDOWN_JOURNEY_READINESS.json and MILESTONE_DELIVERY_PROGRESS.json for current scores. POS10 contributes zero to both.
-
-Inventory the denial/adverse observations required by the current evidence validator. Reuse the existing production recorder, provider enforcement and browser automation. Build only missing privacy-safe guided automation. Automate everything safely possible. Ask the owner for two-account or physical-device interaction only when the available authenticated accounts/devices cannot be replaced by automation. Never fabricate production evidence from emulator or simulated-account tests.
-
-Pairing and an exact ACTIVE session must precede league/club authority. Preserve both managers' full-screen product experience, Candidate C sole destructive Apply with exact transaction-owned rollback, all three canonical local storage keys, private two-manager scope, permanent zero billing, Firebase Spark, App Check enforcement OFF, memory-only Firestore and popup-only Google Auth without extra scopes.
+Permanent locks remain: billing OFF, Firebase Spark only, App Check enforcement OFF, memory-only Firestore, popup-only Google Auth, exactly two private managers, pairing plus exact ACTIVE before league/club authority, Candidate C sole destructive Apply with exact rollback, canonical local storage unchanged, no public discovery/community/rankings.
