@@ -13,18 +13,18 @@ const offlineApp = read('js/offlineApp.js');
 const worker = read('service-worker.js');
 const pkg = JSON.parse(read('package.json'));
 const lock = JSON.parse(read('package-lock.json'));
-const state = read('PROJECT_STATE.md');
-const next = read('NEXT_TASK.md');
-const readme = read('README.md');
-const changelog = read('CHANGELOG.md');
-const gold = read('00_HANDOFF_GOLDEN_RULE.md');
-const wec = JSON.parse(read('WORK_ENVIRONMENT_STATUS.json'));
+const guards = JSON.parse(read('CURRENT_PRODUCT_GUARDS.json'));
 
 const version = (app.match(/const APP_VERSION = "([^"]+)"/) || [])[1];
 const revision = (html.match(/app-asset-revision"\s+content="([^"]+)/) || [])[1];
 const footer = (html.match(/<footer>[\s\S]*?v([^<\s]+)\s*·\s*(?:Stable|Product Deepening|Private Connected Account Foundation|Registered Devices & Private Pairing|Connected Rivalry|Private Remote Joining)/i) || [])[1];
 const gen = Number((revision.match(/-r(\d+)$/) || [])[1]);
 
+A.equal(guards.operatingSystem, 'POS-2');
+A.equal(guards.provider.billingEnabled, false);
+A.equal(guards.provider.firebasePlan, 'Spark');
+A.equal(guards.provider.cloudRunAllowed, false);
+A.equal(guards.provider.cloudFunctionsAllowed, false);
 A.equal(pkg.version, version);
 A.equal(lock.version, version);
 A.equal(lock.packages?.['']?.version, version);
@@ -33,43 +33,21 @@ A.equal(footer, version);
 A.match(revision, new RegExp(`^${version.replace(/\./g, '\\.')}\\-r[1-9]\\d*$`));
 
 const releasePath = gen === 1 ? `RELEASE_V${version}.md` : `RELEASE_V${version}_R${gen}.md`;
-A.ok(fs.existsSync(path.join(root, releasePath)));
+A.ok(fs.existsSync(path.join(root, releasePath)), 'Current whole-shell release record must exist.');
 const release = read(releasePath);
-const candidate = /Status:\s*RELEASE CANDIDATE/i.test(release);
-A.ok(release.includes(`Runtime asset revision: \`${revision}\``));
-const currentDocsCarryRevision = state.includes(revision) && next.includes(revision);
-const activeCandidateWec = Boolean(
-    candidate
-    && wec.lifecycle === 'active'
-    && wec.repository?.workingBranch
-    && typeof wec.continuity?.currentTask === 'string'
-    && /convergence|hotfix|release candidate|cache-bust|publish/i.test(wec.continuity.currentTask)
-);
-A.ok(state.includes(`v${version}`) && next.includes(`v${version}`));
-A.ok(currentDocsCarryRevision || activeCandidateWec, 'Current runtime revision must be carried by production handoff docs or by the active release-candidate WEC without rewriting production truth early.');
-
-if(candidate){
+A.ok(release.includes(`Runtime asset revision: \`${revision}\``), 'Release record must carry the exact current runtime revision.');
+if(/Status:\s*RELEASE CANDIDATE/i.test(release)){
     const previous = (release.match(/Previous known-good runtime:\s*`([^`]+)`/i) || [])[1];
-    A.ok(previous, 'A release candidate must name its previous known-good whole-runtime shell.');
-    const maintenancePath = gen === 1
-        ? `CAREER_MODE_SHOWDOWN_V${version}_MAINTENANCE_HANDOFF.md`
-        : `CAREER_MODE_SHOWDOWN_V${version}_R${gen}_MAINTENANCE_HANDOFF.md`;
-    A.ok(fs.existsSync(path.join(root, maintenancePath)), 'A release candidate must carry a matching maintenance handoff.');
-    const maintenance = read(maintenancePath);
-    const candidateAuthority = `${release}\n${maintenance}\n${JSON.stringify(wec)}`;
-    A.ok(candidateAuthority.includes(previous) && /production-proven|production proven/i.test(candidateAuthority), 'Candidate release/maintenance/WEC authority must identify the previous production-proven whole shell.');
-    A.equal(wec.repository?.productionRuntimeRevision, previous, 'Active candidate WEC must preserve the previous production-proven runtime as current production truth.');
-    A.equal(wec.repository?.releaseCandidateRuntimeRevision, revision, 'Active candidate WEC must carry the exact candidate runtime revision.');
-}else{
-    A.ok(readme.includes(revision) && changelog.includes(revision));
+    A.ok(previous && previous !== revision, 'A release candidate must preserve a distinct previous known-good whole-shell recovery target.');
+    const workerPrevious = (worker.match(/const PREVIOUS_RUNTIME_REVISION = "([^"]+)";/) || [])[1];
+    A.equal(workerPrevious, previous, 'Service Worker recovery authority must match the release candidate recovery target.');
 }
 
-A.ok(gold.includes('Every developer or ChatGPT session') && gold.includes('continuously'));
 A.ok(optional.includes('getApplicationAssetRevision()'));
 A.ok(app.includes(`css/visual-fidelity-r3.css?v=${revision}`));
 A.ok(app.includes('contentScriptData\\.init_ts') && app.includes('isFirstPartyRuntimeError') && app.includes('suppressedExternalRuntimeErrors'));
 
-// Protect the shipped offline capability itself rather than requiring a milestone phrase in NEXT_TASK.md.
+// Protect the shipped offline capability itself, never a milestone phrase in handoff files.
 A.ok(fs.existsSync(path.join(root, 'manifest.webmanifest')), 'Installable offline app manifest must remain shipped.');
 A.ok(worker.includes('"manifest.webmanifest"') && worker.includes('"js/offlineApp.js"') && worker.includes('"css/offline.css"'), 'Service worker shell must retain install/offline runtime assets.');
 A.equal((worker.match(/const RUNTIME_REVISION = "([^"]+)"/) || [])[1], revision, 'Service worker cache revision must match the current runtime shell.');
@@ -79,6 +57,7 @@ const refs = [...html.matchAll(/(?:src|href)="((?:css|js|data|assets)\/[^"?]+)(?
 A.ok(refs.length >= 9);
 A.deepEqual(refs.filter(match => match[2] !== revision).map(match => match[1]), []);
 
+// Raw storage corruption and quota failures must remain fail-closed and non-destructive.
 const values = new Map();
 const notes = [];
 const ls = {
@@ -124,6 +103,7 @@ ls.setItem = function(key, value){
 A.equal(s.saveCurrentShowdown(), false);
 A.equal(ctx.currentShowdown.updatedAt, 'preserved');
 
+// Preserve current CI ownership and deployed release proof without coupling to exact workflow counts.
 const stability = read('.github/workflows/validate-stability-lane.yml');
 for(const command of [
     'npm run test:contracts',
@@ -138,6 +118,7 @@ for(const command of [
 ]){
     A.ok(stability.includes(command), command);
 }
+A.doesNotMatch(stability, /trusted-runtime\/Dockerfile|firebaseAdminProvider|career-mode-showdown-trusted-runtime/, 'Dormant trusted Cloud Run architecture must not consume current Stability CI.');
 A.ok(/canonical-stability-/.test(stability) && /stability-audit-\*\.json/.test(stability));
 
 const b = read('.github/workflows/validate-import-analysis.yml');
@@ -155,4 +136,4 @@ for(const file of fs.readdirSync(path.join(root, '.github/workflows')).filter(fi
     A.ok(!workflow.includes('actions/checkout@v4') && !workflow.includes('actions/setup-node@v4'), file);
 }
 
-console.log(`Stability contracts passed for v${version}/${revision}; raw storage failures, workflow ownership and publication truth remain protected.`);
+console.log(`Stability contracts passed for v${version}/${revision}; executable release identity, raw storage failures, workflow ownership and deployed product proof remain protected without handoff/WEC/RJR narration coupling.`);
