@@ -14,11 +14,11 @@
     "work:next-prompt": "node scripts/build-next-developer-prompt.mjs",
     "work:continuity:validate": "node scripts/work-environment-continuity.mjs validate",
     "work:gh:bootstrap": "node scripts/bootstrap-github-cli.mjs",
-    "work:transition": "node scripts/pos3-transition.mjs",
+    "work:transition": "node scripts/pos5-session-control.mjs",
     "work:resume-capsule": "node scripts/build-resume-capsule.mjs",
     "test:handoff-preflight": "node tests/support/run-handoff-preflight.cjs",
     "serve:test": "node tests/support/static-server.cjs",
-    "test:contracts": "node tests/contracts/static-app-release-contracts.cjs && node tests/contracts/shared-showdown-polished-presentation-contracts.cjs && node tests/contracts/milestone-delivery-progress-contracts.cjs && node tests/contracts/shared-showdown-dual-full-screen-contracts.cjs && node tests/support/run-current-product-contracts.cjs && node tests/contracts/ssjr-production-shared-setup-evidence-recorder-contracts.cjs && node tests/contracts/ssjr-production-storage-observation-contracts.cjs && node tests/contracts/stage5g-remote-joining-reconnect-contracts.cjs",
+    "test:contracts": "node tests/support/run-pos5-product-suite.cjs",
     "test:ops": "node tests/support/run-operations-audit.cjs",
     "test:legacy-provenance": "node tests/support/run-legacy-provenance-audit.cjs",
     "test:dormant-architecture": "node tests/support/run-dormant-architecture-audit.cjs",
@@ -46,7 +46,9 @@
     "record:ssjr-production-shared-setup": "node scripts/record-ssjr-shared-setup-production-evidence.mjs",
     "validate:ssjr-production-shared-setup": "node scripts/validate-ssjr-shared-setup-production-evidence.mjs",
     "test:ssjr": "node tests/contracts/shared-showdown-readiness-contracts.cjs && node tests/contracts/milestone-delivery-progress-contracts.cjs && node tests/contracts/shared-showdown-dual-full-screen-contracts.cjs && node tests/contracts/shared-showdown-setup-contracts.cjs && node tests/contracts/shared-showdown-provider-contracts.cjs && node tests/contracts/shared-showdown-production-runtime-contracts.cjs && node tests/contracts/shared-showdown-host-peer-ui-contracts.cjs && node tests/contracts/shared-showdown-polished-presentation-contracts.cjs && node tests/contracts/ssjr-production-shared-setup-evidence-validator-contracts.cjs && node tests/contracts/ssjr-production-shared-setup-evidence-recorder-contracts.cjs && node tests/contracts/ssjr-production-storage-observation-contracts.cjs",
-    "test:ssjr:browser": "node tests/browser/production-shared-setup-overlay-audit.cjs && node tests/browser/shared-showdown-setup-audit.cjs && node tests/browser/shared-showdown-paired-first-entry-audit.cjs && CMS_CHROMIUM_MULTI_CONTEXT=1 node tests/browser/shared-showdown-polished-presentation-audit.cjs && CMS_CHROMIUM_MULTI_CONTEXT=1 node tests/browser/ssjr-production-acceptance-recorder-audit.cjs"
+    "test:ssjr:browser": "node tests/browser/production-shared-setup-overlay-audit.cjs && node tests/browser/shared-showdown-setup-audit.cjs && node tests/browser/shared-showdown-paired-first-entry-audit.cjs && CMS_CHROMIUM_MULTI_CONTEXT=1 node tests/browser/shared-showdown-polished-presentation-audit.cjs && CMS_CHROMIUM_MULTI_CONTEXT=1 node tests/browser/ssjr-production-acceptance-recorder-audit.cjs",
+    "work:recovery-beacon": "node scripts/build-recovery-beacon.mjs",
+    "work:relay-file": "node scripts/build-developer-relay.mjs"
   },
   "devDependencies": {
     "@sparticuz/chromium": "149.0.0",

@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "model": "POS5_FAILURE_HISTORY",
+  "keepStrongRegressionCoverage": [
+    "connected-rivalry-stale-pointer-and-convergence",
+    "lost-acknowledgement-idempotency-retry",
+    "offline-reconnect-and-adverse-network-recovery",
+    "candidate-c-exact-snapshot-stale-precondition-rollback",
+    "provider-authorization-no-listing-exact-path-privacy",
+    "service-worker-pages-artifact-cache-delivery",
+    "pairing-and-exact-active-before-shared-authority",
+    "shared-setup-recorder-evidence-schema-and-routing",
+    "both-manager-dual-full-screen-presentation",
+    "real-browser-dom-and-control-flow-regressions"
+  ],
+  "removeArchiveOrDecoupleFromBlockingCI": [
+    "handoff-sle-sns-wec-literal-mismatch",
+    "completed-rjr-score-or-old-pr-narration",
+    "exact-workflow-count-timeout-or-command-count",
+    "historical-provider-run-id-as-runtime-authority",
+    "dormant-cloud-run-custom-device-credential-architecture",
+    "warning-comment-triggering-forbidden-action-regex",
+    "current-runtime-gate-reading-next-task-or-handoff-prose"
+  ],
+  "interruptionAmplifiers": [
+    "large-chat-only-volatile-state",
+    "continuity-commit-advances-head-and-triggers-ci",
+    "fail-fast-one-red-per-fanout",
+    "many-small-commits-repeat-same-ci",
+    "late-transfer-packaging",
+    "large-log-and-polling-context-consumption",
+    "parallel-unrelated-mutation-lanes",
+    "late-detection-of-head-movement"
+  ]
+}
