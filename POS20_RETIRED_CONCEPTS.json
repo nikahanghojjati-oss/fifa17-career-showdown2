@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "operatingSystem": "POS20",
+  "retired": [
+    "Handoff proximity percentage",
+    "Estimated focused sessions as a progress metric",
+    "Recursive handoff packaging as execution authority",
+    "Newest-looking filename as authority",
+    "Combining CI evidence across Git heads",
+    "Process work earning SSJR or MDP credit",
+    "Repeating a failed hypothesis without new evidence"
+  ],
+  "forbiddenStateFields": ["handoffProximity","handoffPercentage","estimatedFocusedSessions"],
+  "replacement": "Categorical continuity state plus objective, evidence debt, selected action, exact blocker, verification target and live re-resolution."
+}

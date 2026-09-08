@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "kernel": "POS10",
+  "purpose": "Pin the strongest proven POS10 executable safety mechanisms while POS20 replaces only top-level planning and process authority.",
+  "gitBlobShas": {
+    "scripts/pos10-impact-router.mjs": "5113ae073741b8fbe7276d8a7e4280ff724af70b",
+    "scripts/pos10-publication.mjs": "56f764c7edc124d0a2853e05c4250efe972b0e0e",
+    "scripts/pos10-recovery.mjs": "e72e63d87b902dc86ffc326d0fdc3afbcb738c89"
+  },
+  "kernelGuarantees": ["exact-head evidence isolation","expected-head merge protection","fail-closed unknown risk","transitive invariant routing","single bounded recovery line"]
+}
