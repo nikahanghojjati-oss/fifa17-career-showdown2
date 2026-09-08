@@ -1,0 +1,23 @@
+{
+  "observedHeads": {
+    "main": "831a13ee93ac1b279c1f7c0985c1c5111922829f",
+    "candidate": "26cc69bb7636be61a87b57f4fdf03654a9de09a4",
+    "recovery": "26cc69bb7636be61a87b57f4fdf03654a9de09a4"
+  },
+  "candidateBranch": "ops/pos10-unified-operating-system",
+  "recoveryBranch": "recovery/pos10-unified-operating-system",
+  "atomicWorkUnit": "Publish POS10 as the sole active process authority",
+  "lastSafeCheckpoint": "PR222 published once at candidate 26cc69bb7636be61a87b57f4fdf03654a9de09a4; all 60 product contracts, 23 operations tests, 215 syntax checks and five inline proof IDs pass locally",
+  "nextExactAction": "Wait for PR222 exact candidate complete CI. Inspect only its failures; do not mutate candidate while pending. When green, re-fetch reviews/comments/threads, merge with expected-head protection, resolve main and refresh recovery before product work",
+  "phase": "VALIDATING",
+  "decision": "CONTINUE",
+  "operatingSystem": "POS10",
+  "filingVersion": "v1.0.0",
+  "generatedAt": "2026-09-08T06:18:27.661Z",
+  "repository": "nikahanghojjati-oss/fifa17-career-showdown2",
+  "artifactRole": "recovery-manifest",
+  "recoveryState": "RECOVERY_READY",
+  "liveFactsMustBeResolved": true,
+  "sourceFingerprint": "3212f009f9c2719d163aa55a086477290c6ba130a9f88a610d5ebd17a31a8531",
+  "supersedes": "pos10-recovery/POS10_RECOVERY_v1.0.0_2026-09-08_000008.json"
+}
