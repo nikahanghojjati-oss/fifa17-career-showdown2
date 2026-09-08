@@ -5,7 +5,8 @@
   "description": "Repository-owned stability and browser validation for Career Mode Showdown.",
   "scripts": {
     "check": "npm run test:contracts",
-    "work:transition": "node scripts/pos7-continuity.mjs",
+    "work:transition": "node scripts/pos8-crash-shield.mjs",
+    "work:crash-shield": "node scripts/pos8-crash-shield.mjs",
     "work:route": "node scripts/pos7-impact-router.mjs",
     "work:gh:bootstrap": "node scripts/bootstrap-github-cli.mjs",
     "work:relay-file": "node scripts/build-developer-relay.mjs",
