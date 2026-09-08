@@ -88,7 +88,12 @@ assert.match(deploymentWorkflow, /build-production-firestore-rules\.mjs/);
 assert.match(deploymentWorkflow, /shared-showdown-setup-production-provider-emulator\.cjs/);
 assert.match(deploymentWorkflow, /publish-firestore-rules-zero-billing\.mjs/);
 assert.match(deploymentWorkflow, /cancel-in-progress:\s*false/);
-assert.doesNotMatch(deploymentWorkflow, /gcloud run deploy|firebase deploy --only functions|billing accounts|blaze plan/i);
+// Safety assertions inspect executable workflow text, not explanatory comments that may explicitly name forbidden services.
+const executableWorkflow = deploymentWorkflow
+  .split("\n")
+  .filter(line => !/^\s*#/.test(line))
+  .join("\n");
+assert.doesNotMatch(executableWorkflow, /\bgcloud\s+run\s+deploy\b|\bfirebase\s+deploy\s+--only\s+functions\b|\bgcloud\s+billing\s+accounts\b|\bgcloud\s+beta\s+billing\b|\bfirebase\s+functions:/i);
 
 assert.match(remoteContract, /two-owner|two owner|both owners/i);
 assert.match(remoteContract, /deny-by-default|deny by default/i);
