@@ -5,14 +5,14 @@
   "liveFactsMustBeResolved": true,
   "observedHeads": {
     "main": "30251181f457d1df1ed990001de54919885eea73",
-    "candidate": "a3b9b13b7d466590f6cc927230d98cf94a799352",
-    "recovery": "a3b9b13b7d466590f6cc927230d98cf94a799352"
+    "candidate": "f8a6c52891bbbef833630b6687518270f2a96d0c",
+    "recovery": "f8a6c52891bbbef833630b6687518270f2a96d0c"
   },
   "candidateBranch": "ops/ssjr-production-evidence-automation",
   "recoveryBranch": "recovery/ssjr-production-evidence-automation",
-  "cognitiveDecision": "REGISTER_POS20_SUPPLEMENTAL_BLOCKING_TEST",
-  "selectedAction": "Register the new SSJR safe-evidence contract in a fail-closed POS20 supplemental test authority and teach the shared deterministic runner to accept exactly the POS10 floor plus registered POS20 supplements.",
+  "cognitiveDecision": "HARDEN_PRODUCTION_DENIAL_PROVENANCE",
+  "selectedAction": "Replace caller-supplied denial objects with direct production probe execution, rebuild persisted evidence from a closed schema, enforce the exact denial rule table in assembly, and load all acceptance-only denial tooling through the r6 shell authority.",
   "evidenceDebt": {"count": 1, "blocking": 1, "items": ["production-two-account-shared-setup"]},
-  "exactBlocker": "Exact head a3b9b13 selected the new test but the deterministic runner correctly rejected it because it was outside every registered blocking-test authority.",
-  "nextVerification": "Require the exact candidate census to execute 61 registered tests and emit the SSJR safe-evidence assembly PASS line, with POS20 operations proving unknown unregistered tests remain rejected."
+  "exactBlocker": "PR #224 exact head f8a6c528 passed the complete POS20 seal, but Codex review identified four unresolved P1 provenance/runtime blockers in the new negative-evidence path.",
+  "nextVerification": "Require the replacement exact head to pass the 61-contract deterministic census, full inherited proof seal, and a fresh Codex review proving caller fabrication, poisoned persisted state, invented source/code pairs, and missing acceptance runtime loading are all closed."
 }

@@ -54,6 +54,9 @@ const SHELL_PATHS = Object.freeze([
     "js/productionFirebaseRuntime.js",
     "js/ssjr.js",
     "js/ssjrProductionAcceptanceRecorder.js",
+    "js/ssjrProductionNegativeProbeRunner.js",
+    "js/ssjrProductionNegativeEvidence.js",
+    "js/stage5fProductionAuthenticatedNegatives.js",
     "js/ssjrAcceptancePolishedBridge.js",
     "js/productionSharedJourneyEntry.js",
     "js/productionSharedJourneyGuard.js",
@@ -143,7 +146,7 @@ async function findRecoveryRuntime(){
     }
     return {ok:false,available:false,cacheName:"",revision:"",expected:0,missing:[]};
 }
-function requestForShellPath(path){ return new Request(versionedShellUrl(path), { cache: "reload", credentials: "same-origin" }); }
+function requestForShellPath(path){ return new Request(versionedShellUrl(path), { cache: "reload", credentials:"same-origin" }); }
 function relativeScopePath(url){
     const scope = scopeUrl();
     if(url.origin !== scope.origin || !url.pathname.startsWith(scope.pathname)){ return ""; }
