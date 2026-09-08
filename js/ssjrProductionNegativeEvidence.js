@@ -22,43 +22,43 @@
   const HASH=/^sha256:[a-f0-9]{64}$/;
   const TOP=new Set(["schemaVersion","evidenceType","runtimeRevision","managerRole","accountFingerprint","deviceFingerprint","rivalryFingerprint","observations"]);
   const OBS=new Set(["at","status","source","code","localStorageUnchanged","provenance"]);
-  function revision(){const meta=root.document&&root.document.querySelector('meta[name="app-asset-revision"]');return meta&&meta.content?meta.content.trim():RUNTIME;}
-  function now(){return new Date().toISOString();}
-  function plain(v){return !!v&&typeof v==="object"&&!Array.isArray(v);}
-  function exact(v,keys){return plain(v)&&Object.keys(v).length===keys.size&&Object.keys(v).every(k=>keys.has(k));}
-  function fail(code,message){const e=new Error(message||code);e.code=code;throw e;}
-  function fresh(){return {schemaVersion:2,evidenceType:"SSJR-1.1-production-shared-setup-negatives-safe",runtimeRevision:revision(),managerRole:null,accountFingerprint:null,deviceFingerprint:null,rivalryFingerprint:null,observations:{}};}
-  function validHash(v){return HASH.test(String(v||""));}
-  function validObservation(name,o){const rule=RULES[name];return !!rule&&exact(o,OBS)&&o.status==="denied"&&o.source===rule.source&&rule.codes.includes(o.code)&&o.localStorageUnchanged===true&&o.provenance===PROVENANCE&&Number.isFinite(Date.parse(String(o.at||"")));}
-  function sanitize(parsed,base){
-    if(!exact(parsed,TOP)||parsed.schemaVersion!==2||parsed.evidenceType!==base.evidenceType||parsed.runtimeRevision!==base.runtimeRevision||!plain(parsed.observations))return null;
+  function ssjrNegEvidenceRevision(){const meta=root.document&&root.document.querySelector('meta[name="app-asset-revision"]');return meta&&meta.content?meta.content.trim():RUNTIME;}
+  function ssjrNegEvidenceNow(){return new Date().toISOString();}
+  function ssjrNegEvidencePlain(v){return !!v&&typeof v==="object"&&!Array.isArray(v);}
+  function ssjrNegEvidenceExact(v,keys){return ssjrNegEvidencePlain(v)&&Object.keys(v).length===keys.size&&Object.keys(v).every(k=>keys.has(k));}
+  function ssjrNegEvidenceFail(code,message){const e=new Error(message||code);e.code=code;throw e;}
+  function ssjrNegEvidenceFresh(){return {schemaVersion:2,evidenceType:"SSJR-1.1-production-shared-setup-negatives-safe",runtimeRevision:ssjrNegEvidenceRevision(),managerRole:null,accountFingerprint:null,deviceFingerprint:null,rivalryFingerprint:null,observations:{}};}
+  function ssjrNegEvidenceValidHash(v){return HASH.test(String(v||""));}
+  function ssjrNegEvidenceValidObservation(name,o){const rule=RULES[name];return !!rule&&ssjrNegEvidenceExact(o,OBS)&&o.status==="denied"&&o.source===rule.source&&rule.codes.includes(o.code)&&o.localStorageUnchanged===true&&o.provenance===PROVENANCE&&Number.isFinite(Date.parse(String(o.at||"")));}
+  function ssjrNegEvidenceSanitize(parsed,base){
+    if(!ssjrNegEvidenceExact(parsed,TOP)||parsed.schemaVersion!==2||parsed.evidenceType!==base.evidenceType||parsed.runtimeRevision!==base.runtimeRevision||!ssjrNegEvidencePlain(parsed.observations))return null;
     if(parsed.managerRole!==null&&!['playerOne','playerTwo'].includes(parsed.managerRole))return null;
-    for(const key of ["accountFingerprint","deviceFingerprint","rivalryFingerprint"])if(parsed[key]!==null&&!validHash(parsed[key]))return null;
-    const observations={};for(const [name,o] of Object.entries(parsed.observations)){if(!REQUIRED.includes(name)||!validObservation(name,o))return null;observations[name]={at:o.at,status:"denied",source:o.source,code:o.code,localStorageUnchanged:true,provenance:PROVENANCE};}
+    for(const key of ["accountFingerprint","deviceFingerprint","rivalryFingerprint"])if(parsed[key]!==null&&!ssjrNegEvidenceValidHash(parsed[key]))return null;
+    const observations={};for(const [name,o] of Object.entries(parsed.observations)){if(!REQUIRED.includes(name)||!ssjrNegEvidenceValidObservation(name,o))return null;observations[name]={at:o.at,status:"denied",source:o.source,code:o.code,localStorageUnchanged:true,provenance:PROVENANCE};}
     return {...base,managerRole:parsed.managerRole,accountFingerprint:parsed.accountFingerprint,deviceFingerprint:parsed.deviceFingerprint,rivalryFingerprint:parsed.rivalryFingerprint,observations};
   }
-  function load(){const base=fresh();try{const raw=root.sessionStorage&&root.sessionStorage.getItem(STORE_KEY);if(!raw)return base;return sanitize(JSON.parse(raw),base)||base;}catch(_e){return base;}}
-  let state=load();
-  function persist(){try{if(root.sessionStorage)root.sessionStorage.setItem(STORE_KEY,JSON.stringify(state));}catch(_e){}return state;}
-  function clear(){state=fresh();try{if(root.sessionStorage)root.sessionStorage.removeItem(STORE_KEY);}catch(_e){}return true;}
-  function bindIdentity({managerRole,accountFingerprint,deviceFingerprint,rivalryFingerprint}={}){
-    if(!['playerOne','playerTwo'].includes(managerRole))fail("SSJR_NEGATIVE_ROLE_INVALID");
-    for(const [label,value] of Object.entries({accountFingerprint,deviceFingerprint,rivalryFingerprint}))if(!validHash(value))fail("SSJR_NEGATIVE_FINGERPRINT_INVALID",`${label} must be privacy-safe sha256 evidence.`);
-    for(const [key,value] of Object.entries({managerRole,accountFingerprint,deviceFingerprint,rivalryFingerprint}))if(state[key]&&state[key]!==value)fail("SSJR_NEGATIVE_IDENTITY_CHANGED",`${key} changed during one acceptance run.`);
-    state={...state,managerRole,accountFingerprint,deviceFingerprint,rivalryFingerprint};persist();return getState();
+  function ssjrNegEvidenceLoad(){const base=ssjrNegEvidenceFresh();try{const raw=root.sessionStorage&&root.sessionStorage.getItem(STORE_KEY);if(!raw)return base;return ssjrNegEvidenceSanitize(JSON.parse(raw),base)||base;}catch(_e){return base;}}
+  let state=ssjrNegEvidenceLoad();
+  function ssjrNegEvidencePersist(){try{if(root.sessionStorage)root.sessionStorage.setItem(STORE_KEY,JSON.stringify(state));}catch(_e){}return state;}
+  function ssjrNegEvidenceClear(){state=ssjrNegEvidenceFresh();try{if(root.sessionStorage)root.sessionStorage.removeItem(STORE_KEY);}catch(_e){}return true;}
+  function ssjrNegEvidenceBindIdentity({managerRole,accountFingerprint,deviceFingerprint,rivalryFingerprint}={}){
+    if(!['playerOne','playerTwo'].includes(managerRole))ssjrNegEvidenceFail("SSJR_NEGATIVE_ROLE_INVALID");
+    for(const [label,value] of Object.entries({accountFingerprint,deviceFingerprint,rivalryFingerprint}))if(!ssjrNegEvidenceValidHash(value))ssjrNegEvidenceFail("SSJR_NEGATIVE_FINGERPRINT_INVALID",`${label} must be privacy-safe sha256 evidence.`);
+    for(const [key,value] of Object.entries({managerRole,accountFingerprint,deviceFingerprint,rivalryFingerprint}))if(state[key]&&state[key]!==value)ssjrNegEvidenceFail("SSJR_NEGATIVE_IDENTITY_CHANGED",`${key} changed during one acceptance run.`);
+    state={...state,managerRole,accountFingerprint,deviceFingerprint,rivalryFingerprint};ssjrNegEvidencePersist();return ssjrNegEvidenceGetState();
   }
-  function runner(){const api=root.CareerModeSSJRProductionNegativeProbeRunner;if(!api||api.probeContract!=="ssjr-negative-probe-runner-v1"||typeof api.run!=="function")fail("SSJR_NEGATIVE_PROBE_RUNNER_UNAVAILABLE");return api;}
-  async function runProbe(name,options={}){
-    if(!REQUIRED.includes(name))fail("SSJR_NEGATIVE_NAME_INVALID");if(revision()!==RUNTIME)fail("SSJR_NEGATIVE_RUNTIME_INVALID",`Exact runtime ${RUNTIME} is required.`);
-    if(!state.managerRole||!validHash(state.accountFingerprint)||!validHash(state.deviceFingerprint)||!validHash(state.rivalryFingerprint))fail("SSJR_NEGATIVE_IDENTITY_REQUIRED","Bind the current privacy-safe manager identity before running denials.");
-    const result=await runner().run(name,options);const rule=RULES[name];
-    if(!plain(result)||result.ok!==true||result.probeContract!=="ssjr-negative-probe-runner-v1"||result.denied!==true||result.source!==rule.source||!rule.codes.includes(result.code)||result.localStorageUnchanged!==true)fail("SSJR_NEGATIVE_PROOF_NOT_ACCEPTED",`${name} did not satisfy the direct production probe contract.`);
-    const observation=Object.freeze({at:now(),status:"denied",source:rule.source,code:String(result.code),localStorageUnchanged:true,provenance:PROVENANCE});
-    state={...state,observations:{...state.observations,[name]:observation}};persist();return observation;
+  function ssjrNegEvidenceRunner(){const api=root.CareerModeSSJRProductionNegativeProbeRunner;if(!api||api.probeContract!=="ssjr-negative-probe-runner-v1"||typeof api.run!=="function")ssjrNegEvidenceFail("SSJR_NEGATIVE_PROBE_RUNNER_UNAVAILABLE");return api;}
+  async function ssjrNegEvidenceRunProbe(name,options={}){
+    if(!REQUIRED.includes(name))ssjrNegEvidenceFail("SSJR_NEGATIVE_NAME_INVALID");if(ssjrNegEvidenceRevision()!==RUNTIME)ssjrNegEvidenceFail("SSJR_NEGATIVE_RUNTIME_INVALID",`Exact runtime ${RUNTIME} is required.`);
+    if(!state.managerRole||!ssjrNegEvidenceValidHash(state.accountFingerprint)||!ssjrNegEvidenceValidHash(state.deviceFingerprint)||!ssjrNegEvidenceValidHash(state.rivalryFingerprint))ssjrNegEvidenceFail("SSJR_NEGATIVE_IDENTITY_REQUIRED","Bind the current privacy-safe manager identity before running denials.");
+    const result=await ssjrNegEvidenceRunner().run(name,options);const rule=RULES[name];
+    if(!ssjrNegEvidencePlain(result)||result.ok!==true||result.probeContract!=="ssjr-negative-probe-runner-v1"||result.denied!==true||result.source!==rule.source||!rule.codes.includes(result.code)||result.localStorageUnchanged!==true)ssjrNegEvidenceFail("SSJR_NEGATIVE_PROOF_NOT_ACCEPTED",`${name} did not satisfy the direct production probe contract.`);
+    const observation=Object.freeze({at:ssjrNegEvidenceNow(),status:"denied",source:rule.source,code:String(result.code),localStorageUnchanged:true,provenance:PROVENANCE});
+    state={...state,observations:{...state.observations,[name]:observation}};ssjrNegEvidencePersist();return observation;
   }
-  function getNegatives(){return Object.freeze(Object.fromEntries(REQUIRED.map(name=>[name,state.observations[name]?.status==="denied"?"denied":null])));}
-  function complete(){return REQUIRED.every(name=>validObservation(name,state.observations[name]));}
-  function getBundle(){if(!complete())fail("SSJR_NEGATIVE_EVIDENCE_INCOMPLETE","All eight required production denials must be directly observed before export.");return Object.freeze(JSON.parse(JSON.stringify(state)));}
-  function getState(){return Object.freeze({feature:FEATURE,runtimeRevision:state.runtimeRevision,managerRole:state.managerRole,complete:complete(),completedCount:REQUIRED.filter(name=>validObservation(name,state.observations[name])).length,requiredCount:REQUIRED.length,negatives:getNegatives()});}
-  return Object.freeze({contractVersion:2,feature:FEATURE,requiredNegatives:REQUIRED,rules:RULES,provenance:PROVENANCE,rawAuthorityPersistence:false,canonicalStorageMutation:false,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,appCheckEnforcementRequired:false,bindIdentity,runProbe,getNegatives,getBundle,getState,clear});
+  function ssjrNegEvidenceGetNegatives(){return Object.freeze(Object.fromEntries(REQUIRED.map(name=>[name,state.observations[name]?.status==="denied"?"denied":null])));}
+  function ssjrNegEvidenceComplete(){return REQUIRED.every(name=>ssjrNegEvidenceValidObservation(name,state.observations[name]));}
+  function ssjrNegEvidenceGetBundle(){if(!ssjrNegEvidenceComplete())ssjrNegEvidenceFail("SSJR_NEGATIVE_EVIDENCE_INCOMPLETE","All eight required production denials must be directly observed before export.");return Object.freeze(JSON.parse(JSON.stringify(state)));}
+  function ssjrNegEvidenceGetState(){return Object.freeze({feature:FEATURE,runtimeRevision:state.runtimeRevision,managerRole:state.managerRole,complete:ssjrNegEvidenceComplete(),completedCount:REQUIRED.filter(name=>ssjrNegEvidenceValidObservation(name,state.observations[name])).length,requiredCount:REQUIRED.length,negatives:ssjrNegEvidenceGetNegatives()});}
+  return Object.freeze({contractVersion:2,feature:FEATURE,requiredNegatives:REQUIRED,rules:RULES,provenance:PROVENANCE,rawAuthorityPersistence:false,canonicalStorageMutation:false,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,appCheckEnforcementRequired:false,bindIdentity:ssjrNegEvidenceBindIdentity,runProbe:ssjrNegEvidenceRunProbe,getNegatives:ssjrNegEvidenceGetNegatives,getBundle:ssjrNegEvidenceGetBundle,getState:ssjrNegEvidenceGetState,clear:ssjrNegEvidenceClear});
 });

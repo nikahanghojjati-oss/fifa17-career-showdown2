@@ -5,14 +5,14 @@
   "liveFactsMustBeResolved": true,
   "observedHeads": {
     "main": "30251181f457d1df1ed990001de54919885eea73",
-    "candidate": "388adf2d8250a3bf815932e77702d549f781ebea",
-    "recovery": "388adf2d8250a3bf815932e77702d549f781ebea"
+    "candidate": "e631fd5b63deb793f5228f3b8807e0a41e79db69",
+    "recovery": "e631fd5b63deb793f5228f3b8807e0a41e79db69"
   },
   "candidateBranch": "ops/ssjr-production-evidence-automation",
   "recoveryBranch": "recovery/ssjr-production-evidence-automation",
-  "cognitiveDecision": "CORRECT_STATIC_RELEASE_NAMESPACE",
-  "selectedAction": "Keep the direct-production-probe provenance design unchanged while removing ordinary-module localStorage ownership and namespacing the probe runner helpers to satisfy the static release authority.",
+  "cognitiveDecision": "NAMESPACE_NEGATIVE_EVIDENCE_HELPERS",
+  "selectedAction": "Preserve the direct-production-probe evidence design while namespacing every ledger helper so the release-wide duplicate-function contract remains exact and fail-closed.",
   "evidenceDebt": {"count": 1, "blocking": 1, "items": ["production-two-account-shared-setup"]},
-  "exactBlocker": "Exact head 388adf2d passed the hardened SSJR provenance contract but STATIC_APP_RELEASE rejected the new probe runner because it named localStorage directly as an ordinary module.",
-  "nextVerification": "Require the replacement exact head to pass STATIC_APP_RELEASE, all 61 deterministic contracts including the hardened SSJR evidence contract, the complete POS20 proof matrix, and a fresh after-resolution Codex review."
+  "exactBlocker": "Exact head e631fd5 cleared ordinary-module localStorage ownership but STATIC_APP_RELEASE exposed five generic helper-name collisions inside the negative-evidence ledger.",
+  "nextVerification": "Require the replacement exact head to pass STATIC_APP_RELEASE, all 61 deterministic contracts including direct-probe provenance hardening, every inherited POS20 proof lane, and a fresh after-resolution Codex review."
 }
