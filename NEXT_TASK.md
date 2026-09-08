@@ -1,56 +1,51 @@
-# CURRENT TASK — POS-3 PR215 CONVERGENCE, THEN SHARED SETUP
+# CURRENT TASK — POS-4 FAILURE-RESISTANT OPERATIONS, THEN SHARED SETUP
 
-`PROJECT_OPERATING_SYSTEM_V3.md` governs process. `CURRENT_PRODUCT_GUARDS.json` governs stable product/safety invariants. Current verified source and live GitHub/provider/deployment evidence override recorded SHAs and historical handoffs.
+`PROJECT_OPERATING_SYSTEM_V4.md` governs project process. `CURRENT_PRODUCT_GUARDS.json` governs stable product and safety invariants. Live GitHub, provider and deployed evidence override recorded state and historical handoffs.
 
-Active pull request: PR #215 on `fix/pr214-postmerge-dual-screen-contract`.
-Production authority remains `v1.9.1 / 1.9.1-r5` until a later exact merge/deployment boundary is independently proven.
-Release candidate remains `v1.9.1 / 1.9.1-r6`.
+PR #215 is merged. Exact main publication boundary: `72b44278013870e7607b9b0083e52fdff8145a37`.
+Production authority remains `v1.9.1 / 1.9.1-r5` until exact-main Stability including Chromium and deployed-site smoke, GitHub Pages r6 deployment, and Release Integration Burn-In all complete successfully on that boundary. Do not infer r6 production authority from PR-head green evidence.
 
-RJR-1 is complete/frozen 100/100 historical evidence. Do not spend current development revalidating its score, publication narration or old milestone routing unless a still-used shipped capability has a demonstrated regression.
+The POS-4 implementation branch is `ops/pos4-failure-resistant`, created directly from that exact main boundary. POS-4 changes must stay isolated from the in-flight r6 publication proof.
 
-The active product target is SSJR-1.1. MDP-1 remains the current engineering lifecycle tracker until the separately reviewed MDP-2 migration is activated.
+RJR-1 remains frozen completed 100/100 evidence. SSJR-1.1 remains the current product-readiness metric. MDP-1 remains the current engineering-lifecycle metric until an explicit reviewed MDP-2 migration is activated.
 
 ## Immediate next task
 
-1. Resolve the exact current PR #215 head, required checks and review/thread state. Never combine evidence across heads.
-2. Run the POS-3 current product suite and only the specialist checks justified by the changed risk domains.
-3. For any red result, inspect the exact failure:
-   - fix/strengthen it when it protects runtime behavior, UI/UX, data/storage, synchronization, recovery, security/auth, privacy, provider/billing safety, executable schema/API authority, current evidence validity or release correctness;
-   - move it out of blocking product CI when it protects only old PR numbers, completed milestone narration, handoff formatting, exact workflow topology, old provider run IDs or historical wording.
-4. Run `npm run test:ops` when POS-3/TDS-1/RCP-1 tooling changes. Historical and dormant suites are manual audits, not product-release prerequisites.
-5. When all meaningful required current product/security/release checks are green on one exact reviewed head, merge PR #215 with expected-head protection.
-6. Verify the post-merge r6 boundary with canonical Stability browser/deployed proof and release integration proof. Do not manufacture a continuity-only publication cycle after green product evidence.
-7. If r6 Shared Setup product integration is proven, update MDP only for lifecycle exits actually satisfied.
-8. Conduct the minimum unavoidable genuine two-account Shared Setup acceptance and recalculate SSJR only from accepted sanitized production evidence.
-9. Continue directly into the next unfinished SSJR capabilities according to the current dependency graph.
+1. Independently finish exact-main r6 publication verification for `72b44278013870e7607b9b0083e52fdff8145a37`: all relevant main-push families, Stability contracts, Chromium, deployed-site smoke, Pages, and Release Integration Burn-In. Never combine evidence across heads.
+2. On `ops/pos4-failure-resistant`, land one atomic POS-4 operating-system batch implementing RB-1, TDS-2, ADB-3, FC-1, GP-1 and RCP-2. Do not split this operating-system migration into a sequence of tiny CI-triggering commits.
+3. Run the small POS-4 operations audit and the complete FC-1 current-product census. GP-1 must detect actual process-authority imports, not harmless explanatory mentions.
+4. For the entire failure census, classify failures before editing: PRODUCT_DEFECT, TEST_DEFECT, PROCESS_DRIFT, DORMANT_PROVENANCE, INFRA_FLAKE or UNKNOWN. Batch coherent corrections where safe instead of one-failure-per-fanout iteration.
+5. Keep real product/security/recovery/UI/UX/data/provider/release regressions blocking. Remove, update or archive only administrative, superseded or duplicate blockers whose current invariant has a stronger direct owner.
+6. Open one focused POS-4 PR. Put RB-1 only in PR metadata/body; never commit the beacon or create a continuity-only PR.
+7. After exact-head POS-4 product/operations validation is green and reviewed, merge with expected-head protection. Do not require a separate SNS/SLE/WEC publication cycle.
+8. Once r6 itself is independently production-proven, resume genuine Shared Setup product/evidence progress. Update MDP only for lifecycle exit rules actually satisfied and recalculate SSJR only from accepted genuine two-account production evidence.
+9. Continue directly into the next unfinished SSJR product capability after Shared Setup according to the current dependency graph.
 
-## Testing lanes
+## POS-4 testing lanes
 
-- `npm run test:contracts`: blocking current product contracts from `CURRENT_PRODUCT_TEST_MANIFEST.json`.
-- `npm run test:ops`: small non-product POS-3/TDS/RCP self-test when operating tooling changes.
-- `npm run test:legacy-provenance`: manual historical/provenance audit.
-- `npm run test:dormant-architecture`: manual dormant/rejected architecture audit.
-- `npm run test:contracts:all`: deliberate full audit only, not the normal development loop.
+- `npm run test:contracts`: FC-1 complete current-product failure census. It runs all independent blocking contracts before returning nonzero.
+- `npm run test:ops`: small POS-4 operations and gate-purity self-test when operating tooling changes.
+- `npm run test:legacy-provenance`: manual historical/provenance audit only.
+- `npm run test:dormant-architecture`: manual rejected/superseded architecture audit only.
+- `npm run test:contracts:all`: deliberate full historical/operations/product audit only, not the normal product loop.
 
-Stability owns the complete current product suite once. Static App and specialist workflows stay focused. Exact workflow counts and exact YAML topology are not product gates.
+Stability owns the complete current-product census once. Static App and specialist workflows remain focused. Exact workflow counts, old PR/run IDs, completed milestone wording and handoff prose are not product gates.
 
-## Anti-spiral and transfer
+## Interruption resilience and transfer
 
-ADB-2 is the current adaptive failed correction/validation budget. It uses unresolved failure breadth, unresolved state, actual failed correction cycles and context damage/reconstruction. It does not use elapsed time, message/tool counts, successful reads or commit count.
+RB-1 is the non-Git Recovery Beacon stored in active PR metadata. Refresh it at coherent safe checkpoints without changing the code head or launching CI.
 
-TDS-1 is the only normal session-transfer signal:
-- `CONTINUE`
-- `CHECKPOINT_SOON`
-- `FINISH_ATOMIC_THEN_TRANSFER`
-- `TRANSFER_NOW`
+TDS-2 has only three transfer states: `CONTINUE`, `TRANSFER_AFTER_ATOMIC`, `TRANSFER_NOW`. There is no handoff percentage. The owner does not need to ask for SNS during normal work.
 
-There is no handoff percentage. The owner does not need to ask for SNS during normal work. If the platform shows a usage warning the assistant cannot see, the owner reports it once; that is a hard transfer trigger at the next safe boundary.
+ADB-3 is the failure-aware adaptive 3-to-20 correction budget. Diagnosis, polling, successful reads and unreproduced infrastructure flakes do not consume an attempt.
 
-RCP-1 Resume Capsule replaces new SNS/SLE/VTLS transfer packaging. Generate one external capsule only at a real transfer. Do not commit a capsule or open a continuity-only PR merely to publish it.
+RCP-2 is a single external Resume Capsule generated only at a real transfer. Never commit it and never open a continuity-only PR merely to publish it.
+
+If the ChatGPT UI shows a usage warning the assistant cannot see, the owner reports it once. That is a hard TDS-2 transfer trigger at the next safe atomic boundary.
 
 ## Permanent product locks
 
-Billing remains OFF and Firebase remains Spark. Never enable Blaze, Cloud Billing/account linkage, Cloud Run or Cloud Functions. App Check enforcement remains OFF. Firestore browser persistence remains memory-only. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes.
+Billing remains permanently OFF and Firebase remains Spark. Never enable Blaze, Cloud Billing/account linkage, Cloud Run or Cloud Functions. App Check enforcement remains OFF. Firestore browser persistence remains memory-only. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes.
 
 Exactly two private managers. Connected Rivalry pairing plus exact ACTIVE precedes league or club authority. Candidate C remains the sole destructive remote-to-local gameplay Apply authority with exact transaction-owned rollback.
 

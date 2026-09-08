@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "operatingSystem": "POS-4",
+  "status": "current",
+  "purpose": "Failure-resistant product delivery with non-mutating recovery, complete failure census and pure behavior-based gates.",
+  "startupLoadSet": ["PROJECT_OPERATING_SYSTEM_V4.md", "CURRENT_PRODUCT_GUARDS.json", "NEXT_TASK.md", "ACTIVE_PR_RECOVERY_BEACON_IF_PRESENT"],
+  "metrics": {
+    "SSJR-1.1": "ACTIVE_PRODUCT_ACCEPTANCE",
+    "MDP-1": "ACTIVE_ENGINEERING_MATURITY_PENDING_REVIEWED_MDP2_MIGRATION",
+    "RJR-1": "FROZEN_HISTORICAL_100"
+  },
+  "continuity": {
+    "recoveryBeacon": "RB-1",
+    "transferDecision": "TDS-2",
+    "resumeCapsule": "RCP-2",
+    "percentageScore": false,
+    "repositoryMutationRequiredForRecovery": false,
+    "continuityOnlyPullRequestAllowed": false
+  },
+  "debugging": {
+    "adaptiveBudget": "ADB-3",
+    "minAttempts": 3,
+    "maxAttempts": 20,
+    "infraFlakeConsumesAttemptBeforeReproduction": false,
+    "failureClasses": ["PRODUCT_DEFECT", "TEST_DEFECT", "PROCESS_DRIFT", "DORMANT_PROVENANCE", "INFRA_FLAKE", "UNKNOWN"]
+  },
+  "testing": {
+    "failureCensus": "FC-1",
+    "gatePurity": "GP-1",
+    "repositoryRunnerCollectsAllIndependentFailures": true,
+    "historicalNarrationMayBlockProductCI": false,
+    "safetyCommentsMayTriggerForbiddenBehaviorRegex": false,
+    "stabilityOwnsFullCurrentProductSuite": true,
+    "specialistsRunFocusedRiskOnly": true,
+    "dormantArchitectureAutomaticCI": false
+  },
+  "legacy": {
+    "SHP": "RETIRED",
+    "HTR-1": "RETIRED_SCORE",
+    "WEC": "HISTORICAL_ONLY",
+    "SLE": "NONBLOCKING_PRINCIPLE",
+    "SNS": "SUPERSEDED_BY_RB1_RCP2",
+    "POS-2": "HISTORICAL",
+    "POS-3": "HISTORICAL"
+  }
+}
