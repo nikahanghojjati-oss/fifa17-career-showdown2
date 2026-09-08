@@ -32,7 +32,8 @@
     "proofRunner": "scripts/pos10-proof-runner.mjs",
     "recovery": "scripts/pos10-recovery.mjs",
     "publication": "scripts/pos10-publication.mjs",
-    "responseContract": "POS10_RESPONSE_CONTRACT.json"
+    "responseContract": "POS10_RESPONSE_CONTRACT.json",
+    "productBaseline": "POS10_PRODUCT_BASELINE.json"
   },
   "afterVerifiedMerge": "Immediately resume production two-account Shared Setup evidence and the next unfinished Shared Showdown Journey product dependency.",
   "activeStartupSurfaces": [

@@ -9,7 +9,7 @@ const proofToBundle = new Map();
 for(const [bundle,ids] of Object.entries(graph.proofBundles)) for(const id of ids) proofToBundle.set(id,bundle);
 const groupFor = id => graph.proofBundleGroups[proofToBundle.get(id)];
 const commands = {
-  JS_SYNTAX: `find js data tests scripts -type f \\( -name '*.js' -o -name '*.cjs' -o -name '*.mjs' \\) -print0 | xargs -0 -n1 node --check`,
+  JS_SYNTAX: `node scripts/pos10-syntax.mjs`,
   STATIC_APP_RELEASE: `node tests/contracts/static-app-release-contracts.cjs`,
   SPARK_ACCOUNT_BOOTSTRAP_EMULATOR: `npm install --no-save --package-lock=false --ignore-scripts firebase@12.17.1 @firebase/rules-unit-testing@5.0.1 firebase-tools@15.27.0 && npx --no-install firebase emulators:exec --project demo-career-mode-showdown-phase1f --only firestore "node tests/firebase/spark-account-bootstrap-emulator.cjs"`,
   STAGE3_PRIVATE_PAIRING_BROWSER: `node tests/browser/stage3-private-pairing-audit.cjs`,

@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
-import {assessRecovery,checkPackage,git,filingVersion,operatingSystem} from './pos10-recovery.mjs';
+import {assessRecovery,checkPackage,checkLiveFacts,git,filingVersion,operatingSystem} from './pos10-recovery.mjs';
 import {routeFiles} from './pos10-impact-router.mjs';
 
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
@@ -59,12 +59,17 @@ if(process.argv[1] && path.resolve(process.argv[1])===fileURLToPath(import.meta.
     const refs=Object.fromEntries(output.split('\n').map(line=>{const [head,ref]=line.split(/\s+/);return [ref,head];}));
     const main=refs['refs/heads/main'],candidate=refs[`refs/heads/${manifest.candidateBranch}`],recovery=refs[`refs/heads/${manifest.recoveryBranch}`];
     ensure(main && candidate && recovery,'Required live refs unavailable');
+    ensure(checkLiveFacts(packet,{main,candidate}).recoveryState==='RECOVERY_READY','Live transaction facts changed; refresh recovery before publication');
     ensure(input.liveState.candidateHead===candidate && input.liveState.recoveryHead===recovery,'Live heads moved; reconcile before publication');
     ensure(input.liveState.recoveryBranches.length===1 && input.liveState.recoveryBranches[0]===manifest.recoveryBranch,'The indexed recovery branch is the only active recovery locator');
     ensure(git(root,['merge-base',candidate,recovery])===candidate,'Recovery must descend from unchanged candidate');
     ensure(git(root,['status','--porcelain'])==='','Publication requires a clean durable checkout');
     const target=input.action==='MERGE'?candidate:recovery;
-    ensure(git(root,['rev-parse','HEAD'])===target,'Local validation checkout must equal the requested exact target');
+    if(input.action==='PROMOTE')ensure(git(root,['rev-parse','HEAD'])===target,'Local targeted-validation checkout must equal the exact recovery target');
+    else {
+      const localChanges=git(root,['diff','--name-only',candidate,'HEAD']).split('\n').filter(Boolean);
+      ensure(localChanges.every(file=>file==='POS10_CURRENT_FILE_INDEX.json'||file.startsWith('pos10-recovery/')),'Merge checkout differs from candidate beyond recovery metadata');
+    }
     ensure(git(root,['merge-base',main,target])===main,'Main advanced outside this candidate; reconcile and validate before publication');
     if(input.action==='PROMOTE')ensure(input.targetedValidation.sourceFingerprint===manifest.sourceFingerprint,'Targeted proof source differs from current checkpoint');
     const changed=git(root,['diff','--name-only',main,target]).split('\n').filter(Boolean);

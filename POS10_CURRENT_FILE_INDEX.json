@@ -1,17 +1,17 @@
 {
   "operatingSystem": "POS10",
   "filingVersion": "v1.0.0",
-  "generatedAt": "2026-09-08T06:02:38.948Z",
+  "generatedAt": "2026-09-08T06:15:36.295Z",
   "repository": "nikahanghojjati-oss/fifa17-career-showdown2",
   "artifactRole": "current-file-index",
   "liveFactsMustBeResolved": true,
   "recoveryState": "RECOVERY_READY",
-  "nextExactAction": "Build POS10 operations regression tests for recovery, freshness, privacy, authority isolation, routing and protected publication; collect local failures and correct only real defects",
+  "nextExactAction": "Install locked test dependencies, finish available local proof, revalidate the durable target, promote once and require full exact-head CI; refresh recovery after candidate movement",
   "decision": "CONTINUE",
   "currentAuthority": "PROJECT_OPERATING_SYSTEM_POS10.json",
   "currentProductTask": "NEXT_TASK.md",
-  "currentRecoveryManifest": "pos10-recovery/POS10_RECOVERY_v1.0.0_2026-09-08_000003.json",
-  "currentSuccessor": "pos10-recovery/START_NEXT_DEVELOPER_POS10_TRANSFER_v1.0.0_2026-09-08_000003.md",
+  "currentRecoveryManifest": "pos10-recovery/POS10_RECOVERY_v1.0.0_2026-09-08_000008.json",
+  "currentSuccessor": "pos10-recovery/START_NEXT_DEVELOPER_POS10_TRANSFER_v1.0.0_2026-09-08_000008.md",
   "artifacts": [
     {
       "path": "pos10-recovery/POS10_RECOVERY_v1.0.0_2026-09-08_000001.json",
@@ -44,16 +44,86 @@
     {
       "path": "pos10-recovery/POS10_RECOVERY_v1.0.0_2026-09-08_000003.json",
       "role": "recovery-manifest",
-      "status": "active",
+      "status": "historical",
       "sha256": "e962d85e447d8ed8d23eaf81a84db53e7850229ed65c9c679c7940c87800c346",
       "supersedes": "pos10-recovery/POS10_RECOVERY_v1.0.0_2026-09-08_000002.json"
     },
     {
       "path": "pos10-recovery/START_NEXT_DEVELOPER_POS10_TRANSFER_v1.0.0_2026-09-08_000003.md",
       "role": "successor-transfer",
-      "status": "active",
+      "status": "historical",
       "sha256": "c385c79534e90d4bf258c5cb8b34f808572315c24ae866396408cc799dbd15ec",
       "supersedes": "pos10-recovery/START_NEXT_DEVELOPER_POS10_TRANSFER_v1.0.0_2026-09-08_000002.md"
+    },
+    {
+      "path": "pos10-recovery/POS10_RECOVERY_v1.0.0_2026-09-08_000004.json",
+      "role": "recovery-manifest",
+      "status": "historical",
+      "sha256": "372f2c8a1356592bc7c220d7ea3c2af93ff45cd040a07045d9645df002aa4846",
+      "supersedes": "pos10-recovery/POS10_RECOVERY_v1.0.0_2026-09-08_000003.json"
+    },
+    {
+      "path": "pos10-recovery/START_NEXT_DEVELOPER_POS10_TRANSFER_v1.0.0_2026-09-08_000004.md",
+      "role": "successor-transfer",
+      "status": "historical",
+      "sha256": "b3d38e8659417f675d3f282475f165a72f6b2b262e79380eebf3c7f7d0ed8035",
+      "supersedes": "pos10-recovery/START_NEXT_DEVELOPER_POS10_TRANSFER_v1.0.0_2026-09-08_000003.md"
+    },
+    {
+      "path": "pos10-recovery/POS10_RECOVERY_v1.0.0_2026-09-08_000005.json",
+      "role": "recovery-manifest",
+      "status": "historical",
+      "sha256": "4a9e17d311b1b2c8849a66374ff7b476d196eed1c4096b91ab8bb15c1faa2fd9",
+      "supersedes": "pos10-recovery/POS10_RECOVERY_v1.0.0_2026-09-08_000004.json"
+    },
+    {
+      "path": "pos10-recovery/START_NEXT_DEVELOPER_POS10_TRANSFER_v1.0.0_2026-09-08_000005.md",
+      "role": "successor-transfer",
+      "status": "historical",
+      "sha256": "e551a25f72bb4605474a20d343625ccee20a576c0965bcdc391f3a76889bd12a",
+      "supersedes": "pos10-recovery/START_NEXT_DEVELOPER_POS10_TRANSFER_v1.0.0_2026-09-08_000004.md"
+    },
+    {
+      "path": "pos10-recovery/POS10_RECOVERY_v1.0.0_2026-09-08_000006.json",
+      "role": "recovery-manifest",
+      "status": "historical",
+      "sha256": "d23090b91b821a3fa88f3e59582ed7f933582ce4686afa9f1f2b657fb6eeabe4",
+      "supersedes": "pos10-recovery/POS10_RECOVERY_v1.0.0_2026-09-08_000005.json"
+    },
+    {
+      "path": "pos10-recovery/START_NEXT_DEVELOPER_POS10_TRANSFER_v1.0.0_2026-09-08_000006.md",
+      "role": "successor-transfer",
+      "status": "historical",
+      "sha256": "158da122dd9f070f07da3d1555e9423d1cfc15a24d0bd8c05dec4e7f303bd9ea",
+      "supersedes": "pos10-recovery/START_NEXT_DEVELOPER_POS10_TRANSFER_v1.0.0_2026-09-08_000005.md"
+    },
+    {
+      "path": "pos10-recovery/POS10_RECOVERY_v1.0.0_2026-09-08_000007.json",
+      "role": "recovery-manifest",
+      "status": "historical",
+      "sha256": "a8bf2a6e96c0c8f3bbc135e2526b3d254b97f7a315eac6b8580b02e315a17c57",
+      "supersedes": "pos10-recovery/POS10_RECOVERY_v1.0.0_2026-09-08_000006.json"
+    },
+    {
+      "path": "pos10-recovery/START_NEXT_DEVELOPER_POS10_TRANSFER_v1.0.0_2026-09-08_000007.md",
+      "role": "successor-transfer",
+      "status": "historical",
+      "sha256": "636c74e2b955837c641f092bbed826e18bab2436a1cdf03d179389a1bf66bbd1",
+      "supersedes": "pos10-recovery/START_NEXT_DEVELOPER_POS10_TRANSFER_v1.0.0_2026-09-08_000006.md"
+    },
+    {
+      "path": "pos10-recovery/POS10_RECOVERY_v1.0.0_2026-09-08_000008.json",
+      "role": "recovery-manifest",
+      "status": "active",
+      "sha256": "ad5f895f2907c2c7a5962edd5ffda6a58fcb7b5c7738129e802160b6895072fe",
+      "supersedes": "pos10-recovery/POS10_RECOVERY_v1.0.0_2026-09-08_000007.json"
+    },
+    {
+      "path": "pos10-recovery/START_NEXT_DEVELOPER_POS10_TRANSFER_v1.0.0_2026-09-08_000008.md",
+      "role": "successor-transfer",
+      "status": "active",
+      "sha256": "e5993e2a1de2d033225b8e081fdfc1c33e27240996eb877bc754be88394c1fef",
+      "supersedes": "pos10-recovery/START_NEXT_DEVELOPER_POS10_TRANSFER_v1.0.0_2026-09-08_000007.md"
     }
   ]
 }
