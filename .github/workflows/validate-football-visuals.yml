@@ -3,7 +3,31 @@ name: Validate Licensed Football Visuals
 on:
   push:
     branches: [main]
+    paths-ignore:
+      - "PROJECT_OPERATING_SYSTEM_V5.md"
+      - "PROJECT_OPERATING_SYSTEM_V5.json"
+      - "NEXT_TASK.md"
+      - "CURRENT_PRODUCT_TEST_MANIFEST.json"
+      - "scripts/pos5-*.mjs"
+      - "scripts/build-developer-relay-file.mjs"
+      - "scripts/build-recovery-beacon.mjs"
+      - "tests/contracts/pos5-*.cjs"
+      - "tests/contracts/project-operating-system-v5-contracts.cjs"
+      - "tests/support/run-operations-audit.cjs"
+      - "tests/support/run-current-product-contracts.cjs"
   pull_request:
+    paths-ignore:
+      - "PROJECT_OPERATING_SYSTEM_V5.md"
+      - "PROJECT_OPERATING_SYSTEM_V5.json"
+      - "NEXT_TASK.md"
+      - "CURRENT_PRODUCT_TEST_MANIFEST.json"
+      - "scripts/pos5-*.mjs"
+      - "scripts/build-developer-relay-file.mjs"
+      - "scripts/build-recovery-beacon.mjs"
+      - "tests/contracts/pos5-*.cjs"
+      - "tests/contracts/project-operating-system-v5-contracts.cjs"
+      - "tests/support/run-operations-audit.cjs"
+      - "tests/support/run-current-product-contracts.cjs"
   workflow_dispatch:
 
 permissions:

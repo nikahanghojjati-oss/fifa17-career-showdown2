@@ -1,13 +1,30 @@
-name: Validate Static App
+name: Validate POS5 Operations
 
 on:
+  pull_request:
+    paths:
+      - "PROJECT_OPERATING_SYSTEM_V5.md"
+      - "PROJECT_OPERATING_SYSTEM_V5.json"
+      - "NEXT_TASK.md"
+      - "CURRENT_PRODUCT_TEST_MANIFEST.json"
+      - "package.json"
+      - "scripts/pos5-*.mjs"
+      - "scripts/build-developer-relay-file.mjs"
+      - "scripts/build-recovery-beacon.mjs"
+      - "tests/contracts/pos5-*.cjs"
+      - "tests/contracts/project-operating-system-v5-contracts.cjs"
+      - "tests/support/run-operations-audit.cjs"
+      - "tests/support/run-current-product-contracts.cjs"
+      - "tests/support/run-pos5-product-suite.cjs"
+      - ".github/workflows/validate-pos5-operations.yml"
   push:
     branches: [main]
-    paths-ignore:
+    paths:
       - "PROJECT_OPERATING_SYSTEM_V5.md"
       - "PROJECT_OPERATING_SYSTEM_V5.json"
       - "NEXT_TASK.md"
       - "CURRENT_PRODUCT_TEST_MANIFEST.json"
+      - "package.json"
       - "scripts/pos5-*.mjs"
       - "scripts/build-developer-relay-file.mjs"
       - "scripts/build-recovery-beacon.mjs"
@@ -15,58 +32,27 @@ on:
       - "tests/contracts/project-operating-system-v5-contracts.cjs"
       - "tests/support/run-operations-audit.cjs"
       - "tests/support/run-current-product-contracts.cjs"
-  pull_request:
-    paths-ignore:
-      - "PROJECT_OPERATING_SYSTEM_V5.md"
-      - "PROJECT_OPERATING_SYSTEM_V5.json"
-      - "NEXT_TASK.md"
-      - "CURRENT_PRODUCT_TEST_MANIFEST.json"
-      - "scripts/pos5-*.mjs"
-      - "scripts/build-developer-relay-file.mjs"
-      - "scripts/build-recovery-beacon.mjs"
-      - "tests/contracts/pos5-*.cjs"
-      - "tests/contracts/project-operating-system-v5-contracts.cjs"
-      - "tests/support/run-operations-audit.cjs"
-      - "tests/support/run-current-product-contracts.cjs"
+      - "tests/support/run-pos5-product-suite.cjs"
+      - ".github/workflows/validate-pos5-operations.yml"
+  workflow_dispatch:
 
 permissions:
   contents: read
 
-jobs:
-  validate:
-    runs-on: ubuntu-latest
-    timeout-minutes: 7
+concurrency:
+  group: pos5-operations-${{ github.event.pull_request.number || github.ref_name }}
+  cancel-in-progress: ${{ github.run_attempt == 1 && github.event_name != 'workflow_dispatch' }}
 
+jobs:
+  operations-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
     steps:
       - name: Check out repository
         uses: actions/checkout@v5
-
       - name: Set up Node.js
         uses: actions/setup-node@v5
         with:
           node-version: 24
-
-      - name: Set up Java 21 for Firebase Emulator
-        uses: actions/setup-java@v5
-        with:
-          distribution: temurin
-          java-version: '21'
-
-      - name: Validate JavaScript syntax
-        shell: bash
-        run: |
-          set -euo pipefail
-          find js data tests scripts -type f \( -name '*.js' -o -name '*.cjs' -o -name '*.mjs' \) -print0 | xargs -0 -n1 node --check
-
-      - name: Validate dynamic static release architecture
-        shell: bash
-        run: |
-          set -euo pipefail
-          node tests/contracts/static-app-release-contracts.cjs
-
-      - name: Validate current Spark account and Rules boundary
-        shell: bash
-        run: |
-          set -euo pipefail
-          npm install --no-save --package-lock=false --ignore-scripts firebase@12.17.1 @firebase/rules-unit-testing@5.0.1 firebase-tools@15.27.0
-          npx --no-install firebase emulators:exec --project demo-career-mode-showdown-phase1f --only firestore "node tests/firebase/spark-account-bootstrap-emulator.cjs"
+      - name: Validate POS5 policy, transition, relay, risk routing and gate purity
+        run: npm run test:ops

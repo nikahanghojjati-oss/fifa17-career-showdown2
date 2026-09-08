@@ -11,11 +11,10 @@ function canonical(value){
   if(value && typeof value === "object") return `{${Object.keys(value).sort().map(key => `${JSON.stringify(key)}:${canonical(value[key])}`).join(",")}}`;
   return JSON.stringify(value);
 }
-export function assessSharedShowdown(model, ledger, rjr){
+export function assessSharedShowdown(model, ledger){
   const fingerprint = crypto.createHash("sha256").update(canonical(model)).digest("hex");
   requireCondition(fingerprint === SSJR1_MODEL_SHA256 && ledger.modelSha256 === fingerprint, "Frozen SSJR-1.1 definition changed; create a separately backcast model version.");
   requireCondition(model.modelVersion === "SSJR-1.1" && ledger.modelVersion === "SSJR-1.1" && model.denominator === 100 && ledger.denominator === 100, "SSJR-1.1 identity or denominator changed.");
-  requireCondition(rjr.modelVersion === "RJR-1" && rjr.currentScore === 100, "Completed RJR-1 prerequisite must be verified before reporting SSJR credit.");
   const capabilities = new Map(model.domains.flatMap(domain => domain.capabilities.map(capability => [capability.id, {...capability, domainId:domain.id}])));
   requireCondition(capabilities.size === model.domains.reduce((sum, domain) => sum + domain.capabilities.length, 0), "Duplicate capability definition.");
   requireCondition(model.domains.reduce((sum, domain) => sum + domain.weight, 0) === 100, "Domain weights must total 100.");
@@ -74,6 +73,6 @@ export function assessSharedShowdown(model, ledger, rjr){
 
 if(process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)){
   const read = name => JSON.parse(fs.readFileSync(name, "utf8"));
-  const result = assessSharedShowdown(read("SHARED_SHOWDOWN_JOURNEY_MODEL.json"), read("SHARED_SHOWDOWN_JOURNEY_READINESS.json"), read("REMOTE_JOINING_READINESS.json"));
+  const result = assessSharedShowdown(read("SHARED_SHOWDOWN_JOURNEY_MODEL.json"), read("SHARED_SHOWDOWN_JOURNEY_READINESS.json"));
   console.log(JSON.stringify(result, null, 2));
 }

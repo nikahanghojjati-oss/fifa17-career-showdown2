@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "operatingSystem": "POS-5",
+  "status": "current-after-reviewed-merge",
+  "purpose": "Lean product delivery with pure gates, risk-routed validation, complete failure census, hypothesis-bounded debugging and deterministic external transfer.",
+  "startupLoadSet": [
+    "DRF-1_IF_SUPPLIED",
+    "PROJECT_OPERATING_SYSTEM_V5.md",
+    "CURRENT_PRODUCT_GUARDS.json",
+    "NEXT_TASK.md",
+    "LIVE_GITHUB_PROVIDER_DEPLOYMENT_STATE"
+  ],
+  "metrics": {
+    "SSJR-1.1": "ACTIVE_PRODUCT_ACCEPTANCE",
+    "MDP-1": "ACTIVE_ENGINEERING_MATURITY",
+    "RJR-1": "FROZEN_HISTORICAL_100"
+  },
+  "testing": {
+    "gateLifecycle": "GL-1",
+    "executionLanes": "GEL-1",
+    "failureCensus": "FC-2",
+    "gatePurity": "GP-2",
+    "riskRouter": "RR-1",
+    "fullCandidateCensusPerExactHead": 1,
+    "historicalNarrationMayBlockProductCI": false,
+    "specialistsRunOnlyForImpactedRisk": true,
+    "operationsOnlyRunsReleaseProof": false
+  },
+  "debugging": {
+    "loopLimiter": "DLL-1",
+    "globalAttemptBudget": false,
+    "sameHypothesisFailedCorrectionsBeforeReframe": 2,
+    "thirdSameHypothesisCorrectionWithoutNewEvidenceAllowed": false,
+    "unreproducedInfraFlakeCountsAsProductCorrection": false
+  },
+  "publication": {
+    "atomicPublishRule": "APR-1",
+    "preferSingleCoherentCandidateCommit": true,
+    "crossHeadEvidenceAllowed": false
+  },
+  "continuity": {
+    "recoveryBeacon": "RB-2",
+    "transitionDecision": "TD-1",
+    "transitionStates": ["CONTINUE", "TRANSFER"],
+    "transitionProduct": "DRF-1",
+    "transitionProductType": "external_markdown_file",
+    "transitionProductMaxBytes": 4096,
+    "longPromptIsPrimaryTransferProduct": false,
+    "repositoryMutationRequiredForTransfer": false,
+    "continuityOnlyPullRequestAllowed": false
+  },
+  "legacy": {
+    "SHP": "RETIRED",
+    "HTR-1": "RETIRED_SCORE",
+    "WEC": "HISTORICAL_ONLY",
+    "SLE": "NONBLOCKING_PRINCIPLE",
+    "SNS": "RETIRED",
+    "POS-2": "HISTORICAL",
+    "POS-3": "HISTORICAL",
+    "POS-4": "DESIGN_PROVENANCE"
+  }
+}

@@ -4,10 +4,28 @@ on:
   pull_request:
     paths-ignore:
       - "**/*.md"
+      - "PROJECT_OPERATING_SYSTEM_V5.json"
+      - "CURRENT_PRODUCT_TEST_MANIFEST.json"
+      - "scripts/pos5-*.mjs"
+      - "scripts/build-developer-relay-file.mjs"
+      - "scripts/build-recovery-beacon.mjs"
+      - "tests/contracts/pos5-*.cjs"
+      - "tests/contracts/project-operating-system-v5-contracts.cjs"
+      - "tests/support/run-operations-audit.cjs"
+      - "tests/support/run-current-product-contracts.cjs"
   push:
     branches: [main]
     paths-ignore:
       - "**/*.md"
+      - "PROJECT_OPERATING_SYSTEM_V5.json"
+      - "CURRENT_PRODUCT_TEST_MANIFEST.json"
+      - "scripts/pos5-*.mjs"
+      - "scripts/build-developer-relay-file.mjs"
+      - "scripts/build-recovery-beacon.mjs"
+      - "tests/contracts/pos5-*.cjs"
+      - "tests/contracts/project-operating-system-v5-contracts.cjs"
+      - "tests/support/run-operations-audit.cjs"
+      - "tests/support/run-current-product-contracts.cjs"
   workflow_dispatch:
 
 permissions:

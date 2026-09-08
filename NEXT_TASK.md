@@ -1,52 +1,40 @@
-# CURRENT TASK — POS-3 PR215 CONVERGENCE, THEN SHARED SETUP
+# CURRENT TASK — POS-5 ACTIVATION, THEN GENUINE SHARED SETUP ACCEPTANCE
 
-`PROJECT_OPERATING_SYSTEM_V3.md` governs process. `CURRENT_PRODUCT_GUARDS.json` governs stable product/safety invariants. Current verified source and live GitHub/provider/deployment evidence override recorded SHAs and historical handoffs.
+`PROJECT_OPERATING_SYSTEM_V5.md` is the candidate operating authority for this branch. `CURRENT_PRODUCT_GUARDS.json` remains the stable product/safety machine authority. Current verified source and live GitHub/provider/deployment evidence override recorded SHAs and transfer artifacts.
 
-Active pull request: PR #215 on `fix/pr214-postmerge-dual-screen-contract`.
-Production authority remains `v1.9.1 / 1.9.1-r5` until a later exact merge/deployment boundary is independently proven.
-Release candidate remains `v1.9.1 / 1.9.1-r6`.
+The PR215 convergence release boundary is complete on main commit `72b44278013870e7607b9b0083e52fdff8145a37`: exact post-merge Stability, GitHub Pages deployment and Release Integration Burn-In passed. Production authority may therefore treat `v1.9.1 / 1.9.1-r6` as release-proven unless later live evidence shows regression.
 
-RJR-1 is complete/frozen 100/100 historical evidence. Do not spend current development revalidating its score, publication narration or old milestone routing unless a still-used shipped capability has a demonstrated regression.
-
-The active product target is SSJR-1.1. MDP-1 remains the current engineering lifecycle tracker until the separately reviewed MDP-2 migration is activated.
+RJR-1 remains frozen 100/100. SSJR-1.1 is the active product target. MDP-1 remains the engineering lifecycle tracker until separately migrated.
 
 ## Immediate next task
 
-1. Resolve the exact current PR #215 head, required checks and review/thread state. Never combine evidence across heads.
-2. Run the POS-3 current product suite and only the specialist checks justified by the changed risk domains.
-3. For any red result, inspect the exact failure:
-   - fix/strengthen it when it protects runtime behavior, UI/UX, data/storage, synchronization, recovery, security/auth, privacy, provider/billing safety, executable schema/API authority, current evidence validity or release correctness;
-   - move it out of blocking product CI when it protects only old PR numbers, completed milestone narration, handoff formatting, exact workflow topology, old provider run IDs or historical wording.
-4. Run `npm run test:ops` when POS-3/TDS-1/RCP-1 tooling changes. Historical and dormant suites are manual audits, not product-release prerequisites.
-5. When all meaningful required current product/security/release checks are green on one exact reviewed head, merge PR #215 with expected-head protection.
-6. Verify the post-merge r6 boundary with canonical Stability browser/deployed proof and release integration proof. Do not manufacture a continuity-only publication cycle after green product evidence.
-7. If r6 Shared Setup product integration is proven, update MDP only for lifecycle exits actually satisfied.
-8. Conduct the minimum unavoidable genuine two-account Shared Setup acceptance and recalculate SSJR only from accepted sanitized production evidence.
-9. Continue directly into the next unfinished SSJR capabilities according to the current dependency graph.
+1. Finish POS-5 as one operations-only atomic candidate from the proven r6 main baseline; do not mix product feature work into the operating-system migration.
+2. Run `npm run test:ops`. Because POS-5 changes the current-product runner/gate policy, run one local `npm run test:contracts` census before publication.
+3. Publish one coherent POS-5 commit, open one review PR, and use the minimum risk-routed specialist set. Do not launch release/deployment proof for an operations-only PR.
+4. After POS-5 merges, return immediately to genuine SSJR Shared Setup product work. Do not manufacture continuity-only work.
+5. For Shared Setup, verify the current paired-first + exact ACTIVE authority, production two-account evidence path and current product state before editing.
+6. Use `npm run record:ssjr-production-shared-setup` for private observations and `npm run validate:ssjr-production-shared-setup -- <player-one-evidence.json> <player-two-evidence.json>` for sanitized validation.
+7. Only award SSJR/MDP credit for lifecycle exits actually satisfied by accepted evidence.
 
-## Testing lanes
+## POS-5 testing model
 
-- `npm run test:contracts`: blocking current product contracts from `CURRENT_PRODUCT_TEST_MANIFEST.json`.
-- `npm run test:ops`: small non-product POS-3/TDS/RCP self-test when operating tooling changes.
-- `npm run test:legacy-provenance`: manual historical/provenance audit.
-- `npm run test:dormant-architecture`: manual dormant/rejected architecture audit.
-- `npm run test:contracts:all`: deliberate full audit only, not the normal development loop.
+- TARGETED: changed-domain contracts/browser/emulator only.
+- CANDIDATE: one FC-2 complete current-product census on one exact candidate head plus impacted specialists.
+- RELEASE: post-merge Stability browser/deployed proof, deployment proof and burn-in on one exact main head.
+- `npm run test:ops`: POS-5 policy/transition/relay/gate-purity self-test.
+- Historical/provenance and dormant architecture remain manual-only.
 
-Stability owns the complete current product suite once. Static App and specialist workflows stay focused. Exact workflow counts and exact YAML topology are not product gates.
+Use `npm run work:risk-route -- <changed paths...>` to recommend the minimum lane. Security/provider, destructive data/storage, test infrastructure and unknown broad changes may escalate but must not be silently de-escalated.
 
-## Anti-spiral and transfer
+## Debugging and transition
 
-ADB-2 is the current adaptive failed correction/validation budget. It uses unresolved failure breadth, unresolved state, actual failed correction cycles and context damage/reconstruction. It does not use elapsed time, message/tool counts, successful reads or commit count.
+DLL-1 replaces global debug-attempt counting. Two failed corrections under one materially unchanged root hypothesis require REFRAME. A third same-hypothesis correction without new evidence is prohibited.
 
-TDS-1 is the only normal session-transfer signal:
-- `CONTINUE`
-- `CHECKPOINT_SOON`
-- `FINISH_ATOMIC_THEN_TRANSFER`
-- `TRANSFER_NOW`
+TD-1 is binary: CONTINUE or TRANSFER. There is no handoff percentage. The owner never needs to ask for SNS.
 
-There is no handoff percentage. The owner does not need to ask for SNS during normal work. If the platform shows a usage warning the assistant cannot see, the owner reports it once; that is a hard transfer trigger at the next safe boundary.
+RB-2 is the non-mutating interruption checkpoint in active PR metadata. DRF-1 Developer Relay File is the only normal transfer product. Generate one compact external DRF-1 only when TD-1=TRANSFER; do not commit it and do not open a continuity-only PR.
 
-RCP-1 Resume Capsule replaces new SNS/SLE/VTLS transfer packaging. Generate one external capsule only at a real transfer. Do not commit a capsule or open a continuity-only PR merely to publish it.
+Successor startup: DRF-1 if supplied, PROJECT_OPERATING_SYSTEM_V5.md, CURRENT_PRODUCT_GUARDS.json, NEXT_TASK.md, then live GitHub/provider/deployment verification. Older POS/WEC/SNS/handoff history loads only if a live blocker requires it.
 
 ## Permanent product locks
 
@@ -56,10 +44,4 @@ Exactly two private managers. Connected Rivalry pairing plus exact ACTIVE preced
 
 Canonical local storage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, and `careerModeShowdown.preferences`.
 
-No public discovery, listing, lobby, matchmaking, community, rankings or global leaderboards. Never durably retain raw private capability/account/device/rivalry/session/pairing identifiers.
-
-`SSJR-DUAL-FULL-SCREEN-1` remains permanent: both legitimate managers individually experience every canonical Shared Showdown gameplay screen on their own device, including ordered replay of missed screens after reload/reconnect/offline recovery.
-
-Use `npm run record:ssjr-production-shared-setup` for private Shared Setup observations and `npm run validate:ssjr-production-shared-setup -- <player-one-evidence.json> <player-two-evidence.json>` for sanitized validation.
-
-MDP task delta remains +0.00 until a capability lifecycle exit rule is genuinely satisfied.
+No public discovery, listing, lobby, matchmaking, community, rankings or global leaderboards. `SSJR-DUAL-FULL-SCREEN-1` remains permanent.

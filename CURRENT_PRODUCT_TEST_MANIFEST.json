@@ -1,7 +1,12 @@
 {
-  "schemaVersion": 2,
-  "operatingSystem": "POS-2",
-  "purpose": "Registry of blocking current product contracts plus their single automatic CI owners. Process/continuity, historical/provenance, and dormant rejected architecture tests are deliberately excluded.",
+  "schemaVersion": 3,
+  "operatingSystem": "POS-5",
+  "purpose": "Registry of current blocking product contracts. POS-5 runs them as one FC-2 candidate census; process/history/dormant tests stay nonblocking and specialist workflows run only for impacted risk domains.",
+  "executionModel": {
+    "targeted": "changed-domain checks only",
+    "candidate": "one complete FC-2 census per exact candidate head plus impacted specialists",
+    "release": "post-merge stability/deployment/burn-in only"
+  },
   "tests": [
     "tests/contracts/shared-showdown-readiness-contracts.cjs",
     "tests/contracts/shared-showdown-setup-contracts.cjs",
@@ -56,9 +61,7 @@
     "tests/contracts/final-release-hardening.cjs"
   ],
   "specialistOwners": {
-    "candidate-b-import-analysis": [
-      "tests/contracts/import-analysis-contracts.cjs"
-    ],
+    "candidate-b-import-analysis": ["tests/contracts/import-analysis-contracts.cjs"],
     "candidate-c-atomic-restore": [
       "tests/contracts/restore-storage-contracts.cjs",
       "tests/contracts/restore-plan-contracts.cjs",
@@ -70,17 +73,9 @@
       "tests/contracts/final-polish-feedback.cjs",
       "tests/contracts/final-polish-presentation.cjs"
     ],
-    "licensed-football-visuals": [
-      "tests/contracts/licensed-football-visuals-contract.cjs"
-    ],
-    "season-review": [
-      "tests/contracts/season-review-snapshot.cjs",
-      "tests/contracts/season-review-architecture.cjs"
-    ],
-    "statistics": [
-      "tests/contracts/statistics-fixtures.cjs",
-      "tests/contracts/statistics-architecture.cjs"
-    ],
+    "licensed-football-visuals": ["tests/contracts/licensed-football-visuals-contract.cjs"],
+    "season-review": ["tests/contracts/season-review-snapshot.cjs", "tests/contracts/season-review-architecture.cjs"],
+    "statistics": ["tests/contracts/statistics-fixtures.cjs", "tests/contracts/statistics-architecture.cjs"],
     "private-remote-foundation": [
       "tests/contracts/stage3-private-pairing-contracts.cjs",
       "tests/contracts/pairing-four-code-automation-contracts.cjs",
