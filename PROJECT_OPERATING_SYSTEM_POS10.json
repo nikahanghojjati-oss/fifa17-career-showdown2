@@ -1,0 +1,28 @@
+{
+  "operatingSystem": "POS10",
+  "filingVersion": "v1.0.0",
+  "artifactRole": "process-authority",
+  "status": "implementation-candidate",
+  "productCredit": {"SSJR": 0, "MDP": 0},
+  "maxOpenAtomicUnits": 1,
+  "maxLocalUnpublishedPackets": 1,
+  "recoveryBranchesPerCandidate": 1,
+  "candidatePromotion": "single-coherent-nonforced",
+  "candidateMutationDuringPendingValidation": false,
+  "mergeRequiresExpectedHead": true,
+  "unknownRisk": "FULL_SEAL",
+  "precedence": ["explicit-current-owner-instruction", "verified-live-source-and-provider-state", "POS10-current-file-index", "current-product-ledgers", "inert-history"],
+  "machineAuthority": {
+    "currentIndex": "POS10_CURRENT_FILE_INDEX.json",
+    "filingSchema": "POS10_FILING_SCHEMA.json",
+    "retiredConcepts": "POS10_RETIRED_CONCEPTS.json",
+    "productGuards": "CURRENT_PRODUCT_GUARDS.json",
+    "testManifest": "CURRENT_PRODUCT_TEST_MANIFEST.json",
+    "impactGraph": "POS10_IMPACT_GRAPH.json",
+    "impactRouter": "scripts/pos10-impact-router.mjs",
+    "proofRunner": "scripts/pos10-proof-runner.mjs",
+    "recovery": "scripts/pos10-recovery.mjs",
+    "publication": "scripts/pos10-publication.mjs"
+  },
+  "afterVerifiedMerge": "Immediately resume production two-account Shared Setup evidence and the next unfinished Shared Showdown Journey product dependency."
+}

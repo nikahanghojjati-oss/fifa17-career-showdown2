@@ -1,6 +1,12 @@
 # Career Mode Showdown — POS10 Successor Packet
 
 Status: RECOVERY_READY
+filingVersion: v1.0.0
+Artifact role: migration bootstrap
+Observed live main: 831a13ee93ac1b279c1f7c0985c1c5111922829f
+Observed candidate: 831a13ee93ac1b279c1f7c0985c1c5111922829f
+Observed recovery: a1afeeedb7bbac13509101ca31a92bce9687bbd5
+Live facts must be re-resolved: true
 
 This is the current portable recovery surface for the POS10 migration. Re-resolve all live refs before mutation.
 
@@ -20,11 +26,13 @@ The decision is state-based. Never infer hidden ChatGPT context/session/five-hou
 ## Recovery invariant
 Normal work may continue only while a privacy-safe successor packet is already durable and current. States are `RECOVERY_READY`, `RECOVERY_STALE`, and `RECOVERY_BLOCKED`. A real platform warning, severe observable context damage, unavailable live authority, or inability to refresh a stale successor forces `TRANSITION` after checkpointing any single volatile packet when possible.
 
-## Retired reporting
-Handoff proximity, SHP percentages, HTR percentages, and predictive usage-capacity scoring are retired. Historical files may preserve them only as inert provenance; they are not current authority and must not appear in active status reporting.
+## Exact next action
+Implement the POS10-native filing, source fingerprint, recovery assessment and successor generator on this recovery branch. Then migrate validation routing and active startup/commands/workflows, prove the sole authority with operations tests, and publish the complete work unit once. No POS10 PR exists yet. Current main push validation passed. SSJR is 0/100; MDP is 39.00/100. Candidate must remain unchanged until the coherent unit is targeted-test green.
 
 ## Permanent product locks
 Billing permanently OFF; Firebase Spark only; no Blaze/Cloud Billing/Cloud Run/Cloud Functions. App Check enforcement OFF. Firestore browser persistence memory-only. Google Auth popup-only `browserSessionPersistence`, no extra scopes. Exactly two private managers. Pairing plus exact ACTIVE precedes league/club authority. Candidate C is the sole destructive remote-to-local Apply authority with transaction-owned rollback. Canonical gameplay storage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, `careerModeShowdown.preferences`. No public discovery/listing/lobby/matchmaking/community/rankings/global leaderboards. `SSJR-DUAL-FULL-SCREEN-1` remains permanent.
 
 ## After POS10
 POS10 earns zero SSJR/MDP credit. After exact-head validation and merge, immediately resume Shared Setup production two-account SSJR evidence.
+
+Decision: CONTINUE
