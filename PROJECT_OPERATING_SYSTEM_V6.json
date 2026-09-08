@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "operatingSystem": "POS-6",
+  "brand": "FAST_FURIOUS_ACCURATE",
+  "purpose": "Accelerate real product throughput with one deterministic gate, risk-selected expensive proof, and fail-safe complete validation for unknown or cross-cutting changes.",
+  "authority": {
+    "productGuards": "CURRENT_PRODUCT_GUARDS.json",
+    "currentTask": "NEXT_TASK.md",
+    "riskMap": "POS6_RISK_MAP.json",
+    "riskRouter": "scripts/pos6-risk-router.mjs"
+  },
+  "validation": {
+    "fast": "ONE_DETERMINISTIC_CURRENT_PRODUCT_CENSUS",
+    "furious": "RISK_SELECTED_BROWSER_AND_EMULATOR_PROOF",
+    "accurate": "FULL_BROWSER_AND_REMOTE_SEAL",
+    "unknownChangePolicy": "ACCURATE",
+    "documentationOnlyProductCi": false,
+    "deterministicAutomaticOwnerCount": 1,
+    "operationsTestsRunOnUnrelatedProductChanges": false
+  },
+  "resilience": {
+    "atomicWorkUnit": "AWU-1",
+    "crashLossBudget": "CLB-1",
+    "maximumUncheckpointedAtomicUnits": 1,
+    "recoveryBeacon": "RB-2",
+    "recoveryBeaconMaxBytes": 4096,
+    "relayDecision": "TDS-6",
+    "adaptiveDebug": "ADB-6",
+    "relayFile": "DRF-1",
+    "relayFileMaxBytes": 8192
+  },
+  "metrics": {
+    "RJR-1": "FROZEN_HISTORICAL_100",
+    "SSJR-1.1": "ACTIVE_PRODUCT_ACCEPTANCE",
+    "MDP-1": "ACTIVE_ENGINEERING_MATURITY"
+  },
+  "retiredActiveProcess": [
+    "WEC_COMMAND_SURFACE",
+    "SHP",
+    "HTR",
+    "RESUME_CAPSULE",
+    "CONTINUITY_ONLY_PULL_REQUESTS",
+    "UNCONDITIONAL_SPECIALIST_PR_MATRIX"
+  ],
+  "productCredit": 0
+}

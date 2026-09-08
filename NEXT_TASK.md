@@ -1,27 +1,22 @@
-# CURRENT TASK — POS5 CRASH-RESISTANT OPERATING SYSTEM, THEN SSJR SHARED SETUP
+# CURRENT TASK — POS6 FAST / FURIOUS / ACCURATE, THEN SSJR SHARED SETUP
 
-`PROJECT_OPERATING_SYSTEM_V5.md` governs operating process on this branch. `CURRENT_PRODUCT_GUARDS.json` remains stable product/safety machine authority. Current verified source and live GitHub/provider/deployment evidence override recorded SHAs and relay artifacts.
+`PROJECT_OPERATING_SYSTEM_V6.md` governs process on the POS6 branch. `CURRENT_PRODUCT_GUARDS.json` remains stable product/safety machine authority. Current verified source and live GitHub/provider/deployment evidence override recorded SHAs and relay artifacts.
 
-The PR215 r6 publication boundary is already merged to main. Before changing product readiness, independently verify current main/deployment authority. POS5 itself earns zero SSJR/MDP product credit.
+POS5 is merged on main at the verified starting boundary `88bc6d6bdcda1032aee81565b9830966f460cc36`. POS6 itself earns zero SSJR/MDP product credit.
 
-RJR-1 remains frozen historical 100/100. SSJR-1.1 remains the active product acceptance target. MDP-1 remains current until a separately reviewed MDP-2 migration is activated.
+RJR-1 remains frozen historical 100/100. SSJR-1.1 remains the active product acceptance target. MDP-1 remains current.
 
 ## Immediate next task
 
-1. Finish POS5 as one coherent operating-system PR from the proven PR215 post-merge baseline.
-2. Validate `npm run test:ops` and the smallest product-suite checks required by runner/gate changes.
-3. Use FC-2 to collect all independent current-product failures before editing. Classify by product defect, test defect, process drift, dormant provenance, infra flake, head movement or unknown.
-4. Do not restore historical prose merely to make a product gate green. Apply GP-2 and archive/decouple only when the useful invariant has a stronger current owner.
-5. Keep CLB-1: no more than one AWU may be ahead of RB-2/live Git durability.
-6. Publish coherent tested AWUs, not many tiny commits that repeat the same CI fanout.
-7. After POS5 is reviewed/green and merged, resume the actual SSJR dependency graph: production Shared Setup integration/evidence, then the next unfinished two-manager journey capability.
-8. Generate DRF-1 only when TDS-3 says `RELAY_NOW`/`RELAY_AFTER_ATOMIC` or the owner explicitly requests a relay file. Never commit DRF-1.
-
-## POS5 transition product
-
-Primary developer-session transfer artifact: external `DEVELOPER_RELAY_POS5.md` (DRF-1), hard-capped at 8 KiB. A one-line companion message may say: `Open the attached DEVELOPER_RELAY_POS5.md first and continue from its live-verification instructions.` The file is authority; the sentence is only convenience.
-
-Abrupt interruption fallback: RB-2 hidden metadata in the active PR. RB-2 changes no Git head and triggers no CI.
+1. Publish POS6 as one coherent operating-system PR.
+2. Collapse all deterministic blocking product contracts into `CURRENT_PRODUCT_TEST_MANIFEST.json` and run them exactly once in FAST.
+3. Activate RACE-6 so expensive browser/emulator proof runs only for changed risk domains; unknown/cross-cutting changes escalate to ACCURATE.
+4. Remove the old unconditional specialist pull-request matrix from active Actions while preserving its useful invariants in FAST/FURIOUS/ACCURATE.
+5. Keep the complete post-merge release/deployment seal on main.
+6. Keep RB-2 + DRF-1, AWU-1 and CLB-1; retire stale active continuity command surfaces.
+7. Remove obsolete unobservable external-session signals from current operating/tooling authority.
+8. Validate POS6 on one exact head, resolve real review findings, and merge with expected-head protection.
+9. Immediately resume product work: production Shared Setup integration/evidence, then the next unfinished two-manager SSJR capability.
 
 ## Permanent locks
 
