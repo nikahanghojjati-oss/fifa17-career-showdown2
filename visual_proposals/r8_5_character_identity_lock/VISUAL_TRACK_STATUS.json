@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "1.0.0",
+  "lane": "independent visual proposal",
+  "status": "ACTIVE",
+  "proposalBranch": "visual/r8-5-approved-character-identity-lock",
+  "latestObservedMainSha": "d56b5179be76d05b98a801a4de7c0f4a42262b4f",
+  "latestObservedAssetRevision": "1.9.1-r9",
+  "currentMilestone": "R8.6 identity-preserving isolated expression masters",
+  "visualProductionProgressPercent": 39.0,
+  "handoffProximityPercent": 22,
+  "progressModel": [
+    {"workstream":"approved identity truth recovered and persistently locked","weight":20,"earned":20,"state":"done"},
+    {"workstream":"live DOM/source reconciliation for visual targeting","weight":10,"earned":7,"state":"current r9 shell rechecked; deeper per-screen checks continue only when needed"},
+    {"workstream":"identity plus natural-expression contract","weight":10,"earned":10,"state":"done"},
+    {"workstream":"isolated canonical Nik and Daniel character masters","weight":20,"earned":0,"state":"next"},
+    {"workstream":"screen-state expression and pose variants","weight":15,"earned":0,"state":"blocked by canonical masters"},
+    {"workstream":"R8.5 black-gold final-art and DOM composition mapping","weight":10,"earned":1,"state":"R8.5 foundation exists; must be reconciled against exact live screens during composition"},
+    {"workstream":"responsive safe-zone and obstruction QA","weight":10,"earned":0,"state":"later"},
+    {"workstream":"master developer implementation package","weight":5,"earned":1,"state":"skeleton exists; final package waits for assets and QA"}
+  ],
+  "handoffRule": {
+    "0to49": "continue visual work normally",
+    "50to69": "keep continuity file current after each substantial asset milestone",
+    "70to84": "finish only the current bounded visual task and prepare successor starter",
+    "85to99": "no new large visual branch of work; package current truth",
+    "100": "generate complete successor handoff and stop at a clean checkpoint"
+  },
+  "transitionTriggers": [
+    "identity/source ambiguity cannot be resolved in the current session",
+    "live main changes in a way that materially invalidates the current visual mapping",
+    "too many unrelated visual branches are open to reason about safely",
+    "current isolated asset milestone is complete and a fresh session would reduce drift risk"
+  ],
+  "nextSafeAction": "Create identity-preserving isolated Nik and Daniel expression masters from Tier 0 owner-approved references. Start with one character and one small expression family. Do not generate another whole-page UI concept first.",
+  "nonGoals": [
+    "replicate POS/SSJR testing infrastructure",
+    "modify main",
+    "deploy production",
+    "own runtime behavior",
+    "change Firebase or billing",
+    "perform broad process refactoring"
+  ]
+}
