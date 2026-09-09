@@ -44,6 +44,7 @@
     if(!psscSharedMarker())psscFail("SEASON_COMMIT_SHARED_MODE_REQUIRED");
     if(!request||!psscContextMatches(request))psscFail("SEASON_COMMIT_CONTEXT_STALE");
     await psscEnsureDependencies();
+    if(!psscResultsReady(request))psscFail("SEASON_COMMIT_RESULTS_NOT_READY","Both managers must publish Shared Season Results before the shared season can be committed.");
     await setupApi.refresh();if(!psscContextMatches(request))psscFail("SEASON_COMMIT_CONTEXT_STALE");
     await resultsApi.refresh();if(!psscContextMatches(request))psscFail("SEASON_COMMIT_CONTEXT_STALE");
     if(!psscResultsReady(request))psscFail("SEASON_COMMIT_RESULTS_NOT_READY","Both managers must publish Shared Season Results before the shared season can be committed.");
