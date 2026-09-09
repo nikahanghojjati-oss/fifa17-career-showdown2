@@ -16,7 +16,8 @@ async function prepare(page,{managerRole,saveId}){
     const roleOther=managerRole==='playerOne'?'playerTwo':'playerOne';
     const managers={playerOne:'Nik',playerTwo:'Daniel'};
     const clubs={playerOne:'Arsenal',playerTwo:'Liverpool'};
-    currentShowdown={id:saveId,currentRound:1,status:'Ready',selectedLeague:{id:'premier_league',name:'Premier League'},sharedJourney:{mode:'shared',rivalryId:rivalryA},managers,clubs};
+    const serverEpoch=Date.now();
+    currentShowdown={id:saveId,currentRound:1,status:'Ready',sharedJourney:{mode:'shared',rivalryId:rivalryA},managers};
 
     let activeRivalry=rivalryA;
     let serverPhase='COMPLETED';
@@ -39,8 +40,8 @@ async function prepare(page,{managerRole,saveId}){
       signings:[{slot:1,name:role==='playerOne'?'Player A':'Player B',leagueId:'spain-primera-division',nationalityId:'england'}]
     });
     const makeView=()=>{
-      if(serverPhase==='WINDOW_OPEN')return {ok:true,revision:1,seasonNumber:1,managerRole,rivalryId:activeRivalry,state:{phase:'WINDOW_OPEN',revision:1,startedAtEpochMs:Date.now(),endRequestedRoles:[],guessLockedRoles:[],signingLockedRoles:[]},ownInputs:{guesses:null,signings:null},opponentInputs:null,verdicts:null};
-      return {ok:true,revision:7,seasonNumber:1,managerRole,rivalryId:activeRivalry,state:{phase:'COMPLETED',revision:7,startedAtEpochMs:Date.now()-900000,endedAtEpochMs:Date.now()-1,endRequestedRoles:['playerOne','playerTwo'],guessLockedRoles:['playerOne','playerTwo'],signingLockedRoles:['playerOne','playerTwo']},ownInputs:completedInputs(managerRole),opponentInputs:completedInputs(roleOther),verdicts:{playerOne:[],playerTwo:[]}};
+      if(serverPhase==='WINDOW_OPEN')return {ok:true,revision:1,seasonNumber:1,managerRole,rivalryId:activeRivalry,state:{phase:'WINDOW_OPEN',revision:1,startedAtEpochMs:serverEpoch,endRequestedRoles:[],guessLockedRoles:[],signingLockedRoles:[]},ownInputs:{guesses:null,signings:null},opponentInputs:null,verdicts:null};
+      return {ok:true,revision:7,seasonNumber:1,managerRole,rivalryId:activeRivalry,state:{phase:'COMPLETED',revision:7,startedAtEpochMs:serverEpoch-900000,endedAtEpochMs:serverEpoch-1,endRequestedRoles:['playerOne','playerTwo'],guessLockedRoles:['playerOne','playerTwo'],signingLockedRoles:['playerOne','playerTwo']},ownInputs:completedInputs(managerRole),opponentInputs:completedInputs(roleOther),verdicts:{playerOne:[],playerTwo:[]}};
     };
     const rejectMutation=async()=>{mutations+=1;return {ok:false,code:'AUDIT_MUTATION_FORBIDDEN'};};
     window.CareerModeSparkSharedTransferChallenge={
@@ -56,7 +57,8 @@ async function prepare(page,{managerRole,saveId}){
       },
       startWindow:rejectMutation,requestEndWindow:rejectMutation,advanceExpiredWindow:rejectMutation,lockGuesses:rejectMutation,lockSignings:rejectMutation
     };
-    window.CareerModeProductionFirebaseRuntime={ensureAccountServices:async()=>({ok:true,auth:{currentUser:{uid:managerRole==='playerOne'?'account_one':'account_two'}},firestore:{},firestoreSdk:{}})};
+    const currentUser={uid:managerRole==='playerOne'?'account_one':'account_two',getIdTokenResult:async()=>({issuedAtTime:new Date(serverEpoch).toISOString()})};
+    window.CareerModeProductionFirebaseRuntime={ensureAccountServices:async()=>({ok:true,auth:{currentUser},firestore:{},firestoreSdk:{}})};
 
     await loadRuntimeScript('ssjr-transfer-replay-audit','js/productionSharedTransferChallenge.js',()=>window.CareerModeProductionSharedTransferChallenge);
     CareerModeProductionSharedTransferChallenge.install();
