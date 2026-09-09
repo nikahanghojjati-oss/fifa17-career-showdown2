@@ -1,0 +1,343 @@
+// SSJR_TRANSFER_CHALLENGE_FUNCTIONS_BEGIN
+    function ssjrTransferValidOperationId(value) { return value is string && value.matches('^transfer_op_[0-9a-f]{32}$'); }
+    function ssjrTransferValidHash(value) { return value is string && value.matches('^sha256:[0-9a-f]{64}$'); }
+    function ssjrTransferValidRole(value) { return value == 'playerOne' || value == 'playerTwo'; }
+    function ssjrTransferValidOptionId(value) { return value is string && value.size() >= 2 && value.size() <= 80 && value.matches('^[a-z0-9]+(-[a-z0-9]+)*$'); }
+    function ssjrTransferSeasonMatches(transferId, seasonNumber) {
+      return (transferId == 'season_1' && seasonNumber == 1)
+        || (transferId == 'season_2' && seasonNumber == 2)
+        || (transferId == 'season_3' && seasonNumber == 3)
+        || (transferId == 'season_4' && seasonNumber == 4)
+        || (transferId == 'season_5' && seasonNumber == 5)
+        || (transferId == 'season_6' && seasonNumber == 6)
+        || (transferId == 'season_7' && seasonNumber == 7)
+        || (transferId == 'season_8' && seasonNumber == 8)
+        || (transferId == 'season_9' && seasonNumber == 9)
+        || (transferId == 'season_10' && seasonNumber == 10);
+    }
+    function ssjrTransferSetup(rivalryId) { return get(/databases/$(database)/documents/rivalries/$(rivalryId)/sharedSetup/authoritative).data; }
+    function ssjrTransferCareer(rivalryId) { return get(/databases/$(database)/documents/rivalries/$(rivalryId)/careerStart/authoritative).data; }
+    function ssjrTransferPrerequisites(rivalryId, seasonNumber) {
+      let setup = ssjrTransferSetup(rivalryId);
+      let career = ssjrTransferCareer(rivalryId);
+      return setup.schemaVersion == 1
+        && setup.objectType == 'sharedSetupLedger'
+        && setup.rivalryId == rivalryId
+        && setup.revision == 6
+        && setup.phase == 'SHOWDOWN_CONFIRMED'
+        && (setup.coordinatorRole == 'playerOne' || setup.coordinatorRole == 'playerTwo')
+        && (setup.totalSeasons == 1 || setup.totalSeasons == 3 || setup.totalSeasons == 5 || setup.totalSeasons == 10)
+        && seasonNumber >= 1
+        && seasonNumber <= setup.totalSeasons
+        && career.schemaVersion == 1
+        && career.objectType == 'sharedCareerStart'
+        && career.rivalryId == rivalryId
+        && career.setupRevision == 6
+        && career.totalSeasons == setup.totalSeasons
+        && career.revision == 2
+        && career.phase == 'CAREER_START_READY'
+        && career.acknowledgedRoles is list
+        && career.acknowledgedRoles.size() == 2
+        && 'playerOne' in career.acknowledgedRoles
+        && 'playerTwo' in career.acknowledgedRoles;
+    }
+    function ssjrTransferRoleListValid(value) {
+      return value is list
+        && value.size() <= 2
+        && (value.size() < 1 || ssjrTransferValidRole(value[0]))
+        && (value.size() < 2 || (ssjrTransferValidRole(value[1]) && value[1] != value[0]));
+    }
+    function ssjrTransferPublicExactKeys(root) {
+      return root.keys().hasOnly([
+        'schemaVersion','objectType','rivalryId','seasonNumber','runtimeRevision','coordinatorRole','phase','revision',
+        'startedAt','endedAt','endRequestedRoles','guessLockedRoles','signingLockedRoles',
+        'operationIds','operationTypes','operationHashes','baseRevisions','actorRoles',
+        'activeSessionId','updatedAt','updatedByDeviceId'
+      ]);
+    }
+    function ssjrTransferPublicShape(root, rivalryId, transferId) {
+      let setup = ssjrTransferSetup(rivalryId);
+      let historySize = root.operationIds.size();
+      return ssjrTransferPublicExactKeys(root)
+        && root.schemaVersion == 1
+        && root.objectType == 'sharedTransferChallenge'
+        && root.rivalryId == rivalryId
+        && root.seasonNumber is int
+        && ssjrTransferSeasonMatches(transferId, root.seasonNumber)
+        && ssjrTransferPrerequisites(rivalryId, root.seasonNumber)
+        && root.runtimeRevision == '1.9.1-r8'
+        && root.coordinatorRole == setup.coordinatorRole
+        && (root.phase == 'WINDOW_OPEN' || root.phase == 'GUESS_ENTRY' || root.phase == 'SIGNING_ENTRY' || root.phase == 'COMPLETED')
+        && root.revision is int
+        && root.revision >= 1
+        && root.revision <= 7
+        && root.startedAt is timestamp
+        && (root.endedAt == null || root.endedAt is timestamp)
+        && ssjrTransferRoleListValid(root.endRequestedRoles)
+        && ssjrTransferRoleListValid(root.guessLockedRoles)
+        && ssjrTransferRoleListValid(root.signingLockedRoles)
+        && root.operationIds is list
+        && root.operationTypes is list
+        && root.operationHashes is list
+        && root.baseRevisions is list
+        && root.actorRoles is list
+        && historySize == root.revision
+        && root.operationTypes.size() == historySize
+        && root.operationHashes.size() == historySize
+        && root.baseRevisions.size() == historySize
+        && root.actorRoles.size() == historySize
+        && root.updatedAt == request.time
+        && ssjrWriteAuthorityValid(rivalryId, root.updatedByDeviceId, root.activeSessionId)
+        && (
+          (root.phase == 'WINDOW_OPEN' && root.endedAt == null && root.guessLockedRoles.size() == 0 && root.signingLockedRoles.size() == 0 && root.endRequestedRoles.size() <= 1)
+          || (root.phase == 'GUESS_ENTRY' && root.endedAt is timestamp && root.guessLockedRoles.size() <= 1 && root.signingLockedRoles.size() == 0)
+          || (root.phase == 'SIGNING_ENTRY' && root.endedAt is timestamp && root.guessLockedRoles.size() == 2 && root.signingLockedRoles.size() <= 1)
+          || (root.phase == 'COMPLETED' && root.endedAt is timestamp && root.guessLockedRoles.size() == 2 && root.signingLockedRoles.size() == 2)
+        );
+    }
+    function ssjrTransferPublicPrefixPreserved(before, after) {
+      let n = before.revision;
+      return after.operationIds[0:n] == before.operationIds
+        && after.operationTypes[0:n] == before.operationTypes
+        && after.operationHashes[0:n] == before.operationHashes
+        && after.baseRevisions[0:n] == before.baseRevisions
+        && after.actorRoles[0:n] == before.actorRoles;
+    }
+    function ssjrTransferNewOperationValid(before, after) {
+      let i = before.revision;
+      return ssjrTransferValidOperationId(after.operationIds[i])
+        && !(after.operationIds[i] in before.operationIds)
+        && (after.operationTypes[i] == 'request-end-window' || after.operationTypes[i] == 'advance-expired-window' || after.operationTypes[i] == 'lock-guesses' || after.operationTypes[i] == 'lock-signings')
+        && ssjrTransferValidHash(after.operationHashes[i])
+        && after.baseRevisions[i] == before.revision
+        && after.actorRoles[i] == ssjrActorRole(after.rivalryId);
+    }
+    function ssjrTransferOwnRoleAfter(rivalryId, transferId) {
+      let role = ssjrActorRole(rivalryId);
+      return getAfter(/databases/$(database)/documents/rivalries/$(rivalryId)/transferChallenges/$(transferId)/roles/$(role)).data;
+    }
+    function ssjrTransferPrivatePayloadLinked(rivalryId, transferId, after, operationType) {
+      let role = ssjrActorRole(rivalryId);
+      let own = ssjrTransferOwnRoleAfter(rivalryId, transferId);
+      return own.schemaVersion == 1
+        && own.objectType == 'sharedTransferChallengeRole'
+        && own.rivalryId == rivalryId
+        && own.seasonNumber == after.seasonNumber
+        && own.managerRole == role
+        && own.activeSessionId == after.activeSessionId
+        && own.updatedByDeviceId == after.updatedByDeviceId
+        && own.updatedAt == request.time
+        && own.guesses is list
+        && own.guessLockedAt is timestamp
+        && (
+          (operationType == 'lock-guesses' && own.signings == null && own.signingLockedAt == null)
+          || (operationType == 'lock-signings' && own.signings is list && own.signingLockedAt is timestamp)
+        );
+    }
+    function ssjrTransferEndRequestTransition(before, after, actorRole) {
+      let priorSize = before.endRequestedRoles.size();
+      return before.phase == 'WINDOW_OPEN'
+        && priorSize <= 1
+        && !(actorRole in before.endRequestedRoles)
+        && after.endRequestedRoles.size() == priorSize + 1
+        && after.endRequestedRoles[0:priorSize] == before.endRequestedRoles
+        && after.endRequestedRoles[priorSize] == actorRole
+        && after.guessLockedRoles == before.guessLockedRoles
+        && after.signingLockedRoles == before.signingLockedRoles
+        && (
+          (priorSize == 0 && after.phase == 'WINDOW_OPEN' && after.endedAt == null)
+          || (priorSize == 1 && after.phase == 'GUESS_ENTRY' && after.endedAt == request.time)
+        );
+    }
+    function ssjrTransferExpiryTransition(before, after) {
+      return before.phase == 'WINDOW_OPEN'
+        && request.time >= before.startedAt + duration.value(15, 'm')
+        && after.phase == 'GUESS_ENTRY'
+        && after.endedAt == before.startedAt + duration.value(15, 'm')
+        && after.endRequestedRoles == before.endRequestedRoles
+        && after.guessLockedRoles == before.guessLockedRoles
+        && after.signingLockedRoles == before.signingLockedRoles;
+    }
+    function ssjrTransferGuessLockTransition(rivalryId, transferId, before, after, actorRole) {
+      let priorSize = before.guessLockedRoles.size();
+      return before.phase == 'GUESS_ENTRY'
+        && priorSize <= 1
+        && !(actorRole in before.guessLockedRoles)
+        && after.guessLockedRoles.size() == priorSize + 1
+        && after.guessLockedRoles[0:priorSize] == before.guessLockedRoles
+        && after.guessLockedRoles[priorSize] == actorRole
+        && after.endRequestedRoles == before.endRequestedRoles
+        && after.signingLockedRoles == before.signingLockedRoles
+        && after.endedAt == before.endedAt
+        && ((priorSize == 0 && after.phase == 'GUESS_ENTRY') || (priorSize == 1 && after.phase == 'SIGNING_ENTRY'))
+        && ssjrTransferPrivatePayloadLinked(rivalryId, transferId, after, 'lock-guesses');
+    }
+    function ssjrTransferSigningLockTransition(rivalryId, transferId, before, after, actorRole) {
+      let priorSize = before.signingLockedRoles.size();
+      return before.phase == 'SIGNING_ENTRY'
+        && priorSize <= 1
+        && actorRole in before.guessLockedRoles
+        && !(actorRole in before.signingLockedRoles)
+        && after.signingLockedRoles.size() == priorSize + 1
+        && after.signingLockedRoles[0:priorSize] == before.signingLockedRoles
+        && after.signingLockedRoles[priorSize] == actorRole
+        && after.endRequestedRoles == before.endRequestedRoles
+        && after.guessLockedRoles == before.guessLockedRoles
+        && after.endedAt == before.endedAt
+        && ((priorSize == 0 && after.phase == 'SIGNING_ENTRY') || (priorSize == 1 && after.phase == 'COMPLETED'))
+        && ssjrTransferPrivatePayloadLinked(rivalryId, transferId, after, 'lock-signings');
+    }
+    function ssjrTransferValidCreate(rivalryId, transferId) {
+      let after = request.resource.data;
+      return ssjrTransferPublicShape(after, rivalryId, transferId)
+        && after.revision == 1
+        && after.phase == 'WINDOW_OPEN'
+        && after.startedAt == request.time
+        && after.endedAt == null
+        && after.endRequestedRoles.size() == 0
+        && after.guessLockedRoles.size() == 0
+        && after.signingLockedRoles.size() == 0
+        && ssjrValidOperationId(after.operationIds[0]) == false
+        && ssjrTransferValidOperationId(after.operationIds[0])
+        && after.operationTypes[0] == 'start-window'
+        && ssjrTransferValidHash(after.operationHashes[0])
+        && after.baseRevisions[0] == 0
+        && after.actorRoles[0] == after.coordinatorRole
+        && after.coordinatorRole == ssjrActorRole(rivalryId);
+    }
+    function ssjrTransferValidUpdate(rivalryId, transferId) {
+      let before = resource.data;
+      let after = request.resource.data;
+      let i = before.revision;
+      let type = after.operationTypes[i];
+      let role = ssjrActorRole(rivalryId);
+      return ssjrTransferPublicShape(after, rivalryId, transferId)
+        && after.revision == before.revision + 1
+        && after.seasonNumber == before.seasonNumber
+        && after.runtimeRevision == before.runtimeRevision
+        && after.coordinatorRole == before.coordinatorRole
+        && after.startedAt == before.startedAt
+        && ssjrTransferPublicPrefixPreserved(before, after)
+        && ssjrTransferNewOperationValid(before, after)
+        && (
+          (type == 'request-end-window' && ssjrTransferEndRequestTransition(before, after, role))
+          || (type == 'advance-expired-window' && ssjrTransferExpiryTransition(before, after))
+          || (type == 'lock-guesses' && ssjrTransferGuessLockTransition(rivalryId, transferId, before, after, role))
+          || (type == 'lock-signings' && ssjrTransferSigningLockTransition(rivalryId, transferId, before, after, role))
+        );
+    }
+    function ssjrTransferGuessRowValid(value) {
+      return value is map
+        && value.keys().hasOnly(['slot','type','valueId'])
+        && value.slot is int
+        && value.slot >= 1
+        && value.slot <= 3
+        && (value.type == 'league' || value.type == 'nationality')
+        && ssjrTransferValidOptionId(value.valueId);
+    }
+    function ssjrTransferSigningRowValid(value) {
+      return value is map
+        && value.keys().hasOnly(['slot','name','leagueId','nationalityId'])
+        && value.slot is int
+        && value.slot >= 1
+        && value.slot <= 3
+        && value.name is string
+        && value.name.size() >= 1
+        && value.name.size() <= 80
+        && ssjrTransferValidOptionId(value.leagueId)
+        && ssjrTransferValidOptionId(value.nationalityId);
+    }
+    function ssjrTransferGuessesValid(value) {
+      return value is list
+        && value.size() <= 3
+        && (value.size() < 1 || ssjrTransferGuessRowValid(value[0]))
+        && (value.size() < 2 || (ssjrTransferGuessRowValid(value[1]) && value[1].slot != value[0].slot))
+        && (value.size() < 3 || (ssjrTransferGuessRowValid(value[2]) && value[2].slot != value[0].slot && value[2].slot != value[1].slot));
+    }
+    function ssjrTransferSigningsValid(value) {
+      return value is list
+        && value.size() <= 3
+        && (value.size() < 1 || ssjrTransferSigningRowValid(value[0]))
+        && (value.size() < 2 || (ssjrTransferSigningRowValid(value[1]) && value[1].slot != value[0].slot))
+        && (value.size() < 3 || (ssjrTransferSigningRowValid(value[2]) && value[2].slot != value[0].slot && value[2].slot != value[1].slot));
+    }
+    function ssjrTransferPrivateExactKeys(root) {
+      return root.keys().hasOnly([
+        'schemaVersion','objectType','rivalryId','seasonNumber','managerRole','guesses','signings',
+        'guessLockedAt','signingLockedAt','activeSessionId','updatedAt','updatedByDeviceId'
+      ]);
+    }
+    function ssjrTransferPrivateBase(root, rivalryId, transferId, managerRole) {
+      return ssjrTransferPrivateExactKeys(root)
+        && root.schemaVersion == 1
+        && root.objectType == 'sharedTransferChallengeRole'
+        && root.rivalryId == rivalryId
+        && ssjrTransferSeasonMatches(transferId, root.seasonNumber)
+        && root.managerRole == managerRole
+        && managerRole == ssjrActorRole(rivalryId)
+        && ssjrTransferGuessesValid(root.guesses)
+        && (root.signings == null || ssjrTransferSigningsValid(root.signings))
+        && root.guessLockedAt is timestamp
+        && (root.signingLockedAt == null || root.signingLockedAt is timestamp)
+        && root.updatedAt == request.time
+        && ssjrWriteAuthorityValid(rivalryId, root.updatedByDeviceId, root.activeSessionId);
+    }
+    function ssjrTransferPublicAfter(rivalryId, transferId) {
+      return getAfter(/databases/$(database)/documents/rivalries/$(rivalryId)/transferChallenges/$(transferId)).data;
+    }
+    function ssjrTransferPrivateCreateValid(rivalryId, transferId, managerRole) {
+      let after = request.resource.data;
+      let public = ssjrTransferPublicAfter(rivalryId, transferId);
+      let i = public.revision - 1;
+      return ssjrTransferPrivateBase(after, rivalryId, transferId, managerRole)
+        && after.signings == null
+        && after.signingLockedAt == null
+        && after.guessLockedAt == request.time
+        && public.operationTypes[i] == 'lock-guesses'
+        && public.actorRoles[i] == managerRole
+        && managerRole in public.guessLockedRoles
+        && public.activeSessionId == after.activeSessionId
+        && public.updatedByDeviceId == after.updatedByDeviceId
+        && public.updatedAt == request.time;
+    }
+    function ssjrTransferPrivateUpdateValid(rivalryId, transferId, managerRole) {
+      let before = resource.data;
+      let after = request.resource.data;
+      let public = ssjrTransferPublicAfter(rivalryId, transferId);
+      let i = public.revision - 1;
+      return ssjrTransferPrivateBase(after, rivalryId, transferId, managerRole)
+        && after.guesses == before.guesses
+        && after.guessLockedAt == before.guessLockedAt
+        && before.signings == null
+        && before.signingLockedAt == null
+        && after.signings is list
+        && after.signingLockedAt == request.time
+        && public.operationTypes[i] == 'lock-signings'
+        && public.actorRoles[i] == managerRole
+        && managerRole in public.signingLockedRoles
+        && public.activeSessionId == after.activeSessionId
+        && public.updatedByDeviceId == after.updatedByDeviceId
+        && public.updatedAt == request.time;
+    }
+    function ssjrTransferPrivateReadable(rivalryId, transferId, managerRole) {
+      let public = get(/databases/$(database)/documents/rivalries/$(rivalryId)/transferChallenges/$(transferId)).data;
+      return ssjrEntitled(rivalryId)
+        && (managerRole == ssjrActorRole(rivalryId) || public.phase == 'COMPLETED');
+    }
+// SSJR_TRANSFER_CHALLENGE_FUNCTIONS_END
+
+// SSJR_TRANSFER_CHALLENGE_MATCH_BEGIN
+      match /transferChallenges/{transferId} {
+        allow get: if ssjrEntitled(rivalryId);
+        allow list, delete: if false;
+        allow create: if ssjrTransferValidCreate(rivalryId, transferId);
+        allow update: if ssjrTransferValidUpdate(rivalryId, transferId);
+
+        match /roles/{managerRole} {
+          allow get: if ssjrTransferPrivateReadable(rivalryId, transferId, managerRole);
+          allow list, delete: if false;
+          allow create: if ssjrTransferPrivateCreateValid(rivalryId, transferId, managerRole);
+          allow update: if ssjrTransferPrivateUpdateValid(rivalryId, transferId, managerRole);
+        }
+      }
+// SSJR_TRANSFER_CHALLENGE_MATCH_END
