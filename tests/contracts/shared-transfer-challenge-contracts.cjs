@@ -1,6 +1,7 @@
 const assert=require('node:assert/strict');
 const {webcrypto}=require('node:crypto');
 const Factory=require('../../js/sharedTransferChallenge.js');
+require('./shared-transfer-challenge-provider-contracts.cjs');
 
 const setup={
   phase:'SHOWDOWN_CONFIRMED',revision:6,coordinatorRole:'playerOne',totalSeasons:3,
