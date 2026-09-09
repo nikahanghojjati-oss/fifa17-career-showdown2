@@ -13,6 +13,7 @@ on:
     paths:
       - firestore.spark.rules
       - firestore.shared-setup-production.fragment.rules
+      - firestore.career-start-production.fragment.rules
       - scripts/build-production-firestore-rules.mjs
       - scripts/publish-firestore-rules-zero-billing.mjs
       - firebase.production.rules.json
@@ -81,9 +82,13 @@ jobs:
           grep -Fq "match /sharedSetup/authoritative" "${FIREBASE_RULES_FILE}"
           grep -Fq "allow create: if ssjrValidCreateLedger(rivalryId)" "${FIREBASE_RULES_FILE}"
           grep -Fq "allow update: if ssjrValidUpdateLedger(rivalryId)" "${FIREBASE_RULES_FILE}"
+          grep -Fq "match /careerStart/authoritative" "${FIREBASE_RULES_FILE}"
+          grep -Fq "allow create: if ssjrCareerValidCreate(rivalryId)" "${FIREBASE_RULES_FILE}"
+          grep -Fq "allow update: if ssjrCareerValidUpdate(rivalryId)" "${FIREBASE_RULES_FILE}"
           grep -Fq "allow list, delete: if false" "${FIREBASE_RULES_FILE}"
           grep -Fq "match /{document=**}" "${FIREBASE_RULES_FILE}"
           ! grep -Eqi "cloud[[:space:]_-]*run|cloud[[:space:]_-]*functions|billing|blaze|payment|purchased[[:space:]_-]*credits" firestore.shared-setup-production.fragment.rules
+          ! grep -Eqi "cloud[[:space:]_-]*run|cloud[[:space:]_-]*functions|billing|blaze|payment|purchased[[:space:]_-]*credits" firestore.career-start-production.fragment.rules
 
       - name: Install locked repository dependencies
         run: npm ci
@@ -95,6 +100,7 @@ jobs:
         run: |
           node tests/contracts/stage5d-production-session-rules-contracts.cjs
           node tests/contracts/shared-showdown-production-runtime-contracts.cjs
+          node tests/contracts/shared-career-start-contracts.cjs
 
       - name: Reprove generated production Shared Setup Rules with adversarial provider matrix
         run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-career-mode-showdown-shared-setup-production-deploy "node tests/firebase/shared-showdown-setup-production-provider-emulator.cjs"
