@@ -8,7 +8,7 @@
   const PANEL_ID="productionSharedCareerStartOverlay";
   const CONTROL_ID="continueClubAssignment";
   const POLL_MS=15000;
-  let installed=false,busy=false,pollBusy=false,pollTimer=null,setupApi=null,provider=null,view=null;
+  let installed=false,busy=false,pollTimer=null,setupApi=null,provider=null,view=null,operationTail=Promise.resolve(),refreshPromise=null;
 
   function pcstCreate(tag,className,text){const node=root.document.createElement(tag);if(className)node.className=className;if(text!==undefined)node.textContent=String(text);return node;}
   function pcstReport(context,error){if(typeof root.reportApplicationError==="function")root.reportApplicationError(context,error);else root.console?.error?.(context,error);}
@@ -25,6 +25,9 @@
   }
   function pcstSetupState(){try{return setupApi&&setupApi.getState?setupApi.getState():root.CareerModeProductionSharedShowdownSetup?.getState?.()||null;}catch(_error){return null;}}
   function pcstConfirmed(){const state=pcstSetupState();return Boolean(state&&state.ready===true&&state.setup&&state.setup.phase==="SHOWDOWN_CONFIRMED"&&state.setup.revision===6&&state.managerRole&&state.rivalryId&&state.sessionId&&state.deviceId);}
+  function pcstReady(){return Boolean(view&&view.state&&view.state.phase==="CAREER_START_READY");}
+  function pcstStopPolling(){if(pollTimer!==null&&typeof root.clearInterval==="function"){root.clearInterval(pollTimer);pollTimer=null;}return true;}
+  function pcstSerialize(task){const run=operationTail.then(task,task);operationTail=run.then(()=>undefined,()=>undefined);return run;}
   function pcstLeagueName(id){try{const item=typeof root.getLeagueById==="function"&&root.getLeagueById(id);if(item&&item.name)return item.name;}catch(_error){}return String(id||"").replaceAll("_"," ").replace(/\b\w/g,char=>char.toUpperCase());}
   function pcstRandomOperationId(){if(!root.crypto||typeof root.crypto.getRandomValues!=="function")throw new Error("Secure randomness is unavailable.");const bytes=new Uint8Array(16);root.crypto.getRandomValues(bytes);return `career_start_op_${Array.from(bytes,b=>b.toString(16).padStart(2,"0")).join("")}`;}
   async function pcstProviderOptions(){
@@ -33,11 +36,15 @@
     if(!services||services.ok===false||!services.auth?.currentUser||!services.firestore||!services.firestoreSdk)throw new Error("Connected account services are unavailable.");
     return {state,options:{user:services.auth.currentUser,firestore:services.firestore,firebaseSdk:services.firestoreSdk,rivalryId:state.rivalryId,sessionId:state.sessionId,deviceId:state.deviceId,cryptoImpl:root.crypto}};
   }
-  async function pcstRefresh(){
-    const ctx=await pcstProviderOptions(),result=await provider.read(ctx.options);if(!result||result.ok!==true)throw Object.assign(new Error("Career Start could not be read."),{code:result&&result.code});view={...result,setup:ctx.state.setup};pcstRender();pcstDecorateControl();return view;
+  function pcstRefresh(){
+    if(refreshPromise)return refreshPromise;
+    const run=pcstSerialize(async()=>{const ctx=await pcstProviderOptions(),result=await provider.read(ctx.options);if(!result||result.ok!==true)throw Object.assign(new Error("Career Start could not be read."),{code:result&&result.code});view={...result,setup:ctx.state.setup};pcstRender();pcstDecorateControl();if(pcstReady())pcstStopPolling();return view;});
+    refreshPromise=run.finally(()=>{if(refreshPromise===wrapped)refreshPromise=null;});
+    const wrapped=refreshPromise;
+    return wrapped;
   }
   async function pcstAcknowledge(){
-    if(busy)return false;busy=true;pcstRender();try{const ctx=await pcstProviderOptions();const current=await provider.read(ctx.options);if(!current||current.ok!==true)throw Object.assign(new Error("Career Start could not be read."),{code:current&&current.code});const result=await provider.acknowledge({...ctx.options,operationId:pcstRandomOperationId(),baseRevision:current.revision||0});if(!result||result.ok!==true)throw Object.assign(new Error("Career Start acknowledgement was rejected."),{code:result&&result.code});view={...result,setup:ctx.state.setup};pcstRender();pcstDecorateControl();return true;}catch(error){pcstReport("Unable to acknowledge Shared Career Start",error);const status=root.document?.querySelector(`#${PANEL_ID} [data-career-status]`);if(status)status.textContent=`NOT RECORDED · ${error.code||error.message||"Try again."}`;return false;}finally{busy=false;pcstRender();}}
+    if(busy)return false;busy=true;pcstRender();try{return await pcstSerialize(async()=>{const ctx=await pcstProviderOptions();const current=await provider.read(ctx.options);if(!current||current.ok!==true)throw Object.assign(new Error("Career Start could not be read."),{code:current&&current.code});const result=await provider.acknowledge({...ctx.options,operationId:pcstRandomOperationId(),baseRevision:current.revision||0});if(!result||result.ok!==true)throw Object.assign(new Error("Career Start acknowledgement was rejected."),{code:result&&result.code});view={...result,setup:ctx.state.setup};pcstRender();pcstDecorateControl();if(pcstReady())pcstStopPolling();return true;});}catch(error){pcstReport("Unable to acknowledge Shared Career Start",error);const status=root.document?.querySelector(`#${PANEL_ID} [data-career-status]`);if(status)status.textContent=`NOT RECORDED · ${error.code||error.message||"Try again."}`;return false;}finally{busy=false;pcstRender();}}
   function pcstManagerLabel(role){try{const showdown=typeof currentShowdown!=="undefined"?currentShowdown:null;const name=showdown&&showdown.managers&&showdown.managers[role];if(name)return name;}catch(_error){}return role==="playerOne"?"PLAYER ONE":"PLAYER TWO";}
   function pcstRow(label,value,state){const item=pcstCreate("div","settingsInfoRow");item.dataset.careerRow=state||"";item.append(pcstCreate("span","",label),pcstCreate("strong","",value));return item;}
   function pcstRender(){
@@ -64,11 +71,11 @@
   }
   function pcstCapture(event){const button=event.target&&event.target.closest&&event.target.closest(`#${CONTROL_ID}`);if(!button||button.dataset.sharedCareerStart!=="true"||!pcstConfirmed())return;event.preventDefault();event.stopPropagation();if(typeof event.stopImmediatePropagation==="function")event.stopImmediatePropagation();void pcstOpenPanel().catch(error=>pcstReport("Unable to open Shared Career Start",error));}
   async function pcstTick(){
-    if(pollBusy||root.document&&root.document.visibilityState==="hidden")return false;
-    pollBusy=true;
-    try{if(!setupApi&&root.CareerModeProductionSharedShowdownSetup)setupApi=root.CareerModeProductionSharedShowdownSetup;pcstDecorateControl();const overlay=root.document&&root.document.getElementById(PANEL_ID);if(overlay&&!overlay.classList.contains("hidden")&&pcstConfirmed()&&!busy)await pcstRefresh();return true;}catch(_error){return false;}finally{pollBusy=false;}
+    if(root.document&&root.document.visibilityState==="hidden")return false;
+    if(pcstReady()){pcstStopPolling();return false;}
+    try{if(!setupApi&&root.CareerModeProductionSharedShowdownSetup)setupApi=root.CareerModeProductionSharedShowdownSetup;pcstDecorateControl();const overlay=root.document&&root.document.getElementById(PANEL_ID);if(overlay&&!overlay.classList.contains("hidden")&&pcstConfirmed()&&!busy)await pcstRefresh();return true;}catch(_error){return false;}
   }
   function pcstInstall(){if(installed)return true;installed=true;if(root.document){root.document.addEventListener("click",pcstCapture,true);const observer=new MutationObserver(()=>pcstDecorateControl());observer.observe(root.document.documentElement,{subtree:true,childList:true,characterData:true,attributes:true,attributeFilter:["disabled","class"]});}if(typeof root.setInterval==="function")pollTimer=root.setInterval(()=>void pcstTick(),POLL_MS);void pcstEnsureDependencies().then(()=>pcstTick()).catch(()=>{});return true;}
 
-  return Object.freeze({contractVersion:1,feature:"ssjr-production-shared-career-start",productionEnabled:true,requiresConfirmedSharedSetup:true,requiresExactActiveSession:true,twoManagerAcknowledgement:true,canonicalStorageMutation:false,billingRequired:false,pollIntervalMs:POLL_MS,visibilityAwarePolling:true,serializedPolling:true,install:pcstInstall,openPanel:pcstOpenPanel,closePanel:pcstClosePanel,refresh:pcstRefresh,getState:()=>view});
+  return Object.freeze({contractVersion:1,feature:"ssjr-production-shared-career-start",productionEnabled:true,requiresConfirmedSharedSetup:true,requiresExactActiveSession:true,twoManagerAcknowledgement:true,canonicalStorageMutation:false,billingRequired:false,pollIntervalMs:POLL_MS,visibilityAwarePolling:true,serializedOperations:true,terminalPollingStops:true,install:pcstInstall,openPanel:pcstOpenPanel,closePanel:pcstClosePanel,refresh:pcstRefresh,getState:()=>view});
 });
