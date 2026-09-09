@@ -9,6 +9,7 @@ const generated=fs.readFileSync('firestore.spark.generated.rules','utf8');
 const fragment=fs.readFileSync('firestore.shared-setup-production.fragment.rules','utf8');
 const careerFragment=fs.readFileSync('firestore.career-start-production.fragment.rules','utf8');
 const transferFragment=fs.readFileSync('firestore.transfer-challenge-production.fragment.rules','utf8');
+const seasonFragment=fs.readFileSync('firestore.season-results-production.fragment.rules','utf8');
 const transferOptionsSource=fs.readFileSync('data/transferOptions.js','utf8');
 const workflow=fs.readFileSync('.github/workflows/deploy-firestore-rules-zero-billing.yml','utf8');
 const stage3=fs.readFileSync('.github/workflows/validate-stage3-private-pairing.yml','utf8');
@@ -64,12 +65,13 @@ const transferCatalog=loadTransferCatalog();
 const functionMarker='// SSJR_SHARED_SETUP_FUNCTIONS_BEGIN',functionEnd='// SSJR_SHARED_SETUP_FUNCTIONS_END',matchMarker='// SSJR_SHARED_SETUP_MATCH_BEGIN',matchEnd='// SSJR_SHARED_SETUP_MATCH_END';
 const careerFunctionMarker='// SSJR_CAREER_START_FUNCTIONS_BEGIN',careerFunctionEnd='// SSJR_CAREER_START_FUNCTIONS_END',careerMatchMarker='// SSJR_CAREER_START_MATCH_BEGIN',careerMatchEnd='// SSJR_CAREER_START_MATCH_END';
 const transferFunctionMarker='// SSJR_TRANSFER_CHALLENGE_FUNCTIONS_BEGIN',transferFunctionEnd='// SSJR_TRANSFER_CHALLENGE_FUNCTIONS_END',transferMatchMarker='// SSJR_TRANSFER_CHALLENGE_MATCH_BEGIN',transferMatchEnd='// SSJR_TRANSFER_CHALLENGE_MATCH_END';
+const seasonFunctionMarker='// SSJR_SEASON_RESULTS_FUNCTIONS_BEGIN',seasonFunctionEnd='// SSJR_SEASON_RESULTS_FUNCTIONS_END',seasonMatchMarker='// SSJR_SEASON_RESULTS_MATCH_BEGIN',seasonMatchEnd='// SSJR_SEASON_RESULTS_MATCH_END';
 const expectedTransferFunctions=injectTransferCatalog(between(transferFragment,transferFunctionMarker,transferFunctionEnd),transferCatalog);
 let expectedGenerated=base;
-expectedGenerated=once(expectedGenerated,'    function capabilityCanReadPendingRivalry(rivalryId) {',`    ${functionMarker}\n${between(fragment,functionMarker,functionEnd)}\n    ${functionEnd}\n\n    ${careerFunctionMarker}\n${between(careerFragment,careerFunctionMarker,careerFunctionEnd)}\n    ${careerFunctionEnd}\n\n    ${transferFunctionMarker}\n${expectedTransferFunctions}\n    ${transferFunctionEnd}\n\n`,'top-level function insertion');
-expectedGenerated=once(expectedGenerated,'      // STAGE5C_CANDIDATE_SESSION_MATCH_BEGIN',`      ${matchMarker}\n${between(fragment,matchMarker,matchEnd)}\n      ${matchEnd}\n\n      ${careerMatchMarker}\n${between(careerFragment,careerMatchMarker,careerMatchEnd)}\n      ${careerMatchEnd}\n\n      ${transferMatchMarker}\n${between(transferFragment,transferMatchMarker,transferMatchEnd)}\n      ${transferMatchEnd}\n\n`,'rivalry child-match insertion');
+expectedGenerated=once(expectedGenerated,'    function capabilityCanReadPendingRivalry(rivalryId) {',`    ${functionMarker}\n${between(fragment,functionMarker,functionEnd)}\n    ${functionEnd}\n\n    ${careerFunctionMarker}\n${between(careerFragment,careerFunctionMarker,careerFunctionEnd)}\n    ${careerFunctionEnd}\n\n    ${transferFunctionMarker}\n${expectedTransferFunctions}\n    ${transferFunctionEnd}\n\n    ${seasonFunctionMarker}\n${between(seasonFragment,seasonFunctionMarker,seasonFunctionEnd)}\n    ${seasonFunctionEnd}\n\n`,'top-level function insertion');
+expectedGenerated=once(expectedGenerated,'      // STAGE5C_CANDIDATE_SESSION_MATCH_BEGIN',`      ${matchMarker}\n${between(fragment,matchMarker,matchEnd)}\n      ${matchEnd}\n\n      ${careerMatchMarker}\n${between(careerFragment,careerMatchMarker,careerMatchEnd)}\n      ${careerMatchEnd}\n\n      ${transferMatchMarker}\n${between(transferFragment,transferMatchMarker,transferMatchEnd)}\n      ${transferMatchEnd}\n\n      ${seasonMatchMarker}\n${between(seasonFragment,seasonMatchMarker,seasonMatchEnd)}\n      ${seasonMatchEnd}\n\n`,'rivalry child-match insertion');
 if(!expectedGenerated.endsWith('\n'))expectedGenerated+='\n';
-assert.equal(generated,expectedGenerated,'Generated production Rules must be the exact reviewed Spark base plus only the bounded Shared Setup, Career Start and Transfer Challenge fragment splices with deterministic canonical Transfer catalog binding.');
+assert.equal(generated,expectedGenerated,'Generated production Rules must be the exact reviewed Spark base plus only the bounded Shared Setup, Career Start, Transfer Challenge and Season Results fragment splices with deterministic canonical Transfer catalog binding.');
 assert.deepEqual(ruleMembership('ssjrTransferValidLeagueId'),transferCatalog.leagueIds,'Generated Rules league membership must exactly match the repository FIFA 17 Transfer catalog');
 assert.deepEqual(ruleMembership('ssjrTransferValidNationalityId'),transferCatalog.nationalityIds,'Generated Rules nationality membership must exactly match the repository FIFA 17 Transfer catalog');
 assert.equal(generated.includes("'invented-league'"),false,'Generated Rules must not admit invented transfer league IDs');
@@ -78,10 +80,12 @@ assert.equal(generated.includes("'invented-nationality'"),false,'Generated Rules
 assert.equal(base.includes('match /sharedSetup/authoritative'),false,'Reviewed Spark base must remain unchanged; Shared Setup is additive at build time.');
 assert.equal(base.includes('match /careerStart/authoritative'),false,'Reviewed Spark base must remain unchanged; Career Start is additive at build time.');
 assert.equal(base.includes('match /transferChallenges/{transferId}'),false,'Reviewed Spark base must remain unchanged; Transfer Challenge is additive at build time.');
+assert.equal(base.includes('match /seasonResults/{seasonId}'),false,'Reviewed Spark base must remain unchanged; Season Results is additive at build time.');
 assert.equal((generated.match(/match \/sharedSetup\/authoritative/g)||[]).length,1,'Generated provider authority must contain exactly one Shared Setup match.');
 assert.equal((generated.match(/match \/careerStart\/authoritative/g)||[]).length,1,'Generated provider authority must contain exactly one Career Start match.');
 assert.equal((generated.match(/match \/transferChallenges\/\{transferId\}/g)||[]).length,1,'Generated provider authority must contain exactly one Transfer Challenge match.');
-assert.equal((generated.match(/match \/roles\/\{managerRole\}/g)||[]).length,1,'Generated provider authority must contain exactly one Transfer Challenge role-private match.');
+assert.equal((generated.match(/match \/seasonResults\/\{seasonId\}/g)||[]).length,1,'Generated provider authority must contain exactly one Season Results match.');
+assert.equal((generated.match(/match \/roles\/\{managerRole\}/g)||[]).length,2,'Generated provider authority must contain exactly two role-private matches: Transfer Challenge and Season Results.');
 for(const required of [
   'function ssjrExactPairedRivalry(rivalryId)',
   'function ssjrWriteAuthorityValid(rivalryId, deviceId, sessionId)',
@@ -95,7 +99,6 @@ for(const required of [
   'allow create: if ssjrCareerValidCreate(rivalryId)',
   'allow update: if ssjrCareerValidUpdate(rivalryId)',
   'match /transferChallenges/{transferId}',
-  'match /roles/{managerRole}',
   'allow create: if ssjrTransferValidCreate(rivalryId, transferId)',
   'allow update: if ssjrTransferValidUpdate(rivalryId, transferId)',
   'allow create: if ssjrTransferPrivateCreateValid(rivalryId, transferId, managerRole)',
@@ -103,22 +106,30 @@ for(const required of [
   'function ssjrTransferValidLeagueId(value)',
   'function ssjrTransferValidNationalityId(value)',
   "request.time >= before.startedAt + duration.value(15, 'm')",
+  'match /seasonResults/{seasonId}',
+  'allow create: if ssjrSeasonResultValidCreate(rivalryId, seasonId)',
+  'allow update: if ssjrSeasonResultValidUpdate(rivalryId, seasonId)',
+  'allow create: if ssjrSeasonResultPrivateCreateValid(rivalryId, seasonId, managerRole)',
+  "transfer.phase == 'COMPLETED'",
+  "public.runtimeRevision == '1.9.1-r9'",
+  'getAfter(/databases/$(database)/documents/rivalries/$(rivalryId)/seasonResults/$(seasonId)/roles/$(role))',
   "managerRole == ssjrActorRole(rivalryId) || public.phase == 'COMPLETED'",
-  'getAfter(/databases/$(database)/documents/rivalries/$(rivalryId)/transferChallenges/$(transferId)/roles/$(role))',
   "setup.phase == 'SHOWDOWN_CONFIRMED'",
   "after.phase == 'CAREER_START_READY'",
   'allow list, delete: if false',
   "after.totalSeasons == 1 || after.totalSeasons == 3 || after.totalSeasons == 5 || after.totalSeasons == 10"
 ]) assert.ok(generated.includes(required),`Generated production Rules missing ${required}`);
-for(const forbidden of [/cloud\s*run/i,/cloud\s*functions/i,/blaze/i,/payment method/i,/purchased credits/i])assert.doesNotMatch(`${fragment}\n${careerFragment}\n${transferFragment}`,forbidden,'Shared Journey production Rules must remain zero-billing/Spark compatible.');
+for(const forbidden of [/cloud\s*run/i,/cloud\s*functions/i,/blaze/i,/payment method/i,/purchased credits/i])assert.doesNotMatch(`${fragment}\n${careerFragment}\n${transferFragment}\n${seasonFragment}`,forbidden,'Shared Journey production Rules must remain zero-billing/Spark compatible.');
 assert.match(generated,/match \/\{document=\*\*\} \{\s*allow read, write: if false;/,'Generated authority must retain global deny-by-default fallback.');
 
 assert.match(workflow,/FIREBASE_RULES_FILE: firestore\.spark\.generated\.rules/,'Zero-billing workflow must publish generated authority.');
 assert.match(workflow,/firestore\.career-start-production\.fragment\.rules/,'Zero-billing workflow must rebuild when the reviewed Career Start fragment changes.');
 assert.match(workflow,/firestore\.transfer-challenge-production\.fragment\.rules/,'Zero-billing workflow must rebuild when the reviewed Transfer Challenge fragment changes.');
+assert.match(workflow,/firestore\.season-results-production\.fragment\.rules/,'Zero-billing workflow must rebuild when the reviewed Season Results fragment changes.');
 assert.match(workflow,/node scripts\/build-production-firestore-rules\.mjs/,'Deployment must deterministically rebuild reviewed source.');
 assert.match(workflow,/shared-showdown-setup-production-provider-emulator\.cjs/,'Deployment must reprove generated Shared Setup Rules with the adversarial provider matrix before authentication and publication.');
 assert.match(workflow,/shared-transfer-challenge-contracts\.cjs/,'Deployment must reprove the Transfer Challenge provider/privacy boundary before publication.');
+assert.match(workflow,/shared-season-results-contracts\.cjs/,'Deployment must reprove the Season Results provider/privacy/Rules boundary before publication.');
 assert.match(workflow,/node scripts\/publish-firestore-rules-zero-billing\.mjs/,'Deployment must use the reviewed Rules-only publisher.');
 assert.match(publisher,/urn:ietf:params:oauth:grant-type:jwt-bearer/,'Publisher must use canonical OAuth JWT bearer grant.');
 assert.match(publisher,/firebaserules\.googleapis\.com\/v1/,'Publisher must remain Firebase Rules API-only.');
@@ -191,4 +202,4 @@ assert.doesNotMatch(setup,/options\.catalog|caller.*catalog/i,'Production runtim
 assert.match(adapter,/createProtocol\(\{catalog:catalogModule\.catalog,cryptoImpl\}\)/,'Production path must retain immutable repository-owned catalog authority.');
 assert.doesNotMatch(adapter,/options\.catalog/);
 
-process.stdout.write(`PASS SSJR production paired-first runtime: exact reviewed Rules splices for Shared Setup + Career Start + Transfer Challenge, exact pairing + ACTIVE before draw, durable pre-draw shared-mode marker, capture-phase actual click-path denial, ${runtimeRevision} whole-shell installed-app delivery with ${previousRuntimeRevision} recovery, lazy startup bootstrap, generated zero-billing Rules authority, exact repository-owned FIFA 17 Transfer catalog binding, candidate-equivalent production provider emulator coverage before PR merge and deploy publication, immutable provider catalog, fresh-session resume path, and canonical local-save non-mutation are permanently gated.\n`);
+process.stdout.write(`PASS SSJR production paired-first runtime: exact reviewed Rules splices for Shared Setup + Career Start + Transfer Challenge + Season Results, exact pairing + ACTIVE before draw, durable pre-draw shared-mode marker, capture-phase actual click-path denial, ${runtimeRevision} whole-shell installed-app delivery with ${previousRuntimeRevision} recovery, lazy startup bootstrap, generated zero-billing Rules authority, exact repository-owned FIFA 17 Transfer catalog binding, candidate-equivalent production provider emulator coverage before PR merge and deploy publication, immutable provider catalog, fresh-session resume path, and canonical local-save non-mutation are permanently gated.\n`);
