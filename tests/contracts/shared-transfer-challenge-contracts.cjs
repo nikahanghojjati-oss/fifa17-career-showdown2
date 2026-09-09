@@ -7,6 +7,7 @@ require('./shared-transfer-challenge-provider-contracts.cjs');
 
 const transferRules=fs.readFileSync('firestore.transfer-challenge-production.fragment.rules','utf8');
 const productionSource=fs.readFileSync('js/productionSharedTransferChallenge.js','utf8');
+const providerSource=fs.readFileSync('js/sparkSharedTransferChallenge.js','utf8');
 for(const required of [
   '// SSJR_TRANSFER_CHALLENGE_FUNCTIONS_BEGIN',
   '// SSJR_TRANSFER_CHALLENGE_MATCH_BEGIN',
@@ -23,6 +24,15 @@ for(const required of [
   'ssjrWriteAuthorityValid(rivalryId, root.updatedByDeviceId, root.activeSessionId)'
 ])assert.ok(transferRules.includes(required),`Transfer Challenge Rules missing ${required}`);
 for(const forbidden of [/cloud\s*run/i,/cloud\s*functions/i,/blaze/i,/billingEnabled\s*[:=]\s*true/i])assert.doesNotMatch(transferRules,forbidden,'Transfer Challenge Rules must remain Spark-only and zero-billing.');
+for(const required of [
+  'CANONICAL_LEAGUE_IDS=Object.freeze',
+  'CANONICAL_NATIONALITY_IDS=Object.freeze',
+  'CANONICAL_LEAGUE_IDS.length!==36',
+  'CANONICAL_NATIONALITY_IDS.length!==164',
+  'repositoryCatalogSnapshot:true',
+  'callerCatalogOverride:false'
+])assert.ok(providerSource.includes(required),`Shared Transfer Challenge provider missing repository-catalog guard ${required}`);
+assert.doesNotMatch(providerSource,/options\.(?:leagueIds|nationalityIds)/,'Production provider must never accept caller-owned catalog overrides.');
 
 assert.equal(ProductionAdapter.feature,'ssjr-production-shared-transfer-challenge');
 assert.equal(ProductionAdapter.productionEnabled,true);
@@ -175,5 +185,5 @@ const rejectsCode=async(promise,code)=>assert.rejects(promise,error=>error&&erro
   tampered.receipts=null;
   await assert.rejects(protocol.verifyState(tampered),'malformed receipt collections must fail closed');
 
-  console.log('PASS Shared Transfer Challenge: confirmed Career Start gates entry; coordinator starts one 15-minute shared window; early end needs both roles; expiry is deterministic; guesses and signings are role-owned and private until completion; canonical transfer IDs, CAS/replay, season bounds and terminal completion fail closed; both managers derive identical verdicts; the production screen adapter reuses existing controls without local-save authority; candidate Rules pin server time, atomic role payloads and pre-completion privacy before production promotion.');
+  console.log('PASS Shared Transfer Challenge: confirmed Career Start gates entry; coordinator starts one 15-minute shared window; early end needs both roles; expiry is deterministic; guesses and signings are role-owned and private until completion; repository-owned provider catalog cannot be broadened by caller overrides; canonical transfer IDs, CAS/replay, season bounds and terminal completion fail closed; both managers derive identical verdicts; the production screen adapter reuses existing controls without local-save authority; candidate Rules pin server time, atomic role payloads and pre-completion privacy before production promotion.');
 })().catch(error=>{console.error(error);process.exitCode=1;});
