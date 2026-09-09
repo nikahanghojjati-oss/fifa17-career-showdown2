@@ -1,5 +1,9 @@
 const assert=require('node:assert/strict');
 const {webcrypto}=require('node:crypto');
+global.window=globalThis;
+require('../../data/transferOptions.js');
+const leagueIds=global.FIFA17_TRANSFER_LEAGUES.map(item=>item.id);
+const nationalityIds=global.FIFA17_TRANSFER_NATIONALITIES.map(item=>item.id);
 const Provider=require('../../js/sparkSharedTransferChallenge.js');
 
 const rivalryId='pair_'+('a'.repeat(64));
@@ -8,8 +12,6 @@ const device1='device_'+('1'.repeat(32));
 const device2='device_'+('2'.repeat(32));
 const uid1='manager_one';
 const uid2='manager_two';
-const leagueIds=['england-premier-league','spain-primera-division','italy-serie-a'];
-const nationalityIds=['england','spain','italy','brazil'];
 const op=n=>`transfer_op_${Number(n).toString(16).padStart(32,'0')}`;
 const ts=millis=>({toMillis:()=>millis});
 function clone(value){
@@ -46,11 +48,13 @@ function createHarness(){
       return result;
     }
   };
-  const options=(role,nowEpochMs)=>{nowForServerTimestamp=nowEpochMs;return {user:{uid:role==='playerOne'?uid1:uid2},firestore:{},firebaseSdk:sdk,rivalryId,sessionId,deviceId:role==='playerOne'?device1:device2,seasonNumber:1,leagueIds,nationalityIds,cryptoImpl:webcrypto,nowEpochMs};};
+  const options=(role,nowEpochMs)=>{nowForServerTimestamp=nowEpochMs;return {user:{uid:role==='playerOne'?uid1:uid2},firestore:{},firebaseSdk:sdk,rivalryId,sessionId,deviceId:role==='playerOne'?device1:device2,seasonNumber:1,cryptoImpl:webcrypto,nowEpochMs};};
   return {store,getLog,options,key};
 }
 
 (async()=>{
+  assert.equal(leagueIds.length,36);
+  assert.equal(nationalityIds.length,164);
   assert.equal(Provider.feature,'ssjr-spark-shared-transfer-challenge');
   assert.equal(Provider.runtimeRevision,'1.9.1-r8');
   assert.equal(Provider.billingRequired,false);
@@ -59,6 +63,8 @@ function createHarness(){
   assert.equal(Provider.cloudFunctionsRequired,false);
   assert.equal(Provider.canonicalStorageMutation,false);
   assert.equal(Provider.privateInputsSplit,true);
+  assert.equal(Provider.repositoryCatalogSnapshot,true);
+  assert.equal(Provider.callerCatalogOverride,false);
 
   const h=createHarness();
   let result=await Provider.startWindow({...h.options('playerOne',1_000_000),operationId:op(1),baseRevision:0});
@@ -77,6 +83,10 @@ function createHarness(){
   assert.equal(result.state.phase,'WINDOW_OPEN');
   result=await Provider.requestEndWindow({...h.options('playerTwo',1_100_500),operationId:op(3),baseRevision:2});
   assert.equal(result.state.phase,'GUESS_ENTRY');
+
+  const forgedCatalog=await Provider.lockGuesses({...h.options('playerOne',1_100_700),operationId:op(99),baseRevision:3,leagueIds:['invented-league'],nationalityIds:['invented-nation'],guesses:[{slot:1,type:'league',valueId:'invented-league'}]});
+  assert.equal(forgedCatalog.ok,false);assert.equal(forgedCatalog.code,'TRANSFER_GUESSES_INVALID','caller-supplied catalog overrides must never broaden repository-owned FIFA 17 authority');
+  assert.equal(h.store.get(transferPath).revision,3);assert.equal(h.store.has(p1Path),false);
 
   const p1Guesses=[{slot:1,type:'league',valueId:'spain-primera-division'},{slot:2,type:'nationality',valueId:'brazil'}];
   const p2Guesses=[{slot:1,type:'league',valueId:'england-premier-league'},{slot:2,type:'nationality',valueId:'brazil'}];
@@ -118,5 +128,5 @@ function createHarness(){
   const early=await Provider.advanceExpiredWindow({...tooEarly.options('playerTwo',3_899_999),operationId:op(31),baseRevision:1});
   assert.equal(early.ok,false);assert.equal(early.code,'TRANSFER_WINDOW_STILL_OPEN');
 
-  console.log('PASS Shared Transfer Challenge Spark provider: exact account/device/rivalry/ACTIVE-session and Career Start prerequisites, split public/private storage, pre-completion opponent-read denial, role-owned writes, 15-minute expiry, CAS and identical post-completion verdicts stay Spark-only with zero local-save mutation.');
+  console.log('PASS Shared Transfer Challenge Spark provider: exact account/device/rivalry/ACTIVE-session and Career Start prerequisites, repository-owned FIFA 17 catalog snapshot with caller override rejection, split public/private storage, pre-completion opponent-read denial, role-owned writes, 15-minute expiry, CAS and identical post-completion verdicts stay Spark-only with zero local-save mutation.');
 })().catch(error=>{console.error(error);process.exitCode=1;});
