@@ -1,21 +1,33 @@
 {
-  "schemaVersion": "1.1.0",
+  "schemaVersion": "1.2.0",
   "lane": "independent visual proposal",
   "status": "ACTIVE",
   "proposalBranch": "visual/r8-5-approved-character-identity-lock",
-  "latestObservedMainSha": "d56b5179be76d05b98a801a4de7c0f4a42262b4f",
+  "latestObservedMainSha": "c23599b0528ff1333928eac3d85a4a95dc953d6d",
   "latestObservedAssetRevision": "1.9.1-r9",
   "currentMilestone": "R8.7 single-expression identity recovery",
-  "visualProductionProgressPercent": 40.0,
-  "handoffProximityPercent": 24,
+  "visualProductionProgressPercent": 41.0,
+  "handoffProximityPercent": 25,
   "characterApprovalGate": "OPEN_NOT_APPROVED",
   "generationFormatPolicy": "ONE_CHARACTER_ONE_EXPRESSION_HIGH_RESOLUTION",
   "multiExpressionBoardGeneration": "RETIRED_FOR_PRODUCTION",
+  "expressionReferencePack": {
+    "state": "READY",
+    "libraryFolder": "/Showdown visual/R8_7_IDENTITY_EXPRESSION_RECOVERY/",
+    "persistedOwnerReferences": 10,
+    "index": "R8_7_EXPRESSION_REFERENCE_PACK_INDEX.md",
+    "authority": "AUXILIARY_ONLY_BELOW_TIER_0_HERO_IDENTITY"
+  },
+  "latestGenerationAttempt": {
+    "target": "Nik neutral isolated high-resolution master",
+    "result": "TOOL_ERROR_NO_ASSET_PRODUCED",
+    "retryPolicy": "wait for a new user request, then retry the same bounded single-expression test"
+  },
   "progressModel": [
     {"workstream":"approved identity truth recovered and persistently locked","weight":20,"earned":20,"state":"done"},
-    {"workstream":"live DOM/source reconciliation for visual targeting","weight":10,"earned":7,"state":"current r9 shell rechecked; deeper per-screen checks only when needed"},
+    {"workstream":"live DOM/source reconciliation for visual targeting","weight":10,"earned":7,"state":"current r9 shell tracked; latest main c23599b0; deeper per-screen checks only when needed"},
     {"workstream":"identity plus natural-expression contract","weight":10,"earned":10,"state":"done"},
-    {"workstream":"isolated canonical Nik and Daniel character masters","weight":20,"earned":1,"state":"R8.7 recovery workflow adopted; expression-specific assets not yet owner approved"},
+    {"workstream":"isolated canonical Nik and Daniel character masters","weight":20,"earned":2,"state":"R8.7 reference pack ready; first Nik-neutral asset still pending due image-tool failure"},
     {"workstream":"screen-state expression and pose variants","weight":15,"earned":0,"state":"blocked by character approval gate"},
     {"workstream":"R8.5 black-gold final-art and DOM composition mapping","weight":10,"earned":1,"state":"foundation exists; implementation waits for character approval"},
     {"workstream":"responsive safe-zone and obstruction QA","weight":10,"earned":0,"state":"later"},
@@ -24,6 +36,11 @@
   "canonicalExpressionAnchors": {
     "nik": "owner-approved main hero / thinking face",
     "daniel": "owner-approved main hero / pointing face"
+  },
+  "minimalAssetPolicy": {
+    "rule": "build only expressions and poses proven necessary by actual mapped website screens",
+    "backViewDefault": "NOT_REQUIRED",
+    "hundredsOfExpressions": "PROHIBITED_SCOPE_EXPANSION"
   },
   "handoffRule": {
     "0to49": "continue visual work normally",
@@ -38,7 +55,7 @@
     "too many unrelated visual branches are open to reason about safely",
     "current isolated asset milestone is complete and a fresh session would reduce drift risk"
   ],
-  "nextSafeAction": "Use Tier 0 face anchors plus optional additional owner references. Generate Nik first, one large expression at a time, beginning with neutral. Do not generate a multi-face board. Freeze each owner-approved expression before continuing.",
+  "nextSafeAction": "On the next user request, retry exactly one isolated large Nik-neutral expression using Tier 0 identity anchors plus the R8.7 auxiliary expression pack. Do not generate a board or multiple faces. Freeze only after explicit owner approval.",
   "nonGoals": [
     "replicate POS/SSJR testing infrastructure",
     "modify main",
