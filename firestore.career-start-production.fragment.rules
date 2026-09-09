@@ -23,7 +23,7 @@
         'baseRevisions','actorRoles','activeSessionId','updatedAt','updatedByDeviceId'
       ]);
     }
-    function ssjrCareerBaseValid(root, rivalryId) {
+    function ssjrCareerShapeValid(root, rivalryId) {
       let setup = ssjrCareerSetup(rivalryId).data;
       return ssjrCareerExactKeys(root)
         && ssjrCareerSetupConfirmed(rivalryId)
@@ -43,14 +43,17 @@
         && root.baseRevisions is list
         && root.baseRevisions.size() == root.revision
         && root.actorRoles is list
-        && root.actorRoles.size() == root.revision
+        && root.actorRoles.size() == root.revision;
+    }
+    function ssjrCareerWriteValid(root, rivalryId) {
+      return ssjrCareerShapeValid(root, rivalryId)
         && root.updatedAt == request.time
         && ssjrWriteAuthorityValid(rivalryId, root.updatedByDeviceId, root.activeSessionId);
     }
     function ssjrCareerValidCreate(rivalryId) {
       let after = request.resource.data;
       let actorRole = ssjrActorRole(rivalryId);
-      return ssjrCareerBaseValid(after, rivalryId)
+      return ssjrCareerWriteValid(after, rivalryId)
         && after.revision == 1
         && after.phase == 'ONE_MANAGER_ACKNOWLEDGED'
         && after.acknowledgedRoles[0] == actorRole
@@ -62,8 +65,8 @@
       let before = resource.data;
       let after = request.resource.data;
       let actorRole = ssjrActorRole(rivalryId);
-      return ssjrCareerBaseValid(before, rivalryId)
-        && ssjrCareerBaseValid(after, rivalryId)
+      return ssjrCareerShapeValid(before, rivalryId)
+        && ssjrCareerWriteValid(after, rivalryId)
         && before.revision == 1
         && before.phase == 'ONE_MANAGER_ACKNOWLEDGED'
         && after.revision == 2
