@@ -242,6 +242,7 @@ function isRouteStateValid(screenName){
     }
 
     if(screenName==="transferChallenge")try{if(window.CareerModeProductionSharedTransferChallenge?.canRoute?.())return true}catch(_){}
+    if(screenName==="seasonEntry")try{if(window.CareerModeProductionSharedSeasonResults?.canRoute?.())return true}catch(_){}
 
     const clubsValid = getClubPairRouteState(showdown);
     const confirmationPending = clubsValid && isClubConfirmationPending(showdown);
