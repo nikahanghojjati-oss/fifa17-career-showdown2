@@ -17,23 +17,25 @@ const read = file => fs.readFileSync(file, "utf8");
   assert.equal(result.milestoneModel, "SSJR-1.1");
   assert.equal(result.score, ledger.currentScore, "The deterministic assessor must reproduce the stored MDP score exactly.");
   assert.equal(result.formattedScore, ledger.formattedScore, "The deterministic assessor must reproduce the stored formatted MDP score exactly.");
-  assert.equal(result.score, 59.1, "r10 Season Commit may reach pre-integration only after implementation, automated verification, real defect correction and coherent exact-head regression re-test.");
-  assert.equal(result.formattedScore, "59.10/100");
+  assert.equal(result.score, 59.5, "r10 earns product integration only after exact candidate validation, merge, coherent Pages deployment and successful zero-billing Firestore Rules exact-source publication/readback.");
+  assert.equal(result.formattedScore, "59.50/100");
   assert.equal(result.featureCount, 20);
-  assert.equal(result.fullyLifecycleDelivered, 9);
-  assert.equal(result.preIntegrationComplete, 1);
+  assert.equal(result.fullyLifecycleDelivered, 10);
+  assert.equal(result.preIntegrationComplete, 0);
   assert.equal(result.designDefinedOnly, 10);
   assert.equal(result.featureCount, ledger.summary.featureCount);
   assert.equal(result.fullyLifecycleDelivered, ledger.summary.fullyLifecycleDelivered);
   assert.equal(result.preIntegrationComplete, ledger.summary.preIntegrationComplete);
   assert.equal(result.designDefinedOnly, ledger.summary.designDefinedOnly);
 
-  assert.equal(ledger.basis.mainSha, "c23599b0528ff1333928eac3d85a4a95dc953d6d");
-  assert.equal(ledger.basis.branch, "feat/ssjr-season-commit-r10");
-  assert.equal(ledger.basis.candidateHead, "5d46504498bec3b3282318f0ee0f5a4f22c48e55");
-  assert.match(ledger.basis.candidateValidation, /POS20 run #212 exact-head green/);
-  assert.equal(ledger.basis.productionRuntimeRevision, "1.9.1-r9");
-  assert.equal(ledger.basis.releaseCandidateRuntimeRevision, "1.9.1-r10");
+  assert.equal(ledger.basis.mainSha, "72925be08d3b2f7d05470e094a4b3212c18e361f");
+  assert.equal(ledger.basis.branch, "main");
+  assert.equal(ledger.basis.integrationMergeSha, "72925be08d3b2f7d05470e094a4b3212c18e361f");
+  assert.equal(ledger.basis.candidateHead, "754d6123f5e7fcc649c2dbc29d65fe6bed3629dd");
+  assert.match(ledger.basis.candidateValidation, /POS20 run #215 exact-head green/);
+  assert.equal(ledger.basis.productionRuntimeRevision, "1.9.1-r10");
+  assert.match(ledger.basis.pagesDeployment, /GitHub Pages run #108 success/i);
+  assert.match(ledger.basis.firestoreRulesDeployment, /Zero Billing run #8 attempt 2 success/i);
 
   assert.equal(ssjrReadiness.currentScore, 0, "MDP delivery progress must not award SSJR credit.");
   assert.equal(ssjrReadiness.deliveryProgressTracker.trackerId, "MDP-1");
@@ -43,12 +45,14 @@ const read = file => fs.readFileSync(file, "utf8");
   assert.equal(ssjrReadiness.deliveryProgressTracker.reportingReplacesFocusedSessionEstimate, true);
   assert.equal(Object.prototype.hasOwnProperty.call(ssjrReadiness, "planningEstimate"), false);
   const r10Candidate = ssjrReadiness.candidateEvidence.find(item => item.id === "ssjr1-season-commit-r10-candidate");
-  assert.ok(r10Candidate, "SSJR readiness must preserve the truthful zero-credit r10 candidate evidence record.");
+  assert.ok(r10Candidate, "SSJR readiness must preserve the truthful zero-credit r10 production evidence record.");
   assert.equal(r10Candidate.credit, 0);
   assert.deepEqual(r10Candidate.relatedCapabilityIds, ["season-commit"]);
-  assert.ok(r10Candidate.layers.includes("deterministic-behavior"));
-  assert.ok(r10Candidate.layers.includes("provider-enforcement"));
+  for (const layer of ["deterministic-behavior","provider-enforcement","isolated-browser-protocol","deployed-runtime"]) assert.ok(r10Candidate.layers.includes(layer), `r10 candidate evidence missing ${layer}`);
   assert.ok(r10Candidate.missingLayers.includes("production-two-account"));
+  assert.ok(r10Candidate.references.some(ref => ref.includes("PR #230 merge 72925be0")));
+  assert.ok(r10Candidate.references.some(ref => ref.includes("GitHub Pages run #108 success")));
+  assert.ok(r10Candidate.references.some(ref => ref.includes("Zero Billing run #8 attempt 2 success")));
   assert.equal(ssjrReadiness.remainingCapabilityIds.includes("season-commit"), true, "Season Commit remains uncredited in SSJR until production-two-account evidence is accepted.");
 
   const modelCapabilities = ssjrModel.domains.flatMap(domain => domain.capabilities.map(capability => ({id: capability.id, weight: capability.weight})));
@@ -69,20 +73,14 @@ const read = file => fs.readFileSync(file, "utf8");
     "setup-confirmation",
     "career-start",
     "transfer-challenge",
-    "results-publication"
+    "results-publication",
+    "season-commit"
   ]);
   for (const feature of ledger.capabilities) {
     if (integrated.has(feature.id)) {
       assert.equal(feature.lifecyclePercent, 100, `${feature.id} must be fully lifecycle-delivered.`);
       assert.equal(feature.status, "integrated");
       for (const stage of trackerModel.lifecycleStages) assert.equal(feature.stages[stage.id], "complete", `${feature.id} ${stage.id}`);
-    } else if (feature.id === "season-commit") {
-      assert.equal(feature.lifecyclePercent, 90, "Season Commit must remain pre-integration until merge plus coherent production proof.");
-      assert.equal(feature.status, "pre_integration_complete");
-      for (const stage of trackerModel.lifecycleStages.filter(stage => stage.id !== "product-integration")) {
-        assert.equal(feature.stages[stage.id], "complete", `season-commit ${stage.id}`);
-      }
-      assert.equal(feature.stages["product-integration"], "in_progress");
     } else {
       assert.equal(feature.lifecyclePercent, 10, `${feature.id} must remain design-only until its own implementation lifecycle is proven.`);
       assert.equal(feature.status, "design_defined");
@@ -96,11 +94,10 @@ const read = file => fs.readFileSync(file, "utf8");
   const results = ledger.capabilities.find(capability => capability.id === "results-publication");
   assert.equal(results.weightedContribution, 6);
   assert.ok(results.evidenceRefs.includes("tests/browser/shared-season-results-audit.cjs"));
-  assert.ok(results.evidenceRefs.some(ref => ref.includes("POS20 run #186 exact head 97473947")));
   assert.ok(results.evidenceRefs.some(ref => ref.includes("PR #228 merge d56b5179")));
 
   const seasonCommit = ledger.capabilities.find(capability => capability.id === "season-commit");
-  assert.equal(seasonCommit.weightedContribution, 3.6);
+  assert.equal(seasonCommit.weightedContribution, 4);
   for (const ref of [
     "js/sharedSeasonCommit.js",
     "js/sparkSharedSeasonCommit.js",
@@ -109,14 +106,16 @@ const read = file => fs.readFileSync(file, "utf8");
     "tests/contracts/shared-season-commit-production-contracts.cjs",
     "tests/browser/shared-season-commit-audit.cjs"
   ]) assert.ok(seasonCommit.evidenceRefs.includes(ref), `Season Commit evidence missing ${ref}`);
-  assert.ok(seasonCommit.evidenceRefs.some(ref => ref.includes("POS20 run #212 exact head 5d465044")));
+  assert.ok(seasonCommit.evidenceRefs.some(ref => ref.includes("POS20 run #215 exact head 754d6123")));
+  assert.ok(seasonCommit.evidenceRefs.some(ref => ref.includes("PR #230 merge 72925be0")));
+  assert.ok(seasonCommit.evidenceRefs.some(ref => ref.includes("GitHub Pages run #108 success")));
+  assert.ok(seasonCommit.evidenceRefs.some(ref => ref.includes("Zero Billing run #8 attempt 2 success")));
 
-  assert.equal(ledger.scoreCheck.fullyIntegratedWeight, 51);
-  assert.equal(ledger.scoreCheck.preIntegrationWeight, 4);
-  assert.equal(ledger.scoreCheck.preIntegrationContribution, 3.6);
+  assert.equal(ledger.scoreCheck.fullyIntegratedWeight, 55);
   assert.equal(ledger.scoreCheck.remainingDesignWeight, 45);
   assert.equal(ledger.scoreCheck.remainingDesignContribution, 4.5);
-  assert.equal(ledger.scoreCheck.calculatedScore, 59.1);
+  assert.equal(ledger.scoreCheck.calculatedScore, 59.5);
+  assert.equal(Object.prototype.hasOwnProperty.call(ledger.scoreCheck, "preIntegrationWeight"), false);
 
   const scoreDrift = clone(ledger);
   scoreDrift.currentScore = 99;
@@ -141,5 +140,5 @@ const read = file => fs.readFileSync(file, "utf8");
   assert.match(authority, /proven regression invalidates[\s\S]+MDP can decrease/i);
   assert.match(authority, /Current baseline — 39\.00\/100/i);
 
-  process.stdout.write(`PASS MDP-1 exact SSJR denominator, six-stage lifecycle, current ${result.formattedScore} with r10 Season Commit pre-integration, anti-inflation rules, regression guard and strict SSJR separation\n`);
+  process.stdout.write(`PASS MDP-1 exact SSJR denominator, six-stage lifecycle, current ${result.formattedScore} r10 integrated ledger, anti-inflation rules, regression guard and strict SSJR separation\n`);
 })().catch(error => { console.error(error); process.exitCode = 1; });
