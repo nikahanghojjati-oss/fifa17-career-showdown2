@@ -9,6 +9,7 @@ const sharedSetupFragmentPath=path.join(root,'firestore.shared-setup-production.
 const careerStartFragmentPath=path.join(root,'firestore.career-start-production.fragment.rules');
 const transferChallengeFragmentPath=path.join(root,'firestore.transfer-challenge-production.fragment.rules');
 const seasonResultsFragmentPath=path.join(root,'firestore.season-results-production.fragment.rules');
+const seasonCommitFragmentPath=path.join(root,'firestore.season-commit-production.fragment.rules');
 const transferOptionsPath=path.join(root,'data/transferOptions.js');
 const outputPath=path.join(root,'firestore.spark.generated.rules');
 
@@ -17,6 +18,7 @@ const sharedSetupFragment=fs.readFileSync(sharedSetupFragmentPath,'utf8');
 const careerStartFragment=fs.readFileSync(careerStartFragmentPath,'utf8');
 const transferChallengeFragment=fs.readFileSync(transferChallengeFragmentPath,'utf8');
 const seasonResultsFragment=fs.readFileSync(seasonResultsFragmentPath,'utf8');
+const seasonCommitFragment=fs.readFileSync(seasonCommitFragmentPath,'utf8');
 
 function between(source,start,end){
   const a=source.indexOf(start),b=source.indexOf(end);
@@ -41,7 +43,7 @@ function loadTransferCatalog(){
   if(!Array.isArray(leagues)||leagues.length!==36||!Array.isArray(nationalities)||nationalities.length!==164)throw new Error('Canonical FIFA 17 Transfer Challenge catalog shape changed unexpectedly.');
   const normalize=(items,label)=>{
     const ids=items.map(item=>item&&item.id);
-    if(ids.some(id=>typeof id!=='string'||!id.matches&&false)){} // keep IDs validated below without browser-only helpers
+    if(ids.some(id=>typeof id!=='string'||!id.matches&&false)){}
     if(ids.some(id=>typeof id!=='string'||!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(id)))throw new Error(`Canonical ${label} catalog contains an invalid Rules ID.`);
     if(new Set(ids).size!==ids.length)throw new Error(`Canonical ${label} catalog contains duplicate IDs.`);
     return ids;
@@ -52,24 +54,9 @@ function rulesList(ids){return `[${ids.map(id=>`'${id}'`).join(',')}]`;}
 function injectTransferCatalog(functions){
   const {leagueIds,nationalityIds}=loadTransferCatalog();
   const generic="    function ssjrTransferValidOptionId(value) { return value is string && value.size() >= 2 && value.size() <= 80 && value.matches('^[a-z0-9]+(-[a-z0-9]+)*$'); }";
-  let output=replaceOnce(
-    functions,
-    generic,
-    `${generic}\n    function ssjrTransferValidLeagueId(value) { return value in ${rulesList(leagueIds)}; }\n    function ssjrTransferValidNationalityId(value) { return value in ${rulesList(nationalityIds)}; }`,
-    'Transfer Challenge catalog helper'
-  );
-  output=replaceOnce(
-    output,
-    "        && (value.type == 'league' || value.type == 'nationality')\n        && ssjrTransferValidOptionId(value.valueId);",
-    "        && ((value.type == 'league' && ssjrTransferValidLeagueId(value.valueId))\n          || (value.type == 'nationality' && ssjrTransferValidNationalityId(value.valueId)));",
-    'Transfer Challenge guess catalog validation'
-  );
-  output=replaceOnce(
-    output,
-    '        && ssjrTransferValidOptionId(value.leagueId)\n        && ssjrTransferValidOptionId(value.nationalityId);',
-    '        && ssjrTransferValidLeagueId(value.leagueId)\n        && ssjrTransferValidNationalityId(value.nationalityId);',
-    'Transfer Challenge signing catalog validation'
-  );
+  let output=replaceOnce(functions,generic,`${generic}\n    function ssjrTransferValidLeagueId(value) { return value in ${rulesList(leagueIds)}; }\n    function ssjrTransferValidNationalityId(value) { return value in ${rulesList(nationalityIds)}; }`,'Transfer Challenge catalog helper');
+  output=replaceOnce(output,"        && (value.type == 'league' || value.type == 'nationality')\n        && ssjrTransferValidOptionId(value.valueId);","        && ((value.type == 'league' && ssjrTransferValidLeagueId(value.valueId))\n          || (value.type == 'nationality' && ssjrTransferValidNationalityId(value.valueId)));",'Transfer Challenge guess catalog validation');
+  output=replaceOnce(output,'        && ssjrTransferValidOptionId(value.leagueId)\n        && ssjrTransferValidOptionId(value.nationalityId);','        && ssjrTransferValidLeagueId(value.leagueId)\n        && ssjrTransferValidNationalityId(value.nationalityId);','Transfer Challenge signing catalog validation');
   return output;
 }
 
@@ -89,6 +76,10 @@ const resultsFunctionMarker='// SSJR_SEASON_RESULTS_FUNCTIONS_BEGIN';
 const resultsFunctionEnd='// SSJR_SEASON_RESULTS_FUNCTIONS_END';
 const resultsMatchMarker='// SSJR_SEASON_RESULTS_MATCH_BEGIN';
 const resultsMatchEnd='// SSJR_SEASON_RESULTS_MATCH_END';
+const commitFunctionMarker='// SSJR_SEASON_COMMIT_FUNCTIONS_BEGIN';
+const commitFunctionEnd='// SSJR_SEASON_COMMIT_FUNCTIONS_END';
+const commitMatchMarker='// SSJR_SEASON_COMMIT_MATCH_BEGIN';
+const commitMatchEnd='// SSJR_SEASON_COMMIT_MATCH_END';
 const sharedFunctions=between(sharedSetupFragment,sharedFunctionMarker,sharedFunctionEnd);
 const sharedMatch=between(sharedSetupFragment,sharedMatchMarker,sharedMatchEnd);
 const careerFunctions=between(careerStartFragment,careerFunctionMarker,careerFunctionEnd);
@@ -97,6 +88,8 @@ const transferFunctions=injectTransferCatalog(between(transferChallengeFragment,
 const transferMatch=between(transferChallengeFragment,transferMatchMarker,transferMatchEnd);
 const resultsFunctions=between(seasonResultsFragment,resultsFunctionMarker,resultsFunctionEnd);
 const resultsMatch=between(seasonResultsFragment,resultsMatchMarker,resultsMatchEnd);
+const commitFunctions=between(seasonCommitFragment,commitFunctionMarker,commitFunctionEnd);
+const commitMatch=between(seasonCommitFragment,commitMatchMarker,commitMatchEnd);
 
 if(
   base.includes('match /sharedSetup/authoritative')
@@ -107,23 +100,15 @@ if(
   || base.includes('ssjrTransferValidCreate')
   || base.includes('match /seasonResults/{seasonId}')
   || base.includes('ssjrResultsValidCreate')
+  || base.includes('match /seasonCommits/{seasonId}')
+  || base.includes('ssjrCommitValidCreate')
 ){
-  throw new Error('Base Spark Rules already contains Shared Setup, Career Start, Transfer Challenge or Season Results authority; refuse a duplicate promotion.');
+  throw new Error('Base Spark Rules already contains Shared Setup, Career Start, Transfer Challenge, Season Results or Season Commit authority; refuse a duplicate promotion.');
 }
 
 let generated=base;
-generated=once(
-  generated,
-  '    function capabilityCanReadPendingRivalry(rivalryId) {',
-  `    ${sharedFunctionMarker}\n${sharedFunctions}\n    ${sharedFunctionEnd}\n\n    ${careerFunctionMarker}\n${careerFunctions}\n    ${careerFunctionEnd}\n\n    ${transferFunctionMarker}\n${transferFunctions}\n    ${transferFunctionEnd}\n\n    ${resultsFunctionMarker}\n${resultsFunctions}\n    ${resultsFunctionEnd}\n\n`,
-  'top-level function insertion'
-);
-generated=once(
-  generated,
-  '      // STAGE5C_CANDIDATE_SESSION_MATCH_BEGIN',
-  `      ${sharedMatchMarker}\n${sharedMatch}\n      ${sharedMatchEnd}\n\n      ${careerMatchMarker}\n${careerMatch}\n      ${careerMatchEnd}\n\n      ${transferMatchMarker}\n${transferMatch}\n      ${transferMatchEnd}\n\n      ${resultsMatchMarker}\n${resultsMatch}\n      ${resultsMatchEnd}\n\n`,
-  'rivalry child-match insertion'
-);
+generated=once(generated,'    function capabilityCanReadPendingRivalry(rivalryId) {',`    ${sharedFunctionMarker}\n${sharedFunctions}\n    ${sharedFunctionEnd}\n\n    ${careerFunctionMarker}\n${careerFunctions}\n    ${careerFunctionEnd}\n\n    ${transferFunctionMarker}\n${transferFunctions}\n    ${transferFunctionEnd}\n\n    ${resultsFunctionMarker}\n${resultsFunctions}\n    ${resultsFunctionEnd}\n\n    ${commitFunctionMarker}\n${commitFunctions}\n    ${commitFunctionEnd}\n\n`,'top-level function insertion');
+generated=once(generated,'      // STAGE5C_CANDIDATE_SESSION_MATCH_BEGIN',`      ${sharedMatchMarker}\n${sharedMatch}\n      ${sharedMatchEnd}\n\n      ${careerMatchMarker}\n${careerMatch}\n      ${careerMatchEnd}\n\n      ${transferMatchMarker}\n${transferMatch}\n      ${transferMatchEnd}\n\n      ${resultsMatchMarker}\n${resultsMatch}\n      ${resultsMatchEnd}\n\n      ${commitMatchMarker}\n${commitMatch}\n      ${commitMatchEnd}\n\n`,'rivalry child-match insertion');
 
 for(const required of [
   'match /sharedSetup/authoritative',
@@ -146,6 +131,15 @@ for(const required of [
   'allow update: if ssjrResultsValidUpdate(rivalryId, seasonId)',
   'allow create: if ssjrResultsPrivateCreateValid(rivalryId, seasonId, managerRole)',
   "managerRole == ssjrActorRole(rivalryId) || public.phase == 'RESULTS_READY'",
+  'match /seasonCommits/{seasonId}',
+  'allow create: if ssjrCommitValidCreate(rivalryId, seasonId)',
+  'allow update: if ssjrCommitValidUpdate(rivalryId, seasonId)',
+  "root.runtimeRevision == '1.9.1-r10'",
+  "public.phase == 'RESULTS_READY'",
+  "role == setup.coordinatorRole",
+  "root.results.playerOne == p1.result",
+  "root.results.playerTwo == p2.result",
+  "root.phase == 'ACKNOWLEDGED'",
   "career.setupOperationIds == setup.operationIds",
   "transfer.phase == 'COMPLETED'",
   "transfer.revision == 6 || transfer.revision == 7",
@@ -169,6 +163,7 @@ if((generated.match(/match \/sharedSetup\/authoritative/g)||[]).length!==1)throw
 if((generated.match(/match \/careerStart\/authoritative/g)||[]).length!==1)throw new Error('Generated production Rules must contain exactly one Career Start authority match.');
 if((generated.match(/match \/transferChallenges\/\{transferId\}/g)||[]).length!==1)throw new Error('Generated production Rules must contain exactly one Transfer Challenge authority match.');
 if((generated.match(/match \/seasonResults\/\{seasonId\}/g)||[]).length!==1)throw new Error('Generated production Rules must contain exactly one Shared Season Results authority match.');
+if((generated.match(/match \/seasonCommits\/\{seasonId\}/g)||[]).length!==1)throw new Error('Generated production Rules must contain exactly one Shared Season Commit authority match.');
 if((generated.match(/match \/roles\/\{managerRole\}/g)||[]).length!==2)throw new Error('Generated production Rules must contain exactly two role-private matches: Transfer Challenge and Season Results.');
 if(!generated.endsWith('\n'))generated+='\n';
 fs.writeFileSync(outputPath,generated,'utf8');

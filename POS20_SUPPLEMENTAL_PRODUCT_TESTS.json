@@ -34,6 +34,22 @@
     {
       "path": "tests/contracts/shared-season-results-production-contracts.cjs",
       "patterns": ["^js/productionSharedSeasonResults\\.js$","^js/productionSharedSeasonResultsRoute\\.js$","^js/productionSharedTransferChallenge\\.js$","^js/seasonEngine\\.js$","^js/ssjr\\.js$","^tests/contracts/shared-season-results-production-contracts\\.cjs$","^tests/browser/shared-season-results-audit\\.cjs$","^package\\.json$","^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"]
+    },
+    {
+      "path": "tests/contracts/shared-season-commit-contracts.cjs",
+      "patterns": ["^js/sharedSeasonCommit\\.js$","^js/sharedSeasonResults\\.js$","^tests/contracts/shared-season-commit-contracts\\.cjs$","^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"]
+    },
+    {
+      "path": "tests/contracts/shared-season-commit-provider-contracts.cjs",
+      "patterns": ["^js/sharedSeasonCommit\\.js$","^js/sparkSharedSeasonCommit\\.js$","^js/sharedSeasonResults\\.js$","^tests/contracts/shared-season-commit-provider-contracts\\.cjs$","^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"]
+    },
+    {
+      "path": "tests/contracts/shared-season-commit-rules-contracts.cjs",
+      "patterns": ["^firestore\\.season-commit-production\\.fragment\\.rules$","^scripts/build-production-firestore-rules\\.mjs$","^\\.github/workflows/deploy-firestore-rules-zero-billing\\.yml$","^tests/contracts/shared-season-commit-rules-contracts\\.cjs$","^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"]
+    },
+    {
+      "path": "tests/contracts/shared-season-commit-production-contracts.cjs",
+      "patterns": ["^js/productionSharedSeasonCommit\\.js$","^js/productionSharedSeasonResults\\.js$","^js/seasonEngine\\.js$","^js/ssjr\\.js$","^tests/contracts/shared-season-commit-production-contracts\\.cjs$","^tests/browser/shared-season-commit-audit\\.cjs$","^package\\.json$","^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"]
     }
   ]
 }
