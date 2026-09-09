@@ -44,6 +44,20 @@
         "^tests/contracts/shared-career-start-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/shared-transfer-challenge-contracts.cjs",
+      "patterns": [
+        "^js/sharedTransferChallenge\\.js$",
+        "^js/sparkSharedTransferChallenge\\.js$",
+        "^js/productionSharedTransferChallenge\\.js$",
+        "^js/ssjr\\.js$",
+        "^firestore\\.transfer-challenge-production\\.fragment\\.rules$",
+        "^scripts/build-production-firestore-rules\\.mjs$",
+        "^tests/contracts/shared-transfer-challenge-contracts\\.cjs$",
+        "^tests/contracts/shared-transfer-challenge-provider-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
