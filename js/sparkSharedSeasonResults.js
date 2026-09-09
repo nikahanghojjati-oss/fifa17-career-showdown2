@@ -9,6 +9,7 @@
   const setupModule=typeof require==="function"?require("./sharedShowdownSetup.js"):root.CareerModeSharedShowdownSetup;
   const catalogModule=typeof require==="function"?require("./sharedShowdownCatalog.js"):root.CareerModeSharedShowdownCatalog;
   const ROLES=Object.freeze(["playerOne","playerTwo"]);
+  const RESULT_KEYS=Object.freeze(["leaguePosition","leaguePoints","leagueGoals","domesticCup","championsLeague","topScorer","topAssist"]);
   const OPERATION=/^season_result_op_[0-9a-f]{32}$/;
   const HASH=/^sha256:[0-9a-f]{64}$/;
   const PUBLIC_KEYS=Object.freeze([
@@ -16,8 +17,8 @@
     "operationIds","operationHashes","baseRevisions","actorRoles","activeSessionId","updatedAt","updatedByDeviceId"
   ]);
   const PRIVATE_KEYS=Object.freeze([
-    "schemaVersion","objectType","rivalryId","seasonNumber","managerRole","result","operationId","operationHash",
-    "activeSessionId","updatedAt","updatedByDeviceId"
+    "schemaVersion","objectType","rivalryId","seasonNumber","managerRole","result","operationId","commandHash",
+    "activeSessionId","publishedAt","updatedByDeviceId"
   ]);
   const SETUP_LEDGER_KEYS=Object.freeze([
     "schemaVersion","objectType","rivalryId","revision","phase","coordinatorRole",
@@ -51,6 +52,13 @@
   function ssrpServerTimestamp(sdk){if(typeof sdk.serverTimestamp!=="function")ssrpFail("SEASON_RESULTS_PROVIDER_UNAVAILABLE");return sdk.serverTimestamp();}
   function ssrpValidateSdk(options){if(!options.firestore)ssrpFail("SEASON_RESULTS_PROVIDER_UNAVAILABLE");for(const name of ["doc","runTransaction","serverTimestamp"]){if(!options.firebaseSdk||typeof options.firebaseSdk[name]!=="function")ssrpFail("SEASON_RESULTS_PROVIDER_UNAVAILABLE");}}
   function ssrpRoleList(value,code="SEASON_RESULTS_PROVIDER_STATE_INVALID"){if(!Array.isArray(value)||value.length>2||new Set(value).size!==value.length||value.some(role=>!ROLES.includes(role)))ssrpFail(code);return value;}
+  function ssrpResultShape(value,teamCount){
+    ssrpExact(value,RESULT_KEYS,"SEASON_RESULTS_PRIVATE_STATE_INVALID");
+    const position=Number(value.leaguePosition),points=Number(value.leaguePoints),goals=Number(value.leagueGoals);
+    if(!Number.isInteger(position)||position<1||position>teamCount||!Number.isInteger(points)||points<0||points>114||!Number.isInteger(goals)||goals<0||goals>300)ssrpFail("SEASON_RESULTS_PRIVATE_STATE_INVALID");
+    for(const key of ["domesticCup","championsLeague","topScorer","topAssist"]){if(typeof value[key]!=="boolean")ssrpFail("SEASON_RESULTS_PRIVATE_STATE_INVALID");}
+    return {leaguePosition:position,leaguePoints:points,leagueGoals:goals,domesticCup:value.domesticCup,championsLeague:value.championsLeague,topScorer:value.topScorer,topAssist:value.topAssist};
+  }
 
   function ssrpAssertAccount(value,uid){if(!value||value.objectType!=="account"||value.objectId!==uid||value.lifecycleState!=="live"||!value.data||value.data.status!=="active")ssrpFail("SEASON_RESULTS_MANAGER_INACTIVE");}
   function ssrpAssertDevice(value,deviceId){if(!value||value.objectType!=="device"||value.objectId!==deviceId||value.lifecycleState!=="live"||!value.data||value.data.deviceId!==deviceId||value.data.state!=="active")ssrpFail("SEASON_RESULTS_DEVICE_INACTIVE");}
@@ -81,7 +89,7 @@
   }
   function ssrpAssertCareer(value,rivalryId,setup){
     if(!value||value.schemaVersion!==1||value.objectType!=="sharedCareerStart"||value.rivalryId!==rivalryId||value.setupRevision!==6||value.totalSeasons!==setup.totalSeasons||value.revision!==2||value.phase!=="CAREER_START_READY")ssrpFail("SEASON_RESULTS_CAREER_START_NOT_READY");
-    if(!Array.isArray(value.acknowledgedRoles)||value.acknowledgedRoles.length!==2||!ROLES.every(role=>value.acknowledgedRoles.includes(role)))ssrpFail("SEASON_RESULTS_CAREER_START_NOT_READY");
+    if(!Array.isArray(value.setupOperationIds)||JSON.stringify(value.setupOperationIds)!==JSON.stringify(setup.operationIds)||!Array.isArray(value.acknowledgedRoles)||value.acknowledgedRoles.length!==2||!ROLES.every(role=>value.acknowledgedRoles.includes(role)))ssrpFail("SEASON_RESULTS_CAREER_START_NOT_READY");
     return value;
   }
   function ssrpAssertTransfer(value,rivalryId,seasonNumber,setup){
@@ -117,8 +125,7 @@
       else if(type==="confirm")command={type,operationId:ledger.operationIds[index],baseRevision:ledger.baseRevisions[index],setupHash:await setupProtocol.confirmationHash(state)};
       else command={type,operationId:ledger.operationIds[index],baseRevision:ledger.baseRevisions[index]};
       const applied=await setupProtocol.apply({state,authority,command});
-      if(!applied.ok)ssrpFail("SEASON_RESULTS_SETUP_NOT_CONFIRMED");
-      state=applied.state;
+      if(!applied.ok)ssrpFail("SEASON_RESULTS_SETUP_NOT_CONFIRMED");state=applied.state;
     }
     if(!state||state.phase!=="SHOWDOWN_CONFIRMED"||state.revision!==6||!catalogModule.catalog[state.leagueId])ssrpFail("SEASON_RESULTS_SETUP_NOT_CONFIRMED");
     return state;
@@ -129,26 +136,21 @@
     if(value.schemaVersion!==1||value.objectType!=="sharedSeasonResults"||value.rivalryId!==rivalryId||value.seasonNumber!==seasonNumber||value.runtimeRevision!==resultsModule.runtimeRevision||!["COLLECTING","RESULTS_READY"].includes(value.phase)||!Number.isInteger(value.revision)||value.revision<1||value.revision>2)ssrpFail("SEASON_RESULTS_PROVIDER_STATE_INVALID");
     ssrpRoleList(value.publishedRoles);
     for(const key of ["operationIds","operationHashes","baseRevisions","actorRoles"]){if(!Array.isArray(value[key])||value[key].length!==value.revision)ssrpFail("SEASON_RESULTS_PROVIDER_STATE_INVALID");}
-    if(value.publishedRoles.length!==value.revision||new Set(value.operationIds).size!==value.operationIds.length||value.operationIds.some(id=>!OPERATION.test(id))||value.operationHashes.some(hash=>!HASH.test(hash))||value.baseRevisions.some((base,index)=>base!==index)||value.actorRoles.some(role=>!ROLES.includes(role))||value.actorRoles.some((role,index)=>role!==value.publishedRoles[index]))ssrpFail("SEASON_RESULTS_PROVIDER_STATE_INVALID");
-    if(value.phase==="COLLECTING"&&value.revision!==1)ssrpFail("SEASON_RESULTS_PROVIDER_STATE_INVALID");
-    if(value.phase==="RESULTS_READY"&&value.revision!==2)ssrpFail("SEASON_RESULTS_PROVIDER_STATE_INVALID");
+    if(value.publishedRoles.length!==value.revision||new Set(value.operationIds).size!==value.operationIds.length||value.operationIds.some(id=>!OPERATION.test(id))||value.operationHashes.some(hash=>!HASH.test(hash))||value.baseRevisions.some((base,index)=>base!==index)||value.actorRoles.some((role,index)=>!ROLES.includes(role)||role!==value.publishedRoles[index]))ssrpFail("SEASON_RESULTS_PROVIDER_STATE_INVALID");
+    if((value.phase==="COLLECTING"&&value.revision!==1)||(value.phase==="RESULTS_READY"&&value.revision!==2))ssrpFail("SEASON_RESULTS_PROVIDER_STATE_INVALID");
     if(!/^session_[0-9a-f]{64}$/.test(value.activeSessionId||"")||!/^device_[0-9a-f]{32}$/.test(value.updatedByDeviceId||""))ssrpFail("SEASON_RESULTS_PROVIDER_STATE_INVALID");
     return ssrpFreeze({phase:value.phase,revision:value.revision,publishedRoles:[...value.publishedRoles],operationIds:[...value.operationIds],operationHashes:[...value.operationHashes],baseRevisions:[...value.baseRevisions],actorRoles:[...value.actorRoles]});
+  }
+  function ssrpPrivateState(value,rivalryId,seasonNumber,role,teamCount){
+    if(!value)return null;ssrpExact(value,PRIVATE_KEYS,"SEASON_RESULTS_PRIVATE_STATE_INVALID");
+    if(value.schemaVersion!==1||value.objectType!=="sharedSeasonResultRole"||value.rivalryId!==rivalryId||value.seasonNumber!==seasonNumber||value.managerRole!==role||!OPERATION.test(value.operationId)||!HASH.test(value.commandHash)||!/^session_[0-9a-f]{64}$/.test(value.activeSessionId||"")||!/^device_[0-9a-f]{32}$/.test(value.updatedByDeviceId||"")||!Number.isFinite(ssrpTimestampMillis(value.publishedAt)))ssrpFail("SEASON_RESULTS_PRIVATE_STATE_INVALID");
+    return ssrpFreeze({result:ssrpResultShape(value.result,teamCount),operationId:value.operationId,commandHash:value.commandHash});
   }
   async function ssrpNormalizeResult(value,teamCount,setupState,career,transfer,seasonNumber,role,operationId,cryptoImpl){
     if(!resultsModule||typeof resultsModule.createProtocol!=="function")ssrpFail("SEASON_RESULTS_PROVIDER_UNAVAILABLE");
     const resultProtocol=await resultsModule.createProtocol({teamCount,cryptoImpl});
-    const applied=await resultProtocol.apply({
-      state:null,setup:setupState,careerStart:career,transferChallenge:transfer,seasonNumber,actorRole:role,
-      command:{type:"publish-result",operationId,baseRevision:0,result:value}
-    });
-    if(!applied.ok||!applied.state||!applied.state.results||!applied.state.results[role])ssrpFail("SEASON_RESULTS_PAYLOAD_INVALID");
-    return ssrpClone(applied.state.results[role]);
-  }
-  function ssrpPrivateState(value,rivalryId,seasonNumber,role){
-    if(!value)return null;ssrpExact(value,PRIVATE_KEYS,"SEASON_RESULTS_PRIVATE_STATE_INVALID");
-    if(value.schemaVersion!==1||value.objectType!=="sharedSeasonResultRole"||value.rivalryId!==rivalryId||value.seasonNumber!==seasonNumber||value.managerRole!==role||!OPERATION.test(value.operationId)||!HASH.test(value.operationHash)||!/^session_[0-9a-f]{64}$/.test(value.activeSessionId||"")||!/^device_[0-9a-f]{32}$/.test(value.updatedByDeviceId||""))ssrpFail("SEASON_RESULTS_PRIVATE_STATE_INVALID");
-    return ssrpFreeze({result:ssrpClone(value.result),operationId:value.operationId,operationHash:value.operationHash});
+    const applied=await resultProtocol.apply({state:null,setup:setupState,careerStart:career,transferChallenge:transfer,seasonNumber,actorRole:role,command:{type:"publish-result",operationId,baseRevision:0,result:value}});
+    if(!applied.ok||!applied.state?.results?.[role])ssrpFail("SEASON_RESULTS_PAYLOAD_INVALID");return ssrpClone(applied.state.results[role]);
   }
 
   async function ssrpContext(options,transaction,{readOpponent=false}={}){
@@ -161,58 +163,47 @@
     const seasonNumber=Number(options.seasonNumber);if(!Number.isInteger(seasonNumber)||seasonNumber<1||seasonNumber>setupState.totalSeasons)ssrpFail("SEASON_RESULTS_SEASON_INVALID");
     const teamCount=catalogModule.catalog[setupState.leagueId].length,role=rivalry.actor.slotId,opponentRole=role==="playerOne"?"playerTwo":"playerOne",seasonId=`season_${seasonNumber}`;
     refs.transfer=sdk.doc(db,"rivalries",rivalryId,"transferChallenges",seasonId);refs.public=sdk.doc(db,"rivalries",rivalryId,"seasonResults",seasonId);refs.own=sdk.doc(db,"rivalries",rivalryId,"seasonResults",seasonId,"roles",role);refs.opponent=sdk.doc(db,"rivalries",rivalryId,"seasonResults",seasonId,"roles",opponentRole);
-    const transfer=ssrpAssertTransfer(ssrpSnapshot(await transaction.get(refs.transfer)),rivalryId,seasonNumber,ledger),state=ssrpPublicState(ssrpSnapshot(await transaction.get(refs.public)),rivalryId,seasonNumber),own=ssrpPrivateState(ssrpSnapshot(await transaction.get(refs.own)),rivalryId,seasonNumber,role);
+    const transfer=ssrpAssertTransfer(ssrpSnapshot(await transaction.get(refs.transfer)),rivalryId,seasonNumber,ledger),state=ssrpPublicState(ssrpSnapshot(await transaction.get(refs.public)),rivalryId,seasonNumber),own=ssrpPrivateState(ssrpSnapshot(await transaction.get(refs.own)),rivalryId,seasonNumber,role,teamCount);
     if(state&&state.publishedRoles.includes(role)!==Boolean(own))ssrpFail("SEASON_RESULTS_PRIVATE_STATE_INVALID");
-    let opponent=null;
-    if(readOpponent){if(!state||state.phase!=="RESULTS_READY")ssrpFail("SEASON_RESULTS_PRIVATE_READ_BLOCKED");opponent=ssrpPrivateState(ssrpSnapshot(await transaction.get(refs.opponent)),rivalryId,seasonNumber,opponentRole);if(!opponent)ssrpFail("SEASON_RESULTS_PRIVATE_STATE_INVALID");}
+    let opponent=null;if(readOpponent){if(!state||state.phase!=="RESULTS_READY")ssrpFail("SEASON_RESULTS_PRIVATE_READ_BLOCKED");opponent=ssrpPrivateState(ssrpSnapshot(await transaction.get(refs.opponent)),rivalryId,seasonNumber,opponentRole,teamCount);if(!opponent)ssrpFail("SEASON_RESULTS_PRIVATE_STATE_INVALID");}
     return Object.freeze({uid,rivalryId,sessionId,deviceId,now,sdk,db,cryptoImpl,rivalry,ledger,setupState,career,transfer,seasonNumber,teamCount,role,opponentRole,state,own,opponent,refs});
   }
 
   function ssrpProjection(ctx){
     const state=ctx.state;if(!state)return Object.freeze({ok:true,revision:0,state:null,managerRole:ctx.role,seasonNumber:ctx.seasonNumber,ownResult:null,opponentResult:null,allResults:null});
     const ownResult=ctx.own?ssrpClone(ctx.own.result):null,ready=state.phase==="RESULTS_READY",opponentResult=ready&&ctx.opponent?ssrpClone(ctx.opponent.result):null;
-    let allResults=null;if(ready){if(!ownResult||!opponentResult)ssrpFail("SEASON_RESULTS_PRIVATE_STATE_INVALID");allResults={};allResults[ctx.role]=ownResult;allResults[ctx.opponentRole]=opponentResult;}
+    let allResults=null;if(ready&&opponentResult){allResults={};allResults[ctx.role]=ownResult;allResults[ctx.opponentRole]=opponentResult;}
     return ssrpFreeze({ok:true,revision:state.revision,state:ssrpClone(state),managerRole:ctx.role,seasonNumber:ctx.seasonNumber,ownResult,opponentResult,allResults});
   }
   async function ssrpRead(options={}){
-    try{
-      ssrpValidateSdk(options);
-      return await options.firebaseSdk.runTransaction(options.firestore,async transaction=>{const base=await ssrpContext(options,transaction);if(base.state&&base.state.phase==="RESULTS_READY")return ssrpProjection(await ssrpContext(options,transaction,{readOpponent:true}));return ssrpProjection(base);});
-    }catch(error){return ssrpResultError(error);}
+    try{ssrpValidateSdk(options);return await options.firebaseSdk.runTransaction(options.firestore,async transaction=>{const base=await ssrpContext(options,transaction);if(base.state&&base.state.phase==="RESULTS_READY")return ssrpProjection(await ssrpContext(options,transaction,{readOpponent:true}));return ssrpProjection(base);});}catch(error){return ssrpResultError(error);}
   }
   async function ssrpPublishResult(options={}){
     try{
-      ssrpValidateSdk(options);
-      const operationId=ssrpNormalizeOperationId(options.operationId),baseRevision=Number(options.baseRevision);if(!Number.isInteger(baseRevision)||baseRevision<0||baseRevision>2)ssrpFail("SEASON_RESULTS_COMMAND_INVALID");
+      ssrpValidateSdk(options);const operationId=ssrpNormalizeOperationId(options.operationId),baseRevision=Number(options.baseRevision);if(!Number.isInteger(baseRevision)||baseRevision<0||baseRevision>2)ssrpFail("SEASON_RESULTS_COMMAND_INVALID");
       return await options.firebaseSdk.runTransaction(options.firestore,async transaction=>{
         const ctx=await ssrpContext(options,transaction),current=ctx.state,revision=current?current.revision:0;
         const normalizedResult=await ssrpNormalizeResult(options.result,ctx.teamCount,ctx.setupState,ctx.career,ctx.transfer,ctx.seasonNumber,ctx.role,operationId,ctx.cryptoImpl);
-        const operationHash=await ssrpHash({actorRole:ctx.role,type:"publish-result",operationId,baseRevision,result:normalizedResult},ctx.cryptoImpl);
+        const operationHash=await ssrpHash({actorRole:ctx.role,type:"publish-result",operationId,baseRevision},ctx.cryptoImpl);
+        const commandHash=await ssrpHash({actorRole:ctx.role,type:"publish-result",operationId,baseRevision,result:normalizedResult},ctx.cryptoImpl);
         if(current){
           const index=current.operationIds.indexOf(operationId);
           if(index>=0){
-            if(current.operationHashes[index]!==operationHash||current.baseRevisions[index]!==baseRevision||current.actorRoles[index]!==ctx.role)ssrpFail("SEASON_RESULTS_IDEMPOTENCY_CONFLICT");
-            return ssrpFreeze({ok:true,status:"accepted",replayed:true,revision:current.revision,state:ssrpClone(current),managerRole:ctx.role,seasonNumber:ctx.seasonNumber,needsRefresh:current.phase==="RESULTS_READY"});
+            if(current.operationHashes[index]!==operationHash||current.baseRevisions[index]!==baseRevision||current.actorRoles[index]!==ctx.role||!ctx.own||ctx.own.operationId!==operationId||ctx.own.commandHash!==commandHash)ssrpFail("SEASON_RESULTS_IDEMPOTENCY_CONFLICT");
+            const projected=current.phase==="RESULTS_READY"?ssrpProjection(await ssrpContext(options,transaction,{readOpponent:true})):ssrpProjection(ctx);
+            return ssrpFreeze({...projected,status:"accepted",replayed:true,needsRefresh:current.phase==="RESULTS_READY"});
           }
         }
-        if(baseRevision!==revision)ssrpFail("SEASON_RESULTS_STALE_BASE_REVISION");
-        if(current&&current.phase==="RESULTS_READY")ssrpFail("SEASON_RESULTS_ALREADY_READY");
-        if(current&&current.publishedRoles.includes(ctx.role))ssrpFail("SEASON_RESULTS_ROLE_ALREADY_PUBLISHED");
-        if(ctx.own)ssrpFail("SEASON_RESULTS_PRIVATE_STATE_INVALID");
+        if(baseRevision!==revision)ssrpFail("SEASON_RESULTS_STALE_BASE_REVISION");if(current&&current.phase==="RESULTS_READY")ssrpFail("SEASON_RESULTS_ALREADY_READY");if(current&&current.publishedRoles.includes(ctx.role))ssrpFail("SEASON_RESULTS_ROLE_ALREADY_PUBLISHED");if(ctx.own)ssrpFail("SEASON_RESULTS_PRIVATE_STATE_INVALID");
         const next=current?ssrpClone(current):{phase:"COLLECTING",revision:0,publishedRoles:[],operationIds:[],operationHashes:[],baseRevisions:[],actorRoles:[]};
         next.publishedRoles.push(ctx.role);next.operationIds.push(operationId);next.operationHashes.push(operationHash);next.baseRevisions.push(revision);next.actorRoles.push(ctx.role);next.revision=revision+1;if(next.revision===2)next.phase="RESULTS_READY";
         const serverNow=ssrpServerTimestamp(ctx.sdk);
-        const publicLedger={schemaVersion:1,objectType:"sharedSeasonResults",rivalryId:ctx.rivalryId,seasonNumber:ctx.seasonNumber,runtimeRevision:resultsModule.runtimeRevision,phase:next.phase,revision:next.revision,publishedRoles:[...next.publishedRoles],operationIds:[...next.operationIds],operationHashes:[...next.operationHashes],baseRevisions:[...next.baseRevisions],actorRoles:[...next.actorRoles],activeSessionId:ctx.sessionId,updatedAt:serverNow,updatedByDeviceId:ctx.deviceId};
-        const privateLedger={schemaVersion:1,objectType:"sharedSeasonResultRole",rivalryId:ctx.rivalryId,seasonNumber:ctx.seasonNumber,managerRole:ctx.role,result:normalizedResult,operationId,operationHash,activeSessionId:ctx.sessionId,updatedAt:serverNow,updatedByDeviceId:ctx.deviceId};
-        transaction.set(ctx.refs.public,publicLedger);transaction.set(ctx.refs.own,privateLedger);
-        return ssrpFreeze({ok:true,status:"accepted",replayed:false,revision:next.revision,state:ssrpClone(next),managerRole:ctx.role,seasonNumber:ctx.seasonNumber,needsRefresh:next.phase==="RESULTS_READY"});
+        transaction.set(ctx.refs.public,{schemaVersion:1,objectType:"sharedSeasonResults",rivalryId:ctx.rivalryId,seasonNumber:ctx.seasonNumber,runtimeRevision:resultsModule.runtimeRevision,phase:next.phase,revision:next.revision,publishedRoles:[...next.publishedRoles],operationIds:[...next.operationIds],operationHashes:[...next.operationHashes],baseRevisions:[...next.baseRevisions],actorRoles:[...next.actorRoles],activeSessionId:ctx.sessionId,updatedAt:serverNow,updatedByDeviceId:ctx.deviceId});
+        transaction.set(ctx.refs.own,{schemaVersion:1,objectType:"sharedSeasonResultRole",rivalryId:ctx.rivalryId,seasonNumber:ctx.seasonNumber,managerRole:ctx.role,result:normalizedResult,operationId,commandHash,activeSessionId:ctx.sessionId,publishedAt:serverNow,updatedByDeviceId:ctx.deviceId});
+        return ssrpFreeze({ok:true,status:"accepted",replayed:false,revision:next.revision,state:ssrpClone(next),managerRole:ctx.role,seasonNumber:ctx.seasonNumber,ownResult:ssrpClone(normalizedResult),opponentResult:null,allResults:null,needsRefresh:next.phase==="RESULTS_READY"});
       });
     }catch(error){return ssrpResultError(error);}
   }
 
-  return Object.freeze({
-    contractVersion:1,feature:"ssjr-spark-shared-season-results",runtimeRevision:resultsModule&&resultsModule.runtimeRevision||null,
-    read:ssrpRead,publishResult:ssrpPublishResult,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,
-    canonicalStorageMutation:false,authoritativeScoring:false,privateInputsSplit:true,serverClockAuthoritative:true,repositorySetupCatalog:true,callerTeamCountOverride:false
-  });
+  return Object.freeze({contractVersion:1,feature:"ssjr-spark-shared-season-results",runtimeRevision:resultsModule&&resultsModule.runtimeRevision||null,read:ssrpRead,publishResult:ssrpPublishResult,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,canonicalStorageMutation:false,authoritativeScoring:false,privateInputsSplit:true,privateCommandHash:true,publicResultHash:false,serverClockAuthoritative:true,repositorySetupCatalog:true,callerTeamCountOverride:false});
 });
