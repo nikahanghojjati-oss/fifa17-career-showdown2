@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import vm from 'node:vm';
 import {fileURLToPath} from 'node:url';
 
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
@@ -7,6 +8,7 @@ const basePath=path.join(root,'firestore.spark.rules');
 const sharedSetupFragmentPath=path.join(root,'firestore.shared-setup-production.fragment.rules');
 const careerStartFragmentPath=path.join(root,'firestore.career-start-production.fragment.rules');
 const transferChallengeFragmentPath=path.join(root,'firestore.transfer-challenge-production.fragment.rules');
+const transferOptionsPath=path.join(root,'data/transferOptions.js');
 const outputPath=path.join(root,'firestore.spark.generated.rules');
 
 const base=fs.readFileSync(basePath,'utf8');
@@ -23,6 +25,50 @@ function once(source,needle,replacement,label){
   const first=source.indexOf(needle);
   if(first<0||source.indexOf(needle,first+needle.length)>=0)throw new Error(`Expected exactly one ${label} sentinel.`);
   return source.slice(0,first)+replacement+source.slice(first);
+}
+function replaceOnce(source,needle,replacement,label){
+  const first=source.indexOf(needle);
+  if(first<0||source.indexOf(needle,first+needle.length)>=0)throw new Error(`Expected exactly one ${label} seam.`);
+  return source.slice(0,first)+replacement+source.slice(first+needle.length);
+}
+function loadTransferCatalog(){
+  const sandbox={window:{}};
+  vm.runInNewContext(fs.readFileSync(transferOptionsPath,'utf8'),sandbox,{filename:'data/transferOptions.js'});
+  const leagues=sandbox.window.FIFA17_TRANSFER_LEAGUES;
+  const nationalities=sandbox.window.FIFA17_TRANSFER_NATIONALITIES;
+  if(!Array.isArray(leagues)||leagues.length!==36||!Array.isArray(nationalities)||nationalities.length!==164)throw new Error('Canonical FIFA 17 Transfer Challenge catalog shape changed unexpectedly.');
+  const normalize=(items,label)=>{
+    const ids=items.map(item=>item&&item.id);
+    if(ids.some(id=>typeof id!=='string'||!id.matches&&false)){} // keep IDs validated below without browser-only helpers
+    if(ids.some(id=>typeof id!=='string'||!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(id)))throw new Error(`Canonical ${label} catalog contains an invalid Rules ID.`);
+    if(new Set(ids).size!==ids.length)throw new Error(`Canonical ${label} catalog contains duplicate IDs.`);
+    return ids;
+  };
+  return {leagueIds:normalize(leagues,'league'),nationalityIds:normalize(nationalities,'nationality')};
+}
+function rulesList(ids){return `[${ids.map(id=>`'${id}'`).join(',')}]`;}
+function injectTransferCatalog(functions){
+  const {leagueIds,nationalityIds}=loadTransferCatalog();
+  const generic="    function ssjrTransferValidOptionId(value) { return value is string && value.size() >= 2 && value.size() <= 80 && value.matches('^[a-z0-9]+(-[a-z0-9]+)*$'); }";
+  let output=replaceOnce(
+    functions,
+    generic,
+    `${generic}\n    function ssjrTransferValidLeagueId(value) { return value in ${rulesList(leagueIds)}; }\n    function ssjrTransferValidNationalityId(value) { return value in ${rulesList(nationalityIds)}; }`,
+    'Transfer Challenge catalog helper'
+  );
+  output=replaceOnce(
+    output,
+    "        && (value.type == 'league' || value.type == 'nationality')\n        && ssjrTransferValidOptionId(value.valueId);",
+    "        && ((value.type == 'league' && ssjrTransferValidLeagueId(value.valueId))\n          || (value.type == 'nationality' && ssjrTransferValidNationalityId(value.valueId)));",
+    'Transfer Challenge guess catalog validation'
+  );
+  output=replaceOnce(
+    output,
+    '        && ssjrTransferValidOptionId(value.leagueId)\n        && ssjrTransferValidOptionId(value.nationalityId);',
+    '        && ssjrTransferValidLeagueId(value.leagueId)\n        && ssjrTransferValidNationalityId(value.nationalityId);',
+    'Transfer Challenge signing catalog validation'
+  );
+  return output;
 }
 
 const sharedFunctionMarker='// SSJR_SHARED_SETUP_FUNCTIONS_BEGIN';
@@ -41,7 +87,7 @@ const sharedFunctions=between(sharedSetupFragment,sharedFunctionMarker,sharedFun
 const sharedMatch=between(sharedSetupFragment,sharedMatchMarker,sharedMatchEnd);
 const careerFunctions=between(careerStartFragment,careerFunctionMarker,careerFunctionEnd);
 const careerMatch=between(careerStartFragment,careerMatchMarker,careerMatchEnd);
-const transferFunctions=between(transferChallengeFragment,transferFunctionMarker,transferFunctionEnd);
+const transferFunctions=injectTransferCatalog(between(transferChallengeFragment,transferFunctionMarker,transferFunctionEnd));
 const transferMatch=between(transferChallengeFragment,transferMatchMarker,transferMatchEnd);
 
 if(
@@ -82,6 +128,10 @@ for(const required of [
   'allow update: if ssjrTransferValidUpdate(rivalryId, transferId)',
   'allow create: if ssjrTransferPrivateCreateValid(rivalryId, transferId, managerRole)',
   'allow update: if ssjrTransferPrivateUpdateValid(rivalryId, transferId, managerRole)',
+  'function ssjrTransferValidLeagueId(value)',
+  'function ssjrTransferValidNationalityId(value)',
+  'ssjrTransferValidLeagueId(value.leagueId)',
+  'ssjrTransferValidNationalityId(value.nationalityId)',
   'allow list, delete: if false',
   "sessionData.state == 'active'",
   'sessionData.expiresAt > request.time',
