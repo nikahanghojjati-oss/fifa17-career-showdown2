@@ -50,6 +50,10 @@
     {
       "path": "tests/contracts/shared-season-commit-production-contracts.cjs",
       "patterns": ["^js/productionSharedSeasonCommit\\.js$","^js/productionSharedSeasonResults\\.js$","^js/seasonEngine\\.js$","^js/ssjr\\.js$","^tests/contracts/shared-season-commit-production-contracts\\.cjs$","^tests/browser/shared-season-commit-audit\\.cjs$","^package\\.json$","^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"]
+    },
+    {
+      "path": "tests/contracts/shared-canonical-scoring-contracts.cjs",
+      "patterns": ["^js/sharedCanonicalScoring\\.js$","^js/sharedSeasonCommit\\.js$","^js/scoring\\.js$","^tests/contracts/shared-canonical-scoring-contracts\\.cjs$","^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"]
     }
   ]
 }
