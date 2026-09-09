@@ -74,9 +74,13 @@ assert.match(production,/if\(button\.disabled\)button\.disabled=false;/,'Career 
 assert.match(production,/if\(button\.classList\.contains\("hidden"\)\)button\.classList\.remove\("hidden"\);/,'Career Start control decoration must not rewrite the observed class attribute when already visible');
 assert.match(production,/new MutationObserver\(\(\)=>pcstDecorateControl\(\)\)/,'Career Start must retain its confirmed-state control observer while decoration remains idempotent');
 assert.match(production,/const POLL_MS=15000;/,'Career Start automatic refresh must remain substantially backed off for Spark quota safety');
-assert.match(production,/if\(pollBusy\|\|root\.document&&root\.document\.visibilityState==="hidden"\)return false;/,'Career Start polling must stop while hidden and refuse overlapping poll cycles');
-assert.match(production,/finally\{pollBusy=false;\}/,'Career Start polling must always release its serialization lock');
-assert.match(production,/visibilityAwarePolling:true,serializedPolling:true/,'Career Start diagnostics must expose the Spark-safe polling boundary');
+assert.match(production,/function pcstSerialize\(task\)\{const run=operationTail\.then\(task,task\);operationTail=run\.then\(\(\)=>undefined,\(\)=>undefined\);return run;\}/,'all Career Start provider work must share one serialization queue');
+assert.match(production,/if\(refreshPromise\)return refreshPromise;/,'concurrent Career Start refresh callers must deduplicate onto the same in-flight refresh');
+assert.match(production,/return await pcstSerialize\(async\(\)=>\{/,'Career Start acknowledgement must participate in the shared provider-operation queue');
+assert.match(production,/if\(root\.document&&root\.document\.visibilityState==="hidden"\)return false;/,'Career Start automatic polling must stop while the page is hidden');
+assert.match(production,/if\(pcstReady\(\)\)\{pcstStopPolling\(\);return false;\}/,'Career Start automatic polling must stop permanently once both managers are ready');
+assert.match(production,/if\(pcstReady\(\)\)pcstStopPolling\(\);return view;/,'a refresh that observes terminal Career Start must cancel future polling immediately');
+assert.match(production,/serializedOperations:true,terminalPollingStops:true/,'Career Start diagnostics must expose shared serialization and terminal polling shutdown');
 
 const guard=fs.readFileSync(path.resolve('js/productionSharedJourneyGuard.js'),'utf8');
 assert.match(guard,/target\.id!=="continueClubAssignment"\|\|target\.dataset\.sharedCareerStart!=="true"/,'shared click guard must recognize the confirmed Career Start control');
@@ -89,4 +93,4 @@ assert.match(entry,/if\(confirmed\)\{await openCareerStart\(\);applyLocalDrawLoc
 assert.match(entry,/confirmed\?"CONTINUE TO CAREER START":"CONTINUE TO LEAGUE WHEEL"/,'paired-first entry must expose the correct resume action to the owner');
 assert.match(entry,/confirmedSetupResumesAtCareerStart:true/,'entry diagnostics must expose direct confirmed-setup Career Start resume');
 
-console.log('PASS Shared Career Start contracts: exact confirmed setup gates entry, each bound role acknowledges once, replay/stale/duplicate-role attempts fail closed, finished setup routes directly into Career Start on click and reload/fresh-session resume, confirmed-state decoration is idempotent under its MutationObserver, Spark polling is serialized/visibility-aware/backed off, and provider authority is account/device/rivalry/ACTIVE-session bound with zero billing.');
+console.log('PASS Shared Career Start contracts: exact confirmed setup gates entry, each bound role acknowledges once, replay/stale/duplicate-role attempts fail closed, finished setup routes directly into Career Start on click and reload/fresh-session resume, confirmed-state decoration is idempotent, provider operations are serialized and refresh-deduplicated, Spark polling is visibility-aware/backed off and stops at terminal readiness, and provider authority is account/device/rivalry/ACTIVE-session bound with zero billing.');
