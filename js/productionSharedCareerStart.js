@@ -7,8 +7,8 @@
 
   const PANEL_ID="productionSharedCareerStartOverlay";
   const CONTROL_ID="continueClubAssignment";
-  const POLL_MS=1800;
-  let installed=false,busy=false,pollTimer=null,setupApi=null,provider=null,view=null;
+  const POLL_MS=15000;
+  let installed=false,busy=false,pollBusy=false,pollTimer=null,setupApi=null,provider=null,view=null;
 
   function pcstCreate(tag,className,text){const node=root.document.createElement(tag);if(className)node.className=className;if(text!==undefined)node.textContent=String(text);return node;}
   function pcstReport(context,error){if(typeof root.reportApplicationError==="function")root.reportApplicationError(context,error);else root.console?.error?.(context,error);}
@@ -63,8 +63,12 @@
     return true;
   }
   function pcstCapture(event){const button=event.target&&event.target.closest&&event.target.closest(`#${CONTROL_ID}`);if(!button||button.dataset.sharedCareerStart!=="true"||!pcstConfirmed())return;event.preventDefault();event.stopPropagation();if(typeof event.stopImmediatePropagation==="function")event.stopImmediatePropagation();void pcstOpenPanel().catch(error=>pcstReport("Unable to open Shared Career Start",error));}
-  async function pcstTick(){try{if(!setupApi&&root.CareerModeProductionSharedShowdownSetup)setupApi=root.CareerModeProductionSharedShowdownSetup;pcstDecorateControl();const overlay=root.document&&root.document.getElementById(PANEL_ID);if(overlay&&!overlay.classList.contains("hidden")&&pcstConfirmed()&&!busy)await pcstRefresh();}catch(_error){}}
+  async function pcstTick(){
+    if(pollBusy||root.document&&root.document.visibilityState==="hidden")return false;
+    pollBusy=true;
+    try{if(!setupApi&&root.CareerModeProductionSharedShowdownSetup)setupApi=root.CareerModeProductionSharedShowdownSetup;pcstDecorateControl();const overlay=root.document&&root.document.getElementById(PANEL_ID);if(overlay&&!overlay.classList.contains("hidden")&&pcstConfirmed()&&!busy)await pcstRefresh();return true;}catch(_error){return false;}finally{pollBusy=false;}
+  }
   function pcstInstall(){if(installed)return true;installed=true;if(root.document){root.document.addEventListener("click",pcstCapture,true);const observer=new MutationObserver(()=>pcstDecorateControl());observer.observe(root.document.documentElement,{subtree:true,childList:true,characterData:true,attributes:true,attributeFilter:["disabled","class"]});}if(typeof root.setInterval==="function")pollTimer=root.setInterval(()=>void pcstTick(),POLL_MS);void pcstEnsureDependencies().then(()=>pcstTick()).catch(()=>{});return true;}
 
-  return Object.freeze({contractVersion:1,feature:"ssjr-production-shared-career-start",productionEnabled:true,requiresConfirmedSharedSetup:true,requiresExactActiveSession:true,twoManagerAcknowledgement:true,canonicalStorageMutation:false,billingRequired:false,install:pcstInstall,openPanel:pcstOpenPanel,closePanel:pcstClosePanel,refresh:pcstRefresh,getState:()=>view});
+  return Object.freeze({contractVersion:1,feature:"ssjr-production-shared-career-start",productionEnabled:true,requiresConfirmedSharedSetup:true,requiresExactActiveSession:true,twoManagerAcknowledgement:true,canonicalStorageMutation:false,billingRequired:false,pollIntervalMs:POLL_MS,visibilityAwarePolling:true,serializedPolling:true,install:pcstInstall,openPanel:pcstOpenPanel,closePanel:pcstClosePanel,refresh:pcstRefresh,getState:()=>view});
 });
