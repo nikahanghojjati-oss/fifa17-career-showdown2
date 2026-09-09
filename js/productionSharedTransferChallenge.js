@@ -7,8 +7,10 @@
 
   const POLL_MS=7000;
   const TIMER_MS=1000;
+  const EXPIRY_RETRY_MS=30000;
   const CONTROL_IDS=Object.freeze(["seasonPrimaryAction","startTransferTimer","endTransferTimer","completeTransferChallenge","continueFromTransfers"]);
-  let installed=false,busy=false,provider=null,setupApi=null,careerApi=null,view=null,pollTimer=null,timerLoop=null,openedKey="",expiryAttemptRevision=-1;
+  const PHASE_PROGRESS=Object.freeze({NOT_STARTED:"window",WINDOW_OPEN:"window",GUESS_ENTRY:"guess_entry",SIGNING_ENTRY:"signing_entry",COMPLETED:"completed"});
+  let installed=false,busy=false,provider=null,setupApi=null,careerApi=null,view=null,pollTimer=null,timerLoop=null,openedKey="",expiryAttemptRevision=-1,expiryAttemptAt=0;
 
   function pstcFail(code,message){const error=new Error(message||code);error.code=code;throw error;}
   function pstcShowdown(){try{return typeof currentShowdown!=="undefined"?currentShowdown:null;}catch(_error){return null;}}
@@ -50,15 +52,15 @@
     return {state,options:{user:services.auth.currentUser,firestore:services.firestore,firebaseSdk:services.firestoreSdk,rivalryId:state.rivalryId,sessionId:state.sessionId,deviceId:state.deviceId,seasonNumber:pstcSeason(),cryptoImpl:root.crypto,nowEpochMs:Date.now()}};
   }
   function pstcResultError(result,message){if(result&&result.ok===true)return result;const error=new Error(message||"The shared Transfer Challenge request was rejected.");error.code=result&&result.code||"TRANSFER_PROVIDER_FAILED";throw error;}
-  async function pstcRefresh(){const ctx=await pstcProviderOptions(),result=pstcResultError(await provider.read(ctx.options),"The shared Transfer Challenge could not be read.");view={...result,setup:ctx.state.setup,rivalryId:ctx.state.rivalryId};pstcRender();pstcDecorateDashboard();return view;}
+  async function pstcRefresh(){const ctx=await pstcProviderOptions(),result=pstcResultError(await provider.read(ctx.options),"The shared Transfer Challenge could not be read.");view={...result,setup:ctx.state.setup,rivalryId:ctx.state.rivalryId};pstcSetError("");pstcRender();pstcDecorateDashboard();return view;}
   async function pstcMutate(method,payload={}){
-    if(busy)return false;busy=true;pstcRender();
+    if(busy)return false;busy=true;pstcSetError("");pstcRender();
     try{
       const ctx=await pstcProviderOptions();
       const current=pstcResultError(await provider.read(ctx.options),"The shared Transfer Challenge could not be refreshed.");
       const options={...ctx.options,operationId:pstcRandomOperationId(),baseRevision:Number(current.revision||0),...payload};
       const result=pstcResultError(await provider[method](options),"The shared Transfer Challenge update was rejected.");
-      view={...result,setup:ctx.state.setup,rivalryId:ctx.state.rivalryId};
+      view={...result,setup:ctx.state.setup,rivalryId:ctx.state.rivalryId};pstcSetError("");
       if(result.needsRefresh||result.state?.phase==="COMPLETED")await pstcRefresh();else{pstcRender();pstcDecorateDashboard();}
       return true;
     }catch(error){pstcSetError(error.code||error.message||"The shared Transfer Challenge update failed.");pstcReport("Unable to update Shared Transfer Challenge",error);return false;}
@@ -84,7 +86,7 @@
       if(name)name.value="";pstcSetSelector(league,"league","");pstcSetSelector(nationality,"nationality","");if(type)type.value="";if(value){value.value="";delete value.dataset.canonicalId;delete value.dataset.canonicalLabel;value.disabled=true;}
     }
   }
-  function pstcResetForContext(key){if(openedKey===key)return;openedKey=key;pstcClearRole("playerOne");pstcClearRole("playerTwo");pstcSetError("");}
+  function pstcResetForContext(key){if(openedKey===key)return;openedKey=key;expiryAttemptRevision=-1;expiryAttemptAt=0;pstcClearRole("playerOne");pstcClearRole("playerTwo");pstcSetError("");}
   function pstcBuildGuesses(role){
     const prefix=pstcGuessPrefix(role),rows=[];
     for(let i=1;i<=3;i+=1){const type=pstcField(`${prefix}Guess${i}Type`),value=pstcField(`${prefix}Guess${i}Value`),kind=String(type?.value||""),id=pstcCanonical(value),display=String(value?.value||"").trim();if(!kind&&!display)continue;if((kind!=="league"&&kind!=="nationality")||!display||!id)pstcFail("TRANSFER_GUESSES_INVALID",`Complete guess ${i} with a FIFA 17 league or nationality.`);rows.push({slot:i,type:kind,valueId:id});}
@@ -100,16 +102,30 @@
   function pstcPopulateRole(role,inputs){if(!inputs)return;if(inputs.guesses)pstcPopulateGuesses(role,inputs.guesses);if(inputs.signings)pstcPopulateSignings(role,inputs.signings);}
   function pstcDisableRole(role,disabled){const signing=pstcRolePrefix(role),guess=pstcGuessPrefix(role);for(let i=1;i<=3;i+=1){[`${signing}Signing${i}Name`,`${signing}Signing${i}League`,`${signing}Signing${i}Nationality`,`${guess}Guess${i}Type`,`${guess}Guess${i}Value`].forEach(id=>pstcDisable(pstcField(id),disabled));}}
   function pstcRenderVerdictCard(role,rows){const target=pstcField(role==="playerOne"?"transferResultsOne":"transferResultsTwo");if(!target)return;target.replaceChildren();const heading=root.document.createElement("h4");heading.textContent=`${pstcManagerName(role)} · ${pstcClubName(role)}`;target.append(heading);if(!rows||!rows.length){const empty=root.document.createElement("p");empty.textContent="No signings were entered.";target.append(empty);return;}rows.forEach(row=>{const item=root.document.createElement("p"),name=root.document.createElement("strong"),status=root.document.createElement("span");name.textContent=row.name;status.textContent=row.release?"RELEASE · MATCHED BY RIVAL GUESS":"KEEP · NO RIVAL GUESS MATCH";item.append(name,root.document.createTextNode(" — "),status);target.append(item);});}
-  function pstcRenderTimer(){const timer=pstcField("transferTimerDisplay"),state=view?.state;if(!timer)return;if(!state||state.phase!=="WINDOW_OPEN"){timer.textContent=state?"00:00":"15:00";return;}const deadline=Number(state.startedAtEpochMs)+15*60*1000,remaining=Math.max(0,Math.ceil((deadline-Date.now())/1000)),minutes=Math.floor(remaining/60),seconds=remaining%60;timer.textContent=`${String(minutes).padStart(2,"0")}:${String(seconds).padStart(2,"0")}`;if(remaining===0&&!busy&&Number(view.revision)!==expiryAttemptRevision){expiryAttemptRevision=Number(view.revision);void pstcMutate("advanceExpiredWindow");}}
+  function pstcRenderProgress(phase){
+    const localPhase=PHASE_PROGRESS[phase]||"window",order=["window","guess_entry","signing_entry","completed"],index=order.indexOf(localPhase),screen=pstcField("transferChallenge");
+    if(screen)screen.dataset.transferPhase=localPhase;
+    root.document?.querySelectorAll?.("#transferPhaseNavigator [data-transfer-phase-step]").forEach(step=>{const stepIndex=order.indexOf(step.dataset.transferPhaseStep);step.classList.toggle("active",stepIndex===index);step.classList.toggle("done",stepIndex>=0&&stepIndex<index);});
+    const copy={NOT_STARTED:"Shared Transfer Window · the coordinator starts one server-authoritative 15-minute window.",WINDOW_OPEN:"Shared Transfer Window · both managers see the same clock and may jointly end it early.",GUESS_ENTRY:"Private Guess Entry · enter only your guesses; your rival cannot read them yet.",SIGNING_ENTRY:"Private Signing Entry · guesses are locked; enter only your completed FIFA 17 signings.",COMPLETED:"Shared Transfer Verdicts · both private sides are now revealed and evaluated identically."};
+    pstcText("transferPhaseIntro",copy[phase]||copy.NOT_STARTED);
+  }
+  function pstcRenderTimer(){
+    const timer=pstcField("transferTimerDisplay"),state=view?.state;if(!timer)return;
+    if(!state||state.phase!=="WINDOW_OPEN"){timer.textContent=state?"00:00":"15:00";return;}
+    const deadline=Number(state.startedAtEpochMs)+15*60*1000,remaining=Math.max(0,Math.ceil((deadline-Date.now())/1000)),minutes=Math.floor(remaining/60),seconds=remaining%60;timer.textContent=`${String(minutes).padStart(2,"0")}:${String(seconds).padStart(2,"0")}`;
+    const revision=Number(view.revision),now=Date.now(),retryAllowed=revision!==expiryAttemptRevision||now-expiryAttemptAt>=EXPIRY_RETRY_MS;
+    if(remaining===0&&!busy&&retryAllowed){expiryAttemptRevision=revision;expiryAttemptAt=now;void pstcMutate("advanceExpiredWindow");}
+  }
   function pstcRender(){
     if(!root.document||!pstcSharedMarker())return false;
     const state=view?.state||null,role=view?.managerRole||pstcSetupState()?.managerRole||null;
     if(!role)return false;
     const key=`${view?.rivalryId||pstcSetupState()?.rivalryId||""}:${view?.seasonNumber||pstcSeason()}`;pstcResetForContext(key);
     const other=role==="playerOne"?"playerTwo":"playerOne",phase=state?.phase||"NOT_STARTED",own=view?.ownInputs||null,opponent=view?.opponentInputs||null;
+    pstcRenderProgress(phase);
     pstcText("transferChallengeTitle",`SEASON ${view?.seasonNumber||pstcSeason()} SHARED TRANSFER CHALLENGE`);pstcText("transferManagerOne",pstcManagerName("playerOne"));pstcText("transferManagerTwo",pstcManagerName("playerTwo"));pstcText("transferClubOne",pstcClubName("playerOne"));pstcText("transferClubTwo",pstcClubName("playerTwo"));pstcText("guessAgainstOneHeading",`${pstcManagerName("playerTwo")} guesses ${pstcManagerName("playerOne")}'s signings`);pstcText("guessAgainstTwoHeading",`${pstcManagerName("playerOne")} guesses ${pstcManagerName("playerTwo")}'s signings`);
-    const start=pstcField("startTransferTimer"),end=pstcField("endTransferTimer"),complete=pstcField("completeTransferChallenge"),continueButton=pstcField("continueFromTransfers"),results=pstcField("transferChallengeResults"),signingGrid=root.document.querySelector("#transferChallenge .transferManagersGrid"),guessGrid=root.document.querySelector("#transferChallenge .transferGuessesGrid"),privacy=pstcField("transferGuessPrivacyNote"),summary=pstcField("transferPhaseLockSummary");
-    pstcHidden(start,true);pstcHidden(end,true);pstcHidden(complete,true);pstcHidden(continueButton,true);pstcHidden(results,true);pstcHidden(signingGrid,true);pstcHidden(guessGrid,true);pstcHidden(privacy,true);pstcHidden(summary,true);pstcHidden(pstcOwnSigningCard(role),false);pstcHidden(pstcOtherSigningCard(role),true);pstcHidden(pstcOwnGuessCard(role),false);pstcHidden(pstcOtherGuessCard(role),true);pstcDisableRole("playerOne",true);pstcDisableRole("playerTwo",true);
+    const start=pstcField("startTransferTimer"),end=pstcField("endTransferTimer"),complete=pstcField("completeTransferChallenge"),continueButton=pstcField("continueFromTransfers"),results=pstcField("transferChallengeResults"),actionBar=pstcField("transferPhaseActionBar"),signingGrid=root.document.querySelector("#transferChallenge .transferManagersGrid"),guessGrid=root.document.querySelector("#transferChallenge .transferGuessesGrid"),privacy=pstcField("transferGuessPrivacyNote"),summary=pstcField("transferPhaseLockSummary");
+    pstcHidden(start,true);pstcHidden(end,true);pstcHidden(complete,true);pstcHidden(actionBar,true);pstcHidden(continueButton,true);pstcHidden(results,true);pstcHidden(signingGrid,true);pstcHidden(guessGrid,true);pstcHidden(privacy,true);pstcHidden(summary,true);pstcHidden(pstcOwnSigningCard(role),false);pstcHidden(pstcOtherSigningCard(role),true);pstcHidden(pstcOwnGuessCard(role),false);pstcHidden(pstcOtherGuessCard(role),true);pstcDisableRole("playerOne",true);pstcDisableRole("playerTwo",true);
     if(own)pstcPopulateRole(role,own);
     if(phase==="NOT_STARTED"){
       pstcText("transferPhaseStatus",role===view?.setup?.coordinatorRole?"READY · YOU ARE THE SHARED WINDOW COORDINATOR":"READY · WAITING FOR THE COORDINATOR TO START");
@@ -117,13 +133,13 @@
     }else if(phase==="WINDOW_OPEN"){
       const requested=state.endRequestedRoles?.includes(role);pstcText("transferPhaseStatus",requested?"TRANSFER WINDOW LIVE · YOUR EARLY-END REQUEST IS LOCKED":"TRANSFER WINDOW LIVE · BUILD YOUR FIFA 17 SQUAD");pstcHidden(end,false);end.textContent=requested?"EARLY END REQUESTED ✓":"REQUEST EARLY END";pstcDisable(end,busy||requested);pstcRenderTimer();
     }else if(phase==="GUESS_ENTRY"){
-      const locked=state.guessLockedRoles?.includes(role);pstcText("transferPhaseStatus",locked?"YOUR GUESSES ARE LOCKED · WAITING FOR YOUR RIVAL":"GUESS ENTRY · YOUR RIVAL CANNOT SEE THESE BEFORE COMPLETION");pstcHidden(guessGrid,false);pstcHidden(privacy,false);if(privacy)privacy.textContent="Shared privacy: enter only your guesses. Your rival cannot read them until both managers complete the challenge.";pstcDisableRole(role,locked);if(!locked){const card=pstcOwnGuessCard(role);card?.querySelectorAll("input,select").forEach(node=>pstcDisable(node,false));pstcHidden(complete,false);complete.textContent="LOCK MY GUESSES";pstcDisable(complete,busy);}
+      const locked=state.guessLockedRoles?.includes(role);pstcText("transferPhaseStatus",locked?"YOUR GUESSES ARE LOCKED · WAITING FOR YOUR RIVAL":"GUESS ENTRY · YOUR RIVAL CANNOT SEE THESE BEFORE COMPLETION");pstcHidden(guessGrid,false);pstcHidden(privacy,false);if(privacy)privacy.textContent="Shared privacy: enter only your guesses. Your rival cannot read them until both managers complete the challenge.";if(!locked){const card=pstcOwnGuessCard(role);card?.querySelectorAll("input,select").forEach(node=>pstcDisable(node,false));pstcHidden(actionBar,false);pstcHidden(complete,false);complete.textContent="LOCK MY GUESSES";pstcDisable(complete,busy);}
     }else if(phase==="SIGNING_ENTRY"){
-      const locked=state.signingLockedRoles?.includes(role);pstcText("transferPhaseStatus",locked?"YOUR SIGNINGS ARE LOCKED · WAITING FOR YOUR RIVAL":"SIGNING ENTRY · RECORD YOUR COMPLETED FIFA 17 TRANSFERS");pstcHidden(signingGrid,false);pstcHidden(summary,false);if(summary)summary.textContent="Both managers locked their private guesses. Enter only your own completed signings; your rival still cannot see your inputs.";pstcDisableRole(role,locked);if(!locked){const card=pstcOwnSigningCard(role);card?.querySelectorAll("input,select").forEach(node=>pstcDisable(node,false));pstcHidden(complete,false);complete.textContent="LOCK MY SIGNINGS";pstcDisable(complete,busy);}
+      const locked=state.signingLockedRoles?.includes(role);pstcText("transferPhaseStatus",locked?"YOUR SIGNINGS ARE LOCKED · WAITING FOR YOUR RIVAL":"SIGNING ENTRY · RECORD YOUR COMPLETED FIFA 17 TRANSFERS");pstcHidden(signingGrid,false);pstcHidden(summary,false);if(summary)summary.textContent="Both managers locked their private guesses. Enter only your own completed signings; your rival still cannot see your inputs.";if(!locked){const card=pstcOwnSigningCard(role);card?.querySelectorAll("input,select").forEach(node=>pstcDisable(node,false));pstcHidden(actionBar,false);pstcHidden(complete,false);complete.textContent="LOCK MY SIGNINGS";pstcDisable(complete,busy);}
     }else if(phase==="COMPLETED"){
       pstcText("transferPhaseStatus","SHARED TRANSFER CHALLENGE COMPLETE · VERDICTS REVEALED TO BOTH MANAGERS");pstcHidden(signingGrid,false);pstcHidden(guessGrid,false);pstcHidden(results,false);pstcHidden(pstcOtherSigningCard(role),false);pstcHidden(pstcOtherGuessCard(role),false);pstcPopulateRole(role,own);pstcPopulateRole(other,opponent);pstcDisableRole("playerOne",true);pstcDisableRole("playerTwo",true);pstcRenderVerdictCard("playerOne",view?.verdicts?.playerOne||[]);pstcRenderVerdictCard("playerTwo",view?.verdicts?.playerTwo||[]);if(continueButton){continueButton.textContent="SHARED SEASON RESULTS COMING NEXT";pstcHidden(continueButton,false);pstcDisable(continueButton,true);}
     }
-    const refresh=pstcEnsureRefreshButton();pstcDisable(refresh,busy);pstcSetError("");return true;
+    const refresh=pstcEnsureRefreshButton();pstcDisable(refresh,busy);return true;
   }
   function pstcEnsureRefreshButton(){let button=pstcField("refreshSharedTransferChallenge");if(button)return button;const actions=root.document&&root.document.querySelector("#transferChallenge .transferTimerActions");if(!actions)return null;button=root.document.createElement("button");button.id="refreshSharedTransferChallenge";button.className="menuButton";button.type="button";button.textContent="REFRESH SHARED CHALLENGE";button.addEventListener("click",event=>{event.preventDefault();void pstcRefresh().catch(error=>{pstcSetError(error.code||error.message);pstcReport("Unable to refresh Shared Transfer Challenge",error);});});actions.append(button);return button;}
   function pstcDecorateDashboard(){if(!root.document||!pstcSharedMarker())return false;const button=pstcField("seasonPrimaryAction"),status=pstcField("dashboardTransferStatus"),state=view?.state||null;if(!button||!status)return false;button.dataset.sharedTransferChallenge="true";button.disabled=false;const season=view?.seasonNumber||(()=>{try{return pstcSeason();}catch(_error){return 1;}})();if(!state){button.textContent=`START SEASON ${season} SHARED TRANSFER CHALLENGE`;status.textContent="Shared transfer challenge: ready";}else if(state.phase==="WINDOW_OPEN"){button.textContent="OPEN SHARED TRANSFER WINDOW";status.textContent="Shared transfer challenge: transfer window live";}else if(state.phase==="GUESS_ENTRY"){button.textContent="OPEN SHARED GUESS ENTRY";status.textContent="Shared transfer challenge: private guesses";}else if(state.phase==="SIGNING_ENTRY"){button.textContent="OPEN SHARED SIGNING ENTRY";status.textContent="Shared transfer challenge: private signings";}else{button.textContent="VIEW SHARED TRANSFER VERDICTS";status.textContent="Shared transfer challenge: completed";}return true;}
