@@ -33,7 +33,7 @@
     },
     {
       "path": "tests/contracts/shared-season-results-production-contracts.cjs",
-      "patterns": ["^js/productionSharedSeasonResults\\.js$","^js/productionSharedSeasonResultsRoute\\.js$","^js/productionSharedTransferChallenge\\.js$","^js/seasonEngine\\.js$","^js/ssjr\\.js$","^tests/contracts/shared-season-results-production-contracts\\.cjs$","^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"]
+      "patterns": ["^js/productionSharedSeasonResults\\.js$","^js/productionSharedSeasonResultsRoute\\.js$","^js/productionSharedTransferChallenge\\.js$","^js/seasonEngine\\.js$","^js/ssjr\\.js$","^tests/contracts/shared-season-results-production-contracts\\.cjs$","^tests/browser/shared-season-results-audit\\.cjs$","^package\\.json$","^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"]
     }
   ]
 }
