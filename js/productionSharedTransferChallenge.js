@@ -10,7 +10,9 @@
   const EXPIRY_RETRY_MS=30000;
   const CONTROL_IDS=Object.freeze(["seasonPrimaryAction","startTransferTimer","endTransferTimer","completeTransferChallenge","continueFromTransfers"]);
   const PHASE_PROGRESS=Object.freeze({NOT_STARTED:"window",WINDOW_OPEN:"window",GUESS_ENTRY:"guess_entry",SIGNING_ENTRY:"signing_entry",COMPLETED:"completed"});
-  let installed=false,busy=false,provider=null,setupApi=null,careerApi=null,view=null,pollTimer=null,timerLoop=null,openedKey="",expiryAttemptRevision=-1,expiryAttemptAt=0,providerChain=Promise.resolve(),refreshPromise=null;
+  const REPLAY_PHASES=Object.freeze(["WINDOW_OPEN","GUESS_ENTRY","SIGNING_ENTRY","COMPLETED"]);
+  let installed=false,busy=false,provider=null,setupApi=null,careerApi=null,view=null,pollTimer=null,timerLoop=null,openedKey="",expiryAttemptRevision=-1,expiryAttemptAt=0,providerChain=Promise.resolve(),refreshPromise=null,viewContextKey="",replayContextKey="",replayQueue=[];
+  const witnessedByContext=new Map();
 
   function pstcFail(code,message){const error=new Error(message||code);error.code=code;throw error;}
   function pstcShowdown(){try{return typeof currentShowdown!=="undefined"?currentShowdown:null;}catch(_error){return null;}}
@@ -37,6 +39,23 @@
   function pstcCareerReady(){try{const career=careerApi?.getState?.();return Boolean(career&&career.state&&career.state.phase==="CAREER_START_READY"&&career.state.revision===2);}catch(_error){return false;}}
   function pstcConfirmedShared(){const state=pstcSetupState();return Boolean(pstcSharedMarker()&&state&&state.ready===true&&state.setup&&state.setup.phase==="SHOWDOWN_CONFIRMED"&&state.setup.revision===6&&state.managerRole&&state.rivalryId&&state.sessionId&&state.deviceId);}
   function pstcSeason(){const showdown=pstcShowdown();const season=Number(showdown&&showdown.currentRound);if(!Number.isInteger(season)||season<1)pstcFail("TRANSFER_SEASON_INVALID");return season;}
+  function pstcLocalContextKey(){const showdown=pstcShowdown(),id=String(showdown?.id||showdown?.saveId||"").trim(),season=Number(showdown?.currentRound);return id&&Number.isInteger(season)&&season>0?`${id}:${season}`:"";}
+  function pstcBoundContextKey(rivalryId,season){const local=pstcLocalContextKey(),remote=String(rivalryId||"").trim(),round=Number(season);return local&&remote&&Number.isInteger(round)&&round>0?`${local}|${remote}:${round}`:"";}
+  function pstcCurrentContextKey(){const showdown=pstcShowdown(),setup=pstcSetupState(),rivalry=showdown?.sharedJourney?.rivalryId||setup?.rivalryId||"";let season;try{season=pstcSeason();}catch(_error){return "";}return pstcBoundContextKey(rivalry,season);}
+  function pstcBindView(result,ctx){view={...result,setup:ctx.state.setup,rivalryId:ctx.state.rivalryId};viewContextKey=pstcBoundContextKey(ctx.state.rivalryId,ctx.options.seasonNumber);return view;}
+  function pstcClearCachedContext(){view=null;viewContextKey="";openedKey="";replayContextKey="";replayQueue=[];expiryAttemptRevision=-1;expiryAttemptAt=0;}
+  function pstcWitnessSet(key){if(!witnessedByContext.has(key))witnessedByContext.set(key,new Set());return witnessedByContext.get(key);}
+  function pstcTransferScreenVisible(){const screen=root.document&&root.document.getElementById("transferChallenge");return Boolean(screen&&!screen.classList.contains("hidden"));}
+  function pstcReplayPhase(key=viewContextKey){return replayContextKey===key&&replayQueue.length?replayQueue[0]:null;}
+  function pstcPrepareReplay(){
+    const key=viewContextKey,actual=view?.state?.phase;
+    if(!key||!REPLAY_PHASES.includes(actual)){replayContextKey="";replayQueue=[];return false;}
+    if(replayContextKey===key&&replayQueue.length)return true;
+    const actualIndex=REPLAY_PHASES.indexOf(actual),witnessed=pstcWitnessSet(key),missing=REPLAY_PHASES.slice(0,actualIndex).filter(phase=>!witnessed.has(phase));
+    replayContextKey=missing.length?key:"";replayQueue=missing;return missing.length>0;
+  }
+  function pstcMarkWitness(key,phase){if(key&&REPLAY_PHASES.includes(phase)&&pstcTransferScreenVisible())pstcWitnessSet(key).add(phase);}
+  function pstcAdvanceReplay(){if(!pstcReplayPhase())return false;replayQueue.shift();if(!replayQueue.length){replayContextKey="";pstcPrepareReplay();}pstcRender();return true;}
   function pstcRandomOperationId(){if(!root.crypto||typeof root.crypto.getRandomValues!=="function")pstcFail("TRANSFER_CRYPTO_UNAVAILABLE");const bytes=new Uint8Array(16);root.crypto.getRandomValues(bytes);return `transfer_op_${Array.from(bytes,b=>b.toString(16).padStart(2,"0")).join("")}`;}
   async function pstcProviderOptions(){
     if(!pstcSharedMarker())pstcFail("TRANSFER_SHARED_MODE_REQUIRED");
@@ -53,18 +72,18 @@
   }
   function pstcResultError(result,message){if(result&&result.ok===true)return result;const error=new Error(message||"The shared Transfer Challenge request was rejected.");error.code=result&&result.code||"TRANSFER_PROVIDER_FAILED";throw error;}
   function pstcQueueProvider(task){const queued=providerChain.then(task,task);providerChain=queued.catch(()=>{});return queued;}
-  async function pstcRefreshNow(){const ctx=await pstcProviderOptions(),result=pstcResultError(await provider.read(ctx.options),"The shared Transfer Challenge could not be read.");view={...result,setup:ctx.state.setup,rivalryId:ctx.state.rivalryId};pstcSetError("");pstcRender();pstcDecorateDashboard();return view;}
+  async function pstcRefreshNow(){const ctx=await pstcProviderOptions(),result=pstcResultError(await provider.read(ctx.options),"The shared Transfer Challenge could not be read.");pstcBindView(result,ctx);if(pstcTransferScreenVisible())pstcPrepareReplay();pstcSetError("");pstcRender();pstcDecorateDashboard();return view;}
   function pstcRefresh(){if(refreshPromise)return refreshPromise;const current=pstcQueueProvider(pstcRefreshNow);refreshPromise=current;current.then(()=>{if(refreshPromise===current)refreshPromise=null;},()=>{if(refreshPromise===current)refreshPromise=null;});return current;}
   async function pstcMutate(method,payload={}){
-    if(busy)return false;busy=true;pstcSetError("");pstcRender();
+    if(busy||pstcReplayPhase())return false;busy=true;pstcSetError("");pstcRender();
     try{
       return await pstcQueueProvider(async()=>{
         const ctx=await pstcProviderOptions();
         const current=pstcResultError(await provider.read(ctx.options),"The shared Transfer Challenge could not be refreshed.");
         const options={...ctx.options,operationId:pstcRandomOperationId(),baseRevision:Number(current.revision||0),...payload};
         const result=pstcResultError(await provider[method](options),"The shared Transfer Challenge update was rejected.");
-        view={...result,setup:ctx.state.setup,rivalryId:ctx.state.rivalryId};pstcSetError("");
-        if(result.needsRefresh||result.state?.phase==="COMPLETED")await pstcRefreshNow();else{pstcRender();pstcDecorateDashboard();}
+        pstcBindView(result,ctx);pstcSetError("");
+        if(result.needsRefresh||result.state?.phase==="COMPLETED")await pstcRefreshNow();else{if(pstcTransferScreenVisible())pstcPrepareReplay();pstcRender();pstcDecorateDashboard();}
         return true;
       });
     }catch(error){pstcSetError(error.code||error.message||"The shared Transfer Challenge update failed.");pstcReport("Unable to update Shared Transfer Challenge",error);return false;}
@@ -115,6 +134,7 @@
   }
   function pstcRenderTimer(){
     const timer=pstcField("transferTimerDisplay"),state=view?.state;if(!timer)return;
+    if(pstcReplayPhase()){timer.textContent="REPLAY";return;}
     if(!state||state.phase!=="WINDOW_OPEN"){timer.textContent=state?"00:00":"15:00";return;}
     const deadline=Number(state.startedAtEpochMs)+15*60*1000,remaining=Math.max(0,Math.ceil((deadline-Date.now())/1000)),minutes=Math.floor(remaining/60),seconds=remaining%60;timer.textContent=`${String(minutes).padStart(2,"0")}:${String(seconds).padStart(2,"0")}`;
     const revision=Number(view.revision),now=Date.now(),retryAllowed=revision!==expiryAttemptRevision||now-expiryAttemptAt>=EXPIRY_RETRY_MS;
@@ -124,8 +144,9 @@
     if(!root.document||!pstcSharedMarker())return false;
     const state=view?.state||null,role=view?.managerRole||pstcSetupState()?.managerRole||null;
     if(!role)return false;
-    const key=`${view?.rivalryId||pstcSetupState()?.rivalryId||""}:${view?.seasonNumber||pstcSeason()}`;pstcResetForContext(key);
-    const other=role==="playerOne"?"playerTwo":"playerOne",phase=state?.phase||"NOT_STARTED",own=view?.ownInputs||null,opponent=view?.opponentInputs||null;
+    const key=viewContextKey||pstcBoundContextKey(view?.rivalryId||pstcSetupState()?.rivalryId||"",view?.seasonNumber||pstcSeason());pstcResetForContext(key);
+    const other=role==="playerOne"?"playerTwo":"playerOne",actualPhase=state?.phase||"NOT_STARTED",replayPhase=pstcReplayPhase(key),phase=replayPhase||actualPhase,isReplay=Boolean(replayPhase),own=view?.ownInputs||null,opponent=view?.opponentInputs||null,screen=pstcField("transferChallenge");
+    if(screen){if(isReplay)screen.dataset.sharedTransferReplay=phase;else delete screen.dataset.sharedTransferReplay;}
     pstcRenderProgress(phase);
     pstcText("transferChallengeTitle",`SEASON ${view?.seasonNumber||pstcSeason()} SHARED TRANSFER CHALLENGE`);pstcText("transferManagerOne",pstcManagerName("playerOne"));pstcText("transferManagerTwo",pstcManagerName("playerTwo"));pstcText("transferClubOne",pstcClubName("playerOne"));pstcText("transferClubTwo",pstcClubName("playerTwo"));pstcText("guessAgainstOneHeading",`${pstcManagerName("playerTwo")} guesses ${pstcManagerName("playerOne")}'s signings`);pstcText("guessAgainstTwoHeading",`${pstcManagerName("playerOne")} guesses ${pstcManagerName("playerTwo")}'s signings`);
     const start=pstcField("startTransferTimer"),end=pstcField("endTransferTimer"),complete=pstcField("completeTransferChallenge"),continueButton=pstcField("continueFromTransfers"),results=pstcField("transferChallengeResults"),actionBar=pstcField("transferPhaseActionBar"),signingGrid=root.document.querySelector("#transferChallenge .transferManagersGrid"),guessGrid=root.document.querySelector("#transferChallenge .transferGuessesGrid"),privacy=pstcField("transferGuessPrivacyNote"),summary=pstcField("transferPhaseLockSummary");
@@ -135,21 +156,26 @@
       pstcText("transferPhaseStatus",role===view?.setup?.coordinatorRole?"READY · YOU ARE THE SHARED WINDOW COORDINATOR":"READY · WAITING FOR THE COORDINATOR TO START");
       if(role===view?.setup?.coordinatorRole){pstcHidden(start,false);start.textContent="START SHARED 15-MINUTE WINDOW";pstcDisable(start,busy);}
     }else if(phase==="WINDOW_OPEN"){
-      const requested=state.endRequestedRoles?.includes(role);pstcText("transferPhaseStatus",requested?"TRANSFER WINDOW LIVE · YOUR EARLY-END REQUEST IS LOCKED":"TRANSFER WINDOW LIVE · BUILD YOUR FIFA 17 SQUAD");pstcHidden(end,false);end.textContent=requested?"EARLY END REQUESTED ✓":"REQUEST EARLY END";pstcDisable(end,busy||requested);pstcRenderTimer();
+      if(isReplay){pstcText("transferPhaseStatus","HISTORICAL REPLAY · SHARED TRANSFER WINDOW");pstcText("transferTimerDisplay","REPLAY");}
+      else{const requested=state.endRequestedRoles?.includes(role);pstcText("transferPhaseStatus",requested?"TRANSFER WINDOW LIVE · YOUR EARLY-END REQUEST IS LOCKED":"TRANSFER WINDOW LIVE · BUILD YOUR FIFA 17 SQUAD");pstcHidden(end,false);end.textContent=requested?"EARLY END REQUESTED ✓":"REQUEST EARLY END";pstcDisable(end,busy||requested);pstcRenderTimer();}
     }else if(phase==="GUESS_ENTRY"){
-      const locked=state.guessLockedRoles?.includes(role);pstcText("transferPhaseStatus",locked?"YOUR GUESSES ARE LOCKED · WAITING FOR YOUR RIVAL":"GUESS ENTRY · YOUR RIVAL CANNOT SEE THESE BEFORE COMPLETION");pstcHidden(guessGrid,false);pstcHidden(privacy,false);if(privacy)privacy.textContent="Shared privacy: enter only your guesses. Your rival cannot read them until both managers complete the challenge.";if(!locked){const card=pstcOwnGuessCard(role);card?.querySelectorAll("input,select").forEach(node=>pstcDisable(node,false));pstcHidden(actionBar,false);pstcHidden(complete,false);complete.textContent="LOCK MY GUESSES";pstcDisable(complete,busy);}
+      const locked=state.guessLockedRoles?.includes(role);pstcText("transferPhaseStatus",isReplay?"HISTORICAL REPLAY · PRIVATE GUESS ENTRY":locked?"YOUR GUESSES ARE LOCKED · WAITING FOR YOUR RIVAL":"GUESS ENTRY · YOUR RIVAL CANNOT SEE THESE BEFORE COMPLETION");pstcHidden(guessGrid,false);pstcHidden(privacy,false);if(privacy)privacy.textContent=isReplay?"Historical replay: this read-only screen does not reveal any opponent payload that provider authority has not already made available.":"Shared privacy: enter only your guesses. Your rival cannot read them until both managers complete the challenge.";if(!isReplay&&!locked){const card=pstcOwnGuessCard(role);card?.querySelectorAll("input,select").forEach(node=>pstcDisable(node,false));pstcHidden(actionBar,false);pstcHidden(complete,false);complete.textContent="LOCK MY GUESSES";pstcDisable(complete,busy);}
     }else if(phase==="SIGNING_ENTRY"){
-      const locked=state.signingLockedRoles?.includes(role);pstcText("transferPhaseStatus",locked?"YOUR SIGNINGS ARE LOCKED · WAITING FOR YOUR RIVAL":"SIGNING ENTRY · RECORD YOUR COMPLETED FIFA 17 TRANSFERS");pstcHidden(signingGrid,false);pstcHidden(summary,false);if(summary)summary.textContent="Both managers locked their private guesses. Enter only your own completed signings; your rival still cannot see your inputs.";if(!locked){const card=pstcOwnSigningCard(role);card?.querySelectorAll("input,select").forEach(node=>pstcDisable(node,false));pstcHidden(actionBar,false);pstcHidden(complete,false);complete.textContent="LOCK MY SIGNINGS";pstcDisable(complete,busy);}
+      const locked=state.signingLockedRoles?.includes(role);pstcText("transferPhaseStatus",isReplay?"HISTORICAL REPLAY · PRIVATE SIGNING ENTRY":locked?"YOUR SIGNINGS ARE LOCKED · WAITING FOR YOUR RIVAL":"SIGNING ENTRY · RECORD YOUR COMPLETED FIFA 17 TRANSFERS");pstcHidden(signingGrid,false);pstcHidden(summary,false);if(summary)summary.textContent=isReplay?"Historical replay: your own committed signing view is read-only and cannot mutate provider or local save authority.":"Both managers locked their private guesses. Enter only your own completed signings; your rival still cannot see your inputs.";if(!isReplay&&!locked){const card=pstcOwnSigningCard(role);card?.querySelectorAll("input,select").forEach(node=>pstcDisable(node,false));pstcHidden(actionBar,false);pstcHidden(complete,false);complete.textContent="LOCK MY SIGNINGS";pstcDisable(complete,busy);}
     }else if(phase==="COMPLETED"){
       pstcText("transferPhaseStatus","SHARED TRANSFER CHALLENGE COMPLETE · VERDICTS REVEALED TO BOTH MANAGERS");pstcHidden(signingGrid,false);pstcHidden(guessGrid,false);pstcHidden(results,false);pstcHidden(pstcOtherSigningCard(role),false);pstcHidden(pstcOtherGuessCard(role),false);pstcPopulateRole(role,own);pstcPopulateRole(other,opponent);pstcDisableRole("playerOne",true);pstcDisableRole("playerTwo",true);pstcRenderVerdictCard("playerOne",view?.verdicts?.playerOne||[]);pstcRenderVerdictCard("playerTwo",view?.verdicts?.playerTwo||[]);if(continueButton){continueButton.textContent="SHARED SEASON RESULTS COMING NEXT";pstcHidden(continueButton,false);pstcDisable(continueButton,true);}
     }
-    const refresh=pstcEnsureRefreshButton();pstcDisable(refresh,busy);return true;
+    if(isReplay&&continueButton){continueButton.textContent=`CONTINUE REPLAY · ${phase.replaceAll("_"," ")}`;pstcHidden(actionBar,false);pstcHidden(continueButton,false);pstcDisable(continueButton,false);}
+    pstcMarkWitness(key,phase);
+    const refresh=pstcEnsureRefreshButton();pstcDisable(refresh,busy||isReplay);return true;
   }
-  function pstcEnsureRefreshButton(){let button=pstcField("refreshSharedTransferChallenge");if(button)return button;const actions=root.document&&root.document.querySelector("#transferChallenge .transferTimerActions");if(!actions)return null;button=root.document.createElement("button");button.id="refreshSharedTransferChallenge";button.className="menuButton";button.type="button";button.textContent="REFRESH SHARED CHALLENGE";button.addEventListener("click",event=>{event.preventDefault();void pstcRefresh().catch(error=>{pstcSetError(error.code||error.message);pstcReport("Unable to refresh Shared Transfer Challenge",error);});});actions.append(button);return button;}
-  function pstcDecorateDashboard(){if(!root.document||!pstcSharedMarker())return false;const button=pstcField("seasonPrimaryAction"),status=pstcField("dashboardTransferStatus"),state=view?.state||null;if(!button||!status)return false;button.dataset.sharedTransferChallenge="true";button.disabled=false;const season=view?.seasonNumber||(()=>{try{return pstcSeason();}catch(_error){return 1;}})();if(!state){button.textContent=`START SEASON ${season} SHARED TRANSFER CHALLENGE`;status.textContent="Shared transfer challenge: ready";}else if(state.phase==="WINDOW_OPEN"){button.textContent="OPEN SHARED TRANSFER WINDOW";status.textContent="Shared transfer challenge: transfer window live";}else if(state.phase==="GUESS_ENTRY"){button.textContent="OPEN SHARED GUESS ENTRY";status.textContent="Shared transfer challenge: private guesses";}else if(state.phase==="SIGNING_ENTRY"){button.textContent="OPEN SHARED SIGNING ENTRY";status.textContent="Shared transfer challenge: private signings";}else{button.textContent="VIEW SHARED TRANSFER VERDICTS";status.textContent="Shared transfer challenge: completed";}return true;}
-  async function pstcOpen(){if(!pstcSharedMarker())return false;await pstcEnsureDependencies();const result=await pstcRefresh();if(typeof root.navigateTo!=="function")pstcFail("TRANSFER_NAVIGATION_UNAVAILABLE");const shown=await root.navigateTo("transferChallenge");if(shown===false)pstcFail("TRANSFER_NAVIGATION_BLOCKED");pstcRender();return Boolean(result);}
+  function pstcEnsureRefreshButton(){let button=pstcField("refreshSharedTransferChallenge");if(button)return button;const actions=root.document&&root.document.querySelector("#transferChallenge .transferTimerActions");if(!actions)return null;button=root.document.createElement("button");button.id="refreshSharedTransferChallenge";button.className="menuButton";button.type="button";button.textContent="REFRESH SHARED CHALLENGE";button.addEventListener("click",event=>{event.preventDefault();if(pstcReplayPhase())return;void pstcRefresh().catch(error=>{pstcSetError(error.code||error.message);pstcReport("Unable to refresh Shared Transfer Challenge",error);});});actions.append(button);return button;}
+  function pstcDecorateDashboard(){if(!root.document||!pstcSharedMarker())return false;const currentKey=pstcCurrentContextKey();if(viewContextKey&&currentKey&&viewContextKey!==currentKey)return false;const button=pstcField("seasonPrimaryAction"),status=pstcField("dashboardTransferStatus"),state=view?.state||null;if(!button||!status)return false;button.dataset.sharedTransferChallenge="true";button.disabled=false;const season=view?.seasonNumber||(()=>{try{return pstcSeason();}catch(_error){return 1;}})();if(!state){button.textContent=`START SEASON ${season} SHARED TRANSFER CHALLENGE`;status.textContent="Shared transfer challenge: ready";}else if(state.phase==="WINDOW_OPEN"){button.textContent="OPEN SHARED TRANSFER WINDOW";status.textContent="Shared transfer challenge: transfer window live";}else if(state.phase==="GUESS_ENTRY"){button.textContent="OPEN SHARED GUESS ENTRY";status.textContent="Shared transfer challenge: private guesses";}else if(state.phase==="SIGNING_ENTRY"){button.textContent="OPEN SHARED SIGNING ENTRY";status.textContent="Shared transfer challenge: private signings";}else{button.textContent="VIEW SHARED TRANSFER VERDICTS";status.textContent="Shared transfer challenge: completed";}return true;}
+  async function pstcOpen(){if(!pstcSharedMarker())return false;await pstcEnsureDependencies();const result=await pstcRefresh();if(typeof root.navigateTo!=="function")pstcFail("TRANSFER_NAVIGATION_UNAVAILABLE");const shown=await root.navigateTo("transferChallenge");if(shown===false)pstcFail("TRANSFER_NAVIGATION_BLOCKED");pstcPrepareReplay();pstcRender();return Boolean(result);}
   async function pstcHandleAction(id){
     if(id==="seasonPrimaryAction")return pstcOpen();
+    if(id==="continueFromTransfers"&&pstcReplayPhase())return pstcAdvanceReplay();
+    if(pstcReplayPhase())return false;
     if(id==="startTransferTimer")return pstcMutate("startWindow");
     if(id==="endTransferTimer")return pstcMutate("requestEndWindow");
     if(id==="completeTransferChallenge"){
@@ -159,9 +185,14 @@
     return false;
   }
   function pstcCapture(event){const target=event.target&&event.target.closest&&event.target.closest("button");if(!target||!CONTROL_IDS.includes(target.id)||!pstcSharedMarker())return;event.preventDefault();event.stopPropagation();if(typeof event.stopImmediatePropagation==="function")event.stopImmediatePropagation();void pstcHandleAction(target.id).catch(error=>{pstcSetError(error.code||error.message||"Shared Transfer Challenge failed.");pstcReport("Shared Transfer Challenge action failed",error);});}
-  async function pstcTick(){if(!pstcSharedMarker()||root.document?.visibilityState==="hidden")return;if(view?.state?.phase==="COMPLETED"){pstcDecorateDashboard();return;}try{if(!pstcConfirmedShared()||!pstcCareerReady()){await pstcEnsureDependencies();await setupApi.refresh();await careerApi.refresh();}if(pstcConfirmedShared()&&pstcCareerReady()&&!busy){const active=root.document&&root.document.getElementById("transferChallenge");if(active&&!active.classList.contains("hidden"))await pstcRefresh();else if(!view)await pstcRefresh();else pstcDecorateDashboard();}}catch(_error){}}
-  function pstcTimerTick(){if(!pstcSharedMarker())return;const active=root.document&&root.document.getElementById("transferChallenge");if(active&&!active.classList.contains("hidden"))pstcRenderTimer();}
+  async function pstcTick(){
+    if(!pstcSharedMarker()||root.document?.visibilityState==="hidden")return;
+    const currentKey=pstcCurrentContextKey();if(viewContextKey&&(!currentKey||viewContextKey!==currentKey))pstcClearCachedContext();
+    if(view?.state?.phase==="COMPLETED"&&viewContextKey&&currentKey&&viewContextKey===currentKey){pstcDecorateDashboard();return;}
+    try{if(!pstcConfirmedShared()||!pstcCareerReady()){await pstcEnsureDependencies();await setupApi.refresh();await careerApi.refresh();}if(pstcConfirmedShared()&&pstcCareerReady()&&!busy){const active=root.document&&root.document.getElementById("transferChallenge");if(active&&!active.classList.contains("hidden"))await pstcRefresh();else if(!view)await pstcRefresh();else pstcDecorateDashboard();}}catch(_error){}
+  }
+  function pstcTimerTick(){if(!pstcSharedMarker()||pstcReplayPhase())return;const active=root.document&&root.document.getElementById("transferChallenge");if(active&&!active.classList.contains("hidden"))pstcRenderTimer();}
   function pstcInstall(){if(installed)return true;installed=true;if(root.document)root.document.addEventListener("click",pstcCapture,true);if(typeof root.setInterval==="function"){pollTimer=root.setInterval(()=>void pstcTick(),POLL_MS);timerLoop=root.setInterval(pstcTimerTick,TIMER_MS);}if(pstcSharedMarker())void pstcTick();return true;}
 
-  return Object.freeze({contractVersion:1,feature:"ssjr-production-shared-transfer-challenge",productionEnabled:true,requiresCareerStartReady:true,requiresExactActiveSession:true,privateUntilCompleted:true,serverClockAuthoritative:true,canonicalStorageMutation:false,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,install:pstcInstall,open:pstcOpen,refresh:pstcRefresh,getState:()=>view,isActive:pstcSharedMarker});
+  return Object.freeze({contractVersion:1,feature:"ssjr-production-shared-transfer-challenge",productionEnabled:true,requiresCareerStartReady:true,requiresExactActiveSession:true,privateUntilCompleted:true,serverClockAuthoritative:true,canonicalStorageMutation:false,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,orderedFullScreenReplay:true,inMemoryWitnessOnly:true,install:pstcInstall,open:pstcOpen,refresh:pstcRefresh,getState:()=>view,isActive:pstcSharedMarker});
 });
