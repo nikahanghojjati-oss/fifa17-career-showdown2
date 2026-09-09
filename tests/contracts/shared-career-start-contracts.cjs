@@ -73,4 +73,10 @@ assert.match(guard,/target\.id!=="continueClubAssignment"\|\|target\.dataset\.sh
 assert.match(guard,/if\(routeCareerStartClick\(target\)\)return;[\s\S]+if\(routePresentationClick\(target\)\)return;/,'Career Start must outrank the finished Shared Setup presentation at the capture gate');
 assert.match(guard,/routesCareerStartAfterConfirmedSetup:true/,'guard diagnostics must expose Career Start routing authority');
 
-console.log('PASS Shared Career Start contracts: exact confirmed setup gates entry, each bound role acknowledges once, replay/stale/duplicate-role attempts fail closed, the capture gate routes finished setup into Career Start, and Spark provider authority is account/device/rivalry/ACTIVE-session bound with zero billing.');
+const entry=fs.readFileSync(path.resolve('js/productionSharedJourneyEntry.js'),'utf8');
+assert.match(entry,/snapshot&&snapshot\.ready===true&&snapshot\.setup&&snapshot\.setup\.phase==="SHOWDOWN_CONFIRMED"&&snapshot\.setup\.revision===6/,'resume entry must resolve exact confirmed Shared Setup before choosing a route');
+assert.match(entry,/if\(confirmed\)\{await openCareerStart\(\);applyLocalDrawLock\(\);return true;\}/,'confirmed Shared Setup must resume directly into Career Start instead of replaying league/club setup');
+assert.match(entry,/confirmed\?"CONTINUE TO CAREER START":"CONTINUE TO LEAGUE WHEEL"/,'paired-first entry must expose the correct resume action to the owner');
+assert.match(entry,/confirmedSetupResumesAtCareerStart:true/,'entry diagnostics must expose direct confirmed-setup Career Start resume');
+
+console.log('PASS Shared Career Start contracts: exact confirmed setup gates entry, each bound role acknowledges once, replay/stale/duplicate-role attempts fail closed, finished setup routes directly into Career Start on click and reload/fresh-session resume, and Spark provider authority is account/device/rivalry/ACTIVE-session bound with zero billing.');
