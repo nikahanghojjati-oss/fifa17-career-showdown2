@@ -36,6 +36,8 @@
         "^js/sharedCareerStart\\.js$",
         "^js/sparkSharedCareerStart\\.js$",
         "^js/productionSharedCareerStart\\.js$",
+        "^js/productionSharedJourneyEntry\\.js$",
+        "^js/productionSharedJourneyGuard\\.js$",
         "^js/productionSharedShowdownPresentation\\.js$",
         "^firestore\\.career-start-production\\.fragment\\.rules$",
         "^scripts/build-production-firestore-rules\\.mjs$",
