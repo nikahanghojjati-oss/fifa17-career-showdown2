@@ -8,6 +8,7 @@ const basePath=path.join(root,'firestore.spark.rules');
 const sharedSetupFragmentPath=path.join(root,'firestore.shared-setup-production.fragment.rules');
 const careerStartFragmentPath=path.join(root,'firestore.career-start-production.fragment.rules');
 const transferChallengeFragmentPath=path.join(root,'firestore.transfer-challenge-production.fragment.rules');
+const seasonResultsFragmentPath=path.join(root,'firestore.season-results-production.fragment.rules');
 const transferOptionsPath=path.join(root,'data/transferOptions.js');
 const outputPath=path.join(root,'firestore.spark.generated.rules');
 
@@ -15,6 +16,7 @@ const base=fs.readFileSync(basePath,'utf8');
 const sharedSetupFragment=fs.readFileSync(sharedSetupFragmentPath,'utf8');
 const careerStartFragment=fs.readFileSync(careerStartFragmentPath,'utf8');
 const transferChallengeFragment=fs.readFileSync(transferChallengeFragmentPath,'utf8');
+const seasonResultsFragment=fs.readFileSync(seasonResultsFragmentPath,'utf8');
 
 function between(source,start,end){
   const a=source.indexOf(start),b=source.indexOf(end);
@@ -83,12 +85,18 @@ const transferFunctionMarker='// SSJR_TRANSFER_CHALLENGE_FUNCTIONS_BEGIN';
 const transferFunctionEnd='// SSJR_TRANSFER_CHALLENGE_FUNCTIONS_END';
 const transferMatchMarker='// SSJR_TRANSFER_CHALLENGE_MATCH_BEGIN';
 const transferMatchEnd='// SSJR_TRANSFER_CHALLENGE_MATCH_END';
+const seasonFunctionMarker='// SSJR_SEASON_RESULTS_FUNCTIONS_BEGIN';
+const seasonFunctionEnd='// SSJR_SEASON_RESULTS_FUNCTIONS_END';
+const seasonMatchMarker='// SSJR_SEASON_RESULTS_MATCH_BEGIN';
+const seasonMatchEnd='// SSJR_SEASON_RESULTS_MATCH_END';
 const sharedFunctions=between(sharedSetupFragment,sharedFunctionMarker,sharedFunctionEnd);
 const sharedMatch=between(sharedSetupFragment,sharedMatchMarker,sharedMatchEnd);
 const careerFunctions=between(careerStartFragment,careerFunctionMarker,careerFunctionEnd);
 const careerMatch=between(careerStartFragment,careerMatchMarker,careerMatchEnd);
 const transferFunctions=injectTransferCatalog(between(transferChallengeFragment,transferFunctionMarker,transferFunctionEnd));
 const transferMatch=between(transferChallengeFragment,transferMatchMarker,transferMatchEnd);
+const seasonFunctions=between(seasonResultsFragment,seasonFunctionMarker,seasonFunctionEnd);
+const seasonMatch=between(seasonResultsFragment,seasonMatchMarker,seasonMatchEnd);
 
 if(
   base.includes('match /sharedSetup/authoritative')
@@ -97,21 +105,23 @@ if(
   || base.includes('ssjrCareerValidCreate')
   || base.includes('match /transferChallenges/{transferId}')
   || base.includes('ssjrTransferValidCreate')
+  || base.includes('match /seasonResults/{seasonId}')
+  || base.includes('ssjrSeasonResultValidCreate')
 ){
-  throw new Error('Base Spark Rules already contains Shared Setup, Career Start or Transfer Challenge authority; refuse a duplicate promotion.');
+  throw new Error('Base Spark Rules already contains Shared Setup, Career Start, Transfer Challenge or Season Results authority; refuse a duplicate promotion.');
 }
 
 let generated=base;
 generated=once(
   generated,
   '    function capabilityCanReadPendingRivalry(rivalryId) {',
-  `    ${sharedFunctionMarker}\n${sharedFunctions}\n    ${sharedFunctionEnd}\n\n    ${careerFunctionMarker}\n${careerFunctions}\n    ${careerFunctionEnd}\n\n    ${transferFunctionMarker}\n${transferFunctions}\n    ${transferFunctionEnd}\n\n`,
+  `    ${sharedFunctionMarker}\n${sharedFunctions}\n    ${sharedFunctionEnd}\n\n    ${careerFunctionMarker}\n${careerFunctions}\n    ${careerFunctionEnd}\n\n    ${transferFunctionMarker}\n${transferFunctions}\n    ${transferFunctionEnd}\n\n    ${seasonFunctionMarker}\n${seasonFunctions}\n    ${seasonFunctionEnd}\n\n`,
   'top-level function insertion'
 );
 generated=once(
   generated,
   '      // STAGE5C_CANDIDATE_SESSION_MATCH_BEGIN',
-  `      ${sharedMatchMarker}\n${sharedMatch}\n      ${sharedMatchEnd}\n\n      ${careerMatchMarker}\n${careerMatch}\n      ${careerMatchEnd}\n\n      ${transferMatchMarker}\n${transferMatch}\n      ${transferMatchEnd}\n\n`,
+  `      ${sharedMatchMarker}\n${sharedMatch}\n      ${sharedMatchEnd}\n\n      ${careerMatchMarker}\n${careerMatch}\n      ${careerMatchEnd}\n\n      ${transferMatchMarker}\n${transferMatch}\n      ${transferMatchEnd}\n\n      ${seasonMatchMarker}\n${seasonMatch}\n      ${seasonMatchEnd}\n\n`,
   'rivalry child-match insertion'
 );
 
@@ -123,7 +133,6 @@ for(const required of [
   'allow create: if ssjrCareerValidCreate(rivalryId)',
   'allow update: if ssjrCareerValidUpdate(rivalryId)',
   'match /transferChallenges/{transferId}',
-  'match /roles/{managerRole}',
   'allow create: if ssjrTransferValidCreate(rivalryId, transferId)',
   'allow update: if ssjrTransferValidUpdate(rivalryId, transferId)',
   'allow create: if ssjrTransferPrivateCreateValid(rivalryId, transferId, managerRole)',
@@ -132,6 +141,15 @@ for(const required of [
   'function ssjrTransferValidNationalityId(value)',
   'ssjrTransferValidLeagueId(value.leagueId)',
   'ssjrTransferValidNationalityId(value.nationalityId)',
+  'match /seasonResults/{seasonId}',
+  'allow create: if ssjrSeasonResultValidCreate(rivalryId, seasonId)',
+  'allow update: if ssjrSeasonResultValidUpdate(rivalryId, seasonId)',
+  'allow create: if ssjrSeasonResultPrivateCreateValid(rivalryId, seasonId, managerRole)',
+  "managerRole == ssjrActorRole(rivalryId) || public.phase == 'COMPLETED'",
+  'getAfter(/databases/$(database)/documents/rivalries/$(rivalryId)/seasonResults/$(seasonId)/roles/$(role))',
+  "transfer.phase == 'COMPLETED'",
+  "public.runtimeRevision == '1.9.1-r9'",
+  'after.leaguePosition <= 20',
   'allow list, delete: if false',
   "sessionData.state == 'active'",
   'sessionData.expiresAt > request.time',
@@ -139,16 +157,15 @@ for(const required of [
   "after.totalSeasons == 1 || after.totalSeasons == 3 || after.totalSeasons == 5 || after.totalSeasons == 10",
   "setup.phase == 'SHOWDOWN_CONFIRMED'",
   "after.phase == 'CAREER_START_READY'",
-  "request.time >= before.startedAt + duration.value(15, 'm')",
-  "managerRole == ssjrActorRole(rivalryId) || public.phase == 'COMPLETED'",
-  'getAfter(/databases/$(database)/documents/rivalries/$(rivalryId)/transferChallenges/$(transferId)/roles/$(role))'
+  "request.time >= before.startedAt + duration.value(15, 'm')"
 ]){
   if(!generated.includes(required))throw new Error(`Generated production Rules missing required Shared Journey boundary: ${required}`);
 }
 if((generated.match(/match \/sharedSetup\/authoritative/g)||[]).length!==1)throw new Error('Generated production Rules must contain exactly one Shared Setup authority match.');
 if((generated.match(/match \/careerStart\/authoritative/g)||[]).length!==1)throw new Error('Generated production Rules must contain exactly one Career Start authority match.');
 if((generated.match(/match \/transferChallenges\/\{transferId\}/g)||[]).length!==1)throw new Error('Generated production Rules must contain exactly one Transfer Challenge authority match.');
-if((generated.match(/match \/roles\/\{managerRole\}/g)||[]).length!==1)throw new Error('Generated production Rules must contain exactly one Transfer Challenge role-private match.');
+if((generated.match(/match \/seasonResults\/\{seasonId\}/g)||[]).length!==1)throw new Error('Generated production Rules must contain exactly one Season Results authority match.');
+if((generated.match(/match \/roles\/\{managerRole\}/g)||[]).length!==2)throw new Error('Generated production Rules must contain exactly two role-private matches: Transfer Challenge and Season Results.');
 if(!generated.endsWith('\n'))generated+='\n';
 fs.writeFileSync(outputPath,generated,'utf8');
 if(process.argv.includes('--stdout'))process.stdout.write(generated);
