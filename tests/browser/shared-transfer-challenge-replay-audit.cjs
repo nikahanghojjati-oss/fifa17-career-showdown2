@@ -22,6 +22,10 @@ async function prepare(page,{managerRole,saveId}){
     let serverPhase='COMPLETED';
     let reads=0;
     let mutations=0;
+    let raceMode=false;
+    let raceStage=0;
+    let releaseRaceA=null;
+    let releaseRaceB=null;
     const setupValue=()=>({
       status:'ready',ready:true,open:false,busy:false,revision:6,phase:'SHOWDOWN_CONFIRMED',
       rivalryId:activeRivalry,sessionId,deviceId:'device_'+(managerRole==='playerOne'?'1':'2').repeat(32),managerRole,
@@ -39,17 +43,36 @@ async function prepare(page,{managerRole,saveId}){
       return {ok:true,revision:7,seasonNumber:1,managerRole,rivalryId:activeRivalry,state:{phase:'COMPLETED',revision:7,startedAtEpochMs:Date.now()-900000,endedAtEpochMs:Date.now()-1,endRequestedRoles:['playerOne','playerTwo'],guessLockedRoles:['playerOne','playerTwo'],signingLockedRoles:['playerOne','playerTwo']},ownInputs:completedInputs(managerRole),opponentInputs:completedInputs(roleOther),verdicts:{playerOne:[],playerTwo:[]}};
     };
     const rejectMutation=async()=>{mutations+=1;return {ok:false,code:'AUDIT_MUTATION_FORBIDDEN'};};
-    window.CareerModeSparkSharedTransferChallenge={read:async()=>{reads+=1;return makeView();},startWindow:rejectMutation,requestEndWindow:rejectMutation,advanceExpiredWindow:rejectMutation,lockGuesses:rejectMutation,lockSignings:rejectMutation};
+    window.CareerModeSparkSharedTransferChallenge={
+      read:async()=>{
+        reads+=1;
+        const snapshot=makeView();
+        if(raceMode){
+          raceStage+=1;
+          if(raceStage===1)await new Promise(resolve=>{releaseRaceA=resolve;});
+          else if(raceStage===2)await new Promise(resolve=>{releaseRaceB=resolve;});
+        }
+        return snapshot;
+      },
+      startWindow:rejectMutation,requestEndWindow:rejectMutation,advanceExpiredWindow:rejectMutation,lockGuesses:rejectMutation,lockSignings:rejectMutation
+    };
     window.CareerModeProductionFirebaseRuntime={ensureAccountServices:async()=>({ok:true,auth:{currentUser:{uid:managerRole==='playerOne'?'account_one':'account_two'}},firestore:{},firestoreSdk:{}})};
 
     await loadRuntimeScript('ssjr-transfer-replay-audit','js/productionSharedTransferChallenge.js',()=>window.CareerModeProductionSharedTransferChallenge);
     CareerModeProductionSharedTransferChallenge.install();
+    const switchSave=()=>{
+      activeRivalry=rivalryB;serverPhase='WINDOW_OPEN';
+      currentShowdown={...currentShowdown,id:`${saveId}_switched`,currentRound:1,sharedJourney:{mode:'shared',rivalryId:rivalryB}};
+    };
     window.__transferAudit={
       counts:()=>({reads,mutations}),
-      switchSave(){
-        activeRivalry=rivalryB;serverPhase='WINDOW_OPEN';
-        currentShowdown={...currentShowdown,id:`${saveId}_switched`,currentRound:1,sharedJourney:{mode:'shared',rivalryId:rivalryB}};
-      },
+      switchSave,
+      beginRaceA(){raceMode=true;raceStage=0;releaseRaceA=null;releaseRaceB=null;window.__raceA=CareerModeProductionSharedTransferChallenge.refresh();},
+      switchAndBeginRaceB(){switchSave();window.__raceB=CareerModeProductionSharedTransferChallenge.refresh();},
+      raceStatus:()=>({raceStage,hasReleaseA:typeof releaseRaceA==='function',hasReleaseB:typeof releaseRaceB==='function'}),
+      releaseA(){if(releaseRaceA){const release=releaseRaceA;releaseRaceA=null;release();}},
+      releaseB(){if(releaseRaceB){const release=releaseRaceB;releaseRaceB=null;release();}},
+      async finishRace(){const results=await Promise.all([window.__raceA,window.__raceB]);raceMode=false;return results.map(Boolean);},
       rivalryB
     };
     await CareerModeProductionSharedTransferChallenge.open();
@@ -85,6 +108,23 @@ async function assertReplay(page,roleLabel){
   assert.equal(after.reads,baseline.reads,'replay-next actions must not make provider reads');
 }
 
+async function assertCrossSaveRace(page){
+  const before=await page.evaluate(()=>window.__transferAudit.counts().reads);
+  await page.evaluate(()=>window.__transferAudit.beginRaceA());
+  await page.waitForFunction(()=>window.__transferAudit.raceStatus().raceStage===1&&window.__transferAudit.raceStatus().hasReleaseA,null,{timeout:5000});
+  await page.evaluate(()=>window.__transferAudit.switchAndBeginRaceB());
+  assert.equal(await page.evaluate(()=>window.CareerModeProductionSharedTransferChallenge.getState()),null,'starting the new Save refresh must clear the prior completed cache immediately');
+  await page.evaluate(()=>window.__transferAudit.releaseA());
+  await page.waitForFunction(()=>window.__transferAudit.raceStatus().raceStage===2&&window.__transferAudit.raceStatus().hasReleaseB,null,{timeout:5000});
+  assert.equal(await page.evaluate(()=>window.CareerModeProductionSharedTransferChallenge.getState()),null,'stale Save A completion must be discarded while Save B read is still pending');
+  await page.evaluate(()=>window.__transferAudit.releaseB());
+  assert.deepEqual(await page.evaluate(()=>window.__transferAudit.finishRace()),[false,true],'stale A refresh must resolve without binding while B refresh succeeds');
+  const expected=await page.evaluate(()=>window.__transferAudit.rivalryB);
+  await page.waitForFunction(rivalry=>window.CareerModeProductionSharedTransferChallenge.getState()?.rivalryId===rivalry,expected,{timeout:5000});
+  assert.equal(await page.evaluate(()=>window.CareerModeProductionSharedTransferChallenge.getState()?.state?.phase),'WINDOW_OPEN','only the new Save B provider state may bind after the overlap');
+  assert.equal(await page.evaluate(()=>window.__transferAudit.counts().reads),before+2,'the overlap must issue one context-specific read for A and one for B');
+}
+
 (async()=>{
   const runtime=await resolveChromiumRuntime();
   const browser=await chromium.launch({executablePath:runtime.executablePath,headless:true,args:runtime.args});
@@ -96,16 +136,18 @@ async function assertReplay(page,roleLabel){
   try{
     await prepare(host,{managerRole:'playerOne',saveId:'shared_save_host'});
     await assertReplay(host,'Player One desktop');
-    const beforeSwitch=await host.evaluate(()=>window.__transferAudit.counts().reads);
-    await host.evaluate(()=>window.__transferAudit.switchSave());
-    await host.waitForFunction(before=>window.__transferAudit.counts().reads>before,beforeSwitch,{timeout:20000});
-    await host.waitForFunction(expected=>window.CareerModeProductionSharedTransferChallenge.getState()?.rivalryId===expected,await host.evaluate(()=>window.__transferAudit.rivalryB),{timeout:5000});
-    assert.equal(await host.locator('#transferChallenge').getAttribute('data-transfer-phase'),'window','switching away from a completed shared Save must refresh and render the new Save context on the real automatic poll');
+    await assertCrossSaveRace(host);
 
     await prepare(peer,{managerRole:'playerTwo',saveId:'shared_save_peer'});
     await assertReplay(peer,'Player Two mobile');
+    const beforeSwitch=await peer.evaluate(()=>window.__transferAudit.counts().reads);
+    await peer.evaluate(()=>window.__transferAudit.switchSave());
+    await peer.waitForFunction(before=>window.__transferAudit.counts().reads>before,beforeSwitch,{timeout:20000});
+    await peer.waitForFunction(expected=>window.CareerModeProductionSharedTransferChallenge.getState()?.rivalryId===expected,await peer.evaluate(()=>window.__transferAudit.rivalryB),{timeout:5000});
+    assert.equal(await peer.locator('#transferChallenge').getAttribute('data-transfer-phase'),'window','switching away from a completed shared Save must refresh and render the new Save context on the real automatic poll');
+
     assert.deepEqual(errors,[],'Shared Transfer Challenge replay audit emitted page errors.');
-    process.stdout.write('PASS Shared Transfer Challenge ordered full-screen replay: Player One desktop and Player Two mobile each replay missed WINDOW_OPEN -> GUESS_ENTRY -> SIGNING_ENTRY before actual COMPLETED, replay stays read-only/private with zero provider mutations or replay reads, and switching a completed shared Save context is detected by the real 15-second automatic poll instead of stale terminal suppression.\n');
+    process.stdout.write('PASS Shared Transfer Challenge ordered full-screen replay and Save isolation: Player One desktop and Player Two mobile each replay missed WINDOW_OPEN -> GUESS_ENTRY -> SIGNING_ENTRY before actual COMPLETED; replay stays read-only/private with zero provider mutations or replay reads; an in-flight Save A read is discarded when Save B becomes active; and the real 15-second automatic poll detects a completed-Save context switch.\n');
   }finally{
     await hostContext.close().catch(()=>{});await peerContext.close().catch(()=>{});await browser.close().catch(()=>{});
   }
