@@ -49,7 +49,9 @@
       "path": "tests/contracts/shared-transfer-challenge-contracts.cjs",
       "patterns": [
         "^js/sharedTransferChallenge\\.js$",
+        "^js/sparkSharedTransferChallenge\\.js$",
         "^tests/contracts/shared-transfer-challenge-contracts\\.cjs$",
+        "^tests/contracts/shared-transfer-challenge-provider-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
     }
