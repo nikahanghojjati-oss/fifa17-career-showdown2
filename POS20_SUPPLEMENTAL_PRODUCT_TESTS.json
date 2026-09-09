@@ -5,90 +5,35 @@
   "tests": [
     {
       "path": "tests/contracts/ssjr-production-safe-evidence-assembly-contracts.cjs",
-      "patterns": [
-        "^js/ssjrProductionNegativeEvidence\\.js$",
-        "^js/ssjrProductionNegativeProbeRunner\\.js$",
-        "^js/ssjrProductionAcceptanceRecorder\\.js$",
-        "^js/ssjr\\.js$",
-        "^scripts/validate-ssjr-shared-setup-production-evidence\\.mjs$",
-        "^scripts/assemble-ssjr-shared-setup-safe-evidence\\.mjs$",
-        "^tests/contracts/ssjr-production-safe-evidence-assembly-contracts\\.cjs$",
-        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
-      ]
+      "patterns": ["^js/ssjrProductionNegativeEvidence\\.js$","^js/ssjrProductionNegativeProbeRunner\\.js$","^js/ssjrProductionAcceptanceRecorder\\.js$","^js/ssjr\\.js$","^scripts/validate-ssjr-shared-setup-production-evidence\\.mjs$","^scripts/assemble-ssjr-shared-setup-safe-evidence\\.mjs$","^tests/contracts/ssjr-production-safe-evidence-assembly-contracts\\.cjs$","^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"]
     },
     {
       "path": "tests/contracts/ssjr-production-actor-evidence-v2-contracts.cjs",
-      "patterns": [
-        "^js/ssjrProductionNegativeEvidence\\.js$",
-        "^js/ssjr\\.js$",
-        "^scripts/ssjr-actor-evidence-v2\\.mjs$",
-        "^scripts/assemble-ssjr-shared-setup-actor-evidence\\.mjs$",
-        "^scripts/validate-ssjr-shared-setup-actor-evidence\\.mjs$",
-        "^tests/contracts/ssjr-production-actor-evidence-v2-contracts\\.cjs$",
-        "^tests/browser/ssjr-production-actor-evidence-v2-audit\\.cjs$",
-        "^package\\.json$",
-        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
-      ]
+      "patterns": ["^js/ssjrProductionNegativeEvidence\\.js$","^js/ssjr\\.js$","^scripts/ssjr-actor-evidence-v2\\.mjs$","^scripts/assemble-ssjr-shared-setup-actor-evidence\\.mjs$","^scripts/validate-ssjr-shared-setup-actor-evidence\\.mjs$","^tests/contracts/ssjr-production-actor-evidence-v2-contracts\\.cjs$","^tests/browser/ssjr-production-actor-evidence-v2-audit\\.cjs$","^package\\.json$","^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"]
     },
     {
       "path": "tests/contracts/shared-career-start-contracts.cjs",
-      "patterns": [
-        "^js/sharedCareerStart\\.js$",
-        "^js/sparkSharedCareerStart\\.js$",
-        "^js/productionSharedCareerStart\\.js$",
-        "^js/productionSharedJourneyEntry\\.js$",
-        "^js/productionSharedJourneyGuard\\.js$",
-        "^js/productionSharedShowdownPresentation\\.js$",
-        "^firestore\\.career-start-production\\.fragment\\.rules$",
-        "^scripts/build-production-firestore-rules\\.mjs$",
-        "^tests/contracts/shared-career-start-contracts\\.cjs$",
-        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
-      ]
+      "patterns": ["^js/sharedCareerStart\\.js$","^js/sparkSharedCareerStart\\.js$","^js/productionSharedCareerStart\\.js$","^js/productionSharedJourneyEntry\\.js$","^js/productionSharedJourneyGuard\\.js$","^js/productionSharedShowdownPresentation\\.js$","^firestore\\.career-start-production\\.fragment\\.rules$","^scripts/build-production-firestore-rules\\.mjs$","^tests/contracts/shared-career-start-contracts\\.cjs$","^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"]
     },
     {
       "path": "tests/contracts/shared-transfer-challenge-contracts.cjs",
-      "patterns": [
-        "^js/sharedTransferChallenge\\.js$",
-        "^js/sparkSharedTransferChallenge\\.js$",
-        "^js/productionSharedTransferChallenge\\.js$",
-        "^js/ssjr\\.js$",
-        "^firestore\\.transfer-challenge-production\\.fragment\\.rules$",
-        "^scripts/build-production-firestore-rules\\.mjs$",
-        "^tests/contracts/shared-transfer-challenge-contracts\\.cjs$",
-        "^tests/contracts/shared-transfer-challenge-provider-contracts\\.cjs$",
-        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
-      ]
+      "patterns": ["^js/sharedTransferChallenge\\.js$","^js/sparkSharedTransferChallenge\\.js$","^js/productionSharedTransferChallenge\\.js$","^js/ssjr\\.js$","^firestore\\.transfer-challenge-production\\.fragment\\.rules$","^scripts/build-production-firestore-rules\\.mjs$","^tests/contracts/shared-transfer-challenge-contracts\\.cjs$","^tests/contracts/shared-transfer-challenge-provider-contracts\\.cjs$","^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"]
     },
     {
       "path": "tests/contracts/shared-season-results-contracts.cjs",
-      "patterns": [
-        "^js/sharedSeasonResults\\.js$",
-        "^tests/contracts/shared-season-results-contracts\\.cjs$",
-        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
-      ]
+      "patterns": ["^js/sharedSeasonResults\\.js$","^tests/contracts/shared-season-results-contracts\\.cjs$","^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"]
     },
     {
       "path": "tests/contracts/shared-season-results-provider-contracts.cjs",
-      "patterns": [
-        "^js/sharedSeasonResults\\.js$",
-        "^js/sparkSharedSeasonResults\\.js$",
-        "^js/sharedShowdownSetup\\.js$",
-        "^js/sharedShowdownCatalog\\.js$",
-        "^js/sparkSharedCareerStart\\.js$",
-        "^js/sparkSharedTransferChallenge\\.js$",
-        "^tests/contracts/shared-season-results-provider-contracts\\.cjs$",
-        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
-      ]
+      "patterns": ["^js/sharedSeasonResults\\.js$","^js/sparkSharedSeasonResults\\.js$","^js/sharedShowdownSetup\\.js$","^js/sharedShowdownCatalog\\.js$","^js/sparkSharedCareerStart\\.js$","^js/sparkSharedTransferChallenge\\.js$","^tests/contracts/shared-season-results-provider-contracts\\.cjs$","^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"]
     },
     {
       "path": "tests/contracts/shared-season-results-rules-contracts.cjs",
-      "patterns": [
-        "^firestore\\.season-results-production\\.fragment\\.rules$",
-        "^scripts/build-production-firestore-rules\\.mjs$",
-        "^\\.github/workflows/deploy-firestore-rules-zero-billing\\.yml$",
-        "^tests/contracts/shared-season-results-rules-contracts\\.cjs$",
-        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
-      ]
+      "patterns": ["^firestore\\.season-results-production\\.fragment\\.rules$","^scripts/build-production-firestore-rules\\.mjs$","^\\.github/workflows/deploy-firestore-rules-zero-billing\\.yml$","^tests/contracts/shared-season-results-rules-contracts\\.cjs$","^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"]
+    },
+    {
+      "path": "tests/contracts/shared-season-results-production-contracts.cjs",
+      "patterns": ["^js/productionSharedSeasonResults\\.js$","^js/productionSharedSeasonResultsRoute\\.js$","^js/productionSharedTransferChallenge\\.js$","^js/seasonEngine\\.js$","^js/ssjr\\.js$","^tests/contracts/shared-season-results-production-contracts\\.cjs$","^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"]
     }
   ]
 }

@@ -1,0 +1,55 @@
+const assert=require('node:assert/strict');
+const fs=require('node:fs');
+const path=require('node:path');
+const root=path.resolve(__dirname,'../..');
+const read=file=>fs.readFileSync(path.join(root,file),'utf8');
+const adapter=read('js/productionSharedSeasonResults.js');
+const route=read('js/productionSharedSeasonResultsRoute.js');
+const bootstrap=read('js/ssjr.js');
+const seasonEngine=read('js/seasonEngine.js');
+const transfer=read('js/productionSharedTransferChallenge.js');
+
+assert.match(adapter,/feature:\"ssjr-production-shared-season-results\"/);
+assert.match(adapter,/productionEnabled:true/);
+assert.match(adapter,/requiresCompletedSharedTransfer:true/);
+assert.match(adapter,/privateUntilBothPublished:true/);
+assert.match(adapter,/reusesSeasonEntry:true/);
+assert.match(adapter,/interceptsLocalSeasonPersistence:true/);
+assert.match(adapter,/authoritativeScoring:false/);
+assert.match(adapter,/canonicalStorageMutation:false/);
+assert.match(adapter,/billingRequired:false/);
+assert.match(adapter,/blazeRequired:false/);
+assert.match(adapter,/cloudRunRequired:false/);
+assert.match(adapter,/cloudFunctionsRequired:false/);
+assert.match(adapter,/provider\.publishResult/);
+assert.match(adapter,/provider\.read/);
+assert.match(adapter,/pssrFingerprint\(currentResult\)!==draft\.fingerprint/,'reviewed payload must be revalidated immediately before publication');
+assert.match(adapter,/Your rival cannot see this result until they publish their own/);
+assert.match(adapter,/Shared scoring is intentionally not authoritative/);
+for(const field of ['leaguePosition','leaguePoints','leagueGoals','domesticCup','championsLeague','topScorer','topAssist'])assert.match(adapter,new RegExp(`${field}:`),`production adapter must use canonical field ${field}`);
+assert.doesNotMatch(adapter,/persistCompletedSeason\s*\(/,'shared publication adapter must not call local season persistence');
+assert.doesNotMatch(adapter,/saveCurrentShowdown\s*\(/,'shared publication adapter must not write canonical local save authority');
+assert.doesNotMatch(adapter,/calculatePlayerSeasonScore\s*\(/,'r9 publication must not make local scoring authoritative');
+assert.doesNotMatch(adapter,/determineSeasonWinner\s*\(/,'r9 publication must not make local winner calculation authoritative');
+
+assert.match(route,/feature:\"ssjr-production-shared-season-results-route\"/);
+assert.match(route,/requiresCompletedSharedTransfer:true/);
+assert.match(route,/preservesTransferRuntime:true/);
+assert.match(route,/!screen\.dataset\.sharedTransferReplay/,'historical full-screen replay must not fall through into live Season Results');
+assert.match(route,/CONTINUE TO SHARED SEASON RESULTS/);
+assert.match(route,/productionSharedSeasonResults\.js/);
+assert.match(route,/api\.install\(\);return api\.open\(\)/);
+assert.match(route,/canonicalStorageMutation:false/);
+assert.match(route,/authoritativeScoring:false/);
+assert.match(route,/billingRequired:false/);
+
+const routeInstall=bootstrap.indexOf('ssjr-production-season-results-route');
+const transferInstall=bootstrap.indexOf('ssjr-production-transfer-challenge');
+assert.ok(routeInstall>=0,'Shared Season Results route must be installed by the Shared Journey bootstrap');
+assert.ok(transferInstall>=0,'Shared Transfer Challenge must remain installed');
+assert.ok(routeInstall<transferInstall,'Season Results route capture must install before the inherited Transfer Challenge capture');
+assert.match(bootstrap,/CareerModeProductionSharedSeasonResults/);
+assert.match(seasonEngine,/function confirmCurrentSeason\(\)[\s\S]*persistCompletedSeason\(roundRecord, seasonNumber\)/,'ordinary local Season Results persistence must remain intact behind the shared capture boundary');
+assert.match(transfer,/SHARED SEASON RESULTS COMING NEXT/,'r8 remains fail-closed when the r9 route is unavailable');
+
+console.log('PASS Shared Season Results production contracts: completed Shared Transfer Challenge routes into the existing Season Results shell, only the signed-in manager reviews and immutably publishes the canonical seven-field payload, review-time data is revalidated before publication, opponent data stays private until both publish, historical replay cannot enter live results, local persistence and scoring remain non-authoritative, and the r8 dead-end stays as fail-closed fallback.');
