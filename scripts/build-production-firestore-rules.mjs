@@ -55,7 +55,7 @@ function injectTransferCatalog(functions){
   let output=replaceOnce(
     functions,
     generic,
-    `${generic}\n    function ssjrTransferValidLeagueId(value) { return value in ${rulesList(leagueIds)}; }\n    function ssjrTransferValidNationalityId(value) { return value in ${rulesList(nationalities)}; }`,
+    `${generic}\n    function ssjrTransferValidLeagueId(value) { return value in ${rulesList(leagueIds)}; }\n    function ssjrTransferValidNationalityId(value) { return value in ${rulesList(nationalityIds)}; }`,
     'Transfer Challenge catalog helper'
   );
   output=replaceOnce(
