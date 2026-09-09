@@ -53,12 +53,37 @@ const commands = {
 
 const serverGroups = new Set(['REMOTE','STORAGE','VISUAL','FULL']);
 const delay = ms => new Promise(resolve=>setTimeout(resolve,ms));
+const defaultProofTimeoutMs = 30 * 60 * 1000;
+const fullBrowserAuditTimeoutMs = 5 * 60 * 1000;
 
-function run(command,label){
+function run(command,label,{timeoutMs=defaultProofTimeoutMs,env=process.env}={}){
   process.stdout.write(`RUN POS10 proof ${label}\n`);
-  const result = spawnSync('bash',['-lc',command],{cwd:root,env:process.env,stdio:'inherit',timeout:30*60*1000});
-  if(result.error) throw result.error;
+  const result = spawnSync('bash',['-lc',command],{cwd:root,env,stdio:'inherit',timeout:timeoutMs});
+  if(result.error){
+    if(result.error.code === 'ETIMEDOUT') throw new Error(`Proof ${label} timed out after ${Math.round(timeoutMs/60000)} minutes.`);
+    throw result.error;
+  }
   if(result.status !== 0) throw new Error(`Proof ${label} failed with exit ${result.status}.`);
+}
+
+function getFullBrowserAudits(){
+  const packageJson = JSON.parse(fs.readFileSync(path.join(root,'package.json'),'utf8'));
+  const browserScript = packageJson.scripts && packageJson.scripts['test:browser'];
+  if(typeof browserScript !== 'string' || !browserScript.trim()) throw new Error('package.json test:browser script is missing.');
+  const audits = browserScript.split(/\s+&&\s+/).map(command=>command.trim()).filter(Boolean);
+  if(audits.length < 2) throw new Error('FULL_BROWSER_BUNDLE expected test:browser to contain multiple &&-chained audits.');
+  return audits;
+}
+
+function runFullBrowserBundle(){
+  const audits = getFullBrowserAudits();
+  const env = {...process.env,CMS_AUDIT_RUN:'pos10-impact-full'};
+  for(let index=0;index<audits.length;index++){
+    const ordinal = `${index+1}/${audits.length}`;
+    const command = audits[index];
+    process.stdout.write(`RUN POS10 FULL browser audit ${ordinal}: ${command}\n`);
+    run(command,`FULL_BROWSER_BUNDLE audit ${ordinal}`,{timeoutMs:fullBrowserAuditTimeoutMs,env});
+  }
 }
 
 function verifySource(id,meta){
@@ -110,7 +135,8 @@ async function main(){
       }else{
         const command = commands[id];
         if(!command) throw new Error(`Builtin proof command missing: ${id}`);
-        run(command,id);
+        if(id === 'FULL_BROWSER_BUNDLE') runFullBrowserBundle();
+        else run(command,id);
       }
     }
   }finally{
