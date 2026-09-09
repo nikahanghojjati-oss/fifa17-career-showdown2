@@ -35,10 +35,15 @@ assert.doesNotMatch(adapter,/determineSeasonWinner\s*\(/,'r9 publication must no
 assert.match(route,/feature:\"ssjr-production-shared-season-results-route\"/);
 assert.match(route,/requiresCompletedSharedTransfer:true/);
 assert.match(route,/preservesTransferRuntime:true/);
+assert.match(route,/directDashboardRoute:true/);
+assert.match(route,/sharedReviewEscape:true/);
 assert.match(route,/!screen\.dataset\.sharedTransferReplay/,'historical full-screen replay must not fall through into live Season Results');
 assert.match(route,/CONTINUE TO SHARED SEASON RESULTS/);
+assert.match(route,/ENTER SHARED SEASON RESULTS/);
+assert.match(route,/seasonPrimaryAction/,'completed shared Transfer Challenge must route directly from Showdown Home');
+assert.match(route,/sharedSeasonResultsRouteStyle/,'shared review must preserve a visible escape to Showdown Home while local complete action stays hidden');
 assert.match(route,/productionSharedSeasonResults\.js/);
-assert.match(route,/api\.install\(\);return api\.open\(\)/);
+assert.match(route,/api\.install\(\);const opened=await api\.open\(\)/);
 assert.match(route,/canonicalStorageMutation:false/);
 assert.match(route,/authoritativeScoring:false/);
 assert.match(route,/billingRequired:false/);
@@ -52,4 +57,4 @@ assert.match(bootstrap,/CareerModeProductionSharedSeasonResults/);
 assert.match(seasonEngine,/function confirmCurrentSeason\(\)[\s\S]*persistCompletedSeason\(roundRecord, seasonNumber\)/,'ordinary local Season Results persistence must remain intact behind the shared capture boundary');
 assert.match(transfer,/SHARED SEASON RESULTS COMING NEXT/,'r8 remains fail-closed when the r9 route is unavailable');
 
-console.log('PASS Shared Season Results production contracts: completed Shared Transfer Challenge routes into the existing Season Results shell, only the signed-in manager reviews and immutably publishes the canonical seven-field payload, review-time data is revalidated before publication, opponent data stays private until both publish, historical replay cannot enter live results, local persistence and scoring remain non-authoritative, and the r8 dead-end stays as fail-closed fallback.');
+console.log('PASS Shared Season Results production contracts: completed Shared Transfer Challenge routes from both verdicts and Showdown Home into the existing Season Results shell, only the signed-in manager reviews and immutably publishes the canonical seven-field payload, review-time data is revalidated before publication, opponent data stays private until both publish, historical replay cannot enter live results, waiting users retain a Showdown Home escape, local persistence and scoring remain non-authoritative, and the r8 dead-end stays as fail-closed fallback.');
