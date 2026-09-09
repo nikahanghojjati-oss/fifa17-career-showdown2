@@ -7,6 +7,12 @@ const adapter=read('js/productionSharedSeasonCommit.js');
 const bootstrap=read('js/ssjr.js');
 const seasonEngine=read('js/seasonEngine.js');
 const resultsAdapter=read('js/productionSharedSeasonResults.js');
+const worker=read('service-worker.js');
+const html=read('index.html');
+const app=read('js/app.js');
+const menu=read('js/menuExperience.js');
+const manifest=read('manifest.webmanifest');
+const release=read('RELEASE_V1.9.1_R10.md');
 const pkg=JSON.parse(read('package.json'));
 
 assert.match(adapter,/feature:\"ssjr-production-shared-season-commit\"/);
@@ -29,6 +35,19 @@ assert.match(seasonEngine,/function confirmCurrentSeason\(\)[\s\S]*persistComple
 assert.match(resultsAdapter,/authoritativeScoring:false/,'r9 result publication must remain non-scoring authority beneath r10');
 assert.match(bootstrap,/ssjr-production-season-commit/,'Shared Journey bootstrap must install the r10 production adapter');
 assert.match(bootstrap,/CareerModeProductionSharedSeasonCommit/);
+
+assert.match(worker,/const RUNTIME_REVISION = "1\.9\.1-r10";/,'installed shell must publish a fresh r10 identity');
+assert.match(worker,/const PREVIOUS_RUNTIME_REVISION = "1\.9\.1-r9";/,'r9 must remain the immediate rollback shell');
+for(const asset of ['js/sharedSeasonCommit.js','js/sparkSharedSeasonCommit.js','js/productionSharedSeasonCommit.js'])assert.ok(worker.includes(`"${asset}"`),`r10 installed shell must cache ${asset}`);
+assert.match(html,/app-asset-revision" content="1\.9\.1-r10"/,'document must advertise the r10 whole-shell identity');
+for(const asset of ['js/storage.js','js/showdown.js','js/scoring.js','js/screens.js','js/menuExperience.js','js/optionalModules.js','js/app.js'])assert.ok(html.includes(`${asset}?v=1.9.1-r10`),`direct shell asset ${asset} must use r10`);
+assert.match(app,/visual-fidelity-r3\.css\?v=1\.9\.1-r10/,'lazy visual fidelity must share the r10 identity');
+assert.match(menu,/marco-reus-2015-cc-by\.webp\?v=1\.9\.1-r10/,'lazy menu image must share the r10 identity');
+for(const icon of ['showdown-192.svg','showdown-512.svg','showdown-maskable-512.svg'])assert.ok(manifest.includes(`${icon}?v=1.9.1-r10`),`manifest icon ${icon} must share the r10 identity`);
+assert.match(release,/Runtime asset revision: `1\.9\.1-r10`/);
+assert.match(release,/Previous known-good runtime: `1\.9\.1-r9`/);
+assert.match(release,/Shared Showdown Journey readiness under `SSJR-1\.1`: `0\/100`/,'r10 release candidate must not fabricate SSJR credit');
+
 assert.match(pkg.scripts['test:ssjr'],/shared-season-commit-production-contracts\.cjs/,'explicit SSJR contract suite must include r10 production contracts');
 assert.match(pkg.scripts['test:ssjr:browser'],/shared-season-commit-audit\.cjs/,'explicit SSJR browser suite must include the two-manager r10 audit');
-console.log('PASS Shared Season Commit production contracts: exact r9 RESULTS_READY is required; only the coordinator can create the immutable shared commit; both managers independently acknowledge through a dedicated shared-only review action; stale CAS gets one bounded retry; local Season Engine persistence and scoring remain unreachable; Spark/zero-billing constraints remain explicit; and r10 is wired into blocking static and browser authority.');
+console.log('PASS Shared Season Commit production contracts: exact r9 RESULTS_READY is required; only the coordinator can create the immutable shared commit; both managers independently acknowledge through a dedicated shared-only review action; stale CAS gets one bounded retry; local Season Engine persistence and scoring remain unreachable; Spark/zero-billing constraints remain explicit; and the document, lazy assets, manifest, release record and verified installed-app cache converge on one r10 whole-shell identity with r9 rollback.');
