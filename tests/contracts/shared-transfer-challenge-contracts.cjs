@@ -14,8 +14,8 @@ const productionSource=fs.readFileSync('js/productionSharedTransferChallenge.js'
 const providerSource=fs.readFileSync('js/sparkSharedTransferChallenge.js','utf8');
 const catalogSandbox={window:{}};
 vm.runInNewContext(fs.readFileSync('data/transferOptions.js','utf8'),catalogSandbox,{filename:'data/transferOptions.js'});
-const canonicalLeagueIds=catalogSandbox.window.FIFA17_TRANSFER_LEAGUES.map(item=>item.id);
-const canonicalNationalityIds=catalogSandbox.window.FIFA17_TRANSFER_NATIONALITIES.map(item=>item.id);
+const canonicalLeagueIds=Array.from(catalogSandbox.window.FIFA17_TRANSFER_LEAGUES,item=>item.id);
+const canonicalNationalityIds=Array.from(catalogSandbox.window.FIFA17_TRANSFER_NATIONALITIES,item=>item.id);
 function generatedMembership(functionName){
   const match=generatedRules.match(new RegExp(`function ${functionName}\\(value\\) \\{ return value in \\[([^\\]]*)\\]; \\}`));
   assert.ok(match,`generated Rules missing ${functionName}`);
