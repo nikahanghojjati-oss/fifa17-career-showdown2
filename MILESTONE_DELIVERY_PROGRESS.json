@@ -4,27 +4,23 @@
   "trackerModelFile": "MILESTONE_DELIVERY_PROGRESS_MODEL.json",
   "milestoneModel": "SSJR-1.1",
   "milestoneModelFile": "SHARED_SHOWDOWN_JOURNEY_MODEL.json",
-  "recordedAt": "2026-09-07T15:17:00Z",
+  "recordedAt": "2026-09-09T18:09:00Z",
   "basis": {
-    "mainSha": "24d644efe0702ef4672e0655465b66e658ed4e3a",
-    "branch": "fix/ssjr-recorder-catalog-proof-r6",
-    "featureEvidenceHeadSha": "9867cbdda6f311902534319c2b086c5693e0e0f1",
-    "trackerBootstrapHeadSha": "6bf9374599fe272a62e650e4cda1a2ed122c356b",
+    "mainSha": "7f6432213871fb4cb5fb414999e08ac44e0fb318",
+    "branch": "feat/ssjr-shared-season-results-r9",
     "productionVersion": "v1.9.1",
-    "productionRuntimeRevision": "1.9.1-r5",
-    "releaseCandidateVersion": "v1.9.1",
-    "releaseCandidateRuntimeRevision": "1.9.1-r6",
-    "note": "The r6 feature evidence head had no failing check-runs when independently reconstructed. The later bootstrap head changes continuity only and does not change product-feature maturity."
+    "productionRuntimeRevision": "1.9.1-r8",
+    "note": "Rebased tracker authority on exact deployed r8 main after PR #226. GitHub Pages and permanent zero-billing Firestore Rules deployment both succeeded on this main SHA."
   },
-  "currentScore": 39,
-  "formattedScore": "39.00/100",
+  "currentScore": 50.5,
+  "formattedScore": "50.50/100",
   "summary": {
     "featureCount": 20,
-    "fullyLifecycleDelivered": 2,
-    "preIntegrationComplete": 4,
-    "designDefinedOnly": 14,
+    "fullyLifecycleDelivered": 8,
+    "preIntegrationComplete": 0,
+    "designDefinedOnly": 12,
     "reusableFoundationsNotInflated": true,
-    "interpretation": "Two shared-entry capabilities are already integrated product behavior. Four Shared Setup capabilities have completed design, implementation, automated verification, defect/review correction and coherent-head regression re-test on the r6 candidate, but their final product-integration stage is still open until r6 merges and is deployed/proven. The fourteen later SSJR capabilities are explicitly designed by the frozen roadmap; reusable local gameplay, RJR reconnect and Candidate C foundations exist but are not counted as completed SSJR-specific implementations until wired end to end into those capabilities."
+    "interpretation": "Eight SSJR capabilities from shared entry through Shared Transfer Challenge are fully engineered, regression-tested and integrated in production. The remaining twelve retain only their frozen design-stage maturity until milestone-specific implementations are built."
   },
   "capabilities": [
     {
@@ -34,8 +30,8 @@
       "weightedContribution": 5,
       "status": "integrated",
       "stages": {"design":"complete","implementation":"complete","automated-test":"complete","defect-resolution":"complete","regression-retest":"complete","product-integration":"complete"},
-      "evidenceRefs": ["SHARED_SHOWDOWN_JOURNEY_MODEL.json", "js/productionSharedJourneyEntry.js", "tests/browser/shared-showdown-paired-first-entry-audit.cjs", "tests/contracts/shared-showdown-provider-contracts.cjs", "V1.9.1_R3_PRODUCTION_PROOF.md"],
-      "note": "Exact rivalry/profile/save entry binding is implemented, provider-enforced, regression-tested and shipped. SSJR remains zero-credit because its separate production-two-account acceptance layer is not yet consumed."
+      "evidenceRefs": ["SHARED_SHOWDOWN_JOURNEY_MODEL.json","js/productionSharedJourneyEntry.js","js/productionSharedJourneyGuard.js"],
+      "note": "Shipped and product-integrated on the r8 production shell; SSJR production-two-account evidence remains separate."
     },
     {
       "id": "entry-before-draw",
@@ -44,70 +40,68 @@
       "weightedContribution": 5,
       "status": "integrated",
       "stages": {"design":"complete","implementation":"complete","automated-test":"complete","defect-resolution":"complete","regression-retest":"complete","product-integration":"complete"},
-      "evidenceRefs": ["SHARED_SHOWDOWN_JOURNEY_MODEL.json", "js/productionSharedJourneyGuard.js", "js/productionSharedShowdownSetup.js", "tests/browser/shared-showdown-paired-first-entry-audit.cjs", "V1.9.1_R3_PRODUCTION_PROOF.md"],
-      "note": "Pairing plus exact ACTIVE precedes shared league/club authority in the shipped runtime. Human two-account SSJR evidence remains a separate readiness gate."
+      "evidenceRefs": ["js/productionSharedJourneyGuard.js","js/productionSharedShowdownSetup.js"],
+      "note": "Shipped and product-integrated on the r8 production shell; SSJR production-two-account evidence remains separate."
     },
     {
       "id": "setup-league",
       "milestoneWeight": 8,
-      "lifecyclePercent": 90,
-      "weightedContribution": 7.2,
-      "status": "pre_integration_complete",
-      "stages": {"design":"complete","implementation":"complete","automated-test":"complete","defect-resolution":"complete","regression-retest":"complete","product-integration":"in_progress"},
-      "evidenceRefs": ["js/sharedShowdownSetup.js", "js/sparkSharedShowdownSetup.js", "js/productionSharedShowdownPresentation.js", "tests/contracts/shared-showdown-setup-contracts.cjs", "tests/contracts/shared-showdown-polished-presentation-contracts.cjs", "tests/browser/shared-showdown-polished-presentation-audit.cjs", "PR #214 exact feature head 9867cbdda6f311902534319c2b086c5693e0e0f1"],
-      "note": "Authoritative League Wheel behavior and two-device presentation are built and re-tested on r6; final integration waits for PR214 merge plus coherent deployed r6 proof."
+      "lifecyclePercent": 100,
+      "weightedContribution": 8,
+      "status": "integrated",
+      "stages": {"design":"complete","implementation":"complete","automated-test":"complete","defect-resolution":"complete","regression-retest":"complete","product-integration":"complete"},
+      "evidenceRefs": ["js/sharedShowdownSetup.js","js/sparkSharedShowdownSetup.js","js/productionSharedShowdownPresentation.js"],
+      "note": "Shipped and product-integrated on the r8 production shell; SSJR production-two-account evidence remains separate."
     },
     {
       "id": "setup-clubs",
       "milestoneWeight": 8,
-      "lifecyclePercent": 90,
-      "weightedContribution": 7.2,
-      "status": "pre_integration_complete",
-      "stages": {"design":"complete","implementation":"complete","automated-test":"complete","defect-resolution":"complete","regression-retest":"complete","product-integration":"in_progress"},
-      "evidenceRefs": ["js/sharedShowdownSetup.js", "js/sparkSharedShowdownSetup.js", "js/productionSharedShowdownPresentation.js", "tests/contracts/shared-showdown-setup-contracts.cjs", "tests/contracts/shared-showdown-polished-presentation-contracts.cjs", "tests/browser/shared-showdown-polished-presentation-audit.cjs", "PR #214 exact feature head 9867cbdda6f311902534319c2b086c5693e0e0f1"],
-      "note": "Distinct same-league permanent Club Pack assignment and both-device reveal are built and re-tested on r6; final integration waits for merge/deployment proof."
+      "lifecyclePercent": 100,
+      "weightedContribution": 8,
+      "status": "integrated",
+      "stages": {"design":"complete","implementation":"complete","automated-test":"complete","defect-resolution":"complete","regression-retest":"complete","product-integration":"complete"},
+      "evidenceRefs": ["js/sharedShowdownSetup.js","js/sparkSharedShowdownSetup.js","js/productionSharedShowdownPresentation.js"],
+      "note": "Shipped and product-integrated on the r8 production shell; SSJR production-two-account evidence remains separate."
     },
     {
       "id": "setup-length",
       "milestoneWeight": 4,
-      "lifecyclePercent": 90,
-      "weightedContribution": 3.6,
-      "status": "pre_integration_complete",
-      "stages": {"design":"complete","implementation":"complete","automated-test":"complete","defect-resolution":"complete","regression-retest":"complete","product-integration":"in_progress"},
-      "evidenceRefs": ["js/sharedShowdownSetup.js", "js/sparkSharedShowdownSetup.js", "tests/contracts/shared-showdown-setup-contracts.cjs", "tests/browser/shared-showdown-setup-audit.cjs", "PR #214 exact feature head 9867cbdda6f311902534319c2b086c5693e0e0f1"],
-      "note": "Supported 1/3/5/10 shared season-length authority is built and tested; r6 product integration remains open."
+      "lifecyclePercent": 100,
+      "weightedContribution": 4,
+      "status": "integrated",
+      "stages": {"design":"complete","implementation":"complete","automated-test":"complete","defect-resolution":"complete","regression-retest":"complete","product-integration":"complete"},
+      "evidenceRefs": ["js/sharedShowdownSetup.js","js/sparkSharedShowdownSetup.js","js/productionSharedShowdownSetup.js"],
+      "note": "Shipped and product-integrated on the r8 production shell; SSJR production-two-account evidence remains separate."
     },
     {
       "id": "setup-confirmation",
       "milestoneWeight": 5,
-      "lifecyclePercent": 90,
-      "weightedContribution": 4.5,
-      "status": "pre_integration_complete",
-      "stages": {"design":"complete","implementation":"complete","automated-test":"complete","defect-resolution":"complete","regression-retest":"complete","product-integration":"in_progress"},
-      "evidenceRefs": ["js/sharedShowdownSetup.js", "js/sparkSharedShowdownSetup.js", "tests/contracts/shared-showdown-setup-contracts.cjs", "tests/browser/shared-showdown-setup-audit.cjs", "PR #214 exact feature head 9867cbdda6f311902534319c2b086c5693e0e0f1"],
-      "note": "Role-distinct setup confirmation and stale-setup rejection are built/tested; r6 product integration remains open."
+      "lifecyclePercent": 100,
+      "weightedContribution": 5,
+      "status": "integrated",
+      "stages": {"design":"complete","implementation":"complete","automated-test":"complete","defect-resolution":"complete","regression-retest":"complete","product-integration":"complete"},
+      "evidenceRefs": ["js/sharedShowdownSetup.js","js/sparkSharedShowdownSetup.js","js/productionSharedShowdownSetup.js"],
+      "note": "Shipped and product-integrated on the r8 production shell; SSJR production-two-account evidence remains separate."
     },
     {
       "id": "career-start",
       "milestoneWeight": 4,
-      "lifecyclePercent": 10,
-      "weightedContribution": 0.4,
-      "status": "design_defined",
-      "stages": {"design":"complete","implementation":"not_started","automated-test":"not_started","defect-resolution":"not_started","regression-retest":"not_started","product-integration":"not_started"},
-      "evidenceRefs": ["SHARED_SHOWDOWN_JOURNEY_MODEL.json"],
-      "reusableFoundations": ["Local profiles/save library and career-mode flow exist"],
-      "note": "Shared role-isolated career-start acknowledgement has not yet been built end to end."
+      "lifecyclePercent": 100,
+      "weightedContribution": 4,
+      "status": "integrated",
+      "stages": {"design":"complete","implementation":"complete","automated-test":"complete","defect-resolution":"complete","regression-retest":"complete","product-integration":"complete"},
+      "evidenceRefs": ["js/sharedCareerStart.js","js/sparkSharedCareerStart.js","js/productionSharedCareerStart.js"],
+      "note": "Shipped and product-integrated on the r8 production shell; SSJR production-two-account evidence remains separate."
     },
     {
       "id": "transfer-challenge",
       "milestoneWeight": 6,
-      "lifecyclePercent": 10,
-      "weightedContribution": 0.6,
-      "status": "design_defined",
-      "stages": {"design":"complete","implementation":"not_started","automated-test":"not_started","defect-resolution":"not_started","regression-retest":"not_started","product-integration":"not_started"},
-      "evidenceRefs": ["SHARED_SHOWDOWN_JOURNEY_MODEL.json"],
-      "reusableFoundations": ["js/transferChallenge.js and local transfer-challenge tests exist"],
-      "note": "The local feature is reusable, but shared two-manager phase ownership/timer/guess/signing convergence is not yet an SSJR implementation."
+      "lifecyclePercent": 100,
+      "weightedContribution": 6,
+      "status": "integrated",
+      "stages": {"design":"complete","implementation":"complete","automated-test":"complete","defect-resolution":"complete","regression-retest":"complete","product-integration":"complete"},
+      "evidenceRefs": ["js/sharedTransferChallenge.js","js/sparkSharedTransferChallenge.js","js/productionSharedTransferChallenge.js"],
+      "note": "Shipped and product-integrated on the r8 production shell; SSJR production-two-account evidence remains separate."
     },
     {
       "id": "results-publication",
@@ -117,8 +111,7 @@
       "status": "design_defined",
       "stages": {"design":"complete","implementation":"not_started","automated-test":"not_started","defect-resolution":"not_started","regression-retest":"not_started","product-integration":"not_started"},
       "evidenceRefs": ["SHARED_SHOWDOWN_JOURNEY_MODEL.json"],
-      "reusableFoundations": ["Local season review/results UI and architecture tests exist"],
-      "note": "Shared provider-authoritative per-role result publication and cross-role denial are not yet built end to end."
+      "note": "Frozen SSJR-1.1 design is defined; milestone-specific end-to-end implementation is not yet complete."
     },
     {
       "id": "season-commit",
@@ -128,8 +121,7 @@
       "status": "design_defined",
       "stages": {"design":"complete","implementation":"not_started","automated-test":"not_started","defect-resolution":"not_started","regression-retest":"not_started","product-integration":"not_started"},
       "evidenceRefs": ["SHARED_SHOWDOWN_JOURNEY_MODEL.json"],
-      "reusableFoundations": ["Local season engine exists"],
-      "note": "Atomic shared season commit after both reviewed results is not yet built."
+      "note": "Frozen SSJR-1.1 design is defined; milestone-specific end-to-end implementation is not yet complete."
     },
     {
       "id": "canonical-scoring",
@@ -139,8 +131,7 @@
       "status": "design_defined",
       "stages": {"design":"complete","implementation":"not_started","automated-test":"not_started","defect-resolution":"not_started","regression-retest":"not_started","product-integration":"not_started"},
       "evidenceRefs": ["SHARED_SHOWDOWN_JOURNEY_MODEL.json"],
-      "reusableFoundations": ["Local scoring engine and trophy/bonus rules exist"],
-      "note": "The local algorithm is reusable, but canonical shared recomputation from authoritative accepted results is not yet built."
+      "note": "Frozen SSJR-1.1 design is defined; milestone-specific end-to-end implementation is not yet complete."
     },
     {
       "id": "history-convergence",
@@ -150,8 +141,7 @@
       "status": "design_defined",
       "stages": {"design":"complete","implementation":"not_started","automated-test":"not_started","defect-resolution":"not_started","regression-retest":"not_started","product-integration":"not_started"},
       "evidenceRefs": ["SHARED_SHOWDOWN_JOURNEY_MODEL.json"],
-      "reusableFoundations": ["Local statistics, manager records and trophy projections exist"],
-      "note": "Shared accepted-revision projections and two-device history convergence are not yet built."
+      "note": "Frozen SSJR-1.1 design is defined; milestone-specific end-to-end implementation is not yet complete."
     },
     {
       "id": "multi-season",
@@ -161,8 +151,7 @@
       "status": "design_defined",
       "stages": {"design":"complete","implementation":"not_started","automated-test":"not_started","defect-resolution":"not_started","regression-retest":"not_started","product-integration":"not_started"},
       "evidenceRefs": ["SHARED_SHOWDOWN_JOURNEY_MODEL.json"],
-      "reusableFoundations": ["Local multi-season career state exists"],
-      "note": "Shared exactly-once season advancement through every 1/3/5/10 plan is not yet built."
+      "note": "Frozen SSJR-1.1 design is defined; milestone-specific end-to-end implementation is not yet complete."
     },
     {
       "id": "journey-reconnect",
@@ -172,8 +161,7 @@
       "status": "design_defined",
       "stages": {"design":"complete","implementation":"not_started","automated-test":"not_started","defect-resolution":"not_started","regression-retest":"not_started","product-integration":"not_started"},
       "evidenceRefs": ["SHARED_SHOWDOWN_JOURNEY_MODEL.json"],
-      "reusableFoundations": ["RJR reconnect/adverse-network transport and Shared Setup recovery slices exist"],
-      "note": "Those foundations do not yet cover the complete shared setup/results/season mutation lifecycle required by this SSJR capability."
+      "note": "Frozen SSJR-1.1 design is defined; milestone-specific end-to-end implementation is not yet complete."
     },
     {
       "id": "journey-conflicts",
@@ -183,8 +171,7 @@
       "status": "design_defined",
       "stages": {"design":"complete","implementation":"not_started","automated-test":"not_started","defect-resolution":"not_started","regression-retest":"not_started","product-integration":"not_started"},
       "evidenceRefs": ["SHARED_SHOWDOWN_JOURNEY_MODEL.json"],
-      "reusableFoundations": ["RJR stale/replay/revocation/provider denial infrastructure exists"],
-      "note": "End-to-end shared journey contention and mutation-conflict enforcement across later season stages is not yet built."
+      "note": "Frozen SSJR-1.1 design is defined; milestone-specific end-to-end implementation is not yet complete."
     },
     {
       "id": "local-reconciliation",
@@ -194,8 +181,7 @@
       "status": "design_defined",
       "stages": {"design":"complete","implementation":"not_started","automated-test":"not_started","defect-resolution":"not_started","regression-retest":"not_started","product-integration":"not_started"},
       "evidenceRefs": ["SHARED_SHOWDOWN_JOURNEY_MODEL.json"],
-      "reusableFoundations": ["Candidate B preview, Candidate C Apply, exact rollback and local-save protection are already shipped foundations"],
-      "note": "The foundations are intentionally not counted as this feature's implementation until actual Shared Journey state is wired through them end to end."
+      "note": "Frozen SSJR-1.1 design is defined; milestone-specific end-to-end implementation is not yet complete."
     },
     {
       "id": "final-reconciliation",
@@ -205,7 +191,7 @@
       "status": "design_defined",
       "stages": {"design":"complete","implementation":"not_started","automated-test":"not_started","defect-resolution":"not_started","regression-retest":"not_started","product-integration":"not_started"},
       "evidenceRefs": ["SHARED_SHOWDOWN_JOURNEY_MODEL.json"],
-      "note": "Final shared season reconciliation into one completed Showdown is specified but not yet built."
+      "note": "Frozen SSJR-1.1 design is defined; milestone-specific end-to-end implementation is not yet complete."
     },
     {
       "id": "terminal-close",
@@ -215,7 +201,7 @@
       "status": "design_defined",
       "stages": {"design":"complete","implementation":"not_started","automated-test":"not_started","defect-resolution":"not_started","regression-retest":"not_started","product-integration":"not_started"},
       "evidenceRefs": ["SHARED_SHOWDOWN_JOURNEY_MODEL.json"],
-      "note": "Terminal CLOSED/no-resurrection Shared Journey behavior is specified but not yet built."
+      "note": "Frozen SSJR-1.1 design is defined; milestone-specific end-to-end implementation is not yet complete."
     },
     {
       "id": "physical-journey",
@@ -225,8 +211,7 @@
       "status": "design_defined",
       "stages": {"design":"complete","implementation":"not_started","automated-test":"not_started","defect-resolution":"not_started","regression-retest":"not_started","product-integration":"not_started"},
       "evidenceRefs": ["SHARED_SHOWDOWN_JOURNEY_MODEL.json"],
-      "reusableFoundations": ["Consumed RJR two-device/two-network proof exists but is not SSJR journey completion"],
-      "note": "The integrated SSJR journey surface required before physical full-journey acceptance is not yet built. Human physical evidence remains an SSJR gate, not MDP credit."
+      "note": "Frozen SSJR-1.1 design is defined; milestone-specific end-to-end implementation is not yet complete."
     },
     {
       "id": "stable-journey-release",
@@ -236,7 +221,18 @@
       "status": "design_defined",
       "stages": {"design":"complete","implementation":"not_started","automated-test":"not_started","defect-resolution":"not_started","regression-retest":"not_started","product-integration":"not_started"},
       "evidenceRefs": ["SHARED_SHOWDOWN_JOURNEY_MODEL.json"],
-      "note": "The final stable integrated SSJR release is specified but cannot be engineered/integrated until the preceding journey capabilities exist."
+      "note": "Frozen SSJR-1.1 design is defined; milestone-specific end-to-end implementation is not yet complete."
     }
-  ]
+  ],
+  "scoreCheck": {
+    "fullyIntegratedWeight": 45,
+    "remainingDesignWeight": 55,
+    "remainingDesignContribution": 5.5,
+    "calculatedScore": 50.5
+  },
+  "separationFromSSJR": {
+    "ssjrScore": 0,
+    "doesNotGrantSSJRCredit": true,
+    "reason": "Production-two-account evidence is still required by SSJR-1.1 whole-capability acceptance."
+  }
 }
