@@ -58,6 +58,18 @@
         "^tests/contracts/shared-transfer-challenge-provider-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/shared-season-results-contracts.cjs",
+      "patterns": [
+        "^js/sharedSeasonResults\\.js$",
+        "^js/sparkSharedSeasonResults\\.js$",
+        "^firestore\\.season-results-production\\.fragment\\.rules$",
+        "^scripts/build-production-firestore-rules\\.mjs$",
+        "^tests/contracts/shared-season-results-contracts\\.cjs$",
+        "^tests/contracts/shared-season-results-provider-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
