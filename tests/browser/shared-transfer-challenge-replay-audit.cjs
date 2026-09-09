@@ -36,21 +36,14 @@ async function prepare(page,{managerRole,saveId}){
     });
     const makeView=()=>{
       if(serverPhase==='WINDOW_OPEN')return {ok:true,revision:1,seasonNumber:1,managerRole,rivalryId:activeRivalry,state:{phase:'WINDOW_OPEN',revision:1,startedAtEpochMs:Date.now(),endRequestedRoles:[],guessLockedRoles:[],signingLockedRoles:[]},ownInputs:{guesses:null,signings:null},opponentInputs:null,verdicts:null};
-      return {ok:true,revision:7,seasonNumber:1,managerRole,rivalryId:activeRivalry,state:{phase:'COMPLETED',revision:7,startedAtEpochMs:Date.now()-900000,endedAtEpochMs:Date.now()-1, endRequestedRoles:['playerOne','playerTwo'],guessLockedRoles:['playerOne','playerTwo'],signingLockedRoles:['playerOne','playerTwo']},ownInputs:completedInputs(managerRole),opponentInputs:completedInputs(roleOther),verdicts:{playerOne:[],playerTwo:[]}};
+      return {ok:true,revision:7,seasonNumber:1,managerRole,rivalryId:activeRivalry,state:{phase:'COMPLETED',revision:7,startedAtEpochMs:Date.now()-900000,endedAtEpochMs:Date.now()-1,endRequestedRoles:['playerOne','playerTwo'],guessLockedRoles:['playerOne','playerTwo'],signingLockedRoles:['playerOne','playerTwo']},ownInputs:completedInputs(managerRole),opponentInputs:completedInputs(roleOther),verdicts:{playerOne:[],playerTwo:[]}};
     };
     const rejectMutation=async()=>{mutations+=1;return {ok:false,code:'AUDIT_MUTATION_FORBIDDEN'};};
     window.CareerModeSparkSharedTransferChallenge={read:async()=>{reads+=1;return makeView();},startWindow:rejectMutation,requestEndWindow:rejectMutation,advanceExpiredWindow:rejectMutation,lockGuesses:rejectMutation,lockSignings:rejectMutation};
     window.CareerModeProductionFirebaseRuntime={ensureAccountServices:async()=>({ok:true,auth:{currentUser:{uid:managerRole==='playerOne'?'account_one':'account_two'}},firestore:{},firestoreSdk:{}})};
 
-    const originalSetInterval=window.setInterval.bind(window);
-    window.setInterval=(callback,delay,...args)=>{
-      if(delay===15000){window.__transferPoll=callback;return 9101;}
-      if(delay===1000){window.__transferTimerTick=callback;return 9102;}
-      return originalSetInterval(callback,delay,...args);
-    };
     await loadRuntimeScript('ssjr-transfer-replay-audit','js/productionSharedTransferChallenge.js',()=>window.CareerModeProductionSharedTransferChallenge);
     CareerModeProductionSharedTransferChallenge.install();
-    window.setInterval=originalSetInterval;
     window.__transferAudit={
       counts:()=>({reads,mutations}),
       switchSave(){
@@ -104,15 +97,15 @@ async function assertReplay(page,roleLabel){
     await prepare(host,{managerRole:'playerOne',saveId:'shared_save_host'});
     await assertReplay(host,'Player One desktop');
     const beforeSwitch=await host.evaluate(()=>window.__transferAudit.counts().reads);
-    await host.evaluate(()=>{window.__transferAudit.switchSave();window.__transferPoll();});
-    await host.waitForFunction(before=>window.__transferAudit.counts().reads>before,beforeSwitch,{timeout:5000});
+    await host.evaluate(()=>window.__transferAudit.switchSave());
+    await host.waitForFunction(before=>window.__transferAudit.counts().reads>before,beforeSwitch,{timeout:20000});
     await host.waitForFunction(expected=>window.CareerModeProductionSharedTransferChallenge.getState()?.rivalryId===expected,await host.evaluate(()=>window.__transferAudit.rivalryB),{timeout:5000});
-    assert.equal(await host.locator('#transferChallenge').getAttribute('data-transfer-phase'),'window','switching away from a completed shared Save must refresh and render the new Save context');
+    assert.equal(await host.locator('#transferChallenge').getAttribute('data-transfer-phase'),'window','switching away from a completed shared Save must refresh and render the new Save context on the real automatic poll');
 
     await prepare(peer,{managerRole:'playerTwo',saveId:'shared_save_peer'});
     await assertReplay(peer,'Player Two mobile');
     assert.deepEqual(errors,[],'Shared Transfer Challenge replay audit emitted page errors.');
-    process.stdout.write('PASS Shared Transfer Challenge ordered full-screen replay: Player One desktop and Player Two mobile each replay missed WINDOW_OPEN -> GUESS_ENTRY -> SIGNING_ENTRY before actual COMPLETED, replay stays read-only/private with zero provider mutations or replay reads, and switching a completed shared Save context triggers a new exact provider read instead of stale terminal suppression.\n');
+    process.stdout.write('PASS Shared Transfer Challenge ordered full-screen replay: Player One desktop and Player Two mobile each replay missed WINDOW_OPEN -> GUESS_ENTRY -> SIGNING_ENTRY before actual COMPLETED, replay stays read-only/private with zero provider mutations or replay reads, and switching a completed shared Save context is detected by the real 15-second automatic poll instead of stale terminal suppression.\n');
   }finally{
     await hostContext.close().catch(()=>{});await peerContext.close().catch(()=>{});await browser.close().catch(()=>{});
   }
