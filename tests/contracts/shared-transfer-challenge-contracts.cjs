@@ -1,7 +1,26 @@
 const assert=require('node:assert/strict');
+const fs=require('node:fs');
 const {webcrypto}=require('node:crypto');
 const Factory=require('../../js/sharedTransferChallenge.js');
 require('./shared-transfer-challenge-provider-contracts.cjs');
+
+const transferRules=fs.readFileSync('firestore.transfer-challenge-production.fragment.rules','utf8');
+for(const required of [
+  '// SSJR_TRANSFER_CHALLENGE_FUNCTIONS_BEGIN',
+  '// SSJR_TRANSFER_CHALLENGE_MATCH_BEGIN',
+  'match /transferChallenges/{transferId}',
+  'match /roles/{managerRole}',
+  'allow list, delete: if false',
+  'after.startedAt == request.time',
+  "request.time >= before.startedAt + duration.value(15, 'm')",
+  "after.endedAt == before.startedAt + duration.value(15, 'm')",
+  'getAfter(/databases/$(database)/documents/rivalries/$(rivalryId)/transferChallenges/$(transferId)/roles/$(role))',
+  "managerRole == ssjrActorRole(rivalryId) || public.phase == 'COMPLETED'",
+  "public.operationTypes[i] == 'lock-guesses'",
+  "public.operationTypes[i] == 'lock-signings'",
+  'ssjrWriteAuthorityValid(rivalryId, root.updatedByDeviceId, root.activeSessionId)'
+])assert.ok(transferRules.includes(required),`Transfer Challenge Rules missing ${required}`);
+for(const forbidden of [/cloud\s*run/i,/cloud\s*functions/i,/blaze/i,/billingEnabled\s*[:=]\s*true/i])assert.doesNotMatch(transferRules,forbidden,'Transfer Challenge Rules must remain Spark-only and zero-billing.');
 
 const setup={
   phase:'SHOWDOWN_CONFIRMED',revision:6,coordinatorRole:'playerOne',totalSeasons:3,
@@ -125,5 +144,5 @@ const rejectsCode=async(promise,code)=>assert.rejects(promise,error=>error&&erro
   tampered.receipts=null;
   await assert.rejects(protocol.verifyState(tampered),'malformed receipt collections must fail closed');
 
-  console.log('PASS Shared Transfer Challenge: confirmed Career Start gates entry; coordinator starts one 15-minute shared window; early end needs both roles; expiry is deterministic; guesses and signings are role-owned and private until completion; canonical transfer IDs, CAS/replay, season bounds and terminal completion fail closed; both managers derive identical verdicts.');
+  console.log('PASS Shared Transfer Challenge: confirmed Career Start gates entry; coordinator starts one 15-minute shared window; early end needs both roles; expiry is deterministic; guesses and signings are role-owned and private until completion; canonical transfer IDs, CAS/replay, season bounds and terminal completion fail closed; both managers derive identical verdicts; candidate Rules pin server time, atomic role payloads and pre-completion privacy before production promotion.');
 })().catch(error=>{console.error(error);process.exitCode=1;});
