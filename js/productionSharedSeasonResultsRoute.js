@@ -19,13 +19,15 @@
     style.textContent='#seasonEntry[data-shared-season-results="review"] .seasonEntryActions{display:flex!important}#seasonEntry[data-shared-season-results="review"] #completeSeason{display:none!important}';
     root.document.head.appendChild(style);return true;
   }
+  function routeSetText(node,value){if(node&&node.textContent!==value)node.textContent=value;}
+  function routeEnable(node){if(!node)return;if(node.disabled)node.disabled=false;if(node.getAttribute("aria-disabled")==="true")node.setAttribute("aria-disabled","false");}
   function routeDecorate(){
     if(!routeReady())return false;
     const continueButton=routeButton("continueFromTransfers");
-    if(continueButton){if(continueButton.textContent!=="CONTINUE TO SHARED SEASON RESULTS")continueButton.textContent="CONTINUE TO SHARED SEASON RESULTS";if(continueButton.disabled)continueButton.disabled=false;if(continueButton.getAttribute("aria-disabled")==="true")continueButton.setAttribute("aria-disabled","false");if(continueButton.classList.contains("hidden"))continueButton.classList.remove("hidden");continueButton.dataset.sharedSeasonResultsRoute="true";}
+    if(continueButton){routeSetText(continueButton,"CONTINUE TO SHARED SEASON RESULTS");routeEnable(continueButton);if(continueButton.classList.contains("hidden"))continueButton.classList.remove("hidden");continueButton.dataset.sharedSeasonResultsRoute="true";}
     const dashboardButton=routeButton("seasonPrimaryAction"),status=routeButton("dashboardTransferStatus"),results=routeResults(),resultView=results&&typeof results.getState==="function"?results.getState():null;
-    if(dashboardButton){dashboardButton.disabled=false;dashboardButton.setAttribute("aria-disabled","false");dashboardButton.dataset.sharedSeasonResultsRoute="true";dashboardButton.textContent=resultView?.state?.phase==="RESULTS_READY"?"VIEW SHARED SEASON RESULTS":resultView?.ownResult?"VIEW MY PUBLISHED RESULT":"ENTER SHARED SEASON RESULTS";}
-    if(status)status.textContent=resultView?.state?.phase==="RESULTS_READY"?"Shared season results: both published":resultView?.ownResult?"Shared season results: waiting for rival":"Shared transfer challenge: complete · season results ready";
+    if(dashboardButton){const label=resultView?.state?.phase==="RESULTS_READY"?"VIEW SHARED SEASON RESULTS":resultView?.ownResult?"VIEW MY PUBLISHED RESULT":"ENTER SHARED SEASON RESULTS";routeSetText(dashboardButton,label);routeEnable(dashboardButton);dashboardButton.dataset.sharedSeasonResultsRoute="true";}
+    if(status){const label=resultView?.state?.phase==="RESULTS_READY"?"Shared season results: both published":resultView?.ownResult?"Shared season results: waiting for rival":"Shared transfer challenge: complete · season results ready";routeSetText(status,label);}
     return true;
   }
   async function routeOpen(){
@@ -53,5 +55,5 @@
     }
     return true;
   }
-  return Object.freeze({contractVersion:1,feature:"ssjr-production-shared-season-results-route",productionEnabled:true,preservesTransferRuntime:true,requiresCompletedSharedTransfer:true,directDashboardRoute:true,sharedReviewEscape:true,canonicalStorageMutation:false,authoritativeScoring:false,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,install:routeInstall,decorate:routeDecorate,open:routeOpen,canRoute:routeReady});
+  return Object.freeze({contractVersion:1,feature:"ssjr-production-shared-season-results-route",productionEnabled:true,preservesTransferRuntime:true,requiresCompletedSharedTransfer:true,directDashboardRoute:true,sharedReviewEscape:true,idempotentDecoration:true,canonicalStorageMutation:false,authoritativeScoring:false,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,install:routeInstall,decorate:routeDecorate,open:routeOpen,canRoute:routeReady});
 });
