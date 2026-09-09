@@ -1,0 +1,97 @@
+// SSJR_CAREER_START_FUNCTIONS_BEGIN
+    function ssjrCareerValidOperationId(value) { return value is string && value.matches('^career_start_op_[0-9a-f]{32}$'); }
+    function ssjrCareerSetup(rivalryId) { return get(/databases/$(database)/documents/rivalries/$(rivalryId)/sharedSetup/authoritative); }
+    function ssjrCareerSetupConfirmed(rivalryId) {
+      let setup = ssjrCareerSetup(rivalryId).data;
+      return setup.schemaVersion == 1
+        && setup.objectType == 'sharedSetupLedger'
+        && setup.rivalryId == rivalryId
+        && setup.revision == 6
+        && setup.phase == 'SHOWDOWN_CONFIRMED'
+        && setup.operationIds is list
+        && setup.operationIds.size() == 6
+        && setup.confirmedRoles is list
+        && setup.confirmedRoles.size() == 2
+        && 'playerOne' in setup.confirmedRoles
+        && 'playerTwo' in setup.confirmedRoles
+        && (setup.totalSeasons == 1 || setup.totalSeasons == 3 || setup.totalSeasons == 5 || setup.totalSeasons == 10);
+    }
+    function ssjrCareerExactKeys(root) {
+      return root.keys().hasOnly([
+        'schemaVersion','objectType','rivalryId','revision','phase','setupRevision',
+        'setupOperationIds','totalSeasons','acknowledgedRoles','operationIds',
+        'baseRevisions','actorRoles','activeSessionId','updatedAt','updatedByDeviceId'
+      ]);
+    }
+    function ssjrCareerShapeValid(root, rivalryId) {
+      let setup = ssjrCareerSetup(rivalryId).data;
+      return ssjrCareerExactKeys(root)
+        && ssjrCareerSetupConfirmed(rivalryId)
+        && root.schemaVersion == 1
+        && root.objectType == 'sharedCareerStart'
+        && root.rivalryId == rivalryId
+        && root.revision is int
+        && root.revision >= 1
+        && root.revision <= 2
+        && root.setupRevision == 6
+        && root.setupOperationIds == setup.operationIds
+        && root.totalSeasons == setup.totalSeasons
+        && root.acknowledgedRoles is list
+        && root.acknowledgedRoles.size() == root.revision
+        && root.operationIds is list
+        && root.operationIds.size() == root.revision
+        && root.baseRevisions is list
+        && root.baseRevisions.size() == root.revision
+        && root.actorRoles is list
+        && root.actorRoles.size() == root.revision;
+    }
+    function ssjrCareerWriteValid(root, rivalryId) {
+      return ssjrCareerShapeValid(root, rivalryId)
+        && root.updatedAt == request.time
+        && ssjrWriteAuthorityValid(rivalryId, root.updatedByDeviceId, root.activeSessionId);
+    }
+    function ssjrCareerValidCreate(rivalryId) {
+      let after = request.resource.data;
+      let actorRole = ssjrActorRole(rivalryId);
+      return ssjrCareerWriteValid(after, rivalryId)
+        && after.revision == 1
+        && after.phase == 'ONE_MANAGER_ACKNOWLEDGED'
+        && after.acknowledgedRoles[0] == actorRole
+        && after.actorRoles[0] == actorRole
+        && after.baseRevisions[0] == 0
+        && ssjrCareerValidOperationId(after.operationIds[0]);
+    }
+    function ssjrCareerValidUpdate(rivalryId) {
+      let before = resource.data;
+      let after = request.resource.data;
+      let actorRole = ssjrActorRole(rivalryId);
+      return ssjrCareerShapeValid(before, rivalryId)
+        && ssjrCareerWriteValid(after, rivalryId)
+        && before.revision == 1
+        && before.phase == 'ONE_MANAGER_ACKNOWLEDGED'
+        && after.revision == 2
+        && after.phase == 'CAREER_START_READY'
+        && after.setupRevision == before.setupRevision
+        && after.setupOperationIds == before.setupOperationIds
+        && after.totalSeasons == before.totalSeasons
+        && after.acknowledgedRoles[0] == before.acknowledgedRoles[0]
+        && after.actorRoles[0] == before.actorRoles[0]
+        && after.operationIds[0] == before.operationIds[0]
+        && after.baseRevisions[0] == before.baseRevisions[0]
+        && actorRole != before.acknowledgedRoles[0]
+        && after.acknowledgedRoles[1] == actorRole
+        && after.actorRoles[1] == actorRole
+        && after.baseRevisions[1] == 1
+        && ssjrCareerValidOperationId(after.operationIds[1])
+        && after.operationIds[1] != before.operationIds[0];
+    }
+// SSJR_CAREER_START_FUNCTIONS_END
+
+// SSJR_CAREER_START_MATCH_BEGIN
+      match /careerStart/authoritative {
+        allow get: if ssjrEntitled(rivalryId);
+        allow list, delete: if false;
+        allow create: if ssjrCareerValidCreate(rivalryId);
+        allow update: if ssjrCareerValidUpdate(rivalryId);
+      }
+// SSJR_CAREER_START_MATCH_END

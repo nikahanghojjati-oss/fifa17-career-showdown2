@@ -54,6 +54,16 @@
     root[name]=guarded;
     return true;
   }
+  function routeCareerStartClick(target){
+    if(target.id!=="continueClubAssignment"||target.dataset.sharedCareerStart!=="true")return false;
+    const careerStart=root.CareerModeProductionSharedCareerStart;
+    if(!careerStart||typeof careerStart.openPanel!=="function")return false;
+    Promise.resolve(careerStart.openPanel()).catch(error=>{
+      if(typeof root.reportApplicationError==="function")root.reportApplicationError("Shared Career Start action failed",error);
+      else console.error(error);
+    });
+    return true;
+  }
   function routePresentationClick(target){
     const presentation=root.CareerModeProductionSharedShowdownPresentation;
     if(!presentation||typeof presentation.handlesControl!=="function"||typeof presentation.handleControlClick!=="function")return false;
@@ -72,6 +82,7 @@
       if(!target||!pending())return;
       event.preventDefault();
       event.stopImmediatePropagation();
+      if(routeCareerStartClick(target))return;
       if(routePresentationClick(target))return;
       deny(CLICK_TARGETS[target.id]||target.id);
     },true);
@@ -105,12 +116,13 @@
   }
 
   const api=Object.freeze({
-    contractVersion:1,
+    contractVersion:2,
     feature:"ssjr-local-random-authority-guard",
     guardedFunctions:GUARDED,
     hooksLazyRuntimeLoader:true,
     capturesActualDrawClicks:true,
     routesPolishedPresentationClicks:true,
+    routesCareerStartAfterConfirmedSetup:true,
     usesPersistedSaveMarker:true,
     canonicalLocalStorageMutation:false,
     billingRequired:false,
