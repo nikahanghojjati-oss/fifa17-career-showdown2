@@ -44,6 +44,14 @@
         "^tests/contracts/shared-career-start-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/shared-transfer-challenge-contracts.cjs",
+      "patterns": [
+        "^js/sharedTransferChallenge\\.js$",
+        "^tests/contracts/shared-transfer-challenge-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
