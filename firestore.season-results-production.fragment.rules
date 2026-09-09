@@ -1,0 +1,244 @@
+// SSJR_SEASON_RESULTS_FUNCTIONS_BEGIN
+    function ssjrSeasonResultValidOperationId(value) { return value is string && value.matches('^season_result_op_[0-9a-f]{32}$'); }
+    function ssjrSeasonResultValidHash(value) { return value is string && value.matches('^sha256:[0-9a-f]{64}$'); }
+    function ssjrSeasonResultValidRole(value) { return value == 'playerOne' || value == 'playerTwo'; }
+    function ssjrSeasonResultSeasonMatches(seasonId, seasonNumber) {
+      return (seasonId == 'season_1' && seasonNumber == 1)
+        || (seasonId == 'season_2' && seasonNumber == 2)
+        || (seasonId == 'season_3' && seasonNumber == 3)
+        || (seasonId == 'season_4' && seasonNumber == 4)
+        || (seasonId == 'season_5' && seasonNumber == 5)
+        || (seasonId == 'season_6' && seasonNumber == 6)
+        || (seasonId == 'season_7' && seasonNumber == 7)
+        || (seasonId == 'season_8' && seasonNumber == 8)
+        || (seasonId == 'season_9' && seasonNumber == 9)
+        || (seasonId == 'season_10' && seasonNumber == 10);
+    }
+    function ssjrSeasonResultSetup(rivalryId) { return get(/databases/$(database)/documents/rivalries/$(rivalryId)/sharedSetup/authoritative).data; }
+    function ssjrSeasonResultCareer(rivalryId) { return get(/databases/$(database)/documents/rivalries/$(rivalryId)/careerStart/authoritative).data; }
+    function ssjrSeasonResultTransfer(rivalryId, seasonId) { return get(/databases/$(database)/documents/rivalries/$(rivalryId)/transferChallenges/$(seasonId)).data; }
+    function ssjrSeasonResultPreviousComplete(rivalryId, seasonNumber) {
+      return seasonNumber == 1
+        || (seasonNumber == 2 && get(/databases/$(database)/documents/rivalries/$(rivalryId)/seasonResults/season_1).data.phase == 'COMPLETED' && get(/databases/$(database)/documents/rivalries/$(rivalryId)/seasonResults/season_1).data.revision == 2)
+        || (seasonNumber == 3 && get(/databases/$(database)/documents/rivalries/$(rivalryId)/seasonResults/season_2).data.phase == 'COMPLETED' && get(/databases/$(database)/documents/rivalries/$(rivalryId)/seasonResults/season_2).data.revision == 2)
+        || (seasonNumber == 4 && get(/databases/$(database)/documents/rivalries/$(rivalryId)/seasonResults/season_3).data.phase == 'COMPLETED' && get(/databases/$(database)/documents/rivalries/$(rivalryId)/seasonResults/season_3).data.revision == 2)
+        || (seasonNumber == 5 && get(/databases/$(database)/documents/rivalries/$(rivalryId)/seasonResults/season_4).data.phase == 'COMPLETED' && get(/databases/$(database)/documents/rivalries/$(rivalryId)/seasonResults/season_4).data.revision == 2)
+        || (seasonNumber == 6 && get(/databases/$(database)/documents/rivalries/$(rivalryId)/seasonResults/season_5).data.phase == 'COMPLETED' && get(/databases/$(database)/documents/rivalries/$(rivalryId)/seasonResults/season_5).data.revision == 2)
+        || (seasonNumber == 7 && get(/databases/$(database)/documents/rivalries/$(rivalryId)/seasonResults/season_6).data.phase == 'COMPLETED' && get(/databases/$(database)/documents/rivalries/$(rivalryId)/seasonResults/season_6).data.revision == 2)
+        || (seasonNumber == 8 && get(/databases/$(database)/documents/rivalries/$(rivalryId)/seasonResults/season_7).data.phase == 'COMPLETED' && get(/databases/$(database)/documents/rivalries/$(rivalryId)/seasonResults/season_7).data.revision == 2)
+        || (seasonNumber == 9 && get(/databases/$(database)/documents/rivalries/$(rivalryId)/seasonResults/season_8).data.phase == 'COMPLETED' && get(/databases/$(database)/documents/rivalries/$(rivalryId)/seasonResults/season_8).data.revision == 2)
+        || (seasonNumber == 10 && get(/databases/$(database)/documents/rivalries/$(rivalryId)/seasonResults/season_9).data.phase == 'COMPLETED' && get(/databases/$(database)/documents/rivalries/$(rivalryId)/seasonResults/season_9).data.revision == 2);
+    }
+    function ssjrSeasonResultPrerequisites(rivalryId, seasonId, seasonNumber) {
+      let setup = ssjrSeasonResultSetup(rivalryId);
+      let career = ssjrSeasonResultCareer(rivalryId);
+      let transfer = ssjrSeasonResultTransfer(rivalryId, seasonId);
+      return setup.schemaVersion == 1
+        && setup.objectType == 'sharedSetupLedger'
+        && setup.rivalryId == rivalryId
+        && setup.revision == 6
+        && setup.phase == 'SHOWDOWN_CONFIRMED'
+        && (setup.totalSeasons == 1 || setup.totalSeasons == 3 || setup.totalSeasons == 5 || setup.totalSeasons == 10)
+        && seasonNumber >= 1
+        && seasonNumber <= setup.totalSeasons
+        && career.schemaVersion == 1
+        && career.objectType == 'sharedCareerStart'
+        && career.rivalryId == rivalryId
+        && career.setupRevision == 6
+        && career.totalSeasons == setup.totalSeasons
+        && career.revision == 2
+        && career.phase == 'CAREER_START_READY'
+        && career.acknowledgedRoles is list
+        && career.acknowledgedRoles.size() == 2
+        && 'playerOne' in career.acknowledgedRoles
+        && 'playerTwo' in career.acknowledgedRoles
+        && transfer.schemaVersion == 1
+        && transfer.objectType == 'sharedTransferChallenge'
+        && transfer.rivalryId == rivalryId
+        && transfer.seasonNumber == seasonNumber
+        && transfer.runtimeRevision == '1.9.1-r8'
+        && transfer.phase == 'COMPLETED'
+        && transfer.guessLockedRoles is list
+        && transfer.guessLockedRoles.size() == 2
+        && 'playerOne' in transfer.guessLockedRoles
+        && 'playerTwo' in transfer.guessLockedRoles
+        && transfer.signingLockedRoles is list
+        && transfer.signingLockedRoles.size() == 2
+        && 'playerOne' in transfer.signingLockedRoles
+        && 'playerTwo' in transfer.signingLockedRoles
+        && ssjrSeasonResultPreviousComplete(rivalryId, seasonNumber);
+    }
+    function ssjrSeasonResultRoleListValid(value) {
+      return value is list
+        && value.size() >= 1
+        && value.size() <= 2
+        && ssjrSeasonResultValidRole(value[0])
+        && (value.size() < 2 || (ssjrSeasonResultValidRole(value[1]) && value[1] != value[0]));
+    }
+    function ssjrSeasonResultPublicExactKeys(root) {
+      return root.keys().hasOnly([
+        'schemaVersion','objectType','rivalryId','seasonNumber','runtimeRevision','phase','revision','submittedRoles',
+        'operationIds','operationHashes','baseRevisions','actorRoles','activeSessionId','completedAt','updatedAt','updatedByDeviceId'
+      ]);
+    }
+    function ssjrSeasonResultPublicShape(root, rivalryId, seasonId) {
+      let historySize = root.operationIds.size();
+      return ssjrSeasonResultPublicExactKeys(root)
+        && root.schemaVersion == 1
+        && root.objectType == 'sharedSeasonResults'
+        && root.rivalryId == rivalryId
+        && root.seasonNumber is int
+        && ssjrSeasonResultSeasonMatches(seasonId, root.seasonNumber)
+        && ssjrSeasonResultPrerequisites(rivalryId, seasonId, root.seasonNumber)
+        && root.runtimeRevision == '1.9.1-r9'
+        && (root.phase == 'RESULT_ENTRY' || root.phase == 'COMPLETED')
+        && root.revision is int
+        && root.revision >= 1
+        && root.revision <= 2
+        && ssjrSeasonResultRoleListValid(root.submittedRoles)
+        && root.operationIds is list
+        && root.operationHashes is list
+        && root.baseRevisions is list
+        && root.actorRoles is list
+        && historySize == root.revision
+        && root.operationHashes.size() == historySize
+        && root.baseRevisions.size() == historySize
+        && root.actorRoles.size() == historySize
+        && root.submittedRoles.size() == historySize
+        && (root.completedAt == null || root.completedAt is timestamp)
+        && root.updatedAt == request.time
+        && ssjrWriteAuthorityValid(rivalryId, root.updatedByDeviceId, root.activeSessionId)
+        && ((root.phase == 'RESULT_ENTRY' && root.revision == 1 && root.completedAt == null)
+          || (root.phase == 'COMPLETED' && root.revision == 2 && root.completedAt is timestamp));
+    }
+    function ssjrSeasonResultPrivateAfter(rivalryId, seasonId) {
+      let role = ssjrActorRole(rivalryId);
+      return getAfter(/databases/$(database)/documents/rivalries/$(rivalryId)/seasonResults/$(seasonId)/roles/$(role)).data;
+    }
+    function ssjrSeasonResultPrivateLinked(rivalryId, seasonId, after) {
+      let role = ssjrActorRole(rivalryId);
+      let own = ssjrSeasonResultPrivateAfter(rivalryId, seasonId);
+      return own.schemaVersion == 1
+        && own.objectType == 'sharedSeasonResultRole'
+        && own.rivalryId == rivalryId
+        && own.seasonNumber == after.seasonNumber
+        && own.managerRole == role
+        && own.activeSessionId == after.activeSessionId
+        && own.updatedByDeviceId == after.updatedByDeviceId
+        && own.submittedAt == request.time
+        && own.updatedAt == request.time;
+    }
+    function ssjrSeasonResultValidCreate(rivalryId, seasonId) {
+      let after = request.resource.data;
+      let role = ssjrActorRole(rivalryId);
+      return ssjrSeasonResultPublicShape(after, rivalryId, seasonId)
+        && after.revision == 1
+        && after.phase == 'RESULT_ENTRY'
+        && after.submittedRoles.size() == 1
+        && after.submittedRoles[0] == role
+        && ssjrSeasonResultValidOperationId(after.operationIds[0])
+        && ssjrSeasonResultValidHash(after.operationHashes[0])
+        && after.baseRevisions[0] == 0
+        && after.actorRoles[0] == role
+        && after.completedAt == null
+        && ssjrSeasonResultPrivateLinked(rivalryId, seasonId, after);
+    }
+    function ssjrSeasonResultValidUpdate(rivalryId, seasonId) {
+      let before = resource.data;
+      let after = request.resource.data;
+      let role = ssjrActorRole(rivalryId);
+      return before.schemaVersion == 1
+        && before.objectType == 'sharedSeasonResults'
+        && before.rivalryId == rivalryId
+        && before.phase == 'RESULT_ENTRY'
+        && before.revision == 1
+        && ssjrSeasonResultPublicShape(after, rivalryId, seasonId)
+        && after.revision == 2
+        && after.phase == 'COMPLETED'
+        && after.seasonNumber == before.seasonNumber
+        && after.runtimeRevision == before.runtimeRevision
+        && after.submittedRoles[0] == before.submittedRoles[0]
+        && after.submittedRoles[1] == role
+        && role != before.submittedRoles[0]
+        && after.operationIds[0] == before.operationIds[0]
+        && after.operationHashes[0] == before.operationHashes[0]
+        && after.baseRevisions[0] == before.baseRevisions[0]
+        && after.actorRoles[0] == before.actorRoles[0]
+        && ssjrSeasonResultValidOperationId(after.operationIds[1])
+        && after.operationIds[1] != before.operationIds[0]
+        && ssjrSeasonResultValidHash(after.operationHashes[1])
+        && after.baseRevisions[1] == 1
+        && after.actorRoles[1] == role
+        && after.completedAt == request.time
+        && ssjrSeasonResultPrivateLinked(rivalryId, seasonId, after);
+    }
+    function ssjrSeasonResultResultValid(value) {
+      return value is map
+        && value.keys().hasOnly(['leaguePosition','leaguePoints','leagueGoals','domesticCup','championsLeague','topScorer','topAssist'])
+        && value.leaguePosition is int
+        && value.leaguePosition >= 1
+        && value.leaguePosition <= 20
+        && value.leaguePoints is int
+        && value.leaguePoints >= 0
+        && value.leagueGoals is int
+        && value.leagueGoals >= 0
+        && value.domesticCup is bool
+        && value.championsLeague is bool
+        && value.topScorer is bool
+        && value.topAssist is bool;
+    }
+    function ssjrSeasonResultPrivateExactKeys(root) {
+      return root.keys().hasOnly([
+        'schemaVersion','objectType','rivalryId','seasonNumber','managerRole','result','submittedAt','activeSessionId','updatedAt','updatedByDeviceId'
+      ]);
+    }
+    function ssjrSeasonResultPublicAfter(rivalryId, seasonId) {
+      return getAfter(/databases/$(database)/documents/rivalries/$(rivalryId)/seasonResults/$(seasonId)).data;
+    }
+    function ssjrSeasonResultPrivateCreateValid(rivalryId, seasonId, managerRole) {
+      let after = request.resource.data;
+      let public = ssjrSeasonResultPublicAfter(rivalryId, seasonId);
+      let i = public.revision - 1;
+      return ssjrSeasonResultPrivateExactKeys(after)
+        && after.schemaVersion == 1
+        && after.objectType == 'sharedSeasonResultRole'
+        && after.rivalryId == rivalryId
+        && ssjrSeasonResultSeasonMatches(seasonId, after.seasonNumber)
+        && after.managerRole == managerRole
+        && managerRole == ssjrActorRole(rivalryId)
+        && ssjrSeasonResultResultValid(after.result)
+        && after.submittedAt == request.time
+        && after.updatedAt == request.time
+        && ssjrWriteAuthorityValid(rivalryId, after.updatedByDeviceId, after.activeSessionId)
+        && public.schemaVersion == 1
+        && public.objectType == 'sharedSeasonResults'
+        && public.rivalryId == rivalryId
+        && public.seasonNumber == after.seasonNumber
+        && public.runtimeRevision == '1.9.1-r9'
+        && public.submittedRoles[i] == managerRole
+        && public.actorRoles[i] == managerRole
+        && public.activeSessionId == after.activeSessionId
+        && public.updatedByDeviceId == after.updatedByDeviceId
+        && public.updatedAt == request.time;
+    }
+    function ssjrSeasonResultPrivateReadable(rivalryId, seasonId, managerRole) {
+      let public = get(/databases/$(database)/documents/rivalries/$(rivalryId)/seasonResults/$(seasonId)).data;
+      return ssjrEntitled(rivalryId)
+        && (managerRole == ssjrActorRole(rivalryId) || public.phase == 'COMPLETED');
+    }
+// SSJR_SEASON_RESULTS_FUNCTIONS_END
+
+// SSJR_SEASON_RESULTS_MATCH_BEGIN
+      match /seasonResults/{seasonId} {
+        allow get: if ssjrEntitled(rivalryId);
+        allow list, delete: if false;
+        allow create: if ssjrSeasonResultValidCreate(rivalryId, seasonId);
+        allow update: if ssjrSeasonResultValidUpdate(rivalryId, seasonId);
+
+        match /roles/{managerRole} {
+          allow get: if ssjrSeasonResultPrivateReadable(rivalryId, seasonId, managerRole);
+          allow list, update, delete: if false;
+          allow create: if ssjrSeasonResultPrivateCreateValid(rivalryId, seasonId, managerRole);
+        }
+      }
+// SSJR_SEASON_RESULTS_MATCH_END
