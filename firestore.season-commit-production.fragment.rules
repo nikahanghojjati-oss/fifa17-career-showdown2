@@ -1,0 +1,220 @@
+// SSJR_SEASON_COMMIT_FUNCTIONS_BEGIN
+    function ssjrCommitValidOperationId(value) { return value is string && value.matches('^season_commit_op_[0-9a-f]{32}$'); }
+    function ssjrCommitValidHash(value) { return value is string && value.matches('^sha256:[0-9a-f]{64}$'); }
+    function ssjrCommitValidRole(value) { return value == 'playerOne' || value == 'playerTwo'; }
+    function ssjrCommitSeasonMatches(seasonId, seasonNumber) {
+      return (seasonId == 'season_1' && seasonNumber == 1)
+        || (seasonId == 'season_2' && seasonNumber == 2)
+        || (seasonId == 'season_3' && seasonNumber == 3)
+        || (seasonId == 'season_4' && seasonNumber == 4)
+        || (seasonId == 'season_5' && seasonNumber == 5)
+        || (seasonId == 'season_6' && seasonNumber == 6)
+        || (seasonId == 'season_7' && seasonNumber == 7)
+        || (seasonId == 'season_8' && seasonNumber == 8)
+        || (seasonId == 'season_9' && seasonNumber == 9)
+        || (seasonId == 'season_10' && seasonNumber == 10);
+    }
+    function ssjrCommitSetup(rivalryId) {
+      return get(/databases/$(database)/documents/rivalries/$(rivalryId)/sharedSetup/authoritative).data;
+    }
+    function ssjrCommitPublicResults(rivalryId, seasonId) {
+      return get(/databases/$(database)/documents/rivalries/$(rivalryId)/seasonResults/$(seasonId)).data;
+    }
+    function ssjrCommitPrivateResult(rivalryId, seasonId, managerRole) {
+      return get(/databases/$(database)/documents/rivalries/$(rivalryId)/seasonResults/$(seasonId)/roles/$(managerRole)).data;
+    }
+    function ssjrCommitResultShape(value) {
+      return value is map
+        && value.keys().hasOnly(['leaguePosition','leaguePoints','leagueGoals','domesticCup','championsLeague','topScorer','topAssist'])
+        && value.leaguePosition is int
+        && value.leaguePosition >= 1
+        && value.leaguePosition <= 20
+        && value.leaguePoints is int
+        && value.leaguePoints >= 0
+        && value.leaguePoints <= 114
+        && value.leagueGoals is int
+        && value.leagueGoals >= 0
+        && value.leagueGoals <= 300
+        && value.domesticCup is bool
+        && value.championsLeague is bool
+        && value.topScorer is bool
+        && value.topAssist is bool;
+    }
+    function ssjrCommitResultsReady(rivalryId, seasonId, seasonNumber) {
+      let setup = ssjrCommitSetup(rivalryId);
+      let public = ssjrCommitPublicResults(rivalryId, seasonId);
+      let p1 = ssjrCommitPrivateResult(rivalryId, seasonId, 'playerOne');
+      let p2 = ssjrCommitPrivateResult(rivalryId, seasonId, 'playerTwo');
+      return setup.schemaVersion == 1
+        && setup.objectType == 'sharedSetupLedger'
+        && setup.rivalryId == rivalryId
+        && setup.revision == 6
+        && setup.phase == 'SHOWDOWN_CONFIRMED'
+        && (setup.coordinatorRole == 'playerOne' || setup.coordinatorRole == 'playerTwo')
+        && (setup.totalSeasons == 1 || setup.totalSeasons == 3 || setup.totalSeasons == 5 || setup.totalSeasons == 10)
+        && seasonNumber >= 1
+        && seasonNumber <= setup.totalSeasons
+        && public.schemaVersion == 1
+        && public.objectType == 'sharedSeasonResults'
+        && public.rivalryId == rivalryId
+        && public.seasonNumber == seasonNumber
+        && public.runtimeRevision == '1.9.1-r9'
+        && public.phase == 'RESULTS_READY'
+        && public.revision == 2
+        && public.publishedRoles is list
+        && public.publishedRoles.size() == 2
+        && public.actorRoles is list
+        && public.actorRoles.size() == 2
+        && public.operationIds is list
+        && public.operationIds.size() == 2
+        && public.baseRevisions is list
+        && public.baseRevisions.size() == 2
+        && public.baseRevisions[0] == 0
+        && public.baseRevisions[1] == 1
+        && public.actorRoles[0] == public.publishedRoles[0]
+        && public.actorRoles[1] == public.publishedRoles[1]
+        && public.actorRoles[0] != public.actorRoles[1]
+        && ssjrCommitValidRole(public.actorRoles[0])
+        && ssjrCommitValidRole(public.actorRoles[1])
+        && p1.schemaVersion == 1
+        && p1.objectType == 'sharedSeasonResultRole'
+        && p1.rivalryId == rivalryId
+        && p1.seasonNumber == seasonNumber
+        && p1.managerRole == 'playerOne'
+        && p2.schemaVersion == 1
+        && p2.objectType == 'sharedSeasonResultRole'
+        && p2.rivalryId == rivalryId
+        && p2.seasonNumber == seasonNumber
+        && p2.managerRole == 'playerTwo'
+        && ssjrCommitResultShape(p1.result)
+        && ssjrCommitResultShape(p2.result)
+        && ((public.actorRoles[0] == 'playerOne'
+              && p1.operationId == public.operationIds[0]
+              && p2.operationId == public.operationIds[1])
+          || (public.actorRoles[0] == 'playerTwo'
+              && p2.operationId == public.operationIds[0]
+              && p1.operationId == public.operationIds[1]));
+    }
+    function ssjrCommitExactKeys(root) {
+      return root.keys().hasOnly([
+        'schemaVersion','objectType','rivalryId','seasonNumber','runtimeRevision','phase','revision','resultsRevision','results',
+        'acknowledgedRoles','operationIds','operationHashes','baseRevisions','actorRoles','activeSessionId','updatedAt','updatedByDeviceId'
+      ]);
+    }
+    function ssjrCommitOperationChainValid(root) {
+      let n = root.revision;
+      return root.operationIds is list
+        && root.operationHashes is list
+        && root.baseRevisions is list
+        && root.actorRoles is list
+        && root.operationIds.size() == n
+        && root.operationHashes.size() == n
+        && root.baseRevisions.size() == n
+        && root.actorRoles.size() == n
+        && ssjrCommitValidOperationId(root.operationIds[0])
+        && ssjrCommitValidHash(root.operationHashes[0])
+        && root.baseRevisions[0] == 0
+        && ssjrCommitValidRole(root.actorRoles[0])
+        && (n < 2 || (ssjrCommitValidOperationId(root.operationIds[1])
+          && root.operationIds[1] != root.operationIds[0]
+          && ssjrCommitValidHash(root.operationHashes[1])
+          && root.baseRevisions[1] == 1
+          && ssjrCommitValidRole(root.actorRoles[1])))
+        && (n < 3 || (ssjrCommitValidOperationId(root.operationIds[2])
+          && root.operationIds[2] != root.operationIds[0]
+          && root.operationIds[2] != root.operationIds[1]
+          && ssjrCommitValidHash(root.operationHashes[2])
+          && root.baseRevisions[2] == 2
+          && ssjrCommitValidRole(root.actorRoles[2])));
+    }
+    function ssjrCommitAcknowledgementsValid(root) {
+      let n = root.revision;
+      return root.acknowledgedRoles is list
+        && root.acknowledgedRoles.size() == n - 1
+        && (n < 2 || (ssjrCommitValidRole(root.acknowledgedRoles[0])
+          && root.acknowledgedRoles[0] == root.actorRoles[1]))
+        && (n < 3 || (ssjrCommitValidRole(root.acknowledgedRoles[1])
+          && root.acknowledgedRoles[1] == root.actorRoles[2]
+          && root.acknowledgedRoles[1] != root.acknowledgedRoles[0]));
+    }
+    function ssjrCommitShape(root, rivalryId, seasonId) {
+      let p1 = ssjrCommitPrivateResult(rivalryId, seasonId, 'playerOne');
+      let p2 = ssjrCommitPrivateResult(rivalryId, seasonId, 'playerTwo');
+      return ssjrCommitExactKeys(root)
+        && root.schemaVersion == 1
+        && root.objectType == 'sharedSeasonCommit'
+        && root.rivalryId == rivalryId
+        && root.seasonNumber is int
+        && ssjrCommitSeasonMatches(seasonId, root.seasonNumber)
+        && ssjrCommitResultsReady(rivalryId, seasonId, root.seasonNumber)
+        && root.runtimeRevision == '1.9.1-r10'
+        && root.revision is int
+        && root.revision >= 1
+        && root.revision <= 3
+        && root.resultsRevision == 2
+        && root.results is map
+        && root.results.keys().hasOnly(['playerOne','playerTwo'])
+        && ssjrCommitResultShape(root.results.playerOne)
+        && ssjrCommitResultShape(root.results.playerTwo)
+        && root.results.playerOne == p1.result
+        && root.results.playerTwo == p2.result
+        && ssjrCommitOperationChainValid(root)
+        && ssjrCommitAcknowledgementsValid(root)
+        && ((root.revision < 3 && root.phase == 'COMMITTED') || (root.revision == 3 && root.phase == 'ACKNOWLEDGED'))
+        && root.updatedAt == request.time
+        && ssjrWriteAuthorityValid(rivalryId, root.updatedByDeviceId, root.activeSessionId);
+    }
+    function ssjrCommitValidCreate(rivalryId, seasonId) {
+      let after = request.resource.data;
+      let setup = ssjrCommitSetup(rivalryId);
+      let role = ssjrActorRole(rivalryId);
+      return ssjrCommitShape(after, rivalryId, seasonId)
+        && after.revision == 1
+        && after.phase == 'COMMITTED'
+        && after.acknowledgedRoles.size() == 0
+        && role == setup.coordinatorRole
+        && after.actorRoles[0] == role;
+    }
+    function ssjrCommitPrefixPreserved(before, after) {
+      let n = before.revision;
+      return after.operationIds[0:n] == before.operationIds
+        && after.operationHashes[0:n] == before.operationHashes
+        && after.baseRevisions[0:n] == before.baseRevisions
+        && after.actorRoles[0:n] == before.actorRoles
+        && after.acknowledgedRoles[0:n - 1] == before.acknowledgedRoles;
+    }
+    function ssjrCommitValidUpdate(rivalryId, seasonId) {
+      let before = resource.data;
+      let after = request.resource.data;
+      let role = ssjrActorRole(rivalryId);
+      let i = before.revision;
+      return before.schemaVersion == 1
+        && before.objectType == 'sharedSeasonCommit'
+        && before.rivalryId == rivalryId
+        && before.runtimeRevision == '1.9.1-r10'
+        && before.phase == 'COMMITTED'
+        && before.revision >= 1
+        && before.revision <= 2
+        && ssjrCommitShape(after, rivalryId, seasonId)
+        && after.seasonNumber == before.seasonNumber
+        && after.resultsRevision == before.resultsRevision
+        && after.results == before.results
+        && after.revision == before.revision + 1
+        && ssjrCommitPrefixPreserved(before, after)
+        && !(role in before.acknowledgedRoles)
+        && after.operationIds[i] != before.operationIds[0]
+        && (i < 2 || after.operationIds[i] != before.operationIds[1])
+        && after.baseRevisions[i] == before.revision
+        && after.actorRoles[i] == role
+        && after.acknowledgedRoles[i - 1] == role;
+    }
+// SSJR_SEASON_COMMIT_FUNCTIONS_END
+
+// SSJR_SEASON_COMMIT_MATCH_BEGIN
+      match /seasonCommits/{seasonId} {
+        allow get: if ssjrEntitled(rivalryId);
+        allow list, delete: if false;
+        allow create: if ssjrCommitValidCreate(rivalryId, seasonId);
+        allow update: if ssjrCommitValidUpdate(rivalryId, seasonId);
+      }
+// SSJR_SEASON_COMMIT_MATCH_END
