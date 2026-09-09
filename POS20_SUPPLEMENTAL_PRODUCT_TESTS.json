@@ -50,6 +50,8 @@
       "patterns": [
         "^js/sharedTransferChallenge\\.js$",
         "^js/sparkSharedTransferChallenge\\.js$",
+        "^js/productionSharedTransferChallenge\\.js$",
+        "^js/ssjr\\.js$",
         "^firestore\\.transfer-challenge-production\\.fragment\\.rules$",
         "^scripts/build-production-firestore-rules\\.mjs$",
         "^tests/contracts/shared-transfer-challenge-contracts\\.cjs$",
