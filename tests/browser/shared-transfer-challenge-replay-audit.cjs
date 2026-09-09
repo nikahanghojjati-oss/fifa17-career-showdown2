@@ -16,7 +16,7 @@ async function prepare(page,{managerRole,saveId}){
     const roleOther=managerRole==='playerOne'?'playerTwo':'playerOne';
     const managers={playerOne:'Nik',playerTwo:'Daniel'};
     const clubs={playerOne:'Arsenal',playerTwo:'Liverpool'};
-    currentShowdown={id:saveId,currentRound:1,status:'Ready',sharedJourney:{mode:'shared',rivalryId:rivalryA},managers,clubs};
+    currentShowdown={id:saveId,currentRound:1,status:'Ready',selectedLeague:{id:'premier_league',name:'Premier League'},sharedJourney:{mode:'shared',rivalryId:rivalryA},managers,clubs};
 
     let activeRivalry=rivalryA;
     let serverPhase='COMPLETED';
