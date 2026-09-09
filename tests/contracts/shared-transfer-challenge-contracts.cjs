@@ -67,11 +67,17 @@ for(const required of [
   'phase==="COMPLETED"',
   'SHARED SEASON RESULTS COMING NEXT',
   'will not fall through to local-only season authority',
-  'POLL_MS=7000',
+  'POLL_MS=15000',
+  'providerChain=Promise.resolve()',
+  'refreshPromise',
+  'root.document?.visibilityState==="hidden"',
+  'view?.state?.phase==="COMPLETED"',
+  'if(pstcSharedMarker())void pstcTick()',
   'advanceExpiredWindow',
   'root.getTransferSelectorCanonicalValue',
   'root.setTransferSelectorValue'
 ])assert.ok(productionSource.includes(required),`Shared Transfer Challenge screen adapter missing ${required}`);
+assert.doesNotMatch(productionSource,/void pstcEnsureDependencies\(\)\.then\(\(\)=>pstcTick\(\)\)/,'Shared Transfer Challenge must stay dormant on ordinary non-shared startup.');
 assert.doesNotMatch(productionSource,/localStorage|sessionStorage|saveCurrentShowdown\s*\(|openTransferChallenge\s*\(/,'Shared Transfer Challenge screen adapter must not mutate or invoke local Transfer Challenge authority.');
 for(const required of ['repositoryCatalogSnapshot:true','callerCatalogOverride:false','CANONICAL_LEAGUE_IDS','CANONICAL_NATIONALITY_IDS'])assert.ok(providerSource.includes(required),`Shared Transfer provider missing repository catalog authority lock: ${required}`);
 assert.doesNotMatch(providerSource,/options\.leagueIds|options\.nationalityIds/,'production provider must never accept caller-supplied transfer catalog authority');
