@@ -63,8 +63,12 @@
       "path": "tests/contracts/shared-season-results-contracts.cjs",
       "patterns": [
         "^js/sharedSeasonResults\\.js$",
+        "^js/sparkSharedSeasonResults\\.js$",
+        "^js/sparkSharedShowdownSetup\\.js$",
+        "^js/sharedShowdownCatalog\\.js$",
         "^js/scoring\\.js$",
         "^tests/contracts/shared-season-results-contracts\\.cjs$",
+        "^tests/contracts/shared-season-results-provider-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
     }
