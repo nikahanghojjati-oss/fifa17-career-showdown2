@@ -218,6 +218,18 @@ function getCurrentChallengeRouteState(showdown = currentShowdown){
     ) || null;
 }
 
+function hasSharedTransferRouteAuthority(){
+    const shared = window.CareerModeProductionSharedTransferChallenge;
+    if(!shared || typeof shared.canRoute !== "function"){
+        return false;
+    }
+    try{
+        return shared.canRoute() === true;
+    }catch(error){
+        return false;
+    }
+}
+
 function isRouteStateValid(screenName){
     const showdown = typeof currentShowdown !== "undefined" ? currentShowdown : null;
 
@@ -239,6 +251,10 @@ function isRouteStateValid(screenName){
 
     if(showdown.status === "Completed"){
         return screenName === "seasonSummary" && Array.isArray(showdown.rounds) && showdown.rounds.length > 0;
+    }
+
+    if(screenName === "transferChallenge" && hasSharedTransferRouteAuthority()){
+        return true;
     }
 
     const clubsValid = getClubPairRouteState(showdown);
