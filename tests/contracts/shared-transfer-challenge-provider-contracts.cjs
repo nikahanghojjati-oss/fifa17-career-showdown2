@@ -12,7 +12,11 @@ const leagueIds=['england-premier-league','spain-primera-division','italy-serie-
 const nationalityIds=['england','spain','italy','brazil'];
 const op=n=>`transfer_op_${Number(n).toString(16).padStart(32,'0')}`;
 const ts=millis=>({toMillis:()=>millis});
-const clone=value=>value===undefined?undefined:JSON.parse(JSON.stringify(value,(key,item)=>item&&typeof item.toMillis==='function'?{__millis:item.toMillis()}:item),(key,item)=>item&&Number.isFinite(item.__millis)?ts(item.__millis):item));
+function clone(value){
+  if(value===undefined)return undefined;
+  const text=JSON.stringify(value,(_key,item)=>item&&typeof item.toMillis==='function'?{__millis:item.toMillis()}:item);
+  return JSON.parse(text,(_key,item)=>item&&Number.isFinite(item.__millis)?ts(item.__millis):item);
+}
 
 function createHarness(){
   const store=new Map(),getLog=[];
