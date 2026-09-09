@@ -38,7 +38,7 @@
       if(ready.phase!=="RESULTS_READY"||ready.revision!==2||ready.seasonNumber!==seasonNumber||!ready.results||!ready.results.playerOne||!ready.results.playerTwo)sscFail("SEASON_COMMIT_RESULTS_NOT_READY");
       return ready;
     }
-    async function verifyState(value){
+    async function sscVerifyState(value){
       sscExact(value,STATE_KEYS,"SEASON_COMMIT_STATE_INVALID");const core=sscClone(value),hash=core.contentHash;delete core.contentHash;
       if(value.schemaVersion!==1||value.runtimeRevision!==RUNTIME_REVISION||!Number.isInteger(value.seasonNumber)||value.seasonNumber<1||!PHASES.includes(value.phase)||!Number.isInteger(value.revision)||value.revision<1||value.revision>3||value.resultsRevision!==2||!HASH.test(value.resultsContentHash)||!HASH.test(hash))sscFail("SEASON_COMMIT_STATE_INVALID");
       sscExact(value.results,ROLES,"SEASON_COMMIT_STATE_INVALID");for(const role of ROLES)sscResult(value.results[role],teams);
@@ -51,8 +51,8 @@
       if(await sscHash(core,cryptoImpl)!==hash)sscFail("SEASON_COMMIT_STATE_HASH_MISMATCH");
       return sscFreeze(sscClone(value));
     }
-    async function apply({state=null,setup,seasonResults,seasonNumber,actorRole,command}){
-      const confirmed=sscSetup(setup),role=sscRole(actorRole),ready=await readyResults(seasonResults,seasonNumber,confirmed.totalSeasons),cmd=sscCommand(command),current=state?await verifyState(state):null;
+    async function sscApply({state=null,setup,seasonResults,seasonNumber,actorRole,command}){
+      const confirmed=sscSetup(setup),role=sscRole(actorRole),ready=await readyResults(seasonResults,seasonNumber,confirmed.totalSeasons),cmd=sscCommand(command),current=state?await sscVerifyState(state):null;
       if(current&&current.seasonNumber!==seasonNumber)sscFail("SEASON_COMMIT_SEASON_MISMATCH");
       if(current&&(current.resultsContentHash!==ready.contentHash||current.resultsRevision!==ready.revision))sscFail("SEASON_COMMIT_RESULTS_REVISION_MISMATCH");
       const commandHash=await sscHash({actorRole:role,...cmd},cryptoImpl);
@@ -62,16 +62,16 @@
         if(current)sscFail("SEASON_COMMIT_ALREADY_COMMITTED");
         if(role!==confirmed.coordinatorRole)sscFail("SEASON_COMMIT_COORDINATOR_REQUIRED");
         const core={schemaVersion:1,runtimeRevision:RUNTIME_REVISION,seasonNumber,phase:"COMMITTED",revision:1,resultsRevision:ready.revision,resultsContentHash:ready.contentHash,results:{playerOne:sscResult(ready.results.playerOne,teams),playerTwo:sscResult(ready.results.playerTwo,teams)},acknowledgedRoles:[],receipts:[{operationId:cmd.operationId,baseRevision:0,actorRole:role,type:cmd.type,commandHash}]};
-        const next=await seal(core);await verifyState(next);return sscFreeze({ok:true,idempotent:false,state:next});
+        const next=await seal(core);await sscVerifyState(next);return sscFreeze({ok:true,idempotent:false,state:next});
       }
       if(!current)sscFail("SEASON_COMMIT_NOT_COMMITTED");
       if(current.phase==="ACKNOWLEDGED")sscFail("SEASON_COMMIT_ALREADY_ACKNOWLEDGED");
       if(current.acknowledgedRoles.includes(role))sscFail("SEASON_COMMIT_ROLE_ALREADY_ACKNOWLEDGED");
       const core=sscClone(current);delete core.contentHash;core.acknowledgedRoles.push(role);core.receipts.push({operationId:cmd.operationId,baseRevision:revision,actorRole:role,type:cmd.type,commandHash});core.revision=revision+1;if(core.acknowledgedRoles.length===2)core.phase="ACKNOWLEDGED";
-      const next=await seal(core);await verifyState(next);return sscFreeze({ok:true,idempotent:false,state:next});
+      const next=await seal(core);await sscVerifyState(next);return sscFreeze({ok:true,idempotent:false,state:next});
     }
     function projectForRole(state,role){sscRole(role);return sscFreeze({schemaVersion:state.schemaVersion,runtimeRevision:state.runtimeRevision,seasonNumber:state.seasonNumber,phase:state.phase,revision:state.revision,resultsRevision:state.resultsRevision,resultsContentHash:state.resultsContentHash,results:sscClone(state.results),managerRole:role,ownAcknowledged:state.acknowledgedRoles.includes(role),acknowledgedRoles:[...state.acknowledgedRoles]});}
-    return sscFreeze({contractVersion:1,feature:"ssjr-shared-season-commit",runtimeRevision:RUNTIME_REVISION,roles:ROLES,phases:PHASES,apply,verifyState,projectForRole,billingRequired:false,canonicalStorageMutation:false,authoritativeScoring:false,requiresResultsReady:true,requiresBothAcknowledgements:true});
+    return sscFreeze({contractVersion:1,feature:"ssjr-shared-season-commit",runtimeRevision:RUNTIME_REVISION,roles:ROLES,phases:PHASES,apply:sscApply,verifyState:sscVerifyState,projectForRole,billingRequired:false,canonicalStorageMutation:false,authoritativeScoring:false,requiresResultsReady:true,requiresBothAcknowledgements:true});
   }
 
   return Object.freeze({contractVersion:1,feature:"ssjr-shared-season-commit-protocol-factory",runtimeRevision:RUNTIME_REVISION,roles:ROLES,phases:PHASES,createProtocol:sscCreateProtocol,billingRequired:false,canonicalStorageMutation:false,authoritativeScoring:false,requiresResultsReady:true,requiresBothAcknowledgements:true});

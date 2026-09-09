@@ -34,6 +34,14 @@
     {
       "path": "tests/contracts/shared-season-results-production-contracts.cjs",
       "patterns": ["^js/productionSharedSeasonResults\\.js$","^js/productionSharedSeasonResultsRoute\\.js$","^js/productionSharedTransferChallenge\\.js$","^js/seasonEngine\\.js$","^js/ssjr\\.js$","^tests/contracts/shared-season-results-production-contracts\\.cjs$","^tests/browser/shared-season-results-audit\\.cjs$","^package\\.json$","^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"]
+    },
+    {
+      "path": "tests/contracts/shared-season-commit-contracts.cjs",
+      "patterns": ["^js/sharedSeasonCommit\\.js$","^js/sharedSeasonResults\\.js$","^tests/contracts/shared-season-commit-contracts\\.cjs$","^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"]
+    },
+    {
+      "path": "tests/contracts/shared-season-commit-provider-contracts.cjs",
+      "patterns": ["^js/sharedSeasonCommit\\.js$","^js/sparkSharedSeasonCommit\\.js$","^js/sharedSeasonResults\\.js$","^tests/contracts/shared-season-commit-provider-contracts\\.cjs$","^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"]
     }
   ]
 }
