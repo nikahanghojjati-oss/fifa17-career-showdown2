@@ -1,13 +1,32 @@
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
+const cp=require('node:child_process');
+const vm=require('node:vm');
 const {webcrypto}=require('node:crypto');
 const Factory=require('../../js/sharedTransferChallenge.js');
 const ProductionAdapter=require('../../js/productionSharedTransferChallenge.js');
 require('./shared-transfer-challenge-provider-contracts.cjs');
 
+cp.execFileSync(process.execPath,['scripts/build-production-firestore-rules.mjs'],{stdio:'pipe'});
 const transferRules=fs.readFileSync('firestore.transfer-challenge-production.fragment.rules','utf8');
+const generatedRules=fs.readFileSync('firestore.spark.generated.rules','utf8');
 const productionSource=fs.readFileSync('js/productionSharedTransferChallenge.js','utf8');
 const providerSource=fs.readFileSync('js/sparkSharedTransferChallenge.js','utf8');
+const catalogSandbox={window:{}};
+vm.runInNewContext(fs.readFileSync('data/transferOptions.js','utf8'),catalogSandbox,{filename:'data/transferOptions.js'});
+const canonicalLeagueIds=catalogSandbox.window.FIFA17_TRANSFER_LEAGUES.map(item=>item.id);
+const canonicalNationalityIds=catalogSandbox.window.FIFA17_TRANSFER_NATIONALITIES.map(item=>item.id);
+function generatedMembership(functionName){
+  const match=generatedRules.match(new RegExp(`function ${functionName}\\(value\\) \\{ return value in \\[([^\\]]*)\\]; \\}`));
+  assert.ok(match,`generated Rules missing ${functionName}`);
+  return [...match[1].matchAll(/'([^']+)'/g)].map(item=>item[1]);
+}
+assert.equal(canonicalLeagueIds.length,36);
+assert.equal(canonicalNationalityIds.length,164);
+assert.deepEqual(generatedMembership('ssjrTransferValidLeagueId'),canonicalLeagueIds,'Firestore league authority must exactly match the repository FIFA 17 Transfer catalog');
+assert.deepEqual(generatedMembership('ssjrTransferValidNationalityId'),canonicalNationalityIds,'Firestore nationality authority must exactly match the repository FIFA 17 Transfer catalog');
+assert.equal(generatedRules.includes("'invented-league'"),false);
+assert.equal(generatedRules.includes("'invented-nationality'"),false);
 for(const required of [
   '// SSJR_TRANSFER_CHALLENGE_FUNCTIONS_BEGIN',
   '// SSJR_TRANSFER_CHALLENGE_MATCH_BEGIN',
@@ -23,16 +42,8 @@ for(const required of [
   "public.operationTypes[i] == 'lock-signings'",
   'ssjrWriteAuthorityValid(rivalryId, root.updatedByDeviceId, root.activeSessionId)'
 ])assert.ok(transferRules.includes(required),`Transfer Challenge Rules missing ${required}`);
+for(const required of ['function ssjrTransferValidLeagueId(value)','function ssjrTransferValidNationalityId(value)','ssjrTransferValidLeagueId(value.leagueId)','ssjrTransferValidNationalityId(value.nationalityId)'])assert.ok(generatedRules.includes(required),`Generated Transfer Challenge Rules missing canonical catalog boundary: ${required}`);
 for(const forbidden of [/cloud\s*run/i,/cloud\s*functions/i,/blaze/i,/billingEnabled\s*[:=]\s*true/i])assert.doesNotMatch(transferRules,forbidden,'Transfer Challenge Rules must remain Spark-only and zero-billing.');
-for(const required of [
-  'CANONICAL_LEAGUE_IDS=Object.freeze',
-  'CANONICAL_NATIONALITY_IDS=Object.freeze',
-  'CANONICAL_LEAGUE_IDS.length!==36',
-  'CANONICAL_NATIONALITY_IDS.length!==164',
-  'repositoryCatalogSnapshot:true',
-  'callerCatalogOverride:false'
-])assert.ok(providerSource.includes(required),`Shared Transfer Challenge provider missing repository-catalog guard ${required}`);
-assert.doesNotMatch(providerSource,/options\.(?:leagueIds|nationalityIds)/,'Production provider must never accept caller-owned catalog overrides.');
 
 assert.equal(ProductionAdapter.feature,'ssjr-production-shared-transfer-challenge');
 assert.equal(ProductionAdapter.productionEnabled,true);
@@ -62,6 +73,8 @@ for(const required of [
   'root.setTransferSelectorValue'
 ])assert.ok(productionSource.includes(required),`Shared Transfer Challenge screen adapter missing ${required}`);
 assert.doesNotMatch(productionSource,/localStorage|sessionStorage|saveCurrentShowdown\s*\(|openTransferChallenge\s*\(/,'Shared Transfer Challenge screen adapter must not mutate or invoke local Transfer Challenge authority.');
+for(const required of ['repositoryCatalogAuthority:true','callerCatalogOverrides:false','TRANSFER_LEAGUE_IDS','TRANSFER_NATIONALITY_IDS'])assert.ok(providerSource.includes(required),`Shared Transfer provider missing repository catalog authority lock: ${required}`);
+assert.doesNotMatch(providerSource,/options\.leagueIds|options\.nationalityIds/,'production provider must never accept caller-supplied transfer catalog authority');
 
 const setup={
   phase:'SHOWDOWN_CONFIRMED',revision:6,coordinatorRole:'playerOne',totalSeasons:3,
@@ -185,5 +198,5 @@ const rejectsCode=async(promise,code)=>assert.rejects(promise,error=>error&&erro
   tampered.receipts=null;
   await assert.rejects(protocol.verifyState(tampered),'malformed receipt collections must fail closed');
 
-  console.log('PASS Shared Transfer Challenge: confirmed Career Start gates entry; coordinator starts one 15-minute shared window; early end needs both roles; expiry is deterministic; guesses and signings are role-owned and private until completion; repository-owned provider catalog cannot be broadened by caller overrides; canonical transfer IDs, CAS/replay, season bounds and terminal completion fail closed; both managers derive identical verdicts; the production screen adapter reuses existing controls without local-save authority; candidate Rules pin server time, atomic role payloads and pre-completion privacy before production promotion.');
+  console.log('PASS Shared Transfer Challenge: confirmed Career Start gates entry; coordinator starts one 15-minute shared window; early end needs both roles; expiry is deterministic; guesses and signings are role-owned and private until completion; exact repository-owned FIFA 17 Transfer catalog IDs are enforced by provider and generated Firestore Rules; CAS/replay, season bounds and terminal completion fail closed; both managers derive identical verdicts; the production screen adapter reuses existing controls without local-save authority; Rules pin server time, atomic role payloads and pre-completion privacy before production promotion.');
 })().catch(error=>{console.error(error);process.exitCode=1;});
