@@ -1,6 +1,7 @@
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const cp=require('node:child_process');
+const vm=require('node:vm');
 
 cp.execFileSync(process.execPath,['scripts/build-production-firestore-rules.mjs'],{stdio:'pipe'});
 const base=fs.readFileSync('firestore.spark.rules','utf8');
@@ -8,6 +9,7 @@ const generated=fs.readFileSync('firestore.spark.generated.rules','utf8');
 const fragment=fs.readFileSync('firestore.shared-setup-production.fragment.rules','utf8');
 const careerFragment=fs.readFileSync('firestore.career-start-production.fragment.rules','utf8');
 const transferFragment=fs.readFileSync('firestore.transfer-challenge-production.fragment.rules','utf8');
+const transferOptionsSource=fs.readFileSync('data/transferOptions.js','utf8');
 const workflow=fs.readFileSync('.github/workflows/deploy-firestore-rules-zero-billing.yml','utf8');
 const stage3=fs.readFileSync('.github/workflows/validate-stage3-private-pairing.yml','utf8');
 const publisher=fs.readFileSync('scripts/publish-firestore-rules-zero-billing.mjs','utf8');
@@ -32,15 +34,46 @@ const release=fs.readFileSync(releasePath,'utf8');
 
 function between(source,start,end){const a=source.indexOf(start),b=source.indexOf(end);assert.ok(a>=0&&b>a,`Missing exact splice markers ${start} / ${end}`);return source.slice(a+start.length,b).trimEnd();}
 function once(source,needle,replacement,label){const first=source.indexOf(needle);assert.ok(first>=0,`Missing ${label} sentinel`);assert.equal(source.indexOf(needle,first+needle.length),-1,`Duplicate ${label} sentinel`);return source.slice(0,first)+replacement+source.slice(first);}
+function replaceOnce(source,needle,replacement,label){const first=source.indexOf(needle);assert.ok(first>=0,`Missing ${label} seam`);assert.equal(source.indexOf(needle,first+needle.length),-1,`Duplicate ${label} seam`);return source.slice(0,first)+replacement+source.slice(first+needle.length);}
 function escapeRegExp(value){return String(value).replace(/[.*+?^${}()|[\]\\]/g,'\\$&');}
+function loadTransferCatalog(){
+  const sandbox={window:{}};
+  vm.runInNewContext(transferOptionsSource,sandbox,{filename:'data/transferOptions.js'});
+  const leagues=sandbox.window.FIFA17_TRANSFER_LEAGUES,nationalities=sandbox.window.FIFA17_TRANSFER_NATIONALITIES;
+  assert.equal(leagues.length,36,'canonical FIFA 17 Transfer Challenge league count changed unexpectedly');
+  assert.equal(nationalities.length,164,'canonical FIFA 17 Transfer Challenge nationality count changed unexpectedly');
+  const leagueIds=leagues.map(item=>item.id),nationalityIds=nationalities.map(item=>item.id);
+  assert.equal(new Set(leagueIds).size,leagueIds.length,'canonical transfer league IDs must be unique');
+  assert.equal(new Set(nationalityIds).size,nationalityIds.length,'canonical transfer nationality IDs must be unique');
+  return {leagueIds,nationalityIds};
+}
+function rulesList(ids){return `[${ids.map(id=>`'${id}'`).join(',')}]`;}
+function injectTransferCatalog(functions,catalog){
+  const generic="    function ssjrTransferValidOptionId(value) { return value is string && value.size() >= 2 && value.size() <= 80 && value.matches('^[a-z0-9]+(-[a-z0-9]+)*$'); }";
+  let output=replaceOnce(functions,generic,`${generic}\n    function ssjrTransferValidLeagueId(value) { return value in ${rulesList(catalog.leagueIds)}; }\n    function ssjrTransferValidNationalityId(value) { return value in ${rulesList(catalog.nationalityIds)}; }`,'Transfer Challenge catalog helper');
+  output=replaceOnce(output,"        && (value.type == 'league' || value.type == 'nationality')\n        && ssjrTransferValidOptionId(value.valueId);","        && ((value.type == 'league' && ssjrTransferValidLeagueId(value.valueId))\n          || (value.type == 'nationality' && ssjrTransferValidNationalityId(value.valueId)));",'Transfer Challenge guess catalog validation');
+  output=replaceOnce(output,'        && ssjrTransferValidOptionId(value.leagueId)\n        && ssjrTransferValidOptionId(value.nationalityId);','        && ssjrTransferValidLeagueId(value.leagueId)\n        && ssjrTransferValidNationalityId(value.nationalityId);','Transfer Challenge signing catalog validation');
+  return output;
+}
+function ruleMembership(functionName){
+  const pattern=new RegExp(`function ${functionName}\\(value\\) \\{ return value in \\[([^\\]]*)\\]; \\}`);
+  const match=generated.match(pattern);assert.ok(match,`Generated Rules missing ${functionName} membership helper`);
+  return [...match[1].matchAll(/'([^']+)'/g)].map(item=>item[1]);
+}
+const transferCatalog=loadTransferCatalog();
 const functionMarker='// SSJR_SHARED_SETUP_FUNCTIONS_BEGIN',functionEnd='// SSJR_SHARED_SETUP_FUNCTIONS_END',matchMarker='// SSJR_SHARED_SETUP_MATCH_BEGIN',matchEnd='// SSJR_SHARED_SETUP_MATCH_END';
 const careerFunctionMarker='// SSJR_CAREER_START_FUNCTIONS_BEGIN',careerFunctionEnd='// SSJR_CAREER_START_FUNCTIONS_END',careerMatchMarker='// SSJR_CAREER_START_MATCH_BEGIN',careerMatchEnd='// SSJR_CAREER_START_MATCH_END';
 const transferFunctionMarker='// SSJR_TRANSFER_CHALLENGE_FUNCTIONS_BEGIN',transferFunctionEnd='// SSJR_TRANSFER_CHALLENGE_FUNCTIONS_END',transferMatchMarker='// SSJR_TRANSFER_CHALLENGE_MATCH_BEGIN',transferMatchEnd='// SSJR_TRANSFER_CHALLENGE_MATCH_END';
+const expectedTransferFunctions=injectTransferCatalog(between(transferFragment,transferFunctionMarker,transferFunctionEnd),transferCatalog);
 let expectedGenerated=base;
-expectedGenerated=once(expectedGenerated,'    function capabilityCanReadPendingRivalry(rivalryId) {',`    ${functionMarker}\n${between(fragment,functionMarker,functionEnd)}\n    ${functionEnd}\n\n    ${careerFunctionMarker}\n${between(careerFragment,careerFunctionMarker,careerFunctionEnd)}\n    ${careerFunctionEnd}\n\n    ${transferFunctionMarker}\n${between(transferFragment,transferFunctionMarker,transferFunctionEnd)}\n    ${transferFunctionEnd}\n\n`,'top-level function insertion');
+expectedGenerated=once(expectedGenerated,'    function capabilityCanReadPendingRivalry(rivalryId) {',`    ${functionMarker}\n${between(fragment,functionMarker,functionEnd)}\n    ${functionEnd}\n\n    ${careerFunctionMarker}\n${between(careerFragment,careerFunctionMarker,careerFunctionEnd)}\n    ${careerFunctionEnd}\n\n    ${transferFunctionMarker}\n${expectedTransferFunctions}\n    ${transferFunctionEnd}\n\n`,'top-level function insertion');
 expectedGenerated=once(expectedGenerated,'      // STAGE5C_CANDIDATE_SESSION_MATCH_BEGIN',`      ${matchMarker}\n${between(fragment,matchMarker,matchEnd)}\n      ${matchEnd}\n\n      ${careerMatchMarker}\n${between(careerFragment,careerMatchMarker,careerMatchEnd)}\n      ${careerMatchEnd}\n\n      ${transferMatchMarker}\n${between(transferFragment,transferMatchMarker,transferMatchEnd)}\n      ${transferMatchEnd}\n\n`,'rivalry child-match insertion');
 if(!expectedGenerated.endsWith('\n'))expectedGenerated+='\n';
-assert.equal(generated,expectedGenerated,'Generated production Rules must be the exact reviewed Spark base plus only the bounded Shared Setup, Career Start and Transfer Challenge fragment splices.');
+assert.equal(generated,expectedGenerated,'Generated production Rules must be the exact reviewed Spark base plus only the bounded Shared Setup, Career Start and Transfer Challenge fragment splices with deterministic canonical Transfer catalog binding.');
+assert.deepEqual(ruleMembership('ssjrTransferValidLeagueId'),transferCatalog.leagueIds,'Generated Rules league membership must exactly match the repository FIFA 17 Transfer catalog');
+assert.deepEqual(ruleMembership('ssjrTransferValidNationalityId'),transferCatalog.nationalityIds,'Generated Rules nationality membership must exactly match the repository FIFA 17 Transfer catalog');
+assert.equal(generated.includes("'invented-league'"),false,'Generated Rules must not admit invented transfer league IDs');
+assert.equal(generated.includes("'invented-nationality'"),false,'Generated Rules must not admit invented transfer nationality IDs');
 
 assert.equal(base.includes('match /sharedSetup/authoritative'),false,'Reviewed Spark base must remain unchanged; Shared Setup is additive at build time.');
 assert.equal(base.includes('match /careerStart/authoritative'),false,'Reviewed Spark base must remain unchanged; Career Start is additive at build time.');
@@ -67,6 +100,8 @@ for(const required of [
   'allow update: if ssjrTransferValidUpdate(rivalryId, transferId)',
   'allow create: if ssjrTransferPrivateCreateValid(rivalryId, transferId, managerRole)',
   'allow update: if ssjrTransferPrivateUpdateValid(rivalryId, transferId, managerRole)',
+  'function ssjrTransferValidLeagueId(value)',
+  'function ssjrTransferValidNationalityId(value)',
   "request.time >= before.startedAt + duration.value(15, 'm')",
   "managerRole == ssjrActorRole(rivalryId) || public.phase == 'COMPLETED'",
   'getAfter(/databases/$(database)/documents/rivalries/$(rivalryId)/transferChallenges/$(transferId)/roles/$(role))',
@@ -156,4 +191,4 @@ assert.doesNotMatch(setup,/options\.catalog|caller.*catalog/i,'Production runtim
 assert.match(adapter,/createProtocol\(\{catalog:catalogModule\.catalog,cryptoImpl\}\)/,'Production path must retain immutable repository-owned catalog authority.');
 assert.doesNotMatch(adapter,/options\.catalog/);
 
-process.stdout.write(`PASS SSJR production paired-first runtime: exact reviewed Rules splices for Shared Setup + Career Start + Transfer Challenge, exact pairing + ACTIVE before draw, durable pre-draw shared-mode marker, capture-phase actual click-path denial, ${runtimeRevision} whole-shell installed-app delivery with ${previousRuntimeRevision} recovery, lazy startup bootstrap, generated zero-billing Rules authority, candidate-equivalent production provider emulator coverage before PR merge and deploy publication, immutable provider catalog, fresh-session resume path, and canonical local-save non-mutation are permanently gated.\n`);
+process.stdout.write(`PASS SSJR production paired-first runtime: exact reviewed Rules splices for Shared Setup + Career Start + Transfer Challenge, exact pairing + ACTIVE before draw, durable pre-draw shared-mode marker, capture-phase actual click-path denial, ${runtimeRevision} whole-shell installed-app delivery with ${previousRuntimeRevision} recovery, lazy startup bootstrap, generated zero-billing Rules authority, exact repository-owned FIFA 17 Transfer catalog binding, candidate-equivalent production provider emulator coverage before PR merge and deploy publication, immutable provider catalog, fresh-session resume path, and canonical local-save non-mutation are permanently gated.\n`);
