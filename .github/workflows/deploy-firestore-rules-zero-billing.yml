@@ -15,6 +15,7 @@ on:
       - firestore.shared-setup-production.fragment.rules
       - firestore.career-start-production.fragment.rules
       - firestore.transfer-challenge-production.fragment.rules
+      - firestore.season-results-production.fragment.rules
       - scripts/build-production-firestore-rules.mjs
       - scripts/publish-firestore-rules-zero-billing.mjs
       - firebase.production.rules.json
@@ -87,16 +88,25 @@ jobs:
           grep -Fq "allow create: if ssjrCareerValidCreate(rivalryId)" "${FIREBASE_RULES_FILE}"
           grep -Fq "allow update: if ssjrCareerValidUpdate(rivalryId)" "${FIREBASE_RULES_FILE}"
           grep -Fq "match /transferChallenges/{transferId}" "${FIREBASE_RULES_FILE}"
-          grep -Fq "match /roles/{managerRole}" "${FIREBASE_RULES_FILE}"
           grep -Fq "allow create: if ssjrTransferValidCreate(rivalryId, transferId)" "${FIREBASE_RULES_FILE}"
           grep -Fq "allow update: if ssjrTransferValidUpdate(rivalryId, transferId)" "${FIREBASE_RULES_FILE}"
           grep -Fq "request.time >= before.startedAt + duration.value(15, 'm')" "${FIREBASE_RULES_FILE}"
           grep -Fq "managerRole == ssjrActorRole(rivalryId) || public.phase == 'COMPLETED'" "${FIREBASE_RULES_FILE}"
+          grep -Fq "match /seasonResults/{seasonId}" "${FIREBASE_RULES_FILE}"
+          grep -Fq "allow create: if ssjrResultsValidCreate(rivalryId, seasonId)" "${FIREBASE_RULES_FILE}"
+          grep -Fq "allow update: if ssjrResultsValidUpdate(rivalryId, seasonId)" "${FIREBASE_RULES_FILE}"
+          grep -Fq "allow create: if ssjrResultsPrivateCreateValid(rivalryId, seasonId, managerRole)" "${FIREBASE_RULES_FILE}"
+          grep -Fq "managerRole == ssjrActorRole(rivalryId) || public.phase == 'RESULTS_READY'" "${FIREBASE_RULES_FILE}"
+          grep -Fq "career.setupOperationIds == setup.operationIds" "${FIREBASE_RULES_FILE}"
+          grep -Fq "transfer.phase == 'COMPLETED'" "${FIREBASE_RULES_FILE}"
+          grep -Fq "transfer.revision == 6 || transfer.revision == 7" "${FIREBASE_RULES_FILE}"
           grep -Fq "allow list, delete: if false" "${FIREBASE_RULES_FILE}"
+          grep -Fq "allow list, update, delete: if false" "${FIREBASE_RULES_FILE}"
           grep -Fq "match /{document=**}" "${FIREBASE_RULES_FILE}"
           ! grep -Eqi "cloud[[:space:]_-]*run|cloud[[:space:]_-]*functions|billing|blaze|payment|purchased[[:space:]_-]*credits" firestore.shared-setup-production.fragment.rules
           ! grep -Eqi "cloud[[:space:]_-]*run|cloud[[:space:]_-]*functions|billing|blaze|payment|purchased[[:space:]_-]*credits" firestore.career-start-production.fragment.rules
           ! grep -Eqi "cloud[[:space:]_-]*run|cloud[[:space:]_-]*functions|billing|blaze|payment|purchased[[:space:]_-]*credits" firestore.transfer-challenge-production.fragment.rules
+          ! grep -Eqi "cloud[[:space:]_-]*run|cloud[[:space:]_-]*functions|billing|blaze|payment|purchased[[:space:]_-]*credits" firestore.season-results-production.fragment.rules
 
       - name: Install locked repository dependencies
         run: npm ci
@@ -110,6 +120,9 @@ jobs:
           node tests/contracts/shared-showdown-production-runtime-contracts.cjs
           node tests/contracts/shared-career-start-contracts.cjs
           node tests/contracts/shared-transfer-challenge-contracts.cjs
+          node tests/contracts/shared-season-results-contracts.cjs
+          node tests/contracts/shared-season-results-provider-contracts.cjs
+          node tests/contracts/shared-season-results-rules-contracts.cjs
 
       - name: Reprove generated production Shared Setup Rules with adversarial provider matrix
         run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-career-mode-showdown-shared-setup-production-deploy "node tests/firebase/shared-showdown-setup-production-provider-emulator.cjs"
