@@ -73,6 +73,10 @@ assert.match(production,/if\(button\.textContent!=="CONTINUE TO CAREER START"\)b
 assert.match(production,/if\(button\.disabled\)button\.disabled=false;/,'Career Start control decoration must not rewrite the observed disabled attribute when already enabled');
 assert.match(production,/if\(button\.classList\.contains\("hidden"\)\)button\.classList\.remove\("hidden"\);/,'Career Start control decoration must not rewrite the observed class attribute when already visible');
 assert.match(production,/new MutationObserver\(\(\)=>pcstDecorateControl\(\)\)/,'Career Start must retain its confirmed-state control observer while decoration remains idempotent');
+assert.match(production,/const POLL_MS=15000;/,'Career Start automatic refresh must remain substantially backed off for Spark quota safety');
+assert.match(production,/if\(pollBusy\|\|root\.document&&root\.document\.visibilityState==="hidden"\)return false;/,'Career Start polling must stop while hidden and refuse overlapping poll cycles');
+assert.match(production,/finally\{pollBusy=false;\}/,'Career Start polling must always release its serialization lock');
+assert.match(production,/visibilityAwarePolling:true,serializedPolling:true/,'Career Start diagnostics must expose the Spark-safe polling boundary');
 
 const guard=fs.readFileSync(path.resolve('js/productionSharedJourneyGuard.js'),'utf8');
 assert.match(guard,/target\.id!=="continueClubAssignment"\|\|target\.dataset\.sharedCareerStart!=="true"/,'shared click guard must recognize the confirmed Career Start control');
@@ -85,4 +89,4 @@ assert.match(entry,/if\(confirmed\)\{await openCareerStart\(\);applyLocalDrawLoc
 assert.match(entry,/confirmed\?"CONTINUE TO CAREER START":"CONTINUE TO LEAGUE WHEEL"/,'paired-first entry must expose the correct resume action to the owner');
 assert.match(entry,/confirmedSetupResumesAtCareerStart:true/,'entry diagnostics must expose direct confirmed-setup Career Start resume');
 
-console.log('PASS Shared Career Start contracts: exact confirmed setup gates entry, each bound role acknowledges once, replay/stale/duplicate-role attempts fail closed, finished setup routes directly into Career Start on click and reload/fresh-session resume, confirmed-state decoration is idempotent under its MutationObserver, and Spark provider authority is account/device/rivalry/ACTIVE-session bound with zero billing.');
+console.log('PASS Shared Career Start contracts: exact confirmed setup gates entry, each bound role acknowledges once, replay/stale/duplicate-role attempts fail closed, finished setup routes directly into Career Start on click and reload/fresh-session resume, confirmed-state decoration is idempotent under its MutationObserver, Spark polling is serialized/visibility-aware/backed off, and provider authority is account/device/rivalry/ACTIVE-session bound with zero billing.');
