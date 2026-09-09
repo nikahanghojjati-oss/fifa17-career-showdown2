@@ -63,11 +63,30 @@
       "path": "tests/contracts/shared-season-results-contracts.cjs",
       "patterns": [
         "^js/sharedSeasonResults\\.js$",
+        "^tests/contracts/shared-season-results-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/shared-season-results-provider-contracts.cjs",
+      "patterns": [
+        "^js/sharedSeasonResults\\.js$",
         "^js/sparkSharedSeasonResults\\.js$",
+        "^js/sharedShowdownSetup\\.js$",
+        "^js/sharedShowdownCatalog\\.js$",
+        "^js/sparkSharedCareerStart\\.js$",
+        "^js/sparkSharedTransferChallenge\\.js$",
+        "^tests/contracts/shared-season-results-provider-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/shared-season-results-rules-contracts.cjs",
+      "patterns": [
         "^firestore\\.season-results-production\\.fragment\\.rules$",
         "^scripts/build-production-firestore-rules\\.mjs$",
-        "^tests/contracts/shared-season-results-contracts\\.cjs$",
-        "^tests/contracts/shared-season-results-provider-contracts\\.cjs$",
+        "^\\.github/workflows/deploy-firestore-rules-zero-billing\\.yml$",
+        "^tests/contracts/shared-season-results-rules-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
     }
