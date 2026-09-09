@@ -73,7 +73,7 @@ const rejectsCode=async(promise,code)=>assert.rejects(promise,error=>error&&erro
 
   const p2Guesses=[
     {slot:1,type:'league',valueId:'england-premier-league'},
-    {slot:2,type:'nationality',valueId:'italy'}
+    {slot:2,type:'nationality',valueId:'brazil'}
   ];
   result=await run(protocol,state,'playerTwo',command('lock-guesses',19,4,{guesses:p2Guesses}),1_102_000);
   state=result.state;
