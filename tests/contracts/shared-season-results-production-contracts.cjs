@@ -6,6 +6,7 @@ const read=file=>fs.readFileSync(path.join(root,file),'utf8');
 const adapter=read('js/productionSharedSeasonResults.js');
 const route=read('js/productionSharedSeasonResultsRoute.js');
 const bootstrap=read('js/ssjr.js');
+const screens=read('js/screens.js');
 const seasonEngine=read('js/seasonEngine.js');
 const transfer=read('js/productionSharedTransferChallenge.js');
 
@@ -34,6 +35,11 @@ assert.doesNotMatch(adapter,/saveCurrentShowdown\s*\(/,'shared publication adapt
 assert.doesNotMatch(adapter,/calculatePlayerSeasonScore\s*\(/,'r9 publication must not make local scoring authoritative');
 assert.doesNotMatch(adapter,/determineSeasonWinner\s*\(/,'r9 publication must not make local winner calculation authoritative');
 
+assert.match(screens,/if\(screenName===\"seasonEntry\"\)try\{if\(window\.CareerModeProductionSharedSeasonResults\?\.canRoute\?\.\(\)\)return true\}catch\(_\)\{\}/,'core navigation must directly authorize seasonEntry only through the refreshed r9 production adapter capability');
+const sharedSeasonGate=screens.indexOf('CareerModeProductionSharedSeasonResults?.canRoute?.()');
+const localClubGate=screens.indexOf('const clubsValid = getClubPairRouteState(showdown);');
+assert.ok(sharedSeasonGate>=0&&localClubGate>=0&&sharedSeasonGate<localClubGate,'shared Season Results authority must be evaluated before local league/club/challenge gates without mutating local state');
+
 assert.match(route,/feature:\"ssjr-production-shared-season-results-route\"/);
 assert.match(route,/requiresCompletedSharedTransfer:true/);
 assert.match(route,/preservesTransferRuntime:true/);
@@ -45,12 +51,12 @@ assert.match(route,/CONTINUE TO SHARED SEASON RESULTS/);
 assert.match(route,/ENTER SHARED SEASON RESULTS/);
 assert.match(route,/seasonPrimaryAction/,'completed shared Transfer Challenge must route directly from Showdown Home');
 assert.match(route,/sharedSeasonResultsRouteStyle/,'shared review must preserve a visible escape to Showdown Home while local complete action stays hidden');
-assert.match(route,/root\.isRouteStateValid=sharedSeasonResultsRouteState/,'r9 must bridge the existing router rather than mutate local Transfer Challenge authority');
-assert.match(route,/screenName===\"seasonEntry\"[\s\S]*results\.canRoute\(\)[\s\S]*return original\.call\(this,screenName\)/,'router bridge must grant only proven shared Season Results and delegate every other decision to the original route authority');
-assert.match(route,/ssjrOriginal/,'router bridge must retain the original route predicate for auditable delegation');
-assert.match(route,/function routeDecorate\(\)\{[\s\S]*routeInstallNavigationGate\(\);[\s\S]*if\(!routeReady\(\)\)return false/,'decoration must retry the router bridge after lazy gameplay loading instead of trusting an early bootstrap attempt');
-assert.match(route,/if\(!routeInstallNavigationGate\(\)\)throw new Error\(\"Shared Season Results navigation gate is unavailable\.\"\)/,'opening shared results must fail closed if the lazy router still cannot be bridged');
-assert.match(route,/function routeInstall\(\)\{[\s\S]*routeInstallNavigationGate\(\);[\s\S]*if\(installed\)\{routeDecorate\(\);return true;\}/,'repeat installation must repair a route gate that was unavailable during early bootstrap');
+assert.match(route,/root\.isRouteStateValid=sharedSeasonResultsRouteState/,'route bridge may retain its compatibility wrapper while core navigation remains authoritative');
+assert.match(route,/screenName===\"seasonEntry\"[\s\S]*results\.canRoute\(\)[\s\S]*return original\.call\(this,screenName\)/,'compatibility wrapper must grant only proven shared Season Results and delegate every other decision to the original route authority');
+assert.match(route,/ssjrOriginal/,'compatibility wrapper must retain the original route predicate for auditable delegation');
+assert.match(route,/function routeDecorate\(\)\{[\s\S]*routeInstallNavigationGate\(\);[\s\S]*if\(!routeReady\(\)\)return false/,'decoration must retry its compatibility wrapper after lazy gameplay loading instead of trusting an early bootstrap attempt');
+assert.match(route,/if\(!routeInstallNavigationGate\(\)\)throw new Error\(\"Shared Season Results navigation gate is unavailable\.\"\)/,'opening shared results must fail closed if the compatibility wrapper still cannot be installed');
+assert.match(route,/function routeInstall\(\)\{[\s\S]*routeInstallNavigationGate\(\);[\s\S]*if\(installed\)\{routeDecorate\(\);return true;\}/,'repeat installation must repair a compatibility wrapper that was unavailable during early bootstrap');
 assert.match(route,/productionSharedSeasonResults\.js/);
 assert.match(route,/api\.install\(\);const opened=await api\.open\(\)/);
 assert.match(route,/canonicalStorageMutation:false/);
@@ -68,4 +74,4 @@ assert.match(bootstrap,/CareerModeProductionSharedSeasonResults/);
 assert.match(seasonEngine,/function confirmCurrentSeason\(\)[\s\S]*persistCompletedSeason\(roundRecord, seasonNumber\)/,'ordinary local Season Results persistence must remain intact behind the shared capture boundary');
 assert.match(transfer,/SHARED SEASON RESULTS COMING NEXT/,'r8 remains fail-closed when the r9 route is unavailable');
 
-console.log('PASS Shared Season Results production contracts: completed Shared Transfer Challenge routes from both verdicts and Showdown Home through bounded shared route authority into the existing Season Results shell, lazy router availability is repaired fail-closed after early bootstrap, critical paired-first entry/guard startup is not serialized behind r9, only the signed-in manager reviews and immutably publishes the canonical seven-field payload, review-time data is revalidated before publication, opponent data stays private until both publish, historical replay cannot enter live results, waiting users retain a Showdown Home escape, local route/persistence/scoring authority remains unchanged, and the r8 dead-end stays as fail-closed fallback.');
+console.log('PASS Shared Season Results production contracts: core navigation directly grants seasonEntry only from refreshed r9 shared authority before local league/club/challenge gates, completed Shared Transfer Challenge routes from verdicts and Showdown Home into the existing Season Results shell, compatibility capture remains fail-closed, critical paired-first entry/guard startup is not serialized behind r9, only the signed-in manager reviews and immutably publishes the canonical seven-field payload, review-time data is revalidated before publication, opponent data stays private until both publish, historical replay cannot enter live results, waiting users retain a Showdown Home escape, local route/persistence/scoring authority remains unchanged, and the r8 dead-end stays as fail-closed fallback.');
