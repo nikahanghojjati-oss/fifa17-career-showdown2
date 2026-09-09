@@ -3,6 +3,7 @@ const fs=require('node:fs');
 const vm=require('node:vm');
 const {webcrypto}=require('node:crypto');
 const Factory=require('../../js/sharedSeasonResults.js');
+require('./shared-season-results-provider-contracts.cjs');
 
 const scoringSandbox={};
 vm.runInNewContext(`${fs.readFileSync('js/scoring.js','utf8')}\nthis.__scoring={calculatePlayerSeasonScore,determineSeasonWinner};`,scoringSandbox,{filename:'js/scoring.js'});
