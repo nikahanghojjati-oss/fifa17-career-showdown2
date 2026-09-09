@@ -118,15 +118,15 @@
     return {...value,result:ssrNormalizeResult(value.result,teamCount)};
   }
 
-  async function createProtocol({teamCount,cryptoImpl=root.crypto}={}){
+  async function ssrCreateProtocol({teamCount,cryptoImpl=root.crypto}={}){
     const teams=ssrTeamCount(teamCount);
-    async function seal(core){return ssrFreeze({...ssrClone(core),contentHash:await ssrHash(core,cryptoImpl)});}
-    async function verifyState(value){return ssrVerifyState(value,teams,cryptoImpl);}
-    async function apply({state=null,setup,careerStart,transferChallenge,previousSeasonComplete=false,seasonNumber,actorRole,command,nowEpochMs}){
+    async function ssrSeal(core){return ssrFreeze({...ssrClone(core),contentHash:await ssrHash(core,cryptoImpl)});}
+    async function ssrVerifyProtocolState(value){return ssrVerifyState(value,teams,cryptoImpl);}
+    async function ssrApply({state=null,setup,careerStart,transferChallenge,previousSeasonComplete=false,seasonNumber,actorRole,command,nowEpochMs}){
       if(!Number.isInteger(seasonNumber)||seasonNumber<1)ssrFail("SEASON_RESULT_SEASON_INVALID");
       ssrConfirmedSetup(setup,seasonNumber);ssrCareerReady(careerStart);ssrTransferComplete(transferChallenge,seasonNumber);
       if(seasonNumber>1&&previousSeasonComplete!==true)ssrFail("SEASON_RESULT_PREVIOUS_SEASON_REQUIRED");
-      const role=ssrRole(actorRole),now=ssrEpoch(nowEpochMs),cmd=ssrCommand(command,teams),current=state?await verifyState(state):null;
+      const role=ssrRole(actorRole),now=ssrEpoch(nowEpochMs),cmd=ssrCommand(command,teams),current=state?await ssrVerifyProtocolState(state):null;
       if(current&&current.seasonNumber!==seasonNumber)ssrFail("SEASON_RESULT_SEASON_MISMATCH");
       const commandHash=await ssrHash({actorRole:role,...cmd},cryptoImpl);
       if(current){
@@ -150,7 +150,7 @@
       core.receipts.push({operationId:cmd.operationId,baseRevision:cmd.baseRevision,actorRole:role,type:cmd.type,commandHash});
       core.revision+=1;
       if(core.submittedRoles.length===2){core.phase="COMPLETED";core.completedAtEpochMs=now;}
-      return ssrFreeze({ok:true,idempotent:false,state:await seal(core)});
+      return ssrFreeze({ok:true,idempotent:false,state:await ssrSeal(core)});
     }
     function projectForRole(state,actorRole){
       const role=ssrRole(actorRole),other=role==="playerOne"?"playerTwo":"playerOne",completed=state&&state.phase==="COMPLETED";
@@ -169,8 +169,8 @@
       const playerTwo={...ssrClone(state.results.playerTwo),scoring:ssrScore(state.results.playerTwo)};
       return ssrFreeze({roundNumber:state.seasonNumber,transferChallengeSeason:state.seasonNumber,completedAtEpochMs:state.completedAtEpochMs,playerOne,playerTwo,winner:ssrWinner(playerOne,playerTwo)});
     }
-    return Object.freeze({contractVersion:1,feature:"ssjr-shared-season-results",runtimeRevision:RUNTIME_REVISION,teamCount:teams,billingRequired:false,canonicalStorageMutation:false,apply,verifyState,projectForRole,buildFinalRecord,scoreResult:result=>ssrFreeze(ssrScore(ssrNormalizeResult(result,teams))),scoringRules:SCORING_RULES});
+    return Object.freeze({contractVersion:1,feature:"ssjr-shared-season-results",runtimeRevision:RUNTIME_REVISION,teamCount:teams,billingRequired:false,canonicalStorageMutation:false,apply:ssrApply,verifyState:ssrVerifyProtocolState,projectForRole,buildFinalRecord,scoreResult:result=>ssrFreeze(ssrScore(ssrNormalizeResult(result,teams))),scoringRules:SCORING_RULES});
   }
 
-  return Object.freeze({contractVersion:1,feature:"ssjr-shared-season-results-protocol-factory",runtimeRevision:RUNTIME_REVISION,billingRequired:false,canonicalStorageMutation:false,createProtocol});
+  return Object.freeze({contractVersion:1,feature:"ssjr-shared-season-results-protocol-factory",runtimeRevision:RUNTIME_REVISION,billingRequired:false,canonicalStorageMutation:false,createProtocol:ssrCreateProtocol});
 });
