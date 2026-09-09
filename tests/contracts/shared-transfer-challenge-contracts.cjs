@@ -2,9 +2,11 @@ const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const {webcrypto}=require('node:crypto');
 const Factory=require('../../js/sharedTransferChallenge.js');
+const ProductionAdapter=require('../../js/productionSharedTransferChallenge.js');
 require('./shared-transfer-challenge-provider-contracts.cjs');
 
 const transferRules=fs.readFileSync('firestore.transfer-challenge-production.fragment.rules','utf8');
+const productionSource=fs.readFileSync('js/productionSharedTransferChallenge.js','utf8');
 for(const required of [
   '// SSJR_TRANSFER_CHALLENGE_FUNCTIONS_BEGIN',
   '// SSJR_TRANSFER_CHALLENGE_MATCH_BEGIN',
@@ -21,6 +23,35 @@ for(const required of [
   'ssjrWriteAuthorityValid(rivalryId, root.updatedByDeviceId, root.activeSessionId)'
 ])assert.ok(transferRules.includes(required),`Transfer Challenge Rules missing ${required}`);
 for(const forbidden of [/cloud\s*run/i,/cloud\s*functions/i,/blaze/i,/billingEnabled\s*[:=]\s*true/i])assert.doesNotMatch(transferRules,forbidden,'Transfer Challenge Rules must remain Spark-only and zero-billing.');
+
+assert.equal(ProductionAdapter.feature,'ssjr-production-shared-transfer-challenge');
+assert.equal(ProductionAdapter.productionEnabled,true);
+assert.equal(ProductionAdapter.requiresCareerStartReady,true);
+assert.equal(ProductionAdapter.requiresExactActiveSession,true);
+assert.equal(ProductionAdapter.privateUntilCompleted,true);
+assert.equal(ProductionAdapter.serverClockAuthoritative,true);
+assert.equal(ProductionAdapter.canonicalStorageMutation,false);
+assert.equal(ProductionAdapter.billingRequired,false);
+assert.equal(ProductionAdapter.blazeRequired,false);
+for(const required of [
+  'CONTROL_IDS=Object.freeze(["seasonPrimaryAction","startTransferTimer","endTransferTimer","completeTransferChallenge","continueFromTransfers"])',
+  'root.document.addEventListener("click",pstcCapture,true)',
+  'event.stopImmediatePropagation()',
+  'provider.read(ctx.options)',
+  'provider[method](options)',
+  'return pstcMutate("lockGuesses",{guesses:pstcBuildGuesses(role)})',
+  'return pstcMutate("lockSignings",{signings:pstcBuildSignings(role)})',
+  'root.navigateTo("transferChallenge")',
+  'view?.opponentInputs||null',
+  'phase==="COMPLETED"',
+  'SHARED SEASON RESULTS COMING NEXT',
+  'will not fall through to local-only season authority',
+  'POLL_MS=7000',
+  'advanceExpiredWindow',
+  'root.getTransferSelectorCanonicalValue',
+  'root.setTransferSelectorValue'
+])assert.ok(productionSource.includes(required),`Shared Transfer Challenge screen adapter missing ${required}`);
+assert.doesNotMatch(productionSource,/localStorage|sessionStorage|saveCurrentShowdown\s*\(|openTransferChallenge\s*\(/,'Shared Transfer Challenge screen adapter must not mutate or invoke local Transfer Challenge authority.');
 
 const setup={
   phase:'SHOWDOWN_CONFIRMED',revision:6,coordinatorRole:'playerOne',totalSeasons:3,
@@ -144,5 +175,5 @@ const rejectsCode=async(promise,code)=>assert.rejects(promise,error=>error&&erro
   tampered.receipts=null;
   await assert.rejects(protocol.verifyState(tampered),'malformed receipt collections must fail closed');
 
-  console.log('PASS Shared Transfer Challenge: confirmed Career Start gates entry; coordinator starts one 15-minute shared window; early end needs both roles; expiry is deterministic; guesses and signings are role-owned and private until completion; canonical transfer IDs, CAS/replay, season bounds and terminal completion fail closed; both managers derive identical verdicts; candidate Rules pin server time, atomic role payloads and pre-completion privacy before production promotion.');
+  console.log('PASS Shared Transfer Challenge: confirmed Career Start gates entry; coordinator starts one 15-minute shared window; early end needs both roles; expiry is deterministic; guesses and signings are role-owned and private until completion; canonical transfer IDs, CAS/replay, season bounds and terminal completion fail closed; both managers derive identical verdicts; the production screen adapter reuses existing controls without local-save authority; candidate Rules pin server time, atomic role payloads and pre-completion privacy before production promotion.');
 })().catch(error=>{console.error(error);process.exitCode=1;});
