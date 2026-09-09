@@ -26,6 +26,8 @@ assert.match(adapter,/SEASON_COMMIT_STALE_BASE_REVISION/,'production adapter mus
 assert.match(adapter,/for\(let attempt=0;attempt<2;attempt\+=1\)/,'stale retry must remain strictly bounded');
 assert.match(adapter,/sharedSeasonCommitAction/,'r10 must use a dedicated shared-only action instead of the local confirm button');
 assert.match(adapter,/results\.state\?\.phase==="RESULTS_READY"[\s\S]*results\.state\?\.revision===2/,'r10 production entry must require exact r9 RESULTS_READY authority');
+assert.match(adapter,/await psscEnsureDependencies\(\);\s*if\(!psscResultsReady\(request\)\)psscFail\("SEASON_COMMIT_RESULTS_NOT_READY"[\s\S]*?await setupApi\.refresh\(\)[\s\S]*?await resultsApi\.refresh\(\)/,'r10 must remain dormant and must not refresh/re-render r9 Season Results until cached r9 authority is already exact RESULTS_READY');
+assert.equal((adapter.match(/if\(!psscResultsReady\(request\)\)psscFail\("SEASON_COMMIT_RESULTS_NOT_READY"/g)||[]).length,2,'r10 must check RESULTS_READY both before and after its bounded dependency refresh');
 assert.doesNotMatch(adapter,/persistCompletedSeason\s*\(/,'r10 shared commit must not invoke local season persistence');
 assert.doesNotMatch(adapter,/saveCurrentShowdown\s*\(/,'r10 shared commit must not write canonical local Save authority');
 assert.doesNotMatch(adapter,/calculatePlayerSeasonScore\s*\(/,'r10 season commit must not make scoring authoritative');
@@ -50,4 +52,4 @@ assert.match(release,/Shared Showdown Journey readiness under `SSJR-1\.1`: `0\/1
 
 assert.match(pkg.scripts['test:ssjr'],/shared-season-commit-production-contracts\.cjs/,'explicit SSJR contract suite must include r10 production contracts');
 assert.match(pkg.scripts['test:ssjr:browser'],/shared-season-commit-audit\.cjs/,'explicit SSJR browser suite must include the two-manager r10 audit');
-console.log('PASS Shared Season Commit production contracts: exact r9 RESULTS_READY is required; only the coordinator can create the immutable shared commit; both managers independently acknowledge through a dedicated shared-only review action; stale CAS gets one bounded retry; local Season Engine persistence and scoring remain unreachable; Spark/zero-billing constraints remain explicit; and the document, lazy assets, manifest, release record and verified installed-app cache converge on one r10 whole-shell identity with r9 rollback.');
+console.log('PASS Shared Season Commit production contracts: exact r9 RESULTS_READY is required before r10 may refresh or render over Season Results; only the coordinator can create the immutable shared commit; both managers independently acknowledge through a dedicated shared-only review action; stale CAS gets one bounded retry; local Season Engine persistence and scoring remain unreachable; Spark/zero-billing constraints remain explicit; and the document, lazy assets, manifest, release record and verified installed-app cache converge on one r10 whole-shell identity with r9 rollback.');
