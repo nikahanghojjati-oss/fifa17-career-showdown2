@@ -74,7 +74,7 @@
   const ssjrActorEnabled=Boolean(ssjrActorParams&&ssjrActorParams.get("ssjr-acceptance")==="1");
   if(!ssjrActorEnabled)return;
   const ssjrActorWitnessMode=ssjrActorParams.get("ssjr-witness")==="1";
-  const SSJR_ACTOR_RUNTIME="1.9.1-r6";
+  const SSJR_ACTOR_RUNTIME=(()=>{const meta=root.document&&root.document.querySelector('meta[name="app-asset-revision"]');return meta&&meta.content?meta.content.trim():"1.9.1-r6";})();
   const SSJR_ACTOR_STORE="careerModeShowdown.ssjrActorNegatives.safe.v2";
   const SSJR_ACTOR_BOUND_TYPE="SSJR-1.1-production-shared-setup-bound-actor-negatives-safe-v2";
   const SSJR_ACTOR_WITNESS_TYPE="SSJR-1.1-production-shared-setup-unrelated-witness-safe-v2";
