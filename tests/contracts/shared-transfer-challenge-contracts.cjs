@@ -73,7 +73,7 @@ for(const required of [
   'root.setTransferSelectorValue'
 ])assert.ok(productionSource.includes(required),`Shared Transfer Challenge screen adapter missing ${required}`);
 assert.doesNotMatch(productionSource,/localStorage|sessionStorage|saveCurrentShowdown\s*\(|openTransferChallenge\s*\(/,'Shared Transfer Challenge screen adapter must not mutate or invoke local Transfer Challenge authority.');
-for(const required of ['repositoryCatalogSnapshot:true','callerCatalogOverride:false','TRANSFER_LEAGUE_IDS','TRANSFER_NATIONALITY_IDS'])assert.ok(providerSource.includes(required),`Shared Transfer provider missing repository catalog authority lock: ${required}`);
+for(const required of ['repositoryCatalogSnapshot:true','callerCatalogOverride:false','CANONICAL_LEAGUE_IDS','CANONICAL_NATIONALITY_IDS'])assert.ok(providerSource.includes(required),`Shared Transfer provider missing repository catalog authority lock: ${required}`);
 assert.doesNotMatch(providerSource,/options\.leagueIds|options\.nationalityIds/,'production provider must never accept caller-supplied transfer catalog authority');
 
 const setup={
