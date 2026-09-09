@@ -42,6 +42,10 @@
     {
       "path": "tests/contracts/shared-season-commit-provider-contracts.cjs",
       "patterns": ["^js/sharedSeasonCommit\\.js$","^js/sparkSharedSeasonCommit\\.js$","^js/sharedSeasonResults\\.js$","^tests/contracts/shared-season-commit-provider-contracts\\.cjs$","^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"]
+    },
+    {
+      "path": "tests/contracts/shared-season-commit-rules-contracts.cjs",
+      "patterns": ["^firestore\\.season-commit-production\\.fragment\\.rules$","^scripts/build-production-firestore-rules\\.mjs$","^\\.github/workflows/deploy-firestore-rules-zero-billing\\.yml$","^tests/contracts/shared-season-commit-rules-contracts\\.cjs$","^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"]
     }
   ]
 }
