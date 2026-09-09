@@ -6,7 +6,6 @@
   "use strict";
 
   const CONTROL_IDS=Object.freeze(["continueFromTransfers","seasonPrimaryAction"]);
-  const ROUTE_GATE=Symbol("ssjrSharedSeasonResultsRouteGate");
   let installed=false,observer=null;
   function routeShowdown(){try{return typeof currentShowdown!=="undefined"?currentShowdown:null;}catch(_error){return null;}}
   function routeShared(){const showdown=routeShowdown();return Boolean(showdown&&showdown.sharedJourney&&showdown.sharedJourney.mode==="shared");}
@@ -14,19 +13,6 @@
   function routeTransfer(){return root.CareerModeProductionSharedTransferChallenge||null;}
   function routeResults(){return root.CareerModeProductionSharedSeasonResults||null;}
   function routeReady(){const transfer=routeTransfer(),view=transfer&&typeof transfer.getState==="function"?transfer.getState():null,screen=root.document&&root.document.getElementById("transferChallenge");return Boolean(routeShared()&&view&&view.state&&view.state.phase==="COMPLETED"&&screen&&!screen.dataset.sharedTransferReplay);}
-  function routeInstallNavigationGate(){
-    const original=root.isRouteStateValid;if(typeof original!=="function")return false;if(original[ROUTE_GATE])return true;
-    function sharedSeasonResultsRouteState(screenName){
-      if(screenName==="seasonEntry"){
-        const results=routeResults();
-        try{if(results&&typeof results.canRoute==="function"&&results.canRoute())return true;}catch(_error){}
-      }
-      return original.call(this,screenName);
-    }
-    Object.defineProperty(sharedSeasonResultsRouteState,ROUTE_GATE,{value:true});
-    Object.defineProperty(sharedSeasonResultsRouteState,"ssjrOriginal",{value:original});
-    root.isRouteStateValid=sharedSeasonResultsRouteState;return true;
-  }
   function routeInstallEscapeStyle(){
     if(!root.document||root.document.getElementById("sharedSeasonResultsRouteStyle"))return false;
     const style=root.document.createElement("style");style.id="sharedSeasonResultsRouteStyle";
@@ -36,7 +22,6 @@
   function routeSetText(node,value){if(node&&node.textContent!==value)node.textContent=value;}
   function routeEnable(node){if(!node)return;if(node.disabled)node.disabled=false;if(node.getAttribute("aria-disabled")==="true")node.setAttribute("aria-disabled","false");}
   function routeDecorate(){
-    routeInstallNavigationGate();
     if(!routeReady())return false;
     const continueButton=routeButton("continueFromTransfers");
     if(continueButton){routeSetText(continueButton,"CONTINUE TO SHARED SEASON RESULTS");routeEnable(continueButton);if(continueButton.classList.contains("hidden"))continueButton.classList.remove("hidden");continueButton.dataset.sharedSeasonResultsRoute="true";}
@@ -47,7 +32,6 @@
   }
   async function routeOpen(){
     if(!routeReady())return false;
-    if(!routeInstallNavigationGate())throw new Error("Shared Season Results navigation gate is unavailable.");
     if(typeof root.loadRuntimeScript!=="function")throw new Error("Shared Season Results runtime loader is unavailable.");
     await root.loadRuntimeScript("ssjr-production-season-results","js/productionSharedSeasonResults.js",()=>root.CareerModeProductionSharedSeasonResults);
     const api=root.CareerModeProductionSharedSeasonResults;if(!api||typeof api.install!=="function"||typeof api.open!=="function")throw new Error("Shared Season Results production adapter is unavailable.");
@@ -60,7 +44,6 @@
     void routeOpen().catch(error=>{if(typeof root.reportApplicationError==="function")root.reportApplicationError("Unable to open Shared Season Results",error);else root.console?.error?.(error);});
   }
   function routeInstall(){
-    routeInstallNavigationGate();
     if(installed){routeDecorate();return true;}
     installed=true;
     if(root.document){
@@ -73,5 +56,5 @@
     }
     return true;
   }
-  return Object.freeze({contractVersion:1,feature:"ssjr-production-shared-season-results-route",productionEnabled:true,preservesTransferRuntime:true,requiresCompletedSharedTransfer:true,directDashboardRoute:true,sharedReviewEscape:true,sharedRouteAuthority:true,idempotentDecoration:true,canonicalStorageMutation:false,authoritativeScoring:false,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,install:routeInstall,decorate:routeDecorate,open:routeOpen,canRoute:routeReady});
+  return Object.freeze({contractVersion:1,feature:"ssjr-production-shared-season-results-route",productionEnabled:true,preservesTransferRuntime:true,requiresCompletedSharedTransfer:true,directDashboardRoute:true,sharedReviewEscape:true,sharedRouteAuthority:true,coreNavigationAuthority:true,idempotentDecoration:true,canonicalStorageMutation:false,authoritativeScoring:false,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,install:routeInstall,decorate:routeDecorate,open:routeOpen,canRoute:routeReady});
 });
