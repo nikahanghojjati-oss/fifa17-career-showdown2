@@ -101,7 +101,7 @@
     if(value.endedAtEpochMs!==null)stcEpoch(value.endedAtEpochMs);
     stcRoleList(value.endRequestedRoles,"TRANSFER_STATE_INVALID");stcRoleList(value.guessLockedRoles,"TRANSFER_STATE_INVALID");stcRoleList(value.signingLockedRoles,"TRANSFER_STATE_INVALID");
     stcInputs(value.inputs);
-    if(!Array.isArray(value.receipts)||value.receipts.length!==value.revision)value.receipts&&stcFail("TRANSFER_STATE_INVALID");
+    if(!Array.isArray(value.receipts)||value.receipts.length!==value.revision)stcFail("TRANSFER_STATE_INVALID");
     value.receipts.forEach(stcReceipt);
     if(new Set(value.receipts.map(receipt=>receipt.operationId)).size!==value.receipts.length)stcFail("TRANSFER_STATE_INVALID");
     if(value.receipts.some((receipt,index)=>receipt.baseRevision!==index))stcFail("TRANSFER_STATE_INVALID");
@@ -139,14 +139,14 @@
     });
   }
 
-  async function createProtocol({leagueIds,nationalityIds,cryptoImpl=root.crypto}={}){
+  async function stcCreateProtocol({leagueIds,nationalityIds,cryptoImpl=root.crypto}={}){
     const leagues=stcCatalogIds(leagueIds,"TRANSFER_LEAGUE_CATALOG_INVALID"),nationalities=stcCatalogIds(nationalityIds,"TRANSFER_NATIONALITY_CATALOG_INVALID");
-    async function seal(core){return stcFreeze({...stcClone(core),contentHash:await stcHash(core,cryptoImpl)});}
-    async function verifyState(value){return stcVerifyState(value,leagues,nationalities,cryptoImpl);}
-    async function apply({state=null,setup,careerStart,seasonNumber,actorRole,command,nowEpochMs}){
-      const confirmed=stcConfirmedSetup(setup),career=stcCareerReady(careerStart),role=stcRole(actorRole),now=stcEpoch(nowEpochMs),cmd=stcCommand(command,leagues,nationalities);
+    async function stcSeal(core){return stcFreeze({...stcClone(core),contentHash:await stcHash(core,cryptoImpl)});}
+    async function stcVerifyProtocolState(value){return stcVerifyState(value,leagues,nationalities,cryptoImpl);}
+    async function stcApply({state=null,setup,careerStart,seasonNumber,actorRole,command,nowEpochMs}){
+      const confirmed=stcConfirmedSetup(setup);stcCareerReady(careerStart);const role=stcRole(actorRole),now=stcEpoch(nowEpochMs),cmd=stcCommand(command,leagues,nationalities);
       if(!Number.isInteger(seasonNumber)||seasonNumber<1||seasonNumber>confirmed.totalSeasons)stcFail("TRANSFER_SEASON_INVALID");
-      const current=state?await verifyState(state):null;
+      const current=state?await stcVerifyProtocolState(state):null;
       if(current&&current.seasonNumber!==seasonNumber)stcFail("TRANSFER_SEASON_MISMATCH");
       if(current&&current.coordinatorRole!==confirmed.coordinatorRole)stcFail("TRANSFER_COORDINATOR_MISMATCH");
       const commandHash=await stcHash({actorRole:role,...cmd},cryptoImpl);
@@ -193,10 +193,10 @@
       }
       core.receipts.push({operationId:cmd.operationId,baseRevision:revision,actorRole:role,type:cmd.type,commandHash});
       core.revision=revision+1;
-      const next=await seal(core);await verifyState(next);
+      const next=await stcSeal(core);await stcVerifyProtocolState(next);
       return stcFreeze({ok:true,idempotent:false,state:next});
     }
-    function projectForRole(state,role){
+    function stcProjectForRole(state,role){
       stcRole(role);const current=stcClone(state),opponent=role==="playerOne"?"playerTwo":"playerOne";
       if(current.phase!=="COMPLETED")current.inputs[opponent]={guesses:null,signings:null};
       const projection={
@@ -207,8 +207,8 @@
       };
       return stcFreeze(projection);
     }
-    return stcFreeze({contractVersion:1,feature:"ssjr-shared-transfer-challenge",runtimeRevision:RUNTIME_REVISION,windowMs:WINDOW_MS,roles:ROLES,phases:PHASES,apply,verifyState,projectForRole,evaluateRole:(role,state)=>stcFreeze(stcEvaluateRole(role,state)),billingRequired:false,canonicalStorageMutation:false});
+    return stcFreeze({contractVersion:1,feature:"ssjr-shared-transfer-challenge",runtimeRevision:RUNTIME_REVISION,windowMs:WINDOW_MS,roles:ROLES,phases:PHASES,apply:stcApply,verifyState:stcVerifyProtocolState,projectForRole:stcProjectForRole,evaluateRole:(role,state)=>stcFreeze(stcEvaluateRole(role,state)),billingRequired:false,canonicalStorageMutation:false});
   }
 
-  return Object.freeze({contractVersion:1,feature:"ssjr-shared-transfer-challenge-protocol-factory",runtimeRevision:RUNTIME_REVISION,windowMs:WINDOW_MS,roles:ROLES,phases:PHASES,createProtocol,billingRequired:false,canonicalStorageMutation:false});
+  return Object.freeze({contractVersion:1,feature:"ssjr-shared-transfer-challenge-protocol-factory",runtimeRevision:RUNTIME_REVISION,windowMs:WINDOW_MS,roles:ROLES,phases:PHASES,createProtocol:stcCreateProtocol,billingRequired:false,canonicalStorageMutation:false});
 });
