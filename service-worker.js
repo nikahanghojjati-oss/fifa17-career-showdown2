@@ -1,5 +1,5 @@
-const RUNTIME_REVISION = "1.9.1-r9";
-const PREVIOUS_RUNTIME_REVISION = "1.9.1-r8";
+const RUNTIME_REVISION = "1.9.1-r10";
+const PREVIOUS_RUNTIME_REVISION = "1.9.1-r9";
 const CACHE_PREFIX = "career-mode-showdown-shell-";
 const MODE_CACHE_PREFIX = "career-mode-showdown-runtime-mode-";
 const CACHE_NAME = `${CACHE_PREFIX}${RUNTIME_REVISION}`;
@@ -75,6 +75,9 @@ const SHELL_PATHS = Object.freeze([
     "js/sparkSharedSeasonResults.js",
     "js/productionSharedSeasonResults.js",
     "js/productionSharedSeasonResultsRoute.js",
+    "js/sharedSeasonCommit.js",
+    "js/sparkSharedSeasonCommit.js",
+    "js/productionSharedSeasonCommit.js",
     "js/remoteJoiningAcceptance.js",
     "js/sparkRemoteJoining.js",
     "js/sparkAccountBootstrap.js",
