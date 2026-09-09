@@ -80,7 +80,8 @@ assert.match(production,/return await pcstSerialize\(async\(\)=>\{/,'Career Star
 assert.match(production,/if\(root\.document&&root\.document\.visibilityState==="hidden"\)return false;/,'Career Start automatic polling must stop while the page is hidden');
 assert.match(production,/if\(pcstReady\(\)\)\{pcstStopPolling\(\);return false;\}/,'Career Start automatic polling must stop permanently once both managers are ready');
 assert.match(production,/if\(pcstReady\(\)\)pcstStopPolling\(\);return view;/,'a refresh that observes terminal Career Start must cancel future polling immediately');
-assert.match(production,/serializedOperations:true,terminalPollingStops:true/,'Career Start diagnostics must expose shared serialization and terminal polling shutdown');
+assert.match(production,/CareerModeProductionSharedShowdownPresentation;[\s\S]*presentation\.deactivate\(\)/,'Career Start must deactivate the completed Shared Setup presentation so its provider polling cannot continue after handoff');
+assert.match(production,/serializedOperations:true,terminalPollingStops:true,deactivatesSetupPresentation:true/,'Career Start diagnostics must expose shared serialization, terminal polling shutdown and setup-presentation deactivation');
 
 const guard=fs.readFileSync(path.resolve('js/productionSharedJourneyGuard.js'),'utf8');
 assert.match(guard,/target\.id!=="continueClubAssignment"\|\|target\.dataset\.sharedCareerStart!=="true"/,'shared click guard must recognize the confirmed Career Start control');
@@ -93,4 +94,4 @@ assert.match(entry,/if\(confirmed\)\{await openCareerStart\(\);applyLocalDrawLoc
 assert.match(entry,/confirmed\?"CONTINUE TO CAREER START":"CONTINUE TO LEAGUE WHEEL"/,'paired-first entry must expose the correct resume action to the owner');
 assert.match(entry,/confirmedSetupResumesAtCareerStart:true/,'entry diagnostics must expose direct confirmed-setup Career Start resume');
 
-console.log('PASS Shared Career Start contracts: exact confirmed setup gates entry, each bound role acknowledges once, replay/stale/duplicate-role attempts fail closed, finished setup routes directly into Career Start on click and reload/fresh-session resume, confirmed-state decoration is idempotent, provider operations are serialized and refresh-deduplicated, Spark polling is visibility-aware/backed off and stops at terminal readiness, and provider authority is account/device/rivalry/ACTIVE-session bound with zero billing.');
+console.log('PASS Shared Career Start contracts: exact confirmed setup gates entry, each bound role acknowledges once, replay/stale/duplicate-role attempts fail closed, finished setup routes directly into Career Start on click and reload/fresh-session resume, completed Shared Setup presentation polling is deactivated at handoff, confirmed-state decoration is idempotent, provider operations are serialized and refresh-deduplicated, Spark polling is visibility-aware/backed off and stops at terminal readiness, and provider authority is account/device/rivalry/ACTIVE-session bound with zero billing.');
