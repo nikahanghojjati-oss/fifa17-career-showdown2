@@ -1,47 +1,68 @@
 {
-  "schemaVersion": "1.2.0",
+  "schemaVersion": "1.3.0",
   "lane": "independent visual proposal",
   "status": "ACTIVE",
   "proposalBranch": "visual/r8-5-approved-character-identity-lock",
-  "latestObservedMainSha": "c23599b0528ff1333928eac3d85a4a95dc953d6d",
-  "latestObservedAssetRevision": "1.9.1-r9",
-  "currentMilestone": "R8.7 single-expression identity recovery",
-  "visualProductionProgressPercent": 41.0,
-  "handoffProximityPercent": 25,
-  "characterApprovalGate": "OPEN_NOT_APPROVED",
-  "generationFormatPolicy": "ONE_CHARACTER_ONE_EXPRESSION_HIGH_RESOLUTION",
-  "multiExpressionBoardGeneration": "RETIRED_FOR_PRODUCTION",
-  "expressionReferencePack": {
-    "state": "READY",
-    "libraryFolder": "/Showdown visual/R8_7_IDENTITY_EXPRESSION_RECOVERY/",
-    "persistedOwnerReferences": 10,
-    "index": "R8_7_EXPRESSION_REFERENCE_PACK_INDEX.md",
-    "authority": "AUXILIARY_ONLY_BELOW_TIER_0_HERO_IDENTITY"
+  "latestObservedMainSha": "1d0c9f9d6542cd020a4aae53998cb6daeba380e4",
+  "latestObservedAssetRevision": "1.9.1-r10",
+  "currentMilestone": "R8.8 live runtime visual map complete; bounded asset production queued",
+  "visualProductionProgressPercent": 47.0,
+  "handoffProximityPercent": 32,
+  "runtimeMapping": {
+    "state": "COMPLETE_BASELINE",
+    "mappedPrimaryAndNestedSurfaces": 24,
+    "authorityFile": "R8_8_LIVE_RUNTIME_VISUAL_MAP.md",
+    "assetMatrix": "R8_8_ASSET_REQUIREMENTS_MATRIX.md",
+    "sourcePin": "1d0c9f9d6542cd020a4aae53998cb6daeba380e4",
+    "sourceAssetRevision": "1.9.1-r10"
   },
-  "latestGenerationAttempt": {
-    "target": "Nik neutral isolated high-resolution master",
-    "result": "TOOL_ERROR_NO_ASSET_PRODUCED",
-    "retryPolicy": "wait for a new user request, then retry the same bounded single-expression test"
+  "characterApprovalGate": "PARTIAL_DIRECTION_APPROVED_FINAL_MASTERS_PENDING",
+  "generationFormatPolicy": "ONE_CHARACTER_ONE_REQUIRED_EXPRESSION_HIGH_RESOLUTION",
+  "multiExpressionBoardGeneration": "RETIRED_FOR_PRODUCTION",
+  "characterAssetPlan": {
+    "requiredUniqueMasters": 6,
+    "conditionalClubPackMasters": 2,
+    "hardCeilingWithoutOwnerApproval": 8,
+    "requiredIds": [
+      "A01_NIK_CORE_THINKING_HERO",
+      "A02_DANIEL_CORE_POINTING_HERO",
+      "A03_NIK_FOCUSED_TACTICAL",
+      "A04_DANIEL_FOCUSED_TACTICAL",
+      "A05_NIK_CELEBRATION_RESOLVE",
+      "A06_DANIEL_CELEBRATION_RESOLVE"
+    ],
+    "conditionalIds": [
+      "C01_NIK_CLUB_PACK_INTERACTION",
+      "C02_DANIEL_CLUB_PACK_INTERACTION"
+    ]
+  },
+  "identityAuthority": {
+    "tier0": "owner-approved CM17 AI hero references and deterministic approved face crops",
+    "auxiliaryAi": "owner-provided CM17 screen/reference art for expression, pose and style evidence",
+    "realPhotos": "facial geometry and expression evidence only; prohibited as shipping website assets"
+  },
+  "latestOwnerDirection": {
+    "nikCore": "isolated Nik resemblance direction strongly approved; preserve likeness while calibrating slightly more toward approved CM17 AI-character rendering",
+    "danielCore": "approved historical Daniel pointing/main identity remains strongest anchor; clean isolated final master pending",
+    "planning": "reasoning layer must map and justify assets before generation; random prompt-to-image behavior prohibited"
+  },
+  "referenceLibrary": {
+    "folder": "/Showdown visual/R8_7_IDENTITY_EXPRESSION_RECOVERY/",
+    "state": "EXPANDED",
+    "use": "Tier 0 identity anchors plus auxiliary AI and real-photo expression geometry",
+    "shippingRealPhotos": false
   },
   "progressModel": [
     {"workstream":"approved identity truth recovered and persistently locked","weight":20,"earned":20,"state":"done"},
-    {"workstream":"live DOM/source reconciliation for visual targeting","weight":10,"earned":7,"state":"current r9 shell tracked; latest main c23599b0; deeper per-screen checks only when needed"},
-    {"workstream":"identity plus natural-expression contract","weight":10,"earned":10,"state":"done"},
-    {"workstream":"isolated canonical Nik and Daniel character masters","weight":20,"earned":2,"state":"R8.7 reference pack ready; first Nik-neutral asset still pending due image-tool failure"},
-    {"workstream":"screen-state expression and pose variants","weight":15,"earned":0,"state":"blocked by character approval gate"},
-    {"workstream":"R8.5 black-gold final-art and DOM composition mapping","weight":10,"earned":1,"state":"foundation exists; implementation waits for character approval"},
-    {"workstream":"responsive safe-zone and obstruction QA","weight":10,"earned":0,"state":"later"},
-    {"workstream":"master developer implementation package","weight":5,"earned":1,"state":"skeleton exists; final package waits for approved assets"}
+    {"workstream":"live DOM/source reconciliation and runtime screen mapping","weight":10,"earned":10,"state":"r10 map sealed across 24 primary/nested surfaces"},
+    {"workstream":"identity plus natural-expression contract","weight":10,"earned":10,"state":"done; single-expression method required"},
+    {"workstream":"isolated canonical Nik and Daniel character masters","weight":20,"earned":3,"state":"Nik isolated direction strongly approved but final AI-style freeze pending; Daniel clean final core pending"},
+    {"workstream":"screen-state expression and pose variants","weight":15,"earned":0,"state":"bounded to four tactical/celebration masters after core pair"},
+    {"workstream":"R8.5 black-gold final-art and DOM composition mapping","weight":10,"earned":3,"state":"screen-level art/reuse requirements mapped; actual exact-DOM composition not yet built"},
+    {"workstream":"responsive safe-zone and obstruction QA","weight":10,"earned":0,"state":"begins after A01/A02 composition proof"},
+    {"workstream":"master developer implementation package","weight":5,"earned":1,"state":"skeleton exists; final implementation handoff waits for approved assets and composition QA"}
   ],
-  "canonicalExpressionAnchors": {
-    "nik": "owner-approved main hero / thinking face",
-    "daniel": "owner-approved main hero / pointing face"
-  },
-  "minimalAssetPolicy": {
-    "rule": "build only expressions and poses proven necessary by actual mapped website screens",
-    "backViewDefault": "NOT_REQUIRED",
-    "hundredsOfExpressions": "PROHIBITED_SCOPE_EXPANSION"
-  },
+  "nextSafeAction": "Finalize A01_NIK_CORE_THINKING_HERO only. Use the previously owner-liked isolated Nik likeness as the direction, preserve Tier 0 face truth, add only the necessary CM17 AI-character rendering calibration, generate no board and no second character in the same call. After owner approval freeze A01 before A02.",
   "handoffRule": {
     "0to49": "continue visual work normally",
     "50to69": "keep continuity file current after each substantial asset milestone",
@@ -51,17 +72,18 @@
   },
   "transitionTriggers": [
     "identity/source ambiguity cannot be resolved in the current session",
-    "live main changes in a way that materially invalidates the current visual mapping",
+    "live main changes in a way that materially invalidates the current visual map",
     "too many unrelated visual branches are open to reason about safely",
     "current isolated asset milestone is complete and a fresh session would reduce drift risk"
   ],
-  "nextSafeAction": "On the next user request, retry exactly one isolated large Nik-neutral expression using Tier 0 identity anchors plus the R8.7 auxiliary expression pack. Do not generate a board or multiple faces. Freeze only after explicit owner approval.",
   "nonGoals": [
-    "replicate POS/SSJR testing infrastructure",
+    "replicate POS/SSJR/MDP testing infrastructure",
     "modify main",
     "deploy production",
     "own runtime behavior",
     "change Firebase or billing",
-    "perform broad process refactoring"
+    "perform broad process refactoring",
+    "generate unused expression libraries",
+    "ship literal owner photographs"
   ]
 }
