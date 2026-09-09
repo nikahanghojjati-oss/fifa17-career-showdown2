@@ -1,22 +1,52 @@
 {
-  "schemaVersion": "1.0.0",
+  "schemaVersion": "1.1.0",
   "status": "proposal-only-non-operational",
-  "sourceMainSha": "7f6432213871fb4cb5fb414999e08ac44e0fb318",
-  "runtime": "v1.9.1",
-  "assetRevision": "1.9.1-r8",
+  "proposalBranch": "visual/r8-5-approved-character-identity-lock",
+  "originalSourceMainSha": "7f6432213871fb4cb5fb414999e08ac44e0fb318",
+  "latestObservedMainSha": "d56b5179be76d05b98a801a4de7c0f4a42262b4f",
+  "latestObservedRuntime": "v1.9.1",
+  "latestObservedAssetRevision": "1.9.1-r9",
   "zeroDollarRequired": true,
   "identityPolicy": {
+    "identityIsImmutable": true,
+    "expressionIsVariable": true,
+    "poseIsVariable": true,
+    "wardrobeIsVariableWithinArtDirection": true,
     "literalPhotoAsShippingCharacter": false,
     "freshTextOnlyRegeneration": false,
     "referencePreservingDerivationRequired": true,
-    "stopIfApprovedReferencesUnavailable": true
+    "stopIfApprovedReferencesUnavailable": true,
+    "ownerApprovedFaceTruthOverridesEarlierInterpretation": true
   },
+  "ownerApprovedFaceTruth": [
+    {
+      "priority": 0,
+      "role": "owner-reuploaded-primary-face-truth-a",
+      "libraryFileId": "file_00000000b79081f58ac1409982d9dd37",
+      "libraryPath": "/Showdown visual/R8_5_APPROVED_CHARACTER_IDENTITY_LOCK/OWNER_APPROVED_FACE_TRUTH_A.png",
+      "dimensions": "1536x1024",
+      "sha256": "251d3ca11f8086f70675cc846debee22d594c9b1c92d7965b0cf56e85da75bdf",
+      "danielSide": "left",
+      "nikSide": "right",
+      "meaning": "owner explicitly reapproved the face resemblance; expression shown is not a permanent expression lock"
+    },
+    {
+      "priority": 0,
+      "role": "owner-reuploaded-primary-face-truth-b",
+      "libraryFileId": "file_000000002f4081f5bd59bfb020fdd746",
+      "libraryPath": "/Showdown visual/R8_5_APPROVED_CHARACTER_IDENTITY_LOCK/OWNER_APPROVED_FACE_TRUTH_B.png",
+      "dimensions": "1672x941",
+      "sha256": "83ea3338fe4fef8887c5ead4e0e668eb61aef2f54c61777941b0dcb232f20d20",
+      "danielSide": "left",
+      "nikSide": "right",
+      "meaning": "owner explicitly reapproved the face resemblance; expression shown is not a permanent expression lock"
+    }
+  ],
   "approvedCompositeReferences": [
     {
       "role": "primary-home-identity-proof",
       "libraryFileId": "file_00000000fef481f7aafb9903c7b04e52",
       "libraryName": "image-gen-1(1).png",
-      "localCanonicalName": "approved_home.png",
       "dimensions": "1672x941",
       "sha256": "d43f80d1298d4b51caa6f93e41f63bd600d75dc9068ba4b6079586e34702d213",
       "danielSide": "left",
@@ -26,7 +56,6 @@
       "role": "primary-create-showdown-identity-proof",
       "libraryFileId": "file_00000000a31c81f7ac29f66a72713dfd",
       "libraryName": "image-gen-2(1).png",
-      "localCanonicalName": "approved_create.png",
       "dimensions": "1672x941",
       "sha256": "8459dfba7e50002cc4718ec8a230493e13bcc49b9fc2ef492ea045a3207a0e7e",
       "danielSide": "left",
@@ -36,7 +65,6 @@
       "role": "primary-league-wheel-identity-proof",
       "libraryFileId": "file_000000000fec81f7ba5861d5aad878c3",
       "libraryName": "image-gen-3(1).png",
-      "localCanonicalName": "approved_league.png",
       "dimensions": "1672x941",
       "sha256": "5d88214f0baa45e4d8b43523fa8d0a81495d03b7ccc7c98b090b51a0e21709f0",
       "danielSide": "left",
@@ -46,32 +74,64 @@
       "role": "primary-club-assignment-identity-proof",
       "libraryFileId": "file_00000000a20881f781d10d380a24e3f3",
       "libraryName": "image-gen-4(1).png",
-      "localCanonicalName": "approved_club.png",
       "dimensions": "1672x941",
       "sha256": "b0fc3fe64b3c212d5bec0b5b992faf44e8da83cc06bbc47f3c0cc9baf6d5f0ec",
       "danielSide": "left",
       "nikSide": "right"
     },
     {
-      "role": "secondary-celebration-identity-proof",
+      "role": "secondary-celebration-expression-proof",
       "libraryFileId": "file_000000000d1c81f599d80416fe8692c9",
       "libraryName": "image-gen-8.png",
-      "localCanonicalName": "approved_season_summary.png",
       "dimensions": "1672x941",
       "sha256": "b2b3df403a0194d45c6b92f6c2cb3c740c4eec05a28f66ce523a7867e70f93ae",
       "danielSide": "left",
-      "nikSide": "right"
+      "nikSide": "right",
+      "meaning": "proof that the same approved identities may carry substantially different natural expressions"
     }
   ],
+  "expressionPolicy": {
+    "principle": "same person, different moment",
+    "allowed": [
+      "neutral",
+      "confident",
+      "focused",
+      "thinking",
+      "competitive",
+      "concerned",
+      "surprised",
+      "celebrating",
+      "disappointed",
+      "relieved",
+      "determined",
+      "subtle-smile"
+    ],
+    "requirements": [
+      "expression must match the screen state and narrative context",
+      "expression must remain anatomically natural",
+      "identity geometry must remain recognizably the approved Nik or Daniel",
+      "do not freeze either manager into one signature expression",
+      "do not exaggerate into caricature unless the owner explicitly asks for it"
+    ],
+    "failConditions": [
+      "face becomes a different person",
+      "jaw or nose structure materially changes",
+      "eye spacing or brow structure materially changes",
+      "hairline or hair mass changes enough to break recognition",
+      "beard pattern changes enough to break recognition",
+      "apparent age materially shifts",
+      "expression looks uncanny, plastic, anatomically strained, or unrelated to screen context"
+    ]
+  },
   "derivedIdentitySheets": {
-    "note": "These are deterministic crops/composites of exact approved generated pixels. They are reference aids only and do not replace the full-resolution source composites.",
+    "note": "Deterministic crops/composites of exact approved generated pixels. Reference aids only; full owner-approved source composites remain stronger authority.",
     "daniel": {
-      "localName": "daniel_approved_identity_reference_sheet.webp",
+      "libraryPath": "/Showdown visual/R8_5_APPROVED_CHARACTER_IDENTITY_LOCK/DANIEL_APPROVED_IDENTITY_REFERENCE_SHEET.webp",
       "dimensions": "1100x650",
       "sha256": "22d5826e409eb751506dad11283982bfe0e23c0d233d1a3cfc837c9766f91794"
     },
     "nik": {
-      "localName": "nik_approved_identity_reference_sheet.webp",
+      "libraryPath": "/Showdown visual/R8_5_APPROVED_CHARACTER_IDENTITY_LOCK/NIK_APPROVED_IDENTITY_REFERENCE_SHEET.webp",
       "dimensions": "1100x650",
       "sha256": "bc206840730ba4713459cff8acb3a7fae18e3dee6ea3cd18648a2bd7cc72df2c"
     }
@@ -87,6 +147,6 @@
   "r8_5ContractAssetIds": {
     "nik": "CSUX-0023-NIK-MASTER-CHARACTER-R01",
     "daniel": "CSUX-0024-DANIEL-MASTER-CHARACTER-R01",
-    "interpretation": "future isolated production assets must be derived from approved visual references; these IDs are not text-generation licenses"
+    "interpretation": "isolated production assets must be derived from approved visual references; IDs are not licenses to create new identities from prose"
   }
 }
