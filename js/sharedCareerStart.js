@@ -6,7 +6,7 @@
   "use strict";
 
   const SCHEMA_VERSION=1;
-  const RUNTIME_REVISION="1.9.1-r6";
+  const RUNTIME_REVISION="1.9.1-r7";
   const ROLES=Object.freeze(["playerOne","playerTwo"]);
   const PHASE_ONE="ONE_MANAGER_ACKNOWLEDGED";
   const PHASE_READY="CAREER_START_READY";
