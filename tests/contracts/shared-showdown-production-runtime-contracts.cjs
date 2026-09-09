@@ -42,7 +42,7 @@ function loadTransferCatalog(){
   const leagues=sandbox.window.FIFA17_TRANSFER_LEAGUES,nationalities=sandbox.window.FIFA17_TRANSFER_NATIONALITIES;
   assert.equal(leagues.length,36,'canonical FIFA 17 Transfer Challenge league count changed unexpectedly');
   assert.equal(nationalities.length,164,'canonical FIFA 17 Transfer Challenge nationality count changed unexpectedly');
-  const leagueIds=leagues.map(item=>item.id),nationalityIds=nationalities.map(item=>item.id);
+  const leagueIds=Array.from(leagues,item=>item.id),nationalityIds=Array.from(nationalities,item=>item.id);
   assert.equal(new Set(leagueIds).size,leagueIds.length,'canonical transfer league IDs must be unique');
   assert.equal(new Set(nationalityIds).size,nationalityIds.length,'canonical transfer nationality IDs must be unique');
   return {leagueIds,nationalityIds};
