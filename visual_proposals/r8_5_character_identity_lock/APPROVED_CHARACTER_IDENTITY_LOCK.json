@@ -1,0 +1,92 @@
+{
+  "schemaVersion": "1.0.0",
+  "status": "proposal-only-non-operational",
+  "sourceMainSha": "7f6432213871fb4cb5fb414999e08ac44e0fb318",
+  "runtime": "v1.9.1",
+  "assetRevision": "1.9.1-r8",
+  "zeroDollarRequired": true,
+  "identityPolicy": {
+    "literalPhotoAsShippingCharacter": false,
+    "freshTextOnlyRegeneration": false,
+    "referencePreservingDerivationRequired": true,
+    "stopIfApprovedReferencesUnavailable": true
+  },
+  "approvedCompositeReferences": [
+    {
+      "role": "primary-home-identity-proof",
+      "libraryFileId": "file_00000000fef481f7aafb9903c7b04e52",
+      "libraryName": "image-gen-1(1).png",
+      "localCanonicalName": "approved_home.png",
+      "dimensions": "1672x941",
+      "sha256": "d43f80d1298d4b51caa6f93e41f63bd600d75dc9068ba4b6079586e34702d213",
+      "danielSide": "left",
+      "nikSide": "right"
+    },
+    {
+      "role": "primary-create-showdown-identity-proof",
+      "libraryFileId": "file_00000000a31c81f7ac29f66a72713dfd",
+      "libraryName": "image-gen-2(1).png",
+      "localCanonicalName": "approved_create.png",
+      "dimensions": "1672x941",
+      "sha256": "8459dfba7e50002cc4718ec8a230493e13bcc49b9fc2ef492ea045a3207a0e7e",
+      "danielSide": "left",
+      "nikSide": "right"
+    },
+    {
+      "role": "primary-league-wheel-identity-proof",
+      "libraryFileId": "file_000000000fec81f7ba5861d5aad878c3",
+      "libraryName": "image-gen-3(1).png",
+      "localCanonicalName": "approved_league.png",
+      "dimensions": "1672x941",
+      "sha256": "5d88214f0baa45e4d8b43523fa8d0a81495d03b7ccc7c98b090b51a0e21709f0",
+      "danielSide": "left",
+      "nikSide": "right"
+    },
+    {
+      "role": "primary-club-assignment-identity-proof",
+      "libraryFileId": "file_00000000a20881f781d10d380a24e3f3",
+      "libraryName": "image-gen-4(1).png",
+      "localCanonicalName": "approved_club.png",
+      "dimensions": "1672x941",
+      "sha256": "b0fc3fe64b3c212d5bec0b5b992faf44e8da83cc06bbc47f3c0cc9baf6d5f0ec",
+      "danielSide": "left",
+      "nikSide": "right"
+    },
+    {
+      "role": "secondary-celebration-identity-proof",
+      "libraryFileId": "file_000000000d1c81f599d80416fe8692c9",
+      "libraryName": "image-gen-8.png",
+      "localCanonicalName": "approved_season_summary.png",
+      "dimensions": "1672x941",
+      "sha256": "b2b3df403a0194d45c6b92f6c2cb3c740c4eec05a28f66ce523a7867e70f93ae",
+      "danielSide": "left",
+      "nikSide": "right"
+    }
+  ],
+  "derivedIdentitySheets": {
+    "note": "These are deterministic crops/composites of exact approved generated pixels. They are reference aids only and do not replace the full-resolution source composites.",
+    "daniel": {
+      "localName": "daniel_approved_identity_reference_sheet.webp",
+      "dimensions": "1100x650",
+      "sha256": "22d5826e409eb751506dad11283982bfe0e23c0d233d1a3cfc837c9766f91794"
+    },
+    "nik": {
+      "localName": "nik_approved_identity_reference_sheet.webp",
+      "dimensions": "1100x650",
+      "sha256": "bc206840730ba4713459cff8acb3a7fae18e3dee6ea3cd18648a2bd7cc72df2c"
+    }
+  },
+  "rejectedGenerations": [
+    {
+      "description": "drifted CHARACTER MASTERS R8.5 VISUAL SYSTEM sheet generated after R8.5 handoff",
+      "dimensions": "1536x1024",
+      "sha256": "ff8ebde5c2b81a902c5fd330147284761f5c36d53944452551f28223c30e69e6",
+      "reason": "new faces do not preserve approved Nik/Daniel identity"
+    }
+  ],
+  "r8_5ContractAssetIds": {
+    "nik": "CSUX-0023-NIK-MASTER-CHARACTER-R01",
+    "daniel": "CSUX-0024-DANIEL-MASTER-CHARACTER-R01",
+    "interpretation": "future isolated production assets must be derived from approved visual references; these IDs are not text-generation licenses"
+  }
+}
