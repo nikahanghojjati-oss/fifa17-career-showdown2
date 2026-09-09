@@ -106,7 +106,7 @@ function createHarness(){
   assert.deepEqual(p2View.verdicts,p1View.verdicts,'both managers must derive identical completed verdicts');
 
   const stale=await Provider.requestEndWindow({...h.options('playerOne',1_104_030),operationId:op(8),baseRevision:1});
-  assert.equal(stale.ok,false);assert.equal(stale.code,'TRANSFER_ALREADY_COMPLETED');
+  assert.equal(stale.ok,false);assert.equal(stale.code,'TRANSFER_STALE_BASE_REVISION');
   const publicLedger=h.store.get(transferPath);assert.equal(publicLedger.revision,7);assert.equal(publicLedger.phase,'COMPLETED');assert.deepEqual(publicLedger.actorRoles,['playerOne','playerOne','playerTwo','playerOne','playerTwo','playerOne','playerTwo']);
 
   const timeout=createHarness();
