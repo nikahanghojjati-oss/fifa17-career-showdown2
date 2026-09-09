@@ -58,6 +58,15 @@
         "^tests/contracts/shared-transfer-challenge-provider-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/shared-season-results-contracts.cjs",
+      "patterns": [
+        "^js/sharedSeasonResults\\.js$",
+        "^js/scoring\\.js$",
+        "^tests/contracts/shared-season-results-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
