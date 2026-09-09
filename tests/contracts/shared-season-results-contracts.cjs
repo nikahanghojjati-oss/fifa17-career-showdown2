@@ -119,7 +119,7 @@ const rejectsCode=async(promise,code)=>assert.rejects(promise,error=>error&&erro
   assert.equal(LocalScoring.determineSeasonWinner(zeroOneScored,zeroTwoScored),'playerOne','league position tiebreak applies only when both showdown scores are zero');
 
   await rejectsCode(apply(state,'playerOne',command(14,2,p1Result)),'SEASON_RESULT_ALREADY_COMPLETED');
-  await rejectsCode(protocol.buildFinalRecord(replay.state),'SEASON_RESULT_FINAL_NOT_READY');
+  assert.throws(()=>protocol.buildFinalRecord(replay.state),error=>error&&error.code==='SEASON_RESULT_FINAL_NOT_READY','expected SEASON_RESULT_FINAL_NOT_READY');
 
   const tampered=JSON.parse(JSON.stringify(state));
   tampered.results.playerOne.leaguePoints=999;
