@@ -11,8 +11,6 @@ const raw={
   freshSession:"session_"+"4".repeat(64),
   canonical:"PRIVATE_CANONICAL_SAVE_BYTES"
 };
-// Mirror the actual Shared Showdown protocol shape: leagueId + club names are
-// authoritative. There is deliberately NO provider-supplied clubLeagueIds field.
 const finalSetup={
   revision:6,
   phase:"SHOWDOWN_CONFIRMED",
@@ -54,8 +52,6 @@ async function openCase(browser,acceptance,mode="ready"){
       getState(){return Object.freeze({...state});},
       subscribe(listener){listeners.add(listener);return()=>listeners.delete(listener);},
       async refresh(){emit();return Object.freeze({ok:state.ready===true});},
-      // The real presentation requires the complete provider API even when locked.
-      // This recorder-only fixture never grants mutation authority or creates a draw.
       async mutate(){window.__ssjrSetupMutationCalls+=1;return Object.freeze({ok:false,code:"SHARED_SETUP_LOCKED"});},
       async openPanel(){window.__ssjrSetupPanelOpens+=1;state={...state,open:true};emit();return true;}
     };
@@ -89,6 +85,8 @@ async function openCase(browser,acceptance,mode="ready"){
     assert.equal(await normal.page.evaluate(()=>Boolean(window.CareerModeSSJRProductionAcceptanceRecorder)),false,"normal production mode must not load the SSJR recorder API");
     const normalRequests=await normal.page.evaluate(()=>performance.getEntriesByType("resource").filter(entry=>entry.name.includes("ssjrProductionAcceptanceRecorder.js")).map(entry=>entry.name));
     assert.deepEqual(normalRequests,[],"normal production mode must not request the SSJR recorder asset");
+    assert.equal(await normal.page.locator('[data-negative-probe]').count(),0);
+    assert.equal(await normal.page.evaluate(()=>Boolean(window.CareerModeSSJRProductionNegativeEvidence||window.CareerModeSSJRProductionNegativeProbeRunner)),false,'normal mode must not load denial tooling');
 
     activeLocked=await openCase(browser,true,"active-locked");
     await activeLocked.page.locator("#ssjrProductionAcceptanceRecorder").waitFor({state:"visible",timeout:7000});
@@ -117,8 +115,18 @@ async function openCase(browser,acceptance,mode="ready"){
 
     acceptance=await openCase(browser,true);
     await acceptance.page.locator("#ssjrProductionAcceptanceRecorder").waitFor({state:"visible",timeout:7000});
+    await acceptance.page.locator("#ssjrActorEvidenceV2").waitFor({state:"visible",timeout:7000});
     assert.equal(await acceptance.page.locator("#ssjrProductionAcceptanceRecorder .ssjrPrimary").count(),1,"acceptance mode must expose one primary NEXT STEP control");
     assert.equal(await acceptance.page.locator("#ssjrProductionAcceptanceRecorder details.ssjrAdvanced").count(),1,"fallback controls must remain collapsed behind MORE CONTROLS");
+    await acceptance.page.waitForFunction(()=>window.CareerModeSSJRProductionAcceptanceRecorder.getState().statusRows[0].passed===true);
+    assert.equal(await acceptance.page.locator('[data-negative-probe]').count(),8,'legacy all-eight controls remain present for historical compatibility');
+    assert.equal(await acceptance.page.locator('#ssjrNegatives').isHidden(),true,'legacy impossible all-eight-per-manager controls must be hidden from the current operator flow');
+    assert.equal(await acceptance.page.locator('[data-bound-probe]').count(),7,'current manager flow must expose seven truthful actor-attributed checks');
+    assert.equal(await acceptance.page.locator('[data-bound-probe="unrelatedAccount"]').count(),0,'unrelated-account denial belongs only to the separate witness flow');
+    assert.equal(await acceptance.page.locator('[data-actor-download]').isDisabled(),true,'actor bundle download must remain disabled before manager identity is bound');
+    assert.equal(await acceptance.page.locator('.ssjrNegativeDownload').isDisabled(),true,'legacy incomplete negative evidence must remain non-exportable');
+    if(process.env.CMS_SSJR_UI_SCREENSHOT){await acceptance.page.locator('.ssjrPrimary').scrollIntoViewIfNeeded();await acceptance.page.screenshot({path:process.env.CMS_SSJR_UI_SCREENSHOT});}
+
     const contract=await acceptance.page.evaluate(()=>({
       enabled:window.CareerModeSSJRProductionAcceptanceRecorder.enabled,
       productionEnabled:window.CareerModeSSJRProductionAcceptanceRecorder.productionEnabled,
@@ -139,6 +147,21 @@ async function openCase(browser,acceptance,mode="ready"){
     assert.equal(await acceptance.page.evaluate(()=>window.__ssjrSetupPanelOpens),0,"OPEN SHARED SETUP must keep the engineering panel hidden");
     await acceptance.page.evaluate(()=>window.__ssjrRecorderSetSeed());
     await acceptance.page.waitForFunction(()=>window.CareerModeSSJRProductionAcceptanceRecorder.getState().statusRows[1].passed===true,null,{timeout:5000});
+
+    await acceptance.page.evaluate(({raw})=>{
+      window.__ssjrNegativeProviderReads=0;
+      window.CareerModeProductionFirebaseRuntime={ensureAccountServices:async()=>({ok:true,auth:{currentUser:{uid:raw.account}},firestore:{},firestoreSdk:{}})};
+      window.CareerModeSparkSharedShowdownSetup={read:async()=>{window.__ssjrNegativeProviderReads++;return {ok:false,code:'SETUP_SESSION_INVALID'}},mutate:async()=>({ok:false,code:'SETUP_STALE_BASE_REVISION'})};
+    },{raw});
+    await acceptance.page.locator('[data-bound-probe="wrongSession"]').click();
+    await acceptance.page.waitForFunction(()=>Boolean(window.CareerModeSSJRProductionActorEvidence.getBoundBundle()?.observations?.wrongSession));
+    assert.equal(await acceptance.page.evaluate(()=>window.__ssjrNegativeProviderReads),1,'visible v2 manager control must execute the real provider denial runner path');
+    const actorStored=await acceptance.page.evaluate(()=>sessionStorage.getItem('careerModeShowdown.ssjrActorNegatives.safe.v2'));
+    assert.ok(actorStored,'a directly observed v2 manager denial must persist a sanitized partial actor bundle');
+    for(const value of Object.values(raw))assert.equal(actorStored.includes(value),false,'private raw values must not be persisted by actor-attributed controls');
+    const actorLayout=await acceptance.page.locator('[data-bound-probe]').evaluateAll(elements=>elements.map(element=>{const rect=element.getBoundingClientRect();return {height:rect.height,left:rect.left,right:rect.right,width:innerWidth}}));
+    assert.ok(actorLayout.every(rect=>rect.height>=44&&rect.left>=0&&rect.right<=rect.width),'visible actor-attributed controls must fit the mobile viewport with touch targets');
+
     await acceptance.page.evaluate(()=>window.__ssjrRecorderSetFinal());
     await acceptance.page.waitForFunction(()=>window.CareerModeSSJRProductionAcceptanceRecorder.getState().statusRows[2].passed===true,null,{timeout:5000});
     assert.match(await acceptance.page.locator(".ssjrPrimary").textContent(),/RELOAD & VERIFY/,"simple mode should turn the primary control into reload proof after revision 6");
@@ -186,6 +209,7 @@ async function openCase(browser,acceptance,mode="ready"){
     console.log("PASS SSJR recorder rejects stale cross-runtime evidence instead of mislabeling the live shell");
     console.log("PASS SSJR recorder validates real protocol league + club names against the repository catalog and derives safe club league identities");
     console.log("PASS SSJR recorder simple mode exposes one context-aware NEXT STEP control while fallback controls stay collapsed");
+    console.log("PASS SSJR actor-attributed v2 replaces the visible impossible all-eight-per-manager controls while preserving the legacy API and real provider denial path");
     console.log("PASS SSJR recorder auto-captures paired-first, rev4, rev6, a real browser reload and fresh-session positive checkpoints");
     console.log("PASS SSJR recorder persists only sanitized SHA-256 evidence and preserves canonical local save bytes");
   }finally{

@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "operatingSystem": "POS20",
+  "purpose": "Blocking deterministic product contracts added by POS20 above the frozen POS10 manifest. Entries are explicit, closed, and may only strengthen the inherited test floor.",
+  "tests": [
+    {
+      "path": "tests/contracts/ssjr-production-safe-evidence-assembly-contracts.cjs",
+      "patterns": [
+        "^js/ssjrProductionNegativeEvidence\\.js$",
+        "^js/ssjrProductionNegativeProbeRunner\\.js$",
+        "^js/ssjrProductionAcceptanceRecorder\\.js$",
+        "^js/ssjr\\.js$",
+        "^scripts/validate-ssjr-shared-setup-production-evidence\\.mjs$",
+        "^scripts/assemble-ssjr-shared-setup-safe-evidence\\.mjs$",
+        "^tests/contracts/ssjr-production-safe-evidence-assembly-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/ssjr-production-actor-evidence-v2-contracts.cjs",
+      "patterns": [
+        "^js/ssjrProductionNegativeEvidence\\.js$",
+        "^js/ssjr\\.js$",
+        "^scripts/ssjr-actor-evidence-v2\\.mjs$",
+        "^scripts/assemble-ssjr-shared-setup-actor-evidence\\.mjs$",
+        "^scripts/validate-ssjr-shared-setup-actor-evidence\\.mjs$",
+        "^tests/contracts/ssjr-production-actor-evidence-v2-contracts\\.cjs$",
+        "^tests/browser/ssjr-production-actor-evidence-v2-audit\\.cjs$",
+        "^package\\.json$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    }
+  ]
+}

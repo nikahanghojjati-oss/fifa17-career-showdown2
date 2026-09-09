@@ -2,6 +2,7 @@
 import fs from 'node:fs';
 import crypto from 'node:crypto';
 import { createRequire } from 'node:module';
+import { pathToFileURL } from 'node:url';
 
 const require = createRequire(import.meta.url);
 const { catalog: SHARED_CATALOG } = require('../js/sharedShowdownCatalog.js');
@@ -120,7 +121,7 @@ function validateFinalSetup(setup, label) {
   };
   if (setup.digest !== digest(canonical)) fail(`${label}: finalSetup.digest does not match canonical setup content.`);
 }
-function validateBundle(bundle, label) {
+export function validateBundle(bundle, label) {
   if (!plain(bundle)) fail(`${label}: evidence root must be an object.`);
   inspectPrivacy(bundle);
   rejectUnknownFields(bundle, ROOT_FIELDS, label);
@@ -193,7 +194,7 @@ function validatePair(a, b) {
   };
 }
 
-try {
+if (process.argv[1] && pathToFileURL(process.argv[1]).href === import.meta.url) try {
   const [sourcePath, peerPath] = process.argv.slice(2);
   const source = readJson(sourcePath); const peer = readJson(peerPath);
   const result = validatePair(source.value, peer.value);

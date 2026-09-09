@@ -23,6 +23,10 @@
   let runtimeError=null;
   let latestSetupState=null;
   let safe=loadSafe();
+  let ssjrRecorderNegativeBusy=null;
+  let ssjrRecorderNegativeMessages={};
+  const ssjrRecorderNegativeLabels={wrongSession:"Wrong session",expiredSession:"Expired session",unrelatedAccount:"Unrelated account",revokedIdentity:"Revoked identity",staleRevision:"Stale revision",replayConflict:"Replay conflict",directFieldSubstitution:"Draw field substitution",coordinatorBypass:"Coordinator bypass"};
+  const ssjrRecorderNegativeHints={wrongSession:"Use the current active private session.",expiredSession:"Run once while active, keep this page open, then retry after the session actually expires.",unrelatedAccount:"Blocked by the current evidence format: an unrelated account cannot also be this rivalry's bound manager.",revokedIdentity:"Registers and revokes a separate test device and cleans up its test session. Your real device stays active.",staleRevision:"Use the current active private session.",replayConflict:"Run after Shared Setup has opened.",directFieldSubstitution:"Coordinator only, while the league or clubs draw is pending.",coordinatorBypass:"Other manager only, before the coordinator confirms the season length."};
 
   function now(){return new Date().toISOString();}
   function revision(){
@@ -80,6 +84,8 @@
   }
   function clearSafe(){
     safe=safeTemplate();runtimeError=null;
+    root.CareerModeSSJRProductionNegativeEvidence?.clear();
+    ssjrRecorderNegativeMessages={};
     try{if(root.sessionStorage)root.sessionStorage.removeItem(SAFE_STORE_KEY);}catch(_error){}
     render();
     return true;
@@ -293,6 +299,50 @@
     root.document.body.appendChild(link);link.click();link.remove();root.setTimeout(()=>root.URL.revokeObjectURL(url),1000);return true;
   }
 
+  async function ssjrRecorderRunNegative(name){
+    if(!enabled||ssjrRecorderNegativeBusy)return false;
+    const ledger=root.CareerModeSSJRProductionNegativeEvidence;
+    if(!ledger)return false;
+    ssjrRecorderNegativeBusy=name;delete ssjrRecorderNegativeMessages[name];render();
+    try{
+      ledger.bindIdentity({managerRole:safe.managerRole,accountFingerprint:safe.accountFingerprint,deviceFingerprint:safe.deviceFingerprint,rivalryFingerprint:safe.rivalryFingerprint});
+      await ledger.runProbe(name);
+      return true;
+    }catch(error){
+      const code=String(error?.code||"");
+      const messages={SSJR_NEGATIVE_SESSION_NOT_EXPIRED:"Not proven: the session has not expired in real time. Keep this page open and retry after expiry.",SSJR_NEGATIVE_ACCOUNT_CONTEXT_CONFLICT:ssjrRecorderNegativeHints.unrelatedAccount,SSJR_NEGATIVE_PROBE_ROLE_NOT_SUITABLE:ssjrRecorderNegativeHints[name],SSJR_NEGATIVE_PROBE_NOT_READY:ssjrRecorderNegativeHints[name],SSJR_NEGATIVE_IDENTITY_CHANGED:"Stopped: account, manager, device or rivalry changed. No observation was recorded.",SSJR_NEGATIVE_LOCAL_STORAGE_CHANGED:"Stopped: canonical gameplay storage changed. No observation was recorded.",SSJR_NEGATIVE_ACTIVE_SETUP_REQUIRED:"Resolve an active private Shared Setup session first."};
+      ssjrRecorderNegativeMessages[name]=messages[code]||"Not proven. Check your sign-in, current private session and the stated prerequisite, then retry. No observation was recorded.";
+      return false;
+    }finally{ssjrRecorderNegativeBusy=null;render();}
+  }
+  function ssjrRecorderDownloadNegatives(){
+    const bundle=root.CareerModeSSJRProductionNegativeEvidence?.getBundle();
+    if(!bundle||!root.document||typeof Blob==="undefined"||!root.URL?.createObjectURL)return false;
+    const url=root.URL.createObjectURL(new Blob([JSON.stringify(bundle,null,2)],{type:"application/json"}));
+    const link=root.document.createElement("a");link.href=url;link.download=`ssjr-shared-setup-negatives-${bundle.managerRole}-${Date.now()}.json`;link.rel="noopener";
+    root.document.body.append(link);link.click();link.remove();root.setTimeout(()=>root.URL.revokeObjectURL(url),1000);return true;
+  }
+  function ssjrRecorderNegativePanel(){
+    const section=create("details","ssjrNegatives");section.open=true;section.append(create("summary","","REQUIRED DENIAL CHECKS"));
+    section.append(create("p","","These checks do not complete the positive journey or award SSJR credit. Some require different actors. The current per-manager evidence contract blocks a complete export; pending checks stay pending."));
+    for(const [name,label] of Object.entries(ssjrRecorderNegativeLabels)){
+      const row=create("div","ssjrNegativeRow");row.dataset.negativeRow=name;
+      const button=create("button","",`RUN ${label.toUpperCase()}`);button.type="button";button.dataset.negativeProbe=name;button.setAttribute("aria-describedby",`ssjrNegativeHint-${name}`);button.addEventListener("click",()=>void ssjrRecorderRunNegative(name));
+      const hint=create("p","ssjrNegativeHint",ssjrRecorderNegativeHints[name]);hint.id=`ssjrNegativeHint-${name}`;
+      const status=create("p","ssjrNegativeStatus","PENDING");status.setAttribute("role","status");row.append(button,hint,status);section.append(row);
+    }
+    const download=create("button","ssjrNegativeDownload","DOWNLOAD COMPLETE NEGATIVE EVIDENCE");download.type="button";download.disabled=true;download.addEventListener("click",()=>{try{ssjrRecorderDownloadNegatives();}catch(_error){render();}});section.append(download);return section;
+  }
+  function ssjrRecorderRenderNegatives(panel){
+    const ledger=root.CareerModeSSJRProductionNegativeEvidence,state=ledger?.getState();
+    for(const row of panel.querySelectorAll("[data-negative-row]")){
+      const name=row.dataset.negativeRow,button=row.querySelector("button"),status=row.querySelector(".ssjrNegativeStatus");
+      button.disabled=Boolean(ssjrRecorderNegativeBusy)||!ledger||!safe.accountFingerprint||hasCanonicalViolation();
+      status.textContent=ssjrRecorderNegativeBusy===name?"RUNNING":ssjrRecorderNegativeMessages[name]||(state?.negatives?.[name]==="denied"?"DENIED: OBSERVED":"PENDING");
+    }
+    const download=panel.querySelector(".ssjrNegativeDownload");if(download)download.disabled=!state?.complete||Boolean(ssjrRecorderNegativeBusy)||hasCanonicalViolation();
+  }
+
   function statusRows(){
     const preserved=Boolean(safe.canonicalStorageBeforeHash&&safe.canonicalStorageAfterHash&&safe.canonicalStorageViolation!==true&&safe.canonicalStorageBeforeHash===safe.canonicalStorageAfterHash);
     return [
@@ -320,7 +370,7 @@
     if(hasCanonicalViolation())return "STOP · SHOW RECORDER ERROR";
     if(!safe.reloadResume)return "NEXT STEP · RELOAD & VERIFY";
     if(!safe.freshActiveSessionResume)return "NEXT STEP · OPEN FRESH SESSION";
-    return "FINISH · DOWNLOAD SAFE RESULT";
+    return "POSITIVE STEPS COMPLETE · DOWNLOAD SAFE RESULT";
   }
   async function runPrimaryAction(){
     runtimeError=null;
@@ -356,13 +406,13 @@
     if(hasCanonicalViolation())return "STOP: canonical local gameplay storage changed. Send me only a screenshot of this recorder panel; do not continue.";
     if(!safe.reloadResume)return safe.reloadArmed?"Reload is armed. Rejoin the SAME session if needed; the recorder will verify the resume automatically.":"Press the big NEXT STEP button. It will arm the proof and reload this device automatically.";
     if(!safe.freshActiveSessionResume)return "Press the big NEXT STEP button, create one FRESH private session for the SAME rivalry, and join it on the other device. No league or club should redraw.";
-    return "Done on this device. Press the big FINISH button to download the privacy-safe result. No raw IDs or screenshots are needed unless the recorder reports an error.";
+    return "The positive journey is complete on this device. Download its safe result. The eight required denial checks are separate and must all be proven before complete evidence can be assembled.";
   }
   function create(tag,className,text){const element=root.document.createElement(tag);if(className)element.className=className;if(text!==undefined)element.textContent=String(text);return element;}
   function ensureStyle(){
     if(!root.document||root.document.getElementById("ssjrProductionAcceptanceRecorderStyle"))return;
     const style=create("style");style.id="ssjrProductionAcceptanceRecorderStyle";style.textContent=`
-#${PANEL_ID}{position:fixed;right:12px;bottom:12px;z-index:2147483001;width:min(430px,calc(100vw - 24px));max-height:78vh;overflow:auto;background:#0d1520;color:#f4f7fa;border:1px solid rgba(255,255,255,.24);border-radius:12px;box-shadow:0 18px 50px rgba(0,0,0,.48);font:14px/1.35 system-ui,sans-serif;padding:14px}#${PANEL_ID} h2{font-size:17px;margin:0}#${PANEL_ID} p{margin:7px 0;color:#c9d2dc}#${PANEL_ID} .ssjrTop{display:flex;align-items:center;justify-content:space-between;gap:8px}#${PANEL_ID} .ssjrTop button{padding:5px 8px}#${PANEL_ID} button{border:0;border-radius:7px;padding:8px 10px;font-weight:750;cursor:pointer}#${PANEL_ID} .ssjrPrimary{display:block;width:100%;margin:10px 0;padding:12px 14px;background:#f4f7fa;color:#0d1520;font-size:15px}#${PANEL_ID} .ssjrAdvanced{margin:8px 0;color:#c9d2dc}#${PANEL_ID} .ssjrAdvanced summary{cursor:pointer;font-weight:700}#${PANEL_ID} .ssjrButtons{display:flex;flex-wrap:wrap;gap:7px;margin:9px 0}#${PANEL_ID} .ssjrRow{display:flex;justify-content:space-between;gap:12px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.1)}#${PANEL_ID} .ssjrRow strong{font-size:12px}#${PANEL_ID} .ssjrNext{background:#172332;border-radius:8px;padding:9px;margin-top:10px}#${PANEL_ID} .ssjrPrivacy{font-size:11px;color:#9eb0c1}#${PANEL_ID}[data-collapsed="true"]>*:not(.ssjrTop){display:none}`;root.document.head.appendChild(style);
+#${PANEL_ID}{position:fixed;right:12px;bottom:12px;z-index:2147483001;width:min(430px,calc(100vw - 24px));max-height:78vh;overflow:auto;background:#0d1520;color:#f4f7fa;border:1px solid rgba(255,255,255,.24);border-radius:12px;box-shadow:0 18px 50px rgba(0,0,0,.48);font:14px/1.35 system-ui,sans-serif;padding:14px}#${PANEL_ID} h2{font-size:17px;margin:0}#${PANEL_ID} p{margin:7px 0;color:#c9d2dc}#${PANEL_ID} .ssjrNegatives button{min-height:44px;max-width:100%;white-space:normal}#${PANEL_ID} .ssjrNegatives summary{cursor:pointer;font-weight:700;padding:10px 0}#${PANEL_ID} .ssjrNegativeRow{padding:8px 0;border-bottom:1px solid rgba(255,255,255,.15)}#${PANEL_ID} .ssjrNegativeHint{font-size:12px}#${PANEL_ID} .ssjrNegativeStatus{font-size:12px;color:#e0eaf5}#${PANEL_ID} .ssjrTop{display:flex;align-items:center;justify-content:space-between;gap:8px}#${PANEL_ID} .ssjrTop button{padding:5px 8px}#${PANEL_ID} button{border:0;border-radius:7px;padding:8px 10px;font-weight:750;cursor:pointer}#${PANEL_ID} .ssjrPrimary{display:block;width:100%;margin:10px 0;padding:12px 14px;background:#f4f7fa;color:#0d1520;font-size:15px}#${PANEL_ID} .ssjrAdvanced{margin:8px 0;color:#c9d2dc}#${PANEL_ID} .ssjrAdvanced summary{cursor:pointer;font-weight:700}#${PANEL_ID} .ssjrButtons{display:flex;flex-wrap:wrap;gap:7px;margin:9px 0}#${PANEL_ID} .ssjrRow{display:flex;justify-content:space-between;gap:12px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.1)}#${PANEL_ID} .ssjrRow strong{font-size:12px}#${PANEL_ID} .ssjrNext{background:#172332;border-radius:8px;padding:9px;margin-top:10px}#${PANEL_ID} .ssjrPrivacy{font-size:11px;color:#9eb0c1}#${PANEL_ID}[data-collapsed="true"]>*:not(.ssjrTop){display:none}`;root.document.head.appendChild(style);
   }
   function render(){
     if(!enabled||!root.document)return null;
@@ -372,6 +422,7 @@
     const next=panel.querySelector(".ssjrNext");if(next)next.textContent=runtimeError?`RECORDER ERROR: ${runtimeError.message||runtimeError}`:nextInstruction();
     const progress=remoteProgress();
     const meta=panel.querySelector(".ssjrMeta");if(meta)meta.textContent=`ROLE: ${safe.managerRole||"not resolved"} · REMOTE: ${safe.remoteRole||"not resolved"} · SESSION: ${progress.active?"ACTIVE":progress.expired?"EXPIRED":"not resolved"} · RUNTIME: ${revision()}`;
+    ssjrRecorderRenderNegatives(panel);
     return panel;
   }
   function createPanel(){
@@ -382,6 +433,7 @@
     panel.append(create("p","ssjrMeta",""));
     panel.append(create("div","ssjrStatus"));
     const primary=create("button","ssjrPrimary",primaryActionLabel());primary.type="button";primary.addEventListener("click",()=>void runPrimaryAction().catch(error=>{runtimeError=error;render();}));panel.append(primary);
+    panel.append(ssjrRecorderNegativePanel());
     const advanced=create("details","ssjrAdvanced");advanced.append(create("summary","","MORE CONTROLS — only if needed"));
     const buttons=create("div","ssjrButtons");
     const check=create("button","","CHECK NOW");check.type="button";check.addEventListener("click",()=>void checkNow().catch(error=>{runtimeError=error;render();}));
