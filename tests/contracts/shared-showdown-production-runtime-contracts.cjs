@@ -6,6 +6,7 @@ cp.execFileSync(process.execPath,['scripts/build-production-firestore-rules.mjs'
 const base=fs.readFileSync('firestore.spark.rules','utf8');
 const generated=fs.readFileSync('firestore.spark.generated.rules','utf8');
 const fragment=fs.readFileSync('firestore.shared-setup-production.fragment.rules','utf8');
+const careerFragment=fs.readFileSync('firestore.career-start-production.fragment.rules','utf8');
 const workflow=fs.readFileSync('.github/workflows/deploy-firestore-rules-zero-billing.yml','utf8');
 const stage3=fs.readFileSync('.github/workflows/validate-stage3-private-pairing.yml','utf8');
 const publisher=fs.readFileSync('scripts/publish-firestore-rules-zero-billing.mjs','utf8');
@@ -32,14 +33,17 @@ function between(source,start,end){const a=source.indexOf(start),b=source.indexO
 function once(source,needle,replacement,label){const first=source.indexOf(needle);assert.ok(first>=0,`Missing ${label} sentinel`);assert.equal(source.indexOf(needle,first+needle.length),-1,`Duplicate ${label} sentinel`);return source.slice(0,first)+replacement+source.slice(first);}
 function escapeRegExp(value){return String(value).replace(/[.*+?^${}()|[\]\\]/g,'\\$&');}
 const functionMarker='// SSJR_SHARED_SETUP_FUNCTIONS_BEGIN',functionEnd='// SSJR_SHARED_SETUP_FUNCTIONS_END',matchMarker='// SSJR_SHARED_SETUP_MATCH_BEGIN',matchEnd='// SSJR_SHARED_SETUP_MATCH_END';
+const careerFunctionMarker='// SSJR_CAREER_START_FUNCTIONS_BEGIN',careerFunctionEnd='// SSJR_CAREER_START_FUNCTIONS_END',careerMatchMarker='// SSJR_CAREER_START_MATCH_BEGIN',careerMatchEnd='// SSJR_CAREER_START_MATCH_END';
 let expectedGenerated=base;
-expectedGenerated=once(expectedGenerated,'    function capabilityCanReadPendingRivalry(rivalryId) {',`    ${functionMarker}\n${between(fragment,functionMarker,functionEnd)}\n    ${functionEnd}\n\n`,'top-level function insertion');
-expectedGenerated=once(expectedGenerated,'      // STAGE5C_CANDIDATE_SESSION_MATCH_BEGIN',`      ${matchMarker}\n${between(fragment,matchMarker,matchEnd)}\n      ${matchEnd}\n\n`,'rivalry child-match insertion');
+expectedGenerated=once(expectedGenerated,'    function capabilityCanReadPendingRivalry(rivalryId) {',`    ${functionMarker}\n${between(fragment,functionMarker,functionEnd)}\n    ${functionEnd}\n\n    ${careerFunctionMarker}\n${between(careerFragment,careerFunctionMarker,careerFunctionEnd)}\n    ${careerFunctionEnd}\n\n`,'top-level function insertion');
+expectedGenerated=once(expectedGenerated,'      // STAGE5C_CANDIDATE_SESSION_MATCH_BEGIN',`      ${matchMarker}\n${between(fragment,matchMarker,matchEnd)}\n      ${matchEnd}\n\n      ${careerMatchMarker}\n${between(careerFragment,careerMatchMarker,careerMatchEnd)}\n      ${careerMatchEnd}\n\n`,'rivalry child-match insertion');
 if(!expectedGenerated.endsWith('\n'))expectedGenerated+='\n';
-assert.equal(generated,expectedGenerated,'Generated production Rules must be the exact reviewed Spark base plus only the two bounded Shared Setup fragment splices.');
+assert.equal(generated,expectedGenerated,'Generated production Rules must be the exact reviewed Spark base plus only the bounded Shared Setup and Career Start fragment splices.');
 
 assert.equal(base.includes('match /sharedSetup/authoritative'),false,'Reviewed Spark base must remain unchanged; Shared Setup is additive at build time.');
+assert.equal(base.includes('match /careerStart/authoritative'),false,'Reviewed Spark base must remain unchanged; Career Start is additive at build time.');
 assert.equal((generated.match(/match \/sharedSetup\/authoritative/g)||[]).length,1,'Generated provider authority must contain exactly one Shared Setup match.');
+assert.equal((generated.match(/match \/careerStart\/authoritative/g)||[]).length,1,'Generated provider authority must contain exactly one Career Start match.');
 for(const required of [
   'function ssjrExactPairedRivalry(rivalryId)',
   'function ssjrWriteAuthorityValid(rivalryId, deviceId, sessionId)',
@@ -49,13 +53,19 @@ for(const required of [
   'allow get: if ssjrEntitled(rivalryId)',
   'allow create: if ssjrValidCreateLedger(rivalryId)',
   'allow update: if ssjrValidUpdateLedger(rivalryId)',
+  'match /careerStart/authoritative',
+  'allow create: if ssjrCareerValidCreate(rivalryId)',
+  'allow update: if ssjrCareerValidUpdate(rivalryId)',
+  "setup.phase == 'SHOWDOWN_CONFIRMED'",
+  "after.phase == 'CAREER_START_READY'",
   'allow list, delete: if false',
   "after.totalSeasons == 1 || after.totalSeasons == 3 || after.totalSeasons == 5 || after.totalSeasons == 10"
 ]) assert.ok(generated.includes(required),`Generated production Rules missing ${required}`);
-for(const forbidden of [/cloud\s*run/i,/cloud\s*functions/i,/blaze/i,/payment method/i,/purchased credits/i])assert.doesNotMatch(fragment,forbidden,'Shared Setup production Rules must remain zero-billing/Spark compatible.');
+for(const forbidden of [/cloud\s*run/i,/cloud\s*functions/i,/blaze/i,/payment method/i,/purchased credits/i])assert.doesNotMatch(`${fragment}\n${careerFragment}`,forbidden,'Shared Journey production Rules must remain zero-billing/Spark compatible.');
 assert.match(generated,/match \/\{document=\*\*\} \{\s*allow read, write: if false;/,'Generated authority must retain global deny-by-default fallback.');
 
 assert.match(workflow,/FIREBASE_RULES_FILE: firestore\.spark\.generated\.rules/,'Zero-billing workflow must publish generated authority.');
+assert.match(workflow,/firestore\.career-start-production\.fragment\.rules/,'Zero-billing workflow must rebuild when the reviewed Career Start fragment changes.');
 assert.match(workflow,/node scripts\/build-production-firestore-rules\.mjs/,'Deployment must deterministically rebuild reviewed source.');
 assert.match(workflow,/shared-showdown-setup-production-provider-emulator\.cjs/,'Deployment must reprove generated Shared Setup Rules with the adversarial provider matrix before authentication and publication.');
 assert.match(workflow,/node scripts\/publish-firestore-rules-zero-billing\.mjs/,'Deployment must use the reviewed Rules-only publisher.');
@@ -78,6 +88,7 @@ assert.match(app,/js\/ssjr\.js/,'Protected startup shell must lazy-load the SSJR
 assert.match(bootstrap,/productionFirebaseRuntime\.js/,'Lazy SSJR bootstrap must preserve the production Firebase runtime.');
 assert.match(bootstrap,/productionSharedJourneyEntry\.js/,'Lazy SSJR bootstrap must install paired-first Shared Journey entry.');
 assert.match(bootstrap,/productionSharedJourneyGuard\.js/,'Lazy SSJR bootstrap must install the direct draw bypass guard.');
+assert.match(bootstrap,/productionSharedCareerStart\.js/,'Ordinary SSJR bootstrap must install the post-confirmation Career Start product surface.');
 assert.match(bootstrap,/\.then\(\(\)=>\{\s*const api=root\[key\]/,'Lazy SSJR bootstrap must re-read the named API after the boolean runtime-loader completion signal.');
 assert.match(bootstrap,/if\(!api\|\|typeof api\.install!=="function"\)throw/,'Lazy SSJR bootstrap must fail closed if the loaded entry or guard is not installable.');
 assert.match(bootstrap,/api\.install\(\)/,'Lazy SSJR bootstrap must install paired-first runtime surfaces after loading.');
@@ -129,4 +140,4 @@ assert.doesNotMatch(setup,/options\.catalog|caller.*catalog/i,'Production runtim
 assert.match(adapter,/createProtocol\(\{catalog:catalogModule\.catalog,cryptoImpl\}\)/,'Production path must retain immutable repository-owned catalog authority.');
 assert.doesNotMatch(adapter,/options\.catalog/);
 
-process.stdout.write(`PASS SSJR production paired-first runtime: exact reviewed Rules splice, exact pairing + ACTIVE before draw, durable pre-draw shared-mode marker, capture-phase actual click-path denial, ${runtimeRevision} whole-shell installed-app delivery with ${previousRuntimeRevision} recovery, lazy startup bootstrap, generated zero-billing Rules authority, candidate-equivalent production provider emulator coverage before PR merge and deploy publication, immutable provider catalog, fresh-session resume path, and canonical local-save non-mutation are permanently gated.\n`);
+process.stdout.write(`PASS SSJR production paired-first runtime: exact reviewed Rules splices for Shared Setup + Career Start, exact pairing + ACTIVE before draw, durable pre-draw shared-mode marker, capture-phase actual click-path denial, ${runtimeRevision} whole-shell installed-app delivery with ${previousRuntimeRevision} recovery, lazy startup bootstrap, generated zero-billing Rules authority, candidate-equivalent production provider emulator coverage before PR merge and deploy publication, immutable provider catalog, fresh-session resume path, and canonical local-save non-mutation are permanently gated.\n`);
