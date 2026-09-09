@@ -122,7 +122,7 @@
     const teams=ssrTeamCount(teamCount);
     async function seal(core){return ssrFreeze({...ssrClone(core),contentHash:await ssrHash(core,cryptoImpl)});}
     async function verifyState(value){return ssrVerifyState(value,teams,cryptoImpl);}
-    async function apply({state=null,setup,careerStart,transferChallenge,previousSeasonComplete=true,seasonNumber,actorRole,command,nowEpochMs}){
+    async function apply({state=null,setup,careerStart,transferChallenge,previousSeasonComplete=false,seasonNumber,actorRole,command,nowEpochMs}){
       if(!Number.isInteger(seasonNumber)||seasonNumber<1)ssrFail("SEASON_RESULT_SEASON_INVALID");
       ssrConfirmedSetup(setup,seasonNumber);ssrCareerReady(careerStart);ssrTransferComplete(transferChallenge,seasonNumber);
       if(seasonNumber>1&&previousSeasonComplete!==true)ssrFail("SEASON_RESULT_PREVIOUS_SEASON_REQUIRED");
