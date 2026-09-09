@@ -34,6 +34,12 @@ async function prepare(page,{role,saveId,entry}){
   await page.evaluate(async({role,saveId,entry,rivalryId,sessionId,canonicalKeys})=>{
     await ensureGameplayModules();
     await loadRuntimeScript('ssjr-results-audit-catalog','js/sharedShowdownCatalog.js',()=>window.CareerModeSharedShowdownCatalog);
+    const appErrors=[];
+    const originalReport=window.reportApplicationError;
+    window.reportApplicationError=(context,error)=>{
+      appErrors.push({context:String(context||''),message:error?.message||String(error||'')});
+      if(typeof originalReport==='function')originalReport(context,error);
+    };
     currentShowdown={
       id:saveId,currentRound:1,totalRounds:3,status:'Ready',sharedJourney:{mode:'shared',rivalryId},
       managers:{playerOne:'Nik',playerTwo:'Daniel'},selectedLeague:null,clubs:{playerOne:null,playerTwo:null},
@@ -61,7 +67,17 @@ async function prepare(page,{role,saveId,entry}){
       storageAfter:()=>Object.fromEntries(canonicalKeys.map(key=>[key,localStorage.getItem(key)])),
       localState:()=>({selectedLeague:currentShowdown.selectedLeague,clubs:structuredClone(currentShowdown.clubs),transferChallenges:structuredClone(currentShowdown.transferChallenges),rounds:structuredClone(currentShowdown.rounds),score:structuredClone(currentShowdown.score)}),
       canRoute:()=>CareerModeProductionSharedSeasonResults.canRoute(),
-      routeCanRoute:()=>CareerModeProductionSharedSeasonResultsRoute.canRoute()
+      routeCanRoute:()=>CareerModeProductionSharedSeasonResultsRoute.canRoute(),
+      diagnostics:()=>({
+        routeReady:CareerModeProductionSharedSeasonResultsRoute.canRoute(),
+        adapterCanRoute:CareerModeProductionSharedSeasonResults.canRoute(),
+        adapterState:CareerModeProductionSharedSeasonResults.getState(),
+        routerOwnsResults:String(window.isRouteStateValid||'').includes('CareerModeProductionSharedSeasonResults'),
+        activeScreen:typeof window.getActiveScreenName==='function'?window.getActiveScreenName():null,
+        navigation:typeof window.getNavigationDiagnostics==='function'?window.getNavigationDiagnostics():null,
+        seasonHidden:Boolean(document.getElementById('seasonEntry')?.classList.contains('hidden')),
+        appErrors:structuredClone(appErrors)
+      })
     };
     if(entry==='dashboard'){
       await navigateTo('dashboard',{addToHistory:false});
@@ -77,9 +93,18 @@ async function prepare(page,{role,saveId,entry}){
 async function enterResults(page,entry){
   const button=entry==='dashboard'?page.locator('#seasonPrimaryAction'):page.locator('#continueFromTransfers');
   await button.waitFor({state:'visible',timeout:5000});
+  const before=await page.evaluate(()=>window.__ssjrResultsAudit.diagnostics());
+  assert.equal(before.routeReady,true,`${entry} entry must be eligible before capture. Diagnostics: ${JSON.stringify(before)}`);
+  assert.equal(before.routerOwnsResults,true,`live browser must execute the r9 core Season Results route hook. Diagnostics: ${JSON.stringify(before)}`);
   await button.click();
-  await page.locator('#seasonEntry').waitFor({state:'visible',timeout:8000});
-  assert.equal(await page.evaluate(()=>window.__ssjrResultsAudit.canRoute()),true,'refreshed shared authority must grant the Season Results route without local transfer completion');
+  try{
+    await page.locator('#seasonEntry').waitFor({state:'visible',timeout:8000});
+  }catch(error){
+    const after=await page.evaluate(()=>window.__ssjrResultsAudit.diagnostics());
+    throw new Error(`Shared Season Results ${entry} entry stayed hidden. Before=${JSON.stringify(before)} After=${JSON.stringify(after)} Original=${error.message}`);
+  }
+  const after=await page.evaluate(()=>window.__ssjrResultsAudit.diagnostics());
+  assert.equal(after.adapterCanRoute,true,`refreshed shared authority must grant the Season Results route without local transfer completion. Diagnostics: ${JSON.stringify(after)}`);
 }
 
 async function fillOwnResult(page,role,result){
