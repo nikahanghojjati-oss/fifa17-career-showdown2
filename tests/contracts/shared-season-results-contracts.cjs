@@ -1,9 +1,42 @@
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
+const cp=require('node:child_process');
 const vm=require('node:vm');
 const {webcrypto}=require('node:crypto');
 const Factory=require('../../js/sharedSeasonResults.js');
 require('./shared-season-results-provider-contracts.cjs');
+
+cp.execFileSync(process.execPath,['scripts/build-production-firestore-rules.mjs'],{stdio:'pipe'});
+const seasonRules=fs.readFileSync('firestore.season-results-production.fragment.rules','utf8');
+const generatedRules=fs.readFileSync('firestore.spark.generated.rules','utf8');
+for(const required of [
+  '// SSJR_SEASON_RESULTS_FUNCTIONS_BEGIN',
+  '// SSJR_SEASON_RESULTS_MATCH_BEGIN',
+  'match /seasonResults/{seasonId}',
+  'match /roles/{managerRole}',
+  'allow create: if ssjrSeasonResultValidCreate(rivalryId, seasonId)',
+  'allow update: if ssjrSeasonResultValidUpdate(rivalryId, seasonId)',
+  'allow create: if ssjrSeasonResultPrivateCreateValid(rivalryId, seasonId, managerRole)',
+  'allow list, update, delete: if false',
+  "transfer.phase == 'COMPLETED'",
+  "transfer.runtimeRevision == '1.9.1-r8'",
+  'ssjrSeasonResultPreviousComplete(rivalryId, seasonNumber)',
+  "root.runtimeRevision == '1.9.1-r9'",
+  'getAfter(/databases/$(database)/documents/rivalries/$(rivalryId)/seasonResults/$(seasonId)/roles/$(role))',
+  "managerRole == ssjrActorRole(rivalryId) || public.phase == 'COMPLETED'",
+  'value.leaguePosition <= 20',
+  'after.submittedAt == request.time',
+  'ssjrWriteAuthorityValid(rivalryId, after.updatedByDeviceId, after.activeSessionId)'
+])assert.ok(seasonRules.includes(required),`Season Results Rules missing ${required}`);
+for(const required of [
+  'match /seasonResults/{seasonId}',
+  "public.runtimeRevision == '1.9.1-r9'",
+  'getAfter(/databases/$(database)/documents/rivalries/$(rivalryId)/seasonResults/$(seasonId)/roles/$(role))',
+  'value.leaguePosition <= 20'
+])assert.ok(generatedRules.includes(required),`Generated Rules missing Season Results authority: ${required}`);
+assert.equal((generatedRules.match(/match \/seasonResults\/\{seasonId\}/g)||[]).length,1,'generated Rules must contain exactly one Season Results public authority');
+assert.equal((generatedRules.match(/match \/roles\/\{managerRole\}/g)||[]).length,2,'generated Rules must contain exactly the Transfer Challenge and Season Results private role matches');
+for(const forbidden of [/cloud\s*run/i,/cloud\s*functions/i,/blaze/i,/billingEnabled\s*[:=]\s*true/i])assert.doesNotMatch(seasonRules,forbidden,'Season Results Rules must remain Spark-only and zero-billing.');
 
 const scoringSandbox={};
 vm.runInNewContext(`${fs.readFileSync('js/scoring.js','utf8')}\nthis.__scoring={calculatePlayerSeasonScore,determineSeasonWinner};`,scoringSandbox,{filename:'js/scoring.js'});
@@ -131,5 +164,5 @@ const rejectsCode=async(promise,code)=>assert.rejects(promise,error=>error&&erro
   assert.equal(season2.phase,'COMPLETED');
   assert.equal(season2.seasonNumber,2);
 
-  console.log('PASS Shared Season Results: exact Shared Setup, Career Start and completed Transfer Challenge gate entry; later seasons fail closed without a completed predecessor; each bound manager submits exactly one immutable seven-field result; opponent data stays hidden until both submit; CAS/idempotency and malformed input fail closed; r9 scoring and winner semantics match the existing local Season Results engine exactly; completion yields one identical read-only season record without mutating canonical local storage.');
+  console.log('PASS Shared Season Results: exact Shared Setup, Career Start and completed Transfer Challenge gate entry; later seasons fail closed without a completed predecessor; each bound manager submits exactly one immutable seven-field result; opponent data stays hidden until both submit; generated Spark Rules atomically couple public/private role writes and block opponent reads until completion; CAS/idempotency and malformed input fail closed; r9 scoring and winner semantics match the existing local Season Results engine exactly; completion yields one identical read-only season record without mutating canonical local storage.');
 })().catch(error=>{console.error(error);process.exitCode=1;});
