@@ -241,7 +241,7 @@ function isRouteStateValid(screenName){
         return screenName === "seasonSummary" && Array.isArray(showdown.rounds) && showdown.rounds.length > 0;
     }
 
-    if(screenName==="transferChallenge"){try{if(window.CareerModeProductionSharedTransferChallenge?.canRoute?.()===true)return true}catch(error){}}
+    if(screenName==="transferChallenge")try{if(window.CareerModeProductionSharedTransferChallenge?.canRoute?.())return true}catch(_){}
 
     const clubsValid = getClubPairRouteState(showdown);
     const confirmationPending = clubsValid && isClubConfirmationPending(showdown);
@@ -477,7 +477,7 @@ function showScreen(screenName, addToHistory = true, options = {}){
     }
     if(typeof window.consumeMenuFeedbackCue === "function"){
         try{ window.consumeMenuFeedbackCue(); }
-        catch(error){ /* Optional audio feedback never changes navigation success. */ }
+        catch(error){}
     }
 
     return true;
@@ -740,9 +740,7 @@ function warmGameplayRuntime(){
     if(typeof window.ensureGameplayModules !== "function"){
         return;
     }
-    window.ensureGameplayModules().catch(() => {
-        /* Predictive warm-up failures are surfaced only if the user actually navigates into gameplay. */
-    });
+    window.ensureGameplayModules().catch(() => {});
 }
 
 function initializeSmartBackDelegation(){
