@@ -5,7 +5,7 @@ const Career=require('../../js/sharedCareerStart.js');
 
 const setup={
   schemaVersion:1,
-  runtimeRevision:'1.9.1-r6',
+  runtimeRevision:'1.9.1-r7',
   rivalryId:'pair_'+('a'.repeat(64)),
   revision:6,
   phase:'SHOWDOWN_CONFIRMED',
@@ -18,6 +18,7 @@ const setup={
 const op=n=>`career_start_op_${String(n).padStart(32,'0')}`;
 
 assert.equal(Career.feature,'ssjr-shared-career-start');
+assert.equal(Career.runtimeRevision,'1.9.1-r7');
 assert.equal(Career.billingRequired,false);
 assert.equal(Career.canonicalStorageMutation,false);
 assert.deepEqual(Career.localAssignment(setup,'playerOne'),{managerRole:'playerOne',club:'Arsenal',leagueId:'premier_league',totalSeasons:3});
@@ -67,4 +68,9 @@ for(const required of [
 ])assert.ok(provider.includes(required),`provider missing required Career Start boundary: ${required}`);
 assert.doesNotMatch(provider,/options\.actorRole|options\.managerRole/,'provider must derive manager role from the paired rivalry rather than caller input');
 
-console.log('PASS Shared Career Start contracts: exact confirmed setup gates entry, each bound role acknowledges once, replay/stale/duplicate-role attempts fail closed, and Spark provider authority is account/device/rivalry/ACTIVE-session bound with zero billing.');
+const guard=fs.readFileSync(path.resolve('js/productionSharedJourneyGuard.js'),'utf8');
+assert.match(guard,/target\.id!=="continueClubAssignment"\|\|target\.dataset\.sharedCareerStart!=="true"/,'shared click guard must recognize the confirmed Career Start control');
+assert.match(guard,/if\(routeCareerStartClick\(target\)\)return;[\s\S]+if\(routePresentationClick\(target\)\)return;/,'Career Start must outrank the finished Shared Setup presentation at the capture gate');
+assert.match(guard,/routesCareerStartAfterConfirmedSetup:true/,'guard diagnostics must expose Career Start routing authority');
+
+console.log('PASS Shared Career Start contracts: exact confirmed setup gates entry, each bound role acknowledges once, replay/stale/duplicate-role attempts fail closed, the capture gate routes finished setup into Career Start, and Spark provider authority is account/device/rivalry/ACTIVE-session bound with zero billing.');
