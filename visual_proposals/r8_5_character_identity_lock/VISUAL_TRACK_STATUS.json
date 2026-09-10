@@ -1,16 +1,17 @@
 {
-  "schemaVersion": "2.6.0",
+  "schemaVersion": "2.7.0",
   "lane": "independent visual proposal",
-  "status": "ACTIVE",
+  "status": "TRANSITION_REQUIRED",
   "controller": "GPT-5.6 Sol reasoning",
   "controllerContract": "00_VISUAL_REASONING_CONTROLLER_CONTRACT.md",
   "proposalBranch": "visual/r8-5-approved-character-identity-lock",
-  "latestObservedMainSha": "61e16bb0357352a5c38c02aa072233e851226caf",
+  "latestObservedMainSha": "32723b900dee45f689391908dc976f0ce5d06dd5",
   "latestObservedAssetRevision": "1.9.1-r11",
-  "currentMilestone": "R8.23 Package 4 exact-DOM presentation mapping complete against live r11 hotfix: Statistics, Trophy Room, Legacy, Rule Book, Settings, Save Library, Restore/Recovery, Connected Rivalry, Remote Joining and global notices mapped; utility authority outranks character art; no Package 4 raster generation justified; next gate is Package 5 responsive and handoff proof",
-  "visualProductionProgressPercent": 78,
-  "handoffProximityPercent": 38,
-  "transitionRecommendation": "CONTINUE_PACKAGE_5_BOUNDED_PROOF",
+  "latestObservedVisualHeadBeforeStatusSeal": "5b48247bce013541b6015a2c7604a3ccddd54f19",
+  "currentMilestone": "R8.24 Package 5 static responsive/accessibility/noninterference QA and master-developer handoff packaging complete. Proposal is ready for selective implementation against then-current main followed by real linked-browser acceptance. Generation remains closed.",
+  "visualProductionProgressPercent": 85,
+  "handoffProximityPercent": 100,
+  "transitionRecommendation": "HAND_OFF_TO_MASTER_DEVELOPER_SELECTIVE_INTEGRATION_AND_LINKED_BROWSER_ACCEPTANCE",
   "authorities": {
     "runtimeMap": "R8_8_LIVE_RUNTIME_VISUAL_MAP.md",
     "reasoningBuildOrder": "R8_9_REASONING_FIRST_BUILD_ORDER.md",
@@ -28,7 +29,25 @@
     "package3R11DriftAndStaticQa": "R8_22_R11_DRIFT_AND_PACKAGE_3_STATIC_COMPOSITION_QA.md",
     "package3QaResults": "R8_22_PACKAGE_3_STATIC_QA_RESULTS.json",
     "package3StaticProof": "prototype/r8-package3-static-composition-proof.html",
-    "package4ExactDomDecision": "R8_23_PACKAGE_4_EXACT_DOM_PRESENTATION_ASSET_DECISION.md"
+    "package4ExactDomDecision": "R8_23_PACKAGE_4_EXACT_DOM_PRESENTATION_ASSET_DECISION.md",
+    "package5Qa": "R8_24_PACKAGE_5_RESPONSIVE_ACCESSIBILITY_NONINTERFERENCE_QA.md",
+    "package5QaResults": "R8_24_PACKAGE_5_STATIC_ACCESSIBILITY_QA_RESULTS.json",
+    "masterDeveloperHandoff": "MASTER_DEVELOPER_HANDOFF.md",
+    "masterDeveloperImplementationPrompt": "MASTER_DEVELOPER_IMPLEMENTATION_PROMPT_R8_24.md",
+    "nextStarter": "START_NEXT_DEVELOPER_VISUAL_R8_24_SELECTIVE_INTEGRATION_SAFE_TRANSFER.md"
+  },
+  "latestMainDriftReconciliation": {
+    "package5QaBaselineMain": "61e16bb0357352a5c38c02aa072233e851226caf",
+    "latestObservedMain": "32723b900dee45f689391908dc976f0ce5d06dd5",
+    "aheadBy": 1,
+    "changedFiles": [
+      "MILESTONE_DELIVERY_PROGRESS.json",
+      "SHARED_SHOWDOWN_JOURNEY_READINESS.json",
+      "tests/contracts/milestone-delivery-progress-contracts.cjs"
+    ],
+    "domCssRuntimeChanged": false,
+    "assetRevisionStill": "1.9.1-r11",
+    "effectOnR8_24VisualQa": "NO_RECOMPOSITION_REQUIRED_REVERIFY_ON_SUCCESSOR_START"
   },
   "reasoningLeadPolicy": {
     "state": "ENFORCED",
@@ -46,7 +65,8 @@
     "firestoreVisualStateWritesAllowed": false
   },
   "coreMasters": {
-    "required": 6,
+    "legacyLedgerSlots": 6,
+    "currentlyRequiredByApprovedImplementationPlan": 2,
     "frozen": 2,
     "A01_NIK_CORE_THINKING_HERO": {
       "status": "OWNER_APPROVED_FROZEN",
@@ -60,17 +80,17 @@
       "sha256": "9b1545b52a5d96a240c92b9901dcd8a4558148dde05a0331882df7bd988177cc",
       "dimensions": "1086x1448"
     },
-    "A03_NIK_FOCUSED_TACTICAL": "PLANNED_HOLD_GATE_CLOSED_STATIC_REUSE_PASS",
-    "A04_DANIEL_FOCUSED_TACTICAL": "PLANNED_HOLD_GATE_CLOSED_STATIC_REUSE_PASS",
-    "A05_NIK_CELEBRATION_RESOLVE": "PLANNED_HOLD_GATE_CLOSED_STATIC_OUTCOME_REUSE_PASS",
-    "A06_DANIEL_CELEBRATION_RESOLVE": "PLANNED_HOLD_GATE_CLOSED_STATIC_OUTCOME_REUSE_PASS"
+    "A03_NIK_FOCUSED_TACTICAL": "PLANNED_HOLD_GATE_CLOSED_STATIC_REUSE_PASS_NOT_CURRENTLY_REQUIRED",
+    "A04_DANIEL_FOCUSED_TACTICAL": "PLANNED_HOLD_GATE_CLOSED_STATIC_REUSE_PASS_NOT_CURRENTLY_REQUIRED",
+    "A05_NIK_CELEBRATION_RESOLVE": "PLANNED_HOLD_GATE_CLOSED_STATIC_OUTCOME_REUSE_PASS_NOT_CURRENTLY_REQUIRED",
+    "A06_DANIEL_CELEBRATION_RESOLVE": "PLANNED_HOLD_GATE_CLOSED_STATIC_OUTCOME_REUSE_PASS_NOT_CURRENTLY_REQUIRED"
   },
   "optionalPackHolderAssets": {
     "state": "OWNER_LIKED_CANDIDATES_PRESERVED_OPTIONAL_ONLY",
     "referenceFileId": "file_00000000ee0c81f583e380023c575453",
     "nikCandidateFileId": "file_00000000195881f5a6d49ee9ad919b3e",
     "danielCandidateFileId": "file_00000000f82881f7ac2dda3890d17a09",
-    "wideDesktop": "OPTIONAL_OPENING_STAGE_CINEMATIC_SUBLAYER",
+    "wideDesktop": "OPTIONAL_OPENING_STAGE_CINEMATIC_SUBLAYER_AFTER_CORE_INTEGRATION",
     "compact1024x768": "OMIT",
     "mobile": "OMIT",
     "firestoreWrites": 0,
@@ -84,7 +104,7 @@
     "firestoreWritesForArtState": 0,
     "newRemoteProtocolFields": 0,
     "imageBytesTransferredThroughFirebase": false,
-    "minimumFutureAssetPolicy": "A01/A02 plus CSS outcome luminance passed Package 3 static QA; A05/A06 reopen only with new concrete payoff-deficit evidence"
+    "minimumFutureAssetPolicy": "A01/A02 plus CSS outcome luminance passed Package 3 static QA; A05/A06 reopen only with new integrated concrete payoff-deficit evidence"
   },
   "package12Qa": {
     "staticResponsiveStatus": "PASS",
@@ -95,7 +115,7 @@
     "ClubAssignmentPackHolderOptional": "CONDITIONAL_PASS_WIDE_DESKTOP_OPENING_ONLY",
     "compact1024x768": "PASS_BY_CROP_OMIT_PACK_HOLDERS_OMITTED",
     "mobile390x844": "PASS_BY_LARGE_ART_OMISSION",
-    "fullLinkedBrowserQa": "DEFER_TO_PACKAGE_5"
+    "fullLinkedBrowserQa": "PENDING_AFTER_SELECTIVE_IMPLEMENTATION"
   },
   "package3StaticQa": {
     "status": "PASS",
@@ -110,7 +130,7 @@
     "horizontalOverflowFailures": 0,
     "characterProtectedDomIntersections": 0,
     "visibleCharacterStageIntersections": 0,
-    "fullLinkedBrowserQa": "DEFER_TO_PACKAGE_5"
+    "fullLinkedBrowserQa": "PENDING_AFTER_SELECTIVE_IMPLEMENTATION"
   },
   "package4ExactDom": {
     "status": "COMPLETE",
@@ -127,34 +147,62 @@
     "globalNotices": "GLOBAL_SEMANTIC_STATUS_AUTHORITY_NO_CHARACTER_ART",
     "generationCalls": 0
   },
-  "currentRoadmapGate": "PACKAGE_5_RESPONSIVE_AND_HANDOFF_PROOF",
+  "package5StaticQa": {
+    "status": "STATIC_PROPOSAL_PASS_WITH_IMPLEMENTATION_GUARDS",
+    "blockingStaticFindings": 0,
+    "wideDesktopTarget": "1600x900",
+    "compactTarget": "1024x768",
+    "mobileTarget": "390x844",
+    "package3CasesPreserved": 66,
+    "package3CasesPassed": 66,
+    "settingsModalKeyboardModel": "PASS_SOURCE_REVIEW",
+    "artLayerNoninterferenceContract": "PASS_SOURCE_REVIEW",
+    "reducedMotionContract": "PASS_SOURCE_REVIEW",
+    "authorityIsolationContract": "PASS_SOURCE_REVIEW",
+    "requiredImplementationGuards": [
+      "explicit high-contrast focus-visible styling for global runtime-notice dismiss button",
+      "no yellow-only focus indicator on white/light surfaces",
+      "decorative wrappers aria-hidden noninteractive and outside functional sizing",
+      "preserve Package 4 responsive and authority hierarchy",
+      "perform actual linked-browser keyboard pointer touch responsive obstruction and accessibility acceptance after implementation"
+    ],
+    "generationCalls": 0,
+    "linkedShippingBrowserAcceptance": "PENDING_MASTER_DEVELOPER_INTEGRATION"
+  },
+  "currentRoadmapGate": "MASTER_DEVELOPER_SELECTIVE_INTEGRATION_AND_LINKED_BROWSER_ACCEPTANCE",
   "currentGenerationState": "CLOSED",
   "orderedImmediateWorkForSuccessor": [
-    "re-resolve live main and visual head before every write batch",
-    "run Package 5 responsive proof across real Package 1-4 presentation rules at wide desktop, 1024x768 and 390x844",
-    "verify keyboard focus visibility, modal focus hierarchy and destructive/recovery control distinction",
-    "verify large character layers remain noninteractive and absent where Package 4 prohibits them",
-    "verify reduced-motion behavior and status/notice visibility",
-    "verify no visual layer changes storage, Firebase, pairing, scoring, Save Library or runtime authority",
-    "prepare the master developer implementation handoff against then-current main only after proof passes"
+    "read START_NEXT_DEVELOPER_VISUAL_R8_24_SELECTIVE_INTEGRATION_SAFE_TRANSFER.md and MASTER_DEVELOPER_IMPLEMENTATION_PROMPT_R8_24.md first",
+    "independently re-resolve live main runtime revision visual branch head and exact DOM before editing",
+    "create or use a bounded production implementation branch rather than merging the visual proposal wholesale",
+    "integrate global black-gold tokens noninteractive final-art infrastructure and runtime-notice focus guard first",
+    "validate startup routing focus reduced-motion overflow and zero authority mutation before expanding",
+    "integrate Home then Create Showdown then League Wheel then Club Assignment in bounded slices",
+    "integrate Package 3 state-aware presentation only under sealed authority rules",
+    "integrate Package 4 utility styling without character art",
+    "run real linked-browser acceptance at wide desktop 1024x768 and mobile plus keyboard pointer touch reduced-motion and accessibility checks",
+    "reopen image generation only if integrated evidence proves a concrete mapped reuse failure and GPT-5.6 Sol seals a brief"
   ],
   "progressModel": [
     {"workstream":"approved identity truth recovered and persistently locked","weight":20,"earned":20},
     {"workstream":"live DOM/source reconciliation and runtime screen mapping","weight":10,"earned":10},
     {"workstream":"identity plus natural-expression contract","weight":10,"earned":10},
     {"workstream":"isolated canonical Nik and Daniel character masters","weight":20,"earned":20},
-    {"workstream":"screen-state expression and pose variants","weight":15,"earned":0,"note":"A03-A06 remain planned hold slots; Package 3 static proof shows they are not currently justified"},
+    {"workstream":"screen-state expression and pose variants","weight":15,"earned":0,"note":"Legacy slots A03-A06 remain deliberately unearned because static reuse proofs show they are not currently justified; do not generate merely to increase progress"},
     {"workstream":"R8.5 black-gold final-art and exact DOM composition specification","weight":10,"earned":10},
-    {"workstream":"responsive safe-zone and obstruction QA","weight":10,"earned":7,"note":"Package 1/2 plus Package 3 static responsive QA complete; Package 5 full responsive/accessibility/focus/non-interactivity proof is active"},
-    {"workstream":"master developer implementation package","weight":5,"earned":1}
+    {"workstream":"responsive safe-zone and obstruction QA","weight":10,"earned":10,"note":"Static Package 1-5 responsive/accessibility/noninterference proposal QA complete; real linked shipping-browser acceptance remains an implementation-stage requirement"},
+    {"workstream":"master developer implementation package","weight":5,"earned":5,"note":"R8.24 master handoff, implementation prompt and clean successor starter sealed"}
   ],
-  "nextSafeAction": "Continue Package 5 responsive/accessibility/focus/non-interactivity proof against current live main. Generation remains closed. Do not modify production main or deploy from the visual lane.",
+  "nextSafeAction": "STOP_PREDECESSOR. Successor begins from START_NEXT_DEVELOPER_VISUAL_R8_24_SELECTIVE_INTEGRATION_SAFE_TRANSFER.md, re-resolves current authority, then performs bounded selective implementation and real linked-browser acceptance. Generation remains closed.",
   "productionBoundaries": {
-    "mainMutationAllowed": false,
-    "productionDeployAllowed": false,
+    "mainMutationAllowedFromVisualLane": false,
+    "productionDeployAllowedFromVisualLane": false,
     "firebaseSparkOnly": true,
     "billingPermanentlyOff": true,
-    "zeroDollarRequired": true
+    "zeroDollarRequired": true,
+    "visualStateFirestoreWritesAllowed": false,
+    "artworkProtocolFieldsAllowed": false,
+    "generatedImageBytesThroughFirebaseAllowed": false
   },
   "handoffRule": {
     "0to49": "continue normally",
