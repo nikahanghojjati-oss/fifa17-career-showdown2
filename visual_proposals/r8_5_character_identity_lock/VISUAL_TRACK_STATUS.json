@@ -1,13 +1,16 @@
 {
-  "schemaVersion": "1.9.0",
+  "schemaVersion": "2.0.0",
   "lane": "independent visual proposal",
-  "status": "HANDOFF_SEALED",
+  "status": "ACTIVE",
+  "controller": "GPT-5.6 Sol reasoning",
+  "controllerContract": "00_VISUAL_REASONING_CONTROLLER_CONTRACT.md",
   "proposalBranch": "visual/r8-5-approved-character-identity-lock",
   "latestObservedMainSha": "1d0c9f9d6542cd020a4aae53998cb6daeba380e4",
   "latestObservedAssetRevision": "1.9.1-r10",
-  "currentMilestone": "R8.13 owner-liked Nik/Daniel reference anchors preserved; clean-context reference-preserving A01 successor required",
-  "visualProductionProgressPercent": 56.0,
-  "handoffProximityPercent": 100,
+  "currentMilestone": "A01 Nik and A02 Daniel core masters owner-approved/frozen; approved Home visual direction captured; deterministic exact-DOM placement validation is current roadmap gate",
+  "visualProductionProgressPercent": 72,
+  "handoffProximityPercent": 42,
+  "transitionRecommendation": "CONTINUE_CURRENT_SESSION",
   "runtimeMapping": {
     "state": "COMPLETE_BASELINE",
     "mappedPrimaryAndNestedSurfaces": 24,
@@ -18,116 +21,99 @@
     "package12DomSpec": "R8_10_PACKAGE_1_2_DOM_PRESENTATION_SPEC.md",
     "package12CssPrototype": "prototype/r8-package-1-2-presentation.css",
     "safeZoneProof": "R8_11_SAFE_ZONE_COMPOSITION_PROOF.md",
-    "safeZoneWireframe": "prototype/r8-safe-zone-proof.html",
-    "a01ProductionBrief": "R8_12_A01_NIK_CORE_THINKING_HERO_PRODUCTION_BRIEF.md",
-    "referenceAuthorityDelta": "R8_13_REFERENCE_AUTHORITY_DELTA.json",
-    "successorStarter": "START_NEXT_VISUAL_SESSION_R8_13_REFERENCE_PRESERVING_A01_A02_SAFE_TRANSFER.md",
+    "frozenMasterPlacementContract": "R8_18_PACKAGE_1_2_FROZEN_MASTER_PLACEMENT_CONTRACT.md",
+    "latestApprovalCheckpoint": "R8_17_A02_FREEZE_HOME_DIRECTION_CHECKPOINT.json",
     "sourcePin": "1d0c9f9d6542cd020a4aae53998cb6daeba380e4",
     "sourceAssetRevision": "1.9.1-r10"
   },
   "reasoningLeadPolicy": {
     "state": "ENFORCED",
-    "rule": "planning/runtime/DOM reasoning chooses the next work item; image generation is a specialist tool only",
-    "uploadedImageDoesNotAutoTriggerGeneration": true,
+    "reasoningModelLeads": true,
+    "imageGenerationIsExecutionSpecialistOnly": true,
     "continueBuildingDoesNotMeanGenerateImage": true,
+    "uploadedImageDoesNotAutoTriggerGeneration": true,
+    "generationRequiresPreGenerationBrief": true,
     "generationRequiresMappedNeed": true,
     "generationRequiresReuseCheck": true,
     "generationRequiresSafeZoneDefinition": true,
-    "generationRequiresBestMethodCheck": true
+    "generationRequiresIdentityAuthority": true,
+    "generationRequiresBestMethodCheck": true,
+    "postGenerationQARequired": true,
+    "ownerApprovalRequiredToFreeze": true,
+    "rejectedGenerationProgressCredit": 0,
+    "rawContainerPathIsNeverAProjectReport": true
+  },
+  "coreMasters": {
+    "required": 6,
+    "frozen": 2,
+    "A01_NIK_CORE_THINKING_HERO": {
+      "status": "OWNER_APPROVED_FROZEN",
+      "fileId": "file_00000000bbf081f7b29944352f5e76a5",
+      "sha256": "17972b8afb73b90483c8f874c4bd964ac1bda196daa76e134a6030676bbd4219",
+      "dimensions": "1086x1448"
+    },
+    "A02_DANIEL_CORE_POINTING_HERO": {
+      "status": "OWNER_APPROVED_FROZEN",
+      "fileId": "file_000000007fe081f59bbac0a09a9eeca3",
+      "sha256": "9b1545b52a5d96a240c92b9901dcd8a4558148dde05a0331882df7bd988177cc",
+      "dimensions": "1086x1448"
+    },
+    "A03_NIK_FOCUSED_TACTICAL": "PLANNED_GATE_CLOSED",
+    "A04_DANIEL_FOCUSED_TACTICAL": "PLANNED_GATE_CLOSED",
+    "A05_NIK_CELEBRATION_RESOLVE": "PLANNED_GATE_CLOSED",
+    "A06_DANIEL_CELEBRATION_RESOLVE": "PLANNED_GATE_CLOSED"
+  },
+  "approvedDirectionReferences": {
+    "Home": {
+      "status": "OWNER_APPROVED_VISUAL_DIRECTION_NOT_SHIPPING_DOM",
+      "fileId": "file_00000000c85881f7abd92259605955c4",
+      "sha256": "9272f8921535b07841033781d024f1bf3f20647846cc89146878c999a4ca67f6",
+      "rule": "Use for composition/style guidance only; real DOM and accessibility remain authoritative."
+    }
   },
   "safeZoneDecision": {
     "Home": "PASS_WITH_CONSTRAINTS_BACKGROUND_FRAMING",
     "CreateShowdown": "STRONG_PASS",
     "LeagueWheel": "STRONG_PASS",
     "ClubAssignment": "PASS_CORE_EDGE_FRAMING_NO_INTERACTION_POSE",
-    "mobileLargeCharacters": "OMIT",
     "tabletPolicy": "CROP_OR_OMIT_BEFORE_CONTROLS_MOVE",
-    "A01Finalization": "JUSTIFIED_REFERENCE_PRESERVING_ISOLATION_FIRST",
-    "A02Finalization": "JUSTIFIED_AFTER_A01_FREEZE",
-    "C01": "CANCELLED",
-    "C02": "CANCELLED"
+    "mobileLargeCharacters": "OMIT",
+    "C01_NIK_CLUB_PACK_INTERACTION": "CANCELLED",
+    "C02_DANIEL_CLUB_PACK_INTERACTION": "CANCELLED"
   },
-  "assetLedgerSummary": {
-    "requiredCharacterMasters": 6,
-    "ownerApprovedFrozenCharacterMasters": 0,
-    "coreMastersFinalizationJustified": 2,
-    "conditionalCharacterMasters": 0,
-    "cancelledCharacterMasters": 2,
-    "nonCharacterAssetFamilies": 5,
-    "nonCharacterImageGenerationRequiredNow": 0,
-    "rejectedNonShippingOutputsTracked": 5
-  },
-  "referenceAuthority": {
-    "tier0LibraryA": "file_00000000b79081f58ac1409982d9dd37",
-    "tier0LibraryB": "file_000000002f4081f5bd59bfb020fdd746",
-    "nikPreferredA01PreservationReference": {
-      "path": "/Showdown visual/R8_5_APPROVED_CHARACTER_IDENTITY_LOCK/NIK_OWNER_LIKED_AI_STYLE_REFERENCE_C.jpeg",
-      "fileId": "file_00000000125881f7b67a4f1bdca4714f",
-      "sha256": "7bcdcfd002002d2eef726fed637d31a4870091b542f733adfac79c30a2c7628a"
-    },
-    "nikAlternateLikedReference": {
-      "path": "/Showdown visual/R8_5_APPROVED_CHARACTER_IDENTITY_LOCK/NIK_OWNER_LIKED_AI_STYLE_REFERENCE_D.jpeg",
-      "fileId": "file_00000000df3881f7856f42681a357319",
-      "sha256": "90d4c7018109b6f83dbe2cb9531658c2351fd4d8ca6599183fd6405566bd84c2"
-    },
-    "danielHighPriorityA02Reference": {
-      "path": "/Showdown visual/R8_5_APPROVED_CHARACTER_IDENTITY_LOCK/DANIEL_OWNER_LIKED_AI_STYLE_REFERENCE_C.jpeg",
-      "fileId": "file_0000000052b481f7baa18e90acbe9f3f",
-      "sha256": "c0017c5d52d31e8c811940025487c65a09915a008c7abf30264ef66a5b1c432f",
-      "poseRule": "retain owner-preferred pointing body language from approved project references"
-    },
-    "realPhotos": "facial geometry and expression evidence only; prohibited as shipping website assets"
-  },
-  "generationFailureContext": {
-    "classification": "CONTEXT_PRESSURE_GENERATION_DRIFT",
-    "productDefect": false,
-    "designDefect": false,
-    "invalidOutputs": [
-      "RJ03_A01_CONTEXT_DRIFT_BOARD_1",
-      "RJ04_A01_CONTEXT_DRIFT_BOARD_2",
-      "RJ05_A01_CONTEXT_DRIFT_BOARD_3"
-    ],
-    "latestRejectedGenerationId": "2e5da59a-e40a-40ba-8bfc-a9a77e52f574",
-    "rule": "Do not retry A01 again in predecessor context. Fresh successor context must use reference-preserving isolation of Nik Reference C before any facial regeneration."
-  },
-  "characterApprovalGate": "A01_BRIEF_SEALED_REFERENCE_PRESERVATION_SOURCE_READY_CANDIDATE_MISSING_FRESH_CONTEXT_REQUIRED",
-  "generationFormatPolicy": "ONE_CHARACTER_ONE_REQUIRED_EXPRESSION_HIGH_RESOLUTION_WHEN_GENERATION_IS_ACTUALLY_JUSTIFIED",
-  "multiExpressionBoardGeneration": "RETIRED_FOR_PRODUCTION",
-  "latestOwnerDirection": {
-    "visualProcess": "reason, map, justify, then build; image generation only when the roadmap reaches a real asset need",
-    "referenceUploads": "use owner-liked images as identity/style evidence and preserve useful existing character pixels where possible rather than treating uploads as automatic generation prompts",
-    "nik": "Reference C remains the preferred A01 thinking master source; new Reference D is another strongly liked Nik facial/style characterization, not an automatic replacement",
-    "daniel": "new Daniel Reference C is strongly liked as facial/style authority; A02 still uses the owner-preferred pointing pose",
-    "transition": "current predecessor context must stop at the sealed handoff; successor should not redo completed work"
-  },
+  "currentRoadmapGate": "PACKAGE_1_2_DETERMINISTIC_FROZEN_MASTER_PLACEMENT_VALIDATION",
+  "currentGenerationState": "CLOSED",
+  "orderedImmediateWork": [
+    "Validate Home frozen-master placement against exact live DOM and owner-approved Home direction",
+    "Validate Create Showdown frozen-master side rails",
+    "Validate League Wheel frozen-master side rails and CTA/status safe zones",
+    "Validate Club Assignment restrained edge crops or omission",
+    "Then continue Package 3 exact-DOM work",
+    "Evaluate A03/A04 only when Package 3 reaches a proven asset gate"
+  ],
   "progressModel": [
     {"workstream":"approved identity truth recovered and persistently locked","weight":20,"earned":20,"state":"done"},
-    {"workstream":"live DOM/source reconciliation and runtime screen mapping","weight":10,"earned":10,"state":"r10 map sealed across 24 primary/nested surfaces"},
-    {"workstream":"identity plus natural-expression contract","weight":10,"earned":10,"state":"done; final generation owner-gated"},
-    {"workstream":"isolated canonical Nik and Daniel character masters","weight":20,"earned":4,"state":"A01 brief sealed and preferred preservation source identified; valid isolated candidate still missing; A02 high-confidence face/style reference now preserved"},
-    {"workstream":"screen-state expression and pose variants","weight":15,"earned":0,"state":"bounded to A03-A06 only; Club Pack special poses cancelled"},
-    {"workstream":"R8.5 black-gold final-art and exact DOM composition specification","weight":10,"earned":9,"state":"Package 1/2 exact DOM spec, CSS prototype and four-screen safe-zone proof complete"},
-    {"workstream":"responsive safe-zone and obstruction QA","weight":10,"earned":2,"state":"first proof completed for Home/Create/League/Club; broader package QA remains"},
-    {"workstream":"master developer implementation package","weight":5,"earned":1,"state":"skeleton exists; final package waits for approved assets and remaining packages"}
+    {"workstream":"live DOM/source reconciliation and runtime screen mapping","weight":10,"earned":10,"state":"r10 baseline sealed across 24 primary/nested surfaces"},
+    {"workstream":"identity plus natural-expression contract","weight":10,"earned":10,"state":"done"},
+    {"workstream":"isolated canonical Nik and Daniel character masters","weight":20,"earned":20,"state":"A01 and A02 owner-approved/frozen"},
+    {"workstream":"screen-state expression and pose variants","weight":15,"earned":0,"state":"A03-A06 gated; no speculative generation"},
+    {"workstream":"R8.5 black-gold final-art and exact DOM composition specification","weight":10,"earned":9,"state":"Package 1/2 spec complete; Home direction approved; exact frozen-master placement validation active"},
+    {"workstream":"responsive safe-zone and obstruction QA","weight":10,"earned":2,"state":"abstract Home/Create/League/Club proof complete; exact frozen-master QA next"},
+    {"workstream":"master developer implementation package","weight":5,"earned":1,"state":"skeleton exists; final package waits for remaining visual packages"}
   ],
-  "nextSafeAction": "Start a fresh session with START_NEXT_VISUAL_SESSION_R8_13_REFERENCE_PRESERVING_A01_A02_SAFE_TRANSFER.md. Re-resolve live heads, retrieve Tier 0 references plus Nik Reference C, then attempt exactly one reference-preserving isolation/edit for A01. Do not redo mapping, DOM planning or safe-zone proof. Do not reuse RJ03/RJ04/RJ05.",
-  "handoffRule": {
-    "0to49": "continue visual work normally",
-    "50to69": "keep continuity file current after each substantial milestone",
-    "70to84": "finish only the current bounded visual task and prepare successor starter",
-    "85to99": "no new large visual branch of work; package current truth",
-    "100": "generate complete successor handoff and stop at a clean checkpoint"
+  "nextSafeAction": "Build the deterministic Package 1/2 placement proof against exact r10 DOM using frozen A01/A02. Do not call image generation during this stage unless a new mapped need survives reuse and safe-zone checks.",
+  "productionBoundaries": {
+    "mainMutationAllowed": false,
+    "productionDeployAllowed": false,
+    "firebaseSparkOnly": true,
+    "billingPermanentlyOff": true,
+    "zeroDollarRequired": true
   },
-  "transitionReason": "The roadmap is coherent and A01 is fully specified, but three consecutive image operations in this long context produced whole-board outputs instead of the isolated asset. Fresh context is now required to preserve quality and obey the identity lock.",
-  "nonGoals": [
-    "replicate POS/SSJR/MDP testing infrastructure",
-    "modify main",
-    "deploy production",
-    "own runtime behavior",
-    "change Firebase or billing",
-    "perform broad process refactoring",
-    "generate unused expression libraries",
-    "ship literal owner photographs",
-    "auto-generate images in response to every visual reference upload"
-  ]
+  "handoffRule": {
+    "0to49": "continue normally",
+    "50to69": "keep continuity records current after substantial milestones",
+    "70to84": "finish only current bounded task and prepare successor starter",
+    "85to99": "start no new large visual branch of work; package current truth",
+    "100": "generate complete successor handoff and stop at a clean checkpoint"
+  }
 }
