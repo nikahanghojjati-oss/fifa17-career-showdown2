@@ -1,78 +1,94 @@
 {
-  "schemaVersion": "1.2.0",
+  "schemaVersion": "2.0.0",
   "lane": "independent visual proposal",
   "sourcePin": "1d0c9f9d6542cd020a4aae53998cb6daeba380e4",
   "assetRevision": "1.9.1-r10",
-  "purpose": "single source of truth for required visual assets so work is planned, reused, frozen and never regenerated casually",
-  "statusVocabulary": ["PLANNED", "REFERENCE_READY", "CANDIDATE", "OWNER_APPROVED_FROZEN", "CONDITIONAL", "CANCELLED", "REJECTED_NON_SHIPPING", "NO_GENERATION_REQUIRED"],
-  "generationRule": "image generation is allowed only when a mapped screen need exists, reuse is insufficient, safe zones are defined, and generation is the best method",
-  "safeZoneProof": "R8_11_SAFE_ZONE_COMPOSITION_PROOF.md",
+  "statusVocabulary": [
+    "PLANNED",
+    "REFERENCE_READY",
+    "BRIEF_SEALED",
+    "CANDIDATE",
+    "OWNER_APPROVED_FROZEN",
+    "CONDITIONAL",
+    "CANCELLED",
+    "REJECTED_NON_SHIPPING",
+    "NO_GENERATION_REQUIRED"
+  ],
+  "controllerContract": "00_VISUAL_REASONING_CONTROLLER_CONTRACT.md",
+  "generationRule": "GPT-5.6 Sol reasoning chooses the roadmap task. Image generation is permitted only for a mapped need after reuse, safe-zone, identity-authority and best-method checks plus a sealed pre-generation brief.",
+  "freezeRule": "Owner-approved assets are frozen by exact persistent file identity and SHA. Never regenerate them for crop, mirror, responsive placement, avatar extraction or screen assembly.",
   "counts": {
     "requiredCharacterMasters": 6,
-    "requiredCharacterMastersFrozen": 0,
-    "coreMastersFinalizationJustified": 2,
-    "conditionalCharacterMasters": 0,
+    "requiredCharacterMastersFrozen": 2,
+    "remainingRequiredCharacterMasters": 4,
     "cancelledCharacterMasters": 2,
     "nonCharacterAssetFamilies": 5,
-    "nonCharacterFamiliesRequiringImageGenerationNow": 0,
-    "rejectedNonShippingOutputsTracked": 4
+    "nonCharacterFamiliesRequiringImageGenerationNow": 0
   },
   "characterAssets": [
     {
       "id": "A01_NIK_CORE_THINKING_HERO",
-      "status": "REFERENCE_READY",
+      "status": "OWNER_APPROVED_FROZEN",
       "required": true,
-      "generationNeeded": true,
-      "generationJustification": "R8.11 proves the core pose fits Home/Create/League/Club, but approved truth is primarily composite/reference material rather than one clean reusable isolated transparent master",
-      "screens": ["Startup", "Home", "Create Showdown", "League Wheel", "Club Assignment", "Dashboard crops", "Shared Setup crops", "Remote Joining chips", "Season Entry crops", "Legacy crops", "Tiebreak fallback"],
-      "identityAuthority": "Tier 0 owner-approved CM17 Nik AI references",
-      "notes": "R8.12 exact production brief is sealed. Owner liked the strongest earlier thinking/hero direction. Finalization should reuse/edit that direction if available rather than recast Nik. One character, one asset, no board, no webpage."
+      "screens": ["Startup optional", "Home", "Create Showdown", "League Wheel", "Club Assignment edge crop", "Dashboard crops", "Shared Setup crops", "Remote Joining chips", "Season Entry crops", "Legacy crops", "Tiebreak fallback only if real authority exists"],
+      "libraryPath": "/Showdown visual/R8_5_APPROVED_CHARACTER_IDENTITY_LOCK/A01_NIK_CORE_THINKING_HERO_OWNER_APPROVED_V1.png",
+      "fileId": "file_00000000bbf081f7b29944352f5e76a5",
+      "libraryFileId": "libfile_4c0fe725833881918ea7734aa8fad17f",
+      "sha256": "17972b8afb73b90483c8f874c4bd964ac1bda196daa76e134a6030676bbd4219",
+      "dimensions": "1086x1448",
+      "transparent": true,
+      "identityAuthority": "owner-approved final master plus Tier 0 A/B",
+      "notes": "Facial likeness/expression approved. Preserve complete hair silhouette and fine edge detail in all deterministic derivatives."
     },
     {
       "id": "A02_DANIEL_CORE_POINTING_HERO",
-      "status": "REFERENCE_READY",
+      "status": "OWNER_APPROVED_FROZEN",
       "required": true,
-      "generationNeeded": true,
-      "generationJustification": "R8.11 proves the pointing/core pose fits the mapped screens, but a clean isolated reusable final master is still needed",
-      "screens": ["Startup", "Home", "Create Showdown", "League Wheel", "Club Assignment", "Dashboard crops", "Shared Setup crops", "Remote Joining chips", "Season Entry crops", "Legacy crops", "Tiebreak fallback"],
-      "identityAuthority": "Tier 0 owner-approved CM17 Daniel AI references",
-      "notes": "Historical pointing/main pose remains the strongest Daniel anchor. Build only after A01 is frozen. Do not recast face while isolating/finalizing."
+      "screens": ["Startup optional", "Home", "Create Showdown", "League Wheel", "Club Assignment edge crop", "Dashboard crops", "Shared Setup crops", "Remote Joining chips", "Season Entry crops", "Legacy crops", "Tiebreak fallback only if real authority exists"],
+      "libraryPath": "/Showdown visual/R8_5_APPROVED_CHARACTER_IDENTITY_LOCK/A02_DANIEL_CORE_POINTING_HERO_OWNER_APPROVED_V1.png",
+      "fileId": "file_000000007fe081f59bbac0a09a9eeca3",
+      "libraryFileId": "libfile_0b2f3412067c81919aaa95461afc9be6",
+      "sha256": "9b1545b52a5d96a240c92b9901dcd8a4558148dde05a0331882df7bd988177cc",
+      "dimensions": "1086x1448",
+      "transparent": true,
+      "identityAuthority": "owner-approved final master, owner-supplied approved Daniel AI baseline, Tier 0 A/B",
+      "notes": "Preserve thick dark wavy hair, light stubble, facial geometry, restrained expression, open white shirt and pointing body language. First A02 generation was rejected and must never be reused."
     },
     {
       "id": "A03_NIK_FOCUSED_TACTICAL",
       "status": "PLANNED",
       "required": true,
-      "generationNeeded": true,
-      "screens": ["Transfer Challenge", "Shared Transfer Challenge", "Tiebreak", "decision/waiting states"],
-      "identityAuthority": "A01 frozen identity when available plus Tier 0 references",
-      "notes": "One focused/downward tactical expression only. Real photos are geometry evidence, never shipping pixels."
+      "generationNeeded": "UNRESOLVED_UNTIL_PACKAGE_3_EXACT_COMPOSITION",
+      "screens": ["Transfer Challenge", "Shared Transfer Challenge", "Tiebreak only if real runtime authority exists", "decision/waiting states"],
+      "identityAuthority": "A01 frozen master plus Tier 0 references",
+      "generationGate": "CLOSED until Package 3 exact DOM demonstrates that deterministic A01 reuse cannot satisfy the mapped tactical-expression need."
     },
     {
       "id": "A04_DANIEL_FOCUSED_TACTICAL",
       "status": "PLANNED",
       "required": true,
-      "generationNeeded": true,
-      "screens": ["Transfer Challenge", "Shared Transfer Challenge", "Tiebreak", "decision/waiting states"],
-      "identityAuthority": "A02 frozen identity when available plus Tier 0 references",
-      "notes": "One focused/downward tactical expression only."
+      "generationNeeded": "UNRESOLVED_UNTIL_PACKAGE_3_EXACT_COMPOSITION",
+      "screens": ["Transfer Challenge", "Shared Transfer Challenge", "Tiebreak only if real runtime authority exists", "decision/waiting states"],
+      "identityAuthority": "A02 frozen master plus Tier 0 references",
+      "generationGate": "CLOSED until Package 3 exact DOM demonstrates that deterministic A02 reuse cannot satisfy the mapped tactical-expression need."
     },
     {
       "id": "A05_NIK_CELEBRATION_RESOLVE",
       "status": "PLANNED",
       "required": true,
-      "generationNeeded": true,
+      "generationNeeded": "UNRESOLVED_UNTIL_SEASON_SUMMARY_EXACT_COMPOSITION",
       "screens": ["Season Summary", "Trophy Room optional", "completed Legacy moments"],
-      "identityAuthority": "A01 frozen identity when available plus Tier 0 references",
-      "notes": "Restrained authentic celebration or victory resolve. Avoid exaggerated smile geometry that changes identity."
+      "identityAuthority": "A01 frozen master plus Tier 0 references",
+      "generationGate": "CLOSED until Season Summary proves a separate payoff pose adds value without obscuring result data."
     },
     {
       "id": "A06_DANIEL_CELEBRATION_RESOLVE",
       "status": "PLANNED",
       "required": true,
-      "generationNeeded": true,
+      "generationNeeded": "UNRESOLVED_UNTIL_SEASON_SUMMARY_EXACT_COMPOSITION",
       "screens": ["Season Summary", "Trophy Room optional", "completed Legacy moments"],
-      "identityAuthority": "A02 frozen identity when available plus Tier 0 references",
-      "notes": "Warm restrained celebration. Avoid broad generic advertising smile."
+      "identityAuthority": "A02 frozen master plus Tier 0 references",
+      "generationGate": "CLOSED until Season Summary proves a separate payoff pose adds value without obscuring result data."
     },
     {
       "id": "C01_NIK_CLUB_PACK_INTERACTION",
@@ -80,7 +96,7 @@
       "required": false,
       "generationNeeded": false,
       "screens": ["Club Assignment"],
-      "notes": "R8.11 safe-zone proof shows the real 980px pack shell already tells the interaction story and restrained A01 edge framing is sufficient. Reaching hands would increase obstruction risk."
+      "notes": "Real 980px pack shell owns the interaction story. Use restrained A01 edge crop or omit."
     },
     {
       "id": "C02_DANIEL_CLUB_PACK_INTERACTION",
@@ -88,77 +104,68 @@
       "required": false,
       "generationNeeded": false,
       "screens": ["Club Assignment"],
-      "notes": "R8.11 safe-zone proof shows the real pack DOM should remain dominant; no Daniel pack-holding master is needed."
+      "notes": "Real pack DOM stays dominant. Use restrained A02 edge crop or omit."
+    }
+  ],
+  "approvedCompositionReferences": [
+    {
+      "id": "HOME_APPROVED_COMPOSITION_REFERENCE_R8_17_V1",
+      "status": "OWNER_APPROVED_DIRECTION_NOT_SHIPPING_DOM",
+      "libraryPath": "/Showdown visual/R8_5_APPROVED_CHARACTER_IDENTITY_LOCK/HOME_APPROVED_COMPOSITION_REFERENCE_R8_17_V1.png",
+      "fileId": "file_00000000c85881f7abd92259605955c4",
+      "libraryFileId": "libfile_d2696dcaf9f4819185105bed26665814",
+      "sha256": "9272f8921535b07841033781d024f1bf3f20647846cc89146878c999a4ca67f6",
+      "dimensions": "1672x941",
+      "notes": "Use as style/composition direction only. Real Home DOM, labels, controls and accessibility remain authoritative."
     }
   ],
   "nonCharacterAssetFamilies": [
     {
       "id": "V01_BLACK_GOLD_STADIUM_ATMOSPHERE",
       "status": "NO_GENERATION_REQUIRED",
-      "preferredMethod": "CSS gradients plus existing/procedural assets first",
-      "screens": ["Startup", "Home", "Create Showdown", "League Wheel", "Club Assignment", "Season Summary"],
-      "generationGate": "open only if reusable CSS/procedural atmosphere cannot reach approved R8.5 quality"
+      "preferredMethod": "CSS gradients plus existing/procedural assets first"
     },
     {
       "id": "V02_CM17_CROWN_TROPHY_MOTIF_SET",
       "status": "NO_GENERATION_REQUIRED",
-      "preferredMethod": "SVG/CSS/procedural",
-      "screens": ["Home", "Season Summary", "Trophy Room", "Legacy"]
+      "preferredMethod": "SVG/CSS/procedural"
     },
     {
       "id": "V03_CLUB_PACK_FRAME",
       "status": "NO_GENERATION_REQUIRED",
-      "preferredMethod": "HTML/CSS/SVG around real DOM cards",
-      "screens": ["Club Assignment"]
+      "preferredMethod": "HTML/CSS/SVG around real DOM cards"
     },
     {
       "id": "V04_STATUS_CONNECTION_ICON_SET",
       "status": "NO_GENERATION_REQUIRED",
-      "preferredMethod": "existing icons plus CSS/SVG",
-      "screens": ["Remote Joining", "Shared Setup", "Save Library", "Connected Rivalry", "Recovery", "Global notices"]
+      "preferredMethod": "existing icons plus CSS/SVG"
     },
     {
       "id": "V05_TROPHY_ROOM_DECORATIVE_SET",
       "status": "CONDITIONAL",
       "preferredMethod": "CSS/SVG/procedural first",
-      "screens": ["Trophy Room"],
-      "generationGate": "only if procedural implementation objectively fails approved presentation target"
+      "generationGate": "open only if procedural treatment objectively cannot satisfy the approved target"
     }
   ],
   "deterministicDerivatives": [
     "desktop left placement",
     "desktop right placement",
-    "tablet crop",
-    "mobile fade or omission",
+    "tablet shoulder crop",
+    "mobile omission",
     "square identity crop",
     "compact avatar chip"
   ],
   "rejectedOutputs": [
-    {
-      "id": "RJ01_MULTI_EXPRESSION_CHARACTER_BOARD",
-      "status": "REJECTED_NON_SHIPPING",
-      "reason": "multi-face generation caused severe identity drift; board format retired as production generation method"
-    },
-    {
-      "id": "RJ02_UNSOLICITED_NIK_STADIUM_THINKING_REFINEMENT",
-      "status": "REJECTED_NON_SHIPPING",
-      "reason": "good rendering quality but generated at the wrong process stage and drifted from approved visual identity; must not be promoted to A01"
-    },
-    {
-      "id": "RJ03_A01_CONTEXT_DRIFT_BOARD_1",
-      "status": "REJECTED_NON_SHIPPING",
-      "generationId": "bbf3c73a-6d59-49f2-938e-d330a9167aec",
-      "conversationFileId": "file_0000000049c081f79f1c40f01f66b431",
-      "reason": "image engine ignored the sealed A01 single-character brief inside the overloaded session and produced a whole-project UI/UX portfolio board; contains Daniel, UI and text; not an A01 candidate and earns zero progress"
-    },
-    {
-      "id": "RJ04_A01_CONTEXT_DRIFT_BOARD_2",
-      "status": "REJECTED_NON_SHIPPING",
-      "generationId": "124e9bbd-58f5-47b5-8fd0-7430fe8a2048",
-      "conversationFileId": "file_00000000d1a081f7b32272e924c214ff",
-      "reason": "second narrowed retry still produced a whole-project design board, proving current-session context pressure is contaminating image generation; not an A01 candidate and earns zero progress"
-    }
+    {"id":"RJ01_MULTI_EXPRESSION_CHARACTER_BOARD","status":"REJECTED_NON_SHIPPING","reason":"multi-face generation caused identity drift; board method retired"},
+    {"id":"RJ02_UNSOLICITED_NIK_STADIUM_THINKING_REFINEMENT","status":"REJECTED_NON_SHIPPING","reason":"wrong process stage and identity drift"},
+    {"id":"RJ03_A01_CONTEXT_DRIFT_BOARD_1","status":"REJECTED_NON_SHIPPING","reason":"whole-project board instead of A01"},
+    {"id":"RJ04_A01_CONTEXT_DRIFT_BOARD_2","status":"REJECTED_NON_SHIPPING","reason":"whole-project board instead of A01"},
+    {"id":"RJ05_A01_CONTEXT_DRIFT_BOARD_3","status":"REJECTED_NON_SHIPPING","reason":"whole-project board instead of A01"},
+    {"id":"RJ06_A01_CONTEXT_DRIFT_OFFICE_SCENE","status":"REJECTED_NON_SHIPPING","reason":"invented office scene/props instead of reference isolation"},
+    {"id":"RJ07_A01_CONTEXT_DRIFT_ASSET_BOARD","status":"REJECTED_NON_SHIPPING","reason":"branded multi-view board instead of one A01 master"},
+    {"id":"RJ08_A02_WRONG_DANIEL_IDENTITY","status":"REJECTED_NON_SHIPPING","generationId":"1ee7dcc4-50e9-4cf0-b1cc-c576a56f29d2","reason":"owner judged facial likeness far from Daniel; never reuse"}
   ],
-  "freezeRule": "once the owner approves an asset, change its status to OWNER_APPROVED_FROZEN, record its exact file/hash, and never regenerate it for cropping, mirroring, responsive placement or board assembly",
-  "nextDecision": "transition to a fresh visual session. Read START_NEXT_VISUAL_SESSION_R8_12_A01_SINGLE_ASSET_SAFE_TRANSFER.md and the sealed A01 brief. Do not redo mapping or safe-zone proof. Resolve exact Tier 0 A/B references and generate exactly one isolated Nik A01 candidate in a clean context."
+  "currentGate": "PACKAGE_1_2_DETERMINISTIC_FROZEN_MASTER_PLACEMENT_VALIDATION",
+  "currentGenerationState": "CLOSED",
+  "nextDecision": "Validate frozen A01/A02 placements against Home, Create Showdown, League Wheel and Club Assignment using exact live DOM. Continue Package 3 only after those four pass."
 }
