@@ -28,6 +28,14 @@
       ]);
       return install("ssjr-production-history-convergence","js/productionSharedHistoryConvergence.js","CareerModeProductionSharedHistoryConvergence");
     })();
+    const multiSeason=(async()=>{
+      await historyConvergence;
+      await prepare([
+        ["ssjr-multi-season-protocol","js/sharedMultiSeasonProgression.js","CareerModeSharedMultiSeasonProgression"],
+        ["ssjr-multi-season-provider","js/sparkSharedMultiSeasonProgression.js","CareerModeSparkSharedMultiSeasonProgression"]
+      ]);
+      return install("ssjr-production-multi-season","js/productionSharedMultiSeasonProgression.js","CareerModeProductionSharedMultiSeasonProgression");
+    })();
     await Promise.all([
       load("firebase-runtime","js/productionFirebaseRuntime.js",()=>root.CareerModeProductionFirebaseRuntime),
       install("ssjr-production-entry","js/productionSharedJourneyEntry.js","CareerModeProductionSharedJourneyEntry"),
@@ -37,6 +45,7 @@
       seasonCommit,
       canonicalScoring,
       historyConvergence,
+      multiSeason,
       (async()=>{await seasonResultsRoute;return install("ssjr-production-transfer-challenge","js/productionSharedTransferChallenge.js","CareerModeProductionSharedTransferChallenge");})()
     ]);
     if(!acceptanceEnabled)return;

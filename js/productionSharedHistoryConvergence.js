@@ -35,7 +35,7 @@
     if(!scoringApi||typeof scoringApi.refresh!=="function"||typeof scoringApi.getState!=="function")phcFail("HISTORY_CONVERGENCE_SCORING_UNAVAILABLE");
     if(!provider||typeof provider.read!=="function")phcFail("HISTORY_CONVERGENCE_PROVIDER_UNAVAILABLE");
   }
-  function phcSeason(){const season=Number(phcShowdown()?.currentRound);if(!Number.isInteger(season)||season<1||season>10)return null;return season;}
+  function phcSeason(){const progression=root.CareerModeProductionSharedMultiSeasonProgression,fallback=phcShowdown()?.currentRound,season=Number(phcSharedMarker()&&progression&&typeof progression.resolveSeason==="function"?progression.resolveSeason(fallback):fallback);if(!Number.isInteger(season)||season<1||season>10)return null;return season;}
   function phcSetup(){try{return setupApi?.getState?.()||null;}catch(_error){return null;}}
   function phcCommit(){try{return commitApi?.getState?.()||null;}catch(_error){return null;}}
   function phcScoring(){try{return scoringApi?.getState?.()||null;}catch(_error){return null;}}
@@ -92,7 +92,7 @@
     const request=phcRequest();if(!request||!phcSharedMarker())return Promise.resolve(phcClear(request));if(refreshPromise)return refreshPromise;busy=true;const current=phcRefreshNow(request).catch(error=>{if(phcContextMatches(request)){phcClear(request);phcReport("Unable to converge Shared History",error);}return null;}).finally(()=>{busy=false;if(refreshPromise===current)refreshPromise=null;});refreshPromise=current;return current;
   }
   function phcWake(){if(busy||root.document?.visibilityState==="hidden")return;void phcRefresh();}
-  function phcInstall(){if(installed)return true;installed=true;for(const event of ["career-mode-shared-canonical-scoring-state-change","career-mode-shared-season-commit-state-change","career-mode-shared-setup-state-change","career-mode-connected-account-state-change","career-mode-app-check-state-change"]){root.addEventListener?.(event,phcWake);}root.document?.addEventListener?.("visibilitychange",phcWake);if(typeof root.setInterval==="function")root.setInterval(phcWake,POLL_MS);if(typeof root.setTimeout==="function")root.setTimeout(phcWake,0);return true;}
+  function phcInstall(){if(installed)return true;installed=true;for(const event of ["career-mode-shared-canonical-scoring-state-change","career-mode-shared-season-commit-state-change","career-mode-shared-setup-state-change","career-mode-connected-account-state-change","career-mode-app-check-state-change","career-mode-shared-season-cursor-change"]){root.addEventListener?.(event,phcWake);}root.document?.addEventListener?.("visibilitychange",phcWake);if(typeof root.setInterval==="function")root.setInterval(phcWake,POLL_MS);if(typeof root.setTimeout==="function")root.setTimeout(phcWake,0);return true;}
 
   return Object.freeze({contractVersion:1,feature:"ssjr-production-shared-history-convergence",productionEnabled:true,runtimeRevision:"1.9.1-r12",requiresAcknowledgedSeasonCommit:true,requiresCanonicalScoring:true,providerEnforcedSource:true,readOnlyDerivedProjection:true,identitySafe:true,exactSeasonAddressing:true,canonicalStorageMutation:false,providerWriteRequired:false,listPermissionRequired:false,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,pollIntervalMs:POLL_MS,install:phcInstall,refresh:phcRefresh,getState:()=>view,isActive:phcSharedMarker});
 });
