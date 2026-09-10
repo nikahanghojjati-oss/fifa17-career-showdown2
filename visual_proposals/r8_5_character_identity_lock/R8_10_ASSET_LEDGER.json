@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "2.0.0",
+  "schemaVersion": "2.1.0",
   "lane": "independent visual proposal",
   "sourcePin": "1d0c9f9d6542cd020a4aae53998cb6daeba380e4",
   "assetRevision": "1.9.1-r10",
@@ -8,6 +8,7 @@
     "REFERENCE_READY",
     "BRIEF_SEALED",
     "CANDIDATE",
+    "OWNER_LIKED_CANDIDATE",
     "OWNER_APPROVED_FROZEN",
     "CONDITIONAL",
     "CANCELLED",
@@ -16,12 +17,14 @@
   ],
   "controllerContract": "00_VISUAL_REASONING_CONTROLLER_CONTRACT.md",
   "generationRule": "GPT-5.6 Sol reasoning chooses the roadmap task. Image generation is permitted only for a mapped need after reuse, safe-zone, identity-authority and best-method checks plus a sealed pre-generation brief.",
-  "freezeRule": "Owner-approved assets are frozen by exact persistent file identity and SHA. Never regenerate them for crop, mirror, responsive placement, avatar extraction or screen assembly.",
+  "freezeRule": "Owner-approved frozen assets are locked by exact persistent file identity and SHA. Never regenerate them for crop, mirror, responsive placement, avatar extraction or screen assembly.",
+  "derivedVisualStateRule": "Do not synchronize artwork choice through Firebase. Select static approved assets locally from already-authoritative runtime state; if authoritative shared outcome does not yet exist, remain neutral.",
   "counts": {
     "requiredCharacterMasters": 6,
     "requiredCharacterMastersFrozen": 2,
     "remainingRequiredCharacterMasters": 4,
-    "cancelledCharacterMasters": 2,
+    "optionalPackHolderCandidates": 2,
+    "cancelledCharacterMasters": 0,
     "nonCharacterAssetFamilies": 5,
     "nonCharacterFamiliesRequiringImageGenerationNow": 0
   },
@@ -79,7 +82,7 @@
       "generationNeeded": "UNRESOLVED_UNTIL_SEASON_SUMMARY_EXACT_COMPOSITION",
       "screens": ["Season Summary", "Trophy Room optional", "completed Legacy moments"],
       "identityAuthority": "A01 frozen master plus Tier 0 references",
-      "generationGate": "CLOSED until Season Summary proves a separate payoff pose adds value without obscuring result data."
+      "generationGate": "CLOSED until Season Summary proves a separate payoff pose adds value without obscuring result data. Winner-only use is preferred; do not create loser/draw-specific assets unless later evidence proves need."
     },
     {
       "id": "A06_DANIEL_CELEBRATION_RESOLVE",
@@ -88,23 +91,37 @@
       "generationNeeded": "UNRESOLVED_UNTIL_SEASON_SUMMARY_EXACT_COMPOSITION",
       "screens": ["Season Summary", "Trophy Room optional", "completed Legacy moments"],
       "identityAuthority": "A02 frozen master plus Tier 0 references",
-      "generationGate": "CLOSED until Season Summary proves a separate payoff pose adds value without obscuring result data."
+      "generationGate": "CLOSED until Season Summary proves a separate payoff pose adds value without obscuring result data. Winner-only use is preferred; do not create loser/draw-specific assets unless later evidence proves need."
     },
     {
       "id": "C01_NIK_CLUB_PACK_INTERACTION",
-      "status": "CANCELLED",
+      "status": "OWNER_LIKED_CANDIDATE",
       "required": false,
       "generationNeeded": false,
-      "screens": ["Club Assignment"],
-      "notes": "Real 980px pack shell owns the interaction story. Use restrained A01 edge crop or omit."
+      "screens": ["Club Assignment cinematic presentation only"],
+      "libraryPath": "/Showdown visual/R8_5_APPROVED_CHARACTER_IDENTITY_LOCK/C01_NIK_CLUB_PACK_HOLDING_OWNER_LIKED_CANDIDATE_V1.png",
+      "fileId": "file_00000000195881f5a6d49ee9ad919b3e",
+      "libraryFileId": "libfile_3bb23b7c0cb081919dc5b2618e796f21",
+      "sha256": "7014a5165330e321928c30baf426c86c51bc909dc0122942945d6ec32789500d",
+      "dimensions": "1086x1448",
+      "transparent": true,
+      "ownerOverride": "Earlier cancellation superseded for optional cinematic use after owner supplied a strongly liked pack-holding reference and liked the generated candidate.",
+      "implementationGate": "Exact Club Assignment responsive/obstruction QA. The real pack DOM, status, progress and CTA remain authoritative and above artwork."
     },
     {
       "id": "C02_DANIEL_CLUB_PACK_INTERACTION",
-      "status": "CANCELLED",
+      "status": "OWNER_LIKED_CANDIDATE",
       "required": false,
       "generationNeeded": false,
-      "screens": ["Club Assignment"],
-      "notes": "Real pack DOM stays dominant. Use restrained A02 edge crop or omit."
+      "screens": ["Club Assignment cinematic presentation only"],
+      "libraryPath": "/Showdown visual/R8_5_APPROVED_CHARACTER_IDENTITY_LOCK/C02_DANIEL_CLUB_PACK_HOLDING_OWNER_LIKED_CANDIDATE_V1.png",
+      "fileId": "file_00000000f82881f7ac2dda3890d17a09",
+      "libraryFileId": "libfile_92678398a1588191815af8f15504d457",
+      "sha256": "049654d7360a1c9fd70c4bed836a13b3ae7f797d125a19d1a0395e848f34f368",
+      "dimensions": "1086x1448",
+      "transparent": true,
+      "ownerOverride": "Earlier cancellation superseded for optional cinematic use after owner supplied a strongly liked pack-holding reference and liked the generated candidate.",
+      "implementationGate": "Exact Club Assignment responsive/obstruction QA. The real pack DOM, status, progress and CTA remain authoritative and above artwork."
     }
   ],
   "approvedCompositionReferences": [
@@ -117,6 +134,16 @@
       "sha256": "9272f8921535b07841033781d024f1bf3f20647846cc89146878c999a4ca67f6",
       "dimensions": "1672x941",
       "notes": "Use as style/composition direction only. Real Home DOM, labels, controls and accessibility remain authoritative."
+    },
+    {
+      "id": "CLUB_PACK_HOLDING_OWNER_LIKED_COMPOSITE_REFERENCE_R8_19",
+      "status": "OWNER_LIKED_REFERENCE_NOT_SHIPPING_DOM",
+      "libraryPath": "/Showdown visual/R8_5_APPROVED_CHARACTER_IDENTITY_LOCK/CLUB_PACK_HOLDING_OWNER_LIKED_COMPOSITE_REFERENCE_R8_19.jpeg",
+      "fileId": "file_00000000ee0c81f583e380023c575453",
+      "libraryFileId": "libfile_19fc02fa4c788191ba94200ace3c1b7e",
+      "sha256": "4c0e66168a23241a1e14c0c7756a54b49fc5729029a246c51171d2f967b680f6",
+      "dimensions": "1536x864",
+      "notes": "Use for pack-holding facial/body-language and cinematic composition evidence only. Rasterized UI is not production authority."
     }
   ],
   "nonCharacterAssetFamilies": [
@@ -165,7 +192,7 @@
     {"id":"RJ07_A01_CONTEXT_DRIFT_ASSET_BOARD","status":"REJECTED_NON_SHIPPING","reason":"branded multi-view board instead of one A01 master"},
     {"id":"RJ08_A02_WRONG_DANIEL_IDENTITY","status":"REJECTED_NON_SHIPPING","generationId":"1ee7dcc4-50e9-4cf0-b1cc-c576a56f29d2","reason":"owner judged facial likeness far from Daniel; never reuse"}
   ],
-  "currentGate": "PACKAGE_1_2_DETERMINISTIC_FROZEN_MASTER_PLACEMENT_VALIDATION",
+  "currentGate": "PACKAGE_1_2_RESPONSIVE_OBSTRUCTION_QA_WITH_OPTIONAL_PACK_HOLDER_SUBTEST",
   "currentGenerationState": "CLOSED",
-  "nextDecision": "Validate frozen A01/A02 placements against Home, Create Showdown, League Wheel and Club Assignment using exact live DOM. Continue Package 3 only after those four pass."
+  "nextDecision": "Complete Package 1/2 responsive/obstruction QA. Test C01/C02 only as optional Club Assignment cinematic layers. Then continue Package 3 exact DOM and Season Summary outcome-variant feasibility without generating additional assets unless a later gate proves need."
 }
