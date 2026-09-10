@@ -1,0 +1,91 @@
+{
+  "schemaVersion": "1.0.0",
+  "status": "ACTIVE_REASONING_CONTROL_RECOVERY",
+  "lane": "independent visual proposal",
+  "reasoningController": "GPT-5.6 Sol",
+  "sourcePin": "1d0c9f9d6542cd020a4aae53998cb6daeba380e4",
+  "sourceAssetRevision": "1.9.1-r10",
+  "proposalBranch": "visual/r8-5-approved-character-identity-lock",
+  "purpose": "Make the reasoning model the explicit visual-project controller, prevent automatic image generation, preserve exact runtime/DOM authority, and provide a durable per-session reporting contract.",
+  "protectedOperatingRules": {
+    "reasoningLeads": true,
+    "imageGenerationIsSpecialistOnly": true,
+    "continueBuildingDoesNotMeanGenerateImage": true,
+    "uploadedReferenceDoesNotAutoGenerate": true,
+    "generationRequiresMappedNeed": true,
+    "generationRequiresReuseFailure": true,
+    "generationRequiresDefinedSafeZones": true,
+    "generationRequiresBestMethodProof": true,
+    "frozenAssetsAreNeverRegeneratedForDerivatives": true,
+    "artAlwaysYieldsToRealDOMControls": true,
+    "productionMainMayNotBeModifiedFromVisualLane": true,
+    "firebaseSparkOnly": true,
+    "billingPermanentlyOff": true
+  },
+  "currentSequenceTruth": {
+    "officialVisualProductionProgressPercent": 56,
+    "frozenCharacterMasters": 0,
+    "requiredCharacterMasters": 6,
+    "currentSequencedAsset": "A01_NIK_CORE_THINKING_HERO",
+    "a01Status": "REFERENCE_READY_CANDIDATE_MISSING",
+    "a02Status": "LOCKED_UNTIL_A01_OWNER_APPROVED_FROZEN",
+    "package12Status": "SPEC_AND_SAFE_ZONE_BASELINE_COMPLETE",
+    "package3Status": "LIVE_RUNTIME_RECONCILIATION_ALLOWED_AS_REASONING_PREP; DO_NOT CLAIM SEQUENCED PACKAGE3 COMPLETION BEFORE A01/A02 GATES",
+    "package4Status": "NOT_STARTED",
+    "progressCreditRule": "Do not increase 56% for rejected generation, duplicate concepts, speculative UI, or preparatory reconciliation alone."
+  },
+  "imageExecutionState": {
+    "state": "CLOSED_AFTER_REFERENCE_TARGETING_FAILURE",
+    "reason": "The current chat produced two additional outputs that ignored the sealed reference-preserving A01 transformation. Retrying the same specialist path without proving exact Reference C targeting would repeat known drift.",
+    "reopenConditions": [
+      "Exact NIK_OWNER_LIKED_AI_STYLE_REFERENCE_C.jpeg is passed to an edit-capable execution path as the actual source image, not merely described in prose.",
+      "The operation is an isolation/background-removal transformation first, not a creative reconstruction.",
+      "The output contract is one Nik only with no UI, webpage, typography, branding, football props, Daniel, expression board or environment.",
+      "The reasoning controller inspects the returned result against the sealed A01 acceptance gate before showing it as a candidate."
+    ]
+  },
+  "rejectedCurrentSessionOutputs": [
+    {
+      "id": "RJ06_A01_CONTEXT_DRIFT_OFFICE_SCENE",
+      "generationId": "b7f532bd-be8b-4f0c-b32c-27a26ade684d",
+      "conversationFileId": "file_0000000060e881f5a4160a789bf83efe",
+      "status": "REJECTED_NON_SHIPPING",
+      "progressCredit": 0,
+      "reason": "Invented an office scene, jersey, football props and text instead of isolating Reference C."
+    },
+    {
+      "id": "RJ07_A01_CONTEXT_DRIFT_ASSET_BOARD",
+      "generationId": "1f3560ff-065f-4e55-9a46-228cd1d23399",
+      "conversationFileId": "file_00000000cd4c81f7b5c44378eb6f5e24",
+      "status": "REJECTED_NON_SHIPPING",
+      "progressCredit": 0,
+      "reason": "Produced a branded multi-view character board with text, multiple figures and invented wardrobe instead of one reference-preserving isolated Nik master."
+    }
+  ],
+  "liveR10Package3Delta": {
+    "sharedTransferChallenge": "Production runtime owns NOT_STARTED, WINDOW_OPEN, GUESS_ENTRY, SIGNING_ENTRY, COMPLETED and historical replay presentation on #transferChallenge.",
+    "sharedSeasonResults": "Production runtime adapts #seasonEntry into private own-result entry, review, published/waiting and RESULTS_READY states; opponent result remains hidden until both publish.",
+    "sharedSeasonCommit": "Production runtime injects #sharedSeasonCommitStatus and #sharedSeasonCommitAction into the existing Season Review surface; only coordinator may commit, then both managers acknowledge.",
+    "tiebreak": "No dedicated r10 tiebreak DOM exists. Do not invent final tiebreak layout or generate A03/A04 for it before runtime authority exists.",
+    "seasonSummary": "Existing #seasonSummary remains the local result-payoff shell; A05/A06 remain gated until exact composition demonstrates need."
+  },
+  "sessionReportContract": {
+    "requiredEverySubstantialCheckpoint": [
+      "live main SHA and runtime revision",
+      "visual proposal branch and exact head",
+      "current roadmap package/task",
+      "official visual production progress percent",
+      "frozen character masters count",
+      "current asset gate and whether image generation is OPEN or CLOSED",
+      "what changed in UI/UX truth this checkpoint",
+      "whether main/runtime/Firebase/billing were touched",
+      "next bounded action",
+      "estimated session handoff proximity percent"
+    ],
+    "progressMustBeEvidenceBased": true,
+    "rejectedImagesNeverCount": true,
+    "reportBeforeGeneration": true,
+    "reportAfterGeneration": true
+  },
+  "nextReasoningAction": "Create the r10 Package 3 exact-DOM presentation specification and proposal-only CSS treatment from actual #transferChallenge, #seasonEntry, dynamic #seasonReviewPanel / Shared Season Commit state, and #seasonSummary authority. Keep Tiebreak deferred because no dedicated r10 DOM exists. Do not claim this bypasses the A01/A02 sequence."
+}
