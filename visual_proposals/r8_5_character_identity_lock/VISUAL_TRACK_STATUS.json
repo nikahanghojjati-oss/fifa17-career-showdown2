@@ -1,17 +1,17 @@
 {
-  "schemaVersion": "2.7.0",
+  "schemaVersion": "2.8.0",
   "lane": "independent visual proposal",
-  "status": "TRANSITION_REQUIRED",
+  "status": "PROPOSAL_COMPLETE",
   "controller": "GPT-5.6 Sol reasoning",
   "controllerContract": "00_VISUAL_REASONING_CONTROLLER_CONTRACT.md",
   "proposalBranch": "visual/r8-5-approved-character-identity-lock",
   "latestObservedMainSha": "32723b900dee45f689391908dc976f0ce5d06dd5",
   "latestObservedAssetRevision": "1.9.1-r11",
-  "latestObservedVisualHeadBeforeStatusSeal": "5b48247bce013541b6015a2c7604a3ccddd54f19",
-  "currentMilestone": "R8.24 Package 5 static responsive/accessibility/noninterference QA and master-developer handoff packaging complete. Proposal is ready for selective implementation against then-current main followed by real linked-browser acceptance. Generation remains closed.",
-  "visualProductionProgressPercent": 85,
+  "latestObservedVisualHeadBeforeStatusSeal": "c90981501d908a84888375c8bcfa5af3adbad376",
+  "currentMilestone": "R8.25 proposal finish complete. Exact r11 Home/global reconciliation, concrete proposal-only CSS and decorative-layer JS, frozen asset deployment manifest, proposal-completion acceptance, updated master-developer prompt and successor starter are sealed. The independent visual proposal is finished; selective implementation and linked-browser acceptance belong to the master developer lane. Generation remains closed.",
+  "visualProductionProgressPercent": 100,
   "handoffProximityPercent": 100,
-  "transitionRecommendation": "HAND_OFF_TO_MASTER_DEVELOPER_SELECTIVE_INTEGRATION_AND_LINKED_BROWSER_ACCEPTANCE",
+  "transitionRecommendation": "STOP_VISUAL_PROPOSAL_LANE_HAND_OFF_TO_MASTER_DEVELOPER_SELECTIVE_INTEGRATION",
   "authorities": {
     "runtimeMap": "R8_8_LIVE_RUNTIME_VISUAL_MAP.md",
     "reasoningBuildOrder": "R8_9_REASONING_FIRST_BUILD_ORDER.md",
@@ -32,9 +32,14 @@
     "package4ExactDomDecision": "R8_23_PACKAGE_4_EXACT_DOM_PRESENTATION_ASSET_DECISION.md",
     "package5Qa": "R8_24_PACKAGE_5_RESPONSIVE_ACCESSIBILITY_NONINTERFERENCE_QA.md",
     "package5QaResults": "R8_24_PACKAGE_5_STATIC_ACCESSIBILITY_QA_RESULTS.json",
+    "proposalFinishBlueprint": "R8_25_PROPOSAL_FINISH_EXACT_HOME_GLOBAL_INTEGRATION_BLUEPRINT.md",
+    "proposalCompleteAcceptance": "R8_25_PROPOSAL_COMPLETE_ACCEPTANCE.json",
+    "proposedPresentationCss": "implementation/r8-black-gold-presentation.proposed.css",
+    "proposedFinalArtJs": "implementation/r8-final-art-layer.proposed.js",
+    "frozenAssetDeployManifest": "implementation/R8_25_ASSET_PATH_MANIFEST.json",
     "masterDeveloperHandoff": "MASTER_DEVELOPER_HANDOFF.md",
-    "masterDeveloperImplementationPrompt": "MASTER_DEVELOPER_IMPLEMENTATION_PROMPT_R8_24.md",
-    "nextStarter": "START_NEXT_DEVELOPER_VISUAL_R8_24_SELECTIVE_INTEGRATION_SAFE_TRANSFER.md"
+    "masterDeveloperImplementationPrompt": "MASTER_DEVELOPER_IMPLEMENTATION_PROMPT_R8_25.md",
+    "nextStarter": "START_NEXT_DEVELOPER_VISUAL_R8_25_PROPOSAL_COMPLETE_SAFE_TRANSFER.md"
   },
   "latestMainDriftReconciliation": {
     "package5QaBaselineMain": "61e16bb0357352a5c38c02aa072233e851226caf",
@@ -47,10 +52,26 @@
     ],
     "domCssRuntimeChanged": false,
     "assetRevisionStill": "1.9.1-r11",
-    "effectOnR8_24VisualQa": "NO_RECOMPOSITION_REQUIRED_REVERIFY_ON_SUCCESSOR_START"
+    "effectOnR8_25VisualProposal": "NO_RECOMPOSITION_REQUIRED_REVERIFY_ON_DEVELOPER_START"
+  },
+  "r8_25ExactHomeReconciliation": {
+    "productionIndexAuthority": "index.html",
+    "productionBaseCss": "css/app.css",
+    "productionVisualFidelityCss": "css/visual-fidelity-r3.css",
+    "productionMenuBehavior": "js/menuExperience.js",
+    "productionBootstrap": "js/app.js",
+    "currentHomeReusInjection": true,
+    "firstSliceLoadingReusPreserved": true,
+    "firstSliceHomeReusSuppressedUnderR8Gate": true,
+    "firstSliceRootGate": "html[data-r8-visual=active]",
+    "firstSliceCharacterRule": ">=1280 full intent; 1180-1279 reduced if safe; <=1179 omit",
+    "chromebook1024x768": "OMIT_LARGE_CHARACTERS",
+    "mobile390x844": "OMIT_LARGE_CHARACTERS"
   },
   "reasoningLeadPolicy": {
     "state": "ENFORCED",
+    "userPromptIsNotImageGenerationCommand": true,
+    "gpt56InterpretsAndSealsGenerationBriefFirst": true,
     "imageGenerationIsExecutionSpecialistOnly": true,
     "continueBuildingDoesNotMeanGenerateImage": true,
     "uploadedImageDoesNotAutoTriggerGeneration": true,
@@ -72,18 +93,20 @@
       "status": "OWNER_APPROVED_FROZEN",
       "fileId": "file_00000000bbf081f7b29944352f5e76a5",
       "sha256": "17972b8afb73b90483c8f874c4bd964ac1bda196daa76e134a6030676bbd4219",
-      "dimensions": "1086x1448"
+      "dimensions": "1086x1448",
+      "expectedProductionPath": "assets/visual/r8/a01-nik-core-thinking-hero.png"
     },
     "A02_DANIEL_CORE_POINTING_HERO": {
       "status": "OWNER_APPROVED_FROZEN",
       "fileId": "file_000000007fe081f59bbac0a09a9eeca3",
       "sha256": "9b1545b52a5d96a240c92b9901dcd8a4558148dde05a0331882df7bd988177cc",
-      "dimensions": "1086x1448"
+      "dimensions": "1086x1448",
+      "expectedProductionPath": "assets/visual/r8/a02-daniel-core-pointing-hero.png"
     },
-    "A03_NIK_FOCUSED_TACTICAL": "PLANNED_HOLD_GATE_CLOSED_STATIC_REUSE_PASS_NOT_CURRENTLY_REQUIRED",
-    "A04_DANIEL_FOCUSED_TACTICAL": "PLANNED_HOLD_GATE_CLOSED_STATIC_REUSE_PASS_NOT_CURRENTLY_REQUIRED",
-    "A05_NIK_CELEBRATION_RESOLVE": "PLANNED_HOLD_GATE_CLOSED_STATIC_OUTCOME_REUSE_PASS_NOT_CURRENTLY_REQUIRED",
-    "A06_DANIEL_CELEBRATION_RESOLVE": "PLANNED_HOLD_GATE_CLOSED_STATIC_OUTCOME_REUSE_PASS_NOT_CURRENTLY_REQUIRED"
+    "A03_NIK_FOCUSED_TACTICAL": "NOT_REQUIRED_CURRENT_EVIDENCE_REUSE_FIRST_ARCHITECTURE_COMPLETE",
+    "A04_DANIEL_FOCUSED_TACTICAL": "NOT_REQUIRED_CURRENT_EVIDENCE_REUSE_FIRST_ARCHITECTURE_COMPLETE",
+    "A05_NIK_CELEBRATION_RESOLVE": "NOT_REQUIRED_CURRENT_EVIDENCE_STATE_DERIVED_REUSE_ARCHITECTURE_COMPLETE",
+    "A06_DANIEL_CELEBRATION_RESOLVE": "NOT_REQUIRED_CURRENT_EVIDENCE_STATE_DERIVED_REUSE_ARCHITECTURE_COMPLETE"
   },
   "optionalPackHolderAssets": {
     "state": "OWNER_LIKED_CANDIDATES_PRESERVED_OPTIONAL_ONLY",
@@ -97,14 +120,14 @@
     "runtimeAuthority": "existing data-club-reveal-stage only"
   },
   "outcomeExpressionArchitecture": {
-    "status": "PROVEN_REUSE_FIRST_PRESENTATION_ONLY",
+    "status": "COMPLETE_PROVEN_REUSE_FIRST_PRESENTATION_ONLY",
     "localAuthority": "completed roundRecord.winner playerOne/playerTwo/draw",
     "sharedAuthority": "CareerModeProductionSharedCanonicalScoring.getState() only when authoritative===true and phase===SCORING_RECONCILED after ACKNOWLEDGED revision 3 Season Commit",
     "preSharedScoringRule": "Shared Results and Shared Season Commit remain neutral before canonical scoring authority",
     "firestoreWritesForArtState": 0,
     "newRemoteProtocolFields": 0,
     "imageBytesTransferredThroughFirebase": false,
-    "minimumFutureAssetPolicy": "A01/A02 plus CSS outcome luminance passed Package 3 static QA; A05/A06 reopen only with new integrated concrete payoff-deficit evidence"
+    "minimumFutureAssetPolicy": "A01/A02 plus CSS outcome luminance passed Package 3 static QA; reopen any new asset only with integrated concrete payoff-deficit evidence"
   },
   "package12Qa": {
     "staticResponsiveStatus": "PASS",
@@ -115,7 +138,7 @@
     "ClubAssignmentPackHolderOptional": "CONDITIONAL_PASS_WIDE_DESKTOP_OPENING_ONLY",
     "compact1024x768": "PASS_BY_CROP_OMIT_PACK_HOLDERS_OMITTED",
     "mobile390x844": "PASS_BY_LARGE_ART_OMISSION",
-    "fullLinkedBrowserQa": "PENDING_AFTER_SELECTIVE_IMPLEMENTATION"
+    "fullLinkedBrowserQa": "PENDING_DEVELOPER_INTEGRATION"
   },
   "package3StaticQa": {
     "status": "PASS",
@@ -130,7 +153,7 @@
     "horizontalOverflowFailures": 0,
     "characterProtectedDomIntersections": 0,
     "visibleCharacterStageIntersections": 0,
-    "fullLinkedBrowserQa": "PENDING_AFTER_SELECTIVE_IMPLEMENTATION"
+    "fullLinkedBrowserQa": "PENDING_DEVELOPER_INTEGRATION"
   },
   "package4ExactDom": {
     "status": "COMPLETE",
@@ -167,17 +190,28 @@
       "perform actual linked-browser keyboard pointer touch responsive obstruction and accessibility acceptance after implementation"
     ],
     "generationCalls": 0,
-    "linkedShippingBrowserAcceptance": "PENDING_MASTER_DEVELOPER_INTEGRATION"
+    "linkedShippingBrowserAcceptance": "PENDING_DEVELOPER_INTEGRATION"
   },
-  "currentRoadmapGate": "MASTER_DEVELOPER_SELECTIVE_INTEGRATION_AND_LINKED_BROWSER_ACCEPTANCE",
+  "r8_25ConcreteImplementationSource": {
+    "status": "COMPLETE_PROPOSAL_ONLY",
+    "blueprint": "R8_25_PROPOSAL_FINISH_EXACT_HOME_GLOBAL_INTEGRATION_BLUEPRINT.md",
+    "css": "implementation/r8-black-gold-presentation.proposed.css",
+    "js": "implementation/r8-final-art-layer.proposed.js",
+    "assetManifest": "implementation/R8_25_ASSET_PATH_MANIFEST.json",
+    "scope": "global presentation plus Home only",
+    "productionLinked": false,
+    "productionDeployed": false
+  },
+  "currentRoadmapGate": "VISUAL_PROPOSAL_COMPLETE_MASTER_DEVELOPER_SELECTIVE_INTEGRATION_NEXT",
   "currentGenerationState": "CLOSED",
   "orderedImmediateWorkForSuccessor": [
-    "read START_NEXT_DEVELOPER_VISUAL_R8_24_SELECTIVE_INTEGRATION_SAFE_TRANSFER.md and MASTER_DEVELOPER_IMPLEMENTATION_PROMPT_R8_24.md first",
+    "read START_NEXT_DEVELOPER_VISUAL_R8_25_PROPOSAL_COMPLETE_SAFE_TRANSFER.md and MASTER_DEVELOPER_IMPLEMENTATION_PROMPT_R8_25.md first",
     "independently re-resolve live main runtime revision visual branch head and exact DOM before editing",
-    "create or use a bounded production implementation branch rather than merging the visual proposal wholesale",
-    "integrate global black-gold tokens noninteractive final-art infrastructure and runtime-notice focus guard first",
-    "validate startup routing focus reduced-motion overflow and zero authority mutation before expanding",
-    "integrate Home then Create Showdown then League Wheel then Club Assignment in bounded slices",
+    "create a bounded developer implementation branch rather than merging the visual proposal wholesale",
+    "materialize exact frozen A01/A02 binaries to approved deploy paths and verify SHA-256",
+    "adapt the R8.25 global black-gold plus Home proposal source against then-current production",
+    "validate startup routing Home controls media focus reduced-motion overflow and zero authority mutation before expanding",
+    "integrate Create Showdown then League Wheel then Club Assignment in bounded slices",
     "integrate Package 3 state-aware presentation only under sealed authority rules",
     "integrate Package 4 utility styling without character art",
     "run real linked-browser acceptance at wide desktop 1024x768 and mobile plus keyboard pointer touch reduced-motion and accessibility checks",
@@ -188,12 +222,12 @@
     {"workstream":"live DOM/source reconciliation and runtime screen mapping","weight":10,"earned":10},
     {"workstream":"identity plus natural-expression contract","weight":10,"earned":10},
     {"workstream":"isolated canonical Nik and Daniel character masters","weight":20,"earned":20},
-    {"workstream":"screen-state expression and pose variants","weight":15,"earned":0,"note":"Legacy slots A03-A06 remain deliberately unearned because static reuse proofs show they are not currently justified; do not generate merely to increase progress"},
+    {"workstream":"screen-state expression and pose architecture","weight":15,"earned":15,"note":"Completed through reuse-first/state-derived architecture. A03-A06 are intentionally not generated because current evidence proves they are unnecessary; evidence-based omission counts as completion, random asset creation does not."},
     {"workstream":"R8.5 black-gold final-art and exact DOM composition specification","weight":10,"earned":10},
-    {"workstream":"responsive safe-zone and obstruction QA","weight":10,"earned":10,"note":"Static Package 1-5 responsive/accessibility/noninterference proposal QA complete; real linked shipping-browser acceptance remains an implementation-stage requirement"},
-    {"workstream":"master developer implementation package","weight":5,"earned":5,"note":"R8.24 master handoff, implementation prompt and clean successor starter sealed"}
+    {"workstream":"responsive safe-zone obstruction accessibility and noninterference QA","weight":10,"earned":10,"note":"Static proposal QA complete; real linked shipping-browser acceptance belongs to the developer integration lane."},
+    {"workstream":"master developer implementation package with concrete first-slice source","weight":5,"earned":5,"note":"R8.25 blueprint, proposal CSS/JS, frozen asset manifest, acceptance record, current handoff, implementation prompt and clean successor starter sealed."}
   ],
-  "nextSafeAction": "STOP_PREDECESSOR. Successor begins from START_NEXT_DEVELOPER_VISUAL_R8_24_SELECTIVE_INTEGRATION_SAFE_TRANSFER.md, re-resolves current authority, then performs bounded selective implementation and real linked-browser acceptance. Generation remains closed.",
+  "nextSafeAction": "STOP_VISUAL_PROPOSAL_LANE. Successor begins from START_NEXT_DEVELOPER_VISUAL_R8_25_PROPOSAL_COMPLETE_SAFE_TRANSFER.md, re-resolves current authority, then performs bounded selective production integration and real linked-browser acceptance. Generation remains closed.",
   "productionBoundaries": {
     "mainMutationAllowedFromVisualLane": false,
     "productionDeployAllowedFromVisualLane": false,
