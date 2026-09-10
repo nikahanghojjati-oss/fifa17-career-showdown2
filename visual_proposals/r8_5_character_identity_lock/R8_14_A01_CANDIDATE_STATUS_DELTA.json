@@ -1,0 +1,71 @@
+{
+  "schemaVersion": "1.0.0",
+  "status": "ACTIVE_STATUS_DELTA_AUTHORITATIVE_AFTER_R8_13",
+  "appliesToBranch": "visual/r8-5-approved-character-identity-lock",
+  "liveMainVerified": "1d0c9f9d6542cd020a4aae53998cb6daeba380e4",
+  "liveAssetRevisionVerified": "1.9.1-r10",
+  "processAuthority": [
+    "R8_9_REASONING_FIRST_BUILD_ORDER.md",
+    "R8_10_PACKAGE_1_2_DOM_PRESENTATION_SPEC.md",
+    "R8_11_SAFE_ZONE_COMPOSITION_PROOF.md",
+    "R8_12_A01_NIK_CORE_THINKING_HERO_PRODUCTION_BRIEF.md",
+    "R8_13_REFERENCE_AUTHORITY_DELTA.json",
+    "START_NEXT_VISUAL_SESSION_R8_13_REFERENCE_PRESERVING_A01_A02_SAFE_TRANSFER.md"
+  ],
+  "reasoningLeadRestored": true,
+  "imageGenerationIsSpecialistOnly": true,
+  "currentRoadmapGate": "A01_OWNER_REVIEW",
+  "a01": {
+    "assetId": "A01_NIK_CORE_THINKING_HERO",
+    "state": "A01_CANDIDATE",
+    "method": "DETERMINISTIC_REFERENCE_C_FOREGROUND_ISOLATION_NO_FACE_REGENERATION",
+    "sourceReference": {
+      "fileId": "file_00000000125881f7b67a4f1bdca4714f",
+      "sha256": "7bcdcfd002002d2eef726fed637d31a4870091b542f733adfac79c30a2c7628a"
+    },
+    "candidate": {
+      "libraryPath": "/Showdown visual/R8_5_APPROVED_CHARACTER_IDENTITY_LOCK/A01_NIK_CORE_THINKING_HERO_CANDIDATE_R8_13_V1.png",
+      "fileId": "file_0000000073c881f7990d6190a51af31a",
+      "libraryFileId": "libfile_17daa74ee60c8191a916115451770794",
+      "sha256": "71803aacaeca06d17208ca035b4c3f357b82d1c0e608077c059decb7f1d43c68",
+      "dimensions": "900x1200",
+      "transparent": true,
+      "ownerApproved": false,
+      "frozen": false
+    },
+    "qa": {
+      "oneNikOnly": "PASS",
+      "danielAbsent": "PASS",
+      "uiAbsent": "PASS",
+      "textAbsent": "PASS",
+      "logoAbsent": "PASS",
+      "stadiumRemoved": "PASS",
+      "facePreservedBySourcePixelReuse": "PASS",
+      "hairBeardExpressionPreserved": "PASS",
+      "suitWatchPosePreserved": "PASS",
+      "transparentReusableCanvas": "PASS",
+      "ownerVisualEdgeReview": "PENDING"
+    }
+  },
+  "newRejectedNonShippingOutputs": [
+    {
+      "id": "RJ06_A01_CONTEXT_DRIFT_OFFICE_SCENE",
+      "generationId": "b7f532bd-be8b-4f0c-b32c-27a26ade684d",
+      "credit": 0
+    },
+    {
+      "id": "RJ07_A01_CONTEXT_DRIFT_ASSET_BOARD",
+      "generationId": "1f3560ff-065f-4e55-9a46-228cd1d23399",
+      "credit": 0
+    }
+  ],
+  "formalVisualProductionProgressPercent": 56,
+  "frozenCharacterMasters": "0/6",
+  "handoffProximityPercent": 18,
+  "nextAction": "Owner reviews A01 candidate only. If approved, freeze exact file/hash and begin A02. If rejected for mask/padding, revise deterministically without regenerating Nik.",
+  "zeroDollarRequired": true,
+  "firebaseSparkOnly": true,
+  "billingPermanentlyOff": true,
+  "mainMutationAllowed": false,
+  "productionDeployAllowed": false
+}
