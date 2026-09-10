@@ -36,10 +36,22 @@ Publication attempt 3 changed only the release-note construction to truthfully r
 
 The published whole shell is `1.9.1-r17`; its previous known-good recovery runtime is `1.9.1-r16`. `RELEASE_V1.9.1_R17.md` truthfully retains Private Remote Joining, Firebase Spark-only, permanent Billing OFF and App Check enforcement OFF. No new provider/list/Firestore authority is introduced.
 
-The net branch diff from authoritative MDP-91 main contains only r17 product/runtime/test/registry changes, the connector candidate boundary, the r17 release note and the coherent whole-shell revision changes. Temporary publication workflows are absent.
+The first connector-authored final publication boundary was `0fefe2c2a7ee886bfcc2d6c3f96f266e1116576e`.
 
-## Final publication acceptance boundary
+## Codex P1 hardening boundary
 
-The connector commit containing this updated document is the sole final r17 publication candidate head eligible for merge acceptance. A fresh normal PR POS20 must pass every selected lane and the exact-head cognitive seal on this exact connector-authored publication head. Pre-publication run #402, failed publication heads, bot-only publication head `6808d7d6...`, and incidental POS20 runs on workflow-staging heads must not be combined with the final publication candidate.
+The requested Codex review of exact pre-publication code `e78e2a63af59eb06e7e452fcbf4310c8a7d8bd0d` returned two credible P1 findings after publication had already been staged. Both findings supersede merge eligibility of `0fefe2c2...` and any POS20 activity on it; no MDP credit was awarded.
 
-If final publication-head POS20 passes and review state is clean, PR #248 may be marked ready and merged only with expected-head protection. r17 still earns no product-integration credit until the merged exact main is coherently deployed, exact-main POS20 passes, and two independent Release Integration Burn-In journeys pass. Only after those proofs may a separate accounting authority move Final Reconciliation from design-only to fully integrated and raise MDP from `91.00/100` to `93.70/100`.
+P1-1: Final Reconciliation accepted a safe Local Reconciliation phase without explicitly matching its `managerRole`, `profileId`, and `saveId` to the corresponding verified History Convergence manager slot. The corrected protocol now requires the local state to preserve all non-destructive safety flags and to match both the verified `managerSlots` entry and the corresponding manager record before a completed Showdown can be projected. A stale or tampered local binding from another manager/save is rejected.
+
+P1-2: the production compositor originally checked the active Showdown only before awaited dependency refreshes and then read dependency caches. The corrected compositor captures an exact `saveId + rivalryId` request, uses the actual returned refresh snapshots, checks current context after each await, requires Multi Season and History snapshots to match the same rivalry plus Local Reconciliation to match the same local save, checks again immediately before publication, and uses context-aware in-flight dedup. A different save/rivalry may start its own refresh instead of waiting behind stale work, and old in-flight work is discarded rather than rendered with the new manager names.
+
+The focused deterministic contract now rejects mismatched save binding and unsafe automatic-Apply flags while proving either manager can converge when its own exact slot binding is valid. The two-context browser audit now also holds one manager refresh in flight, switches to a different save/rivalry, proves the new context is not deduplicated behind the old request, proves both stale results are suppressed, and proves the original context can recover on a new exact refresh with zero storage writes.
+
+The connector commit containing this hardening document and code is the only r17 head eligible for fresh validation. Earlier #402 evidence, publication staging heads, bot-only publication commit `6808d7d6...`, and superseded connector head `0fefe2c2...` are historical only and must never be combined with the corrected candidate.
+
+## Final acceptance boundary
+
+A fresh normal PR POS20 must pass every selected lane and the exact-head cognitive seal on the exact connector-authored P1-hardening head. If it passes, review threads must be rechecked and resolved only after the code addresses them; then PR #248 may be marked ready and merged only with expected-head protection.
+
+r17 still earns no product-integration credit until the merged exact main is coherently deployed, exact-main POS20 passes, and two independent Release Integration Burn-In journeys pass. Only after those proofs may a separate accounting authority move Final Reconciliation from design-only to fully integrated and raise MDP from `91.00/100` to `93.70/100`.

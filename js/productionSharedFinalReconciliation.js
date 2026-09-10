@@ -6,9 +6,12 @@
   "use strict";
   const POLL_MS=15000;
   const PANEL_ID="sharedFinalReconciliationPanel";
-  let installed=false,busy=false,protocol=null,multiApi=null,historyApi=null,localApi=null,view=null,refreshPromise=null;
+  let installed=false,busy=false,protocol=null,multiApi=null,historyApi=null,localApi=null,view=null,refreshPromise=null,refreshContextKey="";
   function pfrShowdown(){try{return typeof currentShowdown!=="undefined"?currentShowdown:null;}catch(_error){return null;}}
   function pfrShared(){const s=pfrShowdown();return Boolean(s&&s.sharedJourney&&s.sharedJourney.mode==="shared");}
+  function pfrRequest(){const s=pfrShowdown();if(!s||s.sharedJourney?.mode!=="shared")return null;const rivalryId=String(s.sharedJourney?.rivalryId||"").trim(),saveId=String(s.id||s.saveId||"").trim();if(!rivalryId||!saveId)return null;return Object.freeze({rivalryId,saveId,key:`${saveId}|${rivalryId}|final-reconciliation`});}
+  function pfrContextMatches(request){const current=pfrRequest();return Boolean(request&&current&&request.key===current.key);}
+  function pfrSnapshotsMatch(request,multiState,historyState,localState){return Boolean(request&&multiState&&historyState&&localState&&String(multiState.rivalryId||"")===request.rivalryId&&String(historyState.rivalryId||"")===request.rivalryId&&String(localState.binding?.saveId||"")===request.saveId);}
   function pfrField(id){return root.document&&root.document.getElementById(id);}
   function pfrHidden(node,hidden){if(node)node.classList.toggle("hidden",Boolean(hidden));}
   function pfrText(node,value){if(node&&node.textContent!==String(value??""))node.textContent=String(value??"");}
@@ -42,17 +45,25 @@
     pfrText(ui.close,"FINAL RESULTS ARE READ-ONLY · TERMINAL CLOSE REMAINS A SEPARATE STEP");
     return true;
   }
-  async function pfrRefreshNow(){
-    if(!pfrShared()){view=null;pfrRender();return null;}
-    await pfrEnsureDependencies();
-    await multiApi.refresh();await historyApi.refresh();localApi.refresh();
-    const next=protocol.reconcile({sharedActive:true,multiSeason:multiApi.getState(),history:historyApi.getState(),localReconciliation:localApi.getState()});
+  async function pfrRefreshNow(request=pfrRequest()){
+    if(!request||!pfrContextMatches(request)){view=null;pfrRender();return null;}
+    await pfrEnsureDependencies();if(!pfrContextMatches(request))return null;
+    const multiState=await multiApi.refresh();if(!pfrContextMatches(request))return null;
+    const historyState=await historyApi.refresh();if(!pfrContextMatches(request))return null;
+    const localState=localApi.refresh();if(!pfrContextMatches(request)||!pfrSnapshotsMatch(request,multiState,historyState,localState))return null;
+    const next=protocol.reconcile({sharedActive:true,multiSeason:multiState,history:historyState,localReconciliation:localState});
+    if(!pfrContextMatches(request)||!pfrSnapshotsMatch(request,multiState,historyState,localState))return null;
     view=next;pfrRender();
     try{root.dispatchEvent?.(new root.CustomEvent("career-mode-shared-final-reconciliation-state-change",{detail:view}));}catch(_error){}
     return view;
   }
-  function pfrRefresh(){if(refreshPromise)return refreshPromise;busy=true;const current=pfrRefreshNow().catch(error=>{view=null;pfrRender();pfrReport("Unable to reconcile final Shared Showdown",error);return null;}).finally(()=>{busy=false;if(refreshPromise===current)refreshPromise=null;});refreshPromise=current;return current;}
-  function pfrWake(){if(busy||root.document?.visibilityState==="hidden")return;void pfrRefresh();}
-  function pfrInstall(){if(installed)return true;installed=true;for(const event of ["career-mode-shared-multi-season-state-change","career-mode-shared-history-convergence-state-change","career-mode-shared-local-reconciliation-state-change","career-mode-connected-account-state-change"]){root.addEventListener?.(event,pfrWake);}root.document?.addEventListener?.("visibilitychange",pfrWake);if(typeof root.setInterval==="function")root.setInterval(pfrWake,POLL_MS);if(typeof root.setTimeout==="function")root.setTimeout(pfrWake,0);return true;}
+  function pfrRefresh(){
+    const request=pfrRequest();if(!request){view=null;pfrRender();return Promise.resolve(null);}
+    if(refreshPromise&&refreshContextKey===request.key)return refreshPromise;
+    busy=true;const current=pfrRefreshNow(request).catch(error=>{if(pfrContextMatches(request)){view=null;pfrRender();pfrReport("Unable to reconcile final Shared Showdown",error);}return null;}).finally(()=>{if(refreshPromise===current){refreshPromise=null;refreshContextKey="";busy=false;}});
+    refreshPromise=current;refreshContextKey=request.key;return current;
+  }
+  function pfrWake(){if(root.document?.visibilityState==="hidden")return;const request=pfrRequest();if(!request){view=null;pfrRender();return;}if(busy&&refreshPromise&&refreshContextKey===request.key)return;void pfrRefresh();}
+  function pfrInstall(){if(installed)return true;installed=true;for(const event of ["career-mode-shared-multi-season-state-change","career-mode-shared-history-convergence-state-change","career-mode-shared-local-reconciliation-state-change","career-mode-connected-account-state-change","career-mode-showdown-state-change"]){root.addEventListener?.(event,pfrWake);}root.document?.addEventListener?.("visibilitychange",pfrWake);if(typeof root.setInterval==="function")root.setInterval(pfrWake,POLL_MS);if(typeof root.setTimeout==="function")root.setTimeout(pfrWake,0);return true;}
   return Object.freeze({contractVersion:1,feature:"ssjr-production-shared-final-reconciliation",productionEnabled:true,runtimeRevision:"1.9.1-r17",pollIntervalMs:POLL_MS,install:pfrInstall,refresh:pfrRefresh,getState:()=>view,isActive:pfrShared,usesAccumulatedCanonicalPoints:true,createsAdditionalSeason:false,terminalCloseSeparate:true,canonicalStorageMutation:false,providerWriteRequired:false,listPermissionRequired:false,billingRequired:false});
 });

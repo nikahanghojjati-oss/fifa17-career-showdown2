@@ -25,6 +25,16 @@
     if(projection.rivalryId!==rivalryId||projection.acceptedSeasons!==totalSeasons||projection.totalSeasons!==totalSeasons||projection.seasonHistory.length!==totalSeasons)frFail("FINAL_RECONCILIATION_HISTORY_INCOMPLETE");
     return projection;
   }
+  function frVerifyLocal(localReconciliation,projection){
+    if(!localReconciliation||!SAFE_LOCAL_PHASES.has(localReconciliation.phase))return false;
+    if(localReconciliation.canonicalStorageMutation!==false||localReconciliation.providerWriteRequired!==false||localReconciliation.automaticLocalApply!==false||localReconciliation.candidateCOnly!==true)frFail("FINAL_RECONCILIATION_LOCAL_SAFETY_INVALID");
+    const binding=localReconciliation.binding;
+    if(!frPlain(binding)||!ROLES.includes(binding.managerRole))frFail("FINAL_RECONCILIATION_LOCAL_BINDING_INVALID");
+    const slot=Array.isArray(projection.managerSlots)?projection.managerSlots.find(item=>item&&item.slotId===binding.managerRole):null;
+    const record=projection.managerRecords?.[binding.managerRole];
+    if(!slot||!record||slot.profileId!==binding.profileId||slot.saveId!==binding.saveId||record.role!==binding.managerRole||record.profileId!==binding.profileId||record.saveId!==binding.saveId)frFail("FINAL_RECONCILIATION_LOCAL_BINDING_MISMATCH");
+    return true;
+  }
   function frReconcile({sharedActive=false,multiSeason=null,history=null,localReconciliation=null}={}){
     if(!sharedActive)return frBase("INACTIVE",{reason:"local-journey",terminal:false,finalSeasonReconciled:false,nextSeason:null,extraSeasonAllowed:false,terminalCloseRequired:false});
     if(!multiSeason||multiSeason.ok!==true||multiSeason.authoritative!==true||multiSeason.phase!=="SHOWDOWN_COMPLETE"||!frPlain(multiSeason.state))return frBlocked("multi-season-not-terminal");
@@ -32,6 +42,7 @@
     if(state.rivalryId!==rivalryId||state.phase!=="SHOWDOWN_COMPLETE"||state.terminal!==true||![1,3,5,10].includes(totalSeasons)||state.acceptedSeasons!==totalSeasons||state.completedSeason!==totalSeasons||state.activeSeason!==null||typeof state.acceptedRevisionKey!=="string"||!state.acceptedRevisionKey)frFail("FINAL_RECONCILIATION_MULTI_SEASON_INVALID");
     if(!localReconciliation||!SAFE_LOCAL_PHASES.has(localReconciliation.phase))return frBlocked("local-reconciliation-not-ready");
     const projection=frVerifyHistory(history,rivalryId,totalSeasons);
+    frVerifyLocal(localReconciliation,projection);
     if(projection.acceptedRevisionKey!==state.acceptedRevisionKey||projection.leagueId!==state.leagueId||projection.managerRecords?.playerOne?.club!==state.fixedClubs?.playerOne||projection.managerRecords?.playerTwo?.club!==state.fixedClubs?.playerTwo)frFail("FINAL_RECONCILIATION_AUTHORITY_MISMATCH");
     const playerOne=frManagerTotal(projection.managerRecords.playerOne,"playerOne"),playerTwo=frManagerTotal(projection.managerRecords.playerTwo,"playerTwo");
     const winner=playerOne>playerTwo?"playerOne":playerTwo>playerOne?"playerTwo":"draw";
