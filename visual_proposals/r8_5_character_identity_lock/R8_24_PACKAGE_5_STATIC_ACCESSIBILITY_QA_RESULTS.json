@@ -1,0 +1,174 @@
+{
+  "schemaVersion": "1.0.0",
+  "status": "STATIC_PROPOSAL_PASS_WITH_IMPLEMENTATION_GUARDS",
+  "authority": {
+    "mainSha": "61e16bb0357352a5c38c02aa072233e851226caf",
+    "runtimeRevision": "1.9.1-r11",
+    "visualBranchPreQaSha": "e67c3b58636b52d692ced063763d56c7dd2b57b2",
+    "package4Decision": "R8_23_PACKAGE_4_EXACT_DOM_PRESENTATION_ASSET_DECISION.md"
+  },
+  "scope": {
+    "packages": [1, 2, 3, 4],
+    "viewportClasses": ["wide desktop approximately 1600x900", "compact desktop/tablet approximately 1024x768", "mobile approximately 390x844"],
+    "reviewTypes": ["responsive source/static proof", "focus and modal semantics", "contrast spot checks", "reduced motion", "art-layer noninterference", "authority isolation"],
+    "linkedShippingBrowserAcceptancePerformed": false
+  },
+  "responsiveEvidence": {
+    "package12": {
+      "source": "R8_20_PACKAGE_1_2_STATIC_RESPONSIVE_OBSTRUCTION_QA.md",
+      "wideDesktop": "PASS_WITH_PER_SCREEN_CONSTRAINTS",
+      "compact1024x768": "PASS_BY_CROP_OR_OMIT",
+      "mobile390x844": "PASS_BY_LARGE_ART_OMISSION"
+    },
+    "package3": {
+      "source": "R8_22_PACKAGE_3_STATIC_QA_RESULTS.json",
+      "cases": 66,
+      "passed": 66,
+      "failed": 0,
+      "wideDesktop": "ROLE_ALIGNED_OUTER_RAILS_ALLOWED",
+      "compact1024x768": "LARGE_ART_OMITTED",
+      "mobile390x844": "LARGE_ART_OMITTED",
+      "horizontalOverflowFailures": 0,
+      "characterProtectedDomIntersections": 0,
+      "visibleCharacterStageIntersections": 0
+    },
+    "package4": {
+      "statisticsAndTrophy": "existing 1180px-class data layout collapses multi-column structures at 900/650px; standings retain intentional horizontal scrolling where needed",
+      "legacy": "existing archive/data-management layout collapses to one column around 800px and tightens below 480px",
+      "ruleBook": "existing two-column reading grid collapses below 760px and tightens below 480px",
+      "settings": "existing 900px dialog becomes full-screen one-column below 700px and tightens below 430px",
+      "saveLibrary": "existing save/profile grids and identity-link rows collapse below 760px; additional tightening below 420px",
+      "restoreRecovery": "existing snapshot/choice/picker/action structures collapse below 800px; panel tightens below 480px",
+      "remoteJoining": "existing host/join grid collapses below 680px and action grid becomes two columns",
+      "characterRule": "NO_CHARACTER_ART_ON_PACKAGE4_SURFACES"
+    }
+  },
+  "focusAndSemantics": {
+    "settings": {
+      "dialogRole": true,
+      "ariaModal": true,
+      "ariaLabelledBy": true,
+      "backgroundInertWhileOpen": true,
+      "backgroundAriaHiddenWhileOpen": true,
+      "escapeCloses": true,
+      "tabTrapForward": true,
+      "tabTrapBackward": true,
+      "previousFocusRestored": true,
+      "motionRadiogroupKeyboard": ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Home", "End"],
+      "explicitFocusVisibleStyles": true
+    },
+    "saveLibrary": {
+      "mutationFocusRestorationHelpers": true,
+      "profileAndIdentityControlsRemainRealDom": true,
+      "characterProfilesProhibited": true
+    },
+    "restoreRecovery": {
+      "focusVisibleInputAndSelect": true,
+      "criticalRecoveryMayDisableControls": true,
+      "explicitApplyAuthorityPreserved": true
+    },
+    "connectedRivalry": {
+      "explicitConfirmationBeforeApply": true,
+      "applyDisabledUntilConfirmed": true,
+      "readOnlyPreviewDistinctFromApply": true,
+      "statusAriaLive": true
+    },
+    "remoteJoining": {
+      "dialogSemantics": true,
+      "capabilityCopyGatedByRuntimeAuthority": true,
+      "statusAriaLive": true
+    },
+    "globalRuntimeNotice": {
+      "roleStatus": true,
+      "ariaLivePolite": true,
+      "accessibleDismissLabel": true,
+      "explicitDismissFocusVisibleStyle": false,
+      "implementationGuard": "Add an explicit high-contrast #appRuntimeNotice button:focus-visible treatment; do not rely only on browser default focus rendering."
+    }
+  },
+  "contrastSpotChecks": {
+    "method": "WCAG relative luminance source-token spot checks; these are static token checks, not a complete rendered accessibility scan",
+    "proposalDarkSystem": {
+      "cream_on_ink": 16.14,
+      "gold_on_ink": 11.85,
+      "muted_on_ink": 8.88,
+      "danger_on_ink": 5.72,
+      "warning_on_ink": 10.55,
+      "dark_text_on_gold": 12.57,
+      "cream_on_dark_button": 14.95,
+      "placeholder_on_dark_input": 6.21
+    },
+    "currentUtilitySystem": {
+      "white_on_runtime_notice_dark": 11.90,
+      "white_on_panel_dark": 12.49,
+      "ink_on_yellow": 10.53,
+      "ink_on_cyan": 6.61,
+      "danger_text_on_danger_background": 6.78,
+      "blue_deep_on_white": 9.05,
+      "muted_text_on_white": 5.66,
+      "status_text_on_light_status": 6.44,
+      "blue_focus_border_on_white": 5.22,
+      "yellow_on_white": 1.44
+    },
+    "guard": "Do not rely on yellow alone as a focus indicator against white/light surfaces. Preserve or add the existing blue/dark boundary or another high-contrast focus component."
+  },
+  "artLayerNoninterference": {
+    "proposalSelectors": [".r8FinalArtLayer", ".r8CharacterLayer", ".r8AtmosphereLayer"],
+    "pointerEventsNoneRequired": true,
+    "userSelectNoneRequired": true,
+    "ariaHiddenRequiredAtMarkup": true,
+    "focusableDescendantsAllowed": false,
+    "absolutePositioningRequired": true,
+    "realDomZIndexAboveArt": true,
+    "participatesInGridOrFlexSizing": false,
+    "horizontalOverflowAllowed": false,
+    "mobileLargeCharacterLayer": "OMIT",
+    "compactCharacterPolicy": "CROP_OR_OMIT; PACKAGE3 USES OMIT_AT_OR_BELOW_1280",
+    "failurePolicy": "ART_LOSES_BEFORE_ANY_FUNCTIONAL_UI_COMPROMISE"
+  },
+  "reducedMotion": {
+    "proposalPackage12": "startup, route and pulse animation/transition disabled under prefers-reduced-motion",
+    "settingsDialog": "animation disabled when application or system reduced-motion applies",
+    "remoteJoining": "backdrop-filter removed under reduced motion",
+    "saveLibrary": "scroll-behavior/transition reductions present",
+    "restoreRecovery": "scroll-behavior reduction present",
+    "rule": "decorative motion may disappear; runtime/gameplay state transitions may not be replaced or changed by the visual layer"
+  },
+  "authorityIsolation": {
+    "productionMainMutation": false,
+    "productionDeployment": false,
+    "storageMutationByVisualLayer": false,
+    "firebaseMutationByVisualLayer": false,
+    "visualStateFirestoreWrites": 0,
+    "newRemoteArtworkFields": 0,
+    "scoringMutation": false,
+    "pairingMutation": false,
+    "saveLibraryMutation": false,
+    "remoteJoiningMutation": false,
+    "billingChange": false,
+    "firebasePlan": "Spark only"
+  },
+  "assetDecision": {
+    "A01": "REUSE_ONLY_ON_APPROVED_PACKAGE1_AND_PACKAGE3_WIDE_SURFACES",
+    "A02": "REUSE_ONLY_ON_APPROVED_PACKAGE1_AND_PACKAGE3_WIDE_SURFACES",
+    "A03": "HOLD_GATE_CLOSED",
+    "A04": "HOLD_GATE_CLOSED",
+    "A05": "HOLD_GATE_CLOSED",
+    "A06": "HOLD_GATE_CLOSED",
+    "package4Raster": "NO_GENERATION_REQUIRED",
+    "trophyRoomRasterAtmosphere": "CONDITIONAL_CLOSED",
+    "generationState": "CLOSED"
+  },
+  "result": {
+    "staticProposalAcceptance": "PASS_WITH_IMPLEMENTATION_GUARDS",
+    "shippingBrowserAcceptance": "PENDING_MASTER_DEVELOPER_IMPLEMENTATION",
+    "blockingStaticFindings": 0,
+    "implementationGuards": [
+      "Add explicit high-contrast focus-visible styling to the global runtime-notice dismiss button.",
+      "Never use yellow-only focus indication against white/light surfaces.",
+      "Mark final art aria-hidden and keep it noninteractive with no focusable descendants.",
+      "Preserve existing Package4 responsive breakpoints rather than forcing character or decorative layouts.",
+      "Run real linked-browser keyboard, touch, responsive, accessibility and obstruction acceptance after selective implementation against then-current main."
+    ]
+  }
+}
