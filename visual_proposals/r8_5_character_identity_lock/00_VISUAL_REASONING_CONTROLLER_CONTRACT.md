@@ -66,6 +66,30 @@ The following do NOT by themselves authorize image generation:
 
 A whole session may correctly contain zero image-generation calls when planning, DOM reconciliation, QA, asset bookkeeping, responsive work, accessibility work or implementation packaging is the highest-value roadmap task.
 
+There is no requirement for a project-work prompt or session to end with an image. Planning-only, QA-only and implementation-specification sessions are valid successful sessions when they advance the current roadmap gate.
+
+## Derived visual-state rule
+
+Presentation state must not become a second network protocol.
+
+When artwork or character expression changes because of gameplay state, the visual choice must be derived locally from an already-authoritative runtime value whenever possible.
+
+Examples include an existing completed-season winner, a confirmed reveal stage, or a later authoritative shared-season outcome.
+
+Do not add Firestore fields, writes, pairing messages, session messages or save mutations whose only purpose is to synchronize which image is displayed.
+
+Static character assets are bundled/deployed website assets. The runtime may choose which approved asset/crop to display from authoritative domain state. Both connected devices therefore render the same visual result from the same authoritative state without transmitting image bytes or visual-state records through Firebase.
+
+If shared gameplay has not yet established an authoritative outcome, keep neutral/core artwork. Do not infer a winner visually ahead of shared scoring authority.
+
+## Owner-override rule for previously cancelled assets
+
+A previously cancelled optional asset may be reconsidered only when the owner explicitly changes the visual direction or supplies new approved evidence that materially changes the need.
+
+Reconsideration does not automatically make the asset required and does not erase the original obstruction/scope analysis.
+
+The reasoning controller must re-evaluate the asset against live DOM geometry, interaction authority, responsiveness, cost and reuse. It may reopen the asset only as tightly bounded optional presentation work when those constraints pass.
+
 ## Required checkpoint report
 
 After every substantial visual milestone, report:
