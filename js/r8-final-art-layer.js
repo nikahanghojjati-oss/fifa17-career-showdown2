@@ -11,7 +11,6 @@
     const ROOT_ACTIVE_VALUE = "active";
     const HOME_LAYER_ID = "r8HomeFinalArt";
     const STYLE_MARKER = "r8-25-home-global";
-    const SCRIPT_ELEMENT = document.currentScript;
 
     const FROZEN_ASSETS = Object.freeze({
         nik: Object.freeze({
@@ -56,9 +55,9 @@
             link.addEventListener("error", () => reject(new Error("R8 presentation stylesheet failed to load.")), { once:true });
         });
 
-        /* app.js has already inserted visual-fidelity-r3.css before this deferred
-           script executes. Appending here gives the R8 gate presentation precedence
-           without changing the protected loading stylesheet or app bootstrap. */
+        /* app.js requests visual-fidelity-r3.css before importing this module.
+           Appending here gives the R8 gate presentation precedence without
+           changing the protected loading stylesheet or app bootstrap. */
         document.head.appendChild(link);
         return promise;
     }
@@ -201,10 +200,7 @@
         };
     }
 
-    async function initializeFromScriptOptIn(){
-        if(!SCRIPT_ELEMENT || SCRIPT_ELEMENT.dataset.r8AutoEnable !== "true"){
-            return { enabled:false, reason:"not-opted-in" };
-        }
+    async function initializeFromBootstrap(){
         try{
             return await enable();
         }catch(error){
@@ -215,8 +211,8 @@
     }
 
     const ready = document.readyState === "loading"
-        ? new Promise(resolve => document.addEventListener("DOMContentLoaded", () => resolve(initializeFromScriptOptIn()), { once:true })).then(value => value)
-        : initializeFromScriptOptIn();
+        ? new Promise(resolve => document.addEventListener("DOMContentLoaded", () => resolve(initializeFromBootstrap()), { once:true })).then(value => value)
+        : initializeFromBootstrap();
 
     global.CareerModeR8FinalArt = Object.freeze({
         enable,
