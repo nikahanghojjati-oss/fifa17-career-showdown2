@@ -1,0 +1,9 @@
+const assert=require("node:assert/strict");
+const fs=require("node:fs");
+const read=p=>fs.readFileSync(p,"utf8");
+const protocol=read("js/sharedFinalReconciliation.js"),production=read("js/productionSharedFinalReconciliation.js"),ssjr=read("js/ssjr.js"),shell=read("service-worker.js"),pkg=JSON.parse(read("package.json"));
+assert.match(protocol,/FINAL_SEASON_RECONCILED/);assert.match(protocol,/usesAccumulatedCanonicalPoints:true/);assert.match(protocol,/createsAdditionalSeason:false/);assert.match(protocol,/terminalCloseSeparate:true/);assert.match(protocol,/canonicalStorageMutation:false/);assert.match(protocol,/providerWriteRequired:false/);assert.match(protocol,/listPermissionRequired:false/);
+assert.match(production,/CareerModeProductionSharedMultiSeasonProgression/);assert.match(production,/CareerModeProductionSharedHistoryConvergence/);assert.match(production,/CareerModeProductionSharedLocalReconciliation/);assert.match(production,/NO ADDITIONAL SEASON/);assert.match(production,/TERMINAL CLOSE REMAINS A SEPARATE STEP/);assert.doesNotMatch(production,/localStorage\.setItem|sessionStorage\.setItem|runTransaction\(|setDoc\(|updateDoc\(|addDoc\(/);
+for(const asset of ["js/sharedFinalReconciliation.js","js/productionSharedFinalReconciliation.js"])assert.ok(shell.includes(`\"${asset}\"`),`${asset} must be service-worker shell-owned before r17 publication`);
+assert.match(ssjr,/ssjr-final-reconciliation-protocol/);assert.match(ssjr,/ssjr-production-final-reconciliation/);assert.ok(pkg.scripts["test:ssjr:final-reconciliation"]);assert.match(pkg.scripts["test:ssjr"],/shared-final-reconciliation-contracts/);assert.match(pkg.scripts["test:ssjr:browser"],/shared-final-reconciliation-audit/);
+process.stdout.write("PASS r17 production Final Reconciliation is read-only, shell-owned, composed from prior authorities and keeps Terminal Close separate\n");
