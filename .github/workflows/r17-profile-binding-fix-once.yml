@@ -2,10 +2,8 @@ name: r17 profile binding fix once
 
 on:
   push:
-    branches:
-      - feat/ssjr-final-reconciliation-r17
-    paths:
-      - .github/workflows/r17-profile-binding-fix-once.yml
+    branches: [feat/ssjr-final-reconciliation-r17]
+    paths: [.github/workflows/r17-profile-binding-fix-once.yml]
 
 permissions:
   contents: write
@@ -20,86 +18,68 @@ jobs:
           ref: feat/ssjr-final-reconciliation-r17
       - name: Guard exact staging parent
         run: |
-          test "$(git rev-parse HEAD^)" = "58fc71702eb0bc4590586ac4c81ac732f9a3125c"
+          test "$(git rev-parse HEAD^)" = "7ff8ac5cc9decc692b92072cddb0bd187072395b"
           test "$(git diff --name-only HEAD^ HEAD)" = ".github/workflows/r17-profile-binding-fix-once.yml"
-      - name: Apply exact active-profile binding correction
+      - name: Apply profile-aware context correction
         run: |
           python - <<'PY'
           from pathlib import Path
+          import re
+
+          def sub_once(path, pattern, repl, flags=0):
+              p=Path(path); text=p.read_text(); out,n=re.subn(pattern,repl,text,count=1,flags=flags)
+              if n != 1: raise SystemExit(f"{path}: expected regex once, got {n}: {pattern}")
+              p.write_text(out)
 
           def replace_once(path, old, new):
-              p=Path(path); text=p.read_text()
-              count=text.count(old)
-              if count != 1:
-                  raise SystemExit(f"{path}: expected exact snippet once, found {count}")
+              p=Path(path); text=p.read_text(); n=text.count(old)
+              if n != 1: raise SystemExit(f"{path}: expected literal once, got {n}")
               p.write_text(text.replace(old,new,1))
 
+          sub_once("js/saveLibraryRuntime.js",
+              r'    function runtimeActiveContext\(value\)\{\n.*?\n    \}\n    function runtimeSetCurrentShowdownReference',
+              '''    function runtimeActiveContext(value){
+        const refs=runtimeManagerProfileRefs(value);
+        return {
+            saveId:value&&value.identity&&typeof value.identity.saveId==="string"?value.identity.saveId:null,
+            rivalryId:value&&value.sharedJourney&&value.sharedJourney.mode==="shared"&&typeof value.sharedJourney.rivalryId==="string"?value.sharedJourney.rivalryId:null,
+            playerOneProfileId:refs.playerOne,
+            playerTwoProfileId:refs.playerTwo
+        };
+    }
+    function runtimeSetCurrentShowdownReference''', re.S)
           replace_once("js/saveLibraryRuntime.js",
-          '''    function runtimeActiveContext(value){
-              return {
-                  saveId:value&&value.identity&&typeof value.identity.saveId==="string"?value.identity.saveId:null,
-                  rivalryId:value&&value.sharedJourney&&value.sharedJourney.mode==="shared"&&typeof value.sharedJourney.rivalryId==="string"?value.sharedJourney.rivalryId:null
-              };
-          }
-          ''',
-          '''    function runtimeActiveContext(value){
-              const refs=runtimeManagerProfileRefs(value);
-              return {
-                  saveId:value&&value.identity&&typeof value.identity.saveId==="string"?value.identity.saveId:null,
-                  rivalryId:value&&value.sharedJourney&&value.sharedJourney.mode==="shared"&&typeof value.sharedJourney.rivalryId==="string"?value.sharedJourney.rivalryId:null,
-                  playerOneProfileId:refs.playerOne,
-                  playerTwoProfileId:refs.playerTwo
-              };
-          }
-          ''')
-          replace_once("js/saveLibraryRuntime.js",
-          '''        if(previous.saveId===current.saveId&&previous.rivalryId===current.rivalryId)return;
-          ''',
-          '''        if(previous.saveId===current.saveId&&previous.rivalryId===current.rivalryId&&previous.playerOneProfileId===current.playerOneProfileId&&previous.playerTwoProfileId===current.playerTwoProfileId)return;
-          ''')
+              '        if(previous.saveId===current.saveId&&previous.rivalryId===current.rivalryId)return;\n',
+              '        if(previous.saveId===current.saveId&&previous.rivalryId===current.rivalryId&&previous.playerOneProfileId===current.playerOneProfileId&&previous.playerTwoProfileId===current.playerTwoProfileId)return;\n')
 
-          replace_once("js/productionSharedFinalReconciliation.js",
-          '''  function pfrRequest(){const s=pfrShowdown();if(!s||s.sharedJourney?.mode!=="shared")return null;const rivalryId=String(s.sharedJourney?.rivalryId||"").trim(),saveId=String(s.identity?.saveId||"").trim();if(!rivalryId||!/^save_[0-9a-f]{24}$/.test(saveId))return null;return Object.freeze({rivalryId,saveId,key:`${saveId}|${rivalryId}|final-reconciliation`});}
-          ''',
-          '''  function pfrRequest(){const s=pfrShowdown();if(!s||s.sharedJourney?.mode!=="shared")return null;const rivalryId=String(s.sharedJourney?.rivalryId||"").trim(),saveId=String(s.identity?.saveId||"").trim(),playerOneProfileId=String(s.identity?.managerProfileIds?.playerOne||"").trim(),playerTwoProfileId=String(s.identity?.managerProfileIds?.playerTwo||"").trim();if(!rivalryId||!/^save_[0-9a-f]{24}$/.test(saveId)||!/^profile_[0-9a-f]{24}$/.test(playerOneProfileId)||!/^profile_[0-9a-f]{24}$/.test(playerTwoProfileId))return null;return Object.freeze({rivalryId,saveId,playerOneProfileId,playerTwoProfileId,key:`${saveId}|${rivalryId}|${playerOneProfileId}|${playerTwoProfileId}|final-reconciliation`});}
-          ''')
-          replace_once("js/productionSharedFinalReconciliation.js",
-          '''  function pfrSnapshotsMatch(request,multiState,historyState,localState){return Boolean(request&&multiState&&historyState&&localState&&String(multiState.rivalryId||"")===request.rivalryId&&String(historyState.rivalryId||"")===request.rivalryId&&String(localState.binding?.saveId||"")===request.saveId);}
-          ''',
-          '''  function pfrSnapshotsMatch(request,multiState,historyState,localState){const role=String(localState?.binding?.managerRole||"");const activeProfileId=role==="playerOne"?request?.playerOneProfileId:role==="playerTwo"?request?.playerTwoProfileId:"";return Boolean(request&&multiState&&historyState&&localState&&String(multiState.rivalryId||"")===request.rivalryId&&String(historyState.rivalryId||"")===request.rivalryId&&String(localState.binding?.saveId||"")===request.saveId&&activeProfileId&&String(localState.binding?.profileId||"")===activeProfileId);}
-          ''')
+          sub_once("js/productionSharedFinalReconciliation.js", r'^  function pfrRequest\(\)\{.*$',
+              '  function pfrRequest(){const s=pfrShowdown();if(!s||s.sharedJourney?.mode!=="shared")return null;const rivalryId=String(s.sharedJourney?.rivalryId||"").trim(),saveId=String(s.identity?.saveId||"").trim(),playerOneProfileId=String(s.identity?.managerProfileIds?.playerOne||"").trim(),playerTwoProfileId=String(s.identity?.managerProfileIds?.playerTwo||"").trim();if(!rivalryId||!/^save_[0-9a-f]{24}$/.test(saveId)||!/^profile_[0-9a-f]{24}$/.test(playerOneProfileId)||!/^profile_[0-9a-f]{24}$/.test(playerTwoProfileId))return null;return Object.freeze({rivalryId,saveId,playerOneProfileId,playerTwoProfileId,key:`${saveId}|${rivalryId}|${playerOneProfileId}|${playerTwoProfileId}|final-reconciliation`});}', re.M)
+          sub_once("js/productionSharedFinalReconciliation.js", r'^  function pfrSnapshotsMatch\(request,multiState,historyState,localState\)\{.*$',
+              '  function pfrSnapshotsMatch(request,multiState,historyState,localState){const role=String(localState?.binding?.managerRole||"");const activeProfileId=role==="playerOne"?request?.playerOneProfileId:role==="playerTwo"?request?.playerTwoProfileId:"";return Boolean(request&&multiState&&historyState&&localState&&String(multiState.rivalryId||"")===request.rivalryId&&String(historyState.rivalryId||"")===request.rivalryId&&String(localState.binding?.saveId||"")===request.saveId&&activeProfileId&&String(localState.binding?.profileId||"")===activeProfileId);}', re.M)
 
           replace_once("tests/browser/shared-final-reconciliation-audit.cjs",
-          '''function showdownFor(role,rid=rivalryId,managerSlots=slots,names={playerOne:"Daniel",playerTwo:"Nik"}){const slot=managerSlots[role==="playerOne"?0:1];return {id:Date.now(),identity:{saveId:slot.saveId},managers:names,sharedJourney:{mode:"shared",rivalryId:rid}};}
-          ''',
-          '''function showdownFor(role,rid=rivalryId,managerSlots=slots,names={playerOne:"Daniel",playerTwo:"Nik"}){const slot=managerSlots[role==="playerOne"?0:1];return {id:Date.now(),identity:{saveId:slot.saveId,managerProfileIds:{playerOne:managerSlots[0].profileId,playerTwo:managerSlots[1].profileId}},managers:names,sharedJourney:{mode:"shared",rivalryId:rid}};}
-          ''')
+              'function showdownFor(role,rid=rivalryId,managerSlots=slots,names={playerOne:"Daniel",playerTwo:"Nik"}){const slot=managerSlots[role==="playerOne"?0:1];return {id:Date.now(),identity:{saveId:slot.saveId},managers:names,sharedJourney:{mode:"shared",rivalryId:rid}};}\n',
+              'function showdownFor(role,rid=rivalryId,managerSlots=slots,names={playerOne:"Daniel",playerTwo:"Nik"}){const slot=managerSlots[role==="playerOne"?0:1];return {id:Date.now(),identity:{saveId:slot.saveId,managerProfileIds:{playerOne:managerSlots[0].profileId,playerTwo:managerSlots[1].profileId}},managers:names,sharedJourney:{mode:"shared",rivalryId:rid}};}\n')
           replace_once("tests/browser/shared-final-reconciliation-audit.cjs",
-          '''  race.context.currentShowdown=showdownA;
-          const recovered=await api.refresh();assert.equal(recovered.phase,"FINAL_SEASON_RECONCILED","Returning to exact A canonical identity must recover on a fresh refresh.");assert.equal(recovered.winner,"playerOne");assert.deepEqual(race.writes,[]);
-
-          process.stdout.write("PASS r17 Final Reconciliation two-context audit: canonical Save Library identity, exact manager binding, published-view invalidation, stale cross-rivalry refresh suppression, correct winner, no extra season and zero direct storage writes\\n");
-          ''',
-          '''  race.context.currentShowdown=showdownA;
-          const recovered=await api.refresh();assert.equal(recovered.phase,"FINAL_SEASON_RECONCILED","Returning to exact A canonical identity must recover on a fresh refresh.");assert.equal(recovered.winner,"playerOne");
-          const reboundProfile=`profile_${"9".repeat(24)}`;
-          race.context.currentShowdown.identity={...race.context.currentShowdown.identity,managerProfileIds:{...race.context.currentShowdown.identity.managerProfileIds,playerOne:reboundProfile}};
-          assert.equal(api.getState(),null,"Changing only the active manager profile must immediately make the old published view inaccessible even when save+rivalry IDs are unchanged.");
-          race.listeners.get("career-mode-active-save-changed")?.();await flush();
-          assert.equal(api.getState(),null,"The synchronous active-save notification must keep a profile-rebound view invalidated.");
-          assert.equal(await api.refresh(),null,"A Local Reconciliation binding for the previous profile must not reconcile after active profile rebinding.");
-          race.context.currentShowdown=showdownA;
-          const reboundRecovered=await api.refresh();assert.equal(reboundRecovered.phase,"FINAL_SEASON_RECONCILED","Restoring the exact active manager profile must permit a fresh exact reconciliation.");assert.deepEqual(race.writes,[]);
-
-          process.stdout.write("PASS r17 Final Reconciliation two-context audit: canonical Save Library identity, exact active-manager profile binding, published-view invalidation, stale cross-rivalry refresh suppression, correct winner, no extra season and zero direct storage writes\\n");
-          ''')
+              '  const recovered=await api.refresh();assert.equal(recovered.phase,"FINAL_SEASON_RECONCILED","Returning to exact A canonical identity must recover on a fresh refresh.");assert.equal(recovered.winner,"playerOne");assert.deepEqual(race.writes,[]);\n',
+              '''  const recovered=await api.refresh();assert.equal(recovered.phase,"FINAL_SEASON_RECONCILED","Returning to exact A canonical identity must recover on a fresh refresh.");assert.equal(recovered.winner,"playerOne");
+  const originalIdentity={...race.context.currentShowdown.identity,managerProfileIds:{...race.context.currentShowdown.identity.managerProfileIds}};
+  const reboundProfile=`profile_${"9".repeat(24)}`;
+  race.context.currentShowdown.identity={...originalIdentity,managerProfileIds:{...originalIdentity.managerProfileIds,playerOne:reboundProfile}};
+  assert.equal(api.getState(),null,"Changing only the active manager profile must immediately make the old published view inaccessible with unchanged save+rivalry IDs.");
+  race.listeners.get("career-mode-active-save-changed")?.();await flush();
+  assert.equal(api.getState(),null,"The synchronous active-save notification must keep a profile-rebound view invalidated.");
+  assert.equal(await api.refresh(),null,"A Local Reconciliation binding for the previous profile must not reconcile after active profile rebinding.");
+  race.context.currentShowdown.identity=originalIdentity;
+  const reboundRecovered=await api.refresh();assert.equal(reboundRecovered.phase,"FINAL_SEASON_RECONCILED","Restoring the exact active manager profile must permit a fresh exact reconciliation.");assert.deepEqual(race.writes,[]);
+''')
 
           replace_once("tests/contracts/shared-final-reconciliation-production-contracts.cjs",
-          '''assert.match(production,/CareerModeProductionSharedMultiSeasonProgression/);assert.match(production,/CareerModeProductionSharedHistoryConvergence/);assert.match(production,/CareerModeProductionSharedLocalReconciliation/);assert.match(production,/s\\.identity\\?\\.saveId/);assert.doesNotMatch(production,/s\\.id\\|\\|s\\.saveId/);''',
-          '''assert.match(production,/CareerModeProductionSharedMultiSeasonProgression/);assert.match(production,/CareerModeProductionSharedHistoryConvergence/);assert.match(production,/CareerModeProductionSharedLocalReconciliation/);assert.match(production,/s\\.identity\\?\\.saveId/);assert.match(production,/managerProfileIds\\?\\.playerOne/);assert.match(production,/managerProfileIds\\?\\.playerTwo/);assert.match(production,/localState\\.binding\\?\\.profileId/);assert.doesNotMatch(production,/s\\.id\\|\\|s\\.saveId/);''')
+              'assert.match(production,/s\\.identity\\?\\.saveId/);assert.doesNotMatch(production,/s\\.id\\|\\|s\\.saveId/);',
+              'assert.match(production,/s\\.identity\\?\\.saveId/);assert.match(production,/managerProfileIds\\?\\.playerOne/);assert.match(production,/managerProfileIds\\?\\.playerTwo/);assert.match(production,/localState\\.binding\\?\\.profileId/);assert.doesNotMatch(production,/s\\.id\\|\\|s\\.saveId/);')
           replace_once("tests/contracts/shared-final-reconciliation-production-contracts.cjs",
-          '''assert.match(saveRuntime,/previous\\.saveId===current\\.saveId&&previous\\.rivalryId===current\\.rivalryId/);''',
-          '''assert.match(saveRuntime,/previous\\.saveId===current\\.saveId&&previous\\.rivalryId===current\\.rivalryId&&previous\\.playerOneProfileId===current\\.playerOneProfileId&&previous\\.playerTwoProfileId===current\\.playerTwoProfileId/);''')
+              'assert.match(saveRuntime,/previous\\.saveId===current\\.saveId&&previous\\.rivalryId===current\\.rivalryId/);',
+              'assert.match(saveRuntime,/previous\\.saveId===current\\.saveId&&previous\\.rivalryId===current\\.rivalryId&&previous\\.playerOneProfileId===current\\.playerOneProfileId&&previous\\.playerTwoProfileId===current\\.playerTwoProfileId/);')
           PY
       - name: Validate focused correction
         run: |
@@ -109,7 +89,7 @@ jobs:
           npm run test:ssjr
           npm run test:ops
           git diff --check
-      - name: Commit product correction and self-clean
+      - name: Commit correction and self-clean
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
