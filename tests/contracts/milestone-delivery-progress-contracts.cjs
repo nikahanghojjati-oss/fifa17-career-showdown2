@@ -55,6 +55,7 @@ const read = file => fs.readFileSync(file, "utf8");
   assert.ok(r10Candidate.missingLayers.includes("production-two-account"));
   assert.ok(r10Candidate.references.some(ref => ref.includes("PR #230 merge 72925be0")));
   assert.ok(r10Candidate.references.some(ref => ref.includes("GitHub Pages run #108 success")));
+  assert.ok(r10Candidate.references.some(ref => ref.includes("Zero Billing run #8 attempt 2 success")));
 
   const r11Candidate = ssjrReadiness.candidateEvidence.find(item => item.id === "ssjr1-canonical-scoring-r11-production");
   assert.ok(r11Candidate, "SSJR readiness must preserve truthful zero-credit r11 production evidence.");
@@ -117,6 +118,8 @@ const read = file => fs.readFileSync(file, "utf8");
   for (const ref of ["js/sharedSeasonCommit.js","js/sparkSharedSeasonCommit.js","js/productionSharedSeasonCommit.js","firestore.season-commit-production.fragment.rules","tests/contracts/shared-season-commit-production-contracts.cjs","tests/browser/shared-season-commit-audit.cjs"]) assert.ok(seasonCommit.evidenceRefs.includes(ref), `Season Commit evidence missing ${ref}`);
   assert.ok(seasonCommit.evidenceRefs.some(ref => ref.includes("POS20 run #215 exact head 754d6123")));
   assert.ok(seasonCommit.evidenceRefs.some(ref => ref.includes("PR #230 merge 72925be0")));
+  assert.ok(seasonCommit.evidenceRefs.some(ref => ref.includes("GitHub Pages run #108 success")));
+  assert.ok(seasonCommit.evidenceRefs.some(ref => ref.includes("Zero Billing run #8 attempt 2 success")));
 
   const canonicalScoring = ledger.capabilities.find(capability => capability.id === "canonical-scoring");
   assert.equal(canonicalScoring.weightedContribution, 7);
