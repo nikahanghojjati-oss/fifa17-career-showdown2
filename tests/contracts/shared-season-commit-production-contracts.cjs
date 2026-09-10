@@ -35,18 +35,26 @@ assert.doesNotMatch(adapter,/determineSeasonWinner\s*\(/,'r10 season commit must
 assert.match(seasonEngine,/reviewConfirm\.addEventListener\("click", confirmCurrentSeason\)/,'ordinary local confirmation must remain bound to the local Season Engine');
 assert.match(seasonEngine,/function confirmCurrentSeason\(\)[\s\S]*persistCompletedSeason\(roundRecord, seasonNumber\)/,'ordinary local persistence must remain intact and separate');
 assert.match(resultsAdapter,/authoritativeScoring:false/,'r9 result publication must remain non-scoring authority beneath r10');
-assert.match(bootstrap,/ssjr-production-season-commit/,'Shared Journey bootstrap must install the r10 production adapter');
+assert.match(bootstrap,/ssjr-production-season-commit/,'Shared Journey bootstrap must continue installing the r10 production adapter');
 assert.match(bootstrap,/CareerModeProductionSharedSeasonCommit/);
 
-// r10 remains an immutable predecessor capability while the installed application shell advances to r11.
-assert.match(worker,/const RUNTIME_REVISION = "1\.9\.1-r11";/,'installed shell must publish the current r11 identity');
-assert.match(worker,/const PREVIOUS_RUNTIME_REVISION = "1\.9\.1-r10";/,'r10 must remain the immediate rollback shell');
+// r10 remains an immutable predecessor capability while later whole-shell releases advance independently.
+const runtimeMatch=worker.match(/const RUNTIME_REVISION = "([^"]+)";/);
+const previousMatch=worker.match(/const PREVIOUS_RUNTIME_REVISION = "([^"]+)";/);
+assert.ok(runtimeMatch&&runtimeMatch[1],'installed shell must expose a current runtime identity');
+assert.ok(previousMatch&&previousMatch[1],'installed shell must expose a rollback runtime identity');
+const currentRevision=runtimeMatch[1];
+const previousRevision=previousMatch[1];
+const revisionNumber=value=>{const match=/^1\.9\.1-r(\d+)$/.exec(value);return match?Number(match[1]):NaN;};
+assert.ok(revisionNumber(currentRevision)>10,`current shell ${currentRevision} must remain newer than immutable r10`);
+assert.ok(revisionNumber(previousRevision)>=10&&revisionNumber(previousRevision)<revisionNumber(currentRevision),`rollback shell ${previousRevision} must remain an earlier known-good 1.9.1 revision`);
 for(const asset of ['js/sharedSeasonCommit.js','js/sparkSharedSeasonCommit.js','js/productionSharedSeasonCommit.js'])assert.ok(worker.includes(`"${asset}"`),`current installed shell must continue caching r10 predecessor asset ${asset}`);
-assert.match(html,/app-asset-revision" content="1\.9\.1-r11"/,'document must advertise the current r11 whole-shell identity');
-for(const asset of ['js/storage.js','js/showdown.js','js/scoring.js','js/screens.js','js/menuExperience.js','js/optionalModules.js','js/app.js'])assert.ok(html.includes(`${asset}?v=1.9.1-r11`),`direct shell asset ${asset} must use current r11 identity`);
-assert.match(app,/visual-fidelity-r3\.css\?v=1\.9\.1-r11/,'lazy visual fidelity must share the current r11 identity');
-assert.match(menu,/marco-reus-2015-cc-by\.webp\?v=1\.9\.1-r11/,'lazy menu image must share the current r11 identity');
-for(const icon of ['showdown-192.svg','showdown-512.svg','showdown-maskable-512.svg'])assert.ok(manifest.includes(`${icon}?v=1.9.1-r11`),`manifest icon ${icon} must share the current r11 identity`);
+const escapedCurrent=currentRevision.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+assert.match(html,new RegExp(`app-asset-revision" content="${escapedCurrent}"`),'document must advertise the current whole-shell identity');
+for(const asset of ['js/storage.js','js/showdown.js','js/scoring.js','js/screens.js','js/menuExperience.js','js/optionalModules.js','js/app.js'])assert.ok(html.includes(`${asset}?v=${currentRevision}`),`direct shell asset ${asset} must use current ${currentRevision} identity`);
+assert.match(app,new RegExp(`visual-fidelity-r3\\.css\\?v=${escapedCurrent}`),'lazy visual fidelity must share the current shell identity');
+assert.match(menu,new RegExp(`marco-reus-2015-cc-by\\.webp\\?v=${escapedCurrent}`),'lazy menu image must share the current shell identity');
+for(const icon of ['showdown-192.svg','showdown-512.svg','showdown-maskable-512.svg'])assert.ok(manifest.includes(`${icon}?v=${currentRevision}`),`manifest icon ${icon} must share current shell identity`);
 // The r10 release record remains frozen historical evidence for the predecessor feature itself.
 assert.match(release,/Runtime asset revision: `1\.9\.1-r10`/);
 assert.match(release,/Previous known-good runtime: `1\.9\.1-r9`/);
@@ -54,4 +62,4 @@ assert.match(release,/Shared Showdown Journey readiness under `SSJR-1\.1`: `0\/1
 
 assert.match(pkg.scripts['test:ssjr'],/shared-season-commit-production-contracts\.cjs/,'explicit SSJR contract suite must include r10 production contracts');
 assert.match(pkg.scripts['test:ssjr:browser'],/shared-season-commit-audit\.cjs/,'explicit SSJR browser suite must include the two-manager r10 audit');
-console.log('PASS Shared Season Commit production contracts: exact r9 RESULTS_READY is required before r10 may refresh or render over Season Results; only the coordinator can create the immutable shared commit; both managers independently acknowledge through a dedicated shared-only review action; stale CAS gets one bounded retry; local Season Engine persistence and scoring remain unreachable; Spark/zero-billing constraints remain explicit; r10 feature provenance stays immutable while the current r11 document, lazy assets, manifest and installed-app cache retain r10 as the immediate recovery shell.');
+console.log(`PASS Shared Season Commit production contracts: exact r9 RESULTS_READY is required before r10 may refresh or render over Season Results; only the coordinator can create the immutable shared commit; both managers independently acknowledge through a dedicated shared-only review action; stale CAS gets one bounded retry; local Season Engine persistence and scoring remain unreachable; Spark/zero-billing constraints remain explicit; r10 feature provenance stays immutable while current ${currentRevision} whole-shell delivery keeps its assets available as a predecessor capability.`);
