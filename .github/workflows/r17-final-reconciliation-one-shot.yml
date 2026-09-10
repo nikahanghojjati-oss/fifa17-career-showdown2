@@ -64,6 +64,6 @@ jobs:
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add POS20_SUPPLEMENTAL_PRODUCT_TESTS.json js/productionSharedFinalReconciliation.js js/sharedFinalReconciliation.js js/ssjr.js package.json service-worker.js tests/browser/shared-final-reconciliation-audit.cjs tests/contracts/shared-final-reconciliation-contracts.cjs tests/contracts/shared-final-reconciliation-production-contracts.cjs tests/operations/pos20-control-plane.test.mjs
           git commit -m 'feat: build Shared Final Reconciliation r17'
-          git rm .github/workflows/r17-final-reconciliation-one-shot.yml scripts/r17-final-reconciliation-one-shot.py
+          git rm -f .github/workflows/r17-final-reconciliation-one-shot.yml scripts/r17-final-reconciliation-one-shot.py
           git commit -m 'chore: remove r17 candidate builder'
           git push origin HEAD:feat/ssjr-final-reconciliation-r17
