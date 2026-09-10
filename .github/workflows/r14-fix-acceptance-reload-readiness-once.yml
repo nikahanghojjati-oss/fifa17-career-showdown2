@@ -1,0 +1,59 @@
+name: r14 fix acceptance reload readiness once
+
+on:
+  push:
+    branches:
+      - feat/ssjr-journey-reconnect-r14
+    paths:
+      - .github/workflows/r14-fix-acceptance-reload-readiness-once.yml
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: feat/ssjr-journey-reconnect-r14
+          fetch-depth: 0
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+      - name: Harden only reload recorder readiness
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          path = Path('tests/browser/ssjr-production-acceptance-recorder-audit.cjs')
+          text = path.read_text()
+          old = '''    await acceptance.page.locator("#loadingScreen").waitFor({state:"hidden",timeout:12000});
+              await acceptance.page.locator("#ssjrProductionAcceptanceRecorder").waitFor({state:"visible",timeout:7000});
+              await acceptance.page.waitForFunction(()=>window.CareerModeSSJRProductionAcceptanceRecorder.getState().statusRows[4].passed===true,null,{timeout:5000});'''
+          # tolerate source indentation exactly as repository currently uses
+          old = old.replace('              ', '    ')
+          new = '''    await acceptance.page.locator("#loadingScreen").waitFor({state:"hidden",timeout:12000});
+              await acceptance.page.waitForFunction(()=>Boolean(window.CareerModeSSJRProductionAcceptanceRecorder&&typeof window.CareerModeSSJRProductionAcceptanceRecorder.getState==="function"),null,{timeout:12000});
+              await acceptance.page.locator("#ssjrProductionAcceptanceRecorder").waitFor({state:"visible",timeout:3000});
+              await acceptance.page.waitForFunction(()=>window.CareerModeSSJRProductionAcceptanceRecorder.getState().statusRows[4].passed===true,null,{timeout:5000});'''.replace('              ', '    ')
+          if text.count(old) != 1:
+              raise SystemExit(f'expected exactly one reload readiness block, found {text.count(old)}')
+          path.write_text(text.replace(old, new, 1))
+          PY
+          node --check tests/browser/ssjr-production-acceptance-recorder-audit.cjs
+      - name: Run exact inherited acceptance recorder audit
+        shell: bash
+        run: |
+          npm ci
+          node tests/browser/ssjr-production-acceptance-recorder-audit.cjs
+      - name: Commit bounded audit correction and delete publisher
+        shell: bash
+        run: |
+          rm .github/workflows/r14-fix-acceptance-reload-readiness-once.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add tests/browser/ssjr-production-acceptance-recorder-audit.cjs .github/workflows/r14-fix-acceptance-reload-readiness-once.yml
+          git diff --cached --check
+          git commit -m "test: make SSJR recorder reload readiness explicit"
+          git push origin HEAD:feat/ssjr-journey-reconnect-r14
