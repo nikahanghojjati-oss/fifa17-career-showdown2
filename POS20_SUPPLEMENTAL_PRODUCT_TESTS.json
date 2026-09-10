@@ -325,6 +325,33 @@
         "^package\\.json$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/shared-final-reconciliation-contracts.cjs",
+      "patterns": [
+        "^js/sharedFinalReconciliation\\.js$",
+        "^js/sharedHistoryConvergence\\.js$",
+        "^js/sharedMultiSeasonProgression\\.js$",
+        "^tests/contracts/shared-final-reconciliation-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/shared-final-reconciliation-production-contracts.cjs",
+      "patterns": [
+        "^js/sharedFinalReconciliation\\.js$",
+        "^js/productionSharedFinalReconciliation\\.js$",
+        "^js/productionSharedMultiSeasonProgression\\.js$",
+        "^js/productionSharedHistoryConvergence\\.js$",
+        "^js/productionSharedLocalReconciliation\\.js$",
+        "^js/ssjr\\.js$",
+        "^service-worker\\.js$",
+        "^tests/contracts/shared-final-reconciliation-contracts\\.cjs$",
+        "^tests/contracts/shared-final-reconciliation-production-contracts\\.cjs$",
+        "^tests/browser/shared-final-reconciliation-audit\\.cjs$",
+        "^package\\.json$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }

@@ -155,12 +155,35 @@
     }
 
     function runtimeGetCurrentShowdownReference(){return typeof currentShowdown!=="undefined"?currentShowdown:null;}
-    function runtimeSetCurrentShowdownReference(value){if(typeof currentShowdown!=="undefined")currentShowdown=value;}
+    function runtimeActiveContext(value){
+        const refs=runtimeManagerProfileRefs(value);
+        return {
+            saveId:value&&value.identity&&typeof value.identity.saveId==="string"?value.identity.saveId:null,
+            rivalryId:value&&value.sharedJourney&&value.sharedJourney.mode==="shared"&&typeof value.sharedJourney.rivalryId==="string"?value.sharedJourney.rivalryId:null,
+            playerOneProfileId:refs.playerOne,
+            playerTwoProfileId:refs.playerTwo
+        };
+    }
+    function runtimeSetCurrentShowdownReference(value){
+        if(typeof currentShowdown==="undefined")return;
+        const previous=runtimeActiveContext(currentShowdown);
+        currentShowdown=value;
+        const current=runtimeActiveContext(value);
+        if(previous.saveId===current.saveId&&previous.rivalryId===current.rivalryId&&previous.playerOneProfileId===current.playerOneProfileId&&previous.playerTwoProfileId===current.playerTwoProfileId)return;
+        try{
+            if(typeof root.dispatchEvent==="function"&&typeof root.CustomEvent==="function")root.dispatchEvent(new root.CustomEvent("career-mode-active-save-changed",{detail:{previous,current}}));
+        }catch(error){console.warn("[Career Mode Showdown] Active Save Library change notification failed.",error);}
+    }
 
     function runtimeInvalidateAuthority(){
+        const wasReady=authorityReady;
         authorityReady=false;
         ownedLibraryRaw=null;
         seasonIdentityByRound=new Map();
+        if(!wasReady)return;
+        try{
+            if(typeof root.dispatchEvent==="function"&&typeof root.CustomEvent==="function")root.dispatchEvent(new root.CustomEvent("career-mode-save-library-authority-invalidated"));
+        }catch(error){console.warn("[Career Mode Showdown] Save Library authority invalidation notification failed.",error);}
     }
 
     function runtimeAuthorityRawSnapshot(){
@@ -586,7 +609,7 @@
         storageListenerBound=true;
         root.addEventListener("storage",event=>{
             if(!authorityReady)return;
-            if(event&&(event.key===SAVE_LIBRARY_KEY||event.key===SINGLETON_KEY)){
+            if(event&&(event.key===null||event.key===SAVE_LIBRARY_KEY||event.key===SINGLETON_KEY)){
                 runtimeInvalidateAuthority();
                 if(typeof root.showAppNotice==="function")root.showAppNotice("Save data changed in another tab. Reload or Continue again before making more changes.","error",10000);
             }

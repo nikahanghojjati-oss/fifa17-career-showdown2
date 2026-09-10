@@ -1,5 +1,5 @@
-const RUNTIME_REVISION = "1.9.1-r16";
-const PREVIOUS_RUNTIME_REVISION = "1.9.1-r15";
+const RUNTIME_REVISION = "1.9.1-r17";
+const PREVIOUS_RUNTIME_REVISION = "1.9.1-r16";
 const CACHE_PREFIX = "career-mode-showdown-shell-";
 const MODE_CACHE_PREFIX = "career-mode-showdown-runtime-mode-";
 const CACHE_NAME = `${CACHE_PREFIX}${RUNTIME_REVISION}`;
@@ -93,6 +93,8 @@ const SHELL_PATHS = Object.freeze([
     "js/productionSharedJourneyConflicts.js",
     "js/sharedLocalReconciliation.js",
     "js/productionSharedLocalReconciliation.js",
+    "js/sharedFinalReconciliation.js",
+    "js/productionSharedFinalReconciliation.js",
     "js/remoteJoiningAcceptance.js",
     "js/sparkRemoteJoining.js",
     "js/sparkAccountBootstrap.js",
