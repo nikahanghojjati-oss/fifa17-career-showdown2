@@ -1,6 +1,6 @@
 # R8 Screen / Asset / State Implementation Map
 
-Status: COVERAGE COMPLETE THROUGH r15 — AUDIUS-FIRST MEDIA — FINAL SCREENSHOT / DEVICE-PROOF / FINAL-MAIN / OWNER-APPROVAL GATES OPEN
+Status: COVERAGE COMPLETE THROUGH r15 — AUDIUS LOCKED — SIX-POSE CHARACTER LANE OPEN — FINAL SCREENSHOT / DEVICE-PROOF / OWNER-APPROVAL GATES OPEN
 
 Current production reconciliation anchor:
 
@@ -12,64 +12,105 @@ Reconciled production additions:
 - r14 Shared Journey Reconnect;
 - r15 Shared Journey Conflicts.
 
-Senior production implementation remains deferred until final owner screenshot approval and final-main reconciliation.
+Senior production implementation remains deferred until final owner screenshot approval and a fresh final-main reconciliation.
 
 ## Routed product map
 
-| Screen | Contract | Asset / character decision | Proposal composition | Remaining closure work |
-| --- | --- | --- | --- | --- |
-| `mainMenu` | `screens/01_HOME_MAIN_MENU.md` + `surfaces/07_MEDIA_PLAYER.md` | H01 stadium; exact A02 Daniel left + A01 Nik right wide only; characters omitted <=1179; no new characters | `01-home-reference.html`; primary media direction `27-audius-showdown-radio-reference.html` | local final-capture candidates now exist for wide/Chromebook/mobile; package them; Audius real-device proof + track approval remain |
-| `createShowdown` | `screens/02_CREATE_SHOWDOWN.md` | S02 divider; no character | `02-create-showdown-reference.html` | fresh wide/mobile local capture candidates exist; final-main/owner gate remains; validation/error only if materially real |
-| `leagueWheelScreen` | `screens/03_LEAGUE_WHEEL.md` | S03 wheel halo behind real wheel; no character | `03-league-wheel-reference.html` | first capture exposed disabled-state ambiguity; CSS corrected; refresh ready/resolved/shared captures and safe hit-area proof |
-| `clubWheelScreen` | `screens/04_CLUB_ASSIGNMENT.md` | S04 original pack frame; DOM text; no official crests | `04-club-assignment-reference.html` | readability pass applied; sealed/reveal/locked captures remain |
-| `dashboard` | `screens/05_SHOWDOWN_HOME_DASHBOARD.md` | DOM/CSS only | `05-dashboard-reference.html` | Season 1/Season 2+/terminal-if-real captures; r14 reconnect may appear above this route |
-| `transferChallenge` | `screens/06_TRANSFER_CHALLENGE.md` | DOM/CSS; I02 optional | `06-transfer-challenge-reference.html` | privacy/active/verdict responsive captures |
-| `seasonEntry` | `screens/07_SEASON_RESULTS_ENTRY.md` | DOM/CSS only | `07a-season-results-local-reference.html`; `07b-season-results-shared-reference.html` | local entry states; r15 conflict consequences covered separately by surface 09 |
-| `seasonSummary` | `screens/08_SEASON_SUMMARY.md` | DOM/CSS; no new celebration raster justified | `08-season-summary-reference.html` | winner/draw/terminal captures |
-| `statistics` | `screens/09_RIVALRY_STATISTICS.md` | lightweight DOM/CSS bars; no chart dependency | `09-rivalry-statistics-reference.html` | populated/sparse/tied/mobile captures |
-| `careerStatistics` | `screens/10_CAREER_STATISTICS.md` | DOM/CSS | `10-career-statistics-reference.html` | empty/populated/unresolved-if-real captures |
-| `trophyRoom` | `screens/11_TROPHY_ROOM.md` | I01 original generic trophy family | `11-trophy-room-reference.html` | empty/populated/mobile captures; final similarity QA |
-| `legacy` | `screens/12_LEGACY.md` | surface-aware contrast treatment | `12-legacy-reference.html` | desktop QA exists; mobile refresh + corrupt/fail-closed state |
-| `ruleBook` | `screens/13_RULE_BOOK.md` | DOM/CSS | `13-rule-book-reference.html` | wide/mobile/long-copy captures; final content check |
+| Screen | Contract / composition | Character / asset decision | Remaining closure work |
+| --- | --- | --- | --- |
+| Home | `screens/01_HOME_MAIN_MENU.md`, `surfaces/07_MEDIA_PLAYER.md`, `prototypes/01-home-reference.html` | H01 stadium; exact A02 Daniel left + A01 Nik right on wide; omit large art <=1179; Audius compact player | fresh final captures after current Home media edit; Audius real-device proof + track approval |
+| Create Showdown | `screens/02_CREATE_SHOWDOWN.md`, `02-create-showdown-reference.html` | S02 divider; character optional, default omit | final-main check; wide/mobile owner captures; validation state only if materially real |
+| League Wheel | `screens/03_LEAGUE_WHEEL.md`, `03-league-wheel-reference.html` | S03 halo; A07/A08 focused poses optional only if wheel safe-zone remains clear | refresh ready/resolved/shared captures after disabled-state/readability correction |
+| Club Assignment | `screens/04_CLUB_ASSIGNMENT.md`, `04-club-assignment-reference.html` | S04 original pack frame + preferred A05/A06 pack-opening variants | build/isolate final A05/A06, integrate, capture sealed/reveal/locked |
+| Showdown Home | `screens/05_SHOWDOWN_HOME_DASHBOARD.md`, `05-dashboard-reference.html` | A03/A04 confident or A07/A08 focused optional; score/history remains hero | active/later-season/terminal-if-real captures |
+| Transfer Challenge | `screens/06_TRANSFER_CHALLENGE.md`, `06-transfer-challenge-reference.html` | A07/A08 optional; privacy/timer/input density wins | ready/active/verdict captures |
+| Season Results | `screens/07_SEASON_RESULTS_ENTRY.md`, `07a`, `07b` | character normally omitted | local entry states; shared state refresh only if final-main changes contract; r15 conflict consequences separate |
+| Season Summary | `screens/08_SEASON_SUMMARY.md`, `08-season-summary-reference.html` | preferred A09/A10 winner + A11/A12 setback on wide; neutral/focused for draw | build/isolate outcome assets; winner/draw/terminal captures |
+| Rivalry Statistics | `screens/09_RIVALRY_STATISTICS.md`, `09-rivalry-statistics-reference.html` | no character by default | populated/sparse/tied/mobile captures |
+| Career Statistics | `screens/10_CAREER_STATISTICS.md`, `10-career-statistics-reference.html` | no character by default | empty/populated/unresolved-if-real captures |
+| Trophy Room | `screens/11_TROPHY_ROOM.md`, `11-trophy-room-reference.html` | I01 original generic trophy family; A09/A10 optional small celebratory support | empty/populated/mobile captures + similarity QA |
+| Legacy | `screens/12_LEGACY.md`, `12-legacy-reference.html` | archive-first; neutral/reflective crop optional but not required | mobile refresh + corrupt/fail-closed capture |
+| Rule Book | `screens/13_RULE_BOOK.md`, `13-rule-book-reference.html` | character omitted | wide/mobile/long-copy captures + final content check |
 
 ## Cross-product map
 
-| Surface | Contract | Composition | Closure state |
-| --- | --- | --- | --- |
-| Startup / Header / Runtime | `surfaces/01_STARTUP_HEADER_RUNTIME.md` | `24-startup-header-runtime-reference.html` | composition built; final visual/focus evidence open |
-| Settings / Save Library / Local Profiles | `surfaces/02_SETTINGS_SAVE_LIBRARY_LOCAL_PROFILES.md` | `20-settings-save-library-reference.html` | mobile QA fix exists; final desktop/state captures open |
-| Connected Account / Pairing / Rivalry / Remote Joining | `surfaces/03_CONNECTED_ACCOUNT_PAIRING_RIVALRY_REMOTE_JOINING.md` | `21-connected-private-rivalry-reference.html` | mobile QA exists; final desktop/recovery evidence open |
-| Backup / Import / Restore / Recovery | `surfaces/04_BACKUP_IMPORT_RESTORE_RECOVERY.md` | `22-restore-recovery-reference.html` | desktop QA exists; mobile refresh + apply-ready/critical states open |
-| Shared play / Multi Season | `surfaces/05_SHARED_PLAY_STATE_SYSTEM.md` | primarily `07b` | reconciled through r13; r14 reconnect and r15 conflict handling remain distinct additive status/error authorities |
-| Empty / Error / Offline / Update / Reduced Motion | `surfaces/06_EMPTY_ERROR_OFFLINE_UPDATE_REDUCED_MOTION.md` | `23-cross-product-state-system-reference.html` | final representative captures open |
-| Music / Media | `surfaces/07_MEDIA_PLAYER.md` | `27-audius-showdown-radio-reference.html`; older 25/26 files retained as evidence | Audius-first architecture current; zero-billing guard locked; device proof, track taste/rights and final player captures open |
-| Journey Reconnect r14 | `surfaces/08_JOURNEY_RECONNECT_R14.md` | `28-journey-reconnect-r14-reference.html` | five actual r14 phases represented; desktop local review candidate exists; mobile/package proof remains |
-| Journey Conflicts r15 | `surfaces/09_JOURNEY_CONFLICTS_R15.md` | `29-journey-conflicts-r15-reference.html` | runtime classifications mapped to existing action contexts; final state-review captures open |
+| Surface | Contract / composition | Closure state |
+| --- | --- | --- |
+| Startup / Header / Runtime | `surfaces/01_STARTUP_HEADER_RUNTIME.md`, `24-startup-header-runtime-reference.html` | final visual/focus evidence open |
+| Settings / Save Library / Local Profiles | `surfaces/02_SETTINGS_SAVE_LIBRARY_LOCAL_PROFILES.md`, `20-settings-save-library-reference.html` | mobile readability fix exists; final desktop/state captures open |
+| Connected Account / Pairing / Rivalry / Remote Joining | `surfaces/03_CONNECTED_ACCOUNT_PAIRING_RIVALRY_REMOTE_JOINING.md`, `21-connected-private-rivalry-reference.html` | mobile QA exists; final desktop/recovery captures open |
+| Backup / Import / Restore / Recovery | `surfaces/04_BACKUP_IMPORT_RESTORE_RECOVERY.md`, `22-restore-recovery-reference.html` | desktop QA exists; mobile/apply-ready/critical captures open |
+| Shared Play / Multi Season | `surfaces/05_SHARED_PLAY_STATE_SYSTEM.md`, primarily `07b` | reconciled through r13; r14/r15 remain additive status/action-context layers |
+| Empty / Error / Offline / Update / Reduced Motion | `surfaces/06_EMPTY_ERROR_OFFLINE_UPDATE_REDUCED_MOTION.md`, `23-cross-product-state-system-reference.html` | final representative captures open |
+| Music / Media | `surfaces/07_MEDIA_PLAYER.md`, `27-audius-showdown-radio-reference.html`, Home compact player | Audius locked; autoplay rejected; SoundCloud default lane deferred; device/rights/taste proof open |
+| Journey Reconnect r14 | `surfaces/08_JOURNEY_RECONNECT_R14.md`, `28-journey-reconnect-r14-reference.html` | five actual phases represented; final desktop/mobile evidence open |
+| Journey Conflicts r15 | `surfaces/09_JOURNEY_CONFLICTS_R15.md`, `29-journey-conflicts-r15-reference.html` | classifications mapped to existing action contexts; final state-review evidence open |
 
-## Current media architecture
+## Character system authority
 
-Primary music:
+Manager mapping is immutable:
+
+- Manager 1 = Daniel;
+- Manager 2 = Nik.
+
+Frozen identity anchors remain unchanged:
+
+- A01 Nik SHA-256 `17972b8afb73b90483c8f874c4bd964ac1bda196daa76e134a6030676bbd4219`;
+- A02 Daniel SHA-256 `9b1545b52a5d96a240c92b9901dcd8a4558148dde05a0331882df7bd988177cc`.
+
+Owner-directed final target is six role variants per manager, not repeated A01/A02 everywhere.
+
+Nik target:
+
+- A01 core thinking hero;
+- A03 confident presentation;
+- A05 club-pack opening;
+- A07 focused/determined;
+- A09 victory/happy;
+- A11 natural setback.
+
+Daniel target:
+
+- A02 core pointing hero;
+- A04 confident presentation;
+- A06 club-pack opening;
+- A08 focused/determined;
+- A10 victory/happy;
+- A12 natural setback.
+
+Authority:
+
+`assets/CHARACTER_POSE_LIBRARY_PLAN.md`
+
+Victory/setback selection is deterministic presentation derived from existing authoritative outcome data. It never adds Firestore/local-storage fields and never modifies Spark/Firebase/provider authority.
+
+Pages may omit character art where it would reduce clarity. Utility/recovery/settings/rule surfaces remain character-free.
+
+## Media architecture
+
+Primary:
 
 `SHOWDOWN RADIO -> AUDIUS -> one HTML <audio> authority`
 
-- custom compact black/charcoal/gold UI;
 - audio-only;
-- curated track manifest rather than search on every Home visit;
-- current documented Free-plan basis: 10 requests/sec and 500,000 requests/month;
-- request limits are API/network requests, not a guaranteed one-request-per-song count;
-- conservative capacity planning currently assumes 3–5 counted requests per song start, about 100,000–166,000 starts/month;
+- compact custom black/charcoal/gold player;
+- UI shell and curated manifest may load eagerly;
+- audio stream bytes begin only after deliberate Play;
+- autoplay OFF by owner decision;
+- no hidden muted-autoplay trick;
+- no YouTube music fallback;
 - no listener Premium account;
-- no autoplay;
 - no paid fallback;
-- no payment method allowed as an API-overage dependency;
-- real audio events own playback state;
-- owner approves final track taste separately from UI.
+- real audio events own READY/PLAYING/PAUSED/BUFFERING/ENDED/ERROR.
 
-Quota/billing authority:
+Current Audius Free documentation reference:
 
-`evidence/AUDIUS_FREE_QUOTA_AND_BILLING_GUARD_2026-09-10.md`
+- 10 requests/second;
+- 500,000 requests/month;
+- Free described as always free;
+- Unlimited separate.
 
-Project rule:
+Project financial invariants:
 
 `paidUpgradeAllowed = false`
 
@@ -77,76 +118,57 @@ Project rule:
 
 `paymentMethodAllowed = false`
 
-If Audius ever requires a card, paid overage or an upgrade for the required path, Audius becomes `FINANCIAL_HOLD` and the music lane is disabled rather than charged.
+Before production adoption, API-key creation must be proven without billing enrollment. Any required card/pay-as-you-go/paid-overage path disqualifies Audius.
 
-Optional nostalgia:
+SoundCloud exact-song nostalgia is DEFERRED from the default proposal. Historical research remains available if the owner explicitly reopens it.
 
-`FIFA 17 PICKS -> SOUNDCLOUD`
+YouTube is never a music fallback. It may remain only for an intentional visible gameplay trailer.
 
-- exact current song candidates where provider permits;
-- `FULL`, explicitly labelled `PREVIEW`, or `UNAVAILABLE`;
-- no YouTube music fallback.
+## r14 Journey Reconnect
 
-Intentional video only:
+Production owns `#sharedJourneyReconnectStatus` beneath `#topHeader`.
 
-`FIFA 17 GAMEPLAY TRAILER -> YOUTUBE`
+R8 preserves:
 
-- visible/lazy provider video;
-- official IFrame Player API required if retained;
-- never hidden audio-only extraction.
+- `OFFLINE_HOLD`;
+- `RECOVERY_PENDING`;
+- `FRESH_SESSION_REQUIRED`;
+- `ACTIVE_RECOVERED`;
+- `TERMINAL_RECOVERED`.
 
-## r14 Journey Reconnect implementation impact
+Read-only status presentation only; no Save mutation, no duplicate Remote Joining flow, no billing.
 
-Production owns `#sharedJourneyReconnectStatus` beneath `#topHeader` for shared journeys.
+## r15 Journey Conflicts
 
-R8 preserves exact phases:
+r15 wraps existing Shared Setup and Shared Season Commit mutation paths with a non-authorizing conflict guard.
 
-- `OFFLINE_HOLD` — non-authoritative offline preservation;
-- `RECOVERY_PENDING` — exact private-session operation unresolved;
-- `FRESH_SESSION_REQUIRED` — old/expired session not authority, durable journey may remain resumable;
-- `ACTIVE_RECOVERED` — active season/history recovered without reset/redraw;
-- `TERMINAL_RECOVERED` — completed season plan remains terminal.
+R8 maps:
 
-This is read-only status presentation. It never mutates Save Library, duplicates Remote Joining, performs provider writes/listing or changes billing.
+- `ACCEPTED` -> ordinary success;
+- `STALE` -> bounded retry then refresh/review if still stale;
+- `REPLAY_ALTERED` -> changed request not applied;
+- `UNAUTHORIZED` -> existing account/device/private-session recovery;
+- `QUOTA` -> cloud action temporarily unavailable, local Career Mode preserved, no paid fallback;
+- `TRANSIENT` -> bounded retry/refresh;
+- `DENIED` -> no force bypass;
+- `RECEIPT_EXPIRED` -> refresh current shared state, then fresh deliberate action.
 
-## r15 Journey Conflicts implementation impact
+No new route or conflict inbox.
 
-r15 wraps existing Shared Setup and Shared Season Commit mutations with a non-authorizing conflict guard.
-
-R8 maps the runtime classifications to existing action-context messages rather than inventing a new route:
-
-- `ACCEPTED` — normal success, no conflict warning;
-- `STALE` — one bounded retry; if still stale, refresh/review current shared state;
-- `REPLAY_ALTERED` — integrity block, changed request not applied;
-- `UNAUTHORIZED` — restore exact account/device/private-session authority through existing flows;
-- `QUOTA` — provider unavailable, local Career Mode remains available, no paid fallback;
-- `TRANSIENT` — bounded retry/refresh;
-- `DENIED` — no force bypass;
-- `RECEIPT_EXPIRED` — refresh and perform a fresh deliberate action; rivalry itself is not expired.
-
-Firebase transaction/CAS remains the mutation authority. Receipts remain in-memory, non-authorizing, non-canonical and billing-free.
-
-## Asset authority
-
-Frozen A01/A02 remain unchanged:
-
-- A01 Nik SHA-256 `17972b8afb73b90483c8f874c4bd964ac1bda196daa76e134a6030676bbd4219`
-- A02 Daniel SHA-256 `9b1545b52a5d96a240c92b9901dcd8a4558148dde05a0331882df7bd988177cc`
-
-Do not regenerate them.
+## Supporting visual assets
 
 Original/procedural assets:
 
-- `H01_HOME_STADIUM_ATMOSPHERE`
-- `S02_TWO_MANAGER_RIVALRY_DIVIDER`
-- `S03_WHEEL_STAGE_HALO`
-- `S04_CLUB_PACK_FRAME`
-- `I01_TROPHY_SYMBOL_FAMILY`
-- `I02_SYSTEM_STATE_SYMBOL_FAMILY`
+- `H01_HOME_STADIUM_ATMOSPHERE`;
+- `S02_TWO_MANAGER_RIVALRY_DIVIDER`;
+- `S03_WHEEL_STAGE_HALO`;
+- `S04_CLUB_PACK_FRAME`;
+- `I01_TROPHY_SYMBOL_FAMILY`;
+- `I02_SYSTEM_STATE_SYMBOL_FAMILY`.
 
-No current screen contract justifies A03–A06.
+Character variant generation is now intentionally open only for A03–A12. No unrelated raster generation is justified.
 
-## Screenshot authority
+## Screenshot and QA authority
 
 Final gate:
 
@@ -156,44 +178,49 @@ Internal historical QA:
 
 `evidence/PROPOSAL_SCREENSHOT_QA_R13_2026-09-10.md`
 
-Existing passes are reusable only if the final reconciled composition remains unchanged. Audius-first media requires new screenshots; old native/YouTube media sheets are historical only.
-
-Mobile practical floor remains:
+Mobile floor:
 
 - essential body/status ~13–14px minimum;
 - metadata/labels ~11–12px minimum;
 - button labels ~12px minimum;
 - touch targets 44px minimum.
 
+External HTML renderer budget observed during closure: 47/50 included renders consumed, overages disabled. Remaining renders are reserved; zero-dollar closure must prefer local/self-contained capture and consolidated review sheets.
+
 ## Closure order
 
-1. Keep broad provider research closed; only bounded Audius device/track/rights proof remains.
-2. Package the already captured Home wide/Chromebook/mobile and r14 review candidates; do not regenerate frozen characters.
-3. Refresh League Wheel after the disabled-state/readability correction.
-4. Capture Club Assignment, Dashboard, Transfer, Season Entry/Summary, Statistics, Trophy, Legacy and Rule Book in product-journey order.
-5. Capture settings/account/remote joining/restore/cross-product/startup surfaces.
-6. Capture the r15 Journey Conflicts review sheet and 390px representative if needed.
-7. Fix defects exposed by the final captures and replace stale evidence.
-8. Complete real iPhone Safari + Chromebook Audius playback proof and curate final rights-safe queue for owner taste approval.
-9. Re-verify frozen/procedural assets and provenance.
-10. Re-resolve `main`; reconcile only new real user-visible drift after r15.
-11. Present the complete final screenshot set, final media disclosure and device-proof status to the owner.
-12. Revise rejected pages/states.
-13. Only after explicit complete owner approval create the senior-developer implementation handoff.
+1. Keep provider research closed except bounded Audius API-key/billing and device proof.
+2. Complete A03–A12 character production using the recovered approved identity/pose references; reject identity/anatomy drift.
+3. Integrate A05/A06 into Club Assignment and A09–A12 into authoritative Season Summary outcome variants where safe.
+4. Produce one character contact sheet for explicit owner approval.
+5. Refresh Home wide/Chromebook/mobile after the final Audius control edit.
+6. Refresh League Wheel after disabled-state/readability correction.
+7. Capture/QA Club Assignment, Dashboard, Transfer, Season Results, Season Summary, Statistics, Trophy, Legacy and Rule Book in product-journey order.
+8. Capture/QA Settings, Connected/Remote Joining, Restore/Recovery, cross-product states, Startup/Header, r14 Reconnect and r15 Conflict consequences.
+9. Run structural/automated proposal checks and repair failures.
+10. Complete real iPhone Safari + Chromebook Audius playback proof and final rights-safe queue selection.
+11. Re-verify asset hashes/provenance.
+12. Re-resolve `main`; reconcile only genuine new user-visible drift after r15.
+13. Assemble every materially distinct final screenshot/version in journey order.
+14. Present the complete package plus media functionality/track disclosure and character contact sheet to the owner.
+15. Revise any rejected page/state/character.
+16. Only after explicit complete owner approval seal the proposal and produce the senior-developer implementation handoff.
 
 ## True final gates
 
 R8 is not `FINAL` until:
 
-- exact frozen masters remain hash-identical wherever required;
-- final Audius queue has device proof plus rights/provenance/taste approval, or Audius is dropped under the zero-billing guard;
+- A01/A02 remain hash-identical;
+- at least five distinct approved roles per manager exist, target six including natural setback;
+- final Audius queue has device proof plus rights/provenance/taste approval, or Audius is rejected under zero-billing guard;
 - every required routed/non-route state has a final screenshot;
-- all materially different responsive/state variants are represented;
+- materially different responsive/state variants are represented;
 - r15 and any later production-visible additions are reconciled;
-- known defects are fixed/reverified;
-- owner explicitly approves every required final screenshot and final track selection;
-- final implementation map/handoff is sealed.
+- known visual/structural defects are fixed and reverified;
+- automated proposal checks pass;
+- owner explicitly approves the final character set, final track selection and every required screenshot;
+- final implementation handoff is sealed only afterward.
 
 Current status:
 
-`COMPLETE COVERAGE THROUGH r15 / ACTIVE FINALIZATION — NOT FINAL`.
+`COMPLETE PRODUCT COVERAGE THROUGH r15 / ACTIVE ASSET + QA FINALIZATION — NOT FINAL`.
