@@ -27,7 +27,13 @@ async function prepare(page,{role,saveId}){
     window.CareerModeProductionSharedTransferChallenge={getState:()=>transfer,refresh:async()=>transfer};
     window.CareerModeSparkSharedSeasonResults={read:async()=>readyResults,publishResult:async()=>({ok:false,code:'AUDIT_RESULTS_ALREADY_READY'})};
     window.CareerModeProductionFirebaseRuntime={ensureAccountServices:async()=>({ok:true,auth:{currentUser:{uid:role==='playerOne'?'account_one':'account_two'}},firestore:{},firestoreSdk:{}})};
-    await loadRuntimeScript('ssjr-r11-audit-results','js/productionSharedSeasonResults.js',()=>window.CareerModeProductionSharedSeasonResults);CareerModeProductionSharedSeasonResults.install();const opened=await CareerModeProductionSharedSeasonResults.open();if(!opened)throw new Error('Shared Season Results did not open for r11 audit.');
+    await loadRuntimeScript('ssjr-r11-audit-results','js/productionSharedSeasonResults.js',()=>window.CareerModeProductionSharedSeasonResults);
+    await loadRuntimeScript('ssjr-r11-audit-results-route','js/productionSharedSeasonResultsRoute.js',()=>window.CareerModeProductionSharedSeasonResultsRoute);
+    CareerModeProductionSharedSeasonResults.install();CareerModeProductionSharedSeasonResultsRoute.install();
+    document.querySelectorAll('.screen').forEach(node=>node.classList.add('hidden'));
+    const transferScreen=document.getElementById('transferChallenge');transferScreen.classList.remove('hidden');transferScreen.removeAttribute('data-shared-transfer-replay');CareerModeProductionSharedSeasonResultsRoute.decorate();
+    if(!CareerModeProductionSharedSeasonResultsRoute.canRoute())throw new Error('Shared Season Results route is not ready for r11 scoring audit.');
+    document.getElementById('continueFromTransfers').click();
     window.CareerModeProductionSharedSeasonCommit={getState:()=>commit,refresh:async()=>commit,install:()=>true};
     const providerCalls=[];
     window.CareerModeSparkSharedCanonicalScoring={read:async options=>{providerCalls.push({uid:options.user?.uid,rivalryId:options.rivalryId,sessionId:options.sessionId,deviceId:options.deviceId,seasonNumber:options.seasonNumber,teamCount:options.teamCount});return {ok:true,authoritative:true,runtimeRevision:'1.9.1-r11',phase:'SCORING_RECONCILED',revision:1,seasonNumber:1,managerRole:role,seasonCommitRevision:3,resultsRevision:2,resultsContentHash:'sha256:'+('a'.repeat(64)),scoring:{playerOne:scoreOne,playerTwo:scoreTwo},winner:'playerOne'};}};
