@@ -1,0 +1,53 @@
+name: r14 fix POS20 registry expectation once
+
+on:
+  push:
+    branches:
+      - feat/ssjr-journey-reconnect-r14
+    paths:
+      - .github/workflows/r14-fix-pos20-registry-expectation-once.yml
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: feat/ssjr-journey-reconnect-r14
+          fetch-depth: 0
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+      - name: Extend only the proven r14 registry expectation
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          path=Path('tests/operations/pos20-control-plane.test.mjs')
+          text=path.read_text()
+          anchor="const multiSeasonProductionContract='tests/contracts/shared-multi-season-progression-production-contracts.cjs';"
+          insert=anchor+"\nconst journeyReconnectContract='tests/contracts/shared-journey-reconnect-contracts.cjs';\nconst journeyReconnectProductionContract='tests/contracts/shared-journey-reconnect-production-contracts.cjs';"
+          if text.count(anchor)!=1:
+              raise SystemExit('expected exact Multi Season contract declaration anchor once')
+          if 'const journeyReconnectContract=' in text or 'const journeyReconnectProductionContract=' in text:
+              raise SystemExit('r14 registry expectation declarations already exist unexpectedly')
+          text=text.replace(anchor,insert,1)
+          old='historyConvergenceProductionContract,multiSeasonContract,multiSeasonProviderContract,multiSeasonProductionContract];'
+          new='historyConvergenceProductionContract,multiSeasonContract,multiSeasonProviderContract,multiSeasonProductionContract,journeyReconnectContract,journeyReconnectProductionContract];'
+          if text.count(old)!=1:
+              raise SystemExit('expected exact supplemental expectation tail once')
+          text=text.replace(old,new,1)
+          path.write_text(text)
+          PY
+          npm run test:ops
+      - name: Commit bounded test-only correction and delete publisher
+        run: |
+          rm .github/workflows/r14-fix-pos20-registry-expectation-once.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add tests/operations/pos20-control-plane.test.mjs .github/workflows/r14-fix-pos20-registry-expectation-once.yml
+          git diff --cached --check
+          git commit -m "test: extend POS20 registry expectation through r14"
+          git push origin HEAD:feat/ssjr-journey-reconnect-r14
