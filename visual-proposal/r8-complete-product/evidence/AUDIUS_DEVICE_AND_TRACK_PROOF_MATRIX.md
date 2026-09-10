@@ -1,6 +1,6 @@
 # Audius Showdown Radio — Device / Track Proof Matrix
 
-Status: EXECUTION MATRIX — OPEN
+Status: PUBLIC PROVIDER / RIGHTS PROOF ADVANCED — REAL DEVICE EXECUTION OPEN
 
 Primary prototype:
 
@@ -19,32 +19,57 @@ This matrix separates four different questions that must not be conflated:
 
 A candidate is not final until all applicable gates pass.
 
-## Current Free-plan reference
+## Current public provider verification
 
 Verification date: 2026-09-10.
 
-Official Audius documentation at verification time states:
+Official Audius API material currently establishes:
 
-- 10 requests/second;
-- 500,000 requests/month;
-- Free plan described as always free with no restrictions;
-- browser SDK API key may be present client-side;
-- bearer token must never be exposed client-side;
-- most read-only REST endpoints work without credentials, with API key used for higher rate limits.
+- API Plans lists Free as `No Restrictions. Always Free.`;
+- Free usage: 10 requests/second;
+- Free usage: 500,000 requests/month;
+- Unlimited is a separate plan reached through Audius contact;
+- the API root describes most read-only endpoints as available without credentials, with an API key available for higher rate limits;
+- writes require stronger authenticated authority and are irrelevant to this player;
+- Audius exposes read-only track resolution and streaming operations suitable for a Music Player.
 
-Request quota is not equivalent to song-play count.
-
-Production financial invariant:
+Project financial invariants remain stricter than provider language:
 
 `paidUpgradeAllowed = false`
 
-If current terms cease to provide the required zero-dollar path, mark provider `FINANCIAL_HOLD` and do not upgrade.
+`autoOverageAllowed = false`
+
+`paymentMethodAllowed = false`
+
+Preferred credential strategy for the static proposal is now:
+
+`publicReadOnlyFirst = true`
+
+The final implementation should first prove that public read-only resolve/stream is sufficient on the actual devices. If a Free API key is technically necessary for stable production use, its creation flow must be separately verified to require no payment method, paid overage agreement or billing enrollment. A bearer token or write secret is never placed in client code.
+
+Request quota is not equivalent to song-play count.
+
+## Audius Open Music License basis
+
+Audius's Open Music License, last updated 2025-07-02 and rechecked 2026-09-10, states that content published to or accessed on the Audius Protocol is licensed under the OML unless the licensor supplies an Alternative License URI.
+
+For Music Players, the OML grants a worldwide, non-exclusive, royalty-free, perpetual and irrevocable license to reproduce, publicly perform, distribute, electronically/digitally transmit and stream Licensed Material in connection with the Music Player's services, with sublicensing rights.
+
+Commercial attribution requirements exist under the OML. Therefore the final queue still records creator identity, the Audius material URL, OML notice/link where applicable, copyright/source information to the extent reasonably practicable, and any Alternative License declared by the track.
+
+This provider-level license basis materially improves the rights case, but it does not make an individual track final if:
+
+- the track declares an Alternative License that is incompatible;
+- the public stream is gated/unavailable;
+- creator/provenance signals are materially inconsistent;
+- device playback fails;
+- or the owner rejects the track on taste.
 
 ## Functional player matrix
 
 | Proof | iPhone Safari | Chromebook | Acceptance |
 | --- | --- | --- | --- |
-| Home loads without fetching every track stream | OPEN | OPEN | only active/selected media may request audio |
+| Home loads without fetching every track stream | OPEN | OPEN | only selected media may request audio |
 | First enabled Play begins without Play/Pause/Play ritual | OPEN | OPEN | PASS on both |
 | UI waits for real `playing` before showing PLAYING | OPEN | OPEN | PASS on both |
 | Pause and resume follow media events | OPEN | OPEN | PASS on both |
@@ -61,17 +86,25 @@ If current terms cease to provide the required zero-dollar path, mark provider `
 | Keyboard focus/controls | N/A mobile-specific | OPEN | Chromebook keyboard PASS |
 | Reduced motion does not hide state | OPEN | OPEN | PASS on both |
 
+No device row is changed to PASS without actual device evidence.
+
 ## Initial listening candidates
 
 These are deliberately not called the final soundtrack.
 
-| ID | Candidate | Audius source | Why sampled | Stream proof | Rights review | Owner taste |
-| --- | --- | --- | --- | --- | --- | --- |
-| AUM-01 | `Be Right There` — Nightingale EDM | `https://audius.co/nightingale_edm/be-right-there-%7C-edm-non-copyright-%7C-dmca-free` | House / energizing; source description claims DMCA-free Creative Commons | OPEN | OPEN — exact license terms still verify | OPEN |
-| AUM-02 | `Neon Heartline` — EvoSoniX | `https://audius.co/EvoSoniX/lytora-neon-heartline` | synthwave / house / energizing; FIFA-era menu energy candidate | OPEN | OPEN | OPEN |
-| AUM-03 | `Many Sails` — Neon Tidewater | `https://audius.co/neontidewater/many-sails` | electronic / upbeat; concise two-minute candidate | OPEN | OPEN — source mentions freely licensed material but exact governing reuse basis still verify | OPEN |
+| ID | Candidate | Public-page verification | Rights / provenance review | Device stream proof | Owner taste |
+| --- | --- | --- | --- | --- | --- |
+| AUM-01 | `Be Right There` — Nightingale EDM | PASS — public Audius page reachable; House/Energizing; 6:34; creator description calls it DMCA-free Creative Commons | OML BASE PASS; creator supplies an additional free/Creative-Commons claim in description; exact track Alternative License field still verify before final | OPEN | OPEN |
+| AUM-02 | `Neon Heartline` — EvoSoniX | PASS — public Audius page reachable; House/Energizing; 3:37 | OML BASE PASS; no incompatible Alternative License observed on public page; exact API license field still verify before final | OPEN | OPEN |
+| AUM-03 | `Many Sails` — Neon Tidewater | PASS — public Audius page reachable; Electronic/Upbeat; 2:01; description says synthesized from code and freely-licensed material | OML BASE PASS; creator provenance statement is supportive; exact API license field / attribution detail still verify before final | OPEN | OPEN |
 
-Do not promote these to `FINAL` solely because their public pages are reachable.
+Public Audius sources:
+
+- `https://audius.co/nightingale_edm/be-right-there-%7C-edm-non-copyright-%7C-dmca-free`
+- `https://audius.co/EvoSoniX/lytora-neon-heartline`
+- `https://audius.co/neontidewater/many-sails`
+
+Do not promote these to `FINAL` solely because their public pages are reachable or because the OML supplies a Music Player license.
 
 ## Track acceptance record template
 
@@ -85,7 +118,7 @@ For every final queue item record:
 - provider-reported duration;
 - public stream access result;
 - access/gating status;
-- governing license / rights statement;
+- governing OML / Alternative License statement;
 - required attribution;
 - source verification date;
 - iPhone Safari playback proof;
@@ -104,17 +137,11 @@ Allowed final statuses:
 - `PROVIDER_UNAVAILABLE`;
 - `FINANCIAL_HOLD`.
 
-## Optional SoundCloud nostalgia matrix
+## SoundCloud status
 
-Only complete this if `FIFA 17 PICKS` remains in the final owner-approved Home design.
+SoundCloud nostalgia is deferred and is not part of the required default Showdown Radio proof matrix. Do not spend closure time classifying SoundCloud tracks unless the owner explicitly reopens that lane.
 
-Per exact FIFA 17 candidate, classify:
-
-- `FULL`;
-- `PREVIEW`;
-- `UNAVAILABLE`.
-
-A 30-second preview is acceptable as optional nostalgia only when the UI labels it `PREVIEW` clearly. It is not the main Showdown Radio queue and it does not fall back to YouTube music.
+YouTube remains trailer/video-only if retained and is never a Showdown Radio fallback.
 
 ## Owner final media approval
 
@@ -124,8 +151,29 @@ Before media can be marked final, the owner receives:
 2. the exact candidate queue with listening/source links;
 3. the completed device matrix;
 4. final wide/Chromebook/mobile screenshots;
-5. SoundCloud Full/Preview classifications if the nostalgia panel remains;
+5. exact governing OML / Alternative License and attribution notes per final track;
 6. explicit statement that YouTube is trailer-only;
 7. zero-dollar terms verification date and fail-closed policy.
 
 Owner approval of the visual player does not automatically approve the track list. Track taste is an explicit separate gate.
+
+## Current closure state
+
+Completed in this reconciliation pass:
+
+- public Free-plan numbers rechecked;
+- public read-only API path rechecked;
+- OML Music Player rights basis added;
+- all three candidate public pages rechecked;
+- candidate metadata/provenance notes updated;
+- SoundCloud removed from the default functional prototype;
+- no-autoplay / one-audio authority retained.
+
+Still open:
+
+- exact API track IDs and Alternative License fields where available;
+- iPhone Safari playback proof;
+- Chromebook playback proof;
+- seek/volume/platform behavior;
+- final track taste approval;
+- final responsive screenshots.
