@@ -12,23 +12,24 @@ Read these in order:
 
 1. `00_VISUAL_REASONING_CONTROLLER_CONTRACT.md`
 2. `VISUAL_TRACK_STATUS.json`
-3. `R8_22_R11_DRIFT_AND_PACKAGE_3_STATIC_COMPOSITION_QA.md`
-4. `R8_22_PACKAGE_3_STATIC_QA_RESULTS.json`
-5. `R8_21_PACKAGE_3_EXACT_DOM_PRESENTATION_ASSET_DECISION.md`
-6. `R8_20_PACKAGE_1_2_STATIC_RESPONSIVE_OBSTRUCTION_QA.md`
-7. `R8_9_REASONING_FIRST_BUILD_ORDER.md`
-8. `R8_10_ASSET_LEDGER.json`
+3. `R8_22_R11_ACKNOWLEDGED_COMMIT_HOTFIX_RECONCILIATION.md`
+4. `R8_22_R11_DRIFT_AND_PACKAGE_3_STATIC_COMPOSITION_QA.md`
+5. `R8_22_PACKAGE_3_STATIC_QA_RESULTS.json`
+6. `R8_21_PACKAGE_3_EXACT_DOM_PRESENTATION_ASSET_DECISION.md`
+7. `R8_20_PACKAGE_1_2_STATIC_RESPONSIVE_OBSTRUCTION_QA.md`
+8. `R8_9_REASONING_FIRST_BUILD_ORDER.md`
+9. `R8_10_ASSET_LEDGER.json`
 
 Then independently resolve live `main` and the visual branch head. The parallel development lane may advance again after this starter is written.
 
-## Last verified authority before this starter
+## Last verified authority before this starter update
 
-- live main: `be5289cdbfcc8285ab8ddd33cd9fe9f1b3b7198e`
+- live main: `61e16bb0357352a5c38c02aa072233e851226caf`
 - live runtime / asset revision: `1.9.1-r11`
 - visual branch: `visual/r8-5-approved-character-identity-lock`
-- pre-starter visual head: `c52d4f2bdc8d8308bed0b6ab10c145b380e890bb`
+- r11 hotfix reconciliation commit: `d9aa471455b0fef482419972f44f25f8c50ec9dd`
 
-This starter commit advances the visual branch beyond that SHA. Resolve exact heads before writing.
+This starter update advances the visual branch beyond that SHA. Resolve exact heads before writing.
 
 ## Current formal state
 
@@ -43,20 +44,23 @@ This starter commit advances the visual branch beyond that SHA. Resolve exact he
 - Package 3 static composition / obstruction QA: `PASS 66/66`
 - current roadmap gate: `PACKAGE_4_EXACT_DOM_PRESENTATION_MAPPING`
 
-## r11 drift already reconciled
+## r11 drift and hotfix already reconciled
 
 Do not revert to the r10 assumption that shared scoring has no authoritative winner source.
 
 Current r11 includes `js/productionSharedCanonicalScoring.js`.
 
-Its visible `#sharedCanonicalScoringPanel` is authoritative only when:
+Its visible `#sharedCanonicalScoringPanel` may become authoritative only when:
 
 - shared mode is active
-- Season Commit is committed and acknowledged
-- projection `authoritative===true`
+- cached Season Commit authority is already committed and `ACKNOWLEDGED` revision 3 for the same season/rivalry
+- refreshed Season Commit authority remains committed and `ACKNOWLEDGED` revision 3
+- provider projection reports `authoritative===true`
 - phase is `SCORING_RECONCILED`
 
-Winner / draw emphasis may be derived from that state only. Earlier Shared Results and Shared Season Commit remain neutral.
+The final r11 hotfix at `61e16bb0357352a5c38c02aa072233e851226caf` added the early cached `pcscCommitReady(request)` gate before provider refresh. This strengthens the existing visual rule and does not require Package 3 recomposition.
+
+Winner / draw emphasis may be derived from authoritative `SCORING_RECONCILED` only. Earlier Shared Results and Shared Season Commit remain neutral.
 
 No visual-state Firebase write is allowed.
 
@@ -80,7 +84,7 @@ Result:
 
 - Transfer Challenge uses A01/A02 role-aligned outer rails or omission
 - Shared Results/Commit remain data-first and privacy-safe
-- r11 Shared Canonical Scoring may use A01/A02 outcome luminance only after `SCORING_RECONCILED`
+- r11 Shared Canonical Scoring may use A01/A02 outcome luminance only after the acknowledged-commit gates and authoritative `SCORING_RECONCILED`
 - local Season Summary uses A01/A02 outcome luminance from completed `roundRecord.winner`
 - A03/A04/A05/A06 generation is not justified by current evidence
 - Tiebreak remains deferred because no live r11 Tiebreak runtime/route/DOM exists
