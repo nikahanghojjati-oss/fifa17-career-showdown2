@@ -1,8 +1,8 @@
 # Screen 05 — Showdown Home / `dashboard`
 
-Status: ACTIVE SCREEN CONTRACT
+Status: ACTIVE SCREEN CONTRACT — RECONCILED THROUGH r13 MULTI SEASON
 
-Source anchor: current `main` at `cef2e101f23fd8cb777f71950bac8f0f8d9f2c7b`.
+Source anchor: current `main` at `ea96ff1280b5e63962b7ee1a6a8c0980fe4e3686` (`1.9.1-r13`).
 
 ## Purpose
 
@@ -26,11 +26,11 @@ The current routed DOM includes:
 - Private Remote Joining action;
 - Back to Main Menu.
 
-No R8 presentation may duplicate score, season, transfer or Remote Joining authority.
+No R8 presentation may duplicate score, season, transfer, Multi Season or Remote Joining authority.
 
 ## Information hierarchy
 
-1. Showdown name, league and season status.
+1. Showdown name, league and active-season status.
 2. Overall rivalry score and series state.
 3. Equal manager/club cards.
 4. Current season / Transfer Challenge state.
@@ -50,6 +50,21 @@ The season primary action receives the strongest action treatment. Private Remot
 
 Last-season summary is a compact contextual module rather than a second scoreboard.
 
+## r13 Multi Season interaction
+
+Shared Multi Season progression remains owned by the Season Results review runtime. When that runtime authoritatively advances its local exposed season cursor and returns the user to Dashboard, Dashboard must simply present the newly resolved active season through existing product state.
+
+R8 therefore must:
+
+- visually accommodate Season 2–10 labels without layout breakage;
+- keep the fixed manager/club identity stable across seasons;
+- make the current active season unambiguous;
+- show the normal next Transfer Challenge / Season Results action for the active season according to product authority;
+- never add a separate R8 season selector, next-season counter, or local progression state;
+- avoid implying that the previous season can be edited merely because its last-season summary remains visible.
+
+The current multi-season continuation flow intentionally returns to the canonical Dashboard; the proposal preserves that orientation point rather than inventing a dedicated inter-season screen.
+
 ## State family
 
 Cover at minimum:
@@ -58,8 +73,9 @@ Cover at minimum:
 - Transfer Challenge not started;
 - Transfer Challenge active/incomplete;
 - ready for Season Results;
-- season completed / next season available;
-- terminal Showdown complete;
+- season completed / next season available through authoritative shared progression;
+- Season 2–10 active states;
+- terminal Showdown season plan complete;
 - last-season result visible;
 - shared/private-session eligible;
 - reconnecting or unavailable connection state if surfaced;
@@ -87,17 +103,21 @@ Chromebook/tablet stacks overview, score, manager cards and actions so the prima
 
 Mobile uses a readable vertical command-center order: overview, score, manager comparison, status, primary action, Remote Joining, secondary navigation.
 
+Season labels up to `SEASON 10 OF 10` must remain readable at every tier without forcing horizontal overflow.
+
 ## Accessibility and QA
 
 - score meaning is available through text, not position/color alone;
 - manager sides are labeled explicitly;
 - leader/winner styling only appears when product authority supports it;
+- current season is communicated as text;
 - status chips remain text-readable;
 - focus remains visible on primary action, Remote Joining and Back;
 - no decorative layer overlaps current score, state or actions;
 - reduced motion does not delay state updates;
-- no public/global ranking language is introduced.
+- no public/global ranking language is introduced;
+- multi-season return to Dashboard does not create duplicate progression controls.
 
 ## Final-main reconciliation
 
-At final-main checkpoint, re-read Dashboard state logic and any new shared-play indicators. Preserve the hierarchy above unless the final product adds a genuinely higher-priority user action.
+At final-main checkpoint, re-read Dashboard state logic and any new shared-play indicators. Journey Reconnect and later reconciliation capabilities may add visible state around this orientation point; if they do, add them without displacing the core competition hierarchy unless the final product owns a genuinely higher-priority action.
