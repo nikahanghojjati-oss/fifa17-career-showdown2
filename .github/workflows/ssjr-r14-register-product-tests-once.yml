@@ -1,4 +1,5 @@
 name: SSJR r14 register product tests once
+# Retry after correcting the bounded production-contract runtime revision assertion.
 
 on:
   push:
