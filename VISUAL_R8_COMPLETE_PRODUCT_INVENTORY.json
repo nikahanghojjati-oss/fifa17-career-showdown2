@@ -1,0 +1,133 @@
+{
+  "schemaVersion": 1,
+  "visualSystem": "R8",
+  "status": "active-living-authority",
+  "sourceAnchor": {
+    "mainSha": "cef2e101f23fd8cb777f71950bac8f0f8d9f2c7b",
+    "applicationVersion": "1.9.1",
+    "runtimeRevision": "1.9.1-r12",
+    "proposalFile": "VISUAL_R8_COMPLETE_PRODUCT_PROPOSAL.md"
+  },
+  "routedScreens": [
+    {"id":"mainMenu","name":"Home","archetype":"cinematic-rivalry-hub","characterPolicy":"a01-a02-wide-only"},
+    {"id":"createShowdown","name":"Create Showdown","archetype":"premium-setup-form","characterPolicy":"none"},
+    {"id":"leagueWheelScreen","name":"League Wheel","archetype":"selection-stage","characterPolicy":"optional-wide-flanks"},
+    {"id":"clubWheelScreen","name":"Club Assignment","archetype":"pack-reveal-versus","characterPolicy":"optional-wide-anchors"},
+    {"id":"dashboard","name":"Showdown Home","archetype":"competition-command-center","characterPolicy":"none"},
+    {"id":"transferChallenge","name":"Transfer Challenge","archetype":"timed-operations-board","characterPolicy":"none"},
+    {"id":"seasonEntry","name":"Season Results / Review","archetype":"structured-season-scorecard","characterPolicy":"none"},
+    {"id":"seasonSummary","name":"Season Summary","archetype":"post-season-result-ceremony","characterPolicy":"none-unless-integrated-evidence"},
+    {"id":"statistics","name":"Rivalry Statistics","archetype":"active-rivalry-analytics","characterPolicy":"none"},
+    {"id":"careerStatistics","name":"Career Statistics","archetype":"longitudinal-analytics","characterPolicy":"none"},
+    {"id":"trophyRoom","name":"Trophy Room","archetype":"prestige-archive","characterPolicy":"none"},
+    {"id":"legacy","name":"Legacy","archetype":"archive-data-management","characterPolicy":"none"},
+    {"id":"ruleBook","name":"Rule Book","archetype":"competition-handbook","characterPolicy":"none"}
+  ],
+  "nonRouteSurfaces": [
+    "startup-loading",
+    "global-header-season-indicator",
+    "runtime-notice",
+    "home-media-soundtrack",
+    "settings-dialog",
+    "save-library",
+    "local-profile-editor",
+    "identity-linking",
+    "connected-account",
+    "registered-device-private-pairing",
+    "connected-rivalry",
+    "private-remote-joining",
+    "backup-export",
+    "import-analysis-candidate-b",
+    "atomic-restore-candidate-c",
+    "destructive-confirmation-recovery",
+    "shared-showdown-setup",
+    "shared-career-start",
+    "shared-transfer-challenge",
+    "shared-season-results",
+    "shared-season-commit",
+    "shared-canonical-scoring",
+    "shared-history-convergence"
+  ],
+  "stateFamilies": [
+    "default",
+    "empty",
+    "loading-busy",
+    "disabled-gated",
+    "waiting-for-peer",
+    "waiting-for-coordinator",
+    "offline",
+    "provider-unavailable",
+    "reconnecting",
+    "stale-conflict",
+    "revoked",
+    "blocked",
+    "error",
+    "success-confirmed",
+    "destructive-confirmation",
+    "critical-recovery",
+    "normal-motion",
+    "reduced-motion"
+  ],
+  "responsiveTiers": [
+    {"id":"wide","minWidth":1280,"largeCharactersAllowed":true},
+    {"id":"reduced-wide","minWidth":1180,"maxWidth":1279,"largeCharactersAllowed":"conditional"},
+    {"id":"chromebook-tablet","maxWidth":1179,"largeCharactersAllowed":false},
+    {"id":"mobile-reference","width":390,"height":844,"largeCharactersAllowed":false}
+  ],
+  "frozenAssets": [
+    {
+      "id":"A01_NIK_CORE_THINKING_HERO",
+      "path":"assets/visual/r8/a01-nik-core-thinking-hero.png",
+      "sha256":"17972b8afb73b90483c8f874c4bd964ac1bda196daa76e134a6030676bbd4219",
+      "width":1086,
+      "height":1448
+    },
+    {
+      "id":"A02_DANIEL_CORE_POINTING_HERO",
+      "path":"assets/visual/r8/a02-daniel-core-pointing-hero.png",
+      "sha256":"9b1545b52a5d96a240c92b9901dcd8a4558148dde05a0331882df7bd988177cc",
+      "width":1086,
+      "height":1448
+    }
+  ],
+  "generationGate": {
+    "state":"closed",
+    "additionalAssetIds":["A03","A04","A05","A06"],
+    "rule":"Open only when integrated real-DOM evidence proves a required visual role cannot be solved with A01/A02 crop, mask, safe mirror, responsive omission, procedural CSS/SVG, local icons, existing rights-safe visuals, or a character-free layout."
+  },
+  "accessibilityLocks": [
+    "44px-minimum-interactive-targets",
+    "visible-keyboard-focus",
+    "route-heading-focus-preserved",
+    "dialog-focus-restoration-preserved",
+    "decorative-layers-pointer-inert",
+    "decorative-layers-aria-hidden-where-appropriate",
+    "color-not-sole-status-indicator",
+    "reduced-motion-suppresses-decorative-motion",
+    "long-capability-ids-responsive-safe"
+  ],
+  "architectureLocks": [
+    "screens-js-navigation-authority",
+    "existing-storage-save-library-authority",
+    "existing-analytics-authority",
+    "no-visual-scoring-authority",
+    "no-visual-provider-protocol",
+    "no-visual-firebase-write-authority",
+    "no-visual-billing-authority",
+    "shared-play-reuses-canonical-screens"
+  ],
+  "costLocks": [
+    "zero-dollar",
+    "firebase-spark-only",
+    "billing-off",
+    "no-blaze",
+    "no-cloud-functions",
+    "no-cloud-run"
+  ],
+  "finalProductReconciliation": {
+    "required": true,
+    "unknownSurfacesAllowedAtFinalSignoff": false,
+    "outcomes": ["covered-unchanged","covered-updated","newly-added","intentionally-excluded-with-authority-reason"],
+    "signoffStatusRequired":"final-visual-proposal"
+  }
+}

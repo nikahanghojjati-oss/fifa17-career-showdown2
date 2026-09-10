@@ -1,0 +1,444 @@
+/*
+ * Career Mode Showdown — R8.25 bounded production-candidate presentation
+ * Baseline: main 637804a9d0e18a88c7a7bb3c79b93d5af2f92062 / 1.9.1-r12
+ * Scope: global presentation shell + Home + accessibility guard only.
+ * Reversible gate: html[data-r8-visual="active"].
+ * No gameplay, storage, Firebase, scoring, pairing or routing authority.
+ */
+
+html[data-r8-visual="active"]{
+    --r8-black:#080b0e;
+    --r8-ink:#10151a;
+    --r8-panel:rgba(10,14,18,.90);
+    --r8-panel-solid:#0d1216;
+    --r8-panel-soft:rgba(18,22,26,.82);
+    --r8-gold:#f3cc4f;
+    --r8-gold-deep:#b98216;
+    --r8-gold-line:rgba(243,204,79,.56);
+    --r8-cream:#f5f0e4;
+    --r8-muted:#bdb49a;
+    --r8-success:#7fd77a;
+    --r8-warning:#f0bd45;
+    --r8-danger:#dc6f6f;
+    --r8-shadow:0 16px 40px rgba(0,0,0,.42);
+    --r8-shadow-soft:0 8px 24px rgba(0,0,0,.28);
+    --r8-glow:0 0 24px rgba(243,204,79,.18);
+    --r8-display:"Barlow Condensed","Arial Narrow","Segoe UI",sans-serif;
+    --r8-ui:"Segoe UI","Helvetica Neue",Arial,sans-serif;
+}
+
+/* Global shell — presentation only. */
+html[data-r8-visual="active"] body{
+    color:var(--f17-ink);
+    background:#080b0e;
+}
+
+html[data-r8-visual="active"] #background{
+    background:
+        radial-gradient(circle at 50% -12%,rgba(243,204,79,.12),transparent 37%),
+        radial-gradient(circle at 8% 28%,rgba(255,255,255,.035),transparent 25%),
+        linear-gradient(135deg,#11171c 0 28%,#080b0e 28% 72%,#12181d 72% 100%);
+}
+
+html[data-r8-visual="active"] #overlay{
+    background:
+        linear-gradient(118deg,transparent 0 30%,rgba(243,204,79,.035) 30% 31%,transparent 31% 67%,rgba(243,204,79,.025) 67% 68%,transparent 68%),
+        repeating-linear-gradient(125deg,rgba(255,255,255,.018) 0 1px,transparent 1px 6px),
+        radial-gradient(circle at 52% 108%,rgba(185,130,22,.10),transparent 38%);
+}
+
+html[data-r8-visual="active"] #topHeader{
+    color:var(--r8-cream);
+    background:linear-gradient(180deg,rgba(18,24,29,.985),rgba(7,10,12,.985));
+    border-bottom:1px solid rgba(243,204,79,.54);
+    box-shadow:0 7px 20px rgba(0,0,0,.31),inset 0 -1px rgba(255,255,255,.025);
+}
+
+html[data-r8-visual="active"] .brand h1{
+    color:var(--r8-cream);
+    text-shadow:0 2px 18px rgba(0,0,0,.34);
+}
+
+html[data-r8-visual="active"] .brand p{
+    color:var(--r8-gold);
+}
+
+html[data-r8-visual="active"] .seasonIndicator{
+    color:var(--r8-cream);
+    background:linear-gradient(135deg,#171e23,#0b1014);
+    border-left-color:var(--r8-gold);
+    box-shadow:inset 0 1px rgba(255,255,255,.045),0 5px 16px rgba(0,0,0,.22);
+}
+
+html[data-r8-visual="active"] main{
+    background:transparent;
+}
+
+html[data-r8-visual="active"] .screen>h2{
+    color:var(--r8-cream);
+    background:linear-gradient(90deg,rgba(13,18,22,.96),rgba(13,18,22,.76) 78%,rgba(13,18,22,.20));
+    border-left-color:var(--r8-gold);
+    border-bottom:1px solid rgba(243,204,79,.18);
+    box-shadow:var(--r8-shadow-soft);
+}
+
+html[data-r8-visual="active"] footer{
+    color:#c9c1ad;
+    background:linear-gradient(90deg,#080b0e,#11171c 58%,#090d10);
+    border-top-color:rgba(243,204,79,.52);
+}
+
+/* Keep focus visible even where a screen remains light. The dark inner line
+   and cream outer line avoid a yellow-only focus signal on white/light UI. */
+html[data-r8-visual="active"] .menuButton:focus-visible,
+html[data-r8-visual="active"] .backButton:focus-visible,
+html[data-r8-visual="active"] .compactButton:focus-visible,
+html[data-r8-visual="active"] .menuMusicControl:focus-visible,
+html[data-r8-visual="active"] .menuMediaChoice:focus-visible{
+    outline:3px solid #10151a;
+    outline-offset:2px;
+    box-shadow:0 0 0 4px var(--r8-cream),0 0 0 6px rgba(243,204,79,.72);
+}
+
+/* Explicit r12 runtime-notice dismiss focus guard. */
+html[data-r8-visual="active"] #appRuntimeNotice button:focus-visible{
+    outline:3px solid #080b0e;
+    outline-offset:2px;
+    box-shadow:0 0 0 4px #f5f0e4,0 0 0 6px #f3cc4f;
+    border-radius:2px;
+}
+
+/* Home — exact current r12 DOM, live controls preserved. */
+html[data-r8-visual="active"] #mainMenu{
+    isolation:isolate;
+    overflow:clip;
+}
+
+html[data-r8-visual="active"] #mainMenu .fifaMenuShell{
+    position:relative;
+    z-index:4;
+}
+
+html[data-r8-visual="active"] #mainMenu .fifaMenuHeading{
+    position:relative;
+    z-index:5;
+    border-bottom-color:rgba(243,204,79,.42);
+}
+
+html[data-r8-visual="active"] #mainMenu .fifaMenuEyebrow{
+    color:var(--r8-gold);
+}
+
+html[data-r8-visual="active"] #mainMenu .fifaMenuHeading h2{
+    color:var(--r8-cream);
+    text-shadow:0 4px 22px rgba(0,0,0,.38);
+}
+
+html[data-r8-visual="active"] #mainMenu .fifaMenuHeadingMeta{
+    color:#cbc3b1;
+}
+
+html[data-r8-visual="active"] #mainMenu .fifaMenuHeadingMeta span{
+    color:var(--r8-gold);
+}
+
+html[data-r8-visual="active"] #mainMenu .fifaMenuGrid{
+    position:relative;
+    z-index:6;
+    gap:7px;
+}
+
+html[data-r8-visual="active"] #mainMenu .menuTile{
+    color:var(--r8-cream);
+    background:
+        linear-gradient(138deg,rgba(255,255,255,.045),transparent 22% 68%,rgba(243,204,79,.045)),
+        linear-gradient(135deg,#151c21,#0b1014 72%);
+    border-color:rgba(243,204,79,.20);
+    border-bottom-color:rgba(243,204,79,.62);
+    box-shadow:0 8px 22px rgba(0,0,0,.28),inset 0 1px rgba(255,255,255,.045);
+}
+
+html[data-r8-visual="active"] #mainMenu .menuTile::before{
+    background:
+        linear-gradient(112deg,rgba(255,255,255,.055),transparent 26% 63%,rgba(0,0,0,.18) 63%),
+        repeating-linear-gradient(0deg,rgba(255,255,255,.012) 0 1px,transparent 1px 4px);
+}
+
+html[data-r8-visual="active"] #mainMenu .menuTile::after{
+    background:linear-gradient(90deg,var(--r8-gold),transparent);
+    opacity:.72;
+}
+
+html[data-r8-visual="active"] #mainMenu .menuTile:hover:not(:disabled){
+    transform:translateY(-2px);
+    filter:brightness(1.055);
+    box-shadow:0 14px 28px rgba(0,0,0,.34),inset 0 1px rgba(255,255,255,.065),var(--r8-glow);
+}
+
+html[data-r8-visual="active"] #mainMenu .menuTile:focus-visible{
+    transform:translateY(-2px);
+    filter:none;
+    outline:3px solid #080b0e;
+    outline-offset:-5px;
+    box-shadow:0 0 0 3px #f5f0e4,0 0 0 6px #f3cc4f,0 14px 28px rgba(0,0,0,.34);
+}
+
+html[data-r8-visual="active"] #mainMenu .menuTilePrimary{
+    justify-content:flex-start;
+    padding:24px 24px 22px;
+    color:var(--r8-cream);
+    background:
+        radial-gradient(circle at 72% 24%,rgba(243,204,79,.10),transparent 28%),
+        linear-gradient(132deg,#171f24 0 46%,#0d1317 46% 72%,#090d10 72% 100%);
+    border-color:rgba(243,204,79,.30);
+    border-bottom-color:var(--r8-gold);
+}
+
+html[data-r8-visual="active"] #mainMenu .menuTilePrimary .menuTileCode{
+    position:static;
+    margin-bottom:12px;
+    color:var(--r8-gold);
+}
+
+html[data-r8-visual="active"] #mainMenu .menuTilePrimary .menuTileLabel{
+    color:var(--r8-cream);
+    max-width:78%;
+}
+
+html[data-r8-visual="active"] #mainMenu .menuTilePrimary .menuTileMeta{
+    color:#d7cfbd;
+    max-width:74%;
+}
+
+html[data-r8-visual="active"] #mainMenu .menuTilePrimary:disabled{
+    opacity:1;
+    filter:none;
+}
+
+html[data-r8-visual="active"] #mainMenu .menuTilePrimary:disabled .menuTileLabel,
+html[data-r8-visual="active"] #mainMenu .menuTilePrimary:disabled .menuTileMeta{
+    opacity:.64;
+}
+
+html[data-r8-visual="active"] #mainMenu .menuTileNew{
+    color:#0a0e11;
+    background:linear-gradient(135deg,#f7df87 0 28%,#f3cc4f 28% 66%,#c99328 100%);
+    border-color:rgba(255,248,219,.66);
+    border-bottom-color:#8f6513;
+}
+
+html[data-r8-visual="active"] #mainMenu .menuTileNew .menuTileCode,
+html[data-r8-visual="active"] #mainMenu .menuTileNew .menuTileMeta{
+    color:#252015;
+}
+
+html[data-r8-visual="active"] #mainMenu .menuTileLegacy{
+    background:linear-gradient(135deg,#1b2227,#0d1216 72%);
+}
+
+html[data-r8-visual="active"] #mainMenu .menuTileTrophy{
+    background:
+        radial-gradient(circle at 78% 22%,rgba(243,204,79,.10),transparent 30%),
+        linear-gradient(135deg,#24201a,#111417 72%);
+    border-bottom-color:var(--r8-gold);
+}
+
+html[data-r8-visual="active"] #mainMenu .menuTileRules{
+    color:var(--r8-cream);
+    background:linear-gradient(135deg,#24282b,#12171a 72%);
+    border-color:rgba(243,204,79,.18);
+    border-bottom-color:#a58a47;
+}
+
+html[data-r8-visual="active"] #mainMenu .menuTileRules .menuTileCode,
+html[data-r8-visual="active"] #mainMenu .menuTileRules .menuTileMeta{
+    color:#d1c7ad;
+}
+
+html[data-r8-visual="active"] #mainMenu .menuTileSettings{
+    background:linear-gradient(135deg,#191f23,#0d1114 72%);
+    border-bottom-color:#8e8060;
+}
+
+/* Keep the existing Home Reus behavior mounted but suppress it only while
+   the reversible R8 Home gate is active. Protected loading Reus is untouched. */
+html[data-r8-visual="active"] #mainMenu .menuCoverAthlete,
+html[data-r8-visual="active"] #mainMenu #menuAthleteCredit{
+    display:none !important;
+}
+
+html[data-r8-visual="active"] #mainMenu .menuMusicTile{
+    color:var(--r8-cream);
+    background:
+        linear-gradient(125deg,#0b1014,#151c21 58%,#0a0e11),
+        repeating-linear-gradient(135deg,rgba(255,255,255,.012) 0 1px,transparent 1px 7px);
+    border-color:rgba(243,204,79,.17);
+    border-top-color:var(--r8-gold);
+    box-shadow:0 10px 24px rgba(0,0,0,.30),inset 0 1px rgba(255,255,255,.035);
+}
+
+html[data-r8-visual="active"] #mainMenu .menuMusicTile[data-media-kind="video"]{
+    border-top-color:#d9b954;
+}
+
+html[data-r8-visual="active"] #mainMenu .menuMusicHeader span{
+    color:var(--r8-gold);
+}
+
+html[data-r8-visual="active"] #mainMenu .menuMusicArtist,
+html[data-r8-visual="active"] #mainMenu .menuMusicSource,
+html[data-r8-visual="active"] #mainMenu .menuMusicStatus,
+html[data-r8-visual="active"] #mainMenu .menuMusicPlaceholder{
+    color:#bdb49a;
+}
+
+html[data-r8-visual="active"] #mainMenu .menuMediaChoice{
+    color:#d8d0bd;
+    background:linear-gradient(135deg,#080c0f,#161c20);
+    border-color:rgba(243,204,79,.13);
+    border-bottom-color:rgba(243,204,79,.30);
+}
+
+html[data-r8-visual="active"] #mainMenu .menuMediaChoice.selected{
+    color:#0b0f12;
+    background:var(--r8-gold);
+    border-color:#fff3c4;
+}
+
+html[data-r8-visual="active"] #mainMenu .menuMediaChoice.selected small{
+    color:#41371f;
+}
+
+html[data-r8-visual="active"] #mainMenu .menuMusicControl{
+    color:var(--r8-cream);
+    background:#1b2328;
+    border-color:rgba(243,204,79,.20);
+}
+
+html[data-r8-visual="active"] #mainMenu .menuMusicPlayer{
+    background:#070a0c;
+    border-left-color:rgba(243,204,79,.44);
+}
+
+html[data-r8-visual="active"] #mainMenu .menuBottomStrip{
+    color:#c7beaa;
+    background:linear-gradient(90deg,rgba(10,14,18,.96),rgba(25,30,33,.94));
+    border-left-color:var(--r8-gold);
+    border-top:1px solid rgba(243,204,79,.13);
+    box-shadow:0 3px 12px rgba(0,0,0,.22);
+}
+
+html[data-r8-visual="active"] #mainMenu .menuBottomStrip b,
+html[data-r8-visual="active"] #mainMenu .menuBottomStrip strong{
+    color:var(--r8-gold);
+}
+
+/* Final-art infrastructure. */
+html[data-r8-visual="active"] .r8FinalArtLayer{
+    position:absolute;
+    inset:0;
+    z-index:1;
+    overflow:hidden;
+    pointer-events:none !important;
+    user-select:none !important;
+    contain:layout paint style;
+}
+
+html[data-r8-visual="active"] .r8AtmosphereLayer,
+html[data-r8-visual="active"] .r8CharacterLayer,
+html[data-r8-visual="active"] .r8CharacterImage{
+    pointer-events:none !important;
+    user-select:none !important;
+}
+
+html[data-r8-visual="active"] .r8AtmosphereLayer{
+    position:absolute;
+    inset:0;
+    background:
+        radial-gradient(ellipse at 12% 20%,rgba(243,204,79,.09),transparent 26%),
+        radial-gradient(ellipse at 88% 18%,rgba(245,240,228,.055),transparent 25%),
+        linear-gradient(114deg,transparent 0 17%,rgba(243,204,79,.035) 17% 18%,transparent 18% 82%,rgba(243,204,79,.025) 82% 83%,transparent 83%);
+    opacity:.92;
+}
+
+html[data-r8-visual="active"] #mainMenu .r8CharacterLayer{
+    position:absolute;
+    top:58px;
+    bottom:31%;
+    width:min(23vw,350px);
+    opacity:.96;
+    overflow:hidden;
+    filter:drop-shadow(0 18px 26px rgba(0,0,0,.34));
+    -webkit-mask-image:linear-gradient(to bottom,#000 0 58%,rgba(0,0,0,.92) 70%,transparent 100%);
+    mask-image:linear-gradient(to bottom,#000 0 58%,rgba(0,0,0,.92) 70%,transparent 100%);
+}
+
+html[data-r8-visual="active"] #mainMenu .r8CharacterLayerDaniel{ left:0; }
+html[data-r8-visual="active"] #mainMenu .r8CharacterLayerNik{ right:0; }
+
+html[data-r8-visual="active"] #mainMenu .r8CharacterImage{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    display:block;
+    object-fit:contain;
+    filter:saturate(.94) contrast(1.035) brightness(.93);
+}
+
+html[data-r8-visual="active"] #mainMenu .r8CharacterLayerDaniel .r8CharacterImage{ object-position:left top; }
+html[data-r8-visual="active"] #mainMenu .r8CharacterLayerNik .r8CharacterImage{ object-position:right top; }
+html[data-r8-visual="active"] #mainMenu .r8CharacterLayer.is-missing{ display:none !important; }
+
+@media(max-width:1279px){
+    html[data-r8-visual="active"] #mainMenu .r8CharacterLayer{
+        width:min(20vw,260px);
+        opacity:.80;
+    }
+}
+
+@media(max-width:1179px){
+    html[data-r8-visual="active"] #mainMenu .r8CharacterLayer{
+        display:none !important;
+    }
+}
+
+@media(max-width:700px){
+    html[data-r8-visual="active"] #mainMenu .fifaMenuHeadingMeta{ color:#c7beaa; }
+
+    html[data-r8-visual="active"] #mainMenu .menuTilePrimary{
+        color:var(--r8-cream);
+        background:linear-gradient(132deg,#161d22 0 48%,#0d1216 48% 100%);
+        padding-right:24px;
+    }
+
+    html[data-r8-visual="active"] #mainMenu .menuTilePrimary .menuTileCode{
+        position:absolute;
+        top:12px;
+        right:14px;
+        margin:0;
+        color:var(--r8-gold);
+    }
+
+    html[data-r8-visual="active"] #mainMenu .menuTilePrimary .menuTileLabel,
+    html[data-r8-visual="active"] #mainMenu .menuTilePrimary .menuTileMeta{
+        color:inherit;
+        max-width:100%;
+    }
+}
+
+@media(prefers-reduced-motion:reduce){
+    html[data-r8-visual="active"] .r8FinalArtLayer,
+    html[data-r8-visual="active"] .r8FinalArtLayer *,
+    html[data-r8-visual="active"] #mainMenu .menuTile{
+        animation:none !important;
+        transition:none !important;
+    }
+}
+
+html[data-motion-reduced="true"][data-r8-visual="active"] .r8FinalArtLayer,
+html[data-motion-reduced="true"][data-r8-visual="active"] .r8FinalArtLayer *,
+html[data-motion-reduced="true"][data-r8-visual="active"] #mainMenu .menuTile{
+    animation:none !important;
+    transition:none !important;
+}
