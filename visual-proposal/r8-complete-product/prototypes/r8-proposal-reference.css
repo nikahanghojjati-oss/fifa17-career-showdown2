@@ -1,0 +1,175 @@
+/*
+ * R8 complete-product visual proposal reference CSS
+ * Proposal workspace only. Not production authority.
+ * Senior developer must adapt intentionally against final main.
+ */
+
+.r8ProposalRoot {
+  --r8-black:#080b0e;
+  --r8-ink:#10151a;
+  --r8-panel:rgba(10,14,18,.90);
+  --r8-panel-solid:#0d1216;
+  --r8-panel-soft:rgba(18,22,26,.82);
+  --r8-gold:#f3cc4f;
+  --r8-gold-deep:#b98216;
+  --r8-cream:#f5f0e4;
+  --r8-muted:#bdb49a;
+  --r8-success:#7fd77a;
+  --r8-warning:#f0bd45;
+  --r8-danger:#dc6f6f;
+  --r8-shadow:0 16px 40px rgba(0,0,0,.42);
+}
+
+.r8ProposalRoot.r8DarkShell {
+  color:var(--r8-cream);
+  background:
+    radial-gradient(circle at 50% -12%,rgba(243,204,79,.12),transparent 37%),
+    linear-gradient(135deg,#11171c 0 28%,#080b0e 28% 72%,#12181d 72% 100%);
+}
+
+/* Reference focus treatment remains visible on both gold and dark surfaces. */
+.r8ProposalRoot :where(button,a,input,select,textarea,[tabindex]):focus-visible {
+  outline:3px solid #10151a;
+  outline-offset:2px;
+  box-shadow:0 0 0 4px var(--r8-cream),0 0 0 6px var(--r8-gold);
+}
+
+/* Home composition. Uses the real Home structure; these selectors are only a
+   proposal reference and are intentionally namespaced by .r8ProposalRoot. */
+.r8ProposalRoot #mainMenu {
+  position:relative;
+  isolation:isolate;
+  overflow:clip;
+}
+
+.r8ProposalRoot #mainMenu::before {
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  background:url("../assets/procedural/home-stadium-atmosphere.svg") center/cover no-repeat;
+  opacity:.96;
+}
+
+.r8ProposalRoot #mainMenu .fifaMenuShell {
+  position:relative;
+  z-index:4;
+}
+
+.r8ProposalRoot #mainMenu .fifaMenuHeading {
+  border-bottom-color:rgba(243,204,79,.42);
+}
+
+.r8ProposalRoot #mainMenu .fifaMenuEyebrow,
+.r8ProposalRoot #mainMenu .fifaMenuHeadingMeta span {
+  color:var(--r8-gold);
+}
+
+.r8ProposalRoot #mainMenu .fifaMenuHeading h2 {
+  color:var(--r8-cream);
+}
+
+.r8ProposalRoot #mainMenu .fifaMenuHeadingMeta {
+  color:#cbc3b1;
+}
+
+.r8ProposalRoot #mainMenu .menuTile {
+  color:var(--r8-cream);
+  background:
+    linear-gradient(138deg,rgba(255,255,255,.045),transparent 22% 68%,rgba(243,204,79,.045)),
+    linear-gradient(135deg,#151c21,#0b1014 72%);
+  border-color:rgba(243,204,79,.20);
+  border-bottom-color:rgba(243,204,79,.62);
+  box-shadow:0 8px 22px rgba(0,0,0,.28),inset 0 1px rgba(255,255,255,.045);
+}
+
+.r8ProposalRoot #mainMenu .menuTileNew {
+  color:#0a0e11;
+  background:linear-gradient(135deg,#f7df87 0 28%,#f3cc4f 28% 66%,#c99328 100%);
+  border-color:rgba(255,248,219,.66);
+  border-bottom-color:#8f6513;
+}
+
+.r8ProposalRoot #mainMenu .menuMusicTile,
+.r8ProposalRoot #mainMenu .menuBottomStrip {
+  color:var(--r8-cream);
+  background:linear-gradient(125deg,#0b1014,#151c21 58%,#0a0e11);
+  border-color:rgba(243,204,79,.17);
+}
+
+/* The actual A01/A02 elements in a senior implementation must be decorative,
+   pointer inert and aria-hidden. This reference only reserves their zones. */
+.r8ProposalRoot .r8HomeCharacterLeft,
+.r8ProposalRoot .r8HomeCharacterRight {
+  position:absolute;
+  z-index:2;
+  bottom:0;
+  width:min(27vw,390px);
+  max-height:82%;
+  pointer-events:none;
+  object-fit:contain;
+  object-position:bottom center;
+  filter:drop-shadow(0 18px 28px rgba(0,0,0,.42));
+}
+
+.r8ProposalRoot .r8HomeCharacterLeft { left:-2vw; }
+.r8ProposalRoot .r8HomeCharacterRight { right:-2vw; }
+
+/* Character-free contract before interaction density is compromised. */
+@media (max-width:1179px) {
+  .r8ProposalRoot .r8HomeCharacterLeft,
+  .r8ProposalRoot .r8HomeCharacterRight { display:none; }
+}
+
+/* Legacy dark-shell fix. Only text that sits directly on the dark shell is
+   converted to cream. Nested light cards retain dark foreground colors. */
+.r8ProposalRoot.r8DarkShell #legacy > h2,
+.r8ProposalRoot.r8DarkShell #legacy .legacySectionHeading {
+  color:var(--r8-cream);
+  border-left-color:var(--r8-gold);
+}
+
+.r8ProposalRoot.r8DarkShell #legacy .legacyStat,
+.r8ProposalRoot.r8DarkShell #legacy .legacyEmpty,
+.r8ProposalRoot.r8DarkShell #legacy .legacyDataControls,
+.r8ProposalRoot.r8DarkShell #legacy .legacyImportAnalysis,
+.r8ProposalRoot.r8DarkShell #legacy .legacyImportVerdict,
+.r8ProposalRoot.r8DarkShell #legacy .legacyImportPreviewCard,
+.r8ProposalRoot.r8DarkShell #legacy .legacyImportMigrationSummary,
+.r8ProposalRoot.r8DarkShell #legacy .legacyImportConflictList,
+.r8ProposalRoot.r8DarkShell #legacy .legacyImportMessages {
+  color:var(--r8-ink);
+}
+
+.r8ProposalRoot.r8DarkShell #legacy .legacyShowdownCard,
+.r8ProposalRoot.r8DarkShell #legacy .legacyBackupSummary {
+  color:var(--r8-cream);
+}
+
+/* Proposal-only dark archive option. The senior developer may preserve the
+   existing light cards if final contrast and hierarchy are stronger there. */
+.r8ProposalRoot.r8LegacyDarkCards #legacy .legacyStat {
+  color:var(--r8-cream);
+  background:linear-gradient(135deg,#151c21,#0d1216);
+  border-top-color:var(--r8-gold);
+}
+
+.r8ProposalRoot.r8LegacyDarkCards #legacy .legacyStat span {
+  color:var(--r8-muted);
+}
+
+.r8ProposalRoot.r8LegacyDarkCards #legacy .legacyStat strong {
+  color:var(--r8-cream);
+}
+
+@media (prefers-reduced-motion:reduce) {
+  .r8ProposalRoot *,
+  .r8ProposalRoot *::before,
+  .r8ProposalRoot *::after {
+    scroll-behavior:auto !important;
+    animation-duration:.001ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.001ms !important;
+  }
+}
