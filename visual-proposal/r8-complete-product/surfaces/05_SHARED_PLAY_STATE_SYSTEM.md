@@ -1,12 +1,14 @@
 # Surface Group 05 — Shared Two-Manager State System
 
-Status: ACTIVE SURFACE CONTRACT
+Status: ACTIVE SURFACE CONTRACT — RECONCILED THROUGH r13 MULTI SEASON
+
+Current product anchor: `ea96ff1280b5e63962b7ee1a6a8c0980fe4e3686` / `1.9.1-r13`.
 
 Shared play is presented as stateful variants of canonical screens, not as a separate skin or a parallel application.
 
 ## Core rule
 
-R8 never creates a second shared-play protocol, scoring engine, save registry or navigation system. It visually exposes state already owned by the provider/runtime and keeps local and shared variants recognizably the same product.
+R8 never creates a second shared-play protocol, scoring engine, save registry, season cursor or navigation system. It visually exposes state already owned by the provider/runtime and keeps local and shared variants recognizably the same product.
 
 Canonical manager mapping in proposal examples:
 
@@ -56,7 +58,7 @@ Do not render fake hidden opponent data. Withheld data is represented as explici
 
 ## Shared Season Results
 
-Reuse `seasonEntry` with publication/reveal phases, coordinator commit, acknowledgement, canonical scoring and history convergence as defined in `screens/07_SEASON_RESULTS_ENTRY.md`.
+Reuse `seasonEntry` with publication/reveal phases, coordinator commit, acknowledgement, canonical scoring, history convergence and r13 Multi Season progression as defined in `screens/07_SEASON_RESULTS_ENTRY.md`.
 
 ## Shared Season Commit
 
@@ -82,6 +84,38 @@ Use a quieter read-only ledger showing accepted seasons, league, fixed clubs, W/
 
 No edit affordance and no write-like styling.
 
+## r13 Shared Multi Season progression
+
+Multi Season is a progression gate after accepted Shared History, not a new route or a new visual subsystem.
+
+Production owns dynamic UI elements inside the existing Season Results review flow:
+
+- `#sharedMultiSeasonProgressionStatus`;
+- `#sharedMultiSeasonContinueAction`.
+
+The visual system must distinguish:
+
+### History not yet witnessed
+
+Accepted season is known, but the Shared History review has not yet been visibly witnessed on this device. Show a calm explanatory status and a disabled waiting action.
+
+### Ready to advance
+
+History for Season N is converged and visibly witnessed. Show the next-season status and allow exactly one `CONTINUE TO SEASON N+1` action when production enables it. The action returns to canonical Dashboard.
+
+### Season plan terminal
+
+All configured seasons are authoritatively accepted. Show `SEASON PLAN COMPLETE ✓` as disabled and explicitly state that Final Reconciliation remains separate.
+
+R8 must not:
+
+- invent a season selector;
+- skip a season;
+- alter fixed clubs;
+- make the Continue action look like another provider commit;
+- claim Final Reconciliation is complete;
+- locally persist a second season cursor.
+
 ## State badge grammar
 
 Recommended text-first badges:
@@ -94,6 +128,9 @@ Recommended text-first badges:
 - REVEALED;
 - COMMITTED;
 - ACKNOWLEDGED;
+- HISTORY CONVERGED;
+- NEXT SEASON READY;
+- SEASON PLAN COMPLETE;
 - RECONNECTING;
 - STALE — REVIEW AGAIN;
 - REVOKED;
@@ -109,10 +146,14 @@ Codes/capabilities stay selectable and wrap-safe.
 
 Waiting states are calm, not red.
 
+Multi Season status and Continue remain adjacent in reading order and focus order.
+
 Focus stays on current actionable controls and does not jump because a peer/provider state refreshes unless product authority intentionally moves focus.
 
 Reduced motion does not delay shared transitions.
 
+Disabled waiting and terminal actions remain understandable without relying on low opacity.
+
 ## Future final-main additions
 
-If final main adds multi-season controls, reconnect/conflict flows, local reconciliation, final reconciliation, terminal close, physical-journey proof or stable-release UI, each new visible state must be inventoried here before the proposal can become final.
+Current `NEXT_TASK` after r13 points toward Journey Reconnect. Later work may also add conflict handling, local reconciliation, final reconciliation, terminal close, physical-journey proof or stable-release UI. Each new visible state must be inventoried here before the proposal can become final.
