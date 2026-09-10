@@ -93,7 +93,7 @@ A01/A02 are immutable anchors. New variants never overwrite them. At least five 
 | 20-3 | Save Library — empty/delete confirmation | only if materially distinct | CONDITIONAL | NO |
 | 21-1 | Connected Account / Pairing | signed in + registered device + one-use pairing | OPEN | NO |
 | 21-2 | Connected / Remote Joining — mobile | 390px private capability/revision/recovery | INTERNAL CANDIDATE | NO |
-| 21-3 | Remote observed vs Local applied | reconciliation distinction | may share 21 review sheet | NO |
+| 21-3 | Connected Rivalry / r16 Local Reconciliation | existing Settings panel; Remote Observed vs Local Target/Commit; Candidate B preview vs Candidate C Apply distinction | REFRESH REQUIRED after r16 reconciliation | NO |
 | 21-4 | Recovery pending / unresolved Join | distinct from fresh Join | OPEN | NO |
 | 22-1 | Restore — verify/snapshot/incomplete plan | wide; Apply disabled | INTERNAL CANDIDATE | NO |
 | 22-2 | Restore — mobile | 390px safety hierarchy | REFRESH REQUIRED | NO |
@@ -134,7 +134,27 @@ Only materially visible consequences require owner screenshots. Successful `ACCE
 | JC-5 | `RECEIPT_EXPIRED` | refresh current shared state; rivalry not described as expired | OPEN | NO |
 | JC-6 | mobile longest conflict message | 390px readable, no internal hashes/IDs | OPEN | NO |
 
-## F. Audius Showdown Radio
+## F. r16 Shared Journey Local Reconciliation
+
+Ownership: existing Settings overlay / Connected Rivalry panel. There is no new r16 route and no second Restore/Recovery authority.
+
+Prototype: `prototypes/21-connected-private-rivalry-reference.html`.
+
+Evidence authority: `evidence/R16_SHARED_JOURNEY_LOCAL_RECONCILIATION_2026-09-10.md`.
+
+| ID | State family | Required proof | Status | Owner approved |
+| --- | --- | --- | --- | --- |
+| LR-1 | `WAITING_REMOTE` / `REMOTE_OBSERVED` | exact remote observation boundary; no false local mutation | OPEN | NO |
+| LR-2 | `PREVIEW_READY` | non-mutating preview; exact remote revision/hash + exact local target; Candidate B/read-only distinction | OPEN | NO |
+| LR-3 | `OFFLINE_FALLBACK` | already-observed envelope may be reviewed; Apply explicitly unavailable offline | OPEN | NO |
+| LR-4 | confirmed Apply-ready | confirmation precedes `BACK UP + APPLY EXACT REVISION`; Candidate C sole destructive authority | OPEN | NO |
+| LR-5 | `APPLIED` | exact reviewed revision/local target completed only after verified backup/Candidate C boundary | OPEN | NO |
+| LR-6 | blocked/stale/error representative | fail closed; no Force/bypass; unrelated/local Career data not implied lost | OPEN | NO |
+| LR-7 | r16 mobile confirmation state | 390px; target -> confirmation -> Apply source order; readable without overflow | OPEN | NO |
+
+LR rows may be assembled into a consolidated Connected Rivalry state-review sheet. They must not be represented by an invented navigation page.
+
+## G. Audius Showdown Radio
 
 Current default media authority is Audius only for music. Autoplay is OFF by explicit owner decision. SoundCloud nostalgia is not part of the required default final screenshot package unless the owner reopens it. YouTube is not a music fallback.
 
@@ -151,7 +171,7 @@ Current default media authority is Audius only for music. Autoplay is OFF by exp
 
 Media owner disclosure must include final track list, rights/provenance, iPhone Safari result, Chromebook result, free-plan/billing verification, and known platform limitations.
 
-## G. Final capture quality rules
+## H. Final capture quality rules
 
 Every owner-final screenshot must:
 
@@ -172,7 +192,9 @@ Character screenshots additionally must prove identity consistency and believabl
 
 Media screenshots additionally must disclose Audius and the real state (`READY`, `PLAYING`, `PAUSED`, `BUFFERING`, `ERROR`, etc.).
 
-## H. Renderer budget / zero-dollar rule
+r16 screenshots additionally must prove that preview is non-mutating, offline Apply is unavailable, and Candidate C backup-first Apply remains the sole destructive local authority.
+
+## I. Renderer budget / zero-dollar rule
 
 Observed 2026-09-10 during closure:
 
@@ -183,7 +205,7 @@ Observed 2026-09-10 during closure:
 
 Do not purchase rendering capacity. Reserve remaining external renders for cases that cannot be proven through local/self-contained capture. Prefer consolidated review sheets and zero-cost local rendering.
 
-## I. Final owner review procedure
+## J. Final owner review procedure
 
 1. complete assets and final-main reconciliation;
 2. run structural/automated QA;
@@ -199,4 +221,4 @@ Do not purchase rendering capacity. Reserve remaining external renders for cases
 
 Current finality:
 
-`NOT FINAL — A03–A12 CHARACTER LANE OPEN / AUDIUS DEVICE+TRACK PROOF OPEN / FINAL SCREENSHOTS INCOMPLETE / OWNER APPROVAL OPEN / FUTURE FINAL-MAIN RECHECK REQUIRED`.
+`NOT FINAL — RECONCILED THROUGH r16 / A03–A12 CHARACTER LANE OPEN / AUDIUS DEVICE+TRACK PROOF OPEN / FINAL SCREENSHOTS INCOMPLETE / OWNER APPROVAL OPEN / FUTURE FINAL-MAIN RECHECK REQUIRED`.
