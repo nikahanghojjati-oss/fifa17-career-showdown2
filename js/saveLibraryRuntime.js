@@ -176,9 +176,14 @@
     }
 
     function runtimeInvalidateAuthority(){
+        const wasReady=authorityReady;
         authorityReady=false;
         ownedLibraryRaw=null;
         seasonIdentityByRound=new Map();
+        if(!wasReady)return;
+        try{
+            if(typeof root.dispatchEvent==="function"&&typeof root.CustomEvent==="function")root.dispatchEvent(new root.CustomEvent("career-mode-save-library-authority-invalidated"));
+        }catch(error){console.warn("[Career Mode Showdown] Save Library authority invalidation notification failed.",error);}
     }
 
     function runtimeAuthorityRawSnapshot(){
