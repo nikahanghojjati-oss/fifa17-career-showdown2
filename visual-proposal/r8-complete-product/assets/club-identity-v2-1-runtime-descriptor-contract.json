@@ -1,0 +1,144 @@
+{
+  "rendererVersion": "2.1.0",
+  "status": "proposal-runtime-contract-not-production",
+  "canonicalInput": "clubName",
+  "networkRequired": false,
+  "firebaseRequired": false,
+  "persisted": false,
+  "researchMetadataAllowedAtRuntime": false,
+  "requiredDescriptorFields": [
+    "primary",
+    "secondary",
+    "accent",
+    "silhouetteFamily",
+    "outerContourVariant",
+    "fieldLayout",
+    "fieldVariant",
+    "centerDevice",
+    "centerDeviceVariant",
+    "monogramStyle",
+    "borderSystem",
+    "textureLanguage",
+    "heritageAccent",
+    "placeAccent",
+    "visualSignature"
+  ],
+  "allowedFamilies": {
+    "silhouetteFamily": [
+      "shield-tall",
+      "shield-wide",
+      "shield-compact",
+      "roundel",
+      "pennant",
+      "hex-shield",
+      "split-panel",
+      "crest-oval"
+    ],
+    "fieldLayout": [
+      "solid",
+      "vertical-stripes",
+      "horizontal-hoops",
+      "center-lane",
+      "split-vertical",
+      "split-horizontal",
+      "diagonal",
+      "quarters",
+      "chevron",
+      "radial",
+      "framed-field"
+    ],
+    "centerDevice": [
+      "monogram",
+      "ring",
+      "starburst-abstract",
+      "bridge-grid-abstract",
+      "wave-abstract",
+      "ridge-abstract",
+      "tower-grid-abstract",
+      "industrial-beam-abstract",
+      "leaf-geometry-abstract",
+      "wing-geometry-abstract",
+      "ball-grid-abstract",
+      "crownline-bar-abstract",
+      "none"
+    ],
+    "monogramStyle": [
+      "stacked",
+      "circular",
+      "narrow",
+      "geometric",
+      "split",
+      "single-initial",
+      "none"
+    ],
+    "borderSystem": [
+      "single",
+      "double",
+      "inset",
+      "segmented",
+      "top-weighted",
+      "bottom-weighted"
+    ],
+    "textureLanguage": [
+      "flat",
+      "micro-chevron",
+      "rib",
+      "micro-grid",
+      "stitch-line",
+      "restrained-halftone",
+      "pinstripe"
+    ],
+    "heritageAccent": [
+      "traditional",
+      "early-modern",
+      "mid-century",
+      "modern",
+      "none"
+    ],
+    "placeAccent": [
+      "coast",
+      "river",
+      "port",
+      "industrial",
+      "metropolitan-grid",
+      "island",
+      "hills",
+      "masonry",
+      "modernist",
+      "plain"
+    ]
+  },
+  "forbiddenRuntimeFields": [
+    "city",
+    "region",
+    "country",
+    "foundedYear",
+    "sourceUrl",
+    "sourceNotes",
+    "historyText",
+    "latitude",
+    "longitude",
+    "officialCrestUrl",
+    "firebasePath",
+    "storagePath"
+  ],
+  "renderingRules": [
+    "getClubIdentity(clubName) remains the presentation lookup boundary",
+    "applyClubIdentity(element, clubName) remains the DOM application boundary",
+    "descriptor rendering must be deterministic",
+    "descriptor rendering must work with network blocked",
+    "generated SVG must contain no external resource references",
+    "club name remains live DOM text",
+    "unknown/custom clubs retain deterministic fallback",
+    "crest failure must degrade presentation only and never block gameplay"
+  ],
+  "qaRules": [
+    "98 supported descriptors required before promotion",
+    "visualSignature must be unique across all supported clubs",
+    "similar-colour clubs require at least two strong non-colour differentiators",
+    "42-48px readability contact-sheet review required",
+    "no official wordmark, copied crest contour/internal arrangement, civic heraldry, sponsor mark or league mark",
+    "network/storage/Firebase non-mutation proof required",
+    "production bundle delta must be measured before promotion"
+  ]
+}
