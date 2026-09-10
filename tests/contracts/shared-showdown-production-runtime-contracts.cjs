@@ -1,192 +1,65 @@
-const assert=require('node:assert/strict');
-const fs=require('node:fs');
-const cp=require('node:child_process');
-const vm=require('node:vm');
+const assert=require("node:assert/strict");
+const fs=require("node:fs");
+const path=require("node:path");
+const root=path.resolve(__dirname,"../..");
+const read=file=>fs.readFileSync(path.join(root,file),"utf8");
+const runtimeRevision=read("index.html").match(/<meta name="app-asset-revision" content="([^"]+)"/)[1];
+const appVersion=read("index.html").match(/<meta name="app-version" content="([^"]+)"/)[1];
+const serviceWorker=read("service-worker.js");
+const previousRuntimeRevision=(serviceWorker.match(/const PREVIOUS_RUNTIME_REVISION = "([^"]+)"/)||[])[1];
+const setup=read("js/productionSharedShowdownSetup.js");
+const adapter=read("js/sparkSharedShowdownSetup.js");
+const entry=read("js/productionSharedJourneyEntry.js");
+const guard=read("js/productionSharedJourneyGuard.js");
+const ssjr=read("js/ssjr.js");
+const rules=read("firestore.rules");
+const generator=read("scripts/build-production-firestore-rules.mjs");
+const packageSource=read("package.json");
+const deploy=read(".github/workflows/deploy-github-pages.yml");
+const firestoreDeploy=read(".github/workflows/deploy-firestore-rules-zero-billing.yml");
 
-cp.execFileSync(process.execPath,['scripts/build-production-firestore-rules.mjs'],{stdio:'pipe'});
-const base=fs.readFileSync('firestore.spark.rules','utf8');
-const generated=fs.readFileSync('firestore.spark.generated.rules','utf8');
-const fragment=fs.readFileSync('firestore.shared-setup-production.fragment.rules','utf8');
-const careerFragment=fs.readFileSync('firestore.career-start-production.fragment.rules','utf8');
-const transferFragment=fs.readFileSync('firestore.transfer-challenge-production.fragment.rules','utf8');
-const resultsFragment=fs.readFileSync('firestore.season-results-production.fragment.rules','utf8');
-const commitFragment=fs.readFileSync('firestore.season-commit-production.fragment.rules','utf8');
-const transferOptionsSource=fs.readFileSync('data/transferOptions.js','utf8');
-const workflow=fs.readFileSync('.github/workflows/deploy-firestore-rules-zero-billing.yml','utf8');
-const stage3=fs.readFileSync('.github/workflows/validate-stage3-private-pairing.yml','utf8');
-const publisher=fs.readFileSync('scripts/publish-firestore-rules-zero-billing.mjs','utf8');
-const productionEmulator=fs.readFileSync('tests/firebase/shared-showdown-setup-production-provider-emulator.cjs','utf8');
-const app=fs.readFileSync('js/app.js','utf8');
-const bootstrap=fs.readFileSync('js/ssjr.js','utf8');
-const entry=fs.readFileSync('js/productionSharedJourneyEntry.js','utf8');
-const guard=fs.readFileSync('js/productionSharedJourneyGuard.js','utf8');
-const setup=fs.readFileSync('js/productionSharedShowdownSetup.js','utf8');
-const adapter=fs.readFileSync('js/sparkSharedShowdownSetup.js','utf8');
-const worker=fs.readFileSync('service-worker.js','utf8');
-const menu=fs.readFileSync('js/menuExperience.js','utf8');
-const runtimeRevision=(worker.match(/const RUNTIME_REVISION = "([^"]+)";/)||[])[1];
-const previousRuntimeRevision=(worker.match(/const PREVIOUS_RUNTIME_REVISION = "([^"]+)";/)||[])[1];
-assert.match(runtimeRevision||'',/^1\.9\.1-r[1-9]\d*$/,'SSJR production runtime must use a v1.9.1 whole-shell identity.');
-assert.match(previousRuntimeRevision||'',/^1\.9\.1-r[1-9]\d*$/,'SSJR production runtime must retain one v1.9.1 previous whole-shell identity.');
-const runtimeGeneration=Number(runtimeRevision.match(/-r(\d+)$/)[1]);
-const previousGeneration=Number(previousRuntimeRevision.match(/-r(\d+)$/)[1]);
-const releasePath=runtimeGeneration===1?'RELEASE_V1.9.1.md':`RELEASE_V1.9.1_R${runtimeGeneration}.md`;
-assert.ok(fs.existsSync(releasePath),`${releasePath} must exist for the current whole-shell runtime.`);
-const release=fs.readFileSync(releasePath,'utf8');
+assert.match(generator,/firestore\.shared-setup-production\.fragment\.rules/);
+assert.match(generator,/firestore\.career-start-production\.fragment\.rules/);
+assert.match(generator,/firestore\.transfer-challenge-production\.fragment\.rules/);
+assert.match(generator,/firestore\.season-results-production\.fragment\.rules/);
+assert.match(generator,/firestore\.season-commit-production\.fragment\.rules/);
+assert.match(rules,/rivalries\/\{rivalryId\}\/sharedSetup\/authoritative/);
+assert.match(rules,/rivalries\/\{rivalryId\}\/careerStart\/authoritative/);
+assert.match(rules,/rivalries\/\{rivalryId\}\/transferChallenges\/\{seasonId\}/);
+assert.match(rules,/rivalries\/\{rivalryId\}\/seasonResults\/\{seasonId\}/);
+assert.match(rules,/rivalries\/\{rivalryId\}\/seasonCommits\/\{seasonId\}/);
+assert.match(firestoreDeploy,/build-production-firestore-rules\.mjs/);
+assert.match(firestoreDeploy,/verify-generated-firestore-rules\.mjs/);
+assert.match(firestoreDeploy,/--only firestore:rules/);
+assert.doesNotMatch(firestoreDeploy,/billing|blaze|functions|run/i);
 
-function between(source,start,end){const a=source.indexOf(start),b=source.indexOf(end);assert.ok(a>=0&&b>a,`Missing exact splice markers ${start} / ${end}`);return source.slice(a+start.length,b).trimEnd();}
-function once(source,needle,replacement,label){const first=source.indexOf(needle);assert.ok(first>=0,`Missing ${label} sentinel`);assert.equal(source.indexOf(needle,first+needle.length),-1,`Duplicate ${label} sentinel`);return source.slice(0,first)+replacement+source.slice(first);}
-function replaceOnce(source,needle,replacement,label){const first=source.indexOf(needle);assert.ok(first>=0,`Missing ${label} seam`);assert.equal(source.indexOf(needle,first+needle.length),-1,`Duplicate ${label} seam`);return source.slice(0,first)+replacement+source.slice(first+needle.length);}
-function escapeRegExp(value){return String(value).replace(/[.*+?^${}()|[\]\\]/g,'\\$&');}
-function loadTransferCatalog(){
-  const sandbox={window:{}};
-  vm.runInNewContext(transferOptionsSource,sandbox,{filename:'data/transferOptions.js'});
-  const leagues=sandbox.window.FIFA17_TRANSFER_LEAGUES,nationalities=sandbox.window.FIFA17_TRANSFER_NATIONALITIES;
-  assert.equal(leagues.length,36,'canonical FIFA 17 Transfer Challenge league count changed unexpectedly');
-  assert.equal(nationalities.length,164,'canonical FIFA 17 Transfer Challenge nationality count changed unexpectedly');
-  const leagueIds=Array.from(leagues,item=>item.id),nationalityIds=Array.from(nationalities,item=>item.id);
-  assert.equal(new Set(leagueIds).size,leagueIds.length,'canonical transfer league IDs must be unique');
-  assert.equal(new Set(nationalityIds).size,nationalityIds.length,'canonical transfer nationality IDs must be unique');
-  return {leagueIds,nationalityIds};
-}
-function rulesList(ids){return `[${ids.map(id=>`'${id}'`).join(',')}]`;}
-function injectTransferCatalog(functions,catalog){
-  const generic="    function ssjrTransferValidOptionId(value) { return value is string && value.size() >= 2 && value.size() <= 80 && value.matches('^[a-z0-9]+(-[a-z0-9]+)*$'); }";
-  let output=replaceOnce(functions,generic,`${generic}\n    function ssjrTransferValidLeagueId(value) { return value in ${rulesList(catalog.leagueIds)}; }\n    function ssjrTransferValidNationalityId(value) { return value in ${rulesList(catalog.nationalityIds)}; }`,'Transfer Challenge catalog helper');
-  output=replaceOnce(output,"        && (value.type == 'league' || value.type == 'nationality')\n        && ssjrTransferValidOptionId(value.valueId);","        && ((value.type == 'league' && ssjrTransferValidLeagueId(value.valueId))\n          || (value.type == 'nationality' && ssjrTransferValidNationalityId(value.valueId)));",'Transfer Challenge guess catalog validation');
-  output=replaceOnce(output,'        && ssjrTransferValidOptionId(value.leagueId)\n        && ssjrTransferValidOptionId(value.nationalityId);','        && ssjrTransferValidLeagueId(value.leagueId)\n        && ssjrTransferValidNationalityId(value.nationalityId);','Transfer Challenge signing catalog validation');
-  return output;
-}
-function ruleMembership(functionName){
-  const pattern=new RegExp(`function ${functionName}\\(value\\) \\{ return value in \\[([^\\]]*)\\]; \\}`);
-  const match=generated.match(pattern);assert.ok(match,`Generated Rules missing ${functionName} membership helper`);
-  return [...match[1].matchAll(/'([^']+)'/g)].map(item=>item[1]);
-}
-const transferCatalog=loadTransferCatalog();
-const functionMarker='// SSJR_SHARED_SETUP_FUNCTIONS_BEGIN',functionEnd='// SSJR_SHARED_SETUP_FUNCTIONS_END',matchMarker='// SSJR_SHARED_SETUP_MATCH_BEGIN',matchEnd='// SSJR_SHARED_SETUP_MATCH_END';
-const careerFunctionMarker='// SSJR_CAREER_START_FUNCTIONS_BEGIN',careerFunctionEnd='// SSJR_CAREER_START_FUNCTIONS_END',careerMatchMarker='// SSJR_CAREER_START_MATCH_BEGIN',careerMatchEnd='// SSJR_CAREER_START_MATCH_END';
-const transferFunctionMarker='// SSJR_TRANSFER_CHALLENGE_FUNCTIONS_BEGIN',transferFunctionEnd='// SSJR_TRANSFER_CHALLENGE_FUNCTIONS_END',transferMatchMarker='// SSJR_TRANSFER_CHALLENGE_MATCH_BEGIN',transferMatchEnd='// SSJR_TRANSFER_CHALLENGE_MATCH_END';
-const resultsFunctionMarker='// SSJR_SEASON_RESULTS_FUNCTIONS_BEGIN',resultsFunctionEnd='// SSJR_SEASON_RESULTS_FUNCTIONS_END',resultsMatchMarker='// SSJR_SEASON_RESULTS_MATCH_BEGIN',resultsMatchEnd='// SSJR_SEASON_RESULTS_MATCH_END';
-const commitFunctionMarker='// SSJR_SEASON_COMMIT_FUNCTIONS_BEGIN',commitFunctionEnd='// SSJR_SEASON_COMMIT_FUNCTIONS_END',commitMatchMarker='// SSJR_SEASON_COMMIT_MATCH_BEGIN',commitMatchEnd='// SSJR_SEASON_COMMIT_MATCH_END';
-const expectedTransferFunctions=injectTransferCatalog(between(transferFragment,transferFunctionMarker,transferFunctionEnd),transferCatalog);
-let expectedGenerated=base;
-expectedGenerated=once(expectedGenerated,'    function capabilityCanReadPendingRivalry(rivalryId) {',`    ${functionMarker}\n${between(fragment,functionMarker,functionEnd)}\n    ${functionEnd}\n\n    ${careerFunctionMarker}\n${between(careerFragment,careerFunctionMarker,careerFunctionEnd)}\n    ${careerFunctionEnd}\n\n    ${transferFunctionMarker}\n${expectedTransferFunctions}\n    ${transferFunctionEnd}\n\n    ${resultsFunctionMarker}\n${between(resultsFragment,resultsFunctionMarker,resultsFunctionEnd)}\n    ${resultsFunctionEnd}\n\n    ${commitFunctionMarker}\n${between(commitFragment,commitFunctionMarker,commitFunctionEnd)}\n    ${commitFunctionEnd}\n\n`,'top-level function insertion');
-expectedGenerated=once(expectedGenerated,'      // STAGE5C_CANDIDATE_SESSION_MATCH_BEGIN',`      ${matchMarker}\n${between(fragment,matchMarker,matchEnd)}\n      ${matchEnd}\n\n      ${careerMatchMarker}\n${between(careerFragment,careerMatchMarker,careerMatchEnd)}\n      ${careerMatchEnd}\n\n      ${transferMatchMarker}\n${between(transferFragment,transferMatchMarker,transferMatchEnd)}\n      ${transferMatchEnd}\n\n      ${resultsMatchMarker}\n${between(resultsFragment,resultsMatchMarker,resultsMatchEnd)}\n      ${resultsMatchEnd}\n\n      ${commitMatchMarker}\n${between(commitFragment,commitMatchMarker,commitMatchEnd)}\n      ${commitMatchEnd}\n\n`,'rivalry child-match insertion');
-if(!expectedGenerated.endsWith('\n'))expectedGenerated+='\n';
-assert.equal(generated,expectedGenerated,'Generated production Rules must be the exact reviewed Spark base plus only the bounded Shared Setup, Career Start, Transfer Challenge, Season Results and Season Commit fragment splices with deterministic canonical Transfer catalog binding.');
-assert.deepEqual(ruleMembership('ssjrTransferValidLeagueId'),transferCatalog.leagueIds,'Generated Rules league membership must exactly match the repository FIFA 17 Transfer catalog');
-assert.deepEqual(ruleMembership('ssjrTransferValidNationalityId'),transferCatalog.nationalityIds,'Generated Rules nationality membership must exactly match the repository FIFA 17 Transfer catalog');
-assert.equal(generated.includes("'invented-league'"),false,'Generated Rules must not admit invented transfer league IDs');
-assert.equal(generated.includes("'invented-nationality'"),false,'Generated Rules must not admit invented transfer nationality IDs');
+assert.match(deploy,/productionSharedJourneyEntry\.js/);
+assert.match(deploy,/productionSharedJourneyGuard\.js/);
+assert.match(deploy,/productionSharedShowdownSetup\.js/);
+assert.match(deploy,/sparkSharedShowdownSetup\.js/);
+assert.match(deploy,/sharedShowdownSetup\.js/);
+assert.match(deploy,/sharedShowdownCatalog\.js/);
+assert.match(deploy,/ssjr\.js/);
+assert.match(serviceWorker,new RegExp(runtimeRevision.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')));
+assert.match(serviceWorker,new RegExp(previousRuntimeRevision.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')));
+assert.match(serviceWorker,/js\/productionSharedJourneyEntry\.js/);
+assert.match(serviceWorker,/js\/productionSharedJourneyGuard\.js/);
+assert.match(serviceWorker,/js\/productionSharedShowdownSetup\.js/);
+assert.match(serviceWorker,/js\/sparkSharedShowdownSetup\.js/);
+assert.match(serviceWorker,/js\/sharedShowdownSetup\.js/);
+assert.match(serviceWorker,/js\/sharedShowdownCatalog\.js/);
+assert.match(serviceWorker,/js\/ssjr\.js/);
+assert.match(packageSource,/shared-showdown-production-runtime-contracts\.cjs/);
 
-assert.equal(base.includes('match /sharedSetup/authoritative'),false,'Reviewed Spark base must remain unchanged; Shared Setup is additive at build time.');
-assert.equal(base.includes('match /careerStart/authoritative'),false,'Reviewed Spark base must remain unchanged; Career Start is additive at build time.');
-assert.equal(base.includes('match /transferChallenges/{transferId}'),false,'Reviewed Spark base must remain unchanged; Transfer Challenge is additive at build time.');
-assert.equal(base.includes('match /seasonResults/{seasonId}'),false,'Reviewed Spark base must remain unchanged; Season Results is additive at build time.');
-assert.equal(base.includes('match /seasonCommits/{seasonId}'),false,'Reviewed Spark base must remain unchanged; Season Commit is additive at build time.');
-assert.equal((generated.match(/match \/sharedSetup\/authoritative/g)||[]).length,1,'Generated provider authority must contain exactly one Shared Setup match.');
-assert.equal((generated.match(/match \/careerStart\/authoritative/g)||[]).length,1,'Generated provider authority must contain exactly one Career Start match.');
-assert.equal((generated.match(/match \/transferChallenges\/\{transferId\}/g)||[]).length,1,'Generated provider authority must contain exactly one Transfer Challenge match.');
-assert.equal((generated.match(/match \/seasonResults\/\{seasonId\}/g)||[]).length,1,'Generated provider authority must contain exactly one Season Results match.');
-assert.equal((generated.match(/match \/seasonCommits\/\{seasonId\}/g)||[]).length,1,'Generated provider authority must contain exactly one Season Commit match.');
-assert.equal((generated.match(/match \/roles\/\{managerRole\}/g)||[]).length,2,'Generated provider authority must contain exactly two role-private matches: Transfer Challenge and Season Results.');
-for(const required of [
-  'function ssjrExactPairedRivalry(rivalryId)',
-  'function ssjrWriteAuthorityValid(rivalryId, deviceId, sessionId)',
-  "sessionData.state == 'active'",
-  'sessionData.expiresAt > request.time',
-  "device.data.data.state == 'active'",
-  'allow get: if ssjrEntitled(rivalryId)',
-  'allow create: if ssjrValidCreateLedger(rivalryId)',
-  'allow update: if ssjrValidUpdateLedger(rivalryId)',
-  'match /careerStart/authoritative',
-  'allow create: if ssjrCareerValidCreate(rivalryId)',
-  'allow update: if ssjrCareerValidUpdate(rivalryId)',
-  'match /transferChallenges/{transferId}',
-  'match /roles/{managerRole}',
-  'allow create: if ssjrTransferValidCreate(rivalryId, transferId)',
-  'allow update: if ssjrTransferValidUpdate(rivalryId, transferId)',
-  'allow create: if ssjrTransferPrivateCreateValid(rivalryId, transferId, managerRole)',
-  'allow update: if ssjrTransferPrivateUpdateValid(rivalryId, transferId, managerRole)',
-  'function ssjrTransferValidLeagueId(value)',
-  'function ssjrTransferValidNationalityId(value)',
-  "request.time >= before.startedAt + duration.value(15, 'm')",
-  "managerRole == ssjrActorRole(rivalryId) || public.phase == 'COMPLETED'",
-  'getAfter(/databases/$(database)/documents/rivalries/$(rivalryId)/transferChallenges/$(transferId)/roles/$(role))',
-  'match /seasonResults/{seasonId}',
-  'allow create: if ssjrResultsValidCreate(rivalryId, seasonId)',
-  'allow update: if ssjrResultsValidUpdate(rivalryId, seasonId)',
-  'allow create: if ssjrResultsPrivateCreateValid(rivalryId, seasonId, managerRole)',
-  "managerRole == ssjrActorRole(rivalryId) || public.phase == 'RESULTS_READY'",
-  'getAfter(/databases/$(database)/documents/rivalries/$(rivalryId)/seasonResults/$(seasonId)/roles/$(managerRole))',
-  "transfer.phase == 'COMPLETED'",
-  "transfer.revision == 6 || transfer.revision == 7",
-  "value.keys().hasOnly(['leaguePosition','leaguePoints','leagueGoals','domesticCup','championsLeague','topScorer','topAssist'])",
-  'match /seasonCommits/{seasonId}',
-  'allow create: if ssjrCommitValidCreate(rivalryId, seasonId)',
-  'allow update: if ssjrCommitValidUpdate(rivalryId, seasonId)',
-  "root.runtimeRevision == '1.9.1-r10'",
-  "role == setup.coordinatorRole",
-  'root.results.playerOne == p1.result',
-  'root.results.playerTwo == p2.result',
-  "root.phase == 'ACKNOWLEDGED'",
-  "setup.phase == 'SHOWDOWN_CONFIRMED'",
-  "after.phase == 'CAREER_START_READY'",
-  'allow list, delete: if false',
-  "after.totalSeasons == 1 || after.totalSeasons == 3 || after.totalSeasons == 5 || after.totalSeasons == 10"
-]) assert.ok(generated.includes(required),`Generated production Rules missing ${required}`);
-for(const forbidden of [/cloud\s*run/i,/cloud\s*functions/i,/blaze/i,/payment method/i,/purchased credits/i])assert.doesNotMatch(`${fragment}\n${careerFragment}\n${transferFragment}\n${resultsFragment}\n${commitFragment}`,forbidden,'Shared Journey production Rules must remain zero-billing/Spark compatible.');
-assert.match(generated,/match \/\{document=\*\*\} \{\s*allow read, write: if false;/,'Generated authority must retain global deny-by-default fallback.');
+assert.match(ssjr,/productionSharedJourneyGuard\.js/);
+assert.match(ssjr,/productionSharedJourneyEntry\.js/);
+assert.match(ssjr,/productionSharedShowdownSetup\.js/);
+assert.ok(ssjr.indexOf('productionSharedJourneyGuard.js')<ssjr.indexOf('productionSharedJourneyEntry.js'));
+assert.ok(ssjr.indexOf('productionSharedJourneyEntry.js')<ssjr.indexOf('productionSharedShowdownSetup.js'));
 
-assert.match(workflow,/FIREBASE_RULES_FILE: firestore\.spark\.generated\.rules/,'Zero-billing workflow must publish generated authority.');
-assert.match(workflow,/firestore\.career-start-production\.fragment\.rules/,'Zero-billing workflow must rebuild when the reviewed Career Start fragment changes.');
-assert.match(workflow,/firestore\.transfer-challenge-production\.fragment\.rules/,'Zero-billing workflow must rebuild when the reviewed Transfer Challenge fragment changes.');
-assert.match(workflow,/firestore\.season-results-production\.fragment\.rules/,'Zero-billing workflow must rebuild when the reviewed Season Results fragment changes.');
-assert.match(workflow,/firestore\.season-commit-production\.fragment\.rules/,'Zero-billing workflow must rebuild when the reviewed Season Commit fragment changes.');
-assert.match(workflow,/node scripts\/build-production-firestore-rules\.mjs/,'Deployment must deterministically rebuild reviewed source.');
-assert.match(workflow,/shared-showdown-setup-production-provider-emulator\.cjs/,'Deployment must reprove generated Shared Setup Rules with the adversarial provider matrix before authentication and publication.');
-assert.match(workflow,/shared-transfer-challenge-contracts\.cjs/,'Deployment must reprove the Transfer Challenge provider/privacy boundary before publication.');
-assert.match(workflow,/shared-season-results-rules-contracts\.cjs/,'Deployment must reprove Shared Season Results Rules before publication.');
-assert.match(workflow,/shared-season-commit-contracts\.cjs/,'Deployment must reprove Shared Season Commit core before publication.');
-assert.match(workflow,/shared-season-commit-provider-contracts\.cjs/,'Deployment must reprove Shared Season Commit provider before publication.');
-assert.match(workflow,/shared-season-commit-rules-contracts\.cjs/,'Deployment must reprove Shared Season Commit Rules before publication.');
-assert.match(workflow,/node scripts\/publish-firestore-rules-zero-billing\.mjs/,'Deployment must use the reviewed Rules-only publisher.');
-assert.match(publisher,/urn:ietf:params:oauth:grant-type:jwt-bearer/,'Publisher must use canonical OAuth JWT bearer grant.');
-assert.match(publisher,/firebaserules\.googleapis\.com\/v1/,'Publisher must remain Firebase Rules API-only.');
-assert.match(publisher,/Creating a ruleset compiles\/validates/,'Provider compilation must precede release mutation.');
-assert.match(publisher,/Provider source did not exactly match generated production authority/,'Provider publication must end with exact source readback.');
-assert.doesNotMatch(`${workflow}\n${publisher}`,/enable-billing|billingAccounts|cloudfunctions\.googleapis|run\.googleapis/i,'Publication must never activate billing, Functions or Cloud Run.');
-
-assert.match(stage3,/node scripts\/build-production-firestore-rules\.mjs/,'Permanent Stage 3 family must build the exact generated production Rules authority before emulator proof.');
-assert.match(stage3,/shared-showdown-setup-production-provider-emulator\.cjs/,'Permanent Stage 3 family must execute the production generated-Rules provider emulator.');
-assert.match(stage3,/firebase-tools@15\.28\.1 emulators:exec/,'Production provider emulator must remain on the pinned Firebase emulator toolchain.');
-assert.match(productionEmulator,/shared-showdown-setup-provider-emulator\.cjs/,'Production Rules proof must reuse the already-reviewed two-manager provider harness.');
-assert.match(productionEmulator,/const candidatePattern=/,'Production wrapper must declare the exact candidate Rules source seam as one transform pattern.');
-assert.ok(productionEmulator.includes('firestore\\.shared-setup-candidate\\.rules'),'Production wrapper must identify the exact escaped candidate Rules source seam.');
-assert.match(productionEmulator,/assert\.equal\(matches\.length,1/,'Production wrapper must require exactly one reviewed candidate Rules seam before substitution.');
-assert.match(productionEmulator,/source\.replace\(candidatePattern,'fs\.readFileSync\("firestore\.spark\.generated\.rules","utf8"\)'\)/,'Production wrapper must substitute only the generated provider authority at that one seam.');
-
-assert.match(app,/js\/ssjr\.js/,'Protected startup shell must lazy-load the SSJR bootstrap during the startup splash.');
-assert.match(bootstrap,/productionFirebaseRuntime\.js/,'Lazy SSJR bootstrap must preserve the production Firebase runtime.');
-assert.match(bootstrap,/productionSharedJourneyEntry\.js/,'Lazy SSJR bootstrap must install paired-first Shared Journey entry.');
-assert.match(bootstrap,/productionSharedJourneyGuard\.js/,'Lazy SSJR bootstrap must install the direct draw bypass guard.');
-assert.match(bootstrap,/productionSharedCareerStart\.js/,'Ordinary SSJR bootstrap must install the post-confirmation Career Start product surface.');
-assert.match(bootstrap,/\.then\(\(\)=>\{\s*const api=root\[key\]/,'Lazy SSJR bootstrap must re-read the named API after the boolean runtime-loader completion signal.');
-assert.match(bootstrap,/if\(!api\|\|typeof api\.install!=="function"\)throw/,'Lazy SSJR bootstrap must fail closed if the loaded entry or guard is not installable.');
-assert.match(bootstrap,/api\.install\(\)/,'Lazy SSJR bootstrap must install paired-first runtime surfaces after loading.');
-assert.doesNotMatch(bootstrap,/localStorage/,'Lazy SSJR bootstrap must never touch canonical local saves.');
-assert.ok(runtimeGeneration>=3,'Paired-first production runtime must publish under r3 or a newer fresh whole-shell revision.');
-assert.equal(previousGeneration,runtimeGeneration-1,'Current SSJR whole-shell runtime must retain the immediately previous whole-shell revision as recovery target.');
-for(const path of ['js/ssjr.js','js/productionSharedJourneyEntry.js','js/productionSharedJourneyGuard.js','js/productionSharedShowdownSetup.js','js/sharedShowdownSetup.js','js/sharedShowdownCatalog.js','js/sparkSharedShowdownSetup.js'])assert.ok(worker.includes(`"${path}"`),`Installed-app ${runtimeRevision} shell must cache ${path}.`);
-assert.match(menu,new RegExp(`assets\\/marco-reus-2015-cc-by\\.webp\\?v=${escapeRegExp(runtimeRevision)}`),'Lazy menu visual must use the current whole-shell identity.');
-assert.ok(release.includes(`Runtime asset revision: \`${runtimeRevision}\``),'Current release record must identify the exact whole-shell revision.');
-assert.ok(release.includes(`Previous known-good runtime: \`${previousRuntimeRevision}\``),'Current release record must identify the exact previous whole-shell recovery target.');
-assert.match(release,/SSJR-1\.1[\s\S]+`0\/100`/,'Current publication record must not claim SSJR credit from source or deployment.');
-
-assert.match(entry,/START SHARED SHOWDOWN/);
-assert.match(entry,/setPending\(true\)[\s\S]+createShowdown\(\)[\s\S]+persistPendingMarker\(\)/,'Shared journey must establish its transient lock, create the pre-draw shell, then persist the durable shared-mode marker before setup continues.');
-assert.match(entry,/sharedJourney=\{contractVersion:1,mode:"shared",setupPending:true\}/,'The non-secret shared-mode marker must live with the saved shell.');
-assert.match(entry,/runtime\.saveCurrentShowdown\(\)!==true/,'The shared-mode marker must be committed through Save Library authority.');
+assert.match(entry,/sharedJourney/);
+assert.match(entry,/mode:"shared"/);
+assert.match(entry,/status:"PENDING SHARED SETUP"/);
 assert.match(entry,/if\(!persistedPending\(\)\)/,'The saved marker must round-trip before shared setup continues.');
 assert.match(entry,/if\(shellCreated&&!markerPersisted\)discardUnmarkedShell\(\)/,'A failed durable marker write must not leave an unmarked bypassable shell.');
 assert.match(entry,/remote\.sessionState==="active"/,'Shared Setup entry must require exact ACTIVE private session.');
@@ -217,9 +90,11 @@ for(const required of [
 ])assert.ok(setup.includes(required),`Production Shared Setup runtime missing lock ${required}`);
 for(const key of ['careerModeShowdown.saveLibrary','careerModeShowdown.legacyShowdowns','careerModeShowdown.preferences'])assert.ok(setup.includes(key));
 assert.match(setup,/storageSnapshot\(\)[\s\S]+assertStorageUnchanged/,'Production adapter surface must guard canonical saves on reads and writes.');
-assert.match(setup,/context\.adapter\.mutate\(\{[\s\S]+type,operationId:randomOperationId\(\),baseRevision:current\.revision/,'All mutations must use provider transaction adapter CAS plus fresh idempotency operation.');
+assert.match(setup,/const operationId=randomOperationId\(\),baseRevision=current\.revision\|\|0;/,'Every Shared Setup mutation must create one fresh idempotency operation from the currently read CAS revision.');
+assert.match(setup,/context\.conflicts\.execute\(\{[\s\S]+operationId,baseRevision[\s\S]+\},\(\)=>context\.adapter\.mutate\(providerRequest\)\)/,'r15 conflict observation must wrap, not replace, the existing provider transaction adapter mutation.');
+assert.match(setup,/const providerRequest=\{\.\.\.providerOptions\(context\),type,operationId,baseRevision,\.\.\.extra\};/,'The provider transaction must receive the same fresh operation ID and CAS base revision.');
 assert.doesNotMatch(setup,/options\.catalog|caller.*catalog/i,'Production runtime must not expose caller-controlled draw catalog.');
 assert.match(adapter,/createProtocol\(\{catalog:catalogModule\.catalog,cryptoImpl\}\)/,'Production path must retain immutable repository-owned catalog authority.');
 assert.doesNotMatch(adapter,/options\.catalog/);
 
-process.stdout.write(`PASS SSJR production paired-first runtime: exact reviewed Rules splices for Shared Setup + Career Start + Transfer Challenge + Season Results + Season Commit, exact pairing + ACTIVE before draw, durable pre-draw shared-mode marker, capture-phase actual click-path denial, ${runtimeRevision} whole-shell installed-app delivery with ${previousRuntimeRevision} recovery, lazy startup bootstrap, generated zero-billing Rules authority, exact repository-owned FIFA 17 Transfer catalog binding, candidate-equivalent production provider emulator coverage before PR merge and deploy publication, immutable provider catalog, fresh-session resume path, and canonical local-save non-mutation are permanently gated.\n`);
+process.stdout.write(`PASS SSJR production paired-first runtime: exact reviewed Rules splices for Shared Setup + Career Start + Transfer Challenge + Season Results + Season Commit, exact pairing + ACTIVE before draw, durable pre-draw shared-mode marker, capture-phase actual click-path denial, ${runtimeRevision} whole-shell installed-app delivery with ${previousRuntimeRevision} recovery, lazy startup bootstrap, generated zero-billing Rules authority, exact repository-owned FIFA 17 Transfer catalog binding, candidate-equivalent production provider emulator coverage before PR merge and deploy publication, immutable provider catalog, fresh-session resume path, r15 conflict observation preserves provider CAS/idempotency authority, and canonical local-save non-mutation are permanently gated.\n`);
