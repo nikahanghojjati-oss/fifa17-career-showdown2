@@ -25,53 +25,21 @@
   function scResult(value,teamCount){scExact(value,RESULT_KEYS,"CANONICAL_SCORING_RESULTS_INVALID");const position=Number(value.leaguePosition),points=Number(value.leaguePoints),goals=Number(value.leagueGoals);if(!Number.isInteger(position)||position<1||position>teamCount||!Number.isInteger(points)||points<0||points>114||!Number.isInteger(goals)||goals<0||goals>300)scFail("CANONICAL_SCORING_RESULTS_INVALID");for(const key of ["domesticCup","championsLeague","topScorer","topAssist"]){if(typeof value[key]!=="boolean")scFail("CANONICAL_SCORING_RESULTS_INVALID");}return {leaguePosition:position,leaguePoints:points,leagueGoals:goals,domesticCup:value.domesticCup,championsLeague:value.championsLeague,topScorer:value.topScorer,topAssist:value.topAssist};}
   function scBreakdown(result){
     const hundredLeaguePoints=result.leaguePoints>=100,hundredLeagueGoals=result.leagueGoals>=100,topScorer=result.topScorer,topAssist=result.topAssist;
-    const breakdown={
-      championsLeague:result.championsLeague?RULES.championsLeague:0,
-      leagueTitle:result.leaguePosition===1?RULES.leagueTitle:0,
-      domesticCup:result.domesticCup?RULES.domesticCup:0,
-      performanceBonus:(hundredLeaguePoints||hundredLeagueGoals)?RULES.performanceBonus:0,
-      individualAwardsBonus:(topScorer||topAssist)?RULES.individualAwardsBonus:0,
-      total:0,
-      triggers:{hundredLeaguePoints,hundredLeagueGoals,topScorer,topAssist}
-    };
-    breakdown.total=breakdown.championsLeague+breakdown.leagueTitle+breakdown.domesticCup+breakdown.performanceBonus+breakdown.individualAwardsBonus;
-    return breakdown;
+    const breakdown={championsLeague:result.championsLeague?RULES.championsLeague:0,leagueTitle:result.leaguePosition===1?RULES.leagueTitle:0,domesticCup:result.domesticCup?RULES.domesticCup:0,performanceBonus:(hundredLeaguePoints||hundredLeagueGoals)?RULES.performanceBonus:0,individualAwardsBonus:(topScorer||topAssist)?RULES.individualAwardsBonus:0,total:0,triggers:{hundredLeaguePoints,hundredLeagueGoals,topScorer,topAssist}};
+    breakdown.total=breakdown.championsLeague+breakdown.leagueTitle+breakdown.domesticCup+breakdown.performanceBonus+breakdown.individualAwardsBonus;return breakdown;
   }
-  function scWinner(results,scoring){
-    if(scoring.playerOne.total>scoring.playerTwo.total)return "playerOne";
-    if(scoring.playerTwo.total>scoring.playerOne.total)return "playerTwo";
-    if(scoring.playerOne.total!==0||scoring.playerTwo.total!==0)return "draw";
-    if(results.playerOne.leaguePosition<results.playerTwo.leaguePosition)return "playerOne";
-    if(results.playerTwo.leaguePosition<results.playerOne.leaguePosition)return "playerTwo";
-    if(results.playerOne.leaguePoints>results.playerTwo.leaguePoints)return "playerOne";
-    if(results.playerTwo.leaguePoints>results.playerOne.leaguePoints)return "playerTwo";
-    return "draw";
-  }
+  function scWinner(results,scoring){if(scoring.playerOne.total>scoring.playerTwo.total)return "playerOne";if(scoring.playerTwo.total>scoring.playerOne.total)return "playerTwo";if(scoring.playerOne.total!==0||scoring.playerTwo.total!==0)return "draw";if(results.playerOne.leaguePosition<results.playerTwo.leaguePosition)return "playerOne";if(results.playerTwo.leaguePosition<results.playerOne.leaguePosition)return "playerTwo";if(results.playerOne.leaguePoints>results.playerTwo.leaguePoints)return "playerOne";if(results.playerTwo.leaguePoints>results.playerOne.leaguePoints)return "playerTwo";return "draw";}
   function scValidateBreakdown(value){scExact(value,BREAKDOWN_KEYS,"CANONICAL_SCORING_STATE_INVALID");scExact(value.triggers,TRIGGER_KEYS,"CANONICAL_SCORING_STATE_INVALID");for(const key of ["championsLeague","leagueTitle","domesticCup","performanceBonus","individualAwardsBonus","total"]){if(!Number.isInteger(value[key])||value[key]<0||value[key]>11)scFail("CANONICAL_SCORING_STATE_INVALID");}for(const key of TRIGGER_KEYS){if(typeof value.triggers[key]!=="boolean")scFail("CANONICAL_SCORING_STATE_INVALID");}return value;}
 
   async function scCreateProtocol({teamCount,cryptoImpl=root.crypto,seasonCommitModule=(typeof require==="function"?require("./sharedSeasonCommit.js"):root.CareerModeSharedSeasonCommit)}={}){
-    const teams=scTeamCount(teamCount);
-    if(!seasonCommitModule||typeof seasonCommitModule.createProtocol!=="function")scFail("CANONICAL_SCORING_SEASON_COMMIT_PROTOCOL_UNAVAILABLE");
-    const commitProtocol=await seasonCommitModule.createProtocol({teamCount:teams,cryptoImpl});
+    const teams=scTeamCount(teamCount);if(!seasonCommitModule||typeof seasonCommitModule.createProtocol!=="function")scFail("CANONICAL_SCORING_SEASON_COMMIT_PROTOCOL_UNAVAILABLE");const commitProtocol=await seasonCommitModule.createProtocol({teamCount:teams,cryptoImpl});
+    function scScoreAuthoritativeResults(value){scExact(value,ROLES,"CANONICAL_SCORING_RESULTS_INVALID");const results={playerOne:scResult(value.playerOne,teams),playerTwo:scResult(value.playerTwo,teams)},scoring={playerOne:null,playerTwo:null};scoring.playerOne=scBreakdown(results.playerOne);scoring.playerTwo=scBreakdown(results.playerTwo);return scFreeze({results,scoring,winner:scWinner(results,scoring)});}
     async function scAcknowledgedCommit(value){let verified;try{verified=await commitProtocol.verifyState(value);}catch(_error){scFail("CANONICAL_SCORING_SEASON_COMMIT_INVALID");}if(verified.phase!=="ACKNOWLEDGED"||verified.revision!==3||!verified.results?.playerOne||!verified.results?.playerTwo)scFail("CANONICAL_SCORING_SEASON_COMMIT_NOT_ACKNOWLEDGED");return verified;}
     async function scSealState(core){return scFreeze({...scClone(core),contentHash:await scHash(core,cryptoImpl)});}
-    async function scReconcile({seasonCommit}){
-      const committed=await scAcknowledgedCommit(seasonCommit);
-      const results={playerOne:scResult(committed.results.playerOne,teams),playerTwo:scResult(committed.results.playerTwo,teams)};
-      const scoring={playerOne:scBreakdown(results.playerOne),playerTwo:scBreakdown(results.playerTwo)};
-      const core={schemaVersion:1,runtimeRevision:RUNTIME_REVISION,seasonNumber:committed.seasonNumber,phase:"SCORING_RECONCILED",revision:1,seasonCommitRevision:committed.revision,seasonCommitContentHash:committed.contentHash,scoring,winner:scWinner(results,scoring)};
-      return scSealState(core);
-    }
-    async function scVerifyScoringState(value,{seasonCommit}={}){
-      scExact(value,STATE_KEYS,"CANONICAL_SCORING_STATE_INVALID");const core=scClone(value),hash=core.contentHash;delete core.contentHash;
-      if(value.schemaVersion!==1||value.runtimeRevision!==RUNTIME_REVISION||value.phase!=="SCORING_RECONCILED"||value.revision!==1||!Number.isInteger(value.seasonNumber)||value.seasonNumber<1||value.seasonCommitRevision!==3||!HASH.test(value.seasonCommitContentHash)||!HASH.test(hash)||!["playerOne","playerTwo","draw"].includes(value.winner))scFail("CANONICAL_SCORING_STATE_INVALID");
-      scExact(value.scoring,ROLES,"CANONICAL_SCORING_STATE_INVALID");ROLES.forEach(role=>scValidateBreakdown(value.scoring[role]));
-      if(await scHash(core,cryptoImpl)!==hash)scFail("CANONICAL_SCORING_STATE_HASH_MISMATCH");
-      if(seasonCommit){const expected=await scReconcile({seasonCommit});if(expected.seasonNumber!==value.seasonNumber||expected.seasonCommitContentHash!==value.seasonCommitContentHash||scCanonical(expected.scoring)!==scCanonical(value.scoring)||expected.winner!==value.winner)scFail("CANONICAL_SCORING_RECOMPUTE_MISMATCH");}
-      return scFreeze(scClone(value));
-    }
+    async function scReconcile({seasonCommit}){const committed=await scAcknowledgedCommit(seasonCommit),projection=scScoreAuthoritativeResults(committed.results);const core={schemaVersion:1,runtimeRevision:RUNTIME_REVISION,seasonNumber:committed.seasonNumber,phase:"SCORING_RECONCILED",revision:1,seasonCommitRevision:committed.revision,seasonCommitContentHash:committed.contentHash,scoring:projection.scoring,winner:projection.winner};return scSealState(core);}
+    async function scVerifyScoringState(value,{seasonCommit}={}){scExact(value,STATE_KEYS,"CANONICAL_SCORING_STATE_INVALID");const core=scClone(value),hash=core.contentHash;delete core.contentHash;if(value.schemaVersion!==1||value.runtimeRevision!==RUNTIME_REVISION||value.phase!=="SCORING_RECONCILED"||value.revision!==1||!Number.isInteger(value.seasonNumber)||value.seasonNumber<1||value.seasonCommitRevision!==3||!HASH.test(value.seasonCommitContentHash)||!HASH.test(hash)||!["playerOne","playerTwo","draw"].includes(value.winner))scFail("CANONICAL_SCORING_STATE_INVALID");scExact(value.scoring,ROLES,"CANONICAL_SCORING_STATE_INVALID");ROLES.forEach(role=>scValidateBreakdown(value.scoring[role]));if(await scHash(core,cryptoImpl)!==hash)scFail("CANONICAL_SCORING_STATE_HASH_MISMATCH");if(seasonCommit){const expected=await scReconcile({seasonCommit});if(expected.seasonNumber!==value.seasonNumber||expected.seasonCommitContentHash!==value.seasonCommitContentHash||scCanonical(expected.scoring)!==scCanonical(value.scoring)||expected.winner!==value.winner)scFail("CANONICAL_SCORING_RECOMPUTE_MISMATCH");}return scFreeze(scClone(value));}
     function scProjectForRole(state,role){if(!ROLES.includes(role))scFail("CANONICAL_SCORING_ROLE_INVALID");return scFreeze({schemaVersion:state.schemaVersion,runtimeRevision:state.runtimeRevision,seasonNumber:state.seasonNumber,phase:state.phase,revision:state.revision,seasonCommitRevision:state.seasonCommitRevision,seasonCommitContentHash:state.seasonCommitContentHash,managerRole:role,scoring:scClone(state.scoring),winner:state.winner});}
-    return scFreeze({contractVersion:1,feature:"ssjr-canonical-scoring",runtimeRevision:RUNTIME_REVISION,roles:ROLES,rules:RULES,reconcile:scReconcile,verifyState:scVerifyScoringState,projectForRole:scProjectForRole,billingRequired:false,canonicalStorageMutation:false,authoritativeScoring:true,trustsSubmittedTotals:false,requiresAcknowledgedSeasonCommit:true,zeroScoreOnlyTiebreak:true});
+    return scFreeze({contractVersion:1,feature:"ssjr-canonical-scoring",runtimeRevision:RUNTIME_REVISION,roles:ROLES,rules:RULES,reconcile:scReconcile,verifyState:scVerifyScoringState,projectForRole:scProjectForRole,scoreAuthoritativeResults:scScoreAuthoritativeResults,billingRequired:false,canonicalStorageMutation:false,authoritativeScoring:true,trustsSubmittedTotals:false,requiresAcknowledgedSeasonCommit:true,zeroScoreOnlyTiebreak:true});
   }
 
   return Object.freeze({contractVersion:1,feature:"ssjr-canonical-scoring-protocol-factory",runtimeRevision:RUNTIME_REVISION,roles:ROLES,rules:RULES,createProtocol:scCreateProtocol,billingRequired:false,canonicalStorageMutation:false,authoritativeScoring:true,trustsSubmittedTotals:false,requiresAcknowledgedSeasonCommit:true,zeroScoreOnlyTiebreak:true});
