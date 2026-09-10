@@ -1,0 +1,144 @@
+{
+  "schemaVersion": "1.0.0",
+  "authority": {
+    "mainSha": "be5289cdbfcc8285ab8ddd33cd9fe9f1b3b7198e",
+    "runtimeRevision": "1.9.1-r11",
+    "visualBranchStartSha": "faf217265a21a374c8c41f529fb806e915d4832a"
+  },
+  "assetProof": {
+    "A01": {
+      "sourceSha256": "17972b8afb73b90483c8f874c4bd964ac1bda196daa76e134a6030676bbd4219",
+      "sourceDimensions": "1086x1448",
+      "qaDerivative": "543x724",
+      "qaDerivativeSha256": "b7ab81132d66e890ba298775f3580b36f0ad78ac90653bce873ae6a44822bfca"
+    },
+    "A02": {
+      "sourceSha256": "9b1545b52a5d96a240c92b9901dcd8a4558148dde05a0331882df7bd988177cc",
+      "sourceDimensions": "1086x1448",
+      "qaDerivative": "543x724",
+      "qaDerivativeSha256": "2b2fbe5617abb7038aed5cd4c2999f52415f70ff7df6399108dac508e61237d3"
+    }
+  },
+  "matrix": {
+    "stateCount": 22,
+    "viewportCount": 3,
+    "caseCount": 66,
+    "viewports": ["1600x900", "1024x768", "390x844"],
+    "checks": [
+      "no character/protected DOM intersection",
+      "no visible character/stage intersection after rail clipping",
+      "no horizontal viewport overflow",
+      "large characters omitted at <=1280px"
+    ]
+  },
+  "summary": {
+    "casesPassed": 66,
+    "casesFailed": 0,
+    "wideCharacterRailsVisibleCases": 22,
+    "compactCharacterRailsVisibleCases": 0,
+    "mobileCharacterRailsVisibleCases": 0,
+    "horizontalOverflowCases": 0,
+    "characterProtectedIntersectionCases": 0,
+    "visibleImageStageIntersectionCases": 0
+  },
+  "states": [
+    "transfer_window",
+    "transfer_guess",
+    "transfer_signing",
+    "transfer_completed",
+    "transfer_shared_replay",
+    "transfer_private_ownonly",
+    "season_local_entry",
+    "season_local_review",
+    "season_shared_ownonly",
+    "season_shared_waiting",
+    "season_shared_revealed",
+    "commit_coordinator",
+    "commit_waiting",
+    "commit_ack_required",
+    "commit_own_ack_waiting",
+    "commit_both_ack",
+    "shared_score_p1",
+    "shared_score_p2",
+    "shared_score_draw",
+    "summary_p1",
+    "summary_p2",
+    "summary_draw"
+  ],
+  "viewportSummaries": {
+    "wide_1600x900": {
+      "cases": 22,
+      "passed": 22,
+      "largeCharacterRailsPerCase": 2,
+      "horizontalOverflowCases": 0,
+      "characterProtectedIntersectionCases": 0,
+      "visibleImageStageIntersectionCases": 0,
+      "pageHeightRange": "900-900"
+    },
+    "compact_1024x768": {
+      "cases": 22,
+      "passed": 22,
+      "largeCharacterRailsPerCase": 0,
+      "horizontalOverflowCases": 0,
+      "characterProtectedIntersectionCases": 0,
+      "visibleImageStageIntersectionCases": 0,
+      "pageHeightRange": "768-826"
+    },
+    "mobile_390x844": {
+      "cases": 22,
+      "passed": 22,
+      "largeCharacterRailsPerCase": 0,
+      "horizontalOverflowCases": 0,
+      "characterProtectedIntersectionCases": 0,
+      "visibleImageStageIntersectionCases": 0,
+      "pageHeightRange": "844-1464"
+    }
+  },
+  "stateGroups": {
+    "transferChallenge": [
+      "transfer_window",
+      "transfer_guess",
+      "transfer_signing",
+      "transfer_completed",
+      "transfer_shared_replay",
+      "transfer_private_ownonly"
+    ],
+    "seasonEntryAndSharedResults": [
+      "season_local_entry",
+      "season_local_review",
+      "season_shared_ownonly",
+      "season_shared_waiting",
+      "season_shared_revealed"
+    ],
+    "sharedSeasonCommit": [
+      "commit_coordinator",
+      "commit_waiting",
+      "commit_ack_required",
+      "commit_own_ack_waiting",
+      "commit_both_ack"
+    ],
+    "r11SharedCanonicalScoring": [
+      "shared_score_p1",
+      "shared_score_p2",
+      "shared_score_draw"
+    ],
+    "localSeasonSummary": [
+      "summary_p1",
+      "summary_p2",
+      "summary_draw"
+    ]
+  },
+  "decisions": {
+    "package3StaticCompositionQa": "PASS",
+    "A03_NIK_FOCUSED_TACTICAL": "HOLD_GATE_CLOSED",
+    "A04_DANIEL_FOCUSED_TACTICAL": "HOLD_GATE_CLOSED",
+    "A05_NIK_CELEBRATION_RESOLVE": "HOLD_GATE_CLOSED",
+    "A06_DANIEL_CELEBRATION_RESOLVE": "HOLD_GATE_CLOSED",
+    "largeCharacterRuleWide": "ROLE_ALIGNED_OUTER_RAILS_ALLOWED",
+    "largeCharacterRuleCompact": "OMIT",
+    "largeCharacterRuleMobile": "OMIT",
+    "sharedOutcomeRule": "ONLY_AFTER_AUTHORITATIVE_SCORING_RECONCILED",
+    "tiebreak": "DEFERRED_NO_LIVE_RUNTIME_AUTHORITY",
+    "generationState": "CLOSED"
+  }
+}
