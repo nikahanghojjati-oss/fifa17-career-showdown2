@@ -17,23 +17,23 @@ const read = file => fs.readFileSync(file, "utf8");
   assert.equal(result.milestoneModel, "SSJR-1.1");
   assert.equal(result.score, ledger.currentScore, "The deterministic assessor must reproduce the stored MDP score exactly.");
   assert.equal(result.formattedScore, ledger.formattedScore, "The deterministic assessor must reproduce the stored formatted MDP score exactly.");
-  assert.equal(result.score, 82, "r14 Journey Reconnect earns product integration only after exact corrected-head validation, expected-head merge, coherent Pages deployment, main POS20 validation and release burn-in.");
-  assert.equal(result.formattedScore, "82.00/100");
+  assert.equal(result.score, 86.5, "r15 Journey Conflicts earns product integration only after exact publication-head validation, expected-head merge, coherent Pages deployment, main POS20 validation and release burn-in.");
+  assert.equal(result.formattedScore, "86.50/100");
   assert.equal(result.featureCount, 20);
-  assert.equal(result.fullyLifecycleDelivered, 14);
+  assert.equal(result.fullyLifecycleDelivered, 15);
   assert.equal(result.preIntegrationComplete, 0);
-  assert.equal(result.designDefinedOnly, 6);
+  assert.equal(result.designDefinedOnly, 5);
 
-  assert.equal(ledger.basis.mainSha, "97c28b1efea6ee6e901e6076a834ec419cbad5aa");
+  assert.equal(ledger.basis.mainSha, "4d202126ce1606a4e3f74c09b31201cf4ec51c6e");
   assert.equal(ledger.basis.branch, "main");
-  assert.equal(ledger.basis.integrationMergeSha, "97c28b1efea6ee6e901e6076a834ec419cbad5aa");
-  assert.equal(ledger.basis.candidateHead, "4ca8651bcdd20b794fa78943c4636666d20a1dd0");
-  assert.match(ledger.basis.candidateValidation, /POS20 run #371 exact-head green/);
-  assert.equal(ledger.basis.productionRuntimeRevision, "1.9.1-r14");
-  assert.match(ledger.basis.pagesDeployment, /GitHub Pages run #117 success/i);
+  assert.equal(ledger.basis.integrationMergeSha, "4d202126ce1606a4e3f74c09b31201cf4ec51c6e");
+  assert.equal(ledger.basis.candidateHead, "f63f6efc777257964aff27abbc148af61e34d77d");
+  assert.match(ledger.basis.candidateValidation, /POS20 run #387 exact-head green/);
+  assert.equal(ledger.basis.productionRuntimeRevision, "1.9.1-r15");
+  assert.match(ledger.basis.pagesDeployment, /GitHub Pages run #119 success/i);
   assert.match(ledger.basis.firestoreRulesDeployment, /No new Firestore Rules deployment required/i);
-  assert.match(ledger.basis.note, /POS20 run #372 passed/i);
-  assert.match(ledger.basis.note, /Release Integration Burn-In run #374 passed both/i);
+  assert.match(ledger.basis.note, /POS20 run #388 passed/i);
+  assert.match(ledger.basis.note, /Release Integration Burn-In run #376 passed both/i);
 
   assert.equal(ssjrReadiness.currentScore, 0, "MDP delivery progress must not award SSJR credit.");
   assert.equal(ssjrReadiness.deliveryProgressTracker.trackerId, "MDP-1");
@@ -70,6 +70,15 @@ const read = file => fs.readFileSync(file, "utf8");
   for (const expected of ["PR #242 exact candidate head 4ca8651","POS20 run #371 exact-head green","PR #242 merge 97c28b1","GitHub Pages run #117 success","POS20 run #372 main green","Release Integration Burn-In run #374 success"]) assert.ok(r14Candidate.references.some(ref => ref.includes(expected)), `r14 evidence missing ${expected}`);
   assert.equal(ssjrReadiness.remainingCapabilityIds.includes("journey-reconnect"), true, "Journey Reconnect remains uncredited in SSJR until production-two-account evidence is accepted.");
 
+  const r15Candidate = ssjrReadiness.candidateEvidence.find(item => item.id === "ssjr1-journey-conflicts-r15-production");
+  assert.ok(r15Candidate, "SSJR readiness must preserve truthful zero-credit r15 production evidence.");
+  assert.equal(r15Candidate.credit, 0);
+  assert.deepEqual(r15Candidate.relatedCapabilityIds, ["journey-conflicts"]);
+  for (const layer of ["deterministic-behavior","provider-enforcement","isolated-browser-protocol","deployed-runtime"]) assert.ok(r15Candidate.layers.includes(layer), `r15 candidate evidence missing ${layer}`);
+  assert.ok(r15Candidate.missingLayers.includes("production-two-account"));
+  for (const expected of ["PR #244 exact candidate head f63f6efc","POS20 run #387 exact-head green","PR #244 merge 4d202126","GitHub Pages run #119 success","POS20 run #388 main green","Release Integration Burn-In run #376 success"]) assert.ok(r15Candidate.references.some(ref => ref.includes(expected)), `r15 evidence missing ${expected}`);
+  assert.equal(ssjrReadiness.remainingCapabilityIds.includes("journey-conflicts"), true, "Journey Conflicts remains uncredited in SSJR until production-two-account evidence is accepted.");
+
   const modelCapabilities = ssjrModel.domains.flatMap(domain => domain.capabilities.map(capability => ({id: capability.id, weight: capability.weight})));
   const ledgerCapabilities = ledger.capabilities.map(capability => ({id: capability.id, weight: capability.milestoneWeight}));
   assert.deepEqual(ledgerCapabilities, modelCapabilities, "MDP-1 must reuse the exact frozen SSJR capability IDs and weights.");
@@ -81,7 +90,7 @@ const read = file => fs.readFileSync(file, "utf8");
 
   const integrated = new Set([
     "entry-binding","entry-before-draw","setup-league","setup-clubs","setup-length","setup-confirmation",
-    "career-start","transfer-challenge","results-publication","season-commit","canonical-scoring","history-convergence","multi-season","journey-reconnect"
+    "career-start","transfer-challenge","results-publication","season-commit","canonical-scoring","history-convergence","multi-season","journey-reconnect","journey-conflicts"
   ]);
   for (const feature of ledger.capabilities) {
     if (integrated.has(feature.id)) {
@@ -111,17 +120,22 @@ const read = file => fs.readFileSync(file, "utf8");
   for (const ref of ["js/sharedJourneyReconnect.js","js/productionSharedJourneyReconnect.js","service-worker.js","tests/contracts/shared-journey-reconnect-production-contracts.cjs","tests/browser/shared-journey-reconnect-audit.cjs"]) assert.ok(journeyReconnectIntegrated.evidenceRefs.includes(ref), `Journey Reconnect evidence missing ${ref}`);
   for (const expected of ["PR #242 exact candidate head 4ca8651","POS20 run #371 exact-head green","PR #242 merge 97c28b1","GitHub Pages run #117 success","POS20 run #372 main green","Release Integration Burn-In run #374 success"]) assert.ok(journeyReconnectIntegrated.evidenceRefs.some(ref => ref.includes(expected)), `Journey Reconnect integration evidence missing ${expected}`);
 
-  assert.equal(ledger.scoreCheck.fullyIntegratedWeight, 80);
-  assert.equal(ledger.scoreCheck.remainingDesignWeight, 20);
-  assert.equal(ledger.scoreCheck.remainingDesignContribution, 2);
-  assert.equal(ledger.scoreCheck.calculatedScore, 82);
+  const journeyConflictsIntegrated = ledger.capabilities.find(capability => capability.id === "journey-conflicts");
+  assert.equal(journeyConflictsIntegrated.weightedContribution, 5);
+  for (const ref of ["js/sharedJourneyConflicts.js","js/productionSharedJourneyConflicts.js","service-worker.js","tests/contracts/shared-journey-conflicts-production-contracts.cjs","tests/browser/shared-journey-conflicts-audit.cjs"]) assert.ok(journeyConflictsIntegrated.evidenceRefs.includes(ref), `Journey Conflicts evidence missing ${ref}`);
+  for (const expected of ["PR #244 exact candidate head f63f6efc","POS20 run #387 exact-head green","PR #244 merge 4d202126","GitHub Pages run #119 success","POS20 run #388 main green","Release Integration Burn-In run #376 success"]) assert.ok(journeyConflictsIntegrated.evidenceRefs.some(ref => ref.includes(expected)), `Journey Conflicts integration evidence missing ${expected}`);
+
+  assert.equal(ledger.scoreCheck.fullyIntegratedWeight, 85);
+  assert.equal(ledger.scoreCheck.remainingDesignWeight, 15);
+  assert.equal(ledger.scoreCheck.remainingDesignContribution, 1.5);
+  assert.equal(ledger.scoreCheck.calculatedScore, 86.5);
   assert.equal(Object.prototype.hasOwnProperty.call(ledger.scoreCheck, "preIntegrationWeight"), false);
 
   const scoreDrift = clone(ledger); scoreDrift.currentScore = 99;
   assert.throws(() => assessMilestoneDelivery(trackerModel, scoreDrift, ssjrModel), /stored milestone score/i);
   const weightDrift = clone(ledger); weightDrift.capabilities[0].milestoneWeight += 1;
   assert.throws(() => assessMilestoneDelivery(trackerModel, weightDrift, ssjrModel), /weight drift/i);
-  const outOfOrder = clone(ledger); const journeyConflicts = outOfOrder.capabilities.find(capability => capability.id === "journey-conflicts"); journeyConflicts.stages["automated-test"] = "complete";
+  const outOfOrder = clone(ledger); const localReconciliation = outOfOrder.capabilities.find(capability => capability.id === "local-reconciliation"); localReconciliation.stages["automated-test"] = "complete";
   assert.throws(() => assessMilestoneDelivery(trackerModel, outOfOrder, ssjrModel), /cannot complete automated-test after an earlier lifecycle stage is incomplete/i);
   const inventedPartial = clone(ledger); inventedPartial.capabilities.find(capability => capability.id === "journey-conflicts").lifecyclePercent = 25;
   assert.throws(() => assessMilestoneDelivery(trackerModel, inventedPartial, ssjrModel), /stored lifecyclePercent must be derived/i);
@@ -131,5 +145,5 @@ const read = file => fs.readFileSync(file, "utf8");
   assert.match(authority, /Reusable predecessor code[\s\S]+does not complete an implementation stage/i);
   assert.match(authority, /proven regression invalidates[\s\S]+MDP can decrease/i);
 
-  process.stdout.write(`PASS MDP-1 exact SSJR denominator, six-stage lifecycle, current ${result.formattedScore} r14 integrated ledger, anti-inflation rules, regression guard and strict SSJR separation\n`);
+  process.stdout.write(`PASS MDP-1 exact SSJR denominator, six-stage lifecycle, current ${result.formattedScore} r15 integrated ledger, anti-inflation rules, regression guard and strict SSJR separation\n`);
 })().catch(error => { console.error(error); process.exitCode = 1; });
