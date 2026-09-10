@@ -1,0 +1,73 @@
+{
+  "schemaVersion": "1.0.0",
+  "status": "PROPOSAL_COMPLETE",
+  "controller": "GPT-5.6 Sol reasoning",
+  "generationState": "CLOSED",
+  "baseline": {
+    "liveMainSha": "32723b900dee45f689391908dc976f0ce5d06dd5",
+    "assetRevision": "1.9.1-r11",
+    "visualBranch": "visual/r8-5-approved-character-identity-lock"
+  },
+  "proposalCompletionPercent": 100,
+  "handoffProximityPercent": 100,
+  "completionDefinition": {
+    "identityAuthority": "COMPLETE",
+    "liveDomRuntimeMapping": "COMPLETE",
+    "frozenCoreMasters": "COMPLETE_A01_A02",
+    "screenStateExpressionArchitecture": "COMPLETE_REUSE_FIRST_AND_AUTHORITY_DERIVED",
+    "blackGoldPresentationSystem": "COMPLETE",
+    "responsiveSafeZoneQa": "COMPLETE_STATIC",
+    "accessibilityNoninterferenceQa": "COMPLETE_STATIC_WITH_IMPLEMENTATION_GUARDS",
+    "firstSliceConcreteIntegrationSource": "COMPLETE",
+    "masterDeveloperHandoff": "COMPLETE",
+    "newRasterGenerationRequired": false
+  },
+  "concreteIntegrationBundle": [
+    "R8_25_PROPOSAL_FINISH_EXACT_HOME_GLOBAL_INTEGRATION_BLUEPRINT.md",
+    "implementation/r8-black-gold-presentation.proposed.css",
+    "implementation/r8-final-art-layer.proposed.js",
+    "implementation/R8_25_ASSET_PATH_MANIFEST.json"
+  ],
+  "firstSlice": {
+    "scope": "GLOBAL_PRESENTATION_PLUS_HOME_ONLY",
+    "mainBehaviorMutation": false,
+    "startupReusProtected": true,
+    "homeReusVisibleUnderR8Gate": false,
+    "homeFrozenCharacters": [
+      "A02_DANIEL_LEFT",
+      "A01_NIK_RIGHT"
+    ],
+    "wideDesktopCharacterThreshold": ">=1180px_with_full_intent_at_>=1280px",
+    "compact1024x768Characters": "OMIT",
+    "mobile390x844Characters": "OMIT",
+    "runtimeNoticeFocusGuardIncluded": true
+  },
+  "unresolvedVisualDesignBlockers": 0,
+  "unresolvedAssetGenerationBlockers": 0,
+  "heldLegacySlotsAreNotMissingWork": true,
+  "heldLegacySlots": [
+    "A03_NIK_FOCUSED_TACTICAL",
+    "A04_DANIEL_FOCUSED_TACTICAL",
+    "A05_NIK_CELEBRATION_RESOLVE",
+    "A06_DANIEL_CELEBRATION_RESOLVE"
+  ],
+  "remainingWorkOutsideVisualProposalLane": {
+    "masterDeveloperSelectiveIntegration": "PENDING",
+    "realLinkedBrowserAcceptance": "PENDING_AFTER_INTEGRATION",
+    "shippingAssetMaterializationAndHashVerification": "PENDING_DEVELOPER_LANE",
+    "productionDeployment": "PENDING_DEVELOPER_RELEASE_AUTHORITY"
+  },
+  "hardLocks": {
+    "mainMutationByVisualLane": false,
+    "productionDeploymentByVisualLane": false,
+    "firebaseSparkOnly": true,
+    "billingPermanentlyOff": true,
+    "blazeAllowed": false,
+    "cloudFunctionsAllowed": false,
+    "cloudRunAllowed": false,
+    "visualStateFirestoreWritesAllowed": false,
+    "imageBytesThroughFirebaseAllowed": false,
+    "paidVisualDependencyAllowed": false
+  },
+  "finalVerdict": "VISUAL_PROPOSAL_FINISHED_HAND_OFF_TO_MASTER_DEVELOPER_SELECTIVE_INTEGRATION"
+}
