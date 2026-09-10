@@ -1,4 +1,4 @@
-name: R14 standalone reload diagnostic
+name: R14 service worker integration fix once
 
 on:
   push:
@@ -8,29 +8,83 @@ on:
       - .github/workflows/r14-fix-acceptance-reload-readiness-once.yml
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
-  diagnose:
+  fix:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
         with:
           ref: feat/ssjr-journey-reconnect-r14
+          fetch-depth: 0
       - uses: actions/setup-node@v5
         with:
           node-version: 24
       - run: npm ci
-      - name: Start repository test server
+      - name: Add r14 runtime files to the service worker shell
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          worker=Path('service-worker.js')
+          text=worker.read_text()
+          anchor='    "js/productionSharedMultiSeasonProgression.js",\n'
+          addition='    "js/sharedJourneyReconnect.js",\n    "js/productionSharedJourneyReconnect.js",\n'
+          if addition not in text:
+              if text.count(anchor)!=1:
+                  raise SystemExit('service worker Multi Season anchor missing or ambiguous')
+              text=text.replace(anchor,anchor+addition,1)
+              worker.write_text(text)
+
+          contract=Path('tests/contracts/shared-journey-reconnect-production-contracts.cjs')
+          source=contract.read_text()
+          read_anchor="const bootstrap=read('js/ssjr.js');\n"
+          if "const serviceWorker=read('service-worker.js');" not in source:
+              if source.count(read_anchor)!=1:
+                  raise SystemExit('production contract bootstrap read anchor missing')
+              source=source.replace(read_anchor,read_anchor+"const serviceWorker=read('service-worker.js');\n",1)
+          assertion_anchor="assert.ok(bootstrap.indexOf('ssjr-production-multi-season')<bootstrap.indexOf('ssjr-production-journey-reconnect'),'Multi Season must precede Journey Reconnect.');\n"
+          assertions="assert.match(serviceWorker,/js\\/sharedJourneyReconnect\\.js/,'r14 protocol must survive reload/offline service-worker control.');\nassert.match(serviceWorker,/js\\/productionSharedJourneyReconnect\\.js/,'r14 production adapter must survive reload/offline service-worker control.');\n"
+          if assertions not in source:
+              if source.count(assertion_anchor)!=1:
+                  raise SystemExit('production contract bootstrap assertion anchor missing')
+              source=source.replace(assertion_anchor,assertion_anchor+assertions,1)
+          contract.write_text(source)
+
+          registry=Path('POS20_SUPPLEMENTAL_PRODUCT_TESTS.json')
+          data=__import__('json').loads(registry.read_text())
+          entry=next((item for item in data.get('tests',[]) if item.get('path')=='tests/contracts/shared-journey-reconnect-production-contracts.cjs'),None)
+          if not entry:
+              raise SystemExit('r14 production contract registry entry missing')
+          pattern='^service-worker\\.js$'
+          if pattern not in entry['patterns']:
+              entry['patterns'].append(pattern)
+          registry.write_text(__import__('json').dumps(data,indent=2)+'\n')
+          PY
+          node tests/contracts/shared-journey-reconnect-production-contracts.cjs
+          npm run test:ops
+      - name: Prove inherited recorder reload under service worker control
         shell: bash
         run: |
           npm run serve:test >/tmp/cms-r14-server.log 2>&1 &
-          echo $! > /tmp/cms-r14-server.pid
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          ready=0
           for n in $(seq 1 40); do
-            if curl -fsS http://127.0.0.1:4173/ >/dev/null; then exit 0; fi
+            if curl -fsS http://127.0.0.1:4173/ >/dev/null; then ready=1; break; fi
             sleep 0.25
           done
-          cat /tmp/cms-r14-server.log
-          exit 1
-      - name: Diagnose recorder reload bootstrap
-        run: node scripts/r14-recorder-reload-diagnostic.mjs
+          if [ "$ready" -ne 1 ]; then cat /tmp/cms-r14-server.log; exit 1; fi
+          CMS_CHROMIUM_MULTI_CONTEXT=1 node tests/browser/ssjr-production-acceptance-recorder-audit.cjs
+      - name: Commit bounded integration fix and remove diagnostics
+        shell: bash
+        run: |
+          rm .github/workflows/r14-fix-acceptance-reload-readiness-once.yml
+          rm scripts/r14-recorder-reload-diagnostic.mjs
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add service-worker.js tests/contracts/shared-journey-reconnect-production-contracts.cjs POS20_SUPPLEMENTAL_PRODUCT_TESTS.json .github/workflows/r14-fix-acceptance-reload-readiness-once.yml scripts/r14-recorder-reload-diagnostic.mjs
+          git diff --cached --check
+          git commit -m "fix: cache r14 Journey Reconnect runtime assets"
+          git push origin HEAD:feat/ssjr-journey-reconnect-r14
