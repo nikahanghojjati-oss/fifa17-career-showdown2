@@ -70,7 +70,7 @@ async function runPeer(page){
 
 (async()=>{
   const runtime=await resolveChromiumRuntime();
-  const browser=await chromium.launch(runtime.launchOptions);
+  const browser=await chromium.launch({executablePath:runtime.executablePath,headless:true,args:runtime.args});
   const hostContext=await browser.newContext({viewport:{width:1365,height:900}});
   const peerContext=await browser.newContext({viewport:{width:390,height:844},isMobile:true});
   const host=await hostContext.newPage(),peer=await peerContext.newPage();
