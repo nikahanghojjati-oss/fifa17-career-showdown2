@@ -1,0 +1,53 @@
+{
+  "schemaVersion": "1.0.0",
+  "status": "PROPOSAL_ONLY_FROZEN_ASSET_DEPLOYMENT_AUTHORITY",
+  "controller": "GPT-5.6 Sol reasoning",
+  "generationState": "CLOSED",
+  "baseline": {
+    "mainSha": "32723b900dee45f689391908dc976f0ce5d06dd5",
+    "assetRevision": "1.9.1-r11"
+  },
+  "rules": {
+    "regenerationForPlacementAllowed": false,
+    "deterministicCropScaleMaskAllowed": true,
+    "mirrorAllowedOnlyIfIdentityGestureMeaningPreserved": true,
+    "imageBytesThroughFirebaseAllowed": false,
+    "visualStateFirestoreWritesAllowed": false,
+    "paidAssetDependencyAllowed": false,
+    "hashVerificationRequiredBeforeShipping": true
+  },
+  "assets": [
+    {
+      "assetId": "A01_NIK_CORE_THINKING_HERO",
+      "ownerStatus": "OWNER_APPROVED_FROZEN",
+      "sourceFileId": "file_00000000bbf081f7b29944352f5e76a5",
+      "sourceSha256": "17972b8afb73b90483c8f874c4bd964ac1bda196daa76e134a6030676bbd4219",
+      "width": 1086,
+      "height": 1448,
+      "channels": "RGBA",
+      "expectedProductionPath": "assets/visual/r8/a01-nik-core-thinking-hero.png",
+      "firstSliceUse": "HOME_WIDE_DESKTOP_RIGHT_BACKGROUND_RAIL",
+      "compact1024x768": "OMIT",
+      "mobile390x844": "OMIT"
+    },
+    {
+      "assetId": "A02_DANIEL_CORE_POINTING_HERO",
+      "ownerStatus": "OWNER_APPROVED_FROZEN",
+      "sourceFileId": "file_000000007fe081f59bbac0a09a9eeca3",
+      "sourceSha256": "9b1545b52a5d96a240c92b9901dcd8a4558148dde05a0331882df7bd988177cc",
+      "width": 1086,
+      "height": 1448,
+      "channels": "RGBA",
+      "expectedProductionPath": "assets/visual/r8/a02-daniel-core-pointing-hero.png",
+      "firstSliceUse": "HOME_WIDE_DESKTOP_LEFT_BACKGROUND_RAIL",
+      "compact1024x768": "OMIT",
+      "mobile390x844": "OMIT"
+    }
+  ],
+  "heldLegacySlots": {
+    "A03_NIK_FOCUSED_TACTICAL": "NOT_REQUIRED_CURRENT_EVIDENCE_REUSE_FIRST_PASS",
+    "A04_DANIEL_FOCUSED_TACTICAL": "NOT_REQUIRED_CURRENT_EVIDENCE_REUSE_FIRST_PASS",
+    "A05_NIK_CELEBRATION_RESOLVE": "NOT_REQUIRED_CURRENT_EVIDENCE_STATE_DERIVED_REUSE_PASS",
+    "A06_DANIEL_CELEBRATION_RESOLVE": "NOT_REQUIRED_CURRENT_EVIDENCE_STATE_DERIVED_REUSE_PASS"
+  }
+}
