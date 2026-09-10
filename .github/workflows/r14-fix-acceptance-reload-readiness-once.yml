@@ -30,61 +30,62 @@ jobs:
           text = path.read_text()
           old_events = '  const pageErrors=[];page.on("pageerror",error=>pageErrors.push(error.stack||error.message));'
           new_events = '''  const pageErrors=[];page.on("pageerror",error=>pageErrors.push(error.stack||error.message));
-          const browserConsole=[];page.on("console",message=>{if(message.type()==="warning"||message.type()==="error"){const line=`${message.type().toUpperCase()}: ${message.text()}`;browserConsole.push(line);console.log(`R14_BROWSER_CONSOLE ${line}`);}});
-          const requestFailures=[];page.on("requestfailed",request=>{const line=`${request.url()} :: ${request.failure()?.errorText||"unknown"}`;requestFailures.push(line);console.log(`R14_REQUEST_FAILED ${line}`);});'''.replace('          ', '  ')
+  const browserConsole=[];page.on("console",message=>{if(message.type()==="warning"||message.type()==="error"){const line=`${message.type().toUpperCase()}: ${message.text()}`;browserConsole.push(line);console.log(`R14_BROWSER_CONSOLE ${line}`);}});
+  const requestFailures=[];page.on("requestfailed",request=>{const line=`${request.url()} :: ${request.failure()?.errorText||"unknown"}`;requestFailures.push(line);console.log(`R14_REQUEST_FAILED ${line}`);});'''
           if text.count(old_events) != 1:
               raise SystemExit(f'expected one page event block, found {text.count(old_events)}')
           text = text.replace(old_events, new_events, 1)
           old_return = '  return {context,page,pageErrors};'
-          new_return = '  return {context,page,pageErrors,browserConsole,requestFailures};'
           if text.count(old_return) != 1:
               raise SystemExit(f'expected one openCase return, found {text.count(old_return)}')
-          text = text.replace(old_return, new_return, 1)
-          old_reload = '''    await acceptance.page.locator("#loadingScreen").waitFor({state:"hidden",timeout:12000});
-          await acceptance.page.locator("#ssjrProductionAcceptanceRecorder").waitFor({state:"visible",timeout:7000});
-          await acceptance.page.waitForFunction(()=>window.CareerModeSSJRProductionAcceptanceRecorder.getState().statusRows[4].passed===true,null,{timeout:5000});'''.replace('          ', '    ')
-          new_reload = '''    await acceptance.page.locator("#loadingScreen").waitFor({state:"hidden",timeout:12000});
-          await acceptance.page.waitForTimeout(10000);
-          const reloadDiagnosis=await acceptance.page.evaluate(()=>({
-            href:location.href,
-            readyState:document.readyState,
-            loadingHidden:document.querySelector("#loadingScreen")?.classList.contains("hidden")===true,
-            pending:sessionStorage.getItem("careerModeShowdown.sharedJourneyPending.v1"),
-            testMode:sessionStorage.getItem("__ssjrRecorderTestMode"),
-            apis:{
-              firebase:Boolean(window.CareerModeProductionFirebaseRuntime),
-              entry:Boolean(window.CareerModeProductionSharedJourneyEntry),
-              guard:Boolean(window.CareerModeProductionSharedJourneyGuard),
-              careerStart:Boolean(window.CareerModeProductionSharedCareerStart),
-              seasonResults:Boolean(window.CareerModeProductionSharedSeasonResults),
-              seasonCommit:Boolean(window.CareerModeProductionSharedSeasonCommit),
-              canonicalScoring:Boolean(window.CareerModeProductionSharedCanonicalScoring),
-              history:Boolean(window.CareerModeProductionSharedHistoryConvergence),
-              multiProtocol:Boolean(window.CareerModeSharedMultiSeasonProgression),
-              multiProduction:Boolean(window.CareerModeProductionSharedMultiSeasonProgression),
-              reconnectProtocol:Boolean(window.CareerModeSharedJourneyReconnect),
-              reconnectProduction:Boolean(window.CareerModeProductionSharedJourneyReconnect),
-              transfer:Boolean(window.CareerModeProductionSharedTransferChallenge),
-              polishedBridge:Boolean(window.CareerModeSSJRAcceptancePolishedBridge),
-              stage5f:Boolean(window.CareerModeStage5fProductionAuthenticatedNegatives),
-              negativeRunner:Boolean(window.CareerModeSSJRProductionNegativeProbeRunner),
-              negativeEvidence:Boolean(window.CareerModeSSJRProductionNegativeEvidence),
-              recorder:Boolean(window.CareerModeSSJRProductionAcceptanceRecorder),
-              actor:Boolean(window.CareerModeSSJRProductionActorEvidence)
-            },
-            resources:performance.getEntriesByType("resource").map(entry=>entry.name).filter(name=>/\/(?:js\/)?(?:ssjr|shared|productionShared|sparkRemote|stage5f)/i.test(name)).slice(-80),
-            scripts:Array.from(document.scripts).map(script=>script.src).filter(Boolean).filter(src=>/(?:ssjr|shared|productionShared|sparkRemote|stage5f)/i.test(src)).slice(-80)
-          }));
-          console.log("R14_RELOAD_DIAG "+JSON.stringify(reloadDiagnosis));
-          console.log("R14_RELOAD_PAGE_ERRORS "+JSON.stringify(acceptance.pageErrors));
-          console.log("R14_RELOAD_BROWSER_CONSOLE "+JSON.stringify(acceptance.browserConsole));
-          console.log("R14_RELOAD_REQUEST_FAILURES "+JSON.stringify(acceptance.requestFailures));
-          assert.equal(reloadDiagnosis.apis.recorder,true,"diagnostic: recorder API did not load after reload");
-          await acceptance.page.locator("#ssjrProductionAcceptanceRecorder").waitFor({state:"visible",timeout:3000});
-          await acceptance.page.waitForFunction(()=>window.CareerModeSSJRProductionAcceptanceRecorder.getState().statusRows[4].passed===true,null,{timeout:5000});'''.replace('          ', '    ')
-          if text.count(old_reload) != 1:
-              raise SystemExit(f'expected one reload block, found {text.count(old_reload)}')
-          path.write_text(text.replace(old_reload, new_reload, 1))
+          text = text.replace(old_return, '  return {context,page,pageErrors,browserConsole,requestFailures};', 1)
+          marker = '    await acceptance.page.evaluate(()=>window.__ssjrRecorderPrepareReload());'
+          marker_index = text.find(marker)
+          if marker_index < 0:
+              raise SystemExit('reload marker missing')
+          target = '    await acceptance.page.locator("#ssjrProductionAcceptanceRecorder").waitFor({state:"visible",timeout:7000});'
+          target_index = text.find(target, marker_index)
+          if target_index < 0:
+              raise SystemExit('post-reload recorder wait missing')
+          diagnostic = '''    await acceptance.page.waitForTimeout(10000);
+    const reloadDiagnosis=await acceptance.page.evaluate(()=>({
+      href:location.href,
+      readyState:document.readyState,
+      loadingHidden:document.querySelector("#loadingScreen")?.classList.contains("hidden")===true,
+      pending:sessionStorage.getItem("careerModeShowdown.sharedJourneyPending.v1"),
+      testMode:sessionStorage.getItem("__ssjrRecorderTestMode"),
+      apis:{
+        firebase:Boolean(window.CareerModeProductionFirebaseRuntime),
+        entry:Boolean(window.CareerModeProductionSharedJourneyEntry),
+        guard:Boolean(window.CareerModeProductionSharedJourneyGuard),
+        careerStart:Boolean(window.CareerModeProductionSharedCareerStart),
+        seasonResults:Boolean(window.CareerModeProductionSharedSeasonResults),
+        seasonCommit:Boolean(window.CareerModeProductionSharedSeasonCommit),
+        canonicalScoring:Boolean(window.CareerModeProductionSharedCanonicalScoring),
+        history:Boolean(window.CareerModeProductionSharedHistoryConvergence),
+        multiProtocol:Boolean(window.CareerModeSharedMultiSeasonProgression),
+        multiProduction:Boolean(window.CareerModeProductionSharedMultiSeasonProgression),
+        reconnectProtocol:Boolean(window.CareerModeSharedJourneyReconnect),
+        reconnectProduction:Boolean(window.CareerModeProductionSharedJourneyReconnect),
+        transfer:Boolean(window.CareerModeProductionSharedTransferChallenge),
+        polishedBridge:Boolean(window.CareerModeSSJRAcceptancePolishedBridge),
+        stage5f:Boolean(window.CareerModeStage5fProductionAuthenticatedNegatives),
+        negativeRunner:Boolean(window.CareerModeSSJRProductionNegativeProbeRunner),
+        negativeEvidence:Boolean(window.CareerModeSSJRProductionNegativeEvidence),
+        recorder:Boolean(window.CareerModeSSJRProductionAcceptanceRecorder),
+        actor:Boolean(window.CareerModeSSJRProductionActorEvidence)
+      },
+      resources:performance.getEntriesByType("resource").map(entry=>entry.name).filter(name=>["ssjr","shared","productionShared","sparkRemote","stage5f"].some(token=>name.includes(token))).slice(-80),
+      scripts:Array.from(document.scripts).map(script=>script.src).filter(Boolean).filter(src=>["ssjr","shared","productionShared","sparkRemote","stage5f"].some(token=>src.includes(token))).slice(-80)
+    }));
+    console.log("R14_RELOAD_DIAG "+JSON.stringify(reloadDiagnosis));
+    console.log("R14_RELOAD_PAGE_ERRORS "+JSON.stringify(acceptance.pageErrors));
+    console.log("R14_RELOAD_BROWSER_CONSOLE "+JSON.stringify(acceptance.browserConsole));
+    console.log("R14_RELOAD_REQUEST_FAILURES "+JSON.stringify(acceptance.requestFailures));
+    assert.equal(reloadDiagnosis.apis.recorder,true,"diagnostic: recorder API did not load after reload");
+    await acceptance.page.locator("#ssjrProductionAcceptanceRecorder").waitFor({state:"visible",timeout:3000});'''
+          text = text[:target_index] + diagnostic + text[target_index+len(target):]
+          path.write_text(text)
           PY
           node --check tests/browser/ssjr-production-acceptance-recorder-audit.cjs
       - name: Run instrumented recorder audit with repository server
