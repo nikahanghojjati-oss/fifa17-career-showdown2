@@ -1,0 +1,64 @@
+name: One-shot r14 publication
+
+on:
+  push:
+    branches:
+      - feat/ssjr-journey-reconnect-r14
+    paths:
+      - .github/workflows/r14-one-shot-publication.yml
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: feat/ssjr-journey-reconnect-r14
+          fetch-depth: 0
+      - name: Publish coherent r14 shell
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          for name in [
+              'index.html',
+              'manifest.webmanifest',
+              'js/app.js',
+              'js/menuExperience.js',
+          ]:
+              path = Path(name)
+              text = path.read_text()
+              if '1.9.1-r13' not in text:
+                  raise SystemExit(f'expected r13 release identity not found in {name}')
+              path.write_text(text.replace('1.9.1-r13', '1.9.1-r14'))
+
+          worker = Path('service-worker.js')
+          text = worker.read_text()
+          current = 'const RUNTIME_REVISION = "1.9.1-r13";'
+          previous = 'const PREVIOUS_RUNTIME_REVISION = "1.9.1-r12";'
+          required = ['js/sharedJourneyReconnect.js','js/productionSharedJourneyReconnect.js']
+          if current not in text or previous not in text:
+              raise SystemExit('service worker release boundary did not match expected r13/r12 state')
+          for asset in required:
+              if f'"{asset}"' not in text:
+                  raise SystemExit(f'r14 service worker shell missing required Journey Reconnect asset: {asset}')
+          text = text.replace(current, 'const RUNTIME_REVISION = "1.9.1-r14";', 1)
+          text = text.replace(previous, 'const PREVIOUS_RUNTIME_REVISION = "1.9.1-r13";', 1)
+          worker.write_text(text)
+
+          release = Path('RELEASE_V1.9.1_R14.md')
+          if release.exists():
+              raise SystemExit('r14 release record already exists unexpectedly')
+          release.write_text('''# Career Mode Showdown v1.9.1 runtime r14\n\nApplication version: `v1.9.1`\n\nRuntime asset revision: `1.9.1-r14`\n\nPrevious known-good runtime: `1.9.1-r13`\n\n## Journey Reconnect\n\nr14 integrates the SSJR-1.1 Journey Reconnect capability on top of the r13 Multi Season authority. It recovers the committed Shared Showdown journey after offline transitions, reload/re-entry, private-session expiry and exact-session replacement while preserving the confirmed league, permanent clubs, season plan and accepted progression.\n\nThe durable journey remains rivalry-owned and private-session state remains replaceable authorization only. Missing, malformed, revoked, expired or nonfinite-expiry sessions are never treated as ACTIVE. A fresh exact ACTIVE private session for the same rivalry may reauthorize the existing committed journey without redraw, reassignment, history reset or terminal resurrection.\n\nJourney Reconnect is read-only. It does not mutate canonical Save Library state, require a provider write, require collection listing, introduce Cloud Run or Cloud Functions, or change the permanent zero-billing boundary.\n\n## Reload and service-worker integration\n\nThe r14 Journey Reconnect protocol and production adapter are part of the verified service-worker shell. This closes a pre-publication defect found by the inherited FULL acceptance recorder proof where a reload under r13 service-worker control rejected the newly introduced Journey Reconnect asset. The corrected candidate passed the inherited recorder reload under service-worker control before publication.\n\n## Validation boundary\n\nPre-publication candidate `487c1d41fa9a2b16097c9d8a68e8ebad4a27678e` passed normal PR POS20 run #368 including the exact-head cognitive seal. This publication commit creates new release bytes and therefore requires its own fresh exact-head POS20 validation before PR #242 can merge. Evidence must not be combined across heads.\n\nFirebase remains Spark-only, billing remains permanently off and SSJR production-two-account acceptance remains separate from MDP engineering maturity.\n''')
+          PY
+          git rm .github/workflows/r14-one-shot-publication.yml
+          git add index.html manifest.webmanifest js/app.js js/menuExperience.js service-worker.js RELEASE_V1.9.1_R14.md
+          git diff --cached --check
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git commit -m "release: publish v1.9.1 r14 Journey Reconnect shell"
+          git push origin HEAD:feat/ssjr-journey-reconnect-r14
