@@ -1,0 +1,68 @@
+name: SSJR r14 register product tests once
+
+on:
+  push:
+    branches:
+      - feat/ssjr-journey-reconnect-r14
+    paths:
+      - .github/workflows/ssjr-r14-register-product-tests-once.yml
+
+permissions:
+  contents: write
+
+jobs:
+  register:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feat/ssjr-journey-reconnect-r14
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Parse and register r14 tests
+        run: |
+          node <<'NODE'
+          const fs=require('node:fs');
+          const path='POS20_SUPPLEMENTAL_PRODUCT_TESTS.json';
+          const data=JSON.parse(fs.readFileSync(path,'utf8'));
+          if(!Array.isArray(data.tests))throw new Error('POS20 supplemental tests array is missing.');
+          const core=data.tests.find(item=>item.path==='tests/contracts/shared-journey-reconnect-contracts.cjs');
+          if(!core)throw new Error('Journey Reconnect core registration is missing.');
+          const productionPath='tests/contracts/shared-journey-reconnect-production-contracts.cjs';
+          const patterns=[
+            '^js/sharedJourneyReconnect\\.js$',
+            '^js/productionSharedJourneyReconnect\\.js$',
+            '^js/sharedMultiSeasonProgression\\.js$',
+            '^js/productionSharedMultiSeasonProgression\\.js$',
+            '^js/productionSharedShowdownSetup\\.js$',
+            '^js/sparkRemoteJoining\\.js$',
+            '^js/sparkConnectedAccount\\.js$',
+            '^js/sparkPrivatePairing\\.js$',
+            '^js/sparkConnectedRivalry\\.js$',
+            '^js/productionSharedJourneyEntry\\.js$',
+            '^js/ssjr\\.js$',
+            '^tests/contracts/shared-journey-reconnect-contracts\\.cjs$',
+            '^tests/contracts/shared-journey-reconnect-production-contracts\\.cjs$',
+            '^tests/browser/shared-journey-reconnect-audit\\.cjs$',
+            '^package\\.json$',
+            '^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$'
+          ];
+          const existing=data.tests.find(item=>item.path===productionPath);
+          if(existing)existing.patterns=patterns;
+          else data.tests.push({path:productionPath,patterns});
+          fs.writeFileSync(path,JSON.stringify(data,null,2)+'\n');
+          JSON.parse(fs.readFileSync(path,'utf8'));
+          NODE
+          node tests/contracts/shared-journey-reconnect-contracts.cjs
+          node tests/contracts/shared-journey-reconnect-production-contracts.cjs
+      - name: Commit registration and delete publisher
+        run: |
+          rm .github/workflows/ssjr-r14-register-product-tests-once.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add POS20_SUPPLEMENTAL_PRODUCT_TESTS.json .github/workflows/ssjr-r14-register-product-tests-once.yml
+          git diff --cached --check
+          git commit -m "test: register r14 Journey Reconnect in POS20"
+          git push origin HEAD:feat/ssjr-journey-reconnect-r14
