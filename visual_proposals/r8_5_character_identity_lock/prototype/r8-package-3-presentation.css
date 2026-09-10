@@ -1,0 +1,583 @@
+/*
+ * R8.15 PACKAGE 3 PRESENTATION PROTOTYPE
+ * PROPOSAL ONLY. DO NOT LINK FROM PRODUCTION index.html.
+ * Runtime authority: 1d0c9f9d6542cd020a4aae53998cb6daeba380e4 / 1.9.1-r10
+ * Intended to load after prototype/r8-package-1-2-presentation.css in visual proof pages.
+ * Presentation only: no routing, scoring, storage, Firebase, provider, role, session or Save authority.
+ */
+
+/* Package 3 shared shell --------------------------------------------------- */
+#dashboard,
+#transferChallenge,
+#seasonEntry,
+#seasonSummary{
+  isolation:isolate;
+}
+
+#dashboard::before,
+#transferChallenge::before,
+#seasonEntry::before,
+#seasonSummary::before{
+  content:"";
+  position:absolute;
+  inset:0 0 auto;
+  height:220px;
+  z-index:0;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at 50% 0,rgba(243,204,79,.11),transparent 58%),
+    linear-gradient(180deg,rgba(255,255,255,.018),transparent);
+}
+
+#dashboard > *,
+#transferChallenge > *,
+#seasonEntry > *,
+#seasonSummary > *{
+  position:relative;
+  z-index:3;
+}
+
+/* Dashboard / season-loop entry ------------------------------------------ */
+#dashboard .showdownOverview,
+#dashboard .showdownScoreboard,
+#dashboard .playerCard,
+#dashboard .completionHub{
+  color:var(--r8-cream,#f5f0e4);
+  background:linear-gradient(145deg,rgba(17,22,26,.95),rgba(7,10,12,.94));
+  border-color:rgba(243,204,79,.32);
+  box-shadow:0 16px 36px rgba(0,0,0,.30);
+}
+
+#dashboard .showdownOverview{
+  border-left-color:var(--r8-gold,#f3cc4f);
+}
+
+#dashboard .showdownScoreboard{
+  border-bottom-color:var(--r8-gold,#f3cc4f);
+  background:linear-gradient(160deg,#171d22,#090c0f);
+}
+
+#dashboard .showdownScoreboard span,
+#dashboard .overviewStatus,
+#dashboard .completionHub h3{
+  color:var(--r8-gold,#f3cc4f);
+}
+
+#dashboard .transferOverviewStatus,
+#dashboard .playerCard p,
+#dashboard .completionHub p{
+  color:var(--r8-muted,#bdb49a);
+}
+
+#dashboard .playerCard{
+  border-top-color:rgba(243,204,79,.38);
+}
+
+#dashboard .playerCard:nth-child(2){
+  border-top-color:var(--r8-gold,#f3cc4f);
+}
+
+#seasonPrimaryAction{
+  border-left-color:var(--r8-gold,#f3cc4f);
+  box-shadow:0 10px 28px rgba(0,0,0,.30),0 0 20px rgba(243,204,79,.10);
+}
+
+#dashboardTransferStatus{
+  color:#d5cfbd;
+  border-left-color:var(--r8-gold,#f3cc4f);
+  background:rgba(9,13,16,.88);
+}
+
+/* Transfer Challenge ------------------------------------------------------ */
+#transferChallenge .transferHero{
+  width:min(900px,92vw);
+  color:var(--r8-cream,#f5f0e4);
+  background:
+    linear-gradient(120deg,rgba(243,204,79,.055),transparent 32%),
+    linear-gradient(160deg,#151b20,#080b0e);
+  border:1px solid rgba(243,204,79,.28);
+  border-left:6px solid var(--r8-gold,#f3cc4f);
+  box-shadow:0 18px 42px rgba(0,0,0,.35),0 0 26px rgba(243,204,79,.08);
+}
+
+#transferChallenge .transferRulesLine{
+  color:#d6cfbb;
+}
+
+#transferPhaseStatus{
+  color:var(--r8-gold,#f3cc4f);
+}
+
+#transferTimerDisplay{
+  color:var(--r8-cream,#f5f0e4);
+  text-shadow:0 0 28px rgba(243,204,79,.18);
+}
+
+#transferChallenge .transferRuleNote{
+  color:#aaa38f;
+}
+
+#transferChallenge .transferTimerActions{
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+}
+
+#transferChallenge .transferManagersGrid,
+#transferChallenge .transferGuessesGrid,
+#transferChallenge .transferResultsGrid{
+  gap:12px;
+}
+
+#transferChallenge .transferManagerCard,
+#transferChallenge .transferGuessCard,
+#transferChallenge .transferResultsCard{
+  color:var(--r8-cream,#f5f0e4);
+  background:linear-gradient(155deg,rgba(17,22,26,.96),rgba(7,10,12,.95));
+  border:1px solid rgba(243,204,79,.22);
+  border-top:4px solid rgba(243,204,79,.42);
+  box-shadow:0 14px 30px rgba(0,0,0,.27);
+}
+
+#transferChallenge .transferManagerCard:nth-child(2),
+#transferChallenge .transferGuessCard:nth-child(2),
+#transferChallenge .transferResultsCard:nth-child(2){
+  border-top-color:var(--r8-gold,#f3cc4f);
+}
+
+#transferChallenge .seasonManagerHeader{
+  border-bottom-color:rgba(243,204,79,.20);
+}
+
+#transferChallenge .seasonManagerHeader p,
+#transferChallenge .transferSectionLabel{
+  color:var(--r8-muted,#bdb49a);
+}
+
+#transferChallenge .signingRow > span,
+#transferChallenge .guessRow > span{
+  color:#0a0c0e;
+  background:linear-gradient(180deg,#ffe477,#d9a52a);
+}
+
+#transferChallenge input,
+#transferChallenge select{
+  color:var(--r8-cream,#f5f0e4);
+  background:rgba(6,9,11,.95);
+  border-color:rgba(224,214,186,.32);
+}
+
+#transferChallenge input:disabled,
+#transferChallenge select:disabled{
+  opacity:.55;
+  background:rgba(15,18,20,.70);
+}
+
+#transferChallenge[data-transfer-phase="window"] .transferHero{
+  border-left-color:var(--r8-gold,#f3cc4f);
+}
+
+#transferChallenge[data-transfer-phase="guess_entry"] .transferHero,
+#transferChallenge[data-transfer-phase="signing_entry"] .transferHero{
+  border-left-color:var(--r8-warning,#f0bd45);
+}
+
+#transferChallenge[data-transfer-phase="completed"] .transferHero{
+  border-left-color:var(--r8-success,#7fd77a);
+}
+
+#transferChallenge[data-shared-transfer-replay] .transferHero{
+  box-shadow:0 18px 42px rgba(0,0,0,.35),inset 0 0 0 1px rgba(245,240,228,.13);
+}
+
+#transferChallenge[data-shared-transfer-replay] #transferPhaseStatus::before{
+  content:"REPLAY · ";
+  color:#d8d1be;
+}
+
+#transferChallenge .transferChallengeResults > h3{
+  color:var(--r8-gold,#f3cc4f);
+  letter-spacing:1.2px;
+}
+
+#transferChallenge .transferResultsCard p{
+  color:#d4cdb9;
+  border-bottom:1px solid rgba(243,204,79,.12);
+  padding:8px 0;
+}
+
+#transferChallenge .transferResultsCard p:last-child{
+  border-bottom:0;
+}
+
+#transferChallenge .transferResultsCard strong{
+  color:var(--r8-cream,#f5f0e4);
+}
+
+#transferChallengeError:not(:empty){
+  color:#ffd8d8;
+  background:rgba(112,33,39,.42);
+  border-left-color:var(--r8-danger,#dc6f6f);
+}
+
+/* Season Entry ------------------------------------------------------------ */
+#seasonEntry .seasonEntryHint{
+  color:#d1cab7;
+  background:rgba(10,14,17,.88);
+  border:1px solid rgba(243,204,79,.18);
+  border-left:5px solid var(--r8-gold,#f3cc4f);
+}
+
+#seasonEntry .seasonEntryGrid{
+  gap:12px;
+}
+
+#seasonEntry .seasonResultCard{
+  color:var(--r8-cream,#f5f0e4);
+  background:linear-gradient(155deg,rgba(17,22,26,.96),rgba(7,10,12,.95));
+  border:1px solid rgba(243,204,79,.22);
+  border-top:4px solid rgba(243,204,79,.42);
+  box-shadow:0 14px 30px rgba(0,0,0,.27);
+}
+
+#seasonEntry .seasonResultCard:nth-child(2){
+  border-top-color:var(--r8-gold,#f3cc4f);
+}
+
+#seasonEntry .seasonManagerHeader{
+  border-bottom-color:rgba(243,204,79,.20);
+}
+
+#seasonEntry .seasonManagerHeader p,
+#seasonEntry .seasonResultCard > label{
+  color:var(--r8-muted,#bdb49a);
+}
+
+#seasonEntry .achievementChecks label{
+  color:#d5cebb;
+  background:rgba(21,26,30,.92);
+  border:1px solid rgba(243,204,79,.12);
+  border-left:3px solid rgba(245,240,228,.32);
+}
+
+#seasonEntry .achievementChecks label:has(input:checked){
+  color:#0a0d0f;
+  background:linear-gradient(180deg,#ffe477,#dca82c);
+  border-left-color:#fff0a1;
+}
+
+#seasonEntryError:not(:empty),
+#seasonReviewError:not(:empty){
+  color:#ffd8d8;
+  background:rgba(112,33,39,.42);
+  border-left-color:var(--r8-danger,#dc6f6f);
+}
+
+/* In shared entry mode, runtime hides the opponent card. Let the one real
+   permitted card own the composition instead of reserving fake empty space. */
+#seasonEntry[data-shared-season-results="entry"] .seasonEntryGrid:has(.seasonResultCard.hidden){
+  grid-template-columns:minmax(0,720px);
+  justify-content:center;
+}
+
+#seasonEntry[data-shared-season-results="entry"] .seasonResultCard:not(.hidden){
+  width:100%;
+}
+
+/* Season Review / Shared Season Results ---------------------------------- */
+#seasonReviewPanel{
+  width:min(1060px,94vw);
+  margin:0 auto 20px;
+  padding:20px;
+  color:var(--r8-cream,#f5f0e4);
+  background:
+    linear-gradient(135deg,rgba(243,204,79,.035),transparent 32%),
+    linear-gradient(160deg,rgba(16,21,25,.98),rgba(6,9,11,.98));
+  border:1px solid rgba(243,204,79,.30);
+  border-left:6px solid var(--r8-gold,#f3cc4f);
+  box-shadow:0 18px 44px rgba(0,0,0,.34);
+}
+
+#seasonReviewPanel .seasonReviewStatus{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
+  margin-bottom:16px;
+  padding:10px 12px;
+  color:#d1cab6;
+  background:rgba(0,0,0,.24);
+  border-bottom:1px solid rgba(243,204,79,.18);
+  font-family:var(--r8-display,"Barlow Condensed","Arial Narrow",sans-serif);
+  letter-spacing:1.1px;
+  text-transform:uppercase;
+}
+
+#seasonReviewStatusMeta{
+  color:var(--r8-gold,#f3cc4f);
+  text-align:right;
+}
+
+#seasonReviewHeading{
+  color:var(--r8-cream,#f5f0e4);
+  font:800 clamp(25px,3vw,36px)/.95 var(--r8-display,"Barlow Condensed","Arial Narrow",sans-serif);
+  text-transform:uppercase;
+}
+
+#seasonReviewPanel .seasonReviewIntro,
+#seasonReviewPanel .seasonReviewWarning{
+  color:var(--r8-muted,#bdb49a);
+}
+
+#seasonReviewPanel .seasonReviewWarning,
+#sharedSeasonCommitStatus{
+  margin:14px 0 0;
+  padding:10px 12px;
+  background:rgba(243,204,79,.07);
+  border-left:4px solid var(--r8-warning,#f0bd45);
+  font:700 11px/1.35 var(--r8-display,"Barlow Condensed","Arial Narrow",sans-serif);
+  letter-spacing:.8px;
+}
+
+#seasonReviewPanel .seasonReviewCard{
+  color:var(--r8-cream,#f5f0e4);
+  background:rgba(8,12,14,.92);
+  border:1px solid rgba(243,204,79,.18);
+  border-top:4px solid rgba(243,204,79,.42);
+  box-shadow:none;
+}
+
+#seasonReviewPanel .seasonReviewCard:nth-child(2){
+  border-top-color:var(--r8-gold,#f3cc4f);
+}
+
+#seasonReviewPanel .summaryClub,
+#seasonReviewPanel .summaryLine{
+  color:var(--r8-muted,#bdb49a);
+}
+
+#seasonReviewPanel .summaryLine{
+  border-bottom-color:rgba(243,204,79,.12);
+}
+
+#seasonReviewPanel .summaryLine strong{
+  color:var(--r8-cream,#f5f0e4);
+}
+
+#seasonReviewPanel .seasonReviewAchievements{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:6px;
+  margin-top:14px;
+}
+
+#seasonReviewPanel .seasonReviewAchievements span{
+  padding:8px 10px;
+  border-left:3px solid rgba(245,240,228,.28);
+  background:rgba(255,255,255,.035);
+  font-size:11px;
+}
+
+#seasonReviewPanel .seasonReviewAchievements .isEarned{
+  color:#dff8dc;
+  border-left-color:var(--r8-success,#7fd77a);
+}
+
+#seasonReviewPanel .seasonReviewAchievements .isNotEarned{
+  color:#8f8a7d;
+}
+
+#seasonReviewPanel .seasonReviewOverall{
+  color:var(--r8-cream,#f5f0e4);
+  background:rgba(7,10,12,.92);
+  border-color:rgba(243,204,79,.32);
+}
+
+/* Shared publication waiting uses the real disabled state instead of a fake
+   overlay. */
+#seasonEntry[data-shared-season-results="review"] #confirmSeasonCompletion:disabled{
+  border-left-color:rgba(243,204,79,.45);
+  opacity:.62;
+}
+
+/* Shared Season Commit ---------------------------------------------------- */
+#sharedSeasonCommitStatus{
+  color:#e6dfca;
+  border-left-color:var(--r8-gold,#f3cc4f);
+  background:linear-gradient(90deg,rgba(243,204,79,.10),rgba(243,204,79,.025));
+}
+
+#sharedSeasonCommitAction{
+  margin-bottom:2px;
+  border-left-color:var(--r8-gold,#f3cc4f);
+}
+
+#sharedSeasonCommitAction:not(:disabled){
+  color:#0a0d0f;
+  background:linear-gradient(180deg,#ffe477,#dda92d);
+  border-color:#ffe478;
+}
+
+#sharedSeasonCommitAction:disabled{
+  color:#b5ae9c;
+  background:rgba(15,19,22,.90);
+  border-color:rgba(243,204,79,.20);
+}
+
+/* Season Summary ---------------------------------------------------------- */
+#seasonSummaryResult{
+  color:var(--r8-gold,#f3cc4f);
+  text-shadow:0 2px 18px rgba(0,0,0,.50);
+}
+
+#seasonSummary .seasonSummaryGrid{
+  gap:12px;
+}
+
+#seasonSummary .seasonSummaryCard{
+  color:var(--r8-cream,#f5f0e4);
+  background:linear-gradient(155deg,rgba(17,22,26,.96),rgba(7,10,12,.95));
+  border:1px solid rgba(243,204,79,.22);
+  border-top:4px solid rgba(243,204,79,.42);
+  box-shadow:0 14px 30px rgba(0,0,0,.27);
+}
+
+#seasonSummary .seasonSummaryCard:nth-child(2){
+  border-top-color:var(--r8-gold,#f3cc4f);
+}
+
+#seasonSummary .summaryClub,
+#seasonSummary .summaryLine{
+  color:var(--r8-muted,#bdb49a);
+}
+
+#seasonSummary .summaryLine{
+  border-bottom-color:rgba(243,204,79,.12);
+}
+
+#seasonSummary .summaryLine strong{
+  color:var(--r8-cream,#f5f0e4);
+}
+
+#seasonSummary .summaryTotal{
+  color:#0a0c0e;
+  background:linear-gradient(180deg,#ffe477,#dca82c);
+}
+
+#seasonSummary .overallScoreBox{
+  color:var(--r8-cream,#f5f0e4);
+  background:linear-gradient(145deg,rgba(16,21,25,.96),rgba(7,10,12,.95));
+  border:1px solid rgba(243,204,79,.24);
+  border-left:6px solid var(--r8-gold,#f3cc4f);
+  box-shadow:0 16px 36px rgba(0,0,0,.30);
+}
+
+#seasonSummary .overallScoreBox span{
+  color:var(--r8-muted,#bdb49a);
+}
+
+#seasonOverallScore{
+  color:var(--r8-gold,#f3cc4f);
+  font-size:clamp(28px,3.6vw,42px);
+}
+
+#nextSeasonAction{
+  border-left-color:var(--r8-gold,#f3cc4f);
+}
+
+/* Empty future art hooks. No image is required or attached at R8.15. ------ */
+.r8Package3ArtLayer,
+.r8Package3CharacterRail,
+.r8Package3Atmosphere{
+  pointer-events:none!important;
+  user-select:none!important;
+}
+
+.r8Package3ArtLayer,
+.r8Package3CharacterRail{
+  position:absolute;
+  inset:0;
+  z-index:1;
+  overflow:hidden;
+}
+
+/* Responsive -------------------------------------------------------------- */
+@media (max-width:1179px){
+  #transferChallenge .transferManagersGrid,
+  #transferChallenge .transferGuessesGrid,
+  #transferChallenge .transferResultsGrid,
+  #seasonEntry .seasonEntryGrid,
+  #seasonSummary .seasonSummaryGrid,
+  #seasonReviewPanel .seasonReviewGrid{
+    width:min(980px,96vw);
+  }
+
+  .r8Package3CharacterRail{
+    opacity:.72;
+  }
+}
+
+@media (max-width:759px){
+  #transferChallenge .transferManagersGrid,
+  #transferChallenge .transferGuessesGrid,
+  #transferChallenge .transferResultsGrid,
+  #seasonEntry .seasonEntryGrid,
+  #seasonSummary .seasonSummaryGrid,
+  #seasonReviewPanel .seasonReviewGrid{
+    grid-template-columns:1fr;
+    width:94vw;
+  }
+
+  #transferChallenge .signingRow{
+    grid-template-columns:28px 1fr;
+  }
+
+  #transferChallenge .signingRow > input{
+    grid-column:2;
+  }
+
+  #transferChallenge .guessRow{
+    grid-template-columns:28px 1fr;
+  }
+
+  #transferChallenge .guessRow > select,
+  #transferChallenge .guessRow > input{
+    grid-column:2;
+    width:100%;
+  }
+
+  #seasonReviewPanel{
+    width:94vw;
+    padding:14px;
+  }
+
+  #seasonReviewPanel .seasonReviewStatus{
+    align-items:flex-start;
+    flex-direction:column;
+    gap:5px;
+  }
+
+  #seasonReviewStatusMeta{
+    text-align:left;
+  }
+
+  #seasonReviewPanel .seasonReviewAchievements,
+  #seasonEntry .achievementChecks{
+    grid-template-columns:1fr;
+  }
+
+  .r8Package3CharacterRail{
+    display:none!important;
+  }
+}
+
+@media (prefers-reduced-motion:reduce){
+  #dashboard *,
+  #transferChallenge *,
+  #seasonEntry *,
+  #seasonSummary *{
+    transition-duration:.001ms!important;
+    animation-duration:.001ms!important;
+    animation-iteration-count:1!important;
+  }
+}
