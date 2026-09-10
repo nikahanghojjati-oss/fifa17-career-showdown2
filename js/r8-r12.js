@@ -155,7 +155,7 @@
         if(layer){ layer.remove(); }
     }
 
-    function activate(){
+    function activateR8Visual(){
         document.documentElement.dataset[ROOT_GATE] = ROOT_ACTIVE_VALUE;
         const layer = mountHomeFinalArt();
         return {
@@ -168,7 +168,7 @@
 
     async function enable(){
         await ensurePresentationStylesheet();
-        return activate();
+        return activateR8Visual();
     }
 
     function disable(){
