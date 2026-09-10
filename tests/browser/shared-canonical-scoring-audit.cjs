@@ -15,14 +15,12 @@ async function prepare(page,{role,saveId}){
   await page.goto(baseUrl.href,{waitUntil:'domcontentloaded'});
   await page.locator('#loadingScreen').waitFor({state:'hidden',timeout:12000});
   await page.waitForFunction(()=>typeof window.ensureGameplayModules==='function'&&typeof window.loadRuntimeScript==='function'&&typeof window.navigateTo==='function',null,{timeout:12000});
-  await page.evaluate(async({role,saveId,rivalryId,sessionId,canonicalKeys,resultOne,resultTwo,scoreOne,scoreTwo})=>{
-    const loadCandidateScript=path=>new Promise((resolve,reject)=>{const script=document.createElement('script');script.src=path;script.async=false;script.onload=()=>resolve(true);script.onerror=()=>reject(new Error(`Unable to load unpublished candidate ${path}.`));document.head.appendChild(script);});
+  await page.evaluate(async({role,saveId,rivalryId,sessionId,canonicalKeys,resultOne,resultTwo})=>{
     await ensureGameplayModules();
     currentShowdown={id:saveId,currentRound:1,totalRounds:3,status:'Ready',sharedJourney:{mode:'shared',rivalryId},managers:{playerOne:'Nik',playerTwo:'Daniel'},selectedLeague:null,clubs:{playerOne:null,playerTwo:null},transferChallenges:[],rounds:[],score:{playerOne:0,playerTwo:0}};
     const setup={status:'ready',ready:true,revision:6,phase:'SHOWDOWN_CONFIRMED',rivalryId,sessionId,deviceId:'device_'+(role==='playerOne'?'1':'2').repeat(32),managerRole:role,setup:{phase:'SHOWDOWN_CONFIRMED',revision:6,coordinatorRole:'playerOne',leagueId:'premier_league',clubs:{playerOne:'Arsenal',playerTwo:'Liverpool'},totalSeasons:3,confirmedRoles:['playerOne','playerTwo']}};
     const transfer={ok:true,revision:7,seasonNumber:1,managerRole:role,rivalryId,setup:setup.setup,state:{phase:'COMPLETED',revision:7,guessLockedRoles:['playerOne','playerTwo'],signingLockedRoles:['playerOne','playerTwo']}};
     const readyResults={ok:true,revision:2,state:{phase:'RESULTS_READY',revision:2,publishedRoles:['playerOne','playerTwo']},managerRole:role,seasonNumber:1,ownResult:role==='playerOne'?resultOne:resultTwo,opponentResult:role==='playerOne'?resultTwo:resultOne,allResults:{playerOne:resultOne,playerTwo:resultTwo}};
-    const commit={ok:true,committed:true,ready:true,coordinatorRole:'playerOne',schemaVersion:1,runtimeRevision:'1.9.1-r10',seasonNumber:1,phase:'ACKNOWLEDGED',revision:3,resultsRevision:2,resultsContentHash:'sha256:'+('a'.repeat(64)),results:{playerOne:resultOne,playerTwo:resultTwo},managerRole:role,ownAcknowledged:true,acknowledgedRoles:['playerOne','playerTwo'],rivalryId};
     window.CareerModeProductionSharedShowdownSetup={getState:()=>setup,refresh:async()=>setup};
     window.CareerModeProductionSharedTransferChallenge={getState:()=>transfer,refresh:async()=>transfer};
     window.CareerModeSparkSharedSeasonResults={read:async()=>readyResults,publishResult:async()=>({ok:false,code:'AUDIT_RESULTS_ALREADY_READY'})};
@@ -33,7 +31,22 @@ async function prepare(page,{role,saveId}){
     document.querySelectorAll('.screen').forEach(node=>node.classList.add('hidden'));
     const transferScreen=document.getElementById('transferChallenge');transferScreen.classList.remove('hidden');transferScreen.removeAttribute('data-shared-transfer-replay');CareerModeProductionSharedSeasonResultsRoute.decorate();
     if(!CareerModeProductionSharedSeasonResultsRoute.canRoute())throw new Error('Shared Season Results route is not ready for r11 scoring audit.');
-    if(!await CareerModeProductionSharedSeasonResultsRoute.open())throw new Error('Shared Season Results route did not open for r11 scoring audit.');
+    window.__ssjrScoringAuditBase={
+      role,setup,
+      storageBefore:Object.fromEntries(canonicalKeys.map(key=>[key,localStorage.getItem(key)])),
+      storageAfter:()=>Object.fromEntries(canonicalKeys.map(key=>[key,localStorage.getItem(key)])),
+      localState:()=>({selectedLeague:currentShowdown.selectedLeague,clubs:structuredClone(currentShowdown.clubs),transferChallenges:structuredClone(currentShowdown.transferChallenges),rounds:structuredClone(currentShowdown.rounds),score:structuredClone(currentShowdown.score)})
+    };
+  },{role,saveId,rivalryId,sessionId,canonicalKeys,resultOne,resultTwo});
+
+  const continueButton=page.locator('#continueFromTransfers');
+  await continueButton.waitFor({state:'visible',timeout:5000});
+  await continueButton.click();
+  await page.locator('#seasonEntry').waitFor({state:'visible',timeout:8000});
+
+  await page.evaluate(async({role,rivalryId,resultOne,resultTwo,scoreOne,scoreTwo})=>{
+    const loadCandidateScript=path=>new Promise((resolve,reject)=>{const script=document.createElement('script');script.src=path;script.async=false;script.onload=()=>resolve(true);script.onerror=()=>reject(new Error(`Unable to load unpublished candidate ${path}.`));document.head.appendChild(script);});
+    const commit={ok:true,committed:true,ready:true,coordinatorRole:'playerOne',schemaVersion:1,runtimeRevision:'1.9.1-r10',seasonNumber:1,phase:'ACKNOWLEDGED',revision:3,resultsRevision:2,resultsContentHash:'sha256:'+('a'.repeat(64)),results:{playerOne:resultOne,playerTwo:resultTwo},managerRole:role,ownAcknowledged:true,acknowledgedRoles:['playerOne','playerTwo'],rivalryId};
     window.CareerModeProductionSharedSeasonCommit={getState:()=>commit,refresh:async()=>commit,install:()=>true};
     const providerCalls=[];
     window.CareerModeSparkSharedCanonicalScoring={read:async options=>{providerCalls.push({uid:options.user?.uid,rivalryId:options.rivalryId,sessionId:options.sessionId,deviceId:options.deviceId,seasonNumber:options.seasonNumber,teamCount:options.teamCount});return {ok:true,authoritative:true,runtimeRevision:'1.9.1-r11',phase:'SCORING_RECONCILED',revision:1,seasonNumber:1,managerRole:role,seasonCommitRevision:3,resultsRevision:2,resultsContentHash:'sha256:'+('a'.repeat(64)),scoring:{playerOne:scoreOne,playerTwo:scoreTwo},winner:'playerOne'};}};
@@ -43,9 +56,10 @@ async function prepare(page,{role,saveId}){
     await loadCandidateScript('js/sharedCanonicalScoring.js');
     await loadCandidateScript('js/productionSharedCanonicalScoring.js');
     CareerModeProductionSharedCanonicalScoring.install();await CareerModeProductionSharedCanonicalScoring.refresh();
-    window.__ssjrScoringAudit={providerCalls,storageBefore:Object.fromEntries(canonicalKeys.map(key=>[key,localStorage.getItem(key)])),storageAfter:()=>Object.fromEntries(canonicalKeys.map(key=>[key,localStorage.getItem(key)])),localState:()=>({selectedLeague:currentShowdown.selectedLeague,clubs:structuredClone(currentShowdown.clubs),transferChallenges:structuredClone(currentShowdown.transferChallenges),rounds:structuredClone(currentShowdown.rounds),score:structuredClone(currentShowdown.score)}),state:()=>CareerModeProductionSharedCanonicalScoring.getState()};
-  },{role,saveId,rivalryId,sessionId,canonicalKeys,resultOne,resultTwo,scoreOne,scoreTwo});
-  await page.locator('#seasonEntry').waitFor({state:'visible',timeout:8000});
+    const base=window.__ssjrScoringAuditBase;
+    window.__ssjrScoringAudit={providerCalls,storageBefore:base.storageBefore,storageAfter:base.storageAfter,localState:base.localState,state:()=>CareerModeProductionSharedCanonicalScoring.getState()};
+  },{role,rivalryId,resultOne,resultTwo,scoreOne,scoreTwo});
+
   await page.locator('#sharedCanonicalScoringPanel').waitFor({state:'visible',timeout:5000});
 }
 
