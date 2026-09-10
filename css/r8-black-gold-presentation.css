@@ -1,6 +1,6 @@
 /*
  * Career Mode Showdown — R8.25 bounded production-candidate presentation
- * Baseline: main 32723b900dee45f689391908dc976f0ce5d06dd5 / 1.9.1-r11
+ * Baseline: main 637804a9d0e18a88c7a7bb3c79b93d5af2f92062 / 1.9.1-r12
  * Scope: global presentation shell + Home + accessibility guard only.
  * Reversible gate: html[data-r8-visual="active"].
  * No gameplay, storage, Firebase, scoring, pairing or routing authority.
@@ -100,7 +100,7 @@ html[data-r8-visual="active"] .menuMediaChoice:focus-visible{
     box-shadow:0 0 0 4px var(--r8-cream),0 0 0 6px rgba(243,204,79,.72);
 }
 
-/* Explicit r11 runtime-notice dismiss focus guard. */
+/* Explicit r12 runtime-notice dismiss focus guard. */
 html[data-r8-visual="active"] #appRuntimeNotice button:focus-visible{
     outline:3px solid #080b0e;
     outline-offset:2px;
@@ -108,7 +108,7 @@ html[data-r8-visual="active"] #appRuntimeNotice button:focus-visible{
     border-radius:2px;
 }
 
-/* Home — exact current r11 DOM, live controls preserved. */
+/* Home — exact current r12 DOM, live controls preserved. */
 html[data-r8-visual="active"] #mainMenu{
     isolation:isolate;
     overflow:clip;
