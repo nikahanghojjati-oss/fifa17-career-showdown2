@@ -1,16 +1,16 @@
 {
-  "schemaVersion": "2.5.0",
+  "schemaVersion": "2.6.0",
   "lane": "independent visual proposal",
-  "status": "TRANSITION_REQUIRED",
+  "status": "ACTIVE",
   "controller": "GPT-5.6 Sol reasoning",
   "controllerContract": "00_VISUAL_REASONING_CONTROLLER_CONTRACT.md",
   "proposalBranch": "visual/r8-5-approved-character-identity-lock",
-  "latestObservedMainSha": "be5289cdbfcc8285ab8ddd33cd9fe9f1b3b7198e",
+  "latestObservedMainSha": "61e16bb0357352a5c38c02aa072233e851226caf",
   "latestObservedAssetRevision": "1.9.1-r11",
-  "currentMilestone": "R8.22 Package 3 static composition/obstruction QA complete after r11 Canonical Shared Scoring drift reconciliation: 22 states x 3 viewports = 66/66 pass using frozen A01/A02 reuse; no A03-A06 generation justified; next roadmap gate is Package 4 exact-DOM presentation mapping",
+  "currentMilestone": "R8.23 Package 4 exact-DOM presentation mapping complete against live r11 hotfix: Statistics, Trophy Room, Legacy, Rule Book, Settings, Save Library, Restore/Recovery, Connected Rivalry, Remote Joining and global notices mapped; utility authority outranks character art; no Package 4 raster generation justified; next gate is Package 5 responsive and handoff proof",
   "visualProductionProgressPercent": 78,
-  "handoffProximityPercent": 90,
-  "transitionRecommendation": "TRANSITION_BEFORE_STARTING_PACKAGE_4_EXACT_DOM_PRESENTATION_MAPPING",
+  "handoffProximityPercent": 38,
+  "transitionRecommendation": "CONTINUE_PACKAGE_5_BOUNDED_PROOF",
   "authorities": {
     "runtimeMap": "R8_8_LIVE_RUNTIME_VISUAL_MAP.md",
     "reasoningBuildOrder": "R8_9_REASONING_FIRST_BUILD_ORDER.md",
@@ -28,7 +28,7 @@
     "package3R11DriftAndStaticQa": "R8_22_R11_DRIFT_AND_PACKAGE_3_STATIC_COMPOSITION_QA.md",
     "package3QaResults": "R8_22_PACKAGE_3_STATIC_QA_RESULTS.json",
     "package3StaticProof": "prototype/r8-package3-static-composition-proof.html",
-    "nextStarter": "START_NEXT_VISUAL_SESSION_R8_22_PACKAGE4_EXACT_DOM_UTILITY_RECORDS_SAFE_TRANSFER.md"
+    "package4ExactDomDecision": "R8_23_PACKAGE_4_EXACT_DOM_PRESENTATION_ASSET_DECISION.md"
   },
   "reasoningLeadPolicy": {
     "state": "ENFORCED",
@@ -79,12 +79,12 @@
   "outcomeExpressionArchitecture": {
     "status": "PROVEN_REUSE_FIRST_PRESENTATION_ONLY",
     "localAuthority": "completed roundRecord.winner playerOne/playerTwo/draw",
-    "sharedAuthority": "CareerModeProductionSharedCanonicalScoring.getState() only when authoritative===true and phase===SCORING_RECONCILED",
+    "sharedAuthority": "CareerModeProductionSharedCanonicalScoring.getState() only when authoritative===true and phase===SCORING_RECONCILED after ACKNOWLEDGED revision 3 Season Commit",
     "preSharedScoringRule": "Shared Results and Shared Season Commit remain neutral before canonical scoring authority",
     "firestoreWritesForArtState": 0,
     "newRemoteProtocolFields": 0,
     "imageBytesTransferredThroughFirebase": false,
-    "minimumFutureAssetPolicy": "A01/A02 plus CSS outcome luminance passed Package 3 static QA; A05/A06 reopen only with new evidence of a concrete payoff deficit"
+    "minimumFutureAssetPolicy": "A01/A02 plus CSS outcome luminance passed Package 3 static QA; A05/A06 reopen only with new concrete payoff-deficit evidence"
   },
   "package12Qa": {
     "staticResponsiveStatus": "PASS",
@@ -95,21 +95,7 @@
     "ClubAssignmentPackHolderOptional": "CONDITIONAL_PASS_WIDE_DESKTOP_OPENING_ONLY",
     "compact1024x768": "PASS_BY_CROP_OMIT_PACK_HOLDERS_OMITTED",
     "mobile390x844": "PASS_BY_LARGE_ART_OMISSION",
-    "fullLinkedBrowserQa": "DEFER_TO_FINAL_IMPLEMENTATION_QA"
-  },
-  "package3ExactDom": {
-    "status": "COMPLETE_R11_DRIFT_RECONCILED",
-    "decisionDocument": "R8_21_PACKAGE_3_EXACT_DOM_PRESENTATION_ASSET_DECISION.md",
-    "r11DriftDocument": "R8_22_R11_DRIFT_AND_PACKAGE_3_STATIC_COMPOSITION_QA.md",
-    "transferChallenge": "REUSE_A01_A02_ROLE_ALIGNED_OUTER_RAILS_OR_OMIT",
-    "seasonEntrySharedResults": "DATA_FIRST_PRIVATE_REVEAL_SAFE_NO_OUTCOME_ART_BEFORE_AUTHORITY",
-    "sharedSeasonCommit": "STATUS_ACTION_HIERARCHY_ONLY_NO_WINNER_ART",
-    "sharedCanonicalScoring": "AUTHORITATIVE_SCORING_RECONCILED_MAY_DERIVE_WINNER_DRAW_PRESENTATION",
-    "localSeasonSummary": "ROUNDRECORD_WINNER_SAFE_PRESENTATION_SOURCE",
-    "tiebreak": "DEFERRED_NO_LIVE_RUNTIME_AUTHORITY",
-    "A03A04": "HOLD_GATE_CLOSED_STATIC_REUSE_PASS",
-    "A05A06": "HOLD_GATE_CLOSED_STATIC_OUTCOME_REUSE_PASS",
-    "generationCalls": 0
+    "fullLinkedBrowserQa": "DEFER_TO_PACKAGE_5"
   },
   "package3StaticQa": {
     "status": "PASS",
@@ -126,16 +112,31 @@
     "visibleCharacterStageIntersections": 0,
     "fullLinkedBrowserQa": "DEFER_TO_PACKAGE_5"
   },
-  "currentRoadmapGate": "PACKAGE_4_EXACT_DOM_PRESENTATION_MAPPING",
+  "package4ExactDom": {
+    "status": "COMPLETE",
+    "decisionDocument": "R8_23_PACKAGE_4_EXACT_DOM_PRESENTATION_ASSET_DECISION.md",
+    "statistics": "DATA_FIRST_NO_CHARACTER_ART",
+    "trophyRoom": "PROCEDURAL_CSS_SVG_FIRST_RASTER_CONDITIONAL_CLOSED",
+    "legacy": "ARCHIVE_PLUS_DESTRUCTIVE_RECOVERY_HIERARCHY_NO_CHARACTER_ART",
+    "ruleBook": "READING_SURFACE_NO_CHARACTER_ART",
+    "settings": "FOCUS_STATUS_UTILITY_FIRST_NO_CHARACTER_ART",
+    "saveLibrary": "RUNTIME_PROFILE_IDENTITY_AUTHORITY_A01_A02_PROHIBITED_AS_GENERIC_PROFILE_ART",
+    "restoreRecovery": "CRITICAL_RECOVERY_AND_EXACT_PLAN_AUTHORITY_NO_CHARACTER_ART",
+    "connectedRivalry": "READ_ONLY_VS_MUTATING_AUTHORITY_HIERARCHY_NO_CHARACTER_ART",
+    "remoteJoining": "CAPABILITY_PRIVACY_STATUS_HIERARCHY_NO_CHARACTER_ART",
+    "globalNotices": "GLOBAL_SEMANTIC_STATUS_AUTHORITY_NO_CHARACTER_ART",
+    "generationCalls": 0
+  },
+  "currentRoadmapGate": "PACKAGE_5_RESPONSIVE_AND_HANDOFF_PROOF",
   "currentGenerationState": "CLOSED",
   "orderedImmediateWorkForSuccessor": [
-    "re-resolve live main and visual head before writing",
-    "read R8_22 r11 drift and Package 3 QA as current authority",
-    "map exact current DOM/runtime for Statistics, Trophy Room, Legacy, Rule Book, Save Library, Settings, Restore/Recovery, Connected Rivalry and global notices",
-    "identify canonical data authority and destructive or recovery controls for every mapped utility surface",
-    "prefer data hierarchy, CSS, SVG and procedural motifs before any raster generation",
-    "test whether A01/A02 have a legitimate non-obstructive role rather than forcing character art onto utility surfaces",
-    "write Package 4 exact-DOM presentation/asset decision before implementation"
+    "re-resolve live main and visual head before every write batch",
+    "run Package 5 responsive proof across real Package 1-4 presentation rules at wide desktop, 1024x768 and 390x844",
+    "verify keyboard focus visibility, modal focus hierarchy and destructive/recovery control distinction",
+    "verify large character layers remain noninteractive and absent where Package 4 prohibits them",
+    "verify reduced-motion behavior and status/notice visibility",
+    "verify no visual layer changes storage, Firebase, pairing, scoring, Save Library or runtime authority",
+    "prepare the master developer implementation handoff against then-current main only after proof passes"
   ],
   "progressModel": [
     {"workstream":"approved identity truth recovered and persistently locked","weight":20,"earned":20},
@@ -144,10 +145,10 @@
     {"workstream":"isolated canonical Nik and Daniel character masters","weight":20,"earned":20},
     {"workstream":"screen-state expression and pose variants","weight":15,"earned":0,"note":"A03-A06 remain planned hold slots; Package 3 static proof shows they are not currently justified"},
     {"workstream":"R8.5 black-gold final-art and exact DOM composition specification","weight":10,"earned":10},
-    {"workstream":"responsive safe-zone and obstruction QA","weight":10,"earned":7,"note":"Package 1/2 plus Package 3 static responsive QA complete; full linked browser/accessibility/focus proof remains Package 5"},
+    {"workstream":"responsive safe-zone and obstruction QA","weight":10,"earned":7,"note":"Package 1/2 plus Package 3 static responsive QA complete; Package 5 full responsive/accessibility/focus/non-interactivity proof is active"},
     {"workstream":"master developer implementation package","weight":5,"earned":1}
   ],
-  "nextSafeAction": "Transition to a fresh visual reasoning environment using START_NEXT_VISUAL_SESSION_R8_22_PACKAGE4_EXACT_DOM_UTILITY_RECORDS_SAFE_TRANSFER.md. Re-resolve live main, then perform Package 4 exact-DOM/runtime mapping only. Generation remains closed.",
+  "nextSafeAction": "Continue Package 5 responsive/accessibility/focus/non-interactivity proof against current live main. Generation remains closed. Do not modify production main or deploy from the visual lane.",
   "productionBoundaries": {
     "mainMutationAllowed": false,
     "productionDeployAllowed": false,
