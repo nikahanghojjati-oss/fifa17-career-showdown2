@@ -156,9 +156,12 @@
 
     function runtimeGetCurrentShowdownReference(){return typeof currentShowdown!=="undefined"?currentShowdown:null;}
     function runtimeActiveContext(value){
+        const refs=runtimeManagerProfileRefs(value);
         return {
             saveId:value&&value.identity&&typeof value.identity.saveId==="string"?value.identity.saveId:null,
-            rivalryId:value&&value.sharedJourney&&value.sharedJourney.mode==="shared"&&typeof value.sharedJourney.rivalryId==="string"?value.sharedJourney.rivalryId:null
+            rivalryId:value&&value.sharedJourney&&value.sharedJourney.mode==="shared"&&typeof value.sharedJourney.rivalryId==="string"?value.sharedJourney.rivalryId:null,
+            playerOneProfileId:refs.playerOne,
+            playerTwoProfileId:refs.playerTwo
         };
     }
     function runtimeSetCurrentShowdownReference(value){
@@ -166,7 +169,7 @@
         const previous=runtimeActiveContext(currentShowdown);
         currentShowdown=value;
         const current=runtimeActiveContext(value);
-        if(previous.saveId===current.saveId&&previous.rivalryId===current.rivalryId)return;
+        if(previous.saveId===current.saveId&&previous.rivalryId===current.rivalryId&&previous.playerOneProfileId===current.playerOneProfileId&&previous.playerTwoProfileId===current.playerTwoProfileId)return;
         try{
             if(typeof root.dispatchEvent==="function"&&typeof root.CustomEvent==="function")root.dispatchEvent(new root.CustomEvent("career-mode-active-save-changed",{detail:{previous,current}}));
         }catch(error){console.warn("[Career Mode Showdown] Active Save Library change notification failed.",error);}

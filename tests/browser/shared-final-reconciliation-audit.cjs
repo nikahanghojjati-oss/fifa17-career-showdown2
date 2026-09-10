@@ -14,7 +14,7 @@ function buildAuthority(rid,managerSlots=slots){
 }
 const authority=buildAuthority(rivalryId);
 function localFor(role,managerSlots=slots){const slot=managerSlots[role==="playerOne"?0:1];return {phase:"REMOTE_OBSERVED",canonicalStorageMutation:false,providerWriteRequired:false,automaticLocalApply:false,candidateCOnly:true,binding:{saveId:slot.saveId,profileId:slot.profileId,managerRole:role}};}
-function showdownFor(role,rid=rivalryId,managerSlots=slots,names={playerOne:"Daniel",playerTwo:"Nik"}){const slot=managerSlots[role==="playerOne"?0:1];return {id:Date.now(),identity:{saveId:slot.saveId},managers:names,sharedJourney:{mode:"shared",rivalryId:rid}};}
+function showdownFor(role,rid=rivalryId,managerSlots=slots,names={playerOne:"Daniel",playerTwo:"Nik"}){const slot=managerSlots[role==="playerOne"?0:1];return {id:Date.now(),identity:{saveId:slot.saveId,managerProfileIds:{playerOne:managerSlots[0].profileId,playerTwo:managerSlots[1].profileId}},managers:names,sharedJourney:{mode:"shared",rivalryId:rid}};}
 function makeContext(role){const writes=[];const listeners=new Map();const local=localFor(role);const context={console,currentShowdown:showdownFor(role),navigator:{onLine:true},CustomEvent:class{constructor(type,init){this.type=type;this.detail=init?.detail;}},dispatchEvent(){},addEventListener(type,fn){listeners.set(type,fn);},setInterval(){return 1;},setTimeout(){return 1;},localStorage:{setItem(...args){writes.push(args);}},sessionStorage:{setItem(...args){writes.push(args);}},CareerModeSharedHistoryConvergence:historyModule,CareerModeProductionSharedMultiSeasonProgression:{async refresh(){return authority.multi;},getState(){return authority.multi;}},CareerModeProductionSharedHistoryConvergence:{async refresh(){return authority.history;},getState(){return authority.history;}},CareerModeProductionSharedLocalReconciliation:{refresh(){return local;},getState(){return local;}}};context.window=context;context.globalThis=context;vm.createContext(context);vm.runInContext(fs.readFileSync("js/sharedFinalReconciliation.js","utf8"),context,{filename:"sharedFinalReconciliation.js"});vm.runInContext(fs.readFileSync("js/productionSharedFinalReconciliation.js","utf8"),context,{filename:"productionSharedFinalReconciliation.js"});return {context,writes,local,listeners};}
 const flush=()=>new Promise(resolve=>setImmediate(resolve));
 (async()=>{
@@ -38,7 +38,16 @@ const flush=()=>new Promise(resolve=>setImmediate(resolve));
   assert.equal(await freshB,null,"Old-A authority snapshots must not publish into B.");assert.equal(api.getState(),null,"B must remain empty when its dependencies are not exact for B.");
   releaseFirst();assert.equal(await staleA,null,"A refresh whose canonical save+rivalry changed while awaiting dependencies must be discarded.");assert.equal(api.getState(),null,"Late A completion must not resurrect the old view into B.");
   race.context.currentShowdown=showdownA;
-  const recovered=await api.refresh();assert.equal(recovered.phase,"FINAL_SEASON_RECONCILED","Returning to exact A canonical identity must recover on a fresh refresh.");assert.equal(recovered.winner,"playerOne");assert.deepEqual(race.writes,[]);
+  const recovered=await api.refresh();assert.equal(recovered.phase,"FINAL_SEASON_RECONCILED","Returning to exact A canonical identity must recover on a fresh refresh.");assert.equal(recovered.winner,"playerOne");
+  const originalIdentity={...race.context.currentShowdown.identity,managerProfileIds:{...race.context.currentShowdown.identity.managerProfileIds}};
+  const reboundProfile=`profile_${"9".repeat(24)}`;
+  race.context.currentShowdown.identity={...originalIdentity,managerProfileIds:{...originalIdentity.managerProfileIds,playerOne:reboundProfile}};
+  assert.equal(api.getState(),null,"Changing only the active manager profile must immediately make the old published view inaccessible with unchanged save+rivalry IDs.");
+  race.listeners.get("career-mode-active-save-changed")?.();await flush();
+  assert.equal(api.getState(),null,"The synchronous active-save notification must keep a profile-rebound view invalidated.");
+  assert.equal(await api.refresh(),null,"A Local Reconciliation binding for the previous profile must not reconcile after active profile rebinding.");
+  race.context.currentShowdown.identity=originalIdentity;
+  const reboundRecovered=await api.refresh();assert.equal(reboundRecovered.phase,"FINAL_SEASON_RECONCILED","Restoring the exact active manager profile must permit a fresh exact reconciliation.");assert.deepEqual(race.writes,[]);
 
   process.stdout.write("PASS r17 Final Reconciliation two-context audit: canonical Save Library identity, exact manager binding, published-view invalidation, stale cross-rivalry refresh suppression, correct winner, no extra season and zero direct storage writes\n");
 })().catch(error=>{console.error(error);process.exit(1);});
