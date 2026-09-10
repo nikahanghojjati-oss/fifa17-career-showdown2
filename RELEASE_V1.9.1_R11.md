@@ -42,7 +42,7 @@ r11 does not mutate `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacy
 
 r11 does not advance local season history, update the local Showdown scoreboard, begin another season, or perform final journey reconciliation. Those remain later explicit SSJR capabilities.
 
-No billing is authorized. Firebase remains Spark-only. r11 requires no Blaze plan, Cloud Functions, Cloud Run, paid service, public discovery, community surface, or ranking system.
+No billing is authorized. Firebase remains Spark-only. App Check enforcement remains OFF. r11 requires no Blaze plan, Cloud Functions, Cloud Run, paid service, public discovery, community surface, or ranking system.
 
 ## Acceptance boundary
 
