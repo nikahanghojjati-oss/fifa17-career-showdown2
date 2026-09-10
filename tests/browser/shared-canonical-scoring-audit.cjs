@@ -53,13 +53,16 @@ async function prepare(page,{role,saveId}){
     const loadCandidateScript=path=>new Promise((resolve,reject)=>{const script=document.createElement('script');script.src=path;script.async=false;script.onload=()=>resolve(true);script.onerror=()=>reject(new Error(`Unable to load unpublished candidate ${path}.`));document.head.appendChild(script);});
     const providerCalls=[];
     window.CareerModeSparkSharedCanonicalScoring={read:async options=>{providerCalls.push({uid:options.user?.uid,rivalryId:options.rivalryId,sessionId:options.sessionId,deviceId:options.deviceId,seasonNumber:options.seasonNumber,teamCount:options.teamCount});return {ok:true,authoritative:true,runtimeRevision:'1.9.1-r11',phase:'SCORING_RECONCILED',revision:1,seasonNumber:1,managerRole:role,seasonCommitRevision:3,resultsRevision:2,resultsContentHash:'sha256:'+('a'.repeat(64)),scoring:{playerOne:scoreOne,playerTwo:scoreTwo},winner:'playerOne'};}};
-    // r11 is deliberately not yet part of the r10 service-worker shell. Load the exact
-    // candidate files without a ?v= query so the r10 worker passes the request through
-    // to the test server. Whole-shell r11 publication is a separate required gate.
     await bounded(loadCandidateScript('js/sharedCanonicalScoring.js'),'candidate scoring core load');
     await bounded(loadCandidateScript('js/productionSharedCanonicalScoring.js'),'candidate production scoring load');
     CareerModeProductionSharedCanonicalScoring.install();
-    await bounded(CareerModeProductionSharedCanonicalScoring.refresh(),'canonical scoring refresh');
+    const refreshed=await bounded(CareerModeProductionSharedCanonicalScoring.refresh(),'canonical scoring refresh');
+    const panel=document.getElementById('sharedCanonicalScoringPanel');
+    const state=CareerModeProductionSharedCanonicalScoring.getState();
+    if(!refreshed||!state||!panel||panel.classList.contains('hidden')){
+      const commitState=CareerModeProductionSharedSeasonCommit.getState();
+      throw new Error(`r11 scoring refresh/render mismatch refreshed=${Boolean(refreshed)} state=${JSON.stringify(state)} commit=${JSON.stringify(commitState)} panel=${panel?panel.className:'missing'} providerCalls=${JSON.stringify(providerCalls)}`);
+    }
     const base=window.__ssjrScoringAuditBase;
     window.__ssjrScoringAudit={providerCalls,storageBefore:base.storageBefore,storageAfter:base.storageAfter,localState:base.localState,state:()=>CareerModeProductionSharedCanonicalScoring.getState()};
   },{role,scoreOne,scoreTwo});
