@@ -11,24 +11,14 @@
   "progress": {
     "supportedClubCount": 98,
     "pilotResearchLedger": "../evidence/CLUB_IDENTITY_V2_1_PILOT_RESEARCH_LEDGER_2026-09-10.md",
-    "pilotVerifiedClubs": [
-      "Arsenal",
-      "Chelsea",
-      "Liverpool",
-      "Manchester City",
-      "Manchester United",
-      "West Ham United",
-      "West Bromwich Albion",
-      "Tottenham Hotspur",
-      "Southampton",
-      "Swansea City",
-      "Hull City",
-      "Crystal Palace"
-    ],
-    "pilotVerifiedCount": 12,
-    "remainingResearchCount": 86,
-    "nextRecommendedBatch": "complete remaining Premier League clubs, then LaLiga, Bundesliga, Serie A, Ligue 1",
-    "badgeRenderingBlockedUntil": "research + descriptor gate complete for the intended batch"
+    "premierLeagueResearchLedger": "../evidence/CLUB_IDENTITY_V2_1_PREMIER_LEAGUE_RESEARCH_LEDGER_2026-09-10.md",
+    "premierLeagueDescriptorDraft": "club-identity-v2-1-premier-league-descriptors.draft.json",
+    "researchCompleteClubs": 20,
+    "descriptorDraftCompleteClubs": 20,
+    "remainingResearchCount": 78,
+    "completedLeagueGates": ["Premier League research", "Premier League descriptor draft"],
+    "nextRecommendedBatch": "LaLiga research, then LaLiga descriptor draft; continue Bundesliga, Serie A and Ligue 1 only after each preceding league gate is recorded",
+    "badgeRenderingBlockedUntil": "descriptor validator + deterministic SVG grammar are ready for the intended league; final production promotion remains blocked on all 98 + contact-sheet/offline isolation gates"
   },
   "requiredResearchFields": [
     "city",
