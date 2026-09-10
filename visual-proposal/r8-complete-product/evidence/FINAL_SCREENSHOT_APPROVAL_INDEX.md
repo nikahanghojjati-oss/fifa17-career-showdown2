@@ -21,16 +21,16 @@ One review sheet may satisfy several state rows only when every state is indepen
 
 | ID | Surface / version | Why materially distinct | Required viewport | Evidence status | Owner approved |
 | --- | --- | --- | --- | --- | --- |
-| H-1 | Home — wide dual-character presentation | A02 Daniel left + A01 Nik right; full wide landing architecture | wide desktop | OPEN after exact A01/A02 render access | NO |
-| H-2 | Home — reduced-wide / Chromebook | large characters omitted; menu geometry changes before mobile | Chromebook/reduced-wide | OPEN | NO |
-| H-3 | Home — mobile | characters omitted; stacked primary actions / media geometry | 390px mobile | OPEN | NO |
-| H-4 | Home — Audius compact player integrated | final Showdown Radio state inside actual Home composition | wide or Chromebook | OPEN after Audius/Home reconciliation | NO |
-| 02-1 | Create Showdown — default wide | full form/season choice hierarchy | 1600×900 | EXISTING QA `01a08bb7-6c59-7f5c-a6af-85c5fd2020ff`; refresh if final changes | NO |
-| 02-2 | Create Showdown — mobile | 2×2 season grid and stacked fields | 390×844 | EXISTING QA `01a08bb7-e245-7fed-8913-3c0736478844`; refresh if final changes | NO |
+| H-1 | Home — wide dual-character presentation | A02 Daniel left + A01 Nik right; full wide landing architecture | wide desktop | LOCAL FINAL-CAPTURE CANDIDATE; package/owner gate open | NO |
+| H-2 | Home — reduced-wide / Chromebook | large characters omitted; menu geometry changes before mobile | Chromebook/reduced-wide | LOCAL FINAL-CAPTURE CANDIDATE; package/owner gate open | NO |
+| H-3 | Home — mobile | characters omitted; stacked primary actions / media geometry | 390px mobile | LOCAL FINAL-CAPTURE CANDIDATE; package/owner gate open | NO |
+| H-4 | Home — Audius compact player integrated | final Showdown Radio state inside actual Home composition | wide or Chromebook | integrated in current Home candidate; live media device proof open | NO |
+| 02-1 | Create Showdown — default wide | full form/season choice hierarchy | 1600×900 | LOCAL FINAL-CAPTURE CANDIDATE; final reconciliation/owner gate open | NO |
+| 02-2 | Create Showdown — mobile | 2×2 season grid and stacked fields | 390×844 | LOCAL FINAL-CAPTURE CANDIDATE; final reconciliation/owner gate open | NO |
 | 02-3 | Create Showdown — validation/error | only if final runtime validation creates materially distinct treatment | representative | OPEN / conditional | NO |
-| 03-1 | League Wheel — ready | pre-spin hierarchy / safe zone | wide | OPEN | NO |
-| 03-2 | League Wheel — active/resolved | motion/selection result materially changes state | wide + reduced motion if different | OPEN | NO |
-| 03-3 | League Wheel — shared host/peer/waiting | runtime-reachable distinct shared state | representative | OPEN | NO |
+| 03-1 | League Wheel — ready | pre-spin hierarchy / safe zone | wide/mobile representative | REFRESH REQUIRED after readability/disabled-state fix | NO |
+| 03-2 | League Wheel — active/resolved | motion/selection result materially changes state | wide + reduced motion if different | REFRESH REQUIRED after disabled-state fix | NO |
+| 03-3 | League Wheel — shared host/peer/waiting | runtime-reachable distinct shared state | representative | REFRESH REQUIRED after disabled-state fix | NO |
 | 04-1 | Club Assignment — sealed packs | both manager packs unopened | wide | OPEN | NO |
 | 04-2 | Club Assignment — reveal progression | one/both pack reveal state | wide | OPEN | NO |
 | 04-3 | Club Assignment — rivalry locked | permanent clubs confirmation | wide/mobile representative | OPEN | NO |
@@ -42,8 +42,8 @@ One review sheet may satisfy several state rows only when every state is indepen
 | 06-3 | Transfer Challenge — verdict/release resolution | post-window result and release semantics | wide/mobile representative | OPEN | NO |
 | 07A-1 | Local Season Results — incomplete entry | validation / required fields when materially visible | representative | OPEN | NO |
 | 07A-2 | Local Season Results — completed/ready | full local result entry | wide/mobile representative | OPEN | NO |
-| 07B-1 | Shared Season Results — canonical review sheet | published managers + commit + canonical score + history | 1600×1100 | EXISTING QA `01a08bb8-b035-7fb2-8cbb-7466818f0554` | NO |
-| 07B-2 | Shared Season Results — mobile exact composition | one-column authority order | 390px | EXISTING QA `01a08bc5-c225-763c-b0ea-84cfe7c774b9` | NO |
+| 07B-1 | Shared Season Results — canonical review sheet | published managers + commit + canonical score + history | 1600×1100 | EXISTING QA `01a08bb8-b035-7fb2-8cbb-7466818f0554`; r15 conflict-state addendum separate | NO |
+| 07B-2 | Shared Season Results — mobile exact composition | one-column authority order | 390px | EXISTING QA `01a08bc5-c225-763c-b0ea-84cfe7c774b9`; r15 conflict-state addendum separate | NO |
 | 07B-3 | Shared Multi Season — history not witnessed | Continue blocked pending history visibility | may share final review sheet | EXISTING inside 07B review | NO |
 | 07B-4 | Shared Multi Season — ready to continue | history converged and next-season action available | may share final review sheet | EXISTING inside 07B review | NO |
 | 07B-5 | Shared Multi Season — season-plan terminal | all planned seasons accepted; Final Reconciliation remains separate | may share final review sheet | EXISTING inside 07B review | NO |
@@ -92,13 +92,29 @@ These rows are derived from the real r14 protocol and production status surface,
 
 | ID | Surface / version | Why materially distinct | Required viewport | Evidence status | Owner approved |
 | --- | --- | --- | --- | --- | --- |
-| JR-1 | Journey Reconnect — `OFFLINE_HOLD` | durable journey preserved while provider authority is deliberately not claimed | review sheet / representative | OPEN | NO |
-| JR-2 | Journey Reconnect — `RECOVERY_PENDING` | exact private-session operation unresolved | review sheet / representative | OPEN | NO |
-| JR-3 | Journey Reconnect — `FRESH_SESSION_REQUIRED` resumable | preserved journey + expired/missing session action requirement | review sheet + 390px representative | OPEN | NO |
-| JR-4 | Journey Reconnect — `ACTIVE_RECOVERED` | active season/history resumed without reset/redraw | review sheet / representative | OPEN | NO |
-| JR-5 | Journey Reconnect — `TERMINAL_RECOVERED` | terminal plan cannot be resurrected by new session | review sheet / representative | OPEN | NO |
+| JR-1 | Journey Reconnect — `OFFLINE_HOLD` | durable journey preserved while provider authority is deliberately not claimed | review sheet / representative | LOCAL FINAL-CAPTURE CANDIDATE | NO |
+| JR-2 | Journey Reconnect — `RECOVERY_PENDING` | exact private-session operation unresolved | review sheet / representative | LOCAL FINAL-CAPTURE CANDIDATE | NO |
+| JR-3 | Journey Reconnect — `FRESH_SESSION_REQUIRED` resumable | preserved journey + expired/missing session action requirement | review sheet + 390px representative | LOCAL DESKTOP CANDIDATE; 390px refresh/package still required | NO |
+| JR-4 | Journey Reconnect — `ACTIVE_RECOVERED` | active season/history resumed without reset/redraw | review sheet / representative | LOCAL FINAL-CAPTURE CANDIDATE | NO |
+| JR-5 | Journey Reconnect — `TERMINAL_RECOVERED` | terminal plan cannot be resurrected by new session | review sheet / representative | LOCAL FINAL-CAPTURE CANDIDATE | NO |
 
 Prototype authority: `prototypes/28-journey-reconnect-r14-reference.html`.
+
+## r15 Journey Conflicts
+
+r15 adds a non-authorizing guard around existing Shared Setup / Shared Season Commit mutation surfaces. It does not add a new route. Final screenshots therefore prove materially visible consequences inside those existing action contexts rather than inventing a conflict inbox.
+
+| ID | Surface / version | Why materially distinct | Required viewport | Evidence status | Owner approved |
+| --- | --- | --- | --- | --- | --- |
+| JC-1 | Journey Conflict — stale after bounded retry | shared state changed; refresh/review required without force overwrite | review sheet / representative | OPEN | NO |
+| JC-2 | Journey Conflict — altered replay | integrity-protective block; changed request not applied | review sheet / representative | OPEN | NO |
+| JC-3 | Journey Conflict — unauthorized | existing private-session/account/browser authority must be restored | review sheet / representative | OPEN | NO |
+| JC-4 | Journey Conflict — quota/provider limited | shared action unavailable while local Career Mode remains usable; no paid fallback | review sheet / representative | OPEN | NO |
+| JC-5 | Journey Conflict — receipt expired | refresh current shared state and make a fresh deliberate action; rivalry not expired | review sheet + 390px if geometry differs | OPEN | NO |
+
+Prototype authority: `prototypes/29-journey-conflicts-r15-reference.html`.
+
+Quiet-path rule: `ACCEPTED` and a stale request that succeeds on its one allowed retry require no persistent conflict screenshot because they use the normal existing success path.
 
 ## Media player surface — current Audius-first authority
 
@@ -112,9 +128,11 @@ Earlier native/YouTube and SoundCloud-first screenshot evidence is historical ex
 | M-4 | Audius queue — track switch | selected row, source attribution, one-player reuse | desktop/mobile representative | OPEN | NO |
 | M-5 | FIFA 17 Picks / SoundCloud — Full vs Preview | optional exact-song nostalgia; preview limitation explicit | representative if retained | OPEN | NO |
 | M-6 | FIFA 17 gameplay trailer — YouTube video | video is intentional and separate from music | representative if retained | OPEN | NO |
-| M-7 | Home — final integrated Audius player | compact Showdown Radio inside the actual Home composition | wide + 390px when geometry changes | OPEN | NO |
+| M-7 | Home — final integrated Audius player | compact Showdown Radio inside the actual Home composition | wide + 390px when geometry changes | LOCAL VISUAL CANDIDATES; real Audius device proof open | NO |
 
 Functional/reference authority: `prototypes/27-audius-showdown-radio-reference.html`.
+
+Zero-dollar quota/billing guard: `evidence/AUDIUS_FREE_QUOTA_AND_BILLING_GUARD_2026-09-10.md`.
 
 Historical internal media QA retained for comparison only:
 
@@ -125,7 +143,7 @@ They are not owner-final Audius screenshots.
 
 ## Final product-drift additions
 
-Production is now reconciled through main `97c28b1efea6ee6e901e6076a834ec419cbad5aa` / r14 for Journey Reconnect.
+Production is now reconciled through main `4d202126ce1606a4e3f74c09b31201cf4ec51c6e` / `1.9.1-r15` for Journey Conflicts on top of r14 Journey Reconnect.
 
 If `main` advances again before final owner review, add only real user-visible deltas and refresh affected screenshots. Do not restart unaffected proposal work.
 
@@ -161,4 +179,4 @@ Media screenshots additionally disclose the active provider and whether content 
 
 Current finality status:
 
-`NOT FINAL — AUDIUS DEVICE/TASTE PROOF OPEN / SCREENSHOT SET INCOMPLETE / OWNER APPROVAL OPEN / FUTURE FINAL-MAIN RECHECK REQUIRED`.
+`NOT FINAL — RECONCILED THROUGH r15 / AUDIUS DEVICE+TASTE PROOF OPEN / SCREENSHOT SET INCOMPLETE / OWNER APPROVAL OPEN / FUTURE FINAL-MAIN RECHECK REQUIRED`.
