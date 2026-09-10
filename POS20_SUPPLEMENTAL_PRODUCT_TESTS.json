@@ -274,6 +274,32 @@
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$",
         "^service-worker\\.js$"
       ]
+    },
+    {
+      "path": "tests/contracts/shared-journey-conflicts-contracts.cjs",
+      "patterns": [
+        "^js/sharedJourneyConflicts\\.js$",
+        "^tests/contracts/shared-journey-conflicts-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/shared-journey-conflicts-production-contracts.cjs",
+      "patterns": [
+        "^js/sharedJourneyConflicts\\.js$",
+        "^js/productionSharedJourneyConflicts\\.js$",
+        "^js/productionSharedShowdownSetup\\.js$",
+        "^js/productionSharedSeasonCommit\\.js$",
+        "^js/sparkSharedShowdownSetup\\.js$",
+        "^js/sparkSharedSeasonCommit\\.js$",
+        "^js/ssjr\\.js$",
+        "^tests/contracts/shared-journey-conflicts-contracts\\.cjs$",
+        "^tests/contracts/shared-journey-conflicts-production-contracts\\.cjs$",
+        "^tests/browser/shared-journey-conflicts-audit\\.cjs$",
+        "^package\\.json$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$",
+        "^service-worker\\.js$"
+      ]
     }
   ]
 }

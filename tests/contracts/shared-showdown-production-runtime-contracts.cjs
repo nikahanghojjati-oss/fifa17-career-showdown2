@@ -217,7 +217,9 @@ for(const required of [
 ])assert.ok(setup.includes(required),`Production Shared Setup runtime missing lock ${required}`);
 for(const key of ['careerModeShowdown.saveLibrary','careerModeShowdown.legacyShowdowns','careerModeShowdown.preferences'])assert.ok(setup.includes(key));
 assert.match(setup,/storageSnapshot\(\)[\s\S]+assertStorageUnchanged/,'Production adapter surface must guard canonical saves on reads and writes.');
-assert.match(setup,/context\.adapter\.mutate\(\{[\s\S]+type,operationId:randomOperationId\(\),baseRevision:current\.revision/,'All mutations must use provider transaction adapter CAS plus fresh idempotency operation.');
+assert.match(setup,/const operationId=randomOperationId\(\),baseRevision=current\.revision\|\|0;/,'Every Shared Setup mutation must create one fresh idempotency operation from the currently read CAS revision.');
+assert.match(setup,/context\.conflicts\.execute\(\{[\s\S]+operationId,baseRevision[\s\S]+\},\(\)=>context\.adapter\.mutate\(providerRequest\)\)/,'r15 conflict observation must wrap, not replace, the existing provider transaction adapter mutation.');
+assert.match(setup,/const providerRequest=\{\.\.\.providerOptions\(context\),type,operationId,baseRevision,\.\.\.extra\};/,'The provider transaction must receive the same fresh operation ID and CAS base revision.');
 assert.doesNotMatch(setup,/options\.catalog|caller.*catalog/i,'Production runtime must not expose caller-controlled draw catalog.');
 assert.match(adapter,/createProtocol\(\{catalog:catalogModule\.catalog,cryptoImpl\}\)/,'Production path must retain immutable repository-owned catalog authority.');
 assert.doesNotMatch(adapter,/options\.catalog/);

@@ -15,6 +15,7 @@ const {resolveChromiumRuntime}=require("../support/chromium-runtime.cjs");
 (()=>{
   const accountId=${JSON.stringify(accountId)},deviceId=${JSON.stringify(deviceId)},rivalryId=${JSON.stringify(rivalryId)},sessionId=${JSON.stringify(sessionId)};
   let providerState=null;
+  window.__r15OverlayConflictCalls=0;
   window.captureCareerModeRawBackupInputs=()=>({saveLibrary:"A",legacyShowdowns:"B",preferences:"C"});
   window.CareerModeProductionFirebaseRuntime={ensureAccountServices:async()=>({ok:true,auth:{currentUser:{uid:accountId}},firestore:{},firestoreSdk:{}})};
   window.CareerModeSparkConnectedAccount={initialize:async()=>true,getState:()=>({connected:true,accountId})};
@@ -23,6 +24,7 @@ const {resolveChromiumRuntime}=require("../support/chromium-runtime.cjs");
   window.CareerModeSparkRemoteJoining={getState:()=>({sessionState:"active",sessionId,rivalryId,accountId,deviceId,role:"host",pendingAction:null,expiresAtEpochMs:Date.now()+600000})};
   window.CareerModeSharedShowdownSetup={};
   window.CareerModeSharedShowdownCatalog={};
+  window.CareerModeProductionSharedJourneyConflicts={execute:async(_options,invoke)=>{window.__r15OverlayConflictCalls+=1;return invoke();}};
   window.CareerModeSparkSharedShowdownSetup={
     read:async()=>providerState?{ok:true,status:"ready",revision:providerState.revision,state:providerState}:{ok:true,status:"empty",revision:0,state:null},
     mutate:async options=>{
@@ -57,8 +59,9 @@ const {resolveChromiumRuntime}=require("../support/chromium-runtime.cjs");
     assert.equal(state.phase,"SHARED_SETUP_OPEN");
     assert.equal(state.managerRole,"playerOne");
     assert.equal(state.remoteRole,"host");
+    assert.equal(await page.evaluate(()=>window.__r15OverlayConflictCalls),1,"r15 must wrap the existing provider mutation exactly once without changing overlay behavior");
     assert.deepEqual(pageErrors,[],"Shared Setup overlay must not emit the production focus crash");
-    console.log("PASS production Shared Setup overlay opens from a paired ACTIVE host session, focuses safely, and advances EMPTY rev0 to SHARED_SETUP_OPEN rev1 without the focus-is-not-a-function crash.");
+    console.log("PASS production Shared Setup overlay opens from a paired ACTIVE host session, passes the mutation through the r15 conflict guard once, focuses safely, and advances EMPTY rev0 to SHARED_SETUP_OPEN rev1 without the focus-is-not-a-function crash.");
   }finally{
     if(browser)await browser.close();
     await new Promise(resolve=>server.close(resolve));
