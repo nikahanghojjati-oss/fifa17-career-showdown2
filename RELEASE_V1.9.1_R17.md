@@ -78,4 +78,4 @@ Before merge:
 
 After merge, r17 is not yet MDP-accounted. Verify GitHub Pages on the exact merged `main`, require exact-main POS20, and require both Release Integration Burn-In passes on that exact main. Only after those integration gates succeed may a separate accounting authority move MDP from `91.00/100` to the frozen r17 integrated value `93.70/100`.
 
-SSJR remains `0/100`; r17 engineering/integration does not claim genuine production-two-account acceptance.
+SSJR-1.1 remains `0/100`; r17 engineering/integration does not claim genuine production-two-account acceptance.
