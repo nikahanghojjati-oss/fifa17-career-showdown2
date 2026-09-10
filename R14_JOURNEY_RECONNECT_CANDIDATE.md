@@ -20,13 +20,26 @@ Journey Reconnect is read-only. It does not mutate canonical Save Library state,
 
 ## Candidate proof already completed
 
-Before this final connector-authored candidate boundary, the bounded Journey Reconnect deterministic contract and production contract passed. A two-context desktop/mobile Playwright audit also passed active recovery, OFFLINE_HOLD, network restoration, expired-session rejection, fresh-session reauthorization, fresh-runtime reconstruction and terminal non-resurrection.
+The bounded Journey Reconnect deterministic contract and production contract passed. A two-context desktop/mobile Playwright audit also passed active recovery, OFFLINE_HOLD, network restoration, expired-session rejection, fresh-session reauthorization, fresh-runtime reconstruction and terminal non-resurrection.
 
-Those earlier runs are implementation evidence only. They do not validate this exact candidate head and must not be combined with later acceptance evidence.
+Those bounded runs establish implementation behavior, but they do not replace normal exact-head PR POS20 acceptance.
+
+## Exact-head regression history
+
+Candidate `7ffc6bc3f395c5c3c12e158e683dc429cfc2d700` reached normal PR POS20. The exact selector and cognitive benchmark passed, while the operations authority correctly rejected one stale control-plane expectation: `tests/operations/pos20-control-plane.test.mjs` still expected the supplemental contract registry to end at r13 Multi Season even though the registry now correctly contained the r14 Journey Reconnect deterministic and production contracts.
+
+No runtime behavior was weakened or changed in response to that failure. A bounded test-only correction extended the hard-coded expected supplemental list by exactly:
+
+- `tests/contracts/shared-journey-reconnect-contracts.cjs`
+- `tests/contracts/shared-journey-reconnect-production-contracts.cjs`
+
+The complete `npm run test:ops` authority passed before that temporary correction publisher deleted itself.
+
+Candidate `7ffc6bc3f395c5c3c12e158e683dc429cfc2d700` remains historical failure evidence only. This document update creates the fresh connector-authored candidate boundary after the proven operations correction. All required PR POS20 lanes and the exact-head cognitive seal must pass again on this new head; evidence must not be combined across candidate heads.
 
 ## Exact-head acceptance rule
 
-Normal pull-request POS20 must validate this exact connector-authored candidate head before publication. Any substantive change creates a new candidate and requires fresh validation. An Actions-generated publication commit is not acceptance authority by itself.
+Normal pull-request POS20 must validate this exact connector-authored candidate head before publication. Any subsequent substantive change creates a new candidate and requires fresh validation. An Actions-generated publication commit is not acceptance authority by itself.
 
 MDP remains `77.50/100` until sequential lifecycle exit gates are genuinely closed. SSJR remains `0/100` until separate genuine production-two-account evidence is accepted.
 
