@@ -1,13 +1,13 @@
 {
-  "schemaVersion": "1.7.0",
+  "schemaVersion": "1.8.0",
   "lane": "independent visual proposal",
-  "status": "ACTIVE",
+  "status": "HANDOFF_SEALED",
   "proposalBranch": "visual/r8-5-approved-character-identity-lock",
   "latestObservedMainSha": "1d0c9f9d6542cd020a4aae53998cb6daeba380e4",
   "latestObservedAssetRevision": "1.9.1-r10",
-  "currentMilestone": "R8.12 A01 Nik core thinking hero production brief sealed; single-asset generation gate open",
+  "currentMilestone": "R8.12 A01 production brief sealed; current long-session image generation contaminated twice; clean-context successor required",
   "visualProductionProgressPercent": 56.0,
-  "handoffProximityPercent": 44,
+  "handoffProximityPercent": 100,
   "runtimeMapping": {
     "state": "COMPLETE_BASELINE",
     "mappedPrimaryAndNestedSurfaces": 24,
@@ -20,6 +20,7 @@
     "safeZoneProof": "R8_11_SAFE_ZONE_COMPOSITION_PROOF.md",
     "safeZoneWireframe": "prototype/r8-safe-zone-proof.html",
     "a01ProductionBrief": "R8_12_A01_NIK_CORE_THINKING_HERO_PRODUCTION_BRIEF.md",
+    "successorStarter": "START_NEXT_VISUAL_SESSION_R8_12_A01_SINGLE_ASSET_SAFE_TRANSFER.md",
     "sourcePin": "1d0c9f9d6542cd020a4aae53998cb6daeba380e4",
     "sourceAssetRevision": "1.9.1-r10"
   },
@@ -53,13 +54,22 @@
     "cancelledCharacterMasters": 2,
     "nonCharacterAssetFamilies": 5,
     "nonCharacterImageGenerationRequiredNow": 0,
-    "rejectedOutputsTracked": 2
+    "rejectedOutputsTracked": 4
   },
-  "characterApprovalGate": "A01_BRIEF_SEALED_CANDIDATE_PENDING_OWNER_REVIEW",
+  "generationFailureContext": {
+    "classification": "CONTEXT_PRESSURE_GENERATION_DRIFT",
+    "productDefect": false,
+    "designDefect": false,
+    "invalidOutputs": ["RJ03_A01_CONTEXT_DRIFT_BOARD_1", "RJ04_A01_CONTEXT_DRIFT_BOARD_2"],
+    "rule": "Do not retry A01 again in predecessor context. Fresh successor context must retrieve Tier 0 A/B references and execute the sealed one-character brief."
+  },
+  "characterApprovalGate": "A01_BRIEF_SEALED_CANDIDATE_MISSING_FRESH_CONTEXT_REQUIRED",
   "generationFormatPolicy": "ONE_CHARACTER_ONE_REQUIRED_EXPRESSION_HIGH_RESOLUTION_WHEN_GENERATION_IS_ACTUALLY_JUSTIFIED",
   "multiExpressionBoardGeneration": "RETIRED_FOR_PRODUCTION",
   "identityAuthority": {
     "tier0": "owner-approved CM17 AI hero references and deterministic approved face crops",
+    "tier0LibraryA": "file_00000000b79081f58ac1409982d9dd37",
+    "tier0LibraryB": "file_000000002f4081f5bd59bfb020fdd746",
     "auxiliaryAi": "owner-provided CM17 screen/reference art for expression, pose and style evidence",
     "realPhotos": "facial geometry and expression evidence only; prohibited as shipping website assets",
     "newCandidateImages": "non-authoritative until explicit owner approval"
@@ -75,13 +85,13 @@
     {"workstream":"approved identity truth recovered and persistently locked","weight":20,"earned":20,"state":"done"},
     {"workstream":"live DOM/source reconciliation and runtime screen mapping","weight":10,"earned":10,"state":"r10 map sealed across 24 primary/nested surfaces"},
     {"workstream":"identity plus natural-expression contract","weight":10,"earned":10,"state":"done; final generation owner-gated"},
-    {"workstream":"isolated canonical Nik and Daniel character masters","weight":20,"earned":4,"state":"A01 exact production brief sealed and generation gate open; A02 waits for A01 freeze"},
+    {"workstream":"isolated canonical Nik and Daniel character masters","weight":20,"earned":4,"state":"A01 exact production brief sealed; valid candidate still missing; A02 waits for A01 freeze"},
     {"workstream":"screen-state expression and pose variants","weight":15,"earned":0,"state":"bounded to A03-A06 only; Club Pack special poses cancelled"},
     {"workstream":"R8.5 black-gold final-art and exact DOM composition specification","weight":10,"earned":9,"state":"Package 1/2 exact DOM spec, CSS prototype and four-screen safe-zone proof complete"},
     {"workstream":"responsive safe-zone and obstruction QA","weight":10,"earned":2,"state":"first proof completed for Home/Create/League/Club; broader package QA remains"},
     {"workstream":"master developer implementation package","weight":5,"earned":1,"state":"skeleton exists; final package waits for approved assets and remaining packages"}
   ],
-  "nextSafeAction": "Generate/edit exactly one A01_NIK_CORE_THINKING_HERO candidate using R8_12_A01_NIK_CORE_THINKING_HERO_PRODUCTION_BRIEF.md. Use the owner-approved AI Nik identity/style references as authority and real photos only as geometry evidence. No Daniel, no text, no webpage, no batch. Present the candidate for owner approval; do not freeze it automatically.",
+  "nextSafeAction": "Start a fresh session with START_NEXT_VISUAL_SESSION_R8_12_A01_SINGLE_ASSET_SAFE_TRANSFER.md. Re-resolve live repo heads, retrieve Tier 0 OWNER_APPROVED_FACE_TRUTH_A/B from Library, read the sealed A01 brief, then generate/edit exactly one isolated A01 Nik candidate. Do not redo runtime mapping, Package 1/2 spec or safe-zone proof. Do not reuse RJ03/RJ04.",
   "handoffRule": {
     "0to49": "continue visual work normally",
     "50to69": "keep continuity file current after each substantial milestone",
@@ -89,12 +99,7 @@
     "85to99": "no new large branch of visual work; package current truth",
     "100": "generate complete successor handoff and stop at a clean checkpoint"
   },
-  "transitionTriggers": [
-    "identity/source ambiguity cannot be resolved in the current session",
-    "live main changes in a way that materially invalidates the current visual map",
-    "too many unrelated visual branches are open to reason about safely",
-    "current bounded visual milestone is complete and a fresh session would materially reduce drift risk"
-  ],
+  "transitionReason": "The bounded A01 pre-production task is complete and two consecutive image generations were contaminated by long-session context despite explicit single-asset scoping. Fresh context is now the quality-preserving path.",
   "nonGoals": [
     "replicate POS/SSJR/MDP testing infrastructure",
     "modify main",
