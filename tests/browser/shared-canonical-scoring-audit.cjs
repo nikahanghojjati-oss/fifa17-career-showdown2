@@ -43,8 +43,11 @@ async function prepare(page,{role,saveId}){
   await continueButton.waitFor({state:'visible',timeout:5000});
   await continueButton.click();
   await page.locator('#seasonEntry').waitFor({state:'visible',timeout:8000});
+  await page.locator('#seasonReviewPanel').waitFor({state:'visible',timeout:8000});
+  await page.waitForFunction(()=>document.getElementById('seasonReviewHeading')?.textContent==='BOTH MANAGERS PUBLISHED',null,{timeout:8000});
 
   await page.evaluate(async({role,rivalryId,resultOne,resultTwo,scoreOne,scoreTwo})=>{
+    const bounded=(promise,label,timeoutMs=8000)=>Promise.race([Promise.resolve(promise),new Promise((_,reject)=>setTimeout(()=>reject(new Error(`r11 scoring audit timed out during ${label}`)),timeoutMs))]);
     const loadCandidateScript=path=>new Promise((resolve,reject)=>{const script=document.createElement('script');script.src=path;script.async=false;script.onload=()=>resolve(true);script.onerror=()=>reject(new Error(`Unable to load unpublished candidate ${path}.`));document.head.appendChild(script);});
     const commit={ok:true,committed:true,ready:true,coordinatorRole:'playerOne',schemaVersion:1,runtimeRevision:'1.9.1-r10',seasonNumber:1,phase:'ACKNOWLEDGED',revision:3,resultsRevision:2,resultsContentHash:'sha256:'+('a'.repeat(64)),results:{playerOne:resultOne,playerTwo:resultTwo},managerRole:role,ownAcknowledged:true,acknowledgedRoles:['playerOne','playerTwo'],rivalryId};
     window.CareerModeProductionSharedSeasonCommit={getState:()=>commit,refresh:async()=>commit,install:()=>true};
@@ -53,9 +56,10 @@ async function prepare(page,{role,saveId}){
     // r11 is deliberately not yet part of the r10 service-worker shell. Load the exact
     // candidate files without a ?v= query so the r10 worker passes the request through
     // to the test server. Whole-shell r11 publication is a separate required gate.
-    await loadCandidateScript('js/sharedCanonicalScoring.js');
-    await loadCandidateScript('js/productionSharedCanonicalScoring.js');
-    CareerModeProductionSharedCanonicalScoring.install();await CareerModeProductionSharedCanonicalScoring.refresh();
+    await bounded(loadCandidateScript('js/sharedCanonicalScoring.js'),'candidate scoring core load');
+    await bounded(loadCandidateScript('js/productionSharedCanonicalScoring.js'),'candidate production scoring load');
+    CareerModeProductionSharedCanonicalScoring.install();
+    await bounded(CareerModeProductionSharedCanonicalScoring.refresh(),'canonical scoring refresh');
     const base=window.__ssjrScoringAuditBase;
     window.__ssjrScoringAudit={providerCalls,storageBefore:base.storageBefore,storageAfter:base.storageAfter,localState:base.localState,state:()=>CareerModeProductionSharedCanonicalScoring.getState()};
   },{role,rivalryId,resultOne,resultTwo,scoreOne,scoreTwo});
