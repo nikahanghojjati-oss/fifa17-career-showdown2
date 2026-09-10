@@ -1,0 +1,50 @@
+name: r15 CAS assertion update
+on:
+  push:
+    branches:
+      - feat/ssjr-journey-conflicts-r15
+    paths:
+      - '.github/workflows/r15-cas-assertion-once.yml'
+permissions:
+  contents: write
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: feat/ssjr-journey-conflicts-r15
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Replace only the legacy direct-call assertion
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('tests/contracts/shared-showdown-production-runtime-contracts.cjs')
+          text=p.read_text()
+          old="assert.match(setup,/context\\.adapter\\.mutate\\(\\{[\\s\\S]+type,operationId:randomOperationId\\(\\),baseRevision:current\\.revision/,'All mutations must use provider transaction adapter CAS plus fresh idempotency operation.');"
+          new="""assert.match(setup,/const operationId=randomOperationId\\(\\),baseRevision=current\\.revision\\|\\|0;/,'Every Shared Setup mutation must create one fresh idempotency operation from the currently read CAS revision.');
+          assert.match(setup,/context\\.conflicts\\.execute\\(\\{[\\s\\S]+operationId,baseRevision[\\s\\S]+\\},\\(\\)=>context\\.adapter\\.mutate\\(providerRequest\\)\\)/,'r15 conflict observation must wrap, not replace, the existing provider transaction adapter mutation.');
+          assert.match(setup,/const providerRequest=\\{\\.\\.\\.providerOptions\\(context\\),type,operationId,baseRevision,\\.\\.\\.extra\\};/,'The provider transaction must receive the same fresh operation ID and CAS base revision.');"""
+          if text.count(old)!=1:
+              raise SystemExit(f'legacy assertion anchor count={text.count(old)}')
+          p.write_text(text.replace(old,new,1))
+          PY
+      - name: Validate repaired authority contract
+        run: |
+          node tests/contracts/shared-showdown-production-runtime-contracts.cjs
+          node tests/contracts/shared-journey-conflicts-contracts.cjs
+          node tests/contracts/shared-journey-conflicts-production-contracts.cjs
+          npm run test:ops
+      - name: Commit and remove one-shot
+        run: |
+          rm .github/workflows/r15-cas-assertion-once.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git diff --cached --check
+          git commit -m 'test: preserve Shared Setup CAS authority through r15 guard'
+          git push origin HEAD:feat/ssjr-journey-conflicts-r15
