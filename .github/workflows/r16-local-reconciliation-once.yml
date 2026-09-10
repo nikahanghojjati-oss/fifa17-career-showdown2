@@ -22,6 +22,8 @@ jobs:
       - run: npm ci
       - name: Build bounded r16 capability
         run: python scripts/r16-local-reconciliation-build.py
+      - name: Align POS20 supplemental contract census
+        run: python scripts/r16-pos20-registry-fix.py
       - name: Validate r16 and inherited Candidate C authority
         run: |
           npm run test:ssjr:local-reconciliation
@@ -30,7 +32,7 @@ jobs:
           git diff --check
       - name: Commit clean r16 candidate and remove one-shot tooling
         run: |
-          rm .github/workflows/r16-local-reconciliation-once.yml scripts/r16-local-reconciliation-build.py
+          rm .github/workflows/r16-local-reconciliation-once.yml scripts/r16-local-reconciliation-build.py scripts/r16-pos20-registry-fix.py
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add -A
