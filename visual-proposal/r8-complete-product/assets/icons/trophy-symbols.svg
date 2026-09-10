@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 160" role="img" aria-labelledby="title desc">
+  <title id="title">R8 original trophy symbol family</title>
+  <desc id="desc">Four original geometric trophy and achievement symbols for Career Mode Showdown proposal use. No official competition trophy silhouettes or logos are reproduced.</desc>
+  <defs>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f7df87"/><stop offset=".58" stop-color="#f3cc4f"/><stop offset="1" stop-color="#b98216"/></linearGradient>
+    <style>.g{fill:none;stroke:url(#gold);stroke-width:7;stroke-linecap:round;stroke-linejoin:round}.f{fill:url(#gold)}.m{fill:none;stroke:#f5f0e4;stroke-opacity:.35;stroke-width:2}</style>
+  </defs>
+  <g transform="translate(30 20)">
+    <path class="g" d="M32 12h76v24c0 33-16 54-38 62-22-8-38-29-38-62z"/>
+    <path class="g" d="M32 25H14v13c0 19 9 30 28 33M108 25h18v13c0 19-9 30-28 33M70 98v18M46 124h48"/>
+    <circle class="f" cx="70" cy="48" r="10"/>
+  </g>
+  <g transform="translate(185 20)">
+    <path class="g" d="M70 8 114 26v35c0 29-18 48-44 59-26-11-44-30-44-59V26z"/>
+    <path class="g" d="m48 61 14 14 31-34"/>
+    <path class="m" d="M39 35h62M39 91h62"/>
+  </g>
+  <g transform="translate(340 20)">
+    <path class="g" d="M70 10 85 43h35L93 64l11 35-34-20-34 20 11-35-27-21h35z"/>
+    <circle class="m" cx="70" cy="67" r="53"/>
+  </g>
+  <g transform="translate(495 20)">
+    <path class="g" d="M24 29h92v70H24zM39 16h62v13M39 99h62v18H39z"/>
+    <path class="g" d="M45 65h50M70 40v50"/>
+    <circle class="f" cx="70" cy="65" r="8"/>
+  </g>
+</svg>
