@@ -24,6 +24,9 @@ assert.match(production,/sharedHistoryConvergencePanel/);
 assert.match(production,/career-mode-shared-season-cursor-change/);
 assert.match(production,/navigateTo\("dashboard"/);
 assert.match(production,/resolveSeason:pmspResolveSeason/);
+assert.match(production,/const local=pmspFallbackSeason\(fallback\?\?pmspShowdown\(\)\?\.currentRound\)/,'r13 must preserve the explicit/local season before its provider authority exists.');
+assert.match(production,/authoritative=Boolean\(view&&view\.ok===true&&view\.authoritative===true/,'r13 cursor authority must require a verified provider view.');
+assert.match(production,/return authoritative\?\(pmspEnsureCursor\(\)\|\|local\):local/,'r12 consumers must keep their local season until r13 is authoritative.');
 assert.doesNotMatch(production,/\blocalStorage\b/);
 assert.doesNotMatch(production,/saveCurrentShowdown|saveShowdown|careerModeShowdown\.saveLibrary/);
 for(const lock of ['canonicalStorageMutation:false','providerWriteRequired:false','listPermissionRequired:false','billingRequired:false','blazeRequired:false','cloudRunRequired:false','cloudFunctionsRequired:false'])assert.ok(production.includes(lock),lock);
@@ -49,4 +52,4 @@ assert.equal(provider.providerWriteRequired,false);
 assert.equal(provider.listPermissionRequired,false);
 assert.equal(provider.billingRequired,false);
 
-console.log('PASS Shared Multi Season production contract: witnessed exact-once r13 cursor, five shared season consumers, ordered r12→r13 bootstrap, local fallback and zero-write Spark boundary.');
+console.log('PASS Shared Multi Season production contract: witnessed exact-once r13 cursor, additive pre-authority r12 fallback, five shared season consumers, ordered r12→r13 bootstrap and zero-write Spark boundary.');
