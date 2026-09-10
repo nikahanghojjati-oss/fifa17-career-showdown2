@@ -17,6 +17,7 @@
     const ROOT_GATE = "r8Visual";
     const ROOT_ACTIVE_VALUE = "active";
     const HOME_LAYER_ID = "r8HomeFinalArt";
+    const SCRIPT_ELEMENT = document.currentScript;
 
     const FROZEN_ASSETS = Object.freeze({
         nik: Object.freeze({
@@ -171,8 +172,7 @@
     }
 
     function initializeFromScriptOptIn(){
-        const currentScript = document.currentScript;
-        if(!currentScript || currentScript.dataset.r8AutoEnable !== "true"){
+        if(!SCRIPT_ELEMENT || SCRIPT_ELEMENT.dataset.r8AutoEnable !== "true"){
             return;
         }
         enable();
