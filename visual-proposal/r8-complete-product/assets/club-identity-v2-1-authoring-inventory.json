@@ -8,6 +8,28 @@
     "Do not copy official crest geometry, wordmarks, civic heraldry, sponsor marks or league branding.",
     "Manager/save/Firebase/Shared Journey data must never be added here."
   ],
+  "progress": {
+    "supportedClubCount": 98,
+    "pilotResearchLedger": "../evidence/CLUB_IDENTITY_V2_1_PILOT_RESEARCH_LEDGER_2026-09-10.md",
+    "pilotVerifiedClubs": [
+      "Arsenal",
+      "Chelsea",
+      "Liverpool",
+      "Manchester City",
+      "Manchester United",
+      "West Ham United",
+      "West Bromwich Albion",
+      "Tottenham Hotspur",
+      "Southampton",
+      "Swansea City",
+      "Hull City",
+      "Crystal Palace"
+    ],
+    "pilotVerifiedCount": 12,
+    "remainingResearchCount": 86,
+    "nextRecommendedBatch": "complete remaining Premier League clubs, then LaLiga, Bundesliga, Serie A, Ligue 1",
+    "badgeRenderingBlockedUntil": "research + descriptor gate complete for the intended batch"
+  },
   "requiredResearchFields": [
     "city",
     "region",
