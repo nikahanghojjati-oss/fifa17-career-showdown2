@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "status": "ACTIVE_PROPOSAL_ASSET_MANIFEST",
+  "productionAuthority": false,
+  "managerMapping": {
+    "manager1": "Daniel",
+    "manager2": "Nik"
+  },
+  "assets": [
+    {
+      "id": "A01_NIK_CORE_THINKING_HERO",
+      "kind": "frozen-character-master",
+      "canonicalFilename": "a01-nik-core-thinking-hero.png",
+      "proposedPackagePath": "assets/masters/a01-nik-core-thinking-hero.png",
+      "source": "/Showdown visual/R8_5_APPROVED_CHARACTER_IDENTITY_LOCK/A01_NIK_CORE_THINKING_HERO_OWNER_APPROVED_V1.png",
+      "transferPackage": "/Showdown visual/R8_25_BINARY_DROP.zip",
+      "dimensions": [1086, 1448],
+      "mode": "RGBA",
+      "fileType": "image/png",
+      "byteSize": 1426297,
+      "sha256": "17972b8afb73b90483c8f874c4bd964ac1bda196daa76e134a6030676bbd4219",
+      "targetScreens": ["mainMenu"],
+      "responsiveEligibility": "wide-desktop; reduced-wide only if safe; omitted <=1179px",
+      "safeZone": "right flank; must remain outside central interaction-safe zone",
+      "rightsStatus": "owner-approved AI character authority",
+      "generationNote": "immutable existing master; do not regenerate or recompress",
+      "verification": "source bytes verified 2026-09-10",
+      "acceptanceStatus": "VERIFIED_SOURCE_PACKAGING_OPEN"
+    },
+    {
+      "id": "A02_DANIEL_CORE_POINTING_HERO",
+      "kind": "frozen-character-master",
+      "canonicalFilename": "a02-daniel-core-pointing-hero.png",
+      "proposedPackagePath": "assets/masters/a02-daniel-core-pointing-hero.png",
+      "source": "/Showdown visual/R8_5_APPROVED_CHARACTER_IDENTITY_LOCK/A02_DANIEL_CORE_POINTING_HERO_OWNER_APPROVED_V1.png",
+      "transferPackage": "/Showdown visual/R8_25_BINARY_DROP.zip",
+      "dimensions": [1086, 1448],
+      "mode": "RGBA",
+      "fileType": "image/png",
+      "byteSize": 1628938,
+      "sha256": "9b1545b52a5d96a240c92b9901dcd8a4558148dde05a0331882df7bd988177cc",
+      "targetScreens": ["mainMenu"],
+      "responsiveEligibility": "wide-desktop; reduced-wide only if safe; omitted <=1179px",
+      "safeZone": "left flank; must remain outside central interaction-safe zone",
+      "rightsStatus": "owner-approved AI character authority",
+      "generationNote": "immutable existing master; do not regenerate or recompress",
+      "verification": "source bytes verified 2026-09-10",
+      "acceptanceStatus": "VERIFIED_SOURCE_PACKAGING_OPEN"
+    },
+    {
+      "id": "H01_HOME_STADIUM_ATMOSPHERE",
+      "kind": "procedural-vector",
+      "canonicalFilename": "home-stadium-atmosphere.svg",
+      "proposedPackagePath": "assets/procedural/home-stadium-atmosphere.svg",
+      "source": "original R8.26 procedural SVG authored inside proposal workspace",
+      "dimensions": [1600, 900],
+      "fileType": "image/svg+xml",
+      "sha256": "05740f6c23189ac25d8d65b27fa69a65bc8af17ffc3a9cc6ec45a7dc795c7652",
+      "targetScreens": ["mainMenu"],
+      "responsiveEligibility": "all breakpoints with reduced visual intensity on narrow layouts",
+      "safeZone": "background only; no text, no hit targets, no control obstruction",
+      "rightsStatus": "original procedural design; no logos, crests, proprietary fonts, copied screens or player photography",
+      "generationNote": "not image-generation output; authored as reusable SVG geometry",
+      "verification": "UTF-8 proposal asset hashed after creation",
+      "acceptanceStatus": "PACKAGED_PENDING_VISUAL_QA"
+    }
+  ]
+}
