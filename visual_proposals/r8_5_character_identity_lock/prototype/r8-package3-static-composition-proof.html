@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>R8.22 Package 3 Static Composition Proof</title>
+<style>
+:root{--bg:#06090c;--panel:#10171b;--gold:#f1c84b;--cyan:#72cce8;--cream:#f4efe2;--muted:#a89f89;--line:rgba(241,200,75,.35)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--cream);font-family:system-ui,sans-serif}.top{padding:18px 24px;border-bottom:1px solid var(--line);background:#0b1013}.top h1{margin:0;font-size:20px}.top p{margin:6px 0 0;color:var(--muted);font-size:12px}.proof{position:relative;max-width:1510px;margin:0 auto;padding:24px 205px 48px;min-height:700px}.stage{position:relative;z-index:10;max-width:1100px;margin:auto}.season .stage{max-width:1000px}.rail{position:absolute;z-index:2;top:24px;bottom:48px;width:200px;overflow:hidden;pointer-events:none;border:1px dashed rgba(241,200,75,.25);background:linear-gradient(180deg,rgba(241,200,75,.07),transparent)}.rail.left{left:0}.rail.right{right:0}.proxy{position:absolute;bottom:0;width:360px;height:480px;border:1px solid rgba(241,200,75,.55);display:flex;align-items:center;justify-content:center;text-align:center;color:var(--muted);font-size:11px;line-height:1.5;background:linear-gradient(180deg,rgba(241,200,75,.12),rgba(8,12,15,.9))}.left .proxy{left:-160px}.right .proxy{right:-160px}.winner .proxy{box-shadow:0 0 34px rgba(241,200,75,.38);border-color:var(--gold);color:var(--cream)}.loser .proxy{opacity:.48}.draw .proxy{opacity:.76}.title{text-align:center;letter-spacing:.08em}.nav{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line)}.nav span{padding:9px;text-align:center;font-size:11px;color:var(--muted)}.nav .active{background:var(--gold);color:#050709;font-weight:800}.status,.action,.scorepanel{margin-top:12px;padding:14px;border:1px solid var(--line);background:var(--panel);text-align:center}.timer{font-size:48px;color:var(--gold);margin:10px 0}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}.card{padding:14px;border:1px solid var(--line);background:var(--panel);min-height:190px}.card.one{border-top:2px solid var(--gold)}.card.two{border-top:2px solid var(--cyan)}.row{height:30px;border:1px solid rgba(255,255,255,.12);margin:7px 0;color:var(--muted);font-size:11px;padding:7px}.privacy{margin-top:12px;padding:10px;border-left:3px solid var(--gold);background:rgba(241,200,75,.07);color:var(--muted);font-size:12px}.winnerline{color:var(--gold);font-weight:800;text-align:center;margin:10px 0}.hidden-slot{visibility:hidden}.legend{max-width:1100px;margin:20px auto;padding:0 24px;color:var(--muted);font-size:12px}.case{border-top:1px solid rgba(255,255,255,.08)}
+@media(max-width:1280px){.proof{padding-left:28px;padding-right:28px}.rail{display:none}}
+@media(max-width:700px){.proof{padding:18px 12px 42px;min-height:auto}.grid2{grid-template-columns:1fr}.nav{grid-template-columns:1fr 1fr}.timer{font-size:40px}.top{padding:14px 12px}.title{font-size:22px}}
+</style>
+</head>
+<body>
+<header class="top"><h1>R8.22 Package 3 static composition proof</h1><p>Proposal-only geometry harness. Frozen-master proxies use the same role-aligned rail geometry verified locally with the exact A01/A02 derivatives. Production main pin: be5289cdbfcc8285ab8ddd33cd9fe9f1b3b7198e · 1.9.1-r11. Generation closed.</p></header>
+<div class="legend">Wide desktop may use A01/A02 outer rails. At 1024px and below the large character layer is omitted. Real DOM always has higher z-index and owns all meaning. The exact frozen PNG bytes are not duplicated in this repository proof; their checksums and derivative render evidence are sealed in R8_22_PACKAGE_3_STATIC_QA_RESULTS.json.</div>
+<section class="proof case">
+<aside class="rail left"><div class="proxy">A01 · NIK<br>OWNER-APPROVED FROZEN<br>role-aligned crop only</div></aside><aside class="rail right"><div class="proxy">A02 · DANIEL<br>OWNER-APPROVED FROZEN<br>role-aligned crop only</div></aside>
+<div class="stage"><h2 class="title">TRANSFER CHALLENGE</h2><div class="nav"><span class="active">01 Window</span><span>02 Guess Entry</span><span>03 Signing Entry</span><span>04 Verdicts</span></div><div class="status">TRANSFER WINDOW LIVE<div class="timer">14:37</div>END WINDOW EARLY</div><div class="grid2"><div class="card one"><h3>Manager 1</h3><div class="row">Player · League · Nationality</div><div class="row">Player · League · Nationality</div><div class="row">Player · League · Nationality</div></div><div class="card two"><h3>Manager 2</h3><div class="row">Player · League · Nationality</div><div class="row">Player · League · Nationality</div><div class="row">Player · League · Nationality</div></div></div><div class="action">SAVE PHASE</div></div>
+</section>
+<section class="proof season case">
+<aside class="rail left"><div class="proxy">A01 · LOCAL ROLE<br>neutral identity only</div></aside><aside class="rail right"><div class="proxy">A02 · RIVAL ROLE<br>must not reveal hidden data</div></aside>
+<div class="stage"><h2 class="title">SHARED SEASON RESULTS · WAITING</h2><div class="privacy">Own result published. Rival result remains hidden until runtime reveal authority exists.</div><div class="grid2"><div class="card one"><h3>Own published result</h3><div class="row">League position</div><div class="row">League points</div><div class="row">Achievements</div></div><div class="card hidden-slot"></div></div><div class="status">WAITING FOR YOUR RIVAL</div></div>
+</section>
+<section class="proof season case">
+<aside class="rail left"><div class="proxy">A01 · MANAGER 1<br>neutral</div></aside><aside class="rail right"><div class="proxy">A02 · MANAGER 2<br>neutral</div></aside>
+<div class="stage"><h2 class="title">SHARED SEASON COMMIT</h2><div class="grid2"><div class="card one"><h3>Manager 1 result</h3><div class="row">Published immutable facts</div></div><div class="card two"><h3>Manager 2 result</h3><div class="row">Published immutable facts</div></div></div><div class="scorepanel"><h3>RESULTS READY</h3><p>Coordinator may commit the immutable shared season snapshot.</p></div><div class="action">COMMIT SHARED SEASON</div></div>
+</section>
+<section class="proof season case">
+<aside class="rail left winner"><div class="proxy">A01 · PLAYER ONE ROLE<br>presentation winner emphasis</div></aside><aside class="rail right loser"><div class="proxy">A02 · PLAYER TWO ROLE<br>visible, lower prominence</div></aside>
+<div class="stage"><h2 class="title">SHARED CANONICAL SCORE · r11</h2><div class="grid2"><div class="card one"><h3>Manager 1</h3><div class="row">Provider-derived result facts</div></div><div class="card two"><h3>Manager 2</h3><div class="row">Provider-derived result facts</div></div></div><div class="scorepanel"><h3>SCORING_RECONCILED</h3><p>Manager 1: 7 · Manager 2: 4</p><div class="winnerline">Season winner: Manager 1</div></div><div class="action">CONTINUE</div></div>
+</section>
+<section class="proof season case">
+<aside class="rail left draw"><div class="proxy">A01 · PLAYER ONE ROLE<br>symmetric draw treatment</div></aside><aside class="rail right draw"><div class="proxy">A02 · PLAYER TWO ROLE<br>symmetric draw treatment</div></aside>
+<div class="stage"><h2 class="title">LOCAL SEASON SUMMARY · DRAW</h2><div class="winnerline">Season finishes level.</div><div class="grid2"><div class="card one"><h3>Manager 1</h3><div class="row">Completed roundRecord facts</div></div><div class="card two"><h3>Manager 2</h3><div class="row">Completed roundRecord facts</div></div></div><div class="scorepanel">OVERALL SCORE · RESULT DATA REMAINS PRIMARY</div><div class="action">CONTINUE SHOWDOWN · SHOWDOWN HOME</div></div>
+</section>
+</body>
+</html>
