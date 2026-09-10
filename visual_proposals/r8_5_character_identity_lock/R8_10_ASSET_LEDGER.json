@@ -1,15 +1,18 @@
 {
-  "schemaVersion": "1.0.0",
+  "schemaVersion": "1.1.0",
   "lane": "independent visual proposal",
   "sourcePin": "1d0c9f9d6542cd020a4aae53998cb6daeba380e4",
   "assetRevision": "1.9.1-r10",
   "purpose": "single source of truth for required visual assets so work is planned, reused, frozen and never regenerated casually",
   "statusVocabulary": ["PLANNED", "REFERENCE_READY", "CANDIDATE", "OWNER_APPROVED_FROZEN", "CONDITIONAL", "CANCELLED", "REJECTED_NON_SHIPPING", "NO_GENERATION_REQUIRED"],
   "generationRule": "image generation is allowed only when a mapped screen need exists, reuse is insufficient, safe zones are defined, and generation is the best method",
+  "safeZoneProof": "R8_11_SAFE_ZONE_COMPOSITION_PROOF.md",
   "counts": {
     "requiredCharacterMasters": 6,
     "requiredCharacterMastersFrozen": 0,
-    "conditionalCharacterMasters": 2,
+    "coreMastersFinalizationJustified": 2,
+    "conditionalCharacterMasters": 0,
+    "cancelledCharacterMasters": 2,
     "nonCharacterAssetFamilies": 5,
     "nonCharacterFamiliesRequiringImageGenerationNow": 0,
     "rejectedNonShippingOutputsTracked": 2
@@ -19,19 +22,21 @@
       "id": "A01_NIK_CORE_THINKING_HERO",
       "status": "REFERENCE_READY",
       "required": true,
-      "generationNeeded": "PENDING_COMPOSITION_CONFIRMATION",
+      "generationNeeded": true,
+      "generationJustification": "R8.11 proves the core pose fits Home/Create/League/Club, but approved truth is primarily composite/reference material rather than one clean reusable isolated transparent master",
       "screens": ["Startup", "Home", "Create Showdown", "League Wheel", "Club Assignment", "Dashboard crops", "Shared Setup crops", "Remote Joining chips", "Season Entry crops", "Legacy crops", "Tiebreak fallback"],
       "identityAuthority": "Tier 0 owner-approved CM17 Nik AI references",
-      "notes": "Owner liked the strongest earlier thinking/hero direction. Do not refine or regenerate without a specific mapped reason. Final shipping master must preserve CM17 AI character feel and identity resemblance."
+      "notes": "Owner liked the strongest earlier thinking/hero direction. Finalization should reuse/edit that direction if available rather than recast Nik. One character, one asset, no board, no webpage."
     },
     {
       "id": "A02_DANIEL_CORE_POINTING_HERO",
       "status": "REFERENCE_READY",
       "required": true,
-      "generationNeeded": "PENDING_COMPOSITION_CONFIRMATION",
+      "generationNeeded": true,
+      "generationJustification": "R8.11 proves the pointing/core pose fits the mapped screens, but a clean isolated reusable final master is still needed",
       "screens": ["Startup", "Home", "Create Showdown", "League Wheel", "Club Assignment", "Dashboard crops", "Shared Setup crops", "Remote Joining chips", "Season Entry crops", "Legacy crops", "Tiebreak fallback"],
       "identityAuthority": "Tier 0 owner-approved CM17 Daniel AI references",
-      "notes": "Historical pointing/main pose remains the strongest Daniel anchor. Do not recast face while cleaning or isolating final master."
+      "notes": "Historical pointing/main pose remains the strongest Daniel anchor. Build only after A01 is frozen. Do not recast face while isolating/finalizing."
     },
     {
       "id": "A03_NIK_FOCUSED_TACTICAL",
@@ -71,19 +76,19 @@
     },
     {
       "id": "C01_NIK_CLUB_PACK_INTERACTION",
-      "status": "CONDITIONAL",
+      "status": "CANCELLED",
       "required": false,
-      "generationNeeded": "ONLY_IF_EXACT_DOM_COMPOSITION_PROVES_CORE_POSE_INSUFFICIENT",
+      "generationNeeded": false,
       "screens": ["Club Assignment"],
-      "notes": "Cancel if A01 frames the real pack DOM cleanly."
+      "notes": "R8.11 safe-zone proof shows the real 980px pack shell already tells the interaction story and restrained A01 edge framing is sufficient. Reaching hands would increase obstruction risk."
     },
     {
       "id": "C02_DANIEL_CLUB_PACK_INTERACTION",
-      "status": "CONDITIONAL",
+      "status": "CANCELLED",
       "required": false,
-      "generationNeeded": "ONLY_IF_EXACT_DOM_COMPOSITION_PROVES_CORE_POSE_INSUFFICIENT",
+      "generationNeeded": false,
       "screens": ["Club Assignment"],
-      "notes": "Cancel if A02 frames the real pack DOM cleanly."
+      "notes": "R8.11 safe-zone proof shows the real pack DOM should remain dominant; no Daniel pack-holding master is needed."
     }
   ],
   "nonCharacterAssetFamilies": [
@@ -141,5 +146,5 @@
     }
   ],
   "freezeRule": "once the owner approves an asset, change its status to OWNER_APPROVED_FROZEN, record its exact file/hash, and never regenerate it for cropping, mirroring, responsive placement or board assembly",
-  "nextDecision": "complete Package 1 and Package 2 exact-DOM presentation specification before deciding whether A01/A02 need any new generation at all"
+  "nextDecision": "prepare the exact A01 Nik core-master production brief from Tier 0 identity/style truth and the owner-liked isolated Nik direction; only then invoke one-character image generation/editing"
 }
