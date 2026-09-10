@@ -1,0 +1,55 @@
+name: r17 Final Reconciliation One Shot
+
+on:
+  push:
+    branches:
+      - feat/ssjr-final-reconciliation-r17
+    paths:
+      - .github/workflows/r17-final-reconciliation-one-shot.yml
+
+permissions:
+  contents: write
+
+jobs:
+  build-r17:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: feat/ssjr-final-reconciliation-r17
+          fetch-depth: 0
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Require exact MDP 91 accounting ancestor
+        run: git merge-base --is-ancestor 4c4975c1d3982ce6b2d8d4b37c0a6a15d94b625a HEAD
+      - name: Build r17 candidate in runner
+        run: python3 scripts/r17-final-reconciliation-one-shot.py
+      - name: Validate focused r17 behavior
+        run: npm run test:ssjr:final-reconciliation
+      - name: Validate aggregate SSJR and POS20 authority
+        run: |
+          npm run test:ssjr
+          npm run test:ops
+          node tests/contracts/static-app-release-contracts.cjs
+          node tests/contracts/offline-hotfix-contracts.cjs
+          git diff --check
+      - name: Require bounded r17 product diff
+        shell: bash
+        run: |
+          set -euo pipefail
+          actual="$( { git diff --name-only; git ls-files --others --exclude-standard; } | grep -v '^\.github/workflows/r17-final-reconciliation-one-shot.yml$' | grep -v '^scripts/r17-final-reconciliation-one-shot.py$' | sort | tr '\n' ' ')"
+          expected="POS20_SUPPLEMENTAL_PRODUCT_TESTS.json js/productionSharedFinalReconciliation.js js/sharedFinalReconciliation.js js/ssjr.js package.json service-worker.js tests/browser/shared-final-reconciliation-audit.cjs tests/contracts/shared-final-reconciliation-contracts.cjs tests/contracts/shared-final-reconciliation-production-contracts.cjs tests/operations/pos20-control-plane.test.mjs "
+          printf 'r17 product diff: %s\n' "$actual"
+          test "$actual" = "$expected"
+      - name: Commit validated candidate and self-clean
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add POS20_SUPPLEMENTAL_PRODUCT_TESTS.json js/productionSharedFinalReconciliation.js js/sharedFinalReconciliation.js js/ssjr.js package.json service-worker.js tests/browser/shared-final-reconciliation-audit.cjs tests/contracts/shared-final-reconciliation-contracts.cjs tests/contracts/shared-final-reconciliation-production-contracts.cjs tests/operations/pos20-control-plane.test.mjs
+          git commit -m 'feat: build Shared Final Reconciliation r17'
+          git rm .github/workflows/r17-final-reconciliation-one-shot.yml scripts/r17-final-reconciliation-one-shot.py
+          git commit -m 'chore: remove r17 candidate builder'
+          git push origin HEAD:feat/ssjr-final-reconciliation-r17
