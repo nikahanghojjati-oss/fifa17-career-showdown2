@@ -1,19 +1,22 @@
 {
-  "schemaVersion": "1.4.0",
+  "schemaVersion": "1.5.0",
   "lane": "independent visual proposal",
   "status": "ACTIVE",
   "proposalBranch": "visual/r8-5-approved-character-identity-lock",
   "latestObservedMainSha": "1d0c9f9d6542cd020a4aae53998cb6daeba380e4",
   "latestObservedAssetRevision": "1.9.1-r10",
-  "currentMilestone": "R8.9 reasoning-first exact-DOM specification",
-  "visualProductionProgressPercent": 48.0,
-  "handoffProximityPercent": 34,
+  "currentMilestone": "R8.10 Package 1/2 exact-DOM presentation prototype",
+  "visualProductionProgressPercent": 52.0,
+  "handoffProximityPercent": 38,
   "runtimeMapping": {
     "state": "COMPLETE_BASELINE",
     "mappedPrimaryAndNestedSurfaces": 24,
     "authorityFile": "R8_8_LIVE_RUNTIME_VISUAL_MAP.md",
     "assetMatrix": "R8_8_ASSET_REQUIREMENTS_MATRIX.md",
     "reasoningBuildOrder": "R8_9_REASONING_FIRST_BUILD_ORDER.md",
+    "assetLedger": "R8_10_ASSET_LEDGER.json",
+    "package12DomSpec": "R8_10_PACKAGE_1_2_DOM_PRESENTATION_SPEC.md",
+    "package12CssPrototype": "prototype/r8-package-1-2-presentation.css",
     "sourcePin": "1d0c9f9d6542cd020a4aae53998cb6daeba380e4",
     "sourceAssetRevision": "1.9.1-r10"
   },
@@ -27,26 +30,17 @@
     "generationRequiresSafeZoneDefinition": true,
     "generationRequiresBestMethodCheck": true
   },
+  "assetLedgerSummary": {
+    "requiredCharacterMasters": 6,
+    "ownerApprovedFrozenCharacterMasters": 0,
+    "conditionalCharacterMasters": 2,
+    "nonCharacterAssetFamilies": 5,
+    "imageGenerationRequiredNow": 0,
+    "rejectedOutputsTracked": 2
+  },
   "characterApprovalGate": "PARTIAL_DIRECTION_APPROVED_FINAL_MASTERS_PENDING",
   "generationFormatPolicy": "ONE_CHARACTER_ONE_REQUIRED_EXPRESSION_HIGH_RESOLUTION_WHEN_GENERATION_IS_ACTUALLY_JUSTIFIED",
   "multiExpressionBoardGeneration": "RETIRED_FOR_PRODUCTION",
-  "characterAssetPlan": {
-    "requiredUniqueMasters": 6,
-    "conditionalClubPackMasters": 2,
-    "hardCeilingWithoutOwnerApproval": 8,
-    "requiredIds": [
-      "A01_NIK_CORE_THINKING_HERO",
-      "A02_DANIEL_CORE_POINTING_HERO",
-      "A03_NIK_FOCUSED_TACTICAL",
-      "A04_DANIEL_FOCUSED_TACTICAL",
-      "A05_NIK_CELEBRATION_RESOLVE",
-      "A06_DANIEL_CELEBRATION_RESOLVE"
-    ],
-    "conditionalIds": [
-      "C01_NIK_CLUB_PACK_INTERACTION",
-      "C02_DANIEL_CLUB_PACK_INTERACTION"
-    ]
-  },
   "identityAuthority": {
     "tier0": "owner-approved CM17 AI hero references and deterministic approved face crops",
     "auxiliaryAi": "owner-provided CM17 screen/reference art for expression, pose and style evidence",
@@ -54,22 +48,22 @@
     "newCandidateImages": "non-authoritative until explicit owner approval"
   },
   "latestOwnerDirection": {
-    "visualProcess": "differentiate study, mapping, planning, prototype, asset generation and implementation work; never convert a broad project instruction or uploaded image into an automatic image prompt",
-    "nikCore": "preserve the owner-liked likeness direction and Tier 0 AI-character style; no unsolicited refinement",
-    "danielCore": "preserve approved historical Daniel identity and pointing anchor; no unsolicited refinement",
-    "prototype": "rough non-final placeholders are acceptable for layout work as long as they cannot be mistaken for final identity assets"
+    "visualProcess": "reason, map, justify, then build; image generation only when the roadmap reaches a real asset need",
+    "assetTracking": "keep a durable list of required, built, approved, rejected and reusable assets so nothing is casually rebuilt",
+    "reporting": "after meaningful work report current milestone, concrete progress, remaining assets and handoff proximity",
+    "prototype": "rough placeholders are acceptable for layout proof but can never become final identity assets"
   },
   "progressModel": [
     {"workstream":"approved identity truth recovered and persistently locked","weight":20,"earned":20,"state":"done"},
     {"workstream":"live DOM/source reconciliation and runtime screen mapping","weight":10,"earned":10,"state":"r10 map sealed across 24 primary/nested surfaces"},
-    {"workstream":"identity plus natural-expression contract","weight":10,"earned":10,"state":"done; final asset generation remains owner-gated"},
-    {"workstream":"isolated canonical Nik and Daniel character masters","weight":20,"earned":3,"state":"directions exist; no unsolicited refinements; final freezes later when mapped composition needs them"},
-    {"workstream":"screen-state expression and pose variants","weight":15,"earned":0,"state":"bounded to mapped tactical/celebration needs only"},
-    {"workstream":"R8.5 black-gold final-art and exact DOM composition specification","weight":10,"earned":4,"state":"screen map and reasoning-first build order done; Package 1/2 exact-DOM spec is next"},
-    {"workstream":"responsive safe-zone and obstruction QA","weight":10,"earned":0,"state":"after Package 1/2 composition spec"},
-    {"workstream":"master developer implementation package","weight":5,"earned":1,"state":"skeleton exists; final package waits for composition and approved assets"}
+    {"workstream":"identity plus natural-expression contract","weight":10,"earned":10,"state":"done; final generation owner-gated"},
+    {"workstream":"isolated canonical Nik and Daniel character masters","weight":20,"earned":3,"state":"directions exist; final freeze waits for composition proof and owner approval"},
+    {"workstream":"screen-state expression and pose variants","weight":15,"earned":0,"state":"bounded to four mapped tactical/celebration masters after core pair"},
+    {"workstream":"R8.5 black-gold final-art and exact DOM composition specification","weight":10,"earned":8,"state":"Package 1/2 exact DOM spec and unlinked CSS prototype complete; asset-free composition proof next"},
+    {"workstream":"responsive safe-zone and obstruction QA","weight":10,"earned":0,"state":"initial rules specified; proof not yet executed"},
+    {"workstream":"master developer implementation package","weight":5,"earned":1,"state":"skeleton exists; final package waits for composition proof and later packages"}
   ],
-  "nextSafeAction": "Do not generate an image. Build the exact-DOM presentation specification for Package 1 and Package 2 from the live r10 runtime: Startup, Home, Create Showdown, Private Pairing, Shared Career Length, Shared Review/Confirm, League Wheel, Club Assignment and Shared Career Start. Define CSS layers, spacing, responsive safe zones, character reuse placements and control-first behavior. Generation may occur only if this spec proves a missing asset.",
+  "nextSafeAction": "Do not generate an image yet. Review the unlinked Package 1/2 CSS prototype against the exact live r10 selectors and produce an asset-free safe-zone composition proof for Home, Create Showdown, League Wheel and Club Assignment. Use boxes/silhouettes or approved deterministic crops only. This proof decides whether A01/A02 require fresh generation and whether C01/C02 remain conditional or are cancelled.",
   "handoffRule": {
     "0to49": "continue visual work normally",
     "50to69": "keep continuity file current after each substantial milestone",
