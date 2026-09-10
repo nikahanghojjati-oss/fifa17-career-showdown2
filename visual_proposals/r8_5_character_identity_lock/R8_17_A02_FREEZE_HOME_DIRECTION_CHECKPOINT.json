@@ -1,0 +1,85 @@
+{
+  "schemaVersion": "1.0.0",
+  "status": "AUTHORITATIVE_VISUAL_CHECKPOINT_AFTER_A02_AND_HOME_APPROVAL",
+  "controller": "GPT-5.6 Sol reasoning",
+  "proposalBranch": "visual/r8-5-approved-character-identity-lock",
+  "liveMainVerified": "1d0c9f9d6542cd020a4aae53998cb6daeba380e4",
+  "liveAssetRevisionVerified": "1.9.1-r10",
+  "reasoningContract": "00_VISUAL_REASONING_CONTROLLER_CONTRACT.md",
+  "a01": {
+    "assetId": "A01_NIK_CORE_THINKING_HERO",
+    "state": "OWNER_APPROVED_FROZEN",
+    "libraryPath": "/Showdown visual/R8_5_APPROVED_CHARACTER_IDENTITY_LOCK/A01_NIK_CORE_THINKING_HERO_OWNER_APPROVED_V1.png",
+    "fileId": "file_00000000bbf081f7b29944352f5e76a5",
+    "libraryFileId": "libfile_4c0fe725833881918ea7734aa8fad17f",
+    "sha256": "17972b8afb73b90483c8f874c4bd964ac1bda196daa76e134a6030676bbd4219",
+    "dimensions": "1086x1448",
+    "permanentOwnerNote": "Facial likeness/expression approved; preserve complete hair silhouette and fine edge detail in all deterministic masks/crops."
+  },
+  "a02": {
+    "assetId": "A02_DANIEL_CORE_POINTING_HERO",
+    "state": "OWNER_APPROVED_FROZEN",
+    "ownerDecision": "APPROVED after new owner-supplied AI Daniel reference was used to correct the first failed A02 attempt",
+    "libraryPath": "/Showdown visual/R8_5_APPROVED_CHARACTER_IDENTITY_LOCK/A02_DANIEL_CORE_POINTING_HERO_OWNER_APPROVED_V1.png",
+    "fileId": "file_000000007fe081f59bbac0a09a9eeca3",
+    "libraryFileId": "libfile_0b2f3412067c81919aaa95461afc9be6",
+    "sha256": "9b1545b52a5d96a240c92b9901dcd8a4558148dde05a0331882df7bd988177cc",
+    "dimensions": "1086x1448",
+    "transparent": true,
+    "permanentRules": [
+      "Use this exact Daniel identity for deterministic future derivatives.",
+      "Preserve thick dark wavy hair, light stubble, facial geometry, restrained confident expression, open white shirt and pointing body language.",
+      "Do not regenerate A02 for crops, mirroring, responsive placement, avatar extraction or screen assembly.",
+      "Do not substitute the rejected first A02 generation or any generic Daniel-like face."
+    ]
+  },
+  "rejectedA02Attempt": {
+    "generationId": "1ee7dcc4-50e9-4cf0-b1cc-c576a56f29d2",
+    "status": "REJECTED_NON_SHIPPING",
+    "progressCredit": 0,
+    "reason": "Owner judged facial likeness far from Daniel. Never reuse as identity authority."
+  },
+  "homeComposition": {
+    "state": "OWNER_APPROVED_VISUAL_DIRECTION_REFERENCE_NOT_SHIPPING_DOM",
+    "ownerDecision": "Main screen direction approved as nice and matching intended look",
+    "libraryPath": "/Showdown visual/R8_5_APPROVED_CHARACTER_IDENTITY_LOCK/HOME_APPROVED_COMPOSITION_REFERENCE_R8_17_V1.png",
+    "fileId": "file_00000000c85881f7abd92259605955c4",
+    "libraryFileId": "libfile_d2696dcaf9f4819185105bed26665814",
+    "sha256": "9272f8921535b07841033781d024f1bf3f20647846cc89146878c999a4ca67f6",
+    "dimensions": "1672x941",
+    "authorityBoundary": "This image is composition/style evidence only. Production must preserve exact live DOM, labels, controls, state behavior, accessibility, responsive rules and licensed/original asset requirements.",
+    "characterDirection": "Daniel left pointing toward center; Nik right thinking; both live above/behind the tile field and never own the clickable UI."
+  },
+  "progressAccounting": {
+    "previousFormalVisualProductionProgressPercent": 64,
+    "newFormalVisualProductionProgressPercent": 72,
+    "reason": "The canonical Nik/Daniel isolated-master workstream was 12/20 after A01 freeze. Freezing the second required core master A02 earns the remaining 8 points in that 20-point workstream. Home composition approval is recorded as direction evidence but receives no additional completion credit until exact live-DOM placement validation passes.",
+    "frozenCharacterMasters": "2/6",
+    "requiredCharacterMasters": 6
+  },
+  "currentRoadmapGate": "PACKAGE_1_2_DETERMINISTIC_FROZEN_MASTER_PLACEMENT_VALIDATION",
+  "orderedNextScreens": [
+    "Home",
+    "Create Showdown",
+    "League Wheel",
+    "Club Assignment"
+  ],
+  "generationState": "CLOSED",
+  "generationReason": "A01/A02 already satisfy Package 1/2 character needs. No Home/Create/League/Club-specific character generation is allowed. Validate deterministic placement and exact DOM first.",
+  "afterPlacementValidation": [
+    "Continue Package 3 exact-DOM work for Transfer Challenge, Season Entry/Shared Results, Season Commit, Season Summary and real tiebreak authority if present.",
+    "Open A03/A04 generation only if Package 3 exact composition proves core masters cannot satisfy a mapped tactical-expression need.",
+    "Open A05/A06 only when Season Summary exact composition proves celebration/resolve masters are genuinely needed."
+  ],
+  "productionBoundaries": {
+    "mainModified": false,
+    "productionDeployed": false,
+    "firebaseTouched": false,
+    "billingTouched": false,
+    "zeroDollarRequired": true,
+    "firebaseSparkOnly": true,
+    "billingPermanentlyOff": true
+  },
+  "handoffProximityPercent": 38,
+  "transitionRecommendation": "CONTINUE_CURRENT_SESSION"
+}
