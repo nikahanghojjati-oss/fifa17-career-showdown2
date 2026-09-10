@@ -33,7 +33,7 @@ async function prepare(page,{role,saveId}){
     document.querySelectorAll('.screen').forEach(node=>node.classList.add('hidden'));
     const transferScreen=document.getElementById('transferChallenge');transferScreen.classList.remove('hidden');transferScreen.removeAttribute('data-shared-transfer-replay');CareerModeProductionSharedSeasonResultsRoute.decorate();
     if(!CareerModeProductionSharedSeasonResultsRoute.canRoute())throw new Error('Shared Season Results route is not ready for r11 scoring audit.');
-    document.getElementById('continueFromTransfers').click();
+    if(!await CareerModeProductionSharedSeasonResultsRoute.open())throw new Error('Shared Season Results route did not open for r11 scoring audit.');
     window.CareerModeProductionSharedSeasonCommit={getState:()=>commit,refresh:async()=>commit,install:()=>true};
     const providerCalls=[];
     window.CareerModeSparkSharedCanonicalScoring={read:async options=>{providerCalls.push({uid:options.user?.uid,rivalryId:options.rivalryId,sessionId:options.sessionId,deviceId:options.deviceId,seasonNumber:options.seasonNumber,teamCount:options.teamCount});return {ok:true,authoritative:true,runtimeRevision:'1.9.1-r11',phase:'SCORING_RECONCILED',revision:1,seasonNumber:1,managerRole:role,seasonCommitRevision:3,resultsRevision:2,resultsContentHash:'sha256:'+('a'.repeat(64)),scoring:{playerOne:scoreOne,playerTwo:scoreTwo},winner:'playerOne'};}};
