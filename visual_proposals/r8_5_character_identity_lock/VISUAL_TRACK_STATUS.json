@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "2.3.0",
+  "schemaVersion": "2.4.0",
   "lane": "independent visual proposal",
   "status": "TRANSITION_RECOMMENDED",
   "controller": "GPT-5.6 Sol reasoning",
@@ -7,10 +7,10 @@
   "proposalBranch": "visual/r8-5-approved-character-identity-lock",
   "latestObservedMainSha": "1d0c9f9d6542cd020a4aae53998cb6daeba380e4",
   "latestObservedAssetRevision": "1.9.1-r10",
-  "currentMilestone": "Package 1/2 static responsive/obstruction QA passed; owner-liked optional pack-holder concept bounded to wide-desktop cinematic use; outcome-expression architecture proven as derived presentation; next large task is Package 3 exact-DOM reconciliation",
-  "visualProductionProgressPercent": 74,
-  "handoffProximityPercent": 72,
-  "transitionRecommendation": "TRANSITION_BEFORE_STARTING_PACKAGE_3_LARGE_BRANCH",
+  "currentMilestone": "Package 3 exact-DOM reconciliation complete against live r10: Transfer, Season Entry/Shared Results, Shared Season Commit and local Season Summary mapped; Tiebreak deferred for absent live authority; no new image generation justified; next gate is Package 3 static composition/obstruction QA using frozen A01/A02 first",
+  "visualProductionProgressPercent": 75,
+  "handoffProximityPercent": 80,
+  "transitionRecommendation": "TRANSITION_BEFORE_STARTING_PACKAGE_3_STATIC_COMPOSITION_OBSTRUCTION_QA",
   "authorities": {
     "runtimeMap": "R8_8_LIVE_RUNTIME_VISUAL_MAP.md",
     "reasoningBuildOrder": "R8_9_REASONING_FIRST_BUILD_ORDER.md",
@@ -23,7 +23,8 @@
     "frozenMasterPlacementContract": "R8_18_PACKAGE_1_2_FROZEN_MASTER_PLACEMENT_CONTRACT.md",
     "frozenMasterPlacementProof": "prototype/r8-frozen-master-placement-proof.html",
     "packAndOutcomeFeasibility": "R8_19_PACK_HOLDING_AND_STATE_DERIVED_EXPRESSION_FEASIBILITY.md",
-    "package12StaticResponsiveQa": "R8_20_PACKAGE_1_2_STATIC_RESPONSIVE_OBSTRUCTION_QA.md"
+    "package12StaticResponsiveQa": "R8_20_PACKAGE_1_2_STATIC_RESPONSIVE_OBSTRUCTION_QA.md",
+    "package3ExactDomDecision": "R8_21_PACKAGE_3_EXACT_DOM_PRESENTATION_ASSET_DECISION.md"
   },
   "reasoningLeadPolicy": {
     "state": "ENFORCED",
@@ -55,10 +56,10 @@
       "sha256": "9b1545b52a5d96a240c92b9901dcd8a4558148dde05a0331882df7bd988177cc",
       "dimensions": "1086x1448"
     },
-    "A03_NIK_FOCUSED_TACTICAL": "PLANNED_GATE_CLOSED",
-    "A04_DANIEL_FOCUSED_TACTICAL": "PLANNED_GATE_CLOSED",
-    "A05_NIK_CELEBRATION_RESOLVE": "PLANNED_GATE_CLOSED_ARCHITECTURE_FEASIBLE",
-    "A06_DANIEL_CELEBRATION_RESOLVE": "PLANNED_GATE_CLOSED_ARCHITECTURE_FEASIBLE"
+    "A03_NIK_FOCUSED_TACTICAL": "PLANNED_GATE_CLOSED_EXACT_DOM_REUSE_FIRST",
+    "A04_DANIEL_FOCUSED_TACTICAL": "PLANNED_GATE_CLOSED_EXACT_DOM_REUSE_FIRST",
+    "A05_NIK_CELEBRATION_RESOLVE": "PLANNED_GATE_CLOSED_ARCHITECTURE_FEASIBLE_REUSE_FIRST",
+    "A06_DANIEL_CELEBRATION_RESOLVE": "PLANNED_GATE_CLOSED_ARCHITECTURE_FEASIBLE_REUSE_FIRST"
   },
   "optionalPackHolderAssets": {
     "state": "OWNER_LIKED_CANDIDATES_PRESERVED_OPTIONAL_ONLY",
@@ -78,7 +79,7 @@
     "firestoreWritesForArtState": 0,
     "newRemoteProtocolFields": 0,
     "imageBytesTransferredThroughFirebase": false,
-    "minimumFutureAssetPolicy": "winner may use A05/A06; loser/draw reuse existing masters unless later evidence proves otherwise"
+    "minimumFutureAssetPolicy": "first test winner emphasis with frozen A01/A02 plus CSS; A05/A06 may reopen only if static exact-DOM composition proves a real payoff gap; loser/draw reuse existing masters"
   },
   "package12Qa": {
     "staticResponsiveStatus": "PASS",
@@ -91,29 +92,42 @@
     "mobile390x844": "PASS_BY_LARGE_ART_OMISSION",
     "fullLinkedBrowserQa": "DEFER_TO_FINAL_IMPLEMENTATION_QA"
   },
-  "currentRoadmapGate": "PACKAGE_3_EXACT_DOM_RECONCILIATION",
+  "package3ExactDom": {
+    "status": "COMPLETE",
+    "decisionDocument": "R8_21_PACKAGE_3_EXACT_DOM_PRESENTATION_ASSET_DECISION.md",
+    "transferChallenge": "REUSE_A01_A02_CSS_FIRST_NO_TACTICAL_GENERATION_JUSTIFIED",
+    "seasonEntrySharedResults": "DATA_FIRST_PRIVATE_REVEAL_SAFE_NO_OUTCOME_ART",
+    "sharedSeasonCommit": "STATUS_ACTION_HIERARCHY_ONLY_NO_WINNER_ART",
+    "localSeasonSummary": "ROUNDRECORD_WINNER_SAFE_PRESENTATION_SOURCE_REUSE_A01_A02_FIRST",
+    "tiebreak": "DEFERRED_NO_LIVE_RUNTIME_AUTHORITY",
+    "A03A04": "HOLD_GATE_CLOSED",
+    "A05A06": "HOLD_GATE_CLOSED",
+    "generationCalls": 0
+  },
+  "currentRoadmapGate": "PACKAGE_3_STATIC_COMPOSITION_OBSTRUCTION_QA",
   "currentGenerationState": "CLOSED",
   "orderedImmediateWorkForSuccessor": [
-    "re-resolve live main and visual head",
-    "study Transfer Challenge and Shared Transfer Challenge exact r10 DOM/runtime first",
-    "test A01/A02 deterministic reuse before opening A03/A04",
-    "study Season Entry and Shared Season Results privacy/waiting/reveal states",
-    "study Shared Season Commit coordinator/acknowledgement states",
-    "study Season Summary and apply R8.19 derived outcome-expression architecture",
-    "verify whether a real Tiebreak screen/state exists before designing one",
-    "open A03/A04 or A05/A06 generation only if exact composition proves an unsatisfied mapped need"
+    "re-resolve live main and visual head before writing",
+    "read R8_21 Package 3 exact-DOM decision as current authority",
+    "build exact-DOM static composition proof using frozen A01/A02 only",
+    "test Transfer window/guess/signing/completed states without obstructing timer, private forms or actions",
+    "test Season Entry and Shared Season Results entry/waiting/reveal states with private data protected",
+    "test Shared Season Commit coordinator/wait/acknowledgement hierarchy",
+    "test local Season Summary playerOne/playerTwo/draw visual emphasis from roundRecord.winner using A01/A02 first",
+    "test wide desktop, 1024x768 and mobile omission rules",
+    "only reopen A03/A04 or A05/A06 generation if static composition proves an unsatisfied mapped need"
   ],
   "progressModel": [
     {"workstream":"approved identity truth recovered and persistently locked","weight":20,"earned":20},
     {"workstream":"live DOM/source reconciliation and runtime screen mapping","weight":10,"earned":10},
     {"workstream":"identity plus natural-expression contract","weight":10,"earned":10},
     {"workstream":"isolated canonical Nik and Daniel character masters","weight":20,"earned":20},
-    {"workstream":"screen-state expression and pose variants","weight":15,"earned":0,"note":"architecture feasible; no formal completion until exact Package 3/Season Summary composition and owner-gated assets"},
-    {"workstream":"R8.5 black-gold final-art and exact DOM composition specification","weight":10,"earned":9},
-    {"workstream":"responsive safe-zone and obstruction QA","weight":10,"earned":4,"note":"Package 1/2 static responsive QA passed; full linked browser QA remains later"},
+    {"workstream":"screen-state expression and pose variants","weight":15,"earned":0,"note":"exact Package 3 study proves reuse-first architecture but no variant completion or owner-frozen new assets yet"},
+    {"workstream":"R8.5 black-gold final-art and exact DOM composition specification","weight":10,"earned":10,"note":"Package 3 exact-DOM presentation/asset decision completes the specification point"},
+    {"workstream":"responsive safe-zone and obstruction QA","weight":10,"earned":4,"note":"Package 1/2 static responsive QA passed; Package 3 static composition/obstruction QA is next; full linked browser QA remains later"},
     {"workstream":"master developer implementation package","weight":5,"earned":1}
   ],
-  "nextSafeAction": "Transition to a fresh visual environment before beginning the large Package 3 exact-DOM branch. Start with the R8.20 successor file. Image generation must remain closed until the successor reaches a proven asset gate.",
+  "nextSafeAction": "Prepare the R8.21 successor starter and transition before beginning Package 3 static composition/obstruction QA. Image generation remains closed at successor start; frozen A01/A02 deterministic reuse must be tested first.",
   "productionBoundaries": {
     "mainMutationAllowed": false,
     "productionDeployAllowed": false,
