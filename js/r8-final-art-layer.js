@@ -1,6 +1,6 @@
 /*
  * Career Mode Showdown — R8.25 bounded production-candidate final-art layer
- * Baseline: main 32723b900dee45f689391908dc976f0ce5d06dd5 / 1.9.1-r11
+ * Baseline: main 637804a9d0e18a88c7a7bb3c79b93d5af2f92062 / 1.9.1-r12
  * Decorative authority only: no storage, Firebase, scoring, routing, pairing,
  * Save Library identity, Remote Joining or billing mutation.
  */
@@ -33,7 +33,7 @@
     });
 
     function assetRevision(){
-        return document.querySelector('meta[name="app-asset-revision"]')?.content || "1.9.1-r11";
+        return document.querySelector('meta[name="app-asset-revision"]')?.content || "1.9.1-r12";
     }
 
     function ensurePresentationStylesheet(){
