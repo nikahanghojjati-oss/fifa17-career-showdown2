@@ -114,6 +114,40 @@
       "generationNote": "not image-generation output",
       "verification": "UTF-8 proposal asset hashed after creation",
       "acceptanceStatus": "PACKAGED_PENDING_VISUAL_QA"
+    },
+    {
+      "id": "I01_TROPHY_SYMBOL_FAMILY",
+      "kind": "original-vector-icon-family",
+      "canonicalFilename": "trophy-symbols.svg",
+      "proposedPackagePath": "assets/icons/trophy-symbols.svg",
+      "source": "original R8.26 proposal SVG",
+      "dimensions": [640, 160],
+      "fileType": "image/svg+xml",
+      "sha256": "637bf9ea5b29f5ea2aea17c14acd57fb81bbe211820d744df8cac56f35973877",
+      "targetScreens": ["seasonSummary", "statistics", "careerStatistics", "trophyRoom", "legacy", "ruleBook"],
+      "responsiveEligibility": "all breakpoints as scalable decorative/supporting symbols",
+      "safeZone": "icons never replace text labels or official competition semantics",
+      "rightsStatus": "original generic geometric trophy/achievement symbols; no official trophy silhouette or logo copied",
+      "generationNote": "not image-generation output",
+      "verification": "UTF-8 proposal asset hashed after creation",
+      "acceptanceStatus": "PACKAGED_PENDING_VISUAL_QA"
+    },
+    {
+      "id": "I02_SYSTEM_STATE_SYMBOL_FAMILY",
+      "kind": "original-vector-icon-family",
+      "canonicalFilename": "system-state-symbols.svg",
+      "proposedPackagePath": "assets/icons/system-state-symbols.svg",
+      "source": "original R8.26 proposal SVG",
+      "dimensions": [800, 160],
+      "fileType": "image/svg+xml",
+      "sha256": "37c565fb8338332f471826dc173851773f8d0830da37720f625cd68bcb9ea4b7",
+      "targetScreens": ["settings", "saveLibrary", "connectedAccount", "pairing", "connectedRivalry", "remoteJoining", "legacy", "restoreRecovery", "offlineUpdate"],
+      "responsiveEligibility": "all breakpoints as scalable supporting symbols",
+      "safeZone": "symbols supplement explicit text state; they never encode authority by icon alone",
+      "rightsStatus": "original generic lock/device/save/recovery/offline geometry; no third-party service marks",
+      "generationNote": "not image-generation output",
+      "verification": "UTF-8 proposal asset hashed after creation",
+      "acceptanceStatus": "PACKAGED_PENDING_VISUAL_QA"
     }
   ]
 }
