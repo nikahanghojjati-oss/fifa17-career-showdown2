@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 900" role="img" aria-labelledby="title desc">
+  <title id="title">League wheel stage halo</title>
+  <desc id="desc">Original transparent concentric gold arena halo designed to sit behind an interactive league wheel.</desc>
+  <defs>
+    <radialGradient id="halo" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#f3cc4f" stop-opacity="0"/>
+      <stop offset=".54" stop-color="#f3cc4f" stop-opacity=".025"/>
+      <stop offset=".72" stop-color="#f3cc4f" stop-opacity=".11"/>
+      <stop offset="1" stop-color="#f3cc4f" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <circle cx="450" cy="450" r="430" fill="url(#halo)"/>
+  <circle cx="450" cy="450" r="386" fill="none" stroke="#f3cc4f" stroke-opacity=".18" stroke-width="2"/>
+  <circle cx="450" cy="450" r="342" fill="none" stroke="#f5f0e4" stroke-opacity=".06" stroke-width="1" stroke-dasharray="2 14"/>
+  <circle cx="450" cy="450" r="302" fill="none" stroke="#f3cc4f" stroke-opacity=".08" stroke-width="1"/>
+  <g stroke="#f3cc4f" stroke-opacity=".24" stroke-width="2">
+    <path d="M450 30V66"/><path d="M450 834V870"/><path d="M30 450H66"/><path d="M834 450H870"/>
+    <path d="M153 153L178 178"/><path d="M722 722L747 747"/><path d="M747 153L722 178"/><path d="M178 722L153 747"/>
+  </g>
+  <g fill="#f5f0e4" opacity=".18">
+    <circle cx="450" cy="83" r="3"/><circle cx="817" cy="450" r="3"/><circle cx="450" cy="817" r="3"/><circle cx="83" cy="450" r="3"/>
+  </g>
+</svg>
