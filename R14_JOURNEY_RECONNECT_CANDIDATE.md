@@ -35,7 +35,18 @@ No runtime behavior was weakened or changed in response to that failure. A bound
 
 The complete `npm run test:ops` authority passed before that temporary correction publisher deleted itself.
 
-Candidate `7ffc6bc3f395c5c3c12e158e683dc429cfc2d700` remains historical failure evidence only. This document update creates the fresh connector-authored candidate boundary after the proven operations correction. All required PR POS20 lanes and the exact-head cognitive seal must pass again on this new head; evidence must not be combined across candidate heads.
+Candidate `6991e57b8f6029a2d2cb59e8d70a4d51d0ab1f0f` then received a completely fresh normal PR POS20 run. The selector, cognitive benchmark, operations authority, deterministic census, INLINE, STORAGE, VISUAL, STATIC and REMOTE lanes all passed. The inherited FULL lane failed twice on the unchanged head at the same post-reload acceptance-recorder checkpoint, so POS20 anti-spiral rules correctly ended retrying and forced root-cause investigation.
+
+The r14 Journey Reconnect browser audit itself had already passed inside that FULL bundle. Instrumented post-reload evidence then proved the actual defect: the still-r13 service worker controlled the reloaded page and requested `js/sharedJourneyReconnect.js?v=1.9.1-r13`, but the two newly introduced r14 assets were absent from `SHELL_PATHS`. The service worker intentionally answers a versioned same-origin asset with `Response.error()` when it is not present in the selected runtime cache. As a result, `ssjr.js` stopped immediately after r13 Multi Season and never reached Journey Reconnect or the acceptance tooling that follows it.
+
+A bounded product-integration correction therefore added exactly these runtime assets to the service-worker shell:
+
+- `js/sharedJourneyReconnect.js`
+- `js/productionSharedJourneyReconnect.js`
+
+The r14 production contract now explicitly requires both assets in `service-worker.js`, and its POS20 supplemental registration now treats `service-worker.js` as an r14 production-impact path. The corrected integration passed the r14 production contract, the complete POS20 operations audit and the exact inherited SSJR production acceptance-recorder browser audit including its real reload under service-worker control. Temporary diagnostic workflow and script files were deleted by the successful publisher.
+
+Historical candidates and their green lanes remain historical evidence only. This document update creates the fresh connector-authored candidate boundary after the proven service-worker integration correction. All required PR POS20 lanes and the exact-head cognitive seal must pass again on this new head; evidence must not be combined across candidate heads.
 
 ## Exact-head acceptance rule
 
