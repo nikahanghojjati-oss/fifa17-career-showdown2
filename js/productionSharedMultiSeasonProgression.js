@@ -41,7 +41,11 @@
     return exposedSeason;
   }
   function pmspFallbackSeason(value){const n=Number(value);return Number.isInteger(n)&&n>=1&&n<=10?n:null;}
-  function pmspResolveSeason(fallback=null){if(!pmspSharedMarker())return pmspFallbackSeason(fallback??pmspShowdown()?.currentRound);return pmspEnsureCursor()||pmspFallbackSeason(fallback??pmspShowdown()?.currentRound);}
+  function pmspResolveSeason(fallback=null){
+    const local=pmspFallbackSeason(fallback??pmspShowdown()?.currentRound);if(!pmspSharedMarker())return local;
+    const rivalryId=pmspRivalryId(),authoritative=Boolean(view&&view.ok===true&&view.authoritative===true&&view.state&&String(view.rivalryId||"")===rivalryId);
+    return authoritative?(pmspEnsureCursor()||local):local;
+  }
   function pmspRequest(){
     const showdown=pmspShowdown(),rivalryId=pmspRivalryId(),saveId=String(showdown?.id||showdown?.saveId||"").trim();
     if(!pmspSharedMarker()||!rivalryId)return null;pmspEnsureCursor();return Object.freeze({rivalryId,key:`${saveId||"shared"}|${rivalryId}|multi-season`});
@@ -77,7 +81,7 @@
     const ui=pmspEnsureUi();if(!ui)return false;const season=pmspEnsureCursor(),state=view?.state,visible=Boolean(pmspSharedMarker()&&season&&state&&pmspScreenVisible()&&Number.isInteger(state.acceptedSeasons)&&state.acceptedSeasons>=season);
     pmspHidden(ui.status,!visible);pmspHidden(ui.action,!visible);if(!visible)return false;
     if(pmspTerminalWitnessed()){
-      pmspText(ui.status,`ALL ${state.totalSeasons} SEASONS ARE AUTHORITATIVELY ACCEPTED · FINAL RECONCILIATION REMAINS A SEPARATE STEP`);pmspText(ui.action,"SEASON PLAN COMPLETE ✓");pmspDisable(ui.action,true);return true;
+      pmspText(ui.status,`ALL ${state.totalSeasons} SEASONS ARE AUTHORITIVELY ACCEPTED · FINAL RECONCILIATION REMAINS A SEPARATE STEP`);pmspText(ui.action,"SEASON PLAN COMPLETE ✓");pmspDisable(ui.action,true);return true;
     }
     if(pmspHistoryWitnessed()){
       const next=season+1;pmspText(ui.status,`SEASON ${season} HISTORY IS CONVERGED ON THIS DEVICE · CONTINUE ONCE TO SEASON ${next}`);pmspText(ui.action,`CONTINUE TO SEASON ${next}`);pmspDisable(ui.action,!pmspCanContinue());return true;
