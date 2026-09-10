@@ -7,6 +7,7 @@ const coreSource=read('js/sharedJourneyReconnect.js');
 const multiSource=read('js/sharedMultiSeasonProgression.js');
 const entry=read('js/productionSharedJourneyEntry.js');
 const bootstrap=read('js/ssjr.js');
+const serviceWorker=read('service-worker.js');
 
 assert.match(production,/runtimeRevision:"1\.9\.1-r14"/);
 assert.match(production,/js\/sharedMultiSeasonProgression\.js/);
@@ -46,6 +47,8 @@ assert.match(bootstrap,/ssjr-journey-reconnect-protocol/);
 assert.match(bootstrap,/ssjr-production-journey-reconnect/);
 assert.ok(bootstrap.indexOf('ssjr-production-history-convergence')<bootstrap.indexOf('ssjr-production-multi-season'),'History Convergence must precede Multi Season.');
 assert.ok(bootstrap.indexOf('ssjr-production-multi-season')<bootstrap.indexOf('ssjr-production-journey-reconnect'),'Multi Season must precede Journey Reconnect.');
+assert.match(serviceWorker,/js\/sharedJourneyReconnect\.js/,'r14 protocol must survive reload/offline service-worker control.');
+assert.match(serviceWorker,/js\/productionSharedJourneyReconnect\.js/,'r14 production adapter must survive reload/offline service-worker control.');
 
 assert.match(coreSource,/RUNTIME_REVISION="1\.9\.1-r14"/);
 assert.match(coreSource,/canonicalStorageMutation:false,providerWriteRequired:false,listPermissionRequired:false,billingRequired:false/);

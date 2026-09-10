@@ -271,7 +271,8 @@
         "^tests/contracts/shared-journey-reconnect-production-contracts\\.cjs$",
         "^tests/browser/shared-journey-reconnect-audit\\.cjs$",
         "^package\\.json$",
-        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$",
+        "^service-worker\\.js$"
       ]
     }
   ]

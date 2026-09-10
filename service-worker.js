@@ -87,6 +87,8 @@ const SHELL_PATHS = Object.freeze([
     "js/sharedMultiSeasonProgression.js",
     "js/sparkSharedMultiSeasonProgression.js",
     "js/productionSharedMultiSeasonProgression.js",
+    "js/sharedJourneyReconnect.js",
+    "js/productionSharedJourneyReconnect.js",
     "js/remoteJoiningAcceptance.js",
     "js/sparkRemoteJoining.js",
     "js/sparkAccountBootstrap.js",
