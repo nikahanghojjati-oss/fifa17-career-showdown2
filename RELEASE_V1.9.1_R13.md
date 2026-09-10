@@ -16,4 +16,6 @@ The production adapter is additive: before r13 provider authority is established
 
 The candidate includes deterministic progression/provider contracts and a two-context desktop/mobile browser audit covering 1, 3, 5 and 10 season plans. Exact-head POS20 validation is required after this publication commit; earlier green heads are historical evidence only.
 
+The one-shot shell publisher produced coherent r13 bytes but its Actions-authored commit was not eligible to execute the normal PR validation jobs. This connector-authored provenance commit intentionally changes no product behavior and exists to establish a new exact head on which the complete POS20 suite can execute. Only that new exact-head run may authorize integration.
+
 No new Firestore write or collection-list surface is introduced by Multi Season progression. Firebase remains Spark-only and billing remains permanently off. SSJR production-two-account acceptance remains separate from MDP engineering maturity.
