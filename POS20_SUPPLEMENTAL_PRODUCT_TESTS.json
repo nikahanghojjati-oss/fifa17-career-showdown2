@@ -300,6 +300,31 @@
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$",
         "^service-worker\\.js$"
       ]
+    },
+    {
+      "path": "tests/contracts/shared-local-reconciliation-contracts.cjs",
+      "patterns": [
+        "^js/sharedLocalReconciliation\\.js$",
+        "^tests/contracts/shared-local-reconciliation-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/shared-local-reconciliation-production-contracts.cjs",
+      "patterns": [
+        "^js/sharedLocalReconciliation\\.js$",
+        "^js/productionSharedLocalReconciliation\\.js$",
+        "^js/sparkConnectedRivalry\\.js$",
+        "^js/restore\\.js$",
+        "^js/ssjr\\.js$",
+        "^service-worker\\.js$",
+        "^tests/contracts/stage4-remote-local-reconciliation-contracts\\.cjs$",
+        "^tests/contracts/shared-local-reconciliation-contracts\\.cjs$",
+        "^tests/contracts/shared-local-reconciliation-production-contracts\\.cjs$",
+        "^tests/browser/shared-local-reconciliation-audit\\.cjs$",
+        "^package\\.json$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }

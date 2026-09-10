@@ -1,0 +1,16 @@
+const assert=require("node:assert/strict");
+const fs=require("node:fs");
+const read=p=>fs.readFileSync(p,"utf8");
+const protocol=read("js/sharedLocalReconciliation.js");
+const production=read("js/productionSharedLocalReconciliation.js");
+const connected=read("js/sparkConnectedRivalry.js");
+const restore=read("js/restore.js");
+const shell=read("service-worker.js");
+const ssjr=read("js/ssjr.js");
+assert.match(protocol,/automaticLocalApply:false/);assert.match(protocol,/candidateCOnly:true/);assert.match(protocol,/OFFLINE_FALLBACK/);
+assert.match(production,/previewLocalReconciliation/);assert.match(production,/applyLocalReconciliation/);assert.match(production,/confirmed!==true/);assert.match(production,/LOCAL_RECONCILIATION_OFFLINE_APPLY_DENIED/);assert.match(production,/canonicalStorageMutation:false/);assert.doesNotMatch(production,/localStorage\.setItem|sessionStorage\.setItem|runTransaction\(|setDoc\(|updateDoc\(/);
+assert.match(connected,/previewLocalReconciliation:crHandleReconciliationPreview/);assert.match(connected,/applyLocalReconciliation:crHandleReconciliationApply/);assert.match(connected,/prepareCareerModeRemoteReconciliationIntent/);assert.match(connected,/applyCareerModeRemoteReconciliation/);
+for(const token of ["createCareerModeBackupEnvelope","verifyCareerModeBackupEnvelopeChecksum","downloadCareerModeBackupEnvelope","applyCareerModeRawStorageTransaction","remote-stale","stale-state"])assert.match(restore,new RegExp(token));
+for(const asset of ["js/sharedLocalReconciliation.js","js/productionSharedLocalReconciliation.js"])assert.ok(shell.includes(`\"${asset}\"`),`${asset} must be service-worker shell-owned`);
+assert.match(ssjr,/ssjr-local-reconciliation-protocol/);assert.match(ssjr,/ssjr-production-local-reconciliation/);
+process.stdout.write("PASS r16 production Local Reconciliation delegates to existing Candidate B/C authority with shell/reload safety and no new provider/storage writer\n");

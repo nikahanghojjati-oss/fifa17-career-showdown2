@@ -1432,6 +1432,8 @@
     attachRivalry:crAttachRivalry,
     readSharedState:crReadSharedState,
     publishSharedState:crPublishSharedState,
+    previewLocalReconciliation:crHandleReconciliationPreview,
+    applyLocalReconciliation:crHandleReconciliationApply,
     verifyLiveSharedStateIntegrity:crAssertLiveSharedStateIntegrity,
     initialize:crInitialize,
     mountWhenSettingsReady:crMountWhenSettingsReady,
