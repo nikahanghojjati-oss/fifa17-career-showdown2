@@ -20,6 +20,7 @@ const flush=()=>new Promise(resolve=>setImmediate(resolve));
 (async()=>{
   const leftContext=makeContext("playerOne"),rightContext=makeContext("playerTwo");
   leftContext.context.CareerModeProductionSharedFinalReconciliation.install();rightContext.context.CareerModeProductionSharedFinalReconciliation.install();
+  assert.equal(typeof leftContext.listeners.get("career-mode-active-save-changed"),"function","Final Reconciliation must subscribe to the synchronous Save Library active-context event.");
   const left=await leftContext.context.CareerModeProductionSharedFinalReconciliation.refresh(),right=await rightContext.context.CareerModeProductionSharedFinalReconciliation.refresh();
   assert.deepEqual(JSON.parse(JSON.stringify(left)),JSON.parse(JSON.stringify(right)),"Both independent manager contexts must converge on one identical completed Showdown projection.");assert.equal(left.phase,"FINAL_SEASON_RECONCILED");assert.equal(left.winner,"playerOne");assert.equal(left.acceptedSeasons,1);assert.equal(left.nextSeason,null);assert.equal(left.extraSeasonAllowed,false);assert.equal(left.terminalCloseRequired,true);assert.deepEqual(leftContext.writes,[]);assert.deepEqual(rightContext.writes,[]);
   assert.match(String(leftContext.context.currentShowdown.id),/^\d+$/,"The test keeps the legacy Showdown id non-canonical so Final Reconciliation must read identity.saveId.");assert.equal(leftContext.context.currentShowdown.identity.saveId,slots[0].saveId);
