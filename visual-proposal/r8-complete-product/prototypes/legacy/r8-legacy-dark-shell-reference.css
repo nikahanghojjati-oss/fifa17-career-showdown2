@@ -1,0 +1,208 @@
+/*
+  R8 Legacy dark-shell reference
+  Proposal-only. Not production authority.
+  Scope is intentionally explicit so this file cannot be mistaken for a global patch.
+*/
+
+[data-r8-proposal-theme="dark"] #legacy {
+  --r8-legacy-shell: #080b0e;
+  --r8-legacy-panel: #11171d;
+  --r8-legacy-panel-raised: #151d24;
+  --r8-legacy-text: #f4f0e6;
+  --r8-legacy-muted: #b5bdc4;
+  --r8-legacy-tertiary: #99a3ab;
+  --r8-legacy-gold: #d4af37;
+  --r8-legacy-gold-light: #e3c565;
+  --r8-legacy-info: #91dcf4;
+  --r8-legacy-success: #7fd1ae;
+  --r8-legacy-danger: #ff6b73;
+  color: var(--r8-legacy-text);
+}
+
+/* The discovered 1.3:1 failure is resolved here directly. */
+[data-r8-proposal-theme="dark"] #legacy .legacySectionHeading {
+  color: var(--r8-legacy-text);
+  border-left-color: var(--r8-legacy-gold);
+}
+
+/* Level B archive panels. */
+[data-r8-proposal-theme="dark"] #legacy .legacyStat,
+[data-r8-proposal-theme="dark"] #legacy .legacyEmpty,
+[data-r8-proposal-theme="dark"] #legacy .legacyDataControls,
+[data-r8-proposal-theme="dark"] #legacy .legacyImportAnalysis {
+  color: var(--r8-legacy-text);
+  background: var(--r8-legacy-panel);
+  border-color: rgba(212, 175, 55, 0.26);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.24);
+}
+
+[data-r8-proposal-theme="dark"] #legacy .legacyStat {
+  border-top-color: rgba(212, 175, 55, 0.60);
+}
+
+[data-r8-proposal-theme="dark"] #legacy .legacyStat:nth-child(2) {
+  border-top-color: rgba(145, 220, 244, 0.58);
+}
+
+[data-r8-proposal-theme="dark"] #legacy .legacyStat:nth-child(3) {
+  border-top-color: var(--r8-legacy-gold);
+}
+
+[data-r8-proposal-theme="dark"] #legacy .legacyStat span,
+[data-r8-proposal-theme="dark"] #legacy .legacyEmpty,
+[data-r8-proposal-theme="dark"] #legacy .legacyCardMeta,
+[data-r8-proposal-theme="dark"] #legacy .legacySeasonManager,
+[data-r8-proposal-theme="dark"] #legacy .legacySeasonHonours,
+[data-r8-proposal-theme="dark"] #legacy .legacyDataControls p,
+[data-r8-proposal-theme="dark"] #legacy .legacyDataStatus,
+[data-r8-proposal-theme="dark"] #legacy .legacyImportAnalysis > p,
+[data-r8-proposal-theme="dark"] #legacy .legacyImportFileState,
+[data-r8-proposal-theme="dark"] #legacy .legacyImportStatus {
+  color: var(--r8-legacy-muted) !important;
+}
+
+[data-r8-proposal-theme="dark"] #legacy .legacyStat strong,
+[data-r8-proposal-theme="dark"] #legacy .legacyDataControls h3,
+[data-r8-proposal-theme="dark"] #legacy .legacyImportAnalysis h4 {
+  color: var(--r8-legacy-text);
+}
+
+/* Archive cards remain cinematic but are pulled into the black/gold system. */
+[data-r8-proposal-theme="dark"] #legacy .legacyShowdownCard {
+  color: var(--r8-legacy-text);
+  background:
+    linear-gradient(112deg, rgba(17, 23, 29, 0.98) 0 58%, rgba(27, 34, 40, 0.98) 100%);
+  border-left-color: var(--r8-legacy-gold);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.26);
+}
+
+[data-r8-proposal-theme="dark"] #legacy .legacyCardTitle h3,
+[data-r8-proposal-theme="dark"] #legacy .legacySeasonNumber,
+[data-r8-proposal-theme="dark"] #legacy .legacyBackupSummary strong,
+[data-r8-proposal-theme="dark"] #legacy .legacyImportDropZone strong {
+  color: var(--r8-legacy-gold-light);
+}
+
+[data-r8-proposal-theme="dark"] #legacy .legacyCardTitle p,
+[data-r8-proposal-theme="dark"] #legacy .legacyDetails summary {
+  color: var(--r8-legacy-muted);
+}
+
+[data-r8-proposal-theme="dark"] #legacy .legacyMatchup strong,
+[data-r8-proposal-theme="dark"] #legacy .legacyWinner,
+[data-r8-proposal-theme="dark"] #legacy .legacySeasonScore {
+  color: var(--r8-legacy-text);
+}
+
+[data-r8-proposal-theme="dark"] #legacy .legacyMatchup span {
+  color: var(--r8-legacy-info);
+}
+
+[data-r8-proposal-theme="dark"] #legacy .legacyDetails {
+  border-top-color: rgba(244, 240, 230, 0.12);
+}
+
+[data-r8-proposal-theme="dark"] #legacy .legacySeasonRow {
+  background: rgba(5, 7, 8, 0.40);
+  border-left-color: rgba(145, 220, 244, 0.48);
+}
+
+/* Level C backup/import/recovery surfaces keep decoration restrained. */
+[data-r8-proposal-theme="dark"] #legacy .legacyBackupSummary,
+[data-r8-proposal-theme="dark"] #legacy .legacyImportDropZone {
+  color: var(--r8-legacy-text);
+  background: var(--r8-legacy-panel-raised);
+}
+
+[data-r8-proposal-theme="dark"] #legacy .legacyBackupSummary {
+  border-left-color: var(--r8-legacy-info);
+}
+
+[data-r8-proposal-theme="dark"] #legacy .legacyImportDropZone {
+  border-color: rgba(145, 220, 244, 0.64);
+}
+
+[data-r8-proposal-theme="dark"] #legacy .legacyImportDropZone span {
+  color: var(--r8-legacy-muted);
+}
+
+[data-r8-proposal-theme="dark"] #legacy .legacyImportDropZone.dragActive,
+[data-r8-proposal-theme="dark"] #legacy .legacyImportDropZone:focus-visible {
+  border-color: var(--r8-legacy-gold);
+  outline: 3px solid rgba(227, 197, 101, 0.48);
+  outline-offset: 3px;
+}
+
+/* Neutral buttons are dark; primary and destructive actions remain semantically distinct. */
+[data-r8-proposal-theme="dark"] #legacy .compactButton {
+  color: var(--r8-legacy-text);
+  background: #1a2229;
+  border-color: rgba(244, 240, 230, 0.24);
+}
+
+[data-r8-proposal-theme="dark"] #legacy .compactButton:hover,
+[data-r8-proposal-theme="dark"] #legacy .compactButton:focus-visible {
+  color: #ffffff;
+  background: #202a32;
+  border-color: var(--r8-legacy-gold);
+  outline: 3px solid var(--r8-legacy-gold-light);
+  outline-offset: 3px;
+}
+
+[data-r8-proposal-theme="dark"] #legacy .primaryDataButton {
+  color: #080b0e;
+  background: var(--r8-legacy-gold-light);
+  border-color: var(--r8-legacy-gold);
+}
+
+[data-r8-proposal-theme="dark"] #legacy .primaryDataButton:hover,
+[data-r8-proposal-theme="dark"] #legacy .primaryDataButton:focus-visible {
+  color: #080b0e;
+  background: #f5e8bd;
+  border-color: var(--r8-legacy-gold-light);
+}
+
+[data-r8-proposal-theme="dark"] #legacy .dangerButton,
+[data-r8-proposal-theme="dark"] #legacy .dangerButton:hover,
+[data-r8-proposal-theme="dark"] #legacy .dangerButton:focus-visible {
+  color: var(--r8-legacy-danger) !important;
+  background: rgba(255, 107, 115, 0.08) !important;
+  border-color: rgba(255, 107, 115, 0.62) !important;
+}
+
+/* Candidate B preview/result surfaces also become dark so old ink cannot leak onto dark cards. */
+[data-r8-proposal-theme="dark"] #legacy .legacyImportVerdict,
+[data-r8-proposal-theme="dark"] #legacy .legacyImportPreviewCard,
+[data-r8-proposal-theme="dark"] #legacy .legacyImportMigrationSummary,
+[data-r8-proposal-theme="dark"] #legacy .legacyImportConflictList,
+[data-r8-proposal-theme="dark"] #legacy .legacyImportMessages {
+  color: var(--r8-legacy-text);
+  background: var(--r8-legacy-panel-raised);
+}
+
+[data-r8-proposal-theme="dark"] #legacy .legacyImportVerdict span,
+[data-r8-proposal-theme="dark"] #legacy .legacyImportPreviewCard span,
+[data-r8-proposal-theme="dark"] #legacy .legacyImportPreviewCard small {
+  color: var(--r8-legacy-muted);
+}
+
+[data-r8-proposal-theme="dark"] #legacy .legacyImportPreviewCard strong {
+  color: var(--r8-legacy-text);
+}
+
+[data-r8-proposal-theme="dark"] #legacy .legacyImportVerdict.ready strong {
+  color: var(--r8-legacy-success);
+}
+
+[data-r8-proposal-theme="dark"] #legacy .legacyImportVerdict.blocked strong {
+  color: var(--r8-legacy-danger);
+}
+
+/* Reduced motion: Legacy data/recovery states never require decorative motion. */
+@media (prefers-reduced-motion: reduce) {
+  [data-r8-proposal-theme="dark"] #legacy *,
+  [data-r8-proposal-theme="dark"] #legacy *::before,
+  [data-r8-proposal-theme="dark"] #legacy *::after {
+    scroll-behavior: auto;
+  }
+}
