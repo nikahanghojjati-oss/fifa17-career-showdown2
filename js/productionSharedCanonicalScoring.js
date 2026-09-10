@@ -54,6 +54,7 @@
   }
   async function pcscRefreshNow(request=pcscRequestContext()){
     if(!request||!pcscSharedMarker())return null;await pcscEnsureDependencies();if(!pcscContextMatches(request))return null;
+    if(!pcscCommitReady(request)){view=null;contextKey=request.key;pcscRender();return null;}
     await setupApi.refresh();if(!pcscContextMatches(request))return null;await commitApi.refresh();if(!pcscContextMatches(request))return null;
     if(!pcscCommitReady(request)){view=null;contextKey=request.key;pcscRender();return null;}
     const result=pcscResult(await provider.read(await pcscProviderOptions(request)));if(!pcscContextMatches(request))return null;
