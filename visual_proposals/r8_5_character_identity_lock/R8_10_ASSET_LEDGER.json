@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "1.1.0",
+  "schemaVersion": "1.2.0",
   "lane": "independent visual proposal",
   "sourcePin": "1d0c9f9d6542cd020a4aae53998cb6daeba380e4",
   "assetRevision": "1.9.1-r10",
@@ -15,7 +15,7 @@
     "cancelledCharacterMasters": 2,
     "nonCharacterAssetFamilies": 5,
     "nonCharacterFamiliesRequiringImageGenerationNow": 0,
-    "rejectedNonShippingOutputsTracked": 2
+    "rejectedNonShippingOutputsTracked": 4
   },
   "characterAssets": [
     {
@@ -26,7 +26,7 @@
       "generationJustification": "R8.11 proves the core pose fits Home/Create/League/Club, but approved truth is primarily composite/reference material rather than one clean reusable isolated transparent master",
       "screens": ["Startup", "Home", "Create Showdown", "League Wheel", "Club Assignment", "Dashboard crops", "Shared Setup crops", "Remote Joining chips", "Season Entry crops", "Legacy crops", "Tiebreak fallback"],
       "identityAuthority": "Tier 0 owner-approved CM17 Nik AI references",
-      "notes": "Owner liked the strongest earlier thinking/hero direction. Finalization should reuse/edit that direction if available rather than recast Nik. One character, one asset, no board, no webpage."
+      "notes": "R8.12 exact production brief is sealed. Owner liked the strongest earlier thinking/hero direction. Finalization should reuse/edit that direction if available rather than recast Nik. One character, one asset, no board, no webpage."
     },
     {
       "id": "A02_DANIEL_CORE_POINTING_HERO",
@@ -143,8 +143,22 @@
       "id": "RJ02_UNSOLICITED_NIK_STADIUM_THINKING_REFINEMENT",
       "status": "REJECTED_NON_SHIPPING",
       "reason": "good rendering quality but generated at the wrong process stage and drifted from approved visual identity; must not be promoted to A01"
+    },
+    {
+      "id": "RJ03_A01_CONTEXT_DRIFT_BOARD_1",
+      "status": "REJECTED_NON_SHIPPING",
+      "generationId": "bbf3c73a-6d59-49f2-938e-d330a9167aec",
+      "conversationFileId": "file_0000000049c081f79f1c40f01f66b431",
+      "reason": "image engine ignored the sealed A01 single-character brief inside the overloaded session and produced a whole-project UI/UX portfolio board; contains Daniel, UI and text; not an A01 candidate and earns zero progress"
+    },
+    {
+      "id": "RJ04_A01_CONTEXT_DRIFT_BOARD_2",
+      "status": "REJECTED_NON_SHIPPING",
+      "generationId": "124e9bbd-58f5-47b5-8fd0-7430fe8a2048",
+      "conversationFileId": "file_00000000d1a081f7b32272e924c214ff",
+      "reason": "second narrowed retry still produced a whole-project design board, proving current-session context pressure is contaminating image generation; not an A01 candidate and earns zero progress"
     }
   ],
   "freezeRule": "once the owner approves an asset, change its status to OWNER_APPROVED_FROZEN, record its exact file/hash, and never regenerate it for cropping, mirroring, responsive placement or board assembly",
-  "nextDecision": "prepare the exact A01 Nik core-master production brief from Tier 0 identity/style truth and the owner-liked isolated Nik direction; only then invoke one-character image generation/editing"
+  "nextDecision": "transition to a fresh visual session. Read START_NEXT_VISUAL_SESSION_R8_12_A01_SINGLE_ASSET_SAFE_TRANSFER.md and the sealed A01 brief. Do not redo mapping or safe-zone proof. Resolve exact Tier 0 A/B references and generate exactly one isolated Nik A01 candidate in a clean context."
 }
