@@ -31,7 +31,6 @@ jobs:
           old = '''    await acceptance.page.locator("#loadingScreen").waitFor({state:"hidden",timeout:12000});
               await acceptance.page.locator("#ssjrProductionAcceptanceRecorder").waitFor({state:"visible",timeout:7000});
               await acceptance.page.waitForFunction(()=>window.CareerModeSSJRProductionAcceptanceRecorder.getState().statusRows[4].passed===true,null,{timeout:5000});'''
-          # tolerate source indentation exactly as repository currently uses
           old = old.replace('              ', '    ')
           new = '''    await acceptance.page.locator("#loadingScreen").waitFor({state:"hidden",timeout:12000});
               await acceptance.page.waitForFunction(()=>Boolean(window.CareerModeSSJRProductionAcceptanceRecorder&&typeof window.CareerModeSSJRProductionAcceptanceRecorder.getState==="function"),null,{timeout:12000});
@@ -46,7 +45,16 @@ jobs:
         shell: bash
         run: |
           npm ci
-          node tests/browser/ssjr-production-acceptance-recorder-audit.cjs
+          npm run serve:test >/tmp/cms-r14-recorder-server.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          ready=0
+          for _ in $(seq 1 40); do
+            if curl -fsS http://127.0.0.1:4173/ >/dev/null; then ready=1; break; fi
+            sleep 0.25
+          done
+          if [ "$ready" -ne 1 ]; then cat /tmp/cms-r14-recorder-server.log; exit 1; fi
+          CMS_CHROMIUM_MULTI_CONTEXT=1 node tests/browser/ssjr-production-acceptance-recorder-audit.cjs
       - name: Commit bounded audit correction and delete publisher
         shell: bash
         run: |
