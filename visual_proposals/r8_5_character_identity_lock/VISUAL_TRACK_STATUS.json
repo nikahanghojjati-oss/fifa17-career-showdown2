@@ -1,13 +1,13 @@
 {
-  "schemaVersion": "1.6.0",
+  "schemaVersion": "1.7.0",
   "lane": "independent visual proposal",
   "status": "ACTIVE",
   "proposalBranch": "visual/r8-5-approved-character-identity-lock",
   "latestObservedMainSha": "1d0c9f9d6542cd020a4aae53998cb6daeba380e4",
   "latestObservedAssetRevision": "1.9.1-r10",
-  "currentMilestone": "R8.11 Package 1/2 safe-zone composition proof complete; A01 pre-production next",
-  "visualProductionProgressPercent": 55.0,
-  "handoffProximityPercent": 42,
+  "currentMilestone": "R8.12 A01 Nik core thinking hero production brief sealed; single-asset generation gate open",
+  "visualProductionProgressPercent": 56.0,
+  "handoffProximityPercent": 44,
   "runtimeMapping": {
     "state": "COMPLETE_BASELINE",
     "mappedPrimaryAndNestedSurfaces": 24,
@@ -19,6 +19,7 @@
     "package12CssPrototype": "prototype/r8-package-1-2-presentation.css",
     "safeZoneProof": "R8_11_SAFE_ZONE_COMPOSITION_PROOF.md",
     "safeZoneWireframe": "prototype/r8-safe-zone-proof.html",
+    "a01ProductionBrief": "R8_12_A01_NIK_CORE_THINKING_HERO_PRODUCTION_BRIEF.md",
     "sourcePin": "1d0c9f9d6542cd020a4aae53998cb6daeba380e4",
     "sourceAssetRevision": "1.9.1-r10"
   },
@@ -54,7 +55,7 @@
     "nonCharacterImageGenerationRequiredNow": 0,
     "rejectedOutputsTracked": 2
   },
-  "characterApprovalGate": "PARTIAL_DIRECTION_APPROVED_FINAL_MASTERS_PENDING",
+  "characterApprovalGate": "A01_BRIEF_SEALED_CANDIDATE_PENDING_OWNER_REVIEW",
   "generationFormatPolicy": "ONE_CHARACTER_ONE_REQUIRED_EXPRESSION_HIGH_RESOLUTION_WHEN_GENERATION_IS_ACTUALLY_JUSTIFIED",
   "multiExpressionBoardGeneration": "RETIRED_FOR_PRODUCTION",
   "identityAuthority": {
@@ -67,19 +68,20 @@
     "visualProcess": "reason, map, justify, then build; image generation only when the roadmap reaches a real asset need",
     "assetTracking": "keep a durable list of required, built, approved, rejected and reusable assets so nothing is casually rebuilt",
     "reporting": "after meaningful work report current milestone, concrete progress, remaining assets and handoff proximity",
+    "transition": "when context pressure becomes high, produce a complete successor package so the next session resumes from the exact checkpoint without redoing completed work",
     "prototype": "rough placeholders are acceptable for layout proof but can never become final identity assets"
   },
   "progressModel": [
     {"workstream":"approved identity truth recovered and persistently locked","weight":20,"earned":20,"state":"done"},
     {"workstream":"live DOM/source reconciliation and runtime screen mapping","weight":10,"earned":10,"state":"r10 map sealed across 24 primary/nested surfaces"},
     {"workstream":"identity plus natural-expression contract","weight":10,"earned":10,"state":"done; final generation owner-gated"},
-    {"workstream":"isolated canonical Nik and Daniel character masters","weight":20,"earned":3,"state":"A01/A02 final isolated masters now justified by safe-zone proof; neither is frozen yet"},
+    {"workstream":"isolated canonical Nik and Daniel character masters","weight":20,"earned":4,"state":"A01 exact production brief sealed and generation gate open; A02 waits for A01 freeze"},
     {"workstream":"screen-state expression and pose variants","weight":15,"earned":0,"state":"bounded to A03-A06 only; Club Pack special poses cancelled"},
     {"workstream":"R8.5 black-gold final-art and exact DOM composition specification","weight":10,"earned":9,"state":"Package 1/2 exact DOM spec, CSS prototype and four-screen safe-zone proof complete"},
     {"workstream":"responsive safe-zone and obstruction QA","weight":10,"earned":2,"state":"first proof completed for Home/Create/League/Club; broader package QA remains"},
-    {"workstream":"master developer implementation package","weight":5,"earned":1,"state":"skeleton exists; final package waits for assets and remaining packages"}
+    {"workstream":"master developer implementation package","weight":5,"earned":1,"state":"skeleton exists; final package waits for approved assets and remaining packages"}
   ],
-  "nextSafeAction": "Do not jump straight to a generic image prompt. Prepare the exact A01_NIK_CORE_THINKING_HERO production brief by resolving the strongest Tier 0 Nik AI identity/style references and the owner-liked isolated Nik direction. Define crop, body extent, transparent/maskable background, gaze, expression, wardrobe, forbidden drift and desktop safe-zone requirements. After that brief is sealed, invoke image generation/editing for one Nik only and present it as an A01 candidate for owner approval.",
+  "nextSafeAction": "Generate/edit exactly one A01_NIK_CORE_THINKING_HERO candidate using R8_12_A01_NIK_CORE_THINKING_HERO_PRODUCTION_BRIEF.md. Use the owner-approved AI Nik identity/style references as authority and real photos only as geometry evidence. No Daniel, no text, no webpage, no batch. Present the candidate for owner approval; do not freeze it automatically.",
   "handoffRule": {
     "0to49": "continue visual work normally",
     "50to69": "keep continuity file current after each substantial milestone",
