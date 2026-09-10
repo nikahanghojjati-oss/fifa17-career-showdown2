@@ -8,6 +8,7 @@
   const POLL_MS=15000;
   const STATUS_ID="sharedJourneyReconnectStatus";
   const DEPENDENCIES=Object.freeze([
+    ["ssjr-multi-season-protocol","js/sharedMultiSeasonProgression.js",()=>root.CareerModeSharedMultiSeasonProgression],
     ["ssjr-journey-reconnect-protocol","js/sharedJourneyReconnect.js",()=>root.CareerModeSharedJourneyReconnect],
     ["ssjr-production-setup","js/productionSharedShowdownSetup.js",()=>root.CareerModeProductionSharedShowdownSetup],
     ["ssjr-production-multi-season","js/productionSharedMultiSeasonProgression.js",()=>root.CareerModeProductionSharedMultiSeasonProgression],
@@ -28,7 +29,7 @@
     const resolved={};for(const [key,path,ready] of DEPENDENCIES)resolved[key]=await pjrLoad(key,path,ready);
     const factory=resolved["ssjr-journey-reconnect-protocol"];
     if(!factory||typeof factory.createProtocol!=="function")pjrFail("JOURNEY_RECONNECT_PROTOCOL_UNAVAILABLE");
-    protocol=protocol||factory.createProtocol();
+    protocol=protocol||factory.createProtocol({multiSeasonModule:resolved["ssjr-multi-season-protocol"]});
     setupApi=resolved["ssjr-production-setup"];multiApi=resolved["ssjr-production-multi-season"];remoteApi=resolved.rj;accountApi=resolved["spark-account"];pairingApi=resolved.pairing;rivalryApi=resolved.rivalry;
     if(typeof setupApi?.refresh!=="function"||typeof setupApi?.getState!=="function")pjrFail("JOURNEY_RECONNECT_SETUP_UNAVAILABLE");
     if(typeof multiApi?.refresh!=="function"||typeof multiApi?.getState!=="function")pjrFail("JOURNEY_RECONNECT_PROGRESSION_UNAVAILABLE");
@@ -93,9 +94,9 @@
     await pjrEnsureDependencies();
     if(!pjrOnline())return pjrOfflineHold();
     const authority=await pjrResolveIdentity(),previous=pjrPreviousFor(authority),remote=pjrRemoteSnapshot();
-    const base={authority,previous,nowEpochMs:Date.now(),networkOnline:true,remote};
+    const now=Date.now(),base={authority,previous,nowEpochMs:now,networkOnline:true,remote};
     const remoteExpiry=Number(remote?.expiresAtEpochMs);
-    const exactActive=Boolean(remote&&remote.sessionState==="active"&&remote.sessionId&&remote.rivalryId===authority.rivalryId&&remote.accountId===authority.accountId&&remote.deviceId===authority.deviceId&&remote.pendingAction==null&&Number.isFinite(remoteExpiry)&&Date.now()<remoteExpiry);
+    const exactActive=Boolean(remote&&remote.sessionState==="active"&&remote.sessionId&&remote.rivalryId===authority.rivalryId&&remote.accountId===authority.accountId&&remote.deviceId===authority.deviceId&&remote.pendingAction==null&&Number.isFinite(remoteExpiry)&&now<remoteExpiry);
     if(!exactActive)return pjrPublish(protocol.observe(base));
     const setupResult=await setupApi.refresh(),setupState=setupApi.getState();
     if(!setupResult||!setupState||setupState.ready!==true||setupState.rivalryId!==authority.rivalryId||setupState.sessionId!==remote.sessionId||!setupState.setup||setupState.setup.phase!=="SHOWDOWN_CONFIRMED"||setupState.setup.revision!==6)pjrFail("JOURNEY_RECONNECT_SETUP_NOT_CONFIRMED");
