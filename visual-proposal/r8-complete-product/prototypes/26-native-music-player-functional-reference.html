@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>R8 Functional Showdown Radio Proof</title>
+<style>
+:root{--bg:#070a0c;--panel:#0e1418;--panel2:#121b20;--gold:#f3cc4f;--cream:#f7f1e4;--muted:#c2b99f;--ok:#7fd77a;--warn:#efbd49;--bad:#dc7474;--line:rgba(247,241,228,.13);--goldline:rgba(243,204,79,.4)}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(circle at 50% -20%,rgba(243,204,79,.12),transparent 34%),linear-gradient(145deg,#11191d,#06090b 72%);color:var(--cream);font-family:Segoe UI,Arial,sans-serif}.shell{width:min(980px,94vw);margin:auto;padding:28px 0 48px}.eyebrow{color:var(--gold);font-size:12px;letter-spacing:.15em;font-weight:900}.top{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:14px}h1{margin:6px 0 0;font:900 42px/.96 Arial Narrow,Segoe UI,sans-serif}.intro{max-width:430px;margin:0;color:var(--muted);font-size:13px;line-height:1.5;text-align:right}.card{background:rgba(14,20,24,.97);border:1px solid var(--goldline);box-shadow:inset 0 3px 0 var(--gold)}.head{padding:16px 18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:14px;align-items:start}.head h2{margin:3px 0 0;font:900 24px/1 Arial Narrow,Segoe UI,sans-serif}.badge{font-size:10px;letter-spacing:.1em;border:1px solid var(--goldline);padding:7px 9px;color:var(--gold);white-space:nowrap}.body{padding:18px}.now{display:grid;grid-template-columns:56px 1fr auto;gap:14px;align-items:center}.art{width:56px;height:56px;display:grid;place-items:center;border:1px solid var(--goldline);background:linear-gradient(135deg,#222d33,#090e11);font:900 22px/1 Arial Narrow;color:var(--gold)}.meta small{display:block;color:var(--gold);font-size:11px;letter-spacing:.11em;font-weight:900}.meta strong{display:block;margin-top:4px;font-size:19px}.meta span{display:block;margin-top:4px;color:var(--muted);font-size:13px}.state{font-size:11px;font-weight:900;letter-spacing:.08em;color:var(--ok)}.state[data-state="ERROR"]{color:var(--bad)}.state[data-state="BUFFERING"],.state[data-state="LOADING"]{color:var(--warn)}.transport{display:grid;grid-template-columns:48px 58px 48px minmax(180px,1fr) 120px;gap:8px;align-items:center;margin-top:17px}.btn{height:48px;border:1px solid var(--line);background:#192229;color:var(--cream);font-size:12px;font-weight:900;cursor:pointer}.btn:hover,.btn:focus-visible{outline:2px solid var(--gold);outline-offset:2px}.play{height:58px;background:var(--gold);color:#090d10;border-color:var(--gold);font-size:17px}.timeline{min-width:0}.times{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:5px}input[type="range"]{width:100%;accent-color:var(--gold)}.vol{display:grid;grid-template-columns:34px 1fr;gap:6px;align-items:center;color:var(--muted);font-size:10px}.statusline{margin-top:13px;padding:10px 11px;background:#0a1013;border-left:3px solid var(--gold);font-size:12px;line-height:1.45;color:var(--muted)}.statusline strong{color:var(--cream)}.queue{margin-top:14px;border-top:1px solid var(--line);padding-top:14px}.qtitle{display:flex;justify-content:space-between;gap:10px;margin-bottom:8px}.qtitle strong{font-size:13px}.qtitle span{color:var(--muted);font-size:11px}.track{width:100%;display:grid;grid-template-columns:28px 1fr auto;gap:10px;align-items:center;text-align:left;padding:12px 11px;border:0;border-bottom:1px solid rgba(247,241,228,.07);background:#091015;color:var(--cream);cursor:pointer}.track.selected{box-shadow:inset 3px 0 0 var(--gold);background:#111a1f}.track b{color:var(--gold);font-size:11px}.track strong{font-size:13px}.track small{display:block;color:var(--muted);font-size:11px;margin-top:3px}.track time{color:var(--muted);font-size:11px}.track:focus-visible{outline:2px solid var(--gold);outline-offset:-2px}.proof{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}.note{padding:15px;background:rgba(14,20,24,.94);border:1px solid var(--line)}.note h3{margin:0 0 7px;font:900 18px/1 Arial Narrow,Segoe UI,sans-serif}.note p{margin:0;color:var(--muted);font-size:12px;line-height:1.5}.note a{color:var(--gold)}.provider{margin-top:12px;padding:14px 16px;border:1px solid var(--line);background:#0a1013;color:var(--muted);font-size:12px;line-height:1.5}.provider strong{color:var(--gold)}
+@media(max-width:700px){.shell{width:min(94vw,430px);padding-top:18px}.top{display:block}.intro{text-align:left;margin-top:12px}.eyebrow{font-size:11px}h1{font-size:36px}.head{padding:15px;display:block}.badge{display:inline-block;margin-top:10px}.body{padding:15px}.now{grid-template-columns:50px 1fr}.art{width:50px;height:50px}.state{grid-column:1/-1;margin-left:64px}.transport{grid-template-columns:46px 56px 46px 1fr}.vol{grid-column:1/-1}.proof{grid-template-columns:1fr}.track strong{font-size:13px}.track small,.statusline,.note p,.intro{font-size:13px}.btn{min-height:48px}.play{min-height:56px}}
+</style>
+</head>
+<body>
+<main class="shell">
+<header class="top"><div><div class="eyebrow">R8 FUNCTIONAL PROOF · ZERO DOLLAR</div><h1>SHOWDOWN RADIO</h1></div><p class="intro">Executable isolated proof of the recommended native-audio path. No account, subscription, YouTube extraction, autoplay-on-startup or ad workaround.</p></header>
+<section class="card" aria-labelledby="radioTitle">
+<header class="head"><div><div class="eyebrow">NATIVE HTML AUDIO</div><h2 id="radioTitle">REAL PLAYBACK STATE, NOT CLICK STATE</h2></div><div class="badge">CC0 CANDIDATE QUEUE</div></header>
+<div class="body">
+<audio id="audio" preload="none"></audio>
+<div class="now"><div class="art">17</div><div class="meta"><small>SHOWDOWN RADIO</small><strong id="title">Synth Pop with 4 on the Floor</strong><span id="artist">Mesostic · CC0 candidate</span></div><div class="state" id="state" data-state="READY">READY</div></div>
+<div class="transport">
+<button class="btn" id="prev" type="button" aria-label="Previous track">PREV</button>
+<button class="btn play" id="toggle" type="button" aria-label="Play selected track">PLAY</button>
+<button class="btn" id="next" type="button" aria-label="Next track">NEXT</button>
+<div class="timeline"><div class="times"><span id="elapsed">0:00</span><span id="duration">3:18</span></div><input id="seek" type="range" min="0" max="1000" value="0" aria-label="Seek through track"></div>
+<label class="vol">VOL<input id="volume" type="range" min="0" max="1" step="0.05" value="0.8" aria-label="Volume"></label>
+</div>
+<div class="statusline" id="status"><strong>READY.</strong> Media bytes are still unloaded. The first explicit Play assigns only the selected track source and then waits for the audio element's real events.</div>
+<div class="queue"><div class="qtitle"><strong>PROTOTYPE RIGHTS-CLEAN QUEUE</strong><span>2 tracks · aesthetic approval open</span></div><div id="queue"></div></div>
+</div>
+</section>
+<section class="proof">
+<article class="note"><h3>Why this fixes the interaction model</h3><p>The button does not declare playback successful. UI state follows <code>play</code>, <code>playing</code>, <code>waiting</code>, <code>pause</code>, <code>ended</code> and <code>error</code> events from one native audio authority. A rejected <code>play()</code> promise becomes a visible blocked/error state instead of a fake PLAYING label.</p></article>
+<article class="note"><h3>Candidate provenance</h3><p>Both proof tracks are self-published on Wikimedia Commons under CC0. <a href="https://commons.wikimedia.org/wiki/File:Synth_pop_with_4_on_the_floor.ogg" target="_blank" rel="noopener">Synth Pop source</a> · <a href="https://commons.wikimedia.org/wiki/File:GameBGM.ogg" target="_blank" rel="noopener">GameBGM source</a>. Final soundtrack taste remains an owner decision.</p></article>
+</section>
+<div class="provider"><strong>FIFA 17 ORIGINALS stay separate.</strong> Commercial FIFA 17 songs are not turned into hidden audio. If retained, they remain a visible, lazy provider mode using provider-observed readiness/state/error events. This native lane is the smooth, lightweight default.</div>
+</main>
+<script>
+const tracks=[
+ {title:'Synth Pop with 4 on the Floor',artist:'Mesostic',duration:'3:18',license:'CC0',type:'audio/mpeg',src:'https://upload.wikimedia.org/wikipedia/commons/transcoded/c/c2/Synth_pop_with_4_on_the_floor.ogg/Synth_pop_with_4_on_the_floor.ogg.mp3?download='},
+ {title:'GameBGM',artist:'Yuyuyunoyuusuke1',duration:'3:57',license:'CC0',type:'audio/ogg',src:'https://upload.wikimedia.org/wikipedia/commons/0/0b/GameBGM.ogg'}
+];
+const audio=document.getElementById('audio'),toggle=document.getElementById('toggle'),state=document.getElementById('state'),status=document.getElementById('status'),title=document.getElementById('title'),artist=document.getElementById('artist'),elapsed=document.getElementById('elapsed'),duration=document.getElementById('duration'),seek=document.getElementById('seek'),volume=document.getElementById('volume'),queue=document.getElementById('queue');
+let selected=0,sourceAssigned=false,seekDrag=false;
+function fmt(s){if(!Number.isFinite(s)||s<0)return '0:00';const m=Math.floor(s/60),r=Math.floor(s%60);return `${m}:${String(r).padStart(2,'0')}`}
+function setState(value,message){state.textContent=value;state.dataset.state=value;status.innerHTML=`<strong>${value}.</strong> ${message}`;toggle.textContent=value==='PLAYING'||value==='BUFFERING'?'PAUSE':'PLAY';toggle.setAttribute('aria-label',toggle.textContent==='PLAY'?'Play selected track':'Pause selected track')}
+function render(){const t=tracks[selected];title.textContent=t.title;artist.textContent=`${t.artist} · ${t.license} candidate`;duration.textContent=t.duration;[...queue.children].forEach((el,i)=>{el.classList.toggle('selected',i===selected);el.setAttribute('aria-pressed',String(i===selected))})}
+function buildQueue(){tracks.forEach((t,i)=>{const b=document.createElement('button');b.type='button';b.className='track';b.innerHTML=`<b>${String(i+1).padStart(2,'0')}</b><span><strong>${t.title}</strong><small>${t.artist} · ${t.license} · ${t.type.replace('audio/','').toUpperCase()}</small></span><time>${t.duration}</time>`;b.addEventListener('click',()=>select(i,false));queue.appendChild(b)});render()}
+function unload(){audio.pause();audio.removeAttribute('src');audio.load();sourceAssigned=false;seek.value=0;elapsed.textContent='0:00'}
+function assignSource(){if(sourceAssigned)return true;const t=tracks[selected];if(t.type==='audio/ogg'&&audio.canPlayType('audio/ogg; codecs="vorbis"')===''){setState('ERROR','This browser reports no Ogg Vorbis support for the selected candidate. Choose the other candidate or package an MP3 derivative before production.');return false}audio.src=t.src;audio.load();sourceAssigned=true;setState('LOADING','The selected source was assigned after user intent. Waiting for media readiness.');return true}
+async function requestPlay(){if(!assignSource())return;setState('LOADING','Play requested. The UI is waiting for the audio element to confirm playback.');try{await audio.play()}catch(e){setState('ERROR',`Playback did not start: ${e&&e.name?e.name:'browser rejection'}. No false PLAYING state was asserted.`)}}
+function select(i,autoResume){const wasPlaying=!audio.paused&&!audio.ended;unload();selected=(i+tracks.length)%tracks.length;render();setState('READY','New candidate selected. No media bytes are requested until Play.');if(autoResume||wasPlaying)requestPlay()}
+toggle.addEventListener('click',()=>{if(!sourceAssigned||audio.paused)requestPlay();else audio.pause()});
+document.getElementById('prev').addEventListener('click',()=>select(selected-1,false));
+document.getElementById('next').addEventListener('click',()=>select(selected+1,false));
+volume.addEventListener('input',()=>{audio.volume=Number(volume.value)});audio.volume=.8;
+seek.addEventListener('pointerdown',()=>seekDrag=true);seek.addEventListener('pointerup',()=>{seekDrag=false;if(Number.isFinite(audio.duration))audio.currentTime=(Number(seek.value)/1000)*audio.duration});seek.addEventListener('change',()=>{if(Number.isFinite(audio.duration))audio.currentTime=(Number(seek.value)/1000)*audio.duration});
+audio.addEventListener('loadstart',()=>setState('LOADING','Source request started for the selected track only.'));
+audio.addEventListener('loadedmetadata',()=>{duration.textContent=fmt(audio.duration);setState('READY','Metadata is available. Waiting for confirmed playback.');});
+audio.addEventListener('play',()=>setState('LOADING','The element accepted the play request; waiting for actual PLAYING.'));
+audio.addEventListener('playing',()=>setState('PLAYING','Playback is confirmed by the native audio element.'));
+audio.addEventListener('waiting',()=>setState('BUFFERING','Playback is waiting for more media data. Controls remain usable.'));
+audio.addEventListener('pause',()=>{if(!audio.ended&&sourceAssigned)setState('PAUSED','Playback is confirmed paused by the native audio element.')});
+audio.addEventListener('ended',()=>{setState('ENDED','Track completed. Advancing to the next candidate.');select(selected+1,true)});
+audio.addEventListener('error',()=>{const code=audio.error?audio.error.code:'unknown';setState('ERROR',`Media error ${code}. Home would remain usable and offer Retry / Next without becoming an app-wide failure.`)});
+audio.addEventListener('timeupdate',()=>{elapsed.textContent=fmt(audio.currentTime);if(!seekDrag&&Number.isFinite(audio.duration)&&audio.duration>0)seek.value=Math.round((audio.currentTime/audio.duration)*1000)});
+buildQueue();
+</script>
+</body>
+</html>
