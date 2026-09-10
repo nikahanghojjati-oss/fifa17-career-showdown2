@@ -1,219 +1,212 @@
 # Surface Group 07 — Menu Music / Media Player
 
-Status: ACTIVE PROPOSAL CONTRACT — SOUNDTRACK PROVIDER PROOF PENDING
+Status: ACTIVE PROPOSAL CONTRACT — AUDIUS-FIRST / DEVICE PROOF + OWNER TRACK APPROVAL OPEN
 
-This contract replaces the assumption that the current YouTube iframe tile is an acceptable final menu-media experience. It is proposal-only. It does not change production playback code or `main`.
+This contract replaces the assumption that the current YouTube iframe tile is an acceptable final music experience. It is proposal-only and does not modify production `main`.
 
 Read with:
 
 - `evidence/MEDIA_PLAYER_FEASIBILITY_2026-09-10.md`
 - `evidence/MEDIA_PROVIDER_ZERO_DOLLAR_DECISION_2026-09-10.md`
-- `prototypes/25-native-music-player-reference.html`
-- `prototypes/26-soundcloud-fifa17-audio-provider-reference.html` when present
+- `prototypes/25-native-music-player-reference.html` as historical visual exploration
+- `prototypes/26-native-music-player-functional-reference.html` as native event-authority proof
+- `prototypes/26-soundcloud-fifa17-audio-provider-reference.html` as secondary-provider proof
+- `prototypes/27-audius-showdown-radio-reference.html` as current primary music direction
 
 ## Owner requirement
 
-The menu-media experience must be smooth, lightweight, understandable on the first press and permanently zero-dollar for the project. It must be visually integrated into the R8 black / charcoal / gold system.
+Music must be audio-only, smooth on the first deliberate Play, replayable, lightweight and permanently zero-dollar for the project. Exact FIFA 17 soundtrack fidelity is desirable but secondary to a better player. The project may use a new track list if that creates a materially better long-term experience.
 
-The project must not depend on a paid API tier, payment card, automatic overage billing, Premium listener account, or future paid upgrade merely to keep Home usable. If any provider changes terms or becomes unavailable, media fails closed financially and Career Mode remains usable.
+The Home screen must remain fully usable if every media provider fails.
 
-The owner has reported a production failure pattern in which YouTube playback can require repeated Play / Pause interactions before the selected song actually starts. The proposal therefore defines both a better presentation and a real provider-state contract.
+## Current production defect
 
-## Production failure studied and rechecked
+The r14 main anchor `97c28b1efea6ee6e901e6076a834ec419cbad5aa` still carries the old YouTube music authority model: local `menuMediaPlaying` can move to true before provider-confirmed playback, iframe DOM `load` is treated as readiness, and raw postMessage play/pause commands are used without official provider state events.
 
-The r13 failure mechanism remains present on the r14 main reconciliation anchor `97c28b1efea6ee6e901e6076a834ec419cbad5aa`.
+The final proposal must not reproduce that model.
 
-`js/menuExperience.js` still:
+## Mode A — SHOWDOWN RADIO / AUDIUS
 
-- optimistically flips `menuMediaPlaying = true` before the embedded player confirms playback;
-- creates the YouTube iframe with `autoplay=1` after the user presses Play;
-- treats iframe DOM `load` as readiness;
-- sends raw postMessage commands;
-- does not subscribe to the official YouTube `onReady`, `onStateChange`, `onAutoplayBlocked`, or `onError` lifecycle;
-- can therefore render `PLAYING` while the provider is still loading, blocked, buffering, interrupted or otherwise not playing.
+Decision: primary music direction.
 
-The senior implementation must not preserve that optimistic-state model.
+Architecture:
 
-## Revised zero-dollar architecture decision
+- curated Audius public-track queue;
+- one browser HTML `<audio>` element is the playback authority;
+- no music video or iframe;
+- no listener login for ordinary public playback;
+- no autoplay on application startup;
+- selected stream source assigned only after deliberate user intent or controlled pre-resolution that does not download audio bytes prematurely;
+- actual HTML media events own player state;
+- no paid fallback.
 
-### Mode A — FIFA 17 SOUNDTRACK / AUDIO-FIRST
+Current official Audius Free-plan documentation reviewed 2026-09-10 states 10 requests/second and 500,000 requests/month and describes the Free plan as always free with no restrictions. These are API-request limits, not song-play counts. A play may involve more than one network/API request, so the proposal does not equate one play with one request.
 
-For the six soundtrack songs already present in `MENU_MEDIA_SOURCES`, the preferred provider is the official SoundCloud HTML5 Widget when the exact track passes full-length embed proof on the owner device classes.
+Expected project use is extremely small relative to that ceiling. The implementation still minimizes requests:
 
-Why SoundCloud is now the leading exact-song candidate:
+1. ship/cache a curated manifest of track IDs and display metadata;
+2. do not search/trend on every Home visit;
+3. keep one audio element;
+4. request only the selected track;
+5. do not preload the whole queue;
+6. use bounded retry/backoff;
+7. stop retries on provider/quota failure;
+8. never purchase additional capacity.
 
-- all six current songs were located on public artist-branded SoundCloud pages;
-- the standard SoundCloud Widget API is audio-first;
-- it exposes provider events such as `READY`, `PLAY`, `PAUSE`, `FINISH`, `ERROR`, loading/progress and seek controls;
-- the standard widget path does not require the project to buy an API plan or expose a paid API credential;
-- one visible widget can be reused with `widget.load(...)` for track changes.
+### Audius state authority
 
-Current exact candidate mapping:
+Required state machine:
 
-| Project key | Song | SoundCloud source |
-| --- | --- | --- |
-| `music` | Two Door Cinema Club — Are We Ready? (Wreck) | `https://soundcloud.com/two-door-cinema-club/are-we-ready-wreck` |
-| `bastille` | Bastille — Send Them Off! | `https://soundcloud.com/bastilleuk/send-them-off` |
-| `youth` | Glass Animals — Youth | `https://soundcloud.com/glassanimals/youth` |
-| `shelter` | Porter Robinson & Madeon — Shelter | `https://soundcloud.com/porter-robinson/porter-robinson-madeon-shelter-5` |
-| `move` | Saint Motel — Move | `https://soundcloud.com/saintmotel/move-1` |
-| `highlow` | Empire Of The Sun — High And Low | `https://soundcloud.com/empireofthesunsound/high-and-low` |
+`idle -> resolving -> ready -> play_requested -> playing | buffering | error -> paused | ended`
 
-Public-page discovery is not final playback proof. SoundCloud uploaders can control embedding, and SoundCloud Go catalogue tracks may expose only a short preview in embedded players. Each song therefore receives independent provider eligibility.
+Rules:
 
-A song is marked `soundcloud_full` only after it proves full-length embedded playback on both:
+- Play expresses intent; it never directly asserts `PLAYING`.
+- `play` / accepted play promise may produce `PLAY REQUESTED` or `LOADING`.
+- only the audio element's `playing` event produces `PLAYING`.
+- `waiting` / `stalled` produce `BUFFERING` or `RECONNECTING AUDIO` without blocking Home.
+- `pause` produces `PAUSED`.
+- `ended` advances according to the queue preference.
+- media/provider error produces a local player error, never an application-wide failure.
+- page transitions must not create duplicate simultaneous players.
 
-1. iPhone Safari;
-2. Chromebook browser.
+### Audius catalogue and rights
 
-Required proof per song:
+Do not label the Audius queue `FIFA 17 SOUNDTRACK` unless the actual recording is legitimately that soundtrack item and the provider metadata proves it.
 
-- `READY` arrives;
-- first enabled Play calls `widget.play()` and actual `PLAY` arrives without a Play / Pause / Play recovery ritual;
-- duration is consistent with a full song rather than a short preview;
-- Pause and resume are event-confirmed;
-- switching tracks reaches a new ready state without stale state leakage;
-- error state is recoverable;
-- SoundCloud attribution/player remains visible and provider-compliant.
+Primary label: `SHOWDOWN RADIO`.
 
-An individual song failing this proof does not invalidate the entire six-song set. That song falls back to YouTube.
+Track selection should target FIFA-17-era energy: upbeat indie/electronic pop, house, synth-pop and matchday pacing. Every final track must have a rights/provenance decision. Audius's Open Music License can provide strong Music Player rights for covered material, but not every track may use that license; creator-selected or alternative rights must be respected.
 
-### Mode B — YOUTUBE FALLBACK + TRAILER
+Candidate discovery is not owner approval. The owner must hear and approve the final queue separately from approving the UI screenshots.
 
-YouTube remains the zero-dollar provider fallback for any exact song that cannot pass the SoundCloud full-length proof. The FIFA 17 gameplay trailer remains YouTube video content.
+## Mode B — FIFA 17 PICKS / SOUNDCLOUD
 
-If YouTube is used:
+Decision: optional nostalgia catalogue, not primary playback authority.
 
-- use the official IFrame Player API lifecycle;
-- wait for `onReady` before treating the player as command-ready;
-- derive playing / paused / buffering / ended state from `onStateChange`;
-- handle `onAutoplayBlocked` and `onError` explicitly;
-- keep the actual YouTube player visible and policy-compliant while active;
-- preserve lazy creation for the heavy provider surface;
-- never extract, isolate or disguise YouTube audio;
-- never suppress, cover, skip or work around provider ads.
+Purpose: preserve access to the existing six FIFA 17 song choices when SoundCloud exposes them cleanly in its standard audio widget.
 
-Required provider state machine:
+All six current project songs have public artist-branded SoundCloud candidate pages recorded in the media evidence. Eligibility remains per track.
 
-`idle -> provider_loading -> ready -> play_requested -> playing | buffering | blocked | error -> paused | ended`
+Allowed outcomes:
 
-A local click is intent, not evidence of playback.
+- `FULL` — provider exposes a full playable track;
+- `PREVIEW` — provider exposes only a clearly labelled short preview;
+- `UNAVAILABLE` — no usable embed.
 
-### Mode C — OPTIONAL SHOWDOWN RADIO
+A preview must never masquerade as a full recording. The owner has accepted a short SoundCloud preview as an optional secondary experience.
 
-An additive open-audio mode may use browser-native `<audio>` and/or Audius for tracks that are individually rights-compatible.
+Use one reusable SoundCloud widget, real READY/PLAY/PAUSE/FINISH/ERROR events, visible attribution, and no optimistic site state.
 
-Audius is approved as a zero-dollar candidate because its current Free API plan documents a large free allowance and the client SDK supports search/streaming, while its Open Music License can provide strong Music Player rights for covered tracks. However, targeted discovery did not establish dependable official Audius copies of the current six commercial FIFA 17 songs.
+SoundCloud failure does not trigger YouTube music fallback. It returns to Showdown Radio or another SoundCloud item.
 
-Therefore Audius is not the exact-six replacement and must not delay the exact soundtrack solution.
+## Mode C — FIFA 17 GAMEPLAY TRAILER / YOUTUBE
 
-The functional native-audio proof remains useful because it demonstrates the correct principle: UI playback state follows real media events, never an optimistic click boolean.
+YouTube is video-only in the final music architecture.
 
-## Smooth first-press contract
+The gameplay trailer may remain as an intentional video surface. Music does not fall back to YouTube because the owner wants music to remain audio-only and YouTube policy does not permit hiding/isolating the audio component as a custom audio player.
 
-The final exact-song path must feel deterministic.
+If the trailer remains:
 
-For SoundCloud-eligible songs:
+- lazy-create the visible YouTube player only after deliberate intent;
+- use official `YT.Player` lifecycle events;
+- wait for `onReady`;
+- derive playing/paused/buffering/ended from `onStateChange`;
+- handle `onAutoplayBlocked` and `onError`;
+- do not suppress, cover, skip or work around ads;
+- destroy/pause according to the existing navigation contract.
 
-1. create or reuse one visible SoundCloud widget with `auto_play=false`;
-2. allow it to reach `READY` before enabling normal Play, or clearly label the control `LOADING TRACK` until ready;
-3. first enabled Play calls `widget.play()`;
-4. UI remains `PLAY REQUESTED` / `LOADING` until SoundCloud emits `PLAY`;
-5. `PAUSE` changes UI to paused;
-6. `FINISH` advances according to queue rules;
-7. `ERROR` or preview-only capability exposes the YouTube fallback rather than pretending playback succeeded;
-8. switching songs uses `widget.load(...)` and resets provider-derived state.
+## Primary player visual anatomy
 
-No menu audio autoplays on application startup.
+Compact Home player:
 
-## Player visual anatomy
+1. `SHOWDOWN RADIO` eyebrow;
+2. `AUDIUS` source badge;
+3. current title and creator;
+4. previous, play/pause and next;
+5. elapsed time / duration where reliable;
+6. seek rail with usable touch target;
+7. mute/volume where platform behavior supports it;
+8. queue/expand action;
+9. explicit loading/buffering/error/offline status;
+10. small source/provenance affordance in expanded view.
 
-The compact Home player contains:
+The player must remain subordinate to Career Mode actions.
 
-1. source eyebrow such as `FIFA 17 SOUNDTRACK` or `SHOWDOWN RADIO`;
-2. current track title and artist;
-3. explicit provider badge when SoundCloud or YouTube is active;
-4. previous, play/pause and next controls;
-5. elapsed time, seek rail and duration where the provider supplies reliable values;
-6. volume / mute where supported;
-7. queue / expand control;
-8. explicit `LOADING`, `READY`, `PLAY REQUESTED`, `PLAYING`, `PAUSED`, `BUFFERING`, `PREVIEW ONLY`, `BLOCKED`, `ERROR` and `UNAVAILABLE` states as applicable;
-9. visible provider attribution/player area required by the active provider.
+Expanded queue:
 
-The player must not dominate primary Career Mode actions.
+- one column on mobile;
+- selected row clearly indicated by structure plus color;
+- title, creator and duration;
+- no album art dependency;
+- no automatic stream request for every row;
+- optional `FIFA 17 PICKS` SoundCloud section visually separated from Showdown Radio.
 
-## Required visual modes
+## Required material states
 
-### A. SoundCloud loading / ready
+### Audius ready
 
-- exact track identity visible;
-- provider visible/attributed;
-- Play disabled or clearly loading until `READY`;
-- no false `PLAYING` state.
+Track identity present; Play enabled; no false playback indicator.
 
-### B. SoundCloud playing / paused
+### Audius playing / paused
 
-- state is driven by Widget API events;
-- progress updates without layout shifts;
-- Home remains interactive.
+State follows HTML audio events. Progress changes without layout shift.
 
-### C. SoundCloud preview-only / ineligible
+### Audius buffering / reconnecting
 
-- explain that full embedded playback is unavailable;
-- offer compliant YouTube fallback;
-- never silently loop a short preview as though it were the full song.
+Show local media state; keep Home usable; do not encourage repeated button hammering.
 
-### D. YouTube fallback
+### Audius provider/quota error
 
-- actual YouTube player is visible;
-- ready / playing / paused / buffering / autoplay-blocked / error states come from official IFrame API events;
-- custom controls never contradict the real player.
+Bounded retry. Then player-level unavailable state. Never buy or upgrade.
 
-### E. Optional open-audio Showdown Radio
+### Queue / track switch
 
-- native/Audius tracks are visually distinct from the commercial FIFA 17 provider catalogue;
-- every non-provider-hosted track carries a rights/provenance decision before final acceptance.
+One player reused. Old state is reset before new track becomes ready.
 
-### F. Unavailable / offline
+### SoundCloud Full / Preview / Unavailable
 
-- preserve track identity;
-- offer Retry, another eligible track, or provider fallback where appropriate;
-- do not escalate media failure into a global application failure;
-- Career Mode actions remain usable.
+Provider-labelled and independently understandable. Preview duration/limitation is explicit.
+
+### YouTube trailer
+
+Separate intentional video surface, never presented as the music player.
 
 ## Responsive contract
 
 At 390px class mobile width:
 
-- essential body/status text >= 13px;
-- metadata >= 11px;
-- control labels >= 12px;
-- touch targets >= 44px;
-- progress/seek target has a usable touch hit area even if the visible rail is thin;
+- essential body/status copy >=13px;
+- metadata >=11px;
+- control labels >=12px;
+- touch targets >=44px;
 - no horizontal overflow;
-- queue becomes one column;
-- provider attribution wraps rather than shrinking below the typography floor.
+- queue stacks to one column;
+- seek rail retains a usable hit target;
+- source/provenance text wraps rather than shrinking below the typography floor.
 
-At Chromebook/reduced-wide widths, retain a compact player. A provider video fallback may expand deliberately when selected, but it must not force the entire Home layout into a permanent large video tile.
+At Chromebook/reduced-wide widths, retain the compact player. Do not expand music into a large provider rectangle.
 
 ## Accessibility
 
-- buttons have explicit accessible names;
-- play/pause exposes actual provider/media state;
-- elapsed/duration text is available where known;
-- seek control is keyboard-operable when exposed;
-- meaningful state changes use a polite live region, while progress ticks do not spam announcements;
-- focus does not move automatically when a song changes;
-- reduced motion suppresses decorative equalizer/wave animation while preserving playback state.
+- explicit accessible names on transport controls;
+- play/pause label reflects real current state;
+- elapsed/duration exposed textually where known;
+- seek keyboard-operable;
+- meaningful state changes in a polite live region;
+- progress ticks are not live-announced;
+- focus does not jump when a track changes;
+- reduced motion suppresses equalizer/wave decoration only, never state information.
 
 ## Performance
 
-- do not create six provider players;
-- use one active provider instance and a data-driven track queue;
-- SoundCloud may be warmed only enough to reach deterministic readiness without autoplay;
-- YouTube fallback remains lazy-loaded;
-- optional native audio should request only the selected source;
-- provider/media failure must not delay Home startup or block Career Mode controls.
+- one Audius/HTML-audio authority;
+- no simultaneous preloads for the queue;
+- metadata cached locally where appropriate;
+- no discovery/search request on normal Home entry;
+- provider errors are local;
+- SoundCloud widget instantiated only if optional FIFA 17 Picks is opened or intentionally warmed within measured cost;
+- YouTube trailer remains fully lazy.
 
 ## Permanent zero-dollar boundary
 
@@ -221,45 +214,40 @@ Conceptual invariant:
 
 `paidUpgradeAllowed = false`
 
-R8 may use only provider/browser paths that do not require the project to purchase a subscription or paid API tier.
-
-If a future provider policy/pricing change makes payment necessary:
+If Audius, SoundCloud, YouTube or any future provider changes terms so this path requires payment, a payment card, overage billing or a paid listener subscription:
 
 - disable that provider path;
-- fall back to another approved zero-dollar path when available;
+- use another already-approved zero-dollar path if available;
 - otherwise show media unavailable;
-- never auto-upgrade, add billing or create an overage charge.
+- never add billing or automatically upgrade;
+- never make Career Mode unavailable.
 
-## Rights and provider ledger
+## Final owner-review disclosure
 
-For provider-hosted commercial songs record:
+The final proposal presentation must tell the owner:
 
-- project track key;
-- exact provider source page;
-- provider type;
-- embed eligibility;
-- full-length proof result;
-- verified duration;
-- iPhone Safari result;
-- Chromebook result;
-- fallback provider/video ID;
-- verification date;
-- reviewer status.
+- primary provider: Audius;
+- playback engine: browser HTML audio;
+- current Free-plan basis at verification date;
+- that request quota is not the same as song-play count;
+- exact final queue and why each track is allowed;
+- which optional FIFA 17 Picks are full vs preview;
+- whether gameplay trailer is retained;
+- which functions are proven on iPhone Safari and Chromebook;
+- any known platform limitation, including mobile volume behavior if applicable.
 
-For locally packaged or independently licensed audio additionally record exact license, attribution, modification rights and file hash.
-
-No native/self-hosted track enters the final implementation set with `license unknown`.
+The owner must be able to try the functional player/reference and separately approve both the chosen tracks and the final UI screenshots.
 
 ## Acceptance
 
 This surface is proposal-complete only when:
 
-- all six exact songs have a recorded SoundCloud full-length eligibility result;
-- each ineligible SoundCloud song has a working hardened YouTube fallback contract;
-- the trailer remains a hardened YouTube video provider path;
-- the exact-song provider reference composition covers loading, ready, playing, paused, preview-only/fallback and unavailable states;
-- desktop and mobile screenshots pass readability/layout QA;
-- first-press interaction proof is completed on iPhone Safari and Chromebook;
-- zero-dollar fail-closed behavior is preserved;
-- the senior handoff prohibits hidden YouTube audio, ad suppression and paid-provider escalation;
-- the owner sees and explicitly approves all materially different final media screenshots as part of the final proposal approval gate.
+- Audius-first functional reference exists;
+- final candidate queue has rights/provenance entries;
+- first-play / pause-resume / next-previous / seek / failure behavior is device-tested on iPhone Safari and Chromebook;
+- optional SoundCloud exact-song items are classified Full/Preview/Unavailable if retained;
+- YouTube is absent from music fallback and limited to intentional video;
+- desktop/mobile player screenshots pass layout/readability QA;
+- Home integration screenshot exists;
+- zero-dollar fail-closed behavior is explicit;
+- owner sees and explicitly approves the final media screenshots and track selection.
