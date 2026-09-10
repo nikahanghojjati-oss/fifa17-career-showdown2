@@ -25,6 +25,9 @@ async function prepare(page,{role,saveId}){
     window.CareerModeProductionSharedTransferChallenge={getState:()=>transfer,refresh:async()=>transfer};
     window.CareerModeSparkSharedSeasonResults={read:async()=>readyResults,publishResult:async()=>({ok:false,code:'AUDIT_RESULTS_ALREADY_READY'})};
     window.CareerModeProductionFirebaseRuntime={ensureAccountServices:async()=>({ok:true,auth:{currentUser:{uid:role==='playerOne'?'account_one':'account_two'}},firestore:{},firestoreSdk:{}})};
+    const originalReport=window.reportApplicationError;
+    window.__ssjrScoringRouteErrors=[];
+    window.reportApplicationError=(context,error)=>{window.__ssjrScoringRouteErrors.push(`${context}: ${error?.message||error?.code||error}`);if(typeof originalReport==='function')originalReport(context,error);};
     await loadRuntimeScript('ssjr-r11-audit-results','js/productionSharedSeasonResults.js',()=>window.CareerModeProductionSharedSeasonResults);
     await loadRuntimeScript('ssjr-r11-audit-results-route','js/productionSharedSeasonResultsRoute.js',()=>window.CareerModeProductionSharedSeasonResultsRoute);
     CareerModeProductionSharedSeasonResults.install();CareerModeProductionSharedSeasonResultsRoute.install();
@@ -43,8 +46,14 @@ async function prepare(page,{role,saveId}){
   await continueButton.waitFor({state:'visible',timeout:5000});
   await continueButton.click();
   await page.locator('#seasonEntry').waitFor({state:'visible',timeout:8000});
-  await page.locator('#seasonReviewPanel').waitFor({state:'visible',timeout:8000});
-  await page.waitForFunction(()=>document.getElementById('seasonReviewHeading')?.textContent==='BOTH MANAGERS PUBLISHED',null,{timeout:8000});
+  try{
+    await page.waitForFunction(()=>document.getElementById('seasonReviewHeading')?.textContent==='BOTH MANAGERS PUBLISHED'||window.__ssjrScoringRouteErrors?.length>0,null,{timeout:8000});
+  }catch(error){
+    const snapshot=await page.evaluate(()=>({routeErrors:window.__ssjrScoringRouteErrors||[],resultsState:window.CareerModeProductionSharedSeasonResults?.getState?.()||null,seasonEntryClass:document.getElementById('seasonEntry')?.className||null,reviewPanelClass:document.getElementById('seasonReviewPanel')?.className||null,reviewHeading:document.getElementById('seasonReviewHeading')?.textContent||null,sharedMode:document.getElementById('seasonEntry')?.dataset?.sharedSeasonResults||null}));
+    throw new Error(`Shared Season Results route did not render the canonical review boundary: ${JSON.stringify(snapshot)}`,{cause:error});
+  }
+  const routeErrors=await page.evaluate(()=>window.__ssjrScoringRouteErrors||[]);
+  if(routeErrors.length)throw new Error(`Shared Season Results route failed before r11 scoring: ${routeErrors.join(' | ')}`);
 
   await page.evaluate(async({role,rivalryId,resultOne,resultTwo,scoreOne,scoreTwo})=>{
     const bounded=(promise,label,timeoutMs=8000)=>Promise.race([Promise.resolve(promise),new Promise((_,reject)=>setTimeout(()=>reject(new Error(`r11 scoring audit timed out during ${label}`)),timeoutMs))]);
