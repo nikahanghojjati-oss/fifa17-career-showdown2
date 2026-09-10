@@ -10,6 +10,10 @@ async function installHarness(page,{role,saveId,totalSeasons,rivalrySeed}){
   const sessionId='session_'+(role==='playerOne'?'a':'b').repeat(64);
   const deviceId='device_'+(role==='playerOne'?'1':'2').repeat(32);
   const accountId=role==='playerOne'?'account_one':'account_two';
+  await page.addInitScript(({role})=>{
+    const ready={ok:true,ready:true,managerRole:role,state:{phase:'CAREER_START_READY',revision:2,acknowledgedRoles:['playerOne','playerTwo']}};
+    window.CareerModeProductionSharedCareerStart={install:()=>true,refresh:async()=>ready,getState:()=>ready,isActive:()=>true};
+  },{role});
   await page.goto(baseUrl.href,{waitUntil:'domcontentloaded'});
   await page.locator('#loadingScreen').waitFor({state:'hidden',timeout:12000});
   await page.waitForFunction(()=>typeof window.ensureGameplayModules==='function'&&typeof window.loadRuntimeScript==='function',null,{timeout:12000});
