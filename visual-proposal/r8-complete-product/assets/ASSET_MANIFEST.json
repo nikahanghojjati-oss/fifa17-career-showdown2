@@ -2,6 +2,7 @@
   "schemaVersion": 1,
   "status": "ACTIVE_PROPOSAL_ASSET_MANIFEST",
   "productionAuthority": false,
+  "orchestrationAuthority": "../evidence/SOL_VISUAL_ORCHESTRATION_MASTER_GUARD_2026-09-10.md",
   "managerMapping": {
     "manager1": "Daniel",
     "manager2": "Nik"
@@ -49,7 +50,7 @@
     },
     {
       "id": "A05_NIK_CLUB_PACK_OPENING_CANDIDATE",
-      "kind": "recovered-character-candidate",
+      "kind": "recovered-character-reference-candidate",
       "canonicalFilename": null,
       "proposedPackagePath": null,
       "source": "/Showdown visual/R8_5_APPROVED_CHARACTER_IDENTITY_LOCK/C01_NIK_CLUB_PACK_HOLDING_OWNER_LIKED_CANDIDATE_V1.png",
@@ -59,16 +60,16 @@
       "byteSize": 1857540,
       "sha256": "7014a5165330e321928c30baf426c86c51bc909dc0122942945d6ec32789500d",
       "targetScreens": ["clubWheelScreen"],
-      "responsiveEligibility": "wide Club Assignment only after final isolation QA; may be omitted when interaction density wins",
-      "safeZone": "manager flank; pack and hands must not obscure DOM club/reveal/lock controls",
-      "rightsStatus": "owner-liked AI character candidate; not final authority",
-      "generationNote": "strong recovered pose/identity candidate; generated pack contains baked CLUB PACK / CM17 text and therefore requires prop cleanup or rebuild before final master acceptance",
-      "verification": "candidate bytes measured 2026-09-10; alpha present; review-scale identity/anatomy pass with final-prop-contract failure",
-      "acceptanceStatus": "INTERNAL_CANDIDATE_PROP_CLEANUP_REQUIRED_OWNER_APPROVAL_OPEN"
+      "responsiveEligibility": "wide Club Assignment only after real DOM Mode B2 aperture proof; omitted <=1179px",
+      "safeZone": "final character/hand pixels must remain fully outside the protected live-pack aperture; hand may brace only a separate static presentation rail",
+      "rightsStatus": "owner-liked AI character reference candidate; not final authority",
+      "generationNote": "retain as identity/pose/composition evidence only. The recovered generated pack contains baked CLUB PACK / CM17 text and cannot survive into the final Mode B2 master. Final asset must be rebuilt/edited after real DOM aperture geometry is frozen, with no raster pack and no hand overlap into the authoritative live-pack rectangle.",
+      "verification": "candidate bytes measured 2026-09-10; alpha present; review-scale identity/anatomy useful; final Mode B2 geometry and prop contract not satisfied",
+      "acceptanceStatus": "REFERENCE_CANDIDATE_MODE_B2_REBUILD_REQUIRED_OWNER_APPROVAL_OPEN"
     },
     {
       "id": "A06_DANIEL_CLUB_PACK_OPENING_CANDIDATE",
-      "kind": "recovered-character-candidate",
+      "kind": "recovered-character-reference-candidate",
       "canonicalFilename": null,
       "proposedPackagePath": null,
       "source": "/Showdown visual/R8_5_APPROVED_CHARACTER_IDENTITY_LOCK/C02_DANIEL_CLUB_PACK_HOLDING_OWNER_LIKED_CANDIDATE_V1.png",
@@ -78,12 +79,12 @@
       "byteSize": 1787597,
       "sha256": "049654d7360a1c9fd70c4bed836a13b3ae7f797d125a19d1a0395e848f34f368",
       "targetScreens": ["clubWheelScreen"],
-      "responsiveEligibility": "wide Club Assignment only after final isolation QA; may be omitted when interaction density wins",
-      "safeZone": "manager flank; pack and hands must not obscure DOM club/reveal/lock controls",
-      "rightsStatus": "owner-liked AI character candidate; not final authority",
-      "generationNote": "strong recovered pose/identity candidate; generated pack contains baked CLUB PACK / CM17 text and therefore requires prop cleanup or rebuild before final master acceptance",
-      "verification": "candidate bytes measured 2026-09-10; alpha present; review-scale identity/anatomy pass with final-prop-contract failure",
-      "acceptanceStatus": "INTERNAL_CANDIDATE_PROP_CLEANUP_REQUIRED_OWNER_APPROVAL_OPEN"
+      "responsiveEligibility": "wide Club Assignment only after real DOM Mode B2 aperture proof; omitted <=1179px",
+      "safeZone": "final character/hand pixels must remain fully outside the protected live-pack aperture; hand may brace only a separate static presentation rail",
+      "rightsStatus": "owner-liked AI character reference candidate; not final authority",
+      "generationNote": "retain as identity/pose/composition evidence only. The recovered generated pack contains baked CLUB PACK / CM17 text and cannot survive into the final Mode B2 master. Final asset must be rebuilt/edited after real DOM aperture geometry is frozen, with no raster pack and no hand overlap into the authoritative live-pack rectangle.",
+      "verification": "candidate bytes measured 2026-09-10; alpha present; review-scale identity/anatomy useful; final Mode B2 geometry and prop contract not satisfied",
+      "acceptanceStatus": "REFERENCE_CANDIDATE_MODE_B2_REBUILD_REQUIRED_OWNER_APPROVAL_OPEN"
     },
     {
       "id": "H01_HOME_STADIUM_ATMOSPHERE",
@@ -152,6 +153,38 @@
       "generationNote": "not image-generation output",
       "verification": "UTF-8 proposal asset hashed after creation",
       "acceptanceStatus": "PACKAGED_PENDING_VISUAL_QA"
+    },
+    {
+      "id": "S04B_CLUB_PACK_STATIC_PRESENTATION_RAIL",
+      "kind": "planned-procedural-vector-or-css",
+      "canonicalFilename": null,
+      "proposedPackagePath": "assets/procedural/club-pack-static-presentation-rail.svg",
+      "source": "Mode B2 structural contract; final geometry must be derived from the real production Club Assignment DOM",
+      "dimensions": null,
+      "fileType": "image/svg+xml-or-css",
+      "targetScreens": ["clubWheelScreen"],
+      "responsiveEligibility": "wide desktop only; removed <=1179px and in reduced-motion baseline",
+      "safeZone": "must sit entirely outside the protected live-pack aperture; may provide a static hand-rest illusion but cannot overlap or move with the live pack",
+      "rightsStatus": "planned original procedural geometry",
+      "generationNote": "do not finalize dimensions until the real production aperture is measured; no image-generation model required",
+      "verification": "pending structural DOM proof",
+      "acceptanceStatus": "PLANNED_AFTER_DOM_GEOMETRY_PROOF"
+    },
+    {
+      "id": "CI21_CLUB_IDENTITY_V2_1_CATALOG",
+      "kind": "planned-deterministic-svg-system",
+      "canonicalFilename": null,
+      "proposedPackagePath": null,
+      "source": "assets/club-identity-v2-1-authoring-inventory.json + evidence/CLUB_IDENTITY_V2_1_SAFE_CONTEXT_ARCHITECTURE_2026-09-10.md",
+      "dimensions": "vector / responsive",
+      "fileType": "generated image/svg+xml data URI through existing identity presentation boundary",
+      "targetScreens": ["clubWheelScreen", "dashboard", "transferChallenge", "seasonResults", "seasonSummary"],
+      "responsiveEligibility": "all existing club-identity UI sizes",
+      "safeZone": "crest remains decorative/supporting; club name remains live DOM text",
+      "rightsStatus": "planned original Showdown identities informed by factual club colours/history/place; official crest copying prohibited by design contract",
+      "generationNote": "do not use AI raster image generation for the 98 supported badges. Research/curate descriptors, then render deterministically. Rich history/location research stays out of production runtime.",
+      "verification": "requires 98-club descriptor completeness, unique visual signatures, contact-sheet QA, offline/network-isolation proof and production bundle-delta measurement",
+      "acceptanceStatus": "PLANNED_RESEARCH_AND_DESCRIPTOR_BUILD_REQUIRED"
     },
     {
       "id": "I01_TROPHY_SYMBOL_FAMILY",
