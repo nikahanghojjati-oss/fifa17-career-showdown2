@@ -20,8 +20,8 @@ The r14 Journey Reconnect protocol and production adapter are part of the verifi
 
 ## Validation boundary
 
-Pre-publication candidate `487c1d41fa9a2b16097c9d8a68e8ebad4a27678e` passed normal PR POS20 run #368 including the exact-head cognitive seal. This publication commit creates new release bytes and therefore requires its own fresh exact-head POS20 validation before PR #242 can merge. Evidence must not be combined across heads.
+Pre-publication candidate `487c1d41fa9a2b16097c9d8a68e8ebad4a27678e` passed normal PR POS20 run #368 including the exact-head cognitive seal. Publication creates new release bytes and therefore requires its own fresh exact-head POS20 validation before PR #242 can merge. Evidence must not be combined across heads.
 
-The one-shot shell publisher produced coherent r14 bytes but its Actions-authored commit was not eligible to execute the normal PR validation jobs. This connector-authored provenance commit intentionally changes no product behavior and establishes the exact head on which the complete POS20 suite must pass before integration.
+The one-shot shell publisher produced coherent r14 bytes but its Actions-authored commit was not eligible to serve as final acceptance authority. Connector-authored provenance commits intentionally change no product behavior and establish the exact head on which the complete POS20 suite must pass before integration.
 
-Firebase remains Spark-only, billing remains permanently off and SSJR production-two-account acceptance remains separate from MDP engineering maturity.
+SSJR-1.1 remains `0/100`; this MDP engineering release does not claim production-two-account SSJR acceptance. Existing Private Remote Joining authority remains retained and unchanged. Firebase remains Spark-only, billing remains permanently OFF, and App Check enforcement remains OFF. Cloud Run and Cloud Functions remain unnecessary.
