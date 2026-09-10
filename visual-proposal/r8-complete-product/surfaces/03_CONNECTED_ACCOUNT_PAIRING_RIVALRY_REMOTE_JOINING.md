@@ -1,6 +1,6 @@
 # Surface Group 03 — Connected Account, Pairing, Connected Rivalry and Private Remote Joining
 
-Status: ACTIVE SURFACE CONTRACT
+Status: ACTIVE SURFACE CONTRACT — RECONCILED THROUGH r16 LOCAL RECONCILIATION
 
 These are private connection surfaces. They must stay technical, explicit and calm. They never become a public/community skin and never imply cloud authority beyond what the runtime confirms.
 
@@ -61,9 +61,10 @@ Core principle: remote observation is not local application.
 The proposal must visually separate:
 
 - Remote Observed state/revision/hash;
-- Local Applied state;
+- exact Local Target identity;
+- Local Commit / Applied state;
 - reconciliation preview;
-- explicit confirmed Apply path owned by existing recovery authority.
+- explicit confirmed Apply path owned by existing Candidate C recovery authority.
 
 Required states:
 
@@ -79,6 +80,44 @@ Required states:
 - stale/conflict/error.
 
 Use a technical ledger layout. A refresh or remote preview must never look like local gameplay has already changed.
+
+### r16 Shared Journey Local Reconciliation ownership
+
+Production `1.9.1-r16` does not introduce a new reconciliation page. Its user-visible controls remain inside the existing Settings overlay in the existing Connected Rivalry panel, `#sparkConnectedRivalryPanel`, under `#settingsContent`.
+
+R8 therefore treats r16 as an additive Connected Rivalry state family. It must not create a route, dashboard tile, conflict inbox or second Restore/Recovery authority.
+
+The live r16 relationship is:
+
+`Shared Journey history -> r16 projection/adapter -> existing Connected Rivalry preview -> existing Candidate C explicit Apply`
+
+Presentation rules:
+
+- Candidate B/Connected Rivalry preview remains read-only observation;
+- Candidate C remains the sole destructive local Apply authority;
+- preview must show that the remote revision is observed only and local gameplay is unchanged;
+- the exact local target remains visible before Apply;
+- Apply requires deliberate confirmation;
+- Apply copy must preserve the backup-first boundary;
+- `BACK UP + APPLY EXACT REVISION` is the appropriate action hierarchy where the final product exposes that action;
+- stale target or authority changes require review again rather than force/bypass;
+- unrelated local saves remain visually outside the mutation boundary;
+- no automatic Apply is implied.
+
+Material r16 presentation states:
+
+- `WAITING_REMOTE`: no observed remote envelope yet;
+- `REMOTE_OBSERVED`: exact remote revision/hash is available for observation, but Apply is not yet ready;
+- `PREVIEW_READY`: non-mutating preview exists for the exact remote revision and exact local target;
+- `OFFLINE_FALLBACK`: an already-observed exact envelope may remain previewable, but Apply is explicitly unavailable while offline;
+- `APPLIED`: exact reviewed revision completed through Candidate C and verified backup/transaction authority;
+- blocked/error: local Career Mode remains available where product authority supports it and no force path appears.
+
+The visual layer does not persist any r16 state and does not write provider or canonical local storage. It only presents runtime-owned state.
+
+Evidence authority:
+
+`evidence/R16_SHARED_JOURNEY_LOCAL_RECONCILIATION_2026-09-10.md`
 
 ## Private Remote Joining
 
@@ -130,6 +169,8 @@ Chromebook/tablet collapses secondary metadata before reducing capability readab
 
 Mobile stacks host/join, observed/applied and pairing states. Codes remain selectable and horizontally safe; do not shrink them below readable size.
 
+For r16 confirmation states, the exact local target, confirmation copy and Apply action must remain in source order on narrow screens. Do not place the Apply button above the confirmation control merely to save vertical space.
+
 ## Accessibility and QA
 
 - codes and IDs remain selectable real text;
@@ -138,6 +179,9 @@ Mobile stacks host/join, observed/applied and pairing states. Codes remain selec
 - focus ownership works across overlays/dialogs;
 - copy buttons have visible focus and clear feedback;
 - destructive revoke/close actions are separated from ordinary retry/refresh;
+- r16 preview and r16 Apply are distinguishable by text and structure, not color alone;
+- offline r16 preview-only state explicitly says Apply is unavailable;
 - no secret/capability is baked into a screenshot or decorative image;
 - no public discovery affordance is introduced;
-- zero-dollar/Spark-only presentation truth is preserved.
+- zero-dollar/Spark-only presentation truth is preserved;
+- no new canonical-storage/provider authority is implied.
