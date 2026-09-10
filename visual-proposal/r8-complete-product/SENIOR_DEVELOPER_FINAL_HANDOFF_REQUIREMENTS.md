@@ -6,16 +6,22 @@ The visual track may create the final senior-developer implementation handoff on
 
 ## 1. Final product reconciliation
 
-After the main developer reaches the product's actual final development checkpoint:
+After the main developer reaches the actual final development checkpoint:
 
 1. independently resolve current `main`;
-2. inventory every routed screen and substantial overlay/panel/state family;
+2. inventory every routed screen and substantial overlay/panel/status/state family;
 3. compare that inventory with this proposal workspace;
-4. add or revise proposal coverage for anything that changed;
-5. remove proposal assumptions that no longer match the real product;
-6. record the exact final-main commit used for reconciliation.
+4. add/revise only proposal coverage affected by real drift;
+5. remove assumptions that no longer match product authority;
+6. record the exact final-main commit.
 
-No earlier `main` commit may stand in for this final reconciliation.
+Current intermediate reconciliation is through:
+
+`97c28b1efea6ee6e901e6076a834ec419cbad5aa` / `1.9.1-r14`.
+
+r14 Journey Reconnect is already represented by `surfaces/08_JOURNEY_RECONNECT_R14.md` and `prototypes/28-journey-reconnect-r14-reference.html`.
+
+No intermediate main commit may substitute for the true final reconciliation.
 
 ## 2. Complete visual design
 
@@ -24,37 +30,31 @@ Every final routed screen and substantial non-route surface must have:
 - intended information hierarchy;
 - responsive layout contract;
 - action hierarchy;
-- empty/loading/error/waiting/disabled/destructive states where applicable;
+- reachable empty/loading/error/waiting/disabled/destructive states;
 - local/shared variants where applicable;
-- motion and reduced-motion behavior;
+- motion/reduced-motion behavior;
 - accessibility/focus requirements;
 - asset usage decision.
 
-The Home/menu media surface is explicitly included in this requirement.
+The Home Audius player and r14 Journey Reconnect status surface are explicitly included.
 
 ## 3. Complete asset package
 
-Every asset role in `ASSET_BUILD_MATRIX.md` must be resolved.
-
-For each required asset, package the file and record:
+Every required visual asset must be resolved with:
 
 - stable ID;
-- filename/path inside this proposal folder;
+- proposal path;
 - dimensions/type;
-- SHA-256;
-- provenance and rights status;
-- generation source/model if generated;
+- SHA-256 where applicable;
+- provenance/rights status;
 - source master/derivative relationship;
 - target screens/states;
-- responsive eligibility;
-- safe zones;
+- responsive eligibility/safe zones;
 - acceptance status.
 
-A01/A02 authoritative source masters must retain their exact approved hashes. Do not replace them with regenerations.
+A01/A02 authoritative source masters must retain exact approved hashes and must never be replaced by regenerations.
 
-Any new generated character asset must be justified by a screen-specific brief and must pass identity, anatomy, crop and safe-zone QA.
-
-If the approved Home design uses locally packaged/native soundtrack audio, every accepted track requires its own rights/provenance ledger entry including source, exact license, attribution, verification date and packaged-file hash. Provider-hosted commercial songs instead require a provider-eligibility ledger proving the exact provider URL, full-length result, tested device classes and fallback mapping.
+A new generated character asset requires a screen-specific unresolved role plus identity/anatomy/crop/safe-zone QA. No current contract justifies A03–A06.
 
 ## 4. Media player implementation boundary
 
@@ -63,151 +63,207 @@ Read first:
 - `surfaces/07_MEDIA_PLAYER.md`
 - `evidence/MEDIA_PLAYER_FEASIBILITY_2026-09-10.md`
 - `evidence/MEDIA_PROVIDER_ZERO_DOLLAR_DECISION_2026-09-10.md`
-- `prototypes/25-native-music-player-reference.html`
-- `prototypes/26-soundcloud-fifa17-audio-provider-reference.html`
+- `prototypes/27-audius-showdown-radio-reference.html`
+- `prototypes/26-native-music-player-functional-reference.html` for browser-media state-authority proof
+- `prototypes/26-soundcloud-fifa17-audio-provider-reference.html` for optional nostalgia-provider behavior
 
-The current production YouTube integration must not be copied forward blindly. On the r14 reconciliation anchor it still optimistically toggles a local playing boolean and uses iframe DOM `load` plus raw postMessage commands rather than provider-observed lifecycle state.
+### Primary music — Audius Showdown Radio
 
-Current proposal architecture is:
+The owner has prioritized audio-only smoothness/replayability over exact FIFA 17 soundtrack fidelity.
 
-1. exact six FIFA 17 soundtrack songs: prefer SoundCloud HTML5 Widget per track only after full-length iPhone Safari + Chromebook proof;
-2. any SoundCloud-ineligible exact song: hardened visible YouTube IFrame Player API fallback;
-3. FIFA 17 gameplay trailer: hardened visible YouTube provider path;
-4. optional open-audio Showdown Radio: browser-native rights-verified audio and/or Audius, additive rather than required for the exact soundtrack;
-5. media unavailable must never block Career Mode.
+Final direction:
 
-SoundCloud implementation requirements:
+`SHOWDOWN RADIO -> AUDIUS -> one browser HTML <audio> authority`
 
-- use one visible widget instance and a data-driven queue;
-- `auto_play=false` on initial load;
-- wait for `READY` before enabling normal Play or explicitly expose loading state;
-- derive `PLAYING`, `PAUSED`, completion and error state from Widget API events;
-- use `widget.load(...)` for track changes and reset stale state;
-- detect/document preview-only or otherwise ineligible exact tracks and route them to YouTube fallback;
-- preserve provider identity/attribution;
-- do not copy/extract/self-host the commercial recordings.
+Requirements:
 
-YouTube fallback/trailer requirements:
+- curated track manifest with stable Audius IDs/metadata;
+- do not search/trend on every Home visit;
+- one active audio element;
+- no autoplay on startup;
+- no listener Audius login for ordinary public playback;
+- no music iframe/video;
+- source request only for the selected track;
+- UI state derives from actual HTML media events rather than the click;
+- Play/Pause, Previous/Next, seek/progress, queue selection and provider attribution;
+- bounded failure/retry behavior;
+- no duplicate player after navigation/re-entry.
 
+At the proposal verification date, Audius official developer documentation states a Free API plan of 10 requests/second and 500,000 requests/month and describes it as always free. These are API requests rather than a direct song-play count. The implementation must minimize requests regardless of expected low usage.
+
+The final handoff must record the Free-plan verification date and instruct the senior developer to recheck provider terms before production publication.
+
+### Optional nostalgia — SoundCloud FIFA 17 Picks
+
+SoundCloud may be retained as an optional secondary exact-song panel.
+
+Per track outcome:
+
+- `FULL`;
+- `PREVIEW` clearly labelled as such;
+- `UNAVAILABLE`.
+
+Use one reusable standard SoundCloud widget and real READY/PLAY/PAUSE/FINISH/ERROR state. A preview must not masquerade as full playback.
+
+SoundCloud failure returns to Showdown Radio/another eligible item; it does not invoke YouTube music fallback.
+
+### Video — YouTube trailer only
+
+YouTube is not a music fallback.
+
+If the FIFA 17 gameplay trailer remains:
+
+- it is intentionally visible video;
+- lazy-load after deliberate intent;
 - use official IFrame Player API lifecycle/events;
-- wait for `onReady`;
-- derive playing/paused/buffering/ended state from `onStateChange`;
-- handle `onAutoplayBlocked` and `onError`;
-- keep the YouTube player visible while active;
-- do not extract/isolate YouTube audio;
-- do not suppress, cover, skip or work around provider ads;
-- preserve lazy loading for the heavier video provider path.
+- handle ready/state/autoplay-blocked/error explicitly;
+- no audio isolation/extraction;
+- no ad suppression/workaround.
 
-Audius/native open-audio requirements:
-
-- must remain optional;
-- must not be used as evidence that the exact six commercial FIFA 17 songs are available there;
-- may use the current Audius Free plan only under a fail-closed financial contract;
-- locally packaged tracks still require exact rights/provenance verification.
-
-Permanent media financial invariant:
+### Permanent financial invariant
 
 `paidUpgradeAllowed = false`
 
-No payment card, paid API tier, listener Premium requirement, automatic overage or automatic provider upgrade may be introduced. If provider terms later require payment, disable that path or fall back to another approved zero-dollar path. Career Mode remains usable with all media disabled.
+No payment card, paid API tier, listener Premium requirement, automatic overage or automatic provider upgrade is permitted.
 
-Spotify Premium is not an acceptable default dependency.
+If any provider changes terms such that payment becomes necessary, disable that provider lane until a new zero-dollar decision is approved. Career Mode remains usable with all media disabled.
 
-## 5. Final-product-quality prototype/reference package
+### Final track ledger
 
-The visual proposal should be reviewable as though it were a finished product while remaining isolated from production.
+Each final Audius track requires:
 
-The senior developer should not need to infer major layout, styling, media-state or asset-placement decisions.
+- stable queue key;
+- Audius track ID and canonical source URL;
+- title/creator/duration;
+- public streamability result;
+- governing provider/creator license or rights basis;
+- attribution requirement;
+- iPhone Safari proof;
+- Chromebook proof;
+- final owner taste status;
+- verification date.
 
-Reference CSS/JS/HTML may be included under `prototypes/`, but it must:
+Do not infer that all Audius tracks share one license.
 
-- be presentation/reference code, not production authority;
-- be isolated/namespaced where appropriate;
-- avoid production persistence or domain mutation;
-- preserve real DOM text for UI copy;
-- document which current production selectors/components it maps to;
-- explicitly identify network/provider calls used solely for functional feasibility proof.
+## 5. r14 Journey Reconnect implementation boundary
 
-## 6. QA package
+Read:
 
-The proposal must pass visual QA at representative widths including:
+- `surfaces/08_JOURNEY_RECONNECT_R14.md`
+- `evidence/R14_JOURNEY_RECONNECT_RECONCILIATION_2026-09-10.md`
+- `prototypes/28-journey-reconnect-r14-reference.html`
+
+Preserve production ownership of `#sharedJourneyReconnectStatus` below `#topHeader` and its `role=status` / `aria-live=polite` semantics.
+
+Exact phases to preserve:
+
+- `OFFLINE_HOLD`;
+- `RECOVERY_PENDING`;
+- `FRESH_SESSION_REQUIRED`;
+- `ACTIVE_RECOVERED`;
+- `TERMINAL_RECOVERED`.
+
+Journey Reconnect is read-only. It does not mutate canonical Save Library state, perform provider writes/listing, create public discovery or require billing.
+
+Expired/missing sessions are never styled as active authority. A resumable durable journey must be visibly distinguished from a valid current private-session authorization. Terminal recovery must not expose a next-season resurrection cue.
+
+## 6. Final-product-quality proposal package
+
+Reference HTML/CSS/JS must:
+
+- remain proposal/reference code rather than production authority;
+- avoid product-domain mutation/persistence;
+- use real DOM text for core UI;
+- identify production selectors/components it maps to;
+- explicitly identify any network/provider calls used only for functional feasibility proof;
+- give the senior developer enough specificity that major visual decisions are not inferred from scratch.
+
+## 7. QA package
+
+Representative visual QA:
 
 - wide desktop;
 - reduced-wide desktop;
 - Chromebook/tablet;
-- mobile.
+- 390px-class mobile.
 
-It must also verify:
+Also verify:
 
-- normal and reduced motion;
+- normal/reduced motion;
 - keyboard focus;
 - modal focus ownership/restoration;
-- color contrast;
-- no art overlap with controls;
-- no decorative hit targets/focusables;
+- contrast;
+- no art/control overlap;
+- no decorative focus targets;
 - no baked/mirrored core UI text;
-- character identity fidelity and fixed manager mapping;
-- rights-safe assets;
+- character identity + Manager 1 Daniel / Manager 2 Nik mapping;
+- rights-safe/provenance assets;
 - no missing/broken assets;
-- exact asset hashes;
-- local/shared state clarity;
-- error/recovery/destructive-state legibility;
-- media loading/ready/play-requested/playing/paused/buffering/preview-only/blocked/error truthfulness;
-- responsive text readability without pinch zoom.
+- local/shared authority clarity;
+- error/recovery/destructive legibility;
+- Audius ready/play-requested/playing/paused/buffering/error truthfulness;
+- SoundCloud Full/Preview/Unavailable truthfulness if retained;
+- Journey Reconnect five-phase truthfulness;
+- responsive readability without pinch zoom.
 
-For the six exact soundtrack songs, QA additionally requires a per-track device matrix for iPhone Safari and Chromebook recording SoundCloud readiness, first-press behavior, duration/full-length result, pause/resume, track-switch behavior and fallback result.
+Mobile practical floor learned during R8 QA:
 
-Use the mobile typography floor learned in `evidence/PROPOSAL_SCREENSHOT_QA_R13_2026-09-10.md`; do not preserve sub-readable microtype solely for visual density.
+- essential body/status ~13–14px minimum;
+- metadata/labels ~11–12px minimum;
+- button labels ~12px minimum;
+- touch targets 44px minimum.
 
-## 7. Owner final screenshot approval — HARD GATE
+## 8. Owner final screenshot approval — HARD GATE
 
 Read:
 
 `evidence/FINAL_SCREENSHOT_APPROVAL_INDEX.md`
 
-Before the visual proposal may become `FINAL` or be handed to the senior developer as an approved implementation target:
+Before R8 may become `FINAL` or become an approved implementation target:
 
-1. every built routed page must have a final screenshot;
-2. every substantial non-route surface must have a final screenshot;
-3. every materially different user-visible version/state must be shown, including responsive variants where geometry/content materially changes;
-4. those screenshots must represent the final reconciled proposal, not obsolete exploratory versions;
-5. media screenshots must include the approved exact-song provider presentation and materially different fallback/unavailable states;
-6. the complete set must be presented to the owner;
-7. the owner must explicitly approve the final screenshots.
+1. every final routed page has a final screenshot;
+2. every substantial non-route surface has required final screenshots;
+3. every materially different reachable state/version is shown;
+4. responsive variants are included where geometry/content materially changes;
+5. Audius player screenshots disclose provider/state and final queue context;
+6. Journey Reconnect states are represented;
+7. screenshots reflect final reconciled proposal, not obsolete exploration;
+8. complete set is presented to owner;
+9. owner explicitly approves exact images;
+10. rejected states are revised/re-rendered.
 
 Internal QA PASS is not owner approval.
 
-Do not call the proposal final while any required row in `FINAL_SCREENSHOT_APPROVAL_INDEX.md` remains unrendered, stale or unapproved.
+## 9. Senior implementation map
 
-## 8. Senior implementation map
+The final package must state:
 
-The final package must tell the senior developer, with minimal interpretation:
+- production screen/component mapping;
+- existing domain authority that must remain untouched;
+- likely integration selectors/files;
+- approved asset destinations;
+- responsive/state rules;
+- Audius provider/track/financial boundary;
+- optional SoundCloud Full/Preview mapping;
+- YouTube trailer-only rule;
+- Journey Reconnect status/state boundary;
+- intentionally omitted character art;
+- final-main compatibility risks.
 
-- which production screen/component each proposal artifact maps to;
-- which existing production authority must remain untouched;
-- which files/selectors are likely integration points;
-- which assets should be copied where if approved;
-- responsive rules;
-- state rules;
-- media provider eligibility/fallback rules;
-- zero-dollar fail-closed rules;
-- media rights/provider-integrity boundaries;
-- any intentionally omitted character art;
-- any known risks or places where the senior developer must adapt because final `main` differs from the proposal prototype.
+Senior developer owns actual production implementation and code review.
 
-This mapping is advisory. The senior developer owns the actual production implementation approach and final code review.
+## 10. Final handoff prompt
 
-## 9. Final handoff prompt
+Only after every gate closes, create a concise final implementation prompt that:
 
-Only after all requirements above are complete, create a concise final senior-developer prompt that:
+- points first to this proposal folder;
+- identifies exact final proposal manifest/head and exact final-main reconciliation commit;
+- states owner screenshot approval is complete;
+- states final Audius track/device/rights matrix;
+- states optional SoundCloud classifications if retained;
+- states r14/later reconnect reconciliation status;
+- instructs review/verification and intentional implementation;
+- explicitly says visual track did not modify/deploy `main`;
+- preserves Firebase Spark-only / zero-billing / private-two-manager/domain-authority locks.
 
-- points first to this folder;
-- identifies the exact final proposal manifest and exact final-main reconciliation commit;
-- states that owner screenshot approval is complete;
-- states the final per-track media-provider eligibility matrix and fallback contract;
-- instructs the senior developer to review, verify, fix any remaining integration defects and intentionally implement the package;
-- explicitly says the visual track did not modify/deploy `main`;
-- preserves zero-dollar/Firebase Spark-only and domain-authority locks;
-- preserves media rights/provider integrity rules.
-
-The final handoff prompt must not claim that proposal approval equals deployment approval.
+Proposal approval does not itself equal deployment approval.
