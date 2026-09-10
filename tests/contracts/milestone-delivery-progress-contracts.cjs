@@ -107,9 +107,9 @@ const read = file => fs.readFileSync(file, "utf8");
   assert.throws(() => assessMilestoneDelivery(trackerModel, scoreDrift, ssjrModel), /stored milestone score/i);
   const weightDrift = clone(ledger); weightDrift.capabilities[0].milestoneWeight += 1;
   assert.throws(() => assessMilestoneDelivery(trackerModel, weightDrift, ssjrModel), /weight drift/i);
-  const outOfOrder = clone(ledger); const multiSeason = outOfOrder.capabilities.find(capability => capability.id === "multi-season"); multiSeason.stages["automated-test"] = "complete";
+  const outOfOrder = clone(ledger); const journeyReconnect = outOfOrder.capabilities.find(capability => capability.id === "journey-reconnect"); journeyReconnect.stages["automated-test"] = "complete";
   assert.throws(() => assessMilestoneDelivery(trackerModel, outOfOrder, ssjrModel), /cannot complete automated-test after an earlier lifecycle stage is incomplete/i);
-  const inventedPartial = clone(ledger); inventedPartial.capabilities.find(capability => capability.id === "multi-season").lifecyclePercent = 25;
+  const inventedPartial = clone(ledger); inventedPartial.capabilities.find(capability => capability.id === "journey-reconnect").lifecyclePercent = 25;
   assert.throws(() => assessMilestoneDelivery(trackerModel, inventedPartial, ssjrModel), /stored lifecyclePercent must be derived/i);
 
   assert.match(authority, /Milestone Delivery Progress: NN\.NN\/100/);
