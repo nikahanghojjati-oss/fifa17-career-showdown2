@@ -8,14 +8,16 @@ Do not merge the visual branch wholesale. Do not deploy automatically. Re-resolv
 
 ## Current proposal authority
 
-Last verified production authority before this handoff write:
+Last verified production authority before this handoff seal:
 
-- live main: `61e16bb0357352a5c38c02aa072233e851226caf`
+- live main: `32723b900dee45f689391908dc976f0ce5d06dd5`
 - runtime / asset revision: `1.9.1-r11`
 - visual proposal branch: `visual/r8-5-approved-character-identity-lock`
-- visual branch before final handoff packaging: `189b40b467a5b012a857f5115d488a49dddc8e02`
+- prior production baseline used by Package 5 QA: `61e16bb0357352a5c38c02aa072233e851226caf`
 
-The parallel development lane may advance at any time. Current production truth always outranks this checkpoint.
+The one-commit drift from `61e16bb...` to `32723b9...` changes `MILESTONE_DELIVERY_PROGRESS.json`, `SHARED_SHOWDOWN_JOURNEY_READINESS.json`, and `tests/contracts/milestone-delivery-progress-contracts.cjs`; it does not alter the r11 DOM/CSS/runtime files used by the Package 5 visual analysis. `index.html` still declares `1.9.1-r11`.
+
+The parallel development lane may advance again. Current production truth always outranks this checkpoint.
 
 ## Read order
 
