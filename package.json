@@ -45,12 +45,15 @@
     "test:ssjr:browser": "node tests/browser/production-shared-setup-overlay-audit.cjs && node tests/browser/shared-showdown-setup-audit.cjs && node tests/browser/shared-showdown-paired-first-entry-audit.cjs && CMS_CHROMIUM_MULTI_CONTEXT=1 node tests/browser/shared-showdown-polished-presentation-audit.cjs && CMS_CHROMIUM_MULTI_CONTEXT=1 node tests/browser/shared-transfer-challenge-replay-audit.cjs && CMS_CHROMIUM_MULTI_CONTEXT=1 node tests/browser/shared-season-results-audit.cjs && CMS_CHROMIUM_MULTI_CONTEXT=1 node tests/browser/shared-season-commit-audit.cjs && CMS_CHROMIUM_MULTI_CONTEXT=1 node tests/browser/shared-canonical-scoring-audit.cjs && CMS_CHROMIUM_MULTI_CONTEXT=1 node tests/browser/shared-history-convergence-audit.cjs && CMS_CHROMIUM_MULTI_CONTEXT=1 node tests/browser/shared-multi-season-progression-audit.cjs && CMS_CHROMIUM_MULTI_CONTEXT=1 node tests/browser/ssjr-production-acceptance-recorder-audit.cjs && CMS_CHROMIUM_MULTI_CONTEXT=1 node tests/browser/ssjr-production-actor-evidence-v2-audit.cjs",
     "work:proofs": "node scripts/pos10-proof-runner.mjs",
     "work:recovery": "node scripts/pos20-recovery.mjs",
-    "work:publication": "node scripts/pos20-publication.mjs"
+    "work:publication": "node scripts/pos20-publication.mjs",
+    "test:ssjr:journey-reconnect": "node tests/contracts/shared-journey-reconnect-contracts.cjs"
   },
   "devDependencies": {
     "@sparticuz/chromium": "149.0.0",
     "axe-core": "4.13.0",
     "playwright": "1.62.1"
   },
-  "engines": {"node": ">=24"}
+  "engines": {
+    "node": ">=24"
+  }
 }
