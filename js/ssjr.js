@@ -16,6 +16,7 @@
       install("ssjr-production-season-results","js/productionSharedSeasonResults.js","CareerModeProductionSharedSeasonResults"),
       install("ssjr-production-season-commit","js/productionSharedSeasonCommit.js","CareerModeProductionSharedSeasonCommit"),
       install("ssjr-production-canonical-scoring","js/productionSharedCanonicalScoring.js","CareerModeProductionSharedCanonicalScoring"),
+      install("ssjr-production-history-convergence","js/productionSharedHistoryConvergence.js","CareerModeProductionSharedHistoryConvergence"),
       (async()=>{await seasonResultsRoute;return install("ssjr-production-transfer-challenge","js/productionSharedTransferChallenge.js","CareerModeProductionSharedTransferChallenge");})()
     ]);
     if(!acceptanceEnabled)return;
