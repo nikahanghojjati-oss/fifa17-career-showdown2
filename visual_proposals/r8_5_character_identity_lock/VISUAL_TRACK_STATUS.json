@@ -1,23 +1,34 @@
 {
-  "schemaVersion": "1.3.0",
+  "schemaVersion": "1.4.0",
   "lane": "independent visual proposal",
   "status": "ACTIVE",
   "proposalBranch": "visual/r8-5-approved-character-identity-lock",
   "latestObservedMainSha": "1d0c9f9d6542cd020a4aae53998cb6daeba380e4",
   "latestObservedAssetRevision": "1.9.1-r10",
-  "currentMilestone": "R8.8 live runtime visual map complete; bounded asset production queued",
-  "visualProductionProgressPercent": 47.0,
-  "handoffProximityPercent": 32,
+  "currentMilestone": "R8.9 reasoning-first exact-DOM specification",
+  "visualProductionProgressPercent": 48.0,
+  "handoffProximityPercent": 34,
   "runtimeMapping": {
     "state": "COMPLETE_BASELINE",
     "mappedPrimaryAndNestedSurfaces": 24,
     "authorityFile": "R8_8_LIVE_RUNTIME_VISUAL_MAP.md",
     "assetMatrix": "R8_8_ASSET_REQUIREMENTS_MATRIX.md",
+    "reasoningBuildOrder": "R8_9_REASONING_FIRST_BUILD_ORDER.md",
     "sourcePin": "1d0c9f9d6542cd020a4aae53998cb6daeba380e4",
     "sourceAssetRevision": "1.9.1-r10"
   },
+  "reasoningLeadPolicy": {
+    "state": "ENFORCED",
+    "rule": "planning/runtime/DOM reasoning chooses the next work item; image generation is a specialist tool only",
+    "uploadedImageDoesNotAutoTriggerGeneration": true,
+    "continueBuildingDoesNotMeanGenerateImage": true,
+    "generationRequiresMappedNeed": true,
+    "generationRequiresReuseCheck": true,
+    "generationRequiresSafeZoneDefinition": true,
+    "generationRequiresBestMethodCheck": true
+  },
   "characterApprovalGate": "PARTIAL_DIRECTION_APPROVED_FINAL_MASTERS_PENDING",
-  "generationFormatPolicy": "ONE_CHARACTER_ONE_REQUIRED_EXPRESSION_HIGH_RESOLUTION",
+  "generationFormatPolicy": "ONE_CHARACTER_ONE_REQUIRED_EXPRESSION_HIGH_RESOLUTION_WHEN_GENERATION_IS_ACTUALLY_JUSTIFIED",
   "multiExpressionBoardGeneration": "RETIRED_FOR_PRODUCTION",
   "characterAssetPlan": {
     "requiredUniqueMasters": 6,
@@ -39,42 +50,38 @@
   "identityAuthority": {
     "tier0": "owner-approved CM17 AI hero references and deterministic approved face crops",
     "auxiliaryAi": "owner-provided CM17 screen/reference art for expression, pose and style evidence",
-    "realPhotos": "facial geometry and expression evidence only; prohibited as shipping website assets"
+    "realPhotos": "facial geometry and expression evidence only; prohibited as shipping website assets",
+    "newCandidateImages": "non-authoritative until explicit owner approval"
   },
   "latestOwnerDirection": {
-    "nikCore": "isolated Nik resemblance direction strongly approved; preserve likeness while calibrating slightly more toward approved CM17 AI-character rendering",
-    "danielCore": "approved historical Daniel pointing/main identity remains strongest anchor; clean isolated final master pending",
-    "planning": "reasoning layer must map and justify assets before generation; random prompt-to-image behavior prohibited"
-  },
-  "referenceLibrary": {
-    "folder": "/Showdown visual/R8_7_IDENTITY_EXPRESSION_RECOVERY/",
-    "state": "EXPANDED",
-    "use": "Tier 0 identity anchors plus auxiliary AI and real-photo expression geometry",
-    "shippingRealPhotos": false
+    "visualProcess": "differentiate study, mapping, planning, prototype, asset generation and implementation work; never convert a broad project instruction or uploaded image into an automatic image prompt",
+    "nikCore": "preserve the owner-liked likeness direction and Tier 0 AI-character style; no unsolicited refinement",
+    "danielCore": "preserve approved historical Daniel identity and pointing anchor; no unsolicited refinement",
+    "prototype": "rough non-final placeholders are acceptable for layout work as long as they cannot be mistaken for final identity assets"
   },
   "progressModel": [
     {"workstream":"approved identity truth recovered and persistently locked","weight":20,"earned":20,"state":"done"},
     {"workstream":"live DOM/source reconciliation and runtime screen mapping","weight":10,"earned":10,"state":"r10 map sealed across 24 primary/nested surfaces"},
-    {"workstream":"identity plus natural-expression contract","weight":10,"earned":10,"state":"done; single-expression method required"},
-    {"workstream":"isolated canonical Nik and Daniel character masters","weight":20,"earned":3,"state":"Nik isolated direction strongly approved but final AI-style freeze pending; Daniel clean final core pending"},
-    {"workstream":"screen-state expression and pose variants","weight":15,"earned":0,"state":"bounded to four tactical/celebration masters after core pair"},
-    {"workstream":"R8.5 black-gold final-art and DOM composition mapping","weight":10,"earned":3,"state":"screen-level art/reuse requirements mapped; actual exact-DOM composition not yet built"},
-    {"workstream":"responsive safe-zone and obstruction QA","weight":10,"earned":0,"state":"begins after A01/A02 composition proof"},
-    {"workstream":"master developer implementation package","weight":5,"earned":1,"state":"skeleton exists; final implementation handoff waits for approved assets and composition QA"}
+    {"workstream":"identity plus natural-expression contract","weight":10,"earned":10,"state":"done; final asset generation remains owner-gated"},
+    {"workstream":"isolated canonical Nik and Daniel character masters","weight":20,"earned":3,"state":"directions exist; no unsolicited refinements; final freezes later when mapped composition needs them"},
+    {"workstream":"screen-state expression and pose variants","weight":15,"earned":0,"state":"bounded to mapped tactical/celebration needs only"},
+    {"workstream":"R8.5 black-gold final-art and exact DOM composition specification","weight":10,"earned":4,"state":"screen map and reasoning-first build order done; Package 1/2 exact-DOM spec is next"},
+    {"workstream":"responsive safe-zone and obstruction QA","weight":10,"earned":0,"state":"after Package 1/2 composition spec"},
+    {"workstream":"master developer implementation package","weight":5,"earned":1,"state":"skeleton exists; final package waits for composition and approved assets"}
   ],
-  "nextSafeAction": "Finalize A01_NIK_CORE_THINKING_HERO only. Use the previously owner-liked isolated Nik likeness as the direction, preserve Tier 0 face truth, add only the necessary CM17 AI-character rendering calibration, generate no board and no second character in the same call. After owner approval freeze A01 before A02.",
+  "nextSafeAction": "Do not generate an image. Build the exact-DOM presentation specification for Package 1 and Package 2 from the live r10 runtime: Startup, Home, Create Showdown, Private Pairing, Shared Career Length, Shared Review/Confirm, League Wheel, Club Assignment and Shared Career Start. Define CSS layers, spacing, responsive safe zones, character reuse placements and control-first behavior. Generation may occur only if this spec proves a missing asset.",
   "handoffRule": {
     "0to49": "continue visual work normally",
-    "50to69": "keep continuity file current after each substantial asset milestone",
+    "50to69": "keep continuity file current after each substantial milestone",
     "70to84": "finish only the current bounded visual task and prepare successor starter",
-    "85to99": "no new large visual branch of work; package current truth",
+    "85to99": "no new large branch of visual work; package current truth",
     "100": "generate complete successor handoff and stop at a clean checkpoint"
   },
   "transitionTriggers": [
     "identity/source ambiguity cannot be resolved in the current session",
     "live main changes in a way that materially invalidates the current visual map",
     "too many unrelated visual branches are open to reason about safely",
-    "current isolated asset milestone is complete and a fresh session would reduce drift risk"
+    "current bounded visual milestone is complete and a fresh session would materially reduce drift risk"
   ],
   "nonGoals": [
     "replicate POS/SSJR/MDP testing infrastructure",
@@ -84,6 +91,7 @@
     "change Firebase or billing",
     "perform broad process refactoring",
     "generate unused expression libraries",
-    "ship literal owner photographs"
+    "ship literal owner photographs",
+    "auto-generate images in response to every visual reference upload"
   ]
 }
