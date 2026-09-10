@@ -24,10 +24,10 @@ Before editing anything:
 
 Last verified production checkpoint from the visual lane:
 
-- main: `61e16bb0357352a5c38c02aa072233e851226caf`
+- main: `32723b900dee45f689391908dc976f0ce5d06dd5`
 - runtime / asset revision: `1.9.1-r11`
 
-Treat those values as historical orientation only until reverified.
+The preceding visual QA baseline was `61e16bb0357352a5c38c02aa072233e851226caf`. The only observed drift to `32723b9...` was milestone/readiness/test metadata; `index.html` remains `1.9.1-r11`, so the Package 5 DOM/CSS analysis remains applicable. Reverify this again when starting implementation.
 
 ## Mandatory visual read order
 
