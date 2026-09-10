@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>R8 Create Showdown Proposal Reference</title>
+<style>
+:root{--black:#080b0e;--panel:#0d1216;--panel2:#151c21;--gold:#f3cc4f;--cream:#f5f0e4;--muted:#bdb49a;--danger:#dc6f6f}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--black);color:var(--cream);font-family:"Segoe UI",Arial,sans-serif}
+body{min-height:100vh;background:radial-gradient(circle at 50% -10%,rgba(243,204,79,.14),transparent 36%),linear-gradient(135deg,#12181d,#080b0e 55%,#10161b)}
+.shell{min-height:100vh;display:flex;flex-direction:column}
+header{height:74px;display:flex;align-items:center;justify-content:space-between;padding:0 52px;border-bottom:1px solid rgba(243,204,79,.45);background:rgba(8,11,14,.9)}
+.brand{font-family:"Arial Narrow","Segoe UI",sans-serif;font-stretch:condensed;text-transform:uppercase;letter-spacing:.04em}
+.brand strong{font-size:30px}.brand span{color:var(--gold);margin-left:9px;letter-spacing:.16em}
+.season{padding:10px 15px;border-left:4px solid var(--gold);background:#131a1f;color:#d8d0bd;font-size:12px;letter-spacing:.14em;text-transform:uppercase}
+main{flex:1;display:grid;place-items:center;padding:28px}
+.frame{width:min(920px,94vw)}
+.eyebrow{color:var(--gold);font-size:11px;letter-spacing:.28em;text-transform:uppercase;margin-bottom:9px}
+h1{margin:0 0 22px;font-family:"Arial Narrow","Segoe UI",sans-serif;font-size:54px;line-height:.9;text-transform:uppercase;letter-spacing:-.02em}
+.card{position:relative;padding:32px;background:linear-gradient(145deg,rgba(21,28,33,.98),rgba(10,14,18,.98));border:1px solid rgba(243,204,79,.24);border-left:5px solid var(--gold);box-shadow:0 24px 60px rgba(0,0,0,.38)}
+.label{display:block;margin:0 0 8px;color:#d0c7b3;font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+input,select{width:100%;min-height:52px;padding:12px 14px;border:1px solid rgba(245,240,228,.2);background:#0a0f13;color:var(--cream);font:inherit;outline:none}
+input:focus,select:focus{border-color:var(--gold);box-shadow:0 0 0 2px #080b0e,0 0 0 4px var(--cream),0 0 0 6px var(--gold)}
+.name{margin-bottom:26px}
+.rivals{display:grid;grid-template-columns:1fr 86px 1fr;gap:16px;align-items:end;margin-bottom:26px}
+.divider{height:52px;display:grid;place-items:center;position:relative}
+.divider:before,.divider:after{content:"";position:absolute;top:25px;width:26px;height:1px;background:var(--gold)}
+.divider:before{left:0}.divider:after{right:0}
+.diamond{width:34px;height:34px;transform:rotate(45deg);border:2px solid var(--gold);background:#10161a;display:grid;place-items:center}
+.diamond i{width:7px;height:7px;background:var(--gold);display:block}
+.rounds{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:7px 0 28px}
+.round{min-height:62px;padding:12px;border:1px solid rgba(243,204,79,.18);background:#10161a;color:var(--cream);text-align:center}
+.round b{display:block;color:var(--gold);font-size:25px;line-height:1}.round small{display:block;margin-top:6px;color:var(--muted);font-size:9px;letter-spacing:.12em;text-transform:uppercase}
+.round.active{background:linear-gradient(135deg,#f7df87,#f3cc4f 58%,#bd8620);color:#0b0f12;border-color:#fff0b0}.round.active b,.round.active small{color:#17130b}
+.actions{display:grid;grid-template-columns:1fr 180px;gap:10px}
+.primary,.secondary{min-height:54px;border:0;font-weight:800;letter-spacing:.09em;text-transform:uppercase}
+.primary{background:linear-gradient(135deg,#f7df87,#f3cc4f 58%,#bd8620);color:#0b0f12}
+.secondary{background:#171e23;color:var(--cream);border:1px solid rgba(245,240,228,.18)}
+.note{margin:16px 0 0;color:var(--muted);font-size:12px;line-height:1.45}
+@media(max-width:760px){header{height:62px;padding:0 18px}.brand strong{font-size:20px}.brand span{display:none}.season{font-size:9px}.frame{width:100%}h1{font-size:42px}.card{padding:22px}.rivals{grid-template-columns:1fr;gap:15px}.divider{display:none}.rounds{grid-template-columns:repeat(2,1fr)}.actions{grid-template-columns:1fr}.secondary{order:2}}
+</style>
+</head>
+<body>
+<div class="shell">
+<header><div class="brand"><strong>CAREER MODE</strong><span>SHOWDOWN // 17</span></div><div class="season">No Active Showdown</div></header>
+<main>
+<section class="frame" id="createShowdown">
+<div class="eyebrow">NEW RIVALRY // SETUP</div>
+<h1>CREATE SHOWDOWN</h1>
+<div class="card">
+<div class="name"><label class="label" for="showdownName">SHOWDOWN NAME</label><input id="showdownName" placeholder="The Ultimate Rivalry"></div>
+<div class="rivals">
+<div><label class="label" for="managerOne">MANAGER 1</label><input id="managerOne" value="Daniel"></div>
+<div class="divider" aria-hidden="true"><span class="diamond"><i></i></span></div>
+<div><label class="label" for="managerTwo">MANAGER 2</label><input id="managerTwo" value="Nik"></div>
+</div>
+<label class="label" for="roundAmount">NUMBER OF ROUNDS</label>
+<select id="roundAmount" style="position:absolute;left:-9999px"><option>1</option><option selected>3</option><option>5</option><option>10</option></select>
+<div class="rounds" aria-hidden="true"><div class="round"><b>1</b><small>Season</small></div><div class="round active"><b>3</b><small>Seasons</small></div><div class="round"><b>5</b><small>Seasons</small></div><div class="round"><b>10</b><small>Seasons</small></div></div>
+<div class="actions"><button class="primary">START SHOWDOWN</button><button class="secondary">BACK</button></div>
+<p class="note">Proposal composition only. Production keeps the existing native round selector and validation authority.</p>
+</div>
+</section>
+</main>
+</div>
+</body>
+</html>
