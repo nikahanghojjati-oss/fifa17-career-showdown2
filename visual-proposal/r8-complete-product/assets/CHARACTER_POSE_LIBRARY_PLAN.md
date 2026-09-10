@@ -1,6 +1,6 @@
 # R8 Character Pose Library Plan — Six-Pose Target Per Manager
 
-Status: ACTIVE OWNER-DIRECTED ASSET CONTRACT — GENERATION / ISOLATION / APPROVAL OPEN
+Status: ACTIVE OWNER-DIRECTED ASSET CONTRACT — ONE-ASSET-AT-A-TIME GENERATION / ISOLATION / APPROVAL OPEN
 
 Owner direction captured 2026-09-10:
 
@@ -10,7 +10,8 @@ Owner direction captured 2026-09-10:
 - a sixth natural setback/losing pose is desirable when it can remain believable and identity-consistent;
 - the characters must remain stylized AI characters that closely resemble Nik and Daniel, not raw photographs;
 - Manager 1 = Daniel; Manager 2 = Nik;
-- character presentation must not change Firebase, Spark, storage, scoring, shared-state, provider or synchronization authority.
+- character presentation must not change Firebase, Spark, storage, scoring, shared-state, provider or synchronization authority;
+- final pose assets must be generated one by one at full useful resolution, never as a large multi-face generation sheet.
 
 ## 1. Recovered character evidence
 
@@ -56,7 +57,17 @@ Recovered source:
 
 `CANDIDATE_R8_6_EXPRESSION_REFINEMENT_01.png`
 
-This sheet is a design/identity reference, not a substitute for final isolated high-resolution assets.
+Important quality ruling:
+
+The recovered sheet is pose-language/reference evidence only. It is not a final face-quality source for the small generated variants. The prior multi-pose-sheet approach attempted too many faces/poses in one generation and produced weak identity resemblance in most cells. Only the strong approved core identity direction is reusable.
+
+Therefore:
+
+- do not crop the small sheet cells and call them final pose masters;
+- do not ask image generation to create several Nik/Daniel poses in one canvas;
+- do not generate a contact sheet directly;
+- generate and QA each final pose as an independent asset first;
+- assemble the contact sheet only after the individual assets are approved candidates.
 
 Recovered pack-opening references also exist:
 
@@ -129,7 +140,28 @@ Every new character variant must:
 
 Raw user photographs may inform resemblance only through the already-approved identity development process. The final production asset is the AI character, not the photograph.
 
-## 5. Dynamic outcome use without infrastructure change
+## 5. One-asset-at-a-time generation protocol
+
+A03–A12 are generated sequentially. Never batch multiple final poses into the same generated image.
+
+For each asset:
+
+1. select exactly one manager and one role ID;
+2. use only the relevant approved identity anchor/reference material;
+3. generate one full-size character candidate at a time;
+4. inspect face resemblance first, before judging the body pose;
+5. inspect hair/facial-hair/age read and wardrobe consistency;
+6. inspect hands, arms, shoulders, prop geometry and silhouette;
+7. reject the candidate immediately if identity resemblance falls materially below A01/A02;
+8. only after the asset passes individual QA, isolate/retain the full-resolution master;
+9. record its provenance/hash/dimensions;
+10. then move to the next pose.
+
+If a role needs a retry, retry only that role. Do not regenerate already-good poses merely to keep a sheet visually uniform.
+
+The final contact sheet is a layout/compositing artifact made from independently accepted pose assets. It is never itself the generation source.
+
+## 6. Dynamic outcome use without infrastructure change
 
 The victory/setback variants are presentation-only selections.
 
@@ -144,7 +176,7 @@ The UI derives the presentation from already-authoritative outcome data:
 
 This selection is deterministic presentation logic only. It must not write back to canonical saves or provider state.
 
-## 6. Recommended page distribution
+## 7. Recommended page distribution
 
 Characters are deliberately sparse.
 
@@ -166,24 +198,26 @@ Characters are deliberately sparse.
 
 No page gets character art merely to fill empty space.
 
-## 7. Generation and approval workflow
+## 8. Generation and approval workflow
 
 For each planned A03–A12 asset:
 
 1. choose one exact role from this matrix;
 2. use the correct approved manager identity reference;
-3. generate one bounded candidate family, not random whole-page art;
+3. generate exactly one pose asset at useful full resolution, never a multi-pose sheet;
 4. reject identity drift before composition;
 5. reject anatomy/hand/prop defects;
 6. isolate the selected transparent character master;
 7. record dimensions, hash and provenance in `ASSET_MANIFEST.json`;
 8. composite only on the pages listed here where safe;
-9. capture character QA sheet and affected page screenshots;
-10. obtain explicit owner approval before marking the asset final.
+9. repeat for the next asset only after the current asset is resolved;
+10. after all accepted candidates exist, build the contact sheet from those independent assets;
+11. capture affected page screenshots;
+12. obtain explicit owner approval before marking any new asset final.
 
 A candidate can be visually strong and still be rejected if resemblance is weaker than A01/A02.
 
-## 8. Current execution status
+## 9. Current execution status
 
 Existing immutable assets:
 
@@ -192,15 +226,15 @@ Existing immutable assets:
 
 Recovered prior references:
 
-- expression/pose sheet — verified as reference;
+- expression/pose sheet — verified as pose/reference evidence only, explicitly rejected as final multi-face quality authority;
 - Nik pack-holding owner-liked candidate — recovered;
 - two-manager pack-opening composition references — recovered.
 
 Still open:
 
-- isolate or generate final high-resolution A03–A12 assets;
+- generate/isolate final high-resolution A03–A12 assets one by one;
 - per-asset identity/anatomy QA;
-- character contact-sheet review;
+- only then assemble character contact-sheet review;
 - page-level composition QA;
 - owner approval.
 
