@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>R8 Showdown Radio + FIFA 17 Originals Proposal</title>
+<style>
+:root{--b:#070a0c;--p:#0e1418;--p2:#131b20;--p3:#091015;--g:#f3cc4f;--c:#f7f1e4;--m:#c2b99f;--dim:#8f8875;--s:#7fd77a;--w:#efbd49;--r:#dc7474;--line:rgba(245,240,228,.12);--goldline:rgba(243,204,79,.38)}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(circle at 50% -10%,rgba(243,204,79,.09),transparent 34%),linear-gradient(145deg,#10171b,#06090b 70%);color:var(--c);font-family:Segoe UI,Arial,sans-serif}
+.shell{width:min(1180px,96vw);margin:auto;padding:28px 0 48px}
+.top{display:flex;justify-content:space-between;align-items:flex-end;gap:18px;margin-bottom:17px}
+.ey{color:var(--g);font-size:12px;letter-spacing:.16em;font-weight:800}
+h1{margin:6px 0 0;font:900 43px/.94 Arial Narrow,Segoe UI,sans-serif;letter-spacing:.01em}
+.note{max-width:465px;color:var(--m);font-size:13px;line-height:1.5;text-align:right}
+.review{display:grid;grid-template-columns:1.04fr .96fr;gap:12px}
+.card{background:rgba(14,20,24,.96);border:1px solid var(--line);min-width:0}
+.card.gold{border-color:var(--goldline);box-shadow:inset 0 3px 0 var(--g)}
+.cardHead{padding:16px 18px;border-bottom:1px solid var(--line)}
+.cardHead span{display:block;color:var(--g);font-size:11px;letter-spacing:.13em;font-weight:800}
+.cardHead h2{margin:5px 0 0;font:900 24px/1 Arial Narrow,Segoe UI,sans-serif}
+.cardHead p{margin:7px 0 0;color:var(--m);font-size:13px;line-height:1.45}
+.player{padding:18px}
+.now{display:grid;grid-template-columns:54px 1fr auto;gap:13px;align-items:center}
+.art{width:54px;height:54px;display:grid;place-items:center;background:linear-gradient(135deg,#222c31,#0b1013);border:1px solid var(--goldline);font:900 21px/1 Arial Narrow,Segoe UI,sans-serif;color:var(--g)}
+.track small{display:block;color:var(--g);font-size:11px;letter-spacing:.12em;font-weight:800}
+.track strong{display:block;margin-top:4px;font-size:18px;line-height:1.15}
+.track span{display:block;margin-top:4px;color:var(--m);font-size:13px}
+.state{font-size:11px;color:var(--s);font-weight:900;letter-spacing:.08em}
+.transport{display:grid;grid-template-columns:46px 54px 46px 1fr 46px;gap:7px;align-items:center;margin-top:16px}
+.icon,.queueBtn{height:46px;border:1px solid var(--line);background:#192229;color:var(--c);font-weight:900;font-size:15px}
+.play{height:54px;border:none;background:var(--g);color:#0b0f12;font-size:18px;font-weight:900}
+.queueBtn{font-size:11px;color:var(--g)}
+.timeLine{min-width:0}
+.times{display:flex;justify-content:space-between;color:var(--m);font-size:11px;margin-bottom:6px}
+.rail{height:16px;display:flex;align-items:center;position:relative}
+.rail:before{content:"";display:block;width:100%;height:4px;background:#293238}
+.rail:after{content:"";position:absolute;left:0;width:36%;height:4px;background:var(--g)}
+.caption{margin:14px 0 0;padding-top:12px;border-top:1px solid var(--line);color:var(--m);font-size:12px;line-height:1.45}
+.caption strong{color:var(--c)}
+.queue{padding:0 18px 18px}
+.queueTitle{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:15px 0 10px;border-top:1px solid var(--line)}
+.queueTitle strong{font-size:14px}.queueTitle span{color:var(--m);font-size:11px}
+.row{display:grid;grid-template-columns:28px 1fr auto;gap:10px;align-items:center;padding:12px 10px;background:var(--p3);border-bottom:1px solid rgba(245,240,228,.07)}
+.row.selected{box-shadow:inset 3px 0 0 var(--g);background:#111a1f}
+.row b{color:var(--g);font-size:11px}.row strong{font-size:13px}.row small{display:block;margin-top:3px;color:var(--m);font-size:11px}.row time{color:var(--m);font-size:11px}
+.rightCol{display:grid;gap:12px}
+.provider{padding:18px}
+.providerTop{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.providerTag{font-size:11px;color:var(--g);font-weight:900;letter-spacing:.12em}
+.providerBadge{border:1px solid var(--goldline);padding:7px 9px;color:var(--m);font-size:10px;letter-spacing:.08em}
+.provider h3{margin:7px 0 4px;font:900 22px/1 Arial Narrow,Segoe UI,sans-serif}.provider p{margin:0;color:var(--m);font-size:13px;line-height:1.45}
+.video{height:192px;margin-top:14px;background:linear-gradient(145deg,#080b0e,#172026);border:1px solid rgba(245,240,228,.13);display:grid;place-items:center;text-align:center;padding:20px}
+.video strong{display:block;font:900 22px/1 Arial Narrow,Segoe UI,sans-serif}.video span{display:block;margin-top:8px;color:var(--m);font-size:12px;line-height:1.45}.video em{display:inline-block;margin-top:12px;padding:7px 10px;border:1px solid var(--line);font-style:normal;font-size:10px;color:var(--g)}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:12px}.btn{min-height:46px;border:1px solid var(--line);background:#192229;color:var(--c);font-size:12px;font-weight:900}.btn.primary{background:var(--g);color:#090d10;border-color:var(--g)}
+.providerState{margin-top:10px;padding:10px 11px;background:rgba(239,189,73,.06);border-left:3px solid var(--w);color:#ddd2ba;font-size:12px;line-height:1.45}
+.fail{padding:18px;border-top:3px solid var(--w)}
+.fail h3{margin:0;font:900 21px/1 Arial Narrow,Segoe UI,sans-serif}.fail p{margin:7px 0 0;color:var(--m);font-size:13px;line-height:1.5}.failActions{display:flex;gap:7px;margin-top:12px}.failActions .btn{flex:1}
+.rule{grid-column:1/-1;padding:14px 17px;background:#0b1013;border:1px solid var(--goldline);color:var(--m);font-size:12px;line-height:1.5}.rule strong{color:var(--g)}
+@media(max-width:760px){.shell{width:min(94vw,430px);padding:18px 0 34px}.top{align-items:flex-start;flex-direction:column}.note{text-align:left;font-size:13px}.ey{font-size:11px}h1{font-size:36px}.review{grid-template-columns:1fr}.cardHead{padding:16px}.player{padding:16px}.now{grid-template-columns:48px 1fr}.art{width:48px;height:48px}.state{grid-column:1/-1;margin-left:61px}.transport{grid-template-columns:44px 52px 44px 1fr}.queueBtn{grid-column:1/-1;width:100%}.times{font-size:11px}.track strong{font-size:17px}.track span,.cardHead p,.provider p,.fail p{font-size:13px}.queue{padding:0 16px 16px}.row{grid-template-columns:26px 1fr auto}.row strong{font-size:13px}.row small,.row time{font-size:11px}.provider{padding:16px}.video{height:210px}.actions{grid-template-columns:1fr}.fail{padding:16px}.failActions{flex-direction:column}.rule{font-size:12px}.providerBadge{font-size:10px}}
+</style>
+</head>
+<body>
+<main class="shell">
+<header class="top">
+<div><div class="ey">R8 MEDIA SURFACE · ZERO-DOLLAR PROPOSAL</div><h1>SHOWDOWN RADIO</h1></div>
+<p class="note">One clean music-first surface. Native licensed playback is the default. Exact FIFA 17 originals remain a clearly separate provider mode rather than a disguised audio-only YouTube player.</p>
+</header>
+<section class="review">
+<article class="card gold">
+<header class="cardHead"><span>MODE A · NATIVE LICENSED AUDIO</span><h2>COMPACT PLAYER + QUEUE</h2><p>Reference fixture only. Final tracks enter only after individual rights verification.</p></header>
+<div class="player">
+<div class="now"><div class="art">17</div><div class="track"><small>SHOWDOWN RADIO</small><strong>RIVALRY AFTER DARK</strong><span>Licensed Artist · CC BY candidate fixture</span></div><div class="state">PLAYING</div></div>
+<div class="transport"><button class="icon" aria-label="Previous track">‹‹</button><button class="play" aria-label="Pause track">Ⅱ</button><button class="icon" aria-label="Next track">››</button><div class="timeLine"><div class="times"><span>1:18</span><span>3:36</span></div><div class="rail" aria-hidden="true"></div></div><button class="icon" aria-label="Mute">VOL</button><button class="queueBtn">QUEUE · 4</button></div>
+<p class="caption"><strong>Actual playback state controls the UI.</strong> No optimistic “playing” label before the audio element confirms it. Only the selected source requests media.</p>
+</div>
+<div class="queue">
+<div class="queueTitle"><strong>LICENSED MATCHDAY QUEUE</strong><span>Expanded drawer state</span></div>
+<div class="row selected"><b>01</b><div><strong>Rivalry After Dark</strong><small>Licensed Artist · rights fixture</small></div><time>3:36</time></div>
+<div class="row"><b>02</b><div><strong>Gold Floodlights</strong><small>Licensed Artist · rights fixture</small></div><time>3:09</time></div>
+<div class="row"><b>03</b><div><strong>Second Leg</strong><small>Licensed Artist · rights fixture</small></div><time>2:54</time></div>
+<div class="row"><b>04</b><div><strong>Final Whistle</strong><small>Licensed Artist · rights fixture</small></div><time>3:28</time></div>
+</div>
+</article>
+<div class="rightCol">
+<article class="card">
+<header class="cardHead"><span>MODE B · OPTIONAL ORIGINAL SOUNDTRACK</span><h2>FIFA 17 ORIGINALS</h2><p>Keep the songs you like through a compliant provider surface. This mode remains lazy until deliberately opened.</p></header>
+<div class="provider">
+<div class="providerTop"><div><div class="providerTag">YOUTUBE PROVIDER MODE</div><h3>ARE WE READY? (WRECK)</h3><p>Two Door Cinema Club · FIFA 17 soundtrack</p></div><div class="providerBadge">PROVIDER VIDEO</div></div>
+<div class="video"><div><strong>VISIBLE YOUTUBE PLAYER AREA</strong><span>The real provider player remains visible when active. No hidden audio extraction, no ad bypass, no fake local playback state.</span><em>LAZY-LOADED AFTER USER INTENT</em></div></div>
+<div class="actions"><button class="btn primary">LOAD & PLAY ORIGINAL</button><button class="btn">BACK TO SHOWDOWN RADIO</button></div>
+<div class="providerState">Provider status: READY / PLAYING / PAUSED / BUFFERING / BLOCKED / ERROR is driven by YouTube IFrame API events, not by a local click boolean.</div>
+</div>
+</article>
+<article class="card fail">
+<div class="providerTag">MODE C · RESILIENT FAILURE</div><h3>TRACK UNAVAILABLE</h3><p>Keep the Home screen usable. Preserve the selected track identity, explain what happened, and offer a controlled Retry or a different licensed track without escalating to a global application failure.</p>
+<div class="failActions"><button class="btn primary">TRY AGAIN</button><button class="btn">PLAY NEXT TRACK</button></div>
+</article>
+</div>
+<p class="rule"><strong>Proposal boundary:</strong> names in the native queue are visual fixtures, not approved songs. The final native playlist requires a source, exact license, attribution, verification date and packaged-file hash for every accepted track. Spotify Premium is not a default dependency, and YouTube content is never converted into an audio-only/background stream.</p>
+</section>
+</main>
+</body>
+</html>
