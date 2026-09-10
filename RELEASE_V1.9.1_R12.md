@@ -1,18 +1,29 @@
 # Career Mode Showdown v1.9.1-r12 Shared History Convergence
 
-Status: RELEASE CANDIDATE
+Status: INTEGRATED
 Application version: `v1.9.1`
 Runtime asset revision: `1.9.1-r12`
 Previous known-good runtime: `1.9.1-r11`
 Remote Joining readiness: `100/100` under frozen model `RJR-1`
 Shared Showdown Journey readiness under `SSJR-1.1`: `0/100`
-Milestone Delivery Progress: `65.80/100` until the exact coherent r12 candidate head completes its required lifecycle proof and the MDP ledger is updated separately.
+Milestone Delivery Progress: `70.30/100`
 
 ## Purpose
 
 r12 advances the Shared Showdown Journey beyond r11 Canonical Scoring by deriving one provider-authoritative read-only history projection from contiguous terminal Shared Season Commit and Canonical Scoring pairs.
 
 Both managers can see the same accepted season history, identity-safe manager records and trophy attribution on their own Season Review surface. The projection is accepted only when every included season has an `ACKNOWLEDGED` revision-3 Season Commit and a `SCORING_RECONCILED` revision-1 canonical score bound to the exact same accepted results revision and content hash.
+
+## Integrated authority
+
+Exact candidate: `f6801366afe5444640f8a1f80270da1b64449e82`
+Candidate validation: POS20 run `#279` exact-head green
+Expected-head PR merge: PR `#235` -> `637804a9d0e18a88c7a7bb3c79b93d5af2f92062`
+GitHub Pages: run `#113` success
+Main validation: POS20 run `#284` green including exact-head cognitive seal
+Release integration burn-in: run `#370` success on both stateful journey passes
+
+Earlier candidate heads that exposed release defects remain failure evidence only and are not combined with the accepted exact-head proof. The final candidate fixes the scheduler-dependent r10 → r11 → r12 provider bootstrap race by explicitly preparing each predecessor protocol/provider before the dependent production adapter is installed.
 
 ## Authority and identity
 
@@ -24,11 +35,7 @@ Both managers can see the same accepted season history, identity-safe manager re
 
 ## Production presentation
 
-The r12 projection is mounted after the canonical scoring block in the existing Season Review. It presents:
-
-* accepted season count and league;
-* each manager's fixed club, season win/draw/loss record and accumulated Showdown points;
-* each manager's league, domestic cup and Champions League trophy attribution.
+The r12 projection is mounted after the canonical scoring block in the existing Season Review. It presents accepted season count and league, each manager's fixed club, season win/draw/loss record and accumulated Showdown points, and each manager's league, domestic cup and Champions League trophy attribution.
 
 The production adapter does not advance a season, overwrite the local scoreboard, mutate a Local Profile, archive a Showdown or perform final journey reconciliation. Those remain later explicit SSJR capabilities.
 
@@ -38,20 +45,16 @@ During r12 validation, the deployed Save Library audit exposed an independent Se
 
 ## Whole-shell integration
 
-The ordinary Shared Journey bootstrap installs History Convergence in normal shared play. The r12 service-worker shell owns all three History Convergence modules and retains the verified r11 whole shell as its explicit rollback target.
-
-All revisioned startup assets must resolve coherently as `1.9.1-r12`; the release is not integrated merely because source files or CI exist.
+The ordinary Shared Journey bootstrap installs History Convergence in normal shared play. The r12 service-worker shell owns all three History Convergence modules and retains the verified r11 whole shell as its explicit rollback target. GitHub Pages run #113 deployed the coherent `1.9.1-r12` shell from the accepted main merge.
 
 ## Safety boundaries
 
 r12 does not mutate `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, or `careerModeShowdown.preferences` as part of History Convergence.
 
-No billing is authorized. Firebase remains Spark-only. App Check enforcement remains OFF. r12 requires no Blaze plan, Cloud Functions, Cloud Run, paid service, public discovery, community surface, ranking system or Firestore persistence.
+No billing is authorized. Firebase remains Spark-only. App Check enforcement remains OFF. r12 requires no Blaze plan, Cloud Functions, Cloud Run, paid service, public discovery, community surface, ranking system or new Firestore persistence.
 
-## Acceptance boundary
+## MDP and SSJR accounting
 
-History Convergence can reach its 90% MDP pre-integration lifecycle state only after the complete coherent r12 candidate, including the ordinary runtime bootstrap, whole-shell cache, deterministic/provider/production contracts, two-context browser audit, Save Library lifecycle regression proof and inherited POS20 gates, passes on one exact candidate head.
+History Convergence has completed all six MDP lifecycle stages. Its milestone contribution is now the full `5.00/5.00`, moving Milestone Delivery Progress from `65.80/100` to `70.30/100`.
 
-That pre-integration state would move Milestone Delivery Progress from `65.80/100` to `69.80/100`. Product integration remains incomplete until the expected exact r12 head is merged to `main`, the coherent `1.9.1-r12` GitHub Pages runtime is deployed and verified, and required post-merge/burn-in gates are green. Only then may History Convergence reach 100% lifecycle maturity and MDP `70.30/100`.
-
-SSJR remains `0/100` from source, CI, merge or deployment alone. Genuine production-two-account evidence remains a separate fixed acceptance layer.
+This does not grant SSJR credit. Shared Showdown Journey readiness remains `0/100` until the frozen SSJR production-two-account evidence requirements are actually accepted.
