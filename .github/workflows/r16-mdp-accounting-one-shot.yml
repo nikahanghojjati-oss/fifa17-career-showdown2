@@ -31,7 +31,10 @@ jobs:
           npm run test:ops
       - name: Require accounting-only diff
         run: |
-          test "$(git diff --name-only | sort | tr '\n' ' ')" = "MILESTONE_DELIVERY_PROGRESS.json NEXT_TASK.md R16_MDP_ACCOUNTING_BOUNDARY.md SHARED_SHOWDOWN_JOURNEY_READINESS.json tests/contracts/milestone-delivery-progress-contracts.cjs "
+          actual="$( { git diff --name-only; git ls-files --others --exclude-standard; } | sort | tr '\n' ' ')"
+          expected="MILESTONE_DELIVERY_PROGRESS.json NEXT_TASK.md R16_MDP_ACCOUNTING_BOUNDARY.md SHARED_SHOWDOWN_JOURNEY_READINESS.json tests/contracts/milestone-delivery-progress-contracts.cjs "
+          printf 'Accounting diff: %s\n' "$actual"
+          test "$actual" = "$expected"
       - name: Commit validated accounting and self-clean
         run: |
           git config user.name "github-actions[bot]"
