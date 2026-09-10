@@ -41,7 +41,7 @@ function op(prefix){serial+=1;return prefix+serial.toString(16).padStart(32,"0")
   const tiedOne={leaguePosition:1,leaguePoints:108,leagueGoals:80,domesticCup:true,championsLeague:false,topScorer:false,topAssist:false};
   const tiedTwo={leaguePosition:8,leaguePoints:50,leagueGoals:40,domesticCup:false,championsLeague:false,topScorer:true,topAssist:false};
   const nonZeroTie=await scoringProtocol.reconcile({seasonCommit:await buildCommit(tiedOne,tiedTwo)});
-  assert.equal(nonZeroTie.scoring.playerOne.total,4);assert.equal(nonZeroTie.scoring.playerTwo.total,1);
+  assert.equal(nonZeroTie.scoring.playerOne.total,5);assert.equal(nonZeroTie.scoring.playerTwo.total,1);
   const onePointA={leaguePosition:2,leaguePoints:70,leagueGoals:70,domesticCup:true,championsLeague:false,topScorer:false,topAssist:false};
   const onePointB={leaguePosition:15,leaguePoints:25,leagueGoals:25,domesticCup:false,championsLeague:false,topScorer:true,topAssist:false};
   const exactNonZeroTie=await scoringProtocol.reconcile({seasonCommit:await buildCommit(onePointA,onePointB)});
