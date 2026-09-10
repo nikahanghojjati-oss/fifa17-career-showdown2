@@ -1,0 +1,31 @@
+const assert=require('node:assert/strict');
+const fs=require('node:fs');
+const production=require('../../js/productionSharedHistoryConvergence.js');
+
+assert.equal(production.feature,'ssjr-production-shared-history-convergence');
+assert.equal(production.productionEnabled,true);assert.equal(production.runtimeRevision,'1.9.1-r12');
+assert.equal(production.requiresAcknowledgedSeasonCommit,true);assert.equal(production.requiresCanonicalScoring,true);assert.equal(production.providerEnforcedSource,true);
+assert.equal(production.readOnlyDerivedProjection,true);assert.equal(production.identitySafe,true);assert.equal(production.exactSeasonAddressing,true);
+assert.equal(production.canonicalStorageMutation,false);assert.equal(production.providerWriteRequired,false);assert.equal(production.listPermissionRequired,false);
+assert.equal(production.billingRequired,false);assert.equal(production.blazeRequired,false);assert.equal(production.cloudRunRequired,false);assert.equal(production.cloudFunctionsRequired,false);
+assert.equal(production.pollIntervalMs,15000);assert.equal(typeof production.install,'function');assert.equal(typeof production.refresh,'function');assert.equal(typeof production.getState,'function');
+
+const source=fs.readFileSync('js/productionSharedHistoryConvergence.js','utf8');
+assert.match(source,/productionSharedShowdownSetup\.js/);assert.match(source,/productionSharedSeasonCommit\.js/);assert.match(source,/productionSharedCanonicalScoring\.js/);
+assert.match(source,/sharedHistoryConvergence\.js/);assert.match(source,/sparkSharedHistoryConvergence\.js/);assert.match(source,/productionFirebaseRuntime\.js/);
+assert.ok(source.indexOf('js/sparkSharedSeasonCommit.js')<source.indexOf('js/sparkSharedHistoryConvergence.js'),'r10 provider must load before r12 History Convergence provider factory.');
+assert.ok(source.indexOf('js/sparkSharedCanonicalScoring.js')<source.indexOf('js/sparkSharedHistoryConvergence.js'),'r11 provider must load before r12 History Convergence provider factory.');
+const cachedGate=source.indexOf('if(!phcCachedTerminal(request))return phcClear(request);');
+const commitRefresh=source.indexOf('await commitApi.refresh()');
+const scoringRefresh=source.indexOf('await scoringApi.refresh()');
+const providerRead=source.indexOf('provider.read(await phcProviderOptions(request))');
+assert.ok(cachedGate>=0&&commitRefresh>cachedGate&&scoringRefresh>commitRefresh&&providerRead>scoringRefresh,'r12 must remain dormant until cached terminal r10/r11 authority exists, then refresh upstream authority before reading exact history.');
+assert.match(source,/commit\.phase==="ACKNOWLEDGED"/);assert.match(source,/commit\.revision===3/);assert.match(source,/scoring\.phase==="SCORING_RECONCILED"/);assert.match(source,/scoring\.revision===1/);
+assert.match(source,/resultsContentHash/);assert.match(source,/resultsRevision/);assert.match(source,/throughSeason:request\.throughSeason/);
+assert.match(source,/ensureAccountServices\(\)/);assert.match(source,/setup\.sessionId/);assert.match(source,/setup\.deviceId/);assert.match(source,/setup\.accountId/);
+assert.match(source,/sharedHistoryConvergencePanel/);assert.match(source,/SHARED HISTORY CONVERGED/);assert.match(source,/managerRecords/);assert.match(source,/trophyAttribution/);
+assert.doesNotMatch(source,/saveCurrentShowdown|persistCompletedSeason|localStorage\.setItem|sessionStorage\.setItem/);
+assert.doesNotMatch(source,/runTransaction|\.set\(|\.update\(|\.delete\(/);
+assert.doesNotMatch(source,/calculatePlayerSeasonScore|determineSeasonWinner/);
+assert.match(source,/billingRequired:false/);assert.match(source,/blazeRequired:false/);assert.match(source,/cloudRunRequired:false/);assert.match(source,/cloudFunctionsRequired:false/);
+process.stdout.write('PASS Shared History Convergence production contracts: r12 remains dormant until exact cached r10 ACKNOWLEDGED and r11 SCORING_RECONCILED authority exists for the same season, refreshes those predecessors before one exact read-only provider projection, renders converged season history/manager records/trophies without a second scoring policy, preserves stable account/device/rivalry/session identity, and exposes no write/list/billing authority.\n');
