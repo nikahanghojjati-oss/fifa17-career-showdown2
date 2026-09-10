@@ -54,7 +54,7 @@ A01/A02 authoritative source masters must retain their exact approved hashes. Do
 
 Any new generated character asset must be justified by a screen-specific brief and must pass identity, anatomy, crop and safe-zone QA.
 
-If the approved Home design uses native soundtrack audio, every accepted track also requires its own rights/provenance ledger entry including source, exact license, required attribution, verification date and packaged-file hash. A provider catalogue is not a blanket rights grant.
+If the approved Home design uses locally packaged/native soundtrack audio, every accepted track requires its own rights/provenance ledger entry including source, exact license, attribution, verification date and packaged-file hash. Provider-hosted commercial songs instead require a provider-eligibility ledger proving the exact provider URL, full-length result, tested device classes and fallback mapping.
 
 ## 4. Media player implementation boundary
 
@@ -62,26 +62,56 @@ Read first:
 
 - `surfaces/07_MEDIA_PLAYER.md`
 - `evidence/MEDIA_PLAYER_FEASIBILITY_2026-09-10.md`
+- `evidence/MEDIA_PROVIDER_ZERO_DOLLAR_DECISION_2026-09-10.md`
 - `prototypes/25-native-music-player-reference.html`
+- `prototypes/26-soundcloud-fifa17-audio-provider-reference.html`
 
-The current r13 YouTube integration must not be copied forward blindly. It optimistically toggles a local playing boolean and uses iframe DOM `load` plus raw postMessage commands rather than observing the official provider lifecycle.
+The current production YouTube integration must not be copied forward blindly. On the r14 reconciliation anchor it still optimistically toggles a local playing boolean and uses iframe DOM `load` plus raw postMessage commands rather than provider-observed lifecycle state.
 
-Approved proposal architecture is:
+Current proposal architecture is:
 
-- default `SHOWDOWN RADIO`: browser-native audio using individually rights-verified tracks;
-- optional `FIFA 17 ORIGINALS`: separate provider-backed mode for the existing commercial songs/trailer.
+1. exact six FIFA 17 soundtrack songs: prefer SoundCloud HTML5 Widget per track only after full-length iPhone Safari + Chromebook proof;
+2. any SoundCloud-ineligible exact song: hardened visible YouTube IFrame Player API fallback;
+3. FIFA 17 gameplay trailer: hardened visible YouTube provider path;
+4. optional open-audio Showdown Radio: browser-native rights-verified audio and/or Audius, additive rather than required for the exact soundtrack;
+5. media unavailable must never block Career Mode.
 
-If YouTube remains the provider for FIFA 17 Originals:
+SoundCloud implementation requirements:
 
-- use the official IFrame Player API lifecycle/events;
-- wait for provider readiness;
-- derive playing/paused/buffering/ended/blocked/error UI from real provider events;
+- use one visible widget instance and a data-driven queue;
+- `auto_play=false` on initial load;
+- wait for `READY` before enabling normal Play or explicitly expose loading state;
+- derive `PLAYING`, `PAUSED`, completion and error state from Widget API events;
+- use `widget.load(...)` for track changes and reset stale state;
+- detect/document preview-only or otherwise ineligible exact tracks and route them to YouTube fallback;
+- preserve provider identity/attribution;
+- do not copy/extract/self-host the commercial recordings.
+
+YouTube fallback/trailer requirements:
+
+- use official IFrame Player API lifecycle/events;
+- wait for `onReady`;
+- derive playing/paused/buffering/ended state from `onStateChange`;
+- handle `onAutoplayBlocked` and `onError`;
 - keep the YouTube player visible while active;
-- do not extract or isolate YouTube audio;
+- do not extract/isolate YouTube audio;
 - do not suppress, cover, skip or work around provider ads;
-- preserve lazy loading for the provider mode.
+- preserve lazy loading for the heavier video provider path.
 
-Spotify Premium is not an acceptable default dependency for the zero-dollar route. SoundCloud may be evaluated for individually suitable tracks but is not the canonical playback authority.
+Audius/native open-audio requirements:
+
+- must remain optional;
+- must not be used as evidence that the exact six commercial FIFA 17 songs are available there;
+- may use the current Audius Free plan only under a fail-closed financial contract;
+- locally packaged tracks still require exact rights/provenance verification.
+
+Permanent media financial invariant:
+
+`paidUpgradeAllowed = false`
+
+No payment card, paid API tier, listener Premium requirement, automatic overage or automatic provider upgrade may be introduced. If provider terms later require payment, disable that path or fall back to another approved zero-dollar path. Career Mode remains usable with all media disabled.
+
+Spotify Premium is not an acceptable default dependency.
 
 ## 5. Final-product-quality prototype/reference package
 
@@ -91,12 +121,12 @@ The senior developer should not need to infer major layout, styling, media-state
 
 Reference CSS/JS/HTML may be included under `prototypes/`, but it must:
 
-- be presentation-only;
-- be namespaced;
-- avoid production persistence/provider/network authority;
+- be presentation/reference code, not production authority;
+- be isolated/namespaced where appropriate;
+- avoid production persistence or domain mutation;
 - preserve real DOM text for UI copy;
 - document which current production selectors/components it maps to;
-- be clearly labeled reference/proposal code rather than production authority.
+- explicitly identify network/provider calls used solely for functional feasibility proof.
 
 ## 6. QA package
 
@@ -122,8 +152,10 @@ It must also verify:
 - exact asset hashes;
 - local/shared state clarity;
 - error/recovery/destructive-state legibility;
-- media ready/playing/paused/loading/blocked/error truthfulness;
+- media loading/ready/play-requested/playing/paused/buffering/preview-only/blocked/error truthfulness;
 - responsive text readability without pinch zoom.
+
+For the six exact soundtrack songs, QA additionally requires a per-track device matrix for iPhone Safari and Chromebook recording SoundCloud readiness, first-press behavior, duration/full-length result, pause/resume, track-switch behavior and fallback result.
 
 Use the mobile typography floor learned in `evidence/PROPOSAL_SCREENSHOT_QA_R13_2026-09-10.md`; do not preserve sub-readable microtype solely for visual density.
 
@@ -139,8 +171,9 @@ Before the visual proposal may become `FINAL` or be handed to the senior develop
 2. every substantial non-route surface must have a final screenshot;
 3. every materially different user-visible version/state must be shown, including responsive variants where geometry/content materially changes;
 4. those screenshots must represent the final reconciled proposal, not obsolete exploratory versions;
-5. the complete set must be presented to the owner;
-6. the owner must explicitly approve the final screenshots.
+5. media screenshots must include the approved exact-song provider presentation and materially different fallback/unavailable states;
+6. the complete set must be presented to the owner;
+7. the owner must explicitly approve the final screenshots.
 
 Internal QA PASS is not owner approval.
 
@@ -156,7 +189,9 @@ The final package must tell the senior developer, with minimal interpretation:
 - which assets should be copied where if approved;
 - responsive rules;
 - state rules;
-- media-player state and rights boundaries;
+- media provider eligibility/fallback rules;
+- zero-dollar fail-closed rules;
+- media rights/provider-integrity boundaries;
 - any intentionally omitted character art;
 - any known risks or places where the senior developer must adapt because final `main` differs from the proposal prototype.
 
@@ -169,6 +204,7 @@ Only after all requirements above are complete, create a concise final senior-de
 - points first to this folder;
 - identifies the exact final proposal manifest and exact final-main reconciliation commit;
 - states that owner screenshot approval is complete;
+- states the final per-track media-provider eligibility matrix and fallback contract;
 - instructs the senior developer to review, verify, fix any remaining integration defects and intentionally implement the package;
 - explicitly says the visual track did not modify/deploy `main`;
 - preserves zero-dollar/Firebase Spark-only and domain-authority locks;
