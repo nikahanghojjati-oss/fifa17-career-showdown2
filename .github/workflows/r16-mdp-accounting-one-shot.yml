@@ -22,157 +22,22 @@ jobs:
       - uses: actions/setup-node@v5
         with:
           node-version: 22
-      - name: Apply exact r16 accounting update in runner
-        shell: bash
-        run: |
-          python3 - <<'PY'
-          import json
-          from pathlib import Path
-          from datetime import datetime, timezone
-
-          MAIN='613e031c648d8d5cdb4e260e74cd93f895f49872'
-          CANDIDATE='faf14a43069bc55754c1a8ad84dd9ae3ca4aef31'
-
-          p=Path('MILESTONE_DELIVERY_PROGRESS.json')
-          d=json.loads(p.read_text())
-          assert d['currentScore']==86.5
-          local=next(x for x in d['capabilities'] if x['id']=='local-reconciliation')
-          assert local['lifecyclePercent']==10 and local['status']=='design_defined'
-          d['recordedAt']=datetime.now(timezone.utc).isoformat().replace('+00:00','Z')
-          d['basis']={
-            'mainSha':MAIN,
-            'branch':'main',
-            'candidateHead':CANDIDATE,
-            'candidateValidation':'POS20 run #397 exact-head green',
-            'integrationMergeSha':MAIN,
-            'pagesDeployment':'GitHub Pages run #122 success',
-            'firestoreRulesDeployment':'No new Firestore Rules deployment required for r16; Local Reconciliation reuses existing Connected Rivalry read authority and Candidate C local Apply/rollback authority without adding a collection, broad list permission or remote write surface.',
-            'productionVersion':'v1.9.1',
-            'productionRuntimeRevision':'1.9.1-r16',
-            'note':'r16 Local Reconciliation is merged and coherently deployed on exact product main '+MAIN+'. PR #246 exact publication head '+CANDIDATE+' passed POS20 run #397; GitHub Pages run #122 succeeded on r16 main; POS20 run #399 passed on that same main including its exact-head cognitive seal; Release Integration Burn-In run #379 passed both independent stateful integration journeys. Candidate B preview remains non-destructive; Candidate C remains the sole explicit backup-first destructive local Apply authority with rollback; unrelated local saves remain immutable; offline/failure paths fail closed; no new Firestore collection, broad list permission or remote write surface was introduced. Local Reconciliation has therefore completed all six MDP lifecycle stages. SSJR remains separate and zero until genuine production-two-account evidence is accepted.'
-          }
-          d['currentScore']=91
-          d['formattedScore']='91.00/100'
-          d['summary']['fullyLifecycleDelivered']=16
-          d['summary']['designDefinedOnly']=4
-          d['summary']['interpretation']='Sixteen SSJR capabilities from shared entry through Local Reconciliation are fully engineered, regression-tested and product-integrated in coherent r16 production. Four later capabilities remain design-defined only.'
-          local['lifecyclePercent']=100
-          local['weightedContribution']=5
-          local['status']='integrated'
-          for k in local['stages']: local['stages'][k]='complete'
-          local['evidenceRefs']=[
-            'SHARED_SHOWDOWN_JOURNEY_MODEL.json','js/sharedLocalReconciliation.js','js/productionSharedLocalReconciliation.js','js/sparkConnectedRivalry.js','service-worker.js',
-            'tests/contracts/shared-local-reconciliation-contracts.cjs','tests/contracts/shared-local-reconciliation-production-contracts.cjs','tests/browser/shared-local-reconciliation-audit.cjs',
-            'RELEASE_V1.9.1_R16.md','PR #246 exact publication head '+CANDIDATE,'POS20 run #397 exact-head green','PR #246 merge '+MAIN,'GitHub Pages run #122 success','POS20 run #399 main green','Release Integration Burn-In run #379 success'
-          ]
-          local['note']='r16 Local Reconciliation completed all six MDP lifecycle stages: deterministic Candidate B preview, explicit Candidate C backup-first Apply/rollback, unrelated-save immutability, fail-closed offline/failure behavior, service-worker delivery, exact publication-head POS20, expected-head merge, coherent Pages deployment, exact-main POS20 and two-pass release burn-in are proven. Existing provider/local authorities are reused without adding broad list/write permissions, automatic canonical local-save mutation or paid infrastructure. SSJR production-two-account acceptance remains separate.'
-          d['scoreCheck']={'fullyIntegratedWeight':90,'remainingDesignWeight':10,'remainingDesignContribution':1,'calculatedScore':91}
-          p.write_text(json.dumps(d,separators=(',',':'))+'\n')
-
-          p=Path('SHARED_SHOWDOWN_JOURNEY_READINESS.json')
-          s=json.loads(p.read_text())
-          assert s['currentScore']==0
-          ids={x['id'] for x in s['candidateEvidence']}
-          assert 'ssjr1-local-reconciliation-r16-production' not in ids
-          s['candidateEvidence'].append({
-            'id':'ssjr1-local-reconciliation-r16-production',
-            'layers':['deterministic-behavior','provider-enforcement','isolated-browser-protocol','deployed-runtime'],
-            'references':['PR #246 exact publication head '+CANDIDATE,'POS20 run #397 exact-head green','PR #246 merge '+MAIN,'GitHub Pages run #122 success','POS20 run #399 main green','Release Integration Burn-In run #379 success','js/sharedLocalReconciliation.js','js/productionSharedLocalReconciliation.js','js/sparkConnectedRivalry.js','tests/contracts/shared-local-reconciliation-contracts.cjs','tests/contracts/shared-local-reconciliation-production-contracts.cjs','tests/browser/shared-local-reconciliation-audit.cjs'],
-            'relatedCapabilityIds':['local-reconciliation'],
-            'credit':0,
-            'missingLayers':['production-two-account'],
-            'finding':'r16 Local Reconciliation is coherently merged and deployed. Exact publication/main POS20 plus two-pass release burn-in prove non-destructive Candidate B preview, explicit backup-first Candidate C Apply/rollback, unrelated-save immutability, fail-closed adverse-network behavior and no automatic canonical local-save mutation. It remains zero SSJR credit solely because genuine production-two-account evidence has not yet been accepted.'
-          })
-          s['deliveryProgressTracker']['currentScore']=91
-          s['deliveryProgressTracker']['formattedScore']='91.00/100'
-          p.write_text(json.dumps(s,separators=(',',':'))+'\n')
-
-          Path('NEXT_TASK.md').write_text('''# Current product task under POS20
-
-Primary objective: advance MDP-1 to 100.00/100 before returning primary focus to SSJR production-two-account acceptance. SSJR-1.1 remains 0/100 until genuine production-two-account evidence is accepted.
-
-Current integrated product authority is r16 Local Reconciliation on main `'''+MAIN+'''`. After this accounting-only PR lands, MDP-1 is 91.00/100. Accounting or handoff packaging earns no additional MDP or SSJR credit.
-
-Immediate feature is `final-reconciliation`, frozen milestone weight 3. Reconcile the terminal Shared Journey only after all configured 1/3/5/10 seasons are authoritatively accepted and History Convergence witnesses the complete contiguous history. Reuse the established canonical scoring authority and accumulated showdown totals; do not invent a new winner or tiebreak policy. Final reconciliation must not create an extra season, redraw league/clubs, rewrite accepted history, automatically mutate canonical local saves or broaden provider/list/write authority. Terminal Close remains a separate later capability.
-
-For every capability, award lifecycle stages only from exact-head evidence. Candidate work cannot earn product-integration credit. Require exact candidate POS20, coherent release publication, final publication-head POS20, expected-head merge, coherent Pages deployment, main POS20 and two-pass release burn-in before the product-integration stage. Never combine CI evidence across heads.
-
-Permanent locks remain: billing OFF, Firebase Spark only, App Check enforcement OFF, memory-only Firestore, popup-only Google Auth, exactly two private managers, pairing plus exact ACTIVE session before protected shared authority, Candidate C sole destructive Apply with exact rollback, canonical local storage unchanged unless the user explicitly executes Candidate C Apply, no public discovery/community/rankings.
-''')
-
-          Path('R16_MDP_ACCOUNTING_BOUNDARY.md').write_text('''# r16 MDP accounting boundary
-
-This is an accounting/provenance boundary only. It changes no executable product behavior and earns no additional MDP or SSJR credit by itself.
-
-Product integration authority is exact main `'''+MAIN+'''`, created by expected-head squash merge of PR #246 from exact publication head `'''+CANDIDATE+'''`. Runtime `1.9.1-r16` is coherently deployed by GitHub Pages run #122. Publication-head POS20 #397 and exact-main POS20 #399 passed every selected lane and their exact-head cognitive seals. Release Integration Burn-In #379 passed both independent stateful journeys (`pass-1` and `pass-2`).
-
-The resulting MDP lifecycle accounting is `91.00/100`: Local Reconciliation is fully integrated across all six MDP stages, while Final Reconciliation, Terminal Close, Physical Journey and Stable Journey Release remain design-defined only. SSJR-1.1 remains exactly `0/100`; r16 production evidence remains zero-credit until genuine production-two-account acceptance exists.
-
-r16 preserves Candidate B as a non-destructive preview and Candidate C as the sole explicit backup-first destructive local Apply/rollback authority. Unrelated local saves remain immutable, adverse-network mutation fails closed, and no new Firestore collection, broad list permission, automatic canonical local-save mutation, paid tier, Cloud Run or Cloud Functions dependency was introduced.
-
-This accounting branch was created from exact integrated r16 main only after publication-head validation, expected-head merge, Pages deployment, exact-main POS20 and both burn-in journeys were observed green. The guarded publisher must pass the deterministic MDP contract, direct assessor and POS20 operations authority before producing an accounting candidate. A fresh normal PR POS20 must then pass on the exact final accounting head before merge; accounting CI must never be combined across heads.
-
-Next product capability after accounting merge: `final-reconciliation`, frozen weight 3. Use the established canonical scoring and accumulated showdown winner authority after all configured seasons are accepted; do not invent new final scoring or collapse Terminal Close into this capability. Permanent Spark-only, zero-billing, no-list, private-two-manager and canonical-local-save locks remain unchanged.
-''')
-
-          p=Path('tests/contracts/milestone-delivery-progress-contracts.cjs')
-          t=p.read_text()
-          reps={
-            'result.score, 86.5, "r15 Journey Conflicts earns product integration only after exact publication-head validation, expected-head merge, coherent Pages deployment, main POS20 validation and release burn-in."':'result.score, 91, "r16 Local Reconciliation earns product integration only after exact publication-head validation, expected-head merge, coherent Pages deployment, main POS20 validation and two-pass release burn-in."',
-            'result.formattedScore, "86.50/100"':'result.formattedScore, "91.00/100"',
-            'result.fullyLifecycleDelivered, 15':'result.fullyLifecycleDelivered, 16',
-            'result.designDefinedOnly, 5':'result.designDefinedOnly, 4',
-            'ledger.basis.mainSha, "4d202126ce1606a4e3f74c09b31201cf4ec51c6e"':'ledger.basis.mainSha, "'+MAIN+'"',
-            'ledger.basis.integrationMergeSha, "4d202126ce1606a4e3f74c09b31201cf4ec51c6e"':'ledger.basis.integrationMergeSha, "'+MAIN+'"',
-            'ledger.basis.candidateHead, "f63f6efc777257964aff27abbc148af61e34d77d"':'ledger.basis.candidateHead, "'+CANDIDATE+'"',
-            '/POS20 run #387 exact-head green/':'/POS20 run #397 exact-head green/',
-            'ledger.basis.productionRuntimeRevision, "1.9.1-r15"':'ledger.basis.productionRuntimeRevision, "1.9.1-r16"',
-            '/GitHub Pages run #119 success/i':'/GitHub Pages run #122 success/i',
-            '/POS20 run #388 passed/i':'/POS20 run #399 passed/i',
-            '/Release Integration Burn-In run #376 passed both/i':'/Release Integration Burn-In run #379 passed both/i',
-            '"career-start","transfer-challenge","results-publication","season-commit","canonical-scoring","history-convergence","multi-season","journey-reconnect","journey-conflicts"':'"career-start","transfer-challenge","results-publication","season-commit","canonical-scoring","history-convergence","multi-season","journey-reconnect","journey-conflicts","local-reconciliation"',
-            'ledger.scoreCheck.fullyIntegratedWeight, 85':'ledger.scoreCheck.fullyIntegratedWeight, 90',
-            'ledger.scoreCheck.remainingDesignWeight, 15':'ledger.scoreCheck.remainingDesignWeight, 10',
-            'ledger.scoreCheck.remainingDesignContribution, 1.5':'ledger.scoreCheck.remainingDesignContribution, 1',
-            'ledger.scoreCheck.calculatedScore, 86.5':'ledger.scoreCheck.calculatedScore, 91',
-            'const outOfOrder = clone(ledger); const localReconciliation = outOfOrder.capabilities.find(capability => capability.id === "local-reconciliation"); localReconciliation.stages["automated-test"] = "complete";':'const outOfOrder = clone(ledger); const finalReconciliation = outOfOrder.capabilities.find(capability => capability.id === "final-reconciliation"); finalReconciliation.stages["automated-test"] = "complete";',
-            'current ${result.formattedScore} r15 integrated ledger':'current ${result.formattedScore} r16 integrated ledger'
-          }
-          for old,new in reps.items():
-            if old not in t: raise SystemExit('missing expected test anchor: '+old)
-            t=t.replace(old,new,1)
-          anchor='  assert.equal(ssjrReadiness.remainingCapabilityIds.includes("journey-conflicts"), true, "Journey Conflicts remains uncredited in SSJR until production-two-account evidence is accepted.");\n'
-          if anchor not in t: raise SystemExit('missing r15 candidate assertion anchor')
-          block='''\n  const r16Candidate = ssjrReadiness.candidateEvidence.find(item => item.id === "ssjr1-local-reconciliation-r16-production");\n  assert.ok(r16Candidate, "SSJR readiness must preserve truthful zero-credit r16 production evidence.");\n  assert.equal(r16Candidate.credit, 0);\n  assert.deepEqual(r16Candidate.relatedCapabilityIds, ["local-reconciliation"]);\n  for (const layer of ["deterministic-behavior","provider-enforcement","isolated-browser-protocol","deployed-runtime"]) assert.ok(r16Candidate.layers.includes(layer), `r16 candidate evidence missing ${layer}`);\n  assert.ok(r16Candidate.missingLayers.includes("production-two-account"));\n  for (const expected of ["PR #246 exact publication head faf14a43","POS20 run #397 exact-head green","PR #246 merge 613e031c","GitHub Pages run #122 success","POS20 run #399 main green","Release Integration Burn-In run #379 success"]) assert.ok(r16Candidate.references.some(ref => ref.includes(expected)), `r16 evidence missing ${expected}`);\n  assert.equal(ssjrReadiness.remainingCapabilityIds.includes("local-reconciliation"), true, "Local Reconciliation remains uncredited in SSJR until production-two-account evidence is accepted.");\n'''
-          t=t.replace(anchor,anchor+block,1)
-          anchor2='  for (const expected of ["PR #244 exact candidate head f63f6efc","POS20 run #387 exact-head green","PR #244 merge 4d202126","GitHub Pages run #119 success","POS20 run #388 main green","Release Integration Burn-In run #376 success"]) assert.ok(journeyConflictsIntegrated.evidenceRefs.some(ref => ref.includes(expected)), `Journey Conflicts integration evidence missing ${expected}`);\n'
-          if anchor2 not in t: raise SystemExit('missing Journey Conflicts integration anchor')
-          block2='''\n  const localReconciliationIntegrated = ledger.capabilities.find(capability => capability.id === "local-reconciliation");\n  assert.equal(localReconciliationIntegrated.weightedContribution, 5);\n  for (const ref of ["js/sharedLocalReconciliation.js","js/productionSharedLocalReconciliation.js","js/sparkConnectedRivalry.js","service-worker.js","tests/contracts/shared-local-reconciliation-production-contracts.cjs","tests/browser/shared-local-reconciliation-audit.cjs"]) assert.ok(localReconciliationIntegrated.evidenceRefs.includes(ref), `Local Reconciliation evidence missing ${ref}`);\n  for (const expected of ["PR #246 exact publication head faf14a43","POS20 run #397 exact-head green","PR #246 merge 613e031c","GitHub Pages run #122 success","POS20 run #399 main green","Release Integration Burn-In run #379 success"]) assert.ok(localReconciliationIntegrated.evidenceRefs.some(ref => ref.includes(expected)), `Local Reconciliation integration evidence missing ${expected}`);\n'''
-          t=t.replace(anchor2,anchor2+block2,1)
-          p.write_text(t)
-          PY
-      - name: Validate MDP authority before commit
+      - name: Apply accounting update
+        run: python3 scripts/r16-mdp-accounting-one-shot.py
+      - name: Validate accounting authority
         run: |
           node tests/contracts/milestone-delivery-progress-contracts.cjs
-          node scripts/assess-milestone-delivery-progress.mjs MILESTONE_DELIVERY_PROGRESS_MODEL.json MILESTONE_DELIVERY_PROGRESS.json SHARED_SHOWDOWN_JOURNEY_MODEL.json >/tmp/mdp-assessment.txt
+          node scripts/assess-milestone-delivery-progress.mjs MILESTONE_DELIVERY_PROGRESS_MODEL.json MILESTONE_DELIVERY_PROGRESS.json SHARED_SHOWDOWN_JOURNEY_MODEL.json
           npm run test:ops
       - name: Require accounting-only diff
-        shell: bash
         run: |
-          set -euo pipefail
-          mapfile -t changed < <(git diff --name-only | sort)
-          printf '%s\n' "${changed[@]}"
-          expected=$(printf '%s\n' MILESTONE_DELIVERY_PROGRESS.json NEXT_TASK.md R16_MDP_ACCOUNTING_BOUNDARY.md SHARED_SHOWDOWN_JOURNEY_READINESS.json tests/contracts/milestone-delivery-progress-contracts.cjs | sort)
-          actual=$(printf '%s\n' "${changed[@]}")
-          test "$actual" = "$expected"
+          test "$(git diff --name-only | sort | tr '\n' ' ')" = "MILESTONE_DELIVERY_PROGRESS.json NEXT_TASK.md R16_MDP_ACCOUNTING_BOUNDARY.md SHARED_SHOWDOWN_JOURNEY_READINESS.json tests/contracts/milestone-delivery-progress-contracts.cjs "
       - name: Commit validated accounting and self-clean
-        shell: bash
         run: |
-          set -euo pipefail
-          git config user.name github-actions[bot]
-          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add MILESTONE_DELIVERY_PROGRESS.json NEXT_TASK.md R16_MDP_ACCOUNTING_BOUNDARY.md SHARED_SHOWDOWN_JOURNEY_READINESS.json tests/contracts/milestone-delivery-progress-contracts.cjs
           git commit -m "chore: record Local Reconciliation integration at MDP 91.00"
-          git rm .github/workflows/r16-mdp-accounting-one-shot.yml
+          git rm .github/workflows/r16-mdp-accounting-one-shot.yml scripts/r16-mdp-accounting-one-shot.py
           git commit -m "chore: remove r16 accounting publisher"
           git push origin HEAD:chore/mdp-r16-accounting-91-00
