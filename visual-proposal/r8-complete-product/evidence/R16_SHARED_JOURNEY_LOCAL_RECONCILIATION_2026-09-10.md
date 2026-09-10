@@ -1,18 +1,37 @@
 # R8 r16 Shared Journey Local Reconciliation reconciliation
 
-Status: RECONCILED TO PRODUCTION MAIN `613e031c648d8d5cdb4e260e74cd93f895f49872` / runtime `1.9.1-r16`
+Status: RECONCILED TO CURRENT PRODUCTION MAIN `4c4975c1d3982ce6b2d8d4b37c0a6a15d94b625a` / EXECUTABLE RUNTIME REMAINS `1.9.1-r16`
 
 Purpose: record the exact product-visible ownership of r16 and the minimum visual-proposal delta required after the proposal had already been reconciled through r15.
 
+## Current-main drift check
+
+The visual reconciliation was first completed against executable r16 main `613e031c648d8d5cdb4e260e74cd93f895f49872`.
+
+During this successor session, `main` advanced one commit to `4c4975c1d3982ce6b2d8d4b37c0a6a15d94b625a` via `MDP: record Local Reconciliation integration at 91.00 (#247)`.
+
+Exact compare from `613e031...` to `4c4975c...` changes only:
+
+- `MILESTONE_DELIVERY_PROGRESS.json`;
+- `NEXT_TASK.md`;
+- `R16_MDP_ACCOUNTING_BOUNDARY.md`;
+- `SHARED_SHOWDOWN_JOURNEY_READINESS.json`;
+- `tests/contracts/milestone-delivery-progress-contracts.cjs`.
+
+The commit explicitly describes itself as accounting/provenance only and states that executable product authority remains r16. No HTML, CSS, production JavaScript runtime, service-worker shell, Firestore Rules, or other user-visible product source changed in this one-commit drift.
+
+Visual conclusion: no new route, visual state, layout or screenshot family is required solely for #247. The proposal anchor advances to current main while keeping the same `1.9.1-r16` executable-state contract.
+
 ## Source authority inspected
 
-Production authority inspected on exact main:
+Production authority inspected on executable r16 and current-main accounting descendant:
 
 - `R16_LOCAL_RECONCILIATION_CANDIDATE.md`;
 - `js/sharedLocalReconciliation.js`;
 - `js/productionSharedLocalReconciliation.js`;
 - `js/sparkConnectedRivalry.js`;
-- runtime release integration at `1.9.1-r16`.
+- runtime release integration at `1.9.1-r16`;
+- #247 MDP accounting/provenance-only drift.
 
 The source establishes that r16 integrates Shared Journey history with the existing Connected Rivalry reconciliation authority. It does not create a new route, a new Firestore collection, a second provider writer or a second canonical local-storage writer.
 
@@ -85,4 +104,4 @@ These may be captured as one consolidated Connected Rivalry state-review sheet p
 
 ## Finality impact
 
-r16 reconciliation is now represented in the proposal contracts, implementation map, prototype and screenshot gate. This does not make the visual proposal final. Final screenshots, character/media closure, automated/structural QA and explicit owner approval remain required before sealing a senior-developer implementation handoff.
+r16 reconciliation is now represented in the proposal contracts, implementation map, prototype and screenshot gate, and the subsequent #247 accounting-only main advance has been checked for visual drift. This does not make the visual proposal final. Final screenshots, character/media closure, automated/structural QA and explicit owner approval remain required before sealing a senior-developer implementation handoff.
