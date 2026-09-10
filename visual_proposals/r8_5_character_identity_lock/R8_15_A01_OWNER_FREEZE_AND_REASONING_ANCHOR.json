@@ -1,0 +1,95 @@
+{
+  "schemaVersion": "1.0.0",
+  "status": "AUTHORITATIVE_AFTER_R8_14",
+  "lane": "independent visual proposal",
+  "controller": "GPT-5.6 Sol reasoning",
+  "proposalBranch": "visual/r8-5-approved-character-identity-lock",
+  "liveMainVerified": "1d0c9f9d6542cd020a4aae53998cb6daeba380e4",
+  "liveAssetRevisionVerified": "1.9.1-r10",
+  "supersedesForCurrentGate": [
+    "R8_14_A01_CANDIDATE_STATUS_DELTA.json",
+    "R8_14_REASONING_LED_VISUAL_SESSION_REPORT.md"
+  ],
+  "reasoningControlProtocol": {
+    "reasoningModelLeads": true,
+    "imageGenerationIsExecutionSpecialistOnly": true,
+    "continueBuildingNeverMeansAutomaticGeneration": true,
+    "uploadedImageNeverMeansAutomaticGeneration": true,
+    "generationRequiresPreGenerationRecord": true,
+    "generationRequiresMappedRuntimeNeed": true,
+    "generationRequiresExistingAssetReuseCheck": true,
+    "generationRequiresDefinedSafeZones": true,
+    "generationRequiresExactIdentityStyleAuthority": true,
+    "generationRequiresAcceptanceCriteria": true,
+    "postGenerationClassificationRequired": true,
+    "rejectedGenerationProgressCredit": 0,
+    "approvedAssetMustBeFrozenByExactFileAndHash": true,
+    "rawContainerPathIsNeverAProjectStatusReport": true,
+    "mandatoryCheckpointReport": [
+      "live main SHA and runtime revision",
+      "visual proposal branch and exact head",
+      "current roadmap gate",
+      "formal visual production progress percent",
+      "frozen character masters count",
+      "asset generation gate open or closed",
+      "exact work completed this checkpoint",
+      "whether image generation was used and why",
+      "whether main/runtime/Firebase/billing were touched",
+      "next bounded roadmap action",
+      "handoff proximity percent"
+    ]
+  },
+  "a01": {
+    "assetId": "A01_NIK_CORE_THINKING_HERO",
+    "state": "OWNER_APPROVED_FROZEN",
+    "ownerDecision": "APPROVED after hair-preservation refinement",
+    "ownerQualityNote": "Facial likeness and expression approved. Final refinement accepted because the missing/cut hair problem from the first isolation was corrected. Future masks/crops must preserve all hair and edge detail.",
+    "finalAsset": {
+      "libraryPath": "/Showdown visual/R8_5_APPROVED_CHARACTER_IDENTITY_LOCK/A01_NIK_CORE_THINKING_HERO_OWNER_APPROVED_V1.png",
+      "fileId": "file_00000000bbf081f7b29944352f5e76a5",
+      "libraryFileId": "libfile_4c0fe725833881918ea7734aa8fad17f",
+      "sha256": "17972b8afb73b90483c8f874c4bd964ac1bda196daa76e134a6030676bbd4219",
+      "dimensions": "1086x1448",
+      "mode": "RGBA",
+      "transparent": true,
+      "frozen": true
+    },
+    "sourceAuthority": {
+      "primaryLikedReference": "NIK_OWNER_LIKED_AI_STYLE_REFERENCE_C.jpeg",
+      "tier0": ["OWNER_APPROVED_FACE_TRUTH_A.png", "OWNER_APPROVED_FACE_TRUTH_B.png"]
+    },
+    "permanentRules": [
+      "Never regenerate A01 for crop, mirroring, responsive placement, avatar extraction or screen assembly.",
+      "All derivatives must preserve the approved face, expression, hair, beard, suit, watch and overall identity.",
+      "Hair silhouette and fine edge detail must not be removed by automated masking.",
+      "If a future crop damages hair or face geometry, reject the crop and derive again from this frozen master rather than regenerating Nik."
+    ]
+  },
+  "progressAccounting": {
+    "previousFormalVisualProductionProgressPercent": 56,
+    "newFormalVisualProductionProgressPercent": 64,
+    "reason": "The 20-point canonical-master workstream previously had 4 points earned for sealed briefs/reference authority. Freezing one of the two core reusable masters earns half of the remaining 16 points (+8), moving that workstream from 4/20 to 12/20 and total visual progress from 56 to 64.",
+    "frozenCharacterMasters": "1/6",
+    "requiredCharacterMasters": 6
+  },
+  "currentRoadmapGate": "A02_DANIEL_CORE_POINTING_HERO",
+  "a02Gate": {
+    "state": "OPEN_FOR_REASONING_AND_BRIEFING",
+    "generationState": "CLOSED_UNTIL_A02_PRODUCTION_BRIEF_IS_WRITTEN_AND_CHECKED",
+    "identityAuthority": [
+      "OWNER_APPROVED_FACE_TRUTH_A.png",
+      "OWNER_APPROVED_FACE_TRUTH_B.png",
+      "DANIEL_OWNER_LIKED_AI_STYLE_REFERENCE_C.jpeg",
+      "DANIEL_APPROVED_IDENTITY_REFERENCE_SHEET.webp"
+    ],
+    "poseAuthority": "owner-preferred Daniel pointing pose from approved project references",
+    "rule": "One Daniel only. No board, UI, text, Nik, webpage, trophy, club pack or unrelated scene."
+  },
+  "nextAction": "Write and validate the exact A02 Daniel core pointing hero production brief before making any image-generation call.",
+  "zeroDollarRequired": true,
+  "firebaseSparkOnly": true,
+  "billingPermanentlyOff": true,
+  "mainMutationAllowed": false,
+  "productionDeployAllowed": false,
+  "handoffProximityPercent": 28
+}
