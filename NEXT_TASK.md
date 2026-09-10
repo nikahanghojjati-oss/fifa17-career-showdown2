@@ -1,11 +1,13 @@
-# Current product task under POS20
+# NEXT TASK — MDP Terminal Close r18
 
-Primary objective: advance MDP-1 to 100.00/100 before returning primary focus to SSJR production-two-account acceptance. SSJR-1.1 remains 0/100 until genuine production-two-account evidence is accepted.
+Authoritative integrated product main is `23bba67ed7bf9cc38cb7dc9106e3f64a17a6b55f` from expected-head squash merge of PR #248. Runtime `1.9.1-r17` is coherently deployed by GitHub Pages #124. Exact publication-head POS20 #430, exact-main POS20 #431 and Release Integration Burn-In #381 are green.
 
-Current integrated product authority is r16 Local Reconciliation on main `613e031c648d8d5cdb4e260e74cd93f895f49872`. After this accounting-only PR lands, MDP-1 is 91.00/100. Accounting or handoff packaging earns no additional MDP or SSJR credit.
+Milestone Delivery Progress is `93.70/100`. SSJR-1.1 remains exactly `0/100`; MDP integration evidence does not grant SSJR credit.
 
-Immediate feature is `final-reconciliation`, frozen milestone weight 3. Reconcile the terminal Shared Journey only after all configured 1/3/5/10 seasons are authoritatively accepted and History Convergence witnesses the complete contiguous history. Reuse the established canonical scoring authority and accumulated showdown totals; do not invent a new winner or tiebreak policy. Final reconciliation must not create an extra season, redraw league/clubs, rewrite accepted history, automatically mutate canonical local saves or broaden provider/list/write authority. Terminal Close remains a separate later capability.
+## Immediate capability
 
-For every capability, award lifecycle stages only from exact-head evidence. Candidate work cannot earn product-integration credit. Require exact candidate POS20, coherent release publication, final publication-head POS20, expected-head merge, coherent Pages deployment, main POS20 and two-pass release burn-in before the product-integration stage. Never combine CI evidence across heads.
+Implement `terminal-close` (frozen weight 2), which depends on Final Reconciliation. Close a completed shared journey terminally on both devices and prove CLOSED cannot be resurrected by delayed publishes, retries, session re-entry or later reads. Reuse established private-session terminal semantics rather than inventing a parallel lifecycle, but ensure the completed journey itself remains terminal across fresh session attempts.
 
-Permanent locks remain: billing OFF, Firebase Spark only, App Check enforcement OFF, memory-only Firestore, popup-only Google Auth, exactly two private managers, pairing plus exact ACTIVE session before protected shared authority, Candidate C sole destructive Apply with exact rollback, canonical local storage unchanged unless the user explicitly executes Candidate C Apply, no public discovery/community/rankings.
+Final Reconciliation remains read-only and separate: no extra season, no altered winner scoring and no automatic Candidate C/local Save mutation.
+
+Permanent locks remain: Firebase Spark only, Billing permanently OFF, App Check enforcement OFF, exactly two private managers, no public discovery/community/rankings, popup-only Google Auth, no broad list authority, Candidate C sole destructive local Apply with backup/rollback, and no Cloud Run or Cloud Functions dependency.
