@@ -18,10 +18,12 @@ const scoreB2={championsLeague:0,leagueTitle:3,domesticCup:0,performanceBonus:1,
 async function prepare(page,{role,saveId}){
   await page.goto(baseUrl.href,{waitUntil:'domcontentloaded'});
   await page.locator('#loadingScreen').waitFor({state:'hidden',timeout:12000});
-  await page.waitForFunction(()=>typeof window.ensureGameplayModules==='function'&&typeof window.loadRuntimeScript==='function',null,{timeout:12000});
+  await page.waitForFunction(()=>typeof window.ensureGameplayModules==='function'&&typeof window.loadRuntimeScript==='function'&&typeof window.showScreen==='function',null,{timeout:12000});
   await page.evaluate(async({role,saveId,rivalryId,sessionId,canonicalKeys,resultA1,resultB1,resultA2,resultB2,scoreA1,scoreB1,scoreA2,scoreB2})=>{
     await ensureGameplayModules();
     currentShowdown={id:saveId,currentRound:2,totalRounds:3,status:'Ready',sharedJourney:{mode:'shared',rivalryId},managers:{playerOne:'Nik',playerTwo:'Daniel'},selectedLeague:null,clubs:{playerOne:null,playerTwo:null},transferChallenges:[],rounds:[],score:{playerOne:0,playerTwo:0}};
+    window.CareerModeProductionSharedSeasonResults={canRoute:()=>true};
+    if(!showScreen('seasonEntry',false,{manageFocus:false}))throw new Error('r12 History Convergence audit could not open the real Season Review screen.');
     const managerSlots=[
       {slotId:'playerOne',accountId:'account_one',profileId:'profile_'+('a'.repeat(24)),saveId:'save_'+('a'.repeat(24)),entitlementState:'active'},
       {slotId:'playerTwo',accountId:'account_two',profileId:'profile_'+('b'.repeat(24)),saveId:'save_'+('b'.repeat(24)),entitlementState:'active'}
@@ -60,6 +62,7 @@ async function prepare(page,{role,saveId}){
     const refreshed=await CareerModeProductionSharedHistoryConvergence.refresh();if(!refreshed)throw new Error('r12 History Convergence did not activate.');
     window.__historyAudit={projection,storageBefore,storageAfter:()=>Object.fromEntries(canonicalKeys.map(key=>[key,localStorage.getItem(key)])),state:()=>CareerModeProductionSharedHistoryConvergence.getState(),refresh:()=>CareerModeProductionSharedHistoryConvergence.refresh(),currentCommit,currentScoring};
   },{role,saveId,rivalryId,sessionId,canonicalKeys,resultA1,resultB1,resultA2,resultB2,scoreA1,scoreB1,scoreA2,scoreB2});
+  await page.locator('#seasonEntry').waitFor({state:'visible',timeout:5000});
   await page.locator('#sharedHistoryConvergencePanel').waitFor({state:'visible',timeout:5000});
 }
 
