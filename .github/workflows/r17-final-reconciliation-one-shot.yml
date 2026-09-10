@@ -25,6 +25,20 @@ jobs:
       - run: npm ci
       - name: Require exact MDP 91 accounting ancestor
         run: git merge-base --is-ancestor 4c4975c1d3982ce6b2d8d4b37c0a6a15d94b625a HEAD
+      - name: Correct proven test-fixture arithmetic defect
+        shell: python
+        run: |
+          from pathlib import Path
+          p=Path('scripts/r17-final-reconciliation-one-shot.py')
+          s=p.read_text()
+          old='season(3,{...baseResult,leaguePoints:101},{...baseResult,leaguePosition:1})'
+          new='season(3,{...baseResult,leaguePoints:101},{...baseResult,leaguePosition:2})'
+          if s.count(old)!=1: raise SystemExit('expected r17 non-tie fixture anchor not found exactly once')
+          s=s.replace(old,new,1)
+          old='assert.deepEqual(final.managerTotals,{playerOne:7,playerTwo:6})'
+          new='assert.deepEqual(final.managerTotals,{playerOne:7,playerTwo:4})'
+          if s.count(old)!=1: raise SystemExit('expected r17 total assertion anchor not found exactly once')
+          p.write_text(s.replace(old,new,1))
       - name: Build r17 candidate in runner
         run: python3 scripts/r17-final-reconciliation-one-shot.py
       - name: Validate focused r17 behavior
