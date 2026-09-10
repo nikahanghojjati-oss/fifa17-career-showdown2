@@ -1,4 +1,4 @@
-name: R14 recorder exact authority fixture probe
+name: R14 post reload bootstrap probe
 
 on:
   push:
@@ -20,21 +20,60 @@ jobs:
       - uses: actions/setup-node@v5
         with:
           node-version: 24
-      - name: Modernize ACTIVE fixture only in workspace
+      - name: Add post reload diagnostics only in workspace
         shell: bash
         run: |
           python - <<'PY'
           from pathlib import Path
           path = Path('tests/browser/ssjr-production-acceptance-recorder-audit.cjs')
           text = path.read_text()
-          old = 'getState(){return Object.freeze({sessionState:"active",sessionId:raw.initialSession,pendingAction:null,role:"host"});}'
-          new = 'getState(){return Object.freeze({sessionState:"active",sessionId:raw.initialSession,rivalryId:raw.rivalry,accountId:raw.account,deviceId:raw.device,pendingAction:null,role:"host",expiresAtEpochMs:Date.now()+3600000});}'
-          if text.count(old) != 1:
-              raise SystemExit(f'expected one legacy ACTIVE fixture, found {text.count(old)}')
-          path.write_text(text.replace(old,new,1))
+          events = '  const pageErrors=[];page.on("pageerror",error=>pageErrors.push(error.stack||error.message));'
+          replacement = events + '\n  page.on("console",message=>{if(message.type()==="warning"||message.type()==="error")console.log("R14_BROWSER_"+message.type().toUpperCase()+" "+message.text());});'
+          if text.count(events) != 1:
+              raise SystemExit('page event anchor missing')
+          text = text.replace(events,replacement,1)
+          marker = '    await acceptance.page.evaluate(()=>window.__ssjrRecorderPrepareReload());'
+          marker_index = text.find(marker)
+          if marker_index < 0:
+              raise SystemExit('reload marker missing')
+          target = '    await acceptance.page.locator("#ssjrProductionAcceptanceRecorder").waitFor({state:"visible",timeout:7000});'
+          target_index = text.find(target,marker_index)
+          if target_index < 0:
+              raise SystemExit('post reload wait missing')
+          diagnostic = '''    await acceptance.page.waitForTimeout(5000);
+    const r14Diag=await acceptance.page.evaluate(()=>({
+      readyState:document.readyState,
+      loadingHidden:document.querySelector("#loadingScreen")?.classList.contains("hidden")===true,
+      recorderPanel:Boolean(document.querySelector("#ssjrProductionAcceptanceRecorder")),
+      apis:{
+        setup:Boolean(window.CareerModeProductionSharedShowdownSetup),
+        entry:Boolean(window.CareerModeProductionSharedJourneyEntry),
+        guard:Boolean(window.CareerModeProductionSharedJourneyGuard),
+        careerStart:Boolean(window.CareerModeProductionSharedCareerStart),
+        transfer:Boolean(window.CareerModeProductionSharedTransferChallenge),
+        results:Boolean(window.CareerModeProductionSharedSeasonResults),
+        commit:Boolean(window.CareerModeProductionSharedSeasonCommit),
+        scoring:Boolean(window.CareerModeProductionSharedCanonicalScoring),
+        history:Boolean(window.CareerModeProductionSharedHistoryConvergence),
+        multiProtocol:Boolean(window.CareerModeSharedMultiSeasonProgression),
+        multiProduction:Boolean(window.CareerModeProductionSharedMultiSeasonProgression),
+        reconnectProtocol:Boolean(window.CareerModeSharedJourneyReconnect),
+        reconnectProduction:Boolean(window.CareerModeProductionSharedJourneyReconnect),
+        polishedBridge:Boolean(window.CareerModeSSJRAcceptancePolishedBridge),
+        stage5f:Boolean(window.CareerModeStage5fProductionAuthenticatedNegatives),
+        negativeRunner:Boolean(window.CareerModeSSJRProductionNegativeProbeRunner),
+        negativeEvidence:Boolean(window.CareerModeSSJRProductionNegativeEvidence),
+        recorder:Boolean(window.CareerModeSSJRProductionAcceptanceRecorder)
+      },
+      scriptNames:Array.from(document.scripts).map(script=>script.src).filter(Boolean).map(src=>src.split("/").pop()).filter(name=>name&&["ssjr","shared","production","stage5f"].some(token=>name.toLowerCase().includes(token))).slice(-60)
+    }));
+    console.log("R14_POST_RELOAD_DIAG "+JSON.stringify(r14Diag));
+'''
+          text = text[:target_index] + diagnostic + target + text[target_index+len(target):]
+          path.write_text(text)
           PY
           node --check tests/browser/ssjr-production-acceptance-recorder-audit.cjs
-      - name: Run exact inherited recorder audit
+      - name: Run instrumented inherited recorder audit
         shell: bash
         run: |
           npm ci
