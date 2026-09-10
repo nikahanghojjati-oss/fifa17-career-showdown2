@@ -252,6 +252,27 @@
         "^tests/contracts/shared-journey-reconnect-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/shared-journey-reconnect-production-contracts.cjs",
+      "patterns": [
+        "^js/sharedJourneyReconnect\\.js$",
+        "^js/productionSharedJourneyReconnect\\.js$",
+        "^js/sharedMultiSeasonProgression\\.js$",
+        "^js/productionSharedMultiSeasonProgression\\.js$",
+        "^js/productionSharedShowdownSetup\\.js$",
+        "^js/sparkRemoteJoining\\.js$",
+        "^js/sparkConnectedAccount\\.js$",
+        "^js/sparkPrivatePairing\\.js$",
+        "^js/sparkConnectedRivalry\\.js$",
+        "^js/productionSharedJourneyEntry\\.js$",
+        "^js/ssjr\\.js$",
+        "^tests/contracts/shared-journey-reconnect-contracts\\.cjs$",
+        "^tests/contracts/shared-journey-reconnect-production-contracts\\.cjs$",
+        "^tests/browser/shared-journey-reconnect-audit\\.cjs$",
+        "^package\\.json$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
