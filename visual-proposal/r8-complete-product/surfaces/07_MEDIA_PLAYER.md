@@ -1,14 +1,15 @@
 # Surface Group 07 — Showdown Radio / Media
 
-Status: ACTIVE PROPOSAL CONTRACT — AUDIUS LOCKED PRIMARY / NO AUTOPLAY / DEVICE + TRACK PROOF OPEN
+Status: ACTIVE PROPOSAL CONTRACT — AUDIUS LOCKED PRIMARY / NO AUTOPLAY / PUBLIC RIGHTS+ZERO-DOLLAR PROOF ADVANCED / DEVICE + TRACK APPROVAL OPEN
 
 This contract replaces the current YouTube-based music experience. It is proposal-only and does not modify production `main`.
 
-Current production reconciliation anchor: `4d202126ce1606a4e3f74c09b31201cf4ec51c6e` / `1.9.1-r15`.
+Current production reconciliation anchor: `613e031c648d8d5cdb4e260e74cd93f895f49872` / `1.9.1-r16`.
 
 Read with:
 
 - `evidence/MEDIA_PROVIDER_ZERO_DOLLAR_DECISION_2026-09-10.md`
+- `evidence/AUDIUS_FREE_QUOTA_AND_BILLING_GUARD_2026-09-10.md`
 - `evidence/AUDIUS_DEVICE_AND_TRACK_PROOF_MATRIX.md`
 - `prototypes/27-audius-showdown-radio-reference.html`
 - `prototypes/01-home-reference.html`
@@ -34,20 +35,31 @@ Experience goals:
 
 Owner explicitly rejected autoplay after browser-policy review. Do not reintroduce autoplay as a required behavior.
 
+SoundCloud nostalgia is deferred from the default proposal unless the owner explicitly reopens it.
+
 ## 2. Free-plan and billing boundary
 
-Official Audius documentation reviewed 2026-09-10 states:
+Official Audius public material rechecked 2026-09-10 states:
 
-- Free: 10 requests/second;
-- Free: 500,000 requests/month;
-- Free plan described as always free with no restrictions;
-- Unlimited is a separate higher-limit plan reached by contacting Audius.
+- API Plans Free: 10 requests/second;
+- API Plans Free: 500,000 requests/month;
+- Free is labelled `No Restrictions. Always Free.`;
+- Unlimited is a separate higher-limit plan reached by contacting Audius;
+- most read-only REST endpoints are described as working without credentials, with API keys available for higher rate limits.
 
-The project is expected to use only a tiny fraction of that quota. Nevertheless, the product rule is stricter than the provider's marketing language:
+The product rule is stricter than the provider's marketing language:
 
 `paidUpgradeAllowed = false`
 
-Before production adoption, API-key creation must be verified not to require a payment card or billing enrollment. If setup requires billing details, pay-as-you-go acceptance, paid overage, credits, or automatic conversion, Audius is disqualified rather than accommodated.
+`autoOverageAllowed = false`
+
+`paymentMethodAllowed = false`
+
+Preferred static-site strategy:
+
+`publicReadOnlyFirst = true`
+
+The final player should first prove public read-only resolve/stream on iPhone Safari and Chromebook. If a Free API key later proves necessary for stable production use, its creation must be verified not to require a payment card, paid overage agreement or billing enrollment. Bearer tokens, write secrets or authenticated mutation credentials never belong in the browser music player.
 
 If a free quota is exhausted or the provider becomes unavailable:
 
@@ -56,7 +68,27 @@ If a free quota is exhausted or the provider becomes unavailable:
 - never purchase capacity;
 - never block Career Mode.
 
-## 3. Request discipline
+## 3. Rights / provenance boundary
+
+Audius's Open Music License, last updated 2025-07-02 and rechecked 2026-09-10, provides the provider-level rights basis for an Audius Music Player unless a particular track supplies an Alternative License URI.
+
+The OML grants Music Players a worldwide, non-exclusive, royalty-free, perpetual and irrevocable right to reproduce, publicly perform, distribute, electronically/digitally transmit and stream Licensed Material in connection with Music Player services, including sublicensing rights.
+
+This does not eliminate per-track review. Final queue records still verify:
+
+- creator/source identity;
+- canonical Audius material URL;
+- exact API track ID;
+- public stream/gating result;
+- OML or Alternative License field;
+- attribution requirements;
+- suspicious or inconsistent provenance signals;
+- device playback;
+- owner taste.
+
+If a track's Alternative License conflicts with the project or its stream becomes gated/unavailable, reject that track rather than weakening the rights/zero-dollar rules.
+
+## 4. Request discipline
 
 Request quota is not equivalent to song-play count.
 
@@ -66,14 +98,14 @@ The final implementation minimizes requests even though expected use is tiny:
 2. do not search/trend on ordinary Home entry;
 3. do not resolve a canonical URL on every play once an approved track ID is known;
 4. keep exactly one audio element;
-5. request only the selected track;
+5. request only the selected track after deliberate Play;
 6. do not preload the full queue;
 7. cache safe metadata locally where appropriate;
-8. use bounded retry/backoff;
+8. use bounded user-driven retry/backoff;
 9. no polling loop for music state;
 10. provider/quota failure terminates locally.
 
-## 4. No-autoplay decision
+## 5. No-autoplay decision
 
 The player UI may load eagerly because it is small DOM/CSS and does not contain a heavy video iframe.
 
@@ -85,7 +117,7 @@ After a user has deliberately started audio, normal Pause/Resume/Next/Previous b
 
 No hidden muted autoplay/unmute trick is permitted for music.
 
-## 5. State authority
+## 6. State authority
 
 Required state machine:
 
@@ -93,16 +125,17 @@ Required state machine:
 
 Rules:
 
-- Play expresses intent; it does not assert `PLAYING`.
+- Play expresses intent; it does not assert `PLAYING`;
 - only the audio element's `playing` event produces the visible PLAYING state;
 - `waiting` / `stalled` produce BUFFERING without blocking Home;
 - `pause` produces PAUSED;
-- `ended` advances according to the final queue policy;
+- `ended` does not silently autoplay a new track;
 - media/provider failure is player-local;
 - track changes reset stale state before the new source becomes current;
-- there is never more than one playback authority.
+- there is never more than one playback authority;
+- no automatic retry/request storm is permitted.
 
-## 6. Track catalogue
+## 7. Track catalogue
 
 Primary label: `SHOWDOWN RADIO`.
 
@@ -117,25 +150,27 @@ Target feeling:
 - clear creator/source metadata;
 - rights/provenance suitable for a Music Player.
 
+Current listening candidates are recorded in `evidence/AUDIUS_DEVICE_AND_TRACK_PROOF_MATRIX.md` and remain non-final.
+
 Candidate discovery is not owner approval. Final tracks require:
 
 - stream proof;
-- rights/provenance review;
+- OML / Alternative License and attribution review;
 - iPhone Safari proof;
 - Chromebook proof;
 - owner listening/taste approval.
 
-## 7. SoundCloud and YouTube status
+## 8. SoundCloud and YouTube status
 
-SoundCloud exact-song nostalgia research is retained as historical/optional evidence, but it is not required in the default final proposal now that the owner has selected Audius as the primary music experience.
+SoundCloud exact-song nostalgia research is retained only as historical evidence. It is not part of the default functional player or current closure work.
 
-Do not spend finalization time building a second music product unless the owner explicitly reopens `FIFA 17 PICKS`.
+Do not build a second music product unless the owner explicitly reopens SoundCloud nostalgia.
 
 YouTube is not a music fallback.
 
 A gameplay trailer may remain a separate intentional video surface if the final Home design still includes it. That video remains lazy-loaded and uses the official YouTube player lifecycle. It must never be hidden to extract audio.
 
-## 8. Player anatomy
+## 9. Player anatomy
 
 Compact Home player:
 
@@ -161,7 +196,7 @@ Expanded queue:
 - no stream request for inactive rows;
 - no hidden provider iframe.
 
-## 9. Responsive and accessibility contract
+## 10. Responsive and accessibility contract
 
 At 390px:
 
@@ -177,14 +212,14 @@ At 390px:
 Accessibility:
 
 - explicit names for transport controls;
-- Play/Pause label follows actual state;
+- Play/Pause label follows actual media state and user intent;
 - seek is keyboard-operable;
 - meaningful state changes use a polite live region;
 - progress ticks are not announced continuously;
 - track changes do not move focus;
 - reduced motion removes decoration only.
 
-## 10. Performance contract
+## 11. Performance contract
 
 The old YouTube music tile required heavy lazy-loading because it embedded video/provider UI. Showdown Radio does not.
 
@@ -208,7 +243,13 @@ Forbidden:
 - unbounded retry;
 - provider failure blocking route navigation.
 
-## 11. Final owner-review disclosure
+## 12. r16 compatibility
+
+r16 Shared Journey Local Reconciliation adds no media authority and requires no new media state. Showdown Radio remains independent of Connected Rivalry / Candidate C and must not write shared/local gameplay state.
+
+The media surface remains proposal-only, Firebase-independent for playback, and unaffected by r16 except for the current-main reconciliation anchor.
+
+## 13. Final owner-review disclosure
 
 The final owner package must state:
 
@@ -218,18 +259,20 @@ The final owner package must state:
 - lightweight UI shell: eagerly available;
 - stream bytes: requested only for selected user-started playback;
 - current Free-plan verification basis;
-- whether API-key creation required any billing information;
-- exact final queue and rights status;
+- whether public read-only playback passed without an API key;
+- if a Free API key is used, whether creation required any billing information;
+- exact final queue and OML / Alternative License / attribution status;
 - actual iPhone Safari and Chromebook results;
 - any platform-specific volume/seek limitation;
 - no YouTube music fallback;
-- gameplay trailer status if retained.
+- gameplay trailer status if retained;
+- SoundCloud default lane: deferred.
 
-## 12. Acceptance
+## 14. Acceptance
 
 Media is proposal-complete only when:
 
-- Audius API-key/billing boundary is verified without enrolling billing;
+- public read-only or Free-key playback path is proven without enrolling billing;
 - final queue has rights/provenance records;
 - first Play works without a Play/Pause/Play ritual on iPhone Safari and Chromebook;
 - Pause/Resume/Previous/Next/seek/failure behavior is tested;
