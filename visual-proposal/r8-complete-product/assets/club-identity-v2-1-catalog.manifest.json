@@ -1,0 +1,47 @@
+{
+  "schema": "showdown-club-identity-v2.1-catalog-manifest",
+  "rendererVersion": "2.1.0",
+  "status": "technical-catalog-complete-r2-perceptual-review-open-not-production",
+  "supportedClubCount": 98,
+  "canonicalInput": "clubName",
+  "runtimeResearchMetadata": false,
+  "networkRequired": false,
+  "firebaseRequired": false,
+  "persisted": false,
+  "baseCatalogs": [
+    "club-identity-v2-1-premier-league-descriptors.draft.json",
+    "club-identity-v2-1-laliga-descriptors.draft.json",
+    "club-identity-v2-1-bundesliga-descriptors.draft.json",
+    "club-identity-v2-1-serie-a-descriptors.draft.json",
+    "club-identity-v2-1-ligue-1-descriptors.draft.json"
+  ],
+  "overrideCatalog": "club-identity-v2-1-r2-overrides.draft.json",
+  "overrideRule": "R2 override replaces the base descriptor for the exact same canonical club name before validation/rendering. No override may introduce a new club.",
+  "renderer": "club-identity-v2-1-renderer.reference.js",
+  "runtimeContract": "club-identity-v2-1-runtime-descriptor-contract.json",
+  "authoringInventory": "club-identity-v2-1-authoring-inventory.json",
+  "validator": "../tools/validate-club-identity-v2-1.cjs",
+  "contactSheet": "../prototypes/30-club-identity-v2-1-contact-sheet.html",
+  "gates": {
+    "research98": "PASS",
+    "descriptorDraft98": "PASS",
+    "aggregateR1SchemaAndSignature": "PASS",
+    "deterministicRendererR1": "PASS",
+    "r2PriorityOverridesAuthored": "PASS",
+    "r2LocalAggregateValidator": "OPEN",
+    "r2PerceptualContactSheet": "OPEN",
+    "ownerApproval": "OPEN",
+    "productionImplementation": "BLOCKED"
+  },
+  "productionSafety": {
+    "newSaveField": false,
+    "newFirebaseField": false,
+    "newFirestoreReadForBadge": false,
+    "newFirestoreWriteForBadge": false,
+    "firebaseStorageAssetFetch": false,
+    "authDependency": false,
+    "externalBadgeApi": false,
+    "runtimeHotlink": false,
+    "billingRequired": false
+  }
+}
