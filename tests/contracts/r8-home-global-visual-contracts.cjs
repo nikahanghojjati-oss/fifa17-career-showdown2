@@ -37,6 +37,7 @@ assert.match(css, /\.r8FinalArtLayer[\s\S]*pointer-events:none !important/, "Fin
 assert.match(css, /\.r8FinalArtLayer[\s\S]*overflow:hidden/, "Final art must remain overflow-contained.");
 assert.match(css, /@media\(max-width:1179px\)[\s\S]*\.r8CharacterLayer[\s\S]*display:none !important/, "Large R8 characters must be omitted at Chromebook/mobile widths.");
 assert.match(css, /@media\(prefers-reduced-motion:reduce\)/, "R8 presentation must preserve reduced-motion handling.");
+assert.match(css, /637804a9d0e18a88c7a7bb3c79b93d5af2f92062 \/ 1\.9\.1-r12/, "R8 presentation provenance must match the exact r12 integration base.");
 
 assert.match(js, /A01_NIK_CORE_THINKING_HERO/, "A01 frozen asset identity missing.");
 assert.match(js, /A02_DANIEL_CORE_POINTING_HERO/, "A02 frozen asset identity missing.");
@@ -48,12 +49,15 @@ assert.match(js, /setAttribute\("aria-hidden", "true"\)/, "Decorative R8 nodes m
 assert.match(js, /querySelector\([\s\S]*button,input,select,textarea,a\[href\]/, "R8 controller must reject focusable descendants.");
 assert.match(js, /writesStorage:false/, "R8 diagnostics must declare no storage writes.");
 assert.match(js, /writesFirebase:false/, "R8 diagnostics must declare no Firebase writes.");
+assert.match(js, /1\.9\.1-r12/, "R8 final-art controller must carry the current r12 asset revision fallback.");
 assert.doesNotMatch(js, /\blocalStorage\s*\.|\bsessionStorage\s*\.|\bindexedDB\s*\.|\bfirebase\s*\.|\bfirestore\s*\./i, "R8 final-art controller must not call persistence/provider APIs.");
 assert.doesNotMatch(js, /\bfetch\s*\(|\bXMLHttpRequest\b|\bnavigator\.sendBeacon\b/, "R8 final-art controller must not create a network protocol.");
 
-assert.match(app, /data-r8-visual-entry="r8-25"/, "Application bootstrap must install the bounded R8 entry exactly once.");
+assert.match(app, /dataset\.r8VisualEntry="r8-25"/, "Application bootstrap must identify the bounded R8 entry exactly once.");
+assert.match(app, /dataset\.r8AutoEnable="true"/, "Application bootstrap must opt the R8 entry into bounded auto-enable.");
 assert.match(app, /data-visual-fidelity="reus-r3"[\s\S]*r8v\(\)/, "R8 entry must be installed after protected visual fidelity is requested.");
 assert.match(app, /Existing visuals remain available/, "R8 bootstrap failure must fall back to existing visuals.");
+assert.match(app, /1\.9\.1-r12/, "R8 bootstrap must remain on the current r12 asset revision.");
 assert.doesNotMatch(app, /marco-reus-2015-cc-by\.webp/, "R8 bootstrap must not replace or rewrite the protected loading Reus asset.");
 
 assert.match(audit, /1600, height: 900/, "R8 Home browser acceptance must include 1600x900.");
