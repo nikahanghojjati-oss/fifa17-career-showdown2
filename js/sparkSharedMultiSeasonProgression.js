@@ -69,7 +69,7 @@
     if(!historyProvider||typeof historyProvider.read!=="function")msp13Fail("MULTI_SEASON_HISTORY_PROVIDER_UNAVAILABLE");
     if(typeof authorityReader!=="function")msp13Fail("MULTI_SEASON_AUTHORITY_READER_UNAVAILABLE");
     const protocol=progressionModule.createProtocol();
-    async function read(options={}){
+    async function msp13Read(options={}){
       try{
         const rivalryId=msp13Rivalry(options.rivalryId),sessionId=msp13Session(options.sessionId),deviceId=msp13Device(options.deviceId),uid=msp13Uid(options.user),now=msp13Now(options.nowEpochMs);msp13Sdk(options);
         const authority=await authorityReader(options,uid,rivalryId,sessionId,deviceId,now);
@@ -85,7 +85,7 @@
         return msp13Freeze({ok:true,authoritative:true,runtimeRevision:RUNTIME_REVISION,phase:state.phase,revision:state.revision,rivalryId,managerRole:authority.managerRole,state});
       }catch(error){return msp13Error(error);}
     }
-    return msp13Freeze({contractVersion:1,feature:"ssjr-spark-shared-multi-season-progression",runtimeRevision:RUNTIME_REVISION,read,exactSeasonAddressing:true,derivesFromAcceptedPrefix:true,fixedClubs:true,canonicalStorageMutation:false,providerWriteRequired:false,listPermissionRequired:false,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,sourceAuthorityPaths:Object.freeze(["accounts/{accountId}","accounts/{accountId}/devices/{deviceId}","rivalries/{rivalryId}","rivalries/{rivalryId}/sessions/{sessionId}","rivalries/{rivalryId}/sharedSetup/authoritative","rivalries/{rivalryId}/seasonCommits/season_{N}"])});
+    return msp13Freeze({contractVersion:1,feature:"ssjr-spark-shared-multi-season-progression",runtimeRevision:RUNTIME_REVISION,read:msp13Read,exactSeasonAddressing:true,derivesFromAcceptedPrefix:true,fixedClubs:true,canonicalStorageMutation:false,providerWriteRequired:false,listPermissionRequired:false,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,sourceAuthorityPaths:Object.freeze(["accounts/{accountId}","accounts/{accountId}/devices/{deviceId}","rivalries/{rivalryId}","rivalries/{rivalryId}/sessions/{sessionId}","rivalries/{rivalryId}/sharedSetup/authoritative","rivalries/{rivalryId}/seasonCommits/season_{N}"])});
   }
 
   const provider=msp13CreateProvider();
