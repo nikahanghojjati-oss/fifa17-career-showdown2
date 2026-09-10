@@ -1,0 +1,145 @@
+{
+  "schemaVersion": "1.0.0",
+  "lane": "independent visual proposal",
+  "sourcePin": "1d0c9f9d6542cd020a4aae53998cb6daeba380e4",
+  "assetRevision": "1.9.1-r10",
+  "purpose": "single source of truth for required visual assets so work is planned, reused, frozen and never regenerated casually",
+  "statusVocabulary": ["PLANNED", "REFERENCE_READY", "CANDIDATE", "OWNER_APPROVED_FROZEN", "CONDITIONAL", "CANCELLED", "REJECTED_NON_SHIPPING", "NO_GENERATION_REQUIRED"],
+  "generationRule": "image generation is allowed only when a mapped screen need exists, reuse is insufficient, safe zones are defined, and generation is the best method",
+  "counts": {
+    "requiredCharacterMasters": 6,
+    "requiredCharacterMastersFrozen": 0,
+    "conditionalCharacterMasters": 2,
+    "nonCharacterAssetFamilies": 5,
+    "nonCharacterFamiliesRequiringImageGenerationNow": 0,
+    "rejectedNonShippingOutputsTracked": 2
+  },
+  "characterAssets": [
+    {
+      "id": "A01_NIK_CORE_THINKING_HERO",
+      "status": "REFERENCE_READY",
+      "required": true,
+      "generationNeeded": "PENDING_COMPOSITION_CONFIRMATION",
+      "screens": ["Startup", "Home", "Create Showdown", "League Wheel", "Club Assignment", "Dashboard crops", "Shared Setup crops", "Remote Joining chips", "Season Entry crops", "Legacy crops", "Tiebreak fallback"],
+      "identityAuthority": "Tier 0 owner-approved CM17 Nik AI references",
+      "notes": "Owner liked the strongest earlier thinking/hero direction. Do not refine or regenerate without a specific mapped reason. Final shipping master must preserve CM17 AI character feel and identity resemblance."
+    },
+    {
+      "id": "A02_DANIEL_CORE_POINTING_HERO",
+      "status": "REFERENCE_READY",
+      "required": true,
+      "generationNeeded": "PENDING_COMPOSITION_CONFIRMATION",
+      "screens": ["Startup", "Home", "Create Showdown", "League Wheel", "Club Assignment", "Dashboard crops", "Shared Setup crops", "Remote Joining chips", "Season Entry crops", "Legacy crops", "Tiebreak fallback"],
+      "identityAuthority": "Tier 0 owner-approved CM17 Daniel AI references",
+      "notes": "Historical pointing/main pose remains the strongest Daniel anchor. Do not recast face while cleaning or isolating final master."
+    },
+    {
+      "id": "A03_NIK_FOCUSED_TACTICAL",
+      "status": "PLANNED",
+      "required": true,
+      "generationNeeded": true,
+      "screens": ["Transfer Challenge", "Shared Transfer Challenge", "Tiebreak", "decision/waiting states"],
+      "identityAuthority": "A01 frozen identity when available plus Tier 0 references",
+      "notes": "One focused/downward tactical expression only. Real photos are geometry evidence, never shipping pixels."
+    },
+    {
+      "id": "A04_DANIEL_FOCUSED_TACTICAL",
+      "status": "PLANNED",
+      "required": true,
+      "generationNeeded": true,
+      "screens": ["Transfer Challenge", "Shared Transfer Challenge", "Tiebreak", "decision/waiting states"],
+      "identityAuthority": "A02 frozen identity when available plus Tier 0 references",
+      "notes": "One focused/downward tactical expression only."
+    },
+    {
+      "id": "A05_NIK_CELEBRATION_RESOLVE",
+      "status": "PLANNED",
+      "required": true,
+      "generationNeeded": true,
+      "screens": ["Season Summary", "Trophy Room optional", "completed Legacy moments"],
+      "identityAuthority": "A01 frozen identity when available plus Tier 0 references",
+      "notes": "Restrained authentic celebration or victory resolve. Avoid exaggerated smile geometry that changes identity."
+    },
+    {
+      "id": "A06_DANIEL_CELEBRATION_RESOLVE",
+      "status": "PLANNED",
+      "required": true,
+      "generationNeeded": true,
+      "screens": ["Season Summary", "Trophy Room optional", "completed Legacy moments"],
+      "identityAuthority": "A02 frozen identity when available plus Tier 0 references",
+      "notes": "Warm restrained celebration. Avoid broad generic advertising smile."
+    },
+    {
+      "id": "C01_NIK_CLUB_PACK_INTERACTION",
+      "status": "CONDITIONAL",
+      "required": false,
+      "generationNeeded": "ONLY_IF_EXACT_DOM_COMPOSITION_PROVES_CORE_POSE_INSUFFICIENT",
+      "screens": ["Club Assignment"],
+      "notes": "Cancel if A01 frames the real pack DOM cleanly."
+    },
+    {
+      "id": "C02_DANIEL_CLUB_PACK_INTERACTION",
+      "status": "CONDITIONAL",
+      "required": false,
+      "generationNeeded": "ONLY_IF_EXACT_DOM_COMPOSITION_PROVES_CORE_POSE_INSUFFICIENT",
+      "screens": ["Club Assignment"],
+      "notes": "Cancel if A02 frames the real pack DOM cleanly."
+    }
+  ],
+  "nonCharacterAssetFamilies": [
+    {
+      "id": "V01_BLACK_GOLD_STADIUM_ATMOSPHERE",
+      "status": "NO_GENERATION_REQUIRED",
+      "preferredMethod": "CSS gradients plus existing/procedural assets first",
+      "screens": ["Startup", "Home", "Create Showdown", "League Wheel", "Club Assignment", "Season Summary"],
+      "generationGate": "open only if reusable CSS/procedural atmosphere cannot reach approved R8.5 quality"
+    },
+    {
+      "id": "V02_CM17_CROWN_TROPHY_MOTIF_SET",
+      "status": "NO_GENERATION_REQUIRED",
+      "preferredMethod": "SVG/CSS/procedural",
+      "screens": ["Home", "Season Summary", "Trophy Room", "Legacy"]
+    },
+    {
+      "id": "V03_CLUB_PACK_FRAME",
+      "status": "NO_GENERATION_REQUIRED",
+      "preferredMethod": "HTML/CSS/SVG around real DOM cards",
+      "screens": ["Club Assignment"]
+    },
+    {
+      "id": "V04_STATUS_CONNECTION_ICON_SET",
+      "status": "NO_GENERATION_REQUIRED",
+      "preferredMethod": "existing icons plus CSS/SVG",
+      "screens": ["Remote Joining", "Shared Setup", "Save Library", "Connected Rivalry", "Recovery", "Global notices"]
+    },
+    {
+      "id": "V05_TROPHY_ROOM_DECORATIVE_SET",
+      "status": "CONDITIONAL",
+      "preferredMethod": "CSS/SVG/procedural first",
+      "screens": ["Trophy Room"],
+      "generationGate": "only if procedural implementation objectively fails approved presentation target"
+    }
+  ],
+  "deterministicDerivatives": [
+    "desktop left placement",
+    "desktop right placement",
+    "tablet crop",
+    "mobile fade or omission",
+    "square identity crop",
+    "compact avatar chip"
+  ],
+  "rejectedOutputs": [
+    {
+      "id": "RJ01_MULTI_EXPRESSION_CHARACTER_BOARD",
+      "status": "REJECTED_NON_SHIPPING",
+      "reason": "multi-face generation caused severe identity drift; board format retired as production generation method"
+    },
+    {
+      "id": "RJ02_UNSOLICITED_NIK_STADIUM_THINKING_REFINEMENT",
+      "status": "REJECTED_NON_SHIPPING",
+      "reason": "good rendering quality but generated at the wrong process stage and drifted from approved visual identity; must not be promoted to A01"
+    }
+  ],
+  "freezeRule": "once the owner approves an asset, change its status to OWNER_APPROVED_FROZEN, record its exact file/hash, and never regenerate it for cropping, mirroring, responsive placement or board assembly",
+  "nextDecision": "complete Package 1 and Package 2 exact-DOM presentation specification before deciding whether A01/A02 need any new generation at all"
+}
