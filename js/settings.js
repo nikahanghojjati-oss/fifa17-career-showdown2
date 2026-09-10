@@ -379,6 +379,17 @@ function createOfflinePanel(){
     return panel;
 }
 
+function refreshSettingsOfflinePanel(){
+    if(!settingsContent){ return false; }
+    const existing = settingsContent.querySelector(".settingsOfflinePanel");
+    if(!existing){
+        renderSettings();
+        return false;
+    }
+    existing.replaceWith(createOfflinePanel());
+    return true;
+}
+
 async function openSettingsDataManagement(){
     closeSettings(false);
 
@@ -629,7 +640,7 @@ function initializeSettings(){
         window.addEventListener("career-mode-offline-state-change", () => {
             if(settingsOverlay && !settingsOverlay.classList.contains("hidden")){
                 const focusSelector = getSettingsFocusRestoreSelector();
-                renderSettings();
+                refreshSettingsOfflinePanel();
                 if(focusSelector){ focusSettingsControl(focusSelector); }
             }
         });

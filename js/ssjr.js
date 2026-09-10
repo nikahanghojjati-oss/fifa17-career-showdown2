@@ -3,19 +3,40 @@
   const load=root.loadRuntimeScript;
   if(typeof load!=="function")return;
   const install=(id,path,key)=>load(id,path,()=>root[key]).then(()=>{const api=root[key];if(!api||typeof api.install!=="function")throw new Error(`${path} loaded without an installable ${key} API.`);api.install();return api;});
+  const prepare=(items)=>items.reduce((chain,[id,path,key])=>chain.then(()=>load(id,path,()=>root[key]).then(()=>{const api=root[key];if(!api)throw new Error(`${path} loaded without its expected ${key} API.`);return api;})),Promise.resolve());
   const params=root.location?new URLSearchParams(root.location.search):new URLSearchParams();
   const acceptanceEnabled=params.get("ssjr-acceptance")==="1";
   const witnessEnabled=acceptanceEnabled&&params.get("ssjr-witness")==="1";
   (async()=>{
     const seasonResultsRoute=install("ssjr-production-season-results-route","js/productionSharedSeasonResultsRoute.js","CareerModeProductionSharedSeasonResultsRoute");
+    const seasonCommit=install("ssjr-production-season-commit","js/productionSharedSeasonCommit.js","CareerModeProductionSharedSeasonCommit");
+    const canonicalScoring=(async()=>{
+      await seasonCommit;
+      await prepare([
+        ["ssjr-season-commit-protocol","js/sharedSeasonCommit.js","CareerModeSharedSeasonCommit"],
+        ["ssjr-season-commit-provider","js/sparkSharedSeasonCommit.js","CareerModeSparkSharedSeasonCommit"],
+        ["ssjr-canonical-scoring-protocol","js/sharedCanonicalScoring.js","CareerModeSharedCanonicalScoring"],
+        ["ssjr-canonical-scoring-provider","js/sparkSharedCanonicalScoring.js","CareerModeSparkSharedCanonicalScoring"]
+      ]);
+      return install("ssjr-production-canonical-scoring","js/productionSharedCanonicalScoring.js","CareerModeProductionSharedCanonicalScoring");
+    })();
+    const historyConvergence=(async()=>{
+      await canonicalScoring;
+      await prepare([
+        ["ssjr-history-convergence-protocol","js/sharedHistoryConvergence.js","CareerModeSharedHistoryConvergence"],
+        ["ssjr-history-convergence-provider","js/sparkSharedHistoryConvergence.js","CareerModeSparkSharedHistoryConvergence"]
+      ]);
+      return install("ssjr-production-history-convergence","js/productionSharedHistoryConvergence.js","CareerModeProductionSharedHistoryConvergence");
+    })();
     await Promise.all([
       load("firebase-runtime","js/productionFirebaseRuntime.js",()=>root.CareerModeProductionFirebaseRuntime),
       install("ssjr-production-entry","js/productionSharedJourneyEntry.js","CareerModeProductionSharedJourneyEntry"),
       install("ssjr-production-guard","js/productionSharedJourneyGuard.js","CareerModeProductionSharedJourneyGuard"),
       install("ssjr-production-career-start","js/productionSharedCareerStart.js","CareerModeProductionSharedCareerStart"),
       install("ssjr-production-season-results","js/productionSharedSeasonResults.js","CareerModeProductionSharedSeasonResults"),
-      install("ssjr-production-season-commit","js/productionSharedSeasonCommit.js","CareerModeProductionSharedSeasonCommit"),
-      install("ssjr-production-canonical-scoring","js/productionSharedCanonicalScoring.js","CareerModeProductionSharedCanonicalScoring"),
+      seasonCommit,
+      canonicalScoring,
+      historyConvergence,
       (async()=>{await seasonResultsRoute;return install("ssjr-production-transfer-challenge","js/productionSharedTransferChallenge.js","CareerModeProductionSharedTransferChallenge");})()
     ]);
     if(!acceptanceEnabled)return;
