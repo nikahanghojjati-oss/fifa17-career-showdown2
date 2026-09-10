@@ -1,0 +1,66 @@
+{
+  "schemaVersion": "1.0.0",
+  "status": "HANDOFF_DELTA_AUTHORITATIVE_AFTER_R8_12",
+  "appliesToBranch": "visual/r8-5-approved-character-identity-lock",
+  "liveMainLastVerified": "1d0c9f9d6542cd020a4aae53998cb6daeba380e4",
+  "liveAssetRevisionLastVerified": "1.9.1-r10",
+  "purpose": "record owner-supplied high-quality AI character references received after the R8.12 handoff and prevent them from being misclassified as automatic image-generation requests",
+  "references": [
+    {
+      "id": "NIK_OWNER_LIKED_AI_STYLE_REFERENCE_C",
+      "role": "PRIMARY_A01_PRESERVATION_ANCHOR",
+      "libraryPath": "/Showdown visual/R8_5_APPROVED_CHARACTER_IDENTITY_LOCK/NIK_OWNER_LIKED_AI_STYLE_REFERENCE_C.jpeg",
+      "libraryFileId": "file_00000000125881f7b67a4f1bdca4714f",
+      "sha256": "7bcdcfd002002d2eef726fed637d31a4870091b542f733adfac79c30a2c7628a",
+      "meaning": "owner strongly likes this Nik thinking-pose AI character likeness and style; for A01 prefer preserving/isolation of this character rather than recasting the face from prose"
+    },
+    {
+      "id": "NIK_OWNER_LIKED_AI_STYLE_REFERENCE_D",
+      "role": "HIGH_PRIORITY_NIK_ALTERNATE_FACE_STYLE_ANCHOR",
+      "libraryPath": "/Showdown visual/R8_5_APPROVED_CHARACTER_IDENTITY_LOCK/NIK_OWNER_LIKED_AI_STYLE_REFERENCE_D.jpeg",
+      "libraryFileId": "file_00000000df3881f7856f42681a357319",
+      "libraryFileRecord": "libfile_50db755a91fc81919bb6b400d2f308a9",
+      "dimensions": "1122x1402",
+      "sha256": "90d4c7018109b6f83dbe2cb9531658c2351fd4d8ca6599183fd6405566bd84c2",
+      "meaning": "owner explicitly says this is another very good Nik AI characterization. It does not replace A01 Reference C. Use it to validate Nik facial geometry/style and as a possible reference for later mapped Nik assets such as A03/A05 when appropriate. Do not auto-generate because it was uploaded."
+    },
+    {
+      "id": "DANIEL_OWNER_LIKED_AI_STYLE_REFERENCE_C",
+      "role": "HIGH_PRIORITY_A02_FACE_STYLE_ANCHOR",
+      "libraryPath": "/Showdown visual/R8_5_APPROVED_CHARACTER_IDENTITY_LOCK/DANIEL_OWNER_LIKED_AI_STYLE_REFERENCE_C.jpeg",
+      "libraryFileId": "file_0000000052b481f7baa18e90acbe9f3f",
+      "libraryFileRecord": "libfile_9af0382518c88191992b7c945e0f4586",
+      "dimensions": "1122x1402",
+      "sha256": "c0017c5d52d31e8c811940025487c65a09915a008c7abf30264ef66a5b1c432f",
+      "meaning": "owner explicitly rates this Daniel facial characterization as very good and suitable as a main identity/style reference. A02 still keeps the historically preferred pointing body language; use this portrait primarily to preserve Daniel face/style while deriving the pointing master."
+    }
+  ],
+  "authorityRelationship": {
+    "tier0StillHighest": [
+      "OWNER_APPROVED_FACE_TRUTH_A.png",
+      "OWNER_APPROVED_FACE_TRUTH_B.png"
+    ],
+    "newReferencesDoNotReplaceTier0": true,
+    "referenceCForA01": "strongest direct preservation/isolation candidate for Nik A01",
+    "referenceDForNik": "alternate high-confidence Nik facial/style evidence",
+    "danielReferenceC": "high-confidence A02 facial/style evidence; pointing pose remains separately required"
+  },
+  "productionMethodDelta": {
+    "A01": "Do not generate Nik from scratch first. First attempt a reference-preserving isolation/edit of NIK_OWNER_LIKED_AI_STYLE_REFERENCE_C: remove stadium/background and outer padding while keeping face, hair, beard, thinking expression, black suit, watch and pose as unchanged as possible. A transparent reusable master is preferred. Any facial repaint is a fallback only if clean isolation is impossible.",
+    "A02": "After A01 owner freeze, build Daniel core pointing hero using DANIEL_OWNER_LIKED_AI_STYLE_REFERENCE_C as high-priority facial/style reference and the historically owner-preferred pointing pose from approved composites/Tier0 evidence. One Daniel only; do not generate a board.",
+    "uploadedImagePolicy": "Uploaded reference images update evidence/authority. They never automatically trigger generation."
+  },
+  "newRejectedOutput": {
+    "id": "RJ05_A01_CONTEXT_DRIFT_BOARD_3",
+    "status": "REJECTED_NON_SHIPPING",
+    "generationId": "2e5da59a-e40a-40ba-8bfc-a9a77e52f574",
+    "conversationFileId": "file_000000008c7881f7b36457f08f40fae8",
+    "reason": "Even after A01 was changed to reference-preserving isolation, the overloaded predecessor context produced another whole CM17 dashboard with Daniel, UI and text instead of one isolated Nik. This is additional evidence that the predecessor context must not perform more image generation. Zero progress credit."
+  },
+  "transition": {
+    "handoffProximityPercent": 100,
+    "required": true,
+    "reason": "three consecutive A01 image operations in the long predecessor context returned whole-screen/board content instead of the sealed isolated character task; a clean context is the quality-preserving path",
+    "nextStarter": "START_NEXT_VISUAL_SESSION_R8_13_REFERENCE_PRESERVING_A01_A02_SAFE_TRANSFER.md"
+  }
+}
