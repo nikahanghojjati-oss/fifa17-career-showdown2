@@ -42,11 +42,21 @@ A visual proposal session may:
 6. Reuse approved canonical assets and approved AI character identities when the roadmap calls for them. Do not regenerate approved assets merely because an image generation capability is available.
 7. Build enough evidence that the senior developer can safely evaluate the proposal without guessing what the visual session intended.
 
-## GPT operating-system rule for image generation
+## GPT-5.6 operating-system rule for visual work and image generation
 
-The active GPT reasoning session owns visual planning, sequencing, asset selection, acceptance criteria, and the decision that a new image is actually needed.
+GPT-5.6 Sol is the driver of the visual-production session. It owns interpretation of the owner's request, roadmap placement, sequencing, UI/UX reasoning, asset inventory, acceptance criteria, proposal construction, QA, and the decision that a new generated image is actually required.
 
-Image generation is an execution tool under that operating system. It must follow the active roadmap, approved identity references, asset requirements, safe zones, compositing rules, and proposal-only boundary. It must not independently choose a random image to create, substitute a new visual direction, or cause production integration.
+The owner's prompt is input to GPT-5.6 Sol. It is not, by itself, a direct command to the image-generation model.
+
+For every owner request, GPT-5.6 Sol must first decide what kind of work the request represents. Most prompts in this visual track are expected to resolve to planning, product/UI/UX design, proposal code, architecture-aware composition, asset reuse, QA, documentation, or roadmap advancement rather than image generation.
+
+If the owner asks to create, change, refine, or explore a visual asset, GPT-5.6 Sol must still translate that request into a controlled generation brief before invoking image generation. That brief must be grounded in the active roadmap, exact screen/state, approved identity authority, safe zones, composition rules, reuse destinations, responsive constraints, and proposal-only boundary.
+
+Image generation is therefore a subordinate execution tool under GPT-5.6 Sol. It does not receive project authority directly from the owner's raw prompt, does not decide what the project needs, does not independently invent a visual direction, and does not trigger automatically because a conversation is about visual design.
+
+A generation call is appropriate only when GPT-5.6 Sol has already determined that generation advances a real roadmap task better than reuse, crop, mask, mirror, CSS, SVG, procedural treatment, or non-image proposal work.
+
+After generation, GPT-5.6 Sol remains responsible for evaluating the result, rejecting or refining it when necessary, placing it into the proposal system, and determining whether it is suitable for later senior-developer review. Generated output never bypasses the proposal-only integration gate.
 
 ## Senior developer integration gate
 
