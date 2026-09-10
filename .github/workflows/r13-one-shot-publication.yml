@@ -1,0 +1,59 @@
+name: One-shot r13 publication
+
+on:
+  push:
+    branches:
+      - feat/ssjr-multi-season-r13
+    paths:
+      - .github/workflows/r13-one-shot-publication.yml
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: feat/ssjr-multi-season-r13
+          fetch-depth: 0
+      - name: Publish coherent r13 shell
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          for name in [
+              'index.html',
+              'manifest.webmanifest',
+              'js/app.js',
+              'js/menuExperience.js',
+          ]:
+              path = Path(name)
+              text = path.read_text()
+              if '1.9.1-r12' not in text:
+                  raise SystemExit(f'expected r12 release identity not found in {name}')
+              path.write_text(text.replace('1.9.1-r12', '1.9.1-r13'))
+
+          worker = Path('service-worker.js')
+          text = worker.read_text()
+          current = 'const RUNTIME_REVISION = "1.9.1-r12";'
+          previous = 'const PREVIOUS_RUNTIME_REVISION = "1.9.1-r11";'
+          if current not in text or previous not in text:
+              raise SystemExit('service worker release boundary did not match expected r12/r11 state')
+          text = text.replace(current, 'const RUNTIME_REVISION = "1.9.1-r13";', 1)
+          text = text.replace(previous, 'const PREVIOUS_RUNTIME_REVISION = "1.9.1-r12";', 1)
+          worker.write_text(text)
+
+          release = Path('RELEASE_V1.9.1_R13.md')
+          if release.exists():
+              raise SystemExit('r13 release record already exists unexpectedly')
+          release.write_text('''# Career Mode Showdown v1.9.1 runtime r13\n\nApplication version: `v1.9.1`\n\nRuntime asset revision: `1.9.1-r13`\n\nPrevious known-good runtime: `1.9.1-r12`\n\n## Multi Season progression\n\nr13 integrates the SSJR-1.1 Multi Season capability on top of the r12 History Convergence authority. The shared season cursor advances exactly once only after provider-authoritative History Convergence witnesses the accepted season, preserves the configured 1/3/5/10 season plan and permanent league/club bindings, rejects duplicate or skipped progression, and closes at the configured terminal season.\n\nThe production adapter is additive: before r13 provider authority is established, existing local/r12 season consumers retain their explicit season behavior. Once authoritative, downstream shared Transfer Challenge, Season Results, Season Commit, Canonical Scoring and History Convergence consumers resolve the shared cursor without mutating canonical local Save state.\n\n## Validation boundary\n\nThe candidate includes deterministic progression/provider contracts and a two-context desktop/mobile browser audit covering 1, 3, 5 and 10 season plans. Exact-head POS20 validation is required after this publication commit; earlier green heads are historical evidence only.\n\nNo new Firestore write or collection-list surface is introduced by Multi Season progression. Firebase remains Spark-only and billing remains permanently off. SSJR production-two-account acceptance remains separate from MDP engineering maturity.\n''')
+          PY
+          git rm .github/workflows/r13-one-shot-publication.yml
+          git add index.html manifest.webmanifest js/app.js js/menuExperience.js service-worker.js RELEASE_V1.9.1_R13.md
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git commit -m "release: publish v1.9.1 r13 Multi Season shell"
+          git push origin HEAD:feat/ssjr-multi-season-r13
