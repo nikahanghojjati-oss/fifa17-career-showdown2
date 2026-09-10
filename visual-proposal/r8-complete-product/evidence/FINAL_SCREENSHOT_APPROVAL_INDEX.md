@@ -2,181 +2,201 @@
 
 Status: HARD FINALITY GATE — OPEN
 
-Owner rule established 2026-09-10:
+Owner finalization rule:
 
-The visual proposal is not `FINAL` merely because contracts, prototypes and internal QA are complete. Before final status, the owner must receive screenshots of every built page / substantial non-route surface and every materially different user-visible version/state. The owner must then explicitly approve the complete screenshot set.
+The proposal is not `FINAL` because contracts, prototypes, assets or internal QA exist. It becomes final only after:
 
-No implicit approval. No approval-by-silence. No substitution of internal QA for owner review.
+1. final-main reconciliation;
+2. all required character/media/assets are resolved;
+3. automated/structural QA passes;
+4. screenshots exist for every routed screen, substantial non-route surface and materially different reachable state/version;
+5. owner receives the complete screenshot package plus character/media disclosure;
+6. owner explicitly approves every required item or requests revisions;
+7. rejected items are revised and recaptured;
+8. only then is the proposal sealed for senior-developer implementation review.
 
-## How to use this index
+No approval by silence. Internal QA is not owner approval.
 
-- `EXISTING QA` is internal evidence only and may be reused only if unchanged after final-main reconciliation.
-- `REFRESH REQUIRED` means the composition changed or the retained screenshot reference is insufficient.
-- `OPEN` means final owner-review evidence does not yet exist.
-- `Owner approved` becomes `YES` only after explicit owner approval of that exact final screenshot.
+## Evidence status vocabulary
 
-One review sheet may satisfy several state rows only when every state is independently readable at approval scale. Responsive duplicates are required only when geometry, density, art visibility or control placement materially changes.
+- `OPEN` — final screenshot not yet captured.
+- `INTERNAL CANDIDATE` — internal capture exists but is not owner-final.
+- `REFRESH REQUIRED` — prior capture predates a meaningful fix/reconciliation.
+- `CONDITIONAL` — capture only if final runtime confirms a materially distinct reachable state.
+- `DEFERRED` — not part of current default proposal unless owner explicitly reopens it.
+- `OWNER APPROVED` — exact screenshot explicitly accepted by owner.
 
-## Routed screens
+## A. Character asset approval
 
-| ID | Surface / version | Why materially distinct | Required viewport | Evidence status | Owner approved |
-| --- | --- | --- | --- | --- | --- |
-| H-1 | Home — wide dual-character presentation | A02 Daniel left + A01 Nik right; full wide landing architecture | wide desktop | LOCAL FINAL-CAPTURE CANDIDATE; package/owner gate open | NO |
-| H-2 | Home — reduced-wide / Chromebook | large characters omitted; menu geometry changes before mobile | Chromebook/reduced-wide | LOCAL FINAL-CAPTURE CANDIDATE; package/owner gate open | NO |
-| H-3 | Home — mobile | characters omitted; stacked primary actions / media geometry | 390px mobile | LOCAL FINAL-CAPTURE CANDIDATE; package/owner gate open | NO |
-| H-4 | Home — Audius compact player integrated | final Showdown Radio state inside actual Home composition | wide or Chromebook | integrated in current Home candidate; live media device proof open | NO |
-| 02-1 | Create Showdown — default wide | full form/season choice hierarchy | 1600×900 | LOCAL FINAL-CAPTURE CANDIDATE; final reconciliation/owner gate open | NO |
-| 02-2 | Create Showdown — mobile | 2×2 season grid and stacked fields | 390×844 | LOCAL FINAL-CAPTURE CANDIDATE; final reconciliation/owner gate open | NO |
-| 02-3 | Create Showdown — validation/error | only if final runtime validation creates materially distinct treatment | representative | OPEN / conditional | NO |
-| 03-1 | League Wheel — ready | pre-spin hierarchy / safe zone | wide/mobile representative | REFRESH REQUIRED after readability/disabled-state fix | NO |
-| 03-2 | League Wheel — active/resolved | motion/selection result materially changes state | wide + reduced motion if different | REFRESH REQUIRED after disabled-state fix | NO |
-| 03-3 | League Wheel — shared host/peer/waiting | runtime-reachable distinct shared state | representative | REFRESH REQUIRED after disabled-state fix | NO |
-| 04-1 | Club Assignment — sealed packs | both manager packs unopened | wide | OPEN | NO |
-| 04-2 | Club Assignment — reveal progression | one/both pack reveal state | wide | OPEN | NO |
-| 04-3 | Club Assignment — rivalry locked | permanent clubs confirmation | wide/mobile representative | OPEN | NO |
-| 05-1 | Showdown Home Dashboard — active season | ordinary in-progress dashboard | wide | OPEN | NO |
-| 05-2 | Dashboard — later Multi Season | Season 2+ / last-season / progression presentation | wide/mobile representative | OPEN | NO |
-| 05-3 | Dashboard — completed/terminal | only if terminal dashboard visibly differs from summary/Legacy | representative | OPEN / conditional | NO |
-| 06-1 | Transfer Challenge — ready/privacy | pre-window instructions / equal managers | wide | OPEN | NO |
-| 06-2 | Transfer Challenge — active | live timer + signing/guess entry | wide/mobile representative | OPEN | NO |
-| 06-3 | Transfer Challenge — verdict/release resolution | post-window result and release semantics | wide/mobile representative | OPEN | NO |
-| 07A-1 | Local Season Results — incomplete entry | validation / required fields when materially visible | representative | OPEN | NO |
-| 07A-2 | Local Season Results — completed/ready | full local result entry | wide/mobile representative | OPEN | NO |
-| 07B-1 | Shared Season Results — canonical review sheet | published managers + commit + canonical score + history | 1600×1100 | EXISTING QA `01a08bb8-b035-7fb2-8cbb-7466818f0554`; r15 conflict-state addendum separate | NO |
-| 07B-2 | Shared Season Results — mobile exact composition | one-column authority order | 390px | EXISTING QA `01a08bc5-c225-763c-b0ea-84cfe7c774b9`; r15 conflict-state addendum separate | NO |
-| 07B-3 | Shared Multi Season — history not witnessed | Continue blocked pending history visibility | may share final review sheet | EXISTING inside 07B review | NO |
-| 07B-4 | Shared Multi Season — ready to continue | history converged and next-season action available | may share final review sheet | EXISTING inside 07B review | NO |
-| 07B-5 | Shared Multi Season — season-plan terminal | all planned seasons accepted; Final Reconciliation remains separate | may share final review sheet | EXISTING inside 07B review | NO |
-| 08-1 | Season Summary — winner | winner hierarchy and next action | wide/mobile representative | OPEN | NO |
-| 08-2 | Season Summary — draw | no false winner emphasis | representative | OPEN | NO |
-| 08-3 | Season Summary — terminal showdown | final-season action hierarchy differs | representative | OPEN | NO |
-| 09-1 | Rivalry Statistics — populated | standard comparative analytics | wide | OPEN | NO |
-| 09-2 | Rivalry Statistics — sparse/tied | no misleading dominant manager | mobile or representative | OPEN | NO |
-| 10-1 | Career Statistics — empty | no saved/completed career data | representative | OPEN | NO |
-| 10-2 | Career Statistics — populated | cumulative manager comparison / honours | wide | OPEN | NO |
-| 10-3 | Career Statistics — unresolved/partial | only if final product exposes materially distinct unresolved state | representative | OPEN / conditional | NO |
-| 11-1 | Trophy Room — empty | no invented trophies | representative | OPEN | NO |
-| 11-2 | Trophy Room — populated | original generic trophy symbols + actual honours | wide/mobile representative | OPEN | NO |
-| 12-1 | Legacy — normal/populated | archive + data management contrast boundary | 1600×900 | EXISTING QA `01a08bb9-d628-71c1-bea3-b5d7d4620b0c` | NO |
-| 12-2 | Legacy — mobile | responsive data-management readability | 390px | REFRESH REQUIRED | NO |
-| 12-3 | Legacy — corrupt/fail-closed/import issue | destructive/data-safety state if runtime reachable | representative | OPEN | NO |
-| 13-1 | Rule Book — standard | scoring and competition rules | wide | OPEN | NO |
-| 13-2 | Rule Book — mobile/long copy | text density and navigation | 390px | OPEN | NO |
+| ID | Item | Required evidence | Status | Owner approved |
+| --- | --- | --- | --- | --- |
+| CH-1 | Nik six-role contact sheet | A01 + A03 + A05 + A07 + A09 + A11 at approval scale | OPEN | NO |
+| CH-2 | Daniel six-role contact sheet | A02 + A04 + A06 + A08 + A10 + A12 at approval scale | OPEN | NO |
+| CH-3 | Pack-opening pair | A05/A06 side-by-side + Club Assignment composite | OPEN | NO |
+| CH-4 | Outcome pair | winner/setback combinations + neutral draw rule | OPEN | NO |
 
-## Substantial non-route surfaces
+A01/A02 are immutable anchors. New variants never overwrite them. At least five distinct approved roles per manager are required; target is six including the natural setback role.
 
-| ID | Surface / version | Why materially distinct | Required viewport | Evidence status | Owner approved |
-| --- | --- | --- | --- | --- | --- |
-| 20-1 | Save Library / Settings — populated desktop | active save, profiles, settings hierarchy | wide | OPEN final capture | NO |
-| 20-2 | Save Library / Settings — mobile | stacked dialog, destructive separation, profile readability | 390px | EXISTING QA `01a08bc7-1b03-7785-a02b-dffd05df54ed` | NO |
-| 20-3 | Save Library — delete confirmation / empty | only if final runtime exposes materially distinct dialog/state | representative | OPEN / conditional | NO |
-| 21-1 | Connected Account / Pairing | signed-in + registered device + one-use pairing | wide | OPEN | NO |
-| 21-2 | Connected / Remote Joining — mobile | stacked capability/revision/recovery presentation | 390px | EXISTING QA `01a08bc5-0e0f-7dc1-b992-5944186c9756` | NO |
-| 21-3 | Remote observed vs Local applied | reconciliation preview distinction | may share 21 sheet | EXISTING inside mobile review | NO |
-| 21-4 | Recovery pending / unresolved Join | distinct from fresh Join | representative | OPEN final state capture | NO |
-| 22-1 | Restore — verify/snapshot/incomplete plan | no mutation + Apply disabled | 1600×900 | EXISTING QA `01a08bba-8475-743a-ae79-d11cec41d6f9` | NO |
-| 22-2 | Restore — mobile | safety hierarchy at 390px | 390px | REFRESH REQUIRED | NO |
-| 22-3 | Restore — apply-ready | explicit confirmation state | representative | OPEN | NO |
-| 22-4 | Critical Recovery / conflict | reserved destructive-risk hierarchy | representative | OPEN | NO |
-| 23-1 | Cross-product Empty | shared state grammar | representative | OPEN | NO |
-| 23-2 | Cross-product Error | error without false data-loss implication | representative | OPEN | NO |
-| 23-3 | Offline / provider unavailable | local Career availability remains clear | representative | OPEN | NO |
-| 23-4 | Update state | application update treatment | representative | OPEN | NO |
-| 23-5 | Reduced Motion | visible treatment only where materially different | representative | OPEN | NO |
-| 24-1 | Startup presentation | loading/startup visual architecture | wide/mobile representative | OPEN | NO |
-| 24-2 | Header / runtime notice | normal + meaningful runtime notice | representative | OPEN | NO |
+## B. Routed screens
 
-## r14 Journey Reconnect
+| ID | Surface / version | Required viewport / proof | Status | Owner approved |
+| --- | --- | --- | --- | --- |
+| H-1 | Home — wide dual-character hero | wide desktop; exact A02 Daniel left + A01 Nik right; Audius compact player | REFRESH REQUIRED after final Audius control edit | NO |
+| H-2 | Home — Chromebook/reduced-wide | ~1024/1220 class; no large characters; full action access | REFRESH REQUIRED | NO |
+| H-3 | Home — mobile | 390px; characters omitted; six actions + compact radio | REFRESH REQUIRED | NO |
+| H-4 | Home — Audius playing/error representative | compact integrated media state without layout shift | OPEN | NO |
+| 02-1 | Create Showdown — default | 1600×900 | INTERNAL CANDIDATE | NO |
+| 02-2 | Create Showdown — mobile | 390×844 | INTERNAL CANDIDATE | NO |
+| 02-3 | Create Showdown — validation/error | representative only if materially distinct | CONDITIONAL | NO |
+| 03-1 | League Wheel — ready | wide + mobile-safe wheel geometry | REFRESH REQUIRED after disabled/readability fix | NO |
+| 03-2 | League Wheel — authoritative result | wide; result hierarchy + disabled/no-reroll action | REFRESH REQUIRED | NO |
+| 03-3 | League Wheel — shared peer waiting | representative; non-actionable Spin unmistakable | REFRESH REQUIRED | NO |
+| 04-1 | Club Assignment — sealed | wide; A05/A06 only if final pose placement is safe | OPEN | NO |
+| 04-2 | Club Assignment — reveal progression | one/both packs revealing | OPEN | NO |
+| 04-3 | Club Assignment — clubs locked | wide/mobile representative; permanent-club confirmation | OPEN | NO |
+| 05-1 | Showdown Home — active season | wide | OPEN | NO |
+| 05-2 | Showdown Home — later Multi Season | season 2+ / last-season / progression | OPEN | NO |
+| 05-3 | Showdown Home — terminal | only if final runtime makes dashboard materially distinct | CONDITIONAL | NO |
+| 06-1 | Transfer Challenge — ready/privacy | wide | OPEN | NO |
+| 06-2 | Transfer Challenge — active | live timer/signings/guesses; wide/mobile representative | OPEN | NO |
+| 06-3 | Transfer Challenge — verdict/release | post-window resolution | OPEN | NO |
+| 07A-1 | Local Season Results — incomplete/validation | representative | OPEN | NO |
+| 07A-2 | Local Season Results — ready/review | wide/mobile representative | OPEN | NO |
+| 07B-1 | Shared Season Results — canonical review | published both managers + commit + canonical score + history | INTERNAL CANDIDATE | NO |
+| 07B-2 | Shared Season Results — mobile | 390px authority order | INTERNAL CANDIDATE | NO |
+| 07B-3 | Shared Multi Season — history not witnessed | blocked continuation | INTERNAL CANDIDATE in shared sheet | NO |
+| 07B-4 | Shared Multi Season — ready to continue | history converged | INTERNAL CANDIDATE in shared sheet | NO |
+| 07B-5 | Shared Multi Season — terminal | planned seasons complete; no false new-season action | INTERNAL CANDIDATE in shared sheet | NO |
+| 08-1 | Season Summary — Daniel wins | wide; Daniel victory + Nik natural setback if art approved | OPEN | NO |
+| 08-2 | Season Summary — Nik wins | wide; Nik victory + Daniel natural setback if art approved | OPEN | NO |
+| 08-3 | Season Summary — draw | neutral/focused pair; no false winner hierarchy | OPEN | NO |
+| 08-4 | Season Summary — final/terminal season | final action hierarchy | OPEN | NO |
+| 09-1 | Rivalry Statistics — populated | wide | OPEN | NO |
+| 09-2 | Rivalry Statistics — sparse/tied | mobile/representative | OPEN | NO |
+| 10-1 | Career Statistics — empty | representative | OPEN | NO |
+| 10-2 | Career Statistics — populated | wide | OPEN | NO |
+| 10-3 | Career Statistics — unresolved/partial | only if materially real | CONDITIONAL | NO |
+| 11-1 | Trophy Room — empty | representative; no invented honours | OPEN | NO |
+| 11-2 | Trophy Room — populated | wide/mobile representative; original generic symbols | OPEN | NO |
+| 12-1 | Legacy — normal/populated | wide; dark-shell/light-card contrast boundary | INTERNAL CANDIDATE | NO |
+| 12-2 | Legacy — mobile | 390px | REFRESH REQUIRED | NO |
+| 12-3 | Legacy — corrupt/import/fail-closed | representative | OPEN | NO |
+| 13-1 | Rule Book — standard | wide | OPEN | NO |
+| 13-2 | Rule Book — mobile/long copy | 390px | OPEN | NO |
 
-These rows are derived from the real r14 protocol and production status surface, not invented future states.
+## C. Substantial non-route surfaces
 
-| ID | Surface / version | Why materially distinct | Required viewport | Evidence status | Owner approved |
-| --- | --- | --- | --- | --- | --- |
-| JR-1 | Journey Reconnect — `OFFLINE_HOLD` | durable journey preserved while provider authority is deliberately not claimed | review sheet / representative | LOCAL FINAL-CAPTURE CANDIDATE | NO |
-| JR-2 | Journey Reconnect — `RECOVERY_PENDING` | exact private-session operation unresolved | review sheet / representative | LOCAL FINAL-CAPTURE CANDIDATE | NO |
-| JR-3 | Journey Reconnect — `FRESH_SESSION_REQUIRED` resumable | preserved journey + expired/missing session action requirement | review sheet + 390px representative | LOCAL DESKTOP CANDIDATE; 390px refresh/package still required | NO |
-| JR-4 | Journey Reconnect — `ACTIVE_RECOVERED` | active season/history resumed without reset/redraw | review sheet / representative | LOCAL FINAL-CAPTURE CANDIDATE | NO |
-| JR-5 | Journey Reconnect — `TERMINAL_RECOVERED` | terminal plan cannot be resurrected by new session | review sheet / representative | LOCAL FINAL-CAPTURE CANDIDATE | NO |
+| ID | Surface / version | Required proof | Status | Owner approved |
+| --- | --- | --- | --- | --- |
+| 20-1 | Save Library / Settings — populated desktop | active save + profiles + settings hierarchy | OPEN | NO |
+| 20-2 | Save Library / Settings — mobile | stacked controls + readable IDs/explanations | INTERNAL CANDIDATE after typography fix | NO |
+| 20-3 | Save Library — empty/delete confirmation | only if materially distinct | CONDITIONAL | NO |
+| 21-1 | Connected Account / Pairing | signed in + registered device + one-use pairing | OPEN | NO |
+| 21-2 | Connected / Remote Joining — mobile | 390px private capability/revision/recovery | INTERNAL CANDIDATE | NO |
+| 21-3 | Remote observed vs Local applied | reconciliation distinction | may share 21 review sheet | NO |
+| 21-4 | Recovery pending / unresolved Join | distinct from fresh Join | OPEN | NO |
+| 22-1 | Restore — verify/snapshot/incomplete plan | wide; Apply disabled | INTERNAL CANDIDATE | NO |
+| 22-2 | Restore — mobile | 390px safety hierarchy | REFRESH REQUIRED | NO |
+| 22-3 | Restore — apply-ready | explicit confirmation | OPEN | NO |
+| 22-4 | Critical Recovery / conflict | destructive-risk hierarchy | OPEN | NO |
+| 23-1 | Cross-product Empty | representative | OPEN | NO |
+| 23-2 | Cross-product Error | no false data-loss implication | OPEN | NO |
+| 23-3 | Offline/provider unavailable | local Career availability clear | OPEN | NO |
+| 23-4 | Update state | app update treatment | OPEN | NO |
+| 23-5 | Reduced Motion | only where geometry/state differs | OPEN | NO |
+| 24-1 | Startup presentation | wide + mobile representative | OPEN | NO |
+| 24-2 | Header / runtime notice | normal + meaningful notice | OPEN | NO |
 
-Prototype authority: `prototypes/28-journey-reconnect-r14-reference.html`.
+## D. r14 Journey Reconnect
 
-## r15 Journey Conflicts
+Prototype: `prototypes/28-journey-reconnect-r14-reference.html`.
 
-r15 adds a non-authorizing guard around existing Shared Setup / Shared Season Commit mutation surfaces. It does not add a new route. Final screenshots therefore prove materially visible consequences inside those existing action contexts rather than inventing a conflict inbox.
+| ID | State | Required proof | Status | Owner approved |
+| --- | --- | --- | --- | --- |
+| JR-1 | `OFFLINE_HOLD` | preserved journey, no authority claim | INTERNAL CANDIDATE in desktop sheet | NO |
+| JR-2 | `RECOVERY_PENDING` | exact session operation unresolved | INTERNAL CANDIDATE in desktop sheet | NO |
+| JR-3 | `FRESH_SESSION_REQUIRED` | resumable/preserved copy + 390px representative | OPEN mobile final | NO |
+| JR-4 | `ACTIVE_RECOVERED` | active season/history resumed | INTERNAL CANDIDATE in desktop sheet | NO |
+| JR-5 | `TERMINAL_RECOVERED` | no next-season resurrection | INTERNAL CANDIDATE in desktop sheet | NO |
 
-| ID | Surface / version | Why materially distinct | Required viewport | Evidence status | Owner approved |
-| --- | --- | --- | --- | --- | --- |
-| JC-1 | Journey Conflict — stale after bounded retry | shared state changed; refresh/review required without force overwrite | review sheet / representative | OPEN | NO |
-| JC-2 | Journey Conflict — altered replay | integrity-protective block; changed request not applied | review sheet / representative | OPEN | NO |
-| JC-3 | Journey Conflict — unauthorized | existing private-session/account/browser authority must be restored | review sheet / representative | OPEN | NO |
-| JC-4 | Journey Conflict — quota/provider limited | shared action unavailable while local Career Mode remains usable; no paid fallback | review sheet / representative | OPEN | NO |
-| JC-5 | Journey Conflict — receipt expired | refresh current shared state and make a fresh deliberate action; rivalry not expired | review sheet + 390px if geometry differs | OPEN | NO |
+## E. r15 Journey Conflicts
 
-Prototype authority: `prototypes/29-journey-conflicts-r15-reference.html`.
+Prototype: `prototypes/29-journey-conflicts-r15-reference.html`.
 
-Quiet-path rule: `ACCEPTED` and a stale request that succeeds on its one allowed retry require no persistent conflict screenshot because they use the normal existing success path.
+Only materially visible consequences require owner screenshots. Successful `ACCEPTED` and a stale operation whose single bounded retry succeeds silently do not require a warning screenshot.
 
-## Media player surface — current Audius-first authority
+| ID | State family | Required proof | Status | Owner approved |
+| --- | --- | --- | --- | --- |
+| JC-1 | stale after bounded retry fails | `SHARED STATE CHANGED`, Refresh/review, no Force | OPEN | NO |
+| JC-2 | `REPLAY_ALTERED` | changed request explicitly NOT APPLIED | OPEN | NO |
+| JC-3 | unauthorized/session mismatch | points to existing private authority recovery | OPEN | NO |
+| JC-4 | quota/transient/provider unavailable | local Career available, no billing CTA | OPEN | NO |
+| JC-5 | `RECEIPT_EXPIRED` | refresh current shared state; rivalry not described as expired | OPEN | NO |
+| JC-6 | mobile longest conflict message | 390px readable, no internal hashes/IDs | OPEN | NO |
 
-Earlier native/YouTube and SoundCloud-first screenshot evidence is historical exploration. It does not satisfy the final owner gate after the Audius-first architecture decision.
+## F. Audius Showdown Radio
 
-| ID | Surface / version | Why materially distinct | Required viewport | Evidence status | Owner approved |
-| --- | --- | --- | --- | --- | --- |
-| M-1 | Showdown Radio / Audius — ready + compact queue | current primary audio-only architecture before playback | wide/Chromebook | OPEN | NO |
-| M-2 | Showdown Radio / Audius — playing + paused | real HTML-audio state and transport | wide + 390px if geometry differs | OPEN | NO |
-| M-3 | Showdown Radio / Audius — buffering/error/offline | fail-closed media state without app failure or paid fallback | representative | OPEN | NO |
-| M-4 | Audius queue — track switch | selected row, source attribution, one-player reuse | desktop/mobile representative | OPEN | NO |
-| M-5 | FIFA 17 Picks / SoundCloud — Full vs Preview | optional exact-song nostalgia; preview limitation explicit | representative if retained | OPEN | NO |
-| M-6 | FIFA 17 gameplay trailer — YouTube video | video is intentional and separate from music | representative if retained | OPEN | NO |
-| M-7 | Home — final integrated Audius player | compact Showdown Radio inside the actual Home composition | wide + 390px when geometry changes | LOCAL VISUAL CANDIDATES; real Audius device proof open | NO |
+Current default media authority is Audius only for music. Autoplay is OFF by explicit owner decision. SoundCloud nostalgia is not part of the required default final screenshot package unless the owner reopens it. YouTube is not a music fallback.
 
-Functional/reference authority: `prototypes/27-audius-showdown-radio-reference.html`.
+| ID | Surface / version | Required proof | Status | Owner approved |
+| --- | --- | --- | --- | --- |
+| M-1 | Showdown Radio — READY | standalone/expanded queue, provider disclosed | OPEN | NO |
+| M-2 | Showdown Radio — PLAYING / PAUSED | real media-event authority, no layout shift | OPEN after device proof | NO |
+| M-3 | Showdown Radio — BUFFERING / ERROR / OFFLINE | fail closed locally, no paid fallback | OPEN | NO |
+| M-4 | Queue / track switch | one-player reuse, selected row, source metadata | OPEN | NO |
+| M-5 | Home integrated Audius — desktop/Chromebook | compact subordinate player | REFRESH REQUIRED after Home control edit | NO |
+| M-6 | Home integrated Audius — mobile | 390px; full touch targets/no overflow | REFRESH REQUIRED | NO |
+| M-7 | Gameplay trailer — intentional YouTube video | only if retained in final Home; visible video and separate lifecycle | CONDITIONAL | NO |
+| M-SC | SoundCloud FIFA 17 Picks | no longer default proposal requirement | DEFERRED | N/A |
 
-Zero-dollar quota/billing guard: `evidence/AUDIUS_FREE_QUOTA_AND_BILLING_GUARD_2026-09-10.md`.
+Media owner disclosure must include final track list, rights/provenance, iPhone Safari result, Chromebook result, free-plan/billing verification, and known platform limitations.
 
-Historical internal media QA retained for comparison only:
+## G. Final capture quality rules
 
-- old native review desktop `01a08be3-8a1c-71c1-a33c-4896cd7ef504`;
-- old native review mobile `01a08be4-10db-7751-9912-38f553d08602`.
-
-They are not owner-final Audius screenshots.
-
-## Final product-drift additions
-
-Production is now reconciled through main `4d202126ce1606a4e3f74c09b31201cf4ec51c6e` / `1.9.1-r15` for Journey Conflicts on top of r14 Journey Reconnect.
-
-If `main` advances again before final owner review, add only real user-visible deltas and refresh affected screenshots. Do not restart unaffected proposal work.
-
-## Final capture quality rules
-
-Every final approval screenshot must:
+Every owner-final screenshot must:
 
 - come from the final reconciled composition;
 - identify viewport/device class;
-- preserve readable text without pinch zoom;
-- contain no accidental renderer/provider overlay;
+- keep text readable without pinch zoom;
+- contain no renderer/provider debugging overlay;
 - preserve Manager 1 = Daniel and Manager 2 = Nik;
-- use exact frozen A01/A02 masters wherever Home wide requires them;
+- use the correct approved character variant where art is present;
+- contain no raw personal photograph as final character art;
 - preserve rights-safe/provenance rules;
-- contain no invented capability;
-- show disabled/waiting/error state through text/structure, not opacity alone;
-- receive a stable evidence ID/URL or repository-backed screenshot asset.
+- contain no invented product capability;
+- express disabled/waiting/error state through text/structure, not opacity alone;
+- have a stable evidence ID/path;
+- be replaced if a later meaningful UI fix changes the composition.
 
-Media screenshots additionally disclose the active provider and whether content is full, preview, unavailable or video.
+Character screenshots additionally must prove identity consistency and believable anatomy/hands.
 
-## Final owner review procedure
+Media screenshots additionally must disclose Audius and the real state (`READY`, `PLAYING`, `PAUSED`, `BUFFERING`, `ERROR`, etc.).
 
-1. finish final-main reconciliation;
-2. capture every required final row;
-3. assemble screenshots in product journey order;
-4. group materially different states beneath their page/surface;
-5. disclose media provider/functionality and final track list;
+## H. Renderer budget / zero-dollar rule
+
+Observed 2026-09-10 during closure:
+
+- included external renders allowed: 50;
+- consumed: 47;
+- remaining: 3;
+- overages: disabled.
+
+Do not purchase rendering capacity. Reserve remaining external renders for cases that cannot be proven through local/self-contained capture. Prefer consolidated review sheets and zero-cost local rendering.
+
+## I. Final owner review procedure
+
+1. complete assets and final-main reconciliation;
+2. run structural/automated QA;
+3. capture every required row;
+4. order screenshots by product journey;
+5. include character contact sheets and media functionality/track disclosure;
 6. present the complete set to the owner;
-7. allow approval/rejection/change request per page/state;
-8. replace rejected screenshots after revision;
-9. mark `Owner approved = YES` only for explicitly accepted exact images;
-10. call the proposal `FINAL` only when every required row is approved and all other final gates are closed.
+7. record approval/rejection/change request per exact item;
+8. revise and replace rejected items;
+9. set `Owner approved = YES` only after explicit acceptance;
+10. call the proposal `FINAL` only after every required row and asset/media gate is approved;
+11. then produce the sealed senior-developer implementation package.
 
-Current finality status:
+Current finality:
 
-`NOT FINAL — RECONCILED THROUGH r15 / AUDIUS DEVICE+TASTE PROOF OPEN / SCREENSHOT SET INCOMPLETE / OWNER APPROVAL OPEN / FUTURE FINAL-MAIN RECHECK REQUIRED`.
+`NOT FINAL — A03–A12 CHARACTER LANE OPEN / AUDIUS DEVICE+TRACK PROOF OPEN / FINAL SCREENSHOTS INCOMPLETE / OWNER APPROVAL OPEN / FUTURE FINAL-MAIN RECHECK REQUIRED`.
