@@ -22,7 +22,7 @@ assert.match(coreSource,/JOURNEY_CONFLICT_RECEIPT_EXPIRED/);
 assert.match(coreSource,/RESOURCE_EXHAUSTED/);
 assert.match(coreSource,/PERMISSION_DENIED/);
 assert.doesNotMatch(coreSource,/\blocalStorage\b/);
-assert.doesNotMatch(coreSource,/firebase\/firestore|runTransaction|\.set\(|\.update\(/);
+assert.doesNotMatch(coreSource,/firebase\/firestore|runTransaction|firebaseSdk|serverTimestamp|transaction\.(?:set|update|delete)\(|sdk\.(?:set|update|delete)\(/);
 
 assert.match(productionSource,/runtimeRevision:RUNTIME_REVISION/);
 assert.match(productionSource,/career-mode-shared-journey-conflict-state-change/);
@@ -30,7 +30,7 @@ assert.match(productionSource,/providerAuthorityPreserved:true/);
 assert.match(productionSource,/nonAuthorizingReceipts:true/);
 for(const lock of ['canonicalStorageMutation:false','providerWriteRequired:false','listPermissionRequired:false','billingRequired:false','blazeRequired:false','cloudRunRequired:false','cloudFunctionsRequired:false'])assert.ok(productionSource.includes(lock),lock);
 assert.doesNotMatch(productionSource,/\blocalStorage\b/);
-assert.doesNotMatch(productionSource,/firebase\/firestore|runTransaction|\.set\(|\.update\(/);
+assert.doesNotMatch(productionSource,/firebase\/firestore|runTransaction|firebaseSdk|serverTimestamp|transaction\.(?:set|update|delete)\(|sdk\.(?:set|update|delete)\(/);
 
 assert.match(setupProduction,/js\/productionSharedJourneyConflicts\.js/,'Shared Setup must load the r15 conflict guard at its existing production mutation surface.');
 assert.match(setupProduction,/context\.conflicts\.execute\(/,'Shared Setup provider mutation must pass through r15 without moving provider authority.');
