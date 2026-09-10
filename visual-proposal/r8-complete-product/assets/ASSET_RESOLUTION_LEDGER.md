@@ -1,6 +1,6 @@
 # R8 Complete Product Asset Resolution Ledger
 
-Status: CHARACTER VARIATION REOPENED BY OWNER — A01/A02 FROZEN / A03–A12 PLANNED / SUPPORTING ASSETS RESOLVED
+Status: CHARACTER VARIATION REOPENED BY OWNER — A01/A02 FROZEN / A05/A06 STRONG RECOVERED CANDIDATES / A03–A12 FINALIZATION OPEN / SUPPORTING ASSETS RESOLVED THROUGH r16
 
 This ledger closes the distinction between “visual role required” and “new image required.” It is the working resolution companion to `ASSET_MANIFEST.json` and `CHARACTER_POSE_LIBRARY_PLAN.md`.
 
@@ -16,6 +16,8 @@ Source authority is recovered and hash-verified:
 
 `17972b8afb73b90483c8f874c4bd964ac1bda196daa76e134a6030676bbd4219`
 
+Current-session binary verification also confirms 1086 × 1448 RGBA from `/Showdown visual/A01_A02_FROZEN_MASTERS_EXACT_R8_26.zip`.
+
 No regeneration or replacement is permitted.
 
 ### A02 Daniel
@@ -27,6 +29,8 @@ Resolution: REQUIRED EXISTING MASTER.
 Source authority is recovered and hash-verified:
 
 `9b1545b52a5d96a240c92b9901dcd8a4558148dde05a0331882df7bd988177cc`
+
+Current-session binary verification also confirms 1086 × 1448 RGBA from `/Showdown visual/A01_A02_FROZEN_MASTERS_EXACT_R8_26.zip`.
 
 No regeneration or replacement is permitted.
 
@@ -60,11 +64,38 @@ Recovered prior reference evidence includes:
 
 - `CANDIDATE_R8_6_EXPRESSION_REFINEMENT_01.png` — identity/expression/pose reference sheet;
 - `C01_NIK_CLUB_PACK_HOLDING_OWNER_LIKED_CANDIDATE_V1.png` — owner-liked Nik pack pose candidate;
+- `C02_DANIEL_CLUB_PACK_HOLDING_OWNER_LIKED_CANDIDATE_V1.png` — owner-liked Daniel pack pose candidate;
 - `CLUB_PACK_HOLDING_OWNER_LIKED_COMPOSITE_REFERENCE_R8_19.jpeg`;
 - `REF_08_CLUB_ASSIGNMENT.png`;
 - `REF_02_CLUB_PACK_FORMAL.jpeg`.
 
 These references do not become final isolated production assets merely because they were recovered.
+
+### A05/A06 recovered candidate resolution
+
+A bounded per-asset QA pass was completed on the two recovered pack-holding candidates.
+
+A05 Nik candidate:
+
+- source: `C01_NIK_CLUB_PACK_HOLDING_OWNER_LIKED_CANDIDATE_V1.png`;
+- 1086 × 1448 RGBA;
+- SHA-256 `7014a5165330e321928c30baf426c86c51bc909dc0122942945d6ec32789500d`;
+- alpha present;
+- pose/identity/wardrobe/anatomy direction strong enough to retain as the preferred A05 source candidate.
+
+A06 Daniel candidate:
+
+- source: `C02_DANIEL_CLUB_PACK_HOLDING_OWNER_LIKED_CANDIDATE_V1.png`;
+- 1086 × 1448 RGBA;
+- SHA-256 `049654d7360a1c9fd70c4bed836a13b3ae7f797d125a19d1a0395e848f34f368`;
+- alpha present;
+- pose/identity/wardrobe/anatomy direction strong enough to retain as the preferred A06 source candidate.
+
+Both candidates fail the final isolated-master prop contract because their generated pack surfaces contain baked `CLUB PACK / CM17` text. They therefore remain internal candidates and require one-asset-at-a-time prop cleanup/rebuild plus fresh identity/anatomy QA before final A05/A06 acceptance.
+
+Evidence:
+
+`evidence/A05_A06_RECOVERED_PACK_CANDIDATE_QA_2026-09-10.md`
 
 ## Routed screens
 
@@ -73,7 +104,7 @@ These references do not become final isolated production assets merely because t
 | Home | A01/A02 exact masters + H01 original stadium atmosphere + DOM/CSS safe-zone geometry | No for hero identity anchors | composition exists; final owner capture later |
 | Create Showdown | S02 divider + DOM/CSS season tiles; character optional and usually omitted | No required | RESOLVED |
 | League Wheel | S03 halo + existing real wheel; A07/A08 focused variants optional only if safe | Optional | wheel remains primary; no generation dependency |
-| Club Assignment | S04 original pack frame + live DOM labels + A05/A06 pack-opening variants | Yes, preferred final character role | FINAL CHARACTER ASSETS OPEN |
+| Club Assignment | S04 original pack frame + live DOM labels + A05/A06 pack-opening variants | Yes, preferred final character role | A05/A06 STRONG CANDIDATES; TEXT-FREE PROP FINALIZATION OPEN |
 | Showdown Home | DOM/CSS score/progression; A03/A04 or A07/A08 optional | Optional | no character dependency |
 | Transfer Challenge | DOM/CSS board/timer/privacy; A07/A08 optional | Optional | no character dependency |
 | Season Results | DOM/CSS publication/commit/canonical/history states | No required | RESOLVED |
@@ -92,9 +123,9 @@ These references do not become final isolated production assets merely because t
 | Global header / runtime | DOM/CSS | No | RESOLVED |
 | Showdown Radio | custom DOM/CSS + one HTML audio authority | No | AUDIUS FUNCTIONAL PROOF OPEN |
 | Settings / Save Library / Profiles | DOM/CSS + I02 optional | No | RESOLVED |
-| Connected Account / Pairing / Rivalry / Remote Joining | DOM/CSS + I02 optional | No | RESOLVED |
-| Backup / Import / Restore / Recovery | DOM/CSS + I02 optional | No | RESOLVED |
-| Shared / Multi Season / Journey Reconnect / Journey Conflicts | DOM/CSS status surfaces | No | RESOLVED THROUGH r15 |
+| Connected Account / Pairing / Rivalry / Remote Joining | DOM/CSS + I02 optional | No | RESOLVED THROUGH r16 LOCAL RECONCILIATION |
+| Backup / Import / Restore / Recovery | DOM/CSS + I02 optional | No | RESOLVED; Candidate C remains Apply authority |
+| Shared / Multi Season / Journey Reconnect / Journey Conflicts / Local Reconciliation | DOM/CSS status surfaces | No | RESOLVED THROUGH r16 |
 | Offline/update/error/reduced motion | shared DOM/CSS grammar | No | RESOLVED AT DESIGN LEVEL |
 
 ## Packaged original supporting assets
@@ -112,7 +143,7 @@ Each is recorded in `ASSET_MANIFEST.json` with provenance, target surfaces, righ
 
 Current decision: OPEN, BOUNDED TO THE OWNER-APPROVED CHARACTER MATRIX.
 
-Generation is not open-ended decoration. The only currently justified new raster roles are A03–A12 from `CHARACTER_POSE_LIBRARY_PLAN.md`.
+Generation is not open-ended decoration. The only currently justified new raster roles are A03–A12 from `CHARACTER_POSE_LIBRARY_PLAN.md`, with A05/A06 allowed to use their recovered candidates as one-asset-at-a-time edit/rebuild sources.
 
 Rules:
 
@@ -122,6 +153,7 @@ Rules:
 - no raw user photo as final asset;
 - no new infrastructure or state authority;
 - no character variant receives final status before identity/anatomy QA and owner approval;
+- pack props in final isolated masters remain generic/original and text-free;
 - pages that do not benefit from character art remain character-free.
 
 ## Dynamic victory/setback rule
@@ -137,11 +169,12 @@ Draw = neutral/focused presentation only.
 ## Remaining asset blockers
 
 1. Keep A01/A02 immutable and hash-identical in final packaging.
-2. Recover/produce final isolated A03–A12 masters at high quality.
-3. Record each accepted master in `ASSET_MANIFEST.json` with hash, dimensions and provenance.
-4. Build one character contact sheet containing all final Nik and Daniel variants.
-5. Composite only the relevant variants into affected page references.
-6. Re-run desktop/mobile visual QA.
-7. Obtain explicit owner approval of the character sheet and final affected page screenshots.
+2. Complete one-asset-at-a-time A05/A06 text-free prop finalization and fresh QA.
+3. Produce final isolated A03/A04/A07/A08/A09/A10/A11/A12 masters one at a time at high quality.
+4. Record each accepted master in `ASSET_MANIFEST.json` with hash, dimensions and provenance.
+5. Build character contact sheets only after independent assets pass.
+6. Composite only the relevant variants into affected page references.
+7. Re-run desktop/mobile visual QA.
+8. Obtain explicit owner approval of the character sheets and final affected page screenshots.
 
 Supporting SVG/UI asset resolution is otherwise complete. Character variety, not decorative asset proliferation, is the remaining image-asset lane.
