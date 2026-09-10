@@ -20,7 +20,8 @@
     ["remote-joining","js/sparkRemoteJoining.js",()=>root.CareerModeSparkRemoteJoining],
     ["shared-protocol","js/sharedShowdownSetup.js",()=>root.CareerModeSharedShowdownSetup],
     ["shared-catalog","js/sharedShowdownCatalog.js",()=>root.CareerModeSharedShowdownCatalog],
-    ["spark-shared-setup","js/sparkSharedShowdownSetup.js",()=>root.CareerModeSparkSharedShowdownSetup]
+    ["spark-shared-setup","js/sparkSharedShowdownSetup.js",()=>root.CareerModeSparkSharedShowdownSetup],
+    ["journey-conflicts","js/productionSharedJourneyConflicts.js",()=>root.CareerModeProductionSharedJourneyConflicts]
   ]);
   const scriptPromises=new Map();
   const listeners=new Set();
@@ -90,7 +91,7 @@
 
   async function resolveContext(){
     const deps=await dependencies();
-    const runtime=deps["production-runtime"],account=deps["connected-account"],pairing=deps["private-pairing"],rivalry=deps["connected-rivalry"],remote=deps["remote-joining"],adapter=deps["spark-shared-setup"];
+    const runtime=deps["production-runtime"],account=deps["connected-account"],pairing=deps["private-pairing"],rivalry=deps["connected-rivalry"],remote=deps["remote-joining"],adapter=deps["spark-shared-setup"],conflicts=deps["journey-conflicts"];
     if(!runtime||typeof runtime.ensureAccountServices!=="function")fail("SHARED_SETUP_RUNTIME_UNAVAILABLE","Private Firebase runtime is unavailable.");
     if(!account||typeof account.initialize!=="function"||typeof account.getState!=="function")fail("SHARED_SETUP_ACCOUNT_UNAVAILABLE","Connected Account is unavailable.");
     await account.initialize();const accountState=account.getState();
@@ -116,7 +117,8 @@
     const user=services.auth.currentUser;
     if(!user||user.uid!==accountState.accountId)fail("SHARED_SETUP_AUTH_MISMATCH","The current Google account no longer matches Connected Account authority.");
     if(!adapter||typeof adapter.read!=="function"||typeof adapter.mutate!=="function")fail("SHARED_SETUP_PROVIDER_UNAVAILABLE","Shared Setup transaction authority is unavailable.");
-    return Object.freeze({adapter,services,user,rivalryId:rivalryState.rivalryId,sessionId:remoteState.sessionId,accountId:user.uid,deviceId:pairingState.deviceId,managerRole,remoteRole});
+    if(!conflicts||typeof conflicts.execute!=="function")fail("JOURNEY_CONFLICT_GUARD_UNAVAILABLE","Shared Journey conflict guard is unavailable.");
+    return Object.freeze({adapter,conflicts,services,user,rivalryId:rivalryState.rivalryId,sessionId:remoteState.sessionId,accountId:user.uid,deviceId:pairingState.deviceId,managerRole,remoteRole});
   }
   function providerOptions(context){
     return {firestore:context.services.firestore,firebaseSdk:context.services.firestoreSdk,user:context.user,rivalryId:context.rivalryId,sessionId:context.sessionId,deviceId:context.deviceId,nowEpochMs:Date.now(),cryptoImpl:root.crypto};
@@ -147,7 +149,9 @@
       if(type==="open"&&context.remoteRole!=="host")fail("SHARED_SETUP_HOST_REQUIRED","Only the ACTIVE session host may open an empty Shared Setup.");
       const current=await context.adapter.read(providerOptions(context));
       if(!current||current.ok!==true)fail(current&&current.code||"SHARED_SETUP_READ_FAILED");
-      const result=await context.adapter.mutate({...providerOptions(context),type,operationId:randomOperationId(),baseRevision:current.revision||0,...extra});
+      const operationId=randomOperationId(),baseRevision=current.revision||0;
+      const providerRequest={...providerOptions(context),type,operationId,baseRevision,...extra};
+      const result=await context.conflicts.execute({surface:"shared-setup",action:type,operationId,baseRevision,authority:{accountId:context.accountId,deviceId:context.deviceId,rivalryId:context.rivalryId,sessionId:context.sessionId,managerRole:context.managerRole},intent:type==="commit-length"?{totalSeasons:extra.totalSeasons}:{}},()=>context.adapter.mutate(providerRequest));
       assertStorageUnchanged(before);
       if(!result||result.ok!==true)fail(result&&result.code||"SHARED_SETUP_MUTATION_FAILED");
       return accept(result,context,result.replayed?"The original Shared Setup operation was recovered without a duplicate draw.":"Both managers can now read the same authoritative Shared Setup state.");
