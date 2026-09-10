@@ -25,7 +25,7 @@ const flush=()=>new Promise(resolve=>setImmediate(resolve));
   assert.deepEqual(JSON.parse(JSON.stringify(left)),JSON.parse(JSON.stringify(right)),"Both independent manager contexts must converge on one identical completed Showdown projection.");assert.equal(left.phase,"FINAL_SEASON_RECONCILED");assert.equal(left.winner,"playerOne");assert.equal(left.acceptedSeasons,1);assert.equal(left.nextSeason,null);assert.equal(left.extraSeasonAllowed,false);assert.equal(left.terminalCloseRequired,true);assert.deepEqual(leftContext.writes,[]);assert.deepEqual(rightContext.writes,[]);
   assert.match(String(leftContext.context.currentShowdown.id),/^\d+$/,"The test keeps the legacy Showdown id non-canonical so Final Reconciliation must read identity.saveId.");assert.equal(leftContext.context.currentShowdown.identity.saveId,slots[0].saveId);
 
-  const race=makeContext("playerOne"),api=race.context.CareerModeProductionSharedFinalReconciliation,showdownA=race.context.currentShowdown;
+  const race=makeContext("playerOne"),api=race.context.CareerModeProductionSharedFinalReconciliation,showdownA=race.context.currentShowdown;api.install();
   const initiallyPublished=await api.refresh();assert.equal(initiallyPublished.phase,"FINAL_SEASON_RECONCILED");assert.equal(api.getState().winner,"playerOne","A must be visibly published before the stale-view switch proof begins.");
   let releaseFirst=null,multiCalls=0;
   race.context.CareerModeProductionSharedMultiSeasonProgression={refresh(){multiCalls+=1;if(multiCalls===1)return new Promise(resolve=>{releaseFirst=()=>resolve(authority.multi);});return Promise.resolve(authority.multi);},getState(){return authority.multi;}};
@@ -39,6 +39,10 @@ const flush=()=>new Promise(resolve=>setImmediate(resolve));
   releaseFirst();assert.equal(await staleA,null,"A refresh whose canonical save+rivalry changed while awaiting dependencies must be discarded.");assert.equal(api.getState(),null,"Late A completion must not resurrect the old view into B.");
   race.context.currentShowdown=showdownA;
   const recovered=await api.refresh();assert.equal(recovered.phase,"FINAL_SEASON_RECONCILED","Returning to exact A canonical identity must recover on a fresh refresh.");assert.equal(recovered.winner,"playerOne");
+  race.local.phase="OFFLINE_FALLBACK";assert.equal(api.getState(),null,"Latest Local Reconciliation authority loss must immediately hide an already-published final result without waiting for network refresh.");
+  race.local.phase="REMOTE_OBSERVED";const authorityRecovered=await api.refresh();assert.equal(authorityRecovered.phase,"FINAL_SEASON_RECONCILED");
+  race.local.phase="BLOCKED";race.listeners.get("career-mode-shared-local-reconciliation-state-change")?.({type:"career-mode-shared-local-reconciliation-state-change",detail:race.local});race.local.phase="REMOTE_OBSERVED";assert.equal(api.getState(),null,"A blocked Local Reconciliation event must synchronously discard the stored final view before any asynchronous dependency refresh can stall.");
+  const eventRecovered=await api.refresh();assert.equal(eventRecovered.phase,"FINAL_SEASON_RECONCILED","Fresh safe local authority may republish only after exact reconciliation runs again.");
   const originalIdentity={...race.context.currentShowdown.identity,managerProfileIds:{...race.context.currentShowdown.identity.managerProfileIds}};
   const reboundProfile=`profile_${"9".repeat(24)}`;
   race.context.currentShowdown.identity={...originalIdentity,managerProfileIds:{...originalIdentity.managerProfileIds,playerOne:reboundProfile}};
@@ -49,5 +53,5 @@ const flush=()=>new Promise(resolve=>setImmediate(resolve));
   race.context.currentShowdown.identity=originalIdentity;
   const reboundRecovered=await api.refresh();assert.equal(reboundRecovered.phase,"FINAL_SEASON_RECONCILED","Restoring the exact active manager profile must permit a fresh exact reconciliation.");assert.deepEqual(race.writes,[]);
 
-  process.stdout.write("PASS r17 Final Reconciliation two-context audit: canonical Save Library identity, exact manager binding, published-view invalidation, stale cross-rivalry refresh suppression, correct winner, no extra season and zero direct storage writes\n");
+  process.stdout.write("PASS r17 Final Reconciliation two-context audit: canonical Save Library identity, exact manager binding, synchronous local-authority invalidation, published-view invalidation, stale cross-rivalry refresh suppression, correct winner, no extra season and zero direct storage writes\n");
 })().catch(error=>{console.error(error);process.exit(1);});
