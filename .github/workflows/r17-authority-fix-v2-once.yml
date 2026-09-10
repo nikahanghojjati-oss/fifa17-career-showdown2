@@ -1,0 +1,75 @@
+name: r17 authority fix v2 once
+
+on:
+  push:
+    branches:
+      - feat/ssjr-final-reconciliation-r17
+    paths:
+      - .github/workflows/r17-authority-fix-v2-once.yml
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 4
+          ref: feat/ssjr-final-reconciliation-r17
+      - name: Guard unchanged r17 product
+        run: |
+          test "$(git rev-parse HEAD^)" = "a6eb63bb684a9ef2434c12e7def67e6d7c42842d"
+          test "$(git diff --name-only c7348c13b1a2e697203ffb2a2b6092c0fcb94f34 HEAD | grep -v '^.github/workflows/' | wc -l)" -eq 0
+      - name: Apply exact authority fixes and proofs
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          def rep(path, old, new):
+              p=Path(path); text=p.read_text(); n=text.count(old)
+              if n!=1: raise SystemExit(f"{path}: expected literal once, got {n}: {old[:70]}")
+              p.write_text(text.replace(old,new,1))
+          def sub(path, pattern, replacement):
+              p=Path(path); text=p.read_text(); out,n=re.subn(pattern,replacement,text,count=1)
+              if n!=1: raise SystemExit(f"{path}: expected regex once, got {n}")
+              p.write_text(out)
+          save_new='    function runtimeInvalidateAuthority(){\n        const wasReady=authorityReady;\n        authorityReady=false;\n        ownedLibraryRaw=null;\n        seasonIdentityByRound=new Map();\n        if(!wasReady)return;\n        try{\n            if(typeof root.dispatchEvent==="function"&&typeof root.CustomEvent==="function")root.dispatchEvent(new root.CustomEvent("career-mode-save-library-authority-invalidated"));\n        }catch(error){console.warn("[Career Mode Showdown] Save Library authority invalidation notification failed.",error);}\n    }'
+          sub("js/saveLibraryRuntime.js",r'    function runtimeInvalidateAuthority\(\)\{\n        authorityReady=false;\n        ownedLibraryRaw=null;\n        seasonIdentityByRound=new Map\(\);\n    \}',save_new)
+          rep("js/productionSharedFinalReconciliation.js",'  function pfrContextMatches(request){const current=pfrRequest();return Boolean(request&&current&&request.key===current.key);}\n','  function pfrSaveAuthorityReady(){return root.CareerModeSaveLibraryRuntime?.isReady?.()===true;}\n  function pfrContextMatches(request){const current=pfrRequest();return Boolean(request&&current&&request.key===current.key&&pfrSaveAuthorityReady());}\n')
+          rep("js/productionSharedFinalReconciliation.js",'  function pfrCurrentView(){const request=pfrRequest();let localState=null;try{localState=localApi?.getState?.()||null;}catch(_error){}return request&&view&&viewContextKey===request.key&&pfrLocalAuthorityMatches(request,localState)?view:null;}\n','  function pfrCurrentView(){const request=pfrRequest();let localState=null;try{localState=localApi?.getState?.()||null;}catch(_error){}return pfrSaveAuthorityReady()&&request&&view&&viewContextKey===request.key&&pfrLocalAuthorityMatches(request,localState)?view:null;}\n')
+          old='  function pfrWake(event){if(root.document?.visibilityState==="hidden")return;const request=pfrRequest();if(!request){view=null;viewContextKey="";pfrRender();return;}if(event?.type==="career-mode-shared-local-reconciliation-state-change"){let localState=event.detail||null;if(!localState){try{localState=localApi?.getState?.()||null;}catch(_error){}}if(!pfrLocalAuthorityMatches(request,localState)){pfrDiscard(request);return;}}if(viewContextKey&&viewContextKey!==request.key){view=null;viewContextKey="";pfrRender();}if(busy&&refreshPromise&&refreshContextKey===request.key)return;void pfrRefresh();}\n'
+          new='  function pfrWake(event){const request=pfrRequest();if(event?.type==="career-mode-save-library-authority-invalidated"){view=null;viewContextKey="";pfrRender();return;}if(event?.type==="career-mode-shared-local-reconciliation-state-change"){let localState=event.detail||null;if(!localState){try{localState=localApi?.getState?.()||null;}catch(_error){}}if(!pfrLocalAuthorityMatches(request,localState)){view=null;viewContextKey="";pfrRender();return;}}if(root.document?.visibilityState==="hidden")return;if(!request||!pfrSaveAuthorityReady()){view=null;viewContextKey="";pfrRender();return;}if(viewContextKey&&viewContextKey!==request.key){view=null;viewContextKey="";pfrRender();}if(busy&&refreshPromise&&refreshContextKey===request.key)return;void pfrRefresh();}\n'
+          rep("js/productionSharedFinalReconciliation.js",old,new)
+          rep("js/productionSharedFinalReconciliation.js",'["career-mode-shared-multi-season-state-change","career-mode-shared-history-convergence-state-change","career-mode-shared-local-reconciliation-state-change","career-mode-connected-account-state-change","career-mode-showdown-state-change","career-mode-active-save-changed"]','["career-mode-shared-multi-season-state-change","career-mode-shared-history-convergence-state-change","career-mode-shared-local-reconciliation-state-change","career-mode-connected-account-state-change","career-mode-showdown-state-change","career-mode-active-save-changed","career-mode-save-library-authority-invalidated"]')
+          rep("js/productionSharedFinalReconciliation.js",'terminalCloseSeparate:true,canonicalStorageMutation:false','terminalCloseSeparate:true,saveLibraryAuthorityRequired:true,canonicalStorageMutation:false')
+          rep("tests/browser/shared-final-reconciliation-audit.cjs",'function makeContext(role){const writes=[];const listeners=new Map();const local=localFor(role);const context={console,currentShowdown:showdownFor(role),navigator:{onLine:true},','function makeContext(role){const writes=[];const listeners=new Map();const local=localFor(role);let saveAuthorityReady=true;const context={console,currentShowdown:showdownFor(role),navigator:{onLine:true},')
+          rep("tests/browser/shared-final-reconciliation-audit.cjs",'CareerModeSharedHistoryConvergence:historyModule,CareerModeProductionSharedMultiSeasonProgression:','CareerModeSharedHistoryConvergence:historyModule,CareerModeSaveLibraryRuntime:{isReady(){return saveAuthorityReady;}},CareerModeProductionSharedMultiSeasonProgression:')
+          rep("tests/browser/shared-final-reconciliation-audit.cjs",'return {context,writes,local,listeners};}\n','return {context,writes,local,listeners,setSaveAuthorityReady(value){saveAuthorityReady=Boolean(value);}};}\n')
+          anchor='  const eventRecovered=await api.refresh();assert.equal(eventRecovered.phase,"FINAL_SEASON_RECONCILED","Fresh safe local authority may republish only after exact reconciliation runs again.");\n'
+          proof=anchor+'  race.context.document={visibilityState:"hidden",getElementById(){return null;},addEventListener(){}};race.local.phase="BLOCKED";race.listeners.get("career-mode-shared-local-reconciliation-state-change")?.({type:"career-mode-shared-local-reconciliation-state-change",detail:race.local});race.local.phase="REMOTE_OBSERVED";assert.equal(api.getState(),null,"Local authority loss must synchronously invalidate the stored final result while hidden.");race.context.document.visibilityState="visible";const hiddenRecovered=await api.refresh();assert.equal(hiddenRecovered.phase,"FINAL_SEASON_RECONCILED");\n  let releaseAuthorityRefresh=null,authorityRefreshCalls=0;race.context.CareerModeProductionSharedMultiSeasonProgression={refresh(){authorityRefreshCalls+=1;if(authorityRefreshCalls===1)return new Promise(resolve=>{releaseAuthorityRefresh=()=>resolve(authority.multi);});return Promise.resolve(authority.multi);},getState(){return authority.multi;}};const authorityInFlight=api.refresh();await flush();assert.equal(typeof releaseAuthorityRefresh,"function");race.setSaveAuthorityReady(false);race.listeners.get("career-mode-save-library-authority-invalidated")?.({type:"career-mode-save-library-authority-invalidated"});assert.equal(api.getState(),null,"Cross-tab Save Library invalidation must immediately hide the published result.");releaseAuthorityRefresh();assert.equal(await authorityInFlight,null,"In-flight refresh must not republish after Save Library authority invalidation.");race.setSaveAuthorityReady(true);const saveAuthorityRecovered=await api.refresh();assert.equal(saveAuthorityRecovered.phase,"FINAL_SEASON_RECONCILED","Reactivated Save Library authority requires fresh exact reconciliation.");\n'
+          rep("tests/browser/shared-final-reconciliation-audit.cjs",anchor,proof)
+          rep("tests/browser/shared-final-reconciliation-audit.cjs",'synchronous local-authority invalidation, published-view invalidation','synchronous local-authority + cross-tab Save Library invalidation including hidden/in-flight cases, published-view invalidation')
+          rep("tests/contracts/shared-final-reconciliation-production-contracts.cjs",'assert.match(production,/function pfrLocalAuthorityMatches\\(request,localState\\)/);','assert.match(production,/function pfrLocalAuthorityMatches\\(request,localState\\)/);assert.match(production,/function pfrSaveAuthorityReady\\(\\)/);assert.match(production,/CareerModeSaveLibraryRuntime\\?\\.isReady/);assert.match(production,/career-mode-save-library-authority-invalidated/);')
+          rep("tests/contracts/shared-final-reconciliation-production-contracts.cjs",'assert.match(saveRuntime,/new root\\.CustomEvent\\(\"career-mode-active-save-changed\"/);','assert.match(saveRuntime,/new root\\.CustomEvent\\(\"career-mode-active-save-changed\"/);assert.match(saveRuntime,/career-mode-save-library-authority-invalidated/);assert.match(saveRuntime,/const wasReady=authorityReady/);')
+          rep("tests/contracts/shared-final-reconciliation-production-contracts.cjs",'live-local-authority-safe, read-only','live-local-authority-safe, cross-tab-save-authority-safe, hidden-safe, read-only')
+          PY
+      - name: Validate corrected authority boundary
+        run: |
+          node tests/contracts/shared-final-reconciliation-contracts.cjs
+          node tests/contracts/shared-final-reconciliation-production-contracts.cjs
+          node tests/browser/shared-final-reconciliation-audit.cjs
+          npm run test:ssjr
+          npm run test:ops
+          npm run test:contracts
+          git diff --check
+      - name: Commit product fix and remove helpers
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add js/saveLibraryRuntime.js js/productionSharedFinalReconciliation.js tests/browser/shared-final-reconciliation-audit.cjs tests/contracts/shared-final-reconciliation-production-contracts.cjs
+          git commit -m "fix: fail closed on Save Library authority loss"
+          git rm .github/workflows/r17-cross-tab-hidden-authority-fix-once.yml .github/workflows/r17-authority-fix-v2-once.yml
+          git commit -m "chore: remove r17 authority fix helpers"
+          git push origin HEAD:feat/ssjr-final-reconciliation-r17
