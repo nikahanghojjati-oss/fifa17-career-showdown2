@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Club Identity V2.1 — 98 Club Contact Sheet</title>
+<style>
+:root{--bg:#080b0e;--panel:#10161b;--line:#2b343a;--gold:#f2d34d;--text:#f5f2e8;--muted:#aeb7bc}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% 0,#182026 0,#080b0e 34%);color:var(--text);font-family:Arial,sans-serif}.sheet{width:1600px;min-height:2600px;padding:34px 38px 44px;margin:0 auto}.head{display:flex;justify-content:space-between;gap:30px;align-items:end;padding-bottom:22px;border-bottom:1px solid #655a27}.head h1{margin:0;font-size:32px;letter-spacing:.03em}.head p{margin:5px 0 0;color:var(--muted);font-size:13px}.stamp{color:var(--gold);font-size:12px;font-weight:800;letter-spacing:.15em;text-align:right}.league{margin-top:28px}.league h2{margin:0 0 12px;padding-left:12px;border-left:4px solid var(--gold);font-size:18px;letter-spacing:.1em;text-transform:uppercase}.grid{display:grid;grid-template-columns:repeat(10,1fr);gap:10px}.club{min-height:178px;padding:12px 8px 10px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;background:linear-gradient(155deg,#151d22,#0c1115);border:1px solid var(--line)}.crest{width:92px;height:104px;display:grid;place-items:center}.crest svg{width:92px;height:104px;display:block}.name{width:100%;margin-top:8px;font-size:11px;font-weight:800;line-height:1.15;text-align:center}.meta{margin-top:4px;color:#89949a;font-size:8px;letter-spacing:.06em;text-align:center;text-transform:uppercase}.mini{margin-top:8px;padding-top:8px;border-top:1px solid #252d32;width:100%;display:flex;gap:10px;justify-content:center;align-items:center}.mini span{display:grid;place-items:center;width:48px;height:54px;background:#1a2227}.mini span:last-child{width:38px;height:43px}.mini svg{width:100%;height:100%}.error{padding:30px;background:#431c1c;color:#fff;font-weight:700;white-space:pre-wrap}
+</style>
+</head>
+<body><main id="sheet" class="sheet"><header class="head"><div><h1>CLUB IDENTITY V2.1</h1><p>98 supported 2016–17 clubs · deterministic original SVG proposal · authoring QA only</p></div><div class="stamp">NO NETWORK/FIREBASE RUNTIME DEPENDENCY<br>NOT PRODUCTION AUTHORITY</div></header><div id="catalog"></div></main>
+<script src="../assets/club-identity-v2-1-renderer.reference.js"></script>
+<script>
+(async()=>{
+  const files=[
+    "../assets/club-identity-v2-1-premier-league-descriptors.draft.json",
+    "../assets/club-identity-v2-1-laliga-descriptors.draft.json",
+    "../assets/club-identity-v2-1-bundesliga-descriptors.draft.json",
+    "../assets/club-identity-v2-1-serie-a-descriptors.draft.json",
+    "../assets/club-identity-v2-1-ligue-1-descriptors.draft.json"
+  ];
+  const host=document.getElementById("catalog");
+  try{
+    const catalogs=await Promise.all(files.map(async file=>{const response=await fetch(file,{cache:"no-store"});if(!response.ok)throw new Error(`${file}: HTTP ${response.status}`);return response.json();}));
+    const renderer=window.ShowdownClubIdentityV21Renderer;
+    if(!renderer)throw new Error("Renderer unavailable.");
+    for(const catalog of catalogs){
+      const section=document.createElement("section");section.className="league";
+      const heading=document.createElement("h2");heading.textContent=catalog.league;section.appendChild(heading);
+      const grid=document.createElement("div");grid.className="grid";
+      for(const [name,descriptor] of Object.entries(catalog.descriptors)){
+        const card=document.createElement("article");card.className="club";
+        const large=document.createElement("div");large.className="crest";large.innerHTML=renderer.renderSvg(name,descriptor,{decorative:true});card.appendChild(large);
+        const title=document.createElement("div");title.className="name";title.textContent=name;card.appendChild(title);
+        const meta=document.createElement("div");meta.className="meta";meta.textContent=`${descriptor.silhouetteFamily} · ${descriptor.placeAccent}`;card.appendChild(meta);
+        const mini=document.createElement("div");mini.className="mini";mini.innerHTML=`<span>${renderer.renderSvg(name,descriptor,{decorative:true})}</span><span>${renderer.renderSvg(name,descriptor,{decorative:true})}</span>`;card.appendChild(mini);
+        grid.appendChild(card);
+      }
+      section.appendChild(grid);host.appendChild(section);
+    }
+    document.documentElement.dataset.renderReady="true";
+  }catch(error){host.innerHTML=`<pre class="error">${String(error&&error.stack||error)}</pre>`;document.documentElement.dataset.renderReady="error";}
+})();
+</script>
+</body></html>
