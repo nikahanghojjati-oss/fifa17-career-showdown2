@@ -1,16 +1,16 @@
 {
-  "schemaVersion": "2.2.0",
+  "schemaVersion": "2.3.0",
   "lane": "independent visual proposal",
-  "status": "ACTIVE",
+  "status": "TRANSITION_RECOMMENDED",
   "controller": "GPT-5.6 Sol reasoning",
   "controllerContract": "00_VISUAL_REASONING_CONTROLLER_CONTRACT.md",
   "proposalBranch": "visual/r8-5-approved-character-identity-lock",
   "latestObservedMainSha": "1d0c9f9d6542cd020a4aae53998cb6daeba380e4",
   "latestObservedAssetRevision": "1.9.1-r10",
-  "currentMilestone": "A01/A02 frozen; Home direction approved; Package 1/2 frozen-master placement proof ready; owner explicitly reopened optional pack-holder poses; derived outcome-expression architecture proven Spark-safe; responsive/obstruction QA remains the main gate",
-  "visualProductionProgressPercent": 72,
-  "handoffProximityPercent": 58,
-  "transitionRecommendation": "CONTINUE_CURRENT_SESSION_BUT_KEEP_CONTINUITY_CURRENT",
+  "currentMilestone": "Package 1/2 static responsive/obstruction QA passed; owner-liked optional pack-holder concept bounded to wide-desktop cinematic use; outcome-expression architecture proven as derived presentation; next large task is Package 3 exact-DOM reconciliation",
+  "visualProductionProgressPercent": 74,
+  "handoffProximityPercent": 72,
+  "transitionRecommendation": "TRANSITION_BEFORE_STARTING_PACKAGE_3_LARGE_BRANCH",
   "authorities": {
     "runtimeMap": "R8_8_LIVE_RUNTIME_VISUAL_MAP.md",
     "reasoningBuildOrder": "R8_9_REASONING_FIRST_BUILD_ORDER.md",
@@ -22,7 +22,8 @@
     "a02HomeCheckpoint": "R8_17_A02_FREEZE_HOME_DIRECTION_CHECKPOINT.json",
     "frozenMasterPlacementContract": "R8_18_PACKAGE_1_2_FROZEN_MASTER_PLACEMENT_CONTRACT.md",
     "frozenMasterPlacementProof": "prototype/r8-frozen-master-placement-proof.html",
-    "packAndOutcomeFeasibility": "R8_19_PACK_HOLDING_AND_STATE_DERIVED_EXPRESSION_FEASIBILITY.md"
+    "packAndOutcomeFeasibility": "R8_19_PACK_HOLDING_AND_STATE_DERIVED_EXPRESSION_FEASIBILITY.md",
+    "package12StaticResponsiveQa": "R8_20_PACKAGE_1_2_STATIC_RESPONSIVE_OBSTRUCTION_QA.md"
   },
   "reasoningLeadPolicy": {
     "state": "ENFORCED",
@@ -60,60 +61,59 @@
     "A06_DANIEL_CELEBRATION_RESOLVE": "PLANNED_GATE_CLOSED_ARCHITECTURE_FEASIBLE"
   },
   "optionalPackHolderAssets": {
-    "ownerOverrideState": "REOPENED_AS_OPTIONAL_PRESENTATION_ASSETS",
+    "state": "OWNER_LIKED_CANDIDATES_PRESERVED_OPTIONAL_ONLY",
     "referenceFileId": "file_00000000ee0c81f583e380023c575453",
-    "C01_NIK_CLUB_PACK_INTERACTION": {
-      "status": "OWNER_LIKED_CANDIDATE",
-      "fileId": "file_00000000195881f5a6d49ee9ad919b3e",
-      "sha256": "7014a5165330e321928c30baf426c86c51bc909dc0122942945d6ec32789500d"
-    },
-    "C02_DANIEL_CLUB_PACK_INTERACTION": {
-      "status": "OWNER_LIKED_CANDIDATE",
-      "fileId": "file_00000000f82881f7ac2dda3890d17a09",
-      "sha256": "049654d7360a1c9fd70c4bed836a13b3ae7f797d125a19d1a0395e848f34f368"
-    },
-    "rule": "Optional cinematic layer only. Existing #clubWheelScreen data-club-reveal-stage authority drives visibility. No Firebase/storage/club-selection authority. Real pack DOM and CTA stay above art."
+    "nikCandidateFileId": "file_00000000195881f5a6d49ee9ad919b3e",
+    "danielCandidateFileId": "file_00000000f82881f7ac2dda3890d17a09",
+    "wideDesktop": "OPTIONAL_OPENING_STAGE_CINEMATIC_SUBLAYER",
+    "compact1024x768": "OMIT",
+    "mobile": "OMIT",
+    "firestoreWrites": 0,
+    "runtimeAuthority": "existing data-club-reveal-stage only"
   },
   "outcomeExpressionArchitecture": {
     "status": "FEASIBLE_DERIVED_PRESENTATION_ONLY",
-    "localAuthority": "completed roundRecord.winner already resolves playerOne/playerTwo/draw",
-    "sharedRule": "Do not show winner/loser art until shared runtime exposes an authoritative completed-season outcome; before then use neutral/core art",
+    "localAuthority": "roundRecord.winner playerOne/playerTwo/draw",
+    "sharedRule": "neutral until authoritative shared completed-season outcome exists",
     "firestoreWritesForArtState": 0,
     "newRemoteProtocolFields": 0,
     "imageBytesTransferredThroughFirebase": false,
-    "preferredMinimalMatrix": "winner may use A05/A06 later; loser reuses core/focused; draw reuses core; no loser-only or draw-only generation"
+    "minimumFutureAssetPolicy": "winner may use A05/A06; loser/draw reuse existing masters unless later evidence proves otherwise"
   },
-  "package12PlacementState": {
-    "Home": "DIRECTION_OWNER_APPROVED_AND_GEOMETRY_PROOF_READY",
-    "CreateShowdown": "GEOMETRY_PROOF_READY_NO_NEW_ASSET_REQUIRED",
-    "LeagueWheel": "GEOMETRY_PROOF_READY_NO_NEW_ASSET_REQUIRED",
-    "ClubAssignment": "GEOMETRY_PROOF_READY_WITH_OPTIONAL_PACK_HOLDER_SUBTEST",
-    "tablet": "CROP_OR_OMIT_BEFORE_CONTROLS_MOVE",
-    "mobile": "OMIT_LARGE_CHARACTERS"
+  "package12Qa": {
+    "staticResponsiveStatus": "PASS",
+    "Home": "PASS_WITH_BACKGROUND_CONSTRAINTS",
+    "CreateShowdown": "STRONG_PASS",
+    "LeagueWheel": "STRONG_PASS",
+    "ClubAssignmentCore": "PASS_EDGE_CROP_OR_OMIT",
+    "ClubAssignmentPackHolderOptional": "CONDITIONAL_PASS_WIDE_DESKTOP_OPENING_ONLY",
+    "compact1024x768": "PASS_BY_CROP_OMIT_PACK_HOLDERS_OMITTED",
+    "mobile390x844": "PASS_BY_LARGE_ART_OMISSION",
+    "fullLinkedBrowserQa": "DEFER_TO_FINAL_IMPLEMENTATION_QA"
   },
-  "currentRoadmapGate": "PACKAGE_1_2_RESPONSIVE_OBSTRUCTION_QA_WITH_OPTIONAL_PACK_HOLDER_SUBTEST",
+  "currentRoadmapGate": "PACKAGE_3_EXACT_DOM_RECONCILIATION",
   "currentGenerationState": "CLOSED",
-  "orderedImmediateWork": [
-    "QA Home/Create/League/Club at desktop 1600x900 using frozen A01/A02",
-    "QA compact desktop/tablet around 1024x768",
-    "QA mobile portrait around 390x844 with large characters omitted",
-    "for Club Assignment only, subtest C01/C02 during existing ready/opening/manager-one/manager-two/versus/confirmation stages without changing stage authority",
-    "verify focus-visible, status text, CTA bands, pointer-events and no art-induced overflow",
-    "if Package 1/2 passes, continue Package 3 exact-DOM reconciliation",
-    "evaluate Transfer Challenge with A01/A02 first before A03/A04",
-    "evaluate Season Summary state-derived winner/draw composition before A05/A06"
+  "orderedImmediateWorkForSuccessor": [
+    "re-resolve live main and visual head",
+    "study Transfer Challenge and Shared Transfer Challenge exact r10 DOM/runtime first",
+    "test A01/A02 deterministic reuse before opening A03/A04",
+    "study Season Entry and Shared Season Results privacy/waiting/reveal states",
+    "study Shared Season Commit coordinator/acknowledgement states",
+    "study Season Summary and apply R8.19 derived outcome-expression architecture",
+    "verify whether a real Tiebreak screen/state exists before designing one",
+    "open A03/A04 or A05/A06 generation only if exact composition proves an unsatisfied mapped need"
   ],
   "progressModel": [
     {"workstream":"approved identity truth recovered and persistently locked","weight":20,"earned":20},
     {"workstream":"live DOM/source reconciliation and runtime screen mapping","weight":10,"earned":10},
     {"workstream":"identity plus natural-expression contract","weight":10,"earned":10},
     {"workstream":"isolated canonical Nik and Daniel character masters","weight":20,"earned":20},
-    {"workstream":"screen-state expression and pose variants","weight":15,"earned":0,"note":"architecture feasibility proven, but no formal completion credit until exact screen-state composition/QA"},
+    {"workstream":"screen-state expression and pose variants","weight":15,"earned":0,"note":"architecture feasible; no formal completion until exact Package 3/Season Summary composition and owner-gated assets"},
     {"workstream":"R8.5 black-gold final-art and exact DOM composition specification","weight":10,"earned":9},
-    {"workstream":"responsive safe-zone and obstruction QA","weight":10,"earned":2},
+    {"workstream":"responsive safe-zone and obstruction QA","weight":10,"earned":4,"note":"Package 1/2 static responsive QA passed; full linked browser QA remains later"},
     {"workstream":"master developer implementation package","weight":5,"earned":1}
   ],
-  "nextSafeAction": "Complete Package 1/2 responsive/obstruction QA. Do not generate additional assets during this gate. C01/C02 are existing optional candidates for Club Assignment subtesting only.",
+  "nextSafeAction": "Transition to a fresh visual environment before beginning the large Package 3 exact-DOM branch. Start with the R8.20 successor file. Image generation must remain closed until the successor reaches a proven asset gate.",
   "productionBoundaries": {
     "mainMutationAllowed": false,
     "productionDeployAllowed": false,
