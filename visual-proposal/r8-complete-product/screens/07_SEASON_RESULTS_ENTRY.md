@@ -1,12 +1,12 @@
 # Screen 07 — Season Results Entry / `seasonEntry`
 
-Status: ACTIVE SCREEN CONTRACT
+Status: ACTIVE SCREEN CONTRACT — RECONCILED THROUGH r13 MULTI SEASON
 
-Source anchor: current `main` at `cef2e101f23fd8cb777f71950bac8f0f8d9f2c7b`.
+Source anchor: current `main` at `ea96ff1280b5e63962b7ee1a6a8c0980fe4e3686` (`1.9.1-r13`).
 
 ## Purpose
 
-Season Results is the most information-sensitive competition screen. It must make raw inputs, canonical scoring, shared publication/reveal and final commit state understandable without decorative distraction.
+Season Results is the most information-sensitive competition screen. It must make raw inputs, canonical scoring, shared publication/reveal, commit/acknowledgement, Shared History Convergence and next-season progression understandable without decorative distraction.
 
 ## Exact local-entry DOM
 
@@ -63,7 +63,8 @@ The same screen must visually support the established shared workflow rather tha
 - acknowledged / waiting for rival;
 - both acknowledgements complete;
 - Shared Canonical Score visible;
-- Shared History Converged visible.
+- Shared History Converged visible;
+- Shared Multi Season progression waiting/ready/terminal state.
 
 Use explicit phase badges and action labels. Do not infer provider state from styling.
 
@@ -87,6 +88,35 @@ This is quieter and ledger-like. It is read-only and must not visually resemble 
 
 Present accepted seasons/total, shared league, fixed clubs, W/D/L, Showdown points and trophy attribution using current provider-authoritative data.
 
+## r13 Shared Multi Season progression
+
+Current production dynamically owns:
+
+- `#sharedMultiSeasonProgressionStatus`;
+- `#sharedMultiSeasonContinueAction`.
+
+These elements belong inside the existing review flow after Shared History has become the relevant authority witness. R8 must not create a new route or a second season cursor.
+
+Three visual modes are mandatory:
+
+### Accepted but history not yet witnessed
+
+The status explains that the accepted season still requires the Shared History review to be visibly witnessed on this device before progression. The action is visible but disabled, with explicit waiting copy. Do not use opacity alone.
+
+### History converged and progression ready
+
+The status states that Season N history is converged on this device and identifies Season N+1. `CONTINUE TO SEASON N+1` becomes the single progression action only when the production runtime enables it.
+
+This action visually reads as progression, not as another commit, acknowledgement or history mutation.
+
+### Terminal season plan
+
+When all configured seasons are authoritatively accepted, the status states that all seasons are accepted and that Final Reconciliation remains a separate step. The action reads `SEASON PLAN COMPLETE ✓` and remains disabled.
+
+Do not visually imply that completion of Multi Season is itself Final Reconciliation.
+
+The production runtime supports only 1/3/5/10 season lengths, preserves fixed clubs and uses its own provider-authoritative cursor. Presentation code must not duplicate these decisions.
+
 ## Asset resolution
 
 Required roles are solved without raster generation:
@@ -95,7 +125,8 @@ Required roles are solved without raster generation:
 - waiting/published/both-revealed status layer: DOM/CSS;
 - coordinator commit/acknowledgement treatment: DOM/CSS;
 - canonical score projection: DOM/CSS;
-- history-convergence panel: DOM/CSS/procedural dividers.
+- history-convergence panel: DOM/CSS/procedural dividers;
+- Multi Season status and Continue gate: DOM/CSS.
 
 No A01/A02 artwork and no new image generation.
 
@@ -105,7 +136,7 @@ Wide desktop uses equal side-by-side manager cards with shared authority panels 
 
 Chromebook/tablet may stack cards but retains Manager 1 then Manager 2 ordering and keeps scoring hint readable.
 
-Mobile stacks all fields; checkbox labels remain at least 44px touchable where possible. Shared phase/status panels appear before the current actionable control.
+Mobile stacks all fields; checkbox labels remain at least 44px touchable where possible. Shared phase/status panels appear before the current actionable control. The Multi Season status appears immediately before its Continue action.
 
 ## Accessibility and QA
 
@@ -113,11 +144,13 @@ Mobile stacks all fields; checkbox labels remain at least 44px touchable where p
 - state and winner/draw are not communicated by color alone;
 - canonical score values are real DOM text;
 - hidden opponent results remain truly absent/withheld according to product authority rather than visually blurred;
-- focus order follows the logical review/publish/commit/acknowledge flow;
+- focus order follows the logical review/publish/commit/acknowledge/history/progression flow;
+- disabled Multi Season waiting/terminal actions remain readable;
 - reduced motion never delays provider state;
 - no decorative character art obscures data;
-- shared panels remain readable in stale/reconnecting/error states.
+- shared panels remain readable in stale/reconnecting/error states;
+- the Multi Season Continue control never appears active unless runtime authority enables it.
 
 ## Final-main reconciliation
 
-This screen has high drift risk because shared-play development can add states. Before senior handoff, re-inventory every local and provider-authoritative state against final main and update this contract without changing product semantics.
+This screen has high drift risk because shared-play development is still advancing. Before senior handoff, re-inventory every local and provider-authoritative state against final main, including Journey Reconnect, reconciliation and terminal-close additions if they become visible, and update this contract without changing product semantics.
