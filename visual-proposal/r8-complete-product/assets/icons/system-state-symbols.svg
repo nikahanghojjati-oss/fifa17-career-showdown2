@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 160" role="img" aria-labelledby="title desc">
+  <title id="title">R8 original system state symbol family</title>
+  <desc id="desc">Original geometric symbols for private session, device pairing, local save, recovery and offline states. No third-party service marks are reproduced.</desc>
+  <defs><style>.g{fill:none;stroke:#f3cc4f;stroke-width:7;stroke-linecap:round;stroke-linejoin:round}.n{fill:none;stroke:#f5f0e4;stroke-opacity:.48;stroke-width:5;stroke-linecap:round;stroke-linejoin:round}.f{fill:#f3cc4f}</style></defs>
+  <g transform="translate(24 20)"><rect class="g" x="27" y="51" width="86" height="67" rx="8"/><path class="g" d="M45 51V36c0-20 11-30 25-30s25 10 25 30v15"/><circle class="f" cx="70" cy="82" r="7"/><path class="n" d="M70 89v14"/></g>
+  <g transform="translate(180 20)"><rect class="g" x="20" y="8" width="48" height="104" rx="8"/><rect class="g" x="92" y="8" width="48" height="104" rx="8"/><path class="n" d="M65 48h30M65 72h30"/><path class="g" d="m77 38 18 10-18 10M83 82 65 72l18-10"/></g>
+  <g transform="translate(350 20)"><path class="g" d="M20 22h100v88H20zM38 22v34h64V22M43 78h54v32H43z"/><circle class="f" cx="89" cy="39" r="5"/></g>
+  <g transform="translate(510 20)"><path class="g" d="M70 10a55 55 0 1 0 47 84"/><path class="g" d="M119 58v38H81"/><path class="n" d="M70 38v31l21 13"/></g>
+  <g transform="translate(660 20)"><path class="n" d="M16 51c29-29 79-29 108 0M35 72c19-19 51-19 70 0M56 93c8-8 20-8 28 0"/><path class="g" d="M20 15l102 102"/><circle class="f" cx="70" cy="116" r="6"/></g>
+</svg>
