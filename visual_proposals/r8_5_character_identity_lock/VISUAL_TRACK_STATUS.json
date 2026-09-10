@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "2.0.0",
+  "schemaVersion": "2.1.0",
   "lane": "independent visual proposal",
   "status": "ACTIVE",
   "controller": "GPT-5.6 Sol reasoning",
@@ -7,41 +7,33 @@
   "proposalBranch": "visual/r8-5-approved-character-identity-lock",
   "latestObservedMainSha": "1d0c9f9d6542cd020a4aae53998cb6daeba380e4",
   "latestObservedAssetRevision": "1.9.1-r10",
-  "currentMilestone": "A01 Nik and A02 Daniel core masters owner-approved/frozen; approved Home visual direction captured; deterministic exact-DOM placement validation is current roadmap gate",
+  "currentMilestone": "A01/A02 frozen; Home direction owner-approved; deterministic frozen-master placement proof completed for Home/Create/League/Club; responsive/obstruction QA is next",
   "visualProductionProgressPercent": 72,
-  "handoffProximityPercent": 42,
+  "handoffProximityPercent": 46,
   "transitionRecommendation": "CONTINUE_CURRENT_SESSION",
-  "runtimeMapping": {
-    "state": "COMPLETE_BASELINE",
-    "mappedPrimaryAndNestedSurfaces": 24,
-    "authorityFile": "R8_8_LIVE_RUNTIME_VISUAL_MAP.md",
-    "assetMatrix": "R8_8_ASSET_REQUIREMENTS_MATRIX.md",
+  "authorities": {
+    "runtimeMap": "R8_8_LIVE_RUNTIME_VISUAL_MAP.md",
     "reasoningBuildOrder": "R8_9_REASONING_FIRST_BUILD_ORDER.md",
     "assetLedger": "R8_10_ASSET_LEDGER.json",
     "package12DomSpec": "R8_10_PACKAGE_1_2_DOM_PRESENTATION_SPEC.md",
-    "package12CssPrototype": "prototype/r8-package-1-2-presentation.css",
     "safeZoneProof": "R8_11_SAFE_ZONE_COMPOSITION_PROOF.md",
-    "frozenMasterPlacementContract": "R8_18_PACKAGE_1_2_FROZEN_MASTER_PLACEMENT_CONTRACT.md",
+    "a01FreezeAnchor": "R8_15_A01_OWNER_FREEZE_AND_REASONING_ANCHOR.json",
+    "a02Brief": "R8_16_A02_DANIEL_CORE_POINTING_HERO_PRODUCTION_BRIEF.md",
     "latestApprovalCheckpoint": "R8_17_A02_FREEZE_HOME_DIRECTION_CHECKPOINT.json",
-    "sourcePin": "1d0c9f9d6542cd020a4aae53998cb6daeba380e4",
-    "sourceAssetRevision": "1.9.1-r10"
+    "frozenMasterPlacementContract": "R8_18_PACKAGE_1_2_FROZEN_MASTER_PLACEMENT_CONTRACT.md",
+    "frozenMasterPlacementProof": "prototype/r8-frozen-master-placement-proof.html"
   },
   "reasoningLeadPolicy": {
     "state": "ENFORCED",
-    "reasoningModelLeads": true,
     "imageGenerationIsExecutionSpecialistOnly": true,
     "continueBuildingDoesNotMeanGenerateImage": true,
     "uploadedImageDoesNotAutoTriggerGeneration": true,
-    "generationRequiresPreGenerationBrief": true,
-    "generationRequiresMappedNeed": true,
-    "generationRequiresReuseCheck": true,
-    "generationRequiresSafeZoneDefinition": true,
-    "generationRequiresIdentityAuthority": true,
-    "generationRequiresBestMethodCheck": true,
-    "postGenerationQARequired": true,
+    "generationRequiresSealedBriefAndMappedNeed": true,
+    "existingFrozenAssetsMustBeReusedFirst": true,
+    "realDomAlwaysOutranksArtwork": true,
     "ownerApprovalRequiredToFreeze": true,
     "rejectedGenerationProgressCredit": 0,
-    "rawContainerPathIsNeverAProjectReport": true
+    "checkpointReportRequired": true
   },
   "coreMasters": {
     "required": 6,
@@ -63,45 +55,42 @@
     "A05_NIK_CELEBRATION_RESOLVE": "PLANNED_GATE_CLOSED",
     "A06_DANIEL_CELEBRATION_RESOLVE": "PLANNED_GATE_CLOSED"
   },
-  "approvedDirectionReferences": {
-    "Home": {
-      "status": "OWNER_APPROVED_VISUAL_DIRECTION_NOT_SHIPPING_DOM",
-      "fileId": "file_00000000c85881f7abd92259605955c4",
-      "sha256": "9272f8921535b07841033781d024f1bf3f20647846cc89146878c999a4ca67f6",
-      "rule": "Use for composition/style guidance only; real DOM and accessibility remain authoritative."
-    }
-  },
-  "safeZoneDecision": {
-    "Home": "PASS_WITH_CONSTRAINTS_BACKGROUND_FRAMING",
-    "CreateShowdown": "STRONG_PASS",
-    "LeagueWheel": "STRONG_PASS",
-    "ClubAssignment": "PASS_CORE_EDGE_FRAMING_NO_INTERACTION_POSE",
-    "tabletPolicy": "CROP_OR_OMIT_BEFORE_CONTROLS_MOVE",
-    "mobileLargeCharacters": "OMIT",
+  "package12PlacementState": {
+    "Home": "DIRECTION_OWNER_APPROVED_AND_GEOMETRY_PROOF_READY",
+    "CreateShowdown": "GEOMETRY_PROOF_READY_NO_NEW_ASSET_REQUIRED",
+    "LeagueWheel": "GEOMETRY_PROOF_READY_NO_NEW_ASSET_REQUIRED",
+    "ClubAssignment": "GEOMETRY_PROOF_READY_EDGE_CROP_OR_OMIT_NO_NEW_ASSET_REQUIRED",
     "C01_NIK_CLUB_PACK_INTERACTION": "CANCELLED",
-    "C02_DANIEL_CLUB_PACK_INTERACTION": "CANCELLED"
+    "C02_DANIEL_CLUB_PACK_INTERACTION": "CANCELLED",
+    "tablet": "CROP_OR_OMIT_BEFORE_CONTROLS_MOVE",
+    "mobile": "OMIT_LARGE_CHARACTERS"
   },
-  "currentRoadmapGate": "PACKAGE_1_2_DETERMINISTIC_FROZEN_MASTER_PLACEMENT_VALIDATION",
+  "approvedHomeDirection": {
+    "status": "OWNER_APPROVED_VISUAL_DIRECTION_NOT_SHIPPING_DOM",
+    "fileId": "file_00000000c85881f7abd92259605955c4",
+    "sha256": "9272f8921535b07841033781d024f1bf3f20647846cc89146878c999a4ca67f6"
+  },
+  "currentRoadmapGate": "PACKAGE_1_2_RESPONSIVE_OBSTRUCTION_QA_WITH_FROZEN_MASTERS",
   "currentGenerationState": "CLOSED",
   "orderedImmediateWork": [
-    "Validate Home frozen-master placement against exact live DOM and owner-approved Home direction",
-    "Validate Create Showdown frozen-master side rails",
-    "Validate League Wheel frozen-master side rails and CTA/status safe zones",
-    "Validate Club Assignment restrained edge crops or omission",
-    "Then continue Package 3 exact-DOM work",
-    "Evaluate A03/A04 only when Package 3 reaches a proven asset gate"
+    "QA the deterministic Home/Create/League/Club placements at desktop 1600x900",
+    "QA compact desktop/tablet around 1024x768",
+    "QA mobile portrait around 390x844 with large characters omitted",
+    "verify focus-visible, status text, CTA bands, pointer-events and no art-induced overflow",
+    "if all four pass, mark Package 1/2 frozen-master placement validation complete",
+    "then continue Package 3 exact-DOM reconciliation before considering A03/A04"
   ],
   "progressModel": [
-    {"workstream":"approved identity truth recovered and persistently locked","weight":20,"earned":20,"state":"done"},
-    {"workstream":"live DOM/source reconciliation and runtime screen mapping","weight":10,"earned":10,"state":"r10 baseline sealed across 24 primary/nested surfaces"},
-    {"workstream":"identity plus natural-expression contract","weight":10,"earned":10,"state":"done"},
-    {"workstream":"isolated canonical Nik and Daniel character masters","weight":20,"earned":20,"state":"A01 and A02 owner-approved/frozen"},
-    {"workstream":"screen-state expression and pose variants","weight":15,"earned":0,"state":"A03-A06 gated; no speculative generation"},
-    {"workstream":"R8.5 black-gold final-art and exact DOM composition specification","weight":10,"earned":9,"state":"Package 1/2 spec complete; Home direction approved; exact frozen-master placement validation active"},
-    {"workstream":"responsive safe-zone and obstruction QA","weight":10,"earned":2,"state":"abstract Home/Create/League/Club proof complete; exact frozen-master QA next"},
-    {"workstream":"master developer implementation package","weight":5,"earned":1,"state":"skeleton exists; final package waits for remaining visual packages"}
+    {"workstream":"approved identity truth recovered and persistently locked","weight":20,"earned":20},
+    {"workstream":"live DOM/source reconciliation and runtime screen mapping","weight":10,"earned":10},
+    {"workstream":"identity plus natural-expression contract","weight":10,"earned":10},
+    {"workstream":"isolated canonical Nik and Daniel character masters","weight":20,"earned":20},
+    {"workstream":"screen-state expression and pose variants","weight":15,"earned":0},
+    {"workstream":"R8.5 black-gold final-art and exact DOM composition specification","weight":10,"earned":9},
+    {"workstream":"responsive safe-zone and obstruction QA","weight":10,"earned":2},
+    {"workstream":"master developer implementation package","weight":5,"earned":1}
   ],
-  "nextSafeAction": "Build the deterministic Package 1/2 placement proof against exact r10 DOM using frozen A01/A02. Do not call image generation during this stage unless a new mapped need survives reuse and safe-zone checks.",
+  "nextSafeAction": "Complete responsive/obstruction QA of the Package 1/2 frozen-master placement proof. No image-generation call is justified during this QA stage.",
   "productionBoundaries": {
     "mainMutationAllowed": false,
     "productionDeployAllowed": false,
