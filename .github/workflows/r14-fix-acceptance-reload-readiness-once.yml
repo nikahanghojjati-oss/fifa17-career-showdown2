@@ -1,4 +1,4 @@
-name: R14 post reload bootstrap probe
+name: R14 standalone reload diagnostic
 
 on:
   push:
@@ -11,7 +11,7 @@ permissions:
   contents: read
 
 jobs:
-  probe:
+  diagnose:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -20,72 +20,17 @@ jobs:
       - uses: actions/setup-node@v5
         with:
           node-version: 24
-      - name: Add post reload diagnostics only in workspace
+      - run: npm ci
+      - name: Start repository test server
         shell: bash
         run: |
-          python - <<'PY'
-          from pathlib import Path
-          path = Path('tests/browser/ssjr-production-acceptance-recorder-audit.cjs')
-          text = path.read_text()
-          events = '  const pageErrors=[];page.on("pageerror",error=>pageErrors.push(error.stack||error.message));'
-          replacement = events + '\n  page.on("console",message=>{if(message.type()==="warning"||message.type()==="error")console.log("R14_BROWSER_"+message.type().toUpperCase()+" "+message.text());});'
-          if text.count(events) != 1:
-              raise SystemExit('page event anchor missing')
-          text = text.replace(events,replacement,1)
-          marker = '    await acceptance.page.evaluate(()=>window.__ssjrRecorderPrepareReload());'
-          marker_index = text.find(marker)
-          if marker_index < 0:
-              raise SystemExit('reload marker missing')
-          target = '    await acceptance.page.locator("#ssjrProductionAcceptanceRecorder").waitFor({state:"visible",timeout:7000});'
-          target_index = text.find(target,marker_index)
-          if target_index < 0:
-              raise SystemExit('post reload wait missing')
-          diagnostic = '''    await acceptance.page.waitForTimeout(5000);
-    const r14Diag=await acceptance.page.evaluate(()=>({
-      readyState:document.readyState,
-      loadingHidden:document.querySelector("#loadingScreen")?.classList.contains("hidden")===true,
-      recorderPanel:Boolean(document.querySelector("#ssjrProductionAcceptanceRecorder")),
-      apis:{
-        setup:Boolean(window.CareerModeProductionSharedShowdownSetup),
-        entry:Boolean(window.CareerModeProductionSharedJourneyEntry),
-        guard:Boolean(window.CareerModeProductionSharedJourneyGuard),
-        careerStart:Boolean(window.CareerModeProductionSharedCareerStart),
-        transfer:Boolean(window.CareerModeProductionSharedTransferChallenge),
-        results:Boolean(window.CareerModeProductionSharedSeasonResults),
-        commit:Boolean(window.CareerModeProductionSharedSeasonCommit),
-        scoring:Boolean(window.CareerModeProductionSharedCanonicalScoring),
-        history:Boolean(window.CareerModeProductionSharedHistoryConvergence),
-        multiProtocol:Boolean(window.CareerModeSharedMultiSeasonProgression),
-        multiProduction:Boolean(window.CareerModeProductionSharedMultiSeasonProgression),
-        reconnectProtocol:Boolean(window.CareerModeSharedJourneyReconnect),
-        reconnectProduction:Boolean(window.CareerModeProductionSharedJourneyReconnect),
-        polishedBridge:Boolean(window.CareerModeSSJRAcceptancePolishedBridge),
-        stage5f:Boolean(window.CareerModeStage5fProductionAuthenticatedNegatives),
-        negativeRunner:Boolean(window.CareerModeSSJRProductionNegativeProbeRunner),
-        negativeEvidence:Boolean(window.CareerModeSSJRProductionNegativeEvidence),
-        recorder:Boolean(window.CareerModeSSJRProductionAcceptanceRecorder)
-      },
-      scriptNames:Array.from(document.scripts).map(script=>script.src).filter(Boolean).map(src=>src.split("/").pop()).filter(name=>name&&["ssjr","shared","production","stage5f"].some(token=>name.toLowerCase().includes(token))).slice(-60)
-    }));
-    console.log("R14_POST_RELOAD_DIAG "+JSON.stringify(r14Diag));
-'''
-          text = text[:target_index] + diagnostic + target + text[target_index+len(target):]
-          path.write_text(text)
-          PY
-          node --check tests/browser/ssjr-production-acceptance-recorder-audit.cjs
-      - name: Run instrumented inherited recorder audit
-        shell: bash
-        run: |
-          npm ci
           npm run serve:test >/tmp/cms-r14-server.log 2>&1 &
-          server_pid=$!
-          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          echo $! > /tmp/cms-r14-server.pid
           for n in $(seq 1 40); do
-            if curl -fsS http://127.0.0.1:4173/ >/dev/null; then
-              CMS_CHROMIUM_MULTI_CONTEXT=1 node tests/browser/ssjr-production-acceptance-recorder-audit.cjs
-              exit $?
-            fi
+            if curl -fsS http://127.0.0.1:4173/ >/dev/null; then exit 0; fi
             sleep 0.25
           done
           cat /tmp/cms-r14-server.log
           exit 1
+      - name: Diagnose recorder reload bootstrap
+        run: node scripts/r14-recorder-reload-diagnostic.mjs
