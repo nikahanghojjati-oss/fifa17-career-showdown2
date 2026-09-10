@@ -22,6 +22,17 @@ jobs:
       - run: npm ci
       - name: Apply exact r15 accounting update
         run: python scripts/r15-mdp-accounting-once.py
+      - name: Retarget anti-inflation negative fixture to next design-only capability
+        shell: python
+        run: |
+          from pathlib import Path
+          p=Path('tests/contracts/milestone-delivery-progress-contracts.cjs')
+          s=p.read_text()
+          old='const outOfOrder = clone(ledger); const journeyConflicts = outOfOrder.capabilities.find(capability => capability.id === "journey-conflicts"); journeyConflicts.stages["automated-test"] = "complete";'
+          new='const outOfOrder = clone(ledger); const localReconciliation = outOfOrder.capabilities.find(capability => capability.id === "local-reconciliation"); localReconciliation.stages["automated-test"] = "complete";'
+          if s.count(old)!=1:
+              raise SystemExit('out-of-order negative fixture anchor mismatch')
+          p.write_text(s.replace(old,new,1))
       - name: Validate accounting authority
         run: |
           node tests/contracts/milestone-delivery-progress-contracts.cjs
