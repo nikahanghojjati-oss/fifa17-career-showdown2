@@ -36,6 +36,13 @@
       ]);
       return install("ssjr-production-multi-season","js/productionSharedMultiSeasonProgression.js","CareerModeProductionSharedMultiSeasonProgression");
     })();
+    const journeyReconnect=(async()=>{
+      await multiSeason;
+      await prepare([
+        ["ssjr-journey-reconnect-protocol","js/sharedJourneyReconnect.js","CareerModeSharedJourneyReconnect"]
+      ]);
+      return install("ssjr-production-journey-reconnect","js/productionSharedJourneyReconnect.js","CareerModeProductionSharedJourneyReconnect");
+    })();
     await Promise.all([
       load("firebase-runtime","js/productionFirebaseRuntime.js",()=>root.CareerModeProductionFirebaseRuntime),
       install("ssjr-production-entry","js/productionSharedJourneyEntry.js","CareerModeProductionSharedJourneyEntry"),
@@ -46,6 +53,7 @@
       canonicalScoring,
       historyConvergence,
       multiSeason,
+      journeyReconnect,
       (async()=>{await seasonResultsRoute;return install("ssjr-production-transfer-challenge","js/productionSharedTransferChallenge.js","CareerModeProductionSharedTransferChallenge");})()
     ]);
     if(!acceptanceEnabled)return;
