@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">R8 procedural stadium atmosphere</title>
+  <desc id="desc">Original abstract stadium light, pitch-grid and gold rivalry atmosphere with no logos, text or proprietary marks.</desc>
+  <defs>
+    <radialGradient id="topGlow" cx="50%" cy="0%" r="72%">
+      <stop offset="0" stop-color="#f3cc4f" stop-opacity=".18"/>
+      <stop offset=".48" stop-color="#f3cc4f" stop-opacity=".035"/>
+      <stop offset="1" stop-color="#080b0e" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="leftLight" cx="0%" cy="34%" r="52%">
+      <stop offset="0" stop-color="#f5f0e4" stop-opacity=".11"/>
+      <stop offset="1" stop-color="#f5f0e4" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="rightLight" cx="100%" cy="31%" r="50%">
+      <stop offset="0" stop-color="#f5f0e4" stop-opacity=".09"/>
+      <stop offset="1" stop-color="#f5f0e4" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="pitchFade" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f3cc4f" stop-opacity="0"/>
+      <stop offset=".52" stop-color="#f3cc4f" stop-opacity=".025"/>
+      <stop offset="1" stop-color="#f3cc4f" stop-opacity=".13"/>
+    </linearGradient>
+    <pattern id="fineGrid" width="80" height="80" patternUnits="userSpaceOnUse">
+      <path d="M80 0H0V80" fill="none" stroke="#f5f0e4" stroke-opacity=".035" stroke-width="1"/>
+    </pattern>
+    <linearGradient id="goldRail" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#f3cc4f" stop-opacity="0"/>
+      <stop offset=".23" stop-color="#f3cc4f" stop-opacity=".55"/>
+      <stop offset=".77" stop-color="#f3cc4f" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#f3cc4f" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="#080b0e"/>
+  <rect width="1600" height="900" fill="url(#topGlow)"/>
+  <rect width="1600" height="900" fill="url(#leftLight)"/>
+  <rect width="1600" height="900" fill="url(#rightLight)"/>
+  <rect y="360" width="1600" height="540" fill="url(#pitchFade)"/>
+  <rect y="300" width="1600" height="600" fill="url(#fineGrid)" opacity=".72"/>
+  <path d="M-80 235L560 -20H745L95 265Z" fill="#f5f0e4" opacity=".018"/>
+  <path d="M1680 200L1110 -20H940L1510 245Z" fill="#f3cc4f" opacity=".022"/>
+  <path d="M250 740C505 615 1095 615 1350 740" fill="none" stroke="#f3cc4f" stroke-opacity=".09" stroke-width="2"/>
+  <path d="M355 790C585 690 1015 690 1245 790" fill="none" stroke="#f5f0e4" stroke-opacity=".038" stroke-width="1"/>
+  <path d="M540 900L708 520M1060 900L892 520" stroke="#f5f0e4" stroke-opacity=".045" stroke-width="1.5"/>
+  <path d="M800 900V500" stroke="#f3cc4f" stroke-opacity=".052" stroke-width="1"/>
+  <rect x="220" y="114" width="1160" height="2" fill="url(#goldRail)"/>
+  <rect x="320" y="812" width="960" height="1" fill="url(#goldRail)" opacity=".56"/>
+  <g fill="#f5f0e4">
+    <circle cx="118" cy="130" r="3" opacity=".35"/><circle cx="158" cy="114" r="2" opacity=".20"/><circle cx="201" cy="102" r="2.5" opacity=".24"/>
+    <circle cx="1480" cy="126" r="3" opacity=".30"/><circle cx="1438" cy="110" r="2" opacity=".18"/><circle cx="1398" cy="100" r="2.5" opacity=".22"/>
+  </g>
+</svg>
