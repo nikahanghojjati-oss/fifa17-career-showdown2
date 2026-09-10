@@ -609,7 +609,7 @@
         storageListenerBound=true;
         root.addEventListener("storage",event=>{
             if(!authorityReady)return;
-            if(event&&(event.key===SAVE_LIBRARY_KEY||event.key===SINGLETON_KEY)){
+            if(event&&(event.key===null||event.key===SAVE_LIBRARY_KEY||event.key===SINGLETON_KEY)){
                 runtimeInvalidateAuthority();
                 if(typeof root.showAppNotice==="function")root.showAppNotice("Save data changed in another tab. Reload or Continue again before making more changes.","error",10000);
             }

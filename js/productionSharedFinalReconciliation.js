@@ -7,12 +7,15 @@
   const POLL_MS=15000;
   const PANEL_ID="sharedFinalReconciliationPanel";
   const SAFE_LOCAL_PHASES=new Set(["REMOTE_OBSERVED","PREVIEW_READY","APPLIED"]);
-  let installed=false,busy=false,protocol=null,multiApi=null,historyApi=null,localApi=null,view=null,viewContextKey="",refreshPromise=null,refreshContextKey="";
+  let installed=false,busy=false,protocol=null,multiApi=null,historyApi=null,localApi=null,view=null,viewContextKey="",viewGeneration=-1,refreshPromise=null,refreshContextKey="",refreshGeneration=-1,authorityGeneration=0,observedContextKey="";
   function pfrShowdown(){try{return typeof currentShowdown!=="undefined"?currentShowdown:null;}catch(_error){return null;}}
   function pfrShared(){const s=pfrShowdown();return Boolean(s&&s.sharedJourney&&s.sharedJourney.mode==="shared");}
   function pfrRequest(){const s=pfrShowdown();if(!s||s.sharedJourney?.mode!=="shared")return null;const rivalryId=String(s.sharedJourney?.rivalryId||"").trim(),saveId=String(s.identity?.saveId||"").trim(),playerOneProfileId=String(s.identity?.managerProfileIds?.playerOne||"").trim(),playerTwoProfileId=String(s.identity?.managerProfileIds?.playerTwo||"").trim();if(!rivalryId||!/^save_[0-9a-f]{24}$/.test(saveId)||!/^profile_[0-9a-f]{24}$/.test(playerOneProfileId)||!/^profile_[0-9a-f]{24}$/.test(playerTwoProfileId))return null;return Object.freeze({rivalryId,saveId,playerOneProfileId,playerTwoProfileId,key:`${saveId}|${rivalryId}|${playerOneProfileId}|${playerTwoProfileId}|final-reconciliation`});}
   function pfrSaveAuthorityReady(){return root.CareerModeSaveLibraryRuntime?.isReady?.()===true;}
   function pfrContextMatches(request){const current=pfrRequest();return Boolean(request&&current&&request.key===current.key&&pfrSaveAuthorityReady());}
+  function pfrTrackRequest(request){const key=request?.key||"";if(key===observedContextKey)return false;observedContextKey=key;authorityGeneration+=1;return true;}
+  function pfrAuthorityMatches(request,generation){return generation===authorityGeneration&&pfrContextMatches(request);}
+  function pfrClearView({bump=false}={}){if(bump)authorityGeneration+=1;view=null;viewContextKey="";viewGeneration=-1;pfrRender();return null;}
   function pfrLocalAuthorityMatches(request,localState){const role=String(localState?.binding?.managerRole||"");const activeProfileId=role==="playerOne"?request?.playerOneProfileId:role==="playerTwo"?request?.playerTwoProfileId:"";return Boolean(request&&localState&&SAFE_LOCAL_PHASES.has(localState.phase)&&localState.canonicalStorageMutation===false&&localState.providerWriteRequired===false&&localState.automaticLocalApply===false&&localState.candidateCOnly===true&&String(localState.binding?.saveId||"")===request.saveId&&activeProfileId&&String(localState.binding?.profileId||"")===activeProfileId);}
   function pfrSnapshotsMatch(request,multiState,historyState,localState){return Boolean(request&&multiState&&historyState&&String(multiState.rivalryId||"")===request.rivalryId&&String(historyState.rivalryId||"")===request.rivalryId&&pfrLocalAuthorityMatches(request,localState));}
   function pfrField(id){return root.document&&root.document.getElementById(id);}
@@ -38,7 +41,7 @@
     let close=pfrField("sharedFinalReconciliationClose");if(!close){close=root.document.createElement("p");close.id="sharedFinalReconciliationClose";panel.appendChild(close);}
     return {panel,heading,summary,winner,close};
   }
-  function pfrCurrentView(){const request=pfrRequest();let localState=null;try{localState=localApi?.getState?.()||null;}catch(_error){}return pfrSaveAuthorityReady()&&request&&view&&viewContextKey===request.key&&pfrLocalAuthorityMatches(request,localState)?view:null;}
+  function pfrCurrentView(){const request=pfrRequest();pfrTrackRequest(request);let localState=null;try{localState=localApi?.getState?.()||null;}catch(_error){}return pfrSaveAuthorityReady()&&request&&view&&viewContextKey===request.key&&viewGeneration===authorityGeneration&&pfrLocalAuthorityMatches(request,localState)?view:null;}
   function pfrRender(){
     const ui=pfrEnsureUi();if(!ui)return false;const current=pfrCurrentView(),active=Boolean(current&&current.phase==="FINAL_SEASON_RECONCILED"&&current.finalSeasonReconciled===true);
     pfrHidden(ui.panel,!active);if(!active)return false;
@@ -49,27 +52,27 @@
     pfrText(ui.close,"FINAL RESULTS ARE READ-ONLY · TERMINAL CLOSE REMAINS A SEPARATE STEP");
     return true;
   }
-  function pfrDiscard(request){if(request&&viewContextKey===request.key){view=null;viewContextKey="";}pfrRender();return null;}
-  async function pfrRefreshNow(request=pfrRequest()){
-    if(!request||!pfrContextMatches(request))return pfrDiscard(request);
-    await pfrEnsureDependencies();if(!pfrContextMatches(request))return pfrDiscard(request);
-    const multiState=await multiApi.refresh();if(!pfrContextMatches(request))return pfrDiscard(request);
-    const historyState=await historyApi.refresh();if(!pfrContextMatches(request))return pfrDiscard(request);
-    const localState=localApi.refresh();if(!pfrContextMatches(request)||!pfrSnapshotsMatch(request,multiState,historyState,localState))return pfrDiscard(request);
+  function pfrDiscard(request,generation){if(request&&viewContextKey===request.key&&viewGeneration===generation){view=null;viewContextKey="";viewGeneration=-1;}pfrRender();return null;}
+  async function pfrRefreshNow(request=pfrRequest(),generation=authorityGeneration){
+    if(!request||!pfrAuthorityMatches(request,generation))return pfrDiscard(request,generation);
+    await pfrEnsureDependencies();if(!pfrAuthorityMatches(request,generation))return pfrDiscard(request,generation);
+    const multiState=await multiApi.refresh();if(!pfrAuthorityMatches(request,generation))return pfrDiscard(request,generation);
+    const historyState=await historyApi.refresh();if(!pfrAuthorityMatches(request,generation))return pfrDiscard(request,generation);
+    const localState=localApi.refresh();if(!pfrAuthorityMatches(request,generation)||!pfrSnapshotsMatch(request,multiState,historyState,localState))return pfrDiscard(request,generation);
     const next=protocol.reconcile({sharedActive:true,multiSeason:multiState,history:historyState,localReconciliation:localState});
-    if(!pfrContextMatches(request)||!pfrSnapshotsMatch(request,multiState,historyState,localState))return pfrDiscard(request);
-    view=next;viewContextKey=request.key;pfrRender();
+    if(!pfrAuthorityMatches(request,generation)||!pfrSnapshotsMatch(request,multiState,historyState,localState))return pfrDiscard(request,generation);
+    view=next;viewContextKey=request.key;viewGeneration=generation;pfrRender();
     try{root.dispatchEvent?.(new root.CustomEvent("career-mode-shared-final-reconciliation-state-change",{detail:view}));}catch(_error){}
     return view;
   }
   function pfrRefresh(){
-    const request=pfrRequest();if(!request){view=null;viewContextKey="";pfrRender();return Promise.resolve(null);}
-    if(viewContextKey&&viewContextKey!==request.key){view=null;viewContextKey="";pfrRender();}
-    if(refreshPromise&&refreshContextKey===request.key)return refreshPromise;
-    busy=true;const current=pfrRefreshNow(request).catch(error=>{if(pfrContextMatches(request)){pfrDiscard(request);pfrReport("Unable to reconcile final Shared Showdown",error);}return null;}).finally(()=>{if(refreshPromise===current){refreshPromise=null;refreshContextKey="";busy=false;}});
-    refreshPromise=current;refreshContextKey=request.key;return current;
+    const request=pfrRequest();pfrTrackRequest(request);const generation=authorityGeneration;if(!request)return Promise.resolve(pfrClearView());
+    if(viewContextKey&&(viewContextKey!==request.key||viewGeneration!==generation))pfrClearView();
+    if(refreshPromise&&refreshContextKey===request.key&&refreshGeneration===generation)return refreshPromise;
+    busy=true;const current=pfrRefreshNow(request,generation).catch(error=>{if(pfrAuthorityMatches(request,generation)){pfrDiscard(request,generation);pfrReport("Unable to reconcile final Shared Showdown",error);}return null;}).finally(()=>{if(refreshPromise===current){refreshPromise=null;refreshContextKey="";refreshGeneration=-1;busy=false;}});
+    refreshPromise=current;refreshContextKey=request.key;refreshGeneration=generation;return current;
   }
-  function pfrWake(event){const request=pfrRequest();if(event?.type==="career-mode-save-library-authority-invalidated"){view=null;viewContextKey="";pfrRender();return;}if(event?.type==="career-mode-shared-local-reconciliation-state-change"){let localState=event.detail||null;if(!localState){try{localState=localApi?.getState?.()||null;}catch(_error){}}if(!pfrLocalAuthorityMatches(request,localState)){view=null;viewContextKey="";pfrRender();return;}}if(root.document?.visibilityState==="hidden")return;if(!request||!pfrSaveAuthorityReady()){view=null;viewContextKey="";pfrRender();return;}if(viewContextKey&&viewContextKey!==request.key){view=null;viewContextKey="";pfrRender();}if(busy&&refreshPromise&&refreshContextKey===request.key)return;void pfrRefresh();}
+  function pfrWake(event){const request=pfrRequest(),contextChanged=pfrTrackRequest(request);if(contextChanged)pfrClearView();if(event?.type==="career-mode-save-library-authority-invalidated")return pfrClearView({bump:true});if(event?.type==="career-mode-shared-local-reconciliation-state-change"){let localState=event.detail||null;if(!localState){try{localState=localApi?.getState?.()||null;}catch(_error){}}if(!pfrLocalAuthorityMatches(request,localState))return pfrClearView({bump:true});}if(root.document?.visibilityState==="hidden")return;if(!request||!pfrSaveAuthorityReady())return pfrClearView({bump:!pfrSaveAuthorityReady()});if(viewContextKey&&(viewContextKey!==request.key||viewGeneration!==authorityGeneration))pfrClearView();if(busy&&refreshPromise&&refreshContextKey===request.key&&refreshGeneration===authorityGeneration)return;void pfrRefresh();}
   function pfrInstall(){if(installed)return true;installed=true;for(const event of ["career-mode-shared-multi-season-state-change","career-mode-shared-history-convergence-state-change","career-mode-shared-local-reconciliation-state-change","career-mode-connected-account-state-change","career-mode-showdown-state-change","career-mode-active-save-changed","career-mode-save-library-authority-invalidated"]){root.addEventListener?.(event,pfrWake);}root.document?.addEventListener?.("visibilitychange",pfrWake);if(typeof root.setInterval==="function")root.setInterval(pfrWake,POLL_MS);if(typeof root.setTimeout==="function")root.setTimeout(pfrWake,0);return true;}
   return Object.freeze({contractVersion:1,feature:"ssjr-production-shared-final-reconciliation",productionEnabled:true,runtimeRevision:"1.9.1-r17",pollIntervalMs:POLL_MS,install:pfrInstall,refresh:pfrRefresh,getState:pfrCurrentView,isActive:pfrShared,usesAccumulatedCanonicalPoints:true,createsAdditionalSeason:false,terminalCloseSeparate:true,saveLibraryAuthorityRequired:true,canonicalStorageMutation:false,providerWriteRequired:false,listPermissionRequired:false,billingRequired:false});
 });
