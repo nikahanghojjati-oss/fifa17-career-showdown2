@@ -63,6 +63,57 @@
       "generationNote": "not image-generation output; authored as reusable SVG geometry",
       "verification": "UTF-8 proposal asset hashed after creation",
       "acceptanceStatus": "PACKAGED_PENDING_VISUAL_QA"
+    },
+    {
+      "id": "S02_TWO_MANAGER_RIVALRY_DIVIDER",
+      "kind": "procedural-vector",
+      "canonicalFilename": "two-manager-rivalry-divider.svg",
+      "proposedPackagePath": "assets/procedural/two-manager-rivalry-divider.svg",
+      "source": "original R8.26 procedural SVG",
+      "dimensions": [600, 120],
+      "fileType": "image/svg+xml",
+      "sha256": "104221925bf7cd14232a5bed6b6536e7bced232bc2d29d830a669f3d2478a49b",
+      "targetScreens": ["createShowdown"],
+      "responsiveEligibility": "desktop and tablet; may be omitted on mobile",
+      "safeZone": "decorative divider only; never replaces manager labels or inputs",
+      "rightsStatus": "original procedural design",
+      "generationNote": "not image-generation output",
+      "verification": "UTF-8 proposal asset hashed after creation",
+      "acceptanceStatus": "PACKAGED_PENDING_VISUAL_QA"
+    },
+    {
+      "id": "S03_WHEEL_STAGE_HALO",
+      "kind": "procedural-vector",
+      "canonicalFilename": "wheel-stage-halo.svg",
+      "proposedPackagePath": "assets/procedural/wheel-stage-halo.svg",
+      "source": "original R8.26 procedural SVG",
+      "dimensions": [900, 900],
+      "fileType": "image/svg+xml",
+      "sha256": "71af76ca8de2144e1468f43c01f9bd8ed09c65a3639bf079c45bb0d69419deae",
+      "targetScreens": ["leagueWheelScreen"],
+      "responsiveEligibility": "all breakpoints with reduced radius/intensity on narrow layouts",
+      "safeZone": "must remain behind real wheel and outside pointer/hit area",
+      "rightsStatus": "original procedural design",
+      "generationNote": "not image-generation output",
+      "verification": "UTF-8 proposal asset hashed after creation",
+      "acceptanceStatus": "PACKAGED_PENDING_VISUAL_QA"
+    },
+    {
+      "id": "S04_CLUB_PACK_FRAME",
+      "kind": "procedural-vector",
+      "canonicalFilename": "club-pack-frame.svg",
+      "proposedPackagePath": "assets/procedural/club-pack-frame.svg",
+      "source": "original R8.26 procedural SVG",
+      "dimensions": [720, 960],
+      "fileType": "image/svg+xml",
+      "sha256": "b64a3781cb9d14497e13bba0d6af430decf35828c7ec4ba0d57cba2a56a35d18",
+      "targetScreens": ["clubWheelScreen"],
+      "responsiveEligibility": "desktop through mobile as a scalable frame",
+      "safeZone": "no baked manager or club text; live DOM labels sit above/inset within frame",
+      "rightsStatus": "original procedural design; no official crest or copied pack design",
+      "generationNote": "not image-generation output",
+      "verification": "UTF-8 proposal asset hashed after creation",
+      "acceptanceStatus": "PACKAGED_PENDING_VISUAL_QA"
     }
   ]
 }
