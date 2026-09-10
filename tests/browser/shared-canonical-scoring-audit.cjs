@@ -16,6 +16,7 @@ async function prepare(page,{role,saveId}){
   await page.locator('#loadingScreen').waitFor({state:'hidden',timeout:12000});
   await page.waitForFunction(()=>typeof window.ensureGameplayModules==='function'&&typeof window.loadRuntimeScript==='function'&&typeof window.navigateTo==='function',null,{timeout:12000});
   await page.evaluate(async({role,saveId,rivalryId,sessionId,canonicalKeys,resultOne,resultTwo,scoreOne,scoreTwo})=>{
+    const loadCandidateScript=path=>new Promise((resolve,reject)=>{const script=document.createElement('script');script.src=path;script.async=false;script.onload=()=>resolve(true);script.onerror=()=>reject(new Error(`Unable to load unpublished candidate ${path}.`));document.head.appendChild(script);});
     await ensureGameplayModules();
     currentShowdown={id:saveId,currentRound:1,totalRounds:3,status:'Ready',sharedJourney:{mode:'shared',rivalryId},managers:{playerOne:'Nik',playerTwo:'Daniel'},selectedLeague:null,clubs:{playerOne:null,playerTwo:null},transferChallenges:[],rounds:[],score:{playerOne:0,playerTwo:0}};
     const setup={status:'ready',ready:true,revision:6,phase:'SHOWDOWN_CONFIRMED',rivalryId,sessionId,deviceId:'device_'+(role==='playerOne'?'1':'2').repeat(32),managerRole:role,setup:{phase:'SHOWDOWN_CONFIRMED',revision:6,coordinatorRole:'playerOne',leagueId:'premier_league',clubs:{playerOne:'Arsenal',playerTwo:'Liverpool'},totalSeasons:3,confirmedRoles:['playerOne','playerTwo']}};
@@ -30,7 +31,12 @@ async function prepare(page,{role,saveId}){
     window.CareerModeProductionSharedSeasonCommit={getState:()=>commit,refresh:async()=>commit,install:()=>true};
     const providerCalls=[];
     window.CareerModeSparkSharedCanonicalScoring={read:async options=>{providerCalls.push({uid:options.user?.uid,rivalryId:options.rivalryId,sessionId:options.sessionId,deviceId:options.deviceId,seasonNumber:options.seasonNumber,teamCount:options.teamCount});return {ok:true,authoritative:true,runtimeRevision:'1.9.1-r11',phase:'SCORING_RECONCILED',revision:1,seasonNumber:1,managerRole:role,seasonCommitRevision:3,resultsRevision:2,resultsContentHash:'sha256:'+('a'.repeat(64)),scoring:{playerOne:scoreOne,playerTwo:scoreTwo},winner:'playerOne'};}};
-    await loadRuntimeScript('ssjr-r11-audit-adapter','js/productionSharedCanonicalScoring.js',()=>window.CareerModeProductionSharedCanonicalScoring);CareerModeProductionSharedCanonicalScoring.install();await CareerModeProductionSharedCanonicalScoring.refresh();
+    // r11 is deliberately not yet part of the r10 service-worker shell. Load the exact
+    // candidate files without a ?v= query so the r10 worker passes the request through
+    // to the test server. Whole-shell r11 publication is a separate required gate.
+    await loadCandidateScript('js/sharedCanonicalScoring.js');
+    await loadCandidateScript('js/productionSharedCanonicalScoring.js');
+    CareerModeProductionSharedCanonicalScoring.install();await CareerModeProductionSharedCanonicalScoring.refresh();
     window.__ssjrScoringAudit={providerCalls,storageBefore:Object.fromEntries(canonicalKeys.map(key=>[key,localStorage.getItem(key)])),storageAfter:()=>Object.fromEntries(canonicalKeys.map(key=>[key,localStorage.getItem(key)])),localState:()=>({selectedLeague:currentShowdown.selectedLeague,clubs:structuredClone(currentShowdown.clubs),transferChallenges:structuredClone(currentShowdown.transferChallenges),rounds:structuredClone(currentShowdown.rounds),score:structuredClone(currentShowdown.score)}),state:()=>CareerModeProductionSharedCanonicalScoring.getState()};
   },{role,saveId,rivalryId,sessionId,canonicalKeys,resultOne,resultTwo,scoreOne,scoreTwo});
   await page.locator('#seasonEntry').waitFor({state:'visible',timeout:8000});
