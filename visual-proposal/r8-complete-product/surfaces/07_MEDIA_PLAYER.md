@@ -1,253 +1,241 @@
-# Surface Group 07 — Menu Music / Media Player
+# Surface Group 07 — Showdown Radio / Media
 
-Status: ACTIVE PROPOSAL CONTRACT — AUDIUS-FIRST / DEVICE PROOF + OWNER TRACK APPROVAL OPEN
+Status: ACTIVE PROPOSAL CONTRACT — AUDIUS LOCKED PRIMARY / NO AUTOPLAY / DEVICE + TRACK PROOF OPEN
 
-This contract replaces the assumption that the current YouTube iframe tile is an acceptable final music experience. It is proposal-only and does not modify production `main`.
+This contract replaces the current YouTube-based music experience. It is proposal-only and does not modify production `main`.
+
+Current production reconciliation anchor: `4d202126ce1606a4e3f74c09b31201cf4ec51c6e` / `1.9.1-r15`.
 
 Read with:
 
-- `evidence/MEDIA_PLAYER_FEASIBILITY_2026-09-10.md`
 - `evidence/MEDIA_PROVIDER_ZERO_DOLLAR_DECISION_2026-09-10.md`
-- `prototypes/25-native-music-player-reference.html` as historical visual exploration
-- `prototypes/26-native-music-player-functional-reference.html` as native event-authority proof
-- `prototypes/26-soundcloud-fifa17-audio-provider-reference.html` as secondary-provider proof
-- `prototypes/27-audius-showdown-radio-reference.html` as current primary music direction
+- `evidence/AUDIUS_DEVICE_AND_TRACK_PROOF_MATRIX.md`
+- `prototypes/27-audius-showdown-radio-reference.html`
+- `prototypes/01-home-reference.html`
 
-## Owner requirement
+## 1. Owner-locked direction
 
-Music must be audio-only, smooth on the first deliberate Play, replayable, lightweight and permanently zero-dollar for the project. Exact FIFA 17 soundtrack fidelity is desirable but secondary to a better player. The project may use a new track list if that creates a materially better long-term experience.
+Primary music provider: Audius.
 
-The Home screen must remain fully usable if every media provider fails.
+Playback engine: one browser HTML `<audio>` element.
 
-## Current production defect
+Experience goals:
 
-The r14 main anchor `97c28b1efea6ee6e901e6076a834ec419cbad5aa` still carries the old YouTube music authority model: local `menuMediaPlaying` can move to true before provider-confirmed playback, iframe DOM `load` is treated as readiness, and raw postMessage play/pause commands are used without official provider state events.
+- audio-only;
+- lightweight;
+- compact and visually integrated into Home;
+- explicit Play/Pause/Previous/Next;
+- no music video;
+- no YouTube music fallback;
+- no listener Premium subscription;
+- no billing dependency;
+- no automatic paid upgrade;
+- Career Mode remains fully usable when music is unavailable.
 
-The final proposal must not reproduce that model.
+Owner explicitly rejected autoplay after browser-policy review. Do not reintroduce autoplay as a required behavior.
 
-## Mode A — SHOWDOWN RADIO / AUDIUS
+## 2. Free-plan and billing boundary
 
-Decision: primary music direction.
+Official Audius documentation reviewed 2026-09-10 states:
 
-Architecture:
+- Free: 10 requests/second;
+- Free: 500,000 requests/month;
+- Free plan described as always free with no restrictions;
+- Unlimited is a separate higher-limit plan reached by contacting Audius.
 
-- curated Audius public-track queue;
-- one browser HTML `<audio>` element is the playback authority;
-- no music video or iframe;
-- no listener login for ordinary public playback;
-- no autoplay on application startup;
-- selected stream source assigned only after deliberate user intent or controlled pre-resolution that does not download audio bytes prematurely;
-- actual HTML media events own player state;
-- no paid fallback.
+The project is expected to use only a tiny fraction of that quota. Nevertheless, the product rule is stricter than the provider's marketing language:
 
-Current official Audius Free-plan documentation reviewed 2026-09-10 states 10 requests/second and 500,000 requests/month and describes the Free plan as always free with no restrictions. These are API-request limits, not song-play counts. A play may involve more than one network/API request, so the proposal does not equate one play with one request.
+`paidUpgradeAllowed = false`
 
-Expected project use is extremely small relative to that ceiling. The implementation still minimizes requests:
+Before production adoption, API-key creation must be verified not to require a payment card or billing enrollment. If setup requires billing details, pay-as-you-go acceptance, paid overage, credits, or automatic conversion, Audius is disqualified rather than accommodated.
 
-1. ship/cache a curated manifest of track IDs and display metadata;
-2. do not search/trend on every Home visit;
-3. keep one audio element;
-4. request only the selected track;
-5. do not preload the whole queue;
-6. use bounded retry/backoff;
-7. stop retries on provider/quota failure;
-8. never purchase additional capacity.
+If a free quota is exhausted or the provider becomes unavailable:
 
-### Audius state authority
+- stop requesting media;
+- show a local player-unavailable state;
+- never purchase capacity;
+- never block Career Mode.
+
+## 3. Request discipline
+
+Request quota is not equivalent to song-play count.
+
+The final implementation minimizes requests even though expected use is tiny:
+
+1. ship a small curated track manifest with stable Audius track IDs and display metadata;
+2. do not search/trend on ordinary Home entry;
+3. do not resolve a canonical URL on every play once an approved track ID is known;
+4. keep exactly one audio element;
+5. request only the selected track;
+6. do not preload the full queue;
+7. cache safe metadata locally where appropriate;
+8. use bounded retry/backoff;
+9. no polling loop for music state;
+10. provider/quota failure terminates locally.
+
+## 4. No-autoplay decision
+
+The player UI may load eagerly because it is small DOM/CSS and does not contain a heavy video iframe.
+
+Audio bytes must not begin automatically on page load.
+
+The first actual playback requires deliberate user Play input. This avoids browser autoplay blocking, especially on iPhone Safari, and eliminates a class of first-load playback failures.
+
+After a user has deliberately started audio, normal Pause/Resume/Next/Previous behavior may continue within the same allowed browser session according to platform rules. Returning to Home must never unexpectedly start sound without browser permission and the product's explicit session rule.
+
+No hidden muted autoplay/unmute trick is permitted for music.
+
+## 5. State authority
 
 Required state machine:
 
-`idle -> resolving -> ready -> play_requested -> playing | buffering | error -> paused | ended`
+`idle -> ready -> loading/play_requested -> playing | buffering | error -> paused | ended`
 
 Rules:
 
-- Play expresses intent; it never directly asserts `PLAYING`.
-- `play` / accepted play promise may produce `PLAY REQUESTED` or `LOADING`.
-- only the audio element's `playing` event produces `PLAYING`.
-- `waiting` / `stalled` produce `BUFFERING` or `RECONNECTING AUDIO` without blocking Home.
-- `pause` produces `PAUSED`.
-- `ended` advances according to the queue preference.
-- media/provider error produces a local player error, never an application-wide failure.
-- page transitions must not create duplicate simultaneous players.
+- Play expresses intent; it does not assert `PLAYING`.
+- only the audio element's `playing` event produces the visible PLAYING state;
+- `waiting` / `stalled` produce BUFFERING without blocking Home;
+- `pause` produces PAUSED;
+- `ended` advances according to the final queue policy;
+- media/provider failure is player-local;
+- track changes reset stale state before the new source becomes current;
+- there is never more than one playback authority.
 
-### Audius catalogue and rights
-
-Do not label the Audius queue `FIFA 17 SOUNDTRACK` unless the actual recording is legitimately that soundtrack item and the provider metadata proves it.
+## 6. Track catalogue
 
 Primary label: `SHOWDOWN RADIO`.
 
-Track selection should target FIFA-17-era energy: upbeat indie/electronic pop, house, synth-pop and matchday pacing. Every final track must have a rights/provenance decision. Audius's Open Music License can provide strong Music Player rights for covered material, but not every track may use that license; creator-selected or alternative rights must be respected.
+Do not call the Audius queue `FIFA 17 SOUNDTRACK` unless an exact recording is legitimately available under acceptable rights and provider access.
 
-Candidate discovery is not owner approval. The owner must hear and approve the final queue separately from approving the UI screenshots.
+Target feeling:
 
-## Mode B — FIFA 17 PICKS / SOUNDCLOUD
+- upbeat indie/electronic pop;
+- house/electronic energy;
+- bright competitive matchday pacing;
+- clean full-track public streamability;
+- clear creator/source metadata;
+- rights/provenance suitable for a Music Player.
 
-Decision: optional nostalgia catalogue, not primary playback authority.
+Candidate discovery is not owner approval. Final tracks require:
 
-Purpose: preserve access to the existing six FIFA 17 song choices when SoundCloud exposes them cleanly in its standard audio widget.
+- stream proof;
+- rights/provenance review;
+- iPhone Safari proof;
+- Chromebook proof;
+- owner listening/taste approval.
 
-All six current project songs have public artist-branded SoundCloud candidate pages recorded in the media evidence. Eligibility remains per track.
+## 7. SoundCloud and YouTube status
 
-Allowed outcomes:
+SoundCloud exact-song nostalgia research is retained as historical/optional evidence, but it is not required in the default final proposal now that the owner has selected Audius as the primary music experience.
 
-- `FULL` — provider exposes a full playable track;
-- `PREVIEW` — provider exposes only a clearly labelled short preview;
-- `UNAVAILABLE` — no usable embed.
+Do not spend finalization time building a second music product unless the owner explicitly reopens `FIFA 17 PICKS`.
 
-A preview must never masquerade as a full recording. The owner has accepted a short SoundCloud preview as an optional secondary experience.
+YouTube is not a music fallback.
 
-Use one reusable SoundCloud widget, real READY/PLAY/PAUSE/FINISH/ERROR events, visible attribution, and no optimistic site state.
+A gameplay trailer may remain a separate intentional video surface if the final Home design still includes it. That video remains lazy-loaded and uses the official YouTube player lifecycle. It must never be hidden to extract audio.
 
-SoundCloud failure does not trigger YouTube music fallback. It returns to Showdown Radio or another SoundCloud item.
-
-## Mode C — FIFA 17 GAMEPLAY TRAILER / YOUTUBE
-
-YouTube is video-only in the final music architecture.
-
-The gameplay trailer may remain as an intentional video surface. Music does not fall back to YouTube because the owner wants music to remain audio-only and YouTube policy does not permit hiding/isolating the audio component as a custom audio player.
-
-If the trailer remains:
-
-- lazy-create the visible YouTube player only after deliberate intent;
-- use official `YT.Player` lifecycle events;
-- wait for `onReady`;
-- derive playing/paused/buffering/ended from `onStateChange`;
-- handle `onAutoplayBlocked` and `onError`;
-- do not suppress, cover, skip or work around ads;
-- destroy/pause according to the existing navigation contract.
-
-## Primary player visual anatomy
+## 8. Player anatomy
 
 Compact Home player:
 
 1. `SHOWDOWN RADIO` eyebrow;
 2. `AUDIUS` source badge;
 3. current title and creator;
-4. previous, play/pause and next;
-5. elapsed time / duration where reliable;
-6. seek rail with usable touch target;
-7. mute/volume where platform behavior supports it;
+4. previous, play/pause, next;
+5. elapsed/duration when available;
+6. usable seek rail;
+7. mute/volume where platform-supported;
 8. queue/expand action;
-9. explicit loading/buffering/error/offline status;
-10. small source/provenance affordance in expanded view.
+9. explicit ready/loading/playing/paused/buffering/error/offline state;
+10. compact source/provenance affordance.
 
-The player must remain subordinate to Career Mode actions.
+The player remains visually subordinate to Career Mode actions.
 
 Expanded queue:
 
 - one column on mobile;
-- selected row clearly indicated by structure plus color;
-- title, creator and duration;
-- no album art dependency;
-- no automatic stream request for every row;
-- optional `FIFA 17 PICKS` SoundCloud section visually separated from Showdown Radio.
+- selected row indicated by structure plus color;
+- title, creator, duration/status;
+- no album-art dependency;
+- no stream request for inactive rows;
+- no hidden provider iframe.
 
-## Required material states
+## 9. Responsive and accessibility contract
 
-### Audius ready
-
-Track identity present; Play enabled; no false playback indicator.
-
-### Audius playing / paused
-
-State follows HTML audio events. Progress changes without layout shift.
-
-### Audius buffering / reconnecting
-
-Show local media state; keep Home usable; do not encourage repeated button hammering.
-
-### Audius provider/quota error
-
-Bounded retry. Then player-level unavailable state. Never buy or upgrade.
-
-### Queue / track switch
-
-One player reused. Old state is reset before new track becomes ready.
-
-### SoundCloud Full / Preview / Unavailable
-
-Provider-labelled and independently understandable. Preview duration/limitation is explicit.
-
-### YouTube trailer
-
-Separate intentional video surface, never presented as the music player.
-
-## Responsive contract
-
-At 390px class mobile width:
+At 390px:
 
 - essential body/status copy >=13px;
 - metadata >=11px;
 - control labels >=12px;
 - touch targets >=44px;
 - no horizontal overflow;
-- queue stacks to one column;
-- seek rail retains a usable hit target;
-- source/provenance text wraps rather than shrinking below the typography floor.
+- queue stacks vertically;
+- seek remains touch-usable;
+- provider/source text wraps rather than shrinking.
 
-At Chromebook/reduced-wide widths, retain the compact player. Do not expand music into a large provider rectangle.
+Accessibility:
 
-## Accessibility
+- explicit names for transport controls;
+- Play/Pause label follows actual state;
+- seek is keyboard-operable;
+- meaningful state changes use a polite live region;
+- progress ticks are not announced continuously;
+- track changes do not move focus;
+- reduced motion removes decoration only.
 
-- explicit accessible names on transport controls;
-- play/pause label reflects real current state;
-- elapsed/duration exposed textually where known;
-- seek keyboard-operable;
-- meaningful state changes in a polite live region;
-- progress ticks are not live-announced;
-- focus does not jump when a track changes;
-- reduced motion suppresses equalizer/wave decoration only, never state information.
+## 10. Performance contract
 
-## Performance
+The old YouTube music tile required heavy lazy-loading because it embedded video/provider UI. Showdown Radio does not.
 
-- one Audius/HTML-audio authority;
-- no simultaneous preloads for the queue;
-- metadata cached locally where appropriate;
-- no discovery/search request on normal Home entry;
-- provider errors are local;
-- SoundCloud widget instantiated only if optional FIFA 17 Picks is opened or intentionally warmed within measured cost;
-- YouTube trailer remains fully lazy.
+Allowed eager work:
 
-## Permanent zero-dollar boundary
+- player DOM/CSS;
+- small static curated manifest;
+- current track display metadata.
 
-Conceptual invariant:
+Deferred until user intent:
 
-`paidUpgradeAllowed = false`
+- selected stream request;
+- optional nonessential provider metadata refresh.
 
-If Audius, SoundCloud, YouTube or any future provider changes terms so this path requires payment, a payment card, overage billing or a paid listener subscription:
+Forbidden:
 
-- disable that provider path;
-- use another already-approved zero-dollar path if available;
-- otherwise show media unavailable;
-- never add billing or automatically upgrade;
-- never make Career Mode unavailable.
+- preloading every track;
+- autoplaying audio on Home entry;
+- creating multiple audio elements;
+- catalogue discovery calls on every navigation;
+- unbounded retry;
+- provider failure blocking route navigation.
 
-## Final owner-review disclosure
+## 11. Final owner-review disclosure
 
-The final proposal presentation must tell the owner:
+The final owner package must state:
 
 - primary provider: Audius;
 - playback engine: browser HTML audio;
-- current Free-plan basis at verification date;
-- that request quota is not the same as song-play count;
-- exact final queue and why each track is allowed;
-- which optional FIFA 17 Picks are full vs preview;
-- whether gameplay trailer is retained;
-- which functions are proven on iPhone Safari and Chromebook;
-- any known platform limitation, including mobile volume behavior if applicable.
+- autoplay: OFF by design;
+- lightweight UI shell: eagerly available;
+- stream bytes: requested only for selected user-started playback;
+- current Free-plan verification basis;
+- whether API-key creation required any billing information;
+- exact final queue and rights status;
+- actual iPhone Safari and Chromebook results;
+- any platform-specific volume/seek limitation;
+- no YouTube music fallback;
+- gameplay trailer status if retained.
 
-The owner must be able to try the functional player/reference and separately approve both the chosen tracks and the final UI screenshots.
+## 12. Acceptance
 
-## Acceptance
+Media is proposal-complete only when:
 
-This surface is proposal-complete only when:
-
-- Audius-first functional reference exists;
-- final candidate queue has rights/provenance entries;
-- first-play / pause-resume / next-previous / seek / failure behavior is device-tested on iPhone Safari and Chromebook;
-- optional SoundCloud exact-song items are classified Full/Preview/Unavailable if retained;
-- YouTube is absent from music fallback and limited to intentional video;
-- desktop/mobile player screenshots pass layout/readability QA;
-- Home integration screenshot exists;
-- zero-dollar fail-closed behavior is explicit;
-- owner sees and explicitly approves the final media screenshots and track selection.
+- Audius API-key/billing boundary is verified without enrolling billing;
+- final queue has rights/provenance records;
+- first Play works without a Play/Pause/Play ritual on iPhone Safari and Chromebook;
+- Pause/Resume/Previous/Next/seek/failure behavior is tested;
+- no autoplay dependency exists;
+- no duplicate-player bug exists;
+- desktop/Chromebook/mobile screenshots pass visual QA;
+- final Home integration screenshot exists;
+- owner hears/approves the final track selection;
+- owner explicitly approves the final player screenshots.
