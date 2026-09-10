@@ -49,15 +49,16 @@ assert.match(js, /setAttribute\("aria-hidden", "true"\)/, "Decorative R8 nodes m
 assert.match(js, /querySelector\([\s\S]*button,input,select,textarea,a\[href\]/, "R8 controller must reject focusable descendants.");
 assert.match(js, /writesStorage:false/, "R8 diagnostics must declare no storage writes.");
 assert.match(js, /writesFirebase:false/, "R8 diagnostics must declare no Firebase writes.");
+assert.match(js, /initializeFromBootstrap/, "Lazy R8 module must own fail-closed activation after it loads.");
+assert.match(js, /presentation-load-failed/, "R8 module must fail closed if presentation CSS cannot load.");
 assert.match(js, /1\.9\.1-r12/, "R8 final-art controller must carry the current r12 asset revision fallback.");
 assert.doesNotMatch(js, /\blocalStorage\s*\.|\bsessionStorage\s*\.|\bindexedDB\s*\.|\bfirebase\s*\.|\bfirestore\s*\./i, "R8 final-art controller must not call persistence/provider APIs.");
 assert.doesNotMatch(js, /\bfetch\s*\(|\bXMLHttpRequest\b|\bnavigator\.sendBeacon\b/, "R8 final-art controller must not create a network protocol.");
 
-assert.equal((app.match(/r8-final-art-layer\.js/g) || []).length, 1, "Application bootstrap must install the bounded R8 entry exactly once.");
-assert.match(app, /r8-final-art-layer\.js\?v=1\.9\.1-r12/, "Application bootstrap must request the current r12 R8 entry.");
-assert.match(app, /dataset\.r8AutoEnable="true"/, "Application bootstrap must opt the R8 entry into bounded auto-enable.");
+assert.equal((app.match(/r8-final-art-layer\.js/g) || []).length, 1, "Application bootstrap must request the bounded R8 entry exactly once.");
+assert.match(app, /import\("\.\/r8-final-art-layer\.js\?v=1\.9\.1-r12"\)\.catch\(\(\)=>0\)/, "Application bootstrap must use the revision-pinned fail-closed lazy R8 import.");
 assert.ok(app.indexOf('data-visual-fidelity="reus-r3"') < app.indexOf('r8-final-art-layer.js'), "R8 entry must be requested after protected visual fidelity is requested.");
-assert.doesNotMatch(app, /dataset\.r8Visual\s*=/, "Compact bootstrap must not activate the R8 root gate itself; the controller owns fail-closed activation after its stylesheet loads.");
+assert.doesNotMatch(app, /dataset\.r8Visual\s*=/, "Compact bootstrap must not activate the R8 root gate itself; the lazy controller owns activation after its stylesheet loads.");
 assert.doesNotMatch(app, /marco-reus-2015-cc-by\.webp/, "R8 bootstrap must not replace or rewrite the protected loading Reus asset.");
 
 assert.match(audit, /1600, height: 900/, "R8 Home browser acceptance must include 1600x900.");
@@ -71,4 +72,4 @@ assert.ok(exists(danielPath), `Frozen A02 binary is required at ${danielPath}`);
 assert.equal(sha256(nikPath), expected.nik, "A01 deployed bytes do not match owner-frozen authority.");
 assert.equal(sha256(danielPath), expected.daniel, "A02 deployed bytes do not match owner-frozen authority.");
 
-console.log("PASS R8.25 bounded Home/global visual contracts: reversible presentation, noninterference, responsive omission, frozen-byte integrity, compact startup bootstrap, and browser acceptance coverage are sealed.");
+console.log("PASS R8.25 bounded Home/global visual contracts: reversible presentation, noninterference, responsive omission, frozen-byte integrity, startup-budget-safe lazy import, and browser acceptance coverage are sealed.");
