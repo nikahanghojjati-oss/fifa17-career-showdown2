@@ -6,7 +6,10 @@ const baseUrl=new URL(process.env.CMS_BASE_URL||"http://127.0.0.1:4173/");
 const raw={account:"physical_account_a",device:"device_"+"1".repeat(32),rivalry:"pair_"+"2".repeat(64),session:"session_"+"3".repeat(64)};
 
 async function loadDirect(browser,physical){
-  const context=await browser.newContext({viewport:{width:430,height:932},isMobile:true,hasTouch:true,locale:"en-US"});
+  // This audit intentionally exercises the recorder in isolation. Blocking service workers
+  // keeps the real lazy SSJR bootstrap from bypassing page.route on reload and installing a
+  // second recorder instance; offline-shell retention is proven separately by publication contracts.
+  const context=await browser.newContext({viewport:{width:430,height:932},isMobile:true,hasTouch:true,locale:"en-US",serviceWorkers:"block"});
   const page=await context.newPage();const errors=[];page.on("pageerror",error=>errors.push(error.stack||error.message));
   await page.route("**/js/ssjr.js*",route=>route.abort());
   const url=new URL(baseUrl.href);if(physical){url.searchParams.set("ssjr-acceptance","1");url.searchParams.set("ssjr-physical","1");}
