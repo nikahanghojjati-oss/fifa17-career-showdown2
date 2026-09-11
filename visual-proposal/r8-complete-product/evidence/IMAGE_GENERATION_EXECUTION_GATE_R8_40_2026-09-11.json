@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "status": "ACTIVE_HARD_GATE",
+  "ownerIntent": "GPT-5.6 Sol owns product/UI decisions. Image generation is subordinate source-asset rendering only.",
+  "activeScreen": "leagueWheelScreen",
+  "imageGenerationAllowed": false,
+  "lockReason": "Existing generated/extracted candidates must be integrated into the real DOM and browser-reviewed before any new image-generation call.",
+  "hardRules": [
+    "Never invoke image generation because a screen looks visually incomplete.",
+    "A new image-generation call requires a bounded asset ticket with assetId, targetDomSlot, dimensions/aspect, allowedContent, forbiddenContent, sourceReference, acceptanceChecks and status READY.",
+    "A whole-page or whole-screen render is never a valid source asset. If a generated result contains navigation, page title, buttons, wheel, live state text or other product UI, classify it CONCEPT_ONLY / REJECTED_AS_IMPLEMENTATION.",
+    "Only one generated asset candidate may be active at a time. Before another generation call, the active candidate must be integrated into the real proposal, browser-rendered and either accepted, retained as candidate, or rejected.",
+    "The browser render is the owner-review surface. Generated source images are implementation inputs, not proof of progress.",
+    "References may guide design language but are not automatic generation triggers.",
+    "League logos/marks should be deterministic SVG/component work when practical; do not generate whole logo-sheet screenshots as final runtime assets.",
+    "Production logic, Firebase, saves, shared-session behavior and routing remain untouched by image generation.",
+    "No new image-generation call while imageGenerationAllowed=false."
+  ],
+  "leagueQueue": [
+    {
+      "assetId": "LEAGUE_STADIUM_R8_40",
+      "kind": "stadium-background-source",
+      "status": "CANDIDATE_PENDING_REAL_DOM_INTEGRATION",
+      "targetDomSlot": ".stadiumPlate",
+      "allowedContent": ["stadium architecture", "crowd", "floodlights", "pitch edge", "haze", "black/gold atmosphere"],
+      "forbiddenContent": ["Daniel", "Nik", "wheel", "league marks", "navigation", "buttons", "manager labels", "live text", "state badges"],
+      "nextAction": "Integrate the already-generated stadium candidate into the actual League Wheel HTML/CSS and Chromium-test it before generating anything else."
+    },
+    {
+      "assetId": "LEAGUE_DANIEL_LATERAL_POINT_R8_39",
+      "kind": "isolated-character-source",
+      "status": "CANDIDATE_PENDING_REAL_DOM_INTEGRATION",
+      "targetDomSlot": ".character.daniel",
+      "allowedContent": ["Daniel only", "dark suit", "lateral arm point toward wheel", "transparent/maskable background"],
+      "forbiddenContent": ["wheel", "logos", "buttons", "text", "stadium UI", "baked shadows that define layout"],
+      "nextAction": "Use the extracted/reference-derived lateral pointing candidate only if it survives composition/identity QA."
+    },
+    {
+      "assetId": "LEAGUE_MARKS_R8_40",
+      "kind": "deterministic-svg-identity-family",
+      "status": "BUILD_NOT_GENERATE",
+      "targetDomSlot": ".wheelItem .mark",
+      "referenceDirection": ["crowned lion for Premier League-inspired identity", "sun/football for LaLiga-inspired identity", "dynamic player for Bundesliga-inspired identity", "angular A with tricolor for Serie A-inspired identity", "angular L/1 with fleur-de-lis for Ligue 1-inspired identity"],
+      "nextAction": "Redraw as clean original SVGs/components in the same premium visual language; do not ship raw crops from a generated logo board."
+    }
+  ]
+}
