@@ -1,0 +1,12 @@
+/* R8.35 owner-reference composition tune. Presentation only. */
+@media (min-width:1280px){
+  .leagueReplica{background:transparent}
+  .wheelStage .character.daniel{left:.2vw;bottom:-45px;width:min(38vw,78vh,520px)}
+  .wheelStage .character.nik{right:.2vw;bottom:-42px;width:min(38vw,79vh,525px)}
+  .wheelStage .characterGlow.daniel{left:6vw;top:42px;width:350px;height:560px}
+  .wheelStage .characterGlow.nik{right:5vw;top:38px;width:350px;height:570px}
+}
+@media (min-width:1280px) and (max-height:745px){
+  .wheelStage .character.daniel{bottom:-42px;width:min(38vw,79vh,505px)}
+  .wheelStage .character.nik{bottom:-40px;width:min(38vw,80vh,510px)}
+}
