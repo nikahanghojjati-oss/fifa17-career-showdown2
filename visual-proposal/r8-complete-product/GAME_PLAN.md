@@ -18,12 +18,23 @@ Game Plan is the lightweight progress scoreboard for the Showdown visual environ
 - Core save, scoring, reveal, Shared Journey and persistence semantics remain authoritative.
 - The proposal may replace presentation architecture, but not silently fork product/domain authority.
 - Real UI is HTML/CSS/JS/SVG. Generative image work is limited to bounded source-art tickets such as character or environment artwork.
+- No merge or production swap occurs before owner review and later CM reconciliation.
+
+## CM alignment contract
+
+The visual track owns presentation proposal work. CM owns the production architecture/main-line reconciliation later.
+
+Every substantial proposal screen records integration notes as it is built: represented states, actions, data dependencies/ownership, persistence/network boundaries, accessibility semantics, responsive/motion behavior and explicitly decorative layers.
+
+Reconcile against then-current production contracts per screen. Do not assume a screen contract remains current merely because it was correct at the start of R8.
 
 ## Current owner visual-reference authority
 
-The ten owner-supplied cinematic references reviewed on 2026-09-10 are classified `REFERENCE_ONLY / OWNER VISUAL-LANGUAGE APPROVED`.
+The owner-supplied cinematic reference family reviewed on 2026-09-10 is classified `REFERENCE_ONLY / OWNER VISUAL-LANGUAGE APPROVED`.
 
 They are authoritative for visual ambition and design language, not for product truth. Text, scores, controls, club/league marks, feature availability and manager placement must be reconciled against the live product before implementation.
+
+Detailed synthesis: `evidence/VISUAL_LANGUAGE_REFERENCE_SYNTHESIS_R8_32_2026-09-10.md`.
 
 Shared visual grammar extracted from the set:
 
@@ -36,7 +47,7 @@ Shared visual grammar extracted from the set:
 - clear depth separation: atmosphere -> characters -> live product UI;
 - large decisive primary CTA plus quieter secondary/back actions;
 - cinematic desktop composition that deliberately simplifies at tablet/mobile breakpoints;
-- consistent brand language while allowing different page compositions for Home, Create, League, Club Assignment, Pairing, Statistics, Settings and Legacy.
+- consistent brand language while allowing different page compositions for Home, Create, League, Club Assignment, Pairing, Statistics, Settings, Legacy, Trophy and season-result surfaces.
 
 ## Character / live-object contact policy
 
@@ -50,23 +61,29 @@ For a pack/reveal object, contact is acceptable only against a stable exterior f
 
 | Workstream | Weight | Credit | Completion condition |
 | --- | ---: | ---: | --- |
-| Architecture + reference extraction | 15 | 14 | product boundaries, page inventory and visual language mapped |
-| Shared cinematic shell / navigation / design system | 15 | 1 | reusable responsive shell and primitives browser-proven |
+| Architecture + reference extraction | 15 | 15 | product boundaries, page inventory and visual language mapped |
+| Shared cinematic shell / navigation / design system | 15 | 5 | reusable responsive shell and primitives browser-proven |
 | Club Assignment cinematic rebuild | 15 | 4 | new live theatre, result deck and character integration browser-proven |
 | Remaining core-screen rebuild | 25 | 0 | required product screens assembled in the new system |
 | Daniel/Nik + environmental source assets | 10 | 2 | accepted reusable expression/pose masters integrated |
 | Deterministic Club Identity system | 8 | 4 | real catalog validated, rendered and owner-reviewed |
-| Responsive/accessibility/motion/SFX/browser QA | 7 | 1 | target viewport/state matrices pass |
+| Responsive/accessibility/motion/SFX/browser QA | 7 | 2 | target viewport/state matrices pass |
 | Final owner-review package | 5 | 0 | complete proposal rendered and presented together |
-| **TOTAL** | **100** | **26** | |
+| **TOTAL** | **100** | **32** | |
 
 ## Active build phase
 
-`GAME PLAN 26 / 100`
+`GAME PLAN 32 / 100`
 
-Current operation: build the shared cinematic application shell and component primitives, then rebuild Club Assignment as the first full consumer of the system. Existing B2 work is retained as geometry/state safety evidence, not as the final visual ceiling.
+Current operation: consume the new browser-proven cinematic shell in a full Club Assignment rebuild while preserving the current reveal/save contract. Existing B2 work remains predecessor geometry/state safety evidence, not the final visual ceiling.
 
-The first shell pass should establish real top navigation, stadium stage, page-title system, footer identity, buttons, panels, typography tokens, spacing/depth tokens, desktop/tablet/mobile breakpoints and non-interactive character slots. Club Assignment then replaces the inherited gray reveal presentation while consuming the existing reveal-state contract.
+R8.32 shell foundation: `prototypes/00-cinematic-shell-r8-32.html`.
+
+Browser proof: `evidence/CINEMATIC_SHELL_R8_32_BROWSER_PROOF_2026-09-10.md`.
+
+The shell pass now establishes real top navigation, CSS stadium stage, page-title system, footer identity, buttons/panels, desktop/tablet/mobile breakpoints and non-interactive character slots. Final source art is intentionally withheld until consumer-screen geometry stabilizes.
+
+Club Assignment now replaces the inherited gray reveal presentation while consuming the existing product reveal-state contract. It should use a cinematic sealed-pack theatre, strong VS hierarchy and compact lower locked-rivalry deck without introducing a new draw/reveal authority.
 
 ## Lightweight reporting contract
 
