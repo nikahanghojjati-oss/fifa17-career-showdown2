@@ -31,6 +31,7 @@ const path=require("node:path");
   assert.match(source,/function authorityError\(message\)\{safe\.authorityViolation=true/,"authority drift must become sticky acceptance evidence");
   assert.match(source,/if\(safe\[field\]&&safe\[field\]!==fingerprint\)authorityError/,"account/device/rivalry fingerprint drift must disqualify the run");
   assert.match(source,/if\(local\.phase==="APPLIED"\)safe\.candidateCApplied=true/,"Candidate C detection must be sticky");
+  assert.match(source,/item\.stage==="local-reconciliation-safe"&&item\.phase==="PREVIEW_READY"/,"completion must require the actual Local Reconciliation preview");
   assert.match(source,/reconnectRecoveredStartupCount/,"reconnect startup boundary must be persisted");
   assert.match(source,/safe\.startupCount>safe\.reconnectRecoveredStartupCount/,"pre-terminal reload must occur after reconnect recovery");
   assert.match(source,/!hasStage\("history-converged"\)/,"network recovery evidence must be gated until history convergence");
@@ -93,6 +94,9 @@ const path=require("node:path");
   const hiddenApplied=structuredClone(two);const localIndex=hiddenApplied.milestones.findIndex(item=>item.stage==="local-reconciliation-safe");hiddenApplied.milestones.splice(localIndex+1,0,{...hiddenApplied.milestones[localIndex],phase:"APPLIED"});resequence(hiddenApplied);hiddenApplied.candidateCApplied=false;
   assert.ok(validator.validatePhysicalJourneyPair(one,hiddenApplied).issues.some(item=>item.code==="LOCAL_RECONCILIATION_UNSAFE"));
 
+  const remoteObservedOnly=structuredClone(two);remoteObservedOnly.milestones.find(item=>item.stage==="local-reconciliation-safe").phase="REMOTE_OBSERVED";
+  assert.ok(validator.validatePhysicalJourneyPair(one,remoteObservedOnly).issues.some(item=>item.code==="LOCAL_RECONCILIATION_PREVIEW_REQUIRED"||item.code==="RECOVERY_ORDER_INVALID"));
+
   const badOrder=structuredClone(two);const finalIndex=badOrder.milestones.findIndex(item=>item.stage==="final-season-reconciled"),historyIndex=badOrder.milestones.findIndex(item=>item.stage==="history-converged");[badOrder.milestones[finalIndex],badOrder.milestones[historyIndex]]=[badOrder.milestones[historyIndex],badOrder.milestones[finalIndex]];resequence(badOrder);
   assert.equal(validator.validatePhysicalJourneyPair(one,badOrder).valid,false);
 
@@ -124,6 +128,6 @@ const path=require("node:path");
   assert.ok(validator.validatePhysicalJourneyPair(one,fakeOffline).issues.some(item=>item.code==="OFFLINE_FLAG_INVALID"));
 
   console.log("PASS MDP Physical Journey acceptance recorder is query-gated, privacy-safe, non-writing, early-baselined, authority-sticky and Candidate-C sticky");
-  console.log("PASS MDP Physical Journey pair oracle requires opposite managers, distinct devices/networks, stable authority, same rivalry/session, one season, ordered offline/reload recovery and terminal reload");
-  console.log("PASS MDP Physical Journey oracle rejects authority drift, missing conflict evidence, hidden Candidate C Apply, multi-season drift, fake offline flags and collapsed reload startups");
+  console.log("PASS MDP Physical Journey pair oracle requires opposite managers, distinct devices/networks, stable authority, same rivalry/session, one season, ordered offline/reload recovery, actual Local Reconciliation PREVIEW_READY and terminal reload");
+  console.log("PASS MDP Physical Journey oracle rejects authority drift, missing preview/conflict evidence, hidden Candidate C Apply, multi-season drift, fake offline flags and collapsed reload startups");
 })().catch(error=>{console.error("SSJR PHYSICAL JOURNEY ACCEPTANCE CONTRACTS FAILED");console.error(error.stack||error);process.exit(1);});
