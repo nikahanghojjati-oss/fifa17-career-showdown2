@@ -1,223 +1,205 @@
 # Screen 01 — Home / `mainMenu`
 
-Status: ACTIVE r17 SCREEN CONTRACT — R8.33 REFERENCE-FAITHFUL CONSUMER BROWSER-PROVEN / OWNER FINAL REVIEW OPEN / PRODUCTION INTEGRATION NOT AUTHORIZED
+Status: ACTIVE r18 SCREEN CONTRACT — R8.46 REFERENCE-FIDELITY + RESPONSIVE POLISH BROWSER-PROVEN / OWNER REVIEW OPEN / PRODUCTION INTEGRATION NOT AUTHORIZED
 
-Production source anchor: `e624d19e04c0ca56f33fa7f0d25fdcc42eb99eda` / runtime `1.9.1-r17`.
+Current production authority re-resolved 2026-09-11:
 
-Current proposal consumer:
+- `main`: `3c5fb2589414f8f497d1f7cb174200ef84290431`
+- runtime: `1.9.1-r18`
+- production source: current `index.html`, menu/runtime code and current media ownership
 
-- `prototypes/01b-home-cinematic-reference-faithful-r8-33.html`
-- `prototypes/r8-33-home-reference-faithful.css`
-- browser proof: `evidence/HOME_REFERENCE_FAITHFUL_R8_33_BROWSER_PROOF_2026-09-10.md`
+Current owner-review browser assembly:
 
-The earlier `prototypes/01-home-reference.html` remains predecessor reference material; it is no longer the visual ceiling for Home.
+- `/Showdown visual/R8_46_Home_Polish/home-r8-46-selected-tile-polish.html`
+- evidence: `evidence/HOME_R8_46_SELECTED_TILE_RESPONSIVE_POLISH_BROWSER_PROOF_2026-09-11.md`
 
-## Purpose
+Earlier R8.33/R8.44 artifacts remain predecessor evidence. They are not the current Home visual ceiling.
 
-Home is the cinematic rivalry headquarters and the strongest identity screen in the product. It must feel like a football-game menu rather than a generic website while keeping the existing product actions, state and accessibility authority in real DOM.
+## Product authority
 
-## Existing product authority to preserve
+Home remains the real `#mainMenu` product surface. Presentation may be rebuilt, but the product actions remain exactly the current six real actions:
 
-Current `mainMenu` exposes six core actions:
+1. `#continueCareer` — Continue Career
+2. `#newShowdown` — New Showdown
+3. `#legacyButton` — Legacy
+4. `#careerStatisticsButton` — Statistics
+5. `#ruleBookButton` — Rule Book
+6. `#settingsButton` — Save Library
 
-1. Continue Career
-2. New Showdown
-3. Legacy
-4. Statistics
-5. Rule Book
-6. Save Library
+Current media seams also remain real DOM/runtime authority:
 
-The current product also owns the Home heading/meta, menu media surface and Play/Mute behavior, local/runtime state, navigation behavior and any runtime notice.
+- `#menuMusicPlayer`
+- `#menuMusicStatus`
+- `#menuMusicToggle`
+- `#menuMusicMute`
 
-R8 may restyle and recompose those surfaces. It must not invent a save route, backend action, public feature or alternate media authority.
+The visual proposal must not invent routes, public discovery, community, rankings, search/profile behavior, fake save states, fake progress values or alternate media ownership simply because a reference image contains them.
 
-## Owner visual target — R8.33 correction
+## Owner visual target
 
-The owner explicitly rejected the prior shared shell as too primitive compared with the approved/reference family. The correct target is a **practical replica of the cinematic composition**, not merely a black/gold approximation.
+The supplied premium black/gold Home reference remains `REFERENCE_ONLY / OWNER VISUAL-LANGUAGE AUTHORITY`.
 
-The reference is `REFERENCE_ONLY / OWNER VISUAL-LANGUAGE AUTHORITY`. It is not a flattened implementation artifact and may contain image-generation mistakes or non-product details. Those must be corrected while preserving the reference's ambition.
+The real browser target is a practical, product-correct recreation of its visual language:
 
-Required Home visual language now includes:
-
-- slanted black-metal CM17 top shell;
-- recurring original crown motif;
-- bright gold active navigation state;
-- large brush-like `CAREER MODE / SHOWDOWN 17` identity treatment at upper left;
-- warm stadium lights, crowd, pitch edge and side banners;
-- large Daniel/Nik cinematic portrait staging with golden edge light;
-- handwritten-style manager nicknames and three-word descriptors;
-- six object-rich action tiles rather than text-only cards;
-- black metallic inactive tile state and gold selected/focus state;
-- compact cinematic soundtrack module above the lower action dock;
+- warm detailed floodlit stadium;
+- lean black/gold CM17 shell using only product-owned header context;
+- large `CAREER MODE SHOWDOWN 17` gold hero identity;
+- large Daniel/Nik cinematic treatment;
+- handwritten-style manager names and narrow uppercase descriptors;
+- premium metallic six-action dock;
+- bright gold selected/primary action;
+- distinct deterministic supporting object per action;
+- compact premium soundtrack module;
 - narrow footer identity.
 
-The thing the owner described as “what kings wear” is the **crown**. The crown is now a recurring original CM17 motif in the shell and title treatment.
-
-## Wide-desktop composition
-
-At `>=1280px`:
-
-- A02 Daniel remains Manager 1.
-- A01 Nik remains Manager 2.
-- The character masters are allowed to occupy central visual depth, matching the owner reference more closely than the old flank-only rule.
-- Daniel and Nik stay **behind** every interactive tile/media surface in z-order and remain pointer-inert.
-- Faces must remain unobscured.
-- The left title block remains readable and does not depend on character pixels.
-- The bottom six-action dock remains one continuous cinematic rail.
-- The soundtrack module may overlap the character silhouette visually because it is a higher DOM layer, but it must not cover a face or create an inaccessible hit target.
-
-The earlier requirement that neither character occupy the central 52% is superseded. It produced a composition that was safe but visibly too primitive relative to the owner's approved direction.
-
-The replacement safety rule is stronger and simpler: **characters may enter central visual space but may never own, block or be required to understand an interaction.**
+The reference never overrides real product functionality.
 
 ## Character authority
 
-Frozen source masters remain:
+Manager 1 = Daniel. Manager 2 = Nik.
 
-- A02 Daniel pointing hero — left/center-left;
-- A01 Nik thinking hero — right/center-right.
+Current wide-desktop Home uses the established source family:
 
-Do not regenerate Home identities. The exact verified source hashes remain authoritative in `assets/ASSET_MANIFEST.json`.
+- Daniel: A02 pointing hero direction;
+- Nik: A01 thinking hero direction.
 
-The browser-proven R8.33 geometry uses the existing masters at large reference-like scale and preserves natural orientation. Do not mirror identity simply to solve layout.
+They remain decorative, pointer-inert and unnecessary for comprehension or interaction. Their visual layers may occupy central depth behind live UI, but they may not own or block product controls.
+
+At fallback widths the character/manager layers fail closed before they can squeeze the product UI.
+
+Do not regenerate Home identities merely because another source pose exists.
 
 ## Tile object language
 
-Each action should have a distinct, original supporting object/icon treatment while the label remains live DOM text.
+All labels remain live DOM text. Supporting objects are deterministic DOM/SVG presentation:
 
-Current R8.33 mappings:
-
-- Continue Career → player/shirt `17` motif;
-- New Showdown → tactical/clipboard motif;
+- Continue Career → player/`17` motif;
+- New Showdown → tactical-board motif;
 - Legacy → trophy motif;
-- Statistics → rising data bars;
-- Rule Book → notebook/tactical-document motif;
-- Save Library → local data-cartridge/save-device motif.
+- Statistics → rising-data-bars motif;
+- Rule Book → tactical-document/notebook motif;
+- Save Library → local-save-device motif.
 
-These are original inline SVG/DOM geometry. They are not copied official game icons.
+No official icon crop or generated screenshot is required.
 
-The owner called out the old `RULES / RULE BOOK` repetition as visually awkward. R8.33 therefore uses a non-repeating small category label (`GUIDE`) while preserving the actual action label `RULE BOOK`. CM may reconcile the final category microcopy without changing the route.
+### R8.46 selected-tile correction
 
-## Selected / focus state
+R8.44's Continue Career player/17 motif visually crowded the live label.
 
-A selected/focused action uses the reference-like warm gold fill with near-black text/icon treatment.
+R8.46 gives the selected tile two explicit visual lanes:
 
-Inactive actions remain black/charcoal metallic with gold supporting geometry.
+- player/17 object on the left;
+- live `CONTINUE CAREER` label on the right.
 
-This state must work for keyboard focus as well as pointer hover. Gold must not be the only accessibility cue; focus outline remains explicit.
+The object and label are machine-checked as disjoint. At intermediate fallback widths the decorative SVG is shifted farther left to preserve the separation.
 
 ## State hierarchy
 
-### Resumable career
+### Active/resumable showdown
 
-Continue Career is the dominant selected/gold action.
+- Continue Career is enabled and primary/gold.
+- status presentation reads `ACTIVE SHOWDOWN READY` in the isolated owner-review assembly.
 
-### No resumable career
+### No active showdown
 
-New Showdown becomes the dominant selected/gold action. Continue Career remains readable and its real product unavailable-state copy must explain why it cannot resume.
+- Continue Career is disabled.
+- New Showdown becomes primary/gold.
+- isolated owner-review status reads `NO ACTIVE SHOWDOWN · START A NEW RIVALRY`.
 
-### Media unavailable
+These are deterministic proposal QA modes only. Production remains authoritative for the actual resumable/no-resume condition and season indicator.
 
-The soundtrack surface remains a valid card with status/error copy. Do not leave a blank hole.
-
-### Runtime/startup status
-
-The reference-style progress strip is presentation direction only until CM binds it to a real runtime/startup state. Never display fake progress as product truth in production.
-
-## Stadium / environment
-
-R8.33 currently recreates the stadium as procedural DOM/CSS atmosphere rather than copying the owner screenshot.
-
-The current procedural system includes:
-
-- bowl light arcs;
-- floodlight glow;
-- crowd texture;
-- stands/grid depth;
-- pitch/grass edge;
-- vignette;
-- side banners.
-
-This is browser-safe and original but still less painterly than the owner reference. A later bounded **original stadium-only source-art ticket** is allowed if it improves fidelity. Such an asset must contain no characters, navigation, live labels, club marks or baked UI.
-
-## Typography / lettering
-
-Functional UI uses browser/system condensed fallbacks until the final zero-dollar/offline-safe font decision is made.
-
-The reference hero title has a stronger hand-painted brush texture than standard system fonts. R8.33 approximates it with skewed heavy lettering, gold highlights, crown geometry and rough underline strokes.
-
-A later original vector/raster lettering asset may improve the hero wordmark, but it may not become a source for live changing labels. Do not distribute proprietary font files.
+Never display a fake percentage as product truth.
 
 ## Soundtrack surface
 
-The Home soundtrack panel is a real DOM surface. R8.33 reproduces the visual placement, album-art block, waveform and Play/Mute hierarchy.
+The soundtrack module remains a real DOM surface with real Play/Mute seams. Visual may style its album block, waveform, title hierarchy and controls.
 
-The isolated proposal does not load network media. Production playback remains owned by the then-current approved provider/runtime. A reference title shown in a visual proposal does not authorize bundling copyrighted audio.
+The proposal does not authorize bundling copyrighted audio. Production playback/provider behavior remains separate runtime authority.
 
 ## Responsive contract
 
-### `>=1280px`
+### Wide desktop
 
-Full cinematic Home: both frozen masters, labels, stadium banners, six-button dock and soundtrack module.
+Validated at:
 
-### `<=1179px`
+- 1440x900 DPR1
+- 1366x768 DPR1
+- 1280x720 DPR1
 
-Large A01/A02 artwork and manager script labels are removed. This is intentional recomposition, not a failed desktop shrink.
+Full cinematic Daniel/Nik treatment remains visible. Six real actions form the lower dock and the media surface remains above it.
 
-### Tablet
+### Intermediate / fallback
 
-Title, soundtrack module and six actions remain; actions may use a 3×2 grid. Vertical scrolling is allowed.
+Validated at:
+
+- 1179x800 DPR1
+- 940x700 DPR1 reduced motion
+
+Daniel/Nik character and manager decoration is removed. Product actions and media remain browser-owned and fully reachable.
 
 ### Mobile
 
-Character-free. Action tiles become two columns and then one column on narrow phones. All six actions and media controls remain reachable. Horizontal overflow is forbidden.
+Validated at approximately 390x844 DPR2.
 
-## R8.33 browser proof
+Mobile intentionally becomes character-free and vertically scrollable. R8.46 uses a disjoint vertical stack:
 
-Two product presentation modes were exercised across six viewport conditions: `12/12` combinations passed.
+`Home copy -> soundtrack module -> six-action grid -> footer`.
 
-Validated widths/states:
+No horizontal overflow is allowed.
 
-- 1440×900 — characters visible;
-- 1366×768 — characters visible;
-- 1280×720 — characters visible;
-- 1179×800 — character-free fallback;
-- 940×700 reduced motion — character-free fallback;
-- 390×844 DPR2 — character-free mobile.
+## R8.46 browser proof
 
-Every case passed horizontal-overflow, six-action presence, media-control presence, selected-action state, focus-selection behavior, `aria-hidden` character treatment and `pointer-events:none` character treatment.
+Two states × six viewport conditions = `12/12 PASS`.
 
-## Practical-replica rules
+Final automated checks include:
 
-Do not implement Home by using the owner screenshot as a webpage background.
+- no horizontal overflow;
+- exactly six real action buttons;
+- Play/Mute media controls present;
+- Continue Career disabled only in empty state;
+- correct primary/gold action per state;
+- character/manager decoration fails closed at `<=1179px`;
+- Continue Career label stays inside its real button;
+- Continue Career object and label do not intersect;
+- Home copy does not intersect soundtrack module;
+- soundtrack module does not intersect action grid;
+- action grid does not intersect footer.
 
-Do not bake:
+## Browser implementation rule
 
-- tile labels;
+The owner screenshot must never become the webpage background.
+
+Do not bake the following into images:
+
+- action labels;
 - manager names;
-- current save state;
+- save/runtime state;
 - navigation text;
-- live status;
 - media controls;
-- runtime notices
+- notices;
+- live status.
 
-into an image.
+Real buttons, typography, navigation, cards, state and responsive geometry remain HTML/CSS/JS/SVG.
 
-Image generation is permitted only for bounded source art such as a stadium-only atmosphere or approved isolated character derivative. Real buttons, typography, navigation, cards, focus state and responsive layout remain HTML/CSS/JS/SVG.
+## Image-generation rule
 
-## CM integration notes
+No image generation was used for R8.46.
 
-The visual track owns presentation. CM remains responsible for final mapping into the live SPA and current product contracts.
+The active hard gate remains locked. A future generation call requires a bounded `READY` source-asset ticket owned by GPT-5.6 Sol and must be justified by a source-art deficiency that cannot reasonably be solved with the existing source family plus deterministic browser presentation.
 
-Before production integration, CM must re-read then-current:
+Whole-page generated Home concepts remain `REFERENCE_ONLY` or `CONCEPT_ONLY`; they can never become implementation authority.
 
-- `mainMenu` DOM;
-- menu state/runtime logic;
+## Production integration gate
+
+Home remains `ASSEMBLED_PROPOSAL / OWNER REVIEW OPEN`.
+
+Before any production integration, re-read then-current:
+
+- `#mainMenu` DOM;
+- menu runtime/state ownership;
 - media provider behavior;
-- Save Library/Legacy/Statistics/Rules navigation;
-- startup/runtime notice behavior;
+- Save Library / Legacy / Statistics / Rule Book navigation;
+- startup/runtime notices;
 - responsive browser tests.
 
-Prototype top-shell labels such as `ABOUT`, search/profile glyphs and other reference affordances are **visual shell targets only**. They must not become new product features unless an actual route/state exists and is separately authorized.
-
-Production `main` remains untouched by R8.33 proposal work.
+Visual must reconcile into the real architecture rather than shipping a second menu/state engine.
