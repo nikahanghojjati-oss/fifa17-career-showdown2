@@ -39,8 +39,8 @@ assert.match(fragment,/intent\.billingRequired == false/);
 assert.doesNotMatch(fragment,/allow\s+list|cloud[\s_-]*run|cloud[\s_-]*functions|payment|purchased[\s_-]*credits/i);
 
 assert.equal((generated.match(/function ssjrTerminalValidRivalryUpdate\(rivalryId\)/g)||[]).length,1);
-assert.equal((generated.match(/\|\| ssjrTerminalValidRivalryUpdate\(rivalryId\);/g)||[]).length,1);
-assert.match(generated,/allow update: if validRivalryRedeem\(rivalryId\)\s*\|\| ssjrTerminalValidRivalryUpdate\(rivalryId\);/);
+assert.equal((generated.match(/allow update: if ssjrTerminalValidRivalryUpdate\(rivalryId\)/g)||[]).length,1);
+assert.match(generated,/allow update: if ssjrTerminalValidRivalryUpdate\(rivalryId\)\s*\|\| validRivalryRedeem\(rivalryId\);/);
 assert.match(generated,/match \/sessions\/\{sessionId\}[\s\S]*allow update: if validSessionUpdate\(rivalryId, sessionId\);[\s\S]*allow list, delete: if false;/);
 assert.match(generated,/function validSessionClose\(rivalryId, sessionId\)[\s\S]*before\.data\.state == "active"[\s\S]*after\.data\.state == "closed"/);
 assert.match(generated,/match \/seasonCommits\/\{seasonId\}[\s\S]*allow list, delete: if false;/);
@@ -50,4 +50,4 @@ assert.match(deploy,/shared-terminal-close-rules-contracts\.cjs/);
 assert.match(deploy,/shared-terminal-close-production-provider-emulator\.cjs/);
 assert.doesNotMatch(deploy,/billing enable|firebase use --add|functions:deploy|run deploy/i);
 
-console.log("PASS r18 Terminal Close production Rules: acknowledged seasons are folded into a bounded monotonic rivalry terminalProgress seal one season at a time, canonical scores are accumulated under Rules authority, and final ACTIVE-to-CLOSED still requires the exact session to close atomically with no list/delete/billing expansion.");
+console.log("PASS r18 Terminal Close production Rules: acknowledged seasons are folded into a bounded monotonic rivalry terminalProgress seal one season at a time, canonical scores are accumulated under Rules authority, Terminal Close short-circuits before legacy pairing validation, and final ACTIVE-to-CLOSED still requires the exact session to close atomically with no list/delete/billing expansion.");
