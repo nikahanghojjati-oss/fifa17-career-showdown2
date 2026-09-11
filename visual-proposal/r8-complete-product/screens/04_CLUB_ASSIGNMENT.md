@@ -1,12 +1,18 @@
 # Screen 04 — Club Assignment / `clubWheelScreen`
 
-Status: ACTIVE r17 SCREEN CONTRACT — LIVE DOM PACK AUTHORITY LOCKED / MODE B2 PROTECTED EXTERIOR-FLANK TARGET / MODE A FALLBACK RETAINED
+Status: ACTIVE r17 SCREEN CONTRACT — LIVE DOM PACK AUTHORITY LOCKED / MODE B2 ASSEMBLED + BROWSER-GEOMETRY PROVEN / OWNER VISUAL REVIEW PENDING / MODE A FALLBACK RETAINED
 
-Source anchor: production `main` `23bba67ed7bf9cc38cb7dc9106e3f64a17a6b55f` / runtime `1.9.1-r17`, re-read against current `index.html`, `css/app.css`, Club Assignment runtime and visual identity authority on 2026-09-10.
+Source anchor: production `main` `e624d19e04c0ca56f33fa7f0d25fdcc42eb99eda` / runtime `1.9.1-r17`, re-read against current `index.html`, `css/app.css`, `js/clubAssignment.js` and visual identity authority on 2026-09-10.
 
 Supporting geometry evidence:
 
-`evidence/CLUB_ASSIGNMENT_B2_R17_GEOMETRY_PROOF_2026-09-10.md`
+- `evidence/CLUB_ASSIGNMENT_B2_R17_GEOMETRY_PROOF_2026-09-10.md` — earlier structural proof / predecessor evidence.
+- `evidence/CLUB_ASSIGNMENT_B2_ASSEMBLED_PRODUCT_R8_31_BROWSER_PROOF_2026-09-10.md` — current Chromium proof authority.
+
+Current proposal artifact:
+
+- `prototypes/04c-club-assignment-mode-b2-assembled-product.html` — `ASSEMBLED_PROPOSAL`, browser-proven placeholder geometry.
+- `prototypes/04b-club-assignment-mode-b2-structural-prototype.html` — predecessor / `CONCEPT_ONLY`; do not treat as current assembled authority.
 
 ## Purpose
 
@@ -32,7 +38,9 @@ Preserve:
 - `CONFIRM RIVALRY & START SHOWDOWN`;
 - Back.
 
-The existing runtime owns `ready -> opening -> manager-one -> manager-two -> versus -> confirmation`. The pair is persisted before presentation timers begin. R8 must never add a raster reveal authority or second JavaScript reveal clock.
+The current runtime owns `ready -> opening -> manager-one -> manager-two -> versus -> confirmation`. The pair is persisted before presentation timers begin. R8 must never add a raster reveal authority or second JavaScript reveal clock.
+
+The current production DOM is the reveal-card architecture built around `.clubRevealArea`, `.clubRevealCard`, `.clubPackStage`, `.clubPackDoor`, `.clubCardFace`, `.clubVs`, `#clubRivalryConfirmation`, `#openClubPack`, `#continueClubAssignment` and `#clubAssignmentBack`. Do not substitute the previously summarized `clubPackTable` / `clubPackCore` shape.
 
 ## Manager identity lock
 
@@ -64,19 +72,17 @@ The visual illusion is `manager presents framed live pack`, not `manager holds m
 
 At `1366x768`, production's existing short-desktop media query applies.
 
-Observed product geometry:
+Observed product geometry remains approximately:
 
 - Club Assignment shell: `width:min(900px,93vw)`;
 - reveal area: `width:min(820px,100%)`;
 - reveal grid: `minmax(0,1fr) 60px minmax(0,1fr)`;
 - gap: `8px`;
-- each reveal card: approximately `372px` wide at full 820px reveal width;
 - reveal card height: `220px`;
 - card padding: `7px`;
-- manager row: `21px`;
-- effective pack-stage region: approximately `356x180px` per side.
+- manager row: `21px`.
 
-Final implementation must still read actual `getBoundingClientRect()` values on then-current production. These values are proposal geometry, not hardcoded product authority.
+R8.31 browser proof measures actual proposal bounding boxes rather than promoting these approximate values as product constants. Final implementation must still read actual `getBoundingClientRect()` values on then-current production.
 
 ## Recommended wide-desktop Mode B2
 
@@ -93,29 +99,39 @@ For each manager:
 7. pack/reveal animation runs unchanged inside the protected region;
 8. character removal changes no interaction, state or layout authority.
 
-At 1366px the centered ~900px shell leaves roughly 466px of viewport width outside the shell before ordinary safe-area variation. That exterior width is the visual budget for the two manager flanks.
+At the validated `1366x768` confirmation state, the assembled proposal measured approximately 31px rail-to-aperture clearance and 48px character-placeholder-to-aperture clearance on each side. Those values are evidence for the frozen proposal geometry, not future production constants.
 
-Proposal prototype:
+## R8.31 browser proof result
 
-`prototypes/04b-club-assignment-mode-b2-structural-prototype.html`
+The assembled B2 harness was exercised through all six reveal stages with headless Chromium at:
 
-The prototype models the production short-desktop proportions, 14px protected gutter, external rails, external character/hand placeholders and a bounding-box overlap check.
+- `1366x768`, normal motion — B2 enabled, pass;
+- `1440x900`, normal motion — B2 enabled, pass;
+- `940x700`, reduced motion — B2 removed, pass;
+- `390x844`, DPR 2 — B2 removed, stacked live-pack fallback, pass.
 
-## Responsive contract — revised
+The first `390x844` run exposed a real 10px horizontal overflow. It was fixed by making the narrow proposal viewport edge-to-edge and constraining the screen to the available width. The complete matrix was rerun after the correction with no horizontal overflow.
+
+The in-page proof additionally rejects:
+
+- character or rail intersection with either 14px protected aperture;
+- B2 decoration receiving pointer events;
+- B2 decoration becoming focusable;
+- character/rail overlap with visible Open / Confirm / Back controls;
+- visible B2 decoration below 1320px or under reduced-motion conditions;
+- horizontal page overflow.
+
+This freezes placeholder geometry for the next proposal stage. It does not constitute owner final visual approval or production approval.
+
+## Responsive contract — proven proposal behavior
 
 ### `>=1320px`
 
-Mode B2 may be enabled only after browser proof.
-
-1366x768 is the primary target.
-
-All reveal phases, confirmation and actions must remain usable without horizontal overflow or dangerous vertical displacement.
+Mode B2 is geometrically eligible. 1366x768 remains the primary target. The assembled proposal passes the current browser matrix.
 
 ### `1180–1319px`
 
-Character-free by default.
-
-A restrained Mode A flank treatment may be promoted later only after direct product proof. Do not squeeze full B2 inward.
+Character-free by default. Do not squeeze full B2 inward.
 
 ### `<=1179px`
 
@@ -123,17 +139,17 @@ Character-free.
 
 ### `940x700` reduced-motion proof
 
-Character-free. Existing reduced-motion product behavior remains authority.
+Character-free. Current assembled proposal passes with no horizontal overflow and no B2 residue.
 
 ### `390x844` mobile DPR2
 
-Character-free. Preserve the current stacked one-column reveal architecture and readable live labels.
+Character-free. Current assembled proposal preserves the stacked one-column reveal architecture and passes with document width equal to viewport width.
 
 The progressive enhancement is intentional; mobile does not need to imitate desktop cinematic staging.
 
 ## Mode A fallback
 
-Mode A remains the automatic safe fallback if B2 fails its wide-desktop acceptance matrix.
+Mode A remains the automatic safe fallback if B2 fails a future reconciliation or final-art acceptance matrix.
 
 Daniel and Nik may appear as restrained flanking artwork with:
 
@@ -168,8 +184,6 @@ Two equal live DOM pack doors dominate the stage. Character flanks may support t
 
 Use the existing reveal timing. R8 may add a short gold seam, edge charge, restrained contained particles/light sweep or panel treatment keyed from existing state. It cannot delay or override the reveal.
 
-Previously observed presentation timing remains approximately Manager 1 at 650ms, Manager 2 at 1750ms, VS at 2850ms, confirmation at 3300ms. Final implementation must re-read then-current runtime rather than hardcode this evidence.
-
 ### Manager 1 reveal
 
 Left live card becomes active for Manager 1 / Daniel. Club name appears only in live DOM.
@@ -180,11 +194,11 @@ Right live card becomes active for Manager 2 / Nik. Club name appears only in li
 
 ### Versus
 
-Both cards receive equal weight around the existing VS divider. No winner styling exists here.
+Both cards receive equal weight around the existing VS divider. Current r17 exposes the confirmation panel at this stage while withholding the confirmation action.
 
-### Locked
+### Locked / confirmation
 
-The clubs-locked confirmation and permanence action become the hero. Character art is subordinate atmosphere.
+The clubs-locked confirmation and permanence action become the hero. Character art remains subordinate atmosphere. Confirm and Back are restored according to current r17 presentation ownership.
 
 ## Club Identity V2.1
 
@@ -234,16 +248,16 @@ After product authority exposes a club result, the revealed face may consume the
 
 The sealed door must remain neutral so the visual identity cannot leak a future result before the existing reveal state exposes it.
 
-## A05 / A06 generation ticket constraints
+## A05 / A06 generation ticket — geometry-ready, not accepted final art
+
+R8.31 browser proof clears the geometry gate for constrained A05/A06 source-art generation. This does not promote any generated result beyond `CANDIDATE` and does not imply owner approval.
 
 A05/A06 are Club Assignment presentation characters, not pack assets.
 
-Do not generate final A05/A06 until the geometry/product-fit ticket is explicitly declared READY by Sol.
-
-Final requirements:
+Required source-art contract:
 
 - Manager 1 Daniel / Manager 2 Nik identity correct;
-- upper-body or torso-oriented crop suitable for exterior flank use;
+- upper-body or torso-oriented crop designed for the proven exterior flank envelope;
 - R8-approved face/style family;
 - predictable arm/hand termination outside protected pack aperture;
 - hand may brace external static rail or present with air gap;
@@ -251,7 +265,10 @@ Final requirements:
 - no baked `CLUB PACK`, `CM17`, club name, manager name or result;
 - transparent/maskable background;
 - no character pixel required for product comprehension;
+- no limb extension that exceeds the frozen placeholder envelope;
 - if the pose cannot fit the proven flank geometry, reject the pose rather than moving product UI.
+
+After generation, each A05/A06 candidate must be composited into `04c`, rerun through the same browser matrix, and remain `CANDIDATE` until owner review.
 
 ## Shared setup variants
 
@@ -259,7 +276,7 @@ Where real product state exposes them, proposal capture must preserve coordinato
 
 ## Accessibility / interaction safety
 
-- character/frame layers are absent from accessibility tree;
+- character/frame layers are absent from accessibility authority;
 - decorative layers are not focus targets;
 - all decorative overlays use `pointer-events:none`;
 - manager and club labels remain DOM text;
@@ -271,7 +288,7 @@ Where real product state exposes them, proposal capture must preserve coordinato
 
 ## Machine-testable B2 acceptance
 
-Senior implementation should measure bounding rectangles for:
+Measure bounding rectangles for:
 
 - authoritative live pack region;
 - protected aperture + safety gutter;
@@ -286,7 +303,7 @@ Required assertions:
 - no decorative layer receives pointer events;
 - no decorative layer is focusable;
 - live pack stays readable;
-- controls remain reachable;
+- controls remain reachable and disjoint from B2 art;
 - no horizontal overflow;
 - all six reveal stages are coherent;
 - `<=1319px` fallback removes B2 without residue;
@@ -316,4 +333,4 @@ Reference uploads are evidence, not automatic generation triggers. GPT-5.6 Sol m
 
 ## Final-main reconciliation
 
-Before senior implementation, re-read then-current Club Assignment DOM, `css/app.css`, reveal runtime, visual identity runtime and relevant browser tests. Any later real product state becomes part of this contract before handoff.
+Before senior production implementation, re-read then-current Club Assignment DOM, `css/app.css`, reveal runtime, visual identity runtime and relevant browser tests. Any later real product state becomes part of this contract before handoff.
