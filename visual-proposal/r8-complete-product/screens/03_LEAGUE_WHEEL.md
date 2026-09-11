@@ -1,172 +1,129 @@
 # Screen 03 — League Wheel / `leagueWheelScreen`
 
-Status: ACTIVE r18 SCREEN CONTRACT — R8.35 OWNER-FEEDBACK REPLICA PASS BROWSER-PROVEN / OWNER FINAL REVIEW OPEN / PRODUCTION INTEGRATION NOT AUTHORIZED
+Status: ACTIVE r18 SCREEN CONTRACT — R8.39 STADIUM + LAYOUT BROWSER-PROVEN / DANIEL LEAGUE-SPECIFIC SOURCE ART OPEN / OWNER FINAL REVIEW OPEN / PRODUCTION INTEGRATION NOT AUTHORIZED
 
-Production source anchor: `10f75e872d246292bd5fbe55c6ae32a6370b5150` / runtime `1.9.1-r18`.
+Production source anchor re-resolved 2026-09-11: `3c5fb2589414f8f497d1f7cb174200ef84290431`. That main commit is accounting/provenance-only for the already-integrated r18 Terminal Close lifecycle; it does not authorize any visual integration.
 
 Current proposal consumer:
 
-- `prototypes/03b-league-wheel-cinematic-reference-faithful-r8-33.html`
-- `prototypes/r8-33-league-wheel-reference-faithful.css`
-- shared presentation base: `prototypes/r8-33-home-reference-faithful.css`
-- evidence: `evidence/LEAGUE_WHEEL_R8_35_OWNER_FEEDBACK_REPLICA_PASS_2026-09-11.md`
+- `prototypes/03c-league-wheel-owner-fidelity-r8-39.html`
+- `prototypes/r8-39-league-owner-fidelity.css`
+- stadium source: `assets/procedural/league-stadium-r8-38.svg`
+- browser proof: `evidence/LEAGUE_WHEEL_R8_39_STADIUM_LAYOUT_BROWSER_PROOF_2026-09-11.md`
 
 ## Product authority
 
-The visual track owns presentation only. The current production integration seam remains literal in proposal markup:
+Visual owns presentation only. Production keeps all game authority. The proposal preserves these literal integration seams:
 
+- `#topHeader`
+- `#seasonIndicator`
 - `#leagueWheelScreen`
 - `#leagueWheel.leagueWheel`
-- `#leagueWheel .wheelTrack`
+- `.wheelTrack`
 - exactly five `.wheelItem`
 - `#selectedLeague`
 - `#leagueStateNote`
 - `#spinLeague.menuButton`
 - `.backButton[data-smart-back]`
 
-Canonical league set remains Premier League, LaLiga, Bundesliga, Serie A and Ligue 1.
+The canonical league set remains Premier League, LaLiga, Bundesliga, Serie A and Ligue 1.
 
-`js/leagueWheel.js` on current main remains the sole authority for the 4000 ms normal spin, 80 ms reduced-motion path, random league selection, race/timer cancellation, save/rollback, `League Selected` / `League Confirmed`, Club Assignment progression and locked-club permanence.
+`js/leagueWheel.js` remains the sole production authority for spin timing, reduced-motion timing, random selection, cancellation, save/rollback, confirmation, progression to Club Assignment and locked-club permanence. The local state renderer in the proposal is QA-only and must never ship as a second game engine.
 
-The proposal's state renderer is QA-only. It must never ship as a second selection or save engine.
+## Header / navigation rule
+
+The owner reference contains a larger global navigation/search/profile treatment that production does not currently own. R8.39 does **not** invent that product layer.
+
+Instead, the proposal restyles the existing `#topHeader` presentation into a lean translucent cinematic header while retaining existing header/state authority. It may display screen context and `#seasonIndicator`; it must not silently create Search/Profile/global-route product behavior.
 
 ## Owner visual target
 
-The supplied 16:9 League Wheel reference is the composition target, subject to real-product and rights constraints. R8.35 specifically targets:
+The supplied 16:9 League Wheel reference remains `REFERENCE_ONLY / OWNER VISUAL-LANGUAGE AUTHORITY`.
 
-- cinematic stadium depth and warm ring lighting;
-- Daniel large at left, Nik large at right;
-- large lower-centered wheel rather than a small high-centered wheel;
-- bright gold/black metallic wheel with reflective rim treatment;
-- gold handwritten manager name/nickname treatment;
-- compact condensed manager descriptors;
-- lean/slanted split navigation rather than a full-width black slab;
-- handwritten gold `More Than A Game` motto;
-- lower quote plaques and compact footer;
-- explicit ready `SPIN WHEEL` and post-selection Continue states.
+R8.39 targets:
 
-The reference is `REFERENCE_ONLY / OWNER VISUAL-LANGUAGE AUTHORITY`; it is not a screenshot to bake into the app and cannot override current product logic.
+- black/gold cinematic stadium atmosphere with visible roof and floodlight structure;
+- lean translucent header and compact footer;
+- gold brush-like `SELECT LEAGUE` title with physical clearance from the header;
+- Daniel large on the left and Nik large on the right;
+- lower-centered high-reflectance gold/black wheel;
+- gold handwritten manager identity treatment with condensed descriptors;
+- meaningful original league marks rather than text initials/emoji;
+- side stadium banners and lower quote plaques;
+- explicit ready `SPIN WHEEL` and production-compatible post-selection states.
+
+The reference cannot override product logic or be baked into the app as a screenshot.
+
+## Stadium source layer
+
+`assets/procedural/league-stadium-r8-38.svg` is an original deterministic source layer. It contains roof structure, floodlight arcs, haze, crowd tiers, pitch, blank banner cloth and vignette. It contains no managers, wheel, controls, league names, selected state or live UI.
+
+Static banner wording is overlaid by the browser presentation, not baked into the source layer.
+
+A later higher-fidelity stadium asset may replace this layer only if it obeys the same clean-background contract.
 
 ## Wheel implementation
 
-The wheel remains browser-owned UI, not raster art.
+The wheel is browser-owned UI, not raster art. It uses live DOM league names and a real `.wheelTrack` with CSS/SVG presentation around it.
 
-R8.35 uses:
+R8.39 replaces temporary text/emoji marks with original inline SVG identities:
 
-- CSS circular geometry and conic segment fields;
-- real DOM league names;
-- five original inline SVG league-identity emblems instead of generic `PL / LL / BL / SA / L1` text;
-- an original crown hub;
-- a stable decorative outer rim / halo;
-- real `.wheelTrack` as the rotating selection surface;
-- stronger metallic bevel, reflection and glow treatment.
+- crowned-league mark for Premier League direction;
+- interlocking double-L for LaLiga direction;
+- generic player/kick + ball mark for Bundesliga direction;
+- angular A for Serie A direction;
+- ring/one mark for Ligue 1 direction.
 
-The current SVG marks are intentionally original and do not reproduce official league trademarks. If authorized logo assets are established later, they can replace these presentation marks without changing selection logic or DOM authority.
+These are proposal identities, not reproductions of official competition trademarks. They may later be replaced by legally/operationally approved logo assets without changing selection logic.
 
 ## State presentation
 
-### Ready
+QA states: `ready`, `spinning`, `selected`, `confirmed`, `locked`, `save-error`.
 
-- top visual state = `SPIN TO SELECT LEAGUE`;
-- `#spinLeague` = `SPIN WHEEL`;
-- Spin enabled;
-- Back enabled.
+Production owns actual state transitions. In the proposal:
 
-### Spinning
+- Ready: Spin enabled; Back enabled.
+- Spinning: Spin disabled; Back disabled.
+- Selected / Confirmed: primary action presents Continue to Club Assignment.
+- Locked: primary action disabled.
+- Save error: user can retry; no false lock presentation.
 
-- visual state communicates draw in progress;
-- production owns animation duration and final selection;
-- Spin disabled;
-- Back disabled.
-
-### Selected
-
-- selected league is shown in the top visual-state area;
-- primary action becomes `CONTINUE TO CLUB ASSIGNMENT`;
-- production still owns `#selectedLeague` and `#leagueStateNote` live text and save state.
-
-### Confirmed / Locked / Save failure
-
-Presentation may style these states, but production state/rollback remains authoritative.
-
-### Live-status placement correction
-
-The owner rejected the prior small visible result/note block beneath the wheel. In R8.35, `#selectedLeague` and `#leagueStateNote` remain in the DOM for accessibility/runtime compatibility but are visually clipped. User-visible state is echoed into the top subtitle area by the proposal harness; production integration must provide an equivalent presentation adapter without deleting the live status nodes.
+`#selectedLeague` and `#leagueStateNote` remain in the DOM for runtime/accessibility compatibility even when the owner-facing composition presents visible status in the title/subtitle region.
 
 ## Character policy
 
-Manager 1 remains Daniel; Manager 2 remains Nik.
+Manager 1 = Daniel. Manager 2 = Nik.
 
-Current wide-desktop stand-ins:
+Current temporary wide-desktop sources:
 
-- Daniel: A02 core pointing hero;
+- Daniel: A02 core pointing hero.
 - Nik: A01 core thinking hero.
 
-The owner has explicitly rejected A02 as the final League Wheel pose because it points toward the viewer instead of toward the wheel. A02 may remain only as an interim layout/lighting stand-in.
+A02 is **not owner-final for League Wheel** because it points toward the viewer. It is a layout/lighting stand-in only.
 
-Final League Wheel Daniel requires a bounded isolated source-art candidate with his gesture directed laterally toward the stable exterior wheel rim. The character image must contain no wheel, text, controls or league marks. Any generated candidate remains `CANDIDATE` until composited into the real screen, browser-tested and owner-approved.
+Required next character source: Daniel with the same approved identity and dark suit, isolated on transparency, arm/hand directed laterally toward the wheel, with warm stadium rim light. The image must contain no wheel, league mark, text, button, background or product state. Any generated result remains `CANDIDATE` until inserted into this real browser assembly, re-tested and owner-reviewed.
 
-Nik's source can also receive a quality/lighting refinement pass if required, but no character pixel may carry product meaning or interaction authority.
+Characters remain `aria-hidden`, pointer-inert and unnecessary for operating the screen.
 
-Character layers remain `aria-hidden`, pointer-inert and unnecessary to operate the screen.
+## Responsive / geometry contract
 
-## Stadium / environment
+Wide desktop retains the two-manager cinematic composition. At `<=1179px`, characters, labels and quote plaques are removed before they can compress the product surface. Mobile keeps the wheel and live actions as the hero composition.
 
-R8.35 upgrades the procedural environment with roof beams, stadium ring lights, haze, stands, crowd texture, pitch edge, side banners and vignette. This is an improved real-layout approximation, not a claim that CSS alone has reached the cinematic source-art quality of the owner reference.
+R8.39 browser matrix: six states × six viewports = **36/36 PASS**.
 
-A future high-quality stadium-only source-art candidate is allowed and currently desirable. It must contain no baked navigation, manager labels, league marks, selected result, state message or controls. The real DOM remains overlaid above it.
+Validated:
 
-## Typography
-
-Manager name/nickname treatment prefers the handwritten `Yellowtail` family with script fallbacks. Small descriptor lines use the condensed `Barlow Condensed` family with local/system fallbacks.
-
-No functionality may depend on remote font availability; fallback fonts must preserve readable geometry.
-
-## Geometry / responsive contract
-
-At 1366×768, the tested R8.35 wheel footprint is approximately `x=469..897`, `y=226..654`. Actions begin around `y=669`, preserving a clean wheel/control exclusion gap.
-
-### `>=1280px`
-
-Full two-manager cinematic composition. Characters frame the wheel; wheel remains centered and product-owned.
-
-### `<=1279px`
-
-Characters and quote plaques are removed before they can compress or overlap the wheel.
-
-### `<=1179px`
-
-Wheel/actions enter safe document flow. Vertical scrolling is allowed; horizontal overflow is forbidden.
-
-### Mobile
-
-Character-free. Wheel remains the hero; actions stack underneath it.
-
-## R8.35 browser proof
-
-Six product states × six viewport conditions = **36/36 PASS** after fixing an initial 10px phone overflow.
-
-Validated conditions:
-
-- 1440×900
-- 1366×768
-- 1280×720
-- 1179×800
-- 940×700 reduced motion
+- 1366×768 DPR1
+- 1440×900 DPR1
+- 1280×720 DPR1
+- 1179×800 DPR1
+- 940×700 DPR1 reduced motion
 - 390×844 DPR2
 
-Validation includes production selector presence, five league options, no horizontal overflow, wheel/action separation, correct character breakpoint behavior, and disabled state presentation.
-
-## Practical-replica rules
-
-Do not use the owner screenshot as a webpage background.
-
-Do not bake league names, selected results, button labels, navigation, manager labels or live product state into background/character/stadium artwork.
-
-Image generation, when used, is limited to isolated source art. The browser assembles the final screen.
+Checks include no horizontal overflow, no title/header overlap, no wheel/action overlap, exactly five wheel items, correct fallback character removal, and expected QA disabled states.
 
 ## Production-integration gate
 
-Production `main` remains untouched by this proposal.
+Production `main` remains untouched by Visual.
 
-Before any integration, re-read then-current `main`, `index.html`, `js/leagueWheel.js`, save/rollback behavior, reduced-motion authority, shared-session authority and relevant tests. Preserve the current game engine and wire presentation onto it; do not port the proposal QA harness as product logic.
+Before integration, CM must re-read then-current production contracts and reconcile the presentation onto production state. Do not port the proposal QA harness as product logic. No merge or production swap occurs before owner review and CM reconciliation.
