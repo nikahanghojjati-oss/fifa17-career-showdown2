@@ -33,8 +33,9 @@ No official club crest, official league logo, proprietary EA/FIFA artwork or cop
 ## Current R8.33 implementation set
 
 - `prototypes/01b-home-cinematic-reference-faithful-r8-33.html`
-- `design-system/r8-33-home-reference-faithful.css`
-- `prototypes/03b-league-wheel-reference-faithful-r8-33.html`
+- `prototypes/r8-33-home-reference-faithful.css`
+- `prototypes/03b-league-wheel-cinematic-reference-faithful-r8-33.html`
+- `prototypes/r8-33-league-wheel-reference-faithful.css`
 - `prototypes/04e-club-assignment-reference-faithful-r8-33.html`
 
 These artifacts remain `ASSEMBLED_PROPOSAL` until browser QA and owner review are complete.
