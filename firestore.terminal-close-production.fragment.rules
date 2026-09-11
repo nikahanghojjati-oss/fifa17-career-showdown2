@@ -1,0 +1,145 @@
+// SSJR_TERMINAL_CLOSE_FUNCTIONS_BEGIN
+    function ssjrTerminalValidWinner(intent) {
+      return (intent.managerTotals.playerOne > intent.managerTotals.playerTwo && intent.winner == 'playerOne')
+        || (intent.managerTotals.playerTwo > intent.managerTotals.playerOne && intent.winner == 'playerTwo')
+        || (intent.managerTotals.playerOne == intent.managerTotals.playerTwo && intent.winner == 'draw');
+    }
+    function ssjrTerminalValidIntent(rivalryId, intent) {
+      return intent is map
+        && intent.keys().hasOnly([
+          'schemaVersion','runtimeRevision','phase','rivalryId','sessionId','acceptedRevisionKey','totalSeasons','completedSeason',
+          'fixedClubs','managerTotals','winner','terminal','finalSeasonReconciled','nextSeason','extraSeasonAllowed',
+          'rivalryConnectionState','sessionTargetState','terminalReadAllowed','canonicalStorageMutation','providerWriteRequired',
+          'listPermissionRequired','billingRequired'
+        ])
+        && intent.schemaVersion == 1
+        && intent.runtimeRevision == '1.9.1-r18'
+        && intent.phase == 'TERMINAL_CLOSE_READY'
+        && intent.rivalryId == rivalryId
+        && validSessionId(intent.sessionId)
+        && intent.acceptedRevisionKey is string
+        && intent.acceptedRevisionKey.size() > 0
+        && intent.acceptedRevisionKey.size() <= 2048
+        && (intent.totalSeasons == 1 || intent.totalSeasons == 3 || intent.totalSeasons == 5 || intent.totalSeasons == 10)
+        && intent.completedSeason == intent.totalSeasons
+        && intent.fixedClubs is map
+        && intent.fixedClubs.keys().hasOnly(['playerOne','playerTwo'])
+        && intent.fixedClubs.playerOne is string
+        && intent.fixedClubs.playerOne.size() > 0
+        && intent.fixedClubs.playerOne.size() <= 80
+        && intent.fixedClubs.playerTwo is string
+        && intent.fixedClubs.playerTwo.size() > 0
+        && intent.fixedClubs.playerTwo.size() <= 80
+        && intent.fixedClubs.playerOne != intent.fixedClubs.playerTwo
+        && intent.managerTotals is map
+        && intent.managerTotals.keys().hasOnly(['playerOne','playerTwo'])
+        && intent.managerTotals.playerOne is int
+        && intent.managerTotals.playerOne >= 0
+        && intent.managerTotals.playerOne <= intent.totalSeasons * 11
+        && intent.managerTotals.playerTwo is int
+        && intent.managerTotals.playerTwo >= 0
+        && intent.managerTotals.playerTwo <= intent.totalSeasons * 11
+        && ssjrTerminalValidWinner(intent)
+        && intent.terminal == true
+        && intent.finalSeasonReconciled == true
+        && intent.nextSeason == null
+        && intent.extraSeasonAllowed == false
+        && intent.rivalryConnectionState == 'closed'
+        && intent.sessionTargetState == 'closed'
+        && intent.terminalReadAllowed == true
+        && intent.canonicalStorageMutation == false
+        && intent.providerWriteRequired == true
+        && intent.listPermissionRequired == false
+        && intent.billingRequired == false;
+    }
+    function ssjrTerminalCommitAccepted(rivalryId, seasonId, seasonNumber) {
+      let commit = get(/databases/$(database)/documents/rivalries/$(rivalryId)/seasonCommits/$(seasonId)).data;
+      return commit.schemaVersion == 1
+        && commit.objectType == 'sharedSeasonCommit'
+        && commit.rivalryId == rivalryId
+        && commit.seasonNumber == seasonNumber
+        && commit.runtimeRevision == '1.9.1-r10'
+        && commit.phase == 'ACKNOWLEDGED'
+        && commit.revision == 3
+        && commit.acknowledgedRoles is list
+        && commit.acknowledgedRoles.size() == 2
+        && commit.acknowledgedRoles[0] != commit.acknowledgedRoles[1]
+        && (commit.acknowledgedRoles[0] == 'playerOne' || commit.acknowledgedRoles[0] == 'playerTwo')
+        && (commit.acknowledgedRoles[1] == 'playerOne' || commit.acknowledgedRoles[1] == 'playerTwo');
+    }
+    function ssjrTerminalAllSeasonsAccepted(rivalryId, totalSeasons) {
+      return ssjrTerminalCommitAccepted(rivalryId, 'season_1', 1)
+        && (totalSeasons < 2 || ssjrTerminalCommitAccepted(rivalryId, 'season_2', 2))
+        && (totalSeasons < 3 || ssjrTerminalCommitAccepted(rivalryId, 'season_3', 3))
+        && (totalSeasons < 4 || ssjrTerminalCommitAccepted(rivalryId, 'season_4', 4))
+        && (totalSeasons < 5 || ssjrTerminalCommitAccepted(rivalryId, 'season_5', 5))
+        && (totalSeasons < 6 || ssjrTerminalCommitAccepted(rivalryId, 'season_6', 6))
+        && (totalSeasons < 7 || ssjrTerminalCommitAccepted(rivalryId, 'season_7', 7))
+        && (totalSeasons < 8 || ssjrTerminalCommitAccepted(rivalryId, 'season_8', 8))
+        && (totalSeasons < 9 || ssjrTerminalCommitAccepted(rivalryId, 'season_9', 9))
+        && (totalSeasons < 10 || ssjrTerminalCommitAccepted(rivalryId, 'season_10', 10));
+    }
+    function ssjrTerminalSetupComplete(rivalryId, totalSeasons) {
+      let setup = get(/databases/$(database)/documents/rivalries/$(rivalryId)/sharedSetup/authoritative).data;
+      return setup.schemaVersion == 1
+        && setup.objectType == 'sharedSetupLedger'
+        && setup.rivalryId == rivalryId
+        && setup.revision == 6
+        && setup.phase == 'SHOWDOWN_CONFIRMED'
+        && setup.totalSeasons == totalSeasons
+        && setup.confirmedRoles is list
+        && setup.confirmedRoles.size() == 2
+        && setup.confirmedRoles[0] != setup.confirmedRoles[1];
+    }
+    function ssjrTerminalSessionClosedAtomically(rivalryId, intent, actorDeviceId) {
+      let before = get(/databases/$(database)/documents/rivalries/$(rivalryId)/sessions/$(intent.sessionId)).data;
+      let after = getAfter(/databases/$(database)/documents/rivalries/$(rivalryId)/sessions/$(intent.sessionId)).data;
+      return before.schemaVersion == 1
+        && before.objectType == 'session'
+        && before.objectId == intent.sessionId
+        && before.lifecycleState == 'live'
+        && before.data.rivalryId == rivalryId
+        && before.data.state == 'active'
+        && before.data.expiresAt > request.time
+        && before.data.memberAccountIds is list
+        && before.data.memberAccountIds.size() == 2
+        && request.auth.uid in before.data.memberAccountIds
+        && validCasEnvelope(before, after, 'session', intent.sessionId)
+        && after.updatedByAccountId == request.auth.uid
+        && after.updatedByDeviceId == actorDeviceId
+        && after.data.rivalryId == before.data.rivalryId
+        && after.data.hostAccountId == before.data.hostAccountId
+        && after.data.memberAccountIds == before.data.memberAccountIds
+        && after.data.createdAt == before.data.createdAt
+        && after.data.expiresAt == before.data.expiresAt
+        && after.data.state == 'closed'
+        && after.data.revokedAt == null
+        && after.data.lastActivityAt == after.updatedAt
+        && freshSessionActivity(after.updatedAt);
+    }
+    function ssjrTerminalValidRivalryUpdate(rivalryId) {
+      let before = resource.data;
+      let after = request.resource.data;
+      let intent = after.data.terminalClose;
+      return rivalryId.matches('^pair_[0-9a-f]{64}$')
+        && activeDevice(after.updatedByDeviceId)
+        && validCasEnvelope(before, after, 'rivalry', rivalryId)
+        && after.updatedByAccountId == request.auth.uid
+        && before.data.connectionState == 'active'
+        && before.data.keys().hasOnly(['connectionState','connectionStateBeforeDeletion','managerSlots','authorizedAccountIds','createdByAccountId','createdAt'])
+        && after.data.keys().hasOnly(['connectionState','connectionStateBeforeDeletion','managerSlots','authorizedAccountIds','createdByAccountId','createdAt','terminalClose'])
+        && after.data.connectionState == 'closed'
+        && after.data.connectionStateBeforeDeletion == before.data.connectionStateBeforeDeletion
+        && after.data.managerSlots == before.data.managerSlots
+        && after.data.authorizedAccountIds == before.data.authorizedAccountIds
+        && after.data.createdByAccountId == before.data.createdByAccountId
+        && after.data.createdAt == before.data.createdAt
+        && before.data.authorizedAccountIds is list
+        && before.data.authorizedAccountIds.size() == 2
+        && request.auth.uid in before.data.authorizedAccountIds
+        && ssjrTerminalValidIntent(rivalryId, intent)
+        && ssjrTerminalSetupComplete(rivalryId, intent.totalSeasons)
+        && ssjrTerminalAllSeasonsAccepted(rivalryId, intent.totalSeasons)
+        && ssjrTerminalSessionClosedAtomically(rivalryId, intent, after.updatedByDeviceId);
+    }
+// SSJR_TERMINAL_CLOSE_FUNCTIONS_END
