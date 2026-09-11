@@ -1,0 +1,102 @@
+name: R18 Final Publication Builder Once
+
+on:
+  push:
+    branches: [feat/ssjr-terminal-close-r18]
+    paths: [.github/workflows/r18-finalize-publication-once.yml]
+
+permissions:
+  contents: write
+
+jobs:
+  finalize-r18:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+      - name: Guard lineage, restore narrow menu edit, and remove temporary workflows
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "${GITHUB_REF}" = "refs/heads/feat/ssjr-terminal-close-r18"
+          git merge-base --is-ancestor e624d19e04c0ca56f33fa7f0d25fdcc42eb99eda HEAD
+          git show c8a9eea09629ee31f1fb9ff18cae42e3126c9b76:js/menuExperience.js > js/menuExperience.js
+          sed -i 's/assets\/marco-reus-2015-cc-by.webp?v=1.9.1-r17/assets\/marco-reus-2015-cc-by.webp?v=1.9.1-r18/' js/menuExperience.js
+          sed -i 's/rulesList(nationalities)/rulesList(nationalityIds)/' scripts/build-production-firestore-rules.mjs
+          for f in .github/workflows/r18-publication-builder-once.yml .github/workflows/r18-menu-repair-once.yml .github/workflows/r18-finalize-publication-once.yml; do
+            if git ls-files --error-unmatch "$f" >/dev/null 2>&1; then git rm "$f"; fi
+          done
+      - name: Reconcile exact generated-Rules regression with reviewed r18 additive fragment
+        shell: bash
+        run: |
+          set -euo pipefail
+          node <<'NODE'
+          const fs=require('node:fs');
+          const path='tests/contracts/shared-showdown-production-runtime-contracts.cjs';
+          let source=fs.readFileSync(path,'utf8');
+          const replaceOnce=(needle,replacement,label)=>{if(source.includes(replacement))return;if(!source.includes(needle))throw new Error(`Missing ${label}`);source=source.replace(needle,replacement);};
+          replaceOnce("const commitFragment=fs.readFileSync('firestore.season-commit-production.fragment.rules','utf8');","const commitFragment=fs.readFileSync('firestore.season-commit-production.fragment.rules','utf8');\nconst terminalFragment=fs.readFileSync('firestore.terminal-close-production.fragment.rules','utf8');",'terminal fragment import');
+          replaceOnce("const commitFunctionMarker='// SSJR_SEASON_COMMIT_FUNCTIONS_BEGIN',commitFunctionEnd='// SSJR_SEASON_COMMIT_FUNCTIONS_END',commitMatchMarker='// SSJR_SEASON_COMMIT_MATCH_BEGIN',commitMatchEnd='// SSJR_SEASON_COMMIT_MATCH_END';","const commitFunctionMarker='// SSJR_SEASON_COMMIT_FUNCTIONS_BEGIN',commitFunctionEnd='// SSJR_SEASON_COMMIT_FUNCTIONS_END',commitMatchMarker='// SSJR_SEASON_COMMIT_MATCH_BEGIN',commitMatchEnd='// SSJR_SEASON_COMMIT_MATCH_END';\nconst terminalFunctionMarker='// SSJR_TERMINAL_CLOSE_FUNCTIONS_BEGIN',terminalFunctionEnd='// SSJR_TERMINAL_CLOSE_FUNCTIONS_END';",'terminal markers');
+          if(!source.includes("'Terminal Close function insertion'")){
+            const anchor="expectedGenerated=once(expectedGenerated,'      // STAGE5C_CANDIDATE_SESSION_MATCH_BEGIN'";
+            const index=source.indexOf(anchor);if(index<0)throw new Error('Missing generated Rules child insertion anchor');
+            const lineEnd=source.indexOf('\n',index);if(lineEnd<0)throw new Error('Missing insertion line end');
+            const insertion="expectedGenerated=once(expectedGenerated,'    function capabilityCanReadPendingRivalry(rivalryId) {',`    ${terminalFunctionMarker}\\n${between(terminalFragment,terminalFunctionMarker,terminalFunctionEnd)}\\n    ${terminalFunctionEnd}\\n\\n`,'Terminal Close function insertion');\nexpectedGenerated=replaceOnce(expectedGenerated,'      allow update: if validRivalryRedeem(rivalryId);',\"      allow update: if validRivalryRedeem(rivalryId)\\n        || ssjrTerminalValidRivalryUpdate(rivalryId);\",'Terminal Close rivalry update authority');\n";
+            source=source.slice(0,lineEnd+1)+insertion+source.slice(lineEnd+1);
+          }
+          source=source.replace('plus only the bounded Shared Setup, Career Start, Transfer Challenge, Season Results and Season Commit fragment splices','plus only the bounded Shared Setup, Career Start, Transfer Challenge, Season Results, Season Commit and Terminal Close fragment splices');
+          fs.writeFileSync(path,source);
+          NODE
+      - name: Stage coherent r18 test registry and whole-shell publication
+        shell: bash
+        run: |
+          set -euo pipefail
+          node <<'NODE'
+          const fs=require('node:fs');
+          const pkg=JSON.parse(fs.readFileSync('package.json','utf8'));
+          const append=(name,commands)=>{let value=pkg.scripts[name]||'';for(const command of commands)if(!value.includes(command))value+=(value?' && ':'')+command;pkg.scripts[name]=value;};
+          const contracts=['node tests/contracts/shared-terminal-close-contracts.cjs','node tests/contracts/shared-terminal-close-provider-contracts.cjs','node tests/contracts/shared-terminal-close-rules-contracts.cjs','node tests/contracts/shared-terminal-close-production-contracts.cjs'];
+          append('test:ssjr',contracts);append('test:browser',['node tests/browser/shared-terminal-close-audit.cjs']);append('test:ssjr:browser',['node tests/browser/shared-terminal-close-audit.cjs']);pkg.scripts['test:ssjr:terminal-close']=[...contracts,'node tests/browser/shared-terminal-close-audit.cjs'].join(' && ');fs.writeFileSync('package.json',JSON.stringify(pkg,null,2)+'\n');
+          const supplemental=JSON.parse(fs.readFileSync('POS20_SUPPLEMENTAL_PRODUCT_TESTS.json','utf8'));
+          const additions=[
+            {path:'tests/contracts/shared-terminal-close-contracts.cjs',patterns:['^js/sharedTerminalClose\\.js$','^js/sharedFinalReconciliation\\.js$','^tests/contracts/shared-terminal-close-contracts\\.cjs$','^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$']},
+            {path:'tests/contracts/shared-terminal-close-provider-contracts.cjs',patterns:['^js/sharedTerminalClose\\.js$','^js/sparkTerminalClose\\.js$','^js/sparkPrivateSession\\.js$','^js/sparkStandardAuthPrivateSession\\.js$','^tests/contracts/shared-terminal-close-provider-contracts\\.cjs$','^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$']},
+            {path:'tests/contracts/shared-terminal-close-rules-contracts.cjs',patterns:['^firestore\\.terminal-close-production\\.fragment\\.rules$','^scripts/build-production-firestore-rules\\.mjs$','^\\.github/workflows/deploy-firestore-rules-zero-billing\\.yml$','^tests/contracts/shared-terminal-close-rules-contracts\\.cjs$','^tests/firebase/shared-terminal-close-production-provider-emulator\\.cjs$','^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$']},
+            {path:'tests/contracts/shared-terminal-close-production-contracts.cjs',patterns:['^js/sharedTerminalClose\\.js$','^js/sparkTerminalClose\\.js$','^js/productionSharedTerminalClose\\.js$','^js/productionSharedFinalReconciliation\\.js$','^js/sparkRemoteJoining\\.js$','^js/ssjr\\.js$','^service-worker\\.js$','^tests/contracts/shared-terminal-close-production-contracts\\.cjs$','^tests/browser/shared-terminal-close-audit\\.cjs$','^package\\.json$','^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$']}
+          ];
+          for(const entry of additions)if(!supplemental.tests.some(test=>test.path===entry.path))supplemental.tests.push(entry);fs.writeFileSync('POS20_SUPPLEMENTAL_PRODUCT_TESTS.json',JSON.stringify(supplemental,null,2)+'\n');
+          let worker=fs.readFileSync('service-worker.js','utf8');worker=worker.replace('const RUNTIME_REVISION = "1.9.1-r17";','const RUNTIME_REVISION = "1.9.1-r18";').replace('const PREVIOUS_RUNTIME_REVISION = "1.9.1-r16";','const PREVIOUS_RUNTIME_REVISION = "1.9.1-r17";');const seam='    "js/productionSharedFinalReconciliation.js",';const assets=['    "js/sharedTerminalClose.js",','    "js/sparkTerminalClose.js",','    "js/productionSharedTerminalClose.js",'];if(!worker.includes(assets[0]))worker=worker.replace(seam,[seam,...assets].join('\n'));fs.writeFileSync('service-worker.js',worker);
+          for(const path of ['js/app.js','index.html','manifest.webmanifest']){let source=fs.readFileSync(path,'utf8');source=source.replaceAll('1.9.1-r17','1.9.1-r18');fs.writeFileSync(path,source);}
+          const release=['# Career Mode Showdown v1.9.1 runtime r18','','Application version: `v1.9.1`','','Runtime asset revision: `1.9.1-r18`','','Previous known-good runtime: `1.9.1-r17`','','Status: RELEASE CANDIDATE','','## Terminal Close','','r18 implements the frozen MDP Terminal Close capability after r17 Final Reconciliation. The exact completed rivalry can move from ACTIVE to CLOSED only with one exact unexpired ACTIVE private session, an exact r18 terminal witness derived from r17 Final Reconciliation, the configured SHOWDOWN_CONFIRMED season plan, and every configured season commit already ACKNOWLEDGED.','','The provider closes the exact private session and parent rivalry atomically. The terminal witness includes the exact session capability plus accepted revision key, supported season count, fixed clubs, accumulated manager totals and winner. It creates no additional season and does not mutate canonical local Save storage.','','Generated Firestore Rules add only a bounded parent-rivalry ACTIVE-to-CLOSED update path. They require the exact session to close in the same atomic write and verify every configured season commit by exact path. Existing list/delete denial remains unchanged, no collection is added, Firebase remains Spark-only, Billing remains permanently OFF, App Check enforcement remains OFF, and no Cloud Run or Cloud Functions dependency exists.','','Ambiguous provider outcomes retain only the exact terminal witness in page memory for same-witness retry. A retry first performs an exact terminal read so a lost acknowledgement can converge without a replacement mutation. Once CLOSED is provider-confirmed, the stale page-memory Remote Joining capability is forgotten. Later exact rivalry reads retain terminal results, while new private-session creation and delayed journey writes remain denied by the closed rivalry state.','','## Publication boundary','','This is a release-candidate shell. Builder and candidate checks are not integration credit. The final exact publication head must pass POS20 and clean review, then merge with expected-head protection. After merge, GitHub Pages, the zero-billing Firestore Rules deployment/readback, exact-main POS20 and both Release Integration Burn-In passes must all succeed before separate MDP accounting may credit Terminal Close.','','SSJR-1.1 remains `0/100` until genuine production-two-account acceptance evidence is accepted under the frozen SSJR model.',''].join('\n');fs.writeFileSync('RELEASE_V1.9.1_R18.md',release);
+          NODE
+          git diff --check
+      - name: Install repository dependencies
+        run: npm ci
+      - name: Run focused r18 suite plus restored feedback invariant
+        run: |
+          npm run test:ssjr:terminal-close
+          node tests/contracts/final-polish-feedback.cjs
+      - name: Run full deterministic product census
+        run: npm run test:contracts
+      - name: Install pinned Firebase emulator dependencies
+        run: npm install --no-save --package-lock=false firebase@12.17.1 @firebase/rules-unit-testing@5.0.1 firebase-admin@14.2.0
+      - name: Build generated production Rules
+        run: node scripts/build-production-firestore-rules.mjs
+      - name: Run r18 generated-Rules adversarial emulator
+        run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-career-mode-showdown-terminal-close-production-builder "node tests/firebase/shared-terminal-close-production-provider-emulator.cjs"
+      - name: Commit exact proven r18 publication shell
+        shell: bash
+        run: |
+          set -euo pipefail
+          git diff --check
+          git config user.name "nikahanghojjati-oss"
+          git config user.email "nikahang.hojjati@gmail.com"
+          git add -A
+          git commit -m "release: stage r18 Terminal Close publication shell"
+          git push origin HEAD:feat/ssjr-terminal-close-r18
