@@ -172,7 +172,7 @@
           || ('terminalProgress' in before.data && ssjrTerminalAdvanceProgress(rivalryId, before, after))
         );
     }
-    function ssjrTerminalSessionTransitionBound(rivalryId, intent, actorDeviceId) {
+    function ssjrTerminalSessionTransitionBound(rivalryId, intent, actorDeviceId, closedSessionRevision) {
       let before = get(/databases/$(database)/documents/rivalries/$(rivalryId)/sessions/$(intent.sessionId)).data;
       let after = getAfter(/databases/$(database)/documents/rivalries/$(rivalryId)/sessions/$(intent.sessionId)).data;
       return before.objectType == 'session'
@@ -187,7 +187,15 @@
         && after.data.rivalryId == rivalryId
         && after.data.state == 'closed'
         && after.updatedByAccountId == request.auth.uid
-        && after.updatedByDeviceId == actorDeviceId;
+        && after.updatedByDeviceId == actorDeviceId
+        && closedSessionRevision == after.revision;
+    }
+    function ssjrTerminalParentCloseRequested(rivalryId, sessionId) {
+      let parentAfter = getAfter(/databases/$(database)/documents/rivalries/$(rivalryId)).data;
+      return parentAfter.data.connectionState == 'closed'
+        && parentAfter.data.terminalClose is map
+        && parentAfter.data.terminalClose.runtimeRevision == '1.9.1-r18'
+        && parentAfter.data.terminalClose.sessionId == sessionId;
     }
     function ssjrTerminalValidAtomicSessionClose(rivalryId, sessionId) {
       let before = resource.data;
@@ -195,6 +203,7 @@
       let parentBefore = get(/databases/$(database)/documents/rivalries/$(rivalryId)).data;
       let parentAfter = getAfter(/databases/$(database)/documents/rivalries/$(rivalryId)).data;
       return request.resource.data.data.state == 'closed'
+        && ssjrTerminalParentCloseRequested(rivalryId, sessionId)
         && signedIn()
         && validSessionId(sessionId)
         && activeDevice(after.updatedByDeviceId)
@@ -218,8 +227,6 @@
         && after.data.revokedAt == null
         && parentBefore.data.connectionState == 'active'
         && parentAfter.data.connectionState == 'closed'
-        && parentAfter.data.terminalClose is map
-        && parentAfter.data.terminalClose.runtimeRevision == '1.9.1-r18'
         && parentAfter.data.terminalClose.sessionId == sessionId
         && parentAfter.data.terminalProgress.closedSessionRevision == after.revision
         && parentAfter.updatedByAccountId == request.auth.uid
@@ -234,7 +241,6 @@
       let priorProgress = before.data.terminalProgress;
       let progress = after.data.terminalProgress;
       let intent = after.data.terminalClose;
-      let sessionAfter = getAfter(/databases/$(database)/documents/rivalries/$(rivalryId)/sessions/$(intent.sessionId)).data;
       return rivalryId.matches('^pair_[0-9a-f]{64}$')
         && signedIn()
         && before.data.connectionState == 'active'
@@ -257,11 +263,10 @@
         && progress.totalSeasons == priorProgress.totalSeasons
         && progress.acceptedThroughSeason == priorProgress.acceptedThroughSeason
         && progress.managerTotals == priorProgress.managerTotals
-        && progress.closedSessionRevision == sessionAfter.revision
         && ssjrTerminalValidIntent(rivalryId, intent)
         && intent.totalSeasons == progress.totalSeasons
         && intent.managerTotals == progress.managerTotals
-        && ssjrTerminalSessionTransitionBound(rivalryId, intent, after.updatedByDeviceId);
+        && ssjrTerminalSessionTransitionBound(rivalryId, intent, after.updatedByDeviceId, progress.closedSessionRevision);
     }
     function ssjrTerminalValidRivalryUpdate(rivalryId) {
       return (request.resource.data.data.connectionState == 'active' && ssjrTerminalValidProgressUpdate(rivalryId))
