@@ -1,69 +1,86 @@
 # Screen 04 — Club Assignment / `clubWheelScreen`
 
-Status: ACTIVE r18 SCREEN CONTRACT — LIVE DOM PACK AUTHORITY LOCKED / R8.45 REFERENCE-FIDELITY ASSEMBLY BROWSER-PROVEN / OWNER VISUAL REVIEW PENDING / PRODUCTION INTEGRATION NOT AUTHORIZED
+Status: ACTIVE r18 SCREEN CONTRACT — R8.47 MANAGER-PACK PROXIMITY ASSEMBLY BROWSER-PROVEN / LIVE DOM PACK AUTHORITY LOCKED / OWNER VISUAL REVIEW OPEN / PRODUCTION INTEGRATION NOT AUTHORIZED
 
-Current production authority re-read on 2026-09-11:
+Current production authority re-resolved 2026-09-11:
 
-- live `main`: `3c5fb2589414f8f497d1f7cb174200ef84290431` at the start of the R8.45 pass;
-- current production DOM: `index.html`;
-- reveal runtime owner: `js/clubAssignment.js`;
-- reveal sequence: `ready -> opening -> manager-one -> manager-two -> versus -> confirmation`;
-- the pair is persisted before presentation timers begin;
-- no visual proposal may create a second draw, timer, reveal clock, save path or confirmation authority.
+- live `main`: `3c5fb2589414f8f497d1f7cb174200ef84290431`
+- runtime: `1.9.1-r18`
+- current production DOM: `index.html`
+- reveal runtime owner: `js/clubAssignment.js`
+- reveal sequence: `ready -> opening -> manager-one -> manager-two -> versus -> confirmation`
+- the club pair is persisted before presentation timers begin
+- no visual proposal may create a second draw, timer, reveal clock, save path or confirmation authority
 
-Supporting evidence:
+Current browser evidence:
 
-- `evidence/CLUB_ASSIGNMENT_B2_R17_GEOMETRY_PROOF_2026-09-10.md` — predecessor structural B2 evidence;
-- `evidence/CLUB_ASSIGNMENT_B2_ASSEMBLED_PRODUCT_R8_31_BROWSER_PROOF_2026-09-10.md` — predecessor B2 browser proof;
-- `evidence/LEAGUE_R8_43_HOME_R8_44_CLUB_R8_45_BROWSER_PROOF_2026-09-11.md` — current R8.45 browser authority;
-- `evidence/IMAGE_GENERATION_EXECUTION_GATE_R8_45_2026-09-11.json` — current generation hard gate.
+- `evidence/CLUB_ASSIGNMENT_R8_47_MANAGER_PACK_PROXIMITY_BROWSER_PROOF_2026-09-11.md`
+- current hard gate: `evidence/IMAGE_GENERATION_EXECUTION_GATE_R8_47_2026-09-11.json` once sealed
 
-Exact R8.45 owner-review assembly is persisted in the Showdown Visual Library:
+Exact current owner-review assembly is persisted in the Showdown Visual Library:
 
-`/Showdown visual/R8_45_Club_Assignment/club-assignment-r8-45-reference-fidelity.html`
+`/Showdown visual/R8_47_Club_Assignment/club-r8-47-manager-pack-proximity.html`
 
-It is an `ASSEMBLED_PROPOSAL`, not `OWNER_APPROVED_FINAL`.
+Earlier R8.31 and R8.45 artifacts remain predecessor structural/browser evidence. R8.47 is an `ASSEMBLED_PROPOSAL`, not `OWNER_APPROVED_FINAL`.
 
 ## Purpose
 
-Club Assignment is the ceremonial two-manager club reveal and permanent-rivalry lock stage. The supplied premium black/gold stadium reference controls visual language and composition only. The live website controls functionality and state.
+Club Assignment is the ceremonial two-manager club reveal and permanent-rivalry lock stage.
 
-R8.45 therefore keeps the reference's useful ideas — warm floodlit stadium, large Daniel/Nik flanks, gold brush title, five-step reveal ceremony, premium sealed-pack treatment, centered rivalry, permanence messaging and premium controls — while rejecting reference-only global navigation, raster pack ownership and any fake product features.
+The owner-supplied premium black/gold stadium references control visual language and composition only. The live website controls functionality, draw authority, save authority, reveal timing, progression and permanent club ownership.
+
+R8.47 keeps the useful reference language:
+
+- warm floodlit stadium;
+- large Daniel/Nik cinematic flanks;
+- gold title hierarchy;
+- five-step reveal ceremony;
+- premium sealed-pack treatment;
+- centered rivalry presentation;
+- permanence messaging;
+- premium dark controls with gold primary action.
+
+It does not import reference-only navigation, generated pack ownership or fake product features.
 
 ## Exact live product authority
 
 Preserve the real production objects and IDs:
 
-- `#clubWheelScreen`;
-- `#clubAssignmentLeague`;
-- `#clubPackStatus`;
-- five real `[data-reveal-step]` progress steps;
-- `.clubRevealArea`;
-- `#clubCardOne` and `#clubCardTwo`;
-- `#clubPlayerOne` and `#clubPlayerTwo`;
-- two real `.clubPackStage` apertures;
-- two real `.clubPackDoor` elements;
-- two real `.clubCardFace` reveal faces;
-- `#clubNameOne` and `#clubNameTwo` live club-name text;
-- central `.clubVs`;
-- `#clubRivalryConfirmation`;
-- permanence note;
-- `#openClubPack`;
-- `#continueClubAssignment`;
-- `#clubAssignmentBack`.
+- `#clubWheelScreen`
+- `#clubAssignmentLeague`
+- `#clubPackStatus`
+- five real `[data-reveal-step]` progress steps
+- `.clubRevealArea`
+- `#clubCardOne`
+- `#clubCardTwo`
+- `#clubPlayerOne`
+- `#clubPlayerTwo`
+- two real `.clubPackStage` apertures
+- two real `.clubPackDoor` elements
+- two real `.clubCardFace` reveal faces
+- `#clubNameOne`
+- `#clubNameTwo`
+- central `.clubVs`
+- `#clubRivalryConfirmation`
+- permanence note
+- `#openClubPack`
+- `#continueClubAssignment`
+- `#clubAssignmentBack`
 
-Manager identity lock for the owner-review scenario remains:
+Manager and club names remain live DOM text.
 
-- Manager 1 = Daniel;
-- Manager 2 = Nik.
+Manager identity for the owner-review scenario remains:
 
-Manager and club names remain DOM text. Character art never replaces product labels.
+- Manager 1 = Daniel
+- Manager 2 = Nik
+
+Character art never replaces product labels or state.
 
 ## Runtime ownership
 
-Production `js/clubAssignment.js` is the only state/timing owner.
+Production `js/clubAssignment.js` remains the only draw/state/timing owner.
 
-The real stages remain:
+The real visual stages remain:
 
 1. `ready`
 2. `opening`
@@ -72,175 +89,216 @@ The real stages remain:
 5. `versus`
 6. `confirmation`
 
-Current behavior retained:
+Expected behavior remains:
 
-- ready: both doors sealed, Open available, Back available;
-- opening: draw already persisted, Open disabled, Back unavailable;
-- manager-one: Daniel's real live card is revealed first;
-- manager-two: Nik's real live card reveals next;
-- versus: both real cards are revealed and confirmation content is exposed while confirmation action is still withheld;
-- confirmation: permanent clubs are explicit and the real Confirm action becomes available.
+- ready: both real doors sealed, Open available, Back available
+- opening: draw already persisted, Open disabled, Back unavailable
+- manager-one: Daniel's real live card reveals first
+- manager-two: Nik's real live card reveals next
+- versus: both live cards visible, rivalry confirmation content may appear while action remains withheld
+- confirmation: permanent clubs explicit and real Confirm action available
 
-The R8.45 browser artifact contains a manual QA stage injector only. It has no timers, no click binding, no draw, no persistence and no save behavior. It exists only so Chromium can inspect every production-owned visual stage deterministically.
+The isolated proposal's manual stage injector is QA-only. It has no timers, click binding, draw, persistence or save behavior.
 
-## R8.45 B2 presentation architecture
+## Protected live-pack architecture
 
-R8.45 keeps the useful B2 principle: characters occupy exterior flank space and the production pack remains a protected live aperture.
+The real `.clubPackStage`, `.clubPackDoor` and `.clubCardFace` remain the only pack/reveal object.
 
-Wide desktop composition:
+A 14px protected safety gutter surrounds each live `.clubPackStage` during wide-desktop geometry proof.
 
-- Daniel occupies the left exterior flank;
-- Nik occupies the right exterior flank;
-- the centered live reveal grid remains the product focus;
-- each character is clipped and softly faded before a separate static rail;
-- the rail never moves with `.clubPackDoor`;
-- no character pixel is allowed to enter the 14px protected aperture around either `.clubPackStage`;
-- all B2 decoration is `pointer-events:none`, unfocusable and `aria-hidden` where appropriate.
+No character pixel, hand, finger, sleeve, forearm or decorative rail may enter that protected aperture.
 
-The intended illusion is `manager presents the live pack stage`, never `manager owns or holds a raster pack`.
+Character/frame layers remain:
+
+- decorative;
+- pointer-inert;
+- unfocusable;
+- removable without changing comprehension or interaction.
+
+The intended illusion is `manager presents the live pack stage`, never `manager owns or holds a second raster pack`.
+
+## R8.47 manager-pack proximity polish
+
+The owner reattached the pack-holding Club Assignment reference. R8.45 was safe but the manager presentation remained visually too detached from the two live pack stages.
+
+R8.47 closes that gap through browser geometry only:
+
+- Manager 1 live reveal card moves 14px toward Daniel on eligible wide desktop.
+- Manager 2 live reveal card moves 14px toward Nik.
+- manager edge masks remain opaque slightly farther toward the center before fading at the protected boundary;
+- the pack-owner row becomes a restrained uppercase ownership label rather than a competing second signature treatment;
+- live pack structure, IDs, reveal classes and action controls remain unchanged.
+
+No generated pack is added to either character.
 
 ## 1366x768 protected-aperture proof
 
-R8.45 browser measurement with a 14px safety gutter:
+R8.47 measured geometry with a 14px safety gutter:
 
-- Manager 1 protected aperture: `x=349..587`;
-- Daniel exterior flank ends: `x=315`;
-- Daniel static rail ends: `x=314`;
-- Manager 2 protected aperture: `x=779..1017`;
-- Nik exterior flank begins: `x=1051`;
-- Nik static rail begins: `x=1052`.
+Manager 1:
 
-Therefore both character regions and both rails are geometrically disjoint from the protected live pack apertures.
+- live pack stage x=349..559
+- protected aperture x=335..573
+- Daniel decorative layer x=0..315
+- Daniel static rail x=305..314
+- Daniel-to-protected-aperture gap: 20px
+- rail-to-protected-aperture gap: 21px
 
-No foreground finger, sleeve, hand or forearm tracks the moving pack door.
+Manager 2:
 
-## Source-art treatment
+- live pack stage x=807..1017
+- protected aperture x=793..1031
+- Nik decorative layer x=1051..1366
+- Nik static rail x=1052..1061
+- Nik-to-protected-aperture gap: 20px
+- rail-to-protected-aperture gap: 21px
 
-No image generation was invoked for R8.45.
+Both manager layers and both rails remain geometrically disjoint from the protected live pack apertures.
 
-The browser assembly reuses the existing stadium and established Daniel/Nik visual source family through deterministic resize/compression only. That processing does not create a new character concept and does not promote source-art authority.
+## Character/source-art rule
 
-The visual source layers remain decorative and removable without changing product comprehension or interaction.
+R8.47 uses the existing established Daniel/Nik source family. No image generation was used.
 
-The previous R8.31 A05/A06 generation opportunity is superseded by the R8.45 hard gate. Do not generate A05/A06 merely because older screen text described the geometry as generation-ready.
+Recovered or owner-liked images where a character visibly grips a baked pack remain pose/reference evidence only unless a future bounded source-asset treatment can remove the pack while preserving valid anatomy and the protected aperture.
 
-A future image-generation call requires a new bounded `READY` source-asset ticket explicitly unlocked by GPT-5.6 Sol.
+A baked pack-holding raster may not become the product reveal object because it would contradict the live moving `.clubPackDoor` / `.clubCardFace` authority.
 
-## Pack-face treatment
+## State presentation
 
-The sealed door remains neutral so future club identity cannot leak before runtime reveal authority allows it.
+Ready / sealed:
 
-After reveal:
+- equal live pack stages;
+- no result identity leak;
+- Open Showdown Packs is the primary action.
 
-- club name remains canonical live DOM data;
-- card face may consume deterministic presentation colors/geometry;
-- no raster result card replaces the live DOM;
-- no official crest crop is required;
-- Club Identity V2.1 remains proposal-only until separately accepted.
+Opening:
 
-Do not add a crest field to save state or introduce Firebase, storage, badge APIs or runtime hotlinks for visual identity.
+- production owns timing;
+- visual may style the existing moving door but cannot delay or override it.
+
+Manager 1 reveal:
+
+- left live card reveals for Daniel first;
+- club name is live DOM data.
+
+Manager 2 reveal:
+
+- right live card reveals for Nik next;
+- club name is live DOM data.
+
+Versus:
+
+- both live cards receive equal weight around the real VS divider.
+
+Confirmation:
+
+- permanent clubs become explicit;
+- real confirmation action becomes primary;
+- character art remains subordinate atmosphere.
 
 ## Responsive contract
 
 ### `>=1320px`
 
-B2 cinematic manager flanks are eligible. The current 1366x768 and 1440x900 Chromium runs pass protected-aperture and control-clearance assertions.
+B2 cinematic manager flanks are eligible.
+
+R8.47 keeps manager/rail layers outside the protected live pack apertures and moves the live cards only within the proven safety budget.
 
 ### `1180–1319px`
 
-Character-free fallback. Do not squeeze wide B2 inward.
+Character-free fallback. Do not squeeze the wide manager composition inward.
 
 ### `<=1179px`
 
-Character-free fallback remains authoritative.
+Character-free.
 
-### reduced motion
+### Reduced motion
 
-B2 decoration is removed and pack/card transitions resolve without requiring cinematic decoration for comprehension.
+Character decoration fails closed. Real stage/state comprehension remains immediate.
 
-### `390x844` DPR2
+### Mobile approximately 390x844 DPR2
 
-The live packs stack in one column. The real title, progress, two live pack stages, VS, confirmation content and controls reflow vertically with no horizontal overflow. Mobile does not imitate the desktop character staging.
+Character-free stacked live-pack presentation. Vertical scrolling is allowed. Horizontal overflow is forbidden.
 
-## R8.45 Chromium proof
+## Chromium proof
 
-Viewports:
+Six reveal states x six viewport conditions = `36/36 PASS`.
 
-- `1440x900`;
-- `1366x768`;
-- `1280x720`;
-- `1179x800`;
-- `940x700` reduced motion;
-- `390x844` DPR2.
+Validated viewport conditions:
 
-Stages:
+- 1440x900 DPR1
+- 1366x768 DPR1
+- 1280x720 DPR1
+- 1179x800 DPR1
+- 940x700 DPR1 reduced motion
+- 390x844 DPR2
 
-- ready;
-- opening;
-- manager-one;
-- manager-two;
-- versus;
-- confirmation.
-
-Result: `36/36 PASS`.
-
-Machine assertions include:
+Machine checks include:
 
 - no horizontal overflow;
-- all current live DOM seams present;
-- exactly five progress steps;
-- Daniel = Manager 1 and Nik = Manager 2;
-- reveal class truth matches stage;
-- confirmation visibility matches stage;
-- Open / Confirm / Back visibility and disabled state match runtime ownership;
-- B2 eligibility/fallback truth;
-- no decorative pointer events;
-- no decorative focus targets;
-- 14px protected-aperture clearance;
-- two live pack apertures remain distinct;
-- visible controls remain disjoint from the pack apertures;
-- mobile pack order is stacked and coherent.
+- exactly two live pack stages and two live reveal cards;
+- correct `data-club-reveal-stage`;
+- coherent Open / Confirm / Back visibility per stage;
+- Daniel and Nik protected-aperture clearance on eligible wide desktop;
+- rail protected-aperture clearance;
+- live pack/action-region clearance;
+- automatic B2 removal below 1320px and under reduced motion.
 
-Persistent browser evidence:
+## Club Identity V2.1 boundary
 
-`/Showdown visual/R8_45_Club_Assignment/`
+Club Identity V2.1 remains proposal-only until separately accepted.
 
-- `club-assignment-r8-45-reference-fidelity.html`;
-- `CLUB_R8_45_BROWSER_QA_36_CASES.json`;
-- `CLUB_R8_45_REVALIDATED_1366_READY.png`;
-- `CLUB_R8_45_REVALIDATED_1366_MANAGER_ONE.png`;
-- `CLUB_R8_45_REVALIDATED_1366_CONFIRMATION_STABLE.png`;
-- `CLUB_R8_45_REVALIDATED_1440_READY.png`;
-- `CLUB_R8_45_REVALIDATED_390_READY.png`;
-- `CLUB_R8_45_REVALIDATED_390_CONFIRMATION.png`.
+Any future revealed pack face may consume deterministic presentation identity only after runtime has exposed the club result.
 
-## Authority labels
+Non-negotiable safety:
 
-- supplied Club Assignment visual: `REFERENCE_ONLY`;
-- old structural sketches: `CONCEPT_ONLY`;
-- current R8.45 browser assembly: `ASSEMBLED_PROPOSAL`;
-- source-art derivatives retain prior source/candidate authority;
-- owner visual approval: open;
-- production integration: not authorized;
-- `OWNER_APPROVED_FINAL`: no.
+- club name remains canonical product data;
+- no crest field in save state;
+- no Firebase/Firestore/Auth/Storage dependency for visual identity;
+- no external badge API or runtime hotlink;
+- no AI-generated raster badge catalog;
+- no identity leak through the sealed door.
 
-Never silently promote an artifact.
+## Accessibility / interaction safety
 
-## Production boundary
+- character/frame layers are absent from accessibility authority;
+- decorative layers are not focus targets;
+- decorative overlays use `pointer-events:none`;
+- manager and club labels remain DOM text;
+- focus remains visible on Open, Confirm and Back;
+- permanence is communicated in text, not color alone;
+- no mirrored/reversed baked UI text;
+- protected-aperture exclusion is geometric and machine-testable.
 
-R8.45 changes presentation only.
+## Image-generation rule
 
-Do not alter:
+Image generation is hard locked.
 
-- club draw logic;
-- reveal timing authority;
-- persisted club pair;
-- permanent-club rules;
-- save schema;
-- Firebase / Firestore / Auth;
-- routing;
-- scoring or game rules;
-- shared-session behavior;
-- remote joining/reconciliation behavior.
+R8.47 solved its remaining fidelity issue through real HTML/CSS/SVG geometry, so no READY source-asset ticket is justified.
 
-Before any production integration, re-read then-current `main`, `index.html`, `css/app.css`, `js/clubAssignment.js`, club-identity runtime and relevant browser/contracts again. Later production changes automatically outrank this proposal contract.
+A future generation call requires GPT-5.6 Sol to write a bounded ticket with:
+
+- assetId
+- targetDomSlot
+- dimensions/aspect
+- allowedContent
+- forbiddenContent
+- sourceReference
+- acceptanceChecks
+- status `READY`
+
+Whole-screen Club Assignment concepts can remain `REFERENCE_ONLY` or `CONCEPT_ONLY`; they can never become implementation authority.
+
+## Production integration gate
+
+R8.47 remains `ASSEMBLED_PROPOSAL / OWNER REVIEW OPEN`.
+
+Before production integration, re-read then-current:
+
+- Club Assignment DOM;
+- `js/clubAssignment.js`;
+- current CSS/runtime identity presentation;
+- shared setup variants where applicable;
+- browser tests.
+
+Visual must reconcile into the real architecture. No second reveal engine, save path, router or product state may ship from the proposal harness.
