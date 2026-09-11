@@ -82,7 +82,8 @@
     if(nestedPhase(scoring)==="SCORING_RECONCILED")milestone("scoring-reconciled","SCORING_RECONCILED",{revision:nestedRevision(scoring),seasonNumber:nestedSeason(scoring)});
     if(nestedPhase(history)==="HISTORY_CONVERGED")milestone("history-converged","HISTORY_CONVERGED",{revision:nestedRevision(history),seasonNumber:nestedSeason(history)});
     if(reconnect?.phase==="ACTIVE_RECOVERED"||reconnect?.phase==="TERMINAL_RECOVERED"){
-      if(safe.offlineObserved){
+      const browserOnline=!root.navigator||root.navigator.onLine!==false;
+      if(safe.offlineObserved&&hasStage("network-online")&&browserOnline){
         safe.onlineRecovered=true;
         const recorded=milestone("reconnect-recovered",reconnect.phase,{seasonNumber:Number.isInteger(reconnect.activeSeason)?reconnect.activeSeason:null,startupCount:safe.startupCount});
         if(recorded&&safe.reconnectRecoveredStartupCount===null)safe.reconnectRecoveredStartupCount=safe.startupCount;
