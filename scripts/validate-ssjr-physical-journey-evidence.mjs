@@ -9,7 +9,8 @@ const RAW_PRIVATE=/\b(?:pair|session)_[a-f0-9]{64}\b|\bdevice_[a-f0-9]{32}\b|\b(
 const FORBIDDEN_KEYS=new Set(["accountid","deviceid","rivalryid","sessionid","saveid","profileid","rawcapability","capability"]);
 const ROLES=new Set(["playerOne","playerTwo"]);
 const REMOTE_ROLES=new Set(["host","peer"]);
-const CORE_STAGES=["remote-active","setup-confirmed","career-start-ready","transfer-completed","results-ready","season-acknowledged","scoring-reconciled","history-converged","conflict-guard-proven","local-reconciliation-safe","final-season-reconciled","terminal-closed","terminal-reload-verified"];
+const CORE_STAGES=["remote-active","setup-confirmed","career-start-ready","transfer-completed","results-ready","season-acknowledged","scoring-reconciled","history-converged","local-reconciliation-safe","final-season-reconciled","terminal-closed"];
+const SEASON_ONE_STAGES=["transfer-completed","results-ready","season-acknowledged","scoring-reconciled","history-converged","final-season-reconciled"];
 
 const plain=value=>!!value&&typeof value==="object"&&!Array.isArray(value);
 const norm=value=>String(value||"").replace(/[^a-z0-9]/gi,"").toLowerCase();
@@ -44,7 +45,7 @@ function validateSingle(evidence,source,{expectedAppVersion,expectedRuntimeRevis
   require(evidence.canonicalStorageBeforeHash===evidence.canonicalStorageAfterHash,"CANONICAL_STORAGE_HASH_MISMATCH","Canonical local storage hashes must match for the standard non-Apply run.");
   require(evidence.candidateCApplied===false,"CANDIDATE_C_APPLY_FORBIDDEN","Standard Physical Journey acceptance must not destructively apply Candidate C.");
   require(evidence.offlineObserved===true&&evidence.onlineRecovered===true,"OFFLINE_RECOVERY_MISSING","A real offline-to-online recovery must be observed.");
-  require(evidence.reloadResumed===true&&Number.isInteger(evidence.startupCount)&&evidence.startupCount>=2,"RELOAD_RECOVERY_MISSING","The journey must resume after at least one real page reload.");
+  require(evidence.reloadResumed===true&&Number.isInteger(evidence.startupCount)&&evidence.startupCount>=3,"RELOAD_RECOVERY_MISSING","The journey must include distinct pre-terminal and post-terminal page reload startups.");
   require(evidence.terminalReloadVerified===true,"TERMINAL_RELOAD_MISSING","Terminal CLOSED must be observed again after a later reload.");
   require(evidence.conflictGuardProven===true,"CONFLICT_GUARD_MISSING","The non-writing production conflict guard probe must pass.");
   require(evidence.completed===true,"RECORDER_NOT_COMPLETE","Recorder did not reach its complete acceptance state.");
@@ -59,9 +60,15 @@ function validateSingle(evidence,source,{expectedAppVersion,expectedRuntimeRevis
     if(typeof item.stage==="string"&&!byStage.has(item.stage))byStage.set(item.stage,item);
   }
   let corePrior=0;for(const stage of CORE_STAGES){const item=byStage.get(stage);require(Boolean(item),"CORE_STAGE_MISSING",`Required stage missing: ${stage}.`);if(item){require(item.sequence>corePrior,"CORE_STAGE_ORDER_INVALID",`Required stage is out of order: ${stage}.`);corePrior=item.sequence;}}
-  const offline=byStage.get("network-offline"),online=byStage.get("network-online"),recovered=byStage.get("reconnect-recovered"),terminal=byStage.get("terminal-closed"),terminalReload=byStage.get("terminal-reload-verified");
-  require(Boolean(offline&&online&&recovered&&terminal&&terminalReload&&offline.sequence<online.sequence&&online.sequence<recovered.sequence&&recovered.sequence<terminal.sequence&&terminal.sequence<terminalReload.sequence),"RECOVERY_ORDER_INVALID","Offline, online, recovered, terminal and terminal-reload milestones must occur in that order.");
-  const local=byStage.get("local-reconciliation-safe");require(Boolean(local&&["REMOTE_OBSERVED","PREVIEW_READY"].includes(local.phase)),"LOCAL_RECONCILIATION_UNSAFE","Standard Physical Journey must reach safe read-only Local Reconciliation without Candidate C Apply.");
+  const conflict=byStage.get("conflict-guard-proven");require(Boolean(conflict),"CONFLICT_MILESTONE_MISSING","The non-writing conflict-guard milestone must be recorded.");
+  const setup=byStage.get("setup-confirmed");require(Boolean(setup&&setup.totalSeasons===1),"ONE_SEASON_PLAN_REQUIRED","Physical Journey acceptance requires the confirmed one-season plan.");
+  for(const stage of SEASON_ONE_STAGES){const item=byStage.get(stage);require(Boolean(item&&item.seasonNumber===1),"SEASON_ONE_REQUIRED",`Physical Journey stage must refer to season 1: ${stage}.`);}
+  const history=byStage.get("history-converged"),offline=byStage.get("network-offline"),online=byStage.get("network-online"),recovered=byStage.get("reconnect-recovered"),reload=byStage.get("reload-resumed"),local=byStage.get("local-reconciliation-safe"),finalState=byStage.get("final-season-reconciled"),terminal=byStage.get("terminal-closed"),terminalReload=byStage.get("terminal-reload-verified");
+  require(Boolean(history&&offline&&online&&recovered&&reload&&local&&finalState&&terminal&&terminalReload&&history.sequence<offline.sequence&&offline.sequence<online.sequence&&online.sequence<recovered.sequence&&recovered.sequence<reload.sequence&&reload.sequence<local.sequence&&local.sequence<finalState.sequence&&finalState.sequence<terminal.sequence&&terminal.sequence<terminalReload.sequence),"RECOVERY_ORDER_INVALID","History, offline, online, reconnect, pre-terminal reload, Local Reconciliation, Final Reconciliation, terminal and terminal-reload milestones must occur in the canonical order.");
+  require(Boolean(offline&&offline.online===false),"OFFLINE_FLAG_INVALID","The network-offline milestone must record browser online=false.");
+  require(Boolean(online&&online.online===true&&recovered&&recovered.online===true),"ONLINE_RECOVERY_FLAG_INVALID","Online and reconnect-recovered milestones must record browser online=true.");
+  const localMilestones=milestones.filter(item=>plain(item)&&item.stage==="local-reconciliation-safe");
+  require(Boolean(local&&["REMOTE_OBSERVED","PREVIEW_READY"].includes(local.phase)&&localMilestones.every(item=>item.phase!=="APPLIED")),"LOCAL_RECONCILIATION_UNSAFE","Standard Physical Journey must remain read-only at Local Reconciliation and must never record Candidate C Apply.");
   return {issues,facts:{managerRole:evidence.managerRole,remoteRole:evidence.remoteRole,accountFingerprint:evidence.accountFingerprint,deviceFingerprint:evidence.deviceFingerprint,rivalryFingerprint:evidence.rivalryFingerprint,sessionFingerprints:new Set(sessionFingerprints),deviceLabel,networkLabel,signature}};
 }
 
