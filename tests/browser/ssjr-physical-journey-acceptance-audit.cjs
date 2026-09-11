@@ -13,16 +13,14 @@ async function loadDirect(browser,physical){
   await page.addScriptTag({url:new URL("js/ssjrPhysicalJourneyAcceptance.js",baseUrl).href});
   return {context,page,errors};
 }
+async function launchCase(runtime,physical){const browser=await chromium.launch({executablePath:runtime.executablePath,headless:true,args:runtime.args});try{return {browser,...await loadDirect(browser,physical)};}catch(error){if(browser.isConnected())await browser.close().catch(()=>{});throw error;}}
+async function closeCase(entry){if(!entry)return;await entry.context.close().catch(()=>{});if(entry.browser.isConnected())await entry.browser.close().catch(()=>{});}
 
 async function installFixture(page,stage="history"){
   await page.evaluate(({raw,stage})=>{
-    const make=()=>{
-      const remote={sessionState:"active",pendingAction:null,revision:1,role:"host",accountId:raw.account,deviceId:raw.device,rivalryId:raw.rivalry,sessionId:raw.session};
-      const setup={ready:true,managerRole:"playerOne",remoteRole:"host",accountId:raw.account,deviceId:raw.device,rivalryId:raw.rivalry,sessionId:raw.session,setup:{phase:"SHOWDOWN_CONFIRMED",revision:6,totalSeasons:1}};
-      const states={remote,setup,career:{state:{phase:"CAREER_START_READY",revision:2}},transfer:{state:{phase:"COMPLETED",revision:5,seasonNumber:1}},results:{phase:"RESULTS_READY",revision:2,seasonNumber:1},commit:{phase:"ACKNOWLEDGED",revision:3,seasonNumber:1},scoring:{phase:"SCORING_RECONCILED",revision:1,seasonNumber:1},history:{phase:"HISTORY_CONVERGED",revision:1,throughSeason:1},reconnect:{phase:"ACTIVE_RECOVERED",activeSeason:1},local:{phase:"PREVIEW_READY",canonicalStorageMutation:false,providerWriteRequired:false,automaticLocalApply:false,candidateCOnly:true},finalState:{phase:"FINAL_SEASON_RECONCILED",finalSeasonReconciled:true,completedSeason:1},terminal:{phase:"CLOSED",terminal:true,rivalryRevision:7}};
-      return states;
-    };
-    const states=make();
+    const remote={sessionState:"active",pendingAction:null,revision:1,role:"host",accountId:raw.account,deviceId:raw.device,rivalryId:raw.rivalry,sessionId:raw.session};
+    const setup={ready:true,managerRole:"playerOne",remoteRole:"host",accountId:raw.account,deviceId:raw.device,rivalryId:raw.rivalry,sessionId:raw.session,setup:{phase:"SHOWDOWN_CONFIRMED",revision:6,totalSeasons:1}};
+    const states={remote,setup,career:{state:{phase:"CAREER_START_READY",revision:2}},transfer:{state:{phase:"COMPLETED",revision:5,seasonNumber:1}},results:{phase:"RESULTS_READY",revision:2,seasonNumber:1},commit:{phase:"ACKNOWLEDGED",revision:3,seasonNumber:1},scoring:{phase:"SCORING_RECONCILED",revision:1,seasonNumber:1},history:{phase:"HISTORY_CONVERGED",revision:1,throughSeason:1},reconnect:{phase:"ACTIVE_RECOVERED",activeSeason:1},local:{phase:"PREVIEW_READY",canonicalStorageMutation:false,providerWriteRequired:false,automaticLocalApply:false,candidateCOnly:true},finalState:{phase:"FINAL_SEASON_RECONCILED",finalSeasonReconciled:true,completedSeason:1},terminal:{phase:"CLOSED",terminal:true,rivalryRevision:7}};
     const enabled={history:["remote","setup","career","transfer","results","commit","scoring","history"],recovered:["remote","setup","career","transfer","results","commit","scoring","history","reconnect"],terminal:["remote","setup","career","transfer","results","commit","scoring","history","reconnect","local","finalState","terminal"]}[stage]||[];
     const expose=(key,name)=>{window[name]={getState:()=>enabled.includes(key)?states[key]:null};};
     expose("remote","CareerModeSparkRemoteJoining");expose("setup","CareerModeProductionSharedShowdownSetup");expose("career","CareerModeProductionSharedCareerStart");expose("transfer","CareerModeProductionSharedTransferChallenge");expose("results","CareerModeProductionSharedSeasonResults");expose("commit","CareerModeProductionSharedSeasonCommit");expose("scoring","CareerModeProductionSharedCanonicalScoring");expose("history","CareerModeProductionSharedHistoryConvergence");expose("reconnect","CareerModeProductionSharedJourneyReconnect");expose("local","CareerModeProductionSharedLocalReconciliation");expose("finalState","CareerModeProductionSharedFinalReconciliation");expose("terminal","CareerModeProductionSharedTerminalClose");
@@ -32,11 +30,11 @@ async function installFixture(page,stage="history"){
 }
 
 (async()=>{
-  const runtime=await resolveChromiumRuntime(),browser=await chromium.launch({executablePath:runtime.executablePath,headless:true,args:runtime.args});let normal=null,physical=null;
+  const runtime=await resolveChromiumRuntime();let normal=null,physical=null;
   try{
-    normal=await loadDirect(browser,false);assert.equal(await normal.page.evaluate(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.enabled),false);assert.equal(await normal.page.locator("#ssjrPhysicalJourneyAcceptance").count(),0);assert.deepEqual(normal.errors,[]);await normal.context.close();normal=null;
+    normal=await launchCase(runtime,false);assert.equal(await normal.page.evaluate(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.enabled),false);assert.equal(await normal.page.locator("#ssjrPhysicalJourneyAcceptance").count(),0);assert.deepEqual(normal.errors,[]);await closeCase(normal);normal=null;
 
-    physical=await loadDirect(browser,true);assert.equal(await physical.page.evaluate(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.enabled),true);await physical.page.locator("#ssjrPhysicalJourneyAcceptance").waitFor({state:"visible",timeout:4000});
+    physical=await launchCase(runtime,true);assert.equal(await physical.page.evaluate(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.enabled),true);await physical.page.locator("#ssjrPhysicalJourneyAcceptance").waitFor({state:"visible",timeout:4000});
     await physical.page.evaluate(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.setLabels("iPhone acceptance","Cellular"));
     await installFixture(physical.page,"history");await physical.page.evaluate(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.observe());
     await physical.page.waitForFunction(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.getState().conflictGuardProven===true,null,{timeout:5000});
@@ -56,5 +54,5 @@ async function installFixture(page,stage="history"){
 
     console.log("PASS Physical Journey recorder is disabled outside the explicit acceptance query and exposes no panel");
     console.log("PASS Physical Journey browser observer persists only sanitized evidence across real offline/online plus reload boundaries and proves terminal CLOSED after reload without Candidate C Apply");
-  }finally{if(physical)await physical.context.close().catch(()=>{});if(normal)await normal.context.close().catch(()=>{});if(browser.isConnected())await browser.close();}
+  }finally{await closeCase(physical);await closeCase(normal);}
 })().catch(error=>{console.error("SSJR PHYSICAL JOURNEY ACCEPTANCE BROWSER AUDIT FAILED");console.error(error.stack||error);process.exit(1);});
