@@ -4,7 +4,7 @@
   "ownerIntent": "GPT-5.6 Sol owns product/UI decisions. Image generation is subordinate source-asset rendering only.",
   "activeScreen": "leagueWheelScreen",
   "imageGenerationAllowed": false,
-  "lockReason": "The current stadium and Daniel candidates are now integrated and browser-proven. No new generation is permitted until the owner reviews the actual R8.41 Chromium assembly and a new bounded asset ticket is justified.",
+  "lockReason": "R8.42 corrected Daniel/wheel contact, manager geometry and lighting without any new image-generation call. The real Chromium assembly is awaiting owner review; no new generation is justified.",
   "hardRules": [
     "Never invoke image generation because a screen looks visually incomplete.",
     "A new image-generation call requires a bounded asset ticket with assetId, targetDomSlot, dimensions/aspect, allowedContent, forbiddenContent, sourceReference, acceptanceChecks and status READY.",
@@ -22,27 +22,23 @@
       "kind": "stadium-background-source",
       "status": "CANDIDATE_INTEGRATED_BROWSER_PROVEN_OWNER_REVIEW_OPEN",
       "targetDomSlot": ".stadiumPlate",
-      "allowedContent": ["stadium architecture", "crowd", "floodlights", "pitch edge", "haze", "black/gold atmosphere"],
-      "forbiddenContent": ["Daniel", "Nik", "wheel", "league marks", "navigation", "buttons", "manager labels", "live text", "state badges"],
       "persistentSnapshot": "/Showdown visual/R8_41_League/LEAGUE_STADIUM_R8_41_CANDIDATE.webp",
-      "nextAction": "Owner reviews the real Chromium assembly. Do not regenerate the stadium before bounded owner feedback."
+      "nextAction": "Retain current stadium while owner reviews R8.42. Do not regenerate it without a new bounded ticket."
     },
     {
-      "assetId": "LEAGUE_DANIEL_LATERAL_POINT_R8_41",
-      "kind": "isolated-character-source",
+      "assetId": "LEAGUE_DANIEL_REFERENCE_EXTRACT_R8_42",
+      "kind": "reference-derived-isolated-character-source",
       "status": "CANDIDATE_INTEGRATED_BROWSER_PROVEN_OWNER_REVIEW_OPEN",
       "targetDomSlot": ".character.daniel",
-      "allowedContent": ["Daniel only", "dark suit", "lateral arm point toward wheel", "transparent/maskable background"],
-      "forbiddenContent": ["wheel", "logos", "buttons", "text", "stadium UI", "baked shadows that define layout"],
-      "persistentSnapshot": "/Showdown visual/R8_41_League/LEAGUE_DANIEL_LATERAL_POINT_R8_41_CANDIDATE.webp",
-      "nextAction": "Owner reviews identity, placement, hand/rim relationship and lighting in the real browser composition."
+      "persistentSnapshot": "/Showdown visual/R8_42_League/LEAGUE_DANIEL_REFERENCE_EXTRACT_R8_42_CANDIDATE.png",
+      "provenance": "Owner-provided Select League reference; deterministic crop/mask/alpha cleanup only; no new image generation.",
+      "nextAction": "Owner reviews hand/rim contact, identity, placement and lighting in the real R8.42 Chromium composition."
     },
     {
       "assetId": "LEAGUE_MARKS_R8_41",
       "kind": "deterministic-svg-identity-family",
       "status": "BUILT_IN_REAL_BROWSER_ASSEMBLY_OWNER_REVIEW_OPEN",
       "targetDomSlot": ".wheelItem .mark",
-      "referenceDirection": ["crowned-lion shield for Premier direction", "solar football for LaLiga direction", "dynamic player and ball for Bundesliga direction", "angular A with tricolor for Serie A direction", "angular L/1 shield for Ligue 1 direction"],
       "nextAction": "Refine only from owner feedback; do not replace with generated logo crops."
     }
   ]
