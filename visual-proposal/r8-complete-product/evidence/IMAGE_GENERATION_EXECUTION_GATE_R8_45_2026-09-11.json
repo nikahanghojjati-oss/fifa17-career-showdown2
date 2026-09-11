@@ -1,0 +1,35 @@
+{
+  "status": "ACTIVE_HARD_GATE",
+  "date": "2026-09-11",
+  "orchestrator": "GPT-5.6 Sol",
+  "activeScreen": "clubWheelScreen",
+  "imageGenerationAllowed": false,
+  "authority": "GPT-5.6 Sol owns UI/product decisions and browser assembly. Image generation remains subordinate source-asset rendering only.",
+  "reason": "League R8.43 and Home R8.44 reached browser-proven owner-review checkpoints. Club Assignment R8.45 is now rebuilt as a real HTML/CSS/JS presentation using existing source art and the production reveal DOM. No bounded READY source-asset ticket is required or justified.",
+  "productionRuntimeOwner": "js/clubAssignment.js",
+  "revealSequence": ["ready", "opening", "manager-one", "manager-two", "versus", "confirmation"],
+  "prohibited": [
+    "whole-page generated concepts as implementation",
+    "generated club-pack UI replacing .clubPackDoor/.clubCardFace",
+    "a second reveal clock or state machine",
+    "reference-only navigation or fake product features",
+    "silent artifact promotion"
+  ],
+  "browserEvidence": {
+    "league": "R8.43 fresh Chromium revalidation 36/36 PASS",
+    "home": "R8.44 fresh Chromium revalidation 12/12 PASS",
+    "clubAssignment": "R8.45 Chromium matrix 36/36 PASS"
+  },
+  "persistentArtifactFolders": [
+    "/Showdown visual/R8_43_League/",
+    "/Showdown visual/R8_44_Home/",
+    "/Showdown visual/R8_45_Club_Assignment/"
+  ],
+  "authorityLabels": {
+    "league": "ASSEMBLED_PROPOSAL",
+    "home": "ASSEMBLED_PROPOSAL",
+    "clubAssignment": "ASSEMBLED_PROPOSAL",
+    "ownerApprovedFinal": false
+  },
+  "nextGenerationCondition": "Only GPT-5.6 Sol may unlock image generation, and only for a bounded READY source-asset ticket whose need cannot be satisfied by current accepted/candidate source art plus real HTML/CSS/JS/SVG assembly."
+}
