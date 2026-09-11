@@ -1,0 +1,39 @@
+name: R19 Register Isolated Recorder Once
+
+on:
+  push:
+    branches:
+      - feat/mdp-physical-journey-r19-acceptance
+    paths:
+      - .github/workflows/r19-register-isolated-recorder-once.yml
+
+permissions:
+  contents: write
+
+jobs:
+  register:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: feat/mdp-physical-journey-r19-acceptance
+      - name: Extend existing IIFE-only static release exception
+        shell: bash
+        run: |
+          set -euo pipefail
+          node <<'NODE'
+          const fs=require('node:fs');
+          const file='tests/contracts/static-app-release-contracts.cjs';
+          let text=fs.readFileSync(file,'utf8');
+          const from="const isolatedIifeFiles=new Set(['productionSharedJourneyEntry.js','productionSharedJourneyGuard.js','productionSharedShowdownSetup.js','ssjrProductionAcceptanceRecorder.js','sharedSeasonResults.js','sparkSharedSeasonResults.js'])";
+          const to="const isolatedIifeFiles=new Set(['productionSharedJourneyEntry.js','productionSharedJourneyGuard.js','productionSharedShowdownSetup.js','ssjrProductionAcceptanceRecorder.js','ssjrPhysicalJourneyAcceptance.js','sharedSeasonResults.js','sparkSharedSeasonResults.js'])";
+          if(!text.includes(from))throw new Error('static release IIFE exception seam changed');
+          text=text.replace(from,to);
+          fs.writeFileSync(file,text);
+          NODE
+          node tests/contracts/static-app-release-contracts.cjs
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add tests/contracts/static-app-release-contracts.cjs
+          git commit -m 'test(mdp): recognize isolated r19 acceptance recorder'
+          git push origin HEAD:feat/mdp-physical-journey-r19-acceptance
