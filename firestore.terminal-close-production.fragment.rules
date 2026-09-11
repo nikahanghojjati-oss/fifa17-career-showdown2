@@ -172,10 +172,9 @@
           || ('terminalProgress' in before.data && ssjrTerminalAdvanceProgress(rivalryId, before, after))
         );
     }
-    function ssjrTerminalSessionClosedAtomically(rivalryId, intent, actorDeviceId) {
+    function ssjrTerminalSessionTransitionBound(rivalryId, intent, actorDeviceId) {
       let before = get(/databases/$(database)/documents/rivalries/$(rivalryId)/sessions/$(intent.sessionId)).data;
       let after = getAfter(/databases/$(database)/documents/rivalries/$(rivalryId)/sessions/$(intent.sessionId)).data;
-      let ids = resource.data.data.authorizedAccountIds;
       return before.objectType == 'session'
         && before.objectId == intent.sessionId
         && before.data.rivalryId == rivalryId
@@ -185,14 +184,49 @@
         && after.objectId == intent.sessionId
         && after.revision == before.revision + 1
         && after.parentRevision == before.revision
-        && after.data.state == 'closed'
         && after.data.rivalryId == rivalryId
-        && after.data.memberAccountIds is list
-        && after.data.memberAccountIds.size() == 2
-        && ids[0] in after.data.memberAccountIds
-        && ids[1] in after.data.memberAccountIds
+        && after.data.state == 'closed'
         && after.updatedByAccountId == request.auth.uid
         && after.updatedByDeviceId == actorDeviceId;
+    }
+    function ssjrTerminalValidAtomicSessionClose(rivalryId, sessionId) {
+      let before = resource.data;
+      let after = request.resource.data;
+      let parentBefore = get(/databases/$(database)/documents/rivalries/$(rivalryId)).data;
+      let parentAfter = getAfter(/databases/$(database)/documents/rivalries/$(rivalryId)).data;
+      return request.resource.data.data.state == 'closed'
+        && signedIn()
+        && validSessionId(sessionId)
+        && activeDevice(after.updatedByDeviceId)
+        && before.objectType == 'session'
+        && before.objectId == sessionId
+        && before.lifecycleState == 'live'
+        && before.data.rivalryId == rivalryId
+        && before.data.state == 'active'
+        && before.data.expiresAt > request.time
+        && request.auth.uid in before.data.memberAccountIds
+        && validCasEnvelope(before, after, 'session', sessionId)
+        && after.updatedByAccountId == request.auth.uid
+        && after.data.rivalryId == before.data.rivalryId
+        && after.data.hostAccountId == before.data.hostAccountId
+        && after.data.memberAccountIds == before.data.memberAccountIds
+        && after.data.state == 'closed'
+        && after.data.createdAt == before.data.createdAt
+        && after.data.expiresAt == before.data.expiresAt
+        && after.data.lastActivityAt == after.updatedAt
+        && freshSessionActivity(after.data.lastActivityAt)
+        && after.data.revokedAt == null
+        && parentBefore.data.connectionState == 'active'
+        && parentAfter.data.connectionState == 'closed'
+        && parentAfter.data.terminalClose is map
+        && parentAfter.data.terminalClose.runtimeRevision == '1.9.1-r18'
+        && parentAfter.data.terminalClose.sessionId == sessionId
+        && parentAfter.data.terminalProgress.closedSessionRevision == after.revision
+        && parentAfter.updatedByAccountId == request.auth.uid
+        && parentAfter.updatedByDeviceId == after.updatedByDeviceId
+        && parentAfter.data.authorizedAccountIds is list
+        && parentAfter.data.authorizedAccountIds.size() == 2
+        && request.auth.uid in parentAfter.data.authorizedAccountIds;
     }
     function ssjrTerminalValidCloseUpdate(rivalryId) {
       let before = resource.data;
@@ -227,7 +261,7 @@
         && ssjrTerminalValidIntent(rivalryId, intent)
         && intent.totalSeasons == progress.totalSeasons
         && intent.managerTotals == progress.managerTotals
-        && ssjrTerminalSessionClosedAtomically(rivalryId, intent, after.updatedByDeviceId);
+        && ssjrTerminalSessionTransitionBound(rivalryId, intent, after.updatedByDeviceId);
     }
     function ssjrTerminalValidRivalryUpdate(rivalryId) {
       return (request.resource.data.data.connectionState == 'active' && ssjrTerminalValidProgressUpdate(rivalryId))
