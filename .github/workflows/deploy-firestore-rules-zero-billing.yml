@@ -18,6 +18,7 @@ on:
       - firestore.season-results-production.fragment.rules
       - firestore.season-commit-production.fragment.rules
       - firestore.terminal-close-production.fragment.rules
+      - scripts/assert-firestore-zero-billing-boundary.mjs
       - scripts/build-production-firestore-rules.mjs
       - scripts/publish-firestore-rules-zero-billing.mjs
       - firebase.production.rules.json
@@ -116,15 +117,11 @@ jobs:
           grep -Fq "priorProgress.acceptedThroughSeason == priorProgress.totalSeasons" "${FIREBASE_RULES_FILE}"
           grep -Fq "function ssjrTerminalValidAtomicSessionClose(rivalryId, sessionId)" "${FIREBASE_RULES_FILE}"
           grep -Fq "|| (!('terminalProgress' in request.resource.data.data) && validRivalryRedeem(rivalryId));" "${FIREBASE_RULES_FILE}"
+          grep -Fq "intent.billingRequired == false" "${FIREBASE_RULES_FILE}"
           grep -Fq "allow list, delete: if false" "${FIREBASE_RULES_FILE}"
           grep -Fq "allow list, update, delete: if false" "${FIREBASE_RULES_FILE}"
           grep -Fq "match /{document=**}" "${FIREBASE_RULES_FILE}"
-          ! grep -Eqi "cloud[[:space:]_-]*run|cloud[[:space:]_-]*functions|billing|blaze|payment|purchased[[:space:]_-]*credits" firestore.shared-setup-production.fragment.rules
-          ! grep -Eqi "cloud[[:space:]_-]*run|cloud[[:space:]_-]*functions|billing|blaze|payment|purchased[[:space:]_-]*credits" firestore.career-start-production.fragment.rules
-          ! grep -Eqi "cloud[[:space:]_-]*run|cloud[[:space:]_-]*functions|billing|blaze|payment|purchased[[:space:]_-]*credits" firestore.transfer-challenge-production.fragment.rules
-          ! grep -Eqi "cloud[[:space:]_-]*run|cloud[[:space:]_-]*functions|billing|blaze|payment|purchased[[:space:]_-]*credits" firestore.season-results-production.fragment.rules
-          ! grep -Eqi "cloud[[:space:]_-]*run|cloud[[:space:]_-]*functions|billing|blaze|payment|purchased[[:space:]_-]*credits" firestore.season-commit-production.fragment.rules
-          ! grep -Eqi "cloud[[:space:]_-]*run|cloud[[:space:]_-]*functions|billing|blaze|payment|purchased[[:space:]_-]*credits" firestore.terminal-close-production.fragment.rules
+          node scripts/assert-firestore-zero-billing-boundary.mjs
 
       - name: Install locked repository dependencies
         run: npm ci

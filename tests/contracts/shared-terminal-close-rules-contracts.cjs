@@ -1,6 +1,8 @@
 "use strict";
 const assert=require("node:assert/strict");
 const fs=require("node:fs");
+const path=require("node:path");
+const {pathToFileURL}=require("node:url");
 const {spawnSync}=require("node:child_process");
 
 const build=spawnSync(process.execPath,["scripts/build-production-firestore-rules.mjs"],{encoding:"utf8"});
@@ -12,6 +14,7 @@ const base=fs.readFileSync("firestore.spark.rules","utf8");
 const fragment=fs.readFileSync("firestore.terminal-close-production.fragment.rules","utf8");
 const generated=fs.readFileSync("firestore.spark.generated.rules","utf8");
 const deploy=fs.readFileSync(".github/workflows/deploy-firestore-rules-zero-billing.yml","utf8");
+const zeroBillingValidatorPath="scripts/assert-firestore-zero-billing-boundary.mjs";
 
 assert.doesNotMatch(base,/ssjrTerminalValidRivalryUpdate|TERMINAL_CLOSE_READY/,"reviewed Spark base must remain free of r18 production authority");
 assert.match(fragment,/SSJR_TERMINAL_CLOSE_FUNCTIONS_BEGIN/);
@@ -53,6 +56,7 @@ assert.match(generated,/match \/sessions\/\{sessionId\}[\s\S]*allow update: if s
 assert.match(generated,/function validSessionClose\(rivalryId, sessionId\)[\s\S]*before\.data\.state == "active"[\s\S]*after\.data\.state == "closed"/);
 assert.match(generated,/match \/seasonCommits\/\{seasonId\}[\s\S]*allow list, delete: if false;/);
 assert.match(generated,/match \/\{document=\*\*\}[\s\S]*allow read, write: if false;/);
+assert.match(generated,/intent\.billingRequired == false/);
 
 assert.match(deploy,/firestore\.terminal-close-production\.fragment\.rules/);
 assert.match(deploy,/shared-terminal-close-rules-contracts\.cjs/);
@@ -62,6 +66,63 @@ assert.match(deploy,/priorProgress\.acceptedThroughSeason == priorProgress\.tota
 assert.match(deploy,/function ssjrTerminalValidAtomicSessionClose\(rivalryId, sessionId\)/,"deployment guard must pin current atomic session close authority");
 assert.match(deploy,/!\('terminalProgress' in request\.resource\.data\.data\) && validRivalryRedeem\(rivalryId\)/,"deployment guard must pin the current rivalry routing seam");
 assert.doesNotMatch(deploy,/ssjrTerminalAllSeasonsAccepted|ssjrTerminalSessionClosedAtomically/,"deployment guard must not regress to pre-budget-refactor Terminal Close helpers");
+assert.ok(deploy.includes(`- ${zeroBillingValidatorPath}`),"the zero-billing validator itself must be a production Rules deployment trigger path");
+assert.ok(deploy.includes(`node ${zeroBillingValidatorPath}`),"production Rules publication must execute the shared deterministic zero-billing validator");
+assert.doesNotMatch(deploy,/!\s*grep\s+-Eqi/,"zero-billing policy must not be duplicated in shell negative-grep commands");
 assert.doesNotMatch(deploy,/billing enable|firebase use --add|functions:deploy|run deploy/i);
 
-console.log("PASS r18 Terminal Close production Rules: acknowledged seasons are folded into a bounded monotonic rivalry terminalProgress seal one season at a time, canonical scores are accumulated under Rules authority, persisted terminal witness fields are limited to provider-verifiable facts, terminal-owned writes are routed away from legacy pairing/session validators, the zero-billing deployment guard is pinned to the current staged authority, and final ACTIVE-to-CLOSED still requires the exact session to close atomically with no list/delete/billing expansion.");
+(async()=>{
+  const validatorUrl=pathToFileURL(path.resolve(zeroBillingValidatorPath)).href+`?contract=${Date.now()}`;
+  const validator=await import(validatorUrl);
+
+  assert.doesNotThrow(
+    ()=>validator.assertRepositoryZeroBillingBoundary({root:process.cwd()}),
+    "the exact repository fragments must satisfy the same zero-billing validator used by production deployment"
+  );
+
+  const terminalSafe="allow update: if intent.billingRequired == false;";
+  assert.doesNotThrow(
+    ()=>validator.assertTerminalCloseZeroBillingSource(terminalSafe,"safe terminal fixture"),
+    "the explicit billingRequired == false witness must remain deployable"
+  );
+  assert.throws(
+    ()=>validator.assertTerminalCloseZeroBillingSource("allow update: if true;","missing witness fixture"),
+    /missing explicit intent\.billingRequired == false proof/,
+    "Terminal Close must fail closed if the explicit zero-billing witness disappears"
+  );
+
+  for(const dangerousFixture of [
+    "cloud run",
+    "cloud-functions",
+    "cloud billing",
+    "blaze",
+    "payment",
+    "purchased credits",
+    "billing enable",
+    "billing_api",
+    "billing-account",
+    "billing project",
+    "billing plan",
+    "billing link",
+    "billingRequired == true"
+  ]){
+    assert.throws(
+      ()=>validator.assertTerminalCloseZeroBillingSource(`${terminalSafe}\n// ${dangerousFixture}`,`dangerous terminal fixture ${dangerousFixture}`),
+      /permanent zero-billing boundary violated/,
+      `Terminal Close validator must reject paid-compute fixture: ${dangerousFixture}`
+    );
+  }
+
+  for(const strictDanger of ["billing","cloud run","cloud_functions","blaze","payment","purchased credits"]){
+    assert.throws(
+      ()=>validator.assertStrictZeroBillingSource(`// ${strictDanger}`,`strict fixture ${strictDanger}`),
+      /permanent zero-billing boundary violated/,
+      `strict predecessor fragment policy must reject: ${strictDanger}`
+    );
+  }
+
+  console.log("PASS r18 Terminal Close production Rules: acknowledged seasons are folded into bounded monotonic terminalProgress, canonical scores remain Rules-authoritative, final close remains atomic, and production publication plus regression tests now share one deterministic zero-billing validator instead of reparsing shell grep syntax.");
+})().catch(error=>{
+  console.error(error?.stack||String(error));
+  process.exitCode=1;
+});
