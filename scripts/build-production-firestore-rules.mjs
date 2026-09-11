@@ -56,7 +56,7 @@ function rulesList(ids){return `[${ids.map(id=>`'${id}'`).join(',')}]`;}
 function injectTransferCatalog(functions){
   const {leagueIds,nationalityIds}=loadTransferCatalog();
   const generic="    function ssjrTransferValidOptionId(value) { return value is string && value.size() >= 2 && value.size() <= 80 && value.matches('^[a-z0-9]+(-[a-z0-9]+)*$'); }";
-  let output=replaceOnce(functions,generic,`${generic}\n    function ssjrTransferValidLeagueId(value) { return value in ${rulesList(leagueIds)}; }\n    function ssjrTransferValidNationalityId(value) { return value in ${rulesList(nationalities)}; }`,'Transfer Challenge catalog helper');
+  let output=replaceOnce(functions,generic,`${generic}\n    function ssjrTransferValidLeagueId(value) { return value in ${rulesList(leagueIds)}; }\n    function ssjrTransferValidNationalityId(value) { return value in ${rulesList(nationalityIds)}; }`,'Transfer Challenge catalog helper');
   output=replaceOnce(output,"        && (value.type == 'league' || value.type == 'nationality')\n        && ssjrTransferValidOptionId(value.valueId);","        && ((value.type == 'league' && ssjrTransferValidLeagueId(value.valueId))\n          || (value.type == 'nationality' && ssjrTransferValidNationalityId(value.valueId)));",'Transfer Challenge guess catalog validation');
   output=replaceOnce(output,'        && ssjrTransferValidOptionId(value.leagueId)\n        && ssjrTransferValidOptionId(value.nationalityId);','        && ssjrTransferValidLeagueId(value.leagueId)\n        && ssjrTransferValidNationalityId(value.nationalityId);','Transfer Challenge signing catalog validation');
   return output;
@@ -148,10 +148,12 @@ for(const required of [
   "root.results.playerTwo == p2.result",
   "root.phase == 'ACKNOWLEDGED'",
   'function ssjrTerminalValidRivalryUpdate(rivalryId)',
+  'function ssjrTerminalValidProgressUpdate(rivalryId)',
   "intent.runtimeRevision == '1.9.1-r18'",
   "after.data.connectionState == 'closed'",
   "before.data.connectionState == 'active'",
-  'ssjrTerminalAllSeasonsAccepted(rivalryId, intent.totalSeasons)',
+  'terminalProgress',
+  'ssjrTerminalScore(commit.results.playerOne)',
   'ssjrTerminalSessionClosedAtomically(rivalryId, intent, after.updatedByDeviceId)',
   'getAfter(/databases/$(database)/documents/rivalries/$(rivalryId)/sessions/$(intent.sessionId))',
   '|| ssjrTerminalValidRivalryUpdate(rivalryId);',
