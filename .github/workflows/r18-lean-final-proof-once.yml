@@ -77,10 +77,8 @@ jobs:
           set -euo pipefail
           git fetch origin feat/ssjr-terminal-close-r18
           test "$(git rev-parse HEAD)" = "$(git rev-parse origin/feat/ssjr-terminal-close-r18)"
-          git rm .github/workflows/r18-lean-final-proof-once.yml
-          printf '\n# exact-head diagnostic retrigger after lean map-diff terminal proof\n' >> .github/workflows/r18-finalize-publication-once.yml
           git config user.name "nikahanghojjati-oss"
           git config user.email "nikahang.hojjati@gmail.com"
-          git add firestore.terminal-close-production.fragment.rules scripts/build-production-firestore-rules.mjs tests/contracts/shared-terminal-close-rules-contracts.cjs .github/workflows/r18-finalize-publication-once.yml
+          git add firestore.terminal-close-production.fragment.rules scripts/build-production-firestore-rules.mjs tests/contracts/shared-terminal-close-rules-contracts.cjs
           git commit -m "fix(r18): persist lean terminal proof"
           git push origin HEAD:feat/ssjr-terminal-close-r18
