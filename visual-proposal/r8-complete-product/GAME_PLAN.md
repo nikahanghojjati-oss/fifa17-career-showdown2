@@ -36,24 +36,28 @@ They are authoritative for visual ambition and design language, not for product 
 
 Detailed synthesis: `evidence/VISUAL_LANGUAGE_REFERENCE_SYNTHESIS_R8_32_2026-09-10.md`.
 
-Shared visual grammar extracted from the set:
+R8.33 adds an explicit **practical-replica requirement**: when an owner reference is visually approved, build toward its composition, density, scale and object language as closely as practical instead of reducing the target to a generic black/gold card system. Correct reference mistakes and product mismatches without lowering the visual ambition.
+
+Shared visual grammar now locked:
 
 - full-bleed warm stadium atmosphere with near-black foreground surfaces;
-- CM17 black/gold application shell with persistent top navigation and compact footer identity;
-- bold brush-display page titles paired with condensed uppercase functional typography;
-- Daniel left / Nik right desktop rivalry framing with page-specific poses and expressions;
+- slanted CM17 black/gold application shell with recurring original crown motif;
+- bold brush-like gold page/brand lettering paired with condensed uppercase functional typography;
+- Daniel left / Nik right desktop rivalry framing with page-specific pose/expression intent;
 - central task-specific hero object or information surface, not one universal card layout;
-- thin gold edge lighting, restrained glow and strong white/gold contrast rather than gray-heavy panels;
+- physical/object-rich UI motifs inside real buttons/cards;
+- black metallic inactive controls and warm-gold selected/focus states;
+- thin gold edge lighting, restrained glow and strong white/gold contrast;
 - clear depth separation: atmosphere -> characters -> live product UI;
 - large decisive primary CTA plus quieter secondary/back actions;
-- cinematic desktop composition that deliberately simplifies at tablet/mobile breakpoints;
+- cinematic desktop composition that deliberately recomposes at tablet/mobile breakpoints;
 - consistent brand language while allowing different page compositions for Home, Create, League, Club Assignment, Pairing, Statistics, Settings, Legacy, Trophy and season-result surfaces.
 
 ## Character / live-object contact policy
 
 Visual contact is permitted when it remains presentation-only and cannot become product authority.
 
-For a wheel, the preferred safe implementation is an isolated character hand visually meeting or pointing to a stable decorative outer rim while the real wheel/content remains DOM-owned. The character layer must not intercept pointer events or determine selection.
+For a wheel, an isolated character hand may visually approach or meet a stable decorative outer rim while the real rotating/selectable wheel remains DOM-owned. The character layer must not intercept pointer events or determine selection. If stable contact cannot survive browser geometry, use an air gap.
 
 For a pack/reveal object, contact is acceptable only against a stable exterior frame/rail/pedestal or another frozen geometry surface. Do not make a raster hand the hit target, state clock, club-result source or required readable layer. If responsive/reveal motion makes contact brittle, use an air gap instead.
 
@@ -62,32 +66,60 @@ For a pack/reveal object, contact is acceptable only against a stable exterior f
 | Workstream | Weight | Credit | Completion condition |
 | --- | ---: | ---: | --- |
 | Architecture + reference extraction | 15 | 15 | product boundaries, page inventory and visual language mapped |
-| Shared cinematic shell / navigation / design system | 15 | 5 | reusable responsive shell and primitives browser-proven |
+| Shared cinematic shell / navigation / design system | 15 | 8 | reusable responsive shell and primitives browser-proven |
 | Club Assignment cinematic rebuild | 15 | 8 | new live theatre, result deck and character integration browser-proven |
-| Remaining core-screen rebuild | 25 | 0 | required product screens assembled in the new system |
-| Daniel/Nik + environmental source assets | 10 | 2 | accepted reusable expression/pose masters integrated |
+| Remaining core-screen rebuild | 25 | 4 | required product screens assembled in the new system |
+| Daniel/Nik + environmental source assets | 10 | 4 | accepted reusable expression/pose masters integrated |
 | Deterministic Club Identity system | 8 | 4 | real catalog validated, rendered and owner-reviewed |
-| Responsive/accessibility/motion/SFX/browser QA | 7 | 3 | target viewport/state matrices pass |
+| Responsive/accessibility/motion/SFX/browser QA | 7 | 5 | target viewport/state matrices pass |
 | Final owner-review package | 5 | 0 | complete proposal rendered and presented together |
-| **TOTAL** | **100** | **37** | |
+| **TOTAL** | **100** | **48** | |
 
 ## Active build phase
 
-`GAME PLAN 37 / 100`
+`GAME PLAN 48 / 100`
 
-Current operation: canonicalize the new cinematic Club Assignment consumer and then extend the browser-proven shell to Create Showdown and League Wheel with fresh production-contract reads.
+R8.33 establishes the first two **reference-faithful** browser consumers rather than continuing the lower-fidelity R8.32 shell as the ceiling.
 
-Shared shell foundation: `prototypes/00-cinematic-shell-r8-32.html`.
+### Home
 
-Shell proof: `evidence/CINEMATIC_SHELL_R8_32_BROWSER_PROOF_2026-09-10.md`.
+Current consumer:
 
-Cinematic Club Assignment consumer: `prototypes/04d-club-assignment-cinematic-r8-32.html`.
+- `prototypes/01b-home-cinematic-reference-faithful-r8-33.html`
+- `prototypes/r8-33-home-reference-faithful.css`
+- proof: `evidence/HOME_REFERENCE_FAITHFUL_R8_33_BROWSER_PROOF_2026-09-10.md`
 
-Club Assignment proof: `evidence/CLUB_ASSIGNMENT_CINEMATIC_R8_32_BROWSER_PROOF_2026-09-10.md` — 24/24 viewport/state combinations pass with no horizontal overflow.
+Home now reproduces the owner reference's large A02/A01 manager staging, CM17 crown/nav identity, object-rich six-button dock, selected-gold treatment, soundtrack card and stadium composition as real HTML/CSS/SVG. Two Home modes across six viewport conditions passed: **12/12**.
 
-R8.31 B2 remains predecessor geometry/state safety evidence. R8.32 `04d` is the current visual-direction consumer. It preserves the six production reveal states while replacing the inherited gray presentation with a cinematic DOM-owned pack theatre, stronger VS hierarchy and lower locked-rivalry deck.
+### League Wheel
 
-Final character and stadium source art remain intentionally withheld until consumer-screen geometry and source-ticket authority are stable.
+Current consumer:
+
+- `prototypes/03b-league-wheel-cinematic-reference-faithful-r8-33.html`
+- `prototypes/r8-33-league-wheel-reference-faithful.css`
+- proof: `evidence/LEAGUE_WHEEL_REFERENCE_FAITHFUL_R8_33_BROWSER_PROOF_2026-09-10.md`
+
+League Wheel now uses a real five-segment DOM/CSS wheel, original non-official league glyphs, stable crown hub/rim, large A02/A01 manager staging on wide desktop, reference-like title/quote/action hierarchy and production-aligned state text. Six states across six viewport conditions passed: **36/36**. An initial wheel/control collision detected at short desktop was corrected before proof was accepted.
+
+### Club Assignment
+
+Cinematic consumer remains:
+
+- `prototypes/04d-club-assignment-cinematic-r8-32.html`
+- proof: `evidence/CLUB_ASSIGNMENT_CINEMATIC_R8_32_BROWSER_PROOF_2026-09-10.md`
+
+Its production-state semantics remain valid, but a future R8.33 visual-fidelity refinement may bring the current cinematic DOM pack theatre closer to the owner's newest Club Assignment reference without replacing the real reveal state machine.
+
+## Current operation
+
+Build **Create Showdown** as the next reference-faithful consumer after re-reading its current r17 production contract, then continue through the remaining major career surfaces.
+
+In parallel, treat the two remaining cross-screen fidelity gaps as bounded refinements rather than reasons to flatten the UI:
+
+1. improve the original stadium/environment source layer beyond the current procedural CSS without baking UI/characters into it;
+2. improve the fixed CM17/hero brush-letter treatment with an original zero-dollar/offline-safe asset or vector treatment while keeping live changing labels as DOM text.
+
+Final character and environment generation remains ticketed/isolated. Do not generate whole webpage screenshots as implementation.
 
 ## Lightweight reporting contract
 
