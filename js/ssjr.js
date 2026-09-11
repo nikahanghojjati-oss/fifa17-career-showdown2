@@ -7,6 +7,7 @@
   const params=root.location?new URLSearchParams(root.location.search):new URLSearchParams();
   const acceptanceEnabled=params.get("ssjr-acceptance")==="1";
   const witnessEnabled=acceptanceEnabled&&params.get("ssjr-witness")==="1";
+  const physicalEnabled=acceptanceEnabled&&!witnessEnabled&&params.get("ssjr-physical")==="1";
   (async()=>{
     const seasonResultsRoute=install("ssjr-production-season-results-route","js/productionSharedSeasonResultsRoute.js","CareerModeProductionSharedSeasonResultsRoute");
     const seasonCommit=install("ssjr-production-season-commit","js/productionSharedSeasonCommit.js","CareerModeProductionSharedSeasonCommit");
@@ -87,5 +88,6 @@
       const actorPanel=root.document.getElementById("ssjrActorEvidenceV2");
       if(recorder&&actorPanel){actorPanel.style.cssText="position:static;max-width:100%;max-height:none;overflow:visible;margin:12px 0 0;padding:12px;background:#111;color:#fff;border:1px solid #777;border-radius:8px;font:14px/1.4 system-ui";recorder.append(actorPanel);}
     }
+    if(physicalEnabled)await install("ssjr-physical-journey-acceptance","js/ssjrPhysicalJourneyAcceptance.js","CareerModeSSJRPhysicalJourneyAcceptance");
   })().catch(error=>root.console?.warn?.("[Career Mode Showdown] Shared Journey bootstrap unavailable.",error));
 })(typeof window!=="undefined"?window:globalThis);
