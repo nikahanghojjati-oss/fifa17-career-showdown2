@@ -63,9 +63,40 @@ assert.match(deploy,/function ssjrTerminalValidAtomicSessionClose\(rivalryId, se
 assert.match(deploy,/!\('terminalProgress' in request\.resource\.data\.data\) && validRivalryRedeem\(rivalryId\)/,"deployment guard must pin the current rivalry routing seam");
 assert.doesNotMatch(deploy,/ssjrTerminalAllSeasonsAccepted|ssjrTerminalSessionClosedAtomically/,"deployment guard must not regress to pre-budget-refactor Terminal Close helpers");
 assert.ok(deploy.includes('grep -Fq "intent.billingRequired == false" firestore.terminal-close-production.fragment.rules'),"deployment guard must positively prove Terminal Close forbids billing");
-assert.ok(deploy.includes('billing[[:space:]_-]*(enable|api|account|project|plan)'),"deployment guard must still reject concrete billing enablement/control-plane patterns");
-assert.ok(deploy.includes('billingRequired[[:space:]]*==[[:space:]]*true'),"deployment guard must reject a forged paid-required terminal contract");
-assert.ok(!deploy.includes('cloud[[:space:]_-]*run|cloud[[:space:]_-]*functions|billing|blaze|payment|purchased[[:space:]_-]*credits" firestore.terminal-close-production.fragment.rules'),"deployment guard must not reject the explicit safe billingRequired == false witness merely because it contains the word billing");
+
+const terminalNegativeGreps=deploy
+  .split(/\r?\n/)
+  .map(line=>line.trim())
+  .filter(line=>line.startsWith('! grep -Eqi "') && line.endsWith(' firestore.terminal-close-production.fragment.rules'));
+assert.ok(terminalNegativeGreps.length>0,"deployment guard must retain at least one Terminal Close paid-compute negative scan");
+const terminalNegativePatterns=terminalNegativeGreps.map(line=>{
+  const match=line.match(/^! grep -Eqi "([^"]+)" firestore\.terminal-close-production\.fragment\.rules$/);
+  assert.ok(match,`unable to parse Terminal Close negative scan: ${line}`);
+  return match[1];
+});
+function terminalNegativeScanMatches(text){
+  return terminalNegativePatterns.some(pattern=>{
+    const probe=spawnSync("grep",["-Eqi",pattern],{input:`${text}\n`,encoding:"utf8"});
+    assert.ok(probe.status===0 || probe.status===1,`Terminal Close negative scan regex failed to execute: ${pattern}`);
+    return probe.status===0;
+  });
+}
+assert.equal(terminalNegativeScanMatches("intent.billingRequired == false;"),false,"no Terminal Close negative scan may reject the explicit zero-billing witness");
+for(const dangerousFixture of [
+  "cloud run",
+  "cloud-functions",
+  "blaze",
+  "payment",
+  "purchased credits",
+  "billing enable",
+  "billing_api",
+  "billing-account",
+  "billing project",
+  "billing plan",
+  "billingRequired == true"
+]){
+  assert.equal(terminalNegativeScanMatches(dangerousFixture),true,`Terminal Close deployment guard must reject paid-compute fixture: ${dangerousFixture}`);
+}
 assert.doesNotMatch(deploy,/billing enable|firebase use --add|functions:deploy|run deploy/i);
 
-console.log("PASS r18 Terminal Close production Rules: acknowledged seasons are folded into a bounded monotonic rivalry terminalProgress seal one season at a time, canonical scores are accumulated under Rules authority, persisted terminal witness fields are limited to provider-verifiable facts, terminal-owned writes are routed away from legacy pairing/session validators, the zero-billing deployment guard positively requires billingRequired == false while still rejecting concrete paid-compute enablement patterns, and final ACTIVE-to-CLOSED still requires the exact session to close atomically with no list/delete/billing expansion.");
+console.log("PASS r18 Terminal Close production Rules: acknowledged seasons are folded into a bounded monotonic rivalry terminalProgress seal one season at a time, canonical scores are accumulated under Rules authority, persisted terminal witness fields are limited to provider-verifiable facts, terminal-owned writes are routed away from legacy pairing/session validators, every Terminal Close deployment negative scan is behaviorally proved to allow billingRequired == false while rejecting concrete paid-compute enablement fixtures, and final ACTIVE-to-CLOSED still requires the exact session to close atomically with no list/delete/billing expansion.");
