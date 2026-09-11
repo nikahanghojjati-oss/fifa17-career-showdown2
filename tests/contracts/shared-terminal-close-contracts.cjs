@@ -34,7 +34,9 @@ assert.equal(Terminal.witnessKey(intent),Terminal.witnessKey(clone(intent)));
 
 const altered=clone(intent);altered.managerTotals.playerOne=12;
 assert.equal(Terminal.sameWitness(intent,altered),false);
-rejects("TERMINAL_CLOSE_WINNER_MISMATCH",()=>Terminal.verifyIntent(altered));
+assert.equal(Terminal.verifyIntent(altered).managerTotals.playerOne,12);
+const badWinner=clone(intent);badWinner.winner="draw";
+rejects("TERMINAL_CLOSE_WINNER_MISMATCH",()=>Terminal.verifyIntent(badWinner));
 const extra=clone(intent);extra.extraSeasonAllowed=true;
 rejects("TERMINAL_CLOSE_FINAL_AUTHORITY_INVALID",()=>Terminal.verifyIntent(extra));
 const write=clone(intent);write.canonicalStorageMutation=true;
