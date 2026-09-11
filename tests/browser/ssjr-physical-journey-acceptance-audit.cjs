@@ -8,6 +8,7 @@ const raw={account:"physical_account_a",device:"device_"+"1".repeat(32),rivalry:
 async function loadDirect(browser,physical){
   const context=await browser.newContext({viewport:{width:430,height:932},isMobile:true,hasTouch:true,locale:"en-US"});
   const page=await context.newPage();const errors=[];page.on("pageerror",error=>errors.push(error.stack||error.message));
+  await page.route("**/js/ssjr.js*",route=>route.abort());
   const url=new URL(baseUrl.href);if(physical){url.searchParams.set("ssjr-acceptance","1");url.searchParams.set("ssjr-physical","1");}
   await page.goto(url.href,{waitUntil:"domcontentloaded"});await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:12000});
   await page.addScriptTag({url:new URL("js/ssjrPhysicalJourneyAcceptance.js",baseUrl).href});
