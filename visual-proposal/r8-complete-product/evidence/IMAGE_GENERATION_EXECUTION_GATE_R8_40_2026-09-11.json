@@ -4,7 +4,7 @@
   "ownerIntent": "GPT-5.6 Sol owns product/UI decisions. Image generation is subordinate source-asset rendering only.",
   "activeScreen": "leagueWheelScreen",
   "imageGenerationAllowed": false,
-  "lockReason": "Existing generated/extracted candidates must be integrated into the real DOM and browser-reviewed before any new image-generation call.",
+  "lockReason": "The current stadium and Daniel candidates are now integrated and browser-proven. No new generation is permitted until the owner reviews the actual R8.41 Chromium assembly and a new bounded asset ticket is justified.",
   "hardRules": [
     "Never invoke image generation because a screen looks visually incomplete.",
     "A new image-generation call requires a bounded asset ticket with assetId, targetDomSlot, dimensions/aspect, allowedContent, forbiddenContent, sourceReference, acceptanceChecks and status READY.",
@@ -18,30 +18,32 @@
   ],
   "leagueQueue": [
     {
-      "assetId": "LEAGUE_STADIUM_R8_40",
+      "assetId": "LEAGUE_STADIUM_R8_41",
       "kind": "stadium-background-source",
-      "status": "CANDIDATE_PENDING_REAL_DOM_INTEGRATION",
+      "status": "CANDIDATE_INTEGRATED_BROWSER_PROVEN_OWNER_REVIEW_OPEN",
       "targetDomSlot": ".stadiumPlate",
       "allowedContent": ["stadium architecture", "crowd", "floodlights", "pitch edge", "haze", "black/gold atmosphere"],
       "forbiddenContent": ["Daniel", "Nik", "wheel", "league marks", "navigation", "buttons", "manager labels", "live text", "state badges"],
-      "nextAction": "Integrate the already-generated stadium candidate into the actual League Wheel HTML/CSS and Chromium-test it before generating anything else."
+      "persistentSnapshot": "/Showdown visual/R8_41_League/LEAGUE_STADIUM_R8_41_CANDIDATE.webp",
+      "nextAction": "Owner reviews the real Chromium assembly. Do not regenerate the stadium before bounded owner feedback."
     },
     {
-      "assetId": "LEAGUE_DANIEL_LATERAL_POINT_R8_39",
+      "assetId": "LEAGUE_DANIEL_LATERAL_POINT_R8_41",
       "kind": "isolated-character-source",
-      "status": "CANDIDATE_PENDING_REAL_DOM_INTEGRATION",
+      "status": "CANDIDATE_INTEGRATED_BROWSER_PROVEN_OWNER_REVIEW_OPEN",
       "targetDomSlot": ".character.daniel",
       "allowedContent": ["Daniel only", "dark suit", "lateral arm point toward wheel", "transparent/maskable background"],
       "forbiddenContent": ["wheel", "logos", "buttons", "text", "stadium UI", "baked shadows that define layout"],
-      "nextAction": "Use the extracted/reference-derived lateral pointing candidate only if it survives composition/identity QA."
+      "persistentSnapshot": "/Showdown visual/R8_41_League/LEAGUE_DANIEL_LATERAL_POINT_R8_41_CANDIDATE.webp",
+      "nextAction": "Owner reviews identity, placement, hand/rim relationship and lighting in the real browser composition."
     },
     {
-      "assetId": "LEAGUE_MARKS_R8_40",
+      "assetId": "LEAGUE_MARKS_R8_41",
       "kind": "deterministic-svg-identity-family",
-      "status": "BUILD_NOT_GENERATE",
+      "status": "BUILT_IN_REAL_BROWSER_ASSEMBLY_OWNER_REVIEW_OPEN",
       "targetDomSlot": ".wheelItem .mark",
-      "referenceDirection": ["crowned lion for Premier League-inspired identity", "sun/football for LaLiga-inspired identity", "dynamic player for Bundesliga-inspired identity", "angular A with tricolor for Serie A-inspired identity", "angular L/1 with fleur-de-lis for Ligue 1-inspired identity"],
-      "nextAction": "Redraw as clean original SVGs/components in the same premium visual language; do not ship raw crops from a generated logo board."
+      "referenceDirection": ["crowned-lion shield for Premier direction", "solar football for LaLiga direction", "dynamic player and ball for Bundesliga direction", "angular A with tricolor for Serie A direction", "angular L/1 shield for Ligue 1 direction"],
+      "nextAction": "Refine only from owner feedback; do not replace with generated logo crops."
     }
   ]
 }
