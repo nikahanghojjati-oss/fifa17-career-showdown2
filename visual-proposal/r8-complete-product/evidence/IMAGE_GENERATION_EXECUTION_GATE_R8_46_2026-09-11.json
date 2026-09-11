@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "status": "ACTIVE_HARD_GATE",
+  "date": "2026-09-11",
+  "orchestrator": "GPT-5.6 Sol",
+  "activeScreen": "clubWheelScreen",
+  "imageGenerationAllowed": false,
+  "authority": "GPT-5.6 Sol owns UI/product decisions and browser assembly. Image generation remains subordinate source-asset rendering only.",
+  "reason": "Select League R8.43, Home R8.46 and Club Assignment R8.45 are all real browser-built ASSEMBLED_PROPOSAL surfaces with current source art sufficient for owner review. Home R8.46 solved its remaining selected-tile and mobile-flow defects deterministically in HTML/CSS/SVG. No bounded READY source-asset ticket is currently required or justified.",
+  "productionAuthority": {
+    "main": "3c5fb2589414f8f497d1f7cb174200ef84290431",
+    "runtime": "1.9.1-r18",
+    "clubRevealOwner": "js/clubAssignment.js",
+    "clubRevealSequence": ["ready", "opening", "manager-one", "manager-two", "versus", "confirmation"]
+  },
+  "browserEvidence": {
+    "league": "R8.43 Chromium matrix 36/36 PASS",
+    "home": "R8.46 Chromium matrix 12/12 PASS",
+    "clubAssignment": "R8.45 Chromium matrix 36/36 PASS"
+  },
+  "persistentArtifactFolders": [
+    "/Showdown visual/R8_43_League/",
+    "/Showdown visual/R8_46_Home_Polish/",
+    "/Showdown visual/R8_45_Club_Assignment/"
+  ],
+  "authorityLabels": {
+    "league": "ASSEMBLED_PROPOSAL",
+    "home": "ASSEMBLED_PROPOSAL",
+    "clubAssignment": "ASSEMBLED_PROPOSAL",
+    "ownerApprovedFinal": false
+  },
+  "prohibited": [
+    "whole-page generated concepts as implementation",
+    "whole-screen generated Home, Select League or Club Assignment screenshots as runtime UI",
+    "generated club-pack UI replacing .clubPackDoor or .clubCardFace",
+    "a second club draw, reveal clock, save path or state machine",
+    "reference-only navigation or fake product features",
+    "silent artifact promotion",
+    "new image generation while imageGenerationAllowed is false"
+  ],
+  "nextGenerationCondition": "Only GPT-5.6 Sol may unlock image generation, and only after writing a bounded source-asset ticket with assetId, targetDomSlot, dimensions/aspect, allowedContent, forbiddenContent, sourceReference, acceptanceChecks and status READY. The need must not be reasonably satisfiable by current accepted/candidate source art plus deterministic HTML/CSS/JS/SVG presentation."
+}
