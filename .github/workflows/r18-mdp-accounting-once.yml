@@ -1,0 +1,207 @@
+name: r18 MDP accounting once
+
+on:
+  push:
+    branches:
+      - chore/mdp-r18-accounting-95-50
+    paths:
+      - .github/workflows/r18-mdp-accounting-once.yml
+
+permissions:
+  contents: write
+
+jobs:
+  account:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: chore/mdp-r18-accounting-95-50
+          fetch-depth: 0
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Publish exact r18 accounting boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          node <<'NODE'
+          const fs = require('node:fs');
+          const ledgerPath = 'MILESTONE_DELIVERY_PROGRESS.json';
+          const readinessPath = 'SHARED_SHOWDOWN_JOURNEY_READINESS.json';
+          const testPath = 'tests/contracts/milestone-delivery-progress-contracts.cjs';
+          const ledger = JSON.parse(fs.readFileSync(ledgerPath, 'utf8'));
+          if (ledger.currentScore !== 93.7 || ledger.formattedScore !== '93.70/100') throw new Error('r18 accounting must start from authoritative MDP 93.70');
+          const terminal = ledger.capabilities.find(c => c.id === 'terminal-close');
+          const physical = ledger.capabilities.find(c => c.id === 'physical-journey');
+          const stable = ledger.capabilities.find(c => c.id === 'stable-journey-release');
+          if (!terminal || terminal.lifecyclePercent !== 10 || terminal.status !== 'design_defined') throw new Error('terminal-close must still be design-defined before r18 accounting');
+          if (!physical || physical.lifecyclePercent !== 10 || physical.status !== 'design_defined') throw new Error('physical-journey must remain design-defined during r18 accounting');
+          if (!stable || stable.lifecyclePercent !== 10 || stable.status !== 'design_defined') throw new Error('stable-journey-release must remain design-defined during r18 accounting');
+
+          ledger.recordedAt = new Date().toISOString();
+          ledger.basis = {
+            mainSha: '457281e672008e02a5e7e893a13a7f77a60f0162',
+            branch: 'main',
+            candidateHead: '73533cbe059b831165f51927ae2240303b2f5da6',
+            candidateValidation: 'POS20 run #436 exact-head green',
+            integrationMergeSha: '457281e672008e02a5e7e893a13a7f77a60f0162',
+            pagesDeployment: 'GitHub Pages run #129 success on exact main 457281e672008e02a5e7e893a13a7f77a60f0162',
+            firestoreRulesDeployment: 'Deploy Firebase Firestore Rules - Zero Billing run #11 success on exact main 457281e672008e02a5e7e893a13a7f77a60f0162; generated r18 Rules passed contracts and Shared Setup/Terminal Close adversarial emulators, then compiled, published and independently exact-source read back from production while Firebase remained Spark-only with Billing OFF.',
+            productionVersion: 'v1.9.1',
+            productionRuntimeRevision: '1.9.1-r18',
+            note: 'r18 Terminal Close is fully integrated on exact final product main 457281e672008e02a5e7e893a13a7f77a60f0162. PR #250 exact publication head 73533cbe059b831165f51927ae2240303b2f5da6 passed POS20 run #436 and clean exact-head Codex review after a P1 removed unverifiable terminal witness metadata; PR #250 merged as b4b9d37a8a4df42e542e7ed040d4217a2d00af15. Deployment-control PRs #251, #252 and #253 then corrected stale publication assertions and replaced a fragile shell token scan without changing product Rules/runtime authority; final exact main is 457281e672008e02a5e7e893a13a7f77a60f0162. GitHub Pages #129 succeeded; zero-billing Firestore Rules #11 compiled, emulator-proved, published and exact-source read back; POS20 #449 passed every selected lane plus exact-head cognitive seal; Release Integration Burn-In #386 passed both independent stateful journeys. Terminal Close therefore completes all six MDP lifecycle stages. SSJR-1.1 remains separate and 0/100 until genuine production-two-account evidence is accepted.'
+          };
+          ledger.currentScore = 95.5;
+          ledger.formattedScore = '95.50/100';
+          ledger.summary = {
+            featureCount: 20,
+            fullyLifecycleDelivered: 18,
+            preIntegrationComplete: 0,
+            designDefinedOnly: 2,
+            reusableFoundationsNotInflated: true,
+            interpretation: 'Eighteen SSJR capabilities from shared entry through Terminal Close are fully engineered, regression-tested and product-integrated in coherent r18 production. Physical Journey and Stable Journey Release remain design-defined only.'
+          };
+          terminal.lifecyclePercent = 100;
+          terminal.weightedContribution = 2;
+          terminal.status = 'integrated';
+          terminal.stages = {
+            design: 'complete',
+            implementation: 'complete',
+            'automated-test': 'complete',
+            'defect-resolution': 'complete',
+            'regression-retest': 'complete',
+            'product-integration': 'complete'
+          };
+          terminal.evidenceRefs = [
+            'SHARED_SHOWDOWN_JOURNEY_MODEL.json',
+            'js/sharedTerminalClose.js',
+            'js/sparkTerminalClose.js',
+            'js/productionSharedTerminalClose.js',
+            'firestore.terminal-close-production.fragment.rules',
+            'tests/contracts/shared-terminal-close-contracts.cjs',
+            'tests/contracts/shared-terminal-close-provider-contracts.cjs',
+            'tests/contracts/shared-terminal-close-rules-contracts.cjs',
+            'tests/contracts/shared-terminal-close-production-contracts.cjs',
+            'tests/firebase/shared-terminal-close-production-provider-emulator.cjs',
+            'tests/browser/shared-terminal-close-audit.cjs',
+            'RELEASE_V1.9.1_R18.md',
+            'PR #250 exact publication head 73533cbe059b831165f51927ae2240303b2f5da6',
+            'POS20 run #436 exact-head green',
+            'PR #250 merge b4b9d37a8a4df42e542e7ed040d4217a2d00af15',
+            'PR #251 merge 35843a13fd1ecfa3e8f1c91ef4c09a06584ba029',
+            'PR #252 merge 10f75e872d246292bd5fbe55c6ae32a6370b5150',
+            'PR #253 exact head d03ad82d1cd3cd4021fafa1c521cf7aedfdc0ee2',
+            'PR #253 merge 457281e672008e02a5e7e893a13a7f77a60f0162',
+            'GitHub Pages run #129 success',
+            'Deploy Firebase Firestore Rules - Zero Billing run #11 success',
+            'POS20 run #449 main green',
+            'Release Integration Burn-In run #386 success'
+          ];
+          terminal.note = 'r18 Terminal Close completed all six MDP lifecycle stages. Staged terminalProgress folds acknowledged seasons one at a time under Firestore Rules authority, supports the full 1/3/5/10 range within Spark Rules budgets, derives canonical totals rather than trusting browser values, and atomically closes the exact ACTIVE private session with the rivalry only after the configured final season is sealed. Exact replay/read recovery survives closure while fresh-session resurrection and delayed journey writes remain denied. Review removed terminal witness metadata Rules could not independently prove; post-merge deployment-control fixes changed no product authority. Exact candidate/main POS20, Pages, production zero-billing Rules publish/readback and two-pass burn-in are green. Canonical local Save storage remains untouched automatically, and SSJR production-two-account acceptance remains separate.';
+          ledger.scoreCheck = {
+            fullyIntegratedWeight: 95,
+            remainingDesignWeight: 5,
+            remainingDesignContribution: 0.5,
+            calculatedScore: 95.5
+          };
+          ledger.separationFromSSJR = {
+            ssjrScore: 0,
+            doesNotGrantSSJRCredit: true,
+            reason: 'Production-two-account evidence is still required by SSJR-1.1 whole-capability acceptance.'
+          };
+          fs.writeFileSync(ledgerPath, JSON.stringify(ledger));
+
+          const readiness = JSON.parse(fs.readFileSync(readinessPath, 'utf8'));
+          if (readiness.currentScore !== 0) throw new Error('SSJR score must remain zero during MDP accounting');
+          readiness.deliveryProgressTracker.currentScore = 95.5;
+          readiness.deliveryProgressTracker.formattedScore = '95.50/100';
+          readiness.candidateEvidence = readiness.candidateEvidence.filter(item => item.id !== 'ssjr1-terminal-close-r18-production');
+          readiness.candidateEvidence.push({
+            id: 'ssjr1-terminal-close-r18-production',
+            layers: ['deterministic-behavior','provider-enforcement','isolated-browser-protocol','deployed-runtime'],
+            references: [
+              'PR #250 exact publication head 73533cbe059b831165f51927ae2240303b2f5da6',
+              'POS20 run #436 exact-head green',
+              'PR #250 merge b4b9d37a8a4df42e542e7ed040d4217a2d00af15',
+              'PR #251 merge 35843a13fd1ecfa3e8f1c91ef4c09a06584ba029',
+              'PR #252 merge 10f75e872d246292bd5fbe55c6ae32a6370b5150',
+              'PR #253 exact head d03ad82d1cd3cd4021fafa1c521cf7aedfdc0ee2',
+              'PR #253 merge 457281e672008e02a5e7e893a13a7f77a60f0162',
+              'GitHub Pages run #129 success',
+              'Deploy Firebase Firestore Rules - Zero Billing run #11 success',
+              'POS20 run #449 main green',
+              'Release Integration Burn-In run #386 success',
+              'js/sharedTerminalClose.js',
+              'js/sparkTerminalClose.js',
+              'js/productionSharedTerminalClose.js',
+              'firestore.terminal-close-production.fragment.rules',
+              'tests/contracts/shared-terminal-close-production-contracts.cjs',
+              'tests/firebase/shared-terminal-close-production-provider-emulator.cjs',
+              'tests/browser/shared-terminal-close-audit.cjs'
+            ],
+            relatedCapabilityIds: ['terminal-close'],
+            credit: 0,
+            missingLayers: ['production-two-account'],
+            finding: 'r18 Terminal Close is coherently merged, repaired and deployed. Exact candidate/main POS20, production Rules emulator/publish/exact-readback and two-pass release burn-in prove bounded 1/3/5/10 terminalProgress sealing, Rules-backed canonical totals, exact atomic session+rivalry close, terminal replay/read recovery, no resurrection, no delayed post-close journey writes and zero automatic canonical local-save mutation. It remains zero SSJR credit solely because genuine production-two-account evidence has not yet been accepted.'
+          });
+          if (!readiness.remainingCapabilityIds.includes('terminal-close')) throw new Error('SSJR terminal-close must remain uncredited');
+          fs.writeFileSync(readinessPath, JSON.stringify(readiness));
+
+          fs.writeFileSync('NEXT_TASK.md', `# NEXT TASK — MDP Physical Journey\n\nAuthoritative integrated product main is \`457281e672008e02a5e7e893a13a7f77a60f0162\`. Runtime \`1.9.1-r18\` is coherently published by GitHub Pages #129 and production Firestore Rules run #11. Exact r18 publication-head POS20 #436, exact-main POS20 #449 and Release Integration Burn-In #386 are green.\n\nMilestone Delivery Progress is \`95.50/100\`. SSJR-1.1 remains exactly \`0/100\`; MDP integration evidence does not grant SSJR credit.\n\n## Immediate capability\n\nAdvance \`physical-journey\` (frozen weight 3). First automate all replaceable evidence: build a production physical-journey recorder/checklist, exact expected-state validator and safe observer/evidence capture for the full one-season journey. Then request only the irreducible physical proof: two legitimate manager accounts on two physical devices and independent networks, with both managers traversing every canonical full-screen step through setup, career start, transfer challenge, results, season commit, scoring/history, reconnect/conflict recovery, Local Reconciliation, Final Reconciliation and Terminal Close.\n\nThe frozen acceptance target is a sanitized Chromebook/Home-WiFi plus iPhone/cellular equivalent full shared journey including offline recovery, final reconciliation and terminal closure. Preserve the dual-full-screen rule. Candidate C remains the sole destructive local Apply path and must remain explicit, backup-first and rollback-safe.\n\nDo not ask the owner for manual testing until the automated recorder, expected-state oracle and exact production instructions are ready enough that the physical run creates evidence automation cannot replace.\n\nPermanent locks remain: Firebase Spark only, Billing permanently OFF, App Check enforcement OFF, exactly two private managers, no public discovery/community/rankings, popup-only Google Auth, no broad list authority, canonical local storage preserved unless Candidate C is explicitly applied, and no Cloud Run or Cloud Functions dependency.\n`);
+
+          fs.writeFileSync('R18_MDP_ACCOUNTING_BOUNDARY.md', `# r18 MDP accounting boundary\n\nThis is an accounting/provenance boundary only. It changes no executable product behavior and earns no SSJR credit by itself.\n\nTerminal Close product authority began with PR #250 exact publication head \`73533cbe059b831165f51927ae2240303b2f5da6\`, which passed POS20 #436 and clean exact-head Codex review after the review cycle removed unverifiable terminal witness metadata. PR #250 merged as \`b4b9d37a8a4df42e542e7ed040d4217a2d00af15\`. Post-merge deployment-control PRs #251/#252/#253 corrected stale publication assertions and the zero-billing guard without changing product Rules/runtime authority, yielding final exact integrated main \`457281e672008e02a5e7e893a13a7f77a60f0162\`.\n\nOn that one exact main, GitHub Pages #129 passed; Deploy Firebase Firestore Rules - Zero Billing #11 passed deterministic Rules contracts, Shared Setup and Terminal Close adversarial emulators, authenticated with the permanent Rules service account, then compiled, published and independently exact-source read back the production Firestore Rules; exact-main POS20 #449 passed every selected lane plus its cognitive seal; Release Integration Burn-In #386 passed both independent stateful journeys. Firebase remained Spark-only and Billing remained OFF.\n\nThe resulting MDP lifecycle accounting is \`95.50/100\`: Terminal Close is fully integrated across all six MDP stages. Physical Journey and Stable Journey Release remain design-defined only. SSJR-1.1 remains exactly \`0/100\`; r18 production evidence remains zero-credit until genuine production-two-account acceptance exists.\n\nr18 preserves exactly two private managers, canonical Rules-derived Showdown scoring, bounded 1/3/5/10 terminal sealing, exact atomic session+rivalry close, durable CLOSED non-resurrection, replay/read recovery, no delayed post-close writes, no public/list expansion, no automatic canonical local-save mutation, App Check enforcement OFF, and no Cloud Run/Cloud Functions or paid-tier dependency.\n\nNext capability after accounting merge: \`physical-journey\`, frozen weight 3. Automate its evidence recorder/oracle first; only then request the irreducible Chromebook/WiFi + iPhone/cellular two-account physical run.\n`);
+
+          let test = fs.readFileSync(testPath, 'utf8');
+          const mustReplace = (from, to) => {
+            if (!test.includes(from)) throw new Error(`missing expected test fragment: ${from.slice(0,100)}`);
+            test = test.replace(from, to);
+          };
+          mustReplace('assert.equal(result.score, 93.7, "r17 Final Reconciliation earns product integration only after exact publication-head validation, expected-head merge, coherent Pages deployment, main POS20 validation and two-pass release burn-in.");', 'assert.equal(result.score, 95.5, "r18 Terminal Close earns product integration only after exact publication-head validation, expected-head merge, coherent Pages and production Rules publication/readback, main POS20 validation and two-pass release burn-in.");');
+          mustReplace('assert.equal(result.formattedScore, "93.70/100");', 'assert.equal(result.formattedScore, "95.50/100");');
+          mustReplace('assert.equal(result.fullyLifecycleDelivered, 17);', 'assert.equal(result.fullyLifecycleDelivered, 18);');
+          mustReplace('assert.equal(result.designDefinedOnly, 3);', 'assert.equal(result.designDefinedOnly, 2);');
+          mustReplace('assert.equal(ledger.basis.mainSha, "23bba67ed7bf9cc38cb7dc9106e3f64a17a6b55f");', 'assert.equal(ledger.basis.mainSha, "457281e672008e02a5e7e893a13a7f77a60f0162");');
+          mustReplace('assert.equal(ledger.basis.integrationMergeSha, "23bba67ed7bf9cc38cb7dc9106e3f64a17a6b55f");', 'assert.equal(ledger.basis.integrationMergeSha, "457281e672008e02a5e7e893a13a7f77a60f0162");');
+          mustReplace('assert.equal(ledger.basis.candidateHead, "054b57be3cf398ff4c812f8c6f813e4970c6bded");', 'assert.equal(ledger.basis.candidateHead, "73533cbe059b831165f51927ae2240303b2f5da6");');
+          mustReplace('assert.match(ledger.basis.candidateValidation, /POS20 run #430 exact-head green/);', 'assert.match(ledger.basis.candidateValidation, /POS20 run #436 exact-head green/);');
+          mustReplace('assert.equal(ledger.basis.productionRuntimeRevision, "1.9.1-r17");', 'assert.equal(ledger.basis.productionRuntimeRevision, "1.9.1-r18");');
+          mustReplace('assert.match(ledger.basis.pagesDeployment, /GitHub Pages run #124 success/i);', 'assert.match(ledger.basis.pagesDeployment, /GitHub Pages run #129 success/i);');
+          mustReplace('assert.match(ledger.basis.firestoreRulesDeployment, /No new Firestore Rules deployment required/i);', 'assert.match(ledger.basis.firestoreRulesDeployment, /Deploy Firebase Firestore Rules - Zero Billing run #11 success/i);');
+          mustReplace('assert.match(ledger.basis.note, /POS20 run #431 passed/i);', 'assert.match(ledger.basis.note, /POS20 #449 passed/i);');
+          mustReplace('assert.match(ledger.basis.note, /Release Integration Burn-In run #381 passed both/i);', 'assert.match(ledger.basis.note, /Release Integration Burn-In #386 passed both/i);');
+
+          const modelMarker = '  const modelCapabilities = ssjrModel.domains.flatMap(domain => domain.capabilities.map(capability => ({id: capability.id, weight: capability.weight})));';
+          if (!test.includes(modelMarker)) throw new Error('missing model capability marker');
+          const r18ReadinessBlock = `  const r18Candidate = ssjrReadiness.candidateEvidence.find(item => item.id === "ssjr1-terminal-close-r18-production");\n  assert.ok(r18Candidate, "SSJR readiness must preserve truthful zero-credit r18 production evidence.");\n  assert.equal(r18Candidate.credit, 0);\n  assert.deepEqual(r18Candidate.relatedCapabilityIds, ["terminal-close"]);\n  for (const layer of ["deterministic-behavior","provider-enforcement","isolated-browser-protocol","deployed-runtime"]) assert.ok(r18Candidate.layers.includes(layer), \`r18 candidate evidence missing \${layer}\`);\n  assert.ok(r18Candidate.missingLayers.includes("production-two-account"));\n  for (const expected of ["PR #250 exact publication head 73533cbe","POS20 run #436 exact-head green","PR #250 merge b4b9d37a","PR #253 merge 457281e6","GitHub Pages run #129 success","Deploy Firebase Firestore Rules - Zero Billing run #11 success","POS20 run #449 main green","Release Integration Burn-In run #386 success"]) assert.ok(r18Candidate.references.some(ref => ref.includes(expected)), \`r18 evidence missing \${expected}\`);\n  assert.equal(ssjrReadiness.remainingCapabilityIds.includes("terminal-close"), true, "Terminal Close remains uncredited in SSJR until production-two-account evidence is accepted.");\n\n`;
+          test = test.replace(modelMarker, r18ReadinessBlock + modelMarker);
+          mustReplace('"career-start","transfer-challenge","results-publication","season-commit","canonical-scoring","history-convergence","multi-season","journey-reconnect","journey-conflicts","local-reconciliation","final-reconciliation"', '"career-start","transfer-challenge","results-publication","season-commit","canonical-scoring","history-convergence","multi-season","journey-reconnect","journey-conflicts","local-reconciliation","final-reconciliation","terminal-close"');
+
+          const scoreMarker = '  assert.equal(ledger.scoreCheck.fullyIntegratedWeight, 93);';
+          if (!test.includes(scoreMarker)) throw new Error('missing r17 score-check marker');
+          const terminalIntegrationBlock = `  const terminalCloseIntegrated = ledger.capabilities.find(capability => capability.id === "terminal-close");\n  assert.equal(terminalCloseIntegrated.weightedContribution, 2);\n  for (const ref of ["js/sharedTerminalClose.js","js/sparkTerminalClose.js","js/productionSharedTerminalClose.js","firestore.terminal-close-production.fragment.rules","tests/contracts/shared-terminal-close-production-contracts.cjs","tests/firebase/shared-terminal-close-production-provider-emulator.cjs","tests/browser/shared-terminal-close-audit.cjs"]) assert.ok(terminalCloseIntegrated.evidenceRefs.includes(ref), \`Terminal Close evidence missing \${ref}\`);\n  for (const expected of ["PR #250 exact publication head 73533cbe","POS20 run #436 exact-head green","PR #250 merge b4b9d37a","PR #253 merge 457281e6","GitHub Pages run #129 success","Deploy Firebase Firestore Rules - Zero Billing run #11 success","POS20 run #449 main green","Release Integration Burn-In run #386 success"]) assert.ok(terminalCloseIntegrated.evidenceRefs.some(ref => ref.includes(expected)), \`Terminal Close integration evidence missing \${expected}\`);\n\n`;
+          test = test.replace(scoreMarker, terminalIntegrationBlock + '  assert.equal(ledger.scoreCheck.fullyIntegratedWeight, 95);');
+          mustReplace('assert.equal(ledger.scoreCheck.remainingDesignWeight, 7);', 'assert.equal(ledger.scoreCheck.remainingDesignWeight, 5);');
+          mustReplace('assert.equal(ledger.scoreCheck.remainingDesignContribution, 0.7);', 'assert.equal(ledger.scoreCheck.remainingDesignContribution, 0.5);');
+          mustReplace('assert.equal(ledger.scoreCheck.calculatedScore, 93.7);', 'assert.equal(ledger.scoreCheck.calculatedScore, 95.5);');
+          mustReplace('const outOfOrder = clone(ledger); const terminalClose = outOfOrder.capabilities.find(capability => capability.id === "terminal-close"); terminalClose.stages["automated-test"] = "complete";', 'const outOfOrder = clone(ledger); const physicalJourney = outOfOrder.capabilities.find(capability => capability.id === "physical-journey"); physicalJourney.stages["automated-test"] = "complete";');
+          mustReplace('PASS MDP-1 exact SSJR denominator, six-stage lifecycle, current ${result.formattedScore} r17 integrated ledger, anti-inflation rules, regression guard and strict SSJR separation', 'PASS MDP-1 exact SSJR denominator, six-stage lifecycle, current ${result.formattedScore} r18 integrated ledger, anti-inflation rules, regression guard and strict SSJR separation');
+          fs.writeFileSync(testPath, test);
+          NODE
+
+          node tests/contracts/milestone-delivery-progress-contracts.cjs
+          npm run mdp:assess
+          npm run test:ops
+
+          rm .github/workflows/r18-mdp-accounting-once.yml
+          expected=$'MILESTONE_DELIVERY_PROGRESS.json\nNEXT_TASK.md\nR18_MDP_ACCOUNTING_BOUNDARY.md\nSHARED_SHOWDOWN_JOURNEY_READINESS.json\ntests/contracts/milestone-delivery-progress-contracts.cjs'
+          actual="$(git status --short | sed -E 's/^.. //' | sort)"
+          test "$actual" = "$expected"
+
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add MILESTONE_DELIVERY_PROGRESS.json NEXT_TASK.md R18_MDP_ACCOUNTING_BOUNDARY.md SHARED_SHOWDOWN_JOURNEY_READINESS.json tests/contracts/milestone-delivery-progress-contracts.cjs .github/workflows/r18-mdp-accounting-once.yml
+          git commit -m 'chore: record r18 Terminal Close integration at MDP 95.50'
+          git push origin HEAD:chore/mdp-r18-accounting-95-50
