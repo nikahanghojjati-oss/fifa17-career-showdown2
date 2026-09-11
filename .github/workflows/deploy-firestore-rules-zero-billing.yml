@@ -124,7 +124,8 @@ jobs:
           ! grep -Eqi "cloud[[:space:]_-]*run|cloud[[:space:]_-]*functions|billing|blaze|payment|purchased[[:space:]_-]*credits" firestore.transfer-challenge-production.fragment.rules
           ! grep -Eqi "cloud[[:space:]_-]*run|cloud[[:space:]_-]*functions|billing|blaze|payment|purchased[[:space:]_-]*credits" firestore.season-results-production.fragment.rules
           ! grep -Eqi "cloud[[:space:]_-]*run|cloud[[:space:]_-]*functions|billing|blaze|payment|purchased[[:space:]_-]*credits" firestore.season-commit-production.fragment.rules
-          ! grep -Eqi "cloud[[:space:]_-]*run|cloud[[:space:]_-]*functions|billing|blaze|payment|purchased[[:space:]_-]*credits" firestore.terminal-close-production.fragment.rules
+          grep -Fq "intent.billingRequired == false" firestore.terminal-close-production.fragment.rules
+          ! grep -Eqi "cloud[[:space:]_-]*run|cloud[[:space:]_-]*functions|blaze|payment|purchased[[:space:]_-]*credits" firestore.terminal-close-production.fragment.rules
 
       - name: Install locked repository dependencies
         run: npm ci
