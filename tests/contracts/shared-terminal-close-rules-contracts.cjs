@@ -65,10 +65,10 @@ assert.doesNotMatch(deploy,/ssjrTerminalAllSeasonsAccepted|ssjrTerminalSessionCl
 assert.ok(deploy.includes('grep -Fq "intent.billingRequired == false" firestore.terminal-close-production.fragment.rules'),"deployment guard must positively prove Terminal Close forbids billing");
 
 const terminalRulesFile="firestore.terminal-close-production.fragment.rules";
-// Bash treats a backslash-newline pair as one continued command. Normalize those
-// continuations before discovery so a negative grep cannot escape validation by
-// placing its target filename on the following physical line.
-const deployCommands=deploy.replace(/\\\r?\n[ \t]*/g," ");
+// Bash removes a backslash-newline pair entirely before tokenization. Mirror
+// that exact behavior before discovery so split commands and split regex tokens
+// are audited exactly as the shell will execute them.
+const deployCommands=deploy.replace(/\\\r?\n[ \t]*/g,"");
 const terminalNegativeGreps=deployCommands
   .split(/\r?\n/)
   .map(line=>line.trim())
@@ -76,7 +76,7 @@ const terminalNegativeGreps=deployCommands
 assert.ok(terminalNegativeGreps.length>0,"deployment guard must retain at least one Terminal Close paid-compute negative scan");
 const terminalNegativePatterns=terminalNegativeGreps.map(line=>{
   const match=line.match(/^!\s*grep\s+-Eqi\s+(?:"([^"]+)"|'([^']+)')\s+firestore\.terminal-close-production\.fragment\.rules$/);
-  assert.ok(match,`every Terminal Close negative grep must use the auditable -Eqi quoted-regex form after shell-continuation normalization; unable to parse: ${line}`);
+  assert.ok(match,`every Terminal Close negative grep must use the auditable -Eqi quoted-regex form after exact Bash-continuation normalization; unable to parse: ${line}`);
   return match[1]??match[2];
 });
 function terminalNegativeScanMatches(text){
@@ -104,4 +104,4 @@ for(const dangerousFixture of [
 }
 assert.doesNotMatch(deploy,/billing enable|firebase use --add|functions:deploy|run deploy/i);
 
-console.log("PASS r18 Terminal Close production Rules: acknowledged seasons are folded into a bounded monotonic rivalry terminalProgress seal one season at a time, canonical scores are accumulated under Rules authority, persisted terminal witness fields are limited to provider-verifiable facts, terminal-owned writes are routed away from legacy pairing/session validators, Terminal Close negative grep commands are normalized across Bash line continuations before fail-closed parsing and behaviorally proved to allow billingRequired == false while rejecting concrete paid-compute enablement fixtures, and final ACTIVE-to-CLOSED still requires the exact session to close atomically with no list/delete/billing expansion.");
+console.log("PASS r18 Terminal Close production Rules: acknowledged seasons are folded into a bounded monotonic rivalry terminalProgress seal one season at a time, canonical scores are accumulated under Rules authority, persisted terminal witness fields are limited to provider-verifiable facts, terminal-owned writes are routed away from legacy pairing/session validators, Terminal Close negative grep commands mirror Bash backslash-newline removal before fail-closed parsing and are behaviorally proved to allow billingRequired == false while rejecting concrete paid-compute enablement fixtures, and final ACTIVE-to-CLOSED still requires the exact session to close atomically with no list/delete/billing expansion.");
