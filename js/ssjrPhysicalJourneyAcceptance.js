@@ -12,7 +12,7 @@
   const MAX_MILESTONES=96;
   const CORE_STAGES=Object.freeze([
     "remote-active","setup-confirmed","career-start-ready","transfer-completed","results-ready",
-    "season-acknowledged","scoring-reconciled","history-converged","conflict-guard-proven",
+    "season-acknowledged","scoring-reconciled","history-converged",
     "local-reconciliation-safe","final-season-reconciled","terminal-closed"
   ]);
   const enabled=!!(root.location&&new URLSearchParams(root.location.search).get("ssjr-acceptance")==="1"&&new URLSearchParams(root.location.search).get(PARAM)==="1");
@@ -32,6 +32,7 @@
   function persist(){try{root.sessionStorage?.setItem(SAFE_STORE_KEY,JSON.stringify(safe));}catch(_error){}render();return safe;}
   function canonicalSnapshot(){if(typeof root.captureCareerModeRawBackupInputs!=="function")return null;const raw=root.captureCareerModeRawBackupInputs();return {saveLibrary:raw&&Object.hasOwn(raw,"saveLibrary")?raw.saveLibrary:null,legacyShowdowns:raw&&Object.hasOwn(raw,"legacyShowdowns")?raw.legacyShowdowns:null,preferences:raw&&Object.hasOwn(raw,"preferences")?raw.preferences:null};}
   async function canonicalHash(){const snapshot=canonicalSnapshot();return snapshot===null?null:sha256(JSON.stringify(stable(snapshot)));}
+  async function ensureCanonicalBaseline(){if(safe.canonicalStorageBeforeHash)return safe.canonicalStorageBeforeHash;const hash=await canonicalHash();if(hash){safe.canonicalStorageBeforeHash=hash;persist();}return safe.canonicalStorageBeforeHash;}
   function apiState(name){try{const api=root[name];return api&&typeof api.getState==="function"?api.getState():null;}catch(_error){return null;}}
   function nestedPhase(value){if(!value||typeof value!=="object")return null;for(const candidate of [value.phase,value.state?.phase,value.projection?.phase,value.setup?.phase])if(typeof candidate==="string"&&candidate)return candidate;return null;}
   function nestedRevision(value){for(const candidate of [value?.revision,value?.state?.revision,value?.projection?.revision,value?.setup?.revision])if(Number.isInteger(candidate))return candidate;return null;}
@@ -49,7 +50,6 @@
     if(remoteRole&&remoteRole!==safe.remoteRole){if(safe.remoteRole)throw new Error("Remote role changed during physical acceptance.");safe.remoteRole=remoteRole;}
     for(const [field,raw] of [["accountFingerprint",accountId],["deviceFingerprint",deviceId],["rivalryFingerprint",rivalryId]])if(raw){const fingerprint=await sha256(raw);if(safe[field]&&safe[field]!==fingerprint)throw new Error(`${field} changed during physical acceptance.`);safe[field]=fingerprint;}
     if(sessionId){const fingerprint=await sha256(sessionId);if(!safe.sessionFingerprints.includes(fingerprint)){safe.sessionFingerprints.push(fingerprint);safe.sessionFingerprints=safe.sessionFingerprints.slice(-12);}}
-    if(!safe.canonicalStorageBeforeHash&&safe.accountFingerprint&&safe.deviceFingerprint&&safe.rivalryFingerprint)safe.canonicalStorageBeforeHash=await canonicalHash();
     persist();return {setup,remote,connected,account,device,managerRole,remoteRole,accountId,deviceId,rivalryId,sessionId};
   }
   async function safeConflictProbe(identity){
@@ -73,7 +73,7 @@
   function observeMilestones(identity){
     const remote=identity.remote,setup=identity.setup,career=apiState("CareerModeProductionSharedCareerStart"),transfer=apiState("CareerModeProductionSharedTransferChallenge"),results=apiState("CareerModeProductionSharedSeasonResults"),commit=apiState("CareerModeProductionSharedSeasonCommit"),scoring=apiState("CareerModeProductionSharedCanonicalScoring"),history=apiState("CareerModeProductionSharedHistoryConvergence"),reconnect=apiState("CareerModeProductionSharedJourneyReconnect"),local=apiState("CareerModeProductionSharedLocalReconciliation"),finalState=apiState("CareerModeProductionSharedFinalReconciliation"),terminal=apiState("CareerModeProductionSharedTerminalClose");
     if(remote?.sessionState==="active"&&remote?.pendingAction==null)milestone("remote-active","ACTIVE",{revision:Number.isInteger(remote.revision)?remote.revision:null});
-    if(setup?.setup?.phase==="SHOWDOWN_CONFIRMED"&&setup.setup.revision===6)milestone("setup-confirmed","SHOWDOWN_CONFIRMED",{revision:6,seasonNumber:Number(setup.setup.totalSeasons)||null});
+    if(setup?.setup?.phase==="SHOWDOWN_CONFIRMED"&&setup.setup.revision===6)milestone("setup-confirmed","SHOWDOWN_CONFIRMED",{revision:6,totalSeasons:Number(setup.setup.totalSeasons)||null});
     if(nestedPhase(career)==="CAREER_START_READY")milestone("career-start-ready","CAREER_START_READY",{revision:nestedRevision(career)});
     if(nestedPhase(transfer)==="COMPLETED")milestone("transfer-completed","COMPLETED",{revision:nestedRevision(transfer),seasonNumber:nestedSeason(transfer)});
     if(nestedPhase(results)==="RESULTS_READY")milestone("results-ready","RESULTS_READY",{revision:nestedRevision(results),seasonNumber:nestedSeason(results)});
@@ -81,7 +81,9 @@
     if(nestedPhase(scoring)==="SCORING_RECONCILED")milestone("scoring-reconciled","SCORING_RECONCILED",{revision:nestedRevision(scoring),seasonNumber:nestedSeason(scoring)});
     if(nestedPhase(history)==="HISTORY_CONVERGED")milestone("history-converged","HISTORY_CONVERGED",{revision:nestedRevision(history),seasonNumber:nestedSeason(history)});
     if(reconnect?.phase==="ACTIVE_RECOVERED"||reconnect?.phase==="TERMINAL_RECOVERED"){if(safe.offlineObserved){safe.onlineRecovered=true;milestone("reconnect-recovered",reconnect.phase,{seasonNumber:Number.isInteger(reconnect.activeSeason)?reconnect.activeSeason:null});persist();}}
-    if(local&&["REMOTE_OBSERVED","PREVIEW_READY","APPLIED"].includes(local.phase)){safe.candidateCApplied=local.phase==="APPLIED";milestone("local-reconciliation-safe",local.phase,{providerWrite:false});persist();}
+    const terminalSeen=safe.milestones.some(item=>item.stage==="terminal-closed"),recoveredSeen=safe.milestones.some(item=>item.stage==="reconnect-recovered");
+    if(!terminalSeen&&recoveredSeen&&safe.startupCount>1&&safe.rivalryFingerprint&&!safe.reloadResumed){safe.reloadResumed=true;milestone("reload-resumed","SAME_SANITIZED_AUTHORITY");persist();}
+    if(local&&["REMOTE_OBSERVED","PREVIEW_READY","APPLIED"].includes(local.phase)){if(local.phase==="APPLIED")safe.candidateCApplied=true;milestone("local-reconciliation-safe",local.phase,{providerWrite:false});persist();}
     if(finalState?.phase==="FINAL_SEASON_RECONCILED"&&finalState.finalSeasonReconciled===true)milestone("final-season-reconciled","FINAL_SEASON_RECONCILED",{seasonNumber:Number(finalState.completedSeason)||null});
     if(terminal?.phase==="CLOSED"&&terminal.terminal===true){
       if(safe.terminalClosedStartupCount===null)safe.terminalClosedStartupCount=safe.startupCount;
@@ -89,12 +91,11 @@
       if(safe.startupCount>safe.terminalClosedStartupCount){safe.terminalReloadVerified=true;milestone("terminal-reload-verified","CLOSED_AFTER_RELOAD");}
       persist();
     }
-    if(safe.startupCount>1&&safe.rivalryFingerprint&&CORE_STAGES.some(stage=>safe.milestones.some(item=>item.stage===stage))&&!safe.reloadResumed){safe.reloadResumed=true;milestone("reload-resumed","SAME_SANITIZED_AUTHORITY");persist();}
   }
-  async function observe(){if(!enabled)return false;return queue=queue.then(async()=>{const identity=await bindIdentity();observeMilestones(identity);await safeConflictProbe(identity);render();return true;}).catch(error=>{root.console?.warn?.("[Career Mode Showdown] Physical Journey recorder observation failed.",error);render(String(error?.message||error));return false;});}
+  async function observe(){if(!enabled)return false;return queue=queue.then(async()=>{await ensureCanonicalBaseline();const identity=await bindIdentity();observeMilestones(identity);await safeConflictProbe(identity);render();return true;}).catch(error=>{root.console?.warn?.("[Career Mode Showdown] Physical Journey recorder observation failed.",error);render(String(error?.message||error));return false;});}
   function onOffline(){if(!enabled)return;safe.offlineObserved=true;milestone("network-offline","OFFLINE");persist();}
   function onOnline(){if(!enabled)return;milestone("network-online","ONLINE");persist();void observe();}
-  function completed(){const stages=new Set(safe.milestones.map(item=>item.stage));return CORE_STAGES.every(stage=>stages.has(stage))&&safe.offlineObserved&&safe.onlineRecovered&&safe.reloadResumed&&safe.terminalReloadVerified&&safe.conflictGuardProven&&safe.candidateCApplied===false&&safe.canonicalStorageViolation!==true;}
+  function completed(){const stages=new Set(safe.milestones.map(item=>item.stage));return CORE_STAGES.every(stage=>stages.has(stage))&&stages.has("conflict-guard-proven")&&safe.offlineObserved&&safe.onlineRecovered&&safe.reloadResumed&&safe.terminalReloadVerified&&safe.conflictGuardProven&&safe.candidateCApplied===false&&safe.canonicalStorageViolation!==true;}
   async function evidence(){await queue;await observe();safe.canonicalStorageAfterHash=await canonicalHash();safe.canonicalStorageViolation=Boolean(safe.canonicalStorageBeforeHash&&safe.canonicalStorageAfterHash&&safe.canonicalStorageBeforeHash!==safe.canonicalStorageAfterHash&&!safe.candidateCApplied);persist();return Object.freeze({schema:"career-mode-showdown.physical-journey-acceptance.v1",generatedAt:now(),appVersion:appVersion(),runtimeRevision:revision(),acceptanceMode:true,physicalJourneyMode:true,sanitizedSessionStorageOnly:true,recorderNetworkRequests:false,rawAuthorityIncluded:false,canonicalRawIncluded:false,device:deviceFacts(),deviceLabel:safe.deviceLabel||null,networkLabel:safe.networkLabel||null,managerRole:safe.managerRole,remoteRole:safe.remoteRole,accountFingerprint:safe.accountFingerprint,deviceFingerprint:safe.deviceFingerprint,rivalryFingerprint:safe.rivalryFingerprint,sessionFingerprints:[...safe.sessionFingerprints],canonicalStorageBeforeHash:safe.canonicalStorageBeforeHash,canonicalStorageAfterHash:safe.canonicalStorageAfterHash,canonicalStorageViolation:safe.canonicalStorageViolation,candidateCApplied:safe.candidateCApplied,offlineObserved:safe.offlineObserved,onlineRecovered:safe.onlineRecovered,reloadResumed:safe.reloadResumed,terminalReloadVerified:safe.terminalReloadVerified,conflictGuardProven:safe.conflictGuardProven,startupCount:safe.startupCount,milestones:safe.milestones.map(item=>({...item})),completed:completed()});}
   async function copyEvidence(){const text=JSON.stringify(await evidence(),null,2);if(root.navigator?.clipboard?.writeText){await root.navigator.clipboard.writeText(text);return true;}return false;}
   async function downloadEvidence(){if(!root.document||typeof Blob==="undefined"||!root.URL?.createObjectURL)return false;const text=JSON.stringify(await evidence(),null,2),blob=new Blob([text],{type:"application/json"}),url=root.URL.createObjectURL(blob),link=root.document.createElement("a");link.href=url;link.download=`physical-journey-${safe.managerRole||"manager"}-${Date.now()}.json`;link.rel="noopener";root.document.body.appendChild(link);link.click();link.remove();root.setTimeout(()=>root.URL.revokeObjectURL(url),1000);return true;}
