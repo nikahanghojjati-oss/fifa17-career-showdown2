@@ -24,9 +24,12 @@ const path=require("node:path");
   assert.match(source,/ssjr-physical/);
   assert.match(source,/careerModeShowdown\.ssjrPhysicalJourney\.safe\.v1/);
   assert.match(source,/candidateCApplied===false/);
+  assert.match(source,/authorityViolation!==true/);
   assert.match(source,/terminal-reload-verified/);
   assert.match(source,/STALE_RETRY_AND_REPLAY_DENIAL/);
   assert.match(source,/await ensureCanonicalBaseline\(\);const identity=await bindIdentity\(\)/,"canonical baseline must be attempted before identity binding");
+  assert.match(source,/function authorityError\(message\)\{safe\.authorityViolation=true/,"authority drift must become sticky acceptance evidence");
+  assert.match(source,/if\(safe\[field\]&&safe\[field\]!==fingerprint\)authorityError/,"account/device/rivalry fingerprint drift must disqualify the run");
   assert.match(source,/if\(local\.phase==="APPLIED"\)safe\.candidateCApplied=true/,"Candidate C detection must be sticky");
   assert.match(source,/reconnectRecoveredStartupCount/,"reconnect startup boundary must be persisted");
   assert.match(source,/safe\.startupCount>safe\.reconnectRecoveredStartupCount/,"pre-terminal reload must occur after reconnect recovery");
@@ -62,7 +65,7 @@ const path=require("node:path");
   const resequence=evidence=>{evidence.milestones.forEach((item,index)=>{item.sequence=index+1;item.at=new Date(Date.UTC(2026,8,11,6,30,index)).toISOString();});return evidence;};
   const evidence=({managerRole,remoteRole,account,device,rivalry="c",session="d",deviceLabel,networkLabel,userAgent,platform})=>({
     schema:validator.EVIDENCE_SCHEMA,generatedAt:"2026-09-11T06:30:00.000Z",appVersion:"1.9.1",runtimeRevision:"1.9.1-r19",acceptanceMode:true,physicalJourneyMode:true,sanitizedSessionStorageOnly:true,recorderNetworkRequests:false,rawAuthorityIncluded:false,canonicalRawIncluded:false,
-    device:{userAgent,platform,maxTouchPoints:managerRole==="playerOne"?0:5,screenWidth:managerRole==="playerOne"?1366:430,screenHeight:managerRole==="playerOne"?768:932},deviceLabel,networkLabel,managerRole,remoteRole,accountFingerprint:fp(account),deviceFingerprint:fp(device),rivalryFingerprint:fp(rivalry),sessionFingerprints:[fp(session)],canonicalStorageBeforeHash:fp("e"),canonicalStorageAfterHash:fp("e"),canonicalStorageViolation:false,candidateCApplied:false,offlineObserved:true,onlineRecovered:true,reloadResumed:true,terminalReloadVerified:true,conflictGuardProven:true,startupCount:3,
+    device:{userAgent,platform,maxTouchPoints:managerRole==="playerOne"?0:5,screenWidth:managerRole==="playerOne"?1366:430,screenHeight:managerRole==="playerOne"?768:932},deviceLabel,networkLabel,managerRole,remoteRole,accountFingerprint:fp(account),deviceFingerprint:fp(device),rivalryFingerprint:fp(rivalry),sessionFingerprints:[fp(session)],authorityViolation:false,canonicalStorageBeforeHash:fp("e"),canonicalStorageAfterHash:fp("e"),canonicalStorageViolation:false,candidateCApplied:false,offlineObserved:true,onlineRecovered:true,reloadResumed:true,terminalReloadVerified:true,conflictGuardProven:true,startupCount:3,
     milestones:makeMilestones(),completed:true
   });
   const one=evidence({managerRole:"playerOne",remoteRole:"host",account:"1",device:"2",deviceLabel:"Chromebook host",networkLabel:"Home Wi-Fi",userAgent:"ChromeOS Chrome",platform:"Linux x86_64"});
@@ -80,6 +83,9 @@ const path=require("node:path");
   const rawLeak=structuredClone(two);rawLeak.note=`pair_${"a".repeat(64)}`;
   assert.equal(validator.validatePhysicalJourneyPair(one,rawLeak).valid,false);
   assert.ok(validator.validatePhysicalJourneyPair(one,rawLeak).issues.some(item=>item.code==="RAW_PRIVATE_VALUE"));
+
+  const authorityDrift=structuredClone(two);authorityDrift.authorityViolation=true;
+  assert.ok(validator.validatePhysicalJourneyPair(one,authorityDrift).issues.some(item=>item.code==="AUTHORITY_CHANGED"));
 
   const applied=structuredClone(two);applied.candidateCApplied=true;applied.canonicalStorageAfterHash=fp("f");
   assert.ok(validator.validatePhysicalJourneyPair(one,applied).issues.some(item=>item.code==="CANDIDATE_C_APPLY_FORBIDDEN"));
@@ -117,7 +123,7 @@ const path=require("node:path");
   const fakeOffline=structuredClone(two);fakeOffline.milestones.find(item=>item.stage==="network-offline").online=true;
   assert.ok(validator.validatePhysicalJourneyPair(one,fakeOffline).issues.some(item=>item.code==="OFFLINE_FLAG_INVALID"));
 
-  console.log("PASS MDP Physical Journey acceptance recorder is query-gated, privacy-safe, non-writing, early-baselined and Candidate-C sticky");
-  console.log("PASS MDP Physical Journey pair oracle requires opposite managers, distinct devices/networks, same rivalry/session, one season, ordered offline/reload recovery and terminal reload");
-  console.log("PASS MDP Physical Journey oracle rejects missing conflict evidence, hidden Candidate C Apply, multi-season drift, fake offline flags and collapsed reload startups");
+  console.log("PASS MDP Physical Journey acceptance recorder is query-gated, privacy-safe, non-writing, early-baselined, authority-sticky and Candidate-C sticky");
+  console.log("PASS MDP Physical Journey pair oracle requires opposite managers, distinct devices/networks, stable authority, same rivalry/session, one season, ordered offline/reload recovery and terminal reload");
+  console.log("PASS MDP Physical Journey oracle rejects authority drift, missing conflict evidence, hidden Candidate C Apply, multi-season drift, fake offline flags and collapsed reload startups");
 })().catch(error=>{console.error("SSJR PHYSICAL JOURNEY ACCEPTANCE CONTRACTS FAILED");console.error(error.stack||error);process.exit(1);});
