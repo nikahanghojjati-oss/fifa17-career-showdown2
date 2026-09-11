@@ -28,6 +28,9 @@ const path=require("node:path");
   assert.match(source,/STALE_RETRY_AND_REPLAY_DENIAL/);
   assert.match(source,/await ensureCanonicalBaseline\(\);const identity=await bindIdentity\(\)/,"canonical baseline must be attempted before identity binding");
   assert.match(source,/if\(local\.phase==="APPLIED"\)safe\.candidateCApplied=true/,"Candidate C detection must be sticky");
+  assert.match(source,/reconnectRecoveredStartupCount/,"reconnect startup boundary must be persisted");
+  assert.match(source,/safe\.startupCount>safe\.reconnectRecoveredStartupCount/,"pre-terminal reload must occur after reconnect recovery");
+  assert.match(source,/!hasStage\("history-converged"\)/,"network recovery evidence must be gated until history convergence");
   assert.doesNotMatch(source,/\bfetch\s*\(/,"recorder must not make its own network requests");
   assert.doesNotMatch(source,/XMLHttpRequest/,"recorder must not add an alternate network path");
   assert.doesNotMatch(source,/localStorage\s*\.\s*setItem/,"recorder must not mutate canonical local storage");
@@ -47,12 +50,12 @@ const path=require("node:path");
     ["history-converged","HISTORY_CONVERGED",{seasonNumber:1}],
     ["network-offline","OFFLINE",{}],
     ["network-online","ONLINE",{}],
-    ["reconnect-recovered","ACTIVE_RECOVERED",{seasonNumber:1}],
-    ["reload-resumed","SAME_SANITIZED_AUTHORITY",{}],
+    ["reconnect-recovered","ACTIVE_RECOVERED",{seasonNumber:1,startupCount:1}],
+    ["reload-resumed","SAME_SANITIZED_AUTHORITY",{startupCount:2}],
     ["local-reconciliation-safe","PREVIEW_READY",{providerWrite:false}],
     ["final-season-reconciled","FINAL_SEASON_RECONCILED",{seasonNumber:1}],
-    ["terminal-closed","CLOSED",{}],
-    ["terminal-reload-verified","CLOSED_AFTER_RELOAD",{}]
+    ["terminal-closed","CLOSED",{startupCount:2}],
+    ["terminal-reload-verified","CLOSED_AFTER_RELOAD",{startupCount:3}]
   ];
   const makeMilestones=()=>stages.map(([stage,phase,extra],index)=>({sequence:index+1,at:new Date(Date.UTC(2026,8,11,6,30,index)).toISOString(),stage,phase,online:stage!=="network-offline",...extra}));
   const resequence=evidence=>{evidence.milestones.forEach((item,index)=>{item.sequence=index+1;item.at=new Date(Date.UTC(2026,8,11,6,30,index)).toISOString();});return evidence;};
@@ -101,6 +104,12 @@ const path=require("node:path");
   const twoStartups=structuredClone(two);twoStartups.startupCount=2;
   assert.ok(validator.validatePhysicalJourneyPair(one,twoStartups).issues.some(item=>item.code==="RELOAD_RECOVERY_MISSING"));
 
+  const collapsedRecoveryStartup=structuredClone(two);collapsedRecoveryStartup.milestones.find(item=>item.stage==="reconnect-recovered").startupCount=2;collapsedRecoveryStartup.milestones.find(item=>item.stage==="reload-resumed").startupCount=2;
+  assert.ok(validator.validatePhysicalJourneyPair(one,collapsedRecoveryStartup).issues.some(item=>item.code==="RECOVERY_STARTUP_ORDER_INVALID"));
+
+  const collapsedTerminalStartup=structuredClone(two);collapsedTerminalStartup.milestones.find(item=>item.stage==="terminal-reload-verified").startupCount=2;
+  assert.ok(validator.validatePhysicalJourneyPair(one,collapsedTerminalStartup).issues.some(item=>item.code==="RECOVERY_STARTUP_ORDER_INVALID"));
+
   const earlyOffline=structuredClone(two);const offlineIndex=earlyOffline.milestones.findIndex(item=>item.stage==="network-offline");const [offlineMilestone]=earlyOffline.milestones.splice(offlineIndex,1);earlyOffline.milestones.splice(1,0,offlineMilestone);resequence(earlyOffline);
   assert.ok(validator.validatePhysicalJourneyPair(one,earlyOffline).issues.some(item=>item.code==="RECOVERY_ORDER_INVALID"));
 
@@ -109,5 +118,5 @@ const path=require("node:path");
 
   console.log("PASS MDP Physical Journey acceptance recorder is query-gated, privacy-safe, non-writing, early-baselined and Candidate-C sticky");
   console.log("PASS MDP Physical Journey pair oracle requires opposite managers, distinct devices/networks, same rivalry/session, one season, ordered offline/reload recovery and terminal reload");
-  console.log("PASS MDP Physical Journey oracle rejects missing conflict evidence, hidden Candidate C Apply, multi-season drift, fake offline flags and collapsed reload boundaries");
+  console.log("PASS MDP Physical Journey oracle rejects missing conflict evidence, hidden Candidate C Apply, multi-season drift, fake offline flags and collapsed reload startups");
 })().catch(error=>{console.error("SSJR PHYSICAL JOURNEY ACCEPTANCE CONTRACTS FAILED");console.error(error.stack||error);process.exit(1);});
