@@ -15,17 +15,20 @@ jobs:
     steps:
       - uses: actions/checkout@v5
         with:
-          fetch-depth: 3
+          fetch-depth: 4
       - uses: actions/setup-node@v5
         with:
           node-version: 24
           cache: npm
-      - name: Guard exact lineage and self-remove helper
+      - name: Guard exact lineage, correct typo, and self-remove helper
         shell: bash
         run: |
           set -euo pipefail
-          test "$(git rev-parse HEAD^)" = "d396981ef217ee4f77a74578ae0668236811de58"
-          test "$(git rev-parse HEAD^^)" = "2daec1374c81e7e0e2c1c58facae3ea562c6dae4"
+          test "$(git rev-parse HEAD^)" = "933b8c983c95e1790a7bc1efae98dd2e6a4dad47"
+          test "$(git rev-parse HEAD^^)" = "d396981ef217ee4f77a74578ae0668236811de58"
+          test "$(git rev-parse HEAD^^^)" = "2daec1374c81e7e0e2c1c58facae3ea562c6dae4"
+          sed -i 's/rulesList(nationalities)/rulesList(nationalityIds)/' scripts/build-production-firestore-rules.mjs
+          test "$(grep -c 'rulesList(nationalityIds)' scripts/build-production-firestore-rules.mjs)" -ge 1
           git rm .github/workflows/r18-publication-builder-once.yml
       - name: Register r18 and stage coherent whole-shell publication
         shell: bash
