@@ -28,7 +28,7 @@ assert.match(fragment,/setup\.totalSeasons == progress\.totalSeasons/);
 assert.match(fragment,/before\.data\.connectionState == 'active'/);
 assert.match(fragment,/after\.data\.connectionState == 'closed'/);
 assert.match(fragment,/priorProgress\.acceptedThroughSeason == priorProgress\.totalSeasons/);
-assert.match(fragment,/intent\.managerTotals == progress\.managerTotals/);
+assert.match(fragment,/intent\.managerTotals == priorProgress\.managerTotals/);
 assert.match(fragment,/getAfter\(\/databases\/\$\(database\)\/documents\/rivalries\/\$\(rivalryId\)\/sessions\/\$\(intent\.sessionId\)\)/);
 assert.match(fragment,/before\.data\.state == 'active'/);
 assert.match(fragment,/after\.data\.state == 'closed'/);

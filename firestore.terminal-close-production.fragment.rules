@@ -18,7 +18,7 @@
         && intent.rivalryId == rivalryId
         && validSessionId(intent.sessionId)
         && intent.acceptedRevisionKey is string
-        && (intent.totalSeasons == 1 || intent.totalSeasons == 3 || intent.totalSeasons == 5 || intent.totalSeasons == 10)
+        && intent.totalSeasons in [1,3,5,10]
         && intent.completedSeason == intent.totalSeasons
         && intent.fixedClubs is map
         && intent.fixedClubs.keys().hasOnly(['playerOne','playerTwo'])
@@ -82,7 +82,7 @@
         && progress.keys().hasOnly(['schemaVersion','runtimeRevision','totalSeasons','acceptedThroughSeason','managerTotals','closedSessionRevision'])
         && progress.schemaVersion == 1
         && progress.runtimeRevision == '1.9.1-r18'
-        && (progress.totalSeasons == 1 || progress.totalSeasons == 3 || progress.totalSeasons == 5 || progress.totalSeasons == 10)
+        && progress.totalSeasons in [1,3,5,10]
         && progress.acceptedThroughSeason is int
         && progress.acceptedThroughSeason >= 1
         && progress.acceptedThroughSeason <= progress.totalSeasons
@@ -116,9 +116,7 @@
       let progress = after.data.terminalProgress;
       let setup = get(/databases/$(database)/documents/rivalries/$(rivalryId)/sharedSetup/authoritative).data;
       let commit = get(/databases/$(database)/documents/rivalries/$(rivalryId)/seasonCommits/season_1).data;
-      return before.data.keys().hasOnly(['connectionState','connectionStateBeforeDeletion','managerSlots','authorizedAccountIds','createdByAccountId','createdAt'])
-        && after.data.keys().hasOnly(['connectionState','connectionStateBeforeDeletion','managerSlots','authorizedAccountIds','createdByAccountId','createdAt','terminalProgress'])
-        && ssjrTerminalProgressShape(progress)
+      return ssjrTerminalProgressShape(progress)
         && progress.acceptedThroughSeason == 1
         && progress.closedSessionRevision == null
         && setup.schemaVersion == 1
@@ -137,9 +135,7 @@
       let nextSeason = prior.acceptedThroughSeason + 1;
       let seasonId = ssjrTerminalSeasonId(nextSeason);
       let commit = get(/databases/$(database)/documents/rivalries/$(rivalryId)/seasonCommits/$(seasonId)).data;
-      return before.data.keys().hasOnly(['connectionState','connectionStateBeforeDeletion','managerSlots','authorizedAccountIds','createdByAccountId','createdAt','terminalProgress'])
-        && after.data.keys().hasOnly(['connectionState','connectionStateBeforeDeletion','managerSlots','authorizedAccountIds','createdByAccountId','createdAt','terminalProgress'])
-        && ssjrTerminalProgressShape(prior)
+      return ssjrTerminalProgressShape(prior)
         && ssjrTerminalProgressShape(progress)
         && prior.closedSessionRevision == null
         && progress.closedSessionRevision == null
@@ -156,8 +152,8 @@
       return rivalryId.matches('^pair_[0-9a-f]{64}$')
         && before.data.connectionState == 'active'
         && after.data.connectionState == 'active'
-        && validCasEnvelope(before, after, 'rivalry', rivalryId)
-        && ssjrTerminalBaseRivalryPreserved(before, after)
+        && ssjrTerminalFinalEnvelopeCas(before, after, 'rivalry', rivalryId)
+        && after.data.diff(before.data).affectedKeys().hasOnly(['terminalProgress'])
         && ssjrTerminalProgressActorValid(before, after)
         && (
           (!('terminalProgress' in before.data) && ssjrTerminalInitialProgress(rivalryId, before, after))
