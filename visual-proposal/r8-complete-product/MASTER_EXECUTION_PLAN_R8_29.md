@@ -1,6 +1,6 @@
 # R8.29 Visual Master Execution Plan
 
-Status: ACTIVE MASTER PLAN / PROPOSAL ONLY / NOT PRODUCTION / TRANSITION READY 2026-09-10
+Status: ACTIVE MASTER PLAN / PROPOSAL ONLY / NOT PRODUCTION / TRANSITION READY 2026-09-10 / REAL-OUTPUT AUTHORITY CORRECTED
 
 ## Non-negotiable operating authority
 
@@ -8,7 +8,7 @@ GPT-5.6 Sol remains the operator. Image generation is a subordinate renderer, ne
 
 Compact operating loop:
 
-`RESOLVE -> EXPLAIN -> BUILD/GENERATE -> QA -> RECORD -> NEXT`
+`RESOLVE -> EXPLAIN -> BUILD/GENERATE -> QA -> RECORD -> ASSEMBLE -> RENDER REAL OUTPUT -> OWNER REVIEW -> NEXT`
 
 Permanent invariants: Manager 1 = Daniel; Manager 2 = Nik; Firebase Spark only; Billing OFF; no paid fallback; no public discovery/community/rankings; proposal work remains under `visual-proposal/r8-complete-product/` until explicit implementation authority.
 
@@ -18,7 +18,7 @@ Current production main independently resolved at transition preparation:
 
 `e624d19e04c0ca56f33fa7f0d25fdcc42eb99eda`
 
-This is the MDP accounting/provenance commit recording r17 Final Reconciliation at 93.70 after the r17 product integration. Its commit message explicitly preserves Firebase Spark only, permanent Billing OFF, no broad list authority and no automatic canonical local-save mutation.
+This is the MDP accounting/provenance commit recording r17 Final Reconciliation at 93.70 after r17 product integration. Its commit message explicitly preserves Firebase Spark only, permanent Billing OFF, no broad list authority and no automatic canonical local-save mutation.
 
 The visual proposal must re-read current main again at the next implementation/prototype checkpoint because production may advance in parallel.
 
@@ -29,8 +29,8 @@ The final deliverable is NOT an asset folder plus conceptual screenshots.
 Before owner-final review, the proposal must contain assembled, implementation-shaped prototype screens that combine the real visual system into something that looks and behaves like the intended website:
 
 - page layout and responsive composition;
-- final/proposal character masters where approved;
-- Club Identity V2.1 badges;
+- accepted character source assets where approved;
+- actual deterministic Club Identity V2.1 badges;
 - button hierarchy, hover/focus/pressed/disabled/busy states;
 - cards, panels, dividers, progress rails, fields and feedback states;
 - pack/reveal presentation and animation treatments;
@@ -40,39 +40,77 @@ Before owner-final review, the proposal must contain assembled, implementation-s
 - reduced-motion treatment;
 - accessibility/focus treatment;
 - empty/loading/offline/error/recovery/shared states required by the live product;
-- rendered screenshots from the assembled HTML/CSS/JS proposal, not image-generator guesses of the finished website.
+- rendered screenshots from the assembled HTML/CSS/JS/SVG proposal, not image-generator guesses of the finished website.
 
 The senior production developer should receive a near-implementation package to verify/reconcile/transplant, not a conceptual mood board that requires them to invent missing UI.
 
+## Real-output authority rule
+
+A source asset, a conceptual visualization and an assembled product render are different things.
+
+Use these states consistently:
+
+- `REFERENCE_ONLY` — input/reference material;
+- `CONCEPT_ONLY` — exploratory visualization, never implementation authority;
+- `CANDIDATE` — bounded asset under QA;
+- `ACCEPTED_SOURCE_ASSET` — accepted isolated asset such as a character master;
+- `ASSEMBLED_PROPOSAL` — real HTML/CSS/JS/SVG composition using accepted assets;
+- `OWNER_APPROVED_FINAL` — owner has seen the real assembled/rendered output and explicitly approved it.
+
+Image generation may create generative source assets under a bounded Sol ticket. It may not substitute a guessed screenshot for a deterministic/runtime-owned system and then present that guess as final product evidence.
+
+For Club Identity, buttons, live packs, cards, panels, navigation and final screens, build the real proposal system first and render that system.
+
 ## Master dependency order
 
-1. Club Identity V2.1 authoring catalog for all 98 supported 2016-17 clubs. `COMPLETE / OWNER APPROVED FOR PROPOSAL`.
-2. Aggregate descriptor/schema/uniqueness/no-network/no-Firebase/no-persistence validation. `R1 PASS / R2 PRIORITY PASS / FINAL IMPLEMENTATION VALIDATOR RE-RUN REQUIRED`.
-3. Deterministic SVG renderer and perceptual review. `OWNER APPROVED V2.1/R2 DIRECTION`; do not reopen wholesale without concrete defect evidence.
+1. Club Identity V2.1 authoring catalog for all 98 supported 2016-17 clubs. `TECHNICAL AUTHORING COMPLETE / ARCHITECTURE-DIRECTION OWNER APPROVED`.
+2. Aggregate descriptor/schema/uniqueness/no-network/no-Firebase/no-persistence validation. `R1 PASS / R2 PRIORITY PASS / FINAL R2 AGGREGATE VALIDATOR RE-RUN REQUIRED`.
+3. Deterministic SVG renderer and actual 98-club perceptual review. `REAL DETERMINISTIC FULL-98 OWNER VISUAL APPROVAL OPEN`.
 4. Freeze Club Assignment Mode B2 live-pack aperture and safe character geometry using production-derived DOM/CSS placeholders. `PROPOSAL GEOMETRY LOCKED FOR >=1320PX / SENIOR BROWSER PROOF OPEN`.
 5. Resolve character assets: A03/A04 formal authority first if files are recoverable; then A05/A06 against B2 geometry; A07/A08 focused; A09/A10 victory; A11/A12 setback. One manager/role per uncertain generation lane.
 6. Build the shared R8 component/control system: buttons, inputs, cards, progress, navigation, focus, busy/disabled/error/success states, and responsive tokens. Do not leave button styling to the implementation developer.
-7. Define and build the zero-dollar UI sound-effect layer: subtle original/local sounds for appropriate actions such as navigation/select/confirm, wheel stop where useful, pack seam/open/reveal, success/lock and error; no autoplay abuse; respect mute/reduced sensory preferences; avoid copyrighted game sounds; no network/runtime billing dependency for local SFX.
+7. Define and build the zero-dollar UI sound-effect layer: subtle original/local sounds for navigation/select/confirm, wheel stop where useful, pack seam/open/reveal, success/lock and error; no autoplay abuse; respect mute/reduced sensory preferences; no copyrighted game sounds; no network/runtime billing dependency for local SFX.
 8. Integrate accepted assets/components into exact proposal HTML/CSS/JS screens in product journey order. Preserve existing DOM/state authority and use real product state labels rather than raster text.
 9. Reconcile all production-visible states through current main, including r17 Final Reconciliation inside Season Review, then re-resolve later main before final approval.
 10. Finish Audius zero-dollar/device/rights proof or reject it cleanly; no autoplay and no paid fallback.
-11. Render assembled proposal screens using zero-dollar methods, run structural/browser/visual QA, responsive checks, reduced motion, accessibility, no-overflow and asset provenance checks.
-12. Present complete final screenshot/contact-sheet/media/SFX package for explicit owner approval.
+11. Render assembled proposal screens using zero-dollar methods; run structural/browser/visual QA, responsive checks, reduced motion, accessibility, no-overflow and asset provenance checks.
+12. Present complete real screenshot/contact-sheet/media/SFX package for explicit owner approval.
 13. Only after explicit owner approval seal the senior-developer implementation handoff.
 
-## Club Identity V2.1 gate
+## Club Identity V2.1 corrected gate
 
-Owner approval recorded 2026-09-10 for the deterministic original Club Identity V2.1 proposal direction. See:
+Owner approval on 2026-09-10 applies to the deterministic original Club Identity V2.1 architecture, philosophy and design direction. It does NOT yet constitute final visual approval of the actual deterministic 98-club rendered catalog.
+
+Read:
 
 `evidence/OWNER_CLUB_IDENTITY_V2_1_APPROVAL_AND_AUTHORITY_2026-09-10.md`
+
+and:
+
+`START_NEXT_VISUAL_SESSION_R8_30_ASSEMBLED_PRODUCT_SAFE_TRANSFER_V2.md`
 
 Research/history/location remains authoring-only. Runtime receives only compact deterministic descriptors derived from canonical club name.
 
 Badge rendering requires zero Firestore reads/writes, zero Firebase Storage reads/writes, zero Auth dependency, zero Cloud Functions, zero external image/API requests, zero runtime hotlinks, zero save/schema migration and zero billing dependency.
 
-The accidental later image-generator 98-club poster is explicitly NOT badge implementation authority. Do not extract its familiar official-looking club marks.
+### Accidental poster exclusion
 
-The external HTML renderer allowance is exhausted/over included quota with overages disabled. Do not enable billing. A full R2 external rerender is not an owner blocker. Use local deterministic/browser methods for future proof.
+A late image-generation orchestration failure produced a cinematic 98-club catalog poster while the active ticket was A05 Nik Club Assignment presentation.
+
+That poster is `CONCEPT/FAILURE EVIDENCE ONLY` and is rejected as badge authority. It was not generated from the deterministic V2.1 descriptors and must not be harvested for club marks or treated as what the owner finally approved.
+
+### Required real badge approval path
+
+Before Club Identity becomes `OWNER_APPROVED_FINAL`:
+
+1. combine all five descriptor catalogs plus R2 overrides;
+2. run the aggregate validator in a file-capable/local environment;
+3. render the actual 98 deterministic SVG identities using the V2.1 renderer through local/browser tooling;
+4. produce the real full contact sheet;
+5. show that actual deterministic sheet to the owner;
+6. collect explicit owner approval or bounded corrections.
+
+The external HTML renderer allowance is exhausted/over included quota with overages disabled. Do not enable billing. Use local deterministic/browser methods.
 
 ## Zero-dollar rendering strategy
 
@@ -118,35 +156,21 @@ No additional user reference photos are currently required. Ask only when a spec
 
 The next session must explicitly audit every actionable control family in production and build an R8 component matrix rather than styling buttons ad hoc per screen.
 
-At minimum cover:
-
-- primary progression action;
-- secondary/back action;
-- destructive/danger action;
-- compact utility action;
-- music/media controls;
-- confirmation/lock action;
-- disabled and permission-denied action;
-- busy/loading action;
-- keyboard focus-visible state;
-- hover/pressed state where pointer devices support it;
-- mobile touch target treatment.
+At minimum cover primary progression, secondary/back, destructive/danger, compact utility, music/media, confirmation/lock, disabled/permission-denied, busy/loading, keyboard focus-visible, hover/pressed and mobile touch treatment.
 
 Keep semantics and event ownership in live DOM. Visual design may change; action authority does not.
 
 ## UI sound-effect system requirement
 
-UI SFX are separate from the soundtrack/music provider. They must be designed as a small local presentation layer with no Firebase or network dependency.
+UI SFX are separate from soundtrack/music. Candidate events include navigation/select, confirm, wheel stop, pack charge/open/reveal, rivalry lock, success and error.
 
-Candidate events include navigation/select, confirm, wheel stop, pack charge/open/reveal, rivalry lock, success and error. Use restrained volume and very short clips; never copy FIFA/EA or other copyrighted game audio. Prefer original generated/synthesized effects or clearly compatible royalty-free/public-domain assets stored locally with provenance. Add global UI-SFX mute/volume behavior only if it can be integrated without creating persistence or accessibility problems; otherwise follow existing media preference authority.
-
-No sound may become necessary to understand a state. Reduced-motion/sensory-safe behavior and user mute must be respected.
+Use restrained original/generated/synthesized effects or clearly compatible royalty-free/public-domain local assets with provenance. No copied FIFA/EA or other copyrighted game audio. No runtime hotlinks, Firebase/Storage dependency or billing. Sound is never required to understand a state and must respect mute/reduced sensory intent.
 
 ## r17 and later production reconciliation
 
 r17 Final Reconciliation belongs under existing Season Review ownership and remains read-only. Preserve exact manager/profile/save/rivalry binding, Candidate-C separation and zero-billing boundary. Do not create a new route.
 
-Current main has already advanced beyond the earlier `23bba67...` r17 product head to accounting/provenance commit `e624d19...`. Always re-resolve later main before prototype finalization.
+Current main has advanced beyond the earlier r17 product head to accounting/provenance commit `e624d19...`. Always re-resolve later main before prototype finalization.
 
 ## Media lane
 
@@ -154,8 +178,14 @@ Audius Showdown Radio remains the current proposal direction: one native HTML `<
 
 Real iPhone Safari + Chromebook playback and final per-track rights/taste proof remain open. Do not fabricate device evidence.
 
-## Transition trigger
+## Transition authority
 
-This session is now at a deliberate transition point. The next session should start from the dedicated safe-transfer document created at this point, then independently resolve current production main and visual head before changing anything.
+This session is at a deliberate transition point.
 
-No overall proposal finality has been granted. Badge-specific owner approval does not imply approval of characters, screens, media, SFX or final assembled website proposal.
+The current handoff authority is:
+
+`START_NEXT_VISUAL_SESSION_R8_30_ASSEMBLED_PRODUCT_SAFE_TRANSFER_V2.md`
+
+It supersedes the original R8.30 handoff wherever the two differ, especially Club Identity visual approval and real-output authority.
+
+No overall proposal finality has been granted. Architecture/direction approval does not imply visual finality until the owner sees the real deterministic/assembled output.
