@@ -18,27 +18,19 @@
         && intent.rivalryId == rivalryId
         && validSessionId(intent.sessionId)
         && intent.acceptedRevisionKey is string
-        && intent.acceptedRevisionKey.size() > 0
-        && intent.acceptedRevisionKey.size() <= 2048
         && (intent.totalSeasons == 1 || intent.totalSeasons == 3 || intent.totalSeasons == 5 || intent.totalSeasons == 10)
         && intent.completedSeason == intent.totalSeasons
         && intent.fixedClubs is map
         && intent.fixedClubs.keys().hasOnly(['playerOne','playerTwo'])
         && intent.fixedClubs.playerOne is string
-        && intent.fixedClubs.playerOne.size() > 0
-        && intent.fixedClubs.playerOne.size() <= 80
         && intent.fixedClubs.playerTwo is string
-        && intent.fixedClubs.playerTwo.size() > 0
-        && intent.fixedClubs.playerTwo.size() <= 80
         && intent.fixedClubs.playerOne != intent.fixedClubs.playerTwo
         && intent.managerTotals is map
         && intent.managerTotals.keys().hasOnly(['playerOne','playerTwo'])
         && intent.managerTotals.playerOne is int
         && intent.managerTotals.playerOne >= 0
-        && intent.managerTotals.playerOne <= intent.totalSeasons * 11
         && intent.managerTotals.playerTwo is int
         && intent.managerTotals.playerTwo >= 0
-        && intent.managerTotals.playerTwo <= intent.totalSeasons * 11
         && ssjrTerminalValidWinner(intent)
         && intent.terminal == true
         && intent.finalSeasonReconciled == true
@@ -172,28 +164,26 @@
           || ('terminalProgress' in before.data && ssjrTerminalAdvanceProgress(rivalryId, before, after))
         );
     }
-    function ssjrTerminalSessionTransitionBound(rivalryId, intent, actorDeviceId, closedSessionRevision) {
-      let before = get(/databases/$(database)/documents/rivalries/$(rivalryId)/sessions/$(intent.sessionId)).data;
-      let after = getAfter(/databases/$(database)/documents/rivalries/$(rivalryId)/sessions/$(intent.sessionId)).data;
-      return before.objectType == 'session'
-        && before.objectId == intent.sessionId
-        && before.data.rivalryId == rivalryId
-        && before.data.state == 'active'
-        && before.data.expiresAt > request.time
-        && after.objectType == 'session'
-        && after.objectId == intent.sessionId
+    function ssjrTerminalFinalEnvelopeCas(before, after, objectType, objectId) {
+      return before.objectType == objectType
+        && before.objectId == objectId
+        && before.lifecycleState == 'live'
+        && after.schemaVersion == before.schemaVersion
+        && after.objectType == objectType
+        && after.objectId == objectId
+        && after.lifecycleState == 'live'
         && after.revision == before.revision + 1
         && after.parentRevision == before.revision
-        && after.data.rivalryId == rivalryId
-        && after.data.state == 'closed'
-        && after.updatedByAccountId == request.auth.uid
-        && after.updatedByDeviceId == actorDeviceId
-        && closedSessionRevision == after.revision;
+        && after.priorContentHash == before.contentHash
+        && validHash(after.contentHash)
+        && after.tombstone == null
+        && after.diff(before).affectedKeys().hasOnly([
+          'revision','parentRevision','contentHash','priorContentHash','updatedAt','updatedByAccountId','updatedByDeviceId','data'
+        ]);
     }
     function ssjrTerminalParentCloseRequested(rivalryId, sessionId) {
       let parentAfter = getAfter(/databases/$(database)/documents/rivalries/$(rivalryId)).data;
       return parentAfter.data.connectionState == 'closed'
-        && parentAfter.data.terminalClose is map
         && parentAfter.data.terminalClose.runtimeRevision == '1.9.1-r18'
         && parentAfter.data.terminalClose.sessionId == sessionId;
     }
@@ -202,38 +192,26 @@
       let after = request.resource.data;
       let parentBefore = get(/databases/$(database)/documents/rivalries/$(rivalryId)).data;
       let parentAfter = getAfter(/databases/$(database)/documents/rivalries/$(rivalryId)).data;
-      return request.resource.data.data.state == 'closed'
+      return after.data.state == 'closed'
         && ssjrTerminalParentCloseRequested(rivalryId, sessionId)
         && signedIn()
         && validSessionId(sessionId)
-        && activeDevice(after.updatedByDeviceId)
-        && before.objectType == 'session'
-        && before.objectId == sessionId
-        && before.lifecycleState == 'live'
         && before.data.rivalryId == rivalryId
         && before.data.state == 'active'
         && before.data.expiresAt > request.time
         && request.auth.uid in before.data.memberAccountIds
-        && validCasEnvelope(before, after, 'session', sessionId)
+        && ssjrTerminalFinalEnvelopeCas(before, after, 'session', sessionId)
         && after.updatedByAccountId == request.auth.uid
-        && after.data.rivalryId == before.data.rivalryId
-        && after.data.hostAccountId == before.data.hostAccountId
-        && after.data.memberAccountIds == before.data.memberAccountIds
+        && after.data.diff(before.data).affectedKeys().hasOnly(['state','lastActivityAt'])
         && after.data.state == 'closed'
-        && after.data.createdAt == before.data.createdAt
-        && after.data.expiresAt == before.data.expiresAt
         && after.data.lastActivityAt == after.updatedAt
         && freshSessionActivity(after.data.lastActivityAt)
-        && after.data.revokedAt == null
         && parentBefore.data.connectionState == 'active'
         && parentAfter.data.connectionState == 'closed'
         && parentAfter.data.terminalClose.sessionId == sessionId
         && parentAfter.data.terminalProgress.closedSessionRevision == after.revision
         && parentAfter.updatedByAccountId == request.auth.uid
-        && parentAfter.updatedByDeviceId == after.updatedByDeviceId
-        && parentAfter.data.authorizedAccountIds is list
-        && parentAfter.data.authorizedAccountIds.size() == 2
-        && request.auth.uid in parentAfter.data.authorizedAccountIds;
+        && parentAfter.updatedByDeviceId == after.updatedByDeviceId;
     }
     function ssjrTerminalValidCloseUpdate(rivalryId) {
       let before = resource.data;
@@ -241,32 +219,34 @@
       let priorProgress = before.data.terminalProgress;
       let progress = after.data.terminalProgress;
       let intent = after.data.terminalClose;
+      let sessionAfter = getAfter(/databases/$(database)/documents/rivalries/$(rivalryId)/sessions/$(intent.sessionId)).data;
       return rivalryId.matches('^pair_[0-9a-f]{64}$')
         && signedIn()
         && before.data.connectionState == 'active'
         && after.data.connectionState == 'closed'
-        && validCasEnvelope(before, after, 'rivalry', rivalryId)
-        && before.data.keys().hasOnly(['connectionState','connectionStateBeforeDeletion','managerSlots','authorizedAccountIds','createdByAccountId','createdAt','terminalProgress'])
-        && after.data.keys().hasOnly(['connectionState','connectionStateBeforeDeletion','managerSlots','authorizedAccountIds','createdByAccountId','createdAt','terminalProgress','terminalClose'])
-        && ssjrTerminalBaseRivalryPreserved(before, after)
+        && ssjrTerminalFinalEnvelopeCas(before, after, 'rivalry', rivalryId)
+        && after.data.diff(before.data).affectedKeys().hasOnly(['connectionState','terminalProgress','terminalClose'])
         && before.data.authorizedAccountIds is list
         && before.data.authorizedAccountIds.size() == 2
         && before.data.authorizedAccountIds[0] != before.data.authorizedAccountIds[1]
         && request.auth.uid in before.data.authorizedAccountIds
+        && activeDevice(after.updatedByDeviceId)
         && after.updatedByAccountId == request.auth.uid
-        && ssjrTerminalProgressShape(priorProgress)
-        && ssjrTerminalProgressShape(progress)
+        && priorProgress.runtimeRevision == '1.9.1-r18'
         && priorProgress.acceptedThroughSeason == priorProgress.totalSeasons
         && priorProgress.closedSessionRevision == null
-        && progress.schemaVersion == priorProgress.schemaVersion
-        && progress.runtimeRevision == priorProgress.runtimeRevision
-        && progress.totalSeasons == priorProgress.totalSeasons
-        && progress.acceptedThroughSeason == priorProgress.acceptedThroughSeason
-        && progress.managerTotals == priorProgress.managerTotals
+        && progress.diff(priorProgress).affectedKeys().hasOnly(['closedSessionRevision'])
+        && progress.closedSessionRevision is int
+        && progress.closedSessionRevision == sessionAfter.revision
         && ssjrTerminalValidIntent(rivalryId, intent)
-        && intent.totalSeasons == progress.totalSeasons
-        && intent.managerTotals == progress.managerTotals
-        && ssjrTerminalSessionTransitionBound(rivalryId, intent, after.updatedByDeviceId, progress.closedSessionRevision);
+        && intent.totalSeasons == priorProgress.totalSeasons
+        && intent.managerTotals == priorProgress.managerTotals
+        && sessionAfter.objectType == 'session'
+        && sessionAfter.objectId == intent.sessionId
+        && sessionAfter.data.rivalryId == rivalryId
+        && sessionAfter.data.state == 'closed'
+        && sessionAfter.updatedByAccountId == request.auth.uid
+        && sessionAfter.updatedByDeviceId == after.updatedByDeviceId;
     }
     function ssjrTerminalValidRivalryUpdate(rivalryId) {
       return (request.resource.data.data.connectionState == 'active' && ssjrTerminalValidProgressUpdate(rivalryId))
