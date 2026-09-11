@@ -114,8 +114,8 @@ if(
 let generated=base;
 generated=once(generated,'    function capabilityCanReadPendingRivalry(rivalryId) {',`    ${sharedFunctionMarker}\n${sharedFunctions}\n    ${sharedFunctionEnd}\n\n    ${careerFunctionMarker}\n${careerFunctions}\n    ${careerFunctionEnd}\n\n    ${transferFunctionMarker}\n${transferFunctions}\n    ${transferFunctionEnd}\n\n    ${resultsFunctionMarker}\n${resultsFunctions}\n    ${resultsFunctionEnd}\n\n    ${commitFunctionMarker}\n${commitFunctions}\n    ${commitFunctionEnd}\n\n    ${terminalFunctionMarker}\n${terminalFunctions}\n    ${terminalFunctionEnd}\n\n`,'top-level function insertion');
 generated=once(generated,'      // STAGE5C_CANDIDATE_SESSION_MATCH_BEGIN',`      ${sharedMatchMarker}\n${sharedMatch}\n      ${sharedMatchEnd}\n\n      ${careerMatchMarker}\n${careerMatch}\n      ${careerMatchEnd}\n\n      ${transferMatchMarker}\n${transferMatch}\n      ${transferMatchEnd}\n\n      ${resultsMatchMarker}\n${resultsMatch}\n      ${resultsMatchEnd}\n\n      ${commitMatchMarker}\n${commitMatch}\n      ${commitMatchEnd}\n\n`,'rivalry child-match insertion');
-generated=replaceOnce(generated,'      allow update: if validRivalryRedeem(rivalryId);',"      allow update: if ssjrTerminalValidRivalryUpdate(rivalryId)\n        || validRivalryRedeem(rivalryId);",'Terminal Close rivalry update authority');
-generated=replaceOnce(generated,'        allow update: if validSessionUpdate(rivalryId, sessionId);',"        allow update: if ssjrTerminalValidAtomicSessionClose(rivalryId, sessionId)\n          || validSessionUpdate(rivalryId, sessionId);",'Terminal Close session update authority');
+generated=replaceOnce(generated,'      allow update: if validRivalryRedeem(rivalryId);',"      allow update: if ssjrTerminalValidRivalryUpdate(rivalryId)\n        || (!('terminalProgress' in request.resource.data.data) && validRivalryRedeem(rivalryId));",'Terminal Close rivalry update authority');
+generated=replaceOnce(generated,'        allow update: if validSessionUpdate(rivalryId, sessionId);',"        allow update: if ssjrTerminalValidAtomicSessionClose(rivalryId, sessionId)\n          || (!ssjrTerminalParentCloseRequested(rivalryId, sessionId) && validSessionUpdate(rivalryId, sessionId));",'Terminal Close session update authority');
 
 for(const required of [
   'match /sharedSetup/authoritative',
@@ -150,17 +150,18 @@ for(const required of [
   'function ssjrTerminalValidRivalryUpdate(rivalryId)',
   'function ssjrTerminalValidProgressUpdate(rivalryId)',
   'function ssjrTerminalValidAtomicSessionClose(rivalryId, sessionId)',
+  'function ssjrTerminalParentCloseRequested(rivalryId, sessionId)',
   "intent.runtimeRevision == '1.9.1-r18'",
   "after.data.connectionState == 'closed'",
   "before.data.connectionState == 'active'",
   'terminalProgress',
   'ssjrTerminalScore(commit.results.playerOne)',
-  'ssjrTerminalSessionTransitionBound(rivalryId, intent, after.updatedByDeviceId)',
+  'ssjrTerminalSessionTransitionBound(rivalryId, intent, after.updatedByDeviceId, progress.closedSessionRevision)',
   'getAfter(/databases/$(database)/documents/rivalries/$(rivalryId)/sessions/$(intent.sessionId))',
   'allow update: if ssjrTerminalValidRivalryUpdate(rivalryId)',
-  '|| validRivalryRedeem(rivalryId);',
+  "!('terminalProgress' in request.resource.data.data) && validRivalryRedeem(rivalryId)",
   'allow update: if ssjrTerminalValidAtomicSessionClose(rivalryId, sessionId)',
-  '|| validSessionUpdate(rivalryId, sessionId);',
+  '!ssjrTerminalParentCloseRequested(rivalryId, sessionId) && validSessionUpdate(rivalryId, sessionId)',
   "career.setupOperationIds == setup.operationIds",
   "transfer.phase == 'COMPLETED'",
   "transfer.revision == 6 || transfer.revision == 7",
