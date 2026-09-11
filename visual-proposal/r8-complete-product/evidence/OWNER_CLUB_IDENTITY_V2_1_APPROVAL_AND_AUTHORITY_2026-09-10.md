@@ -1,12 +1,10 @@
 # Owner Club Identity V2.1 Approval and Authority — 2026-09-10
 
-Status: OWNER APPROVAL RECORDED FOR CLUB IDENTITY V2.1 PROPOSAL DIRECTION / PRODUCTION IMPLEMENTATION STILL BLOCKED BY OVERALL VISUAL HANDOFF
+Status: OWNER APPROVAL OF CLUB IDENTITY V2.1 ARCHITECTURE / DESIGN DIRECTION ONLY — ACTUAL DETERMINISTIC 98-CLUB VISUAL APPROVAL OPEN — PRODUCTION IMPLEMENTATION BLOCKED
 
-## Owner decision
+## Corrected owner decision
 
-Nik explicitly approved the Club Identity badge result/direction as final for the visual proposal and asked the project to continue rather than spend further cycles redesigning club badges.
-
-This approval applies to the deterministic, original Club Identity V2.1 catalog architecture and its R2 perceptual-safety direction:
+Nik explicitly likes and approves the Club Identity V2.1 philosophy, architecture, quality target and design direction. This includes:
 
 - 98 supported 2016-17 clubs;
 - club name remains canonical input;
@@ -18,24 +16,86 @@ This approval applies to the deterministic, original Club Identity V2.1 catalog 
 - no save/schema migration;
 - no billing dependency.
 
-The seven R2 priority corrections remain the accepted correction direction for Athletic Club, Sporting Gijón, Bayern Munich, Inter Milan, Napoli, Nice and Paris Saint-Germain.
+However, the owner has now clarified that the 98-club image he visually saw and reacted positively to in chat was an accidental image-generator catalog poster, not the deterministic V2.1 renderer output.
 
-## Important authority exclusion
+Therefore the previous wording that treated Club Identity V2.1 as already visually owner-final was too strong and is superseded by this correction.
 
-A later image-generation orchestration failure produced a generic cinematic 98-club catalog poster while the active Sol ticket was actually A05 Nik Club Assignment presentation. That generated poster is NOT Club Identity V2.1 implementation authority, even though it may contain attractive presentation ideas.
+## Three separate authorities — never conflate them
 
-Reasons:
+### A. V2.1 architecture and design direction
 
-- it was not requested by the active A05 asset ticket;
-- it was not generated from the deterministic V2.1 descriptor catalog;
-- it visually reintroduced several familiar/official-looking club-mark composition families;
-- its text/count/layout is generative artwork rather than verified product DOM;
-- it does not satisfy the deterministic/no-copy/no-runtime-dependency badge contract.
+Status: OWNER APPROVED.
 
-Do not extract its crest artwork into production or the proposal catalog. Owner approval must not be misread as approval of that accidental poster's club marks.
+The owner approves the concept of original, recognizable, history/place-informed deterministic club identities and the zero-runtime-load / zero-Firebase / zero-billing architecture.
+
+### B. Accidental image-generator 98-club poster
+
+Status: REJECTED AS IMPLEMENTATION OR VISUAL-FINAL AUTHORITY.
+
+Near the end of the predecessor session an image-generation orchestration failure occurred while the active Sol ticket was A05 Nik Club Assignment presentation. The renderer unexpectedly produced a cinematic `CLUB IDENTITY CATALOG v2.1` poster containing many generated club marks.
+
+That poster:
+
+- was not requested by the active A05 ticket;
+- was not generated from the deterministic V2.1 descriptor catalog;
+- contains image-model guesses and several familiar/official-looking club-mark composition families;
+- contains generative text/layout rather than verified product DOM;
+- must not be harvested for crest assets;
+- must not be committed or promoted as a Club Identity master;
+- must not be shown to a senior developer as if it were the actual badge catalog.
+
+Its only permissible use is historical evidence of an orchestration failure and, at most, broad non-authoritative presentation inspiration.
+
+### C. Actual deterministic V2.1/R2 98-club visual output
+
+Status: FINAL OWNER VISUAL APPROVAL OPEN.
+
+The real badge set is whatever the deterministic descriptor catalogs plus R2 overrides produce through the V2.1 SVG renderer after validation.
+
+The owner must be shown that actual deterministic output, preferably as a locally/browser-rendered contact sheet generated from the real proposal code, before Club Identity can be called visually final.
+
+The owner may then:
+
+- approve it as final;
+- approve with bounded corrections;
+- reject specific identities;
+- request another deterministic revision.
+
+Do not infer final visual approval from the earlier reaction to the accidental poster.
+
+## R2 correction direction
+
+The seven R2 priority corrections remain accepted as the safer internal direction for:
+
+- Athletic Club;
+- Sporting Gijón;
+- Bayern Munich;
+- Inter Milan;
+- Napoli;
+- Nice;
+- Paris Saint-Germain.
+
+Their internal/local QA may guide the deterministic renderer, but this does not substitute for showing the owner the full real deterministic catalog.
+
+## Visual-authority rule for the entire R8 proposal
+
+Image generation may create source assets such as character art when explicitly ticketed, but it must never create a fake substitute for a deterministic/runtime-owned artifact and then be presented as if it were the actual assembled product.
+
+For deterministic/UI assets such as club identities, buttons, live packs, cards, panels and final screens:
+
+- build the real proposal asset/system first;
+- render that system through HTML/CSS/JS/SVG/local browser tooling;
+- show the owner the rendered real proposal output;
+- keep conceptual or image-generated guesses clearly labeled and outside final authority.
+
+A final screenshot must represent the assembled proposal DOM/system wherever feasible, not an image-model interpretation of how the website might look.
 
 ## Finality boundary
 
-Club Identity V2.1 may now be treated as visually owner-approved for proposal planning. A new full 98-club R2 contact-sheet rerender is useful QA evidence but is no longer a reason to stall the rest of the proposal. If a later deterministic/browser integration test exposes a concrete badge defect, fix that bounded defect only; do not reopen wholesale badge art direction without evidence.
+Club Identity V2.1 architecture/design direction = OWNER APPROVED.
 
-Overall visual proposal finality is still OPEN. No production implementation is authorized by this badge approval alone.
+Actual deterministic 98-club visual catalog = OWNER VISUAL APPROVAL OPEN.
+
+Overall visual proposal = OPEN.
+
+Production implementation = BLOCKED until overall visual proposal approval and senior implementation authority.
