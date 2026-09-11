@@ -11,6 +11,7 @@ const careerFragment=fs.readFileSync('firestore.career-start-production.fragment
 const transferFragment=fs.readFileSync('firestore.transfer-challenge-production.fragment.rules','utf8');
 const resultsFragment=fs.readFileSync('firestore.season-results-production.fragment.rules','utf8');
 const commitFragment=fs.readFileSync('firestore.season-commit-production.fragment.rules','utf8');
+const terminalFragment=fs.readFileSync('firestore.terminal-close-production.fragment.rules','utf8');
 const transferOptionsSource=fs.readFileSync('data/transferOptions.js','utf8');
 const workflow=fs.readFileSync('.github/workflows/deploy-firestore-rules-zero-billing.yml','utf8');
 const stage3=fs.readFileSync('.github/workflows/validate-stage3-private-pairing.yml','utf8');
@@ -68,12 +69,16 @@ const careerFunctionMarker='// SSJR_CAREER_START_FUNCTIONS_BEGIN',careerFunction
 const transferFunctionMarker='// SSJR_TRANSFER_CHALLENGE_FUNCTIONS_BEGIN',transferFunctionEnd='// SSJR_TRANSFER_CHALLENGE_FUNCTIONS_END',transferMatchMarker='// SSJR_TRANSFER_CHALLENGE_MATCH_BEGIN',transferMatchEnd='// SSJR_TRANSFER_CHALLENGE_MATCH_END';
 const resultsFunctionMarker='// SSJR_SEASON_RESULTS_FUNCTIONS_BEGIN',resultsFunctionEnd='// SSJR_SEASON_RESULTS_FUNCTIONS_END',resultsMatchMarker='// SSJR_SEASON_RESULTS_MATCH_BEGIN',resultsMatchEnd='// SSJR_SEASON_RESULTS_MATCH_END';
 const commitFunctionMarker='// SSJR_SEASON_COMMIT_FUNCTIONS_BEGIN',commitFunctionEnd='// SSJR_SEASON_COMMIT_FUNCTIONS_END',commitMatchMarker='// SSJR_SEASON_COMMIT_MATCH_BEGIN',commitMatchEnd='// SSJR_SEASON_COMMIT_MATCH_END';
+const terminalFunctionMarker='// SSJR_TERMINAL_CLOSE_FUNCTIONS_BEGIN',terminalFunctionEnd='// SSJR_TERMINAL_CLOSE_FUNCTIONS_END';
 const expectedTransferFunctions=injectTransferCatalog(between(transferFragment,transferFunctionMarker,transferFunctionEnd),transferCatalog);
 let expectedGenerated=base;
 expectedGenerated=once(expectedGenerated,'    function capabilityCanReadPendingRivalry(rivalryId) {',`    ${functionMarker}\n${between(fragment,functionMarker,functionEnd)}\n    ${functionEnd}\n\n    ${careerFunctionMarker}\n${between(careerFragment,careerFunctionMarker,careerFunctionEnd)}\n    ${careerFunctionEnd}\n\n    ${transferFunctionMarker}\n${expectedTransferFunctions}\n    ${transferFunctionEnd}\n\n    ${resultsFunctionMarker}\n${between(resultsFragment,resultsFunctionMarker,resultsFunctionEnd)}\n    ${resultsFunctionEnd}\n\n    ${commitFunctionMarker}\n${between(commitFragment,commitFunctionMarker,commitFunctionEnd)}\n    ${commitFunctionEnd}\n\n`,'top-level function insertion');
 expectedGenerated=once(expectedGenerated,'      // STAGE5C_CANDIDATE_SESSION_MATCH_BEGIN',`      ${matchMarker}\n${between(fragment,matchMarker,matchEnd)}\n      ${matchEnd}\n\n      ${careerMatchMarker}\n${between(careerFragment,careerMatchMarker,careerMatchEnd)}\n      ${careerMatchEnd}\n\n      ${transferMatchMarker}\n${between(transferFragment,transferMatchMarker,transferMatchEnd)}\n      ${transferMatchEnd}\n\n      ${resultsMatchMarker}\n${between(resultsFragment,resultsMatchMarker,resultsMatchEnd)}\n      ${resultsMatchEnd}\n\n      ${commitMatchMarker}\n${between(commitFragment,commitMatchMarker,commitMatchEnd)}\n      ${commitMatchEnd}\n\n`,'rivalry child-match insertion');
+expectedGenerated=once(expectedGenerated,'    function capabilityCanReadPendingRivalry(rivalryId) {',`    ${terminalFunctionMarker}\n${between(terminalFragment,terminalFunctionMarker,terminalFunctionEnd)}\n    ${terminalFunctionEnd}\n\n`,'Terminal Close function insertion');
+expectedGenerated=replaceOnce(expectedGenerated,'      allow update: if validRivalryRedeem(rivalryId);',"      allow update: if ssjrTerminalValidRivalryUpdate(rivalryId)\n        || (!('terminalProgress' in request.resource.data.data) && validRivalryRedeem(rivalryId));",'Terminal Close rivalry update authority');
+expectedGenerated=replaceOnce(expectedGenerated,'        allow update: if validSessionUpdate(rivalryId, sessionId);',"        allow update: if ssjrTerminalValidAtomicSessionClose(rivalryId, sessionId)\n          || (!ssjrTerminalParentCloseRequested(rivalryId, sessionId) && validSessionUpdate(rivalryId, sessionId));",'Terminal Close session update authority');
 if(!expectedGenerated.endsWith('\n'))expectedGenerated+='\n';
-assert.equal(generated,expectedGenerated,'Generated production Rules must be the exact reviewed Spark base plus only the bounded Shared Setup, Career Start, Transfer Challenge, Season Results and Season Commit fragment splices with deterministic canonical Transfer catalog binding.');
+assert.equal(generated,expectedGenerated,'Generated production Rules must be the exact reviewed Spark base plus only the bounded Shared Setup, Career Start, Transfer Challenge, Season Results, Season Commit and Terminal Close fragment splices with deterministic canonical Transfer catalog binding.');
 assert.deepEqual(ruleMembership('ssjrTransferValidLeagueId'),transferCatalog.leagueIds,'Generated Rules league membership must exactly match the repository FIFA 17 Transfer catalog');
 assert.deepEqual(ruleMembership('ssjrTransferValidNationalityId'),transferCatalog.nationalityIds,'Generated Rules nationality membership must exactly match the repository FIFA 17 Transfer catalog');
 assert.equal(generated.includes("'invented-league'"),false,'Generated Rules must not admit invented transfer league IDs');
@@ -135,7 +140,7 @@ for(const required of [
   'allow list, delete: if false',
   "after.totalSeasons == 1 || after.totalSeasons == 3 || after.totalSeasons == 5 || after.totalSeasons == 10"
 ]) assert.ok(generated.includes(required),`Generated production Rules missing ${required}`);
-for(const forbidden of [/cloud\s*run/i,/cloud\s*functions/i,/blaze/i,/payment method/i,/purchased credits/i])assert.doesNotMatch(`${fragment}\n${careerFragment}\n${transferFragment}\n${resultsFragment}\n${commitFragment}`,forbidden,'Shared Journey production Rules must remain zero-billing/Spark compatible.');
+for(const forbidden of [/cloud\s*run/i,/cloud\s*functions/i,/blaze/i,/payment method/i,/purchased credits/i])assert.doesNotMatch(`${fragment}\n${careerFragment}\n${transferFragment}\n${resultsFragment}\n${commitFragment}\n${terminalFragment}`,forbidden,'Shared Journey production Rules must remain zero-billing/Spark compatible.');
 assert.match(generated,/match \/\{document=\*\*\} \{\s*allow read, write: if false;/,'Generated authority must retain global deny-by-default fallback.');
 
 assert.match(workflow,/FIREBASE_RULES_FILE: firestore\.spark\.generated\.rules/,'Zero-billing workflow must publish generated authority.');

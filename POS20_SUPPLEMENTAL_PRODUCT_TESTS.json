@@ -352,6 +352,53 @@
         "^package\\.json$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/shared-terminal-close-contracts.cjs",
+      "patterns": [
+        "^js/sharedTerminalClose\\.js$",
+        "^js/sharedFinalReconciliation\\.js$",
+        "^tests/contracts/shared-terminal-close-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/shared-terminal-close-provider-contracts.cjs",
+      "patterns": [
+        "^js/sharedTerminalClose\\.js$",
+        "^js/sparkTerminalClose\\.js$",
+        "^js/sparkPrivateSession\\.js$",
+        "^js/sparkStandardAuthPrivateSession\\.js$",
+        "^tests/contracts/shared-terminal-close-provider-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/shared-terminal-close-rules-contracts.cjs",
+      "patterns": [
+        "^firestore\\.terminal-close-production\\.fragment\\.rules$",
+        "^scripts/build-production-firestore-rules\\.mjs$",
+        "^\\.github/workflows/deploy-firestore-rules-zero-billing\\.yml$",
+        "^tests/contracts/shared-terminal-close-rules-contracts\\.cjs$",
+        "^tests/firebase/shared-terminal-close-production-provider-emulator\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/shared-terminal-close-production-contracts.cjs",
+      "patterns": [
+        "^js/sharedTerminalClose\\.js$",
+        "^js/sparkTerminalClose\\.js$",
+        "^js/productionSharedTerminalClose\\.js$",
+        "^js/productionSharedFinalReconciliation\\.js$",
+        "^js/sparkRemoteJoining\\.js$",
+        "^js/ssjr\\.js$",
+        "^service-worker\\.js$",
+        "^tests/contracts/shared-terminal-close-production-contracts\\.cjs$",
+        "^tests/browser/shared-terminal-close-audit\\.cjs$",
+        "^package\\.json$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
