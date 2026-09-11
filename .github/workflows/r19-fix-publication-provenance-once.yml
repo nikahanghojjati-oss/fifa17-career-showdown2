@@ -1,0 +1,39 @@
+name: R19 Fix Publication Provenance Once
+
+on:
+  push:
+    branches:
+      - feat/mdp-physical-journey-r19-acceptance
+    paths:
+      - .github/workflows/r19-fix-publication-provenance-once.yml
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: feat/mdp-physical-journey-r19-acceptance
+      - name: Align r19 release record with whole-shell provenance contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('.github/workflows/r19-physical-publication-once.yml')
+          text=p.read_text()
+          needle="fs.writeFileSync('RELEASE_V1.9.1_R19.md',`# Career Mode Showdown v1.9.1 — Runtime r19\\n\\nRuntime `1.9.1-r19` adds"
+          replacement="fs.writeFileSync('RELEASE_V1.9.1_R19.md',`# Career Mode Showdown v1.9.1 — Runtime r19\\n\\nStatus: RELEASE CANDIDATE\\n\\nRuntime asset revision: `1.9.1-r19`\\n\\nPrevious known-good runtime: `1.9.1-r18`\\n\\nRuntime `1.9.1-r19` adds"
+          if needle not in text:
+              raise SystemExit('r19 release template seam not found')
+          p.write_text(text.replace(needle,replacement,1))
+          PY
+          rm .github/workflows/r19-fix-publication-provenance-once.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -m 'ci(mdp): align r19 release provenance template'
+          git push origin HEAD:feat/mdp-physical-journey-r19-acceptance
