@@ -15,11 +15,11 @@ async function loadDirect(browser,physical){
   const url=new URL(baseUrl.href);if(physical){url.searchParams.set("ssjr-acceptance","1");url.searchParams.set("ssjr-physical","1");}
   await page.goto(url.href,{waitUntil:"domcontentloaded"});await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:12000});
   await page.addScriptTag({url:new URL("js/ssjrPhysicalJourneyAcceptance.js",baseUrl).href});
-  await page.evaluate(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.install());
   return {context,page,errors};
 }
 async function launchCase(runtime,physical){const browser=await chromium.launch({executablePath:runtime.executablePath,headless:true,args:runtime.args});try{return {browser,...await loadDirect(browser,physical)};}catch(error){if(browser.isConnected())await browser.close().catch(()=>{});throw error;}}
 async function closeCase(entry){if(!entry)return;await entry.context.close().catch(()=>{});if(entry.browser.isConnected())await entry.browser.close().catch(()=>{});}
+async function installRecorder(page){await page.evaluate(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.install());}
 async function setCanonical(page,storageValue="baseline"){
   await page.evaluate(storageValue=>{window.captureCareerModeRawBackupInputs=()=>({saveLibrary:JSON.stringify({fixture:storageValue}),legacyShowdowns:"[]",preferences:'{"mode":"test"}'});},storageValue);
 }
@@ -45,26 +45,26 @@ async function installFixture(page,stage="history",{storageValue="baseline",loca
 (async()=>{
   const runtime=await resolveChromiumRuntime();let normal=null,integrity=null,candidate=null,authority=null,chronology=null,physical=null;
   try{
-    normal=await launchCase(runtime,false);assert.equal(await normal.page.evaluate(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.enabled),false);assert.equal(await normal.page.locator("#ssjrPhysicalJourneyAcceptance").count(),0);assert.deepEqual(normal.errors,[]);await closeCase(normal);normal=null;
+    normal=await launchCase(runtime,false);await installRecorder(normal.page);assert.equal(await normal.page.evaluate(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.enabled),false);assert.equal(await normal.page.locator("#ssjrPhysicalJourneyAcceptance").count(),0);assert.deepEqual(normal.errors,[]);await closeCase(normal);normal=null;
 
     // Prove the immutable canonical baseline can be captured before any private identity exists.
-    integrity=await launchCase(runtime,true);await setCanonical(integrity.page,"baseline");await integrity.page.evaluate(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.observe());
+    integrity=await launchCase(runtime,true);await setCanonical(integrity.page,"baseline");await installRecorder(integrity.page);await integrity.page.evaluate(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.observe());
     await installFixture(integrity.page,"history",{storageValue:"changed-before-identity"});await integrity.page.evaluate(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.observe());
     const earlyMutation=await integrity.page.evaluate(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.getEvidence());assert.notEqual(earlyMutation.canonicalStorageBeforeHash,earlyMutation.canonicalStorageAfterHash);assert.equal(earlyMutation.canonicalStorageViolation,true,"mutation after recorder baseline but before identity binding must be detected");await closeCase(integrity);integrity=null;
 
     // Prove Candidate C Apply is permanently disqualifying even if a later preview reappears.
-    candidate=await launchCase(runtime,true);await setCanonical(candidate.page,"baseline");await candidate.page.evaluate(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.observe());await installFixture(candidate.page,"terminal",{localPhase:"PREVIEW_READY"});await candidate.page.evaluate(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.observe());await installFixture(candidate.page,"terminal",{localPhase:"APPLIED"});await candidate.page.evaluate(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.observe());await installFixture(candidate.page,"terminal",{localPhase:"PREVIEW_READY"});await candidate.page.evaluate(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.observe());
+    candidate=await launchCase(runtime,true);await setCanonical(candidate.page,"baseline");await installRecorder(candidate.page);await candidate.page.evaluate(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.observe());await installFixture(candidate.page,"terminal",{localPhase:"PREVIEW_READY"});await candidate.page.evaluate(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.observe());await installFixture(candidate.page,"terminal",{localPhase:"APPLIED"});await candidate.page.evaluate(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.observe());await installFixture(candidate.page,"terminal",{localPhase:"PREVIEW_READY"});await candidate.page.evaluate(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.observe());
     const appliedEvidence=await candidate.page.evaluate(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.getEvidence());assert.equal(appliedEvidence.candidateCApplied,true,"Candidate C Apply must remain sticky after a later preview");assert.equal(appliedEvidence.completed,false);assert.ok(appliedEvidence.milestones.some(item=>item.stage==="local-reconciliation-safe"&&item.phase==="APPLIED"));await closeCase(candidate);candidate=null;
 
     // Prove account/device/rivalry authority drift is sticky and cannot be hidden by the observer error boundary.
-    authority=await launchCase(runtime,true);await setCanonical(authority.page,"baseline");await authority.page.evaluate(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.observe());await installFixture(authority.page,"history");await authority.page.evaluate(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.observe());
+    authority=await launchCase(runtime,true);await setCanonical(authority.page,"baseline");await installRecorder(authority.page);await authority.page.evaluate(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.observe());await installFixture(authority.page,"history");await authority.page.evaluate(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.observe());
     await authority.page.waitForFunction(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.getState().managerRole==="playerOne",null,{timeout:3000});
     await authority.page.evaluate(()=>{const current=window.CareerModeProductionSharedShowdownSetup.getState();window.CareerModeProductionSharedShowdownSetup={getState:()=>({...current,accountId:"physical_account_changed"})};});
     await authority.page.evaluate(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.observe());
     const authorityEvidence=await authority.page.evaluate(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.getEvidence());assert.equal(authorityEvidence.authorityViolation,true,"authority drift must remain sticky after the observer catches the mismatch");assert.equal(authorityEvidence.completed,false);assert.equal(await authority.page.evaluate(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.getState().authorityViolation),true);await closeCase(authority);authority=null;
 
     // Prove incidental pre-History network noise is ignored and a reload before recovery cannot satisfy the recovery reload gate.
-    chronology=await launchCase(runtime,true);await setCanonical(chronology.page,"baseline");await chronology.page.evaluate(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.observe());
+    chronology=await launchCase(runtime,true);await setCanonical(chronology.page,"baseline");await installRecorder(chronology.page);await chronology.page.evaluate(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.observe());
     await chronology.context.setOffline(true);await chronology.page.waitForTimeout(100);await chronology.context.setOffline(false);await chronology.page.waitForTimeout(100);
     const ignoredNoise=await chronology.page.evaluate(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.getEvidence());assert.equal(ignoredNoise.offlineObserved,false);assert.equal(ignoredNoise.onlineRecovered,false);assert.equal(ignoredNoise.milestones.some(item=>item.stage==="network-offline"||item.stage==="network-online"),false,"pre-History network noise must not become acceptance evidence");
     await chronology.page.reload({waitUntil:"domcontentloaded"});await chronology.page.locator("#loadingScreen").waitFor({state:"hidden",timeout:12000});await reinstall(chronology.page,"history");await chronology.page.waitForFunction(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.getState().startupCount===2,null,{timeout:3000});
@@ -75,8 +75,8 @@ async function installFixture(page,stage="history",{storageValue="baseline",loca
     await chronology.page.reload({waitUntil:"domcontentloaded"});await chronology.page.locator("#loadingScreen").waitFor({state:"hidden",timeout:12000});await reinstall(chronology.page,"recovered");await chronology.page.waitForFunction(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.getState().reloadResumed===true,null,{timeout:3000});
     const afterRecoveryReload=await chronology.page.evaluate(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.getEvidence());const reloadMilestone=afterRecoveryReload.milestones.find(item=>item.stage==="reload-resumed");assert.equal(reloadMilestone.startupCount,3);assert.ok(reloadMilestone.startupCount>recoveredMilestone.startupCount);assert.deepEqual(chronology.errors,[]);await closeCase(chronology);chronology=null;
 
-    physical=await launchCase(runtime,true);assert.equal(await physical.page.evaluate(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.enabled),true);await physical.page.locator("#ssjrPhysicalJourneyAcceptance").waitFor({state:"visible",timeout:4000});
-    await physical.page.evaluate(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.setLabels("iPhone acceptance","Cellular"));await setCanonical(physical.page,"baseline");await physical.page.evaluate(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.observe());
+    physical=await launchCase(runtime,true);await setCanonical(physical.page,"baseline");await installRecorder(physical.page);assert.equal(await physical.page.evaluate(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.enabled),true);await physical.page.locator("#ssjrPhysicalJourneyAcceptance").waitFor({state:"visible",timeout:4000});
+    await physical.page.evaluate(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.setLabels("iPhone acceptance","Cellular"));await physical.page.evaluate(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.observe());
     await installFixture(physical.page,"history");await physical.page.evaluate(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.observe());
     await physical.page.waitForFunction(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.getState().conflictGuardProven===true,null,{timeout:5000});
     const beforeOffline=await physical.page.evaluate(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.getEvidence());assert.equal(beforeOffline.rawAuthorityIncluded,false);assert.equal(beforeOffline.canonicalRawIncluded,false);assert.equal(beforeOffline.recorderNetworkRequests,false);assert.equal(beforeOffline.authorityViolation,false);assert.equal(beforeOffline.candidateCApplied,false);assert.ok(beforeOffline.milestones.some(item=>item.stage==="history-converged"));
@@ -98,6 +98,6 @@ async function installFixture(page,stage="history",{storageValue="baseline",loca
     console.log("PASS Physical Journey Candidate C Apply evidence is sticky and cannot be erased by a later safe preview");
     console.log("PASS Physical Journey authority drift is sticky and disqualifying even across the observer error boundary");
     console.log("PASS Physical Journey ignores pre-History network noise and stale recovered state while offline, and requires a startup strictly after reconnect for reload-resumed");
-    console.log("PASS Physical Journey browser observer persists sanitized evidence across real offline/online plus distinct pre-terminal/post-terminal reload boundaries");
+    console.log("PASS Physical Journey browser observer seeds canonical storage before recorder install and persists sanitized evidence across real offline/online plus distinct pre-terminal/post-terminal reload boundaries");
   }finally{await closeCase(physical);await closeCase(chronology);await closeCase(authority);await closeCase(candidate);await closeCase(integrity);await closeCase(normal);}
 })().catch(error=>{console.error("SSJR PHYSICAL JOURNEY ACCEPTANCE BROWSER AUDIT FAILED");console.error(error.stack||error);process.exit(1);});
