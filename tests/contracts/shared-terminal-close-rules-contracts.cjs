@@ -64,15 +64,16 @@ assert.match(deploy,/!\('terminalProgress' in request\.resource\.data\.data\) &&
 assert.doesNotMatch(deploy,/ssjrTerminalAllSeasonsAccepted|ssjrTerminalSessionClosedAtomically/,"deployment guard must not regress to pre-budget-refactor Terminal Close helpers");
 assert.ok(deploy.includes('grep -Fq "intent.billingRequired == false" firestore.terminal-close-production.fragment.rules'),"deployment guard must positively prove Terminal Close forbids billing");
 
+const terminalRulesFile="firestore.terminal-close-production.fragment.rules";
 const terminalNegativeGreps=deploy
   .split(/\r?\n/)
   .map(line=>line.trim())
-  .filter(line=>line.startsWith('! grep -Eqi "') && line.endsWith(' firestore.terminal-close-production.fragment.rules'));
+  .filter(line=>/^!\s*grep\b/.test(line) && line.includes(terminalRulesFile));
 assert.ok(terminalNegativeGreps.length>0,"deployment guard must retain at least one Terminal Close paid-compute negative scan");
 const terminalNegativePatterns=terminalNegativeGreps.map(line=>{
-  const match=line.match(/^! grep -Eqi "([^"]+)" firestore\.terminal-close-production\.fragment\.rules$/);
-  assert.ok(match,`unable to parse Terminal Close negative scan: ${line}`);
-  return match[1];
+  const match=line.match(/^!\s*grep\s+-Eqi\s+(?:"([^"]+)"|'([^']+)')\s+firestore\.terminal-close-production\.fragment\.rules$/);
+  assert.ok(match,`every Terminal Close negative grep must use the auditable -Eqi quoted-regex form; unable to parse: ${line}`);
+  return match[1]??match[2];
 });
 function terminalNegativeScanMatches(text){
   return terminalNegativePatterns.some(pattern=>{
@@ -99,4 +100,4 @@ for(const dangerousFixture of [
 }
 assert.doesNotMatch(deploy,/billing enable|firebase use --add|functions:deploy|run deploy/i);
 
-console.log("PASS r18 Terminal Close production Rules: acknowledged seasons are folded into a bounded monotonic rivalry terminalProgress seal one season at a time, canonical scores are accumulated under Rules authority, persisted terminal witness fields are limited to provider-verifiable facts, terminal-owned writes are routed away from legacy pairing/session validators, every Terminal Close deployment negative scan is behaviorally proved to allow billingRequired == false while rejecting concrete paid-compute enablement fixtures, and final ACTIVE-to-CLOSED still requires the exact session to close atomically with no list/delete/billing expansion.");
+console.log("PASS r18 Terminal Close production Rules: acknowledged seasons are folded into a bounded monotonic rivalry terminalProgress seal one season at a time, canonical scores are accumulated under Rules authority, persisted terminal witness fields are limited to provider-verifiable facts, terminal-owned writes are routed away from legacy pairing/session validators, every Terminal Close deployment negative grep is discovered before parsing and behaviorally proved to allow billingRequired == false while rejecting concrete paid-compute enablement fixtures, and final ACTIVE-to-CLOSED still requires the exact session to close atomically with no list/delete/billing expansion.");
