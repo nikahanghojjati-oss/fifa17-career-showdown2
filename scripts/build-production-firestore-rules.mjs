@@ -45,7 +45,6 @@ function loadTransferCatalog(){
   if(!Array.isArray(leagues)||leagues.length!==36||!Array.isArray(nationalities)||nationalities.length!==164)throw new Error('Canonical FIFA 17 Transfer Challenge catalog shape changed unexpectedly.');
   const normalize=(items,label)=>{
     const ids=items.map(item=>item&&item.id);
-    if(ids.some(id=>typeof id!=='string'||!id.matches&&false)){}
     if(ids.some(id=>typeof id!=='string'||!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(id)))throw new Error(`Canonical ${label} catalog contains an invalid Rules ID.`);
     if(new Set(ids).size!==ids.length)throw new Error(`Canonical ${label} catalog contains duplicate IDs.`);
     return ids;
@@ -115,7 +114,7 @@ if(
 let generated=base;
 generated=once(generated,'    function capabilityCanReadPendingRivalry(rivalryId) {',`    ${sharedFunctionMarker}\n${sharedFunctions}\n    ${sharedFunctionEnd}\n\n    ${careerFunctionMarker}\n${careerFunctions}\n    ${careerFunctionEnd}\n\n    ${transferFunctionMarker}\n${transferFunctions}\n    ${transferFunctionEnd}\n\n    ${resultsFunctionMarker}\n${resultsFunctions}\n    ${resultsFunctionEnd}\n\n    ${commitFunctionMarker}\n${commitFunctions}\n    ${commitFunctionEnd}\n\n    ${terminalFunctionMarker}\n${terminalFunctions}\n    ${terminalFunctionEnd}\n\n`,'top-level function insertion');
 generated=once(generated,'      // STAGE5C_CANDIDATE_SESSION_MATCH_BEGIN',`      ${sharedMatchMarker}\n${sharedMatch}\n      ${sharedMatchEnd}\n\n      ${careerMatchMarker}\n${careerMatch}\n      ${careerMatchEnd}\n\n      ${transferMatchMarker}\n${transferMatch}\n      ${transferMatchEnd}\n\n      ${resultsMatchMarker}\n${resultsMatch}\n      ${resultsMatchEnd}\n\n      ${commitMatchMarker}\n${commitMatch}\n      ${commitMatchEnd}\n\n`,'rivalry child-match insertion');
-generated=replaceOnce(generated,'      allow update: if validRivalryRedeem(rivalryId);',"      allow update: if validRivalryRedeem(rivalryId)\n        || ssjrTerminalValidRivalryUpdate(rivalryId);",'Terminal Close rivalry update authority');
+generated=replaceOnce(generated,'      allow update: if validRivalryRedeem(rivalryId);',"      allow update: if ssjrTerminalValidRivalryUpdate(rivalryId)\n        || validRivalryRedeem(rivalryId);",'Terminal Close rivalry update authority');
 
 for(const required of [
   'match /sharedSetup/authoritative',
@@ -156,7 +155,8 @@ for(const required of [
   'ssjrTerminalScore(commit.results.playerOne)',
   'ssjrTerminalSessionClosedAtomically(rivalryId, intent, after.updatedByDeviceId)',
   'getAfter(/databases/$(database)/documents/rivalries/$(rivalryId)/sessions/$(intent.sessionId))',
-  '|| ssjrTerminalValidRivalryUpdate(rivalryId);',
+  'allow update: if ssjrTerminalValidRivalryUpdate(rivalryId)',
+  '|| validRivalryRedeem(rivalryId);',
   "career.setupOperationIds == setup.operationIds",
   "transfer.phase == 'COMPLETED'",
   "transfer.revision == 6 || transfer.revision == 7",
