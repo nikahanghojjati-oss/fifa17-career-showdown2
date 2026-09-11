@@ -194,14 +194,20 @@ jobs:
           node tests/contracts/milestone-delivery-progress-contracts.cjs
           npm run mdp:assess
           npm run test:ops
+          git diff --check
 
           rm .github/workflows/r18-mdp-accounting-once.yml
-          expected=$'MILESTONE_DELIVERY_PROGRESS.json\nNEXT_TASK.md\nR18_MDP_ACCOUNTING_BOUNDARY.md\nSHARED_SHOWDOWN_JOURNEY_READINESS.json\ntests/contracts/milestone-delivery-progress-contracts.cjs'
-          actual="$(git status --short | sed -E 's/^.. //' | sort)"
+          git add -A
+          actual="$(git diff --cached --name-only | sort)"
+          expected="$(printf '%s\n' '.github/workflows/r18-mdp-accounting-once.yml' 'MILESTONE_DELIVERY_PROGRESS.json' 'NEXT_TASK.md' 'R18_MDP_ACCOUNTING_BOUNDARY.md' 'SHARED_SHOWDOWN_JOURNEY_READINESS.json' 'tests/contracts/milestone-delivery-progress-contracts.cjs' | sort)"
           test "$actual" = "$expected"
 
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add MILESTONE_DELIVERY_PROGRESS.json NEXT_TASK.md R18_MDP_ACCOUNTING_BOUNDARY.md SHARED_SHOWDOWN_JOURNEY_READINESS.json tests/contracts/milestone-delivery-progress-contracts.cjs .github/workflows/r18-mdp-accounting-once.yml
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
           git commit -m 'chore: record r18 Terminal Close integration at MDP 95.50'
           git push origin HEAD:chore/mdp-r18-accounting-95-50
+
+          git fetch origin main
+          net="$(git diff --name-only origin/main...HEAD | sort)"
+          net_expected="$(printf '%s\n' 'MILESTONE_DELIVERY_PROGRESS.json' 'NEXT_TASK.md' 'R18_MDP_ACCOUNTING_BOUNDARY.md' 'SHARED_SHOWDOWN_JOURNEY_READINESS.json' 'tests/contracts/milestone-delivery-progress-contracts.cjs' | sort)"
+          test "$net" = "$net_expected"
