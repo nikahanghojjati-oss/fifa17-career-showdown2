@@ -53,9 +53,15 @@ assert.match(generated,/match \/sessions\/\{sessionId\}[\s\S]*allow update: if s
 assert.match(generated,/function validSessionClose\(rivalryId, sessionId\)[\s\S]*before\.data\.state == "active"[\s\S]*after\.data\.state == "closed"/);
 assert.match(generated,/match \/seasonCommits\/\{seasonId\}[\s\S]*allow list, delete: if false;/);
 assert.match(generated,/match \/\{document=\*\*\}[\s\S]*allow read, write: if false;/);
+
 assert.match(deploy,/firestore\.terminal-close-production\.fragment\.rules/);
 assert.match(deploy,/shared-terminal-close-rules-contracts\.cjs/);
 assert.match(deploy,/shared-terminal-close-production-provider-emulator\.cjs/);
+assert.match(deploy,/function ssjrTerminalValidProgressUpdate\(rivalryId\)/,"deployment guard must pin the current staged terminalProgress validator");
+assert.match(deploy,/priorProgress\.acceptedThroughSeason == priorProgress\.totalSeasons/,"deployment guard must pin final-season sealing before close");
+assert.match(deploy,/function ssjrTerminalValidAtomicSessionClose\(rivalryId, sessionId\)/,"deployment guard must pin current atomic session close authority");
+assert.match(deploy,/!\('terminalProgress' in request\.resource\.data\.data\) && validRivalryRedeem\(rivalryId\)/,"deployment guard must pin the current rivalry routing seam");
+assert.doesNotMatch(deploy,/ssjrTerminalAllSeasonsAccepted|ssjrTerminalSessionClosedAtomically/,"deployment guard must not regress to pre-budget-refactor Terminal Close helpers");
 assert.doesNotMatch(deploy,/billing enable|firebase use --add|functions:deploy|run deploy/i);
 
-console.log("PASS r18 Terminal Close production Rules: acknowledged seasons are folded into a bounded monotonic rivalry terminalProgress seal one season at a time, canonical scores are accumulated under Rules authority, persisted terminal witness fields are limited to provider-verifiable facts, terminal-owned writes are routed away from legacy pairing/session validators, and final ACTIVE-to-CLOSED still requires the exact session to close atomically with no list/delete/billing expansion.");
+console.log("PASS r18 Terminal Close production Rules: acknowledged seasons are folded into a bounded monotonic rivalry terminalProgress seal one season at a time, canonical scores are accumulated under Rules authority, persisted terminal witness fields are limited to provider-verifiable facts, terminal-owned writes are routed away from legacy pairing/session validators, the zero-billing deployment guard is pinned to the current staged authority, and final ACTIVE-to-CLOSED still requires the exact session to close atomically with no list/delete/billing expansion.");
