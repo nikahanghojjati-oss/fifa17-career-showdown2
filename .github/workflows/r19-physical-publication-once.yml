@@ -124,7 +124,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          expected=$'.github/workflows/r19-physical-journey-dev.yml\n.github/workflows/r19-physical-publication-once.yml\nPHYSICAL_JOURNEY_ACCEPTANCE.md\nPOS20_SUPPLEMENTAL_PRODUCT_TESTS.json\nRELEASE_V1.9.1_R19.md\nindex.html\njs/app.js\njs/menuExperience.js\njs/ssjr.js\njs/ssjrPhysicalJourneyAcceptance.js\nmanifest.webmanifest\npackage.json\nscripts/validate-ssjr-physical-journey-evidence.mjs\nservice-worker.js\ntests/browser/ssjr-physical-journey-acceptance-audit.cjs\ntests/contracts/ssjr-physical-journey-acceptance-contracts.cjs\ntests/contracts/ssjr-physical-journey-publication-contracts.cjs'
+          expected=$'.github/workflows/r19-physical-journey-dev.yml\n.github/workflows/r19-physical-publication-once.yml\nPHYSICAL_JOURNEY_ACCEPTANCE.md\nPOS20_SUPPLEMENTAL_PRODUCT_TESTS.json\nRELEASE_V1.9.1_R19.md\nindex.html\njs/app.js\njs/menuExperience.js\njs/ssjr.js\njs/ssjrPhysicalJourneyAcceptance.js\nmanifest.webmanifest\npackage.json\nscripts/validate-ssjr-physical-journey-evidence.mjs\nservice-worker.js\ntests/browser/ssjr-physical-journey-acceptance-audit.cjs\ntests/contracts/ssjr-physical-journey-acceptance-contracts.cjs\ntests/contracts/ssjr-physical-journey-publication-contracts.cjs\ntests/contracts/static-app-release-contracts.cjs'
           actual="$(git diff --cached --name-only 3c5fb2589414f8f497d1f7cb174200ef84290431 | sort)"
           test "$actual" = "$expected"
       - name: Publish tested r19 non-workflow tree
