@@ -95,7 +95,7 @@ const path=require("node:path");
   assert.ok(validator.validatePhysicalJourneyPair(one,hiddenApplied).issues.some(item=>item.code==="LOCAL_RECONCILIATION_UNSAFE"));
 
   const remoteObservedOnly=structuredClone(two);remoteObservedOnly.milestones.find(item=>item.stage==="local-reconciliation-safe").phase="REMOTE_OBSERVED";
-  assert.ok(validator.validatePhysicalJourneyPair(one,remoteObservedOnly).issues.some(item=>item.code==="LOCAL_RECONCILIATION_PREVIEW_REQUIRED"||item.code==="RECOVERY_ORDER_INVALID"));
+  assert.ok(validator.validatePhysicalJourneyPair(one,remoteObservedOnly).issues.some(item=>item.code==="LOCAL_RECONCILIATION_PREVIEW_REQUIRED"));
 
   const badOrder=structuredClone(two);const finalIndex=badOrder.milestones.findIndex(item=>item.stage==="final-season-reconciled"),historyIndex=badOrder.milestones.findIndex(item=>item.stage==="history-converged");[badOrder.milestones[finalIndex],badOrder.milestones[historyIndex]]=[badOrder.milestones[historyIndex],badOrder.milestones[finalIndex]];resequence(badOrder);
   assert.equal(validator.validatePhysicalJourneyPair(one,badOrder).valid,false);
