@@ -1,37 +1,37 @@
 # Screen 03 — League Wheel / `leagueWheelScreen`
 
-Status: ACTIVE r17 SCREEN CONTRACT — R8.33 REFERENCE-FAITHFUL CONSUMER BROWSER-PROVEN / OWNER FINAL REVIEW OPEN / PRODUCTION INTEGRATION NOT AUTHORIZED
+Status: ACTIVE r18 SCREEN CONTRACT — R8.34 REFERENCE-FAITHFUL CONSUMER + PRODUCTION SELECTOR BRIDGE BROWSER-PROVEN / OWNER FINAL REVIEW OPEN / PRODUCTION INTEGRATION NOT AUTHORIZED
 
-Production source anchor: `e624d19e04c0ca56f33fa7f0d25fdcc42eb99eda` / runtime `1.9.1-r17`.
+Production source anchor: `10f75e872d246292bd5fbe55c6ae32a6370b5150` / runtime `1.9.1-r18`.
 
 Current proposal consumer:
 
 - `prototypes/03b-league-wheel-cinematic-reference-faithful-r8-33.html`
 - `prototypes/r8-33-league-wheel-reference-faithful.css`
 - shared presentation base: `prototypes/r8-33-home-reference-faithful.css`
-- browser proof: `evidence/LEAGUE_WHEEL_REFERENCE_FAITHFUL_R8_33_BROWSER_PROOF_2026-09-10.md`
+- R8.34 production-selector/responsive proof: `evidence/LEAGUE_WHEEL_R8_34_PRODUCTION_SELECTOR_AND_RESPONSIVE_PROOF_2026-09-11.md`
 
 The predecessor `prototypes/03-league-wheel-reference.html` remains historical reference material only.
 
 ## Purpose
 
-League Wheel is a high-drama selection stage. The wheel must feel like a central football-game ceremony while the product-owned selection/save/race-safety logic remains the only authority.
+League Wheel is a high-drama selection stage. The wheel should feel like a central football-game ceremony while the product-owned selection/save/race-safety logic remains the only authority.
 
-The owner reference is now the practical composition target: large centered black/gold wheel, Daniel/Nik framing, handwritten labels, warm stadium depth, strong gold title, gold Spin action, compact Back action and the same CM17 application shell used by Home.
+The owner reference is the practical composition target: large centered black/gold wheel, Daniel/Nik framing, handwritten labels, warm stadium depth, strong gold title, gold Spin action, compact Back action and the same CM17 application shell used by Home.
 
 ## Exact current product authority
 
-Preserve the real production DOM/state roles:
+R8.34 now mirrors the current production integration seam directly in proposal markup:
 
-- screen heading `SELECT LEAGUE`;
-- wheel pointer;
-- `#leagueWheel`;
-- `.wheelTrack`;
-- the five canonical league options;
+- `#leagueWheelScreen`
+- wheel pointer presentation;
+- `#leagueWheel.leagueWheel`;
+- `#leagueWheel .wheelTrack` interaction/rotation surface;
+- exactly five `.wheelItem` league options;
 - `#selectedLeague` live status;
 - `#leagueStateNote` live state note;
-- `#spinLeague`;
-- Back.
+- `#spinLeague.menuButton`;
+- `.backButton[data-smart-back]`.
 
 The current five canonical league options remain:
 
@@ -43,9 +43,11 @@ The current five canonical league options remain:
 
 R8 does not add rerolls, extra leagues, alternate randomization or a second selection clock.
 
-## Current r17 state contract
+## Current r18 state contract
 
-Current `js/leagueWheel.js` owns:
+`js/leagueWheel.js` was independently re-read from exact current `main` after the r18 advance. The r18 ops commit does not change this product contract.
+
+Production owns:
 
 - normal spin timing: `4000 ms`;
 - reduced-motion spin timing: `80 ms`;
@@ -97,13 +99,11 @@ If club assignment already exists:
 
 ### Save failure
 
-The product restores the previous selected league/status and raises an error notice. R8 may style this error but must not mask or replace the rollback behavior.
+The product restores the previous selected league/status and raises an error notice. R8 may style this error but must not mask or replace rollback behavior.
 
-## Owner visual target — R8.33 correction
+## Owner visual target
 
-The prior screen contract was intentionally conservative and said omission of characters was preferred. That produced safe geometry but does not match the owner's approved visual ambition.
-
-The corrected wide-desktop target is the owner reference family:
+The owner reference family is the wide-desktop visual target:
 
 - large central metallic black/gold wheel;
 - prominent triangular pointer;
@@ -126,7 +126,7 @@ The reference remains `REFERENCE_ONLY / OWNER VISUAL-LANGUAGE AUTHORITY`, not pr
 
 The wheel itself remains browser-owned UI, not a raster image.
 
-R8.33 uses:
+R8.34 uses:
 
 - CSS circular geometry;
 - conic-gradient segment fields;
@@ -138,16 +138,14 @@ R8.33 uses:
 
 Do not copy official league logos or proprietary wheel artwork.
 
-The final production implementation must keep the actual `.wheelTrack` as the rotating selection surface so the current product logic can continue setting transforms directly.
+The production implementation must retain the actual `.wheelTrack` as the rotating selection surface so current product logic can continue setting transforms directly.
 
 ## Character policy
 
-Wide desktop may use the frozen masters:
+Wide desktop uses the frozen masters:
 
 - Manager 1 = A02 Daniel core pointing hero;
 - Manager 2 = A01 Nik core thinking hero.
-
-This is now the preferred wide-desktop composition, not an optional afterthought.
 
 Character layers remain:
 
@@ -157,7 +155,7 @@ Character layers remain:
 - behind the real wheel/status/actions;
 - unnecessary to understand or operate the screen.
 
-No League Wheel-specific generation has yet been accepted. The existing Daniel pointing pose is a safe approximation. A future wheel-specific presentation pose may be generated only as a bounded isolated `CANDIDATE` asset.
+No League Wheel-specific generation is accepted yet. The existing Daniel pointing pose is a safe approximation. A future wheel-specific presentation pose may be generated only as a bounded isolated `CANDIDATE` asset.
 
 ### Contact rule
 
@@ -169,19 +167,15 @@ If stable rim contact cannot survive the wide-desktop browser matrix, use an air
 
 ## Button / wheel exclusion rule
 
-The wheel and the action group must have disjoint bounding rectangles.
+The wheel and action group must have disjoint bounding rectangles.
 
-This directly protects against the prior visual failure where the wheel bottom could sit behind the button area.
-
-R8.33 short-desktop rules reduce and reposition the wheel before allowing the controls to collide.
-
-The browser proof initially detected a real collision at 1366×768 and 1280×720. The short-desktop geometry was corrected and the full matrix rerun successfully.
+This protects against the historical visual failure where the wheel bottom could sit behind the button area. Short-desktop geometry reduces and repositions the wheel before controls are allowed to collide.
 
 ## Selected / focus hierarchy
 
 When actionable:
 
-- Spin/Continue uses the dominant warm-gold treatment;
+- Spin/Continue uses dominant warm-gold treatment;
 - Back remains black metallic;
 - disabled/locked Spin becomes charcoal and visibly disabled;
 - selected result is live DOM text and cannot rely on the gold wedge alone.
@@ -190,7 +184,7 @@ Focus remains explicitly visible with a high-contrast outline.
 
 ## Stadium / environment
 
-R8.33 reuses the Home procedural stadium system so Home and League Wheel share one visual world:
+The League Wheel reuses the Home procedural stadium system so both screens share one visual world:
 
 - light arcs;
 - crowd texture;
@@ -213,13 +207,13 @@ Daniel/Nik and decorative quote plaques are removed. Wheel remains the hero.
 
 ### `<=1179px`
 
-Wheel/status/actions move into safer document flow. Vertical scrolling is allowed. Horizontal overflow is forbidden.
+Wheel/status/actions move into safe document flow. Vertical scrolling is allowed. Horizontal overflow is forbidden.
 
 ### Mobile
 
 Character-free. The wheel remains large relative to phone width; status and actions stack beneath it. Do not force a tiny wheel beside text or characters.
 
-## R8.33 browser proof
+## R8.34 browser proof
 
 Six visual product states × six viewport conditions = **36/36 pass**.
 
@@ -237,6 +231,8 @@ Every case passed:
 - exactly five league segments;
 - no horizontal overflow;
 - wheel/actions disjoint;
+- status/actions disjoint;
+- exact production Spin and Back selectors present;
 - character `aria-hidden`;
 - character `pointer-events:none`;
 - correct character breakpoint;
@@ -257,7 +253,7 @@ Do not bake:
 - navigation labels;
 - manager names
 
-into the wheel or stadium art.
+into wheel or stadium art.
 
 Image generation remains limited to bounded source art. The real wheel, labels, actions and state remain HTML/CSS/JS/SVG.
 
@@ -277,7 +273,7 @@ The visual track owns presentation only.
 
 Before production integration, CM must re-read then-current:
 
-- `#leagueWheel` / `.wheelTrack` DOM;
+- `#leagueWheelScreen` / `#leagueWheel` / `.wheelTrack` DOM;
 - `js/leagueWheel.js`;
 - save rollback behavior;
 - reduced-motion authority;
@@ -287,4 +283,6 @@ Before production integration, CM must re-read then-current:
 
 The proposal's `window.cm17LeagueProposal.renderState(...)` harness is QA-only and must not ship as an alternate selection engine.
 
-Production `main` remains untouched by R8.33 proposal work.
+No Firebase Rule, provider, storage or backend change is required by this visual contract.
+
+Production `main` remains untouched by R8.34 proposal work.
