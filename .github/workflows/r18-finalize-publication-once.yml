@@ -40,6 +40,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          git fetch origin feat/ssjr-terminal-close-r18
+          git reset --hard origin/feat/ssjr-terminal-close-r18
           git show 6ff7ef5a9b271163a96222683d10875a3e6d9a1e:.github/workflows/r18-finalize-publication-once.yml > .github/workflows/r18-finalize-publication-once.yml
           printf '\n# retriggered after staged terminal-proof budget validation\n' >> .github/workflows/r18-finalize-publication-once.yml
           git config user.name "nikahanghojjati-oss"
