@@ -104,3 +104,5 @@ jobs:
           git add -A
           git commit -m "release: stage r18 Terminal Close publication shell"
           git push origin HEAD:feat/ssjr-terminal-close-r18
+
+# retriggered after keeping Firebase runtime handles opaque
