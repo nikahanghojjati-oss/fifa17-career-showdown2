@@ -52,3 +52,4 @@ jobs:
 
 # diagnostic rerun after placing Terminal Close before legacy rivalry redeem evaluation
 # diagnostic rerun after splitting the atomic session-close authority from the legacy session validator
+# diagnostic rerun after terminal-owned writes are routed exclusively away from legacy fallbacks
