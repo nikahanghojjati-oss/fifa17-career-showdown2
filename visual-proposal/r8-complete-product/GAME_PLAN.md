@@ -28,9 +28,11 @@ Every substantial proposal screen records integration notes as it is built: repr
 
 Reconcile against then-current production contracts per screen. Do not assume a screen contract remains current merely because it was correct at the start of R8.
 
+Current production reconciliation anchor: `35843a13fd1ecfa3e8f1c91ef4c09a06584ba029` / `1.9.1-r18`. The r18 advance adds Terminal Close and deployment-guard work; the Home, League Wheel and Club Assignment DOM roles used by the current visual trio remain present.
+
 ## Current owner visual-reference authority
 
-The owner-supplied cinematic reference family reviewed on 2026-09-10 is classified `REFERENCE_ONLY / OWNER VISUAL-LANGUAGE APPROVED`.
+The owner-supplied cinematic reference family is classified `REFERENCE_ONLY / OWNER VISUAL-LANGUAGE APPROVED`.
 
 They are authoritative for visual ambition and design language, not for product truth. Text, scores, controls, club/league marks, feature availability and manager placement must be reconciled against the live product before implementation.
 
@@ -67,19 +69,19 @@ For a pack/reveal object, contact is acceptable only against a stable exterior f
 | --- | ---: | ---: | --- |
 | Architecture + reference extraction | 15 | 15 | product boundaries, page inventory and visual language mapped |
 | Shared cinematic shell / navigation / design system | 15 | 8 | reusable responsive shell and primitives browser-proven |
-| Club Assignment cinematic rebuild | 15 | 8 | new live theatre, result deck and character integration browser-proven |
+| Club Assignment cinematic rebuild | 15 | 10 | new live theatre, result deck and character integration browser-proven |
 | Remaining core-screen rebuild | 25 | 4 | required product screens assembled in the new system |
 | Daniel/Nik + environmental source assets | 10 | 4 | accepted reusable expression/pose masters integrated |
 | Deterministic Club Identity system | 8 | 4 | real catalog validated, rendered and owner-reviewed |
-| Responsive/accessibility/motion/SFX/browser QA | 7 | 5 | target viewport/state matrices pass |
+| Responsive/accessibility/motion/SFX/browser QA | 7 | 6 | target viewport/state matrices pass |
 | Final owner-review package | 5 | 0 | complete proposal rendered and presented together |
-| **TOTAL** | **100** | **48** | |
+| **TOTAL** | **100** | **51** | |
 
 ## Active build phase
 
-`GAME PLAN 48 / 100`
+`GAME PLAN 51 / 100`
 
-R8.33 establishes the first two **reference-faithful** browser consumers rather than continuing the lower-fidelity R8.32 shell as the ceiling.
+R8.33 now has a three-screen **reference-faithful owner-review set**: Home, Select League and Club Assignment. These are real browser consumers rather than generated webpage pictures.
 
 ### Home
 
@@ -89,7 +91,7 @@ Current consumer:
 - `prototypes/r8-33-home-reference-faithful.css`
 - proof: `evidence/HOME_REFERENCE_FAITHFUL_R8_33_BROWSER_PROOF_2026-09-10.md`
 
-Home now reproduces the owner reference's large A02/A01 manager staging, CM17 crown/nav identity, object-rich six-button dock, selected-gold treatment, soundtrack card and stadium composition as real HTML/CSS/SVG. Two Home modes across six viewport conditions passed: **12/12**.
+Home reproduces the owner reference's large A02/A01 manager staging, CM17 crown/nav identity, object-rich six-button dock, selected-gold treatment, soundtrack card and stadium composition as real HTML/CSS/SVG. Two Home modes across six viewport conditions passed: **12/12**.
 
 ### League Wheel
 
@@ -99,22 +101,24 @@ Current consumer:
 - `prototypes/r8-33-league-wheel-reference-faithful.css`
 - proof: `evidence/LEAGUE_WHEEL_REFERENCE_FAITHFUL_R8_33_BROWSER_PROOF_2026-09-10.md`
 
-League Wheel now uses a real five-segment DOM/CSS wheel, original non-official league glyphs, stable crown hub/rim, large A02/A01 manager staging on wide desktop, reference-like title/quote/action hierarchy and production-aligned state text. Six states across six viewport conditions passed: **36/36**. An initial wheel/control collision detected at short desktop was corrected before proof was accepted.
+League Wheel uses a real five-segment DOM/CSS wheel, original non-official league glyphs, stable crown hub/rim, large A02/A01 manager staging on wide desktop, reference-like title/quote/action hierarchy and production-aligned state text. Six states across six viewport conditions passed: **36/36**. An initial wheel/control collision detected at short desktop was corrected before proof was accepted.
 
 ### Club Assignment
 
-Cinematic consumer remains:
+Current reference-faithful consumer:
 
-- `prototypes/04d-club-assignment-cinematic-r8-32.html`
-- proof: `evidence/CLUB_ASSIGNMENT_CINEMATIC_R8_32_BROWSER_PROOF_2026-09-10.md`
+- `prototypes/04e-club-assignment-reference-faithful-r8-33.html`
+- proof: `evidence/CLUB_ASSIGNMENT_REFERENCE_FAITHFUL_R8_33_BROWSER_PROOF_2026-09-11.md`
 
-Its production-state semantics remain valid, but a future R8.33 visual-fidelity refinement may bring the current cinematic DOM pack theatre closer to the owner's newest Club Assignment reference without replacing the real reveal state machine.
+R8.33 brings the real-browser presentation toward the owner's two-manager pack theatre: large Daniel/Nik framing, 01–05 progress rail, two DOM-owned pack surfaces, central rivalry VS, lower permanent-club lock deck and gold Open/Confirm hierarchy. The four-view responsive geometry matrix passes with no horizontal overflow and no pack/action overlap.
+
+The existing production reveal authority remains the six-state sequence proven by predecessor consumers. The current visual limitation is explicit: the reusable Daniel/Nik masters reproduce scale, placement and lighting but do not yet literally grip the DOM packs. If the owner requires that exact contact after review, it becomes a bounded isolated character-source ticket, not a full-screen generation task.
 
 ## Current operation
 
-Build **Create Showdown** as the next reference-faithful consumer after re-reading its current r17 production contract, then continue through the remaining major career surfaces.
+**Owner review of the R8.33 Home / Select League / Club Assignment replica trio.** Incorporate bounded corrections without lowering the reference-fidelity target, then build Create Showdown as the next reference-faithful consumer.
 
-In parallel, treat the two remaining cross-screen fidelity gaps as bounded refinements rather than reasons to flatten the UI:
+In parallel, the two remaining cross-screen fidelity gaps remain bounded refinements rather than reasons to flatten the UI:
 
 1. improve the original stadium/environment source layer beyond the current procedural CSS without baking UI/characters into it;
 2. improve the fixed CM17/hero brush-letter treatment with an original zero-dollar/offline-safe asset or vector treatment while keeping live changing labels as DOM text.
