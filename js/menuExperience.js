@@ -257,7 +257,6 @@ function ensureMarcoReusTreatment(){
     menuExperienceUI = null;
     cacheMenuExperienceUI();
 }
-
 function refreshMainMenuExperience(){
     const ui = getMenuExperienceUI();
     if(!ui.continueButton){ return; }
@@ -281,270 +280,403 @@ function sendMenuMediaCommand(command){
         event: "command",
         func: command,
         args: []
-    }), "*");
+    }), "https://www.youtube-nocookie.com");
 }
 
-function updateMediaSelectionButtons(){
-    const ui = getMenuExperienceUI();
-    ui.sourceButtons.forEach((button, key) => {
-        const selected = key === selectedMenuMediaKey;
-        button.classList.toggle("selected", selected);
-        button.setAttribute("aria-pressed", String(selected));
-    });
-}
-
-function updateMenuMediaCopy(){
-    const ui = getMenuExperienceUI();
-    const media = getSelectedMenuMedia();
-    setTextIfChanged(ui.mediaCategory, media.category);
-    setTextIfChanged(ui.mediaTitle, media.title);
-    setTextIfChanged(ui.mediaSubtitle, media.subtitle);
-    ui.mediaTile.dataset.mediaType = media.type;
-}
-
-function refreshMenuMediaControls(){
-    const ui = getMenuExperienceUI();
-    const media = getSelectedMenuMedia();
-    updateMediaSelectionButtons();
-    updateMenuMediaCopy();
-
-    const isSelectedMediaLoaded = loadedMenuMediaKey === selectedMenuMediaKey && Boolean(menuMediaIframe);
-    if(ui.mediaToggle){
-        ui.mediaToggle.disabled = false;
-        setTextIfChanged(ui.mediaToggle, isSelectedMediaLoaded && menuMediaPlaying ? "PAUSE" : (isSelectedMediaLoaded ? "PLAY" : (media.type === "video" ? "LOAD VIDEO" : "PLAY TRACK")));
-    }
-    if(ui.mediaMute){
-        ui.mediaMute.disabled = !isSelectedMediaLoaded;
-        setTextIfChanged(ui.mediaMute, menuMediaMuted ? "UNMUTE" : "MUTE");
-    }
-
-    if(!isSelectedMediaLoaded && ui.mediaStatus){
-        setTextIfChanged(ui.mediaStatus, `${media.title} · LOADS ONLY WHEN YOU PRESS PLAY`);
-    }
-}
-
-function clearMenuMediaTimer(){
+function clearMenuMediaLoadTimer(){
     if(menuMediaLoadTimer){
-        clearTimeout(menuMediaLoadTimer);
+        window.clearTimeout(menuMediaLoadTimer);
         menuMediaLoadTimer = null;
     }
 }
 
-function unloadMenuMedia(){
-    clearMenuMediaTimer();
-    if(menuMediaIframe){
-        menuMediaIframe.remove();
-        menuMediaIframe = null;
-    }
-    loadedMenuMediaKey = null;
-    menuMediaPlaying = false;
-    menuMediaMuted = false;
-    const ui = getMenuExperienceUI();
-    if(ui.mediaHost){
-        ui.mediaHost.replaceChildren();
-        const placeholder = document.createElement("p");
-        placeholder.className = "menuMusicPlaceholder";
-        placeholder.textContent = "Selected FIFA 17 media stays unloaded until you press Play, keeping startup light.";
-        ui.mediaHost.appendChild(placeholder);
-    }
-    refreshMenuMediaControls();
-}
+function renderMenuMediaPlaceholder(){
+    const host = getMenuExperienceUI().mediaHost;
+    if(!host || menuMediaIframe){ return; }
 
-function loadSelectedMenuMedia(){
-    const ui = getMenuExperienceUI();
-    const media = getSelectedMenuMedia();
-    if(!ui.mediaHost){ return false; }
-
-    if(menuMediaIframe && loadedMenuMediaKey === selectedMenuMediaKey){
-        return true;
-    }
-
-    unloadMenuMedia();
-    ui.mediaHost.replaceChildren();
-    const loading = document.createElement("p");
-    loading.className = "menuMusicPlaceholder";
-    loading.textContent = `Loading ${media.title} from YouTube...`;
-    ui.mediaHost.appendChild(loading);
-
-    const iframe = document.createElement("iframe");
-    iframe.src = `https://www.youtube-nocookie.com/embed/${media.videoId}?enablejsapi=1&playsinline=1&rel=0&modestbranding=1&autoplay=1`;
-    iframe.title = media.iframeTitle;
-    iframe.allow = "autoplay; encrypted-media; picture-in-picture";
-    iframe.loading = "lazy";
-    iframe.referrerPolicy = "strict-origin-when-cross-origin";
-    iframe.allowFullscreen = true;
-
-    iframe.addEventListener("load", () => {
-        if(iframe !== menuMediaIframe){ return; }
-        clearMenuMediaTimer();
-        menuMediaPlaying = true;
-        setTextIfChanged(ui.mediaStatus, `${media.title} · PLAYING FROM YOUTUBE`);
-        refreshMenuMediaControls();
-    });
-    iframe.addEventListener("error", () => {
-        if(iframe !== menuMediaIframe){ return; }
-        clearMenuMediaTimer();
-        unloadMenuMedia();
-        setTextIfChanged(ui.mediaStatus, `${media.title} · YOUTUBE IS CURRENTLY UNAVAILABLE`);
-    });
-
-    menuMediaIframe = iframe;
-    loadedMenuMediaKey = selectedMenuMediaKey;
-    ui.mediaHost.replaceChildren(iframe);
-    menuMediaLoadTimer = setTimeout(() => {
-        if(iframe === menuMediaIframe && !menuMediaPlaying){
-            setTextIfChanged(ui.mediaStatus, `${media.title} · STILL CONNECTING TO YOUTUBE`);
-        }
-    }, MENU_MEDIA_LOAD_TIMEOUT_MS);
-    refreshMenuMediaControls();
-    return true;
-}
-
-function toggleMenuMedia(){
-    if(!menuMediaIframe || loadedMenuMediaKey !== selectedMenuMediaKey){
-        loadSelectedMenuMedia();
+    if(host.querySelector(".menuMusicPlaceholder")){
         return;
     }
-    if(menuMediaPlaying){
-        sendMenuMediaCommand("pauseVideo");
-        menuMediaPlaying = false;
-        setTextIfChanged(getMenuExperienceUI().mediaStatus, `${getSelectedMenuMedia().title} · PAUSED`);
-    }else{
-        sendMenuMediaCommand("playVideo");
-        menuMediaPlaying = true;
-        setTextIfChanged(getMenuExperienceUI().mediaStatus, `${getSelectedMenuMedia().title} · PLAYING FROM YOUTUBE`);
-    }
-    refreshMenuMediaControls();
+
+    host.replaceChildren();
+    const placeholder = document.createElement("p");
+    placeholder.className = "menuMusicPlaceholder";
+    placeholder.textContent = "Selected FIFA 17 media stays unloaded until Play, keeping startup fast.";
+    host.appendChild(placeholder);
 }
 
-function toggleMenuMediaMute(){
-    if(!menuMediaIframe || loadedMenuMediaKey !== selectedMenuMediaKey){ return; }
-    sendMenuMediaCommand(menuMediaMuted ? "unMute" : "mute");
-    menuMediaMuted = !menuMediaMuted;
-    refreshMenuMediaControls();
+function destroyMenuMediaIframe(){
+    const ui = getMenuExperienceUI();
+    clearMenuMediaLoadTimer();
+
+    if(menuMediaIframe){
+        try{ sendMenuMediaCommand("pauseVideo"); }catch(error){ /* iframe may already be detached */ }
+        menuMediaIframe.remove();
+    }
+
+    menuMediaIframe = null;
+    loadedMenuMediaKey = null;
+    if(ui.mediaTile){ delete ui.mediaTile.dataset.mediaLoaded; }
+    renderMenuMediaPlaceholder();
+}
+
+function handleMenuMediaLoadError(iframe, message = "The selected YouTube media could not be loaded. Choose another track or try again."){
+    if(menuMediaIframe !== iframe){ return; }
+    menuMediaPlaying = false;
+    destroyMenuMediaIframe();
+    updateMenuMediaControls();
+    if(typeof window.showAppNotice === "function"){
+        window.showAppNotice(message, "error", 7000);
+    }
+}
+
+function updateMenuMediaHeader(){
+    const media = getSelectedMenuMedia();
+    const ui = getMenuExperienceUI();
+
+    setTextIfChanged(ui.mediaCategory, media.category);
+    setTextIfChanged(ui.mediaTitle, media.title);
+    setTextIfChanged(ui.mediaSubtitle, media.subtitle);
+    if(ui.mediaTile && ui.mediaTile.dataset.mediaKind !== media.type){
+        ui.mediaTile.dataset.mediaKind = media.type;
+    }
+
+    ui.sourceButtons.forEach((button, key) => {
+        const selected = key === media.key;
+        if(button.classList.contains("selected") !== selected){
+            button.classList.toggle("selected", selected);
+        }
+        if(button.getAttribute("aria-pressed") !== String(selected)){
+            button.setAttribute("aria-pressed", String(selected));
+        }
+    });
+}
+
+function updateMenuMediaControls(){
+    const media = getSelectedMenuMedia();
+    const ui = getMenuExperienceUI();
+    const playLabel = media.type === "video" ? "PLAY TRAILER" : "PLAY TRACK";
+    const pauseLabel = media.type === "video" ? "PAUSE TRAILER" : "PAUSE TRACK";
+
+    setTextIfChanged(ui.mediaToggle, menuMediaPlaying ? pauseLabel : playLabel);
+
+    if(ui.mediaMute){
+        const shouldDisable = !menuMediaIframe;
+        if(ui.mediaMute.disabled !== shouldDisable){ ui.mediaMute.disabled = shouldDisable; }
+        setTextIfChanged(ui.mediaMute, menuMediaMuted ? "UNMUTE" : "MUTE");
+    }
+
+    if(ui.mediaStatus){
+        if(!menuMediaIframe){
+            setTextIfChanged(ui.mediaStatus, `${media.title} · LOADS ONLY WHEN YOU PRESS PLAY`);
+        }else if(menuMediaPlaying){
+            setTextIfChanged(ui.mediaStatus, menuMediaMuted ? "PLAYING · MUTED" : "PLAYING");
+        }else{
+            setTextIfChanged(ui.mediaStatus, "PAUSED");
+        }
+    }
+}
+
+function ensureMenuMediaSelector(){
+    if(document.getElementById("menuMediaSelector")){ return; }
+
+    const host = document.getElementById("menuMusicPlayer");
+    if(!host || !host.parentNode){ return; }
+
+    const selector = document.createElement("div");
+    selector.id = "menuMediaSelector";
+    selector.className = "menuMediaSelector";
+    selector.setAttribute("role", "group");
+    selector.setAttribute("aria-label", "Choose FIFA 17 soundtrack or trailer");
+
+    Object.values(MENU_MEDIA_SOURCES).forEach(media => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "menuMediaChoice";
+        button.dataset.menuMediaSource = media.key;
+        button.setAttribute("aria-pressed", "false");
+
+        const title = document.createElement("strong");
+        title.textContent = media.selectorTitle;
+        const meta = document.createElement("small");
+        meta.textContent = media.selectorMeta;
+        button.append(title, meta);
+        selector.appendChild(button);
+    });
+
+    selector.addEventListener("click", event => {
+        const button = event.target instanceof Element
+            ? event.target.closest("[data-menu-media-source]")
+            : null;
+        if(button && selector.contains(button)){
+            selectMenuMedia(button.dataset.menuMediaSource);
+        }
+    });
+
+    host.parentNode.insertBefore(selector, host);
+    menuExperienceUI = null;
+    cacheMenuExperienceUI();
+}
+
+function createMenuMediaIframe(){
+    if(menuMediaIframe && loadedMenuMediaKey === selectedMenuMediaKey){
+        return menuMediaIframe;
+    }
+    if(menuMediaIframe){ destroyMenuMediaIframe(); }
+
+    const ui = getMenuExperienceUI();
+    const host = ui.mediaHost;
+    if(!host){ return null; }
+
+    const media = getSelectedMenuMedia();
+    host.replaceChildren();
+
+    const iframe = document.createElement("iframe");
+    const origin = encodeURIComponent(window.location.origin);
+    iframe.title = media.iframeTitle;
+    iframe.src = `https://www.youtube-nocookie.com/embed/${media.videoId}?autoplay=1&enablejsapi=1&playsinline=1&rel=0&modestbranding=1&origin=${origin}`;
+    iframe.allow = "autoplay; encrypted-media; picture-in-picture";
+    iframe.referrerPolicy = "strict-origin-when-cross-origin";
+    iframe.allowFullscreen = media.type === "video";
+
+    loadedMenuMediaKey = selectedMenuMediaKey;
+    menuMediaIframe = iframe;
+    if(ui.mediaTile){ ui.mediaTile.dataset.mediaLoaded = "true"; }
+
+    menuMediaLoadTimer = window.setTimeout(() => {
+        handleMenuMediaLoadError(
+            iframe,
+            "The selected YouTube media took too long to load and was released. Press Play to try again."
+        );
+    }, MENU_MEDIA_LOAD_TIMEOUT_MS);
+
+    iframe.addEventListener("load", () => {
+        if(menuMediaIframe !== iframe || loadedMenuMediaKey !== selectedMenuMediaKey){ return; }
+        clearMenuMediaLoadTimer();
+        if(menuMediaPlaying){ sendMenuMediaCommand("playVideo"); }
+        if(menuMediaMuted){ sendMenuMediaCommand("mute"); }
+    }, { once: true });
+    iframe.addEventListener("error", () => handleMenuMediaLoadError(iframe), { once: true });
+
+    host.appendChild(iframe);
+    return iframe;
 }
 
 function selectMenuMedia(key){
     if(!MENU_MEDIA_SOURCES[key] || key === selectedMenuMediaKey){ return; }
+
+    const resumePlayback = menuMediaPlaying;
+    destroyMenuMediaIframe();
     selectedMenuMediaKey = key;
-    unloadMenuMedia();
-    refreshMenuMediaControls();
-}
+    menuMediaPlaying = false;
+    updateMenuMediaHeader();
 
-function canUseFeedbackSound(){
-    if(document.hidden){ return false; }
-    if(window.CareerModePreferences && typeof window.CareerModePreferences.isSoundEnabled === "function"){
-        return window.CareerModePreferences.isSoundEnabled();
+    if(resumePlayback){
+        menuMediaPlaying = true;
+        if(!createMenuMediaIframe()){ menuMediaPlaying = false; }
     }
-    return true;
+    updateMenuMediaControls();
+}
+function toggleMenuMusic(){
+    if(!menuMediaIframe){
+        menuMediaPlaying = true;
+        if(!createMenuMediaIframe()){ menuMediaPlaying = false; }
+        updateMenuMediaControls();
+        return;
+    }
+
+    menuMediaPlaying = !menuMediaPlaying;
+    sendMenuMediaCommand(menuMediaPlaying ? "playVideo" : "pauseVideo");
+    updateMenuMediaControls();
 }
 
-function markMenuFeedbackInteraction(){
-    menuFeedbackInteractionPending = true;
-    menuFeedbackInteractionAt = performance.now();
+function toggleMenuMusicMute(){
+    if(!menuMediaIframe){ return; }
+    menuMediaMuted = !menuMediaMuted;
+    sendMenuMediaCommand(menuMediaMuted ? "mute" : "unMute");
+    updateMenuMediaControls();
 }
 
-function consumeMenuFeedbackInteraction(){
-    const fresh = menuFeedbackInteractionPending
-        && performance.now() - menuFeedbackInteractionAt <= MENU_FEEDBACK_INTERACTION_WINDOW_MS;
-    menuFeedbackInteractionPending = false;
-    return fresh;
+function handleMainMenuExit(){
+    const media = getSelectedMenuMedia();
+    if(media.type !== "video" || !menuMediaIframe){ return; }
+
+    menuMediaPlaying = false;
+    destroyMenuMediaIframe();
+    updateMenuMediaControls();
 }
 
-async function warmMenuFeedback(){
-    if(!canUseFeedbackSound()){ return false; }
-    if(menuFeedbackWarmPromise){ return menuFeedbackWarmPromise; }
-    menuFeedbackWarmPromise = (async () => {
-        if(typeof window.loadRuntimeScript !== "function"){ return false; }
-        const module = await window.loadRuntimeScript("menu-feedback", "js/menuFeedback.js", () => window.CareerModeMenuFeedback);
-        if(module && typeof module.warm === "function"){
-            return module.warm();
-        }
+function isMenuMediaPlaying(){
+    return Boolean(menuMediaPlaying);
+}
+
+function getMenuFeedbackInteractionClock(){
+    return typeof performance !== "undefined" && typeof performance.now === "function"
+        ? performance.now()
+        : Date.now();
+}
+function isMenuFeedbackInteractionTarget(target){
+    const button = target instanceof Element ? target.closest("button") : null;
+    if(
+        !button
+        || button.disabled
+        || button.getAttribute("aria-disabled") === "true"
+        || !button.matches(".menuTile,.menuButton,.backButton,.compactButton")
+    ){
         return false;
-    })().catch(() => false).finally(() => {
+    }
+    return !button.matches(".dangerButton,#menuMusicToggle,#menuMusicMute,[data-menu-media-source]");
+}
+
+function warmMenuFeedbackModule(){
+    if(menuFeedbackWarmPromise || typeof window.ensureMenuFeedbackModule !== "function"){
+        return menuFeedbackWarmPromise;
+    }
+    menuFeedbackWarmPromise = window.ensureMenuFeedbackModule().catch(() => {
         menuFeedbackWarmPromise = null;
+        /* Optional audio support never blocks or surfaces over navigation. */
     });
     return menuFeedbackWarmPromise;
 }
 
-function playMenuFeedback(kind){
-    if(!canUseFeedbackSound() || !consumeMenuFeedbackInteraction()){ return; }
-    warmMenuFeedback().then(moduleReady => {
-        if(!moduleReady || !window.CareerModeMenuFeedback || typeof window.CareerModeMenuFeedback.play !== "function"){ return; }
-        window.CareerModeMenuFeedback.play(kind);
-    }).catch(() => {});
+function warmMenuFeedbackFromIntent(event){
+    if(
+        !isMenuFeedbackInteractionTarget(event.target)
+        || menuMediaPlaying
+        || (typeof window.isMenuFeedbackEnabled === "function" && !window.isMenuFeedbackEnabled())
+    ){
+        return;
+    }
+    warmMenuFeedbackModule();
 }
 
-function getMenuFeedbackKind(target){
-    if(!target){ return "select"; }
-    if(target.id === "newShowdown"){ return "launch"; }
-    if(target.id === "continueCareer"){ return "continue"; }
-    if(target.matches("[data-menu-media-source]")){ return "switch"; }
-    if(target.id === "menuMusicToggle" || target.id === "menuMusicMute"){ return "media"; }
-    return "select";
+function recordMenuFeedbackInteraction(event){
+    if(
+        !isMenuFeedbackInteractionTarget(event.target)
+        || menuMediaPlaying
+        || (typeof window.isMenuFeedbackEnabled === "function" && !window.isMenuFeedbackEnabled())
+    ){
+        return;
+    }
+    menuFeedbackInteractionPending = true;
+    menuFeedbackInteractionAt = getMenuFeedbackInteractionClock();
+    warmMenuFeedbackModule();
 }
 
-function scheduleMarcoReusLoad(){
-    if(reusImageLoadScheduled){ return; }
-    reusImageLoadScheduled = true;
-    const schedule = window.requestIdleCallback || (callback => setTimeout(callback, 900));
-    schedule(() => {
-        const ui = getMenuExperienceUI();
-        if(!ui.reusImage || ui.reusImage.dataset.loaded === "true" || reusImageAttempts >= MAX_REUS_IMAGE_ATTEMPTS){ return; }
-        reusImageAttempts += 1;
-        ui.reusImage.src = MARCO_REUS_IMAGE.thumbnail;
-    });
+function consumeMenuFeedbackCue(){
+    if(!menuFeedbackInteractionPending){
+        return false;
+    }
+    menuFeedbackInteractionPending = false;
+    if(
+        getMenuFeedbackInteractionClock() - menuFeedbackInteractionAt > MENU_FEEDBACK_INTERACTION_WINDOW_MS
+        || menuMediaPlaying
+        || (typeof window.isMenuFeedbackEnabled === "function" && !window.isMenuFeedbackEnabled())
+    ){
+        return false;
+    }
+    if(typeof window.playMenuFeedbackCue === "function"){
+        return window.playMenuFeedbackCue();
+    }
+    warmMenuFeedbackModule();
+    return false;
+}
+
+function bindMenuFeedbackInteraction(){
+    if(menuFeedbackInteractionBound){
+        return;
+    }
+    menuFeedbackInteractionBound = true;
+    window.addEventListener("pointerover", warmMenuFeedbackFromIntent, true);
+    window.addEventListener("pointerdown", warmMenuFeedbackFromIntent, true);
+    window.addEventListener("focusin", warmMenuFeedbackFromIntent, true);
+    window.addEventListener("click", recordMenuFeedbackInteraction, true);
 }
 
 function bindMenuMediaControls(){
-    const ui = getMenuExperienceUI();
-    if(ui.mediaToggle){
-        ui.mediaToggle.addEventListener("click", toggleMenuMedia);
+    const mediaToggle = document.getElementById("menuMusicToggle");
+    const mediaMute = document.getElementById("menuMusicMute");
+
+    if(mediaToggle && mediaToggle.dataset.musicBound !== "true"){
+        mediaToggle.dataset.musicBound = "true";
+        mediaToggle.addEventListener("click", toggleMenuMusic);
     }
-    if(ui.mediaMute){
-        ui.mediaMute.addEventListener("click", toggleMenuMediaMute);
+    if(mediaMute && mediaMute.dataset.musicBound !== "true"){
+        mediaMute.dataset.musicBound = "true";
+        mediaMute.addEventListener("click", toggleMenuMusicMute);
     }
-    ui.sourceButtons.forEach(button => {
-        button.addEventListener("click", () => selectMenuMedia(button.dataset.menuMediaSource));
-    });
-    refreshMenuMediaControls();
 }
 
-function bindMenuFeedback(){
-    if(menuFeedbackInteractionBound){ return; }
-    menuFeedbackInteractionBound = true;
-    document.addEventListener("pointerdown", event => {
-        const target = event.target && event.target.closest ? event.target.closest("button") : null;
-        if(!target){ return; }
-        markMenuFeedbackInteraction();
-        warmMenuFeedback();
-    }, { capture: true, passive: true });
-    document.addEventListener("keydown", event => {
-        if(event.key !== "Enter" && event.key !== " "){ return; }
-        const target = event.target && event.target.closest ? event.target.closest("button") : null;
-        if(!target){ return; }
-        markMenuFeedbackInteraction();
-        warmMenuFeedback();
-    }, true);
-    document.addEventListener("click", event => {
-        const target = event.target && event.target.closest ? event.target.closest("button") : null;
-        if(!target){ return; }
-        playMenuFeedback(getMenuFeedbackKind(target));
-    }, true);
+function decorateMainMenuTiles(){
+    createTileContent(
+        document.getElementById("newShowdown"),
+        "NEW",
+        "NEW SHOWDOWN",
+        "Create a new rivalry and draw your league"
+    );
+    createTileContent(
+        document.getElementById("legacyButton"),
+        "HISTORY",
+        "LEGACY",
+        "Completed rivalries and season history"
+    );
+    createTileContent(
+        document.getElementById("careerStatisticsButton"),
+        "DATA",
+        "STATISTICS",
+        "Career totals, manager comparison and honours"
+    );
+    createTileContent(
+        document.getElementById("ruleBookButton"),
+        "RULES",
+        "RULE BOOK",
+        "Competition rules, scoring and transfer challenge"
+    );
+}
+
+function getMenuExperienceIntegrity(){
+    const choices = Array.from(document.querySelectorAll("[data-menu-media-source]"));
+    const expectedKeys = Object.keys(MENU_MEDIA_SOURCES).sort();
+    const actualKeys = choices.map(button => button.dataset.menuMediaSource).sort();
+    const toggle = document.getElementById("menuMusicToggle");
+    const mute = document.getElementById("menuMusicMute");
+
+    return {
+        selectorReady: Boolean(document.getElementById("menuMediaSelector")),
+        mediaChoicesReady: actualKeys.join("|") === expectedKeys.join("|"),
+        toggleBound: Boolean(toggle && toggle.dataset.musicBound === "true"),
+        muteBound: Boolean(mute && mute.dataset.musicBound === "true"),
+        feedbackBound: menuFeedbackInteractionBound
+    };
 }
 
 function initializeMenuExperience(){
+    decorateMainMenuTiles();
+    ensureMenuMediaSelector();
     ensureMarcoReusTreatment();
+    cacheMenuExperienceUI();
     refreshMainMenuExperience();
+    renderMenuMediaPlaceholder();
+    updateMenuMediaHeader();
     bindMenuMediaControls();
-    bindMenuFeedback();
-    scheduleMarcoReusLoad();
+    bindMenuFeedbackInteraction();
+    updateMenuMediaControls();
+
+    const integrity = getMenuExperienceIntegrity();
+    if(!integrity.selectorReady || !integrity.mediaChoicesReady || !integrity.toggleBound || !integrity.muteBound || !integrity.feedbackBound){
+        const missing = Object.entries(integrity)
+            .filter(([, ready]) => !ready)
+            .map(([name]) => name)
+            .join(", ");
+        throw new Error(`Main Menu experience initialization incomplete: ${missing}`);
+    }
+
 }
 
+window.initializeMenuExperience = initializeMenuExperience;
 window.refreshMainMenuExperience = refreshMainMenuExperience;
-
-if(document.readyState === "loading"){
-    document.addEventListener("DOMContentLoaded", initializeMenuExperience, { once: true });
-}else{
-    initializeMenuExperience();
-}
+window.selectMenuMedia = selectMenuMedia;
+window.handleMainMenuExit = handleMainMenuExit;
+window.isMenuMediaPlaying = isMenuMediaPlaying;
+window.consumeMenuFeedbackCue = consumeMenuFeedbackCue;
+window.getMenuExperienceIntegrity = getMenuExperienceIntegrity;
