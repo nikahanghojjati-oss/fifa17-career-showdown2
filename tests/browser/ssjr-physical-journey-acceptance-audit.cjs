@@ -12,6 +12,7 @@ async function loadDirect(browser,physical){
   const url=new URL(baseUrl.href);if(physical){url.searchParams.set("ssjr-acceptance","1");url.searchParams.set("ssjr-physical","1");}
   await page.goto(url.href,{waitUntil:"domcontentloaded"});await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:12000});
   await page.addScriptTag({url:new URL("js/ssjrPhysicalJourneyAcceptance.js",baseUrl).href});
+  await page.evaluate(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.install());
   return {context,page,errors};
 }
 async function launchCase(runtime,physical){const browser=await chromium.launch({executablePath:runtime.executablePath,headless:true,args:runtime.args});try{return {browser,...await loadDirect(browser,physical)};}catch(error){if(browser.isConnected())await browser.close().catch(()=>{});throw error;}}
