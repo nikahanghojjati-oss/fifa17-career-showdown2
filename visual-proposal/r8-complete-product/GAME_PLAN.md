@@ -63,27 +63,31 @@ For a pack/reveal object, contact is acceptable only against a stable exterior f
 | --- | ---: | ---: | --- |
 | Architecture + reference extraction | 15 | 15 | product boundaries, page inventory and visual language mapped |
 | Shared cinematic shell / navigation / design system | 15 | 5 | reusable responsive shell and primitives browser-proven |
-| Club Assignment cinematic rebuild | 15 | 4 | new live theatre, result deck and character integration browser-proven |
+| Club Assignment cinematic rebuild | 15 | 8 | new live theatre, result deck and character integration browser-proven |
 | Remaining core-screen rebuild | 25 | 0 | required product screens assembled in the new system |
 | Daniel/Nik + environmental source assets | 10 | 2 | accepted reusable expression/pose masters integrated |
 | Deterministic Club Identity system | 8 | 4 | real catalog validated, rendered and owner-reviewed |
-| Responsive/accessibility/motion/SFX/browser QA | 7 | 2 | target viewport/state matrices pass |
+| Responsive/accessibility/motion/SFX/browser QA | 7 | 3 | target viewport/state matrices pass |
 | Final owner-review package | 5 | 0 | complete proposal rendered and presented together |
-| **TOTAL** | **100** | **32** | |
+| **TOTAL** | **100** | **37** | |
 
 ## Active build phase
 
-`GAME PLAN 32 / 100`
+`GAME PLAN 37 / 100`
 
-Current operation: consume the new browser-proven cinematic shell in a full Club Assignment rebuild while preserving the current reveal/save contract. Existing B2 work remains predecessor geometry/state safety evidence, not the final visual ceiling.
+Current operation: canonicalize the new cinematic Club Assignment consumer and then extend the browser-proven shell to Create Showdown and League Wheel with fresh production-contract reads.
 
-R8.32 shell foundation: `prototypes/00-cinematic-shell-r8-32.html`.
+Shared shell foundation: `prototypes/00-cinematic-shell-r8-32.html`.
 
-Browser proof: `evidence/CINEMATIC_SHELL_R8_32_BROWSER_PROOF_2026-09-10.md`.
+Shell proof: `evidence/CINEMATIC_SHELL_R8_32_BROWSER_PROOF_2026-09-10.md`.
 
-The shell pass now establishes real top navigation, CSS stadium stage, page-title system, footer identity, buttons/panels, desktop/tablet/mobile breakpoints and non-interactive character slots. Final source art is intentionally withheld until consumer-screen geometry stabilizes.
+Cinematic Club Assignment consumer: `prototypes/04d-club-assignment-cinematic-r8-32.html`.
 
-Club Assignment now replaces the inherited gray reveal presentation while consuming the existing product reveal-state contract. It should use a cinematic sealed-pack theatre, strong VS hierarchy and compact lower locked-rivalry deck without introducing a new draw/reveal authority.
+Club Assignment proof: `evidence/CLUB_ASSIGNMENT_CINEMATIC_R8_32_BROWSER_PROOF_2026-09-10.md` — 24/24 viewport/state combinations pass with no horizontal overflow.
+
+R8.31 B2 remains predecessor geometry/state safety evidence. R8.32 `04d` is the current visual-direction consumer. It preserves the six production reveal states while replacing the inherited gray presentation with a cinematic DOM-owned pack theatre, stronger VS hierarchy and lower locked-rivalry deck.
+
+Final character and stadium source art remain intentionally withheld until consumer-screen geometry and source-ticket authority are stable.
 
 ## Lightweight reporting contract
 
