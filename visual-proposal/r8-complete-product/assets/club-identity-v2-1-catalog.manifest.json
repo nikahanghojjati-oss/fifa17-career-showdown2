@@ -1,7 +1,7 @@
 {
   "schema": "showdown-club-identity-v2.1-catalog-manifest",
   "rendererVersion": "2.1.0",
-  "status": "owner-approved-proposal-catalog-r2-direction-not-production",
+  "status": "architecture-direction-owner-approved-real-deterministic-visual-approval-open-not-production",
   "supportedClubCount": 98,
   "canonicalInput": "clubName",
   "runtimeResearchMetadata": false,
@@ -31,8 +31,10 @@
     "r2PriorityOverridesAuthored": "PASS",
     "r2PriorityLocalPerceptualQA": "PASS",
     "r2LocalAggregateValidator": "OPEN_IN_FILE_CAPABLE_IMPLEMENTATION_ENVIRONMENT",
-    "r2Full98ContactSheet": "DEFERRED_QA_EVIDENCE_NOT_OWNER_BLOCKER",
-    "ownerApproval": "PASS_2026-09-10",
+    "r2Full98DeterministicContactSheet": "REQUIRED_FOR_OWNER_VISUAL_APPROVAL",
+    "ownerArchitectureAndDirectionApproval": "PASS_2026-09-10",
+    "ownerFinalVisualApprovalOfActualDeterministic98": "OPEN",
+    "accidentalImageGeneratorPosterAuthority": "REJECTED",
     "productionImplementation": "BLOCKED_BY_OVERALL_VISUAL_PROPOSAL_FINALITY"
   },
   "productionSafety": {
