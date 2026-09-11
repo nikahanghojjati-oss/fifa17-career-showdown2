@@ -1,0 +1,41 @@
+name: R19 Physical Journey Dev Proof
+
+on:
+  push:
+    branches:
+      - feat/mdp-physical-journey-r19-acceptance
+    paths:
+      - js/ssjrPhysicalJourneyAcceptance.js
+      - js/ssjr.js
+      - scripts/validate-ssjr-physical-journey-evidence.mjs
+      - tests/contracts/ssjr-physical-journey-acceptance-contracts.cjs
+      - tests/browser/ssjr-physical-journey-acceptance-audit.cjs
+      - .github/workflows/r19-physical-journey-dev.yml
+
+permissions:
+  contents: read
+
+jobs:
+  focused:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Deterministic recorder and oracle contracts
+        run: node tests/contracts/ssjr-physical-journey-acceptance-contracts.cjs
+      - name: Browser physical acceptance audit
+        shell: bash
+        run: |
+          set -euo pipefail
+          node tests/support/static-server.cjs > /tmp/cms-r19-server.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for i in $(seq 1 40); do
+            if curl -fsS http://127.0.0.1:4173/ >/dev/null; then break; fi
+            sleep 0.25
+          done
+          CMS_BASE_URL=http://127.0.0.1:4173/ node tests/browser/ssjr-physical-journey-acceptance-audit.cjs
