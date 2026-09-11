@@ -38,34 +38,31 @@
     })();
     const journeyReconnect=(async()=>{
       await multiSeason;
-      await prepare([
-        ["ssjr-journey-reconnect-protocol","js/sharedJourneyReconnect.js","CareerModeSharedJourneyReconnect"]
-      ]);
+      await prepare([["ssjr-journey-reconnect-protocol","js/sharedJourneyReconnect.js","CareerModeSharedJourneyReconnect"]]);
       return install("ssjr-production-journey-reconnect","js/productionSharedJourneyReconnect.js","CareerModeProductionSharedJourneyReconnect");
     })();
     const journeyConflicts=(async()=>{
       await journeyReconnect;
-      await prepare([
-        ["ssjr-journey-conflicts-protocol","js/sharedJourneyConflicts.js","CareerModeSharedJourneyConflicts"]
-      ]);
+      await prepare([["ssjr-journey-conflicts-protocol","js/sharedJourneyConflicts.js","CareerModeSharedJourneyConflicts"]]);
       return install("ssjr-production-journey-conflicts","js/productionSharedJourneyConflicts.js","CareerModeProductionSharedJourneyConflicts");
     })();
     const localReconciliation=(async()=>{
-      await journeyConflicts;
-      await historyConvergence;
-      await prepare([
-        ["ssjr-local-reconciliation-protocol","js/sharedLocalReconciliation.js","CareerModeSharedLocalReconciliation"]
-      ]);
+      await journeyConflicts;await historyConvergence;
+      await prepare([["ssjr-local-reconciliation-protocol","js/sharedLocalReconciliation.js","CareerModeSharedLocalReconciliation"]]);
       return install("ssjr-production-local-reconciliation","js/productionSharedLocalReconciliation.js","CareerModeProductionSharedLocalReconciliation");
     })();
     const finalReconciliation=(async()=>{
-      await localReconciliation;
-      await multiSeason;
-      await historyConvergence;
-      await prepare([
-        ["ssjr-final-reconciliation-protocol","js/sharedFinalReconciliation.js","CareerModeSharedFinalReconciliation"]
-      ]);
+      await localReconciliation;await multiSeason;await historyConvergence;
+      await prepare([["ssjr-final-reconciliation-protocol","js/sharedFinalReconciliation.js","CareerModeSharedFinalReconciliation"]]);
       return install("ssjr-production-final-reconciliation","js/productionSharedFinalReconciliation.js","CareerModeProductionSharedFinalReconciliation");
+    })();
+    const terminalClose=(async()=>{
+      await finalReconciliation;
+      await prepare([
+        ["ssjr-terminal-close-protocol","js/sharedTerminalClose.js","CareerModeSharedTerminalClose"],
+        ["ssjr-terminal-close-provider","js/sparkTerminalClose.js","CareerModeSparkTerminalClose"]
+      ]);
+      return install("ssjr-production-terminal-close","js/productionSharedTerminalClose.js","CareerModeProductionSharedTerminalClose");
     })();
     await Promise.all([
       load("firebase-runtime","js/productionFirebaseRuntime.js",()=>root.CareerModeProductionFirebaseRuntime),
@@ -73,14 +70,7 @@
       install("ssjr-production-guard","js/productionSharedJourneyGuard.js","CareerModeProductionSharedJourneyGuard"),
       install("ssjr-production-career-start","js/productionSharedCareerStart.js","CareerModeProductionSharedCareerStart"),
       install("ssjr-production-season-results","js/productionSharedSeasonResults.js","CareerModeProductionSharedSeasonResults"),
-      seasonCommit,
-      canonicalScoring,
-      historyConvergence,
-      multiSeason,
-      journeyReconnect,
-      journeyConflicts,
-      localReconciliation,
-      finalReconciliation,
+      seasonCommit,canonicalScoring,historyConvergence,multiSeason,journeyReconnect,journeyConflicts,localReconciliation,finalReconciliation,terminalClose,
       (async()=>{await seasonResultsRoute;return install("ssjr-production-transfer-challenge","js/productionSharedTransferChallenge.js","CareerModeProductionSharedTransferChallenge");})()
     ]);
     if(!acceptanceEnabled)return;
@@ -95,10 +85,7 @@
     if(!witnessEnabled&&root.document){
       const recorder=root.document.getElementById("ssjrProductionAcceptanceRecorder");
       const actorPanel=root.document.getElementById("ssjrActorEvidenceV2");
-      if(recorder&&actorPanel){
-        actorPanel.style.cssText="position:static;max-width:100%;max-height:none;overflow:visible;margin:12px 0 0;padding:12px;background:#111;color:#fff;border:1px solid #777;border-radius:8px;font:14px/1.4 system-ui";
-        recorder.append(actorPanel);
-      }
+      if(recorder&&actorPanel){actorPanel.style.cssText="position:static;max-width:100%;max-height:none;overflow:visible;margin:12px 0 0;padding:12px;background:#111;color:#fff;border:1px solid #777;border-radius:8px;font:14px/1.4 system-ui";recorder.append(actorPanel);}
     }
   })().catch(error=>root.console?.warn?.("[Career Mode Showdown] Shared Journey bootstrap unavailable.",error));
 })(typeof window!=="undefined"?window:globalThis);
