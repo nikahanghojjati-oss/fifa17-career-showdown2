@@ -2,10 +2,8 @@ name: R18 Publication Builder Once
 
 on:
   push:
-    branches:
-      - feat/ssjr-terminal-close-r18
-    paths:
-      - .github/workflows/r18-publication-builder-once.yml
+    branches: [feat/ssjr-terminal-close-r18]
+    paths: [.github/workflows/r18-publication-builder-once.yml]
 
 permissions:
   contents: write
@@ -17,112 +15,61 @@ jobs:
     steps:
       - uses: actions/checkout@v5
         with:
-          fetch-depth: 2
+          fetch-depth: 3
       - uses: actions/setup-node@v5
         with:
           node-version: 24
           cache: npm
-      - name: Guard exact predecessor and self-remove helper
+      - name: Guard exact lineage and self-remove helper
         shell: bash
         run: |
           set -euo pipefail
-          test "$(git rev-parse HEAD^)" = "2daec1374c81e7e0e2c1c58facae3ea562c6dae4"
+          test "$(git rev-parse HEAD^)" = "d396981ef217ee4f77a74578ae0668236811de58"
+          test "$(git rev-parse HEAD^^)" = "2daec1374c81e7e0e2c1c58facae3ea562c6dae4"
           git rm .github/workflows/r18-publication-builder-once.yml
-      - name: Register r18 tests and stage coherent whole-shell publication
+      - name: Register r18 and stage coherent whole-shell publication
         shell: bash
         run: |
           set -euo pipefail
           node <<'NODE'
           const fs=require('node:fs');
           const pkg=JSON.parse(fs.readFileSync('package.json','utf8'));
-          const append=(name,commands)=>{
-            let value=pkg.scripts[name]||'';
-            for(const command of commands)if(!value.includes(command))value+=(value?' && ':'')+command;
-            pkg.scripts[name]=value;
-          };
-          const contracts=[
-            'node tests/contracts/shared-terminal-close-contracts.cjs',
-            'node tests/contracts/shared-terminal-close-provider-contracts.cjs',
-            'node tests/contracts/shared-terminal-close-rules-contracts.cjs',
-            'node tests/contracts/shared-terminal-close-production-contracts.cjs'
-          ];
-          append('test:ssjr',contracts);
-          append('test:browser',['node tests/browser/shared-terminal-close-audit.cjs']);
-          append('test:ssjr:browser',['node tests/browser/shared-terminal-close-audit.cjs']);
-          pkg.scripts['test:ssjr:terminal-close']=[...contracts,'node tests/browser/shared-terminal-close-audit.cjs'].join(' && ');
-          fs.writeFileSync('package.json',JSON.stringify(pkg,null,2)+'\n');
-
+          const append=(name,commands)=>{let value=pkg.scripts[name]||'';for(const command of commands)if(!value.includes(command))value+=(value?' && ':'')+command;pkg.scripts[name]=value;};
+          const contracts=['node tests/contracts/shared-terminal-close-contracts.cjs','node tests/contracts/shared-terminal-close-provider-contracts.cjs','node tests/contracts/shared-terminal-close-rules-contracts.cjs','node tests/contracts/shared-terminal-close-production-contracts.cjs'];
+          append('test:ssjr',contracts);append('test:browser',['node tests/browser/shared-terminal-close-audit.cjs']);append('test:ssjr:browser',['node tests/browser/shared-terminal-close-audit.cjs']);pkg.scripts['test:ssjr:terminal-close']=[...contracts,'node tests/browser/shared-terminal-close-audit.cjs'].join(' && ');fs.writeFileSync('package.json',JSON.stringify(pkg,null,2)+'\n');
           const supplemental=JSON.parse(fs.readFileSync('POS20_SUPPLEMENTAL_PRODUCT_TESTS.json','utf8'));
           const additions=[
-            {
-              path:'tests/contracts/shared-terminal-close-contracts.cjs',
-              patterns:['^js/sharedTerminalClose\\.js$','^js/sharedFinalReconciliation\\.js$','^tests/contracts/shared-terminal-close-contracts\\.cjs$','^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$']
-            },
-            {
-              path:'tests/contracts/shared-terminal-close-provider-contracts.cjs',
-              patterns:['^js/sharedTerminalClose\\.js$','^js/sparkTerminalClose\\.js$','^js/sparkPrivateSession\\.js$','^js/sparkStandardAuthPrivateSession\\.js$','^tests/contracts/shared-terminal-close-provider-contracts\\.cjs$','^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$']
-            },
-            {
-              path:'tests/contracts/shared-terminal-close-rules-contracts.cjs',
-              patterns:['^firestore\\.terminal-close-production\\.fragment\\.rules$','^scripts/build-production-firestore-rules\\.mjs$','^\\.github/workflows/deploy-firestore-rules-zero-billing\\.yml$','^tests/contracts/shared-terminal-close-rules-contracts\\.cjs$','^tests/firebase/shared-terminal-close-production-provider-emulator\\.cjs$','^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$']
-            },
-            {
-              path:'tests/contracts/shared-terminal-close-production-contracts.cjs',
-              patterns:['^js/sharedTerminalClose\\.js$','^js/sparkTerminalClose\\.js$','^js/productionSharedTerminalClose\\.js$','^js/productionSharedFinalReconciliation\\.js$','^js/sparkRemoteJoining\\.js$','^js/ssjr\\.js$','^service-worker\\.js$','^tests/contracts/shared-terminal-close-production-contracts\\.cjs$','^tests/browser/shared-terminal-close-audit\\.cjs$','^package\\.json$','^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$']
-            }
+            {path:'tests/contracts/shared-terminal-close-contracts.cjs',patterns:['^js/sharedTerminalClose\\.js$','^js/sharedFinalReconciliation\\.js$','^tests/contracts/shared-terminal-close-contracts\\.cjs$','^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$']},
+            {path:'tests/contracts/shared-terminal-close-provider-contracts.cjs',patterns:['^js/sharedTerminalClose\\.js$','^js/sparkTerminalClose\\.js$','^js/sparkPrivateSession\\.js$','^js/sparkStandardAuthPrivateSession\\.js$','^tests/contracts/shared-terminal-close-provider-contracts\\.cjs$','^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$']},
+            {path:'tests/contracts/shared-terminal-close-rules-contracts.cjs',patterns:['^firestore\\.terminal-close-production\\.fragment\\.rules$','^scripts/build-production-firestore-rules\\.mjs$','^\\.github/workflows/deploy-firestore-rules-zero-billing\\.yml$','^tests/contracts/shared-terminal-close-rules-contracts\\.cjs$','^tests/firebase/shared-terminal-close-production-provider-emulator\\.cjs$','^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$']},
+            {path:'tests/contracts/shared-terminal-close-production-contracts.cjs',patterns:['^js/sharedTerminalClose\\.js$','^js/sparkTerminalClose\\.js$','^js/productionSharedTerminalClose\\.js$','^js/productionSharedFinalReconciliation\\.js$','^js/sparkRemoteJoining\\.js$','^js/ssjr\\.js$','^service-worker\\.js$','^tests/contracts/shared-terminal-close-production-contracts\\.cjs$','^tests/browser/shared-terminal-close-audit\\.cjs$','^package\\.json$','^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$']}
           ];
-          for(const entry of additions)if(!supplemental.tests.some(test=>test.path===entry.path))supplemental.tests.push(entry);
-          fs.writeFileSync('POS20_SUPPLEMENTAL_PRODUCT_TESTS.json',JSON.stringify(supplemental,null,2)+'\n');
-
-          let worker=fs.readFileSync('service-worker.js','utf8');
-          worker=worker.replace('const RUNTIME_REVISION = "1.9.1-r17";','const RUNTIME_REVISION = "1.9.1-r18";').replace('const PREVIOUS_RUNTIME_REVISION = "1.9.1-r16";','const PREVIOUS_RUNTIME_REVISION = "1.9.1-r17";');
-          const seam='    "js/productionSharedFinalReconciliation.js",';
-          const assets=['    "js/sharedTerminalClose.js",','    "js/sparkTerminalClose.js",','    "js/productionSharedTerminalClose.js",'];
-          if(!worker.includes(assets[0]))worker=worker.replace(seam,[seam,...assets].join('\n'));
-          fs.writeFileSync('service-worker.js',worker);
-
-          let app=fs.readFileSync('js/app.js','utf8');
-          app=app.replace('css/visual-fidelity-r3.css?v=1.9.1-r17','css/visual-fidelity-r3.css?v=1.9.1-r18');
-          fs.writeFileSync('js/app.js',app);
-
-          let html=fs.readFileSync('index.html','utf8');
-          html=html.replaceAll('1.9.1-r17','1.9.1-r18');
-          fs.writeFileSync('index.html',html);
-
-          const release=`# Career Mode Showdown v1.9.1 runtime r18
-
-Application version: \`v1.9.1\`
-
-Runtime asset revision: \`1.9.1-r18\`
-
-Previous known-good runtime: \`1.9.1-r17\`
-
-Status: RELEASE CANDIDATE
-
-## Terminal Close
-
-r18 implements the frozen MDP Terminal Close capability after r17 Final Reconciliation. The exact completed rivalry can move from ACTIVE to CLOSED only with one exact unexpired ACTIVE private session, an exact r18 terminal witness derived from r17 Final Reconciliation, the configured SHOWDOWN_CONFIRMED season plan, and every configured season commit already ACKNOWLEDGED.
-
-The provider closes the exact private session and parent rivalry atomically. The terminal witness includes the exact session capability plus accepted revision key, supported season count, fixed clubs, accumulated manager totals and winner. It creates no additional season and does not mutate canonical local Save storage.
-
-Generated Firestore Rules add only a bounded parent-rivalry ACTIVE-to-CLOSED update path. They require the exact session to close in the same atomic write and verify every configured season commit by exact path. Existing list/delete denial remains unchanged, no collection is added, Firebase remains Spark-only, Billing remains permanently OFF, App Check enforcement remains OFF, and no Cloud Run or Cloud Functions dependency exists.
-
-Ambiguous provider outcomes retain only the exact terminal witness in page memory for same-witness retry. A retry first performs an exact terminal read so a lost acknowledgement can converge without a replacement mutation. Once CLOSED is provider-confirmed, the stale page-memory Remote Joining capability is forgotten. Later exact rivalry reads retain terminal results, while new private-session creation and delayed journey writes remain denied by the closed rivalry state.
-
-## Publication boundary
-
-This is a release-candidate shell. Builder and candidate checks are not integration credit. The final exact publication head must pass POS20 and clean review, then merge with expected-head protection. After merge, GitHub Pages, the zero-billing Firestore Rules deployment/readback, exact-main POS20 and both Release Integration Burn-In passes must all succeed before separate MDP accounting may credit Terminal Close.
-
-SSJR-1.1 remains \`0/100\` until genuine production-two-account acceptance evidence is accepted under the frozen SSJR model.
-`;
-          fs.writeFileSync('RELEASE_V1.9.1_R18.md',release);
+          for(const entry of additions)if(!supplemental.tests.some(test=>test.path===entry.path))supplemental.tests.push(entry);fs.writeFileSync('POS20_SUPPLEMENTAL_PRODUCT_TESTS.json',JSON.stringify(supplemental,null,2)+'\n');
+          let worker=fs.readFileSync('service-worker.js','utf8');worker=worker.replace('const RUNTIME_REVISION = "1.9.1-r17";','const RUNTIME_REVISION = "1.9.1-r18";').replace('const PREVIOUS_RUNTIME_REVISION = "1.9.1-r16";','const PREVIOUS_RUNTIME_REVISION = "1.9.1-r17";');const seam='    "js/productionSharedFinalReconciliation.js",';const assets=['    "js/sharedTerminalClose.js",','    "js/sparkTerminalClose.js",','    "js/productionSharedTerminalClose.js",'];if(!worker.includes(assets[0]))worker=worker.replace(seam,[seam,...assets].join('\n'));fs.writeFileSync('service-worker.js',worker);
+          let app=fs.readFileSync('js/app.js','utf8');app=app.replace('css/visual-fidelity-r3.css?v=1.9.1-r17','css/visual-fidelity-r3.css?v=1.9.1-r18');fs.writeFileSync('js/app.js',app);
+          let html=fs.readFileSync('index.html','utf8');html=html.replaceAll('1.9.1-r17','1.9.1-r18');fs.writeFileSync('index.html',html);
+          const release=[
+            '# Career Mode Showdown v1.9.1 runtime r18','',
+            'Application version: `v1.9.1`','',
+            'Runtime asset revision: `1.9.1-r18`','',
+            'Previous known-good runtime: `1.9.1-r17`','',
+            'Status: RELEASE CANDIDATE','',
+            '## Terminal Close','',
+            'r18 implements the frozen MDP Terminal Close capability after r17 Final Reconciliation. The exact completed rivalry can move from ACTIVE to CLOSED only with one exact unexpired ACTIVE private session, an exact r18 terminal witness derived from r17 Final Reconciliation, the configured SHOWDOWN_CONFIRMED season plan, and every configured season commit already ACKNOWLEDGED.','',
+            'The provider closes the exact private session and parent rivalry atomically. The terminal witness includes the exact session capability plus accepted revision key, supported season count, fixed clubs, accumulated manager totals and winner. It creates no additional season and does not mutate canonical local Save storage.','',
+            'Generated Firestore Rules add only a bounded parent-rivalry ACTIVE-to-CLOSED update path. They require the exact session to close in the same atomic write and verify every configured season commit by exact path. Existing list/delete denial remains unchanged, no collection is added, Firebase remains Spark-only, Billing remains permanently OFF, App Check enforcement remains OFF, and no Cloud Run or Cloud Functions dependency exists.','',
+            'Ambiguous provider outcomes retain only the exact terminal witness in page memory for same-witness retry. A retry first performs an exact terminal read so a lost acknowledgement can converge without a replacement mutation. Once CLOSED is provider-confirmed, the stale page-memory Remote Joining capability is forgotten. Later exact rivalry reads retain terminal results, while new private-session creation and delayed journey writes remain denied by the closed rivalry state.','',
+            '## Publication boundary','',
+            'This is a release-candidate shell. Builder and candidate checks are not integration credit. The final exact publication head must pass POS20 and clean review, then merge with expected-head protection. After merge, GitHub Pages, the zero-billing Firestore Rules deployment/readback, exact-main POS20 and both Release Integration Burn-In passes must all succeed before separate MDP accounting may credit Terminal Close.','',
+            'SSJR-1.1 remains `0/100` until genuine production-two-account acceptance evidence is accepted under the frozen SSJR model.',''
+          ].join('\n');fs.writeFileSync('RELEASE_V1.9.1_R18.md',release);
           NODE
           git diff --check
       - name: Install repository dependencies
         run: npm ci
-      - name: Run r18 focused Terminal Close suite
+      - name: Run focused r18 suite
         run: npm run test:ssjr:terminal-close
-      - name: Run all registered deterministic product contracts
+      - name: Run all registered deterministic contracts
         run: npm run test:contracts
       - name: Install pinned Firebase emulator dependencies
         run: npm install --no-save --package-lock=false firebase@12.17.1 @firebase/rules-unit-testing@5.0.1 firebase-admin@14.2.0
@@ -130,7 +77,7 @@ SSJR-1.1 remains \`0/100\` until genuine production-two-account acceptance evide
         run: node scripts/build-production-firestore-rules.mjs
       - name: Run r18 generated-Rules adversarial emulator
         run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-career-mode-showdown-terminal-close-production-builder "node tests/firebase/shared-terminal-close-production-provider-emulator.cjs"
-      - name: Commit proven publication shell and test registration
+      - name: Commit proven r18 publication shell
         shell: bash
         run: |
           set -euo pipefail
