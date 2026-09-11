@@ -1,37 +1,181 @@
 const assert=require("node:assert/strict");
 const {webcrypto}=require("node:crypto");
-const Terminal=require("../../js/sharedTerminalClose.js"),Provider=require("../../js/sparkTerminalClose.js"),Sessions=require("../../js/sparkPrivateSession.js"),StandardSessions=require("../../js/sparkStandardAuthPrivateSession.js");
-const rivalryId="pair_"+("a".repeat(64)),sessionId="session_"+("b".repeat(64)),freshSessionId="session_"+("c".repeat(64));
-const uid1="manager_one",uid2="manager_two",device1="device_"+("1".repeat(32)),device2="device_"+("2".repeat(32)),save1="save_"+("1".repeat(24)),save2="save_"+("2".repeat(24)),profile1="profile_"+("3".repeat(24)),profile2="profile_"+("4".repeat(24));
+const Terminal=require("../../js/sharedTerminalClose.js");
+const Provider=require("../../js/sparkTerminalClose.js");
+const Sessions=require("../../js/sparkPrivateSession.js");
+const StandardSessions=require("../../js/sparkStandardAuthPrivateSession.js");
+
+const rivalryId="pair_"+("a".repeat(64));
+const sessionId="session_"+("b".repeat(64));
+const freshSessionId="session_"+("c".repeat(64));
+const uid1="manager_one";
+const uid2="manager_two";
+const device1="device_"+("1".repeat(32));
+const device2="device_"+("2".repeat(32));
+const save1="save_"+("1".repeat(24));
+const save2="save_"+("2".repeat(24));
+const profile1="profile_"+("3".repeat(24));
+const profile2="profile_"+("4".repeat(24));
 const ts=millis=>({toMillis:()=>millis});
+
 const finalProjection={schemaVersion:1,runtimeRevision:"1.9.1-r17",phase:"FINAL_SEASON_RECONCILED",rivalryId,leagueId:"premier-league",totalSeasons:3,acceptedSeasons:3,completedSeason:3,acceptedRevisionKey:"season:3:revision:19",fixedClubs:{playerOne:"Arsenal",playerTwo:"Chelsea"},managerTotals:{playerOne:11,playerTwo:9},winner:"playerOne",terminal:true,finalSeasonReconciled:true,nextSeason:null,extraSeasonAllowed:false,terminalCloseRequired:true,canonicalStorageMutation:false,providerWriteRequired:false,listPermissionRequired:false,billingRequired:false};
 const intent=Terminal.prepare(finalProjection,{sessionId});
-function clone(value){if(value===undefined)return undefined;const text=JSON.stringify(value,(_key,item)=>item&&typeof item.toMillis==="function"?{__millis:item.toMillis()}:item);return JSON.parse(text,(_key,item)=>item&&Number.isFinite(item.__millis)?ts(item.__millis):item);}
-function canonical(value){if(value===undefined||value===null)return null;if(value&&typeof value.toMillis==="function")return {$timestamp:value.toMillis()};if(Array.isArray(value))return value.map(canonical);if(typeof value==="object"){const out={};for(const key of Object.keys(value).sort())out[key]=canonical(value[key]);return out;}return value;}
+
+function clone(value){
+  if(value===undefined)return undefined;
+  const text=JSON.stringify(value,(_key,item)=>item&&typeof item.toMillis==="function"?{__millis:item.toMillis()}:item);
+  return JSON.parse(text,(_key,item)=>item&&Number.isFinite(item.__millis)?ts(item.__millis):item);
+}
+function canonical(value){
+  if(value===undefined||value===null)return null;
+  if(value&&typeof value.toMillis==="function")return {$timestamp:value.toMillis()};
+  if(Array.isArray(value))return value.map(canonical);
+  if(typeof value==="object"){
+    const out={};
+    for(const key of Object.keys(value).sort())out[key]=canonical(value[key]);
+    return out;
+  }
+  return value;
+}
 function hex(bytes){return Array.from(bytes,value=>value.toString(16).padStart(2,"0")).join("");}
-async function hash(value){const digest=await webcrypto.subtle.digest("SHA-256",new TextEncoder().encode(JSON.stringify(canonical(value))));return `sha256:${hex(new Uint8Array(digest))}`;}
-async function rivalryEnvelope(data,revision=2){return {schemaVersion:1,objectType:"rivalry",objectId:rivalryId,revision,parentRevision:revision?revision-1:null,lifecycleState:"live",contentHash:await hash({objectType:"rivalry",objectId:rivalryId,revision,data}),priorContentHash:revision?`sha256:${"0".repeat(64)}`:null,updatedAt:ts(1_000_000),updatedByAccountId:uid1,updatedByDeviceId:device1,data,tombstone:null};}
-function lightEnvelope(type,id,data){return {schemaVersion:1,objectType:type,objectId:id,revision:0,parentRevision:null,lifecycleState:"live",contentHash:`sha256:${"1".repeat(64)}`,priorContentHash:null,updatedAt:ts(1_000_000),updatedByAccountId:uid1,updatedByDeviceId:device1,data,tombstone:null};}
-function result(overrides={}){return {leaguePosition:2,leaguePoints:80,leagueGoals:70,domesticCup:false,championsLeague:false,topScorer:false,topAssist:false,...overrides};}
-function commit(season,playerOne,playerTwo){return {schemaVersion:1,objectType:"sharedSeasonCommit",rivalryId,seasonNumber:season,runtimeRevision:"1.9.1-r10",phase:"ACKNOWLEDGED",revision:3,results:{playerOne,playerTwo}};}
+async function hash(value){
+  const digest=await webcrypto.subtle.digest("SHA-256",new TextEncoder().encode(JSON.stringify(canonical(value))));
+  return `sha256:${hex(new Uint8Array(digest))}`;
+}
+async function rivalryEnvelope(data,revision=2){
+  return {schemaVersion:1,objectType:"rivalry",objectId:rivalryId,revision,parentRevision:revision?revision-1:null,lifecycleState:"live",contentHash:await hash({objectType:"rivalry",objectId:rivalryId,revision,data}),priorContentHash:revision?`sha256:${"0".repeat(64)}`:null,updatedAt:ts(1_000_000),updatedByAccountId:uid1,updatedByDeviceId:device1,data,tombstone:null};
+}
+function lightEnvelope(type,id,data){
+  return {schemaVersion:1,objectType:type,objectId:id,revision:0,parentRevision:null,lifecycleState:"live",contentHash:`sha256:${"1".repeat(64)}`,priorContentHash:null,updatedAt:ts(1_000_000),updatedByAccountId:uid1,updatedByDeviceId:device1,data,tombstone:null};
+}
+function result(overrides={}){
+  return {leaguePosition:2,leaguePoints:80,leagueGoals:70,domesticCup:false,championsLeague:false,topScorer:false,topAssist:false,...overrides};
+}
+function commit(season,playerOne,playerTwo){
+  return {schemaVersion:1,objectType:"sharedSeasonCommit",rivalryId,seasonNumber:season,runtimeRevision:"1.9.1-r10",phase:"ACKNOWLEDGED",revision:3,results:{playerOne,playerTwo}};
+}
+
 async function harness({expiresAt=9_000_000}={}){
-  const key=(...parts)=>parts.join("/"),store=new Map();store.set(key("accounts",uid1),lightEnvelope("account",uid1,{status:"active"}));store.set(key("accounts",uid2),lightEnvelope("account",uid2,{status:"active"}));store.set(key("accounts",uid1,"devices",device1),lightEnvelope("device",device1,{deviceId:device1,state:"active"}));store.set(key("accounts",uid2,"devices",device2),lightEnvelope("device",device2,{deviceId:device2,state:"active"));
-  const rivalryData={connectionState:"active",connectionStateBeforeDeletion:null,managerSlots:[{slotId:"playerOne",accountId:uid1,profileId:profile1,saveId:save1,displayLabel:"Manager One",entitlementState:"active",deletionConsent:false},{slotId:"playerTwo",accountId:uid2,profileId:profile2,saveId:save2,displayLabel:"Manager Two",entitlementState:"active",deletionConsent:false}],authorizedAccountIds:[uid1,uid2],createdByAccountId:uid1,createdAt:ts(500_000)};store.set(key("rivalries",rivalryId),await rivalryEnvelope(rivalryData));
-  const sessionData={createdAt:ts(700_000),expiresAt:ts(expiresAt),hostAccountId:uid1,lastActivityAt:ts(800_000),memberAccountIds:[uid1,uid2],revokedAt:null,rivalryId,state:"active"};store.set(key("rivalries",rivalryId,"sessions",sessionId),await Sessions.buildEnvelope({sessionId,revision:5,parentRevision:4,priorContentHash:`sha256:${"2".repeat(64)}`,updatedAt:ts(800_000),accountId:uid2,deviceId:device2,data:sessionData,cryptoImpl:webcrypto}));
+  const key=(...parts)=>parts.join("/");
+  const store=new Map();
+
+  store.set(key("accounts",uid1),lightEnvelope("account",uid1,{status:"active"}));
+  store.set(key("accounts",uid2),lightEnvelope("account",uid2,{status:"active"}));
+  store.set(key("accounts",uid1,"devices",device1),lightEnvelope("device",device1,{deviceId:device1,state:"active"}));
+  store.set(key("accounts",uid2,"devices",device2),lightEnvelope("device",device2,{deviceId:device2,state:"active"}));
+
+  const rivalryData={connectionState:"active",connectionStateBeforeDeletion:null,managerSlots:[{slotId:"playerOne",accountId:uid1,profileId:profile1,saveId:save1,displayLabel:"Manager One",entitlementState:"active",deletionConsent:false},{slotId:"playerTwo",accountId:uid2,profileId:profile2,saveId:save2,displayLabel:"Manager Two",entitlementState:"active",deletionConsent:false}],authorizedAccountIds:[uid1,uid2],createdByAccountId:uid1,createdAt:ts(500_000)};
+  store.set(key("rivalries",rivalryId),await rivalryEnvelope(rivalryData));
+
+  const sessionData={createdAt:ts(700_000),expiresAt:ts(expiresAt),hostAccountId:uid1,lastActivityAt:ts(800_000),memberAccountIds:[uid1,uid2],revokedAt:null,rivalryId,state:"active"};
+  store.set(key("rivalries",rivalryId,"sessions",sessionId),await Sessions.buildEnvelope({sessionId,revision:5,parentRevision:4,priorContentHash:`sha256:${"2".repeat(64)}`,updatedAt:ts(800_000),accountId:uid2,deviceId:device2,data:sessionData,cryptoImpl:webcrypto}));
   store.set(key("rivalries",rivalryId,"sharedSetup","authoritative"),{schemaVersion:1,objectType:"sharedSetupLedger",rivalryId,revision:6,phase:"SHOWDOWN_CONFIRMED",totalSeasons:3});
   store.set(key("rivalries",rivalryId,"seasonCommits","season_1"),commit(1,result({championsLeague:true}),result({championsLeague:true})));
   store.set(key("rivalries",rivalryId,"seasonCommits","season_2"),commit(2,result({leaguePosition:1}),result({leaguePosition:1})));
   store.set(key("rivalries",rivalryId,"seasonCommits","season_3"),commit(3,result({leaguePosition:1}),result({domesticCup:true})));
-  const sdk={doc:(_db,...parts)=>key(...parts),Timestamp:{fromMillis:ts},runTransaction:async(_db,callback)=>{const pending=[];const tx={get:async ref=>({exists:()=>store.has(ref),data:()=>clone(store.get(ref))}),set:(ref,value)=>pending.push([ref,clone(value)])};const outcome=await callback(tx);pending.forEach(([ref,value])=>store.set(ref,value));return outcome;}};const options=(who=1,overrides={})=>({user:{uid:who===1?uid1:uid2},firestore:{},firebaseSdk:sdk,rivalryId,sessionId,deviceId:who===1?device1:device2,intent,nowEpochMs:2_000_000,cryptoImpl:webcrypto,...overrides});return {store,key,sdk,options};
+
+  const sdk={
+    doc:(_db,...parts)=>key(...parts),
+    Timestamp:{fromMillis:ts},
+    runTransaction:async(_db,callback)=>{
+      const pending=[];
+      const tx={
+        get:async ref=>({exists:()=>store.has(ref),data:()=>clone(store.get(ref))}),
+        set:(ref,value)=>pending.push([ref,clone(value)])
+      };
+      const outcome=await callback(tx);
+      pending.forEach(([ref,value])=>store.set(ref,value));
+      return outcome;
+    }
+  };
+  const options=(who=1,overrides={})=>({user:{uid:who===1?uid1:uid2},firestore:{},firebaseSdk:sdk,rivalryId,sessionId,deviceId:who===1?device1:device2,intent,nowEpochMs:2_000_000,cryptoImpl:webcrypto,...overrides});
+  return {store,key,sdk,options};
 }
+
 (async()=>{
-  assert.equal(Provider.feature,"ssjr-spark-terminal-close");assert.equal(Provider.runtimeRevision,"1.9.1-r18");assert.equal(Provider.atomicRivalryAndSessionClose,true);assert.equal(Provider.stagedTerminalProof,true);assert.equal(Provider.maxTerminalProofSteps,10);assert.equal(Provider.newCollectionRequired,false);assert.equal(Provider.terminalReadAfterClose,true);assert.equal(Provider.billingRequired,false);assert.equal(Provider.listPermissionRequired,false);assert.equal(Provider.canonicalStorageMutation,false);
-  const h=await harness(),accepted=await Provider.close(h.options(1));assert.equal(accepted.ok,true);assert.equal(accepted.status,"accepted");assert.equal(accepted.sessionId,sessionId);assert.equal(accepted.replayed,false);assert.equal(accepted.rivalryState,"closed");assert.equal(accepted.sessionState,"closed");assert.equal(accepted.rivalryRevision,6);assert.equal(accepted.sessionRevision,6);
-  const rivalry=h.store.get(h.key("rivalries",rivalryId)),session=h.store.get(h.key("rivalries",rivalryId,"sessions",sessionId));assert.equal(rivalry.data.connectionState,"closed");assert.equal(rivalry.data.terminalProgress.acceptedThroughSeason,3);assert.deepEqual(rivalry.data.terminalProgress.managerTotals,{playerOne:11,playerTwo:9});assert.equal(rivalry.data.terminalProgress.closedSessionRevision,6);assert.equal(Terminal.sameWitness(rivalry.data.terminalClose,intent),true);assert.equal(session.data.state,"closed");assert.deepEqual(rivalry.data.authorizedAccountIds,[uid1,uid2]);assert.equal(rivalry.data.managerSlots.every(slot=>slot.entitlementState==="active"),true);
-  const replay=await Provider.close(h.options(2));assert.equal(replay.ok,true);assert.equal(replay.replayed,true);assert.equal(replay.rivalryRevision,6);assert.equal(replay.sessionRevision,6);const terminalRead=await Provider.read({user:{uid:uid2},firestore:{},firebaseSdk:h.sdk,rivalryId,deviceId:device2,cryptoImpl:webcrypto});assert.equal(terminalRead.ok,true);assert.equal(terminalRead.terminal,true);assert.equal(terminalRead.sessionRevision,6);assert.equal(Terminal.sameWitness(terminalRead.terminalWitness,intent),true);
-  const newSession=await StandardSessions.openSession({user:{uid:uid1},firestore:{},firebaseSdk:h.sdk,rivalryId,sessionId:freshSessionId,deviceId:device1,nowEpochMs:2_000_100,ttlMs:60_000,cryptoImpl:webcrypto});assert.equal(newSession.ok,false);assert.equal(newSession.code,"PRIVATE_SESSION_RIVALRY_INACTIVE");assert.equal(h.store.has(h.key("rivalries",rivalryId,"sessions",freshSessionId)),false);
-  const changed=clone(intent);changed.managerTotals.playerOne=12;changed.winner="playerOne";const conflict=await Provider.close(h.options(1,{intent:changed}));assert.equal(conflict.ok,false);assert.equal(conflict.code,"TERMINAL_CLOSE_REPLAY_CONFLICT");const wrongSession=Terminal.prepare(finalProjection,{sessionId:freshSessionId});const mismatch=await Provider.close(h.options(1,{intent:wrongSession}));assert.equal(mismatch.ok,false);assert.equal(mismatch.code,"TERMINAL_CLOSE_SESSION_MISMATCH");
-  const forged=await harness(),forgedProjection={...clone(finalProjection),managerTotals:{playerOne:12,playerTwo:9},winner:"playerOne"},forgedIntent=Terminal.prepare(forgedProjection,{sessionId});const forgedResult=await Provider.close(forged.options(1,{intent:forgedIntent}));assert.equal(forgedResult.ok,false);assert.equal(forgedResult.code,"TERMINAL_CLOSE_FINAL_AUTHORITY_MISMATCH");assert.equal(forged.store.get(forged.key("rivalries",rivalryId)).data.connectionState,"active");assert.deepEqual(forged.store.get(forged.key("rivalries",rivalryId)).data.terminalProgress.managerTotals,{playerOne:11,playerTwo:9});
-  const expired=await harness({expiresAt:1_500_000}),denied=await Provider.close(expired.options(1));assert.equal(denied.ok,false);assert.equal(denied.code,"TERMINAL_CLOSE_SESSION_EXPIRED");assert.equal(expired.store.get(expired.key("rivalries",rivalryId)).data.connectionState,"active");assert.equal(expired.store.get(expired.key("rivalries",rivalryId)).data.terminalProgress.acceptedThroughSeason,3);const revoked=await harness();revoked.store.get(revoked.key("accounts",uid1,"devices",device1)).data.state="revoked";const revokedResult=await Provider.close(revoked.options(1));assert.equal(revokedResult.ok,false);assert.equal(revokedResult.code,"TERMINAL_CLOSE_DEVICE_REVOKED");assert.equal(revoked.store.get(revoked.key("rivalries",rivalryId)).data.connectionState,"active");assert.equal(revoked.store.get(revoked.key("rivalries",rivalryId)).data.terminalProgress,undefined);
+  assert.equal(Provider.feature,"ssjr-spark-terminal-close");
+  assert.equal(Provider.runtimeRevision,"1.9.1-r18");
+  assert.equal(Provider.atomicRivalryAndSessionClose,true);
+  assert.equal(Provider.stagedTerminalProof,true);
+  assert.equal(Provider.maxTerminalProofSteps,10);
+  assert.equal(Provider.newCollectionRequired,false);
+  assert.equal(Provider.terminalReadAfterClose,true);
+  assert.equal(Provider.billingRequired,false);
+  assert.equal(Provider.listPermissionRequired,false);
+  assert.equal(Provider.canonicalStorageMutation,false);
+
+  const h=await harness();
+  const accepted=await Provider.close(h.options(1));
+  assert.equal(accepted.ok,true);
+  assert.equal(accepted.status,"accepted");
+  assert.equal(accepted.sessionId,sessionId);
+  assert.equal(accepted.replayed,false);
+  assert.equal(accepted.rivalryState,"closed");
+  assert.equal(accepted.sessionState,"closed");
+  assert.equal(accepted.rivalryRevision,6);
+  assert.equal(accepted.sessionRevision,6);
+
+  const rivalry=h.store.get(h.key("rivalries",rivalryId));
+  const session=h.store.get(h.key("rivalries",rivalryId,"sessions",sessionId));
+  assert.equal(rivalry.data.connectionState,"closed");
+  assert.equal(rivalry.data.terminalProgress.acceptedThroughSeason,3);
+  assert.deepEqual(rivalry.data.terminalProgress.managerTotals,{playerOne:11,playerTwo:9});
+  assert.equal(rivalry.data.terminalProgress.closedSessionRevision,6);
+  assert.equal(Terminal.sameWitness(rivalry.data.terminalClose,intent),true);
+  assert.equal(session.data.state,"closed");
+  assert.deepEqual(rivalry.data.authorizedAccountIds,[uid1,uid2]);
+  assert.equal(rivalry.data.managerSlots.every(slot=>slot.entitlementState==="active"),true);
+
+  const replay=await Provider.close(h.options(2));
+  assert.equal(replay.ok,true);
+  assert.equal(replay.replayed,true);
+  assert.equal(replay.rivalryRevision,6);
+  assert.equal(replay.sessionRevision,6);
+  const terminalRead=await Provider.read({user:{uid:uid2},firestore:{},firebaseSdk:h.sdk,rivalryId,deviceId:device2,cryptoImpl:webcrypto});
+  assert.equal(terminalRead.ok,true);
+  assert.equal(terminalRead.terminal,true);
+  assert.equal(terminalRead.sessionRevision,6);
+  assert.equal(Terminal.sameWitness(terminalRead.terminalWitness,intent),true);
+
+  const newSession=await StandardSessions.openSession({user:{uid:uid1},firestore:{},firebaseSdk:h.sdk,rivalryId,sessionId:freshSessionId,deviceId:device1,nowEpochMs:2_000_100,ttlMs:60_000,cryptoImpl:webcrypto});
+  assert.equal(newSession.ok,false);
+  assert.equal(newSession.code,"PRIVATE_SESSION_RIVALRY_INACTIVE");
+  assert.equal(h.store.has(h.key("rivalries",rivalryId,"sessions",freshSessionId)),false);
+
+  const changed=clone(intent);
+  changed.managerTotals.playerOne=12;
+  changed.winner="playerOne";
+  const conflict=await Provider.close(h.options(1,{intent:changed}));
+  assert.equal(conflict.ok,false);
+  assert.equal(conflict.code,"TERMINAL_CLOSE_REPLAY_CONFLICT");
+  const wrongSession=Terminal.prepare(finalProjection,{sessionId:freshSessionId});
+  const mismatch=await Provider.close(h.options(1,{intent:wrongSession}));
+  assert.equal(mismatch.ok,false);
+  assert.equal(mismatch.code,"TERMINAL_CLOSE_SESSION_MISMATCH");
+
+  const forged=await harness();
+  const forgedProjection={...clone(finalProjection),managerTotals:{playerOne:12,playerTwo:9},winner:"playerOne"};
+  const forgedIntent=Terminal.prepare(forgedProjection,{sessionId});
+  const forgedResult=await Provider.close(forged.options(1,{intent:forgedIntent}));
+  assert.equal(forgedResult.ok,false);
+  assert.equal(forgedResult.code,"TERMINAL_CLOSE_FINAL_AUTHORITY_MISMATCH");
+  assert.equal(forged.store.get(forged.key("rivalries",rivalryId)).data.connectionState,"active");
+  assert.deepEqual(forged.store.get(forged.key("rivalries",rivalryId)).data.terminalProgress.managerTotals,{playerOne:11,playerTwo:9});
+
+  const expired=await harness({expiresAt:1_500_000});
+  const denied=await Provider.close(expired.options(1));
+  assert.equal(denied.ok,false);
+  assert.equal(denied.code,"TERMINAL_CLOSE_SESSION_EXPIRED");
+  assert.equal(expired.store.get(expired.key("rivalries",rivalryId)).data.connectionState,"active");
+  assert.equal(expired.store.get(expired.key("rivalries",rivalryId)).data.terminalProgress.acceptedThroughSeason,3);
+
+  const revoked=await harness();
+  revoked.store.get(revoked.key("accounts",uid1,"devices",device1)).data.state="revoked";
+  const revokedResult=await Provider.close(revoked.options(1));
+  assert.equal(revokedResult.ok,false);
+  assert.equal(revokedResult.code,"TERMINAL_CLOSE_DEVICE_REVOKED");
+  assert.equal(revoked.store.get(revoked.key("rivalries",rivalryId)).data.connectionState,"active");
+  assert.equal(revoked.store.get(revoked.key("rivalries",rivalryId)).data.terminalProgress,undefined);
+
   console.log("PASS Terminal Close provider: bounded staged terminal proof folds acknowledged seasons and canonical scores one exact path at a time, then atomically closes rivalry+session; replay/read, forged totals, fresh-session resurrection, expiry/device denial, zero billing and zero canonical local mutation remain protected.");
 })().catch(error=>{console.error(error);process.exitCode=1;});
