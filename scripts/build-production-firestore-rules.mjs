@@ -115,6 +115,7 @@ let generated=base;
 generated=once(generated,'    function capabilityCanReadPendingRivalry(rivalryId) {',`    ${sharedFunctionMarker}\n${sharedFunctions}\n    ${sharedFunctionEnd}\n\n    ${careerFunctionMarker}\n${careerFunctions}\n    ${careerFunctionEnd}\n\n    ${transferFunctionMarker}\n${transferFunctions}\n    ${transferFunctionEnd}\n\n    ${resultsFunctionMarker}\n${resultsFunctions}\n    ${resultsFunctionEnd}\n\n    ${commitFunctionMarker}\n${commitFunctions}\n    ${commitFunctionEnd}\n\n    ${terminalFunctionMarker}\n${terminalFunctions}\n    ${terminalFunctionEnd}\n\n`,'top-level function insertion');
 generated=once(generated,'      // STAGE5C_CANDIDATE_SESSION_MATCH_BEGIN',`      ${sharedMatchMarker}\n${sharedMatch}\n      ${sharedMatchEnd}\n\n      ${careerMatchMarker}\n${careerMatch}\n      ${careerMatchEnd}\n\n      ${transferMatchMarker}\n${transferMatch}\n      ${transferMatchEnd}\n\n      ${resultsMatchMarker}\n${resultsMatch}\n      ${resultsMatchEnd}\n\n      ${commitMatchMarker}\n${commitMatch}\n      ${commitMatchEnd}\n\n`,'rivalry child-match insertion');
 generated=replaceOnce(generated,'      allow update: if validRivalryRedeem(rivalryId);',"      allow update: if ssjrTerminalValidRivalryUpdate(rivalryId)\n        || validRivalryRedeem(rivalryId);",'Terminal Close rivalry update authority');
+generated=replaceOnce(generated,'        allow update: if validSessionUpdate(rivalryId, sessionId);',"        allow update: if ssjrTerminalValidAtomicSessionClose(rivalryId, sessionId)\n          || validSessionUpdate(rivalryId, sessionId);",'Terminal Close session update authority');
 
 for(const required of [
   'match /sharedSetup/authoritative',
@@ -148,15 +149,18 @@ for(const required of [
   "root.phase == 'ACKNOWLEDGED'",
   'function ssjrTerminalValidRivalryUpdate(rivalryId)',
   'function ssjrTerminalValidProgressUpdate(rivalryId)',
+  'function ssjrTerminalValidAtomicSessionClose(rivalryId, sessionId)',
   "intent.runtimeRevision == '1.9.1-r18'",
   "after.data.connectionState == 'closed'",
   "before.data.connectionState == 'active'",
   'terminalProgress',
   'ssjrTerminalScore(commit.results.playerOne)',
-  'ssjrTerminalSessionClosedAtomically(rivalryId, intent, after.updatedByDeviceId)',
+  'ssjrTerminalSessionTransitionBound(rivalryId, intent, after.updatedByDeviceId)',
   'getAfter(/databases/$(database)/documents/rivalries/$(rivalryId)/sessions/$(intent.sessionId))',
   'allow update: if ssjrTerminalValidRivalryUpdate(rivalryId)',
   '|| validRivalryRedeem(rivalryId);',
+  'allow update: if ssjrTerminalValidAtomicSessionClose(rivalryId, sessionId)',
+  '|| validSessionUpdate(rivalryId, sessionId);',
   "career.setupOperationIds == setup.operationIds",
   "transfer.phase == 'COMPLETED'",
   "transfer.revision == 6 || transfer.revision == 7",
@@ -182,6 +186,7 @@ if((generated.match(/match \/transferChallenges\/\{transferId\}/g)||[]).length!=
 if((generated.match(/match \/seasonResults\/\{seasonId\}/g)||[]).length!==1)throw new Error('Generated production Rules must contain exactly one Shared Season Results authority match.');
 if((generated.match(/match \/seasonCommits\/\{seasonId\}/g)||[]).length!==1)throw new Error('Generated production Rules must contain exactly one Shared Season Commit authority match.');
 if((generated.match(/function ssjrTerminalValidRivalryUpdate\(rivalryId\)/g)||[]).length!==1)throw new Error('Generated production Rules must contain exactly one Terminal Close rivalry authority function.');
+if((generated.match(/function ssjrTerminalValidAtomicSessionClose\(rivalryId, sessionId\)/g)||[]).length!==1)throw new Error('Generated production Rules must contain exactly one Terminal Close session authority function.');
 if((generated.match(/match \/roles\/\{managerRole\}/g)||[]).length!==2)throw new Error('Generated production Rules must contain exactly two role-private matches: Transfer Challenge and Season Results.');
 if(!generated.endsWith('\n'))generated+='\n';
 fs.writeFileSync(outputPath,generated,'utf8');
