@@ -31,6 +31,7 @@ const path=require("node:path");
   assert.match(source,/reconnectRecoveredStartupCount/,"reconnect startup boundary must be persisted");
   assert.match(source,/safe\.startupCount>safe\.reconnectRecoveredStartupCount/,"pre-terminal reload must occur after reconnect recovery");
   assert.match(source,/!hasStage\("history-converged"\)/,"network recovery evidence must be gated until history convergence");
+  assert.match(source,/safe\.offlineObserved&&hasStage\("network-online"\)&&browserOnline/,"reconnect recovery must require a post-offline online milestone and an actually online browser");
   assert.doesNotMatch(source,/\bfetch\s*\(/,"recorder must not make its own network requests");
   assert.doesNotMatch(source,/XMLHttpRequest/,"recorder must not add an alternate network path");
   assert.doesNotMatch(source,/localStorage\s*\.\s*setItem/,"recorder must not mutate canonical local storage");
