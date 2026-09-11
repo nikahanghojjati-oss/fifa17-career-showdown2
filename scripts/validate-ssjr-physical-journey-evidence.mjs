@@ -41,6 +41,7 @@ function validateSingle(evidence,source,{expectedAppVersion,expectedRuntimeRevis
   require(REMOTE_ROLES.has(evidence.remoteRole),"REMOTE_ROLE_INVALID","remoteRole must be host or peer.");
   for(const field of ["accountFingerprint","deviceFingerprint","rivalryFingerprint","canonicalStorageBeforeHash","canonicalStorageAfterHash"])require(FINGERPRINT.test(String(evidence[field]||"")),"FINGERPRINT_INVALID",`${field} must be a SHA-256 fingerprint.`);
   const sessionFingerprints=Array.isArray(evidence.sessionFingerprints)?evidence.sessionFingerprints:[];require(sessionFingerprints.length>0&&sessionFingerprints.length<=12&&sessionFingerprints.every(value=>FINGERPRINT.test(value)),"SESSION_FINGERPRINTS_INVALID","Session fingerprints must be a non-empty bounded SHA-256 list.");
+  require(evidence.authorityViolation===false,"AUTHORITY_CHANGED","Manager/account/device/rivalry authority changed during Physical Journey acceptance.");
   require(evidence.canonicalStorageViolation===false,"CANONICAL_STORAGE_CHANGED","Canonical local storage changed during the standard Physical Journey acceptance run.");
   require(evidence.canonicalStorageBeforeHash===evidence.canonicalStorageAfterHash,"CANONICAL_STORAGE_HASH_MISMATCH","Canonical local storage hashes must match for the standard non-Apply run.");
   require(evidence.candidateCApplied===false,"CANDIDATE_C_APPLY_FORBIDDEN","Standard Physical Journey acceptance must not destructively apply Candidate C.");
