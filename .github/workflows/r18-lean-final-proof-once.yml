@@ -1,0 +1,65 @@
+name: R18 Lean Final Proof Once
+
+on:
+  push:
+    branches: [feat/ssjr-terminal-close-r18]
+    paths: [.github/workflows/r18-lean-final-proof-once.yml]
+
+permissions:
+  contents: write
+
+jobs:
+  validate-and-persist:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 21
+      - name: Patch generator contract for lean final proof
+        shell: bash
+        run: |
+          set -euo pipefail
+          node <<'NODE'
+          const fs=require('node:fs');
+          const p='scripts/build-production-firestore-rules.mjs';
+          let s=fs.readFileSync(p,'utf8');
+          const old="  'ssjrTerminalSessionTransitionBound(rivalryId, intent, after.updatedByDeviceId, progress.closedSessionRevision)',";
+          const replacement="  'function ssjrTerminalFinalEnvelopeCas(before, after, objectType, objectId)',\n  \"after.data.diff(before.data).affectedKeys().hasOnly(['connectionState','terminalProgress','terminalClose'])\",\n  \"progress.diff(priorProgress).affectedKeys().hasOnly(['closedSessionRevision'])\",";
+          if(!s.includes(old)) throw new Error('lean final-proof generator seam missing');
+          s=s.replace(old,replacement);
+          fs.writeFileSync(p,s);
+          NODE
+      - name: Install repository dependencies
+        run: npm ci
+      - name: Validate focused r18 contracts
+        run: |
+          node tests/contracts/shared-terminal-close-provider-contracts.cjs
+          node tests/contracts/shared-terminal-close-rules-contracts.cjs
+      - name: Install pinned Firebase emulator dependencies
+        run: npm install --no-save --package-lock=false firebase@12.17.1 @firebase/rules-unit-testing@5.0.1 firebase-admin@14.2.0
+      - name: Build generated production Rules
+        run: node scripts/build-production-firestore-rules.mjs
+      - name: Run strengthened r18 emulator matrix
+        run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-career-mode-showdown-terminal-close-lean-final "node tests/firebase/shared-terminal-close-production-provider-emulator.cjs"
+      - name: Persist lean proof only after green emulator
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin feat/ssjr-terminal-close-r18
+          test "$(git rev-parse HEAD)" = "$(git rev-parse origin/feat/ssjr-terminal-close-r18)"
+          git rm .github/workflows/r18-lean-final-proof-once.yml
+          printf '\n# exact-head diagnostic retrigger after lean map-diff final proof\n' >> .github/workflows/r18-finalize-publication-once.yml
+          git config user.name "nikahanghojjati-oss"
+          git config user.email "nikahang.hojjati@gmail.com"
+          git add scripts/build-production-firestore-rules.mjs .github/workflows/r18-finalize-publication-once.yml
+          git commit -m "fix(r18): persist lean terminal final proof"
+          git push origin HEAD:feat/ssjr-terminal-close-r18
