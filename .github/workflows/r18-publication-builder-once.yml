@@ -24,7 +24,7 @@ jobs:
         with:
           node-version: 24
           cache: npm
-      - name: Guard r18 lineage, repair known generator typo, and self-remove helper
+      - name: Guard r18 lineage and self-remove helper
         shell: bash
         run: |
           set -euo pipefail
@@ -33,6 +33,35 @@ jobs:
           sed -i 's/rulesList(nationalities)/rulesList(nationalityIds)/' scripts/build-production-firestore-rules.mjs
           test "$(grep -c 'rulesList(nationalityIds)' scripts/build-production-firestore-rules.mjs)" -ge 1
           git rm .github/workflows/r18-publication-builder-once.yml
+      - name: Reconcile exact generated-Rules regression with reviewed r18 additive fragment
+        shell: bash
+        run: |
+          set -euo pipefail
+          node <<'NODE'
+          const fs=require('node:fs');
+          const path='tests/contracts/shared-showdown-production-runtime-contracts.cjs';
+          let source=fs.readFileSync(path,'utf8');
+          const replaceOnce=(needle,replacement,label)=>{if(source.includes(replacement))return;if(!source.includes(needle))throw new Error(`Missing ${label}`);source=source.replace(needle,replacement);};
+          replaceOnce(
+            "const commitFragment=fs.readFileSync('firestore.season-commit-production.fragment.rules','utf8');",
+            "const commitFragment=fs.readFileSync('firestore.season-commit-production.fragment.rules','utf8');\nconst terminalFragment=fs.readFileSync('firestore.terminal-close-production.fragment.rules','utf8');",
+            'Terminal Close fragment import'
+          );
+          replaceOnce(
+            "const commitFunctionMarker='// SSJR_SEASON_COMMIT_FUNCTIONS_BEGIN',commitFunctionEnd='// SSJR_SEASON_COMMIT_FUNCTIONS_END',commitMatchMarker='// SSJR_SEASON_COMMIT_MATCH_BEGIN',commitMatchEnd='// SSJR_SEASON_COMMIT_MATCH_END';",
+            "const commitFunctionMarker='// SSJR_SEASON_COMMIT_FUNCTIONS_BEGIN',commitFunctionEnd='// SSJR_SEASON_COMMIT_FUNCTIONS_END',commitMatchMarker='// SSJR_SEASON_COMMIT_MATCH_BEGIN',commitMatchEnd='// SSJR_SEASON_COMMIT_MATCH_END';\nconst terminalFunctionMarker='// SSJR_TERMINAL_CLOSE_FUNCTIONS_BEGIN',terminalFunctionEnd='// SSJR_TERMINAL_CLOSE_FUNCTIONS_END';",
+            'Terminal Close marker declaration'
+          );
+          const anchor="expectedGenerated=once(expectedGenerated,'      // STAGE5C_CANDIDATE_SESSION_MATCH_BEGIN'";
+          const terminalInsertion="expectedGenerated=once(expectedGenerated,'    function capabilityCanReadPendingRivalry(rivalryId) {',`    ${terminalFunctionMarker}\\n${between(terminalFragment,terminalFunctionMarker,terminalFunctionEnd)}\\n    ${terminalFunctionEnd}\\n\\n`,'Terminal Close function insertion');\nexpectedGenerated=replaceOnce(expectedGenerated,'      allow update: if validRivalryRedeem(rivalryId);',\"      allow update: if validRivalryRedeem(rivalryId)\\n        || ssjrTerminalValidRivalryUpdate(rivalryId);\",'Terminal Close rivalry update authority');\n";
+          if(!source.includes("'Terminal Close function insertion'")){
+            const index=source.indexOf(anchor);if(index<0)throw new Error('Missing expected-generated child insertion anchor');
+            const lineEnd=source.indexOf('\n',index);if(lineEnd<0)throw new Error('Missing child insertion line end');
+            source=source.slice(0,lineEnd+1)+terminalInsertion+source.slice(lineEnd+1);
+          }
+          source=source.replace('plus only the bounded Shared Setup, Career Start, Transfer Challenge, Season Results and Season Commit fragment splices','plus only the bounded Shared Setup, Career Start, Transfer Challenge, Season Results, Season Commit and Terminal Close fragment splices');
+          fs.writeFileSync(path,source);
+          NODE
       - name: Register r18 and stage coherent whole-shell publication
         shell: bash
         run: |
@@ -52,8 +81,10 @@ jobs:
           ];
           for(const entry of additions)if(!supplemental.tests.some(test=>test.path===entry.path))supplemental.tests.push(entry);fs.writeFileSync('POS20_SUPPLEMENTAL_PRODUCT_TESTS.json',JSON.stringify(supplemental,null,2)+'\n');
           let worker=fs.readFileSync('service-worker.js','utf8');worker=worker.replace('const RUNTIME_REVISION = "1.9.1-r17";','const RUNTIME_REVISION = "1.9.1-r18";').replace('const PREVIOUS_RUNTIME_REVISION = "1.9.1-r16";','const PREVIOUS_RUNTIME_REVISION = "1.9.1-r17";');const seam='    "js/productionSharedFinalReconciliation.js",';const assets=['    "js/sharedTerminalClose.js",','    "js/sparkTerminalClose.js",','    "js/productionSharedTerminalClose.js",'];if(!worker.includes(assets[0]))worker=worker.replace(seam,[seam,...assets].join('\n'));fs.writeFileSync('service-worker.js',worker);
-          let app=fs.readFileSync('js/app.js','utf8');app=app.replace('css/visual-fidelity-r3.css?v=1.9.1-r17','css/visual-fidelity-r3.css?v=1.9.1-r18');fs.writeFileSync('js/app.js',app);
+          let app=fs.readFileSync('js/app.js','utf8');app=app.replaceAll('1.9.1-r17','1.9.1-r18');fs.writeFileSync('js/app.js',app);
           let html=fs.readFileSync('index.html','utf8');html=html.replaceAll('1.9.1-r17','1.9.1-r18');fs.writeFileSync('index.html',html);
+          let manifest=fs.readFileSync('manifest.webmanifest','utf8');manifest=manifest.replaceAll('1.9.1-r17','1.9.1-r18');fs.writeFileSync('manifest.webmanifest',manifest);
+          let menu=fs.readFileSync('js/menuExperience.js','utf8');menu=menu.replaceAll('1.9.1-r17','1.9.1-r18');fs.writeFileSync('js/menuExperience.js',menu);
           const release=[
             '# Career Mode Showdown v1.9.1 runtime r18','',
             'Application version: `v1.9.1`','',
