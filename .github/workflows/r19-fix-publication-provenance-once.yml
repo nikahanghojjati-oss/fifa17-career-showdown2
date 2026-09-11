@@ -25,10 +25,10 @@ jobs:
           from pathlib import Path
           p=Path('.github/workflows/r19-physical-publication-once.yml')
           text=p.read_text()
-          needle="fs.writeFileSync('RELEASE_V1.9.1_R19.md',`# Career Mode Showdown v1.9.1 — Runtime r19\\n\\nRuntime `1.9.1-r19` adds"
-          replacement="fs.writeFileSync('RELEASE_V1.9.1_R19.md',`# Career Mode Showdown v1.9.1 — Runtime r19\\n\\nStatus: RELEASE CANDIDATE\\n\\nRuntime asset revision: `1.9.1-r19`\\n\\nPrevious known-good runtime: `1.9.1-r18`\\n\\nRuntime `1.9.1-r19` adds"
+          needle=r"Runtime \`1.9.1-r19\` adds acceptance-only"
+          replacement=r"Status: RELEASE CANDIDATE\n\nRuntime asset revision: \`1.9.1-r19\`\n\nPrevious known-good runtime: \`1.9.1-r18\`\n\nRuntime \`1.9.1-r19\` adds acceptance-only"
           if needle not in text:
-              raise SystemExit('r19 release template seam not found')
+              raise SystemExit('escaped r19 release template seam not found')
           p.write_text(text.replace(needle,replacement,1))
           PY
           rm .github/workflows/r19-fix-publication-provenance-once.yml
