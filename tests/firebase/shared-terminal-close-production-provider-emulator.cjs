@@ -48,6 +48,7 @@ function options(db,user,deviceId,intent,id=rivalryId,sid=sessionId){return {use
 
     const host=env.authenticatedContext(uid1).firestore(),peer=env.authenticatedContext(uid2).firestore(),third=env.authenticatedContext(uid3).firestore();
     const intent=Terminal.prepare(projection(rivalryId,sessionId,3,{playerOne:22,playerTwo:19}),{sessionId});
+    assert.equal(Object.hasOwn(intent,"acceptedRevisionKey"),false);assert.equal(Object.hasOwn(intent,"fixedClubs"),false);
 
     const early=await Provider.close(options(host,uid1,device1,intent));
     assert.equal(early.ok,false,"Terminal Close must fail while one configured season commit is missing");assert.equal(early.code,"TERMINAL_CLOSE_SEASON_COMMIT_INVALID",JSON.stringify(early));
@@ -64,8 +65,25 @@ function options(db,user,deviceId,intent,id=rivalryId,sid=sessionId){return {use
     const forgedTotalsResult=await Provider.close(options(host,uid1,device1,forgedTotals));assert.equal(forgedTotalsResult.ok,false,"Rules-backed terminal progress must reject forged accumulated scoring");assert.equal(forgedTotalsResult.code,"TERMINAL_CLOSE_FINAL_AUTHORITY_MISMATCH",JSON.stringify(forgedTotalsResult));
     const sealed=(await assertSucceeds(getDoc(doc(host,"rivalries",rivalryId)))).data();assert.equal(sealed.data.connectionState,"active");assert.equal(sealed.data.terminalProgress.acceptedThroughSeason,3);assert.deepEqual(sealed.data.terminalProgress.managerTotals,{playerOne:22,playerTwo:19});
 
+    async function assertForgedTerminalMetadataDenied(extraWitnessFields,label){
+      const rivalryRef=doc(host,"rivalries",rivalryId),sessionRef=doc(host,"rivalries",rivalryId,"sessions",sessionId);
+      const currentRivalry=(await assertSucceeds(getDoc(rivalryRef))).data(),currentSession=(await assertSucceeds(getDoc(sessionRef))).data();
+      const now=Timestamp.fromMillis(Date.now());
+      const nextSessionData={...currentSession.data,state:"closed",lastActivityAt:now,revokedAt:null};
+      const nextSession=await Sessions.buildEnvelope({sessionId,revision:currentSession.revision+1,parentRevision:currentSession.revision,priorContentHash:currentSession.contentHash,updatedAt:now,accountId:uid1,deviceId:device1,data:nextSessionData,cryptoImpl:crypto.webcrypto});
+      const nextProgress={...currentRivalry.data.terminalProgress,closedSessionRevision:nextSession.revision};
+      const terminalClose={...JSON.parse(JSON.stringify(intent)),...extraWitnessFields};
+      const nextRivalryData={...currentRivalry.data,connectionState:"closed",terminalProgress:nextProgress,terminalClose};
+      const nextRivalry=await envelope("rivalry",rivalryId,currentRivalry.revision+1,nextRivalryData,{accountId:uid1,deviceId:device1,updatedAt:now,priorHash:currentRivalry.contentHash});
+      await assertFails(runTransaction(host,async transaction=>{transaction.set(sessionRef,nextSession);transaction.set(rivalryRef,nextRivalry);}),label);
+      assert.equal((await assertSucceeds(getDoc(rivalryRef))).data().data.connectionState,"active",`${label}: rivalry must remain ACTIVE`);
+      assert.equal((await assertSucceeds(getDoc(sessionRef))).data().data.state,"active",`${label}: session must remain ACTIVE`);
+    }
+    await assertForgedTerminalMetadataDenied({acceptedRevisionKey:"forged-terminal-revision-key"},"direct Firestore close cannot inject an unverifiable acceptedRevisionKey");
+    await assertForgedTerminalMetadataDenied({fixedClubs:{playerOne:"Forged A",playerTwo:"Forged B"}},"direct Firestore close cannot inject unverifiable fixedClubs");
+
     const accepted=await Provider.close(options(host,uid1,device1,intent));assert.equal(accepted.ok,true,JSON.stringify(accepted));assert.equal(accepted.status,"accepted");assert.equal(accepted.rivalryState,"closed");assert.equal(accepted.sessionState,"closed");
-    const closedRivalry=(await assertSucceeds(getDoc(doc(peer,"rivalries",rivalryId)))).data();assert.equal(closedRivalry.data.connectionState,"closed");assert.equal(closedRivalry.data.terminalProgress.acceptedThroughSeason,3);assert.deepEqual(closedRivalry.data.terminalProgress.managerTotals,{playerOne:22,playerTwo:19});assert.equal(closedRivalry.data.terminalProgress.closedSessionRevision,accepted.sessionRevision);assert.equal(Terminal.sameWitness(closedRivalry.data.terminalClose,intent),true);
+    const closedRivalry=(await assertSucceeds(getDoc(doc(peer,"rivalries",rivalryId)))).data();assert.equal(closedRivalry.data.connectionState,"closed");assert.equal(closedRivalry.data.terminalProgress.acceptedThroughSeason,3);assert.deepEqual(closedRivalry.data.terminalProgress.managerTotals,{playerOne:22,playerTwo:19});assert.equal(closedRivalry.data.terminalProgress.closedSessionRevision,accepted.sessionRevision);assert.equal(Object.hasOwn(closedRivalry.data.terminalClose,"acceptedRevisionKey"),false);assert.equal(Object.hasOwn(closedRivalry.data.terminalClose,"fixedClubs"),false);assert.equal(Terminal.sameWitness(closedRivalry.data.terminalClose,intent),true);
     await assertFails(getDoc(doc(peer,"rivalries",rivalryId,"sessions",sessionId)),"normal session reads must not regain authority after terminal rivalry closure");
 
     const replay=await Provider.close(options(peer,uid2,device2,intent));assert.equal(replay.ok,true,JSON.stringify(replay));assert.equal(replay.replayed,true);
@@ -79,6 +97,6 @@ function options(db,user,deviceId,intent,id=rivalryId,sid=sessionId){return {use
     });
     const intent10=Terminal.prepare(projection(rivalryId10,sessionId10,10,{playerOne:10,playerTwo:0}),{sessionId:sessionId10});const accepted10=await Provider.close(options(host,uid1,device1,intent10,rivalryId10,sessionId10));assert.equal(accepted10.ok,true,JSON.stringify(accepted10));const closed10=(await assertSucceeds(getDoc(doc(peer,"rivalries",rivalryId10)))).data();assert.equal(closed10.data.connectionState,"closed");assert.equal(closed10.data.terminalProgress.acceptedThroughSeason,10);assert.deepEqual(closed10.data.terminalProgress.managerTotals,{playerOne:10,playerTwo:0});
 
-    console.log("PASS r18 Terminal Close generated Rules emulator: monotonic per-season proof stays under Firestore budgets through a full 10-season close, canonical score totals are Rules-backed, early/forged/third-account close is denied, final close atomically closes rivalry+session, terminal reads survive while delayed writes and fresh-session resurrection remain denied.");
+    console.log("PASS r18 Terminal Close generated Rules emulator: monotonic per-season proof stays under Firestore budgets through a full 10-season close, canonical score totals are Rules-backed, direct clients cannot inject unverifiable terminal provenance metadata, early/forged/third-account close is denied, final close atomically closes rivalry+session, terminal reads survive while delayed writes and fresh-session resurrection remain denied.");
   }finally{await env.cleanup();}
 })().catch(error=>{console.error(error);process.exitCode=1;});

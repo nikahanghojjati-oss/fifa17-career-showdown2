@@ -29,6 +29,7 @@ assert.match(fragment,/before\.data\.connectionState == 'active'/);
 assert.match(fragment,/after\.data\.connectionState == 'closed'/);
 assert.match(fragment,/priorProgress\.acceptedThroughSeason == priorProgress\.totalSeasons/);
 assert.match(fragment,/intent\.managerTotals == priorProgress\.managerTotals/);
+assert.doesNotMatch(fragment,/acceptedRevisionKey|fixedClubs/,"Terminal Close persisted witness must omit metadata that production Rules cannot independently verify");
 assert.match(fragment,/getAfter\(\/databases\/\$\(database\)\/documents\/rivalries\/\$\(rivalryId\)\/sessions\/\$\(intent\.sessionId\)\)/);
 assert.match(fragment,/before\.data\.state == 'active'/);
 assert.match(fragment,/after\.data\.state == 'closed'/);
@@ -57,4 +58,4 @@ assert.match(deploy,/shared-terminal-close-rules-contracts\.cjs/);
 assert.match(deploy,/shared-terminal-close-production-provider-emulator\.cjs/);
 assert.doesNotMatch(deploy,/billing enable|firebase use --add|functions:deploy|run deploy/i);
 
-console.log("PASS r18 Terminal Close production Rules: acknowledged seasons are folded into a bounded monotonic rivalry terminalProgress seal one season at a time, canonical scores are accumulated under Rules authority, terminal-owned writes are routed away from legacy pairing/session validators, and final ACTIVE-to-CLOSED still requires the exact session to close atomically with no list/delete/billing expansion.");
+console.log("PASS r18 Terminal Close production Rules: acknowledged seasons are folded into a bounded monotonic rivalry terminalProgress seal one season at a time, canonical scores are accumulated under Rules authority, persisted terminal witness fields are limited to provider-verifiable facts, terminal-owned writes are routed away from legacy pairing/session validators, and final ACTIVE-to-CLOSED still requires the exact session to close atomically with no list/delete/billing expansion.");

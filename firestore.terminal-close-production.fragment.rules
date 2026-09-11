@@ -7,8 +7,8 @@
     function ssjrTerminalValidIntent(rivalryId, intent) {
       return intent is map
         && intent.keys().hasOnly([
-          'schemaVersion','runtimeRevision','phase','rivalryId','sessionId','acceptedRevisionKey','totalSeasons','completedSeason',
-          'fixedClubs','managerTotals','winner','terminal','finalSeasonReconciled','nextSeason','extraSeasonAllowed',
+          'schemaVersion','runtimeRevision','phase','rivalryId','sessionId','totalSeasons','completedSeason',
+          'managerTotals','winner','terminal','finalSeasonReconciled','nextSeason','extraSeasonAllowed',
           'rivalryConnectionState','sessionTargetState','terminalReadAllowed','canonicalStorageMutation','providerWriteRequired',
           'listPermissionRequired','billingRequired'
         ])
@@ -17,14 +17,8 @@
         && intent.phase == 'TERMINAL_CLOSE_READY'
         && intent.rivalryId == rivalryId
         && validSessionId(intent.sessionId)
-        && intent.acceptedRevisionKey is string
         && intent.totalSeasons in [1,3,5,10]
         && intent.completedSeason == intent.totalSeasons
-        && intent.fixedClubs is map
-        && intent.fixedClubs.keys().hasOnly(['playerOne','playerTwo'])
-        && intent.fixedClubs.playerOne is string
-        && intent.fixedClubs.playerTwo is string
-        && intent.fixedClubs.playerOne != intent.fixedClubs.playerTwo
         && intent.managerTotals is map
         && intent.managerTotals.keys().hasOnly(['playerOne','playerTwo'])
         && intent.managerTotals.playerOne is int
