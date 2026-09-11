@@ -10,6 +10,7 @@ const careerStartFragmentPath=path.join(root,'firestore.career-start-production.
 const transferChallengeFragmentPath=path.join(root,'firestore.transfer-challenge-production.fragment.rules');
 const seasonResultsFragmentPath=path.join(root,'firestore.season-results-production.fragment.rules');
 const seasonCommitFragmentPath=path.join(root,'firestore.season-commit-production.fragment.rules');
+const terminalCloseFragmentPath=path.join(root,'firestore.terminal-close-production.fragment.rules');
 const transferOptionsPath=path.join(root,'data/transferOptions.js');
 const outputPath=path.join(root,'firestore.spark.generated.rules');
 
@@ -19,6 +20,7 @@ const careerStartFragment=fs.readFileSync(careerStartFragmentPath,'utf8');
 const transferChallengeFragment=fs.readFileSync(transferChallengeFragmentPath,'utf8');
 const seasonResultsFragment=fs.readFileSync(seasonResultsFragmentPath,'utf8');
 const seasonCommitFragment=fs.readFileSync(seasonCommitFragmentPath,'utf8');
+const terminalCloseFragment=fs.readFileSync(terminalCloseFragmentPath,'utf8');
 
 function between(source,start,end){
   const a=source.indexOf(start),b=source.indexOf(end);
@@ -54,7 +56,7 @@ function rulesList(ids){return `[${ids.map(id=>`'${id}'`).join(',')}]`;}
 function injectTransferCatalog(functions){
   const {leagueIds,nationalityIds}=loadTransferCatalog();
   const generic="    function ssjrTransferValidOptionId(value) { return value is string && value.size() >= 2 && value.size() <= 80 && value.matches('^[a-z0-9]+(-[a-z0-9]+)*$'); }";
-  let output=replaceOnce(functions,generic,`${generic}\n    function ssjrTransferValidLeagueId(value) { return value in ${rulesList(leagueIds)}; }\n    function ssjrTransferValidNationalityId(value) { return value in ${rulesList(nationalityIds)}; }`,'Transfer Challenge catalog helper');
+  let output=replaceOnce(functions,generic,`${generic}\n    function ssjrTransferValidLeagueId(value) { return value in ${rulesList(leagueIds)}; }\n    function ssjrTransferValidNationalityId(value) { return value in ${rulesList(nationalities)}; }`,'Transfer Challenge catalog helper');
   output=replaceOnce(output,"        && (value.type == 'league' || value.type == 'nationality')\n        && ssjrTransferValidOptionId(value.valueId);","        && ((value.type == 'league' && ssjrTransferValidLeagueId(value.valueId))\n          || (value.type == 'nationality' && ssjrTransferValidNationalityId(value.valueId)));",'Transfer Challenge guess catalog validation');
   output=replaceOnce(output,'        && ssjrTransferValidOptionId(value.leagueId)\n        && ssjrTransferValidOptionId(value.nationalityId);','        && ssjrTransferValidLeagueId(value.leagueId)\n        && ssjrTransferValidNationalityId(value.nationalityId);','Transfer Challenge signing catalog validation');
   return output;
@@ -80,6 +82,8 @@ const commitFunctionMarker='// SSJR_SEASON_COMMIT_FUNCTIONS_BEGIN';
 const commitFunctionEnd='// SSJR_SEASON_COMMIT_FUNCTIONS_END';
 const commitMatchMarker='// SSJR_SEASON_COMMIT_MATCH_BEGIN';
 const commitMatchEnd='// SSJR_SEASON_COMMIT_MATCH_END';
+const terminalFunctionMarker='// SSJR_TERMINAL_CLOSE_FUNCTIONS_BEGIN';
+const terminalFunctionEnd='// SSJR_TERMINAL_CLOSE_FUNCTIONS_END';
 const sharedFunctions=between(sharedSetupFragment,sharedFunctionMarker,sharedFunctionEnd);
 const sharedMatch=between(sharedSetupFragment,sharedMatchMarker,sharedMatchEnd);
 const careerFunctions=between(careerStartFragment,careerFunctionMarker,careerFunctionEnd);
@@ -90,6 +94,7 @@ const resultsFunctions=between(seasonResultsFragment,resultsFunctionMarker,resul
 const resultsMatch=between(seasonResultsFragment,resultsMatchMarker,resultsMatchEnd);
 const commitFunctions=between(seasonCommitFragment,commitFunctionMarker,commitFunctionEnd);
 const commitMatch=between(seasonCommitFragment,commitMatchMarker,commitMatchEnd);
+const terminalFunctions=between(terminalCloseFragment,terminalFunctionMarker,terminalFunctionEnd);
 
 if(
   base.includes('match /sharedSetup/authoritative')
@@ -102,13 +107,15 @@ if(
   || base.includes('ssjrResultsValidCreate')
   || base.includes('match /seasonCommits/{seasonId}')
   || base.includes('ssjrCommitValidCreate')
+  || base.includes('ssjrTerminalValidRivalryUpdate')
 ){
-  throw new Error('Base Spark Rules already contains Shared Setup, Career Start, Transfer Challenge, Season Results or Season Commit authority; refuse a duplicate promotion.');
+  throw new Error('Base Spark Rules already contains a promoted Shared Journey authority; refuse a duplicate production splice.');
 }
 
 let generated=base;
-generated=once(generated,'    function capabilityCanReadPendingRivalry(rivalryId) {',`    ${sharedFunctionMarker}\n${sharedFunctions}\n    ${sharedFunctionEnd}\n\n    ${careerFunctionMarker}\n${careerFunctions}\n    ${careerFunctionEnd}\n\n    ${transferFunctionMarker}\n${transferFunctions}\n    ${transferFunctionEnd}\n\n    ${resultsFunctionMarker}\n${resultsFunctions}\n    ${resultsFunctionEnd}\n\n    ${commitFunctionMarker}\n${commitFunctions}\n    ${commitFunctionEnd}\n\n`,'top-level function insertion');
+generated=once(generated,'    function capabilityCanReadPendingRivalry(rivalryId) {',`    ${sharedFunctionMarker}\n${sharedFunctions}\n    ${sharedFunctionEnd}\n\n    ${careerFunctionMarker}\n${careerFunctions}\n    ${careerFunctionEnd}\n\n    ${transferFunctionMarker}\n${transferFunctions}\n    ${transferFunctionEnd}\n\n    ${resultsFunctionMarker}\n${resultsFunctions}\n    ${resultsFunctionEnd}\n\n    ${commitFunctionMarker}\n${commitFunctions}\n    ${commitFunctionEnd}\n\n    ${terminalFunctionMarker}\n${terminalFunctions}\n    ${terminalFunctionEnd}\n\n`,'top-level function insertion');
 generated=once(generated,'      // STAGE5C_CANDIDATE_SESSION_MATCH_BEGIN',`      ${sharedMatchMarker}\n${sharedMatch}\n      ${sharedMatchEnd}\n\n      ${careerMatchMarker}\n${careerMatch}\n      ${careerMatchEnd}\n\n      ${transferMatchMarker}\n${transferMatch}\n      ${transferMatchEnd}\n\n      ${resultsMatchMarker}\n${resultsMatch}\n      ${resultsMatchEnd}\n\n      ${commitMatchMarker}\n${commitMatch}\n      ${commitMatchEnd}\n\n`,'rivalry child-match insertion');
+generated=replaceOnce(generated,'      allow update: if validRivalryRedeem(rivalryId);',"      allow update: if validRivalryRedeem(rivalryId)\n        || ssjrTerminalValidRivalryUpdate(rivalryId);",'Terminal Close rivalry update authority');
 
 for(const required of [
   'match /sharedSetup/authoritative',
@@ -140,6 +147,14 @@ for(const required of [
   "root.results.playerOne == p1.result",
   "root.results.playerTwo == p2.result",
   "root.phase == 'ACKNOWLEDGED'",
+  'function ssjrTerminalValidRivalryUpdate(rivalryId)',
+  "intent.runtimeRevision == '1.9.1-r18'",
+  "after.data.connectionState == 'closed'",
+  "before.data.connectionState == 'active'",
+  'ssjrTerminalAllSeasonsAccepted(rivalryId, intent.totalSeasons)',
+  'ssjrTerminalSessionClosedAtomically(rivalryId, intent, after.updatedByDeviceId)',
+  'getAfter(/databases/$(database)/documents/rivalries/$(rivalryId)/sessions/$(intent.sessionId))',
+  '|| ssjrTerminalValidRivalryUpdate(rivalryId);',
   "career.setupOperationIds == setup.operationIds",
   "transfer.phase == 'COMPLETED'",
   "transfer.revision == 6 || transfer.revision == 7",
@@ -164,6 +179,7 @@ if((generated.match(/match \/careerStart\/authoritative/g)||[]).length!==1)throw
 if((generated.match(/match \/transferChallenges\/\{transferId\}/g)||[]).length!==1)throw new Error('Generated production Rules must contain exactly one Transfer Challenge authority match.');
 if((generated.match(/match \/seasonResults\/\{seasonId\}/g)||[]).length!==1)throw new Error('Generated production Rules must contain exactly one Shared Season Results authority match.');
 if((generated.match(/match \/seasonCommits\/\{seasonId\}/g)||[]).length!==1)throw new Error('Generated production Rules must contain exactly one Shared Season Commit authority match.');
+if((generated.match(/function ssjrTerminalValidRivalryUpdate\(rivalryId\)/g)||[]).length!==1)throw new Error('Generated production Rules must contain exactly one Terminal Close rivalry authority function.');
 if((generated.match(/match \/roles\/\{managerRole\}/g)||[]).length!==2)throw new Error('Generated production Rules must contain exactly two role-private matches: Transfer Challenge and Season Results.');
 if(!generated.endsWith('\n'))generated+='\n';
 fs.writeFileSync(outputPath,generated,'utf8');
