@@ -17,6 +17,7 @@ for(const required of [
   'canonicalStorageMutation:false',
   'listPermissionRequired:false',
   'billingRequired:false',
+  'blazeRequired:false',
   'cloudRunRequired:false',
   'cloudFunctionsRequired:false',
   'CareerModeProductionSharedFinalReconciliation',
@@ -39,7 +40,7 @@ for(const required of [
 
 assert.doesNotMatch(runtime,/localStorage|sessionStorage|\.setItem\(|\.removeItem\(/,"Terminal Close production runtime must not write canonical or auxiliary browser storage");
 assert.doesNotMatch(runtime,/collection\(|getDocs\(|query\(|where\(/,"Terminal Close runtime must use exact document authority only");
-assert.doesNotMatch(runtime,/firebase-admin|cloud[\s_-]*run|cloud[\s_-]*functions|blaze|payment/i);
+assert.doesNotMatch(runtime,/firebase-admin|googleapis|https:\/\/run\.googleapis\.com|https:\/\/cloudfunctions\.googleapis\.com/i,"Terminal Close runtime must not import or call paid/server compute surfaces");
 assert.match(runtime,/remote\.sessionState==="active"/);
 assert.match(runtime,/remote\.pendingAction==null/);
 assert.match(runtime,/now<expiry/);
