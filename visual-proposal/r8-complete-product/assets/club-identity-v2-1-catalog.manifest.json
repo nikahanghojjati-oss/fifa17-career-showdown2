@@ -1,7 +1,7 @@
 {
   "schema": "showdown-club-identity-v2.1-catalog-manifest",
   "rendererVersion": "2.1.0",
-  "status": "technical-catalog-complete-r2-perceptual-review-open-not-production",
+  "status": "owner-approved-proposal-catalog-r2-direction-not-production",
   "supportedClubCount": 98,
   "canonicalInput": "clubName",
   "runtimeResearchMetadata": false,
@@ -22,16 +22,18 @@
   "authoringInventory": "club-identity-v2-1-authoring-inventory.json",
   "validator": "../tools/validate-club-identity-v2-1.cjs",
   "contactSheet": "../prototypes/30-club-identity-v2-1-contact-sheet.html",
+  "ownerApprovalEvidence": "../evidence/OWNER_CLUB_IDENTITY_V2_1_APPROVAL_AND_AUTHORITY_2026-09-10.md",
   "gates": {
     "research98": "PASS",
     "descriptorDraft98": "PASS",
     "aggregateR1SchemaAndSignature": "PASS",
     "deterministicRendererR1": "PASS",
     "r2PriorityOverridesAuthored": "PASS",
-    "r2LocalAggregateValidator": "OPEN",
-    "r2PerceptualContactSheet": "OPEN",
-    "ownerApproval": "OPEN",
-    "productionImplementation": "BLOCKED"
+    "r2PriorityLocalPerceptualQA": "PASS",
+    "r2LocalAggregateValidator": "OPEN_IN_FILE_CAPABLE_IMPLEMENTATION_ENVIRONMENT",
+    "r2Full98ContactSheet": "DEFERRED_QA_EVIDENCE_NOT_OWNER_BLOCKER",
+    "ownerApproval": "PASS_2026-09-10",
+    "productionImplementation": "BLOCKED_BY_OVERALL_VISUAL_PROPOSAL_FINALITY"
   },
   "productionSafety": {
     "newSaveField": false,
