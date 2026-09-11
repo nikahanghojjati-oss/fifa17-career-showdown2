@@ -51,3 +51,4 @@ jobs:
           git push origin HEAD:feat/ssjr-terminal-close-r18
 
 # diagnostic rerun after placing Terminal Close before legacy rivalry redeem evaluation
+# diagnostic rerun after splitting the atomic session-close authority from the legacy session validator
