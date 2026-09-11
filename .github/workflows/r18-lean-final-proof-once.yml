@@ -24,19 +24,30 @@ jobs:
         with:
           distribution: temurin
           java-version: 21
-      - name: Patch generator contract for lean final proof
+      - name: Patch generator and contract for lean final proof
         shell: bash
         run: |
           set -euo pipefail
           node <<'NODE'
           const fs=require('node:fs');
-          const p='scripts/build-production-firestore-rules.mjs';
-          let s=fs.readFileSync(p,'utf8');
-          const old="  'ssjrTerminalSessionTransitionBound(rivalryId, intent, after.updatedByDeviceId, progress.closedSessionRevision)',";
-          const replacement="  'function ssjrTerminalFinalEnvelopeCas(before, after, objectType, objectId)',\n  \"after.data.diff(before.data).affectedKeys().hasOnly(['connectionState','terminalProgress','terminalClose'])\",\n  \"progress.diff(priorProgress).affectedKeys().hasOnly(['closedSessionRevision'])\",";
-          if(!s.includes(old)) throw new Error('lean final-proof generator seam missing');
-          s=s.replace(old,replacement);
-          fs.writeFileSync(p,s);
+          {
+            const p='scripts/build-production-firestore-rules.mjs';
+            let s=fs.readFileSync(p,'utf8');
+            const old="  'ssjrTerminalSessionTransitionBound(rivalryId, intent, after.updatedByDeviceId, progress.closedSessionRevision)',";
+            const replacement="  'function ssjrTerminalFinalEnvelopeCas(before, after, objectType, objectId)',\n  \"after.data.diff(before.data).affectedKeys().hasOnly(['connectionState','terminalProgress','terminalClose'])\",\n  \"progress.diff(priorProgress).affectedKeys().hasOnly(['closedSessionRevision'])\",";
+            if(!s.includes(old)) throw new Error('lean final-proof generator seam missing');
+            s=s.replace(old,replacement);
+            fs.writeFileSync(p,s);
+          }
+          {
+            const p='tests/contracts/shared-terminal-close-rules-contracts.cjs';
+            let s=fs.readFileSync(p,'utf8');
+            const old="assert.match(fragment,/intent\\.managerTotals == progress\\.managerTotals/);";
+            const replacement="assert.match(fragment,/intent\\.managerTotals == priorProgress\\.managerTotals/);";
+            if(!s.includes(old)) throw new Error('lean final-proof contract seam missing');
+            s=s.replace(old,replacement);
+            fs.writeFileSync(p,s);
+          }
           NODE
       - name: Install repository dependencies
         run: npm ci
@@ -60,6 +71,6 @@ jobs:
           printf '\n# exact-head diagnostic retrigger after lean map-diff final proof\n' >> .github/workflows/r18-finalize-publication-once.yml
           git config user.name "nikahanghojjati-oss"
           git config user.email "nikahang.hojjati@gmail.com"
-          git add scripts/build-production-firestore-rules.mjs .github/workflows/r18-finalize-publication-once.yml
+          git add scripts/build-production-firestore-rules.mjs tests/contracts/shared-terminal-close-rules-contracts.cjs .github/workflows/r18-finalize-publication-once.yml
           git commit -m "fix(r18): persist lean terminal final proof"
           git push origin HEAD:feat/ssjr-terminal-close-r18
