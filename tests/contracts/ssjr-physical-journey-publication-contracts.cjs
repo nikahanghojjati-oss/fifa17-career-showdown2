@@ -20,8 +20,8 @@ const supplemental=JSON.parse(fs.readFileSync("POS20_SUPPLEMENTAL_PRODUCT_TESTS.
 assert.match(index,/meta name="app-asset-revision" content="1\.9\.1-r20"/);
 assert.equal(index.includes("?v=1.9.1-r19"),false,"r20 HTML shell must not retain r19 asset queries");
 assert.match(app,/VISUAL_FIDELITY_STYLESHEET="css\/visual-fidelity-r3\.css\?v=1\.9\.1-r20"/);
-assert.match(menu,/assets\/marco-reus-2015-cc-by\.webp/,
-  "unchanged licensed menu photo must remain referenced; its nested query need not change because menuExperience.js itself is r20-versioned by index.html");
+assert.match(menu,/marco-reus-2015-cc-by\.webp\?v=1\.9\.1-r20/,
+  "lazy menu image must share the current r20 whole-shell identity");
 assert.equal(manifest.includes("?v=1.9.1-r19"),false,"r20 manifest must not retain r19 icon queries");
 assert.match(manifest,/showdown-192\.svg\?v=1\.9\.1-r20/);
 assert.match(worker,/const RUNTIME_REVISION = "1\.9\.1-r20";/);
