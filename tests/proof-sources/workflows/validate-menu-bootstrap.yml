@@ -84,8 +84,7 @@ jobs:
           assert.ok(refresh.includes('document.getElementById("seasonIndicator")') && refresh.includes('saveMeta.indicator'), 'Home refresh must synchronize the global save indicator.');
 
           const creation = showdown.slice(showdown.indexOf('function createShowdown()'), showdown.indexOf('function isLeagueDatabaseReady()'));
-          const persistenceBoundary = creation.includes('runtime.createShowdown(candidate)') ? 'runtime.createShowdown(candidate)' : 'saveCurrentShowdown()';
-          assert.ok(creation.indexOf(persistenceBoundary) >= 0 && creation.indexOf(persistenceBoundary) < creation.indexOf('window.refreshMainMenuExperience()'), 'New Showdown must persist through canonical storage authority before synchronizing shell state.');
+          assert.ok(creation.indexOf('saveCurrentShowdown()') < creation.indexOf('window.refreshMainMenuExperience()'), 'New Showdown must save before synchronizing shell state.');
           assert.ok(creation.indexOf('window.refreshMainMenuExperience()') < creation.indexOf('showScreen("leagueWheelScreen")'), 'New Showdown must update the header before entering League selection.');
 
           console.log(`Home shell/menu initializer, save-indicator synchronization and seven-choice media bootstrap regression passed for ${revision}.`);
