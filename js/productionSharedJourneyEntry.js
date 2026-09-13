@@ -11,7 +11,7 @@
   const SHARED_CONTINUE_ID="continueSharedSetupGate";
   const LOCAL_SPIN_ID="spinLeague";
   const LOCAL_CLUB_ID="openClubPack";
-  let installed=false,busy=false,remoteUnsubscribe=null,remoteReturnBusy=false;
+  let installed=false,busy=false,remoteUnsubscribe=null,remoteReturnBusy=false,renderGeneration=0;
 
   function activeSavedShowdown(){
     try{
@@ -144,16 +144,18 @@
   }
   function row(label,value){const item=create("div","settingsInfoRow");item.append(create("span","",label),create("strong","",value));return item;}
   async function renderPanel(){
-    const overlay=root.document.getElementById(PANEL_ID);if(!overlay)return;const body=overlay.querySelector(".remoteJoiningBody");if(!body)return;
+    const generation=++renderGeneration,overlay=root.document.getElementById(PANEL_ID);if(!overlay)return false;const body=overlay.querySelector(".remoteJoiningBody");if(!body)return false;
+    const status=await statusSnapshot();if(generation!==renderGeneration)return false;
+    const confirmed=status.active?await confirmedSetupSnapshot():null;if(generation!==renderGeneration)return false;
     body.replaceChildren();body.append(create("span","remoteJoiningEyebrow","SHARED SHOWDOWN · PAIR FIRST"),create("h2","","CONNECT THE TWO MANAGERS"),create("p","","This device is using its own pre-draw Shared Showdown shell. Prepare Shared Showdown on BOTH manager devices before pairing, then pair the exact managers and make one private session ACTIVE. A successful join returns here automatically; do not use Continue Career to reach the shared journey."));
-    const status=await statusSnapshot(),confirmed=status.active?await confirmedSetupSnapshot():null,grid=create("div","settingsInfoGrid");
+    const grid=create("div","settingsInfoGrid");
     grid.append(row("1 · CONNECTED ACCOUNT",status.accountReady?"READY":"REQUIRED"),row("2 · REGISTERED BROWSER",status.deviceReady?"READY":"REQUIRED"),row("3 · EXACT PAIRED RIVALRY",status.rivalryReady?"READY":"REQUIRED"),row("4 · EXACT PRIVATE SESSION",status.active?"ACTIVE":"REQUIRED"));body.append(grid);
     const actions=create("div","remoteJoiningActions");
     const save=create("button","compactButton",status.rivalryReady?"REVIEW PAIRING":"PAIR MANAGERS");save.type="button";save.addEventListener("click",()=>void openSaveLibrary());actions.append(save);
     const remote=create("button","compactButton",status.active?"PRIVATE SESSION ACTIVE":"OPEN / JOIN PRIVATE SESSION");remote.type="button";remote.disabled=!status.rivalryReady;remote.addEventListener("click",()=>void openRemote());actions.append(remote);
     const setup=create("button","compactButton",status.active?(confirmed?"CONTINUE TO CAREER START":"CONTINUE TO LEAGUE WHEEL"):"SHARED JOURNEY LOCKED");setup.type="button";setup.disabled=!status.active;setup.addEventListener("click",()=>void openSharedExperience());actions.append(setup);
     const refresh=create("button","compactButton","REFRESH STATUS");refresh.type="button";refresh.addEventListener("click",()=>void renderPanel());actions.append(refresh);body.append(actions);
-    const note=create("p","remoteJoiningStatus",status.active?(confirmed?"RESUME READY · Shared Setup is already confirmed. Continue directly to Career Start without rerolling or replaying setup authority.":"READY · Continue to the shared League Wheel. The provider owns the outcome, while the wheel and club packs own the presentation."):"League, club and post-setup journey screens stay locked until the exact two-manager pairing and ACTIVE private session are proven. Both devices must enter through their prepared Shared Showdown shell; Continue Career remains local-only.");note.setAttribute("role","status");note.setAttribute("aria-live","polite");body.append(note);
+    const note=create("p","remoteJoiningStatus",status.active?(confirmed?"RESUME READY · Shared Setup is already confirmed. Continue directly to Career Start without rerolling or replaying setup authority.":"READY · Continue to the shared League Wheel. The provider owns the outcome, while the wheel and club packs own the presentation."):"League, club and post-setup journey screens stay locked until the exact two-manager pairing and ACTIVE private session are proven. Both devices must enter through their prepared Shared Showdown shell; Continue Career remains local-only.");note.setAttribute("role","status");note.setAttribute("aria-live","polite");body.append(note);return true;
   }
   async function openPanel(){
     await loadStyle();applyLocalDrawLock();let overlay=root.document.getElementById(PANEL_ID);
