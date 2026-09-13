@@ -50,7 +50,7 @@ const SAVE_KEY="careerModeShowdown.saveLibrary";
     assert.equal(created.selectedLeague,null);
     assert.deepEqual(created.clubs,{playerOne:null,playerTwo:null});
     assert.deepEqual(created.rounds,[]);
-    assert.equal(await page.locator("#startSharedShowdown").textContent(),"PREPARE SHARED SHOWDOWN");
+    assert.equal(await page.locator("#startSharedShowdown").textContent(),"START SHARED SHOWDOWN");
     assert.match(await page.locator("#sharedShowdownOrderingNote").textContent(),/BOTH manager devices before pairing/i);
 
     // Reproduce the physical peer path without a second code prompt: once the already-paired
