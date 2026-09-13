@@ -43,7 +43,7 @@ const path=require("node:path");
   assert.match(entry,/continueCareerIsLocalOnly:true/);
   assert.match(entry,/remote\.subscribe\(onState\)/,"shared entry must observe the one successful peer join");
   assert.match(entry,/next\.sessionState!=="active"/,"peer return must wait for ACTIVE remote authority");
-  assert.match(entry,/PREPARE SHARED SHOWDOWN/);
+  assert.match(entry,/START SHARED SHOWDOWN/);
   assert.match(entry,/BOTH manager devices before pairing/i);
 
   const validator=await import("../../scripts/validate-ssjr-physical-journey-evidence.mjs");
