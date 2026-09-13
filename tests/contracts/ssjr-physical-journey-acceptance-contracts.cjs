@@ -71,6 +71,15 @@ const path=require("node:path");
   ];
   const makeMilestones=()=>stages.map(([stage,phase,extra],index)=>({sequence:index+1,at:new Date(Date.UTC(2026,8,13,6,30,index)).toISOString(),stage,phase,online:stage!=="network-offline",...extra}));
   const resequence=e=>{e.milestones.forEach((item,index)=>{item.sequence=index+1;item.at=new Date(Date.UTC(2026,8,13,6,30,index)).toISOString();});return e;};
+  const previewBeforeStorageVerify=e=>{
+    const previewIndex=e.milestones.findIndex(item=>item.stage==="local-reconciliation-safe"&&item.phase==="PREVIEW_READY");
+    const verifiedIndex=e.milestones.findIndex(item=>item.stage==="local-reconciliation-storage-verified");
+    assert.ok(previewIndex>=0&&verifiedIndex>=0,"fixture requires preview and storage verification milestones");
+    const [preview]=e.milestones.splice(previewIndex,1);
+    const currentVerifiedIndex=e.milestones.findIndex(item=>item.stage==="local-reconciliation-storage-verified");
+    e.milestones.splice(currentVerifiedIndex,0,preview);
+    return resequence(e);
+  };
   const evidence=({managerRole,remoteRole,account,device,rivalry="c",session="d",deviceLabel,networkLabel,userAgent,platform})=>({
     schema:validator.EVIDENCE_SCHEMA,generatedAt:"2026-09-13T06:30:00.000Z",appVersion:"1.9.1",runtimeRevision:"1.9.1-r20",acceptanceMode:true,physicalJourneyMode:true,sanitizedSessionStorageOnly:true,recorderNetworkRequests:false,rawAuthorityIncluded:false,canonicalRawIncluded:false,
     device:{userAgent,platform,maxTouchPoints:managerRole==="playerOne"?0:5,screenWidth:managerRole==="playerOne"?1366:430,screenHeight:managerRole==="playerOne"?768:932},deviceLabel,networkLabel,managerRole,remoteRole,accountFingerprint:fp(account),deviceFingerprint:fp(device),rivalryFingerprint:fp(rivalry),sessionFingerprints:[fp(session)],authorityViolation:false,canonicalStorageProofScope:"local-reconciliation-preview",canonicalStorageBeforeHash:fp("e"),canonicalStorageAfterHash:fp("e"),canonicalStorageViolation:false,candidateCApplied:false,offlineObserved:true,onlineRecovered:true,reloadResumed:true,terminalReloadVerified:true,conflictGuardProven:true,startupCount:3,
@@ -83,6 +92,11 @@ const path=require("node:path");
   assert.equal(accepted.summary.sameRivalry,true);
   assert.equal(accepted.summary.sharedSessionFingerprints,1);
   assert.equal(accepted.summary.distinctDevices,true);
+
+  const previewFirstOne=previewBeforeStorageVerify(structuredClone(one));
+  const previewFirstTwo=previewBeforeStorageVerify(structuredClone(two));
+  const previewFirstAccepted=validator.validatePhysicalJourneyPair(previewFirstOne,previewFirstTwo);
+  assert.equal(previewFirstAccepted.valid,true,`PREVIEW_READY may be synchronously observed before the after-hash callback: ${JSON.stringify(previewFirstAccepted.issues)}`);
 
   const wrongScope=structuredClone(two);wrongScope.canonicalStorageProofScope="whole-journey";
   assert.ok(validator.validatePhysicalJourneyPair(one,wrongScope).issues.some(item=>item.code==="CANONICAL_STORAGE_PROOF_SCOPE_INVALID"));
@@ -107,5 +121,5 @@ const path=require("node:path");
 
   console.log("PASS r20 Physical Journey recorder is query-gated, privacy-safe, non-writing, authority-sticky and scopes canonical storage integrity to Local Reconciliation preview");
   console.log("PASS r20 peer-entry contract requires both devices to prepare shared shells and ACTIVE peer join to return to Shared Journey Entry without Continue Career");
-  console.log("PASS r20 pair oracle requires opposite manager/remote roles, distinct devices/networks, one season, ordered recovery, scoped unchanged storage proof, PREVIEW_READY, no Candidate C Apply and terminal reload");
+  console.log("PASS r20 pair oracle accepts both safe PREVIEW_READY/after-hash callback orders while requiring opposite manager/remote roles, distinct devices/networks, one season, ordered recovery, scoped unchanged storage proof, no Candidate C Apply and terminal reload");
 })().catch(error=>{console.error("SSJR PHYSICAL JOURNEY ACCEPTANCE CONTRACTS FAILED");console.error(error.stack||error);process.exit(1);});
