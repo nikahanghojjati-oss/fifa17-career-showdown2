@@ -19,12 +19,15 @@
   const SETTINGS_CONTENT_ID="settingsContent";
   const SETTINGS_OVERLAY_ID="settingsOverlay";
   const MANAGER_ROLES=Object.freeze(["playerOne","playerTwo"]);
+  const JOIN_INPUT_ID="sparkPrivatePairingCodeInput";
 
   let pairingState=Object.freeze({status:"idle",initialized:false,busy:false,connected:false,registered:false,accountId:null,deviceId:null,selectedBindingKey:null,message:"Private pairing is available after your private account and this device are ready.",capability:null,expiresAtEpochMs:null});
   let pairingServices=null;
   let pairingIdentity=null;
   let pairingInitializePromise=null;
   let pairingAccountUnsubscribe=null;
+  let pairingJoinDraft="";
+  let pairingJoinRenderDeferred=false;
   const pairingListeners=new Set();
 
   function freezeDeep(value){
@@ -422,13 +425,13 @@
       if(!account||typeof account.getState!=="function")return setState({status:"account-unavailable",initialized:true,busy:false,connected:false,registered:false,message:"Private pairing is unavailable, but local Career Mode remains available."});
       if(!pairingAccountUnsubscribe&&typeof account.subscribe==="function"){
         pairingAccountUnsubscribe=account.subscribe(next=>{
-          if(!next||next.connected!==true){pairingServices=null;setState({status:"signed-out",initialized:true,busy:false,connected:false,registered:false,accountId:null,selectedBindingKey:null,capability:null,expiresAtEpochMs:null,message:"Sign in above to register this browser and use private pairing."});}
-          else if(pairingState.accountId!==next.accountId){pairingServices=null;setState({selectedBindingKey:null,capability:null,expiresAtEpochMs:null});void registerCurrentDevice();}
+          if(!next||next.connected!==true){pairingServices=null;pairingJoinDraft="";setState({status:"signed-out",initialized:true,busy:false,connected:false,registered:false,accountId:null,selectedBindingKey:null,capability:null,expiresAtEpochMs:null,message:"Sign in above to register this browser and use private pairing."});}
+          else if(pairingState.accountId!==next.accountId){pairingServices=null;pairingJoinDraft="";setState({selectedBindingKey:null,capability:null,expiresAtEpochMs:null});void registerCurrentDevice();}
           else if(pairingState.registered!==true){void registerCurrentDevice();}
         });
       }
       const current=account.getState();
-      if(!current||current.connected!==true)return setState({status:"signed-out",initialized:true,busy:false,connected:false,registered:false,accountId:null,message:"Sign in above to register this browser and use private pairing."});
+      if(!current||current.connected!==true){pairingJoinDraft="";return setState({status:"signed-out",initialized:true,busy:false,connected:false,registered:false,accountId:null,message:"Sign in above to register this browser and use private pairing."});}
       return registerCurrentDevice();
     })().finally(()=>{pairingInitializePromise=null;});
     return pairingInitializePromise;
@@ -443,6 +446,24 @@
 
   function shortId(value){return typeof value!=="string"||!value?"—":value.length<=16?value:`${value.slice(0,10)}…${value.slice(-4)}`;}
   function bindingLabel(binding){return `${binding.managerRole==="playerOne"?"Player One":"Player Two"} · ${binding.displayLabel||shortId(binding.profileId)}`;}
+  function joinEditorCanStayMounted(){
+    const input=root.document&&root.document.getElementById(JOIN_INPUT_ID);
+    if(!input||root.document.activeElement!==input||input.readOnly)return false;
+    const account=root.CareerModeSparkConnectedAccount&&typeof root.CareerModeSparkConnectedAccount.getState==="function"?root.CareerModeSparkConnectedAccount.getState():null;
+    if(!account||account.connected!==true||!account.accountId||account.accountId!==pairingState.accountId)return false;
+    if(pairingState.registered!==true)return false;
+    if(["paired","revoked","signed-out","account-unavailable","device-error"].includes(pairingState.status))return false;
+    return true;
+  }
+  function flushDeferredJoinRender(){
+    if(!pairingJoinRenderDeferred)return;
+    pairingJoinRenderDeferred=false;
+    root.setTimeout(()=>{
+      const active=root.document&&root.document.activeElement;
+      if(active&&active.id===JOIN_INPUT_ID)return;
+      renderPanel();
+    },0);
+  }
 
   function renderPanel(){
     if(!root.document)return null;
@@ -456,6 +477,12 @@
       const accountPanel=root.document.getElementById("sparkConnectedAccountPanel");
       if(accountPanel&&accountPanel.parentNode===content&&accountPanel.nextSibling)content.insertBefore(panel,accountPanel.nextSibling);else content.appendChild(panel);
     }
+    if(joinEditorCanStayMounted()){
+      const input=root.document.getElementById(JOIN_INPUT_ID);pairingJoinDraft=input?input.value:pairingJoinDraft;pairingJoinRenderDeferred=true;
+      const liveStatus=panel.querySelector('[role="status"]');if(liveStatus)liveStatus.textContent=pairingState.message;
+      return panel;
+    }
+    pairingJoinRenderDeferred=false;
     panel.replaceChildren();
     const heading=createElement("div","settingsPanelHeading");
     heading.append(createElement("span","settingsPanelEyebrow","PRIVATE RIVALRY"),createElement("h3","","REGISTERED DEVICE & PAIRING"),createElement("p","","Link exactly two private manager identities. This stage does not synchronize gameplay or start a Remote Joining session."));
@@ -477,8 +504,11 @@
       select.addEventListener("change",()=>{if(pairingState.busy||pairingState.capability){if(selectedEntry)select.value=selectedEntry.key;return;}if(bindingEntries.some(entry=>entry.key===select.value))setState({selectedBindingKey:select.value},{render:false});});
       const selectedBinding=()=>{const entry=bindingEntries.find(candidate=>candidate.key===select.value)||selectedEntry;return entry?entry.binding:null;};
       const createButton=createElement("button","menuButton settingsConnectedAccountButton","CREATE PAIRING CODE");createButton.type="button";createButton.disabled=pairingState.busy||!bindings.length;
-      const codeInput=createElement("input","settingsConnectedAccountInput");codeInput.type="text";codeInput.placeholder="Paste private pairing code";codeInput.autocomplete="off";codeInput.spellcheck=false;codeInput.setAttribute("aria-label","Private pairing code");
+      const codeInput=createElement("input","settingsConnectedAccountInput");codeInput.id=JOIN_INPUT_ID;codeInput.type="text";codeInput.placeholder="Paste private pairing code";codeInput.autocomplete="off";codeInput.spellcheck=false;codeInput.setAttribute("aria-label","Private pairing code");
       if(pairingState.status==="paired"&&pairingState.capability){codeInput.value=pairingState.capability;codeInput.readOnly=true;codeInput.setAttribute("aria-readonly","true");}
+      else codeInput.value=pairingJoinDraft;
+      codeInput.addEventListener("input",()=>{pairingJoinDraft=codeInput.value;});
+      codeInput.addEventListener("blur",flushDeferredJoinRender);
       const joinButton=createElement("button","menuButton settingsConnectedAccountButton","JOIN PRIVATE PAIRING");joinButton.type="button";joinButton.disabled=pairingState.busy||!bindings.length||pairingState.status==="paired";
       createButton.addEventListener("click",async()=>{
         const binding=selectedBinding();if(!binding)return;
@@ -488,8 +518,9 @@
       });
       joinButton.addEventListener("click",async()=>{
         const binding=selectedBinding();if(!binding)return;
+        pairingJoinDraft=codeInput.value;
         setState({status:"joining-pair",busy:true,selectedBindingKey:bindingKey(binding),message:"Redeeming the private one-use pairing code…"});
-        try{const context=await resolveConnectedContext();const result=await redeemPairing({user:context.user,firestore:context.services.firestore,firebaseSdk:context.services.firestoreSdk,identity:context.identity,binding,capability:codeInput.value,cryptoImpl:root.crypto});if(!result.ok)throw errorWithCode(result.code,result.message);setState({status:"paired",busy:false,capability:result.capability,expiresAtEpochMs:null,message:"Private managers are paired. The one code pasted above is retained as the exact Connected Rivalry ID, and Connected Rivalry below uses that same value automatically; no second copy, paste, or manual Attach is required in the normal flow."});}
+        try{const context=await resolveConnectedContext();const result=await redeemPairing({user:context.user,firestore:context.services.firestore,firebaseSdk:context.services.firestoreSdk,identity:context.identity,binding,capability:pairingJoinDraft,cryptoImpl:root.crypto});if(!result.ok)throw errorWithCode(result.code,result.message);pairingJoinDraft="";setState({status:"paired",busy:false,capability:result.capability,expiresAtEpochMs:null,message:"Private managers are paired. The one code pasted above is retained as the exact Connected Rivalry ID, and Connected Rivalry below uses that same value automatically; no second copy, paste, or manual Attach is required in the normal flow."});}
         catch(error){setState({status:"pair-error",busy:false,message:`${pairingJoinErrorMessage(error)} Local saves were not changed.`});}
       });
       form.append(select,createButton,codeInput,joinButton);panel.appendChild(form);
@@ -551,6 +582,7 @@
     gameplaySync:false,
     remoteJoiningSessions:false,
     billingRequired:false,
+    stableJoinEditor:true,
     generateDeviceIdentity,
     validDeviceIdentity,
     getOrCreateDeviceIdentity,
