@@ -17,21 +17,28 @@ const SAVE_KEY="careerModeShowdown.saveLibrary";
     await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:12000});
     await page.waitForFunction(()=>window.CareerModeProductionSharedJourneyEntry&&document.getElementById("startSharedShowdown"),null,{timeout:12000});
 
-    // Seed an unrelated local career first. Shared preparation must create a different active shell
-    // instead of teaching the peer to use Continue Career against this existing career.
-    await page.evaluate(()=>showScreen("createShowdown",false));
-    await page.locator("#showdownName").fill("Existing Local Career");
-    await page.locator("#managerOne").fill("Old Manager One");
-    await page.locator("#managerTwo").fill("Old Manager Two");
-    await page.locator("#startShowdown").click();
+    // Seed an unrelated storage shell directly through canonical Save Library authority. Normal
+    // product entry is online-only now, so this proof must not resurrect the retired local setup UI.
+    await page.evaluate(async()=>{
+      await loadRuntimeScript("save-library-cutover","js/saveLibraryCutover.js",()=>typeof window.ensureSaveLibraryRuntimeAuthority==="function");
+      await ensureSaveLibraryRuntimeAuthority();
+      const now=new Date().toISOString();
+      const old={schemaVersion:2,integrityWarnings:[],id:"paired-first-existing-local",name:"Existing Local Career",managers:{playerOne:"Old Manager One",playerTwo:"Old Manager Two"},totalRounds:3,currentRound:1,status:"Created",selectedLeague:null,clubs:{playerOne:null,playerTwo:null},score:{playerOne:0,playerTwo:0},transferChallenges:[],rounds:[],createdAt:now,updatedAt:now,completedAt:null,archivedAt:null};
+      const created=await CareerModeSaveLibraryRuntime.createShowdown(old);
+      if(!created?.identity?.saveId)throw new Error("Storage fixture did not receive stable Save identity.");
+    });
     await page.waitForFunction(key=>{const raw=localStorage.getItem(key);if(!raw)return false;const library=JSON.parse(raw);return Boolean(library.activeSaveId&&library.saves?.length===1);},SAVE_KEY,{timeout:12000});
     const oldSaveId=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)).activeSaveId,SAVE_KEY);
 
-    await page.evaluate(()=>showScreen("createShowdown",false));
-    await page.locator("#showdownName").fill("Reload Guard Proof");
-    await page.locator("#managerOne").fill("Manager One");
-    await page.locator("#managerTwo").fill("Manager Two");
-    await page.locator("#startSharedShowdown").click();
+    // The internal paired-first machinery still receives a ready identity fixture here so the
+    // proof exercises its durable shared-shell behavior without exposing a local gameplay bypass.
+    await page.evaluate(()=>{
+      window.CareerModeOnlinePlayerIdentity={getState:()=>({status:"ready",managerId:"nik",managerLabel:"Nik"})};
+      document.getElementById("showdownName").value="Nik vs Daniel";
+      document.getElementById("managerOne").value="Nik";
+      document.getElementById("managerTwo").value="Daniel";
+      document.getElementById("startSharedShowdown").click();
+    });
 
     await page.waitForFunction(key=>{
       const raw=localStorage.getItem(key);if(!raw)return false;
@@ -44,8 +51,8 @@ const SAVE_KEY="careerModeShowdown.saveLibrary";
       return {activeSaveId:library.activeSaveId,saveIds:library.saves.map(item=>item.saveId),marker:entry.showdown.sharedJourney,selectedLeague:entry.showdown.selectedLeague,clubs:entry.showdown.clubs,rounds:entry.showdown.rounds};
     },SAVE_KEY);
     assert.match(created.activeSaveId,/^save_[a-f0-9]{24}$/);
-    assert.notEqual(created.activeSaveId,oldSaveId,"Shared preparation must create a new local shell rather than reuse the unrelated local career.");
-    assert.equal(created.saveIds.includes(oldSaveId),true,"Preparing Shared Showdown must preserve the existing local career in Save Library.");
+    assert.notEqual(created.activeSaveId,oldSaveId,"Shared preparation must create a new local shell rather than reuse the unrelated recovery Save.");
+    assert.equal(created.saveIds.includes(oldSaveId),true,"Preparing Shared Showdown must preserve the existing recovery Save in Save Library.");
     assert.deepEqual(created.marker,{contractVersion:1,mode:"shared",setupPending:true});
     assert.equal(created.selectedLeague,null);
     assert.deepEqual(created.clubs,{playerOne:null,playerTwo:null});
@@ -80,7 +87,7 @@ const SAVE_KEY="careerModeShowdown.saveLibrary";
     await page.waitForFunction(()=>window.__peerRemoteCloseCount===1,null,{timeout:3000});
     await page.locator("#productionSharedJourneyEntryOverlay button",{hasText:"CONTINUE TO LEAGUE WHEEL"}).waitFor({state:"visible",timeout:5000});
     assert.equal(await page.locator("#productionSharedJourneyEntryOverlay").evaluate(node=>!node.classList.contains("hidden")),true,"ACTIVE peer join must return to Shared Journey Entry automatically.");
-    assert.equal(await page.locator("#productionSharedJourneyEntryOverlay").textContent().then(text=>/Continue Career/i.test(text)),true,"Shared entry should explicitly explain that Continue Career is local-only.");
+    assert.equal(await page.locator("#productionSharedJourneyEntryOverlay").textContent().then(text=>/Continue Career/i.test(text)),true,"Shared entry should explicitly explain that Continue Career is not the shared journey route.");
     assert.equal(await page.evaluate(()=>CareerModeProductionSharedJourneyEntry.peerActiveReturnToSharedEntry),true);
     assert.equal(await page.evaluate(()=>CareerModeProductionSharedJourneyEntry.bothDevicesPrepareSharedShell),true);
 
@@ -134,7 +141,7 @@ const SAVE_KEY="careerModeShowdown.saveLibrary";
     assert.equal(capture.directSpinResult,false,"Direct global league draw call must remain denied.");
     assert.equal(capture.directClubResult,false,"Direct global club draw call must remain denied.");
     assert.deepEqual(pageErrors,[],"Paired-first reload/capture/peer-return proof emitted page errors.");
-    process.stdout.write("PASS production paired-first entry: existing local career is preserved, each device prepares a distinct shared shell, ACTIVE peer join returns automatically without Continue Career or a second join code, durable marker survives reload, and local draw paths remain capture-denied.\n");
+    process.stdout.write("PASS production paired-first entry: recovery Save is preserved, shared preparation creates a distinct shell without relying on retired local setup UI, ACTIVE peer join returns automatically without Continue Career or a second join code, durable marker survives reload, and local draw paths remain capture-denied.\n");
   }finally{
     await context.close().catch(()=>{});
     await browser.close().catch(()=>{});
