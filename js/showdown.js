@@ -49,6 +49,20 @@ function initializeSaveLibraryCutoverGate(){
         }
     },true);
 }
+function initializeOnlinePlayerEntry(){
+    if(typeof document==="undefined"||window.__cmsOnlinePlayerEntryBootstrap)return;
+    window.__cmsOnlinePlayerEntryBootstrap=true;
+    const start=async()=>{
+        try{
+            if(typeof loadRuntimeScript!=="function")throw new Error("Online runtime loader is unavailable.");
+            await loadRuntimeScript("online-player-identity","js/onlinePlayerIdentity.js",()=>Boolean(window.CareerModeOnlinePlayerIdentity));
+            await window.CareerModeOnlinePlayerIdentity.initialize();
+        }catch(error){
+            if(typeof window.reportApplicationError==="function")window.reportApplicationError("Online player identity could not start",error);
+        }
+    };
+    if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",()=>{void start();},{once:true});else window.setTimeout(()=>{void start();},0);
+}
 async function createShowdown(){
     if(showdownCreationPromise)return showdownCreationPromise;
     showdownCreationPromise=(async()=>{
@@ -59,6 +73,11 @@ async function createShowdown(){
         }
         if(typeof navigator!=="undefined"&&navigator.onLine===false){
             if(typeof window.showAppNotice==="function")window.showAppNotice("Career Mode Showdown is online-only. Reconnect to the internet before starting a new rivalry.","error",10000);
+            return false;
+        }
+        const identity=window.CareerModeOnlinePlayerIdentity?.getState?.();
+        if(!identity||identity.status!=="ready"||!identity.managerId){
+            if(typeof window.showAppNotice==="function")window.showAppNotice("Choose and connect your Nik or Daniel online identity before starting a Showdown.","error",10000);
             return false;
         }
         const requestedRounds=Number(roundAmountInput.value),roundAmount=ALLOWED_SHOWDOWN_ROUNDS.includes(requestedRounds)?requestedRounds:1,now=new Date().toISOString();
@@ -136,3 +155,4 @@ window.needsShowdownNormalization=needsShowdownNormalization;
 window.configureOnlineOnlyProductSurface=configureOnlineOnlyProductSurface;
 window.getOnlineShowdownManagers=()=>ONLINE_SHOWDOWN_MANAGERS;
 initializeSaveLibraryCutoverGate();
+initializeOnlinePlayerEntry();
