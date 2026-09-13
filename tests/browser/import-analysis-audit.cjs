@@ -18,10 +18,6 @@ async function waitForApp(page){
     await page.goto(baseUrl.href, { waitUntil: "domcontentloaded" });
     await page.locator("#loadingScreen").waitFor({ state: "hidden", timeout: 12000 });
     await page.locator("#mainMenu").waitFor({ state: "visible", timeout: 5000 });
-    // Candidate B/C are recovery/data-integrity subsystems. Their audit intentionally bypasses
-    // the normal-play online identity gate without changing product code or provider authority.
-    await page.waitForFunction(()=>window.CareerModeOnlinePlayerIdentity&&window.CareerModeOnlinePlayerIdentity.getState().initialized===true,null,{timeout:12000}).catch(()=>{});
-    await page.evaluate(()=>document.getElementById("onlinePlayerIdentityOverlay")?.remove());
 }
 
 async function openDataManagement(page){
@@ -83,27 +79,25 @@ async function seedTarget(page){
             score: { playerOne: 0, playerTwo: 0 },
             transferChallenges: [],
             rounds: [],
+            integrityWarnings: [],
             createdAt: "2026-08-11T10:00:00.000Z",
             updatedAt: "2026-08-11T10:00:00.000Z",
             completedAt: null,
             archivedAt: null
         };
+        const shared = { ...current, id: "shared-legacy", name: "Shared Legacy", status: "Completed", updatedAt: "2026-08-10T11:00:00.000Z", completedAt: "2026-08-10T11:00:00.000Z" };
         localStorage.setItem(keys.active, JSON.stringify(current));
-        localStorage.setItem(keys.legacy, JSON.stringify([{ ...current, id: "target-legacy", status: "Completed", completedAt: "2026-08-11T11:00:00.000Z" }]));
-        localStorage.setItem(keys.preferences, JSON.stringify({ schemaVersion: 1, reducedMotion: false }));
+        localStorage.setItem(keys.legacy, JSON.stringify([shared]));
+        localStorage.setItem(keys.preferences, JSON.stringify({ schemaVersion: 2, reducedMotion: false, menuFeedback: true }));
         currentShowdown = null;
     }, { keys });
 }
 
-async function storageSnapshot(page){
-    return page.evaluate(keys => Object.fromEntries(Object.values(keys).map(key => [key, localStorage.getItem(key)])), keys);
-}
-
 async function installWriteAudit(page){
     await page.evaluate(() => {
+        window.__importWriteAudit = { set: 0, remove: 0 };
         const originalSet = Storage.prototype.setItem;
         const originalRemove = Storage.prototype.removeItem;
-        window.__importWriteAudit = { set: 0, remove: 0 };
         Storage.prototype.setItem = function(key, value){ window.__importWriteAudit.set += 1; return originalSet.call(this, key, value); };
         Storage.prototype.removeItem = function(key){ window.__importWriteAudit.remove += 1; return originalRemove.call(this, key); };
         window.__restoreImportWriteAudit = () => {
@@ -113,17 +107,30 @@ async function installWriteAudit(page){
     });
 }
 
+async function storageSnapshot(page){
+    return page.evaluate(({ keys }) => ({
+        active: localStorage.getItem(keys.active),
+        legacy: localStorage.getItem(keys.legacy),
+        preferences: localStorage.getItem(keys.preferences)
+    }), { keys });
+}
+
 async function runAxe(page, label){
     await page.addScriptTag({ path: axePath });
-    const results = await page.evaluate(async () => axe.run(document, { rules: { region: { enabled: false } } }));
-    const serious = results.violations.filter(item => ["serious", "critical"].includes(item.impact));
-    assert.deepEqual(serious, [], `${label} has serious/critical accessibility violations: ${JSON.stringify(serious)}`);
+    const violations = await page.evaluate(async () => {
+        const result = await window.axe.run(document.getElementById("legacy"), { resultTypes: ["violations"], rules: { region: { enabled: false } } });
+        return result.violations.map(item => ({ id: item.id, impact: item.impact, targets: item.nodes.map(node => node.target) }));
+    });
+    assert.deepEqual(violations, [], `${label}: Data Management accessibility violations.`);
+    const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+    assert.ok(overflow <= 1, `${label}: Data Management introduced horizontal overflow (${overflow}px).`);
 }
 
 async function assertDesktopMatrix(browser){
-    const context = await browser.newContext({ viewport: { width: 1280, height: 800 } });
+    const context = await browser.newContext({ viewport: { width: 940, height: 700 } });
     const page = await context.newPage();
-    const pageErrors=[];page.on("pageerror",error=>pageErrors.push(error.stack||error.message));
+    const pageErrors = [];
+    page.on("pageerror", error => pageErrors.push(error.message));
     try{
         await waitForApp(page);
         await page.evaluate(() => window.openOptionalModule("legacy"));
@@ -132,38 +139,55 @@ async function assertDesktopMatrix(browser){
         await seedTarget(page);
         await page.reload({ waitUntil: "domcontentloaded" });
         await page.locator("#loadingScreen").waitFor({ state: "hidden", timeout: 12000 });
-        await page.waitForFunction(()=>window.CareerModeOnlinePlayerIdentity&&window.CareerModeOnlinePlayerIdentity.getState().initialized===true,null,{timeout:12000}).catch(()=>{});
-        await page.evaluate(()=>document.getElementById("onlinePlayerIdentityOverlay")?.remove());
         await openDataManagement(page);
         await runAxe(page, "desktop");
+
         const before = await storageSnapshot(page);
         await installWriteAudit(page);
-
-        const candidateB = page.locator("#legacyImportAnalysis");
-        const fileInput = page.locator("#careerModeImportFile");
-        const analyze = candidateB.getByRole("button", { name: "ANALYZE BACKUP" });
-        await fileInput.setInputFiles({ name: "backup.json", mimeType: "application/json", buffer: Buffer.from(JSON.stringify(envelope)) });
-        assert.equal(await analyze.isEnabled(), true);
-        await analyze.click();
+        await page.locator("#careerModeImportFile").setInputFiles({ name: "candidate-b-valid.json", mimeType: "application/json", buffer: Buffer.from(JSON.stringify(envelope, null, 2)) });
+        const analyze = page.getByRole("button", { name: "ANALYZE BACKUP" });
+        assert.ok(await analyze.isEnabled());
+        await analyze.focus();
+        await page.keyboard.press("Enter");
         await page.locator(".legacyImportVerdict.ready").waitFor({ state: "visible", timeout: 8000 });
-        assert.deepEqual(await storageSnapshot(page), before);
-        assert.deepEqual(await page.evaluate(() => ({ ...window.__importWriteAudit })), { set: 0, remove: 0 });
+        await page.locator("#legacyImportAnalysis .legacyImportStatus").filter({ hasText: "Atomic Restore & Recovery" }).waitFor({ state: "visible", timeout: 3000 });
+        const after = await storageSnapshot(page);
+        const audit = await page.evaluate(() => ({ ...window.__importWriteAudit }));
+        assert.deepEqual(after, before, "Candidate B preview must leave all three canonical storage values byte-for-byte unchanged.");
+        assert.equal(audit.set, 0, "Candidate B preview UI must perform zero localStorage writes.");
+        assert.equal(audit.remove, 0, "Candidate B preview UI must perform zero localStorage removals.");
 
-        await fileInput.setInputFiles({ name: "invalid.json", mimeType: "application/json", buffer: Buffer.from("not json") });
+        const resultText = await page.locator("#legacyImportAnalysis").innerText();
+        assert.match(resultText, /PREVIEW READY/);
+        assert.match(resultText, /REPLACE/);
+        assert.match(resultText, /MIGRATION PREVIEW/);
+        assert.match(resultText, /EXACT/);
+        assert.match(resultText, /Use Atomic Restore & Recovery below/i);
+        assert.equal(await page.locator("#legacyImportAnalysis .careerRestoreApply").count(), 0, "Candidate B result area must never gain an Apply control.");
+
+        const tampered = structuredClone(envelope);
+        tampered.payload.activeShowdown.name = "Tampered after checksum";
+        await page.locator("#careerModeImportFile").setInputFiles({ name: "checksum-mismatch.json", mimeType: "application/json", buffer: Buffer.from(JSON.stringify(tampered)) });
         await analyze.click();
         await page.locator(".legacyImportVerdict.blocked").waitFor({ state: "visible", timeout: 8000 });
-        assert.match(await candidateB.innerText(), /could not be parsed|invalid json/i);
+        assert.match(await page.locator("#legacyImportAnalysis").innerText(), /checksum does not match/i);
         assert.deepEqual(await storageSnapshot(page), before);
 
-        const wrongSchema={...envelope,schemaVersion:99};
-        await fileInput.setInputFiles({name:"wrong-schema.json",mimeType:"application/json",buffer:Buffer.from(JSON.stringify(wrongSchema))});
+        await page.locator("#careerModeImportFile").setInputFiles({ name: "broken.json", mimeType: "application/json", buffer: Buffer.from("{broken-json") });
         await analyze.click();
-        await page.locator(".legacyImportVerdict.blocked").waitFor({state:"visible",timeout:8000});
-        assert.match(await candidateB.innerText(),/schema/i);
-        assert.deepEqual(await storageSnapshot(page),before);
+        await page.locator(".legacyImportVerdict.blocked").waitFor({ state: "visible", timeout: 8000 });
+        assert.match(await page.locator("#legacyImportAnalysis").innerText(), /not valid JSON/i);
 
-        const tooLarge=Buffer.alloc(5*1024*1024+1,0x61);
-        await fileInput.setInputFiles({ name: "oversized.json", mimeType: "application/json", buffer: tooLarge });
+        const future = structuredClone(envelope);
+        // formatVersion 2 is now supported (multi-Save portability); treat v3 as the unsupported future format
+        future.formatVersion = 3;
+        await page.locator("#careerModeImportFile").setInputFiles({ name: "future-format.json", mimeType: "application/json", buffer: Buffer.from(JSON.stringify(future)) });
+        await analyze.click();
+        await page.locator(".legacyImportVerdict.blocked").waitFor({ state: "visible", timeout: 8000 });
+        assert.match(await page.locator("#legacyImportAnalysis").innerText(), /newer than this app supports/i);
+
+        const tooLarge = Buffer.alloc((5 * 1024 * 1024) + 64, 0x20);
+        await page.locator("#careerModeImportFile").setInputFiles({ name: "oversized.json", mimeType: "application/json", buffer: tooLarge });
         await analyze.click();
         await page.locator(".legacyImportVerdict.blocked").waitFor({ state: "visible", timeout: 8000 });
         assert.match(await page.locator("#legacyImportAnalysis").innerText(), /too large/i);
@@ -194,8 +218,6 @@ async function assertDropAndMobile(browser){
         await seedTarget(page);
         await page.reload({ waitUntil: "domcontentloaded" });
         await page.locator("#loadingScreen").waitFor({ state: "hidden", timeout: 12000 });
-        await page.waitForFunction(()=>window.CareerModeOnlinePlayerIdentity&&window.CareerModeOnlinePlayerIdentity.getState().initialized===true,null,{timeout:12000}).catch(()=>{});
-        await page.evaluate(()=>document.getElementById("onlinePlayerIdentityOverlay")?.remove());
         await openDataManagement(page);
         await runAxe(page, "mobile reduced-motion");
         const before = await storageSnapshot(page);
