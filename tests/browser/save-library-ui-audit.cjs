@@ -209,6 +209,8 @@ async function multiSaveJourney(runtime,config){
             const rect=value=>{const box=value.getBoundingClientRect();return{top:box.top,bottom:box.bottom,height:box.height};};
             const scroller=document.getElementById("settingsContent");
             const panel=card.closest(".saveLibraryProductPanel");
+            let next=panel.nextElementSibling;
+            while(next&&(next.hidden||getComputedStyle(next).display==="none"||next.getBoundingClientRect().height===0))next=next.nextElementSibling;
             return {
                 card:rect(card),
                 identity:rect(card.querySelector(".saveLibraryProfileIdentity")),
@@ -216,7 +218,7 @@ async function multiSaveJourney(runtime,config){
                 editor:rect(card.querySelector(".saveLibraryProfileEditor")),
                 form:rect(card.querySelector(".saveLibraryProfileEditForm")),
                 panel:rect(panel),
-                nextPanel:panel.nextElementSibling?rect(panel.nextElementSibling):null,
+                nextPanel:next?rect(next):null,
                 scroller:rect(scroller),
                 scrollTop:scroller.scrollTop
             };
@@ -226,7 +228,7 @@ async function multiSaveJourney(runtime,config){
             assert.ok(box.top>=profileVisualLayout.card.top-1&&box.bottom<=profileVisualLayout.card.bottom+1,`${config.name}: ${part} escaped the profile card's vertical layout box.`);
         }
         assert.ok(profileVisualLayout.card.top>=profileVisualLayout.panel.top-1&&profileVisualLayout.card.bottom<=profileVisualLayout.panel.bottom+1,`${config.name}: the edited profile card escaped its Save Library panel (${JSON.stringify(profileVisualLayout)}).`);
-        assert.ok(!profileVisualLayout.nextPanel||profileVisualLayout.nextPanel.top>=profileVisualLayout.panel.bottom-1,`${config.name}: the next Settings panel overlapped the Save Library panel (${JSON.stringify(profileVisualLayout)}).`);
+        assert.ok(!profileVisualLayout.nextPanel||profileVisualLayout.nextPanel.top>=profileVisualLayout.panel.bottom-1,`${config.name}: the next visible Settings panel overlapped the Save Library panel (${JSON.stringify(profileVisualLayout)}).`);
         const profileScreenshotPath=path.join(resultsDirectory,`save-library-profile-label-${config.name}-${runLabel}.png`);
         await page.screenshot({path:profileScreenshotPath});
         await profileCard.locator(".saveLibraryProfileCancelButton").click();
