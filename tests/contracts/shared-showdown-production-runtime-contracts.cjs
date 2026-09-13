@@ -188,7 +188,7 @@ assert.ok(release.includes(`Runtime asset revision: \`${runtimeRevision}\``),'Cu
 assert.ok(release.includes(`Previous known-good runtime: \`${previousRuntimeRevision}\``),'Current release record must identify the exact previous whole-shell recovery target.');
 assert.match(release,/SSJR-1\.1[\s\S]+`0\/100`/,'Current publication record must not claim SSJR credit from source or deployment.');
 
-assert.match(entry,/PREPARE SHARED SHOWDOWN/,'Paired-first entry must expose the current two-device preparation action.');
+assert.match(entry,/START SHARED SHOWDOWN/);
 assert.match(entry,/setPending\(true\)[\s\S]+createShowdown\(\)[\s\S]+persistPendingMarker\(\)/,'Shared journey must establish its transient lock, create the pre-draw shell, then persist the durable shared-mode marker before setup continues.');
 assert.match(entry,/sharedJourney=\{contractVersion:1,mode:"shared",setupPending:true\}/,'The non-secret shared-mode marker must live with the saved shell.');
 assert.match(entry,/runtime\.saveCurrentShowdown\(\)!==true/,'The shared-mode marker must be committed through Save Library authority.');
