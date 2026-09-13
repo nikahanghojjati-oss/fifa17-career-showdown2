@@ -114,17 +114,16 @@ async function corruptStateFailsClosed(runtime){
 }
 
 async function createShowdownThroughUI(page,name){
-    if(!(await page.locator("#mainMenu").isVisible()))await page.evaluate(()=>window.showScreen("mainMenu"));
-    await page.locator("#newShowdown").click();
-    await page.locator("#createShowdown").waitFor({state:"visible"});
-    await page.locator("#showdownName").fill(name);
-    await page.locator("#managerOne").fill("Same Name");
-    await page.locator("#managerTwo").fill("Same Name");
-    await page.locator("#roundAmount").selectOption("3");
-    await page.locator("#startShowdown").click();
-    await page.locator("#leagueWheelScreen").waitFor({state:"visible",timeout:15000});
-    await page.evaluate(()=>window.showScreen("mainMenu"));
-    await page.locator("#mainMenu").waitFor({state:"visible"});
+    await page.evaluate(async label=>{
+        if(typeof window.ensureSaveLibraryRuntimeAuthority!=="function")throw new Error("Save Library runtime authority is unavailable to the storage audit.");
+        await window.ensureSaveLibraryRuntimeAuthority();
+        const runtime=window.CareerModeSaveLibraryRuntime;
+        if(!runtime||typeof runtime.createShowdown!=="function"||!runtime.isReady())throw new Error("Save Library runtime did not become ready for the storage audit.");
+        const now=new Date().toISOString();
+        const candidate={schemaVersion:2,integrityWarnings:[],id:`audit-${label.toLowerCase().replace(/[^a-z0-9]+/g,"-")}`,name:label,managers:{playerOne:"Same Name",playerTwo:"Same Name"},totalRounds:3,currentRound:1,status:"Created",selectedLeague:null,clubs:{playerOne:null,playerTwo:null},score:{playerOne:0,playerTwo:0},transferChallenges:[],rounds:[],createdAt:now,updatedAt:now,completedAt:null,archivedAt:null};
+        const created=await runtime.createShowdown(candidate);
+        if(!created||!created.identity||!created.identity.saveId)throw new Error("Save Library runtime did not create a stable audit Save.");
+    },name);
 }
 
 async function waitForCardCount(page,count){
@@ -152,7 +151,7 @@ async function multiSaveJourney(runtime,config){
         await createShowdownThroughUI(page,"Third Rivalry");
 
         let opened=await openLibrary(page,"ready");
-        assert.equal(await opened.panel.locator(".saveLibraryCard").count(),3,`${config.name}: three user-created Showdowns must render as three Saves.`);
+        assert.equal(await opened.panel.locator(".saveLibraryCard").count(),3,`${config.name}: three storage-audit Showdowns must render as three Saves.`);
         assert.equal(await opened.panel.locator(".saveLibraryProfileCard").count(),6,`${config.name}: three same-name rivalries must retain six distinct Local Profiles.`);
         const profileIds=await opened.panel.locator(".saveLibraryProfileCard").evaluateAll(cards=>cards.map(card=>card.dataset.profileId));
         assert.equal(new Set(profileIds).size,6,`${config.name}: equal visible manager names must not collapse stable profile identity.`);
