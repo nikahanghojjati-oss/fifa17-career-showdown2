@@ -120,11 +120,31 @@ async function proveBindingSelectionAndDeniedRedemption(runtime){
     await page.addScriptTag({url:new URL("js/sparkPrivatePairing.js",baseUrl).href});
     await page.evaluate(()=>window.CareerModeSparkPrivatePairing.mountWhenSettingsReady());
     await page.waitForFunction(()=>window.CareerModeSparkPrivatePairing.getState().registered===true);
+    assert.equal(await page.evaluate(()=>window.CareerModeSparkPrivatePairing.stableJoinEditor),true,"pairing runtime did not publish the stable join-editor guarantee");
 
     const selector=page.getByLabel("Local manager identity for private pairing");
-    await page.getByLabel("Private pairing code").fill(`pair_${"e".repeat(64)}`);
+    const joinInput=page.getByLabel("Private pairing code");
+    const draftCapability=`pair_${"e".repeat(64)}`;
+    await joinInput.fill(draftCapability);
+    await joinInput.focus();
+    await page.evaluate(()=>{window.__pairingJoinNode=document.getElementById("sparkPrivatePairingCodeInput");});
+    await page.evaluate(async()=>{
+      const api=window.CareerModeSparkPrivatePairing;
+      for(let cycle=0;cycle<3;cycle+=1)await api.initialize();
+    });
+    const stableEditor=await page.evaluate(()=>({
+      sameNode:document.getElementById("sparkPrivatePairingCodeInput")===window.__pairingJoinNode,
+      focused:document.activeElement===window.__pairingJoinNode,
+      value:window.__pairingJoinNode&&window.__pairingJoinNode.value,
+      count:document.querySelectorAll("#sparkPrivatePairingCodeInput").length
+    }));
+    assert.equal(stableEditor.sameNode,true,"background registration state churn replaced the focused pairing input");
+    assert.equal(stableEditor.focused,true,"background registration state churn stole pairing input focus");
+    assert.equal(stableEditor.value,draftCapability,"background registration state churn changed the pairing draft");
+    assert.equal(stableEditor.count,1,"background registration state churn duplicated the pairing input");
+
     await selector.selectOption({label:"Player Two · Gop"});
-    assert.equal(await page.getByLabel("Private pairing code").inputValue(),`pair_${"e".repeat(64)}`,"manager selection rerendered and erased the pasted pairing code");
+    assert.equal(await page.getByLabel("Private pairing code").inputValue(),draftCapability,"manager selection rerendered and erased the pasted pairing code");
     const playerTwoKey=await page.evaluate(()=>window.CareerModeSparkPrivatePairing.getState().selectedBindingKey);
     assert.match(playerTwoKey,/^playerTwo:profile_2{24}:save_a{24}$/);
 
@@ -164,7 +184,7 @@ async function proveBindingSelectionAndDeniedRedemption(runtime){
     assert.equal(await selector.locator("option:checked").textContent(),"Player Two · Gop","denied redemption rerender reset the selected local manager identity");
     assert.equal(await page.evaluate(()=>window.CareerModeSparkPrivatePairing.getState().selectedBindingKey),playerTwoKey);
     assert.deepEqual(pageErrors,[],"pairing selector/error browser proof emitted page errors");
-    process.stdout.write("PASS Stage 3 mobile selector persistence, live-capability manager lock, forced late-dropdown race rejection, and safe denied-redemption guidance\n");
+    process.stdout.write("PASS Stage 3 mobile pairing editor survives repeated registration renders without losing focus/draft, retains manager selection, locks live capabilities, rejects late-dropdown races, and hides raw permission denials\n");
   }finally{
     await context.close().catch(()=>{});
     await browser.close().catch(()=>{});
