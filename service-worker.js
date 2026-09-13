@@ -1,5 +1,5 @@
-const RUNTIME_REVISION = "1.9.1-r19";
-const PREVIOUS_RUNTIME_REVISION = "1.9.1-r18";
+const RUNTIME_REVISION = "1.9.1-r20";
+const PREVIOUS_RUNTIME_REVISION = "1.9.1-r19";
 const CACHE_PREFIX = "career-mode-showdown-shell-";
 const MODE_CACHE_PREFIX = "career-mode-showdown-runtime-mode-";
 const CACHE_NAME = `${CACHE_PREFIX}${RUNTIME_REVISION}`;
@@ -192,7 +192,7 @@ async function verifyCache(revision = RUNTIME_REVISION){
     if(!revision || !(await cacheExists(cacheName))){ return { ok:false, available:false, cacheName, revision, expected:SHELL_PATHS.length, missing:SHELL_PATHS.slice() }; }
     const cache=await caches.open(cacheName); const missing=[];
     for(const path of SHELL_PATHS){ const response=await cache.match(versionedShellUrl(path,revision)); if(!response||!response.ok){ missing.push(path); } }
-    return { ok:missing.length===0, available:true, cacheName, revision, expected:SHELL_PATHS.length, missing };
+    return { ok:missing.length===0, available:true, cacheName, revision,expected:SHELL_PATHS.length, missing };
 }
 async function populateCurrentCache(){
     const cache=await caches.open(CACHE_NAME);

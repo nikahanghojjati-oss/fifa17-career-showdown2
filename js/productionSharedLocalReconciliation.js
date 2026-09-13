@@ -29,7 +29,12 @@
   async function lrPreview(){
     const api=await lrEnsureConnected();let before=lrRefresh();
     if(!before||before.previewAllowed!==true)return {ok:false,code:"LOCAL_RECONCILIATION_PREVIEW_BLOCKED",state:before};
-    await api.previewLocalReconciliation(before.binding);
+    const acceptance=root.CareerModeSSJRPhysicalJourneyAcceptance;
+    const acceptanceEnabled=Boolean(acceptance&&acceptance.enabled===true&&typeof acceptance.captureLocalReconciliationBaseline==="function"&&typeof acceptance.verifyLocalReconciliationPreview==="function");
+    let proofArmed=false;
+    if(acceptanceEnabled)proofArmed=await acceptance.captureLocalReconciliationBaseline();
+    try{await api.previewLocalReconciliation(before.binding);}
+    finally{if(proofArmed)await acceptance.verifyLocalReconciliationPreview();}
     const after=lrRefresh();
     if(!after||!(after.phase==="PREVIEW_READY"||after.phase==="OFFLINE_FALLBACK"))return {ok:false,code:"LOCAL_RECONCILIATION_PREVIEW_FAILED",state:after};
     return {ok:true,state:after};
@@ -52,5 +57,5 @@
     if(typeof root.setInterval==="function")timer=root.setInterval(lrRefresh,POLL_MS);
     lrRefresh();return true;
   }
-  return Object.freeze({contractVersion:1,feature:"ssjr-production-shared-local-reconciliation",productionEnabled:true,runtimeRevision:"1.9.1-r16",pollIntervalMs:POLL_MS,install:lrInstall,refresh:lrRefresh,preview:lrPreview,apply:lrApply,getState:()=>state,isActive:lrSharedActive,canonicalStorageMutation:false,providerWriteRequired:false,automaticLocalApply:false,candidateCOnly:true});
+  return Object.freeze({contractVersion:2,feature:"ssjr-production-shared-local-reconciliation",productionEnabled:true,runtimeRevision:"1.9.1-r20",pollIntervalMs:POLL_MS,install:lrInstall,refresh:lrRefresh,preview:lrPreview,apply:lrApply,getState:()=>state,isActive:lrSharedActive,canonicalStorageMutation:false,providerWriteRequired:false,automaticLocalApply:false,candidateCOnly:true,acceptanceStorageProofScope:"local-reconciliation-preview"});
 });
