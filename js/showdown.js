@@ -1,158 +1,20 @@
 let currentShowdown=null;
-const CURRENT_SHOWDOWN_SCHEMA_VERSION=2;
-const ALLOWED_SHOWDOWN_ROUNDS=Object.freeze([1,3,5,10]);
-const ONLINE_SHOWDOWN_MANAGERS=Object.freeze({playerOne:"Nik",playerTwo:"Daniel"});
+const CURRENT_SHOWDOWN_SCHEMA_VERSION=2,ALLOWED_SHOWDOWN_ROUNDS=Object.freeze([1,3,5,10]);
 let showdownCreationPromise=null;
-function configureOnlineOnlyProductSurface(){
-    if(typeof document==="undefined")return;
-    const settingsButton=document.getElementById("settingsButton");
-    if(settingsButton){
-        const code=settingsButton.querySelector(".menuTileCode"),label=settingsButton.querySelector(".menuTileLabel"),meta=settingsButton.querySelector(".menuTileMeta");
-        if(code)code.textContent="ONLINE";
-        if(label)label.textContent="ACCOUNT & DEVICES";
-        if(meta)meta.textContent="Nik/Daniel sign-in, registered devices and recovery";
-    }
-    const setup=document.getElementById("createShowdown");
-    if(setup){
-        const heading=setup.querySelector("h2");if(heading)heading.textContent="NEW ONLINE SHOWDOWN";
-        const fixedFields=[["showdownName","Nik vs Daniel"],["managerOne",ONLINE_SHOWDOWN_MANAGERS.playerOne],["managerTwo",ONLINE_SHOWDOWN_MANAGERS.playerTwo]];
-        fixedFields.forEach(([id,value])=>{const input=document.getElementById(id);const label=setup.querySelector(`label[for="${id}"]`);if(input){input.value=value;input.hidden=true;input.setAttribute("aria-hidden","true");input.tabIndex=-1;}if(label)label.hidden=true;});
-        const round=document.getElementById("roundAmount");
-        const roundLabel=setup.querySelector('label[for="roundAmount"]');
-        if(roundLabel)roundLabel.textContent="NUMBER OF SEASONS";
-        if(round){Array.from(round.options).forEach(option=>{const count=Number(option.value)||1;option.textContent=`${count} Season${count===1?"":"s"}`;});}
-        if(!document.getElementById("onlineShowdownSetupNote")){
-            const note=document.createElement("p");note.id="onlineShowdownSetupNote";note.className="stateNote";note.textContent="Nik and Daniel are fixed. The rivalry title will be created automatically from the club matchup.";
-            if(roundLabel)setup.querySelector(".setupBox")?.insertBefore(note,roundLabel);
-        }
-    }
-    const remoteButton=document.getElementById("remoteJoiningButton");if(remoteButton)remoteButton.textContent="ONLINE CONNECTION";
-    const startupNote=document.querySelector(".startupSaveNote");if(startupNote)startupNote.textContent="ONLINE SHOWDOWN · NIK & DANIEL · CONNECTION REQUIRED";
-    const bottomStatus=document.querySelector(".menuBottomStrip strong");if(bottomStatus)bottomStatus.textContent="ONLINE CONNECTION REQUIRED";
-}
-function initializeSaveLibraryCutoverGate(){
-    if(typeof document==="undefined"||!document.addEventListener||window.__cmsSaveLibraryCutoverGate)return;
-    window.__cmsSaveLibraryCutoverGate=true;
-    configureOnlineOnlyProductSurface();
-    document.addEventListener("click",async event=>{
-        const button=event.target instanceof Element?event.target.closest("#continueCareer,#startShowdown,#legacyButton,#settingsButton"):null;
-        if(!button||button.disabled)return;
-        event.preventDefault();event.stopImmediatePropagation();
-        const lock=button.matches("#continueCareer,#startShowdown");if(lock)button.disabled=true;
-        try{
-            if(typeof loadRuntimeScript!=="function")throw new Error("Optional runtime loader is unavailable.");
-            await loadRuntimeScript("save-library-cutover","js/saveLibraryCutover.js",()=>typeof window.handleSaveLibraryCutoverAction==="function");
-            await window.handleSaveLibraryCutoverAction(button);
-        }catch(error){
-            if(lock)button.disabled=false;
-            if(typeof window.reportApplicationError==="function")window.reportApplicationError("Unable to prepare Showdown storage authority",error);
-        }
-    },true);
-}
-function initializeOnlinePlayerEntry(){
-    if(typeof document==="undefined"||window.__cmsOnlinePlayerEntryBootstrap)return;
-    window.__cmsOnlinePlayerEntryBootstrap=true;
-    const start=async()=>{
-        try{
-            if(typeof loadRuntimeScript!=="function")throw new Error("Online runtime loader is unavailable.");
-            await loadRuntimeScript("online-player-identity","js/onlinePlayerIdentity.js",()=>Boolean(window.CareerModeOnlinePlayerIdentity));
-            await window.CareerModeOnlinePlayerIdentity.initialize();
-        }catch(error){
-            if(typeof window.reportApplicationError==="function")window.reportApplicationError("Online player identity could not start",error);
-        }
-    };
-    if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",()=>{void start();},{once:true});else window.setTimeout(()=>{void start();},0);
-}
-async function createShowdown(){
-    if(showdownCreationPromise)return showdownCreationPromise;
-    showdownCreationPromise=(async()=>{
-        const roundAmountInput=document.getElementById("roundAmount");
-        if(!roundAmountInput){
-            if(typeof window.reportApplicationError==="function")window.reportApplicationError("Showdown creation form is incomplete",new Error("Season length is unavailable."));
-            return false;
-        }
-        if(typeof navigator!=="undefined"&&navigator.onLine===false){
-            if(typeof window.showAppNotice==="function")window.showAppNotice("Career Mode Showdown is online-only. Reconnect to the internet before starting a new rivalry.","error",10000);
-            return false;
-        }
-        const identity=window.CareerModeOnlinePlayerIdentity?.getState?.();
-        if(!identity||identity.status!=="ready"||!identity.managerId){
-            if(typeof window.showAppNotice==="function")window.showAppNotice("Choose and connect your Nik or Daniel online identity before starting a Showdown.","error",10000);
-            return false;
-        }
-        const requestedRounds=Number(roundAmountInput.value),roundAmount=ALLOWED_SHOWDOWN_ROUNDS.includes(requestedRounds)?requestedRounds:1,now=new Date().toISOString();
-        const candidate={schemaVersion:CURRENT_SHOWDOWN_SCHEMA_VERSION,id:Date.now(),name:"Nik vs Daniel",managers:{...ONLINE_SHOWDOWN_MANAGERS},totalRounds:roundAmount,currentRound:1,status:"Created",selectedLeague:null,clubs:{playerOne:null,playerTwo:null},score:{playerOne:0,playerTwo:0},transferChallenges:[],rounds:[],integrityWarnings:[],createdAt:now,updatedAt:now,completedAt:null,archivedAt:null};
-        const runtime=window.CareerModeSaveLibraryRuntime;
-        if(!runtime||typeof runtime.createShowdown!=="function"||!runtime.isReady()){
-            if(typeof window.showAppNotice==="function")window.showAppNotice("Showdown storage authority is not ready, so the new online rivalry was not created.","error",10000);
-            return false;
-        }
-        try{
-            const prepared=await runtime.createShowdown(candidate);
-            currentShowdown=normalizeShowdown(prepared);
-        }catch(error){
-            if(typeof window.reportApplicationError==="function")window.reportApplicationError("The new online Showdown could not be prepared",error);
-            return false;
-        }
-        if(typeof window.resetTransientSelectionOperations==="function")window.resetTransientSelectionOperations();
-        if(typeof window.refreshMainMenuExperience==="function")window.refreshMainMenuExperience();
-        return showScreen("leagueWheelScreen");
-    })();
-    try{return await showdownCreationPromise;}finally{showdownCreationPromise=null;}
-}
+function initializeSaveLibraryCutoverGate(){if(typeof document==="undefined"||!document.addEventListener||window.__cmsSaveLibraryCutoverGate)return;window.__cmsSaveLibraryCutoverGate=true;document.addEventListener("click",async e=>{const b=e.target instanceof Element?e.target.closest("#continueCareer,#startShowdown,#legacyButton,#settingsButton"):null;if(!b||b.disabled)return;e.preventDefault();e.stopImmediatePropagation();const lock=b.matches("#continueCareer,#startShowdown");if(lock)b.disabled=true;try{if(typeof loadRuntimeScript!=="function")throw new Error("Optional runtime loader is unavailable.");await loadRuntimeScript("save-library-cutover","js/saveLibraryCutover.js",()=>typeof window.handleSaveLibraryCutoverAction==="function");await window.handleSaveLibraryCutoverAction(b);}catch(error){if(lock)b.disabled=false;if(typeof window.reportApplicationError==="function")window.reportApplicationError("Unable to prepare Showdown storage authority",error);}},true);}
+function initializeOnlinePlayerEntry(){if(typeof document==="undefined"||window.__cmsOnlinePlayerEntryBootstrap)return;window.__cmsOnlinePlayerEntryBootstrap=true;const start=async()=>{try{await loadRuntimeScript("online-player-identity","js/onlinePlayerIdentity.js",()=>Boolean(window.CareerModeOnlinePlayerIdentity));await window.CareerModeOnlinePlayerIdentity.initialize();}catch(error){if(typeof window.reportApplicationError==="function")window.reportApplicationError("Online player identity could not start",error);}};document.readyState==="loading"?document.addEventListener("DOMContentLoaded",()=>void start(),{once:true}):setTimeout(()=>void start(),0);}
+async function createShowdown(){if(showdownCreationPromise)return showdownCreationPromise;showdownCreationPromise=(async()=>{const rounds=document.getElementById("roundAmount"),identity=window.CareerModeOnlinePlayerIdentity?.getState?.();if(!rounds){if(typeof window.reportApplicationError==="function")window.reportApplicationError("Showdown creation form is incomplete",new Error("Season length is unavailable."));return false;}if(typeof navigator!=="undefined"&&navigator.onLine===false){window.showAppNotice?.("Career Mode Showdown is online-only. Reconnect before starting a rivalry.","error",10000);return false;}if(!identity||identity.status!=="ready"||!identity.managerId){window.showAppNotice?.("Connect this device as Nik or Daniel before starting a Showdown.","error",10000);return false;}const requested=Number(rounds.value),total=ALLOWED_SHOWDOWN_ROUNDS.includes(requested)?requested:1,now=new Date().toISOString(),candidate={schemaVersion:CURRENT_SHOWDOWN_SCHEMA_VERSION,id:Date.now(),name:"Nik vs Daniel",managers:{playerOne:"Nik",playerTwo:"Daniel"},totalRounds:total,currentRound:1,status:"Created",selectedLeague:null,clubs:{playerOne:null,playerTwo:null},score:{playerOne:0,playerTwo:0},transferChallenges:[],rounds:[],integrityWarnings:[],createdAt:now,updatedAt:now,completedAt:null,archivedAt:null},runtime=window.CareerModeSaveLibraryRuntime;if(!runtime||typeof runtime.createShowdown!=="function"||!runtime.isReady()){window.showAppNotice?.("Showdown storage is not ready, so nothing was created.","error",10000);return false;}try{currentShowdown=normalizeShowdown(await runtime.createShowdown(candidate));}catch(error){window.reportApplicationError?.("The new online Showdown could not be prepared",error);return false;}window.resetTransientSelectionOperations?.();window.refreshMainMenuExperience?.();return showScreen("leagueWheelScreen");})();try{return await showdownCreationPromise;}finally{showdownCreationPromise=null;}}
 function isLeagueDatabaseReady(){return typeof leagues!=="undefined"&&Array.isArray(leagues);}
 function getCanonicalLeague(league){if(!league||!league.id)return null;if(!isLeagueDatabaseReady())return league;return leagues.find(item=>item.id===league.id)||null;}
-function getClubPairIntegrity(showdown){
-    const result={complete:false,valid:false,verified:false,reason:""};
-    if(!showdown||!showdown.clubs){result.reason="Club assignment is missing.";return result;}
-    const one=showdown.clubs.playerOne,two=showdown.clubs.playerTwo;
-    if(!one&&!two){result.reason="Clubs have not been assigned yet.";return result;}
-    if(!one||!two){result.reason="Only one manager has an assigned club.";return result;}
-    result.complete=true;
-    if(one===two){result.reason="Both managers cannot use the same club.";return result;}
-    if(!showdown.selectedLeague||!showdown.selectedLeague.id){result.reason="Assigned clubs do not have a selected league.";return result;}
-    if(typeof getClubsForLeague!=="function"){result.valid=true;return result;}
-    const eligible=getClubsForLeague(showdown.selectedLeague.id);result.verified=true;
-    if(!eligible.includes(one)||!eligible.includes(two)){result.reason="Assigned clubs do not belong to the selected league.";return result;}
-    result.valid=true;return result;
-}
+function getClubPairIntegrity(showdown){const result={complete:false,valid:false,verified:false,reason:""};if(!showdown||!showdown.clubs){result.reason="Club assignment is missing.";return result;}const one=showdown.clubs.playerOne,two=showdown.clubs.playerTwo;if(!one&&!two){result.reason="Clubs have not been assigned yet.";return result;}if(!one||!two){result.reason="Only one manager has an assigned club.";return result;}result.complete=true;if(one===two){result.reason="Both managers cannot use the same club.";return result;}if(!showdown.selectedLeague||!showdown.selectedLeague.id){result.reason="Assigned clubs do not have a selected league.";return result;}if(typeof getClubsForLeague!=="function"){result.valid=true;return result;}const eligible=getClubsForLeague(showdown.selectedLeague.id);result.verified=true;if(!eligible.includes(one)||!eligible.includes(two)){result.reason="Assigned clubs do not belong to the selected league.";return result;}result.valid=true;return result;}
 function canSafelyResetClubAssignment(showdown){const hasRounds=Array.isArray(showdown.rounds)&&showdown.rounds.length>0,hasTransferHistory=Array.isArray(showdown.transferChallenges)&&showdown.transferChallenges.some(challenge=>challenge&&challenge.status!=="not_started");return !hasRounds&&!hasTransferHistory;}
 function addIntegrityWarning(showdown,message){if(!message)return;showdown.integrityWarnings=Array.isArray(showdown.integrityWarnings)?showdown.integrityWarnings:[];if(!showdown.integrityWarnings.includes(message))showdown.integrityWarnings.push(message);}
-function repairShowdownIntegrity(showdown){
-    if(!showdown)return null;showdown.integrityWarnings=[];
-    const canonicalLeague=getCanonicalLeague(showdown.selectedLeague);
-    if(showdown.selectedLeague&&canonicalLeague)showdown.selectedLeague=canonicalLeague;
-    else if(showdown.selectedLeague&&!canonicalLeague){if(canSafelyResetClubAssignment(showdown)){showdown.selectedLeague=null;showdown.clubs={playerOne:null,playerTwo:null};showdown.status="Created";}else addIntegrityWarning(showdown,"The saved league is not recognized by the current FIFA 17 league database.");}
-    const clubIntegrity=getClubPairIntegrity(showdown);
-    if((showdown.clubs.playerOne||showdown.clubs.playerTwo)&&!clubIntegrity.valid){if(canSafelyResetClubAssignment(showdown)){showdown.clubs={playerOne:null,playerTwo:null};showdown.status=showdown.selectedLeague?"League Selected":"Created";}else addIntegrityWarning(showdown,clubIntegrity.reason);}
-    if(showdown.rounds.length>showdown.totalRounds)addIntegrityWarning(showdown,"Saved season history contains more seasons than the showdown length.");
-    if(showdown.status==="Completed"&&showdown.rounds.length<showdown.totalRounds)addIntegrityWarning(showdown,"The showdown is marked complete but not every configured season has a result.");
-    return showdown;
-}
-function normalizeShowdown(showdown){
-    if(!showdown)return null;
-    showdown.schemaVersion=Number(showdown.schemaVersion)||1;showdown.name=showdown.name||"Unnamed Showdown";showdown.managers=showdown.managers||{playerOne:"Manager 1",playerTwo:"Manager 2"};showdown.managers.playerOne=showdown.managers.playerOne||"Manager 1";showdown.managers.playerTwo=showdown.managers.playerTwo||"Manager 2";
-    const requestedRounds=Number(showdown.totalRounds)||1;showdown.totalRounds=ALLOWED_SHOWDOWN_ROUNDS.includes(requestedRounds)?requestedRounds:1;showdown.currentRound=Math.max(1,Math.min(Number(showdown.currentRound)||1,showdown.totalRounds));showdown.status=showdown.status||"Created";showdown.selectedLeague=showdown.selectedLeague||null;
-    showdown.clubs=showdown.clubs||{playerOne:null,playerTwo:null};showdown.clubs.playerOne=showdown.clubs.playerOne||null;showdown.clubs.playerTwo=showdown.clubs.playerTwo||null;
-    showdown.score=showdown.score||{playerOne:0,playerTwo:0};showdown.score.playerOne=Number(showdown.score.playerOne)||0;showdown.score.playerTwo=Number(showdown.score.playerTwo)||0;
-    showdown.transferChallenges=Array.isArray(showdown.transferChallenges)?showdown.transferChallenges:[];showdown.rounds=Array.isArray(showdown.rounds)?showdown.rounds:[];showdown.integrityWarnings=Array.isArray(showdown.integrityWarnings)?showdown.integrityWarnings:[];
-    showdown.createdAt=showdown.createdAt||null;showdown.updatedAt=showdown.updatedAt||null;showdown.completedAt=showdown.completedAt||null;showdown.archivedAt=showdown.archivedAt||null;
-    showdown.transferChallenges.forEach(challenge=>{if(!challenge)return;challenge.seasonNumber=Math.max(1,Number(challenge.seasonNumber)||1);challenge.status=challenge.status||"not_started";challenge.durationSeconds=Number(challenge.durationSeconds)||900;challenge.startedAt=challenge.startedAt||null;challenge.deadlineAt=challenge.deadlineAt||null;challenge.endedAt=challenge.endedAt||null;challenge.completedAt=challenge.completedAt||null;challenge.endedEarly=Boolean(challenge.endedEarly);challenge.signings=challenge.signings||{playerOne:[],playerTwo:[]};challenge.signings.playerOne=Array.isArray(challenge.signings.playerOne)?challenge.signings.playerOne:[];challenge.signings.playerTwo=Array.isArray(challenge.signings.playerTwo)?challenge.signings.playerTwo:[];challenge.guesses=challenge.guesses||{againstPlayerOne:[],againstPlayerTwo:[]};challenge.guesses.againstPlayerOne=Array.isArray(challenge.guesses.againstPlayerOne)?challenge.guesses.againstPlayerOne:[];challenge.guesses.againstPlayerTwo=Array.isArray(challenge.guesses.againstPlayerTwo)?challenge.guesses.againstPlayerTwo:[];});
-    showdown.rounds.forEach((round,index)=>{if(round)round.roundNumber=Number(round.roundNumber)||(index+1);});
-    if(typeof recalculateShowdownScores==="function")recalculateShowdownScores(showdown);
-    repairShowdownIntegrity(showdown);showdown.schemaVersion=CURRENT_SHOWDOWN_SCHEMA_VERSION;return showdown;
-}
+function repairShowdownIntegrity(showdown){if(!showdown)return null;showdown.integrityWarnings=[];const canonicalLeague=getCanonicalLeague(showdown.selectedLeague);if(showdown.selectedLeague&&canonicalLeague)showdown.selectedLeague=canonicalLeague;else if(showdown.selectedLeague&&!canonicalLeague){if(canSafelyResetClubAssignment(showdown)){showdown.selectedLeague=null;showdown.clubs={playerOne:null,playerTwo:null};showdown.status="Created";}else addIntegrityWarning(showdown,"The saved league is not recognized by the current FIFA 17 league database.");}const clubIntegrity=getClubPairIntegrity(showdown);if((showdown.clubs.playerOne||showdown.clubs.playerTwo)&&!clubIntegrity.valid){if(canSafelyResetClubAssignment(showdown)){showdown.clubs={playerOne:null,playerTwo:null};showdown.status=showdown.selectedLeague?"League Selected":"Created";}else addIntegrityWarning(showdown,clubIntegrity.reason);}if(showdown.rounds.length>showdown.totalRounds)addIntegrityWarning(showdown,"Saved season history contains more seasons than the showdown length.");if(showdown.status==="Completed"&&showdown.rounds.length<showdown.totalRounds)addIntegrityWarning(showdown,"The showdown is marked complete but not every configured season has a result.");return showdown;}
+function normalizeShowdown(showdown){if(!showdown)return null;showdown.schemaVersion=Number(showdown.schemaVersion)||1;showdown.name=showdown.name||"Unnamed Showdown";showdown.managers=showdown.managers||{playerOne:"Manager 1",playerTwo:"Manager 2"};showdown.managers.playerOne=showdown.managers.playerOne||"Manager 1";showdown.managers.playerTwo=showdown.managers.playerTwo||"Manager 2";const requestedRounds=Number(showdown.totalRounds)||1;showdown.totalRounds=ALLOWED_SHOWDOWN_ROUNDS.includes(requestedRounds)?requestedRounds:1;showdown.currentRound=Math.max(1,Math.min(Number(showdown.currentRound)||1,showdown.totalRounds));showdown.status=showdown.status||"Created";showdown.selectedLeague=showdown.selectedLeague||null;showdown.clubs=showdown.clubs||{playerOne:null,playerTwo:null};showdown.clubs.playerOne=showdown.clubs.playerOne||null;showdown.clubs.playerTwo=showdown.clubs.playerTwo||null;showdown.score=showdown.score||{playerOne:0,playerTwo:0};showdown.score.playerOne=Number(showdown.score.playerOne)||0;showdown.score.playerTwo=Number(showdown.score.playerTwo)||0;showdown.transferChallenges=Array.isArray(showdown.transferChallenges)?showdown.transferChallenges:[];showdown.rounds=Array.isArray(showdown.rounds)?showdown.rounds:[];showdown.integrityWarnings=Array.isArray(showdown.integrityWarnings)?showdown.integrityWarnings:[];showdown.createdAt=showdown.createdAt||null;showdown.updatedAt=showdown.updatedAt||null;showdown.completedAt=showdown.completedAt||null;showdown.archivedAt=showdown.archivedAt||null;showdown.transferChallenges.forEach(challenge=>{if(!challenge)return;challenge.seasonNumber=Math.max(1,Number(challenge.seasonNumber)||1);challenge.status=challenge.status||"not_started";challenge.durationSeconds=Number(challenge.durationSeconds)||900;challenge.startedAt=challenge.startedAt||null;challenge.deadlineAt=challenge.deadlineAt||null;challenge.endedAt=challenge.endedAt||null;challenge.completedAt=challenge.completedAt||null;challenge.endedEarly=Boolean(challenge.endedEarly);challenge.signings=challenge.signings||{playerOne:[],playerTwo:[]};challenge.signings.playerOne=Array.isArray(challenge.signings.playerOne)?challenge.signings.playerOne:[];challenge.signings.playerTwo=Array.isArray(challenge.signings.playerTwo)?challenge.signings.playerTwo:[];challenge.guesses=challenge.guesses||{againstPlayerOne:[],againstPlayerTwo:[]};challenge.guesses.againstPlayerOne=Array.isArray(challenge.guesses.againstPlayerOne)?challenge.guesses.againstPlayerOne:[];challenge.guesses.againstPlayerTwo=Array.isArray(challenge.guesses.againstPlayerTwo)?challenge.guesses.againstPlayerTwo:[];});showdown.rounds.forEach((round,index)=>{if(round)round.roundNumber=Number(round.roundNumber)||(index+1);});if(typeof recalculateShowdownScores==="function")recalculateShowdownScores(showdown);repairShowdownIntegrity(showdown);showdown.schemaVersion=CURRENT_SHOWDOWN_SCHEMA_VERSION;return showdown;}
 function needsShowdownNormalization(showdown){if(!showdown||typeof showdown!=="object"||Array.isArray(showdown))return true;if(Number(showdown.schemaVersion)!==CURRENT_SHOWDOWN_SCHEMA_VERSION)return true;if(!showdown.managers||!showdown.clubs||!showdown.score)return true;if(!Array.isArray(showdown.transferChallenges)||!Array.isArray(showdown.rounds))return true;if(!ALLOWED_SHOWDOWN_ROUNDS.includes(Number(showdown.totalRounds)))return true;const round=Number(showdown.currentRound);return !Number.isInteger(round)||round<1||round>Number(showdown.totalRounds);}
 function ensureCurrentShowdownNormalized(force=false){if(!currentShowdown)return null;if(force||needsShowdownNormalization(currentShowdown))currentShowdown=normalizeShowdown(currentShowdown);return currentShowdown;}
 function touchCurrentShowdown(){if(currentShowdown)currentShowdown.updatedAt=new Date().toISOString();}
 function getShowdownWinner(showdown=currentShowdown){if(!showdown)return"draw";if(Number(showdown.score.playerOne)>Number(showdown.score.playerTwo))return"playerOne";if(Number(showdown.score.playerTwo)>Number(showdown.score.playerOne))return"playerTwo";return"draw";}
 function getTransferChallengeForSeason(seasonNumber){if(!currentShowdown||!Array.isArray(currentShowdown.transferChallenges))return null;const targetSeason=Number(seasonNumber);return currentShowdown.transferChallenges.find(challenge=>challenge&&Number(challenge.seasonNumber)===targetSeason)||null;}
 function isTransferChallengeComplete(seasonNumber){const challenge=getTransferChallengeForSeason(seasonNumber);return Boolean(challenge&&challenge.status==="completed");}
-window.createShowdown=createShowdown;
-window.isLeagueDatabaseReady=isLeagueDatabaseReady;
-window.ensureCurrentShowdownNormalized=ensureCurrentShowdownNormalized;
-window.needsShowdownNormalization=needsShowdownNormalization;
-window.configureOnlineOnlyProductSurface=configureOnlineOnlyProductSurface;
-window.getOnlineShowdownManagers=()=>ONLINE_SHOWDOWN_MANAGERS;
-initializeSaveLibraryCutoverGate();
-initializeOnlinePlayerEntry();
+window.createShowdown=createShowdown;window.isLeagueDatabaseReady=isLeagueDatabaseReady;window.ensureCurrentShowdownNormalized=ensureCurrentShowdownNormalized;window.needsShowdownNormalization=needsShowdownNormalization;initializeSaveLibraryCutoverGate();initializeOnlinePlayerEntry();
