@@ -163,7 +163,7 @@
   function closePanel(){const overlay=root.document&&root.document.getElementById(PANEL_ID);if(overlay)overlay.classList.add("hidden");return true;}
   function installStartButton(){
     const local=root.document.getElementById("startShowdown");if(!local||root.document.getElementById(SHARED_START_ID))return false;
-    const shared=create("button","menuButton","PREPARE SHARED SHOWDOWN");shared.id=SHARED_START_ID;shared.type="button";shared.addEventListener("click",()=>void startShared());
+    const shared=create("button","menuButton","START SHARED SHOWDOWN");shared.id=SHARED_START_ID;shared.type="button";shared.addEventListener("click",()=>void startShared());
     const note=create("p","stateNote","Do this on BOTH manager devices before pairing. It creates a new pre-draw Shared Showdown shell on this device without replacing an existing saved career. Then pair the managers, host/join the exact private session, and continue together to the authoritative shared league wheel.");note.id="sharedShowdownOrderingNote";
     local.insertAdjacentElement("afterend",shared);shared.insertAdjacentElement("afterend",note);return true;
   }
