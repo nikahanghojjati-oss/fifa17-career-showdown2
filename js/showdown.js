@@ -1,11 +1,39 @@
 let currentShowdown=null;
 const CURRENT_SHOWDOWN_SCHEMA_VERSION=2;
 const ALLOWED_SHOWDOWN_ROUNDS=Object.freeze([1,3,5,10]);
+const ONLINE_SHOWDOWN_MANAGERS=Object.freeze({playerOne:"Nik",playerTwo:"Daniel"});
 let showdownCreationPromise=null;
+function configureOnlineOnlyProductSurface(){
+    if(typeof document==="undefined")return;
+    const settingsButton=document.getElementById("settingsButton");
+    if(settingsButton){
+        const code=settingsButton.querySelector(".menuTileCode"),label=settingsButton.querySelector(".menuTileLabel"),meta=settingsButton.querySelector(".menuTileMeta");
+        if(code)code.textContent="ONLINE";
+        if(label)label.textContent="ACCOUNT & DEVICES";
+        if(meta)meta.textContent="Nik/Daniel sign-in, registered devices and recovery";
+    }
+    const setup=document.getElementById("createShowdown");
+    if(setup){
+        const heading=setup.querySelector("h2");if(heading)heading.textContent="NEW ONLINE SHOWDOWN";
+        const fixedFields=[["showdownName","Nik vs Daniel"],["managerOne",ONLINE_SHOWDOWN_MANAGERS.playerOne],["managerTwo",ONLINE_SHOWDOWN_MANAGERS.playerTwo]];
+        fixedFields.forEach(([id,value])=>{const input=document.getElementById(id);const label=setup.querySelector(`label[for="${id}"]`);if(input){input.value=value;input.hidden=true;input.setAttribute("aria-hidden","true");input.tabIndex=-1;}if(label)label.hidden=true;});
+        const round=document.getElementById("roundAmount");
+        const roundLabel=setup.querySelector('label[for="roundAmount"]');
+        if(roundLabel)roundLabel.textContent="NUMBER OF SEASONS";
+        if(round){Array.from(round.options).forEach(option=>{const count=Number(option.value)||1;option.textContent=`${count} Season${count===1?"":"s"}`;});}
+        if(!document.getElementById("onlineShowdownSetupNote")){
+            const note=document.createElement("p");note.id="onlineShowdownSetupNote";note.className="stateNote";note.textContent="Nik and Daniel are fixed. The rivalry title will be created automatically from the club matchup.";
+            if(roundLabel)setup.querySelector(".setupBox")?.insertBefore(note,roundLabel);
+        }
+    }
+    const remoteButton=document.getElementById("remoteJoiningButton");if(remoteButton)remoteButton.textContent="ONLINE CONNECTION";
+    const startupNote=document.querySelector(".startupSaveNote");if(startupNote)startupNote.textContent="ONLINE SHOWDOWN · NIK & DANIEL · CONNECTION REQUIRED";
+    const bottomStatus=document.querySelector(".menuBottomStrip strong");if(bottomStatus)bottomStatus.textContent="ONLINE CONNECTION REQUIRED";
+}
 function initializeSaveLibraryCutoverGate(){
     if(typeof document==="undefined"||!document.addEventListener||window.__cmsSaveLibraryCutoverGate)return;
     window.__cmsSaveLibraryCutoverGate=true;
-    const settingsButton=document.getElementById("settingsButton");if(settingsButton){const code=settingsButton.querySelector(".menuTileCode"),label=settingsButton.querySelector(".menuTileLabel"),meta=settingsButton.querySelector(".menuTileMeta");if(code)code.textContent="LOCAL";if(label)label.textContent="SAVE LIBRARY";if(meta)meta.textContent="Local Showdowns, manager profiles and settings";}
+    configureOnlineOnlyProductSurface();
     document.addEventListener("click",async event=>{
         const button=event.target instanceof Element?event.target.closest("#continueCareer,#startShowdown,#legacyButton,#settingsButton"):null;
         if(!button||button.disabled)return;
@@ -17,30 +45,34 @@ function initializeSaveLibraryCutoverGate(){
             await window.handleSaveLibraryCutoverAction(button);
         }catch(error){
             if(lock)button.disabled=false;
-            if(typeof window.reportApplicationError==="function")window.reportApplicationError("Unable to prepare local Save Library authority",error);
+            if(typeof window.reportApplicationError==="function")window.reportApplicationError("Unable to prepare Showdown storage authority",error);
         }
     },true);
 }
 async function createShowdown(){
     if(showdownCreationPromise)return showdownCreationPromise;
     showdownCreationPromise=(async()=>{
-        const showdownNameInput=document.getElementById("showdownName"),managerOneInput=document.getElementById("managerOne"),managerTwoInput=document.getElementById("managerTwo"),roundAmountInput=document.getElementById("roundAmount");
-        if(!showdownNameInput||!managerOneInput||!managerTwoInput||!roundAmountInput){
-            if(typeof window.reportApplicationError==="function")window.reportApplicationError("Showdown creation form is incomplete",new Error("Required setup fields are missing from the page."));
+        const roundAmountInput=document.getElementById("roundAmount");
+        if(!roundAmountInput){
+            if(typeof window.reportApplicationError==="function")window.reportApplicationError("Showdown creation form is incomplete",new Error("Season length is unavailable."));
             return false;
         }
-        const showdownName=showdownNameInput.value.trim(),managerOne=managerOneInput.value.trim(),managerTwo=managerTwoInput.value.trim(),requestedRounds=Number(roundAmountInput.value),roundAmount=ALLOWED_SHOWDOWN_ROUNDS.includes(requestedRounds)?requestedRounds:1,now=new Date().toISOString();
-        const candidate={schemaVersion:CURRENT_SHOWDOWN_SCHEMA_VERSION,id:Date.now(),name:showdownName||"Unnamed Showdown",managers:{playerOne:managerOne||"Manager 1",playerTwo:managerTwo||"Manager 2"},totalRounds:roundAmount,currentRound:1,status:"Created",selectedLeague:null,clubs:{playerOne:null,playerTwo:null},score:{playerOne:0,playerTwo:0},transferChallenges:[],rounds:[],integrityWarnings:[],createdAt:now,updatedAt:now,completedAt:null,archivedAt:null};
+        if(typeof navigator!=="undefined"&&navigator.onLine===false){
+            if(typeof window.showAppNotice==="function")window.showAppNotice("Career Mode Showdown is online-only. Reconnect to the internet before starting a new rivalry.","error",10000);
+            return false;
+        }
+        const requestedRounds=Number(roundAmountInput.value),roundAmount=ALLOWED_SHOWDOWN_ROUNDS.includes(requestedRounds)?requestedRounds:1,now=new Date().toISOString();
+        const candidate={schemaVersion:CURRENT_SHOWDOWN_SCHEMA_VERSION,id:Date.now(),name:"Nik vs Daniel",managers:{...ONLINE_SHOWDOWN_MANAGERS},totalRounds:roundAmount,currentRound:1,status:"Created",selectedLeague:null,clubs:{playerOne:null,playerTwo:null},score:{playerOne:0,playerTwo:0},transferChallenges:[],rounds:[],integrityWarnings:[],createdAt:now,updatedAt:now,completedAt:null,archivedAt:null};
         const runtime=window.CareerModeSaveLibraryRuntime;
         if(!runtime||typeof runtime.createShowdown!=="function"||!runtime.isReady()){
-            if(typeof window.showAppNotice==="function")window.showAppNotice("Save Library authority is not ready, so the new Showdown was not created.","error",10000);
+            if(typeof window.showAppNotice==="function")window.showAppNotice("Showdown storage authority is not ready, so the new online rivalry was not created.","error",10000);
             return false;
         }
         try{
             const prepared=await runtime.createShowdown(candidate);
             currentShowdown=normalizeShowdown(prepared);
         }catch(error){
-            if(typeof window.reportApplicationError==="function")window.reportApplicationError("The new Showdown could not be saved under Save Library authority",error);
+            if(typeof window.reportApplicationError==="function")window.reportApplicationError("The new online Showdown could not be prepared",error);
             return false;
         }
         if(typeof window.resetTransientSelectionOperations==="function")window.resetTransientSelectionOperations();
@@ -101,4 +133,6 @@ window.createShowdown=createShowdown;
 window.isLeagueDatabaseReady=isLeagueDatabaseReady;
 window.ensureCurrentShowdownNormalized=ensureCurrentShowdownNormalized;
 window.needsShowdownNormalization=needsShowdownNormalization;
+window.configureOnlineOnlyProductSurface=configureOnlineOnlyProductSurface;
+window.getOnlineShowdownManagers=()=>ONLINE_SHOWDOWN_MANAGERS;
 initializeSaveLibraryCutoverGate();
