@@ -33,11 +33,12 @@ export function injectPersistentPairRules(){
   generated=insertOnce(generated,'    function capabilityCanReadPendingRivalry(rivalryId) {',`${functionStart}\n${functions}\n    ${functionEnd}\n\n    `,'persistent pair function');
   generated=insertOnce(generated,'    match /rivalries/{rivalryId} {',`${matchStart}\n${match}\n    ${matchEnd}\n\n    `,'persistent pair match');
   for(const required of [
-    'function cmsPersistentPairManagerValid(managerId)',
+    'function cmsPersistentPairManagerValid(role, managerId)',
     'function cmsPersistentPairRivalryMembership(accountId, rivalryId, role)',
     'function cmsPersistentPairCreateValid(accountId, pairId)',
     'function cmsPersistentPairUpdateValid(accountId, pairId)',
-    "managerId == 'daniel' || managerId == 'nik'",
+    "role == 'playerOne' && managerId == 'daniel'",
+    "role == 'playerTwo' && managerId == 'nik'",
     'after.data.managerRole == before.data.managerRole',
     'after.data.managerId == before.data.managerId',
     'match /accounts/{accountId}/pairLinks/{pairId}',
