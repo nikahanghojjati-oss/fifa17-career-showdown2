@@ -159,10 +159,10 @@ async function verifyDashboardShellAndRecovery(page,prefix){
 
   await page.locator("#dashboard [data-smart-back]").click();await waitForScreen(page,"mainMenu");
   await page.reload({waitUntil:"domcontentloaded"});await waitForApplication(page);await resumeSavedUnderStability(page,"dashboard",prefix);
-  let recovered=await readActiveSave(page);assert.equal(recovered.name,"Daniel vs Nik");assert.deepEqual(recovered.managers,{playerOne:"Daniel",playerTwo:"Nik"});assert.equal(recovered.selectedLeague,before.selectedLeague);assert.deepEqual(recovered.clubs,before.clubs);assert.equal(Array.isArray(recovered.rounds)?recovered.rounds.length:0,0);
+  let recovered=await readActiveSave(page);assert.equal(recovered.name,"Daniel vs Nik");assert.deepEqual(recovered.managers,{playerOne:"Daniel",playerTwo:"Nik"});assert.deepEqual(recovered.selectedLeague,before.selectedLeague);assert.deepEqual(recovered.clubs,before.clubs);assert.equal(Array.isArray(recovered.rounds)?recovered.rounds.length:0,0);
 
   await page.goto("about:blank");await page.goBack({waitUntil:"domcontentloaded"});await waitForApplication(page);await page.goForward({waitUntil:"load"});assert.equal(page.url(),"about:blank");await page.goBack({waitUntil:"domcontentloaded"});await waitForApplication(page);await resumeSavedUnderStability(page,"dashboard",prefix);
-  recovered=await readActiveSave(page);assert.equal(recovered.name,"Daniel vs Nik");assert.deepEqual(recovered.managers,{playerOne:"Daniel",playerTwo:"Nik"});assert.deepEqual(recovered.clubs,before.clubs);assert.equal(Array.isArray(recovered.rounds)?recovered.rounds.length:0,0);
+  recovered=await readActiveSave(page);assert.equal(recovered.name,"Daniel vs Nik");assert.deepEqual(recovered.managers,{playerOne:"Daniel",playerTwo:"Nik"});assert.deepEqual(recovered.selectedLeague,before.selectedLeague);assert.deepEqual(recovered.clubs,before.clubs);assert.equal(Array.isArray(recovered.rounds)?recovered.rounds.length:0,0);
   checkpoint(`${prefix} reload and browser-history recovery`,`pre-season dashboard retained without legacy local progression`);
 }
 async function smokeDestinations(page,prefix){
