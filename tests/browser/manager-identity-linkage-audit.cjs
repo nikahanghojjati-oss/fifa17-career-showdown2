@@ -70,6 +70,14 @@ async function waitForHome(page){
   await page.locator("#settingsButton").waitFor({state:"visible",timeout:15000});
 }
 
+async function revealInternalLibrary(page){
+  const panel=page.locator("#saveLibraryProductPanel");
+  await panel.waitFor({state:"attached",timeout:10000});
+  await panel.evaluate(element=>{element.hidden=false;element.dataset.testSurface="internal-audit";});
+  await panel.waitFor({state:"visible",timeout:5000});
+  return panel;
+}
+
 async function openLibrary(page){
   await page.locator("#settingsButton").click();
   await page.locator("#settingsOverlay").waitFor({state:"visible",timeout:15000});
@@ -79,9 +87,9 @@ async function openLibrary(page){
   assert.equal(await panel.getAttribute("data-product-surface"),"internal","Legacy identity linkage must remain classified as internal recovery machinery.");
   assert.equal(await panel.isHidden(),true,"Legacy identity linkage must not appear in normal player-facing Settings.");
   // Test-only reveal: preserve deep recovery/data-integrity coverage without putting this legacy
-  // machinery back into the actual product surface.
-  await panel.evaluate(element=>{element.hidden=false;element.dataset.testSurface="internal-audit";});
-  await panel.waitFor({state:"visible",timeout:5000});
+  // machinery back into the actual product surface. Product rerenders may hide it again, so each
+  // internal test action re-establishes this audit-only visibility explicitly.
+  await revealInternalLibrary(page);
 }
 
 async function readCanonical(page){
@@ -89,6 +97,7 @@ async function readCanonical(page){
 }
 
 async function applyLink(page,kind,sourceId,role,profileId){
+  await revealInternalLibrary(page);
   const row=page.locator(`.saveLibraryIdentityLinkRow[data-link-kind="${kind}"][data-source-id="${sourceId}"][data-role="${role}"]`);
   await row.waitFor({state:"visible",timeout:10000});
   const select=row.locator("select");
@@ -140,6 +149,7 @@ async function applyLink(page,kind,sourceId,role,profileId){
     assert.equal(matchingLegacy.managers.playerOne,"Same Name","Identity linkage must not rewrite historical display labels.");
     assert.equal(state.library.profiles.length,4,"Explicit linkage must retain the original profile rather than merge/delete it.");
 
+    await revealInternalLibrary(page);
     const secondCard=page.locator(`.saveLibraryCard[data-save-id="${ids.saveB}"]`);
     await secondCard.locator(".saveLibrarySelectButton").click();
     await page.waitForFunction(saveId=>JSON.parse(localStorage.getItem("careerModeShowdown.saveLibrary")).activeSaveId===saveId,ids.saveB,{timeout:10000});
@@ -166,6 +176,7 @@ async function applyLink(page,kind,sourceId,role,profileId){
     assert.deepEqual(restoreProof.projected,{playerOne:ids.profileA1,playerTwo:ids.profileB2},"Backup projection must preserve explicitly cross-linked stable identities.");
     assert.deepEqual(restoreProof.restored,restoreProof.projected,"Restore preparation must preserve explicit active profile identity refs.");
 
+    await revealInternalLibrary(page);
     const firstCard=page.locator(`.saveLibraryCard[data-save-id="${ids.saveA}"]`);
     page.once("dialog",dialog=>dialog.accept());
     await firstCard.locator(".saveLibraryDeleteButton").click();
@@ -179,6 +190,7 @@ async function applyLink(page,kind,sourceId,role,profileId){
     assert.equal(historical.identity.managerProfileIds.playerOne,ids.profileA2,"Historical mapping must survive unrelated Save deletion.");
     assert.equal(await page.evaluate(key=>localStorage.getItem(key),singletonKey),null,"Identity operations and deletion must never resurrect singleton authority.");
 
+    await revealInternalLibrary(page);
     const focusedInside=await page.locator("#settingsDialog").evaluate(dialog=>dialog.contains(document.activeElement));
     assert.equal(focusedInside,true,"Internal identity mutations must keep focus inside Settings ownership during the audit.");
     const screenshotPath=path.join(resultsDirectory,`manager-identity-linkage-${runLabel}.png`);
