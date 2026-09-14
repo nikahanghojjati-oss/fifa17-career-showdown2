@@ -1,7 +1,6 @@
 // CMS_PERSISTENT_PAIR_FUNCTIONS_BEGIN
-    function cmsPersistentPairManagerValid(role, managerId) {
-      return (role == 'playerOne' && managerId == 'nik')
-        || (role == 'playerTwo' && managerId == 'daniel');
+    function cmsPersistentPairManagerValid(managerId) {
+      return managerId == 'daniel' || managerId == 'nik';
     }
 
     function cmsPersistentPairRivalryMembership(accountId, rivalryId, role) {
@@ -41,7 +40,7 @@
         && pairData.rivalryId is string
         && pairData.rivalryId.matches('^pair_[0-9a-f]{64}$')
         && (pairData.managerRole == 'playerOne' || pairData.managerRole == 'playerTwo')
-        && cmsPersistentPairManagerValid(pairData.managerRole, pairData.managerId)
+        && cmsPersistentPairManagerValid(pairData.managerId)
         && pairData.linkedAt is timestamp
         && pairData.lastConfirmedAt is timestamp
         && pairData.lastConfirmedAt >= pairData.linkedAt
