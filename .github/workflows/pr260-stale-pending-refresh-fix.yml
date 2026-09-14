@@ -1,0 +1,70 @@
+name: PR260 stale pending refresh fix
+on:
+  push:
+    branches:
+      - feat/persistent-nik-daniel-pair
+    paths:
+      - .github/workflows/pr260-stale-pending-refresh-fix.yml
+permissions:
+  contents: write
+jobs:
+  fix-and-prove:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: feat/persistent-nik-daniel-pair
+          fetch-depth: 0
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+      - name: Apply bounded stale-pending refresh fix
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          source=Path('js/persistentNikDanielPair.js')
+          text=source.read_text()
+          old='}catch(error){return pairSetState({status:error?.code==="PERSISTENT_PAIR_PENDING_CONFLICT"?"waiting":error?.code?.includes("SHARED_SHELL")||error?.code==="PERSISTENT_PAIR_SEASON_SELECTION_REQUIRED"?"save-required":"error",busy:false,message:error?.message||"The Showdown could not be started."});}}'
+          new='}catch(error){if(error?.code==="PERSISTENT_PAIR_PENDING_CONFLICT")return pairInitialize({force:true});return pairSetState({status:error?.code?.includes("SHARED_SHELL")||error?.code==="PERSISTENT_PAIR_SEASON_SELECTION_REQUIRED"?"save-required":"error",busy:false,message:error?.message||"The Showdown could not be started."});}}'
+          if old not in text:
+              raise SystemExit('expected pairStartPairing catch not found')
+          source.write_text(text.replace(old,new,1))
+          test=Path('tests/contracts/persistent-nik-daniel-pair-contracts.cjs')
+          contract=test.read_text()
+          anchor="assert.match(startFunction,/durableWitness/);\n"
+          addition="assert.match(startFunction,/PERSISTENT_PAIR_PENDING_CONFLICT[\\s\\S]*pairInitialize\\(\\{force:true\\}\\)/,'A stale registered browser must re-read the durable pending pair after a provider pending-code conflict instead of rendering an empty waiting state.');\n"
+          if anchor not in contract:
+              raise SystemExit('expected startFunction anchor not found')
+          if addition not in contract:
+              contract=contract.replace(anchor,anchor+addition,1)
+          test.write_text(contract)
+          PY
+      - name: Run focused product proofs
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm ci
+          node --check js/persistentNikDanielPair.js
+          node tests/contracts/persistent-nik-daniel-pair-contracts.cjs
+          node tests/contracts/static-app-release-contracts.cjs
+          node tests/contracts/final-polish-presentation.cjs
+          python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/pr260-http.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill $SERVER_PID 2>/dev/null || true' EXIT
+          for i in {1..20}; do curl -fsS http://127.0.0.1:4173/ >/dev/null && break; sleep 0.25; done
+          curl -fsS http://127.0.0.1:4173/ >/dev/null
+          node tests/browser/shared-showdown-paired-first-entry-audit.cjs
+      - name: Publish clean product diff
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add js/persistentNikDanielPair.js tests/contracts/persistent-nik-daniel-pair-contracts.cjs
+          git diff --cached --check
+          git commit -m "fix(pr260): refresh stale pending pair authority"
+          git push origin HEAD:feat/persistent-nik-daniel-pair
