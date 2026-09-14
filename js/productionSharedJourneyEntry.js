@@ -47,16 +47,16 @@
     const locked=pending(),presentationOwns=locked&&presentationActive();
     for(const id of [LOCAL_SPIN_ID,LOCAL_CLUB_ID]){
       const button=root.document&&root.document.getElementById(id);if(!button)continue;
-      if(locked&&!presentationOwns){button.disabled=true;button.dataset.sharedJourneyLocked="true";button.setAttribute("aria-disabled","true");button.title="Shared Showdown unlocks this game screen only after exact pairing and an ACTIVE private session.";}
+      if(locked&&!presentationOwns){button.disabled=true;button.dataset.sharedJourneyLocked="true";button.setAttribute("aria-disabled","true");button.title="Both players must be connected before this step.";}
       else if(button.dataset.sharedJourneyLocked==="true"){button.disabled=false;delete button.dataset.sharedJourneyLocked;button.removeAttribute("aria-disabled");button.removeAttribute("title");}
     }
     const wheel=root.document&&root.document.querySelector("#leagueWheelScreen .wheelContainer");
     if(wheel){
       let resume=root.document.getElementById(SHARED_CONTINUE_ID);
-      if(locked&&!presentationOwns&&!resume){resume=create("button","menuButton","CONTINUE SHARED SHOWDOWN");resume.id=SHARED_CONTINUE_ID;resume.type="button";resume.addEventListener("click",()=>void openPanel());wheel.insertBefore(resume,wheel.querySelector(".backButton")||null);}
+      if(locked&&!presentationOwns&&!resume){resume=create("button","menuButton","CONTINUE CAREER");resume.id=SHARED_CONTINUE_ID;resume.type="button";resume.addEventListener("click",()=>void openPanel());wheel.insertBefore(resume,wheel.querySelector(".backButton")||null);}
       if((!locked||presentationOwns)&&resume)resume.remove();
       let note=root.document.getElementById("sharedJourneyLeagueLockNote");
-      if(locked&&!presentationOwns&&!note){note=create("p","stateNote","SHARED JOURNEY · Pair the two managers and activate the exact private session first. Then this league wheel becomes the authoritative shared wheel.");note.id="sharedJourneyLeagueLockNote";wheel.insertBefore(note,wheel.firstChild);}
+      if(locked&&!presentationOwns&&!note){note=create("p","stateNote","Daniel and Nik must both be connected before league selection.");note.id="sharedJourneyLeagueLockNote";wheel.insertBefore(note,wheel.firstChild);}
       if((!locked||presentationOwns)&&note)note.remove();
     }
   }
@@ -67,19 +67,19 @@
     await root.ensureGameplayModules();
   }
   async function startShared(){
-    if(busy)return false;busy=true;const button=root.document.getElementById(SHARED_START_ID);if(button)button.disabled=true;
+    if(busy)return false;busy=true;const button=root.document.getElementById(SHARED_START_ID)||root.document.getElementById("startShowdown");if(button)button.disabled=true;
     const round=root.document.getElementById("roundAmount"),priorRound=round?round.value:null;let shellCreated=false,markerPersisted=false;
     try{
       await ensureSaveAuthority();setPending(true);if(round)round.value="1";
       if(typeof root.createShowdown!=="function")throw new Error("Pre-draw Save shell authority is unavailable.");
       const created=await root.createShowdown();shellCreated=Boolean(created);if(!created)throw new Error("The pre-draw Save shell could not be created.");
       persistPendingMarker();markerPersisted=true;applyLocalDrawLock();await openPanel();return true;
-    }catch(error){if(shellCreated&&!markerPersisted)discardUnmarkedShell();setPending(false);report("Unable to prepare paired-first Shared Showdown",error);return false;}
+    }catch(error){if(shellCreated&&!markerPersisted)discardUnmarkedShell();setPending(false);report("Unable to prepare Showdown",error);return false;}
     finally{if(round&&priorRound!==null)round.value=priorRound;if(button)button.disabled=false;busy=false;}
   }
   async function openSaveLibrary(){
     closePanel();
-    try{await loadScript("save-library-cutover","js/saveLibraryCutover.js",()=>typeof root.handleSaveLibraryCutoverAction==="function");const button=root.document.getElementById("settingsButton");if(!button)throw new Error("Save Library entry is unavailable.");await root.handleSaveLibraryCutoverAction(button);}catch(error){report("Unable to open Save Library pairing setup",error);}
+    try{await loadScript("save-library-cutover","js/saveLibraryCutover.js",()=>typeof root.handleSaveLibraryCutoverAction==="function");const button=root.document.getElementById("settingsButton");if(!button)throw new Error("Settings entry is unavailable.");await root.handleSaveLibraryCutoverAction(button);}catch(error){report("Unable to open player connection setup",error);}
   }
   async function remoteState(){
     try{await Promise.all([loadStyle(),loadScript("rj","js/sparkRemoteJoining.js",()=>root.CareerModeSparkRemoteJoining)]);const remote=root.CareerModeSparkRemoteJoining;return remote&&typeof remote.getState==="function"?remote.getState():null;}catch(_error){return null;}
@@ -90,7 +90,7 @@
     const onState=next=>{
       if(!pending()||remoteReturnBusy||!next||next.sessionState!=="active"||next.pendingAction!=null)return;
       remoteReturnBusy=true;disarmRemoteReturn();
-      Promise.resolve().then(async()=>{if(typeof remote.closePanel==="function")remote.closePanel();await openPanel();}).catch(error=>report("Unable to return to Shared Showdown after private-session activation",error)).finally(()=>{remoteReturnBusy=false;});
+      Promise.resolve().then(async()=>{if(typeof remote.closePanel==="function")remote.closePanel();await openPanel();}).catch(error=>report("Unable to return to career entry after connection",error)).finally(()=>{remoteReturnBusy=false;});
     };
     remoteUnsubscribe=remote.subscribe(onState);if(typeof remote.getState==="function")onState(remote.getState());return true;
   }
@@ -98,9 +98,9 @@
     closePanel();
     try{
       await Promise.all([loadStyle(),loadScript("rj","js/sparkRemoteJoining.js",()=>root.CareerModeSparkRemoteJoining)]);
-      const remote=root.CareerModeSparkRemoteJoining;if(!remote||typeof remote.openPanel!=="function")throw new Error("Private Remote Joining is unavailable.");
+      const remote=root.CareerModeSparkRemoteJoining;if(!remote||typeof remote.openPanel!=="function")throw new Error("Player connection is unavailable.");
       await remote.openPanel();armRemoteReturn(remote);
-    }catch(error){disarmRemoteReturn();report("Unable to open exact private session",error);}
+    }catch(error){disarmRemoteReturn();report("Unable to connect the players",error);}
   }
   async function confirmedSetupSnapshot(){
     try{
@@ -113,7 +113,7 @@
   }
   async function openCareerStart(){
     await loadScript("ssjr-production-career-start","js/productionSharedCareerStart.js",()=>root.CareerModeProductionSharedCareerStart);
-    const career=root.CareerModeProductionSharedCareerStart;if(!career||typeof career.openPanel!=="function")throw new Error("Shared Career Start is unavailable.");
+    const career=root.CareerModeProductionSharedCareerStart;if(!career||typeof career.openPanel!=="function")throw new Error("Career Start is unavailable.");
     await career.openPanel();return true;
   }
   async function openSharedExperience(){
@@ -123,9 +123,9 @@
       const confirmed=await confirmedSetupSnapshot();
       if(confirmed){await openCareerStart();applyLocalDrawLock();return true;}
       await loadScript("ssjr-polished-presentation","js/productionSharedShowdownPresentation.js",()=>root.CareerModeProductionSharedShowdownPresentation);
-      const presentation=root.CareerModeProductionSharedShowdownPresentation;if(!presentation||typeof presentation.activate!=="function")throw new Error("Shared Showdown game presentation is unavailable.");
+      const presentation=root.CareerModeProductionSharedShowdownPresentation;if(!presentation||typeof presentation.activate!=="function")throw new Error("Showdown presentation is unavailable.");
       await presentation.activate();applyLocalDrawLock();return true;
-    }catch(error){report("Unable to enter Shared Showdown journey",error);await openPanel();return false;}
+    }catch(error){report("Unable to enter the Showdown",error);await openPanel();return false;}
   }
   async function statusSnapshot(){
     let account=null,pairing=null,rivalry=null,remote=null;
@@ -147,29 +147,33 @@
     const generation=++renderGeneration,overlay=root.document.getElementById(PANEL_ID);if(!overlay)return false;const body=overlay.querySelector(".remoteJoiningBody");if(!body)return false;
     const status=await statusSnapshot();if(generation!==renderGeneration)return false;
     const confirmed=status.active?await confirmedSetupSnapshot():null;if(generation!==renderGeneration)return false;
-    body.replaceChildren();body.append(create("span","remoteJoiningEyebrow","SHARED SHOWDOWN · PAIR FIRST"),create("h2","","CONNECT THE TWO MANAGERS"),create("p","","This device is using its own pre-draw Shared Showdown shell. Prepare Shared Showdown on BOTH manager devices before pairing, then pair the exact managers and make one private session ACTIVE. A successful join returns here automatically; do not use Continue Career to reach the shared journey."));
+    body.replaceChildren();body.append(create("span","remoteJoiningEyebrow","CAREER MODE SHOWDOWN"),create("h2","","GET READY"),create("p","","Daniel and Nik must both be connected before the career begins."));
     const grid=create("div","settingsInfoGrid");
-    grid.append(row("1 · CONNECTED ACCOUNT",status.accountReady?"READY":"REQUIRED"),row("2 · REGISTERED BROWSER",status.deviceReady?"READY":"REQUIRED"),row("3 · EXACT PAIRED RIVALRY",status.rivalryReady?"READY":"REQUIRED"),row("4 · EXACT PRIVATE SESSION",status.active?"ACTIVE":"REQUIRED"));body.append(grid);
+    grid.append(row("ACCOUNT",status.accountReady?"READY":"REQUIRED"),row("THIS BROWSER",status.deviceReady?"READY":"REQUIRED"),row("DANIEL + NIK",status.rivalryReady?"CONNECTED":"CONNECT"),row("CAREER",status.active?"READY":"WAITING"));body.append(grid);
     const actions=create("div","remoteJoiningActions");
-    const save=create("button","compactButton",status.rivalryReady?"REVIEW PAIRING":"PAIR MANAGERS");save.type="button";save.addEventListener("click",()=>void openSaveLibrary());actions.append(save);
-    const remote=create("button","compactButton",status.active?"PRIVATE SESSION ACTIVE":"OPEN / JOIN PRIVATE SESSION");remote.type="button";remote.disabled=!status.rivalryReady;remote.addEventListener("click",()=>void openRemote());actions.append(remote);
-    const setup=create("button","compactButton",status.active?(confirmed?"CONTINUE TO CAREER START":"CONTINUE TO LEAGUE WHEEL"):"SHARED JOURNEY LOCKED");setup.type="button";setup.disabled=!status.active;setup.addEventListener("click",()=>void openSharedExperience());actions.append(setup);
-    const refresh=create("button","compactButton","REFRESH STATUS");refresh.type="button";refresh.addEventListener("click",()=>void renderPanel());actions.append(refresh);body.append(actions);
-    const note=create("p","remoteJoiningStatus",status.active?(confirmed?"RESUME READY · Shared Setup is already confirmed. Continue directly to Career Start without rerolling or replaying setup authority.":"READY · Continue to the shared League Wheel. The provider owns the outcome, while the wheel and club packs own the presentation."):"League, club and post-setup journey screens stay locked until the exact two-manager pairing and ACTIVE private session are proven. Both devices must enter through their prepared Shared Showdown shell; Continue Career remains local-only.");note.setAttribute("role","status");note.setAttribute("aria-live","polite");body.append(note);return true;
+    const save=create("button","compactButton",status.rivalryReady?"REVIEW CONNECTION":"CONNECT PLAYERS");save.type="button";save.addEventListener("click",()=>void openSaveLibrary());actions.append(save);
+    const remote=create("button","compactButton",status.active?"CONNECTED":"CONTINUE");remote.type="button";remote.disabled=!status.rivalryReady;remote.addEventListener("click",()=>void openRemote());actions.append(remote);
+    const setup=create("button","compactButton",status.active?"START CAREER":"WAITING FOR BOTH PLAYERS");setup.type="button";setup.disabled=!status.active;setup.addEventListener("click",()=>void openSharedExperience());actions.append(setup);
+    const refresh=create("button","compactButton","REFRESH");refresh.type="button";refresh.addEventListener("click",()=>void renderPanel());actions.append(refresh);body.append(actions);
+    const note=create("p","remoteJoiningStatus",status.active?(confirmed?"Ready. Continue to Career Start.":"Ready. Continue when both players are set."):"Both players must be connected before league and club selection.");note.setAttribute("role","status");note.setAttribute("aria-live","polite");body.append(note);return true;
   }
   async function openPanel(){
     await loadStyle();applyLocalDrawLock();let overlay=root.document.getElementById(PANEL_ID);
-    if(!overlay){overlay=create("div","remoteJoiningOverlay");overlay.id=PANEL_ID;overlay.setAttribute("role","dialog");overlay.setAttribute("aria-modal","true");overlay.setAttribute("aria-label","Shared Showdown paired-first entry");const shell=create("div","remoteJoiningShell"),header=create("div","remoteJoiningHeader");header.append(create("strong","","CAREER MODE SHOWDOWN // 17"));const dismiss=create("button","remoteJoiningDismiss","×");dismiss.type="button";dismiss.setAttribute("aria-label","Close Shared Showdown entry");dismiss.addEventListener("click",closePanel);header.append(dismiss);const body=create("div","remoteJoiningBody");shell.append(header,body);overlay.append(shell);root.document.body.append(overlay);}
+    if(!overlay){overlay=create("div","remoteJoiningOverlay");overlay.id=PANEL_ID;overlay.setAttribute("role","dialog");overlay.setAttribute("aria-modal","true");overlay.setAttribute("aria-label","Career Mode Showdown entry");const shell=create("div","remoteJoiningShell"),header=create("div","remoteJoiningHeader");header.append(create("strong","","CAREER MODE SHOWDOWN // 17"));const dismiss=create("button","remoteJoiningDismiss","×");dismiss.type="button";dismiss.setAttribute("aria-label","Close career entry");dismiss.addEventListener("click",closePanel);header.append(dismiss);const body=create("div","remoteJoiningBody");shell.append(header,body);overlay.append(shell);root.document.body.append(overlay);}
     overlay.classList.remove("hidden");await renderPanel();return true;
   }
   function closePanel(){const overlay=root.document&&root.document.getElementById(PANEL_ID);if(overlay)overlay.classList.add("hidden");return true;}
   function installStartButton(){
-    const local=root.document.getElementById("startShowdown");if(!local||root.document.getElementById(SHARED_START_ID))return false;
-    const shared=create("button","menuButton","START SHARED SHOWDOWN");shared.id=SHARED_START_ID;shared.type="button";shared.addEventListener("click",()=>void startShared());
-    const note=create("p","stateNote","Do this on BOTH manager devices before pairing. It creates a new pre-draw Shared Showdown shell on this device without replacing an existing saved career. Then pair the managers, host/join the exact private session, and continue together to the authoritative shared league wheel.");note.id="sharedShowdownOrderingNote";
-    local.insertAdjacentElement("afterend",shared);shared.insertAdjacentElement("afterend",note);return true;
+    const start=root.document.getElementById("startShowdown");if(!start)return false;
+    start.textContent="START A SHOWDOWN";
+    if(start.dataset.canonicalShowdownStart==="true")return true;
+    start.dataset.canonicalShowdownStart="true";
+    start.addEventListener("click",event=>{event.preventDefault();event.stopImmediatePropagation();void startShared();},true);
+    const duplicate=root.document.getElementById(SHARED_START_ID);if(duplicate)duplicate.remove();
+    const note=root.document.getElementById("sharedShowdownOrderingNote");if(note)note.remove();
+    return true;
   }
   function install(){if(installed)return true;installed=true;installStartButton();applyLocalDrawLock();const observer=new MutationObserver(()=>{installStartButton();applyLocalDrawLock();});observer.observe(root.document.documentElement,{childList:true,subtree:true});if(pending())setTimeout(()=>void openPanel(),0);return true;}
 
-  return Object.freeze({contractVersion:3,feature:"ssjr-production-paired-first-entry",productionEnabled:true,pairingBeforeLeagueClub:true,activeSessionBeforeLeagueClub:true,peerActiveReturnToSharedEntry:true,bothDevicesPrepareSharedShell:true,continueCareerIsLocalOnly:true,polishedLeagueWheelAfterAuthority:true,polishedClubPacksAfterAuthority:true,confirmedSetupResumesAtCareerStart:true,engineeringSetupPanelPlayerFacing:false,persistedSaveMarker:true,canonicalLocalSaveMutationDuringSharedSetup:false,billingRequired:false,install,preparePairingShell:startShared,openPanel,closePanel,openSharedExperience,isPending:pending});
+  return Object.freeze({contractVersion:4,feature:"ssjr-production-paired-first-entry",productionEnabled:true,pairingBeforeLeagueClub:true,activeSessionBeforeLeagueClub:true,peerActiveReturnToSharedEntry:true,bothDevicesPrepareSharedShell:true,continueCareerIsLocalOnly:true,polishedLeagueWheelAfterAuthority:true,polishedClubPacksAfterAuthority:true,confirmedSetupResumesAtCareerStart:true,engineeringSetupPanelPlayerFacing:false,persistedSaveMarker:true,canonicalLocalSaveMutationDuringSharedSetup:false,billingRequired:false,install,preparePairingShell:startShared,openPanel,closePanel,openSharedExperience,isPending:pending});
 });
