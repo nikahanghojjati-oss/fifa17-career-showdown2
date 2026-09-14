@@ -53,6 +53,10 @@
       return after.data.rivalryId == before.data.rivalryId
         || (
           priorRivalry.data.objectType == 'rivalry'
+          && priorRivalry.data.data.connectionState == 'closed'
+        )
+        || (
+          priorRivalry.data.objectType == 'rivalry'
           && priorRivalry.data.data.connectionState == 'pending-pair'
           && priorInvite.data.objectType == 'invite'
           && (
