@@ -31,8 +31,8 @@ replace_once(
 )
 replace_once(
     'tests/firebase/persistent-nik-daniel-pair-provider-emulator.cjs',
-    "    await assertSucceeds(atomicRedeemWithPairLink(dbE,{uid:'acct_e',device:ids.e,target:atomicRecovery,managerId:'nik',char:'e',nowMs}));",
-    "    await assertFails(atomicRedeemWithPairLink(dbE,{uid:'acct_e',device:ids.e,target:atomicRecovery,managerId:'nik',char:'e',nowMs,writePairLink:false}));\n    assert.equal((await getDoc(doc(dbE,'rivalries',atomicRecovery))).data().data.connectionState,'pending-pair','provider Rules must reject redemption that omits the durable pair witness');\n    assert.equal((await getDoc(doc(dbE,'rivalries',atomicRecovery,'invites',atomicRecovery))).data().data.state,'open','witness-less redemption must leave the one-use invite unconsumed');\n    await assertSucceeds(atomicRedeemWithPairLink(dbE,{uid:'acct_e',device:ids.e,target:atomicRecovery,managerId:'nik',char:'e',nowMs}));"
+    "  await assertSucceeds(atomicRedeemWithPairLink(dbE,{uid:'acct_e',device:ids.e,target:atomicRecovery,managerId:'nik',char:'e',nowMs}));",
+    "  await assertFails(atomicRedeemWithPairLink(dbE,{uid:'acct_e',device:ids.e,target:atomicRecovery,managerId:'nik',char:'e',nowMs,writePairLink:false}));\n  assert.equal((await getDoc(doc(dbE,'rivalries',atomicRecovery))).data().data.connectionState,'pending-pair','provider Rules must reject redemption that omits the durable pair witness');\n  assert.equal((await getDoc(doc(dbE,'rivalries',atomicRecovery,'invites',atomicRecovery))).data().data.state,'open','witness-less redemption must leave the one-use invite unconsumed');\n  await assertSucceeds(atomicRedeemWithPairLink(dbE,{uid:'acct_e',device:ids.e,target:atomicRecovery,managerId:'nik',char:'e',nowMs}));"
 )
 replace_once(
     'tests/firebase/persistent-nik-daniel-pair-provider-emulator.cjs',
