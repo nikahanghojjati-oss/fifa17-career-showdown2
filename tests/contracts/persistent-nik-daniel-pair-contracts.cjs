@@ -17,6 +17,7 @@ const sharedJourneyBuilder=read('scripts/build-production-firestore-rules.mjs');
 const pairBuilder=read('scripts/build-production-firestore-rules-with-persistent-pair.mjs');
 const injector=read('scripts/inject-persistent-pair-rules.mjs');
 const deployWorkflow=read('.github/workflows/deploy-firestore-rules-zero-billing.yml');
+const optionalSource=read('js/optionalModules.js');
 
 assert.match(pairSource,/feature:"persistent-nik-daniel-pair"/);
 assert.match(pairSource,/PAIR_DOC_ID="current"/);
@@ -120,7 +121,8 @@ const joinFunction=pairSource.slice(pairSource.indexOf('async function pairJoinP
 assert.match(joinFunction,/durableWitness/);
 assert.doesNotMatch(joinFunction,/pairPersistPairLinkWithRetry/,'Successful one-use redemption must not depend on a later pair-link write.');
 assert.match(pairSource,/"OPEN RECOVERY"/);
-assert.match(pairSource,/navigateTo\("legacy"/,'Recovery-required must route to the bounded Atomic Restore & Recovery surface.');
+assert.match(pairSource,/root\.openOptionalModule\("legacy"\)/,'Recovery-required must route through the bounded Legacy/Candidate C loader before locating restore controls.');
+assert.match(optionalSource,/async function ensureLegacyModule\(\)[\s\S]*ensureCandidateC\(\)[\s\S]*js\/restoreUI\.js[\s\S]*mountCareerModeRestorePanel/,'The approved Legacy loader must prepare Candidate C and mount the verified restore panel.');
 assert.match(entrySource,/openPersistentPairControls/);
 assert.doesNotMatch(entrySource,/openSaveLibrary/,'Connect Players must not route through normal Settings or Save Library.');
 assert.doesNotMatch(entrySource,/if\(round\)round\.value="1"/,'Shared start must preserve the selected 1\/3\/5\/10 season count.');
