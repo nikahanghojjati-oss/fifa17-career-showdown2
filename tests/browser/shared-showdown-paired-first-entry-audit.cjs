@@ -15,61 +15,57 @@ const SAVE_KEY="careerModeShowdown.saveLibrary";
   try{
     await page.goto(baseUrl.href,{waitUntil:"domcontentloaded"});
     await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:12000});
-    await page.waitForFunction(()=>window.CareerModeProductionSharedJourneyEntry&&document.getElementById("startSharedShowdown"),null,{timeout:12000});
+    await page.waitForFunction(()=>window.CareerModeOnlinePlayerIdentity&&document.getElementById("newShowdown")&&document.getElementById("startShowdown"),null,{timeout:12000});
+    assert.equal(await page.locator("#startSharedShowdown").count(),0,"The retired duplicate Shared Showdown entry must not return.");
 
-    // Seed an unrelated storage shell directly through canonical Save Library authority. Normal
-    // product entry is online-only now, so this proof must not resurrect the retired local setup UI.
+    // Preserve an unrelated recovery Save so canonical start proves that player entry creates a
+    // distinct shared shell without deleting internal recovery data.
     await page.evaluate(async()=>{
       await loadRuntimeScript("save-library-cutover","js/saveLibraryCutover.js",()=>typeof window.ensureSaveLibraryRuntimeAuthority==="function");
       await ensureSaveLibraryRuntimeAuthority();
       const now=new Date().toISOString();
-      const old={schemaVersion:2,integrityWarnings:[],id:"paired-first-existing-local",name:"Existing Local Career",managers:{playerOne:"Old Manager One",playerTwo:"Old Manager Two"},totalRounds:3,currentRound:1,status:"Created",selectedLeague:null,clubs:{playerOne:null,playerTwo:null},score:{playerOne:0,playerTwo:0},transferChallenges:[],rounds:[],createdAt:now,updatedAt:now,completedAt:null,archivedAt:null};
+      const old={schemaVersion:2,integrityWarnings:[],id:"paired-first-existing-local",name:"Existing Recovery Career",managers:{playerOne:"Old Manager One",playerTwo:"Old Manager Two"},totalRounds:3,currentRound:1,status:"Created",selectedLeague:null,clubs:{playerOne:null,playerTwo:null},score:{playerOne:0,playerTwo:0},transferChallenges:[],rounds:[],createdAt:now,updatedAt:now,completedAt:null,archivedAt:null};
       const created=await CareerModeSaveLibraryRuntime.createShowdown(old);
       if(!created?.identity?.saveId)throw new Error("Storage fixture did not receive stable Save identity.");
     });
     await page.waitForFunction(key=>{const raw=localStorage.getItem(key);if(!raw)return false;const library=JSON.parse(raw);return Boolean(library.activeSaveId&&library.saves?.length===1);},SAVE_KEY,{timeout:12000});
     const oldSaveId=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)).activeSaveId,SAVE_KEY);
 
-    // The internal paired-first machinery still receives a ready identity fixture here so the
-    // proof exercises its durable shared-shell behavior without exposing a local gameplay bypass.
+    // Simulate an already prepared Nik browser. The canonical data mapping remains Daniel=P1,
+    // Nik=P2 regardless of which real player presses Start on this device.
     await page.evaluate(()=>{
-      window.CareerModeOnlinePlayerIdentity={getState:()=>({
-        status:"ready",
-        online:true,
-        accountId:"account_nik_fixture",
-        managerId:"nik",
-        managerLabel:"Nik",
-        deviceId:"device_nik_fixture",
-        registered:true
-      })};
-      document.getElementById("showdownName").value="Nik vs Daniel";
-      document.getElementById("managerOne").value="Nik";
-      document.getElementById("managerTwo").value="Daniel";
-      document.getElementById("startSharedShowdown").click();
+      window.CareerModeOnlinePlayerIdentity={getState:()=>({status:"ready",initialized:true,online:true,accountId:"account_nik_fixture",managerId:"nik",managerLabel:"Nik",deviceId:"device_nik_fixture",registered:true})};
     });
+    await page.locator("#newShowdown").click();
+    await page.locator("#createShowdown").waitFor({state:"visible",timeout:5000});
+    assert.equal(await page.locator("#managerOne").inputValue(),"Daniel");
+    assert.equal(await page.locator("#managerTwo").inputValue(),"Nik");
+    assert.equal(await page.locator("#startShowdown").textContent(),"START A SHOWDOWN");
+    await page.locator("#startShowdown").click();
 
+    await page.waitForFunction(()=>window.CareerModeProductionSharedJourneyEntry?.singleProductEntry===true,null,{timeout:12000});
     await page.waitForFunction(key=>{
       const raw=localStorage.getItem(key);if(!raw)return false;
       const library=JSON.parse(raw);const entry=library.saves.find(item=>item&&item.saveId===library.activeSaveId);
-      return Boolean(entry&&entry.showdown&&entry.showdown.sharedJourney&&entry.showdown.sharedJourney.mode==="shared"&&entry.showdown.sharedJourney.setupPending===true);
+      return Boolean(entry&&entry.showdown&&entry.showdown.sharedJourney?.mode==="shared"&&entry.showdown.sharedJourney.setupPending===true);
     },SAVE_KEY,{timeout:12000});
 
     const created=await page.evaluate(key=>{
       const library=JSON.parse(localStorage.getItem(key));const entry=library.saves.find(item=>item&&item.saveId===library.activeSaveId);
-      return {activeSaveId:library.activeSaveId,saveIds:library.saves.map(item=>item.saveId),marker:entry.showdown.sharedJourney,selectedLeague:entry.showdown.selectedLeague,clubs:entry.showdown.clubs,rounds:entry.showdown.rounds};
+      return {activeSaveId:library.activeSaveId,saveIds:library.saves.map(item=>item.saveId),name:entry.showdown.name,managers:entry.showdown.managers,marker:entry.showdown.sharedJourney,selectedLeague:entry.showdown.selectedLeague,clubs:entry.showdown.clubs,rounds:entry.showdown.rounds};
     },SAVE_KEY);
     assert.match(created.activeSaveId,/^save_[a-f0-9]{24}$/);
-    assert.notEqual(created.activeSaveId,oldSaveId,"Shared preparation must create a new local shell rather than reuse the unrelated recovery Save.");
-    assert.equal(created.saveIds.includes(oldSaveId),true,"Preparing Shared Showdown must preserve the existing recovery Save in Save Library.");
+    assert.notEqual(created.activeSaveId,oldSaveId,"Canonical start must create a new shared shell rather than reuse unrelated recovery data.");
+    assert.equal(created.saveIds.includes(oldSaveId),true,"Canonical start must preserve unrelated recovery data.");
+    assert.equal(created.name,"Daniel vs Nik");
+    assert.deepEqual(created.managers,{playerOne:"Daniel",playerTwo:"Nik"});
     assert.deepEqual(created.marker,{contractVersion:1,mode:"shared",setupPending:true});
     assert.equal(created.selectedLeague,null);
     assert.deepEqual(created.clubs,{playerOne:null,playerTwo:null});
     assert.deepEqual(created.rounds,[]);
-    assert.equal(await page.locator("#startSharedShowdown").textContent(),"START SHARED SHOWDOWN");
-    assert.match(await page.locator("#sharedShowdownOrderingNote").textContent(),/BOTH manager devices before pairing/i);
 
-    // Reproduce the physical peer path without a second code prompt: once the already-paired
-    // peer's private-session state becomes ACTIVE, Shared Journey Entry must reclaim the route.
+    // Reproduce the already-paired peer path: once the private session becomes ACTIVE, player
+    // entry returns automatically and exposes the cleaned START CAREER action.
     await page.evaluate(async()=>{
       const listeners=new Set();
       const accountId="account_peer_fixture",deviceId="device_peer_fixture",rivalryId="pair_peer_fixture";
@@ -88,22 +84,24 @@ const SAVE_KEY="careerModeShowdown.saveLibrary";
       window.__activatePeerSession=()=>{state={...state,status:"ready",open:true,role:"peer",sessionState:"active",sessionId:"session_peer_fixture",revision:1,expiresAtEpochMs:Date.now()+600000,pendingAction:null};for(const listener of [...listeners])listener(state);};
       await window.CareerModeProductionSharedJourneyEntry.openPanel();
     });
-    const openJoin=page.locator("#productionSharedJourneyEntryOverlay button",{hasText:"OPEN / JOIN PRIVATE SESSION"});
+    const openJoin=page.locator("#productionSharedJourneyEntryOverlay button",{hasText:"CONTINUE"});
     await openJoin.waitFor({state:"visible",timeout:5000});await openJoin.click();
     await page.waitForFunction(()=>window.__peerRemoteOpenCount===1,null,{timeout:3000});
     await page.evaluate(()=>window.__activatePeerSession());
     await page.waitForFunction(()=>window.__peerRemoteCloseCount===1,null,{timeout:3000});
-    await page.locator("#productionSharedJourneyEntryOverlay button",{hasText:"CONTINUE TO LEAGUE WHEEL"}).waitFor({state:"visible",timeout:5000});
-    assert.equal(await page.locator("#productionSharedJourneyEntryOverlay").evaluate(node=>!node.classList.contains("hidden")),true,"ACTIVE peer join must return to Shared Journey Entry automatically.");
-    assert.equal(await page.locator("#productionSharedJourneyEntryOverlay").textContent().then(text=>/Continue Career/i.test(text)),true,"Shared entry should explicitly explain that Continue Career is not the shared journey route.");
+    await page.locator("#productionSharedJourneyEntryOverlay button",{hasText:"START CAREER"}).waitFor({state:"visible",timeout:5000});
+    const entryText=await page.locator("#productionSharedJourneyEntryOverlay").textContent();
+    assert.equal(/Private Remote Joining|Shared Journey/i.test(entryText||""),false,"Player entry must not expose retired architecture labels.");
+    assert.match(entryText||"",/DANIEL \+ NIK/i);
     assert.equal(await page.evaluate(()=>CareerModeProductionSharedJourneyEntry.peerActiveReturnToSharedEntry),true);
     assert.equal(await page.evaluate(()=>CareerModeProductionSharedJourneyEntry.bothDevicesPrepareSharedShell),true);
+    assert.equal(await page.evaluate(()=>CareerModeProductionSharedJourneyEntry.continueCareerUsesPairedAuthority),true);
 
+    // Durable setup authority must survive reload without depending on sessionStorage.
     await page.evaluate(()=>sessionStorage.clear());
     await page.reload({waitUntil:"domcontentloaded"});
     await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:12000});
-    await page.waitForFunction(()=>window.CareerModeProductionSharedJourneyGuard&&typeof window.loadRuntimeScript==="function",null,{timeout:12000});
-
+    await page.waitForFunction(()=>typeof window.loadRuntimeScript==="function",null,{timeout:12000});
     await page.evaluate(async()=>{
       await loadRuntimeScript("save-library-cutover","js/saveLibraryCutover.js",()=>typeof window.ensureSaveLibraryRuntimeAuthority==="function");
       await ensureSaveLibraryRuntimeAuthority();
@@ -112,44 +110,31 @@ const SAVE_KEY="careerModeShowdown.saveLibrary";
       await ensureGameplayModules();
       showScreen("leagueWheelScreen",false);
     });
-
-    const recovered=await page.evaluate(()=>({
-      sessionMarker:sessionStorage.getItem("careerModeShowdown.sharedJourneyPending.v1"),
-      pending:CareerModeProductionSharedJourneyGuard.isSharedJourneyPending()
-    }));
+    await page.waitForFunction(()=>window.CareerModeProductionSharedJourneyGuard,null,{timeout:12000});
+    const recovered=await page.evaluate(()=>({sessionMarker:sessionStorage.getItem("careerModeShowdown.sharedJourneyPending.v1"),pending:CareerModeProductionSharedJourneyGuard.isSharedJourneyPending()}));
     assert.equal(recovered.sessionMarker,null,"Reload proof must not rely on sessionStorage.");
-    assert.equal(recovered.pending,true,"Durable active Save Library marker must recover shared-mode lock after reload.");
+    assert.equal(recovered.pending,true,"Durable active Save Library marker must recover paired-first lock after reload.");
 
     const capture=await page.evaluate(async()=>{
-      const spin=document.getElementById("spinLeague");
-      const clubs=document.getElementById("openClubPack");
-      if(!spin||!clubs)throw new Error("Local draw controls are unavailable for capture-gate proof.");
+      const spin=document.getElementById("spinLeague"),clubs=document.getElementById("openClubPack");
+      if(!spin||!clubs)throw new Error("Draw controls are unavailable for capture-gate proof.");
       spin.disabled=false;spin.removeAttribute("aria-disabled");delete spin.dataset.sharedJourneyLocked;
       clubs.disabled=false;clubs.removeAttribute("aria-disabled");delete clubs.dataset.sharedJourneyLocked;
       window.__ssjrSpinTargetReached=false;window.__ssjrClubTargetReached=false;
       spin.addEventListener("click",()=>{window.__ssjrSpinTargetReached=true;});
       clubs.addEventListener("click",()=>{window.__ssjrClubTargetReached=true;});
-      spin.click();clubs.click();
-      await new Promise(resolve=>setTimeout(resolve,120));
-      const library=CareerModeSaveLibraryRuntime.getLibrarySnapshot();
-      const entry=library.saves.find(item=>item&&item.saveId===library.activeSaveId);
-      return {
-        spinTargetReached:window.__ssjrSpinTargetReached,
-        clubTargetReached:window.__ssjrClubTargetReached,
-        selectedLeague:entry.showdown.selectedLeague,
-        clubs:entry.showdown.clubs,
-        directSpinResult:window.spinLeagueWheel(),
-        directClubResult:window.assignClubs()
-      };
+      spin.click();clubs.click();await new Promise(resolve=>setTimeout(resolve,120));
+      const library=CareerModeSaveLibraryRuntime.getLibrarySnapshot();const entry=library.saves.find(item=>item&&item.saveId===library.activeSaveId);
+      return {spinTargetReached:window.__ssjrSpinTargetReached,clubTargetReached:window.__ssjrClubTargetReached,selectedLeague:entry.showdown.selectedLeague,clubs:entry.showdown.clubs,directSpinResult:window.spinLeagueWheel(),directClubResult:window.assignClubs()};
     });
-    assert.equal(capture.spinTargetReached,false,"Capture-phase guard must stop the actual league button path before target handlers.");
-    assert.equal(capture.clubTargetReached,false,"Capture-phase guard must stop the actual club button path before target handlers.");
-    assert.equal(capture.selectedLeague,null,"Modified control state must not create a local league draw.");
-    assert.deepEqual(capture.clubs,{playerOne:null,playerTwo:null},"Modified control state must not create local clubs.");
-    assert.equal(capture.directSpinResult,false,"Direct global league draw call must remain denied.");
-    assert.equal(capture.directClubResult,false,"Direct global club draw call must remain denied.");
-    assert.deepEqual(pageErrors,[],"Paired-first reload/capture/peer-return proof emitted page errors.");
-    process.stdout.write("PASS production paired-first entry: recovery Save is preserved, shared preparation creates a distinct shell without relying on retired local setup UI, ACTIVE peer join returns automatically without Continue Career or a second join code, durable marker survives reload, and local draw paths remain capture-denied.\n");
+    assert.equal(capture.spinTargetReached,false,"Pairing-first guard must stop league selection before target handlers.");
+    assert.equal(capture.clubTargetReached,false,"Pairing-first guard must stop club selection before target handlers.");
+    assert.equal(capture.selectedLeague,null);
+    assert.deepEqual(capture.clubs,{playerOne:null,playerTwo:null});
+    assert.equal(capture.directSpinResult,false);
+    assert.equal(capture.directClubResult,false);
+    assert.deepEqual(pageErrors,[],"Canonical paired-first browser proof emitted page errors.");
+    process.stdout.write("PASS canonical paired-first entry: real Start a Showdown ownership reaches the shared shell, Daniel/P1 and Nik/P2 stay canonical, recovery data is preserved, ACTIVE peer return is automatic, durable lock survives reload, and league/club selection cannot bypass connection authority.\n");
   }finally{
     await context.close().catch(()=>{});
     await browser.close().catch(()=>{});
