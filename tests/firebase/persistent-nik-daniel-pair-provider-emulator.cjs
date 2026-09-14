@@ -67,6 +67,8 @@ function pairEnvelope(uid,id,role,managerId,device,linkedAt,lastConfirmedAt,{rev
     await assertFails(deleteDoc(pairRefA));
 
     await assertFails(setDoc(doc(dbC,'accounts','acct_c','pairLinks','current'),pairEnvelope('acct_c',rivalryOne,'playerOne','daniel',ids.c,now,now)));
+    await assertFails(setDoc(doc(dbC,'accounts','acct_c','pairLinks','current'),pairEnvelope('acct_c',pendingNew,'playerTwo','daniel',ids.c,now,now)));
+    await assertFails(setDoc(doc(dbC,'accounts','acct_c','pairLinks','current'),pairEnvelope('acct_c',pendingNew,'playerOne','nik',ids.c,now,now)));
     await assertFails(setDoc(doc(dbC,'accounts','acct_c','pairLinks','current'),pairEnvelope('acct_c',pendingNew,'playerTwo','nik',deviceId('z'),now,now)));
     await assertSucceeds(setDoc(doc(dbC,'accounts','acct_c','pairLinks','current'),pairEnvelope('acct_c',pendingNew,'playerTwo','nik',ids.c,now,now)));
 
@@ -78,17 +80,17 @@ function pairEnvelope(uid,id,role,managerId,device,linkedAt,lastConfirmedAt,{rev
     await assertFails(setDoc(pairRefA,pairEnvelope('acct_a',rivalryTwo,'playerOne','daniel',ids.a,now,Timestamp.fromMillis(nowMs+2000),{revision:2,parentRevision:1,contentHash:hash('d'),priorContentHash:revisionOne.contentHash})));
 
     const pairRefD=doc(dbD,'accounts','acct_d','pairLinks','current');
-    await assertSucceeds(setDoc(pairRefD,pairEnvelope('acct_d',pendingOld,'playerOne','nik',ids.d,now,now)));
-    assert.equal((await getDoc(pairRefD)).data().data.managerId,'nik','A recovered legacy rivalry may preserve Nik in the historical playerOne provider slot.');
+    await assertFails(setDoc(pairRefD,pairEnvelope('acct_d',pendingOld,'playerOne','nik',ids.d,now,now)));
+    await assertSucceeds(setDoc(pairRefD,pairEnvelope('acct_d',pendingOld,'playerOne','daniel',ids.d,now,now)));
     const beforeD=(await getDoc(pairRefD)).data();
-    const replacement=pairEnvelope('acct_d',pendingNew,'playerOne','nik',ids.d,now,later,{revision:1,parentRevision:0,contentHash:hash('e'),priorContentHash:beforeD.contentHash});
+    const replacement=pairEnvelope('acct_d',pendingNew,'playerOne','daniel',ids.d,now,later,{revision:1,parentRevision:0,contentHash:hash('e'),priorContentHash:beforeD.contentHash});
     await assertFails(setDoc(pairRefD,replacement));
     await testEnv.withSecurityRulesDisabled(async context=>{
       await setDoc(doc(context.firestore(),'rivalries',pendingOld,'invites',pendingOld),inviteEnvelope(pendingOld,now,Timestamp.fromMillis(nowMs-1000)));
     });
     await assertSucceeds(setDoc(pairRefD,replacement));
 
-    process.stdout.write('PASS persistent pair Rules emulator: Daniel=Player One and Nik=Player Two for new play, legacy named-slot recovery, private account get, no list/delete, registered-device writes, rivalry membership and replacement safety.\n');
+    process.stdout.write('PASS persistent pair Rules emulator: Daniel=Player One and Nik=Player Two are canonical, mismatched roles are rejected, private account get, no list/delete, registered-device writes, rivalry membership and replacement safety are enforced.\n');
   }finally{
     try{await testEnv.clearFirestore();}catch(_error){}
     await testEnv.cleanup();
