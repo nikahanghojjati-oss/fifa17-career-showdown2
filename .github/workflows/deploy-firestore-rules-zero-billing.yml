@@ -158,6 +158,9 @@ jobs:
       - name: Prove r18 Terminal Close Rules with adversarial provider matrix
         run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-career-mode-showdown-terminal-close-production-deploy "node tests/firebase/shared-terminal-close-production-provider-emulator.cjs"
 
+      - name: Prove persistent Nik and Daniel pair Rules with adversarial provider matrix
+        run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-career-mode-showdown-persistent-pair-deploy "node tests/firebase/persistent-nik-daniel-pair-provider-emulator.cjs"
+
       - name: Authenticate permanent Firebase Rules service account
         id: google-auth
         uses: google-github-actions/auth@v3
