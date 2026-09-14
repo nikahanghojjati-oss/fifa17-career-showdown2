@@ -7,6 +7,7 @@ const root=path.resolve(__dirname,'../..');
 const read=file=>fs.readFileSync(path.join(root,file),'utf8');
 const pairSource=read('js/persistentNikDanielPair.js');
 const identitySource=read('js/onlinePlayerIdentity.js');
+const entrySource=read('js/productionSharedJourneyEntry.js');
 const appSource=read('js/app.js');
 const rulesFragment=read('firestore.persistent-pair-production.fragment.rules');
 const sharedJourneyBuilder=read('scripts/build-production-firestore-rules.mjs');
@@ -29,6 +30,32 @@ assert.match(pairSource,/persistentAcrossRegisteredBrowsers:true/);
 assert.match(pairSource,/state\.connectionState==="pending-pair"&&state\.capability/);
 assert.match(pairSource,/pairCopyText\(state\.capability\)/);
 assert.doesNotMatch(pairSource,/\.collection\(|query\(|getDocs\(|listDocuments/);
+
+// Pairing is allowed to prepare only the already-proven pre-draw shared shell.
+assert.match(pairSource,/function pairPreparedBindingForRole/);
+assert.match(pairSource,/showdown\.sharedJourney\?\.mode!=="shared"/);
+assert.match(pairSource,/showdown\.sharedJourney\?\.setupPending!==true/);
+assert.match(pairSource,/showdown\.selectedLeague\|\|showdown\.clubs\?\.playerOne\|\|showdown\.clubs\?\.playerTwo/);
+assert.match(pairSource,/entry\.preparePairingShell\(\)/);
+assert.match(entrySource,/preparePairingShell:startShared/);
+assert.match(entrySource,/pairingBeforeLeagueClub:true/);
+assert.match(entrySource,/activeSessionBeforeLeagueClub:true/);
+assert.match(entrySource,/persistPendingMarker\(\)/);
+assert.match(entrySource,/Shared mode marker can be attached only to a pre-draw Save shell/);
+
+// A redeemed one-use capability receives two independent recovery witnesses:
+// browser-local Connected Rivalry pointer first, then account-owned pairLink.
+const redeemIndex=pairSource.indexOf('context.pairing.redeemPairing(');
+const recoveryIndex=pairSource.indexOf('pairAttachRecoveryPointer(context,binding,result.rivalryId)',redeemIndex);
+const persistIndex=pairSource.indexOf('pairPersistPairLink(context,result.rivalryId,role)',redeemIndex);
+assert.ok(redeemIndex>=0&&recoveryIndex>redeemIndex&&persistIndex>recoveryIndex,'Join must redeem once, establish the verified Connected Rivalry recovery pointer, then persist the account pair link.');
+assert.match(pairSource,/status:"paired-recovery"/);
+assert.match(pairSource,/account pair link will self-heal when provider connectivity is available/);
+
+// Continue must reverify the rivalry and return to paired-first Shared Journey entry.
+assert.match(pairSource,/pairAttachRecoveryPointer\(context,binding,state\.rivalryId\)/);
+assert.match(pairSource,/await entry\.openPanel\(\)/);
+assert.doesNotMatch(pairSource,/showScreen\?\.\("dashboard"\)/,'Persistent pair must never bypass paired-first session/setup authority by jumping directly to Dashboard.');
 
 const pairApi=require(path.join(root,'js/persistentNikDanielPair.js'));
 assert.equal(pairApi.managerByRole.playerOne.id,'nik');
@@ -67,6 +94,7 @@ assert.doesNotMatch(sharedJourneyBuilder,/injectPersistentPairRules|persistent-p
 assert.match(pairBuilder,/build-production-firestore-rules\.mjs/);
 assert.match(pairBuilder,/injectPersistentPairRules/);
 assert.ok(injector.includes('match /accounts/{accountId}/pairLinks/{pairId}'));
+assert.match(deployWorkflow,/node scripts\/build-production-firestore-rules\.mjs/);
 assert.match(deployWorkflow,/node scripts\/build-production-firestore-rules-with-persistent-pair\.mjs/);
 assert.match(deployWorkflow,/tests\/firebase\/persistent-nik-daniel-pair-provider-emulator\.cjs/);
 
@@ -86,4 +114,4 @@ assert.match(generated,/allow list, delete: if false/);
 assert.match(generated,/match \/sharedSetup\/authoritative/);
 assert.match(generated,/function ssjrTerminalValidAtomicSessionClose\(rivalryId, sessionId\)/);
 
-console.log('PASS persistent Nik/Daniel pair lifecycle, lazy identity seeding and bounded production authority contracts.');
+console.log('PASS persistent Nik/Daniel pair lifecycle, paired-first preparation, redemption recovery, lazy identity seeding and bounded production authority contracts.');
