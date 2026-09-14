@@ -28,6 +28,19 @@ function collectErrors(page,{allowCorruptSaveParse=false}={}){
   return errors;
 }
 
+async function assertLateRemountContained(page,panel){
+  assert.equal(await page.locator("#settingsTitle").textContent(),"SETTINGS","Internal recovery must not rename normal Settings.");
+  assert.equal(await page.locator("#settingsClose").getAttribute("aria-label"),"Close Settings","Internal recovery must not relabel the normal Settings close control.");
+  await page.evaluate(()=>window.renderSaveLibrarySettingsSurface?.());
+  await page.waitForFunction(()=>{
+    const panel=document.getElementById("saveLibraryProductPanel"),title=document.getElementById("settingsTitle"),close=document.getElementById("settingsClose");
+    return Boolean(panel&&panel.hidden&&getComputedStyle(panel).display==="none"&&panel.dataset.productSurface==="internal"&&title?.textContent==="SETTINGS"&&close?.getAttribute("aria-label")==="Close Settings");
+  },null,{timeout:15000});
+  assert.equal(await panel.isHidden(),true,"A late Save Library remount must remain contained before it can reclaim the Settings surface.");
+  assert.equal(await page.locator("#settingsTitle").textContent(),"SETTINGS");
+  assert.equal(await page.locator("#settingsClose").getAttribute("aria-label"),"Close Settings");
+}
+
 async function openSettingsAndInternalPanel(page,expectedMode){
   await page.goto(baseUrl.href,{waitUntil:"domcontentloaded"});
   await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:15000});
@@ -39,6 +52,7 @@ async function openSettingsAndInternalPanel(page,expectedMode){
   assert.equal(await panel.getAttribute("data-library-mode"),expectedMode);
   assert.equal(await panel.getAttribute("data-product-surface"),"internal","Save Library must be classified as internal recovery architecture.");
   assert.equal(await panel.isHidden(),true,"Save Library must not reappear as a normal player-facing Settings mode.");
+  await assertLateRemountContained(page,panel);
   return panel;
 }
 
@@ -56,7 +70,7 @@ async function compatibilityIsContained(runtime){
     assert.equal(after.singleton,singleton,"Compatibility data must remain byte-identical while the internal panel is diagnosed.");
     assert.equal(after.library,null,"Merely opening Settings must not create Save Library authority from pre-release compatibility data.");
     assert.deepEqual(errors,[],`Compatibility containment emitted errors: ${errors.join(" | ")}`);
-    return {mode:"compatibility",hidden:true,storageUnchanged:true};
+    return {mode:"compatibility",hidden:true,lateRemountContained:true,storageUnchanged:true};
   }finally{await context.close();await browser.close();}
 }
 
@@ -75,7 +89,7 @@ async function corruptStateFailsClosed(runtime){
     assert.equal(await page.evaluate(key=>localStorage.getItem(key),libraryKey),corrupt,"Blocked recovery diagnosis must preserve corrupt bytes exactly.");
     assert.equal(await page.evaluate(key=>localStorage.getItem(key),singletonKey),null,"Blocked recovery diagnosis must not fabricate singleton authority.");
     assert.deepEqual(errors,[],`Blocked recovery containment emitted unexpected errors: ${errors.join(" | ")}`);
-    return {mode:"blocked",hidden:true,failClosed:true,expectedParseDiagnostics:true};
+    return {mode:"blocked",hidden:true,lateRemountContained:true,failClosed:true,expectedParseDiagnostics:true};
   }finally{await context.close();await browser.close();}
 }
 
@@ -88,7 +102,7 @@ async function emptyStateStaysInternal(runtime){
     assert.match(await panel.textContent()||"",/YOUR SAVE LIBRARY IS EMPTY/i);
     assert.equal(await page.evaluate(({singletonKey,libraryKey})=>localStorage.getItem(singletonKey)===null&&localStorage.getItem(libraryKey)===null,{singletonKey,libraryKey}),true,"Internal empty-state diagnosis must not create storage authority.");
     assert.deepEqual(errors,[],`Empty recovery containment emitted errors: ${errors.join(" | ")}`);
-    return {mode:"empty",hidden:true,storageUnchanged:true};
+    return {mode:"empty",hidden:true,lateRemountContained:true,storageUnchanged:true};
   }finally{await context.close();await browser.close();}
 }
 
@@ -100,5 +114,5 @@ async function emptyStateStaysInternal(runtime){
   evidence.push(await emptyStateStaysInternal(runtime));
   const resultPath=path.join(resultsDirectory,`save-library-ui-${runLabel}.json`);
   fs.writeFileSync(resultPath,JSON.stringify({runLabel,baseUrl:baseUrl.href,evidence},null,2));
-  console.log("Save Library internal recovery audit passed: compatibility, corrupt and empty storage states remain diagnosable and non-mutating while Save Library stays hidden from the normal player-facing Settings surface; expected corrupt-byte parse diagnostics remain visible without being misclassified as unrelated failures.");
-})().catch(error=>{console.error(error);process.exitCode=1;});
+  console.log("Save Library internal recovery audit passed: compatibility, corrupt and empty storage states remain diagnosable and non-mutating while late remounts stay hidden and normal Settings ownership remains intact; expected corrupt-byte parse diagnostics remain visible without being misclassified as unrelated failures.");
+})().catch(error=>{console.error(error);process.exitCode=1});
