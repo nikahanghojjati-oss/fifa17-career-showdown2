@@ -35,6 +35,9 @@ assert.match(pairSource,/persistentAcrossRegisteredBrowsers:true/);
 assert.match(pairSource,/state\.connectionState==="pending-pair"&&state\.capability/);
 assert.match(pairSource,/pairCopyText\(state\.capability\)/);
 assert.match(pairSource,/"CONTINUE CAREER"/);
+assert.match(pairSource,/rivalryValue\.data\?\.connectionState==="closed"/,'A terminal Showdown must become a replaceable fresh-start state instead of poisoning the remembered pair.');
+assert.match(pairSource,/rivalryValue\.data\?\.connectionState==="closed"[\s\S]*return null/,'A valid closed remembered pair must resolve as no current pair.');
+assert.match(pairSource,/oldSnapshot\.exists\(\)&&oldSnapshot\.data\(\)\?\.data\?\.connectionState==="active"/,'An active real Showdown must remain protected from replacement.');
 assert.doesNotMatch(pairSource,/"CONTINUE ONLINE SHOWDOWN"|"ONLINE SHOWDOWN PAIR"|NIK \+ DANIEL CONNECTED/,'Normal pair UI must not advertise implementation modes.');
 assert.doesNotMatch(pairSource,/\.collection\(|query\(|getDocs\(|listDocuments/);
 
@@ -91,6 +94,7 @@ assert.match(rulesFragment,/role == 'playerOne' && managerId == 'daniel'/);
 assert.match(rulesFragment,/role == 'playerTwo' && managerId == 'nik'/);
 assert.match(rulesFragment,/after\.data\.managerRole == before\.data\.managerRole/);
 assert.match(rulesFragment,/after\.data\.managerId == before\.data\.managerId/);
+assert.match(rulesFragment,/priorRivalry\.data\.data\.connectionState == 'closed'/,'Terminal Showdown authority must explicitly permit replacement of the account current-pair pointer.');
 assert.match(rulesFragment,/priorInvite\.data\.data\.expiresAt <= request\.time/);
 assert.match(rulesFragment,/allow list, delete: if false/);
 assert.doesNotMatch(rulesFragment,/allow list: if true/);
@@ -118,8 +122,9 @@ assert.equal((generated.match(/match \/accounts\/\{accountId\}\/pairLinks\/\{pai
 assert.equal((generated.match(/function cmsPersistentPairCreateValid\(accountId, pairId\)/g)||[]).length,1);
 assert.equal((generated.match(/function cmsPersistentPairUpdateValid\(accountId, pairId\)/g)||[]).length,1);
 assert.match(generated,/allow get: if signedIn\(\) && request\.auth\.uid == accountId && pairId == 'current'/);
+assert.match(generated,/priorRivalry\.data\.data\.connectionState == 'closed'/);
 assert.match(generated,/allow list, delete: if false/);
 assert.match(generated,/match \/sharedSetup\/authoritative/);
 assert.match(generated,/function ssjrTerminalValidAtomicSessionClose\(rivalryId, sessionId\)/);
 
-console.log('PASS fresh single-Showdown product: Daniel is Player One, Nik is Player Two, noncanonical historical mappings are rejected, no legacy pair migration exists, Forget Device clears browser identity, and provider authority remains private and zero-billing.');
+console.log('PASS fresh single-Showdown product: Daniel is Player One, Nik is Player Two, noncanonical historical mappings are rejected, no legacy pair migration exists, closed test Showdowns become safely replaceable while active careers remain protected, Forget Device clears browser identity, and provider authority remains private and zero-billing.');
