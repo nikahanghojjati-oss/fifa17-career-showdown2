@@ -1,0 +1,50 @@
+name: PR260 size simplification
+on:
+  push:
+    branches: [feat/persistent-nik-daniel-pair]
+    paths: [.github/workflows/pr260-size-simplify.yml]
+permissions:
+  contents: write
+jobs:
+  simplify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: feat/persistent-nik-daniel-pair
+          fetch-depth: 0
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+      - name: Remove redundant automatic pair-link retry loop and verify budgets
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('js/persistentNikDanielPair.js')
+          s=p.read_text()
+          def once(old,new):
+              global s
+              n=s.count(old)
+              if n!=1: raise SystemExit(f'expected one match, found {n}: {old[:90]}')
+              s=s.replace(old,new,1)
+          once('  async function pairPersistPairLinkWithRetry(context,rivalryId,managerRole,attempts=2){let lastError=null;const total=Math.max(1,Number.isInteger(attempts)?attempts:2);for(let attempt=0;attempt<total;attempt+=1){try{return await pairPersistPairLink(context,rivalryId,managerRole);}catch(error){lastError=error;}}throw lastError||pairErrorWithCode("PERSISTENT_PAIR_LINK_SAVE_FAILED","The Showdown connection could not be saved to this account.");}\n','')
+          once('pairPersistPairLinkWithRetry(context,result.rivalryId,role,2)','pairPersistPairLink(context,result.rivalryId,role)')
+          once('pairPersistPairLinkWithRetry(context,state.rivalryId,role,3)','pairPersistPairLink(context,state.rivalryId,role)')
+          p.write_text(s)
+          PY
+          npm ci
+          node --check js/persistentNikDanielPair.js
+          node tests/contracts/persistent-nik-daniel-pair-contracts.cjs
+          git checkout -- firestore.spark.generated.rules 2>/dev/null || true
+          node tests/contracts/static-app-release-contracts.cjs
+          node tests/contracts/final-polish-presentation.cjs
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm .github/workflows/pr260-size-simplify.yml
+          git add js/persistentNikDanielPair.js
+          git diff --cached --check
+          git commit -m "refactor(pr260): simplify pair-link retry path"
+          git push origin HEAD:feat/persistent-nik-daniel-pair
