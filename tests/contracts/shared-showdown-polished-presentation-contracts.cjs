@@ -26,9 +26,11 @@ assert.match(presentation,/setInterval\(\(\)=>void ssjpPoll\(\),POLL_MS\)/);
 assert.match(presentation,/if\(witnessedLeagueId!==setup\.leagueId\)\{ssjpForceScreen\("leagueWheelScreen"\);return ssjpRenderLeague\(\);\}/);
 assert.match(presentation,/if\(revealingClubDigest===digest&&!clubRevealComplete\)return;/,"A provider poll must preserve an in-progress club-pack reveal for the same authoritative digest.");
 
-assert.match(entry,/CONTINUE TO LEAGUE WHEEL/);
+assert.match(entry,/"CONTINUE CAREER"/,'The player-facing paired-first resume action must use the single-product Career language.');
+assert.doesNotMatch(entry,/CONTINUE TO LEAGUE WHEEL|START SHARED SHOWDOWN/,'Retired engineering-oriented entry labels must not return.');
 assert.match(entry,/productionSharedShowdownPresentation\.js/);
 assert.match(entry,/engineeringSetupPanelPlayerFacing:false/);
+assert.match(entry,/singleProductEntry:true/);
 assert.doesNotMatch(entry,/OPEN AUTHORITATIVE SHARED SETUP/);
 assert.match(guard,/routesPolishedPresentationClicks:true/);
 
@@ -54,4 +56,4 @@ assert.match(presentation,/cloudFunctionsRequired:false/);
 assert.match(presentation,/appCheckEnforcementRequired:false/);
 assert.match(bridge,/billingRequired:false/);
 
-process.stdout.write("PASS Shared Showdown polished presentation contracts: both manager roles must witness the real league wheel and club packs, in-progress normal-motion pack reveals survive provider polling, provider draw authority remains sole, and the acceptance recorder is bridged away from the engineering panel.\n");
+process.stdout.write("PASS Shared Showdown polished presentation contracts: both manager roles witness the real league wheel and club packs under the simple Career entry, in-progress normal-motion pack reveals survive provider polling, provider draw authority remains sole, and the acceptance recorder is bridged away from the engineering panel.\n");
