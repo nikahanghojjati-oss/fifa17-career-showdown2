@@ -29,25 +29,27 @@ jobs:
           from pathlib import Path
 
           def replace_once(path, old, new):
-              p=Path(path); text=p.read_text(); count=text.count(old)
+              p=Path(path)
+              text=p.read_text()
+              count=text.count(old)
               if count != 1:
                   raise SystemExit(f"{path}: expected one match, got {count}: {old[:100]!r}")
               p.write_text(text.replace(old,new,1))
 
-          helper="""    function cmsPersistentPairRedemptionWitnessValid(rivalryId, role) {
-      let pair = getAfter(/databases/$(database)/documents/accounts/$(request.auth.uid)/pairLinks/current);
-      let pairData = pair.data.data;
-      return pair.data.objectType == 'pairLink'
-        && pair.data.objectId == 'current'
-        && pair.data.lifecycleState == 'live'
-        && pair.data.updatedByAccountId == request.auth.uid
-        && activeDevice(pair.data.updatedByDeviceId)
-        && pairData.rivalryId == rivalryId
-        && pairData.managerRole == role
-        && cmsPersistentPairManagerValid(role, pairData.managerId);
-    }
-
-"""
+          helper=(
+              "    function cmsPersistentPairRedemptionWitnessValid(rivalryId, role) {\n"
+              "      let pair = getAfter(/databases/$(database)/documents/accounts/$(request.auth.uid)/pairLinks/current);\n"
+              "      let pairData = pair.data.data;\n"
+              "      return pair.data.objectType == 'pairLink'\n"
+              "        && pair.data.objectId == 'current'\n"
+              "        && pair.data.lifecycleState == 'live'\n"
+              "        && pair.data.updatedByAccountId == request.auth.uid\n"
+              "        && activeDevice(pair.data.updatedByDeviceId)\n"
+              "        && pairData.rivalryId == rivalryId\n"
+              "        && pairData.managerRole == role\n"
+              "        && cmsPersistentPairManagerValid(role, pairData.managerId);\n"
+              "    }\n\n"
+          )
           replace_once(
               'firestore.persistent-pair-production.fragment.rules',
               '    function cmsPersistentPairDataValid(accountId, pairData) {',
