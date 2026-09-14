@@ -54,7 +54,15 @@ async function installAuthorizedOnlineIdentityFixture(page){
   await page.waitForFunction(()=>typeof window.loadRuntimeScript==="function",null,{timeout:12000});
   await page.evaluate(async()=>{
     if(!window.CareerModeOnlinePlayerIdentity?.initialize)await window.loadRuntimeScript("stability-online-player-identity","js/onlinePlayerIdentity.js",()=>window.CareerModeOnlinePlayerIdentity);
-    window.CareerModeOnlinePlayerIdentity={getState:()=>({status:"ready",initialized:true,busy:false,online:true,accountId:"account_stability_fixture",managerId:"nik",managerLabel:"Nik",deviceId:"device_stability_fixture",registered:true})};
+    const accountId="account_stability_fixture",deviceId="device_stability_fixture";
+    window.CareerModeProductionFirebaseRuntime=window.CareerModeProductionFirebaseRuntime||{};
+    window.CareerModeSparkConnectedAccount={initialize:async()=>({connected:true,accountId}),getState:()=>({connected:true,accountId}),signIn:async()=>({connected:true,accountId}),signOut:async()=>({connected:false,accountId:null})};
+    window.CareerModeSparkPrivatePairing={initialize:async()=>({registered:true,deviceId}),getState:()=>({registered:true,deviceId,message:"Ready"}),getOrCreateDeviceIdentity:async()=>({deviceId})};
+    window.CareerModePersistentNikDanielPair={initialize:async()=>({accountId,managerId:"nik",connectionState:"idle",rivalryId:null}),render:()=>null};
+    const identity=window.CareerModeOnlinePlayerIdentity;
+    let state=await identity.initialize(true);
+    if(state?.status==="choose-manager")state=await identity.chooseManager("nik");
+    if(state?.status!=="ready"||state.accountId!==accountId||state.managerId!=="nik"||state.deviceId!==deviceId||state.registered!==true)throw new Error("Authorized online identity fixture did not reach the real ready state.");
     document.getElementById("onlinePlayerIdentityOverlay")?.remove();
   });
 }
