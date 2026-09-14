@@ -1,0 +1,118 @@
+name: PR260 provider authority hardening
+
+on:
+  push:
+    branches:
+      - feat/persistent-nik-daniel-pair
+    paths:
+      - .github/workflows/pr260-provider-authority-hardening.yml
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feat/persistent-nik-daniel-pair
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Make redemption witness mandatory in provider rules
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+
+          def replace_once(path, old, new):
+              p=Path(path); text=p.read_text(); count=text.count(old)
+              if count != 1:
+                  raise SystemExit(f"{path}: expected one match, got {count}: {old[:100]!r}")
+              p.write_text(text.replace(old,new,1))
+
+          helper="""    function cmsPersistentPairRedemptionWitnessValid(rivalryId, role) {
+      let pair = getAfter(/databases/$(database)/documents/accounts/$(request.auth.uid)/pairLinks/current);
+      let pairData = pair.data.data;
+      return pair.data.objectType == 'pairLink'
+        && pair.data.objectId == 'current'
+        && pair.data.lifecycleState == 'live'
+        && pair.data.updatedByAccountId == request.auth.uid
+        && activeDevice(pair.data.updatedByDeviceId)
+        && pairData.rivalryId == rivalryId
+        && pairData.managerRole == role
+        && cmsPersistentPairManagerValid(role, pairData.managerId);
+    }
+
+"""
+          replace_once(
+              'firestore.persistent-pair-production.fragment.rules',
+              '    function cmsPersistentPairDataValid(accountId, pairData) {',
+              helper+'    function cmsPersistentPairDataValid(accountId, pairData) {'
+          )
+
+          replace_once(
+              'scripts/inject-persistent-pair-rules.mjs',
+              "function insertOnce(source,needle,replacement,label){\n  const first=source.indexOf(needle);\n  if(first<0||source.indexOf(needle,first+needle.length)>=0)throw new Error(`Expected exactly one ${label} sentinel.`);\n  return source.slice(0,first)+replacement+source.slice(first);\n}\n",
+              "function insertOnce(source,needle,replacement,label){\n  const first=source.indexOf(needle);\n  if(first<0||source.indexOf(needle,first+needle.length)>=0)throw new Error(`Expected exactly one ${label} sentinel.`);\n  return source.slice(0,first)+replacement+source.slice(first);\n}\n\nfunction replaceOnce(source,needle,replacement,label){\n  const first=source.indexOf(needle);\n  if(first<0||source.indexOf(needle,first+needle.length)>=0)throw new Error(`Expected exactly one ${label} seam.`);\n  return source.slice(0,first)+replacement+source.slice(first+needle.length);\n}\n"
+          )
+          replace_once(
+              'scripts/inject-persistent-pair-rules.mjs',
+              "  generated=insertOnce(generated,'    match /rivalries/{rivalryId} {',`${matchStart}\\n${match}\\n    ${matchEnd}\\n\\n    `,'persistent pair match');\n",
+              "  generated=insertOnce(generated,'    match /rivalries/{rivalryId} {',`${matchStart}\\n${match}\\n    ${matchEnd}\\n\\n    `,'persistent pair match');\n  generated=replaceOnce(generated,'        && validRivalryData(after.data)\\n        && before.data.connectionState == \\\"pending-pair\\\"','        && validRivalryData(after.data)\\n        && cmsPersistentPairRedemptionWitnessValid(rivalryId, inviteBefore.data.slotId)\\n        && before.data.connectionState == \\\"pending-pair\\\"','persistent pair redemption witness');\n"
+          )
+          replace_once(
+              'scripts/inject-persistent-pair-rules.mjs',
+              "    'function cmsPersistentPairRivalryMembership(accountId, rivalryId, role)',\n",
+              "    'function cmsPersistentPairRivalryMembership(accountId, rivalryId, role)',\n    'function cmsPersistentPairRedemptionWitnessValid(rivalryId, role)',\n    'cmsPersistentPairRedemptionWitnessValid(rivalryId, inviteBefore.data.slotId)',\n"
+          )
+
+          replace_once(
+              'tests/contracts/persistent-nik-daniel-pair-contracts.cjs',
+              "assert.match(rulesFragment,/cmsPersistentPairRivalryMembership/);",
+              "assert.match(rulesFragment,/cmsPersistentPairRivalryMembership/);\nassert.match(rulesFragment,/cmsPersistentPairRedemptionWitnessValid/,'Provider Rules must bind every rivalry redemption to the account current-pair witness.');\nassert.match(injector,/cmsPersistentPairRedemptionWitnessValid\\(rivalryId, inviteBefore\\.data\\.slotId\\)/,'Production Rules injection must make the pair witness mandatory for validRivalryRedeem.');"
+          )
+          replace_once(
+              'tests/contracts/persistent-nik-daniel-pair-contracts.cjs',
+              "assert.match(generated,/allow get: if signedIn\\(\\) && request\\.auth\\.uid == accountId && pairId == 'current'/);",
+              "assert.match(generated,/allow get: if signedIn\\(\\) && request\\.auth\\.uid == accountId && pairId == 'current'/);\nassert.match(generated,/cmsPersistentPairRedemptionWitnessValid\\(rivalryId, inviteBefore\\.data\\.slotId\\)/,'Generated production Rules must reject redemption without the exact account current-pair witness.');"
+          )
+
+          replace_once(
+              'tests/firebase/persistent-nik-daniel-pair-provider-emulator.cjs',
+              "async function atomicRedeemWithPairLink(db,{uid,device,target,managerId,char,nowMs}){",
+              "async function atomicRedeemWithPairLink(db,{uid,device,target,managerId,char,nowMs,writePairLink=true}){"
+          )
+          replace_once(
+              'tests/firebase/persistent-nik-daniel-pair-provider-emulator.cjs',
+              "transaction.set(pairRef,pairNext);transaction.set(rivalryRef,rivalryNext);transaction.set(inviteRef,inviteNext);return target;",
+              "if(writePairLink)transaction.set(pairRef,pairNext);transaction.set(rivalryRef,rivalryNext);transaction.set(inviteRef,inviteNext);return target;"
+          )
+          replace_once(
+              'tests/firebase/persistent-nik-daniel-pair-provider-emulator.cjs',
+              "    await assertSucceeds(atomicRedeemWithPairLink(dbE,{uid:'acct_e',device:ids.e,target:atomicRecovery,managerId:'nik',char:'e',nowMs}));",
+              "    await assertFails(atomicRedeemWithPairLink(dbE,{uid:'acct_e',device:ids.e,target:atomicRecovery,managerId:'nik',char:'e',nowMs,writePairLink:false}));\n    assert.equal((await getDoc(doc(dbE,'rivalries',atomicRecovery))).data().data.connectionState,'pending-pair','provider Rules must reject redemption that omits the durable pair witness');\n    assert.equal((await getDoc(doc(dbE,'rivalries',atomicRecovery,'invites',atomicRecovery))).data().data.state,'open','witness-less redemption must leave the one-use invite unconsumed');\n    await assertSucceeds(atomicRedeemWithPairLink(dbE,{uid:'acct_e',device:ids.e,target:atomicRecovery,managerId:'nik',char:'e',nowMs}));"
+          )
+          replace_once(
+              'tests/firebase/persistent-nik-daniel-pair-provider-emulator.cjs',
+              'expired-pending replacement safety, atomic post-redeem recovery witness, and stale-tab double-active rollback are enforced.\\n',
+              'expired-pending replacement safety, mandatory atomic post-redeem recovery witness, witness-less redemption denial, and stale-tab double-active rollback are enforced.\\n'
+          )
+          print('Provider redemption authority hardening applied.')
+          PY
+
+          node --check scripts/inject-persistent-pair-rules.mjs
+          node --check tests/firebase/persistent-nik-daniel-pair-provider-emulator.cjs
+          node tests/contracts/persistent-nik-daniel-pair-contracts.cjs
+          git checkout -- firestore.spark.generated.rules 2>/dev/null || true
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm .github/workflows/pr260-provider-authority-hardening.yml
+          git add firestore.persistent-pair-production.fragment.rules scripts/inject-persistent-pair-rules.mjs tests/contracts/persistent-nik-daniel-pair-contracts.cjs tests/firebase/persistent-nik-daniel-pair-provider-emulator.cjs
+          git diff --cached --check
+          git commit -m "fix(pr260): require pair witness for every redemption"
+          git push origin HEAD:feat/persistent-nik-daniel-pair
