@@ -166,7 +166,7 @@
   function closePanel(){const overlay=root.document&&root.document.getElementById(PANEL_ID);if(overlay)overlay.classList.add("hidden");return true;}
   function installStartButton(){
     const start=root.document.getElementById("startShowdown");if(!start)return false;
-    start.textContent="START A SHOWDOWN";
+    if(start.textContent!=="START A SHOWDOWN")start.textContent="START A SHOWDOWN";
     if(start.dataset.canonicalShowdownStart==="true")return true;
     start.dataset.canonicalShowdownStart="true";
     start.addEventListener("click",event=>{event.preventDefault();event.stopImmediatePropagation();void startShared();},true);
