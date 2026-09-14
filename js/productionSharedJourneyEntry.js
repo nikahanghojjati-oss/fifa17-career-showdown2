@@ -11,8 +11,6 @@
   const SHARED_CONTINUE_ID="continueSharedSetupGate";
   const LOCAL_SPIN_ID="spinLeague";
   const LOCAL_CLUB_ID="openClubPack";
-  const LEGACY_CONTRACT_DIAGNOSTICS=Object.freeze({startLabel:"START SHARED SHOWDOWN",ordering:"Do this on BOTH manager devices before pairing."});
-  const legacyResumeActionForDiagnostics=confirmed=>confirmed?"CONTINUE TO CAREER START":"CONTINUE TO LEAGUE WHEEL";
   let installed=false,busy=false,remoteUnsubscribe=null,remoteReturnBusy=false,renderGeneration=0;
 
   function activeSavedShowdown(){
@@ -33,18 +31,18 @@
   function normalizeCanonicalPlayers(){const showdown=currentSaveShell();if(!showdown)throw new Error("The prepared Showdown is unavailable.");showdown.name="Daniel vs Nik";showdown.managers={...(showdown.managers&&typeof showdown.managers==="object"?showdown.managers:{}),playerOne:"Daniel",playerTwo:"Nik"};return showdown;}
   function persistPendingMarker(){
     const showdown=currentSaveShell();
-    if(!showdown||showdown.selectedLeague||showdown.clubs&&((showdown.clubs.playerOne)||(showdown.clubs.playerTwo))||Array.isArray(showdown.rounds)&&showdown.rounds.length)throw new Error("Shared mode marker can be attached only to a pre-draw Save shell.");
+    if(!showdown||showdown.selectedLeague||showdown.clubs&&((showdown.clubs.playerOne)||(showdown.clubs.playerTwo))||Array.isArray(showdown.rounds)&&showdown.rounds.length)throw new Error("Career setup can be attached only before league and club selection.");
     const runtime=root.CareerModeSaveLibraryRuntime;
-    if(!runtime||typeof runtime.isReady!=="function"||!runtime.isReady()||typeof runtime.saveCurrentShowdown!=="function")throw new Error("Save Library authority is unavailable for the shared-mode marker.");
+    if(!runtime||typeof runtime.isReady!=="function"||!runtime.isReady()||typeof runtime.saveCurrentShowdown!=="function")throw new Error("Career storage is unavailable.");
     const previous=showdown.sharedJourney;showdown.sharedJourney={contractVersion:1,mode:"shared",setupPending:true};
-    if(runtime.saveCurrentShowdown()!==true){showdown.sharedJourney=previous;throw new Error("The durable shared-mode marker could not be saved with the pre-draw shell.");}
-    if(!persistedPending()){showdown.sharedJourney=previous;runtime.saveCurrentShowdown();throw new Error("The durable shared-mode marker did not round-trip through Save Library authority.");}
+    if(runtime.saveCurrentShowdown()!==true){showdown.sharedJourney=previous;throw new Error("Career setup could not be saved.");}
+    if(!persistedPending()){showdown.sharedJourney=previous;runtime.saveCurrentShowdown();throw new Error("Career setup could not be verified.");}
     return true;
   }
   function discardUnmarkedShell(){try{const runtime=root.CareerModeSaveLibraryRuntime;if(runtime&&typeof runtime.isReady==="function"&&runtime.isReady()&&typeof runtime.clearActiveShowdown==="function")runtime.clearActiveShowdown();}catch(_error){}}
   function create(tag,className,text){const element=root.document.createElement(tag);if(className)element.className=className;if(text!==undefined)element.textContent=String(text);return element;}
   function report(context,error){if(typeof root.reportApplicationError==="function")root.reportApplicationError(context,error);else console.error(context,error);}
-  async function loadScript(key,path,ready){if(ready())return ready();if(typeof root.loadRuntimeScript!=="function")throw new Error("Optional runtime loader is unavailable.");await root.loadRuntimeScript(key,path,ready);return ready();}
+  async function loadScript(key,path,ready){if(ready())return ready();if(typeof root.loadRuntimeScript!=="function")throw new Error("Required runtime is unavailable.");await root.loadRuntimeScript(key,path,ready);return ready();}
   async function loadStyle(){if(typeof root.loadRuntimeStyle==="function")await root.loadRuntimeStyle("ssjr-entry","css/remoteJoining.css");}
   function applyLocalDrawLock(){
     const locked=pending(),presentationOwns=locked&&presentationActive();
@@ -66,7 +64,7 @@
   async function ensureSaveAuthority(){
     await loadScript("save-library-cutover","js/saveLibraryCutover.js",()=>typeof root.ensureSaveLibraryRuntimeAuthority==="function");
     await root.ensureSaveLibraryRuntimeAuthority();
-    if(typeof root.ensureGameplayModules!=="function")throw new Error("Gameplay runtime loader is unavailable.");
+    if(typeof root.ensureGameplayModules!=="function")throw new Error("Gameplay runtime is unavailable.");
     await root.ensureGameplayModules();
   }
   async function startShared(){
@@ -74,8 +72,8 @@
     const round=root.document.getElementById("roundAmount"),priorRound=round?round.value:null;let shellCreated=false,markerPersisted=false;
     try{
       await ensureSaveAuthority();setPending(true);if(round)round.value="1";
-      if(typeof root.createShowdown!=="function")throw new Error("Pre-draw Save shell authority is unavailable.");
-      const created=await root.createShowdown();shellCreated=Boolean(created);if(!created)throw new Error("The pre-draw Save shell could not be created.");
+      if(typeof root.createShowdown!=="function")throw new Error("Showdown preparation is unavailable.");
+      const created=await root.createShowdown();shellCreated=Boolean(created);if(!created)throw new Error("The Showdown could not be prepared.");
       normalizeCanonicalPlayers();persistPendingMarker();markerPersisted=true;applyLocalDrawLock();await openPanel();return true;
     }catch(error){if(shellCreated&&!markerPersisted)discardUnmarkedShell();setPending(false);report("Unable to prepare Showdown",error);return false;}
     finally{if(round&&priorRound!==null)round.value=priorRound;if(button)button.disabled=false;busy=false;}
@@ -178,5 +176,5 @@
   }
   function install(){if(installed)return true;installed=true;installStartButton();applyLocalDrawLock();const observer=new MutationObserver(()=>{installStartButton();applyLocalDrawLock();});observer.observe(root.document.documentElement,{childList:true,subtree:true});if(pending())setTimeout(()=>void openPanel(),0);return true;}
 
-  return Object.freeze({contractVersion:4,feature:"ssjr-production-paired-first-entry",productionEnabled:true,pairingBeforeLeagueClub:true,activeSessionBeforeLeagueClub:true,peerActiveReturnToSharedEntry:true,bothDevicesPrepareSharedShell:true,continueCareerIsLocalOnly:true,polishedLeagueWheelAfterAuthority:true,polishedClubPacksAfterAuthority:true,confirmedSetupResumesAtCareerStart:true,engineeringSetupPanelPlayerFacing:false,persistedSaveMarker:true,canonicalLocalSaveMutationDuringSharedSetup:false,billingRequired:false,install,preparePairingShell:startShared,openPanel,closePanel,openSharedExperience,isPending:pending});
+  return Object.freeze({contractVersion:5,feature:"ssjr-production-paired-first-entry",productionEnabled:true,singleProductEntry:true,pairingBeforeLeagueClub:true,activeSessionBeforeLeagueClub:true,peerActiveReturnToSharedEntry:true,bothDevicesPrepareSharedShell:true,continueCareerUsesPairedAuthority:true,polishedLeagueWheelAfterAuthority:true,polishedClubPacksAfterAuthority:true,confirmedSetupResumesAtCareerStart:true,engineeringSetupPanelPlayerFacing:false,persistedSaveMarker:true,canonicalLocalSaveMutationDuringSharedSetup:false,billingRequired:false,install,preparePairingShell:startShared,openPanel,closePanel,openSharedExperience,isPending:pending});
 });
