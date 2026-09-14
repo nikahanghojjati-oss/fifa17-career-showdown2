@@ -51,6 +51,16 @@ assert.match(pairSource,/does not have the verified local recovery copy for this
 assert.doesNotMatch(pairSource,/fresh Showdown setup before it can continue/i,'Missing local recovery must never instruct the player to create a divergent new Showdown.');
 assert.doesNotMatch(pairSource,/"CONTINUE ONLINE SHOWDOWN"|"ONLINE SHOWDOWN PAIR"|NIK \+ DANIEL CONNECTED/,'Normal pair UI must not advertise implementation modes.');
 assert.doesNotMatch(pairSource,/\.collection\(|query\(|getDocs\(|listDocuments/);
+assert.match(pairSource,/async function pairPersistPairLinkWithRetry\(/,'One-use pairing must retry the account pair-link write instead of abandoning a consumed capability after one transient failure.');
+assert.match(pairSource,/status:"pair-link-retry"/,'A partial pairing commit must remain recoverable in-page.');
+assert.match(pairSource,/"RETRY CONNECTION"/,'A partial pairing commit must expose a deterministic retry action.');
+assert.match(pairSource,/async function pairRetryPairLink\(/,'The retry action must have a bounded provider-backed implementation.');
+assert.match(pairSource,/retryPairLink:pairRetryPairLink/,'The retry operation must remain observable to tests and recovery tooling.');
+assert.doesNotMatch(pairSource,/paired-recovery/,'The old ambiguous paired-recovery state must be retired.');
+assert.doesNotMatch(pairSource,/Refresh once if the connection is not visible yet/i,'A consumed one-use code must never instruct the player to refresh before the account pair link is durably saved.');
+assert.match(pairSource,/async function pairStartPairing[\s\S]*const active=pairAlreadyActiveState\(\);if\(active\)return active;[\s\S]*createPairing\(/,'Start Pairing must reject an already-active rivalry before creating another capability.');
+assert.match(pairSource,/async function pairJoinPairing[\s\S]*const active=pairAlreadyActiveState\(\);if\(active\)return active;[\s\S]*redeemPairing\(/,'Join Pairing must reject an already-active rivalry before redeeming another one-use capability.');
+assert.match(pairSource,/if\(state\.status==="pair-link-retry"\)[\s\S]*RETRY CONNECTION[\s\S]*else if\(state\.connectionState==="active"&&state\.status==="recovery-required"\)[\s\S]*else if\(state\.connectionState==="active"\)[\s\S]*else if\(state\.status==="unpaired"\|\|state\.status==="save-required"\|\|state\.status==="error"\)/,'Active or partial-commit states must be rendered before generic CREATE/JOIN error controls.');
 
 const pairApi=require(path.join(root,'js/persistentNikDanielPair.js'));
 assert.equal(pairApi.contractVersion,4);
@@ -58,6 +68,7 @@ assert.equal(pairApi.legacyPairMigration,false);
 assert.equal(pairApi.pairLinkPersistentAcrossRegisteredBrowsers,true);
 assert.equal(pairApi.gameplayCacheHydrationAcrossFreshBrowsers,false);
 assert.equal(pairApi.freshBrowserGameplayRequiresVerifiedLocalRecovery,true);
+assert.equal(typeof pairApi.retryPairLink,'function');
 assert.equal(pairApi.managerByRole.playerOne.id,'daniel');
 assert.equal(pairApi.managerByRole.playerTwo.id,'nik');
 assert.equal(pairApi.roleByManager.daniel,'playerOne');
@@ -141,4 +152,4 @@ assert.match(generated,/allow list, delete: if false/);
 assert.match(generated,/match \/sharedSetup\/authoritative/);
 assert.match(generated,/function ssjrTerminalValidAtomicSessionClose\(rivalryId, sessionId\)/);
 
-console.log('PASS fresh single-Showdown product: Daniel is Player One, Nik is Player Two, noncanonical historical mappings are rejected, no legacy pair migration exists, provider membership selects the exact cached Save/Profile on reconnect, missing fresh-browser gameplay cache fails closed into verified recovery instead of divergent setup, closed test Showdowns become safely replaceable while active careers remain protected, Forget Device clears browser identity, and provider authority remains private and zero-billing.');
+console.log('PASS fresh single-Showdown product: Daniel is Player One, Nik is Player Two, noncanonical historical mappings are rejected, no legacy pair migration exists, one-use pairing partial commits retain a deterministic retry path without refresh loss, active careers cannot redeem or create a second pair, provider membership selects the exact cached Save/Profile on reconnect, missing fresh-browser gameplay cache fails closed into verified recovery instead of divergent setup, closed test Showdowns become safely replaceable while active careers remain protected, Forget Device clears browser identity, and provider authority remains private and zero-billing.');
