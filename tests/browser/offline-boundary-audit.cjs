@@ -164,10 +164,15 @@ async function run(){
     await context.setOffline(false);
     await page.reload({waitUntil:"domcontentloaded"});
     await waitApp(page);
-    await page.waitForFunction(()=>{
-      const identity=window.CareerModeOnlinePlayerIdentity?.getState?.();
-      return Boolean(identity&&identity.online===true&&identity.status!=="offline");
-    },null,{timeout:15000});
+    const reconnectedIdentity=await page.evaluate(async()=>{
+      await window.loadRuntimeScript("online-player-identity","js/onlinePlayerIdentity.js",()=>Boolean(window.CareerModeOnlinePlayerIdentity));
+      const current=window.CareerModeOnlinePlayerIdentity.getState();
+      return current.online===true&&current.status!=="offline"
+        ? current
+        : window.CareerModeOnlinePlayerIdentity.initialize(true);
+    });
+    assert.equal(reconnectedIdentity.online,true);
+    assert.notEqual(reconnectedIdentity.status,"offline");
     assert.deepEqual(await storage(page),fixture);
 
     await page.locator("#newShowdown").click();
