@@ -42,6 +42,7 @@ assert.match(pairSource,/gameplayCacheHydrationAcrossFreshBrowsers:false/);
 assert.match(pairSource,/freshBrowserGameplayRequiresVerifiedLocalRecovery:true/);
 assert.match(pairSource,/state\.connectionState==="pending-pair"&&state\.capability/);
 assert.match(pairSource,/pairCopyText\(state\.capability\)/);
+assert.match(pairSource,/state\.connectionState==="pending-pair"&&state\.capability[\s\S]*"NEW CODE"[\s\S]*pairStartPairing\(\{managerRole:state\.managerRole\}\)/,'A pending creator must always have a provider-guarded replacement action so an expired invite cannot strand the account.');
 assert.match(pairSource,/"CONTINUE CAREER"/);
 assert.match(pairSource,/rivalryValue\.data\?\.connectionState==="closed"/,'A terminal Showdown must become a replaceable fresh-start state instead of poisoning the remembered pair.');
 assert.match(pairSource,/rivalryValue\.data\?\.connectionState==="closed"[\s\S]*return null/,'A valid closed remembered pair must resolve as no current pair.');
@@ -112,6 +113,10 @@ assert.doesNotMatch(appSource,/persistentNikDanielPair|persistent-nik-daniel-pai
 assert.match(workerSource,/"js\/persistentNikDanielPair\.js"/,'Installed application shell must cache the lazy persistent-pair runtime.');
 
 assert.match(entrySource,/preparePairingShell:startShared/,'Single Start a Showdown action must continue to use the established paired-first shell authority.');
+const ensurePrepared=pairSource.slice(pairSource.indexOf('async function pairEnsurePreparedBinding'),pairSource.indexOf('async function pairAttachRecoveryPointer'));
+assert.match(ensurePrepared,/showScreen\?\.\("createShowdown"\)/,'Home pairing controls must route an unprepared player to explicit season selection.');
+assert.match(ensurePrepared,/PERSISTENT_PAIR_SEASON_SELECTION_REQUIRED/);
+assert.doesNotMatch(ensurePrepared,/preparePairingShell\(/,'Pair controls must never auto-create a default one-season shell.');
 assert.match(entrySource,/showdown\.name="Daniel vs Nik"/);
 assert.match(entrySource,/function normalizeCanonicalPlayers\(\)[\s\S]*playerOne:"Daniel",playerTwo:"Nik"/,'Paired-first entry must canonicalize the pre-draw shell to Daniel as Player One and Nik as Player Two.');
 
@@ -136,7 +141,9 @@ assert.doesNotMatch(entrySource,/if\(round\)round\.value="1"/,'Shared start must
 assert.match(rulesFragment,/cmsPersistentPairRivalryMembership[\s\S]*getAfter\(/,'Pair-link membership must observe the same transaction final rivalry state.');
 const showdownSandbox={window:{},document:undefined,console,setTimeout,clearTimeout};
 vm.createContext(showdownSandbox);vm.runInContext(showdownSource,showdownSandbox);
-assert.throws(()=>showdownSandbox.normalizeShowdown({managers:{playerOne:'Nik',playerTwo:'Daniel'}}),error=>error&&error.code==='SHOWDOWN_REVERSED_MANAGER_ROLES_UNSUPPORTED','Reversed historical manager roles must fail closed instead of being silently relabelled.');
+assert.throws(()=>showdownSandbox.normalizeShowdown({managers:{playerOne:'Nik',playerTwo:'Daniel'}}),error=>error&&error.code==='SHOWDOWN_MANAGER_MAPPING_UNSUPPORTED','Reversed historical manager roles must fail closed instead of being silently relabelled.');
+assert.throws(()=>showdownSandbox.normalizeShowdown({managers:{playerOne:'Alex',playerTwo:'Sam'}}),error=>error&&error.code==='SHOWDOWN_MANAGER_MAPPING_UNSUPPORTED','Every noncanonical historical manager mapping must fail closed instead of being attributed to Daniel and Nik.');
+assert.doesNotThrow(()=>showdownSandbox.normalizeShowdown({managers:{playerOne:'Daniel',playerTwo:'Nik'}}));
 
 assert.match(rulesFragment,/cmsPersistentPairRivalryMembership/);
 assert.match(rulesFragment,/cmsPersistentPairCreationWitnessValid/,'Provider Rules must bind every rivalry creation to the creator account current-pair witness.');
