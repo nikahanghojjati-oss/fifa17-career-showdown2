@@ -73,8 +73,15 @@ async function waitForHome(page){
 async function openLibrary(page){
   await page.locator("#settingsButton").click();
   await page.locator("#settingsOverlay").waitFor({state:"visible",timeout:15000});
-  await page.locator("#saveLibraryProductPanel").waitFor({state:"visible",timeout:15000});
+  const panel=page.locator("#saveLibraryProductPanel");
+  await panel.waitFor({state:"attached",timeout:15000});
   await page.waitForFunction(()=>document.getElementById("saveLibraryProductPanel")?.dataset.libraryMode==="ready",null,{timeout:15000});
+  assert.equal(await panel.getAttribute("data-product-surface"),"internal","Legacy identity linkage must remain classified as internal recovery machinery.");
+  assert.equal(await panel.isHidden(),true,"Legacy identity linkage must not appear in normal player-facing Settings.");
+  // Test-only reveal: preserve deep recovery/data-integrity coverage without putting this legacy
+  // machinery back into the actual product surface.
+  await panel.evaluate(element=>{element.hidden=false;element.dataset.testSurface="internal-audit";});
+  await panel.waitFor({state:"visible",timeout:5000});
 }
 
 async function readCanonical(page){
@@ -118,7 +125,7 @@ async function applyLink(page,kind,sourceId,role,profileId){
   try{
     await waitForHome(page);
     await openLibrary(page);
-    assert.equal(await page.locator(".saveLibraryProfileCard").count(),4,"Four same-name fixture profiles must begin as four visible identities.");
+    assert.equal(await page.locator(".saveLibraryProfileCard").count(),4,"Four same-name fixture profiles must remain independently represented inside recovery authority.");
     assert.match(await page.locator("#saveLibraryProductPanel").innerText(),/NO NAMES ARE MATCHED AUTOMATICALLY/i);
     assert.match(await page.locator("#saveLibraryProductPanel").innerText(),/HISTORICAL-ONLY LEGACY ROLES/i);
 
@@ -126,7 +133,7 @@ async function applyLink(page,kind,sourceId,role,profileId){
     let state=await readCanonical(page);
     let second=state.library.saves.find(entry=>entry.saveId===ids.saveB).showdown;
     let matchingLegacy=state.legacy.find(record=>record.identity&&record.identity.saveId===ids.saveB);
-    assert.equal(second.identity.managerProfileIds.playerOne,ids.profileA1,"Explicit UI linkage must reuse one stable profile across Saves.");
+    assert.equal(second.identity.managerProfileIds.playerOne,ids.profileA1,"Internal linkage must reuse one stable profile across Saves.");
     assert.equal(second.identity.managerProfileIds.playerTwo,ids.profileB2,"The second same-name rival must remain distinct.");
     assert.equal(matchingLegacy.identity.managerProfileIds.playerOne,ids.profileA1,"Matching Legacy must inherit by stable Save identity.");
     assert.equal(second.managers.playerOne,"Same Name");
@@ -141,7 +148,7 @@ async function applyLink(page,kind,sourceId,role,profileId){
     await applyLink(page,"legacy","browser-history","playerOne",ids.profileA2);
     state=await readCanonical(page);
     let historical=state.legacy.find(record=>String(record.id)==="browser-history");
-    assert.equal(historical.identity.managerProfileIds.playerOne,ids.profileA2,"Historical-only role must accept an explicit Local Profile map.");
+    assert.equal(historical.identity.managerProfileIds.playerOne,ids.profileA2,"Historical-only role must accept an explicit internal profile map.");
     await applyLink(page,"legacy","browser-history","playerOne",null);
     state=await readCanonical(page);
     historical=state.legacy.find(record=>String(record.id)==="browser-history");
@@ -156,8 +163,8 @@ async function applyLink(page,kind,sourceId,role,profileId){
       const restored=prepared.saves.find(entry=>entry.saveId===prepared.activeSaveId)?.showdown;
       return {projected:active.identity.managerProfileIds,restored:restored.identity.managerProfileIds};
     },{libraryKey});
-    assert.deepEqual(restoreProof.projected,{playerOne:ids.profileA1,playerTwo:ids.profileB2},"Candidate A must project the explicitly cross-linked active Save identity.");
-    assert.deepEqual(restoreProof.restored,restoreProof.projected,"Browser restore preparation must preserve explicit active profile identity refs.");
+    assert.deepEqual(restoreProof.projected,{playerOne:ids.profileA1,playerTwo:ids.profileB2},"Backup projection must preserve explicitly cross-linked stable identities.");
+    assert.deepEqual(restoreProof.restored,restoreProof.projected,"Restore preparation must preserve explicit active profile identity refs.");
 
     const firstCard=page.locator(`.saveLibraryCard[data-save-id="${ids.saveA}"]`);
     page.once("dialog",dialog=>dialog.accept());
@@ -173,13 +180,13 @@ async function applyLink(page,kind,sourceId,role,profileId){
     assert.equal(await page.evaluate(key=>localStorage.getItem(key),singletonKey),null,"Identity operations and deletion must never resurrect singleton authority.");
 
     const focusedInside=await page.locator("#settingsDialog").evaluate(dialog=>dialog.contains(document.activeElement));
-    assert.equal(focusedInside,true,"Identity-link rerenders and deletion must keep focus inside Settings ownership.");
+    assert.equal(focusedInside,true,"Internal identity mutations must keep focus inside Settings ownership during the audit.");
     const screenshotPath=path.join(resultsDirectory,`manager-identity-linkage-${runLabel}.png`);
     await page.screenshot({path:screenshotPath,fullPage:true});
-    const result={runLabel,baseUrl:baseUrl.href,linkedProfile:ids.profileA1,remainingDistinctProfile:ids.profileB2,historicalProfile:ids.profileA2,profilesRetained:state.library.profiles.length,screenshot:screenshotPath};
+    const result={runLabel,baseUrl:baseUrl.href,productSurface:"internal",hiddenByDefault:true,linkedProfile:ids.profileA1,remainingDistinctProfile:ids.profileB2,historicalProfile:ids.profileA2,profilesRetained:state.library.profiles.length,screenshot:screenshotPath};
     fs.writeFileSync(path.join(resultsDirectory,`manager-identity-linkage-${runLabel}.json`),JSON.stringify(result,null,2));
     assert.deepEqual(errors,[],`Manager identity linkage emitted page/console errors: ${errors.join(" | ")}`);
-    console.log("Manager identity browser audit passed: explicit same-person cross-Save linkage, same-name separation, stable Legacy propagation, unresolved historical mapping, restore preparation and deletion retention are protected.");
+    console.log("Manager identity internal recovery audit passed: legacy linkage stays hidden from normal Settings while stable cross-Save linkage, same-name separation, Legacy propagation, restore preservation and deletion retention remain intact behind the product surface.");
   }finally{
     await context.close();
     await browser.close();
