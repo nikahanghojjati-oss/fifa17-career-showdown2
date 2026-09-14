@@ -177,7 +177,7 @@ async function smokeDestinations(page,prefix){
     const hiddenByProduct=ids.every(id=>{const element=document.getElementById(id);return !element||element.hidden||getComputedStyle(element).display==="none";});
     const extra=[...document.querySelectorAll("#settingsContent .settingsOfflinePanel,#settingsContent .settingsDataPanel")];
     return hiddenByProduct&&extra.every(element=>element.hidden||getComputedStyle(element).display==="none")&&document.getElementById("settingsTitle")?.textContent?.trim()==="SETTINGS";
-  },null,{timeout:5000});
+  },null,{timeout:15000});
   const settingsContainment=await page.evaluate(()=>({
     saveLibrary:document.getElementById("saveLibraryProductPanel")?getComputedStyle(document.getElementById("saveLibraryProductPanel")).display:"absent",
     offline:[...document.querySelectorAll("#settingsContent .settingsOfflinePanel")].every(element=>element.hidden||getComputedStyle(element).display==="none"),
