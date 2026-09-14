@@ -26,7 +26,7 @@ function createRuleBookScreen(){
     intro.innerHTML = `
         <span>CAREER MODE SHOWDOWN</span>
         <strong>THE LOCKED COMPETITION RULES</strong>
-        <p>Nik and Daniel. One league. Permanent clubs. Every season becomes part of the shared online rivalry.</p>
+        <p>Daniel and Nik. One league. Permanent clubs. One rivalry.</p>
     `;
 
     const grid = document.createElement("div");
@@ -34,11 +34,11 @@ function createRuleBookScreen(){
 
     grid.append(
         createRuleSection("01", "SHOWDOWN FORMAT", [
-            "Career Mode Showdown is a two-player online rivalry for Nik and Daniel.",
-            "Each manager plays a separate FIFA 17 Career Mode save while the Showdown state is shared online.",
+            "Career Mode Showdown is a two-player rivalry for Daniel and Nik.",
+            "Daniel is Player One and Nik is Player Two for new Showdowns.",
             "Both managers compete in the same selected league.",
-            "The assigned clubs remain fixed for the entire showdown, across every season.",
-            "A showdown may contain 1, 3, 5, or 10 seasons."
+            "The assigned clubs remain fixed for the entire Showdown, across every season.",
+            "A Showdown may contain 1, 3, 5, or 10 seasons."
         ]),
         createRuleSection("02", "MATCH PLAY", [
             "Career Mode matches are simulated.",
@@ -55,17 +55,15 @@ function createRuleBookScreen(){
         ]),
         createScoringRuleSection(),
         createRuleSection("05", "TIEBREAK", [
-            "The approved fallback applies when both managers score zero showdown points in a season.",
+            "The approved fallback applies when both managers score zero Showdown points in a season.",
             "The manager with the better league finishing position wins the season.",
             "If both managers finish in the same league position, the manager with more league points wins.",
             "No goal-difference, goals-scored, or head-to-head tiebreak is used."
         ]),
-        createRuleSection("06", "ONLINE PLAY & DEVICES", [
-            "Every normal Showdown is shared online between Nik and Daniel; there is no separate local-only gameplay mode.",
-            "Google sign-in and a registered browser or device provide the private connection. A device can be forgotten and registered again when needed.",
-            "Browser storage may still be used internally for safe caching, recovery and rollback, but it is not a separate user-facing Showdown mode.",
-            "Pairing, reconciliation and recovery details stay behind the normal gameplay flow unless a recovery action is genuinely required.",
-            "The online service uses the Firebase Spark free tier; billing remains off.",
+        createRuleSection("06", "CONNECTION & RECOVERY", [
+            "Daniel and Nik connect once before the first Showdown and can then continue the same career from a remembered account and browser.",
+            "A new or forgotten browser may need to be connected again before play continues.",
+            "Device storage may be used internally for recovery and rollback, but it does not create a separate gameplay mode.",
             "Results are entered manually from FIFA 17; screenshots and match notes are not required."
         ])
     );
