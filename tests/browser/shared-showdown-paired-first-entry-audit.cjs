@@ -41,6 +41,7 @@ const SAVE_KEY="careerModeShowdown.saveLibrary";
     assert.equal(await page.locator("#managerOne").inputValue(),"Daniel");
     assert.equal(await page.locator("#managerTwo").inputValue(),"Nik");
     assert.equal(await page.locator("#startShowdown").textContent(),"START A SHOWDOWN");
+    await page.locator("#roundAmount").selectOption("5");
     await page.locator("#startShowdown").click();
 
     await page.waitForFunction(()=>window.CareerModeProductionSharedJourneyEntry?.singleProductEntry===true,null,{timeout:12000});
@@ -52,13 +53,14 @@ const SAVE_KEY="careerModeShowdown.saveLibrary";
 
     const created=await page.evaluate(key=>{
       const library=JSON.parse(localStorage.getItem(key));const entry=library.saves.find(item=>item&&item.saveId===library.activeSaveId);
-      return {activeSaveId:library.activeSaveId,saveIds:library.saves.map(item=>item.saveId),name:entry.showdown.name,managers:entry.showdown.managers,marker:entry.showdown.sharedJourney,selectedLeague:entry.showdown.selectedLeague,clubs:entry.showdown.clubs,rounds:entry.showdown.rounds};
+      return {activeSaveId:library.activeSaveId,saveIds:library.saves.map(item=>item.saveId),name:entry.showdown.name,managers:entry.showdown.managers,totalRounds:entry.showdown.totalRounds,marker:entry.showdown.sharedJourney,selectedLeague:entry.showdown.selectedLeague,clubs:entry.showdown.clubs,rounds:entry.showdown.rounds};
     },SAVE_KEY);
     assert.match(created.activeSaveId,/^save_[a-f0-9]{24}$/);
     assert.notEqual(created.activeSaveId,oldSaveId,"Canonical start must create a new shared shell rather than reuse unrelated recovery data.");
     assert.equal(created.saveIds.includes(oldSaveId),true,"Canonical start must preserve unrelated recovery data.");
     assert.equal(created.name,"Daniel vs Nik");
     assert.deepEqual(created.managers,{playerOne:"Daniel",playerTwo:"Nik"});
+    assert.equal(created.totalRounds,5,"Paired-first shell must preserve the selected 1/3/5/10 season count.");
     assert.deepEqual(created.marker,{contractVersion:1,mode:"shared",setupPending:true});
     assert.equal(created.selectedLeague,null);
     assert.deepEqual(created.clubs,{playerOne:null,playerTwo:null});
@@ -70,11 +72,12 @@ const SAVE_KEY="careerModeShowdown.saveLibrary";
       const listeners=new Set();
       const accountId="account_peer_fixture",deviceId="device_peer_fixture",rivalryId="pair_peer_fixture";
       let state={status:"idle",open:false,busy:false,sessionId:null,rivalryId,accountId,deviceId,role:null,sessionState:null,revision:null,expiresAtEpochMs:null,pendingAction:null};
-      window.__peerRemoteOpenCount=0;window.__peerRemoteCloseCount=0;
+      window.__peerRemoteOpenCount=0;window.__peerRemoteCloseCount=0;window.__pairControlsOpenCount=0;
       window.CareerModeProductionFirebaseRuntime={};
       window.CareerModeSparkConnectedAccount={initialize:async()=>true,getState:()=>({connected:true,accountId})};
       window.CareerModeSparkPrivatePairing={initialize:async()=>true,getState:()=>({registered:true,deviceId})};
       window.CareerModeSparkConnectedRivalry={initialize:async()=>true,getState:()=>({attached:true,rivalryId,accountId,deviceId,binding:{managerRole:"playerTwo"}})};
+      window.CareerModePersistentNikDanielPair={initialize:async()=>{window.__pairControlsOpenCount+=1;return {status:"paired"};},render:()=>{let panel=document.getElementById("persistentNikDanielPairPanel");if(!panel){panel=document.createElement("section");panel.id="persistentNikDanielPairPanel";panel.textContent="CAREER READY";document.body.appendChild(panel);}return panel;}};
       window.CareerModeSparkRemoteJoining={
         getState:()=>state,
         subscribe(listener){listeners.add(listener);return()=>listeners.delete(listener);},
@@ -84,6 +87,11 @@ const SAVE_KEY="careerModeShowdown.saveLibrary";
       window.__activatePeerSession=()=>{state={...state,status:"ready",open:true,role:"peer",sessionState:"active",sessionId:"session_peer_fixture",revision:1,expiresAtEpochMs:Date.now()+600000,pendingAction:null};for(const listener of [...listeners])listener(state);};
       await window.CareerModeProductionSharedJourneyEntry.openPanel();
     });
+    const connection=page.locator("#productionSharedJourneyEntryOverlay button",{hasText:"REVIEW CONNECTION"});
+    await connection.waitFor({state:"visible",timeout:5000});await connection.click();
+    await page.waitForFunction(()=>window.__pairControlsOpenCount===1,null,{timeout:3000});
+    await page.locator("#persistentNikDanielPairPanel").waitFor({state:"visible",timeout:3000});
+    await page.evaluate(()=>window.CareerModeProductionSharedJourneyEntry.openPanel());
     const openJoin=page.locator("#productionSharedJourneyEntryOverlay button",{hasText:"CONTINUE"});
     await openJoin.waitFor({state:"visible",timeout:5000});await openJoin.click();
     await page.waitForFunction(()=>window.__peerRemoteOpenCount===1,null,{timeout:3000});

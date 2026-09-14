@@ -315,39 +315,46 @@
   }
 
   async function redeemPairing(options={}){
-    try{
-      validateFirestoreInputs(options);
-      const accountId=normalizeAccountId(options.user);
-      const identity=options.identity;
-      if(!validDeviceIdentity(identity))throw errorWithCode("PRIVATE_DEVICE_IDENTITY_UNAVAILABLE","A stable registered device is required.");
-      const binding=normalizeLocalBinding(options.binding);
-      const capability=normalizeCapability(options.capability);
-      const sdk=options.firebaseSdk;
-      const nowEpochMs=options.nowEpochMs===undefined?Date.now():Number(options.nowEpochMs);
-      const now=sdk.Timestamp.fromMillis(nowEpochMs);
-      const deviceReference=sdk.doc(options.firestore,"accounts",accountId,"devices",identity.deviceId);
-      const rivalryReference=sdk.doc(options.firestore,"rivalries",capability);
-      const inviteReference=sdk.doc(options.firestore,"rivalries",capability,"invites",capability);
-      const result=await sdk.runTransaction(options.firestore,async transaction=>{
-        const deviceSnapshot=await transaction.get(deviceReference);
-        assertActiveDeviceSnapshot(deviceSnapshot,identity.deviceId);
-        const rivalrySnapshot=await transaction.get(rivalryReference);
-        const inviteSnapshot=await transaction.get(inviteReference);
-        const {rivalry,invite}=assertPairingDocuments(rivalrySnapshot,inviteSnapshot,capability,accountId,binding,nowEpochMs);
-        const nextSlots=rivalry.data.managerSlots.map(slot=>slot.slotId===invite.data.slotId?{slotId:slot.slotId,accountId,profileId:binding.profileId,saveId:binding.saveId,displayLabel:binding.displayLabel,entitlementState:"active",deletionConsent:false}:{...slot});
-        const rivalryData={...rivalry.data,connectionState:"active",managerSlots:nextSlots,authorizedAccountIds:[invite.data.createdByAccountId,accountId]};
-        const inviteData={...invite.data,state:"redeemed",redeemedByAccountId:accountId,redeemedAt:now,revokedAt:null};
-        const rivalryEnvelope=await buildEnvelope({objectType:"rivalry",objectId:capability,revision:rivalry.revision+1,parentRevision:rivalry.revision,priorContentHash:rivalry.contentHash,updatedAt:now,updatedByAccountId:accountId,updatedByDeviceId:identity.deviceId,data:rivalryData,cryptoImpl:options.cryptoImpl||root.crypto});
-        const inviteEnvelope=await buildEnvelope({objectType:"invite",objectId:capability,revision:invite.revision+1,parentRevision:invite.revision,priorContentHash:invite.contentHash,updatedAt:now,updatedByAccountId:accountId,updatedByDeviceId:identity.deviceId,data:inviteData,cryptoImpl:options.cryptoImpl||root.crypto});
-        transaction.set(rivalryReference,rivalryEnvelope);
-        transaction.set(inviteReference,inviteEnvelope);
-        return {revision:rivalryEnvelope.revision,slotId:invite.data.slotId};
-      });
-      return {ok:true,rivalryId:capability,capability,accountId,binding,...result};
-    }catch(error){return asResultError(error,"PAIRING_REDEEM_FAILED");}
-  }
+  try{
+    validateFirestoreInputs(options);
+    const accountId=normalizeAccountId(options.user);
+    const identity=options.identity;
+    if(!validDeviceIdentity(identity))throw errorWithCode("PRIVATE_DEVICE_IDENTITY_UNAVAILABLE","A stable registered device is required.");
+    const binding=normalizeLocalBinding(options.binding);
+    const capability=normalizeCapability(options.capability);
+    const durableWitness=options.durableWitness;
+    if(durableWitness!==undefined&&typeof durableWitness!=="function")throw errorWithCode("PAIRING_DURABLE_WITNESS_INVALID","The durable pairing witness is invalid.");
+    const sdk=options.firebaseSdk;
+    const nowEpochMs=options.nowEpochMs===undefined?Date.now():Number(options.nowEpochMs);
+    const now=sdk.Timestamp.fromMillis(nowEpochMs);
+    const deviceReference=sdk.doc(options.firestore,"accounts",accountId,"devices",identity.deviceId);
+    const rivalryReference=sdk.doc(options.firestore,"rivalries",capability);
+    const inviteReference=sdk.doc(options.firestore,"rivalries",capability,"invites",capability);
+    const result=await sdk.runTransaction(options.firestore,async transaction=>{
+      const deviceSnapshot=await transaction.get(deviceReference);
+      assertActiveDeviceSnapshot(deviceSnapshot,identity.deviceId);
+      const rivalrySnapshot=await transaction.get(rivalryReference);
+      const inviteSnapshot=await transaction.get(inviteReference);
+      const {rivalry,invite}=assertPairingDocuments(rivalrySnapshot,inviteSnapshot,capability,accountId,binding,nowEpochMs);
+      let durableWitnessResult=null;
+      if(durableWitness){
+        durableWitnessResult=await durableWitness({transaction,firestore:options.firestore,firebaseSdk:sdk,accountId,identity,binding,capability,now,nowEpochMs,rivalry,invite});
+        if(!durableWitnessResult||durableWitnessResult.ok!==true)throw errorWithCode("PAIRING_DURABLE_WITNESS_FAILED","The account pairing witness could not be committed with redemption.");
+      }
+      const nextSlots=rivalry.data.managerSlots.map(slot=>slot.slotId===invite.data.slotId?{slotId:slot.slotId,accountId,profileId:binding.profileId,saveId:binding.saveId,displayLabel:binding.displayLabel,entitlementState:"active",deletionConsent:false}:{...slot});
+      const rivalryData={...rivalry.data,connectionState:"active",managerSlots:nextSlots,authorizedAccountIds:[invite.data.createdByAccountId,accountId]};
+      const inviteData={...invite.data,state:"redeemed",redeemedByAccountId:accountId,redeemedAt:now,revokedAt:null};
+      const rivalryEnvelope=await buildEnvelope({objectType:"rivalry",objectId:capability,revision:rivalry.revision+1,parentRevision:rivalry.revision,priorContentHash:rivalry.contentHash,updatedAt:now,updatedByAccountId:accountId,updatedByDeviceId:identity.deviceId,data:rivalryData,cryptoImpl:options.cryptoImpl||root.crypto});
+      const inviteEnvelope=await buildEnvelope({objectType:"invite",objectId:capability,revision:invite.revision+1,parentRevision:invite.revision,priorContentHash:invite.contentHash,updatedAt:now,updatedByAccountId:accountId,updatedByDeviceId:identity.deviceId,data:inviteData,cryptoImpl:options.cryptoImpl||root.crypto});
+      transaction.set(rivalryReference,rivalryEnvelope);
+      transaction.set(inviteReference,inviteEnvelope);
+      return {revision:rivalryEnvelope.revision,slotId:invite.data.slotId,durableWitness:durableWitnessResult};
+    });
+    return {ok:true,rivalryId:capability,capability,accountId,binding,...result};
+  }catch(error){return asResultError(error,"PAIRING_REDEEM_FAILED");}
+}
 
-  async function revokePairing(options={}){
+async function revokePairing(options={}){
     try{
       validateFirestoreInputs(options);
       const accountId=normalizeAccountId(options.user);

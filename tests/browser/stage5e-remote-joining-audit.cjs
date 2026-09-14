@@ -80,24 +80,24 @@ const baseUrl=new URL(process.env.CMS_BASE_URL||"http://127.0.0.1:4173/");
       "careerModeShowdown.preferences"
     ].map(key=>[key,localStorage.getItem(key)]));
 
-    // This verifies the retired surface stays lazy and inert behind the normal
-    // online identity boundary; ordinary players enter through Shared Showdown.
-    await page.evaluate(()=>document.getElementById("remoteJoiningButton").click());
-    await page.locator("#sparkRemoteJoiningOverlay").waitFor({state:"visible",timeout:12000});
-    assert.equal(await page.locator('script[data-runtime-script="rj"]').count(),1);
-    assert.equal(await page.locator("script[data-srj-dependency]").count(),0,"Opening the Remote Joining panel must not initialize provider dependencies before Host/Join/Read/Close.");
-    assert.match(await page.locator("#sparkRemoteJoiningOverlay").innerText(),/REMOTE JOINING/);
-    assert.match(await page.locator("#sparkRemoteJoiningOverlay").innerText(),/HOST PRIVATE SESSION/);
-    assert.match(await page.locator("#sparkRemoteJoiningOverlay").innerText(),/JOIN PRIVATE SESSION/);
+    // Stage 5E's engineering overlay is retired from normal play. The clean product
+  // surface is the persistent Nik/Daniel pair sidecar loaded behind identity.
+  await page.waitForFunction(()=>Boolean(window.CareerModePersistentNikDanielPair),null,{timeout:15000});
+  await page.locator("#persistentNikDanielPairPanel").waitFor({state:"visible",timeout:12000});
+  assert.equal(await page.locator("#remoteJoiningButton").isHidden(),true,"Engineering Remote Joining entry must stay hidden from normal play.");
+  assert.equal(await page.locator('script[data-runtime-script="rj"]').count(),0,"Retired Remote Joining runtime must remain unloaded on the clean player surface.");
+  assert.equal(await page.locator("script[data-srj-dependency]").count(),0,"Retired provider session dependencies must remain unloaded on the clean player surface.");
+  const pairText=await page.locator("#persistentNikDanielPairPanel").innerText();
+  assert.doesNotMatch(pairText,/HOST PRIVATE SESSION|JOIN PRIVATE SESSION/);
 
-    const after=await page.evaluate(()=>[
+  const after=await page.evaluate(()=>[
       "careerModeShowdown.saveLibrary",
       "careerModeShowdown.legacyShowdowns",
       "careerModeShowdown.preferences"
     ].map(key=>[key,localStorage.getItem(key)]));
-    assert.deepEqual(after,before,"Opening Stage 5E changed canonical local storage.");
+    assert.deepEqual(after,before,"Opening the clean persistent pair surface changed canonical local storage.");
     assert.deepEqual(errors,[],"Stage 5E rendered browser audit emitted page errors.");
-    console.log(`PASS Stage 5E browser-inert Remote Joining surface behind the Nik/Daniel identity boundary at ${baseUrl.href}`);
+    console.log(`PASS Stage 5E migration audit: retired Remote Joining stays hidden/unloaded while the clean persistent Nik/Daniel pair surface is browser-inert at ${baseUrl.href}`);
   }finally{
     await context.close();
     await browser.close();

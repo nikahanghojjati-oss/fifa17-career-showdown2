@@ -71,18 +71,25 @@
     if(busy)return false;busy=true;const button=root.document.getElementById(SHARED_START_ID)||root.document.getElementById("startShowdown");if(button)button.disabled=true;
     const round=root.document.getElementById("roundAmount"),priorRound=round?round.value:null;let shellCreated=false,markerPersisted=false;
     try{
-      await ensureSaveAuthority();setPending(true);if(round)round.value="1";
+      await ensureSaveAuthority();setPending(true);
       if(typeof root.createShowdown!=="function")throw new Error("Showdown preparation is unavailable.");
       const created=await root.createShowdown();shellCreated=Boolean(created);if(!created)throw new Error("The Showdown could not be prepared.");
       normalizeCanonicalPlayers();persistPendingMarker();markerPersisted=true;applyLocalDrawLock();await openPanel();return true;
     }catch(error){if(shellCreated&&!markerPersisted)discardUnmarkedShell();setPending(false);report("Unable to prepare Showdown",error);return false;}
     finally{if(round&&priorRound!==null)round.value=priorRound;if(button)button.disabled=false;busy=false;}
   }
-  async function openSaveLibrary(){
-    closePanel();
-    try{await loadScript("save-library-cutover","js/saveLibraryCutover.js",()=>typeof root.handleSaveLibraryCutoverAction==="function");const button=root.document.getElementById("settingsButton");if(!button)throw new Error("Settings entry is unavailable.");await root.handleSaveLibraryCutoverAction(button);}catch(error){report("Unable to open player connection setup",error);}
-  }
-  async function remoteState(){
+  async function openPersistentPairControls(){
+  closePanel();
+  try{
+    const pair=await loadScript("persistent-pair","js/persistentNikDanielPair.js",()=>root.CareerModePersistentNikDanielPair);
+    if(!pair||typeof pair.initialize!=="function"||typeof pair.render!=="function")throw new Error("Player connection controls are unavailable.");
+    if(typeof root.navigateTo==="function")await root.navigateTo("mainMenu",{addToHistory:false,allowCanonicalFallback:true});else if(typeof root.showScreen==="function")await root.showScreen("mainMenu",false);
+    await pair.initialize({force:true});pair.render();
+    const panel=root.document.getElementById("persistentNikDanielPairPanel");if(!panel)throw new Error("Player connection controls could not be opened.");
+    panel.scrollIntoView?.({block:"center"});panel.querySelector("button,input")?.focus?.();
+  }catch(error){report("Unable to open player connection setup",error);}
+}
+async function remoteState(){
     try{await Promise.all([loadStyle(),loadScript("rj","js/sparkRemoteJoining.js",()=>root.CareerModeSparkRemoteJoining)]);const remote=root.CareerModeSparkRemoteJoining;return remote&&typeof remote.getState==="function"?remote.getState():null;}catch(_error){return null;}
   }
   function disarmRemoteReturn(){if(typeof remoteUnsubscribe==="function")remoteUnsubscribe();remoteUnsubscribe=null;}
@@ -152,7 +159,7 @@
     const grid=create("div","settingsInfoGrid");
     grid.append(row("ACCOUNT",status.accountReady?"READY":"REQUIRED"),row("THIS BROWSER",status.deviceReady?"READY":"REQUIRED"),row("DANIEL + NIK",status.rivalryReady?"CONNECTED":"CONNECT"),row("CAREER",status.active?"READY":"WAITING"));body.append(grid);
     const actions=create("div","remoteJoiningActions");
-    const save=create("button","compactButton",status.rivalryReady?"REVIEW CONNECTION":"CONNECT PLAYERS");save.type="button";save.addEventListener("click",()=>void openSaveLibrary());actions.append(save);
+    const save=create("button","compactButton",status.rivalryReady?"REVIEW CONNECTION":"CONNECT PLAYERS");save.type="button";save.addEventListener("click",()=>void openPersistentPairControls());actions.append(save);
     const remote=create("button","compactButton",status.active?"CONNECTED":"CONTINUE");remote.type="button";remote.disabled=!status.rivalryReady;remote.addEventListener("click",()=>void openRemote());actions.append(remote);
     const setup=create("button","compactButton",status.active?"START CAREER":"WAITING FOR BOTH PLAYERS");setup.type="button";setup.disabled=!status.active;setup.addEventListener("click",()=>void openSharedExperience());actions.append(setup);
     const refresh=create("button","compactButton","REFRESH");refresh.type="button";refresh.addEventListener("click",()=>void renderPanel());actions.append(refresh);body.append(actions);

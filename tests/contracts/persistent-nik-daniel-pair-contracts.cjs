@@ -2,12 +2,15 @@ const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const path=require('node:path');
 const {spawnSync}=require('node:child_process');
+const vm=require('node:vm');
 
 const root=path.resolve(__dirname,'../..');
 const read=file=>fs.readFileSync(path.join(root,file),'utf8');
 const pairSource=read('js/persistentNikDanielPair.js');
 const identitySource=read('js/onlinePlayerIdentity.js');
 const entrySource=read('js/productionSharedJourneyEntry.js');
+const showdownSource=read('js/showdown.js');
+const privatePairingSource=read('js/sparkPrivatePairing.js');
 const appSource=read('js/app.js');
 const rulesFragment=read('firestore.persistent-pair-production.fragment.rules');
 const sharedJourneyBuilder=read('scripts/build-production-firestore-rules.mjs');
@@ -108,6 +111,23 @@ assert.doesNotMatch(appSource,/persistentNikDanielPair|persistent-nik-daniel-pai
 assert.match(entrySource,/preparePairingShell:startShared/,'Single Start a Showdown action must continue to use the established paired-first shell authority.');
 assert.match(entrySource,/showdown\.name="Daniel vs Nik"/);
 assert.match(entrySource,/function normalizeCanonicalPlayers\(\)[\s\S]*playerOne:"Daniel",playerTwo:"Nik"/,'Paired-first entry must canonicalize the pre-draw shell to Daniel as Player One and Nik as Player Two.');
+
+
+assert.match(privatePairingSource,/durableWitness=options\.durableWitness/,'Private pairing redemption must accept a bounded durable witness inside the same provider transaction.');
+assert.match(privatePairingSource,/await durableWitness\(\{transaction/,'Durable pair authority must execute before the one-use redemption transaction writes commit.');
+assert.match(pairSource,/pairCreateDurableRedemptionWitness/,'Persistent pairing must create the account pair witness inside redemption authority.');
+const joinFunction=pairSource.slice(pairSource.indexOf('async function pairJoinPairing'),pairSource.indexOf('function pairContextualJoinMessage'));
+assert.match(joinFunction,/durableWitness/);
+assert.doesNotMatch(joinFunction,/pairPersistPairLinkWithRetry/,'Successful one-use redemption must not depend on a later pair-link write.');
+assert.match(pairSource,/"OPEN RECOVERY"/);
+assert.match(pairSource,/navigateTo\("legacy"/,'Recovery-required must route to the bounded Atomic Restore & Recovery surface.');
+assert.match(entrySource,/openPersistentPairControls/);
+assert.doesNotMatch(entrySource,/openSaveLibrary/,'Connect Players must not route through normal Settings or Save Library.');
+assert.doesNotMatch(entrySource,/if\(round\)round\.value="1"/,'Shared start must preserve the selected 1\/3\/5\/10 season count.');
+assert.match(rulesFragment,/cmsPersistentPairRivalryMembership[\s\S]*getAfter\(/,'Pair-link membership must observe the same transaction final rivalry state.');
+const showdownSandbox={window:{},document:undefined,console,setTimeout,clearTimeout};
+vm.createContext(showdownSandbox);vm.runInContext(showdownSource,showdownSandbox);
+assert.throws(()=>showdownSandbox.normalizeShowdown({managers:{playerOne:'Nik',playerTwo:'Daniel'}}),error=>error&&error.code==='SHOWDOWN_REVERSED_MANAGER_ROLES_UNSUPPORTED','Reversed historical manager roles must fail closed instead of being silently relabelled.');
 
 assert.match(rulesFragment,/cmsPersistentPairRivalryMembership/);
 assert.match(rulesFragment,/activeDevice\(root\.updatedByDeviceId\)/);
