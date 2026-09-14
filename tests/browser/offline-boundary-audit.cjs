@@ -118,18 +118,22 @@ async function run(){
     await page.locator("#settingsButton").click();
     await page.locator("#settingsOverlay").waitFor({state:"visible",timeout:15000});
     const panel=page.locator("#settingsOverlay .settingsOfflinePanel");
-    await panel.waitFor({state:"visible"});
-    assert.equal(await panel.locator(".settingsOfflineInstallButton").count(),1);
+    await panel.waitFor({state:"attached",timeout:15000});
+    assert.equal(await panel.getAttribute("data-product-surface"),"internal","Offline/install capability must remain classified as internal recovery architecture.");
+    assert.equal(await panel.isHidden(),true,"Offline/install controls must not reappear in normal player-facing Settings.");
+    assert.equal(await panel.locator(".settingsOfflineInstallButton").count(),1,"Internal install capability must remain available to the recovery architecture.");
     assert.equal(
       await page.locator(".settingsOfflineInstallButton").evaluateAll(nodes=>nodes.every(node=>Boolean(node.closest("#settingsOverlay")))),
-      true
+      true,
+      "Internal install controls must remain owned by Settings rather than becoming global UI."
     );
-    assert.match(await panel.innerText(),/OFFLINE APP/i);
-    assert.match(await panel.innerText(),/OFFLINE SHELL/i);
-    assert.match(await panel.innerText(),/CONNECTIVITY/i);
+    const internalText=await panel.textContent();
+    assert.match(internalText||"",/OFFLINE APP/i);
+    assert.match(internalText||"",/OFFLINE SHELL/i);
+    assert.match(internalText||"",/CONNECTIVITY/i);
     await page.locator("#settingsClose").click();
     await page.locator("#settingsOverlay").waitFor({state:"hidden"});
-    pass("offline mode preserves canonical raw bytes and keeps install control inside Settings");
+    pass("offline mode preserves canonical raw bytes while install/offline capability stays internal");
 
     await page.locator("#newShowdown").click();
     const identityGate=page.locator("#onlinePlayerIdentityOverlay");
@@ -137,10 +141,11 @@ async function run(){
     assert.equal(await page.locator("#mainMenu").isVisible(),true,"Offline gameplay denial must leave the user on Home.");
     assert.equal(await page.locator("#createShowdown").isHidden(),true,"Offline normal Showdown setup must remain closed.");
     assert.equal(await page.locator("#onlinePlayerIdentityTitle").textContent(),"CONNECTION REQUIRED");
-    assert.match(await identityGate.innerText(),/Career Mode Showdown is online-only/i);
+    assert.match(await identityGate.innerText(),/Connection required|Reconnect to continue/i,"Offline player copy must explain the connection requirement without exposing implementation-mode terminology.");
+    assert.doesNotMatch(await identityGate.innerText(),/online-only|local-only|Shared Showdown|Private Remote Joining/i,"Offline denial must not expose retired architecture labels.");
     assert.equal((await page.evaluate(()=>window.getOfflineUpdateBoundaryStatus())).safe,true);
     assert.deepEqual(await storage(page),fixture,"Denied offline gameplay entry must not mutate storage.");
-    await identityGate.locator('[aria-label="Close online sign-in"]').click();
+    await identityGate.locator('[aria-label="Close sign-in"]').click();
     await identityGate.waitFor({state:"hidden"});
     pass("offline normal gameplay stays closed behind a clear connection gate");
 
@@ -182,7 +187,7 @@ async function run(){
     assert.deepEqual(await storage(page),fixture,"Reconnect identity routing must remain non-mutating.");
     assert.deepEqual(errors,[]);
     pass("recovery tools remain available offline and reconnect returns to online identity without storage mutation");
-    console.log("Offline public-boundary audit passed.");
+    console.log("Offline public-boundary audit passed with internal recovery capability containment.");
   }finally{
     await context.close();
     await browser.close();
