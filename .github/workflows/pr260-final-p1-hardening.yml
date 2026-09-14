@@ -1,5 +1,5 @@
 name: PR260 final P1 hardening
-# clean provider witness proof
+# publish product diff; workflow files are reconciled separately
 on:
   push:
     branches:
@@ -55,15 +55,15 @@ jobs:
           npm install --no-save --package-lock=false firebase@12.7.0 @firebase/rules-unit-testing@5.0.0 firebase-admin@13.4.0
           node scripts/build-production-firestore-rules-with-persistent-pair.mjs
           npx --yes firebase-tools@14.16.0 emulators:exec --only firestore --project demo-career-mode-showdown-persistent-pair-final "node tests/firebase/persistent-nik-daniel-pair-provider-emulator.cjs"
-      - name: Commit clean hardening result
+      - name: Commit clean product hardening result
         shell: bash
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git rm .github/workflows/pr260-final-p1-hardening.yml scripts/pr260-final-p1-hardening.py scripts/pr260-emulator-observation-fix.py scripts/pr260-creation-witness-complexity-fix.py scripts/pr260-emulator-checkpoints.py
-          git checkout -- package-lock.json firestore.spark.generated.rules 2>/dev/null || true
-          git add service-worker.js js/sparkPrivatePairing.js js/persistentNikDanielPair.js firestore.persistent-pair-production.fragment.rules scripts/inject-persistent-pair-rules.mjs .github/workflows/deploy-firestore-rules-zero-billing.yml tests/contracts/persistent-nik-daniel-pair-contracts.cjs tests/firebase/persistent-nik-daniel-pair-provider-emulator.cjs
+          git rm scripts/pr260-final-p1-hardening.py scripts/pr260-emulator-observation-fix.py scripts/pr260-creation-witness-complexity-fix.py scripts/pr260-emulator-checkpoints.py
+          git checkout -- package-lock.json firestore.spark.generated.rules .github/workflows/deploy-firestore-rules-zero-billing.yml 2>/dev/null || true
+          git add service-worker.js js/sparkPrivatePairing.js js/persistentNikDanielPair.js firestore.persistent-pair-production.fragment.rules scripts/inject-persistent-pair-rules.mjs tests/contracts/persistent-nik-daniel-pair-contracts.cjs tests/firebase/persistent-nik-daniel-pair-provider-emulator.cjs
           git diff --cached --check
           git commit -m "fix(pr260): atomically bind creator pair authority"
           git push origin HEAD:feat/persistent-nik-daniel-pair
