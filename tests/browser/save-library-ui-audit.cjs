@@ -5,294 +5,95 @@ const{chromium}=require("playwright");
 const{resolveChromiumRuntime}=require("../support/chromium-runtime.cjs");
 
 const baseUrl=new URL(process.env.CMS_BASE_URL||"http://127.0.0.1:4173/");
-const runLabel=process.env.CMS_AUDIT_RUN||"save-library-ui";
+const runLabel=process.env.CMS_AUDIT_RUN||"save-library-internal-recovery";
 const resultsDirectory=path.resolve(process.env.CMS_TEST_RESULTS||"test-results");
-const productionOrigin="https://nikahanghojjati-oss.github.io";
-const productionPathPrefix="/fifa17-career-showdown2/";
-
-function isExpectedProductionAppCheckConsoleNoise(message){
-  if(baseUrl.origin!==productionOrigin||!baseUrl.pathname.startsWith(productionPathPrefix))return false;
-  const text=message.text();
-  if(text.startsWith("Framing 'https://www.google.com/' violates the following report-only Content Security Policy directive: \"frame-ancestors 'self'\"."))return true;
-  if(text==="requestStorageAccess: Permission denied."){
-    const sourceUrl=message.location()?.url||"";
-    return !sourceUrl||!sourceUrl.startsWith(baseUrl.origin);
-  }
-  return false;
-}
 const singletonKey="careerModeShowdown.activeShowdown";
 const libraryKey="careerModeShowdown.saveLibrary";
 fs.mkdirSync(resultsDirectory,{recursive:true});
 
-function showdownFixture(id,name="Compatibility Rivalry",one="Same Name",two="Same Name"){
-    return {schemaVersion:2,integrityWarnings:[],id,name,managers:{playerOne:one,playerTwo:two},totalRounds:3,currentRound:1,status:"Created",selectedLeague:null,clubs:{playerOne:null,playerTwo:null},score:{playerOne:0,playerTwo:0},transferChallenges:[],rounds:[],createdAt:"2026-08-14T00:00:00.000Z",updatedAt:"2026-08-14T00:00:00.000Z",completedAt:null,archivedAt:null};
-}
-
-async function waitForHome(page){
-    await page.goto(baseUrl.href,{waitUntil:"domcontentloaded"});
-    await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:15000});
-    await page.locator("#settingsButton").waitFor({state:"visible",timeout:15000});
+function showdownFixture(id){
+  return {schemaVersion:2,integrityWarnings:[],id,name:"Pre-release Test Rivalry",managers:{playerOne:"Old One",playerTwo:"Old Two"},totalRounds:3,currentRound:1,status:"Created",selectedLeague:null,clubs:{playerOne:null,playerTwo:null},score:{playerOne:0,playerTwo:0},transferChallenges:[],rounds:[],createdAt:"2026-08-14T00:00:00.000Z",updatedAt:"2026-08-14T00:00:00.000Z",completedAt:null,archivedAt:null};
 }
 
 function collectErrors(page){
-    const errors=[];
-    page.on("pageerror",error=>errors.push(`page: ${error.message}`));
-    page.on("console",message=>{if(message.type()==="error"&&!/^Failed to load resource/.test(message.text())&&!isExpectedProductionAppCheckConsoleNoise(message))errors.push(`console: ${message.text()}`);});
-    return errors;
+  const errors=[];
+  page.on("pageerror",error=>errors.push(`page: ${error.message}`));
+  page.on("console",message=>{if(message.type()==="error"&&!/^Failed to load resource/.test(message.text()))errors.push(`console: ${message.text()}`);});
+  return errors;
 }
 
-async function openLibrary(page,expectedMode){
-    await page.locator("#settingsButton").click();
-    const overlay=page.locator("#settingsOverlay");
-    await overlay.waitFor({state:"visible",timeout:15000});
-    const panel=page.locator("#saveLibraryProductPanel");
-    await panel.waitFor({state:"visible",timeout:15000});
-    if(expectedMode){
-        await page.waitForFunction(mode=>document.getElementById("saveLibraryProductPanel")?.dataset.libraryMode===mode,expectedMode,{timeout:15000});
-        assert.equal(await panel.getAttribute("data-library-mode"),expectedMode);
-    }
-    return{overlay,panel};
+async function openSettingsAndInternalPanel(page,expectedMode){
+  await page.goto(baseUrl.href,{waitUntil:"domcontentloaded"});
+  await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:15000});
+  await page.locator("#settingsButton").click();
+  await page.locator("#settingsOverlay").waitFor({state:"visible",timeout:15000});
+  const panel=page.locator("#saveLibraryProductPanel");
+  await panel.waitFor({state:"attached",timeout:15000});
+  await page.waitForFunction(mode=>document.getElementById("saveLibraryProductPanel")?.dataset.libraryMode===mode,expectedMode,{timeout:15000});
+  assert.equal(await panel.getAttribute("data-library-mode"),expectedMode);
+  assert.equal(await panel.getAttribute("data-product-surface"),"internal","Save Library must be classified as internal recovery architecture.");
+  assert.equal(await panel.isHidden(),true,"Save Library must not reappear as a normal player-facing Settings mode.");
+  return panel;
 }
 
-async function assertContained(page,label){
-    const result=await page.evaluate(()=>{
-        const panel=document.getElementById("saveLibraryProductPanel");
-        const dialog=document.getElementById("settingsDialog");
-        const buttons=Array.from(panel?.querySelectorAll("button")||[]).map(button=>getComputedStyle(button).minHeight);
-        return {documentWidth:document.documentElement.scrollWidth,clientWidth:document.documentElement.clientWidth,panelWidth:panel?.scrollWidth||0,panelClient:panel?.clientWidth||0,dialogWidth:dialog?.scrollWidth||0,dialogClient:dialog?.clientWidth||0,buttonMinHeights:buttons};
-    });
-    assert.ok(result.documentWidth<=result.clientWidth+1,`${label}: document overflowed horizontally.`);
-    assert.ok(result.panelWidth<=result.panelClient+1,`${label}: Save Library panel overflowed horizontally.`);
-    assert.ok(result.dialogWidth<=result.dialogClient+1,`${label}: Settings dialog overflowed horizontally.`);
-    for(const raw of result.buttonMinHeights){
-        const height=Number.parseFloat(raw)||0;
-        assert.ok(height>=44,`${label}: visible Save Library control dropped below 44px (${raw}).`);
-    }
-}
-
-async function assertMutationFocusInsideDialog(page,label){
-    const state=await page.locator("#settingsDialog").evaluate(dialog=>({contains:dialog.contains(document.activeElement),tag:document.activeElement?.tagName||"",text:document.activeElement?.textContent?.trim()||""}));
-    assert.equal(state.contains,true,`${label}: Save Library rerender moved keyboard focus outside the Settings dialog (${state.tag} ${state.text}).`);
-}
-
-async function compatibilityIsNonMutating(runtime){
-    const browser=await chromium.launch(runtime);
-    const context=await browser.newContext({viewport:{width:1100,height:720}});
-    const singleton=JSON.stringify(showdownFixture("compatibility-one"));
-    await context.addInitScript(({key,value})=>{try{localStorage.setItem(key,value);}catch(error){}},{key:singletonKey,value:singleton});
-    const page=await context.newPage();const errors=collectErrors(page);
-    try{
-        await waitForHome(page);
-        const before=await page.evaluate(({singletonKey,libraryKey})=>({singleton:localStorage.getItem(singletonKey),library:localStorage.getItem(libraryKey)}),{singletonKey,libraryKey});
-        const{panel}=await openLibrary(page,"compatibility");
-        assert.match(await panel.innerText(),/READY FOR SAFE SAVE LIBRARY ACTIVATION/i);
-        const after=await page.evaluate(({singletonKey,libraryKey})=>({singleton:localStorage.getItem(singletonKey),library:localStorage.getItem(libraryKey)}),{singletonKey,libraryKey});
-        assert.deepEqual(after,before,"Opening Save Library on an old singleton device must remain non-mutating.");
-        await assertContained(page,"compatibility desktop");
-        assert.deepEqual(errors,[],`Compatibility Save Library emitted errors: ${errors.join(" | ")}`);
-    }finally{await context.close();await browser.close();}
+async function compatibilityIsContained(runtime){
+  const browser=await chromium.launch(runtime);
+  const context=await browser.newContext({viewport:{width:1100,height:720}});
+  const singleton=JSON.stringify(showdownFixture("compatibility-one"));
+  await context.addInitScript(({key,value})=>{try{localStorage.setItem(key,value);}catch(_error){}},{key:singletonKey,value:singleton});
+  const page=await context.newPage(),errors=collectErrors(page);
+  try{
+    const before=await page.evaluate(({singletonKey,libraryKey})=>({singleton:localStorage.getItem(singletonKey),library:localStorage.getItem(libraryKey)}),{singletonKey,libraryKey}).catch(()=>null);
+    const panel=await openSettingsAndInternalPanel(page,"compatibility");
+    const text=await panel.textContent();
+    assert.match(text||"",/READY FOR SAFE SAVE LIBRARY ACTIVATION/i,"Compatibility diagnosis must remain available internally.");
+    const after=await page.evaluate(({singletonKey,libraryKey})=>({singleton:localStorage.getItem(singletonKey),library:localStorage.getItem(libraryKey)}),{singletonKey,libraryKey});
+    if(before)assert.deepEqual(after,before,"Merely opening Settings must not migrate or mutate pre-release compatibility data.");
+    else assert.equal(after.singleton,singleton,"Compatibility data must remain byte-identical while the internal panel is diagnosed.");
+    assert.deepEqual(errors,[],`Compatibility containment emitted errors: ${errors.join(" | ")}`);
+    return {mode:"compatibility",hidden:true,storageUnchanged:true};
+  }finally{await context.close();await browser.close();}
 }
 
 async function corruptStateFailsClosed(runtime){
-    const browser=await chromium.launch(runtime);
-    const context=await browser.newContext({viewport:{width:390,height:844},deviceScaleFactor:2,isMobile:true,hasTouch:true,reducedMotion:"reduce"});
-    const corrupt="{broken-save-library";
-    await context.addInitScript(({key,value})=>{try{localStorage.setItem(key,value);localStorage.removeItem("careerModeShowdown.activeShowdown");}catch(error){}},{key:libraryKey,value:corrupt});
-    const page=await context.newPage();const errors=[];
-    page.on("pageerror",error=>errors.push(error.message));
-    try{
-        await waitForHome(page);
-        const{panel}=await openLibrary(page,"blocked");
-        assert.match(await panel.innerText(),/SAVE LIBRARY UNAVAILABLE/i);
-        assert.match(await panel.innerText(),/NO LOCAL DATA WAS CHANGED/i);
-        assert.equal(await page.evaluate(key=>localStorage.getItem(key),libraryKey),corrupt,"Blocked UI must preserve corrupt bytes exactly.");
-        assert.equal(await page.evaluate(key=>localStorage.getItem(key),singletonKey),null,"Blocked UI must not fabricate singleton authority.");
-        assert.equal(await panel.locator(".saveLibrarySelectButton,.saveLibraryDeleteButton,.saveLibraryProfileEditButton").count(),0,"Blocked state must expose no mutation controls.");
-        await assertContained(page,"blocked mobile");
-        assert.deepEqual(errors,[],`Blocked Save Library emitted page errors: ${errors.join(" | ")}`);
-    }finally{await context.close();await browser.close();}
+  const browser=await chromium.launch(runtime);
+  const context=await browser.newContext({viewport:{width:390,height:844},deviceScaleFactor:2,isMobile:true,hasTouch:true,reducedMotion:"reduce"});
+  const corrupt="{broken-save-library";
+  await context.addInitScript(({libraryKey,singletonKey,value})=>{try{localStorage.setItem(libraryKey,value);localStorage.removeItem(singletonKey);}catch(_error){}},{libraryKey,singletonKey,value:corrupt});
+  const page=await context.newPage(),errors=collectErrors(page);
+  try{
+    const panel=await openSettingsAndInternalPanel(page,"blocked");
+    const text=await panel.textContent();
+    assert.match(text||"",/SAVE LIBRARY UNAVAILABLE/i);
+    assert.match(text||"",/NO LOCAL DATA WAS CHANGED/i);
+    assert.equal(await panel.locator(".saveLibrarySelectButton,.saveLibraryDeleteButton,.saveLibraryProfileEditButton").count(),0,"Blocked recovery state must expose no mutation controls.");
+    assert.equal(await page.evaluate(key=>localStorage.getItem(key),libraryKey),corrupt,"Blocked recovery diagnosis must preserve corrupt bytes exactly.");
+    assert.equal(await page.evaluate(key=>localStorage.getItem(key),singletonKey),null,"Blocked recovery diagnosis must not fabricate singleton authority.");
+    assert.deepEqual(errors,[],`Blocked recovery containment emitted errors: ${errors.join(" | ")}`);
+    return {mode:"blocked",hidden:true,failClosed:true};
+  }finally{await context.close();await browser.close();}
 }
 
-async function createShowdownThroughUI(page,name){
-    await page.evaluate(async label=>{
-        if(typeof window.ensureSaveLibraryRuntimeAuthority!=="function")throw new Error("Save Library runtime authority is unavailable to the storage audit.");
-        await window.ensureSaveLibraryRuntimeAuthority();
-        const runtime=window.CareerModeSaveLibraryRuntime;
-        if(!runtime||typeof runtime.createShowdown!=="function"||!runtime.isReady())throw new Error("Save Library runtime did not become ready for the storage audit.");
-        const now=new Date().toISOString();
-        const candidate={schemaVersion:2,integrityWarnings:[],id:`audit-${label.toLowerCase().replace(/[^a-z0-9]+/g,"-")}`,name:label,managers:{playerOne:"Same Name",playerTwo:"Same Name"},totalRounds:3,currentRound:1,status:"Created",selectedLeague:null,clubs:{playerOne:null,playerTwo:null},score:{playerOne:0,playerTwo:0},transferChallenges:[],rounds:[],createdAt:now,updatedAt:now,completedAt:null,archivedAt:null};
-        const created=await runtime.createShowdown(candidate);
-        if(!created||!created.identity||!created.identity.saveId)throw new Error("Save Library runtime did not create a stable audit Save.");
-    },name);
-}
-
-async function waitForCardCount(page,count){
-    await page.waitForFunction(expected=>document.querySelectorAll("#saveLibraryProductPanel .saveLibraryCard").length===expected,count,{timeout:10000});
-}
-
-async function waitForActiveSave(page,saveId){
-    await page.waitForFunction(id=>document.querySelector(`.saveLibraryCard[data-save-id="${id}"]`)?.classList.contains("isActive")===true,saveId,{timeout:10000});
-}
-
-async function multiSaveJourney(runtime,config){
-    const browser=await chromium.launch(runtime);
-    const context=await browser.newContext({viewport:config.viewport,deviceScaleFactor:config.deviceScaleFactor||1,isMobile:Boolean(config.isMobile),hasTouch:Boolean(config.hasTouch),reducedMotion:config.reducedMotion?"reduce":"no-preference"});
-    const page=await context.newPage();const errors=collectErrors(page);
-    try{
-        await waitForHome(page);
-        const empty=await openLibrary(page,"empty");
-        assert.match(await empty.panel.innerText(),/YOUR SAVE LIBRARY IS EMPTY/i);
-        await page.keyboard.press("Escape");
-        await empty.overlay.waitFor({state:"hidden"});
-        assert.equal(await page.locator("#settingsButton").evaluate(el=>el===document.activeElement),true,`${config.name}: Escape must restore Home opener focus.`);
-
-        await createShowdownThroughUI(page,"First Rivalry");
-        await createShowdownThroughUI(page,"Second Rivalry");
-        await createShowdownThroughUI(page,"Third Rivalry");
-
-        let opened=await openLibrary(page,"ready");
-        assert.equal(await opened.panel.locator(".saveLibraryCard").count(),3,`${config.name}: three storage-audit Showdowns must render as three Saves.`);
-        assert.equal(await opened.panel.locator(".saveLibraryProfileCard").count(),6,`${config.name}: three same-name rivalries must retain six distinct Local Profiles.`);
-        const profileIds=await opened.panel.locator(".saveLibraryProfileCard").evaluateAll(cards=>cards.map(card=>card.dataset.profileId));
-        assert.equal(new Set(profileIds).size,6,`${config.name}: equal visible manager names must not collapse stable profile identity.`);
-        assert.equal(await opened.panel.locator(".saveLibraryCard.isActive").count(),1,`${config.name}: exactly one active Save must be visible.`);
-        await assertContained(page,`${config.name} multi-save`);
-
-        const editedProfileId=profileIds[0];
-        let profileCard=opened.panel.locator(`.saveLibraryProfileCard[data-profile-id="${editedProfileId}"]`);
-        const editButton=profileCard.locator(".saveLibraryProfileEditButton");
-        await editButton.focus();
-        await page.keyboard.press("Enter");
-        const labelInput=profileCard.locator(".saveLibraryProfileNameInput");
-        await labelInput.waitFor({state:"visible"});
-        assert.equal(await labelInput.evaluate(input=>input===document.activeElement),true,`${config.name}: profile label editor must receive keyboard focus when disclosed.`);
-        const rawBeforeInvalid=await page.evaluate(key=>localStorage.getItem(key),libraryKey);
-        await labelInput.fill("   ");
-        await page.keyboard.press("Enter");
-        assert.ok((await labelInput.evaluate(input=>input.validationMessage)).length>0,`${config.name}: whitespace-only profile labels must expose native validation feedback.`);
-        assert.equal(await page.evaluate(key=>localStorage.getItem(key),libraryKey),rawBeforeInvalid,`${config.name}: invalid profile labels must not write canonical storage.`);
-        await labelInput.fill("Canonical Profile Label");
-        await page.keyboard.press("Enter");
-        await page.waitForFunction(({key,profileId})=>{
-            const raw=localStorage.getItem(key);if(!raw)return false;
-            try{return JSON.parse(raw).profiles.some(profile=>profile.profileId===profileId&&profile.displayName==="Canonical Profile Label");}catch(error){return false;}
-        },{key:libraryKey,profileId:editedProfileId},{timeout:10000});
-        profileCard=opened.panel.locator(`.saveLibraryProfileCard[data-profile-id="${editedProfileId}"]`);
-        assert.equal((await profileCard.locator(".saveLibraryProfileName").innerText()).trim(),"CANONICAL PROFILE LABEL",`${config.name}: edited Local Profile label did not rerender.`);
-        await assertMutationFocusInsideDialog(page,`${config.name} profile label edit`);
-        assert.equal(await profileCard.locator(".saveLibraryProfileEditButton").evaluate(button=>button===document.activeElement),true,`${config.name}: profile edit rerender must restore focus to the exact stable-profile control.`);
-        const labelState=await page.evaluate(({key,profileId})=>{
-            const library=JSON.parse(localStorage.getItem(key));
-            return {
-                profiles:library.profiles.length,
-                profileIds:library.profiles.map(profile=>profile.profileId),
-                displayName:library.profiles.find(profile=>profile.profileId===profileId)?.displayName||"",
-                managerLabels:library.saves.flatMap(entry=>Object.values(entry.showdown.managers||{})),
-                refs:library.saves.flatMap(entry=>Object.values(entry.showdown.identity?.managerProfileIds||{}))
-            };
-        },{key:libraryKey,profileId:editedProfileId});
-        assert.equal(labelState.profiles,6,`${config.name}: editing one label must not create, merge or delete Local Profiles.`);
-        assert.equal(new Set(labelState.profileIds).size,6,`${config.name}: profile IDs changed during display-label editing.`);
-        assert.equal(labelState.displayName,"Canonical Profile Label");
-        assert.ok(labelState.managerLabels.every(name=>name==="Same Name"),`${config.name}: profile label editing rewrote a saved Showdown manager label.`);
-        assert.ok(labelState.refs.includes(editedProfileId),`${config.name}: edited profile lost its stable Save reference.`);
-        assert.ok((await opened.panel.locator(".saveLibraryIdentitySelect option").allTextContents()).some(text=>text.includes("Canonical Profile Label")),`${config.name}: explicit identity controls did not consume the updated profile presentation label.`);
-        assert.equal(await page.evaluate(async()=>{
-            await window.loadRuntimeScript("analytics-engine","js/analytics.js",()=>typeof window.getCareerAnalyticsRevisionKey==="function");
-            return window.getCareerAnalyticsRevisionKey().includes("Canonical Profile Label");
-        }),true,`${config.name}: Analytics revision authority did not consume the updated Local Profile presentation label.`);
-        await assertContained(page,`${config.name} profile label edit`);
-        await profileCard.locator(".saveLibraryProfileEditButton").click();
-        await profileCard.locator(".saveLibraryProfileEditForm").waitFor({state:"visible"});
-        await profileCard.locator(".saveLibraryProfileIdentity").scrollIntoViewIfNeeded();
-        const profileVisualLayout=await profileCard.evaluate(card=>{
-            const rect=value=>{const box=value.getBoundingClientRect();return{top:box.top,bottom:box.bottom,height:box.height};};
-            const scroller=document.getElementById("settingsContent");
-            const panel=card.closest(".saveLibraryProductPanel");
-            let next=panel.nextElementSibling;
-            while(next&&(next.hidden||getComputedStyle(next).display==="none"||next.getBoundingClientRect().height===0))next=next.nextElementSibling;
-            return {
-                card:rect(card),
-                identity:rect(card.querySelector(".saveLibraryProfileIdentity")),
-                name:rect(card.querySelector(".saveLibraryProfileName")),
-                editor:rect(card.querySelector(".saveLibraryProfileEditor")),
-                form:rect(card.querySelector(".saveLibraryProfileEditForm")),
-                panel:rect(panel),
-                nextPanel:next?rect(next):null,
-                scroller:rect(scroller),
-                scrollTop:scroller.scrollTop
-            };
-        });
-        for(const [part,box] of Object.entries(profileVisualLayout)){
-            if(!box||part==="panel"||part==="nextPanel"||part==="scroller"||part==="scrollTop")continue;
-            assert.ok(box.top>=profileVisualLayout.card.top-1&&box.bottom<=profileVisualLayout.card.bottom+1,`${config.name}: ${part} escaped the profile card's vertical layout box.`);
-        }
-        assert.ok(profileVisualLayout.card.top>=profileVisualLayout.panel.top-1&&profileVisualLayout.card.bottom<=profileVisualLayout.panel.bottom+1,`${config.name}: the edited profile card escaped its Save Library panel (${JSON.stringify(profileVisualLayout)}).`);
-        assert.ok(!profileVisualLayout.nextPanel||profileVisualLayout.nextPanel.top>=profileVisualLayout.panel.bottom-1,`${config.name}: the next visible Settings panel overlapped the Save Library panel (${JSON.stringify(profileVisualLayout)}).`);
-        const profileScreenshotPath=path.join(resultsDirectory,`save-library-profile-label-${config.name}-${runLabel}.png`);
-        await page.screenshot({path:profileScreenshotPath});
-        await profileCard.locator(".saveLibraryProfileCancelButton").click();
-
-        const target=opened.panel.locator(".saveLibraryCard:not(.isActive)").first();
-        const targetId=await target.getAttribute("data-save-id");
-        await target.locator(".saveLibrarySelectButton").click();
-        await waitForActiveSave(page,targetId);
-        await assertMutationFocusInsideDialog(page,`${config.name} active switch`);
-        assert.equal(await page.evaluate(key=>localStorage.getItem(key),singletonKey),null,`${config.name}: switching must never recreate singleton authority.`);
-        const activeBeforeReload=targetId;
-
-        await page.keyboard.press("Escape");
-        await opened.overlay.waitFor({state:"hidden"});
-        await page.reload({waitUntil:"domcontentloaded"});
-        await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:15000});
-        opened=await openLibrary(page,"ready");
-        assert.equal(await opened.panel.locator(".saveLibraryCard.isActive").getAttribute("data-save-id"),activeBeforeReload,`${config.name}: active Save selection must survive reload.`);
-
-        const nonActive=opened.panel.locator(".saveLibraryCard:not(.isActive)").first();
-        const deletedNonActiveId=await nonActive.getAttribute("data-save-id");
-        page.once("dialog",dialog=>dialog.accept());
-        await nonActive.locator(".saveLibraryDeleteButton").click();
-        await waitForCardCount(page,2);
-        await assertMutationFocusInsideDialog(page,`${config.name} non-active deletion`);
-        assert.equal(await opened.panel.locator(".saveLibraryCard.isActive").getAttribute("data-save-id"),activeBeforeReload,`${config.name}: deleting a non-active Save must not change active ownership.`);
-        assert.equal(await opened.panel.locator(`.saveLibraryCard[data-save-id="${deletedNonActiveId}"]`).count(),0);
-        assert.equal(await opened.panel.locator(".saveLibraryProfileCard").count(),6,`${config.name}: single-Save deletion must retain stable Local Profiles.`);
-
-        const activeCard=opened.panel.locator(".saveLibraryCard.isActive");
-        page.once("dialog",dialog=>dialog.accept());
-        await activeCard.locator(".saveLibraryDeleteButton").click();
-        await waitForCardCount(page,1);
-        await assertMutationFocusInsideDialog(page,`${config.name} active deletion`);
-        assert.equal(await opened.panel.locator(".saveLibraryCard.isActive").count(),0,`${config.name}: deleting active Save must not silently activate another Save.`);
-        assert.match(await opened.panel.innerText(),/NO ACTIVE SAVE/i);
-        assert.equal(await page.evaluate(key=>localStorage.getItem(key),singletonKey),null);
-        assert.equal(await opened.panel.locator(".saveLibraryProfileCard").count(),6);
-
-        const remaining=opened.panel.locator(".saveLibraryCard");
-        const remainingId=await remaining.getAttribute("data-save-id");
-        const select=remaining.locator(".saveLibrarySelectButton");
-        await select.focus();
-        assert.equal(await select.evaluate(el=>el===document.activeElement),true,`${config.name}: Save switching must be keyboard focusable.`);
-        await page.keyboard.press("Enter");
-        await waitForActiveSave(page,remainingId);
-        await assertMutationFocusInsideDialog(page,`${config.name} keyboard active switch`);
-
-        const screenshotPath=path.join(resultsDirectory,`save-library-${config.name}-${runLabel}.png`);
-        await page.screenshot({path:screenshotPath,fullPage:true});
-        await assertContained(page,`${config.name} final`);
-        assert.deepEqual(errors,[],`${config.name}: Save Library emitted page/console errors: ${errors.join(" | ")}`);
-        return{case:config.name,saves:1,profiles:6,editedProfileId,activeSaveId:remainingId,profileVisualLayout,profileScreenshot:profileScreenshotPath,screenshot:screenshotPath};
-    }finally{await context.close();await browser.close();}
+async function emptyStateStaysInternal(runtime){
+  const browser=await chromium.launch(runtime);
+  const context=await browser.newContext({viewport:{width:1100,height:720}});
+  const page=await context.newPage(),errors=collectErrors(page);
+  try{
+    const panel=await openSettingsAndInternalPanel(page,"empty");
+    assert.match(await panel.textContent()||"",/YOUR SAVE LIBRARY IS EMPTY/i);
+    assert.equal(await page.evaluate(({singletonKey,libraryKey})=>localStorage.getItem(singletonKey)===null&&localStorage.getItem(libraryKey)===null,{singletonKey,libraryKey}),true,"Internal empty-state diagnosis must not create storage authority.");
+    assert.deepEqual(errors,[],`Empty recovery containment emitted errors: ${errors.join(" | ")}`);
+    return {mode:"empty",hidden:true,storageUnchanged:true};
+  }finally{await context.close();await browser.close();}
 }
 
 (async()=>{
-    const runtime=await resolveChromiumRuntime();
-    await compatibilityIsNonMutating(runtime);
-    await corruptStateFailsClosed(runtime);
-    const evidence=[];
-    evidence.push(await multiSaveJourney(runtime,{name:"chromebook",viewport:{width:1366,height:768},deviceScaleFactor:1}));
-    evidence.push(await multiSaveJourney(runtime,{name:"mobile-reduced",viewport:{width:390,height:844},deviceScaleFactor:2,isMobile:true,hasTouch:true,reducedMotion:true}));
-    const resultPath=path.join(resultsDirectory,`save-library-ui-${runLabel}.json`);
-    fs.writeFileSync(resultPath,JSON.stringify({runLabel,baseUrl:baseUrl.href,evidence},null,2));
-    console.log("Save Library browser audit passed: compatibility stays non-mutating, corrupt authority fails closed, additive saves switch/reload/delete safely, Local Profile labels edit without rewriting Showdown names or stable identity, mutation rerenders retain keyboard focus inside Settings, equal manager names remain separate profiles, and Chromebook/mobile containment is protected.");
+  const runtime=resolveChromiumRuntime();
+  const evidence=[];
+  evidence.push(await compatibilityIsContained(runtime));
+  evidence.push(await corruptStateFailsClosed(runtime));
+  evidence.push(await emptyStateStaysInternal(runtime));
+  const resultPath=path.join(resultsDirectory,`save-library-ui-${runLabel}.json`);
+  fs.writeFileSync(resultPath,JSON.stringify({runLabel,baseUrl:baseUrl.href,evidence},null,2));
+  console.log("Save Library internal recovery audit passed: compatibility, corrupt and empty storage states remain diagnosable and non-mutating while Save Library stays hidden from the normal player-facing Settings surface.");
 })().catch(error=>{console.error(error);process.exitCode=1;});
