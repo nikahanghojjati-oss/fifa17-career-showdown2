@@ -15,10 +15,16 @@ function showdownFixture(id){
   return {schemaVersion:2,integrityWarnings:[],id,name:"Pre-release Test Rivalry",managers:{playerOne:"Old One",playerTwo:"Old Two"},totalRounds:3,currentRound:1,status:"Created",selectedLeague:null,clubs:{playerOne:null,playerTwo:null},score:{playerOne:0,playerTwo:0},transferChallenges:[],rounds:[],createdAt:"2026-08-14T00:00:00.000Z",updatedAt:"2026-08-14T00:00:00.000Z",completedAt:null,archivedAt:null};
 }
 
-function collectErrors(page){
+function collectErrors(page,{allowCorruptSaveParse=false}={}){
   const errors=[];
   page.on("pageerror",error=>errors.push(`page: ${error.message}`));
-  page.on("console",message=>{if(message.type()==="error"&&!/^Failed to load resource/.test(message.text()))errors.push(`console: ${message.text()}`);});
+  page.on("console",message=>{
+    if(message.type()!=="error")return;
+    const text=message.text();
+    if(/^Failed to load resource/.test(text))return;
+    if(allowCorruptSaveParse&&text.startsWith("[Career Mode Showdown] Unable to parse the Save Library active showdown:"))return;
+    errors.push(`console: ${text}`);
+  });
   return errors;
 }
 
@@ -59,7 +65,7 @@ async function corruptStateFailsClosed(runtime){
   const context=await browser.newContext({viewport:{width:390,height:844},deviceScaleFactor:2,isMobile:true,hasTouch:true,reducedMotion:"reduce"});
   const corrupt="{broken-save-library";
   await context.addInitScript(({libraryKey,singletonKey,value})=>{try{localStorage.setItem(libraryKey,value);localStorage.removeItem(singletonKey);}catch(_error){}},{libraryKey,singletonKey,value:corrupt});
-  const page=await context.newPage(),errors=collectErrors(page);
+  const page=await context.newPage(),errors=collectErrors(page,{allowCorruptSaveParse:true});
   try{
     const panel=await openSettingsAndInternalPanel(page,"blocked");
     const text=await panel.textContent();
@@ -68,8 +74,8 @@ async function corruptStateFailsClosed(runtime){
     assert.equal(await panel.locator(".saveLibrarySelectButton,.saveLibraryDeleteButton,.saveLibraryProfileEditButton").count(),0,"Blocked recovery state must expose no mutation controls.");
     assert.equal(await page.evaluate(key=>localStorage.getItem(key),libraryKey),corrupt,"Blocked recovery diagnosis must preserve corrupt bytes exactly.");
     assert.equal(await page.evaluate(key=>localStorage.getItem(key),singletonKey),null,"Blocked recovery diagnosis must not fabricate singleton authority.");
-    assert.deepEqual(errors,[],`Blocked recovery containment emitted errors: ${errors.join(" | ")}`);
-    return {mode:"blocked",hidden:true,failClosed:true};
+    assert.deepEqual(errors,[],`Blocked recovery containment emitted unexpected errors: ${errors.join(" | ")}`);
+    return {mode:"blocked",hidden:true,failClosed:true,expectedParseDiagnostics:true};
   }finally{await context.close();await browser.close();}
 }
 
@@ -94,5 +100,5 @@ async function emptyStateStaysInternal(runtime){
   evidence.push(await emptyStateStaysInternal(runtime));
   const resultPath=path.join(resultsDirectory,`save-library-ui-${runLabel}.json`);
   fs.writeFileSync(resultPath,JSON.stringify({runLabel,baseUrl:baseUrl.href,evidence},null,2));
-  console.log("Save Library internal recovery audit passed: compatibility, corrupt and empty storage states remain diagnosable and non-mutating while Save Library stays hidden from the normal player-facing Settings surface.");
+  console.log("Save Library internal recovery audit passed: compatibility, corrupt and empty storage states remain diagnosable and non-mutating while Save Library stays hidden from the normal player-facing Settings surface; expected corrupt-byte parse diagnostics remain visible without being misclassified as unrelated failures.");
 })().catch(error=>{console.error(error);process.exitCode=1;});
