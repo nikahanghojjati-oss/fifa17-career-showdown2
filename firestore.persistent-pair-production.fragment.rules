@@ -48,6 +48,21 @@
         && cmsPersistentPairRivalryMembership(accountId, pairData.rivalryId, pairData.managerRole);
     }
 
+    function cmsPersistentPairCanReplace(before, after) {
+      let priorRivalry = get(/databases/$(database)/documents/rivalries/$(before.data.rivalryId));
+      let priorInvite = get(/databases/$(database)/documents/rivalries/$(before.data.rivalryId)/invites/$(before.data.rivalryId));
+      return after.data.rivalryId == before.data.rivalryId
+        || (
+          priorRivalry.data.objectType == 'rivalry'
+          && priorRivalry.data.data.connectionState == 'pending-pair'
+          && priorInvite.data.objectType == 'invite'
+          && (
+            priorInvite.data.data.state != 'open'
+            || priorInvite.data.data.expiresAt <= request.time
+          )
+        );
+    }
+
     function cmsPersistentPairCreateValid(accountId, pairId) {
       let root = request.resource.data;
       return activeDevice(root.updatedByDeviceId)
@@ -61,7 +76,6 @@
     function cmsPersistentPairUpdateValid(accountId, pairId) {
       let before = resource.data;
       let after = request.resource.data;
-      let priorRivalry = get(/databases/$(database)/documents/rivalries/$(before.data.rivalryId));
       return activeDevice(after.updatedByDeviceId)
         && request.auth.uid == accountId
         && pairId == 'current'
@@ -71,10 +85,7 @@
         && after.data.managerRole == before.data.managerRole
         && after.data.managerId == before.data.managerId
         && after.data.linkedAt == before.data.linkedAt
-        && (
-          after.data.rivalryId == before.data.rivalryId
-          || priorRivalry.data.data.connectionState != 'active'
-        );
+        && cmsPersistentPairCanReplace(before, after);
     }
 // CMS_PERSISTENT_PAIR_FUNCTIONS_END
 
