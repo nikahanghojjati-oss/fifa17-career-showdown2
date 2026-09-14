@@ -79,7 +79,10 @@ jobs:
           }
           NODE
 
-      - name: Build deterministic additive production Rules authority
+      - name: Build reviewed Shared Journey Rules source
+        run: node scripts/build-production-firestore-rules.mjs
+
+      - name: Add bounded persistent pair Rules authority
         run: node scripts/build-production-firestore-rules-with-persistent-pair.mjs
 
       - name: Refuse generated Rules that weaken the permanent Spark boundary
