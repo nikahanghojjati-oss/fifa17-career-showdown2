@@ -144,6 +144,8 @@ const showdownSandbox={window:{},document:undefined,console,setTimeout,clearTime
 vm.createContext(showdownSandbox);vm.runInContext(showdownSource,showdownSandbox);
 assert.throws(()=>showdownSandbox.normalizeShowdown({managers:{playerOne:'Nik',playerTwo:'Daniel'}}),error=>error&&error.code==='SHOWDOWN_MANAGER_MAPPING_UNSUPPORTED','Reversed historical manager roles must fail closed instead of being silently relabelled.');
 assert.throws(()=>showdownSandbox.normalizeShowdown({managers:{playerOne:'Alex',playerTwo:'Sam'}}),error=>error&&error.code==='SHOWDOWN_MANAGER_MAPPING_UNSUPPORTED','Every noncanonical historical manager mapping must fail closed instead of being attributed to Daniel and Nik.');
+assert.throws(()=>showdownSandbox.normalizeShowdown({}),error=>error&&error.code==='SHOWDOWN_MANAGER_MAPPING_UNSUPPORTED','A historical save without a manager map must fail closed instead of inheriting Daniel/Nik labels over unknown role-bound history.');
+assert.throws(()=>showdownSandbox.normalizeShowdown({managers:null}),error=>error&&error.code==='SHOWDOWN_MANAGER_MAPPING_UNSUPPORTED','A null historical manager map must fail closed.');
 assert.doesNotThrow(()=>showdownSandbox.normalizeShowdown({managers:{playerOne:'Daniel',playerTwo:'Nik'}}));
 
 assert.match(rulesFragment,/cmsPersistentPairRivalryMembership/);
