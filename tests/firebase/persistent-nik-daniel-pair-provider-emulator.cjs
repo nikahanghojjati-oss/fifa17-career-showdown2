@@ -13,7 +13,7 @@ function envelope({objectType,objectId,revision=0,parentRevision=null,contentHas
 }
 function accountEnvelope(uid,now){return envelope({objectType:'account',objectId:uid,updatedAt:now,accountId:uid,data:{status:'active',createdAt:now,deletionRequestedAt:null}});}
 function deviceEnvelope(uid,id,now){return envelope({objectType:'device',objectId:id,updatedAt:now,accountId:uid,deviceId:id,data:{deviceId:id,installationId:`installation_${id.slice(7)}`,displayLabel:null,state:'active',registeredAt:now,lastSeenAt:now,revokedAt:null}});}
-function slot(slotId,accountId){return {slotId,accountId,profileId:accountId?`profile_${slotId==='playerOne'?'1':'2'.repeat(24)}`:null,saveId:accountId?`save_${slotId==='playerOne'?'1':'2'.repeat(24)}`:null,displayLabel:null,entitlementState:accountId?'active':'open',deletionConsent:false};}
+function openSlot(slotId){return {slotId,accountId:null,profileId:null,saveId:null,displayLabel:null,entitlementState:'open',deletionConsent:false};}
 function validId(prefix,char,count){return `${prefix}${char.repeat(count)}`;}
 function managerSlot(slotId,uid,char){return {slotId,accountId:uid,profileId:validId('profile_',char,24),saveId:validId('save_',char,24),displayLabel:slotId==='playerOne'?'Nik':'Daniel',entitlementState:'active',deletionConsent:false};}
 function rivalryEnvelope(rivalryId,now,p1,p2,state='active'){
@@ -43,7 +43,7 @@ function pairEnvelope(uid,id,role,managerId,device,linkedAt,lastConfirmedAt,{rev
       }
       await setDoc(doc(db,'rivalries',rivalryOne),rivalryEnvelope(rivalryOne,now,managerSlot('playerOne','acct_a','1'),managerSlot('playerTwo','acct_b','2')));
       await setDoc(doc(db,'rivalries',rivalryTwo),rivalryEnvelope(rivalryTwo,now,managerSlot('playerOne','acct_a','3'),managerSlot('playerTwo','acct_b','4')));
-      await setDoc(doc(db,'rivalries',pendingOld),rivalryEnvelope(pendingOld,now,managerSlot('playerOne','acct_d','5'),slot('playerTwo',null),'pending-pair'));
+      await setDoc(doc(db,'rivalries',pendingOld),rivalryEnvelope(pendingOld,now,managerSlot('playerOne','acct_d','5'),openSlot('playerTwo'),'pending-pair'));
       await setDoc(doc(db,'rivalries',pendingOld,'invites',pendingOld),inviteEnvelope(pendingOld,now,Timestamp.fromMillis(nowMs+600000)));
       await setDoc(doc(db,'rivalries',pendingNew),rivalryEnvelope(pendingNew,now,managerSlot('playerOne','acct_d','6'),managerSlot('playerTwo','acct_c','7')));
     });
