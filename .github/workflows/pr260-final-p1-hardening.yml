@@ -28,6 +28,7 @@ jobs:
         run: |
           python scripts/pr260-final-p1-hardening.py
           python scripts/pr260-emulator-observation-fix.py
+          python scripts/pr260-creation-witness-complexity-fix.py
       - name: Run targeted contracts
         shell: bash
         run: |
@@ -58,7 +59,7 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git rm .github/workflows/pr260-final-p1-hardening.yml scripts/pr260-final-p1-hardening.py scripts/pr260-emulator-observation-fix.py
+          git rm .github/workflows/pr260-final-p1-hardening.yml scripts/pr260-final-p1-hardening.py scripts/pr260-emulator-observation-fix.py scripts/pr260-creation-witness-complexity-fix.py
           git checkout -- package-lock.json firestore.spark.generated.rules 2>/dev/null || true
           git add service-worker.js js/sparkPrivatePairing.js js/persistentNikDanielPair.js firestore.persistent-pair-production.fragment.rules scripts/inject-persistent-pair-rules.mjs .github/workflows/deploy-firestore-rules-zero-billing.yml tests/contracts/persistent-nik-daniel-pair-contracts.cjs tests/firebase/persistent-nik-daniel-pair-provider-emulator.cjs
           git diff --cached --check
