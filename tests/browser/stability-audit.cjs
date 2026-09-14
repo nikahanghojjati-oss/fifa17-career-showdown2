@@ -90,7 +90,6 @@ async function readActiveSave(page){
   const state=await page.evaluate(({singletonKey,libraryKey})=>{const singletonRaw=localStorage.getItem(singletonKey),libraryRaw=localStorage.getItem(libraryKey);let active=null,activeSaveId=null,saveCount=0;if(libraryRaw){const library=JSON.parse(libraryRaw);saveCount=Array.isArray(library.saves)?library.saves.length:0;activeSaveId=library.activeSaveId||null;if(activeSaveId){const match=library.saves.find(entry=>entry&&entry.saveId===activeSaveId);active=match?.showdown||null;}}return{singletonRaw,libraryRaw,active,activeSaveId,saveCount};},{singletonKey:activeStorageKey,libraryKey:saveLibraryStorageKey});
   assert.equal(state.singletonRaw,null,"The retired singleton key must remain absent.");assert.ok(state.libraryRaw);assert.ok(state.activeSaveId);assert.ok(state.active);return state.active;
 }
-async function fillCanonical(page,selector,value){const input=page.locator(selector);await input.fill(value);await input.press("Enter");assert.ok(await input.getAttribute("data-canonical-id"),`${selector} must resolve ${value} canonically.`);assert.equal(await input.inputValue(),value);}
 
 async function releasePairedFirstGateForGameplayStability(page,prefix){
   await page.waitForFunction(()=>window.CareerModeProductionSharedJourneyEntry?.isPending?.()===true,null,{timeout:12000});
@@ -120,7 +119,6 @@ async function resumeSavedUnderStability(page,expectedScreen,prefix){
   });
   assert.equal(resumed,true);await waitForScreen(page,expectedScreen);checkpoint(`${prefix} direct stability resume`,expectedScreen);
 }
-
 async function createShowdownWithRapidActivation(page,prefix){
   await installAuthorizedOnlineIdentityFixture(page);
   await page.locator("#newShowdown").click();await waitForScreen(page,"createShowdown");await runAxe(page,`${prefix} Create Showdown`);
@@ -151,26 +149,21 @@ async function revealPermanentClubs(page,prefix){
   const save=await readActiveSave(page);assert.equal(save.status,"Clubs Assigned");assert.deepEqual([save.clubs.playerOne,save.clubs.playerTwo],[one,two]);await runAxe(page,`${prefix} Club Confirmation`);
   await page.locator("#continueClubAssignment").click();await waitForScreen(page,"dashboard");await runAxe(page,`${prefix} Showdown Home`);await assertLayout(page,`${prefix} Showdown Home`);checkpoint(`${prefix} permanent club assignment`,`${one} vs ${two}`);
 }
-async function completeTransfer(page,prefix,recoverDraft){
-  await page.locator("#seasonPrimaryAction").click();await waitForScreen(page,"transferChallenge");await runAxe(page,`${prefix} Transfer Window`);
-  await page.locator("#startTransferTimer").click();await page.locator("#endTransferTimer").waitFor({state:"visible"});await page.locator("#endTransferTimer").click();await page.locator("#completeTransferChallenge").filter({hasText:/LOCK GUESSES/i}).waitFor({state:"visible"});
-  await page.locator("#p1Guess1Type").selectOption("league");await fillCanonical(page,"#p1Guess1Value","Premier League");await page.locator("#p2Guess1Type").selectOption("nationality");await fillCanonical(page,"#p2Guess1Value","Germany");await page.locator("#completeTransferChallenge").click();await page.locator("#completeTransferChallenge").filter({hasText:/LOCK SIGNINGS/i}).waitFor({state:"visible"});
-  await page.locator("#p1Signing1Name").fill("Final Browser One");await fillCanonical(page,"#p1Signing1League","Premier League");await fillCanonical(page,"#p1Signing1Nationality","England");await page.locator("#p2Signing1Name").fill("Final Browser Two");await fillCanonical(page,"#p2Signing1League","1. Bundesliga");await fillCanonical(page,"#p2Signing1Nationality","Germany");
-  if(recoverDraft){await page.waitForTimeout(520);await page.reload({waitUntil:"domcontentloaded"});await waitForApplication(page);await resumeSavedUnderStability(page,"transferChallenge",prefix);assert.equal(await page.locator("#p1Signing1Name").inputValue(),"Final Browser One");assert.equal(await page.locator("#p2Signing1Name").inputValue(),"Final Browser Two");}
-  await page.locator("#completeTransferChallenge").click();await page.locator("#continueFromTransfers").waitFor({state:"visible"});const verdicts=normalizeText(await page.locator("#transferChallengeResults").innerText());assert.match(verdicts,/Final Browser One/);assert.match(verdicts,/Final Browser Two/);await page.locator("#continueFromTransfers").click();await waitForScreen(page,"seasonEntry");checkpoint(`${prefix} transfer challenge completion`);
-}
-async function completeSeason(page,prefix){
-  await page.locator("#p1LeaguePosition").fill("1");await page.locator("#p1LeaguePoints").fill("100");await page.locator("#p1LeagueGoals").fill("100");await page.locator("#p1DomesticCup").check();await page.locator("#p1ChampionsLeague").check();await page.locator("#p1TopScorer").check();await page.locator("#p1TopAssist").check();await page.locator("#p2LeaguePosition").fill("2");await page.locator("#p2LeaguePoints").fill("80");await page.locator("#p2LeagueGoals").fill("80");
-  await page.locator("#completeSeason").click();await page.locator("#seasonReviewPanel").waitFor({state:"visible"});assert.match(normalizeText(await page.locator("#seasonReviewOne").innerText()),/SEASON SCORE 11/);assert.equal((await readActiveSave(page)).rounds.length,0);
-  await page.locator("#editSeasonResults").click();assert.deepEqual(await activeScreens(page),["seasonEntry"]);await page.locator("#p1LeaguePoints").fill("101");await page.locator("#completeSeason").click();await page.locator("#seasonReviewPanel").waitFor({state:"visible"});
-  await page.evaluate(()=>{const button=document.getElementById("confirmSeasonCompletion");button.click();button.click();});await waitForScreen(page,"seasonSummary");await runAxe(page,`${prefix} Season Summary`);
-  const save=await readActiveSave(page);assert.equal(save.status,"Completed");assert.equal(save.rounds.length,1);assert.equal(save.rounds[0].playerOne.leaguePoints,101);assert.match(save.rounds[0].seasonId,/^season_[0-9a-f]{24}$/i);checkpoint(`${prefix} season review and commit`,`one season committed`);
-  await page.locator("#nextSeasonAction").click();await waitForScreen(page,"dashboard");
-}
-async function verifyReloadRecovery(page,prefix){
-  await page.locator("#dashboard [data-smart-back]").click();await waitForScreen(page,"mainMenu");assert.match(await page.locator("#seasonIndicator").innerText(),/Showdown Complete/i);
-  await page.reload({waitUntil:"domcontentloaded"});await waitForApplication(page);assert.match(await page.locator("#seasonIndicator").innerText(),/Showdown Complete/i);await resumeSavedUnderStability(page,"dashboard",prefix);
-  await page.goto("about:blank");await page.goBack({waitUntil:"domcontentloaded"});await waitForApplication(page);await page.goForward({waitUntil:"load"});assert.equal(page.url(),"about:blank");await page.goBack({waitUntil:"domcontentloaded"});await waitForApplication(page);await resumeSavedUnderStability(page,"dashboard",prefix);assert.equal((await readActiveSave(page)).rounds.length,1);checkpoint(`${prefix} reload and browser-history recovery`,`completed save retained`);
+async function verifyDashboardShellAndRecovery(page,prefix){
+  const before=await readActiveSave(page);
+  assert.equal(before.name,"Daniel vs Nik");assert.deepEqual(before.managers,{playerOne:"Daniel",playerTwo:"Nik"});assert.ok(before.selectedLeague);assert.ok(before.clubs?.playerOne);assert.ok(before.clubs?.playerTwo);assert.equal(Array.isArray(before.rounds)?before.rounds.length:0,0);
+  assert.equal(await page.locator("#transferChallenge").isHidden(),true,"General shell stability must not bypass the provider-owned Transfer route.");
+  assert.equal(await page.locator("#seasonEntry").isHidden(),true,"General shell stability must not bypass the provider-owned Season route.");
+  assert.equal(await page.locator("#seasonPrimaryAction").isVisible(),true,"Dashboard must retain the canonical season entry action while provider-specific execution is validated separately.");
+  checkpoint(`${prefix} provider-owned career boundary`,`dashboard stable · transfer/season remain gated`);
+
+  await page.locator("#dashboard [data-smart-back]").click();await waitForScreen(page,"mainMenu");
+  await page.reload({waitUntil:"domcontentloaded"});await waitForApplication(page);await resumeSavedUnderStability(page,"dashboard",prefix);
+  let recovered=await readActiveSave(page);assert.equal(recovered.name,"Daniel vs Nik");assert.deepEqual(recovered.managers,{playerOne:"Daniel",playerTwo:"Nik"});assert.equal(recovered.selectedLeague,before.selectedLeague);assert.deepEqual(recovered.clubs,before.clubs);assert.equal(Array.isArray(recovered.rounds)?recovered.rounds.length:0,0);
+
+  await page.goto("about:blank");await page.goBack({waitUntil:"domcontentloaded"});await waitForApplication(page);await page.goForward({waitUntil:"load"});assert.equal(page.url(),"about:blank");await page.goBack({waitUntil:"domcontentloaded"});await waitForApplication(page);await resumeSavedUnderStability(page,"dashboard",prefix);
+  recovered=await readActiveSave(page);assert.equal(recovered.name,"Daniel vs Nik");assert.deepEqual(recovered.managers,{playerOne:"Daniel",playerTwo:"Nik"});assert.deepEqual(recovered.clubs,before.clubs);assert.equal(Array.isArray(recovered.rounds)?recovered.rounds.length:0,0);
+  checkpoint(`${prefix} reload and browser-history recovery`,`pre-season dashboard retained without legacy local progression`);
 }
 async function smokeDestinations(page,prefix){
   await page.locator("#rivalryStatisticsButton").click();await waitForScreen(page,"statistics");await runAxe(page,`${prefix} Rivalry Statistics`);await page.locator("#statistics .backButton").click();await waitForScreen(page,"dashboard");await page.locator("#dashboard [data-smart-back]").click();await waitForScreen(page,"mainMenu");
@@ -184,8 +177,8 @@ async function runProductScenario(browser,config){
   const page=await context.newPage(),monitors=createPageMonitors(page);await installAuditRuntime(page);
   try{
     await openApplication(page);await installAuthorizedOnlineIdentityFixture(page);await assertStableProductSurface(page,config.prefix);assert.equal(normalizeText(await page.locator("#seasonIndicator").textContent()),"No Active Showdown");assert.equal(await page.locator("#continueCareer").isEnabled(),false);await runAxe(page,`${config.prefix} Empty Home`);await assertLayout(page,`${config.prefix} Empty Home`);
-    await createShowdownWithRapidActivation(page,config.prefix);await selectAndConfirmLeague(page,config.prefix);await revealPermanentClubs(page,config.prefix);await completeTransfer(page,config.prefix,config.recoverDraft);await completeSeason(page,config.prefix);await verifyReloadRecovery(page,config.prefix);
-    if(config.fullOptional)await smokeDestinations(page,config.prefix);else{await runAxe(page,`${config.prefix} Completed Dashboard`);await assertLayout(page,`${config.prefix} Completed Dashboard`);}
+    await createShowdownWithRapidActivation(page,config.prefix);await selectAndConfirmLeague(page,config.prefix);await revealPermanentClubs(page,config.prefix);await verifyDashboardShellAndRecovery(page,config.prefix);
+    if(config.fullOptional)await smokeDestinations(page,config.prefix);else{await runAxe(page,`${config.prefix} Dashboard Recovery`);await assertLayout(page,`${config.prefix} Dashboard Recovery`);}
     await assertNoDuplicateIds(page,`${config.prefix} final DOM`);monitors.assertClean(config.prefix);checkpoint(`${config.prefix} clean runtime and local assets`);
   }finally{await context.close();}
 }
@@ -195,7 +188,7 @@ async function runCorruptStorageFixture(browser){
   const page=await context.newPage(),monitors=createPageMonitors(page,[/Unable to parse the active showdown/,/Unable to parse Legacy history/,/Unable to parse application preferences/,/Unable to prepare local Save Library authority/,/Save Library activation failed/,/Unable to prepare Showdown/]);await installAuditRuntime(page);
   try{
     await openApplication(page);await installAuthorizedOnlineIdentityFixture(page);assert.equal(await page.locator("#continueCareer").isEnabled(),false);assert.equal(await page.evaluate(key=>localStorage.getItem(key),activeStorageKey),"{corrupt active");
-    await page.locator("#newShowdown").click();await waitForScreen(page,"createShowdown");await page.locator("#startShowdown").click();await page.waitForFunction(()=>!document.getElementById("startShowdown").disabled);assert.deepEqual(await activeScreens(page),["createShowdown"]);assert.equal(await page.evaluate(key=>localStorage.getItem(key),activeStorageKey),"{corrupt active");assert.equal(await page.evaluate(key=>localStorage.getItem(key),saveLibraryStorageKey),null);monitors.assertClean("Corrupt storage fixture");checkpoint("Corrupt singleton bytes fail closed at canonical Start");
+    await page.locator("#newShowdown").click();await waitForScreen(page,"createShowdown");await page.locator("#startShowdown").click();await page.waitForFunction(()=>!document.getElementById("startShowdown").disabled);assert.deepEqual(await activeScreens(page),["createShowdown"]);assert.equal(await page.evaluate(key=>localStorage.getItem(key),activeStorageKey),"{corrupt active","Unreadable legacy singleton bytes must remain byte-for-byte untouched when canonical Start fails closed.");assert.equal(await page.evaluate(key=>localStorage.getItem(key),saveLibraryStorageKey),null,"Corrupt singleton failure must not fabricate Save Library authority.");monitors.assertClean("Corrupt storage fixture");checkpoint("Corrupt singleton bytes fail closed at canonical Start");
   }finally{await context.close();}
 }
 async function runQuotaFailureFixture(browser){
@@ -203,14 +196,14 @@ async function runQuotaFailureFixture(browser){
   try{
     await openApplication(page);await installAuthorizedOnlineIdentityFixture(page);await page.locator("#newShowdown").click();await waitForScreen(page,"createShowdown");
     await page.evaluate(key=>{window.__cmsQuotaOriginalSetItem=Storage.prototype.setItem;Storage.prototype.setItem=function(storageKey,value){if(storageKey===key)throw new DOMException("Simulated quota exhaustion","QuotaExceededError");return window.__cmsQuotaOriginalSetItem.call(this,storageKey,value);};},saveLibraryStorageKey);
-    await page.locator("#startShowdown").click();await page.waitForFunction(()=>!document.getElementById("startShowdown").disabled);assert.deepEqual(await activeScreens(page),["createShowdown"]);assert.equal(await page.evaluate(key=>localStorage.getItem(key),saveLibraryStorageKey),null);
+    await page.locator("#startShowdown").click();await page.waitForFunction(()=>!document.getElementById("startShowdown").disabled);assert.deepEqual(await activeScreens(page),["createShowdown"]);assert.equal(await page.evaluate(key=>localStorage.getItem(key),saveLibraryStorageKey),null,"Failed Save Library write must roll back without accepting authority.");
     await page.evaluate(()=>{Storage.prototype.setItem=window.__cmsQuotaOriginalSetItem;delete window.__cmsQuotaOriginalSetItem;document.getElementById("startShowdown").click();});await waitForScreen(page,"leagueWheelScreen");assert.equal((await readActiveSave(page)).name,"Daniel vs Nik");monitors.assertClean("Quota failure fixture");checkpoint("Save Library quota rejection rolls back before canonical retry");
   }finally{await context.close();}
 }
 
 (async()=>{
   const runtime=await resolveChromiumRuntime();
-  const tasks=[runCorruptStorageFixture,runQuotaFailureFixture,browser=>runProductScenario(browser,{prefix:"Chromebook",viewport:{width:1366,height:768},reducedMotion:"no-preference",recoverDraft:true,fullOptional:true}),browser=>runProductScenario(browser,{prefix:"Mobile",viewport:{width:390,height:844},deviceScaleFactor:2,isMobile:true,hasTouch:true,reducedMotion:"reduce",recoverDraft:false,fullOptional:false})];
+  const tasks=[runCorruptStorageFixture,runQuotaFailureFixture,browser=>runProductScenario(browser,{prefix:"Chromebook",viewport:{width:1366,height:768},reducedMotion:"no-preference",fullOptional:true}),browser=>runProductScenario(browser,{prefix:"Mobile",viewport:{width:390,height:844},deviceScaleFactor:2,isMobile:true,hasTouch:true,reducedMotion:"reduce",fullOptional:false})];
   for(const task of tasks){const browser=await chromium.launch({executablePath:runtime.executablePath,headless:true,args:runtime.args});if(!report.browserVersion){report.browserVersion=await browser.version();process.stdout.write(`Chromium ${report.browserVersion} · ${runLabel}\n`);}try{await task(browser);}finally{if(browser.isConnected())await browser.close();}}
   const reportPath=path.join(resultsDirectory,`stability-audit-${runLabel}.json`);fs.writeFileSync(reportPath,`${JSON.stringify(report,null,2)}\n`);process.stdout.write(`REPORT ${reportPath}\nCHECKPOINTS ${report.checkpoints.length}\nAXE_SCANS ${report.axeScans.length}\n`);
 })().catch(error=>{const reportPath=path.join(resultsDirectory,`stability-audit-${runLabel}-failed.json`);fs.writeFileSync(reportPath,`${JSON.stringify({...report,failure:error.stack||error.message},null,2)}\n`);console.error("STABILITY BROWSER AUDIT FAILED");console.error(error.stack||error);process.exit(1);});
