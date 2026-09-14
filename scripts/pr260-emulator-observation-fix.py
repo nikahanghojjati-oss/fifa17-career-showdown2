@@ -19,5 +19,11 @@ new="""  await testEnv.withSecurityRulesDisabled(async context=>{
     assert.equal((await getDoc(doc(adminDb,'rivalries',staleCreate,'invites',staleCreate))).exists(),false,'stale creator rejection must not leave a shareable one-use invite');
   });"""
 if s.count(old)!=1: raise SystemExit(f'stale creator rollback observation anchor drifted: {s.count(old)}')
+s=s.replace(old,new,1)
+old="""  assert.equal((await getDoc(doc(dbE,'rivalries',atomicRecovery,'invites',atomicRecovery))).data().data.state,'redeemed');"""
+new="""  await testEnv.withSecurityRulesDisabled(async context=>{
+    assert.equal((await getDoc(doc(context.firestore(),'rivalries',atomicRecovery,'invites',atomicRecovery))).data().data.state,'redeemed','successful redemption must consume the one-use invite atomically');
+  });"""
+if s.count(old)!=1: raise SystemExit(f'redeemed invite observation anchor drifted: {s.count(old)}')
 p.write_text(s.replace(old,new,1))
-print('PR260 emulator rollback observations now use rules-disabled proof reads')
+print('PR260 emulator rollback/consumption observations use rules-disabled proof reads where product Rules intentionally deny inspection')
