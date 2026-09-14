@@ -22,6 +22,12 @@ function insertOnce(source,needle,replacement,label){
   return source.slice(0,first)+replacement+source.slice(first);
 }
 
+function replaceOnce(source,needle,replacement,label){
+  const first=source.indexOf(needle);
+  if(first<0||source.indexOf(needle,first+needle.length)>=0)throw new Error(`Expected exactly one ${label} seam.`);
+  return source.slice(0,first)+replacement+source.slice(first+needle.length);
+}
+
 export function injectPersistentPairRules(){
   const fragment=fs.readFileSync(fragmentPath,'utf8');
   let generated=fs.readFileSync(outputPath,'utf8');
@@ -32,9 +38,12 @@ export function injectPersistentPairRules(){
   const match=between(fragment,matchStart,matchEnd);
   generated=insertOnce(generated,'    function capabilityCanReadPendingRivalry(rivalryId) {',`${functionStart}\n${functions}\n    ${functionEnd}\n\n    `,'persistent pair function');
   generated=insertOnce(generated,'    match /rivalries/{rivalryId} {',`${matchStart}\n${match}\n    ${matchEnd}\n\n    `,'persistent pair match');
+  generated=replaceOnce(generated,'        && validRivalryData(after.data)\n        && before.data.connectionState == "pending-pair"','        && validRivalryData(after.data)\n        && cmsPersistentPairRedemptionWitnessValid(rivalryId, inviteBefore.data.slotId)\n        && before.data.connectionState == "pending-pair"','persistent pair redemption witness');
   for(const required of [
     'function cmsPersistentPairManagerValid(role, managerId)',
     'function cmsPersistentPairRivalryMembership(accountId, rivalryId, role)',
+    'function cmsPersistentPairRedemptionWitnessValid(rivalryId, role)',
+    'cmsPersistentPairRedemptionWitnessValid(rivalryId, inviteBefore.data.slotId)',
     'function cmsPersistentPairCreateValid(accountId, pairId)',
     'function cmsPersistentPairUpdateValid(accountId, pairId)',
     "role == 'playerOne' && managerId == 'daniel'",
