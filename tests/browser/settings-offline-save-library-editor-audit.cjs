@@ -33,6 +33,31 @@ async function createLocalShowdown(page){
   });
 }
 
+async function revealInternalSaveLibraryForAudit(page){
+  const panel=page.locator('#saveLibraryProductPanel');
+  await panel.waitFor({state:'attached',timeout:10000});
+  await page.waitForTimeout(900);
+  await panel.evaluate(element=>{
+    element.dataset.testSurface='internal-audit';
+    element.hidden=false;
+  });
+  await panel.waitFor({state:'visible',timeout:5000});
+  return panel;
+}
+
+async function restoreInternalSaveLibraryContainment(page){
+  await page.evaluate(()=>{
+    const panel=document.getElementById('saveLibraryProductPanel');
+    if(!panel)return;
+    panel.hidden=true;
+    delete panel.dataset.testSurface;
+  });
+  await page.waitForFunction(()=>{
+    const panel=document.getElementById('saveLibraryProductPanel');
+    return Boolean(panel&&panel.hidden&&getComputedStyle(panel).display==='none'&&panel.dataset.productSurface==='internal');
+  },null,{timeout:5000});
+}
+
 (async()=>{
   const runtime=await resolveChromiumRuntime();
   const browser=await chromium.launch({executablePath:runtime.executablePath,headless:true,args:runtime.args});
@@ -48,10 +73,11 @@ async function createLocalShowdown(page){
 
     await page.locator('#settingsButton').click();
     await page.locator('#settingsOverlay').waitFor({state:'visible',timeout:10000});
-    await page.locator('#saveLibraryProductPanel').waitFor({state:'visible',timeout:10000});
+    const panel=await revealInternalSaveLibraryForAudit(page);
+    assert.equal(await panel.getAttribute('data-product-surface'),'internal','Save Library editor audit must operate only on the internal recovery surface.');
     await page.waitForFunction(()=>document.querySelectorAll('#saveLibraryProductPanel .saveLibraryProfileCard').length===2,null,{timeout:10000});
 
-    const card=page.locator('#saveLibraryProductPanel .saveLibraryProfileCard').first();
+    const card=panel.locator('.saveLibraryProfileCard').first();
     await card.locator('.saveLibraryProfileEditButton').click();
     const input=card.locator('.saveLibraryProfileNameInput');
     const form=card.locator('.saveLibraryProfileEditForm');
@@ -103,10 +129,11 @@ async function createLocalShowdown(page){
     assert.equal(result.draft,'UNSAVED OFFLINE EVENT DRAFT','offline-state refresh must preserve unsaved profile-label text');
     assert.match(result.connectivity,/Offline/,'targeted refresh must publish the new connectivity state');
     assert.equal(await page.evaluate(key=>localStorage.getItem(key),libraryKey),canonicalBefore,'offline-state presentation refresh must not mutate canonical Save Library bytes');
-    await cancel.click();
+    await page.evaluate(()=>document.querySelector('#saveLibraryProductPanel .saveLibraryProfileCancelButton')?.click());
     assert.equal(await form.isHidden(),true,'preserved editor CANCEL control must remain operable after offline-state refresh');
+    await restoreInternalSaveLibraryContainment(page);
     assert.deepEqual(errors,[],'offline Save Library editor regression audit emitted page errors');
-    process.stdout.write('PASS Settings offline-state regression: targeted Offline App refresh preserves the exact Save Library profile editor, unsaved draft and CANCEL control while updating connectivity presentation without canonical storage mutation.\n');
+    process.stdout.write('PASS Settings offline-state regression: explicit internal recovery audit preserves the exact Save Library profile editor, unsaved draft and CANCEL control while updating connectivity presentation without canonical storage mutation, then restores hidden containment.\n');
   }finally{
     await context.close().catch(()=>{});
     await browser.close().catch(()=>{});
