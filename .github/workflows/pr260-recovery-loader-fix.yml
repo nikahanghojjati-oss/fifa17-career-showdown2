@@ -1,0 +1,58 @@
+name: PR260 recovery loader fix
+on:
+  push:
+    branches: [feat/persistent-nik-daniel-pair]
+    paths: [.github/workflows/pr260-recovery-loader-fix.yml]
+permissions:
+  contents: write
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: feat/persistent-nik-daniel-pair
+          fetch-depth: 0
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+      - name: Route fresh-browser recovery through Candidate C loader
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm ci
+          python - <<'PY'
+          from pathlib import Path
+          def patch(path, old, new):
+              p=Path(path); s=p.read_text(); n=s.count(old)
+              if n!=1: raise SystemExit(f'{path}: expected one match, found {n}: {old[:110]}')
+              p.write_text(s.replace(old,new,1))
+          old='async function pairOpenRecoverySurface(){try{if(typeof root.navigateTo==="function")await root.navigateTo("legacy",{addToHistory:true,allowCanonicalFallback:true});else if(typeof root.showScreen==="function")await root.showScreen("legacy",false);if(typeof root.initializeCareerModeRestoreUI==="function")root.initializeCareerModeRestoreUI();const panel=root.document?.getElementById("careerModeRestorePanel");if(!panel)throw pairErrorWithCode("PERSISTENT_PAIR_RECOVERY_UI_UNAVAILABLE","Verified recovery is unavailable on this screen.");panel.scrollIntoView?.({block:"start"});const picker=panel.querySelector(\'input[type="file"]\');picker?.focus?.();return true;}catch(error){pairSetState({status:"recovery-required",busy:false,message:error?.message||"Verified recovery could not be opened."});return false;}}'
+          new='async function pairOpenRecoverySurface(){try{if(typeof root.openOptionalModule!=="function"||await root.openOptionalModule("legacy")!==true)throw pairErrorWithCode("PERSISTENT_PAIR_RECOVERY_UI_UNAVAILABLE","Verified recovery is unavailable on this screen.");const panel=root.document?.getElementById("careerModeRestorePanel");if(!panel)throw pairErrorWithCode("PERSISTENT_PAIR_RECOVERY_UI_UNAVAILABLE","Verified recovery is unavailable on this screen.");panel.scrollIntoView?.({block:"start"});panel.querySelector(\'input[type="file"]\')?.focus?.();return true;}catch(error){pairSetState({status:"recovery-required",busy:false,message:error?.message||"Verified recovery could not be opened."});return false;}}'
+          patch('js/persistentNikDanielPair.js',old,new)
+          p='tests/contracts/persistent-nik-daniel-pair-contracts.cjs'
+          s=Path(p).read_text()
+          old_decl="const deployWorkflow=read('.github/workflows/deploy-firestore-rules-zero-billing.yml');"
+          new_decl=old_decl+"\nconst optionalSource=read('js/optionalModules.js');"
+          if s.count(old_decl)!=1: raise SystemExit('contract declaration anchor drifted')
+          s=s.replace(old_decl,new_decl,1)
+          old_assert="assert.match(pairSource,/navigateTo\\(\"legacy\"/,'Recovery-required must route to the bounded Atomic Restore & Recovery surface.');"
+          new_assert="assert.match(pairSource,/root\\.openOptionalModule\\(\"legacy\"\\)/,'Recovery-required must route through the bounded Legacy/Candidate C loader before locating restore controls.');\nassert.match(optionalSource,/async function ensureLegacyModule\\(\\)[\\s\\S]*ensureCandidateC\\(\\)[\\s\\S]*js\\/restoreUI\\.js[\\s\\S]*mountCareerModeRestorePanel/,'The approved Legacy loader must prepare Candidate C and mount the verified restore panel.');"
+          if s.count(old_assert)!=1: raise SystemExit('recovery assertion anchor drifted')
+          Path(p).write_text(s.replace(old_assert,new_assert,1))
+          PY
+          node --check js/persistentNikDanielPair.js
+          node tests/contracts/persistent-nik-daniel-pair-contracts.cjs
+          git checkout -- firestore.spark.generated.rules 2>/dev/null || true
+          node tests/contracts/restore-maintenance-contracts.cjs
+          node tests/contracts/save-library-product-contracts.cjs
+          node tests/contracts/static-app-release-contracts.cjs
+          node tests/contracts/final-polish-presentation.cjs
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm .github/workflows/pr260-recovery-loader-fix.yml
+          git add js/persistentNikDanielPair.js tests/contracts/persistent-nik-daniel-pair-contracts.cjs
+          git diff --cached --check
+          git commit -m "fix(pr260): load verified recovery before navigation"
+          git push origin HEAD:feat/persistent-nik-daniel-pair
