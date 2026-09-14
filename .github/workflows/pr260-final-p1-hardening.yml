@@ -1,5 +1,5 @@
 name: PR260 final P1 hardening
-# bounded redemption witness proof
+# clean provider witness proof
 on:
   push:
     branches:
@@ -54,8 +54,6 @@ jobs:
           set -euo pipefail
           npm install --no-save --package-lock=false firebase@12.7.0 @firebase/rules-unit-testing@5.0.0 firebase-admin@13.4.0
           node scripts/build-production-firestore-rules-with-persistent-pair.mjs
-          echo '--- GENERATED RULES 2288-2370 ---'
-          nl -ba firestore.spark.generated.rules | sed -n '2288,2370p'
           npx --yes firebase-tools@14.16.0 emulators:exec --only firestore --project demo-career-mode-showdown-persistent-pair-final "node tests/firebase/persistent-nik-daniel-pair-provider-emulator.cjs"
       - name: Commit clean hardening result
         shell: bash
