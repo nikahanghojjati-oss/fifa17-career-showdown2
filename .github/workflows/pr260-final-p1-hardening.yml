@@ -1,4 +1,5 @@
 name: PR260 final P1 hardening
+# bounded redemption witness proof
 on:
   push:
     branches:
