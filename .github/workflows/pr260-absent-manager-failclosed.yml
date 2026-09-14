@@ -28,8 +28,8 @@ jobs:
           from pathlib import Path
           source=Path('js/showdown.js')
           text=source.read_text()
-          old='const m=showdown.managers;if(m&&(String(m.playerOne).trim().toLowerCase()!=="daniel"||String(m.playerTwo).trim().toLowerCase()!=="nik"))'
-          new='const m=showdown.managers;if(!m||String(m.playerOne).trim().toLowerCase()!=="daniel"||String(m.playerTwo).trim().toLowerCase()!=="nik")'
+          old='const m=showdown.managers;if(m&&(m.playerOne!=="Daniel"||m.playerTwo!=="Nik"))'
+          new='const m=showdown.managers;if(!m||m.playerOne!=="Daniel"||m.playerTwo!=="Nik")'
           if old not in text:
               raise SystemExit('expected canonical manager guard not found')
           source.write_text(text.replace(old,new,1))
