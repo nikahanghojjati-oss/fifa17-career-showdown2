@@ -91,6 +91,8 @@ jobs:
           set -euo pipefail
           test -s "${FIREBASE_RULES_FILE}"
           grep -Fq "match /accounts/{accountId}/pairLinks/{pairId}" "${FIREBASE_RULES_FILE}"
+          grep -Fq "cmsPersistentPairCreationWitnessValid(rivalryId)" "${FIREBASE_RULES_FILE}"
+          grep -Fq "cmsPersistentPairRedemptionWitnessValid(rivalryId, inviteBefore.data.slotId)" "${FIREBASE_RULES_FILE}"
           grep -Fq "allow get: if signedIn() && request.auth.uid == accountId && pairId == 'current'" "${FIREBASE_RULES_FILE}"
           grep -Fq "allow create: if cmsPersistentPairCreateValid(accountId, pairId)" "${FIREBASE_RULES_FILE}"
           grep -Fq "allow update: if cmsPersistentPairUpdateValid(accountId, pairId)" "${FIREBASE_RULES_FILE}"
