@@ -15,7 +15,7 @@ function accountEnvelope(uid,now){return envelope({objectType:'account',objectId
 function deviceEnvelope(uid,id,now){return envelope({objectType:'device',objectId:id,updatedAt:now,accountId:uid,deviceId:id,data:{deviceId:id,installationId:`installation_${id.slice(7)}`,displayLabel:null,state:'active',registeredAt:now,lastSeenAt:now,revokedAt:null}});}
 function openSlot(slotId){return {slotId,accountId:null,profileId:null,saveId:null,displayLabel:null,entitlementState:'open',deletionConsent:false};}
 function validId(prefix,char,count){return `${prefix}${char.repeat(count)}`;}
-function managerSlot(slotId,uid,char){return {slotId,accountId:uid,profileId:validId('profile_',char,24),saveId:validId('save_',char,24),displayLabel:slotId==='playerOne'?'Nik':'Daniel',entitlementState:'active',deletionConsent:false};}
+function managerSlot(slotId,uid,char){return {slotId,accountId:uid,profileId:validId('profile_',char,24),saveId:validId('save_',char,24),displayLabel:slotId==='playerOne'?'Daniel':'Nik',entitlementState:'active',deletionConsent:false};}
 function rivalryEnvelope(rivalryId,now,p1,p2,state='active'){
   const accounts=[p1&&p1.accountId,p2&&p2.accountId].filter(Boolean);
   return envelope({objectType:'rivalry',objectId:rivalryId,updatedAt:now,accountId:accounts[0]||'seed',deviceId:deviceId('f'),data:{connectionState:state,connectionStateBeforeDeletion:null,managerSlots:[p1,p2],authorizedAccountIds:accounts,createdByAccountId:accounts[0]||'seed',createdAt:now}});
@@ -56,29 +56,30 @@ function pairEnvelope(uid,id,role,managerId,device,linkedAt,lastConfirmedAt,{rev
     const pairRefA=doc(dbA,'accounts','acct_a','pairLinks','current');
     const pairRefB=doc(dbB,'accounts','acct_b','pairLinks','current');
 
-    await assertSucceeds(setDoc(pairRefA,pairEnvelope('acct_a',rivalryOne,'playerOne','nik',ids.a,now,now)));
-    await assertSucceeds(setDoc(pairRefB,pairEnvelope('acct_b',rivalryOne,'playerTwo','daniel',ids.b,now,now)));
-    assert.equal((await assertSucceeds(getDoc(pairRefA))).data().data.managerId,'nik');
-    assert.equal((await assertSucceeds(getDoc(pairRefB))).data().data.managerId,'daniel');
+    await assertSucceeds(setDoc(pairRefA,pairEnvelope('acct_a',rivalryOne,'playerOne','daniel',ids.a,now,now)));
+    await assertSucceeds(setDoc(pairRefB,pairEnvelope('acct_b',rivalryOne,'playerTwo','nik',ids.b,now,now)));
+    assert.equal((await assertSucceeds(getDoc(pairRefA))).data().data.managerId,'daniel');
+    assert.equal((await assertSucceeds(getDoc(pairRefB))).data().data.managerId,'nik');
 
     await assertFails(getDoc(doc(dbB,'accounts','acct_a','pairLinks','current')));
     await assertFails(getDoc(doc(dbAnon,'accounts','acct_a','pairLinks','current')));
     await assertFails(getDocs(collection(dbA,'accounts','acct_a','pairLinks')));
     await assertFails(deleteDoc(pairRefA));
 
-    await assertFails(setDoc(doc(dbC,'accounts','acct_c','pairLinks','current'),pairEnvelope('acct_c',rivalryOne,'playerOne','nik',ids.c,now,now)));
-    await assertFails(setDoc(doc(dbC,'accounts','acct_c','pairLinks','current'),pairEnvelope('acct_c',pendingNew,'playerTwo','nik',ids.c,now,now)));
-    await assertFails(setDoc(doc(dbC,'accounts','acct_c','pairLinks','current'),pairEnvelope('acct_c',pendingNew,'playerTwo','daniel',deviceId('z'),now,now)));
-    await assertSucceeds(setDoc(doc(dbC,'accounts','acct_c','pairLinks','current'),pairEnvelope('acct_c',pendingNew,'playerTwo','daniel',ids.c,now,now)));
+    await assertFails(setDoc(doc(dbC,'accounts','acct_c','pairLinks','current'),pairEnvelope('acct_c',rivalryOne,'playerOne','daniel',ids.c,now,now)));
+    await assertFails(setDoc(doc(dbC,'accounts','acct_c','pairLinks','current'),pairEnvelope('acct_c',pendingNew,'playerTwo','nik',deviceId('z'),now,now)));
+    await assertSucceeds(setDoc(doc(dbC,'accounts','acct_c','pairLinks','current'),pairEnvelope('acct_c',pendingNew,'playerTwo','nik',ids.c,now,now)));
 
     const beforeA=(await getDoc(pairRefA)).data();
-    await assertSucceeds(setDoc(pairRefA,pairEnvelope('acct_a',rivalryOne,'playerOne','nik',ids.a,now,later,{revision:1,parentRevision:0,contentHash:hash('b'),priorContentHash:beforeA.contentHash})));
+    await assertSucceeds(setDoc(pairRefA,pairEnvelope('acct_a',rivalryOne,'playerOne','daniel',ids.a,now,later,{revision:1,parentRevision:0,contentHash:hash('b'),priorContentHash:beforeA.contentHash})));
     const revisionOne=(await getDoc(pairRefA)).data();
-    await assertFails(setDoc(pairRefA,pairEnvelope('acct_a',rivalryOne,'playerTwo','daniel',ids.a,now,Timestamp.fromMillis(nowMs+2000),{revision:2,parentRevision:1,contentHash:hash('c'),priorContentHash:revisionOne.contentHash})));
-    await assertFails(setDoc(pairRefA,pairEnvelope('acct_a',rivalryTwo,'playerOne','nik',ids.a,now,Timestamp.fromMillis(nowMs+2000),{revision:2,parentRevision:1,contentHash:hash('d'),priorContentHash:revisionOne.contentHash})));
+    await assertFails(setDoc(pairRefA,pairEnvelope('acct_a',rivalryOne,'playerTwo','nik',ids.a,now,Timestamp.fromMillis(nowMs+2000),{revision:2,parentRevision:1,contentHash:hash('c'),priorContentHash:revisionOne.contentHash})));
+    await assertFails(setDoc(pairRefA,pairEnvelope('acct_a',rivalryOne,'playerOne','nik',ids.a,now,Timestamp.fromMillis(nowMs+2000),{revision:2,parentRevision:1,contentHash:hash('f'),priorContentHash:revisionOne.contentHash})));
+    await assertFails(setDoc(pairRefA,pairEnvelope('acct_a',rivalryTwo,'playerOne','daniel',ids.a,now,Timestamp.fromMillis(nowMs+2000),{revision:2,parentRevision:1,contentHash:hash('d'),priorContentHash:revisionOne.contentHash})));
 
     const pairRefD=doc(dbD,'accounts','acct_d','pairLinks','current');
     await assertSucceeds(setDoc(pairRefD,pairEnvelope('acct_d',pendingOld,'playerOne','nik',ids.d,now,now)));
+    assert.equal((await getDoc(pairRefD)).data().data.managerId,'nik','A recovered legacy rivalry may preserve Nik in the historical playerOne provider slot.');
     const beforeD=(await getDoc(pairRefD)).data();
     const replacement=pairEnvelope('acct_d',pendingNew,'playerOne','nik',ids.d,now,later,{revision:1,parentRevision:0,contentHash:hash('e'),priorContentHash:beforeD.contentHash});
     await assertFails(setDoc(pairRefD,replacement));
@@ -87,7 +88,7 @@ function pairEnvelope(uid,id,role,managerId,device,linkedAt,lastConfirmedAt,{rev
     });
     await assertSucceeds(setDoc(pairRefD,replacement));
 
-    process.stdout.write('PASS persistent Nik/Daniel pair Rules emulator: private account get, no list/delete, registered-device writes, exact manager mapping, rivalry membership and replacement safety.\n');
+    process.stdout.write('PASS persistent pair Rules emulator: Daniel=Player One and Nik=Player Two for new play, legacy named-slot recovery, private account get, no list/delete, registered-device writes, rivalry membership and replacement safety.\n');
   }finally{
     try{await testEnv.clearFirestore();}catch(_error){}
     await testEnv.cleanup();
