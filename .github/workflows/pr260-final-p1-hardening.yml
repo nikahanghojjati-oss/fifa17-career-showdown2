@@ -1,8 +1,10 @@
 name: PR260 final P1 hardening
 on:
   push:
-    branches: [feat/persistent-nik-daniel-pair]
-    paths: [.github/workflows/pr260-final-p1-hardening.yml]
+    branches:
+      - feat/persistent-nik-daniel-pair
+    paths:
+      - .github/workflows/pr260-final-p1-hardening.yml
 permissions:
   contents: write
 jobs:
@@ -22,134 +24,13 @@ jobs:
         with:
           distribution: temurin
           java-version: '21'
-      - name: Apply provider-atomic creator witness and installed-shell cache fix
+      - name: Apply guarded patch
+        run: python scripts/pr260-final-p1-hardening.py
+      - name: Run targeted contracts
         shell: bash
         run: |
           set -euo pipefail
           npm ci
-          python - <<'PY'
-          from pathlib import Path
-
-          def replace_once(path, old, new, label):
-              p=Path(path); s=p.read_text(); n=s.count(old)
-              if n!=1: raise SystemExit(f'{label}: expected one match, found {n}')
-              p.write_text(s.replace(old,new,1))
-
-          def splice(path, start, end, replacement, label):
-              p=Path(path); s=p.read_text(); a=s.find(start); b=s.find(end,a+len(start))
-              if a<0 or b<0 or s.find(start,a+1)>=0: raise SystemExit(f'{label}: splice anchors invalid')
-              p.write_text(s[:a]+replacement+s[b:])
-
-          # Installed applications must cache the new lazy persistent-pair runtime.
-          replace_once('service-worker.js','    "js/onlinePlayerIdentity.js",\n','    "js/onlinePlayerIdentity.js",\n    "js/persistentNikDanielPair.js",\n','service-worker persistent pair shell path')
-
-          # Generic provider create supports a same-transaction durable witness, mirroring redemption.
-          create_fn='''  async function createPairing(options={}){
-    try{
-      validateFirestoreInputs(options);
-      const accountId=normalizeAccountId(options.user);
-      const identity=options.identity;
-      if(!validDeviceIdentity(identity))throw errorWithCode("PRIVATE_DEVICE_IDENTITY_UNAVAILABLE","A stable registered device is required.");
-      const binding=normalizeLocalBinding(options.binding);
-      const durableWitness=options.durableWitness;
-      if(durableWitness!==undefined&&durableWitness!==null&&typeof durableWitness!=="function")throw errorWithCode("PAIRING_DURABLE_WITNESS_INVALID","A valid durable pairing witness is required.");
-      const ttlMs=options.ttlMs===undefined?PAIRING_TTL_MS:Number(options.ttlMs);
-      if(!Number.isFinite(ttlMs)||ttlMs<=0||ttlMs>MAX_PAIRING_TTL_MS)throw errorWithCode("PAIRING_TTL_INVALID","Private pairing expiry must be within 30 minutes.");
-      const capability=normalizeCapability(options.capability||randomId("pair_",PAIRING_CAPABILITY_BYTES,options.cryptoImpl||root.crypto));
-      const sdk=options.firebaseSdk;
-      const nowEpochMs=options.nowEpochMs===undefined?Date.now():Number(options.nowEpochMs);
-      const createdAt=sdk.Timestamp.fromMillis(nowEpochMs);
-      const expiresAt=sdk.Timestamp.fromMillis(nowEpochMs+ttlMs);
-      const deviceReference=sdk.doc(options.firestore,"accounts",accountId,"devices",identity.deviceId);
-      const rivalryReference=sdk.doc(options.firestore,"rivalries",capability);
-      const inviteReference=sdk.doc(options.firestore,"rivalries",capability,"invites",capability);
-      const {managerSlots,invitedRole}=buildManagerSlots(accountId,binding);
-      const durableWitnessResult=await sdk.runTransaction(options.firestore,async transaction=>{
-        const deviceSnapshot=await transaction.get(deviceReference);
-        assertActiveDeviceSnapshot(deviceSnapshot,identity.deviceId);
-        const rivalryData={connectionState:"pending-pair",connectionStateBeforeDeletion:null,managerSlots,authorizedAccountIds:[accountId],createdByAccountId:accountId,createdAt};
-        const inviteData={purpose:"rivalry-pairing",slotId:invitedRole,createdByAccountId:accountId,createdAt,expiresAt,state:"open",redeemedByAccountId:null,redeemedAt:null,revokedAt:null};
-        const rivalryEnvelope=await buildEnvelope({objectType:"rivalry",objectId:capability,revision:0,parentRevision:null,priorContentHash:null,updatedAt:createdAt,updatedByAccountId:accountId,updatedByDeviceId:identity.deviceId,data:rivalryData,cryptoImpl:options.cryptoImpl||root.crypto});
-        const inviteEnvelope=await buildEnvelope({objectType:"invite",objectId:capability,revision:0,parentRevision:null,priorContentHash:null,updatedAt:createdAt,updatedByAccountId:accountId,updatedByDeviceId:identity.deviceId,data:inviteData,cryptoImpl:options.cryptoImpl||root.crypto});
-        let witness=null;
-        if(durableWitness){
-          witness=await durableWitness({transaction,binding,capability,accountId,deviceId:identity.deviceId,now:createdAt,nowEpochMs});
-          if(!witness||witness.ok!==true)throw errorWithCode("PAIRING_DURABLE_WITNESS_FAILED","The durable creator pairing witness could not be committed.");
-        }
-        transaction.set(rivalryReference,rivalryEnvelope);
-        transaction.set(inviteReference,inviteEnvelope);
-        return witness;
-      });
-      return {ok:true,rivalryId:capability,inviteId:capability,capability,slotId:invitedRole,expiresAtEpochMs:nowEpochMs+ttlMs,creatorBinding:binding,durableWitness:durableWitnessResult};
-    }catch(error){return asResultError(error,"PAIRING_CREATE_FAILED");}
-  }
-
-'''
-          splice('js/sparkPrivatePairing.js','  async function createPairing(options={}){','  function assertPairingDocuments',create_fn,'spark createPairing')
-
-          # One helper now owns both creator-pending and joiner-active atomic pair witnesses.
-          witness_block='''function pairTimestampMillis(value){if(value&&typeof value.toMillis==="function")return value.toMillis();if(value instanceof Date)return value.getTime();return Number.NaN;}
-function pairCreateDurablePairWitness(context,role,manager,expectedRivalryId,connectionState){const sdk=context.services.firestoreSdk,normalizedRole=pairNormalizeManagerRole(role),expected=expectedRivalryId?pairNormalizeRivalryId(expectedRivalryId):null;return async({transaction,binding,capability,now,nowEpochMs})=>{const normalizedRivalryId=pairNormalizeRivalryId(capability);if(expected&&normalizedRivalryId!==expected)throw pairErrorWithCode("PERSISTENT_PAIR_RIVALRY_INVALID","The Showdown connection changed during provider mutation.");if(!binding||binding.managerRole!==normalizedRole||!pairValidSaveId(binding.saveId)||!pairValidProfileId(binding.profileId))throw pairErrorWithCode("PERSISTENT_PAIR_BINDING_INVALID","The local career identity is invalid.");const pairRef=pairLinkReference(context),pairSnapshot=await transaction.get(pairRef);let revision=0,parentRevision=null,priorContentHash=null,linkedAt=now;if(pairSnapshot.exists()){const existing=pairParsePairLink(pairSnapshot.data(),context.accountId);if(existing.managerRole!==normalizedRole||existing.managerId!==manager.id)throw pairErrorWithCode("PERSISTENT_PAIR_IDENTITY_MISMATCH","This account has invalid player data. Forget this device and start again.");if(existing.rivalryId!==normalizedRivalryId){const oldSnapshot=await transaction.get(pairRivalryReference(context,existing.rivalryId));if(!oldSnapshot.exists()||!pairIsEnvelopeValue(oldSnapshot.data(),"rivalry",existing.rivalryId))throw pairErrorWithCode("PERSISTENT_PAIR_ACTIVE_CONFLICT","The current Showdown authority cannot be replaced safely.");const oldState=oldSnapshot.data().data?.connectionState;if(oldState==="active")throw pairErrorWithCode("PERSISTENT_PAIR_ACTIVE_CONFLICT","This account already has an active Showdown.");if(oldState==="pending-pair"){const oldInviteRef=sdk.doc(context.services.firestore,"rivalries",existing.rivalryId,"invites",existing.rivalryId),oldInviteSnapshot=await transaction.get(oldInviteRef),oldInvite=oldInviteSnapshot.exists()?oldInviteSnapshot.data():null,expiresAt=pairTimestampMillis(oldInvite?.data?.expiresAt),stillOpen=pairIsEnvelopeValue(oldInvite,"invite",existing.rivalryId)&&oldInvite.data?.state==="open"&&Number.isFinite(expiresAt)&&expiresAt>nowEpochMs;if(stillOpen)throw pairErrorWithCode("PERSISTENT_PAIR_PENDING_CONFLICT","This account already has a connection code waiting for the other player.");}else if(oldState!=="closed")throw pairErrorWithCode("PERSISTENT_PAIR_ACTIVE_CONFLICT","The current Showdown authority cannot be replaced safely.");}revision=existing.revision+1;parentRevision=existing.revision;priorContentHash=existing.contentHash;linkedAt=existing.linkedAt||now;}const data={rivalryId:normalizedRivalryId,managerRole:normalizedRole,managerId:manager.id,linkedAt,lastConfirmedAt:now},envelope=await pairBuildEnvelope({revision,parentRevision,priorContentHash,updatedAt:now,updatedByAccountId:context.accountId,updatedByDeviceId:context.deviceId,data});transaction.set(pairRef,envelope);return{ok:true,rivalryId:normalizedRivalryId,managerRole:normalizedRole,managerId:manager.id,managerLabel:manager.label,connectionState,providerSaveId:binding.saveId,providerProfileId:binding.profileId,revision:envelope.revision};};}
-function pairCreateDurableCreationWitness(context,role,manager){return pairCreateDurablePairWitness(context,role,manager,null,"pending-pair");}
-function pairCreateDurableRedemptionWitness(context,role,manager,rivalryId){return pairCreateDurablePairWitness(context,role,manager,rivalryId,"active");}
-
-'''
-          splice('js/persistentNikDanielPair.js','function pairTimestampMillis(value){','  async function pairInitialize',witness_block,'persistent pair witness helpers')
-
-          start_fn='''  async function pairStartPairing(options={}){if(state.busy)return state;const active=pairAlreadyActiveState();if(active)return active;pairSetState({status:"starting",busy:true,message:"Preparing your Showdown…"});try{const context=await pairResolveContext(),role=pairNormalizeManagerRole(options.managerRole||pairSelectedRole()),manager=pairRequireCurrentIdentity(role),binding=await pairEnsurePreparedBinding(context,role),durableWitness=pairCreateDurableCreationWitness(context,role,manager);const result=await context.pairing.createPairing({user:context.user,firestore:context.services.firestore,firebaseSdk:context.services.firestoreSdk,identity:await context.pairing.getOrCreateDeviceIdentity({indexedDBImpl:root.indexedDB,cryptoImpl:root.crypto}),binding,cryptoImpl:root.crypto,durableWitness});if(!result?.ok)throw pairErrorWithCode(result?.code||"PERSISTENT_PAIR_CREATE_FAILED",result?.message||"The connection code could not be created.");const link=result.durableWitness;if(!link?.ok||link.rivalryId!==result.rivalryId)throw pairErrorWithCode("PERSISTENT_PAIR_RECOVERY_FAILED","The connection code could not be bound to durable account authority.");const other=role==="playerOne"?"Nik":"Daniel";return pairSetState({status:"waiting",initialized:true,busy:false,accountId:context.accountId,deviceId:context.deviceId,managerRole:role,managerId:manager.id,rivalryId:link.rivalryId,connectionState:"pending-pair",providerSaveId:link.providerSaveId,providerProfileId:link.providerProfileId,capability:result.capability,message:`Send this code to ${other}. It is needed only once.`});}catch(error){return pairSetState({status:error?.code?.includes("SHARED_SHELL")?"save-required":"error",busy:false,message:error?.message||"The Showdown could not be started."});}}
-'''
-          splice('js/persistentNikDanielPair.js','  async function pairStartPairing(options={}){','  async function pairJoinPairing',start_fn,'persistent pair start')
-
-          # Generated production Rules require the creator's current-pair witness too.
-          rules=Path('firestore.persistent-pair-production.fragment.rules')
-          rs=rules.read_text()
-          anchor='''    function cmsPersistentPairRedemptionWitnessValid(rivalryId, role) {\n'''
-          creation='''    function cmsPersistentPairCreationWitnessValid(rivalryId) {
-      let pair = getAfter(/databases/$(database)/documents/accounts/$(request.auth.uid)/pairLinks/current);
-      let pairData = pair.data.data;
-      return pair.data.objectType == 'pairLink'
-        && pair.data.objectId == 'current'
-        && pair.data.lifecycleState == 'live'
-        && pair.data.updatedByAccountId == request.auth.uid
-        && activeDevice(pair.data.updatedByDeviceId)
-        && pairData.rivalryId == rivalryId
-        && cmsPersistentPairManagerValid(pairData.managerRole, pairData.managerId)
-        && cmsPersistentPairRivalryMembership(request.auth.uid, rivalryId, pairData.managerRole);
-    }
-
-'''
-          if rs.count(anchor)!=1: raise SystemExit('creation witness rules anchor drifted')
-          rules.write_text(rs.replace(anchor,creation+anchor,1))
-
-          inj=Path('scripts/inject-persistent-pair-rules.mjs'); s=inj.read_text()
-          old="""  generated=replaceOnce(generated,'        && validRivalryData(after.data)\\n        && before.data.connectionState == \"pending-pair\"','        && validRivalryData(after.data)\\n        && cmsPersistentPairRedemptionWitnessValid(rivalryId, inviteBefore.data.slotId)\\n        && before.data.connectionState == \"pending-pair\"','persistent pair redemption witness');"""
-          new="""  generated=replaceOnce(generated,'        && validRivalryData(data)\\n        && data.connectionState == \"pending-pair\"','        && validRivalryData(data)\\n        && cmsPersistentPairCreationWitnessValid(rivalryId)\\n        && data.connectionState == \"pending-pair\"','persistent pair creation witness');
-  generated=replaceOnce(generated,'        && validRivalryData(after.data)\\n        && before.data.connectionState == \"pending-pair\"','        && validRivalryData(after.data)\\n        && cmsPersistentPairRedemptionWitnessValid(rivalryId, inviteBefore.data.slotId)\\n        && before.data.connectionState == \"pending-pair\"','persistent pair redemption witness');"""
-          if s.count(old)!=1: raise SystemExit('injector redemption seam drifted')
-          s=s.replace(old,new,1)
-          s=s.replace("    'function cmsPersistentPairRedemptionWitnessValid(rivalryId, role)',","    'function cmsPersistentPairCreationWitnessValid(rivalryId)',\n    'cmsPersistentPairCreationWitnessValid(rivalryId)',\n    'function cmsPersistentPairRedemptionWitnessValid(rivalryId, role)',",1)
-          inj.write_text(s)
-
-          # Deployment publication explicitly refuses generated Rules missing either witness.
-          replace_once('.github/workflows/deploy-firestore-rules-zero-billing.yml','          grep -Fq "match /accounts/{accountId}/pairLinks/{pairId}" "${FIREBASE_RULES_FILE}"\n','          grep -Fq "match /accounts/{accountId}/pairLinks/{pairId}" "${FIREBASE_RULES_FILE}"\n          grep -Fq "cmsPersistentPairCreationWitnessValid(rivalryId)" "${FIREBASE_RULES_FILE}"\n          grep -Fq "cmsPersistentPairRedemptionWitnessValid(rivalryId, inviteBefore.data.slotId)" "${FIREBASE_RULES_FILE}"\n','deploy witness greps')
-
-          # Contract now locks both atomic creation and installed-shell delivery.
-          c=Path('tests/contracts/persistent-nik-daniel-pair-contracts.cjs'); s=c.read_text()
-          s=s.replace("const optionalSource=read('js/optionalModules.js');","const optionalSource=read('js/optionalModules.js');\nconst workerSource=read('service-worker.js');",1)
-          anchor="assert.match(privatePairingSource,/durableWitness=options\\.durableWitness/,'Private pairing redemption must accept a bounded durable witness inside the same provider transaction.');"
-          replacement="""assert.match(privatePairingSource,/const durableWitness=options\\.durableWitness/,'Private pairing creation and redemption must accept a bounded durable witness inside the provider transaction.');
-assert.match(privatePairingSource,/async function createPairing[\\s\\S]*await durableWitness\\(\\{transaction[\\s\\S]*transaction\\.set\\(rivalryReference/,'Creator durable authority must execute before rivalry/invite creation commits.');
-assert.match(privatePairingSource,/await durableWitness\\(\\{transaction/,'Durable pair authority must execute before provider pairing writes commit.');"""
-          if s.count(anchor)!=1: raise SystemExit('contract durable witness anchor drifted')
-          s=s.replace(anchor,replacement,1)
-          s=s.replace("assert.match(pairSource,/pairCreateDurableRedemptionWitness/,'Persistent pairing must create the account pair witness inside redemption authority.');","assert.match(pairSource,/pairCreateDurableCreationWitness/,'Persistent pairing must create the creator account witness inside create authority.');\nassert.match(pairSource,/pairCreateDurableRedemptionWitness/,'Persistent pairing must create the joiner account witness inside redemption authority.');\nconst startFunction=pairSource.slice(pairSource.indexOf('async function pairStartPairing'),pairSource.indexOf('async function pairJoinPairing'));\nassert.match(startFunction,/durableWitness/);\nassert.doesNotMatch(startFunction,/pairPersistPairLinkWithRetry/,'Successful code creation must not depend on a later pair-link write.');",1)
-          s=s.replace("assert.match(rulesFragment,/cmsPersistentPairRedemptionWitnessValid/,'Provider Rules must bind every rivalry redemption to the account current-pair witness.');","assert.match(rulesFragment,/cmsPersistentPairCreationWitnessValid/,'Provider Rules must bind every rivalry creation to the creator account current-pair witness.');\nassert.match(rulesFragment,/cmsPersistentPairRedemptionWitnessValid/,'Provider Rules must bind every rivalry redemption to the joiner account current-pair witness.');",1)
-          s=s.replace("assert.match(injector,/cmsPersistentPairRedemptionWitnessValid\\(rivalryId, inviteBefore\\.data\\.slotId\\)/,'Production Rules injection must make the pair witness mandatory for validRivalryRedeem.');","assert.match(injector,/cmsPersistentPairCreationWitnessValid\\(rivalryId\\)/,'Production Rules injection must make the creator pair witness mandatory for initial rivalry creation.');\nassert.match(injector,/cmsPersistentPairRedemptionWitnessValid\\(rivalryId, inviteBefore\\.data\\.slotId\\)/,'Production Rules injection must make the joiner pair witness mandatory for validRivalryRedeem.');",1)
-          s=s.replace("assert.match(generated,/cmsPersistentPairRedemptionWitnessValid\\(rivalryId, inviteBefore\\.data\\.slotId\\)/,'Generated production Rules must reject redemption without the exact account current-pair witness.');","assert.match(generated,/cmsPersistentPairCreationWitnessValid\\(rivalryId\\)/,'Generated production Rules must reject creation without the exact creator account current-pair witness.');\nassert.match(generated,/cmsPersistentPairRedemptionWitnessValid\\(rivalryId, inviteBefore\\.data\\.slotId\\)/,'Generated production Rules must reject redemption without the exact joiner account current-pair witness.');",1)
-          s=s.replace("assert.doesNotMatch(appSource,/persistentNikDanielPair|persistent-nik-daniel-pair/,'Persistent pair must stay behind the lazy identity boundary and out of the initial app bundle.');","assert.doesNotMatch(appSource,/persistentNikDanielPair|persistent-nik-daniel-pair/,'Persistent pair must stay behind the lazy identity boundary and out of the initial app bundle.');\nassert.match(workerSource,/\"js\\/persistentNikDanielPair\\.js\"/,'Installed application shell must cache the lazy persistent-pair runtime.');",1)
-          c.write_text(s)
-          PY
-
           node --check js/sparkPrivatePairing.js
           node --check js/persistentNikDanielPair.js
           node --check service-worker.js
@@ -162,16 +43,22 @@ assert.match(privatePairingSource,/await durableWitness\\(\\{transaction/,'Durab
           node tests/contracts/shared-showdown-production-runtime-contracts.cjs
           node tests/contracts/static-app-release-contracts.cjs
           node tests/contracts/final-polish-presentation.cjs
-
-          npm install --no-save --package-lock=false firebase@12.17.1 @firebase/rules-unit-testing@5.0.1 firebase-admin@14.2.0
+      - name: Run generated Rules emulator proof
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm install --no-save --package-lock=false firebase@12.7.0 @firebase/rules-unit-testing@5.0.0 firebase-admin@13.4.0
           node scripts/build-production-firestore-rules-with-persistent-pair.mjs
-          npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-career-mode-showdown-persistent-pair-final "node tests/firebase/persistent-nik-daniel-pair-provider-emulator.cjs"
-
+          npx --yes firebase-tools@14.16.0 emulators:exec --only firestore --project demo-career-mode-showdown-persistent-pair-final "node tests/firebase/persistent-nik-daniel-pair-provider-emulator.cjs"
+      - name: Commit clean hardening result
+        shell: bash
+        run: |
+          set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git rm .github/workflows/pr260-final-p1-hardening.yml
-          git add service-worker.js js/sparkPrivatePairing.js js/persistentNikDanielPair.js firestore.persistent-pair-production.fragment.rules scripts/inject-persistent-pair-rules.mjs .github/workflows/deploy-firestore-rules-zero-billing.yml tests/contracts/persistent-nik-daniel-pair-contracts.cjs
+          git rm .github/workflows/pr260-final-p1-hardening.yml scripts/pr260-final-p1-hardening.py
           git checkout -- package-lock.json firestore.spark.generated.rules 2>/dev/null || true
+          git add service-worker.js js/sparkPrivatePairing.js js/persistentNikDanielPair.js firestore.persistent-pair-production.fragment.rules scripts/inject-persistent-pair-rules.mjs .github/workflows/deploy-firestore-rules-zero-billing.yml tests/contracts/persistent-nik-daniel-pair-contracts.cjs tests/firebase/persistent-nik-daniel-pair-provider-emulator.cjs
           git diff --cached --check
           git commit -m "fix(pr260): atomically bind creator pair authority"
           git push origin HEAD:feat/persistent-nik-daniel-pair
