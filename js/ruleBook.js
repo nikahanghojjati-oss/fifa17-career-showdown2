@@ -26,7 +26,7 @@ function createRuleBookScreen(){
     intro.innerHTML = `
         <span>CAREER MODE SHOWDOWN</span>
         <strong>THE LOCKED COMPETITION RULES</strong>
-        <p>Two managers. One league. Permanent clubs. Every season becomes part of the rivalry.</p>
+        <p>Nik and Daniel. One league. Permanent clubs. Every season becomes part of the shared online rivalry.</p>
     `;
 
     const grid = document.createElement("div");
@@ -34,8 +34,8 @@ function createRuleBookScreen(){
 
     grid.append(
         createRuleSection("01", "SHOWDOWN FORMAT", [
-            "Version 1.0 is a two-player competition on one device.",
-            "Each manager plays a separate FIFA 17 Career Mode save.",
+            "Career Mode Showdown is a two-player online rivalry for Nik and Daniel.",
+            "Each manager plays a separate FIFA 17 Career Mode save while the Showdown state is shared online.",
             "Both managers compete in the same selected league.",
             "The assigned clubs remain fixed for the entire showdown, across every season.",
             "A showdown may contain 1, 3, 5, or 10 seasons."
@@ -60,10 +60,12 @@ function createRuleBookScreen(){
             "If both managers finish in the same league position, the manager with more league points wins.",
             "No goal-difference, goals-scored, or head-to-head tiebreak is used."
         ]),
-        createRuleSection("06", "VERSION 1.0 SCOPE", [
-            "Progress is stored locally in the browser on the current device.",
-            "There is no account system, cloud save, or online multiplayer in Version 1.0.",
-            "QR joining and multi-device real-time play are future ideas and are not part of the current build.",
+        createRuleSection("06", "ONLINE PLAY & DEVICES", [
+            "Every normal Showdown is shared online between Nik and Daniel; there is no separate local-only gameplay mode.",
+            "Google sign-in and a registered browser or device provide the private connection. A device can be forgotten and registered again when needed.",
+            "Browser storage may still be used internally for safe caching, recovery and rollback, but it is not a separate user-facing Showdown mode.",
+            "Pairing, reconciliation and recovery details stay behind the normal gameplay flow unless a recovery action is genuinely required.",
+            "The online service uses the Firebase Spark free tier; billing remains off.",
             "Results are entered manually from FIFA 17; screenshots and match notes are not required."
         ])
     );

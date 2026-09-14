@@ -12,6 +12,11 @@ async function prepare(page,{managerRole,remoteRole,initialSetup,reducedMotion=t
   await page.goto(baseUrl.href,{waitUntil:"domcontentloaded"});
   await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:12000});
   await page.waitForFunction(()=>typeof window.ensureGameplayModules==="function"&&typeof window.loadRuntimeScript==="function",null,{timeout:12000});
+  // This proof owns the already-authorized Shared Showdown presentation subsystem, not the new
+  // normal-play sign-in gate. Let online identity finish booting, then remove only its visual
+  // gate so the fixture below can exercise the presentation contract in isolation.
+  await page.waitForFunction(()=>window.CareerModeOnlinePlayerIdentity&&window.CareerModeOnlinePlayerIdentity.getState().initialized===true,null,{timeout:12000}).catch(()=>{});
+  await page.evaluate(()=>document.getElementById("onlinePlayerIdentityOverlay")?.remove());
   await page.evaluate(async({managerRole,remoteRole,initialSetup,reducedMotion})=>{
     sessionStorage.setItem("careerModeShowdown.sharedJourneyPending.v1","1");
     window.CareerModeProductionSharedJourneyEntry={isPending:()=>true};

@@ -67,7 +67,12 @@ const rawSeed={
 
     await page.goto(baseUrl.href,{waitUntil:"domcontentloaded"});
     await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:15000});
-    await page.locator("#settingsButton").click();
+    await page.waitForFunction(()=>window.CareerModeOnlinePlayerIdentity?.getState?.().status==="choose-manager",null,{timeout:15000});
+    await page.evaluate(()=>window.CareerModeOnlinePlayerIdentity.chooseManager("daniel"));
+    await page.waitForFunction(()=>window.CareerModeOnlinePlayerIdentity?.getState?.().status==="ready",null,{timeout:15000});
+    // This is an internal Candidate B/C recovery proof. Open Settings programmatically so the
+    // ordinary online-player gate remains intact while the audit reaches its hidden machinery.
+    await page.evaluate(()=>document.getElementById("settingsButton").click());
     await page.locator("#settingsOverlay").waitFor({state:"visible",timeout:15000});
     await page.waitForFunction(()=>window.CareerModeSaveLibraryRuntime&&window.CareerModeSaveLibraryRuntime.isReady()===true,null,{timeout:15000});
     await page.waitForFunction(()=>window.CareerModeProductionFirebaseRuntime,null,{timeout:15000});
@@ -131,6 +136,8 @@ const rawSeed={
     await page.evaluate(async()=>{
       await window.CareerModeSparkConnectedRivalry.initialize();
       await window.CareerModeSparkConnectedRivalry.mountWhenSettingsReady();
+      const internalPanel=document.getElementById("sparkConnectedRivalryPanel");
+      if(internalPanel)internalPanel.hidden=false;
     });
     const panel=page.locator("#sparkConnectedRivalryPanel");
     await panel.waitFor({state:"visible",timeout:15000});

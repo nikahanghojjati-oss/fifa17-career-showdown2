@@ -25,12 +25,19 @@ const baseUrl=new URL(process.env.CMS_BASE_URL||"http://127.0.0.1:4173/");
     await page.locator("#settingsButton").click();
     await page.locator("#settingsOverlay").waitFor({state:"visible",timeout:12000});
     await page.locator("#saveLibraryProductPanel").waitFor({state:"visible",timeout:12000});
-    await page.locator("#sparkConnectedAccountPanel").waitFor({state:"visible",timeout:12000});
+    const onlinePanel=page.locator("#onlinePlayerIdentitySettingsPanel");
+    await onlinePanel.waitFor({state:"visible",timeout:12000});
+    const internalPanel=page.locator("#sparkConnectedAccountPanel");
+    await internalPanel.waitFor({state:"attached",timeout:12000});
 
-    assert.match(await page.locator("#sparkConnectedAccountPanel").innerText(),/CONNECTED ACCOUNT/);
-    assert.equal(await page.locator("#sparkConnectedAccountPanel .settingsConnectedAccountButton").count(),1);
+    assert.match(await onlinePanel.innerText(),/ONLINE ACCOUNT/);
+    assert.match(await onlinePanel.innerText(),/NIK & DANIEL/);
+    assert.match(await onlinePanel.innerText(),/ACCOUNT, PAIRING AND RECONCILIATION MACHINERY RUNS IN THE BACKGROUND/i);
+    assert.equal(await internalPanel.isHidden(),true,"The engineering Connected Account panel must stay out of ordinary Settings.");
+    assert.match(await internalPanel.innerText(),/CONNECTED ACCOUNT/,"The late Firebase bridge must still mount its retained backend panel.");
+    assert.equal(await internalPanel.locator(".settingsConnectedAccountButton").count(),1);
     assert.deepEqual(pageErrors,[],"Connected Account Settings regression audit emitted page errors.");
-    process.stdout.write(`PASS Connected Account Settings survives late Firebase runtime installation at ${baseUrl.href}\n`);
+    process.stdout.write(`PASS Account & Devices survives late Firebase runtime installation while engineering account UI stays hidden at ${baseUrl.href}\n`);
   }finally{
     await context.close();
     await browser.close();

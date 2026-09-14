@@ -6,16 +6,31 @@ const baseUrl=new URL(process.env.CMS_BASE_URL||'http://127.0.0.1:4173/');
 const libraryKey='careerModeShowdown.saveLibrary';
 
 async function createLocalShowdown(page){
-  await page.locator('#newShowdown').click();
-  await page.locator('#createShowdown').waitFor({state:'visible',timeout:10000});
-  await page.locator('#showdownName').fill('Offline Editor Regression');
-  await page.locator('#managerOne').fill('Manager One');
-  await page.locator('#managerTwo').fill('Manager Two');
-  await page.locator('#roundAmount').selectOption('3');
-  await page.locator('#startShowdown').click();
-  await page.locator('#leagueWheelScreen').waitFor({state:'visible',timeout:12000});
-  await page.evaluate(()=>window.showScreen('mainMenu',false,{manageFocus:false}));
-  await page.locator('#mainMenu').waitFor({state:'visible',timeout:5000});
+  await page.evaluate(async()=>{
+    await loadRuntimeScript('save-library-cutover','js/saveLibraryCutover.js',()=>typeof window.ensureSaveLibraryRuntimeAuthority==='function');
+    await ensureSaveLibraryRuntimeAuthority();
+    const now=new Date().toISOString();
+    const created=await CareerModeSaveLibraryRuntime.createShowdown({
+      schemaVersion:2,
+      integrityWarnings:[],
+      id:'offline-editor-regression',
+      name:'Offline Editor Regression',
+      managers:{playerOne:'Manager One',playerTwo:'Manager Two'},
+      totalRounds:3,
+      currentRound:1,
+      status:'Created',
+      selectedLeague:null,
+      clubs:{playerOne:null,playerTwo:null},
+      score:{playerOne:0,playerTwo:0},
+      transferChallenges:[],
+      rounds:[],
+      createdAt:now,
+      updatedAt:now,
+      completedAt:null,
+      archivedAt:null
+    });
+    if(!created?.identity?.saveId)throw new Error('Save Library fixture did not receive stable identity.');
+  });
 }
 
 (async()=>{

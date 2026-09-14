@@ -133,6 +133,33 @@ async function openApplication(page){
     await waitForApplication(page);
 }
 
+async function installAuthorizedOnlineIdentityFixture(page){
+    await page.waitForFunction(() => typeof window.loadRuntimeScript === "function", null, { timeout: 12000 });
+    await page.evaluate(async() => {
+        const existing=window.CareerModeOnlinePlayerIdentity?.getState?.();
+        if(existing?.status==="ready"&&existing.registered===true){
+            document.getElementById("onlinePlayerIdentityOverlay")?.remove();
+            return;
+        }
+        if(!window.CareerModeOnlinePlayerIdentity?.initialize){
+            await window.loadRuntimeScript("stability-online-player-identity","js/onlinePlayerIdentity.js",()=>window.CareerModeOnlinePlayerIdentity);
+        }
+        await window.CareerModeOnlinePlayerIdentity.initialize();
+        window.CareerModeOnlinePlayerIdentity = {
+            getState: () => ({
+                status: "ready",
+                online: true,
+                accountId: "account_stability_fixture",
+                managerId: "nik",
+                managerLabel: "Nik",
+                deviceId: "device_stability_fixture",
+                registered: true
+            })
+        };
+        document.getElementById("onlinePlayerIdentityOverlay")?.remove();
+    });
+}
+
 async function assertStableReleaseIdentity(page, label){
     await page.waitForTimeout(5000);
     const footer = normalizeText(await page.locator("#app > footer").innerText());
@@ -142,8 +169,8 @@ async function assertStableReleaseIdentity(page, label){
         label: button.querySelector(".menuTileLabel")?.textContent?.trim() || "",
         meta: button.querySelector(".menuTileMeta")?.textContent?.trim() || ""
     }));
-    assert.deepEqual(tile,{code:"LOCAL",label:"SAVE LIBRARY",meta:"Local Showdowns, manager profiles and settings"},`${label} Home local-data identity changed after startup settled.`);
-    checkpoint(`${label} stable release identity`, `v${expectedAppVersion} · Private Remote Joining · Save Library`);
+    assert.deepEqual(tile,{code:"ONLINE",label:"ACCOUNT & DEVICES",meta:"Nik, Daniel, recovery and this device"},`${label} Home online identity changed after startup settled.`);
+    checkpoint(`${label} stable release identity`, `v${expectedAppVersion} · Private Remote Joining · Account & Devices`);
 }
 
 async function activeScreens(page){
@@ -291,14 +318,20 @@ async function fillCanonical(page, selector, value){
 }
 
 async function createShowdownWithRapidActivation(page, prefix){
+    await installAuthorizedOnlineIdentityFixture(page);
     await page.locator("#newShowdown").click();
     await waitForScreen(page, "createShowdown");
     await assertRouteFocus(page, "createShowdown");
     await runAxe(page, `${prefix} Create Showdown`);
 
-    await page.locator("#showdownName").fill(`${prefix} Stability Audit`);
-    await page.locator("#managerOne").fill(`${prefix} One`);
-    await page.locator("#managerTwo").fill(`${prefix} Two`);
+    assert.deepEqual(await page.evaluate(() => ["showdownName","managerOne","managerTwo"].map(id => {
+        const input=document.getElementById(id);
+        return {id,value:input.value,hidden:input.hidden,ariaHidden:input.getAttribute("aria-hidden")};
+    })),[
+        {id:"showdownName",value:"Nik vs Daniel",hidden:true,ariaHidden:"true"},
+        {id:"managerOne",value:"Nik",hidden:true,ariaHidden:"true"},
+        {id:"managerTwo",value:"Daniel",hidden:true,ariaHidden:"true"}
+    ],"Online-only setup must retain fixed Nik/Daniel values without exposing retired text entry.");
     await page.locator("#roundAmount").selectOption("1");
 
     await page.evaluate(({ singletonKey, libraryKey }) => {
@@ -589,6 +622,7 @@ async function runProductScenario(browser, config){
 
     try{
         await openApplication(page);
+        await installAuthorizedOnlineIdentityFixture(page);
         await assertStableReleaseIdentity(page, config.prefix);
         assert.equal(normalizeText(await page.locator("#seasonIndicator").textContent()), "No Active Showdown");
         assert.equal(await page.locator("#continueCareer").isEnabled(), false);
@@ -645,6 +679,7 @@ async function runCorruptStorageFixture(browser){
 
     try{
         await openApplication(page);
+        await installAuthorizedOnlineIdentityFixture(page);
         assert.equal(await page.locator("#continueCareer").isEnabled(), false, "Corrupt active data must not enable Continue.");
         assert.equal(await page.evaluate(key => localStorage.getItem(key), activeStorageKey), "{corrupt active");
 
@@ -657,9 +692,6 @@ async function runCorruptStorageFixture(browser){
 
         await page.locator("#newShowdown").click();
         await waitForScreen(page, "createShowdown");
-        await page.locator("#showdownName").fill("Recovery Guard Audit");
-        await page.locator("#managerOne").fill("Recovery One");
-        await page.locator("#managerTwo").fill("Recovery Two");
 
         await page.locator("#startShowdown").click();
         await page.waitForFunction(() => !document.getElementById("startShowdown").disabled);
@@ -682,11 +714,9 @@ async function runQuotaFailureFixture(browser){
 
     try{
         await openApplication(page);
+        await installAuthorizedOnlineIdentityFixture(page);
         await page.locator("#newShowdown").click();
         await waitForScreen(page, "createShowdown");
-        await page.locator("#showdownName").fill("Quota Rollback Audit");
-        await page.locator("#managerOne").fill("Quota One");
-        await page.locator("#managerTwo").fill("Quota Two");
 
         await page.evaluate(key => {
             window.__cmsQuotaOriginalSetItem = Storage.prototype.setItem;
@@ -711,7 +741,7 @@ async function runQuotaFailureFixture(browser){
             document.getElementById("startShowdown").click();
         });
         await waitForScreen(page, "leagueWheelScreen");
-        assert.equal((await readActiveSave(page)).name, "Quota Rollback Audit");
+        assert.equal((await readActiveSave(page)).name, "Nik vs Daniel");
         monitors.assertClean("Quota failure fixture");
         checkpoint("Save Library quota rejection blocks navigation and preserves rollback state");
     }finally{

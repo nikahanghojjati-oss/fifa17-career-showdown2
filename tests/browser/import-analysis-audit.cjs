@@ -24,6 +24,8 @@ async function openDataManagement(page){
     const opened = await page.evaluate(async () => window.openOptionalModule("legacy"));
     assert.equal(opened, true);
     await page.locator("#legacy").waitFor({ state: "visible", timeout: 12000 });
+    // Candidate B/C are recovery/data-integrity subsystem proofs, not normal-play entry proofs.
+    await page.evaluate(() => document.getElementById("onlinePlayerIdentityOverlay")?.remove());
     const candidateB = page.locator("#legacyImportAnalysis");
     await candidateB.waitFor({ state: "visible", timeout: 5000 });
     await page.locator("#careerModeRestorePanel").waitFor({ state: "visible", timeout: 5000 });
