@@ -128,10 +128,12 @@ assert.match(pairSource,/pairCreateDurableCreationWitness/,'Persistent pairing m
 assert.match(pairSource,/pairCreateDurableRedemptionWitness/,'Persistent pairing must create the joiner account witness inside redemption authority.');
 const startFunction=pairSource.slice(pairSource.indexOf('async function pairStartPairing'),pairSource.indexOf('async function pairJoinPairing'));
 assert.match(startFunction,/durableWitness/);
-assert.match(startFunction,/PERSISTENT_PAIR_PENDING_CONFLICT[\s\S]*pairInitialize\(\{force:true\}\)/,'A stale registered browser must re-read the durable pending pair after a provider pending-code conflict instead of rendering an empty waiting state.');
+assert.match(pairSource,/function pairProviderConflictNeedsRefresh\(error\)[\s\S]*PERSISTENT_PAIR_PENDING_CONFLICT[\s\S]*PERSISTENT_PAIR_ACTIVE_CONFLICT/,'Pending and active provider conflicts must share one durable-authority refresh rule.');
+assert.match(startFunction,/pairProviderConflictNeedsRefresh\(error\)[\s\S]*pairInitialize\(\{force:true\}\)/,'A stale registered creator browser must re-read durable provider authority after pending or active conflicts.');
 assert.doesNotMatch(startFunction,/pairPersistPairLinkWithRetry/,'Successful code creation must not depend on a later pair-link write.');
 const joinFunction=pairSource.slice(pairSource.indexOf('async function pairJoinPairing'),pairSource.indexOf('function pairContextualJoinMessage'));
 assert.match(joinFunction,/durableWitness/);
+assert.match(joinFunction,/pairProviderConflictNeedsRefresh\(error\)[\s\S]*pairInitialize\(\{force:true\}\)/,'A stale registered joining browser must re-read durable provider authority after an active-pair conflict.');
 assert.doesNotMatch(joinFunction,/pairPersistPairLinkWithRetry/,'Successful one-use redemption must not depend on a later pair-link write.');
 assert.match(pairSource,/"OPEN RECOVERY"/);
 assert.match(pairSource,/root\.openOptionalModule\("legacy"\)/,'Recovery-required must route through the bounded Legacy/Candidate C loader before locating restore controls.');
