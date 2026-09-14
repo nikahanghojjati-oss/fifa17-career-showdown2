@@ -43,13 +43,12 @@ async function compatibilityIsContained(runtime){
   await context.addInitScript(({key,value})=>{try{localStorage.setItem(key,value);}catch(_error){}},{key:singletonKey,value:singleton});
   const page=await context.newPage(),errors=collectErrors(page);
   try{
-    const before=await page.evaluate(({singletonKey,libraryKey})=>({singleton:localStorage.getItem(singletonKey),library:localStorage.getItem(libraryKey)}),{singletonKey,libraryKey}).catch(()=>null);
     const panel=await openSettingsAndInternalPanel(page,"compatibility");
     const text=await panel.textContent();
     assert.match(text||"",/READY FOR SAFE SAVE LIBRARY ACTIVATION/i,"Compatibility diagnosis must remain available internally.");
     const after=await page.evaluate(({singletonKey,libraryKey})=>({singleton:localStorage.getItem(singletonKey),library:localStorage.getItem(libraryKey)}),{singletonKey,libraryKey});
-    if(before)assert.deepEqual(after,before,"Merely opening Settings must not migrate or mutate pre-release compatibility data.");
-    else assert.equal(after.singleton,singleton,"Compatibility data must remain byte-identical while the internal panel is diagnosed.");
+    assert.equal(after.singleton,singleton,"Compatibility data must remain byte-identical while the internal panel is diagnosed.");
+    assert.equal(after.library,null,"Merely opening Settings must not create Save Library authority from pre-release compatibility data.");
     assert.deepEqual(errors,[],`Compatibility containment emitted errors: ${errors.join(" | ")}`);
     return {mode:"compatibility",hidden:true,storageUnchanged:true};
   }finally{await context.close();await browser.close();}
@@ -88,7 +87,7 @@ async function emptyStateStaysInternal(runtime){
 }
 
 (async()=>{
-  const runtime=resolveChromiumRuntime();
+  const runtime=await resolveChromiumRuntime();
   const evidence=[];
   evidence.push(await compatibilityIsContained(runtime));
   evidence.push(await corruptStateFailsClosed(runtime));
