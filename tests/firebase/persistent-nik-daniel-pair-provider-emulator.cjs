@@ -77,7 +77,13 @@ function pairEnvelope(uid,id,role,managerId,device,linkedAt,lastConfirmedAt,{rev
     const revisionOne=(await getDoc(pairRefA)).data();
     await assertFails(setDoc(pairRefA,pairEnvelope('acct_a',rivalryOne,'playerTwo','nik',ids.a,now,Timestamp.fromMillis(nowMs+2000),{revision:2,parentRevision:1,contentHash:hash('c'),priorContentHash:revisionOne.contentHash})));
     await assertFails(setDoc(pairRefA,pairEnvelope('acct_a',rivalryOne,'playerOne','nik',ids.a,now,Timestamp.fromMillis(nowMs+2000),{revision:2,parentRevision:1,contentHash:hash('f'),priorContentHash:revisionOne.contentHash})));
-    await assertFails(setDoc(pairRefA,pairEnvelope('acct_a',rivalryTwo,'playerOne','daniel',ids.a,now,Timestamp.fromMillis(nowMs+2000),{revision:2,parentRevision:1,contentHash:hash('d'),priorContentHash:revisionOne.contentHash})));
+    const replacementAfterTerminal=pairEnvelope('acct_a',rivalryTwo,'playerOne','daniel',ids.a,now,Timestamp.fromMillis(nowMs+2000),{revision:2,parentRevision:1,contentHash:hash('d'),priorContentHash:revisionOne.contentHash});
+    await assertFails(setDoc(pairRefA,replacementAfterTerminal));
+    await testEnv.withSecurityRulesDisabled(async context=>{
+      await setDoc(doc(context.firestore(),'rivalries',rivalryOne),rivalryEnvelope(rivalryOne,now,managerSlot('playerOne','acct_a','1'),managerSlot('playerTwo','acct_b','2'),'closed'));
+    });
+    await assertSucceeds(setDoc(pairRefA,replacementAfterTerminal));
+    assert.equal((await getDoc(pairRefA)).data().data.rivalryId,rivalryTwo,'closed prior Showdown must allow one canonical fresh pair replacement');
 
     const pairRefD=doc(dbD,'accounts','acct_d','pairLinks','current');
     await assertFails(setDoc(pairRefD,pairEnvelope('acct_d',pendingOld,'playerOne','nik',ids.d,now,now)));
@@ -90,7 +96,7 @@ function pairEnvelope(uid,id,role,managerId,device,linkedAt,lastConfirmedAt,{rev
     });
     await assertSucceeds(setDoc(pairRefD,replacement));
 
-    process.stdout.write('PASS persistent pair Rules emulator: Daniel=Player One and Nik=Player Two are canonical, mismatched roles are rejected, private account get, no list/delete, registered-device writes, rivalry membership and replacement safety are enforced.\n');
+    process.stdout.write('PASS persistent pair Rules emulator: Daniel=Player One and Nik=Player Two are canonical, mismatched roles are rejected, private account get, no list/delete, registered-device writes, active-career replacement denial, terminal closed-career fresh replacement, rivalry membership and expired-pending replacement safety are enforced.\n');
   }finally{
     try{await testEnv.clearFirestore();}catch(_error){}
     await testEnv.cleanup();
