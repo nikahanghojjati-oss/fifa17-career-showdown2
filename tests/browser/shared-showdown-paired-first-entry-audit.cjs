@@ -33,7 +33,15 @@ const SAVE_KEY="careerModeShowdown.saveLibrary";
     // The internal paired-first machinery still receives a ready identity fixture here so the
     // proof exercises its durable shared-shell behavior without exposing a local gameplay bypass.
     await page.evaluate(()=>{
-      window.CareerModeOnlinePlayerIdentity={getState:()=>({status:"ready",managerId:"nik",managerLabel:"Nik"})};
+      window.CareerModeOnlinePlayerIdentity={getState:()=>({
+        status:"ready",
+        online:true,
+        accountId:"account_nik_fixture",
+        managerId:"nik",
+        managerLabel:"Nik",
+        deviceId:"device_nik_fixture",
+        registered:true
+      })};
       document.getElementById("showdownName").value="Nik vs Daniel";
       document.getElementById("managerOne").value="Nik";
       document.getElementById("managerTwo").value="Daniel";
