@@ -51,7 +51,7 @@ A.ok(ruleBook.includes('Daniel is Player One. Nik is Player Two.'));
 A.ok(!ruleBook.includes('for new Showdowns'));
 A.ok(!ruleBook.includes('QR joining and multi-device real-time play are future ideas'));
 A.ok(!ruleBook.includes('no account system, cloud save, or online multiplayer'));
-A.ok(!html.includes('id="remoteJoiningButton"'));
+A.match(html,/id="remoteJoiningButton"[^>]*hidden[^>]*aria-hidden="true"[^>]*tabindex="-1"/i,"Technical connection hook must remain invisible and non-focusable.");
 A.ok(!/LOCAL SAVE SYSTEM|LOCAL SAVE READY|Private Remote Joining|NEW ONLINE SHOWDOWN|ONLINE SHOWDOWN/i.test(html));
 
 process.stdout.write("PASS Stage 5E provider + copy truth: hidden private/zero-billing authority remains intact while the only player-facing product is Daniel as Player One, Nik as Player Two, Start a Showdown, Continue Career and provider-backed Forget Device.\n");
