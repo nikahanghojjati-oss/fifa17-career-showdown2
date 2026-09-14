@@ -35,7 +35,7 @@ function createRuleBookScreen(){
     grid.append(
         createRuleSection("01", "SHOWDOWN FORMAT", [
             "Career Mode Showdown is a two-player rivalry for Daniel and Nik.",
-            "Daniel is Player One and Nik is Player Two for new Showdowns.",
+            "Daniel is Player One. Nik is Player Two.",
             "Both managers compete in the same selected league.",
             "The assigned clubs remain fixed for the entire Showdown, across every season.",
             "A Showdown may contain 1, 3, 5, or 10 seasons."
