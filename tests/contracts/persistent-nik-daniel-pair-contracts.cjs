@@ -6,11 +6,11 @@ const {spawnSync}=require('node:child_process');
 const root=path.resolve(__dirname,'../..');
 const read=file=>fs.readFileSync(path.join(root,file),'utf8');
 const pairSource=read('js/persistentNikDanielPair.js');
-const identityBridge=read('js/onlinePlayerIdentity.js');
-const identityCore=read('js/onlinePlayerIdentityCore.js');
+const identitySource=read('js/onlinePlayerIdentity.js');
+const appSource=read('js/app.js');
 const rulesFragment=read('firestore.persistent-pair-production.fragment.rules');
-const buildWrapper=read('scripts/build-production-firestore-rules.mjs');
-const buildCore=read('scripts/build-production-firestore-rules-core.mjs');
+const sharedJourneyBuilder=read('scripts/build-production-firestore-rules.mjs');
+const pairBuilder=read('scripts/build-production-firestore-rules-with-persistent-pair.mjs');
 const injector=read('scripts/inject-persistent-pair-rules.mjs');
 
 assert.match(pairSource,/feature:"persistent-nik-daniel-pair"/);
@@ -21,10 +21,12 @@ assert.match(pairSource,/"accounts",context\.accountId,"pairLinks",PAIR_DOC_ID/)
 assert.match(pairSource,/context\.pairing\.createPairing\(/);
 assert.match(pairSource,/context\.pairing\.redeemPairing\(/);
 assert.match(pairSource,/connected\.attachRivalry\(/);
-assert.match(pairSource,/migrateExistingConnectedRivalry/);
+assert.match(pairSource,/pairMigrateExistingConnectedRivalry/);
 assert.match(pairSource,/publicDiscovery:false/);
 assert.match(pairSource,/billingRequired:false/);
 assert.match(pairSource,/persistentAcrossRegisteredBrowsers:true/);
+assert.match(pairSource,/state\.connectionState==="pending-pair"&&state\.capability/);
+assert.match(pairSource,/pairCopyText\(state\.capability\)/);
 assert.doesNotMatch(pairSource,/\.collection\(|query\(|getDocs\(|listDocuments/);
 
 const pairApi=require(path.join(root,'js/persistentNikDanielPair.js'));
@@ -35,14 +37,15 @@ assert.equal(pairApi.roleByManager.daniel,'playerTwo');
 assert.equal(pairApi.normalizeRivalryId(`pair_${'a'.repeat(64)}`),`pair_${'a'.repeat(64)}`);
 assert.throws(()=>pairApi.normalizeRivalryId('pair_bad'));
 
-assert.match(identityBridge,/CORE_PATH="js\/onlinePlayerIdentityCore\.js"/);
-assert.match(identityBridge,/PAIR_PATH="js\/persistentNikDanielPair\.js"/);
-assert.match(identityBridge,/pairState\?\.managerId/);
-assert.match(identityBridge,/coreApi\.chooseManager\(pairState\.managerId\)/);
-assert.match(identityBridge,/persistentPairEnabled:true/);
-assert.match(identityCore,/const MANAGERS=Object\.freeze\(\{nik:Object\.freeze\(\{id:"nik",label:"Nik",role:"playerOne"\}\),daniel:Object\.freeze\(\{id:"daniel",label:"Daniel",role:"playerTwo"\}\)\}\)/);
-assert.match(identityCore,/FORGET THIS DEVICE/);
-assert.match(identityCore,/Career Mode Showdown is online-only/);
+assert.match(identitySource,/const MANAGERS=Object\.freeze\(\{nik:Object\.freeze\(\{id:"nik",label:"Nik",role:"playerOne"\}\),daniel:Object\.freeze\(\{id:"daniel",label:"Daniel",role:"playerTwo"\}\)\}\)/);
+assert.match(identitySource,/"WHO ARE YOU\?"/);
+assert.match(identitySource,/"FORGET THIS DEVICE"/);
+assert.match(identitySource,/pairing\.revokeDevice/);
+assert.match(identitySource,/Career Mode Showdown is online-only/);
+assert.match(appSource,/"persistent-nik-daniel-pair","js\/persistentNikDanielPair\.js"/);
+assert.match(appSource,/pair\.initialize\(\{force:true\}\)/);
+assert.match(appSource,/pairState\.managerId!==current\.managerId/);
+assert.match(appSource,/identity\.chooseManager\(pairState\.managerId\)/);
 
 assert.match(rulesFragment,/cmsPersistentPairRivalryMembership/);
 assert.match(rulesFragment,/activeDevice\(root\.updatedByDeviceId\)/);
@@ -54,14 +57,20 @@ assert.match(rulesFragment,/priorInvite\.data\.data\.expiresAt <= request\.time/
 assert.match(rulesFragment,/allow list, delete: if false/);
 assert.doesNotMatch(rulesFragment,/allow list: if true/);
 
-assert.match(buildWrapper,/build-production-firestore-rules-core\.mjs/);
-assert.match(buildWrapper,/injectPersistentPairRules/);
-assert.ok(buildCore.includes('SSJR_SHARED_SETUP_FUNCTIONS_BEGIN'),'Preserved rules core must retain Shared Setup generation.');
-assert.ok(buildCore.includes('ssjrTerminalValidAtomicSessionClose'),'Preserved rules core must retain Terminal Close generation.');
-assert.match(injector,/match \\/accounts\\/\\\{accountId\\\}\\/pairLinks\\/\\\{pairId\\\}/);
+assert.ok(sharedJourneyBuilder.includes('SSJR_SHARED_SETUP_FUNCTIONS_BEGIN'),'Reviewed Shared Journey builder must retain Shared Setup generation.');
+assert.ok(sharedJourneyBuilder.includes('ssjrTerminalValidAtomicSessionClose'),'Reviewed Shared Journey builder must retain Terminal Close generation.');
+assert.doesNotMatch(sharedJourneyBuilder,/injectPersistentPairRules|persistent-pair-production/,'The reviewed Shared Journey builder must remain independent of the persistent-pair stage.');
+assert.match(pairBuilder,/build-production-firestore-rules\.mjs/);
+assert.match(pairBuilder,/injectPersistentPairRules/);
+assert.ok(injector.includes('match /accounts/{accountId}/pairLinks/{pairId}'));
 
-const build=spawnSync(process.execPath,['scripts/build-production-firestore-rules.mjs'],{cwd:root,encoding:'utf8',timeout:30000,maxBuffer:8*1024*1024});
-assert.equal(build.status,0,`production rules build failed: ${build.stderr||build.stdout}`);
+const baseBuild=spawnSync(process.execPath,['scripts/build-production-firestore-rules.mjs'],{cwd:root,encoding:'utf8',timeout:30000,maxBuffer:8*1024*1024});
+assert.equal(baseBuild.status,0,`Shared Journey production rules build failed: ${baseBuild.stderr||baseBuild.stdout}`);
+const sharedOnly=read('firestore.spark.generated.rules');
+assert.equal(sharedOnly.includes('match /accounts/{accountId}/pairLinks/{pairId}'),false,'The existing exact Shared Journey output must remain unchanged before the bounded pair stage.');
+
+const pairBuild=spawnSync(process.execPath,['scripts/build-production-firestore-rules-with-persistent-pair.mjs'],{cwd:root,encoding:'utf8',timeout:30000,maxBuffer:8*1024*1024});
+assert.equal(pairBuild.status,0,`persistent-pair production rules build failed: ${pairBuild.stderr||pairBuild.stdout}`);
 const generated=read('firestore.spark.generated.rules');
 assert.equal((generated.match(/match \/accounts\/\{accountId\}\/pairLinks\/\{pairId\}/g)||[]).length,1);
 assert.equal((generated.match(/function cmsPersistentPairCreateValid\(accountId, pairId\)/g)||[]).length,1);
@@ -71,4 +80,4 @@ assert.match(generated,/allow list, delete: if false/);
 assert.match(generated,/match \/sharedSetup\/authoritative/);
 assert.match(generated,/function ssjrTerminalValidAtomicSessionClose\(rivalryId, sessionId\)/);
 
-console.log('PASS persistent Nik/Daniel pair lifecycle and production authority contracts.');
+console.log('PASS persistent Nik/Daniel pair lifecycle, identity seeding and bounded production authority contracts.');
