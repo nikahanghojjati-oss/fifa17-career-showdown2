@@ -27,7 +27,7 @@ function pairEnvelope(uid,id,role,managerId,device,linkedAt,lastConfirmedAt,{rev
   return envelope({objectType:'pairLink',objectId:'current',revision,parentRevision,contentHash,priorContentHash,updatedAt:lastConfirmedAt,accountId:uid,deviceId:device,data:{rivalryId:id,managerRole:role,managerId,linkedAt,lastConfirmedAt}});
 }
 
-async function atomicRedeemWithPairLink(db,{uid,device,target,managerId,char,nowMs}){
+async function atomicRedeemWithPairLink(db,{uid,device,target,managerId,char,nowMs,writePairLink=true}){
   const rivalryRef=doc(db,'rivalries',target),inviteRef=doc(db,'rivalries',target,'invites',target),pairRef=doc(db,'accounts',uid,'pairLinks','current');
   return runTransaction(db,async transaction=>{
     const rivalrySnapshot=await transaction.get(rivalryRef),inviteSnapshot=await transaction.get(inviteRef),pairSnapshot=await transaction.get(pairRef);
@@ -40,7 +40,7 @@ async function atomicRedeemWithPairLink(db,{uid,device,target,managerId,char,now
     let revision=0,parentRevision=null,priorContentHash=null,linkedAt=at,role='playerTwo';
     if(pairSnapshot.exists()){const prior=pairSnapshot.data();revision=prior.revision+1;parentRevision=prior.revision;priorContentHash=prior.contentHash;linkedAt=prior.data.linkedAt;role=prior.data.managerRole;}
     const pairNext=pairEnvelope(uid,target,role,managerId,device,linkedAt,at,{revision,parentRevision,contentHash:hash(char),priorContentHash});
-    transaction.set(pairRef,pairNext);transaction.set(rivalryRef,rivalryNext);transaction.set(inviteRef,inviteNext);return target;
+    if(writePairLink)transaction.set(pairRef,pairNext);transaction.set(rivalryRef,rivalryNext);transaction.set(inviteRef,inviteNext);return target;
   });
 }
 
@@ -119,6 +119,9 @@ async function atomicRedeemWithPairLink(db,{uid,device,target,managerId,char,now
     await assertSucceeds(setDoc(pairRefD,replacement));
 
 
+  await assertFails(atomicRedeemWithPairLink(dbE,{uid:'acct_e',device:ids.e,target:atomicRecovery,managerId:'nik',char:'e',nowMs,writePairLink:false}));
+  assert.equal((await getDoc(doc(dbE,'rivalries',atomicRecovery))).data().data.connectionState,'pending-pair','provider Rules must reject redemption that omits the durable pair witness');
+  assert.equal((await getDoc(doc(dbE,'rivalries',atomicRecovery,'invites',atomicRecovery))).data().data.state,'open','witness-less redemption must leave the one-use invite unconsumed');
   await assertSucceeds(atomicRedeemWithPairLink(dbE,{uid:'acct_e',device:ids.e,target:atomicRecovery,managerId:'nik',char:'e',nowMs}));
   const durablePair=(await getDoc(doc(dbE,'accounts','acct_e','pairLinks','current'))).data();
   assert.equal(durablePair.data.rivalryId,atomicRecovery,'successful redemption must durably commit the account current-pair witness in the same transaction');
@@ -129,7 +132,7 @@ async function atomicRedeemWithPairLink(db,{uid,device,target,managerId,char,now
   assert.equal((await getDoc(doc(dbC,'rivalries',staleRedeem))).data().data.connectionState,'pending-pair','stale-tab double-active rejection must roll back rivalry activation');
   assert.equal((await getDoc(doc(dbC,'rivalries',staleRedeem,'invites',staleRedeem))).data().data.state,'open','stale-tab double-active rejection must leave the one-use invite unconsumed');
 
-    process.stdout.write('PASS persistent pair Rules emulator: Daniel=Player One and Nik=Player Two are canonical, mismatched roles are rejected, private account get, no list/delete, registered-device writes, active-career replacement denial, terminal closed-career fresh replacement, rivalry membership and expired-pending replacement safety, atomic post-redeem recovery witness, and stale-tab double-active rollback are enforced.\n');
+    process.stdout.write('PASS persistent pair Rules emulator: Daniel=Player One and Nik=Player Two are canonical, mismatched roles are rejected, private account get, no list/delete, registered-device writes, active-career replacement denial, terminal closed-career fresh replacement, rivalry membership and expired-pending replacement safety, mandatory atomic post-redeem recovery witness, witness-less redemption denial, and stale-tab double-active rollback are enforced.\n');
   }finally{
     try{await testEnv.clearFirestore();}catch(_error){}
     await testEnv.cleanup();

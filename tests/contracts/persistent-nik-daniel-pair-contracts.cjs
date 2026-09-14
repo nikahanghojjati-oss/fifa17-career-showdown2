@@ -130,6 +130,8 @@ vm.createContext(showdownSandbox);vm.runInContext(showdownSource,showdownSandbox
 assert.throws(()=>showdownSandbox.normalizeShowdown({managers:{playerOne:'Nik',playerTwo:'Daniel'}}),error=>error&&error.code==='SHOWDOWN_REVERSED_MANAGER_ROLES_UNSUPPORTED','Reversed historical manager roles must fail closed instead of being silently relabelled.');
 
 assert.match(rulesFragment,/cmsPersistentPairRivalryMembership/);
+assert.match(rulesFragment,/cmsPersistentPairRedemptionWitnessValid/,'Provider Rules must bind every rivalry redemption to the account current-pair witness.');
+assert.match(injector,/cmsPersistentPairRedemptionWitnessValid\(rivalryId, inviteBefore\.data\.slotId\)/,'Production Rules injection must make the pair witness mandatory for validRivalryRedeem.');
 assert.match(rulesFragment,/activeDevice\(root\.updatedByDeviceId\)/);
 assert.match(rulesFragment,/activeDevice\(after\.updatedByDeviceId\)/);
 assert.match(rulesFragment,/request\.auth\.uid == accountId/);
@@ -167,6 +169,7 @@ assert.equal((generated.match(/match \/accounts\/\{accountId\}\/pairLinks\/\{pai
 assert.equal((generated.match(/function cmsPersistentPairCreateValid\(accountId, pairId\)/g)||[]).length,1);
 assert.equal((generated.match(/function cmsPersistentPairUpdateValid\(accountId, pairId\)/g)||[]).length,1);
 assert.match(generated,/allow get: if signedIn\(\) && request\.auth\.uid == accountId && pairId == 'current'/);
+assert.match(generated,/cmsPersistentPairRedemptionWitnessValid\(rivalryId, inviteBefore\.data\.slotId\)/,'Generated production Rules must reject redemption without the exact account current-pair witness.');
 assert.match(generated,/priorRivalry\.data\.data\.connectionState == 'closed'/);
 assert.match(generated,/allow list, delete: if false/);
 assert.match(generated,/match \/sharedSetup\/authoritative/);
