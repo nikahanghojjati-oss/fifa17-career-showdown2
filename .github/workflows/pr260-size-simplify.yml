@@ -1,4 +1,4 @@
-name: PR260 size simplification r2
+name: PR260 size simplification r3
 on:
   push:
     branches: [feat/persistent-nik-daniel-pair]
@@ -17,7 +17,7 @@ jobs:
         with:
           node-version: 24
           cache: npm
-      - name: Simplify obsolete retry loop and verify release budgets
+      - name: Remove obsolete retry/device duplication and verify release budgets
         shell: bash
         run: |
           set -euo pipefail
@@ -27,15 +27,23 @@ jobs:
               p=Path(path); s=p.read_text(); n=s.count(old)
               if n!=1: raise SystemExit(f'{path}: expected one match, found {n}: {old[:90]}')
               p.write_text(s.replace(old,new,1))
-          patch('js/persistentNikDanielPair.js','  async function pairPersistPairLinkWithRetry(context,rivalryId,managerRole,attempts=2){let lastError=null;const total=Math.max(1,Number.isInteger(attempts)?attempts:2);for(let attempt=0;attempt<total;attempt+=1){try{return await pairPersistPairLink(context,rivalryId,managerRole);}catch(error){lastError=error;}}throw lastError||pairErrorWithCode("PERSISTENT_PAIR_LINK_SAVE_FAILED","The Showdown connection could not be saved to this account.");}\n','')
-          patch('js/persistentNikDanielPair.js','pairPersistPairLinkWithRetry(context,result.rivalryId,role,2)','pairPersistPairLink(context,result.rivalryId,role)')
-          patch('js/persistentNikDanielPair.js','pairPersistPairLinkWithRetry(context,state.rivalryId,role,3)','pairPersistPairLink(context,state.rivalryId,role)')
+          p='js/persistentNikDanielPair.js'
+          patch(p,'  async function pairPersistPairLinkWithRetry(context,rivalryId,managerRole,attempts=2){let lastError=null;const total=Math.max(1,Number.isInteger(attempts)?attempts:2);for(let attempt=0;attempt<total;attempt+=1){try{return await pairPersistPairLink(context,rivalryId,managerRole);}catch(error){lastError=error;}}throw lastError||pairErrorWithCode("PERSISTENT_PAIR_LINK_SAVE_FAILED","The Showdown connection could not be saved to this account.");}\n','')
+          patch(p,'pairPersistPairLinkWithRetry(context,result.rivalryId,role,2)','pairPersistPairLink(context,result.rivalryId,role)')
+          patch(p,'pairPersistPairLinkWithRetry(context,state.rivalryId,role,3)','pairPersistPairLink(context,state.rivalryId,role)')
+          patch(p,'  function pairDeviceReference(context){return context.services.firestoreSdk.doc(context.services.firestore,"accounts",context.accountId,"devices",context.deviceId);}\n','')
+          patch(p,'  function pairAssertActiveDevice(snapshot,deviceId){if(!snapshot?.exists?.())throw pairErrorWithCode("PERSISTENT_PAIR_DEVICE_REQUIRED","This browser is not ready yet.");const value=snapshot.data();if(!pairIsEnvelopeValue(value,"device",deviceId)||value.data?.deviceId!==deviceId||value.data?.state!=="active")throw pairErrorWithCode("PERSISTENT_PAIR_DEVICE_REQUIRED","This browser is not ready yet.");return value;}\n','')
+          patch(p,',deviceRef=pairDeviceReference(context),now=sdk.Timestamp.fromMillis(Date.now());',',now=sdk.Timestamp.fromMillis(Date.now());')
+          patch(p,'const deviceSnapshot=await transaction.get(deviceRef);pairAssertActiveDevice(deviceSnapshot,context.deviceId);','')
           patch('tests/contracts/persistent-nik-daniel-pair-contracts.cjs',"assert.match(pairSource,/async function pairPersistPairLinkWithRetry\\(/,'One-use pairing must retry the account pair-link write instead of abandoning a consumed capability after one transient failure.');","assert.doesNotMatch(pairSource,/pairPersistPairLinkWithRetry/,'Atomic redemption must not depend on a post-consumption account pair-link retry loop.');")
           PY
           npm ci
           node --check js/persistentNikDanielPair.js
           node tests/contracts/persistent-nik-daniel-pair-contracts.cjs
           git checkout -- firestore.spark.generated.rules 2>/dev/null || true
+          node - <<'NODE'
+          const fs=require('node:fs'),z=require('node:zlib');const html=fs.readFileSync('index.html','utf8');const refs=[...html.matchAll(/(?:src|href)="((?:js|css|data)\/[^"?#]+)(?:\?v=([^"#]+))?"/g)].map(m=>m[1]);const raw=refs.reduce((n,p)=>n+fs.statSync(p).size,0),gz=refs.reduce((n,p)=>n+z.gzipSync(fs.readFileSync(p),{level:9}).length,0);console.log(`PR260 startup bundle after simplification: ${raw}/${gz}`);
+          NODE
           node tests/contracts/static-app-release-contracts.cjs
           node tests/contracts/final-polish-presentation.cjs
           git config user.name "github-actions[bot]"
