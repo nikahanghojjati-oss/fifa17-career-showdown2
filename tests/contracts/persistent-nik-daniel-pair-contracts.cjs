@@ -79,7 +79,7 @@ assert.doesNotMatch(appSource,/persistentNikDanielPair|persistent-nik-daniel-pai
 
 assert.match(entrySource,/preparePairingShell:startShared/,'Single Start a Showdown action must continue to use the established paired-first shell authority.');
 assert.match(entrySource,/showdown\.name="Daniel vs Nik"/);
-assert.match(entrySource,/showdown\.managers=\{playerOne:"Daniel",playerTwo:"Nik"\}/);
+assert.match(entrySource,/function normalizeCanonicalPlayers\(\)[\s\S]*playerOne:"Daniel",playerTwo:"Nik"/,'Paired-first entry must canonicalize the pre-draw shell to Daniel as Player One and Nik as Player Two.');
 
 assert.match(rulesFragment,/cmsPersistentPairRivalryMembership/);
 assert.match(rulesFragment,/activeDevice\(root\.updatedByDeviceId\)/);
