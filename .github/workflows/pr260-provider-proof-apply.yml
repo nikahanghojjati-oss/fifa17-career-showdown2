@@ -1,4 +1,4 @@
-name: PR260 provider witness proof apply
+name: PR260 provider witness proof apply r2
 
 on:
   push:
