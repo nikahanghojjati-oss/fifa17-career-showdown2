@@ -137,10 +137,17 @@ const rawSeed={
       await window.CareerModeSparkConnectedRivalry.initialize();
       await window.CareerModeSparkConnectedRivalry.mountWhenSettingsReady();
       const internalPanel=document.getElementById("sparkConnectedRivalryPanel");
-      if(internalPanel)internalPanel.hidden=false;
+      if(internalPanel){
+        if(internalPanel.dataset.productSurface!=="internal")throw new Error("Connected Rivalry must remain classified as hidden internal recovery machinery before diagnostic reveal.");
+        internalPanel.dataset.testSurface="internal-audit";
+        internalPanel.hidden=false;
+        internalPanel.style.setProperty("display","block","important");
+      }
     });
     const panel=page.locator("#sparkConnectedRivalryPanel");
     await panel.waitFor({state:"visible",timeout:15000});
+    assert.equal(await panel.getAttribute("data-product-surface"),"internal","Stage 4 reconciliation must stay internal to the player-facing product.");
+    assert.equal(await panel.getAttribute("data-test-surface"),"internal-audit","Only this isolated diagnostic may reveal the internal Connected Rivalry panel.");
     assert.match(await panel.innerText(),/OBSERVE REMOTE · COMMIT LOCAL EXPLICITLY/);
     assert.match(await panel.innerText(),/REMOTE JOINING\s+Available from Showdown Home · exact private session/i);
 

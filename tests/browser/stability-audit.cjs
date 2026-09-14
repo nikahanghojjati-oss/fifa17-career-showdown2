@@ -170,7 +170,25 @@ async function smokeDestinations(page,prefix){
   await page.locator("#legacyButton").click();await waitForScreen(page,"legacy");await page.locator("#legacy .backButton").click();await waitForScreen(page,"mainMenu");
   await page.locator("#careerStatisticsButton").click();await waitForScreen(page,"careerStatistics");await page.locator("#careerStatistics .backButton").click();await waitForScreen(page,"mainMenu");
   await page.locator("#ruleBookButton").click();await waitForScreen(page,"ruleBook");await runAxe(page,`${prefix} Rule Book`);await page.locator("#ruleBook .backButton").click();await waitForScreen(page,"mainMenu");
-  await page.locator("#settingsButton").click();await page.locator("#settingsOverlay").waitFor({state:"visible"});assert.equal(await page.locator("#saveLibraryProductPanel").isHidden(),true);assert.equal(await page.locator("#settingsOverlay .settingsOfflinePanel").isHidden(),true);assert.equal(await page.locator("#settingsOverlay .settingsDataPanel").isHidden(),true);await runAxe(page,`${prefix} Settings`);await page.locator("#settingsClose").click();await assertNoDuplicateIds(page,`${prefix} loaded DOM`);checkpoint(`${prefix} optional destinations and clean Settings`);
+  await page.locator("#settingsButton").click();
+  await page.locator("#settingsOverlay").waitFor({state:"visible"});
+  await page.waitForFunction(()=>{
+    const ids=["saveLibraryProductPanel","sparkConnectedAccountPanel","sparkPrivatePairingPanel","sparkConnectedRivalryPanel"];
+    const hiddenByProduct=ids.every(id=>{const element=document.getElementById(id);return !element||element.hidden||getComputedStyle(element).display==="none";});
+    const extra=[...document.querySelectorAll("#settingsContent .settingsOfflinePanel,#settingsContent .settingsDataPanel")];
+    return hiddenByProduct&&extra.every(element=>element.hidden||getComputedStyle(element).display==="none")&&document.getElementById("settingsTitle")?.textContent?.trim()==="SETTINGS";
+  },null,{timeout:5000});
+  const settingsContainment=await page.evaluate(()=>({
+    saveLibrary:document.getElementById("saveLibraryProductPanel")?getComputedStyle(document.getElementById("saveLibraryProductPanel")).display:"absent",
+    offline:[...document.querySelectorAll("#settingsContent .settingsOfflinePanel")].every(element=>element.hidden||getComputedStyle(element).display==="none"),
+    data:[...document.querySelectorAll("#settingsContent .settingsDataPanel")].every(element=>element.hidden||getComputedStyle(element).display==="none"),
+    title:document.getElementById("settingsTitle")?.textContent?.trim()||""
+  }));
+  assert.notEqual(settingsContainment.saveLibrary,"block",`${prefix} Save Library recovery panel leaked into normal Settings.`);
+  assert.equal(settingsContainment.offline,true,`${prefix} offline recovery panel leaked into normal Settings.`);
+  assert.equal(settingsContainment.data,true,`${prefix} data-recovery panel leaked into normal Settings.`);
+  assert.equal(settingsContainment.title,"SETTINGS",`${prefix} Settings heading was reclaimed by recovery machinery.`);
+  await runAxe(page,`${prefix} Settings`);await page.locator("#settingsClose").click();await assertNoDuplicateIds(page,`${prefix} loaded DOM`);checkpoint(`${prefix} optional destinations and clean Settings`);
 }
 async function runProductScenario(browser,config){
   const context=await browser.newContext({viewport:config.viewport,deviceScaleFactor:config.deviceScaleFactor||1,isMobile:Boolean(config.isMobile),hasTouch:Boolean(config.hasTouch),reducedMotion:config.reducedMotion,locale:"en-US"});
