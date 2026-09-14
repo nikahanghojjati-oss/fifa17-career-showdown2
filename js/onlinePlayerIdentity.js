@@ -1,42 +1,125 @@
-(function(root,factory){const api=factory(root);if(typeof module!=="undefined"&&module.exports)module.exports=api;else root.CareerModeOnlinePlayerIdentity=api;})(typeof globalThis!=="undefined"?globalThis:this,function(root){"use strict";
-const DB="careerModeShowdown.onlinePlayerIdentity",STORE="identity",KEY="current",DEVICE_DB="careerModeShowdown.privateDevice",DEVICE_STORE="identity",DEVICE_KEY="primary",OVERLAY="onlinePlayerIdentityOverlay",BADGE="onlinePlayerIdentityBadge",PANEL="onlinePlayerIdentitySettingsPanel";
-const MANAGERS=Object.freeze({nik:Object.freeze({id:"nik",label:"Nik",role:"playerOne"}),daniel:Object.freeze({id:"daniel",label:"Daniel",role:"playerTwo"})});
-const INTERNAL_PANELS=Object.freeze(["sparkConnectedAccountPanel","sparkPrivatePairingPanel","sparkConnectedRivalryPanel"]);
-const GAMEPLAY_ENTRY_SELECTOR="#newShowdown,#continueCareer,#startShowdown,#startSharedShowdown,#remoteJoiningButton,#continueSharedSetupGate";
-const GAMEPLAY_SCREEN_IDS=Object.freeze(["createShowdown","leagueWheelScreen","clubWheelScreen","dashboard","transferChallenge","seasonEntry","seasonSummary"]);
-let state=Object.freeze({status:"idle",initialized:false,busy:false,online:!root.navigator||root.navigator.onLine!==false,accountId:null,managerId:null,managerLabel:null,deviceId:null,registered:false,message:"Preparing online identity…"}),initPromise=null,settingsObserver=null,settingsMountObserver=null,settingsSignature="",gateOpen=false;const listeners=new Set();
-function freezeOnlineIdentity(v){if(!v||typeof v!=="object"||Object.isFrozen(v))return v;Object.freeze(v);Object.values(v).forEach(freezeOnlineIdentity);return v;}
-function setOnlineIdentityState(next){state=freezeOnlineIdentity({...state,...next});for(const fn of listeners){try{fn(state);}catch(_){}}renderOnlineIdentity();return state;}
-function resolveOnlineManager(v){return MANAGERS[String(v||"").trim().toLowerCase()]||null;}
-function currentPublishedState(){try{return root.CareerModeOnlinePlayerIdentity?.getState?.()||state;}catch(_){return state;}}
-function onlineConnectivityAvailable(){if(root.navigator&&root.navigator.onLine===false)return false;try{const diagnostics=root.getOfflineAppDiagnostics?.();if(diagnostics?.connectivityVerified===true&&diagnostics.connectivity==="offline")return false;}catch(_){}return true;}
-function onlineIdentityReady(){const current=currentPublishedState();return Boolean(current&&current.status==="ready"&&current.managerId&&current.registered);}
-function activeGameplaySurface(){if(!root.document)return false;return GAMEPLAY_SCREEN_IDS.some(id=>{const el=root.document.getElementById(id);return Boolean(el&&!el.classList.contains("hidden"));});}
-function openOnlineIdentityDatabase(name,store){return new Promise((resolve,reject)=>{if(!root.indexedDB?.open)return reject(new Error("IndexedDB is unavailable."));const r=root.indexedDB.open(name,1);r.onupgradeneeded=()=>{if(!r.result.objectStoreNames.contains(store))r.result.createObjectStore(store);};r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error||new Error("Device identity storage is unavailable."));r.onblocked=()=>reject(new Error("Device identity storage is blocked by another tab."));});}
-async function getOnlineIdentityRecord(name,store,key){let db;try{db=await openOnlineIdentityDatabase(name,store);return await new Promise((resolve,reject)=>{const r=db.transaction(store,"readonly").objectStore(store).get(key);r.onsuccess=()=>resolve(r.result||null);r.onerror=()=>reject(r.error);});}finally{db?.close();}}
-async function putOnlineIdentityRecord(name,store,key,value){let db;try{db=await openOnlineIdentityDatabase(name,store);await new Promise((resolve,reject)=>{const tx=db.transaction(store,"readwrite");tx.objectStore(store).put(value,key);tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);tx.onabort=()=>reject(tx.error);});}finally{db?.close();}}
-async function deleteOnlineIdentityRecord(name,store,key){let db;try{db=await openOnlineIdentityDatabase(name,store);await new Promise((resolve,reject)=>{const tx=db.transaction(store,"readwrite");tx.objectStore(store).delete(key);tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);tx.onabort=()=>reject(tx.error);});}finally{db?.close();}}
-const readRole=()=>getOnlineIdentityRecord(DB,STORE,KEY);async function writeOnlineRole(accountId,id){const selected=resolveOnlineManager(id);if(!selected)throw new Error("Choose Nik or Daniel.");const value={schemaVersion:1,accountId:String(accountId),managerId:selected.id,updatedAtEpochMs:Date.now()};await putOnlineIdentityRecord(DB,STORE,KEY,value);return value;}const clearRole=()=>deleteOnlineIdentityRecord(DB,STORE,KEY),clearPrivateDeviceIdentity=()=>deleteOnlineIdentityRecord(DEVICE_DB,DEVICE_STORE,DEVICE_KEY);
-function loadOnlineDependency(key,path,ready){if(ready())return Promise.resolve(ready());if(typeof root.loadRuntimeScript!=="function")return Promise.reject(new Error("Online runtime loader is unavailable."));return root.loadRuntimeScript(`online-${key}`,path,ready).then(()=>ready());}
-async function resolveOnlineDependencies(){await loadOnlineDependency("firebase","js/productionFirebaseRuntime.js",()=>root.CareerModeProductionFirebaseRuntime);await loadOnlineDependency("account","js/sparkConnectedAccount.js",()=>root.CareerModeSparkConnectedAccount);await loadOnlineDependency("pairing","js/sparkPrivatePairing.js",()=>root.CareerModeSparkPrivatePairing);return{runtime:root.CareerModeProductionFirebaseRuntime,account:root.CareerModeSparkConnectedAccount,pairing:root.CareerModeSparkPrivatePairing};}
-function configureOnlineProductSurface(){if(!root.document)return;const d=root.document,s=d.getElementById("settingsButton");if(s){s.querySelector(".menuTileCode")?.replaceChildren("ONLINE");s.querySelector(".menuTileLabel")?.replaceChildren("ACCOUNT & DEVICES");s.querySelector(".menuTileMeta")?.replaceChildren("Nik, Daniel, recovery and this device");}const setup=d.getElementById("createShowdown");if(setup){const h=setup.querySelector("h2");if(h)h.textContent="NEW ONLINE SHOWDOWN";[["showdownName","Nik vs Daniel"],["managerOne","Nik"],["managerTwo","Daniel"]].forEach(([id,value])=>{const input=d.getElementById(id),label=setup.querySelector(`label[for="${id}"]`);if(input){input.value=value;input.hidden=true;input.tabIndex=-1;input.setAttribute("aria-hidden","true");}if(label)label.hidden=true;});const round=d.getElementById("roundAmount"),label=setup.querySelector('label[for="roundAmount"]');if(label)label.textContent="NUMBER OF SEASONS";if(round)for(const option of round.options){const n=Number(option.value)||1;option.textContent=`${n} Season${n===1?"":"s"}`;}if(!d.getElementById("onlineShowdownSetupNote")){const p=d.createElement("p");p.id="onlineShowdownSetupNote";p.className="stateNote";p.textContent="Nik and Daniel are fixed. Sign in once on this browser; connection machinery stays in the background.";label?.before(p);}}const remote=d.getElementById("remoteJoiningButton");if(remote)remote.textContent="ONLINE CONNECTION";const note=d.querySelector(".startupSaveNote");if(note)note.textContent="ONLINE SHOWDOWN · NIK & DANIEL · RECOVERY KEPT IN THE BACKGROUND";const status=d.querySelector(".menuBottomStrip strong");if(status)status.textContent=onlineIdentityReady()?`ONLINE · ${String(currentPublishedState().managerLabel||"").toUpperCase()}`:"ONLINE SIGN-IN REQUIRED TO PLAY";}
-function ensureOnlineIdentityOverlay(){if(!root.document)return null;let el=root.document.getElementById(OVERLAY);if(el)return el;el=root.document.createElement("div");el.id=OVERLAY;el.setAttribute("role","dialog");el.setAttribute("aria-modal","true");Object.assign(el.style,{position:"fixed",inset:"0",zIndex:"100",display:"grid",placeItems:"center",padding:"20px",background:"rgba(3,8,15,.92)",backdropFilter:"blur(10px)"});root.document.body.append(el);return el;}
-function createOnlineIdentityButton(text,fn){const b=root.document.createElement("button");b.type="button";b.className="menuButton";b.textContent=text;b.disabled=state.busy;b.addEventListener("click",fn);return b;}
-function closeOnlineIdentityGate(){gateOpen=false;root.document?.getElementById(OVERLAY)?.remove();}
-function openOnlineIdentityGate(){gateOpen=true;if(!onlineConnectivityAvailable()){setOnlineIdentityState({status:"offline",busy:false,online:false,message:"Career Mode Showdown is online-only. Reconnect before continuing gameplay."});return true;}renderOnlineIdentityOverlay();return true;}
-function renderOnlineIdentityOverlay(){if(!root.document)return null;if(state.status==="ready"){closeOnlineIdentityGate();return null;}if(!gateOpen){root.document.getElementById(OVERLAY)?.remove();return null;}const el=ensureOnlineIdentityOverlay();el.replaceChildren();const card=root.document.createElement("section");Object.assign(card.style,{width:"min(560px,100%)",padding:"28px",background:"#111820",border:"1px solid rgba(255,255,255,.18)",position:"relative"});const dismiss=root.document.createElement("button");dismiss.type="button";dismiss.textContent="×";dismiss.setAttribute("aria-label","Close online sign-in");Object.assign(dismiss.style,{position:"absolute",top:"10px",right:"12px",font:"inherit",fontSize:"24px",background:"transparent",border:"0",color:"inherit",cursor:"pointer"});dismiss.addEventListener("click",closeOnlineIdentityGate);const eyebrow=root.document.createElement("p"),title=root.document.createElement("h2"),copy=root.document.createElement("p");eyebrow.textContent="ONLINE SHOWDOWN";title.id="onlinePlayerIdentityTitle";copy.textContent=state.message;card.append(dismiss,eyebrow,title,copy);if(!state.online||state.status==="offline"){title.textContent="CONNECTION REQUIRED";card.append(createOnlineIdentityButton("TRY AGAIN",()=>void initializeOnlineIdentity(true)));}else if(state.status==="signed-out"){title.textContent="SIGN IN TO PLAY";card.append(createOnlineIdentityButton("SIGN IN WITH GOOGLE",()=>void signInOnlineIdentity()));}else if(state.status==="choose-manager"){title.textContent="WHO ARE YOU?";const actions=root.document.createElement("div");actions.style.display="grid";actions.style.gridTemplateColumns="1fr 1fr";actions.style.gap="12px";actions.append(createOnlineIdentityButton("I'M NIK",()=>void chooseOnlineManager("nik")),createOnlineIdentityButton("I'M DANIEL",()=>void chooseOnlineManager("daniel")));card.append(actions);}else if(state.status==="device-error"||state.status==="error"){title.textContent="CONNECTION NEEDS ATTENTION";card.append(createOnlineIdentityButton("TRY AGAIN",()=>void initializeOnlineIdentity(true)));}else title.textContent="CONNECTING";const browse=root.document.createElement("p");browse.className="stateNote";browse.textContent="Rules, statistics, history and recovery tools remain available without entering gameplay.";card.append(browse);el.append(card);return el;}
-function ensureOnlineIdentityBadge(){if(!root.document)return null;let b=root.document.getElementById(BADGE);if(!b){b=root.document.createElement("button");b.id=BADGE;b.type="button";Object.assign(b.style,{marginLeft:"auto",marginRight:"12px",padding:"8px 12px",border:"1px solid rgba(255,255,255,.25)",background:"rgba(0,0,0,.25)",color:"inherit",font:"inherit"});const header=root.document.getElementById("topHeader");header?.insertBefore(b,root.document.getElementById("seasonIndicator")||null);b.addEventListener("click",()=>{if(onlineIdentityReady())root.document.getElementById("settingsButton")?.click();else openOnlineIdentityGate();});}const current=currentPublishedState();b.textContent=current.status==="ready"&&current.managerLabel?`WELCOME ${String(current.managerLabel).toUpperCase()}`:current.status==="choose-manager"?"CHOOSE PLAYER":current.status==="offline"?"OFFLINE":current.status==="signed-out"?"SIGN IN":"CONNECTING";return b;}
-function hideOnlineInternalPanels(){if(!root.document)return;for(const id of INTERNAL_PANELS){const p=root.document.getElementById(id);if(p)p.hidden=true;}const library=root.document.getElementById("saveLibraryProductPanel");if(library){library.hidden=false;library.dataset.onlineSurface="advanced-recovery";}for(const p of root.document.querySelectorAll("#settingsContent .settingsOfflinePanel,#settingsContent .settingsDataPanel")){p.hidden=false;p.dataset.onlineSurface="advanced-recovery";}}
-function renderOnlineSettings(){if(!root.document)return null;const content=root.document.getElementById("settingsContent"),dialog=root.document.getElementById("settingsOverlay");if(!content||!dialog||dialog.classList.contains("hidden"))return null;hideOnlineInternalPanels();const sig=[state.managerLabel,state.registered,state.busy,state.status,state.message].join("|");let panel=root.document.getElementById(PANEL);if(panel&&settingsSignature===sig)return panel;if(!panel){panel=root.document.createElement("section");panel.id=PANEL;panel.className="settingsPanel settingsConnectedAccountPanel";content.insertBefore(panel,content.firstChild||null);}settingsSignature=sig;panel.replaceChildren();const h=root.document.createElement("div");h.className="settingsPanelHeading";const eyebrow=root.document.createElement("span"),title=root.document.createElement("h3"),copy=root.document.createElement("p");eyebrow.className="settingsPanelEyebrow";eyebrow.textContent="ONLINE ACCOUNT";title.textContent=state.managerLabel?`WELCOME ${state.managerLabel.toUpperCase()}`:"NIK & DANIEL";copy.textContent="Normal play is online-only. Account, pairing and reconciliation machinery runs in the background; recovery and backup tools remain available below when genuinely needed.";h.append(eyebrow,title,copy);const info=root.document.createElement("div");info.className="settingsInfoGrid";for(const [label,value] of [["PLAYER",state.managerLabel||"Not selected"],["DEVICE",state.registered?"Remembered":"Not ready"],["MODE","Online only"],["INFRASTRUCTURE","Firebase Spark · billing off"]]){const row=root.document.createElement("div"),a=root.document.createElement("span"),v=root.document.createElement("strong");row.className="settingsInfoRow";a.textContent=label;v.textContent=value;row.append(a,v);info.append(row);}const actions=root.document.createElement("div");actions.className="settingsOfflineActions settingsConnectedAccountActions";if(state.status==="signed-out")actions.append(createOnlineIdentityButton("SIGN IN WITH GOOGLE",()=>void signInOnlineIdentity()));else if(state.status==="choose-manager")actions.append(createOnlineIdentityButton("I'M NIK",()=>void chooseOnlineManager("nik")),createOnlineIdentityButton("I'M DANIEL",()=>void chooseOnlineManager("daniel")));else if(state.status==="offline"||state.status==="error"||state.status==="device-error")actions.append(createOnlineIdentityButton("TRY AGAIN",()=>void initializeOnlineIdentity(true)));if(state.registered&&state.accountId)actions.append(createOnlineIdentityButton("FORGET THIS DEVICE",()=>void forgetOnlineDevice()));panel.append(h,info,actions);return panel;}
-function mountOnlineSettingsObserver(){const content=root.document?.getElementById("settingsContent");if(!content){if(!settingsMountObserver&&root.document?.documentElement){settingsMountObserver=new root.MutationObserver(()=>{if(!root.document.getElementById("settingsContent"))return;settingsMountObserver.disconnect();settingsMountObserver=null;mountOnlineSettingsObserver();});settingsMountObserver.observe(root.document.documentElement,{childList:true,subtree:true});}return;}if(settingsMountObserver){settingsMountObserver.disconnect();settingsMountObserver=null;}if(settingsObserver)return;settingsObserver=new root.MutationObserver(()=>{hideOnlineInternalPanels();renderOnlineSettings();});settingsObserver.observe(content,{childList:true});const dialog=root.document.getElementById("settingsOverlay");if(dialog)settingsObserver.observe(dialog,{attributes:true,attributeFilter:["class","aria-hidden"]});renderOnlineSettings();}
-function prepareOnlineSettingsSurface(){for(const delay of [0,80,250,800])root.setTimeout(()=>{mountOnlineSettingsObserver();hideOnlineInternalPanels();renderOnlineSettings();},delay);}
-function renderOnlineIdentity(){configureOnlineProductSurface();renderOnlineIdentityOverlay();ensureOnlineIdentityBadge();hideOnlineInternalPanels();renderOnlineSettings();}
-async function resolveSignedInOnlineIdentity(){const deps=await resolveOnlineDependencies();await deps.account.initialize();const accountState=deps.account.getState();if(!accountState?.connected||!accountState.accountId)return{deps,accountState:null};await deps.pairing.initialize();return{deps,accountState,pairingState:deps.pairing.getState()};}
-async function initializeOnlineIdentity(force=false){if(initPromise&&!force)return initPromise;configureOnlineProductSurface();prepareOnlineSettingsSurface();initPromise=(async()=>{if(!onlineConnectivityAvailable())return setOnlineIdentityState({status:"offline",initialized:true,busy:false,online:false,accountId:null,managerId:null,managerLabel:null,registered:false,message:"Career Mode Showdown is online-only. Reconnect before entering gameplay."});setOnlineIdentityState({status:"connecting",busy:true,online:true,message:"Connecting your online Showdown…"});try{const {accountState,pairingState}=await resolveSignedInOnlineIdentity();if(!accountState)return setOnlineIdentityState({status:"signed-out",initialized:true,busy:false,online:true,accountId:null,managerId:null,managerLabel:null,deviceId:null,registered:false,message:"Sign in with Google to play. Rules, statistics and recovery remain available."});if(!pairingState?.registered)return setOnlineIdentityState({status:"device-error",initialized:true,busy:false,accountId:accountState.accountId,registered:false,message:pairingState?.message||"This browser could not be registered."});const stored=await readRole(),selected=stored?.accountId===accountState.accountId?resolveOnlineManager(stored.managerId):null;if(!selected){gateOpen=true;return setOnlineIdentityState({status:"choose-manager",initialized:true,busy:false,accountId:accountState.accountId,deviceId:pairingState.deviceId,registered:true,message:"Choose Nik or Daniel once on this browser. The choice is remembered."});}return setOnlineIdentityState({status:"ready",initialized:true,busy:false,accountId:accountState.accountId,managerId:selected.id,managerLabel:selected.label,deviceId:pairingState.deviceId,registered:true,message:`Welcome ${selected.label}.`});}catch(error){return setOnlineIdentityState({status:"error",initialized:true,busy:false,message:error?.message||"Online identity could not be prepared."});}})().finally(()=>{initPromise=null;});return initPromise;}
-async function signInOnlineIdentity(){gateOpen=true;setOnlineIdentityState({status:"signing-in",busy:true,message:"Opening Google sign-in…"});try{const d=await resolveOnlineDependencies();await d.account.signIn();return initializeOnlineIdentity(true);}catch(error){return setOnlineIdentityState({status:"signed-out",busy:false,message:error?.message||"Google sign-in could not be completed."});}}
-async function chooseOnlineManager(id){const selected=resolveOnlineManager(id);if(!selected||!state.accountId)return state;gateOpen=true;setOnlineIdentityState({status:"saving-manager",busy:true,message:`Remembering this browser as ${selected.label}…`});try{await writeOnlineRole(state.accountId,selected.id);gateOpen=false;return setOnlineIdentityState({status:"ready",busy:false,managerId:selected.id,managerLabel:selected.label,message:`Welcome ${selected.label}.`});}catch(error){return setOnlineIdentityState({status:"choose-manager",busy:false,message:error?.message||"Player identity could not be remembered."});}}
-async function forgetOnlineDevice(){if(!state.accountId||!state.registered||state.busy)return state;setOnlineIdentityState({status:"forgetting",busy:true,message:"Forgetting this device…"});let providerRevoked=false;try{const {runtime,account,pairing}=await resolveOnlineDependencies(),services=await runtime.ensureAccountServices(),user=services?.auth?.currentUser;if(!services?.ok||!user||user.uid!==state.accountId)throw new Error("The signed-in account is unavailable.");const identity=await pairing.getOrCreateDeviceIdentity({indexedDBImpl:root.indexedDB,cryptoImpl:root.crypto}),result=await pairing.revokeDevice({user,firestore:services.firestore,firebaseSdk:services.firestoreSdk,identity,targetDeviceId:identity.deviceId,cryptoImpl:root.crypto});if(!result?.ok)throw new Error(result?.message||"This device could not be revoked.");providerRevoked=true;let cleanupFailed=false;try{await clearRole();}catch(_){cleanupFailed=true;}try{await clearPrivateDeviceIdentity();}catch(_){cleanupFailed=true;}try{await account.signOut();}catch(_){cleanupFailed=true;}gateOpen=false;return setOnlineIdentityState({status:"signed-out",initialized:true,busy:false,accountId:null,managerId:null,managerLabel:null,deviceId:null,registered:false,message:cleanupFailed?"This device was revoked. Refresh before registering it again.":"This device was forgotten. Sign in again whenever you want to use it."});}catch(error){if(providerRevoked){gateOpen=false;return setOnlineIdentityState({status:"signed-out",busy:false,accountId:null,managerId:null,managerLabel:null,registered:false,message:"This device was revoked. Refresh before registering it again."});}return setOnlineIdentityState({status:"ready",busy:false,message:error?.message||"This device could not be forgotten safely."});}}
-function subscribeOnlineIdentity(fn){if(typeof fn!=="function")return()=>{};listeners.add(fn);return()=>listeners.delete(fn);}
-if(root.document?.addEventListener)root.document.addEventListener("click",e=>{const target=e.target instanceof Element?e.target:null;if(!target)return;if(target.closest("#settingsButton")){prepareOnlineSettingsSurface();return;}const gameplay=target.closest(GAMEPLAY_ENTRY_SELECTOR);if(gameplay&&!onlineIdentityReady()&&!gameplay.disabled){e.preventDefault();e.stopImmediatePropagation();openOnlineIdentityGate();}},true);
-if(root.addEventListener){root.addEventListener("online",()=>void initializeOnlineIdentity(true));root.addEventListener("offline",()=>{if(activeGameplaySurface())gateOpen=true;setOnlineIdentityState({status:"offline",busy:false,online:false,message:"Career Mode Showdown is online-only. Reconnect before continuing gameplay."});});root.addEventListener("career-mode-offline-state-change",event=>{const connectivity=event?.detail?.connectivityVerified===true?event.detail.connectivity:null;if(connectivity==="offline"){if(activeGameplaySurface())gateOpen=true;setOnlineIdentityState({status:"offline",busy:false,online:false,message:"Career Mode Showdown is online-only. Reconnect before continuing gameplay."});return;}if(connectivity==="online"&&state.status==="offline")void initializeOnlineIdentity(true);});}
-return freezeOnlineIdentity({contractVersion:1,mode:"online-only",managers:MANAGERS,gameplayRequiresIdentity:true,browseAndRecoveryWithoutIdentity:true,initialize:initializeOnlineIdentity,signIn:signInOnlineIdentity,chooseManager:chooseOnlineManager,openGate:openOnlineIdentityGate,forgetThisDevice:forgetOnlineDevice,readRole,clearRole,subscribe:subscribeOnlineIdentity,getState:()=>state});});
+(function(root){
+  "use strict";
+
+  const CORE_PATH="js/onlinePlayerIdentityCore.js";
+  const PAIR_PATH="js/persistentNikDanielPair.js";
+  const placeholderState=Object.freeze({status:"loading",initialized:false,busy:true,online:!root.navigator||root.navigator.onLine!==false,accountId:null,managerId:null,managerLabel:null,deviceId:null,registered:false,message:"Preparing online identity…"});
+  const managers=Object.freeze({nik:Object.freeze({id:"nik",label:"Nik",role:"playerOne"}),daniel:Object.freeze({id:"daniel",label:"Daniel",role:"playerTwo"})});
+  let corePromise=null;
+  let pairPromise=null;
+  let coreApi=null;
+  let enhancedApi=null;
+
+  function assetRevision(){
+    const meta=root.document?.querySelector?.('meta[name="app-asset-revision"]');
+    return meta?.content?.trim()||"1.9.1-r20";
+  }
+
+  function assetUrl(path){
+    if(!root.document||!root.location)return path;
+    const url=new URL(path,root.document.baseURI||root.location.href);
+    url.searchParams.set("v",assetRevision());
+    return url.href;
+  }
+
+  function loadScript(path,marker,ready){
+    if(ready())return Promise.resolve(ready());
+    return new Promise((resolve,reject)=>{
+      const script=root.document.createElement("script");
+      script.src=assetUrl(path);
+      script.async=false;
+      script.dataset[marker]="true";
+      script.addEventListener("load",()=>{const value=ready();if(value)resolve(value);else reject(new Error(`${path} loaded without its expected API.`));},{once:true});
+      script.addEventListener("error",()=>reject(new Error(`Unable to load ${path}.`)),{once:true});
+      root.document.head.appendChild(script);
+    });
+  }
+
+  async function ensurePair(){
+    if(root.CareerModePersistentNikDanielPair)return root.CareerModePersistentNikDanielPair;
+    if(pairPromise)return pairPromise;
+    pairPromise=loadScript(PAIR_PATH,"persistentNikDanielPair",()=>root.CareerModePersistentNikDanielPair||null).finally(()=>{pairPromise=null;});
+    return pairPromise;
+  }
+
+  async function refreshPersistentPair(){
+    if(!coreApi)return null;
+    try{
+      const pair=await ensurePair();
+      let pairState=await pair.initialize({force:true});
+      const identityState=coreApi.getState?.();
+      if(
+        pairState?.accountId
+        && pairState?.managerId
+        && identityState?.accountId===pairState.accountId
+        && identityState?.managerId!==pairState.managerId
+        && typeof coreApi.chooseManager==="function"
+      ){
+        await coreApi.chooseManager(pairState.managerId);
+        pairState=await pair.initialize({force:true,migrate:false});
+      }
+      pair.render?.();
+      return pairState;
+    }catch(error){
+      root.console?.warn?.("[Career Mode Showdown] Persistent Nik/Daniel pair could not be refreshed; the proven online identity path remains available.",error);
+      return null;
+    }
+  }
+
+  function enhanceCore(core){
+    if(enhancedApi)return enhancedApi;
+    const wrap=method=>async(...args)=>{
+      const result=await core[method](...args);
+      await refreshPersistentPair();
+      return result;
+    };
+    enhancedApi=Object.freeze({
+      ...core,
+      initialize:wrap("initialize"),
+      signIn:wrap("signIn"),
+      chooseManager:wrap("chooseManager"),
+      forgetThisDevice:wrap("forgetThisDevice"),
+      refreshPersistentPair,
+      persistentPairEnabled:true
+    });
+    root.CareerModeOnlinePlayerIdentity=enhancedApi;
+    return enhancedApi;
+  }
+
+  async function ensureCore(){
+    if(coreApi)return enhanceCore(coreApi);
+    if(corePromise)return corePromise;
+    if(!root.document)throw new Error("Online identity requires a browser document.");
+    corePromise=(async()=>{
+      const proxy=root.CareerModeOnlinePlayerIdentity;
+      await loadScript(CORE_PATH,"onlinePlayerIdentityCore",()=>{
+        const value=root.CareerModeOnlinePlayerIdentity;
+        return value&&value!==proxy&&typeof value.initialize==="function"?value:null;
+      });
+      coreApi=root.CareerModeOnlinePlayerIdentity;
+      return enhanceCore(coreApi);
+    })().finally(()=>{corePromise=null;});
+    return corePromise;
+  }
+
+  const proxy=Object.freeze({
+    contractVersion:1,
+    mode:"online-only",
+    managers,
+    gameplayRequiresIdentity:true,
+    browseAndRecoveryWithoutIdentity:true,
+    persistentPairEnabled:true,
+    initialize:async(...args)=>(await ensureCore()).initialize(...args),
+    signIn:async(...args)=>(await ensureCore()).signIn(...args),
+    chooseManager:async(...args)=>(await ensureCore()).chooseManager(...args),
+    openGate:async(...args)=>(await ensureCore()).openGate(...args),
+    forgetThisDevice:async(...args)=>(await ensureCore()).forgetThisDevice(...args),
+    readRole:async(...args)=>(await ensureCore()).readRole(...args),
+    clearRole:async(...args)=>(await ensureCore()).clearRole(...args),
+    subscribe:(listener)=>{let unsubscribe=()=>{};void ensureCore().then(api=>{unsubscribe=api.subscribe(listener);});return()=>unsubscribe();},
+    refreshPersistentPair:async()=>{await ensureCore();return refreshPersistentPair();},
+    getState:()=>coreApi?.getState?.()||placeholderState
+  });
+
+  root.CareerModeOnlinePlayerIdentity=proxy;
+})(typeof globalThis!=="undefined"?globalThis:this);
