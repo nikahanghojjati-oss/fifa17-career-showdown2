@@ -12,6 +12,7 @@ const rulesFragment=read('firestore.persistent-pair-production.fragment.rules');
 const sharedJourneyBuilder=read('scripts/build-production-firestore-rules.mjs');
 const pairBuilder=read('scripts/build-production-firestore-rules-with-persistent-pair.mjs');
 const injector=read('scripts/inject-persistent-pair-rules.mjs');
+const deployWorkflow=read('.github/workflows/deploy-firestore-rules-zero-billing.yml');
 
 assert.match(pairSource,/feature:"persistent-nik-daniel-pair"/);
 assert.match(pairSource,/PAIR_DOC_ID="current"/);
@@ -42,10 +43,13 @@ assert.match(identitySource,/"WHO ARE YOU\?"/);
 assert.match(identitySource,/"FORGET THIS DEVICE"/);
 assert.match(identitySource,/pairing\.revokeDevice/);
 assert.match(identitySource,/Career Mode Showdown is online-only/);
-assert.match(appSource,/"persistent-nik-daniel-pair","js\/persistentNikDanielPair\.js"/);
-assert.match(appSource,/pair\.initialize\(\{force:true\}\)/);
-assert.match(appSource,/pairState\.managerId!==current\.managerId/);
-assert.match(appSource,/identity\.chooseManager\(pairState\.managerId\)/);
+assert.match(identitySource,/function syncPersistentPairSidecar\(\)/);
+assert.match(identitySource,/loadOnlineDependency\("persistent-pair","js\/persistentNikDanielPair\.js"/);
+assert.match(identitySource,/pair\.initialize\(\{force:true\}\)/);
+assert.match(identitySource,/pairState\.managerId!==state\.managerId/);
+assert.match(identitySource,/writeOnlineRole\(accountId,selected\.id\)/);
+assert.match(identitySource,/Pair recovered from your account\./);
+assert.doesNotMatch(appSource,/persistentNikDanielPair|persistent-nik-daniel-pair/,'Persistent pair must stay behind the lazy online identity boundary and out of the initial app bundle.');
 
 assert.match(rulesFragment,/cmsPersistentPairRivalryMembership/);
 assert.match(rulesFragment,/activeDevice\(root\.updatedByDeviceId\)/);
@@ -63,6 +67,8 @@ assert.doesNotMatch(sharedJourneyBuilder,/injectPersistentPairRules|persistent-p
 assert.match(pairBuilder,/build-production-firestore-rules\.mjs/);
 assert.match(pairBuilder,/injectPersistentPairRules/);
 assert.ok(injector.includes('match /accounts/{accountId}/pairLinks/{pairId}'));
+assert.match(deployWorkflow,/node scripts\/build-production-firestore-rules-with-persistent-pair\.mjs/);
+assert.match(deployWorkflow,/tests\/firebase\/persistent-nik-daniel-pair-provider-emulator\.cjs/);
 
 const baseBuild=spawnSync(process.execPath,['scripts/build-production-firestore-rules.mjs'],{cwd:root,encoding:'utf8',timeout:30000,maxBuffer:8*1024*1024});
 assert.equal(baseBuild.status,0,`Shared Journey production rules build failed: ${baseBuild.stderr||baseBuild.stdout}`);
@@ -80,4 +86,4 @@ assert.match(generated,/allow list, delete: if false/);
 assert.match(generated,/match \/sharedSetup\/authoritative/);
 assert.match(generated,/function ssjrTerminalValidAtomicSessionClose\(rivalryId, sessionId\)/);
 
-console.log('PASS persistent Nik/Daniel pair lifecycle, identity seeding and bounded production authority contracts.');
+console.log('PASS persistent Nik/Daniel pair lifecycle, lazy identity seeding and bounded production authority contracts.');
