@@ -18,6 +18,7 @@ const pairBuilder=read('scripts/build-production-firestore-rules-with-persistent
 const injector=read('scripts/inject-persistent-pair-rules.mjs');
 const deployWorkflow=read('.github/workflows/deploy-firestore-rules-zero-billing.yml');
 const optionalSource=read('js/optionalModules.js');
+const workerSource=read('service-worker.js');
 
 assert.match(pairSource,/feature:"persistent-nik-daniel-pair"/);
 assert.match(pairSource,/PAIR_DOC_ID="current"/);
@@ -108,15 +109,21 @@ assert.match(identitySource,/pairState\.managerId!==state\.managerId/);
 assert.match(identitySource,/writeOnlineRole\(accountId,selected\.id\)/,'A valid canonical account pair may seed the same named player on another registered browser.');
 assert.doesNotMatch(identitySource,/Career Mode Showdown is online-only|Normal play is online-only|ONLINE SHOWDOWN · NIK & DANIEL|ONLINE SIGN-IN REQUIRED TO PLAY/,'Player-facing language must not describe the only product as an online variant.');
 assert.doesNotMatch(appSource,/persistentNikDanielPair|persistent-nik-daniel-pair/,'Persistent pair must stay behind the lazy identity boundary and out of the initial app bundle.');
+assert.match(workerSource,/"js\/persistentNikDanielPair\.js"/,'Installed application shell must cache the lazy persistent-pair runtime.');
 
 assert.match(entrySource,/preparePairingShell:startShared/,'Single Start a Showdown action must continue to use the established paired-first shell authority.');
 assert.match(entrySource,/showdown\.name="Daniel vs Nik"/);
 assert.match(entrySource,/function normalizeCanonicalPlayers\(\)[\s\S]*playerOne:"Daniel",playerTwo:"Nik"/,'Paired-first entry must canonicalize the pre-draw shell to Daniel as Player One and Nik as Player Two.');
 
 
-assert.match(privatePairingSource,/durableWitness=options\.durableWitness/,'Private pairing redemption must accept a bounded durable witness inside the same provider transaction.');
+assert.match(privatePairingSource,/const durableWitness=options\.durableWitness/,'Private pairing creation and redemption must accept a bounded durable witness inside the provider transaction.');
+assert.match(privatePairingSource,/async function createPairing[\s\S]*await durableWitness\(\{transaction[\s\S]*transaction\.set\(rivalryReference/,'Creator durable authority must execute before rivalry/invite creation commits.');
 assert.match(privatePairingSource,/await durableWitness\(\{transaction/,'Durable pair authority must execute before the one-use redemption transaction writes commit.');
-assert.match(pairSource,/pairCreateDurableRedemptionWitness/,'Persistent pairing must create the account pair witness inside redemption authority.');
+assert.match(pairSource,/pairCreateDurableCreationWitness/,'Persistent pairing must create the creator account witness inside create authority.');
+assert.match(pairSource,/pairCreateDurableRedemptionWitness/,'Persistent pairing must create the joiner account witness inside redemption authority.');
+const startFunction=pairSource.slice(pairSource.indexOf('async function pairStartPairing'),pairSource.indexOf('async function pairJoinPairing'));
+assert.match(startFunction,/durableWitness/);
+assert.doesNotMatch(startFunction,/pairPersistPairLinkWithRetry/,'Successful code creation must not depend on a later pair-link write.');
 const joinFunction=pairSource.slice(pairSource.indexOf('async function pairJoinPairing'),pairSource.indexOf('function pairContextualJoinMessage'));
 assert.match(joinFunction,/durableWitness/);
 assert.doesNotMatch(joinFunction,/pairPersistPairLinkWithRetry/,'Successful one-use redemption must not depend on a later pair-link write.');
@@ -132,8 +139,10 @@ vm.createContext(showdownSandbox);vm.runInContext(showdownSource,showdownSandbox
 assert.throws(()=>showdownSandbox.normalizeShowdown({managers:{playerOne:'Nik',playerTwo:'Daniel'}}),error=>error&&error.code==='SHOWDOWN_REVERSED_MANAGER_ROLES_UNSUPPORTED','Reversed historical manager roles must fail closed instead of being silently relabelled.');
 
 assert.match(rulesFragment,/cmsPersistentPairRivalryMembership/);
-assert.match(rulesFragment,/cmsPersistentPairRedemptionWitnessValid/,'Provider Rules must bind every rivalry redemption to the account current-pair witness.');
-assert.match(injector,/cmsPersistentPairRedemptionWitnessValid\(rivalryId, inviteBefore\.data\.slotId\)/,'Production Rules injection must make the pair witness mandatory for validRivalryRedeem.');
+assert.match(rulesFragment,/cmsPersistentPairCreationWitnessValid/,'Provider Rules must bind every rivalry creation to the creator account current-pair witness.');
+assert.match(rulesFragment,/cmsPersistentPairRedemptionWitnessValid/,'Provider Rules must bind every rivalry redemption to the joiner account current-pair witness.');
+assert.match(injector,/cmsPersistentPairCreationWitnessValid\(rivalryId\)/,'Production Rules injection must make the creator pair witness mandatory for initial rivalry creation.');
+assert.match(injector,/cmsPersistentPairRedemptionWitnessValid\(rivalryId, inviteBefore\.data\.slotId\)/,'Production Rules injection must make the joiner pair witness mandatory for validRivalryRedeem.');
 assert.match(rulesFragment,/activeDevice\(root\.updatedByDeviceId\)/);
 assert.match(rulesFragment,/activeDevice\(after\.updatedByDeviceId\)/);
 assert.match(rulesFragment,/request\.auth\.uid == accountId/);
@@ -171,7 +180,8 @@ assert.equal((generated.match(/match \/accounts\/\{accountId\}\/pairLinks\/\{pai
 assert.equal((generated.match(/function cmsPersistentPairCreateValid\(accountId, pairId\)/g)||[]).length,1);
 assert.equal((generated.match(/function cmsPersistentPairUpdateValid\(accountId, pairId\)/g)||[]).length,1);
 assert.match(generated,/allow get: if signedIn\(\) && request\.auth\.uid == accountId && pairId == 'current'/);
-assert.match(generated,/cmsPersistentPairRedemptionWitnessValid\(rivalryId, inviteBefore\.data\.slotId\)/,'Generated production Rules must reject redemption without the exact account current-pair witness.');
+assert.match(generated,/cmsPersistentPairCreationWitnessValid\(rivalryId\)/,'Generated production Rules must reject creation without the exact creator account current-pair witness.');
+assert.match(generated,/cmsPersistentPairRedemptionWitnessValid\(rivalryId, inviteBefore\.data\.slotId\)/,'Generated production Rules must reject redemption without the exact joiner account current-pair witness.');
 assert.match(generated,/priorRivalry\.data\.data\.connectionState == 'closed'/);
 assert.match(generated,/allow list, delete: if false/);
 assert.match(generated,/match \/sharedSetup\/authoritative/);

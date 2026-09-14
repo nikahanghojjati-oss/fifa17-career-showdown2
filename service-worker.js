@@ -52,6 +52,7 @@ const SHELL_PATHS = Object.freeze([
     "js/offlineApp.js",
     "js/optionalModules.js",
     "js/onlinePlayerIdentity.js",
+    "js/persistentNikDanielPair.js",
     "js/productionFirebaseRuntime.js",
     "js/ssjr.js",
     "js/ssjrProductionAcceptanceRecorder.js",

@@ -30,15 +30,20 @@
         );
     }
 
-    function cmsPersistentPairRedemptionWitnessValid(rivalryId, role) {
+    function cmsPersistentPairCreationWitnessValid(rivalryId) {
       let pair = getAfter(/databases/$(database)/documents/accounts/$(request.auth.uid)/pairLinks/current);
       let pairData = pair.data.data;
       return pair.data.objectType == 'pairLink'
         && pair.data.objectId == 'current'
         && pair.data.lifecycleState == 'live'
         && pair.data.updatedByAccountId == request.auth.uid
-        && activeDevice(pair.data.updatedByDeviceId)
         && pairData.rivalryId == rivalryId
+        && cmsPersistentPairManagerValid(pairData.managerRole, pairData.managerId);
+    }
+
+    function cmsPersistentPairRedemptionWitnessValid(rivalryId, role) {
+      let pairData = getAfter(/databases/$(database)/documents/accounts/$(request.auth.uid)/pairLinks/current).data.data;
+      return pairData.rivalryId == rivalryId
         && pairData.managerRole == role
         && cmsPersistentPairManagerValid(role, pairData.managerId);
     }

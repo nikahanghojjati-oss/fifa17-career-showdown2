@@ -269,6 +269,8 @@
       const identity=options.identity;
       if(!validDeviceIdentity(identity))throw errorWithCode("PRIVATE_DEVICE_IDENTITY_UNAVAILABLE","A stable registered device is required.");
       const binding=normalizeLocalBinding(options.binding);
+      const durableWitness=options.durableWitness;
+      if(durableWitness!==undefined&&durableWitness!==null&&typeof durableWitness!=="function")throw errorWithCode("PAIRING_DURABLE_WITNESS_INVALID","A valid durable pairing witness is required.");
       const ttlMs=options.ttlMs===undefined?PAIRING_TTL_MS:Number(options.ttlMs);
       if(!Number.isFinite(ttlMs)||ttlMs<=0||ttlMs>MAX_PAIRING_TTL_MS)throw errorWithCode("PAIRING_TTL_INVALID","Private pairing expiry must be within 30 minutes.");
       const capability=normalizeCapability(options.capability||randomId("pair_",PAIRING_CAPABILITY_BYTES,options.cryptoImpl||root.crypto));
@@ -280,17 +282,23 @@
       const rivalryReference=sdk.doc(options.firestore,"rivalries",capability);
       const inviteReference=sdk.doc(options.firestore,"rivalries",capability,"invites",capability);
       const {managerSlots,invitedRole}=buildManagerSlots(accountId,binding);
-      await sdk.runTransaction(options.firestore,async transaction=>{
+      const durableWitnessResult=await sdk.runTransaction(options.firestore,async transaction=>{
         const deviceSnapshot=await transaction.get(deviceReference);
         assertActiveDeviceSnapshot(deviceSnapshot,identity.deviceId);
         const rivalryData={connectionState:"pending-pair",connectionStateBeforeDeletion:null,managerSlots,authorizedAccountIds:[accountId],createdByAccountId:accountId,createdAt};
         const inviteData={purpose:"rivalry-pairing",slotId:invitedRole,createdByAccountId:accountId,createdAt,expiresAt,state:"open",redeemedByAccountId:null,redeemedAt:null,revokedAt:null};
         const rivalryEnvelope=await buildEnvelope({objectType:"rivalry",objectId:capability,revision:0,parentRevision:null,priorContentHash:null,updatedAt:createdAt,updatedByAccountId:accountId,updatedByDeviceId:identity.deviceId,data:rivalryData,cryptoImpl:options.cryptoImpl||root.crypto});
         const inviteEnvelope=await buildEnvelope({objectType:"invite",objectId:capability,revision:0,parentRevision:null,priorContentHash:null,updatedAt:createdAt,updatedByAccountId:accountId,updatedByDeviceId:identity.deviceId,data:inviteData,cryptoImpl:options.cryptoImpl||root.crypto});
+        let witness=null;
+        if(durableWitness){
+          witness=await durableWitness({transaction,binding,capability,accountId,deviceId:identity.deviceId,now:createdAt,nowEpochMs});
+          if(!witness||witness.ok!==true)throw errorWithCode("PAIRING_DURABLE_WITNESS_FAILED","The durable creator pairing witness could not be committed.");
+        }
         transaction.set(rivalryReference,rivalryEnvelope);
         transaction.set(inviteReference,inviteEnvelope);
+        return witness;
       });
-      return {ok:true,rivalryId:capability,inviteId:capability,capability,slotId:invitedRole,expiresAtEpochMs:nowEpochMs+ttlMs,creatorBinding:binding};
+      return {ok:true,rivalryId:capability,inviteId:capability,capability,slotId:invitedRole,expiresAtEpochMs:nowEpochMs+ttlMs,creatorBinding:binding,durableWitness:durableWitnessResult};
     }catch(error){return asResultError(error,"PAIRING_CREATE_FAILED");}
   }
 

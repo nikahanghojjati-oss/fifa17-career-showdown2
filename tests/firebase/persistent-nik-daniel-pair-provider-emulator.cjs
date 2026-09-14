@@ -27,6 +27,22 @@ function pairEnvelope(uid,id,role,managerId,device,linkedAt,lastConfirmedAt,{rev
   return envelope({objectType:'pairLink',objectId:'current',revision,parentRevision,contentHash,priorContentHash,updatedAt:lastConfirmedAt,accountId:uid,deviceId:device,data:{rivalryId:id,managerRole:role,managerId,linkedAt,lastConfirmedAt}});
 }
 
+async function atomicCreateWithPairLink(db,{uid,device,target,role,managerId,char,nowMs,writePairLink=true}){
+  const rivalryRef=doc(db,'rivalries',target),inviteRef=doc(db,'rivalries',target,'invites',target),pairRef=doc(db,'accounts',uid,'pairLinks','current');
+  return runTransaction(db,async transaction=>{
+    const pairSnapshot=await transaction.get(pairRef),at=Timestamp.fromMillis(nowMs+4000),expiresAt=Timestamp.fromMillis(nowMs+604000),invitedRole=role==='playerOne'?'playerTwo':'playerOne';
+    const p1=role==='playerOne'?managerSlot('playerOne',uid,char):openSlot('playerOne'),p2=role==='playerTwo'?managerSlot('playerTwo',uid,char):openSlot('playerTwo');
+    const rivalryData={connectionState:'pending-pair',connectionStateBeforeDeletion:null,managerSlots:[p1,p2],authorizedAccountIds:[uid],createdByAccountId:uid,createdAt:at};
+    const inviteData={purpose:'rivalry-pairing',slotId:invitedRole,createdByAccountId:uid,createdAt:at,expiresAt,state:'open',redeemedByAccountId:null,redeemedAt:null,revokedAt:null};
+    const rivalryNext=envelope({objectType:'rivalry',objectId:target,contentHash:hash(char),updatedAt:at,accountId:uid,deviceId:device,data:rivalryData});
+    const inviteNext=envelope({objectType:'invite',objectId:target,contentHash:hash(char),updatedAt:at,accountId:uid,deviceId:device,data:inviteData});
+    let revision=0,parentRevision=null,priorContentHash=null,linkedAt=at;
+    if(pairSnapshot.exists()){const prior=pairSnapshot.data();revision=prior.revision+1;parentRevision=prior.revision;priorContentHash=prior.contentHash;linkedAt=prior.data.linkedAt;}
+    const pairNext=pairEnvelope(uid,target,role,managerId,device,linkedAt,at,{revision,parentRevision,contentHash:hash(char),priorContentHash});
+    if(writePairLink)transaction.set(pairRef,pairNext);transaction.set(rivalryRef,rivalryNext);transaction.set(inviteRef,inviteNext);return target;
+  });
+}
+
 async function atomicRedeemWithPairLink(db,{uid,device,target,managerId,char,nowMs,writePairLink=true}){
   const rivalryRef=doc(db,'rivalries',target),inviteRef=doc(db,'rivalries',target,'invites',target),pairRef=doc(db,'accounts',uid,'pairLinks','current');
   return runTransaction(db,async transaction=>{
@@ -49,12 +65,12 @@ async function atomicRedeemWithPairLink(db,{uid,device,target,managerId,char,now
   try{
     await testEnv.clearFirestore();
     const nowMs=Date.now(),now=Timestamp.fromMillis(nowMs),later=Timestamp.fromMillis(nowMs+1000);
-    const ids={a:deviceId('a'),b:deviceId('b'),c:deviceId('c'),d:deviceId('d'),e:deviceId('e')};
-    const rivalryOne=`pair_${'1'.repeat(64)}`,rivalryTwo=`pair_${'2'.repeat(64)}`,pendingOld=`pair_${'3'.repeat(64)}`,pendingNew=`pair_${'4'.repeat(64)}`,atomicRecovery=`pair_${'5'.repeat(64)}`,staleRedeem=`pair_${'6'.repeat(64)}`;
+    const ids={a:deviceId('a'),b:deviceId('b'),c:deviceId('c'),d:deviceId('d'),e:deviceId('e'),f:deviceId('f')};
+    const rivalryOne=`pair_${'1'.repeat(64)}`,rivalryTwo=`pair_${'2'.repeat(64)}`,pendingOld=`pair_${'3'.repeat(64)}`,pendingNew=`pair_${'4'.repeat(64)}`,atomicRecovery=`pair_${'5'.repeat(64)}`,staleRedeem=`pair_${'6'.repeat(64)}`,atomicCreate=`pair_${'7'.repeat(64)}`,staleCreate=`pair_${'8'.repeat(64)}`;
 
     await testEnv.withSecurityRulesDisabled(async context=>{
       const db=context.firestore();
-      for(const [uid,key] of [['acct_a','a'],['acct_b','b'],['acct_c','c'],['acct_d','d'],['acct_e','e']]){
+      for(const [uid,key] of [['acct_a','a'],['acct_b','b'],['acct_c','c'],['acct_d','d'],['acct_e','e'],['acct_f','f']]){
         await setDoc(doc(db,'accounts',uid),accountEnvelope(uid,now));
         await setDoc(doc(db,'accounts',uid,'devices',ids[key]),deviceEnvelope(uid,ids[key],now));
       }
@@ -74,6 +90,7 @@ async function atomicRedeemWithPairLink(db,{uid,device,target,managerId,char,now
     const dbC=testEnv.authenticatedContext('acct_c').firestore();
     const dbD=testEnv.authenticatedContext('acct_d').firestore();
     const dbE=testEnv.authenticatedContext('acct_e').firestore();
+    const dbF=testEnv.authenticatedContext('acct_f').firestore();
     const dbAnon=testEnv.unauthenticatedContext().firestore();
     const pairRefA=doc(dbA,'accounts','acct_a','pairLinks','current');
     const pairRefB=doc(dbB,'accounts','acct_b','pairLinks','current');
@@ -119,20 +136,47 @@ async function atomicRedeemWithPairLink(db,{uid,device,target,managerId,char,now
     await assertSucceeds(setDoc(pairRefD,replacement));
 
 
+
+  console.log('CHECKPOINT creator-witnessless');
+  await assertFails(atomicCreateWithPairLink(dbF,{uid:'acct_f',device:ids.f,target:atomicCreate,role:'playerTwo',managerId:'nik',char:'f',nowMs,writePairLink:false}));
+  await testEnv.withSecurityRulesDisabled(async context=>{
+    const adminDb=context.firestore();
+    assert.equal((await getDoc(doc(adminDb,'rivalries',atomicCreate))).exists(),false,'provider Rules must reject creator pairing without the durable current-pair witness');
+    assert.equal((await getDoc(doc(adminDb,'rivalries',atomicCreate,'invites',atomicCreate))).exists(),false,'witness-less creator failure must not mint a usable invite');
+  });
+  console.log('CHECKPOINT creator-success');
+  await assertSucceeds(atomicCreateWithPairLink(dbF,{uid:'acct_f',device:ids.f,target:atomicCreate,role:'playerTwo',managerId:'nik',char:'f',nowMs}));
+  assert.equal((await getDoc(doc(dbF,'accounts','acct_f','pairLinks','current'))).data().data.rivalryId,atomicCreate,'successful creator transaction must atomically bind current-pair authority');
+  assert.equal((await getDoc(doc(dbF,'rivalries',atomicCreate))).data().data.connectionState,'pending-pair');
+  assert.equal((await getDoc(doc(dbF,'rivalries',atomicCreate,'invites',atomicCreate))).data().data.state,'open');
+
+  console.log('CHECKPOINT creator-stale-active');
+  await assertFails(atomicCreateWithPairLink(dbA,{uid:'acct_a',device:ids.a,target:staleCreate,role:'playerOne',managerId:'daniel',char:'a',nowMs}));
+  await testEnv.withSecurityRulesDisabled(async context=>{
+    const adminDb=context.firestore();
+    assert.equal((await getDoc(doc(adminDb,'rivalries',staleCreate))).exists(),false,'stale creator tab must not create a second rivalry while current pair is active');
+    assert.equal((await getDoc(doc(adminDb,'rivalries',staleCreate,'invites',staleCreate))).exists(),false,'stale creator rejection must not leave a shareable one-use invite');
+  });
+
+  console.log('CHECKPOINT redeem-witnessless');
   await assertFails(atomicRedeemWithPairLink(dbE,{uid:'acct_e',device:ids.e,target:atomicRecovery,managerId:'nik',char:'e',nowMs,writePairLink:false}));
   assert.equal((await getDoc(doc(dbE,'rivalries',atomicRecovery))).data().data.connectionState,'pending-pair','provider Rules must reject redemption that omits the durable pair witness');
   assert.equal((await getDoc(doc(dbE,'rivalries',atomicRecovery,'invites',atomicRecovery))).data().data.state,'open','witness-less redemption must leave the one-use invite unconsumed');
+  console.log('CHECKPOINT redeem-success');
   await assertSucceeds(atomicRedeemWithPairLink(dbE,{uid:'acct_e',device:ids.e,target:atomicRecovery,managerId:'nik',char:'e',nowMs}));
   const durablePair=(await getDoc(doc(dbE,'accounts','acct_e','pairLinks','current'))).data();
   assert.equal(durablePair.data.rivalryId,atomicRecovery,'successful redemption must durably commit the account current-pair witness in the same transaction');
   assert.equal((await getDoc(doc(dbE,'rivalries',atomicRecovery))).data().data.connectionState,'active');
-  assert.equal((await getDoc(doc(dbE,'rivalries',atomicRecovery,'invites',atomicRecovery))).data().data.state,'redeemed');
+  await testEnv.withSecurityRulesDisabled(async context=>{
+    assert.equal((await getDoc(doc(context.firestore(),'rivalries',atomicRecovery,'invites',atomicRecovery))).data().data.state,'redeemed','successful redemption must consume the one-use invite atomically');
+  });
 
+  console.log('CHECKPOINT redeem-stale-active');
   await assertFails(atomicRedeemWithPairLink(dbC,{uid:'acct_c',device:ids.c,target:staleRedeem,managerId:'nik',char:'c',nowMs}));
   assert.equal((await getDoc(doc(dbC,'rivalries',staleRedeem))).data().data.connectionState,'pending-pair','stale-tab double-active rejection must roll back rivalry activation');
   assert.equal((await getDoc(doc(dbC,'rivalries',staleRedeem,'invites',staleRedeem))).data().data.state,'open','stale-tab double-active rejection must leave the one-use invite unconsumed');
 
-    process.stdout.write('PASS persistent pair Rules emulator: Daniel=Player One and Nik=Player Two are canonical, mismatched roles are rejected, private account get, no list/delete, registered-device writes, active-career replacement denial, terminal closed-career fresh replacement, rivalry membership and expired-pending replacement safety, mandatory atomic post-redeem recovery witness, witness-less redemption denial, and stale-tab double-active rollback are enforced.\n');
+    process.stdout.write('PASS persistent pair Rules emulator: Daniel=Player One and Nik=Player Two are canonical, mismatched roles are rejected, private account get, no list/delete, registered-device writes, active-career replacement denial, terminal closed-career fresh replacement, rivalry membership and expired-pending replacement safety, mandatory atomic creator and post-redeem recovery witnesses, witness-less create/redeem denial, stale-creator capability rollback, and stale-tab double-active rollback are enforced.\n');
   }finally{
     try{await testEnv.clearFirestore();}catch(_error){}
     await testEnv.cleanup();
