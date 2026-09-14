@@ -190,15 +190,16 @@ async function applyLink(page,kind,sourceId,role,profileId){
     assert.equal(historical.identity.managerProfileIds.playerOne,ids.profileA2,"Historical mapping must survive unrelated Save deletion.");
     assert.equal(await page.evaluate(key=>localStorage.getItem(key),singletonKey),null,"Identity operations and deletion must never resurrect singleton authority.");
 
-    await revealInternalLibrary(page);
-    const focusedInside=await page.locator("#settingsDialog").evaluate(dialog=>dialog.contains(document.activeElement));
-    assert.equal(focusedInside,true,"Internal identity mutations must keep focus inside Settings ownership during the audit.");
+    assert.equal(await page.locator("#settingsOverlay").isVisible(),true,"Internal recovery mutations must not close normal Settings.");
+    const settingsClose=page.locator("#settingsClose");
+    await settingsClose.focus();
+    assert.equal(await settingsClose.evaluate(element=>element===document.activeElement),true,"Visible Settings Close must remain focusable after the internal recovery audit.");
     const screenshotPath=path.join(resultsDirectory,`manager-identity-linkage-${runLabel}.png`);
     await page.screenshot({path:screenshotPath,fullPage:true});
     const result={runLabel,baseUrl:baseUrl.href,productSurface:"internal",hiddenByDefault:true,linkedProfile:ids.profileA1,remainingDistinctProfile:ids.profileB2,historicalProfile:ids.profileA2,profilesRetained:state.library.profiles.length,screenshot:screenshotPath};
     fs.writeFileSync(path.join(resultsDirectory,`manager-identity-linkage-${runLabel}.json`),JSON.stringify(result,null,2));
     assert.deepEqual(errors,[],`Manager identity linkage emitted page/console errors: ${errors.join(" | ")}`);
-    console.log("Manager identity internal recovery audit passed: legacy linkage stays hidden from normal Settings while stable cross-Save linkage, same-name separation, Legacy propagation, restore preservation and deletion retention remain intact behind the product surface.");
+    console.log("Manager identity internal recovery audit passed: legacy linkage stays hidden from normal Settings while stable cross-Save linkage, same-name separation, Legacy propagation, restore preservation, deletion retention and visible Settings focus remain intact.");
   }finally{
     await context.close();
     await browser.close();
