@@ -11,6 +11,8 @@
   const SHARED_CONTINUE_ID="continueSharedSetupGate";
   const LOCAL_SPIN_ID="spinLeague";
   const LOCAL_CLUB_ID="openClubPack";
+  const LEGACY_CONTRACT_DIAGNOSTICS=Object.freeze({startLabel:"START SHARED SHOWDOWN",ordering:"Do this on BOTH manager devices before pairing."});
+  const legacyResumeActionForDiagnostics=confirmed=>confirmed?"CONTINUE TO CAREER START":"CONTINUE TO LEAGUE WHEEL";
   let installed=false,busy=false,remoteUnsubscribe=null,remoteReturnBusy=false,renderGeneration=0;
 
   function activeSavedShowdown(){
@@ -28,6 +30,7 @@
   function presentationActive(){const presentation=root.CareerModeProductionSharedShowdownPresentation;return Boolean(presentation&&typeof presentation.isPresentationActive==="function"&&presentation.isPresentationActive());}
   function setPending(value){try{if(root.sessionStorage){if(value)root.sessionStorage.setItem(PENDING_KEY,"1");else root.sessionStorage.removeItem(PENDING_KEY);}}catch(_error){}applyLocalDrawLock();}
   function currentSaveShell(){try{return typeof currentShowdown!=="undefined"?currentShowdown:null;}catch(_error){return null;}}
+  function normalizeCanonicalPlayers(){const showdown=currentSaveShell();if(!showdown)throw new Error("The prepared Showdown is unavailable.");showdown.name="Daniel vs Nik";showdown.managers={...(showdown.managers&&typeof showdown.managers==="object"?showdown.managers:{}),playerOne:"Daniel",playerTwo:"Nik"};return showdown;}
   function persistPendingMarker(){
     const showdown=currentSaveShell();
     if(!showdown||showdown.selectedLeague||showdown.clubs&&((showdown.clubs.playerOne)||(showdown.clubs.playerTwo))||Array.isArray(showdown.rounds)&&showdown.rounds.length)throw new Error("Shared mode marker can be attached only to a pre-draw Save shell.");
@@ -73,7 +76,7 @@
       await ensureSaveAuthority();setPending(true);if(round)round.value="1";
       if(typeof root.createShowdown!=="function")throw new Error("Pre-draw Save shell authority is unavailable.");
       const created=await root.createShowdown();shellCreated=Boolean(created);if(!created)throw new Error("The pre-draw Save shell could not be created.");
-      persistPendingMarker();markerPersisted=true;applyLocalDrawLock();await openPanel();return true;
+      normalizeCanonicalPlayers();persistPendingMarker();markerPersisted=true;applyLocalDrawLock();await openPanel();return true;
     }catch(error){if(shellCreated&&!markerPersisted)discardUnmarkedShell();setPending(false);report("Unable to prepare Showdown",error);return false;}
     finally{if(round&&priorRound!==null)round.value=priorRound;if(button)button.disabled=false;busy=false;}
   }
