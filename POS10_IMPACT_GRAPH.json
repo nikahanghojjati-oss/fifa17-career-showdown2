@@ -291,7 +291,7 @@
     },
     "V1_VISUAL_IMMERSION_INLINE": {
       "source": "tests/proof-sources/workflows/validate-v1-visual-immersion.yml",
-      "gitBlobSha": "cc30fec5c5b7401e3f6e63cc09ec0e0ca76eb921"
+      "gitBlobSha": "f18f6d9b25f284932643d38c155e8b902fe0dea9"
     }
   },
   "artifactRules": [
