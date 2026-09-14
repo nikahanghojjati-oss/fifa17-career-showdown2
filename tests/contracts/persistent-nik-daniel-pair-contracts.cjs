@@ -128,6 +128,7 @@ assert.match(pairSource,/pairCreateDurableCreationWitness/,'Persistent pairing m
 assert.match(pairSource,/pairCreateDurableRedemptionWitness/,'Persistent pairing must create the joiner account witness inside redemption authority.');
 const startFunction=pairSource.slice(pairSource.indexOf('async function pairStartPairing'),pairSource.indexOf('async function pairJoinPairing'));
 assert.match(startFunction,/durableWitness/);
+assert.match(startFunction,/PERSISTENT_PAIR_PENDING_CONFLICT[\s\S]*pairInitialize\(\{force:true\}\)/,'A stale registered browser must re-read the durable pending pair after a provider pending-code conflict instead of rendering an empty waiting state.');
 assert.doesNotMatch(startFunction,/pairPersistPairLinkWithRetry/,'Successful code creation must not depend on a later pair-link write.');
 const joinFunction=pairSource.slice(pairSource.indexOf('async function pairJoinPairing'),pairSource.indexOf('function pairContextualJoinMessage'));
 assert.match(joinFunction,/durableWitness/);
