@@ -1,0 +1,63 @@
+name: PR260 wire routing audit
+on:
+  push:
+    branches:
+      - feat/persistent-nik-daniel-pair
+    paths:
+      - .github/workflows/pr260-wire-routing-audit.yml
+permissions:
+  contents: write
+jobs:
+  wire-and-prove:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: feat/persistent-nik-daniel-pair
+          fetch-depth: 0
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+      - name: Wire permanent routing audit into standard browser suites
+        run: |
+          node - <<'NODE'
+          const fs=require('node:fs');
+          const file='package.json';
+          const pkg=JSON.parse(fs.readFileSync(file,'utf8'));
+          const command='node tests/browser/persistent-pair-user-facing-routing-audit.cjs';
+          pkg.scripts['test:persistent-pair-routing']=command;
+          for(const key of ['test:browser','test:ssjr:browser']){
+            const current=pkg.scripts[key];
+            if(typeof current!=='string')throw new Error(`Missing ${key}`);
+            if(!current.includes(command))pkg.scripts[key]=`${command} && ${current}`;
+          }
+          fs.writeFileSync(file,JSON.stringify(pkg,null,2)+'\n');
+          NODE
+      - name: Prove permanent invocation and real DOM route
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm ci
+          node - <<'NODE'
+          const pkg=require('./package.json');
+          const needle='node tests/browser/persistent-pair-user-facing-routing-audit.cjs';
+          if(pkg.scripts['test:persistent-pair-routing']!==needle)throw new Error('Dedicated routing script is missing.');
+          for(const key of ['test:browser','test:ssjr:browser'])if(!pkg.scripts[key].includes(needle))throw new Error(`${key} does not execute the routing audit.`);
+          NODE
+          python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/pr260-wire-http.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill $SERVER_PID 2>/dev/null || true' EXIT
+          for i in {1..20}; do curl -fsS http://127.0.0.1:4173/ >/dev/null && break; sleep 0.25; done
+          npm run test:persistent-pair-routing
+          node tests/browser/shared-showdown-paired-first-entry-audit.cjs
+      - name: Publish permanent runner wiring
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add package.json
+          git diff --cached --check
+          git commit -m "test(pr260): run persistent pair routing in standard browser suites"
+          git push origin HEAD:feat/persistent-nik-daniel-pair
