@@ -120,6 +120,7 @@ const sidecarFunction=identitySource.slice(identitySource.indexOf('async functio
 assert.match(sidecarFunction,/pair\.initialize\(\{force:true,reconcileIdentity:async id=>/,'The sidecar must ask pair authority to reconcile stale local role state during initialization, not after a mismatch rejection.');
 assert.match(sidecarFunction,/writeOnlineRole\(accountId,selected\.id\)[\s\S]*setOnlineIdentityState\(\{status:"ready"/,'Provider-authoritative reconciliation must update both IndexedDB and live identity state before normal pair validation resumes.');
 assert.doesNotMatch(sidecarFunction,/pairState\?\.managerId!==state\.managerId/,'Stale-role repair must not wait until after pair initialization has already applied the mismatch guard.');
+assert.match(identitySource,/syncPair:syncPersistentPairSidecar/,'Player connection routing must expose the exact promise-shared identity sidecar instead of duplicating stale-role reconciliation.');
 const canonicalContinueFunction=identitySource.slice(identitySource.indexOf('async function openCanonicalCareerContinue'),identitySource.indexOf('function subscribeOnlineIdentity'));
 assert.match(canonicalContinueFunction,/first=await syncPersistentPairSidecar\(\),next=!first\|\|first\.status==="unavailable"\?await syncPersistentPairSidecar\(\):first/,'Continue must await the same stale-role-reconciling sidecar and retry it once after a transient unavailable result.');
 assert.doesNotMatch(canonicalContinueFunction,/pair\.initialize\(/,'Canonical Continue must not bypass stale-role reconciliation with a callback-free pair initialization.');
@@ -128,6 +129,10 @@ assert.doesNotMatch(appSource,/persistentNikDanielPair|persistent-nik-daniel-pai
 assert.match(workerSource,/"js\/persistentNikDanielPair\.js"/,'Installed application shell must cache the lazy persistent-pair runtime.');
 
 assert.match(entrySource,/preparePairingShell:startShared/,'Single Start a Showdown action must continue to use the established paired-first shell authority.');
+const pairControlsFunction=entrySource.slice(entrySource.indexOf('async function openPersistentPairControls'),entrySource.indexOf('async function remoteState'));
+assert.match(pairControlsFunction,/identity=root\.CareerModeOnlinePlayerIdentity/,'Connect Players must delegate identity reconciliation to the existing identity sidecar.');
+assert.match(pairControlsFunction,/first=await identity\.syncPair\(\),next=!first\|\|first\.status==="unavailable"\?await identity\.syncPair\(\):first/,'Connect Players must share Continue Career’s one bounded retry after a transient unavailable pair read.');
+assert.doesNotMatch(pairControlsFunction,/pair\.initialize\(/,'Connect Players must not bypass stale-role reconciliation with a callback-free pair initialization.');
 const ensurePrepared=pairSource.slice(pairSource.indexOf('async function pairEnsurePreparedBinding'),pairSource.indexOf('async function pairAttachRecoveryPointer'));
 assert.match(ensurePrepared,/showScreen\?\.\("createShowdown"\)/,'Home pairing controls must route an unprepared player to explicit season selection.');
 assert.match(ensurePrepared,/PERSISTENT_PAIR_SEASON_SELECTION_REQUIRED/);
@@ -214,4 +219,4 @@ assert.match(generated,/allow list, delete: if false/);
 assert.match(generated,/match \/sharedSetup\/authoritative/);
 assert.match(generated,/function ssjrTerminalValidAtomicSessionClose\(rivalryId, sessionId\)/);
 
-console.log('PASS fresh single-Showdown product: Daniel is Player One, Nik is Player Two, noncanonical historical mappings are rejected, no legacy pair migration exists, one-use pairing partial commits retain a deterministic retry path without refresh loss, active careers cannot redeem or create a second pair, provider membership selects the exact cached Save/Profile on reconnect, missing fresh-browser gameplay cache fails closed into verified recovery instead of divergent setup, closed test Showdowns become safely replaceable while active careers remain protected, Forget Device clears browser identity, and provider authority remains private and zero-billing.');
+console.log('PASS fresh single-Showdown product: Daniel is Player One, Nik is Player Two, noncanonical historical mappings are rejected, no legacy pair migration exists, one-use pairing partial commits retain a deterministic retry path without refresh loss, active careers cannot redeem or create a second pair, provider membership selects the exact cached Save/Profile on reconnect, missing fresh-browser gameplay cache fails closed into verified recovery instead of divergent setup, closed test Showdowns become safely replaceable while active careers remain protected, Forget Device clears browser identity, Connect Players reuses the same bounded stale-role reconciliation sidecar as Continue Career, and provider authority remains private and zero-billing.');
