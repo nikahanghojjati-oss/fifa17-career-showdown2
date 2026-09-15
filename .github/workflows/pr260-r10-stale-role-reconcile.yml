@@ -1,0 +1,54 @@
+name: PR260 R10 stale role reconcile
+
+on:
+  push:
+    branches:
+      - feat/persistent-nik-daniel-pair
+    paths:
+      - .github/workflows/pr260-r10-stale-role-reconcile.yml
+
+permissions:
+  contents: write
+
+jobs:
+  prove-and-publish:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: feat/persistent-nik-daniel-pair
+          fetch-depth: 1
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Apply bounded R10 patch
+        run: python scripts/pr260-r10-stale-role-reconcile.py
+      - name: Persistent pair contracts
+        run: node tests/contracts/persistent-nik-daniel-pair-contracts.cjs
+      - name: Static release budget
+        run: node tests/contracts/static-app-release-contracts.cjs
+      - name: Release shell coherence
+        run: node tests/contracts/release-shell-coherence-contracts.cjs
+      - name: Presentation contract
+        run: node tests/contracts/shared-showdown-polished-presentation-contracts.cjs
+      - name: Real stale-role and routing browser proof
+        run: |
+          npm run serve:test >/tmp/cms-server.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for attempt in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:4173/ >/dev/null; then break; fi
+            sleep 1
+          done
+          npm run test:persistent-pair-routing
+      - name: Publish only proven permanent R10 files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm .github/workflows/pr260-r10-stale-role-reconcile.yml scripts/pr260-r10-stale-role-reconcile.py
+          git add js/persistentNikDanielPair.js js/onlinePlayerIdentity.js tests/contracts/persistent-nik-daniel-pair-contracts.cjs tests/browser/persistent-pair-user-facing-routing-audit.cjs
+          git diff --cached --check
+          git commit -m "fix(pr260): reconcile stale browser role from pair authority R10"
+          git push origin HEAD:feat/persistent-nik-daniel-pair
