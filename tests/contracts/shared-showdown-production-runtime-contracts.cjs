@@ -188,7 +188,9 @@ assert.ok(release.includes(`Runtime asset revision: \`${runtimeRevision}\``),'Cu
 assert.ok(release.includes(`Previous known-good runtime: \`${previousRuntimeRevision}\``),'Current release record must identify the exact previous whole-shell recovery target.');
 assert.match(release,/SSJR-1\.1[\s\S]+`0\/100`/,'Current publication record must not claim SSJR credit from source or deployment.');
 
-assert.match(entry,/START SHARED SHOWDOWN/);
+assert.match(entry,/start\.textContent="START A SHOWDOWN"/,'Paired-first production must use the canonical Start a Showdown action.');
+assert.match(entry,/singleProductEntry:true/,'Paired-first production must describe one product entry rather than a Shared alternative.');
+assert.doesNotMatch(entry,/START SHARED SHOWDOWN/,'Retired Shared Showdown product language must not return.');
 assert.match(entry,/setPending\(true\)[\s\S]+createShowdown\(\)[\s\S]+persistPendingMarker\(\)/,'Shared journey must establish its transient lock, create the pre-draw shell, then persist the durable shared-mode marker before setup continues.');
 assert.match(entry,/sharedJourney=\{contractVersion:1,mode:"shared",setupPending:true\}/,'The non-secret shared-mode marker must live with the saved shell.');
 assert.match(entry,/runtime\.saveCurrentShowdown\(\)!==true/,'The shared-mode marker must be committed through Save Library authority.');

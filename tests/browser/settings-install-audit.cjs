@@ -89,19 +89,28 @@ async function run(){
         const overlay = page.locator("#settingsOverlay");
         await overlay.waitFor({ state: "visible", timeout: 15000 });
         const panel = overlay.locator(".settingsOfflinePanel");
-        await panel.waitFor({ state: "visible" });
+        await panel.waitFor({ state: "attached", timeout: 15000 });
         const install = panel.locator(".settingsOfflineInstallButton");
 
-        assert.equal(await install.count(), 1, "Settings must expose one install action.");
+        assert.equal(await panel.isHidden(), true, "Offline/install recovery machinery must stay out of the normal player-facing Settings surface.");
+        assert.equal(await panel.getAttribute("data-product-surface"), "internal", "Offline/install recovery panel must be explicitly classified as internal machinery.");
+        assert.equal(await install.count(), 1, "Internal Settings architecture must retain one install action for recovery/testing.");
         assert.equal(await page.locator(".settingsOfflineInstallButton").count(), 1, "Install action must not be duplicated globally.");
-        assert.equal(await install.evaluate(el => Boolean(el.closest("#settingsOverlay"))), true, "Install action must be owned by Settings overlay.");
+        assert.equal(await install.isHidden(), true, "Install action must not reappear as a normal product control.");
+        assert.equal(await install.evaluate(el => Boolean(el.closest("#settingsOverlay"))), true, "Install action must remain owned by Settings overlay.");
 
         const state = await page.evaluate(() => window.getOfflineAppSettingsState());
-        assert.ok(state.installationLabel && state.shellLabel && state.connectivityLabel, "Settings state must expose installation, shell and connectivity labels.");
-        assert.match(await panel.innerText(), /OFFLINE APP/i);
-        assert.match(await panel.innerText(), /INSTALLATION/i);
-        assert.match(await panel.innerText(), /OFFLINE SHELL/i);
-        assert.match(await panel.innerText(), /CONNECTIVITY/i);
+        assert.ok(state.installationLabel && state.shellLabel && state.connectivityLabel, "Internal Settings state must retain installation, shell and connectivity diagnostics.");
+        const panelText = await panel.textContent();
+        assert.match(panelText || "", /OFFLINE APP/i);
+        assert.match(panelText || "", /INSTALLATION/i);
+        assert.match(panelText || "", /OFFLINE SHELL/i);
+        assert.match(panelText || "", /CONNECTIVITY/i);
+
+        const dataPanel = overlay.locator(".settingsDataPanel");
+        await dataPanel.waitFor({state:"attached",timeout:15000});
+        assert.equal(await dataPanel.isHidden(),true,"Legacy data-management recovery controls must remain internal rather than player-facing.");
+        assert.equal(await dataPanel.getAttribute("data-product-surface"),"internal");
 
         if(baseUrl.origin === productionOrigin){
             await page.waitForFunction(() => {
@@ -125,37 +134,26 @@ async function run(){
             assert.equal(connectedProof.account.status, "signed-out", "A fresh production audit context must settle to signed-out rather than runtime-unavailable.");
             assert.equal(connectedProof.account.signedIn, false, "The headless production audit must not fabricate a signed-in Google user.");
             assert.equal(connectedProof.account.connected, false, "Private account readiness still requires genuine Google sign-in and bootstrap proof.");
-            assert.equal(
-                await overlay.locator("#sparkConnectedAccountPanel .settingsConnectedAccountButton").innerText(),
-                "SIGN IN WITH GOOGLE",
-                "Production Settings must expose the real Google sign-in action after account services initialize."
-            );
+            const providerPanel=overlay.locator("#sparkConnectedAccountPanel");
+            assert.equal(await providerPanel.isHidden(),true,"Provider account machinery must remain hidden behind the single product Settings surface.");
+            assert.equal(await providerPanel.getAttribute("data-product-surface"),"internal");
+            assert.equal((await providerPanel.locator(".settingsConnectedAccountButton").textContent()).trim(),"SIGN IN WITH GOOGLE","Underlying provider sign-in authority must remain intact even while its engineering panel is hidden.");
         }
 
-        if(!(await install.isDisabled())){
-            await install.click();
-            await page.waitForTimeout(100);
-            assert.ok(
-                (await panel.locator(".settingsOfflineNote").innerText()).trim().length > 20,
-                "Install action must surface device/browser guidance or native-prompt outcome inside Settings."
-            );
-        }
-
-        const data = overlay.locator(".settingsDataButton");
-        await data.focus();
-        assert.equal(await data.evaluate(el => el === document.activeElement), true, "Data Management control must accept focus before connectivity rerender.");
+        const close = page.locator("#settingsClose");
+        await close.focus();
+        assert.equal(await close.evaluate(el => el === document.activeElement), true, "Settings Close must accept focus before connectivity rerender.");
         await context.setOffline(true);
         await page.waitForTimeout(150);
-        assert.equal(await data.evaluate(el => el === document.activeElement), true, "Offline-state rerender must restore focus to the equivalent Settings control.");
-        assert.equal(await data.evaluate(el => Boolean(el.closest("#settingsDialog"))), true, "Focus must remain inside the Settings dialog after connectivity rerender.");
+        assert.equal(await close.evaluate(el => el === document.activeElement), true, "Offline-state rerender must keep focus inside the visible Settings surface.");
         await context.setOffline(false);
         await page.waitForTimeout(150);
-        assert.equal(await data.evaluate(el => el === document.activeElement), true, "Online-state rerender must preserve Settings focus a second time.");
+        assert.equal(await close.evaluate(el => el === document.activeElement), true, "Online-state rerender must preserve visible Settings focus.");
 
         const done = overlay.locator(".settingsFooter button");
         await done.focus();
         await page.keyboard.press("Tab");
-        assert.equal(await page.locator("#settingsClose").evaluate(el => el === document.activeElement), true, "Tab from the last control must wrap to Settings Close.");
+        assert.equal(await close.evaluate(el => el === document.activeElement), true, "Tab from the last visible control must wrap to Settings Close.");
         await page.keyboard.press("Escape");
         await overlay.waitFor({ state: "hidden" });
         assert.equal(await opener.evaluate(el => el === document.activeElement), true, "Escape must restore focus to the Settings tile.");
@@ -165,14 +163,14 @@ async function run(){
         assert.equal(
             pageErrors.length,
             0,
-            `Settings install audit emitted non-provider page errors: ${JSON.stringify(pageErrors)}`
+            `Settings containment audit emitted non-provider page errors: ${JSON.stringify(pageErrors)}`
         );
         if(ignoredExternalAuthHelperErrors.length){
             console.log(
-                `INFO Settings install audit ignored ${ignoredExternalAuthHelperErrors.length} exact Firebase-hosted Auth helper page error(s) after proving Auth + memory-only Firestore initialization remained healthy. Sanitized provider provenance: ${JSON.stringify(ignoredExternalAuthHelperErrors)}`
+                `INFO Settings containment audit ignored ${ignoredExternalAuthHelperErrors.length} exact Firebase-hosted Auth helper page error(s) after proving Auth + memory-only Firestore initialization remained healthy. Sanitized provider provenance: ${JSON.stringify(ignoredExternalAuthHelperErrors)}`
             );
         }
-        console.log("Settings-owned install UI and focus lifecycle passed: connectivity rerenders preserve focus, Tab stays trapped, Escape restores opener.");
+        console.log("Settings containment passed: install/offline/data/provider machinery remains functional internally, normal Settings stays clean, connectivity rerenders preserve focus, and Escape restores the opener.");
     }finally{
         await context.close();
         await browser.close();

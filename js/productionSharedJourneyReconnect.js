@@ -23,6 +23,7 @@
   function pjrShowdown(){try{return typeof currentShowdown!=="undefined"?currentShowdown:null;}catch(_error){return null;}}
   function pjrSharedMarker(){const showdown=pjrShowdown();return Boolean(showdown&&showdown.sharedJourney&&showdown.sharedJourney.mode==="shared");}
   function pjrMarkerRivalry(){return String(pjrShowdown()?.sharedJourney?.rivalryId||"").trim();}
+  function pjrPrePairShell(){const journey=pjrShowdown()?.sharedJourney;return Boolean(journey&&journey.mode==="shared"&&journey.setupPending===true&&!pjrMarkerRivalry());}
   function pjrReport(context,error){if(typeof root.reportApplicationError==="function")root.reportApplicationError(context,error);else root.console?.error?.(context,error);}
   function pjrLoad(key,path,ready){if(ready())return Promise.resolve(ready());if(typeof root.loadRuntimeScript!=="function")return Promise.reject(Object.assign(new Error("Release-owned runtime loader is unavailable."),{code:"JOURNEY_RECONNECT_DEPENDENCY_UNAVAILABLE"}));return root.loadRuntimeScript(key,path,ready).then(()=>{const api=ready();if(!api)pjrFail("JOURNEY_RECONNECT_DEPENDENCY_UNAVAILABLE",`${path} loaded without its expected API.`);return api;});}
   async function pjrEnsureDependencies(){
@@ -50,6 +51,7 @@
     if(typeof accountApi?.initialize==="function")await accountApi.initialize();
     if(typeof pairingApi?.initialize==="function")await pairingApi.initialize();
     if(typeof rivalryApi?.initialize==="function")await rivalryApi.initialize();
+    if(pjrPrePairShell()&&!rivalryApi?.getState?.()?.attached)return null;
     return pjrCurrentIdentity();
   }
   function pjrPreviousFor(authority){
@@ -93,7 +95,7 @@
     if(!pjrSharedMarker())return pjrPublish(null);
     await pjrEnsureDependencies();
     if(!pjrOnline())return pjrOfflineHold();
-    const authority=await pjrResolveIdentity(),previous=pjrPreviousFor(authority),remote=pjrRemoteSnapshot();
+    const authority=await pjrResolveIdentity();if(!authority)return pjrPublish(null);const previous=pjrPreviousFor(authority),remote=pjrRemoteSnapshot();
     const now=Date.now(),base={authority,previous,nowEpochMs:now,networkOnline:true,remote};
     const remoteExpiry=Number(remote?.expiresAtEpochMs);
     const exactActive=Boolean(remote&&remote.sessionState==="active"&&remote.sessionId&&remote.rivalryId===authority.rivalryId&&remote.accountId===authority.accountId&&remote.deviceId===authority.deviceId&&remote.pendingAction==null&&Number.isFinite(remoteExpiry)&&now<remoteExpiry);

@@ -22,6 +22,9 @@ assert.match(production,/multiApi\.refresh\(\)/);
 assert.match(production,/remoteApi\?\.getState/);
 assert.match(production,/Number\.isFinite\(remoteExpiry\)&&now<remoteExpiry/,'r14 must require exact finite unexpired Remote Joining authority.');
 assert.match(production,/if\(!pjrOnline\(\)\)return pjrOfflineHold\(\)/,'offline recovery must stop before provider Shared Setup/progression reads.');
+assert.match(production,/function pjrPrePairShell\(\)[\s\S]*setupPending===true[\s\S]*!pjrMarkerRivalry\(\)/,'The prepared pre-pair shell must be recognized as a legitimate non-reconnect state.');
+assert.match(production,/pjrPrePairShell\(\)&&!rivalryApi\?\.getState\?\.\(\)\?\.attached\)return null/,'Journey reconnect must defer while Connect Players has not attached a rivalry yet.');
+assert.match(production,/const authority=await pjrResolveIdentity\(\);if\(!authority\)return pjrPublish\(null\)/,'A deferred pre-pair shell must clear recovery state without reporting an application error.');
 assert.ok(production.indexOf('if(!pjrOnline())return pjrOfflineHold()')<production.indexOf('const setupResult=await setupApi.refresh()'),'offline hold must precede provider setup refresh.');
 assert.match(production,/FRESH_SESSION_REQUIRED/);
 assert.match(production,/ACTIVE_RECOVERED/);
@@ -66,3 +69,4 @@ assert.equal(protocol.listPermissionRequired,false);
 assert.equal(protocol.billingRequired,false);
 
 console.log('PASS Journey Reconnect production contract: strict finite ACTIVE session authority, ordered r12→r13→r14 bootstrap, read-only durable recovery, visible dual-manager status and permanent Spark zero-billing boundary.');
+require('./persistent-nik-daniel-pair-contracts.cjs');

@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="app-asset-revision" content="1.9.1-r20">
+<meta name="app-asset-revision" content="1.9.1-r21">
 <title>Career Mode Showdown</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&display=swap">
-<link rel="stylesheet" id="appStyles" href="css/app.css?v=1.9.1-r20">
+<link rel="stylesheet" id="appStyles" href="css/app.css?v=1.9.1-r21">
 </head>
 <body>
 <div id="background"></div>
@@ -20,7 +20,7 @@
 <span class="startupShard startupShardTwo"></span>
 <span class="startupGrid"></span>
 <div class="startupAthleteFrame">
-<img id="startupAthlete" src="assets/marco-reus-2015-cc-by.webp?v=1.9.1-r20" alt="" decoding="async" fetchpriority="high">
+<img id="startupAthlete" src="assets/marco-reus-2015-cc-by.webp?v=1.9.1-r21" alt="" decoding="async" fetchpriority="high">
 </div>
 </div>
 <div class="startupIdentity" aria-hidden="true">
@@ -33,7 +33,7 @@
 <div class="startupPulse" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
 <p id="loadingText">PREPARING CAREER MODE SHOWDOWN</p>
 </div>
-<p class="startupSaveNote" aria-hidden="true">LOCAL SAVE SYSTEM&nbsp;&nbsp;·&nbsp;&nbsp;YOUR CAREER REMAINS ON THIS DEVICE</p>
+<p class="startupSaveNote" aria-hidden="true">TWO MANAGERS&nbsp;&nbsp;·&nbsp;&nbsp;ONE SHOWDOWN</p>
 <p class="startupPhotoCredit" aria-hidden="true">Marco Reus photo: Tim Reckmann · CC BY 2.0 · Display crop</p>
 </section>
 
@@ -59,7 +59,7 @@
 <span class="menuTileCode">CAREER</span><span class="menuTileLabel">CONTINUE CAREER</span><span class="menuTileMeta">Loading active showdown...</span>
 </button>
 <button class="menuTile menuTileNew" id="newShowdown" type="button">
-<span class="menuTileCode">NEW</span><span class="menuTileLabel">NEW SHOWDOWN</span><span class="menuTileMeta">Create a new rivalry</span>
+<span class="menuTileCode">NEW</span><span class="menuTileLabel">START A SHOWDOWN</span><span class="menuTileMeta">Begin a new rivalry</span>
 </button>
 <button class="menuTile menuTileLegacy" id="legacyButton" type="button">
 <span class="menuTileCode">HISTORY</span><span class="menuTileLabel">LEGACY</span><span class="menuTileMeta">Completed rivalries and season history</span>
@@ -71,7 +71,7 @@
 <span class="menuTileCode">RULES</span><span class="menuTileLabel">RULE BOOK</span><span class="menuTileMeta">Scoring and competition rules</span>
 </button>
 <button class="menuTile menuTileSettings" id="settingsButton" type="button">
-<span class="menuTileCode">LOCAL</span><span class="menuTileLabel">SAVE LIBRARY</span><span class="menuTileMeta">Local Showdowns, manager profiles and settings</span>
+<span class="menuTileCode">SETTINGS</span><span class="menuTileLabel">SETTINGS</span><span class="menuTileMeta">Account, device and preferences</span>
 </button>
 
 <section class="menuMusicTile" aria-label="Menu media">
@@ -97,28 +97,29 @@
 <div class="menuBottomStrip">
 <span><b>01</b> TWO MANAGER CAREER COMPETITION</span>
 <span><b>02</b> FIFA 17 ERA RULESET</span>
-<strong>LOCAL SAVE READY</strong>
+<strong>READY</strong>
 </div>
 </div>
 </section>
 
 <section id="createShowdown" class="screen hidden">
-<h2>CREATE SHOWDOWN</h2>
+<h2>NEW SHOWDOWN</h2>
 <div class="setupBox">
-<label for="showdownName">SHOWDOWN NAME</label>
-<input id="showdownName" type="text" placeholder="The Ultimate Rivalry" autocomplete="off">
-<label for="managerOne">MANAGER 1</label>
-<input id="managerOne" type="text" placeholder="Your Name" autocomplete="off">
-<label for="managerTwo">MANAGER 2</label>
-<input id="managerTwo" type="text" placeholder="Opponent Name" autocomplete="off">
-<label for="roundAmount">NUMBER OF ROUNDS</label>
+<label for="showdownName" hidden>SHOWDOWN NAME</label>
+<input id="showdownName" type="text" value="Daniel vs Nik" autocomplete="off" hidden aria-hidden="true" tabindex="-1">
+<label for="managerOne" hidden>PLAYER ONE</label>
+<input id="managerOne" type="text" value="Daniel" autocomplete="off" hidden aria-hidden="true" tabindex="-1">
+<label for="managerTwo" hidden>PLAYER TWO</label>
+<input id="managerTwo" type="text" value="Nik" autocomplete="off" hidden aria-hidden="true" tabindex="-1">
+<p class="stateNote">Daniel is Player One. Nik is Player Two.</p>
+<label for="roundAmount">NUMBER OF SEASONS</label>
 <select id="roundAmount">
-<option value="1">1 Round</option>
-<option value="3">3 Rounds</option>
-<option value="5">5 Rounds</option>
-<option value="10">10 Rounds</option>
+<option value="1">1 Season</option>
+<option value="3">3 Seasons</option>
+<option value="5">5 Seasons</option>
+<option value="10">10 Seasons</option>
 </select>
-<button class="menuButton" id="startShowdown" type="button">START SHOWDOWN</button>
+<button class="menuButton" id="startShowdown" type="button">START A SHOWDOWN</button>
 <button class="backButton" data-smart-back type="button">BACK</button>
 </div>
 </section>
@@ -164,7 +165,7 @@
 <div class="clubRevealArea">
 <div class="clubRevealCard" id="clubCardOne" data-reveal-code="01">
 <span class="clubRevealIndex">01</span>
-<div class="clubManager" id="clubPlayerOne">Manager 1</div>
+<div class="clubManager" id="clubPlayerOne">Daniel</div>
 <div class="clubPackStage">
 <div class="clubPackDoor" aria-hidden="true">
 <span class="clubPackBrand">CAREER MODE<small>SHOWDOWN CLUB DRAW</small></span>
@@ -182,7 +183,7 @@
 <div class="clubVs"><span>RIVALRY</span><strong>VS</strong></div>
 <div class="clubRevealCard" id="clubCardTwo" data-reveal-code="02">
 <span class="clubRevealIndex">02</span>
-<div class="clubManager" id="clubPlayerTwo">Manager 2</div>
+<div class="clubManager" id="clubPlayerTwo">Nik</div>
 <div class="clubPackStage">
 <div class="clubPackDoor" aria-hidden="true">
 <span class="clubPackBrand">CAREER MODE<small>SHOWDOWN CLUB DRAW</small></span>
@@ -208,12 +209,12 @@
 </div>
 <div class="clubRivalryMatchup">
 <div class="clubConfirmationSide">
-<span id="clubConfirmationManagerOne">Manager 1</span>
+<span id="clubConfirmationManagerOne">Daniel</span>
 <strong id="clubConfirmationClubOne">Club</strong>
 </div>
 <div class="clubConfirmationVs">VS</div>
 <div class="clubConfirmationSide">
-<span id="clubConfirmationManagerTwo">Manager 2</span>
+<span id="clubConfirmationManagerTwo">Nik</span>
 <strong id="clubConfirmationClubTwo">Club</strong>
 </div>
 </div>
@@ -253,19 +254,19 @@
 
 <div class="playerCards">
 <div class="playerCard">
-<h3 id="dashboardManagerOne">MANAGER 1</h3>
+<h3 id="dashboardManagerOne">DANIEL</h3>
 <p class="clubName" id="dashboardClubOne">Club</p>
 <p id="dashboardPositionOne">No season completed</p>
 </div>
 <div class="playerCard">
-<h3 id="dashboardManagerTwo">MANAGER 2</h3>
+<h3 id="dashboardManagerTwo">NIK</h3>
 <p class="clubName" id="dashboardClubTwo">Club</p>
 <p id="dashboardPositionTwo">No season completed</p>
 </div>
 </div>
 <div class="dashboardActions">
 <button class="menuButton" id="seasonPrimaryAction" type="button">START SEASON 1 TRANSFER CHALLENGE</button>
-<button class="menuButton" id="remoteJoiningButton" type="button" onclick="Promise.all([loadRuntimeStyle('rj','css/remoteJoining.css'),loadRuntimeScript('rj','js/sparkRemoteJoining.js',()=>window.CareerModeSparkRemoteJoining)]).then(()=>window.CareerModeSparkRemoteJoining.openPanel()).catch(error=>window.reportApplicationError?window.reportApplicationError('Unable to open Private Remote Joining',error):console.error(error))">PRIVATE REMOTE JOINING</button>
+<button class="menuButton hidden" id="remoteJoiningButton" type="button" hidden aria-hidden="true" tabindex="-1">CONNECTION</button>
 <button class="backButton" data-smart-back type="button">BACK TO MAIN MENU</button>
 </div>
 </section>
@@ -286,42 +287,42 @@
 
 <div class="transferManagersGrid">
 <div class="transferManagerCard">
-<div class="seasonManagerHeader"><h3 id="transferManagerOne">MANAGER 1</h3><p id="transferClubOne">Club</p></div>
+<div class="seasonManagerHeader"><h3 id="transferManagerOne">DANIEL</h3><p id="transferClubOne">Club</p></div>
 <p class="transferSectionLabel">SIGNINGS</p>
 <div class="signingRows">
-<div class="signingRow"><span>1</span><input data-transfer-field id="p1Signing1Name" aria-label="Manager 1 signing 1 player name" placeholder="Player name"><input data-transfer-field id="p1Signing1League" aria-label="Manager 1 signing 1 previous league" placeholder="Previous league"><input data-transfer-field id="p1Signing1Nationality" aria-label="Manager 1 signing 1 nationality" placeholder="Nationality"></div>
-<div class="signingRow"><span>2</span><input data-transfer-field id="p1Signing2Name" aria-label="Manager 1 signing 2 player name" placeholder="Player name"><input data-transfer-field id="p1Signing2League" aria-label="Manager 1 signing 2 previous league" placeholder="Previous league"><input data-transfer-field id="p1Signing2Nationality" aria-label="Manager 1 signing 2 nationality" placeholder="Nationality"></div>
-<div class="signingRow"><span>3</span><input data-transfer-field id="p1Signing3Name" aria-label="Manager 1 signing 3 player name" placeholder="Player name"><input data-transfer-field id="p1Signing3League" aria-label="Manager 1 signing 3 previous league" placeholder="Previous league"><input data-transfer-field id="p1Signing3Nationality" aria-label="Manager 1 signing 3 nationality" placeholder="Nationality"></div>
+<div class="signingRow"><span>1</span><input data-transfer-field id="p1Signing1Name" aria-label="Player One signing 1 player name" placeholder="Player name"><input data-transfer-field id="p1Signing1League" aria-label="Player One signing 1 previous league" placeholder="Previous league"><input data-transfer-field id="p1Signing1Nationality" aria-label="Player One signing 1 nationality" placeholder="Nationality"></div>
+<div class="signingRow"><span>2</span><input data-transfer-field id="p1Signing2Name" aria-label="Player One signing 2 player name" placeholder="Player name"><input data-transfer-field id="p1Signing2League" aria-label="Player One signing 2 previous league" placeholder="Previous league"><input data-transfer-field id="p1Signing2Nationality" aria-label="Player One signing 2 nationality" placeholder="Nationality"></div>
+<div class="signingRow"><span>3</span><input data-transfer-field id="p1Signing3Name" aria-label="Player One signing 3 player name" placeholder="Player name"><input data-transfer-field id="p1Signing3League" aria-label="Player One signing 3 previous league" placeholder="Previous league"><input data-transfer-field id="p1Signing3Nationality" aria-label="Player One signing 3 nationality" placeholder="Nationality"></div>
 </div>
 </div>
 
 <div class="transferManagerCard">
-<div class="seasonManagerHeader"><h3 id="transferManagerTwo">MANAGER 2</h3><p id="transferClubTwo">Club</p></div>
+<div class="seasonManagerHeader"><h3 id="transferManagerTwo">NIK</h3><p id="transferClubTwo">Club</p></div>
 <p class="transferSectionLabel">SIGNINGS</p>
 <div class="signingRows">
-<div class="signingRow"><span>1</span><input data-transfer-field id="p2Signing1Name" aria-label="Manager 2 signing 1 player name" placeholder="Player name"><input data-transfer-field id="p2Signing1League" aria-label="Manager 2 signing 1 previous league" placeholder="Previous league"><input data-transfer-field id="p2Signing1Nationality" aria-label="Manager 2 signing 1 nationality" placeholder="Nationality"></div>
-<div class="signingRow"><span>2</span><input data-transfer-field id="p2Signing2Name" aria-label="Manager 2 signing 2 player name" placeholder="Player name"><input data-transfer-field id="p2Signing2League" aria-label="Manager 2 signing 2 previous league" placeholder="Previous league"><input data-transfer-field id="p2Signing2Nationality" aria-label="Manager 2 signing 2 nationality" placeholder="Nationality"></div>
-<div class="signingRow"><span>3</span><input data-transfer-field id="p2Signing3Name" aria-label="Manager 2 signing 3 player name" placeholder="Player name"><input data-transfer-field id="p2Signing3League" aria-label="Manager 2 signing 3 previous league" placeholder="Previous league"><input data-transfer-field id="p2Signing3Nationality" aria-label="Manager 2 signing 3 nationality" placeholder="Nationality"></div>
+<div class="signingRow"><span>1</span><input data-transfer-field id="p2Signing1Name" aria-label="Player Two signing 1 player name" placeholder="Player name"><input data-transfer-field id="p2Signing1League" aria-label="Player Two signing 1 previous league" placeholder="Previous league"><input data-transfer-field id="p2Signing1Nationality" aria-label="Player Two signing 1 nationality" placeholder="Nationality"></div>
+<div class="signingRow"><span>2</span><input data-transfer-field id="p2Signing2Name" aria-label="Player Two signing 2 player name" placeholder="Player name"><input data-transfer-field id="p2Signing2League" aria-label="Player Two signing 2 previous league" placeholder="Previous league"><input data-transfer-field id="p2Signing2Nationality" aria-label="Player Two signing 2 nationality" placeholder="Nationality"></div>
+<div class="signingRow"><span>3</span><input data-transfer-field id="p2Signing3Name" aria-label="Player Two signing 3 player name" placeholder="Player name"><input data-transfer-field id="p2Signing3League" aria-label="Player Two signing 3 previous league" placeholder="Previous league"><input data-transfer-field id="p2Signing3Nationality" aria-label="Player Two signing 3 nationality" placeholder="Nationality"></div>
 </div>
 </div>
 </div>
 
 <div class="transferGuessesGrid">
 <div class="transferGuessCard">
-<h3 id="guessAgainstOneHeading">Manager 2 guesses Manager 1's signings</h3>
+<h3 id="guessAgainstOneHeading">Nik guesses Daniel's signings</h3>
 <div class="guessRows">
-<div class="guessRow"><span>1</span><select data-transfer-field id="p1Guess1Type" aria-label="Guess 1 against Manager 1 type"><option value="">Guess type</option><option value="league">League</option><option value="nationality">Nationality</option></select><input data-transfer-field id="p1Guess1Value" aria-label="Guess 1 against Manager 1 value" placeholder="Guess"></div>
-<div class="guessRow"><span>2</span><select data-transfer-field id="p1Guess2Type" aria-label="Guess 2 against Manager 1 type"><option value="">Guess type</option><option value="league">League</option><option value="nationality">Nationality</option></select><input data-transfer-field id="p1Guess2Value" aria-label="Guess 2 against Manager 1 value" placeholder="Guess"></div>
-<div class="guessRow"><span>3</span><select data-transfer-field id="p1Guess3Type" aria-label="Guess 3 against Manager 1 type"><option value="">Guess type</option><option value="league">League</option><option value="nationality">Nationality</option></select><input data-transfer-field id="p1Guess3Value" aria-label="Guess 3 against Manager 1 value" placeholder="Guess"></div>
+<div class="guessRow"><span>1</span><select data-transfer-field id="p1Guess1Type" aria-label="Guess 1 against Daniel type"><option value="">Guess type</option><option value="league">League</option><option value="nationality">Nationality</option></select><input data-transfer-field id="p1Guess1Value" aria-label="Guess 1 against Daniel value" placeholder="Guess"></div>
+<div class="guessRow"><span>2</span><select data-transfer-field id="p1Guess2Type" aria-label="Guess 2 against Daniel type"><option value="">Guess type</option><option value="league">League</option><option value="nationality">Nationality</option></select><input data-transfer-field id="p1Guess2Value" aria-label="Guess 2 against Daniel value" placeholder="Guess"></div>
+<div class="guessRow"><span>3</span><select data-transfer-field id="p1Guess3Type" aria-label="Guess 3 against Daniel type"><option value="">Guess type</option><option value="league">League</option><option value="nationality">Nationality</option></select><input data-transfer-field id="p1Guess3Value" aria-label="Guess 3 against Daniel value" placeholder="Guess"></div>
 </div>
 </div>
 
 <div class="transferGuessCard">
-<h3 id="guessAgainstTwoHeading">Manager 1 guesses Manager 2's signings</h3>
+<h3 id="guessAgainstTwoHeading">Daniel guesses Nik's signings</h3>
 <div class="guessRows">
-<div class="guessRow"><span>1</span><select data-transfer-field id="p2Guess1Type" aria-label="Guess 1 against Manager 2 type"><option value="">Guess type</option><option value="league">League</option><option value="nationality">Nationality</option></select><input data-transfer-field id="p2Guess1Value" aria-label="Guess 1 against Manager 2 value" placeholder="Guess"></div>
-<div class="guessRow"><span>2</span><select data-transfer-field id="p2Guess2Type" aria-label="Guess 2 against Manager 2 type"><option value="">Guess type</option><option value="league">League</option><option value="nationality">Nationality</option></select><input data-transfer-field id="p2Guess2Value" aria-label="Guess 2 against Manager 2 value" placeholder="Guess"></div>
-<div class="guessRow"><span>3</span><select data-transfer-field id="p2Guess3Type" aria-label="Guess 3 against Manager 2 type"><option value="">Guess type</option><option value="league">League</option><option value="nationality">Nationality</option></select><input data-transfer-field id="p2Guess3Value" aria-label="Guess 3 against Manager 2 value" placeholder="Guess"></div>
+<div class="guessRow"><span>1</span><select data-transfer-field id="p2Guess1Type" aria-label="Guess 1 against Nik type"><option value="">Guess type</option><option value="league">League</option><option value="nationality">Nationality</option></select><input data-transfer-field id="p2Guess1Value" aria-label="Guess 1 against Nik value" placeholder="Guess"></div>
+<div class="guessRow"><span>2</span><select data-transfer-field id="p2Guess2Type" aria-label="Guess 2 against Nik type"><option value="">Guess type</option><option value="league">League</option><option value="nationality">Nationality</option></select><input data-transfer-field id="p2Guess2Value" aria-label="Guess 2 against Nik value" placeholder="Guess"></div>
+<div class="guessRow"><span>3</span><select data-transfer-field id="p2Guess3Type" aria-label="Guess 3 against Nik type"><option value="">Guess type</option><option value="league">League</option><option value="nationality">Nationality</option></select><input data-transfer-field id="p2Guess3Value" aria-label="Guess 3 against Nik value" placeholder="Guess"></div>
 </div>
 </div>
 </div>
@@ -348,7 +349,7 @@
 <p class="seasonEntryHint">Scoring: Champions League +5, league title +3, domestic cup +1. 100 league points and/or 100 league goals share one +1 performance bonus. Top Scorer and/or Top Assist share one +1 awards bonus. Maximum season score: 11.</p>
 <div class="seasonEntryGrid">
 <div class="seasonResultCard">
-<div class="seasonManagerHeader"><h3 id="seasonManagerOne">MANAGER 1</h3><p id="seasonClubOne">Club</p></div>
+<div class="seasonManagerHeader"><h3 id="seasonManagerOne">DANIEL</h3><p id="seasonClubOne">Club</p></div>
 <label>LEAGUE POSITION<input id="p1LeaguePosition" type="number" inputmode="numeric" min="1" step="1" placeholder="1"></label>
 <label>LEAGUE POINTS<input id="p1LeaguePoints" type="number" inputmode="numeric" min="0" step="1" placeholder="86"></label>
 <label>LEAGUE GOALS<input id="p1LeagueGoals" type="number" inputmode="numeric" min="0" step="1" placeholder="92"></label>
@@ -361,7 +362,7 @@
 </div>
 
 <div class="seasonResultCard">
-<div class="seasonManagerHeader"><h3 id="seasonManagerTwo">MANAGER 2</h3><p id="seasonClubTwo">Club</p></div>
+<div class="seasonManagerHeader"><h3 id="seasonManagerTwo">NIK</h3><p id="seasonClubTwo">Club</p></div>
 <label>LEAGUE POSITION<input id="p2LeaguePosition" type="number" inputmode="numeric" min="1" step="1" placeholder="2"></label>
 <label>LEAGUE POINTS<input id="p2LeaguePoints" type="number" inputmode="numeric" min="0" step="1" placeholder="82"></label>
 <label>LEAGUE GOALS<input id="p2LeagueGoals" type="number" inputmode="numeric" min="0" step="1" placeholder="85"></label>
@@ -403,15 +404,15 @@
 <button class="backButton" data-smart-back type="button">BACK TO MAIN MENU</button>
 </section>
 </main>
-<footer>Career Mode Showdown<br>v1.9.1 · Private Remote Joining</footer>
+<footer>Career Mode Showdown<br>v1.9.1</footer>
 </div>
 
-<script defer src="js/storage.js?v=1.9.1-r20"></script>
-<script defer src="js/showdown.js?v=1.9.1-r20"></script>
-<script defer src="js/scoring.js?v=1.9.1-r20"></script>
-<script defer src="js/screens.js?v=1.9.1-r20"></script>
-<script defer src="js/menuExperience.js?v=1.9.1-r20"></script>
-<script defer src="js/optionalModules.js?v=1.9.1-r20"></script>
-<script defer src="js/app.js?v=1.9.1-r20"></script>
+<script defer src="js/storage.js?v=1.9.1-r21"></script>
+<script defer src="js/showdown.js?v=1.9.1-r21"></script>
+<script defer src="js/scoring.js?v=1.9.1-r21"></script>
+<script defer src="js/screens.js?v=1.9.1-r21"></script>
+<script defer src="js/menuExperience.js?v=1.9.1-r21"></script>
+<script defer src="js/optionalModules.js?v=1.9.1-r21"></script>
+<script defer src="js/app.js?v=1.9.1-r21"></script>
 </body>
 </html>

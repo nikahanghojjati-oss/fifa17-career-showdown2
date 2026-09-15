@@ -12,13 +12,17 @@ assert.ok(fs.existsSync(path.join(root,releasePath)),`${releasePath} must exist 
 const release=read(releasePath);
 assert.match(runtime,new RegExp(`^${version.replace(/\./g,"\\.")}-r[1-9]\\d*$`));
 assert.ok(previous&&previous!==runtime,"A promoted shell must preserve a distinct previous known-good recovery runtime.");
+assert.equal(previous,`${version}-r${generation-1}`,"A promoted shell must retain the immediate previous whole-shell revision as its recovery target.");
 assert.match(app,new RegExp(`const APP_VERSION = "${version.replace(/\./g,"\\.")}";`));
 assert.match(worker,new RegExp(`const RUNTIME_REVISION = "${runtime.replace(/\./g,"\\.")}";`));
-assert.match(html,new RegExp(`<footer>Career Mode Showdown<br>v${version.replace(/\./g,"\\.")} · Private Remote Joining<\\/footer>`));
-assert.match(html,/<span class="menuTileCode">LOCAL<\/span><span class="menuTileLabel">SAVE LIBRARY<\/span><span class="menuTileMeta">Local Showdowns, manager profiles and settings<\/span>/);
+assert.match(html,new RegExp(`<footer>Career Mode Showdown<br>v${version.replace(/\./g,"\\.")}<\\/footer>`));
+assert.match(html,/<span class="menuTileCode">SETTINGS<\/span><span class="menuTileLabel">SETTINGS<\/span><span class="menuTileMeta">Account, device and preferences<\/span>/);
+assert.match(html,/<span class="menuTileCode">NEW<\/span><span class="menuTileLabel">START A SHOWDOWN<\/span>/);
+assert.match(html,/<span class="menuTileCode">CAREER<\/span><span class="menuTileLabel">CONTINUE CAREER<\/span>/);
+assert.doesNotMatch(html,/LOCAL SAVE SYSTEM|LOCAL SAVE READY|Private Remote Joining|SAVE LIBRARY|NEW ONLINE SHOWDOWN|ONLINE SHOWDOWN/i);
 assert.ok(release.includes(`Runtime asset revision: \`${runtime}\``),"Release note must carry the current runtime revision.");
 assert.ok(release.includes(`Previous known-good runtime: \`${previous}\``),"Release note must carry the direct previous known-good runtime.");
-assert.match(release,/Remote Joining/i);
+assert.match(release,/Remote Joining/i,"Release history may retain engineering provenance even though player-facing shell language does not.");
 assert.match(release,/App Check enforcement remains OFF/);
 assert.ok(manifest.includes(runtime),"Manifest must carry the current runtime revision.");
 const active=["index.html","manifest.webmanifest","service-worker.js"];
@@ -26,4 +30,4 @@ for(const dir of ["js","css","data"]){for(const name of fs.readdirSync(path.join
 const obsolete=["1.8.1-r0","1.8.0-r0"];
 const stale=active.filter(file=>obsolete.some(identity=>read(file).includes(identity)));
 assert.deepEqual(stale,[],`Stale public runtime identity leaked into ${runtime} surfaces: ${stale.join(", ")}`);
-console.log(`PASS ${runtime} shell coherence: v${version} Private Remote Joining shell with ${previous} recovery target.`);
+console.log(`PASS ${runtime} shell coherence: v${version} simple Start/Continue product shell with ${previous} recovery target and hidden provider machinery.`);

@@ -8,6 +8,7 @@ const remoteJoining = read("js/sparkRemoteJoining.js");
 const onlineIdentity = read("js/onlinePlayerIdentity.js");
 const showdown = read("js/showdown.js");
 const ruleBook = read("js/ruleBook.js");
+const html = read("index.html");
 
 for(const stale of [
   "Remote Joining sessions remain locked.",
@@ -18,13 +19,7 @@ for(const stale of [
   A.ok(!rivalry.includes(stale), `Connected Rivalry reintroduced stale Remote Joining copy: ${stale}`);
 }
 
-A.match(account,/Private Remote Joining is available from Showdown Home after its account, registered-device, and Connected Rivalry requirements are satisfied\./);
-A.ok(account.includes('["REMOTE JOINING","Available from Showdown Home · private requirements apply"]'));
-A.match(rivalry,/Private Remote Joining is available from Showdown Home after this rivalry and registered-device requirements are satisfied\./);
-A.ok(rivalry.includes('["REMOTE JOINING","Available from Showdown Home · exact private session"]'));
-
-// The established provider layers remain private and zero-billing while the normal
-// product surface becomes the much smaller Nik/Daniel online-only experience.
+// Provider internals may retain technical Remote Joining terminology, but they are not a separate product mode.
 A.ok(account.includes('firestorePersistence:"memory-only"'));
 A.ok(account.includes('billingRequired:false'));
 A.ok(rivalry.includes('publicDiscovery:false'));
@@ -35,24 +30,28 @@ A.ok(rivalry.includes('billingRequired:false'));
 A.ok(remoteJoining.includes('billingRequired:false'));
 A.ok(remoteJoining.includes('publicDiscovery:false'));
 
-// Owner-directed online-only shell: exactly Nik/Daniel, remembered registered
-// browsers, no arbitrary device-count cap, and provider revoke backs Forget Device.
+// Canonical product identity is fixed and fresh: Daniel is Player One, Nik is Player Two.
 A.ok(onlineIdentity.includes('mode:"online-only"'));
-A.ok(onlineIdentity.includes('id:"nik",label:"Nik",role:"playerOne"'));
-A.ok(onlineIdentity.includes('id:"daniel",label:"Daniel",role:"playerTwo"'));
+A.ok(onlineIdentity.includes('id:"daniel",label:"Daniel",role:"playerOne"'));
+A.ok(onlineIdentity.includes('id:"nik",label:"Nik",role:"playerTwo"'));
 A.ok(onlineIdentity.includes('"WHO ARE YOU?"'));
-A.ok(onlineIdentity.includes('"I\'M NIK"') && onlineIdentity.includes('"I\'M DANIEL"'));
+A.ok(onlineIdentity.includes('"DANIEL · PLAYER ONE"') && onlineIdentity.includes('"NIK · PLAYER TWO"'));
 A.ok(onlineIdentity.includes('"FORGET THIS DEVICE"'));
 A.ok(onlineIdentity.includes('pairing.revokeDevice'));
-A.ok(onlineIdentity.indexOf('pairing.revokeDevice') < onlineIdentity.indexOf('clearPrivateDeviceIdentity()'),"Provider revoke must be attempted before the durable browser device identity is cleared.");
-A.ok(!/max(?:imum)?(?:Active)?Devices|deviceCap|MAX_DEVICES|three devices/i.test(onlineIdentity),"The online shell must not reintroduce an arbitrary device-count cap.");
-A.ok(onlineIdentity.includes('"sparkConnectedAccountPanel"') && onlineIdentity.includes('"sparkPrivatePairingPanel"') && onlineIdentity.includes('"sparkConnectedRivalryPanel"') && onlineIdentity.includes('"saveLibraryProductPanel"'),"Engineering/recovery panels must remain suppressible behind the normal online shell.");
-A.ok(showdown.includes('name:"Nik vs Daniel",managers:{playerOne:"Nik",playerTwo:"Daniel"}'));
+A.ok(onlineIdentity.indexOf('pairing.revokeDevice') < onlineIdentity.indexOf('clearPrivateDeviceIdentity()'),"Provider revoke must be attempted before the browser device identity is cleared.");
+A.ok(!/max(?:imum)?(?:Active)?Devices|deviceCap|MAX_DEVICES|three devices/i.test(onlineIdentity),"The product must not introduce an arbitrary device-count cap.");
+A.ok(onlineIdentity.includes('"sparkConnectedAccountPanel"') && onlineIdentity.includes('"sparkPrivatePairingPanel"') && onlineIdentity.includes('"sparkConnectedRivalryPanel"') && onlineIdentity.includes('"saveLibraryProductPanel"'),"Engineering/recovery panels must remain suppressible behind the normal product shell.");
+A.ok(showdown.includes('name:"Daniel vs Nik",managers:{playerOne:"Daniel",playerTwo:"Nik"}'));
+A.ok(showdown.includes('showdown.name="Daniel vs Nik"'));
+A.ok(showdown.includes('showdown.managers={playerOne:"Daniel",playerTwo:"Nik"}'));
 A.ok(showdown.includes('navigator.onLine===false'));
 A.ok(showdown.includes('identity.status!=="ready"'));
-A.ok(ruleBook.includes('two-player online rivalry for Nik and Daniel'));
-A.ok(ruleBook.includes('no separate local-only gameplay mode'));
+A.ok(ruleBook.includes('Career Mode Showdown is a two-player rivalry for Daniel and Nik.'));
+A.ok(ruleBook.includes('Daniel is Player One. Nik is Player Two.'));
+A.ok(!ruleBook.includes('for new Showdowns'));
 A.ok(!ruleBook.includes('QR joining and multi-device real-time play are future ideas'));
 A.ok(!ruleBook.includes('no account system, cloud save, or online multiplayer'));
+A.match(html,/id="remoteJoiningButton"[^>]*hidden[^>]*aria-hidden="true"[^>]*tabindex="-1"/i,"Technical connection hook must remain invisible and non-focusable.");
+A.ok(!/LOCAL SAVE SYSTEM|LOCAL SAVE READY|Private Remote Joining|NEW ONLINE SHOWDOWN|ONLINE SHOWDOWN/i.test(html));
 
-process.stdout.write("PASS Stage 5E copy + online-only entry truth: provider authority stays private/zero-billing while the normal shell is fixed to remembered Nik/Daniel devices with provider-backed Forget Device.\n");
+process.stdout.write("PASS Stage 5E provider + copy truth: hidden private/zero-billing authority remains intact while the only player-facing product is Daniel as Player One, Nik as Player Two, Start a Showdown, Continue Career and provider-backed Forget Device.\n");

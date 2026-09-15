@@ -17,7 +17,7 @@ const guards = JSON.parse(read('CURRENT_PRODUCT_GUARDS.json'));
 
 const version = (app.match(/const APP_VERSION = "([^"]+)"/) || [])[1];
 const revision = (html.match(/app-asset-revision"\s+content="([^"]+)/) || [])[1];
-const footer = (html.match(/<footer>[\s\S]*?v([^<\s]+)\s*·\s*(?:Stable|Product Deepening|Private Connected Account Foundation|Registered Devices & Private Pairing|Connected Rivalry|Private Remote Joining)/i) || [])[1];
+const footer = (html.match(/<footer>Career Mode Showdown<br>v([^<\s]+)<\/footer>/i) || [])[1];
 const gen = Number((revision.match(/-r(\d+)$/) || [])[1]);
 
 A.equal(guards.provider.billingEnabled, false);
@@ -46,11 +46,11 @@ A.ok(optional.includes('getApplicationAssetRevision()'));
 A.ok(app.includes(`css/visual-fidelity-r3.css?v=${revision}`));
 A.ok(app.includes('contentScriptData\\.init_ts') && app.includes('isFirstPartyRuntimeError') && app.includes('suppressedExternalRuntimeErrors'));
 
-// Protect the shipped offline capability itself, never a milestone phrase in handoff files.
-A.ok(fs.existsSync(path.join(root, 'manifest.webmanifest')), 'Installable offline app manifest must remain shipped.');
-A.ok(worker.includes('"manifest.webmanifest"') && worker.includes('"js/offlineApp.js"') && worker.includes('"css/offline.css"'), 'Service worker shell must retain install/offline runtime assets.');
+// Protect the shipped offline capability itself, never a player-facing mode label.
+A.ok(fs.existsSync(path.join(root, 'manifest.webmanifest')), 'Installable recovery manifest must remain shipped.');
+A.ok(worker.includes('"manifest.webmanifest"') && worker.includes('"js/offlineApp.js"') && worker.includes('"css/offline.css"'), 'Service worker shell must retain recovery runtime assets.');
 A.equal((worker.match(/const RUNTIME_REVISION = "([^"]+)"/) || [])[1], revision, 'Service worker cache revision must match the current runtime shell.');
-A.ok(offlineApp.includes('function registerOfflineApplication()') && offlineApp.includes('navigator.serviceWorker'), 'Offline application module must retain real service-worker registration behavior.');
+A.ok(offlineApp.includes('function registerOfflineApplication()') && offlineApp.includes('navigator.serviceWorker'), 'Service worker registration behavior must remain available under the product surface.');
 
 const refs = [...html.matchAll(/(?:src|href)="((?:css|js|data|assets)\/[^"?]+)(?:\?v=([^"]+))?"/g)];
 A.ok(refs.length >= 9);
@@ -135,4 +135,4 @@ for(const file of fs.readdirSync(path.join(root, '.github/workflows')).filter(fi
     A.ok(!workflow.includes('actions/checkout@v4') && !workflow.includes('actions/setup-node@v4'), file);
 }
 
-console.log(`Stability contracts passed for v${version}/${revision}; executable release identity, raw storage failures, workflow ownership and deployed product proof remain protected without handoff/WEC/RJR narration coupling.`);
+console.log(`Stability contracts passed for v${version}/${revision}; executable release identity, raw storage failures, workflow ownership and deployed product proof remain protected without player-facing architecture labels.`);

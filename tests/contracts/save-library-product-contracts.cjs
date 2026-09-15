@@ -9,18 +9,19 @@ const source={
 };
 const keys={saveLibrary:"careerModeShowdown.saveLibrary",activeShowdown:"careerModeShowdown.activeShowdown",legacyShowdowns:"careerModeShowdown.legacyShowdowns",preferences:"careerModeShowdown.preferences"};
 
-assert.ok(!/\blocalStorage\b/.test(source.ui),"Visible Save Library UI must never access raw browser storage directly.");
-assert.ok(source.cutover.includes('loadRuntimeStyle("save-library-ui","css/saveLibrary.css")')&&source.cutover.includes('loadRuntimeScript("save-library-ui","js/saveLibraryUI.js"'),"Save Library product assets must stay behind the existing lazy local-data boundary.");
-assert.ok(source.onlineIdentity.includes('replaceChildren("ACCOUNT & DEVICES")')&&source.onlineIdentity.includes('getElementById("saveLibraryProductPanel")')&&source.onlineIdentity.includes('dataset.onlineSurface="advanced-recovery"'),"The online-only Home tile must lead with Account & Devices while retaining Save Library inside the established Settings advanced-recovery surface.");
+assert.ok(!/\blocalStorage\b/.test(source.ui),"Save Library UI must never access raw browser storage directly.");
+assert.ok(source.cutover.includes('loadRuntimeStyle("save-library-ui","css/saveLibrary.css")')&&source.cutover.includes('loadRuntimeScript("save-library-ui","js/saveLibraryUI.js"'),"Save Library assets must stay behind the existing lazy data boundary.");
+assert.ok(source.onlineIdentity.includes('"saveLibraryProductPanel"')&&source.onlineIdentity.includes('p.hidden=true')&&source.onlineIdentity.includes('p.dataset.productSurface="internal"'),"Save Library must remain available as internal recovery architecture without being a normal player-facing mode.");
 assert.ok(source.ui.includes("function saveLibraryUIRestoreMutationFocus")&&source.ui.includes("saveLibraryUIRestoreMutationFocus(saveId)")&&source.ui.includes('saveLibraryUIRestoreMutationFocus(result.activeSaveId||"")'),"Save Library switch/delete rerenders must restore focus inside the established Settings dialog rather than creating a competing modal key handler.");
-assert.ok(source.ui.includes("captureCareerModeRawSaveLibraryMigrationSnapshot"),"The visible product must use the established exact read authority when deciding empty, compatibility, ready or blocked state.");
-assert.ok(source.ui.includes("Names are labels, not identity keys"),"Local Profiles must explain that equal display names do not merge stable identity.");
-assert.ok(source.ui.includes("Editing a display label never rewrites saved or historical Showdown manager names")&&source.ui.includes("EDIT DISPLAY LABEL"),"Local Profile editing must expose its presentation-only boundary in the existing Save Library surface.");
-assert.ok(source.ui.includes("DELETE THIS SAVE")&&source.ui.includes("Other local Saves, Local Profiles, Legacy history and app settings remain"),"Single-Save deletion must be visibly distinct from full reset.");
-assert.ok(!source.showdown.includes("replace the active save"),"New Showdown creation must no longer present the retired destructive singleton-replacement model.");
-assert.ok(source.runtime.includes("runtimeAppendSaveEntry")&&source.runtime.includes("switchActiveSave:runtimeSwitchActiveSave")&&source.runtime.includes("deleteSave:runtimeDeleteSave")&&source.runtime.includes("updateProfileDisplayName:runtimeUpdateProfileDisplayName"),"The visible product must consume one established Save Library runtime rather than inventing UI persistence.");
+assert.ok(source.ui.includes("captureCareerModeRawSaveLibraryMigrationSnapshot"),"The storage system must retain its established exact read authority when deciding empty, compatibility, ready or blocked state.");
+assert.ok(source.ui.includes("Names are labels, not identity keys"),"Internal Local Profiles must continue separating labels from identity keys.");
+assert.ok(source.ui.includes("Editing a display label never rewrites saved or historical Showdown manager names")&&source.ui.includes("EDIT DISPLAY LABEL"),"Internal profile editing must preserve its presentation-only boundary.");
+assert.ok(source.ui.includes("DELETE THIS SAVE")&&source.ui.includes("Other local Saves, Local Profiles, Legacy history and app settings remain"),"Single-Save deletion must remain distinct from full reset inside recovery tooling.");
+assert.ok(!source.showdown.includes("replace the active save"),"New Showdown creation must not present the retired destructive singleton-replacement model.");
+assert.ok(source.showdown.includes('name:"Daniel vs Nik",managers:{playerOne:"Daniel",playerTwo:"Nik"}'),"Fresh Showdown creation must use canonical Daniel/Nik identity before Save Library assigns stable identities.");
+assert.ok(source.runtime.includes("runtimeAppendSaveEntry")&&source.runtime.includes("switchActiveSave:runtimeSwitchActiveSave")&&source.runtime.includes("deleteSave:runtimeDeleteSave")&&source.runtime.includes("updateProfileDisplayName:runtimeUpdateProfileDisplayName"),"The product must consume one established Save Library runtime rather than inventing a second persistence layer.");
 assert.ok(source.ui.includes('input.required=true')&&source.ui.includes('edit.setAttribute("aria-expanded","false")'),"Profile label editing must retain native required-input validation and explicit disclosure state.");
-assert.ok(source.worker.includes('"css/saveLibrary.css"')&&source.worker.includes('"js/saveLibraryUI.js"'),"Visible Save Library lazy assets must belong to the verified Installable Offline App shell.");
+assert.ok(source.worker.includes('"css/saveLibrary.css"')&&source.worker.includes('"js/saveLibraryUI.js"'),"Lazy Save Library assets must remain in the recovery shell.");
 assert.ok(source.css.includes("@media(max-width:760px)")&&source.css.includes("@media(prefers-reduced-motion:reduce)"),"Save Library presentation must retain explicit phone and reduced-motion containment.");
 
 function showdown(id,name,managerOne="Same Name",managerTwo="Same Name"){
@@ -156,5 +157,5 @@ async function profileDisplayLabelEditingPreservesIdentityAndHistory(){
   await additiveCreateSwitchDeleteAndProfileIdentity();
   await productMutationsFailClosedOnAuthorityDrift();
   await profileDisplayLabelEditingPreservesIdentityAndHistory();
-  console.log("Save Library product contracts passed: Account & Devices entry, advanced-recovery discoverability, mutation focus ownership, additive multi-save creation, explicit active switching, scoped deletion, presentation-only Local Profile editing, detached UI snapshots, same-name identity separation, singleton non-resurrection and stale-authority fail-closed behavior are protected.");
+  console.log("Save Library architecture contracts passed: internal recovery containment, mutation focus ownership, additive multi-save storage, explicit active switching, scoped deletion, stable profile identity, detached snapshots, singleton non-resurrection and stale-authority fail-closed behavior remain protected without exposing Save Library as a normal product mode.");
 })().catch(error=>{console.error(error);process.exit(1);});

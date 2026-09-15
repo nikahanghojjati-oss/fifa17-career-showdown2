@@ -58,23 +58,27 @@ assert.ok(
     "New Showdown must append a stable Save while retaining every existing Save and stable Local Profile identity."
 );
 assert.ok(
-    stabilityAudit.includes("Corrupt singleton bytes must block normal Start rather than being replaced during cutover."),
-    "Unreadable singleton bytes must fail closed at the Save Library activation boundary."
+    stabilityAudit.includes("Corrupt singleton bytes fail closed at canonical Start"),
+    "Unreadable historical singleton bytes must remain fail-closed behind canonical Start."
 );
 assert.ok(
-    stabilityAudit.includes("Failed cutover must not fabricate Save Library authority from corrupt singleton bytes."),
-    "Corrupt singleton failure must preserve the original bytes and must not fabricate Save Library authority."
+    stabilityAudit.includes("Unreadable legacy singleton bytes must remain byte-for-byte untouched when canonical Start fails closed."),
+    "Corrupt historical singleton failure must preserve the original bytes rather than silently migrating or replacing them."
+);
+assert.ok(
+    stabilityAudit.includes("Corrupt singleton failure must not fabricate Save Library authority."),
+    "Corrupt historical singleton failure must not fabricate internal storage authority."
 );
 assert.ok(
     stabilityAudit.includes("saveLibraryStorageKey") && stabilityAudit.includes("Failed Save Library write must roll back without accepting authority."),
-    "Quota rollback evidence must target the post-cutover Save Library writer rather than the retired singleton writer."
+    "Quota rollback evidence must target the current internal storage writer rather than the retired singleton writer."
 );
-console.log("Corrupt active-slot cutover is permanently fail-closed while visible Save Library creation is additive and identity-preserving.");
+console.log("Canonical Start remains fail-closed for unreadable historical bytes while internal Save creation stays additive and identity-preserving.");
 
 const hasSavedSection = storage.match(/function hasSavedShowdown\(\)\{[\s\S]*?function invalidateLegacyCache/)?.[0] || "";
 assert.ok(hasSavedSection, "hasSavedShowdown validity probe is missing.");
 assert.ok(!hasSavedSection.includes("reportStorageError"), "Expected corrupt active-save validity probes must not emit runtime console errors.");
-console.log("Corrupt active-save validity probing remains silent; confirmed Start still crosses the strict cutover boundary before additive creation.");
+console.log("Corrupt active-save validity probing remains silent; canonical Start crosses the strict storage boundary before additive creation.");
 
 assert.ok(
     restoreUi.includes("window.createCareerModeRestorePlan(analysis,confirmedRaw,confirmedChoices)"),

@@ -17,15 +17,13 @@ const release=fs.readFileSync("RELEASE_V1.9.1_R20.md","utf8");
 const pkg=JSON.parse(fs.readFileSync("package.json","utf8"));
 const supplemental=JSON.parse(fs.readFileSync("POS20_SUPPLEMENTAL_PRODUCT_TESTS.json","utf8"));
 
-assert.match(index,/meta name="app-asset-revision" content="1\.9\.1-r20"/);
-assert.equal(index.includes("?v=1.9.1-r19"),false,"r20 HTML shell must not retain r19 asset queries");
-assert.match(app,/VISUAL_FIDELITY_STYLESHEET="css\/visual-fidelity-r3\.css\?v=1\.9\.1-r20"/);
-assert.match(menu,/marco-reus-2015-cc-by\.webp\?v=1\.9\.1-r20/,
-  "lazy menu image must share the current r20 whole-shell identity");
-assert.equal(manifest.includes("?v=1.9.1-r19"),false,"r20 manifest must not retain r19 icon queries");
-assert.match(manifest,/showdown-192\.svg\?v=1\.9\.1-r20/);
-assert.match(worker,/const RUNTIME_REVISION = "1\.9\.1-r20";/);
-assert.match(worker,/const PREVIOUS_RUNTIME_REVISION = "1\.9\.1-r19";/);
+const currentRevision=(index.match(/meta name="app-asset-revision" content="([^"]+)"/)||[])[1];
+assert.match(currentRevision||"",/^1\.9\.1-r[1-9]\d*$/);
+assert.match(app,new RegExp(`VISUAL_FIDELITY_STYLESHEET="css\\/visual-fidelity-r3\\.css\\?v=${currentRevision.replace(/\./g,"\\.")}"`));
+assert.match(menu,new RegExp(`marco-reus-2015-cc-by\\.webp\\?v=${currentRevision.replace(/\./g,"\\.")}`),
+  "lazy menu image must share the current whole-shell identity while r20 physical evidence remains historical");
+assert.match(manifest,new RegExp(`showdown-192\\.svg\\?v=${currentRevision.replace(/\./g,"\\.")}`));
+assert.match(worker,new RegExp(`const RUNTIME_REVISION = "${currentRevision.replace(/\./g,"\\.")}";`));
 assert.match(worker,/"js\/ssjrPhysicalJourneyAcceptance\.js"/,"r20 offline shell must retain the acceptance recorder across physical offline/reload proof");
 assert.match(bootstrap,/params\.get\("ssjr-physical"\)==="1"/);
 assert.match(bootstrap,/ssjr-physical-journey-acceptance/);
