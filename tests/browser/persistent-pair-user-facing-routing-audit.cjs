@@ -115,6 +115,18 @@ const playerOneProfileId=`profile_${"d".repeat(24)}`;
     await continueButton.click();
     await page.waitForFunction(()=>window.__continueOpened===1,null,{timeout:3000});
 
+    // A stale opposite role on another registered browser must be repaired from validated durable pair authority before mismatch rejection.
+    const staleRoleRepair=await page.evaluate(async()=>{
+      window.__pairProviderMode="active-recovery";window.__localRecoveryReady=true;
+      const originalIdentity=window.CareerModeOnlinePlayerIdentity;let managerId="daniel";
+      window.CareerModeOnlinePlayerIdentity={getState:()=>({status:"ready",accountId:"account_user_route_fixture",managerId,managerLabel:managerId==="nik"?"Nik":"Daniel",deviceId:"device_user_route_fixture",registered:true})};
+      try{
+        const next=await window.CareerModePersistentNikDanielPair.initialize({force:true,reconcileIdentity:async authoritativeManagerId=>{managerId=authoritativeManagerId;}});
+        return{status:next.status,localManagerId:managerId,pairManagerId:next.managerId,role:next.managerRole};
+      }finally{window.CareerModeOnlinePlayerIdentity=originalIdentity;}
+    });
+    assert.deepEqual(staleRoleRepair,{status:"paired",localManagerId:"nik",pairManagerId:"nik",role:"playerTwo"},"A stale Daniel role on Nik's registered browser must reconcile from durable pair authority before the mismatch guard runs.");
+
     // A remembered ACTIVE pair on a normal browser reload must activate lazy Save Library authority before classifying local recovery.
     const reloadAuthority=await page.evaluate(async({saveId,profileId,playerOneProfileId})=>{
       window.__pairProviderMode="active-recovery";

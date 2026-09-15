@@ -54,6 +54,7 @@ assert.match(pairSource,/pairExactLocalBindingForProviderSlot/);
 assert.match(pairSource,/async function pairEnsureSaveLibraryAuthority\(\)[\s\S]*loadRuntimeScript\("save-library-cutover","js\/saveLibraryCutover\.js"[\s\S]*ensureSaveLibraryRuntimeAuthority/,'A remembered active pair must lazily activate established Save Library authority before deciding Continue versus Recovery.');
 const initializeFunction=pairSource.slice(pairSource.indexOf('async function pairInitialize'),pairSource.indexOf('function pairSelectedRole'));
 assert.match(initializeFunction,/if\(active\)await pairEnsureSaveLibraryAuthority\(\);[\s\S]*pairHasExactLocalRecoveryCopy/,'Active-pair reload classification must activate local authority before checking the provider-linked Save/Profile copy.');
+assert.match(initializeFunction,/localManagerId!==link\.managerId&&typeof options\.reconcileIdentity==="function"[\s\S]*await options\.reconcileIdentity\(link\.managerId,link\.managerRole\)[\s\S]*localManagerId=pairCurrentIdentityManagerId\(\)[\s\S]*if\(localManagerId&&localManagerId!==link\.managerId\)/,'Validated durable pair identity must get one bounded chance to reconcile stale browser role state before the existing mismatch guard rejects it.');
 
 assert.match(pairSource,/runtime\.switchActiveSave\(saveId\)/,'Continue Career must activate the exact locally cached Save linked by provider membership instead of using whichever Save is currently active.');
 const exactBindingFunction=pairSource.slice(pairSource.indexOf('async function pairExactLocalBindingForProviderSlot'),pairSource.indexOf('function pairPreparedBindingForRole'));
@@ -113,9 +114,10 @@ assert.match(identitySource,/duplicate\.hidden=true/,'Duplicate Shared Showdown 
 assert.match(identitySource,/remote\.hidden=true/,'Engineering Remote Joining entry must be absent from the player surface.');
 assert.match(identitySource,/function syncPersistentPairSidecar\(\)/);
 assert.match(identitySource,/loadOnlineDependency\("persistent-pair","js\/persistentNikDanielPair\.js"/);
-assert.match(identitySource,/pair\.initialize\(\{force:true\}\)/);
-assert.match(identitySource,/pairState\.managerId!==state\.managerId/);
-assert.match(identitySource,/writeOnlineRole\(accountId,selected\.id\)/,'A valid canonical account pair may seed the same named player on another registered browser.');
+const sidecarFunction=identitySource.slice(identitySource.indexOf('async function syncPersistentPairSidecar'),identitySource.indexOf('async function resolveOnlineDependencies'));
+assert.match(sidecarFunction,/pair\.initialize\(\{force:true,reconcileIdentity:async id=>/,'The sidecar must ask pair authority to reconcile stale local role state during initialization, not after a mismatch rejection.');
+assert.match(sidecarFunction,/writeOnlineRole\(accountId,selected\.id\)[\s\S]*setOnlineIdentityState\(\{status:"ready"/,'Provider-authoritative reconciliation must update both IndexedDB and live identity state before normal pair validation resumes.');
+assert.doesNotMatch(sidecarFunction,/pairState\?\.managerId!==state\.managerId/,'Stale-role repair must not wait until after pair initialization has already applied the mismatch guard.');
 assert.doesNotMatch(identitySource,/Career Mode Showdown is online-only|Normal play is online-only|ONLINE SHOWDOWN · NIK & DANIEL|ONLINE SIGN-IN REQUIRED TO PLAY/,'Player-facing language must not describe the only product as an online variant.');
 assert.doesNotMatch(appSource,/persistentNikDanielPair|persistent-nik-daniel-pair/,'Persistent pair must stay behind the lazy identity boundary and out of the initial app bundle.');
 assert.match(workerSource,/"js\/persistentNikDanielPair\.js"/,'Installed application shell must cache the lazy persistent-pair runtime.');
