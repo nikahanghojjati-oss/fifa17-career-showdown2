@@ -27,6 +27,9 @@ const playerOneProfileId=`profile_${"d".repeat(24)}`;
       window.__localRecoveryReady=true;
       window.__continueOpened=0;
       window.__recoveryOpened=0;
+      window.__routeManagerId="nik";
+      window.__identitySyncCalls=0;
+      window.__identitySyncTransientFailures=0;
       const envelope=(objectType,objectId,data)=>({schemaVersion:1,objectType,objectId,revision:0,parentRevision:null,lifecycleState:"live",contentHash:"sha256:fixture",priorContentHash:null,updatedAt:{},updatedByAccountId:accountId,updatedByDeviceId:deviceId,data,tombstone:null});
       const pairEnvelope=()=>envelope("pairLink","current",{rivalryId,managerRole:"playerTwo",managerId:"nik",linkedAt:{},lastConfirmedAt:{}});
       const rivalryEnvelope=()=>envelope("rivalry",rivalryId,{connectionState:"active",managerSlots:[{slotId:"playerOne",accountId:"account_daniel_fixture",saveId,profileId:playerOneProfileId},{slotId:"playerTwo",accountId,saveId,profileId}]});
@@ -56,7 +59,14 @@ const playerOneProfileId=`profile_${"d".repeat(24)}`;
         getLibrarySnapshot:()=>window.__localRecoveryReady?{activeSaveId:saveId,saves:[{saveId,showdown:preparedShowdown()}]}:{activeSaveId:null,saves:[]},
         switchActiveSave:async requested=>{if(requested!==saveId)throw new Error("Unexpected Save hydration target.");currentShowdown=preparedShowdown();return currentShowdown;}
       };
-      window.CareerModeOnlinePlayerIdentity={getState:()=>({status:"ready",accountId,managerId:"nik",managerLabel:"Nik",deviceId,registered:true})};
+      window.CareerModeOnlinePlayerIdentity={
+        getState:()=>({status:"ready",accountId,managerId:window.__routeManagerId,managerLabel:window.__routeManagerId==="nik"?"Nik":"Daniel",deviceId,registered:true}),
+        syncPair:async()=>{
+          window.__identitySyncCalls+=1;
+          if(window.__identitySyncTransientFailures>0){window.__identitySyncTransientFailures-=1;return{status:"unavailable"};}
+          return window.CareerModePersistentNikDanielPair.initialize({force:true,reconcileIdentity:async authoritativeManagerId=>{window.__routeManagerId=authoritativeManagerId;}});
+        }
+      };
       window.CareerModeProductionFirebaseRuntime={ensureAccountServices:async()=>({ok:true,auth:{currentUser:{uid:accountId}},firestore:{},firestoreSdk})};
       window.CareerModeSparkConnectedAccount={initialize:async()=>true,getState:()=>({connected:true,accountId})};
       const binding={saveId,profileId,managerRole:"playerTwo"};
@@ -97,6 +107,25 @@ const playerOneProfileId=`profile_${"d".repeat(24)}`;
     await page.locator("#persistentNikDanielPairCode").waitFor({state:"visible"});
     await page.locator("#persistentNikDanielPairPanel button",{hasText:"JOIN"}).waitFor({state:"visible"});
     assert.doesNotMatch((await panel.innerText()),/Save Library|Private Remote Joining|Shared Journey/i,"The player connection panel must not expose retired architecture concepts.");
+
+    // CONNECT PLAYERS must share the identity sidecar's one bounded retry and stale-role reconciliation instead of callback-free pair initialization.
+    await page.evaluate(async()=>{
+      window.__pairProviderMode="active-recovery";
+      window.__localRecoveryReady=true;
+      window.__routeManagerId="daniel";
+      window.__identitySyncCalls=0;
+      window.__identitySyncTransientFailures=1;
+      await window.CareerModeProductionSharedJourneyEntry.openPanel();
+    });
+    const reconnect=page.locator("#productionSharedJourneyEntryOverlay button",{hasText:"CONNECT PLAYERS"});
+    await reconnect.waitFor({state:"visible",timeout:5000});
+    await reconnect.click();
+    await page.locator("#persistentNikDanielPairPanel",{hasText:"CAREER READY"}).waitFor({state:"visible",timeout:5000});
+    const connectReconciliation=await page.evaluate(()=>({managerId:window.__routeManagerId,syncCalls:window.__identitySyncCalls,status:window.CareerModePersistentNikDanielPair.getState().status,role:window.CareerModePersistentNikDanielPair.getState().managerRole}));
+    assert.deepEqual(connectReconciliation,{managerId:"nik",syncCalls:2,status:"paired",role:"playerTwo"},"CONNECT PLAYERS must retry one transient sidecar failure, reconcile stale Daniel to provider-authoritative Nik, and reach paired state.");
+    await page.locator("#persistentNikDanielPairPanel button",{hasText:"CONTINUE CAREER"}).waitFor({state:"visible",timeout:5000});
+    assert.equal(await page.locator("#persistentNikDanielPairPanel",{hasText:"CAREER RECOVERY NEEDED"}).count(),0,"Successful stale-role reconciliation must not dead-end into recovery or unavailable controls.");
+    await page.evaluate(async()=>{window.__pairProviderMode="unpaired";window.__routeManagerId="nik";window.__identitySyncTransientFailures=0;await window.CareerModePersistentNikDanielPair.initialize({force:true});});
 
     // CREATE CODE must transition the real panel into a complete waiting state with all recovery controls.
     await page.locator("#persistentNikDanielPairPanel button",{hasText:"CREATE CODE"}).click();
@@ -197,7 +226,7 @@ const playerOneProfileId=`profile_${"d".repeat(24)}`;
 
     assert.deepEqual(pageErrors,[],"User-facing routing audit emitted page errors.");
     assert.deepEqual(consoleErrors,[],"User-facing routing audit emitted unexpected console errors.");
-    process.stdout.write("PASS real user-facing routing: CONNECT PLAYERS reaches the real persistent-pair panel; CREATE CODE, JOIN, CONTINUE CAREER and OPEN RECOVERY are visible, actionable and route to their intended surfaces.\n");
+    process.stdout.write("PASS real user-facing routing: CONNECT PLAYERS reaches the real persistent-pair panel, retries transient pair reads with stale-role reconciliation, and CREATE CODE, JOIN, CONTINUE CAREER and OPEN RECOVERY remain actionable on their intended surfaces.\n");
   }finally{
     await context.close().catch(()=>{});
     await browser.close().catch(()=>{});
