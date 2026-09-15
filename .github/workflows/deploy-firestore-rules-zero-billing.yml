@@ -18,8 +18,11 @@ on:
       - firestore.season-results-production.fragment.rules
       - firestore.season-commit-production.fragment.rules
       - firestore.terminal-close-production.fragment.rules
+      - firestore.persistent-pair-production.fragment.rules
       - scripts/assert-firestore-zero-billing-boundary.mjs
       - scripts/build-production-firestore-rules.mjs
+      - scripts/build-production-firestore-rules-with-persistent-pair.mjs
+      - scripts/inject-persistent-pair-rules.mjs
       - scripts/publish-firestore-rules-zero-billing.mjs
       - firebase.production.rules.json
       - ops/firebase-rules-deploy-request.json
@@ -76,14 +79,24 @@ jobs:
           }
           NODE
 
-      - name: Build deterministic additive production Rules authority
+      - name: Build reviewed Shared Journey Rules source
         run: node scripts/build-production-firestore-rules.mjs
+
+      - name: Add bounded persistent pair Rules authority
+        run: node scripts/build-production-firestore-rules-with-persistent-pair.mjs
 
       - name: Refuse generated Rules that weaken the permanent Spark boundary
         shell: bash
         run: |
           set -euo pipefail
           test -s "${FIREBASE_RULES_FILE}"
+          grep -Fq "match /accounts/{accountId}/pairLinks/{pairId}" "${FIREBASE_RULES_FILE}"
+          grep -Fq "cmsPersistentPairCreationWitnessValid(rivalryId)" "${FIREBASE_RULES_FILE}"
+          grep -Fq "cmsPersistentPairRedemptionWitnessValid(rivalryId, inviteBefore.data.slotId)" "${FIREBASE_RULES_FILE}"
+          grep -Fq "allow get: if signedIn() && request.auth.uid == accountId && pairId == 'current'" "${FIREBASE_RULES_FILE}"
+          grep -Fq "allow create: if cmsPersistentPairCreateValid(accountId, pairId)" "${FIREBASE_RULES_FILE}"
+          grep -Fq "allow update: if cmsPersistentPairUpdateValid(accountId, pairId)" "${FIREBASE_RULES_FILE}"
+          grep -Fq "allow list, delete: if false" "${FIREBASE_RULES_FILE}"
           grep -Fq "match /sharedSetup/authoritative" "${FIREBASE_RULES_FILE}"
           grep -Fq "allow create: if ssjrValidCreateLedger(rivalryId)" "${FIREBASE_RULES_FILE}"
           grep -Fq "allow update: if ssjrValidUpdateLedger(rivalryId)" "${FIREBASE_RULES_FILE}"
@@ -142,12 +155,16 @@ jobs:
           node tests/contracts/shared-season-commit-provider-contracts.cjs
           node tests/contracts/shared-season-commit-rules-contracts.cjs
           node tests/contracts/shared-terminal-close-rules-contracts.cjs
+          node tests/contracts/persistent-nik-daniel-pair-contracts.cjs
 
       - name: Reprove generated production Shared Setup Rules with adversarial provider matrix
         run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-career-mode-showdown-shared-setup-production-deploy "node tests/firebase/shared-showdown-setup-production-provider-emulator.cjs"
 
       - name: Prove r18 Terminal Close Rules with adversarial provider matrix
         run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-career-mode-showdown-terminal-close-production-deploy "node tests/firebase/shared-terminal-close-production-provider-emulator.cjs"
+
+      - name: Prove persistent Nik and Daniel pair Rules with adversarial provider matrix
+        run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-career-mode-showdown-persistent-pair-deploy "node tests/firebase/persistent-nik-daniel-pair-provider-emulator.cjs"
 
       - name: Authenticate permanent Firebase Rules service account
         id: google-auth

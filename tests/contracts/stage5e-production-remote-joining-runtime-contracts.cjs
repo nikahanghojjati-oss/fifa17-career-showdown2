@@ -1,6 +1,6 @@
 const assert=require("node:assert/strict"),fs=require("node:fs"),path=require("node:path"),vm=require("node:vm");
 const root=path.resolve(__dirname,"../.."),read=p=>fs.readFileSync(path.join(root,p),"utf8");
-const source=read("js/sparkRemoteJoining.js"),html=read("index.html"),worker=read("service-worker.js"),runtime=read("js/productionFirebaseRuntime.js"),guards=JSON.parse(read("CURRENT_PRODUCT_GUARDS.json"));
+const source=read("js/sparkRemoteJoining.js"),entry=read("js/productionSharedJourneyEntry.js"),html=read("index.html"),worker=read("service-worker.js"),runtime=read("js/productionFirebaseRuntime.js"),guards=JSON.parse(read("CURRENT_PRODUCT_GUARDS.json"));
 
 assert.equal(guards.provider.billingEnabled,false);
 assert.equal(guards.provider.firebasePlan,"Spark");
@@ -12,9 +12,10 @@ assert.equal(guards.product.managerCount,2);
 for(const forbidden of ["localStorage","sessionStorage","indexedDB","getDocs(","collection(","enableIndexedDbPersistence","persistentLocalCache","Cloud Run","Blaze upgrade"])assert.equal(source.includes(forbidden),false,`Stage 5E runtime must not contain ${forbidden}`);
 for(const required of ["stage5e-production-private-remote-joining-runtime","page-memory-only","productionRulesPublished:true","publicDiscovery:false","collectionListing:false","exactlyTwoAccounts:true","canonicalStorageMutation:false","gameplayMutation:false","billingRequired:false","hostJoinUxExposed:true"])assert.ok(source.includes(required),`Missing Stage 5E lock: ${required}`);
 assert.equal(/<script[^>]+src=["\'][^"\']*sparkRemoteJoining\.js/i.test(html),false,"Remote Joining runtime must not load from ordinary HTML startup.");
-assert.ok(html.includes('id="remoteJoiningButton"')&&html.includes("loadRuntimeScript('rj','js/sparkRemoteJoining.js'")&&html.includes("loadRuntimeStyle('rj','css/remoteJoining.css'"));
-assert.ok(worker.includes('"js/sparkRemoteJoining.js"')&&worker.includes('"css/remoteJoining.css"')&&worker.includes('"js/sparkStandardAuthPrivateSession.js"'),"Offline recovery cache must retain the current Stage 5E runtime and standard-auth session adapter.");
-assert.match(runtime,/async function ensureSparkAccountServices[\s\S]+browserSessionPersistence[\s\S]+memoryLocalCache|async function ensureSparkAccountServices[\s\S]+memoryLocalCache/,"Remote Joining dependencies must remain on the reviewed session-auth/memory-only Firebase path.");
+assert.match(html,/id="remoteJoiningButton"[^>]*hidden[^>]*aria-hidden="true"[^>]*tabindex="-1"/i,"The legacy runtime hook may remain in the shell only when permanently hidden and non-focusable.");
+assert.ok(entry.includes('js/sparkRemoteJoining.js')&&entry.includes('css/remoteJoining.css'),"The canonical Showdown entry must retain lazy access to the proven connection runtime.");
+assert.ok(worker.includes('"js/sparkRemoteJoining.js"')&&worker.includes('"css/remoteJoining.css"')&&worker.includes('"js/sparkStandardAuthPrivateSession.js"'),"Recovery cache must retain the current Stage 5E runtime and standard-auth session adapter.");
+assert.match(runtime,/async function ensureSparkAccountServices[\s\S]+browserSessionPersistence[\s\S]+memoryLocalCache|async function ensureSparkAccountServices[\s\S]+memoryLocalCache/,"Connection dependencies must remain on the reviewed session-auth/memory-only Firebase path.");
 
 const calls={services:0,account:0,pairing:0,rivalry:0,open:[],join:[],read:[],revoke:[],close:[]};
 const sessionA=`session_${"a".repeat(64)}`,sessionB=`session_${"b".repeat(64)}`,rivalryId=`pair_${"c".repeat(64)}`,deviceId=`device_${"d".repeat(32)}`;
@@ -46,5 +47,5 @@ assert.equal(calls.services,0,"Opening UI without an action must not initialize 
   api.forgetSession();assert.equal(api.getState().sessionId,null);
   assert.ok(calls.services>=4&&calls.account>=4&&calls.pairing>=4&&calls.rivalry>=4,"Every provider action must re-establish current account/device/rivalry authority.");
   assert.deepEqual(Array.from(api.canonicalStorageKeys),guards.product.canonicalLocalStorageKeys);
-  console.log("PASS current Stage 5E Remote Joining runtime: lazy action authority, exact current account/device/rivalry rechecks, non-orphaning host/join/revoke/read/close lifecycle, memory-only capability and zero-billing product locks are protected without frozen RJR evidence-history coupling.");
+  console.log("PASS Stage 5E connection runtime: lazy hidden authority, exact account/device/rivalry rechecks, non-orphaning host/join/revoke/read/close lifecycle, memory-only capability and zero-billing locks remain protected under the single Showdown UI.");
 })().catch(error=>{console.error(error);process.exit(1);});

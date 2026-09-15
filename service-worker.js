@@ -1,5 +1,5 @@
-const RUNTIME_REVISION = "1.9.1-r20";
-const PREVIOUS_RUNTIME_REVISION = "1.9.1-r19";
+const RUNTIME_REVISION = "1.9.1-r22";
+const PREVIOUS_RUNTIME_REVISION = "1.9.1-r21";
 const CACHE_PREFIX = "career-mode-showdown-shell-";
 const MODE_CACHE_PREFIX = "career-mode-showdown-runtime-mode-";
 const CACHE_NAME = `${CACHE_PREFIX}${RUNTIME_REVISION}`;
@@ -52,6 +52,7 @@ const SHELL_PATHS = Object.freeze([
     "js/offlineApp.js",
     "js/optionalModules.js",
     "js/onlinePlayerIdentity.js",
+    "js/persistentNikDanielPair.js",
     "js/productionFirebaseRuntime.js",
     "js/ssjr.js",
     "js/ssjrProductionAcceptanceRecorder.js",

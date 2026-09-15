@@ -1,0 +1,120 @@
+// CMS_PERSISTENT_PAIR_FUNCTIONS_BEGIN
+    function cmsPersistentPairManagerValid(role, managerId) {
+      return (role == 'playerOne' && managerId == 'daniel')
+        || (role == 'playerTwo' && managerId == 'nik');
+    }
+
+    function cmsPersistentPairRivalryMembership(accountId, rivalryId, role) {
+      let rivalry = getAfter(/databases/$(database)/documents/rivalries/$(rivalryId));
+      let data = rivalry.data.data;
+      return rivalryId is string
+        && rivalryId.matches('^pair_[0-9a-f]{64}$')
+        && rivalry.data.objectType == 'rivalry'
+        && rivalry.data.objectId == rivalryId
+        && rivalry.data.lifecycleState == 'live'
+        && (data.connectionState == 'pending-pair' || data.connectionState == 'active')
+        && data.managerSlots is list
+        && data.managerSlots.size() == 2
+        && (
+          (
+            data.managerSlots[0].slotId == role
+            && data.managerSlots[0].accountId == accountId
+            && data.managerSlots[0].entitlementState == 'active'
+          )
+          ||
+          (
+            data.managerSlots[1].slotId == role
+            && data.managerSlots[1].accountId == accountId
+            && data.managerSlots[1].entitlementState == 'active'
+          )
+        );
+    }
+
+    function cmsPersistentPairCreationWitnessValid(rivalryId) {
+      let pair = getAfter(/databases/$(database)/documents/accounts/$(request.auth.uid)/pairLinks/current);
+      let pairData = pair.data.data;
+      return pair.data.objectType == 'pairLink'
+        && pair.data.objectId == 'current'
+        && pair.data.lifecycleState == 'live'
+        && pair.data.updatedByAccountId == request.auth.uid
+        && pairData.rivalryId == rivalryId
+        && cmsPersistentPairManagerValid(pairData.managerRole, pairData.managerId);
+    }
+
+    function cmsPersistentPairRedemptionWitnessValid(rivalryId, role) {
+      let pairData = getAfter(/databases/$(database)/documents/accounts/$(request.auth.uid)/pairLinks/current).data.data;
+      return pairData.rivalryId == rivalryId
+        && pairData.managerRole == role
+        && cmsPersistentPairManagerValid(role, pairData.managerId);
+    }
+
+    function cmsPersistentPairDataValid(accountId, pairData) {
+      return pairData.keys().hasOnly([
+          'rivalryId',
+          'managerRole',
+          'managerId',
+          'linkedAt',
+          'lastConfirmedAt'
+        ])
+        && pairData.rivalryId is string
+        && pairData.rivalryId.matches('^pair_[0-9a-f]{64}$')
+        && cmsPersistentPairManagerValid(pairData.managerRole, pairData.managerId)
+        && pairData.linkedAt is timestamp
+        && pairData.lastConfirmedAt is timestamp
+        && pairData.lastConfirmedAt >= pairData.linkedAt
+        && cmsPersistentPairRivalryMembership(accountId, pairData.rivalryId, pairData.managerRole);
+    }
+
+    function cmsPersistentPairCanReplace(before, after) {
+      let priorRivalry = get(/databases/$(database)/documents/rivalries/$(before.data.rivalryId));
+      let priorInvite = get(/databases/$(database)/documents/rivalries/$(before.data.rivalryId)/invites/$(before.data.rivalryId));
+      return after.data.rivalryId == before.data.rivalryId
+        || (
+          priorRivalry.data.objectType == 'rivalry'
+          && priorRivalry.data.data.connectionState == 'closed'
+        )
+        || (
+          priorRivalry.data.objectType == 'rivalry'
+          && priorRivalry.data.data.connectionState == 'pending-pair'
+          && priorInvite.data.objectType == 'invite'
+          && (
+            priorInvite.data.data.state != 'open'
+            || priorInvite.data.data.expiresAt <= request.time
+          )
+        );
+    }
+
+    function cmsPersistentPairCreateValid(accountId, pairId) {
+      let root = request.resource.data;
+      return activeDevice(root.updatedByDeviceId)
+        && request.auth.uid == accountId
+        && pairId == 'current'
+        && validCreateEnvelope(root, 'pairLink', pairId)
+        && root.updatedByAccountId == accountId
+        && cmsPersistentPairDataValid(accountId, root.data);
+    }
+
+    function cmsPersistentPairUpdateValid(accountId, pairId) {
+      let before = resource.data;
+      let after = request.resource.data;
+      return activeDevice(after.updatedByDeviceId)
+        && request.auth.uid == accountId
+        && pairId == 'current'
+        && validCasEnvelope(before, after, 'pairLink', pairId)
+        && after.updatedByAccountId == accountId
+        && cmsPersistentPairDataValid(accountId, after.data)
+        && after.data.managerRole == before.data.managerRole
+        && after.data.managerId == before.data.managerId
+        && after.data.linkedAt == before.data.linkedAt
+        && cmsPersistentPairCanReplace(before, after);
+    }
+// CMS_PERSISTENT_PAIR_FUNCTIONS_END
+
+// CMS_PERSISTENT_PAIR_MATCH_BEGIN
+    match /accounts/{accountId}/pairLinks/{pairId} {
+      allow get: if signedIn() && request.auth.uid == accountId && pairId == 'current';
+      allow create: if cmsPersistentPairCreateValid(accountId, pairId);
+      allow update: if cmsPersistentPairUpdateValid(accountId, pairId);
+      allow list, delete: if false;
+    }
+// CMS_PERSISTENT_PAIR_MATCH_END

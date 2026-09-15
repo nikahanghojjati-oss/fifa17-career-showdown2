@@ -48,12 +48,13 @@ jobs:
           assert.ok(appVersion, 'APP_VERSION is missing.');
           assert.match(revision, new RegExp(`^${appVersion.replace(/\./g, '\\.')}\\-r[1-9]\\d*$`), 'The visual release cache identity must be a numbered revision for APP_VERSION.');
           assert.ok(
-            html.includes(`v${appVersion} · Product Deepening`)
-              || html.includes(`v${appVersion} · Private Connected Account Foundation`)
-              || html.includes(`v${appVersion} · Registered Devices & Private Pairing`)
-              || html.includes(`v${appVersion} · Connected Rivalry`)
-              || html.includes(`v${appVersion} · Private Remote Joining`),
-            'The user-facing release identity is missing or not approved for this release family.'
+            html.includes(`<footer>Career Mode Showdown<br>v${appVersion}</footer>`),
+            'The user-facing release identity must be the single Career Mode Showdown product and current app version.'
+          );
+          assert.doesNotMatch(
+            html,
+            /Product Deepening|Private Connected Account Foundation|Registered Devices & Private Pairing|Connected Rivalry|Private Remote Joining/,
+            'Historical architecture labels must not return as the user-facing release identity.'
           );
           assert.ok(app.includes(`const APP_VERSION = "${appVersion}"`), 'The application version declaration is inconsistent.');
           assert.ok(html.includes('id="loadingScreen" role="status" aria-live="polite" aria-busy="true"'), 'Startup status semantics are missing.');
@@ -107,7 +108,7 @@ jobs:
           assert.strictEqual(localShell.filter(match => match[1].startsWith('js/')).length, 7, 'Visual immersion added an eager script.');
           assert.deepStrictEqual(localShell.filter(match => match[2] !== revision), [], 'Visual candidate contains mixed shell revisions.');
 
-          console.log(`V1 startup/Home contracts passed for ${revision}: ${portrait.length} portrait bytes, bounded standalone composition, 2.7 s normal hold, preserved Home treatment, and responsive tiers.`);
+          console.log(`V1 startup/Home contracts passed for ${revision}: ${portrait.length} portrait bytes, single-product release identity, bounded standalone composition, 2.7 s normal hold, preserved Home treatment, and responsive tiers.`);
           NODE
 
           npm run serve:test > /tmp/cms-loading-test-server.log 2>&1 &

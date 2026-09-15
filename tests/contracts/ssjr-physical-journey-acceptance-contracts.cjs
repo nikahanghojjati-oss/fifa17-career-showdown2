@@ -40,11 +40,14 @@ const path=require("node:path");
   assert.doesNotMatch(source,/applyLocalReconciliation/,"recorder must never invoke Candidate C Apply");
   assert.match(entry,/peerActiveReturnToSharedEntry:true/);
   assert.match(entry,/bothDevicesPrepareSharedShell:true/);
-  assert.match(entry,/continueCareerIsLocalOnly:true/);
+  assert.match(entry,/singleProductEntry:true/);
+  assert.match(entry,/continueCareerUsesPairedAuthority:true/);
+  assert.doesNotMatch(entry,/continueCareerIsLocalOnly:true/,'Continue Career must not be described as a local-only alternative.');
   assert.match(entry,/remote\.subscribe\(onState\)/,"shared entry must observe the one successful peer join");
   assert.match(entry,/next\.sessionState!=="active"/,"peer return must wait for ACTIVE remote authority");
-  assert.match(entry,/START SHARED SHOWDOWN/);
-  assert.match(entry,/BOTH manager devices before pairing/i);
+  assert.match(entry,/start\.textContent="START A SHOWDOWN"/,'Physical journey must enter through the canonical Start a Showdown surface.');
+  assert.match(entry,/Daniel and Nik must both be connected before the career begins\./);
+  assert.doesNotMatch(entry,/START SHARED SHOWDOWN|BOTH manager devices before pairing/i,'Physical acceptance must not force retired engineering copy back into the player surface.');
 
   const validator=await import("../../scripts/validate-ssjr-physical-journey-evidence.mjs");
   const fp=char=>`sha256:${char.repeat(64)}`;
@@ -120,6 +123,6 @@ const path=require("node:path");
   assert.ok(validator.validatePhysicalJourneyPair(one,fakeOffline).issues.some(item=>item.code==="OFFLINE_FLAG_INVALID"));
 
   console.log("PASS r20 Physical Journey recorder is query-gated, privacy-safe, non-writing, authority-sticky and scopes canonical storage integrity to Local Reconciliation preview");
-  console.log("PASS r20 peer-entry contract requires both devices to prepare shared shells and ACTIVE peer join to return to Shared Journey Entry without Continue Career");
+  console.log("PASS r20 peer-entry contract requires both devices to prepare canonical Showdown shells and ACTIVE peer join to return to the single paired Career entry");
   console.log("PASS r20 pair oracle accepts both safe PREVIEW_READY/after-hash callback orders while requiring opposite manager/remote roles, distinct devices/networks, one season, ordered recovery, scoped unchanged storage proof, no Candidate C Apply and terminal reload");
 })().catch(error=>{console.error("SSJR PHYSICAL JOURNEY ACCEPTANCE CONTRACTS FAILED");console.error(error.stack||error);process.exit(1);});
