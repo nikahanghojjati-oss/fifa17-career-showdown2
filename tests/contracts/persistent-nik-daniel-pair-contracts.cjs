@@ -118,6 +118,9 @@ const sidecarFunction=identitySource.slice(identitySource.indexOf('async functio
 assert.match(sidecarFunction,/pair\.initialize\(\{force:true,reconcileIdentity:async id=>/,'The sidecar must ask pair authority to reconcile stale local role state during initialization, not after a mismatch rejection.');
 assert.match(sidecarFunction,/writeOnlineRole\(accountId,selected\.id\)[\s\S]*setOnlineIdentityState\(\{status:"ready"/,'Provider-authoritative reconciliation must update both IndexedDB and live identity state before normal pair validation resumes.');
 assert.doesNotMatch(sidecarFunction,/pairState\?\.managerId!==state\.managerId/,'Stale-role repair must not wait until after pair initialization has already applied the mismatch guard.');
+const canonicalContinueFunction=identitySource.slice(identitySource.indexOf('async function openCanonicalCareerContinue'),identitySource.indexOf('function subscribeOnlineIdentity'));
+assert.match(canonicalContinueFunction,/first=await syncPersistentPairSidecar\(\),next=!first\|\|first\.status==="unavailable"\?await syncPersistentPairSidecar\(\):first/,'Continue must await the same stale-role-reconciling sidecar and retry it once after a transient unavailable result.');
+assert.doesNotMatch(canonicalContinueFunction,/pair\.initialize\(/,'Canonical Continue must not bypass stale-role reconciliation with a callback-free pair initialization.');
 assert.doesNotMatch(identitySource,/Career Mode Showdown is online-only|Normal play is online-only|ONLINE SHOWDOWN · NIK & DANIEL|ONLINE SIGN-IN REQUIRED TO PLAY/,'Player-facing language must not describe the only product as an online variant.');
 assert.doesNotMatch(appSource,/persistentNikDanielPair|persistent-nik-daniel-pair/,'Persistent pair must stay behind the lazy identity boundary and out of the initial app bundle.');
 assert.match(workerSource,/"js\/persistentNikDanielPair\.js"/,'Installed application shell must cache the lazy persistent-pair runtime.');
