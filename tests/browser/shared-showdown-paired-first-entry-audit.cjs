@@ -78,6 +78,7 @@ const SAVE_KEY="careerModeShowdown.saveLibrary";
       window.CareerModeSparkPrivatePairing={initialize:async()=>true,getState:()=>({registered:true,deviceId})};
       window.CareerModeSparkConnectedRivalry={initialize:async()=>true,getState:()=>({attached:true,rivalryId,accountId,deviceId,binding:{managerRole:"playerTwo"}})};
       window.CareerModePersistentNikDanielPair={initialize:async()=>{window.__pairControlsOpenCount+=1;return {status:"paired"};},render:()=>{let panel=document.getElementById("persistentNikDanielPairPanel");if(!panel){panel=document.createElement("section");panel.id="persistentNikDanielPairPanel";panel.textContent="CAREER READY";document.body.appendChild(panel);}return panel;}};
+      window.CareerModeOnlinePlayerIdentity={...window.CareerModeOnlinePlayerIdentity,syncPair:async()=>window.CareerModePersistentNikDanielPair.initialize({force:true})};
       window.CareerModeSparkRemoteJoining={
         getState:()=>state,
         subscribe(listener){listeners.add(listener);return()=>listeners.delete(listener);},
