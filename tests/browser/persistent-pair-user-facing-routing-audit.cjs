@@ -49,12 +49,12 @@ const playerOneProfileId=`profile_${"d".repeat(24)}`;
         name:"Daniel vs Nik",managers:{playerOne:"Daniel",playerTwo:"Nik"},totalRounds:5,currentRound:1,status:"Created",selectedLeague:null,
         clubs:{playerOne:null,playerTwo:null},score:{playerOne:0,playerTwo:0},transferChallenges:[],rounds:[],
         sharedJourney:{contractVersion:1,mode:"shared",setupPending:true},
-        identity:{managerProfileIds:{playerOne:playerOneProfileId,playerTwo:profileId}}
+        identity:{saveId,managerProfileIds:{playerOne:playerOneProfileId,playerTwo:profileId}}
       });
       window.CareerModeSaveLibraryRuntime={
         isReady:()=>true,
         getLibrarySnapshot:()=>window.__localRecoveryReady?{activeSaveId:saveId,saves:[{saveId,showdown:preparedShowdown()}]}:{activeSaveId:null,saves:[]},
-        switchActiveSave:async()=>true
+        switchActiveSave:async requested=>{if(requested!==saveId)throw new Error("Unexpected Save hydration target.");currentShowdown=preparedShowdown();return currentShowdown;}
       };
       window.CareerModeOnlinePlayerIdentity={getState:()=>({status:"ready",accountId,managerId:"nik",managerLabel:"Nik",deviceId,registered:true})};
       window.CareerModeProductionFirebaseRuntime={ensureAccountServices:async()=>({ok:true,auth:{currentUser:{uid:accountId}},firestore:{},firestoreSdk})};
@@ -118,27 +118,32 @@ const playerOneProfileId=`profile_${"d".repeat(24)}`;
     // A remembered ACTIVE pair on a normal browser reload must activate lazy Save Library authority before classifying local recovery.
     const reloadAuthority=await page.evaluate(async({saveId,profileId,playerOneProfileId})=>{
       window.__pairProviderMode="active-recovery";
-      const originalLoader=window.loadRuntimeScript,originalSaveRuntime=window.CareerModeSaveLibraryRuntime,originalEnsure=window.ensureSaveLibraryRuntimeAuthority;
+      const originalLoader=window.loadRuntimeScript,originalSaveRuntime=window.CareerModeSaveLibraryRuntime,originalEnsure=window.ensureSaveLibraryRuntimeAuthority,originalCurrentShowdown=currentShowdown;
       delete window.CareerModeSaveLibraryRuntime;
       delete window.ensureSaveLibraryRuntimeAuthority;
-      let ready=false,activationCount=0;
+      let ready=false,activationCount=0,switchCount=0;
       const prepared=()=>({name:"Daniel vs Nik",managers:{playerOne:"Daniel",playerTwo:"Nik"},totalRounds:5,currentRound:1,status:"Created",selectedLeague:null,clubs:{playerOne:null,playerTwo:null},score:{playerOne:0,playerTwo:0},transferChallenges:[],rounds:[],sharedJourney:{contractVersion:1,mode:"shared",setupPending:false},identity:{saveId,managerProfileIds:{playerOne:playerOneProfileId,playerTwo:profileId}}});
       window.loadRuntimeScript=async(key,path,check)=>{
         if(key!=="save-library-cutover")return originalLoader(key,path,check);
-        window.CareerModeSaveLibraryRuntime={isReady:()=>ready,getLibrarySnapshot:()=>ready?{activeSaveId:saveId,saves:[{saveId,showdown:prepared()}]}:null,switchActiveSave:async()=>true};
+        window.CareerModeSaveLibraryRuntime={isReady:()=>ready,getLibrarySnapshot:()=>ready?{activeSaveId:saveId,saves:[{saveId,showdown:prepared()}]}:null,switchActiveSave:async requested=>{if(requested!==saveId)throw new Error("Unexpected cold-reload hydration target.");switchCount+=1;currentShowdown=prepared();return currentShowdown;}};
         window.ensureSaveLibraryRuntimeAuthority=async()=>{activationCount+=1;ready=true;return true;};
         return true;
       };
       try{
         const next=await window.CareerModePersistentNikDanielPair.initialize({force:true});
-        return{status:next.status,activationCount,recoveryReady:next.status==="paired"};
+        currentShowdown=null;
+        const continueBefore=window.__continueOpened;
+        const continued=await window.CareerModePersistentNikDanielPair.continuePair();
+        const hydrated=currentShowdown;
+        return{status:next.status,continuedStatus:continued.status,activationCount,switchCount,hydratedSaveId:hydrated?.identity?.saveId||null,hydratedMode:hydrated?.sharedJourney?.mode||null,hydratedSeasons:hydrated?.totalRounds||null,continueOpened:window.__continueOpened-continueBefore,recoveryReady:next.status==="paired"};
       }finally{
+        currentShowdown=originalCurrentShowdown;
         window.loadRuntimeScript=originalLoader;
         window.CareerModeSaveLibraryRuntime=originalSaveRuntime;
         if(originalEnsure===undefined)delete window.ensureSaveLibraryRuntimeAuthority;else window.ensureSaveLibraryRuntimeAuthority=originalEnsure;
       }
     },{saveId,profileId,playerOneProfileId});
-    assert.deepEqual(reloadAuthority,{status:"paired",activationCount:1,recoveryReady:true},"A normal paired-browser reload must restore Continue authority rather than falsely requiring recovery.");
+    assert.deepEqual(reloadAuthority,{status:"paired",continuedStatus:"paired",activationCount:1,switchCount:1,hydratedSaveId:saveId,hydratedMode:"shared",hydratedSeasons:5,continueOpened:1,recoveryReady:true},"A normal paired-browser reload must activate storage, hydrate the already-active canonical Save, and open Continue Career without false recovery.");
     await page.locator("#persistentNikDanielPairPanel",{hasText:"CAREER READY"}).waitFor({state:"visible",timeout:5000});
     await page.locator("#persistentNikDanielPairPanel button",{hasText:"CONTINUE CAREER"}).waitFor({state:"visible"});
     assert.equal(await page.locator("#persistentNikDanielPairPanel",{hasText:"CAREER RECOVERY NEEDED"}).count(),0,"A valid local paired reload must not show false recovery UI.");

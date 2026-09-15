@@ -56,6 +56,10 @@ const initializeFunction=pairSource.slice(pairSource.indexOf('async function pai
 assert.match(initializeFunction,/if\(active\)await pairEnsureSaveLibraryAuthority\(\);[\s\S]*pairHasExactLocalRecoveryCopy/,'Active-pair reload classification must activate local authority before checking the provider-linked Save/Profile copy.');
 
 assert.match(pairSource,/runtime\.switchActiveSave\(saveId\)/,'Continue Career must activate the exact locally cached Save linked by provider membership instead of using whichever Save is currently active.');
+const exactBindingFunction=pairSource.slice(pairSource.indexOf('async function pairExactLocalBindingForProviderSlot'),pairSource.indexOf('function pairPreparedBindingForRole'));
+assert.match(exactBindingFunction,/if\(typeof runtime\.switchActiveSave!=="function"\)return null;await runtime\.switchActiveSave\(saveId\);const library=runtime\.getLibrarySnapshot\(\)/,'Provider-linked Continue must hydrate the canonical Save through runtime authority even when that Save is already active.');
+assert.doesNotMatch(exactBindingFunction,/activeSaveId!==saveId[\s\S]*switchActiveSave/,'Hydration must not be skipped merely because the provider-linked Save is already the active Save Library selection.');
+
 assert.match(pairSource,/binding\.saveId!==saveId\|\|binding\.profileId!==profileId\|\|binding\.managerRole!==normalized/,'Reconnect must reject a role-only local binding that does not match provider Save/Profile identity.');
 assert.match(pairSource,/does not have the verified local recovery copy for this career/,'A browser without the provider-linked local cache must explain verified recovery rather than create divergent identity.');
 assert.doesNotMatch(pairSource,/fresh Showdown setup before it can continue/i,'Missing local recovery must never instruct the player to create a divergent new Showdown.');
