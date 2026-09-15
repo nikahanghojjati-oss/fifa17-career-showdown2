@@ -79,17 +79,19 @@
     finally{if(round&&priorRound!==null)round.value=priorRound;if(button)button.disabled=false;busy=false;}
   }
   async function openPersistentPairControls(){
-  closePanel();
-  try{
-    const pair=await loadScript("persistent-pair","js/persistentNikDanielPair.js",()=>root.CareerModePersistentNikDanielPair);
-    if(!pair||typeof pair.initialize!=="function"||typeof pair.render!=="function")throw new Error("Player connection controls are unavailable.");
-    if(typeof root.navigateTo==="function")await root.navigateTo("mainMenu",{addToHistory:false,allowCanonicalFallback:true});else if(typeof root.showScreen==="function")await root.showScreen("mainMenu",false);
-    await pair.initialize({force:true});pair.render();
-    const panel=root.document.getElementById("persistentNikDanielPairPanel");if(!panel)throw new Error("Player connection controls could not be opened.");
-    panel.scrollIntoView?.({block:"center"});panel.querySelector("button,input")?.focus?.();
-  }catch(error){report("Unable to open player connection setup",error);}
-}
-async function remoteState(){
+    closePanel();
+    try{
+      const pair=await loadScript("persistent-pair","js/persistentNikDanielPair.js",()=>root.CareerModePersistentNikDanielPair),identity=root.CareerModeOnlinePlayerIdentity;
+      if(!pair||typeof pair.render!=="function"||!identity||typeof identity.syncPair!=="function")throw new Error("Player connection controls are unavailable.");
+      if(typeof root.navigateTo==="function")await root.navigateTo("mainMenu",{addToHistory:false,allowCanonicalFallback:true});else if(typeof root.showScreen==="function")await root.showScreen("mainMenu",false);
+      const first=await identity.syncPair(),next=!first||first.status==="unavailable"?await identity.syncPair():first;
+      if(!next||next.status==="unavailable")throw new Error("Player connection controls are temporarily unavailable.");
+      pair.render();
+      const panel=root.document.getElementById("persistentNikDanielPairPanel");if(!panel)throw new Error("Player connection controls could not be opened.");
+      panel.scrollIntoView?.({block:"center"});panel.querySelector("button,input")?.focus?.();
+    }catch(error){report("Unable to open player connection setup",error);}
+  }
+  async function remoteState(){
     try{await Promise.all([loadStyle(),loadScript("rj","js/sparkRemoteJoining.js",()=>root.CareerModeSparkRemoteJoining)]);const remote=root.CareerModeSparkRemoteJoining;return remote&&typeof remote.getState==="function"?remote.getState():null;}catch(_error){return null;}
   }
   function disarmRemoteReturn(){if(typeof remoteUnsubscribe==="function")remoteUnsubscribe();remoteUnsubscribe=null;}
