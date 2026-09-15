@@ -115,6 +115,34 @@ const playerOneProfileId=`profile_${"d".repeat(24)}`;
     await continueButton.click();
     await page.waitForFunction(()=>window.__continueOpened===1,null,{timeout:3000});
 
+    // A remembered ACTIVE pair on a normal browser reload must activate lazy Save Library authority before classifying local recovery.
+    const reloadAuthority=await page.evaluate(async({saveId,profileId,playerOneProfileId})=>{
+      window.__pairProviderMode="active-recovery";
+      const originalLoader=window.loadRuntimeScript,originalSaveRuntime=window.CareerModeSaveLibraryRuntime,originalEnsure=window.ensureSaveLibraryRuntimeAuthority;
+      delete window.CareerModeSaveLibraryRuntime;
+      delete window.ensureSaveLibraryRuntimeAuthority;
+      let ready=false,activationCount=0;
+      const prepared=()=>({name:"Daniel vs Nik",managers:{playerOne:"Daniel",playerTwo:"Nik"},totalRounds:5,currentRound:1,status:"Created",selectedLeague:null,clubs:{playerOne:null,playerTwo:null},score:{playerOne:0,playerTwo:0},transferChallenges:[],rounds:[],sharedJourney:{contractVersion:1,mode:"shared",setupPending:false},identity:{saveId,managerProfileIds:{playerOne:playerOneProfileId,playerTwo:profileId}}});
+      window.loadRuntimeScript=async(key,path,check)=>{
+        if(key!=="save-library-cutover")return originalLoader(key,path,check);
+        window.CareerModeSaveLibraryRuntime={isReady:()=>ready,getLibrarySnapshot:()=>ready?{activeSaveId:saveId,saves:[{saveId,showdown:prepared()}]}:null,switchActiveSave:async()=>true};
+        window.ensureSaveLibraryRuntimeAuthority=async()=>{activationCount+=1;ready=true;return true;};
+        return true;
+      };
+      try{
+        const next=await window.CareerModePersistentNikDanielPair.initialize({force:true});
+        return{status:next.status,activationCount,recoveryReady:next.status==="paired"};
+      }finally{
+        window.loadRuntimeScript=originalLoader;
+        window.CareerModeSaveLibraryRuntime=originalSaveRuntime;
+        if(originalEnsure===undefined)delete window.ensureSaveLibraryRuntimeAuthority;else window.ensureSaveLibraryRuntimeAuthority=originalEnsure;
+      }
+    },{saveId,profileId,playerOneProfileId});
+    assert.deepEqual(reloadAuthority,{status:"paired",activationCount:1,recoveryReady:true},"A normal paired-browser reload must restore Continue authority rather than falsely requiring recovery.");
+    await page.locator("#persistentNikDanielPairPanel",{hasText:"CAREER READY"}).waitFor({state:"visible",timeout:5000});
+    await page.locator("#persistentNikDanielPairPanel button",{hasText:"CONTINUE CAREER"}).waitFor({state:"visible"});
+    assert.equal(await page.locator("#persistentNikDanielPairPanel",{hasText:"CAREER RECOVERY NEEDED"}).count(),0,"A valid local paired reload must not show false recovery UI.");
+
     // Fresh-browser active-pair recovery must expose and route a real OPEN RECOVERY control.
     await page.evaluate(async()=>{window.__pairProviderMode="active-recovery";window.__localRecoveryReady=false;await window.CareerModePersistentNikDanielPair.initialize({force:true});});
     await page.locator("#persistentNikDanielPairPanel",{hasText:"CAREER RECOVERY NEEDED"}).waitFor({state:"visible",timeout:5000});

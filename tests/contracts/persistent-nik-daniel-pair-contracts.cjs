@@ -51,6 +51,10 @@ assert.match(pairSource,/pairProviderBindingFromMembership/,'Provider rivalry me
 assert.match(pairSource,/providerSaveId:providerBinding\.saveId/);
 assert.match(pairSource,/providerProfileId:providerBinding\.profileId/);
 assert.match(pairSource,/pairExactLocalBindingForProviderSlot/);
+assert.match(pairSource,/async function pairEnsureSaveLibraryAuthority\(\)[\s\S]*loadRuntimeScript\("save-library-cutover","js\/saveLibraryCutover\.js"[\s\S]*ensureSaveLibraryRuntimeAuthority/,'A remembered active pair must lazily activate established Save Library authority before deciding Continue versus Recovery.');
+const initializeFunction=pairSource.slice(pairSource.indexOf('async function pairInitialize'),pairSource.indexOf('function pairSelectedRole'));
+assert.match(initializeFunction,/if\(active\)await pairEnsureSaveLibraryAuthority\(\);[\s\S]*pairHasExactLocalRecoveryCopy/,'Active-pair reload classification must activate local authority before checking the provider-linked Save/Profile copy.');
+
 assert.match(pairSource,/runtime\.switchActiveSave\(saveId\)/,'Continue Career must activate the exact locally cached Save linked by provider membership instead of using whichever Save is currently active.');
 assert.match(pairSource,/binding\.saveId!==saveId\|\|binding\.profileId!==profileId\|\|binding\.managerRole!==normalized/,'Reconnect must reject a role-only local binding that does not match provider Save/Profile identity.');
 assert.match(pairSource,/does not have the verified local recovery copy for this career/,'A browser without the provider-linked local cache must explain verified recovery rather than create divergent identity.');
