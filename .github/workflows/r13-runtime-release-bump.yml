@@ -1,0 +1,85 @@
+name: R13 runtime release bump
+
+on:
+  push:
+    branches:
+      - feat/persistent-nik-daniel-pair
+    paths:
+      - .github/workflows/r13-runtime-release-bump.yml
+
+permissions:
+  contents: write
+
+jobs:
+  promote:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - name: Promote whole shell to r22
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          replacements = {
+              "index.html": ("1.9.1-r21", "1.9.1-r22"),
+              "manifest.webmanifest": ("1.9.1-r21", "1.9.1-r22"),
+              "js/app.js": ("1.9.1-r21", "1.9.1-r22"),
+              "js/menuExperience.js": ("1.9.1-r21", "1.9.1-r22"),
+          }
+          for name, (before, after) in replacements.items():
+              path = Path(name)
+              text = path.read_text()
+              if before not in text:
+                  raise SystemExit(f"Expected {before} in {name}")
+              path.write_text(text.replace(before, after))
+
+          worker = Path("service-worker.js")
+          text = worker.read_text()
+          current = 'const RUNTIME_REVISION = "1.9.1-r21";'
+          previous = 'const PREVIOUS_RUNTIME_REVISION = "1.9.1-r20";'
+          if current not in text or previous not in text:
+              raise SystemExit("Unexpected service-worker release topology")
+          text = text.replace(current, 'const RUNTIME_REVISION = "1.9.1-r22";', 1)
+          text = text.replace(previous, 'const PREVIOUS_RUNTIME_REVISION = "1.9.1-r21";', 1)
+          worker.write_text(text)
+
+          release = Path("RELEASE_V1.9.1_R22.md")
+          if release.exists():
+              raise SystemExit("R22 release note already exists")
+          release.write_text('''# Career Mode Showdown v1.9.1 — Runtime r22
+
+Status: RELEASE CANDIDATE
+
+Application version: `v1.9.1`
+
+Runtime asset revision: `1.9.1-r22`
+
+Previous known-good runtime: `1.9.1-r21`
+
+Runtime `1.9.1-r22` is the whole-shell release candidate for the R13 CONNECT PLAYERS reconciliation hardening. It advances the installable shell identity because shipped player identity routing and Shared Journey entry bytes changed after r21; r21 remains the immediate known-good whole-shell recovery target.
+
+R22 keeps Daniel permanently Player One and Nik permanently Player Two. CONNECT PLAYERS now reuses the same promise-shared, provider-authoritative stale-role reconciliation sidecar as canonical Continue Career and performs the same single bounded retry after an absent or unavailable pair read. It does not introduce a second identity repair mechanism or weaken provider authority.
+
+The real browser routing regression covers a registered browser with stale opposite local role plus one transient sidecar failure and requires the second bounded sidecar attempt to reconcile to the durable provider role and reach CAREER READY without dead-ending into unavailable or false recovery controls.
+
+The installed service worker uses a distinct r22 cache namespace and retains r21 as the preferred recovery runtime. Index, manifest, eager shell scripts, lazy visual-fidelity CSS and Marco Reus asset query identities move together to r22 so the service worker cannot serve stale r21 runtime bytes under the new release.
+
+Remote Joining and Shared Journey terminology remain engineering provenance only; the player-facing product remains the single Start a Showdown / Continue Career experience. There is no public discovery or list authority expansion.
+
+Firebase remains Spark-only with Billing permanently OFF. App Check enforcement remains OFF. No Cloud Run, Cloud Functions, Blaze/payment dependency or paid infrastructure is introduced.
+
+SSJR-1.1 remains exactly `0/100`; no source commit, CI pass, merge, deployment or release-note publication earns physical-journey acceptance credit. MDP remains `95.50/100` until separately governed evidence changes it.
+
+Production Pages and Rules deployment/readback must pass on the merged exact main head before genuine two-device testing is requested.
+''')
+          PY
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html manifest.webmanifest service-worker.js js/app.js js/menuExperience.js RELEASE_V1.9.1_R22.md
+          git diff --cached --check
+          git commit -m "Promote R13 shell to runtime r22"
+          git push origin HEAD:feat/persistent-nik-daniel-pair
