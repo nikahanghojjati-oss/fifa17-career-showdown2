@@ -27,6 +27,7 @@ jobs:
         run: |
           python scripts/pr260-r12-release-authority.py
           python scripts/pr260-r12-release-authority-followup.py
+          python scripts/pr260-r12-release-note-followup.py
       - name: Syntax and exact revision topology
         run: |
           node --check js/persistentNikDanielPair.js
@@ -39,6 +40,7 @@ jobs:
           grep -n 'visual-fidelity-r3.css?v=1.9.1-r21' js/app.js
           grep -n 'marco-reus-2015-cc-by.webp?v=1.9.1-r21' js/menuExperience.js
           grep -n '1.9.1-r21' manifest.webmanifest
+          grep -n 'SSJR-1.1 remains exactly `0/100`' RELEASE_V1.9.1_R21.md
       - name: Full permanent contract suite
         run: npm run test:contracts
       - name: Protected static startup budget
@@ -62,7 +64,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git rm .github/workflows/pr260-r12-release-authority.yml scripts/pr260-r12-release-authority.py scripts/pr260-r12-release-authority-followup.py
+          git rm .github/workflows/pr260-r12-release-authority.yml scripts/pr260-r12-release-authority.py scripts/pr260-r12-release-authority-followup.py scripts/pr260-r12-release-note-followup.py
           git add index.html manifest.webmanifest service-worker.js js/app.js js/menuExperience.js js/persistentNikDanielPair.js tests/contracts/persistent-nik-daniel-pair-contracts.cjs tests/contracts/release-shell-coherence-contracts.cjs tests/contracts/ssjr-physical-journey-publication-contracts.cjs tests/browser/persistent-pair-user-facing-routing-audit.cjs RELEASE_V1.9.1_R21.md
           git diff --cached --check
           git commit -m "fix(pr260): publish r21 shell and reactivate panel authority R12"
