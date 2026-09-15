@@ -1,0 +1,63 @@
+name: PR260 R12 release authority
+
+on:
+  push:
+    branches:
+      - feat/persistent-nik-daniel-pair
+    paths:
+      - .github/workflows/pr260-r12-release-authority.yml
+
+permissions:
+  contents: write
+
+jobs:
+  prove-and-publish:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: feat/persistent-nik-daniel-pair
+          fetch-depth: 1
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Apply bounded R12 patch
+        run: python scripts/pr260-r12-release-authority.py
+      - name: Syntax and exact revision topology
+        run: |
+          node --check js/persistentNikDanielPair.js
+          node --check service-worker.js
+          grep -n 'const RUNTIME_REVISION = "1.9.1-r21"' service-worker.js
+          grep -n 'const PREVIOUS_RUNTIME_REVISION = "1.9.1-r20"' service-worker.js
+          grep -n 'app-asset-revision" content="1.9.1-r21"' index.html
+          grep -n '1.9.1-r21' manifest.webmanifest
+      - name: Full permanent contract suite
+        run: npm run test:contracts
+      - name: Protected static startup budget
+        run: node tests/contracts/static-app-release-contracts.cjs
+      - name: Release shell coherence and immediate recovery target
+        run: node tests/contracts/release-shell-coherence-contracts.cjs
+      - name: Persistent pair authority contracts
+        run: node tests/contracts/persistent-nik-daniel-pair-contracts.cjs
+      - name: Browser proofs for installed shell and panel Continue
+        run: |
+          npm run serve:test >/tmp/cms-server.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for attempt in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:4173/ >/dev/null; then break; fi
+            sleep 1
+          done
+          node tests/browser/offline-boundary-audit.cjs
+          npm run test:persistent-pair-routing
+      - name: Publish only proven permanent R12 files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm .github/workflows/pr260-r12-release-authority.yml scripts/pr260-r12-release-authority.py
+          git add index.html manifest.webmanifest service-worker.js js/persistentNikDanielPair.js tests/contracts/persistent-nik-daniel-pair-contracts.cjs tests/contracts/release-shell-coherence-contracts.cjs tests/browser/persistent-pair-user-facing-routing-audit.cjs RELEASE_V1.9.1_R21.md
+          git diff --cached --check
+          git commit -m "fix(pr260): publish r21 shell and reactivate panel authority R12"
+          git push origin HEAD:feat/persistent-nik-daniel-pair
