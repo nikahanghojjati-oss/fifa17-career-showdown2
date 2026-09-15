@@ -24,14 +24,20 @@ jobs:
           cache: npm
       - run: npm ci
       - name: Apply bounded R12 patch
-        run: python scripts/pr260-r12-release-authority.py
+        run: |
+          python scripts/pr260-r12-release-authority.py
+          python scripts/pr260-r12-release-authority-followup.py
       - name: Syntax and exact revision topology
         run: |
           node --check js/persistentNikDanielPair.js
           node --check service-worker.js
+          node --check js/app.js
+          node --check js/menuExperience.js
           grep -n 'const RUNTIME_REVISION = "1.9.1-r21"' service-worker.js
           grep -n 'const PREVIOUS_RUNTIME_REVISION = "1.9.1-r20"' service-worker.js
           grep -n 'app-asset-revision" content="1.9.1-r21"' index.html
+          grep -n 'visual-fidelity-r3.css?v=1.9.1-r21' js/app.js
+          grep -n 'marco-reus-2015-cc-by.webp?v=1.9.1-r21' js/menuExperience.js
           grep -n '1.9.1-r21' manifest.webmanifest
       - name: Full permanent contract suite
         run: npm run test:contracts
@@ -56,8 +62,8 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git rm .github/workflows/pr260-r12-release-authority.yml scripts/pr260-r12-release-authority.py
-          git add index.html manifest.webmanifest service-worker.js js/persistentNikDanielPair.js tests/contracts/persistent-nik-daniel-pair-contracts.cjs tests/contracts/release-shell-coherence-contracts.cjs tests/browser/persistent-pair-user-facing-routing-audit.cjs RELEASE_V1.9.1_R21.md
+          git rm .github/workflows/pr260-r12-release-authority.yml scripts/pr260-r12-release-authority.py scripts/pr260-r12-release-authority-followup.py
+          git add index.html manifest.webmanifest service-worker.js js/app.js js/menuExperience.js js/persistentNikDanielPair.js tests/contracts/persistent-nik-daniel-pair-contracts.cjs tests/contracts/release-shell-coherence-contracts.cjs tests/contracts/ssjr-physical-journey-publication-contracts.cjs tests/browser/persistent-pair-user-facing-routing-audit.cjs RELEASE_V1.9.1_R21.md
           git diff --cached --check
           git commit -m "fix(pr260): publish r21 shell and reactivate panel authority R12"
           git push origin HEAD:feat/persistent-nik-daniel-pair
