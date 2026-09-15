@@ -60,6 +60,8 @@ assert.match(pairSource,/runtime\.switchActiveSave\(saveId\)/,'Continue Career m
 const exactBindingFunction=pairSource.slice(pairSource.indexOf('async function pairExactLocalBindingForProviderSlot'),pairSource.indexOf('function pairPreparedBindingForRole'));
 assert.match(exactBindingFunction,/if\(typeof runtime\.switchActiveSave!=="function"\)return null;await runtime\.switchActiveSave\(saveId\);const library=runtime\.getLibrarySnapshot\(\)/,'Provider-linked Continue must hydrate the canonical Save through runtime authority even when that Save is already active.');
 assert.doesNotMatch(exactBindingFunction,/activeSaveId!==saveId[\s\S]*switchActiveSave/,'Hydration must not be skipped merely because the provider-linked Save is already the active Save Library selection.');
+const continuePairFunction=pairSource.slice(pairSource.indexOf('async function pairContinueOnlineShowdown'),pairSource.indexOf('async function pairOpenRecoverySurface'));
+assert.match(continuePairFunction,/await pairEnsureSaveLibraryAuthority\(\);[\s\S]*pairExactLocalBindingForProviderSlot/,'The persistent-pair panel Continue path must reactivate Save Library authority before deciding whether verified local recovery exists.');
 
 assert.match(pairSource,/binding\.saveId!==saveId\|\|binding\.profileId!==profileId\|\|binding\.managerRole!==normalized/,'Reconnect must reject a role-only local binding that does not match provider Save/Profile identity.');
 assert.match(pairSource,/does not have the verified local recovery copy for this career/,'A browser without the provider-linked local cache must explain verified recovery rather than create divergent identity.');
