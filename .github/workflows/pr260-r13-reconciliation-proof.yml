@@ -1,0 +1,154 @@
+name: PR260 R13 reconciliation proof
+
+on:
+  push:
+    branches:
+      - feat/persistent-nik-daniel-pair
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pr260-r13-reconciliation-proof
+  cancel-in-progress: false
+
+jobs:
+  patch-test-publish:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feat/persistent-nik-daniel-pair
+          fetch-depth: 0
+
+      - name: Verify reconciled R13 parent
+        shell: bash
+        run: |
+          set -euo pipefail
+          expected="ffcdabb6572a444cbed156862302cc46a04d481b"
+          actual="$(git rev-parse HEAD^)"
+          test "$actual" = "$expected" || { echo "Unexpected R13 proof parent: $actual"; exit 1; }
+          test "$(git diff-tree --no-commit-id --name-only -r "$expected")" = "tests/browser/shared-showdown-paired-first-entry-audit.cjs" || { echo 'Intervening commit scope changed'; exit 1; }
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Apply bounded R13 product and regression patch
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+
+          def replace_once(path, old, new):
+              p=Path(path)
+              text=p.read_text()
+              count=text.count(old)
+              if count != 1:
+                  raise SystemExit(f"{path}: expected exactly one replacement target, found {count}")
+              p.write_text(text.replace(old,new,1))
+
+          replace_once(
+              'js/onlinePlayerIdentity.js',
+              'clearRole,subscribe:subscribeOnlineIdentity,getState:()=>state});});',
+              'clearRole,subscribe:subscribeOnlineIdentity,syncPair:syncPersistentPairSidecar,getState:()=>state});});'
+          )
+          replace_once(
+              'js/productionSharedJourneyEntry.js',
+              '    await pair.initialize({force:true});pair.render();',
+              '    const identity=root.CareerModeOnlinePlayerIdentity;if(!identity||typeof identity.syncPair!=="function")throw new Error("Player identity synchronization is unavailable.");const first=await identity.syncPair(),next=!first||first.status==="unavailable"?await identity.syncPair():first;if(!next||next.status==="unavailable")throw new Error("Player connection is temporarily unavailable.");pair.render();'
+          )
+          replace_once(
+              'tests/browser/persistent-pair-user-facing-routing-audit.cjs',
+              '      window.CareerModeOnlinePlayerIdentity={getState:()=>({status:"ready",accountId,managerId:"nik",managerLabel:"Nik",deviceId,registered:true})};',
+              '''      window.__routeManagerId="nik";\n      window.__pairSyncCalls=0;\n      window.__pairSyncTransientOnce=false;\n      window.CareerModeOnlinePlayerIdentity={\n        getState:()=>({status:"ready",accountId,managerId:window.__routeManagerId,managerLabel:window.__routeManagerId==="nik"?"Nik":"Daniel",deviceId,registered:true}),\n        syncPair:async()=>{\n          window.__pairSyncCalls+=1;\n          if(window.__pairSyncTransientOnce){window.__pairSyncTransientOnce=false;return null;}\n          return window.CareerModePersistentNikDanielPair.initialize({force:true,reconcileIdentity:async authoritativeManagerId=>{window.__routeManagerId=authoritativeManagerId;}});\n        }\n      };'''
+          )
+          marker='''    assert.doesNotMatch((await panel.innerText()),/Save Library|Private Remote Joining|Shared Journey/i,"The player connection panel must not expose retired architecture concepts.");\n\n    // CREATE CODE must transition the real panel into a complete waiting state with all recovery controls.'''
+          insertion='''    assert.doesNotMatch((await panel.innerText()),/Save Library|Private Remote Joining|Shared Journey/i,"The player connection panel must not expose retired architecture concepts.");\n\n    // CONNECT PLAYERS must reuse the identity sidecar reconciler, including one bounded retry after a transient provider read.\n    await page.evaluate(()=>{window.__pairProviderMode="active-recovery";window.__localRecoveryReady=true;window.__routeManagerId="daniel";window.__pairSyncCalls=0;window.__pairSyncTransientOnce=true;});\n    await page.evaluate(async()=>{await window.CareerModeProductionSharedJourneyEntry.openPanel();});\n    const reconcileConnect=page.locator("#productionSharedJourneyEntryOverlay button",{hasText:"CONNECT PLAYERS"});\n    await reconcileConnect.waitFor({state:"visible",timeout:5000});\n    await reconcileConnect.click();\n    await page.locator("#persistentNikDanielPairPanel",{hasText:"CAREER READY"}).waitFor({state:"visible",timeout:5000});\n    const connectReconcile=await page.evaluate(()=>({managerId:window.__routeManagerId,syncCalls:window.__pairSyncCalls,pair:window.CareerModePersistentNikDanielPair.getState()}));\n    assert.equal(connectReconcile.managerId,"nik","CONNECT PLAYERS must reconcile the stale opposite local role from durable pair authority.");\n    assert.equal(connectReconcile.syncCalls,2,"CONNECT PLAYERS must retry the shared sidecar exactly once after a transient unavailable result.");\n    assert.equal(connectReconcile.pair.status,"paired");\n    assert.equal(connectReconcile.pair.managerId,"nik");\n    assert.equal(connectReconcile.pair.managerRole,"playerTwo");\n    assert.equal(await page.locator("#persistentNikDanielPairPanel",{hasText:"CAREER RECOVERY NEEDED"}).count(),0,"A stale local role with a valid local Save must not dead-end or show false recovery after reconciliation.");\n    await page.evaluate(async()=>{window.__pairProviderMode="unpaired";window.__localRecoveryReady=true;window.__routeManagerId="nik";await window.CareerModePersistentNikDanielPair.initialize({force:true});window.CareerModePersistentNikDanielPair.render();});\n    await page.locator("#persistentNikDanielPairPanel button",{hasText:"CREATE CODE"}).waitFor({state:"visible",timeout:5000});\n\n    // CREATE CODE must transition the real panel into a complete waiting state with all recovery controls.'''
+          replace_once('tests/browser/persistent-pair-user-facing-routing-audit.cjs',marker,insertion)
+          replace_once(
+              'tests/contracts/persistent-nik-daniel-pair-contracts.cjs',
+              "assert.match(identitySource,/function syncPersistentPairSidecar\\(\\)/);",
+              "assert.match(identitySource,/function syncPersistentPairSidecar\\(\\)/);\nassert.match(identitySource,/syncPair:syncPersistentPairSidecar/,'The established reconciliation-capable sidecar must be exposed to other canonical player-entry paths.');"
+          )
+          replace_once(
+              'tests/contracts/persistent-nik-daniel-pair-contracts.cjs',
+              "assert.match(entrySource,/preparePairingShell:startShared/,'Single Start a Showdown action must continue to use the established paired-first shell authority.');",
+              "assert.match(entrySource,/preparePairingShell:startShared/,'Single Start a Showdown action must continue to use the established paired-first shell authority.');\nconst pairControlsFunction=entrySource.slice(entrySource.indexOf('async function openPersistentPairControls'),entrySource.indexOf('async function remoteState'));\nassert.match(pairControlsFunction,/first=await identity\\.syncPair\\(\\),next=!first\\|\\|first\\.status===\"unavailable\"\\?await identity\\.syncPair\\(\\):first/,'CONNECT PLAYERS must reuse the stale-role-reconciling identity sidecar and retry it once after transient unavailability.');\nassert.doesNotMatch(pairControlsFunction,/pair\\.initialize\\(/,'CONNECT PLAYERS must not bypass stale-role reconciliation with callback-free pair initialization.');"
+          )
+          for path in ['index.html','manifest.webmanifest','js/app.js','js/menuExperience.js']:
+              p=Path(path); text=p.read_text()
+              if '1.9.1-r21' not in text:
+                  raise SystemExit(f'{path}: expected r21 identity before r22 promotion')
+              p.write_text(text.replace('1.9.1-r21','1.9.1-r22'))
+          sw=Path('service-worker.js'); text=sw.read_text()
+          text=text.replace('const RUNTIME_REVISION = "1.9.1-r21";','const RUNTIME_REVISION = "1.9.1-r22";',1)
+          text=text.replace('const PREVIOUS_RUNTIME_REVISION = "1.9.1-r20";','const PREVIOUS_RUNTIME_REVISION = "1.9.1-r21";',1)
+          sw.write_text(text)
+          release=Path('RELEASE_V1.9.1_R22.md')
+          if release.exists(): raise SystemExit('Unexpected existing R22 release note')
+          release.write_text('''# Career Mode Showdown v1.9.1 — Runtime r22\n\nStatus: RELEASE CANDIDATE\n\nApplication version: `v1.9.1`\n\nRuntime asset revision: `1.9.1-r22`\n\nPrevious known-good runtime: `1.9.1-r21`\n\nRuntime `1.9.1-r22` is the whole-shell release candidate for the canonical Daniel/Nik persistent Showdown product. It advances the installable shell identity because R13 exposes the already-proven identity sidecar synchronizer to the CONNECT PLAYERS entry path; r21 remains the immediate known-good whole-shell recovery target.\n\nR22 keeps one provider-authoritative stale-role reconciliation mechanism. CONNECT PLAYERS now awaits the same reconciliation-capable sidecar used by canonical Continue, shares an in-flight sidecar promise, and retries that same path once after a transient unavailable result. It no longer invokes callback-free persistent-pair initialization, so a stale opposite browser role cannot dead-end the advertised connection path.\n\nThe permanent Chromium routing audit covers the real CONNECT PLAYERS control with an ACTIVE provider pair, an opposite stale local role and a transient first sidecar result. It requires bounded role repair to Nik/Player Two, convergence to CAREER READY, and no blank or false-recovery panel. Existing cold hydration, panel Continue authority reactivation, fresh-browser recovery and provider-conflict regressions remain in place.\n\nRemote Joining and Shared Journey terminology remain engineering provenance only; the player-facing product remains the single Start a Showdown / Continue Career experience. There is no public discovery or list authority expansion.\n\nFirebase remains Spark-only with Billing permanently OFF. App Check enforcement remains OFF. No Cloud Run, Cloud Functions, Blaze/payment dependency or paid infrastructure is introduced.\n\nSSJR-1.1 remains exactly `0/100`; no source commit, CI pass, merge, deployment or release-note publication earns physical-journey acceptance credit. MDP remains `95.50/100` until separately governed evidence changes it.\n\nProduction Pages and Rules deployment/readback must pass on the merged exact main head before genuine two-device testing is requested.\n''')
+          PY
+
+      - name: Show R13 diff and reject unrelated changes
+        shell: bash
+        run: |
+          set -euo pipefail
+          git diff --check
+          git diff --stat
+          changed="$(git diff --name-only | sort)"
+          allowed="$(printf '%s\n' RELEASE_V1.9.1_R22.md index.html js/app.js js/menuExperience.js js/onlinePlayerIdentity.js js/productionSharedJourneyEntry.js manifest.webmanifest service-worker.js tests/browser/persistent-pair-user-facing-routing-audit.cjs tests/contracts/persistent-nik-daniel-pair-contracts.cjs | sort)"
+          test "$changed" = "$allowed" || { echo 'Unexpected R13 changed-file set'; diff -u <(printf '%s\n' "$allowed") <(printf '%s\n' "$changed") || true; exit 1; }
+          ! grep -q 'pair.initialize({force:true})' js/productionSharedJourneyEntry.js
+
+      - name: Syntax and permanent contract proof
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --check js/onlinePlayerIdentity.js
+          node --check js/productionSharedJourneyEntry.js
+          node --check tests/browser/persistent-pair-user-facing-routing-audit.cjs
+          node tests/contracts/persistent-nik-daniel-pair-contracts.cjs
+          node tests/contracts/static-app-release-contracts.cjs
+          node tests/contracts/release-shell-coherence-contracts.cjs
+          node tests/contracts/final-release-hardening.cjs
+          npm run test:contracts
+
+      - name: Real browser routing, paired-first and stability proof
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm run serve:test >/tmp/cms-server.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true; cat /tmp/cms-server.log || true' EXIT
+          for i in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:4173/ >/dev/null; then break; fi
+            sleep 1
+          done
+          curl -fsS http://127.0.0.1:4173/ >/dev/null
+          npm run test:persistent-pair-routing
+          node tests/browser/shared-showdown-paired-first-entry-audit.cjs
+          node tests/browser/stability-audit.cjs
+
+      - name: Publish proven R13 and self-clean proof workflow
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add RELEASE_V1.9.1_R22.md index.html js/app.js js/menuExperience.js js/onlinePlayerIdentity.js js/productionSharedJourneyEntry.js manifest.webmanifest service-worker.js tests/browser/persistent-pair-user-facing-routing-audit.cjs tests/contracts/persistent-nik-daniel-pair-contracts.cjs
+          git commit -m 'fix(pr260): reconcile CONNECT PLAYERS through shared sidecar R13'
+          product_sha="$(git rev-parse HEAD)"
+          git push origin HEAD:feat/persistent-nik-daniel-pair
+          git rm .github/workflows/pr260-r13-reconciliation-proof.yml
+          git commit -m "chore(pr260): seal R13 proof cleanup after ${product_sha}"
+          git push origin HEAD:feat/persistent-nik-daniel-pair
+          echo "R13_PRODUCT_SHA=${product_sha}" >> "$GITHUB_STEP_SUMMARY"
+          echo "R13_FINAL_HEAD=$(git rev-parse HEAD)" >> "$GITHUB_STEP_SUMMARY"
