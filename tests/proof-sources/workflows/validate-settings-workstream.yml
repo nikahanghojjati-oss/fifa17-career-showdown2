@@ -103,13 +103,8 @@ jobs:
           for(const contract of ['setAttribute("role", "dialog")','setAttribute("aria-modal", "true")','setAttribute("role", "radiogroup")','setAttribute("role", "radio")','setAttribute("role", "switch")','event.key === "Escape"','event.key !== "Tab"','setAttribute("inert", "")','ArrowLeft','ArrowRight','focusSelectedSettingsMotionChoice']) assert.ok(settings.includes(contract), `Settings accessibility contract missing: ${contract}`);
           assert.ok(settings.includes('setApplicationMenuFeedbackPreference'));
           assert.ok(!/\blocalStorage\b/.test(settings), 'Settings UI must not write localStorage directly.');
-          assert.ok(settings.includes('window.openOptionalModule("legacy")'), 'History and backup management must reuse Legacy.');
-          for(const call of ['clearAllCareerModeData(', 'clearLegacyHistory(']) assert.ok(!settings.includes(call), `Settings must not call ${call}`);
-          assert.ok(settings.includes('DELETE CURRENT SHOWDOWN'), 'Settings must expose the explicit current-Showdown delete control.');
-          assert.ok(settings.includes('ensureSettingsShowdownStorageAuthority'), 'Current-Showdown deletion must establish Save Library authority before mutation.');
-          assert.ok(settings.includes('typeof clearSavedShowdown !== "function" || !clearSavedShowdown()'), 'Settings current-Showdown deletion must reuse the established clear-active storage transaction.');
-          assert.ok(settings.includes('Your player identity, Daniel/Nik pairing, Legacy history and app settings will be kept'), 'Current-Showdown deletion must state its preservation boundary before confirmation.');
-          assert.ok(settings.includes('OPEN HISTORY & BACKUP'), 'Destructive history/full-reset maintenance must remain a separate Legacy route.');
+          assert.ok(settings.includes('window.openOptionalModule("legacy")'), 'Data Management must reuse Legacy.');
+          for(const call of ['clearAllCareerModeData(', 'clearLegacyHistory(', 'clearSavedShowdown(']) assert.ok(!settings.includes(call), `Settings must not call ${call}`);
           assert.ok(settings.includes('createOfflinePanel') && settings.includes('settingsOfflineInstallButton'), 'Offline App panel/action must live in Settings.');
           assert.ok(settings.includes('getOfflineAppSettingsState') && settings.includes('requestOfflineAppInstall'), 'Settings install action must delegate to the offline controller.');
           assert.ok(settings.includes('activateWaitingOfflineUpdate'), 'Settings update action must delegate to safe update activation.');
