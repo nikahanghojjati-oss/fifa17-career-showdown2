@@ -34,9 +34,24 @@ const SAVE_KEY="careerModeShowdown.saveLibrary";
     // Simulate an already prepared Nik browser. The canonical data mapping remains Daniel=P1,
     // Nik=P2 regardless of which real player presses Start on this device.
     await page.evaluate(()=>{
+      const staleRivalryId="pair_"+("e".repeat(64));
+      window.__freshStartPairState="active";
+      window.__freshStartAbandonCount=0;
+      window.__freshStartRivalryId=staleRivalryId;
+      window.confirm=()=>true;
+      window.CareerModePersistentNikDanielPair={
+        abandonCurrentShowdown:async({expectedRivalryId}={})=>{
+          if(expectedRivalryId!==staleRivalryId)throw new Error("Fresh-start abandonment targeted the wrong rivalry.");
+          window.__freshStartAbandonCount+=1;
+          window.__freshStartPairState="closed";
+          return{ok:true,status:"closed",rivalryId:staleRivalryId};
+        }
+      };
       window.CareerModeOnlinePlayerIdentity={
         getState:()=>({status:"ready",initialized:true,online:true,accountId:"account_nik_fixture",managerId:"nik",managerLabel:"Nik",deviceId:"device_nik_fixture",registered:true}),
-        syncPair:async()=>({status:"unpaired",connectionState:null,rivalryId:null})
+        syncPair:async()=>window.__freshStartPairState==="active"
+          ?{status:"recovery-required",connectionState:"active",rivalryId:staleRivalryId,providerSaveId:"save_"+("f".repeat(24))}
+          :{status:"unpaired",connectionState:null,rivalryId:null}
       };
     });
     await page.locator("#newShowdown").click();
@@ -68,6 +83,8 @@ const SAVE_KEY="careerModeShowdown.saveLibrary";
     assert.equal(created.selectedLeague,null);
     assert.deepEqual(created.clubs,{playerOne:null,playerTwo:null});
     assert.deepEqual(created.rounds,[]);
+    const freshStart=await page.evaluate(()=>({abandonCount:window.__freshStartAbandonCount,pairState:window.__freshStartPairState}));
+    assert.deepEqual(freshStart,{abandonCount:1,pairState:"closed"},"START A SHOWDOWN must close one stale provider pair before creating the fresh local shell instead of looping into CAREER RECOVERY NEEDED.");
 
     // Reproduce the already-paired peer path: once the private session becomes ACTIVE, player
     // entry returns automatically and exposes the cleaned START CAREER action.
