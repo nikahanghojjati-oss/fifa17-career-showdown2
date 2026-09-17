@@ -450,7 +450,8 @@ async function deleteSettingsCurrentShowdown(button){
 
     try{
         await ensureSettingsShowdownStorageAuthority();
-        if(typeof clearSavedShowdown !== "function" || !clearSavedShowdown()){
+        const runtime = window.CareerModeSaveLibraryRuntime;
+        if(!runtime || typeof runtime.clearActiveShowdown !== "function" || !runtime.clearActiveShowdown()){
             throw new Error("The current Showdown could not be deleted safely.");
         }
 
