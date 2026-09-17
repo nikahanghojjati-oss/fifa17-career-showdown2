@@ -430,6 +430,95 @@ async function ensureSettingsShowdownStorageAuthority(){
     return true;
 }
 
+async function ensureSettingsPersistentPairAuthority(){
+    const identity = window.CareerModeOnlinePlayerIdentity;
+    if(identity && typeof identity.syncPair === "function"){
+        await identity.syncPair();
+    }
+
+    if(!window.CareerModePersistentNikDanielPair){
+        if(typeof window.loadRuntimeScript !== "function"){
+            throw new Error("The Showdown connection service is unavailable.");
+        }
+        await window.loadRuntimeScript(
+            "online-persistent-pair",
+            "js/persistentNikDanielPair.js",
+            () => Boolean(window.CareerModePersistentNikDanielPair)
+        );
+    }
+
+    const pair = window.CareerModePersistentNikDanielPair;
+    if(!pair || typeof pair.initialize !== "function" || typeof pair.getState !== "function"){
+        throw new Error("The Showdown connection service is unavailable.");
+    }
+    await pair.initialize({ force: true });
+    return pair;
+}
+
+async function releaseSettingsCurrentShowdownConnection(showdown){
+    const expectedRivalryId = showdown && showdown.sharedJourney && showdown.sharedJourney.rivalryId
+        ? showdown.sharedJourney.rivalryId
+        : null;
+    const expectedSaveId = showdown && showdown.identity && showdown.identity.saveId
+        ? showdown.identity.saveId
+        : null;
+
+    const pair = await ensureSettingsPersistentPairAuthority();
+    const pairState = pair.getState();
+    const hasCurrentPair = Boolean(
+        pairState
+        && pairState.rivalryId
+        && (pairState.connectionState === "active" || pairState.connectionState === "pending-pair")
+    );
+
+    if(!hasCurrentPair){
+        if(expectedRivalryId){
+            throw new Error("The online Showdown connection could not be verified. No local data was deleted.");
+        }
+        return { ok: true, status: "unpaired" };
+    }
+
+    if(typeof pair.abandonCurrentShowdown !== "function"){
+        throw new Error("Safe Showdown restart is unavailable in this build.");
+    }
+
+    const result = await pair.abandonCurrentShowdown({
+        expectedRivalryId: expectedRivalryId || pairState.rivalryId,
+        expectedSaveId
+    });
+    if(!result || result.ok !== true){
+        throw new Error("The online Showdown connection was not closed, so the local copy was kept.");
+    }
+    return result;
+}
+
+function finishSettingsCurrentShowdownDeletion(){
+    if(typeof window.stopTransferTimerLoop === "function"){
+        window.stopTransferTimerLoop();
+    }
+    if(typeof window.resetTransientSelectionOperations === "function"){
+        window.resetTransientSelectionOperations();
+    }
+    if(typeof currentShowdown !== "undefined"){
+        currentShowdown = null;
+    }
+    if(typeof window.resetNavigationState === "function"){
+        window.resetNavigationState();
+    }
+
+    closeSettings(false);
+    const navigated = typeof showScreen === "function"
+        ? showScreen("mainMenu", false)
+        : (typeof window.navigateTo === "function"
+            ? window.navigateTo("mainMenu", { addToHistory: false })
+            : false);
+
+    if(typeof window.refreshMainMenuExperience === "function"){
+        window.refreshMainMenuExperience();
+    }
+    return navigated;
+}
+
 async function deleteSettingsCurrentShowdown(button){
     const active = getSettingsActiveShowdown();
     if(!active){
@@ -439,7 +528,7 @@ async function deleteSettingsCurrentShowdown(button){
 
     const name = active.name || "Daniel vs Nik";
     const confirmed = window.confirm(
-        `Delete the current "${name}" Showdown from this device? Your player identity, Daniel/Nik pairing, Legacy history and app settings will be kept. This cannot be undone.`
+        `Delete the current "${name}" Showdown and start over? This closes the current Showdown connection for both players, removes this device's current local Showdown, and keeps your player identity, registered device, Legacy history and app settings. This cannot be undone.`
     );
     if(!confirmed){ return false; }
 
@@ -451,27 +540,27 @@ async function deleteSettingsCurrentShowdown(button){
     try{
         await ensureSettingsShowdownStorageAuthority();
         const runtime = window.CareerModeSaveLibraryRuntime;
-        if(!runtime || typeof runtime.clearActiveShowdown !== "function" || !runtime.clearActiveShowdown()){
-            throw new Error("The current Showdown could not be deleted safely.");
+        const authoritative = runtime && typeof runtime.loadActiveShowdown === "function"
+            ? runtime.loadActiveShowdown()
+            : null;
+        if(!runtime || !authoritative || typeof runtime.clearActiveShowdown !== "function"){
+            throw new Error("The current Showdown could not be verified safely.");
         }
 
-        if(typeof currentShowdown !== "undefined"){
-            currentShowdown = null;
+        await releaseSettingsCurrentShowdownConnection(authoritative);
+
+        if(!runtime.clearActiveShowdown()){
+            throw new Error("The online Showdown was closed, but this device could not remove its local copy. Retry Delete Current Showdown; no new connection will be created.");
         }
-        if(typeof window.resetTransientSelectionOperations === "function"){
-            window.resetTransientSelectionOperations();
-        }
-        if(typeof window.refreshMainMenuExperience === "function"){
-            window.refreshMainMenuExperience();
-        }
+
+        finishSettingsCurrentShowdownDeletion();
         if(typeof window.showAppNotice === "function"){
             window.showAppNotice(
-                `Deleted the current "${name}" Showdown. Your player identity and Daniel/Nik pairing were kept.`,
+                `Deleted the current "${name}" Showdown and closed its connection. Your player identity, registered device, Legacy history and app settings were kept.`,
                 "success",
-                5200
+                6200
             );
         }
-        renderSettings();
         return true;
     }catch(error){
         if(typeof window.showAppNotice === "function"){
@@ -496,7 +585,7 @@ function createDataPanel(){
     const panel = createSettingsPanel(
         "CAREER DATA",
         "SHOWDOWN DATA",
-        "Manage the current Showdown without touching your player identity or Daniel/Nik pairing. History, backup export and full reset remain available separately."
+        "Delete a broken current Showdown safely or open History & Backup. Starting over closes only the current Showdown connection; your player identity and registered device stay ready."
     );
     panel.classList.add("settingsDataPanel");
 
@@ -537,7 +626,7 @@ function createDataPanel(){
         "p",
         "settingsDataNote",
         active
-            ? "Delete Current Showdown removes only the active local Showdown on this device. Player identity, Daniel/Nik pairing, completed history and app settings are kept."
+            ? "Delete Current Showdown closes this Showdown connection for both players before removing this device's current local copy. Player identity, registered device, completed history and app settings are kept."
             : "No current Showdown is stored on this device. Completed history, backup export and full reset remain available under History & Backup."
     );
 
