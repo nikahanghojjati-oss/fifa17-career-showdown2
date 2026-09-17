@@ -14,6 +14,8 @@ Ordinary Settings now exposes a concise Showdown Data panel while the engineerin
 
 The Settings application summary now reflects the current Daniel/Nik connected two-device product instead of the retired local-only one-device description.
 
+START A SHOWDOWN now checks durable pair authority before creating a new local shell. If the account is still attached to an active or pending Showdown, the old provider rivalry is closed first; existing local recovery Saves are preserved, and only then is the fresh Showdown shell created. This prevents a newly created shell from immediately falling back into CAREER RECOVERY NEEDED because an older provider pair was still authoritative.
+
 This release does not weaken Save Library or provider authority: current-Showdown deletion activates and verifies established Save Library authority, requires the exact account current-pair witness and registered device to CAS the matching pending/active provider rivalry to closed, and only then uses the existing clear-active local transaction. If provider acknowledgement is ambiguous or the local/provider Save identity does not match, local deletion fails closed. A lost provider acknowledgement is retry-safe because an already-closed exact rivalry is accepted without a second mutation.
 
 Remote Joining and Shared Journey terminology remain engineering provenance only; the player-facing product remains the single Start a Showdown / Continue Career experience.
