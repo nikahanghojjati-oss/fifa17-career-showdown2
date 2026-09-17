@@ -69,9 +69,11 @@
   }
   async function currentPairStateForFreshStart(){
     const identity=root.CareerModeOnlinePlayerIdentity;
-    if(!identity||typeof identity.syncPair!=="function")return null;
+    if(!identity||typeof identity.syncPair!=="function")throw new Error("The current Showdown connection service is unavailable.");
     const first=await identity.syncPair();
-    return !first||first.status==="unavailable"?await identity.syncPair():first;
+    const next=!first||first.status==="unavailable"?await identity.syncPair():first;
+    if(!next)throw new Error("The current Showdown connection could not be verified.");
+    return next;
   }
   async function prepareFreshStart(){
     const pairState=await currentPairStateForFreshStart();
