@@ -148,8 +148,8 @@ assert.match(entrySource,/async function prepareFreshStart\(\)/,'New Showdown en
 assert.match(entrySource,/currentPairStateForFreshStart[\s\S]*identity\.syncPair/,'Fresh start must reuse provider-authoritative persistent-pair reconciliation.');
 assert.match(entrySource,/prepareFreshStart[\s\S]*abandonCurrentShowdown\(\{expectedRivalryId:pairState\.rivalryId\}\)/,'An existing active or pending pair must be explicitly closed before a new Showdown is created.');
 const freshStartFunction=entrySource.slice(entrySource.indexOf('async function prepareFreshStart'),entrySource.indexOf('async function startShared'));
-assert.ok(freshStartFunction.indexOf('abandonCurrentShowdown')<freshStartFunction.indexOf('clearActiveShowdown'),'Provider authority must close before this device clears its current local Showdown.');
-assert.match(freshStartFunction,/if\(activeSavedShowdown\(\)&&!runtime\.clearActiveShowdown\(\)\)/,'Only the old connected active local copy is cleared during explicit start-over; unrelated unpaired recovery Saves remain preserved.');
+assert.doesNotMatch(freshStartFunction,/clearActiveShowdown|deleteSave|clearAllData/,'START A SHOWDOWN must not destroy local recovery data while retiring stale provider authority.');
+assert.match(freshStartFunction,/existing local recovery data will be kept/,'Fresh-start confirmation must state that existing local recovery data is preserved.');
 assert.ok(startSharedFunction.indexOf('await prepareFreshStart()')<startSharedFunction.indexOf('root.createShowdown()'),'Fresh-start provider preflight must complete before local Showdown creation, preventing the recovery-loop bug.');
 assert.match(entrySource,/The current Showdown connection could not be verified\. Try again before starting a new Showdown\./,'Ambiguous provider state must fail closed instead of creating another local shell.');
 
