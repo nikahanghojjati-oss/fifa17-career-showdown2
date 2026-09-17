@@ -80,7 +80,7 @@
     if(!hasLivePair)return true;
 
     const confirmed=root.confirm?.(
-      "Start a new Showdown? This will close the current Daniel vs Nik Showdown for both players, remove this device's current local copy, and keep your player identity, registered device, Legacy history and app settings."
+      "Start a new Showdown? This will close the current Daniel vs Nik Showdown for both players. Your player identity, registered device, Legacy history, app settings and existing local recovery data will be kept."
     );
     if(confirmed===false)return false;
 
@@ -89,15 +89,9 @@
     const closed=await pair.abandonCurrentShowdown({expectedRivalryId:pairState.rivalryId});
     if(!closed||closed.ok!==true)throw new Error("The current Showdown could not be closed safely. No new Showdown was created.");
 
-    const runtime=root.CareerModeSaveLibraryRuntime;
-    if(!runtime||typeof runtime.isReady!=="function"||!runtime.isReady()||typeof runtime.clearActiveShowdown!=="function")throw new Error("Local Showdown storage is unavailable after the old connection was closed.");
-    if(activeSavedShowdown()&&!runtime.clearActiveShowdown())throw new Error("The old Showdown was closed online, but this device could not clear its local copy. Retry Start a Showdown.");
-    try{if(typeof currentShowdown!=="undefined")currentShowdown=null;}catch(_error){}
     setPending(false);
     root.stopTransferTimerLoop?.();
     root.resetTransientSelectionOperations?.();
-    root.resetNavigationState?.();
-    root.refreshMainMenuExperience?.();
     return true;
   }
   async function startShared(){
