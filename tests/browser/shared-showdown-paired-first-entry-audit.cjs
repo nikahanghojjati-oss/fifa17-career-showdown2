@@ -34,7 +34,10 @@ const SAVE_KEY="careerModeShowdown.saveLibrary";
     // Simulate an already prepared Nik browser. The canonical data mapping remains Daniel=P1,
     // Nik=P2 regardless of which real player presses Start on this device.
     await page.evaluate(()=>{
-      window.CareerModeOnlinePlayerIdentity={getState:()=>({status:"ready",initialized:true,online:true,accountId:"account_nik_fixture",managerId:"nik",managerLabel:"Nik",deviceId:"device_nik_fixture",registered:true})};
+      window.CareerModeOnlinePlayerIdentity={
+        getState:()=>({status:"ready",initialized:true,online:true,accountId:"account_nik_fixture",managerId:"nik",managerLabel:"Nik",deviceId:"device_nik_fixture",registered:true}),
+        syncPair:async()=>({status:"unpaired",connectionState:null,rivalryId:null})
+      };
     });
     await page.locator("#newShowdown").click();
     await page.locator("#createShowdown").waitFor({state:"visible",timeout:5000});
