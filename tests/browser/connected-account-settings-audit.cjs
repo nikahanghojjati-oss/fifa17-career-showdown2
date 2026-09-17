@@ -71,6 +71,24 @@ const baseUrl=new URL(process.env.CMS_BASE_URL||"http://127.0.0.1:4173/");
     assert.equal(await dataPanel.isHidden(),false,"Showdown Data must remain player-facing even while engineering recovery panels stay internal.");
     const deleteCurrent=dataPanel.locator(".settingsDeleteCurrentShowdown");
     assert.equal(await deleteCurrent.count(),1,"A current Showdown must expose exactly one safe delete action.");
+    await page.evaluate(()=>{
+      const rivalryId="pair_"+("a".repeat(64));
+      const pairState={status:"paired",initialized:true,busy:false,accountId:"acct_nik",deviceId:"device_test",managerRole:"playerTwo",managerId:"nik",rivalryId,connectionState:"active"};
+      window.__settingsDeleteProviderObservedLocal=false;
+      window.__settingsDeleteProviderOptions=null;
+      window.CareerModePersistentNikDanielPair={
+        initialize:async()=>pairState,
+        getState:()=>pairState,
+        abandonCurrentShowdown:async options=>{
+          const raw=localStorage.getItem("careerModeShowdown.saveLibrary");
+          const library=raw?JSON.parse(raw):null;
+          window.__settingsDeleteProviderObservedLocal=Boolean(library&&library.activeSaveId&&library.saves.some(entry=>entry&&entry.saveId===library.activeSaveId));
+          window.__settingsDeleteProviderOptions=options;
+          return{ok:true,status:"closed",rivalryId};
+        },
+        render:()=>null
+      };
+    });
     await deleteCurrent.click();
     await page.waitForFunction(()=>{
       const singleton=localStorage.getItem("careerModeShowdown.activeShowdown");
@@ -79,10 +97,13 @@ const baseUrl=new URL(process.env.CMS_BASE_URL||"http://127.0.0.1:4173/");
       const library=JSON.parse(raw);
       return library.activeSaveId===null&&Array.isArray(library.saves)&&library.saves.length===0;
     },null,{timeout:12000});
-    assert.match(await dataPanel.innerText(),/CURRENT SHOWDOWN\s*None/i,"Successful deletion must immediately render no current Showdown.");
+    assert.equal(await page.evaluate(()=>window.__settingsDeleteProviderObservedLocal),true,"Provider abandonment must be confirmed while the exact local Showdown still exists.");
+    assert.match(String((await page.evaluate(()=>window.__settingsDeleteProviderOptions))?.expectedSaveId||""),/^save_[a-f0-9]{24}$/,"Provider abandonment must be bound to the exact authoritative local Save identity.");
+    await page.locator("#settingsOverlay").waitFor({state:"hidden",timeout:12000});
+    assert.equal(await page.evaluate(()=>window.getActiveScreenName?.()),"mainMenu","Successful deletion must leave no stale gameplay screen behind Settings.");
     assert.equal((await page.locator("#settingsTitle").textContent()).trim(),"SETTINGS","Late backend mounting must not reclaim the Settings heading.");
     assert.deepEqual(pageErrors,[],"Connected Account Settings regression audit emitted page errors.");
-    process.stdout.write(`PASS clean Settings survives late Firebase runtime installation while recovery and engineering account UI stay internal at ${baseUrl.href}\n`);
+    process.stdout.write(`PASS clean Settings exposes safe remote-first Showdown deletion, returns Home after success, and keeps recovery/engineering account UI internal at ${baseUrl.href}\n`);
   }finally{
     await context.close();
     await browser.close();
