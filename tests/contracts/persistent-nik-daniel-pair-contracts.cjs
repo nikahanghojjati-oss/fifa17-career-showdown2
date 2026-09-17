@@ -73,6 +73,17 @@ assert.match(pairSource,/status:"pair-link-retry"/,'A partial pairing commit mus
 assert.match(pairSource,/"RETRY CONNECTION"/,'A partial pairing commit must expose a deterministic retry action.');
 assert.match(pairSource,/async function pairRetryPairLink\(/,'The retry action must have a bounded provider-backed implementation.');
 assert.match(pairSource,/retryPairLink:pairRetryPairLink/,'The retry operation must remain observable to tests and recovery tooling.');
+assert.match(pairSource,/async function pairAbandonCurrentShowdown\(options=\{\}\)/,'Settings restart must have an explicit provider-backed abandonment operation before local deletion.');
+const abandonFunction=pairSource.slice(pairSource.indexOf('async function pairAbandonCurrentShowdown'),pairSource.indexOf('async function pairLoadConnectedRivalry'));
+assert.match(abandonFunction,/transaction\.get\(deviceRef\)[\s\S]*pairAssertActiveDevice/,'Abandonment must revalidate the registered browser inside the exact provider transaction.');
+assert.match(abandonFunction,/transaction\.get\(pairRef\)[\s\S]*pairParsePairLink/,'Abandonment must verify the account current-pair witness instead of trusting local state.');
+assert.match(abandonFunction,/expectedRivalryId&&link\.rivalryId!==expectedRivalryId/,'Abandonment must reject a local/provider rivalry mismatch.');
+assert.match(abandonFunction,/expectedSaveId&&slot\.saveId!==expectedSaveId/,'Abandonment must reject a local/provider Save identity mismatch.');
+assert.match(abandonFunction,/connectionState==="closed"[\s\S]*status:"already-closed"/,'A lost acknowledgement must be safely retryable after the provider already closed the Showdown.');
+assert.match(abandonFunction,/pairBuildRivalryClosureEnvelope[\s\S]*transaction\.set\(rivalryRef,next\)/,'Abandonment must use one CAS rivalry update and no collection listing.');
+assert.match(abandonFunction,/await pairInitialize\(\{force:true\}\)/,'A confirmed provider close must immediately reclassify the remembered pair as fresh-start eligible.');
+assert.match(pairSource,/abandonCurrentShowdown:pairAbandonCurrentShowdown/,'The abandonment operation must remain available to bounded Settings recovery.');
+
 assert.doesNotMatch(pairSource,/paired-recovery/,'The old ambiguous paired-recovery state must be retired.');
 assert.doesNotMatch(pairSource,/Refresh once if the connection is not visible yet/i,'A consumed one-use code must never instruct the player to refresh before the account pair link is durably saved.');
 assert.match(pairSource,/async function pairStartPairing[\s\S]*const active=pairAlreadyActiveState\(\);if\(active\)return active;[\s\S]*createPairing\(/,'Start Pairing must reject an already-active rivalry before creating another capability.');
@@ -86,6 +97,7 @@ assert.equal(pairApi.pairLinkPersistentAcrossRegisteredBrowsers,true);
 assert.equal(pairApi.gameplayCacheHydrationAcrossFreshBrowsers,false);
 assert.equal(pairApi.freshBrowserGameplayRequiresVerifiedLocalRecovery,true);
 assert.equal(typeof pairApi.retryPairLink,'function');
+assert.equal(typeof pairApi.abandonCurrentShowdown,'function');
 assert.equal(pairApi.managerByRole.playerOne.id,'daniel');
 assert.equal(pairApi.managerByRole.playerTwo.id,'nik');
 assert.equal(pairApi.roleByManager.daniel,'playerOne');
@@ -173,8 +185,16 @@ assert.doesNotThrow(()=>showdownSandbox.normalizeShowdown({managers:{playerOne:'
 assert.match(rulesFragment,/cmsPersistentPairRivalryMembership/);
 assert.match(rulesFragment,/cmsPersistentPairCreationWitnessValid/,'Provider Rules must bind every rivalry creation to the creator account current-pair witness.');
 assert.match(rulesFragment,/cmsPersistentPairRedemptionWitnessValid/,'Provider Rules must bind every rivalry redemption to the joiner account current-pair witness.');
+assert.match(rulesFragment,/function cmsPersistentPairAbandonValid\(rivalryId\)/,'Provider Rules must expose one exact abandonment authority for the remembered current Showdown.');
+assert.match(rulesFragment,/cmsPersistentPairAbandonActorValid\(before, rivalryId\)/,'Abandonment must be bound to the account current-pair witness and matching manager slot.');
+assert.match(rulesFragment,/before\.data\.connectionState == 'pending-pair' \|\| before\.data\.connectionState == 'active'/,'Only nonterminal pending/active Showdowns may use the start-over close.');
+assert.match(rulesFragment,/after\.data\.connectionState == 'closed'/,'Start-over abandonment must terminate the old rivalry before local deletion.');
+assert.match(rulesFragment,/after\.data\.diff\(before\.data\)\.affectedKeys\(\)\.hasOnly\(\['connectionState'\]\)/,'Abandonment must preserve every other rivalry data field.');
+
 assert.match(injector,/cmsPersistentPairCreationWitnessValid\(rivalryId\)/,'Production Rules injection must make the creator pair witness mandatory for initial rivalry creation.');
 assert.match(injector,/cmsPersistentPairRedemptionWitnessValid\(rivalryId, inviteBefore\.data\.slotId\)/,'Production Rules injection must make the joiner pair witness mandatory for validRivalryRedeem.');
+assert.match(injector,/\|\| cmsPersistentPairAbandonValid\(rivalryId\)/,'Generated production rivalry updates must include the bounded current-Showdown abandonment authority.');
+
 assert.match(rulesFragment,/activeDevice\(root\.updatedByDeviceId\)/);
 assert.match(rulesFragment,/activeDevice\(after\.updatedByDeviceId\)/);
 assert.match(rulesFragment,/request\.auth\.uid == accountId/);
@@ -214,9 +234,12 @@ assert.equal((generated.match(/function cmsPersistentPairUpdateValid\(accountId,
 assert.match(generated,/allow get: if signedIn\(\) && request\.auth\.uid == accountId && pairId == 'current'/);
 assert.match(generated,/cmsPersistentPairCreationWitnessValid\(rivalryId\)/,'Generated production Rules must reject creation without the exact creator account current-pair witness.');
 assert.match(generated,/cmsPersistentPairRedemptionWitnessValid\(rivalryId, inviteBefore\.data\.slotId\)/,'Generated production Rules must reject redemption without the exact joiner account current-pair witness.');
+assert.match(generated,/function cmsPersistentPairAbandonValid\(rivalryId\)/,'Generated production Rules must contain one explicit current-Showdown abandonment authority.');
+assert.match(generated,/\|\| cmsPersistentPairAbandonValid\(rivalryId\)/,'Generated production rivalry updates must permit only the bounded abandonment in addition to existing terminal close/redemption authority.');
+
 assert.match(generated,/priorRivalry\.data\.data\.connectionState == 'closed'/);
 assert.match(generated,/allow list, delete: if false/);
 assert.match(generated,/match \/sharedSetup\/authoritative/);
 assert.match(generated,/function ssjrTerminalValidAtomicSessionClose\(rivalryId, sessionId\)/);
 
-console.log('PASS fresh single-Showdown product: Daniel is Player One, Nik is Player Two, noncanonical historical mappings are rejected, no legacy pair migration exists, one-use pairing partial commits retain a deterministic retry path without refresh loss, active careers cannot redeem or create a second pair, provider membership selects the exact cached Save/Profile on reconnect, missing fresh-browser gameplay cache fails closed into verified recovery instead of divergent setup, closed test Showdowns become safely replaceable while active careers remain protected, Forget Device clears browser identity, Connect Players reuses the same bounded stale-role reconciliation sidecar as Continue Career, and provider authority remains private and zero-billing.');
+console.log('PASS fresh single-Showdown product: Daniel is Player One, Nik is Player Two, noncanonical historical mappings are rejected, no legacy pair migration exists, one-use pairing partial commits retain a deterministic retry path without refresh loss, active careers cannot redeem or create a second pair, provider membership selects the exact cached Save/Profile on reconnect, missing fresh-browser gameplay cache fails closed into verified recovery instead of divergent setup, explicit start-over closes only the exact remembered provider Showdown before local deletion, closed test Showdowns become safely replaceable while active careers remain protected, Forget Device clears browser identity, Connect Players reuses the same bounded stale-role reconciliation sidecar as Continue Career, and provider authority remains private and zero-billing.');
