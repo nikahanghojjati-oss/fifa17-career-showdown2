@@ -146,6 +146,7 @@ assert.match(entrySource,/preparePairingShell:startShared/,'Single Start a Showd
 const startSharedFunction=entrySource.slice(entrySource.indexOf('async function startShared'),entrySource.indexOf('async function openPersistentPairControls'));
 assert.match(entrySource,/async function prepareFreshStart\(\)/,'New Showdown entry must have a provider preflight before creating any local shell.');
 assert.match(entrySource,/currentPairStateForFreshStart[\s\S]*identity\.syncPair/,'Fresh start must reuse provider-authoritative persistent-pair reconciliation.');
+assert.match(entrySource,/currentPairStateForFreshStart[\s\S]*if\(!next\)throw new Error\("The current Showdown connection could not be verified\."\)/,'A missing pair-authority result after bounded retry must fail closed instead of being misclassified as unpaired.');
 assert.match(entrySource,/prepareFreshStart[\s\S]*abandonCurrentShowdown\(\{expectedRivalryId:pairState\.rivalryId\}\)/,'An existing active or pending pair must be explicitly closed before a new Showdown is created.');
 const freshStartFunction=entrySource.slice(entrySource.indexOf('async function prepareFreshStart'),entrySource.indexOf('async function startShared'));
 assert.doesNotMatch(freshStartFunction,/clearActiveShowdown|deleteSave|clearAllData/,'START A SHOWDOWN must not destroy local recovery data while retiring stale provider authority.');
