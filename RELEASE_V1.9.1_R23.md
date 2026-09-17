@@ -10,11 +10,11 @@ Previous known-good runtime: `1.9.1-r22`
 
 Runtime `1.9.1-r23` is the whole-shell release candidate for the player-facing Showdown Data recovery fix discovered during physical acceptance. It advances the installable shell identity because Settings, online product containment and the deletion path changed after r22; r22 remains the immediate known-good whole-shell recovery target.
 
-Ordinary Settings now exposes a concise Showdown Data panel while the engineering Save Library surface remains internal. A player can delete only the current local Showdown from Settings without clearing the remembered Daniel/Nik pairing, player identity, completed Legacy history or application preferences. History, backup export and the full-reset maintenance path remain separate.
+Ordinary Settings now exposes a concise Showdown Data panel while the engineering Save Library surface remains internal. A player can delete the current broken Showdown from Settings through one coordinated start-over action. The app first closes the exact remembered provider rivalry for both managers, then removes only this device's current local Showdown, returns Home, and preserves player identity, registered-device identity, completed Legacy history and application preferences. The old closed pair pointer remains replaceable by the next explicit connection code. History, backup export and the full-reset maintenance path remain separate.
 
 The Settings application summary now reflects the current Daniel/Nik connected two-device product instead of the retired local-only one-device description.
 
-This release does not weaken Save Library authority: current-Showdown deletion activates and verifies the established Save Library runtime before mutation, uses the existing clear-active transaction, and fails closed if authority cannot be verified.
+This release does not weaken Save Library or provider authority: current-Showdown deletion activates and verifies established Save Library authority, requires the exact account current-pair witness and registered device to CAS the matching pending/active provider rivalry to closed, and only then uses the existing clear-active local transaction. If provider acknowledgement is ambiguous or the local/provider Save identity does not match, local deletion fails closed. A lost provider acknowledgement is retry-safe because an already-closed exact rivalry is accepted without a second mutation.
 
 Remote Joining and Shared Journey terminology remain engineering provenance only; the player-facing product remains the single Start a Showdown / Continue Career experience.
 
