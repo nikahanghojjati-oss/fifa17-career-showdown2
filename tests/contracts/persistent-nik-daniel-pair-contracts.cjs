@@ -182,7 +182,7 @@ assert.doesNotMatch(joinFunction,/pairPersistPairLinkWithRetry/,'Successful one-
 assert.match(pairSource,/"OPEN BACKUP RESTORE"/);
 assert.match(pairSource,/"START OVER"/);
 assert.match(pairSource,/async function pairStartOverFromRecovery\(\)[\s\S]*navigateTo\("createShowdown"/,'Recovery START OVER must route directly to explicit new-Showdown season selection.');
-assert.match(pairSource,/async function pairOpenRecoverySurface\(\)[\s\S]*mountCareerModeRestorePanel[\s\S]*requestAnimationFrame[\s\S]*careerModeRestorePanel/,'Backup recovery must mount and defer focus until the Legacy route settles instead of landing at the top of an empty-looking page.');
+assert.match(pairSource,/async function pairOpenRecoverySurface\(\)[\s\S]*openOptionalModule\("legacy"\)[\s\S]*mountCareerModeRestorePanel[\s\S]*careerModeRestorePanel[\s\S]*scrollIntoView[\s\S]*input\.focus\(\)/,'Backup recovery must wait for Legacy to open, mount the verified restore panel, then scroll and focus the file picker instead of landing at the top of an empty-looking page.');
 assert.match(pairSource,/async function pairOpenRecoverySurface\(\)[\s\S]*showScreen\("mainMenu",false\)/,'A missing restore surface must fail back to Home instead of stranding the player in Legacy.');
 
 assert.match(pairSource,/root\.openOptionalModule\("legacy"\)/,'Recovery-required must route through the bounded Legacy/Candidate C loader before locating restore controls.');
