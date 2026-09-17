@@ -72,7 +72,7 @@ async function abandonCurrentPairRivalry(db,{uid,device,target,nowMs,tamperCreat
       objectId:target,
       revision:before.revision+1,
       parentRevision:before.revision,
-      contentHash:hash('q'),
+      contentHash:hash('e'),
       priorContentHash:before.contentHash,
       updatedAt:at,
       accountId:uid,
