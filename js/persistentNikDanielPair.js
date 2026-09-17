@@ -129,14 +129,14 @@ function pairContextualJoinMessage(error){const pairing=root.CareerModeSparkPriv
 async function pairOpenRecoverySurface(){try{
   if(typeof root.openOptionalModule!=="function"||await root.openOptionalModule("legacy")!==true)throw pairErrorWithCode("PERSISTENT_PAIR_RECOVERY_UI_UNAVAILABLE","Verified backup restore is unavailable on this screen.");
   root.mountCareerModeRestorePanel?.();
-  await new Promise(resolve=>(root.requestAnimationFrame||root.setTimeout)(resolve,0));
-  await new Promise(resolve=>(root.requestAnimationFrame||root.setTimeout)(resolve,0));
   const panel=root.document?.getElementById("careerModeRestorePanel");
   if(!panel)throw pairErrorWithCode("PERSISTENT_PAIR_RECOVERY_UI_UNAVAILABLE","No backup restore panel is available. Return Home and choose Start a Showdown to begin fresh.");
   const input=panel.querySelector('input[type="file"]');
   panel.scrollIntoView?.({block:"start",behavior:"auto"});
-  input?.focus?.({preventScroll:true});
-  root.setTimeout?.(()=>panel.scrollIntoView?.({block:"start",behavior:"auto"}),0);
+  if(input){
+    input.focus();
+    panel.scrollIntoView?.({block:"start",behavior:"auto"});
+  }
   return true;
 }catch(error){
   if(typeof root.showScreen==="function")root.showScreen("mainMenu",false);
