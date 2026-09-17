@@ -471,10 +471,7 @@ async function releaseSettingsCurrentShowdownConnection(showdown){
         && (pairState.connectionState === "active" || pairState.connectionState === "pending-pair")
     );
 
-    if(!hasCurrentPair){
-        if(expectedRivalryId){
-            throw new Error("The online Showdown connection could not be verified. No local data was deleted.");
-        }
+    if(!expectedRivalryId && !hasCurrentPair){
         return { ok: true, status: "unpaired" };
     }
 
