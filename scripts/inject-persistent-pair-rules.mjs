@@ -40,6 +40,12 @@ export function injectPersistentPairRules(){
   generated=insertOnce(generated,'    match /rivalries/{rivalryId} {',`${matchStart}\n${match}\n    ${matchEnd}\n\n    `,'persistent pair match');
   generated=replaceOnce(generated,'        && validRivalryData(data)\n        && data.connectionState == "pending-pair"','        && validRivalryData(data)\n        && cmsPersistentPairCreationWitnessValid(rivalryId)\n        && data.connectionState == "pending-pair"','persistent pair creation witness');
   generated=replaceOnce(generated,'        && validRivalryData(after.data)\n        && before.data.connectionState == "pending-pair"','        && validRivalryData(after.data)\n        && cmsPersistentPairRedemptionWitnessValid(rivalryId, inviteBefore.data.slotId)\n        && before.data.connectionState == "pending-pair"','persistent pair redemption witness');
+  generated=replaceOnce(
+    generated,
+    "      allow update: if ssjrTerminalValidRivalryUpdate(rivalryId)\n        || (!('terminalProgress' in request.resource.data.data) && validRivalryRedeem(rivalryId));",
+    "      allow update: if ssjrTerminalValidRivalryUpdate(rivalryId)\n        || cmsPersistentPairAbandonValid(rivalryId)\n        || (!('terminalProgress' in request.resource.data.data) && validRivalryRedeem(rivalryId));",
+    'persistent pair abandonment authority'
+  );
   for(const required of [
     'function cmsPersistentPairManagerValid(role, managerId)',
     'function cmsPersistentPairRivalryMembership(accountId, rivalryId, role)',
@@ -49,6 +55,11 @@ export function injectPersistentPairRules(){
     'cmsPersistentPairRedemptionWitnessValid(rivalryId, inviteBefore.data.slotId)',
     'function cmsPersistentPairCreateValid(accountId, pairId)',
     'function cmsPersistentPairUpdateValid(accountId, pairId)',
+    'function cmsPersistentPairAbandonValid(rivalryId)',
+    'cmsPersistentPairAbandonActorValid(before, rivalryId)',
+    "after.data.connectionState == 'closed'",
+    "after.data.diff(before.data).affectedKeys().hasOnly(['connectionState'])",
+    '|| cmsPersistentPairAbandonValid(rivalryId)',
     "role == 'playerOne' && managerId == 'daniel'",
     "role == 'playerTwo' && managerId == 'nik'",
     'after.data.managerRole == before.data.managerRole',
