@@ -60,6 +60,30 @@ async function atomicRedeemWithPairLink(db,{uid,device,target,managerId,char,now
   });
 }
 
+async function abandonCurrentPairRivalry(db,{uid,device,target,nowMs,tamperCreatedBy=false}){
+  const rivalryRef=doc(db,'rivalries',target);
+  return runTransaction(db,async transaction=>{
+    const snapshot=await transaction.get(rivalryRef);
+    const before=snapshot.data(),at=Timestamp.fromMillis(nowMs+2500);
+    const data={...before.data,connectionState:'closed'};
+    if(tamperCreatedBy)data.createdByAccountId='acct_tampered';
+    const after=envelope({
+      objectType:'rivalry',
+      objectId:target,
+      revision:before.revision+1,
+      parentRevision:before.revision,
+      contentHash:hash('q'),
+      priorContentHash:before.contentHash,
+      updatedAt:at,
+      accountId:uid,
+      deviceId:device,
+      data
+    });
+    transaction.set(rivalryRef,after);
+    return target;
+  });
+}
+
 (async()=>{
   const testEnv=await initializeTestEnvironment({projectId:PROJECT_ID,firestore:{rules:RULES}});
   try{
@@ -118,11 +142,20 @@ async function atomicRedeemWithPairLink(db,{uid,device,target,managerId,char,now
     await assertFails(setDoc(pairRefA,pairEnvelope('acct_a',rivalryOne,'playerOne','nik',ids.a,now,Timestamp.fromMillis(nowMs+2000),{revision:2,parentRevision:1,contentHash:hash('f'),priorContentHash:revisionOne.contentHash})));
     const replacementAfterTerminal=pairEnvelope('acct_a',rivalryTwo,'playerOne','daniel',ids.a,now,Timestamp.fromMillis(nowMs+2000),{revision:2,parentRevision:1,contentHash:hash('d'),priorContentHash:revisionOne.contentHash});
     await assertFails(setDoc(pairRefA,replacementAfterTerminal));
-    await testEnv.withSecurityRulesDisabled(async context=>{
-      await setDoc(doc(context.firestore(),'rivalries',rivalryOne),rivalryEnvelope(rivalryOne,now,managerSlot('playerOne','acct_a','1'),managerSlot('playerTwo','acct_b','2'),'closed'));
-    });
+
+    console.log('CHECKPOINT abandon-current-showdown');
+    await assertFails(abandonCurrentPairRivalry(dbC,{uid:'acct_c',device:ids.c,target:rivalryOne,nowMs}));
+    await assertFails(abandonCurrentPairRivalry(dbA,{uid:'acct_a',device:deviceId('z'),target:rivalryOne,nowMs}));
+    await assertFails(abandonCurrentPairRivalry(dbA,{uid:'acct_a',device:ids.a,target:rivalryOne,nowMs,tamperCreatedBy:true}));
+    assert.equal((await getDoc(doc(dbA,'rivalries',rivalryOne))).data().data.connectionState,'active','failed abandonment attempts must leave the rivalry active');
+    await assertSucceeds(abandonCurrentPairRivalry(dbA,{uid:'acct_a',device:ids.a,target:rivalryOne,nowMs}));
+    const closedRivalry=(await getDoc(doc(dbA,'rivalries',rivalryOne))).data();
+    assert.equal(closedRivalry.data.connectionState,'closed','the exact current-pair manager must be able to close a broken Showdown');
+    assert.equal(closedRivalry.data.createdByAccountId,'acct_a','abandonment must preserve non-state rivalry data');
+    assert.equal(closedRivalry.revision,1,'abandonment must advance the rivalry CAS envelope exactly once');
+
     await assertSucceeds(setDoc(pairRefA,replacementAfterTerminal));
-    assert.equal((await getDoc(pairRefA)).data().data.rivalryId,rivalryTwo,'closed prior Showdown must allow one canonical fresh pair replacement');
+    assert.equal((await getDoc(pairRefA)).data().data.rivalryId,rivalryTwo,'provider-confirmed abandonment must make one canonical fresh pair replacement possible');
 
     const pairRefD=doc(dbD,'accounts','acct_d','pairLinks','current');
     await assertFails(setDoc(pairRefD,pairEnvelope('acct_d',pendingOld,'playerOne','nik',ids.d,now,now)));
@@ -176,7 +209,7 @@ async function atomicRedeemWithPairLink(db,{uid,device,target,managerId,char,now
   assert.equal((await getDoc(doc(dbC,'rivalries',staleRedeem))).data().data.connectionState,'pending-pair','stale-tab double-active rejection must roll back rivalry activation');
   assert.equal((await getDoc(doc(dbC,'rivalries',staleRedeem,'invites',staleRedeem))).data().data.state,'open','stale-tab double-active rejection must leave the one-use invite unconsumed');
 
-    process.stdout.write('PASS persistent pair Rules emulator: Daniel=Player One and Nik=Player Two are canonical, mismatched roles are rejected, private account get, no list/delete, registered-device writes, active-career replacement denial, terminal closed-career fresh replacement, rivalry membership and expired-pending replacement safety, mandatory atomic creator and post-redeem recovery witnesses, witness-less create/redeem denial, stale-creator capability rollback, and stale-tab double-active rollback are enforced.\n');
+    process.stdout.write('PASS persistent pair Rules emulator: Daniel=Player One and Nik=Player Two are canonical, mismatched roles are rejected, private account get, no list/delete, registered-device writes, active-career replacement denial, authorized current-pair abandonment with wrong-account/device/data-mutation denial, provider-closed fresh replacement, rivalry membership and expired-pending replacement safety, mandatory atomic creator and post-redeem recovery witnesses, witness-less create/redeem denial, stale-creator capability rollback, and stale-tab double-active rollback are enforced.\n');
   }finally{
     try{await testEnv.clearFirestore();}catch(_error){}
     await testEnv.cleanup();
