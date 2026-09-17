@@ -183,20 +183,25 @@ async function smokeDestinations(page,prefix){
   await page.waitForFunction(()=>{
     const ids=["saveLibraryProductPanel","sparkConnectedAccountPanel","sparkPrivatePairingPanel","sparkConnectedRivalryPanel"];
     const hiddenByProduct=ids.every(id=>{const element=document.getElementById(id);return !element||element.hidden||getComputedStyle(element).display==="none";});
-    const extra=[...document.querySelectorAll("#settingsContent .settingsOfflinePanel,#settingsContent .settingsDataPanel")];
-    return hiddenByProduct&&extra.every(element=>element.hidden||getComputedStyle(element).display==="none")&&document.getElementById("settingsTitle")?.textContent?.trim()==="SETTINGS";
+    const offline=[...document.querySelectorAll("#settingsContent .settingsOfflinePanel")];
+    const data=document.querySelector("#settingsContent .settingsDataPanel");
+    return hiddenByProduct
+      && offline.every(element=>element.hidden||getComputedStyle(element).display==="none")
+      && Boolean(data&&data.hidden!==true&&getComputedStyle(data).display!=="none")
+      && /SHOWDOWN DATA/i.test(data.textContent||"")
+      && document.getElementById("settingsTitle")?.textContent?.trim()==="SETTINGS";
   },null,{timeout:15000});
   const settingsContainment=await page.evaluate(()=>({
     saveLibrary:document.getElementById("saveLibraryProductPanel")?getComputedStyle(document.getElementById("saveLibraryProductPanel")).display:"absent",
     offline:[...document.querySelectorAll("#settingsContent .settingsOfflinePanel")].every(element=>element.hidden||getComputedStyle(element).display==="none"),
-    data:[...document.querySelectorAll("#settingsContent .settingsDataPanel")].every(element=>element.hidden||getComputedStyle(element).display==="none"),
+    dataVisible:(()=>{const element=document.querySelector("#settingsContent .settingsDataPanel");return Boolean(element&&element.hidden!==true&&getComputedStyle(element).display!=="none"&&/SHOWDOWN DATA/i.test(element.textContent||""));})(),
     title:document.getElementById("settingsTitle")?.textContent?.trim()||""
   }));
   assert.notEqual(settingsContainment.saveLibrary,"block",`${prefix} Save Library recovery panel leaked into normal Settings.`);
   assert.equal(settingsContainment.offline,true,`${prefix} offline recovery panel leaked into normal Settings.`);
-  assert.equal(settingsContainment.data,true,`${prefix} data-recovery panel leaked into normal Settings.`);
+  assert.equal(settingsContainment.dataVisible,true,`${prefix} player-facing Showdown Data panel must stay visible in normal Settings.`);
   assert.equal(settingsContainment.title,"SETTINGS",`${prefix} Settings heading was reclaimed by recovery machinery.`);
-  await runAxe(page,`${prefix} Settings`);await page.locator("#settingsClose").click();await assertNoDuplicateIds(page,`${prefix} loaded DOM`);checkpoint(`${prefix} optional destinations and clean Settings`);
+  await runAxe(page,`${prefix} Settings`);await page.locator("#settingsClose").click();await assertNoDuplicateIds(page,`${prefix} loaded DOM`);checkpoint(`${prefix} optional destinations and clean Settings with Showdown Data`);
 }
 async function runProductScenario(browser,config){
   const context=await browser.newContext({viewport:config.viewport,deviceScaleFactor:config.deviceScaleFactor||1,isMobile:Boolean(config.isMobile),hasTouch:Boolean(config.hasTouch),reducedMotion:config.reducedMotion,locale:"en-US"});
