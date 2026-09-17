@@ -98,6 +98,7 @@ assert.equal(pairApi.gameplayCacheHydrationAcrossFreshBrowsers,false);
 assert.equal(pairApi.freshBrowserGameplayRequiresVerifiedLocalRecovery,true);
 assert.equal(typeof pairApi.retryPairLink,'function');
 assert.equal(typeof pairApi.abandonCurrentShowdown,'function');
+assert.equal(typeof pairApi.startOver,'function');
 assert.equal(pairApi.managerByRole.playerOne.id,'daniel');
 assert.equal(pairApi.managerByRole.playerTwo.id,'nik');
 assert.equal(pairApi.roleByManager.daniel,'playerOne');
@@ -141,6 +142,17 @@ assert.doesNotMatch(appSource,/persistentNikDanielPair|persistent-nik-daniel-pai
 assert.match(workerSource,/"js\/persistentNikDanielPair\.js"/,'Installed application shell must cache the lazy persistent-pair runtime.');
 
 assert.match(entrySource,/preparePairingShell:startShared/,'Single Start a Showdown action must continue to use the established paired-first shell authority.');
+
+const startSharedFunction=entrySource.slice(entrySource.indexOf('async function startShared'),entrySource.indexOf('async function openPersistentPairControls'));
+assert.match(entrySource,/async function prepareFreshStart\(\)/,'New Showdown entry must have a provider preflight before creating any local shell.');
+assert.match(entrySource,/currentPairStateForFreshStart[\s\S]*identity\.syncPair/,'Fresh start must reuse provider-authoritative persistent-pair reconciliation.');
+assert.match(entrySource,/prepareFreshStart[\s\S]*abandonCurrentShowdown\(\{expectedRivalryId:pairState\.rivalryId\}\)/,'An existing active or pending pair must be explicitly closed before a new Showdown is created.');
+const freshStartFunction=entrySource.slice(entrySource.indexOf('async function prepareFreshStart'),entrySource.indexOf('async function startShared'));
+assert.ok(freshStartFunction.indexOf('abandonCurrentShowdown')<freshStartFunction.indexOf('clearActiveShowdown'),'Provider authority must close before this device clears its current local Showdown.');
+assert.match(freshStartFunction,/if\(activeSavedShowdown\(\)&&!runtime\.clearActiveShowdown\(\)\)/,'Only the old connected active local copy is cleared during explicit start-over; unrelated unpaired recovery Saves remain preserved.');
+assert.ok(startSharedFunction.indexOf('await prepareFreshStart()')<startSharedFunction.indexOf('root.createShowdown()'),'Fresh-start provider preflight must complete before local Showdown creation, preventing the recovery-loop bug.');
+assert.match(entrySource,/The current Showdown connection could not be verified\. Try again before starting a new Showdown\./,'Ambiguous provider state must fail closed instead of creating another local shell.');
+
 const pairControlsFunction=entrySource.slice(entrySource.indexOf('async function openPersistentPairControls'),entrySource.indexOf('async function remoteState'));
 assert.match(pairControlsFunction,/identity=root\.CareerModeOnlinePlayerIdentity/,'Connect Players must delegate identity reconciliation to the existing identity sidecar.');
 assert.match(pairControlsFunction,/first=await identity\.syncPair\(\),next=!first\|\|first\.status==="unavailable"\?await identity\.syncPair\(\):first/,'Connect Players must share Continue Career’s one bounded retry after a transient unavailable pair read.');
@@ -167,7 +179,12 @@ const joinFunction=pairSource.slice(pairSource.indexOf('async function pairJoinP
 assert.match(joinFunction,/durableWitness/);
 assert.match(joinFunction,/pairProviderConflictNeedsRefresh\(error\)[\s\S]*pairInitialize\(\{force:true\}\)/,'A stale registered joining browser must re-read durable provider authority after an active-pair conflict.');
 assert.doesNotMatch(joinFunction,/pairPersistPairLinkWithRetry/,'Successful one-use redemption must not depend on a later pair-link write.');
-assert.match(pairSource,/"OPEN RECOVERY"/);
+assert.match(pairSource,/"OPEN BACKUP RESTORE"/);
+assert.match(pairSource,/"START OVER"/);
+assert.match(pairSource,/async function pairStartOverFromRecovery\(\)[\s\S]*navigateTo\("createShowdown"/,'Recovery START OVER must route directly to explicit new-Showdown season selection.');
+assert.match(pairSource,/async function pairOpenRecoverySurface\(\)[\s\S]*mountCareerModeRestorePanel[\s\S]*requestAnimationFrame[\s\S]*careerModeRestorePanel/,'Backup recovery must mount and defer focus until the Legacy route settles instead of landing at the top of an empty-looking page.');
+assert.match(pairSource,/async function pairOpenRecoverySurface\(\)[\s\S]*showScreen\("mainMenu",false\)/,'A missing restore surface must fail back to Home instead of stranding the player in Legacy.');
+
 assert.match(pairSource,/root\.openOptionalModule\("legacy"\)/,'Recovery-required must route through the bounded Legacy/Candidate C loader before locating restore controls.');
 assert.match(optionalSource,/async function ensureLegacyModule\(\)[\s\S]*ensureCandidateC\(\)[\s\S]*js\/restoreUI\.js[\s\S]*mountCareerModeRestorePanel/,'The approved Legacy loader must prepare Candidate C and mount the verified restore panel.');
 assert.match(entrySource,/openPersistentPairControls/);
