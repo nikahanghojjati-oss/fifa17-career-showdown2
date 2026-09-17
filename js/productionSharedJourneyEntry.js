@@ -67,11 +67,43 @@
     if(typeof root.ensureGameplayModules!=="function")throw new Error("Gameplay runtime is unavailable.");
     await root.ensureGameplayModules();
   }
+  async function currentPairStateForFreshStart(){
+    const identity=root.CareerModeOnlinePlayerIdentity;
+    if(!identity||typeof identity.syncPair!=="function")throw new Error("The current Showdown connection service is unavailable.");
+    const first=await identity.syncPair();
+    const next=!first||first.status==="unavailable"?await identity.syncPair():first;
+    if(!next)throw new Error("The current Showdown connection could not be verified.");
+    return next;
+  }
+  async function prepareFreshStart(){
+    const pairState=await currentPairStateForFreshStart();
+    if(pairState&&pairState.status==="unavailable")throw new Error("The current Showdown connection could not be verified. Try again before starting a new Showdown.");
+    const hasLivePair=Boolean(pairState&&pairState.rivalryId&&["active","pending-pair"].includes(pairState.connectionState));
+    if(!hasLivePair)return true;
+
+    const confirmed=root.confirm?.(
+      "Start a new Showdown? This will close the current Daniel vs Nik Showdown for both players. Your player identity, registered device, Legacy history, app settings and existing local recovery data will be kept."
+    );
+    if(confirmed===false)return false;
+
+    const pair=await loadScript("persistent-pair","js/persistentNikDanielPair.js",()=>root.CareerModePersistentNikDanielPair);
+    if(!pair||typeof pair.abandonCurrentShowdown!=="function")throw new Error("Safe Showdown restart is unavailable in this build.");
+    const closed=await pair.abandonCurrentShowdown({expectedRivalryId:pairState.rivalryId});
+    if(!closed||closed.ok!==true)throw new Error("The current Showdown could not be closed safely. No new Showdown was created.");
+
+    setPending(false);
+    root.stopTransferTimerLoop?.();
+    root.resetTransientSelectionOperations?.();
+    return true;
+  }
   async function startShared(){
     if(busy)return false;busy=true;const button=root.document.getElementById(SHARED_START_ID)||root.document.getElementById("startShowdown");if(button)button.disabled=true;
     const round=root.document.getElementById("roundAmount"),priorRound=round?round.value:null;let shellCreated=false,markerPersisted=false;
     try{
-      await ensureSaveAuthority();setPending(true);
+      await ensureSaveAuthority();
+      const freshStartReady=await prepareFreshStart();
+      if(!freshStartReady)return false;
+      setPending(true);
       if(typeof root.createShowdown!=="function")throw new Error("Showdown preparation is unavailable.");
       const created=await root.createShowdown();shellCreated=Boolean(created);if(!created)throw new Error("The Showdown could not be prepared.");
       normalizeCanonicalPlayers();persistPendingMarker();markerPersisted=true;applyLocalDrawLock();await openPanel();return true;

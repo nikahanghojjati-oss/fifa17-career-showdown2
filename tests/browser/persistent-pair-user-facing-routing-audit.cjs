@@ -217,16 +217,24 @@ const playerOneProfileId=`profile_${"d".repeat(24)}`;
     // Fresh-browser active-pair recovery must expose and route a real OPEN RECOVERY control.
     await page.evaluate(async()=>{window.__pairProviderMode="active-recovery";window.__localRecoveryReady=false;await window.CareerModePersistentNikDanielPair.initialize({force:true});});
     await page.locator("#persistentNikDanielPairPanel",{hasText:"CAREER RECOVERY NEEDED"}).waitFor({state:"visible",timeout:5000});
-    const recovery=page.locator("#persistentNikDanielPairPanel button",{hasText:"OPEN RECOVERY"});
+    const recovery=page.locator("#persistentNikDanielPairPanel button",{hasText:"OPEN BACKUP RESTORE"});
     await recovery.waitFor({state:"visible"});
+    const startOver=page.locator("#persistentNikDanielPairPanel button",{hasText:"START OVER"});
+    await startOver.waitFor({state:"visible"});
     await recovery.click();
     await page.waitForFunction(()=>window.__recoveryOpened===1,null,{timeout:3000});
     await page.locator("#careerModeRestorePanel input[type=file]").waitFor({state:"attached",timeout:3000});
     assert.equal(await page.locator("#careerModeRestorePanel input[type=file]").evaluate(input=>document.activeElement===input),true,"Recovery routing must focus the verified restore input.");
+    await page.evaluate(async()=>{window.__pairProviderMode="active-recovery";window.__localRecoveryReady=false;await window.CareerModePersistentNikDanielPair.initialize({force:true});window.CareerModePersistentNikDanielPair.render();});
+    const startOverAgain=page.locator("#persistentNikDanielPairPanel button",{hasText:"START OVER"});
+    await startOverAgain.waitFor({state:"visible"});
+    await startOverAgain.click();
+    await page.locator("#createShowdown").waitFor({state:"visible",timeout:3000});
+    assert.match(await page.locator("#startShowdown").innerText(),/START A SHOWDOWN/,"Recovery START OVER must route to explicit season selection instead of the Legacy dead end.");
 
     assert.deepEqual(pageErrors,[],"User-facing routing audit emitted page errors.");
     assert.deepEqual(consoleErrors,[],"User-facing routing audit emitted unexpected console errors.");
-    process.stdout.write("PASS real user-facing routing: CONNECT PLAYERS reaches the real persistent-pair panel, retries transient pair reads with stale-role reconciliation, and CREATE CODE, JOIN, CONTINUE CAREER and OPEN RECOVERY remain actionable on their intended surfaces.\n");
+    process.stdout.write("PASS real user-facing routing: CONNECT PLAYERS reaches the real persistent-pair panel, retries transient pair reads with stale-role reconciliation, and CREATE CODE, JOIN, CONTINUE CAREER, OPEN BACKUP RESTORE and START OVER remain actionable on their intended surfaces.\n");
   }finally{
     await context.close().catch(()=>{});
     await browser.close().catch(()=>{});

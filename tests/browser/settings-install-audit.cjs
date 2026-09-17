@@ -108,9 +108,15 @@ async function run(){
         assert.match(panelText || "", /CONNECTIVITY/i);
 
         const dataPanel = overlay.locator(".settingsDataPanel");
-        await dataPanel.waitFor({state:"attached",timeout:15000});
-        assert.equal(await dataPanel.isHidden(),true,"Legacy data-management recovery controls must remain internal rather than player-facing.");
-        assert.equal(await dataPanel.getAttribute("data-product-surface"),"internal");
+        await dataPanel.waitFor({state:"visible",timeout:15000});
+        assert.equal(await dataPanel.isHidden(),false,"Player-facing Showdown Data management must remain visible in ordinary Settings.");
+        assert.match(await dataPanel.innerText(),/SHOWDOWN DATA/i,"Settings must label the player-facing career data surface clearly.");
+        assert.match(await dataPanel.innerText(),/CURRENT SHOWDOWN/i,"Settings must report current Showdown state.");
+        assert.equal(await dataPanel.getAttribute("data-product-surface"),null,"Player-facing Showdown Data must not be classified as internal recovery machinery.");
+        const internalSaveLibrary=overlay.locator("#saveLibraryProductPanel");
+        await internalSaveLibrary.waitFor({state:"attached",timeout:15000});
+        assert.equal(await internalSaveLibrary.isHidden(),true,"Engineering Save Library recovery machinery must remain internal.");
+        assert.equal(await internalSaveLibrary.getAttribute("data-product-surface"),"internal","Engineering Save Library must retain explicit internal classification.");
 
         if(baseUrl.origin === productionOrigin){
             await page.waitForFunction(() => {
@@ -170,7 +176,7 @@ async function run(){
                 `INFO Settings containment audit ignored ${ignoredExternalAuthHelperErrors.length} exact Firebase-hosted Auth helper page error(s) after proving Auth + memory-only Firestore initialization remained healthy. Sanitized provider provenance: ${JSON.stringify(ignoredExternalAuthHelperErrors)}`
             );
         }
-        console.log("Settings containment passed: install/offline/data/provider machinery remains functional internally, normal Settings stays clean, connectivity rerenders preserve focus, and Escape restores the opener.");
+        console.log("Settings containment passed: player-facing Showdown Data stays visible, install/offline/provider and Save Library recovery machinery remain internal, connectivity rerenders preserve focus, and Escape restores the opener.");
     }finally{
         await context.close();
         await browser.close();

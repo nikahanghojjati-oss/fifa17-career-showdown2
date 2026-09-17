@@ -218,14 +218,14 @@ function createApplicationPanel(){
     const panel = createSettingsPanel(
         "APPLICATION",
         "CAREER MODE SHOWDOWN",
-        "A local two-manager FIFA 17 Career Mode rivalry companion. No account, cloud save or backend is required."
+        "Daniel and Nik's two-manager FIFA 17 Career Mode rivalry companion, built for the connected Showdown experience."
     );
     const info = createSettingsElement("div", "settingsInfoGrid");
     info.append(
         createSettingsInfoRow("APPLICATION VERSION", `v${getSettingsApplicationVersion()}`),
         createSettingsInfoRow("BUILD", getSettingsAssetRevision()),
-        createSettingsInfoRow("SAVE MODEL", "Local browser storage"),
-        createSettingsInfoRow("PLAY MODE", "Two managers · one device")
+        createSettingsInfoRow("CAREER DATA", "Automatic Showdown storage"),
+        createSettingsInfoRow("PLAY MODE", "Daniel vs Nik · two devices")
     );
     panel.appendChild(info);
     return panel;
@@ -407,39 +407,241 @@ async function openSettingsDataManagement(){
     }
 }
 
+async function ensureSettingsShowdownStorageAuthority(){
+    if(window.CareerModeSaveLibraryRuntime?.isReady?.()){
+        return true;
+    }
+
+    if(typeof window.ensureSaveLibraryRuntimeAuthority !== "function"){
+        if(typeof window.loadRuntimeScript !== "function"){
+            throw new Error("Showdown storage is unavailable in this session.");
+        }
+        await window.loadRuntimeScript(
+            "save-library-cutover",
+            "js/saveLibraryCutover.js",
+            () => typeof window.ensureSaveLibraryRuntimeAuthority === "function"
+        );
+    }
+
+    await window.ensureSaveLibraryRuntimeAuthority();
+    if(!window.CareerModeSaveLibraryRuntime?.isReady?.()){
+        throw new Error("Showdown storage could not be verified.");
+    }
+    return true;
+}
+
+async function ensureSettingsPersistentPairAuthority(){
+    const identity = window.CareerModeOnlinePlayerIdentity;
+    if(identity && typeof identity.syncPair === "function"){
+        await identity.syncPair();
+    }
+
+    if(!window.CareerModePersistentNikDanielPair){
+        if(typeof window.loadRuntimeScript !== "function"){
+            throw new Error("The Showdown connection service is unavailable.");
+        }
+        await window.loadRuntimeScript(
+            "online-persistent-pair",
+            "js/persistentNikDanielPair.js",
+            () => Boolean(window.CareerModePersistentNikDanielPair)
+        );
+    }
+
+    const pair = window.CareerModePersistentNikDanielPair;
+    if(!pair || typeof pair.initialize !== "function" || typeof pair.getState !== "function"){
+        throw new Error("The Showdown connection service is unavailable.");
+    }
+    await pair.initialize({ force: true });
+    return pair;
+}
+
+async function releaseSettingsCurrentShowdownConnection(showdown){
+    const expectedRivalryId = showdown && showdown.sharedJourney && showdown.sharedJourney.rivalryId
+        ? showdown.sharedJourney.rivalryId
+        : null;
+    const expectedSaveId = showdown && showdown.identity && showdown.identity.saveId
+        ? showdown.identity.saveId
+        : null;
+
+    const pair = await ensureSettingsPersistentPairAuthority();
+    const pairState = pair.getState();
+    const hasCurrentPair = Boolean(
+        pairState
+        && pairState.rivalryId
+        && (pairState.connectionState === "active" || pairState.connectionState === "pending-pair")
+    );
+
+    if(!expectedRivalryId && !hasCurrentPair){
+        return { ok: true, status: "unpaired" };
+    }
+
+    if(typeof pair.abandonCurrentShowdown !== "function"){
+        throw new Error("Safe Showdown restart is unavailable in this build.");
+    }
+
+    const result = await pair.abandonCurrentShowdown({
+        expectedRivalryId: expectedRivalryId || pairState.rivalryId,
+        expectedSaveId
+    });
+    if(!result || result.ok !== true){
+        throw new Error("The online Showdown connection was not closed, so the local copy was kept.");
+    }
+    return result;
+}
+
+function finishSettingsCurrentShowdownDeletion(){
+    if(typeof window.stopTransferTimerLoop === "function"){
+        window.stopTransferTimerLoop();
+    }
+    if(typeof window.resetTransientSelectionOperations === "function"){
+        window.resetTransientSelectionOperations();
+    }
+    if(typeof currentShowdown !== "undefined"){
+        currentShowdown = null;
+    }
+    if(typeof window.resetNavigationState === "function"){
+        window.resetNavigationState();
+    }
+
+    closeSettings(false);
+    const navigated = typeof showScreen === "function"
+        ? showScreen("mainMenu", false)
+        : (typeof window.navigateTo === "function"
+            ? window.navigateTo("mainMenu", { addToHistory: false })
+            : false);
+
+    if(typeof window.refreshMainMenuExperience === "function"){
+        window.refreshMainMenuExperience();
+    }
+    return navigated;
+}
+
+async function deleteSettingsCurrentShowdown(button){
+    const active = getSettingsActiveShowdown();
+    if(!active){
+        renderSettings();
+        return false;
+    }
+
+    const name = active.name || "Daniel vs Nik";
+    const confirmedSaveId = active && active.identity && active.identity.saveId ? String(active.identity.saveId) : null;
+    const confirmedLocalId = active && active.id !== undefined && active.id !== null ? String(active.id) : null;
+    const confirmed = window.confirm(
+        `Delete the current "${name}" Showdown and start over? This closes the current Showdown connection for both players, removes this device's current local Showdown, and keeps your player identity, registered device, Legacy history and app settings. This cannot be undone.`
+    );
+    if(!confirmed){ return false; }
+
+    if(button){
+        button.disabled = true;
+        button.setAttribute("aria-busy", "true");
+    }
+
+    try{
+        await ensureSettingsShowdownStorageAuthority();
+        const runtime = window.CareerModeSaveLibraryRuntime;
+        const authoritative = runtime && typeof runtime.loadActiveShowdown === "function"
+            ? runtime.loadActiveShowdown()
+            : null;
+        if(!runtime || !authoritative || typeof runtime.clearActiveShowdown !== "function"){
+            throw new Error("The current Showdown could not be verified safely.");
+        }
+        const authoritativeSaveId = authoritative && authoritative.identity && authoritative.identity.saveId
+            ? String(authoritative.identity.saveId)
+            : null;
+        const authoritativeLocalId = authoritative && authoritative.id !== undefined && authoritative.id !== null
+            ? String(authoritative.id)
+            : null;
+        if(
+            (confirmedSaveId && authoritativeSaveId !== confirmedSaveId)
+            || (!confirmedSaveId && confirmedLocalId !== authoritativeLocalId)
+        ){
+            throw new Error("The active Showdown changed after you confirmed deletion. Nothing was deleted. Review the current Showdown and confirm again.");
+        }
+
+        await releaseSettingsCurrentShowdownConnection(authoritative);
+
+        if(!runtime.clearActiveShowdown()){
+            throw new Error("The online Showdown was closed, but this device could not remove its local copy. Retry Delete Current Showdown; no new connection will be created.");
+        }
+
+        finishSettingsCurrentShowdownDeletion();
+        if(typeof window.showAppNotice === "function"){
+            window.showAppNotice(
+                `Deleted the current "${name}" Showdown and closed its connection. Your player identity, registered device, Legacy history and app settings were kept.`,
+                "success",
+                6200
+            );
+        }
+        return true;
+    }catch(error){
+        if(typeof window.showAppNotice === "function"){
+            window.showAppNotice(
+                `The current Showdown was not deleted. ${error && error.message ? error.message : "No saved data was changed."}`,
+                "error",
+                10000
+            );
+        }
+        return false;
+    }finally{
+        if(button && button.isConnected){
+            button.disabled = false;
+            button.removeAttribute("aria-busy");
+        }
+    }
+}
+
 function createDataPanel(){
     const active = getSettingsActiveShowdown();
     const history = getSettingsLegacyHistory();
     const panel = createSettingsPanel(
-        "LOCAL STORAGE",
-        "DATA MANAGEMENT",
-        "Backup export, Showdown deletion and full-reset actions stay centralized in Legacy. Export is read-only; destructive actions keep the existing confirmations and rollback protections."
+        "CAREER DATA",
+        "SHOWDOWN DATA",
+        "Delete a broken current Showdown safely or open History & Backup. Starting over closes only the current Showdown connection; your player identity and registered device stay ready."
     );
     panel.classList.add("settingsDataPanel");
 
     const info = createSettingsElement("div", "settingsInfoGrid");
     info.append(
         createSettingsInfoRow(
-            "ACTIVE SHOWDOWN",
+            "CURRENT SHOWDOWN",
             active ? `${active.name || "Unnamed Showdown"} · ${active.status || "Saved"}` : "None"
         ),
         createSettingsInfoRow(
-            "LEGACY ARCHIVE",
+            "HISTORY",
             `${history.length} completed showdown${history.length === 1 ? "" : "s"}`
         )
     );
 
-    const action = createSettingsElement("button", "menuButton settingsDataButton", "OPEN LEGACY & DATA MANAGEMENT");
-    action.type = "button";
-    action.addEventListener("click", openSettingsDataManagement);
+    const actions = createSettingsElement("div", "settingsOfflineActions settingsDataActions");
+    if(active){
+        const deleteCurrent = createSettingsElement(
+            "button",
+            "menuButton dangerButton settingsDeleteCurrentShowdown",
+            "DELETE CURRENT SHOWDOWN"
+        );
+        deleteCurrent.type = "button";
+        deleteCurrent.addEventListener("click", () => void deleteSettingsCurrentShowdown(deleteCurrent));
+        actions.appendChild(deleteCurrent);
+    }
+
+    const historyAction = createSettingsElement(
+        "button",
+        "menuButton settingsDataButton",
+        "OPEN HISTORY & BACKUP"
+    );
+    historyAction.type = "button";
+    historyAction.addEventListener("click", openSettingsDataManagement);
+    actions.appendChild(historyAction);
 
     const note = createSettingsElement(
         "p",
         "settingsDataNote",
-        "Export Backup downloads active Showdown, Legacy and application preferences without changing local data. Reset All Showdown Data removes active and Legacy competition data but intentionally keeps application preferences."
+        active
+            ? "Delete Current Showdown closes this Showdown connection for both players before removing this device's current local copy. Player identity, registered device, completed history and app settings are kept."
+            : "No current Showdown is stored on this device. Completed history, backup export and full reset remain available under History & Backup."
     );
 
-    panel.append(info, action, note);
+    panel.append(info, actions, note);
     return panel;
 }
 

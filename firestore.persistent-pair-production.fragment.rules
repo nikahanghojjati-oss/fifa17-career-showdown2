@@ -84,6 +84,52 @@
         );
     }
 
+    function cmsPersistentPairAbandonActorValid(before, rivalryId) {
+      let pair = get(/databases/$(database)/documents/accounts/$(request.auth.uid)/pairLinks/current);
+      let pairData = pair.data.data;
+      let slots = before.data.managerSlots;
+      return pair.data.objectType == 'pairLink'
+        && pair.data.objectId == 'current'
+        && pair.data.lifecycleState == 'live'
+        && pairData.rivalryId == rivalryId
+        && cmsPersistentPairManagerValid(pairData.managerRole, pairData.managerId)
+        && slots is list
+        && slots.size() == 2
+        && (
+          (
+            slots[0].slotId == pairData.managerRole
+            && slots[0].accountId == request.auth.uid
+            && slots[0].entitlementState == 'active'
+          )
+          ||
+          (
+            slots[1].slotId == pairData.managerRole
+            && slots[1].accountId == request.auth.uid
+            && slots[1].entitlementState == 'active'
+          )
+        );
+    }
+
+    function cmsPersistentPairAbandonValid(rivalryId) {
+      let before = resource.data;
+      let after = request.resource.data;
+      return signedIn()
+        && rivalryId is string
+        && rivalryId.matches('^pair_[0-9a-f]{64}$')
+        && before.objectType == 'rivalry'
+        && before.objectId == rivalryId
+        && before.lifecycleState == 'live'
+        && activeDevice(after.updatedByDeviceId)
+        && validCasEnvelope(before, after, 'rivalry', rivalryId)
+        && after.updatedByAccountId == request.auth.uid
+        && cmsPersistentPairAbandonActorValid(before, rivalryId)
+        && before.data.authorizedAccountIds is list
+        && request.auth.uid in before.data.authorizedAccountIds
+        && (before.data.connectionState == 'pending-pair' || before.data.connectionState == 'active')
+        && after.data.connectionState == 'closed'
+        && after.data.diff(before.data).affectedKeys().hasOnly(['connectionState']);
+    }
+
     function cmsPersistentPairCreateValid(accountId, pairId) {
       let root = request.resource.data;
       return activeDevice(root.updatedByDeviceId)
