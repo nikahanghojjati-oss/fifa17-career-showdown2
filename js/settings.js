@@ -218,14 +218,14 @@ function createApplicationPanel(){
     const panel = createSettingsPanel(
         "APPLICATION",
         "CAREER MODE SHOWDOWN",
-        "A local two-manager FIFA 17 Career Mode rivalry companion. No account, cloud save or backend is required."
+        "Daniel and Nik's two-manager FIFA 17 Career Mode rivalry companion, built for the connected Showdown experience."
     );
     const info = createSettingsElement("div", "settingsInfoGrid");
     info.append(
         createSettingsInfoRow("APPLICATION VERSION", `v${getSettingsApplicationVersion()}`),
         createSettingsInfoRow("BUILD", getSettingsAssetRevision()),
-        createSettingsInfoRow("SAVE MODEL", "Local browser storage"),
-        createSettingsInfoRow("PLAY MODE", "Two managers · one device")
+        createSettingsInfoRow("CAREER DATA", "Automatic Showdown storage"),
+        createSettingsInfoRow("PLAY MODE", "Daniel vs Nik · two devices")
     );
     panel.appendChild(info);
     return panel;
@@ -407,39 +407,140 @@ async function openSettingsDataManagement(){
     }
 }
 
+async function ensureSettingsShowdownStorageAuthority(){
+    if(window.CareerModeSaveLibraryRuntime?.isReady?.()){
+        return true;
+    }
+
+    if(typeof window.ensureSaveLibraryRuntimeAuthority !== "function"){
+        if(typeof window.loadRuntimeScript !== "function"){
+            throw new Error("Showdown storage is unavailable in this session.");
+        }
+        await window.loadRuntimeScript(
+            "save-library-cutover",
+            "js/saveLibraryCutover.js",
+            () => typeof window.ensureSaveLibraryRuntimeAuthority === "function"
+        );
+    }
+
+    await window.ensureSaveLibraryRuntimeAuthority();
+    if(!window.CareerModeSaveLibraryRuntime?.isReady?.()){
+        throw new Error("Showdown storage could not be verified.");
+    }
+    return true;
+}
+
+async function deleteSettingsCurrentShowdown(button){
+    const active = getSettingsActiveShowdown();
+    if(!active){
+        renderSettings();
+        return false;
+    }
+
+    const name = active.name || "Daniel vs Nik";
+    const confirmed = window.confirm(
+        `Delete the current "${name}" Showdown from this device? Your player identity, Daniel/Nik pairing, Legacy history and app settings will be kept. This cannot be undone.`
+    );
+    if(!confirmed){ return false; }
+
+    if(button){
+        button.disabled = true;
+        button.setAttribute("aria-busy", "true");
+    }
+
+    try{
+        await ensureSettingsShowdownStorageAuthority();
+        if(typeof clearSavedShowdown !== "function" || !clearSavedShowdown()){
+            throw new Error("The current Showdown could not be deleted safely.");
+        }
+
+        if(typeof currentShowdown !== "undefined"){
+            currentShowdown = null;
+        }
+        if(typeof window.resetTransientSelectionOperations === "function"){
+            window.resetTransientSelectionOperations();
+        }
+        if(typeof window.refreshMainMenuExperience === "function"){
+            window.refreshMainMenuExperience();
+        }
+        if(typeof window.showAppNotice === "function"){
+            window.showAppNotice(
+                `Deleted the current "${name}" Showdown. Your player identity and Daniel/Nik pairing were kept.`,
+                "success",
+                5200
+            );
+        }
+        renderSettings();
+        return true;
+    }catch(error){
+        if(typeof window.showAppNotice === "function"){
+            window.showAppNotice(
+                `The current Showdown was not deleted. ${error && error.message ? error.message : "No saved data was changed."}`,
+                "error",
+                10000
+            );
+        }
+        return false;
+    }finally{
+        if(button && button.isConnected){
+            button.disabled = false;
+            button.removeAttribute("aria-busy");
+        }
+    }
+}
+
 function createDataPanel(){
     const active = getSettingsActiveShowdown();
     const history = getSettingsLegacyHistory();
     const panel = createSettingsPanel(
-        "LOCAL STORAGE",
-        "DATA MANAGEMENT",
-        "Backup export, Showdown deletion and full-reset actions stay centralized in Legacy. Export is read-only; destructive actions keep the existing confirmations and rollback protections."
+        "CAREER DATA",
+        "SHOWDOWN DATA",
+        "Manage the current Showdown without touching your player identity or Daniel/Nik pairing. History, backup export and full reset remain available separately."
     );
     panel.classList.add("settingsDataPanel");
 
     const info = createSettingsElement("div", "settingsInfoGrid");
     info.append(
         createSettingsInfoRow(
-            "ACTIVE SHOWDOWN",
+            "CURRENT SHOWDOWN",
             active ? `${active.name || "Unnamed Showdown"} · ${active.status || "Saved"}` : "None"
         ),
         createSettingsInfoRow(
-            "LEGACY ARCHIVE",
+            "HISTORY",
             `${history.length} completed showdown${history.length === 1 ? "" : "s"}`
         )
     );
 
-    const action = createSettingsElement("button", "menuButton settingsDataButton", "OPEN LEGACY & DATA MANAGEMENT");
-    action.type = "button";
-    action.addEventListener("click", openSettingsDataManagement);
+    const actions = createSettingsElement("div", "settingsOfflineActions settingsDataActions");
+    if(active){
+        const deleteCurrent = createSettingsElement(
+            "button",
+            "menuButton dangerButton settingsDeleteCurrentShowdown",
+            "DELETE CURRENT SHOWDOWN"
+        );
+        deleteCurrent.type = "button";
+        deleteCurrent.addEventListener("click", () => void deleteSettingsCurrentShowdown(deleteCurrent));
+        actions.appendChild(deleteCurrent);
+    }
+
+    const historyAction = createSettingsElement(
+        "button",
+        "menuButton settingsDataButton",
+        "OPEN HISTORY & BACKUP"
+    );
+    historyAction.type = "button";
+    historyAction.addEventListener("click", openSettingsDataManagement);
+    actions.appendChild(historyAction);
 
     const note = createSettingsElement(
         "p",
         "settingsDataNote",
-        "Export Backup downloads active Showdown, Legacy and application preferences without changing local data. Reset All Showdown Data removes active and Legacy competition data but intentionally keeps application preferences."
+        active
+            ? "Delete Current Showdown removes only the active local Showdown on this device. Player identity, Daniel/Nik pairing, completed history and app settings are kept."
+            : "No current Showdown is stored on this device. Completed history, backup export and full reset remain available under History & Backup."
     );
 
-    panel.append(info, action, note);
+    panel.append(info, actions, note);
     return panel;
 }
 

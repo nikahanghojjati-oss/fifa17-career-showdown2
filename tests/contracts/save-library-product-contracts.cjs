@@ -5,13 +5,16 @@ const {webcrypto}=require("node:crypto");
 const {TextEncoder}=require("node:util");
 const read=file=>fs.readFileSync(file,"utf8");
 const source={
-  storage:read("js/storage.js"),transaction:read("js/storageTransaction.js"),foundation:read("js/saveLibraryFoundation.js"),persistence:read("js/saveLibraryPersistence.js"),runtime:read("js/saveLibraryRuntime.js"),cutover:read("js/saveLibraryCutover.js"),ui:read("js/saveLibraryUI.js"),css:read("css/saveLibrary.css"),showdown:read("js/showdown.js"),onlineIdentity:read("js/onlinePlayerIdentity.js"),worker:read("service-worker.js")
+  storage:read("js/storage.js"),transaction:read("js/storageTransaction.js"),foundation:read("js/saveLibraryFoundation.js"),persistence:read("js/saveLibraryPersistence.js"),runtime:read("js/saveLibraryRuntime.js"),cutover:read("js/saveLibraryCutover.js"),ui:read("js/saveLibraryUI.js"),css:read("css/saveLibrary.css"),showdown:read("js/showdown.js"),settings:read("js/settings.js"),onlineIdentity:read("js/onlinePlayerIdentity.js"),worker:read("service-worker.js")
 };
 const keys={saveLibrary:"careerModeShowdown.saveLibrary",activeShowdown:"careerModeShowdown.activeShowdown",legacyShowdowns:"careerModeShowdown.legacyShowdowns",preferences:"careerModeShowdown.preferences"};
 
 assert.ok(!/\blocalStorage\b/.test(source.ui),"Save Library UI must never access raw browser storage directly.");
 assert.ok(source.cutover.includes('loadRuntimeStyle("save-library-ui","css/saveLibrary.css")')&&source.cutover.includes('loadRuntimeScript("save-library-ui","js/saveLibraryUI.js"'),"Save Library assets must stay behind the existing lazy data boundary.");
 assert.ok(source.onlineIdentity.includes('"saveLibraryProductPanel"')&&source.onlineIdentity.includes('p.hidden=true')&&source.onlineIdentity.includes('p.dataset.productSurface="internal"'),"Save Library must remain available as internal recovery architecture without being a normal player-facing mode.");
+assert.ok(!source.onlineIdentity.includes("#settingsContent .settingsDataPanel"),"Online product containment must not hide ordinary Showdown Data management.");
+assert.ok(source.settings.includes("DELETE CURRENT SHOWDOWN")&&source.settings.includes("ensureSettingsShowdownStorageAuthority")&&source.settings.includes("clearSavedShowdown()"),"Settings must expose a safe current-Showdown deletion route backed by established Save Library authority.");
+assert.ok(source.settings.includes("Your player identity, Daniel/Nik pairing, Legacy history and app settings will be kept"),"Current-Showdown deletion must explicitly preserve identity, pairing, history and preferences.");
 assert.ok(source.ui.includes("function saveLibraryUIRestoreMutationFocus")&&source.ui.includes("saveLibraryUIRestoreMutationFocus(saveId)")&&source.ui.includes('saveLibraryUIRestoreMutationFocus(result.activeSaveId||"")'),"Save Library switch/delete rerenders must restore focus inside the established Settings dialog rather than creating a competing modal key handler.");
 assert.ok(source.ui.includes("captureCareerModeRawSaveLibraryMigrationSnapshot"),"The storage system must retain its established exact read authority when deciding empty, compatibility, ready or blocked state.");
 assert.ok(source.ui.includes("Names are labels, not identity keys"),"Internal Local Profiles must continue separating labels from identity keys.");
