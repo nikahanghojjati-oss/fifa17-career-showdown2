@@ -524,6 +524,8 @@ async function deleteSettingsCurrentShowdown(button){
     }
 
     const name = active.name || "Daniel vs Nik";
+    const confirmedSaveId = active && active.identity && active.identity.saveId ? String(active.identity.saveId) : null;
+    const confirmedLocalId = active && active.id !== undefined && active.id !== null ? String(active.id) : null;
     const confirmed = window.confirm(
         `Delete the current "${name}" Showdown and start over? This closes the current Showdown connection for both players, removes this device's current local Showdown, and keeps your player identity, registered device, Legacy history and app settings. This cannot be undone.`
     );
@@ -542,6 +544,18 @@ async function deleteSettingsCurrentShowdown(button){
             : null;
         if(!runtime || !authoritative || typeof runtime.clearActiveShowdown !== "function"){
             throw new Error("The current Showdown could not be verified safely.");
+        }
+        const authoritativeSaveId = authoritative && authoritative.identity && authoritative.identity.saveId
+            ? String(authoritative.identity.saveId)
+            : null;
+        const authoritativeLocalId = authoritative && authoritative.id !== undefined && authoritative.id !== null
+            ? String(authoritative.id)
+            : null;
+        if(
+            (confirmedSaveId && authoritativeSaveId !== confirmedSaveId)
+            || (!confirmedSaveId && confirmedLocalId !== authoritativeLocalId)
+        ){
+            throw new Error("The active Showdown changed after you confirmed deletion. Nothing was deleted. Review the current Showdown and confirm again.");
         }
 
         await releaseSettingsCurrentShowdownConnection(authoritative);
