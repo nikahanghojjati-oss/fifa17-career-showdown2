@@ -31,8 +31,8 @@ const SAVE_KEY="careerModeShowdown.saveLibrary";
     await page.waitForFunction(key=>{const raw=localStorage.getItem(key);if(!raw)return false;const library=JSON.parse(raw);return Boolean(library.activeSaveId&&library.saves?.length===1);},SAVE_KEY,{timeout:12000});
     const oldSaveId=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)).activeSaveId,SAVE_KEY);
 
-    // Simulate an already prepared Nik browser. The canonical data mapping remains Daniel=P1,
-    // Nik=P2 regardless of which real player presses Start on this device.
+    // Simulate Daniel's host browser. In the unified r25 flow, only Daniel enters season
+    // selection and starts the Showdown; Nik joins later from the Home join action.
     await page.evaluate(()=>{
       const staleRivalryId="pair_"+("e".repeat(64));
       window.__freshStartPairState="active";
@@ -48,12 +48,13 @@ const SAVE_KEY="careerModeShowdown.saveLibrary";
         }
       };
       window.CareerModeOnlinePlayerIdentity={
-        getState:()=>({status:"ready",initialized:true,online:true,accountId:"account_nik_fixture",managerId:"nik",managerLabel:"Nik",deviceId:"device_nik_fixture",registered:true}),
+        getState:()=>({status:"ready",initialized:true,online:true,accountId:"account_daniel_fixture",managerId:"daniel",managerLabel:"Daniel",deviceId:"device_daniel_fixture",registered:true}),
         syncPair:async()=>window.__freshStartPairState==="active"
           ?{status:"recovery-required",connectionState:"active",rivalryId:staleRivalryId,providerSaveId:"save_"+("f".repeat(24))}
           :{status:"unpaired",connectionState:null,rivalryId:null}
       };
     });
+    await page.evaluate(()=>window.CareerModeOnlinePlayerIdentity?.getState?.());
     await page.locator("#newShowdown").click();
     await page.locator("#createShowdown").waitFor({state:"visible",timeout:5000});
     assert.equal(await page.locator("#managerOne").inputValue(),"Daniel");

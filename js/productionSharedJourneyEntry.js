@@ -67,6 +67,57 @@
     if(typeof root.ensureGameplayModules!=="function")throw new Error("Gameplay runtime is unavailable.");
     await root.ensureGameplayModules();
   }
+  async function provisionJoinerShell(totalRounds){
+    const rounds=Number(totalRounds);
+    if(![1,3,5,10].includes(rounds))throw new Error("Daniel's connection code does not contain a valid season length.");
+    await ensureSaveAuthority();
+    const runtime=root.CareerModeSaveLibraryRuntime;
+    if(!runtime?.isReady?.())throw new Error("Career storage is unavailable.");
+
+    const existing=activeSavedShowdown();
+    const existingIsEmptyShared=Boolean(
+      existing
+      && existing.sharedJourney?.mode==="shared"
+      && existing.sharedJourney?.setupPending===true
+      && !existing.selectedLeague
+      && !existing.clubs?.playerOne
+      && !existing.clubs?.playerTwo
+      && (!Array.isArray(existing.rounds)||existing.rounds.length===0)
+    );
+    if(existingIsEmptyShared&&Number(existing.totalRounds)===rounds){
+      setPending(true);
+      applyLocalDrawLock();
+      return true;
+    }
+    if(existing){
+      throw new Error("This browser already has a different current Showdown. Delete the old Showdown first, then paste Daniel's code again.");
+    }
+
+    const round=root.document?.getElementById("roundAmount");
+    if(!round)throw new Error("Season setup is unavailable.");
+    const prior=round.value;
+    let created=false,marked=false;
+    try{
+      round.value=String(rounds);
+      setPending(true);
+      if(typeof root.createShowdown!=="function")throw new Error("Showdown preparation is unavailable.");
+      created=Boolean(await root.createShowdown());
+      if(!created)throw new Error("Nik's local career copy could not be prepared.");
+      normalizeCanonicalPlayers();
+      persistPendingMarker();
+      marked=true;
+      if(typeof root.showScreen==="function")root.showScreen("mainMenu",false);
+      applyLocalDrawLock();
+      return true;
+    }catch(error){
+      if(created&&!marked)discardUnmarkedShell();
+      setPending(false);
+      throw error;
+    }finally{
+      round.value=prior;
+    }
+  }
+
   async function currentPairStateForFreshStart(){
     const identity=root.CareerModeOnlinePlayerIdentity;
     if(!identity||typeof identity.syncPair!=="function")throw new Error("The current Showdown connection service is unavailable.");
@@ -217,5 +268,5 @@
   }
   function install(){if(installed)return true;installed=true;installStartButton();applyLocalDrawLock();const observer=new MutationObserver(()=>{installStartButton();applyLocalDrawLock();});observer.observe(root.document.documentElement,{childList:true,subtree:true});if(pending())setTimeout(()=>void openPanel(),0);return true;}
 
-  return Object.freeze({contractVersion:5,feature:"ssjr-production-paired-first-entry",productionEnabled:true,singleProductEntry:true,pairingBeforeLeagueClub:true,activeSessionBeforeLeagueClub:true,peerActiveReturnToSharedEntry:true,bothDevicesPrepareSharedShell:true,continueCareerUsesPairedAuthority:true,polishedLeagueWheelAfterAuthority:true,polishedClubPacksAfterAuthority:true,confirmedSetupResumesAtCareerStart:true,engineeringSetupPanelPlayerFacing:false,persistedSaveMarker:true,canonicalLocalSaveMutationDuringSharedSetup:false,billingRequired:false,install,preparePairingShell:startShared,openPanel,closePanel,openSharedExperience,isPending:pending});
+  return Object.freeze({contractVersion:6,feature:"ssjr-production-paired-first-entry",productionEnabled:true,singleProductEntry:true,pairingBeforeLeagueClub:true,activeSessionBeforeLeagueClub:true,peerActiveReturnToSharedEntry:true,bothDevicesPrepareSharedShell:true,joinerShellProvisionedAutomatically:true,continueCareerUsesPairedAuthority:true,polishedLeagueWheelAfterAuthority:true,polishedClubPacksAfterAuthority:true,confirmedSetupResumesAtCareerStart:true,engineeringSetupPanelPlayerFacing:false,persistedSaveMarker:true,canonicalLocalSaveMutationDuringSharedSetup:false,billingRequired:false,install,preparePairingShell:startShared,provisionJoinerShell,openPanel,closePanel,openSharedExperience,isPending:pending});
 });

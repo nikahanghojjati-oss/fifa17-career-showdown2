@@ -3,7 +3,7 @@ const {chromium}=require("playwright");
 const {resolveChromiumRuntime}=require("../support/chromium-runtime.cjs");
 
 const baseUrl=new URL(process.env.CMS_BASE_URL||"http://127.0.0.1:4173/");
-const rivalryId=`pair_${"c".repeat(64)}`;
+const rivalryId=`pair_5${"c".repeat(63)}`;
 const saveId=`save_${"a".repeat(24)}`;
 const profileId=`profile_${"b".repeat(24)}`;
 const playerOneProfileId=`profile_${"d".repeat(24)}`;
@@ -154,13 +154,33 @@ const playerOneProfileId=`profile_${"d".repeat(24)}`;
     await page.locator("#persistentNikDanielPairPanel button",{hasText:"CREATE CODE FOR NIK"}).click();
     await page.locator("#persistentNikDanielPairPanel",{hasText:"WAITING FOR THE OTHER PLAYER"}).waitFor({state:"visible",timeout:5000});
     assert.match(await panel.innerText(),new RegExp(rivalryId));
+    const playerJoinCode=(await panel.locator("code").textContent()).trim();
+    assert.equal(playerJoinCode,`CMS17-${rivalryId}`,"Daniel's one-use code must wrap the exact season-bound provider rivalry id.");
     for(const label of ["COPY CODE","CHECK STATUS","NEW CODE"])await page.locator("#persistentNikDanielPairPanel button",{hasText:label}).waitFor({state:"visible"});
 
-    // Reinitialize Nik's provider-unpaired state and prove JOIN -> CAREER READY -> CONTINUE CAREER routing.
-    await page.evaluate(async()=>{window.__pairProviderMode="unpaired";window.__routeManagerId="nik";await window.CareerModePersistentNikDanielPair.initialize({force:true});});
-    await page.locator("#persistentNikDanielPairCode").fill(rivalryId);
+    // Simulate Nik on a fresh browser with no local Showdown: JOIN must provision the local shell invisibly from Daniel's code.
+    await page.evaluate(async()=>{
+      window.__pairProviderMode="unpaired";
+      window.__routeManagerId="nik";
+      window.__localRecoveryReady=false;
+      window.__joinerProvisionRounds=null;
+      const originalEntry=window.CareerModeProductionSharedJourneyEntry;
+      window.CareerModeProductionSharedJourneyEntry={
+        ...originalEntry,
+        provisionJoinerShell:async totalRounds=>{
+          window.__joinerProvisionRounds=totalRounds;
+          window.__localRecoveryReady=true;
+          return true;
+        }
+      };
+      await window.CareerModePersistentNikDanielPair.initialize({force:true});
+    });
+    await page.locator("#persistentNikDanielPairCode").fill(playerJoinCode);
     await page.locator("#persistentNikDanielPairPanel button",{hasText:"JOIN DANIEL'S SHOWDOWN"}).click();
     await page.locator("#persistentNikDanielPairPanel",{hasText:"CAREER READY"}).waitFor({state:"visible",timeout:5000});
+    assert.match(playerJoinCode,/^CMS17-pair_5[0-9a-f]{63}$/i,"The five-season plan must be bound into the exact provider capability itself.");
+    assert.equal(await page.evaluate(()=>window.__joinerProvisionRounds),5,"Nik Join must automatically provision the same season length Daniel selected.");
+    assert.match(await panel.innerText(),/Nik joined Daniel's Showdown/i,"Nik must receive a single successful Join outcome, not another Start Showdown instruction.");
     const continueButton=page.locator("#persistentNikDanielPairPanel button",{hasText:"CONTINUE CAREER"});
     await continueButton.waitFor({state:"visible"});
     await page.evaluate(()=>{window.CareerModeProductionSharedJourneyEntry={install(){},openPanel:async()=>{window.__continueOpened+=1;return true;}};});
@@ -278,7 +298,7 @@ const playerOneProfileId=`profile_${"d".repeat(24)}`;
 
     assert.deepEqual(pageErrors,[],"User-facing routing audit emitted page errors.");
     assert.deepEqual(consoleErrors,[],"User-facing routing audit emitted unexpected console errors.");
-    process.stdout.write("PASS real user-facing routing: CONNECT PLAYERS reaches the real persistent-pair panel, retries transient pair reads with stale-role reconciliation, and Daniel CREATE CODE, Nik JOIN, CONTINUE CAREER, RESTORE BACKUP and DELETE OLD SHOWDOWN & START OVER remain actionable on their intended surfaces.\n");
+    process.stdout.write("PASS real user-facing routing: CONNECT PLAYERS reaches the real persistent-pair panel, retries transient pair reads with stale-role reconciliation, and Daniel CREATE CODE carries the season setup, Nik JOIN auto-provisions its local shell, and CONTINUE CAREER, RESTORE BACKUP and DELETE OLD SHOWDOWN & START OVER remain actionable on their intended surfaces.\n");
   }finally{
     await context.close().catch(()=>{});
     await browser.close().catch(()=>{});

@@ -58,11 +58,11 @@ async function installAuthorizedOnlineIdentityFixture(page){
     window.CareerModeProductionFirebaseRuntime=window.CareerModeProductionFirebaseRuntime||{};
     window.CareerModeSparkConnectedAccount={initialize:async()=>({connected:true,accountId}),getState:()=>({connected:true,accountId}),signIn:async()=>({connected:true,accountId}),signOut:async()=>({connected:false,accountId:null})};
     window.CareerModeSparkPrivatePairing={initialize:async()=>({registered:true,deviceId}),getState:()=>({registered:true,deviceId,message:"Ready"}),getOrCreateDeviceIdentity:async()=>({deviceId})};
-    window.CareerModePersistentNikDanielPair={initialize:async()=>({accountId,managerId:"nik",connectionState:"idle",rivalryId:null}),render:()=>null};
+    window.CareerModePersistentNikDanielPair={initialize:async()=>({accountId,managerId:"daniel",connectionState:"idle",rivalryId:null}),render:()=>null};
     const identity=window.CareerModeOnlinePlayerIdentity;
     let state=await identity.initialize(true);
-    if(state?.status==="choose-manager")state=await identity.chooseManager("nik");
-    if(state?.status!=="ready"||state.accountId!==accountId||state.managerId!=="nik"||state.deviceId!==deviceId||state.registered!==true)throw new Error("Authorized online identity fixture did not reach the real ready state.");
+    if(state?.status==="choose-manager")state=await identity.chooseManager("daniel");
+    if(state?.status!=="ready"||state.accountId!==accountId||state.managerId!=="daniel"||state.deviceId!==deviceId||state.registered!==true)throw new Error("Authorized Daniel host fixture did not reach the real ready state.");
     document.getElementById("onlinePlayerIdentityOverlay")?.remove();
   });
 }
