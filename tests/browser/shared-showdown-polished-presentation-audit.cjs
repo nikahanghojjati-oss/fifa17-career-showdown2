@@ -22,7 +22,9 @@ async function prepare(page,{managerRole,remoteRole,initialSetup,reducedMotion=t
     window.CareerModeProductionSharedJourneyEntry={isPending:()=>true};
     window.isReducedClubMotionPreferred=()=>reducedMotion;
     await ensureGameplayModules();
+    currentShowdown={name:"Daniel vs Nik",managers:{playerOne:"Daniel",playerTwo:"Nik"},totalRounds:5,currentRound:1,status:"Created",selectedLeague:null,clubs:{playerOne:null,playerTwo:null},score:{playerOne:0,playerTwo:0},transferChallenges:[],rounds:[],sharedJourney:{contractVersion:1,mode:"shared",setupPending:true}};
     let serverSetup=initialSetup;
+    window.__getSharedServerSetup=()=>serverSetup;
     let current={status:"ready",open:false,busy:false,ready:true,revision:serverSetup?serverSetup.revision:0,phase:serverSetup?serverSetup.phase:null,rivalryId:"pair_"+"a".repeat(64),sessionId:"session_"+"b".repeat(64),accountId:managerRole==="playerOne"?"account_one":"account_two",deviceId:managerRole==="playerOne"?"device_"+"1".repeat(32):"device_"+"2".repeat(32),managerRole,remoteRole,setup:serverSetup,message:"ready"};
     const listeners=new Set();
     const emit=()=>{current={...current,revision:serverSetup?serverSetup.revision:0,phase:serverSetup?serverSetup.phase:null,setup:serverSetup};for(const listener of listeners)listener(current);};
@@ -69,6 +71,11 @@ async function prepare(page,{managerRole,remoteRole,initialSetup,reducedMotion=t
     assert.equal(await host.locator("#clubNameOne").textContent(),"Osasuna");
     assert.equal(await host.locator("#clubNameTwo").textContent(),"Espanyol");
     assert.equal(await host.locator("#clubWheelScreen").getAttribute("data-shared-presentation-role"),"playerOne");
+    await host.waitForFunction(()=>window.CareerModeProductionSharedShowdownPresentation.getState().phase==="SEASON_LENGTH_COMMITTED",null,{timeout:5000});
+    const hostSeason=await host.evaluate(()=>({provider:window.__getSharedServerSetup()?.totalSeasons,local:currentShowdown?.totalRounds}));
+    assert.deepEqual(hostSeason,{provider:5,local:5},"Daniel's original five-season choice must auto-commit after clubs without a second season decision.");
+    assert.equal(await host.locator("#sharedShowdownSeasonChoice [data-shared-season]:visible").count(),0,"The shared setup must never show a second season-choice button.");
+    assert.match(await host.locator("#sharedShowdownSeasonChoice").innerText(),/5 SEASONS LOCKED/i);
 
     const peerLateSetup=setupState({phase:"CLUB_ASSIGNMENTS_COMMITTED",revision:3,leagueId:"laliga",clubs:{playerOne:"Osasuna",playerTwo:"Espanyol"}});
     await prepare(peer,{managerRole:"playerTwo",remoteRole:"peer",initialSetup:peerLateSetup,reducedMotion:true});
@@ -82,8 +89,9 @@ async function prepare(page,{managerRole,remoteRole,initialSetup,reducedMotion=t
     assert.equal(await peer.locator("#clubNameOne").textContent(),"Osasuna");
     assert.equal(await peer.locator("#clubNameTwo").textContent(),"Espanyol");
     assert.equal(await peer.locator("#clubWheelScreen").getAttribute("data-shared-presentation-role"),"playerTwo");
+    assert.equal(await peer.locator("#sharedShowdownSeasonChoice [data-shared-season]:visible").count(),0,"Nik must never receive a second season-choice action.");
     assert.deepEqual(errors,[],"Polished two-role presentation emitted page errors.");
-    process.stdout.write("PASS Shared Showdown polished presentation: Player 1 normal-motion reveal survives provider polling, and Player 1/Player 2 each witness the real League Wheel and original two-pack club reveal while provider state remains authoritative.\n");
+    process.stdout.write("PASS Shared Showdown polished presentation: Player 1 normal-motion reveal survives provider polling, Daniel's original season choice auto-commits once after clubs, and Player 1/Player 2 each witness the real League Wheel and original two-pack club reveal with no second season-choice UI.\n");
   }finally{
     await hostContext.close().catch(()=>{});await peerContext.close().catch(()=>{});await browser.close().catch(()=>{});
   }
