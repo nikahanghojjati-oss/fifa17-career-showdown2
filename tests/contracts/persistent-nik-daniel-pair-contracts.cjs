@@ -89,6 +89,10 @@ assert.doesNotMatch(pairSource,/Refresh once if the connection is not visible ye
 assert.match(pairSource,/async function pairStartPairing[\s\S]*const active=pairAlreadyActiveState\(\);if\(active\)return active;[\s\S]*createPairing\(/,'Start Pairing must reject an already-active rivalry before creating another capability.');
 assert.match(pairSource,/async function pairJoinPairing[\s\S]*const active=pairAlreadyActiveState\(\);if\(active\)return active;[\s\S]*redeemPairing\(/,'Join Pairing must reject an already-active rivalry before redeeming another one-use capability.');
 assert.match(pairSource,/if\(state\.status==="pair-link-retry"\)[\s\S]*RETRY CONNECTION[\s\S]*else if\(state\.connectionState==="active"&&state\.status==="recovery-required"\)[\s\S]*else if\(state\.connectionState==="active"\)[\s\S]*else if\(state\.status==="unpaired"\|\|state\.status==="save-required"\|\|state\.status==="error"\)/,'Active or partial-commit states must be rendered before generic CREATE/JOIN error controls.');
+assert.match(pairSource,/role==="playerOne"[\s\S]*"CREATE CODE FOR NIK"[\s\S]*DANIEL STARTS THE SHOWDOWN AND SENDS THIS CODE TO NIK/,'Daniel must receive one unambiguous host action on an unpaired browser.');
+assert.match(pairSource,/role==="playerTwo"[\s\S]*Paste Daniel's code[\s\S]*"JOIN DANIEL'S SHOWDOWN"[\s\S]*NIK ENTERS THE CODE DANIEL SENDS/,'Nik must receive only the join-code action on an unpaired browser.');
+assert.doesNotMatch(pairSource,/actions\.append\(start,input,join\)/,'The normal unpaired UI must not show CREATE and JOIN controls together on both devices.');
+
 
 const pairApi=require(path.join(root,'js/persistentNikDanielPair.js'));
 assert.equal(pairApi.contractVersion,4);
@@ -180,9 +184,11 @@ const joinFunction=pairSource.slice(pairSource.indexOf('async function pairJoinP
 assert.match(joinFunction,/durableWitness/);
 assert.match(joinFunction,/pairProviderConflictNeedsRefresh\(error\)[\s\S]*pairInitialize\(\{force:true\}\)/,'A stale registered joining browser must re-read durable provider authority after an active-pair conflict.');
 assert.doesNotMatch(joinFunction,/pairPersistPairLinkWithRetry/,'Successful one-use redemption must not depend on a later pair-link write.');
-assert.match(pairSource,/"OPEN BACKUP RESTORE"/);
-assert.match(pairSource,/"START OVER"/);
-assert.match(pairSource,/async function pairStartOverFromRecovery\(\)[\s\S]*navigateTo\("createShowdown"/,'Recovery START OVER must route directly to explicit new-Showdown season selection.');
+assert.match(pairSource,/"RESTORE BACKUP"/);
+assert.match(pairSource,/"DELETE OLD SHOWDOWN & START OVER"/);
+assert.match(pairSource,/async function pairStartOverFromRecovery\(\)[\s\S]*pairAbandonCurrentShowdown\(\{expectedRivalryId:rivalryId\}\)[\s\S]*navigateTo\("createShowdown"/,'Recovery start-over must close the exact stale provider Showdown before routing to explicit new-Showdown season selection.');
+assert.match(pairSource,/async function pairStartOverFromRecovery\(\)[\s\S]*Delete the old Showdown and start over\?[\s\S]*player identity, registered device, Legacy history and app settings are kept/,'Destructive fresh-browser recovery must explain its exact preservation boundary before provider mutation.');
+assert.match(pairSource,/old online Showdown is still connected, but this browser no longer has its local career data/,'Fresh-browser recovery copy must describe the actual local/server split rather than implying a local backup exists.');
 assert.match(pairSource,/async function pairOpenRecoverySurface\(\)[\s\S]*openOptionalModule\("legacy"\)[\s\S]*mountCareerModeRestorePanel[\s\S]*careerModeRestorePanel[\s\S]*scrollIntoView[\s\S]*input\.focus\(\)/,'Backup recovery must wait for Legacy to open, mount the verified restore panel, then scroll and focus the file picker instead of landing at the top of an empty-looking page.');
 assert.match(pairSource,/async function pairOpenRecoverySurface\(\)[\s\S]*showScreen\("mainMenu",false\)/,'A missing restore surface must fail back to Home instead of stranding the player in Legacy.');
 
