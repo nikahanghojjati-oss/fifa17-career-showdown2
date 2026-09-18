@@ -155,7 +155,7 @@ const playerOneProfileId=`profile_${"d".repeat(24)}`;
     await page.locator("#persistentNikDanielPairPanel",{hasText:"WAITING FOR THE OTHER PLAYER"}).waitFor({state:"visible",timeout:5000});
     assert.match(await panel.innerText(),new RegExp(rivalryId));
     const playerJoinCode=(await panel.locator("code").textContent()).trim();
-    assert.match(playerJoinCode,new RegExp(`^CMS17-5-${rivalryId}$`),"Daniel's one-use code must carry the selected season length so Nik never repeats Showdown setup.");
+    assert.equal(playerJoinCode,`CMS17-${rivalryId}`,"Daniel's one-use code must wrap the exact season-bound provider rivalry id.");
     for(const label of ["COPY CODE","CHECK STATUS","NEW CODE"])await page.locator("#persistentNikDanielPairPanel button",{hasText:label}).waitFor({state:"visible"});
 
     // Simulate Nik on a fresh browser with no local Showdown: JOIN must provision the local shell invisibly from Daniel's code.
