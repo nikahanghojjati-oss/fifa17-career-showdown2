@@ -41,6 +41,7 @@ assert.match(pairSource,/pairLinkPersistentAcrossRegisteredBrowsers:true/);
 assert.match(pairSource,/gameplayCacheHydrationAcrossFreshBrowsers:false/);
 assert.match(pairSource,/freshBrowserGameplayRequiresVerifiedLocalRecovery:true/);
 assert.match(pairSource,/state\.connectionState==="pending-pair"&&state\.capability/);
+assert.match(initializeFunction,/capability:link\.connectionState==="pending-pair"\?[\s\S]*pairBuildPlayerJoinCode\(link\.rivalryId\)/,'A pending Daniel browser must reconstruct the same season-bearing player code directly from durable rivalry authority after reload, without requiring Save Library activation.');
 assert.match(pairSource,/pairCopyText\(state\.capability\)/);
 assert.match(pairSource,/state\.connectionState==="pending-pair"&&state\.capability[\s\S]*"NEW CODE"[\s\S]*pairStartPairing\(\{managerRole:state\.managerRole\}\)/,'A pending creator must always have a provider-guarded replacement action so an expired invite cannot strand the account.');
 assert.match(pairSource,/"CONTINUE CAREER"/);
@@ -91,9 +92,12 @@ assert.match(pairSource,/async function pairJoinPairing[\s\S]*const active=pairA
 assert.match(pairSource,/if\(state\.status==="pair-link-retry"\)[\s\S]*RETRY CONNECTION[\s\S]*else if\(state\.connectionState==="active"&&state\.status==="recovery-required"\)[\s\S]*else if\(state\.connectionState==="active"\)[\s\S]*else if\(state\.status==="unpaired"\|\|state\.status==="save-required"\|\|state\.status==="error"\)/,'Active or partial-commit states must be rendered before generic CREATE/JOIN error controls.');
 assert.match(pairSource,/role==="playerOne"[\s\S]*"CREATE CODE FOR NIK"[\s\S]*DANIEL STARTS THE SHOWDOWN AND SENDS THIS CODE TO NIK/,'Daniel must receive one unambiguous host action on an unpaired browser.');
 assert.match(pairSource,/role==="playerTwo"[\s\S]*Paste Daniel's code[\s\S]*"JOIN DANIEL'S SHOWDOWN"[\s\S]*NIK ENTERS THE CODE DANIEL SENDS/,'Nik must receive only the join-code action on an unpaired browser.');
-assert.match(pairSource,/function pairBuildPlayerJoinCode\(rivalryId,totalRounds\)[\s\S]*CMS17-\$\{rounds\}-\$\{normalized\}/,"Daniel's one-use player code must carry the selected season length without changing the provider rivalry id.");
-assert.match(pairSource,/function pairParsePlayerJoinCode\(value\)[\s\S]*CMS17-\(1\|3\|5\|10\)-\(pair_/,'Nik Join must parse the canonical season-bearing player code.');
-assert.match(pairSource,/async function pairProvisionJoinerBinding\(context,role,totalRounds\)[\s\S]*role!=="playerTwo"[\s\S]*entry\.provisionJoinerShell\(Number\(totalRounds\)\)[\s\S]*pairPreparedBindingForRole/,'Only Nik may auto-provision a missing local shell, and the resulting binding must be re-read before provider redemption.');
+assert.match(pairSource,/PAIR_SEASON_NIBBLE=Object\.freeze\(\{1:"1",3:"3",5:"5",10:"a"\}\)/,"Supported season plans must have a deterministic provider-capability marker.");
+assert.match(pairSource,/function pairCreateSeasonBoundCapability\(totalRounds[\s\S]*getRandomValues[\s\S]*pair_\$\{marker\}\$\{hex\.slice\(1\)\}/,"Daniel's provider capability itself must bind the selected season length while retaining secure random entropy.");
+assert.match(pairSource,/function pairSeasonFromCapability\(rivalryId\)[\s\S]*PAIR_SEASON_BY_NIBBLE/,"Nik must derive season length from the exact provider capability rather than trusting separately editable code metadata.");
+assert.match(pairSource,/function pairBuildPlayerJoinCode\(rivalryId\)[\s\S]*pairSeasonFromCapability\(normalized\)[\s\S]*CMS17-\$\{normalized\}/,"The player-facing code must wrap the exact season-bound provider capability without a second mutable season field.");
+assert.match(pairSource,/function pairParsePlayerJoinCode\(value\)[\s\S]*CMS17-\(pair_\[0-9a-f\]\{64\}\)[\s\S]*pairSeasonFromCapability\(rivalryId\)/,'Nik Join must parse one player code and derive its season plan from the exact provider rivalry id.');
+assert.match(pairSource,/async function pairProvisionJoinerBinding\(context,role,totalRounds\)[\s\S]*preparedRounds=pairPreparedTotalRounds\(\)[\s\S]*PERSISTENT_PAIR_SEASON_MISMATCH[\s\S]*role!=="playerTwo"[\s\S]*entry\.provisionJoinerShell\(Number\(totalRounds\)\)[\s\S]*pairPreparedBindingForRole/,'Only Nik may auto-provision a missing local shell; an existing shell with a different season plan must fail closed, and a newly provisioned binding must be re-read before provider redemption.');
 
 assert.doesNotMatch(pairSource,/actions\.append\(start,input,join\)/,'The normal unpaired UI must not show CREATE and JOIN controls together on both devices.');
 
@@ -189,6 +193,7 @@ assert.match(pairSource,/pairCreateDurableCreationWitness/,'Persistent pairing m
 assert.match(pairSource,/pairCreateDurableRedemptionWitness/,'Persistent pairing must create the joiner account witness inside redemption authority.');
 const startFunction=pairSource.slice(pairSource.indexOf('async function pairStartPairing'),pairSource.indexOf('async function pairJoinPairing'));
 assert.match(startFunction,/durableWitness/);
+assert.match(startFunction,/capability=pairCreateSeasonBoundCapability\(totalRounds\)[\s\S]*createPairing\(\{[\s\S]*capability,cryptoImpl/,'Daniel must create the provider rivalry using the season-bound capability itself.');
 assert.match(pairSource,/function pairProviderConflictNeedsRefresh\(error\)[\s\S]*PERSISTENT_PAIR_PENDING_CONFLICT[\s\S]*PERSISTENT_PAIR_ACTIVE_CONFLICT/,'Pending and active provider conflicts must share one durable-authority refresh rule.');
 assert.match(startFunction,/pairProviderConflictNeedsRefresh\(error\)[\s\S]*pairInitialize\(\{force:true\}\)/,'A stale registered creator browser must re-read durable provider authority after pending or active conflicts.');
 assert.doesNotMatch(startFunction,/pairPersistPairLinkWithRetry/,'Successful code creation must not depend on a later pair-link write.');
