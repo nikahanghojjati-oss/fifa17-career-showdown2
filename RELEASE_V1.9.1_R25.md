@@ -23,7 +23,7 @@ The player code wraps the existing one-use provider rivalry capability with Dani
 
 The r24 OLD SHOWDOWN FOUND recovery remains intact. DELETE OLD SHOWDOWN & START OVER still revalidates recovery before and after confirmation, and RESTORE BACKUP remains available for a real local backup.
 
-Production Firestore Rules remain the exact published r23/r24 provider authority already read back successfully. r25 requires no Rules expansion, no Cloud Functions, no Cloud Run, no paid infrastructure, and no billing change. Firebase remains Spark-only with Billing permanently OFF and App Check enforcement OFF.
+Production Firestore Rules remain the exact published r23/r24 provider authority already read back successfully. r25 requires no Rules expansion, no Cloud Functions, no Cloud Run, no paid infrastructure, and no billing change. Firebase remains Spark-only with Billing permanently OFF and App Check enforcement remains OFF.
 
 Historical engineering provenance, including Remote Joining and Shared Journey internals, remains repository-only and is not exposed as a normal player mode.
 
