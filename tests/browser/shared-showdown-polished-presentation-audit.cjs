@@ -25,6 +25,12 @@ async function prepare(page,{managerRole,remoteRole,initialSetup,reducedMotion=t
     currentShowdown={name:"Daniel vs Nik",managers:{playerOne:"Daniel",playerTwo:"Nik"},totalRounds,currentRound:1,status:"Created",selectedLeague:null,clubs:{playerOne:null,playerTwo:null},score:{playerOne:0,playerTwo:0},transferChallenges:[],rounds:[],sharedJourney:{contractVersion:1,mode:"shared",setupPending:true}};
     let serverSetup=initialSetup;
     window.__getSharedServerSetup=()=>serverSetup;
+    window.__careerStartOpenCount=0;
+    window.__careerStartInstallCount=0;
+    window.CareerModeProductionSharedCareerStart={
+      install(){window.__careerStartInstallCount+=1;return true;},
+      async openPanel(){window.__careerStartOpenCount+=1;return true;}
+    };
     let current={status:"ready",open:false,busy:false,ready:true,revision:serverSetup?serverSetup.revision:0,phase:serverSetup?serverSetup.phase:null,rivalryId:"pair_5"+"a".repeat(63),sessionId:"session_"+"b".repeat(64),accountId:managerRole==="playerOne"?"account_one":"account_two",deviceId:managerRole==="playerOne"?"device_"+"1".repeat(32):"device_"+"2".repeat(32),managerRole,remoteRole,setup:serverSetup,message:"ready"};
     const listeners=new Set();
     const emit=()=>{current={...current,revision:serverSetup?serverSetup.revision:0,phase:serverSetup?serverSetup.phase:null,setup:serverSetup};for(const listener of listeners)listener(current);};
@@ -79,6 +85,19 @@ async function prepare(page,{managerRole,remoteRole,initialSetup,reducedMotion=t
     assert.equal(await host.locator("#sharedShowdownSeasonChoice [data-shared-season]:visible").count(),0,"The shared setup must never show a second season-choice button.");
     assert.match(await host.locator("#sharedShowdownSeasonChoice").innerText(),/5 SEASONS LOCKED/i);
 
+    await host.evaluate(async()=>{
+      const setup=window.__getSharedServerSetup();
+      window.__setSharedServerSetup({...setup,phase:"SHOWDOWN_CONFIRMED",revision:6,confirmedRoles:["playerOne","playerTwo"]});
+      await window.CareerModeProductionSharedShowdownPresentation.refresh();
+    });
+    const careerStartButton=host.locator("#continueClubAssignment");
+    await careerStartButton.waitFor({state:"visible",timeout:3000});
+    assert.equal(await careerStartButton.textContent(),"CONTINUE TO CAREER START","Confirmed setup must expose an obvious route into Career Start.");
+    assert.equal(await careerStartButton.isDisabled(),false,"Career Start route must be actionable after both confirmations.");
+    await careerStartButton.click();
+    const careerRoute=await host.evaluate(()=>({opened:window.__careerStartOpenCount,installed:window.__careerStartInstallCount}));
+    assert.deepEqual(careerRoute,{opened:1,installed:1},"Confirmed setup must hand off exactly once to the Career Start module.");
+
     const peerLateSetup=setupState({phase:"CLUB_ASSIGNMENTS_COMMITTED",revision:3,leagueId:"laliga",clubs:{playerOne:"Osasuna",playerTwo:"Espanyol"}});
     await prepare(peer,{managerRole:"playerTwo",remoteRole:"peer",initialSetup:peerLateSetup,reducedMotion:true});
     assert.equal(await peer.locator("#leagueWheelScreen").isVisible(),true,"Player 2 must see League Wheel even when provider authority has already advanced to clubs.");
@@ -105,7 +124,7 @@ async function prepare(page,{managerRole,remoteRole,initialSetup,reducedMotion=t
     assert.equal(await mismatch.locator("#sharedShowdownSeasonChoice [data-shared-season]:visible").count(),0,"Season mismatch recovery must not fall back to a second season picker.");
 
     assert.deepEqual(errors,[],"Polished two-role presentation emitted page errors.");
-    process.stdout.write("PASS Shared Showdown polished presentation: Player 1 normal-motion reveal survives provider polling, Daniel's original season choice auto-commits once after clubs, and Player 1/Player 2 each witness the real League Wheel and original two-pack club reveal with no second season-choice UI.\n");
+    process.stdout.write("PASS Shared Showdown polished presentation: Player 1 normal-motion reveal survives provider polling, Daniel's original season choice auto-commits once after clubs, confirmed setup routes directly to Career Start, and Player 1/Player 2 each witness the real League Wheel and original two-pack club reveal with no second season-choice UI.\n");
   }finally{
     await hostContext.close().catch(()=>{});await peerContext.close().catch(()=>{});await mismatchContext.close().catch(()=>{});await browser.close().catch(()=>{});
   }
