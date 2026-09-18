@@ -118,6 +118,13 @@ assert.ok(baseUrl.pathname.startsWith(expectedPathPrefix), "Production App Check
             return Boolean(state && state.attempted && state.status !== "initializing");
         }, null, { timeout: 20000 });
 
+        await page.waitForFunction(() => {
+            const api = window.CareerModeProductionFirebaseRuntime;
+            if(!api || typeof api.diagnostics !== "function") return false;
+            const state = api.diagnostics();
+            return Boolean(state && state.authInitialized === true && state.firestoreInitialized === true);
+        }, null, { timeout: 20000 });
+
         const proof = await page.evaluate(async () => {
             const api = window.CareerModeProductionFirebaseRuntime;
             const diagnostics = api.diagnostics();
@@ -200,31 +207,28 @@ assert.ok(baseUrl.pathname.startsWith(expectedPathPrefix), "Production App Check
 
         const authObserved = firebaseResourceNames.some(url => /firebase-auth\.js/i.test(url));
         const firestoreObserved = firebaseResourceNames.some(url => /firebase-firestore\.js/i.test(url));
-        assert.equal(authObserved, firestoreObserved, "Production account services must load Auth and Firestore as one bounded pair.");
-        const accountServicesObserved = authObserved && firestoreObserved;
-        assert.equal(Boolean(proof.diagnostics.authInitialized), accountServicesObserved, "Auth diagnostics must match observed production account-service loading.");
-        assert.equal(Boolean(proof.diagnostics.firestoreInitialized), accountServicesObserved, "Firestore diagnostics must match observed production account-service loading.");
+        assert.equal(authObserved, true, "Online-only production startup must load Firebase Auth for the player bootstrap.");
+        assert.equal(firestoreObserved, true, "Online-only production startup must load Firestore for the player bootstrap.");
+        assert.equal(Boolean(proof.diagnostics.authInitialized), true, "Production diagnostics must confirm initialized Auth account services.");
+        assert.equal(Boolean(proof.diagnostics.firestoreInitialized), true, "Production diagnostics must confirm initialized Firestore account services.");
         assert.equal(
             firebaseResourceNames.some(url => /firebase-(?:storage|functions)\.js/i.test(url)),
             false,
             "Production client must never load Storage or Functions SDKs."
         );
 
-        if(accountServicesObserved){
-            const appCheckResources = proof.firebaseResources.filter(entry => /firebase-app-check\.js/i.test(entry.name));
-            const accountResources = proof.firebaseResources.filter(entry => /firebase-(?:auth|firestore)\.js/i.test(entry.name));
-            const appCheckStart = Math.min(...appCheckResources.map(entry => entry.startTime));
-            const accountStart = Math.min(...accountResources.map(entry => entry.startTime));
-            assert.ok(
-                Number.isFinite(appCheckStart) && Number.isFinite(accountStart) && accountStart >= appCheckStart,
-                "Production account-service SDK loading must not precede the App Check module boundary."
-            );
-        }
+        const appCheckResources = proof.firebaseResources.filter(entry => /firebase-app-check\.js/i.test(entry.name));
+        const accountResources = proof.firebaseResources.filter(entry => /firebase-(?:auth|firestore)\.js/i.test(entry.name));
+        const appCheckComplete = Math.max(...appCheckResources.map(entry => entry.responseEnd));
+        const accountStart = Math.min(...accountResources.map(entry => entry.startTime));
+        assert.ok(
+            Number.isFinite(appCheckComplete) && appCheckComplete > 0 &&
+            Number.isFinite(accountStart) && accountStart >= appCheckComplete,
+            "Production account-service SDK loading must begin only after the App Check module has finished loading."
+        );
 
         assert.deepEqual(firstPartyFailures, [], "Production App Check proof detected failed first-party requests.");
-        const accountServiceSummary = accountServicesObserved
-            ? "the online player bootstrap also initialized the bounded Auth/Firestore account-service layer after App Check"
-            : "the account-service layer was not yet demanded";
+        const accountServiceSummary = "the online player bootstrap initialized the bounded Auth/Firestore account-service layer after App Check";
 
         if(degraded){
             process.stdout.write(
