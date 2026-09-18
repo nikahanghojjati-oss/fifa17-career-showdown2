@@ -34,18 +34,26 @@ const playerOneProfileId=`profile_${"d".repeat(24)}`;
       const pairEnvelope=()=>envelope("pairLink","current",{rivalryId,managerRole:"playerTwo",managerId:"nik",linkedAt:{},lastConfirmedAt:{}});
       const rivalryEnvelope=()=>envelope("rivalry",rivalryId,{connectionState:"active",managerSlots:[{slotId:"playerOne",accountId:"account_daniel_fixture",saveId,profileId:playerOneProfileId},{slotId:"playerTwo",accountId,saveId,profileId}]});
       const snapshot=value=>({exists:()=>value!==null,data:()=>value});
+      const deviceEnvelope=()=>envelope("device",deviceId,{deviceId,state:"active"});
       const firestoreSdk={
         doc:(_firestore,...parts)=>parts.join("/"),
         Timestamp:{fromMillis:ms=>({toMillis:()=>ms})},
         runTransaction:async(_firestore,fn)=>fn({
           get:async ref=>{
+            const key=String(ref);
+            if(key.endsWith(`devices/${deviceId}`))return snapshot(deviceEnvelope());
             if(window.__pairProviderMode==="active-recovery"){
-              if(String(ref).endsWith("pairLinks/current"))return snapshot(pairEnvelope());
-              if(String(ref)===`rivalries/${rivalryId}`)return snapshot(rivalryEnvelope());
+              if(key.endsWith("pairLinks/current"))return snapshot(pairEnvelope());
+              if(key===`rivalries/${rivalryId}`)return snapshot(rivalryEnvelope());
             }
             return snapshot(null);
           },
-          set:()=>{}
+          set:(ref,value)=>{
+            if(String(ref)===`rivalries/${rivalryId}`&&value?.data?.connectionState==="closed"){
+              window.__pairProviderMode="unpaired";
+              window.__providerAbandonCount=(window.__providerAbandonCount||0)+1;
+            }
+          }
         })
       };
       const preparedShowdown=()=>({
@@ -69,15 +77,24 @@ const playerOneProfileId=`profile_${"d".repeat(24)}`;
       };
       window.CareerModeProductionFirebaseRuntime={ensureAccountServices:async()=>({ok:true,auth:{currentUser:{uid:accountId}},firestore:{},firestoreSdk})};
       window.CareerModeSparkConnectedAccount={initialize:async()=>true,getState:()=>({connected:true,accountId})};
-      const binding={saveId,profileId,managerRole:"playerTwo"};
+      const bindings=[
+        {saveId,profileId:playerOneProfileId,managerRole:"playerOne"},
+        {saveId,profileId,managerRole:"playerTwo"}
+      ];
       window.CareerModeSparkPrivatePairing={
         initialize:async()=>true,
         getState:()=>({registered:true,deviceId}),
-        localBindingOptions:()=>[binding],
+        localBindingOptions:()=>bindings,
         getOrCreateDeviceIdentity:async()=>({deviceId}),
         pairingJoinErrorMessage:error=>error?.message||"The code could not be joined.",
-        createPairing:async()=>({ok:true,rivalryId,capability:rivalryId,durableWitness:{ok:true,rivalryId,managerRole:"playerTwo",managerId:"nik",managerLabel:"Nik",connectionState:"pending-pair",providerSaveId:saveId,providerProfileId:profileId,revision:0}}),
-        redeemPairing:async()=>({ok:true,rivalryId,durableWitness:{ok:true,rivalryId,managerRole:"playerTwo",managerId:"nik",managerLabel:"Nik",connectionState:"active",providerSaveId:saveId,providerProfileId:profileId,revision:0}})
+        createPairing:async({binding})=>{
+          const role=binding.managerRole,managerId=role==="playerOne"?"daniel":"nik",managerLabel=role==="playerOne"?"Daniel":"Nik";
+          return{ok:true,rivalryId,capability:rivalryId,durableWitness:{ok:true,rivalryId,managerRole:role,managerId,managerLabel,connectionState:"pending-pair",providerSaveId:binding.saveId,providerProfileId:binding.profileId,revision:0}};
+        },
+        redeemPairing:async({binding})=>{
+          const role=binding.managerRole,managerId=role==="playerOne"?"daniel":"nik",managerLabel=role==="playerOne"?"Daniel":"Nik";
+          return{ok:true,rivalryId,durableWitness:{ok:true,rivalryId,managerRole:role,managerId,managerLabel,connectionState:"active",providerSaveId:binding.saveId,providerProfileId:binding.profileId,revision:0}};
+        }
       };
       window.CareerModeSparkConnectedRivalry={
         initialize:async()=>true,
@@ -103,10 +120,16 @@ const playerOneProfileId=`profile_${"d".repeat(24)}`;
     const panel=page.locator("#persistentNikDanielPairPanel");
     await panel.waitFor({state:"visible",timeout:5000});
     assert.equal(await panel.evaluate(node=>Boolean(node.closest("#mainMenu"))),true,"Connection controls must land on the visible Home shell.");
-    await page.locator("#persistentNikDanielPairPanel button",{hasText:"CREATE CODE"}).waitFor({state:"visible"});
     await page.locator("#persistentNikDanielPairCode").waitFor({state:"visible"});
-    await page.locator("#persistentNikDanielPairPanel button",{hasText:"JOIN"}).waitFor({state:"visible"});
+    await page.locator("#persistentNikDanielPairPanel button",{hasText:"JOIN DANIEL'S SHOWDOWN"}).waitFor({state:"visible"});
+    assert.equal(await page.locator("#persistentNikDanielPairPanel button",{hasText:"CREATE CODE FOR NIK"}).count(),0,"Nik must not be shown Daniel's host action.");
+    assert.match(await panel.innerText(),/NIK ENTERS THE CODE DANIEL SENDS/,"Nik's surface must explain the one action required on the second device.");
     assert.doesNotMatch((await panel.innerText()),/Save Library|Private Remote Joining|Shared Journey/i,"The player connection panel must not expose retired architecture concepts.");
+
+    await page.evaluate(async()=>{window.__routeManagerId="daniel";window.__pairProviderMode="unpaired";await window.CareerModePersistentNikDanielPair.initialize({force:true});});
+    await page.locator("#persistentNikDanielPairPanel button",{hasText:"CREATE CODE FOR NIK"}).waitFor({state:"visible"});
+    assert.equal(await page.locator("#persistentNikDanielPairCode").count(),0,"Daniel must not be shown Nik's join-code input.");
+    assert.match(await panel.innerText(),/DANIEL STARTS THE SHOWDOWN AND SENDS THIS CODE TO NIK/,"Daniel's surface must make the host action explicit.");
 
     // CONNECT PLAYERS must share the identity sidecar's one bounded retry and stale-role reconciliation instead of callback-free pair initialization.
     await page.evaluate(async()=>{
@@ -125,18 +148,18 @@ const playerOneProfileId=`profile_${"d".repeat(24)}`;
     assert.deepEqual(connectReconciliation,{managerId:"nik",syncCalls:2,status:"paired",role:"playerTwo"},"CONNECT PLAYERS must retry one transient sidecar failure, reconcile stale Daniel to provider-authoritative Nik, and reach paired state.");
     await page.locator("#persistentNikDanielPairPanel button",{hasText:"CONTINUE CAREER"}).waitFor({state:"visible",timeout:5000});
     assert.equal(await page.locator("#persistentNikDanielPairPanel",{hasText:"CAREER RECOVERY NEEDED"}).count(),0,"Successful stale-role reconciliation must not dead-end into recovery or unavailable controls.");
-    await page.evaluate(async()=>{window.__pairProviderMode="unpaired";window.__routeManagerId="nik";window.__identitySyncTransientFailures=0;await window.CareerModePersistentNikDanielPair.initialize({force:true});});
+    await page.evaluate(async()=>{window.__pairProviderMode="unpaired";window.__routeManagerId="daniel";window.__identitySyncTransientFailures=0;await window.CareerModePersistentNikDanielPair.initialize({force:true});});
 
-    // CREATE CODE must transition the real panel into a complete waiting state with all recovery controls.
-    await page.locator("#persistentNikDanielPairPanel button",{hasText:"CREATE CODE"}).click();
+    // Daniel CREATE CODE must transition the real panel into a complete waiting state with all recovery controls.
+    await page.locator("#persistentNikDanielPairPanel button",{hasText:"CREATE CODE FOR NIK"}).click();
     await page.locator("#persistentNikDanielPairPanel",{hasText:"WAITING FOR THE OTHER PLAYER"}).waitFor({state:"visible",timeout:5000});
     assert.match(await panel.innerText(),new RegExp(rivalryId));
     for(const label of ["COPY CODE","CHECK STATUS","NEW CODE"])await page.locator("#persistentNikDanielPairPanel button",{hasText:label}).waitFor({state:"visible"});
 
-    // Reinitialize provider-unpaired state and prove JOIN -> CAREER READY -> CONTINUE CAREER routing.
-    await page.evaluate(async()=>{window.__pairProviderMode="unpaired";await window.CareerModePersistentNikDanielPair.initialize({force:true});});
+    // Reinitialize Nik's provider-unpaired state and prove JOIN -> CAREER READY -> CONTINUE CAREER routing.
+    await page.evaluate(async()=>{window.__pairProviderMode="unpaired";window.__routeManagerId="nik";await window.CareerModePersistentNikDanielPair.initialize({force:true});});
     await page.locator("#persistentNikDanielPairCode").fill(rivalryId);
-    await page.locator("#persistentNikDanielPairPanel button",{hasText:"JOIN"}).click();
+    await page.locator("#persistentNikDanielPairPanel button",{hasText:"JOIN DANIEL'S SHOWDOWN"}).click();
     await page.locator("#persistentNikDanielPairPanel",{hasText:"CAREER READY"}).waitFor({state:"visible",timeout:5000});
     const continueButton=page.locator("#persistentNikDanielPairPanel button",{hasText:"CONTINUE CAREER"});
     await continueButton.waitFor({state:"visible"});
@@ -214,27 +237,33 @@ const playerOneProfileId=`profile_${"d".repeat(24)}`;
     await page.locator("#persistentNikDanielPairPanel",{hasText:"CAREER READY"}).waitFor({state:"visible",timeout:5000});
     assert.equal(await page.locator("#persistentNikDanielPairPanel",{hasText:"CAREER RECOVERY NEEDED"}).count(),0,"Storage invalidation alone must not replace a still-valid ACTIVE pair with recovery UI.");
 
-    // Fresh-browser active-pair recovery must expose and route a real OPEN RECOVERY control.
-    await page.evaluate(async()=>{window.__pairProviderMode="active-recovery";window.__localRecoveryReady=false;await window.CareerModePersistentNikDanielPair.initialize({force:true});});
-    await page.locator("#persistentNikDanielPairPanel",{hasText:"CAREER RECOVERY NEEDED"}).waitFor({state:"visible",timeout:5000});
-    const recovery=page.locator("#persistentNikDanielPairPanel button",{hasText:"OPEN BACKUP RESTORE"});
+    // Fresh-browser active-pair recovery must expose a real backup path and one-click remote deletion escape.
+    await page.evaluate(async()=>{window.__pairProviderMode="active-recovery";window.__localRecoveryReady=false;window.__providerAbandonCount=0;await window.CareerModePersistentNikDanielPair.initialize({force:true});});
+    await page.locator("#persistentNikDanielPairPanel",{hasText:"OLD SHOWDOWN FOUND"}).waitFor({state:"visible",timeout:5000});
+    const recovery=page.locator("#persistentNikDanielPairPanel button",{hasText:"RESTORE BACKUP"});
     await recovery.waitFor({state:"visible"});
-    const startOver=page.locator("#persistentNikDanielPairPanel button",{hasText:"START OVER"});
+    const startOver=page.locator("#persistentNikDanielPairPanel button",{hasText:"DELETE OLD SHOWDOWN & START OVER"});
     await startOver.waitFor({state:"visible"});
+    assert.match(await panel.innerText(),/old online Showdown is still connected, but this browser no longer has its local career data/i,"Fresh-browser recovery must explain the real local/server split.");
     await recovery.click();
     await page.waitForFunction(()=>window.__recoveryOpened===1,null,{timeout:3000});
     await page.locator("#careerModeRestorePanel input[type=file]").waitFor({state:"attached",timeout:3000});
     assert.equal(await page.locator("#careerModeRestorePanel input[type=file]").evaluate(input=>document.activeElement===input),true,"Recovery routing must focus the verified restore input.");
-    await page.evaluate(async()=>{window.__pairProviderMode="active-recovery";window.__localRecoveryReady=false;await window.CareerModePersistentNikDanielPair.initialize({force:true});window.CareerModePersistentNikDanielPair.render();});
-    const startOverAgain=page.locator("#persistentNikDanielPairPanel button",{hasText:"START OVER"});
+    await page.evaluate(async()=>{window.showScreen("mainMenu",false);window.__pairProviderMode="active-recovery";window.__localRecoveryReady=false;await window.CareerModePersistentNikDanielPair.initialize({force:true});window.CareerModePersistentNikDanielPair.render();});
+    const startOverAgain=page.locator("#persistentNikDanielPairPanel button",{hasText:"DELETE OLD SHOWDOWN & START OVER"});
     await startOverAgain.waitFor({state:"visible"});
+    page.once("dialog",dialog=>void dialog.accept());
     await startOverAgain.click();
-    await page.locator("#createShowdown").waitFor({state:"visible",timeout:3000});
-    assert.match(await page.locator("#startShowdown").innerText(),/START A SHOWDOWN/,"Recovery START OVER must route to explicit season selection instead of the Legacy dead end.");
+    await page.locator("#createShowdown").waitFor({state:"visible",timeout:5000});
+    const resetProof=await page.evaluate(()=>({providerMode:window.__pairProviderMode,abandonCount:window.__providerAbandonCount,pairStatus:window.CareerModePersistentNikDanielPair.getState().status}));
+    assert.equal(resetProof.providerMode,"unpaired","Start Over must close the stale remote Showdown before routing to new season selection.");
+    assert.equal(resetProof.abandonCount,1,"Start Over must perform exactly one provider abandonment.");
+    assert.equal(resetProof.pairStatus,"unpaired","The closed old Showdown must immediately become fresh-start eligible.");
+    assert.match(await page.locator("#startShowdown").innerText(),/START A SHOWDOWN/,"Start Over must land on explicit season selection instead of the Legacy dead end.");
 
     assert.deepEqual(pageErrors,[],"User-facing routing audit emitted page errors.");
     assert.deepEqual(consoleErrors,[],"User-facing routing audit emitted unexpected console errors.");
-    process.stdout.write("PASS real user-facing routing: CONNECT PLAYERS reaches the real persistent-pair panel, retries transient pair reads with stale-role reconciliation, and CREATE CODE, JOIN, CONTINUE CAREER, OPEN BACKUP RESTORE and START OVER remain actionable on their intended surfaces.\n");
+    process.stdout.write("PASS real user-facing routing: CONNECT PLAYERS reaches the real persistent-pair panel, retries transient pair reads with stale-role reconciliation, and Daniel CREATE CODE, Nik JOIN, CONTINUE CAREER, RESTORE BACKUP and DELETE OLD SHOWDOWN & START OVER remain actionable on their intended surfaces.\n");
   }finally{
     await context.close().catch(()=>{});
     await browser.close().catch(()=>{});
