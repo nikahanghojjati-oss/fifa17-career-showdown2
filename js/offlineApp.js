@@ -101,7 +101,7 @@ function getOfflineAppSettingsState(){
         installActionLabel,
         installActionDisabled,
         updateActionLabel:waitingUpdate?"APPLY READY UPDATE":"UPDATE TO LATEST VERSION",
-        updateActionDisabled:!supported||offline,
+        updateActionDisabled:!supported||(offline&&!waitingUpdate),
         installGuidance:getInstallGuidance(),
         cacheStatus:lastCacheStatus
     };
@@ -280,20 +280,40 @@ async function requestOfflineAppInstall(){
 
 function waitForUpdateInstallation(registration,timeoutMs=30000){
     const worker=registration?.installing;
-    if(!worker||worker.state==="installed"||worker.state==="activated"||worker.state==="redundant"){
-        return Promise.resolve(worker||registration?.waiting||null);
+    const failed=()=>new Error("The downloaded update could not be installed completely. Try Update to Latest Version again.");
+    if(!worker){
+        return Promise.resolve(registration?.waiting||null);
     }
-    return new Promise(resolve=>{
+    if(worker.state==="redundant"){
+        return Promise.reject(failed());
+    }
+    if(worker.state==="installed"||worker.state==="activated"){
+        return Promise.resolve(worker);
+    }
+    return new Promise((resolve,reject)=>{
         let settled=false;
+        const cleanup=()=>{
+            clearTimeout(timeout);
+            worker.removeEventListener("statechange",onStateChange);
+        };
         const finish=value=>{
             if(settled)return;
             settled=true;
-            clearTimeout(timeout);
-            worker.removeEventListener("statechange",onStateChange);
+            cleanup();
             resolve(value);
         };
+        const fail=error=>{
+            if(settled)return;
+            settled=true;
+            cleanup();
+            reject(error);
+        };
         const onStateChange=()=>{
-            if(worker.state==="installed"||worker.state==="activated"||worker.state==="redundant"){
+            if(worker.state==="redundant"){
+                fail(failed());
+                return;
+            }
+            if(worker.state==="installed"||worker.state==="activated"){
                 finish(worker);
             }
         };
