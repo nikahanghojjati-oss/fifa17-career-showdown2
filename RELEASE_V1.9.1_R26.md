@@ -16,8 +16,10 @@ When an update is already downloaded and waiting, the same control changes to `A
 
 This closes the r24/r25 UX dead end where the update button disappeared unless the browser had already surfaced a waiting service worker. The control does not clear local storage, does not delete a Showdown, does not alter player identity, and does not bypass the verified-shell cache checks.
 
-The existing recovery model remains intact. r25 is retained as the previous runtime for rollback. Firebase remains Spark-only, Billing remains permanently OFF, and this release requires no Cloud Functions, Cloud Run, or Rules expansion.
+The existing recovery model remains intact. r25 is retained as the previous runtime for rollback. Firebase remains Spark-only, Billing remains permanently OFF, App Check enforcement remains OFF, and this release requires no Cloud Functions, Cloud Run, or Rules expansion.
+
+Historical Remote Joining engineering provenance remains repository-only; this updater repair does not reintroduce provider architecture language into the normal player-facing shell.
 
 The r25 unified Daniel/Nik first-play flow is unchanged by this hotfix.
 
-SSJR physical-journey credit is unchanged by this release; source, CI, deployment and updater UX do not substitute for the required two-device physical journey.
+SSJR-1.1 remains exactly `0/100`. Source, CI, deployment and updater UX do not substitute for the required two-device physical journey.
