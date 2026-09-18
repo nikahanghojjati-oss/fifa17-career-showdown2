@@ -12,7 +12,7 @@ Runtime r27 completes the single-season-choice first-play flow.
 
 Daniel chooses the Showdown season length exactly once when he starts the Showdown. That value remains bound to the Showdown shell and to the season-bearing Nik join capability. After the shared league and club draw, the production presentation automatically commits the same existing 1 / 3 / 5 / 10 season value through the already-reviewed authoritative `commit-length` transition.
 
-Neither Daniel nor Nik receives a second season-selection decision after the club reveal. The final setup panel only reports the already-selected season plan. Both devices fail closed instead of confirming if their local season plan ever disagrees with provider authority.
+Neither Daniel nor Nik receives a second season-selection decision after the club reveal. Before automatic commitment, the runtime derives the season encoded in the paired `rivalryId` capability and requires an exact match with the local Showdown's `totalRounds`. The final setup panel only reports the already-selected season plan. Both devices fail closed instead of confirming if their local season plan ever disagrees with paired/provider authority.
 
 The r25/r26 unified player journey remains intact:
 1. Daniel starts one Showdown and chooses the season length.
