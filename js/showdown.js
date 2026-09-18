@@ -4,6 +4,40 @@ let showdownCreationPromise=null;
 async function ensureOnlinePlayerIdentitySurface(){if(typeof loadRuntimeScript!=="function")throw new Error("Online runtime loader unavailable.");await loadRuntimeScript("online-player-identity","js/onlinePlayerIdentity.js",()=>Boolean(window.CareerModeOnlinePlayerIdentity));const identity=window.CareerModeOnlinePlayerIdentity,current=identity.getState?.();return current?.initialized?current:identity.initialize();}
 function initializeSaveLibraryCutoverGate(){if(typeof document==="undefined"||!document.addEventListener||window.__cmsSaveLibraryCutoverGate)return;window.__cmsSaveLibraryCutoverGate=true;document.addEventListener("click",async e=>{const b=e.target instanceof Element?e.target.closest("#legacyButton,#settingsButton"):null;if(!b||b.disabled)return;e.preventDefault();e.stopImmediatePropagation();const identityPreparation=b.id==="settingsButton"?ensureOnlinePlayerIdentitySurface().catch(error=>{window.reportApplicationError?.("Online identity failed",error);return null;}):null;try{if(typeof loadRuntimeScript!=="function")throw new Error("Runtime loader unavailable.");await loadRuntimeScript("save-library-cutover","js/saveLibraryCutover.js",()=>typeof window.handleSaveLibraryCutoverAction==="function");await window.handleSaveLibraryCutoverAction(b);if(identityPreparation)await identityPreparation;}catch(error){window.reportApplicationError?.("Unable to prepare storage",error);}},true);}
 function initializeOnlinePlayerEntry(){if(typeof document==="undefined"||window.__cmsOnlinePlayerEntryBootstrap)return;window.__cmsOnlinePlayerEntryBootstrap=true;const start=async()=>{try{await ensureOnlinePlayerIdentitySurface();}catch(error){window.reportApplicationError?.("Online identity failed",error);}};document.readyState==="loading"?document.addEventListener("DOMContentLoaded",()=>void start(),{once:true}):setTimeout(()=>void start(),0);}
+function buildSharedJoinShowdownCandidate(totalRounds){
+    const total=Number(totalRounds);
+    if(!ALLOWED_SHOWDOWN_ROUNDS.includes(total))throw new Error("Daniel's connection code has an invalid season length.");
+    const now=new Date().toISOString();
+    return {schemaVersion:CURRENT_SHOWDOWN_SCHEMA_VERSION,id:Date.now(),name:"Daniel vs Nik",managers:{playerOne:"Daniel",playerTwo:"Nik"},totalRounds:total,currentRound:1,status:"Created",selectedLeague:null,clubs:{playerOne:null,playerTwo:null},score:{playerOne:0,playerTwo:0},transferChallenges:[],rounds:[],integrityWarnings:[],sharedJourney:{contractVersion:1,mode:"shared",setupPending:true},createdAt:now,updatedAt:now,completedAt:null,archivedAt:null};
+}
+async function prepareSharedJoinShowdown(totalRounds){
+    const identity=window.CareerModeOnlinePlayerIdentity?.getState?.();
+    if(!identity||identity.status!=="ready"||identity.managerId!=="nik")throw new Error("Nik must be selected before joining Daniel's Showdown.");
+    const runtime=window.CareerModeSaveLibraryRuntime;
+    if(!runtime||typeof runtime.createShowdown!=="function"||!runtime.isReady())throw new Error("Storage is not ready for Nik to join.");
+    const priorActiveId=runtime.getLibrarySnapshot?.()?.activeSaveId||null;
+    let created=null;
+    try{
+        created=normalizeShowdown(await runtime.createShowdown(buildSharedJoinShowdownCandidate(totalRounds)));
+        currentShowdown=created;
+        if(typeof saveCurrentShowdown!=="function"||saveCurrentShowdown()!==true)throw new Error("Nik's local career could not be prepared.");
+        window.resetTransientSelectionOperations?.();
+        window.refreshMainMenuExperience?.();
+        return currentShowdown;
+    }catch(error){
+        const createdSaveId=created?.identity?.saveId;
+        if(createdSaveId&&typeof runtime.deleteSave==="function"){
+            try{runtime.deleteSave(createdSaveId);}catch(_rollbackError){}
+        }
+        if(priorActiveId&&typeof runtime.switchActiveSave==="function"){
+            try{await runtime.switchActiveSave(priorActiveId);}catch(_restoreError){}
+        }else if(!priorActiveId){
+            currentShowdown=null;
+        }
+        throw error;
+    }
+}
+window.prepareSharedJoinShowdown=prepareSharedJoinShowdown;
 async function createShowdown(){if(showdownCreationPromise)return showdownCreationPromise;showdownCreationPromise=(async()=>{const rounds=document.getElementById("roundAmount"),identity=window.CareerModeOnlinePlayerIdentity?.getState?.();if(!rounds){window.reportApplicationError?.("Showdown setup failed",new Error("Season length unavailable."));return false;}if(typeof navigator!=="undefined"&&navigator.onLine===false){window.showAppNotice?.("Reconnect to start.","error",10000);return false;}if(!identity||identity.status!=="ready"||!identity.managerId){window.showAppNotice?.("Choose Daniel or Nik first.","error",10000);return false;}const requested=Number(rounds.value),total=ALLOWED_SHOWDOWN_ROUNDS.includes(requested)?requested:1,now=new Date().toISOString(),candidate={schemaVersion:CURRENT_SHOWDOWN_SCHEMA_VERSION,id:Date.now(),name:"Daniel vs Nik",managers:{playerOne:"Daniel",playerTwo:"Nik"},totalRounds:total,currentRound:1,status:"Created",selectedLeague:null,clubs:{playerOne:null,playerTwo:null},score:{playerOne:0,playerTwo:0},transferChallenges:[],rounds:[],integrityWarnings:[],createdAt:now,updatedAt:now,completedAt:null,archivedAt:null},runtime=window.CareerModeSaveLibraryRuntime;if(!runtime||typeof runtime.createShowdown!=="function"||!runtime.isReady()){window.showAppNotice?.("Storage is not ready.","error",10000);return false;}try{currentShowdown=normalizeShowdown(await runtime.createShowdown(candidate));if(!saveCurrentShowdown())return false;}catch(error){window.reportApplicationError?.("Showdown setup failed",error);return false;}window.resetTransientSelectionOperations?.();window.refreshMainMenuExperience&&window.refreshMainMenuExperience();return showScreen("leagueWheelScreen");})();try{return await showdownCreationPromise;}finally{showdownCreationPromise=null;}}
 function isLeagueDatabaseReady(){return typeof leagues!=="undefined"&&Array.isArray(leagues);}
 function getCanonicalLeague(league){if(!league||!league.id)return null;if(!isLeagueDatabaseReady())return league;return leagues.find(item=>item.id===league.id)||null;}
