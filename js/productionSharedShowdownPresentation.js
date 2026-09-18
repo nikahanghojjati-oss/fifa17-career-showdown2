@@ -128,7 +128,7 @@
     }
     panel.classList.add("hidden");
   }
-  function ssjpRenderConfirmButton(setup){const button=root.document.getElementById("continueClubAssignment");if(!button)return;if(!clubRevealComplete){ssjpSetControl(button,{label:"WATCH BOTH PACK REVEALS",disabled:true,hidden:true});return;}if(setup.phase==="SEASON_LENGTH_COMMITTED"){if(!ssjpSeasonMatchesPrepared(setup)){ssjpSetControl(button,{label:"SEASON PLAN MISMATCH · RECOVERY REQUIRED",disabled:true,hidden:false});return;}const confirmed=setup.confirmedRoles.includes(state.managerRole);ssjpSetControl(button,{label:confirmed?"CONFIRMED · WAITING FOR RIVAL":"CONFIRM SHARED SHOWDOWN",disabled:confirmed||busy,hidden:false});return;}if(setup.phase==="SHOWDOWN_CONFIRMED"){ssjpSetControl(button,{label:ssjpSeasonMatchesPrepared(setup)?"SHARED SHOWDOWN READY ✓":"SEASON PLAN MISMATCH · RECOVERY REQUIRED",disabled:true,hidden:false});return;}ssjpSetControl(button,{label:"CONFIRM SHARED SHOWDOWN",disabled:true,hidden:true});}
+  function ssjpRenderConfirmButton(setup){const button=root.document.getElementById("continueClubAssignment");if(!button)return;if(!clubRevealComplete){ssjpSetControl(button,{label:"WATCH BOTH PACK REVEALS",disabled:true,hidden:true});return;}if(setup.phase==="SEASON_LENGTH_COMMITTED"){if(!ssjpSeasonMatchesPrepared(setup)){ssjpSetControl(button,{label:"SEASON PLAN MISMATCH · RECOVERY REQUIRED",disabled:true,hidden:false});return;}const confirmed=setup.confirmedRoles.includes(state.managerRole);ssjpSetControl(button,{label:confirmed?"CONFIRMED · WAITING FOR RIVAL":"CONFIRM SHARED SHOWDOWN",disabled:confirmed||busy,hidden:false});return;}if(setup.phase==="SHOWDOWN_CONFIRMED"){const matches=ssjpSeasonMatchesPrepared(setup);ssjpSetControl(button,{label:matches?"CONTINUE TO CAREER START":"SEASON PLAN MISMATCH · RECOVERY REQUIRED",disabled:!matches||busy,hidden:false});return;}ssjpSetControl(button,{label:"CONFIRM SHARED SHOWDOWN",disabled:true,hidden:true});}
   function ssjpRenderClub(){
     if(!root.document||!ssjpPending())return false;ssjpRemoveForeignStatus();const setup=state&&state.setup;if(!setup||!ssjpPhaseAtLeast("LEAGUE_WHEEL_COMMITTED"))return false;if(witnessedLeagueId!==setup.leagueId){ssjpForceScreen("leagueWheelScreen");return ssjpRenderLeague();}
     const screen=root.document.getElementById("clubWheelScreen"),league=ssjpLeagueRecord(setup.leagueId),m=ssjpManagers();if(!screen)return false;screen.dataset.sharedPresentationRole=state&&state.managerRole||"unresolved";ssjpText(root.document.getElementById("clubAssignmentLeague"),league&&league.name||setup.leagueId);ssjpText(root.document.getElementById("clubPlayerOne"),m.playerOne||"PLAYER ONE");ssjpText(root.document.getElementById("clubPlayerTwo"),m.playerTwo||"PLAYER TWO");const open=root.document.getElementById("openClubPack"),back=root.document.getElementById("clubAssignmentBack");if(back){back.disabled=true;back.classList.add("hidden");}
@@ -150,6 +150,21 @@
     return preparedSeasonCommitPromise;
   }
   async function ssjpChooseSeason(seasons){if(Number(seasons)!==ssjpPreparedSeasonLength())return false;return ssjpCommitPreparedSeasonLength();}
+  async function ssjpOpenCareerStart(){
+    if(!active||!ssjpPending()||busy||!state?.setup||state.setup.phase!=="SHOWDOWN_CONFIRMED"||!ssjpSeasonMatchesPrepared(state.setup))return false;
+    busy=true;
+    try{
+      await ssjpLoadScript("ssjr-production-career-start","js/productionSharedCareerStart.js",()=>root.CareerModeProductionSharedCareerStart);
+      const career=root.CareerModeProductionSharedCareerStart;
+      if(!career||typeof career.openPanel!=="function")throw new Error("Career Start is unavailable.");
+      if(typeof career.install==="function")career.install();
+      await career.openPanel();
+      return true;
+    }finally{
+      busy=false;
+      await ssjpRenderCurrent();
+    }
+  }
   function ssjpHandlesControl(id){return active&&ssjpPending()&&HANDLED.has(id);}
   async function ssjpHandleControlClick(id){
     if(!ssjpHandlesControl(id))return false;await ssjpEnsureSetup();
@@ -160,7 +175,7 @@
       if(state.setup&&ssjpPhaseAtLeast("LEAGUE_WHEEL_COMMITTED")){if(witnessedLeagueId!==state.setup.leagueId){await ssjpRenderLeague();return true;}ssjpForceScreen("clubWheelScreen");await ssjpRenderClub();return true;}return true;
     }
     if(id==="openClubPack"){if(state.setup&&state.setup.phase==="LEAGUE_WHEEL_COMMITTED"){if(ssjpCoordinator())await ssjpMutate("commit-clubs");else await ssjpRefresh();return true;}await ssjpRefresh();return true;}
-    if(id==="continueClubAssignment"){if(!clubRevealComplete)return true;if(state.setup&&state.setup.phase==="SEASON_LENGTH_COMMITTED"&&!state.setup.confirmedRoles.includes(state.managerRole)){await ssjpMutate("confirm");return true;}await ssjpRefresh();return true;}
+    if(id==="continueClubAssignment"){if(!clubRevealComplete)return true;if(state.setup&&state.setup.phase==="SEASON_LENGTH_COMMITTED"&&!state.setup.confirmedRoles.includes(state.managerRole)){await ssjpMutate("confirm");return true;}if(state.setup&&state.setup.phase==="SHOWDOWN_CONFIRMED"){await ssjpOpenCareerStart();return true;}await ssjpRefresh();return true;}
     return false;
   }
   async function ssjpActivate(){active=true;await ssjpEnsureGameplay();await ssjpEnsureSetup();await ssjpRefresh();const plain=root.document&&root.document.getElementById("productionSharedSetupOverlay");if(plain)plain.classList.add("hidden");ssjpForceScreen("leagueWheelScreen");await ssjpRenderLeague();ssjpStartPolling();return true;}
