@@ -19,7 +19,7 @@ Runtime r25 collapses the first-play journey to one player-facing flow:
 
 Daniel remains Player One and Nik remains Player Two. The Home primary action is now role-specific: Daniel sees START A SHOWDOWN; Nik sees JOIN DANIEL'S SHOWDOWN.
 
-The player code wraps the existing one-use provider rivalry capability with Daniel's selected 1/3/5/10 season count. The underlying provider rivalry id and Firestore authority are unchanged. Nik's automatic local shell is an implementation detail and does not create a second online Showdown.
+Daniel creates a season-bound one-use provider capability: the capability itself deterministically identifies the selected 1/3/5/10 season plan while retaining secure random entropy. The player-facing code only wraps that exact provider rivalry id, so the season plan survives Daniel reloads and cannot be edited independently from the Firebase capability. Nik's automatic local shell is an implementation detail and does not create a second online Showdown.
 
 The r24 OLD SHOWDOWN FOUND recovery remains intact. DELETE OLD SHOWDOWN & START OVER still revalidates recovery before and after confirmation, and RESTORE BACKUP remains available for a real local backup.
 
