@@ -41,7 +41,6 @@ assert.match(pairSource,/pairLinkPersistentAcrossRegisteredBrowsers:true/);
 assert.match(pairSource,/gameplayCacheHydrationAcrossFreshBrowsers:false/);
 assert.match(pairSource,/freshBrowserGameplayRequiresVerifiedLocalRecovery:true/);
 assert.match(pairSource,/state\.connectionState==="pending-pair"&&state\.capability/);
-assert.match(initializeFunction,/capability:link\.connectionState==="pending-pair"\?[\s\S]*pairBuildPlayerJoinCode\(link\.rivalryId\)/,'A pending Daniel browser must reconstruct the same season-bearing player code directly from durable rivalry authority after reload, without requiring Save Library activation.');
 assert.match(pairSource,/pairCopyText\(state\.capability\)/);
 assert.match(pairSource,/state\.connectionState==="pending-pair"&&state\.capability[\s\S]*"NEW CODE"[\s\S]*pairStartPairing\(\{managerRole:state\.managerRole\}\)/,'A pending creator must always have a provider-guarded replacement action so an expired invite cannot strand the account.');
 assert.match(pairSource,/"CONTINUE CAREER"/);
@@ -54,6 +53,7 @@ assert.match(pairSource,/providerProfileId:providerBinding\.profileId/);
 assert.match(pairSource,/pairExactLocalBindingForProviderSlot/);
 assert.match(pairSource,/async function pairEnsureSaveLibraryAuthority\(\)[\s\S]*loadRuntimeScript\("save-library-cutover","js\/saveLibraryCutover\.js"[\s\S]*ensureSaveLibraryRuntimeAuthority/,'A remembered active pair must lazily activate established Save Library authority before deciding Continue versus Recovery.');
 const initializeFunction=pairSource.slice(pairSource.indexOf('async function pairInitialize'),pairSource.indexOf('function pairSelectedRole'));
+assert.match(initializeFunction,/capability:link\.connectionState==="pending-pair"\?[\s\S]*pairBuildPlayerJoinCode\(link\.rivalryId\)/,'A pending Daniel browser must reconstruct the same season-bearing player code directly from durable rivalry authority after reload, without requiring Save Library activation.');
 assert.match(initializeFunction,/if\(active\)await pairEnsureSaveLibraryAuthority\(\);[\s\S]*pairHasExactLocalRecoveryCopy/,'Active-pair reload classification must activate local authority before checking the provider-linked Save/Profile copy.');
 assert.match(initializeFunction,/localManagerId!==link\.managerId&&typeof options\.reconcileIdentity==="function"[\s\S]*await options\.reconcileIdentity\(link\.managerId,link\.managerRole\)[\s\S]*localManagerId=pairCurrentIdentityManagerId\(\)[\s\S]*if\(localManagerId&&localManagerId!==link\.managerId\)/,'Validated durable pair identity must get one bounded chance to reconcile stale browser role state before the existing mismatch guard rejects it.');
 
