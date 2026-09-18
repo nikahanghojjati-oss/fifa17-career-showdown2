@@ -145,21 +145,41 @@ async function pairOpenRecoverySurface(){try{
 }}
 async function pairStartOverFromRecovery(){
   if(state.busy)return false;
-  const rivalryId=state.rivalryId;
-  const confirmed=root.confirm?.("Delete the old Showdown and start over? This closes the old online Showdown for both players. Your player identity, registered device, Legacy history and app settings are kept.");
-  if(confirmed===false)return false;
   try{
-    if(rivalryId&&["active","pending-pair"].includes(state.connectionState)){
-      const closed=await pairAbandonCurrentShowdown({expectedRivalryId:rivalryId});
-      if(!closed||closed.ok!==true)throw pairErrorWithCode("PERSISTENT_PAIR_ABANDON_FAILED","The old Showdown could not be closed safely.");
+    const refreshed=await pairInitialize({force:true});
+    if(refreshed?.connectionState==="active"&&refreshed.status==="paired"){
+      pairSetState({status:"paired",busy:false,message:"Your restored career is available on this browser. Continue Career instead of deleting it."});
+      return false;
     }
+    if(refreshed?.status==="unpaired"||refreshed?.connectionState==="closed"){
+      const opened=typeof root.navigateTo==="function"
+        ? await root.navigateTo("createShowdown",{addToHistory:false,allowCanonicalFallback:true})
+        : (typeof root.showScreen==="function"?root.showScreen("createShowdown",false):false);
+      return opened!==false;
+    }
+    if(!refreshed||refreshed.status!=="recovery-required"||refreshed.connectionState!=="active"||!refreshed.rivalryId){
+      throw pairErrorWithCode("PERSISTENT_PAIR_RECOVERY_STATE_CHANGED","The old Showdown state changed. Nothing was deleted. Review the current screen and try again.");
+    }
+    const rivalryId=refreshed.rivalryId;
+    const confirmed=root.confirm?.("Delete the old Showdown and start over? This closes the old online Showdown for both players. Your player identity, registered device, Legacy history and app settings are kept.");
+    if(confirmed===false)return false;
+    const rechecked=await pairInitialize({force:true});
+    if(rechecked?.connectionState==="active"&&rechecked.status==="paired"){
+      pairSetState({status:"paired",busy:false,message:"Your restored career is available on this browser. Continue Career instead of deleting it."});
+      return false;
+    }
+    if(!rechecked||rechecked.status!=="recovery-required"||rechecked.connectionState!=="active"||rechecked.rivalryId!==rivalryId){
+      throw pairErrorWithCode("PERSISTENT_PAIR_RECOVERY_STATE_CHANGED","The old Showdown changed after confirmation. Nothing was deleted. Review the current screen and try again.");
+    }
+    const closed=await pairAbandonCurrentShowdown({expectedRivalryId:rivalryId});
+    if(!closed||closed.ok!==true)throw pairErrorWithCode("PERSISTENT_PAIR_ABANDON_FAILED","The old Showdown could not be closed safely.");
     const opened=typeof root.navigateTo==="function"
       ? await root.navigateTo("createShowdown",{addToHistory:false,allowCanonicalFallback:true})
       : (typeof root.showScreen==="function"?root.showScreen("createShowdown",false):false);
     if(opened===false)throw pairErrorWithCode("PERSISTENT_PAIR_START_OVER_ROUTE_FAILED","The new Showdown screen could not be opened.");
     return true;
   }catch(error){
-    pairSetState({status:"recovery-required",busy:false,message:`Start over could not finish. ${error?.message||"The old Showdown was not changed."}`});
+    pairSetState({status:state.status==="paired"?"paired":"recovery-required",busy:false,message:`Start over could not finish. ${error?.message||"The old Showdown was not changed."}`});
     return false;
   }
 }
