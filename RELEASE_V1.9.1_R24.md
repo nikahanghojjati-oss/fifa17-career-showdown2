@@ -18,8 +18,8 @@ The normal unpaired connection UI is role-specific. Daniel, Player One, sees CRE
 
 Recovery copy now explains the actual local/server split instead of implying that a backup necessarily exists. RESTORE BACKUP still opens the verified restore picker for users who actually have a backup.
 
-This release keeps the provider abandonment authority shipped in r23. Production Firestore Rules have already been exact-source published and read back on Firebase Spark. Billing remains permanently OFF, App Check enforcement remains OFF, and no Cloud Functions, Cloud Run, paid tier, public discovery or community mode is introduced.
+This release keeps the provider abandonment authority shipped in r23. Production Firestore Rules have already been exact-source published and read back on Firebase Spark. Historical engineering provenance, including Remote Joining and Shared Journey internals, remains in the repository but is not exposed as a normal player mode. Billing remains permanently OFF, App Check enforcement remains OFF, and no Cloud Functions, Cloud Run, paid tier, public discovery or community mode is introduced.
 
 r24 changes cached client shell bytes, so the whole-shell revision advances rather than silently changing r23 cache identity. r23 remains the immediate recovery runtime.
 
-SSJR physical acceptance credit remains unchanged until the fresh two-device physical journey passes.
+SSJR-1.1 remains exactly `0/100`. Source, CI, deployment and this recovery repair do not earn physical-journey credit; only a passing fresh two-device physical journey can change it.
