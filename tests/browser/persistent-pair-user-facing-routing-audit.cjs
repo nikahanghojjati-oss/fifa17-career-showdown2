@@ -250,6 +250,21 @@ const playerOneProfileId=`profile_${"d".repeat(24)}`;
     await page.locator("#careerModeRestorePanel input[type=file]").waitFor({state:"attached",timeout:3000});
     assert.equal(await page.locator("#careerModeRestorePanel input[type=file]").evaluate(input=>document.activeElement===input),true,"Recovery routing must focus the verified restore input.");
     await page.evaluate(async()=>{window.showScreen("mainMenu",false);window.__pairProviderMode="active-recovery";window.__localRecoveryReady=false;await window.CareerModePersistentNikDanielPair.initialize({force:true});window.CareerModePersistentNikDanielPair.render();});
+    const staleStartOver=page.locator("#persistentNikDanielPairPanel button",{hasText:"DELETE OLD SHOWDOWN & START OVER"});
+    await staleStartOver.waitFor({state:"visible"});
+
+    // If backup restore completed but the old button is still visible, destructive start-over must revalidate and cancel deletion.
+    await page.evaluate(()=>{window.__localRecoveryReady=true;});
+    await staleStartOver.click();
+    await page.locator("#persistentNikDanielPairPanel",{hasText:"CAREER READY"}).waitFor({state:"visible",timeout:5000});
+    const restoredProof=await page.evaluate(()=>({providerMode:window.__pairProviderMode,abandonCount:window.__providerAbandonCount,pairStatus:window.CareerModePersistentNikDanielPair.getState().status}));
+    assert.equal(restoredProof.providerMode,"active-recovery","A successfully restored career must keep the provider Showdown active.");
+    assert.equal(restoredProof.abandonCount,0,"A stale delete button must never abandon the provider Showdown after local recovery becomes valid.");
+    assert.equal(restoredProof.pairStatus,"paired","Fresh recovery revalidation must promote the restored browser to CAREER READY.");
+    await page.locator("#persistentNikDanielPairPanel button",{hasText:"CONTINUE CAREER"}).waitFor({state:"visible",timeout:5000});
+
+    // With recovery still genuinely missing, the same action may close exactly one old provider Showdown and route to fresh season selection.
+    await page.evaluate(async()=>{window.__localRecoveryReady=false;window.__pairProviderMode="active-recovery";await window.CareerModePersistentNikDanielPair.initialize({force:true});window.CareerModePersistentNikDanielPair.render();});
     const startOverAgain=page.locator("#persistentNikDanielPairPanel button",{hasText:"DELETE OLD SHOWDOWN & START OVER"});
     await startOverAgain.waitFor({state:"visible"});
     page.once("dialog",dialog=>void dialog.accept());
