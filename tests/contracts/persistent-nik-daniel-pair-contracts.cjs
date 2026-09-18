@@ -123,6 +123,10 @@ assert.match(identitySource,/const MANAGERS=Object\.freeze\(\{daniel:Object\.fre
 assert.match(identitySource,/"WHO ARE YOU\?"/);
 assert.match(identitySource,/"DANIEL · PLAYER ONE"/);
 assert.match(identitySource,/"NIK · PLAYER TWO"/);
+assert.match(identitySource,/isNik=current\?\.status==="ready"&&current\.managerId==="nik"[\s\S]*"JOIN DANIEL'S SHOWDOWN"[\s\S]*"Paste Daniel's code"/,'Nik's primary Home action must be Join, not Start a second Showdown.');
+assert.match(identitySource,/gameplay\.id==="newShowdown"[\s\S]*managerId==="nik"[\s\S]*openCanonicalShowdownJoin\(\)/,'Nik clicking the primary Home tile must open the join surface instead of season selection.');
+assert.match(identitySource,/async function openCanonicalShowdownJoin\(\)[\s\S]*syncPersistentPairSidecar[\s\S]*persistentNikDanielPairPanel[\s\S]*persistentNikDanielPairCode/,'Nik Join must reconcile durable pair state and focus the single code-entry surface.');
+
 assert.match(identitySource,/"FORGET THIS DEVICE"/);
 assert.match(identitySource,/pairing\.revokeDevice/);
 assert.match(identitySource,/clearRole\(\)/);
