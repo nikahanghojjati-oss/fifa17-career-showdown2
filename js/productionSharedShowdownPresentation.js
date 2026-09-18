@@ -7,11 +7,12 @@
 
   const PHASE_INDEX=Object.freeze({SHARED_SETUP_OPEN:0,LEAGUE_WHEEL_COMMITTED:1,CLUB_ASSIGNMENTS_COMMITTED:2,SEASON_LENGTH_COMMITTED:3,SHOWDOWN_CONFIRMED:4});
   const LENGTHS=Object.freeze([1,3,5,10]);
+  const SEASON_BY_CAPABILITY_NIBBLE=Object.freeze({1:1,3:3,5:5,a:10});
   const HANDLED=new Set(["spinLeague","openClubPack","continueClubAssignment"]);
   const SEASON_PANEL_ID="sharedShowdownSeasonChoice";
   const STATUS_ID="sharedShowdownPresentationStatus";
   const POLL_MS=2500;
-  let installed=false,active=false,setupApi=null,unsubscribe=null,state=null,busy=false,pollBusy=false,pollTimer=null;
+  let installed=false,active=false,setupApi=null,unsubscribe=null,state=null,busy=false,pollBusy=false,pollTimer=null,preparedSeasonCommitPromise=null;
   let timers=[];
   let witnessedLeagueId=null;
   let witnessedClubDigest=null;
@@ -27,6 +28,13 @@
   function ssjpManagers(){const current=ssjpShell();return current&&current.managers?current.managers:{playerOne:"PLAYER ONE",playerTwo:"PLAYER TWO"};}
   function ssjpPhaseAtLeast(phase){return Boolean(state&&state.setup&&Object.hasOwn(PHASE_INDEX,state.setup.phase)&&PHASE_INDEX[state.setup.phase]>=PHASE_INDEX[phase]);}
   function ssjpCoordinator(){return Boolean(state&&state.setup&&state.managerRole===state.setup.coordinatorRole);}
+  function ssjpBoundSeasonLength(){
+    const rivalryId=String(state?.rivalryId||"").trim(),match=/^pair_([0-9a-f])[0-9a-f]{63}$/i.exec(rivalryId);
+    return match?SEASON_BY_CAPABILITY_NIBBLE[match[1].toLowerCase()]||null:null;
+  }
+  function ssjpLocalSeasonLength(){const seasons=Number(ssjpShell()?.totalRounds);return LENGTHS.includes(seasons)?seasons:null;}
+  function ssjpPreparedSeasonLength(){const local=ssjpLocalSeasonLength(),bound=ssjpBoundSeasonLength();return local&&bound&&local===bound?local:null;}
+  function ssjpSeasonMatchesPrepared(setup){const seasons=ssjpPreparedSeasonLength();return Boolean(seasons&&setup&&setup.totalSeasons===seasons);}
   function ssjpLeagueRecord(id){
     try{if(typeof root.getLeagueById==="function")return root.getLeagueById(id);}catch(_error){}
     try{if(typeof getLeagueById==="function")return getLeagueById(id);}catch(_error){}
@@ -99,13 +107,33 @@
     ssjpLater(()=>{ssjpRevealCard(2,setup.clubs.playerTwo);if(typeof root.setClubRevealStage==="function")root.setClubRevealStage("manager-two");ssjpText(root.document.getElementById("clubPackStatus"),`${String(ssjpManagers().playerTwo||"PLAYER TWO").toUpperCase()} · PACK 02 OPEN`);},1750);
     ssjpLater(()=>{if(typeof root.setClubRevealStage==="function")root.setClubRevealStage("confirmation");ssjpText(root.document.getElementById("clubPackStatus"),"BOTH CLUBS REVEALED · SHARED RIVALRY LOCKED");ssjpCompletePackWitness(setup);},3000);
   }
-  function ssjpRenderSeasonControls(setup){const panel=ssjpEnsureSeasonPanel();if(!panel)return;const copy=panel.querySelector("[data-shared-season-copy]"),choices=Array.from(panel.querySelectorAll("[data-shared-season]"));if(!clubRevealComplete){panel.classList.add("hidden");return;}if(setup.phase==="CLUB_ASSIGNMENTS_COMMITTED"){panel.classList.remove("hidden");ssjpText(copy,ssjpCoordinator()?"Choose how many seasons this shared rivalry will run. This locks for both managers.":"Waiting for the coordinator to choose 1, 3, 5, or 10 seasons.");for(const button of choices){button.classList.remove("hidden");button.disabled=!ssjpCoordinator()||busy;}return;}if(ssjpPhaseAtLeast("SEASON_LENGTH_COMMITTED")){panel.classList.remove("hidden");ssjpText(panel.querySelector("h3"),`${setup.totalSeasons} SEASON${setup.totalSeasons===1?"":"S"} LOCKED`);ssjpText(copy,"Season length is authoritative and identical for both managers.");for(const button of choices)button.classList.add("hidden");return;}panel.classList.add("hidden");}
-  function ssjpRenderConfirmButton(setup){const button=root.document.getElementById("continueClubAssignment");if(!button)return;if(!clubRevealComplete){ssjpSetControl(button,{label:"WATCH BOTH PACK REVEALS",disabled:true,hidden:true});return;}if(setup.phase==="SEASON_LENGTH_COMMITTED"){const confirmed=setup.confirmedRoles.includes(state.managerRole);ssjpSetControl(button,{label:confirmed?"CONFIRMED · WAITING FOR RIVAL":"CONFIRM SHARED SHOWDOWN",disabled:confirmed||busy,hidden:false});return;}if(setup.phase==="SHOWDOWN_CONFIRMED"){ssjpSetControl(button,{label:"SHARED SHOWDOWN READY ✓",disabled:true,hidden:false});return;}ssjpSetControl(button,{label:"CONFIRM SHARED SHOWDOWN",disabled:true,hidden:true});}
+  function ssjpRenderSeasonControls(setup){
+    const panel=ssjpEnsureSeasonPanel();if(!panel)return;
+    const copy=panel.querySelector("[data-shared-season-copy]"),choices=Array.from(panel.querySelectorAll("[data-shared-season]")),prepared=ssjpPreparedSeasonLength();
+    for(const button of choices)button.classList.add("hidden");
+    if(!clubRevealComplete){panel.classList.add("hidden");return;}
+    if(setup.phase==="CLUB_ASSIGNMENTS_COMMITTED"){
+      panel.classList.remove("hidden");
+      const local=ssjpLocalSeasonLength(),bound=ssjpBoundSeasonLength(),mismatch=Boolean(local&&bound&&local!==bound);
+      ssjpText(panel.querySelector("h3"),prepared?`${prepared} SEASON${prepared===1?"":"S"} SELECTED`:mismatch?"SEASON PLAN MISMATCH":"SEASON PLAN UNAVAILABLE");
+      ssjpText(copy,prepared?(ssjpCoordinator()?"Using the season length Daniel selected when this Showdown started. Locking it for both managers now.":"Using Daniel's original season choice. Waiting for the host to lock the same plan."):mismatch?"This device's local season plan does not match Daniel's paired Showdown code. Use Showdown recovery before continuing.":"The original season choice could not be recovered from paired authority. Return to Showdown recovery instead of choosing a second season length.");
+      return;
+    }
+    if(ssjpPhaseAtLeast("SEASON_LENGTH_COMMITTED")){
+      panel.classList.remove("hidden");
+      const matches=ssjpSeasonMatchesPrepared(setup);
+      ssjpText(panel.querySelector("h3"),matches?`${setup.totalSeasons} SEASON${setup.totalSeasons===1?"":"S"} LOCKED`:"SEASON PLAN MISMATCH");
+      ssjpText(copy,matches?"Daniel's original season choice is authoritative and identical on this device.":"This device does not match the authoritative season plan. Use Showdown recovery before confirming.");
+      return;
+    }
+    panel.classList.add("hidden");
+  }
+  function ssjpRenderConfirmButton(setup){const button=root.document.getElementById("continueClubAssignment");if(!button)return;if(!clubRevealComplete){ssjpSetControl(button,{label:"WATCH BOTH PACK REVEALS",disabled:true,hidden:true});return;}if(setup.phase==="SEASON_LENGTH_COMMITTED"){if(!ssjpSeasonMatchesPrepared(setup)){ssjpSetControl(button,{label:"SEASON PLAN MISMATCH · RECOVERY REQUIRED",disabled:true,hidden:false});return;}const confirmed=setup.confirmedRoles.includes(state.managerRole);ssjpSetControl(button,{label:confirmed?"CONFIRMED · WAITING FOR RIVAL":"CONFIRM SHARED SHOWDOWN",disabled:confirmed||busy,hidden:false});return;}if(setup.phase==="SHOWDOWN_CONFIRMED"){ssjpSetControl(button,{label:ssjpSeasonMatchesPrepared(setup)?"SHARED SHOWDOWN READY ✓":"SEASON PLAN MISMATCH · RECOVERY REQUIRED",disabled:true,hidden:false});return;}ssjpSetControl(button,{label:"CONFIRM SHARED SHOWDOWN",disabled:true,hidden:true});}
   function ssjpRenderClub(){
     if(!root.document||!ssjpPending())return false;ssjpRemoveForeignStatus();const setup=state&&state.setup;if(!setup||!ssjpPhaseAtLeast("LEAGUE_WHEEL_COMMITTED"))return false;if(witnessedLeagueId!==setup.leagueId){ssjpForceScreen("leagueWheelScreen");return ssjpRenderLeague();}
     const screen=root.document.getElementById("clubWheelScreen"),league=ssjpLeagueRecord(setup.leagueId),m=ssjpManagers();if(!screen)return false;screen.dataset.sharedPresentationRole=state&&state.managerRole||"unresolved";ssjpText(root.document.getElementById("clubAssignmentLeague"),league&&league.name||setup.leagueId);ssjpText(root.document.getElementById("clubPlayerOne"),m.playerOne||"PLAYER ONE");ssjpText(root.document.getElementById("clubPlayerTwo"),m.playerTwo||"PLAYER TWO");const open=root.document.getElementById("openClubPack"),back=root.document.getElementById("clubAssignmentBack");if(back){back.disabled=true;back.classList.add("hidden");}
     if(setup.phase==="LEAGUE_WHEEL_COMMITTED"){clubRevealComplete=false;witnessedClubDigest=null;revealingClubDigest=null;ssjpResetPackCards();const confirmation=root.document.getElementById("clubRivalryConfirmation");if(confirmation)confirmation.classList.add("hidden");const panel=root.document.getElementById(SEASON_PANEL_ID);if(panel)panel.classList.add("hidden");ssjpText(root.document.getElementById("clubPackStatus"),"LEAGUE LOCKED · TWO SHARED CLUB PACKS READY");ssjpSetControl(open,{label:ssjpCoordinator()?"OPEN SHOWDOWN PACKS":"WAITING FOR HOST PACK REVEAL",disabled:!ssjpCoordinator()||busy,hidden:false});ssjpRenderConfirmButton(setup);ssjpSetSharedStatus(ssjpCoordinator()?"AUTHORITATIVE CLUB PACKS · Open the original two-pack reveal.":"AUTHORITATIVE CLUB PACKS · Waiting for the host. These packs will open automatically when the provider commits the clubs.");return true;}
-    ssjpSetControl(open,{label:"PACKS OPENED",disabled:true,hidden:true});ssjpAnimatePacks(setup);ssjpFillConfirmation(setup);ssjpRenderSeasonControls(setup);ssjpRenderConfirmButton(setup);if(setup.phase==="SHOWDOWN_CONFIRMED")ssjpSetSharedStatus(clubRevealComplete?"SHARED SETUP COMPLETE · Both managers witnessed the league wheel and club packs on this device.":"SHARED SETUP COMPLETE IN AUTHORITY · Finish watching both pack reveals on this device.");else if(setup.phase==="SEASON_LENGTH_COMMITTED")ssjpSetSharedStatus(clubRevealComplete?"FINAL CONFIRMATION · Each manager confirms on their own device.":"WATCH BOTH CLUB PACK REVEALS · Confirmation unlocks after this device witnesses them.");else ssjpSetSharedStatus(clubRevealComplete?"CLUBS REVEALED · Choose the shared season length below.":"OPENING AUTHORITATIVE CLUB PACKS · Both managers see the same two reveals.");return true;
+    ssjpSetControl(open,{label:"PACKS OPENED",disabled:true,hidden:true});ssjpAnimatePacks(setup);ssjpFillConfirmation(setup);if(setup.phase==="CLUB_ASSIGNMENTS_COMMITTED"&&ssjpCoordinator())void ssjpCommitPreparedSeasonLength();ssjpRenderSeasonControls(setup);ssjpRenderConfirmButton(setup);if(setup.phase==="SHOWDOWN_CONFIRMED")ssjpSetSharedStatus(clubRevealComplete?"SHARED SETUP COMPLETE · Both managers witnessed the league wheel and club packs on this device.":"SHARED SETUP COMPLETE IN AUTHORITY · Finish watching both pack reveals on this device.");else if(setup.phase==="SEASON_LENGTH_COMMITTED")ssjpSetSharedStatus(clubRevealComplete?"FINAL CONFIRMATION · Each manager confirms on their own device.":"WATCH BOTH CLUB PACK REVEALS · Confirmation unlocks after this device witnesses them.");else ssjpSetSharedStatus(clubRevealComplete?"CLUBS REVEALED · Locking Daniel's season choice from Showdown start.":"OPENING AUTHORITATIVE CLUB PACKS · Both managers see the same two reveals.");return true;
   }
 
   async function ssjpRenderCurrent(){if(!active||!ssjpPending())return false;const screen=ssjpActiveScreen();if(screen==="leagueWheelScreen")return ssjpRenderLeague();if(screen==="clubWheelScreen")return ssjpRenderClub();return false;}
@@ -114,7 +142,14 @@
   function ssjpStartPolling(){if(pollTimer!==null||typeof root.setInterval!=="function")return;pollTimer=root.setInterval(()=>void ssjpPoll(),POLL_MS);}
   function ssjpStopPolling(){if(pollTimer!==null){root.clearInterval(pollTimer);pollTimer=null;}}
   async function ssjpMutate(type,extra){if(busy)return false;busy=true;try{const api=await ssjpEnsureSetup(),result=await api.mutate(type,extra||{});state=api.getState();await ssjpRenderCurrent();return result&&result.ok===true;}finally{busy=false;await ssjpRenderCurrent();}}
-  async function ssjpChooseSeason(seasons){if(!active||!ssjpPending()||!clubRevealComplete||!ssjpCoordinator()||!state.setup||state.setup.phase!=="CLUB_ASSIGNMENTS_COMMITTED")return false;return ssjpMutate("commit-length",{totalSeasons:Number(seasons)});}
+  async function ssjpCommitPreparedSeasonLength(){
+    if(preparedSeasonCommitPromise)return preparedSeasonCommitPromise;
+    const seasons=ssjpPreparedSeasonLength();
+    if(!active||!ssjpPending()||!ssjpCoordinator()||!state?.setup||state.setup.phase!=="CLUB_ASSIGNMENTS_COMMITTED"||!seasons)return false;
+    preparedSeasonCommitPromise=ssjpMutate("commit-length",{totalSeasons:seasons}).finally(()=>{preparedSeasonCommitPromise=null;});
+    return preparedSeasonCommitPromise;
+  }
+  async function ssjpChooseSeason(seasons){if(Number(seasons)!==ssjpPreparedSeasonLength())return false;return ssjpCommitPreparedSeasonLength();}
   function ssjpHandlesControl(id){return active&&ssjpPending()&&HANDLED.has(id);}
   async function ssjpHandleControlClick(id){
     if(!ssjpHandlesControl(id))return false;await ssjpEnsureSetup();
@@ -129,7 +164,7 @@
     return false;
   }
   async function ssjpActivate(){active=true;await ssjpEnsureGameplay();await ssjpEnsureSetup();await ssjpRefresh();const plain=root.document&&root.document.getElementById("productionSharedSetupOverlay");if(plain)plain.classList.add("hidden");ssjpForceScreen("leagueWheelScreen");await ssjpRenderLeague();ssjpStartPolling();return true;}
-  function ssjpDeactivate(){active=false;ssjpStopPolling();ssjpClearTimers();revealingClubDigest=null;const panel=root.document&&root.document.getElementById(SEASON_PANEL_ID);if(panel)panel.remove();const note=root.document&&root.document.getElementById(STATUS_ID);if(note)note.remove();return true;}
+  function ssjpDeactivate(){active=false;ssjpStopPolling();ssjpClearTimers();revealingClubDigest=null;preparedSeasonCommitPromise=null;const panel=root.document&&root.document.getElementById(SEASON_PANEL_ID);if(panel)panel.remove();const note=root.document&&root.document.getElementById(STATUS_ID);if(note)note.remove();return true;}
   function ssjpInstall(){if(installed)return true;installed=true;return true;}
 
   return Object.freeze({contractVersion:2,feature:"ssjr-production-shared-showdown-polished-presentation",productionEnabled:true,pairingRequired:true,exactActiveSessionRequired:true,providerOwnsDrawAuthority:true,bothManagerRolesWitnessLeagueWheel:true,bothManagerRolesWitnessClubPacks:true,peerAutoRefreshesAuthority:true,usesLeagueWheelScreen:true,usesClubPackRevealScreen:true,engineeringSetupPanelPlayerFacing:false,localRandomLeagueAuthority:false,localRandomClubAuthority:false,canonicalStorageMutation:false,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,appCheckEnforcementRequired:false,install:ssjpInstall,activate:ssjpActivate,deactivate:ssjpDeactivate,refresh:ssjpRefresh,handleControlClick:ssjpHandleControlClick,handlesControl:ssjpHandlesControl,renderCurrent:ssjpRenderCurrent,isPresentationActive:()=>active&&ssjpPending(),getState:()=>Object.freeze({active:active&&ssjpPending(),phase:state&&state.setup&&state.setup.phase||null,revision:state&&state.setup&&state.setup.revision||0,managerRole:state&&state.managerRole||null,route:ssjpActiveScreen(),leagueWitnessed:witnessedLeagueId,clubPacksWitnessed:witnessedClubDigest,clubRevealComplete})});
