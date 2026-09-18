@@ -15,7 +15,7 @@ const playerOneProfileId=`profile_${"d".repeat(24)}`;
   const page=await context.newPage();
   const pageErrors=[],consoleErrors=[];
   page.on("pageerror",error=>pageErrors.push(error.stack||error.message));
-  page.on("console",message=>{if(message.type()==="error"&&!/^Failed to load resource/.test(message.text()))consoleErrors.push(message.text());});
+  page.on("console",message=>{if(message.type()!=="error")return;const text=message.text();if(/^Failed to load resource/.test(text))return;if(baseUrl.origin==="https://nikahanghojjati-oss.github.io"&&text==="requestStorageAccess: Permission denied.")return;consoleErrors.push(text);});
   try{
     await page.goto(baseUrl.href,{waitUntil:"domcontentloaded"});
     await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:12000});
