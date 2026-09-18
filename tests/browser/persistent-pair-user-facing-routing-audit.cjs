@@ -3,7 +3,7 @@ const {chromium}=require("playwright");
 const {resolveChromiumRuntime}=require("../support/chromium-runtime.cjs");
 
 const baseUrl=new URL(process.env.CMS_BASE_URL||"http://127.0.0.1:4173/");
-const rivalryId=`pair_${"c".repeat(64)}`;
+const rivalryId=`pair_5${"c".repeat(63)}`;
 const saveId=`save_${"a".repeat(24)}`;
 const profileId=`profile_${"b".repeat(24)}`;
 const playerOneProfileId=`profile_${"d".repeat(24)}`;
@@ -178,6 +178,7 @@ const playerOneProfileId=`profile_${"d".repeat(24)}`;
     await page.locator("#persistentNikDanielPairCode").fill(playerJoinCode);
     await page.locator("#persistentNikDanielPairPanel button",{hasText:"JOIN DANIEL'S SHOWDOWN"}).click();
     await page.locator("#persistentNikDanielPairPanel",{hasText:"CAREER READY"}).waitFor({state:"visible",timeout:5000});
+    assert.match(playerJoinCode,/^CMS17-pair_5[0-9a-f]{63}$/i,"The five-season plan must be bound into the exact provider capability itself.");
     assert.equal(await page.evaluate(()=>window.__joinerProvisionRounds),5,"Nik Join must automatically provision the same season length Daniel selected.");
     assert.match(await panel.innerText(),/Nik joined Daniel's Showdown/i,"Nik must receive a single successful Join outcome, not another Start Showdown instruction.");
     const continueButton=page.locator("#persistentNikDanielPairPanel button",{hasText:"CONTINUE CAREER"});
