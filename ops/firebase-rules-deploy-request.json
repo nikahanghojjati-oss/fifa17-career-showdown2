@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "projectId": "fifa17-career-showdown-prod",
   "rulesFile": "firestore.spark.rules",
-  "reason": "redeploy-r18-terminal-close-after-deployment-control-hotfix",
-  "failedRunId": 34560480460,
+  "reason": "redeploy-r23-persistent-pair-abandonment-after-fixture-correction",
+  "failedRunId": 35288650775,
   "expectedRepositoryRulesBlob": "363af783d7e5436fdfaa3766d4aa413fc9952a08",
   "billingAllowed": false,
   "firebasePlan": "Spark"
