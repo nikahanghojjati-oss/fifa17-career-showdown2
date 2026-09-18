@@ -327,7 +327,6 @@ async function handleSettingsOfflineUpdate(event){
 
     if(button){
         button.disabled = true;
-        button.setAttribute("aria-busy", "true");
     }
 
     try{
