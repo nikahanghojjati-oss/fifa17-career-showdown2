@@ -16,6 +16,8 @@
   const CODE_INPUT_ID="persistentNikDanielPairCode";
   const CONNECTED_RIVALRY_PATH="js/sparkConnectedRivalry.js";
   const SHARED_ENTRY_PATH="js/productionSharedJourneyEntry.js";
+  const PAIR_ALLOWED_ROUNDS=Object.freeze([1,3,5,10]);
+  const CONNECTION_CODE_PREFIX="CMS17";
 
   let state=Object.freeze({status:"idle",initialized:false,busy:false,accountId:null,deviceId:null,managerRole:null,managerId:null,rivalryId:null,connectionState:null,providerSaveId:null,providerProfileId:null,capability:null,message:"Getting your Showdown ready…"});
   let pairInitializePromise=null;
@@ -33,6 +35,9 @@
   async function pairBuildRivalryClosureEnvelope(value,context,updatedAt,cryptoImpl=root.crypto){const rivalryId=pairNormalizeRivalryId(value?.objectId),revision=value.revision+1,data={...value.data,connectionState:"closed"},contentHash=await pairSha256({objectType:"rivalry",objectId:rivalryId,revision,data},cryptoImpl);return{...value,revision,parentRevision:value.revision,contentHash,priorContentHash:value.contentHash,updatedAt,updatedByAccountId:context.accountId,updatedByDeviceId:context.deviceId,data,tombstone:null};}
 
   function pairNormalizeRivalryId(value){const id=typeof value==="string"?value.trim().toLowerCase():"";if(!/^pair_[0-9a-f]{64}$/.test(id))throw pairErrorWithCode("PERSISTENT_PAIR_RIVALRY_INVALID","This Showdown connection is invalid.");return id;}
+  function pairNormalizeRoundCount(value){const rounds=Number(value);if(!PAIR_ALLOWED_ROUNDS.includes(rounds))throw pairErrorWithCode("PERSISTENT_PAIR_ROUNDS_INVALID","Daniel's connection code has an invalid season length.");return rounds;}
+  function pairEncodeConnectionCode(rivalryId,totalRounds){const id=pairNormalizeRivalryId(rivalryId),rounds=pairNormalizeRoundCount(totalRounds);return `${CONNECTION_CODE_PREFIX}-${rounds}-${id.slice(5)}`;}
+  function pairDecodeConnectionCode(value){const raw=typeof value==="string"?value.trim():"",encoded=raw.match(/^CMS17-(1|3|5|10)-([0-9a-f]{64})$/i);if(encoded)return{rivalryId:pairNormalizeRivalryId(`pair_${encoded[2]}`),totalRounds:pairNormalizeRoundCount(encoded[1]),format:"cms17"};return{rivalryId:pairNormalizeRivalryId(raw),totalRounds:null,format:"legacy"};}
   function pairNormalizeManagerRole(value){const role=typeof value==="string"?value.trim():"";if(!MANAGER_BY_ROLE[role])throw pairErrorWithCode("PERSISTENT_PAIR_ROLE_INVALID","Choose Daniel or Nik before continuing.");return role;}
   function pairNormalizeManagerId(value){const id=typeof value==="string"?value.trim().toLowerCase():"";if(!MANAGER_BY_ID[id])throw pairErrorWithCode("PERSISTENT_PAIR_MANAGER_INVALID","Choose Daniel or Nik before continuing.");return id;}
   function pairManagerForRole(role){return MANAGER_BY_ROLE[pairNormalizeManagerRole(role)];}
@@ -48,6 +53,8 @@
   function pairHasExactLocalRecoveryCopy(role,saveId,profileId){const normalized=pairNormalizeManagerRole(role),runtime=root.CareerModeSaveLibraryRuntime;if(!pairValidSaveId(saveId)||!pairValidProfileId(profileId)||!runtime||typeof runtime.isReady!=="function"||runtime.isReady()!==true||typeof runtime.getLibrarySnapshot!=="function")return false;const library=runtime.getLibrarySnapshot();if(!library||!Array.isArray(library.saves))return false;const entry=library.saves.find(item=>item&&item.saveId===saveId),refs=entry?.showdown?.identity?.managerProfileIds;return Boolean(entry&&refs&&refs[normalized]===profileId);}
   async function pairExactLocalBindingForProviderSlot(pairing,role,saveId,profileId){const normalized=pairNormalizeManagerRole(role),runtime=root.CareerModeSaveLibraryRuntime;if(!pairHasExactLocalRecoveryCopy(normalized,saveId,profileId)||!runtime)return null;if(typeof runtime.switchActiveSave!=="function")return null;await runtime.switchActiveSave(saveId);const library=runtime.getLibrarySnapshot();if(library?.activeSaveId!==saveId)return null;const binding=pairLocalBindingForRole(pairing,normalized);if(!binding||binding.saveId!==saveId||binding.profileId!==profileId||binding.managerRole!==normalized)return null;return binding;}
   function pairPreparedBindingForRole(pairing,role){const binding=pairLocalBindingForRole(pairing,role);if(!binding)return null;const runtime=root.CareerModeSaveLibraryRuntime;if(!runtime||typeof runtime.isReady!=="function"||runtime.isReady()!==true||typeof runtime.getLibrarySnapshot!=="function")return null;const library=runtime.getLibrarySnapshot();if(!library||library.activeSaveId!==binding.saveId||!Array.isArray(library.saves))return null;const entry=library.saves.find(item=>item&&item.saveId===binding.saveId),showdown=entry&&entry.showdown;if(!showdown||showdown.sharedJourney?.mode!=="shared"||showdown.sharedJourney?.setupPending!==true)return null;if(showdown.managers?.playerOne!=="Daniel"||showdown.managers?.playerTwo!=="Nik")return null;if(showdown.selectedLeague||showdown.clubs?.playerOne||showdown.clubs?.playerTwo||(Array.isArray(showdown.rounds)&&showdown.rounds.length))return null;return binding;}
+  function pairPreparedRoundsForSave(saveId){const runtime=root.CareerModeSaveLibraryRuntime;if(!pairValidSaveId(saveId)||!runtime?.isReady?.()||typeof runtime.getLibrarySnapshot!=="function")return null;const library=runtime.getLibrarySnapshot(),entry=library?.saves?.find(item=>item&&item.saveId===saveId),rounds=Number(entry?.showdown?.totalRounds);return PAIR_ALLOWED_ROUNDS.includes(rounds)?rounds:null;}
+  function pairPreparedRoundsForBinding(binding){return binding?pairPreparedRoundsForSave(binding.saveId):null;}
 
   function pairLinkReference(context){return context.services.firestoreSdk.doc(context.services.firestore,"accounts",context.accountId,"pairLinks",PAIR_DOC_ID);}
   function pairRivalryReference(context,rivalryId){return context.services.firestoreSdk.doc(context.services.firestore,"rivalries",rivalryId);}
@@ -105,7 +112,28 @@
   }
   async function pairLoadConnectedRivalry(){if(root.CareerModeSparkConnectedRivalry)return root.CareerModeSparkConnectedRivalry;if(pairConnectedRivalryLoadPromise)return pairConnectedRivalryLoadPromise;if(typeof root.loadRuntimeScript!=="function")return null;pairConnectedRivalryLoadPromise=root.loadRuntimeScript("persistent-pair-connected-rivalry",CONNECTED_RIVALRY_PATH,()=>Boolean(root.CareerModeSparkConnectedRivalry)).then(()=>root.CareerModeSparkConnectedRivalry||null).catch(()=>null).finally(()=>{pairConnectedRivalryLoadPromise=null;});return pairConnectedRivalryLoadPromise;}
   async function pairLoadSharedJourneyEntry(){if(root.CareerModeProductionSharedJourneyEntry)return root.CareerModeProductionSharedJourneyEntry;if(pairSharedEntryLoadPromise)return pairSharedEntryLoadPromise;if(typeof root.loadRuntimeScript!=="function")return null;pairSharedEntryLoadPromise=root.loadRuntimeScript("persistent-pair-shared-entry",SHARED_ENTRY_PATH,()=>Boolean(root.CareerModeProductionSharedJourneyEntry)).then(()=>root.CareerModeProductionSharedJourneyEntry||null).catch(()=>null).finally(()=>{pairSharedEntryLoadPromise=null;});return pairSharedEntryLoadPromise;}
-  async function pairEnsurePreparedBinding(context,role){const binding=pairPreparedBindingForRole(context.pairing,role);if(binding)return binding;root.showScreen?.("createShowdown");throw pairErrorWithCode("PERSISTENT_PAIR_SEASON_SELECTION_REQUIRED","Choose 1, 3, 5, or 10 seasons and press START A SHOWDOWN before connecting players.");}
+  async function pairEnsurePreparedBinding(context,role){const binding=pairPreparedBindingForRole(context.pairing,role);if(binding)return binding;root.showScreen?.("createShowdown");throw pairErrorWithCode("PERSISTENT_PAIR_SEASON_SELECTION_REQUIRED","Daniel must choose 1, 3, 5, or 10 seasons and start the Showdown before creating Nik's code.");}
+  async function pairEnsureJoinBinding(context,role,connection){
+    const normalizedRole=pairNormalizeManagerRole(role);
+    let binding=pairPreparedBindingForRole(context.pairing,normalizedRole);
+    if(binding&&connection.totalRounds!==null&&pairPreparedRoundsForBinding(binding)!==connection.totalRounds){
+      const runtime=await pairEnsureSaveLibraryAuthority();
+      if(typeof runtime.deleteSave!=="function")throw pairErrorWithCode("PERSISTENT_PAIR_JOIN_STORAGE_MISMATCH","Nik's unfinished local draft uses a different season length.");
+      runtime.deleteSave(binding.saveId);
+      binding=null;
+    }
+    if(binding)return binding;
+    if(normalizedRole!=="playerTwo")throw pairErrorWithCode("PERSISTENT_PAIR_JOIN_ROLE_INVALID","Only Nik joins Daniel's Showdown.");
+    if(connection.totalRounds===null)throw pairErrorWithCode("PERSISTENT_PAIR_NEW_CODE_REQUIRED","Ask Daniel to create a new connection code, then paste it here.");
+    await pairEnsureSaveLibraryAuthority();
+    if(typeof root.ensureGameplayModules!=="function")throw pairErrorWithCode("PERSISTENT_PAIR_JOIN_STORAGE_UNAVAILABLE","Nik's local career could not be prepared.");
+    await root.ensureGameplayModules();
+    if(typeof root.prepareSharedJoinShowdown!=="function")throw pairErrorWithCode("PERSISTENT_PAIR_JOIN_STORAGE_UNAVAILABLE","Nik's local career could not be prepared.");
+    await root.prepareSharedJoinShowdown(connection.totalRounds);
+    binding=pairPreparedBindingForRole(context.pairing,normalizedRole);
+    if(!binding||pairPreparedRoundsForBinding(binding)!==connection.totalRounds)throw pairErrorWithCode("PERSISTENT_PAIR_JOIN_STORAGE_UNAVAILABLE","Nik's local career could not be verified after preparation.");
+    return binding;
+  }
   async function pairAttachRecoveryPointer(context,binding,rivalryId){const connected=await pairLoadConnectedRivalry();if(!connected?.attachRivalry)return{ok:false,connected:null,result:null};const result=await connected.attachRivalry({user:context.user,firestore:context.services.firestore,firebaseSdk:context.services.firestoreSdk,deviceId:context.deviceId,binding,rivalryId,indexedDBImpl:root.indexedDB});if(result?.ok&&typeof connected.initialize==="function")await connected.initialize();return{ok:Boolean(result?.ok),connected,result};}
 
 function pairTimestampMillis(value){if(value&&typeof value.toMillis==="function")return value.toMillis();if(value instanceof Date)return value.getTime();return Number.NaN;}
