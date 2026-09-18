@@ -25,12 +25,36 @@ async function mintAccessToken(){
   if(!response.ok)throw new Error(`Google OAuth token exchange failed with HTTP ${response.status}.`);
   const body=JSON.parse(text);if(!body.access_token)throw new Error('Google OAuth token exchange returned no access_token.');return body.access_token;
 }
+const RULES_API_RETRYABLE_STATUS=new Set([408,425,429,500,502,503,504]);
+const RULES_API_RETRY_DELAYS_MS=[1000,2000,4000,8000,16000];
+const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+
 async function rulesRequest(method,path,token,body=null,allow404=false){
-  const response=await fetch(`https://firebaserules.googleapis.com/v1/${path}`,{method,headers:{Authorization:`Bearer ${token}`,...(body?{'Content-Type':'application/json'}:{})},...(body?{body:JSON.stringify(body)}:{})});
-  const text=await response.text();
-  if(allow404&&response.status===404)return null;
-  if(!response.ok)throw new Error(`Firebase Rules API ${method} ${path} failed with HTTP ${response.status}: ${text}`);
-  return text?JSON.parse(text):{};
+  const url=`https://firebaserules.googleapis.com/v1/${path}`;
+  let lastFailure=null;
+  for(let attempt=0;attempt<=RULES_API_RETRY_DELAYS_MS.length;attempt+=1){
+    let response=null,text="";
+    try{
+      response=await fetch(url,{method,headers:{Authorization:`Bearer ${token}`,...(body?{'Content-Type':'application/json'}:{})},...(body?{body:JSON.stringify(body)}:{})});
+      text=await response.text();
+    }catch(error){
+      lastFailure=error;
+      if(attempt>=RULES_API_RETRY_DELAYS_MS.length)throw new Error(`Firebase Rules API ${method} ${path} network failure after ${attempt+1} attempts: ${error?.message||error}`);
+      const delay=RULES_API_RETRY_DELAYS_MS[attempt];
+      console.warn(`FIREBASE_RULES_API_RETRY method=${method} path=${path} attempt=${attempt+1} reason=network delayMs=${delay}`);
+      await sleep(delay);
+      continue;
+    }
+    if(allow404&&response.status===404)return null;
+    if(response.ok)return text?JSON.parse(text):{};
+    const retryable=RULES_API_RETRYABLE_STATUS.has(response.status);
+    lastFailure=new Error(`Firebase Rules API ${method} ${path} failed with HTTP ${response.status}: ${text}`);
+    if(!retryable||attempt>=RULES_API_RETRY_DELAYS_MS.length)throw lastFailure;
+    const delay=RULES_API_RETRY_DELAYS_MS[attempt];
+    console.warn(`FIREBASE_RULES_API_RETRY method=${method} path=${path} attempt=${attempt+1} status=${response.status} delayMs=${delay}`);
+    await sleep(delay);
+  }
+  throw lastFailure||new Error(`Firebase Rules API ${method} ${path} failed without a response.`);
 }
 
 const token=await mintAccessToken();
