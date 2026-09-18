@@ -98,7 +98,8 @@ async function restoreInternalSaveLibraryContainment(page){
         supported:true,standalone:false,connectivity:'offline',connectivityVerified:true,connectivityLabel:'Offline',
         offlineReady:true,offlineRecoveryReady:true,shellLabel:'Offline ready',waitingUpdate:false,
         installPromptAvailable:false,installationLabel:'Browser launch',installActionLabel:'INSTALL HELP',
-        installActionDisabled:false,updateActionLabel:'APPLY READY UPDATE',installGuidance:'Synthetic regression state.'
+        installActionDisabled:false,updateActionLabel:'UPDATE TO LATEST VERSION',updateActionDisabled:false,
+        installGuidance:'Synthetic regression state.'
       });
       window.dispatchEvent(new CustomEvent('career-mode-offline-state-change'));
       const nextPanel=document.getElementById('saveLibraryProductPanel');
@@ -116,7 +117,10 @@ async function restoreInternalSaveLibraryContainment(page){
         offlinePanelRefreshed:nextOffline!==offline,
         formStillOpen:currentForm===form&&!currentForm.hidden,
         draft:currentInput.value,
-        connectivity:nextOffline.querySelector('.settingsOfflineInfo')?.textContent||''
+        connectivity:nextOffline.querySelector('.settingsOfflineInfo')?.textContent||'',
+        updateButtonCount:nextOffline.querySelectorAll('.settingsOfflineUpdateButton').length,
+        updateButtonLabel:nextOffline.querySelector('.settingsOfflineUpdateButton')?.textContent||'',
+        updateButtonDisabled:Boolean(nextOffline.querySelector('.settingsOfflineUpdateButton')?.disabled)
       };
     });
 
@@ -128,6 +132,9 @@ async function restoreInternalSaveLibraryContainment(page){
     assert.equal(result.formStillOpen,true,'offline-state refresh must not close an in-progress Local Profile editor');
     assert.equal(result.draft,'UNSAVED OFFLINE EVENT DRAFT','offline-state refresh must preserve unsaved profile-label text');
     assert.match(result.connectivity,/Offline/,'targeted refresh must publish the new connectivity state');
+    assert.equal(result.updateButtonCount,1,'Settings must always render exactly one update-to-latest control even when no worker is already waiting');
+    assert.equal(result.updateButtonLabel,'UPDATE TO LATEST VERSION','non-waiting state must expose the explicit latest-version check instead of hiding the update control');
+    assert.equal(result.updateButtonDisabled,false,'online supported state must keep the persistent update-to-latest control actionable');
     assert.equal(await page.evaluate(key=>localStorage.getItem(key),libraryKey),canonicalBefore,'offline-state presentation refresh must not mutate canonical Save Library bytes');
     await page.evaluate(()=>document.querySelector('#saveLibraryProductPanel .saveLibraryProfileCancelButton')?.click());
     assert.equal(await form.isHidden(),true,'preserved editor CANCEL control must remain operable after offline-state refresh');

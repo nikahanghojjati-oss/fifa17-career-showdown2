@@ -291,7 +291,8 @@ function getSettingsOfflineState(){
         installationLabel:"Preparing install support",
         installActionLabel:"PREPARING OFFLINE SUPPORT",
         installActionDisabled:true,
-        updateActionLabel:"APPLY READY UPDATE",
+        updateActionLabel:"UPDATE TO LATEST VERSION",
+        updateActionDisabled:true,
         installGuidance:"Offline support is still starting. Reopen Settings in a moment if this status does not update."
     };
 }
@@ -310,16 +311,31 @@ async function handleSettingsOfflineInstall(){
     focusSettingsControl(".settingsOfflineInstallButton");
 }
 
-async function handleSettingsOfflineUpdate(){
-    if(typeof window.activateWaitingOfflineUpdate !== "function"){
+async function handleSettingsOfflineUpdate(event){
+    const button = event?.currentTarget || null;
+    const state = getSettingsOfflineState();
+    const action = state.waitingUpdate
+        ? window.activateWaitingOfflineUpdate
+        : window.requestLatestOfflineUpdate;
+
+    if(typeof action !== "function"){
         if(typeof window.showAppNotice === "function"){
             window.showAppNotice("Offline update support is unavailable in this session.", "error", 6000);
         }
         return;
     }
-    await window.activateWaitingOfflineUpdate();
-    renderSettings();
-    focusSettingsControl(".settingsOfflineUpdateButton");
+
+    if(button){
+        button.disabled = true;
+    }
+
+    try{
+        const result = await action();
+        settingsOfflineGuidance = result?.message || "";
+    }finally{
+        renderSettings();
+        focusSettingsControl(".settingsOfflineUpdateButton");
+    }
 }
 
 function createOfflinePanel(){
@@ -352,16 +368,15 @@ function createOfflinePanel(){
     install.addEventListener("click", handleSettingsOfflineInstall);
     actions.appendChild(install);
 
-    if(state.waitingUpdate){
-        const update = createSettingsElement(
-            "button",
-            "menuButton settingsOfflineUpdateButton",
-            state.updateActionLabel || "APPLY READY UPDATE"
-        );
-        update.type = "button";
-        update.addEventListener("click", handleSettingsOfflineUpdate);
-        actions.appendChild(update);
-    }
+    const update = createSettingsElement(
+        "button",
+        "menuButton settingsOfflineUpdateButton",
+        state.updateActionLabel || (state.waitingUpdate ? "APPLY READY UPDATE" : "UPDATE TO LATEST VERSION")
+    );
+    update.type = "button";
+    update.disabled = Boolean(state.updateActionDisabled);
+    update.addEventListener("click", handleSettingsOfflineUpdate);
+    actions.appendChild(update);
 
     const note = createSettingsElement(
         "p",

@@ -100,7 +100,8 @@ function getOfflineAppSettingsState(){
         installationLabel,
         installActionLabel,
         installActionDisabled,
-        updateActionLabel:"APPLY READY UPDATE",
+        updateActionLabel:waitingUpdate?"APPLY READY UPDATE":"UPDATE TO LATEST VERSION",
+        updateActionDisabled:!supported||(offline&&!waitingUpdate),
         installGuidance:getInstallGuidance(),
         cacheStatus:lastCacheStatus
     };
@@ -275,6 +276,111 @@ async function requestOfflineAppInstall(){
         }
     }
     return{kind:"guidance",message:getInstallGuidance()};
+}
+
+function waitForUpdateInstallation(registration,timeoutMs=30000){
+    const worker=registration?.installing;
+    const failed=()=>new Error("The downloaded update could not be installed completely. Try Update to Latest Version again.");
+    if(!worker){
+        return Promise.resolve(registration?.waiting||null);
+    }
+    if(worker.state==="redundant"){
+        return Promise.reject(failed());
+    }
+    if(worker.state==="installed"||worker.state==="activated"){
+        return Promise.resolve(worker);
+    }
+    return new Promise((resolve,reject)=>{
+        let settled=false;
+        const cleanup=()=>{
+            clearTimeout(timeout);
+            worker.removeEventListener("statechange",onStateChange);
+        };
+        const finish=value=>{
+            if(settled)return;
+            settled=true;
+            cleanup();
+            resolve(value);
+        };
+        const fail=error=>{
+            if(settled)return;
+            settled=true;
+            cleanup();
+            reject(error);
+        };
+        const onStateChange=()=>{
+            if(worker.state==="redundant"){
+                fail(failed());
+                return;
+            }
+            if(worker.state==="installed"||worker.state==="activated"){
+                finish(worker);
+            }
+        };
+        const timeout=setTimeout(()=>finish(worker),timeoutMs);
+        worker.addEventListener("statechange",onStateChange);
+    });
+}
+
+async function requestLatestOfflineUpdate(){
+    if(!isServiceWorkerSupported()){
+        const message="This browser does not support the application update service.";
+        window.showAppNotice?.(message,"error",6500);
+        return{ok:false,kind:"unsupported",message};
+    }
+    if(isOffline()){
+        const message="Connect to the internet before checking for the latest Career Mode Showdown version.";
+        window.showAppNotice?.(message,"error",6500);
+        return{ok:false,kind:"offline",message};
+    }
+
+    try{
+        let registration=offlineRegistration||await navigator.serviceWorker.getRegistration("./");
+        if(!registration){
+            registration=await registerOfflineApplication();
+        }
+        if(!registration){
+            throw new Error("The application update service could not be prepared.");
+        }
+
+        offlineRegistration=registration;
+        if(registration.waiting){
+            const applied=await activateWaitingUpdate();
+            return{
+                ok:Boolean(applied),
+                kind:applied?"activated":"ready",
+                message:applied?"Latest verified version is being applied.":"A verified update is ready to apply."
+            };
+        }
+
+        window.showAppNotice?.("Checking for the latest Career Mode Showdown version…","info",3500);
+        await registration.update();
+        await waitForUpdateInstallation(registration);
+        markUpdateReady();
+
+        if(registration.waiting){
+            const applied=await activateWaitingUpdate();
+            return{
+                ok:Boolean(applied),
+                kind:applied?"activated":"ready",
+                message:applied?"Latest verified version is being applied.":"A verified update is ready to apply."
+            };
+        }
+
+        if(registration.installing){
+            const message="The latest application update is still downloading. Keep this page open and press Update to Latest Version again in a moment.";
+            window.showAppNotice?.(message,"info",8000);
+            return{ok:true,kind:"downloading",message};
+        }
+
+        const message="You are already using the latest available Career Mode Showdown version.";
+        window.showAppNotice?.(message,"success",5000);
+        return{ok:true,kind:"current",message};
+    }catch(error){
+        const message=error?.message||"The latest version could not be checked right now.";
+        window.reportApplicationError?.("The latest application version could not be checked",error);
+        return{ok:false,kind:"error",message};
+    }
 }
 
 async function activateWaitingUpdate(){
@@ -480,6 +586,7 @@ window.getOfflineAppDiagnostics=()=>({
 });
 window.getOfflineAppSettingsState=getOfflineAppSettingsState;
 window.requestOfflineAppInstall=requestOfflineAppInstall;
+window.requestLatestOfflineUpdate=requestLatestOfflineUpdate;
 window.getOfflineUpdateBoundaryStatus=getUpdateBoundaryStatus;
 window.activateWaitingOfflineUpdate=activateWaitingUpdate;
 window.requestPreviousOfflineRuntime=requestPreviousRuntimeRollback;
