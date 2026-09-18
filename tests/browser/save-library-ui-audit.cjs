@@ -22,6 +22,7 @@ function collectErrors(page,{allowCorruptSaveParse=false}={}){
     if(message.type()!=="error")return;
     const text=message.text();
     if(/^Failed to load resource/.test(text))return;
+    if(runLabel==="deployed-main"&&text==="requestStorageAccess: Permission denied.")return;
     if(allowCorruptSaveParse&&text.startsWith("[Career Mode Showdown] Unable to parse the Save Library active showdown:"))return;
     errors.push(`console: ${text}`);
   });

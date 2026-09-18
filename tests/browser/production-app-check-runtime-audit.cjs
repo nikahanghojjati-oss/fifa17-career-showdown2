@@ -118,6 +118,13 @@ assert.ok(baseUrl.pathname.startsWith(expectedPathPrefix), "Production App Check
             return Boolean(state && state.attempted && state.status !== "initializing");
         }, null, { timeout: 20000 });
 
+        await page.waitForFunction(() => {
+            const api = window.CareerModeProductionFirebaseRuntime;
+            if(!api || typeof api.diagnostics !== "function") return false;
+            const state = api.diagnostics();
+            return Boolean(state && state.authInitialized === true && state.firestoreInitialized === true);
+        }, null, { timeout: 20000 });
+
         const proof = await page.evaluate(async () => {
             const api = window.CareerModeProductionFirebaseRuntime;
             const diagnostics = api.diagnostics();
@@ -126,7 +133,11 @@ assert.ok(baseUrl.pathname.startsWith(expectedPathPrefix), "Production App Check
                 credentials: "same-origin"
             });
             const config = await response.json();
-            const resources = performance.getEntriesByType("resource").map(entry => entry.name);
+            const resources = performance.getEntriesByType("resource").map(entry => ({
+                name: entry.name,
+                startTime: Number(entry.startTime || 0),
+                responseEnd: Number(entry.responseEnd || 0)
+            }));
             return {
                 diagnostics,
                 configShape: {
@@ -137,7 +148,7 @@ assert.ok(baseUrl.pathname.startsWith(expectedPathPrefix), "Production App Check
                     apiKeyPresent: Boolean(config && config.firebaseConfig && typeof config.firebaseConfig.apiKey === "string" && config.firebaseConfig.apiKey.length >= 20),
                     siteKeyPresent: Boolean(config && typeof config.recaptchaEnterpriseSiteKey === "string" && config.recaptchaEnterpriseSiteKey.length >= 20)
                 },
-                firebaseResources: resources.filter(url => /firebase(?:js)?\//i.test(url) || /firebase-(?:app|app-check|auth|firestore|storage|functions)\.js/i.test(url))
+                firebaseResources: resources.filter(entry => /firebase(?:js)?\//i.test(entry.name) || /firebase-(?:app|app-check|auth|firestore|storage|functions)\.js/i.test(entry.name))
             };
         });
 
@@ -184,28 +195,48 @@ assert.ok(baseUrl.pathname.startsWith(expectedPathPrefix), "Production App Check
             }
         }
 
+        const firebaseResourceNames = proof.firebaseResources.map(entry => entry.name);
         assert.ok(
-            proof.firebaseResources.some(url => /firebase-app\.js/i.test(url)),
-            "Production runtime must load only the Firebase App foundation SDK before App Check."
+            firebaseResourceNames.some(url => /firebase-app\.js/i.test(url)),
+            "Production runtime must load the Firebase App foundation SDK."
         );
         assert.ok(
-            proof.firebaseResources.some(url => /firebase-app-check\.js/i.test(url)),
+            firebaseResourceNames.some(url => /firebase-app-check\.js/i.test(url)),
             "Production runtime must load the Firebase App Check SDK."
         );
+
+        const authObserved = firebaseResourceNames.some(url => /firebase-auth\.js/i.test(url));
+        const firestoreObserved = firebaseResourceNames.some(url => /firebase-firestore\.js/i.test(url));
+        assert.equal(authObserved, true, "Online-only production startup must load Firebase Auth for the player bootstrap.");
+        assert.equal(firestoreObserved, true, "Online-only production startup must load Firestore for the player bootstrap.");
+        assert.equal(Boolean(proof.diagnostics.authInitialized), true, "Production diagnostics must confirm initialized Auth account services.");
+        assert.equal(Boolean(proof.diagnostics.firestoreInitialized), true, "Production diagnostics must confirm initialized Firestore account services.");
         assert.equal(
-            proof.firebaseResources.some(url => /firebase-(?:auth|firestore|storage|functions)\.js/i.test(url)),
+            firebaseResourceNames.some(url => /firebase-(?:storage|functions)\.js/i.test(url)),
             false,
-            "Production client must not initialize Auth, Firestore, Storage, or Functions SDKs in this proof lane."
+            "Production client must never load Storage or Functions SDKs."
         );
+
+        const appCheckResources = proof.firebaseResources.filter(entry => /firebase-app-check\.js/i.test(entry.name));
+        const accountResources = proof.firebaseResources.filter(entry => /firebase-(?:auth|firestore)\.js/i.test(entry.name));
+        const appCheckComplete = Math.max(...appCheckResources.map(entry => entry.responseEnd));
+        const accountStart = Math.min(...accountResources.map(entry => entry.startTime));
+        assert.ok(
+            Number.isFinite(appCheckComplete) && appCheckComplete > 0 &&
+            Number.isFinite(accountStart) && accountStart >= appCheckComplete,
+            "Production account-service SDK loading must begin only after the App Check module has finished loading."
+        );
+
         assert.deepEqual(firstPartyFailures, [], "Production App Check proof detected failed first-party requests.");
+        const accountServiceSummary = "the online player bootstrap initialized the bounded Auth/Firestore account-service layer after App Check";
 
         if(degraded){
             process.stdout.write(
-                "Production App Check boundary passed in enforcement-OFF degraded state: deployed r3 initialized Firebase App + App Check, preserved the connected runtime after token-observation failure, retained redacted provider evidence, and loaded no client Auth/Firestore/Storage/Functions SDKs in this proof lane.\n"
+                `Production App Check boundary passed in enforcement-OFF degraded state: deployed r3 initialized Firebase App + App Check, preserved the connected runtime after token-observation failure, retained redacted provider evidence, ${accountServiceSummary}, and loaded no Storage/Functions SDKs.\n`
             );
         }else{
             process.stdout.write(
-                "Production App Check proof passed: deployed r3 obtained a reCAPTCHA Enterprise token with enforcement OFF, the reviewed Spark Connected Rivalry write scope, and no client Auth/Firestore/Storage/Functions SDKs.\n"
+                `Production App Check proof passed: deployed r3 obtained a reCAPTCHA Enterprise token with enforcement OFF, preserved the reviewed Spark Connected Rivalry write scope, ${accountServiceSummary}, and loaded no Storage/Functions SDKs.\n`
             );
         }
         await context.close();
