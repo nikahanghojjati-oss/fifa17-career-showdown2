@@ -8,7 +8,7 @@ function setupState({phase,revision,leagueId=null,clubs=null,totalSeasons=null,c
   return {schemaVersion:1,bindingHash:"sha256:"+"1".repeat(64),catalogHash:"sha256:"+"2".repeat(64),coordinatorRole:"playerOne",phase,revision,leagueId,clubs,totalSeasons,confirmedRoles,receipts:[],contentHash:"sha256:"+"3".repeat(64)};
 }
 
-async function prepare(page,{managerRole,remoteRole,initialSetup,reducedMotion=true}){
+async function prepare(page,{managerRole,remoteRole,initialSetup,reducedMotion=true,totalRounds=5}){
   await page.goto(baseUrl.href,{waitUntil:"domcontentloaded"});
   await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:12000});
   await page.waitForFunction(()=>typeof window.ensureGameplayModules==="function"&&typeof window.loadRuntimeScript==="function",null,{timeout:12000});
@@ -17,15 +17,15 @@ async function prepare(page,{managerRole,remoteRole,initialSetup,reducedMotion=t
   // gate so the fixture below can exercise the presentation contract in isolation.
   await page.waitForFunction(()=>window.CareerModeOnlinePlayerIdentity&&window.CareerModeOnlinePlayerIdentity.getState().initialized===true,null,{timeout:12000}).catch(()=>{});
   await page.evaluate(()=>document.getElementById("onlinePlayerIdentityOverlay")?.remove());
-  await page.evaluate(async({managerRole,remoteRole,initialSetup,reducedMotion})=>{
+  await page.evaluate(async({managerRole,remoteRole,initialSetup,reducedMotion,totalRounds})=>{
     sessionStorage.setItem("careerModeShowdown.sharedJourneyPending.v1","1");
     window.CareerModeProductionSharedJourneyEntry={isPending:()=>true};
     window.isReducedClubMotionPreferred=()=>reducedMotion;
     await ensureGameplayModules();
-    currentShowdown={name:"Daniel vs Nik",managers:{playerOne:"Daniel",playerTwo:"Nik"},totalRounds:5,currentRound:1,status:"Created",selectedLeague:null,clubs:{playerOne:null,playerTwo:null},score:{playerOne:0,playerTwo:0},transferChallenges:[],rounds:[],sharedJourney:{contractVersion:1,mode:"shared",setupPending:true}};
+    currentShowdown={name:"Daniel vs Nik",managers:{playerOne:"Daniel",playerTwo:"Nik"},totalRounds,currentRound:1,status:"Created",selectedLeague:null,clubs:{playerOne:null,playerTwo:null},score:{playerOne:0,playerTwo:0},transferChallenges:[],rounds:[],sharedJourney:{contractVersion:1,mode:"shared",setupPending:true}};
     let serverSetup=initialSetup;
     window.__getSharedServerSetup=()=>serverSetup;
-    let current={status:"ready",open:false,busy:false,ready:true,revision:serverSetup?serverSetup.revision:0,phase:serverSetup?serverSetup.phase:null,rivalryId:"pair_"+"a".repeat(64),sessionId:"session_"+"b".repeat(64),accountId:managerRole==="playerOne"?"account_one":"account_two",deviceId:managerRole==="playerOne"?"device_"+"1".repeat(32):"device_"+"2".repeat(32),managerRole,remoteRole,setup:serverSetup,message:"ready"};
+    let current={status:"ready",open:false,busy:false,ready:true,revision:serverSetup?serverSetup.revision:0,phase:serverSetup?serverSetup.phase:null,rivalryId:"pair_5"+"a".repeat(63),sessionId:"session_"+"b".repeat(64),accountId:managerRole==="playerOne"?"account_one":"account_two",deviceId:managerRole==="playerOne"?"device_"+"1".repeat(32):"device_"+"2".repeat(32),managerRole,remoteRole,setup:serverSetup,message:"ready"};
     const listeners=new Set();
     const emit=()=>{current={...current,revision:serverSetup?serverSetup.revision:0,phase:serverSetup?serverSetup.phase:null,setup:serverSetup};for(const listener of listeners)listener(current);};
     window.__setSharedServerSetup=value=>{serverSetup=value;};
@@ -46,7 +46,7 @@ async function prepare(page,{managerRole,remoteRole,initialSetup,reducedMotion=t
     await loadRuntimeScript("ssjr-polished-presentation-audit","js/productionSharedShowdownPresentation.js",()=>window.CareerModeProductionSharedShowdownPresentation);
     CareerModeProductionSharedShowdownPresentation.install();
     await CareerModeProductionSharedShowdownPresentation.activate();
-  },{managerRole,remoteRole,initialSetup,reducedMotion});
+  },{managerRole,remoteRole,initialSetup,reducedMotion,totalRounds});
 }
 
 (async()=>{
@@ -54,8 +54,10 @@ async function prepare(page,{managerRole,remoteRole,initialSetup,reducedMotion=t
   const browser=await chromium.launch({executablePath:runtime.executablePath,headless:true,args:runtime.args});
   const hostContext=await browser.newContext({viewport:{width:1280,height:800}});
   const peerContext=await browser.newContext({viewport:{width:390,height:844},isMobile:true});
+  const mismatchContext=await browser.newContext({viewport:{width:940,height:700}});
   const host=await hostContext.newPage();
   const peer=await peerContext.newPage();
+  const mismatch=await mismatchContext.newPage();
   const errors=[];host.on("pageerror",e=>errors.push(`host: ${e.message}`));peer.on("pageerror",e=>errors.push(`peer: ${e.message}`));
   try{
     await prepare(host,{managerRole:"playerOne",remoteRole:"host",initialSetup:null,reducedMotion:false});
@@ -90,9 +92,21 @@ async function prepare(page,{managerRole,remoteRole,initialSetup,reducedMotion=t
     assert.equal(await peer.locator("#clubNameTwo").textContent(),"Espanyol");
     assert.equal(await peer.locator("#clubWheelScreen").getAttribute("data-shared-presentation-role"),"playerTwo");
     assert.equal(await peer.locator("#sharedShowdownSeasonChoice [data-shared-season]:visible").count(),0,"Nik must never receive a second season-choice action.");
+
+    const mismatchSetup=setupState({phase:"CLUB_ASSIGNMENTS_COMMITTED",revision:3,leagueId:"laliga",clubs:{playerOne:"Osasuna",playerTwo:"Espanyol"}});
+    await prepare(mismatch,{managerRole:"playerOne",remoteRole:"host",initialSetup:mismatchSetup,reducedMotion:true,totalRounds:3});
+    await mismatch.waitForFunction(()=>document.getElementById("leagueWheelScreen")?.dataset.sharedLeagueWitnessed==="laliga",null,{timeout:5000});
+    await mismatch.locator("#spinLeague").click();
+    await mismatch.locator("#clubWheelScreen").waitFor({state:"visible",timeout:5000});
+    await mismatch.waitForFunction(()=>Boolean(document.getElementById("clubWheelScreen")?.dataset.sharedClubPacksWitnessed),null,{timeout:5000});
+    const mismatchState=await mismatch.evaluate(()=>({phase:window.CareerModeProductionSharedShowdownPresentation.getState().phase,provider:window.__getSharedServerSetup()?.totalSeasons??null,local:currentShowdown?.totalRounds??null}));
+    assert.deepEqual(mismatchState,{phase:"CLUB_ASSIGNMENTS_COMMITTED",provider:null,local:3},"A drifted local season must not overwrite the five-season plan encoded in paired authority.");
+    assert.match(await mismatch.locator("#sharedShowdownSeasonChoice").innerText(),/SEASON PLAN MISMATCH|recovery/i);
+    assert.equal(await mismatch.locator("#sharedShowdownSeasonChoice [data-shared-season]:visible").count(),0,"Season mismatch recovery must not fall back to a second season picker.");
+
     assert.deepEqual(errors,[],"Polished two-role presentation emitted page errors.");
     process.stdout.write("PASS Shared Showdown polished presentation: Player 1 normal-motion reveal survives provider polling, Daniel's original season choice auto-commits once after clubs, and Player 1/Player 2 each witness the real League Wheel and original two-pack club reveal with no second season-choice UI.\n");
   }finally{
-    await hostContext.close().catch(()=>{});await peerContext.close().catch(()=>{});await browser.close().catch(()=>{});
+    await hostContext.close().catch(()=>{});await peerContext.close().catch(()=>{});await mismatchContext.close().catch(()=>{});await browser.close().catch(()=>{});
   }
 })().catch(error=>{console.error(error);process.exitCode=1;});
