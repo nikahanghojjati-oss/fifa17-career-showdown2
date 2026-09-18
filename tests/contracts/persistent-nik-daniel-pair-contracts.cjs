@@ -91,6 +91,10 @@ assert.match(pairSource,/async function pairJoinPairing[\s\S]*const active=pairA
 assert.match(pairSource,/if\(state\.status==="pair-link-retry"\)[\s\S]*RETRY CONNECTION[\s\S]*else if\(state\.connectionState==="active"&&state\.status==="recovery-required"\)[\s\S]*else if\(state\.connectionState==="active"\)[\s\S]*else if\(state\.status==="unpaired"\|\|state\.status==="save-required"\|\|state\.status==="error"\)/,'Active or partial-commit states must be rendered before generic CREATE/JOIN error controls.');
 assert.match(pairSource,/role==="playerOne"[\s\S]*"CREATE CODE FOR NIK"[\s\S]*DANIEL STARTS THE SHOWDOWN AND SENDS THIS CODE TO NIK/,'Daniel must receive one unambiguous host action on an unpaired browser.');
 assert.match(pairSource,/role==="playerTwo"[\s\S]*Paste Daniel's code[\s\S]*"JOIN DANIEL'S SHOWDOWN"[\s\S]*NIK ENTERS THE CODE DANIEL SENDS/,'Nik must receive only the join-code action on an unpaired browser.');
+assert.match(pairSource,/function pairBuildPlayerJoinCode\(rivalryId,totalRounds\)[\s\S]*CMS17-\$\{rounds\}-\$\{normalized\}/,'Daniel's one-use player code must carry the selected season length without changing the provider rivalry id.');
+assert.match(pairSource,/function pairParsePlayerJoinCode\(value\)[\s\S]*CMS17-\(1\|3\|5\|10\)-\(pair_/,'Nik Join must parse the canonical season-bearing player code.');
+assert.match(pairSource,/async function pairProvisionJoinerBinding\(context,role,totalRounds\)[\s\S]*role!=="playerTwo"[\s\S]*entry\.provisionJoinerShell\(Number\(totalRounds\)\)[\s\S]*pairPreparedBindingForRole/,'Only Nik may auto-provision a missing local shell, and the resulting binding must be re-read before provider redemption.');
+
 assert.doesNotMatch(pairSource,/actions\.append\(start,input,join\)/,'The normal unpaired UI must not show CREATE and JOIN controls together on both devices.');
 
 
@@ -168,6 +172,10 @@ assert.match(ensurePrepared,/PERSISTENT_PAIR_SEASON_SELECTION_REQUIRED/);
 assert.doesNotMatch(ensurePrepared,/preparePairingShell\(/,'Pair controls must never auto-create a default one-season shell.');
 assert.match(entrySource,/showdown\.name="Daniel vs Nik"/);
 assert.match(entrySource,/function normalizeCanonicalPlayers\(\)[\s\S]*playerOne:"Daniel",playerTwo:"Nik"/,'Paired-first entry must canonicalize the pre-draw shell to Daniel as Player One and Nik as Player Two.');
+assert.match(entrySource,/async function provisionJoinerShell\(totalRounds\)[\s\S]*\[1,3,5,10\]\.includes\(rounds\)[\s\S]*root\.createShowdown\(\)[\s\S]*persistPendingMarker\(\)[\s\S]*showScreen\("mainMenu",false\)/,'Nik's local shell must be created invisibly with Daniel's exact season length, marked shared-pending, and return to Home before Join continues.');
+assert.match(entrySource,/joinerShellProvisionedAutomatically:true/,'The production entry contract must advertise automatic joiner-shell provisioning.');
+assert.match(entrySource,/contractVersion:6/,'Automatic joiner provisioning must advance the production entry contract.');
+
 
 
 assert.match(privatePairingSource,/const durableWitness=options\.durableWitness/,'Private pairing creation and redemption must accept a bounded durable witness inside the provider transaction.');
@@ -182,6 +190,9 @@ assert.match(startFunction,/pairProviderConflictNeedsRefresh\(error\)[\s\S]*pair
 assert.doesNotMatch(startFunction,/pairPersistPairLinkWithRetry/,'Successful code creation must not depend on a later pair-link write.');
 const joinFunction=pairSource.slice(pairSource.indexOf('async function pairJoinPairing'),pairSource.indexOf('function pairContextualJoinMessage'));
 assert.match(joinFunction,/durableWitness/);
+assert.match(joinFunction,/parsed=pairParsePlayerJoinCode\(capability\)[\s\S]*binding=await pairProvisionJoinerBinding\(context,role,parsed\.totalRounds\)[\s\S]*rivalryId=parsed\.rivalryId/,'Nik Join must provision its local career from Daniel's code before redeeming the one online Showdown.');
+assert.doesNotMatch(joinFunction,/pairEnsurePreparedBinding\(context,role\)/,'Nik Join must not require a second manual Start a Showdown step.');
+
 assert.match(joinFunction,/pairProviderConflictNeedsRefresh\(error\)[\s\S]*pairInitialize\(\{force:true\}\)/,'A stale registered joining browser must re-read durable provider authority after an active-pair conflict.');
 assert.doesNotMatch(joinFunction,/pairPersistPairLinkWithRetry/,'Successful one-use redemption must not depend on a later pair-link write.');
 assert.match(pairSource,/"RESTORE BACKUP"/);
