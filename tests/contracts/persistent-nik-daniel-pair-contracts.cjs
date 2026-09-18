@@ -211,7 +211,7 @@ assert.match(rulesFragment,/after\.data\.diff\(before\.data\)\.affectedKeys\(\)\
 
 assert.match(injector,/cmsPersistentPairCreationWitnessValid\(rivalryId\)/,'Production Rules injection must make the creator pair witness mandatory for initial rivalry creation.');
 assert.match(injector,/cmsPersistentPairRedemptionWitnessValid\(rivalryId, inviteBefore\.data\.slotId\)/,'Production Rules injection must make the joiner pair witness mandatory for validRivalryRedeem.');
-assert.match(injector,/\|\| cmsPersistentPairAbandonValid\(rivalryId\)/,'Generated production rivalry updates must include the bounded current-Showdown abandonment authority.');
+assert.match(injector,/request\.resource\.data\.data\.connectionState == 'closed'[\s\S]*!\('terminalClose' in request\.resource\.data\.data\)[\s\S]*&& cmsPersistentPairAbandonValid\(rivalryId\)[\s\S]*\|\| ssjrTerminalValidRivalryUpdate\(rivalryId\)/,'Generated rivalry updates must short-circuit bounded start-over abandonment before the expensive terminal-close validator so Firestore expression budget is not exhausted.');
 
 assert.match(rulesFragment,/activeDevice\(root\.updatedByDeviceId\)/);
 assert.match(rulesFragment,/activeDevice\(after\.updatedByDeviceId\)/);
@@ -253,7 +253,7 @@ assert.match(generated,/allow get: if signedIn\(\) && request\.auth\.uid == acco
 assert.match(generated,/cmsPersistentPairCreationWitnessValid\(rivalryId\)/,'Generated production Rules must reject creation without the exact creator account current-pair witness.');
 assert.match(generated,/cmsPersistentPairRedemptionWitnessValid\(rivalryId, inviteBefore\.data\.slotId\)/,'Generated production Rules must reject redemption without the exact joiner account current-pair witness.');
 assert.match(generated,/function cmsPersistentPairAbandonValid\(rivalryId\)/,'Generated production Rules must contain one explicit current-Showdown abandonment authority.');
-assert.match(generated,/\|\| cmsPersistentPairAbandonValid\(rivalryId\)/,'Generated production rivalry updates must permit only the bounded abandonment in addition to existing terminal close/redemption authority.');
+assert.match(generated,/allow update: if \(request\.resource\.data\.data\.connectionState == 'closed'[\s\S]*!\('terminalClose' in request\.resource\.data\.data\)[\s\S]*&& cmsPersistentPairAbandonValid\(rivalryId\)\)[\s\S]*\|\| ssjrTerminalValidRivalryUpdate\(rivalryId\)/,'Generated production rivalry updates must evaluate bounded non-terminal start-over abandonment before terminal-close authority, preserving both paths within Firestore expression budget.');
 
 assert.match(generated,/priorRivalry\.data\.data\.connectionState == 'closed'/);
 assert.match(generated,/allow list, delete: if false/);
