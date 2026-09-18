@@ -7,6 +7,7 @@
 
   const PHASE_INDEX=Object.freeze({SHARED_SETUP_OPEN:0,LEAGUE_WHEEL_COMMITTED:1,CLUB_ASSIGNMENTS_COMMITTED:2,SEASON_LENGTH_COMMITTED:3,SHOWDOWN_CONFIRMED:4});
   const LENGTHS=Object.freeze([1,3,5,10]);
+  const SEASON_BY_CAPABILITY_NIBBLE=Object.freeze({1:1,3:3,5:5,a:10});
   const HANDLED=new Set(["spinLeague","openClubPack","continueClubAssignment"]);
   const SEASON_PANEL_ID="sharedShowdownSeasonChoice";
   const STATUS_ID="sharedShowdownPresentationStatus";
@@ -27,7 +28,12 @@
   function ssjpManagers(){const current=ssjpShell();return current&&current.managers?current.managers:{playerOne:"PLAYER ONE",playerTwo:"PLAYER TWO"};}
   function ssjpPhaseAtLeast(phase){return Boolean(state&&state.setup&&Object.hasOwn(PHASE_INDEX,state.setup.phase)&&PHASE_INDEX[state.setup.phase]>=PHASE_INDEX[phase]);}
   function ssjpCoordinator(){return Boolean(state&&state.setup&&state.managerRole===state.setup.coordinatorRole);}
-  function ssjpPreparedSeasonLength(){const seasons=Number(ssjpShell()?.totalRounds);return LENGTHS.includes(seasons)?seasons:null;}
+  function ssjpBoundSeasonLength(){
+    const rivalryId=String(state?.rivalryId||"").trim(),match=/^pair_([0-9a-f])[0-9a-f]{63}$/i.exec(rivalryId);
+    return match?SEASON_BY_CAPABILITY_NIBBLE[match[1].toLowerCase()]||null:null;
+  }
+  function ssjpLocalSeasonLength(){const seasons=Number(ssjpShell()?.totalRounds);return LENGTHS.includes(seasons)?seasons:null;}
+  function ssjpPreparedSeasonLength(){const local=ssjpLocalSeasonLength(),bound=ssjpBoundSeasonLength();return local&&bound&&local===bound?local:null;}
   function ssjpSeasonMatchesPrepared(setup){const seasons=ssjpPreparedSeasonLength();return Boolean(seasons&&setup&&setup.totalSeasons===seasons);}
   function ssjpLeagueRecord(id){
     try{if(typeof root.getLeagueById==="function")return root.getLeagueById(id);}catch(_error){}
@@ -108,8 +114,9 @@
     if(!clubRevealComplete){panel.classList.add("hidden");return;}
     if(setup.phase==="CLUB_ASSIGNMENTS_COMMITTED"){
       panel.classList.remove("hidden");
-      ssjpText(panel.querySelector("h3"),prepared?`${prepared} SEASON${prepared===1?"":"S"} SELECTED`:"SEASON PLAN UNAVAILABLE");
-      ssjpText(copy,prepared?(ssjpCoordinator()?"Using the season length Daniel selected when this Showdown started. Locking it for both managers now.":"Using Daniel's original season choice. Waiting for the host to lock the same plan."):"The original season choice could not be recovered. Return to Showdown recovery instead of choosing a second season length.");
+      const local=ssjpLocalSeasonLength(),bound=ssjpBoundSeasonLength(),mismatch=Boolean(local&&bound&&local!==bound);
+      ssjpText(panel.querySelector("h3"),prepared?`${prepared} SEASON${prepared===1?"":"S"} SELECTED`:mismatch?"SEASON PLAN MISMATCH":"SEASON PLAN UNAVAILABLE");
+      ssjpText(copy,prepared?(ssjpCoordinator()?"Using the season length Daniel selected when this Showdown started. Locking it for both managers now.":"Using Daniel's original season choice. Waiting for the host to lock the same plan."):mismatch?"This device's local season plan does not match Daniel's paired Showdown code. Use Showdown recovery before continuing.":"The original season choice could not be recovered from paired authority. Return to Showdown recovery instead of choosing a second season length.");
       return;
     }
     if(ssjpPhaseAtLeast("SEASON_LENGTH_COMMITTED")){
