@@ -123,7 +123,7 @@ assert.match(identitySource,/const MANAGERS=Object\.freeze\(\{daniel:Object\.fre
 assert.match(identitySource,/"WHO ARE YOU\?"/);
 assert.match(identitySource,/"DANIEL · PLAYER ONE"/);
 assert.match(identitySource,/"NIK · PLAYER TWO"/);
-assert.match(identitySource,/isNik=current\?\.status==="ready"&&current\.managerId==="nik"[\s\S]*"JOIN DANIEL'S SHOWDOWN"[\s\S]*"Paste Daniel's code"/,'Nik's primary Home action must be Join, not Start a second Showdown.');
+assert.match(identitySource,/isNik=current\?\.status==="ready"&&current\.managerId==="nik"[\s\S]*"JOIN DANIEL'S SHOWDOWN"[\s\S]*"Paste Daniel's code"/, "Nik's primary Home action must be Join, not Start a second Showdown.");
 assert.match(identitySource,/gameplay\.id==="newShowdown"[\s\S]*managerId==="nik"[\s\S]*openCanonicalShowdownJoin\(\)/,'Nik clicking the primary Home tile must open the join surface instead of season selection.');
 assert.match(identitySource,/async function openCanonicalShowdownJoin\(\)[\s\S]*syncPersistentPairSidecar[\s\S]*persistentNikDanielPairPanel[\s\S]*persistentNikDanielPairCode/,'Nik Join must reconcile durable pair state and focus the single code-entry surface.');
 
@@ -176,7 +176,7 @@ assert.match(ensurePrepared,/PERSISTENT_PAIR_SEASON_SELECTION_REQUIRED/);
 assert.doesNotMatch(ensurePrepared,/preparePairingShell\(/,'Pair controls must never auto-create a default one-season shell.');
 assert.match(entrySource,/showdown\.name="Daniel vs Nik"/);
 assert.match(entrySource,/function normalizeCanonicalPlayers\(\)[\s\S]*playerOne:"Daniel",playerTwo:"Nik"/,'Paired-first entry must canonicalize the pre-draw shell to Daniel as Player One and Nik as Player Two.');
-assert.match(entrySource,/async function provisionJoinerShell\(totalRounds\)[\s\S]*\[1,3,5,10\]\.includes\(rounds\)[\s\S]*root\.createShowdown\(\)[\s\S]*persistPendingMarker\(\)[\s\S]*showScreen\("mainMenu",false\)/,'Nik's local shell must be created invisibly with Daniel's exact season length, marked shared-pending, and return to Home before Join continues.');
+assert.match(entrySource,/async function provisionJoinerShell\(totalRounds\)[\s\S]*\[1,3,5,10\]\.includes\(rounds\)[\s\S]*root\.createShowdown\(\)[\s\S]*persistPendingMarker\(\)[\s\S]*showScreen\("mainMenu",false\)/, "Nik's local shell must be created invisibly with Daniel's exact season length, marked shared-pending, and return to Home before Join continues.");
 assert.match(entrySource,/joinerShellProvisionedAutomatically:true/,'The production entry contract must advertise automatic joiner-shell provisioning.');
 assert.match(entrySource,/contractVersion:6/,'Automatic joiner provisioning must advance the production entry contract.');
 
@@ -194,7 +194,7 @@ assert.match(startFunction,/pairProviderConflictNeedsRefresh\(error\)[\s\S]*pair
 assert.doesNotMatch(startFunction,/pairPersistPairLinkWithRetry/,'Successful code creation must not depend on a later pair-link write.');
 const joinFunction=pairSource.slice(pairSource.indexOf('async function pairJoinPairing'),pairSource.indexOf('function pairContextualJoinMessage'));
 assert.match(joinFunction,/durableWitness/);
-assert.match(joinFunction,/parsed=pairParsePlayerJoinCode\(capability\)[\s\S]*binding=await pairProvisionJoinerBinding\(context,role,parsed\.totalRounds\)[\s\S]*rivalryId=parsed\.rivalryId/,'Nik Join must provision its local career from Daniel's code before redeeming the one online Showdown.');
+assert.match(joinFunction,/parsed=pairParsePlayerJoinCode\(capability\)[\s\S]*binding=await pairProvisionJoinerBinding\(context,role,parsed\.totalRounds\)[\s\S]*rivalryId=parsed\.rivalryId/, "Nik Join must provision its local career from Daniel's code before redeeming the one online Showdown.");
 assert.doesNotMatch(joinFunction,/pairEnsurePreparedBinding\(context,role\)/,'Nik Join must not require a second manual Start a Showdown step.');
 
 assert.match(joinFunction,/pairProviderConflictNeedsRefresh\(error\)[\s\S]*pairInitialize\(\{force:true\}\)/,'A stale registered joining browser must re-read durable provider authority after an active-pair conflict.');
