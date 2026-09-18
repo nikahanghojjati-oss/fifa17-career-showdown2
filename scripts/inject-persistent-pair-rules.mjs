@@ -43,7 +43,7 @@ export function injectPersistentPairRules(){
   generated=replaceOnce(
     generated,
     "      allow update: if ssjrTerminalValidRivalryUpdate(rivalryId)\n        || (!('terminalProgress' in request.resource.data.data) && validRivalryRedeem(rivalryId));",
-    "      allow update: if ssjrTerminalValidRivalryUpdate(rivalryId)\n        || cmsPersistentPairAbandonValid(rivalryId)\n        || (!('terminalProgress' in request.resource.data.data) && validRivalryRedeem(rivalryId));",
+    "      allow update: if (request.resource.data.data.connectionState == 'closed'\n          && !('terminalClose' in request.resource.data.data)\n          && cmsPersistentPairAbandonValid(rivalryId))\n        || ssjrTerminalValidRivalryUpdate(rivalryId)\n        || (!('terminalProgress' in request.resource.data.data) && validRivalryRedeem(rivalryId));",
     'persistent pair abandonment authority'
   );
   for(const required of [
@@ -59,7 +59,8 @@ export function injectPersistentPairRules(){
     'cmsPersistentPairAbandonActorValid(before, rivalryId)',
     "after.data.connectionState == 'closed'",
     "after.data.diff(before.data).affectedKeys().hasOnly(['connectionState'])",
-    '|| cmsPersistentPairAbandonValid(rivalryId)',
+    "!('terminalClose' in request.resource.data.data)",
+    '&& cmsPersistentPairAbandonValid(rivalryId)',
     "role == 'playerOne' && managerId == 'daniel'",
     "role == 'playerTwo' && managerId == 'nik'",
     'after.data.managerRole == before.data.managerRole',
