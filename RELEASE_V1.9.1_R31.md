@@ -21,6 +21,8 @@ The r30 `CONTINUE TO TRANSFER CHALLENGE` handoff remains unchanged and becomes a
 
 This is state-preserving. It does not redraw the league, redraw clubs, change season length, replace the persistent Daniel/Nik rivalry, or mutate canonical local save authority. The existing Bundesliga / SC Freiburg / Hertha BSC physical test Showdown can continue after updating.
 
+Historical Remote Joining engineering provenance remains repository-only; the normal player-facing shell continues to use the simplified Daniel/Nik connection language.
+
 Firebase remains Spark-only. Billing remains permanently OFF. App Check enforcement remains OFF. No Cloud Functions, Cloud Run, paid tier, or Rules expansion is introduced.
 
 SSJR-1.1 remains exactly `0/100` until the complete real two-device gameplay journey passes.
