@@ -6,7 +6,7 @@
   "use strict";
 
   const protocol=typeof require==="function"?require("./sharedCareerStart.js"):root.CareerModeSharedCareerStart;
-  const setupProvider=typeof require==="function"?require("./sparkSharedShowdownSetup.js"):root.CareerModeSparkSharedShowdownSetup;
+  function scspSetupProvider(){const provider=typeof require==="function"?require("./sparkSharedShowdownSetup.js"):root.CareerModeSparkSharedShowdownSetup;if(!provider||typeof provider.read!=="function")scspFail("CAREER_START_SETUP_PROVIDER_UNAVAILABLE");return provider;}
   const ROLES=Object.freeze(["playerOne","playerTwo"]);
   const OPERATION=/^career_start_op_[0-9a-f]{32}$/;
   const LEDGER_KEYS=Object.freeze(["schemaVersion","objectType","rivalryId","revision","phase","setupRevision","setupOperationIds","totalSeasons","acknowledgedRoles","operationIds","baseRevisions","actorRoles","activeSessionId","updatedAt","updatedByDeviceId"]);
@@ -54,7 +54,7 @@
   }
   function scspLedgerFrom({state,rivalryId,setupLedger,sessionId,deviceId,updatedAtValue}){return {schemaVersion:1,objectType:"sharedCareerStart",rivalryId,revision:state.revision,phase:state.phase,setupRevision:6,setupOperationIds:[...setupLedger.operationIds],totalSeasons:setupLedger.totalSeasons,acknowledgedRoles:[...state.acknowledgedRoles],operationIds:[...state.operationIds],baseRevisions:[...state.baseRevisions],actorRoles:[...state.actorRoles],activeSessionId:sessionId,updatedAt:updatedAtValue,updatedByDeviceId:deviceId};}
   async function scspConfirmedSetup(options){
-    if(!setupProvider||typeof setupProvider.read!=="function")scspFail("CAREER_START_SETUP_PROVIDER_UNAVAILABLE");
+    const setupProvider=scspSetupProvider();
     const result=await setupProvider.read(options);if(!result||result.ok!==true||!result.state)scspFail(result&&result.code||"CAREER_START_SETUP_NOT_CONFIRMED");protocol.validateConfirmedSetup(result.state);return result.state;
   }
   async function scspContext(options,transaction){
