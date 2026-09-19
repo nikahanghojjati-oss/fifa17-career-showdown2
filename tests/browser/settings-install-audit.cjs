@@ -93,6 +93,7 @@ async function run(){
         const install = panel.locator(".settingsOfflineInstallButton");
 
         assert.equal(await panel.isHidden(), true, "Offline/install recovery machinery must stay out of the normal player-facing Settings surface.");
+        assert.equal(await overlay.locator(".settingsApplicationUpdateButton").isVisible(), true, "Application update must remain reachable when the online identity surface hides offline machinery.");
         assert.equal(await panel.getAttribute("data-product-surface"), "internal", "Offline/install recovery panel must be explicitly classified as internal machinery.");
         assert.equal(await install.count(), 1, "Internal Settings architecture must retain one install action for recovery/testing.");
         assert.equal(await page.locator(".settingsOfflineInstallButton").count(), 1, "Install action must not be duplicated globally.");
@@ -183,7 +184,7 @@ async function run(){
     }
 }
 
-run().catch(error => {
+run().then(() => require("./app-update-bootstrap-audit.cjs")()).catch(error => {
     console.error(error);
     process.exitCode = 1;
 });
