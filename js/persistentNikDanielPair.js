@@ -115,6 +115,19 @@ function pairCreateDurableRedemptionWitness(context,role,manager,rivalryId){retu
 
   async function pairEnsureSaveLibraryAuthority(){const runtime=root.CareerModeSaveLibraryRuntime;if(runtime?.isReady?.())return runtime;if(typeof root.loadRuntimeScript!=="function")throw pairErrorWithCode("PERSISTENT_PAIR_STORAGE_UNAVAILABLE","Local career storage is unavailable.");await root.loadRuntimeScript("save-library-cutover","js/saveLibraryCutover.js",()=>typeof root.ensureSaveLibraryRuntimeAuthority==="function");await root.ensureSaveLibraryRuntimeAuthority();const active=root.CareerModeSaveLibraryRuntime;if(!active?.isReady?.())throw pairErrorWithCode("PERSISTENT_PAIR_STORAGE_UNAVAILABLE","Local career storage could not be activated.");return active;}
 
+  async function pairDeleteExactPreparedShell(context,role,saveId,profileId){
+    const normalizedRole=pairNormalizeManagerRole(role);
+    if(!pairValidSaveId(saveId)||!pairValidProfileId(profileId))throw pairErrorWithCode("PERSISTENT_PAIR_BINDING_INVALID","The stale local Showdown identity is invalid.");
+    const runtime=await pairEnsureSaveLibraryAuthority(),binding=pairPreparedBindingForRole(context.pairing,normalizedRole);
+    if(!binding)return{ok:true,status:"absent"};
+    if(binding.saveId!==saveId||binding.profileId!==profileId)throw pairErrorWithCode("PERSISTENT_PAIR_LOCAL_CLEANUP_CONTEXT_CHANGED","The local Showdown changed while the old connection was being removed. It was not deleted.");
+    if(typeof runtime.deleteSave!=="function")throw pairErrorWithCode("PERSISTENT_PAIR_STORAGE_UNAVAILABLE","Safe local Showdown deletion is unavailable.");
+    const result=runtime.deleteSave(saveId);
+    if(!result||result.ok!==true||result.deletedSaveId!==saveId)throw pairErrorWithCode("PERSISTENT_PAIR_LOCAL_CLEANUP_FAILED","The old online connection was closed, but its unfinished local Showdown could not be removed.");
+    try{root.sessionStorage?.removeItem("careerModeShowdown.sharedJourneyPending.v1");}catch(_error){}
+    return{ok:true,status:"deleted",saveId};
+  }
+
   async function pairInitialize(options={}){if(pairInitializePromise&&!options.force)return pairInitializePromise;pairInitializePromise=(async()=>{try{const context=await pairResolveContext(),link=await pairReadPairLink(context);if(!link)return pairSetState({status:"unpaired",initialized:true,busy:false,accountId:context.accountId,deviceId:context.deviceId,managerRole:null,managerId:null,rivalryId:null,connectionState:null,providerSaveId:null,providerProfileId:null,capability:null,message:"Daniel and Nik need to connect before the first Showdown."});let localManagerId=pairCurrentIdentityManagerId();if(localManagerId!==link.managerId&&typeof options.reconcileIdentity==="function"){await options.reconcileIdentity(link.managerId,link.managerRole);localManagerId=pairCurrentIdentityManagerId();}if(localManagerId&&localManagerId!==link.managerId)throw pairErrorWithCode("PERSISTENT_PAIR_IDENTITY_MISMATCH","This browser has conflicting player data. Forget this device and start again.");const active=link.connectionState==="active";if(active)await pairEnsureSaveLibraryAuthority();const localRecoveryReady=active&&pairHasExactLocalRecoveryCopy(link.managerRole,link.providerSaveId,link.providerProfileId);return pairSetState({status:active?(localRecoveryReady?"paired":"recovery-required"):"waiting",initialized:true,busy:false,accountId:context.accountId,deviceId:context.deviceId,managerRole:link.managerRole,managerId:link.managerId,rivalryId:link.rivalryId,connectionState:link.connectionState,providerSaveId:link.providerSaveId,providerProfileId:link.providerProfileId,capability:link.connectionState==="pending-pair"?(()=>{try{return pairBuildPlayerJoinCode(link.rivalryId);}catch(_error){return link.rivalryId;}})():null,message:active?(localRecoveryReady?`Welcome back, ${link.managerLabel}. Your Showdown is ready.`:`The old online Showdown is still connected, but this browser no longer has its local career data. Restore a backup if you have one, or delete the old Showdown and start fresh.`):`${link.managerLabel} is ready. Waiting for the other player to join.`});}catch(error){return pairSetState({status:error?.code==="PERSISTENT_PAIR_AUTH_REQUIRED"?"signed-out":"unavailable",initialized:true,busy:false,accountId:null,deviceId:null,managerRole:null,managerId:null,rivalryId:null,connectionState:null,providerSaveId:null,providerProfileId:null,capability:null,message:error?.message||"Your Showdown is temporarily unavailable."});}})().finally(()=>{pairInitializePromise=null;});return pairInitializePromise;}
   function pairSelectedRole(){return state.managerRole||pairCurrentIdentityRole();}
   const PAIR_SEASON_NIBBLE=Object.freeze({1:"1",3:"3",5:"5",10:"a"});
@@ -153,6 +166,7 @@ async function pairOpenRecoverySurface(){try{
 }}
 async function pairDiscardStalePendingConnection(){
   if(state.busy)return false;
+  let remoteClosed=false;
   try{
     const refreshed=await pairInitialize({force:true});
     if(refreshed?.status==="unpaired"||refreshed?.connectionState==="closed")return true;
@@ -160,18 +174,22 @@ async function pairDiscardStalePendingConnection(){
     if(!refreshed||refreshed.connectionState!=="pending-pair"||refreshed.managerRole!=="playerTwo"||identityRole!=="playerTwo"||!refreshed.rivalryId){
       throw pairErrorWithCode("PERSISTENT_PAIR_STALE_PENDING_STATE_CHANGED","This old connection changed. Nothing was deleted. Review the current screen and try again.");
     }
-    const rivalryId=refreshed.rivalryId;
-    const confirmed=root.confirm?.("Delete this old connection and start fresh? This closes the stale online test connection so Nik can join the new code Daniel creates.");
+    const rivalryId=refreshed.rivalryId,providerSaveId=refreshed.providerSaveId,providerProfileId=refreshed.providerProfileId;
+    const confirmed=root.confirm?.("Delete this old connection and start fresh? This closes the stale online test connection and removes only its unfinished local Showdown so Nik can join the new code Daniel creates.");
     if(confirmed===false)return false;
     const rechecked=await pairInitialize({force:true});
-    if(!rechecked||rechecked.connectionState!=="pending-pair"||rechecked.managerRole!=="playerTwo"||pairCurrentIdentityRole()!=="playerTwo"||rechecked.rivalryId!==rivalryId){
+    if(!rechecked||rechecked.connectionState!=="pending-pair"||rechecked.managerRole!=="playerTwo"||pairCurrentIdentityRole()!=="playerTwo"||rechecked.rivalryId!==rivalryId||rechecked.providerSaveId!==providerSaveId||rechecked.providerProfileId!==providerProfileId){
       throw pairErrorWithCode("PERSISTENT_PAIR_STALE_PENDING_STATE_CHANGED","This old connection changed after confirmation. Nothing was deleted. Review the current screen and try again.");
     }
-    const closed=await pairAbandonCurrentShowdown({expectedRivalryId:rivalryId});
+    const context=await pairResolveContext();
+    const closed=await pairAbandonCurrentShowdown({expectedRivalryId:rivalryId,expectedSaveId:providerSaveId});
     if(!closed||closed.ok!==true)throw pairErrorWithCode("PERSISTENT_PAIR_ABANDON_FAILED","The old connection could not be closed safely.");
-    return pairSetState({...state,status:"unpaired",busy:false,capability:null,message:"Old connection deleted. Paste the new code Daniel sends."});
+    remoteClosed=true;
+    await pairDeleteExactPreparedShell(context,"playerTwo",providerSaveId,providerProfileId);
+    return pairSetState({...state,status:"unpaired",busy:false,managerRole:null,managerId:null,rivalryId:null,connectionState:null,providerSaveId:null,providerProfileId:null,capability:null,message:"Old connection and unfinished test Showdown deleted. Paste the new code Daniel sends."});
   }catch(error){
-    return pairSetState({...state,busy:false,message:`Old connection cleanup could not finish. ${error?.message||"Nothing was deleted."}`});
+    const prefix=remoteClosed?"The old online connection was closed, but local cleanup needs attention. ":"Old connection cleanup could not finish. ";
+    return pairSetState({...state,status:remoteClosed?"save-required":state.status,busy:false,message:prefix+(error?.message||"Nothing else was changed.")});
   }
 }
 
