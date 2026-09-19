@@ -18,4 +18,4 @@ The Shared Setup controls now enter busy state immediately on the first accepted
 
 Firebase remains Spark-only. Billing remains permanently OFF. Cloud Run and Cloud Functions remain unused. App Check enforcement remains OFF. Canonical local storage authority is unchanged. No Showdown reset, club redraw, or local-save replacement is introduced.
 
-Remote Joining engineering provenance remains repository-only and does not change the player-facing flow. SSJR production credit is not inferred from CI or deployment evidence.
+Remote Joining engineering provenance remains repository-only and does not change the player-facing flow. SSJR-1.1 remains exactly `0/100`; SSJR production credit is not inferred from CI or deployment evidence.
