@@ -115,7 +115,6 @@ async function prepare(page,{managerRole,remoteRole,initialSetup,reducedMotion=t
     assert.deepEqual(careerRoute,{opened:1,installed:1},"When the rival already confirmed, one Confirm Shared Showdown click must both finish setup and enter Career Start; no second Continue tap.");
 
     await host.evaluate(async()=>{
-      window.CareerModeProductionSharedShowdownPresentation.activate=window.CareerModeProductionSharedShowdownPresentation.activate;
       window.CareerModeProductionSharedShowdownPresentation.deactivate();
       window.__setSharedRivalryId("pair_5"+"c".repeat(63));
       window.__setSharedServerSetup({schemaVersion:1,bindingHash:"sha256:"+"1".repeat(64),catalogHash:"sha256:"+"2".repeat(64),coordinatorRole:"playerOne",phase:"SHARED_SETUP_OPEN",revision:1,leagueId:null,clubs:null,totalSeasons:null,confirmedRoles:[],receipts:[],contentHash:"sha256:"+"3".repeat(64)});
