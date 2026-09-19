@@ -12,7 +12,7 @@
   const SEASON_PANEL_ID="sharedShowdownSeasonChoice";
   const STATUS_ID="sharedShowdownPresentationStatus";
   const POLL_MS=2500;
-  let installed=false,active=false,setupApi=null,unsubscribe=null,state=null,busy=false,pollBusy=false,pollTimer=null,preparedSeasonCommitPromise=null;
+  let installed=false,active=false,setupApi=null,unsubscribe=null,state=null,busy=false,pollBusy=false,pollTimer=null,preparedSeasonCommitPromise=null,actionPromise=null,presentationContextKey="";
   let timers=[];
   let witnessedLeagueId=null;
   let witnessedClubDigest=null;
@@ -43,14 +43,28 @@
   function ssjpText(node,value){if(node&&node.textContent!==String(value??""))node.textContent=String(value??"");}
   function ssjpClearTimers(){for(const timer of timers)root.clearTimeout(timer);timers=[];}
   function ssjpLater(fn,ms){const id=root.setTimeout(()=>{timers=timers.filter(item=>item!==id);fn();},ms);timers.push(id);return id;}
+  function ssjpContextKey(next=state){const shell=ssjpShell();return `${String(next?.rivalryId||"").trim()}|${String(shell?.id||shell?.saveId||"").trim()}`;}
+  function ssjpResetWitnesses(){
+    ssjpClearTimers();witnessedLeagueId=null;witnessedClubDigest=null;revealingClubDigest=null;clubRevealComplete=false;preparedSeasonCommitPromise=null;
+    const league=root.document&&root.document.getElementById("leagueWheelScreen"),club=root.document&&root.document.getElementById("clubWheelScreen");
+    if(league)delete league.dataset.sharedLeagueWitnessed;
+    if(club){delete club.dataset.sharedClubPacksWitnessed;delete club.dataset.sharedPackDigest;}
+  }
+  function ssjpAdoptState(next){
+    const nextKey=ssjpContextKey(next);
+    if(presentationContextKey&&nextKey&&nextKey!==presentationContextKey)ssjpResetWitnesses();
+    presentationContextKey=nextKey||presentationContextKey;state=next;return state;
+  }
+  function ssjpActionBusy(){return Boolean(actionPromise)||busy;}
+
   async function ssjpLoadScript(key,path,ready){if(ready())return ready();if(typeof root.loadRuntimeScript!=="function")throw new Error("Release-owned runtime loader is unavailable.");await root.loadRuntimeScript(key,path,ready);return ready();}
   async function ssjpEnsureSetup(){
     if(setupApi)return setupApi;
     await ssjpLoadScript("ssjr-production-setup","js/productionSharedShowdownSetup.js",()=>root.CareerModeProductionSharedShowdownSetup);
     setupApi=root.CareerModeProductionSharedShowdownSetup;
     if(!setupApi||typeof setupApi.refresh!=="function"||typeof setupApi.mutate!=="function"||typeof setupApi.subscribe!=="function")throw new Error("Authoritative Shared Setup is unavailable.");
-    if(!unsubscribe)unsubscribe=setupApi.subscribe(next=>{state=next;void ssjpRenderCurrent();});
-    state=setupApi.getState();
+    if(!unsubscribe)unsubscribe=setupApi.subscribe(next=>{ssjpAdoptState(next);void ssjpRenderCurrent();});
+    ssjpAdoptState(setupApi.getState());
     return setupApi;
   }
   async function ssjpEnsureGameplay(){if(typeof root.ensureGameplayModules!=="function")throw new Error("Gameplay presentation loader is unavailable.");await root.ensureGameplayModules();if(typeof root.ensureRequiredFootballVisualExperience==="function")await root.ensureRequiredFootballVisualExperience();}
@@ -78,14 +92,14 @@
     if(!screen||!button||!result)return false;screen.dataset.sharedPresentationRole=state&&state.managerRole||"unresolved";
     const ready=Boolean(state&&state.ready);
     if(!ready){ssjpText(result,"Pair managers to unlock the league wheel");ssjpSetControl(button,{label:"PAIR + ACTIVATE SESSION FIRST",disabled:true});if(note){ssjpText(note,state&&state.message||"Exact pairing and an ACTIVE private session are required before the wheel can spin.");note.classList.remove("hidden");}return true;}
-    if(!state.setup){ssjpText(result,"Shared league wheel ready");ssjpSetControl(button,{label:state.remoteRole==="host"?"SPIN SHARED LEAGUE WHEEL":"WAITING FOR HOST",disabled:state.remoteRole!=="host"});ssjpSetSharedStatus(state.remoteRole==="host"?"PAIRING + ACTIVE SESSION VERIFIED · Spin the league wheel. The provider owns the result.":"PAIRING + ACTIVE SESSION VERIFIED · Waiting for the host. This screen will update automatically.");return true;}
-    if(state.setup.phase==="SHARED_SETUP_OPEN"){ssjpText(result,"Spin to reveal the shared league");ssjpSetControl(button,{label:ssjpCoordinator()?"SPIN SHARED LEAGUE WHEEL":"WAITING FOR HOST SPIN",disabled:!ssjpCoordinator()});ssjpSetSharedStatus(ssjpCoordinator()?"AUTHORITATIVE SHARED SETUP OPEN · Spin the real league wheel.":"AUTHORITATIVE SHARED SETUP OPEN · Waiting for the host spin. This screen will update automatically.");return true;}
+    if(!state.setup){ssjpText(result,"Shared league wheel ready");ssjpSetControl(button,{label:state.remoteRole==="host"?"SPIN SHARED LEAGUE WHEEL":"WAITING FOR HOST",disabled:state.remoteRole!=="host"||ssjpActionBusy()});ssjpSetSharedStatus(state.remoteRole==="host"?"PAIRING + ACTIVE SESSION VERIFIED · Spin the league wheel. The provider owns the result.":"PAIRING + ACTIVE SESSION VERIFIED · Waiting for the host. This screen will update automatically.");return true;}
+    if(state.setup.phase==="SHARED_SETUP_OPEN"){ssjpText(result,"Spin to reveal the shared league");ssjpSetControl(button,{label:ssjpCoordinator()?"SPIN SHARED LEAGUE WHEEL":"WAITING FOR HOST SPIN",disabled:!ssjpCoordinator()||ssjpActionBusy()});ssjpSetSharedStatus(ssjpCoordinator()?"AUTHORITATIVE SHARED SETUP OPEN · Spin the real league wheel.":"AUTHORITATIVE SHARED SETUP OPEN · Waiting for the host spin. This screen will update automatically.");return true;}
     const league=ssjpLeagueRecord(state.setup.leagueId);ssjpText(result,league&&league.name||state.setup.leagueId);
     if(witnessedLeagueId!==state.setup.leagueId){
       witnessedLeagueId=state.setup.leagueId;screen.dataset.sharedLeagueWitnessed=state.setup.leagueId;
       if(track){const rotation=typeof root.getLeagueRotation==="function"?root.getLeagueRotation(state.setup.leagueId,6):(typeof getLeagueRotation==="function"?getLeagueRotation(state.setup.leagueId,6):0);if(typeof root.setLeagueWheelTransition==="function")root.setLeagueWheelTransition(track,4000);else track.style.transition="transform 4000ms cubic-bezier(.16,.76,.16,1)";track.style.transform=`rotate(${rotation}deg)`;track.dataset.sharedLeagueId=state.setup.leagueId;ssjpLater(()=>{const finalRotation=typeof root.getLeagueRotation==="function"?root.getLeagueRotation(state.setup.leagueId,0):(typeof getLeagueRotation==="function"?getLeagueRotation(state.setup.leagueId,0):rotation);if(typeof root.setLeagueWheelTransition==="function")root.setLeagueWheelTransition(track,0);else track.style.transition="none";track.style.transform=`rotate(${finalRotation}deg)`;},4100);}
     }
-    ssjpSetControl(button,{label:"CONTINUE TO CLUB PACKS",disabled:false});if(note){ssjpText(note,`${league&&league.name||state.setup.leagueId} is authoritative and locked for both managers.`);note.classList.remove("hidden");}ssjpSetSharedStatus("LEAGUE REVEALED ON THIS DEVICE · Continue to the original club-pack screen. No reroll.");return true;
+    ssjpSetControl(button,{label:"CONTINUE TO CLUB PACKS",disabled:ssjpActionBusy()});if(note){ssjpText(note,`${league&&league.name||state.setup.leagueId} is authoritative and locked for both managers.`);note.classList.remove("hidden");}ssjpSetSharedStatus("LEAGUE REVEALED ON THIS DEVICE · Continue to the original club-pack screen. No reroll.");return true;
   }
 
   function ssjpResetPackCards(){if(typeof root.resetClubRevealCards==="function")root.resetClubRevealCards();else for(const [cardId,nameId,stateId] of [["clubCardOne","clubNameOne","clubCardStateOne"],["clubCardTwo","clubNameTwo","clubCardStateTwo"]]){const card=root.document.getElementById(cardId),name=root.document.getElementById(nameId),stateNode=root.document.getElementById(stateId);if(card)card.classList.remove("is-revealed");ssjpText(name,"?");ssjpText(stateNode,"SEALED");}}
@@ -128,20 +142,20 @@
     }
     panel.classList.add("hidden");
   }
-  function ssjpRenderConfirmButton(setup){const button=root.document.getElementById("continueClubAssignment");if(!button)return;if(!clubRevealComplete){ssjpSetControl(button,{label:"WATCH BOTH PACK REVEALS",disabled:true,hidden:true});return;}if(setup.phase==="SEASON_LENGTH_COMMITTED"){if(!ssjpSeasonMatchesPrepared(setup)){ssjpSetControl(button,{label:"SEASON PLAN MISMATCH · RECOVERY REQUIRED",disabled:true,hidden:false});return;}const confirmed=setup.confirmedRoles.includes(state.managerRole);ssjpSetControl(button,{label:confirmed?"CONFIRMED · WAITING FOR RIVAL":"CONFIRM SHARED SHOWDOWN",disabled:confirmed||busy,hidden:false});return;}if(setup.phase==="SHOWDOWN_CONFIRMED"){const matches=ssjpSeasonMatchesPrepared(setup),authorityReady=state?.ready===true;ssjpSetControl(button,{label:!matches?"SEASON PLAN MISMATCH · RECOVERY REQUIRED":authorityReady?"CONTINUE TO CAREER START":"RECONNECT PLAYERS TO CONTINUE",disabled:!matches||!authorityReady||busy,hidden:false});return;}ssjpSetControl(button,{label:"CONFIRM SHARED SHOWDOWN",disabled:true,hidden:true});}
+  function ssjpRenderConfirmButton(setup){const button=root.document.getElementById("continueClubAssignment");if(!button)return;if(!clubRevealComplete){ssjpSetControl(button,{label:"WATCH BOTH PACK REVEALS",disabled:true,hidden:true});return;}if(setup.phase==="SEASON_LENGTH_COMMITTED"){if(!ssjpSeasonMatchesPrepared(setup)){ssjpSetControl(button,{label:"SEASON PLAN MISMATCH · RECOVERY REQUIRED",disabled:true,hidden:false});return;}const confirmed=setup.confirmedRoles.includes(state.managerRole);ssjpSetControl(button,{label:confirmed?"CONFIRMED · WAITING FOR RIVAL":"CONFIRM SHARED SHOWDOWN",disabled:confirmed||ssjpActionBusy(),hidden:false});return;}if(setup.phase==="SHOWDOWN_CONFIRMED"){const matches=ssjpSeasonMatchesPrepared(setup),authorityReady=state?.ready===true;ssjpSetControl(button,{label:!matches?"SEASON PLAN MISMATCH · RECOVERY REQUIRED":authorityReady?"CONTINUE TO CAREER START":"RECONNECT PLAYERS TO CONTINUE",disabled:!matches||!authorityReady||ssjpActionBusy(),hidden:false});return;}ssjpSetControl(button,{label:"CONFIRM SHARED SHOWDOWN",disabled:true,hidden:true});}
   function ssjpRenderClub(){
     if(!root.document||!ssjpPending())return false;ssjpRemoveForeignStatus();const setup=state&&state.setup;if(!setup||!ssjpPhaseAtLeast("LEAGUE_WHEEL_COMMITTED"))return false;if(witnessedLeagueId!==setup.leagueId){ssjpForceScreen("leagueWheelScreen");return ssjpRenderLeague();}
     const screen=root.document.getElementById("clubWheelScreen"),league=ssjpLeagueRecord(setup.leagueId),m=ssjpManagers();if(!screen)return false;screen.dataset.sharedPresentationRole=state&&state.managerRole||"unresolved";ssjpText(root.document.getElementById("clubAssignmentLeague"),league&&league.name||setup.leagueId);ssjpText(root.document.getElementById("clubPlayerOne"),m.playerOne||"PLAYER ONE");ssjpText(root.document.getElementById("clubPlayerTwo"),m.playerTwo||"PLAYER TWO");const open=root.document.getElementById("openClubPack"),back=root.document.getElementById("clubAssignmentBack");if(back){back.disabled=true;back.classList.add("hidden");}
-    if(setup.phase==="LEAGUE_WHEEL_COMMITTED"){clubRevealComplete=false;witnessedClubDigest=null;revealingClubDigest=null;ssjpResetPackCards();const confirmation=root.document.getElementById("clubRivalryConfirmation");if(confirmation)confirmation.classList.add("hidden");const panel=root.document.getElementById(SEASON_PANEL_ID);if(panel)panel.classList.add("hidden");ssjpText(root.document.getElementById("clubPackStatus"),"LEAGUE LOCKED · TWO SHARED CLUB PACKS READY");ssjpSetControl(open,{label:ssjpCoordinator()?"OPEN SHOWDOWN PACKS":"WAITING FOR HOST PACK REVEAL",disabled:!ssjpCoordinator()||busy,hidden:false});ssjpRenderConfirmButton(setup);ssjpSetSharedStatus(ssjpCoordinator()?"AUTHORITATIVE CLUB PACKS · Open the original two-pack reveal.":"AUTHORITATIVE CLUB PACKS · Waiting for the host. These packs will open automatically when the provider commits the clubs.");return true;}
+    if(setup.phase==="LEAGUE_WHEEL_COMMITTED"){clubRevealComplete=false;witnessedClubDigest=null;revealingClubDigest=null;ssjpResetPackCards();const confirmation=root.document.getElementById("clubRivalryConfirmation");if(confirmation)confirmation.classList.add("hidden");const panel=root.document.getElementById(SEASON_PANEL_ID);if(panel)panel.classList.add("hidden");ssjpText(root.document.getElementById("clubPackStatus"),"LEAGUE LOCKED · TWO SHARED CLUB PACKS READY");ssjpSetControl(open,{label:ssjpCoordinator()?"OPEN SHOWDOWN PACKS":"WAITING FOR HOST PACK REVEAL",disabled:!ssjpCoordinator()||ssjpActionBusy(),hidden:false});ssjpRenderConfirmButton(setup);ssjpSetSharedStatus(ssjpCoordinator()?"AUTHORITATIVE CLUB PACKS · Open the original two-pack reveal.":"AUTHORITATIVE CLUB PACKS · Waiting for the host. These packs will open automatically when the provider commits the clubs.");return true;}
     ssjpSetControl(open,{label:"PACKS OPENED",disabled:true,hidden:true});ssjpAnimatePacks(setup);ssjpFillConfirmation(setup);if(setup.phase==="CLUB_ASSIGNMENTS_COMMITTED"&&ssjpCoordinator())void ssjpCommitPreparedSeasonLength();ssjpRenderSeasonControls(setup);ssjpRenderConfirmButton(setup);if(setup.phase==="SHOWDOWN_CONFIRMED")ssjpSetSharedStatus(state?.ready!==true?"SESSION CONNECTION REQUIRED · Reconnect both players before Career Start.":clubRevealComplete?"SHARED SETUP COMPLETE · Both managers witnessed the league wheel and club packs on this device.":"SHARED SETUP COMPLETE IN AUTHORITY · Finish watching both pack reveals on this device.");else if(setup.phase==="SEASON_LENGTH_COMMITTED")ssjpSetSharedStatus(clubRevealComplete?"FINAL CONFIRMATION · Each manager confirms on their own device.":"WATCH BOTH CLUB PACK REVEALS · Confirmation unlocks after this device witnesses them.");else ssjpSetSharedStatus(clubRevealComplete?"CLUBS REVEALED · Locking Daniel's season choice from Showdown start.":"OPENING AUTHORITATIVE CLUB PACKS · Both managers see the same two reveals.");return true;
   }
 
   async function ssjpRenderCurrent(){if(!active||!ssjpPending())return false;const screen=ssjpActiveScreen();if(screen==="leagueWheelScreen")return ssjpRenderLeague();if(screen==="clubWheelScreen")return ssjpRenderClub();return false;}
-  async function ssjpRefresh(){const api=await ssjpEnsureSetup(),result=await api.refresh();state=api.getState();await ssjpRenderCurrent();return result;}
+  async function ssjpRefresh(){const api=await ssjpEnsureSetup(),result=await api.refresh();ssjpAdoptState(api.getState());await ssjpRenderCurrent();return result;}
   async function ssjpPoll(){if(!active||!ssjpPending()||busy||pollBusy||root.document&&root.document.visibilityState==="hidden")return;pollBusy=true;try{await ssjpRefresh();}catch(_error){}finally{pollBusy=false;}}
   function ssjpStartPolling(){if(pollTimer!==null||typeof root.setInterval!=="function")return;pollTimer=root.setInterval(()=>void ssjpPoll(),POLL_MS);}
   function ssjpStopPolling(){if(pollTimer!==null){root.clearInterval(pollTimer);pollTimer=null;}}
-  async function ssjpMutate(type,extra){if(busy)return false;busy=true;try{const api=await ssjpEnsureSetup(),result=await api.mutate(type,extra||{});state=api.getState();await ssjpRenderCurrent();return result&&result.ok===true;}finally{busy=false;await ssjpRenderCurrent();}}
+  async function ssjpMutate(type,extra){if(busy)return false;busy=true;try{const api=await ssjpEnsureSetup(),result=await api.mutate(type,extra||{});ssjpAdoptState(api.getState());await ssjpRenderCurrent();return result&&result.ok===true;}finally{busy=false;await ssjpRenderCurrent();}}
   async function ssjpCommitPreparedSeasonLength(){
     if(preparedSeasonCommitPromise)return preparedSeasonCommitPromise;
     const seasons=ssjpPreparedSeasonLength();
@@ -166,7 +180,7 @@
     }
   }
   function ssjpHandlesControl(id){return active&&ssjpPending()&&HANDLED.has(id);}
-  async function ssjpHandleControlClick(id){
+  async function ssjpHandleControlClickNow(id){
     if(!ssjpHandlesControl(id))return false;await ssjpEnsureSetup();
     if(id==="spinLeague"){
       if(!state.ready){await ssjpRefresh();return true;}
@@ -175,12 +189,34 @@
       if(state.setup&&ssjpPhaseAtLeast("LEAGUE_WHEEL_COMMITTED")){if(witnessedLeagueId!==state.setup.leagueId){await ssjpRenderLeague();return true;}ssjpForceScreen("clubWheelScreen");await ssjpRenderClub();return true;}return true;
     }
     if(id==="openClubPack"){if(state.setup&&state.setup.phase==="LEAGUE_WHEEL_COMMITTED"){if(ssjpCoordinator())await ssjpMutate("commit-clubs");else await ssjpRefresh();return true;}await ssjpRefresh();return true;}
-    if(id==="continueClubAssignment"){if(!clubRevealComplete)return true;if(state.setup&&state.setup.phase==="SEASON_LENGTH_COMMITTED"&&!state.setup.confirmedRoles.includes(state.managerRole)){await ssjpMutate("confirm");return true;}if(state.setup&&state.setup.phase==="SHOWDOWN_CONFIRMED"){await ssjpOpenCareerStart();return true;}await ssjpRefresh();return true;}
+    if(id==="continueClubAssignment"){
+      if(!clubRevealComplete){await ssjpRenderClub();return true;}
+      if(state.setup&&state.setup.phase==="SEASON_LENGTH_COMMITTED"&&!state.setup.confirmedRoles.includes(state.managerRole)){
+        const confirmed=await ssjpMutate("confirm");
+        if(confirmed&&state?.setup?.phase==="SHOWDOWN_CONFIRMED"&&state?.ready===true)await ssjpOpenCareerStart();
+        return true;
+      }
+      if(state.setup&&state.setup.phase==="SHOWDOWN_CONFIRMED"){await ssjpOpenCareerStart();return true;}
+      await ssjpRefresh();return true;
+    }
     return false;
   }
+  function ssjpHandleControlClick(id){
+    if(!ssjpHandlesControl(id))return Promise.resolve(false);
+    if(actionPromise)return actionPromise;
+    const button=root.document&&root.document.getElementById(id);
+    if(button){button.disabled=true;button.setAttribute("aria-disabled","true");button.setAttribute("aria-busy","true");}
+    const current=Promise.resolve().then(()=>ssjpHandleControlClickNow(id)).finally(async()=>{
+      if(actionPromise===current)actionPromise=null;
+      if(button)button.removeAttribute("aria-busy");
+      await ssjpRenderCurrent();
+    });
+    actionPromise=current;
+    return current;
+  }
   async function ssjpActivate(){active=true;await ssjpEnsureGameplay();await ssjpEnsureSetup();await ssjpRefresh();const plain=root.document&&root.document.getElementById("productionSharedSetupOverlay");if(plain)plain.classList.add("hidden");ssjpForceScreen("leagueWheelScreen");await ssjpRenderLeague();ssjpStartPolling();return true;}
-  function ssjpDeactivate(){active=false;ssjpStopPolling();ssjpClearTimers();revealingClubDigest=null;preparedSeasonCommitPromise=null;const panel=root.document&&root.document.getElementById(SEASON_PANEL_ID);if(panel)panel.remove();const note=root.document&&root.document.getElementById(STATUS_ID);if(note)note.remove();return true;}
+  function ssjpDeactivate(){active=false;ssjpStopPolling();ssjpResetWitnesses();presentationContextKey="";actionPromise=null;const panel=root.document&&root.document.getElementById(SEASON_PANEL_ID);if(panel)panel.remove();const note=root.document&&root.document.getElementById(STATUS_ID);if(note)note.remove();return true;}
   function ssjpInstall(){if(installed)return true;installed=true;return true;}
 
-  return Object.freeze({contractVersion:2,feature:"ssjr-production-shared-showdown-polished-presentation",productionEnabled:true,pairingRequired:true,exactActiveSessionRequired:true,providerOwnsDrawAuthority:true,bothManagerRolesWitnessLeagueWheel:true,bothManagerRolesWitnessClubPacks:true,peerAutoRefreshesAuthority:true,usesLeagueWheelScreen:true,usesClubPackRevealScreen:true,engineeringSetupPanelPlayerFacing:false,localRandomLeagueAuthority:false,localRandomClubAuthority:false,canonicalStorageMutation:false,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,appCheckEnforcementRequired:false,install:ssjpInstall,activate:ssjpActivate,deactivate:ssjpDeactivate,refresh:ssjpRefresh,handleControlClick:ssjpHandleControlClick,handlesControl:ssjpHandlesControl,renderCurrent:ssjpRenderCurrent,isPresentationActive:()=>active&&ssjpPending(),getState:()=>Object.freeze({active:active&&ssjpPending(),phase:state&&state.setup&&state.setup.phase||null,revision:state&&state.setup&&state.setup.revision||0,managerRole:state&&state.managerRole||null,route:ssjpActiveScreen(),leagueWitnessed:witnessedLeagueId,clubPacksWitnessed:witnessedClubDigest,clubRevealComplete})});
+  return Object.freeze({contractVersion:2,feature:"ssjr-production-shared-showdown-polished-presentation",productionEnabled:true,pairingRequired:true,exactActiveSessionRequired:true,providerOwnsDrawAuthority:true,bothManagerRolesWitnessLeagueWheel:true,bothManagerRolesWitnessClubPacks:true,peerAutoRefreshesAuthority:true,singleClickActionSerialization:true,contextScopedRevealWitnesses:true,oneClickFinalConfirmationHandoff:true,usesLeagueWheelScreen:true,usesClubPackRevealScreen:true,engineeringSetupPanelPlayerFacing:false,localRandomLeagueAuthority:false,localRandomClubAuthority:false,canonicalStorageMutation:false,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,appCheckEnforcementRequired:false,install:ssjpInstall,activate:ssjpActivate,deactivate:ssjpDeactivate,refresh:ssjpRefresh,handleControlClick:ssjpHandleControlClick,handlesControl:ssjpHandlesControl,renderCurrent:ssjpRenderCurrent,isPresentationActive:()=>active&&ssjpPending(),getState:()=>Object.freeze({active:active&&ssjpPending(),phase:state&&state.setup&&state.setup.phase||null,revision:state&&state.setup&&state.setup.revision||0,managerRole:state&&state.managerRole||null,route:ssjpActiveScreen(),leagueWitnessed:witnessedLeagueId,clubPacksWitnessed:witnessedClubDigest,clubRevealComplete})});
 });
