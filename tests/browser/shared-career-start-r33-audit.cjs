@@ -111,6 +111,7 @@ async function prepareCareerPage(page,role,shared){
   await page.evaluate(({role,setup,rivalryId,sessionId,accountId,deviceId})=>{
     window.__careerRole=role;
     window.__transferOpenCount=0;
+    currentShowdown={name:"Daniel vs Nik",managers:{playerOne:"Daniel",playerTwo:"Nik"},totalRounds:1,currentRound:1,status:"Ready",selectedLeague:{id:"bundesliga",name:"Bundesliga"},clubs:{playerOne:"SC Freiburg",playerTwo:"Hertha BSC"},transferChallenges:[],rounds:[],sharedJourney:{mode:"shared",rivalryId}};
     const setupState={
       ready:true,status:"ready",open:false,busy:false,
       rivalryId,sessionId,accountId,deviceId,managerRole:role,
