@@ -20,6 +20,8 @@ Fresh-browser ACTIVE recovery remains unchanged. `DELETE OLD SHOWDOWN & START OV
 
 Runtime r28 Career Start routing, single-season selection, paired-capability validation, persistent `UPDATE TO LATEST VERSION`, and the online-only two-manager architecture remain unchanged.
 
+Historical Remote Joining engineering provenance remains repository-only; the normal player-facing shell continues to use the simplified Daniel/Nik connection language.
+
 Firebase remains Spark-only. Billing remains permanently OFF. App Check enforcement remains OFF. No Cloud Functions, Cloud Run, paid tier, or Rules expansion is introduced.
 
 SSJR-1.1 remains exactly `0/100` until a fresh real two-device physical journey passes.
