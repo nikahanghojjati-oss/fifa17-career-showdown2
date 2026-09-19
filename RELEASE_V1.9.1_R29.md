@@ -12,7 +12,7 @@ Runtime r29 fixes stale remote test-state cleanup for the current Daniel-hosted 
 
 If Nik / Player Two still has a historical `pending-pair` from an older test, the Home connection panel no longer exposes that stale host capability, `COPY CODE`, or `NEW CODE`. Instead it shows `OLD CONNECTION FOUND` with `DELETE OLD CONNECTION & START FRESH`.
 
-That action revalidates the exact pending rivalry, asks for confirmation, closes that stale remote rivalry exactly once, and returns Nik to the current supported join state: `Paste Daniel's code` + `JOIN DANIEL'S SHOWDOWN`.
+That action revalidates the exact pending rivalry, asks for confirmation, closes that stale remote rivalry exactly once, then deletes only the exact provider-bound unfinished local Shared Showdown shell when one still exists. Nik is returned to the current supported join state only after that cleanup: `Paste Daniel's code` + `JOIN DANIEL'S SHOWDOWN`.
 
 Daniel / Player One pending-pair behavior remains unchanged: Daniel is the only manager allowed to create and share the Showdown connection code.
 
