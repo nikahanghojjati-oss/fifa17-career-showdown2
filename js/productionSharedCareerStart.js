@@ -8,7 +8,7 @@
   const PANEL_ID="productionSharedCareerStartOverlay";
   const CONTROL_ID="continueClubAssignment";
   const POLL_MS=15000;
-  let installed=false,busy=false,pollTimer=null,setupApi=null,provider=null,view=null,operationTail=Promise.resolve(),refreshPromise=null;
+  let installed=false,busy=false,pollTimer=null,setupApi=null,provider=null,view=null,lastError="",operationTail=Promise.resolve(),refreshPromise=null;
 
   function pcstCreate(tag,className,text){const node=root.document.createElement(tag);if(className)node.className=className;if(text!==undefined)node.textContent=String(text);return node;}
   function pcstReport(context,error){if(typeof root.reportApplicationError==="function")root.reportApplicationError(context,error);else root.console?.error?.(context,error);}
@@ -38,15 +38,53 @@
     if(!services||services.ok===false||!services.auth?.currentUser||!services.firestore||!services.firestoreSdk)throw new Error("Connected account services are unavailable.");
     return {state,options:{user:services.auth.currentUser,firestore:services.firestore,firebaseSdk:services.firestoreSdk,rivalryId:state.rivalryId,sessionId:state.sessionId,deviceId:state.deviceId,cryptoImpl:root.crypto}};
   }
+  function pcstApplyView(result,setup){
+    view={...result,setup};lastError="";pcstRender();pcstDecorateControl();if(pcstReady())pcstStopPolling();return view;
+  }
+  function pcstOwnAcknowledged(result){
+    const role=result?.managerRole,state=result?.state;
+    return Boolean(role&&state&&Array.isArray(state.acknowledgedRoles)&&state.acknowledgedRoles.includes(role));
+  }
   function pcstRefresh(){
     if(refreshPromise)return refreshPromise;
-    const run=pcstSerialize(async()=>{const ctx=await pcstProviderOptions(),result=await provider.read(ctx.options);if(!result||result.ok!==true)throw Object.assign(new Error("Career Start could not be read."),{code:result&&result.code});view={...result,setup:ctx.state.setup};pcstRender();pcstDecorateControl();if(pcstReady())pcstStopPolling();return view;});
+    const run=pcstSerialize(async()=>{const ctx=await pcstProviderOptions(),result=await provider.read(ctx.options);if(!result||result.ok!==true)throw Object.assign(new Error("Career Start could not be read."),{code:result&&result.code});return pcstApplyView(result,ctx.state.setup);});
     refreshPromise=run.finally(()=>{if(refreshPromise===wrapped)refreshPromise=null;});
     const wrapped=refreshPromise;
     return wrapped;
   }
   async function pcstAcknowledge(){
-    if(busy)return false;busy=true;pcstRender();try{return await pcstSerialize(async()=>{const ctx=await pcstProviderOptions();const current=await provider.read(ctx.options);if(!current||current.ok!==true)throw Object.assign(new Error("Career Start could not be read."),{code:current&&current.code});const result=await provider.acknowledge({...ctx.options,operationId:pcstRandomOperationId(),baseRevision:current.revision||0});if(!result||result.ok!==true)throw Object.assign(new Error("Career Start acknowledgement was rejected."),{code:result&&result.code});view={...result,setup:ctx.state.setup};pcstRender();pcstDecorateControl();if(pcstReady())pcstStopPolling();return true;});}catch(error){pcstReport("Unable to acknowledge Shared Career Start",error);const status=root.document?.querySelector(`#${PANEL_ID} [data-career-status]`);if(status)status.textContent=`NOT RECORDED · ${error.code||error.message||"Try again."}`;return false;}finally{busy=false;pcstRender();}}
+    if(busy)return false;
+    busy=true;lastError="";pcstRender();
+    const operationId=pcstRandomOperationId();
+    try{
+      return await pcstSerialize(async()=>{
+        const ctx=await pcstProviderOptions();
+        let current=await provider.read(ctx.options);
+        if(!current||current.ok!==true)throw Object.assign(new Error("Career Start could not be read."),{code:current&&current.code});
+        if(current?.state?.phase==="CAREER_START_READY"||pcstOwnAcknowledged(current)){pcstApplyView(current,ctx.state.setup);return true;}
+        for(let attempt=0;attempt<2;attempt+=1){
+          const result=await provider.acknowledge({...ctx.options,operationId,baseRevision:current.revision||0});
+          if(result&&result.ok===true){pcstApplyView(result,ctx.state.setup);return true;}
+          const code=result&&result.code||"CAREER_START_PROVIDER_FAILED";
+          if(["CAREER_START_STALE_BASE_REVISION","CAREER_START_ROLE_ALREADY_ACKNOWLEDGED","CAREER_START_ALREADY_READY"].includes(code)){
+            const refreshed=await provider.read(ctx.options);
+            if(!refreshed||refreshed.ok!==true)throw Object.assign(new Error("Career Start could not be reconciled after another acknowledgement."),{code:refreshed&&refreshed.code||code});
+            current=refreshed;
+            if(current?.state?.phase==="CAREER_START_READY"||pcstOwnAcknowledged(current)){pcstApplyView(current,ctx.state.setup);return true;}
+            if(code==="CAREER_START_STALE_BASE_REVISION"&&attempt===0)continue;
+          }
+          throw Object.assign(new Error("Career Start acknowledgement was rejected."),{code});
+        }
+        throw Object.assign(new Error("Career Start acknowledgement could not be reconciled."),{code:"CAREER_START_ACK_RETRY_EXHAUSTED"});
+      });
+    }catch(error){
+      lastError=`NOT RECORDED · ${error.code||error.message||"Try again."}`;
+      pcstReport("Unable to acknowledge Shared Career Start",error);
+      return false;
+    }finally{
+      busy=false;pcstRender();
+    }
+  }
   async function pcstOpenTransferChallenge(){
     if(busy||!pcstReady())return false;
     busy=true;pcstRender();
@@ -60,9 +98,8 @@
       pcstClosePanel();
       return true;
     }catch(error){
+      lastError=`TRANSFER CHALLENGE NOT OPENED · ${error.code||error.message||"Refresh and try again."}`;
       pcstReport("Unable to continue to Shared Transfer Challenge",error);
-      const status=root.document?.querySelector(`#${PANEL_ID} [data-career-status]`);
-      if(status)status.textContent=`TRANSFER CHALLENGE NOT OPENED · ${error.code||error.message||"Refresh and try again."}`;
       return false;
     }finally{
       busy=false;pcstRender();
@@ -76,7 +113,8 @@
     const ownClub=setup.clubs[role],otherRole=role==="playerOne"?"playerTwo":"playerOne",otherClub=setup.clubs[otherRole],ready=career&&career.phase==="CAREER_START_READY",mine=acknowledged.has(role);
     body.append(pcstCreate("span","remoteJoiningEyebrow","SHARED SHOWDOWN · CAREER START"),pcstCreate("h2","","START YOUR FIFA 17 CAREER"),pcstCreate("p","",`Your permanent club is ${ownClub}. Start or load a FIFA 17 Career Mode save with that club. This website cannot inspect FIFA 17, so your acknowledgement is the shared record that you reached your matching career.`));
     const grid=pcstCreate("div","settingsInfoGrid");grid.append(pcstRow("YOU",`${pcstManagerLabel(role)} · ${ownClub}`,mine?"ready":"pending"),pcstRow("RIVAL",`${pcstManagerLabel(otherRole)} · ${otherClub}`,acknowledged.has(otherRole)?"ready":"pending"),pcstRow("LEAGUE",pcstLeagueName(setup.leagueId)),pcstRow("SHOWDOWN LENGTH",`${setup.totalSeasons} SEASON${setup.totalSeasons===1?"":"S"}`));body.append(grid);
-    const status=pcstCreate("p","remoteJoiningStatus",ready?"BOTH MANAGERS STARTED ✓ · Continue to the Shared Transfer Challenge.":mine?"YOUR CAREER IS ACKNOWLEDGED · Waiting for your rival to start their assigned career.":"When your FIFA 17 career is created or loaded at the assigned club, confirm below.");status.dataset.careerStatus="true";status.setAttribute("role","status");status.setAttribute("aria-live","polite");body.append(status);
+    const statusText=lastError||(ready?"BOTH MANAGERS STARTED ✓ · Continue to the Shared Transfer Challenge.":mine?"YOUR CAREER IS ACKNOWLEDGED · Waiting for your rival to start their assigned career.":"When your FIFA 17 career is created or loaded at the assigned club, confirm below.");
+    const status=pcstCreate("p","remoteJoiningStatus",statusText);status.dataset.careerStatus="true";status.setAttribute("role","status");status.setAttribute("aria-live","polite");body.append(status);
     const actions=pcstCreate("div","remoteJoiningActions");const confirm=pcstCreate("button","compactButton",ready?"CONTINUE TO TRANSFER CHALLENGE":mine?"MY CAREER STARTED ✓":`I STARTED AT ${String(ownClub).toUpperCase()}`);confirm.type="button";confirm.disabled=busy||(!ready&&mine);confirm.addEventListener("click",()=>void (ready?pcstOpenTransferChallenge():pcstAcknowledge()));actions.append(confirm);const refreshButton=pcstCreate("button","compactButton","REFRESH");refreshButton.type="button";refreshButton.disabled=busy;refreshButton.addEventListener("click",()=>void pcstRefresh().catch(error=>pcstReport("Unable to refresh Shared Career Start",error)));actions.append(refreshButton);body.append(actions);
   }
   async function pcstOpenPanel(){
@@ -100,5 +138,5 @@
   }
   function pcstInstall(){if(installed)return true;installed=true;if(root.document){root.document.addEventListener("click",pcstCapture,true);const observer=new MutationObserver(()=>pcstDecorateControl());observer.observe(root.document.documentElement,{subtree:true,childList:true,characterData:true,attributes:true,attributeFilter:["disabled","class"]});}if(typeof root.setInterval==="function")pollTimer=root.setInterval(()=>void pcstTick(),POLL_MS);void pcstEnsureDependencies().then(()=>pcstTick()).catch(()=>{});return true;}
 
-  return Object.freeze({contractVersion:1,feature:"ssjr-production-shared-career-start",productionEnabled:true,requiresConfirmedSharedSetup:true,requiresExactActiveSession:true,twoManagerAcknowledgement:true,routesReadyStateToTransferChallenge:true,canonicalStorageMutation:false,billingRequired:false,pollIntervalMs:POLL_MS,visibilityAwarePolling:true,serializedOperations:true,terminalPollingStops:true,deactivatesSetupPresentation:true,install:pcstInstall,openPanel:pcstOpenPanel,closePanel:pcstClosePanel,refresh:pcstRefresh,openTransferChallenge:pcstOpenTransferChallenge,getState:()=>view});
+  return Object.freeze({contractVersion:1,feature:"ssjr-production-shared-career-start",productionEnabled:true,requiresConfirmedSharedSetup:true,requiresExactActiveSession:true,twoManagerAcknowledgement:true,routesReadyStateToTransferChallenge:true,reconcilesConcurrentAcknowledgement:true,persistentVisibleErrors:true,canonicalStorageMutation:false,billingRequired:false,pollIntervalMs:POLL_MS,visibilityAwarePolling:true,serializedOperations:true,terminalPollingStops:true,deactivatesSetupPresentation:true,install:pcstInstall,openPanel:pcstOpenPanel,closePanel:pcstClosePanel,refresh:pcstRefresh,openTransferChallenge:pcstOpenTransferChallenge,getState:()=>view});
 });
