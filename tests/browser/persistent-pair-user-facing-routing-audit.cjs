@@ -30,6 +30,7 @@ const playerOneProfileId=`profile_${"d".repeat(24)}`;
       window.__routeManagerId="nik";
       window.__identitySyncCalls=0;
       window.__identitySyncTransientFailures=0;
+      window.__localDeleteCount=0;
       const envelope=(objectType,objectId,data)=>({schemaVersion:1,objectType,objectId,revision:0,parentRevision:null,lifecycleState:"live",contentHash:"sha256:fixture",priorContentHash:null,updatedAt:{},updatedByAccountId:accountId,updatedByDeviceId:deviceId,data,tombstone:null});
       const pairEnvelope=()=>envelope("pairLink","current",{rivalryId,managerRole:"playerTwo",managerId:"nik",linkedAt:{},lastConfirmedAt:{}});
       const rivalryEnvelope=(connectionState="active")=>envelope("rivalry",rivalryId,{connectionState,managerSlots:[{slotId:"playerOne",accountId:"account_daniel_fixture",saveId,profileId:playerOneProfileId},{slotId:"playerTwo",accountId,saveId,profileId}]});
@@ -69,7 +70,15 @@ const playerOneProfileId=`profile_${"d".repeat(24)}`;
       window.CareerModeSaveLibraryRuntime={
         isReady:()=>true,
         getLibrarySnapshot:()=>window.__localRecoveryReady?{activeSaveId:saveId,saves:[{saveId,showdown:preparedShowdown()}]}:{activeSaveId:null,saves:[]},
-        switchActiveSave:async requested=>{if(requested!==saveId)throw new Error("Unexpected Save hydration target.");currentShowdown=preparedShowdown();return currentShowdown;}
+        switchActiveSave:async requested=>{if(requested!==saveId)throw new Error("Unexpected Save hydration target.");currentShowdown=preparedShowdown();return currentShowdown;},
+        deleteSave:requested=>{
+          if(requested!==saveId)throw new Error("Unexpected stale-shell deletion target.");
+          if(!window.__localRecoveryReady)throw new Error("Stale-shell deletion must target the existing prepared shell exactly once.");
+          window.__localRecoveryReady=false;
+          window.__localDeleteCount+=1;
+          currentShowdown=null;
+          return{ok:true,deletedSaveId:saveId,activeSaveId:null,library:{activeSaveId:null,saves:[]}};
+        }
       };
       window.CareerModeOnlinePlayerIdentity={
         getState:()=>({status:"ready",accountId,managerId:window.__routeManagerId,managerLabel:window.__routeManagerId==="nik"?"Nik":"Daniel",deviceId,registered:true}),
@@ -148,13 +157,15 @@ const playerOneProfileId=`profile_${"d".repeat(24)}`;
     await discardOld.click();
     await page.locator("#persistentNikDanielPairCode").waitFor({state:"visible",timeout:5000});
     await page.locator("#persistentNikDanielPairPanel button",{hasText:"JOIN DANIEL'S SHOWDOWN"}).waitFor({state:"visible",timeout:5000});
-    const stalePendingReset=await page.evaluate(()=>({providerMode:window.__pairProviderMode,abandonCount:window.__providerAbandonCount,state:window.CareerModePersistentNikDanielPair.getState()}));
+    const stalePendingReset=await page.evaluate(()=>({providerMode:window.__pairProviderMode,abandonCount:window.__providerAbandonCount,localDeleteCount:window.__localDeleteCount,localRecoveryReady:window.__localRecoveryReady,state:window.CareerModePersistentNikDanielPair.getState()}));
     assert.equal(stalePendingReset.providerMode,"unpaired","Deleting Nik's stale pending connection must close that exact remote rivalry.");
     assert.equal(stalePendingReset.abandonCount,1,"Nik stale-pair cleanup must close exactly one provider rivalry.");
+    assert.equal(stalePendingReset.localDeleteCount,1,"Nik stale-pair cleanup must delete exactly the provider-bound unfinished local Showdown shell.");
+    assert.equal(stalePendingReset.localRecoveryReady,false,"The stale local shell must be gone before Nik is offered Daniel's new Join flow.");
     assert.equal(stalePendingReset.state.status,"unpaired");
-    assert.match(stalePendingReset.state.message,/Old connection deleted\. Paste the new code Daniel sends\./i);
+    assert.match(stalePendingReset.state.message,/Old connection and unfinished test Showdown deleted\. Paste the new code Daniel sends\./i);
 
-    await page.evaluate(async()=>{window.__routeManagerId="daniel";window.__pairProviderMode="unpaired";await window.CareerModePersistentNikDanielPair.initialize({force:true});});
+    await page.evaluate(async()=>{window.__localRecoveryReady=true;window.__routeManagerId="daniel";window.__pairProviderMode="unpaired";await window.CareerModePersistentNikDanielPair.initialize({force:true});});
     await page.locator("#persistentNikDanielPairPanel button",{hasText:"CREATE CODE FOR NIK"}).waitFor({state:"visible"});
     assert.equal(await page.locator("#persistentNikDanielPairCode").count(),0,"Daniel must not be shown Nik's join-code input.");
     assert.match(await panel.innerText(),/DANIEL STARTS THE SHOWDOWN AND SENDS THIS CODE TO NIK/,"Daniel's surface must make the host action explicit.");
