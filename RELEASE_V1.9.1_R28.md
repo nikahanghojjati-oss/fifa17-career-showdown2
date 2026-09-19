@@ -17,7 +17,7 @@ The r27 single-season-choice flow remains unchanged:
 - Neither manager receives a second season-selection decision.
 - The local season plan must match the season encoded in the paired rivalry capability before authoritative commitment.
 
-After both Daniel and Nik confirm the identical Shared Showdown, the existing club-assignment control now becomes an active `CONTINUE TO CAREER START` button instead of a disabled ready state. Pressing it loads the production Shared Career Start module directly, deactivates the setup presentation, and opens the assigned-club Career Start screen on that device.
+After both Daniel and Nik confirm the identical Shared Showdown, the existing club-assignment control now becomes an active `CONTINUE TO CAREER START` button instead of a disabled ready state. The action is enabled only while the exact private session remains live; stale or expired session authority changes the control to `RECONNECT PLAYERS TO CONTINUE` and blocks Career Start until connection authority is restored. Pressing the live action loads the production Shared Career Start module directly, deactivates the setup presentation, and opens the assigned-club Career Start screen on that device.
 
 This removes the need to reopen the entry overlay or discover a hidden route after setup confirmation.
 
