@@ -228,6 +228,13 @@ function createApplicationPanel(){
         createSettingsInfoRow("PLAY MODE", "Daniel vs Nik · two devices")
     );
     panel.appendChild(info);
+    const updateState = getSettingsOfflineState();
+    const update = createSettingsElement("button", "menuButton settingsApplicationUpdateButton", updateState.updateActionLabel || "UPDATE TO LATEST VERSION");
+    update.type = "button";
+    update.addEventListener("click", handleSettingsOfflineUpdate);
+    const status = createSettingsElement("p", "settingsOfflineNote", settingsOfflineGuidance || "Updates keep your current Showdown and player identity.");
+    status.setAttribute("role", "status");
+    panel.append(update, status);
     return panel;
 }
 
@@ -313,6 +320,7 @@ async function handleSettingsOfflineInstall(){
 
 async function handleSettingsOfflineUpdate(event){
     const button = event?.currentTarget || null;
+    const focusSelector = button?.classList.contains("settingsApplicationUpdateButton") ? ".settingsApplicationUpdateButton" : ".settingsOfflineUpdateButton";
     const state = getSettingsOfflineState();
     const action = state.waitingUpdate
         ? window.activateWaitingOfflineUpdate
@@ -334,7 +342,7 @@ async function handleSettingsOfflineUpdate(event){
         settingsOfflineGuidance = result?.message || "";
     }finally{
         renderSettings();
-        focusSettingsControl(".settingsOfflineUpdateButton");
+        focusSettingsControl(focusSelector);
     }
 }
 
@@ -686,6 +694,7 @@ function getSettingsFocusRestoreSelector(){
         ".settingsAudioToggle",
         ".settingsOfflineInstallButton",
         ".settingsOfflineUpdateButton",
+        ".settingsApplicationUpdateButton",
         ".settingsDataButton"
     ]){
         if(active.matches(selector)){ return selector; }

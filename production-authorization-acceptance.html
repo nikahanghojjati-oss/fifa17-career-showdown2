@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="app-asset-revision" content="1.9.1-r1">
 <title>Production Authorization Acceptance · Career Mode Showdown</title>
+<script>if(new URLSearchParams(location.search).get("update")==="1"){document.documentElement.classList.add("appUpdateOnly");document.title="Update Career Mode Showdown";}</script>
 <link rel="stylesheet" href="css/app.css">
 <style>
   body{min-height:100vh;overflow:auto;padding:24px;background:#10151d;color:#f5f7fa;font-family:Arial,sans-serif}
@@ -27,6 +28,7 @@
   .acceptanceStage5f{border-color:rgba(126,225,255,.55);box-shadow:0 0 0 1px rgba(126,225,255,.08) inset}
   .acceptanceStage5f ol{margin:0;padding-left:20px;display:grid;gap:8px;line-height:1.45}
   a{color:inherit}
+  .appUpdateOnly .acceptanceShell{display:none}
 </style>
 </head>
 <body>
@@ -108,6 +110,7 @@
     <p class="acceptanceMeta">Account, rivalry, device and session identifiers are represented by SHA-256 fingerprints in Stage 5F evidence. Review the JSON before sharing it.</p>
   </section>
 </main>
+<template id="acceptanceScripts">
 <script src="js/sparkPrivatePairing.js"></script>
 <script src="js/sparkPrivateSession.js"></script>
 <script src="js/sparkStandardAuthPrivateSession.js"></script>
@@ -117,5 +120,18 @@
 <script src="js/productionProviderAbuseAcceptance.js"></script>
 <script src="js/stage5fProductionAuthenticatedNegatives.js"></script>
 <script src="acceptance/ssjrProductionStorageObservation.js?v=20260906-a54"></script>
+</template>
+<script>
+if(new URLSearchParams(location.search).get("update")==="1"){
+  const script=document.createElement("script");
+  script.src="js/appUpdateBootstrap.js";
+  script.onerror=()=>{document.body.textContent="The update page could not load. Check your connection and reopen this link. Your Showdown has not been changed.";};
+  document.body.appendChild(script);
+}else{
+  for(const original of document.getElementById("acceptanceScripts").content.querySelectorAll("script")){
+    const script=document.createElement("script");script.async=false;script.src=original.getAttribute("src");document.body.appendChild(script);
+  }
+}
+</script>
 </body>
 </html>
