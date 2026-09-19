@@ -87,6 +87,12 @@ assert.match(production,/ready\?"CONTINUE TO TRANSFER CHALLENGE"/,'Career Start 
 assert.match(production,/ready\?pcstOpenTransferChallenge\(\):pcstAcknowledge\(\)/,'the Career Start primary action must route ready state into Shared Transfer Challenge and non-ready state into acknowledgement');
 assert.match(production,/const opened=await transfer\.open\(\);/,'Career Start must delegate navigation to the authoritative Shared Transfer Challenge adapter');
 assert.match(production,/routesReadyStateToTransferChallenge:true/,'Career Start diagnostics must expose the gameplay handoff contract');
+assert.match(production,/const operationId=pcstRandomOperationId\(\);/,'Career Start acknowledgement recovery must retain one operation id across a bounded retry');
+assert.match(production,/CAREER_START_STALE_BASE_REVISION","CAREER_START_ROLE_ALREADY_ACKNOWLEDGED","CAREER_START_ALREADY_READY/,'Career Start must explicitly reconcile concurrent, duplicate-role and already-ready outcomes');
+assert.match(production,/if\(current\?\.state\?\.phase==="CAREER_START_READY"\|\|pcstOwnAcknowledged\(current\)\)/,'Career Start must adopt authoritative already-recorded acknowledgement state instead of requiring another write');
+assert.match(production,/const statusText=lastError\|\|/,'Career Start must preserve provider failures in the rendered player-facing status instead of immediately erasing them');
+assert.match(production,/reconcilesConcurrentAcknowledgement:true,persistentVisibleErrors:true/,'Career Start diagnostics must expose acknowledgement reconciliation and persistent visible errors');
+
 
 
 const guard=fs.readFileSync(path.resolve('js/productionSharedJourneyGuard.js'),'utf8');
@@ -102,4 +108,4 @@ assert.doesNotMatch(entry,/confirmed\?"CONTINUE TO CAREER START":"CONTINUE TO LE
 assert.match(entry,/confirmedSetupResumesAtCareerStart:true/,'entry diagnostics must expose direct confirmed-setup Career Start resume');
 assert.match(entry,/continueCareerUsesPairedAuthority:true/,'entry diagnostics must describe Continue Career as using paired authority, not a local-only alternative.');
 
-console.log('PASS Shared Career Start contracts: exact confirmed setup gates entry, each bound role acknowledges once, replay/stale/duplicate-role attempts fail closed, finished setup routes directly into Career Start through the simple Continue Career surface, Career Start ready state routes directly into the authoritative Shared Transfer Challenge, completed Shared Setup presentation polling is deactivated at handoff, confirmed-state decoration is idempotent, provider operations are serialized and refresh-deduplicated, Spark polling is visibility-aware/backed off and stops at terminal readiness, and provider authority is account/device/rivalry/ACTIVE-session bound with zero billing.');
+console.log('PASS Shared Career Start contracts: exact confirmed setup gates entry, each bound role acknowledges once, replay/stale/duplicate-role attempts fail closed, finished setup routes directly into Career Start through the simple Continue Career surface, Career Start ready state routes directly into the authoritative Shared Transfer Challenge, stale/concurrent Career Start acknowledgements reconcile against provider authority and unrecoverable errors remain visibly rendered, completed Shared Setup presentation polling is deactivated at handoff, confirmed-state decoration is idempotent, provider operations are serialized and refresh-deduplicated, Spark polling is visibility-aware/backed off and stops at terminal readiness, and provider authority is account/device/rivalry/ACTIVE-session bound with zero billing.');
