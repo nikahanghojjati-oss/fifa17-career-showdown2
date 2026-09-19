@@ -10,6 +10,7 @@ let settingsPreviousFocus = null;
 let settingsPreferenceListenerBound = false;
 let settingsOfflineListenerBound = false;
 let settingsOfflineGuidance = "";
+let settingsUpdatePending = false;
 
 function getSettingsAssetRevision(){
     const meta = document.querySelector('meta[name="app-asset-revision"]');
@@ -228,6 +229,14 @@ function createApplicationPanel(){
         createSettingsInfoRow("PLAY MODE", "Daniel vs Nik · two devices")
     );
     panel.appendChild(info);
+    const updateState = getSettingsOfflineState();
+    const update = createSettingsElement("button", "menuButton settingsApplicationUpdateButton", updateState.updateActionLabel || "UPDATE TO LATEST VERSION");
+    update.type = "button";
+    update.disabled = settingsUpdatePending || Boolean(updateState.updateActionDisabled);
+    update.addEventListener("click", handleSettingsOfflineUpdate);
+    const status = createSettingsElement("p", "settingsOfflineNote", settingsOfflineGuidance || "Updates keep your current Showdown and player identity.");
+    status.setAttribute("role", "status");
+    panel.append(update, status);
     return panel;
 }
 
@@ -312,7 +321,9 @@ async function handleSettingsOfflineInstall(){
 }
 
 async function handleSettingsOfflineUpdate(event){
+    if(settingsUpdatePending){ return; }
     const button = event?.currentTarget || null;
+    const focusSelector = button?.classList.contains("settingsApplicationUpdateButton") ? ".settingsApplicationUpdateButton" : ".settingsOfflineUpdateButton";
     const state = getSettingsOfflineState();
     const action = state.waitingUpdate
         ? window.activateWaitingOfflineUpdate
@@ -325,6 +336,7 @@ async function handleSettingsOfflineUpdate(event){
         return;
     }
 
+    settingsUpdatePending = true;
     if(button){
         button.disabled = true;
     }
@@ -333,8 +345,9 @@ async function handleSettingsOfflineUpdate(event){
         const result = await action();
         settingsOfflineGuidance = result?.message || "";
     }finally{
+        settingsUpdatePending = false;
         renderSettings();
-        focusSettingsControl(".settingsOfflineUpdateButton");
+        focusSettingsControl(focusSelector);
     }
 }
 
@@ -396,6 +409,12 @@ function createOfflinePanel(){
 
 function refreshSettingsOfflinePanel(){
     if(!settingsContent){ return false; }
+    const applicationUpdate = settingsContent.querySelector(".settingsApplicationUpdateButton");
+    if(applicationUpdate){
+        const state = getSettingsOfflineState();
+        applicationUpdate.textContent = state.updateActionLabel || "UPDATE TO LATEST VERSION";
+        applicationUpdate.disabled = settingsUpdatePending || Boolean(state.updateActionDisabled);
+    }
     const existing = settingsContent.querySelector(".settingsOfflinePanel");
     if(!existing){
         renderSettings();
@@ -686,6 +705,7 @@ function getSettingsFocusRestoreSelector(){
         ".settingsAudioToggle",
         ".settingsOfflineInstallButton",
         ".settingsOfflineUpdateButton",
+        ".settingsApplicationUpdateButton",
         ".settingsDataButton"
     ]){
         if(active.matches(selector)){ return selector; }
