@@ -18,6 +18,7 @@
     await pcstLoadScript("ssjr-production-setup","js/productionSharedShowdownSetup.js",()=>root.CareerModeProductionSharedShowdownSetup);
     await pcstLoadScript("ssjr-career-start-protocol","js/sharedCareerStart.js",()=>root.CareerModeSharedCareerStart);
     await pcstLoadScript("ssjr-career-start-provider","js/sparkSharedCareerStart.js",()=>root.CareerModeSparkSharedCareerStart);
+    await pcstLoadScript("ssjr-production-transfer-challenge","js/productionSharedTransferChallenge.js",()=>root.CareerModeProductionSharedTransferChallenge);
     await pcstLoadScript("firebase-runtime","js/productionFirebaseRuntime.js",()=>root.CareerModeProductionFirebaseRuntime);
     setupApi=root.CareerModeProductionSharedShowdownSetup;provider=root.CareerModeSparkSharedCareerStart;
     if(!setupApi||typeof setupApi.getState!=="function"||typeof setupApi.refresh!=="function")throw new Error("Shared Setup authority is unavailable for Career Start.");
@@ -46,6 +47,27 @@
   }
   async function pcstAcknowledge(){
     if(busy)return false;busy=true;pcstRender();try{return await pcstSerialize(async()=>{const ctx=await pcstProviderOptions();const current=await provider.read(ctx.options);if(!current||current.ok!==true)throw Object.assign(new Error("Career Start could not be read."),{code:current&&current.code});const result=await provider.acknowledge({...ctx.options,operationId:pcstRandomOperationId(),baseRevision:current.revision||0});if(!result||result.ok!==true)throw Object.assign(new Error("Career Start acknowledgement was rejected."),{code:result&&result.code});view={...result,setup:ctx.state.setup};pcstRender();pcstDecorateControl();if(pcstReady())pcstStopPolling();return true;});}catch(error){pcstReport("Unable to acknowledge Shared Career Start",error);const status=root.document?.querySelector(`#${PANEL_ID} [data-career-status]`);if(status)status.textContent=`NOT RECORDED · ${error.code||error.message||"Try again."}`;return false;}finally{busy=false;pcstRender();}}
+  async function pcstOpenTransferChallenge(){
+    if(busy||!pcstReady())return false;
+    busy=true;pcstRender();
+    try{
+      await pcstEnsureDependencies();
+      const transfer=root.CareerModeProductionSharedTransferChallenge;
+      if(!transfer||typeof transfer.install!=="function"||typeof transfer.open!=="function")throw new Error("Shared Transfer Challenge is unavailable.");
+      transfer.install();
+      const opened=await transfer.open();
+      if(opened!==true)throw new Error("Shared Transfer Challenge could not be opened from this Career Start state.");
+      pcstClosePanel();
+      return true;
+    }catch(error){
+      pcstReport("Unable to continue to Shared Transfer Challenge",error);
+      const status=root.document?.querySelector(`#${PANEL_ID} [data-career-status]`);
+      if(status)status.textContent=`TRANSFER CHALLENGE NOT OPENED · ${error.code||error.message||"Refresh and try again."}`;
+      return false;
+    }finally{
+      busy=false;pcstRender();
+    }
+  }
   function pcstManagerLabel(role){try{const showdown=typeof currentShowdown!=="undefined"?currentShowdown:null;const name=showdown&&showdown.managers&&showdown.managers[role];if(name)return name;}catch(_error){}return role==="playerOne"?"PLAYER ONE":"PLAYER TWO";}
   function pcstRow(label,value,state){const item=pcstCreate("div","settingsInfoRow");item.dataset.careerRow=state||"";item.append(pcstCreate("span","",label),pcstCreate("strong","",value));return item;}
   function pcstRender(){
@@ -54,8 +76,8 @@
     const ownClub=setup.clubs[role],otherRole=role==="playerOne"?"playerTwo":"playerOne",otherClub=setup.clubs[otherRole],ready=career&&career.phase==="CAREER_START_READY",mine=acknowledged.has(role);
     body.append(pcstCreate("span","remoteJoiningEyebrow","SHARED SHOWDOWN · CAREER START"),pcstCreate("h2","","START YOUR FIFA 17 CAREER"),pcstCreate("p","",`Your permanent club is ${ownClub}. Start or load a FIFA 17 Career Mode save with that club. This website cannot inspect FIFA 17, so your acknowledgement is the shared record that you reached your matching career.`));
     const grid=pcstCreate("div","settingsInfoGrid");grid.append(pcstRow("YOU",`${pcstManagerLabel(role)} · ${ownClub}`,mine?"ready":"pending"),pcstRow("RIVAL",`${pcstManagerLabel(otherRole)} · ${otherClub}`,acknowledged.has(otherRole)?"ready":"pending"),pcstRow("LEAGUE",pcstLeagueName(setup.leagueId)),pcstRow("SHOWDOWN LENGTH",`${setup.totalSeasons} SEASON${setup.totalSeasons===1?"":"S"}`));body.append(grid);
-    const status=pcstCreate("p","remoteJoiningStatus",ready?"BOTH MANAGERS STARTED ✓ · Career Start is shared and ready for the next Showdown step.":mine?"YOUR CAREER IS ACKNOWLEDGED · Waiting for your rival to start their assigned career.":"When your FIFA 17 career is created or loaded at the assigned club, confirm below.");status.dataset.careerStatus="true";status.setAttribute("role","status");status.setAttribute("aria-live","polite");body.append(status);
-    const actions=pcstCreate("div","remoteJoiningActions");const confirm=pcstCreate("button","compactButton",ready?"BOTH MANAGERS READY ✓":mine?"MY CAREER STARTED ✓":`I STARTED AT ${String(ownClub).toUpperCase()}`);confirm.type="button";confirm.disabled=busy||mine||ready;confirm.addEventListener("click",()=>void pcstAcknowledge());actions.append(confirm);const refreshButton=pcstCreate("button","compactButton","REFRESH");refreshButton.type="button";refreshButton.disabled=busy;refreshButton.addEventListener("click",()=>void pcstRefresh().catch(error=>pcstReport("Unable to refresh Shared Career Start",error)));actions.append(refreshButton);body.append(actions);
+    const status=pcstCreate("p","remoteJoiningStatus",ready?"BOTH MANAGERS STARTED ✓ · Continue to the Shared Transfer Challenge.":mine?"YOUR CAREER IS ACKNOWLEDGED · Waiting for your rival to start their assigned career.":"When your FIFA 17 career is created or loaded at the assigned club, confirm below.");status.dataset.careerStatus="true";status.setAttribute("role","status");status.setAttribute("aria-live","polite");body.append(status);
+    const actions=pcstCreate("div","remoteJoiningActions");const confirm=pcstCreate("button","compactButton",ready?"CONTINUE TO TRANSFER CHALLENGE":mine?"MY CAREER STARTED ✓":`I STARTED AT ${String(ownClub).toUpperCase()}`);confirm.type="button";confirm.disabled=busy||(!ready&&mine);confirm.addEventListener("click",()=>void (ready?pcstOpenTransferChallenge():pcstAcknowledge()));actions.append(confirm);const refreshButton=pcstCreate("button","compactButton","REFRESH");refreshButton.type="button";refreshButton.disabled=busy;refreshButton.addEventListener("click",()=>void pcstRefresh().catch(error=>pcstReport("Unable to refresh Shared Career Start",error)));actions.append(refreshButton);body.append(actions);
   }
   async function pcstOpenPanel(){
     pcstDeactivateSetupPresentation();await pcstEnsureDependencies();let overlay=root.document.getElementById(PANEL_ID);if(!overlay){overlay=pcstCreate("div","remoteJoiningOverlay");overlay.id=PANEL_ID;overlay.setAttribute("role","dialog");overlay.setAttribute("aria-modal","true");overlay.setAttribute("aria-label","Shared Career Start");const shell=pcstCreate("div","remoteJoiningShell"),header=pcstCreate("div","remoteJoiningHeader");header.append(pcstCreate("strong","","CAREER MODE SHOWDOWN // 17"));const close=pcstCreate("button","remoteJoiningDismiss","×");close.type="button";close.setAttribute("aria-label","Close Career Start");close.addEventListener("click",pcstClosePanel);header.append(close);const body=pcstCreate("div","remoteJoiningBody");shell.append(header,body);overlay.append(shell);root.document.body.append(overlay);}overlay.classList.remove("hidden");pcstRender();await pcstRefresh();return true;
@@ -78,5 +100,5 @@
   }
   function pcstInstall(){if(installed)return true;installed=true;if(root.document){root.document.addEventListener("click",pcstCapture,true);const observer=new MutationObserver(()=>pcstDecorateControl());observer.observe(root.document.documentElement,{subtree:true,childList:true,characterData:true,attributes:true,attributeFilter:["disabled","class"]});}if(typeof root.setInterval==="function")pollTimer=root.setInterval(()=>void pcstTick(),POLL_MS);void pcstEnsureDependencies().then(()=>pcstTick()).catch(()=>{});return true;}
 
-  return Object.freeze({contractVersion:1,feature:"ssjr-production-shared-career-start",productionEnabled:true,requiresConfirmedSharedSetup:true,requiresExactActiveSession:true,twoManagerAcknowledgement:true,canonicalStorageMutation:false,billingRequired:false,pollIntervalMs:POLL_MS,visibilityAwarePolling:true,serializedOperations:true,terminalPollingStops:true,deactivatesSetupPresentation:true,install:pcstInstall,openPanel:pcstOpenPanel,closePanel:pcstClosePanel,refresh:pcstRefresh,getState:()=>view});
+  return Object.freeze({contractVersion:1,feature:"ssjr-production-shared-career-start",productionEnabled:true,requiresConfirmedSharedSetup:true,requiresExactActiveSession:true,twoManagerAcknowledgement:true,routesReadyStateToTransferChallenge:true,canonicalStorageMutation:false,billingRequired:false,pollIntervalMs:POLL_MS,visibilityAwarePolling:true,serializedOperations:true,terminalPollingStops:true,deactivatesSetupPresentation:true,install:pcstInstall,openPanel:pcstOpenPanel,closePanel:pcstClosePanel,refresh:pcstRefresh,openTransferChallenge:pcstOpenTransferChallenge,getState:()=>view});
 });
