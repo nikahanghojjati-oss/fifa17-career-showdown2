@@ -67,8 +67,12 @@ for(const required of [
   'cloudFunctionsRequired:false'
 ])assert.ok(provider.includes(required),`provider missing required Career Start boundary: ${required}`);
 assert.doesNotMatch(provider,/options\.actorRole|options\.managerRole/,'provider must derive manager role from the paired rivalry rather than caller input');
+assert.match(provider,/function scspSetupProvider\(\)\{[\s\S]*root\.CareerModeSparkSharedShowdownSetup[\s\S]*CAREER_START_SETUP_PROVIDER_UNAVAILABLE[\s\S]*return provider;/,'Career Start must resolve the browser Shared Setup provider at call time so a provider loaded later in the same runtime is visible');
+assert.doesNotMatch(provider,/const setupProvider=typeof require===/,'Career Start must not freeze the browser Shared Setup provider at module evaluation time');
 
 const production=fs.readFileSync(path.resolve('js/productionSharedCareerStart.js'),'utf8');
+assert.match(production,/ssjr-shared-setup-protocol\",\"js\/sharedShowdownSetup\.js\"/,'Career Start must preload the Shared Setup protocol before its provider');
+assert.match(production,/ssjr-spark-shared-setup\",\"js\/sparkSharedShowdownSetup\.js\"/,'Career Start must preload the browser Shared Setup provider before loading the Career Start provider');
 assert.match(production,/if\(button\.textContent!=="CONTINUE TO CAREER START"\)button\.textContent="CONTINUE TO CAREER START";/,'Career Start control decoration must not rewrite observed text when already correct');
 assert.match(production,/if\(button\.disabled\)button\.disabled=false;/,'Career Start control decoration must not rewrite the observed disabled attribute when already enabled');
 assert.match(production,/if\(button\.classList\.contains\("hidden"\)\)button\.classList\.remove\("hidden"\);/,'Career Start control decoration must not rewrite the observed class attribute when already visible');
