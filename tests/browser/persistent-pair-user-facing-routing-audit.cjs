@@ -32,7 +32,7 @@ const playerOneProfileId=`profile_${"d".repeat(24)}`;
       window.__identitySyncTransientFailures=0;
       const envelope=(objectType,objectId,data)=>({schemaVersion:1,objectType,objectId,revision:0,parentRevision:null,lifecycleState:"live",contentHash:"sha256:fixture",priorContentHash:null,updatedAt:{},updatedByAccountId:accountId,updatedByDeviceId:deviceId,data,tombstone:null});
       const pairEnvelope=()=>envelope("pairLink","current",{rivalryId,managerRole:"playerTwo",managerId:"nik",linkedAt:{},lastConfirmedAt:{}});
-      const rivalryEnvelope=()=>envelope("rivalry",rivalryId,{connectionState:"active",managerSlots:[{slotId:"playerOne",accountId:"account_daniel_fixture",saveId,profileId:playerOneProfileId},{slotId:"playerTwo",accountId,saveId,profileId}]});
+      const rivalryEnvelope=(connectionState="active")=>envelope("rivalry",rivalryId,{connectionState,managerSlots:[{slotId:"playerOne",accountId:"account_daniel_fixture",saveId,profileId:playerOneProfileId},{slotId:"playerTwo",accountId,saveId,profileId}]});
       const snapshot=value=>({exists:()=>value!==null,data:()=>value});
       const deviceEnvelope=()=>envelope("device",deviceId,{deviceId,state:"active"});
       const firestoreSdk={
@@ -44,7 +44,11 @@ const playerOneProfileId=`profile_${"d".repeat(24)}`;
             if(key.endsWith(`devices/${deviceId}`))return snapshot(deviceEnvelope());
             if(window.__pairProviderMode==="active-recovery"){
               if(key.endsWith("pairLinks/current"))return snapshot(pairEnvelope());
-              if(key===`rivalries/${rivalryId}`)return snapshot(rivalryEnvelope());
+              if(key===`rivalries/${rivalryId}`)return snapshot(rivalryEnvelope("active"));
+            }
+            if(window.__pairProviderMode==="pending-nik"){
+              if(key.endsWith("pairLinks/current"))return snapshot(pairEnvelope());
+              if(key===`rivalries/${rivalryId}`)return snapshot(rivalryEnvelope("pending-pair"));
             }
             return snapshot(null);
           },
@@ -125,6 +129,30 @@ const playerOneProfileId=`profile_${"d".repeat(24)}`;
     assert.equal(await page.locator("#persistentNikDanielPairPanel button",{hasText:"CREATE CODE FOR NIK"}).count(),0,"Nik must not be shown Daniel's host action.");
     assert.match(await panel.innerText(),/NIK ENTERS THE CODE DANIEL SENDS/,"Nik's surface must explain the one action required on the second device.");
     assert.doesNotMatch((await panel.innerText()),/Save Library|Private Remote Joining|Shared Journey/i,"The player connection panel must not expose retired architecture concepts.");
+
+    // Historical Player Two pending-pair state must never expose a host code in the current Daniel-hosted product.
+    await page.evaluate(async()=>{
+      window.__pairProviderMode="pending-nik";
+      window.__routeManagerId="nik";
+      window.__providerAbandonCount=0;
+      await window.CareerModePersistentNikDanielPair.initialize({force:true});
+      window.CareerModePersistentNikDanielPair.render();
+    });
+    await page.locator("#persistentNikDanielPairPanel",{hasText:"OLD CONNECTION FOUND"}).waitFor({state:"visible",timeout:5000});
+    assert.equal(await panel.locator("code").count(),0,"Nik must not see or copy an old host capability.");
+    assert.equal(await page.locator("#persistentNikDanielPairPanel button",{hasText:"COPY CODE"}).count(),0,"Nik must not receive a host COPY CODE action from stale provider state.");
+    assert.equal(await page.locator("#persistentNikDanielPairPanel button",{hasText:"NEW CODE"}).count(),0,"Nik must not create a replacement host code.");
+    const discardOld=page.locator("#persistentNikDanielPairPanel button",{hasText:"DELETE OLD CONNECTION & START FRESH"});
+    await discardOld.waitFor({state:"visible"});
+    page.once("dialog",dialog=>void dialog.accept());
+    await discardOld.click();
+    await page.locator("#persistentNikDanielPairCode").waitFor({state:"visible",timeout:5000});
+    await page.locator("#persistentNikDanielPairPanel button",{hasText:"JOIN DANIEL'S SHOWDOWN"}).waitFor({state:"visible",timeout:5000});
+    const stalePendingReset=await page.evaluate(()=>({providerMode:window.__pairProviderMode,abandonCount:window.__providerAbandonCount,state:window.CareerModePersistentNikDanielPair.getState()}));
+    assert.equal(stalePendingReset.providerMode,"unpaired","Deleting Nik's stale pending connection must close that exact remote rivalry.");
+    assert.equal(stalePendingReset.abandonCount,1,"Nik stale-pair cleanup must close exactly one provider rivalry.");
+    assert.equal(stalePendingReset.state.status,"unpaired");
+    assert.match(stalePendingReset.state.message,/Old connection deleted\. Paste the new code Daniel sends\./i);
 
     await page.evaluate(async()=>{window.__routeManagerId="daniel";window.__pairProviderMode="unpaired";await window.CareerModePersistentNikDanielPair.initialize({force:true});});
     await page.locator("#persistentNikDanielPairPanel button",{hasText:"CREATE CODE FOR NIK"}).waitFor({state:"visible"});
@@ -298,7 +326,7 @@ const playerOneProfileId=`profile_${"d".repeat(24)}`;
 
     assert.deepEqual(pageErrors,[],"User-facing routing audit emitted page errors.");
     assert.deepEqual(consoleErrors,[],"User-facing routing audit emitted unexpected console errors.");
-    process.stdout.write("PASS real user-facing routing: CONNECT PLAYERS reaches the real persistent-pair panel, retries transient pair reads with stale-role reconciliation, and Daniel CREATE CODE carries the season setup, Nik JOIN auto-provisions its local shell, and CONTINUE CAREER, RESTORE BACKUP and DELETE OLD SHOWDOWN & START OVER remain actionable on their intended surfaces.\n");
+    process.stdout.write("PASS real user-facing routing: CONNECT PLAYERS reaches the real persistent-pair panel, stale Nik pending host-state resets safely to JOIN DANIEL'S SHOWDOWN, transient pair reads reconcile stale roles, Daniel CREATE CODE carries the season setup, Nik JOIN auto-provisions its local shell, and CONTINUE CAREER, RESTORE BACKUP and DELETE OLD SHOWDOWN & START OVER remain actionable on their intended surfaces.\n");
   }finally{
     await context.close().catch(()=>{});
     await browser.close().catch(()=>{});
