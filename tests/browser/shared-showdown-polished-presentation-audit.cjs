@@ -34,7 +34,7 @@ async function prepare(page,{managerRole,remoteRole,initialSetup,reducedMotion=t
     let current={status:"ready",open:false,busy:false,ready:true,revision:serverSetup?serverSetup.revision:0,phase:serverSetup?serverSetup.phase:null,rivalryId:"pair_5"+"a".repeat(63),sessionId:"session_"+"b".repeat(64),accountId:managerRole==="playerOne"?"account_one":"account_two",deviceId:managerRole==="playerOne"?"device_"+"1".repeat(32):"device_"+"2".repeat(32),managerRole,remoteRole,setup:serverSetup,message:"ready"};
     const listeners=new Set();
     const emit=()=>{current={...current,revision:serverSetup?serverSetup.revision:0,phase:serverSetup?serverSetup.phase:null,setup:serverSetup};for(const listener of listeners)listener(current);};
-    window.__setSharedServerSetup=value=>{serverSetup=value;};
+    window.__setSharedServerSetup=value=>{serverSetup=value;};window.__setSharedReady=value=>{current={...current,ready:Boolean(value)};};
     window.CareerModeProductionSharedShowdownSetup={
       getState:()=>current,
       subscribe(listener){listeners.add(listener);listener(current);return()=>listeners.delete(listener);},
@@ -93,10 +93,19 @@ async function prepare(page,{managerRole,remoteRole,initialSetup,reducedMotion=t
     const careerStartButton=host.locator("#continueClubAssignment");
     await careerStartButton.waitFor({state:"visible",timeout:3000});
     assert.equal(await careerStartButton.textContent(),"CONTINUE TO CAREER START","Confirmed setup must expose an obvious route into Career Start.");
-    assert.equal(await careerStartButton.isDisabled(),false,"Career Start route must be actionable after both confirmations.");
+    assert.equal(await careerStartButton.isDisabled(),false,"Career Start route must be actionable after both confirmations while session authority is live.");
+
+    await host.evaluate(async()=>{window.__setSharedReady(false);await window.CareerModeProductionSharedShowdownPresentation.refresh();});
+    assert.equal(await careerStartButton.textContent(),"RECONNECT PLAYERS TO CONTINUE","Expired session authority must replace the Career Start action with a reconnect requirement.");
+    assert.equal(await careerStartButton.isDisabled(),true,"Career Start must stay disabled while the exact private session is stale.");
+    assert.deepEqual(await host.evaluate(()=>({opened:window.__careerStartOpenCount,installed:window.__careerStartInstallCount})),{opened:0,installed:0},"Stale session authority must not open Career Start.");
+
+    await host.evaluate(async()=>{window.__setSharedReady(true);await window.CareerModeProductionSharedShowdownPresentation.refresh();});
+    assert.equal(await careerStartButton.textContent(),"CONTINUE TO CAREER START");
+    assert.equal(await careerStartButton.isDisabled(),false);
     await careerStartButton.click();
     const careerRoute=await host.evaluate(()=>({opened:window.__careerStartOpenCount,installed:window.__careerStartInstallCount}));
-    assert.deepEqual(careerRoute,{opened:1,installed:1},"Confirmed setup must hand off exactly once to the Career Start module.");
+    assert.deepEqual(careerRoute,{opened:1,installed:1},"Restored live session authority must hand off exactly once to the Career Start module.");
 
     const peerLateSetup=setupState({phase:"CLUB_ASSIGNMENTS_COMMITTED",revision:3,leagueId:"laliga",clubs:{playerOne:"Osasuna",playerTwo:"Espanyol"}});
     await prepare(peer,{managerRole:"playerTwo",remoteRole:"peer",initialSetup:peerLateSetup,reducedMotion:true});
@@ -124,7 +133,7 @@ async function prepare(page,{managerRole,remoteRole,initialSetup,reducedMotion=t
     assert.equal(await mismatch.locator("#sharedShowdownSeasonChoice [data-shared-season]:visible").count(),0,"Season mismatch recovery must not fall back to a second season picker.");
 
     assert.deepEqual(errors,[],"Polished two-role presentation emitted page errors.");
-    process.stdout.write("PASS Shared Showdown polished presentation: Player 1 normal-motion reveal survives provider polling, Daniel's original season choice auto-commits once after clubs, confirmed setup routes directly to Career Start, and Player 1/Player 2 each witness the real League Wheel and original two-pack club reveal with no second season-choice UI.\n");
+    process.stdout.write("PASS Shared Showdown polished presentation: Player 1 normal-motion reveal survives provider polling, Daniel's original season choice auto-commits once after clubs, confirmed setup routes directly to Career Start only while live session authority is valid, and Player 1/Player 2 each witness the real League Wheel and original two-pack club reveal with no second season-choice UI.\n");
   }finally{
     await hostContext.close().catch(()=>{});await peerContext.close().catch(()=>{});await mismatchContext.close().catch(()=>{});await browser.close().catch(()=>{});
   }
