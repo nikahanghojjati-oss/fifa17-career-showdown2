@@ -53,12 +53,13 @@ function loadTransferCatalog(){
 }
 function rulesList(ids){return `[${ids.map(id=>`'${id}'`).join(',')}]`;}
 function injectTransferCatalog(functions){
-  const {leagueIds,nationalityIds}=loadTransferCatalog();
-  const generic="    function ssjrTransferValidOptionId(value) { return value is string && value.size() >= 2 && value.size() <= 80 && value.matches('^[a-z0-9]+(-[a-z0-9]+)*$'); }";
-  let output=replaceOnce(functions,generic,`${generic}\n    function ssjrTransferValidLeagueId(value) { return value in ${rulesList(leagueIds)}; }\n    function ssjrTransferValidNationalityId(value) { return value in ${rulesList(nationalityIds)}; }`,'Transfer Challenge catalog helper');
-  output=replaceOnce(output,"        && (value.type == 'league' || value.type == 'nationality')\n        && ssjrTransferValidOptionId(value.valueId);","        && ((value.type == 'league' && ssjrTransferValidLeagueId(value.valueId))\n          || (value.type == 'nationality' && ssjrTransferValidNationalityId(value.valueId)));",'Transfer Challenge guess catalog validation');
-  output=replaceOnce(output,'        && ssjrTransferValidOptionId(value.leagueId)\n        && ssjrTransferValidOptionId(value.nationalityId);','        && ssjrTransferValidLeagueId(value.leagueId)\n        && ssjrTransferValidNationalityId(value.nationalityId);','Transfer Challenge signing catalog validation');
-  return output;
+  // Keep the repository FIFA 17 catalog as the client/provider authority, but do not
+  // expand 200 exact option-membership checks into Firestore Rules. The max-size
+  // 3-guess/3-signing transaction can exceed Rules evaluation budgets when those
+  // large lists are repeated. Firestore still validates bounded slug-shaped IDs;
+  // sparkSharedTransferChallenge.js rejects any ID outside the exact repository catalog.
+  loadTransferCatalog();
+  return functions;
 }
 
 const sharedFunctionMarker='// SSJR_SHARED_SETUP_FUNCTIONS_BEGIN';
@@ -125,14 +126,14 @@ for(const required of [
   'allow create: if ssjrCareerValidCreate(rivalryId)',
   'allow update: if ssjrCareerValidUpdate(rivalryId)',
   'match /transferChallenges/{transferId}',
+  'function ssjrTransferValidOptionId(value)',
+  'ssjrTransferValidOptionId(value.valueId)',
+  'ssjrTransferValidOptionId(value.leagueId)',
+  'ssjrTransferValidOptionId(value.nationalityId)',
   'allow create: if ssjrTransferValidCreate(rivalryId, transferId)',
   'allow update: if ssjrTransferValidUpdate(rivalryId, transferId)',
   'allow create: if ssjrTransferPrivateCreateValid(rivalryId, transferId, managerRole)',
   'allow update: if ssjrTransferPrivateUpdateValid(rivalryId, transferId, managerRole)',
-  'function ssjrTransferValidLeagueId(value)',
-  'function ssjrTransferValidNationalityId(value)',
-  'ssjrTransferValidLeagueId(value.leagueId)',
-  'ssjrTransferValidNationalityId(value.nationalityId)',
   'match /seasonResults/{seasonId}',
   'allow create: if ssjrResultsValidCreate(rivalryId, seasonId)',
   'allow update: if ssjrResultsValidUpdate(rivalryId, seasonId)',
