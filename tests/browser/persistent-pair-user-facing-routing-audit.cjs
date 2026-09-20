@@ -23,9 +23,7 @@ const playerOneProfileId=`profile_${"d".repeat(24)}`;
     assert.equal(await page.locator("#legacyButton").isVisible(),false,"Online-only Home must not expose retired local Legacy data as if it were shared authority.");
     assert.equal(await page.locator("#careerStatisticsButton").isVisible(),false,"Online-only Home must not expose retired local Career Statistics alongside provider-authoritative Shared History.");
     assert.equal(await page.locator("#ruleBookButton").isVisible(),true,"Hiding retired local analytics must not remove the active Rule Book surface.");
-    await page.evaluate(()=>{const probe=document.createElement("button");probe.id="rivalryStatisticsButton";probe.textContent="RIVALRY STATISTICS";document.body.append(probe);});
-    assert.equal(await page.locator("#rivalryStatisticsButton").isVisible(),false,"A lazily-created local Rivalry Statistics control must remain contained in online-only mode.");
-    await page.locator("#rivalryStatisticsButton").evaluate(node=>node.remove());
+    assert.equal(await page.locator("#rivalryStatisticsButton").isVisible(),false,"The lazily-created local Rivalry Statistics control must remain contained in online-only mode.");
 
     await page.evaluate(({rivalryId,saveId,profileId,playerOneProfileId})=>{
       const accountId="account_user_route_fixture",deviceId="device_user_route_fixture";
