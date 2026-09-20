@@ -285,13 +285,22 @@
       let after = request.resource.data;
       let public = ssjrTransferPublicAfter(rivalryId, transferId);
       let i = public.revision - 1;
-      return ssjrTransferPrivateBase(after, rivalryId, transferId, managerRole)
+      return ssjrTransferPrivateExactKeys(after)
+        && after.schemaVersion == before.schemaVersion
+        && after.objectType == before.objectType
+        && after.rivalryId == before.rivalryId
+        && after.seasonNumber == before.seasonNumber
+        && after.managerRole == before.managerRole
+        && managerRole == before.managerRole
+        && managerRole == ssjrActorRole(rivalryId)
         && after.guesses == before.guesses
         && after.guessLockedAt == before.guessLockedAt
         && before.signings == null
         && before.signingLockedAt == null
-        && after.signings is list
+        && ssjrTransferSigningsValid(after.signings)
         && after.signingLockedAt == request.time
+        && after.updatedAt == request.time
+        && ssjrWriteAuthorityValid(rivalryId, after.updatedByDeviceId, after.activeSessionId)
         && public.operationTypes[i] == 'lock-signings'
         && public.actorRoles[i] == managerRole
         && managerRole in public.signingLockedRoles
