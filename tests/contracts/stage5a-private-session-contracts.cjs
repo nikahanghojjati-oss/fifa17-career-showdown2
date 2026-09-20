@@ -124,7 +124,7 @@ function operation(h,authority,accountKey,deviceKey,rivalryId,sessionId,nowEpoch
   assert.equal(session.providerDeviceCredentialClaim,"device_id");
   assert.equal(session.providerDeviceCredentialProductionProven,false);
   assert.equal(session.exactCapabilityBits,256);
-  assert.equal(session.defaultSessionTtlMs,15*60*1000);
+  assert.equal(session.defaultSessionTtlMs,30*60*1000);
   assert.equal(session.maxSessionTtlMs,30*60*1000);
   assert.deepEqual(Array.from(session.sessionStates),["open","active","revoked","expired","closed"]);
   assert.equal(session.productionRulesPublished,false);

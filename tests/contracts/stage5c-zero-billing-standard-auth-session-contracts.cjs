@@ -136,6 +136,7 @@ function operation(h,authority,accountKey,deviceKey,rivalryId,sessionId,nowEpoch
 
   const adapterSource=fs.readFileSync("js/sparkStandardAuthPrivateSession.js","utf8");
   const protocolSource=fs.readFileSync("js/sparkPrivateSession.js","utf8");
+  assert.match(protocolSource,/const DEFAULT_SESSION_TTL_MS=30\*60\*1000;/,"Default exact private session must cover setup plus a full 15-minute transfer window.");
   assert.doesNotMatch(adapterSource,/\blocalStorage\b|\bindexedDB\b/);
   assert.doesNotMatch(adapterSource,/getIdTokenResult|device_credential_version|device_key_sha256|device_id/,
     "The standard-auth adapter must not fabricate or require custom device claims.");

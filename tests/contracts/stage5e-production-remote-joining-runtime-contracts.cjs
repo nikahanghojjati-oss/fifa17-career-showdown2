@@ -38,6 +38,8 @@ assert.equal(calls.services,0,"Opening UI without an action must not initialize 
   let result=await api.hostSession();
   assert.equal(result.ok,true);assert.equal(calls.open.length,1);assert.equal(calls.open[0].sessionId,sessionA);assert.equal(calls.open[0].rivalryId,rivalryId);assert.equal(calls.open[0].deviceId,deviceId);assert.equal(api.getState().sessionId,sessionA);assert.equal(api.getState().role,"host");
   result=await api.hostSession();assert.equal(result.ok,false);assert.equal(result.code,"REMOTE_JOINING_SESSION_ALREADY_HELD");assert.equal(calls.open.length,1,"Hosting over a live capability must not open a second provider session.");
+  assert.match(source,/function srjExpiredByClock\(\)/,"Remote Joining must distinguish provider state from local clock expiry.");
+  assert.match(source,/srjHasNonterminalSession\(\)\{return !!srjState\.sessionId&&\["open","active"\]\.includes\(srjState\.sessionState\)&&!srjExpiredByClock\(\);\}/,"Expired page-memory sessions must not block a fresh exact session.");
   result=await api.joinSession(sessionB);assert.equal(result.ok,false);assert.equal(result.code,"REMOTE_JOINING_SESSION_ALREADY_HELD");assert.equal(calls.join.length,0,"Joining while a live host capability is held must not orphan the host session.");
   result=await api.revokeSession();assert.equal(result.ok,true);assert.equal(calls.revoke.length,1);assert.equal(calls.revoke[0].sessionId,sessionA);assert.equal(api.getState().sessionState,"revoked");
   api.forgetSession();assert.equal(api.getState().sessionId,null);

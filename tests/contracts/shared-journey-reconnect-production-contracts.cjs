@@ -19,6 +19,7 @@ assert.match(production,/js\/productionSharedMultiSeasonProgression\.js/);
 assert.match(production,/js\/sparkRemoteJoining\.js/);
 assert.match(production,/setupApi\.refresh\(\)/);
 assert.match(production,/multiApi\.refresh\(\)/);
+assert.match(production,/latestExactActive[\s\S]*protocol\.observe\(\{authority,previous,nowEpochMs:latestNow,networkOnline:true,remote:latestRemote\}\)/,"An expiry race during progression verification must downgrade to FRESH_SESSION_REQUIRED instead of surfacing a generic reconnect error.");
 assert.match(production,/remoteApi\?\.getState/);
 assert.match(production,/Number\.isFinite\(remoteExpiry\)&&now<remoteExpiry/,'r14 must require exact finite unexpired Remote Joining authority.');
 assert.match(production,/if\(!pjrOnline\(\)\)return pjrOfflineHold\(\)/,'offline recovery must stop before provider Shared Setup/progression reads.');
