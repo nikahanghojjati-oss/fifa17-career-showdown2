@@ -96,12 +96,12 @@
         );
     }
     function ssjrTransferPublicPrefixPreserved(before, after) {
-      let n = before.revision;
-      return after.operationIds[0:n] == before.operationIds
-        && after.operationTypes[0:n] == before.operationTypes
-        && after.operationHashes[0:n] == before.operationHashes
-        && after.baseRevisions[0:n] == before.baseRevisions
-        && after.actorRoles[0:n] == before.actorRoles;
+      let i = before.revision;
+      return after.operationIds == before.operationIds + [after.operationIds[i]]
+        && after.operationTypes == before.operationTypes + [after.operationTypes[i]]
+        && after.operationHashes == before.operationHashes + [after.operationHashes[i]]
+        && after.baseRevisions == before.baseRevisions + [after.baseRevisions[i]]
+        && after.actorRoles == before.actorRoles + [after.actorRoles[i]];
     }
     function ssjrTransferNewOperationValid(before, after) {
       let i = before.revision;
@@ -139,9 +139,7 @@
       return before.phase == 'WINDOW_OPEN'
         && priorSize <= 1
         && !(actorRole in before.endRequestedRoles)
-        && after.endRequestedRoles.size() == priorSize + 1
-        && after.endRequestedRoles[0:priorSize] == before.endRequestedRoles
-        && after.endRequestedRoles[priorSize] == actorRole
+        && after.endRequestedRoles == before.endRequestedRoles + [actorRole]
         && after.guessLockedRoles == before.guessLockedRoles
         && after.signingLockedRoles == before.signingLockedRoles
         && (
@@ -163,9 +161,7 @@
       return before.phase == 'GUESS_ENTRY'
         && priorSize <= 1
         && !(actorRole in before.guessLockedRoles)
-        && after.guessLockedRoles.size() == priorSize + 1
-        && after.guessLockedRoles[0:priorSize] == before.guessLockedRoles
-        && after.guessLockedRoles[priorSize] == actorRole
+        && after.guessLockedRoles == before.guessLockedRoles + [actorRole]
         && after.endRequestedRoles == before.endRequestedRoles
         && after.signingLockedRoles == before.signingLockedRoles
         && after.endedAt == before.endedAt
@@ -178,9 +174,7 @@
         && priorSize <= 1
         && actorRole in before.guessLockedRoles
         && !(actorRole in before.signingLockedRoles)
-        && after.signingLockedRoles.size() == priorSize + 1
-        && after.signingLockedRoles[0:priorSize] == before.signingLockedRoles
-        && after.signingLockedRoles[priorSize] == actorRole
+        && after.signingLockedRoles == before.signingLockedRoles + [actorRole]
         && after.endRequestedRoles == before.endRequestedRoles
         && after.guessLockedRoles == before.guessLockedRoles
         && after.endedAt == before.endedAt
