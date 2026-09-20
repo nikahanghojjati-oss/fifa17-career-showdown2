@@ -32,6 +32,7 @@ const commands = {
   SHARED_SETUP_PROVIDER_SESSION_EMULATOR: `npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-career-mode-showdown-shared-setup "node tests/firebase/shared-showdown-setup-provider-session-emulator.cjs"`,
   BUILD_PRODUCTION_RULES: `node scripts/build-production-firestore-rules.mjs`,
   SHARED_SETUP_PRODUCTION_PROVIDER_EMULATOR: `npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-career-mode-showdown-shared-setup-production "node tests/firebase/shared-showdown-setup-production-provider-emulator.cjs"`,
+  SHARED_TRANSFER_FRESH_SESSION_EMULATOR: `npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-career-mode-showdown-transfer-fresh-session "node tests/firebase/shared-transfer-challenge-fresh-session-emulator.cjs"`,
   STAGE5F_ACCOUNT_CHOOSER_CONTRACT: `node tests/contracts/stage5f-account-chooser-contracts.cjs`,
   STAGE5F_AUTH_NEGATIVES_CONTRACT: `node tests/contracts/stage5f-authenticated-negatives-contracts.cjs`,
   BACKUP_BROWSER: `CMS_AUDIT_RUN="pos10-impact-storage" npm run test:backup-browser`,
