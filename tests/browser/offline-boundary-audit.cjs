@@ -149,6 +149,7 @@ async function run(){
     await identityGate.waitFor({state:"hidden"});
     pass("offline normal gameplay stays closed behind a clear connection gate");
 
+    await page.locator("#legacyButton").evaluate(button=>button.dataset.testSurface="internal-audit");
     await page.locator("#legacyButton").click();
     await page.locator("#legacy").waitFor({state:"visible",timeout:20000});
     assert.deepEqual(await page.evaluate(()=>({
