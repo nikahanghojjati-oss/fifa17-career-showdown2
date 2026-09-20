@@ -14,7 +14,7 @@
         && setup.confirmedRoles.size() == 2
         && 'playerOne' in setup.confirmedRoles
         && 'playerTwo' in setup.confirmedRoles
-        && (setup.totalSeasons == 1 || setup.totalSeasons == 3 || setup.totalSeasons == 5 || setup.totalSeasons == 10);
+        && setup.totalSeasons in [1,3,5,10];
     }
     function ssjrCareerExactKeys(root) {
       return root.keys().hasOnly([
