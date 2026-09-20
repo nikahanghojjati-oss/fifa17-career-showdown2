@@ -55,7 +55,7 @@ function createRuleBookScreen(){
         ]),
         createScoringRuleSection(),
         createRuleSection("05", "TIEBREAK", [
-            "The approved fallback applies when both managers score zero Showdown points in a season.",
+            "If both managers finish a season with the same Showdown points, use the approved fallback.",
             "The manager with the better league finishing position wins the season.",
             "If both managers finish in the same league position, the manager with more league points wins.",
             "No goal-difference, goals-scored, or head-to-head tiebreak is used."
