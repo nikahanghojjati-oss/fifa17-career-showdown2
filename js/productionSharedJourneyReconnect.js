@@ -107,6 +107,7 @@
     const remoteExpiry=Number(remote?.expiresAtEpochMs);
     const exactActive=Boolean(remote&&remote.sessionState==="active"&&remote.sessionId&&remote.rivalryId===authority.rivalryId&&remote.accountId===authority.accountId&&remote.deviceId===authority.deviceId&&remote.pendingAction==null&&Number.isFinite(remoteExpiry)&&now<remoteExpiry);
     if(!exactActive)return pjrPublish(protocol.observe(base));
+    if(!previous)return pjrPublish(null);
     const setupResult=await setupApi.refresh(),setupState=setupApi.getState();
     const sameSetupContext=Boolean(setupResult&&setupState&&setupState.ready===true&&setupState.rivalryId===authority.rivalryId&&setupState.sessionId===remote.sessionId);
     if(sameSetupContext&&pjrSetupPending()&&(!setupState.setup||setupState.setup.phase!=="SHOWDOWN_CONFIRMED"))return pjrPublish(null);
