@@ -35,7 +35,7 @@
     return ordered.map(slot=>({slotId:slot.slotId,accountId:slot.accountId,profileId:slot.profileId,saveId:slot.saveId,entitlementState:"active"}));
   }
   function hcpValidSetup(value,rivalryId,throughSeason){
-    if(!value||value.schemaVersion!==1||value.objectType!=="sharedSetupLedger"||value.rivalryId!==rivalryId||value.phase!=="SHOWDOWN_CONFIRMED"||value.revision!==6||!ROLES.includes(value.coordinatorRole)||![1,3,5,10].includes(value.totalSeasons)||throughSeason>value.totalSeasons||typeof value.leagueId!=="string"||!value.leagueId.trim()||!value.clubs||typeof value.clubs.playerOne!=="string"||typeof value.clubs.playerTwo!=="string"||!value.clubs.playerOne.trim()||!value.clubs.playerTwo.trim()||value.clubs.playerOne===value.clubs.playerTwo)hcpFail("HISTORY_CONVERGENCE_SETUP_INVALID");
+    if(!value||value.schemaVersion!==1||value.phase!=="SHOWDOWN_CONFIRMED"||value.revision!==6||!ROLES.includes(value.coordinatorRole)||![1,3,5,10].includes(value.totalSeasons)||throughSeason>value.totalSeasons||typeof value.leagueId!=="string"||!value.leagueId.trim()||!value.clubs||typeof value.clubs.playerOne!=="string"||typeof value.clubs.playerTwo!=="string"||!value.clubs.playerOne.trim()||!value.clubs.playerTwo.trim()||value.clubs.playerOne===value.clubs.playerTwo)hcpFail("HISTORY_CONVERGENCE_SETUP_INVALID");
     return value;
   }
   async function hcpReadAuthority(options,uid,rivalryId,throughSeason){
