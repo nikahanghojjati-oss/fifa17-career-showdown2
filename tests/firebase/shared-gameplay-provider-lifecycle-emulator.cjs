@@ -22,10 +22,14 @@ const Final=require("../../js/sharedFinalReconciliation.js");
 
 const PROJECT_ID="demo-career-mode-showdown-gameplay-lifecycle";
 const RULES=fs.readFileSync("firestore.spark.generated.rules","utf8");
+const TOTAL_SEASONS=Number(process.env.CMS_SHOWDOWN_LENGTH||3);
+assert.ok([1,3,5,10].includes(TOTAL_SEASONS),`Unsupported lifecycle length: ${TOTAL_SEASONS}`);
 
 const A="acct_game_a",B="acct_game_b";
 const R=`pair_${"a".repeat(64)}`;
 const S=`session_${"b".repeat(64)}`;
+const FRESH=`session_${"c".repeat(64)}`;
+let activeSessionId=S;
 const DA=`device_${"a".repeat(32)}`,DB=`device_${"b".repeat(32)}`;
 const PA=`profile_${"1".repeat(24)}`,PB=`profile_${"2".repeat(24)}`;
 const SA=`save_${"3".repeat(24)}`,SB=`save_${"4".repeat(24)}`;
@@ -38,12 +42,12 @@ function slots(){return [
   {slotId:"playerTwo",accountId:B,profileId:PB,saveId:SB,entitlementState:"active"}
 ];}
 function rivalry(){return {objectType:"rivalry",objectId:R,lifecycleState:"live",data:{connectionState:"active",authorizedAccountIds:[A,B],managerSlots:slots()}};}
-function session(now){
-  const createdAt=Timestamp.fromMillis(now-60_000),lastActivityAt=Timestamp.fromMillis(now-1_000),expiresAt=Timestamp.fromMillis(now+4*60*60*1000);
-  return {schemaVersion:1,objectType:"session",objectId:S,revision:1,parentRevision:0,lifecycleState:"live",contentHash:`sha256:${"0".repeat(64)}`,priorContentHash:`sha256:${"1".repeat(64)}`,updatedAt:lastActivityAt,updatedByAccountId:A,updatedByDeviceId:DA,data:{rivalryId:R,state:"active",hostAccountId:A,memberAccountIds:[A,B],createdAt,expiresAt,lastActivityAt,revokedAt:null},tombstone:null};
+function session(now,id=S,expiresAtEpochMs=now+4*60*60*1000){
+  const createdAt=Timestamp.fromMillis(now-60_000),lastActivityAt=Timestamp.fromMillis(now-1_000),expiresAt=Timestamp.fromMillis(expiresAtEpochMs);
+  return {schemaVersion:1,objectType:"session",objectId:id,revision:1,parentRevision:0,lifecycleState:"live",contentHash:`sha256:${"0".repeat(64)}`,priorContentHash:`sha256:${"1".repeat(64)}`,updatedAt:lastActivityAt,updatedByAccountId:A,updatedByDeviceId:DA,data:{rivalryId:R,state:"active",hostAccountId:A,memberAccountIds:[A,B],createdAt,expiresAt,lastActivityAt,revokedAt:null},tombstone:null};
 }
 function op(prefix,n){return prefix+Number(n).toString(16).padStart(32,"0");}
-function base(db,uid,deviceId,now){return {user:{uid},firestore:db,firebaseSdk:sdk(),rivalryId:R,sessionId:S,deviceId,nowEpochMs:now,cryptoImpl:crypto.webcrypto};}
+function base(db,uid,deviceId,now){return {user:{uid},firestore:db,firebaseSdk:sdk(),rivalryId:R,sessionId:activeSessionId,deviceId,nowEpochMs:now,cryptoImpl:crypto.webcrypto};}
 function localAuthority(role){const slot=slots().find(item=>item.slotId===role);return {phase:"REMOTE_OBSERVED",canonicalStorageMutation:false,providerWriteRequired:false,automaticLocalApply:false,candidateCOnly:true,binding:{saveId:slot.saveId,profileId:slot.profileId,managerRole:role}};}
 function resultFor(role,season){
   if(role==="playerOne")return {leaguePosition:season===1?1:2,leaguePoints:90+season,leagueGoals:88+season,domesticCup:season===2,championsLeague:season===3,topScorer:season===1,topAssist:false};
@@ -54,6 +58,7 @@ function resultFor(role,season){
   const env=await initializeTestEnvironment({projectId:PROJECT_ID,firestore:{rules:RULES}});
   try{
     await env.clearFirestore();
+    activeSessionId=S;
     const now=Date.now();
     await env.withSecurityRulesDisabled(async context=>{
       const db=context.firestore();
@@ -72,7 +77,7 @@ function resultFor(role,season){
       ["open",0,1,{}],
       ["commit-league",1,2,{}],
       ["commit-clubs",2,3,{}],
-      ["commit-length",3,4,{totalSeasons:3}]
+      ["commit-length",3,4,{totalSeasons:TOTAL_SEASONS}]
     ];
     let setupResult=null;
     for(const [type,baseRevision,n,extra] of setupOps){
@@ -84,7 +89,7 @@ function resultFor(role,season){
     setupResult=await Setup.mutate({...b(60),type:"confirm",baseRevision:5,operationId:op("setup_op_",6)});
     assert.equal(setupResult.ok,true,JSON.stringify(setupResult));
     assert.equal(setupResult.state.phase,"SHOWDOWN_CONFIRMED");
-    assert.equal(setupResult.state.totalSeasons,3);
+    assert.equal(setupResult.state.totalSeasons,TOTAL_SEASONS);
     assert.ok(setupResult.state.leagueId&&setupResult.state.clubs?.playerOne&&setupResult.state.clubs?.playerTwo);
 
     let career=await Career.acknowledge({...a(70),operationId:op("career_start_op_",1),baseRevision:0});
@@ -94,7 +99,7 @@ function resultFor(role,season){
     assert.equal(career.state.phase,"CAREER_START_READY");
 
     let lastHistory=null,lastMulti=null;
-    for(let season=1;season<=3;season+=1){
+    for(let season=1;season<=TOTAL_SEASONS;season+=1){
       const offset=season*10_000;
       let transfer=await Transfer.startWindow({...a(offset+100),seasonNumber:season,operationId:op("transfer_op_",season*10+1),baseRevision:0});
       assert.equal(transfer.ok,true,`S${season} start transfer failed: ${JSON.stringify(transfer)}`);
@@ -164,18 +169,33 @@ function resultFor(role,season){
       assert.equal(lastMulti.ok,true,`S${season} multi-season failed: ${JSON.stringify(lastMulti)}`);
       assert.equal(multiB.ok,true,JSON.stringify(multiB));
       assert.deepEqual(lastMulti.state,multiB.state,`S${season} progression must converge`);
-      if(season<3){assert.equal(lastMulti.state.activeSeason,season+1);assert.equal(lastMulti.state.terminal,false);}
+      if(season<TOTAL_SEASONS){assert.equal(lastMulti.state.activeSeason,season+1);assert.equal(lastMulti.state.terminal,false);}
       else{assert.equal(lastMulti.state.activeSeason,null);assert.equal(lastMulti.state.terminal,true);assert.equal(lastMulti.state.phase,"SHOWDOWN_COMPLETE");}
+
+      if(TOTAL_SEASONS===10&&season===5){
+        const freshNow=now+offset+1600;
+        await env.withSecurityRulesDisabled(async context=>{
+          const db=context.firestore();
+          await setDoc(doc(db,"rivalries",R,"sessions",S),session(now,S,freshNow-1));
+          await setDoc(doc(db,"rivalries",R,"sessions",FRESH),session(freshNow,FRESH));
+        });
+        activeSessionId=FRESH;
+        const resumedA=await Setup.read(a(offset+1700)),resumedB=await Setup.read(b(offset+1700));
+        assert.equal(resumedA.ok,true,`S${season} fresh-session setup resume A failed: ${JSON.stringify(resumedA)}`);
+        assert.equal(resumedB.ok,true,`S${season} fresh-session setup resume B failed: ${JSON.stringify(resumedB)}`);
+        assert.equal(resumedA.state.totalSeasons,TOTAL_SEASONS);
+        assert.deepEqual(resumedA.state.clubs,resumedB.state.clubs,"Fresh session must preserve fixed clubs.");
+      }
     }
 
     const finalA=Final.reconcile({sharedActive:true,multiSeason:lastMulti,history:lastHistory,localReconciliation:localAuthority("playerOne")});
     const finalB=Final.reconcile({sharedActive:true,multiSeason:lastMulti,history:lastHistory,localReconciliation:localAuthority("playerTwo")});
     assert.deepEqual(finalA,finalB,"Both managers must derive the same final Showdown.");
     assert.equal(finalA.phase,"FINAL_SEASON_RECONCILED");
-    assert.equal(finalA.completedSeason,3);
+    assert.equal(finalA.completedSeason,TOTAL_SEASONS);
     assert.equal(finalA.nextSeason,null);
     assert.equal(finalA.extraSeasonAllowed,false);
 
-    process.stdout.write("PASS production gameplay provider lifecycle: real generated Firestore Rules carried one exact two-manager Showdown through shared setup, Career Start, three complete Transfer/Guess/Signing cycles, private Season Results, coordinator commit + dual acknowledgement, canonical scoring, converged history, exact next-season progression, and final reconciliation with fixed clubs and no reset. Terminal Close remains independently production-emulator gated.\n");
+    process.stdout.write(`PASS production gameplay provider lifecycle (${TOTAL_SEASONS} season${TOTAL_SEASONS===1?"":"s"}): real generated Firestore Rules carried one exact two-manager Showdown through shared setup, Career Start, ${TOTAL_SEASONS} complete Transfer/Guess/Signing cycles, private Season Results, coordinator commit + dual acknowledgement, canonical scoring, converged history, exact next-season progression, and final reconciliation with fixed clubs and no reset${TOTAL_SEASONS===10?"; the original private session expired after Season 5 and a fresh four-hour session resumed the same rivalry through Season 10":""}. Terminal Close remains independently production-emulator gated.\n`);
   }finally{await env.cleanup();}
 })().catch(error=>{console.error(error.stack||error);process.exit(1);});
