@@ -118,19 +118,13 @@
     function ssjrTransferPrivatePayloadLinked(rivalryId, transferId, after, operationType) {
       let role = ssjrActorRole(rivalryId);
       let own = ssjrTransferOwnRoleAfter(rivalryId, transferId);
-      return own.schemaVersion == 1
-        && own.objectType == 'sharedTransferChallengeRole'
-        && own.rivalryId == rivalryId
-        && own.seasonNumber == after.seasonNumber
-        && own.managerRole == role
+      return own.managerRole == role
         && own.activeSessionId == after.activeSessionId
         && own.updatedByDeviceId == after.updatedByDeviceId
         && own.updatedAt == request.time
-        && own.guesses is list
-        && own.guessLockedAt is timestamp
         && (
-          (operationType == 'lock-guesses' && own.signings == null && own.signingLockedAt == null)
-          || (operationType == 'lock-signings' && own.signings is list && own.signingLockedAt is timestamp)
+          (operationType == 'lock-guesses' && own.guessLockedAt == request.time && own.signingLockedAt == null)
+          || (operationType == 'lock-signings' && own.signingLockedAt == request.time)
         );
     }
     function ssjrTransferEndRequestTransition(before, after, actorRole) {
