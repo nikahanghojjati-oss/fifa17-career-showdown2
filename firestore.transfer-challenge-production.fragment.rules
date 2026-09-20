@@ -44,8 +44,8 @@
     function ssjrTransferRoleListValid(value) {
       return value is list
         && value.size() <= 2
-        && (value.size() < 1 || ssjrTransferValidRole(value[0]))
-        && (value.size() < 2 || (ssjrTransferValidRole(value[1]) && value[1] != value[0]));
+        && value.toSet().size() == value.size()
+        && value.toSet().hasOnly(['playerOne','playerTwo']);
     }
     function ssjrTransferPublicExactKeys(root) {
       return root.keys().hasOnly([
