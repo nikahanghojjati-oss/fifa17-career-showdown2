@@ -30,6 +30,7 @@ for(const invariant of [
   /match \/\{document=\*\*\} \{[\s\S]+allow read, write: if false;/
 ]) assert.match(rules,invariant);
 assert.doesNotMatch(rules,/request\.auth\.token\.device_|deviceCredentials/,"Current production session Rules must use standard Firebase uid authority, not the superseded custom-device-claim design.");
+assert.match(rules,/validOpenSessionCreate\(rivalryId, sessionId\)[\s\S]+data\.expiresAt <= request\.time \+ duration\.value\(4, \'h\'\)/,"Production exact-session creation must permit at most four hours.");
 assert.doesNotMatch(rules,/allow list: if true|allow read, write: if true/,"Current production Rules must not introduce discovery or an allow-all escape hatch.");
 assert.doesNotMatch(adapter,/\blocalStorage\b|\bindexedDB\b|\bcollection\s*\(|\bgetDocs\b/,"Standard-auth session adapter must remain exact-path and memory-only.");
 for(const runtimeOwner of ["index.html","js/app.js","js/productionFirebaseRuntime.js"]){

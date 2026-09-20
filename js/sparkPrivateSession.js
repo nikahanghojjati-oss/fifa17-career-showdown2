@@ -6,8 +6,8 @@
   "use strict";
 
   const SESSION_ID_BYTES=32;
-  const DEFAULT_SESSION_TTL_MS=30*60*1000;
-  const MAX_SESSION_TTL_MS=30*60*1000;
+  const DEFAULT_SESSION_TTL_MS=4*60*60*1000;
+  const MAX_SESSION_TTL_MS=4*60*60*1000;
   const MIN_SESSION_TTL_MS=1000;
   const PROVIDER_DEVICE_CREDENTIAL_CLAIM="device_id";
   const PROVIDER_DEVICE_CREDENTIAL_MODE="provider-device-credential";
@@ -145,7 +145,7 @@
   function normalizeTtl(value){
     const ttlMs=value===undefined?DEFAULT_SESSION_TTL_MS:Number(value);
     if(!Number.isFinite(ttlMs)||ttlMs<MIN_SESSION_TTL_MS||ttlMs>MAX_SESSION_TTL_MS){
-      throw sessionError("PRIVATE_SESSION_TTL_INVALID","Private sessions must expire between one second and thirty minutes after creation.");
+      throw sessionError("PRIVATE_SESSION_TTL_INVALID","Private sessions must expire between one second and four hours after creation.");
     }
     return ttlMs;
   }

@@ -136,7 +136,8 @@ function operation(h,authority,accountKey,deviceKey,rivalryId,sessionId,nowEpoch
 
   const adapterSource=fs.readFileSync("js/sparkStandardAuthPrivateSession.js","utf8");
   const protocolSource=fs.readFileSync("js/sparkPrivateSession.js","utf8");
-  assert.match(protocolSource,/const DEFAULT_SESSION_TTL_MS=30\*60\*1000;/,"Default exact private session must cover setup plus a full 15-minute transfer window.");
+  assert.match(protocolSource,/const DEFAULT_SESSION_TTL_MS=4\*60\*60\*1000;/,"Default exact private session must provide a four-hour gameplay authority window.");
+  assert.match(protocolSource,/const MAX_SESSION_TTL_MS=4\*60\*60\*1000;/,"Exact private session lifetime must remain bounded at four hours.");
   assert.doesNotMatch(adapterSource,/\blocalStorage\b|\bindexedDB\b/);
   assert.doesNotMatch(adapterSource,/getIdTokenResult|device_credential_version|device_key_sha256|device_id/,
     "The standard-auth adapter must not fabricate or require custom device claims.");
@@ -161,6 +162,7 @@ function operation(h,authority,accountKey,deviceKey,rivalryId,sessionId,nowEpoch
   assert.doesNotMatch(JSON.stringify({rootFirebase,productionFirebase}),/stage5c/i);
   assert.equal(productionRules,candidateRules,
     "Stage 5D must promote the exact already-proven Stage 5C Rules bytes rather than authoring a new production variant.");
+  assert.match(productionRules,/data\.expiresAt <= request\.time \+ duration\.value\(4, \'h\'\)/,"Production session create Rules must permit the bounded four-hour authority window.");
   assert.match(productionRules,/STAGE5C_CANDIDATE_SESSION_FUNCTIONS_BEGIN[\s\S]+registeredSessionDeviceMetadata[\s\S]+validOpenSessionCreate[\s\S]+validSessionJoin[\s\S]+validSessionUpdate[\s\S]+STAGE5C_CANDIDATE_SESSION_FUNCTIONS_END/);
   assert.match(productionRules,/sessionWriteUsesRegisteredDeviceMetadata\(root\)[\s\S]+root\.updatedByAccountId == request\.auth\.uid[\s\S]+registeredSessionDeviceMetadata\(root\.updatedByDeviceId\)/);
   assert.doesNotMatch(productionRules,/request\.auth\.token\.device_|deviceCredentials/,

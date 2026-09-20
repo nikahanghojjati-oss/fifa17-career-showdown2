@@ -731,7 +731,7 @@ service cloud.firestore {
         && data.createdAt >= request.time - duration.value(5, 'm')
         && data.createdAt <= request.time + duration.value(1, 'm')
         && data.expiresAt > request.time
-        && data.expiresAt <= request.time + duration.value(30, 'm')
+        && data.expiresAt <= request.time + duration.value(4, 'h')
         && data.lastActivityAt == null
         && data.revokedAt == null
         && after.updatedAt == data.createdAt;
