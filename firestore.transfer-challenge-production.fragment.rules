@@ -107,7 +107,7 @@
       let i = before.revision;
       return ssjrTransferValidOperationId(after.operationIds[i])
         && !(after.operationIds[i] in before.operationIds)
-        && (after.operationTypes[i] == 'request-end-window' || after.operationTypes[i] == 'advance-expired-window' || after.operationTypes[i] == 'lock-guesses' || after.operationTypes[i] == 'lock-signings')
+        && after.operationTypes[i] in ['request-end-window','advance-expired-window','lock-guesses','lock-signings']
         && ssjrTransferValidHash(after.operationHashes[i])
         && after.baseRevisions[i] == before.revision
         && after.actorRoles[i] == ssjrActorRole(after.rivalryId);
