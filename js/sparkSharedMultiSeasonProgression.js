@@ -10,8 +10,8 @@
   const RIVALRY_ID=/^pair_[0-9a-f]{64}$/;
   const DEVICE_ID=/^device_[0-9a-f]{32}$/;
   const SESSION_ID=/^session_[0-9a-f]{64}$/;
-  const defaultProgressionModule=typeof require==="function"?require("./sharedMultiSeasonProgression.js"):root.CareerModeSharedMultiSeasonProgression;
-  const defaultHistoryProvider=typeof require==="function"?require("./sparkSharedHistoryConvergence.js"):root.CareerModeSparkSharedHistoryConvergence;
+  function msp13ProgressionModule(){return typeof require==="function"?require("./sharedMultiSeasonProgression.js"):root.CareerModeSharedMultiSeasonProgression;}
+  function msp13HistoryProvider(){return typeof require==="function"?require("./sparkSharedHistoryConvergence.js"):root.CareerModeSparkSharedHistoryConvergence;}
 
   function msp13Fail(code,message){const error=new Error(message||code);error.code=code;throw error;}
   function msp13Freeze(value){if(value&&typeof value==="object"&&!Object.isFrozen(value)){Object.values(value).forEach(msp13Freeze);Object.freeze(value);}return value;}
@@ -64,11 +64,11 @@
       return msp13Freeze({setup,managerRole:actor.managerRole,acceptedSeasons,commitPhases:phases});
     });
   }
-  function msp13CreateProvider({progressionModule=defaultProgressionModule,historyProvider=defaultHistoryProvider,authorityReader=msp13ReadAuthority}={}){
-    if(!progressionModule||typeof progressionModule.createProtocol!=="function")msp13Fail("MULTI_SEASON_PROTOCOL_UNAVAILABLE");
-    if(!historyProvider||typeof historyProvider.read!=="function")msp13Fail("MULTI_SEASON_HISTORY_PROVIDER_UNAVAILABLE");
+  function msp13CreateProvider({progressionModule=null,historyProvider=null,authorityReader=msp13ReadAuthority}={}){
+    const resolvedProgression=progressionModule||msp13ProgressionModule();
+    if(!resolvedProgression||typeof resolvedProgression.createProtocol!=="function")msp13Fail("MULTI_SEASON_PROTOCOL_UNAVAILABLE");
     if(typeof authorityReader!=="function")msp13Fail("MULTI_SEASON_AUTHORITY_READER_UNAVAILABLE");
-    const protocol=progressionModule.createProtocol();
+    const protocol=resolvedProgression.createProtocol();
     async function msp13Read(options={}){
       try{
         const rivalryId=msp13Rivalry(options.rivalryId),sessionId=msp13Session(options.sessionId),deviceId=msp13Device(options.deviceId),uid=msp13Uid(options.user),now=msp13Now(options.nowEpochMs);msp13Sdk(options);
@@ -76,7 +76,8 @@
         if(!authority||!authority.setup||!ROLES.includes(authority.managerRole)||!Number.isInteger(authority.acceptedSeasons)||authority.acceptedSeasons<0||authority.acceptedSeasons>authority.setup.totalSeasons)msp13Fail("MULTI_SEASON_AUTHORITY_INVALID");
         let history=null;
         if(authority.acceptedSeasons>0){
-          const historyResult=await historyProvider.read({...options,rivalryId,sessionId,deviceId,throughSeason:authority.acceptedSeasons});
+          const resolvedHistory=historyProvider||msp13HistoryProvider();if(!resolvedHistory||typeof resolvedHistory.read!=="function")msp13Fail("MULTI_SEASON_HISTORY_PROVIDER_UNAVAILABLE");
+          const historyResult=await resolvedHistory.read({...options,rivalryId,sessionId,deviceId,throughSeason:authority.acceptedSeasons});
           if(!historyResult||historyResult.ok!==true||historyResult.authoritative!==true||historyResult.phase!=="HISTORY_CONVERGED"||!historyResult.projection)msp13Fail(historyResult?.code||"MULTI_SEASON_HISTORY_UNAVAILABLE");
           history=historyResult.projection;
         }
