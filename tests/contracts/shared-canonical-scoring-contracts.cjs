@@ -45,15 +45,15 @@ function op(prefix){serial+=1;return prefix+serial.toString(16).padStart(32,"0")
   const onePointA={leaguePosition:2,leaguePoints:70,leagueGoals:70,domesticCup:true,championsLeague:false,topScorer:false,topAssist:false};
   const onePointB={leaguePosition:15,leaguePoints:25,leagueGoals:25,domesticCup:false,championsLeague:false,topScorer:true,topAssist:false};
   const exactNonZeroTie=await scoringProtocol.reconcile({seasonCommit:await buildCommit(onePointA,onePointB)});
-  assert.equal(exactNonZeroTie.scoring.playerOne.total,1);assert.equal(exactNonZeroTie.scoring.playerTwo.total,1);assert.equal(exactNonZeroTie.winner,"draw","non-zero scoring ties must not use league tiebreakers");
+  assert.equal(exactNonZeroTie.scoring.playerOne.total,1);assert.equal(exactNonZeroTie.scoring.playerTwo.total,1);assert.equal(exactNonZeroTie.winner,"playerOne","every tied Showdown score must use league position before league points");
 
   const zeroA={leaguePosition:4,leaguePoints:60,leagueGoals:55,domesticCup:false,championsLeague:false,topScorer:false,topAssist:false};
   const zeroB={leaguePosition:6,leaguePoints:75,leagueGoals:70,domesticCup:false,championsLeague:false,topScorer:false,topAssist:false};
   const positionTieBreak=await scoringProtocol.reconcile({seasonCommit:await buildCommit(zeroA,zeroB)});
-  assert.equal(positionTieBreak.scoring.playerOne.total,0);assert.equal(positionTieBreak.scoring.playerTwo.total,0);assert.equal(positionTieBreak.winner,"playerOne","league position is the first zero-score-only tiebreaker");
+  assert.equal(positionTieBreak.scoring.playerOne.total,0);assert.equal(positionTieBreak.scoring.playerTwo.total,0);assert.equal(positionTieBreak.winner,"playerOne","league position is the first tiebreaker after any tied Showdown score");
   const pointsA={...zeroA,leaguePosition:5,leaguePoints:72},pointsB={...zeroB,leaguePosition:5,leaguePoints:71};
   const pointsTieBreak=await scoringProtocol.reconcile({seasonCommit:await buildCommit(pointsA,pointsB)});
-  assert.equal(pointsTieBreak.winner,"playerOne","league points are the second zero-score-only tiebreaker");
+  assert.equal(pointsTieBreak.winner,"playerOne","league points are the second tiebreaker after any tied Showdown score");
   const zeroDraw=await scoringProtocol.reconcile({seasonCommit:await buildCommit(pointsA,{...pointsB,leaguePoints:72})});assert.equal(zeroDraw.winner,"draw");
 
   const incomplete=await buildCommit(max,none,{fullyAcknowledge:false});
@@ -63,8 +63,8 @@ function op(prefix){serial+=1;return prefix+serial.toString(16).padStart(32,"0")
 
   const source=fs.readFileSync("js/sharedCanonicalScoring.js","utf8");
   assert.match(source,/championsLeague:5,leagueTitle:3,domesticCup:1,performanceBonus:1,individualAwardsBonus:1/);
-  assert.match(source,/trustsSubmittedTotals:false/);assert.match(source,/requiresAcknowledgedSeasonCommit:true/);assert.match(source,/zeroScoreOnlyTiebreak:true/);assert.match(source,/authoritativeScoring:true/);
+  assert.match(source,/trustsSubmittedTotals:false/);assert.match(source,/requiresAcknowledgedSeasonCommit:true/);assert.match(source,/leaguePositionThenPointsTiebreak:true/);assert.match(source,/authoritativeScoring:true/);
   assert.match(source,/canonicalStorageMutation:false/);assert.match(source,/billingRequired:false/);
   assert.doesNotMatch(source,/saveCurrentShowdown|persistCompletedSeason|localStorage\.setItem/);
-  process.stdout.write("PASS Shared Canonical Scoring deterministic core: r10 ACKNOWLEDGED commit is mandatory, canonical 5/3/1 scoring and both one-point bonus caps are recomputed from supported raw results, submitted totals are not trusted, non-zero ties remain draws, zero-score-only position/points tiebreakers are preserved, and local Save authority remains untouched.\n");
+  process.stdout.write("PASS Shared Canonical Scoring deterministic core: r10 ACKNOWLEDGED commit is mandatory, canonical 5/3/1 scoring and both one-point bonus caps are recomputed from supported raw results, submitted totals are not trusted, all tied Showdown scores use league position then league points as tiebreakers, and local Save authority remains untouched.\n");
 })().catch(error=>{console.error(error);process.exitCode=1;});
