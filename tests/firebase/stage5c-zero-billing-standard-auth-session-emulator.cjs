@@ -207,6 +207,10 @@ async function snapshotData(reference){
     const refC=doc(third.firestore,"rivalries",RIVALRY_ID,"sessions",sessionId);
     const refAnon=doc(anonymous.firestore,"rivalries",RIVALRY_ID,"sessions",sessionId);
 
+    const fourHourId=`session_${"f".repeat(64)}`;
+    const fourHour=await session.openSession(options(host,DEVICE_A,fourHourId,Date.now(),4*60*60*1000));
+    assert.equal(fourHour.ok,true,JSON.stringify(fourHour));
+    assert.ok(fourHour.expiresAtEpochMs-fourHour.createdAtEpochMs>=4*60*60*1000-1000,"Four-hour production Rules boundary must accept the requested session lifetime.");
     const opened=await session.openSession(options(host,DEVICE_A,sessionId,Date.now(),60_000));
     assert.equal(opened.ok,true,JSON.stringify(opened));
     assert.equal(opened.state,"open");
