@@ -76,6 +76,6 @@ function career(){return {schemaVersion:1,objectType:"sharedCareerStart",rivalry
     assert.ok(endedAtMs>=startedAt.toMillis()+15*60*1000,"timeout transition must never occur before the authoritative 15-minute deadline.");
     assert.ok(endedAtMs<=Date.now()+5000,"timeout endedAt must be the Firestore request/server time, not an invented future value.");
 
-    process.stdout.write("PASS Shared Transfer fresh-session expiry emulator: an old-session WINDOW_OPEN at 00:00 advances once under a fresh ACTIVE session, preserves exact startedAt, migrates activeSessionId, writes timeout completion at server request time, and reaches GUESS_ENTRY without redraw or reset.\n");
+    process.stdout.write("PASS Shared Transfer fresh-session expiry emulator: an old-session WINDOW_OPEN at 00:00 advances once under a fresh ACTIVE session, preserves exact startedAt, migrates activeSessionId, writes timeout completion at server request time, and reaches GUESS_ENTRY without redraw or reset.\\n");
   }finally{await env.cleanup();}
 })().catch(error=>{console.error(error.stack||error);process.exit(1);});
