@@ -119,6 +119,11 @@
     .transferComboboxList{max-height:min(235px,38vh);}
 }
 
+@media(max-width:900px){
+    /* The selector enhancer wraps league/nationality inputs in .transferCombobox. Keep both wrappers in the full-width value column on compact layouts. */
+    .signingRow>.transferCombobox{grid-column:2;}
+}
+
 @media(max-width:760px){
     .transferPhaseNavigator{grid-template-columns:repeat(2,minmax(0,1fr));}
     .transferPhaseStep{min-height:43px;}
