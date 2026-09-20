@@ -111,22 +111,28 @@ function resultFor(role,season){
 
       transfer=await Transfer.lockGuesses({...a(offset+400),seasonNumber:season,operationId:op("transfer_op_",season*10+4),baseRevision:3,guesses:[
         {slot:1,type:"league",valueId:"england-premier-league"},
-        {slot:2,type:"nationality",valueId:"brazil"}
+        {slot:2,type:"nationality",valueId:"brazil"},
+        {slot:3,type:"league",valueId:"germany-bundesliga"}
       ]});
       assert.equal(transfer.ok,true,`S${season} Daniel guesses failed: ${JSON.stringify(transfer)}`);
       transfer=await Transfer.lockGuesses({...b(offset+500),seasonNumber:season,operationId:op("transfer_op_",season*10+5),baseRevision:4,guesses:[
         {slot:1,type:"league",valueId:"spain-primera-division"},
-        {slot:2,type:"nationality",valueId:"germany"}
+        {slot:2,type:"nationality",valueId:"germany"},
+        {slot:3,type:"nationality",valueId:"albania"}
       ]});
       assert.equal(transfer.ok,true,`S${season} Nik guesses failed: ${JSON.stringify(transfer)}`);
       assert.equal(transfer.state.phase,"SIGNING_ENTRY");
 
       transfer=await Transfer.lockSignings({...a(offset+600),seasonNumber:season,operationId:op("transfer_op_",season*10+6),baseRevision:5,signings:[
-        {slot:1,name:`Daniel S${season} A`,leagueId:"spain-primera-division",nationalityId:"england"}
+        {slot:1,name:`Daniel S${season} A`,leagueId:"spain-primera-division",nationalityId:"england"},
+        {slot:2,name:`Daniel S${season} B`,leagueId:"australia-a-league",nationalityId:"albania"},
+        {slot:3,name:`Daniel S${season} C`,leagueId:"germany-bundesliga",nationalityId:"france"}
       ]});
       assert.equal(transfer.ok,true,`S${season} Daniel signings failed: ${JSON.stringify(transfer)}`);
       transfer=await Transfer.lockSignings({...b(offset+700),seasonNumber:season,operationId:op("transfer_op_",season*10+7),baseRevision:6,signings:[
-        {slot:1,name:`Nik S${season} A`,leagueId:"england-premier-league",nationalityId:"brazil"}
+        {slot:1,name:`Nik S${season} A`,leagueId:"england-premier-league",nationalityId:"brazil"},
+        {slot:2,name:`Nik S${season} B`,leagueId:"italy-serie-a",nationalityId:"germany"},
+        {slot:3,name:`Nik S${season} C`,leagueId:"france-ligue-1",nationalityId:"albania"}
       ]});
       assert.equal(transfer.ok,true,`S${season} Nik signings failed: ${JSON.stringify(transfer)}`);
       assert.equal(transfer.state.phase,"COMPLETED");
