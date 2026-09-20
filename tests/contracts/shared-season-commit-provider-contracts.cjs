@@ -24,7 +24,7 @@ async function createHarness(){
   put(key("accounts",uid2,"devices",device2),{objectType:"device",objectId:device2,lifecycleState:"live",data:{deviceId:device2,state:"active"}});
   put(key("rivalries",rivalryId),{objectType:"rivalry",objectId:rivalryId,lifecycleState:"live",data:{connectionState:"active",authorizedAccountIds:[uid1,uid2],managerSlots:[{slotId:"playerOne",accountId:uid1,entitlementState:"active"},{slotId:"playerTwo",accountId:uid2,entitlementState:"active"}]}});
   put(key("rivalries",rivalryId,"sessions",sessionId),{objectType:"session",objectId:sessionId,lifecycleState:"live",data:{rivalryId,state:"active",memberAccountIds:[uid1,uid2],expiresAt:ts(9_000_000)}});
-  const setup={schemaVersion:1,objectType:"sharedSetupLedger",rivalryId,revision:6,phase:"SHOWDOWN_CONFIRMED",coordinatorRole:"playerOne",totalSeasons:3,confirmedRoles:["playerOne","playerTwo"]};
+  const setup={schemaVersion:1,objectType:"sharedSetupLedger",rivalryId,revision:6,phase:"SHOWDOWN_CONFIRMED",coordinatorRole:"playerOne",leagueId:"premier_league",totalSeasons:3,confirmedRoles:["playerOne","playerTwo"]};
   put(key("rivalries",rivalryId,"sharedSetup","authoritative"),setup);
   const careerStart={phase:"CAREER_START_READY",revision:2,acknowledgedRoles:["playerOne","playerTwo"]};
   const transferChallenge={phase:"COMPLETED",seasonNumber:1,revision:7};
