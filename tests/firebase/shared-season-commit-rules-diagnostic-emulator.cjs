@@ -54,7 +54,7 @@ async function seed(env,now){
 
 async function runVariant(index,label,expression){
   const rules=RULES.replace(TARGET,`allow create: if ${expression};`);
-  if(rules===RULES)throw new Error("Season Commit create rule target was not found.");
+  if(!rules.includes(`allow create: if ${expression};`))throw new Error("Season Commit create rule target was not found.");
   const env=await initializeTestEnvironment({projectId:`demo-cms17-commit-diag-${index}`,firestore:{rules}});
   try{
     const now=Date.now();await seed(env,now);
