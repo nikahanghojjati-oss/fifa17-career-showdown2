@@ -44,6 +44,14 @@ for(const required of [
 ])assert.ok(transferRules.includes(required),`Transfer Challenge Rules missing ${required}`);
 for(const required of ['function ssjrTransferValidLeagueId(value)','function ssjrTransferValidNationalityId(value)','ssjrTransferValidLeagueId(value.leagueId)','ssjrTransferValidNationalityId(value.nationalityId)'])assert.ok(generatedRules.includes(required),`Generated Transfer Challenge Rules missing canonical catalog boundary: ${required}`);
 for(const forbidden of [/cloud\s*run/i,/cloud\s*functions/i,/blaze/i,/billingEnabled\s*[:=]\s*true/i])assert.doesNotMatch(transferRules,forbidden,'Transfer Challenge Rules must remain Spark-only and zero-billing.');
+assert.doesNotMatch(transferRules,/\[0:priorSize\]|\[0:n\]/,'Transfer update Rules must not rely on zero-length list slices.');
+for(const required of [
+  'after.operationIds == before.operationIds + [after.operationIds[i]]',
+  'after.endRequestedRoles == before.endRequestedRoles + [actorRole]',
+  'after.guessLockedRoles == before.guessLockedRoles + [actorRole]',
+  'after.signingLockedRoles == before.signingLockedRoles + [actorRole]'
+])assert.ok(transferRules.includes(required),`Transfer update Rules missing append-only list boundary: ${required}`);
+
 
 assert.equal(ProductionAdapter.feature,'ssjr-production-shared-transfer-challenge');
 assert.equal(ProductionAdapter.productionEnabled,true);
