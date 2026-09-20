@@ -21,26 +21,26 @@ const currentRevision=(index.match(/meta name="app-asset-revision" content="([^"
 assert.match(currentRevision||"",/^1\.9\.1-r[1-9]\d*$/);
 assert.match(app,new RegExp(`VISUAL_FIDELITY_STYLESHEET="css\\/visual-fidelity-r3\\.css\\?v=${currentRevision.replace(/\./g,"\\.")}"`));
 assert.match(menu,new RegExp(`marco-reus-2015-cc-by\\.webp\\?v=${currentRevision.replace(/\./g,"\\.")}`),
-  "lazy menu image must share the current whole-shell identity while r20 physical evidence remains historical");
+  "lazy menu image must share the current whole-shell identity used by physical acceptance");
 assert.match(manifest,new RegExp(`showdown-192\\.svg\\?v=${currentRevision.replace(/\./g,"\\.")}`));
 assert.match(worker,new RegExp(`const RUNTIME_REVISION = "${currentRevision.replace(/\./g,"\\.")}";`));
-assert.match(worker,/"js\/ssjrPhysicalJourneyAcceptance\.js"/,"r20 offline shell must retain the acceptance recorder across physical offline/reload proof");
+assert.match(worker,/"js\/ssjrPhysicalJourneyAcceptance\.js"/,"current offline shell must retain the acceptance recorder across physical offline/reload proof");
 assert.match(bootstrap,/params\.get\("ssjr-physical"\)==="1"/);
 assert.match(bootstrap,/ssjr-physical-journey-acceptance/);
 assert.match(bootstrap,/js\/ssjrPhysicalJourneyAcceptance\.js/);
 assert.match(entry,/career-mode-remote-joining-state-change|subscribe/,
-  "r20 Shared Journey entry must observe Remote Joining state for peer handoff");
-assert.match(entry,/peer/i,"r20 Shared Journey entry must contain an explicit peer handoff boundary");
+  "current Shared Journey entry must observe Remote Joining state for peer handoff");
+assert.match(entry,/peer/i,"current Shared Journey entry must contain an explicit peer handoff boundary");
 assert.match(reconciliation,/captureLocalReconciliationBaseline|verifyLocalReconciliationPreview/,
-  "r20 Local Reconciliation must bracket the read-only preview with the acceptance storage proof");
+  "current Local Reconciliation must bracket the read-only preview with the acceptance storage proof");
 assert.match(recorder,/physicalJourneyMode:true/);
 assert.match(recorder,/candidateCAutomaticApply:false/);
 assert.match(recorder,/recorderNetworkRequests:false/);
-assert.match(recorder,/1\.9\.1-r20/);
+assert.match(recorder,/1\.9\.1-r43/);
 assert.doesNotMatch(recorder,/\bfetch\s*\(/);
 assert.match(validator,/validatePhysicalJourneyPair/);
-assert.match(validator,/1\.9\.1-r20/);
-assert.match(guide,/Physical Journey Production Acceptance — r20/);
+assert.match(validator,/1\.9\.1-r43/);
+assert.match(guide,/Physical Journey Production Acceptance — r43/);
 assert.match(guide,/ssjr-acceptance=1&ssjr-physical=1/);
 assert.match(guide,/Chromebook host/i);
 assert.match(guide,/iPhone peer/i);
@@ -58,4 +58,4 @@ for(const testPath of ["tests/contracts/ssjr-physical-journey-acceptance-contrac
   const item=supplemental.tests.find(entry=>entry.path===testPath);assert.ok(item,`POS20 supplemental routing missing ${testPath}`);assert.ok(item.patterns.some(pattern=>pattern.includes("ssjrPhysicalJourneyAcceptance")),`${testPath} must route recorder changes`);assert.ok(item.patterns.some(pattern=>pattern.includes("service-worker")),`${testPath} must route offline-shell changes`);
 }
 
-console.log("PASS r20 Physical Journey peer-entry and preview-integrity repair is coherently versioned, offline-retained, query-gated and permanently routed into POS20 without changing provider authority");
+console.log("PASS r43 Physical Journey acceptance tooling is coherently versioned, offline-retained, query-gated and permanently routed into POS20 without changing provider authority");
