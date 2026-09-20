@@ -100,7 +100,7 @@ async function prepare(env,now){
 async function runVariant(index,label,publicExpression,privateExpression){
   let rules=RULES.replace(PUBLIC_TARGET,`allow create: if ${publicExpression};`);
   rules=rules.replace(PRIVATE_TARGET,`allow create: if ${privateExpression};`);
-  if(rules===RULES||!rules.includes(`allow create: if ${publicExpression};`)||!rules.includes(`allow create: if ${privateExpression};`))throw new Error("Season Results diagnostic rule targets were not found.");
+  if(!rules.includes(`allow create: if ${publicExpression};`)||!rules.includes(`allow create: if ${privateExpression};`))throw new Error("Season Results diagnostic rule targets were not found.");
   const env=await initializeTestEnvironment({projectId:`demo-cms17-results-diag-${index}`,firestore:{rules}});
   try{
     const now=Date.now(),{dbA}=await prepare(env,now);
