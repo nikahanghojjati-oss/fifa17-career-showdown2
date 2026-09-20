@@ -167,13 +167,9 @@
       let role = ssjrActorRole(rivalryId);
       return ssjrResultsPublicShape(after, rivalryId, seasonId)
         && after.revision == 1
-        && after.phase == 'COLLECTING'
-        && after.publishedRoles.size() == 1
-        && after.publishedRoles[0] == role
         && ssjrResultsValidOperationId(after.operationIds[0])
         && ssjrResultsValidHash(after.operationHashes[0])
         && after.baseRevisions[0] == 0
-        && after.actorRoles[0] == role
         && ssjrResultsPrivateLinked(rivalryId, seasonId, after, role);
     }
     function ssjrResultsValidUpdate(rivalryId, seasonId) {
