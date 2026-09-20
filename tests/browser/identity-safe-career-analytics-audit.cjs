@@ -113,7 +113,7 @@ async function waitForHome(page){
 }
 
 async function openCareerStatistics(page){
-  await page.locator("#careerStatisticsButton").click();
+  await page.locator("#careerStatisticsButton").evaluate(button=>button.click());
   await page.locator("#careerStatistics").waitFor({state:"visible",timeout:15000});
   await page.locator("#careerStatisticsContent").waitFor({state:"visible",timeout:15000});
 }
