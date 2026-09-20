@@ -105,8 +105,10 @@ for(const required of [
   'allow update: if ssjrTransferValidUpdate(rivalryId, transferId)',
   'allow create: if ssjrTransferPrivateCreateValid(rivalryId, transferId, managerRole)',
   'allow update: if ssjrTransferPrivateUpdateValid(rivalryId, transferId, managerRole)',
-  'function ssjrTransferValidLeagueId(value)',
-  'function ssjrTransferValidNationalityId(value)',
+  'function ssjrTransferValidOptionId(value)',
+  'ssjrTransferValidOptionId(value.valueId)',
+  'ssjrTransferValidOptionId(value.leagueId)',
+  'ssjrTransferValidOptionId(value.nationalityId)',
   "request.time >= before.startedAt + duration.value(15, 'm')",
   "managerRole == ssjrActorRole(rivalryId) || public.phase == 'COMPLETED'",
   'getAfter(/databases/$(database)/documents/rivalries/$(rivalryId)/transferChallenges/$(transferId)/roles/$(role))',
@@ -132,6 +134,8 @@ for(const required of [
   'allow list, delete: if false',
   "after.totalSeasons in [1,3,5,10]"
 ]) assert.ok(generated.includes(required),`Generated production Rules missing ${required}`);
+assert.equal(generated.includes('function ssjrTransferValidLeagueId(value)'),false,'Generated Rules must not restore the large exact league membership function that exceeds the max transfer evaluation budget.');
+assert.equal(generated.includes('function ssjrTransferValidNationalityId(value)'),false,'Generated Rules must not restore the large exact nationality membership function that exceeds the max transfer evaluation budget.');
 for(const forbidden of [/cloud\s*run/i,/cloud\s*functions/i,/blaze/i,/payment method/i,/purchased credits/i])assert.doesNotMatch(`${fragment}\n${careerFragment}\n${transferFragment}\n${resultsFragment}\n${commitFragment}\n${terminalFragment}`,forbidden,'Shared Journey production Rules must remain zero-billing/Spark compatible.');
 assert.match(generated,/match \/\{document=\*\*\} \{\s*allow read, write: if false;/,'Generated authority must retain global deny-by-default fallback.');
 
