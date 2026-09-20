@@ -120,7 +120,7 @@ function createHarness(){
   const publicLedger=h.store.get(transferPath);assert.equal(publicLedger.revision,7);assert.equal(publicLedger.phase,'COMPLETED');assert.deepEqual(publicLedger.actorRoles,['playerOne','playerOne','playerTwo','playerOne','playerTwo','playerOne','playerTwo']);
 
   const providerSource=require("node:fs").readFileSync("js/sparkSharedTransferChallenge.js","utf8");
-  assert.match(providerSource,/ctx\.publicValue\?\.startedAt\|\|stspTimestamp/,"Transfer updates must preserve the exact provider-owned startedAt timestamp instead of rebuilding it from milliseconds.");
+  assert.match(providerSource,/prior\?\.startedAt\|\|stspTimestamp/,"Transfer updates must preserve the exact provider-owned startedAt timestamp instead of rebuilding it from milliseconds.");
   assert.match(providerSource,/type==="advance-expired-window"&&prior\?\.startedAt/,"Timeout advancement must derive endedAt from the exact stored startedAt timestamp.");
   assert.match(providerSource,/prior\?\.guessLockedAt\|\|/,"Signing lock must preserve the exact stored guessLockedAt timestamp.");
 
