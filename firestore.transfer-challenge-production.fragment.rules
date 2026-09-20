@@ -179,6 +179,7 @@
         && after.actorRoles[0] == after.coordinatorRole
         && after.coordinatorRole == ssjrActorRole(rivalryId);
     }
+    // Updates preserve the secured creation envelope and validate only the append-only transition delta.
     function ssjrTransferValidUpdate(rivalryId, transferId) {
       let before = resource.data;
       let after = request.resource.data;
