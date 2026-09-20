@@ -124,8 +124,8 @@ function operation(h,authority,accountKey,deviceKey,rivalryId,sessionId,nowEpoch
   assert.equal(session.providerDeviceCredentialClaim,"device_id");
   assert.equal(session.providerDeviceCredentialProductionProven,false);
   assert.equal(session.exactCapabilityBits,256);
-  assert.equal(session.defaultSessionTtlMs,30*60*1000);
-  assert.equal(session.maxSessionTtlMs,30*60*1000);
+  assert.equal(session.defaultSessionTtlMs,4*60*60*1000);
+  assert.equal(session.maxSessionTtlMs,4*60*60*1000);
   assert.deepEqual(Array.from(session.sessionStates),["open","active","revoked","expired","closed"]);
   assert.equal(session.productionRulesPublished,false);
   assert.equal(session.hostJoinUxExposed,false);
@@ -199,6 +199,9 @@ function operation(h,authority,accountKey,deviceKey,rivalryId,sessionId,nowEpoch
   });
   assert.equal(mismatchedProviderDeviceCredential.ok,false);
   assert.equal(mismatchedProviderDeviceCredential.code,"PRIVATE_SESSION_DEVICE_CREDENTIAL_MISMATCH");
+
+  const tooLong=await session.openSession({...aOne,sessionId:`session_${"7".repeat(64)}`,ttlMs:4*60*60*1000+1});
+  assert.equal(tooLong.ok,false);assert.equal(tooLong.code,"PRIVATE_SESSION_TTL_INVALID","Exact private sessions must remain bounded at four hours.");
 
   const opened=await session.openSession({...aOne,ttlMs:60_000});
   assert.equal(opened.ok,true,JSON.stringify(opened));
