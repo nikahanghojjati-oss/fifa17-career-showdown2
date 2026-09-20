@@ -29,6 +29,8 @@ const A="acct_game_a",B="acct_game_b";
 const R=`pair_${"a".repeat(64)}`;
 const S=`session_${"b".repeat(64)}`;
 const FRESH=`session_${"c".repeat(64)}`;
+const FRESH_RESULTS=`session_${"d".repeat(64)}`;
+const FRESH_COMMIT=`session_${"e".repeat(64)}`;
 let activeSessionId=S;
 const DA=`device_${"a".repeat(32)}`,DB=`device_${"b".repeat(32)}`;
 const PA=`profile_${"1".repeat(24)}`,PB=`profile_${"2".repeat(24)}`;
@@ -155,6 +157,17 @@ function expectedWinner(season){return season===2?"playerTwo":"playerOne";}
       let results=await Results.publishResult({...a(offset+800),seasonNumber:season,operationId:op("season_result_op_",season*10+1),baseRevision:0,result:resultFor("playerOne",season)});
       assert.equal(results.ok,true,`S${season} Daniel result failed: ${JSON.stringify(results)}`);
       assert.equal(results.opponentResult,null,"First publication must remain private.");
+      if(TOTAL_SEASONS===3&&season===1){
+        const freshNow=now+offset+850,currentSession=activeSessionId;
+        await env.withSecurityRulesDisabled(async context=>{
+          const db=context.firestore();
+          await setDoc(doc(db,"rivalries",R,"sessions",currentSession),session(now,currentSession,freshNow-1));
+          await setDoc(doc(db,"rivalries",R,"sessions",FRESH_RESULTS),session(freshNow,FRESH_RESULTS));
+        });
+        activeSessionId=FRESH_RESULTS;
+        const resumed=await Setup.read(a(offset+875));
+        assert.equal(resumed.ok,true,`S${season} mid-results fresh-session setup resume failed: ${JSON.stringify(resumed)}`);
+      }
       results=await Results.publishResult({...b(offset+900),seasonNumber:season,operationId:op("season_result_op_",season*10+2),baseRevision:1,result:resultFor("playerTwo",season)});
       assert.equal(results.ok,true,`S${season} Nik result failed: ${JSON.stringify(results)}`);
       assert.equal(results.state.phase,"RESULTS_READY");
@@ -165,6 +178,17 @@ function expectedWinner(season){return season===2?"playerTwo":"playerOne";}
 
       let commit=await Commit.commitSeason({...a(offset+1000),seasonNumber:season,operationId:op("season_commit_op_",season*10+1),baseRevision:0});
       assert.equal(commit.ok,true,`S${season} commit failed: ${JSON.stringify(commit)}`);
+      if(TOTAL_SEASONS===3&&season===2){
+        const freshNow=now+offset+1050,currentSession=activeSessionId;
+        await env.withSecurityRulesDisabled(async context=>{
+          const db=context.firestore();
+          await setDoc(doc(db,"rivalries",R,"sessions",currentSession),session(now,currentSession,freshNow-1));
+          await setDoc(doc(db,"rivalries",R,"sessions",FRESH_COMMIT),session(freshNow,FRESH_COMMIT));
+        });
+        activeSessionId=FRESH_COMMIT;
+        const resumed=await Setup.read(b(offset+1075));
+        assert.equal(resumed.ok,true,`S${season} mid-commit fresh-session setup resume failed: ${JSON.stringify(resumed)}`);
+      }
       commit=await Commit.acknowledgeSeason({...b(offset+1100),seasonNumber:season,operationId:op("season_commit_op_",season*10+2),baseRevision:1});
       assert.equal(commit.ok,true,`S${season} Nik acknowledgement failed: ${JSON.stringify(commit)}`);
       commit=await Commit.acknowledgeSeason({...a(offset+1200),seasonNumber:season,operationId:op("season_commit_op_",season*10+3),baseRevision:2});
@@ -236,6 +260,6 @@ function expectedWinner(season){return season===2?"playerTwo":"playerOne";}
     assert.deepEqual(finalA.managerTotals,expectedTotals,"Final reconciliation must use the accumulated canonical score from every accepted season.");
     assert.equal(finalA.winner,"playerOne","Final winner must be derived from the accumulated canonical totals.");
 
-    process.stdout.write(`PASS production gameplay provider lifecycle (${TOTAL_SEASONS} season${TOTAL_SEASONS===1?"":"s"}): real generated Firestore Rules carried one exact two-manager Showdown through shared setup, Career Start, ${TOTAL_SEASONS} complete Transfer/Guess/Signing cycles, private Season Results, coordinator commit + dual acknowledgement, canonical scoring with exact numeric assertions, accumulated history/trophies/records, exact next-season progression, and final reconciliation from stored cumulative totals with fixed clubs and no reset${TOTAL_SEASONS===10?"; the original private session expired after Season 5 and a fresh four-hour session resumed the same rivalry through Season 10":""}. Terminal Close remains independently production-emulator gated.\n`);
+    process.stdout.write(`PASS production gameplay provider lifecycle (${TOTAL_SEASONS} season${TOTAL_SEASONS===1?"":"s"}): real generated Firestore Rules carried one exact two-manager Showdown through shared setup, Career Start, ${TOTAL_SEASONS} complete Transfer/Guess/Signing cycles, private Season Results, coordinator commit + dual acknowledgement, canonical scoring with exact numeric assertions, accumulated history/trophies/records, exact next-season progression, and final reconciliation from stored cumulative totals with fixed clubs and no reset${TOTAL_SEASONS===3?"; fresh sessions also took over after Daniel published Season 1 and after the Season 2 coordinator commit without losing accepted state":""}${TOTAL_SEASONS===10?"; the original private session expired after Season 5 and a fresh four-hour session resumed the same rivalry through Season 10":""}. Terminal Close remains independently production-emulator gated.\n`);
   }finally{await env.cleanup();}
 })().catch(error=>{console.error(error.stack||error);process.exit(1);});

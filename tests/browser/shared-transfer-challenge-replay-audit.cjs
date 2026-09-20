@@ -17,6 +17,8 @@ async function prepare(page,{managerRole,saveId}){
     const managers={playerOne:'Daniel',playerTwo:'Nik'};
     const clubs={playerOne:'Arsenal',playerTwo:'Liverpool'};
     const serverEpoch=Date.now();
+    let tokenEpoch=serverEpoch;
+    let tokenReads=0;
     currentShowdown={id:saveId,currentRound:1,status:'Ready',sharedJourney:{mode:'shared',rivalryId:rivalryA},managers};
 
     let activeRivalry=rivalryA;
@@ -59,7 +61,7 @@ async function prepare(page,{managerRole,saveId}){
       },
       startWindow:rejectMutation,requestEndWindow:rejectMutation,advanceExpiredWindow:rejectMutation,lockGuesses:rejectMutation,lockSignings:rejectMutation
     };
-    const currentUser={uid:managerRole==='playerOne'?'account_one':'account_two',getIdTokenResult:async()=>({issuedAtTime:new Date(serverEpoch).toISOString()})};
+    const currentUser={uid:managerRole==='playerOne'?'account_one':'account_two',getIdTokenResult:async()=>{tokenReads+=1;return {issuedAtTime:new Date(tokenEpoch).toISOString()};}};
     window.CareerModeProductionFirebaseRuntime={ensureAccountServices:async()=>({ok:true,auth:{currentUser},firestore:{},firestoreSdk:{}})};
 
     await loadRuntimeScript('ssjr-transfer-replay-audit','js/productionSharedTransferChallenge.js',()=>window.CareerModeProductionSharedTransferChallenge);
@@ -69,7 +71,9 @@ async function prepare(page,{managerRole,saveId}){
       currentShowdown={...currentShowdown,id:`${saveId}_switched`,currentRound:1,sharedJourney:{mode:'shared',rivalryId:rivalryB}};
     };
     window.__transferAudit={
-      counts:()=>({reads,mutations}),
+      counts:()=>({reads,mutations,tokenReads}),
+      setTokenEpoch(value){tokenEpoch=Number(value);},
+      serverEpoch,
       switchSave,
       async setPhase(phase){serverPhase=phase;await CareerModeProductionSharedTransferChallenge.refresh();return CareerModeProductionSharedTransferChallenge.getState()?.state?.phase||null;},
       beginRaceA(){raceMode=true;raceStage=0;releaseRaceA=null;releaseRaceB=null;window.__raceA=CareerModeProductionSharedTransferChallenge.refresh();},
@@ -148,6 +152,19 @@ async function assertActiveGuessGuard(page,roleLabel){
   assert.equal(await value.isDisabled(),true,`${roleLabel} removing Nationality must return the row to a safe disabled value state.`);
 }
 
+async function assertForegroundClockResync(page,roleLabel){
+  assert.equal(await page.evaluate(()=>window.__transferAudit.setPhase('WINDOW_OPEN')),'WINDOW_OPEN',`${roleLabel} must enter the live shared transfer window.`);
+  await page.waitForFunction(()=>document.getElementById('transferChallenge')?.dataset?.transferPhase==='window',null,{timeout:5000});
+  const before=await page.evaluate(()=>window.__transferAudit.counts().tokenReads);
+  const serverEpoch=await page.evaluate(()=>window.__transferAudit.serverEpoch);
+  await page.evaluate(epoch=>{window.__transferAudit.setTokenEpoch(epoch+120000);document.dispatchEvent(new Event('visibilitychange'));},serverEpoch);
+  await page.waitForFunction(before=>window.__transferAudit.counts().tokenReads>before,before,{timeout:5000});
+  await page.waitForFunction(()=>/^1[23]:[0-5][0-9]$/.test(document.getElementById('transferTimerDisplay')?.textContent||''),null,{timeout:5000});
+  const shown=await page.locator('#transferTimerDisplay').textContent();
+  const seconds=Number(shown.split(':')[0])*60+Number(shown.split(':')[1]);
+  assert.ok(seconds<=13*60&&seconds>=12*60,`${roleLabel} foreground resync must move the display near 13:00 after two server minutes elapsed, got ${shown}.`);
+}
+
 async function assertCrossSaveRace(page){
   const before=await page.evaluate(()=>window.__transferAudit.counts().reads);
   await page.evaluate(()=>window.__transferAudit.beginRaceA());
@@ -181,6 +198,7 @@ async function assertCrossSaveRace(page){
     await prepare(peer,{managerRole:'playerTwo',saveId:'shared_save_peer'});
     await assertReplay(peer,'Player Two mobile');
     await assertActiveGuessGuard(peer,'Player Two mobile');
+    await assertForegroundClockResync(peer,'Player Two mobile');
     const beforeSwitch=await peer.evaluate(()=>window.__transferAudit.counts().reads);
     await peer.evaluate(()=>window.__transferAudit.switchSave());
     await peer.waitForFunction(before=>window.__transferAudit.counts().reads>before,beforeSwitch,{timeout:20000});
@@ -188,7 +206,7 @@ async function assertCrossSaveRace(page){
     assert.equal(await peer.locator('#transferChallenge').getAttribute('data-transfer-phase'),'window','switching away from a completed shared Save must refresh and render the new Save context on the real automatic poll');
 
     assert.deepEqual(errors,[],'Shared Transfer Challenge replay audit emitted page errors.');
-    process.stdout.write('PASS Shared Transfer Challenge ordered full-screen replay and Save isolation: Player One desktop and Player Two mobile each replay missed WINDOW_OPEN -> GUESS_ENTRY -> SIGNING_ENTRY before actual COMPLETED, with both previous-league and nationality signing selectors independently usable; the live mobile guess value remains disabled until a League/Nationality type is selected and clears safely when type is removed; replay stays read-only/private with zero provider mutations or replay reads; the r9 Season Results route activates only after replay is complete; an in-flight Save A read is discarded when Save B becomes active; and the real 15-second automatic poll detects a completed-Save context switch.\n');
+    process.stdout.write('PASS Shared Transfer Challenge ordered full-screen replay and Save isolation: Player One desktop and Player Two mobile each replay missed WINDOW_OPEN -> GUESS_ENTRY -> SIGNING_ENTRY before actual COMPLETED, with both previous-league and nationality signing selectors independently usable; the live mobile guess value remains disabled until a League/Nationality type is selected and clears safely when type is removed; returning the mobile page to the foreground forces a fresh server-time anchor so a suspended monotonic clock cannot leave the 15-minute display stale; replay stays read-only/private with zero provider mutations or replay reads; the r9 Season Results route activates only after replay is complete; an in-flight Save A read is discarded when Save B becomes active; and the real 15-second automatic poll detects a completed-Save context switch.\n');
   }finally{
     await hostContext.close().catch(()=>{});await peerContext.close().catch(()=>{});await browser.close().catch(()=>{});
   }

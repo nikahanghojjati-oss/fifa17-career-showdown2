@@ -23,7 +23,7 @@ async function installHarness(page,{role,saveId,totalSeasons,rivalrySeed}){
     currentShowdown={
       id:saveId,currentRound:7,totalRounds:totalSeasons,status:'Ready',
       sharedJourney:{mode:'shared',rivalryId},
-      managers:{playerOne:'Nik',playerTwo:'Daniel'},
+      managers:{playerOne:'Daniel',playerTwo:'Nik'},
       selectedLeague:null,clubs:{playerOne:null,playerTwo:null},
       transferChallenges:[],rounds:[],score:{playerOne:0,playerTwo:0}
     };
@@ -41,7 +41,8 @@ async function installHarness(page,{role,saveId,totalSeasons,rivalrySeed}){
       read:async options=>{
         window.__r13ProviderCalls.push({uid:options.user?.uid,rivalryId:options.rivalryId,sessionId:options.sessionId,deviceId:options.deviceId});
         const accepted=window.__r13Accepted;
-        return {ok:true,authoritative:true,runtimeRevision:'1.9.1-r13',phase:accepted===totalSeasons?'SHOWDOWN_COMPLETE':'SEASON_READY',revision:accepted,rivalryId,managerRole:role,state:{runtimeRevision:'1.9.1-r13',rivalryId,totalSeasons,acceptedSeasons:accepted,completedSeason:accepted||null,activeSeason:accepted<totalSeasons?accepted+1:null,terminal:accepted===totalSeasons,fixedLeagueId:'premier_league',fixedClubs:{playerOne:'Arsenal',playerTwo:'Liverpool'},acceptedRevisionKey:accepted?`accepted_${accepted}`:''}};
+        const dashboard={acceptedSeasons:accepted,managerTotals:{playerOne:accepted*3,playerTwo:accepted},lastSeason:accepted?{seasonNumber:accepted,winner:'playerOne',playerOne:{leaguePosition:1,score:3},playerTwo:{leaguePosition:3,score:1}}:null};
+        return {ok:true,authoritative:true,runtimeRevision:'1.9.1-r13',phase:accepted===totalSeasons?'SHOWDOWN_COMPLETE':'SEASON_READY',revision:accepted,rivalryId,managerRole:role,state:{runtimeRevision:'1.9.1-r13',rivalryId,totalSeasons,acceptedSeasons:accepted,completedSeason:accepted||null,activeSeason:accepted<totalSeasons?accepted+1:null,terminal:accepted===totalSeasons,fixedLeagueId:'premier_league',fixedClubs:{playerOne:'Arsenal',playerTwo:'Liverpool'},acceptedRevisionKey:accepted?`accepted_${accepted}`:''},dashboard};
       }
     };
     window.CareerModeProductionFirebaseRuntime={ensureAccountServices:async()=>({ok:true,auth:{currentUser:{uid:accountId}},firestore:{},firestoreSdk:{}})};
@@ -91,6 +92,20 @@ async function runPlan(page,{role,saveId,totalSeasons,rivalrySeed}){
       await action.click();
       await page.waitForFunction(expected=>window.CareerModeProductionSharedMultiSeasonProgression.resolveSeason()===expected,season+1,{timeout:5000});
       assert.equal(await page.evaluate(()=>currentShowdown.currentRound),7,'shared progression must not mutate canonical local currentRound.');
+      assert.equal(await page.locator('#dashboard').getAttribute('data-shared-dashboard-authority'),'true','Showdown Home must be decorated from shared provider authority instead of stale local Save totals.');
+      assert.equal(await page.locator('#dashboardManagerOne').textContent(),'Daniel');
+      assert.equal(await page.locator('#dashboardManagerTwo').textContent(),'Nik');
+      assert.equal(await page.locator('#dashboardLeague').textContent(),'Premier League');
+      assert.equal(await page.locator('#dashboardClubOne').textContent(),'Arsenal');
+      assert.equal(await page.locator('#dashboardClubTwo').textContent(),'Liverpool');
+      assert.equal(await page.locator('#dashboardScoreOne').textContent(),String(season*3),'Home must show Daniel\'s accumulated shared points.');
+      assert.equal(await page.locator('#dashboardScoreTwo').textContent(),String(season),'Home must show Nik\'s accumulated shared points.');
+      assert.equal(await page.locator('#dashboardRound').textContent(),`Season ${season+1} of ${totalSeasons}`,'Home must show the shared season cursor, not local currentRound.');
+      assert.equal(await page.locator('#seasonIndicator').textContent(),`Season ${season+1} / ${totalSeasons}`);
+      assert.equal(await page.locator('#dashboardStatus').textContent(),`SHARED · ${season} OF ${totalSeasons} SEASONS ACCEPTED`);
+      assert.match(await page.locator('#dashboardLastSeasonResult').textContent(),new RegExp(`Season ${season} · Daniel 3 - Nik 1 · DANIEL WON`));
+      assert.equal(await page.locator('#dashboardPositionOne').textContent(),'Last league finish: 1');
+      assert.equal(await page.locator('#dashboardPositionTwo').textContent(),'Last league finish: 3');
       assert.equal(await page.evaluate(()=>CareerModeProductionSharedMultiSeasonProgression.continueToNextSeason()),false,'duplicate advance without the next visible accepted history must fail closed.');
     }else{
       assert.equal(await action.isDisabled(),true,'terminal plan must not expose another season.');
@@ -137,7 +152,7 @@ async function runPlan(page,{role,saveId,totalSeasons,rivalrySeed}){
       assert.deepEqual(hostResult.cursorEvents.map(event=>event.activeSeason),peerResult.cursorEvents.map(event=>event.activeSeason),`both managers must converge on identical ${totalSeasons}-season progression.`);
     }
     assert.deepEqual(errors,[],'r13 Multi Season browser audit emitted page errors.');
-    process.stdout.write('PASS Shared Multi Season desktop/mobile production flow: both isolated manager contexts complete 1/3/5/10 plans from Season 1, require a visible authoritative History Convergence witness before each exact-once advance, converge on identical next-season cursors, preserve fixed clubs, reject duplicate advances, close exactly at the configured final season, and leave local currentRound plus canonical storage unchanged.\n');
+    process.stdout.write('PASS Shared Multi Season desktop/mobile production flow: both isolated manager contexts complete 1/3/5/10 plans from Season 1, require a visible authoritative History Convergence witness before each exact-once advance, converge on identical next-season cursors, preserve fixed clubs, render Showdown Home from shared league/club/season/accumulated-score authority instead of stale local Save fields, reject duplicate advances, close exactly at the configured final season, and leave local currentRound plus canonical storage unchanged.\n');
   }finally{
     await hostContext.close().catch(()=>{});await peerContext.close().catch(()=>{});await browser.close().catch(()=>{});
   }

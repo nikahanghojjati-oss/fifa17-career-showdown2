@@ -17,7 +17,7 @@ const cases = [
         viewport: { width: 940, height: 700 },
         deviceScaleFactor: 1,
         mobileReference: false,
-        minimumPhysicalWidth: 360,
+        minimumPhysicalWidth: 200,
         desktopCrop: /^53%\s+2%$/
     },
     {

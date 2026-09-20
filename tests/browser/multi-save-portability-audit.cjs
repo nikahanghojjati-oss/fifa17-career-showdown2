@@ -107,6 +107,7 @@ async function waitForApp(page) {
 }
 
 async function openDataManagement(page) {
+  await page.locator("#legacyButton").evaluate(button=>button.dataset.testSurface="internal-audit");
   await page.locator("#legacyButton").click();
   await page.locator("#legacy").waitFor({ state: "visible", timeout: 12000 });
   await page.locator("#careerModeRestorePanel").waitFor({ state: "visible", timeout: 5000 });
