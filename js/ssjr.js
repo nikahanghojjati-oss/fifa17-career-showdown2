@@ -14,6 +14,7 @@
     const canonicalScoring=(async()=>{
       await seasonCommit;
       await prepare([
+        ["ssjr-shared-setup-catalog","js/sharedShowdownCatalog.js","CareerModeSharedShowdownCatalog"],
         ["ssjr-season-commit-protocol","js/sharedSeasonCommit.js","CareerModeSharedSeasonCommit"],
         ["ssjr-season-commit-provider","js/sparkSharedSeasonCommit.js","CareerModeSparkSharedSeasonCommit"],
         ["ssjr-canonical-scoring-protocol","js/sharedCanonicalScoring.js","CareerModeSharedCanonicalScoring"],
