@@ -5,8 +5,8 @@
 })(typeof globalThis!=="undefined"?globalThis:this,function(root){
   "use strict";
 
-  const protocolModule=typeof require==="function"?require("./sharedShowdownSetup.js"):root.CareerModeSharedShowdownSetup;
-  const catalogModule=typeof require==="function"?require("./sharedShowdownCatalog.js"):root.CareerModeSharedShowdownCatalog;
+  function ssrpProtocolModule(){return typeof require==="function"?require("./sharedShowdownSetup.js"):root.CareerModeSharedShowdownSetup;}
+  function ssrpCatalogModule(){return typeof require==="function"?require("./sharedShowdownCatalog.js"):root.CareerModeSharedShowdownCatalog;}
   const ROLES=Object.freeze(["playerOne","playerTwo"]);
   const TYPES=Object.freeze(["open","commit-league","commit-clubs","commit-length","confirm","confirm"]);
   const PHASES=Object.freeze(["SHARED_SETUP_OPEN","LEAGUE_WHEEL_COMMITTED","CLUB_ASSIGNMENTS_COMMITTED","SEASON_LENGTH_COMMITTED","SHOWDOWN_CONFIRMED"]);
@@ -39,6 +39,7 @@
     if(typeof sdk.serverTimestamp!=="function"&&(!sdk.Timestamp||typeof sdk.Timestamp.fromMillis!=="function"))ssrpFail("SETUP_PROVIDER_UNAVAILABLE");
   }
   async function createCanonicalProtocol(cryptoImpl){
+    const protocolModule=ssrpProtocolModule(),catalogModule=ssrpCatalogModule();
     if(!protocolModule||typeof protocolModule.createProtocol!=="function"||!catalogModule||catalogModule.version!=="shared-showdown-catalog-v1"||!catalogModule.catalog)ssrpFail("SETUP_PROVIDER_UNAVAILABLE");
     return protocolModule.createProtocol({catalog:catalogModule.catalog,cryptoImpl});
   }
@@ -251,7 +252,7 @@
     billingRequired:false,
     canonicalStorageMutation:false,
     canonicalStorageKeys:CANONICAL_KEYS,
-    catalogVersion:catalogModule&&catalogModule.version||null,
+    catalogVersion:(()=>{const catalog=ssrpCatalogModule();return catalog&&catalog.version||null;})(),
     setupPath:"rivalries/{rivalryId}/sharedSetup/authoritative",
     mutate,
     read
