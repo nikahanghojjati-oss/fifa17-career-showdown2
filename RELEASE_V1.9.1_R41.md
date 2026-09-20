@@ -18,4 +18,6 @@ The generated production lifecycle remains defined for 1, 3, 5 and 10 seasons. T
 
 Firebase remains Spark-only. Billing remains permanently OFF. Cloud Run and Cloud Functions remain unused. App Check enforcement remains OFF. No public discovery, lobby, matchmaking or rankings are introduced.
 
+SSJR-1.1 remains exactly `0/100`; automated, source, emulator and deployment evidence do not count as physical two-device acceptance.
+
 Physical iPhone + Chromebook acceptance remains the final human gate.
