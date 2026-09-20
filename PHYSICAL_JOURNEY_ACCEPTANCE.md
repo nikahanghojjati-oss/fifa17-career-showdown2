@@ -1,6 +1,6 @@
-# Physical Journey Production Acceptance — r43
+# Physical Journey Production Acceptance — r44
 
-This checklist is for the irreducible two-account, two-physical-device, two-network MDP Physical Journey proof. Do not use it until runtime `1.9.1-r43` is the exact deployed production runtime.
+This checklist is for the irreducible two-account, two-physical-device, two-network MDP Physical Journey proof. Do not use it until runtime `1.9.1-r44` is the exact deployed production runtime.
 
 ## Acceptance URL
 
@@ -14,7 +14,7 @@ Before starting, make sure each Physical Journey panel belongs to this run. If a
 
 ## Prepare both local shared shells before pairing
 
-This ordering remains mandatory in r43 and preserves the repaired peer-entry path for the physical two-device run.
+This ordering remains mandatory in r44 and preserves the repaired peer-entry path for the physical two-device run.
 
 1. On the Chromebook, open New Showdown/Create Showdown, enter the intended two manager names, and press `PREPARE SHARED SHOWDOWN`.
 2. On the iPhone, independently open New Showdown/Create Showdown, enter the same intended two manager names, and also press `PREPARE SHARED SHOWDOWN`.
