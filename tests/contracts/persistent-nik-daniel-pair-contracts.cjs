@@ -46,7 +46,7 @@ assert.match(pairSource,/state\.connectionState==="pending-pair"&&state\.capabil
 assert.match(pairSource,/"CONTINUE CAREER"/);
 assert.match(pairSource,/rivalryValue\.data\?\.connectionState==="closed"/,'A terminal Showdown must become a replaceable fresh-start state instead of poisoning the remembered pair.');
 assert.match(pairSource,/rivalryValue\.data\?\.connectionState==="closed"[\s\S]*return null/,'A valid closed remembered pair must resolve as no current pair.');
-assert.match(pairSource,/oldSnapshot\.exists\(\)&&oldSnapshot\.data\(\)\?\.data\?\.connectionState==="active"/,'An active real Showdown must remain protected from replacement.');
+assert.match(pairSource,/oldState==="active"\)throw pairErrorWithCode\("PERSISTENT_PAIR_ACTIVE_CONFLICT"/,'An active real Showdown must remain protected from replacement.');
 assert.match(pairSource,/sameManager=existing\.managerRole===normalizedRole&&existing\.managerId===manager\.id/,'Fresh pairing must compare the requested manager with durable account-pair authority.');
 assert.match(pairSource,/!sameManager&&oldState!=="closed"/,'A Google account may switch between Daniel and Nik only after its previous Showdown is provider-confirmed closed.');
 assert.match(pairSource,/pairProviderBindingFromMembership/,'Provider rivalry membership must remain the exact Save/Profile source for reconnect.');
