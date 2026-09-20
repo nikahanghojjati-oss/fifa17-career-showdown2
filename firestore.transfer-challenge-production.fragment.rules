@@ -97,11 +97,11 @@
     }
     function ssjrTransferPublicPrefixPreserved(before, after) {
       let i = before.revision;
-      return after.operationIds == before.operationIds + [after.operationIds[i]]
-        && after.operationTypes == before.operationTypes + [after.operationTypes[i]]
-        && after.operationHashes == before.operationHashes + [after.operationHashes[i]]
-        && after.baseRevisions == before.baseRevisions + [after.baseRevisions[i]]
-        && after.actorRoles == before.actorRoles + [after.actorRoles[i]];
+      return after.operationIds == before.operationIds.concat([after.operationIds[i]])
+        && after.operationTypes == before.operationTypes.concat([after.operationTypes[i]])
+        && after.operationHashes == before.operationHashes.concat([after.operationHashes[i]])
+        && after.baseRevisions == before.baseRevisions.concat([after.baseRevisions[i]])
+        && after.actorRoles == before.actorRoles.concat([after.actorRoles[i]]);
     }
     function ssjrTransferNewOperationValid(before, after) {
       let i = before.revision;
@@ -139,7 +139,7 @@
       return before.phase == 'WINDOW_OPEN'
         && priorSize <= 1
         && !(actorRole in before.endRequestedRoles)
-        && after.endRequestedRoles == before.endRequestedRoles + [actorRole]
+        && after.endRequestedRoles == before.endRequestedRoles.concat([actorRole])
         && after.guessLockedRoles == before.guessLockedRoles
         && after.signingLockedRoles == before.signingLockedRoles
         && (
@@ -161,7 +161,7 @@
       return before.phase == 'GUESS_ENTRY'
         && priorSize <= 1
         && !(actorRole in before.guessLockedRoles)
-        && after.guessLockedRoles == before.guessLockedRoles + [actorRole]
+        && after.guessLockedRoles == before.guessLockedRoles.concat([actorRole])
         && after.endRequestedRoles == before.endRequestedRoles
         && after.signingLockedRoles == before.signingLockedRoles
         && after.endedAt == before.endedAt
@@ -174,7 +174,7 @@
         && priorSize <= 1
         && actorRole in before.guessLockedRoles
         && !(actorRole in before.signingLockedRoles)
-        && after.signingLockedRoles == before.signingLockedRoles + [actorRole]
+        && after.signingLockedRoles == before.signingLockedRoles.concat([actorRole])
         && after.endRequestedRoles == before.endRequestedRoles
         && after.guessLockedRoles == before.guessLockedRoles
         && after.endedAt == before.endedAt
