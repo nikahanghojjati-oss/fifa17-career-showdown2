@@ -177,14 +177,8 @@
       let role = ssjrActorRole(rivalryId);
       let i = before.revision;
       return ssjrResultsPublicShape(after, rivalryId, seasonId)
-        && before.schemaVersion == 1
-        && before.objectType == 'sharedSeasonResults'
-        && before.rivalryId == rivalryId
-        && before.runtimeRevision == '1.9.1-r9'
-        && before.phase == 'COLLECTING'
         && before.revision == 1
         && after.revision == 2
-        && after.seasonNumber == before.seasonNumber
         && ssjrResultsPublicPrefixPreserved(before, after)
         && !(role in before.publishedRoles)
         && ssjrResultsValidOperationId(after.operationIds[i])
