@@ -73,10 +73,14 @@ const rejectsCode=async(promise,code)=>assert.rejects(promise,error=>error&&erro
   assert.deepEqual(p2Ready.allResults,state.results);
   await rejectsCode(run(protocol,state,'playerOne',command(14,2)),'SEASON_RESULTS_ALREADY_READY');
 
-  const boundaryProtocol=await Factory.createProtocol({teamCount:2,cryptoImpl:webcrypto});
+  const boundaryProtocol=await Factory.createProtocol({teamCount:20,cryptoImpl:webcrypto});
   let boundary=(await run(boundaryProtocol,null,'playerOne',command(20,0,result({leaguePosition:1,leaguePoints:0,leagueGoals:0})))).state;
-  boundary=(await run(boundaryProtocol,boundary,'playerTwo',command(21,1,result({leaguePosition:2,leaguePoints:114,leagueGoals:300})))).state;
+  boundary=(await run(boundaryProtocol,boundary,'playerTwo',command(21,1,result({leaguePosition:20,leaguePoints:114,leagueGoals:300})))).state;
   assert.equal(boundary.phase,'RESULTS_READY');
+  const bundesligaProtocol=await Factory.createProtocol({teamCount:18,cryptoImpl:webcrypto});
+  let bundesliga=(await run(bundesligaProtocol,null,'playerOne',command(22,0,result({leaguePosition:18,leaguePoints:102,leagueGoals:100})))).state;
+  assert.equal(bundesliga.results.playerOne.leaguePoints,102);
+  await rejectsCode(run(bundesligaProtocol,bundesliga,'playerTwo',command(23,1,result({leaguePosition:1,leaguePoints:103,leagueGoals:100}))),'SEASON_RESULTS_POINTS_INVALID');
 
   let invalidOp=30;
   for(const [patch,code] of [
