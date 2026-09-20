@@ -12,7 +12,8 @@ assert.equal(production.pollIntervalMs,15000);assert.equal(typeof production.ins
 
 const source=fs.readFileSync('js/productionSharedHistoryConvergence.js','utf8');
 assert.match(source,/productionSharedShowdownSetup\.js/);assert.match(source,/productionSharedSeasonCommit\.js/);assert.match(source,/productionSharedCanonicalScoring\.js/);
-assert.match(source,/sharedHistoryConvergence\.js/);assert.match(source,/sparkSharedHistoryConvergence\.js/);assert.match(source,/productionFirebaseRuntime\.js/);
+assert.match(source,/sharedHistoryConvergence\.js/);assert.match(source,/sharedShowdownCatalog\.js/);assert.match(source,/sparkSharedHistoryConvergence\.js/);assert.match(source,/productionFirebaseRuntime\.js/);
+assert.ok(source.indexOf('js/sharedShowdownCatalog.js')<source.indexOf('js/sparkSharedSeasonCommit.js'),'history cold-load path must initialize the catalog before the r10 provider factory.');
 assert.ok(source.indexOf('js/sparkSharedSeasonCommit.js')<source.indexOf('js/sparkSharedHistoryConvergence.js'),'r10 provider must load before r12 History Convergence provider factory.');
 assert.ok(source.indexOf('js/sparkSharedCanonicalScoring.js')<source.indexOf('js/sparkSharedHistoryConvergence.js'),'r11 provider must load before r12 History Convergence provider factory.');
 const cachedGate=source.indexOf('if(!phcCachedTerminal(request))return phcClear(request);');
