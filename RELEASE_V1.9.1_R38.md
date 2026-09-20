@@ -4,7 +4,7 @@ Application version: `v1.9.1`
 Runtime asset revision: `1.9.1-r38`
 Previous known-good runtime: `1.9.1-r37`
 
-Physical iPhone + Chromebook testing exposed two production-only failures after a fresh private session resumed an already-running Transfer Challenge.
+Physical iPhone + Chromebook testing exposed two production-only failures after a fresh private session resumed an already-running Transfer Challenge. The repair keeps the existing Remote Joining authority model and player-facing recovery path intact.
 
 Observed:
 - both devices reached the existing Season 1 Shared Transfer Challenge at `00:00`;
