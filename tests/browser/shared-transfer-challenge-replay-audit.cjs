@@ -141,6 +141,11 @@ async function assertActiveGuessGuard(page,roleLabel){
   assert.equal(await value.isDisabled(),true,`${roleLabel} clearing guess type must disable the value again.`);
   assert.equal(await value.inputValue(),'',
     `${roleLabel} changing back to no type must clear a stale league/nationality value instead of allowing an invalid lock.`);
+  await type.selectOption('nationality');
+  assert.equal(await value.isEnabled(),true,`${roleLabel} choosing Nationality must enable the matching FIFA 17 nationality selector.`);
+  assert.equal(await value.getAttribute('placeholder'),'Search nationality');
+  await type.selectOption('');
+  assert.equal(await value.isDisabled(),true,`${roleLabel} removing Nationality must return the row to a safe disabled value state.`);
 }
 
 async function assertCrossSaveRace(page){
