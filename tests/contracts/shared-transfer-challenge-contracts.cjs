@@ -35,7 +35,7 @@ for(const required of [
   'allow list, delete: if false',
   'after.startedAt == request.time',
   "request.time >= before.startedAt + duration.value(15, 'm')",
-  "after.endedAt == before.startedAt + duration.value(15, 'm')",
+  "after.endedAt == request.time",
   'getAfter(/databases/$(database)/documents/rivalries/$(rivalryId)/transferChallenges/$(transferId)/roles/$(role))',
   "managerRole == ssjrActorRole(rivalryId) || public.phase == 'COMPLETED'",
   "public.operationTypes[i] == 'lock-guesses'",
