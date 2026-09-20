@@ -72,6 +72,7 @@ assert.doesNotMatch(provider,/const setupProvider=typeof require===/,'Career Sta
 
 const production=fs.readFileSync(path.resolve('js/productionSharedCareerStart.js'),'utf8');
 assert.match(production,/ssjr-shared-setup-protocol\",\"js\/sharedShowdownSetup\.js\"/,'Career Start must preload the Shared Setup protocol before its provider');
+assert.match(production,/ssjr-shared-setup-catalog\\\",\\\"js\\/sharedShowdownCatalog\\.js\\\"/,'Career Start must preload the Shared Setup catalog before evaluating its browser provider');
 assert.match(production,/ssjr-spark-shared-setup\",\"js\/sparkSharedShowdownSetup\.js\"/,'Career Start must preload the browser Shared Setup provider before loading the Career Start provider');
 assert.match(production,/if\(button\.textContent!=="CONTINUE TO CAREER START"\)button\.textContent="CONTINUE TO CAREER START";/,'Career Start control decoration must not rewrite observed text when already correct');
 assert.match(production,/if\(button\.disabled\)button\.disabled=false;/,'Career Start control decoration must not rewrite the observed disabled attribute when already enabled');
