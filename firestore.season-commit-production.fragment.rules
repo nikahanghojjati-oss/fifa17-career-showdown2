@@ -177,11 +177,11 @@
     }
     function ssjrCommitPrefixPreserved(before, after) {
       let i = before.revision;
-      return after.operationIds == before.operationIds + [after.operationIds[i]]
-        && after.operationHashes == before.operationHashes + [after.operationHashes[i]]
-        && after.baseRevisions == before.baseRevisions + [after.baseRevisions[i]]
-        && after.actorRoles == before.actorRoles + [after.actorRoles[i]]
-        && after.acknowledgedRoles == before.acknowledgedRoles + [after.acknowledgedRoles[i - 1]];
+      return after.operationIds == before.operationIds.concat([after.operationIds[i]])
+        && after.operationHashes == before.operationHashes.concat([after.operationHashes[i]])
+        && after.baseRevisions == before.baseRevisions.concat([after.baseRevisions[i]])
+        && after.actorRoles == before.actorRoles.concat([after.actorRoles[i]])
+        && after.acknowledgedRoles == before.acknowledgedRoles.concat([after.acknowledgedRoles[i - 1]]);
     }
     function ssjrCommitValidUpdate(rivalryId, seasonId) {
       let before = resource.data;
