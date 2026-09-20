@@ -165,13 +165,60 @@
     function ssjrCommitValidCreate(rivalryId, seasonId) {
       let after = request.resource.data;
       let setup = ssjrCommitSetup(rivalryId);
+      let p1 = ssjrCommitPrivateResult(rivalryId, seasonId, 'playerOne');
+      let p2 = ssjrCommitPrivateResult(rivalryId, seasonId, 'playerTwo');
       let role = ssjrActorRole(rivalryId);
-      return ssjrCommitShape(after, rivalryId, seasonId)
+      return ssjrCommitExactKeys(after)
+        && after.schemaVersion == 1
+        && after.objectType == 'sharedSeasonCommit'
+        && after.rivalryId == rivalryId
+        && after.seasonNumber is int
+        && ssjrCommitSeasonMatches(seasonId, after.seasonNumber)
+        && setup.schemaVersion == 1
+        && setup.objectType == 'sharedSetupLedger'
+        && setup.rivalryId == rivalryId
+        && setup.revision == 6
+        && setup.phase == 'SHOWDOWN_CONFIRMED'
+        && (setup.totalSeasons == 1 || setup.totalSeasons == 3 || setup.totalSeasons == 5 || setup.totalSeasons == 10)
+        && after.seasonNumber >= 1
+        && after.seasonNumber <= setup.totalSeasons
+        && after.runtimeRevision == '1.9.1-r10'
         && after.revision == 1
         && after.phase == 'COMMITTED'
+        && after.resultsRevision == 2
+        && after.results is map
+        && after.results.keys().hasOnly(['playerOne','playerTwo'])
+        && ssjrCommitResultShape(after.results.playerOne)
+        && ssjrCommitResultShape(after.results.playerTwo)
+        && p1.schemaVersion == 1
+        && p1.objectType == 'sharedSeasonResultRole'
+        && p1.rivalryId == rivalryId
+        && p1.seasonNumber == after.seasonNumber
+        && p1.managerRole == 'playerOne'
+        && p2.schemaVersion == 1
+        && p2.objectType == 'sharedSeasonResultRole'
+        && p2.rivalryId == rivalryId
+        && p2.seasonNumber == after.seasonNumber
+        && p2.managerRole == 'playerTwo'
+        && after.results.playerOne == p1.result
+        && after.results.playerTwo == p2.result
+        && after.acknowledgedRoles is list
         && after.acknowledgedRoles.size() == 0
+        && after.operationIds is list
+        && after.operationIds.size() == 1
+        && after.operationHashes is list
+        && after.operationHashes.size() == 1
+        && after.baseRevisions is list
+        && after.baseRevisions.size() == 1
+        && after.actorRoles is list
+        && after.actorRoles.size() == 1
+        && ssjrCommitValidOperationId(after.operationIds[0])
+        && ssjrCommitValidHash(after.operationHashes[0])
+        && after.baseRevisions[0] == 0
         && role == setup.coordinatorRole
-        && after.actorRoles[0] == role;
+        && after.actorRoles[0] == role
+        && after.updatedAt == request.time
+        && ssjrWriteAuthorityValid(rivalryId, after.updatedByDeviceId, after.activeSessionId);
     }
     function ssjrCommitPrefixPreserved(before, after) {
       let i = before.revision;
