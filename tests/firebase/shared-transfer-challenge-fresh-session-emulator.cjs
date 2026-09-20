@@ -72,9 +72,10 @@ function career(){return {schemaVersion:1,objectType:"sharedCareerStart",rivalry
     assert.equal(stored.activeSessionId,FRESH,"Fresh exact session must take over transfer authority without resetting the challenge.");
     assert.equal(stored.startedAt.seconds,startedAt.seconds,"startedAt seconds must remain byte-equivalent across a fresh-session update.");
     assert.equal(stored.startedAt.nanoseconds,startedAt.nanoseconds,"startedAt nanoseconds must remain exact across a fresh-session update.");
-    assert.equal(stored.endedAt.seconds,startedAt.seconds+15*60,"timeout endedAt must be exactly startedAt + 15 minutes.");
-    assert.equal(stored.endedAt.nanoseconds,startedAt.nanoseconds,"timeout endedAt must preserve server timestamp sub-millisecond precision.");
+    const endedAtMs=stored.endedAt.toMillis();
+    assert.ok(endedAtMs>=startedAt.toMillis()+15*60*1000,"timeout transition must never occur before the authoritative 15-minute deadline.");
+    assert.ok(endedAtMs<=Date.now()+5000,"timeout endedAt must be the Firestore request/server time, not an invented future value.");
 
-    process.stdout.write("PASS Shared Transfer fresh-session expiry emulator: an old-session WINDOW_OPEN at 00:00 advances once under a fresh ACTIVE session, preserves exact server timestamp precision, migrates activeSessionId, and reaches GUESS_ENTRY without redraw or reset.\n");
+    process.stdout.write("PASS Shared Transfer fresh-session expiry emulator: an old-session WINDOW_OPEN at 00:00 advances once under a fresh ACTIVE session, preserves exact startedAt, migrates activeSessionId, writes timeout completion at server request time, and reaches GUESS_ENTRY without redraw or reset.\n");
   }finally{await env.cleanup();}
 })().catch(error=>{console.error(error.stack||error);process.exit(1);});
