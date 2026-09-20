@@ -45,7 +45,7 @@
         && setup.revision == 6
         && setup.phase == 'SHOWDOWN_CONFIRMED'
         && (setup.coordinatorRole == 'playerOne' || setup.coordinatorRole == 'playerTwo')
-        && (setup.totalSeasons == 1 || setup.totalSeasons == 3 || setup.totalSeasons == 5 || setup.totalSeasons == 10)
+        && setup.totalSeasons in [1,3,5,10]
         && seasonNumber >= 1
         && seasonNumber <= setup.totalSeasons
         && public.schemaVersion == 1
@@ -173,7 +173,7 @@
         && setup.rivalryId == rivalryId
         && setup.revision == 6
         && setup.phase == 'SHOWDOWN_CONFIRMED'
-        && (setup.totalSeasons == 1 || setup.totalSeasons == 3 || setup.totalSeasons == 5 || setup.totalSeasons == 10)
+        && setup.totalSeasons in [1,3,5,10]
         && after.seasonNumber >= 1
         && after.seasonNumber <= setup.totalSeasons
         && after.runtimeRevision == '1.9.1-r10'
