@@ -81,6 +81,11 @@ const sources=[source(1,season1,"playerOne",hash("a")),source(2,season2,"playerT
   assert.throws(()=>history.buildProjection({rivalryId,setup,managerSlots:identityCollision,seasons:[source(1,season1,"playerOne",hash("1"))]}),/HISTORY_CONVERGENCE_BINDING_INVALID/);
   const skippedFirst=source(2,season2,"playerTwo",hash("2"));
   assert.throws(()=>history.buildProjection({rivalryId,setup,managerSlots,seasons:[skippedFirst]}),/HISTORY_CONVERGENCE_COMMIT_NOT_ACKNOWLEDGED/);
+  const bundesligaSetup={...setup,leagueId:"bundesliga",clubs:{playerOne:"Bayern Munich",playerTwo:"Borussia Dortmund"},totalSeasons:1};
+  const bundesligaValid={playerOne:{...season1.playerOne,leaguePoints:102},playerTwo:{...season1.playerTwo,leaguePosition:18}};
+  assert.equal(history.buildProjection({rivalryId,setup:bundesligaSetup,managerSlots,seasons:[source(1,bundesligaValid,"playerOne",hash("3"))]}).seasonHistory[0].playerOne.leaguePoints,102);
+  const bundesligaInvalid={playerOne:{...bundesligaValid.playerOne,leaguePoints:103},playerTwo:bundesligaValid.playerTwo};
+  assert.throws(()=>history.buildProjection({rivalryId,setup:bundesligaSetup,managerSlots,seasons:[source(1,bundesligaInvalid,"playerOne",hash("4"))]}),/HISTORY_CONVERGENCE_RESULTS_INVALID/);
 
   assert.equal(providerModule.feature,"ssjr-spark-shared-history-convergence");
   assert.equal(providerModule.runtimeRevision,"1.9.1-r12");
@@ -117,6 +122,7 @@ const sources=[source(1,season1,"playerOne",hash("a")),source(2,season2,"playerT
   const providerSource=fs.readFileSync("js/sparkSharedHistoryConvergence.js","utf8");
   assert.match(providerSource,/"rivalries",rivalryId/);
   assert.match(providerSource,/sparkSharedShowdownSetup\.js/,"History Convergence must rebuild the canonical setup state through the setup provider instead of treating the compact ledger as the full setup.");
+  assert.match(providerSource,/sharedShowdownCatalog\.js/);assert.match(providerSource,/teamCount=hcpTeamCount\(authority\.setup,catalogModule\)/);
   assert.match(providerSource,/setupProvider\.read\(options\)/);
   assert.match(providerSource,/for\(let seasonNumber=1;seasonNumber<=throughSeason;seasonNumber\+=1\)/);
   assert.match(providerSource,/commitProvider\.read\(shared\)/);
