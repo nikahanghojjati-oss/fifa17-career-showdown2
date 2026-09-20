@@ -14,7 +14,7 @@ Shared History now makes the cumulative competition state explicit after every a
 
 Season scoring follows the Showdown rule literally: Champions League +5, league title +3, domestic cup +1, one combined 100-points/100-goals bonus point, and one combined top-scorer/top-assist bonus point. When the two season totals are tied, league position is the first tiebreaker and league points is the second; only an exact tie after both tiebreakers remains a draw.
 
-Remote Joining remains the private exact-capability transport with no public lobby or discovery. The four-hour private-session lifetime remains unchanged. A private session is a temporary access capability, not the durable career. When it expires, Daniel and Nik open/join a fresh ACTIVE private session for the same rivalry and resume the already committed league, permanent clubs, season cursor, results, score and history. The Showdown is not redrawn or reset.
+Remote Joining remains the private exact-capability transport with no public lobby or discovery. The four-hour private-session lifetime remains unchanged. A private session is a temporary access capability, not the durable career. When it expires, the current game surface exposes `RECONNECT SESSION`, which opens the existing private Remote Joining controls so Daniel and Nik can open/join a fresh ACTIVE session for the same rivalry and resume the already committed league, permanent clubs, season cursor, results, score and history. The Showdown is not redrawn or reset.
 
 The generated production lifecycle remains defined for 1, 3, 5 and 10 seasons. The 10-season path includes expiry of the original private session after Season 5 followed by continuation on a fresh four-hour session.
 
