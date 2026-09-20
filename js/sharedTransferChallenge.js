@@ -179,7 +179,7 @@
       }else if(cmd.type==="advance-expired-window"){
         if(core.phase!=="WINDOW_OPEN")stcFail("TRANSFER_PHASE_INVALID");
         if(now<core.startedAtEpochMs+WINDOW_MS)stcFail("TRANSFER_WINDOW_STILL_OPEN");
-        core.phase="GUESS_ENTRY";core.endedAtEpochMs=core.startedAtEpochMs+WINDOW_MS;
+        core.phase="GUESS_ENTRY";core.endedAtEpochMs=now;
       }else if(cmd.type==="lock-guesses"){
         if(core.phase!=="GUESS_ENTRY")stcFail("TRANSFER_PHASE_INVALID");
         if(core.guessLockedRoles.includes(role))stcFail("TRANSFER_GUESSES_ALREADY_LOCKED");
