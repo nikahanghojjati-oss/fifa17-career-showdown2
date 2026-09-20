@@ -120,8 +120,11 @@ async function runSecondVariant(index,label,updateExpression,privateExpression){
   try{
     const now=Date.now();
     await prepare(env,now);
-    const first=await env.withSecurityRulesDisabled(async context=>Results.publishResult({...base(context.firestore(),A,DA,now+800),seasonNumber:1,operationId:op("season_result_op_",11),baseRevision:0,result:result()}));
-    if(!first.ok)throw new Error(`first result setup failed: ${JSON.stringify(first)}`);
+    let first=null;
+    await env.withSecurityRulesDisabled(async context=>{
+      first=await Results.publishResult({...base(context.firestore(),A,DA,now+800),seasonNumber:1,operationId:op("season_result_op_",11),baseRevision:0,result:result()});
+    });
+    if(!first||!first.ok)throw new Error(`first result setup failed: ${JSON.stringify(first)}`);
     const dbB=env.authenticatedContext(B).firestore();
     const secondResult={leaguePosition:3,leaguePoints:88,leagueGoals:86,domesticCup:false,championsLeague:false,topScorer:false,topAssist:true};
     const published=await Results.publishResult({...base(dbB,B,DB,now+900),seasonNumber:1,operationId:op("season_result_op_",12),baseRevision:1,result:secondResult});
