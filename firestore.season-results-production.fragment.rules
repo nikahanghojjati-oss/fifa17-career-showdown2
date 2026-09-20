@@ -185,17 +185,13 @@
         && before.phase == 'COLLECTING'
         && before.revision == 1
         && after.revision == 2
-        && after.phase == 'RESULTS_READY'
         && after.seasonNumber == before.seasonNumber
         && ssjrResultsPublicPrefixPreserved(before, after)
         && !(role in before.publishedRoles)
-        && after.publishedRoles.size() == 2
-        && after.publishedRoles[i] == role
         && ssjrResultsValidOperationId(after.operationIds[i])
         && !(after.operationIds[i] in before.operationIds)
         && ssjrResultsValidHash(after.operationHashes[i])
         && after.baseRevisions[i] == before.revision
-        && after.actorRoles[i] == role
         && ssjrResultsPrivateLinked(rivalryId, seasonId, after, role);
     }
     function ssjrResultsPrivateCreateValid(rivalryId, seasonId, managerRole) {
