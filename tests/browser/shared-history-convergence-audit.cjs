@@ -21,7 +21,7 @@ async function prepare(page,{role,saveId}){
   await page.waitForFunction(()=>typeof window.ensureGameplayModules==='function'&&typeof window.loadRuntimeScript==='function'&&typeof window.showScreen==='function',null,{timeout:12000});
   await page.evaluate(async({role,saveId,rivalryId,sessionId,canonicalKeys,resultA1,resultB1,resultA2,resultB2,scoreA1,scoreB1,scoreA2,scoreB2})=>{
     await ensureGameplayModules();
-    currentShowdown={id:saveId,currentRound:2,totalRounds:3,status:'Ready',sharedJourney:{mode:'shared',rivalryId},managers:{playerOne:'Nik',playerTwo:'Daniel'},selectedLeague:null,clubs:{playerOne:null,playerTwo:null},transferChallenges:[],rounds:[],score:{playerOne:0,playerTwo:0}};
+    currentShowdown={id:saveId,currentRound:2,totalRounds:3,status:'Ready',sharedJourney:{mode:'shared',rivalryId},managers:{playerOne:'Daniel',playerTwo:'Nik'},selectedLeague:null,clubs:{playerOne:null,playerTwo:null},transferChallenges:[],rounds:[],score:{playerOne:0,playerTwo:0}};
     window.CareerModeProductionSharedSeasonResults={canRoute:()=>true};
     if(!showScreen('seasonEntry',false,{manageFocus:false}))throw new Error('r12 History Convergence audit could not open the real Season Review screen.');
     const managerSlots=[
@@ -74,9 +74,9 @@ async function prepare(page,{role,saveId}){
     const rendered=[];
     for(const page of [host,peer]){
       assert.equal(await page.locator('#sharedHistoryConvergenceHeading').textContent(),'SHARED HISTORY CONVERGED');
-      assert.equal(await page.locator('#sharedHistoryConvergenceSummary').textContent(),'2 of 3 seasons accepted · PREMIER LEAGUE · Overall: Nik 11 · Daniel 5 · Lead: Nik +6');
-      const records=await page.locator('#sharedHistoryConvergenceRecords').textContent();assert.match(records,/Nik · Arsenal · 1W 0D 1L · 11 showdown pts/);assert.match(records,/Daniel · Liverpool · 1W 0D 1L · 5 showdown pts/);
-      const trophies=await page.locator('#sharedHistoryConvergenceTrophies').textContent();assert.match(trophies,/Nik 3 trophies \(1 league, 1 cup, 1 Champions League\)/);assert.match(trophies,/Daniel 1 trophies \(1 league, 0 cup, 0 Champions League\)/);
+      assert.equal(await page.locator('#sharedHistoryConvergenceSummary').textContent(),'2 of 3 seasons accepted · PREMIER LEAGUE · Overall: Daniel 11 · Nik 5 · Lead: Daniel +6');
+      const records=await page.locator('#sharedHistoryConvergenceRecords').textContent();assert.match(records,/Daniel · Arsenal · 1W 0D 1L · 11 showdown pts/);assert.match(records,/Nik · Liverpool · 1W 0D 1L · 5 showdown pts/);
+      const trophies=await page.locator('#sharedHistoryConvergenceTrophies').textContent();assert.match(trophies,/Daniel 3 trophies \(1 league, 1 cup, 1 Champions League\)/);assert.match(trophies,/Nik 1 trophies \(1 league, 0 cup, 0 Champions League\)/);
       rendered.push({summary:await page.locator('#sharedHistoryConvergenceSummary').textContent(),records,trophies});
       const state=await page.evaluate(()=>window.__historyAudit.state());assert.equal(state.authoritative,true);assert.equal(state.phase,'HISTORY_CONVERGED');assert.equal(state.throughSeason,2);assert.equal(state.projection.acceptedSeasons,2);assert.equal(state.projection.managerRecords.playerOne.profileId,'profile_'+('a'.repeat(24)));assert.equal(state.projection.managerRecords.playerTwo.profileId,'profile_'+('b'.repeat(24)));
       assert.deepEqual(await page.evaluate(()=>window.__historyAudit.storageAfter()),await page.evaluate(()=>window.__historyAudit.storageBefore),'r12 history convergence must not mutate canonical local storage');

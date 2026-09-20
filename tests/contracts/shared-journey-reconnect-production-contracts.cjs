@@ -22,6 +22,7 @@ assert.match(production,/multiApi\.refresh\(\)/);
 assert.match(production,/latestExactActive[\s\S]*protocol\.observe\(\{authority,previous,nowEpochMs:latestNow,networkOnline:true,remote:latestRemote\}\)/,"An expiry race during progression verification must downgrade to FRESH_SESSION_REQUIRED instead of surfacing a generic reconnect error.");
 assert.match(production,/remoteApi\?\.getState/);
 assert.match(production,/Number\.isFinite\(remoteExpiry\)&&now<remoteExpiry/,'r14 must require exact finite unexpired Remote Joining authority.');
+assert.match(production,/if\(!previous\)return pjrPublish\(null\)/,'Normal ACTIVE gameplay with no recovery history must keep Journey Reconnect dormant instead of polling progression or surfacing recovery errors.');
 assert.match(production,/if\(!pjrOnline\(\)\)return pjrOfflineHold\(\)/,'offline recovery must stop before provider Shared Setup/progression reads.');
 assert.match(production,/function pjrSetupPending\(\)[\s\S]*setupPending===true/,'The prepared shared-setup shell must retain an explicit pending marker.');
 assert.match(production,/function pjrPrePairShell\(\)[\s\S]*pjrSetupPending\(\)[\s\S]*!pjrMarkerRivalry\(\)/,'The prepared pre-pair shell must be recognized as a legitimate non-reconnect state.');
@@ -76,5 +77,5 @@ assert.equal(protocol.providerWriteRequired,false);
 assert.equal(protocol.listPermissionRequired,false);
 assert.equal(protocol.billingRequired,false);
 
-console.log('PASS Journey Reconnect production contract: strict finite ACTIVE session authority, authoritative pre-confirmation setup deferral, ordered r12→r13→r14 bootstrap, read-only durable recovery, visible dual-manager status, a direct fresh-session recovery action, and permanent Spark zero-billing boundary.');
+console.log('PASS Journey Reconnect production contract: strict finite ACTIVE session authority, normal ACTIVE-gameplay dormancy, authoritative pre-confirmation setup deferral, ordered r12→r13→r14 bootstrap, read-only durable recovery, visible dual-manager status, a direct fresh-session recovery action, and permanent Spark zero-billing boundary.');
 require('./persistent-nik-daniel-pair-contracts.cjs');

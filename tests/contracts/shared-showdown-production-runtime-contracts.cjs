@@ -50,18 +50,11 @@ function loadTransferCatalog(){
   assert.equal(new Set(nationalityIds).size,nationalityIds.length,'canonical transfer nationality IDs must be unique');
   return {leagueIds,nationalityIds};
 }
-function rulesList(ids){return `[${ids.map(id=>`'${id}'`).join(',')}]`;}
-function injectTransferCatalog(functions,catalog){
-  const generic="    function ssjrTransferValidOptionId(value) { return value is string && value.size() >= 2 && value.size() <= 80 && value.matches('^[a-z0-9]+(-[a-z0-9]+)*$'); }";
-  let output=replaceOnce(functions,generic,`${generic}\n    function ssjrTransferValidLeagueId(value) { return value in ${rulesList(catalog.leagueIds)}; }\n    function ssjrTransferValidNationalityId(value) { return value in ${rulesList(catalog.nationalityIds)}; }`,'Transfer Challenge catalog helper');
-  output=replaceOnce(output,"        && (value.type == 'league' || value.type == 'nationality')\n        && ssjrTransferValidOptionId(value.valueId);","        && ((value.type == 'league' && ssjrTransferValidLeagueId(value.valueId))\n          || (value.type == 'nationality' && ssjrTransferValidNationalityId(value.valueId)));",'Transfer Challenge guess catalog validation');
-  output=replaceOnce(output,'        && ssjrTransferValidOptionId(value.leagueId)\n        && ssjrTransferValidOptionId(value.nationalityId);','        && ssjrTransferValidLeagueId(value.leagueId)\n        && ssjrTransferValidNationalityId(value.nationalityId);','Transfer Challenge signing catalog validation');
-  return output;
-}
-function ruleMembership(functionName){
-  const pattern=new RegExp(`function ${functionName}\\(value\\) \\{ return value in \\[([^\\]]*)\\]; \\}`);
-  const match=generated.match(pattern);assert.ok(match,`Generated Rules missing ${functionName} membership helper`);
-  return [...match[1].matchAll(/'([^']+)'/g)].map(item=>item[1]);
+function transferRulesFunctions(functions){
+  // Exact FIFA 17 option membership is enforced by sparkSharedTransferChallenge.js.
+  // Firestore keeps bounded slug-shape validation so max 3-guess/3-signing writes
+  // stay inside the Rules evaluation budget.
+  return functions;
 }
 const transferCatalog=loadTransferCatalog();
 const functionMarker='// SSJR_SHARED_SETUP_FUNCTIONS_BEGIN',functionEnd='// SSJR_SHARED_SETUP_FUNCTIONS_END',matchMarker='// SSJR_SHARED_SETUP_MATCH_BEGIN',matchEnd='// SSJR_SHARED_SETUP_MATCH_END';
@@ -70,7 +63,7 @@ const transferFunctionMarker='// SSJR_TRANSFER_CHALLENGE_FUNCTIONS_BEGIN',transf
 const resultsFunctionMarker='// SSJR_SEASON_RESULTS_FUNCTIONS_BEGIN',resultsFunctionEnd='// SSJR_SEASON_RESULTS_FUNCTIONS_END',resultsMatchMarker='// SSJR_SEASON_RESULTS_MATCH_BEGIN',resultsMatchEnd='// SSJR_SEASON_RESULTS_MATCH_END';
 const commitFunctionMarker='// SSJR_SEASON_COMMIT_FUNCTIONS_BEGIN',commitFunctionEnd='// SSJR_SEASON_COMMIT_FUNCTIONS_END',commitMatchMarker='// SSJR_SEASON_COMMIT_MATCH_BEGIN',commitMatchEnd='// SSJR_SEASON_COMMIT_MATCH_END';
 const terminalFunctionMarker='// SSJR_TERMINAL_CLOSE_FUNCTIONS_BEGIN',terminalFunctionEnd='// SSJR_TERMINAL_CLOSE_FUNCTIONS_END';
-const expectedTransferFunctions=injectTransferCatalog(between(transferFragment,transferFunctionMarker,transferFunctionEnd),transferCatalog);
+const expectedTransferFunctions=transferRulesFunctions(between(transferFragment,transferFunctionMarker,transferFunctionEnd));
 let expectedGenerated=base;
 expectedGenerated=once(expectedGenerated,'    function capabilityCanReadPendingRivalry(rivalryId) {',`    ${functionMarker}\n${between(fragment,functionMarker,functionEnd)}\n    ${functionEnd}\n\n    ${careerFunctionMarker}\n${between(careerFragment,careerFunctionMarker,careerFunctionEnd)}\n    ${careerFunctionEnd}\n\n    ${transferFunctionMarker}\n${expectedTransferFunctions}\n    ${transferFunctionEnd}\n\n    ${resultsFunctionMarker}\n${between(resultsFragment,resultsFunctionMarker,resultsFunctionEnd)}\n    ${resultsFunctionEnd}\n\n    ${commitFunctionMarker}\n${between(commitFragment,commitFunctionMarker,commitFunctionEnd)}\n    ${commitFunctionEnd}\n\n`,'top-level function insertion');
 expectedGenerated=once(expectedGenerated,'      // STAGE5C_CANDIDATE_SESSION_MATCH_BEGIN',`      ${matchMarker}\n${between(fragment,matchMarker,matchEnd)}\n      ${matchEnd}\n\n      ${careerMatchMarker}\n${between(careerFragment,careerMatchMarker,careerMatchEnd)}\n      ${careerMatchEnd}\n\n      ${transferMatchMarker}\n${between(transferFragment,transferMatchMarker,transferMatchEnd)}\n      ${transferMatchEnd}\n\n      ${resultsMatchMarker}\n${between(resultsFragment,resultsMatchMarker,resultsMatchEnd)}\n      ${resultsMatchEnd}\n\n      ${commitMatchMarker}\n${between(commitFragment,commitMatchMarker,commitMatchEnd)}\n      ${commitMatchEnd}\n\n`,'rivalry child-match insertion');
@@ -78,11 +71,10 @@ expectedGenerated=once(expectedGenerated,'    function capabilityCanReadPendingR
 expectedGenerated=replaceOnce(expectedGenerated,'      allow update: if validRivalryRedeem(rivalryId);',"      allow update: if ssjrTerminalValidRivalryUpdate(rivalryId)\n        || (!('terminalProgress' in request.resource.data.data) && validRivalryRedeem(rivalryId));",'Terminal Close rivalry update authority');
 expectedGenerated=replaceOnce(expectedGenerated,'        allow update: if validSessionUpdate(rivalryId, sessionId);',"        allow update: if ssjrTerminalValidAtomicSessionClose(rivalryId, sessionId)\n          || (!ssjrTerminalParentCloseRequested(rivalryId, sessionId) && validSessionUpdate(rivalryId, sessionId));",'Terminal Close session update authority');
 if(!expectedGenerated.endsWith('\n'))expectedGenerated+='\n';
-assert.equal(generated,expectedGenerated,'Generated production Rules must be the exact reviewed Spark base plus only the bounded Shared Setup, Career Start, Transfer Challenge, Season Results, Season Commit and Terminal Close fragment splices with deterministic canonical Transfer catalog binding.');
-assert.deepEqual(ruleMembership('ssjrTransferValidLeagueId'),transferCatalog.leagueIds,'Generated Rules league membership must exactly match the repository FIFA 17 Transfer catalog');
-assert.deepEqual(ruleMembership('ssjrTransferValidNationalityId'),transferCatalog.nationalityIds,'Generated Rules nationality membership must exactly match the repository FIFA 17 Transfer catalog');
-assert.equal(generated.includes("'invented-league'"),false,'Generated Rules must not admit invented transfer league IDs');
-assert.equal(generated.includes("'invented-nationality'"),false,'Generated Rules must not admit invented transfer nationality IDs');
+assert.equal(generated,expectedGenerated,'Generated production Rules must be the exact reviewed Spark base plus only the bounded Shared Setup, Career Start, Transfer Challenge, Season Results, Season Commit and Terminal Close fragment splices.');
+assert.match(generated,/function ssjrTransferValidOptionId\(value\)/,'Generated Rules must retain bounded Transfer option-ID validation.');
+assert.equal(generated.includes('function ssjrTransferValidLeagueId(value)'),false,'Generated Rules must not expand the exact league catalog into the hot transfer write path.');
+assert.equal(generated.includes('function ssjrTransferValidNationalityId(value)'),false,'Generated Rules must not expand the exact nationality catalog into the hot transfer write path.');
 
 assert.equal(base.includes('match /sharedSetup/authoritative'),false,'Reviewed Spark base must remain unchanged; Shared Setup is additive at build time.');
 assert.equal(base.includes('match /careerStart/authoritative'),false,'Reviewed Spark base must remain unchanged; Career Start is additive at build time.');
@@ -113,8 +105,10 @@ for(const required of [
   'allow update: if ssjrTransferValidUpdate(rivalryId, transferId)',
   'allow create: if ssjrTransferPrivateCreateValid(rivalryId, transferId, managerRole)',
   'allow update: if ssjrTransferPrivateUpdateValid(rivalryId, transferId, managerRole)',
-  'function ssjrTransferValidLeagueId(value)',
-  'function ssjrTransferValidNationalityId(value)',
+  'function ssjrTransferValidOptionId(value)',
+  'ssjrTransferValidOptionId(value.valueId)',
+  'ssjrTransferValidOptionId(value.leagueId)',
+  'ssjrTransferValidOptionId(value.nationalityId)',
   "request.time >= before.startedAt + duration.value(15, 'm')",
   "managerRole == ssjrActorRole(rivalryId) || public.phase == 'COMPLETED'",
   'getAfter(/databases/$(database)/documents/rivalries/$(rivalryId)/transferChallenges/$(transferId)/roles/$(role))',
@@ -140,6 +134,8 @@ for(const required of [
   'allow list, delete: if false',
   "after.totalSeasons in [1,3,5,10]"
 ]) assert.ok(generated.includes(required),`Generated production Rules missing ${required}`);
+assert.equal(generated.includes('function ssjrTransferValidLeagueId(value)'),false,'Generated Rules must not restore the large exact league membership function that exceeds the max transfer evaluation budget.');
+assert.equal(generated.includes('function ssjrTransferValidNationalityId(value)'),false,'Generated Rules must not restore the large exact nationality membership function that exceeds the max transfer evaluation budget.');
 for(const forbidden of [/cloud\s*run/i,/cloud\s*functions/i,/blaze/i,/payment method/i,/purchased credits/i])assert.doesNotMatch(`${fragment}\n${careerFragment}\n${transferFragment}\n${resultsFragment}\n${commitFragment}\n${terminalFragment}`,forbidden,'Shared Journey production Rules must remain zero-billing/Spark compatible.');
 assert.match(generated,/match \/\{document=\*\*\} \{\s*allow read, write: if false;/,'Generated authority must retain global deny-by-default fallback.');
 

@@ -14,7 +14,7 @@ async function prepare(page,{managerRole,saveId}){
   await page.evaluate(async({managerRole,saveId,rivalryA,rivalryB,sessionId})=>{
     await ensureGameplayModules();
     const roleOther=managerRole==='playerOne'?'playerTwo':'playerOne';
-    const managers={playerOne:'Nik',playerTwo:'Daniel'};
+    const managers={playerOne:'Daniel',playerTwo:'Nik'};
     const clubs={playerOne:'Arsenal',playerTwo:'Liverpool'};
     const serverEpoch=Date.now();
     currentShowdown={id:saveId,currentRound:1,status:'Ready',sharedJourney:{mode:'shared',rivalryId:rivalryA},managers};
@@ -41,6 +41,8 @@ async function prepare(page,{managerRole,saveId}){
     });
     const makeView=()=>{
       if(serverPhase==='WINDOW_OPEN')return {ok:true,revision:1,seasonNumber:1,managerRole,rivalryId:activeRivalry,state:{phase:'WINDOW_OPEN',revision:1,startedAtEpochMs:serverEpoch,endRequestedRoles:[],guessLockedRoles:[],signingLockedRoles:[]},ownInputs:{guesses:null,signings:null},opponentInputs:null,verdicts:null};
+      if(serverPhase==='GUESS_ENTRY')return {ok:true,revision:3,seasonNumber:1,managerRole,rivalryId:activeRivalry,state:{phase:'GUESS_ENTRY',revision:3,startedAtEpochMs:serverEpoch-900000,endedAtEpochMs:serverEpoch-1,endRequestedRoles:['playerOne','playerTwo'],guessLockedRoles:[],signingLockedRoles:[]},ownInputs:{guesses:null,signings:null},opponentInputs:null,verdicts:null};
+      if(serverPhase==='SIGNING_ENTRY')return {ok:true,revision:5,seasonNumber:1,managerRole,rivalryId:activeRivalry,state:{phase:'SIGNING_ENTRY',revision:5,startedAtEpochMs:serverEpoch-900000,endedAtEpochMs:serverEpoch-1,endRequestedRoles:['playerOne','playerTwo'],guessLockedRoles:['playerOne','playerTwo'],signingLockedRoles:[]},ownInputs:{guesses:[{slot:1,type:'league',valueId:'england-premier-league'}],signings:null},opponentInputs:null,verdicts:null};
       return {ok:true,revision:7,seasonNumber:1,managerRole,rivalryId:activeRivalry,state:{phase:'COMPLETED',revision:7,startedAtEpochMs:serverEpoch-900000,endedAtEpochMs:serverEpoch-1,endRequestedRoles:['playerOne','playerTwo'],guessLockedRoles:['playerOne','playerTwo'],signingLockedRoles:['playerOne','playerTwo']},ownInputs:completedInputs(managerRole),opponentInputs:completedInputs(roleOther),verdicts:{playerOne:[],playerTwo:[]}};
     };
     const rejectMutation=async()=>{mutations+=1;return {ok:false,code:'AUDIT_MUTATION_FORBIDDEN'};};
@@ -69,6 +71,7 @@ async function prepare(page,{managerRole,saveId}){
     window.__transferAudit={
       counts:()=>({reads,mutations}),
       switchSave,
+      async setPhase(phase){serverPhase=phase;await CareerModeProductionSharedTransferChallenge.refresh();return CareerModeProductionSharedTransferChallenge.getState()?.state?.phase||null;},
       beginRaceA(){raceMode=true;raceStage=0;releaseRaceA=null;releaseRaceB=null;window.__raceA=CareerModeProductionSharedTransferChallenge.refresh();},
       switchAndBeginRaceB(){switchSave();window.__raceB=CareerModeProductionSharedTransferChallenge.refresh();},
       raceStatus:()=>({raceStage,hasReleaseA:typeof releaseRaceA==='function',hasReleaseB:typeof releaseRaceB==='function'}),
@@ -99,6 +102,9 @@ async function assertReplay(page,roleLabel){
   assert.equal(await page.locator('#transferChallenge').getAttribute('data-shared-transfer-replay'),'SIGNING_ENTRY',`${roleLabel} must replay private Signing Entry third.`);
   assert.equal(await page.locator('#transferChallenge').getAttribute('data-transfer-phase'),'signing_entry');
   assert.equal(await page.locator('#transferChallenge .transferManagerCard:not(.hidden)').count(),1,'replay must keep the rival signing card hidden until actual completion');
+  const signingSelectorWidths=await page.locator('#transferChallenge .transferManagerCard:not(.hidden) .signingRow:first-child .transferCombobox').evaluateAll(nodes=>nodes.map(node=>node.getBoundingClientRect().width));
+  assert.equal(signingSelectorWidths.length,2,`${roleLabel} must render separate previous-league and nationality selectors.`);
+  assert.equal(signingSelectorWidths.every(width=>width>=100),true,`${roleLabel} must give both signing selectors usable width instead of collapsing one into the row-number column: ${signingSelectorWidths.join(",")}`);
 
   await page.locator('#continueFromTransfers').click();
   assert.equal(await page.locator('#transferChallenge').getAttribute('data-shared-transfer-replay'),null,`${roleLabel} must leave replay only after every earlier canonical phase was witnessed.`);
@@ -110,6 +116,36 @@ async function assertReplay(page,roleLabel){
   const after=await page.evaluate(()=>window.__transferAudit.counts());
   assert.equal(after.mutations,0,'ordered replay must never invoke a provider mutation');
   assert.equal(after.reads,baseline.reads,'replay-next actions must not make provider reads');
+}
+
+async function assertActiveGuessGuard(page,roleLabel){
+  assert.equal(await page.evaluate(()=>window.__transferAudit.setPhase('GUESS_ENTRY')),'GUESS_ENTRY',`${roleLabel} must enter the live private guess phase.`);
+  await page.waitForFunction(()=>document.getElementById('transferChallenge')?.dataset?.transferPhase==='guess_entry',null,{timeout:5000});
+  const visible=page.locator('#transferChallenge .transferGuessCard:not(.hidden)');
+  assert.equal(await visible.count(),1,`${roleLabel} must see only its own guess card.`);
+  const type=visible.locator('select').first(),value=visible.locator('input').first();
+  await page.evaluate(()=>{
+    const card=document.querySelector('#transferChallenge .transferGuessCard:not(.hidden)');
+    const type=card?.querySelector('select'),value=card?.querySelector('input');
+    if(type)type.value='';
+    if(value){value.value='Austrian Bundesliga';value.dataset.canonicalId='austria-bundesliga';value.dataset.canonicalLabel='Austrian Bundesliga';}
+  });
+  await page.evaluate(()=>CareerModeProductionSharedTransferChallenge.refresh());
+  assert.equal(await value.isDisabled(),true,`${roleLabel} guess value must stay disabled until League or Nationality is selected.`);
+  assert.equal(await value.getAttribute('placeholder'),'Choose League or Nationality first');
+  await type.selectOption('league');
+  assert.equal(await value.isEnabled(),true,`${roleLabel} choosing League must enable the matching FIFA 17 league selector.`);
+  assert.equal(await value.getAttribute('placeholder'),'Search FIFA 17 league');
+  await value.fill('Premier');
+  await type.selectOption('');
+  assert.equal(await value.isDisabled(),true,`${roleLabel} clearing guess type must disable the value again.`);
+  assert.equal(await value.inputValue(),'',
+    `${roleLabel} changing back to no type must clear a stale league/nationality value instead of allowing an invalid lock.`);
+  await type.selectOption('nationality');
+  assert.equal(await value.isEnabled(),true,`${roleLabel} choosing Nationality must enable the matching FIFA 17 nationality selector.`);
+  assert.equal(await value.getAttribute('placeholder'),'Search nationality');
+  await type.selectOption('');
+  assert.equal(await value.isDisabled(),true,`${roleLabel} removing Nationality must return the row to a safe disabled value state.`);
 }
 
 async function assertCrossSaveRace(page){
@@ -144,6 +180,7 @@ async function assertCrossSaveRace(page){
 
     await prepare(peer,{managerRole:'playerTwo',saveId:'shared_save_peer'});
     await assertReplay(peer,'Player Two mobile');
+    await assertActiveGuessGuard(peer,'Player Two mobile');
     const beforeSwitch=await peer.evaluate(()=>window.__transferAudit.counts().reads);
     await peer.evaluate(()=>window.__transferAudit.switchSave());
     await peer.waitForFunction(before=>window.__transferAudit.counts().reads>before,beforeSwitch,{timeout:20000});
@@ -151,7 +188,7 @@ async function assertCrossSaveRace(page){
     assert.equal(await peer.locator('#transferChallenge').getAttribute('data-transfer-phase'),'window','switching away from a completed shared Save must refresh and render the new Save context on the real automatic poll');
 
     assert.deepEqual(errors,[],'Shared Transfer Challenge replay audit emitted page errors.');
-    process.stdout.write('PASS Shared Transfer Challenge ordered full-screen replay and Save isolation: Player One desktop and Player Two mobile each replay missed WINDOW_OPEN -> GUESS_ENTRY -> SIGNING_ENTRY before actual COMPLETED; replay stays read-only/private with zero provider mutations or replay reads; the r9 Season Results route activates only after replay is complete; an in-flight Save A read is discarded when Save B becomes active; and the real 15-second automatic poll detects a completed-Save context switch.\n');
+    process.stdout.write('PASS Shared Transfer Challenge ordered full-screen replay and Save isolation: Player One desktop and Player Two mobile each replay missed WINDOW_OPEN -> GUESS_ENTRY -> SIGNING_ENTRY before actual COMPLETED, with both previous-league and nationality signing selectors independently usable; the live mobile guess value remains disabled until a League/Nationality type is selected and clears safely when type is removed; replay stays read-only/private with zero provider mutations or replay reads; the r9 Season Results route activates only after replay is complete; an in-flight Save A read is discarded when Save B becomes active; and the real 15-second automatic poll detects a completed-Save context switch.\n');
   }finally{
     await hostContext.close().catch(()=>{});await peerContext.close().catch(()=>{});await browser.close().catch(()=>{});
   }

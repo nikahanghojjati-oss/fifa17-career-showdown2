@@ -53,6 +53,11 @@ function resultFor(role,season){
   if(role==="playerOne")return {leaguePosition:season===1?1:2,leaguePoints:90+season,leagueGoals:88+season,domesticCup:season===2,championsLeague:season===3,topScorer:season===1,topAssist:false};
   return {leaguePosition:season===2?1:3,leaguePoints:87+season,leagueGoals:84+season,domesticCup:false,championsLeague:false,topScorer:false,topAssist:season===3};
 }
+function expectedScore(role,season){
+  if(role==="playerOne"){if(season===1)return 4;if(season===2)return 1;if(season===3)return 5;if(season===10)return 1;return 0;}
+  if(season===2)return 3;if(season===3)return 1;return 0;
+}
+function expectedWinner(season){return season===2?"playerTwo":"playerOne";}
 
 (async()=>{
   const env=await initializeTestEnvironment({projectId:PROJECT_ID,firestore:{rules:RULES}});
@@ -99,6 +104,7 @@ function resultFor(role,season){
     assert.equal(career.state.phase,"CAREER_START_READY");
 
     let lastHistory=null,lastMulti=null;
+    const expectedTotals={playerOne:0,playerTwo:0};
     for(let season=1;season<=TOTAL_SEASONS;season+=1){
       const offset=season*10_000;
       let transfer=await Transfer.startWindow({...a(offset+100),seasonNumber:season,operationId:op("transfer_op_",season*10+1),baseRevision:0});
@@ -111,25 +117,40 @@ function resultFor(role,season){
 
       transfer=await Transfer.lockGuesses({...a(offset+400),seasonNumber:season,operationId:op("transfer_op_",season*10+4),baseRevision:3,guesses:[
         {slot:1,type:"league",valueId:"england-premier-league"},
-        {slot:2,type:"nationality",valueId:"brazil"}
+        {slot:2,type:"nationality",valueId:"brazil"},
+        {slot:3,type:"league",valueId:"germany-bundesliga"}
       ]});
       assert.equal(transfer.ok,true,`S${season} Daniel guesses failed: ${JSON.stringify(transfer)}`);
       transfer=await Transfer.lockGuesses({...b(offset+500),seasonNumber:season,operationId:op("transfer_op_",season*10+5),baseRevision:4,guesses:[
         {slot:1,type:"league",valueId:"spain-primera-division"},
-        {slot:2,type:"nationality",valueId:"germany"}
+        {slot:2,type:"nationality",valueId:"germany"},
+        {slot:3,type:"nationality",valueId:"albania"}
       ]});
       assert.equal(transfer.ok,true,`S${season} Nik guesses failed: ${JSON.stringify(transfer)}`);
       assert.equal(transfer.state.phase,"SIGNING_ENTRY");
 
       transfer=await Transfer.lockSignings({...a(offset+600),seasonNumber:season,operationId:op("transfer_op_",season*10+6),baseRevision:5,signings:[
-        {slot:1,name:`Daniel S${season} A`,leagueId:"spain-primera-division",nationalityId:"england"}
+        {slot:1,name:`Daniel S${season} A`,leagueId:"spain-primera-division",nationalityId:"england"},
+        {slot:2,name:`Daniel S${season} B`,leagueId:"australia-a-league",nationalityId:"albania"},
+        {slot:3,name:`Daniel S${season} C`,leagueId:"germany-bundesliga",nationalityId:"france"}
       ]});
       assert.equal(transfer.ok,true,`S${season} Daniel signings failed: ${JSON.stringify(transfer)}`);
       transfer=await Transfer.lockSignings({...b(offset+700),seasonNumber:season,operationId:op("transfer_op_",season*10+7),baseRevision:6,signings:[
-        {slot:1,name:`Nik S${season} A`,leagueId:"england-premier-league",nationalityId:"brazil"}
+        {slot:1,name:`Nik S${season} A`,leagueId:"england-premier-league",nationalityId:"brazil"},
+        {slot:2,name:`Nik S${season} B`,leagueId:"italy-serie-a",nationalityId:"germany"},
+        {slot:3,name:`Nik S${season} C`,leagueId:"france-ligue-1",nationalityId:"albania"}
       ]});
       assert.equal(transfer.ok,true,`S${season} Nik signings failed: ${JSON.stringify(transfer)}`);
       assert.equal(transfer.state.phase,"COMPLETED");
+      const transferA=await Transfer.read({...a(offset+750),seasonNumber:season});
+      const transferB=await Transfer.read({...b(offset+750),seasonNumber:season});
+      assert.equal(transferA.ok,true,`S${season} Daniel completed transfer read failed: ${JSON.stringify(transferA)}`);
+      assert.equal(transferB.ok,true,`S${season} Nik completed transfer read failed: ${JSON.stringify(transferB)}`);
+      assert.deepEqual(transferA.verdicts,transferB.verdicts,`S${season} both managers must derive identical transfer verdicts`);
+      assert.deepEqual(transferA.verdicts.playerOne.map(row=>row.release),[true,true,false],`S${season} Daniel release verdicts must match Nik's locked league/nationality guesses`);
+      assert.deepEqual(transferA.verdicts.playerTwo.map(row=>row.release),[true,false,false],`S${season} Nik release verdicts must match Daniel's locked league/nationality guesses`);
+      assert.equal(transferA.opponentInputs.signings.length,3,`S${season} completed transfer reveal must contain all three rival signings`);
+      assert.equal(transferB.opponentInputs.guesses.length,3,`S${season} completed transfer reveal must contain all three rival guesses`);
 
       let results=await Results.publishResult({...a(offset+800),seasonNumber:season,operationId:op("season_result_op_",season*10+1),baseRevision:0,result:resultFor("playerOne",season)});
       assert.equal(results.ok,true,`S${season} Daniel result failed: ${JSON.stringify(results)}`);
@@ -156,6 +177,11 @@ function resultFor(role,season){
       assert.equal(scoreA.ok,true,JSON.stringify(scoreA));assert.equal(scoreB.ok,true,JSON.stringify(scoreB));
       assert.deepEqual(scoreA.scoring,scoreB.scoring,`S${season} canonical scoring must converge`);
       assert.equal(scoreA.winner,scoreB.winner);
+      assert.equal(scoreA.scoring.playerOne.total,expectedScore("playerOne",season),`S${season} Daniel canonical season score must be exact`);
+      assert.equal(scoreA.scoring.playerTwo.total,expectedScore("playerTwo",season),`S${season} Nik canonical season score must be exact`);
+      assert.equal(scoreA.winner,expectedWinner(season),`S${season} season winner/tiebreak must be exact`);
+      expectedTotals.playerOne+=scoreA.scoring.playerOne.total;
+      expectedTotals.playerTwo+=scoreA.scoring.playerTwo.total;
 
       lastHistory=await History.read({...a(offset+1400),throughSeason:season});
       const historyB=await History.read({...b(offset+1400),throughSeason:season});
@@ -163,6 +189,18 @@ function resultFor(role,season){
       assert.equal(historyB.ok,true,JSON.stringify(historyB));
       assert.deepEqual(lastHistory.projection,historyB.projection,`S${season} shared history must converge`);
       assert.equal(lastHistory.projection.acceptedSeasons,season);
+      assert.equal(lastHistory.projection.seasonHistory.length,season,`S${season} history must retain every accepted season exactly once`);
+      assert.equal(lastHistory.projection.seasonHistory[season-1].winner,expectedWinner(season),`S${season} stored season winner must match canonical scoring`);
+      assert.equal(lastHistory.projection.managerRecords.playerOne.totalPoints,expectedTotals.playerOne,`S${season} Daniel accumulated Showdown score must be exact`);
+      assert.equal(lastHistory.projection.managerRecords.playerTwo.totalPoints,expectedTotals.playerTwo,`S${season} Nik accumulated Showdown score must be exact`);
+      assert.equal(lastHistory.projection.managerRecords.playerOne.seasonWins,season-(season>=2?1:0),`S${season} Daniel season-win history must accumulate exactly`);
+      assert.equal(lastHistory.projection.managerRecords.playerTwo.seasonWins,season>=2?1:0,`S${season} Nik season-win history must accumulate exactly`);
+      assert.equal(lastHistory.projection.managerRecords.playerOne.seasonDraws,0);
+      assert.equal(lastHistory.projection.managerRecords.playerTwo.seasonDraws,0);
+      assert.equal(lastHistory.projection.trophyAttribution.playerOne.leagueTitles,1,`S${season} Daniel league-title history must persist`);
+      assert.equal(lastHistory.projection.trophyAttribution.playerOne.domesticCups,season>=2?1:0,`S${season} Daniel domestic-cup history must accumulate`);
+      assert.equal(lastHistory.projection.trophyAttribution.playerOne.championsLeagues,season>=3?1:0,`S${season} Daniel Champions League history must accumulate`);
+      assert.equal(lastHistory.projection.trophyAttribution.playerTwo.leagueTitles,season>=2?1:0,`S${season} Nik league-title history must accumulate`);
 
       lastMulti=await Multi.read(a(offset+1500));
       const multiB=await Multi.read(b(offset+1500));
@@ -195,7 +233,9 @@ function resultFor(role,season){
     assert.equal(finalA.completedSeason,TOTAL_SEASONS);
     assert.equal(finalA.nextSeason,null);
     assert.equal(finalA.extraSeasonAllowed,false);
+    assert.deepEqual(finalA.managerTotals,expectedTotals,"Final reconciliation must use the accumulated canonical score from every accepted season.");
+    assert.equal(finalA.winner,"playerOne","Final winner must be derived from the accumulated canonical totals.");
 
-    process.stdout.write(`PASS production gameplay provider lifecycle (${TOTAL_SEASONS} season${TOTAL_SEASONS===1?"":"s"}): real generated Firestore Rules carried one exact two-manager Showdown through shared setup, Career Start, ${TOTAL_SEASONS} complete Transfer/Guess/Signing cycles, private Season Results, coordinator commit + dual acknowledgement, canonical scoring, converged history, exact next-season progression, and final reconciliation with fixed clubs and no reset${TOTAL_SEASONS===10?"; the original private session expired after Season 5 and a fresh four-hour session resumed the same rivalry through Season 10":""}. Terminal Close remains independently production-emulator gated.\n`);
+    process.stdout.write(`PASS production gameplay provider lifecycle (${TOTAL_SEASONS} season${TOTAL_SEASONS===1?"":"s"}): real generated Firestore Rules carried one exact two-manager Showdown through shared setup, Career Start, ${TOTAL_SEASONS} complete Transfer/Guess/Signing cycles, private Season Results, coordinator commit + dual acknowledgement, canonical scoring with exact numeric assertions, accumulated history/trophies/records, exact next-season progression, and final reconciliation from stored cumulative totals with fixed clubs and no reset${TOTAL_SEASONS===10?"; the original private session expired after Season 5 and a fresh four-hour session resumed the same rivalry through Season 10":""}. Terminal Close remains independently production-emulator gated.\n`);
   }finally{await env.cleanup();}
 })().catch(error=>{console.error(error.stack||error);process.exit(1);});
