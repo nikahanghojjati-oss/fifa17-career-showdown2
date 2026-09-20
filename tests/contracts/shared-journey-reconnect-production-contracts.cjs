@@ -35,6 +35,9 @@ assert.match(production,/FRESH_SESSION_REQUIRED/);
 assert.match(production,/ACTIVE_RECOVERED/);
 assert.match(production,/TERMINAL_RECOVERED/);
 assert.match(production,/sharedJourneyReconnectStatus/);
+assert.match(production,/sharedJourneyReconnectAction/,'Expired or unresolved session recovery must expose a direct player action from the current game screen.');
+assert.match(production,/remoteApi\?\.openPanel/,'The recovery action must reuse the existing private Remote Joining surface instead of inventing a second session system.');
+assert.match(production,/openSessionRecovery:pjrOpenSessionRecovery/,'Direct session recovery must remain observable to browser tests.');
 assert.match(production,/career-mode-shared-journey-reconnect-state-change/);
 assert.match(production,/sessionAuthorityReplaceable:true/);
 assert.match(production,/durableRivalryStatePreserved:true/);
@@ -73,5 +76,5 @@ assert.equal(protocol.providerWriteRequired,false);
 assert.equal(protocol.listPermissionRequired,false);
 assert.equal(protocol.billingRequired,false);
 
-console.log('PASS Journey Reconnect production contract: strict finite ACTIVE session authority, authoritative pre-confirmation setup deferral, ordered r12→r13→r14 bootstrap, read-only durable recovery, visible dual-manager status and permanent Spark zero-billing boundary.');
+console.log('PASS Journey Reconnect production contract: strict finite ACTIVE session authority, authoritative pre-confirmation setup deferral, ordered r12→r13→r14 bootstrap, read-only durable recovery, visible dual-manager status, a direct fresh-session recovery action, and permanent Spark zero-billing boundary.');
 require('./persistent-nik-daniel-pair-contracts.cjs');
