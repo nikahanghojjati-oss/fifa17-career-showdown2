@@ -80,13 +80,7 @@
         && root.baseRevisions.size() == historySize
         && root.actorRoles.size() == historySize
         && root.updatedAt == request.time
-        && ssjrWriteAuthorityValid(rivalryId, root.updatedByDeviceId, root.activeSessionId)
-        && (
-          (root.phase == 'WINDOW_OPEN' && root.endedAt == null && root.guessLockedRoles.size() == 0 && root.signingLockedRoles.size() == 0 && root.endRequestedRoles.size() <= 1)
-          || (root.phase == 'GUESS_ENTRY' && root.endedAt is timestamp && root.guessLockedRoles.size() <= 1 && root.signingLockedRoles.size() == 0)
-          || (root.phase == 'SIGNING_ENTRY' && root.endedAt is timestamp && root.guessLockedRoles.size() == 2 && root.signingLockedRoles.size() <= 1)
-          || (root.phase == 'COMPLETED' && root.endedAt is timestamp && root.guessLockedRoles.size() == 2 && root.signingLockedRoles.size() == 2)
-        );
+        && ssjrWriteAuthorityValid(rivalryId, root.updatedByDeviceId, root.activeSessionId);
     }
     function ssjrTransferPublicPrefixPreserved(before, after) {
       let i = before.revision;
