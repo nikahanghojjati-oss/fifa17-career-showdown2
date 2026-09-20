@@ -178,13 +178,7 @@
       let i = before.revision;
       return ssjrResultsPublicShape(after, rivalryId, seasonId)
         && before.revision == 1
-        && after.revision == 2
         && ssjrResultsPublicPrefixPreserved(before, after)
-        && !(role in before.publishedRoles)
-        && ssjrResultsValidOperationId(after.operationIds[i])
-        && !(after.operationIds[i] in before.operationIds)
-        && ssjrResultsValidHash(after.operationHashes[i])
-        && after.baseRevisions[i] == before.revision
         && ssjrResultsPrivateLinked(rivalryId, seasonId, after, role);
     }
     function ssjrResultsPrivateCreateValid(rivalryId, seasonId, managerRole) {
@@ -197,6 +191,9 @@
         && public.runtimeRevision == '1.9.1-r9'
         && public.seasonNumber == after.seasonNumber
         && public.operationIds[i] == after.operationId
+        && (public.revision == 1 || public.operationIds[i] != public.operationIds[0])
+        && ssjrResultsValidHash(public.operationHashes[i])
+        && public.baseRevisions[i] == public.revision - 1
         && public.actorRoles[i] == managerRole
         && public.publishedRoles[i] == managerRole
         && public.activeSessionId == after.activeSessionId
