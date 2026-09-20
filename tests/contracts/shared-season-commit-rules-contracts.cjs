@@ -46,7 +46,7 @@ for(const required of [
 ])assert.ok(fragment.includes(required),`Season Commit Rules missing required boundary: ${required}`);
 
 assert.doesNotMatch(fragment,/acknowledgedRoles\[0:n - 1\]/,'Season Commit first acknowledgement must not rely on a zero-length Firestore list slice.');
-assert.match(fragment,/after\.acknowledgedRoles == before\.acknowledgedRoles \+ \[after\.acknowledgedRoles\[i - 1\]\]/,'Season Commit acknowledgements must remain append-only without slicing.');
+assert.match(fragment,/after\.acknowledgedRoles == before\.acknowledgedRoles\.concat\(\[after\.acknowledgedRoles\[i - 1\]\]\)/,'Season Commit acknowledgements must remain append-only without slicing.');
 assert.doesNotMatch(fragment,/allow\s+list\s*:\s*if\s+true/,'Season Commit must never expose collection listing');
 assert.doesNotMatch(fragment,/allow\s+delete\s*:\s*if\s+true/,'Season Commit authority is immutable and may not be deleted by clients');
 assert.doesNotMatch(fragment,/authoritativeScoring|calculatePlayerSeasonScore|determineSeasonWinner|scoreTotal|playerOneScore|playerTwoScore|saveCurrentShowdown|persistCompletedSeason/,'r10 Season Commit Rules must not introduce scoring or canonical Save authority');
