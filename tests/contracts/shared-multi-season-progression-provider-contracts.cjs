@@ -56,6 +56,14 @@ assert.equal(providerModule.cloudFunctionsRequired,false);
       assert.deepEqual(result.state.fixedClubs,setup.clubs);
       assert.equal(result.state.activeSeason,acceptedSeasons===totalSeasons?null:acceptedSeasons+1);
       assert.equal(result.state.terminal,acceptedSeasons===totalSeasons);
+      assert.deepEqual(Object.keys(result.dashboard).sort(),["acceptedSeasons","lastSeason","managerTotals"],"dashboard projection must stay sanitized and exclude account/profile/save identifiers");
+      assert.equal(result.dashboard.acceptedSeasons,acceptedSeasons);
+      assert.deepEqual(result.dashboard.managerTotals,{playerOne:acceptedSeasons*3,playerTwo:0});
+      if(acceptedSeasons===0)assert.equal(result.dashboard.lastSeason,null);
+      else assert.deepEqual(result.dashboard.lastSeason,{seasonNumber:acceptedSeasons,winner:"playerOne",playerOne:{leaguePosition:1,score:3},playerTwo:{leaguePosition:2,score:0}});
+      assert.equal(JSON.stringify(result.dashboard).includes("uid-one"),false,"dashboard projection must not leak account ids");
+      assert.equal(JSON.stringify(result.dashboard).includes("profile_"),false,"dashboard projection must not leak profile ids");
+      assert.equal(JSON.stringify(result.dashboard).includes("save_"),false,"dashboard projection must not leak save ids");
       assert.equal(historyReads.length,acceptedSeasons===0?0:1,"history provider is unnecessary before the first accepted season");
       if(acceptedSeasons>0){assert.equal(historyReads[0].throughSeason,acceptedSeasons);assert.equal(historyReads[0].rivalryId,rivalryId);assert.equal(historyReads[0].sessionId,sessionId);assert.equal(historyReads[0].deviceId,deviceId);}
     }
@@ -85,5 +93,5 @@ assert.equal(providerModule.cloudFunctionsRequired,false);
   assert.doesNotMatch(sourceText,/\bsetDoc\s*\(|\bupdateDoc\s*\(|\bdeleteDoc\s*\(|tx\.set\s*\(|tx\.update\s*\(|tx\.delete\s*\(/,"r13 progression provider must remain read-only");
   assert.equal(providerModule.sourceAuthorityPaths.includes("rivalries/{rivalryId}/seasonCommits/season_{N}"),true);
 
-  console.log("PASS Shared Multi Season Progression provider: exact account/device/rivalry/session/setup authority probes every bounded season commit by exact path, accepts only the contiguous ACKNOWLEDGED rev3 prefix, rejects history gaps, reuses r12 History Convergence for accepted-season proof, derives the next active season for all 1/3/5/10 plans, propagates upstream denial, and adds no list/write/billing authority.");
+  console.log("PASS Shared Multi Season Progression provider: exact account/device/rivalry/session/setup authority probes every bounded season commit by exact path, accepts only the contiguous ACKNOWLEDGED rev3 prefix, rejects history gaps, reuses r12 History Convergence for accepted-season proof, emits only a sanitized Home summary from that verified history, derives the next active season for all 1/3/5/10 plans, propagates upstream denial, and adds no list/write/billing authority.");
 })().catch(error=>{console.error(error);process.exitCode=1;});
