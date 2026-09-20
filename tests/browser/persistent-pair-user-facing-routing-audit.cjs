@@ -20,6 +20,12 @@ const playerOneProfileId=`profile_${"d".repeat(24)}`;
     await page.goto(baseUrl.href,{waitUntil:"domcontentloaded"});
     await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:12000});
     await page.waitForFunction(()=>typeof window.loadRuntimeScript==="function"&&window.CareerModeProductionSharedJourneyEntry,null,{timeout:12000});
+    assert.equal(await page.locator("#legacyButton").isVisible(),false,"Online-only Home must not expose retired local Legacy data as if it were shared authority.");
+    assert.equal(await page.locator("#careerStatisticsButton").isVisible(),false,"Online-only Home must not expose retired local Career Statistics alongside provider-authoritative Shared History.");
+    assert.equal(await page.locator("#ruleBookButton").isVisible(),true,"Hiding retired local analytics must not remove the active Rule Book surface.");
+    await page.evaluate(()=>{const probe=document.createElement("button");probe.id="rivalryStatisticsButton";probe.textContent="RIVALRY STATISTICS";document.body.append(probe);});
+    assert.equal(await page.locator("#rivalryStatisticsButton").isVisible(),false,"A lazily-created local Rivalry Statistics control must remain contained in online-only mode.");
+    await page.locator("#rivalryStatisticsButton").evaluate(node=>node.remove());
 
     await page.evaluate(({rivalryId,saveId,profileId,playerOneProfileId})=>{
       const accountId="account_user_route_fixture",deviceId="device_user_route_fixture";
@@ -337,7 +343,7 @@ const playerOneProfileId=`profile_${"d".repeat(24)}`;
 
     assert.deepEqual(pageErrors,[],"User-facing routing audit emitted page errors.");
     assert.deepEqual(consoleErrors,[],"User-facing routing audit emitted unexpected console errors.");
-    process.stdout.write("PASS real user-facing routing: CONNECT PLAYERS reaches the real persistent-pair panel, stale Nik pending host-state resets safely to JOIN DANIEL'S SHOWDOWN, transient pair reads reconcile stale roles, Daniel CREATE CODE carries the season setup, Nik JOIN auto-provisions its local shell, and CONTINUE CAREER, RESTORE BACKUP and DELETE OLD SHOWDOWN & START OVER remain actionable on their intended surfaces.\n");
+    process.stdout.write("PASS real user-facing routing: retired local Legacy/Statistics entry points are contained from the online-only player surface while Rule Book remains available; CONNECT PLAYERS reaches the real persistent-pair panel, stale Nik pending host-state resets safely to JOIN DANIEL'S SHOWDOWN, transient pair reads reconcile stale roles, Daniel CREATE CODE carries the season setup, Nik JOIN auto-provisions its local shell, and CONTINUE CAREER, RESTORE BACKUP and DELETE OLD SHOWDOWN & START OVER remain actionable on their intended surfaces.\n");
   }finally{
     await context.close().catch(()=>{});
     await browser.close().catch(()=>{});
