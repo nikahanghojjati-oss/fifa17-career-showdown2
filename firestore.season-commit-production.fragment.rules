@@ -176,12 +176,12 @@
         && after.actorRoles[0] == role;
     }
     function ssjrCommitPrefixPreserved(before, after) {
-      let n = before.revision;
-      return after.operationIds[0:n] == before.operationIds
-        && after.operationHashes[0:n] == before.operationHashes
-        && after.baseRevisions[0:n] == before.baseRevisions
-        && after.actorRoles[0:n] == before.actorRoles
-        && after.acknowledgedRoles[0:n - 1] == before.acknowledgedRoles;
+      let i = before.revision;
+      return after.operationIds == before.operationIds + [after.operationIds[i]]
+        && after.operationHashes == before.operationHashes + [after.operationHashes[i]]
+        && after.baseRevisions == before.baseRevisions + [after.baseRevisions[i]]
+        && after.actorRoles == before.actorRoles + [after.actorRoles[i]]
+        && after.acknowledgedRoles == before.acknowledgedRoles + [after.acknowledgedRoles[i - 1]];
     }
     function ssjrCommitValidUpdate(rivalryId, seasonId) {
       let before = resource.data;
