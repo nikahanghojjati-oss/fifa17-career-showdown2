@@ -12,7 +12,8 @@
   const RIVALRY_ID=/^pair_[0-9a-f]{64}$/;
   const HASH=/^sha256:[0-9a-f]{64}$/;
   const RESULT_KEYS=Object.freeze(["leaguePosition","leaguePoints","leagueGoals","domesticCup","championsLeague","topScorer","topAssist"]);
-  const SCORE_KEYS=Object.freeze(["championsLeague","leagueTitle","domesticCup","performanceBonus","individualAwardsBonus","total"]);\n  const TRIGGER_KEYS=Object.freeze(["hundredLeaguePoints","hundredLeagueGoals","topScorer","topAssist"]);
+  const SCORE_KEYS=Object.freeze(["championsLeague","leagueTitle","domesticCup","performanceBonus","individualAwardsBonus","total"]);
+  const TRIGGER_KEYS=Object.freeze(["hundredLeaguePoints","hundredLeagueGoals","topScorer","topAssist"]);
 
   function hcFail(code,message){const error=new Error(message||code);error.code=code;throw error;}
   function hcPlain(value){return Boolean(value)&&typeof value==="object"&&!Array.isArray(value);}
