@@ -12,7 +12,7 @@ Firestore Rules enforce the same boundary: a pair link may change its Daniel/Nik
 
 Shared History now makes the cumulative competition state explicit after every accepted season. In addition to the season-specific canonical score, both managers see the accepted-season count, cumulative Showdown points, current leader and point gap, manager records, and trophy attribution.
 
-The four-hour private-session lifetime remains unchanged. A private session is a temporary access capability, not the durable career. When it expires, Daniel and Nik open/join a fresh ACTIVE private session for the same rivalry and resume the already committed league, permanent clubs, season cursor, results, score and history. The Showdown is not redrawn or reset.
+Remote Joining remains the private exact-capability transport with no public lobby or discovery. The four-hour private-session lifetime remains unchanged. A private session is a temporary access capability, not the durable career. When it expires, Daniel and Nik open/join a fresh ACTIVE private session for the same rivalry and resume the already committed league, permanent clubs, season cursor, results, score and history. The Showdown is not redrawn or reset.
 
 The generated production lifecycle remains defined for 1, 3, 5 and 10 seasons. The 10-season path includes expiry of the original private session after Season 5 followed by continuation on a fresh four-hour session.
 
