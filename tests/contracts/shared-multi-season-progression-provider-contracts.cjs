@@ -72,6 +72,8 @@ assert.equal(providerModule.cloudFunctionsRequired,false);
 
   assert.doesNotThrow(()=>providerModule.createProvider({progressionModule:progression,historyProvider:null,authorityReader:async()=>({setup:setupFor(1),managerRole:"playerOne",acceptedSeasons:0})}),"A browser provider may initialize before History Convergence exists when no season has been accepted yet.");
   const sourceText=fs.readFileSync("js/sparkSharedMultiSeasonProgression.js","utf8");
+  assert.match(sourceText,/sparkSharedShowdownSetup\.js/,"Multi Season authority must resolve the canonical setup provider lazily.");
+  assert.match(sourceText,/setupProvider\.read\(options\)/,"Multi Season must derive league/clubs from reconstructed setup state rather than the compact stored ledger.");
   assert.match(sourceText,/for\(let seasonNumber=1;seasonNumber<=setup\.totalSeasons;seasonNumber\+=1\)/,"provider must probe every bounded exact season address");
   assert.match(sourceText,/"seasonCommits",`season_\$\{seasonNumber\}`/);
   assert.match(sourceText,/phase==="ACKNOWLEDGED"&&value\.revision!==3/);
