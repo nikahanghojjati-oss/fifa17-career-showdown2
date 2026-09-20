@@ -19,7 +19,7 @@ const OLD=`session_${"1".repeat(64)}`,FRESH=`session_${"2".repeat(64)}`;
 const DA=`device_${"a".repeat(32)}`,DB=`device_${"b".repeat(32)}`;
 const PA=`profile_${"1".repeat(24)}`,PB=`profile_${"2".repeat(24)}`;
 const SA=`save_${"1".repeat(24)}`,SB=`save_${"2".repeat(24)}`;
-const OP1=`transfer_op_${"1".repeat(32)}`,OP2=`transfer_op_${"2".repeat(32)}`;
+const OP1=`transfer_op_${"1".repeat(32)}`,OP2=`transfer_op_${"2".repeat(32)}`,OP3=`transfer_op_${"3".repeat(32)}`;
 const HASH=`sha256:${"a".repeat(64)}`;
 
 function sdk(){return {Timestamp,doc,runTransaction:firestoreSdk.runTransaction,serverTimestamp:firestoreSdk.serverTimestamp};}
@@ -35,6 +35,7 @@ function session(now){
 }
 function setup(){return {schemaVersion:1,objectType:"sharedSetupLedger",rivalryId:R,revision:6,phase:"SHOWDOWN_CONFIRMED",coordinatorRole:"playerOne",leagueId:"bundesliga",clubs:{playerOne:"SC Freiburg",playerTwo:"Hertha BSC"},totalSeasons:1,confirmedRoles:["playerOne","playerTwo"]};}
 function career(){return {schemaVersion:1,objectType:"sharedCareerStart",rivalryId:R,setupRevision:6,totalSeasons:1,revision:2,phase:"CAREER_START_READY",acknowledgedRoles:["playerOne","playerTwo"]};}
+function transferLedger(activeSessionId,startedAt,now){return {schemaVersion:1,objectType:"sharedTransferChallenge",rivalryId:R,seasonNumber:1,runtimeRevision:"1.9.1-r8",coordinatorRole:"playerOne",phase:"WINDOW_OPEN",revision:1,startedAt,endedAt:null,endRequestedRoles:[],guessLockedRoles:[],signingLockedRoles:[],operationIds:[OP1],operationTypes:["start-window"],operationHashes:[HASH],baseRevisions:[0],actorRoles:["playerOne"],activeSessionId,updatedAt:Timestamp.fromMillis(now-16*60*1000),updatedByDeviceId:DA};}
 
 (async()=>{
   const env=await initializeTestEnvironment({projectId:PROJECT_ID,firestore:{rules:RULES}});
@@ -51,18 +52,29 @@ function career(){return {schemaVersion:1,objectType:"sharedCareerStart",rivalry
       await setDoc(doc(db,"rivalries",R,"sessions",FRESH),session(now));
       await setDoc(doc(db,"rivalries",R,"sharedSetup","authoritative"),setup());
       await setDoc(doc(db,"rivalries",R,"careerStart","authoritative"),career());
-      await setDoc(doc(db,"rivalries",R,"transferChallenges","season_1"),{
-        schemaVersion:1,objectType:"sharedTransferChallenge",rivalryId:R,seasonNumber:1,runtimeRevision:"1.9.1-r8",coordinatorRole:"playerOne",
-        phase:"WINDOW_OPEN",revision:1,startedAt,endedAt:null,endRequestedRoles:[],guessLockedRoles:[],signingLockedRoles:[],
-        operationIds:[OP1],operationTypes:["start-window"],operationHashes:[HASH],baseRevisions:[0],actorRoles:["playerOne"],
-        activeSessionId:OLD,updatedAt:Timestamp.fromMillis(now-16*60*1000),updatedByDeviceId:DA
-      });
+      await setDoc(doc(db,"rivalries",R,"transferChallenges","season_1"),transferLedger(OLD,startedAt,now));
     });
 
     const dbB=env.authenticatedContext(B).firestore();
+    const providerOptions={user:{uid:B},firestore:dbB,firebaseSdk:sdk(),rivalryId:R,sessionId:FRESH,deviceId:DB,seasonNumber:1,cryptoImpl:crypto.webcrypto,nowEpochMs:now};
+    const preflight=await provider.read(providerOptions);
+    console.log("TRANSFER_DIAG preflight-read",JSON.stringify(preflight));
+    assert.equal(preflight.ok,true,`Fresh-session provider read failed before any transfer write: ${JSON.stringify(preflight)}`);
+    assert.equal(preflight.state.phase,"WINDOW_OPEN");
+
+    const endRequest=await provider.requestEndWindow({...providerOptions,operationId:OP2,baseRevision:1});
+    console.log("TRANSFER_DIAG fresh-session-request-end",JSON.stringify(endRequest));
+    assert.equal(endRequest.ok,true,`Fresh-session request-end write failed before timeout-specific logic: ${JSON.stringify(endRequest)}`);
+    assert.equal(endRequest.state.phase,"WINDOW_OPEN");
+
+    await env.withSecurityRulesDisabled(async context=>{
+      await setDoc(doc(context.firestore(),"rivalries",R,"transferChallenges","season_1"),transferLedger(OLD,startedAt,now));
+    });
+
     const result=await provider.advanceExpiredWindow({
+
       user:{uid:B},firestore:dbB,firebaseSdk:sdk(),rivalryId:R,sessionId:FRESH,deviceId:DB,seasonNumber:1,
-      cryptoImpl:crypto.webcrypto,nowEpochMs:now,operationId:OP2,baseRevision:1
+      cryptoImpl:crypto.webcrypto,nowEpochMs:now,operationId:OP3,baseRevision:1
     });
     assert.equal(result.ok,true,JSON.stringify(result));
     assert.equal(result.state.phase,"GUESS_ENTRY");
