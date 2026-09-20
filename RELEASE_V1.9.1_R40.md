@@ -2,7 +2,7 @@
 
 Application version: `v1.9.1`
 Runtime asset revision: `1.9.1-r40`
-Previous runtime: `1.9.1-r39`
+Previous known-good runtime: `1.9.1-r39`
 
 r40 is a playability hardening release driven by the real iPhone + Chromebook journey rather than by isolated UI checks.
 
@@ -24,3 +24,5 @@ The existing Terminal Close generated-Rules emulator remains the independent fin
 The exact fresh-session Transfer recovery emulator and the full gameplay provider lifecycle emulator are both blocking POS20 REMOTE proofs, and the full lifecycle emulator also blocks Firestore Rules publication.
 
 The four-hour private-session lifetime remains unchanged. Firebase remains Spark-only, Billing remains permanently OFF, Cloud Run and Cloud Functions remain unused, and App Check enforcement remains OFF. No public discovery, lobby, matchmaking or rankings are introduced. Physical acceptance credit remains unclaimed until the real iPhone + Chromebook journey completes.
+
+Remote Joining remains the private exact-path session transport; no public discovery or matchmaking is introduced.
