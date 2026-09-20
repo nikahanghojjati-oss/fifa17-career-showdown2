@@ -16,6 +16,7 @@ const Results=require("../../js/sparkSharedSeasonResults.js");
 
 const RULES=fs.readFileSync("firestore.spark.generated.rules","utf8");
 const PUBLIC_TARGET="allow create: if ssjrResultsValidCreate(rivalryId, seasonId);";
+const UPDATE_TARGET="allow update: if ssjrResultsValidUpdate(rivalryId, seasonId);";
 const PRIVATE_TARGET="allow create: if ssjrResultsPrivateCreateValid(rivalryId, seasonId, managerRole);";
 const A="acct_results_diag_a",B="acct_results_diag_b";
 const R=`pair_${"c".repeat(64)}`;
@@ -94,7 +95,7 @@ async function prepare(env,now){
     {slot:1,name:"Nik Diagnostic",leagueId:"england-premier-league",nationalityId:"brazil"}
   ]});
   if(!value.ok)throw new Error(`signing B failed: ${JSON.stringify(value)}`);
-  return {dbA,a};
+  return {dbA,dbB,a,b};
 }
 
 async function runVariant(index,label,publicExpression,privateExpression){
@@ -106,6 +107,25 @@ async function runVariant(index,label,publicExpression,privateExpression){
     const now=Date.now(),{dbA}=await prepare(env,now);
     const published=await Results.publishResult({...base(dbA,A,DA,now+800),seasonNumber:1,operationId:op("season_result_op_",11),baseRevision:0,result:result()});
     process.stdout.write(`SEASON_RESULTS_RULE_DIAG ${label} publish=${published.ok?"PASS":"FAIL:"+published.code}\n`);
+    return published.ok===true;
+  }finally{await env.cleanup();}
+}
+
+
+async function runSecondVariant(index,label,updateExpression,privateExpression){
+  let rules=RULES.replace(UPDATE_TARGET,`allow update: if ${updateExpression};`);
+  rules=rules.replace(PRIVATE_TARGET,`allow create: if ${privateExpression};`);
+  if(!rules.includes(`allow update: if ${updateExpression};`)||!rules.includes(`allow create: if ${privateExpression};`))throw new Error("Season Results second-publication diagnostic rule targets were not found.");
+  const env=await initializeTestEnvironment({projectId:`demo-cms17-results-update-diag-${index}`,firestore:{rules}});
+  try{
+    const now=Date.now();
+    await prepare(env,now);
+    const first=await env.withSecurityRulesDisabled(async context=>Results.publishResult({...base(context.firestore(),A,DA,now+800),seasonNumber:1,operationId:op("season_result_op_",11),baseRevision:0,result:result()}));
+    if(!first.ok)throw new Error(`first result setup failed: ${JSON.stringify(first)}`);
+    const dbB=env.authenticatedContext(B).firestore();
+    const secondResult={leaguePosition:3,leaguePoints:88,leagueGoals:86,domesticCup:false,championsLeague:false,topScorer:false,topAssist:true};
+    const published=await Results.publishResult({...base(dbB,B,DB,now+900),seasonNumber:1,operationId:op("season_result_op_",12),baseRevision:1,result:secondResult});
+    process.stdout.write(`SEASON_RESULTS_UPDATE_DIAG ${label} publish=${published.ok?"PASS":"FAIL:"+published.code}\n`);
     return published.ok===true;
   }finally{await env.cleanup();}
 }
@@ -143,4 +163,42 @@ async function runVariant(index,label,publicExpression,privateExpression){
     ["ACTUAL","ssjrResultsValidCreate(rivalryId, seasonId)","ssjrResultsPrivateCreateValid(rivalryId, seasonId, managerRole)"]
   ];
   for(let i=0;i<variants.length;i++)await runVariant(i+1,variants[i][0],variants[i][1],variants[i][2]);
+
+  const updateActor="ssjrActorRole(rivalryId)";
+  const updateShape="ssjrResultsPublicShape(request.resource.data, rivalryId, seasonId)";
+  const updateCoreNoLink=`${updateShape}
+    && resource.data.schemaVersion == 1
+    && resource.data.objectType == 'sharedSeasonResults'
+    && resource.data.rivalryId == rivalryId
+    && resource.data.runtimeRevision == '1.9.1-r9'
+    && resource.data.phase == 'COLLECTING'
+    && resource.data.revision == 1
+    && request.resource.data.revision == 2
+    && request.resource.data.seasonNumber == resource.data.seasonNumber
+    && ssjrResultsPublicPrefixPreserved(resource.data, request.resource.data)
+    && !(${updateActor} in resource.data.publishedRoles)
+    && ssjrResultsValidOperationId(request.resource.data.operationIds[1])
+    && !(request.resource.data.operationIds[1] in resource.data.operationIds)
+    && ssjrResultsValidHash(request.resource.data.operationHashes[1])
+    && request.resource.data.baseRevisions[1] == resource.data.revision`;
+  const updateLink=`ssjrResultsPrivateLinked(rivalryId, seasonId, request.resource.data, ${updateActor})`;
+  const updatePublicAfter="getAfter(/databases/$(database)/documents/rivalries/$(rivalryId)/seasonResults/$(seasonId)).data";
+  const secondPrivateLink=`${updatePublicAfter}.operationIds[1] == request.resource.data.operationId
+    && ${updatePublicAfter}.actorRoles[1] == managerRole
+    && ${updatePublicAfter}.publishedRoles[1] == managerRole
+    && ${updatePublicAfter}.activeSessionId == request.resource.data.activeSessionId
+    && ${updatePublicAfter}.updatedByDeviceId == request.resource.data.updatedByDeviceId
+    && ${updatePublicAfter}.updatedAt == request.time`;
+  const updateVariants=[
+    ["ALLOW_BOTH","true","true"],
+    ["UPDATE_TRUE_PRIVATE_ACTUAL","true","ssjrResultsPrivateCreateValid(rivalryId, seasonId, managerRole)"],
+    ["UPDATE_ACTUAL_PRIVATE_TRUE","ssjrResultsValidUpdate(rivalryId, seasonId)","true"],
+    ["UPDATE_SHAPE_PRIVATE_TRUE",updateShape,"true"],
+    ["UPDATE_CORE_NO_LINK_PRIVATE_TRUE",updateCoreNoLink,"true"],
+    ["UPDATE_LINK_ONLY_PRIVATE_TRUE",updateLink,"true"],
+    ["UPDATE_TRUE_PRIVATE_BASE","true",privateBase],
+    ["UPDATE_TRUE_PRIVATE_LINK","true",secondPrivateLink],
+    ["ACTUAL","ssjrResultsValidUpdate(rivalryId, seasonId)","ssjrResultsPrivateCreateValid(rivalryId, seasonId, managerRole)"]
+  ];
+  for(let i=0;i<updateVariants.length;i++)await runSecondVariant(i+1,updateVariants[i][0],updateVariants[i][1],updateVariants[i][2]);
 })().catch(error=>{console.error(error.stack||error);process.exit(1);});
