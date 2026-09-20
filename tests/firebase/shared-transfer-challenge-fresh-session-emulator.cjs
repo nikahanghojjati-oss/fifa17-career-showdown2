@@ -19,7 +19,7 @@ const OLD=`session_${"1".repeat(64)}`,FRESH=`session_${"2".repeat(64)}`;
 const DA=`device_${"a".repeat(32)}`,DB=`device_${"b".repeat(32)}`;
 const PA=`profile_${"1".repeat(24)}`,PB=`profile_${"2".repeat(24)}`;
 const SA=`save_${"1".repeat(24)}`,SB=`save_${"2".repeat(24)}`;
-const OP1=`transfer_op_${"1".repeat(32)}`,OP2=`transfer_op_${"2".repeat(32)}`;
+const OP1=`transfer_op_${"1".repeat(32)}`,OP2=`transfer_op_${"2".repeat(32)}`,OP3=`transfer_op_${"3".repeat(32)}`,OP4=`transfer_op_${"4".repeat(32)}`;
 const HASH=`sha256:${"a".repeat(64)}`;
 
 function sdk(){return {Timestamp,doc,runTransaction:firestoreSdk.runTransaction,serverTimestamp:firestoreSdk.serverTimestamp};}
@@ -35,6 +35,7 @@ function session(now){
 }
 function setup(){return {schemaVersion:1,objectType:"sharedSetupLedger",rivalryId:R,revision:6,phase:"SHOWDOWN_CONFIRMED",coordinatorRole:"playerOne",leagueId:"bundesliga",clubs:{playerOne:"SC Freiburg",playerTwo:"Hertha BSC"},totalSeasons:1,confirmedRoles:["playerOne","playerTwo"]};}
 function career(){return {schemaVersion:1,objectType:"sharedCareerStart",rivalryId:R,setupRevision:6,totalSeasons:1,revision:2,phase:"CAREER_START_READY",acknowledgedRoles:["playerOne","playerTwo"]};}
+function transferLedger(activeSessionId,startedAt,now){return {schemaVersion:1,objectType:"sharedTransferChallenge",rivalryId:R,seasonNumber:1,runtimeRevision:"1.9.1-r8",coordinatorRole:"playerOne",phase:"WINDOW_OPEN",revision:1,startedAt,endedAt:null,endRequestedRoles:[],guessLockedRoles:[],signingLockedRoles:[],operationIds:[OP1],operationTypes:["start-window"],operationHashes:[HASH],baseRevisions:[0],actorRoles:["playerOne"],activeSessionId,updatedAt:Timestamp.fromMillis(now-16*60*1000),updatedByDeviceId:DA};}
 
 (async()=>{
   const env=await initializeTestEnvironment({projectId:PROJECT_ID,firestore:{rules:RULES}});
@@ -51,19 +52,34 @@ function career(){return {schemaVersion:1,objectType:"sharedCareerStart",rivalry
       await setDoc(doc(db,"rivalries",R,"sessions",FRESH),session(now));
       await setDoc(doc(db,"rivalries",R,"sharedSetup","authoritative"),setup());
       await setDoc(doc(db,"rivalries",R,"careerStart","authoritative"),career());
-      await setDoc(doc(db,"rivalries",R,"transferChallenges","season_1"),{
-        schemaVersion:1,objectType:"sharedTransferChallenge",rivalryId:R,seasonNumber:1,runtimeRevision:"1.9.1-r8",coordinatorRole:"playerOne",
-        phase:"WINDOW_OPEN",revision:1,startedAt,endedAt:null,endRequestedRoles:[],guessLockedRoles:[],signingLockedRoles:[],
-        operationIds:[OP1],operationTypes:["start-window"],operationHashes:[HASH],baseRevisions:[0],actorRoles:["playerOne"],
-        activeSessionId:OLD,updatedAt:Timestamp.fromMillis(now-16*60*1000),updatedByDeviceId:DA
-      });
+      await setDoc(doc(db,"rivalries",R,"transferChallenges","season_1"),transferLedger(OLD,startedAt,now));
     });
 
     const dbB=env.authenticatedContext(B).firestore();
-    const result=await provider.advanceExpiredWindow({
-      user:{uid:B},firestore:dbB,firebaseSdk:sdk(),rivalryId:R,sessionId:FRESH,deviceId:DB,seasonNumber:1,
-      cryptoImpl:crypto.webcrypto,nowEpochMs:now,operationId:OP2,baseRevision:1
+    const providerOptions={user:{uid:B},firestore:dbB,firebaseSdk:sdk(),rivalryId:R,sessionId:FRESH,deviceId:DB,seasonNumber:1,cryptoImpl:crypto.webcrypto,nowEpochMs:now};
+
+    const preflight=await provider.read(providerOptions);
+    assert.equal(preflight.ok,true,`Fresh ACTIVE session must read the existing Transfer Challenge before any mutation: ${JSON.stringify(preflight)}`);
+    assert.equal(preflight.state.phase,"WINDOW_OPEN");
+
+    await env.withSecurityRulesDisabled(async context=>{
+      await setDoc(doc(context.firestore(),"rivalries",R,"transferChallenges","season_1"),transferLedger(FRESH,startedAt,now));
     });
+    const sameSessionProbe=await provider.requestEndWindow({...providerOptions,operationId:OP2,baseRevision:1});
+    assert.equal(sameSessionProbe.ok,true,`Transfer update under its already-current ACTIVE session must be accepted: ${JSON.stringify(sameSessionProbe)}`);
+
+    await env.withSecurityRulesDisabled(async context=>{
+      await setDoc(doc(context.firestore(),"rivalries",R,"transferChallenges","season_1"),transferLedger(OLD,startedAt,now));
+    });
+    const migrationProbe=await provider.requestEndWindow({...providerOptions,operationId:OP3,baseRevision:1});
+    assert.equal(migrationProbe.ok,true,`Fresh ACTIVE session must be allowed to take over Transfer authority on a non-timeout write: ${JSON.stringify(migrationProbe)}`);
+    assert.equal(migrationProbe.state.phase,"WINDOW_OPEN");
+
+    await env.withSecurityRulesDisabled(async context=>{
+      await setDoc(doc(context.firestore(),"rivalries",R,"transferChallenges","season_1"),transferLedger(OLD,startedAt,now));
+    });
+
+    const result=await provider.advanceExpiredWindow({...providerOptions,operationId:OP4,baseRevision:1});
     assert.equal(result.ok,true,JSON.stringify(result));
     assert.equal(result.state.phase,"GUESS_ENTRY");
     assert.equal(result.revision,2);
@@ -76,6 +92,6 @@ function career(){return {schemaVersion:1,objectType:"sharedCareerStart",rivalry
     assert.ok(endedAtMs>=startedAt.toMillis()+15*60*1000,"timeout transition must never occur before the authoritative 15-minute deadline.");
     assert.ok(endedAtMs<=Date.now()+5000,"timeout endedAt must be the Firestore request/server time, not an invented future value.");
 
-    process.stdout.write("PASS Shared Transfer fresh-session expiry emulator: an old-session WINDOW_OPEN at 00:00 advances once under a fresh ACTIVE session, preserves exact startedAt, migrates activeSessionId, writes timeout completion at server request time, and reaches GUESS_ENTRY without redraw or reset.\n");
+    process.stdout.write("PASS Shared Transfer fresh-session expiry emulator: fresh-session read + authority migration both succeed, then an old-session WINDOW_OPEN at 00:00 advances under the fresh ACTIVE session, preserves exact startedAt, writes timeout completion at server request time, and reaches GUESS_ENTRY without redraw or reset.\\n");
   }finally{await env.cleanup();}
 })().catch(error=>{console.error(error.stack||error);process.exit(1);});

@@ -32,6 +32,13 @@ const sources=[source(1,season1,"playerOne",hash("a")),source(2,season2,"draw",h
   assert.equal(history.exactSeasonAddressing,true);
   assert.equal(history.identitySafe,true);
 
+  const canonicalWithTriggers=JSON.parse(JSON.stringify(sources));
+  canonicalWithTriggers[0].scoring.scoring.playerOne.triggers={hundredLeaguePoints:true,hundredLeagueGoals:true,topScorer:true,topAssist:true};
+  canonicalWithTriggers[0].scoring.scoring.playerTwo.triggers={hundredLeaguePoints:false,hundredLeagueGoals:false,topScorer:false,topAssist:false};
+  const triggeredProjection=history.buildProjection({rivalryId,setup,managerSlots,seasons:canonicalWithTriggers});
+  assert.equal(triggeredProjection.seasonHistory[0].playerOne.scoring.total,11);
+  assert.equal(Object.hasOwn(triggeredProjection.seasonHistory[0].playerOne.scoring,"triggers"),false,"history normalizes canonical trigger metadata to the stable six-field score projection");
+
   const projection=history.buildProjection({rivalryId,setup,managerSlots,seasons:sources});
   assert.equal(projection.phase,"HISTORY_CONVERGED");
   assert.equal(projection.revision,1);
@@ -109,7 +116,8 @@ const sources=[source(1,season1,"playerOne",hash("a")),source(2,season2,"draw",h
 
   const providerSource=fs.readFileSync("js/sparkSharedHistoryConvergence.js","utf8");
   assert.match(providerSource,/"rivalries",rivalryId/);
-  assert.match(providerSource,/"sharedSetup","authoritative"/);
+  assert.match(providerSource,/sparkSharedShowdownSetup\.js/,"History Convergence must rebuild the canonical setup state through the setup provider instead of treating the compact ledger as the full setup.");
+  assert.match(providerSource,/setupProvider\.read\(options\)/);
   assert.match(providerSource,/for\(let seasonNumber=1;seasonNumber<=throughSeason;seasonNumber\+=1\)/);
   assert.match(providerSource,/commitProvider\.read\(shared\)/);
   assert.match(providerSource,/scoringProvider\.read\(shared\)/);

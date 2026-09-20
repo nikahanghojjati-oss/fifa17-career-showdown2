@@ -34,7 +34,9 @@ for(const required of [
   "root.revision < 3 && root.phase == 'COMMITTED'",
   "root.revision == 3 && root.phase == 'ACKNOWLEDGED'",
   'root.acknowledgedRoles.size() == n - 1',
-  'root.acknowledgedRoles[1] != root.acknowledgedRoles[0]',
+  'root.acknowledgedRoles.toSet().size() == root.acknowledgedRoles.size()',
+  "root.acknowledgedRoles.toSet().hasOnly(['playerOne','playerTwo'])",
+  'root.actorRoles == [root.actorRoles[0]].concat(root.acknowledgedRoles)',
   'after.revision == before.revision + 1',
   'ssjrCommitPrefixPreserved(before, after)',
   '!(role in before.acknowledgedRoles)',
@@ -45,6 +47,8 @@ for(const required of [
   'ssjrWriteAuthorityValid(rivalryId, root.updatedByDeviceId, root.activeSessionId)'
 ])assert.ok(fragment.includes(required),`Season Commit Rules missing required boundary: ${required}`);
 
+assert.doesNotMatch(fragment,/acknowledgedRoles\[0:n - 1\]/,'Season Commit first acknowledgement must not rely on a zero-length Firestore list slice.');
+assert.match(fragment,/after\.acknowledgedRoles == before\.acknowledgedRoles\.concat\(\[after\.acknowledgedRoles\[i - 1\]\]\)/,'Season Commit acknowledgements must remain append-only without slicing.');
 assert.doesNotMatch(fragment,/allow\s+list\s*:\s*if\s+true/,'Season Commit must never expose collection listing');
 assert.doesNotMatch(fragment,/allow\s+delete\s*:\s*if\s+true/,'Season Commit authority is immutable and may not be deleted by clients');
 assert.doesNotMatch(fragment,/authoritativeScoring|calculatePlayerSeasonScore|determineSeasonWinner|scoreTotal|playerOneScore|playerTwoScore|saveCurrentShowdown|persistCompletedSeason/,'r10 Season Commit Rules must not introduce scoring or canonical Save authority');

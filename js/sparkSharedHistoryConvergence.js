@@ -14,6 +14,7 @@
   const defaultHistoryModule=typeof require==="function"?require("./sharedHistoryConvergence.js"):root.CareerModeSharedHistoryConvergence;
   const defaultCommitProvider=typeof require==="function"?require("./sparkSharedSeasonCommit.js"):root.CareerModeSparkSharedSeasonCommit;
   const defaultScoringProvider=typeof require==="function"?require("./sparkSharedCanonicalScoring.js"):root.CareerModeSparkSharedCanonicalScoring;
+  function hcpSetupProvider(){return typeof require==="function"?require("./sparkSharedShowdownSetup.js"):root.CareerModeSparkSharedShowdownSetup;}
 
   function hcpFail(code,message){const error=new Error(message||code);error.code=code;throw error;}
   function hcpFreeze(value){if(value&&typeof value==="object"&&!Object.isFrozen(value)){Object.values(value).forEach(hcpFreeze);Object.freeze(value);}return value;}
@@ -34,15 +35,18 @@
     return ordered.map(slot=>({slotId:slot.slotId,accountId:slot.accountId,profileId:slot.profileId,saveId:slot.saveId,entitlementState:"active"}));
   }
   function hcpValidSetup(value,rivalryId,throughSeason){
-    if(!value||value.schemaVersion!==1||value.objectType!=="sharedSetupLedger"||value.rivalryId!==rivalryId||value.phase!=="SHOWDOWN_CONFIRMED"||value.revision!==6||!ROLES.includes(value.coordinatorRole)||![1,3,5,10].includes(value.totalSeasons)||throughSeason>value.totalSeasons||typeof value.leagueId!=="string"||!value.leagueId.trim()||!value.clubs||typeof value.clubs.playerOne!=="string"||typeof value.clubs.playerTwo!=="string"||!value.clubs.playerOne.trim()||!value.clubs.playerTwo.trim()||value.clubs.playerOne===value.clubs.playerTwo)hcpFail("HISTORY_CONVERGENCE_SETUP_INVALID");
+    if(!value||value.schemaVersion!==1||value.phase!=="SHOWDOWN_CONFIRMED"||value.revision!==6||!ROLES.includes(value.coordinatorRole)||![1,3,5,10].includes(value.totalSeasons)||throughSeason>value.totalSeasons||typeof value.leagueId!=="string"||!value.leagueId.trim()||!value.clubs||typeof value.clubs.playerOne!=="string"||typeof value.clubs.playerTwo!=="string"||!value.clubs.playerOne.trim()||!value.clubs.playerTwo.trim()||value.clubs.playerOne===value.clubs.playerTwo)hcpFail("HISTORY_CONVERGENCE_SETUP_INVALID");
     return value;
   }
   async function hcpReadAuthority(options,uid,rivalryId,throughSeason){
-    const sdk=hcpSdk(options),db=options.firestore;
+    const setupProvider=hcpSetupProvider();
+    if(!setupProvider||typeof setupProvider.read!=="function")hcpFail("HISTORY_CONVERGENCE_SETUP_PROVIDER_UNAVAILABLE");
+    const setupResult=await setupProvider.read(options);
+    if(!setupResult||setupResult.ok!==true||!setupResult.state)hcpFail(setupResult?.code||"HISTORY_CONVERGENCE_SETUP_INVALID");
+    const setup=hcpValidSetup(setupResult.state,rivalryId,throughSeason),sdk=hcpSdk(options),db=options.firestore;
     return sdk.runTransaction(db,async tx=>{
-      const rivalryRef=hcpPath(sdk,db,"rivalries",rivalryId),setupRef=hcpPath(sdk,db,"rivalries",rivalryId,"sharedSetup","authoritative");
-      const rivalry=hcpSnapshot(await tx.get(rivalryRef)),setup=hcpSnapshot(await tx.get(setupRef));
-      return hcpFreeze({managerSlots:hcpValidSlots(rivalry,uid),setup:hcpValidSetup(setup,rivalryId,throughSeason)});
+      const rivalry=hcpSnapshot(await tx.get(hcpPath(sdk,db,"rivalries",rivalryId)));
+      return hcpFreeze({managerSlots:hcpValidSlots(rivalry,uid),setup});
     });
   }
   function hcpCreateProvider({historyModule=defaultHistoryModule,commitProvider=defaultCommitProvider,scoringProvider=defaultScoringProvider,authorityReader=hcpReadAuthority}={}){

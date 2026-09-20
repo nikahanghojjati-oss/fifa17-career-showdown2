@@ -12,6 +12,7 @@
   const SESSION_ID=/^session_[0-9a-f]{64}$/;
   function msp13ProgressionModule(){return typeof require==="function"?require("./sharedMultiSeasonProgression.js"):root.CareerModeSharedMultiSeasonProgression;}
   function msp13HistoryProvider(){return typeof require==="function"?require("./sparkSharedHistoryConvergence.js"):root.CareerModeSparkSharedHistoryConvergence;}
+  function msp13SetupProvider(){return typeof require==="function"?require("./sparkSharedShowdownSetup.js"):root.CareerModeSparkSharedShowdownSetup;}
 
   function msp13Fail(code,message){const error=new Error(message||code);error.code=code;throw error;}
   function msp13Freeze(value){if(value&&typeof value==="object"&&!Object.isFrozen(value)){Object.values(value).forEach(msp13Freeze);Object.freeze(value);}return value;}
@@ -37,7 +38,7 @@
     const actor=ordered.find(slot=>slot.accountId===uid);if(!actor)msp13Fail("MULTI_SEASON_ACTOR_NOT_ENTITLED");return {authorized,managerRole:actor.slotId};
   }
   function msp13SessionState(value,rivalryId,sessionId,authorized,now){const members=value?.data?.memberAccountIds,expires=msp13TimestampMillis(value?.data?.expiresAt);if(!value||value.objectType!=="session"||value.objectId!==sessionId||value.lifecycleState!=="live"||value.data?.rivalryId!==rivalryId||value.data?.state!=="active"||!Array.isArray(members)||members.length!==2||new Set(members).size!==2||!authorized.every(id=>members.includes(id))||!members.every(id=>authorized.includes(id))||!Number.isFinite(expires)||now>=expires)msp13Fail("MULTI_SEASON_ACTIVE_SESSION_REQUIRED");}
-  function msp13Setup(value,rivalryId){if(!value||value.schemaVersion!==1||value.objectType!=="sharedSetupLedger"||value.rivalryId!==rivalryId||value.phase!=="SHOWDOWN_CONFIRMED"||value.revision!==6||![1,3,5,10].includes(value.totalSeasons)||typeof value.leagueId!=="string"||!value.leagueId.trim()||!value.clubs||typeof value.clubs.playerOne!=="string"||!value.clubs.playerOne.trim()||typeof value.clubs.playerTwo!=="string"||!value.clubs.playerTwo.trim()||value.clubs.playerOne===value.clubs.playerTwo)msp13Fail("MULTI_SEASON_SETUP_INVALID");return value;}
+  function msp13Setup(value,rivalryId){if(!value||value.schemaVersion!==1||value.phase!=="SHOWDOWN_CONFIRMED"||value.revision!==6||![1,3,5,10].includes(value.totalSeasons)||typeof value.leagueId!=="string"||!value.leagueId.trim()||!value.clubs||typeof value.clubs.playerOne!=="string"||!value.clubs.playerOne.trim()||typeof value.clubs.playerTwo!=="string"||!value.clubs.playerTwo.trim()||value.clubs.playerOne===value.clubs.playerTwo)msp13Fail("MULTI_SEASON_SETUP_INVALID");return value;}
   function msp13CommitPhase(value,rivalryId,seasonNumber){
     if(!value)return "missing";
     if(value.schemaVersion!==1||value.objectType!=="sharedSeasonCommit"||value.rivalryId!==rivalryId||value.seasonNumber!==seasonNumber||value.runtimeRevision!=="1.9.1-r10"||!["COMMITTED","ACKNOWLEDGED"].includes(value.phase)||!Number.isInteger(value.revision)||value.revision<1||value.revision>3||value.resultsRevision!==2)msp13Fail("MULTI_SEASON_COMMIT_INVALID");
@@ -46,13 +47,16 @@
     return value.phase==="ACKNOWLEDGED"?"accepted":"pending";
   }
   async function msp13ReadAuthority(options,uid,rivalryId,sessionId,deviceId,now){
-    const sdk=msp13Sdk(options),db=options.firestore;
+    const setupProvider=msp13SetupProvider();
+    if(!setupProvider||typeof setupProvider.read!=="function")msp13Fail("MULTI_SEASON_SETUP_PROVIDER_UNAVAILABLE");
+    const setupResult=await setupProvider.read(options);
+    if(!setupResult||setupResult.ok!==true||!setupResult.state)msp13Fail(setupResult?.code||"MULTI_SEASON_SETUP_INVALID");
+    const setup=msp13Setup(setupResult.state,rivalryId),sdk=msp13Sdk(options),db=options.firestore;
     return sdk.runTransaction(db,async tx=>{
       const account=await msp13Get(tx,msp13Path(sdk,db,"accounts",uid));msp13Account(account,uid);
       const device=await msp13Get(tx,msp13Path(sdk,db,"accounts",uid,"devices",deviceId));msp13DeviceState(device,deviceId);
       const rivalry=await msp13Get(tx,msp13Path(sdk,db,"rivalries",rivalryId));const actor=msp13RivalryState(rivalry,rivalryId,uid);
       const session=await msp13Get(tx,msp13Path(sdk,db,"rivalries",rivalryId,"sessions",sessionId));msp13SessionState(session,rivalryId,sessionId,actor.authorized,now);
-      const setup=msp13Setup(await msp13Get(tx,msp13Path(sdk,db,"rivalries",rivalryId,"sharedSetup","authoritative")),rivalryId);
       const phases=[];
       for(let seasonNumber=1;seasonNumber<=setup.totalSeasons;seasonNumber+=1){const stored=await msp13Get(tx,msp13Path(sdk,db,"rivalries",rivalryId,"seasonCommits",`season_${seasonNumber}`));phases.push(msp13CommitPhase(stored,rivalryId,seasonNumber));}
       let acceptedSeasons=0,gapSeen=false;

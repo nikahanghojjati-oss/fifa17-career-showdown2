@@ -166,6 +166,9 @@ jobs:
       - name: Prove Shared Transfer fresh-session timeout recovery
         run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-career-mode-showdown-transfer-fresh-session "node tests/firebase/shared-transfer-challenge-fresh-session-emulator.cjs"
 
+      - name: Prove full shared gameplay provider lifecycle
+        run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-career-mode-showdown-gameplay-lifecycle "CMS_SHOWDOWN_LENGTH=1 node tests/firebase/shared-gameplay-provider-lifecycle-emulator.cjs && CMS_SHOWDOWN_LENGTH=3 node tests/firebase/shared-gameplay-provider-lifecycle-emulator.cjs && CMS_SHOWDOWN_LENGTH=5 node tests/firebase/shared-gameplay-provider-lifecycle-emulator.cjs && CMS_SHOWDOWN_LENGTH=10 node tests/firebase/shared-gameplay-provider-lifecycle-emulator.cjs"
+
       - name: Prove r18 Terminal Close Rules with adversarial provider matrix
         run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-career-mode-showdown-terminal-close-production-deploy "node tests/firebase/shared-terminal-close-production-provider-emulator.cjs"
 

@@ -138,7 +138,7 @@ for(const required of [
   "setup.phase == 'SHOWDOWN_CONFIRMED'",
   "after.phase == 'CAREER_START_READY'",
   'allow list, delete: if false',
-  "after.totalSeasons == 1 || after.totalSeasons == 3 || after.totalSeasons == 5 || after.totalSeasons == 10"
+  "after.totalSeasons in [1,3,5,10]"
 ]) assert.ok(generated.includes(required),`Generated production Rules missing ${required}`);
 for(const forbidden of [/cloud\s*run/i,/cloud\s*functions/i,/blaze/i,/payment method/i,/purchased credits/i])assert.doesNotMatch(`${fragment}\n${careerFragment}\n${transferFragment}\n${resultsFragment}\n${commitFragment}\n${terminalFragment}`,forbidden,'Shared Journey production Rules must remain zero-billing/Spark compatible.');
 assert.match(generated,/match \/\{document=\*\*\} \{\s*allow read, write: if false;/,'Generated authority must retain global deny-by-default fallback.');

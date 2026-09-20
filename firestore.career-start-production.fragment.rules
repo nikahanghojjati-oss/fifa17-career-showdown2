@@ -14,7 +14,7 @@
         && setup.confirmedRoles.size() == 2
         && 'playerOne' in setup.confirmedRoles
         && 'playerTwo' in setup.confirmedRoles
-        && (setup.totalSeasons == 1 || setup.totalSeasons == 3 || setup.totalSeasons == 5 || setup.totalSeasons == 10);
+        && setup.totalSeasons in [1,3,5,10];
     }
     function ssjrCareerExactKeys(root) {
       return root.keys().hasOnly([
@@ -65,8 +65,10 @@
       let before = resource.data;
       let after = request.resource.data;
       let actorRole = ssjrActorRole(rivalryId);
-      return ssjrCareerShapeValid(before, rivalryId)
-        && ssjrCareerWriteValid(after, rivalryId)
+      return ssjrCareerExactKeys(after)
+        && after.schemaVersion == before.schemaVersion
+        && after.objectType == before.objectType
+        && after.rivalryId == before.rivalryId
         && before.revision == 1
         && before.phase == 'ONE_MANAGER_ACKNOWLEDGED'
         && after.revision == 2
@@ -74,16 +76,15 @@
         && after.setupRevision == before.setupRevision
         && after.setupOperationIds == before.setupOperationIds
         && after.totalSeasons == before.totalSeasons
-        && after.acknowledgedRoles[0] == before.acknowledgedRoles[0]
-        && after.actorRoles[0] == before.actorRoles[0]
-        && after.operationIds[0] == before.operationIds[0]
-        && after.baseRevisions[0] == before.baseRevisions[0]
+        && after.acknowledgedRoles == before.acknowledgedRoles.concat([actorRole])
+        && after.actorRoles == before.actorRoles.concat([actorRole])
+        && after.operationIds == before.operationIds.concat([after.operationIds[1]])
+        && after.baseRevisions == before.baseRevisions.concat([1])
         && actorRole != before.acknowledgedRoles[0]
-        && after.acknowledgedRoles[1] == actorRole
-        && after.actorRoles[1] == actorRole
-        && after.baseRevisions[1] == 1
         && ssjrCareerValidOperationId(after.operationIds[1])
-        && after.operationIds[1] != before.operationIds[0];
+        && after.operationIds[1] != before.operationIds[0]
+        && after.updatedAt == request.time
+        && ssjrWriteAuthorityValid(rivalryId, after.updatedByDeviceId, after.activeSessionId);
     }
 // SSJR_CAREER_START_FUNCTIONS_END
 
