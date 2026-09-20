@@ -48,10 +48,10 @@ assert.doesNotMatch(transferRules,/\[0:priorSize\]|\[0:n\]/,'Transfer update Rul
 assert.doesNotMatch(transferRules,/ssjrTransferValidRole\(value\[[01]\]\)/,'Transfer role-list validation must not index empty role lists.');
 assert.ok(transferRules.includes("value.toSet().hasOnly(['playerOne','playerTwo'])"),'Transfer role lists must be validated through an index-free exact role set.');
 for(const required of [
-  'after.operationIds == before.operationIds + [after.operationIds[i]]',
-  'after.endRequestedRoles == before.endRequestedRoles + [actorRole]',
-  'after.guessLockedRoles == before.guessLockedRoles + [actorRole]',
-  'after.signingLockedRoles == before.signingLockedRoles + [actorRole]'
+  'after.operationIds == before.operationIds.concat([after.operationIds[i]])',
+  'after.endRequestedRoles == before.endRequestedRoles.concat([actorRole])',
+  'after.guessLockedRoles == before.guessLockedRoles.concat([actorRole])',
+  'after.signingLockedRoles == before.signingLockedRoles.concat([actorRole])'
 ])assert.ok(transferRules.includes(required),`Transfer update Rules missing append-only list boundary: ${required}`);
 
 
