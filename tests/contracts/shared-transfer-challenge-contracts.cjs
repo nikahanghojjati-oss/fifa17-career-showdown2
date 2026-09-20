@@ -35,7 +35,7 @@ for(const required of [
   'allow list, delete: if false',
   'after.startedAt == request.time',
   "request.time >= before.startedAt + duration.value(15, 'm')",
-  "after.endedAt == before.startedAt + duration.value(15, 'm')",
+  "after.endedAt == request.time",
   'getAfter(/databases/$(database)/documents/rivalries/$(rivalryId)/transferChallenges/$(transferId)/roles/$(role))',
   "managerRole == ssjrActorRole(rivalryId) || public.phase == 'COMPLETED'",
   "public.operationTypes[i] == 'lock-guesses'",
@@ -196,9 +196,9 @@ const rejectsCode=async(promise,code)=>assert.rejects(promise,error=>error&&erro
 
   const timeoutProtocol=await Factory.createProtocol({leagueIds,nationalityIds,cryptoImpl:webcrypto});
   let timeout=(await run(timeoutProtocol,null,'playerOne',command('start-window',30,0),2_000_000,2)).state;
-  timeout=(await run(timeoutProtocol,timeout,'playerTwo',command('advance-expired-window',31,1),2_900_000,2)).state;
+  timeout=(await run(timeoutProtocol,timeout,'playerTwo',command('advance-expired-window',31,1),2_900_123,2)).state;
   assert.equal(timeout.phase,'GUESS_ENTRY');
-  assert.equal(timeout.endedAtEpochMs,2_900_000,'natural expiry must close at the exact 15 minute deadline');
+  assert.equal(timeout.endedAtEpochMs,2_900_123,'natural expiry must record the actual authoritative transition time once the 15-minute deadline has passed');
 
   const tampered=JSON.parse(JSON.stringify(state));
   tampered.receipts=null;

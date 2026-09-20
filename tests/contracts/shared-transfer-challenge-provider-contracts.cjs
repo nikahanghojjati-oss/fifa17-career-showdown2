@@ -121,13 +121,13 @@ function createHarness(){
 
   const providerSource=require("node:fs").readFileSync("js/sparkSharedTransferChallenge.js","utf8");
   assert.match(providerSource,/prior\?\.startedAt\|\|stspTimestamp/,"Transfer updates must preserve the exact provider-owned startedAt timestamp instead of rebuilding it from milliseconds.");
-  assert.match(providerSource,/type==="advance-expired-window"&&prior\?\.startedAt/,"Timeout advancement must derive endedAt from the exact stored startedAt timestamp.");
+  assert.match(providerSource,/earlyEnd\|\|type==="advance-expired-window"\)endedAt=serverNow/,"Timeout advancement must use the Firestore server timestamp accepted by production Rules.");
   assert.match(providerSource,/prior\?\.guessLockedAt\|\|/,"Signing lock must preserve the exact stored guessLockedAt timestamp.");
 
   const timeout=createHarness();
   let timeoutResult=await Provider.startWindow({...timeout.options('playerOne',2_000_000),operationId:op(20),baseRevision:0});
-  timeoutResult=await Provider.advanceExpiredWindow({...timeout.options('playerTwo',2_900_000),operationId:op(21),baseRevision:1});
-  assert.equal(timeoutResult.state.phase,'GUESS_ENTRY');assert.equal(timeoutResult.state.endedAtEpochMs,2_900_000);
+  timeoutResult=await Provider.advanceExpiredWindow({...timeout.options('playerTwo',2_900_123),operationId:op(21),baseRevision:1});
+  assert.equal(timeoutResult.state.phase,'GUESS_ENTRY');assert.equal(timeoutResult.state.endedAtEpochMs,2_900_123,'Provider projection must record the actual authorized timeout transition time.');
   const tooEarly=createHarness();
   await Provider.startWindow({...tooEarly.options('playerOne',3_000_000),operationId:op(30),baseRevision:0});
   const early=await Provider.advanceExpiredWindow({...tooEarly.options('playerTwo',3_899_999),operationId:op(31),baseRevision:1});
