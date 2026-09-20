@@ -20,18 +20,11 @@
     function ssjrTransferPrerequisites(rivalryId, seasonNumber) {
       let setup = ssjrTransferSetup(rivalryId);
       let career = ssjrTransferCareer(rivalryId);
-      return setup.schemaVersion == 1
-        && setup.objectType == 'sharedSetupLedger'
-        && setup.rivalryId == rivalryId
-        && setup.revision == 6
+      return setup.revision == 6
         && setup.phase == 'SHOWDOWN_CONFIRMED'
-        && (setup.coordinatorRole == 'playerOne' || setup.coordinatorRole == 'playerTwo')
         && (setup.totalSeasons == 1 || setup.totalSeasons == 3 || setup.totalSeasons == 5 || setup.totalSeasons == 10)
         && seasonNumber >= 1
         && seasonNumber <= setup.totalSeasons
-        && career.schemaVersion == 1
-        && career.objectType == 'sharedCareerStart'
-        && career.rivalryId == rivalryId
         && career.setupRevision == 6
         && career.totalSeasons == setup.totalSeasons
         && career.revision == 2
@@ -200,9 +193,6 @@
       let role = ssjrActorRole(rivalryId);
       return ssjrTransferPublicShape(after, rivalryId, transferId)
         && after.revision == before.revision + 1
-        && after.seasonNumber == before.seasonNumber
-        && after.runtimeRevision == before.runtimeRevision
-        && after.coordinatorRole == before.coordinatorRole
         && after.startedAt == before.startedAt
         && ssjrTransferPublicPrefixPreserved(before, after)
         && ssjrTransferNewOperationValid(before, after)
