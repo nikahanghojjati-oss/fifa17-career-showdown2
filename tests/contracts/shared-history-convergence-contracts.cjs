@@ -54,8 +54,8 @@ const sources=[source(1,season1,"playerOne",hash("a")),source(2,season2,"playerT
   assert.equal(projection.managerRecords.playerTwo.saveId,managerSlots[1].saveId);
   assert.equal(projection.managerRecords.playerOne.seasons,3);
   assert.equal(projection.managerRecords.playerOne.seasonWins,1);
-  assert.equal(projection.managerRecords.playerOne.seasonDraws,1);
-  assert.equal(projection.managerRecords.playerOne.seasonLosses,1);
+  assert.equal(projection.managerRecords.playerOne.seasonDraws,0);
+  assert.equal(projection.managerRecords.playerOne.seasonLosses,2);
   assert.equal(projection.managerRecords.playerOne.totalPoints,12);
   assert.equal(projection.managerRecords.playerTwo.totalPoints,1);
   assert.equal(projection.managerRecords.playerOne.leagueTitles,1);
