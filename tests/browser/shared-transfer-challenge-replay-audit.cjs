@@ -124,6 +124,13 @@ async function assertActiveGuessGuard(page,roleLabel){
   const visible=page.locator('#transferChallenge .transferGuessCard:not(.hidden)');
   assert.equal(await visible.count(),1,`${roleLabel} must see only its own guess card.`);
   const type=visible.locator('select').first(),value=visible.locator('input').first();
+  await page.evaluate(()=>{
+    const card=document.querySelector('#transferChallenge .transferGuessCard:not(.hidden)');
+    const type=card?.querySelector('select'),value=card?.querySelector('input');
+    if(type)type.value='';
+    if(value){value.value='Austrian Bundesliga';value.dataset.canonicalId='austria-bundesliga';value.dataset.canonicalLabel='Austrian Bundesliga';}
+  });
+  await page.evaluate(()=>CareerModeProductionSharedTransferChallenge.refresh());
   assert.equal(await value.isDisabled(),true,`${roleLabel} guess value must stay disabled until League or Nationality is selected.`);
   assert.equal(await value.getAttribute('placeholder'),'Choose League or Nationality first');
   await type.selectOption('league');
