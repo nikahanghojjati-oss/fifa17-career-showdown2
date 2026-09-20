@@ -132,6 +132,9 @@ function resultFor(role,season){
       results=await Results.publishResult({...b(offset+900),seasonNumber:season,operationId:op("season_result_op_",season*10+2),baseRevision:1,result:resultFor("playerTwo",season)});
       assert.equal(results.ok,true,`S${season} Nik result failed: ${JSON.stringify(results)}`);
       assert.equal(results.state.phase,"RESULTS_READY");
+      results=await Results.read({...b(offset+950),seasonNumber:season});
+      assert.equal(results.ok,true,`S${season} revealed results read failed: ${JSON.stringify(results)}`);
+      assert.equal(results.state.phase,"RESULTS_READY");
       assert.ok(results.allResults?.playerOne&&results.allResults?.playerTwo);
 
       let commit=await Commit.commitSeason({...a(offset+1000),seasonNumber:season,operationId:op("season_commit_op_",season*10+1),baseRevision:0});
