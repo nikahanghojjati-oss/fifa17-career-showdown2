@@ -158,7 +158,7 @@
   }
   function pstcSyncGuessValue(type,value,editable){
     if(!value)return;const kind=String(type?.value||""),valid=kind==="league"||kind==="nationality";
-    if(valid){if(typeof root.updateTransferSelectorKind==="function")root.updateTransferSelectorKind(value,kind);pstcDisable(value,!editable);return;}
+    if(valid){if(typeof root.updateTransferSelectorKind==="function")root.updateTransferSelectorKind(value,kind);value.placeholder=kind==="league"?"Search FIFA 17 league":"Search nationality";pstcDisable(value,!editable);return;}
     value.value="";delete value.dataset.canonicalId;delete value.dataset.canonicalLabel;value.placeholder="Choose League or Nationality first";pstcDisable(value,true);
   }
   function pstcSyncOwnGuessControls(role,editable){
