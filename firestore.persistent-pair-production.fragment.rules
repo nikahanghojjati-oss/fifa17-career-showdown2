@@ -1,3 +1,4 @@
+// r41 production redeploy: authority unchanged; adversarial role-switch fixture corrected.
 // CMS_PERSISTENT_PAIR_FUNCTIONS_BEGIN
     function cmsPersistentPairManagerValid(role, managerId) {
       return (role == 'playerOne' && managerId == 'daniel')
