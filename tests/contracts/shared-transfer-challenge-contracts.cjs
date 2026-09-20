@@ -12,6 +12,7 @@ const transferRules=fs.readFileSync('firestore.transfer-challenge-production.fra
 const generatedRules=fs.readFileSync('firestore.spark.generated.rules','utf8');
 const productionSource=fs.readFileSync('js/productionSharedTransferChallenge.js','utf8');
 const providerSource=fs.readFileSync('js/sparkSharedTransferChallenge.js','utf8');
+const transferCss=fs.readFileSync('css/transfer.css','utf8');
 const catalogSandbox={window:{}};
 vm.runInNewContext(fs.readFileSync('data/transferOptions.js','utf8'),catalogSandbox,{filename:'data/transferOptions.js'});
 const canonicalLeagueIds=Array.from(catalogSandbox.window.FIFA17_TRANSFER_LEAGUES,item=>item.id);
@@ -91,6 +92,7 @@ assert.doesNotMatch(productionSource,/void pstcEnsureDependencies\(\)\.then\(\(\
 assert.doesNotMatch(productionSource,/localStorage|sessionStorage|saveCurrentShowdown\s*\(|openTransferChallenge\s*\(/,'Shared Transfer Challenge screen adapter must not mutate or invoke local Transfer Challenge authority.');
 for(const required of ['repositoryCatalogSnapshot:true','callerCatalogOverride:false','CANONICAL_LEAGUE_IDS','CANONICAL_NATIONALITY_IDS'])assert.ok(providerSource.includes(required),`Shared Transfer provider missing repository catalog authority lock: ${required}`);
 assert.doesNotMatch(providerSource,/options\.leagueIds|options\.nationalityIds/,'production provider must never accept caller-supplied transfer catalog authority');
+assert.match(transferCss,/@media\(max-width:900px\)[\s\S]*\.signingRow>\.transferCombobox\{grid-column:2;\}/,'Compact signing rows must keep both enhanced previous-league and nationality selectors in the full-width value column.');
 
 const setup={
   phase:'SHOWDOWN_CONFIRMED',revision:6,coordinatorRole:'playerOne',totalSeasons:3,
