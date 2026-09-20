@@ -3,16 +3,10 @@
     function ssjrResultsValidHash(value) { return value is string && value.matches('^sha256:[0-9a-f]{64}$'); }
     function ssjrResultsValidRole(value) { return value == 'playerOne' || value == 'playerTwo'; }
     function ssjrResultsSeasonMatches(seasonId, seasonNumber) {
-      return (seasonId == 'season_1' && seasonNumber == 1)
-        || (seasonId == 'season_2' && seasonNumber == 2)
-        || (seasonId == 'season_3' && seasonNumber == 3)
-        || (seasonId == 'season_4' && seasonNumber == 4)
-        || (seasonId == 'season_5' && seasonNumber == 5)
-        || (seasonId == 'season_6' && seasonNumber == 6)
-        || (seasonId == 'season_7' && seasonNumber == 7)
-        || (seasonId == 'season_8' && seasonNumber == 8)
-        || (seasonId == 'season_9' && seasonNumber == 9)
-        || (seasonId == 'season_10' && seasonNumber == 10);
+      return seasonNumber is int
+        && seasonNumber >= 1
+        && seasonNumber <= 10
+        && seasonId == 'season_' + string(seasonNumber);
     }
     function ssjrResultsSetup(rivalryId) { return get(/databases/$(database)/documents/rivalries/$(rivalryId)/sharedSetup/authoritative).data; }
     function ssjrResultsCareer(rivalryId) { return get(/databases/$(database)/documents/rivalries/$(rivalryId)/careerStart/authoritative).data; }
