@@ -17,6 +17,10 @@ const providerModule=require("../../js/sparkSharedCanonicalScoring.js");
   assert.equal(calls.length,1);assert.equal(calls[0],options,"provider must delegate the exact account/device/rivalry/ACTIVE-session context to the proven r10 Season Commit provider");
   assert.equal(provider.readOnlyDerivedProjection,true);assert.equal(provider.providerEnforcedSource,true);assert.equal(provider.authoritativeScoring,true);assert.equal(provider.trustsSubmittedTotals,false);assert.equal(provider.canonicalStorageMutation,false);assert.equal(provider.billingRequired,false);assert.equal(provider.blazeRequired,false);assert.equal(provider.cloudRunRequired,false);assert.equal(provider.cloudFunctionsRequired,false);
 
+  const tiedCommit={...committed,results:{playerOne:{leaguePosition:2,leaguePoints:70,leagueGoals:70,domesticCup:true,championsLeague:false,topScorer:false,topAssist:false},playerTwo:{leaguePosition:15,leaguePoints:90,leagueGoals:80,domesticCup:false,championsLeague:false,topScorer:true,topAssist:false}}};
+  const tiedProvider=providerModule.createProvider({seasonCommitProvider:{read:async()=>tiedCommit},scoringModule,seasonCommitModule:commitModule});
+  const tied=await tiedProvider.read(options);assert.equal(tied.ok,true);assert.equal(tied.scoring.playerOne.total,1);assert.equal(tied.scoring.playerTwo.total,1);assert.equal(tied.winner,"playerOne","provider scoring must apply league position, then league points, after any tied Showdown score");
+
   for(const bad of [
     {...committed,phase:"COMMITTED",revision:2},
     {...committed,committed:false},
@@ -34,5 +38,5 @@ const providerModule=require("../../js/sparkSharedCanonicalScoring.js");
   assert.match(source,/seasonCommitProvider\.read\(options\)/);assert.match(source,/phase!=="ACKNOWLEDGED"/);assert.match(source,/commit\.revision!==3/);assert.match(source,/scoreAuthoritativeResults\(commit\.results\)/);
   assert.match(source,/readOnlyDerivedProjection:true/);assert.match(source,/providerEnforcedSource:true/);assert.match(source,/billingRequired:false/);assert.match(source,/blazeRequired:false/);assert.match(source,/cloudRunRequired:false/);assert.match(source,/cloudFunctionsRequired:false/);
   assert.doesNotMatch(source,/runTransaction|\.set\(|localStorage|saveCurrentShowdown|persistCompletedSeason/);
-  process.stdout.write("PASS Shared Canonical Scoring Spark provider: the proven r10 Season Commit provider remains the sole active-account/device/two-manager/ACTIVE-session source, only terminal ACKNOWLEDGED revision 3 is scored, canonical totals are derived read-only from authoritative raw results, upstream denials propagate fail-closed, and Spark/zero-billing/local-save constraints remain intact.\n");
+  process.stdout.write("PASS Shared Canonical Scoring Spark provider: the proven r10 Season Commit provider remains the sole active-account/device/two-manager/ACTIVE-session source, only terminal ACKNOWLEDGED revision 3 is scored, canonical totals and universal league-position/league-points tiebreaks are derived read-only from authoritative raw results, upstream denials propagate fail-closed, and Spark/zero-billing/local-save constraints remain intact.\n");
 })().catch(error=>{console.error(error);process.exitCode=1;});

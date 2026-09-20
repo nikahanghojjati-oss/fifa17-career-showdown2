@@ -41,6 +41,7 @@ async function prepare(page,{role,accepted=1,withSession=true,fresh=0}){
     window.__r14Accepted=accepted;
     window.__r14SetupReads=0;
     window.__r14ProgressionReads=0;
+    window.__r14RemotePanelOpens=0;
     window.__r14Remote=withSession?{
       sessionState:'active',sessionId:identity.sessionId,rivalryId,accountId:identity.accountId,deviceId:identity.deviceId,pendingAction:null,expiresAtEpochMs:Date.now()+3600000
     }:null;
@@ -56,7 +57,7 @@ async function prepare(page,{role,accepted=1,withSession=true,fresh=0}){
     window.CareerModeSparkConnectedAccount={initialize:async()=>true,getState:()=>({connected:true,accountId:identity.accountId})};
     window.CareerModeSparkPrivatePairing={initialize:async()=>true,getState:()=>({registered:true,deviceId:identity.deviceId})};
     window.CareerModeSparkConnectedRivalry={initialize:async()=>true,getState:()=>({attached:true,rivalryId,binding:{managerRole:role}})};
-    window.CareerModeSparkRemoteJoining={getState:()=>window.__r14Remote,subscribe:()=>()=>{}};
+    window.CareerModeSparkRemoteJoining={getState:()=>window.__r14Remote,subscribe:()=>()=>{},openPanel:async()=>{window.__r14RemotePanelOpens+=1;return true;}};
     window.CareerModeProductionSharedShowdownSetup={
       refresh:async()=>{window.__r14SetupReads+=1;return window.CareerModeProductionSharedShowdownSetup.getState();},
       getState:()=>({ready:true,rivalryId,sessionId:window.__r14Remote?.sessionId||null,setup:setup()})
@@ -84,6 +85,8 @@ async function snapshot(page){
     return {
       state,
       statusText:node?.textContent||'',statusPhase:node?.dataset?.recoveryPhase||'',statusAuthoritative:node?.dataset?.authoritative||'',statusHidden:Boolean(node?.classList?.contains('hidden')),
+      recoveryActionVisible:Boolean(document.getElementById('sharedJourneyReconnectAction')&&!document.getElementById('sharedJourneyReconnectAction').disabled),
+      remotePanelOpens:window.__r14RemotePanelOpens,
       setupReads:window.__r14SetupReads,progressionReads:window.__r14ProgressionReads,
       storage:Object.fromEntries(canonicalKeys.map(key=>[key,localStorage.getItem(key)]))
     };
@@ -161,9 +164,12 @@ function assertActive(result,label,{sessionChanged}={}){
       assert.equal(result.state.activeAuthorization,false);
       assert.equal(result.state.resumable,true);
       assert.equal(result.state.acceptedSeasons,1);
+      assert.equal(result.recoveryActionVisible,true,`${label} must expose a direct RECONNECT SESSION action without leaving the current game screen.`);
       assert.equal(result.setupReads,before.setupReads,'expired authority must not read Shared Setup.');
       assert.equal(result.progressionReads,before.progressionReads,'expired authority must not read progression.');
     }
+    await host.evaluate(()=>CareerModeProductionSharedJourneyReconnect.openSessionRecovery());
+    assert.equal((await snapshot(host)).remotePanelOpens,1,'the exported recovery action must open the existing Remote Joining surface exactly once.');
     await Promise.all([freshSession(host),freshSession(peer)]);
     assertActive(await snapshot(host),'host fresh-session re-entry',{sessionChanged:true});
     assertActive(await snapshot(peer),'peer fresh-session re-entry',{sessionChanged:true});
@@ -214,7 +220,7 @@ function assertActive(result,label,{sessionChanged}={}){
     assert.deepEqual((await snapshot(host)).storage,hostFreshMeta.storageBefore,'r14 reconnect must not mutate host canonical local storage.');
     assert.deepEqual((await snapshot(peer)).storage,peerFreshMeta.storageBefore,'r14 reconnect must not mutate peer canonical local storage.');
     assert.deepEqual(errors,[],'Journey Reconnect browser audit emitted page errors.');
-    process.stdout.write('PASS Shared Journey Reconnect desktop/mobile audit: both managers independently recover the same durable journey, offline hold makes no provider claim, expiry blocks provider reads, fresh sessions reauthorize without redraw/reset, fresh runtimes do not inherit ACTIVE authority, terminal state cannot resurrect, and canonical local storage remains unchanged.\n');
+    process.stdout.write('PASS Shared Journey Reconnect desktop/mobile audit: both managers independently recover the same durable journey, offline hold makes no provider claim, expiry blocks provider reads and exposes a direct Remote Joining recovery action, fresh sessions reauthorize without redraw/reset, fresh runtimes do not inherit ACTIVE authority, terminal state cannot resurrect, and canonical local storage remains unchanged.\n');
   }finally{
     await host?.close().catch(()=>{});await peer?.close().catch(()=>{});
     await hostContext.close().catch(()=>{});await peerContext.close().catch(()=>{});await browser.close().catch(()=>{});
