@@ -66,8 +66,8 @@
       return value is list
         && value.size() >= 1
         && value.size() <= 2
-        && ssjrResultsValidRole(value[0])
-        && (value.size() < 2 || (ssjrResultsValidRole(value[1]) && value[1] != value[0]));
+        && value.toSet().size() == value.size()
+        && value.toSet().hasOnly(['playerOne','playerTwo']);
     }
     function ssjrResultsPublicExactKeys(root) {
       return root.keys().hasOnly([
