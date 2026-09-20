@@ -86,7 +86,10 @@ for(const required of [
   'if(pstcSharedMarker())void pstcTick()',
   'advanceExpiredWindow',
   'root.getTransferSelectorCanonicalValue',
-  'root.setTransferSelectorValue'
+  'root.setTransferSelectorValue',
+  'pstcSyncOwnGuessControls(role,true)',
+  'root.document.addEventListener("change",pstcGuessTypeChange,true)',
+  'Choose League or Nationality first'
 ])assert.ok(productionSource.includes(required),`Shared Transfer Challenge screen adapter missing ${required}`);
 assert.doesNotMatch(productionSource,/void pstcEnsureDependencies\(\)\.then\(\(\)=>pstcTick\(\)\)/,'Shared Transfer Challenge must stay dormant on ordinary non-shared startup.');
 assert.doesNotMatch(productionSource,/localStorage|sessionStorage|saveCurrentShowdown\s*\(|openTransferChallenge\s*\(/,'Shared Transfer Challenge screen adapter must not mutate or invoke local Transfer Challenge authority.');
