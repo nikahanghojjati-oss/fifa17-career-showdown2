@@ -45,6 +45,8 @@ for(const required of [
 for(const required of ['function ssjrTransferValidLeagueId(value)','function ssjrTransferValidNationalityId(value)','ssjrTransferValidLeagueId(value.leagueId)','ssjrTransferValidNationalityId(value.nationalityId)'])assert.ok(generatedRules.includes(required),`Generated Transfer Challenge Rules missing canonical catalog boundary: ${required}`);
 for(const forbidden of [/cloud\s*run/i,/cloud\s*functions/i,/blaze/i,/billingEnabled\s*[:=]\s*true/i])assert.doesNotMatch(transferRules,forbidden,'Transfer Challenge Rules must remain Spark-only and zero-billing.');
 assert.doesNotMatch(transferRules,/\[0:priorSize\]|\[0:n\]/,'Transfer update Rules must not rely on zero-length list slices.');
+assert.doesNotMatch(transferRules,/ssjrTransferValidRole\(value\[[01]\]\)/,'Transfer role-list validation must not index empty role lists.');
+assert.ok(transferRules.includes("value.toSet().hasOnly(['playerOne','playerTwo'])"),'Transfer role lists must be validated through an index-free exact role set.');
 for(const required of [
   'after.operationIds == before.operationIds + [after.operationIds[i]]',
   'after.endRequestedRoles == before.endRequestedRoles + [actorRole]',
