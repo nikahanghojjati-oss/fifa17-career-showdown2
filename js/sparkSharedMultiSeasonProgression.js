@@ -12,6 +12,7 @@
   const SESSION_ID=/^session_[0-9a-f]{64}$/;
   function msp13ProgressionModule(){return typeof require==="function"?require("./sharedMultiSeasonProgression.js"):root.CareerModeSharedMultiSeasonProgression;}
   function msp13HistoryProvider(){return typeof require==="function"?require("./sparkSharedHistoryConvergence.js"):root.CareerModeSparkSharedHistoryConvergence;}
+  function msp13SetupProvider(){return typeof require==="function"?require("./sparkSharedShowdownSetup.js"):root.CareerModeSparkSharedShowdownSetup;}
 
   function msp13Fail(code,message){const error=new Error(message||code);error.code=code;throw error;}
   function msp13Freeze(value){if(value&&typeof value==="object"&&!Object.isFrozen(value)){Object.values(value).forEach(msp13Freeze);Object.freeze(value);}return value;}
@@ -46,13 +47,16 @@
     return value.phase==="ACKNOWLEDGED"?"accepted":"pending";
   }
   async function msp13ReadAuthority(options,uid,rivalryId,sessionId,deviceId,now){
-    const sdk=msp13Sdk(options),db=options.firestore;
+    const setupProvider=msp13SetupProvider();
+    if(!setupProvider||typeof setupProvider.read!=="function")msp13Fail("MULTI_SEASON_SETUP_PROVIDER_UNAVAILABLE");
+    const setupResult=await setupProvider.read(options);
+    if(!setupResult||setupResult.ok!==true||!setupResult.state)msp13Fail(setupResult?.code||"MULTI_SEASON_SETUP_INVALID");
+    const setup=msp13Setup(setupResult.state,rivalryId),sdk=msp13Sdk(options),db=options.firestore;
     return sdk.runTransaction(db,async tx=>{
       const account=await msp13Get(tx,msp13Path(sdk,db,"accounts",uid));msp13Account(account,uid);
       const device=await msp13Get(tx,msp13Path(sdk,db,"accounts",uid,"devices",deviceId));msp13DeviceState(device,deviceId);
       const rivalry=await msp13Get(tx,msp13Path(sdk,db,"rivalries",rivalryId));const actor=msp13RivalryState(rivalry,rivalryId,uid);
       const session=await msp13Get(tx,msp13Path(sdk,db,"rivalries",rivalryId,"sessions",sessionId));msp13SessionState(session,rivalryId,sessionId,actor.authorized,now);
-      const setup=msp13Setup(await msp13Get(tx,msp13Path(sdk,db,"rivalries",rivalryId,"sharedSetup","authoritative")),rivalryId);
       const phases=[];
       for(let seasonNumber=1;seasonNumber<=setup.totalSeasons;seasonNumber+=1){const stored=await msp13Get(tx,msp13Path(sdk,db,"rivalries",rivalryId,"seasonCommits",`season_${seasonNumber}`));phases.push(msp13CommitPhase(stored,rivalryId,seasonNumber));}
       let acceptedSeasons=0,gapSeen=false;
