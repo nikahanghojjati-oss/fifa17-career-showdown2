@@ -60,16 +60,7 @@
         && root.results.playerTwo is map;
     }
     function ssjrTerminalSeasonId(seasonNumber) {
-      return seasonNumber == 1 ? 'season_1'
-        : seasonNumber == 2 ? 'season_2'
-        : seasonNumber == 3 ? 'season_3'
-        : seasonNumber == 4 ? 'season_4'
-        : seasonNumber == 5 ? 'season_5'
-        : seasonNumber == 6 ? 'season_6'
-        : seasonNumber == 7 ? 'season_7'
-        : seasonNumber == 8 ? 'season_8'
-        : seasonNumber == 9 ? 'season_9'
-        : 'season_10';
+      return 'season_' + string(seasonNumber);
     }
     function ssjrTerminalProgressShape(progress) {
       return progress is map
