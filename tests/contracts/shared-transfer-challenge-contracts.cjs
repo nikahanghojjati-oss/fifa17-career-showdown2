@@ -17,17 +17,14 @@ const catalogSandbox={window:{}};
 vm.runInNewContext(fs.readFileSync('data/transferOptions.js','utf8'),catalogSandbox,{filename:'data/transferOptions.js'});
 const canonicalLeagueIds=Array.from(catalogSandbox.window.FIFA17_TRANSFER_LEAGUES,item=>item.id);
 const canonicalNationalityIds=Array.from(catalogSandbox.window.FIFA17_TRANSFER_NATIONALITIES,item=>item.id);
-function generatedMembership(functionName){
-  const match=generatedRules.match(new RegExp(`function ${functionName}\\(value\\) \\{ return value in \\[([^\\]]*)\\]; \\}`));
-  assert.ok(match,`generated Rules missing ${functionName}`);
-  return [...match[1].matchAll(/'([^']+)'/g)].map(item=>item[1]);
-}
 assert.equal(canonicalLeagueIds.length,36);
 assert.equal(canonicalNationalityIds.length,164);
-assert.deepEqual(generatedMembership('ssjrTransferValidLeagueId'),canonicalLeagueIds,'Firestore league authority must exactly match the repository FIFA 17 Transfer catalog');
-assert.deepEqual(generatedMembership('ssjrTransferValidNationalityId'),canonicalNationalityIds,'Firestore nationality authority must exactly match the repository FIFA 17 Transfer catalog');
-assert.equal(generatedRules.includes("'invented-league'"),false);
-assert.equal(generatedRules.includes("'invented-nationality'"),false);
+assert.match(generatedRules,/function ssjrTransferValidOptionId\(value\)/,'Firestore must retain bounded slug-shape validation for Transfer option IDs.');
+assert.match(generatedRules,/ssjrTransferValidOptionId\(value\.valueId\)/,'Guess IDs must remain structurally validated in Firestore Rules.');
+assert.match(generatedRules,/ssjrTransferValidOptionId\(value\.leagueId\)/,'Signing league IDs must remain structurally validated in Firestore Rules.');
+assert.match(generatedRules,/ssjrTransferValidOptionId\(value\.nationalityId\)/,'Signing nationality IDs must remain structurally validated in Firestore Rules.');
+assert.equal(generatedRules.includes('function ssjrTransferValidLeagueId(value)'),false,'Large exact league membership lists must stay out of Firestore Rules to preserve the max-size transaction budget.');
+assert.equal(generatedRules.includes('function ssjrTransferValidNationalityId(value)'),false,'Large exact nationality membership lists must stay out of Firestore Rules to preserve the max-size transaction budget.');
 for(const required of [
   '// SSJR_TRANSFER_CHALLENGE_FUNCTIONS_BEGIN',
   '// SSJR_TRANSFER_CHALLENGE_MATCH_BEGIN',
@@ -43,7 +40,6 @@ for(const required of [
   "public.operationTypes[i] == 'lock-signings'",
   'ssjrWriteAuthorityValid(rivalryId, root.updatedByDeviceId, root.activeSessionId)'
 ])assert.ok(transferRules.includes(required),`Transfer Challenge Rules missing ${required}`);
-for(const required of ['function ssjrTransferValidLeagueId(value)','function ssjrTransferValidNationalityId(value)','ssjrTransferValidLeagueId(value.leagueId)','ssjrTransferValidNationalityId(value.nationalityId)'])assert.ok(generatedRules.includes(required),`Generated Transfer Challenge Rules missing canonical catalog boundary: ${required}`);
 for(const forbidden of [/cloud\s*run/i,/cloud\s*functions/i,/blaze/i,/billingEnabled\s*[:=]\s*true/i])assert.doesNotMatch(transferRules,forbidden,'Transfer Challenge Rules must remain Spark-only and zero-billing.');
 assert.doesNotMatch(transferRules,/\[0:priorSize\]|\[0:n\]/,'Transfer update Rules must not rely on zero-length list slices.');
 assert.doesNotMatch(transferRules,/ssjrTransferValidRole\(value\[[01]\]\)/,'Transfer role-list validation must not index empty role lists.');
@@ -94,6 +90,8 @@ for(const required of [
 assert.doesNotMatch(productionSource,/void pstcEnsureDependencies\(\)\.then\(\(\)=>pstcTick\(\)\)/,'Shared Transfer Challenge must stay dormant on ordinary non-shared startup.');
 assert.doesNotMatch(productionSource,/localStorage|sessionStorage|saveCurrentShowdown\s*\(|openTransferChallenge\s*\(/,'Shared Transfer Challenge screen adapter must not mutate or invoke local Transfer Challenge authority.');
 for(const required of ['repositoryCatalogSnapshot:true','callerCatalogOverride:false','CANONICAL_LEAGUE_IDS','CANONICAL_NATIONALITY_IDS'])assert.ok(providerSource.includes(required),`Shared Transfer provider missing repository catalog authority lock: ${required}`);
+assert.match(providerSource,/catalog\.leagueIds\.has\(item\.leagueId\)/,'The provider must remain the exact FIFA 17 league authority.');
+assert.match(providerSource,/catalog\.nationalityIds\.has\(item\.nationalityId\)/,'The provider must remain the exact FIFA 17 nationality authority.');
 assert.doesNotMatch(providerSource,/options\.leagueIds|options\.nationalityIds/,'production provider must never accept caller-supplied transfer catalog authority');
 assert.match(transferCss,/@media\(max-width:900px\)[\s\S]*\.signingRow>\.transferCombobox\{grid-column:2;\}/,'Compact signing rows must keep both enhanced previous-league and nationality selectors in the full-width value column.');
 
