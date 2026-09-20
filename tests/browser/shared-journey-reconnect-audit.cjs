@@ -136,8 +136,31 @@ function assertActive(result,label,{sessionChanged}={}){
   try{
     const [hostMeta,peerMeta]=await Promise.all([prepare(host,{role:'playerOne'}),prepare(peer,{role:'playerTwo'})]);
     let [hostState,peerState]=await Promise.all([snapshot(host),snapshot(peer)]);
-    assertActive(hostState,'host');assertActive(peerState,'peer');
-    assert.equal(hostState.state.durableKey,peerState.state.durableKey,'both managers must recover the same durable rivalry state.');
+    for(const [label,result] of [['host',hostState],['peer',peerState]]){
+      assert.equal(result.state,null,`${label} normal ACTIVE gameplay must not manufacture a recovery state.`);
+      assert.equal(result.statusHidden,true,`${label} normal ACTIVE gameplay must not show a reconnect banner.`);
+      assert.equal(result.setupReads,0,`${label} normal ACTIVE gameplay must not poll Shared Setup through Journey Reconnect.`);
+      assert.equal(result.progressionReads,0,`${label} normal ACTIVE gameplay must not poll Multi Season through Journey Reconnect.`);
+    }
+
+    await Promise.all([expire(host),expire(peer)]);
+    hostState=await snapshot(host);peerState=await snapshot(peer);
+    for(const [label,result] of [['host',hostState],['peer',peerState]]){
+      assert.equal(result.state.phase,'FRESH_SESSION_REQUIRED',`${label} expired session must require fresh authority.`);
+      assert.equal(result.state.activeAuthorization,false);
+      assert.equal(result.state.resumable,false,'first expiry may not invent a durable recovery witness before one has been verified.');
+      assert.equal(result.state.acceptedSeasons,null);
+      assert.equal(result.recoveryActionVisible,true,`${label} must expose a direct RECONNECT SESSION action without leaving the current game screen.`);
+      assert.equal(result.setupReads,0,'expired authority must not read Shared Setup.');
+      assert.equal(result.progressionReads,0,'expired authority must not read progression.');
+    }
+    await host.evaluate(()=>CareerModeProductionSharedJourneyReconnect.openSessionRecovery());
+    assert.equal((await snapshot(host)).remotePanelOpens,1,'the exported recovery action must open the existing Remote Joining surface exactly once.');
+    await Promise.all([freshSession(host),freshSession(peer)]);
+    hostState=await snapshot(host);peerState=await snapshot(peer);
+    assertActive(hostState,'host fresh-session re-entry',{sessionChanged:true});
+    assertActive(peerState,'peer fresh-session re-entry',{sessionChanged:true});
+    assert.equal(hostState.state.durableKey,peerState.state.durableKey,'both managers must recover the same durable rivalry state after reauthorization.');
 
     const hostReadsBeforeOffline={setup:hostState.setupReads,progression:hostState.progressionReads};
     await hostContext.setOffline(true);
@@ -155,24 +178,6 @@ function assertActive(result,label,{sessionChanged}={}){
     await host.evaluate(()=>window.dispatchEvent(new Event('online')));
     await refresh(host);
     assertActive(await snapshot(host),'host after network restore');
-
-    const [hostBeforeExpiry,peerBeforeExpiry]=await Promise.all([snapshot(host),snapshot(peer)]);
-    await Promise.all([expire(host),expire(peer)]);
-    hostState=await snapshot(host);peerState=await snapshot(peer);
-    for(const [label,result,before] of [['host',hostState,hostBeforeExpiry],['peer',peerState,peerBeforeExpiry]]){
-      assert.equal(result.state.phase,'FRESH_SESSION_REQUIRED',`${label} expired session must require fresh authority.`);
-      assert.equal(result.state.activeAuthorization,false);
-      assert.equal(result.state.resumable,true);
-      assert.equal(result.state.acceptedSeasons,1);
-      assert.equal(result.recoveryActionVisible,true,`${label} must expose a direct RECONNECT SESSION action without leaving the current game screen.`);
-      assert.equal(result.setupReads,before.setupReads,'expired authority must not read Shared Setup.');
-      assert.equal(result.progressionReads,before.progressionReads,'expired authority must not read progression.');
-    }
-    await host.evaluate(()=>CareerModeProductionSharedJourneyReconnect.openSessionRecovery());
-    assert.equal((await snapshot(host)).remotePanelOpens,1,'the exported recovery action must open the existing Remote Joining surface exactly once.');
-    await Promise.all([freshSession(host),freshSession(peer)]);
-    assertActive(await snapshot(host),'host fresh-session re-entry',{sessionChanged:true});
-    assertActive(await snapshot(peer),'peer fresh-session re-entry',{sessionChanged:true});
 
     await Promise.all([host.close(),peer.close()]);
     host=await hostContext.newPage();peer=await peerContext.newPage();watch(host,'host-fresh');watch(peer,'peer-fresh');
@@ -220,7 +225,7 @@ function assertActive(result,label,{sessionChanged}={}){
     assert.deepEqual((await snapshot(host)).storage,hostFreshMeta.storageBefore,'r14 reconnect must not mutate host canonical local storage.');
     assert.deepEqual((await snapshot(peer)).storage,peerFreshMeta.storageBefore,'r14 reconnect must not mutate peer canonical local storage.');
     assert.deepEqual(errors,[],'Journey Reconnect browser audit emitted page errors.');
-    process.stdout.write('PASS Shared Journey Reconnect desktop/mobile audit: both managers independently recover the same durable journey, offline hold makes no provider claim, expiry blocks provider reads and exposes a direct Remote Joining recovery action, fresh sessions reauthorize without redraw/reset, fresh runtimes do not inherit ACTIVE authority, terminal state cannot resurrect, and canonical local storage remains unchanged.\n');
+    process.stdout.write('PASS Shared Journey Reconnect desktop/mobile audit: normal ACTIVE gameplay stays silent and performs zero reconnect progression reads, both managers recover the same durable journey after expiry, offline hold makes no provider claim, expiry exposes a direct Remote Joining recovery action, fresh sessions reauthorize without redraw/reset, fresh runtimes do not inherit ACTIVE authority, terminal state cannot resurrect, and canonical local storage remains unchanged.\n');
   }finally{
     await host?.close().catch(()=>{});await peer?.close().catch(()=>{});
     await hostContext.close().catch(()=>{});await peerContext.close().catch(()=>{});await browser.close().catch(()=>{});
