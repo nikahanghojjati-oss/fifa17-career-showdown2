@@ -12,7 +12,7 @@
   const RIVALRY_ID=/^pair_[0-9a-f]{64}$/;
   const HASH=/^sha256:[0-9a-f]{64}$/;
   const RESULT_KEYS=Object.freeze(["leaguePosition","leaguePoints","leagueGoals","domesticCup","championsLeague","topScorer","topAssist"]);
-  const SCORE_KEYS=Object.freeze(["championsLeague","leagueTitle","domesticCup","performanceBonus","individualAwardsBonus","total"]);
+  const SCORE_KEYS=Object.freeze(["championsLeague","leagueTitle","domesticCup","performanceBonus","individualAwardsBonus","total"]);\n  const TRIGGER_KEYS=Object.freeze(["hundredLeaguePoints","hundredLeagueGoals","topScorer","topAssist"]);
 
   function hcFail(code,message){const error=new Error(message||code);error.code=code;throw error;}
   function hcPlain(value){return Boolean(value)&&typeof value==="object"&&!Array.isArray(value);}
@@ -36,10 +36,23 @@
     return {championsLeague,leagueTitle,domesticCup,performanceBonus,individualAwardsBonus,total:championsLeague+leagueTitle+domesticCup+performanceBonus+individualAwardsBonus};
   }
   function hcScore(value,result){
-    hcExact(value,SCORE_KEYS,"HISTORY_CONVERGENCE_SCORE_INVALID");
+    if(!hcPlain(value))hcFail("HISTORY_CONVERGENCE_SCORE_INVALID");
+    const keys=Object.keys(value),hasTriggers=Object.hasOwn(value,"triggers");
+    const allowed=hasTriggers?[...SCORE_KEYS,"triggers"]:SCORE_KEYS;
+    if(keys.length!==allowed.length||allowed.some(key=>!Object.hasOwn(value,key)))hcFail("HISTORY_CONVERGENCE_SCORE_INVALID");
     const expected=hcExpectedScore(result);
     for(const key of SCORE_KEYS){if(value[key]!==expected[key])hcFail("HISTORY_CONVERGENCE_SCORE_MISMATCH");}
-    return hcClone(value);
+    if(hasTriggers){
+      hcExact(value.triggers,TRIGGER_KEYS,"HISTORY_CONVERGENCE_SCORE_INVALID");
+      const expectedTriggers={
+        hundredLeaguePoints:result.leaguePoints>=100,
+        hundredLeagueGoals:result.leagueGoals>=100,
+        topScorer:result.topScorer,
+        topAssist:result.topAssist
+      };
+      for(const key of TRIGGER_KEYS){if(value.triggers[key]!==expectedTriggers[key])hcFail("HISTORY_CONVERGENCE_SCORE_MISMATCH");}
+    }
+    return Object.fromEntries(SCORE_KEYS.map(key=>[key,value[key]]));
   }
   function hcSlots(value){
     if(!Array.isArray(value)||value.length!==2)hcFail("HISTORY_CONVERGENCE_TWO_MANAGERS_REQUIRED");
