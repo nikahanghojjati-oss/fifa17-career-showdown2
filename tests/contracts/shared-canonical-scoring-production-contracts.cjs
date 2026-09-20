@@ -11,7 +11,8 @@ assert.equal(production.pollIntervalMs,15000);assert.equal(typeof production.ins
 
 const source=fs.readFileSync("js/productionSharedCanonicalScoring.js","utf8");
 const bootstrap=fs.readFileSync("js/ssjr.js","utf8");
-assert.match(source,/productionSharedSeasonCommit\.js/);assert.match(source,/sparkSharedSeasonCommit\.js/);assert.match(source,/sparkSharedCanonicalScoring\.js/);assert.match(source,/productionFirebaseRuntime\.js/);
+assert.match(source,/productionSharedSeasonCommit\.js/);assert.match(source,/sparkSharedSeasonCommit\.js/);assert.match(source,/sparkSharedCanonicalScoring\.js/);assert.match(source,/sharedShowdownCatalog\.js/);assert.match(source,/productionFirebaseRuntime\.js/);
+assert.match(source,/teamCount:pcscTeamCount\(\)/,"production scoring must pass the authoritative league size instead of a universal 20-team assumption.");
 assert.ok(source.indexOf('js/sparkSharedSeasonCommit.js')<source.indexOf('js/sparkSharedCanonicalScoring.js'),"r10 Season Commit provider must load before the r11 Canonical Scoring provider factory initializes.");
 const firstReadyGate=source.indexOf('if(!pcscCommitReady(request)){view=null;contextKey=request.key;pcscRender();return null;}');
 const commitRefresh=source.indexOf('await commitApi.refresh()');
