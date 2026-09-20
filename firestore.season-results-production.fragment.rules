@@ -104,12 +104,11 @@
         && ((root.phase == 'COLLECTING' && n == 1) || (root.phase == 'RESULTS_READY' && n == 2));
     }
     function ssjrResultsPublicPrefixPreserved(before, after) {
-      let n = before.revision;
-      return after.publishedRoles[0:n] == before.publishedRoles
-        && after.operationIds[0:n] == before.operationIds
-        && after.operationHashes[0:n] == before.operationHashes
-        && after.baseRevisions[0:n] == before.baseRevisions
-        && after.actorRoles[0:n] == before.actorRoles;
+      return after.publishedRoles[0] == before.publishedRoles[0]
+        && after.operationIds[0] == before.operationIds[0]
+        && after.operationHashes[0] == before.operationHashes[0]
+        && after.baseRevisions[0] == before.baseRevisions[0]
+        && after.actorRoles[0] == before.actorRoles[0];
     }
     function ssjrResultsPrivateAfter(rivalryId, seasonId, managerRole) {
       return getAfter(/databases/$(database)/documents/rivalries/$(rivalryId)/seasonResults/$(seasonId)/roles/$(managerRole)).data;
