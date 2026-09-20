@@ -133,6 +133,7 @@ function operation(h,authority,accountKey,deviceKey,rivalryId,sessionId,nowEpoch
   assert.equal(session.candidateCInvolved,false);
   assert.equal(session.exactCapabilityBits,256);
   assert.deepEqual(Array.from(session.sessionStates),["open","active","revoked","expired","closed"]);
+  assert.equal(session.defaultSessionTtlMs,30*60*1000,"Default exact private session must cover setup plus a full 15-minute transfer window.");
 
   const adapterSource=fs.readFileSync("js/sparkStandardAuthPrivateSession.js","utf8");
   const protocolSource=fs.readFileSync("js/sparkPrivateSession.js","utf8");
