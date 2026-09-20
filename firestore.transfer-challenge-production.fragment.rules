@@ -185,9 +185,17 @@
       let i = before.revision;
       let type = after.operationTypes[i];
       let role = ssjrActorRole(rivalryId);
-      return ssjrTransferPublicShape(after, rivalryId, transferId)
-        && after.revision == before.revision + 1
+      return ssjrTransferPublicExactKeys(after)
+        && after.schemaVersion == before.schemaVersion
+        && after.objectType == before.objectType
+        && after.rivalryId == before.rivalryId
+        && after.seasonNumber == before.seasonNumber
+        && after.runtimeRevision == before.runtimeRevision
+        && after.coordinatorRole == before.coordinatorRole
         && after.startedAt == before.startedAt
+        && after.revision == before.revision + 1
+        && after.updatedAt == request.time
+        && ssjrWriteAuthorityValid(rivalryId, after.updatedByDeviceId, after.activeSessionId)
         && ssjrTransferPublicPrefixPreserved(before, after)
         && ssjrTransferNewOperationValid(before, after)
         && (
