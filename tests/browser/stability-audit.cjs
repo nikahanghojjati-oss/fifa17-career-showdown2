@@ -174,6 +174,7 @@ async function verifyDashboardShellAndRecovery(page,prefix){
   checkpoint(`${prefix} reload and browser-history recovery`,`pre-season dashboard retained without legacy local progression`);
 }
 async function smokeDestinations(page,prefix){
+  await page.evaluate(()=>["rivalryStatisticsButton","legacyButton","careerStatisticsButton"].forEach(id=>{const button=document.getElementById(id);if(button)button.dataset.testSurface="internal-audit";}));
   await page.locator("#rivalryStatisticsButton").click();await waitForScreen(page,"statistics");await runAxe(page,`${prefix} Rivalry Statistics`);await page.locator("#statistics .backButton").click();await waitForScreen(page,"dashboard");await page.locator("#dashboard [data-smart-back]").click();await waitForScreen(page,"mainMenu");
   await page.locator("#legacyButton").click();await waitForScreen(page,"legacy");await page.locator("#legacy .backButton").click();await waitForScreen(page,"mainMenu");
   await page.locator("#careerStatisticsButton").click();await waitForScreen(page,"careerStatistics");await page.locator("#careerStatistics .backButton").click();await waitForScreen(page,"mainMenu");
