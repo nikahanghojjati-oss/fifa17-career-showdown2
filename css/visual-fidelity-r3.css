@@ -229,7 +229,7 @@
         padding:23px 47% 22px 24px;
     }
     .menuCoverAthlete{
-        width:46%;
+        width:max(46%,360px);
     }
     .menuCoverAthlete img{
         object-position:53% 2%;
