@@ -192,11 +192,38 @@ async function runSecondVariant(index,label,updateExpression,privateExpression){
     && ${updatePublicAfter}.activeSessionId == request.resource.data.activeSessionId
     && ${updatePublicAfter}.updatedByDeviceId == request.resource.data.updatedByDeviceId
     && ${updatePublicAfter}.updatedAt == request.time`;
+  const priorState=`resource.data.schemaVersion == 1
+    && resource.data.objectType == 'sharedSeasonResults'
+    && resource.data.rivalryId == rivalryId
+    && resource.data.runtimeRevision == '1.9.1-r9'
+    && resource.data.phase == 'COLLECTING'
+    && resource.data.revision == 1
+    && request.resource.data.revision == 2
+    && request.resource.data.seasonNumber == resource.data.seasonNumber`;
+  const prefixOnly="ssjrResultsPublicPrefixPreserved(resource.data, request.resource.data)";
+  const actorAbsent=`!(${updateActor} in resource.data.publishedRoles)`;
+  const newOperation=`ssjrResultsValidOperationId(request.resource.data.operationIds[1])
+    && !(request.resource.data.operationIds[1] in resource.data.operationIds)
+    && ssjrResultsValidHash(request.resource.data.operationHashes[1])
+    && request.resource.data.baseRevisions[1] == resource.data.revision`;
   const updateVariants=[
     ["ALLOW_BOTH","true","true"],
     ["UPDATE_TRUE_PRIVATE_ACTUAL","true","ssjrResultsPrivateCreateValid(rivalryId, seasonId, managerRole)"],
     ["UPDATE_ACTUAL_PRIVATE_TRUE","ssjrResultsValidUpdate(rivalryId, seasonId)","true"],
     ["UPDATE_SHAPE_PRIVATE_TRUE",updateShape,"true"],
+    ["UPDATE_PRIOR_ONLY",priorState,"true"],
+    ["UPDATE_PREFIX_ONLY",prefixOnly,"true"],
+    ["UPDATE_ACTOR_ABSENT_ONLY",actorAbsent,"true"],
+    ["UPDATE_NEW_OPERATION_ONLY",newOperation,"true"],
+    ["UPDATE_SHAPE_PRIOR",`${updateShape} && ${priorState}`,"true"],
+    ["UPDATE_SHAPE_PREFIX",`${updateShape} && ${prefixOnly}`,"true"],
+    ["UPDATE_SHAPE_NEW_OPERATION",`${updateShape} && ${newOperation}`,"true"],
+    ["UPDATE_PRIOR_PREFIX",`${priorState} && ${prefixOnly}`,"true"],
+    ["UPDATE_PRIOR_NEW_OPERATION",`${priorState} && ${newOperation}`,"true"],
+    ["UPDATE_PREFIX_NEW_OPERATION",`${prefixOnly} && ${newOperation}`,"true"],
+    ["UPDATE_SHAPE_PRIOR_PREFIX",`${updateShape} && ${priorState} && ${prefixOnly}`,"true"],
+    ["UPDATE_SHAPE_PRIOR_NEW_OPERATION",`${updateShape} && ${priorState} && ${newOperation}`,"true"],
+    ["UPDATE_SHAPE_PREFIX_NEW_OPERATION",`${updateShape} && ${prefixOnly} && ${newOperation}`,"true"],
     ["UPDATE_CORE_NO_LINK_PRIVATE_TRUE",updateCoreNoLink,"true"],
     ["UPDATE_LINK_ONLY_PRIVATE_TRUE",updateLink,"true"],
     ["UPDATE_TRUE_PRIVATE_BASE","true",privateBase],
