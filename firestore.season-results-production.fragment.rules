@@ -155,13 +155,12 @@
     function ssjrResultsPrivateLinked(rivalryId, seasonId, publicAfter, managerRole) {
       let own = ssjrResultsPrivateAfter(rivalryId, seasonId, managerRole);
       let i = publicAfter.revision - 1;
-      return ssjrResultsPrivateBase(own, rivalryId, seasonId, managerRole)
-        && own.seasonNumber == publicAfter.seasonNumber
-        && own.operationId == publicAfter.operationIds[i]
+      return own.operationId == publicAfter.operationIds[i]
         && publicAfter.actorRoles[i] == managerRole
         && publicAfter.publishedRoles[i] == managerRole
         && own.activeSessionId == publicAfter.activeSessionId
-        && own.updatedByDeviceId == publicAfter.updatedByDeviceId;
+        && own.updatedByDeviceId == publicAfter.updatedByDeviceId
+        && own.publishedAt == request.time;
     }
     function ssjrResultsValidCreate(rivalryId, seasonId) {
       let after = request.resource.data;
