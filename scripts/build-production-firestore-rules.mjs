@@ -175,7 +175,7 @@ for(const required of [
   "sessionData.state == 'active'",
   'sessionData.expiresAt > request.time',
   "device.data.data.state == 'active'",
-  "after.totalSeasons == 1 || after.totalSeasons == 3 || after.totalSeasons == 5 || after.totalSeasons == 10",
+  "after.totalSeasons in [1,3,5,10]",
   "setup.phase == 'SHOWDOWN_CONFIRMED'",
   "after.phase == 'CAREER_START_READY'",
   "request.time >= before.startedAt + duration.value(15, 'm')",
