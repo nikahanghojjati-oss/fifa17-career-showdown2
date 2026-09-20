@@ -70,12 +70,15 @@ assert.equal(providerModule.cloudFunctionsRequired,false);
   const mismatched=providerModule.createProvider({progressionModule:progression,authorityReader:async()=>({setup:setupFor(3),managerRole:"playerOne",acceptedSeasons:2}),historyProvider:{read:async()=>({ok:true,authoritative:true,phase:"HISTORY_CONVERGED",projection:historyFor(3,1)})}});
   assert.deepEqual(await mismatched.read(options),{ok:false,code:"MULTI_SEASON_ACCEPTED_PREFIX_MISMATCH"});
 
+  assert.doesNotThrow(()=>providerModule.createProvider({progressionModule:progression,historyProvider:null,authorityReader:async()=>({setup:setupFor(1),managerRole:"playerOne",acceptedSeasons:0})}),"A browser provider may initialize before History Convergence exists when no season has been accepted yet.");
   const sourceText=fs.readFileSync("js/sparkSharedMultiSeasonProgression.js","utf8");
   assert.match(sourceText,/for\(let seasonNumber=1;seasonNumber<=setup\.totalSeasons;seasonNumber\+=1\)/,"provider must probe every bounded exact season address");
   assert.match(sourceText,/"seasonCommits",`season_\$\{seasonNumber\}`/);
   assert.match(sourceText,/phase==="ACKNOWLEDGED"&&value\.revision!==3/);
   assert.match(sourceText,/MULTI_SEASON_HISTORY_GAP/);
-  assert.match(sourceText,/historyProvider\.read\(\{\.\.\.options,rivalryId,sessionId,deviceId,throughSeason:authority\.acceptedSeasons\}\)/);
+  assert.match(sourceText,/const resolvedHistory=historyProvider\|\|msp13HistoryProvider\(\)/,"History Convergence must resolve lazily instead of being frozen at module evaluation.");
+  assert.match(sourceText,/resolvedHistory\.read\(\{\.\.\.options,rivalryId,sessionId,deviceId,throughSeason:authority\.acceptedSeasons\}\)/);
+  assert.doesNotMatch(sourceText,/const defaultHistoryProvider=/,"Browser history authority must not be captured before the lazy provider has loaded.");
   assert.doesNotMatch(sourceText,/\bcollection\s*\(|\bgetDocs\s*\(|\bquery\s*\(/,"r13 must use exact season addressing, never collection listing");
   assert.doesNotMatch(sourceText,/\bsetDoc\s*\(|\bupdateDoc\s*\(|\bdeleteDoc\s*\(|tx\.set\s*\(|tx\.update\s*\(|tx\.delete\s*\(/,"r13 progression provider must remain read-only");
   assert.equal(providerModule.sourceAuthorityPaths.includes("rivalries/{rivalryId}/seasonCommits/season_{N}"),true);

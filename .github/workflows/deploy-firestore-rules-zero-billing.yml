@@ -163,6 +163,9 @@ jobs:
       - name: Reprove generated production Shared Setup Rules with adversarial provider matrix
         run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-career-mode-showdown-shared-setup-production-deploy "node tests/firebase/shared-showdown-setup-production-provider-emulator.cjs"
 
+      - name: Prove Shared Transfer fresh-session timeout recovery
+        run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-career-mode-showdown-transfer-fresh-session "node tests/firebase/shared-transfer-challenge-fresh-session-emulator.cjs"
+
       - name: Prove r18 Terminal Close Rules with adversarial provider matrix
         run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-career-mode-showdown-terminal-close-production-deploy "node tests/firebase/shared-terminal-close-production-provider-emulator.cjs"
 
