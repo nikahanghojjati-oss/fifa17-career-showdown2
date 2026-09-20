@@ -74,7 +74,7 @@ async function prepare(page,{role,saveId}){
     const rendered=[];
     for(const page of [host,peer]){
       assert.equal(await page.locator('#sharedHistoryConvergenceHeading').textContent(),'SHARED HISTORY CONVERGED');
-      assert.equal(await page.locator('#sharedHistoryConvergenceSummary').textContent(),'2 of 3 seasons accepted · PREMIER LEAGUE');
+      assert.equal(await page.locator('#sharedHistoryConvergenceSummary').textContent(),'2 of 3 seasons accepted · PREMIER LEAGUE · Overall: Nik 11 · Daniel 5 · Lead: Nik +6');
       const records=await page.locator('#sharedHistoryConvergenceRecords').textContent();assert.match(records,/Nik · Arsenal · 1W 0D 1L · 11 showdown pts/);assert.match(records,/Daniel · Liverpool · 1W 0D 1L · 5 showdown pts/);
       const trophies=await page.locator('#sharedHistoryConvergenceTrophies').textContent();assert.match(trophies,/Nik 3 trophies \(1 league, 1 cup, 1 Champions League\)/);assert.match(trophies,/Daniel 1 trophies \(1 league, 0 cup, 0 Champions League\)/);
       rendered.push({summary:await page.locator('#sharedHistoryConvergenceSummary').textContent(),records,trophies});
@@ -93,6 +93,6 @@ async function prepare(page,{role,saveId}){
     assert.equal(await host.locator('#sharedHistoryConvergencePanel').isHidden(),true,'an incomplete next season must not project stale history as current-season authority');
     assert.deepEqual(await host.evaluate(()=>window.__historyAudit.storageAfter()),await host.evaluate(()=>window.__historyAudit.storageBefore),'adversarial r12 paths must keep canonical local storage byte-for-byte unchanged');
     assert.deepEqual(errors,[],'Shared History Convergence browser audit emitted page errors.');
-    process.stdout.write('PASS Shared History Convergence desktop/mobile production audit: both isolated manager contexts render the same two-season provider-authoritative history, manager records and trophy attribution with exact account/device/rivalry/session forwarding; stale r10/r11 hashes, provider denial and an incomplete next season fail closed; canonical local storage remains byte-for-byte unchanged.\n');
+    process.stdout.write('PASS Shared History Convergence desktop/mobile production audit: both isolated manager contexts render the same two-season provider-authoritative history, cumulative score/lead, manager records and trophy attribution with exact account/device/rivalry/session forwarding; stale r10/r11 hashes, provider denial and an incomplete next season fail closed; canonical local storage remains byte-for-byte unchanged.\n');
   }finally{await hostContext.close().catch(()=>{});await peerContext.close().catch(()=>{});await browser.close().catch(()=>{});}
 })().catch(error=>{console.error(error);process.exitCode=1;});
