@@ -21,7 +21,7 @@ const currentRevision=(index.match(/meta name="app-asset-revision" content="([^"
 assert.match(currentRevision||"",/^1\.9\.1-r[1-9]\d*$/);
 assert.match(app,new RegExp(`VISUAL_FIDELITY_STYLESHEET="css\\/visual-fidelity-r3\\.css\\?v=${currentRevision.replace(/\./g,"\\.")}"`));
 assert.match(menu,new RegExp(`marco-reus-2015-cc-by\\.webp\\?v=${currentRevision.replace(/\./g,"\\.")}`),
-  "lazy menu image must share the current whole-shell identity used by physical acceptance");
+  "lazy menu image must share the current whole-shell identity while the acceptance recorder implementation remains historically r20");
 assert.match(manifest,new RegExp(`showdown-192\\.svg\\?v=${currentRevision.replace(/\./g,"\\.")}`));
 assert.match(worker,new RegExp(`const RUNTIME_REVISION = "${currentRevision.replace(/\./g,"\\.")}";`));
 assert.match(worker,/"js\/ssjrPhysicalJourneyAcceptance\.js"/,"current offline shell must retain the acceptance recorder across physical offline/reload proof");
@@ -36,7 +36,7 @@ assert.match(reconciliation,/captureLocalReconciliationBaseline|verifyLocalRecon
 assert.match(recorder,/physicalJourneyMode:true/);
 assert.match(recorder,/candidateCAutomaticApply:false/);
 assert.match(recorder,/recorderNetworkRequests:false/);
-assert.match(recorder,/1\.9\.1-r43/);
+assert.match(recorder,/1\.9\.1-r20/);
 assert.doesNotMatch(recorder,/\bfetch\s*\(/);
 assert.match(validator,/validatePhysicalJourneyPair/);
 assert.match(validator,/1\.9\.1-r43/);
