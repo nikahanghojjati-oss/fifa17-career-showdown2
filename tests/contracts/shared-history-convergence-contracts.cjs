@@ -109,7 +109,8 @@ const sources=[source(1,season1,"playerOne",hash("a")),source(2,season2,"draw",h
 
   const providerSource=fs.readFileSync("js/sparkSharedHistoryConvergence.js","utf8");
   assert.match(providerSource,/"rivalries",rivalryId/);
-  assert.match(providerSource,/"sharedSetup","authoritative"/);
+  assert.match(providerSource,/sparkSharedShowdownSetup\.js/,"History Convergence must rebuild the canonical setup state through the setup provider instead of treating the compact ledger as the full setup.");
+  assert.match(providerSource,/setupProvider\.read\(options\)/);
   assert.match(providerSource,/for\(let seasonNumber=1;seasonNumber<=throughSeason;seasonNumber\+=1\)/);
   assert.match(providerSource,/commitProvider\.read\(shared\)/);
   assert.match(providerSource,/scoringProvider\.read\(shared\)/);
