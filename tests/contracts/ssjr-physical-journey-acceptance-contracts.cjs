@@ -123,6 +123,6 @@ const path=require("node:path");
   assert.ok(validator.validatePhysicalJourneyPair(one,fakeOffline).issues.some(item=>item.code==="OFFLINE_FLAG_INVALID"));
 
   console.log("PASS r43 Physical Journey recorder is query-gated, privacy-safe, non-writing, authority-sticky and scopes canonical storage integrity to Local Reconciliation preview");
-  console.log("PASS r20 peer-entry contract requires both devices to prepare canonical Showdown shells and ACTIVE peer join to return to the single paired Career entry");
-  console.log("PASS r20 pair oracle accepts both safe PREVIEW_READY/after-hash callback orders while requiring opposite manager/remote roles, distinct devices/networks, one season, ordered recovery, scoped unchanged storage proof, no Candidate C Apply and terminal reload");
+  console.log("PASS current peer-entry contract requires both devices to prepare canonical Showdown shells and ACTIVE peer join to return to the single paired Career entry");
+  console.log("PASS current pair oracle accepts both safe PREVIEW_READY/after-hash callback orders while requiring opposite manager/remote roles, distinct devices/networks, one season, ordered recovery, scoped unchanged storage proof, no Candidate C Apply and terminal reload");
 })().catch(error=>{console.error("SSJR PHYSICAL JOURNEY ACCEPTANCE CONTRACTS FAILED");console.error(error.stack||error);process.exit(1);});
