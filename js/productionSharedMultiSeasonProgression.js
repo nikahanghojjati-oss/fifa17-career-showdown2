@@ -8,7 +8,7 @@
   const POLL_MS=15000;
   const ACTION_ID="sharedMultiSeasonContinueAction";
   const STATUS_ID="sharedMultiSeasonProgressionStatus";
-  let installed=false,busy=false,provider=null,setupApi=null,historyApi=null,view=null,contextKey="",refreshPromise=null,exposedRivalryId="",exposedSeason=0;
+  let installed=false,busy=false,provider=null,setupApi=null,historyApi=null,view=null,contextKey="",refreshPromise=null,exposedRivalryId="",exposedSeason=0,dashboardObserver=null;
 
   function pmspFail(code,message){const error=new Error(message||code);error.code=code;throw error;}
   function pmspShowdown(){try{return typeof currentShowdown!=="undefined"?currentShowdown:null;}catch(_error){return null;}}
@@ -61,6 +61,47 @@
     return Object.freeze({user:services.auth.currentUser,firestore:services.firestore,firebaseSdk:services.firestoreSdk,rivalryId:setup.rivalryId,sessionId:setup.sessionId,deviceId:setup.deviceId,nowEpochMs:Date.now()});
   }
   function pmspResult(result){if(result&&result.ok===true&&result.authoritative===true&&result.state)return result;const error=new Error("Shared Multi Season progression could not be verified.");error.code=result?.code||"MULTI_SEASON_PROVIDER_FAILED";throw error;}
+  function pmspManagerName(role){const value=pmspShowdown()?.managers?.[role];return String(value||(role==="playerOne"?"Daniel":"Nik"));}
+  function pmspLeagueName(id){try{const league=typeof root.getLeagueById==="function"?root.getLeagueById(id):null;if(league?.name)return league.name;}catch(_error){}return String(id||"League").replaceAll("_"," ").replaceAll("-"," ").replace(/\b\w/g,char=>char.toUpperCase());}
+  function pmspDashboardProjection(){
+    const state=view?.state,dashboard=view?.dashboard;if(!state||!dashboard||!Number.isInteger(dashboard.acceptedSeasons)||dashboard.acceptedSeasons!==state.acceptedSeasons||!dashboard.managerTotals)return null;
+    const p1=Number(dashboard.managerTotals.playerOne),p2=Number(dashboard.managerTotals.playerTwo);if(!Number.isInteger(p1)||p1<0||!Number.isInteger(p2)||p2<0)return null;
+    if(dashboard.acceptedSeasons===0&&dashboard.lastSeason!==null)return null;
+    if(dashboard.acceptedSeasons>0&&Number(dashboard.lastSeason?.seasonNumber)!==dashboard.acceptedSeasons)return null;
+    return dashboard;
+  }
+  function pmspDecorateDashboard(){
+    if(!pmspSharedMarker()||!view?.authoritative||!view?.state)return false;
+    const setup=pmspSetupState()?.setup,dashboard=pmspDashboardProjection(),state=view.state,screen=pmspField("dashboard");if(!setup||setup.phase!=="SHOWDOWN_CONFIRMED"||!dashboard||!screen)return false;
+    const total=Number(state.totalSeasons),accepted=Number(state.acceptedSeasons),cursor=pmspEnsureCursor(),n1=pmspManagerName("playerOne"),n2=pmspManagerName("playerTwo"),p1=dashboard.managerTotals.playerOne,p2=dashboard.managerTotals.playerTwo;
+    screen.dataset.sharedDashboardAuthority="true";
+    pmspText(pmspField("dashboardShowdownName"),pmspShowdown()?.name||"Daniel vs Nik");
+    pmspText(pmspField("dashboardLeague"),pmspLeagueName(setup.leagueId));
+    pmspText(pmspField("dashboardRound"),state.terminal?`All ${total} seasons complete`:`Season ${cursor} of ${total}`);
+    pmspText(pmspField("seasonIndicator"),state.terminal?"Showdown Complete":`Season ${cursor} / ${total}`);
+    pmspText(pmspField("dashboardStatus"),state.terminal?"SHARED SHOWDOWN COMPLETE":`SHARED · ${accepted} OF ${total} SEASONS ACCEPTED`);
+    pmspText(pmspField("dashboardManagerOne"),n1);pmspText(pmspField("dashboardManagerTwo"),n2);
+    pmspText(pmspField("dashboardClubOne"),setup.clubs?.playerOne||"Club");pmspText(pmspField("dashboardClubTwo"),setup.clubs?.playerTwo||"Club");
+    try{if(typeof root.applyClubIdentity==="function"){root.applyClubIdentity(pmspField("dashboardClubOne"),setup.clubs?.playerOne);root.applyClubIdentity(pmspField("dashboardClubTwo"),setup.clubs?.playerTwo);}}catch(_error){}
+    pmspText(pmspField("dashboardScoreOne"),p1);pmspText(pmspField("dashboardScoreTwo"),p2);
+    const series=pmspField("dashboardSeriesStatus");if(series){series.classList.remove("series-lead-one","series-lead-two");const lead=p1===p2?"LEVEL":p1>p2?`${n1.toUpperCase()} +${p1-p2}`:`${n2.toUpperCase()} +${p2-p1}`;pmspText(series,lead);if(p1>p2)series.classList.add("series-lead-one");else if(p2>p1)series.classList.add("series-lead-two");}
+    const summary=pmspField("dashboardLastSeasonSummary"),last=dashboard.lastSeason;
+    if(last&&accepted>0){
+      const winner=last.winner==="draw"?"DRAW":`${pmspManagerName(last.winner).toUpperCase()} WON`;
+      pmspText(pmspField("dashboardLastSeasonLabel"),accepted===1?"LAST SEASON":`AFTER ${accepted} SEASONS`);
+      pmspText(pmspField("dashboardLastSeasonResult"),`Season ${last.seasonNumber} · ${n1} ${last.playerOne.score} - ${n2} ${last.playerTwo.score} · ${winner}`);
+      pmspText(pmspField("dashboardPositionOne"),`Last league finish: ${last.playerOne.leaguePosition}`);
+      pmspText(pmspField("dashboardPositionTwo"),`Last league finish: ${last.playerTwo.leaguePosition}`);
+      pmspHidden(summary,false);
+    }else{
+      pmspText(pmspField("dashboardPositionOne"),"No season completed");pmspText(pmspField("dashboardPositionTwo"),"No season completed");pmspText(pmspField("dashboardLastSeasonResult"),"—");pmspHidden(summary,true);
+    }
+    return true;
+  }
+  function pmspObserveDashboard(){
+    if(dashboardObserver||!root.MutationObserver)return;const dashboard=pmspField("dashboard");if(!dashboard)return;
+    dashboardObserver=new root.MutationObserver(()=>{if(!dashboard.classList.contains("hidden"))pmspDecorateDashboard();});dashboardObserver.observe(dashboard,{attributes:true,attributeFilter:["class"]});
+  }
   function pmspScreenVisible(){const screen=pmspField("seasonEntry"),review=pmspField("seasonReviewPanel");return Boolean(screen&&!screen.classList.contains("hidden")&&review&&!review.classList.contains("hidden"));}
   function pmspHistoryWitnessed(){
     if(!pmspScreenVisible())return false;const season=pmspEnsureCursor(),history=historyApi?.getState?.(),panel=pmspField("sharedHistoryConvergencePanel");
@@ -93,18 +134,18 @@
     await setupApi.refresh();if(!pmspContextMatches(request))return null;
     const result=pmspResult(await provider.read(await pmspProviderOptions(request)));if(!pmspContextMatches(request))return null;
     if(result.runtimeRevision!=="1.9.1-r13"||String(result.rivalryId)!==request.rivalryId||!["SEASON_READY","SHOWDOWN_COMPLETE"].includes(result.phase)||result.state.runtimeRevision!=="1.9.1-r13"||result.state.rivalryId!==request.rivalryId)pmspFail("MULTI_SEASON_PROJECTION_INVALID");
-    view=result;contextKey=request.key;const cursor=pmspEnsureCursor();if(cursor>result.state.acceptedSeasons+1)pmspFail("MULTI_SEASON_CURSOR_AHEAD_OF_AUTHORITY");pmspRender();return view;
+    view=result;contextKey=request.key;const cursor=pmspEnsureCursor();if(cursor>result.state.acceptedSeasons+1)pmspFail("MULTI_SEASON_CURSOR_AHEAD_OF_AUTHORITY");pmspRender();pmspDecorateDashboard();return view;
   }
   function pmspRefresh(){const request=pmspRequest();if(!request)return Promise.resolve(null);if(refreshPromise&&contextKey===request.key)return refreshPromise;busy=true;const current=pmspRefreshNow(request).catch(error=>{if(pmspContextMatches(request))pmspReport("Unable to refresh Shared Multi Season progression",error);return null;}).finally(()=>{busy=false;if(refreshPromise===current)refreshPromise=null;pmspRender();});refreshPromise=current;return current;}
   async function pmspAdvance(){
     if(busy||!pmspCanContinue())return false;const request=pmspRequest();if(!request)return false;const state=view.state,season=pmspEnsureCursor();
     if(season>=state.totalSeasons)return false;exposedSeason=season+1;pmspRender();
     try{root.dispatchEvent?.(new root.CustomEvent("career-mode-shared-season-cursor-change",{detail:{rivalryId:request.rivalryId,previousSeason:season,activeSeason:exposedSeason,acceptedSeasons:state.acceptedSeasons}}));}catch(_error){}
-    if(typeof root.navigateTo==="function")await root.navigateTo("dashboard",{addToHistory:false});return true;
+    if(typeof root.navigateTo==="function")await root.navigateTo("dashboard",{addToHistory:false});pmspDecorateDashboard();return true;
   }
   function pmspCapture(event){const target=event.target&&event.target.closest&&event.target.closest("button");if(!target||target.id!==ACTION_ID||!pmspSharedMarker())return;event.preventDefault();event.stopPropagation();if(typeof event.stopImmediatePropagation==="function")event.stopImmediatePropagation();if(target.disabled)return;void pmspAdvance();}
   function pmspWake(){if(busy||!pmspSharedMarker()||root.document?.visibilityState==="hidden")return;void pmspRefresh();}
-  function pmspInstall(){if(installed)return true;installed=true;if(root.document)root.document.addEventListener("click",pmspCapture,true);for(const event of ["career-mode-shared-history-convergence-state-change","career-mode-shared-setup-state-change","career-mode-connected-account-state-change","career-mode-app-check-state-change"]){root.addEventListener?.(event,pmspWake);}root.document?.addEventListener?.("visibilitychange",pmspWake);if(typeof root.setInterval==="function")root.setInterval(pmspWake,POLL_MS);if(typeof root.setTimeout==="function")root.setTimeout(pmspWake,0);return true;}
+  function pmspInstall(){if(installed)return true;installed=true;if(root.document)root.document.addEventListener("click",pmspCapture,true);pmspObserveDashboard();for(const event of ["career-mode-shared-history-convergence-state-change","career-mode-shared-setup-state-change","career-mode-connected-account-state-change","career-mode-app-check-state-change"]){root.addEventListener?.(event,pmspWake);}root.document?.addEventListener?.("visibilitychange",pmspWake);if(typeof root.setInterval==="function")root.setInterval(pmspWake,POLL_MS);if(typeof root.setTimeout==="function")root.setTimeout(pmspWake,0);return true;}
 
-  return Object.freeze({contractVersion:1,feature:"ssjr-production-shared-multi-season-progression",productionEnabled:true,runtimeRevision:"1.9.1-r13",supportedLengths:Object.freeze([1,3,5,10]),requiresHistoryConvergence:true,requiresVisibleHistoryWitnessBeforeAdvance:true,exactOnceLocalCursor:true,replaysAcceptedSeasonsFromOneOnFreshRuntime:true,fixedClubs:true,canonicalStorageMutation:false,providerWriteRequired:false,listPermissionRequired:false,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,pollIntervalMs:POLL_MS,install:pmspInstall,refresh:pmspRefresh,getState:()=>view,resolveSeason:pmspResolveSeason,canContinue:pmspCanContinue,continueToNextSeason:pmspAdvance,isActive:pmspSharedMarker});
+  return Object.freeze({contractVersion:1,feature:"ssjr-production-shared-multi-season-progression",productionEnabled:true,runtimeRevision:"1.9.1-r13",supportedLengths:Object.freeze([1,3,5,10]),requiresHistoryConvergence:true,requiresVisibleHistoryWitnessBeforeAdvance:true,exactOnceLocalCursor:true,replaysAcceptedSeasonsFromOneOnFreshRuntime:true,fixedClubs:true,canonicalStorageMutation:false,providerWriteRequired:false,listPermissionRequired:false,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,pollIntervalMs:POLL_MS,install:pmspInstall,refresh:pmspRefresh,getState:()=>view,resolveSeason:pmspResolveSeason,decorateDashboard:pmspDecorateDashboard,canContinue:pmspCanContinue,continueToNextSeason:pmspAdvance,isActive:pmspSharedMarker});
 });
