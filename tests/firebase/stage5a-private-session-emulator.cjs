@@ -102,7 +102,7 @@ function binding(role,seed,label){
   };
 }
 
-function sessionOptions({db,accountId,identityValue,rivalryId,sessionId,nowEpochMs=Date.now(),ttlMs}){
+function sessionOptions({db,accountId,identityValue,rivalryId,sessionId,nowEpochMs=Date.now(),ttlMs=30*60*1000}){
   const options={
     user:{
       uid:accountId,
