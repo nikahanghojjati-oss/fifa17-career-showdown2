@@ -149,7 +149,7 @@
           || (priorSize == 1 && after.phase == 'GUESS_ENTRY' && after.endedAt == request.time)
         );
     }
-    function ssjrTransferExpiryTransition(before, after) {
+    // Fresh-session recovery matrix is gated in the production emulator before publication.\n    function ssjrTransferExpiryTransition(before, after) {
       return before.phase == 'WINDOW_OPEN'
         && request.time >= before.startedAt + duration.value(15, 'm')
         && after.phase == 'GUESS_ENTRY'
