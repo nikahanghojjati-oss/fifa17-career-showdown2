@@ -105,6 +105,35 @@ jobs:
           POS20_SELECTED_TESTS: ${{ needs.route.outputs.tests_csv }}
         run: node tests/support/run-selected-product-contracts.cjs --tests "$POS20_SELECTED_TESTS"
 
+  gameplay-lifecycle:
+    name: POS20 gameplay lifecycle 1/3/5/10
+    needs: route
+    if: contains(needs.route.outputs.proofs_csv, 'SHARED_GAMEPLAY_PROVIDER_LIFECYCLE_EMULATOR')
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '21'
+      - run: npm ci
+      - name: Install pinned Firebase emulator test dependencies
+        run: npm install --no-save --package-lock=false firebase@12.17.1 @firebase/rules-unit-testing@5.0.1 firebase-admin@14.2.0
+      - name: Build exact production Firestore Rules
+        run: |
+          node scripts/build-production-firestore-rules.mjs
+          node scripts/build-production-firestore-rules-with-persistent-pair.mjs
+      - name: Prove all supported Showdown lengths
+        run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-career-mode-showdown-gameplay-lifecycle "CMS_SHOWDOWN_LENGTH=1 node tests/firebase/shared-gameplay-provider-lifecycle-emulator.cjs && CMS_SHOWDOWN_LENGTH=3 node tests/firebase/shared-gameplay-provider-lifecycle-emulator.cjs && CMS_SHOWDOWN_LENGTH=5 node tests/firebase/shared-gameplay-provider-lifecycle-emulator.cjs && CMS_SHOWDOWN_LENGTH=10 node tests/firebase/shared-gameplay-provider-lifecycle-emulator.cjs"
+
   proofs:
     name: POS20 proof ${{ matrix.group }}
     needs: route
@@ -137,7 +166,7 @@ jobs:
 
   exact-head-summary:
     name: POS20 exact-head cognitive seal
-    needs: [route, benchmark, operations, deterministic, proofs]
+    needs: [route, benchmark, operations, deterministic, gameplay-lifecycle, proofs]
     if: always()
     runs-on: ubuntu-latest
     timeout-minutes: 3
@@ -157,5 +186,6 @@ jobs:
           }
           check_lane operations '${{ needs.route.outputs.run_operations }}' '${{ needs.operations.result }}'
           check_lane deterministic '${{ needs.route.outputs.tests_csv != '' }}' '${{ needs.deterministic.result }}'
+          check_lane gameplay-lifecycle "${{ contains(needs.route.outputs.proofs_csv, 'SHARED_GAMEPLAY_PROVIDER_LIFECYCLE_EMULATOR') }}" '${{ needs.gameplay-lifecycle.result }}'
           check_lane proofs '${{ needs.route.outputs.proof_groups_json != '[]' }}' '${{ needs.proofs.result }}'
           echo 'PASS POS20 exact-head cognitive seal: benchmark and all selected inherited proof lanes passed on one head.'
