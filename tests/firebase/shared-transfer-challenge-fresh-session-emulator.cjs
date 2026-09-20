@@ -19,7 +19,7 @@ const OLD=`session_${"1".repeat(64)}`,FRESH=`session_${"2".repeat(64)}`;
 const DA=`device_${"a".repeat(32)}`,DB=`device_${"b".repeat(32)}`;
 const PA=`profile_${"1".repeat(24)}`,PB=`profile_${"2".repeat(24)}`;
 const SA=`save_${"1".repeat(24)}`,SB=`save_${"2".repeat(24)}`;
-const OP1=`transfer_op_${"1".repeat(32)}`,OP2=`transfer_op_${"2".repeat(32)}`,OP3=`transfer_op_${"3".repeat(32)}`;
+const OP1=`transfer_op_${"1".repeat(32)}`,OP2=`transfer_op_${"2".repeat(32)}`,OP3=`transfer_op_${"3".repeat(32)}`,OP4=`transfer_op_${"4".repeat(32)}`;
 const HASH=`sha256:${"a".repeat(64)}`;
 
 function sdk(){return {Timestamp,doc,runTransaction:firestoreSdk.runTransaction,serverTimestamp:firestoreSdk.serverTimestamp};}
@@ -62,7 +62,16 @@ function transferLedger(activeSessionId,startedAt,now){return {schemaVersion:1,o
     assert.equal(preflight.ok,true,`Fresh ACTIVE session must read the existing Transfer Challenge before any mutation: ${JSON.stringify(preflight)}`);
     assert.equal(preflight.state.phase,"WINDOW_OPEN");
 
-    const migrationProbe=await provider.requestEndWindow({...providerOptions,operationId:OP2,baseRevision:1});
+    await env.withSecurityRulesDisabled(async context=>{
+      await setDoc(doc(context.firestore(),"rivalries",R,"transferChallenges","season_1"),transferLedger(FRESH,startedAt,now));
+    });
+    const sameSessionProbe=await provider.requestEndWindow({...providerOptions,operationId:OP2,baseRevision:1});
+    assert.equal(sameSessionProbe.ok,true,`Transfer update under its already-current ACTIVE session must be accepted: ${JSON.stringify(sameSessionProbe)}`);
+
+    await env.withSecurityRulesDisabled(async context=>{
+      await setDoc(doc(context.firestore(),"rivalries",R,"transferChallenges","season_1"),transferLedger(OLD,startedAt,now));
+    });
+    const migrationProbe=await provider.requestEndWindow({...providerOptions,operationId:OP3,baseRevision:1});
     assert.equal(migrationProbe.ok,true,`Fresh ACTIVE session must be allowed to take over Transfer authority on a non-timeout write: ${JSON.stringify(migrationProbe)}`);
     assert.equal(migrationProbe.state.phase,"WINDOW_OPEN");
 
@@ -70,7 +79,7 @@ function transferLedger(activeSessionId,startedAt,now){return {schemaVersion:1,o
       await setDoc(doc(context.firestore(),"rivalries",R,"transferChallenges","season_1"),transferLedger(OLD,startedAt,now));
     });
 
-    const result=await provider.advanceExpiredWindow({...providerOptions,operationId:OP3,baseRevision:1});
+    const result=await provider.advanceExpiredWindow({...providerOptions,operationId:OP4,baseRevision:1});
     assert.equal(result.ok,true,JSON.stringify(result));
     assert.equal(result.state.phase,"GUESS_ENTRY");
     assert.equal(result.revision,2);
