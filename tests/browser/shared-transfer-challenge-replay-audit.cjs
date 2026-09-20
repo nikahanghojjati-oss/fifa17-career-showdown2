@@ -99,6 +99,9 @@ async function assertReplay(page,roleLabel){
   assert.equal(await page.locator('#transferChallenge').getAttribute('data-shared-transfer-replay'),'SIGNING_ENTRY',`${roleLabel} must replay private Signing Entry third.`);
   assert.equal(await page.locator('#transferChallenge').getAttribute('data-transfer-phase'),'signing_entry');
   assert.equal(await page.locator('#transferChallenge .transferManagerCard:not(.hidden)').count(),1,'replay must keep the rival signing card hidden until actual completion');
+  const signingSelectorWidths=await page.locator('#transferChallenge .transferManagerCard:not(.hidden) .signingRow:first-child .transferCombobox').evaluateAll(nodes=>nodes.map(node=>node.getBoundingClientRect().width));
+  assert.equal(signingSelectorWidths.length,2,`${roleLabel} must render separate previous-league and nationality selectors.`);
+  assert.equal(signingSelectorWidths.every(width=>width>=100),true,`${roleLabel} must give both signing selectors usable width instead of collapsing one into the row-number column: ${signingSelectorWidths.join(",")}`);
 
   await page.locator('#continueFromTransfers').click();
   assert.equal(await page.locator('#transferChallenge').getAttribute('data-shared-transfer-replay'),null,`${roleLabel} must leave replay only after every earlier canonical phase was witnessed.`);
@@ -151,7 +154,7 @@ async function assertCrossSaveRace(page){
     assert.equal(await peer.locator('#transferChallenge').getAttribute('data-transfer-phase'),'window','switching away from a completed shared Save must refresh and render the new Save context on the real automatic poll');
 
     assert.deepEqual(errors,[],'Shared Transfer Challenge replay audit emitted page errors.');
-    process.stdout.write('PASS Shared Transfer Challenge ordered full-screen replay and Save isolation: Player One desktop and Player Two mobile each replay missed WINDOW_OPEN -> GUESS_ENTRY -> SIGNING_ENTRY before actual COMPLETED; replay stays read-only/private with zero provider mutations or replay reads; the r9 Season Results route activates only after replay is complete; an in-flight Save A read is discarded when Save B becomes active; and the real 15-second automatic poll detects a completed-Save context switch.\n');
+    process.stdout.write('PASS Shared Transfer Challenge ordered full-screen replay and Save isolation: Player One desktop and Player Two mobile each replay missed WINDOW_OPEN -> GUESS_ENTRY -> SIGNING_ENTRY before actual COMPLETED, with both previous-league and nationality signing selectors independently usable; replay stays read-only/private with zero provider mutations or replay reads; the r9 Season Results route activates only after replay is complete; an in-flight Save A read is discarded when Save B becomes active; and the real 15-second automatic poll detects a completed-Save context switch.\n');
   }finally{
     await hostContext.close().catch(()=>{});await peerContext.close().catch(()=>{});await browser.close().catch(()=>{});
   }
