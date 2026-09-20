@@ -621,6 +621,7 @@ service cloud.firestore {
     }
 
     // STAGE5C_CANDIDATE_SESSION_FUNCTIONS_BEGIN
+    // r38 physical transfer recovery proof trigger: semantics unchanged; production provider/emulator gate must rerun.
     function registeredSessionDeviceMetadata(deviceId) {
       return deviceId is string
         && deviceId.matches('^device_[0-9a-f]{32}$')
