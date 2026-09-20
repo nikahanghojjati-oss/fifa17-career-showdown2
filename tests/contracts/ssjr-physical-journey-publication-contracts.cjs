@@ -39,8 +39,8 @@ assert.match(recorder,/recorderNetworkRequests:false/);
 assert.match(recorder,/1\.9\.1-r20/);
 assert.doesNotMatch(recorder,/\bfetch\s*\(/);
 assert.match(validator,/validatePhysicalJourneyPair/);
-assert.match(validator,/1\.9\.1-r43/);
-assert.match(guide,/Physical Journey Production Acceptance — r43/);
+assert.match(validator,/1\.9\.1-r44/);
+assert.match(guide,/Physical Journey Production Acceptance — r44/);
 assert.match(guide,/ssjr-acceptance=1&ssjr-physical=1/);
 assert.match(guide,/Chromebook host/i);
 assert.match(guide,/iPhone peer/i);
@@ -58,4 +58,4 @@ for(const testPath of ["tests/contracts/ssjr-physical-journey-acceptance-contrac
   const item=supplemental.tests.find(entry=>entry.path===testPath);assert.ok(item,`POS20 supplemental routing missing ${testPath}`);assert.ok(item.patterns.some(pattern=>pattern.includes("ssjrPhysicalJourneyAcceptance")),`${testPath} must route recorder changes`);assert.ok(item.patterns.some(pattern=>pattern.includes("service-worker")),`${testPath} must route offline-shell changes`);
 }
 
-console.log("PASS r43 Physical Journey acceptance tooling is coherently versioned, offline-retained, query-gated and permanently routed into POS20 without changing provider authority");
+console.log("PASS r44 Physical Journey acceptance tooling is coherently versioned, offline-retained, query-gated and permanently routed into POS20 without changing provider authority");
