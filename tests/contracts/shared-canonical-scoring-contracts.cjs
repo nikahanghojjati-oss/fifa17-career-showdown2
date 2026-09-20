@@ -56,6 +56,9 @@ function op(prefix){serial+=1;return prefix+serial.toString(16).padStart(32,"0")
   assert.equal(pointsTieBreak.winner,"playerOne","league points are the second tiebreaker after any tied Showdown score");
   const zeroDraw=await scoringProtocol.reconcile({seasonCommit:await buildCommit(pointsA,{...pointsB,leaguePoints:72})});assert.equal(zeroDraw.winner,"draw");
 
+  const bundesligaScoring=await scoringModule.createProtocol({teamCount:18,cryptoImpl:webcrypto,seasonCommitModule:commitModule});
+  assert.throws(()=>bundesligaScoring.scoreAuthoritativeResults({playerOne:{...max,leaguePoints:103},playerTwo:none}),error=>error.code==="CANONICAL_SCORING_RESULTS_INVALID");
+
   const incomplete=await buildCommit(max,none,{fullyAcknowledge:false});
   await assert.rejects(scoringProtocol.reconcile({seasonCommit:incomplete}),error=>error.code==="CANONICAL_SCORING_SEASON_COMMIT_NOT_ACKNOWLEDGED");
   const tampered=JSON.parse(JSON.stringify(maxState));tampered.scoring.playerOne.total=999;
