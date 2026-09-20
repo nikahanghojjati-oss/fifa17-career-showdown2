@@ -72,7 +72,8 @@
     const ui=phcEnsureUi();if(!ui)return false;const request=phcRequest(),active=Boolean(request&&contextKey===request.key&&view&&view.authoritative===true&&view.phase==="HISTORY_CONVERGED"&&view.projection);
     phcHidden(ui.panel,!active);if(!active)return false;const projection=view.projection;
     phcText(ui.heading,"SHARED HISTORY CONVERGED");
-    phcText(ui.summary,`${projection.acceptedSeasons} of ${projection.totalSeasons} season${projection.totalSeasons===1?"":"s"} accepted · ${String(projection.leagueId||"").replace(/_/g," ").toUpperCase()}`);
+    const p1Total=Number(projection.managerRecords?.playerOne?.totalPoints)||0,p2Total=Number(projection.managerRecords?.playerTwo?.totalPoints)||0,n1=phcManagerName("playerOne"),n2=phcManagerName("playerTwo"),lead=p1Total===p2Total?"TIED":p1Total>p2Total?`${n1} +${p1Total-p2Total}`:`${n2} +${p2Total-p1Total}`;
+    phcText(ui.summary,`${projection.acceptedSeasons} of ${projection.totalSeasons} season${projection.totalSeasons===1?"":"s"} accepted · ${String(projection.leagueId||"").replace(/_/g," ").toUpperCase()} · Overall: ${n1} ${p1Total} · ${n2} ${p2Total} · Lead: ${lead}`);
     phcText(ui.records,`${phcRecordLine("playerOne",projection.managerRecords.playerOne)} · ${phcRecordLine("playerTwo",projection.managerRecords.playerTwo)}`);
     phcText(ui.trophies,`${phcTrophyLine("playerOne",projection.trophyAttribution.playerOne)} · ${phcTrophyLine("playerTwo",projection.trophyAttribution.playerTwo)}`);
     return true;
