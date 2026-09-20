@@ -14,4 +14,4 @@ r35 repairs this in two layers:
 
 The fix is resume-safe: it does not delete or recreate the Daniel/Nik rivalry, does not redraw league or clubs, does not alter the selected season count, and does not mutate canonical local saves.
 
-The r34 single-click reliability fixes remain intact. Firebase remains Spark-only, Billing remains permanently OFF, Cloud Run and Cloud Functions remain unused, and App Check enforcement remains OFF. SSJR production credit remains unchanged pending genuine physical two-device completion.
+The r34 single-click reliability fixes remain intact. Remote Joining engineering provenance remains repository-only and does not change the player-facing flow. Firebase remains Spark-only, Billing remains permanently OFF, Cloud Run and Cloud Functions remain unused, and App Check enforcement remains OFF. SSJR-1.1 remains exactly `0/100`; production credit is not inferred from CI or deployment evidence and still requires genuine physical two-device completion.
