@@ -17,7 +17,7 @@ async function prepare(page,{role,saveId}){
   await page.waitForFunction(()=>typeof window.ensureGameplayModules==='function'&&typeof window.loadRuntimeScript==='function'&&typeof window.navigateTo==='function',null,{timeout:12000});
   await page.evaluate(async({role,saveId,rivalryId,sessionId,canonicalKeys,resultOne,resultTwo,scoreOne,scoreTwo})=>{
     await ensureGameplayModules();
-    currentShowdown={id:saveId,currentRound:1,totalRounds:3,status:'Ready',sharedJourney:{mode:'shared',rivalryId},managers:{playerOne:'Nik',playerTwo:'Daniel'},selectedLeague:null,clubs:{playerOne:null,playerTwo:null},transferChallenges:[],rounds:[],score:{playerOne:0,playerTwo:0}};
+    currentShowdown={id:saveId,currentRound:1,totalRounds:3,status:'Ready',sharedJourney:{mode:'shared',rivalryId},managers:{playerOne:'Daniel',playerTwo:'Nik'},selectedLeague:null,clubs:{playerOne:null,playerTwo:null},transferChallenges:[],rounds:[],score:{playerOne:0,playerTwo:0}};
     const setup={status:'ready',ready:true,revision:6,phase:'SHOWDOWN_CONFIRMED',rivalryId,sessionId,deviceId:'device_'+(role==='playerOne'?'1':'2').repeat(32),managerRole:role,setup:{phase:'SHOWDOWN_CONFIRMED',revision:6,coordinatorRole:'playerOne',leagueId:'premier_league',clubs:{playerOne:'Arsenal',playerTwo:'Liverpool'},totalSeasons:3,confirmedRoles:['playerOne','playerTwo']}};
     const transfer={ok:true,revision:7,seasonNumber:1,managerRole:role,rivalryId,setup:setup.setup,state:{phase:'COMPLETED',revision:7,guessLockedRoles:['playerOne','playerTwo'],signingLockedRoles:['playerOne','playerTwo']}};
     const readyResults={ok:true,revision:2,state:{phase:'RESULTS_READY',revision:2,publishedRoles:['playerOne','playerTwo']},managerRole:role,seasonNumber:1,ownResult:role==='playerOne'?resultOne:resultTwo,opponentResult:role==='playerOne'?resultTwo:resultOne,allResults:{playerOne:resultOne,playerTwo:resultTwo}};
@@ -76,9 +76,9 @@ async function prepare(page,{role,saveId}){
   try{
     await prepare(host,{role:'playerOne',saveId:'shared_scoring_host'});await prepare(peer,{role:'playerTwo',saveId:'shared_scoring_peer'});
     for(const page of [host,peer]){
-      assert.equal(await page.locator('#sharedCanonicalScoringHeading').textContent(),'SHARED CANONICAL SCORE');assert.equal(await page.locator('#sharedCanonicalScoringTotals').textContent(),'Nik: 11 · Daniel: 0');
+      assert.equal(await page.locator('#sharedCanonicalScoringHeading').textContent(),'SHARED CANONICAL SCORE');assert.equal(await page.locator('#sharedCanonicalScoringTotals').textContent(),'Daniel: 11 · Nik: 0');
       const breakdown=await page.locator('#sharedCanonicalScoringBreakdown').textContent();for(const expected of ['Champions League 5–0','League Title 3–0','Domestic Cup 1–0','Performance Bonus 1–0','Awards Bonus 1–0'])assert.match(breakdown,new RegExp(expected));
-      assert.equal(await page.locator('#sharedCanonicalScoringWinner').textContent(),'Season winner: Nik');
+      assert.equal(await page.locator('#sharedCanonicalScoringWinner').textContent(),'Season winner: Daniel');
       const state=await page.evaluate(()=>window.__ssjrScoringAudit.state());assert.equal(state.authoritative,true);assert.equal(state.phase,'SCORING_RECONCILED');assert.equal(state.seasonCommitRevision,3);assert.equal(state.scoring.playerOne.total,11);assert.equal(state.scoring.playerTwo.total,0);assert.equal(state.winner,'playerOne');
       assert.deepEqual(await page.evaluate(()=>window.__ssjrScoringAudit.storageAfter()),await page.evaluate(()=>window.__ssjrScoringAudit.storageBefore),'r11 scoring must not mutate canonical local storage');assert.deepEqual(await page.evaluate(()=>window.__ssjrScoringAudit.localState()),{selectedLeague:null,clubs:{playerOne:null,playerTwo:null},transferChallenges:[],rounds:[],score:{playerOne:0,playerTwo:0}},'r11 scoring must not mutate local setup, transfer, history or score authority');
     }
