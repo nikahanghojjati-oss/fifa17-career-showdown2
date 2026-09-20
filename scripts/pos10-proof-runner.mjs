@@ -34,7 +34,7 @@ const commands = {
   SHARED_SETUP_PRODUCTION_PROVIDER_EMULATOR: `npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-career-mode-showdown-shared-setup-production "node tests/firebase/shared-showdown-setup-production-provider-emulator.cjs"`,
   TRANSFER_RULES_DIAGNOSTIC: `npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-career-mode-showdown-transfer-diagnostic "node tests/firebase/shared-transfer-rules-diagnostic-emulator.cjs"`,
   SHARED_TRANSFER_FRESH_SESSION_EMULATOR: `npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-career-mode-showdown-transfer-fresh-session "node tests/firebase/shared-transfer-challenge-fresh-session-emulator.cjs"`,
-  SHARED_GAMEPLAY_PROVIDER_LIFECYCLE_EMULATOR: `npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-career-mode-showdown-gameplay-lifecycle "node tests/firebase/shared-gameplay-provider-lifecycle-emulator.cjs"`,
+  SEASON_RESULTS_RULES_DIAGNOSTIC: `npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-career-mode-showdown-season-results-diagnostic "node tests/firebase/shared-season-results-rules-diagnostic-emulator.cjs"`,\n  SHARED_GAMEPLAY_PROVIDER_LIFECYCLE_EMULATOR: `npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-career-mode-showdown-gameplay-lifecycle "node tests/firebase/shared-gameplay-provider-lifecycle-emulator.cjs"`,
   STAGE5F_ACCOUNT_CHOOSER_CONTRACT: `node tests/contracts/stage5f-account-chooser-contracts.cjs`,
   STAGE5F_AUTH_NEGATIVES_CONTRACT: `node tests/contracts/stage5f-authenticated-negatives-contracts.cjs`,
   BACKUP_BROWSER: `CMS_AUDIT_RUN="pos10-impact-storage" npm run test:backup-browser`,
