@@ -131,11 +131,9 @@
       let n = root.revision;
       return root.acknowledgedRoles is list
         && root.acknowledgedRoles.size() == n - 1
-        && (n < 2 || (ssjrCommitValidRole(root.acknowledgedRoles[0])
-          && root.acknowledgedRoles[0] == root.actorRoles[1]))
-        && (n < 3 || (ssjrCommitValidRole(root.acknowledgedRoles[1])
-          && root.acknowledgedRoles[1] == root.actorRoles[2]
-          && root.acknowledgedRoles[1] != root.acknowledgedRoles[0]));
+        && root.acknowledgedRoles.toSet().size() == root.acknowledgedRoles.size()
+        && root.acknowledgedRoles.toSet().hasOnly(['playerOne','playerTwo'])
+        && root.actorRoles == [root.actorRoles[0]].concat(root.acknowledgedRoles);
     }
     function ssjrCommitShape(root, rivalryId, seasonId) {
       let p1 = ssjrCommitPrivateResult(rivalryId, seasonId, 'playerOne');
