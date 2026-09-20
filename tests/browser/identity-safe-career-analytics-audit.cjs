@@ -108,6 +108,7 @@ function collectErrors(page){
 async function waitForHome(page){
   await page.goto(baseUrl.href,{waitUntil:"domcontentloaded"});
   await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:15000});
+  await page.locator("#careerStatisticsButton").evaluate(button=>button.dataset.testSurface="internal-audit");
   await page.locator("#careerStatisticsButton").waitFor({state:"visible",timeout:15000});
 }
 
