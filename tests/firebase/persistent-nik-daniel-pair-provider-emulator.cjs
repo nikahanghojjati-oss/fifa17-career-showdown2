@@ -90,7 +90,7 @@ async function abandonCurrentPairRivalry(db,{uid,device,target,nowMs,tamperCreat
     await testEnv.clearFirestore();
     const nowMs=Date.now(),now=Timestamp.fromMillis(nowMs),later=Timestamp.fromMillis(nowMs+1000);
     const ids={a:deviceId('a'),b:deviceId('b'),c:deviceId('c'),d:deviceId('d'),e:deviceId('e'),f:deviceId('f')};
-    const rivalryOne=`pair_${'1'.repeat(64)}`,rivalryTwo=`pair_${'2'.repeat(64)}`,pendingOld=`pair_${'3'.repeat(64)}`,pendingNew=`pair_${'4'.repeat(64)}`,atomicRecovery=`pair_${'5'.repeat(64)}`,staleRedeem=`pair_${'6'.repeat(64)}`,atomicCreate=`pair_${'7'.repeat(64)}`,staleCreate=`pair_${'8'.repeat(64)}`;
+    const rivalryOne=`pair_${'1'.repeat(64)}`,rivalryTwo=`pair_${'2'.repeat(64)}`,pendingOld=`pair_${'3'.repeat(64)}`,pendingNew=`pair_${'4'.repeat(64)}`,atomicRecovery=`pair_${'5'.repeat(64)}`,staleRedeem=`pair_${'6'.repeat(64)}`,atomicCreate=`pair_${'7'.repeat(64)}`,staleCreate=`pair_${'8'.repeat(64)}`,roleSwitchTarget=`pair_${'9'.repeat(64)}`;
 
     await testEnv.withSecurityRulesDisabled(async context=>{
       const db=context.firestore();
@@ -100,6 +100,7 @@ async function abandonCurrentPairRivalry(db,{uid,device,target,nowMs,tamperCreat
       }
       await setDoc(doc(db,'rivalries',rivalryOne),rivalryEnvelope(rivalryOne,now,managerSlot('playerOne','acct_a','1'),managerSlot('playerTwo','acct_b','2')));
       await setDoc(doc(db,'rivalries',rivalryTwo),rivalryEnvelope(rivalryTwo,now,managerSlot('playerOne','acct_a','3'),managerSlot('playerTwo','acct_b','4')));
+      await setDoc(doc(db,'rivalries',roleSwitchTarget),rivalryEnvelope(roleSwitchTarget,now,managerSlot('playerOne','acct_b','b'),managerSlot('playerTwo','acct_c','c')));
       await setDoc(doc(db,'rivalries',pendingOld),rivalryEnvelope(pendingOld,now,managerSlot('playerOne','acct_d','5'),openSlot('playerTwo'),'pending-pair'));
       await setDoc(doc(db,'rivalries',pendingOld,'invites',pendingOld),inviteEnvelope(pendingOld,now,Timestamp.fromMillis(nowMs+600000)));
       await setDoc(doc(db,'rivalries',pendingNew),rivalryEnvelope(pendingNew,now,managerSlot('playerOne','acct_d','6'),managerSlot('playerTwo','acct_c','7')));
@@ -123,6 +124,9 @@ async function abandonCurrentPairRivalry(db,{uid,device,target,nowMs,tamperCreat
     await assertSucceeds(setDoc(pairRefB,pairEnvelope('acct_b',rivalryOne,'playerTwo','nik',ids.b,now,now)));
     assert.equal((await assertSucceeds(getDoc(pairRefA))).data().data.managerId,'daniel');
     assert.equal((await assertSucceeds(getDoc(pairRefB))).data().data.managerId,'nik');
+    const beforeB=(await getDoc(pairRefB)).data();
+    const roleSwitchAfterTerminal=pairEnvelope('acct_b',roleSwitchTarget,'playerOne','daniel',ids.b,now,Timestamp.fromMillis(nowMs+2000),{revision:1,parentRevision:0,contentHash:hash('g'),priorContentHash:beforeB.contentHash});
+    await assertFails(setDoc(pairRefB,roleSwitchAfterTerminal));
 
     await assertFails(getDoc(doc(dbB,'accounts','acct_a','pairLinks','current')));
     await assertFails(getDoc(doc(dbAnon,'accounts','acct_a','pairLinks','current')));
@@ -153,6 +157,12 @@ async function abandonCurrentPairRivalry(db,{uid,device,target,nowMs,tamperCreat
     assert.equal(closedRivalry.data.connectionState,'closed','the exact current-pair manager must be able to close a broken Showdown');
     assert.equal(closedRivalry.data.createdByAccountId,'acct_a','abandonment must preserve non-state rivalry data');
     assert.equal(closedRivalry.revision,1,'abandonment must advance the rivalry CAS envelope exactly once');
+
+    await assertSucceeds(setDoc(pairRefB,roleSwitchAfterTerminal));
+    const switchedPair=(await getDoc(pairRefB)).data();
+    assert.equal(switchedPair.data.managerRole,'playerOne','a closed prior Showdown must release this Google account to choose Daniel next time');
+    assert.equal(switchedPair.data.managerId,'daniel','post-terminal role reuse must still use the canonical Daniel identity');
+    assert.equal(switchedPair.data.rivalryId,roleSwitchTarget,'post-terminal role reuse must bind only to the new rivalry where the account is actually entitled');
 
     await assertSucceeds(setDoc(pairRefA,replacementAfterTerminal));
     assert.equal((await getDoc(pairRefA)).data().data.rivalryId,rivalryTwo,'provider-confirmed abandonment must make one canonical fresh pair replacement possible');
@@ -209,7 +219,7 @@ async function abandonCurrentPairRivalry(db,{uid,device,target,nowMs,tamperCreat
   assert.equal((await getDoc(doc(dbC,'rivalries',staleRedeem))).data().data.connectionState,'pending-pair','stale-tab double-active rejection must roll back rivalry activation');
   assert.equal((await getDoc(doc(dbC,'rivalries',staleRedeem,'invites',staleRedeem))).data().data.state,'open','stale-tab double-active rejection must leave the one-use invite unconsumed');
 
-    process.stdout.write('PASS persistent pair Rules emulator: Daniel=Player One and Nik=Player Two are canonical, mismatched roles are rejected, private account get, no list/delete, registered-device writes, active-career replacement denial, authorized current-pair abandonment with wrong-account/device/data-mutation denial, provider-closed fresh replacement, rivalry membership and expired-pending replacement safety, mandatory atomic creator and post-redeem recovery witnesses, witness-less create/redeem denial, stale-creator capability rollback, and stale-tab double-active rollback are enforced.\n');
+    process.stdout.write('PASS persistent pair Rules emulator: Daniel=Player One and Nik=Player Two are canonical, mismatched roles are rejected, private account get, no list/delete, registered-device writes, active-career replacement denial, authorized current-pair abandonment with wrong-account/device/data-mutation denial, provider-closed fresh replacement including safe Daniel/Nik role reuse by the same Google account, rivalry membership and expired-pending replacement safety, mandatory atomic creator and post-redeem recovery witnesses, witness-less create/redeem denial, stale-creator capability rollback, and stale-tab double-active rollback are enforced.\n');
   }finally{
     try{await testEnv.clearFirestore();}catch(_error){}
     await testEnv.cleanup();
