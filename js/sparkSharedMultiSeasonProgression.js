@@ -87,7 +87,18 @@
         }
         const state=protocol.derive({rivalryId,setup:authority.setup,history});
         if(state.acceptedSeasons!==authority.acceptedSeasons)msp13Fail("MULTI_SEASON_ACCEPTED_PREFIX_MISMATCH");
-        return msp13Freeze({ok:true,authoritative:true,runtimeRevision:RUNTIME_REVISION,phase:state.phase,revision:state.revision,rivalryId,managerRole:authority.managerRole,state});
+        const latest=history?.seasonHistory?.[history.seasonHistory.length-1]||null;
+        const dashboard=history?{
+          acceptedSeasons:history.acceptedSeasons,
+          managerTotals:{playerOne:Number(history.managerRecords?.playerOne?.totalPoints)||0,playerTwo:Number(history.managerRecords?.playerTwo?.totalPoints)||0},
+          lastSeason:latest?{
+            seasonNumber:latest.roundNumber,
+            winner:latest.winner,
+            playerOne:{leaguePosition:latest.playerOne.leaguePosition,score:latest.playerOne.scoring.total},
+            playerTwo:{leaguePosition:latest.playerTwo.leaguePosition,score:latest.playerTwo.scoring.total}
+          }:null
+        }:{acceptedSeasons:0,managerTotals:{playerOne:0,playerTwo:0},lastSeason:null};
+        return msp13Freeze({ok:true,authoritative:true,runtimeRevision:RUNTIME_REVISION,phase:state.phase,revision:state.revision,rivalryId,managerRole:authority.managerRole,state,dashboard});
       }catch(error){return msp13Error(error);}
     }
     return msp13Freeze({contractVersion:1,feature:"ssjr-spark-shared-multi-season-progression",runtimeRevision:RUNTIME_REVISION,read:msp13Read,exactSeasonAddressing:true,derivesFromAcceptedPrefix:true,fixedClubs:true,canonicalStorageMutation:false,providerWriteRequired:false,listPermissionRequired:false,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,sourceAuthorityPaths:Object.freeze(["accounts/{accountId}","accounts/{accountId}/devices/{deviceId}","rivalries/{rivalryId}","rivalries/{rivalryId}/sessions/{sessionId}","rivalries/{rivalryId}/sharedSetup/authoritative","rivalries/{rivalryId}/seasonCommits/season_{N}"])});
