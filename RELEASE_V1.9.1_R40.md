@@ -26,3 +26,5 @@ The exact fresh-session Transfer recovery emulator and the full gameplay provide
 The four-hour private-session lifetime remains unchanged. Firebase remains Spark-only, Billing remains permanently OFF, Cloud Run and Cloud Functions remain unused, and App Check enforcement remains OFF. No public discovery, lobby, matchmaking or rankings are introduced. Physical acceptance credit remains unclaimed until the real iPhone + Chromebook journey completes.
 
 Remote Joining remains the private exact-path session transport; no public discovery or matchmaking is introduced.
+
+SSJR-1.1 remains exactly `0/100`; automated and emulator coverage does not count as physical two-device acceptance.
