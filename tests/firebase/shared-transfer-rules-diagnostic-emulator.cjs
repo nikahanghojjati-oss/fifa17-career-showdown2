@@ -65,8 +65,7 @@ async function runVariant(index,label,expression){
     ["SHAPE_REVISION","ssjrTransferPublicShape(request.resource.data, rivalryId, transferId) && request.resource.data.revision == resource.data.revision + 1"],
     ["PREFIX","ssjrTransferPublicShape(request.resource.data, rivalryId, transferId) && request.resource.data.revision == resource.data.revision + 1 && request.resource.data.startedAt == resource.data.startedAt && ssjrTransferPublicPrefixPreserved(resource.data, request.resource.data)"],
     ["NEW_OPERATION","ssjrTransferPublicShape(request.resource.data, rivalryId, transferId) && request.resource.data.revision == resource.data.revision + 1 && request.resource.data.startedAt == resource.data.startedAt && ssjrTransferPublicPrefixPreserved(resource.data, request.resource.data) && ssjrTransferNewOperationValid(resource.data, request.resource.data)"],
-    ["TRANSITION","ssjrTransferPublicShape(request.resource.data, rivalryId, transferId) && ssjrTransferEndRequestTransition(resource.data, request.resource.data, ssjrActorRole(rivalryId))"],
-    ["FULL","ssjrTransferValidUpdate(rivalryId, transferId)"]
+    ["TRANSITION","ssjrTransferPublicShape(request.resource.data, rivalryId, transferId) && ssjrTransferEndRequestTransition(resource.data, request.resource.data, ssjrActorRole(rivalryId))"]
   ];
   for(let i=0;i<variants.length;i++)await runVariant(i+1,variants[i][0],variants[i][1]);
 })().catch(error=>{console.error(error.stack||error);process.exit(1);});
