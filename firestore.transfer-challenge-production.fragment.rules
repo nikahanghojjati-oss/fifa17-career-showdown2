@@ -153,7 +153,7 @@
       return before.phase == 'WINDOW_OPEN'
         && request.time >= before.startedAt + duration.value(15, 'm')
         && after.phase == 'GUESS_ENTRY'
-        && after.endedAt == before.startedAt + duration.value(15, 'm')
+        && after.endedAt == request.time
         && after.endRequestedRoles == before.endRequestedRoles
         && after.guessLockedRoles == before.guessLockedRoles
         && after.signingLockedRoles == before.signingLockedRoles;
