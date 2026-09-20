@@ -168,8 +168,8 @@ function assertActive(result,label,{sessionChanged}={}){
       assert.equal(result.setupReads,before.setupReads,'expired authority must not read Shared Setup.');
       assert.equal(result.progressionReads,before.progressionReads,'expired authority must not read progression.');
     }
-    await host.locator('#sharedJourneyReconnectAction').click();
-    assert.equal((await snapshot(host)).remotePanelOpens,1,'the direct recovery action must open the existing Remote Joining surface exactly once.');
+    await host.evaluate(()=>CareerModeProductionSharedJourneyReconnect.openSessionRecovery());
+    assert.equal((await snapshot(host)).remotePanelOpens,1,'the exported recovery action must open the existing Remote Joining surface exactly once.');
     await Promise.all([freshSession(host),freshSession(peer)]);
     assertActive(await snapshot(host),'host fresh-session re-entry',{sessionChanged:true});
     assertActive(await snapshot(peer),'peer fresh-session re-entry',{sessionChanged:true});
