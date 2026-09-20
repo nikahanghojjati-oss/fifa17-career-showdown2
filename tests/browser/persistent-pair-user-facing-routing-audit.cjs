@@ -23,6 +23,8 @@ const playerOneProfileId=`profile_${"d".repeat(24)}`;
     assert.equal(await page.locator("#legacyButton").isVisible(),false,"Online-only Home must not expose retired local Legacy data as if it were shared authority.");
     assert.equal(await page.locator("#careerStatisticsButton").isVisible(),false,"Online-only Home must not expose retired local Career Statistics alongside provider-authoritative Shared History.");
     assert.equal(await page.locator("#ruleBookButton").isVisible(),true,"Hiding retired local analytics must not remove the active Rule Book surface.");
+    const onlineDesktopGrid=await page.evaluate(()=>Object.fromEntries([["newShowdown","new"],["ruleBookButton","rules"],["settingsButton","settings"]].map(([id,key])=>{const style=getComputedStyle(document.getElementById(id));return[key,{start:style.gridColumnStart,end:style.gridColumnEnd,rowStart:style.gridRowStart,rowEnd:style.gridRowEnd}];})));
+    assert.deepEqual(onlineDesktopGrid,{new:{start:"7",end:"13",rowStart:"1",rowEnd:"auto"},rules:{start:"7",end:"10",rowStart:"2",rowEnd:"auto"},settings:{start:"10",end:"13",rowStart:"2",rowEnd:"auto"}},"Online-only desktop Home must reflow remaining tiles without empty Legacy/Statistics holes.");
     assert.equal(await page.locator("#rivalryStatisticsButton").isVisible(),false,"The lazily-created local Rivalry Statistics control must remain contained in online-only mode.");
 
     await page.evaluate(({rivalryId,saveId,profileId,playerOneProfileId})=>{
