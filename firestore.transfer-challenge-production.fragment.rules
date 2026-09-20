@@ -4,16 +4,10 @@
     function ssjrTransferValidRole(value) { return value == 'playerOne' || value == 'playerTwo'; }
     function ssjrTransferValidOptionId(value) { return value is string && value.size() >= 2 && value.size() <= 80 && value.matches('^[a-z0-9]+(-[a-z0-9]+)*$'); }
     function ssjrTransferSeasonMatches(transferId, seasonNumber) {
-      return (transferId == 'season_1' && seasonNumber == 1)
-        || (transferId == 'season_2' && seasonNumber == 2)
-        || (transferId == 'season_3' && seasonNumber == 3)
-        || (transferId == 'season_4' && seasonNumber == 4)
-        || (transferId == 'season_5' && seasonNumber == 5)
-        || (transferId == 'season_6' && seasonNumber == 6)
-        || (transferId == 'season_7' && seasonNumber == 7)
-        || (transferId == 'season_8' && seasonNumber == 8)
-        || (transferId == 'season_9' && seasonNumber == 9)
-        || (transferId == 'season_10' && seasonNumber == 10);
+      return seasonNumber is int
+        && seasonNumber >= 1
+        && seasonNumber <= 10
+        && transferId == 'season_' + string(seasonNumber);
     }
     function ssjrTransferSetup(rivalryId) { return get(/databases/$(database)/documents/rivalries/$(rivalryId)/sharedSetup/authoritative).data; }
     function ssjrTransferCareer(rivalryId) { return get(/databases/$(database)/documents/rivalries/$(rivalryId)/careerStart/authoritative).data; }
