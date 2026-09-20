@@ -293,10 +293,6 @@
     "V1_VISUAL_IMMERSION_INLINE": {
       "source": "tests/proof-sources/workflows/validate-v1-visual-immersion.yml",
       "gitBlobSha": "f18f6d9b25f284932643d38c155e8b902fe0dea9"
-    },
-    "SHARED_TRANSFER_FRESH_SESSION_EMULATOR": {
-      "source": "tests/firebase/shared-transfer-challenge-fresh-session-emulator.cjs",
-      "gitBlobSha": "d697e9a9b5bc674fed9948371d446d208130e5ad"
     }
   },
   "artifactRules": [
