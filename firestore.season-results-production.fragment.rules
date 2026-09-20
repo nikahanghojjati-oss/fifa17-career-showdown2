@@ -103,6 +103,28 @@
         && ssjrWriteAuthorityValid(rivalryId, root.updatedByDeviceId, root.activeSessionId)
         && ((root.phase == 'COLLECTING' && n == 1) || (root.phase == 'RESULTS_READY' && n == 2));
     }
+    function ssjrResultsPublicUpdateShape(root, rivalryId, seasonId) {
+      return ssjrResultsPublicExactKeys(root)
+        && root.schemaVersion == 1
+        && root.objectType == 'sharedSeasonResults'
+        && root.rivalryId == rivalryId
+        && root.seasonNumber is int
+        && ssjrResultsSeasonMatches(seasonId, root.seasonNumber)
+        && root.runtimeRevision == '1.9.1-r9'
+        && root.phase == 'RESULTS_READY'
+        && root.revision == 2
+        && ssjrResultsRoleListValid(root.publishedRoles)
+        && root.publishedRoles.size() == 2
+        && root.operationIds is list
+        && root.operationIds.size() == 2
+        && root.operationHashes is list
+        && root.operationHashes.size() == 2
+        && root.baseRevisions is list
+        && root.baseRevisions.size() == 2
+        && root.actorRoles is list
+        && root.actorRoles.size() == 2
+        && root.updatedAt == request.time;
+    }
     function ssjrResultsPublicPrefixPreserved(before, after) {
       return after.publishedRoles[0] == before.publishedRoles[0]
         && after.operationIds[0] == before.operationIds[0]
@@ -176,7 +198,7 @@
       let after = request.resource.data;
       let role = ssjrActorRole(rivalryId);
       let i = before.revision;
-      return ssjrResultsPublicShape(after, rivalryId, seasonId)
+      return ssjrResultsPublicUpdateShape(after, rivalryId, seasonId)
         && before.revision == 1
         && ssjrResultsPublicPrefixPreserved(before, after)
         && ssjrResultsPrivateLinked(rivalryId, seasonId, after, role);
