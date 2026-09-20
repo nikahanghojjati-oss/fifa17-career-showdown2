@@ -125,7 +125,7 @@ async function abandonCurrentPairRivalry(db,{uid,device,target,nowMs,tamperCreat
     assert.equal((await assertSucceeds(getDoc(pairRefA))).data().data.managerId,'daniel');
     assert.equal((await assertSucceeds(getDoc(pairRefB))).data().data.managerId,'nik');
     const beforeB=(await getDoc(pairRefB)).data();
-    const roleSwitchAfterTerminal=pairEnvelope('acct_b',roleSwitchTarget,'playerOne','daniel',ids.b,now,Timestamp.fromMillis(nowMs+2000),{revision:1,parentRevision:0,contentHash:hash('g'),priorContentHash:beforeB.contentHash});
+    const roleSwitchAfterTerminal=pairEnvelope('acct_b',roleSwitchTarget,'playerOne','daniel',ids.b,now,Timestamp.fromMillis(nowMs+2000),{revision:1,parentRevision:0,contentHash:hash('b'),priorContentHash:beforeB.contentHash});
     await assertFails(setDoc(pairRefB,roleSwitchAfterTerminal));
 
     await assertFails(getDoc(doc(dbB,'accounts','acct_a','pairLinks','current')));
