@@ -135,7 +135,7 @@ for(const required of [
   'allow create: if ssjrTransferPrivateCreateValid(rivalryId, transferId, managerRole)',
   'allow update: if ssjrTransferPrivateUpdateValid(rivalryId, transferId, managerRole)',
   'function ssjrSetupTeamCount(rivalryId)',
-  'hashing.sha256(ssjrSetupBindingCanonical(rivalryId).utf8())',
+  'hashing.sha256(ssjrSetupBindingCanonical(rivalryId))',
   'match /seasonResults/{seasonId}',
   'allow create: if ssjrResultsValidCreate(rivalryId, seasonId)',
   'allow update: if ssjrResultsValidUpdate(rivalryId, seasonId)',
