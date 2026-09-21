@@ -14,6 +14,7 @@
   const defaultHistoryModule=typeof require==="function"?require("./sharedHistoryConvergence.js"):root.CareerModeSharedHistoryConvergence;
   const defaultCommitProvider=typeof require==="function"?require("./sparkSharedSeasonCommit.js"):root.CareerModeSparkSharedSeasonCommit;
   const defaultScoringProvider=typeof require==="function"?require("./sparkSharedCanonicalScoring.js"):root.CareerModeSparkSharedCanonicalScoring;
+  const defaultCatalogModule=typeof require==="function"?require("./sharedShowdownCatalog.js"):root.CareerModeSharedShowdownCatalog;
   function hcpSetupProvider(){return typeof require==="function"?require("./sparkSharedShowdownSetup.js"):root.CareerModeSparkSharedShowdownSetup;}
 
   function hcpFail(code,message){const error=new Error(message||code);error.code=code;throw error;}
@@ -24,6 +25,7 @@
   function hcpSession(value){const id=String(value||"").trim().toLowerCase();if(!/^session_[0-9a-f]{64}$/.test(id))hcpFail("HISTORY_CONVERGENCE_SESSION_INVALID");return id;}
   function hcpUid(user){const uid=user&&typeof user.uid==="string"?user.uid.trim():"";if(!uid)hcpFail("HISTORY_CONVERGENCE_AUTH_REQUIRED");return uid;}
   function hcpThroughSeason(value){const n=Number(value);if(!Number.isInteger(n)||n<1||n>10)hcpFail("HISTORY_CONVERGENCE_SEASON_INVALID");return n;}
+  function hcpTeamCount(setup,catalogModule){const clubs=catalogModule?.catalog?.[setup?.leagueId];if(!Array.isArray(clubs)||clubs.length<2||clubs.length>20)hcpFail("HISTORY_CONVERGENCE_LEAGUE_INVALID");return clubs.length;}
   function hcpSdk(options){if(!options.firestore)hcpFail("HISTORY_CONVERGENCE_PROVIDER_UNAVAILABLE");for(const name of ["doc","runTransaction"]){if(!options.firebaseSdk||typeof options.firebaseSdk[name]!=="function")hcpFail("HISTORY_CONVERGENCE_PROVIDER_UNAVAILABLE");}return options.firebaseSdk;}
   function hcpSnapshot(snapshot){return snapshot&&typeof snapshot.exists==="function"&&snapshot.exists()?snapshot.data():null;}
   function hcpPath(sdk,db,...parts){return sdk.doc(db,...parts);}
@@ -49,10 +51,11 @@
       return hcpFreeze({managerSlots:hcpValidSlots(rivalry,uid),setup});
     });
   }
-  function hcpCreateProvider({historyModule=defaultHistoryModule,commitProvider=defaultCommitProvider,scoringProvider=defaultScoringProvider,authorityReader=hcpReadAuthority}={}){
+  function hcpCreateProvider({historyModule=defaultHistoryModule,commitProvider=defaultCommitProvider,scoringProvider=defaultScoringProvider,catalogModule=defaultCatalogModule,authorityReader=hcpReadAuthority}={}){
     if(!historyModule||typeof historyModule.buildProjection!=="function"||typeof historyModule.verifyProjection!=="function")hcpFail("HISTORY_CONVERGENCE_PROTOCOL_UNAVAILABLE");
     if(!commitProvider||typeof commitProvider.read!=="function")hcpFail("HISTORY_CONVERGENCE_COMMIT_PROVIDER_UNAVAILABLE");
     if(!scoringProvider||typeof scoringProvider.read!=="function")hcpFail("HISTORY_CONVERGENCE_SCORING_PROVIDER_UNAVAILABLE");
+    if(!catalogModule||!catalogModule.catalog)hcpFail("HISTORY_CONVERGENCE_CATALOG_UNAVAILABLE");
     if(typeof authorityReader!=="function")hcpFail("HISTORY_CONVERGENCE_AUTHORITY_READER_UNAVAILABLE");
     async function hcpRead(options={}){
       try{
@@ -61,9 +64,9 @@
         const authority=await authorityReader(options,uid,rivalryId,throughSeason);
         if(!authority||!Array.isArray(authority.managerSlots)||!authority.setup)hcpFail("HISTORY_CONVERGENCE_AUTHORITY_INVALID");
         const actor=authority.managerSlots.find(slot=>slot.accountId===uid);if(!actor)hcpFail("HISTORY_CONVERGENCE_ACTOR_NOT_ENTITLED");
-        const seasons=[];
+        const teamCount=hcpTeamCount(authority.setup,catalogModule),seasons=[];
         for(let seasonNumber=1;seasonNumber<=throughSeason;seasonNumber+=1){
-          const shared={...options,rivalryId,sessionId,deviceId,seasonNumber,teamCount:20};delete shared.throughSeason;
+          const shared={...options,rivalryId,sessionId,deviceId,seasonNumber,teamCount};delete shared.throughSeason;
           const commit=await commitProvider.read(shared);if(!commit||commit.ok!==true||commit.committed!==true||commit.phase!=="ACKNOWLEDGED"||commit.revision!==3)hcpFail(commit?.code||"HISTORY_CONVERGENCE_COMMIT_NOT_ACKNOWLEDGED");
           const scoring=await scoringProvider.read(shared);if(!scoring||scoring.ok!==true||scoring.authoritative!==true||scoring.phase!=="SCORING_RECONCILED")hcpFail(scoring?.code||"HISTORY_CONVERGENCE_SCORING_INVALID");
           seasons.push({commit:{...commit,rivalryId},scoring:{...scoring,rivalryId}});

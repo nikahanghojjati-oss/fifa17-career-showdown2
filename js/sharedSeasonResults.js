@@ -29,9 +29,9 @@
   function ssrTransferComplete(value,seasonNumber){if(!ssrPlain(value)||value.phase!=="COMPLETED"||value.seasonNumber!==seasonNumber||!Number.isInteger(value.revision)||value.revision<1)ssrFail("SEASON_RESULTS_TRANSFER_NOT_COMPLETE");return value;}
   function ssrNormalizeResult(value,teamCount){
     ssrExact(value,RESULT_KEYS,"SEASON_RESULTS_PAYLOAD_INVALID");
-    const position=Number(value.leaguePosition),points=Number(value.leaguePoints),goals=Number(value.leagueGoals);
+    const position=Number(value.leaguePosition),points=Number(value.leaguePoints),goals=Number(value.leagueGoals),maxPoints=(teamCount-1)*2*3;
     if(!Number.isInteger(position)||position<1||position>teamCount)ssrFail("SEASON_RESULTS_POSITION_INVALID");
-    if(!Number.isInteger(points)||points<0||points>114)ssrFail("SEASON_RESULTS_POINTS_INVALID");
+    if(!Number.isInteger(points)||points<0||points>maxPoints)ssrFail("SEASON_RESULTS_POINTS_INVALID");
     if(!Number.isInteger(goals)||goals<0||goals>300)ssrFail("SEASON_RESULTS_GOALS_INVALID");
     for(const key of ["domesticCup","championsLeague","topScorer","topAssist"]){if(typeof value[key]!=="boolean")ssrFail("SEASON_RESULTS_PAYLOAD_INVALID");}
     return {leaguePosition:position,leaguePoints:points,leagueGoals:goals,domesticCup:value.domesticCup,championsLeague:value.championsLeague,topScorer:value.topScorer,topAssist:value.topAssist};

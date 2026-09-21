@@ -24,6 +24,7 @@
     await phcLoadScript("ssjr-production-season-commit","js/productionSharedSeasonCommit.js",()=>root.CareerModeProductionSharedSeasonCommit);
     await phcLoadScript("ssjr-production-canonical-scoring","js/productionSharedCanonicalScoring.js",()=>root.CareerModeProductionSharedCanonicalScoring);
     await phcLoadScript("ssjr-history-convergence-protocol","js/sharedHistoryConvergence.js",()=>root.CareerModeSharedHistoryConvergence);
+    await phcLoadScript("ssjr-shared-setup-catalog","js/sharedShowdownCatalog.js",()=>root.CareerModeSharedShowdownCatalog);
     await phcLoadScript("ssjr-season-commit-provider","js/sparkSharedSeasonCommit.js",()=>root.CareerModeSparkSharedSeasonCommit);
     await phcLoadScript("ssjr-canonical-scoring-protocol","js/sharedCanonicalScoring.js",()=>root.CareerModeSharedCanonicalScoring);
     await phcLoadScript("ssjr-canonical-scoring-provider","js/sparkSharedCanonicalScoring.js",()=>root.CareerModeSparkSharedCanonicalScoring);

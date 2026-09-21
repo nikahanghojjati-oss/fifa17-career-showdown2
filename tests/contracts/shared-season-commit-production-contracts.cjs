@@ -18,6 +18,8 @@ const pkg=JSON.parse(read('package.json'));
 assert.match(adapter,/feature:\"ssjr-production-shared-season-commit\"/);
 assert.match(adapter,/runtimeRevision:\"1\.9\.1-r10\"/);
 for(const flag of ['productionEnabled:true','requiresResultsReady:true','requiresCoordinatorCommit:true','requiresBothAcknowledgements:true','reusesSeasonReview:true','distinctFromLocalConfirm:true','boundedStaleRetry:true','canonicalStorageMutation:false','authoritativeScoring:false','billingRequired:false','blazeRequired:false','cloudRunRequired:false','cloudFunctionsRequired:false'])assert.match(adapter,new RegExp(flag.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')));
+assert.match(adapter,/sharedShowdownCatalog\.js/,'r10 must load the authoritative shared club catalog before its provider');
+assert.ok(adapter.indexOf('js/sharedShowdownCatalog.js')<adapter.indexOf('js/sparkSharedSeasonCommit.js'),'r10 direct dependency loader must initialize the catalog before the provider factory');
 assert.match(adapter,/provider\.read/);
 assert.match(adapter,/provider\[method\]/);
 assert.match(adapter,/commitSeason/);
@@ -37,6 +39,7 @@ assert.match(seasonEngine,/function confirmCurrentSeason\(\)[\s\S]*persistComple
 assert.match(resultsAdapter,/authoritativeScoring:false/,'r9 result publication must remain non-scoring authority beneath r10');
 assert.match(bootstrap,/ssjr-production-season-commit/,'Shared Journey bootstrap must continue installing the r10 production adapter');
 assert.match(bootstrap,/CareerModeProductionSharedSeasonCommit/);
+assert.ok(bootstrap.indexOf('["ssjr-shared-setup-catalog","js/sharedShowdownCatalog.js","CareerModeSharedShowdownCatalog"]')<bootstrap.indexOf('["ssjr-season-commit-provider","js/sparkSharedSeasonCommit.js","CareerModeSparkSharedSeasonCommit"]'),'Shared Journey bootstrap must load the catalog before the Season Commit provider factory');
 
 // r10 remains an immutable predecessor capability while later whole-shell releases advance independently.
 const runtimeMatch=worker.match(/const RUNTIME_REVISION = "([^"]+)";/);

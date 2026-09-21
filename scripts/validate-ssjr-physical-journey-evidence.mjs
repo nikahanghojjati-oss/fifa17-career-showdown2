@@ -79,7 +79,7 @@ function validateSingle(evidence,source,{expectedAppVersion,expectedRuntimeRevis
 }
 
 export function validatePhysicalJourneyPair(first,second,options={}){
-  const expectedAppVersion=String(options.expectedAppVersion||"1.9.1"),expectedRuntimeRevision=String(options.expectedRuntimeRevision||"1.9.1-r43");
+  const expectedAppVersion=String(options.expectedAppVersion||"1.9.1"),expectedRuntimeRevision=String(options.expectedRuntimeRevision||"1.9.1-r44");
   const left=validateSingle(first,"first export",{expectedAppVersion,expectedRuntimeRevision}),right=validateSingle(second,"second export",{expectedAppVersion,expectedRuntimeRevision}),issues=[...left.issues,...right.issues],a=left.facts,b=right.facts;
   const pair=(condition,code,message)=>{if(!condition)issues.push(issue("pair",code,message));};
   pair(a.managerRole&&b.managerRole&&a.managerRole!==b.managerRole&&new Set([a.managerRole,b.managerRole]).size===2,"MANAGER_ROLES_NOT_OPPOSITE","The exports must represent playerOne and playerTwo.");

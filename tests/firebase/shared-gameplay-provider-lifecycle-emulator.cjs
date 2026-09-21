@@ -4,8 +4,8 @@ const assert=require("node:assert/strict");
 const crypto=require("node:crypto");
 const fs=require("node:fs");
 const firestoreSdk=require("firebase/firestore");
-const {Timestamp,doc,setDoc,serverTimestamp}=firestoreSdk;
-const {initializeTestEnvironment}=require("@firebase/rules-unit-testing");
+const {Timestamp,doc,getDoc,setDoc,serverTimestamp,writeBatch}=firestoreSdk;
+const {initializeTestEnvironment,assertFails,assertSucceeds}=require("@firebase/rules-unit-testing");
 
 global.window=globalThis;
 require("../../data/transferOptions.js");
@@ -26,7 +26,7 @@ const TOTAL_SEASONS=Number(process.env.CMS_SHOWDOWN_LENGTH||3);
 assert.ok([1,3,5,10].includes(TOTAL_SEASONS),`Unsupported lifecycle length: ${TOTAL_SEASONS}`);
 
 const A="acct_game_a",B="acct_game_b";
-const R=`pair_${"a".repeat(64)}`;
+const R=`pair_${"1".repeat(64)}`;
 const S=`session_${"b".repeat(64)}`;
 const FRESH=`session_${"c".repeat(64)}`;
 const FRESH_RESULTS=`session_${"d".repeat(64)}`;
@@ -52,14 +52,33 @@ function op(prefix,n){return prefix+Number(n).toString(16).padStart(32,"0");}
 function base(db,uid,deviceId,now){return {user:{uid},firestore:db,firebaseSdk:sdk(),rivalryId:R,sessionId:activeSessionId,deviceId,nowEpochMs:now,cryptoImpl:crypto.webcrypto};}
 function localAuthority(role){const slot=slots().find(item=>item.slotId===role);return {phase:"REMOTE_OBSERVED",canonicalStorageMutation:false,providerWriteRequired:false,automaticLocalApply:false,candidateCOnly:true,binding:{saveId:slot.saveId,profileId:slot.profileId,managerRole:role}};}
 function resultFor(role,season){
-  if(role==="playerOne")return {leaguePosition:season===1?1:2,leaguePoints:90+season,leagueGoals:88+season,domesticCup:season===2,championsLeague:season===3,topScorer:season===1,topAssist:false};
+  if(role==="playerOne")return {leaguePosition:season===1?1:2,leaguePoints:season===1?102:90+season,leagueGoals:88+season,domesticCup:season===2,championsLeague:season===3,topScorer:season===1,topAssist:false};
   return {leaguePosition:season===2?1:3,leaguePoints:87+season,leagueGoals:84+season,domesticCup:false,championsLeague:false,topScorer:false,topAssist:season===3};
 }
 function expectedScore(role,season){
-  if(role==="playerOne"){if(season===1)return 4;if(season===2)return 1;if(season===3)return 5;if(season===10)return 1;return 0;}
+  if(role==="playerOne"){if(season===1)return 5;if(season===2)return 1;if(season===3)return 5;if(season===10)return 1;return 0;}
   if(season===2)return 3;if(season===3)return 1;return 0;
 }
 function expectedWinner(season){return season===2?"playerTwo":"playerOne";}
+
+async function assertImpossibleBundesligaResultDenied(db,season){
+  const operationId=op("season_result_op_",900+season),seasonId=`season_${season}`,hash=`sha256:${"9".repeat(64)}`,commandHash=`sha256:${"8".repeat(64)}`;
+  await assertSucceeds(setDoc(doc(db,"rivalries",R,"sharedSetup","leagueProjection"),{schemaVersion:1,objectType:"sharedLeagueProjection",rivalryId:R,teamCount:18,createdAt:serverTimestamp()}));
+  const batch=writeBatch(db);
+  batch.set(doc(db,"rivalries",R,"seasonResults",seasonId),{schemaVersion:1,objectType:"sharedSeasonResults",rivalryId:R,seasonNumber:season,runtimeRevision:"1.9.1-r9",phase:"COLLECTING",revision:1,teamCount:18,publishedRoles:["playerOne"],operationIds:[operationId],operationHashes:[hash],baseRevisions:[0],actorRoles:["playerOne"],activeSessionId,updatedAt:serverTimestamp(),updatedByDeviceId:DA});
+  batch.set(doc(db,"rivalries",R,"seasonResults",seasonId,"roles","playerOne"),{schemaVersion:1,objectType:"sharedSeasonResultRole",rivalryId:R,seasonNumber:season,managerRole:"playerOne",result:{...resultFor("playerOne",season),leaguePoints:103},operationId,commandHash,activeSessionId,publishedAt:serverTimestamp(),updatedByDeviceId:DA});
+  await assertFails(batch.commit());
+}
+async function assertImpossibleBundesligaCommitDenied(env,db,season){
+  const seasonId=`season_${season}`,p1Path=doc(db,"rivalries",R,"seasonResults",seasonId,"roles","playerOne"),p2Path=doc(db,"rivalries",R,"seasonResults",seasonId,"roles","playerTwo");
+  let p1,p2;
+  await env.withSecurityRulesDisabled(async context=>{const raw=context.firestore(),one=await getDoc(doc(raw,"rivalries",R,"seasonResults",seasonId,"roles","playerOne")),two=await getDoc(doc(raw,"rivalries",R,"seasonResults",seasonId,"roles","playerTwo"));p1=one.data();p2=two.data();await setDoc(doc(raw,"rivalries",R,"seasonResults",seasonId,"roles","playerOne"),{...p1,result:{...p1.result,leaguePoints:103}});});
+  try{
+    await assertFails(setDoc(doc(db,"rivalries",R,"seasonCommits",seasonId),{schemaVersion:1,objectType:"sharedSeasonCommit",rivalryId:R,seasonNumber:season,runtimeRevision:"1.9.1-r10",phase:"COMMITTED",revision:1,resultsRevision:2,results:{playerOne:{...p1.result,leaguePoints:103},playerTwo:p2.result},acknowledgedRoles:[],operationIds:[`season_commit_op_${"f".repeat(32)}`],operationHashes:[`sha256:${"7".repeat(64)}`],baseRevisions:[0],actorRoles:["playerOne"],activeSessionId,updatedAt:serverTimestamp(),updatedByDeviceId:DA}));
+  }finally{
+    await env.withSecurityRulesDisabled(async context=>{await setDoc(doc(context.firestore(),"rivalries",R,"seasonResults",seasonId,"roles","playerOne"),p1);});
+  }
+}
 
 (async()=>{
   const env=await initializeTestEnvironment({projectId:PROJECT_ID,firestore:{rules:RULES}});
@@ -98,6 +117,7 @@ function expectedWinner(season){return season===2?"playerTwo":"playerOne";}
     assert.equal(setupResult.state.phase,"SHOWDOWN_CONFIRMED");
     assert.equal(setupResult.state.totalSeasons,TOTAL_SEASONS);
     assert.ok(setupResult.state.leagueId&&setupResult.state.clubs?.playerOne&&setupResult.state.clubs?.playerTwo);
+    assert.equal(setupResult.state.leagueId,"bundesliga","r44 lifecycle fixture must deterministically exercise the 18-team league");
 
     let career=await Career.acknowledge({...a(70),operationId:op("career_start_op_",1),baseRevision:0});
     assert.equal(career.ok,true,JSON.stringify(career));
@@ -154,6 +174,7 @@ function expectedWinner(season){return season===2?"playerTwo":"playerOne";}
       assert.equal(transferA.opponentInputs.signings.length,3,`S${season} completed transfer reveal must contain all three rival signings`);
       assert.equal(transferB.opponentInputs.guesses.length,3,`S${season} completed transfer reveal must contain all three rival guesses`);
 
+      if(season===1)await assertImpossibleBundesligaResultDenied(dbA,season);
       let results=await Results.publishResult({...a(offset+800),seasonNumber:season,operationId:op("season_result_op_",season*10+1),baseRevision:0,result:resultFor("playerOne",season)});
       assert.equal(results.ok,true,`S${season} Daniel result failed: ${JSON.stringify(results)}`);
       assert.equal(results.opponentResult,null,"First publication must remain private.");
@@ -175,6 +196,7 @@ function expectedWinner(season){return season===2?"playerTwo":"playerOne";}
       assert.equal(results.ok,true,`S${season} revealed results read failed: ${JSON.stringify(results)}`);
       assert.equal(results.state.phase,"RESULTS_READY");
       assert.ok(results.allResults?.playerOne&&results.allResults?.playerTwo);
+      if(season===1)await assertImpossibleBundesligaCommitDenied(env,dbA,season);
 
       let commit=await Commit.commitSeason({...a(offset+1000),seasonNumber:season,operationId:op("season_commit_op_",season*10+1),baseRevision:0});
       assert.equal(commit.ok,true,`S${season} commit failed: ${JSON.stringify(commit)}`);
@@ -235,18 +257,16 @@ function expectedWinner(season){return season===2?"playerTwo":"playerOne";}
       else{assert.equal(lastMulti.state.activeSeason,null);assert.equal(lastMulti.state.terminal,true);assert.equal(lastMulti.state.phase,"SHOWDOWN_COMPLETE");}
 
       if(TOTAL_SEASONS===10&&season===5){
-        const freshNow=now+offset+1600;
+        const expiredAt=now+offset+1600;
         await env.withSecurityRulesDisabled(async context=>{
           const db=context.firestore();
-          await setDoc(doc(db,"rivalries",R,"sessions",S),session(now,S,freshNow-1));
-          await setDoc(doc(db,"rivalries",R,"sessions",FRESH),session(freshNow,FRESH));
+          await setDoc(doc(db,"rivalries",R,"sessions",activeSessionId),session(now,activeSessionId,expiredAt-1));
         });
-        activeSessionId=FRESH;
         const resumedA=await Setup.read(a(offset+1700)),resumedB=await Setup.read(b(offset+1700));
-        assert.equal(resumedA.ok,true,`S${season} fresh-session setup resume A failed: ${JSON.stringify(resumedA)}`);
-        assert.equal(resumedB.ok,true,`S${season} fresh-session setup resume B failed: ${JSON.stringify(resumedB)}`);
+        assert.equal(resumedA.ok,true,`S${season} expired-timestamp active-session resume A failed: ${JSON.stringify(resumedA)}`);
+        assert.equal(resumedB.ok,true,`S${season} expired-timestamp active-session resume B failed: ${JSON.stringify(resumedB)}`);
         assert.equal(resumedA.state.totalSeasons,TOTAL_SEASONS);
-        assert.deepEqual(resumedA.state.clubs,resumedB.state.clubs,"Fresh session must preserve fixed clubs.");
+        assert.deepEqual(resumedA.state.clubs,resumedB.state.clubs,"The same ACTIVE session must preserve fixed clubs beyond its old TTL.");
       }
     }
 
@@ -260,6 +280,6 @@ function expectedWinner(season){return season===2?"playerTwo":"playerOne";}
     assert.deepEqual(finalA.managerTotals,expectedTotals,"Final reconciliation must use the accumulated canonical score from every accepted season.");
     assert.equal(finalA.winner,"playerOne","Final winner must be derived from the accumulated canonical totals.");
 
-    process.stdout.write(`PASS production gameplay provider lifecycle (${TOTAL_SEASONS} season${TOTAL_SEASONS===1?"":"s"}): real generated Firestore Rules carried one exact two-manager Showdown through shared setup, Career Start, ${TOTAL_SEASONS} complete Transfer/Guess/Signing cycles, private Season Results, coordinator commit + dual acknowledgement, canonical scoring with exact numeric assertions, accumulated history/trophies/records, exact next-season progression, and final reconciliation from stored cumulative totals with fixed clubs and no reset${TOTAL_SEASONS===3?"; fresh sessions also took over after Daniel published Season 1 and after the Season 2 coordinator commit without losing accepted state":""}${TOTAL_SEASONS===10?"; the original private session expired after Season 5 and a fresh four-hour session resumed the same rivalry through Season 10":""}. Terminal Close remains independently production-emulator gated.\n`);
+    process.stdout.write(`PASS production gameplay provider lifecycle (${TOTAL_SEASONS} season${TOTAL_SEASONS===1?"":"s"}): real generated Firestore Rules carried one exact two-manager Showdown through shared setup, Career Start, ${TOTAL_SEASONS} complete Transfer/Guess/Signing cycles, private Season Results with Bundesliga 102 accepted / direct-SDK 103 denied, league-bounded coordinator commit + dual acknowledgement, canonical scoring with exact numeric assertions, accumulated history/trophies/records, exact next-season progression, and final reconciliation from stored cumulative totals with fixed clubs and no reset${TOTAL_SEASONS===3?"; fresh sessions also took over after Daniel published Season 1 and after the Season 2 coordinator commit without losing accepted state":""}${TOTAL_SEASONS===10?"; the same ACTIVE private session continued through Season 10 after its original expiry timestamp passed":""}. Terminal Close remains independently production-emulator gated.\n`);
   }finally{await env.cleanup();}
 })().catch(error=>{console.error(error.stack||error);process.exit(1);});

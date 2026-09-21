@@ -3,7 +3,7 @@ const {webcrypto}=require("node:crypto");
 const Results=require("../../js/sharedSeasonResults.js");
 const Provider=require("../../js/sparkSharedSeasonCommit.js");
 
-const rivalryId="pair_"+("a".repeat(64));
+const rivalryId="pair_"+("5".repeat(64));
 const sessionId="session_"+("b".repeat(64));
 const device1="device_"+("1".repeat(32));
 const device2="device_"+("2".repeat(32));
@@ -22,9 +22,10 @@ async function createHarness(){
   put(key("accounts",uid2),{objectType:"account",objectId:uid2,lifecycleState:"live",data:{status:"active"}});
   put(key("accounts",uid1,"devices",device1),{objectType:"device",objectId:device1,lifecycleState:"live",data:{deviceId:device1,state:"active"}});
   put(key("accounts",uid2,"devices",device2),{objectType:"device",objectId:device2,lifecycleState:"live",data:{deviceId:device2,state:"active"}});
-  put(key("rivalries",rivalryId),{objectType:"rivalry",objectId:rivalryId,lifecycleState:"live",data:{connectionState:"active",authorizedAccountIds:[uid1,uid2],managerSlots:[{slotId:"playerOne",accountId:uid1,entitlementState:"active"},{slotId:"playerTwo",accountId:uid2,entitlementState:"active"}]}});
-  put(key("rivalries",rivalryId,"sessions",sessionId),{objectType:"session",objectId:sessionId,lifecycleState:"live",data:{rivalryId,state:"active",memberAccountIds:[uid1,uid2],expiresAt:ts(9_000_000)}});
-  const setup={schemaVersion:1,objectType:"sharedSetupLedger",rivalryId,revision:6,phase:"SHOWDOWN_CONFIRMED",coordinatorRole:"playerOne",totalSeasons:3,confirmedRoles:["playerOne","playerTwo"]};
+  put(key("rivalries",rivalryId),{objectType:"rivalry",objectId:rivalryId,lifecycleState:"live",data:{connectionState:"active",authorizedAccountIds:[uid1,uid2],managerSlots:[{slotId:"playerOne",accountId:uid1,profileId:"profile_"+("1".repeat(24)),saveId:"save_"+("3".repeat(24)),entitlementState:"active"},{slotId:"playerTwo",accountId:uid2,profileId:"profile_"+("2".repeat(24)),saveId:"save_"+("4".repeat(24)),entitlementState:"active"}]}});
+  put(key("rivalries",rivalryId,"sessions",sessionId),{objectType:"session",objectId:sessionId,lifecycleState:"live",data:{rivalryId,state:"active",hostAccountId:uid1,memberAccountIds:[uid1,uid2],expiresAt:ts(9_000_000)}});
+  const setupOps=[1,2,3,4,5,6].map(n=>"setup_op_"+n.toString(16).padStart(32,"0"));
+  const setup={schemaVersion:1,objectType:"sharedSetupLedger",rivalryId,revision:6,phase:"SHOWDOWN_CONFIRMED",coordinatorRole:"playerOne",operationIds:setupOps,operationTypes:["open","commit-league","commit-clubs","commit-length","confirm","confirm"],baseRevisions:[0,1,2,3,4,5],actorRoles:["playerOne","playerOne","playerOne","playerOne","playerOne","playerTwo"],totalSeasons:3,confirmedRoles:["playerOne","playerTwo"],activeSessionId:sessionId,updatedAt:ts(1_000_000),updatedByDeviceId:device2};
   put(key("rivalries",rivalryId,"sharedSetup","authoritative"),setup);
   const careerStart={phase:"CAREER_START_READY",revision:2,acknowledgedRoles:["playerOne","playerTwo"]};
   const transferChallenge={phase:"COMPLETED",seasonNumber:1,revision:7};
@@ -55,9 +56,10 @@ async function createHarness(){
   view=await Provider.read(h.options("playerTwo",2_000_100));assert.equal(view.ok,true);assert.equal(view.committed,true);assert.equal(view.phase,"ACKNOWLEDGED");assert.equal(view.ownAcknowledged,true);assert.deepEqual(view.results,{playerOne:p1,playerTwo:p2});
 
   const drift=await createHarness();await Provider.commitSeason({...drift.options("playerOne"),operationId:commitOp(10),baseRevision:0});drift.store.get(drift.p1Path).result.leaguePoints=99;view=await Provider.read(drift.options("playerOne",2_000_200));assert.equal(view.ok,false);assert.equal(view.code,"SEASON_COMMIT_RESULTS_REVISION_MISMATCH");
+  const impossible=await createHarness();impossible.store.get(impossible.p1Path).result.leaguePoints=103;view=await Provider.read(impossible.options("playerOne",2_000_250));assert.equal(view.ok,false);assert.equal(view.code,"SEASON_COMMIT_RESULTS_INVALID","deterministically drawn Bundesliga must reject an impossible 103-point stored result before commit");
   const revoked=await createHarness();revoked.store.get(revoked.key("accounts",uid1,"devices",device1)).data.state="revoked";denied=await Provider.commitSeason({...revoked.options("playerOne"),operationId:commitOp(11),baseRevision:0});assert.equal(denied.ok,false);assert.equal(denied.code,"SEASON_COMMIT_DEVICE_INACTIVE");
-  const expired=await createHarness();expired.store.get(expired.key("rivalries",rivalryId,"sessions",sessionId)).data.expiresAt=ts(1_000_000);denied=await Provider.commitSeason({...expired.options("playerOne",2_000_000),operationId:commitOp(12),baseRevision:0});assert.equal(denied.ok,false);assert.equal(denied.code,"SEASON_COMMIT_ACTIVE_SESSION_REQUIRED");
+  const expired=await createHarness();expired.store.get(expired.key("rivalries",rivalryId,"sessions",sessionId)).data.expiresAt=ts(1_000_000);const afterOldTtl=await Provider.commitSeason({...expired.options("playerOne",2_000_000),operationId:commitOp(12),baseRevision:0});assert.equal(afterOldTtl.ok,true);assert.equal(afterOldTtl.phase,"COMMITTED");
   const incomplete=await createHarness();incomplete.store.get(incomplete.publicPath).phase="COLLECTING";incomplete.store.get(incomplete.publicPath).revision=1;denied=await Provider.commitSeason({...incomplete.options("playerOne"),operationId:commitOp(13),baseRevision:0});assert.equal(denied.ok,false);assert.equal(denied.code,"SEASON_COMMIT_RESULTS_NOT_READY");
 
-  console.log("PASS Shared Season Commit Spark provider: active account/device/two-manager rivalry/ACTIVE-session authority, authoritative r9 RESULTS_READY reconstruction, coordinator-only immutable commit, CAS/idempotency, two distinct acknowledgements, results-drift rejection, Spark-only zero billing, no scoring and no canonical Save mutation.");
+  console.log("PASS Shared Season Commit Spark provider: active account/device/two-manager rivalry/ACTIVE-session authority, authoritative r9 RESULTS_READY reconstruction, coordinator-only immutable commit, CAS/idempotency, two distinct acknowledgements, results-drift rejection, deterministic Bundesliga 103-point rejection, Spark-only zero billing, no scoring and no canonical Save mutation.");
 })().catch(error=>{console.error(error);process.exitCode=1;});

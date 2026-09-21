@@ -84,7 +84,7 @@ const path=require("node:path");
     return resequence(e);
   };
   const evidence=({managerRole,remoteRole,account,device,rivalry="c",session="d",deviceLabel,networkLabel,userAgent,platform})=>({
-    schema:validator.EVIDENCE_SCHEMA,generatedAt:"2026-09-13T06:30:00.000Z",appVersion:"1.9.1",runtimeRevision:"1.9.1-r43",acceptanceMode:true,physicalJourneyMode:true,sanitizedSessionStorageOnly:true,recorderNetworkRequests:false,rawAuthorityIncluded:false,canonicalRawIncluded:false,
+    schema:validator.EVIDENCE_SCHEMA,generatedAt:"2026-09-13T06:30:00.000Z",appVersion:"1.9.1",runtimeRevision:"1.9.1-r44",acceptanceMode:true,physicalJourneyMode:true,sanitizedSessionStorageOnly:true,recorderNetworkRequests:false,rawAuthorityIncluded:false,canonicalRawIncluded:false,
     device:{userAgent,platform,maxTouchPoints:managerRole==="playerOne"?0:5,screenWidth:managerRole==="playerOne"?1366:430,screenHeight:managerRole==="playerOne"?768:932},deviceLabel,networkLabel,managerRole,remoteRole,accountFingerprint:fp(account),deviceFingerprint:fp(device),rivalryFingerprint:fp(rivalry),sessionFingerprints:[fp(session)],authorityViolation:false,canonicalStorageProofScope:"local-reconciliation-preview",canonicalStorageBeforeHash:fp("e"),canonicalStorageAfterHash:fp("e"),canonicalStorageViolation:false,candidateCApplied:false,offlineObserved:true,onlineRecovered:true,reloadResumed:true,terminalReloadVerified:true,conflictGuardProven:true,startupCount:3,
     milestones:makeMilestones(),completed:true
   });
@@ -122,7 +122,7 @@ const path=require("node:path");
   const fakeOffline=structuredClone(two);fakeOffline.milestones.find(item=>item.stage==="network-offline").online=true;
   assert.ok(validator.validatePhysicalJourneyPair(one,fakeOffline).issues.some(item=>item.code==="OFFLINE_FLAG_INVALID"));
 
-  console.log("PASS r43 Physical Journey recorder is query-gated, privacy-safe, non-writing, authority-sticky and scopes canonical storage integrity to Local Reconciliation preview");
+  console.log("PASS r44 Physical Journey recorder is query-gated, privacy-safe, non-writing, authority-sticky and scopes canonical storage integrity to Local Reconciliation preview");
   console.log("PASS current peer-entry contract requires both devices to prepare canonical Showdown shells and ACTIVE peer join to return to the single paired Career entry");
   console.log("PASS current pair oracle accepts both safe PREVIEW_READY/after-hash callback orders while requiring opposite manager/remote roles, distinct devices/networks, one season, ordered recovery, scoped unchanged storage proof, no Candidate C Apply and terminal reload");
 })().catch(error=>{console.error("SSJR PHYSICAL JOURNEY ACCEPTANCE CONTRACTS FAILED");console.error(error.stack||error);process.exit(1);});

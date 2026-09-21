@@ -81,11 +81,79 @@
         && sessionData.memberAccountIds.size() == 2
         && rivalry.authorizedAccountIds[0] in sessionData.memberAccountIds
         && rivalry.authorizedAccountIds[1] in sessionData.memberAccountIds
-        && sessionData.expiresAt is timestamp
-        && sessionData.expiresAt > request.time;
+        && sessionData.expiresAt is timestamp;
     }
     function ssjrSessionHostIsActor(rivalryId, sessionId) {
       return get(/databases/$(database)/documents/rivalries/$(rivalryId)/sessions/$(sessionId)).data.data.hostAccountId == request.auth.uid;
+    }
+    function ssjrSetupHexMod5(value) {
+      return value in ['0','5','a','f'] ? 0
+        : value in ['1','6','b'] ? 1
+        : value in ['2','7','c'] ? 2
+        : value in ['3','8','d'] ? 3
+        : value in ['4','9','e'] ? 4
+        : -1;
+    }
+    function ssjrSetupHex32Mod5(value) {
+      return (ssjrSetupHexMod5(value[0])
+        + ssjrSetupHexMod5(value[1])
+        + ssjrSetupHexMod5(value[2])
+        + ssjrSetupHexMod5(value[3])
+        + ssjrSetupHexMod5(value[4])
+        + ssjrSetupHexMod5(value[5])
+        + ssjrSetupHexMod5(value[6])
+        + ssjrSetupHexMod5(value[7])) % 5;
+    }
+    function ssjrSetupBindingCanonical(rivalryId) {
+      let rivalry = get(/databases/$(database)/documents/rivalries/$(rivalryId)).data.data;
+      let slots = rivalry.managerSlots;
+      return '{"managerSlots":[{"accountId":"' + slots[0].accountId
+        + '","profileId":"' + slots[0].profileId
+        + '","saveId":"' + slots[0].saveId
+        + '","slotId":"' + slots[0].slotId
+        + '"},{"accountId":"' + slots[1].accountId
+        + '","profileId":"' + slots[1].profileId
+        + '","saveId":"' + slots[1].saveId
+        + '","slotId":"' + slots[1].slotId
+        + '"}],"rivalryId":"' + rivalryId + '"}';
+    }
+    function ssjrSetupBindingHash(rivalryId) {
+      return 'sha256:' + hashing.sha256(ssjrSetupBindingCanonical(rivalryId)).toHexString();
+    }
+    function ssjrSetupLeagueDigest(rivalryId, counter) {
+      let seed = '{"bindingHash":"' + ssjrSetupBindingHash(rivalryId)
+        + '","catalogHash":"sha256:f68d0a20f13304ae5af9faa2fee0b731d3491375304f635fb52c68840484d2ce'
+        + '","counter":' + string(counter)
+        + ',"domain":"shared-showdown-draw-v1","leagueId":null,"purpose":"league"}';
+      return hashing.sha256(seed).toHexString();
+    }
+    function ssjrSetupLeagueIndex(rivalryId) {
+      let first = ssjrSetupLeagueDigest(rivalryId, 0);
+      let selected = first[0:8] == 'ffffffff' ? ssjrSetupLeagueDigest(rivalryId, 1) : first;
+      return selected[0:8] == 'ffffffff' ? -1 : ssjrSetupHex32Mod5(selected);
+    }
+    function ssjrSetupTeamCount(rivalryId) {
+      let index = ssjrSetupLeagueIndex(rivalryId);
+      return index == 2 ? 18 : (index >= 0 && index <= 4 ? 20 : 0);
+    }
+    function ssjrLeagueProjectionCreateValid(rivalryId) {
+      let after = request.resource.data;
+      let setup = get(/databases/$(database)/documents/rivalries/$(rivalryId)/sharedSetup/authoritative).data;
+      let rivalry = ssjrRivalryData(rivalryId);
+      return signedIn()
+        && after.keys().hasOnly(['schemaVersion','objectType','rivalryId','teamCount','createdAt'])
+        && after.schemaVersion == 1
+        && after.objectType == 'sharedLeagueProjection'
+        && after.rivalryId == rivalryId
+        && after.teamCount in [18,20]
+        && after.teamCount == ssjrSetupTeamCount(rivalryId)
+        && after.createdAt == request.time
+        && request.auth.uid in rivalry.authorizedAccountIds
+        && setup.schemaVersion == 1
+        && setup.objectType == 'sharedSetupLedger'
+        && setup.rivalryId == rivalryId
+        && setup.revision == 6
+        && setup.phase == 'SHOWDOWN_CONFIRMED';
     }
     function ssjrExactLedgerKeys(root) {
       return root.keys().hasOnly([
@@ -190,5 +258,11 @@
         allow list, delete: if false;
         allow create: if ssjrValidCreateLedger(rivalryId);
         allow update: if ssjrValidUpdateLedger(rivalryId);
+      }
+
+      match /sharedSetup/leagueProjection {
+        allow get: if ssjrEntitled(rivalryId);
+        allow list, update, delete: if false;
+        allow create: if ssjrLeagueProjectionCreateValid(rivalryId);
       }
 // SSJR_SHARED_SETUP_MATCH_END

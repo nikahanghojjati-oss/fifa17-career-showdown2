@@ -5,11 +5,13 @@ const {spawnSync}=require('node:child_process');
 
 const root=path.resolve(__dirname,'../..');
 const fragmentPath=path.join(root,'firestore.season-results-production.fragment.rules');
+const setupFragmentPath=path.join(root,'firestore.shared-setup-production.fragment.rules');
 const builderPath=path.join(root,'scripts/build-production-firestore-rules.mjs');
 const generatedPath=path.join(root,'firestore.spark.generated.rules');
 
 assert.equal(fs.existsSync(fragmentPath),true,'Shared Season Results Rules fragment must exist');
 const fragment=fs.readFileSync(fragmentPath,'utf8');
+const setupFragment=fs.readFileSync(setupFragmentPath,'utf8');
 const forbidden=/cloud[\s_-]*run|cloud[\s_-]*functions|billing|blaze|payment|purchased[\s_-]*credits/i;
 assert.doesNotMatch(fragment,forbidden,'Shared Season Results Rules must stay inside the permanent Spark/zero-billing boundary');
 
@@ -31,11 +33,14 @@ for(const required of [
   "transfer.phase == 'COMPLETED'",
   "transfer.revision == 6 || transfer.revision == 7",
   "root.runtimeRevision == '1.9.1-r9'",
+  "root.teamCount == ssjrResultsProjectedTeamCount(rivalryId)",
+  "root.teamCount == resource.data.teamCount",
+  "ssjrResultsPrivateBase(after, rivalryId, seasonId, managerRole, public.teamCount)",
   "value.keys().hasOnly(['leaguePosition','leaguePoints','leagueGoals','domesticCup','championsLeague','topScorer','topAssist'])",
   "value.leaguePosition >= 1",
-  "value.leaguePosition <= 20",
+  "value.leaguePosition <= teamCount",
   "value.leaguePoints >= 0",
-  "value.leaguePoints <= 114",
+  "value.leaguePoints <= (teamCount - 1) * 6",
   "value.leagueGoals >= 0",
   "value.leagueGoals <= 300",
   "value.domesticCup is bool",
@@ -47,6 +52,7 @@ for(const required of [
   "own.activeSessionId == publicAfter.activeSessionId",
   "own.updatedByDeviceId == publicAfter.updatedByDeviceId"
 ])assert.ok(fragment.includes(required),`Season Results Rules missing required boundary: ${required}`);
+for(const required of ["match /sharedSetup/leagueProjection","allow create: if ssjrLeagueProjectionCreateValid(rivalryId)","after.teamCount == ssjrSetupTeamCount(rivalryId)","hashing.sha256(ssjrSetupBindingCanonical(rivalryId))"])assert.ok(setupFragment.includes(required),`Shared Setup Rules missing deterministic league helper: ${required}`);
 
 assert.doesNotMatch(fragment,/allow\s+list\s*:\s*if\s+true/,'Season Results must never expose collection listing');
 assert.doesNotMatch(fragment,/allow\s+delete\s*:\s*if\s+true/,'Season Results authority is immutable and may not be deleted by clients');
@@ -72,4 +78,4 @@ for(const required of [
 assert.equal((generated.match(/match \/seasonResults\/\{seasonId\}/g)||[]).length,1,'generated Rules must contain exactly one Season Results public match');
 assert.equal((generated.match(/match \/roles\/\{managerRole\}/g)||[]).length,2,'generated Rules must contain exactly the Transfer Challenge and Season Results role-private matches');
 
-console.log('PASS Shared Season Results production Rules: deterministic generator includes exactly one r9 public authority and one r9 role-private authority, active-session/device writes are required, result fields and universal FIFA 17 league bounds are exact, first publisher privacy lasts until RESULTS_READY, client update/delete/list are denied, r8 timeout and early-end completion paths are accepted, authoritative shared scoring stays absent, and the fragment remains Spark-only with zero billing.');
+console.log('PASS Shared Season Results production Rules: deterministic generator includes exactly one r9 public authority and one r9 role-private authority, active-session/device writes are required, result fields and deterministic league-specific FIFA 17 bounds are exact, first publisher privacy lasts until RESULTS_READY, client update/delete/list are denied, r8 timeout and early-end completion paths are accepted, authoritative shared scoring stays absent, and the fragment remains Spark-only with zero billing.');

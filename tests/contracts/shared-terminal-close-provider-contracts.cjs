@@ -163,11 +163,11 @@ async function harness({expiresAt=9_000_000}={}){
   assert.deepEqual(forged.store.get(forged.key("rivalries",rivalryId)).data.terminalProgress.managerTotals,{playerOne:11,playerTwo:9});
 
   const expired=await harness({expiresAt:1_500_000});
-  const denied=await Provider.close(expired.options(1));
-  assert.equal(denied.ok,false);
-  assert.equal(denied.code,"TERMINAL_CLOSE_SESSION_EXPIRED");
-  assert.equal(expired.store.get(expired.key("rivalries",rivalryId)).data.connectionState,"active");
-  assert.equal(expired.store.get(expired.key("rivalries",rivalryId)).data.terminalProgress.acceptedThroughSeason,3);
+  const completedAfterOldTtl=await Provider.close(expired.options(1));
+  assert.equal(completedAfterOldTtl.ok,true);
+  assert.equal(completedAfterOldTtl.status,"accepted");
+  assert.equal(expired.store.get(expired.key("rivalries",rivalryId)).data.connectionState,"closed");
+  assert.equal(expired.store.get(expired.key("rivalries",rivalryId,"sessions",sessionId)).data.state,"closed");
 
   const revoked=await harness();
   revoked.store.get(revoked.key("accounts",uid1,"devices",device1)).data.state="revoked";
@@ -177,5 +177,5 @@ async function harness({expiresAt=9_000_000}={}){
   assert.equal(revoked.store.get(revoked.key("rivalries",rivalryId)).data.connectionState,"active");
   assert.equal(revoked.store.get(revoked.key("rivalries",rivalryId)).data.terminalProgress,undefined);
 
-  console.log("PASS Terminal Close provider: bounded staged terminal proof folds acknowledged seasons and canonical scores one exact path at a time, then atomically closes rivalry+session; replay/read, forged totals, fresh-session resurrection, expiry/device denial, zero billing and zero canonical local mutation remain protected.");
+  console.log("PASS Terminal Close provider: bounded staged terminal proof folds acknowledged seasons and canonical scores one exact path at a time, then atomically closes rivalry+session; replay/read, forged totals, fresh-session resurrection, active-session continuation beyond the old TTL, device denial, zero billing and zero canonical local mutation remain protected.");
 })().catch(error=>{console.error(error);process.exitCode=1;});

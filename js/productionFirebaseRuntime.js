@@ -140,19 +140,9 @@
   }
 
   async function loadFirebaseSdk(importImpl=url=>import(url)){
-    const [appModule,appCheckModule]=await Promise.all([
-      importImpl(FIREBASE_APP_MODULE),
-      importImpl(FIREBASE_APP_CHECK_MODULE)
-    ]);
-    return {
-      initializeApp:appModule.initializeApp,
-      initializeAppCheck:appCheckModule.initializeAppCheck,
-      ReCaptchaEnterpriseProvider:appCheckModule.ReCaptchaEnterpriseProvider,
-      getToken:appCheckModule.getToken,
-      onTokenChanged:appCheckModule.onTokenChanged
-    };
+    const appModule=await importImpl(FIREBASE_APP_MODULE);
+    return {initializeApp:appModule.initializeApp};
   }
-
   function appCheckTokenObserved(tokenResult){
     return Boolean(tokenResult&&typeof tokenResult.token==="string"&&tokenResult.token.length>0);
   }
@@ -242,73 +232,45 @@
     runtimePromise=(async()=>{
       const contextCode=classifyRuntimeContext(options.context||getRuntimeContext());
       if(contextCode!=="eligible"){
-        return setRuntimeState({status:contextCode,attempted:false,connected:false,tokenObserved:false,authInitialized:false,firestoreInitialized:false});
+        return setRuntimeState({status:contextCode,attempted:false,connected:false,tokenObserved:false,authInitialized:false,firestoreInitialized:false,appCheckDisabled:true});
       }
 
-      setRuntimeState({status:"initializing",attempted:true,connected:false,tokenObserved:false,authInitialized:false,firestoreInitialized:false});
+      setRuntimeState({status:"initializing",attempted:true,connected:false,tokenObserved:false,authInitialized:false,firestoreInitialized:false,appCheckDisabled:true});
       const runtimeConfig=options.runtimeConfig
         ? {ok:true,config:options.runtimeConfig}
         : await readRuntimeConfig(options.fetchImpl||root.fetch);
       if(!runtimeConfig.ok){
-        return setRuntimeState({status:runtimeConfig.code,attempted:true,connected:false,tokenObserved:false,authInitialized:false,firestoreInitialized:false});
+        return setRuntimeState({status:runtimeConfig.code,attempted:true,connected:false,tokenObserved:false,authInitialized:false,firestoreInitialized:false,appCheckDisabled:true});
       }
-
-      const bootstrap=options.bootstrap||getBootstrap()||await loadBootstrapScript();
-      if(!bootstrap||typeof bootstrap.createPlan!=="function"||typeof bootstrap.initialize!=="function"){
-        return setRuntimeState({status:"app-check-bootstrap-unavailable",attempted:true,connected:false,tokenObserved:false,authInitialized:false,firestoreInitialized:false});
-      }
-
-      const bootstrapInput=buildBootstrapInput(runtimeConfig.config);
-      const plan=bootstrap.createPlan(bootstrapInput);
-      if(!plan||plan.ok!==true){
-        return setRuntimeState({status:plan&&plan.code?plan.code:"runtime-config-invalid",attempted:true,connected:false,tokenObserved:false,authInitialized:false,firestoreInitialized:false});
+      const config=runtimeConfig.config;
+      if(!config||config.schemaVersion!==1||config.configured!==true||!config.firebaseConfig||config.firebaseConfig.projectId!=="fifa17-career-showdown-prod"){
+        return setRuntimeState({status:"runtime-config-invalid",attempted:true,connected:false,tokenObserved:false,authInitialized:false,firestoreInitialized:false,appCheckDisabled:true});
       }
 
       try{
         const sdk=options.firebaseSdk||await loadFirebaseSdk(options.importImpl);
-        if(typeof sdk.getToken!=="function")throw new Error("Firebase App Check getToken is unavailable.");
-        const initialized=bootstrap.initialize({...bootstrapInput,firebaseSdk:sdk});
-        if(!initialized||initialized.ok!==true){
-          return setRuntimeState({status:initialized&&initialized.code?initialized.code:"app-check-initialization-failed",attempted:true,connected:false,tokenObserved:false,authInitialized:false,firestoreInitialized:false});
-        }
-        productionApp=initialized.app;
-        productionAppCheck=initialized.appCheck;
-        productionAppCheckGetToken=sdk.getToken;
-
-        let tokenResult=null;
-        let tokenObserved=false;
-        let appCheckDegraded=false;
-        try{
-          tokenResult=await sdk.getToken(initialized.appCheck,false);
-          tokenObserved=appCheckTokenObserved(tokenResult);
-          appCheckDegraded=!tokenObserved;
-          if(appCheckDegraded&&root.console&&typeof root.console.warn==="function"){
-            root.console.warn("[Career Mode Showdown] Production App Check token was not observed; enforcement is off, so Connected Account remains available while attestation monitoring recovers.");
-          }
-        }catch(error){
-          appCheckDegraded=true;
-          if(root.console&&typeof root.console.warn==="function"){
-            root.console.warn("[Career Mode Showdown] Production App Check token observation is temporarily unavailable; enforcement is off, so Connected Account remains available while attestation monitoring recovers.",error);
-          }
-        }
-
+        if(typeof sdk.initializeApp!=="function")throw new Error("Firebase initializeApp is unavailable.");
+        productionApp=sdk.initializeApp(config.firebaseConfig);
+        productionAppCheck=null;
+        productionAppCheckGetToken=null;
         setRuntimeState({
-          status:tokenObserved?"ready":"ready-app-check-degraded",
+          status:"ready",
           attempted:true,
           connected:true,
-          tokenObserved,
-          appCheckDegraded,
-          tokenExpireTimeMillis:appCheckTokenExpiry(tokenResult),
+          tokenObserved:false,
+          appCheckDegraded:false,
+          appCheckDisabled:true,
+          tokenExpireTimeMillis:null,
           tokenLifecycleObserved:false,
           tokenRefreshCount:0,
           tokenRefreshSuccessCount:0,
           tokenRefreshFailureCount:0,
           tokenRefreshAttempted:false,
-          lastTokenRefreshStatus:"not-attempted",
-          lastTokenTransition:"initial",
+          lastTokenRefreshStatus:"disabled",
+          lastTokenTransition:"disabled",
           appCheckTokenObserverInstalled:false,
           appCheckTokenObserverHealthy:null,
-          provider:"recaptcha-enterprise",
+          provider:"firebase-auth-firestore",
           sdkVersion:FIREBASE_SDK_VERSION,
           enforcement:false,
           authInitialized:false,
@@ -317,73 +279,22 @@
           authPersistence:"browserSessionPersistence",
           browserFirestoreWrites:BROWSER_FIRESTORE_WRITE_SCOPE
         });
-        installAppCheckTokenLifecycleObserver(initialized.appCheck,sdk);
         return runtimeState;
       }catch(error){
         productionApp=null;
         productionAppCheck=null;
         productionAppCheckGetToken=null;
         if(root.console&&typeof root.console.warn==="function"){
-          root.console.warn("[Career Mode Showdown] Production Firebase/App Check initialization is unavailable; local mode remains active.",error);
+          root.console.warn("[Career Mode Showdown] Production Firebase initialization is unavailable.",error);
         }
-        return setRuntimeState({status:"app-check-runtime-unavailable",attempted:true,connected:false,tokenObserved:false,authInitialized:false,firestoreInitialized:false});
+        return setRuntimeState({status:"firebase-runtime-unavailable",attempted:true,connected:false,tokenObserved:false,authInitialized:false,firestoreInitialized:false,appCheckDisabled:true});
       }
     })().finally(()=>{runtimePromise=null;});
     return runtimePromise;
   }
-
-  async function refreshProductionAppCheckToken(options={}){
-    if(tokenRefreshPromise)return tokenRefreshPromise;
-    tokenRefreshPromise=(async()=>{
-      const contextCode=classifyRuntimeContext(options.context||getRuntimeContext());
-      if(contextCode!=="eligible")return Object.freeze({ok:false,code:contextCode,state:runtimeState});
-      if(!productionApp||!productionAppCheck||typeof productionAppCheckGetToken!=="function"){
-        const initialized=await initializeProductionFirebaseRuntime(options.baseRuntimeOptions||options);
-        if(!initialized||initialized.connected!==true||!productionAppCheck||typeof productionAppCheckGetToken!=="function"){
-          return Object.freeze({ok:false,code:initialized&&initialized.status?initialized.status:"app-check-runtime-unavailable",state:runtimeState});
-        }
-      }
-      setRuntimeState({...runtimeState,tokenRefreshAttempted:true,lastTokenRefreshStatus:"refreshing"});
-      try{
-        const tokenResult=await productionAppCheckGetToken(productionAppCheck,true);
-        if(!appCheckTokenObserved(tokenResult)){
-          setRuntimeState({
-            ...runtimeState,
-            status:"ready-app-check-degraded",
-            appCheckDegraded:true,
-            tokenRefreshAttempted:true,
-            tokenRefreshFailureCount:(runtimeState.tokenRefreshFailureCount||0)+1,
-            lastTokenRefreshStatus:"empty-token-result"
-          });
-          return Object.freeze({ok:false,code:"app-check-refresh-token-not-observed",state:runtimeState});
-        }
-        const beforeCount=runtimeState.tokenRefreshCount||0;
-        recordAppCheckTokenObservation(tokenResult,"forced-refresh");
-        setRuntimeState({
-          ...runtimeState,
-          tokenRefreshAttempted:true,
-          tokenRefreshSuccessCount:(runtimeState.tokenRefreshSuccessCount||0)+1,
-          lastTokenRefreshStatus:"success"
-        });
-        return Object.freeze({ok:true,transitioned:(runtimeState.tokenRefreshCount||0)>beforeCount,state:runtimeState});
-      }catch(error){
-        setRuntimeState({
-          ...runtimeState,
-          status:runtimeState.connected?"ready-app-check-degraded":runtimeState.status,
-          appCheckDegraded:true,
-          tokenRefreshAttempted:true,
-          tokenRefreshFailureCount:(runtimeState.tokenRefreshFailureCount||0)+1,
-          lastTokenRefreshStatus:"failed"
-        });
-        if(root.console&&typeof root.console.warn==="function"){
-          root.console.warn("[Career Mode Showdown] App Check token refresh observation failed; enforcement is off, so Connected Account, Connected Rivalry and local saves remain available.",error);
-        }
-        return Object.freeze({ok:false,code:"app-check-refresh-unavailable",state:runtimeState});
-      }
-    })().finally(()=>{tokenRefreshPromise=null;});
-    return tokenRefreshPromise;
+  async function refreshProductionAppCheckToken(){
+    return Object.freeze({ok:false,code:"app-check-disabled",state:runtimeState});
   }
-
   async function ensureSparkAccountServices(options={}){
     if(accountServices)return accountServices;
     if(accountServicesPromise)return accountServicesPromise;
@@ -508,7 +419,7 @@
     productionPathPrefix:PRODUCTION_PATH_PREFIX,
     firebaseSdkVersion:FIREBASE_SDK_VERSION,
     firebaseAppModule:FIREBASE_APP_MODULE,
-    firebaseAppCheckModule:FIREBASE_APP_CHECK_MODULE,
+    firebaseAppCheckModule:null,
     firebaseAuthModule:FIREBASE_AUTH_MODULE,
     firebaseFirestoreModule:FIREBASE_FIRESTORE_MODULE,
     runtimeConfigPath:CONFIG_PATH,

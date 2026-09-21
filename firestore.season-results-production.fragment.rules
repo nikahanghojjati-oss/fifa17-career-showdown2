@@ -9,6 +9,7 @@
         && seasonId == 'season_' + string(seasonNumber);
     }
     function ssjrResultsSetup(rivalryId) { return get(/databases/$(database)/documents/rivalries/$(rivalryId)/sharedSetup/authoritative).data; }
+    function ssjrResultsProjectedTeamCount(rivalryId) { return getAfter(/databases/$(database)/documents/rivalries/$(rivalryId)/sharedSetup/leagueProjection).data.teamCount; }
     function ssjrResultsCareer(rivalryId) { return get(/databases/$(database)/documents/rivalries/$(rivalryId)/careerStart/authoritative).data; }
     function ssjrResultsTransfer(rivalryId, seasonId) { return get(/databases/$(database)/documents/rivalries/$(rivalryId)/transferChallenges/$(seasonId)).data; }
     function ssjrResultsPrerequisites(rivalryId, seasonId, seasonNumber) {
@@ -65,7 +66,7 @@
     }
     function ssjrResultsPublicExactKeys(root) {
       return root.keys().hasOnly([
-        'schemaVersion','objectType','rivalryId','seasonNumber','runtimeRevision','phase','revision','publishedRoles',
+        'schemaVersion','objectType','rivalryId','seasonNumber','runtimeRevision','phase','revision','teamCount','publishedRoles',
         'operationIds','operationHashes','baseRevisions','actorRoles','activeSessionId','updatedAt','updatedByDeviceId'
       ]);
     }
@@ -77,7 +78,8 @@
         && root.rivalryId == rivalryId
         && root.seasonNumber is int
         && ssjrResultsSeasonMatches(seasonId, root.seasonNumber)
-        && ssjrResultsPrerequisites(rivalryId, seasonId, root.seasonNumber)
+        && root.teamCount == ssjrResultsProjectedTeamCount(rivalryId)
+        && ssjrEntitled(rivalryId)
         && root.runtimeRevision == '1.9.1-r9'
         && (root.phase == 'COLLECTING' || root.phase == 'RESULTS_READY')
         && root.revision is int
@@ -105,6 +107,10 @@
         && root.seasonNumber is int
         && ssjrResultsSeasonMatches(seasonId, root.seasonNumber)
         && root.runtimeRevision == '1.9.1-r9'
+        && root.teamCount is int
+        && root.teamCount in [18,20]
+        && root.teamCount == resource.data.teamCount
+        && root.teamCount == ssjrResultsProjectedTeamCount(rivalryId)
         && root.phase == 'RESULTS_READY'
         && root.revision == 2
         && ssjrResultsRoleListValid(root.publishedRoles)
@@ -129,15 +135,16 @@
     function ssjrResultsPrivateAfter(rivalryId, seasonId, managerRole) {
       return getAfter(/databases/$(database)/documents/rivalries/$(rivalryId)/seasonResults/$(seasonId)/roles/$(managerRole)).data;
     }
-    function ssjrResultsResultShape(value) {
-      return value is map
+    function ssjrResultsResultShape(value, teamCount) {
+      return teamCount >= 2
+        && value is map
         && value.keys().hasOnly(['leaguePosition','leaguePoints','leagueGoals','domesticCup','championsLeague','topScorer','topAssist'])
         && value.leaguePosition is int
         && value.leaguePosition >= 1
-        && value.leaguePosition <= 20
+        && value.leaguePosition <= teamCount
         && value.leaguePoints is int
         && value.leaguePoints >= 0
-        && value.leaguePoints <= 114
+        && value.leaguePoints <= (teamCount - 1) * 6
         && value.leagueGoals is int
         && value.leagueGoals >= 0
         && value.leagueGoals <= 300
@@ -152,7 +159,7 @@
         'activeSessionId','publishedAt','updatedByDeviceId'
       ]);
     }
-    function ssjrResultsPrivateBase(root, rivalryId, seasonId, managerRole) {
+    function ssjrResultsPrivateBase(root, rivalryId, seasonId, managerRole, teamCount) {
       return ssjrResultsPrivateExactKeys(root)
         && root.schemaVersion == 1
         && root.objectType == 'sharedSeasonResultRole'
@@ -161,11 +168,11 @@
         && ssjrResultsSeasonMatches(seasonId, root.seasonNumber)
         && root.managerRole == managerRole
         && managerRole == ssjrActorRole(rivalryId)
-        && ssjrResultsResultShape(root.result)
+        && ssjrResultsResultShape(root.result, teamCount)
         && ssjrResultsValidOperationId(root.operationId)
         && ssjrResultsValidHash(root.commandHash)
         && root.publishedAt == request.time
-        && ssjrWriteAuthorityValid(rivalryId, root.updatedByDeviceId, root.activeSessionId);
+        && ssjrEntitled(rivalryId);
     }
     function ssjrResultsPrivateLinked(rivalryId, seasonId, publicAfter, managerRole) {
       let own = ssjrResultsPrivateAfter(rivalryId, seasonId, managerRole);
@@ -201,7 +208,7 @@
       let after = request.resource.data;
       let public = getAfter(/databases/$(database)/documents/rivalries/$(rivalryId)/seasonResults/$(seasonId)).data;
       let i = public.revision - 1;
-      return ssjrResultsPrivateBase(after, rivalryId, seasonId, managerRole)
+      return ssjrResultsPrivateBase(after, rivalryId, seasonId, managerRole, public.teamCount)
         && public.schemaVersion == 1
         && public.objectType == 'sharedSeasonResults'
         && public.runtimeRevision == '1.9.1-r9'

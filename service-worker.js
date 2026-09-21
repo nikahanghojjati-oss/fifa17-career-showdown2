@@ -1,5 +1,5 @@
-const RUNTIME_REVISION = "1.9.1-r43";
-const PREVIOUS_RUNTIME_REVISION = "1.9.1-r42";
+const RUNTIME_REVISION = "1.9.1-r44";
+const PREVIOUS_RUNTIME_REVISION = "1.9.1-r43";
 const CACHE_PREFIX = "career-mode-showdown-shell-";
 const MODE_CACHE_PREFIX = "career-mode-showdown-runtime-mode-";
 const CACHE_NAME = `${CACHE_PREFIX}${RUNTIME_REVISION}`;

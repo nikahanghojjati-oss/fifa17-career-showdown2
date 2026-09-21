@@ -29,6 +29,10 @@ for(const required of [
   'public.revision == 2',
   "role == setup.coordinatorRole",
   "root.results.keys().hasOnly(['playerOne','playerTwo'])",
+  "let teamCount = public.teamCount;",
+  "ssjrCommitResultShape(value, teamCount)",
+  "value.leaguePosition <= teamCount",
+  "value.leaguePoints <= (teamCount - 1) * 6",
   'root.results.playerOne == p1.result',
   'root.results.playerTwo == p2.result',
   "root.revision < 3 && root.phase == 'COMMITTED'",
@@ -75,4 +79,4 @@ assert.equal((generated.match(/match \/seasonCommits\/\{seasonId\}/g)||[]).lengt
 assert.equal((generated.match(/match \/seasonResults\/\{seasonId\}/g)||[]).length,1,'generated Rules must preserve exactly one Season Results match');
 assert.equal((generated.match(/match \/roles\/\{managerRole\}/g)||[]).length,2,'Season Commit must not introduce a third role-private collection');
 
-console.log('PASS Shared Season Commit production Rules: exact r9 RESULTS_READY snapshot prerequisite, coordinator-only immutable commit, active-session/device CAS updates, append-only distinct manager acknowledgements to terminal ACKNOWLEDGED, result immutability, generated single authority, Spark-only zero billing, no shared scoring and no canonical Save mutation.');
+console.log('PASS Shared Season Commit production Rules: exact r9 RESULTS_READY snapshot prerequisite, coordinator-only immutable commit, active-session/device CAS updates, append-only distinct manager acknowledgements to terminal ACKNOWLEDGED, league-specific result bounds, result immutability, generated single authority, Spark-only zero billing, no shared scoring and no canonical Save mutation.');

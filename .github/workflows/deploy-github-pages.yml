@@ -31,12 +31,11 @@ jobs:
       - name: Require controlled browser-public deployment variables
         env:
           HAS_FIREBASE_WEB_API_KEY: ${{ vars.CMS_FIREBASE_WEB_API_KEY != '' }}
-          HAS_RECAPTCHA_ENTERPRISE_SITE_KEY: ${{ vars.CMS_RECAPTCHA_ENTERPRISE_SITE_KEY != '' }}
         shell: bash
         run: |
           set -euo pipefail
-          if [[ "$HAS_FIREBASE_WEB_API_KEY" != "true" || "$HAS_RECAPTCHA_ENTERPRISE_SITE_KEY" != "true" ]]; then
-            echo "::error::Required GitHub Actions variables CMS_FIREBASE_WEB_API_KEY and CMS_RECAPTCHA_ENTERPRISE_SITE_KEY are not configured."
+          if [[ "$HAS_FIREBASE_WEB_API_KEY" != "true" ]]; then
+            echo "::error::Required GitHub Actions variable CMS_FIREBASE_WEB_API_KEY is not configured."
             exit 1
           fi
 
@@ -53,10 +52,9 @@ jobs:
           cp -R acceptance assets css data js .pages-artifact/
           cp scripts/render-production-firebase-public-config.mjs .pages-artifact/scripts/
 
-      - name: Render deployment-only Firebase App Check configuration
+      - name: Render deployment-only Firebase configuration
         env:
           CMS_FIREBASE_WEB_API_KEY: ${{ vars.CMS_FIREBASE_WEB_API_KEY }}
-          CMS_RECAPTCHA_ENTERPRISE_SITE_KEY: ${{ vars.CMS_RECAPTCHA_ENTERPRISE_SITE_KEY }}
         run: node .pages-artifact/scripts/render-production-firebase-public-config.mjs
 
       - name: Verify rendered configuration without printing provider values
@@ -75,10 +73,7 @@ jobs:
           if(typeof config.firebaseConfig.apiKey !== "string" || config.firebaseConfig.apiKey.length < 20){
             throw new Error("Rendered Firebase Web API key is missing or malformed.");
           }
-          if(typeof config.recaptchaEnterpriseSiteKey !== "string" || config.recaptchaEnterpriseSiteKey.length < 20){
-            throw new Error("Rendered reCAPTCHA Enterprise site key is missing or malformed.");
-          }
-          process.stdout.write("Verified configured production Firebase/App Check runtime shape without printing provider values.\n");
+          process.stdout.write("Verified configured production Firebase runtime shape without printing provider values.\n");
           NODE
           rm -rf .pages-artifact/scripts
 

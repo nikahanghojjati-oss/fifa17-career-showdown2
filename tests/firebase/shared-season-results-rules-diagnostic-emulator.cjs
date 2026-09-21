@@ -19,7 +19,7 @@ const PUBLIC_TARGET="allow create: if ssjrResultsValidCreate(rivalryId, seasonId
 const UPDATE_TARGET="allow update: if ssjrResultsValidUpdate(rivalryId, seasonId);";
 const PRIVATE_TARGET="allow create: if ssjrResultsPrivateCreateValid(rivalryId, seasonId, managerRole);";
 const A="acct_results_diag_a",B="acct_results_diag_b";
-const R=`pair_${"c".repeat(64)}`;
+const R=`pair_${"7".repeat(64)}`;
 const S=`session_${"d".repeat(64)}`;
 const DA=`device_${"a".repeat(32)}`,DB=`device_${"b".repeat(32)}`;
 const PA=`profile_${"1".repeat(24)}`,PB=`profile_${"2".repeat(24)}`;
@@ -39,7 +39,7 @@ function session(now){
 }
 function op(prefix,n){return prefix+Number(n).toString(16).padStart(32,"0");}
 function base(db,uid,deviceId,now){return {user:{uid},firestore:db,firebaseSdk:sdk(),rivalryId:R,sessionId:S,deviceId,nowEpochMs:now,cryptoImpl:crypto.webcrypto};}
-function result(){return {leaguePosition:1,leaguePoints:94,leagueGoals:92,domesticCup:true,championsLeague:false,topScorer:true,topAssist:false};}
+function result(){return {leaguePosition:1,leaguePoints:102,leagueGoals:92,domesticCup:true,championsLeague:false,topScorer:true,topAssist:false};}
 
 async function prepare(env,now){
   await env.clearFirestore();

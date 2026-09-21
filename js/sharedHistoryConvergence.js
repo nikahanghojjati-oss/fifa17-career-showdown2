@@ -14,6 +14,7 @@
   const RESULT_KEYS=Object.freeze(["leaguePosition","leaguePoints","leagueGoals","domesticCup","championsLeague","topScorer","topAssist"]);
   const SCORE_KEYS=Object.freeze(["championsLeague","leagueTitle","domesticCup","performanceBonus","individualAwardsBonus","total"]);
   const TRIGGER_KEYS=Object.freeze(["hundredLeaguePoints","hundredLeagueGoals","topScorer","topAssist"]);
+  const LEAGUE_TEAM_COUNTS=Object.freeze({premier_league:20,laliga:20,bundesliga:18,serie_a:20,ligue_1:20});
 
   function hcFail(code,message){const error=new Error(message||code);error.code=code;throw error;}
   function hcPlain(value){return Boolean(value)&&typeof value==="object"&&!Array.isArray(value);}
@@ -22,9 +23,11 @@
   function hcExact(value,keys,code){if(!hcPlain(value)||Object.keys(value).length!==keys.length||keys.some(key=>!Object.hasOwn(value,key)))hcFail(code);return value;}
   function hcRivalry(value){const id=String(value||"").trim().toLowerCase();if(!RIVALRY_ID.test(id))hcFail("HISTORY_CONVERGENCE_RIVALRY_INVALID");return id;}
   function hcSeason(value){const n=Number(value);if(!Number.isInteger(n)||n<1||n>10)hcFail("HISTORY_CONVERGENCE_SEASON_INVALID");return n;}
-  function hcResult(value){
+  function hcTeamCount(leagueId){const n=LEAGUE_TEAM_COUNTS[String(leagueId||"").trim()];if(!Number.isInteger(n))hcFail("HISTORY_CONVERGENCE_LEAGUE_INVALID");return n;}
+  function hcResult(value,teamCount){
     hcExact(value,RESULT_KEYS,"HISTORY_CONVERGENCE_RESULTS_INVALID");
-    if(!Number.isInteger(value.leaguePosition)||value.leaguePosition<1||value.leaguePosition>20||!Number.isInteger(value.leaguePoints)||value.leaguePoints<0||value.leaguePoints>114||!Number.isInteger(value.leagueGoals)||value.leagueGoals<0||value.leagueGoals>300)hcFail("HISTORY_CONVERGENCE_RESULTS_INVALID");
+    const maxPoints=(teamCount-1)*2*3;
+    if(!Number.isInteger(value.leaguePosition)||value.leaguePosition<1||value.leaguePosition>teamCount||!Number.isInteger(value.leaguePoints)||value.leaguePoints<0||value.leaguePoints>maxPoints||!Number.isInteger(value.leagueGoals)||value.leagueGoals<0||value.leagueGoals>300)hcFail("HISTORY_CONVERGENCE_RESULTS_INVALID");
     for(const key of ["domesticCup","championsLeague","topScorer","topAssist"]){if(typeof value[key]!=="boolean")hcFail("HISTORY_CONVERGENCE_RESULTS_INVALID");}
     return hcClone(value);
   }
@@ -67,10 +70,10 @@
     if(value.rivalryId!==undefined&&String(value.rivalryId)!==rivalryId)hcFail("HISTORY_CONVERGENCE_RIVALRY_MISMATCH");
     return value;
   }
-  function hcCommit(value,rivalryId,seasonNumber){
+  function hcCommit(value,rivalryId,seasonNumber,teamCount){
     if(!hcPlain(value)||value.ok!==true||value.committed!==true||value.phase!=="ACKNOWLEDGED"||value.revision!==3||value.resultsRevision!==2||value.seasonNumber!==seasonNumber||!HASH.test(String(value.resultsContentHash||""))||!hcPlain(value.results))hcFail("HISTORY_CONVERGENCE_COMMIT_NOT_ACKNOWLEDGED");
     if(value.rivalryId!==undefined&&String(value.rivalryId)!==rivalryId)hcFail("HISTORY_CONVERGENCE_RIVALRY_MISMATCH");
-    return {results:{playerOne:hcResult(value.results.playerOne),playerTwo:hcResult(value.results.playerTwo)},resultsRevision:value.resultsRevision,resultsContentHash:value.resultsContentHash};
+    return {results:{playerOne:hcResult(value.results.playerOne,teamCount),playerTwo:hcResult(value.results.playerTwo,teamCount)},resultsRevision:value.resultsRevision,resultsContentHash:value.resultsContentHash};
   }
   function hcScoring(value,rivalryId,seasonNumber,commit){
     if(!hcPlain(value)||value.ok!==true||value.authoritative!==true||value.phase!=="SCORING_RECONCILED"||value.revision!==1||value.seasonCommitRevision!==3||value.resultsRevision!==commit.resultsRevision||value.resultsContentHash!==commit.resultsContentHash||value.seasonNumber!==seasonNumber||!hcPlain(value.scoring)||!ROLES.includes(value.winner)&&value.winner!=="draw")hcFail("HISTORY_CONVERGENCE_SCORING_INVALID");
@@ -90,12 +93,12 @@
   }
   function hcFinalize(record){record.totalTrophies=record.leagueTitles+record.domesticCups+record.championsLeagues;record.averageSeasonScore=record.seasons?record.totalPoints/record.seasons:0;record.averageLeaguePoints=record.seasons?record.totalLeaguePoints/record.seasons:0;record.averageLeagueGoals=record.seasons?record.totalLeagueGoals/record.seasons:0;return record;}
   function hcBuild({rivalryId,setup,managerSlots,seasons}={}){
-    const id=hcRivalry(rivalryId),finalSetup=hcSetup(setup,id),slots=hcSlots(managerSlots);
+    const id=hcRivalry(rivalryId),finalSetup=hcSetup(setup,id),teamCount=hcTeamCount(finalSetup.leagueId),slots=hcSlots(managerSlots);
     if(!Array.isArray(seasons)||seasons.length<1||seasons.length>finalSetup.totalSeasons)hcFail("HISTORY_CONVERGENCE_SEASONS_INVALID");
     const history=[];
     for(let index=0;index<seasons.length;index+=1){
       const seasonNumber=index+1,source=seasons[index];if(!hcPlain(source))hcFail("HISTORY_CONVERGENCE_SEASONS_INVALID");
-      const commit=hcCommit(source.commit,id,seasonNumber),canonical=hcScoring(source.scoring,id,seasonNumber,commit);
+      const commit=hcCommit(source.commit,id,seasonNumber,teamCount),canonical=hcScoring(source.scoring,id,seasonNumber,commit);
       history.push({roundNumber:seasonNumber,acceptedResultRevision:commit.resultsRevision,acceptedResultContentHash:commit.resultsContentHash,seasonCommitRevision:3,canonicalScoringRevision:1,playerOne:{...commit.results.playerOne,scoring:canonical.scoring.playerOne},playerTwo:{...commit.results.playerTwo,scoring:canonical.scoring.playerTwo},winner:canonical.winner});
     }
     const managerRecords={playerOne:hcManagerBase(slots[0],finalSetup.clubs.playerOne),playerTwo:hcManagerBase(slots[1],finalSetup.clubs.playerTwo)};

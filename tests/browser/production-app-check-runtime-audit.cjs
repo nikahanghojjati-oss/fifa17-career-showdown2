@@ -157,52 +157,33 @@ assert.ok(baseUrl.pathname.startsWith(expectedPathPrefix), "Production App Check
         assert.equal(proof.configShape.configured, true, "Production runtime config must be deployment-rendered as configured.");
         assert.equal(proof.configShape.projectId, "fifa17-career-showdown-prod", "Production runtime config must target the production Firebase project.");
         assert.equal(proof.configShape.apiKeyPresent, true, "Production runtime config must contain the browser-public Firebase API key.");
-        assert.equal(proof.configShape.siteKeyPresent, true, "Production runtime config must contain the reCAPTCHA Enterprise site key.");
+        assert.equal(proof.configShape.siteKeyPresent, false, "Production runtime config must not contain a reCAPTCHA Enterprise site key.");
 
-        const diagnosticEvidence = JSON.stringify({appCheckDependencyFailures, appCheckRuntimeMessages});
-        const acceptedStatuses = new Set(["ready", "ready-app-check-degraded"]);
-        assert.ok(
-            acceptedStatuses.has(proof.diagnostics.status),
-            `Production App Check runtime reached an invalid state: ${proof.diagnostics.status}. Redacted evidence: ${diagnosticEvidence}`
-        );
-        assert.equal(proof.diagnostics.attempted, true, "Production App Check runtime must attempt initialization on eligible production Pages.");
-        assert.equal(proof.diagnostics.connected, true, "Production App Check runtime must connect to the Firebase App Check SDK.");
-        assert.equal(proof.diagnostics.provider, "recaptcha-enterprise", "Production App Check must use reCAPTCHA Enterprise.");
+        assert.equal(proof.diagnostics.status, "ready", "Production Firebase runtime must initialize successfully without App Check.");
+        assert.equal(proof.diagnostics.attempted, true, "Production Firebase runtime must attempt initialization on eligible production Pages.");
+        assert.equal(proof.diagnostics.connected, true, "Production Firebase runtime must connect to the Firebase App.");
+        assert.equal(proof.diagnostics.appCheckDisabled, true, "Production diagnostics must explicitly report App Check disabled.");
+        assert.equal(proof.diagnostics.tokenObserved, false, "No App Check token should be requested or observed.");
+        assert.equal(proof.diagnostics.enforcement, false, "App Check enforcement must remain OFF.");
+        assert.equal(proof.diagnostics.provider, "firebase-auth-firestore", "Production provider must be plain Firebase Auth + Firestore.");
         assert.equal(proof.diagnostics.sdkVersion, "12.17.0", "Production Firebase SDK version changed unexpectedly.");
-        assert.equal(proof.diagnostics.enforcement, false, "App Check enforcement must remain OFF during production proof.");
         assert.equal(
             proof.diagnostics.browserFirestoreWrites,
             expectedBrowserFirestoreWriteScope,
             "Production runtime diagnostics must expose only the reviewed Spark account/device/pairing/Connected Rivalry write scope."
         );
 
-        const degraded = proof.diagnostics.status === "ready-app-check-degraded";
-        if(degraded){
-            assert.equal(proof.diagnostics.tokenObserved, false, "Degraded App Check proof must not claim that a legitimate token was observed.");
-            assert.equal(proof.diagnostics.appCheckDegraded, true, "Degraded App Check proof must explicitly identify the attestation-observation degradation.");
-            assert.ok(
-                appCheckDependencyFailures.length > 0 || appCheckRuntimeMessages.length > 0,
-                "A degraded production App Check proof must preserve redacted provider/runtime evidence rather than silently treating token absence as success."
-            );
-        }else{
-            assert.equal(proof.diagnostics.tokenObserved, true, "Ready App Check runtime must obtain a legitimate App Check token.");
-            assert.equal(proof.diagnostics.appCheckDegraded, false, "Ready App Check runtime must not be marked degraded.");
-            if(proof.diagnostics.tokenExpireTimeMillis !== null && proof.diagnostics.tokenExpireTimeMillis !== undefined){
-                assert.ok(
-                    Number.isFinite(proof.diagnostics.tokenExpireTimeMillis) && proof.diagnostics.tokenExpireTimeMillis > Date.now(),
-                    "Observed App Check token expiry, when exposed by the SDK, must be in the future."
-                );
-            }
-        }
-
         const firebaseResourceNames = proof.firebaseResources.map(entry => entry.name);
-        assert.ok(
-            firebaseResourceNames.some(url => /firebase-app\.js/i.test(url)),
-            "Production runtime must load the Firebase App foundation SDK."
-        );
-        assert.ok(
+        assert.ok(firebaseResourceNames.some(url => /firebase-app\.js/i.test(url)), "Production runtime must load Firebase App.");
+        assert.equal(
             firebaseResourceNames.some(url => /firebase-app-check\.js/i.test(url)),
-            "Production runtime must load the Firebase App Check SDK."
+            false,
+            "Production runtime must not load the Firebase App Check SDK."
+        );
+        assert.equal(
+            firebaseResourceNames.some(url => /recaptcha/i.test(url)),
+            false,
+            "Production runtime must not load reCAPTCHA resources."
         );
 
         const authObserved = firebaseResourceNames.some(url => /firebase-auth\.js/i.test(url));
@@ -217,28 +198,12 @@ assert.ok(baseUrl.pathname.startsWith(expectedPathPrefix), "Production App Check
             "Production client must never load Storage or Functions SDKs."
         );
 
-        const appCheckResources = proof.firebaseResources.filter(entry => /firebase-app-check\.js/i.test(entry.name));
-        const accountResources = proof.firebaseResources.filter(entry => /firebase-(?:auth|firestore)\.js/i.test(entry.name));
-        const appCheckComplete = Math.max(...appCheckResources.map(entry => entry.responseEnd));
-        const accountStart = Math.min(...accountResources.map(entry => entry.startTime));
-        assert.ok(
-            Number.isFinite(appCheckComplete) && appCheckComplete > 0 &&
-            Number.isFinite(accountStart) && accountStart >= appCheckComplete,
-            "Production account-service SDK loading must begin only after the App Check module has finished loading."
+        assert.deepEqual(appCheckDependencyFailures, [], "Production must not issue failing App Check/reCAPTCHA dependency requests because it must not request them at all.");
+        assert.deepEqual(appCheckRuntimeMessages, [], "Production must not emit App Check/reCAPTCHA runtime errors.");
+        assert.deepEqual(firstPartyFailures, [], "Production Firebase runtime proof detected failed first-party requests.");
+        process.stdout.write(
+            "Production Firebase runtime proof passed: deployed game initialized Firebase App + Auth + Firestore with App Check/reCAPTCHA disabled, preserved the reviewed Spark write scope, and loaded no Storage/Functions SDKs.\n"
         );
-
-        assert.deepEqual(firstPartyFailures, [], "Production App Check proof detected failed first-party requests.");
-        const accountServiceSummary = "the online player bootstrap initialized the bounded Auth/Firestore account-service layer after App Check";
-
-        if(degraded){
-            process.stdout.write(
-                `Production App Check boundary passed in enforcement-OFF degraded state: deployed r3 initialized Firebase App + App Check, preserved the connected runtime after token-observation failure, retained redacted provider evidence, ${accountServiceSummary}, and loaded no Storage/Functions SDKs.\n`
-            );
-        }else{
-            process.stdout.write(
-                `Production App Check proof passed: deployed r3 obtained a reCAPTCHA Enterprise token with enforcement OFF, preserved the reviewed Spark Connected Rivalry write scope, ${accountServiceSummary}, and loaded no Storage/Functions SDKs.\n`
-            );
-        }
         await context.close();
     }finally{
         await browser.close();

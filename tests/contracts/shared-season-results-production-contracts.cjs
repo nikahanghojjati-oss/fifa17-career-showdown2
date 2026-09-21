@@ -24,6 +24,8 @@ assert.match(adapter,/cloudRunRequired:false/);
 assert.match(adapter,/cloudFunctionsRequired:false/);
 assert.match(adapter,/canRoute:pssrCanRoute/,'shared Season Results must expose a bounded router capability after refreshed authority is proven');
 assert.match(adapter,/contextKey===request\.key[\s\S]*pssrTransferComplete\(request\)/,'shared route authority must be bound to the exact current Save, rivalry, season and completed remote Transfer Challenge');
+assert.match(adapter,/sharedShowdownCatalog\.js/);
+assert.ok(adapter.indexOf('js/sharedShowdownCatalog.js')<adapter.indexOf('js/sparkSharedSeasonResults.js'),'Season Results must load the authoritative catalog before provider factory initialization');
 assert.match(adapter,/provider\.publishResult/);
 assert.match(adapter,/provider\.read/);
 assert.match(adapter,/pssrFingerprint\(currentResult\)!==draft\.fingerprint/,'reviewed payload must be revalidated immediately before publication');
