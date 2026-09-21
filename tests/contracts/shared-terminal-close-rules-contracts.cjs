@@ -36,7 +36,7 @@ assert.doesNotMatch(fragment,/acceptedRevisionKey|fixedClubs/,"Terminal Close pe
 assert.match(fragment,/getAfter\(\/databases\/\$\(database\)\/documents\/rivalries\/\$\(rivalryId\)\/sessions\/\$\(intent\.sessionId\)\)/);
 assert.match(fragment,/before\.data\.state == 'active'/);
 assert.match(fragment,/after\.data\.state == 'closed'/);
-assert.match(fragment,/before\.data\.expiresAt > request\.time/);
+assert.doesNotMatch(fragment,/before\.data\.expiresAt > request\.time/,"An already ACTIVE two-manager Showdown must remain closable after its original session TTL.");
 assert.match(fragment,/parentBefore\.data\.connectionState == 'active'/);
 assert.match(fragment,/parentAfter\.data\.connectionState == 'closed'/);
 assert.match(fragment,/parentAfter\.data\.terminalClose\.sessionId == sessionId/);
