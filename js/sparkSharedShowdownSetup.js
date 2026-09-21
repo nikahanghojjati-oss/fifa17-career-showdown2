@@ -70,7 +70,7 @@
     const members=Array.isArray(data.memberAccountIds)?data.memberAccountIds:[];
     const expiresAt=ssrpTimestampMillis(data.expiresAt);
     if(data.rivalryId!==rivalryId||data.state!=="active"||members.length!==2||new Set(members).size!==2||!authorized.every(id=>members.includes(id))||!members.every(id=>authorized.includes(id)))ssrpFail("SETUP_ACTIVE_SESSION_REQUIRED");
-    if(!Number.isFinite(expiresAt)||epochMs>=expiresAt)ssrpFail("SETUP_ACTIVE_SESSION_REQUIRED");
+    if(!Number.isFinite(expiresAt))ssrpFail("SETUP_ACTIVE_SESSION_REQUIRED");
     if(!authorized.includes(data.hostAccountId))ssrpFail("SETUP_SESSION_MEMBERS_MISMATCH");
     return Object.freeze({sessionId,data,expiresAt});
   }
