@@ -9,6 +9,7 @@
         && seasonId == 'season_' + string(seasonNumber);
     }
     function ssjrResultsSetup(rivalryId) { return get(/databases/$(database)/documents/rivalries/$(rivalryId)/sharedSetup/authoritative).data; }
+    function ssjrResultsProjectedTeamCount(rivalryId) { return getAfter(/databases/$(database)/documents/rivalries/$(rivalryId)/sharedSetup/leagueProjection).data.teamCount; }
     function ssjrResultsCareer(rivalryId) { return get(/databases/$(database)/documents/rivalries/$(rivalryId)/careerStart/authoritative).data; }
     function ssjrResultsTransfer(rivalryId, seasonId) { return get(/databases/$(database)/documents/rivalries/$(rivalryId)/transferChallenges/$(seasonId)).data; }
     function ssjrResultsPrerequisites(rivalryId, seasonId, seasonNumber) {
@@ -77,7 +78,7 @@
         && root.rivalryId == rivalryId
         && root.seasonNumber is int
         && ssjrResultsSeasonMatches(seasonId, root.seasonNumber)
-        && root.teamCount == ssjrSetupTeamCount(rivalryId)
+        && root.teamCount == ssjrResultsProjectedTeamCount(rivalryId)
         && ssjrResultsPrerequisites(rivalryId, seasonId, root.seasonNumber)
         && root.runtimeRevision == '1.9.1-r9'
         && (root.phase == 'COLLECTING' || root.phase == 'RESULTS_READY')
@@ -109,6 +110,7 @@
         && root.teamCount is int
         && root.teamCount in [18,20]
         && root.teamCount == resource.data.teamCount
+        && root.teamCount == ssjrResultsProjectedTeamCount(rivalryId)
         && root.phase == 'RESULTS_READY'
         && root.revision == 2
         && ssjrResultsRoleListValid(root.publishedRoles)
