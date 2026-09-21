@@ -64,7 +64,7 @@ function expectedWinner(season){return season===2?"playerTwo":"playerOne";}
 async function assertImpossibleBundesligaResultDenied(db,season){
   const operationId=op("season_result_op_",900+season),seasonId=`season_${season}`,hash=`sha256:${"9".repeat(64)}`,commandHash=`sha256:${"8".repeat(64)}`;
   const batch=writeBatch(db);
-  batch.set(doc(db,"rivalries",R,"seasonResults",seasonId),{schemaVersion:1,objectType:"sharedSeasonResults",rivalryId:R,seasonNumber:season,runtimeRevision:"1.9.1-r9",phase:"COLLECTING",revision:1,publishedRoles:["playerOne"],operationIds:[operationId],operationHashes:[hash],baseRevisions:[0],actorRoles:["playerOne"],activeSessionId,updatedAt:serverTimestamp(),updatedByDeviceId:DA});
+  batch.set(doc(db,"rivalries",R,"seasonResults",seasonId),{schemaVersion:1,objectType:"sharedSeasonResults",rivalryId:R,seasonNumber:season,runtimeRevision:"1.9.1-r9",phase:"COLLECTING",revision:1,teamCount:18,publishedRoles:["playerOne"],operationIds:[operationId],operationHashes:[hash],baseRevisions:[0],actorRoles:["playerOne"],activeSessionId,updatedAt:serverTimestamp(),updatedByDeviceId:DA});
   batch.set(doc(db,"rivalries",R,"seasonResults",seasonId,"roles","playerOne"),{schemaVersion:1,objectType:"sharedSeasonResultRole",rivalryId:R,seasonNumber:season,managerRole:"playerOne",result:{...resultFor("playerOne",season),leaguePoints:103},operationId,commandHash,activeSessionId,publishedAt:serverTimestamp(),updatedByDeviceId:DA});
   await assertFails(batch.commit());
 }
