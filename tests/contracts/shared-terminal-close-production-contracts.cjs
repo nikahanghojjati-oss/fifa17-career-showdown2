@@ -43,7 +43,7 @@ assert.doesNotMatch(runtime,/collection\(|getDocs\(|query\(|where\(/,"Terminal C
 assert.doesNotMatch(runtime,/firebase-admin|googleapis|https:\/\/run\.googleapis\.com|https:\/\/cloudfunctions\.googleapis\.com/i,"Terminal Close runtime must not import or call paid/server compute surfaces");
 assert.match(runtime,/remote\.sessionState==="active"/);
 assert.match(runtime,/remote\.pendingAction==null/);
-assert.match(runtime,/now<expiry/);
+assert.doesNotMatch(runtime,/now<expiry/,"Terminal Close must not reject an otherwise ACTIVE Showdown only because its original session TTL passed.");
 assert.match(runtime,/terminalRead\?\.ok===true&&terminalRead\.terminal===true/);
 assert.match(runtime,/protocol\.sameWitness\(terminalRead\.terminalWitness,intent\)/);
 assert.match(runtime,/stateContextKey!==request\.key/);
