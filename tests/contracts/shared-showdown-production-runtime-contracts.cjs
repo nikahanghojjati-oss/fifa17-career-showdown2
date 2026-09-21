@@ -91,7 +91,7 @@ for(const required of [
   'function ssjrExactPairedRivalry(rivalryId)',
   'function ssjrWriteAuthorityValid(rivalryId, deviceId, sessionId)',
   "sessionData.state == 'active'",
-  'sessionData.expiresAt > request.time',
+  'sessionData.expiresAt is timestamp',
   "device.data.data.state == 'active'",
   'allow get: if ssjrEntitled(rivalryId)',
   'allow create: if ssjrValidCreateLedger(rivalryId)',
