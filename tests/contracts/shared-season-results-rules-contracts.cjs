@@ -49,7 +49,7 @@ for(const required of [
   "own.activeSessionId == publicAfter.activeSessionId",
   "own.updatedByDeviceId == publicAfter.updatedByDeviceId"
 ])assert.ok(fragment.includes(required),`Season Results Rules missing required boundary: ${required}`);
-for(const required of ["ssjrSetupTeamCount(rivalryId)","hashing.sha256(ssjrSetupBindingCanonical(rivalryId).utf8())"])assert.ok(setupFragment.includes(required),`Shared Setup Rules missing deterministic league helper: ${required}`);
+for(const required of ["ssjrSetupTeamCount(rivalryId)","hashing.sha256(ssjrSetupBindingCanonical(rivalryId))"])assert.ok(setupFragment.includes(required),`Shared Setup Rules missing deterministic league helper: ${required}`);
 
 assert.doesNotMatch(fragment,/allow\s+list\s*:\s*if\s+true/,'Season Results must never expose collection listing');
 assert.doesNotMatch(fragment,/allow\s+delete\s*:\s*if\s+true/,'Season Results authority is immutable and may not be deleted by clients');
