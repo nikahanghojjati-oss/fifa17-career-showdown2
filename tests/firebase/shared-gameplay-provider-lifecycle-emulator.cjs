@@ -5,7 +5,7 @@ const crypto=require("node:crypto");
 const fs=require("node:fs");
 const firestoreSdk=require("firebase/firestore");
 const {Timestamp,doc,getDoc,setDoc,serverTimestamp,writeBatch}=firestoreSdk;
-const {initializeTestEnvironment,assertFails}=require("@firebase/rules-unit-testing");
+const {initializeTestEnvironment,assertFails,assertSucceeds}=require("@firebase/rules-unit-testing");
 
 global.window=globalThis;
 require("../../data/transferOptions.js");
@@ -63,8 +63,8 @@ function expectedWinner(season){return season===2?"playerTwo":"playerOne";}
 
 async function assertImpossibleBundesligaResultDenied(db,season){
   const operationId=op("season_result_op_",900+season),seasonId=`season_${season}`,hash=`sha256:${"9".repeat(64)}`,commandHash=`sha256:${"8".repeat(64)}`;
+  await assertSucceeds(setDoc(doc(db,"rivalries",R,"sharedSetup","leagueProjection"),{schemaVersion:1,objectType:"sharedLeagueProjection",rivalryId:R,teamCount:18,createdAt:serverTimestamp()}));
   const batch=writeBatch(db);
-  batch.set(doc(db,"rivalries",R,"sharedSetup","leagueProjection"),{schemaVersion:1,objectType:"sharedLeagueProjection",rivalryId:R,teamCount:18,createdAt:serverTimestamp()});
   batch.set(doc(db,"rivalries",R,"seasonResults",seasonId),{schemaVersion:1,objectType:"sharedSeasonResults",rivalryId:R,seasonNumber:season,runtimeRevision:"1.9.1-r9",phase:"COLLECTING",revision:1,teamCount:18,publishedRoles:["playerOne"],operationIds:[operationId],operationHashes:[hash],baseRevisions:[0],actorRoles:["playerOne"],activeSessionId,updatedAt:serverTimestamp(),updatedByDeviceId:DA});
   batch.set(doc(db,"rivalries",R,"seasonResults",seasonId,"roles","playerOne"),{schemaVersion:1,objectType:"sharedSeasonResultRole",rivalryId:R,seasonNumber:season,managerRole:"playerOne",result:{...resultFor("playerOne",season),leaguePoints:103},operationId,commandHash,activeSessionId,publishedAt:serverTimestamp(),updatedByDeviceId:DA});
   await assertFails(batch.commit());
