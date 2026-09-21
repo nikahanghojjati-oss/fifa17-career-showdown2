@@ -169,8 +169,7 @@
       let p1 = ssjrCommitPrivateResult(rivalryId, seasonId, 'playerOne');
       let p2 = ssjrCommitPrivateResult(rivalryId, seasonId, 'playerTwo');
       let role = ssjrActorRole(rivalryId);
-      let teamCount = public.teamCount;
-      return teamCount in [18,20]
+      return ssjrEntitled(rivalryId)
         && ssjrCommitExactKeys(after)
         && after.schemaVersion == 1
         && after.objectType == 'sharedSeasonCommit'
@@ -182,27 +181,21 @@
         && setup.rivalryId == rivalryId
         && setup.revision == 6
         && setup.phase == 'SHOWDOWN_CONFIRMED'
-        && setup.totalSeasons in [1,3,5,10]
-        && after.seasonNumber >= 1
         && after.seasonNumber <= setup.totalSeasons
+        && public.schemaVersion == 1
+        && public.objectType == 'sharedSeasonResults'
+        && public.rivalryId == rivalryId
+        && public.seasonNumber == after.seasonNumber
+        && public.runtimeRevision == '1.9.1-r9'
+        && public.phase == 'RESULTS_READY'
+        && public.revision == 2
+        && public.teamCount in [18,20]
         && after.runtimeRevision == '1.9.1-r10'
         && after.revision == 1
         && after.phase == 'COMMITTED'
         && after.resultsRevision == 2
         && after.results is map
         && after.results.keys().hasOnly(['playerOne','playerTwo'])
-        && ssjrCommitResultShape(after.results.playerOne, teamCount)
-        && ssjrCommitResultShape(after.results.playerTwo, teamCount)
-        && p1.schemaVersion == 1
-        && p1.objectType == 'sharedSeasonResultRole'
-        && p1.rivalryId == rivalryId
-        && p1.seasonNumber == after.seasonNumber
-        && p1.managerRole == 'playerOne'
-        && p2.schemaVersion == 1
-        && p2.objectType == 'sharedSeasonResultRole'
-        && p2.rivalryId == rivalryId
-        && p2.seasonNumber == after.seasonNumber
-        && p2.managerRole == 'playerTwo'
         && after.results.playerOne == p1.result
         && after.results.playerTwo == p2.result
         && after.acknowledgedRoles is list
@@ -220,8 +213,9 @@
         && after.baseRevisions[0] == 0
         && role == setup.coordinatorRole
         && after.actorRoles[0] == role
-        && after.updatedAt == request.time
-        && ssjrWriteAuthorityValid(rivalryId, after.updatedByDeviceId, after.activeSessionId);
+        && validSessionId(after.activeSessionId)
+        && ssjrValidDeviceId(after.updatedByDeviceId)
+        && after.updatedAt == request.time;
     }
     function ssjrCommitPrefixPreserved(before, after) {
       let i = before.revision;
@@ -236,9 +230,7 @@
       let after = request.resource.data;
       let role = ssjrActorRole(rivalryId);
       let i = before.revision;
-      let public = ssjrCommitPublicResults(rivalryId, seasonId);
-      let teamCount = public.teamCount;
-      return teamCount in [18,20]
+      return ssjrEntitled(rivalryId)
         && ssjrCommitExactKeys(after)
         && before.schemaVersion == 1
         && before.objectType == 'sharedSeasonCommit'
@@ -255,8 +247,6 @@
         && ssjrCommitSeasonMatches(seasonId, after.seasonNumber)
         && after.resultsRevision == before.resultsRevision
         && after.results == before.results
-        && ssjrCommitResultShape(after.results.playerOne, teamCount)
-        && ssjrCommitResultShape(after.results.playerTwo, teamCount)
         && after.revision == before.revision + 1
         && ((after.revision < 3 && after.phase == 'COMMITTED') || (after.revision == 3 && after.phase == 'ACKNOWLEDGED'))
         && after.operationIds is list
@@ -280,8 +270,9 @@
         && after.acknowledgedRoles[i - 1] == role
         && after.acknowledgedRoles.toSet().size() == after.acknowledgedRoles.size()
         && after.acknowledgedRoles.toSet().hasOnly(['playerOne','playerTwo'])
-        && after.updatedAt == request.time
-        && ssjrWriteAuthorityValid(rivalryId, after.updatedByDeviceId, after.activeSessionId);
+        && validSessionId(after.activeSessionId)
+        && ssjrValidDeviceId(after.updatedByDeviceId)
+        && after.updatedAt == request.time;
     }
 // SSJR_SEASON_COMMIT_FUNCTIONS_END
 
