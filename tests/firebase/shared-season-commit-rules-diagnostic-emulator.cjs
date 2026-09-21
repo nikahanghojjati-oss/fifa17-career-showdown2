@@ -10,7 +10,7 @@ const Commit=require("../../js/sparkSharedSeasonCommit.js");
 const RULES=fs.readFileSync("firestore.spark.generated.rules","utf8");
 const TARGET="allow create: if ssjrCommitValidCreate(rivalryId, seasonId);";
 const A="acct_commit_diag_a",B="acct_commit_diag_b";
-const R=`pair_${"e".repeat(64)}`,S=`session_${"f".repeat(64)}`;
+const R=`pair_${"0".repeat(64)}`,S=`session_${"f".repeat(64)}`;
 const DA=`device_${"a".repeat(32)}`,DB=`device_${"b".repeat(32)}`;
 const PA=`profile_${"1".repeat(24)}`,PB=`profile_${"2".repeat(24)}`;
 const SA=`save_${"3".repeat(24)}`,SB=`save_${"4".repeat(24)}`;
@@ -31,8 +31,8 @@ function session(now){
   const createdAt=Timestamp.fromMillis(now-60_000),lastActivityAt=Timestamp.fromMillis(now-1_000),expiresAt=Timestamp.fromMillis(now+4*60*60*1000);
   return {schemaVersion:1,objectType:"session",objectId:S,revision:1,parentRevision:0,lifecycleState:"live",contentHash:`sha256:${"0".repeat(64)}`,priorContentHash:`sha256:${"1".repeat(64)}`,updatedAt:lastActivityAt,updatedByAccountId:A,updatedByDeviceId:DA,data:{rivalryId:R,state:"active",hostAccountId:A,memberAccountIds:[A,B],createdAt,expiresAt,lastActivityAt,revokedAt:null},tombstone:null};
 }
-function setup(){return {schemaVersion:1,objectType:"sharedSetupLedger",rivalryId:R,revision:6,phase:"SHOWDOWN_CONFIRMED",coordinatorRole:"playerOne",totalSeasons:3,confirmedRoles:["playerOne","playerTwo"]};}
-function resultOne(){return {leaguePosition:1,leaguePoints:94,leagueGoals:92,domesticCup:true,championsLeague:false,topScorer:true,topAssist:false};}
+function setup(){return {schemaVersion:1,objectType:"sharedSetupLedger",rivalryId:R,revision:6,phase:"SHOWDOWN_CONFIRMED",coordinatorRole:"playerOne",operationIds:[1,2,3,4,5,6].map(n=>`setup_op_${n.toString(16).padStart(32,"0")}`),operationTypes:["open","commit-league","commit-clubs","commit-length","confirm","confirm"],baseRevisions:[0,1,2,3,4,5],actorRoles:["playerOne","playerOne","playerOne","playerOne","playerOne","playerTwo"],totalSeasons:3,confirmedRoles:["playerOne","playerTwo"],activeSessionId:S,updatedAt:Timestamp.fromMillis(1_000_000),updatedByDeviceId:DB};}
+function resultOne(){return {leaguePosition:1,leaguePoints:102,leagueGoals:92,domesticCup:true,championsLeague:false,topScorer:true,topAssist:false};}
 function resultTwo(){return {leaguePosition:3,leaguePoints:88,leagueGoals:86,domesticCup:false,championsLeague:false,topScorer:false,topAssist:true};}
 function publicResults(now){return {schemaVersion:1,objectType:"sharedSeasonResults",rivalryId:R,seasonNumber:1,runtimeRevision:"1.9.1-r9",phase:"RESULTS_READY",revision:2,publishedRoles:["playerOne","playerTwo"],operationIds:[RESULT_OP1,RESULT_OP2],operationHashes:[HASH1,HASH2],baseRevisions:[0,1],actorRoles:["playerOne","playerTwo"],activeSessionId:S,updatedAt:Timestamp.fromMillis(now-200),updatedByDeviceId:DB};}
 function privateResult(role,operationId,commandHash,result,deviceId,now){return {schemaVersion:1,objectType:"sharedSeasonResultRole",rivalryId:R,seasonNumber:1,managerRole:role,result,operationId,commandHash,activeSessionId:S,publishedAt:Timestamp.fromMillis(now-300),updatedByDeviceId:deviceId};}
@@ -80,8 +80,8 @@ async function runVariant(index,label,expression){
   const ready=`ssjrCommitResultsReady(rivalryId, seasonId, ${root}.seasonNumber)`;
   const resultCopy=`${root}.results is map
     && ${root}.results.keys().hasOnly(['playerOne','playerTwo'])
-    && ssjrCommitResultShape(${root}.results.playerOne)
-    && ssjrCommitResultShape(${root}.results.playerTwo)
+    && ssjrCommitResultShape(${root}.results.playerOne, ssjrSetupTeamCount(rivalryId))
+    && ssjrCommitResultShape(${root}.results.playerTwo, ssjrSetupTeamCount(rivalryId))
     && ${root}.results.playerOne == ssjrCommitPrivateResult(rivalryId, seasonId, 'playerOne').result
     && ${root}.results.playerTwo == ssjrCommitPrivateResult(rivalryId, seasonId, 'playerTwo').result`;
   const operation=`ssjrCommitOperationChainValid(${root})`;
