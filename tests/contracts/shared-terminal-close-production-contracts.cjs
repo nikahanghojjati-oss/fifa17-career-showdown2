@@ -59,4 +59,4 @@ assert.match(bootstrap,/finalReconciliation,terminalClose/);
 
 for(const asset of ["js/sharedTerminalClose.js","js/sparkTerminalClose.js","js/productionSharedTerminalClose.js"]){assert.ok(worker.includes(`"${asset}"`),`service worker shell missing ${asset}`);}
 
-console.log("PASS r18 production Terminal Close contracts: exact r17 final authority + exact unexpired ACTIVE session gate the sole terminal mutation; ambiguous outcomes retain one exact witness for retry; closed rivalry recovers by exact read after reload; storage/list/billing/compute authority remains absent; bootstrap and offline shell ordering are explicit.");
+console.log("PASS r18 production Terminal Close contracts: exact r17 final authority + exact ACTIVE session gate the sole terminal mutation; ambiguous outcomes retain one exact witness for retry; closed rivalry recovers by exact read after reload; storage/list/billing/compute authority remains absent; bootstrap and offline shell ordering are explicit.");
