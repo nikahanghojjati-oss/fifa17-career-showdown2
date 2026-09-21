@@ -87,34 +87,23 @@
     function ssjrSessionHostIsActor(rivalryId, sessionId) {
       return get(/databases/$(database)/documents/rivalries/$(rivalryId)/sessions/$(sessionId)).data.data.hostAccountId == request.auth.uid;
     }
-    function ssjrSetupHexNibble(value) {
-      return value == '0' ? 0
-        : value == '1' ? 1
-        : value == '2' ? 2
-        : value == '3' ? 3
-        : value == '4' ? 4
-        : value == '5' ? 5
-        : value == '6' ? 6
-        : value == '7' ? 7
-        : value == '8' ? 8
-        : value == '9' ? 9
-        : (value == 'a' || value == 'A') ? 10
-        : (value == 'b' || value == 'B') ? 11
-        : (value == 'c' || value == 'C') ? 12
-        : (value == 'd' || value == 'D') ? 13
-        : (value == 'e' || value == 'E') ? 14
-        : (value == 'f' || value == 'F') ? 15
+    function ssjrSetupHexMod5(value) {
+      return value in ['0','5','a','f'] ? 0
+        : value in ['1','6','b'] ? 1
+        : value in ['2','7','c'] ? 2
+        : value in ['3','8','d'] ? 3
+        : value in ['4','9','e'] ? 4
         : -1;
     }
-    function ssjrSetupHex32(value) {
-      return ssjrSetupHexNibble(value[0]) * 268435456
-        + ssjrSetupHexNibble(value[1]) * 16777216
-        + ssjrSetupHexNibble(value[2]) * 1048576
-        + ssjrSetupHexNibble(value[3]) * 65536
-        + ssjrSetupHexNibble(value[4]) * 4096
-        + ssjrSetupHexNibble(value[5]) * 256
-        + ssjrSetupHexNibble(value[6]) * 16
-        + ssjrSetupHexNibble(value[7]);
+    function ssjrSetupHex32Mod5(value) {
+      return (ssjrSetupHexMod5(value[0])
+        + ssjrSetupHexMod5(value[1])
+        + ssjrSetupHexMod5(value[2])
+        + ssjrSetupHexMod5(value[3])
+        + ssjrSetupHexMod5(value[4])
+        + ssjrSetupHexMod5(value[5])
+        + ssjrSetupHexMod5(value[6])
+        + ssjrSetupHexMod5(value[7])) % 5;
     }
     function ssjrSetupBindingCanonical(rivalryId) {
       let rivalry = get(/databases/$(database)/documents/rivalries/$(rivalryId)).data.data;
@@ -130,19 +119,19 @@
         + '"}],"rivalryId":"' + rivalryId + '"}';
     }
     function ssjrSetupBindingHash(rivalryId) {
-      return 'sha256:' + hashing.sha256(ssjrSetupBindingCanonical(rivalryId).utf8()).toHexString();
+      return 'sha256:' + hashing.sha256(ssjrSetupBindingCanonical(rivalryId)).toHexString();
     }
     function ssjrSetupLeagueDigest(rivalryId, counter) {
       let seed = '{"bindingHash":"' + ssjrSetupBindingHash(rivalryId)
         + '","catalogHash":"sha256:f68d0a20f13304ae5af9faa2fee0b731d3491375304f635fb52c68840484d2ce'
         + '","counter":' + string(counter)
         + ',"domain":"shared-showdown-draw-v1","leagueId":null,"purpose":"league"}';
-      return hashing.sha256(seed.utf8()).toHexString();
+      return hashing.sha256(seed).toHexString();
     }
     function ssjrSetupLeagueIndex(rivalryId) {
-      let first = ssjrSetupHex32(ssjrSetupLeagueDigest(rivalryId, 0));
-      let second = first == 4294967295 ? ssjrSetupHex32(ssjrSetupLeagueDigest(rivalryId, 1)) : first;
-      return second == 4294967295 ? -1 : second % 5;
+      let first = ssjrSetupLeagueDigest(rivalryId, 0);
+      let selected = first[0:8] == 'ffffffff' ? ssjrSetupLeagueDigest(rivalryId, 1) : first;
+      return selected[0:8] == 'ffffffff' ? -1 : ssjrSetupHex32Mod5(selected);
     }
     function ssjrSetupTeamCount(rivalryId) {
       let index = ssjrSetupLeagueIndex(rivalryId);
