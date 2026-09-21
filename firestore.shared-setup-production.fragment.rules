@@ -81,8 +81,7 @@
         && sessionData.memberAccountIds.size() == 2
         && rivalry.authorizedAccountIds[0] in sessionData.memberAccountIds
         && rivalry.authorizedAccountIds[1] in sessionData.memberAccountIds
-        && sessionData.expiresAt is timestamp
-        && sessionData.expiresAt > request.time;
+        && sessionData.expiresAt is timestamp;
     }
     function ssjrSessionHostIsActor(rivalryId, sessionId) {
       return get(/databases/$(database)/documents/rivalries/$(rivalryId)/sessions/$(sessionId)).data.data.hostAccountId == request.auth.uid;
