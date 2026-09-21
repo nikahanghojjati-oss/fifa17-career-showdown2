@@ -65,8 +65,8 @@
   }
   function ptcRemoteActive(context,exactSessionId=null){
     const remote=remoteApi?.getState?.();
-    const expiry=Number(remote?.expiresAtEpochMs),now=Date.now();
-    return Boolean(remote&&remote.sessionState==="active"&&/^session_[0-9a-f]{64}$/.test(String(remote.sessionId||""))&&remote.rivalryId===context.request.rivalryId&&remote.accountId===context.accountId&&remote.deviceId===context.deviceId&&remote.pendingAction==null&&Number.isFinite(expiry)&&now<expiry&&(!exactSessionId||remote.sessionId===exactSessionId))?remote:null;
+    const expiry=Number(remote?.expiresAtEpochMs);
+    return Boolean(remote&&remote.sessionState==="active"&&/^session_[0-9a-f]{64}$/.test(String(remote.sessionId||""))&&remote.rivalryId===context.request.rivalryId&&remote.accountId===context.accountId&&remote.deviceId===context.deviceId&&remote.pendingAction==null&&Number.isFinite(expiry)&&(!exactSessionId||remote.sessionId===exactSessionId))?remote:null;
   }
   function ptcField(id){return root.document&&root.document.getElementById(id);}
   function ptcText(node,value){if(node&&node.textContent!==String(value??""))node.textContent=String(value??"");}
@@ -121,7 +121,7 @@
     if(ptcRequest()?.key!==request.key)return null;
     if(!final||final.phase!=="FINAL_SEASON_RECONCILED"||final.finalSeasonReconciled!==true||final.rivalryId!==request.rivalryId)return ptcClear();
     const remote=ptcRemoteActive(context);
-    if(!remote)return ptcPublish(request,{phase:"BLOCKED",rivalryId:request.rivalryId,terminal:false,finalReconciliation:ptcClone(final),message:"Final results are preserved, but Terminal Close requires one exact unexpired ACTIVE private session for this rivalry. Open or join a fresh private session, then Terminal Close can finish.",canonicalStorageMutation:false,listPermissionRequired:false,billingRequired:false});
+    if(!remote)return ptcPublish(request,{phase:"BLOCKED",rivalryId:request.rivalryId,terminal:false,finalReconciliation:ptcClone(final),message:"Final results are preserved, but Terminal Close requires one exact ACTIVE private session for this rivalry.",canonicalStorageMutation:false,listPermissionRequired:false,billingRequired:false});
     const intent=protocol.prepare(final,{sessionId:remote.sessionId});
     return ptcPublish(request,{phase:"READY",rivalryId:request.rivalryId,sessionId:remote.sessionId,terminal:false,intent:ptcClone(intent),canonicalStorageMutation:false,listPermissionRequired:false,billingRequired:false});
   }
