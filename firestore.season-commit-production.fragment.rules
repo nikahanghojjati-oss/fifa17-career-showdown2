@@ -196,6 +196,8 @@
         && after.resultsRevision == 2
         && after.results is map
         && after.results.keys().hasOnly(['playerOne','playerTwo'])
+        && ssjrCommitResultShape(after.results.playerOne, public.teamCount)
+        && ssjrCommitResultShape(after.results.playerTwo, public.teamCount)
         && after.results.playerOne == p1.result
         && after.results.playerTwo == p2.result
         && after.acknowledgedRoles is list
