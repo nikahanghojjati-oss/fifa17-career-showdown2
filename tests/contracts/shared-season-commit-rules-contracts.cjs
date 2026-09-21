@@ -29,7 +29,7 @@ for(const required of [
   'public.revision == 2',
   "role == setup.coordinatorRole",
   "root.results.keys().hasOnly(['playerOne','playerTwo'])",
-  "ssjrSetupTeamCount(rivalryId)",
+  "let teamCount = public.teamCount;",
   "ssjrCommitResultShape(value, teamCount)",
   "value.leaguePosition <= teamCount",
   "value.leaguePoints <= (teamCount - 1) * 6",
