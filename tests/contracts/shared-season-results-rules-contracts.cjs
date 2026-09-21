@@ -5,11 +5,13 @@ const {spawnSync}=require('node:child_process');
 
 const root=path.resolve(__dirname,'../..');
 const fragmentPath=path.join(root,'firestore.season-results-production.fragment.rules');
+const setupFragmentPath=path.join(root,'firestore.shared-setup-production.fragment.rules');
 const builderPath=path.join(root,'scripts/build-production-firestore-rules.mjs');
 const generatedPath=path.join(root,'firestore.spark.generated.rules');
 
 assert.equal(fs.existsSync(fragmentPath),true,'Shared Season Results Rules fragment must exist');
 const fragment=fs.readFileSync(fragmentPath,'utf8');
+const setupFragment=fs.readFileSync(setupFragmentPath,'utf8');
 const forbidden=/cloud[\s_-]*run|cloud[\s_-]*functions|billing|blaze|payment|purchased[\s_-]*credits/i;
 assert.doesNotMatch(fragment,forbidden,'Shared Season Results Rules must stay inside the permanent Spark/zero-billing boundary');
 
@@ -42,13 +44,12 @@ for(const required of [
   "value.championsLeague is bool",
   "value.topScorer is bool",
   "value.topAssist is bool",
-  "ssjrSetupTeamCount(rivalryId)",
-  "hashing.sha256(ssjrSetupBindingCanonical(rivalryId).utf8())",
   "ssjrWriteAuthorityValid(rivalryId, root.updatedByDeviceId, root.activeSessionId)",
   "own.operationId == publicAfter.operationIds[i]",
   "own.activeSessionId == publicAfter.activeSessionId",
   "own.updatedByDeviceId == publicAfter.updatedByDeviceId"
 ])assert.ok(fragment.includes(required),`Season Results Rules missing required boundary: ${required}`);
+for(const required of ["ssjrSetupTeamCount(rivalryId)","hashing.sha256(ssjrSetupBindingCanonical(rivalryId).utf8())"])assert.ok(setupFragment.includes(required),`Shared Setup Rules missing deterministic league helper: ${required}`);
 
 assert.doesNotMatch(fragment,/allow\s+list\s*:\s*if\s+true/,'Season Results must never expose collection listing');
 assert.doesNotMatch(fragment,/allow\s+delete\s*:\s*if\s+true/,'Season Results authority is immutable and may not be deleted by clients');
