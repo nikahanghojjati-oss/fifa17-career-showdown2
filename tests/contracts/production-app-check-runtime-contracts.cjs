@@ -103,12 +103,12 @@ assert.match(historicalConnectedAccountHotfix,/Previous known-good runtime: `1\.
 assert.match(historicalConnectedAccountHotfix,/production runtime hotfix/i);
 
 assert.match(runtimeSource,/firebase-app\.js/);
-assert.match(runtimeSource,/firebase-app-check\.js/);
+assert.doesNotMatch(runtimeSource,/importImpl\(FIREBASE_APP_CHECK_MODULE\)/,"Production runtime must not load the App Check SDK while enforcement is OFF.");
 assert.match(runtimeSource,/firebase-auth\.js/);
 assert.match(runtimeSource,/firebase-firestore\.js/);
-assert.match(runtimeSource,/getToken\(initialized\.appCheck,false\)/);
-assert.match(runtimeSource,/ready-app-check-degraded/);
-assert.match(runtimeSource,/enforcement is off, so Connected Account remains available/i);
+assert.doesNotMatch(runtimeSource,/getToken\(initialized\.appCheck,false\)/,"Production runtime must not create reCAPTCHA assessments while App Check enforcement is OFF.");
+assert.match(runtimeSource,/appCheckDisabled:true/);
+assert.match(runtimeSource,/provider:"disabled"/);
 assert.doesNotMatch(runtimeSource,/requestIdleCallback|setTimeout\(run,900\)/,"Production Firebase must not add a second idle delay after the post-startup loader.");
 assert.match(runtimeSource,/const launch=\(\)=>\{initializeProductionFirebaseRuntime\(\)\.catch\(\(\)=>undefined\);\}/,"Production Firebase should initialize promptly once its already-lazy runtime script executes.");
 assert.match(runtimeSource,/runtime-config-not-configured/);
@@ -140,13 +140,9 @@ const validRuntimeConfig={
 };
 const eligible={origin:"https://nikahanghojjati-oss.github.io",pathname:"/fifa17-career-showdown2/",online:true};
 
-function appCheckSdk(calls){
-  class EnterpriseProvider{constructor(siteKey){this.siteKey=siteKey;calls.push(["provider",siteKey]);}}
+function baseFirebaseSdk(calls){
   return {
-    initializeApp(config){calls.push(["initializeApp",config]);return {name:"production-app"};},
-    ReCaptchaEnterpriseProvider:EnterpriseProvider,
-    initializeAppCheck(appInstance,options){calls.push(["initializeAppCheck",appInstance,options]);return {name:"app-check"};},
-    async getToken(appCheck,forceRefresh){calls.push(["getToken",appCheck,forceRefresh]);return {token:"opaque-test-token-never-exposed",expireTimeMillis:1893456000000};}
+    initializeApp(config){calls.push(["initializeApp",config]);return {name:"production-app"};}
   };
 }
 
@@ -172,20 +168,20 @@ function accountSdk(calls){
 (async()=>{
   const readyRuntime=freshRuntime();
   const baseCalls=[];
-  const ready=await readyRuntime.initialize({context:eligible,runtimeConfig:validRuntimeConfig,bootstrap,firebaseSdk:appCheckSdk(baseCalls)});
+  const ready=await readyRuntime.initialize({context:eligible,runtimeConfig:validRuntimeConfig,bootstrap,firebaseSdk:baseFirebaseSdk(baseCalls)});
   assert.equal(ready.status,"ready");
   assert.equal(ready.connected,true);
-  assert.equal(ready.tokenObserved,true);
+  assert.equal(ready.tokenObserved,false);
+  assert.equal(ready.appCheckDisabled,true);
   assert.equal(ready.appCheckDegraded,false);
+  assert.equal(ready.provider,"disabled");
   assert.equal(ready.enforcement,false);
   assert.equal(ready.authInitialized,false);
   assert.equal(ready.firestoreInitialized,false);
   assert.equal(ready.persistentFirestoreCache,false);
   assert.equal(ready.browserFirestoreWrites,FIRESTORE_WRITE_SCOPE);
-  assert.equal(Object.hasOwn(ready,"token"),false,"Raw App Check token must never enter runtime diagnostics.");
-  assert.deepEqual(baseCalls.map(call=>call[0]),["initializeApp","provider","initializeAppCheck","getToken"],"Base initialization must remain App + App Check only.");
-  assert.equal(baseCalls[2][2].isTokenAutoRefreshEnabled,true);
-  assert.equal(baseCalls[3][2],false);
+  assert.equal(Object.hasOwn(ready,"token"),false);
+  assert.deepEqual(baseCalls.map(call=>call[0]),["initializeApp"],"Base initialization must initialize Firebase App only and create zero App Check assessments.");
 
   const accountCalls=[];
   const accountServices=await readyRuntime.ensureAccountServices({context:eligible,accountSdk:accountSdk(accountCalls)});
@@ -195,53 +191,31 @@ function accountSdk(calls){
   assert.equal(accountServices.writeScope,FIRESTORE_WRITE_SCOPE);
   assert.equal(accountServices.billingRequired,false);
   assert.equal(accountServices.cloudRunRequired,false);
-  assert.deepEqual(accountCalls.map(call=>call[0]),["getAuth","memoryLocalCache","initializeFirestore"],"Auth/Firestore must initialize only after explicit account-service demand, with memory cache.");
+  assert.deepEqual(accountCalls.map(call=>call[0]),["getAuth","memoryLocalCache","initializeFirestore"]);
   assert.deepEqual(accountCalls[2][2],{localCache:{kind:"memory"}});
 
+  const refresh=await readyRuntime.refreshAppCheckToken({context:eligible});
+  assert.equal(refresh.ok,false);
+  assert.equal(refresh.code,"app-check-runtime-unavailable");
+
   const invalidRuntime=freshRuntime();
-  const invalid=await invalidRuntime.initialize({context:eligible,runtimeConfig:{...validRuntimeConfig,firebaseConfig:{...validRuntimeConfig.firebaseConfig,projectId:"wrong-project"}},bootstrap,firebaseSdk:appCheckSdk([])});
+  const invalid=await invalidRuntime.initialize({context:eligible,runtimeConfig:{...validRuntimeConfig,firebaseConfig:{...validRuntimeConfig.firebaseConfig,projectId:"wrong-project"}},bootstrap,firebaseSdk:baseFirebaseSdk([])});
   assert.equal(invalid.status,"APP_CHECK_PROJECT_ID_MISMATCH");
   assert.equal(invalid.connected,false);
 
   const offlineRuntime=freshRuntime();
-  const offline=await offlineRuntime.initialize({context:{...eligible,online:false},runtimeConfig:validRuntimeConfig,bootstrap,firebaseSdk:appCheckSdk([])});
+  const offline=await offlineRuntime.initialize({context:{...eligible,online:false},runtimeConfig:validRuntimeConfig,bootstrap,firebaseSdk:baseFirebaseSdk([])});
   assert.equal(offline.status,"offline");
   assert.equal(offline.attempted,false);
   assert.equal(offline.connected,false);
 
-  const failureRuntime=freshRuntime();
-  const failureSdk=appCheckSdk([]);
-  failureSdk.getToken=async()=>{throw new Error("synthetic provider outage");};
-  const providerFailure=await failureRuntime.initialize({context:eligible,runtimeConfig:validRuntimeConfig,bootstrap,firebaseSdk:failureSdk});
-  assert.equal(providerFailure.status,"ready-app-check-degraded");
-  assert.equal(providerFailure.connected,true);
-  assert.equal(providerFailure.tokenObserved,false);
-  assert.equal(providerFailure.appCheckDegraded,true);
-  assert.equal(providerFailure.enforcement,false);
-  assert.equal(Object.hasOwn(providerFailure,"token"),false,"Degraded diagnostics must not expose a raw App Check token.");
-
-  const degradedAccountCalls=[];
-  const degradedAccountServices=await failureRuntime.ensureAccountServices({context:eligible,accountSdk:accountSdk(degradedAccountCalls)});
-  assert.equal(degradedAccountServices.ok,true,"An unenforced App Check token outage must not disable Connected Account.");
-  assert.equal(degradedAccountServices.authPersistence,"browserSessionPersistence");
-  assert.equal(degradedAccountServices.persistentFirestoreCache,false);
-  assert.equal(degradedAccountServices.writeScope,FIRESTORE_WRITE_SCOPE);
-  assert.deepEqual(degradedAccountCalls.map(call=>call[0]),["getAuth","memoryLocalCache","initializeFirestore"]);
-  const degradedDiagnostics=failureRuntime.diagnostics();
-  assert.equal(degradedDiagnostics.status,"ready-app-check-degraded");
-  assert.equal(degradedDiagnostics.connected,true);
-  assert.equal(degradedDiagnostics.tokenObserved,false);
-  assert.equal(degradedDiagnostics.appCheckDegraded,true);
-  assert.equal(degradedDiagnostics.authInitialized,true);
-  assert.equal(degradedDiagnostics.firestoreInitialized,true);
-
   const initFailureRuntime=freshRuntime();
-  const initFailureSdk=appCheckSdk([]);
-  initFailureSdk.initializeAppCheck=()=>{throw new Error("synthetic App Check initialization failure");};
+  const initFailureSdk=baseFirebaseSdk([]);
+  initFailureSdk.initializeApp=()=>{throw new Error("synthetic Firebase initialization failure");};
   const initFailure=await initFailureRuntime.initialize({context:eligible,runtimeConfig:validRuntimeConfig,bootstrap,firebaseSdk:initFailureSdk});
-  assert.equal(initFailure.status,"APP_CHECK_INITIALIZATION_FAILED");
-  assert.equal(initFailure.connected,false,"App/App Check initialization failure must remain fatal and fail closed.");
-  assert.equal(initFailure.tokenObserved,false);
+  assert.equal(initFailure.status,"firebase-runtime-unavailable");
+  assert.equal(initFailure.connected,false);
+  assert.equal(initFailure.appCheckDisabled,true);
 
-  process.stdout.write(`PASS production Firebase runtime keeps historical App Check and PR #126 proof immutable while current ${currentAppVersion}/${currentRevision} tolerates unenforced attestation observation outages without weakening account boundaries\n`);
+  process.stdout.write(`PASS production Firebase runtime keeps App Check enforcement OFF and performs zero production reCAPTCHA assessments while preserving Firebase Auth/Firestore connected play for current ${currentAppVersion}/${currentRevision}\n`);
 })().catch(error=>{console.error(error);process.exit(1);});
