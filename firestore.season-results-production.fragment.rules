@@ -79,7 +79,7 @@
         && root.seasonNumber is int
         && ssjrResultsSeasonMatches(seasonId, root.seasonNumber)
         && root.teamCount == ssjrResultsProjectedTeamCount(rivalryId)
-        && ssjrResultsPrerequisites(rivalryId, seasonId, root.seasonNumber)
+        && ssjrEntitled(rivalryId)
         && root.runtimeRevision == '1.9.1-r9'
         && (root.phase == 'COLLECTING' || root.phase == 'RESULTS_READY')
         && root.revision is int
@@ -172,7 +172,7 @@
         && ssjrResultsValidOperationId(root.operationId)
         && ssjrResultsValidHash(root.commandHash)
         && root.publishedAt == request.time
-        && ssjrWriteAuthorityValid(rivalryId, root.updatedByDeviceId, root.activeSessionId);
+        && ssjrEntitled(rivalryId);
     }
     function ssjrResultsPrivateLinked(rivalryId, seasonId, publicAfter, managerRole) {
       let own = ssjrResultsPrivateAfter(rivalryId, seasonId, managerRole);
