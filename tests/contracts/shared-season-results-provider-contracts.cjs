@@ -78,11 +78,13 @@ function createHarness({transferRevision=6}={}){
 
   const h=createHarness({transferRevision:6});
   const publicPath=h.key('rivalries',rivalryId,'seasonResults','season_1');
+  const projectionPath=h.key('rivalries',rivalryId,'sharedSetup','leagueProjection');
   const p1Path=h.key('rivalries',rivalryId,'seasonResults','season_1','roles','playerOne');
   const p2Path=h.key('rivalries',rivalryId,'seasonResults','season_1','roles','playerTwo');
 
   let result=await Provider.publishResult({...h.options('playerOne'),operationId:resultOp(1),baseRevision:0,result:p1Result,teamCount:2});
   assert.equal(result.ok,true);assert.equal(result.revision,1);assert.equal(result.state.phase,'COLLECTING');
+  assert.equal(h.store.get(projectionPath).objectType,'sharedLeagueProjection');assert.equal(h.store.get(projectionPath).teamCount,h.store.get(publicPath).teamCount);assert.ok([18,20].includes(h.store.get(projectionPath).teamCount),'league projection must be repository-derived and immutable-shaped');
   assert.equal(h.store.get(publicPath).result,undefined,'public document must never contain manager result payload');
   assert.equal(h.store.get(publicPath).commandHash,undefined,'public document must not leak result-dependent hashes before reveal');
   assert.equal(h.store.get(p1Path).commandHash.startsWith('sha256:'),true);assert.deepEqual(h.store.get(p1Path).result,p1Result);assert.equal(h.store.has(p2Path),false);
