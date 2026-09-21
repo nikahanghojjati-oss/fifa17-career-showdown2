@@ -116,6 +116,7 @@ async function assertImpossibleBundesligaCommitDenied(env,db,season){
     assert.equal(setupResult.state.phase,"SHOWDOWN_CONFIRMED");
     assert.equal(setupResult.state.totalSeasons,TOTAL_SEASONS);
     assert.ok(setupResult.state.leagueId&&setupResult.state.clubs?.playerOne&&setupResult.state.clubs?.playerTwo);
+    assert.equal(setupResult.state.leagueId,"bundesliga","r44 lifecycle fixture must deterministically exercise the 18-team league");
 
     let career=await Career.acknowledge({...a(70),operationId:op("career_start_op_",1),baseRevision:0});
     assert.equal(career.ok,true,JSON.stringify(career));
