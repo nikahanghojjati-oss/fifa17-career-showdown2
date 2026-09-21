@@ -33,7 +33,7 @@ for(const required of [
   "transfer.phase == 'COMPLETED'",
   "transfer.revision == 6 || transfer.revision == 7",
   "root.runtimeRevision == '1.9.1-r9'",
-  "root.teamCount == ssjrSetupTeamCount(rivalryId)",
+  "root.teamCount == ssjrResultsProjectedTeamCount(rivalryId)",
   "root.teamCount == resource.data.teamCount",
   "ssjrResultsPrivateBase(after, rivalryId, seasonId, managerRole, public.teamCount)",
   "value.keys().hasOnly(['leaguePosition','leaguePoints','leagueGoals','domesticCup','championsLeague','topScorer','topAssist'])",
@@ -52,7 +52,7 @@ for(const required of [
   "own.activeSessionId == publicAfter.activeSessionId",
   "own.updatedByDeviceId == publicAfter.updatedByDeviceId"
 ])assert.ok(fragment.includes(required),`Season Results Rules missing required boundary: ${required}`);
-for(const required of ["ssjrSetupTeamCount(rivalryId)","hashing.sha256(ssjrSetupBindingCanonical(rivalryId))"])assert.ok(setupFragment.includes(required),`Shared Setup Rules missing deterministic league helper: ${required}`);
+for(const required of ["match /sharedSetup/leagueProjection","allow create: if ssjrLeagueProjectionCreateValid(rivalryId)","after.teamCount == ssjrSetupTeamCount(rivalryId)","hashing.sha256(ssjrSetupBindingCanonical(rivalryId))"])assert.ok(setupFragment.includes(required),`Shared Setup Rules missing deterministic league helper: ${required}`);
 
 assert.doesNotMatch(fragment,/allow\s+list\s*:\s*if\s+true/,'Season Results must never expose collection listing');
 assert.doesNotMatch(fragment,/allow\s+delete\s*:\s*if\s+true/,'Season Results authority is immutable and may not be deleted by clients');
