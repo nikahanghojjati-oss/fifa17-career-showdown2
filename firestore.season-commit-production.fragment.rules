@@ -40,8 +40,9 @@
       let public = ssjrCommitPublicResults(rivalryId, seasonId);
       let p1 = ssjrCommitPrivateResult(rivalryId, seasonId, 'playerOne');
       let p2 = ssjrCommitPrivateResult(rivalryId, seasonId, 'playerTwo');
-      let teamCount = ssjrSetupTeamCount(rivalryId);
-      return setup.schemaVersion == 1
+      let teamCount = public.teamCount;
+      return teamCount in [18,20]
+        && setup.schemaVersion == 1
         && setup.objectType == 'sharedSetupLedger'
         && setup.rivalryId == rivalryId
         && setup.revision == 6
@@ -132,10 +133,12 @@
         && root.actorRoles == [root.actorRoles[0]].concat(root.acknowledgedRoles);
     }
     function ssjrCommitShape(root, rivalryId, seasonId) {
-      let teamCount = ssjrSetupTeamCount(rivalryId);
+      let public = ssjrCommitPublicResults(rivalryId, seasonId);
+      let teamCount = public.teamCount;
       let p1 = ssjrCommitPrivateResult(rivalryId, seasonId, 'playerOne');
       let p2 = ssjrCommitPrivateResult(rivalryId, seasonId, 'playerTwo');
-      return ssjrCommitExactKeys(root)
+      return teamCount in [18,20]
+        && ssjrCommitExactKeys(root)
         && root.schemaVersion == 1
         && root.objectType == 'sharedSeasonCommit'
         && root.rivalryId == rivalryId
@@ -162,11 +165,13 @@
     function ssjrCommitValidCreate(rivalryId, seasonId) {
       let after = request.resource.data;
       let setup = ssjrCommitSetup(rivalryId);
+      let public = ssjrCommitPublicResults(rivalryId, seasonId);
       let p1 = ssjrCommitPrivateResult(rivalryId, seasonId, 'playerOne');
       let p2 = ssjrCommitPrivateResult(rivalryId, seasonId, 'playerTwo');
       let role = ssjrActorRole(rivalryId);
-      let teamCount = ssjrSetupTeamCount(rivalryId);
-      return ssjrCommitExactKeys(after)
+      let teamCount = public.teamCount;
+      return teamCount in [18,20]
+        && ssjrCommitExactKeys(after)
         && after.schemaVersion == 1
         && after.objectType == 'sharedSeasonCommit'
         && after.rivalryId == rivalryId
@@ -231,8 +236,10 @@
       let after = request.resource.data;
       let role = ssjrActorRole(rivalryId);
       let i = before.revision;
-      let teamCount = ssjrSetupTeamCount(rivalryId);
-      return ssjrCommitExactKeys(after)
+      let public = ssjrCommitPublicResults(rivalryId, seasonId);
+      let teamCount = public.teamCount;
+      return teamCount in [18,20]
+        && ssjrCommitExactKeys(after)
         && before.schemaVersion == 1
         && before.objectType == 'sharedSeasonCommit'
         && before.rivalryId == rivalryId
