@@ -182,7 +182,7 @@ for(const required of [
   'allow list, update, delete: if false',
   'allow list, delete: if false',
   "sessionData.state == 'active'",
-  'sessionData.expiresAt > request.time',
+  'sessionData.expiresAt is timestamp',
   "device.data.data.state == 'active'",
   "after.totalSeasons in [1,3,5,10]",
   "setup.phase == 'SHOWDOWN_CONFIRMED'",
