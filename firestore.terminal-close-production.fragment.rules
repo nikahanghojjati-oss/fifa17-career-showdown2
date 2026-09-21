@@ -179,7 +179,6 @@
         && validSessionId(sessionId)
         && before.data.rivalryId == rivalryId
         && before.data.state == 'active'
-        && before.data.expiresAt > request.time
         && request.auth.uid in before.data.memberAccountIds
         && ssjrTerminalFinalEnvelopeCas(before, after, 'session', sessionId)
         && after.updatedByAccountId == request.auth.uid
