@@ -17,15 +17,16 @@
     function ssjrCommitPrivateResult(rivalryId, seasonId, managerRole) {
       return get(/databases/$(database)/documents/rivalries/$(rivalryId)/seasonResults/$(seasonId)/roles/$(managerRole)).data;
     }
-    function ssjrCommitResultShape(value) {
-      return value is map
+    function ssjrCommitResultShape(value, teamCount) {
+      return teamCount >= 2
+        && value is map
         && value.keys().hasOnly(['leaguePosition','leaguePoints','leagueGoals','domesticCup','championsLeague','topScorer','topAssist'])
         && value.leaguePosition is int
         && value.leaguePosition >= 1
-        && value.leaguePosition <= 20
+        && value.leaguePosition <= teamCount
         && value.leaguePoints is int
         && value.leaguePoints >= 0
-        && value.leaguePoints <= 114
+        && value.leaguePoints <= (teamCount - 1) * 6
         && value.leagueGoals is int
         && value.leagueGoals >= 0
         && value.leagueGoals <= 300
@@ -39,6 +40,7 @@
       let public = ssjrCommitPublicResults(rivalryId, seasonId);
       let p1 = ssjrCommitPrivateResult(rivalryId, seasonId, 'playerOne');
       let p2 = ssjrCommitPrivateResult(rivalryId, seasonId, 'playerTwo');
+      let teamCount = ssjrSetupTeamCount(rivalryId);
       return setup.schemaVersion == 1
         && setup.objectType == 'sharedSetupLedger'
         && setup.rivalryId == rivalryId
@@ -80,8 +82,8 @@
         && p2.rivalryId == rivalryId
         && p2.seasonNumber == seasonNumber
         && p2.managerRole == 'playerTwo'
-        && ssjrCommitResultShape(p1.result)
-        && ssjrCommitResultShape(p2.result)
+        && ssjrCommitResultShape(p1.result, teamCount)
+        && ssjrCommitResultShape(p2.result, teamCount)
         && ((public.actorRoles[0] == 'playerOne'
               && p1.operationId == public.operationIds[0]
               && p2.operationId == public.operationIds[1])
@@ -130,6 +132,7 @@
         && root.actorRoles == [root.actorRoles[0]].concat(root.acknowledgedRoles);
     }
     function ssjrCommitShape(root, rivalryId, seasonId) {
+      let teamCount = ssjrSetupTeamCount(rivalryId);
       let p1 = ssjrCommitPrivateResult(rivalryId, seasonId, 'playerOne');
       let p2 = ssjrCommitPrivateResult(rivalryId, seasonId, 'playerTwo');
       return ssjrCommitExactKeys(root)
@@ -146,8 +149,8 @@
         && root.resultsRevision == 2
         && root.results is map
         && root.results.keys().hasOnly(['playerOne','playerTwo'])
-        && ssjrCommitResultShape(root.results.playerOne)
-        && ssjrCommitResultShape(root.results.playerTwo)
+        && ssjrCommitResultShape(root.results.playerOne, teamCount)
+        && ssjrCommitResultShape(root.results.playerTwo, teamCount)
         && root.results.playerOne == p1.result
         && root.results.playerTwo == p2.result
         && ssjrCommitOperationChainValid(root)
@@ -162,6 +165,7 @@
       let p1 = ssjrCommitPrivateResult(rivalryId, seasonId, 'playerOne');
       let p2 = ssjrCommitPrivateResult(rivalryId, seasonId, 'playerTwo');
       let role = ssjrActorRole(rivalryId);
+      let teamCount = ssjrSetupTeamCount(rivalryId);
       return ssjrCommitExactKeys(after)
         && after.schemaVersion == 1
         && after.objectType == 'sharedSeasonCommit'
@@ -182,8 +186,8 @@
         && after.resultsRevision == 2
         && after.results is map
         && after.results.keys().hasOnly(['playerOne','playerTwo'])
-        && ssjrCommitResultShape(after.results.playerOne)
-        && ssjrCommitResultShape(after.results.playerTwo)
+        && ssjrCommitResultShape(after.results.playerOne, teamCount)
+        && ssjrCommitResultShape(after.results.playerTwo, teamCount)
         && p1.schemaVersion == 1
         && p1.objectType == 'sharedSeasonResultRole'
         && p1.rivalryId == rivalryId
