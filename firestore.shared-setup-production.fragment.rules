@@ -137,6 +137,25 @@
       let index = ssjrSetupLeagueIndex(rivalryId);
       return index == 2 ? 18 : (index >= 0 && index <= 4 ? 20 : 0);
     }
+    function ssjrLeagueProjectionCreateValid(rivalryId) {
+      let after = request.resource.data;
+      let setup = get(/databases/$(database)/documents/rivalries/$(rivalryId)/sharedSetup/authoritative).data;
+      let rivalry = ssjrRivalryData(rivalryId);
+      return signedIn()
+        && after.keys().hasOnly(['schemaVersion','objectType','rivalryId','teamCount','createdAt'])
+        && after.schemaVersion == 1
+        && after.objectType == 'sharedLeagueProjection'
+        && after.rivalryId == rivalryId
+        && after.teamCount in [18,20]
+        && after.teamCount == ssjrSetupTeamCount(rivalryId)
+        && after.createdAt == request.time
+        && request.auth.uid in rivalry.authorizedAccountIds
+        && setup.schemaVersion == 1
+        && setup.objectType == 'sharedSetupLedger'
+        && setup.rivalryId == rivalryId
+        && setup.revision == 6
+        && setup.phase == 'SHOWDOWN_CONFIRMED';
+    }
     function ssjrExactLedgerKeys(root) {
       return root.keys().hasOnly([
         'schemaVersion','objectType','rivalryId','revision','phase','coordinatorRole',
@@ -240,5 +259,11 @@
         allow list, delete: if false;
         allow create: if ssjrValidCreateLedger(rivalryId);
         allow update: if ssjrValidUpdateLedger(rivalryId);
+      }
+
+      match /sharedSetup/leagueProjection {
+        allow get: if ssjrEntitled(rivalryId);
+        allow list, update, delete: if false;
+        allow create: if ssjrLeagueProjectionCreateValid(rivalryId);
       }
 // SSJR_SHARED_SETUP_MATCH_END
