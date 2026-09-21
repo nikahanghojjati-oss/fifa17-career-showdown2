@@ -33,15 +33,17 @@ for(const required of [
   "root.runtimeRevision == '1.9.1-r9'",
   "value.keys().hasOnly(['leaguePosition','leaguePoints','leagueGoals','domesticCup','championsLeague','topScorer','topAssist'])",
   "value.leaguePosition >= 1",
-  "value.leaguePosition <= 20",
+  "value.leaguePosition <= teamCount",
   "value.leaguePoints >= 0",
-  "value.leaguePoints <= 114",
+  "value.leaguePoints <= (teamCount - 1) * 6",
   "value.leagueGoals >= 0",
   "value.leagueGoals <= 300",
   "value.domesticCup is bool",
   "value.championsLeague is bool",
   "value.topScorer is bool",
   "value.topAssist is bool",
+  "ssjrSetupTeamCount(rivalryId)",
+  "hashing.sha256(ssjrSetupBindingCanonical(rivalryId).utf8())",
   "ssjrWriteAuthorityValid(rivalryId, root.updatedByDeviceId, root.activeSessionId)",
   "own.operationId == publicAfter.operationIds[i]",
   "own.activeSessionId == publicAfter.activeSessionId",
@@ -72,4 +74,4 @@ for(const required of [
 assert.equal((generated.match(/match \/seasonResults\/\{seasonId\}/g)||[]).length,1,'generated Rules must contain exactly one Season Results public match');
 assert.equal((generated.match(/match \/roles\/\{managerRole\}/g)||[]).length,2,'generated Rules must contain exactly the Transfer Challenge and Season Results role-private matches');
 
-console.log('PASS Shared Season Results production Rules: deterministic generator includes exactly one r9 public authority and one r9 role-private authority, active-session/device writes are required, result fields and universal FIFA 17 league bounds are exact, first publisher privacy lasts until RESULTS_READY, client update/delete/list are denied, r8 timeout and early-end completion paths are accepted, authoritative shared scoring stays absent, and the fragment remains Spark-only with zero billing.');
+console.log('PASS Shared Season Results production Rules: deterministic generator includes exactly one r9 public authority and one r9 role-private authority, active-session/device writes are required, result fields and deterministic league-specific FIFA 17 bounds are exact, first publisher privacy lasts until RESULTS_READY, client update/delete/list are denied, r8 timeout and early-end completion paths are accepted, authoritative shared scoring stays absent, and the fragment remains Spark-only with zero billing.');
