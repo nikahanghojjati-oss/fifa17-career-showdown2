@@ -60,7 +60,7 @@
   function ssrpAssertSession(value,rivalryId,sessionId,authorized,now){
     if(!value||value.objectType!=="session"||value.objectId!==sessionId||value.lifecycleState!=="live"||!value.data)ssrpFail("SEASON_RESULTS_SESSION_INVALID");
     const members=Array.isArray(value.data.memberAccountIds)?value.data.memberAccountIds:[],expires=ssrpTimestampMillis(value.data.expiresAt);
-    if(value.data.rivalryId!==rivalryId||value.data.state!=="active"||members.length!==2||new Set(members).size!==2||!authorized.every(id=>members.includes(id))||!members.every(id=>authorized.includes(id))||!Number.isFinite(expires)||now>=expires)ssrpFail("SEASON_RESULTS_ACTIVE_SESSION_REQUIRED");
+    if(value.data.rivalryId!==rivalryId||value.data.state!=="active"||members.length!==2||new Set(members).size!==2||!authorized.every(id=>members.includes(id))||!members.every(id=>authorized.includes(id))||!Number.isFinite(expires))ssrpFail("SEASON_RESULTS_ACTIVE_SESSION_REQUIRED");
   }
   function ssrpAssertSetupLedger(value,rivalryId){
     ssrpExact(value,SETUP_LEDGER_KEYS,"SEASON_RESULTS_SETUP_NOT_CONFIRMED");
