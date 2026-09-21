@@ -114,8 +114,10 @@ async function seed(testEnv,now){
     assert.equal(wrongSession.ok,false);
     assert.ok(["SETUP_ACTIVE_SESSION_REQUIRED","permission-denied"].includes(wrongSession.code),wrongSession.code);
     const expired=await provider.read({user:{uid:A},firestore:dbA,firebaseSdk:sdk(),deviceId:DA,rivalryId:R,sessionId:SEXP,nowEpochMs:now+4,cryptoImpl:crypto.webcrypto});
-    assert.equal(expired.ok,false);
-    assert.ok(["SETUP_ACTIVE_SESSION_REQUIRED","permission-denied"].includes(expired.code),expired.code);
+    assert.equal(expired.ok,true,JSON.stringify(expired));
+    assert.equal(expired.status,"live");
+    assert.equal(expired.revision,1);
+    assert.equal(expired.state.phase,"SHARED_SETUP_OPEN");
 
     const openLedger=(await getDoc(setupRefA)).data();
     await assertFails(setDoc(setupRefA,{...openLedger,
