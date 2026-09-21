@@ -257,18 +257,16 @@ async function assertImpossibleBundesligaCommitDenied(env,db,season){
       else{assert.equal(lastMulti.state.activeSeason,null);assert.equal(lastMulti.state.terminal,true);assert.equal(lastMulti.state.phase,"SHOWDOWN_COMPLETE");}
 
       if(TOTAL_SEASONS===10&&season===5){
-        const freshNow=now+offset+1600;
+        const expiredAt=now+offset+1600;
         await env.withSecurityRulesDisabled(async context=>{
           const db=context.firestore();
-          await setDoc(doc(db,"rivalries",R,"sessions",S),session(now,S,freshNow-1));
-          await setDoc(doc(db,"rivalries",R,"sessions",FRESH),session(freshNow,FRESH));
+          await setDoc(doc(db,"rivalries",R,"sessions",activeSessionId),session(now,activeSessionId,expiredAt-1));
         });
-        activeSessionId=FRESH;
         const resumedA=await Setup.read(a(offset+1700)),resumedB=await Setup.read(b(offset+1700));
-        assert.equal(resumedA.ok,true,`S${season} fresh-session setup resume A failed: ${JSON.stringify(resumedA)}`);
-        assert.equal(resumedB.ok,true,`S${season} fresh-session setup resume B failed: ${JSON.stringify(resumedB)}`);
+        assert.equal(resumedA.ok,true,`S${season} expired-timestamp active-session resume A failed: ${JSON.stringify(resumedA)}`);
+        assert.equal(resumedB.ok,true,`S${season} expired-timestamp active-session resume B failed: ${JSON.stringify(resumedB)}`);
         assert.equal(resumedA.state.totalSeasons,TOTAL_SEASONS);
-        assert.deepEqual(resumedA.state.clubs,resumedB.state.clubs,"Fresh session must preserve fixed clubs.");
+        assert.deepEqual(resumedA.state.clubs,resumedB.state.clubs,"The same ACTIVE session must preserve fixed clubs beyond its old TTL.");
       }
     }
 
@@ -282,6 +280,6 @@ async function assertImpossibleBundesligaCommitDenied(env,db,season){
     assert.deepEqual(finalA.managerTotals,expectedTotals,"Final reconciliation must use the accumulated canonical score from every accepted season.");
     assert.equal(finalA.winner,"playerOne","Final winner must be derived from the accumulated canonical totals.");
 
-    process.stdout.write(`PASS production gameplay provider lifecycle (${TOTAL_SEASONS} season${TOTAL_SEASONS===1?"":"s"}): real generated Firestore Rules carried one exact two-manager Showdown through shared setup, Career Start, ${TOTAL_SEASONS} complete Transfer/Guess/Signing cycles, private Season Results with Bundesliga 102 accepted / direct-SDK 103 denied, league-bounded coordinator commit + dual acknowledgement, canonical scoring with exact numeric assertions, accumulated history/trophies/records, exact next-season progression, and final reconciliation from stored cumulative totals with fixed clubs and no reset${TOTAL_SEASONS===3?"; fresh sessions also took over after Daniel published Season 1 and after the Season 2 coordinator commit without losing accepted state":""}${TOTAL_SEASONS===10?"; the original private session expired after Season 5 and a fresh four-hour session resumed the same rivalry through Season 10":""}. Terminal Close remains independently production-emulator gated.\n`);
+    process.stdout.write(`PASS production gameplay provider lifecycle (${TOTAL_SEASONS} season${TOTAL_SEASONS===1?"":"s"}): real generated Firestore Rules carried one exact two-manager Showdown through shared setup, Career Start, ${TOTAL_SEASONS} complete Transfer/Guess/Signing cycles, private Season Results with Bundesliga 102 accepted / direct-SDK 103 denied, league-bounded coordinator commit + dual acknowledgement, canonical scoring with exact numeric assertions, accumulated history/trophies/records, exact next-season progression, and final reconciliation from stored cumulative totals with fixed clubs and no reset${TOTAL_SEASONS===3?"; fresh sessions also took over after Daniel published Season 1 and after the Season 2 coordinator commit without losing accepted state":""}${TOTAL_SEASONS===10?"; the same ACTIVE private session continued through Season 10 after its original expiry timestamp passed":""}. Terminal Close remains independently production-emulator gated.\n`);
   }finally{await env.cleanup();}
 })().catch(error=>{console.error(error.stack||error);process.exit(1);});
