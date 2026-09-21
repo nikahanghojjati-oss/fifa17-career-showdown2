@@ -14,6 +14,10 @@ Provider layers now carry the authoritative league size from the repository-owne
 
 Regression coverage keeps 114 valid for the supported 20-team leagues, accepts exactly 102 for Bundesliga, and rejects Bundesliga 103. Existing canonical scoring weights, permanent club assignment, Transfer Challenge behavior, session/reconnect logic, accumulated history/trophy calculations, Firestore architecture, and two-manager privacy rules are unchanged.
 
+Remote Joining, pairing, ACTIVE-session authority, and the rest of the provider architecture remain unchanged.
+
+SSJR-1.1 readiness remains `0/100`; this correctness repair and its deployment evidence earn no SSJR credit.
+
 Firebase remains Spark-only. Billing remains permanently OFF. Cloud Run and Cloud Functions remain unused. No public discovery, lobby, matchmaking, or rankings are introduced.
 
 The r44 shell identity advances all cache-busted entry assets and retains r43 as the rollback runtime so production devices cannot remain pinned to stale r43 JavaScript after this repair.
