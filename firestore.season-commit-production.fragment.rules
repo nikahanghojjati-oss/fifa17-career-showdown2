@@ -231,6 +231,7 @@
       let after = request.resource.data;
       let role = ssjrActorRole(rivalryId);
       let i = before.revision;
+      let teamCount = ssjrSetupTeamCount(rivalryId);
       return ssjrCommitExactKeys(after)
         && before.schemaVersion == 1
         && before.objectType == 'sharedSeasonCommit'
@@ -247,6 +248,8 @@
         && ssjrCommitSeasonMatches(seasonId, after.seasonNumber)
         && after.resultsRevision == before.resultsRevision
         && after.results == before.results
+        && ssjrCommitResultShape(after.results.playerOne, teamCount)
+        && ssjrCommitResultShape(after.results.playerTwo, teamCount)
         && after.revision == before.revision + 1
         && ((after.revision < 3 && after.phase == 'COMMITTED') || (after.revision == 3 && after.phase == 'ACKNOWLEDGED'))
         && after.operationIds is list
