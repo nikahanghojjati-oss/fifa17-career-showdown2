@@ -37,7 +37,7 @@
   function scspAssertSession(value,rivalryId,sessionId,authorized,now){
     if(!value||value.objectType!=="session"||value.objectId!==sessionId||value.lifecycleState!=="live"||!value.data)scspFail("CAREER_START_SESSION_INVALID");
     const members=Array.isArray(value.data.memberAccountIds)?value.data.memberAccountIds:[],expires=scspTimestampMillis(value.data.expiresAt);
-    if(value.data.rivalryId!==rivalryId||value.data.state!=="active"||members.length!==2||new Set(members).size!==2||!authorized.every(id=>members.includes(id))||!members.every(id=>authorized.includes(id))||!Number.isFinite(expires)||now>=expires)scspFail("CAREER_START_ACTIVE_SESSION_REQUIRED");
+    if(value.data.rivalryId!==rivalryId||value.data.state!=="active"||members.length!==2||new Set(members).size!==2||!authorized.every(id=>members.includes(id))||!members.every(id=>authorized.includes(id))||!Number.isFinite(expires))scspFail("CAREER_START_ACTIVE_SESSION_REQUIRED");
   }
   function scspAssertConfirmedSetupLedger(value,rivalryId){
     if(!value||value.schemaVersion!==1||value.objectType!=="sharedSetupLedger"||value.rivalryId!==rivalryId||value.revision!==6||value.phase!=="SHOWDOWN_CONFIRMED"||!Array.isArray(value.operationIds)||value.operationIds.length!==6||new Set(value.operationIds).size!==6||![1,3,5,10].includes(value.totalSeasons))scspFail("CAREER_START_SETUP_NOT_CONFIRMED");
