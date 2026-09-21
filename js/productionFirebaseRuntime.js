@@ -140,16 +140,9 @@
   }
 
   async function loadFirebaseSdk(importImpl=url=>import(url)){
-    const [appModule,appCheckModule]=await Promise.all([
-      importImpl(FIREBASE_APP_MODULE),
-      importImpl(FIREBASE_APP_CHECK_MODULE)
-    ]);
+    const appModule=await importImpl(FIREBASE_APP_MODULE);
     return {
-      initializeApp:appModule.initializeApp,
-      initializeAppCheck:appCheckModule.initializeAppCheck,
-      ReCaptchaEnterpriseProvider:appCheckModule.ReCaptchaEnterpriseProvider,
-      getToken:appCheckModule.getToken,
-      onTokenChanged:appCheckModule.onTokenChanged
+      initializeApp:appModule.initializeApp
     };
   }
 
@@ -266,49 +259,29 @@
 
       try{
         const sdk=options.firebaseSdk||await loadFirebaseSdk(options.importImpl);
-        if(typeof sdk.getToken!=="function")throw new Error("Firebase App Check getToken is unavailable.");
-        const initialized=bootstrap.initialize({...bootstrapInput,firebaseSdk:sdk});
-        if(!initialized||initialized.ok!==true){
-          return setRuntimeState({status:initialized&&initialized.code?initialized.code:"app-check-initialization-failed",attempted:true,connected:false,tokenObserved:false,authInitialized:false,firestoreInitialized:false});
-        }
-        productionApp=initialized.app;
-        productionAppCheck=initialized.appCheck;
-        productionAppCheckGetToken=sdk.getToken;
-
-        let tokenResult=null;
-        let tokenObserved=false;
-        let appCheckDegraded=false;
-        try{
-          tokenResult=await sdk.getToken(initialized.appCheck,false);
-          tokenObserved=appCheckTokenObserved(tokenResult);
-          appCheckDegraded=!tokenObserved;
-          if(appCheckDegraded&&root.console&&typeof root.console.warn==="function"){
-            root.console.warn("[Career Mode Showdown] Production App Check token was not observed; enforcement is off, so Connected Account remains available while attestation monitoring recovers.");
-          }
-        }catch(error){
-          appCheckDegraded=true;
-          if(root.console&&typeof root.console.warn==="function"){
-            root.console.warn("[Career Mode Showdown] Production App Check token observation is temporarily unavailable; enforcement is off, so Connected Account remains available while attestation monitoring recovers.",error);
-          }
-        }
+        if(typeof sdk.initializeApp!=="function")throw new Error("Firebase initializeApp is unavailable.");
+        productionApp=sdk.initializeApp(plan.firebaseConfig);
+        productionAppCheck=null;
+        productionAppCheckGetToken=null;
 
         setRuntimeState({
-          status:tokenObserved?"ready":"ready-app-check-degraded",
+          status:"ready",
           attempted:true,
           connected:true,
-          tokenObserved,
-          appCheckDegraded,
-          tokenExpireTimeMillis:appCheckTokenExpiry(tokenResult),
+          tokenObserved:false,
+          appCheckDisabled:true,
+          appCheckDegraded:false,
+          tokenExpireTimeMillis:null,
           tokenLifecycleObserved:false,
           tokenRefreshCount:0,
           tokenRefreshSuccessCount:0,
           tokenRefreshFailureCount:0,
           tokenRefreshAttempted:false,
-          lastTokenRefreshStatus:"not-attempted",
-          lastTokenTransition:"initial",
+          lastTokenRefreshStatus:"disabled",
+          lastTokenTransition:"disabled",
           appCheckTokenObserverInstalled:false,
           appCheckTokenObserverHealthy:null,
-          provider:"recaptcha-enterprise",
+          provider:"disabled",
           sdkVersion:FIREBASE_SDK_VERSION,
           enforcement:false,
           authInitialized:false,
@@ -317,16 +290,15 @@
           authPersistence:"browserSessionPersistence",
           browserFirestoreWrites:BROWSER_FIRESTORE_WRITE_SCOPE
         });
-        installAppCheckTokenLifecycleObserver(initialized.appCheck,sdk);
         return runtimeState;
       }catch(error){
         productionApp=null;
         productionAppCheck=null;
         productionAppCheckGetToken=null;
         if(root.console&&typeof root.console.warn==="function"){
-          root.console.warn("[Career Mode Showdown] Production Firebase/App Check initialization is unavailable; local mode remains active.",error);
+          root.console.warn("[Career Mode Showdown] Production Firebase initialization is unavailable; connected play remains unavailable until Firebase recovers.",error);
         }
-        return setRuntimeState({status:"app-check-runtime-unavailable",attempted:true,connected:false,tokenObserved:false,authInitialized:false,firestoreInitialized:false});
+        return setRuntimeState({status:"firebase-runtime-unavailable",attempted:true,connected:false,tokenObserved:false,appCheckDisabled:true,authInitialized:false,firestoreInitialized:false});
       }
     })().finally(()=>{runtimePromise=null;});
     return runtimePromise;
