@@ -3,6 +3,7 @@ const fs = require("node:fs");
 const vm = require("node:vm");
 
 const source = fs.readFileSync("js/restore.js", "utf8");
+const restoreCss = fs.readFileSync("css/restore.css", "utf8");
 
 function clone(value){ return JSON.parse(JSON.stringify(value)); }
 function analysis(payload){
@@ -25,6 +26,8 @@ function createRuntime(overrides = {}){
 function json(raw){ return raw === null ? null : JSON.parse(raw); }
 
 (async () => {
+    assert.ok(restoreCss.includes("R9 SLICE 8 — RESTORE / RECOVERY"), "R9 Restore presentation layer is missing.");
+    assert.ok(restoreCss.includes(".careerRestorePlan.ready") && restoreCss.includes(".careerRestorePlan.blocked") && restoreCss.includes(".careerRestoreRecovery.critical"), "R9 Restore styling must preserve real ready/blocked/critical recovery surfaces.");
     assert.ok(!/\blocalStorage\b/.test(source), "Restore planner/orchestrator must not own browser storage.");
     assert.ok(!/\bfetch\s*\(/.test(source), "Candidate C restore must remain local and network-free.");
     assert.ok(source.includes("window.analyzeCareerModeBackupFile(confirmedFile)"), "Apply must freshly re-run Candidate B analysis from the immutable confirmed File.");
