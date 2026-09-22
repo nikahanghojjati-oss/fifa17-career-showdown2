@@ -11,6 +11,7 @@ assert.equal(production.billingRequired,false);assert.equal(production.blazeRequ
 assert.equal(production.pollIntervalMs,15000);assert.equal(typeof production.install,'function');assert.equal(typeof production.refresh,'function');assert.equal(typeof production.getState,'function');
 
 const source=fs.readFileSync('js/productionSharedHistoryConvergence.js','utf8');
+const seasonCss=fs.readFileSync('css/season.css','utf8');
 assert.match(source,/productionSharedShowdownSetup\.js/);assert.match(source,/productionSharedSeasonCommit\.js/);assert.match(source,/productionSharedCanonicalScoring\.js/);
 assert.match(source,/sharedHistoryConvergence\.js/);assert.match(source,/sharedShowdownCatalog\.js/);assert.match(source,/sparkSharedHistoryConvergence\.js/);assert.match(source,/productionFirebaseRuntime\.js/);
 assert.ok(source.indexOf('js/sharedShowdownCatalog.js')<source.indexOf('js/sparkSharedSeasonCommit.js'),'history cold-load path must initialize the catalog before the r10 provider factory.');
@@ -24,7 +25,10 @@ assert.ok(cachedGate>=0&&commitRefresh>cachedGate&&scoringRefresh>commitRefresh&
 assert.match(source,/commit\.phase==="ACKNOWLEDGED"/);assert.match(source,/commit\.revision===3/);assert.match(source,/scoring\.phase==="SCORING_RECONCILED"/);assert.match(source,/scoring\.revision===1/);
 assert.match(source,/resultsContentHash/);assert.match(source,/resultsRevision/);assert.match(source,/throughSeason:request\.throughSeason/);
 assert.match(source,/ensureAccountServices\(\)/);assert.match(source,/setup\.sessionId/);assert.match(source,/setup\.deviceId/);assert.match(source,/setup\.accountId/);
-assert.match(source,/sharedHistoryConvergencePanel/);assert.match(source,/SHARED HISTORY CONVERGED/);assert.match(source,/managerRecords/);assert.match(source,/trophyAttribution/);
+assert.match(source,/sharedHistoryConvergencePanel/);
+assert.match(source,/ui\.panel\.dataset\.sharedHistoryPhase=active\?view\.phase:"hidden"/,'R9 history styling must project only verified HISTORY_CONVERGED authority.');
+assert.match(seasonCss,/#sharedHistoryConvergencePanel\[data-shared-history-phase="HISTORY_CONVERGED"\]/,'R9 must keep the real Shared History Convergence panel visibly witnessable.');
+assert.match(source,/SHARED HISTORY CONVERGED/);assert.match(source,/managerRecords/);assert.match(source,/trophyAttribution/);
 assert.match(source,/Overall:/);assert.match(source,/Lead:/);assert.match(source,/p1Total-p2Total|p2Total-p1Total/,'Accepted history must show the cumulative Showdown score and current point gap after every season.');
 assert.doesNotMatch(source,/saveCurrentShowdown|persistCompletedSeason|localStorage\.setItem|sessionStorage\.setItem/);
 assert.doesNotMatch(source,/runTransaction|\.set\(|\.update\(|\.delete\(/);
