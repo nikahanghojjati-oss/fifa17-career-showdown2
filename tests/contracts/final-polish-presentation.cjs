@@ -33,6 +33,7 @@ assert.ok(clubRevealIndex.includes('color:rgba(255,255,255,.66)'), 'Club reveal 
 assert.ok(css.includes('.transferOverviewStatus{color:#596873;}'), 'Showdown Home transfer status must retain readable contrast.');
 assert.ok(css.includes('.overallScoreBox span{color:#52616b'), 'Season Summary overall-score caption must retain readable contrast.');
 assert.ok(css.includes('R9 SLICE 6 — SEASON SUMMARY'), 'R9 Season Summary presentation layer is missing.');
+assert.ok(css.includes('R9 SLICE 10 — GLOBAL RUNTIME NOTICE'), 'R9 global runtime notice presentation layer is missing.');
 assert.ok(legacyCss.includes('R9 SLICE 8 — LEGACY ARCHIVE'), 'R9 Legacy archive presentation layer is missing.');
 assert.ok(rulebookCss.includes('R9 SLICE 9 — RULE BOOK'), 'R9 Rule Book presentation layer is missing.');
 assert.ok(settingsCss.includes('R9 SLICE 9 — SETTINGS / ACCOUNT SURFACE'), 'R9 Settings presentation layer is missing.');
