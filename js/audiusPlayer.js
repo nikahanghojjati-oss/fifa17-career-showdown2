@@ -6,41 +6,41 @@
   const STYLE_MARKER="audius-player";
   let mounted=null;
 
-  function endpoint(path){
+  function audiusEndpoint(path){
     const join=path.includes("?")?"&":"?";
     return API_BASE+path+join+"app_name="+encodeURIComponent(APP_NAME);
   }
-  function revision(){
+  function audiusRevision(){
     return root.document?.querySelector('meta[name="app-asset-revision"]')?.content||"";
   }
-  function ensureStyle(){
+  function audiusEnsureStyle(){
     if(!root.document)return null;
     let link=root.document.querySelector('link[data-audius-player-style="true"]');
     if(link)return link;
     link=root.document.createElement("link");
     link.rel="stylesheet";
     link.dataset.audiusPlayerStyle="true";
-    const rev=revision();
+    const rev=audiusRevision();
     link.href="css/audius-player.css"+(rev?"?v="+encodeURIComponent(rev):"");
     root.document.head.appendChild(link);
     return link;
   }
-  function formatTime(value){
+  function audiusFormatTime(value){
     const seconds=Math.max(0,Math.floor(Number(value)||0));
     return Math.floor(seconds/60)+":"+String(seconds%60).padStart(2,"0");
   }
-  function isMounted(){return Boolean(mounted&&mounted.root?.isConnected);}
-  function isPlaying(){return Boolean(isMounted()&&!mounted.audio.paused&&!mounted.audio.ended);}
-  function snapshot(){
-    if(!isMounted())return {mounted:false,playing:false,muted:false,phase:"idle"};
-    return {mounted:true,playing:isPlaying(),muted:Boolean(mounted.audio.muted),phase:mounted.phase};
+  function audiusIsMounted(){return Boolean(mounted&&mounted.root?.isConnected);}
+  function audiusIsPlaying(){return Boolean(audiusIsMounted()&&!mounted.audio.paused&&!mounted.audio.ended);}
+  function audiusSnapshot(){
+    if(!audiusIsMounted())return {mounted:false,playing:false,muted:false,phase:"idle"};
+    return {mounted:true,playing:audiusIsPlaying(),muted:Boolean(mounted.audio.muted),phase:mounted.phase};
   }
-  function syncControls(){
-    if(!root.document)return snapshot();
+  function audiusSyncControls(){
+    if(!root.document)return audiusSnapshot();
     const toggle=root.document.getElementById("menuMusicToggle");
     const mute=root.document.getElementById("menuMusicMute");
     const status=root.document.getElementById("menuMusicStatus");
-    const state=snapshot();
+    const state=audiusSnapshot();
     if(toggle)toggle.textContent=state.playing?"PAUSE TRACK":"PLAY TRACK";
     if(mute){
       mute.disabled=!state.mounted;
@@ -58,34 +58,34 @@
     }
     return state;
   }
-  function fail(message,error){
-    if(!isMounted())return;
+  function audiusFail(message,error){
+    if(!audiusIsMounted())return;
     mounted.phase="error";
     mounted.root.dataset.audiusState="error";
     mounted.status.textContent="STREAM UNAVAILABLE";
-    syncControls();
+    audiusSyncControls();
     root.showAppNotice?.(message,"error",7000);
     console.warn("[Career Mode Showdown] Audius player:",error||message);
   }
-  function updateProgress(){
-    if(!isMounted())return;
+  function audiusUpdateProgress(){
+    if(!audiusIsMounted())return;
     const duration=Number(mounted.audio.duration);
     const current=Number(mounted.audio.currentTime)||0;
     const pct=Number.isFinite(duration)&&duration>0?Math.max(0,Math.min(100,current/duration*100)):0;
     mounted.progress.style.width=pct+"%";
-    mounted.time.textContent=formatTime(current)+" / "+(Number.isFinite(duration)&&duration>0?formatTime(duration):"--:--");
+    mounted.time.textContent=audiusFormatTime(current)+" / "+(Number.isFinite(duration)&&duration>0?audiusFormatTime(duration):"--:--");
   }
-  async function hydrateMetadata(){
-    if(!isMounted()||mounted.metadataRequested)return;
+  async function audiusHydrateMetadata(){
+    if(!audiusIsMounted()||mounted.metadataRequested)return;
     const requestTrack=String(mounted.track.trackId);
     mounted.metadataRequested=true;
     try{
-      const response=await fetch(endpoint("/tracks/"+encodeURIComponent(requestTrack)),{
+      const response=await fetch(audiusEndpoint("/tracks/"+encodeURIComponent(requestTrack)),{
         method:"GET",credentials:"omit",mode:"cors",cache:"default"
       });
       if(!response.ok)throw new Error("AUDIUS_METADATA_"+response.status);
       const payload=await response.json(),track=payload?.data||payload;
-      if(!isMounted()||String(mounted.track.trackId)!==requestTrack||String(track?.id||"")!==requestTrack)return;
+      if(!audiusIsMounted()||String(mounted.track.trackId)!==requestTrack||String(track?.id||"")!==requestTrack)return;
       const title=track?.title||mounted.track.title;
       const artist=track?.user?.name||track?.user?.handle||mounted.track.subtitle;
       mounted.title.textContent=title;
@@ -100,7 +100,7 @@
       console.info("[Career Mode Showdown] Audius metadata unavailable; fallback track presentation retained.",error);
     }
   }
-  function build(host,tile,track){
+  function audiusBuild(host,tile,track){
     const rootNode=root.document.createElement("div");
     rootNode.className="audiusMenuPlayer";
     rootNode.dataset.audiusState="ready";
@@ -149,7 +149,7 @@
     const audio=root.document.createElement("audio");
     audio.className="audiusAudioElement";
     audio.preload="none";audio.playsInline=true;
-    const streamUrl=endpoint("/tracks/"+encodeURIComponent(track.trackId)+"/stream");
+    const streamUrl=audiusEndpoint("/tracks/"+encodeURIComponent(track.trackId)+"/stream");
 
     rootNode.append(artWrap,core,audio);
     host.replaceChildren(rootNode);
@@ -158,75 +158,75 @@
     mounted={host,tile,track,root:rootNode,artWrap,art,title,artist,progress,status,time,audio,streamUrl,phase:"ready",metadataRequested:false};
 
     audio.addEventListener("play",()=>{
-      if(!isMounted()||mounted.audio!==audio)return;
-      mounted.phase="playing";rootNode.dataset.audiusState="playing";status.textContent="PLAYING";syncControls();
-      void hydrateMetadata();
+      if(!audiusIsMounted()||mounted.audio!==audio)return;
+      mounted.phase="playing";rootNode.dataset.audiusState="playing";status.textContent="PLAYING";audiusSyncControls();
+      void audiusHydrateMetadata();
     });
     audio.addEventListener("pause",()=>{
-      if(!isMounted()||mounted.audio!==audio||audio.ended)return;
-      mounted.phase="paused";rootNode.dataset.audiusState="paused";status.textContent="PAUSED";syncControls();
+      if(!audiusIsMounted()||mounted.audio!==audio||audio.ended)return;
+      mounted.phase="paused";rootNode.dataset.audiusState="paused";status.textContent="PAUSED";audiusSyncControls();
     });
     audio.addEventListener("ended",()=>{
-      if(!isMounted()||mounted.audio!==audio)return;
-      mounted.phase="ended";rootNode.dataset.audiusState="ended";status.textContent="ENDED";audio.currentTime=0;updateProgress();syncControls();
+      if(!audiusIsMounted()||mounted.audio!==audio)return;
+      mounted.phase="ended";rootNode.dataset.audiusState="ended";status.textContent="ENDED";audio.currentTime=0;audiusUpdateProgress();audiusSyncControls();
     });
     audio.addEventListener("timeupdate",updateProgress);
     audio.addEventListener("loadedmetadata",updateProgress);
     audio.addEventListener("volumechange",syncControls);
-    audio.addEventListener("error",()=>fail("The Audius stream could not be played. Try again or choose another soundtrack source.",audio.error));
-    syncControls();
+    audio.addEventListener("error",()=>audiusFail("The Audius stream could not be played. Try again or choose another soundtrack source.",audio.error));
+    audiusSyncControls();
     return true;
   }
-  function activate(track){
+  function audiusActivate(track){
     if(!root.document||!track?.trackId)return false;
-    ensureStyle();
+    audiusEnsureStyle();
     const host=root.document.getElementById("menuMusicPlayer");
     const tile=root.document.querySelector(".menuMusicTile");
     if(!host||!tile)return false;
-    if(isMounted()&&mounted.host===host&&String(mounted.track.trackId)===String(track.trackId)){
-      mounted.track=track;syncControls();return true;
+    if(audiusIsMounted()&&mounted.host===host&&String(mounted.track.trackId)===String(track.trackId)){
+      mounted.track=track;audiusSyncControls();return true;
     }
-    destroy();
-    return build(host,tile,track);
+    audiusDestroy();
+    return audiusBuild(host,tile,track);
   }
-  async function play(){
-    if(!isMounted())return false;
-    mounted.phase="loading";mounted.root.dataset.audiusState="loading";mounted.status.textContent="CONNECTING";syncControls();
+  async function audiusPlay(){
+    if(!audiusIsMounted())return false;
+    mounted.phase="loading";mounted.root.dataset.audiusState="loading";mounted.status.textContent="CONNECTING";audiusSyncControls();
     try{
       if(!mounted.audio.getAttribute("src"))mounted.audio.src=mounted.streamUrl;
-      const result=mounted.audio.play();
+      const result=mounted.audio.audiusPlay();
       if(result&&typeof result.then==="function")await result;
-      void hydrateMetadata();
+      void audiusHydrateMetadata();
       return true;
     }catch(error){
-      fail("Audius playback was blocked or unavailable. Press Play to try again.",error);
+      audiusFail("Audius playback was blocked or unavailable. Press Play to try again.",error);
       return false;
     }
   }
-  function pause(){
-    if(!isMounted())return false;
-    mounted.audio.pause();
+  function audiusPause(){
+    if(!audiusIsMounted())return false;
+    mounted.audio.audiusPause();
     return true;
   }
-  async function toggle(){
-    if(!isMounted())return false;
-    return isPlaying()?pause():play();
+  async function audiusToggle(){
+    if(!audiusIsMounted())return false;
+    return audiusIsPlaying()?audiusPause():audiusPlay();
   }
-  function setMuted(value){
-    if(!isMounted())return false;
+  function audiusSetMuted(value){
+    if(!audiusIsMounted())return false;
     mounted.audio.muted=Boolean(value);
-    syncControls();
+    audiusSyncControls();
     return true;
   }
-  function toggleMute(){
-    if(!isMounted())return false;
-    return setMuted(!mounted.audio.muted);
+  function audiusToggleMute(){
+    if(!audiusIsMounted())return false;
+    return audiusSetMuted(!mounted.audio.muted);
   }
-  function destroy(){
+  function audiusDestroy(){
     if(!mounted)return;
     const previous=mounted;
     mounted=null;
-    try{previous.audio.pause();previous.audio.removeAttribute("src");previous.audio.load();}catch(_error){}
+    try{previous.audio.audiusPause();previous.audio.removeAttribute("src");previous.audio.load();}catch(_error){}
     previous.root.remove();
     if(previous.tile?.dataset?.mediaProvider==="audius"){
       delete previous.tile.dataset.mediaLoaded;
