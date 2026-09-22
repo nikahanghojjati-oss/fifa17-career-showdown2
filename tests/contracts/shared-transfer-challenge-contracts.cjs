@@ -85,7 +85,15 @@ for(const required of [
   'root.setTransferSelectorValue',
   'pstcSyncOwnGuessControls(role,true)',
   'root.document.addEventListener("change",pstcGuessTypeChange,true)',
-  'Choose League or Nationality first'
+  'Choose League or Nationality first',
+  'screen.dataset.sharedTransferPresentation=pstcPresentationState(state,role,phase,isReplay)',
+  'window-peer-end-requested',
+  'window-confirming-expiry',
+  'AGREE TO END EARLY',
+  '00:00 REACHED · CONFIRMING NEXT SHARED PHASE',
+  'Outcome not confirmed. Refresh shared state before trying again.',
+  'Latest shared state could not be confirmed. Check your connection and refresh again.',
+  'pstcHidden(refresh,isReplay||phase==="COMPLETED")'
 ])assert.ok(productionSource.includes(required),`Shared Transfer Challenge screen adapter missing ${required}`);
 assert.doesNotMatch(productionSource,/void pstcEnsureDependencies\(\)\.then\(\(\)=>pstcTick\(\)\)/,'Shared Transfer Challenge must stay dormant on ordinary non-shared startup.');
 assert.doesNotMatch(productionSource,/localStorage|sessionStorage|saveCurrentShowdown\s*\(|openTransferChallenge\s*\(/,'Shared Transfer Challenge screen adapter must not mutate or invoke local Transfer Challenge authority.');
@@ -94,6 +102,9 @@ assert.match(providerSource,/catalog\.leagueIds\.has\(item\.leagueId\)/,'The pro
 assert.match(providerSource,/catalog\.nationalityIds\.has\(item\.nationalityId\)/,'The provider must remain the exact FIFA 17 nationality authority.');
 assert.doesNotMatch(providerSource,/options\.leagueIds|options\.nationalityIds/,'production provider must never accept caller-supplied transfer catalog authority');
 assert.match(transferCss,/@media\(max-width:900px\)[\s\S]*\.signingRow>\.transferCombobox\{grid-column:2;\}/,'Compact signing rows must keep both enhanced previous-league and nationality selectors in the full-width value column.');
+assert.doesNotMatch(transferCss,/#transferChallenge:not\(\[data-transfer-phase="window"\]\) \.transferHero,\s*#transferChallenge:not\(\[data-transfer-phase="window"\]\) \.transferTimerActions\{display:none;\}/,'Shared recovery controls must not be hidden with the window-only hero outside WINDOW_OPEN.');
+assert.match(transferCss,/#refreshSharedTransferChallenge\{[\s\S]*min-height:44px/,'The existing Shared Transfer refresh control must retain an accessible primary touch height.');
+assert.match(transferCss,/#transferChallenge:not\(\[data-transfer-phase="window"\]\) \.transferTimerActions\{[\s\S]*width:min\(650px,92vw\)/,'Guess and Signing states must keep the existing recovery action container reachable.');
 
 const setup={
   phase:'SHOWDOWN_CONFIRMED',revision:6,coordinatorRole:'playerOne',totalSeasons:3,
