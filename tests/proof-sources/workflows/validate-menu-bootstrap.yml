@@ -52,8 +52,9 @@ jobs:
           );
 
           const api = context.__menuExports;
-          const expectedMediaKeys = ['bastille', 'highlow', 'move', 'music', 'shelter', 'trailer', 'youth'];
-          assert.deepStrictEqual(Object.keys(api.MENU_MEDIA_SOURCES).sort(), expectedMediaKeys, 'Home media catalog must remain the seven accepted FIFA 17 choices.');
+          const expectedMediaKeys = ['alwaysright', 'audius', 'nasty', 'snowglobe'];
+          assert.deepStrictEqual(Object.keys(api.MENU_MEDIA_SOURCES).sort(), expectedMediaKeys, 'Home media catalog must remain the four accepted Audius soundtrack choices.');
+          assert.ok(!/youtube|youtu\.be|GAMEPLAY TRAILER|videoId|iframeTitle/i.test(source), 'Audius-only Home runtime must not retain YouTube or gameplay trailer authority.');
 
           assert.ok(html.includes('id="careerStatisticsButton"'), 'Current Home Statistics tile is missing.');
           assert.ok(!html.includes('id="trophyRoomButton"'), 'Deprecated Home Trophy Room id must not return.');
@@ -76,8 +77,8 @@ jobs:
           assert.ok(decorator.includes('careerStatisticsButton'), 'Home decorator must understand the current Statistics tile id.');
           assert.ok(initializer.includes('ensureMenuMediaSelector()') && initializer.includes('bindMenuMediaControls()') && initializer.includes('bindMenuFeedbackInteraction()') && initializer.includes('getMenuExperienceIntegrity()'), 'Home initializer lost required subsystems.');
           assert.ok(initializer.includes('throw new Error'), 'Incomplete Home initialization must fail loudly instead of silently returning.');
-          assert.ok(selector.includes('Object.values(MENU_MEDIA_SOURCES)') && selector.includes('selector.id = "menuMediaSelector"'), 'Media selector contract is incomplete.');
-          assert.ok(appCss.includes('@media(max-width:700px){.menuMediaSelector{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));overflow:visible}'), 'Mobile Home must expose all seven media choices in a contained two-column grid.');
+          assert.ok(selector.includes('Object.values(MENU_MEDIA_SOURCES)') && /selector\.id\s*=\s*"menuMediaSelector"/.test(selector), 'Audius media selector contract is incomplete.');
+          assert.ok(appCss.includes('@media(max-width:700px){.menuMediaSelector{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));overflow:visible}'), 'Mobile Home must expose all Audius soundtrack choices in a contained two-column grid.');
           assert.ok(binder.includes('menuMusicToggle') && binder.includes('menuMusicMute') && binder.includes('dataset.musicBound = "true"'), 'Media bindings are incomplete.');
           assert.ok(integrity.includes('mediaChoicesReady') && integrity.includes('toggleBound') && integrity.includes('muteBound') && integrity.includes('feedbackBound'), 'Home integrity check must cover media and menu feedback.');
           assert.ok(saveMeta.includes('indicator: "No Active Showdown"') && saveMeta.includes('Showdown Complete') && saveMeta.includes('Season ${currentRound} / ${totalRounds}'), 'Saved-showdown header states are incomplete.');
@@ -87,7 +88,7 @@ jobs:
           assert.ok(creation.indexOf('saveCurrentShowdown()') < creation.indexOf('window.refreshMainMenuExperience()'), 'New Showdown must save before synchronizing shell state.');
           assert.ok(creation.indexOf('window.refreshMainMenuExperience()') < creation.indexOf('showScreen("leagueWheelScreen")'), 'New Showdown must update the header before entering League selection.');
 
-          console.log(`Home shell/menu initializer, save-indicator synchronization and seven-choice media bootstrap regression passed for ${revision}.`);
+          console.log(`Home shell/menu initializer, save-indicator synchronization and Audius-only soundtrack bootstrap regression passed for ${revision}.`);
           NODE
 
       - name: Validate revision coherence

@@ -1,0 +1,199 @@
+/* R9 Audius Home soundtrack player — lazy loaded only when Audius is selected. */
+
+.menuMusicTile[data-media-provider="audius"]{
+  min-height:174px;
+  grid-template-columns:minmax(185px,.8fr) minmax(360px,2.25fr) minmax(190px,.75fr);
+  grid-template-areas:
+    "mediaHead mediaPlayer mediaControls"
+    "mediaStatus mediaPlayer mediaControls"
+    "mediaSelect mediaSelect mediaSelect";
+  grid-template-rows:auto minmax(36px,1fr) auto;
+  background:
+    radial-gradient(circle at 63% 10%,rgba(243,204,79,.1),transparent 28%),
+    linear-gradient(125deg,#090d10,#151c21 58%,#090d10);
+  border-color:rgba(243,204,79,.2);
+  border-top-color:var(--r9-gold,#f3cc4f);
+}
+.menuMusicTile[data-media-provider="audius"] .menuMusicSource{
+  color:var(--r9-gold,#f3cc4f);
+  letter-spacing:1.1px;
+}
+.menuMusicTile[data-media-provider="audius"] .menuMusicControls{
+  align-content:center;
+  grid-template-columns:1fr;
+  gap:7px;
+}
+.menuMusicTile[data-media-provider="audius"] #menuMusicToggle{
+  min-height:46px;
+  color:#0b0f12;
+  background:linear-gradient(135deg,#f7df87,var(--r9-gold,#f3cc4f) 58%,#bd8620);
+  border-color:#fff0b0;
+}
+.menuMusicTile[data-media-provider="audius"] #menuMusicMute{
+  min-height:42px;
+  color:var(--r9-cream,#f5f0e4);
+  background:#171d21;
+  border-color:rgba(243,204,79,.25);
+}
+.menuMusicTile[data-media-provider="audius"] .menuMusicPlayer{
+  min-height:112px;
+  background:rgba(4,7,9,.72);
+  border:1px solid rgba(243,204,79,.14);
+  border-left:4px solid var(--r9-gold,#f3cc4f);
+}
+.audiusMenuPlayer{
+  min-height:112px;
+  padding:9px;
+  display:grid;
+  grid-template-columns:94px minmax(0,1fr);
+  gap:12px;
+  align-items:stretch;
+  color:var(--r9-cream,#f5f0e4);
+}
+.audiusArtwork{
+  position:relative;
+  width:94px;
+  height:94px;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 35% 30%,rgba(255,255,255,.22),transparent 25%),
+    linear-gradient(145deg,#f3cc4f,#9a6e13 62%,#151c21);
+  border:1px solid rgba(255,240,176,.42);
+  box-shadow:0 8px 20px rgba(0,0,0,.3);
+}
+.audiusArtwork img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  opacity:0;
+  transition:opacity 160ms ease;
+}
+.audiusArtwork.hasArtwork img{opacity:1;}
+.audiusArtworkFallback{
+  position:absolute;
+  inset:0;
+  display:grid;
+  place-items:center;
+  color:#0b0f12;
+  font:900 45px/.8 var(--f17-display);
+}
+.audiusPlayerCore{
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+.audiusProviderLine{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  min-width:0;
+}
+.audiusProviderLine span{
+  color:var(--r9-gold,#f3cc4f);
+  font:800 9px/1 var(--f17-display);
+  letter-spacing:1.6px;
+}
+.audiusProviderLine small{
+  color:#8f998f;
+  font:700 7px/1 var(--f17-display);
+  letter-spacing:1px;
+}
+.audiusTrackTitle{
+  display:block;
+  margin-top:6px;
+  overflow:hidden;
+  color:var(--r9-cream,#f5f0e4);
+  font:800 clamp(18px,2vw,25px)/.9 var(--f17-display);
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.audiusTrackArtist{
+  margin-top:4px;
+  overflow:hidden;
+  color:#c0b8a5;
+  font-size:9px;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.audiusWaveform{
+  position:relative;
+  height:19px;
+  margin-top:9px;
+  overflow:hidden;
+  background:#10161a;
+  border-top:1px solid rgba(255,255,255,.05);
+  border-bottom:1px solid rgba(255,255,255,.05);
+}
+.audiusWaveformBars,.audiusWaveformProgress{
+  position:absolute;
+  inset:2px 0;
+  background:
+    repeating-linear-gradient(90deg,transparent 0 3px,currentColor 3px 5px,transparent 5px 8px);
+  mask-image:linear-gradient(0deg,transparent 0 9%,#000 10% 90%,transparent 91%);
+}
+.audiusWaveformBars{color:#4b5559;opacity:.72;}
+.audiusWaveformProgress{
+  width:0;
+  right:auto;
+  color:var(--r9-gold,#f3cc4f);
+  overflow:hidden;
+}
+.audiusPlayerFooter{
+  margin-top:6px;
+  display:flex;
+  align-items:center;
+  gap:9px;
+  min-width:0;
+  color:#8f998f;
+  font:700 7px/1 var(--f17-display);
+  letter-spacing:.7px;
+}
+.audiusPlayerStatus{color:#c5bca9;}
+.audiusMenuPlayer[data-audius-state="playing"] .audiusPlayerStatus{color:#a9dab3;}
+.audiusMenuPlayer[data-audius-state="error"] .audiusPlayerStatus{color:#f0caca;}
+.audiusPlayerTime{margin-left:auto;font-variant-numeric:tabular-nums;}
+.audiusPlayerLink{
+  color:var(--r9-gold,#f3cc4f);
+  text-decoration:none;
+}
+.audiusPlayerLink:focus-visible{
+  outline:2px solid var(--r9-gold,#f3cc4f);
+  outline-offset:2px;
+}
+.audiusAudioElement{display:none;}
+
+@media(max-width:900px){
+  .menuMusicTile[data-media-provider="audius"]{
+    grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);
+    grid-template-areas:
+      "mediaHead mediaControls"
+      "mediaPlayer mediaPlayer"
+      "mediaStatus mediaStatus"
+      "mediaSelect mediaSelect";
+  }
+  .menuMusicTile[data-media-provider="audius"] .menuMusicControls{grid-template-columns:1fr 1fr;}
+}
+@media(max-width:700px){
+  .menuMusicTile[data-media-provider="audius"]{
+    grid-template-columns:1fr;
+    grid-template-areas:"mediaHead" "mediaPlayer" "mediaControls" "mediaStatus" "mediaSelect";
+  }
+  .audiusMenuPlayer{grid-template-columns:78px minmax(0,1fr);gap:9px;padding:8px;}
+  .audiusArtwork{width:78px;height:78px;}
+  .audiusTrackTitle{font-size:20px;}
+  .audiusProviderLine small{display:none;}
+}
+@media(max-width:480px){
+  .menuMusicTile[data-media-provider="audius"] #menuMusicToggle,
+  .menuMusicTile[data-media-provider="audius"] #menuMusicMute{min-height:44px;}
+  .audiusMenuPlayer{grid-template-columns:64px minmax(0,1fr);}
+  .audiusArtwork{width:64px;height:64px;}
+  .audiusPlayerFooter{flex-wrap:wrap;}
+  .audiusPlayerTime{margin-left:0;}
+}
+@media(prefers-reduced-motion:reduce){
+  .audiusArtwork img{transition:none;}
+}

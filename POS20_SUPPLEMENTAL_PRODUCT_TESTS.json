@@ -439,6 +439,19 @@
         "^RELEASE_V1\\.9\\.1_R19\\.md$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/audius-home-player-contracts.cjs",
+      "patterns": [
+        "^js/audiusPlayer\\.js$",
+        "^css/audius-player\\.css$",
+        "^js/menuExperience\\.js$",
+        "^js/optionalModules\\.js$",
+        "^tests/contracts/audius-home-player-contracts\\.cjs$",
+        "^tests/browser/audius-home-player-audit\\.cjs$",
+        "^package\\.json$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }

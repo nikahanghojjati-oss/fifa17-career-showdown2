@@ -294,6 +294,10 @@ function ensureMenuFeedbackModule(){
             && typeof window.getMenuFeedbackDiagnostics === "function"
     );
 }
+async function ensureAudiusPlayerModule(){
+    await loadRuntimeScript("audius-player","js/audiusPlayer.js",()=>Boolean(window.CareerModeAudiusPlayer));
+    return window.CareerModeAudiusPlayer;
+}
 
 async function ensureFootballVisualModule(){
     const stylePromise=loadRuntimeStyle("football-visual-ui","css/footballVisuals.css").then(()=>loadRuntimeStyle("football-visual-v113-ui","css/footballVisuals-v113.css"));
@@ -576,6 +580,7 @@ window.ensureGameplayModules = ensureGameplayModules;
 window.getGameplayModuleState = getGameplayModuleState;
 window.ensureDiagnosticsModule = ensureDiagnosticsModule;
 window.ensureMenuFeedbackModule = ensureMenuFeedbackModule;
+window.ensureAudiusPlayerModule = ensureAudiusPlayerModule;
 window.ensureFootballVisualModule = ensureFootballVisualModule;
 window.ensureRequiredFootballVisualExperience = ensureRequiredFootballVisualExperience;
 window.ensureOptionalModule = ensureOptionalModule;
