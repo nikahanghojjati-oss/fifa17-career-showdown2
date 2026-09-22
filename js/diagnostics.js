@@ -188,13 +188,13 @@ function getSeasonReviewProblems(gameplayReady){
 
 function getMenuMediaProblems(){
     const choices = Array.from(document.querySelectorAll("[data-menu-media-source]"));
-    if(choices.length !== 7){
-        return [`menu media selector contains ${choices.length} choices instead of 7`];
+    const expected = ["alwaysright", "audius", "nasty", "snowglobe"];
+    if(choices.length !== expected.length){
+        return [`menu media selector contains ${choices.length} choices instead of ${expected.length}`];
     }
 
-    const expected = ["bastille", "highlow", "move", "music", "shelter", "trailer", "youth"];
     const keys = choices.map(button => button.dataset.menuMediaSource).sort();
-    return keys.join(",") === expected.join(",") ? [] : ["menu media choices are invalid"];
+    return keys.join(",") === expected.join(",") ? [] : ["Audius soundtrack choices are invalid"];
 }
 
 function getMenuFeedbackProblems(){
