@@ -295,9 +295,7 @@ function ensureMenuFeedbackModule(){
     );
 }
 async function ensureAudiusPlayerModule(){
-    const style=loadRuntimeStyle("audius-player-ui","css/audius-player.css");
     await loadRuntimeScript("audius-player","js/audiusPlayer.js",()=>Boolean(window.CareerModeAudiusPlayer));
-    await style;
     return window.CareerModeAudiusPlayer;
 }
 
