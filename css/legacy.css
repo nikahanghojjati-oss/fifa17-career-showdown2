@@ -533,7 +533,11 @@
     box-shadow:0 10px 26px rgba(0,0,0,.2);
 }
 .legacyStat span,.legacyDataControls p,.legacyEmpty{color:#b8b09e!important;}
-.legacyStat strong,.legacyDataControls h3{color:var(--r9-cream,#f5f0e4);}
+.legacyStat strong{color:var(--r9-cream,#f5f0e4);}
+.legacyDataControls{
+    background:#0c1115;
+}
+.legacyDataControls h3{color:#fff;}
 .legacyShowdownCard{
     background:
         radial-gradient(circle at 86% 12%,rgba(243,204,79,.09),transparent 28%),
