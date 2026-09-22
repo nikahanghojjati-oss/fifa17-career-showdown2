@@ -250,3 +250,50 @@
     .ruleScoreTable strong{font-size:14px;}
     .ruleScoreMaximum{gap:12px;}
 }
+
+/* =====================================================
+   R9 SLICE 9 — RULE BOOK
+===================================================== */
+.ruleBookScreen>h2{
+    color:var(--r9-cream,#f5f0e4);
+    background:linear-gradient(120deg,#161d22,#0b1014);
+    border-left-color:var(--r9-gold,#f3cc4f);
+    border-bottom:1px solid rgba(243,204,79,.16);
+}
+.ruleBookHero{
+    color:var(--r9-cream,#f5f0e4);
+    background:
+        radial-gradient(circle at 84% 18%,rgba(243,204,79,.1),transparent 30%),
+        linear-gradient(135deg,#171f24,#090d10);
+    border-left-color:var(--r9-gold,#f3cc4f);
+}
+.ruleBookHero>span{color:var(--r9-gold,#f3cc4f);}
+.ruleBookHero>strong{color:var(--r9-cream,#f5f0e4);}
+.ruleBookHero>p{color:#c5bca9;}
+.ruleSection{
+    color:var(--r9-cream,#f5f0e4);
+    background:linear-gradient(145deg,#171f24,#0c1115);
+    border:1px solid rgba(243,204,79,.1);
+    box-shadow:0 10px 26px rgba(0,0,0,.2);
+}
+.ruleSectionHeader{border-bottom-color:rgba(245,240,228,.1);}
+.ruleSectionHeader h3{color:var(--r9-cream,#f5f0e4);}
+.ruleSection li{color:#bdb5a3;}
+.ruleSection:nth-child(1),
+.ruleSection:nth-child(2),
+.ruleSection:nth-child(3),
+.ruleSection:nth-child(4),
+.ruleSection:nth-child(5),
+.ruleSection:nth-child(6){--rule-accent:var(--r9-gold,#f3cc4f);--rule-accent-text:#0b0f12;}
+.scoringRuleSection{background:linear-gradient(145deg,#171f24,#0c1115);}
+.ruleScoreTable>div{
+    background:#11171b;
+    border-left-color:#655f52!important;
+}
+.ruleScoreTable span{color:#bdb5a3;}
+.ruleScoreTable strong{color:var(--r9-gold,#f3cc4f);}
+.ruleScoreMaximum{
+    color:#0b0f12;
+    background:var(--r9-gold,#f3cc4f);
+}
+.ruleScoreMaximum span,.ruleScoreMaximum strong{color:#0b0f12;}
