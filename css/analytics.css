@@ -652,3 +652,66 @@
     .managerCabinetHeader{padding:14px;}
     .trophyShelf,.cabinetSupportingStats,.cabinetAchievementStrip{padding-left:14px;padding-right:14px;}
 }
+
+/* =====================================================
+   R9 SLICE 7 — ANALYTICS FAMILY
+===================================================== */
+.analyticsScreen>h2{
+    color:var(--r9-cream,#f5f0e4);
+    background:linear-gradient(120deg,#161d22,#0b1014);
+    border-left-color:var(--r9-gold,#f3cc4f);
+    border-bottom:1px solid rgba(243,204,79,.16);
+}
+.analyticsSectionHeading{
+    color:var(--r9-cream,#f5f0e4);
+    border-left-color:var(--r9-gold,#f3cc4f);
+}
+.analyticsStatCard,.comparisonTable,.careerStandings,.managerCabinet,.recordCard,.seasonProgressionRow,.analyticsEmpty{
+    color:var(--r9-cream,#f5f0e4);
+    background:linear-gradient(145deg,#171f24,#0c1115);
+    border-color:rgba(243,204,79,.12);
+    box-shadow:0 10px 26px rgba(0,0,0,.2);
+}
+.analyticsStatCard{border-top-color:#5fa8c9;}
+.analyticsStatCard:nth-child(even){border-top-color:var(--r9-gold,#f3cc4f);}
+.analyticsStatCard span,.recordCard>span,.analyticsEmpty,.seasonProgressionLabel span,.seasonStatTop{color:#b8b09e;}
+.analyticsStatCard strong,.recordCard>strong,.comparisonRow>strong,.seasonStatTop strong,.careerStandingsRow strong{color:var(--r9-cream,#f5f0e4);}
+.analyticsStatCard small,.seasonProgressionLabel strong{color:var(--r9-gold,#f3cc4f);}
+.rivalryStatisticsHero{
+    background:
+        radial-gradient(circle at 50% 0,rgba(243,204,79,.09),transparent 34%),
+        linear-gradient(135deg,#171f24,#090d10);
+    border-left-color:var(--r9-gold,#f3cc4f);
+}
+.rivalryStatisticsOverview{border-bottom-color:rgba(245,240,228,.12);}
+.rivalryStatisticsOverview span{color:var(--r9-gold,#f3cc4f);}
+.rivalryManagerHero h3{color:var(--r9-gold,#f3cc4f);}
+.analyticsClubName,.rivalryHeroScore{color:var(--r9-cream,#f5f0e4);}
+.rivalryManagerHero>span{color:#b7af9c;}
+.comparisonRow,.careerStandingsRow{border-bottom-color:rgba(245,240,228,.1);}
+.comparisonRow>span,.careerStandingsRow:not(.header) span{color:#b8b09e;}
+.comparisonRow .comparisonLeader{color:var(--r9-gold,#f3cc4f);}
+.careerStandingsRow.header{
+    color:#c9c0ad;
+    background:#11171b;
+}
+.seasonPointTrack{background:#252d32;}
+.seasonPointFill{background:linear-gradient(90deg,#5fa8c9,var(--r9-gold,#f3cc4f));}
+.managerCabinetHeader{
+    border-top-color:var(--r9-gold,#f3cc4f);
+    border-bottom-color:rgba(245,240,228,.1);
+}
+.managerCabinetHeader h3,.trophyCount strong{color:var(--r9-cream,#f5f0e4);}
+.managerCabinetHeader p,.managerCareerPoints span,.trophyCount span,.cabinetAchievementStrip{color:#b8b09e;}
+.managerCareerPoints strong{color:var(--r9-gold,#f3cc4f);}
+.managerRank{
+    color:#0b0f12;
+    background:var(--r9-gold,#f3cc4f);
+}
+.trophyShelf,.cabinetAchievementStrip{background:#0e1418;}
+.trophyCount{
+    color:var(--r9-cream,#f5f0e4);
+    background:#171d21;
+    border-left-color:#655f52;
+}
+.trophyGlyph{color:#0b0f12;background:linear-gradient(145deg,#fff0aa,var(--r9-gold,#f3cc4f));}
