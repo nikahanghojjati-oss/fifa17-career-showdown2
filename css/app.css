@@ -623,3 +623,158 @@ html[data-motion-reduced="true"] #createShowdown *{transition:none!important;ani
     #clubWheelScreen *{transition-duration:.001ms!important;animation-duration:.001ms!important;}
 }
 
+/* =====================================================
+   R9 SLICE 3 — SHARED DASHBOARD / RECONNECT PRESENTATION
+   Visual hierarchy only. Score, season, Transfer and reconnect authority remain
+   with their current production modules.
+===================================================== */
+
+#dashboard>h2{
+    color:var(--r9-cream);
+    background:linear-gradient(120deg,#161d22,#0b1014);
+    border-left-color:var(--r9-gold);
+    border-bottom:1px solid rgba(243,204,79,.16);
+}
+#dashboard[data-shared-dashboard-authority="true"] .showdownOverview{
+    color:var(--r9-cream);
+    background:linear-gradient(135deg,#171e23,#0b1014);
+    border-left-color:var(--r9-gold);
+    box-shadow:var(--r9-shadow);
+}
+#dashboard[data-shared-dashboard-authority="true"] .overviewName{
+    color:var(--r9-cream);
+}
+#dashboard[data-shared-dashboard-authority="true"] #dashboardLeague,
+#dashboard[data-shared-dashboard-authority="true"] #dashboardRound{
+    color:#cfc7b5;
+}
+#dashboard[data-shared-dashboard-authority="true"] .overviewStatus{
+    color:var(--r9-gold);
+}
+#dashboard[data-shared-dashboard-authority="true"] .transferOverviewStatus{
+    color:#b9b09c;
+}
+#dashboard[data-shared-dashboard-authority="true"] .showdownScoreboard{
+    background:
+        radial-gradient(circle at 50% 0,rgba(243,204,79,.1),transparent 42%),
+        linear-gradient(135deg,#141a1f,#080b0e);
+    border:1px solid var(--r9-line);
+    border-bottom:6px solid var(--r9-gold);
+    box-shadow:var(--r9-shadow);
+}
+#dashboard[data-shared-dashboard-authority="true"] .showdownScoreboard span{
+    color:var(--r9-gold);
+}
+#dashboard[data-shared-dashboard-authority="true"] .seriesStatusChip{
+    color:#0a0d10;
+    background:var(--r9-gold);
+    border-color:#fff0b0;
+}
+#dashboard[data-shared-dashboard-authority="true"] .seriesStatusChip.series-lead-one{
+    background:#8ed9ef;
+}
+#dashboard[data-shared-dashboard-authority="true"] .seriesStatusChip.series-lead-two{
+    background:var(--r9-gold);
+}
+#dashboard[data-shared-dashboard-authority="true"] #dashboardLastSeasonSummary{
+    color:#d5cdbb;
+    background:#10161a;
+    border-left-color:var(--r9-gold);
+    box-shadow:0 7px 18px rgba(0,0,0,.18);
+}
+#dashboard[data-shared-dashboard-authority="true"] .playerCard{
+    color:var(--r9-cream);
+    background:linear-gradient(145deg,#171f24,#0c1115);
+    border:1px solid rgba(243,204,79,.12);
+    border-top:5px solid #5fa8c9;
+}
+#dashboard[data-shared-dashboard-authority="true"] .playerCard:nth-child(2){
+    border-top-color:var(--r9-gold);
+}
+#dashboard[data-shared-dashboard-authority="true"] .playerCard h3,
+#dashboard[data-shared-dashboard-authority="true"] .playerCard .clubName{
+    color:var(--r9-cream);
+}
+#dashboard[data-shared-dashboard-authority="true"] .playerCard p{
+    color:#bdb5a3;
+    border-bottom-color:rgba(245,240,228,.1);
+}
+#dashboard #seasonPrimaryAction[data-shared-transfer-challenge="true"]{
+    color:#0a0d10;
+    background:linear-gradient(135deg,#f7df87,var(--r9-gold) 58%,#bd8620);
+    border-left-color:#fff0b0;
+    box-shadow:0 7px 18px rgba(0,0,0,.18);
+}
+#dashboard #seasonPrimaryAction[data-shared-transfer-challenge="true"]:hover:not(:disabled),
+#dashboard #seasonPrimaryAction[data-shared-transfer-challenge="true"]:focus-visible{
+    color:#07090b;
+    background:#f7df87;
+}
+#dashboard #dashboardIntegrityStatus:not(.hidden){
+    color:#f2c6c6;
+    background:rgba(151,61,67,.18);
+    border-left-color:#d56b6b;
+}
+#dashboard #completedShowdownHub{
+    color:var(--r9-cream);
+    background:linear-gradient(145deg,#171f24,#0b1014);
+    border:1px solid var(--r9-line);
+    border-left:7px solid var(--r9-gold);
+}
+#dashboard #completedShowdownHub p{
+    color:#c5bda9;
+}
+
+/* Reconnect spans the entire Shared Journey, so it remains directly under the
+   global header instead of being visually misrepresented as a Dashboard-only
+   state. The production adapter already owns the message and action. */
+#sharedJourneyReconnectStatus[data-shared-journey-reconnect="true"]{
+    width:min(1100px,calc(100% - 24px));
+    margin:10px auto 0;
+    padding:11px 14px;
+    color:#d9d1bf;
+    background:linear-gradient(120deg,#171e23,#090d10);
+    border:1px solid rgba(243,204,79,.18);
+    border-left:6px solid var(--r9-gold);
+    box-shadow:0 6px 16px rgba(0,0,0,.17);
+    font-size:11px;
+    line-height:1.4;
+}
+#sharedJourneyReconnectStatus[data-recovery-phase="OFFLINE_HOLD"],
+#sharedJourneyReconnectStatus[data-recovery-phase="RECOVERY_PENDING"],
+#sharedJourneyReconnectStatus[data-recovery-phase="FRESH_SESSION_REQUIRED"]{
+    border-left-color:#d56b6b;
+}
+#sharedJourneyReconnectStatus[data-recovery-phase="ACTIVE_RECOVERED"][data-authoritative="true"],
+#sharedJourneyReconnectStatus[data-recovery-phase="TERMINAL_RECOVERED"][data-authoritative="true"]{
+    border-left-color:#71b47f;
+}
+#sharedJourneyReconnectAction{
+    width:auto;
+    min-height:40px;
+    margin-left:9px;
+    color:var(--r9-cream);
+    background:#242c31;
+    border-color:rgba(243,204,79,.4);
+}
+
+@media(max-width:700px){
+    #dashboard[data-shared-dashboard-authority="true"] .showdownOverview{
+        gap:6px;
+    }
+    #dashboard[data-shared-dashboard-authority="true"] .showdownScoreboard{
+        gap:12px;
+        padding-left:14px;
+        padding-right:14px;
+    }
+    #sharedJourneyReconnectStatus[data-shared-journey-reconnect="true"]{
+        width:calc(100% - 16px);
+        margin-top:7px;
+        padding:10px 11px;
+    }
+    #sharedJourneyReconnectAction{
+        width:100%;
+        margin:9px 0 0;
+    }
+}
+
