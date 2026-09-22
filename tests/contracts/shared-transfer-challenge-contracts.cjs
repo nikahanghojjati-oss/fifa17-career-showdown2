@@ -92,6 +92,8 @@ for(const required of [
   'AGREE TO END EARLY',
   '00:00 REACHED · CONFIRMING NEXT SHARED PHASE',
   'Outcome not confirmed. Refresh shared state before trying again.',
+  'Shared state could not be confirmed before the update. Refresh shared state and try again.',
+  'Shared update was rejected. Refresh shared state before trying again.',
   'Latest shared state could not be confirmed. Check your connection and refresh again.',
   'pstcHidden(refresh,isReplay||phase==="COMPLETED")'
 ])assert.ok(productionSource.includes(required),`Shared Transfer Challenge screen adapter missing ${required}`);
