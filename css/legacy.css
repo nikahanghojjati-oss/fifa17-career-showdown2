@@ -534,10 +534,12 @@
 }
 .legacyStat span,.legacyDataControls p,.legacyEmpty{color:#b8b09e!important;}
 .legacyStat strong{color:var(--r9-cream,#f5f0e4);}
-.legacyDataControls{
-    background:#0c1115;
+#legacy .legacyDataControls{
+    color:var(--r9-cream,#f5f0e4)!important;
+    background:#0c1115!important;
+    border-left:6px solid rgba(243,204,79,.38)!important;
 }
-.legacyDataControls h3{color:#fff;}
+#legacy .legacyDataControls h3{color:#fff!important;}
 .legacyShowdownCard{
     background:
         radial-gradient(circle at 86% 12%,rgba(243,204,79,.09),transparent 28%),
