@@ -5,6 +5,7 @@ const fs=require("node:fs");
 const runtime=fs.readFileSync("js/productionSharedTerminalClose.js","utf8");
 const bootstrap=fs.readFileSync("js/ssjr.js","utf8");
 const worker=fs.readFileSync("service-worker.js","utf8");
+const seasonCss=fs.readFileSync("css/season.css","utf8");
 
 for(const required of [
   'feature:"ssjr-production-shared-terminal-close"',
@@ -47,6 +48,12 @@ assert.doesNotMatch(runtime,/now<expiry/,"Terminal Close must not reject an othe
 assert.match(runtime,/terminalRead\?\.ok===true&&terminalRead\.terminal===true/);
 assert.match(runtime,/protocol\.sameWitness\(terminalRead\.terminalWitness,intent\)/);
 assert.match(runtime,/stateContextKey!==request\.key/);
+assert.match(runtime,/ui\.panel\.dataset\.sharedTerminalClosePhase=current\?\.phase\|\|"hidden"/,"R9 Terminal Close styling must project the existing terminal phase.");
+assert.match(seasonCss,/#sharedTerminalClosePanel\[data-shared-terminal-close-phase="BLOCKED"\]/,"R9 must distinguish blocked Terminal Close without inventing a close action.");
+assert.match(seasonCss,/#sharedTerminalClosePanel\[data-shared-terminal-close-phase="RECOVERY_PENDING"\]/,"R9 must distinguish ambiguous Terminal Close outcome.");
+assert.match(seasonCss,/#sharedTerminalClosePanel\[data-shared-terminal-close-phase="CLOSED"\]/,"R9 must distinguish verified terminal closure.");
+assert.match(seasonCss,/#sharedTerminalCloseRetry/,"R9 must style the existing same-witness retry control.");
+
 
 const finalIndex=bootstrap.indexOf('const finalReconciliation=(async()=>');
 const terminalIndex=bootstrap.indexOf('const terminalClose=(async()=>');

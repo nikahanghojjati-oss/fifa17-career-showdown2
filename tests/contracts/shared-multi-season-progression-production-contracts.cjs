@@ -4,6 +4,7 @@ const read=file=>fs.readFileSync(file,'utf8');
 
 const production=read('js/productionSharedMultiSeasonProgression.js');
 const bootstrap=read('js/ssjr.js');
+const visualCss=read('css/visual-fidelity-r3.css');
 const consumers=[
   'js/productionSharedTransferChallenge.js',
   'js/productionSharedSeasonResults.js',
@@ -18,6 +19,11 @@ assert.match(production,/requiresVisibleHistoryWitnessBeforeAdvance:true/);
 assert.match(production,/exactOnceLocalCursor:true/);
 assert.match(production,/replaysAcceptedSeasonsFromOneOnFreshRuntime:true/);
 assert.match(production,/sharedMultiSeasonContinueAction/);
+assert.match(production,/screen\.dataset\.sharedDashboardAuthority="true"/,'R9 Dashboard presentation must remain explicitly bound to verified Shared Multi-Season authority.');
+assert.match(visualCss,/R9 SLICE 3 — SHARED DASHBOARD \/ RECONNECT PRESENTATION/,'R9 Shared Dashboard visual layer is missing.');
+assert.match(visualCss,/#dashboard\[data-shared-dashboard-authority="true"\] \.showdownScoreboard/,'R9 must style the real authoritative aggregate scoreboard.');
+assert.match(visualCss,/#dashboard #seasonPrimaryAction\[data-shared-transfer-challenge="true"\]/,'R9 must style the real Shared Transfer primary action rather than create a duplicate Dashboard CTA.');
+
 assert.match(production,/CONTINUE TO SEASON/);
 assert.match(production,/pmspHistoryWitnessed\(\)/);
 assert.match(production,/sharedHistoryConvergencePanel/);

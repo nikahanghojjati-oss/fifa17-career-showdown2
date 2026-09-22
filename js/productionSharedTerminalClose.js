@@ -86,7 +86,7 @@
   }
   function ptcWinnerText(witness){if(!witness)return "";const winner=witness.winner==="draw"?"DRAW":`${ptcManagerName(witness.winner)} WINS`;return `${ptcManagerName("playerOne")} ${witness.managerTotals.playerOne} · ${ptcManagerName("playerTwo")} ${witness.managerTotals.playerTwo} · ${winner}`;}
   function ptcRender(){
-    const ui=ptcEnsureUi();if(!ui)return false;const current=ptcCurrentState();
+    const ui=ptcEnsureUi();if(!ui)return false;const current=ptcCurrentState();ui.panel.dataset.sharedTerminalClosePhase=current?.phase||"hidden";
     const visible=Boolean(current&&["READY","RECOVERY_PENDING","CLOSED","BLOCKED"].includes(current.phase));ptcHidden(ui.panel,!visible);if(!visible)return false;
     const witness=current.terminalWitness||current.intent||current.finalReconciliation||null;
     if(current.phase==="CLOSED"){

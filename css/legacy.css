@@ -512,3 +512,108 @@
     .legacyImportActions .compactButton{width:100%;}
     .legacyImportVerdict{grid-template-columns:1fr;}
 }
+
+/* =====================================================
+   R9 SLICE 8 — LEGACY ARCHIVE
+===================================================== */
+#legacy>h2{
+    color:var(--r9-cream,#f5f0e4);
+    background:linear-gradient(120deg,#161d22,#0b1014);
+    border-left-color:var(--r9-gold,#f3cc4f);
+    border-bottom:1px solid rgba(243,204,79,.16);
+}
+.legacySectionHeading{
+    color:var(--r9-cream,#f5f0e4);
+    border-left-color:var(--r9-gold,#f3cc4f);
+}
+.legacyStat,.legacyDataControls,.legacyEmpty{
+    color:var(--r9-cream,#f5f0e4);
+    background:linear-gradient(145deg,#171f24,#0c1115);
+    border-color:rgba(243,204,79,.12);
+    box-shadow:0 10px 26px rgba(0,0,0,.2);
+}
+.legacyStat span,.legacyDataControls p,.legacyEmpty{color:#b8b09e!important;}
+.legacyStat strong{color:var(--r9-cream,#f5f0e4);}
+#legacy .legacyDataControls{
+    color:var(--r9-cream,#f5f0e4)!important;
+    background:#0c1115!important;
+    border-left:6px solid rgba(243,204,79,.38)!important;
+}
+#legacy .legacyDataControls h3{color:#fff!important;}
+.legacyShowdownCard{
+    background:
+        radial-gradient(circle at 86% 12%,rgba(243,204,79,.09),transparent 28%),
+        linear-gradient(135deg,#161d22,#090d10);
+    border-left-color:var(--r9-gold,#f3cc4f);
+}
+.legacyCardTitle h3,.legacySeasonNumber{color:var(--r9-gold,#f3cc4f);}
+.legacyCardTitle p,.legacyCardMeta,.legacySeasonManager,.legacySeasonHonours{color:#c1b9a7;}
+.legacyMatchup strong,.legacyWinner,.legacySeasonScore{color:var(--r9-cream,#f5f0e4);}
+.legacyMatchup span{color:#9bd6ef;}
+.legacyDetails{border-top-color:rgba(245,240,228,.12);}
+.legacyDetails summary{color:#d6cebc;}
+.legacySeasonRow{
+    background:rgba(255,255,255,.035);
+    border-left-color:rgba(243,204,79,.42);
+}
+.legacyBackupSummary{
+    color:var(--r9-cream,#f5f0e4);
+    background:linear-gradient(135deg,#171f24,#0d1216);
+    border-left-color:var(--r9-gold,#f3cc4f);
+}
+.compactButton{
+    color:var(--r9-cream,#f5f0e4);
+    background:#1a2126;
+    border-color:rgba(243,204,79,.24);
+}
+.compactButton:hover,.compactButton:focus-visible{
+    color:#0b0f12;
+    background:var(--r9-gold,#f3cc4f);
+    border-color:#fff0b0;
+}
+.dangerButton{
+    color:#f0caca!important;
+    border-color:#a94f56!important;
+    background:#2a1719!important;
+}
+.legacyImportDropZone,.legacyImportPreviewCard,.legacyImportVerdict,.legacyImportMigrationSummary,.legacyImportConflictList{
+    color:var(--r9-cream,#f5f0e4);
+    background:#11171b;
+    border-color:rgba(243,204,79,.16);
+}
+.legacyImportDropZone strong,.legacyImportVerdict strong,.legacyImportPreviewCard strong{color:var(--r9-cream,#f5f0e4);}
+.legacyImportDropZone span,.legacyImportPreviewCard span,.legacyImportMigrationSummary span,.legacyImportConflictList span{color:#b8b09e;}
+
+/* R9 R44 PROTECTED-BASE OVERRIDES — LEGACY
+   r44 app.css intentionally carries !important fallback presentation. These
+   later lazy selectors are more specific and remain presentation-only. */
+#legacy .legacySectionHeading{
+    margin-top:22px;
+    padding:10px 12px 9px!important;
+    color:#fff!important;
+    background:#11171b!important;
+    border-left:5px solid var(--r9-gold,#f3cc4f)!important;
+}
+#legacy .legacyStat{
+    color:var(--r9-cream,#f5f0e4)!important;
+    background:#11171b!important;
+    border:0!important;
+    border-top:4px solid #5fa8c9!important;
+}
+#legacy .legacyStat:nth-child(2){border-top-color:#8ed9ef!important;}
+#legacy .legacyStat:nth-child(3){border-top-color:var(--r9-gold,#f3cc4f)!important;}
+#legacy .legacyStat span{color:#b8b09e!important;}
+#legacy .legacyStat strong{color:#fff!important;}
+
+#legacy .legacyDataStatus{color:#d2c9b7!important;}
+#legacy .primaryDataButton{
+    color:#0b0f12!important;
+    background:var(--r9-gold,#f3cc4f)!important;
+    border-color:#bd8620!important;
+}
+#legacy .legacyImportVerdict span,
+#legacy .legacyImportPreviewCard small{
+    color:#b8b09e!important;
+}
+#legacy .legacyImportVerdict.ready strong{color:#a9dab3!important;}
+#legacy .legacyImportVerdict.blocked strong{color:#f0caca!important;}

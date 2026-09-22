@@ -80,3 +80,391 @@
 }
 
 html[data-motion-reduced="true"] .seasonReviewPanel *{scroll-behavior:auto!important;}
+
+/* =====================================================
+   R9 SLICE 5 — SHARED SEASON AUTHORITY STACK
+   Presentation only. Shared Results, Commit, Scoring, History, Multi-Season,
+   Final Reconciliation and Terminal Close retain their current runtime owners.
+===================================================== */
+
+#seasonEntry>h2{
+    color:var(--r9-cream,#f5f0e4);
+    background:linear-gradient(120deg,#161d22,#0b1014);
+    border-left-color:var(--r9-gold,#f3cc4f);
+    border-bottom:1px solid rgba(243,204,79,.16);
+    box-shadow:0 8px 22px rgba(0,0,0,.18);
+}
+
+#seasonEntry[data-shared-season-results="entry"] .seasonEntryHint{
+    color:#d2c9b7;
+    background:rgba(12,17,21,.94);
+    border:1px solid rgba(243,204,79,.16);
+    border-left:5px solid var(--r9-gold,#f3cc4f);
+    box-shadow:0 7px 18px rgba(0,0,0,.16);
+}
+
+#seasonEntry[data-shared-season-results="entry"] .seasonResultCard{
+    color:var(--r9-cream,#f5f0e4);
+    background:linear-gradient(145deg,#171f24,#0b1014);
+    border:1px solid rgba(243,204,79,.12);
+    border-top:5px solid #5fa8c9;
+    box-shadow:0 14px 34px rgba(0,0,0,.23);
+}
+#seasonEntry[data-shared-season-results="entry"] .seasonResultCard:nth-child(2){
+    border-top-color:var(--r9-gold,#f3cc4f);
+}
+#seasonEntry[data-shared-season-results="entry"] .seasonManagerHeader{
+    border-bottom-color:rgba(245,240,228,.12);
+}
+#seasonEntry[data-shared-season-results="entry"] .seasonManagerHeader h3{
+    color:var(--r9-cream,#f5f0e4);
+}
+#seasonEntry[data-shared-season-results="entry"] .seasonManagerHeader p,
+#seasonEntry[data-shared-season-results="entry"] .seasonResultCard>label{
+    color:#beb5a1;
+}
+#seasonEntry[data-shared-season-results="entry"] .seasonResultCard input[type="number"]{
+    color:var(--r9-cream,#f5f0e4);
+    background:#070b0e;
+    border:1px solid rgba(243,204,79,.24);
+}
+#seasonEntry[data-shared-season-results="entry"] .seasonResultCard input[type="number"]:focus{
+    border-color:var(--r9-gold,#f3cc4f);
+    box-shadow:0 0 0 2px #080b0e,0 0 0 4px #f5f0e4,0 0 0 6px var(--r9-gold,#f3cc4f);
+}
+#seasonEntry[data-shared-season-results="entry"] .achievementChecks label{
+    color:#c8c0ae;
+    background:#151c21;
+    border-left-color:#6f7880;
+}
+#seasonEntry[data-shared-season-results="entry"] .achievementChecks label:has(input:checked){
+    color:#0b0f12;
+    background:var(--r9-gold,#f3cc4f);
+    border-left-color:#fff0b0;
+}
+#seasonEntry[data-shared-season-results="entry"] .achievementChecks input{
+    accent-color:#bd8620;
+}
+#seasonEntry[data-shared-season-results="entry"] #completeSeason{
+    color:#0b0f12;
+    background:linear-gradient(135deg,#f7df87,var(--r9-gold,#f3cc4f) 58%,#bd8620);
+    border-left-color:#fff0b0;
+}
+
+/* Shared review becomes the visual frame for all post-entry authority stages. */
+#seasonEntry[data-shared-season-results="review"] .seasonReviewPanel{
+    overflow:hidden;
+    color:var(--r9-cream,#f5f0e4);
+    background:
+        radial-gradient(circle at 50% 0,rgba(243,204,79,.075),transparent 34%),
+        linear-gradient(145deg,#151c21,#080c0f 76%);
+    border:1px solid rgba(243,204,79,.2);
+    border-top:5px solid var(--r9-gold,#f3cc4f);
+    box-shadow:0 18px 42px rgba(0,0,0,.3);
+}
+#seasonEntry[data-shared-season-results="review"] .seasonReviewStatus{
+    color:#d4ccba;
+    background:#0d1216;
+    border-bottom:1px solid rgba(243,204,79,.16);
+}
+#seasonEntry[data-shared-season-results="review"] .seasonReviewStatus span{
+    color:var(--r9-gold,#f3cc4f);
+}
+#seasonEntry[data-shared-season-results="review"] .seasonReviewStatus strong{
+    color:#c9c0ad;
+}
+#seasonEntry[data-shared-season-results="review"] .seasonReviewPanel>h3{
+    color:var(--r9-cream,#f5f0e4);
+}
+#seasonEntry[data-shared-season-results="review"] .seasonReviewIntro,
+#seasonEntry[data-shared-season-results="review"] .seasonReviewResult{
+    color:#c6bdab;
+}
+#seasonEntry[data-shared-season-results="review"] .seasonReviewCard{
+    color:var(--r9-cream,#f5f0e4);
+    background:#11171b;
+    border:1px solid rgba(245,240,228,.1);
+    box-shadow:none;
+}
+#seasonEntry[data-shared-season-results="review"] .seasonReviewCard::before{
+    background:#5fa8c9;
+}
+#seasonEntry[data-shared-season-results="review"] .seasonReviewCard:nth-child(2)::before{
+    background:var(--r9-gold,#f3cc4f);
+}
+#seasonEntry[data-shared-season-results="review"] .seasonReviewCard h3,
+#seasonEntry[data-shared-season-results="review"] .seasonReviewLine strong{
+    color:var(--r9-cream,#f5f0e4);
+}
+#seasonEntry[data-shared-season-results="review"] .summaryClub,
+#seasonEntry[data-shared-season-results="review"] .seasonReviewLine{
+    color:#b9b09c;
+}
+#seasonEntry[data-shared-season-results="review"] .seasonReviewLine{
+    border-bottom-color:rgba(245,240,228,.1);
+}
+#seasonEntry[data-shared-season-results="review"] .seasonReviewAchievements{
+    border-top-color:rgba(245,240,228,.12);
+}
+#seasonEntry[data-shared-season-results="review"] .seasonReviewAchievements .isEarned{
+    color:#d9eadc;
+    background:rgba(91,156,104,.16);
+    border-left-color:#71b47f;
+}
+#seasonEntry[data-shared-season-results="review"] .seasonReviewAchievements .isNotEarned{
+    color:#a9a18f;
+    background:#171d21;
+    border-left-color:#5d666d;
+}
+#seasonEntry[data-shared-season-results="review"] .seasonReviewWarning,
+#seasonEntry[data-shared-season-results="review"] .sharedSeasonCommitStatus,
+#seasonEntry[data-shared-season-results="review"] .sharedMultiSeasonProgressionStatus{
+    color:#d5cdbb;
+    background:rgba(243,204,79,.065);
+    border-left-color:var(--r9-gold,#f3cc4f);
+}
+#seasonEntry[data-shared-season-results="review"] .seasonReviewError:not(:empty){
+    color:#f1c7c7;
+    background:rgba(151,61,67,.18);
+    border-left:5px solid #d56b6b;
+}
+#seasonEntry[data-shared-season-results="review"] #confirmSeasonCompletion,
+#seasonEntry[data-shared-season-results="review"] #sharedSeasonCommitAction,
+#seasonEntry[data-shared-season-results="review"] #sharedMultiSeasonContinueAction{
+    color:#0b0f12;
+    background:linear-gradient(135deg,#f7df87,var(--r9-gold,#f3cc4f) 58%,#bd8620);
+    border-left-color:#fff0b0;
+}
+#seasonEntry[data-shared-season-results="review"] #confirmSeasonCompletion:disabled,
+#seasonEntry[data-shared-season-results="review"] #sharedSeasonCommitAction:disabled,
+#seasonEntry[data-shared-season-results="review"] #sharedMultiSeasonContinueAction:disabled{
+    color:#a9a18f;
+    background:#22292e;
+    border-left-color:#676f75;
+    opacity:.82;
+}
+#seasonEntry[data-shared-season-results="review"] #editSeasonResults{
+    color:var(--r9-cream,#f5f0e4);
+    background:#20272c;
+    border-color:rgba(243,204,79,.28);
+}
+
+/* Publication status: waiting remains visibly private, ready becomes a
+   completed publication checkpoint but not yet authoritative scoring. */
+#seasonReviewPanel[data-shared-season-results-phase="review-draft"]{
+    border-top-color:var(--r9-gold,#f3cc4f);
+}
+#seasonReviewPanel[data-shared-season-results-phase="collecting-published"]{
+    border-top-color:#d3a64c;
+}
+#seasonReviewPanel[data-shared-season-results-phase="collecting-published"] .seasonReviewStatus span{
+    color:#f0c979;
+}
+#seasonReviewPanel[data-shared-season-results-phase="results-ready"]{
+    border-top-color:#71b47f;
+}
+#seasonReviewPanel[data-shared-season-results-phase="results-ready"] .seasonReviewStatus span{
+    color:#a9dab3;
+}
+
+/* Commit is an authority checkpoint separate from publication and scoring. */
+#seasonReviewPanel[data-shared-season-commit-phase]:not([data-shared-season-commit-phase="hidden"]) .sharedSeasonCommitStatus{
+    margin-top:2px;
+}
+#seasonReviewPanel[data-shared-season-commit-phase="ACKNOWLEDGED"] .sharedSeasonCommitStatus{
+    color:#d9eadc;
+    background:rgba(91,156,104,.14);
+    border-left-color:#71b47f;
+}
+
+/* Canonical scoring is the first authoritative season-score outcome. */
+#sharedCanonicalScoringPanel[data-shared-canonical-scoring-phase="SCORING_RECONCILED"]{
+    margin:14px 18px 12px;
+    padding:15px 16px;
+    color:var(--r9-cream,#f5f0e4);
+    background:
+        radial-gradient(circle at 86% 18%,rgba(243,204,79,.10),transparent 28%),
+        linear-gradient(135deg,#1a2024,#0d1216);
+    border:1px solid rgba(243,204,79,.24);
+    border-left:6px solid var(--r9-gold,#f3cc4f);
+    box-shadow:0 9px 22px rgba(0,0,0,.18);
+}
+#sharedCanonicalScoringHeading{
+    margin:0 0 8px;
+    color:var(--r9-gold,#f3cc4f);
+    font:800 21px/.95 var(--f17-display);
+    letter-spacing:.8px;
+}
+#sharedCanonicalScoringTotals{
+    margin:0 0 7px;
+    color:var(--r9-cream,#f5f0e4);
+    font:800 18px/1 var(--f17-display);
+}
+#sharedCanonicalScoringBreakdown{
+    margin:0;
+    color:#c5bca9;
+    font-size:11px;
+    line-height:1.5;
+}
+#sharedCanonicalScoringWinner{
+    margin:10px 0 0;
+    padding-top:9px;
+    color:#d9eadc;
+    border-top:1px solid rgba(245,240,228,.12);
+    font:800 13px/1.1 var(--f17-display);
+    text-transform:uppercase;
+}
+
+/* History must remain visibly witnessable because progression depends on it. */
+#sharedHistoryConvergencePanel[data-shared-history-phase="HISTORY_CONVERGED"]{
+    margin:12px 18px;
+    padding:15px 16px;
+    color:var(--r9-cream,#f5f0e4);
+    background:linear-gradient(135deg,#111b20,#0a1013);
+    border:1px solid rgba(95,168,201,.24);
+    border-left:6px solid #5fa8c9;
+}
+#sharedHistoryConvergenceHeading{
+    margin:0 0 8px;
+    color:#9bd6ef;
+    font:800 20px/.95 var(--f17-display);
+    letter-spacing:.7px;
+}
+#sharedHistoryConvergenceSummary{
+    margin:0 0 8px;
+    color:var(--r9-cream,#f5f0e4);
+    font-weight:700;
+}
+#sharedHistoryConvergenceRecords,
+#sharedHistoryConvergenceTrophies{
+    margin:6px 0 0;
+    color:#b8b09e;
+    font-size:11px;
+    line-height:1.45;
+}
+
+/* Final reconciliation is read-only and deliberately not styled as closure. */
+.sharedFinalReconciliationPanel[data-shared-final-reconciliation-phase="FINAL_SEASON_RECONCILED"]{
+    margin:14px 18px 12px;
+    padding:16px;
+    color:var(--r9-cream,#f5f0e4);
+    background:linear-gradient(135deg,#181d21,#0a0e11);
+    border:1px solid rgba(243,204,79,.26);
+    border-left:6px solid var(--r9-gold,#f3cc4f);
+}
+#sharedFinalReconciliationHeading{
+    margin:0 0 8px;
+    color:var(--r9-gold,#f3cc4f);
+    font:800 22px/.95 var(--f17-display);
+}
+#sharedFinalReconciliationSummary,
+#sharedFinalReconciliationWinner,
+#sharedFinalReconciliationClose{
+    margin:6px 0 0;
+    color:#c8c0ae;
+    line-height:1.4;
+}
+#sharedFinalReconciliationWinner{
+    color:var(--r9-cream,#f5f0e4);
+    font-weight:800;
+}
+
+/* Terminal Close gets explicit phase treatment but no new controls. */
+#sharedTerminalClosePanel[data-shared-terminal-close-phase]{
+    margin:14px 18px 4px;
+    padding:16px;
+    color:var(--r9-cream,#f5f0e4);
+    background:#0d1216;
+    border:1px solid rgba(245,240,228,.12);
+    border-left:6px solid var(--r9-gold,#f3cc4f);
+}
+#sharedTerminalClosePanel[data-shared-terminal-close-phase="BLOCKED"],
+#sharedTerminalClosePanel[data-shared-terminal-close-phase="RECOVERY_PENDING"]{
+    border-left-color:#d56b6b;
+}
+#sharedTerminalClosePanel[data-shared-terminal-close-phase="CLOSED"]{
+    border-left-color:#71b47f;
+}
+#sharedTerminalCloseHeading{
+    margin:0 0 8px;
+    color:var(--r9-cream,#f5f0e4);
+    font:800 21px/.95 var(--f17-display);
+}
+#sharedTerminalCloseSummary{
+    margin:0 0 8px;
+    color:#c8c0ae;
+    font-weight:700;
+}
+#sharedTerminalCloseStatus{
+    width:100%;
+    margin:0 0 10px;
+    color:#d5cdbb;
+    background:rgba(243,204,79,.055);
+    border-left-color:var(--r9-gold,#f3cc4f);
+    line-height:1.45;
+}
+#sharedTerminalClosePanel[data-shared-terminal-close-phase="BLOCKED"] #sharedTerminalCloseStatus,
+#sharedTerminalClosePanel[data-shared-terminal-close-phase="RECOVERY_PENDING"] #sharedTerminalCloseStatus{
+    color:#f0caca;
+    background:rgba(151,61,67,.15);
+    border-left-color:#d56b6b;
+}
+#sharedTerminalClosePanel[data-shared-terminal-close-phase="CLOSED"] #sharedTerminalCloseStatus{
+    color:#d9eadc;
+    background:rgba(91,156,104,.13);
+    border-left-color:#71b47f;
+}
+#sharedTerminalCloseAction{
+    color:#0b0f12;
+    background:linear-gradient(135deg,#f7df87,var(--r9-gold,#f3cc4f) 58%,#bd8620);
+    border-left-color:#fff0b0;
+}
+#sharedTerminalCloseRetry{
+    width:100%;
+    color:#f4d2d2;
+    background:#2a1719;
+    border-color:#a94f56;
+}
+
+@media(max-width:700px){
+    #seasonEntry[data-shared-season-results="review"] .seasonReviewPanel{
+        width:min(100%,96vw);
+    }
+    #sharedCanonicalScoringPanel[data-shared-canonical-scoring-phase="SCORING_RECONCILED"],
+    #sharedHistoryConvergencePanel[data-shared-history-phase="HISTORY_CONVERGED"],
+    .sharedFinalReconciliationPanel[data-shared-final-reconciliation-phase="FINAL_SEASON_RECONCILED"],
+    #sharedTerminalClosePanel[data-shared-terminal-close-phase]{
+        margin-left:11px;
+        margin-right:11px;
+        padding:13px;
+    }
+    #completeSeason,
+    #confirmSeasonCompletion,
+    #editSeasonResults,
+    #sharedSeasonCommitAction,
+    #sharedMultiSeasonContinueAction,
+    #sharedTerminalCloseAction,
+    #sharedTerminalCloseRetry{
+        min-height:44px;
+    }
+}
+
+@media(max-width:480px){
+    #sharedCanonicalScoringBreakdown,
+    #sharedHistoryConvergenceRecords,
+    #sharedHistoryConvergenceTrophies{
+        overflow-wrap:anywhere;
+    }
+}
+
+@media(prefers-reduced-motion:reduce){
+    #seasonEntry[data-shared-season-results] *,
+    #sharedCanonicalScoringPanel *,
+    #sharedHistoryConvergencePanel *,
+    .sharedFinalReconciliationPanel *,
+    #sharedTerminalClosePanel *{
+        transition:none!important;
+        animation:none!important;
+    }
+}
+

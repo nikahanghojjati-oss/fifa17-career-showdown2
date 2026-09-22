@@ -67,7 +67,7 @@
   function psscManagerName(role){return psscShowdown()?.managers?.[role]||(role==="playerOne"?"Manager 1":"Manager 2");}
   function psscRender(){
     const ui=psscEnsureUi();if(!ui)return false;
-    const request=psscRequestContext(),eligible=Boolean(psscSharedMarker()&&request&&contextKey===request.key&&view&&psscResultsReady(request));
+    const request=psscRequestContext(),eligible=Boolean(psscSharedMarker()&&request&&contextKey===request.key&&view&&psscResultsReady(request));ui.panel.dataset.sharedSeasonCommitPhase=eligible?String(view?.phase||"RESULTS_READY"):"hidden";
     psscHidden(ui.status,!eligible);psscHidden(ui.action,!eligible);if(!eligible)return false;
     const role=view.managerRole,coordinator=view.coordinatorRole,phase=view.phase||"RESULTS_READY";
     if(phase==="ACKNOWLEDGED"){

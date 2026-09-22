@@ -43,7 +43,7 @@
   }
   function pfrCurrentView(){const request=pfrRequest();pfrTrackRequest(request);let localState=null;try{localState=localApi?.getState?.()||null;}catch(_error){}return pfrSaveAuthorityReady()&&request&&view&&viewContextKey===request.key&&viewGeneration===authorityGeneration&&pfrLocalAuthorityMatches(request,localState)?view:null;}
   function pfrRender(){
-    const ui=pfrEnsureUi();if(!ui)return false;const current=pfrCurrentView(),active=Boolean(current&&current.phase==="FINAL_SEASON_RECONCILED"&&current.finalSeasonReconciled===true);
+    const ui=pfrEnsureUi();if(!ui)return false;const current=pfrCurrentView(),active=Boolean(current&&current.phase==="FINAL_SEASON_RECONCILED"&&current.finalSeasonReconciled===true);ui.panel.dataset.sharedFinalReconciliationPhase=active?current.phase:"hidden";
     pfrHidden(ui.panel,!active);if(!active)return false;
     pfrText(ui.heading,"SHOWDOWN FINAL RECONCILED");
     pfrText(ui.summary,`${current.acceptedSeasons} OF ${current.totalSeasons} SEASONS ACCEPTED · NO ADDITIONAL SEASON`);

@@ -11,6 +11,7 @@ assert.equal(production.pollIntervalMs,15000);assert.equal(typeof production.ins
 
 const source=fs.readFileSync("js/productionSharedCanonicalScoring.js","utf8");
 const bootstrap=fs.readFileSync("js/ssjr.js","utf8");
+const seasonCss=fs.readFileSync("css/season.css","utf8");
 assert.match(source,/productionSharedSeasonCommit\.js/);assert.match(source,/sparkSharedSeasonCommit\.js/);assert.match(source,/sparkSharedCanonicalScoring\.js/);assert.match(source,/sharedShowdownCatalog\.js/);assert.match(source,/productionFirebaseRuntime\.js/);
 assert.match(source,/teamCount:pcscTeamCount\(\)/,"production scoring must pass the authoritative league size instead of a universal 20-team assumption.");
 assert.ok(source.indexOf('js/sharedShowdownCatalog.js')<source.indexOf('js/sparkSharedSeasonCommit.js'),"authoritative catalog must load before the r10 provider factory on a cold scoring path.");
@@ -20,7 +21,10 @@ const commitRefresh=source.indexOf('await commitApi.refresh()');
 assert.ok(firstReadyGate>=0&&commitRefresh>firstReadyGate,"r11 must remain dormant until cached r10 ACKNOWLEDGED authority exists before refreshing the Season Commit provider.");
 assert.match(source,/commitApi\.refresh\(\)/);assert.match(source,/state\.phase==="ACKNOWLEDGED"/);assert.match(source,/state\.revision===3/);assert.match(source,/provider\.read\(await pcscProviderOptions\(request\)\)/);
 assert.match(source,/ensureAccountServices\(\)/);assert.match(source,/setup\.sessionId/);assert.match(source,/setup\.deviceId/);assert.match(source,/nowEpochMs:Date\.now\(\)/);
-assert.match(source,/sharedCanonicalScoringPanel/);assert.match(source,/SHARED CANONICAL SCORE/);assert.match(source,/Champions League/);assert.match(source,/League Title/);assert.match(source,/Domestic Cup/);assert.match(source,/Performance Bonus/);assert.match(source,/Awards Bonus/);assert.match(source,/Season winner:/);
+assert.match(source,/sharedCanonicalScoringPanel/);
+assert.match(source,/ui\.panel\.dataset\.sharedCanonicalScoringPhase=eligible\?view\.phase:"hidden"/,"R9 scoring presentation must project only verified SCORING_RECONCILED authority.");
+assert.match(seasonCss,/#sharedCanonicalScoringPanel\[data-shared-canonical-scoring-phase="SCORING_RECONCILED"\]/,"R9 must visually elevate the real authoritative scoring panel.");
+assert.match(source,/SHARED CANONICAL SCORE/);assert.match(source,/Champions League/);assert.match(source,/League Title/);assert.match(source,/Domestic Cup/);assert.match(source,/Performance Bonus/);assert.match(source,/Awards Bonus/);assert.match(source,/Season winner:/);
 
 const seasonCommitInstall=bootstrap.indexOf('const seasonCommit=install("ssjr-production-season-commit"');
 const seasonProtocolPrepare=bootstrap.indexOf('["ssjr-season-commit-protocol","js/sharedSeasonCommit.js","CareerModeSharedSeasonCommit"]');

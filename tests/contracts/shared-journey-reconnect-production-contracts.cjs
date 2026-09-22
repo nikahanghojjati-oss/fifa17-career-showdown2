@@ -8,6 +8,7 @@ const multiSource=read('js/sharedMultiSeasonProgression.js');
 const entry=read('js/productionSharedJourneyEntry.js');
 const bootstrap=read('js/ssjr.js');
 const serviceWorker=read('service-worker.js');
+const visualCss=read('css/visual-fidelity-r3.css');
 
 assert.match(production,/runtimeRevision:"1\.9\.1-r14"/);
 assert.match(production,/js\/sharedMultiSeasonProgression\.js/);
@@ -37,6 +38,11 @@ assert.match(production,/ACTIVE_RECOVERED/);
 assert.match(production,/TERMINAL_RECOVERED/);
 assert.match(production,/sharedJourneyReconnectStatus/);
 assert.match(production,/sharedJourneyReconnectAction/,'Expired or unresolved session recovery must expose a direct player action from the current game screen.');
+assert.match(visualCss,/#sharedJourneyReconnectStatus\[data-shared-journey-reconnect="true"\]/,'R9 must style the existing global Shared Journey reconnect status.');
+assert.match(visualCss,/#sharedJourneyReconnectStatus\[data-recovery-phase="OFFLINE_HOLD"\]/,'Offline hold must remain visually distinguishable from authoritative recovered state.');
+assert.match(visualCss,/#sharedJourneyReconnectStatus\[data-recovery-phase="ACTIVE_RECOVERED"\]\[data-authoritative="true"\]/,'Recovered success styling must require the existing authoritative projection.');
+assert.match(visualCss,/#sharedJourneyReconnectAction/,'R9 must style the existing reconnect action rather than invent a second recovery control.');
+
 assert.match(production,/remoteApi\?\.openPanel/,'The recovery action must reuse the existing private Remote Joining surface instead of inventing a second session system.');
 assert.match(production,/openSessionRecovery:pjrOpenSessionRecovery/,'Direct session recovery must remain observable to browser tests.');
 assert.match(production,/career-mode-shared-journey-reconnect-state-change/);

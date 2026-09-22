@@ -14,6 +14,7 @@ const menu=read('js/menuExperience.js');
 const manifest=read('manifest.webmanifest');
 const release=read('RELEASE_V1.9.1_R10.md');
 const pkg=JSON.parse(read('package.json'));
+const seasonCss=read('css/season.css');
 
 assert.match(adapter,/feature:\"ssjr-production-shared-season-commit\"/);
 assert.match(adapter,/runtimeRevision:\"1\.9\.1-r10\"/);
@@ -27,6 +28,10 @@ assert.match(adapter,/acknowledgeSeason/);
 assert.match(adapter,/SEASON_COMMIT_STALE_BASE_REVISION/,'production adapter must have a bounded stale-CAS retry');
 assert.match(adapter,/for\(let attempt=0;attempt<2;attempt\+=1\)/,'stale retry must remain strictly bounded');
 assert.match(adapter,/sharedSeasonCommitAction/,'r10 must use a dedicated shared-only action instead of the local confirm button');
+assert.match(adapter,/ui\.panel\.dataset\.sharedSeasonCommitPhase=eligible\?String\(view\?\.phase\|\|"RESULTS_READY"\):"hidden"/,'R9 Commit styling must project the existing Shared Season Commit phase.');
+assert.match(seasonCss,/#seasonReviewPanel\[data-shared-season-commit-phase="ACKNOWLEDGED"\]/,'R9 must visibly distinguish fully acknowledged Shared Season Commit.');
+assert.match(seasonCss,/#sharedSeasonCommitAction/,'R9 must style the real Shared Season Commit action rather than duplicate it.');
+
 assert.match(adapter,/results\.state\?\.phase==="RESULTS_READY"[\s\S]*results\.state\?\.revision===2/,'r10 production entry must require exact r9 RESULTS_READY authority');
 assert.match(adapter,/await psscEnsureDependencies\(\);\s*if\(!psscResultsReady\(request\)\)psscFail\("SEASON_COMMIT_RESULTS_NOT_READY"[\s\S]*?await setupApi\.refresh\(\)[\s\S]*?await resultsApi\.refresh\(\)/,'r10 must remain dormant and must not refresh/re-render r9 Season Results until cached r9 authority is already exact RESULTS_READY');
 assert.equal((adapter.match(/if\(!psscResultsReady\(request\)\)psscFail\("SEASON_COMMIT_RESULTS_NOT_READY"/g)||[]).length,2,'r10 must check RESULTS_READY both before and after its bounded dependency refresh');

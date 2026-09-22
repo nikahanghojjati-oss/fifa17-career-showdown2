@@ -7,8 +7,7 @@
 #transferChallenge[data-transfer-phase="guess_entry"]{--transfer-accent:var(--f17-cyan);}
 #transferChallenge[data-transfer-phase="signing_entry"]{--transfer-accent:var(--f17-yellow);}
 #transferChallenge[data-transfer-phase="completed"]{--transfer-accent:#68b77b;}
-#transferChallenge:not([data-transfer-phase="window"]) .transferHero,
-#transferChallenge:not([data-transfer-phase="window"]) .transferTimerActions{display:none;}
+#transferChallenge:not([data-transfer-phase="window"]) .transferHero{display:none;}
 
 .transferPhaseNavigator{
     width:min(1000px,94vw);margin:0 auto 12px;display:grid;
@@ -110,6 +109,19 @@
     letter-spacing:.6px;text-transform:uppercase;vertical-align:middle;
 }
 
+#transferChallenge .transferTimerActions{display:flex;flex-direction:column;gap:7px;}
+#transferChallenge:not([data-transfer-phase="window"]) .transferTimerActions{
+    width:min(650px,92vw);margin:12px auto 0;
+}
+#refreshSharedTransferChallenge{
+    min-height:44px;border-left-color:var(--f17-blue);
+}
+#transferChallenge[data-shared-transfer-presentation="window-peer-end-requested"] #transferPhaseStatus{color:#fff;}
+#transferChallenge[data-shared-transfer-presentation="window-confirming-expiry"] #transferPhaseStatus{color:var(--f17-cyan);}
+#transferChallenge[data-shared-transfer-recovery] #transferChallengeError{
+    text-align:left;
+}
+
 @media(min-width:901px) and (max-height:800px){
     .transferPhaseNavigator{margin-bottom:8px;}
     .transferPhaseStep{min-height:40px;padding:6px 8px;}
@@ -139,6 +151,7 @@
     .transferPhaseStep span{font-size:8px;}
     .transferPhaseIntro{padding:10px 11px;}
     .transferGuessPrivacyNote{font-size:9px;}
+    #refreshSharedTransferChallenge{min-height:48px;}
     .transferComboboxOption{min-height:48px;}
 }
 
