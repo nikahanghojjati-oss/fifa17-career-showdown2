@@ -70,7 +70,7 @@
   function phcRecordLine(role,record){return `${phcManagerName(role)} · ${record.club} · ${record.seasonWins}W ${record.seasonDraws}D ${record.seasonLosses}L · ${record.totalPoints} showdown pts`;}
   function phcTrophyLine(role,item){return `${phcManagerName(role)} ${item.totalTrophies} trophies (${item.leagueTitles} league, ${item.domesticCups} cup, ${item.championsLeagues} Champions League)`;}
   function phcRender(){
-    const ui=phcEnsureUi();if(!ui)return false;const request=phcRequest(),active=Boolean(request&&contextKey===request.key&&view&&view.authoritative===true&&view.phase==="HISTORY_CONVERGED"&&view.projection);
+    const ui=phcEnsureUi();if(!ui)return false;const request=phcRequest(),active=Boolean(request&&contextKey===request.key&&view&&view.authoritative===true&&view.phase==="HISTORY_CONVERGED"&&view.projection);ui.panel.dataset.sharedHistoryPhase=active?view.phase:"hidden";
     phcHidden(ui.panel,!active);if(!active)return false;const projection=view.projection;
     phcText(ui.heading,"SHARED HISTORY CONVERGED");
     const p1Total=Number(projection.managerRecords?.playerOne?.totalPoints)||0,p2Total=Number(projection.managerRecords?.playerTwo?.totalPoints)||0,n1=phcManagerName("playerOne"),n2=phcManagerName("playerTwo"),lead=p1Total===p2Total?"TIED":p1Total>p2Total?`${n1} +${p1Total-p2Total}`:`${n2} +${p2Total-p1Total}`;
