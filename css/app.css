@@ -206,3 +206,264 @@ html[data-motion-reduced="true"] .screen[data-route-state="entering"],html[data-
 @keyframes startupPulse{from{opacity:.45;transform:scaleY(.62)}to{opacity:1;transform:scaleY(1)}}
 @keyframes clubPackReady{0%{filter:brightness(.9)}45%{filter:brightness(1.16)}100%{filter:brightness(1)}}
 @keyframes clubVsHit{0%{opacity:.45;transform:scale(.78)}70%{opacity:1;transform:scale(1.12)}100%{opacity:1;transform:scale(1.04)}}
+
+/* =====================================================
+   R9 CURRENT-PRODUCT ENTRANCE REALIGNMENT
+   Scope: Online Identity, Persistent Daniel/Nik Pair, Create Showdown.
+   Runtime/provider ownership is unchanged. Home-specific color tuning lives in
+   visual-fidelity-r3.css so the protected Reus crop/geometry contract survives.
+===================================================== */
+
+:root{
+    --r9-black:#080b0e;
+    --r9-panel:#0d1216;
+    --r9-panel-2:#151c21;
+    --r9-gold:#f3cc4f;
+    --r9-gold-soft:#e2c46f;
+    --r9-cream:#f5f0e4;
+    --r9-muted:#beb6a2;
+    --r9-line:rgba(243,204,79,.23);
+    --r9-shadow:0 18px 42px rgba(0,0,0,.32);
+}
+
+/* Online identity is an operational gate, not a generic modal. Keep the real
+   auth/identity buttons and only change presentation around them. */
+#onlinePlayerIdentityOverlay.onlineIdentityGate{
+    background:
+        radial-gradient(circle at 50% 8%,rgba(243,204,79,.12),transparent 34%),
+        rgba(4,7,9,.95)!important;
+}
+#onlinePlayerIdentityOverlay .onlineIdentityCard{
+    overflow:hidden;
+    color:var(--r9-cream);
+    background:
+        linear-gradient(145deg,rgba(21,28,33,.99),rgba(8,11,14,.99))!important;
+    border:1px solid var(--r9-line)!important;
+    border-left:6px solid var(--r9-gold)!important;
+    box-shadow:var(--r9-shadow);
+}
+#onlinePlayerIdentityOverlay .onlineIdentityCard::before{
+    content:"";
+    position:absolute;
+    inset:0 0 auto 0;
+    height:3px;
+    background:linear-gradient(90deg,var(--r9-gold),rgba(66,185,218,.75),transparent 76%);
+    pointer-events:none;
+}
+.onlineIdentityEyebrow{
+    margin:0 0 8px;
+    color:var(--r9-gold);
+    font:800 10px/1 var(--f17-display);
+    letter-spacing:2.6px;
+    text-transform:uppercase;
+}
+.onlineIdentityTitle{
+    margin:0;
+    color:var(--r9-cream);
+    font:800 clamp(34px,7vw,52px)/.88 var(--f17-display);
+    letter-spacing:-.6px;
+    text-transform:uppercase;
+}
+.onlineIdentityCopy{
+    margin:14px 0 20px;
+    color:var(--r9-muted);
+    font-size:13px;
+    line-height:1.45;
+}
+.onlineIdentityActions{margin-top:4px;}
+#onlinePlayerIdentityOverlay .onlineIdentityAction{
+    min-height:52px;
+    color:#0b0f12;
+    background:linear-gradient(135deg,#f7df87,var(--r9-gold) 58%,#bd8620);
+    border-left-color:#fff0b0;
+}
+#onlinePlayerIdentityOverlay .onlineIdentityAction:hover:not(:disabled),
+#onlinePlayerIdentityOverlay .onlineIdentityAction:focus-visible{
+    color:#07090b;
+    background:#f7df87;
+}
+.onlineIdentityDismiss{
+    width:42px;
+    height:42px;
+    display:grid;
+    place-items:center;
+    color:var(--r9-muted)!important;
+}
+.onlineIdentityDismiss:focus-visible{
+    outline:2px solid var(--r9-gold);
+    outline-offset:2px;
+}
+#onlinePlayerIdentityBadge.onlineIdentityBadge{
+    min-height:38px;
+    color:var(--r9-cream)!important;
+    background:#11171b!important;
+    border:1px solid rgba(243,204,79,.34)!important;
+    border-left:4px solid var(--r9-gold)!important;
+    font:800 11px/1 var(--f17-display)!important;
+    letter-spacing:1.2px;
+    text-transform:uppercase;
+    cursor:pointer;
+}
+#onlinePlayerIdentityBadge[data-identity-state="offline"],
+#onlinePlayerIdentityBadge[data-identity-state="error"],
+#onlinePlayerIdentityBadge[data-identity-state="device-error"]{
+    border-left-color:#d56b6b!important;
+}
+#onlinePlayerIdentityBadge:focus-visible{
+    outline:2px solid var(--r9-gold);
+    outline-offset:2px;
+}
+
+/* The remembered Daniel/Nik connection is a first-class Home state surface.
+   Existing real buttons/code/input remain untouched. */
+#persistentNikDanielPairPanel.r9PairPanel{
+    position:relative;
+    margin:0 0 10px!important;
+    padding:14px 16px 15px!important;
+    color:var(--r9-cream);
+    background:
+        linear-gradient(132deg,rgba(19,25,29,.98),rgba(8,12,15,.98))!important;
+    border:1px solid var(--r9-line)!important;
+    border-left:5px solid var(--r9-gold)!important;
+    box-shadow:0 8px 20px rgba(0,0,0,.2);
+}
+#persistentNikDanielPairPanel[data-pair-state="recovery-required"],
+#persistentNikDanielPairPanel[data-pair-state="error"],
+#persistentNikDanielPairPanel[data-pair-state="unavailable"]{
+    border-left-color:#d56b6b!important;
+}
+#persistentNikDanielPairPanel[data-connection-state="active"][data-pair-state="paired"]{
+    border-left-color:#7ebc8a!important;
+}
+.r9PairTitle{
+    display:block;
+    color:var(--r9-gold);
+    font:800 18px/.95 var(--f17-display);
+    letter-spacing:1.2px;
+    text-transform:uppercase;
+}
+.r9PairMessage{
+    max-width:920px;
+    color:#cfc7b6;
+    font-size:11px;
+    line-height:1.4;
+}
+.r9PairActions{
+    width:100%;
+    align-items:stretch!important;
+}
+.r9PairActions .menuButton{
+    width:auto;
+    min-width:min(210px,100%);
+    flex:1 1 210px;
+    border-left-color:var(--r9-gold);
+}
+.r9PairActions .settingsConnectedAccountInput{
+    min-height:48px;
+    flex:2 1 330px;
+    color:var(--r9-cream);
+    background:#070b0e;
+    border-color:rgba(243,204,79,.28);
+}
+.r9PairActions code{
+    flex:1 1 100%;
+    padding:10px 12px;
+    color:#0b0f12;
+    background:var(--r9-gold);
+    border:1px solid #fff0b0;
+    font:700 11px/1.35 ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+.r9PairActions>span{
+    flex:1 1 100%;
+    color:#aca48f;
+    font:700 9px/1.3 var(--f17-display);
+    letter-spacing:1px;
+    text-transform:uppercase;
+}
+
+/* Create Showdown is now season-plan selection for fixed Daniel/Nik identity.
+   Do not resurrect the hidden manager/name inputs. */
+#createShowdown>h2{
+    color:var(--r9-cream);
+    background:linear-gradient(120deg,#161d22,#0b1014);
+    border-left-color:var(--r9-gold);
+    border-bottom:1px solid rgba(243,204,79,.16);
+    box-shadow:0 8px 22px rgba(0,0,0,.18);
+}
+#createShowdown.hasFootballVisual .setupBox,
+#createShowdown .setupBox{
+    color:var(--r9-cream);
+    background:
+        linear-gradient(145deg,rgba(21,28,33,.99),rgba(8,12,15,.99));
+    border:1px solid var(--r9-line);
+    border-left:6px solid var(--r9-gold);
+    box-shadow:var(--r9-shadow);
+}
+#createShowdown .setupBox label{
+    color:var(--r9-gold-soft);
+}
+#createShowdown .setupBox .stateNote{
+    margin:0 0 2px;
+    padding:10px 12px;
+    color:#d6cebc;
+    background:rgba(243,204,79,.06);
+    border-left:3px solid var(--r9-gold);
+    font-size:11px;
+    line-height:1.35;
+}
+#createShowdown #roundAmount{
+    height:52px;
+    color:var(--r9-cream);
+    background:#080c0f;
+    border:1px solid rgba(243,204,79,.34);
+    font:800 17px/1 var(--f17-display);
+    letter-spacing:.8px;
+}
+#createShowdown #roundAmount:focus{
+    border-color:var(--r9-gold);
+    box-shadow:0 0 0 2px var(--r9-black),0 0 0 4px var(--r9-cream),0 0 0 6px var(--r9-gold);
+}
+#createShowdown #roundAmount option{
+    color:var(--r9-cream);
+    background:#11171b;
+}
+#createShowdown #startShowdown{
+    color:#0b0f12;
+    background:linear-gradient(135deg,#f7df87,var(--r9-gold) 58%,#bd8620);
+    border-left-color:#fff0b0;
+}
+#createShowdown #startShowdown:hover:not(:disabled),
+#createShowdown #startShowdown:focus-visible{
+    color:#07090b;
+    background:#f7df87;
+}
+#createShowdown .backButton{
+    color:var(--r9-cream);
+    background:#161d22;
+    border-color:rgba(245,240,228,.18);
+}
+#createShowdown .backButton:hover:not(:disabled),
+#createShowdown .backButton:focus-visible{
+    color:var(--r9-cream);
+    background:#222b31;
+    border-color:var(--r9-gold);
+}
+
+@media(max-width:700px){
+    #onlinePlayerIdentityOverlay.onlineIdentityGate{padding:12px!important;}
+    #onlinePlayerIdentityOverlay .onlineIdentityCard{padding:22px 18px!important;}
+    .onlineIdentityActions{grid-template-columns:1fr!important;}
+    #onlinePlayerIdentityBadge.onlineIdentityBadge{margin-right:0!important;padding:7px 9px!important;font-size:9px!important;}
+    .r9PairActions .menuButton,.r9PairActions .settingsConnectedAccountInput{flex-basis:100%;width:100%;}
+    #createShowdown.hasFootballVisual .setupBox,#createShowdown .setupBox{padding:20px 18px;}
+}
+
+@media(prefers-reduced-motion:reduce){
+    #onlinePlayerIdentityOverlay *,
+    #persistentNikDanielPairPanel *,
+    #createShowdown *{transition:none!important;animation:none!important;}
+}
+html[data-motion-reduced="true"] #onlinePlayerIdentityOverlay *,
+html[data-motion-reduced="true"] #persistentNikDanielPairPanel *,
+html[data-motion-reduced="true"] #createShowdown *{transition:none!important;animation:none!important;}
+
