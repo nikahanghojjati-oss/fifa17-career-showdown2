@@ -196,3 +196,70 @@ html[data-motion-reduced="true"] .settingsDialog{animation:none!important;}
     from{transform:translateY(6px) scale(.995)}
     to{transform:none}
 }
+
+/* =====================================================
+   R9 SLICE 9 — SETTINGS / ACCOUNT SURFACE
+===================================================== */
+.settingsOverlay{background:rgba(3,7,10,.86);backdrop-filter:blur(8px);}
+.settingsDialog{
+    color:var(--r9-cream,#f5f0e4);
+    background:#080c0f;
+    border-left-color:var(--r9-gold,#f3cc4f);
+    box-shadow:0 26px 70px rgba(0,0,0,.55);
+}
+.settingsHeader{
+    color:var(--r9-cream,#f5f0e4);
+    background:linear-gradient(120deg,#171e23,#090d10);
+    border-bottom-color:var(--r9-gold,#f3cc4f);
+}
+.settingsEyebrow{color:var(--r9-gold,#f3cc4f);}
+.settingsClose{color:var(--r9-cream,#f5f0e4);background:#161d22;border-color:rgba(243,204,79,.22);}
+.settingsClose:hover,.settingsClose:focus-visible{color:#0b0f12;background:var(--r9-gold,#f3cc4f);border-color:#fff0b0;}
+.settingsContent{background:#0a0f12;scrollbar-color:var(--r9-gold,#f3cc4f) #161d22;}
+.settingsPanel{
+    color:var(--r9-cream,#f5f0e4);
+    background:linear-gradient(145deg,#171f24,#0c1115);
+    border-top-color:#5fa8c9;
+    box-shadow:0 10px 26px rgba(0,0,0,.2);
+}
+.settingsPanel:first-child,.settingsConnectedAccountPanel{border-top-color:var(--r9-gold,#f3cc4f);}
+.settingsPanelHeading{border-bottom-color:rgba(245,240,228,.1);}
+.settingsPanelEyebrow{color:var(--r9-gold,#f3cc4f);}
+.settingsPanelHeading h3{color:var(--r9-cream,#f5f0e4);}
+.settingsPanelHeading p{color:#b9b09e;}
+.settingsInfoRow{background:#11171b;border-left-color:#655f52;}
+.settingsInfoRow span{color:#a9a18f;}
+.settingsInfoRow strong{color:var(--r9-cream,#f5f0e4);}
+.settingsMotionChoice,.settingsAudioRow{
+    color:var(--r9-cream,#f5f0e4);
+    background:#11171b;
+    border-color:rgba(243,204,79,.16);
+}
+.settingsMotionChoice:hover,.settingsMotionChoice:focus-visible{background:#1b2328;border-color:var(--r9-gold,#f3cc4f);}
+.settingsMotionChoice.selected{color:#0b0f12;background:var(--r9-gold,#f3cc4f);border-color:#fff0b0;border-left-color:#bd8620;}
+.settingsMotionChoice.selected .settingsMotionCopy small{color:#3e3421;}
+.settingsMotionMarker{background:#080c0f;border-color:#8f8879;box-shadow:inset 0 0 0 4px #080c0f;}
+.settingsMotionChoice.selected .settingsMotionMarker{background:#0b0f12;border-color:#0b0f12;}
+.settingsMotionCopy small,.settingsAudioCopy small,.settingsDataNote{color:#aaa28f;}
+.settingsAudioToggle{color:var(--r9-cream,#f5f0e4);background:#242c31;border-color:#555f65;}
+.settingsAudioToggle.enabled{color:#0b0f12;background:var(--r9-gold,#f3cc4f);border-color:#bd8620;}
+.settingsOfflineNote,.settingsConnectedRivalryConfirmation{
+    color:#c8c0ae;
+    background:#11171b;
+    border-left-color:var(--r9-gold,#f3cc4f);
+}
+.settingsConnectedRivalryPreviewSummary{color:#c4bcaa;}
+.settingsConnectedRivalryConfirmLabel{
+    color:var(--r9-cream,#f5f0e4);
+    background:#0b1014;
+    border-color:rgba(243,204,79,.18);
+}
+.settingsConnectedRivalryConfirmInput{accent-color:#bd8620;}
+.settingsConnectedRivalryApply{color:#0b0f12;background:var(--r9-gold,#f3cc4f);border-left-color:#fff0b0;}
+.settingsFooter{
+    background:#0d1216!important;
+    border-top-color:rgba(243,204,79,.18)!important;
+}
+#onlinePlayerIdentitySettingsPanel .settingsOfflineActions .menuButton{
+    border-left-color:var(--r9-gold,#f3cc4f);
+}
