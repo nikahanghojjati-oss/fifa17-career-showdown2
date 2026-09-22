@@ -149,13 +149,13 @@
     const audio=root.document.createElement("audio");
     audio.className="audiusAudioElement";
     audio.preload="none";audio.playsInline=true;
-    audio.src=endpoint("/tracks/"+encodeURIComponent(track.trackId)+"/stream");
+    const streamUrl=endpoint("/tracks/"+encodeURIComponent(track.trackId)+"/stream");
 
     rootNode.append(artWrap,core,audio);
     host.replaceChildren(rootNode);
     tile.dataset.mediaLoaded="true";
     tile.dataset.mediaProvider="audius";
-    mounted={host,tile,track,root:rootNode,artWrap,art,title,artist,progress,status,time,audio,phase:"ready",metadataRequested:false};
+    mounted={host,tile,track,root:rootNode,artWrap,art,title,artist,progress,status,time,audio,streamUrl,phase:"ready",metadataRequested:false};
 
     audio.addEventListener("play",()=>{
       if(!isMounted()||mounted.audio!==audio)return;
@@ -193,6 +193,7 @@
     if(!isMounted())return false;
     mounted.phase="loading";mounted.root.dataset.audiusState="loading";mounted.status.textContent="CONNECTING";syncControls();
     try{
+      if(!mounted.audio.getAttribute("src"))mounted.audio.src=mounted.streamUrl;
       const result=mounted.audio.play();
       if(result&&typeof result.then==="function")await result;
       void hydrateMetadata();
