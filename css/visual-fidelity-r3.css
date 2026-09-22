@@ -347,3 +347,90 @@
     .menuCoverAthlete{width:41%;}
     #startupAthlete{object-position:54% 100%;}
 }
+
+/* =====================================================
+   R9 CURRENT-PRODUCT HOME COLOR REALIGNMENT
+   Presentation-only. Reus dimensions, crop, filtering, clip behavior, z-order
+   and mobile/desktop geometry above remain authoritative and untouched.
+===================================================== */
+#mainMenu .fifaMenuHeading{
+    border-bottom-color:rgba(243,204,79,.34);
+}
+#mainMenu .fifaMenuEyebrow,
+#mainMenu .fifaMenuHeadingMeta span{
+    color:#9a6e13;
+}
+#mainMenu .menuTile{
+    border-color:rgba(243,204,79,.18);
+}
+#mainMenu .menuTilePrimary{
+    background:
+        radial-gradient(circle at 18% 10%,rgba(243,204,79,.08),transparent 28%),
+        linear-gradient(132deg,#151c21 0 47%,#0d1317 47% 66%,#090d10 66% 100%);
+    border-color:rgba(243,204,79,.28);
+    border-bottom-color:#f3cc4f;
+}
+#mainMenu .menuTileNew{
+    color:#0b0f12;
+    background:linear-gradient(135deg,#f7df87 0 28%,#f3cc4f 28% 66%,#c99328 100%);
+    border-color:rgba(255,248,219,.66);
+    border-bottom-color:#8f6513;
+}
+#mainMenu .menuTileNew .menuTileCode,
+#mainMenu .menuTileNew .menuTileMeta{
+    color:#292216;
+}
+#mainMenu .menuTileRules{
+    color:#f5f0e4;
+    background:linear-gradient(135deg,#24282b,#12171a 72%);
+    border-color:rgba(243,204,79,.18);
+    border-bottom-color:#a58a47;
+}
+#mainMenu .menuTileRules .menuTileCode,
+#mainMenu .menuTileRules .menuTileMeta{
+    color:#d1c7ad;
+}
+#mainMenu .menuTileSettings{
+    background:linear-gradient(135deg,#191f23,#0d1114 72%);
+    border-bottom-color:#8e8060;
+}
+#mainMenu .menuTileTrophy{
+    background:
+        radial-gradient(circle at 78% 22%,rgba(243,204,79,.10),transparent 30%),
+        linear-gradient(135deg,#24201a,#111417 72%);
+    border-bottom-color:#f3cc4f;
+}
+#mainMenu .menuBottomStrip{
+    color:#554e40;
+    background:linear-gradient(90deg,rgba(250,247,238,.97),rgba(232,223,199,.95));
+    border-left-color:#f3cc4f;
+}
+#mainMenu .menuBottomStrip b,
+#mainMenu .menuBottomStrip strong{
+    color:#77520b;
+}
+#mainMenu .menuMusicTile{
+    background:
+        linear-gradient(125deg,#0b1014,#151c21 58%,#0a0e11),
+        repeating-linear-gradient(135deg,rgba(255,255,255,.012) 0 1px,transparent 1px 7px);
+    border-color:rgba(243,204,79,.17);
+    border-top-color:#f3cc4f;
+}
+#mainMenu .menuMusicHeader span{
+    color:#f3cc4f;
+}
+#mainMenu .menuMediaChoice.selected{
+    color:#0b0f12;
+    background:#f3cc4f;
+    border-color:#fff3c4;
+}
+
+/* Preserve the protected mobile Reus card treatment; only the surrounding
+   secondary actions and soundtrack carry the R9 black/gold material system. */
+@media(max-width:700px){
+    #mainMenu .menuTilePrimary{
+        color:var(--f17-ink);
+        background:linear-gradient(132deg,#f7f9f9 0 47%,#e3ecef 47% 60%,#80adbf 60% 100%);
+    }
+}
+
