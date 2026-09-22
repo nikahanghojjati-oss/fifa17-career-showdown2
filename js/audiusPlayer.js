@@ -194,7 +194,7 @@
     mounted.phase="loading";mounted.root.dataset.audiusState="loading";mounted.status.textContent="CONNECTING";audiusSyncControls();
     try{
       if(!mounted.audio.getAttribute("src"))mounted.audio.src=mounted.streamUrl;
-      const result=mounted.audio.audiusPlay();
+      const result=mounted.audio.play();
       if(result&&typeof result.then==="function")await result;
       void audiusHydrateMetadata();
       return true;
@@ -205,7 +205,7 @@
   }
   function audiusPause(){
     if(!audiusIsMounted())return false;
-    mounted.audio.audiusPause();
+    mounted.audio.pause();
     return true;
   }
   async function audiusToggle(){
@@ -226,7 +226,7 @@
     if(!mounted)return;
     const previous=mounted;
     mounted=null;
-    try{previous.audio.audiusPause();previous.audio.removeAttribute("src");previous.audio.load();}catch(_error){}
+    try{previous.audio.pause();previous.audio.removeAttribute("src");previous.audio.load();}catch(_error){}
     previous.root.remove();
     if(previous.tile?.dataset?.mediaProvider==="audius"){
       delete previous.tile.dataset.mediaLoaded;
@@ -235,7 +235,17 @@
   }
 
   root.CareerModeAudiusPlayer=Object.freeze({
-    activate,play,pause,toggle,setMuted,toggleMute,destroy,isMounted,isPlaying,syncControls,getState:snapshot,
+    activate:audiusActivate,
+    play:audiusPlay,
+    pause:audiusPause,
+    toggle:audiusToggle,
+    setMuted:audiusSetMuted,
+    toggleMute:audiusToggleMute,
+    destroy:audiusDestroy,
+    isMounted:audiusIsMounted,
+    isPlaying:audiusIsPlaying,
+    syncControls:audiusSyncControls,
+    getState:audiusSnapshot,
     diagnostics:()=>({provider:"audius",apiBase:API_BASE,appName:APP_NAME,trackId:mounted?.track?.trackId||null,secretFree:true,lazyStyle:Boolean(root.document?.querySelector('link[data-audius-player-style="true"]'))})
   });
 })(window);
