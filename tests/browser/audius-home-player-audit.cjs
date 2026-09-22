@@ -65,7 +65,7 @@ async function runCase(browser,{name,viewport,isMobile=false}){
 
     await page.locator('[data-menu-media-source="audius"]').click();
     await page.locator(".audiusMenuPlayer").waitFor({state:"visible",timeout:8000});
-    await page.waitForFunction(()=>document.querySelector('link[data-audius-player-style="true"]')?.sheet!==null,null,{timeout:8000});
+    await page.waitForFunction(()=>Boolean(document.querySelector('link[data-audius-player-style="true"]')?.sheet),null,{timeout:8000});
 
     assert.equal(await page.locator('script[data-runtime-script="audius-player"]').count(),1,`${name}: exactly one lazy Audius runtime is allowed.`);
     assert.equal(await page.locator('link[data-audius-player-style="true"]').count(),1,`${name}: exactly one lazy Audius stylesheet is allowed.`);
