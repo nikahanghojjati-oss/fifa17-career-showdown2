@@ -718,7 +718,10 @@
 
 /* R9 R44 PROTECTED-BASE OVERRIDES — ANALYTICS */
 .analyticsScreen .analyticsSectionHeading{
-    color:var(--r9-cream,#f5f0e4)!important;
+    padding:10px 12px 9px!important;
+    color:#fff!important;
+    background:#11171b!important;
+    border-left:5px solid var(--r9-gold,#f3cc4f)!important;
 }
 .analyticsScreen .analyticsStatCard,
 .analyticsScreen .recordCard,
