@@ -278,7 +278,7 @@
   "proofSources": {
     "HOME_BOOTSTRAP_INLINE": {
       "source": "tests/proof-sources/workflows/validate-menu-bootstrap.yml",
-      "gitBlobSha": "95301d1accdc1fe835ee46a2a0af4b6a578d1b7d"
+      "gitBlobSha": "76fbbc56bfe43de4223b9289e79ff2bcb19c8d74"
     },
     "LEAGUE_CONFIRMATION_INLINE": {
       "source": "tests/proof-sources/workflows/validate-league-confirmation.yml",
