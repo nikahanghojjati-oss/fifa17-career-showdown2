@@ -51,11 +51,11 @@ assert.match(identitySource,/className="onlineIdentityCard"/,'R9 online identity
 assert.match(identitySource,/className="onlineIdentityBadge"/,'R9 must retain one real header identity badge.');
 assert.match(identitySource,/dataset\.identityState=current\.status\|\|"idle"/,'R9 identity badge must derive presentation from the existing identity state.');
 assert.match(identitySource,/setupSurface\.dataset\.onlineManager=managerId/,'Create Showdown presentation must read the existing Daniel\/Nik identity projection without making it editable.');
-assert.match(appCss,/R9 CURRENT-PRODUCT ENTRANCE REALIGNMENT/,'R9 entrance visual layer is missing.');
-assert.match(appCss,/#createShowdown #roundAmount/,'R9 Create Showdown must continue styling the real native season selector.');
-assert.match(appCss,/#createShowdown #startShowdown/,'R9 Create Showdown must continue styling the real start action.');
-assert.doesNotMatch(appCss,/#createShowdown[^\n]*#managerOne[^\n]*display\s*:\s*(?:block|grid|flex)/,'R9 must never visually resurrect the hidden fixed Daniel input.');
-assert.doesNotMatch(appCss,/#createShowdown[^\n]*#managerTwo[^\n]*display\s*:\s*(?:block|grid|flex)/,'R9 must never visually resurrect the hidden fixed Nik input.');
+assert.match(homeVisualCss,/R9 CURRENT-PRODUCT ENTRANCE REALIGNMENT/,'R9 entrance visual layer is missing.');
+assert.match(homeVisualCss,/#createShowdown #roundAmount/,'R9 Create Showdown must continue styling the real native season selector.');
+assert.match(homeVisualCss,/#createShowdown #startShowdown/,'R9 Create Showdown must continue styling the real start action.');
+assert.doesNotMatch(homeVisualCss,/#createShowdown[^\n]*#managerOne[^\n]*display\s*:\s*(?:block|grid|flex)/,'R9 must never visually resurrect the hidden fixed Daniel input.');
+assert.doesNotMatch(homeVisualCss,/#createShowdown[^\n]*#managerTwo[^\n]*display\s*:\s*(?:block|grid|flex)/,'R9 must never visually resurrect the hidden fixed Nik input.');
 const r9HomeCss=homeVisualCss.slice(homeVisualCss.indexOf('R9 CURRENT-PRODUCT HOME COLOR REALIGNMENT'));
 assert.ok(r9HomeCss.length>100,'R9 Home presentation section is missing.');
 assert.doesNotMatch(r9HomeCss,/\.menuCoverAthlete(?:\s|\{|::)|\.menuCoverAthlete img|\.menuCoverNumber/,'R9 Home color realignment must not override the protected Reus geometry\/crop contract.');
