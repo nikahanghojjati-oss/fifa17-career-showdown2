@@ -170,9 +170,9 @@
       if(!audiusIsMounted()||mounted.audio!==audio)return;
       mounted.phase="ended";rootNode.dataset.audiusState="ended";status.textContent="ENDED";audio.currentTime=0;audiusUpdateProgress();audiusSyncControls();
     });
-    audio.addEventListener("timeupdate",updateProgress);
-    audio.addEventListener("loadedmetadata",updateProgress);
-    audio.addEventListener("volumechange",syncControls);
+    audio.addEventListener("timeupdate",audiusUpdateProgress);
+    audio.addEventListener("loadedmetadata",audiusUpdateProgress);
+    audio.addEventListener("volumechange",audiusSyncControls);
     audio.addEventListener("error",()=>audiusFail("The Audius stream could not be played. Try again or choose another soundtrack source.",audio.error));
     audiusSyncControls();
     return true;
