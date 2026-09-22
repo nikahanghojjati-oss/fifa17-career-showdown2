@@ -71,6 +71,7 @@ assert.match(provider,/function scspSetupProvider\(\)\{[\s\S]*root\.CareerModeSp
 assert.doesNotMatch(provider,/const setupProvider=typeof require===/,'Career Start must not freeze the browser Shared Setup provider at module evaluation time');
 
 const production=fs.readFileSync(path.resolve('js/productionSharedCareerStart.js'),'utf8');
+const remoteCss=fs.readFileSync(path.resolve('css/remoteJoining.css'),'utf8');
 assert.match(production,/ssjr-shared-setup-protocol\",\"js\/sharedShowdownSetup\.js\"/,'Career Start must preload the Shared Setup protocol before its provider');
 assert.match(production,/ssjr-shared-setup-catalog\",\"js\/sharedShowdownCatalog\.js\"/,'Career Start must preload the Shared Setup catalog before evaluating its browser provider');
 assert.match(production,/ssjr-spark-shared-setup\",\"js\/sparkSharedShowdownSetup\.js\"/,'Career Start must preload the browser Shared Setup provider before loading the Career Start provider');
@@ -101,6 +102,10 @@ assert.match(production,/CAREER_START_STALE_BASE_REVISION","CAREER_START_ROLE_AL
 assert.match(production,/if\(current\?\.state\?\.phase==="CAREER_START_READY"\|\|pcstOwnAcknowledged\(current\)\)/,'Career Start must adopt authoritative already-recorded acknowledgement state instead of requiring another write');
 assert.match(production,/const statusText=lastError\|\|/,'Career Start must preserve provider failures in the rendered player-facing status instead of immediately erasing them');
 assert.match(production,/reconcilesConcurrentAcknowledgement:true,persistentVisibleErrors:true/,'Career Start diagnostics must expose acknowledgement reconciliation and persistent visible errors');
+assert.match(remoteCss,/R9 SLICE 10 — SHARED JOURNEY OVERLAYS/,'R9 Shared Journey overlay visual layer is missing.');
+assert.match(remoteCss,/\.remoteJoiningBody \.settingsInfoRow\[data-career-row="ready"\]/,'R9 Career Start must style the existing ready row projection.');
+assert.match(remoteCss,/\.remoteJoiningBody \.settingsInfoRow\[data-career-row="pending"\]/,'R9 Career Start must style the existing pending row projection.');
+assert.doesNotMatch(remoteCss,/firebase|firestore|runTransaction|provider\.read/i,'Shared Journey visual CSS must not contain provider authority logic.');
 
 
 
