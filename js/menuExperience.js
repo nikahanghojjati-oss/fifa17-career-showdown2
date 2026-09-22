@@ -66,7 +66,7 @@ const MENU_MEDIA_SOURCES = Object.freeze({
         iframeTitle: "Empire Of The Sun - High And Low — YouTube player"
     }),
     audius: Object.freeze({
-        key:"audius",type:"music",provider:"audius",trackId:"XNN7jYJ",
+        key:"audius",type:"music",trackId:"XNN7jYJ",
         selectorTitle:"WHAT YOU GOT",selectorMeta:"Valentino Khan & NITTI · Audius",
         category:"AUDIUS SOUNDTRACK",title:"WHAT YOU GOT",subtitle:"Valentino Khan & NITTI"
     }),
@@ -144,7 +144,6 @@ function cacheMenuExperienceUI(){
         mediaCategory: document.querySelector(".menuMusicHeader span"),
         mediaTitle: document.querySelector(".menuMusicHeader strong"),
         mediaSubtitle: document.querySelector(".menuMusicArtist"),
-        mediaSource: document.querySelector(".menuMusicSource"),
         mediaHost: document.getElementById("menuMusicPlayer"),
         mediaStatus: document.getElementById("menuMusicStatus"),
         mediaToggle: document.getElementById("menuMusicToggle"),
@@ -344,11 +343,8 @@ function updateMenuMediaHeader(){
     setTextIfChanged(ui.mediaCategory, media.category);
     setTextIfChanged(ui.mediaTitle, media.title);
     setTextIfChanged(ui.mediaSubtitle, media.subtitle);
-    setTextIfChanged(ui.mediaSource, media.provider === "audius" ? "AUDIUS" : "YOUTUBE");
-    if(ui.mediaTile){
-        ui.mediaTile.dataset.mediaKind = media.type;
-        ui.mediaTile.dataset.mediaProvider = media.provider || "youtube";
-    }
+    setTextIfChanged(document.querySelector(".menuMusicSource"),media.key==="audius"?"AUDIUS":"YOUTUBE");
+    if(ui.mediaTile)ui.mediaTile.dataset.mediaKind=media.type;
 
     ui.sourceButtons.forEach((button, key) => {
         const selected = key === media.key;
@@ -364,6 +360,7 @@ function updateMenuMediaHeader(){
 function updateMenuMediaControls(){
     const media = getSelectedMenuMedia();
     const ui = getMenuExperienceUI();
+    if(media.key==="audius"&&window.CareerModeAudiusPlayer?.isMounted?.()){window.CareerModeAudiusPlayer.syncControls();return;}
     const playLabel = media.type === "video" ? "PLAY TRAILER" : "PLAY TRACK";
     const pauseLabel = media.type === "video" ? "PAUSE TRAILER" : "PAUSE TRACK";
 
@@ -376,10 +373,6 @@ function updateMenuMediaControls(){
     }
 
     if(ui.mediaStatus){
-        if(media.provider === "audius" && window.CareerModeAudiusPlayer?.isMounted?.()){
-            window.CareerModeAudiusPlayer.syncControls();
-            return;
-        }
         if(!menuMediaIframe){
             setTextIfChanged(ui.mediaStatus, `${media.title} · LOADS ONLY WHEN YOU PRESS PLAY`);
         }else if(menuMediaPlaying){
@@ -484,7 +477,7 @@ function selectMenuMedia(key){
     menuMediaPlaying = false;
     updateMenuMediaHeader();
 
-    if(getSelectedMenuMedia().provider === "audius"){
+    if(getSelectedMenuMedia().key==="audius"){
         void window.ensureAudiusPlayerModule?.().then(player=>player.activate(getSelectedMenuMedia()));
     }else if(resumePlayback){
         menuMediaPlaying = true;
@@ -493,7 +486,7 @@ function selectMenuMedia(key){
     updateMenuMediaControls();
 }
 async function toggleMenuMusic(){
-    if(getSelectedMenuMedia().provider === "audius"){
+    if(getSelectedMenuMedia().key==="audius"){
         const player=window.CareerModeAudiusPlayer||await window.ensureAudiusPlayerModule?.();
         player?.activate(getSelectedMenuMedia());await player?.toggle?.();return;
     }
@@ -510,7 +503,7 @@ async function toggleMenuMusic(){
 }
 
 function toggleMenuMusicMute(){
-    if(getSelectedMenuMedia().provider === "audius"){
+    if(getSelectedMenuMedia().key==="audius"){
         window.CareerModeAudiusPlayer?.toggleMute?.();return;
     }
     if(!menuMediaIframe){ return; }
