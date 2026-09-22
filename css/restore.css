@@ -32,3 +32,41 @@
 @media(max-width:800px){.careerRestoreSnapshot,.careerRestoreChoices{grid-template-columns:1fr}.careerRestorePicker{grid-template-columns:1fr}.careerRestoreActions{flex-direction:column}.careerRestoreActions .compactButton{width:100%}}
 @media(max-width:480px){.careerRestorePanel{padding:14px}}
 @media(prefers-reduced-motion:reduce){.careerRestorePanel *{scroll-behavior:auto!important}}
+
+/* =====================================================
+   R9 SLICE 8 — RESTORE / RECOVERY
+   Candidate C behavior remains unchanged.
+===================================================== */
+.careerRestorePanel{
+    color:var(--r9-cream,#f5f0e4);
+    background:linear-gradient(145deg,#171f24,#0b1014);
+    border:1px solid rgba(243,204,79,.16);
+    border-left:6px solid var(--r9-gold,#f3cc4f);
+}
+.careerRestoreEyebrow{color:var(--r9-gold,#f3cc4f);}
+.careerRestoreIntro,.careerRestoreStatus{color:#beb5a1!important;}
+.careerRestorePicker input[type=file],
+.careerRestoreSnapshot article,
+.careerRestoreChoiceGroup,
+.careerRestorePlan,
+.careerRestoreConflicts,
+.careerRestoreRecovery{
+    color:var(--r9-cream,#f5f0e4);
+    background:#11171b;
+    border-color:rgba(243,204,79,.18);
+}
+.careerRestoreSnapshot span,.careerRestoreSnapshot small,
+.careerRestorePlan span,.careerRestoreRecovery span,
+.careerRestoreConflict p{color:#b8b09e!important;}
+.careerRestoreSnapshot strong,.careerRestoreLabel,.careerRestorePlan strong,
+.careerRestoreConflicts>strong,.careerRestoreRecovery strong,.careerRestoreConflict h5{color:var(--r9-cream,#f5f0e4);}
+.careerRestoreSelect{
+    color:var(--r9-cream,#f5f0e4);
+    background:#080c0f;
+    border-color:rgba(243,204,79,.26);
+}
+.careerRestoreConflict{background:#171d21;}
+.careerRestoreRecovery{border-left-color:#d28a2e;background:#211b12;}
+.careerRestoreRecovery.critical{border-left-color:#d56b6b;background:#241416;}
+.careerRestorePlan.ready{border-left-color:#71b47f;}
+.careerRestorePlan.blocked{border-left-color:#d56b6b;}
