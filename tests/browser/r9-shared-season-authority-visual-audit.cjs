@@ -2,6 +2,7 @@
 
 const assert=require("node:assert/strict");
 const {chromium}=require("playwright");
+process.env.CMS_CHROMIUM_MULTI_CONTEXT="1";
 const {resolveChromiumRuntime}=require("../support/chromium-runtime.cjs");
 
 const baseUrl=new URL(process.env.CMS_BASE_URL||"http://127.0.0.1:4173/");
