@@ -604,3 +604,16 @@
 #legacy .legacyStat:nth-child(3){border-top-color:var(--r9-gold,#f3cc4f)!important;}
 #legacy .legacyStat span{color:#b8b09e!important;}
 #legacy .legacyStat strong{color:#fff!important;}
+
+#legacy .legacyDataStatus{color:#d2c9b7!important;}
+#legacy .primaryDataButton{
+    color:#0b0f12!important;
+    background:var(--r9-gold,#f3cc4f)!important;
+    border-color:#bd8620!important;
+}
+#legacy .legacyImportVerdict span,
+#legacy .legacyImportPreviewCard small{
+    color:#b8b09e!important;
+}
+#legacy .legacyImportVerdict.ready strong{color:#a9dab3!important;}
+#legacy .legacyImportVerdict.blocked strong{color:#f0caca!important;}
