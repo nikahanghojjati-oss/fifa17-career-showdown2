@@ -9,6 +9,7 @@ const bootstrap=read('js/ssjr.js');
 const screens=read('js/screens.js');
 const seasonEngine=read('js/seasonEngine.js');
 const transfer=read('js/productionSharedTransferChallenge.js');
+const seasonCss=read('css/season.css');
 
 assert.match(adapter,/feature:\"ssjr-production-shared-season-results\"/);
 assert.match(adapter,/productionEnabled:true/);
@@ -31,6 +32,12 @@ assert.match(adapter,/provider\.read/);
 assert.match(adapter,/pssrFingerprint\(currentResult\)!==draft\.fingerprint/,'reviewed payload must be revalidated immediately before publication');
 assert.match(adapter,/Your rival cannot see this result until they publish their own/);
 assert.match(adapter,/Shared scoring is intentionally not authoritative/);
+assert.match(adapter,/review\.dataset\.sharedSeasonResultsPhase=ready\?"results-ready":waiting\?"collecting-published":"review-draft"/,'R9 review visuals must project the existing publication state without inventing a second protocol.');
+assert.match(adapter,/review\.dataset\.sharedSeasonResultsPhase="entry"/,'R9 entry presentation must explicitly return to the real entry state.');
+assert.match(seasonCss,/R9 SLICE 5 — SHARED SEASON AUTHORITY STACK/,'R9 Shared Season authority visual layer is missing.');
+assert.match(seasonCss,/#seasonReviewPanel\[data-shared-season-results-phase="collecting-published"\]/,'R9 must visibly distinguish one-manager-published waiting state.');
+assert.match(seasonCss,/#seasonReviewPanel\[data-shared-season-results-phase="results-ready"\]/,'R9 must visibly distinguish both-results-published state without claiming scoring authority.');
+
 for(const field of ['leaguePosition','leaguePoints','leagueGoals','domesticCup','championsLeague','topScorer','topAssist'])assert.match(adapter,new RegExp(`${field}:`),`production adapter must use canonical field ${field}`);
 assert.doesNotMatch(adapter,/persistCompletedSeason\s*\(/,'shared publication adapter must not call local season persistence');
 assert.doesNotMatch(adapter,/saveCurrentShowdown\s*\(/,'shared publication adapter must not write canonical local save authority');
