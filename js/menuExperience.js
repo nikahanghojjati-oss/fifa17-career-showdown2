@@ -295,8 +295,7 @@ function selectMenuMedia(key){
     updateMenuMediaHeader();
     updateMenuMediaControls();
     void activateSelectedAudius().catch(error=>{
-        console.warn("[Career Mode Showdown] Audius soundtrack could not initialize.",error);
-        window.showAppNotice?.("The Audius soundtrack player could not initialize. Try again.","error",7000);
+        console.info("[Career Mode Showdown] Optional Audius soundtrack stayed unavailable at startup.",error);
     });
 }
 
