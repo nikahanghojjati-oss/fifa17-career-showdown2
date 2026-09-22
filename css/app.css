@@ -778,3 +778,46 @@ html[data-motion-reduced="true"] #createShowdown *{transition:none!important;ani
     }
 }
 
+/* =====================================================
+   R9 SLICE 6 — SEASON SUMMARY
+   Presentation only. Shared live progression remains owned elsewhere.
+===================================================== */
+#seasonSummary>h2{
+    color:var(--r9-cream);
+    background:linear-gradient(120deg,#161d22,#0b1014);
+    border-left-color:var(--r9-gold);
+    border-bottom:1px solid rgba(243,204,79,.16);
+}
+#seasonSummary .summaryResult{
+    color:var(--r9-gold);
+}
+#seasonSummary .seasonSummaryCard{
+    color:var(--r9-cream);
+    background:linear-gradient(145deg,#171f24,#0b1014);
+    border:1px solid rgba(243,204,79,.12);
+    border-top:5px solid #5fa8c9;
+    box-shadow:var(--r9-shadow);
+}
+#seasonSummary .seasonSummaryCard:nth-child(2){border-top-color:var(--r9-gold);}
+#seasonSummary .seasonSummaryCard h3,
+#seasonSummary .summaryLine strong{color:var(--r9-cream);}
+#seasonSummary .summaryClub,
+#seasonSummary .summaryLine{color:#bdb5a3;}
+#seasonSummary .summaryLine{border-bottom-color:rgba(245,240,228,.1);}
+#seasonSummary .summaryTotal{
+    color:#0b0f12;
+    background:var(--r9-gold);
+}
+#seasonSummary .overallScoreBox{
+    color:var(--r9-cream);
+    background:#11171b;
+    border:1px solid rgba(243,204,79,.16);
+    border-left:6px solid var(--r9-gold);
+}
+#seasonSummary .overallScoreBox span{color:#bdb5a3;}
+#seasonSummary .overallScoreBox strong{color:var(--r9-gold);}
+#seasonSummary #nextSeasonAction{
+    color:#0b0f12;
+    background:linear-gradient(135deg,#f7df87,var(--r9-gold) 58%,#bd8620);
+    border-left-color:#fff0b0;
+}
