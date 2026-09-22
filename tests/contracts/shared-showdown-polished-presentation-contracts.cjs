@@ -10,7 +10,7 @@ const guard=read("js/productionSharedJourneyGuard.js");
 const bridge=read("js/ssjrAcceptancePolishedBridge.js");
 const recorder=read("js/ssjrProductionAcceptanceRecorder.js");
 const bootstrap=read("js/ssjr.js");
-const appCss=read("css/app.css");
+const visualCss=read("css/visual-fidelity-r3.css");
 
 assert.match(presentation,/usesLeagueWheelScreen:true/);
 assert.match(presentation,/usesClubPackRevealScreen:true/);
@@ -34,11 +34,11 @@ assert.match(presentation,/dataset\.sharedClubPacksWitnessed/);
 assert.match(presentation,/dataset\.sharedSetupPhase=state\.setup\.phase/,'R9 setup presentation must project the existing provider phase instead of creating a visual state machine.');
 assert.match(presentation,/panel\.dataset\.sharedSeasonState=mismatch\?"mismatch":prepared\?"locking":"recovery"/,'R9 season-plan presentation must derive locking\/recovery from existing paired season authority.');
 assert.match(presentation,/panel\.dataset\.sharedSeasonState=matches\?"locked":"mismatch"/,'R9 season-plan locked state must derive from the existing authoritative season comparison.');
-assert.match(appCss,/R9 SLICE 2 — PROVIDER-OWNED SHARED SETUP PRESENTATION/,'R9 Shared Setup visual layer is missing.');
-assert.match(appCss,/#sharedShowdownSeasonChoice \.sharedSeasonChoices\{[\s\S]*display:none/,'R9 must never visually resurrect the retired second season picker.');
-assert.match(appCss,/#leagueWheelScreen\[data-shared-presentation-role\] #spinLeague/,'R9 must style the existing real shared league control.');
-assert.match(appCss,/#clubWheelScreen\[data-shared-presentation-role\] #openClubPack/,'R9 must style the existing real provider-owned pack control.');
-assert.match(appCss,/#clubWheelScreen\[data-shared-presentation-role\] #continueClubAssignment/,'R9 must style the existing real final confirmation control.');
+assert.match(visualCss,/R9 SLICE 2 — PROVIDER-OWNED SHARED SETUP PRESENTATION/,'R9 Shared Setup visual layer is missing.');
+assert.match(visualCss,/#sharedShowdownSeasonChoice \.sharedSeasonChoices\{[\s\S]*display:none/,'R9 must never visually resurrect the retired second season picker.');
+assert.match(visualCss,/#leagueWheelScreen\[data-shared-presentation-role\] #spinLeague/,'R9 must style the existing real shared league control.');
+assert.match(visualCss,/#clubWheelScreen\[data-shared-presentation-role\] #openClubPack/,'R9 must style the existing real provider-owned pack control.');
+assert.match(visualCss,/#clubWheelScreen\[data-shared-presentation-role\] #continueClubAssignment/,'R9 must style the existing real final confirmation control.');
 
 assert.match(presentation,/setInterval\(\(\)=>void ssjpPoll\(\),POLL_MS\)/);
 assert.match(presentation,/if\(witnessedLeagueId!==setup\.leagueId\)\{ssjpForceScreen\("leagueWheelScreen"\);return ssjpRenderLeague\(\);\}/);
