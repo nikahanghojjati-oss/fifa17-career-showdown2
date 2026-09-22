@@ -5,6 +5,10 @@ const {chromium}=require("playwright");
 const {resolveChromiumRuntime}=require("../support/chromium-runtime.cjs");
 
 const baseUrl=new URL(process.env.CMS_BASE_URL||"http://127.0.0.1:4173/");
+const metadata={
+  XNN7jYJ:{title:"What You Got",artist:"Valentino Khan & NITTI"},
+  X9wlA0b:{title:"snow globe",artist:"Hadji Gaviota"}
+};
 
 async function installMediaStub(page){
   await page.addInitScript(()=>{
@@ -23,9 +27,7 @@ async function installMediaStub(page){
       return Promise.resolve();
     };
     HTMLMediaElement.prototype.pause=function(){
-      const state=stateFor(this);
-      if(state.paused)return;
-      state.paused=true;
+      const state=stateFor(this);if(state.paused)return;state.paused=true;
       queueMicrotask(()=>this.dispatchEvent(new Event("pause")));
     };
     HTMLMediaElement.prototype.load=function(){};
@@ -42,11 +44,12 @@ async function runCase(browser,{name,viewport,isMobile=false}){
   await page.route("https://api.audius.co/v1/**",async route=>{
     const url=route.request().url();
     audiusRequests.push(url);
-    if(/\/tracks\/XNN7jYJ(?:\?|$)/.test(url)){
+    const match=url.match(/\/tracks\/([^/?]+)(?:\?|$)/);
+    const id=match?.[1];
+    if(id&&metadata[id]&&!/\/stream(?:\?|$)/.test(url)){
       await route.fulfill({
-        status:200,
-        contentType:"application/json",
-        body:JSON.stringify({data:{id:"XNN7jYJ",title:"What You Got",user:{name:"Valentino Khan & NITTI"},artwork:null}})
+        status:200,contentType:"application/json",
+        body:JSON.stringify({data:{id,title:metadata[id].title,user:{name:metadata[id].artist},artwork:null}})
       });
       return;
     }
@@ -56,33 +59,30 @@ async function runCase(browser,{name,viewport,isMobile=false}){
   try{
     await page.goto(baseUrl.href,{waitUntil:"domcontentloaded"});
     await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:12000});
-    await page.locator('[data-menu-media-source="audius"]').waitFor({state:"visible",timeout:8000});
-
-    assert.equal(audiusRequests.length,0,`${name}: Audius network must remain dormant before selection/play.`);
-    assert.equal(await page.locator('script[data-runtime-script="audius-player"]').count(),0,`${name}: Audius JS must not load eagerly.`);
-    assert.equal(await page.locator('link[data-audius-player-style="true"]').count(),0,`${name}: Audius CSS must not load eagerly.`);
-    assert.equal(await page.locator(".audiusMenuPlayer").count(),0,`${name}: Audius player must not mount on startup.`);
-
-    await page.locator('[data-menu-media-source="audius"]').click();
     await page.locator(".audiusMenuPlayer").waitFor({state:"visible",timeout:8000});
     await page.waitForFunction(()=>Boolean(document.querySelector('link[data-audius-player-style="true"]')?.sheet),null,{timeout:8000});
 
+    assert.equal(audiusRequests.length,0,`${name}: mounting the main Audius player must not fetch metadata or stream before Play.`);
     assert.equal(await page.locator('script[data-runtime-script="audius-player"]').count(),1,`${name}: exactly one lazy Audius runtime is allowed.`);
     assert.equal(await page.locator('link[data-audius-player-style="true"]').count(),1,`${name}: exactly one lazy Audius stylesheet is allowed.`);
-    assert.equal(await page.locator("#menuMusicPlayer iframe").count(),0,`${name}: Audius must not use the YouTube iframe.`);
-    assert.equal(await page.locator("#menuMusicPlayer audio.audiusAudioElement").count(),1,`${name}: Audius must own exactly one hidden audio element.`);
+    assert.equal(await page.locator("#menuMusicPlayer iframe").count(),0,`${name}: Audius-only Home must contain no YouTube iframe.`);
+    assert.equal(await page.locator("#menuMusicPlayer audio.audiusAudioElement").count(),1,`${name}: Audius must own exactly one audio element.`);
     assert.equal((await page.locator(".menuMusicSource").textContent()).trim(),"AUDIUS");
     assert.equal(await page.locator(".menuMusicTile").getAttribute("data-media-provider"),"audius");
     assert.equal((await page.locator("#menuMusicToggle").textContent()).trim(),"PLAY TRACK");
     assert.equal(await page.locator("#menuMusicMute").isDisabled(),false);
     assert.match((await page.locator("#menuMusicStatus").textContent()).trim(),/READY/);
-    assert.equal(audiusRequests.length,0,`${name}: selecting Audius may mount UI but must not fetch metadata or stream before Play.`);
+
+    const choices=page.locator("[data-menu-media-source]");
+    assert.equal(await choices.count(),4,`${name}: Audius-only soundtrack should expose four curated tracks.`);
+    assert.deepEqual(await choices.evaluateAll(nodes=>nodes.map(n=>n.dataset.menuMediaSource)),["audius","snowglobe","nasty","alwaysright"]);
+    assert.equal(await page.locator('[data-menu-media-source="audius"]').getAttribute("aria-pressed"),"true");
 
     await page.locator("#menuMusicToggle").click();
     await page.waitForFunction(()=>document.getElementById("menuMusicToggle")?.textContent?.trim()==="PAUSE TRACK",null,{timeout:5000});
     assert.match((await page.locator("#menuMusicStatus").textContent()).trim(),/^PLAYING/);
     await page.waitForFunction(()=>document.querySelector(".audiusTrackTitle")?.textContent==="What You Got",null,{timeout:5000});
-    assert.ok(audiusRequests.some(url=>/\/tracks\/XNN7jYJ(?:\?|$)/.test(url)),`${name}: first Play must request Audius metadata lazily.`);
+    assert.ok(audiusRequests.some(url=>/\/tracks\/XNN7jYJ(?:\?|$)/.test(url)),`${name}: first Play must request current Audius metadata lazily.`);
 
     await page.locator("#menuMusicMute").click();
     assert.equal((await page.locator("#menuMusicMute").textContent()).trim(),"UNMUTE");
@@ -92,9 +92,23 @@ async function runCase(browser,{name,viewport,isMobile=false}){
     await page.waitForFunction(()=>document.getElementById("menuMusicToggle")?.textContent?.trim()==="PLAY TRACK",null,{timeout:5000});
     assert.equal((await page.locator("#menuMusicStatus").textContent()).trim(),"PAUSED");
 
+    const beforeSecond=audiusRequests.length;
+    await page.locator('[data-menu-media-source="snowglobe"]').click();
+    await page.waitForFunction(()=>document.querySelector(".audiusTrackTitle")?.textContent==="SNOW GLOBE",null,{timeout:5000});
+    assert.equal(audiusRequests.length,beforeSecond,`${name}: changing Audius tracks must stay network-dormant until Play.`);
+    assert.equal(await page.locator("#menuMusicPlayer audio.audiusAudioElement").count(),1,`${name}: changing tracks must replace, not duplicate, audio ownership.`);
+    assert.match(await page.locator("#menuMusicPlayer audio").getAttribute("src"),/X9wlA0b/);
+    assert.equal((await page.locator(".menuMusicSource").textContent()).trim(),"AUDIUS");
+    assert.equal(await page.locator('[data-menu-media-source="snowglobe"]').getAttribute("aria-pressed"),"true");
+    assert.equal(await page.locator("#menuMusicPlayer iframe").count(),0);
+
+    await page.locator("#menuMusicToggle").click();
+    await page.waitForFunction(()=>document.querySelector(".audiusTrackTitle")?.textContent==="snow globe",null,{timeout:5000});
+    assert.ok(audiusRequests.some(url=>/\/tracks\/X9wlA0b(?:\?|$)/.test(url)),`${name}: second track metadata must also load only after Play.`);
+
     const geometry=await page.evaluate(()=>{
       const play=document.getElementById("menuMusicToggle"),mute=document.getElementById("menuMusicMute"),tile=document.querySelector(".menuMusicTile");
-      return {
+      return{
         scrollWidth:document.documentElement.scrollWidth,
         clientWidth:document.documentElement.clientWidth,
         playHeight:play.getBoundingClientRect().height,
@@ -109,12 +123,6 @@ async function runCase(browser,{name,viewport,isMobile=false}){
       assert.ok(geometry.playHeight>=43.5,`${name}: Audius Play target is below 44px.`);
       assert.ok(geometry.muteHeight>=43.5,`${name}: Audius Mute target is below 44px.`);
     }
-
-    await page.locator('[data-menu-media-source="music"]').click();
-    await page.waitForFunction(()=>!document.querySelector(".audiusMenuPlayer"),null,{timeout:5000});
-    assert.equal(await page.locator("#menuMusicPlayer audio").count(),0,`${name}: switching source must destroy Audius audio ownership.`);
-    assert.equal((await page.locator(".menuMusicSource").textContent()).trim(),"YOUTUBE");
-    assert.equal(await page.locator("#menuMusicMute").isDisabled(),true,`${name}: unloaded YouTube source must restore disabled Mute.`);
     assert.equal(await page.locator("#menuMusicToggle").count(),1);
     assert.equal(await page.locator("#menuMusicMute").count(),1);
     assert.deepEqual(pageErrors,[],`${name}: Audius audit emitted page errors.`);
@@ -129,7 +137,7 @@ async function runCase(browser,{name,viewport,isMobile=false}){
   try{
     await runCase(browser,{name:"Chromebook",viewport:{width:1366,height:768}});
     await runCase(browser,{name:"iPhone-size",viewport:{width:390,height:844},isMobile:true});
-    console.log("PASS R9 Audius Home player: Audius stays dormant until selected, mounts inside the one existing soundtrack card, uses existing Play/Mute controls, starts network only after Play, supports pause/mute/source teardown, and keeps 1366x768 plus 390x844 geometry within bounds.");
+    console.log("PASS R9 Audius-only Home player: the main Home soundtrack player mounts from the lazy Audius runtime, performs no Audius network request before Play, exposes only Audius tracks, reuses one Play/Mute control set and one audio owner across track changes, and preserves 1366x768 plus 390x844 geometry.");
   }finally{
     await browser.close().catch(()=>{});
   }
