@@ -370,13 +370,17 @@ function updateMenuMediaControls(){
     setTextIfChanged(ui.mediaToggle, menuMediaPlaying ? pauseLabel : playLabel);
 
     if(ui.mediaMute){
-        const shouldDisable = !menuMediaIframe && !window.CareerModeAudiusPlayer?.isMounted?.();
+        const shouldDisable = !menuMediaIframe;
         if(ui.mediaMute.disabled !== shouldDisable){ ui.mediaMute.disabled = shouldDisable; }
         setTextIfChanged(ui.mediaMute, menuMediaMuted ? "UNMUTE" : "MUTE");
     }
 
     if(ui.mediaStatus){
-        if(!menuMediaIframe && !window.CareerModeAudiusPlayer?.isMounted?.()){
+        if(media.provider === "audius" && window.CareerModeAudiusPlayer?.isMounted?.()){
+            window.CareerModeAudiusPlayer.syncControls();
+            return;
+        }
+        if(!menuMediaIframe){
             setTextIfChanged(ui.mediaStatus, `${media.title} · LOADS ONLY WHEN YOU PRESS PLAY`);
         }else if(menuMediaPlaying){
             setTextIfChanged(ui.mediaStatus, menuMediaMuted ? "PLAYING · MUTED" : "PLAYING");
@@ -471,23 +475,6 @@ function createMenuMediaIframe(){
     return iframe;
 }
 
-async function prepareAudiusPlayer(){
-    const media = getSelectedMenuMedia(), ui = getMenuExperienceUI();
-    if(media.provider !== "audius" || typeof window.ensureAudiusPlayerModule !== "function"){ return null; }
-    const player = await window.ensureAudiusPlayerModule();
-    player.mount({
-        host: ui.mediaHost,
-        tile: ui.mediaTile,
-        track: media,
-        onStateChange: state => {
-            menuMediaPlaying = state.playing;
-            menuMediaMuted = state.muted;
-            updateMenuMediaControls();
-        },
-        onError: message => window.showAppNotice?.(message, "error", 7000)
-    });
-    return player;
-}
 function selectMenuMedia(key){
     if(!MENU_MEDIA_SOURCES[key] || key === selectedMenuMediaKey){ return; }
 
@@ -498,7 +485,7 @@ function selectMenuMedia(key){
     updateMenuMediaHeader();
 
     if(getSelectedMenuMedia().provider === "audius"){
-        void prepareAudiusPlayer().then(updateMenuMediaControls);
+        void window.ensureAudiusPlayerModule?.().then(player=>player.activate(getSelectedMenuMedia()));
     }else if(resumePlayback){
         menuMediaPlaying = true;
         if(!createMenuMediaIframe()){ menuMediaPlaying = false; }
@@ -507,11 +494,8 @@ function selectMenuMedia(key){
 }
 async function toggleMenuMusic(){
     if(getSelectedMenuMedia().provider === "audius"){
-        const player = await prepareAudiusPlayer();
-        if(!player){ return; }
-        if(menuMediaPlaying){ player.pause(); }
-        else { await player.play(); }
-        return;
+        const player=window.CareerModeAudiusPlayer||await window.ensureAudiusPlayerModule?.();
+        player?.activate(getSelectedMenuMedia());await player?.toggle?.();return;
     }
     if(!menuMediaIframe){
         menuMediaPlaying = true;
@@ -527,12 +511,7 @@ async function toggleMenuMusic(){
 
 function toggleMenuMusicMute(){
     if(getSelectedMenuMedia().provider === "audius"){
-        const player = window.CareerModeAudiusPlayer;
-        if(!player?.isMounted?.()){ return; }
-        menuMediaMuted = !menuMediaMuted;
-        player.setMuted(menuMediaMuted);
-        updateMenuMediaControls();
-        return;
+        window.CareerModeAudiusPlayer?.toggleMute?.();return;
     }
     if(!menuMediaIframe){ return; }
     menuMediaMuted = !menuMediaMuted;
@@ -550,7 +529,7 @@ function handleMainMenuExit(){
 }
 
 function isMenuMediaPlaying(){
-    return Boolean(menuMediaPlaying);
+    return Boolean(menuMediaPlaying || window.CareerModeAudiusPlayer?.isPlaying?.());
 }
 
 function getMenuFeedbackInteractionClock(){
