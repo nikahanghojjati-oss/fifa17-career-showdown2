@@ -110,19 +110,19 @@
   }
   function pstcRefresh(){const request=pstcRequestContext();if(!request)return Promise.resolve(null);if(viewContextKey&&viewContextKey!==request.key)pstcClearCachedContext();if(refreshPromise&&refreshContextKey===request.key)return refreshPromise;const current=pstcQueueProvider(()=>pstcRefreshNow(request));refreshPromise=current;refreshContextKey=request.key;current.then(()=>{if(refreshPromise===current){refreshPromise=null;refreshContextKey="";}},()=>{if(refreshPromise===current){refreshPromise=null;refreshContextKey="";}});return current;}
   async function pstcMutate(method,payload={}){
-    const request=pstcRequestContext();if(!request||busy||pstcReplayPhase())return false;busy=true;pstcSetRecovery("");pstcSetError("");pstcRender();
+    const request=pstcRequestContext();if(!request||busy||pstcReplayPhase())return false;let mutationSubmitted=false;busy=true;pstcSetRecovery("");pstcSetError("");pstcRender();
     try{
       return await pstcQueueProvider(async()=>{
         if(!pstcRequestMatches(request))return false;
         const ctx=await pstcProviderOptions(request);if(!pstcRequestMatches(request,ctx))return false;
         const current=pstcResultError(await provider.read(ctx.options),"The shared Transfer Challenge could not be refreshed.");if(!pstcRequestMatches(request,ctx))return false;
         const options={...ctx.options,nowEpochMs:pstcAuthoritativeNow(request),operationId:pstcRandomOperationId(),baseRevision:Number(current.revision||0),...payload};
-        const result=pstcResultError(await provider[method](options),"The shared Transfer Challenge update was rejected.");if(!pstcRequestMatches(request,ctx))return true;
+        mutationSubmitted=true;const result=pstcResultError(await provider[method](options),"The shared Transfer Challenge update was rejected.");if(!pstcRequestMatches(request,ctx))return true;
         if(!pstcBindView(result,ctx,request))return true;pstcSetRecovery("");pstcSetError("");
         if(result.needsRefresh||result.state?.phase==="COMPLETED")await pstcRefreshNow(request);else{if(pstcTransferScreenVisible())pstcPrepareReplay();pstcRender();pstcDecorateDashboard();}
         return true;
       });
-    }catch(error){if(pstcRequestMatches(request)){const code=error.code||error.message||"TRANSFER_UPDATE_UNCONFIRMED";pstcSetRecovery("outcome-unconfirmed");pstcSetError(`Outcome not confirmed. Refresh shared state before trying again. ${String(code).replaceAll("_"," ")}`);pstcReport("Unable to update Shared Transfer Challenge",error);}return false;}
+    }catch(error){if(pstcRequestMatches(request)){const code=error.code||error.message||"TRANSFER_UPDATE_UNCONFIRMED",label=String(code).replaceAll("_"," ");if(!mutationSubmitted){pstcSetRecovery("read-unconfirmed");pstcSetError(`Shared state could not be confirmed before the update. Refresh shared state and try again. ${label}`);}else if(String(code)==="TRANSFER_PROVIDER_FAILED"||!String(code).startsWith("TRANSFER_")){pstcSetRecovery("outcome-unconfirmed");pstcSetError(`Outcome not confirmed. Refresh shared state before trying again. ${label}`);}else{pstcSetRecovery("provider-rejected");pstcSetError(`Shared update was rejected. Refresh shared state before trying again. ${label}`);}pstcReport("Unable to update Shared Transfer Challenge",error);}return false;}
     finally{busy=false;if(pstcRequestMatches(request))pstcRender();}
   }
   function pstcSetError(message=""){const node=root.document&&root.document.getElementById("transferChallengeError");if(node)node.textContent=String(message||"");}
