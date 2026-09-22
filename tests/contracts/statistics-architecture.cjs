@@ -8,6 +8,7 @@ const screens = fs.readFileSync('js/screens.js', 'utf8');
 const statistics = fs.readFileSync('js/statistics.js', 'utf8');
 const trophy = fs.readFileSync('js/trophyRoom.js', 'utf8');
 const diagnostics = fs.readFileSync('js/diagnostics.js', 'utf8');
+const analyticsCss = fs.readFileSync('css/analytics.css', 'utf8');
 
 assert.ok(html.includes('id="careerStatisticsButton"'), 'Home Statistics tile is missing.');
 assert.ok(html.includes('<span class="menuTileLabel">STATISTICS</span>'), 'Home tile is not labelled Statistics.');
@@ -62,5 +63,7 @@ assert.ok(diagnostics.includes('["careerStatisticsButton", "careerStatisticsBoun
 
 const analyticsNamedFiles = fs.readdirSync('js').filter(file => /analytics/i.test(file)).sort();
 assert.deepStrictEqual(analyticsNamedFiles, ['analytics.js'], 'Workstream 4 must not create a second analytics engine.');
+assert.ok(analyticsCss.includes('R9 SLICE 7 — ANALYTICS FAMILY'), 'R9 analytics presentation layer is missing.');
+assert.ok(analyticsCss.includes('.managerCabinet') && analyticsCss.includes('.comparisonTable') && analyticsCss.includes('.careerStandings'), 'R9 must restyle the existing analytics and Trophy Room surfaces instead of adding a second renderer.');
 
 console.log(`Main Menu Statistics alignment, lazy loading, shared analytics, Trophy Room reuse, route contracts, and ${revision} shell identity passed.`);
