@@ -70,7 +70,7 @@ async function prepare(page,{managerRole,saveId}){
     await loadRuntimeScript('ssjr-transfer-replay-audit','js/productionSharedTransferChallenge.js',()=>window.CareerModeProductionSharedTransferChallenge);
     CareerModeProductionSharedTransferChallenge.install();
     const switchSave=()=>{
-      activeRivalry=rivalryB;serverPhase='WINDOW_OPEN';
+      activeRivalry=rivalryB;serverPhase='WINDOW_OPEN';windowEndRequestedRoles=[];failNextRead=false;
       currentShowdown={...currentShowdown,id:`${saveId}_switched`,currentRound:1,sharedJourney:{mode:'shared',rivalryId:rivalryB}};
     };
     window.__transferAudit={
