@@ -297,3 +297,25 @@
     background:var(--r9-gold,#f3cc4f);
 }
 .ruleScoreMaximum span,.ruleScoreMaximum strong{color:#0b0f12;}
+
+/* R9 R44 PROTECTED-BASE OVERRIDES — RULE BOOK */
+#ruleBook .ruleBookHero{
+    color:var(--r9-cream,#f5f0e4)!important;
+    background:#11171b!important;
+    border:0!important;
+    border-left:7px solid var(--r9-gold,#f3cc4f)!important;
+}
+#ruleBook .ruleBookHero>span{
+    color:var(--r9-gold,#f3cc4f)!important;
+}
+#ruleBook .ruleBookHero>strong{
+    color:#fff!important;
+}
+#ruleBook .ruleBookHero>p{
+    color:#d2c9b7!important;
+}
+#ruleBook .ruleSection{
+    color:var(--r9-cream,#f5f0e4)!important;
+    background:#11171b!important;
+    border:1px solid rgba(243,204,79,.12)!important;
+}
