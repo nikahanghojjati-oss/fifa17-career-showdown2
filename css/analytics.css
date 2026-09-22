@@ -715,3 +715,35 @@
     border-left-color:#655f52;
 }
 .trophyGlyph{color:#0b0f12;background:linear-gradient(145deg,#fff0aa,var(--r9-gold,#f3cc4f));}
+
+/* R9 R44 PROTECTED-BASE OVERRIDES — ANALYTICS */
+.analyticsScreen .analyticsSectionHeading{
+    color:var(--r9-cream,#f5f0e4)!important;
+}
+.analyticsScreen .analyticsStatCard,
+.analyticsScreen .recordCard,
+.analyticsScreen .managerCabinet,
+.analyticsScreen .careerStandings,
+.analyticsScreen .comparisonTable,
+.analyticsScreen .seasonProgressionRow{
+    color:var(--r9-cream,#f5f0e4)!important;
+    background:#11171b!important;
+    border:0!important;
+}
+.analyticsScreen .analyticsStatCard{
+    border-top:4px solid #5fa8c9!important;
+}
+.analyticsScreen .analyticsStatCard:nth-child(even){
+    border-top-color:var(--r9-gold,#f3cc4f)!important;
+}
+.analyticsScreen .recordCard{
+    border-top:4px solid var(--r9-gold,#f3cc4f)!important;
+}
+.analyticsScreen .analyticsStatCard span,
+.analyticsScreen .recordCard span{
+    color:#b8b09e!important;
+}
+.analyticsScreen .analyticsStatCard strong,
+.analyticsScreen .recordCard strong{
+    color:#fff!important;
+}
