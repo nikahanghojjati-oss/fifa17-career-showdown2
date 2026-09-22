@@ -821,3 +821,25 @@ html[data-motion-reduced="true"] #createShowdown *{transition:none!important;ani
     background:linear-gradient(135deg,#f7df87,var(--r9-gold) 58%,#bd8620);
     border-left-color:#fff0b0;
 }
+
+/* =====================================================
+   R9 SLICE 10 — GLOBAL RUNTIME NOTICE
+===================================================== */
+#appRuntimeNotice{
+    color:var(--r9-cream);
+    background:#11171b;
+    border:1px solid rgba(243,204,79,.16);
+    border-left:6px solid var(--r9-gold);
+    box-shadow:0 12px 30px rgba(0,0,0,.28);
+}
+#appRuntimeNotice.error{
+    color:#f0caca;
+    background:#211315;
+    border-left-color:#d56b6b;
+}
+#appRuntimeNotice.success{
+    color:#d9eadc;
+    background:#111b15;
+    border-left-color:#71b47f;
+}
+#appRuntimeNotice button{color:inherit;}
