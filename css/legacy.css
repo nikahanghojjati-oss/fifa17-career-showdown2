@@ -583,3 +583,20 @@
 }
 .legacyImportDropZone strong,.legacyImportVerdict strong,.legacyImportPreviewCard strong{color:var(--r9-cream,#f5f0e4);}
 .legacyImportDropZone span,.legacyImportPreviewCard span,.legacyImportMigrationSummary span,.legacyImportConflictList span{color:#b8b09e;}
+
+/* R9 R44 PROTECTED-BASE OVERRIDES — LEGACY
+   r44 app.css intentionally carries !important fallback presentation. These
+   later lazy selectors are more specific and remain presentation-only. */
+#legacy .legacySectionHeading{
+    color:var(--r9-cream,#f5f0e4)!important;
+}
+#legacy .legacyStat{
+    color:var(--r9-cream,#f5f0e4)!important;
+    background:#11171b!important;
+    border:0!important;
+    border-top:4px solid #5fa8c9!important;
+}
+#legacy .legacyStat:nth-child(2){border-top-color:#8ed9ef!important;}
+#legacy .legacyStat:nth-child(3){border-top-color:var(--r9-gold,#f3cc4f)!important;}
+#legacy .legacyStat span{color:#b8b09e!important;}
+#legacy .legacyStat strong{color:#fff!important;}
