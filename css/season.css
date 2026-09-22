@@ -438,6 +438,9 @@ html[data-motion-reduced="true"] .seasonReviewPanel *{scroll-behavior:auto!impor
         margin-right:11px;
         padding:13px;
     }
+    #completeSeason,
+    #confirmSeasonCompletion,
+    #editSeasonResults,
     #sharedSeasonCommitAction,
     #sharedMultiSeasonContinueAction,
     #sharedTerminalCloseAction,
