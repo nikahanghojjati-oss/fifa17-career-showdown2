@@ -467,3 +467,159 @@ html[data-motion-reduced="true"] #onlinePlayerIdentityOverlay *,
 html[data-motion-reduced="true"] #persistentNikDanielPairPanel *,
 html[data-motion-reduced="true"] #createShowdown *{transition:none!important;animation:none!important;}
 
+/* =====================================================
+   R9 SLICE 2 — PROVIDER-OWNED SHARED SETUP PRESENTATION
+   Scope: League Wheel + Club Assignment.
+   Never owns wheel results, pack results, reveal timing, season authority,
+   confirmation writes or Career Start routing.
+===================================================== */
+
+#leagueWheelScreen>h2,
+#clubWheelScreen>h2{
+    color:var(--r9-cream);
+    background:linear-gradient(120deg,#161d22,#0b1014);
+    border-left-color:var(--r9-gold);
+    border-bottom:1px solid rgba(243,204,79,.16);
+    box-shadow:0 8px 22px rgba(0,0,0,.18);
+}
+
+#leagueWheelScreen .wheelContainer{
+    color:var(--r9-cream);
+    background:
+        radial-gradient(circle at 50% 26%,rgba(243,204,79,.08),transparent 30%),
+        linear-gradient(145deg,#151c21,#090d10 72%);
+    border:1px solid var(--r9-line);
+    border-left:6px solid var(--r9-gold);
+    box-shadow:var(--r9-shadow);
+}
+#leagueWheelScreen #selectedLeague{
+    color:var(--r9-gold);
+    background:rgba(5,9,12,.72);
+    border-left-color:var(--r9-gold);
+}
+#leagueWheelScreen #leagueStateNote,
+#leagueWheelScreen #sharedShowdownPresentationStatus,
+#clubWheelScreen #sharedShowdownPresentationStatus{
+    color:#d4ccba;
+    background:rgba(243,204,79,.065);
+    border-left-color:var(--r9-gold);
+}
+#leagueWheelScreen[data-shared-setup-phase="LEAGUE_WHEEL_COMMITTED"] #sharedShowdownPresentationStatus,
+#clubWheelScreen[data-shared-setup-phase="SHOWDOWN_CONFIRMED"] #sharedShowdownPresentationStatus{
+    color:#d7eadb;
+    background:rgba(91,156,104,.12);
+    border-left-color:#71b47f;
+}
+#leagueWheelScreen[data-shared-presentation-role] #spinLeague{
+    border-left-color:var(--r9-gold);
+}
+#leagueWheelScreen[data-shared-presentation-role] #spinLeague:disabled{
+    opacity:.76;
+    color:#cbc3b1;
+    background:#20272c;
+}
+
+#clubWheelScreen .clubAssignmentShell{
+    background:
+        radial-gradient(circle at 50% 12%,rgba(243,204,79,.07),transparent 27%),
+        linear-gradient(145deg,#141b20,#080c0f 76%);
+    border:1px solid var(--r9-line);
+    border-top:4px solid var(--r9-gold);
+    box-shadow:var(--r9-shadow);
+}
+#clubWheelScreen .clubAssignmentEyebrow,
+#clubWheelScreen .clubRivalryHeadline>span,
+#clubWheelScreen .screenEyebrow{
+    color:var(--r9-gold);
+}
+#clubWheelScreen #clubAssignmentLeague{
+    color:var(--r9-cream);
+}
+#clubWheelScreen #clubPackStatus{
+    color:#c9c1af;
+}
+#clubWheelScreen .clubRevealProgress span{
+    color:#aaa18d;
+    background:#11171b;
+    border-color:rgba(243,204,79,.14);
+}
+#clubWheelScreen .clubRivalryConfirmation{
+    color:var(--r9-cream);
+    background:linear-gradient(135deg,#1b2328,#0d1216);
+    border-left-color:var(--r9-gold);
+    box-shadow:inset 0 0 0 1px rgba(243,204,79,.12);
+}
+#clubWheelScreen .clubConfirmationSide{
+    background:#252e34;
+}
+#clubWheelScreen .clubRivalryLockNote{
+    color:#bcb39f;
+}
+
+#sharedShowdownSeasonChoice{
+    position:relative;
+    overflow:hidden;
+    border-left:6px solid var(--r9-gold);
+}
+#sharedShowdownSeasonChoice::before{
+    content:"";
+    position:absolute;
+    inset:0 0 auto 0;
+    height:3px;
+    background:linear-gradient(90deg,var(--r9-gold),rgba(66,185,218,.7),transparent 75%);
+    pointer-events:none;
+}
+#sharedShowdownSeasonChoice h3{
+    margin:5px 0 7px;
+    color:var(--r9-cream);
+    font:800 clamp(22px,3vw,31px)/.95 var(--f17-display);
+    text-transform:uppercase;
+}
+#sharedShowdownSeasonChoice [data-shared-season-copy]{
+    width:100%;
+    color:#cec6b4;
+    background:rgba(243,204,79,.055);
+    border-left-color:var(--r9-gold);
+    line-height:1.4;
+}
+#sharedShowdownSeasonChoice .sharedSeasonChoices{
+    display:none;
+}
+#sharedShowdownSeasonChoice[data-shared-season-state="locking"]{
+    border-left-color:var(--r9-gold);
+}
+#sharedShowdownSeasonChoice[data-shared-season-state="locked"]{
+    border-left-color:#71b47f;
+}
+#sharedShowdownSeasonChoice[data-shared-season-state="locked"] h3{
+    color:#d9eadc;
+}
+#sharedShowdownSeasonChoice[data-shared-season-state="mismatch"],
+#sharedShowdownSeasonChoice[data-shared-season-state="recovery"]{
+    border-left-color:#d56b6b;
+}
+#sharedShowdownSeasonChoice[data-shared-season-state="mismatch"] h3,
+#sharedShowdownSeasonChoice[data-shared-season-state="recovery"] h3{
+    color:#f0c4c4;
+}
+
+#clubWheelScreen[data-shared-presentation-role] #openClubPack,
+#clubWheelScreen[data-shared-presentation-role] #continueClubAssignment{
+    border-left-color:var(--r9-gold);
+}
+#clubWheelScreen[data-shared-presentation-role] #openClubPack:disabled,
+#clubWheelScreen[data-shared-presentation-role] #continueClubAssignment:disabled{
+    opacity:.76;
+}
+
+@media(max-width:700px){
+    #leagueWheelScreen .wheelContainer{padding-left:10px;padding-right:10px;}
+    #sharedShowdownSeasonChoice{padding:12px 11px 13px;}
+    #sharedShowdownSeasonChoice h3{font-size:22px;}
+}
+
+@media(prefers-reduced-motion:reduce){
+    #leagueWheelScreen *,
+    #clubWheelScreen *{transition-duration:.001ms!important;animation-duration:.001ms!important;}
+}
+
