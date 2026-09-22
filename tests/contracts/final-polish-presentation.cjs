@@ -9,6 +9,9 @@ const screens = fs.readFileSync('js/screens.js', 'utf8');
 const settings = fs.readFileSync('js/settings.js', 'utf8');
 const transferSelector = fs.readFileSync('js/transferSelector.js', 'utf8');
 const feedbackBytes = fs.statSync('js/menuFeedback.js').size;
+const legacyCss = fs.readFileSync('css/legacy.css', 'utf8');
+const rulebookCss = fs.readFileSync('css/rulebook.css', 'utf8');
+const settingsCss = fs.readFileSync('css/settings.css', 'utf8');
 
 const buttons = [...html.matchAll(/<button\b[^>]*>/gi)].map(match => match[0]);
 assert.deepStrictEqual(buttons.filter(button => !/\btype="button"/i.test(button)), [], 'Every shell button must declare button type.');
@@ -29,6 +32,12 @@ const clubRevealIndex = (css.match(/\.clubRevealIndex\{[^}]+\}/) || [])[0] || ''
 assert.ok(clubRevealIndex.includes('color:rgba(255,255,255,.66)'), 'Club reveal sequence indices must retain readable contrast.');
 assert.ok(css.includes('.transferOverviewStatus{color:#596873;}'), 'Showdown Home transfer status must retain readable contrast.');
 assert.ok(css.includes('.overallScoreBox span{color:#52616b'), 'Season Summary overall-score caption must retain readable contrast.');
+assert.ok(css.includes('R9 SLICE 6 — SEASON SUMMARY'), 'R9 Season Summary presentation layer is missing.');
+assert.ok(legacyCss.includes('R9 SLICE 8 — LEGACY ARCHIVE'), 'R9 Legacy archive presentation layer is missing.');
+assert.ok(rulebookCss.includes('R9 SLICE 9 — RULE BOOK'), 'R9 Rule Book presentation layer is missing.');
+assert.ok(settingsCss.includes('R9 SLICE 9 — SETTINGS / ACCOUNT SURFACE'), 'R9 Settings presentation layer is missing.');
+assert.ok(settingsCss.includes('.settingsConnectedAccountPanel'), 'R9 must style the existing player-facing connected account panel.');
+
 
 const forward = (css.match(/@keyframes routeForwardIn\{([^}]*(?:\}[^@]*)?)/) || [])[0] || '';
 const back = (css.match(/@keyframes routeBackIn\{([^}]*(?:\}[^@]*)?)/) || [])[0] || '';
