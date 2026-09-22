@@ -165,7 +165,9 @@ async function assertReadRecovery(page,roleLabel){
   await page.locator('#refreshSharedTransferChallenge').click();
   await page.waitForFunction(()=>document.getElementById('transferChallenge')?.dataset?.sharedTransferRecovery==='read-unconfirmed',null,{timeout:5000});
   assert.match(await page.locator('#transferChallengeError').textContent(),/Latest shared state could not be confirmed/, `${roleLabel} must describe a read failure as unconfirmed shared state.`);
+  const beforeRecoveryRead=await page.evaluate(()=>window.__transferAudit.counts().reads);
   await page.locator('#refreshSharedTransferChallenge').click();
+  await page.waitForFunction(before=>window.__transferAudit.counts().reads>before,beforeRecoveryRead,{timeout:5000});
   await page.waitForFunction(()=>!document.getElementById('transferChallenge')?.dataset?.sharedTransferRecovery,null,{timeout:5000});
   assert.equal((await page.locator('#transferChallengeError').textContent()).trim(),'',
     `${roleLabel} successful recovery read must clear the prior recovery error.`);
@@ -196,7 +198,9 @@ async function assertEarlyEndProjection(page,roleLabel){
   await page.waitForFunction(()=>document.getElementById('transferChallenge')?.dataset?.sharedTransferRecovery==='outcome-unconfirmed',null,{timeout:5000});
   assert.match(await page.locator('#transferChallengeError').textContent(),/Outcome not confirmed\. Refresh shared state before trying again\./,
     `${roleLabel} rejected or lost mutation acknowledgement must not be presented as confirmed success or confirmed failure.`);
+  const beforeMutationRecoveryRead=await page.evaluate(()=>window.__transferAudit.counts().reads);
   await page.locator('#refreshSharedTransferChallenge').click();
+  await page.waitForFunction(before=>window.__transferAudit.counts().reads>before,beforeMutationRecoveryRead,{timeout:5000});
   await page.waitForFunction(()=>!document.getElementById('transferChallenge')?.dataset?.sharedTransferRecovery,null,{timeout:5000});
 
   assert.deepEqual(await page.evaluate(()=>window.__transferAudit.setWindowRequests(['playerTwo'])),['playerTwo']);
