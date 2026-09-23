@@ -45,7 +45,9 @@ const path=require("node:path");
   assert.doesNotMatch(entry,/continueCareerIsLocalOnly:true/,'Continue Career must not be described as a local-only alternative.');
   assert.match(entry,/remote\.subscribe\(onState\)/,"shared entry must observe the one successful peer join");
   assert.match(entry,/next\.sessionState!=="active"/,"peer return must wait for ACTIVE remote authority");
-  assert.match(entry,/start\.textContent="START A SHOWDOWN"/,'Physical journey must enter through the canonical Start a Showdown surface.');
+  assert.match(entry,/ready\?"START A SHOWDOWN"/,'Physical journey must expose canonical Start a Showdown only after player identity is ready.');
+  assert.match(entry,/"SIGN IN TO START"/,'Physical journey must explicitly route unsigned users through sign-in first.');
+  assert.match(entry,/identity&&typeof identity\.openGate==="function"/,'Unsigned Start must open the player identity gate without creating a Showdown shell.');
   assert.match(entry,/Daniel and Nik must both be connected before the career begins\./);
   assert.doesNotMatch(entry,/START SHARED SHOWDOWN|BOTH manager devices before pairing/i,'Physical acceptance must not force retired engineering copy back into the player surface.');
 
