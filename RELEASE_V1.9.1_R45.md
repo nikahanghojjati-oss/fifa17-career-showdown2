@@ -20,4 +20,6 @@ No scoring weights, manager mapping, club rules, Firestore schema, Firestore Rul
 
 The r45 shell identity advances all cache-busted entry assets and retains r44 as the rollback runtime so Chrome/Safari cannot silently continue the stale r44 player path after deployment.
 
-SSJR physical acceptance remains unearned until a fresh two-account, two-device, two-network r45 run reaches CLOSED AFTER RELOAD and both sanitized evidence exports validate. The failed r44 journey is diagnostic evidence only and must not be counted as acceptance.
+Remote Joining, private pairing, connected-account identity, ACTIVE-session authority, and the existing two-manager provider boundary remain unchanged by this repair.
+
+SSJR-1.1 remains exactly `0/100`. Source changes, CI, deployment, and this r45 repair earn no SSJR credit. Physical acceptance remains unearned until a fresh two-account, two-device, two-network r45 run reaches CLOSED AFTER RELOAD and both sanitized evidence exports validate. The failed r44 journey is diagnostic evidence only and must not be counted as acceptance.
