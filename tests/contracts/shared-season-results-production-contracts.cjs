@@ -29,6 +29,8 @@ assert.ok(adapter.indexOf('js/sharedShowdownCatalog.js')<adapter.indexOf('js/spa
 assert.match(adapter,/provider\.publishResult/);
 assert.match(adapter,/provider\.read/);
 assert.match(adapter,/pssrFingerprint\(currentResult\)!==draft\.fingerprint/,'reviewed payload must be revalidated immediately before publication');
+assert.match(adapter,/draft&&draft\.contextKey===contextKey[\s\S]*pssrRenderReview\(draft\.result\)/,'ordinary provider refresh must preserve an unpublished local Review draft');
+assert.doesNotMatch(adapter,/current\.finally\(/,'refresh cleanup must not create an ignored rejecting finally child promise');
 assert.match(adapter,/Your rival cannot see this result until they publish their own/);
 assert.match(adapter,/Shared Season Commit below/,'RESULTS_READY copy must direct the real player into the next authoritative capability instead of presenting r9 as a terminal step');
 for(const field of ['leaguePosition','leaguePoints','leagueGoals','domesticCup','championsLeague','topScorer','topAssist'])assert.match(adapter,new RegExp(`${field}:`),`production adapter must use canonical field ${field}`);
