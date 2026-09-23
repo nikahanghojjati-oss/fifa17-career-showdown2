@@ -1,6 +1,6 @@
-# Physical Journey Production Acceptance — r45
+# Physical Journey Production Acceptance — r46
 
-This checklist is for the irreducible two-account, two-physical-device, two-network MDP Physical Journey proof. Do not use it until runtime `1.9.1-r45` is the exact deployed production runtime.
+This checklist is for the irreducible two-account, two-physical-device, two-network MDP Physical Journey proof. Do not use it until runtime `1.9.1-r46` is the exact deployed production runtime.
 
 ## Acceptance URL
 
@@ -23,7 +23,7 @@ This is mandatory before creating the fresh Showdown shell.
 
 ## Prepare both local shared shells before pairing
 
-This ordering remains mandatory in r45 and preserves the repaired peer-entry path for the physical two-device run.
+This ordering remains mandatory in r46 and preserves the repaired peer-entry path for the physical two-device run.
 
 1. On the Chromebook, open New Showdown/Create Showdown, choose exactly **1 Season**, and press the live fresh-start action (`START A SHOWDOWN`; older/internal surfaces may describe this as preparing the Shared Showdown).
 2. On the iPhone, independently enter the corresponding fresh Shared Showdown preparation path after Nik's identity is ready. Follow the role-specific live UI; do not use an unrelated old `CONTINUE CAREER` save as the starting point.
