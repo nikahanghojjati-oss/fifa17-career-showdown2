@@ -44,10 +44,9 @@ const SAVE_KEY="careerModeShowdown.saveLibrary";
     });
     await page.waitForFunction(()=>document.getElementById("startShowdown")?.textContent==="SIGN IN TO START",null,{timeout:4000});
     await page.locator("#newShowdown").click();
-    await page.locator("#createShowdown").waitFor({state:"visible",timeout:5000});
-    await page.locator("#startShowdown").click();
-    assert.equal(await page.evaluate(()=>window.__identityGateOpens),1,"signed-out Start must open the player identity gate exactly once");
-    assert.equal(await page.evaluate(key=>JSON.parse(localStorage.getItem(key)).activeSaveId,key),oldSaveId,"signed-out Start must not create or replace a Showdown shell");
+    assert.equal(await page.evaluate(()=>window.__identityGateOpens),1,"signed-out New Showdown must open the player identity gate exactly once");
+    assert.equal(await page.locator("#createShowdown").isVisible(),false,"signed-out player must not enter Showdown creation before identity is ready");
+    assert.equal(await page.evaluate(key=>JSON.parse(localStorage.getItem(key)).activeSaveId,key),oldSaveId,"signed-out entry must not create or replace a Showdown shell");
 
     // Simulate Daniel's host browser. In the unified r25 flow, only Daniel enters season
     // selection and starts the Showdown; Nik joins later from the Home join action.
@@ -75,6 +74,7 @@ const SAVE_KEY="careerModeShowdown.saveLibrary";
     });
     await page.evaluate(()=>{window.CareerModeOnlinePlayerIdentity?.getState?.();document.getElementById("startShowdown").textContent="";});
     await page.waitForFunction(()=>document.getElementById("startShowdown")?.textContent==="START A SHOWDOWN",null,{timeout:4000});
+    await page.locator("#newShowdown").click();
     await page.locator("#createShowdown").waitFor({state:"visible",timeout:5000});
     assert.equal(await page.locator("#managerOne").inputValue(),"Daniel");
     assert.equal(await page.locator("#managerTwo").inputValue(),"Nik");
