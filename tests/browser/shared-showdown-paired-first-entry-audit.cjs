@@ -42,10 +42,11 @@ const SAVE_KEY="careerModeShowdown.saveLibrary";
       };
       document.getElementById("startShowdown").textContent="";
     });
-    await page.waitForFunction(()=>document.getElementById("startShowdown")?.textContent==="SIGN IN TO START",null,{timeout:4000});
-    await page.locator("#newShowdown").click();
-    assert.equal(await page.evaluate(()=>window.__identityGateOpens),1,"signed-out New Showdown must open the player identity gate exactly once");
-    assert.equal(await page.locator("#createShowdown").isVisible(),false,"signed-out player must not enter Showdown creation before identity is ready");
+    await page.waitForFunction(()=>window.CareerModeProductionSharedJourneyEntry&&document.getElementById("startShowdown")?.textContent==="SIGN IN TO START",null,{timeout:4000});
+    const signedOutStart=await page.evaluate(()=>window.CareerModeProductionSharedJourneyEntry.preparePairingShell());
+    assert.equal(signedOutStart,false,"signed-out shared-entry guard must refuse Showdown preparation");
+    assert.equal(await page.evaluate(()=>window.__identityGateOpens),1,"signed-out shared-entry guard must open the player identity gate exactly once");
+    assert.equal(await page.locator("#createShowdown").isVisible(),false,"signed-out fallback guard must not expose or create gameplay");
     assert.equal(await page.evaluate(key=>JSON.parse(localStorage.getItem(key)).activeSaveId,key),oldSaveId,"signed-out entry must not create or replace a Showdown shell");
 
     // Simulate Daniel's host browser. In the unified r25 flow, only Daniel enters season
