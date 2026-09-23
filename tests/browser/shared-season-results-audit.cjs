@@ -58,6 +58,18 @@ async function prepare(page,{role,saveId,entry}){
       publishResult:async options=>window.__ssjrResultsAuditPublish({role,baseRevision:options.baseRevision,operationId:options.operationId,result:options.result})
     };
     window.CareerModeProductionFirebaseRuntime={ensureAccountServices:async()=>({ok:true,auth:{currentUser:{uid:role==='playerOne'?'account_one':'account_two'}},firestore:{},firestoreSdk:{}})};
+    window.__postResultsInstalls=[];
+    window.CareerModeSharedLocalReconciliation={contractVersion:1};
+    for(const name of [
+      'CareerModeProductionSharedSeasonCommit',
+      'CareerModeProductionSharedCanonicalScoring',
+      'CareerModeProductionSharedHistoryConvergence',
+      'CareerModeProductionSharedMultiSeasonProgression',
+      'CareerModeProductionSharedJourneyReconnect',
+      'CareerModeProductionSharedLocalReconciliation',
+      'CareerModeProductionSharedFinalReconciliation',
+      'CareerModeProductionSharedTerminalClose'
+    ])window[name]={install(){window.__postResultsInstalls.push(name);return true;}};
     await loadRuntimeScript('ssjr-results-audit-adapter','js/productionSharedSeasonResults.js',()=>window.CareerModeProductionSharedSeasonResults);
     await loadRuntimeScript('ssjr-results-audit-route','js/productionSharedSeasonResultsRoute.js',()=>window.CareerModeProductionSharedSeasonResultsRoute);
     CareerModeProductionSharedSeasonResults.install();CareerModeProductionSharedSeasonResultsRoute.install();
@@ -68,6 +80,7 @@ async function prepare(page,{role,saveId,entry}){
       localState:()=>({selectedLeague:currentShowdown.selectedLeague,clubs:structuredClone(currentShowdown.clubs),transferChallenges:structuredClone(currentShowdown.transferChallenges),rounds:structuredClone(currentShowdown.rounds),score:structuredClone(currentShowdown.score)}),
       canRoute:()=>CareerModeProductionSharedSeasonResults.canRoute(),
       routeCanRoute:()=>CareerModeProductionSharedSeasonResultsRoute.canRoute(),
+      postResultsInstalls:()=>[...window.__postResultsInstalls],
       diagnostics:()=>({
         routeReady:CareerModeProductionSharedSeasonResultsRoute.canRoute(),
         adapterCanRoute:CareerModeProductionSharedSeasonResults.canRoute(),
@@ -105,6 +118,17 @@ async function enterResults(page,entry){
   }
   const after=await page.evaluate(()=>window.__ssjrResultsAudit.diagnostics());
   assert.equal(after.adapterCanRoute,true,`refreshed shared authority must grant the Season Results route without local transfer completion. Diagnostics: ${JSON.stringify(after)}`);
+  await page.waitForFunction(()=>window.__ssjrResultsAudit.postResultsInstalls().length===8,null,{timeout:5000});
+  assert.deepEqual(await page.evaluate(()=>window.__ssjrResultsAudit.postResultsInstalls()),[
+    'CareerModeProductionSharedSeasonCommit',
+    'CareerModeProductionSharedCanonicalScoring',
+    'CareerModeProductionSharedHistoryConvergence',
+    'CareerModeProductionSharedMultiSeasonProgression',
+    'CareerModeProductionSharedJourneyReconnect',
+    'CareerModeProductionSharedLocalReconciliation',
+    'CareerModeProductionSharedFinalReconciliation',
+    'CareerModeProductionSharedTerminalClose'
+  ],'real Shared Season Results route must bootstrap the complete post-results production chain exactly once');
 }
 
 async function fillOwnResult(page,role,result){
@@ -186,7 +210,7 @@ async function reviewTamperAndPublish(page,role,result){
     await host.locator('#continueFromTransfers').click({force:true});
     assert.equal(await host.locator('#seasonEntry').isVisible(),false,'replay continue must not enter live Season Results');
     assert.deepEqual(errors,[],'Shared Season Results browser audit emitted page errors.');
-    process.stdout.write('PASS Shared Season Results desktop/mobile production flow: completed shared Transfer authority reaches Season Results without local completion markers; Player One enters from verdicts and Player Two from Showdown Home; each sees only their own seven-field form; review tampering is blocked; first publication stays private; both-publication reveals both sides; waiting users retain a dashboard escape; replay cannot enter live results; and canonical local storage/history/scoring remain untouched.\n');
+    process.stdout.write('PASS Shared Season Results desktop/mobile production flow: completed shared Transfer authority reaches Season Results without local completion markers; Player One enters from verdicts and Player Two from Showdown Home; each sees only their own seven-field form; review tampering is blocked; first publication stays private; both-publication reveals both sides; the real Results route bootstraps Commit, Scoring, History, Reconnect, Reconciliation and Terminal Close; waiting users retain a dashboard escape; replay cannot enter live results; and canonical local storage/history/scoring remain untouched.\n');
   }finally{
     await hostContext.close().catch(()=>{});await peerContext.close().catch(()=>{});await browser.close().catch(()=>{});
   }
