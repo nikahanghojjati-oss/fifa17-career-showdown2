@@ -80,6 +80,7 @@ async function prepare(page,{role,saveId,entry}){
       localState:()=>({selectedLeague:currentShowdown.selectedLeague,clubs:structuredClone(currentShowdown.clubs),transferChallenges:structuredClone(currentShowdown.transferChallenges),rounds:structuredClone(currentShowdown.rounds),score:structuredClone(currentShowdown.score)}),
       canRoute:()=>CareerModeProductionSharedSeasonResults.canRoute(),
       routeCanRoute:()=>CareerModeProductionSharedSeasonResultsRoute.canRoute(),
+      refreshResults:()=>CareerModeProductionSharedSeasonResults.refresh(),
       postResultsInstalls:()=>[...window.__postResultsInstalls],
       diagnostics:()=>({
         routeReady:CareerModeProductionSharedSeasonResultsRoute.canRoute(),
@@ -154,11 +155,16 @@ async function reviewTamperAndPublish(page,role,result){
   await page.locator('#completeSeason').click();
   await page.locator('#seasonReviewPanel').waitFor({state:'visible'});
   assert.equal(await page.locator('#seasonReviewHeading').textContent(),'REVIEW YOUR SEASON RESULT');
+  await page.evaluate(()=>window.__ssjrResultsAudit.refreshResults());
+  assert.equal(await page.locator('#seasonReviewPanel').isVisible(),true,'provider refresh must not kick an unpublished draft out of Review');
+  assert.equal(await page.locator('#seasonReviewHeading').textContent(),'REVIEW YOUR SEASON RESULT','review presentation must survive ordinary refresh polling');
   const prefix=role==='playerOne'?'p1':'p2';
   await page.evaluate(({prefix,value})=>{document.getElementById(`${prefix}LeaguePoints`).value=String(value);},{prefix,value:result.leaguePoints+1});
   const before=server.publishes.length;
   await page.locator('#confirmSeasonCompletion').click();
   await page.waitForFunction(()=>/changed after review/i.test(document.getElementById('seasonReviewError')?.textContent||''),null,{timeout:4000});
+  await page.evaluate(()=>window.__ssjrResultsAudit.refreshResults());
+  assert.match(await page.locator('#seasonReviewError').textContent(),/changed after review/i,'refresh must not erase a publication/review error before the player can read it');
   assert.equal(server.publishes.length,before,'review fingerprint mismatch must block provider publication');
   await page.locator('#editSeasonResults').click();
   await fillOwnResult(page,role,result);
