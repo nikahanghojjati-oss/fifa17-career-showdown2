@@ -11,7 +11,7 @@
   const SHARED_CONTINUE_ID="continueSharedSetupGate";
   const LOCAL_SPIN_ID="spinLeague";
   const LOCAL_CLUB_ID="openClubPack";
-  let installed=false,busy=false,remoteUnsubscribe=null,remoteReturnBusy=false,renderGeneration=0;
+  let installed=false,busy=false,remoteUnsubscribe=null,identityUnsubscribe=null,remoteReturnBusy=false,renderGeneration=0;
 
   function activeSavedShowdown(){
     try{
@@ -42,6 +42,14 @@
   function discardUnmarkedShell(){try{const runtime=root.CareerModeSaveLibraryRuntime;if(runtime&&typeof runtime.isReady==="function"&&runtime.isReady()&&typeof runtime.clearActiveShowdown==="function")runtime.clearActiveShowdown();}catch(_error){}}
   function create(tag,className,text){const element=root.document.createElement(tag);if(className)element.className=className;if(text!==undefined)element.textContent=String(text);return element;}
   function report(context,error){if(typeof root.reportApplicationError==="function")root.reportApplicationError(context,error);else console.error(context,error);}
+  function entryIdentity(){return root.CareerModeOnlinePlayerIdentity||null;}
+  function entryIdentityState(){try{return entryIdentity()?.getState?.()||null;}catch(_error){return null;}}
+  function entryIdentityReady(){const current=entryIdentityState();return Boolean(current&&current.status==="ready"&&current.managerId&&current.registered);}
+  function syncStartButtonIdentity(){
+    const start=root.document&&root.document.getElementById("startShowdown");if(!start)return false;const current=entryIdentityState(),ready=entryIdentityReady();
+    const label=ready?"START A SHOWDOWN":current?.status==="choose-manager"?"CHOOSE PLAYER TO START":current?.status==="offline"?"RECONNECT TO START":current?.status==="signed-out"?"SIGN IN TO START":"CONNECT TO START";
+    if(start.textContent!==label)start.textContent=label;start.title=ready?"":"Sign in and choose Daniel or Nik before starting a Showdown.";return ready;
+  }
   async function loadScript(key,path,ready){if(ready())return ready();if(typeof root.loadRuntimeScript!=="function")throw new Error("Required runtime is unavailable.");await root.loadRuntimeScript(key,path,ready);return ready();}
   async function loadStyle(){if(typeof root.loadRuntimeStyle==="function")await root.loadRuntimeStyle("ssjr-entry","css/remoteJoining.css");}
   function applyLocalDrawLock(){
@@ -148,7 +156,13 @@
     return true;
   }
   async function startShared(){
-    if(busy)return false;busy=true;const button=root.document.getElementById(SHARED_START_ID)||root.document.getElementById("startShowdown");if(button)button.disabled=true;
+    if(busy)return false;
+    if(!entryIdentityReady()){
+      const identity=entryIdentity();syncStartButtonIdentity();
+      if(identity&&typeof identity.openGate==="function"){identity.openGate();return false;}
+      root.showAppNotice?.("Sign in and choose Daniel or Nik before starting a Showdown.","error",6000);return false;
+    }
+    busy=true;const button=root.document.getElementById(SHARED_START_ID)||root.document.getElementById("startShowdown");if(button)button.disabled=true;
     const round=root.document.getElementById("roundAmount"),priorRound=round?round.value:null;let shellCreated=false,markerPersisted=false;
     try{
       await ensureSaveAuthority();
@@ -159,7 +173,7 @@
       const created=await root.createShowdown();shellCreated=Boolean(created);if(!created)throw new Error("The Showdown could not be prepared.");
       normalizeCanonicalPlayers();persistPendingMarker();markerPersisted=true;applyLocalDrawLock();await openPanel();return true;
     }catch(error){if(shellCreated&&!markerPersisted)discardUnmarkedShell();setPending(false);report("Unable to prepare Showdown",error);return false;}
-    finally{if(round&&priorRound!==null)round.value=priorRound;if(button)button.disabled=false;busy=false;}
+    finally{if(round&&priorRound!==null)round.value=priorRound;if(button)button.disabled=false;busy=false;syncStartButtonIdentity();}
   }
   async function openPersistentPairControls(){
     closePanel();
@@ -258,7 +272,7 @@
   function closePanel(){const overlay=root.document&&root.document.getElementById(PANEL_ID);if(overlay)overlay.classList.add("hidden");return true;}
   function installStartButton(){
     const start=root.document.getElementById("startShowdown");if(!start)return false;
-    if(start.textContent!=="START A SHOWDOWN")start.textContent="START A SHOWDOWN";
+    syncStartButtonIdentity();
     if(start.dataset.canonicalShowdownStart==="true")return true;
     start.dataset.canonicalShowdownStart="true";
     start.addEventListener("click",event=>{event.preventDefault();event.stopImmediatePropagation();void startShared();},true);
@@ -266,7 +280,7 @@
     const note=root.document.getElementById("sharedShowdownOrderingNote");if(note)note.remove();
     return true;
   }
-  function install(){if(installed)return true;installed=true;installStartButton();applyLocalDrawLock();const observer=new MutationObserver(()=>{installStartButton();applyLocalDrawLock();});observer.observe(root.document.documentElement,{childList:true,subtree:true});if(pending())setTimeout(()=>void openPanel(),0);return true;}
+  function install(){if(installed)return true;installed=true;installStartButton();applyLocalDrawLock();const identity=entryIdentity();if(identity&&typeof identity.subscribe==="function")identityUnsubscribe=identity.subscribe(()=>syncStartButtonIdentity());const observer=new MutationObserver(()=>{installStartButton();applyLocalDrawLock();});observer.observe(root.document.documentElement,{childList:true,subtree:true});if(pending())setTimeout(()=>void openPanel(),0);return true;}
 
   return Object.freeze({contractVersion:6,feature:"ssjr-production-paired-first-entry",productionEnabled:true,singleProductEntry:true,pairingBeforeLeagueClub:true,activeSessionBeforeLeagueClub:true,peerActiveReturnToSharedEntry:true,bothDevicesPrepareSharedShell:true,joinerShellProvisionedAutomatically:true,continueCareerUsesPairedAuthority:true,polishedLeagueWheelAfterAuthority:true,polishedClubPacksAfterAuthority:true,confirmedSetupResumesAtCareerStart:true,engineeringSetupPanelPlayerFacing:false,persistedSaveMarker:true,canonicalLocalSaveMutationDuringSharedSetup:false,billingRequired:false,install,preparePairingShell:startShared,provisionJoinerShell,openPanel,closePanel,openSharedExperience,isPending:pending});
 });

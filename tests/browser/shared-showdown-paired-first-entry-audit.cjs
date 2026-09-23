@@ -31,6 +31,24 @@ const SAVE_KEY="careerModeShowdown.saveLibrary";
     await page.waitForFunction(key=>{const raw=localStorage.getItem(key);if(!raw)return false;const library=JSON.parse(raw);return Boolean(library.activeSaveId&&library.saves?.length===1);},SAVE_KEY,{timeout:12000});
     const oldSaveId=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)).activeSaveId,SAVE_KEY);
 
+    // Signed-out users must be routed into identity instead of receiving a misleading
+    // "connection service unavailable" error or creating a partial Showdown shell.
+    await page.evaluate(()=>{
+      window.__identityGateOpens=0;
+      window.CareerModeOnlinePlayerIdentity={
+        getState:()=>({status:"signed-out",initialized:true,online:true,accountId:null,managerId:null,managerLabel:null,deviceId:null,registered:false}),
+        openGate:()=>{window.__identityGateOpens+=1;return true;},
+        syncPair:async()=>null
+      };
+      document.getElementById("startShowdown").textContent="";
+    });
+    await page.waitForFunction(()=>document.getElementById("startShowdown")?.textContent==="SIGN IN TO START",null,{timeout:4000});
+    await page.locator("#newShowdown").click();
+    await page.locator("#createShowdown").waitFor({state:"visible",timeout:5000});
+    await page.locator("#startShowdown").click();
+    assert.equal(await page.evaluate(()=>window.__identityGateOpens),1,"signed-out Start must open the player identity gate exactly once");
+    assert.equal(await page.evaluate(key=>JSON.parse(localStorage.getItem(key)).activeSaveId,key),oldSaveId,"signed-out Start must not create or replace a Showdown shell");
+
     // Simulate Daniel's host browser. In the unified r25 flow, only Daniel enters season
     // selection and starts the Showdown; Nik joins later from the Home join action.
     await page.evaluate(()=>{
@@ -49,13 +67,14 @@ const SAVE_KEY="careerModeShowdown.saveLibrary";
       };
       window.CareerModeOnlinePlayerIdentity={
         getState:()=>({status:"ready",initialized:true,online:true,accountId:"account_daniel_fixture",managerId:"daniel",managerLabel:"Daniel",deviceId:"device_daniel_fixture",registered:true}),
+        openGate:()=>false,
         syncPair:async()=>window.__freshStartPairState==="active"
           ?{status:"recovery-required",connectionState:"active",rivalryId:staleRivalryId,providerSaveId:"save_"+("f".repeat(24))}
           :{status:"unpaired",connectionState:null,rivalryId:null}
       };
     });
-    await page.evaluate(()=>window.CareerModeOnlinePlayerIdentity?.getState?.());
-    await page.locator("#newShowdown").click();
+    await page.evaluate(()=>{window.CareerModeOnlinePlayerIdentity?.getState?.();document.getElementById("startShowdown").textContent="";});
+    await page.waitForFunction(()=>document.getElementById("startShowdown")?.textContent==="START A SHOWDOWN",null,{timeout:4000});
     await page.locator("#createShowdown").waitFor({state:"visible",timeout:5000});
     assert.equal(await page.locator("#managerOne").inputValue(),"Daniel");
     assert.equal(await page.locator("#managerTwo").inputValue(),"Nik");
