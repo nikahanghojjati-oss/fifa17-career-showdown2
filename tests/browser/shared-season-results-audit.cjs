@@ -59,17 +59,28 @@ async function prepare(page,{role,saveId,entry}){
     };
     window.CareerModeProductionFirebaseRuntime={ensureAccountServices:async()=>({ok:true,auth:{currentUser:{uid:role==='playerOne'?'account_one':'account_two'}},firestore:{},firestoreSdk:{}})};
     window.__postResultsInstalls=[];
+    window.CareerModeSparkSharedSeasonCommit={
+      read:async()=>{
+        const results=await window.__ssjrResultsAuditRead(role);
+        const ready=results?.state?.phase==='RESULTS_READY'&&results?.revision===2&&results?.allResults?.playerOne&&results?.allResults?.playerTwo;
+        return {ok:true,committed:false,ready:Boolean(ready),coordinatorRole:'playerOne',seasonNumber:1,phase:ready?'RESULTS_READY':'COLLECTING',revision:0,results:ready?results.allResults:null,managerRole:role,ownAcknowledged:false,acknowledgedRoles:[]};
+      },
+      commitSeason:async()=>({ok:false,code:'AUDIT_COMMIT_MUTATION_NOT_EXPECTED'}),
+      acknowledgeSeason:async()=>({ok:false,code:'AUDIT_ACK_MUTATION_NOT_EXPECTED'})
+    };
     window.CareerModeSharedLocalReconciliation={contractVersion:1};
+    window.CareerModeProductionSharedMultiSeasonProgression={
+      install(){window.__postResultsInstalls.push('CareerModeProductionSharedMultiSeasonProgression');return true;},
+      resolveSeason:fallback=>Number(fallback)||1,
+      getState:()=>null,
+      refresh:async()=>null
+    };
     for(const name of [
-      'CareerModeProductionSharedSeasonCommit',
-      'CareerModeProductionSharedCanonicalScoring',
-      'CareerModeProductionSharedHistoryConvergence',
-      'CareerModeProductionSharedMultiSeasonProgression',
       'CareerModeProductionSharedJourneyReconnect',
       'CareerModeProductionSharedLocalReconciliation',
       'CareerModeProductionSharedFinalReconciliation',
       'CareerModeProductionSharedTerminalClose'
-    ])window[name]={install(){window.__postResultsInstalls.push(name);return true;}};
+    ])window[name]={install(){window.__postResultsInstalls.push(name);return true;},getState:()=>null,refresh:async()=>null};
     await loadRuntimeScript('ssjr-results-audit-adapter','js/productionSharedSeasonResults.js',()=>window.CareerModeProductionSharedSeasonResults);
     await loadRuntimeScript('ssjr-results-audit-route','js/productionSharedSeasonResultsRoute.js',()=>window.CareerModeProductionSharedSeasonResultsRoute);
     CareerModeProductionSharedSeasonResults.install();CareerModeProductionSharedSeasonResultsRoute.install();
@@ -82,6 +93,16 @@ async function prepare(page,{role,saveId,entry}){
       routeCanRoute:()=>CareerModeProductionSharedSeasonResultsRoute.canRoute(),
       refreshResults:()=>CareerModeProductionSharedSeasonResults.refresh(),
       postResultsInstalls:()=>[...window.__postResultsInstalls],
+      postResultsReady:()=>({
+        commit:typeof window.CareerModeProductionSharedSeasonCommit?.refresh==='function',
+        scoring:typeof window.CareerModeProductionSharedCanonicalScoring?.refresh==='function',
+        history:typeof window.CareerModeProductionSharedHistoryConvergence?.refresh==='function',
+        multi:typeof window.CareerModeProductionSharedMultiSeasonProgression?.install==='function',
+        reconnect:typeof window.CareerModeProductionSharedJourneyReconnect?.install==='function',
+        local:typeof window.CareerModeProductionSharedLocalReconciliation?.install==='function',
+        final:typeof window.CareerModeProductionSharedFinalReconciliation?.install==='function',
+        terminal:typeof window.CareerModeProductionSharedTerminalClose?.install==='function'
+      }),
       diagnostics:()=>({
         routeReady:CareerModeProductionSharedSeasonResultsRoute.canRoute(),
         adapterCanRoute:CareerModeProductionSharedSeasonResults.canRoute(),
@@ -119,17 +140,10 @@ async function enterResults(page,entry){
   }
   const after=await page.evaluate(()=>window.__ssjrResultsAudit.diagnostics());
   assert.equal(after.adapterCanRoute,true,`refreshed shared authority must grant the Season Results route without local transfer completion. Diagnostics: ${JSON.stringify(after)}`);
-  await page.waitForFunction(()=>window.__ssjrResultsAudit.postResultsInstalls().length===8,null,{timeout:5000});
-  assert.deepEqual(await page.evaluate(()=>window.__ssjrResultsAudit.postResultsInstalls()),[
-    'CareerModeProductionSharedSeasonCommit',
-    'CareerModeProductionSharedCanonicalScoring',
-    'CareerModeProductionSharedHistoryConvergence',
-    'CareerModeProductionSharedMultiSeasonProgression',
-    'CareerModeProductionSharedJourneyReconnect',
-    'CareerModeProductionSharedLocalReconciliation',
-    'CareerModeProductionSharedFinalReconciliation',
-    'CareerModeProductionSharedTerminalClose'
-  ],'real Shared Season Results route must bootstrap the complete post-results production chain exactly once');
+  await page.waitForFunction(()=>Object.values(window.__ssjrResultsAudit.postResultsReady()).every(Boolean),null,{timeout:8000});
+  assert.deepEqual(await page.evaluate(()=>window.__ssjrResultsAudit.postResultsReady()),{
+    commit:true,scoring:true,history:true,multi:true,reconnect:true,local:true,final:true,terminal:true
+  },'real Shared Season Results route must expose the complete post-results production chain');
 }
 
 async function fillOwnResult(page,role,result){
@@ -201,10 +215,14 @@ async function reviewTamperAndPublish(page,role,result){
     await peer.waitForFunction(()=>document.getElementById('seasonReviewHeading')?.textContent==='BOTH MANAGERS PUBLISHED',null,{timeout:5000});
     assert.equal(await peer.locator('#seasonReviewOne').isVisible(),true,'second publisher may see opponent only after RESULTS_READY');
     assert.equal(await peer.locator('#seasonReviewTwo').isVisible(),true);
+    await peer.locator('#sharedSeasonCommitAction').waitFor({state:'visible',timeout:5000});
+    assert.equal(await peer.locator('#sharedSeasonCommitAction').textContent(),'WAITING FOR COORDINATOR','real routed Season Commit adapter must render the peer wait state after RESULTS_READY');
 
     await host.locator('#seasonPrimaryAction').click();await host.locator('#seasonEntry').waitFor({state:'visible',timeout:8000});
     await host.waitForFunction(()=>document.getElementById('seasonReviewHeading')?.textContent==='BOTH MANAGERS PUBLISHED',null,{timeout:5000});
     assert.equal(await host.locator('#seasonReviewOne').isVisible(),true);assert.equal(await host.locator('#seasonReviewTwo').isVisible(),true,'first publisher must reveal opponent only after refreshing the completed two-role state');
+    await host.locator('#sharedSeasonCommitAction').waitFor({state:'visible',timeout:5000});
+    assert.equal(await host.locator('#sharedSeasonCommitAction').textContent(),'COMMIT SHARED SEASON','real Results route must hand the coordinator directly into Shared Season Commit instead of dead-ending at r9');
 
     for(const page of [host,peer]){
       assert.deepEqual(await page.evaluate(()=>window.__ssjrResultsAudit.storageAfter()),await page.evaluate(()=>window.__ssjrResultsAudit.storageBefore),'shared publication must not mutate canonical local storage');
