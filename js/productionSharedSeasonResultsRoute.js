@@ -35,7 +35,7 @@
     if(typeof root.loadRuntimeScript!=="function")throw new Error("Shared Season Results runtime loader is unavailable.");
     await root.loadRuntimeScript("ssjr-production-season-results","js/productionSharedSeasonResults.js",()=>root.CareerModeProductionSharedSeasonResults);
     const api=root.CareerModeProductionSharedSeasonResults;if(!api||typeof api.install!=="function"||typeof api.open!=="function")throw new Error("Shared Season Results production adapter is unavailable.");
-    api.install();const opened=await api.open();routeDecorate();return opened;
+    api.install();const opened=await api.open();if(!opened)return false;await routeBootstrapPostResults();routeDecorate();return true;
   }
   function routeCapture(event){
     const target=event.target&&event.target.closest&&event.target.closest("button");
@@ -56,5 +56,5 @@
     }
     return true;
   }
-  return Object.freeze({contractVersion:1,feature:"ssjr-production-shared-season-results-route",productionEnabled:true,preservesTransferRuntime:true,requiresCompletedSharedTransfer:true,directDashboardRoute:true,sharedReviewEscape:true,sharedRouteAuthority:true,coreNavigationAuthority:true,idempotentDecoration:true,canonicalStorageMutation:false,authoritativeScoring:false,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,install:routeInstall,decorate:routeDecorate,open:routeOpen,canRoute:routeReady});
+  return Object.freeze({contractVersion:1,feature:"ssjr-production-shared-season-results-route",productionEnabled:true,preservesTransferRuntime:true,requiresCompletedSharedTransfer:true,directDashboardRoute:true,sharedReviewEscape:true,sharedRouteAuthority:true,coreNavigationAuthority:true,idempotentDecoration:true,canonicalStorageMutation:false,authoritativeScoring:false,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,install:routeInstall,decorate:routeDecorate,open:routeOpen,canRoute:routeReady,bootstrapPostResults:routeBootstrapPostResults});
 });
