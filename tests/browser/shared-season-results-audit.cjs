@@ -6,7 +6,7 @@ const baseUrl=new URL(process.env.CMS_BASE_URL||'http://127.0.0.1:4173/');
 const rivalryId='pair_'+('9'.repeat(64));
 const sessionId='session_'+('8'.repeat(64));
 const canonicalKeys=['careerModeShowdown.saveLibrary','careerModeShowdown.legacyShowdowns','careerModeShowdown.preferences'];
-const server={revision:0,order:[],results:{},publishes:[]};
+const server={revision:0,order:[],results:{},publishes:[],loseAckFor:null};
 
 function otherRole(role){return role==='playerOne'?'playerTwo':'playerOne';}
 function projection(role){
@@ -19,7 +19,8 @@ function projection(role){
 function publish({role,baseRevision,result,operationId}){
   if(baseRevision!==server.revision)return {ok:false,code:'SEASON_RESULTS_STALE_BASE_REVISION'};
   if(server.results[role])return {ok:false,code:'SEASON_RESULTS_ROLE_ALREADY_PUBLISHED'};
-  server.results[role]=structuredClone(result);server.order.push(role);server.revision+=1;server.publishes.push({role,operationId,result:structuredClone(result)});return projection(role);
+  server.results[role]=structuredClone(result);server.order.push(role);server.revision+=1;server.publishes.push({role,operationId,result:structuredClone(result)});
+  return server.loseAckFor===role?{ok:false,code:'SIMULATED_RESPONSE_LOST_AFTER_ACCEPTANCE'}:projection(role);
 }
 
 async function exposeServer(page){
@@ -58,6 +59,29 @@ async function prepare(page,{role,saveId,entry}){
       publishResult:async options=>window.__ssjrResultsAuditPublish({role,baseRevision:options.baseRevision,operationId:options.operationId,result:options.result})
     };
     window.CareerModeProductionFirebaseRuntime={ensureAccountServices:async()=>({ok:true,auth:{currentUser:{uid:role==='playerOne'?'account_one':'account_two'}},firestore:{},firestoreSdk:{}})};
+    window.__postResultsInstalls=[];
+    window.CareerModeSparkSharedSeasonCommit={
+      read:async()=>{
+        const results=await window.__ssjrResultsAuditRead(role);
+        const ready=results?.state?.phase==='RESULTS_READY'&&results?.revision===2&&results?.allResults?.playerOne&&results?.allResults?.playerTwo;
+        return {ok:true,committed:false,ready:Boolean(ready),coordinatorRole:'playerOne',seasonNumber:1,phase:ready?'RESULTS_READY':'COLLECTING',revision:0,results:ready?results.allResults:null,managerRole:role,ownAcknowledged:false,acknowledgedRoles:[]};
+      },
+      commitSeason:async()=>({ok:false,code:'AUDIT_COMMIT_MUTATION_NOT_EXPECTED'}),
+      acknowledgeSeason:async()=>({ok:false,code:'AUDIT_ACK_MUTATION_NOT_EXPECTED'})
+    };
+    window.CareerModeSharedLocalReconciliation={contractVersion:1};
+    window.CareerModeProductionSharedMultiSeasonProgression={
+      install(){window.__postResultsInstalls.push('CareerModeProductionSharedMultiSeasonProgression');return true;},
+      resolveSeason:fallback=>Number(fallback)||1,
+      getState:()=>null,
+      refresh:async()=>null
+    };
+    for(const name of [
+      'CareerModeProductionSharedJourneyReconnect',
+      'CareerModeProductionSharedLocalReconciliation',
+      'CareerModeProductionSharedFinalReconciliation',
+      'CareerModeProductionSharedTerminalClose'
+    ])window[name]={install(){window.__postResultsInstalls.push(name);return true;},getState:()=>null,refresh:async()=>null};
     await loadRuntimeScript('ssjr-results-audit-adapter','js/productionSharedSeasonResults.js',()=>window.CareerModeProductionSharedSeasonResults);
     await loadRuntimeScript('ssjr-results-audit-route','js/productionSharedSeasonResultsRoute.js',()=>window.CareerModeProductionSharedSeasonResultsRoute);
     CareerModeProductionSharedSeasonResults.install();CareerModeProductionSharedSeasonResultsRoute.install();
@@ -68,6 +92,18 @@ async function prepare(page,{role,saveId,entry}){
       localState:()=>({selectedLeague:currentShowdown.selectedLeague,clubs:structuredClone(currentShowdown.clubs),transferChallenges:structuredClone(currentShowdown.transferChallenges),rounds:structuredClone(currentShowdown.rounds),score:structuredClone(currentShowdown.score)}),
       canRoute:()=>CareerModeProductionSharedSeasonResults.canRoute(),
       routeCanRoute:()=>CareerModeProductionSharedSeasonResultsRoute.canRoute(),
+      refreshResults:()=>CareerModeProductionSharedSeasonResults.refresh(),
+      postResultsInstalls:()=>[...window.__postResultsInstalls],
+      postResultsReady:()=>({
+        commit:typeof window.CareerModeProductionSharedSeasonCommit?.refresh==='function',
+        scoring:typeof window.CareerModeProductionSharedCanonicalScoring?.refresh==='function',
+        history:typeof window.CareerModeProductionSharedHistoryConvergence?.refresh==='function',
+        multi:typeof window.CareerModeProductionSharedMultiSeasonProgression?.install==='function',
+        reconnect:typeof window.CareerModeProductionSharedJourneyReconnect?.install==='function',
+        local:typeof window.CareerModeProductionSharedLocalReconciliation?.install==='function',
+        final:typeof window.CareerModeProductionSharedFinalReconciliation?.install==='function',
+        terminal:typeof window.CareerModeProductionSharedTerminalClose?.install==='function'
+      }),
       diagnostics:()=>({
         routeReady:CareerModeProductionSharedSeasonResultsRoute.canRoute(),
         adapterCanRoute:CareerModeProductionSharedSeasonResults.canRoute(),
@@ -105,6 +141,10 @@ async function enterResults(page,entry){
   }
   const after=await page.evaluate(()=>window.__ssjrResultsAudit.diagnostics());
   assert.equal(after.adapterCanRoute,true,`refreshed shared authority must grant the Season Results route without local transfer completion. Diagnostics: ${JSON.stringify(after)}`);
+  await page.waitForFunction(()=>Object.values(window.__ssjrResultsAudit.postResultsReady()).every(Boolean),null,{timeout:8000});
+  assert.deepEqual(await page.evaluate(()=>window.__ssjrResultsAudit.postResultsReady()),{
+    commit:true,scoring:true,history:true,multi:true,reconnect:true,local:true,final:true,terminal:true
+  },'real Shared Season Results route must expose the complete post-results production chain');
 }
 
 async function fillOwnResult(page,role,result){
@@ -125,21 +165,33 @@ async function assertPrivateEntry(page,role){
   assert.deepEqual(await page.evaluate(()=>window.__ssjrResultsAudit.localState()),{selectedLeague:null,clubs:{playerOne:null,playerTwo:null},transferChallenges:[],rounds:[],score:{playerOne:0,playerTwo:0}},'opening shared results must not fabricate local setup, transfer, rounds or scoring authority');
 }
 
-async function reviewTamperAndPublish(page,role,result){
+async function reviewTamperAndPublish(page,role,result,{lostAcknowledgement=false}={}){
   await fillOwnResult(page,role,result);
   await page.locator('#completeSeason').click();
   await page.locator('#seasonReviewPanel').waitFor({state:'visible'});
   assert.equal(await page.locator('#seasonReviewHeading').textContent(),'REVIEW YOUR SEASON RESULT');
+  await page.evaluate(()=>window.__ssjrResultsAudit.refreshResults());
+  assert.equal(await page.locator('#seasonReviewPanel').isVisible(),true,'provider refresh must not kick an unpublished draft out of Review');
+  assert.equal(await page.locator('#seasonReviewHeading').textContent(),'REVIEW YOUR SEASON RESULT','review presentation must survive ordinary refresh polling');
   const prefix=role==='playerOne'?'p1':'p2';
   await page.evaluate(({prefix,value})=>{document.getElementById(`${prefix}LeaguePoints`).value=String(value);},{prefix,value:result.leaguePoints+1});
   const before=server.publishes.length;
   await page.locator('#confirmSeasonCompletion').click();
   await page.waitForFunction(()=>/changed after review/i.test(document.getElementById('seasonReviewError')?.textContent||''),null,{timeout:4000});
+  await page.evaluate(()=>window.__ssjrResultsAudit.refreshResults());
+  assert.match(await page.locator('#seasonReviewError').textContent(),/changed after review/i,'refresh must not erase a publication/review error before the player can read it');
   assert.equal(server.publishes.length,before,'review fingerprint mismatch must block provider publication');
   await page.locator('#editSeasonResults').click();
   await fillOwnResult(page,role,result);
   await page.locator('#completeSeason').click();
+  if(lostAcknowledgement)server.loseAckFor=role;
   await page.locator('#confirmSeasonCompletion').click();
+  if(lostAcknowledgement){
+    await page.waitForFunction(()=>/could not be published/i.test(document.getElementById('seasonReviewError')?.textContent||''),null,{timeout:5000});
+    assert.equal(Boolean(server.results[role]),true,'provider must have accepted publication before the response was lost');
+    await page.evaluate(()=>window.__ssjrResultsAudit.refreshResults());
+    assert.equal(await page.locator('#seasonReviewError').textContent(),'','confirmed publication must clear the stale failure after an authoritative refresh');
+  }
   await page.waitForFunction(()=>/PUBLISHED|BOTH MANAGERS PUBLISHED/.test(document.getElementById('seasonReviewHeading')?.textContent||''),null,{timeout:5000});
 }
 
@@ -166,15 +218,22 @@ async function reviewTamperAndPublish(page,role,result){
     await prepare(peer,{role:'playerTwo',saveId:'shared_results_peer',entry:'dashboard'});
     await enterResults(peer,'dashboard');
     await assertPrivateEntry(peer,'playerTwo');
-    await reviewTamperAndPublish(peer,'playerTwo',resultTwo);
+    await reviewTamperAndPublish(peer,'playerTwo',resultTwo,{lostAcknowledgement:true});
     assert.equal(server.revision,2);assert.equal(server.publishes.length,2);assert.deepEqual(server.publishes[1].result,resultTwo);
     await peer.waitForFunction(()=>document.getElementById('seasonReviewHeading')?.textContent==='BOTH MANAGERS PUBLISHED',null,{timeout:5000});
     assert.equal(await peer.locator('#seasonReviewOne').isVisible(),true,'second publisher may see opponent only after RESULTS_READY');
     assert.equal(await peer.locator('#seasonReviewTwo').isVisible(),true);
+    await peer.locator('#sharedSeasonCommitAction').waitFor({state:'visible',timeout:5000});
+    assert.equal(await peer.locator('#sharedSeasonCommitAction').textContent(),'WAITING FOR COORDINATOR','real routed Season Commit adapter must render the peer wait state after RESULTS_READY');
 
+    assert.equal(await host.evaluate(()=>CareerModeProductionSharedSeasonCommit.getState()),null,'installed Commit must still be asleep before reopening ready Results');
+    await host.evaluate(()=>{window.__commitRouteRefreshes=0;const api=window.CareerModeProductionSharedSeasonCommit;window.CareerModeProductionSharedSeasonCommit={...api,refresh:(...args)=>{window.__commitRouteRefreshes++;return api.refresh(...args);}};});
     await host.locator('#seasonPrimaryAction').click();await host.locator('#seasonEntry').waitFor({state:'visible',timeout:8000});
     await host.waitForFunction(()=>document.getElementById('seasonReviewHeading')?.textContent==='BOTH MANAGERS PUBLISHED',null,{timeout:5000});
     assert.equal(await host.locator('#seasonReviewOne').isVisible(),true);assert.equal(await host.locator('#seasonReviewTwo').isVisible(),true,'first publisher must reveal opponent only after refreshing the completed two-role state');
+    await host.locator('#sharedSeasonCommitAction').waitFor({state:'visible',timeout:5000});
+    assert.ok(await host.evaluate(()=>window.__commitRouteRefreshes)>0,'opening already-ready Results must explicitly refresh installed Commit, without waiting for incidental DOM or polling wakes');
+    assert.equal(await host.locator('#sharedSeasonCommitAction').textContent(),'COMMIT SHARED SEASON','real Results route must hand the coordinator directly into Shared Season Commit instead of dead-ending at r9');
 
     for(const page of [host,peer]){
       assert.deepEqual(await page.evaluate(()=>window.__ssjrResultsAudit.storageAfter()),await page.evaluate(()=>window.__ssjrResultsAudit.storageBefore),'shared publication must not mutate canonical local storage');
@@ -186,7 +245,7 @@ async function reviewTamperAndPublish(page,role,result){
     await host.locator('#continueFromTransfers').click({force:true});
     assert.equal(await host.locator('#seasonEntry').isVisible(),false,'replay continue must not enter live Season Results');
     assert.deepEqual(errors,[],'Shared Season Results browser audit emitted page errors.');
-    process.stdout.write('PASS Shared Season Results desktop/mobile production flow: completed shared Transfer authority reaches Season Results without local completion markers; Player One enters from verdicts and Player Two from Showdown Home; each sees only their own seven-field form; review tampering is blocked; first publication stays private; both-publication reveals both sides; waiting users retain a dashboard escape; replay cannot enter live results; and canonical local storage/history/scoring remain untouched.\n');
+    process.stdout.write('PASS Shared Season Results desktop/mobile production flow: completed shared Transfer authority reaches Season Results without local completion markers; Player One enters from verdicts and Player Two from Showdown Home; each sees only their own seven-field form; review tampering is blocked; first publication stays private; both-publication reveals both sides; the real Results route bootstraps Commit, Scoring, History, Reconnect, Reconciliation and Terminal Close; waiting users retain a dashboard escape; replay cannot enter live results; and canonical local storage/history/scoring remain untouched.\n');
   }finally{
     await hostContext.close().catch(()=>{});await peerContext.close().catch(()=>{});await browser.close().catch(()=>{});
   }

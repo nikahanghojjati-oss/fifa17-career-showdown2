@@ -29,8 +29,10 @@ assert.ok(adapter.indexOf('js/sharedShowdownCatalog.js')<adapter.indexOf('js/spa
 assert.match(adapter,/provider\.publishResult/);
 assert.match(adapter,/provider\.read/);
 assert.match(adapter,/pssrFingerprint\(currentResult\)!==draft\.fingerprint/,'reviewed payload must be revalidated immediately before publication');
+assert.match(adapter,/draft&&draft\.contextKey===contextKey[\s\S]*pssrRenderReview\(draft\.result\)/,'ordinary provider refresh must preserve an unpublished local Review draft');
+assert.doesNotMatch(adapter,/current\.finally\(/,'refresh cleanup must not create an ignored rejecting finally child promise');
 assert.match(adapter,/Your rival cannot see this result until they publish their own/);
-assert.match(adapter,/Shared scoring is intentionally not authoritative/);
+assert.match(adapter,/Shared Season Commit below/,'RESULTS_READY copy must direct the real player into the next authoritative capability instead of presenting r9 as a terminal step');
 for(const field of ['leaguePosition','leaguePoints','leagueGoals','domesticCup','championsLeague','topScorer','topAssist'])assert.match(adapter,new RegExp(`${field}:`),`production adapter must use canonical field ${field}`);
 assert.doesNotMatch(adapter,/persistCompletedSeason\s*\(/,'shared publication adapter must not call local season persistence');
 assert.doesNotMatch(adapter,/saveCurrentShowdown\s*\(/,'shared publication adapter must not write canonical local save authority');
@@ -58,6 +60,10 @@ assert.match(route,/seasonPrimaryAction/,'completed shared Transfer Challenge mu
 assert.match(route,/sharedSeasonResultsRouteStyle/,'shared review must preserve a visible escape to Showdown Home while local complete action stays hidden');
 assert.match(route,/productionSharedSeasonResults\.js/);
 assert.match(route,/api\.install\(\);const opened=await api\.open\(\)/);
+assert.match(route,/POST_RESULTS_MODULES/,'real Results routing must define one bounded downstream bootstrap list');
+for(const expected of ['productionSharedSeasonCommit.js','productionSharedCanonicalScoring.js','productionSharedHistoryConvergence.js','productionSharedMultiSeasonProgression.js','productionSharedJourneyReconnect.js','productionSharedLocalReconciliation.js','productionSharedFinalReconciliation.js','productionSharedTerminalClose.js'])assert.match(route,new RegExp(expected.replace(/\./g,'\\.')), `real Results routing must bootstrap ${expected}`);
+assert.match(route,/sharedLocalReconciliation\.js/,'Local Reconciliation protocol must be available before its production adapter installs');
+assert.match(route,/await routeBootstrapPostResults\(\)/,'opening the real Results route must activate the post-results chain before returning control to the player');
 assert.match(route,/canonicalStorageMutation:false/);
 assert.match(route,/authoritativeScoring:false/);
 assert.match(route,/billingRequired:false/);
@@ -73,4 +79,4 @@ assert.match(bootstrap,/CareerModeProductionSharedSeasonResults/);
 assert.match(seasonEngine,/function confirmCurrentSeason\(\)[\s\S]*persistCompletedSeason\(roundRecord, seasonNumber\)/,'ordinary local Season Results persistence must remain intact behind the shared capture boundary');
 assert.match(transfer,/SHARED SEASON RESULTS COMING NEXT/,'r8 remains fail-closed when the r9 route is unavailable');
 
-console.log('PASS Shared Season Results production contracts: core navigation directly grants seasonEntry only from refreshed r9 shared authority before local league/club/challenge gates; the route module owns only capture, decoration, replay exclusion and escape UI without monkeypatching router state; completed Shared Transfer Challenge routes from verdicts and Showdown Home into the existing Season Results shell; critical paired-first entry/guard startup is not serialized behind r9; only the signed-in manager reviews and immutably publishes the canonical seven-field payload; review-time data is revalidated before publication; opponent data stays private until both publish; local route/persistence/scoring authority remains unchanged; and the r8 dead-end stays as fail-closed fallback.');
+console.log('PASS Shared Season Results production contracts: core navigation grants seasonEntry only from refreshed shared authority; the real Results route bootstraps the bounded post-results production chain; completed Shared Transfer Challenge routes from verdicts and Showdown Home into the existing Season Results shell; paired-first startup remains nonblocking; each manager reviews and immutably publishes only their own canonical payload; opponent data stays private until both publish; Results now hands off to Shared Season Commit instead of presenting stale r9 dead-end copy; local persistence/scoring authority remains unchanged; and the r8 fallback stays fail-closed.');

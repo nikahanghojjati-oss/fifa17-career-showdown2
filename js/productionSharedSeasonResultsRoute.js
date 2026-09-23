@@ -6,12 +6,37 @@
   "use strict";
 
   const CONTROL_IDS=Object.freeze(["continueFromTransfers","seasonPrimaryAction"]);
-  let installed=false,observer=null;
+  const POST_RESULTS_MODULES=Object.freeze([
+    ["ssjr-production-season-commit","js/productionSharedSeasonCommit.js",()=>root.CareerModeProductionSharedSeasonCommit],
+    ["ssjr-production-canonical-scoring","js/productionSharedCanonicalScoring.js",()=>root.CareerModeProductionSharedCanonicalScoring],
+    ["ssjr-production-history-convergence","js/productionSharedHistoryConvergence.js",()=>root.CareerModeProductionSharedHistoryConvergence],
+    ["ssjr-production-multi-season","js/productionSharedMultiSeasonProgression.js",()=>root.CareerModeProductionSharedMultiSeasonProgression],
+    ["ssjr-production-journey-reconnect","js/productionSharedJourneyReconnect.js",()=>root.CareerModeProductionSharedJourneyReconnect],
+    ["ssjr-production-local-reconciliation","js/productionSharedLocalReconciliation.js",()=>root.CareerModeProductionSharedLocalReconciliation],
+    ["ssjr-production-final-reconciliation","js/productionSharedFinalReconciliation.js",()=>root.CareerModeProductionSharedFinalReconciliation],
+    ["ssjr-production-terminal-close","js/productionSharedTerminalClose.js",()=>root.CareerModeProductionSharedTerminalClose]
+  ]);
+  let installed=false,observer=null,postResultsBootstrapPromise=null;
   function routeShowdown(){try{return typeof currentShowdown!=="undefined"?currentShowdown:null;}catch(_error){return null;}}
   function routeShared(){const showdown=routeShowdown();return Boolean(showdown&&showdown.sharedJourney&&showdown.sharedJourney.mode==="shared");}
   function routeButton(id){return root.document&&root.document.getElementById(id);}
   function routeTransfer(){return root.CareerModeProductionSharedTransferChallenge||null;}
   function routeResults(){return root.CareerModeProductionSharedSeasonResults||null;}
+  async function routeBootstrapPostResults(){
+    if(postResultsBootstrapPromise)return postResultsBootstrapPromise;
+    if(typeof root.loadRuntimeScript!=="function")throw new Error("Shared post-results runtime loader is unavailable.");
+    postResultsBootstrapPromise=(async()=>{
+      await root.loadRuntimeScript("ssjr-shared-local-reconciliation-protocol","js/sharedLocalReconciliation.js",()=>root.CareerModeSharedLocalReconciliation);
+      for(const [key,path,ready] of POST_RESULTS_MODULES){
+        await root.loadRuntimeScript(key,path,ready);
+        const api=ready();
+        if(!api||typeof api.install!=="function")throw new Error(`${path} loaded without its production install API.`);
+        api.install();
+      }
+      return true;
+    })().catch(error=>{postResultsBootstrapPromise=null;throw error;});
+    return postResultsBootstrapPromise;
+  }
   function routeReady(){const transfer=routeTransfer(),view=transfer&&typeof transfer.getState==="function"?transfer.getState():null,screen=root.document&&root.document.getElementById("transferChallenge");return Boolean(routeShared()&&view&&view.state&&view.state.phase==="COMPLETED"&&screen&&!screen.dataset.sharedTransferReplay);}
   function routeInstallEscapeStyle(){
     if(!root.document||root.document.getElementById("sharedSeasonResultsRouteStyle"))return false;
@@ -35,7 +60,13 @@
     if(typeof root.loadRuntimeScript!=="function")throw new Error("Shared Season Results runtime loader is unavailable.");
     await root.loadRuntimeScript("ssjr-production-season-results","js/productionSharedSeasonResults.js",()=>root.CareerModeProductionSharedSeasonResults);
     const api=root.CareerModeProductionSharedSeasonResults;if(!api||typeof api.install!=="function"||typeof api.open!=="function")throw new Error("Shared Season Results production adapter is unavailable.");
-    api.install();const opened=await api.open();routeDecorate();return opened;
+    api.install();const opened=await api.open();if(!opened)return false;await routeBootstrapPostResults();
+    if(api.getState?.()?.state?.phase==="RESULTS_READY"){
+      const commit=root.CareerModeProductionSharedSeasonCommit;
+      if(!commit||typeof commit.refresh!=="function")throw new Error("Shared Season Commit refresh API is unavailable.");
+      await commit.refresh();
+    }
+    routeDecorate();return true;
   }
   function routeCapture(event){
     const target=event.target&&event.target.closest&&event.target.closest("button");
@@ -56,5 +87,5 @@
     }
     return true;
   }
-  return Object.freeze({contractVersion:1,feature:"ssjr-production-shared-season-results-route",productionEnabled:true,preservesTransferRuntime:true,requiresCompletedSharedTransfer:true,directDashboardRoute:true,sharedReviewEscape:true,sharedRouteAuthority:true,coreNavigationAuthority:true,idempotentDecoration:true,canonicalStorageMutation:false,authoritativeScoring:false,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,install:routeInstall,decorate:routeDecorate,open:routeOpen,canRoute:routeReady});
+  return Object.freeze({contractVersion:1,feature:"ssjr-production-shared-season-results-route",productionEnabled:true,preservesTransferRuntime:true,requiresCompletedSharedTransfer:true,directDashboardRoute:true,sharedReviewEscape:true,sharedRouteAuthority:true,coreNavigationAuthority:true,idempotentDecoration:true,canonicalStorageMutation:false,authoritativeScoring:false,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,install:routeInstall,decorate:routeDecorate,open:routeOpen,canRoute:routeReady,bootstrapPostResults:routeBootstrapPostResults});
 });
