@@ -60,7 +60,13 @@
     if(typeof root.loadRuntimeScript!=="function")throw new Error("Shared Season Results runtime loader is unavailable.");
     await root.loadRuntimeScript("ssjr-production-season-results","js/productionSharedSeasonResults.js",()=>root.CareerModeProductionSharedSeasonResults);
     const api=root.CareerModeProductionSharedSeasonResults;if(!api||typeof api.install!=="function"||typeof api.open!=="function")throw new Error("Shared Season Results production adapter is unavailable.");
-    api.install();const opened=await api.open();if(!opened)return false;await routeBootstrapPostResults();routeDecorate();return true;
+    api.install();const opened=await api.open();if(!opened)return false;await routeBootstrapPostResults();
+    if(api.getState?.()?.state?.phase==="RESULTS_READY"){
+      const commit=root.CareerModeProductionSharedSeasonCommit;
+      if(!commit||typeof commit.refresh!=="function")throw new Error("Shared Season Commit refresh API is unavailable.");
+      await commit.refresh();
+    }
+    routeDecorate();return true;
   }
   function routeCapture(event){
     const target=event.target&&event.target.closest&&event.target.closest("button");

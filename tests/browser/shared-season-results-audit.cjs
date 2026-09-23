@@ -6,7 +6,7 @@ const baseUrl=new URL(process.env.CMS_BASE_URL||'http://127.0.0.1:4173/');
 const rivalryId='pair_'+('9'.repeat(64));
 const sessionId='session_'+('8'.repeat(64));
 const canonicalKeys=['careerModeShowdown.saveLibrary','careerModeShowdown.legacyShowdowns','careerModeShowdown.preferences'];
-const server={revision:0,order:[],results:{},publishes:[]};
+const server={revision:0,order:[],results:{},publishes:[],loseAckFor:null};
 
 function otherRole(role){return role==='playerOne'?'playerTwo':'playerOne';}
 function projection(role){
@@ -19,7 +19,8 @@ function projection(role){
 function publish({role,baseRevision,result,operationId}){
   if(baseRevision!==server.revision)return {ok:false,code:'SEASON_RESULTS_STALE_BASE_REVISION'};
   if(server.results[role])return {ok:false,code:'SEASON_RESULTS_ROLE_ALREADY_PUBLISHED'};
-  server.results[role]=structuredClone(result);server.order.push(role);server.revision+=1;server.publishes.push({role,operationId,result:structuredClone(result)});return projection(role);
+  server.results[role]=structuredClone(result);server.order.push(role);server.revision+=1;server.publishes.push({role,operationId,result:structuredClone(result)});
+  return server.loseAckFor===role?{ok:false,code:'SIMULATED_RESPONSE_LOST_AFTER_ACCEPTANCE'}:projection(role);
 }
 
 async function exposeServer(page){
@@ -164,7 +165,7 @@ async function assertPrivateEntry(page,role){
   assert.deepEqual(await page.evaluate(()=>window.__ssjrResultsAudit.localState()),{selectedLeague:null,clubs:{playerOne:null,playerTwo:null},transferChallenges:[],rounds:[],score:{playerOne:0,playerTwo:0}},'opening shared results must not fabricate local setup, transfer, rounds or scoring authority');
 }
 
-async function reviewTamperAndPublish(page,role,result){
+async function reviewTamperAndPublish(page,role,result,{lostAcknowledgement=false}={}){
   await fillOwnResult(page,role,result);
   await page.locator('#completeSeason').click();
   await page.locator('#seasonReviewPanel').waitFor({state:'visible'});
@@ -183,7 +184,14 @@ async function reviewTamperAndPublish(page,role,result){
   await page.locator('#editSeasonResults').click();
   await fillOwnResult(page,role,result);
   await page.locator('#completeSeason').click();
+  if(lostAcknowledgement)server.loseAckFor=role;
   await page.locator('#confirmSeasonCompletion').click();
+  if(lostAcknowledgement){
+    await page.waitForFunction(()=>/could not be published/i.test(document.getElementById('seasonReviewError')?.textContent||''),null,{timeout:5000});
+    assert.equal(Boolean(server.results[role]),true,'provider must have accepted publication before the response was lost');
+    await page.evaluate(()=>window.__ssjrResultsAudit.refreshResults());
+    assert.equal(await page.locator('#seasonReviewError').textContent(),'','confirmed publication must clear the stale failure after an authoritative refresh');
+  }
   await page.waitForFunction(()=>/PUBLISHED|BOTH MANAGERS PUBLISHED/.test(document.getElementById('seasonReviewHeading')?.textContent||''),null,{timeout:5000});
 }
 
@@ -210,7 +218,7 @@ async function reviewTamperAndPublish(page,role,result){
     await prepare(peer,{role:'playerTwo',saveId:'shared_results_peer',entry:'dashboard'});
     await enterResults(peer,'dashboard');
     await assertPrivateEntry(peer,'playerTwo');
-    await reviewTamperAndPublish(peer,'playerTwo',resultTwo);
+    await reviewTamperAndPublish(peer,'playerTwo',resultTwo,{lostAcknowledgement:true});
     assert.equal(server.revision,2);assert.equal(server.publishes.length,2);assert.deepEqual(server.publishes[1].result,resultTwo);
     await peer.waitForFunction(()=>document.getElementById('seasonReviewHeading')?.textContent==='BOTH MANAGERS PUBLISHED',null,{timeout:5000});
     assert.equal(await peer.locator('#seasonReviewOne').isVisible(),true,'second publisher may see opponent only after RESULTS_READY');
@@ -218,10 +226,13 @@ async function reviewTamperAndPublish(page,role,result){
     await peer.locator('#sharedSeasonCommitAction').waitFor({state:'visible',timeout:5000});
     assert.equal(await peer.locator('#sharedSeasonCommitAction').textContent(),'WAITING FOR COORDINATOR','real routed Season Commit adapter must render the peer wait state after RESULTS_READY');
 
+    assert.equal(await host.evaluate(()=>CareerModeProductionSharedSeasonCommit.getState()),null,'installed Commit must still be asleep before reopening ready Results');
+    await host.evaluate(()=>{window.__commitRouteRefreshes=0;const api=window.CareerModeProductionSharedSeasonCommit;window.CareerModeProductionSharedSeasonCommit={...api,refresh:(...args)=>{window.__commitRouteRefreshes++;return api.refresh(...args);}};});
     await host.locator('#seasonPrimaryAction').click();await host.locator('#seasonEntry').waitFor({state:'visible',timeout:8000});
     await host.waitForFunction(()=>document.getElementById('seasonReviewHeading')?.textContent==='BOTH MANAGERS PUBLISHED',null,{timeout:5000});
     assert.equal(await host.locator('#seasonReviewOne').isVisible(),true);assert.equal(await host.locator('#seasonReviewTwo').isVisible(),true,'first publisher must reveal opponent only after refreshing the completed two-role state');
     await host.locator('#sharedSeasonCommitAction').waitFor({state:'visible',timeout:5000});
+    assert.ok(await host.evaluate(()=>window.__commitRouteRefreshes)>0,'opening already-ready Results must explicitly refresh installed Commit, without waiting for incidental DOM or polling wakes');
     assert.equal(await host.locator('#sharedSeasonCommitAction').textContent(),'COMMIT SHARED SEASON','real Results route must hand the coordinator directly into Shared Season Commit instead of dead-ending at r9');
 
     for(const page of [host,peer]){

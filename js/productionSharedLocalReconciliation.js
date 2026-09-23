@@ -5,7 +5,7 @@
 })(typeof globalThis!=="undefined"?globalThis:this,function(root){
   "use strict";
   const POLL_MS=15000,PANEL_ID="sharedLocalReconciliationPanel",ACTION_ID="sharedLocalReconciliationPreview";
-  let installed=false,state=null,unsubscribe=null,timer=null,uiBusy=false,uiError="";
+  let installed=false,state=null,unsubscribe=null,timer=null,uiBusy=false,uiError="",uiContextKey="";
   function lrShowdown(){try{return typeof currentShowdown!=="undefined"?currentShowdown:null;}catch(_error){return null;}}
   function lrSharedActive(){const s=lrShowdown();return Boolean(s&&s.sharedJourney&&s.sharedJourney.mode==="shared");}
   function lrOnline(){return !(root.navigator&&root.navigator.onLine===false);}
@@ -37,10 +37,14 @@
     return true;
   }
   function lrDispatch(){lrRender();try{root.dispatchEvent?.(new root.CustomEvent("career-mode-shared-local-reconciliation-state-change",{detail:state}));}catch(_error){}return state;}
+  function lrContextKey(){const showdown=lrShowdown(),binding=state?.binding;return [showdown?.id||"",showdown?.sharedJourney?.rivalryId||"",binding?.saveId||"",binding?.profileId||"",binding?.managerRole||""].join("|");}
   function lrRefresh(){
     const p=lrProtocol();if(!p||typeof p.project!=="function"){state=null;return null;}
     let c=null;try{c=lrConnected()?.getState?.()||null;}catch(_error){}
     state=p.project({sharedActive:lrSharedActive(),history:lrHistory(),connected:c,online:lrOnline()});
+    const nextContextKey=lrContextKey();
+    if(nextContextKey!==uiContextKey||state.phase==="PREVIEW_READY"||state.phase==="APPLIED")uiError="";
+    uiContextKey=nextContextKey;
     return lrDispatch();
   }
   async function lrEnsureConnected(){
