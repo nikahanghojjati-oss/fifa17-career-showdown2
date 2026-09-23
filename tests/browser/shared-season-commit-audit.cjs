@@ -8,7 +8,7 @@ const sessionId='session_'+('6'.repeat(64));
 const canonicalKeys=['careerModeShowdown.saveLibrary','careerModeShowdown.legacyShowdowns','careerModeShowdown.preferences'];
 const resultOne={leaguePosition:1,leaguePoints:96,leagueGoals:101,domesticCup:true,championsLeague:false,topScorer:true,topAssist:false};
 const resultTwo={leaguePosition:3,leaguePoints:84,leagueGoals:79,domesticCup:false,championsLeague:true,topScorer:false,topAssist:true};
-const server={revision:0,acknowledgedRoles:[],calls:[],staleInjected:false};
+const server={revision:0,acknowledgedRoles:[],calls:[],staleInjected:false,failCommitOnce:true,loseCommitAck:true,losePeerAck:true};
 
 function projection(role){
   if(server.revision===0)return {ok:true,committed:false,ready:true,managerRole:role,seasonNumber:1,phase:'RESULTS_READY',revision:0,results:{playerOne:resultOne,playerTwo:resultTwo},coordinatorRole:'playerOne'};
@@ -21,13 +21,18 @@ function mutate(type,{role,baseRevision,operationId}){
     if(role!=='playerOne')return {ok:false,code:'SEASON_COMMIT_COORDINATOR_REQUIRED'};
     if(server.revision!==0)return {ok:false,code:'SEASON_COMMIT_ALREADY_COMMITTED'};
     if(baseRevision!==0)return {ok:false,code:'SEASON_COMMIT_STALE_BASE_REVISION'};
-    server.revision=1;return projection(role);
+    if(server.failCommitOnce){server.failCommitOnce=false;return {ok:false,code:'SIMULATED_COMMIT_REJECTED'};}
+    server.revision=1;
+    if(server.loseCommitAck){server.loseCommitAck=false;return {ok:false,code:'SIMULATED_COMMIT_RESPONSE_LOST_AFTER_ACCEPTANCE'};}
+    return projection(role);
   }
   if(type==='acknowledge'&&role==='playerTwo'&&!server.staleInjected){server.staleInjected=true;return {ok:false,code:'SEASON_COMMIT_STALE_BASE_REVISION'};}
   if(server.revision<1)return {ok:false,code:'SEASON_COMMIT_NOT_COMMITTED'};
   if(baseRevision!==server.revision)return {ok:false,code:'SEASON_COMMIT_STALE_BASE_REVISION'};
   if(server.acknowledgedRoles.includes(role))return {ok:false,code:'SEASON_COMMIT_ROLE_ALREADY_ACKNOWLEDGED'};
-  server.acknowledgedRoles.push(role);server.revision+=1;return projection(role);
+  server.acknowledgedRoles.push(role);server.revision+=1;
+  if(role==='playerTwo'&&server.losePeerAck){server.losePeerAck=false;return {ok:false,code:'SIMULATED_ACK_RESPONSE_LOST_AFTER_ACCEPTANCE'};}
+  return projection(role);
 }
 async function exposeServer(page){
   await page.exposeFunction('__ssjrCommitAuditRead',role=>projection(role));
@@ -78,11 +83,20 @@ const unchanged={selectedLeague:null,clubs:{playerOne:null,playerTwo:null},trans
     assert.equal(await peer.locator('#seasonReviewOne').isVisible(),true);assert.equal(await peer.locator('#seasonReviewTwo').isVisible(),true,'peer must experience the same complete shared Season Review before commit');
     assert.equal(await host.locator('#sharedSeasonCommitAction').textContent(),'COMMIT SHARED SEASON');assert.equal(await host.locator('#sharedSeasonCommitAction').isEnabled(),true);
     assert.equal(await peer.locator('#sharedSeasonCommitAction').textContent(),'WAITING FOR COORDINATOR');assert.equal(await peer.locator('#sharedSeasonCommitAction').isDisabled(),true,'non-coordinator must not create the commit');
-    await host.locator('#sharedSeasonCommitAction').click();await host.waitForFunction(()=>document.getElementById('sharedSeasonCommitAction')?.textContent==='ACKNOWLEDGE SHARED SEASON',null,{timeout:5000});
-    assert.equal(server.revision,1);assert.equal(server.calls.filter(call=>call.type==='commit').length,1);
+    await host.locator('#sharedSeasonCommitAction').click();await host.waitForFunction(()=>/could not be committed/i.test(document.getElementById('seasonReviewError')?.textContent||''),null,{timeout:5000});
+    assert.equal(server.revision,0,'rejected commit must not advance provider state');
+    await refresh(host);assert.match(await host.locator('#seasonReviewError').textContent(),/could not be committed/i,'a Results refresh must preserve a still-relevant Commit error');
+    await host.locator('#sharedSeasonCommitAction').click();await host.waitForFunction(()=>/could not be committed/i.test(document.getElementById('seasonReviewError')?.textContent||''),null,{timeout:5000});
+    assert.equal(server.revision,1,'provider accepted the commit despite the lost response');
+    await refresh(host);assert.equal(await host.locator('#seasonReviewError').textContent(),'','authoritatively accepted commit must clear the obsolete error');
+    assert.equal(await host.locator('#sharedSeasonCommitAction').textContent(),'ACKNOWLEDGE SHARED SEASON');
+    assert.equal(server.revision,1);assert.equal(server.calls.filter(call=>call.type==='commit').length,2);
     await refresh(peer);assert.equal(await peer.locator('#sharedSeasonCommitAction').textContent(),'ACKNOWLEDGE SHARED SEASON');assert.equal(await peer.locator('#sharedSeasonCommitAction').isEnabled(),true);
     await host.locator('#sharedSeasonCommitAction').click();await host.waitForFunction(()=>/ACKNOWLEDGED/.test(document.getElementById('sharedSeasonCommitAction')?.textContent||''),null,{timeout:5000});assert.equal(server.revision,2);
-    await peer.locator('#sharedSeasonCommitAction').click();await peer.waitForFunction(()=>document.getElementById('sharedSeasonCommitAction')?.textContent==='SEASON COMMIT ACKNOWLEDGED ✓',null,{timeout:5000});assert.equal(server.revision,3);assert.deepEqual(server.acknowledgedRoles,['playerOne','playerTwo']);
+    await peer.locator('#sharedSeasonCommitAction').click();await peer.waitForFunction(()=>/could not be recorded/i.test(document.getElementById('seasonReviewError')?.textContent||''),null,{timeout:5000});
+    assert.equal(server.revision,3,'provider accepted the acknowledgement despite the lost response');
+    await refresh(peer);assert.equal(await peer.locator('#seasonReviewError').textContent(),'','authoritatively accepted acknowledgement must clear the obsolete error');
+    assert.equal(await peer.locator('#sharedSeasonCommitAction').textContent(),'SEASON COMMIT ACKNOWLEDGED ✓');assert.deepEqual(server.acknowledgedRoles,['playerOne','playerTwo']);
     const peerAckCalls=server.calls.filter(call=>call.type==='acknowledge'&&call.role==='playerTwo');assert.equal(peerAckCalls.length,2,'peer acknowledgement must retry exactly once after injected stale CAS');
     await refresh(host);assert.equal(await host.locator('#sharedSeasonCommitAction').textContent(),'SEASON COMMIT ACKNOWLEDGED ✓');assert.match(await host.locator('#sharedSeasonCommitStatus').textContent(),/SCORING REMAINS LOCKED/);assert.match(await peer.locator('#sharedSeasonCommitStatus').textContent(),/SCORING REMAINS LOCKED/);
     for(const page of [host,peer]){assert.deepEqual(await page.evaluate(()=>window.__ssjrCommitAudit.storageAfter()),await page.evaluate(()=>window.__ssjrCommitAudit.storageBefore),'r10 shared commit must not mutate canonical local storage');assert.deepEqual(await page.evaluate(()=>window.__ssjrCommitAudit.localState()),unchanged,'r10 shared commit must not mutate local setup, transfer, history or scoring authority');}
