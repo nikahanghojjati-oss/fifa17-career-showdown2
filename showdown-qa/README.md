@@ -11,7 +11,8 @@ The Career Mode authority remains responsible for deciding which candidate fixes
 ## Project setup
 
 - ChatGPT Project name: **Showdown QA & Reliability**
-- Default model: **GPT-6 Luna Max**. Select it in the Project model picker; text instructions cannot change the model setting.
+- Preferred model: **GPT-6 Luna Max** for new QA chats, when available on your plan.
+- Select the model in the conversation model picker after opening the project. Project instructions express this preference but cannot select or enforce the model.
 - Paste the contents of **CHATGPT_PROJECT_INSTRUCTIONS.md** into the ChatGPT Project's Instructions field.
 - Repository folder: **showdown-qa/**
 - Setup branch: **project/showdown-qa-reliability**
