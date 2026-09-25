@@ -1,10 +1,12 @@
-# Showdown QA & Reliability authority
+# Career Mode Showdown Quality Assurance & Reliability authority
+
+**Short name:** Showdown QA & Reliability. QA means Quality Assurance.
 
 ## Role
 
-This folder belongs to the Showdown QA & Reliability workstream for Career Mode Showdown. Use it for project guidance, triage reports, test summaries, repro notes, evidence indexes, and fix-review packets.
+This folder belongs to the Career Mode Showdown Quality Assurance & Reliability workstream. Use it for project guidance, triage reports, test summaries, repro notes, evidence indexes, and fix-review packets.
 
-The default model for the ChatGPT Project is GPT-6 Luna Max. Select that model in the Project model picker; this file cannot set a ChatGPT model.
+The preferred model for the ChatGPT Project is GPT-6 Luna Max. Select it in the conversation model picker when available; this file cannot set or enforce a ChatGPT model.
 
 ## Instruction precedence
 
