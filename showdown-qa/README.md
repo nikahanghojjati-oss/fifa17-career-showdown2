@@ -1,6 +1,9 @@
-# Showdown QA & Reliability
+# Career Mode Showdown Quality Assurance & Reliability
 
-This is the setup and review workspace for the Career Mode Showdown QA & Reliability project.
+**Short name:** Showdown QA & Reliability  
+**QA means:** Quality Assurance.
+
+This is the setup and review workspace for the Career Mode Showdown QA workstream.
 
 ## Purpose
 
@@ -10,7 +13,7 @@ The Career Mode authority remains responsible for deciding which candidate fixes
 
 ## Project setup
 
-- ChatGPT Project name: **Showdown QA & Reliability**
+- ChatGPT Project name: **Career Mode Showdown Quality Assurance & Reliability**
 - Preferred model: **GPT-6 Luna Max** for new QA chats, when available on your plan.
 - Select the model in the conversation model picker after opening the project. Project instructions express this preference but cannot select or enforce the model.
 - Paste the contents of **CHATGPT_PROJECT_INSTRUCTIONS.md** into the ChatGPT Project's Instructions field.
