@@ -1,0 +1,227 @@
+{
+  "schema_version": 1,
+  "updated": "2026-09-26",
+  "canonical_library_root": "/Showdown Visual Asset Library",
+  "repository_mirror": {
+    "repo": "nikahanghojjati-oss/fifa17-career-showdown2",
+    "branch": "visual/asset-library-v1",
+    "path": "visual-assets/"
+  },
+  "status_values": [
+    "IDENTITY_ANCHOR",
+    "APPROVED_FOR_ROLE",
+    "OWNER_ACCEPTED",
+    "STRONG_REFERENCE",
+    "APPROVED_SCREEN_REFERENCE",
+    "BASE_ENVIRONMENT",
+    "LEGACY",
+    "REJECTED"
+  ],
+  "assets": [
+    {
+      "asset_id": "IDM_NIK_REFERENCE_SHEET_V1",
+      "type": "identity",
+      "subject": "Nik",
+      "status": "IDENTITY_ANCHOR",
+      "path": "/Showdown Visual Asset Library/01_IDENTITY_MASTERS/IDM_NIK_REFERENCE_SHEET_V1.webp",
+      "role": "Primary synthesized identity sheet; use with face-truth images for generation QA.",
+      "reuse": "identity only; not a universal pose"
+    },
+    {
+      "asset_id": "IDM_DANIEL_REFERENCE_SHEET_V1",
+      "type": "identity",
+      "subject": "Daniel",
+      "status": "IDENTITY_ANCHOR",
+      "path": "/Showdown Visual Asset Library/01_IDENTITY_MASTERS/IDM_DANIEL_REFERENCE_SHEET_V1.webp",
+      "role": "Primary synthesized identity sheet; use with face-truth images for generation QA.",
+      "reuse": "identity only; not a universal pose"
+    },
+    {
+      "asset_id": "IDM_NIK_FACE_TRUTH_A",
+      "type": "identity",
+      "subject": "Nik",
+      "status": "IDENTITY_ANCHOR",
+      "path": "/Showdown Visual Asset Library/01_IDENTITY_MASTERS/IDM_NIK_FACE_TRUTH_A.png",
+      "role": "Face-geometry anchor."
+    },
+    {
+      "asset_id": "IDM_NIK_FACE_TRUTH_B",
+      "type": "identity",
+      "subject": "Nik",
+      "status": "IDENTITY_ANCHOR",
+      "path": "/Showdown Visual Asset Library/01_IDENTITY_MASTERS/IDM_NIK_FACE_TRUTH_B.png",
+      "role": "Secondary face-geometry anchor."
+    },
+    {
+      "asset_id": "IDM_DANIEL_FACE_TRUTH_A",
+      "type": "identity",
+      "subject": "Daniel",
+      "status": "IDENTITY_ANCHOR",
+      "path": "/Showdown Visual Asset Library/01_IDENTITY_MASTERS/IDM_DANIEL_FACE_TRUTH_A.png",
+      "role": "Face-geometry anchor."
+    },
+    {
+      "asset_id": "IDM_DANIEL_FACE_TRUTH_B",
+      "type": "identity",
+      "subject": "Daniel",
+      "status": "IDENTITY_ANCHOR",
+      "path": "/Showdown Visual Asset Library/01_IDENTITY_MASTERS/IDM_DANIEL_FACE_TRUTH_B.png",
+      "role": "Secondary face-geometry anchor."
+    },
+    {
+      "asset_id": "POSE_HOME_NIK_THINKING_V1",
+      "type": "character_pose",
+      "subject": "Nik",
+      "screen_family": "HOME",
+      "status": "APPROVED_FOR_ROLE",
+      "path": "/Showdown Visual Asset Library/02_CHARACTER_POSES/HOME/POSE_HOME_NIK_THINKING_V1.png",
+      "role": "Home / hub hero only unless blueprint explicitly allows reuse.",
+      "forbidden_reuse": [
+        "TRANSFER",
+        "CLUB_ASSIGNMENT",
+        "RESULTS"
+      ]
+    },
+    {
+      "asset_id": "POSE_HOME_DANIEL_POINTING_V1",
+      "type": "character_pose",
+      "subject": "Daniel",
+      "screen_family": "HOME",
+      "status": "APPROVED_FOR_ROLE",
+      "path": "/Showdown Visual Asset Library/02_CHARACTER_POSES/HOME/POSE_HOME_DANIEL_POINTING_V1.png",
+      "role": "Home / hub hero only unless blueprint explicitly allows reuse.",
+      "forbidden_reuse": [
+        "TRANSFER",
+        "CLUB_ASSIGNMENT",
+        "RESULTS"
+      ]
+    },
+    {
+      "asset_id": "POSE_LEAGUE_DANIEL_LATERAL_POINT_V1",
+      "type": "character_pose",
+      "subject": "Daniel",
+      "screen_family": "LEAGUE",
+      "status": "APPROVED_FOR_ROLE",
+      "path": "/Showdown Visual Asset Library/02_CHARACTER_POSES/LEAGUE/POSE_LEAGUE_DANIEL_LATERAL_POINT_V1.webp",
+      "role": "League wheel attention-directing pose."
+    },
+    {
+      "asset_id": "POSE_CLUB_NIK_PACK_V1",
+      "type": "character_pose",
+      "subject": "Nik",
+      "screen_family": "CLUB_ASSIGNMENT",
+      "status": "OWNER_ACCEPTED",
+      "path": "/Showdown Visual Asset Library/02_CHARACTER_POSES/CLUB_ASSIGNMENT/POSE_CLUB_NIK_PACK_V1.png",
+      "role": "Club Assignment sealed-pack pose."
+    },
+    {
+      "asset_id": "POSE_CLUB_DANIEL_PACK_V1",
+      "type": "character_pose",
+      "subject": "Daniel",
+      "screen_family": "CLUB_ASSIGNMENT",
+      "status": "OWNER_ACCEPTED",
+      "path": "/Showdown Visual Asset Library/02_CHARACTER_POSES/CLUB_ASSIGNMENT/POSE_CLUB_DANIEL_PACK_V1.png",
+      "role": "Club Assignment sealed-pack pose."
+    },
+    {
+      "asset_id": "POSE_TRANSFER_DANIEL_FOCUSED_V1",
+      "type": "character_pose",
+      "subject": "Daniel",
+      "screen_family": "TRANSFER",
+      "status": "OWNER_ACCEPTED",
+      "path": "/Showdown Visual Asset Library/02_CHARACTER_POSES/TRANSFER/POSE_TRANSFER_DANIEL_FOCUSED_V1.png",
+      "role": "Transfer war-room scouting/clipboard pose.",
+      "notes": "Generated in bounded SV01 asset pass; owner said visually good."
+    },
+    {
+      "asset_id": "POSE_TRANSFER_NIK_TACTICAL_V1",
+      "type": "character_pose",
+      "subject": "Nik",
+      "screen_family": "TRANSFER",
+      "status": "OWNER_ACCEPTED",
+      "path": "/Showdown Visual Asset Library/02_CHARACTER_POSES/TRANSFER/POSE_TRANSFER_NIK_TACTICAL_V1.png",
+      "role": "Transfer war-room tablet/stylus tactical-analysis pose.",
+      "notes": "Generated in bounded SV01 asset pass; owner said visually good."
+    },
+    {
+      "asset_id": "ENV_STADIUM_WARM_BASE_V1",
+      "type": "environment",
+      "screen_family": "GLOBAL",
+      "status": "BASE_ENVIRONMENT",
+      "path": "/Showdown Visual Asset Library/03_ENVIRONMENTS/STADIUMS/ENV_STADIUM_WARM_BASE_V1.webp",
+      "role": "Reusable warm stadium base. Apply screen-family environment recipes rather than reusing identical lighting everywhere."
+    },
+    {
+      "asset_id": "REF_TRANSFER_WAR_ROOM_V2",
+      "type": "visual_reference",
+      "screen_family": "TRANSFER",
+      "status": "STRONG_REFERENCE",
+      "path": "/Showdown Visual Asset Library/04_VISUAL_REFERENCES/TRANSFER/REF_TRANSFER_WAR_ROOM_V2.jpeg",
+      "role": "Top Transfer mood/tactical-depth reference. Visual DNA only, not product truth."
+    },
+    {
+      "asset_id": "REF_TRANSFER_CHALLENGE_LAYOUT_V2",
+      "type": "visual_reference",
+      "screen_family": "TRANSFER",
+      "status": "STRONG_REFERENCE",
+      "path": "/Showdown Visual Asset Library/04_VISUAL_REFERENCES/TRANSFER/REF_TRANSFER_CHALLENGE_LAYOUT_V2.jpeg",
+      "role": "Strong Transfer composition/input-density reference. Ignore any stale timer/state behavior."
+    },
+    {
+      "asset_id": "REF_TRANSFER_DEADLINE_SIGNING_V1",
+      "type": "visual_reference",
+      "screen_family": "TRANSFER",
+      "status": "STRONG_REFERENCE",
+      "path": "/Showdown Visual Asset Library/04_VISUAL_REFERENCES/TRANSFER/REF_TRANSFER_DEADLINE_SIGNING_V1.jpeg",
+      "role": "Strong deadline-room environmental storytelling reference."
+    },
+    {
+      "asset_id": "REF_SHOWDOWN_HUB_V2",
+      "type": "visual_reference",
+      "screen_family": "HOME_HUB",
+      "status": "STRONG_REFERENCE",
+      "path": "/Showdown Visual Asset Library/04_VISUAL_REFERENCES/HOME_HUB/REF_SHOWDOWN_HUB_V2.jpeg",
+      "role": "Hub hierarchy, rivalry framing and lower action-dock reference."
+    },
+    {
+      "asset_id": "REF_HOME_FULLSCREEN_V2",
+      "type": "visual_reference",
+      "screen_family": "HOME_HUB",
+      "status": "STRONG_REFERENCE",
+      "path": "/Showdown Visual Asset Library/04_VISUAL_REFERENCES/HOME_HUB/REF_HOME_FULLSCREEN_V2.jpeg",
+      "role": "Full-screen product-world reference."
+    },
+    {
+      "asset_id": "REF_RIVALRY_TABLE_V2",
+      "type": "visual_reference",
+      "screen_family": "HOME_HUB",
+      "status": "STRONG_REFERENCE",
+      "path": "/Showdown Visual Asset Library/04_VISUAL_REFERENCES/HOME_HUB/REF_RIVALRY_TABLE_V2.jpeg",
+      "role": "Rivalry/interpersonal staging reference."
+    },
+    {
+      "asset_id": "SCREEN_HOME_R8_46_ACTIVE",
+      "type": "screen_reference",
+      "screen_family": "HOME",
+      "status": "APPROVED_SCREEN_REFERENCE",
+      "path": "/Showdown Visual Asset Library/05_APPROVED_SCREEN_REFERENCES/SCREEN_HOME_R8_46_ACTIVE.png",
+      "role": "Approved product-family benchmark."
+    },
+    {
+      "asset_id": "SCREEN_LEAGUE_R8_43_READY",
+      "type": "screen_reference",
+      "screen_family": "LEAGUE",
+      "status": "APPROVED_SCREEN_REFERENCE",
+      "path": "/Showdown Visual Asset Library/05_APPROVED_SCREEN_REFERENCES/SCREEN_LEAGUE_R8_43_READY.png",
+      "role": "Approved product-family benchmark."
+    },
+    {
+      "asset_id": "SCREEN_CLUB_R8_47_READY",
+      "type": "screen_reference",
+      "screen_family": "CLUB_ASSIGNMENT",
+      "status": "APPROVED_SCREEN_REFERENCE",
+      "path": "/Showdown Visual Asset Library/05_APPROVED_SCREEN_REFERENCES/SCREEN_CLUB_R8_47_READY.png",
+      "role": "Approved product-family benchmark."
+    }
+  ]
+}
