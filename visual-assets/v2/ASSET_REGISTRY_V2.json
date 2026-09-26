@@ -1,0 +1,222 @@
+{
+  "schema_version": 2,
+  "updated": "2026-09-26",
+  "canonical_library_root": "/Showdown Visual Asset Library",
+  "source_anchor": "main@f077b9c5be5e4d5bf5ef17b2d219983dbf142962",
+  "rules": {
+    "identity_master_is_not_universal_pose": true,
+    "product_truth_overrides_reference": true,
+    "whole_screen_generation_is_reference_only": true,
+    "screen_specific_pose_required_when_blueprint_marks_required": true,
+    "missing_required_asset_behavior": "ASSET_BLOCKER",
+    "luna_may_substitute_assets": false
+  },
+  "assets": [
+    {
+      "asset_id": "IDM_NIK_REFERENCE_SHEET_V1",
+      "type": "identity_master",
+      "subject": "Nik",
+      "status": "IDENTITY_ANCHOR",
+      "path": "/Showdown Visual Asset Library/01_IDENTITY_MASTERS/IDM_NIK_REFERENCE_SHEET_V1.webp",
+      "reuse_scope": [
+        "generation_identity",
+        "qa_identity"
+      ]
+    },
+    {
+      "asset_id": "IDM_DANIEL_REFERENCE_SHEET_V1",
+      "type": "identity_master",
+      "subject": "Daniel",
+      "status": "IDENTITY_ANCHOR",
+      "path": "/Showdown Visual Asset Library/01_IDENTITY_MASTERS/IDM_DANIEL_REFERENCE_SHEET_V1.webp",
+      "reuse_scope": [
+        "generation_identity",
+        "qa_identity"
+      ]
+    },
+    {
+      "asset_id": "POSE_HOME_NIK_THINKING_V1",
+      "type": "character_pose",
+      "subject": "Nik",
+      "screen_family": "HOME_HUB",
+      "status": "APPROVED_FOR_ROLE",
+      "path": "/Showdown Visual Asset Library/02_CHARACTER_POSES/HOME/POSE_HOME_NIK_THINKING_V1.png",
+      "reuse_scope": [
+        "HOME_HUB"
+      ],
+      "forbidden_default_reuse": [
+        "TRANSFER",
+        "RESULTS_ENTRY",
+        "SEASON_SUMMARY",
+        "CLUB_ASSIGNMENT"
+      ]
+    },
+    {
+      "asset_id": "POSE_HOME_DANIEL_POINTING_V1",
+      "type": "character_pose",
+      "subject": "Daniel",
+      "screen_family": "HOME_HUB",
+      "status": "APPROVED_FOR_ROLE",
+      "path": "/Showdown Visual Asset Library/02_CHARACTER_POSES/HOME/POSE_HOME_DANIEL_POINTING_V1.png",
+      "reuse_scope": [
+        "HOME_HUB"
+      ],
+      "forbidden_default_reuse": [
+        "TRANSFER",
+        "RESULTS_ENTRY",
+        "SEASON_SUMMARY",
+        "CLUB_ASSIGNMENT"
+      ]
+    },
+    {
+      "asset_id": "POSE_LEAGUE_DANIEL_LATERAL_POINT_V1",
+      "type": "character_pose",
+      "subject": "Daniel",
+      "screen_family": "LEAGUE",
+      "status": "APPROVED_FOR_ROLE",
+      "path": "/Showdown Visual Asset Library/02_CHARACTER_POSES/LEAGUE/POSE_LEAGUE_DANIEL_LATERAL_POINT_V1.webp",
+      "reuse_scope": [
+        "LEAGUE"
+      ]
+    },
+    {
+      "asset_id": "POSE_CLUB_NIK_PACK_V1",
+      "type": "character_pose",
+      "subject": "Nik",
+      "screen_family": "CLUB_ASSIGNMENT",
+      "status": "OWNER_ACCEPTED",
+      "path": "/Showdown Visual Asset Library/02_CHARACTER_POSES/CLUB_ASSIGNMENT/POSE_CLUB_NIK_PACK_V1.png",
+      "reuse_scope": [
+        "CLUB_ASSIGNMENT"
+      ]
+    },
+    {
+      "asset_id": "POSE_CLUB_DANIEL_PACK_V1",
+      "type": "character_pose",
+      "subject": "Daniel",
+      "screen_family": "CLUB_ASSIGNMENT",
+      "status": "OWNER_ACCEPTED",
+      "path": "/Showdown Visual Asset Library/02_CHARACTER_POSES/CLUB_ASSIGNMENT/POSE_CLUB_DANIEL_PACK_V1.png",
+      "reuse_scope": [
+        "CLUB_ASSIGNMENT"
+      ]
+    },
+    {
+      "asset_id": "POSE_TRANSFER_DANIEL_FOCUSED_V1",
+      "type": "character_pose",
+      "subject": "Daniel",
+      "screen_family": "TRANSFER",
+      "status": "APPROVED_FOR_ROLE",
+      "path": "/Showdown Visual Asset Library/02_CHARACTER_POSES/TRANSFER/POSE_TRANSFER_DANIEL_FOCUSED_V1.png",
+      "reuse_scope": [
+        "TRANSFER"
+      ],
+      "owner_approval": "2026-09-26"
+    },
+    {
+      "asset_id": "POSE_TRANSFER_NIK_TACTICAL_V1",
+      "type": "character_pose",
+      "subject": "Nik",
+      "screen_family": "TRANSFER",
+      "status": "APPROVED_FOR_ROLE",
+      "path": "/Showdown Visual Asset Library/02_CHARACTER_POSES/TRANSFER/POSE_TRANSFER_NIK_TACTICAL_V1.png",
+      "reuse_scope": [
+        "TRANSFER"
+      ],
+      "owner_approval": "2026-09-26"
+    },
+    {
+      "asset_id": "ENV_STADIUM_WARM_BASE_V1",
+      "type": "environment_plate",
+      "screen_family": "GLOBAL",
+      "status": "BASE_ENVIRONMENT",
+      "path": "/Showdown Visual Asset Library/03_ENVIRONMENTS/STADIUMS/ENV_STADIUM_WARM_BASE_V1.webp",
+      "reuse_scope": [
+        "HOME_HUB",
+        "CREATE",
+        "LEAGUE",
+        "CLUB_ASSIGNMENT",
+        "TRANSFER",
+        "RESULTS_ENTRY",
+        "SEASON_SUMMARY",
+        "LEGACY",
+        "RULES",
+        "STATISTICS"
+      ],
+      "mode": "REUSE_WITH_GRADE"
+    },
+    {
+      "asset_id": "REF_TRANSFER_WAR_ROOM_V2",
+      "type": "visual_reference",
+      "screen_family": "TRANSFER",
+      "status": "STRONG_REFERENCE",
+      "path": "/Showdown Visual Asset Library/04_VISUAL_REFERENCES/TRANSFER/REF_TRANSFER_WAR_ROOM_V2.jpeg",
+      "learn": [
+        "tactical depth",
+        "deadline-room physicality",
+        "manager inward focus",
+        "gold practical light"
+      ],
+      "ignore": [
+        "player names",
+        "fees",
+        "stats",
+        "timer value",
+        "baked UI"
+      ]
+    },
+    {
+      "asset_id": "REF_TRANSFER_CHALLENGE_LAYOUT_V2",
+      "type": "visual_reference",
+      "screen_family": "TRANSFER",
+      "status": "STRONG_REFERENCE",
+      "path": "/Showdown Visual Asset Library/04_VISUAL_REFERENCES/TRANSFER/REF_TRANSFER_CHALLENGE_LAYOUT_V2.jpeg",
+      "learn": [
+        "compact manager panels",
+        "black/gold density",
+        "phase hierarchy"
+      ],
+      "ignore": [
+        "stale state behavior",
+        "illustrative inputs"
+      ]
+    },
+    {
+      "asset_id": "REF_TRANSFER_DEADLINE_SIGNING_V1",
+      "type": "visual_reference",
+      "screen_family": "TRANSFER",
+      "status": "STRONG_REFERENCE",
+      "path": "/Showdown Visual Asset Library/04_VISUAL_REFERENCES/TRANSFER/REF_TRANSFER_DEADLINE_SIGNING_V1.jpeg",
+      "learn": [
+        "deadline urgency",
+        "scouting props",
+        "world depth"
+      ],
+      "ignore": [
+        "fictional player data",
+        "decorative live text"
+      ]
+    },
+    {
+      "asset_id": "SCREEN_HOME_R8_46_ACTIVE",
+      "type": "approved_screen_reference",
+      "screen_family": "HOME_HUB",
+      "status": "APPROVED_SCREEN_REFERENCE",
+      "path": "/Showdown Visual Asset Library/05_APPROVED_SCREEN_REFERENCES/SCREEN_HOME_R8_46_ACTIVE.png"
+    },
+    {
+      "asset_id": "SCREEN_LEAGUE_R8_43_READY",
+      "type": "approved_screen_reference",
+      "screen_family": "LEAGUE",
+      "status": "APPROVED_SCREEN_REFERENCE",
+      "path": "/Showdown Visual Asset Library/05_APPROVED_SCREEN_REFERENCES/SCREEN_LEAGUE_R8_43_READY.png"
+    },
+    {
+      "asset_id": "SCREEN_CLUB_R8_47_READY",
+      "type": "approved_screen_reference",
+      "screen_family": "CLUB_ASSIGNMENT",
+      "status": "APPROVED_SCREEN_REFERENCE",
+      "path": "/Showdown Visual Asset Library/05_APPROVED_SCREEN_REFERENCES/SCREEN_CLUB_R8_47_READY.png"
+    }
+  ]
+}
