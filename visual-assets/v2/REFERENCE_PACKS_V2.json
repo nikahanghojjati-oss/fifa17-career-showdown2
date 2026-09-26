@@ -1,0 +1,82 @@
+{
+  "TRANSFER": {
+    "max_refs": 4,
+    "refs": [
+      {
+        "asset_id": "REF_TRANSFER_WAR_ROOM_V2",
+        "learn": "tactical depth, deadline-room physicality, inward manager poses, premium desk/board lighting",
+        "ignore": "baked player names, stats, timer, transfer values"
+      },
+      {
+        "asset_id": "REF_TRANSFER_CHALLENGE_LAYOUT_V2",
+        "learn": "compact black/gold panel density and strong manager framing",
+        "ignore": "phase-specific timer/state if inconsistent with live product"
+      },
+      {
+        "asset_id": "REF_TRANSFER_DEADLINE_SIGNING_V1",
+        "learn": "urgency, scouting props, layered physical environment",
+        "ignore": "fictional data and decorative text"
+      },
+      {
+        "asset_id": "SCREEN_HOME_R8_46_ACTIVE",
+        "learn": "shared product shell, typography/material family",
+        "ignore": "Home-specific hero pose"
+      }
+    ]
+  },
+  "HOME_HUB": {
+    "max_refs": 4,
+    "refs": [
+      {
+        "asset_id": "SCREEN_HOME_R8_46_ACTIVE",
+        "learn": "approved baseline",
+        "ignore": "none"
+      },
+      {
+        "asset_id": "REF_SHOWDOWN_HUB_V2",
+        "learn": "central rivalry/score hierarchy",
+        "ignore": "illustrative product data"
+      },
+      {
+        "asset_id": "REF_HOME_FULLSCREEN_V2",
+        "learn": "full-screen world building",
+        "ignore": "illustrative content"
+      },
+      {
+        "asset_id": "REF_RIVALRY_TABLE_V2",
+        "learn": "manager chemistry and scene staging",
+        "ignore": "baked UI"
+      }
+    ]
+  },
+  "LEAGUE": {
+    "max_refs": 3,
+    "refs": [
+      {
+        "asset_id": "SCREEN_LEAGUE_R8_43_READY",
+        "learn": "approved composition benchmark",
+        "ignore": "none"
+      },
+      {
+        "asset_id": "SCREEN_HOME_R8_46_ACTIVE",
+        "learn": "shared shell and characters/material continuity",
+        "ignore": "Home layout"
+      }
+    ]
+  },
+  "CLUB_ASSIGNMENT": {
+    "max_refs": 3,
+    "refs": [
+      {
+        "asset_id": "SCREEN_CLUB_R8_47_READY",
+        "learn": "approved reveal composition",
+        "ignore": "none"
+      },
+      {
+        "asset_id": "REF_CLUB_PACK_COMPOSITE_R8_19",
+        "learn": "pack handling and rivalry framing",
+        "ignore": "any stale text"
+      }
+    ]
+  }
+}
