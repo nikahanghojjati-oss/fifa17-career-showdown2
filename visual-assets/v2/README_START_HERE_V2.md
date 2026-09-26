@@ -4,8 +4,8 @@ Status: ACTIVE
 Owner: Nik
 Art director / reasoning authority: Sol
 Front-end implementation worker: Luna
-Canonical binary store: `/Showdown Visual Asset Library/`
-Versioned system mirror: GitHub branch `visual/asset-library-v2`
+Canonical binary store: /Showdown Visual Asset Library/
+Versioned system mirror: GitHub branch visual/asset-library-v2
 Production main: untouched
 
 ## Mission
@@ -24,10 +24,11 @@ The system must answer, before any generation or implementation:
 8. If generated, what exact identity, pose, crop, lighting, safe-zone, and reuse contract should it have?
 9. Does the generated asset preserve identity and the Showdown visual family?
 10. Can Luna integrate it without having to invent design decisions?
+11. Has Luna actually demonstrated that her implementation role adds more value than correction burden?
 
 ## Core architecture
 
-V2 has seven layers:
+V2 has eight layers:
 
 A. PRODUCT TRUTH FIREWALL
 Live product source defines behavior, data, state, privacy, controls and routes.
@@ -50,6 +51,9 @@ Every generated or implemented candidate is reviewed visually before behavioral 
 G. LEARNING LOOP
 Accepted assets and lessons update the registry and screen plans so future sessions start smarter.
 
+H. WORKER QUALIFICATION
+Luna's delivered candidate is measured with hard gates, a 100-point weighted rubric, P0-P3 defect severity, correction burden, and a role decision. Luna's self-rating cannot approve her own work.
+
 ## Important boundary
 
 Luna does NOT manage this system.
@@ -62,16 +66,31 @@ Luna receives a compiled implementation packet containing:
 - exact forbidden substitutions
 - exact output paths
 
-Sol owns the reasoning above that interface.
+Sol owns the reasoning and qualification above that interface.
+
+## Qualification authority
+
+For Luna role decisions, use:
+
+- qualification/LUNA_VISUAL_QUALIFICATION_STANDARD_V1.md
+- qualification/LUNA_QUALIFICATION_SCORE_SCHEMA_V1.json
+- qualification/LUNA_ROLE_DECISION_POLICY_V1.md
+- qualification/SV01_LUNA_QUALIFICATION_RUN_Q1.md for the current qualification run
+
+FULL PASS keeps Luna as primary front-end builder.
+CONDITIONAL PASS narrows Luna to a restricted builder role.
+MIDDLE GROUND moves Luna to secondary implementation/QA.
+FAIL removes Luna from primary screen construction.
 
 ## Future-session start
 
 Every future Sol visual session should open:
 
-1. `README_START_HERE_V2.md`
-2. `SCREEN_INTENT_GRAPH_V2.json`
-3. `ASSET_DEMAND_MAP_V2.json`
-4. `ASSET_REGISTRY_V2.json`
+1. README_START_HERE_V2.md
+2. SCREEN_INTENT_GRAPH_V2.json
+3. ASSET_DEMAND_MAP_V2.json
+4. ASSET_REGISTRY_V2.json
 5. the current screen's reference pack
+6. the qualification standard when Luna is the builder
 
-Do not ask Nik to repeat known references until the curated library and the legacy archive have both been checked.
+Do not ask Nik to repeat known references until the curated library and legacy archive have both been checked.
