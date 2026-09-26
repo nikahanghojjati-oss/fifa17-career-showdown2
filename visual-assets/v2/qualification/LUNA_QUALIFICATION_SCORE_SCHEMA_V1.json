@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "qualification_id": "LUNA-VISUAL-Q1",
+  "candidate": {
+    "slice": "SV01",
+    "screen": "Transfer Challenge / Guess Entry",
+    "revision": 1,
+    "fingerprint_sha256": null
+  },
+  "hard_gates": {
+    "H1_exact_asset_compliance": null,
+    "H2_no_forbidden_substitution": null,
+    "H3_visual_family_belonging": null,
+    "H4_product_truth_firewall": null,
+    "H5_screen_specific_story": null,
+    "H6_desktop_composition": null,
+    "H7_mobile_recomposition": null,
+    "H8_review_tool_isolation": null
+  },
+  "scores": {
+    "visual_family_fidelity_20": null,
+    "screen_specificity_narrative_15": null,
+    "composition_hierarchy_15": null,
+    "asset_fidelity_integration_10": null,
+    "typography_material_geometry_10": null,
+    "responsive_mobile_10": null,
+    "product_fidelity_privacy_10": null,
+    "implementation_robustness_accessibility_5": null,
+    "instruction_compliance_delivery_5": null,
+    "total_100": null
+  },
+  "findings": [],
+  "severity_counts": {
+    "P0": 0,
+    "P1": 0,
+    "P2": 0,
+    "P3": 0
+  },
+  "correction_burden": null,
+  "browser_verification": {
+    "available": null,
+    "desktop_1366x768": null,
+    "mobile_390x844": null,
+    "limitations": []
+  },
+  "owner_reaction": null,
+  "outcome": null,
+  "recommended_role": null,
+  "minimum_corrections": [],
+  "evaluator": "Sol"
+}
