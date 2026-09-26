@@ -128,20 +128,42 @@
       "type": "character_pose",
       "subject": "Daniel",
       "screen_family": "TRANSFER",
-      "status": "OWNER_ACCEPTED",
+      "status": "APPROVED_FOR_ROLE",
       "path": "/Showdown Visual Asset Library/02_CHARACTER_POSES/TRANSFER/POSE_TRANSFER_DANIEL_FOCUSED_V1.png",
       "role": "Transfer war-room scouting/clipboard pose.",
-      "notes": "Generated in bounded SV01 asset pass; owner said visually good."
+      "notes": "Generated in bounded SV01 asset pass; owner said visually good.",
+      "approval": {
+        "owner": "Nik",
+        "date": "2026-09-26",
+        "note": "Owner said both assets look visually good and authorized continued project use."
+      },
+      "generation": {
+        "family": "OpenAI image generation available in ChatGPT",
+        "mode": "reference-guided transparent character asset",
+        "screen_family": "TRANSFER",
+        "prompt_contract": "SV01_TRANSFER_CHARACTER_ASSET_TICKETS_PENDING_OWNER_APPROVAL.md"
+      }
     },
     {
       "asset_id": "POSE_TRANSFER_NIK_TACTICAL_V1",
       "type": "character_pose",
       "subject": "Nik",
       "screen_family": "TRANSFER",
-      "status": "OWNER_ACCEPTED",
+      "status": "APPROVED_FOR_ROLE",
       "path": "/Showdown Visual Asset Library/02_CHARACTER_POSES/TRANSFER/POSE_TRANSFER_NIK_TACTICAL_V1.png",
       "role": "Transfer war-room tablet/stylus tactical-analysis pose.",
-      "notes": "Generated in bounded SV01 asset pass; owner said visually good."
+      "notes": "Generated in bounded SV01 asset pass; owner said visually good.",
+      "approval": {
+        "owner": "Nik",
+        "date": "2026-09-26",
+        "note": "Owner said both assets look visually good and authorized continued project use."
+      },
+      "generation": {
+        "family": "OpenAI image generation available in ChatGPT",
+        "mode": "reference-guided transparent character asset",
+        "screen_family": "TRANSFER",
+        "prompt_contract": "SV01_TRANSFER_CHARACTER_ASSET_TICKETS_PENDING_OWNER_APPROVAL.md"
+      }
     },
     {
       "asset_id": "ENV_STADIUM_WARM_BASE_V1",
