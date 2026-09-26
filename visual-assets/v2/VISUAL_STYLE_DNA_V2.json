@@ -1,0 +1,53 @@
+{
+  "version": 2,
+  "name": "Career Mode Showdown Visual DNA",
+  "visual_family": {
+    "world": "cinematic football rivalry / manager command center",
+    "brand_mass": "near-black graphite with warm gold hierarchy",
+    "depth": "stadium atmosphere + characters + live UI",
+    "material": [
+      "smoked glass",
+      "graphite metal",
+      "gold rails",
+      "diagonal texture",
+      "warm rim light"
+    ],
+    "typography_roles": {
+      "display": "heavy condensed / distressed / brush-energy",
+      "functional": "condensed uppercase",
+      "personality": "handwritten/script accents only"
+    },
+    "geometry": "angular, clipped, straight rails, shallow radius",
+    "density": "rich and compact, not minimalist SaaS",
+    "characters": "cinematic brand figures, screen-specific poses",
+    "mobile": "task-first recomposition; large desktop hero art usually removed"
+  },
+  "anti_style": [
+    "generic SaaS dashboard",
+    "spreadsheet impression",
+    "universal rounded cards",
+    "circular avatar identity system",
+    "large empty forms",
+    "blue/cyan brand dominance",
+    "same hero pose on every screen",
+    "whole-page generated screenshot as product truth"
+  ],
+  "gold_priority": {
+    "level_1": [
+      "primary CTA",
+      "active phase",
+      "dominant object"
+    ],
+    "level_2": [
+      "title emphasis",
+      "active board rail",
+      "selected item"
+    ],
+    "level_3": [
+      "separators",
+      "rim light",
+      "signature",
+      "decorative ticks"
+    ]
+  }
+}
