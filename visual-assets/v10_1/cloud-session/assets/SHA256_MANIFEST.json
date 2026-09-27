@@ -1,0 +1,26 @@
+{
+  "POSE_TRANSFER_DANIEL_FOCUSED_V1.png": {
+    "bytes": 1900278,
+    "sha256": "8c9cde1e4ef118d57ca9b1b6dacc7429bb70494e5f8ebce853ed7f46036b2c49"
+  },
+  "POSE_TRANSFER_NIK_TACTICAL_V1.png": {
+    "bytes": 1925527,
+    "sha256": "92c40b1290b06945122ba442bb0368c8025cc20b39e494c3d69926396b8488f5"
+  },
+  "ENV_STADIUM_WARM_BASE_V1.webp": {
+    "bytes": 407764,
+    "sha256": "2b484a6a8d0af8b3303c529dac42c571ae338651a2fe8896e81a73fa8d2b1e62"
+  },
+  "sv01-v10-desktop-final.png": {
+    "bytes": 1136437,
+    "sha256": "cf629d964147d38d1b079256b302cfc4e43c7b755eab193ad2b4ca27c53f6ecf"
+  },
+  "sv01-v10-mobile-final.png": {
+    "bytes": 292458,
+    "sha256": "531c2534a5fdee106990a9e34e3ed0f3c8acf9844f3c4f9c51cf8fd5e01b1de8"
+  },
+  "SV01_V10_GOLDEN_FRAME_SELF_CONTAINED.html": {
+    "bytes": 5668228,
+    "sha256": "fee72b5a36c4d50685746c86f34bfcc5672a79694721008019d5a1ab312b438c"
+  }
+}
