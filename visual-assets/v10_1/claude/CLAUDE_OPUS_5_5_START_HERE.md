@@ -7,7 +7,7 @@ Owner: Nik
 Producer / product truth: GPT-5.6 Sol
 Executive cinematic authority when available: GPT-6 Astra High
 Principal implementation builder when authorized: GPT-6 Sol High in Work
-Recommended first-task effort: Extra High / xhigh
+Recommended first-task mode: Opus 5.5 + Ultracode
 
 ## 1. You are joining a multi-model coworking team
 
@@ -55,7 +55,7 @@ Your verdict remains provisional until:
 
 Read:
 `CLAUDE_EFFORT_POLICY_V10_1.md`
-and use xhigh / Extra High for COV-01.
+and use Opus 5.5 + Ultracode for COV-01. Ultracode is intentionally selected because this read-only review can be decomposed into independent camera, mobile, asset-fit, research-fidelity and product-truth lanes without creating write conflicts.
 
 ## 3. Repository / branch boundary
 
