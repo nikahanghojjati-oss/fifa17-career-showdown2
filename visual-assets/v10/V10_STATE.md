@@ -9,50 +9,54 @@ Prior frozen candidate SHA-256: fee72b5a36c4d50685746c86f34bfcc5672a796947210080
 Prior internal 93/100 score: RETIRED AS OVERRIDING QUALITY AUTHORITY
 Image generation: LOCKED
 Research status: Astra FIFA 17 / The Journey presentation bible INGESTED
-Art-direction stage: V10.1 C2 DECISION DESK SPEC FROZEN FOR ASTRA REVIEW
+Art-direction stage: V10.1 C2 DECISION DESK SPEC FROZEN
+Availability mode: ASTRA_CONSTRAINED
+Temporary senior reviewer: Claude Opus 5.5
 Implementation worker: GPT-6 Sol High in ChatGPT Work, NOT YET AUTHORIZED
-Executive visual reviewer: GPT-6 Astra High
+Executive cinematic reviewer when available: GPT-6 Astra High
 Producer / product-truth / synthesis: GPT-5.6 Sol
 Final taste authority: Nik
 
 ## Why the state changed
 
-Nik rated the prior SV01 candidate 7/10.
+Nik rated the prior SV01 candidate 7/10. That owner calibration governs visual quality.
 
-That owner calibration overrides the previous internal conclusion that the candidate was presentation-grade. The old candidate remains useful evidence but is not the V10.1 golden benchmark and is not waiting merely for browser proof anymore.
+Astra's FIFA 17 / The Journey research identified the central defect: the task board, Daniel and Nik do not yet convincingly inhabit one shared place. V10.1 therefore shifts the target from cinematic poster composition to an inhabited operations-room scene with deliberate camera, perspective, contact, eyelines and shared light.
 
-Astra's FIFA 17 / The Journey research identifies the central defect: the task board, Daniel and Nik do not yet convincingly inhabit one shared place. V10.1 therefore shifts the target from cinematic poster composition to an inhabited operations-room scene with deliberate camera, perspective, contact, eyelines and shared light.
+Astra availability is currently constrained, so V10.1 has entered the quota-aware ASTRA_CONSTRAINED route. This changes who performs interim review, not project authority.
 
 ## Active authority
 
-Read:
+Read in this order:
+- `visual-assets/v10_1/model-routing/MODEL_ROUTER_V10_1.md`
 - `visual-assets/v10_1/SHOWDOWN_VISUAL_V10_1_CINEMATIC_AUTHORITY.md`
 - `visual-assets/v10_1/SV01_C2_DECISION_DESK_SPEC.md`
-- `visual-assets/v10_1/ASTRA_FOCUSED_ART_DIRECTOR_REVIEW_PACKET.md`
+- `visual-assets/v10/SV01_TRANSFER_GUESS_PRODUCT_TRUTH_CARD_V10.md`
 
-The prior V10 research remains useful where not superseded.
+Claude-specific entry point:
+- `visual-assets/v10_1/claude/CLAUDE_OPUS_5_5_START_HERE.md`
 
 ## Current decision
 
-Do NOT implement another golden frame yet.
-Do NOT send SV01 to GPT-6 Sol High yet.
-Do NOT generate new environment/character assets yet.
+Do NOT spend Astra on the focused review while the constrained route is active.
+Do NOT send SV01 to GPT-6 Sol High Work yet.
+Do NOT generate new environment/character assets.
 
-The next action is one focused Astra art-director review of the frozen V10.1 C2 Decision Desk specification.
+Immediate next action:
+Claude Opus 5.5 performs COV-01, the provisional focused art-direction review.
 
-After Astra review returns:
-1. GPT-5.6 Sol reconciles only the required deltas.
-2. If Astra says READY FOR GOLDEN FRAME, freeze V10.1.
-3. Audit existing approved assets against the C2 camera.
-4. If no true asset blocker exists, build the golden frame.
-5. If a true asset blocker exists, create a bounded owner-approval asset ticket before generation.
-6. Present desktop/mobile golden frame against the exact 7/10 baseline.
-7. Nik decides whether it materially clears the baseline.
-8. Only then authorize GPT-6 Sol High Work for production implementation.
+After Claude returns:
+1. GPT-5.6 Sol reconciles findings against product truth.
+2. Audit approved Transfer assets against the C2 camera.
+3. If provisionally ready and no asset blocker exists, Sol may build an isolated provisional desktop/mobile golden frame marked `PROVISIONAL_ASTRA_REVIEW_PENDING`.
+4. Claude may red-team that frozen provisional render.
+5. When Astra resets, use the compact Astra reentry packet rather than restarting research.
+6. Astra resumes executive cinematic review.
+7. Nik remains the only final taste authority.
 
 ## Product status
 
-Production `main` was re-resolved after Astra intake and remains:
+Production `main` remains read-only from this visual track and was last resolved at:
 `f077b9c5be5e4d5bf5ef17b2d219983dbf142962`
 
 No production behavior has been changed.
