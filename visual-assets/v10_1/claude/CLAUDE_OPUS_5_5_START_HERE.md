@@ -73,21 +73,22 @@ and identify the new SHA. Do not infer that behavior is unchanged.
 
 Read:
 
-1. `SHOWDOWN_FIFA17_PRESENTATION_BIBLE.md`
-2. `SHOWDOWN_VISUAL_V10_1_CINEMATIC_AUTHORITY.md`
-3. `SV01_C2_DECISION_DESK_SPEC.md`
-4. `SV01_TRANSFER_GUESS_PRODUCT_TRUTH_CARD_V10.md`
-5. `V10_STATE.md`
-6. `MODEL_ROUTER_V10_1.md`
-7. the exact assignment file
+1. `CLAUDE_CONTEXT_CAPSULE_V10_1.md`
+2. `SHOWDOWN_FIFA17_PRESENTATION_BIBLE.md`
+3. `SHOWDOWN_VISUAL_V10_1_CINEMATIC_AUTHORITY.md`
+4. `SV01_C2_DECISION_DESK_SPEC.md`
+5. `SV01_TRANSFER_GUESS_PRODUCT_TRUTH_CARD_V10.md`
+6. `V10_STATE.md`
+7. `MODEL_ROUTER_V10_1.md`
+8. the exact assignment file
 
 Then inspect:
-8. prior 1366x768 desktop baseline
-9. prior 390x844 mobile baseline
-10. approved Daniel Transfer pose
-11. approved Nik Transfer pose
-12. approved warm stadium source
-13. prior self-contained SV01 candidate source only when useful
+9. prior 1366x768 desktop baseline
+10. prior 390x844 mobile baseline
+11. approved Daniel Transfer pose
+12. approved Nik Transfer pose
+13. approved warm stadium source
+14. prior self-contained SV01 candidate source only when useful
 
 Do not broaden into the full repository until the assignment requires it.
 
