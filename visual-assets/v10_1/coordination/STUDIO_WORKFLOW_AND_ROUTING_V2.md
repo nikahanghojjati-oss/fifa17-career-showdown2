@@ -31,6 +31,7 @@ Higher effort is not authority. Nik remains final taste authority.
 | Integration architecture review | ChatGPT Work | GPT-6 Sol | High |
 | Cinematic spot-check | ChatGPT | GPT-6 Astra High | High |
 | Runtime browser QA | Claude in Chrome | extension model | default |
+| Likeness image generation | Plain ChatGPT New chat outside any Project | ChatGPT image generation | Follow `LIKENESS_IMAGE_WORKFLOW_V1.md` |
 | Coordination / state / branches / product truth | ChatGPT | GPT-5.6 Sol | current |
 
 If Sonnet 5 is unavailable in the Cloud model picker, use Opus 5.5 at Medium for Sonnet-designated rows and record the actual model in the result handoff.
@@ -91,21 +92,23 @@ Build once and reuse:
 
 The visual system is quality-first. Performance is a usability floor, not the art-direction goal.
 
+## Likeness image generation standard
 
-## Likeness image generation rule
+Canonical standard:
+`visual-assets/v10_1/coordination/LIKENESS_IMAGE_WORKFLOW_V1.md`
 
-ChatGPT image generation remains the approved likeness-image surface.
+For every image showing Daniel or Nik, use that document rather than reconstructing the method from this routing file.
 
-For any new Daniel/Nik likeness image:
-- use a fresh chat per asset;
-- use image EDIT from that manager's approved V1 pose;
-- attach only that person's approved V1 pose;
-- do not attach Transfer War key art or any second face to the likeness-edit chat;
-- preserve identity, wardrobe and lighting from the approved pose unless the producer ticket explicitly changes one;
-- paste the Lead Producer ticket verbatim;
-- do not allow prompt rewriting to replace the asset contract;
-- abandon/restart any chat that produces a collage or identity blend.
+Key routing invariant:
+- plain New chat outside any ChatGPT project;
+- one golden anchor only;
+- edit the anchor rather than generate from a text-only identity description;
+- exact producer prompt, no rewrite;
+- one image per chat;
+- return to the golden anchor for every new pose.
 
-This rule does not apply to environment-only generation.
+Current golden anchors:
+- Daniel: `POSE_TRANSFER_DANIEL_FOCUSED_V1.png`
+- Nik: `POSE_TRANSFER_NIK_TACTICAL_V1.png`
 
-If three attempts on one ticket still fail likeness, stop and return to the Lead Visual Producer for a different identity-preservation route.
+The Gate 0 R2 Window poses are approved assets but are not golden anchors.
