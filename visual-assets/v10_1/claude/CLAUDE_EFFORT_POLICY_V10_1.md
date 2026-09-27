@@ -3,106 +3,115 @@
 Status: ACTIVE RECOMMENDATION
 Date: 2026-09-27
 
-## Official Anthropic effort vocabulary
+## Correction and observed product options
 
-Anthropic documents the Opus 5 family with:
-- low
-- medium
-- high
-- xhigh
-- max
+Nik's Claude Code UI visibly exposes these Opus 5.5 effort choices:
+- High
+- Extra
+- Max
+- Ultracode
 
-For this project, treat any UI label "Extra High" as `xhigh` if it maps to Anthropic's xhigh effort.
+Therefore Ultracode is a real selectable Claude Code mode in Nik's current product UI and must not be treated as hypothetical.
 
-"Ultra Code" is not an Anthropic-documented effort level in the official effort parameter. If your client exposes an Ultra Code preset, treat it as a client-specific coding mode, not as a known higher reasoning tier. Do not use it for V10.1 art direction unless a task specifically becomes implementation-heavy and the client documents what it changes.
+Public Claude Code documentation and current technical references indicate that Ultracode is not simply a deeper single-model reasoning rung than Max. It combines very high reasoning with automatic workflow orchestration / decomposition for substantive tasks.
 
-## Project default
+That distinction matters for Showdown Visual.
 
-### COV-01 onboarding + focused art-direction review
-Use: `xhigh / Extra High`
+## Best choice for COV-01
 
-Why:
-- this is a one-time high-leverage review;
-- it must integrate a research bible, current visual authority, screen spec, screenshots and approved assets;
-- mistakes can propagate into the golden frame;
-- it benefits from deeper multimodal reasoning;
-- it is bounded enough that max effort is unlikely to justify its extra cost/latency.
+Use:
+`OPUS 5.5 + ULTRACODE`
 
-### Routine follow-up visual review
-Use: `high`
+COV-01 is unusually well matched to Ultracode because it contains several separable review lanes:
+- authority / product-truth consistency
+- FIFA 17 / Journey research fidelity
+- desktop camera and spatial composition
+- mobile recomposition
+- Daniel / Nik pose fit
+- stadium / environment fit
+- dashboard/poster regression risk
+- final synthesis into bounded deltas
+
+A workflow-oriented mode can investigate these lanes independently and then synthesize them.
+
+The task is READ ONLY, so orchestration can improve review depth without creating parallel write conflicts.
+
+## Second-best choice
+
+If Claude usage is also becoming scarce, use:
+`EXTRA`
+
+Extra is preferred over High for the one-time onboarding/review because the task is high leverage and multimodal.
+
+## When to use Max
+
+Use:
+`MAX`
+
+for a difficult single-thread reasoning problem where one unified judgment matters more than decomposition.
 
 Examples:
-- checking whether Sol applied a bounded spec delta correctly;
-- reviewing one desktop/mobile pair;
-- reviewing a small asset-fit question;
-- checking a limited CSS/layout regression.
+- Sol and Claude disagree about one specific camera contradiction
+- a subtle privacy/presentation conflict needs a final deep analysis
+- one asset-fit question remains unresolved after ordinary review
+- a complex source-drift/product-truth contradiction blocks progress
 
-### Repetitive QA / narrow comparison
-Use: `medium`
+Max is not the first recommendation for COV-01 because COV-01 naturally decomposes into parallel review lanes.
 
-Examples:
-- compare exact screenshots against an already-frozen checklist;
-- inspect one state for missed labels/crops;
-- verify that a known issue is fixed;
-- summarize a known delta packet.
+## When to use High
 
-### Major deadlock / new complex art-direction problem
-Use: `max`
+Use:
+`HIGH`
 
-Use max only when:
-- COV-01 at xhigh exposes a genuinely unresolved high-impact camera/spatial problem;
-- Claude must reason across several contradictory visual constraints;
-- a branch-wide implementation failure needs a deep root-cause analysis;
-- Astra is unavailable and the project is blocked without the strongest possible Claude pass.
+for routine bounded senior review:
+- review one revised desktop/mobile pair
+- inspect a small spec delta
+- check one state family
+- review one asset blocker
+- review one implementation diff
 
-Do not run every task at max. Anthropic warns that max can have diminishing returns and overthink simpler work.
+## When to use Medium
 
-### Coding-heavy autonomous implementation
-Preferred starting effort: `xhigh`
+If exposed in another Claude surface, use medium for repetitive deterministic QA:
+- exact checklist verification
+- confirm a known issue is fixed
+- compare a small number of screenshots
+- summarize a frozen delta packet
 
-If Claude is later explicitly authorized as a builder on a dedicated task branch:
-- use xhigh for long-horizon multi-file work;
-- use max only for unusually difficult blocked implementation;
-- use high for bounded CSS/DOM changes;
-- use medium for small deterministic fixes.
+## Project routing table
 
-## Current recommendation to Nik
+COV-01 first onboarding + full visual review:
+`ULTRACODE`
 
-For the first Claude session:
-`Claude Opus 5.5 + Extra High / xhigh effort`
+Claude red-team of a provisional golden frame:
+`EXTRA` or `ULTRACODE` if the candidate spans many states/assets
 
-Do NOT choose max for the first pass.
+Routine follow-up critique:
+`HIGH`
 
-Reason:
-Anthropic reports that Opus 5.5 is already unusually strong at medium/default effort, while xhigh is intended for work needing more depth than the default. Max is best reserved for tasks where maximum capability clearly matters more than token/latency cost and may overthink simpler problems.
+Single hard unresolved judgment:
+`MAX`
 
-## If the interface only offers these labels
+Later multi-file implementation explicitly assigned to Claude:
+`ULTRACODE` if orchestration is useful and write ownership is isolated
 
-- Medium -> medium
-- High -> high
-- Extra High -> xhigh
-- Max -> max
-- Ultra Code -> client-specific; do not assume it is above max reasoning
+Small CSS/DOM fix:
+`HIGH`
 
-Choose:
-`Extra High` for COV-01.
+## Quota caution
 
-## Escalation rule
+Ultracode can consume more Claude-side capacity because it may orchestrate multiple work streams.
 
-Start COV-01 at xhigh.
+Use it for COV-01 because this review is foundational and currently substitutes for scarce Astra time.
 
-Escalate to max only if one of these occurs:
-1. Claude explicitly identifies a high-confidence unresolved contradiction in the V10.1 authority;
-2. the asset-fit problem cannot be resolved by composition/crop analysis;
-3. the camera/spatial spec remains ambiguous after one bounded revision;
-4. Sol and Claude disagree on a material visual issue and Astra is still unavailable.
+Do not leave Ultracode on automatically for trivial follow-ups.
 
-Otherwise remain at xhigh or step down to high for subsequent review turns.
+## Authority caution
 
-## Conservation rule
+More effort does not mean more authority.
 
-Effort is not a quality score.
+An Ultracode verdict remains provisional in ASTRA_CONSTRAINED mode.
 
-Higher effort does not grant more project authority.
-A medium-effort Claude finding can be correct.
-A max-effort Claude finding can still be rejected by product truth, Astra's later art direction, or Nik's taste judgment.
+GPT-5.6 Sol reconciles Claude findings against product truth.
+GPT-6 Astra High later resumes executive cinematic review.
+Nik remains final taste authority.
