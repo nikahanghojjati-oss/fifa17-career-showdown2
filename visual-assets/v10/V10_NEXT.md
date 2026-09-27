@@ -2,54 +2,77 @@
 
 ## Active route — ASTRA_CONSTRAINED
 
-The project is temporarily using Claude Opus 5.5 as the provisional senior visual reviewer while conserving Astra quota.
+Claude Opus 5.5 is the provisional senior visual reviewer while Astra quota is constrained.
 
-This does NOT replace Astra's executive cinematic role.
+Claude does NOT replace Astra.
 
 ## Immediate next action
 
-Give Claude the onboarding packet under:
+Use the existing Claude project:
+`Claude Career Mode Showdown`
 
-`visual-assets/v10_1/claude/`
+Model:
+`Opus 5.5`
 
-Start with:
-`CLAUDE_OPUS_5_5_START_HERE.md`
+Effort:
+`Extra / xhigh`
+
+Preferred surface:
+`Claude Chat Project`
+
+### Project setup
+
+Project Instructions:
+`visual-assets/v10_1/claude-project/CLAUDE_PROJECT_INSTRUCTIONS_V10_1.md`
+
+Persistent Project knowledge:
+- Astra FIFA 17 / The Journey presentation bible
+- V10.1 cinematic authority
+- SV01 C2 Decision Desk spec
+- SV01 Product Truth Card
+- current V10_STATE
+- concise Claude Project knowledge pack
+
+GitHub Project integration:
+sync `visual/cinematic-system-v10`, not only `main`.
+
+For the COV-01 review chat attach directly:
+- desktop 7/10 baseline
+- mobile 7/10 baseline
+- Daniel Transfer pose
+- Nik Transfer pose
+- stadium base
 
 Then run:
 `CLAUDE_FIRST_ASSIGNMENT_ASTRA_CONSTRAINED.md`
 
-Required Claude verdict:
+Required verdict:
 - `PROVISIONALLY READY FOR GOLDEN FRAME`
 or
 - `NOT PROVISIONALLY READY FOR GOLDEN FRAME`
 
-Claude must:
-- remain read-only;
-- not implement;
-- not generate images;
-- not redesign product behavior;
-- return bounded deltas only.
+Claude remains read-only.
+
+## Why not Max or Ultracode now
+
+Max is held for a specific unresolved high-impact contradiction after Extra review.
+
+Ultracode is held for Claude Code tasks that materially benefit from autonomous workflow orchestration, such as broad repo audits or later isolated implementation.
+
+The current job is art-direction review, not repository execution.
 
 ## After Claude review
 
 GPT-5.6 Sol:
-1. validates findings against current product truth;
-2. updates only the canonical V10.1 screen spec;
+1. reconciles findings against product truth;
+2. updates only canonical V10.1 specifications;
 3. records accepted/rejected Claude deltas;
-4. performs or requests the approved-asset fit audit.
+4. performs or requests approved-asset fit audit.
 
 If provisionally ready:
-- one isolated provisional desktop + mobile golden frame may be built;
-- status must remain `PROVISIONAL_ASTRA_REVIEW_PENDING`;
-- no reusable visual promotion yet.
+one provisional desktop/mobile frame may be built and remains `PROVISIONAL_ASTRA_REVIEW_PENDING`.
 
-When Astra becomes available:
-follow:
-`visual-assets/v10_1/model-routing/ASTRA_REENTRY_PROTOCOL_V10_1.md`
-
-Astra receives only the compact delta/evidence packet and resumes executive cinematic judgment.
-
-Current product main:
-`f077b9c5be5e4d5bf5ef17b2d219983dbf142962`
+When Astra returns:
+use the compact Astra reentry protocol.
 
 Image generation remains LOCKED.
