@@ -12,7 +12,8 @@ Research status: Astra FIFA 17 / The Journey presentation bible INGESTED
 Art-direction stage: V10.1 C2 DECISION DESK SPEC FROZEN
 Availability mode: ASTRA_CONSTRAINED
 Temporary senior reviewer: Claude Opus 5.5
-Claude COV-01 effort: Extra High / xhigh
+Claude COV-01 surface: Claude Chat Project
+Claude COV-01 effort: Extra / xhigh
 Implementation worker: GPT-6 Sol High in ChatGPT Work, NOT YET AUTHORIZED
 Executive cinematic reviewer when available: GPT-6 Astra High
 Producer / product-truth / synthesis: GPT-5.6 Sol
@@ -57,7 +58,9 @@ No commits, PRs or repo mutation are authorized for COV-01.
 
 ## Immediate next action
 
-Run Claude COV-01 at Extra High / xhigh effort.
+Run Claude COV-01 inside the persistent `Claude Career Mode Showdown` Project using Opus 5.5 at Extra / xhigh effort.
+
+Use Project Instructions + Project Files/Knowledge, sync the GitHub visual branch, and attach the desktop/mobile baselines plus Daniel/Nik/stadium images directly to the review chat.
 
 After Claude returns:
 1. GPT-5.6 Sol reconciles findings against product truth.
