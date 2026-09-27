@@ -251,16 +251,24 @@ Use GPT-5.6 Sol chat for:
 - authority maintenance;
 - provisional visual work when Work quota is intentionally conserved.
 
-## 8. Claude Opus 5.5 effort routing
+## 8. Claude surface and effort routing
 
-Project effort policy:
-- COV-01 onboarding + focused art-direction review: `xhigh / Extra High`
-- routine bounded visual review: `high`
-- repetitive QA / exact comparison: `medium`
-- rare blocked high-impact problem: `max`
-- later autonomous multi-file coding: start `xhigh`, escalate to `max` only when blocked
+For COV-01 use:
+`Claude Chat Project + Opus 5.5 + Extra / xhigh`
 
-Do not treat a client label such as “Ultra Code” as a known Anthropic effort tier unless that client documents its behavior. Official Opus 5-family effort controls are low, medium, high, xhigh and max.
+Reason:
+COV-01 is a bounded multimodal visual-review task and benefits more from persistent Project instructions/knowledge than from autonomous coding orchestration.
+
+Routing:
+- COV-01 / major art-direction review: Claude Project + Extra
+- routine visual follow-up: Claude Project + High
+- repetitive QA: Medium if available
+- rare unresolved high-impact single problem: Max
+- broad autonomous repo engineering or later isolated implementation: Claude Code, with Ultracode only when workflow orchestration materially helps
+
+Claude Code remains valuable for direct repository execution, but it is not the preferred surface for the current COV-01 review.
 
 Read:
 `visual-assets/v10_1/claude/CLAUDE_EFFORT_POLICY_V10_1.md`
+and
+`visual-assets/v10_1/claude-project/CLAUDE_PROJECT_ROUTE_V10_1.md`
