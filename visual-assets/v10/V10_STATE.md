@@ -19,6 +19,9 @@ Runtime QA: Claude in Chrome
 Routing:
 visual-assets/v10_1/coordination/STUDIO_WORKFLOW_AND_ROUTING_V2.md
 
+Likeness imagery:
+visual-assets/v10_1/coordination/LIKENESS_IMAGE_WORKFLOW_V1.md
+
 Player imagery:
 visual-assets/v10_1/coordination/PLAYER_IMAGERY_POLICY_V2.md
 
@@ -43,43 +46,46 @@ Owner accepted:
 
 Old C2 technical proof remains rejected as visual target.
 
-## Gate 0 — current status
+## Gate 0 — final status
 
-ROUND 1 COMPLETE / PARTIAL PASS.
+ROUND 2 COMPLETE. GATE 0 PASSED.
 
-Approved with intake fixes:
-- ENV_TR2_WARROOM_PLATE_V1.
+All five Transfer Gate 0 assets are approved:
+
+Approved with CP1 intake fixes:
+- `ENV_TR2_WARROOM_PLATE_V1`;
+- `POSE_TR2_DANIEL_WINDOW_PITCH_V1`;
+- `POSE_TR2_NIK_WINDOW_POINT_V1`.
 
 Approved by reuse:
-- POSE_TRANSFER_DANIEL_FOCUSED_V1 for Guess Entry;
-- POSE_TRANSFER_NIK_TACTICAL_V1 for Guess Entry.
+- `POSE_TRANSFER_DANIEL_FOCUSED_V1` for Guess Entry;
+- `POSE_TRANSFER_NIK_TACTICAL_V1` for Guess Entry.
 
-Rejected:
-- all three newly generated generic-face poses;
-- round boardroom as Transfer asset.
+Current blockers: NONE.
 
-Current blockers:
-- POSE_TR2_DANIEL_WINDOW_PITCH_V1;
-- POSE_TR2_NIK_WINDOW_POINT_V1.
-
-Only two new Window pose generations remain.
+CP1 intake requirements:
+- environment plate: remove corner mark and perform approved upscale;
+- Window poses: remap alpha 248–254 to 255;
+- Window poses: erode 1–2 px and decontaminate warm edge fringe;
+- Nik Window pose: judge skin crackle at CP1 display size; light skin-only denoise only if visible.
 
 ## Likeness method
 
-ChatGPT image generation remains active.
-For likeness assets:
-- fresh chat per image;
-- edit from the approved V1 pose;
-- only that manager's V1 pose attached;
-- no key-art / second-face reference;
-- exact producer ticket pasted verbatim;
-- no collage / identity blending.
+`LIKENESS_IMAGE_WORKFLOW_V1.md` is STANDARD.
+
+Golden anchors remain:
+- Daniel: `POSE_TRANSFER_DANIEL_FOCUSED_V1.png`;
+- Nik: `POSE_TRANSFER_NIK_TACTICAL_V1.png`.
+
+The approved Window poses are not golden anchors.
 
 ## CP1
 
-CP1 is HELD.
+CP1 is UNBLOCKED FROM GATE 0, but implementation has not started.
 
-Do not create claude-cloud/transfer-tr2-slice-01 until Claude completes Gate 0 R2 and issues the final CP1 CLOUD_BUILD_BRIEF.
+Do not create `claude-cloud/transfer-tr2-slice-01` until Claude issues the final CP1 `CLOUD_BUILD_BRIEF` with the intake manifest.
+
+Next authority handoff: Nik opens a fresh Claude Project chat, Opus 5.5 High, and asks for `CP1 brief`. No image attachments are required because Gate 0 R2 already records the approved asset IDs and hashes.
 
 ## Main-project Cloud-credit reserve
 
