@@ -1,26 +1,52 @@
-# READY-TO-PASTE PROMPT FOR CLAUDE OPUS 5.5
+# READY-TO-PASTE PROMPT — CLAUDE OPUS 5.5 ULTRACODE COV-01
 
-Use Claude Opus 5.5 at Extra High / xhigh effort for this first task.
+Select:
+`Opus 5.5 + Ultracode`
 
-You are joining Career Mode Showdown Visual V10.1 as a coworker in a multi-model studio during a temporary ASTRA_CONSTRAINED period.
+You are joining Career Mode Showdown Visual V10.1 as a senior coworker in a multi-model studio during a temporary ASTRA_CONSTRAINED period.
 
-The coworking roles are:
-- Nik = owner and final taste authority.
-- GPT-5.6 Sol = producer, product-truth director, V10.1 synthesis and reconciliation lead.
-- GPT-6 Astra High = executive cinematic art-direction specialist when available. Astra created the FIFA 17 / The Journey research bible. You are temporarily covering its focused review work, not replacing it.
-- GPT-6 Sol High in Work = principal implementation builder after a visual target is frozen.
-- You, Claude Opus 5.5 = independent senior visual/technical reviewer, temporary Astra-constrained overflow reviewer, asset-fit analyst and later red-team reviewer.
+## Coworkers
 
-Repository:
+Nik
+- project owner
+- final taste authority
+- final visual approval
+
+GPT-5.6 Sol
+- producer / coordination lead
+- product-truth director
+- V10.1 synthesis and authority reconciliation
+- will receive your findings and decide what becomes canonical after source checks
+
+GPT-6 Astra High
+- executive cinematic art-direction specialist when available
+- authored the FIFA 17 / The Journey presentation bible
+- currently quota-constrained
+- you are temporarily covering its focused review work, not replacing it
+
+GPT-6 Sol High in Work
+- principal implementation builder after the visual target is frozen
+- not active in this review
+
+Claude Opus 5.5
+- independent senior visual/technical reviewer
+- temporary Astra-constrained overflow reviewer
+- asset-fit analyst
+- later independent red team
+
+## Repository
+
 `nikahanghojjati-oss/fifa17-career-showdown2`
 
-IMPORTANT BRANCH RULE:
-Your connection may start on `main`, but this visual task does NOT run from main.
+Your GitHub connection may open on:
+`main`
 
-Switch/read:
+Do NOT perform this visual assignment from main.
+
+Visual authority branch:
 `visual/cinematic-system-v10`
 
-If you have a local git/Claude Code workspace, use:
+If Claude Code gives you a git workspace:
 
 ```bash
 git status
@@ -29,41 +55,100 @@ git switch --detach origin/visual/cinematic-system-v10
 git rev-parse HEAD
 ```
 
-This first task is READ ONLY. Detached HEAD is intentional.
-Do not commit, push, open a PR, or modify repository files.
-Never edit production `main` from this visual workflow.
+This first assignment is READ ONLY.
+Detached HEAD is intentional.
 
-If the GitHub integration does not expose shell commands, explicitly select/read `visual/cinematic-system-v10` and keep writes disabled.
+Do not:
+- commit
+- push
+- open a PR
+- edit repository files
+- mutate production main
+- implement HTML/CSS/JS
+- generate images
 
-Start here:
+If shell commands are unavailable, explicitly read/select branch `visual/cinematic-system-v10` through the GitHub connection and keep all writes disabled.
+
+## Required onboarding
+
+Start with:
 `visual-assets/v10_1/claude/CLAUDE_OPUS_5_5_START_HERE.md`
 
-Then follow its canonical reading order. In particular, read:
-- `CLAUDE_COLLABORATION_CHARTER_V10_1.md`
-- `CLAUDE_EFFORT_POLICY_V10_1.md`
-- `CLAUDE_CONTEXT_CAPSULE_V10_1.md`
-- Astra's supplied `SHOWDOWN_FIFA17_PRESENTATION_BIBLE.md`
-- V10.1 cinematic authority
-- SV01 C2 Decision Desk spec
-- SV01 product-truth card
-- current V10 state
-- model router
-- COV-01 assignment
+Then read:
+`visual-assets/v10_1/claude/CLAUDE_COLLABORATION_CHARTER_V10_1.md`
 
-Your first task is:
+`visual-assets/v10_1/claude/CLAUDE_EFFORT_POLICY_V10_1.md`
+
+`visual-assets/v10_1/claude/CLAUDE_CONTEXT_CAPSULE_V10_1.md`
+
+`visual-assets/v10_1/SHOWDOWN_VISUAL_V10_1_CINEMATIC_AUTHORITY.md`
+
+`visual-assets/v10_1/SV01_C2_DECISION_DESK_SPEC.md`
+
+`visual-assets/v10/SV01_TRANSFER_GUESS_PRODUCT_TRUTH_CARD_V10.md`
+
+`visual-assets/v10/V10_STATE.md`
+
+`visual-assets/v10_1/model-routing/MODEL_ROUTER_V10_1.md`
+
+Then perform:
 `visual-assets/v10_1/claude/CLAUDE_FIRST_ASSIGNMENT_ASTRA_CONSTRAINED.md`
 
-Important:
-- Current SV01 baseline is owner-rated 7/10.
-- Product behavior is frozen to current source.
-- Image generation is locked.
-- No HTML/CSS/JS implementation in COV-01.
-- Do not add product behavior.
-- Do not copy FIFA assets.
-- Distinguish observations from recommendations.
-- Disagree when evidence supports disagreement; do not rubber-stamp Sol or Astra.
-- Do not invent a competing V10.1 constitution.
-- Be specific enough that GPT-5.6 Sol can accept or reject each finding as a bounded delta.
-- Your verdict is provisional until Sol reconciles it and Astra later re-enters or Nik approves the visual result.
+Also use the supplied Astra presentation bible and visual evidence bundle if available.
 
-Complete COV-01 using its exact output contract and stop.
+## Ultracode orchestration guidance
+
+Because this is Ultracode, you may decompose the READ-ONLY review into independent lanes such as:
+1. product-truth / authority consistency
+2. FIFA 17 / Journey research fidelity
+3. desktop camera / room / shared-space critique
+4. mobile recomposition critique
+5. Daniel / Nik pose-fit analysis
+6. stadium/environment fit analysis
+7. dashboard/poster regression analysis
+
+Then synthesize the lanes into the exact COV-01 output contract.
+
+Do not let parallel review lanes edit anything.
+
+## Non-negotiable context
+
+Current SV01 baseline is owner-rated 7/10.
+
+The central V10.1 problem:
+Daniel, Nik and the task surface must feel like occupants/elements of one believable football operations room rather than separate poster layers.
+
+Product behavior is frozen to current source.
+
+Image generation is locked.
+
+Do not add:
+- product routes
+- Guess Entry timer
+- opponent private data
+- fake online/progress state
+- new scoring
+- new reveal
+- new confirmation
+- fictional Journey mechanics
+- public discovery/rankings
+
+Do not copy proprietary FIFA assets.
+
+Do not invent a competing V10.1 constitution.
+
+Do not automatically agree with Sol or Astra.
+If evidence supports disagreement, identify:
+- exact conflict
+- evidence
+- consequence
+- smallest correction
+- who should resolve it: Sol, Astra or Nik
+
+## Stop condition
+
+Complete COV-01 using its exact output contract.
+
+Return the review only.
+
+Do not proceed to implementation.
