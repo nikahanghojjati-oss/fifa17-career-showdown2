@@ -1,33 +1,44 @@
 # V10 WORKLOG
 
 2026-09-27
-- Created visual/cinematic-system-v10 from premium-design-v5.
-- Added V10 start authority.
-- Added permanent REFERENCE_ONLY semantics for owner image attachments.
-- Added interruption-resilient atomic checkpoint protocol.
-- Studied and classified the latest owner cinematic/depth concept set.
-- Completed a 284-source independent source-level research ledger, excluding owner-supplied resource screenshots from the count.
-- Synthesized research across UI/UX, design systems, accessibility/game accessibility, cinematography, AAA/game UI, web motion/3D/performance, sports/FIFA presentation and OpenAI worker selection.
-- Added Cinematic Depth Engine V10 with 2.5D as the default depth strategy and real-time 3D only where interaction justifies it.
-- Added AAA + FIFA 17 presentation study.
-- Added Golden Frame Gate V10.
-- Chose GPT-6 Sol High in ChatGPT Work as the single regular implementation worker; Astra is exception-only escalation.
-- Research/system phase completed.
-- Re-resolved production main for SV01; it remains `f077b9c5be5e4d5bf5ef17b2d219983dbf142962`.
-- Re-audited the production Shared Transfer Challenge GUESS_ENTRY contract.
-- Froze `SV01_TRANSFER_GUESS_PRODUCT_TRUTH_CARD_V10.md`.
-- Built a new V10 SV01 composition rather than extending the rejected flat/dashboard baseline.
-- Used only approved Transfer assets: Daniel focused pose, Nik tactical pose and warm stadium base.
-- Preserved Daniel left / Nik right while allowing acting emphasis to change without side swapping.
-- Built a visible stadium/world, glass-room depth treatment, compact dominant Transfer operations board and foreground desk plane.
-- Preserved Window Closed / Guess Entry, three private rival guesses, sealed opponent state and `LOCK MY GUESSES` with no active timer.
-- Built responsive mobile recomposition that removes large heroes and keeps the live task dominant.
-- Removed excess lower-board dead space after render inspection.
-- Strengthened rights-safe condensed franchise typography.
-- Ran source integrity checks: zero duplicate IDs, three guess type/value pairs, review controls outside canvas, reduced-motion handling and no forbidden Guess Entry timer/signing/verdict action copy.
-- Produced deterministic HTML/CSS render evidence at 1366x768 and 390x844.
-- Premium Visual Scorecard V5 provisional result: 93/100.
-- Froze self-contained candidate SHA-256 `fee72b5a36c4d50685746c86f34bfcc5672a79694721008019d5a1ab312b438c`.
-- System Chromium could not complete even a trivial headless screenshot in this environment; final browser-proof requirement remains pending and is not being falsely marked complete.
-- Created SV01 golden-frame build, scorecard and QA records.
-- Next action is browser proof of the exact frozen fingerprint, then owner review. No worker handoff yet.
+
+## V10 foundation
+- Created visual/cinematic-system-v10.
+- Added reference-input semantics, interruption-resilient execution, 284-source research ledger, depth engine, AAA/FIFA 17 study, golden-frame gate and worker-model decision.
+- Built the first SV01 V10 candidate using approved Transfer Daniel/Nik poses and stadium art.
+- Preserved current Guess Entry behavior and privacy.
+- Produced desktop/mobile evidence.
+- Internal scorecard initially rated the candidate 93/100.
+
+## Owner recalibration
+- Nik rated the first V10 SV01 candidate 7/10.
+- Owner calibration now governs quality status.
+- The 93/100 internal score remains historical process evidence only and is retired as a quality-authority conclusion.
+- The old candidate is no longer treated as golden or awaiting mere browser proof.
+
+## Astra research intake
+- Received and reviewed `SHOWDOWN_FIFA17_PRESENTATION_BIBLE`.
+- Accepted its primary diagnosis: atmosphere exists, but Daniel, Nik and the task board do not yet convincingly inhabit one shared space.
+- Accepted the FIFA 17 + The Journey synthesis:
+  - strong flat interface hierarchy from FIFA 17;
+  - inhabited place, viewpoint, relationships and consequence from The Journey;
+  - live UI remains flat/readable over a dimensional world;
+  - spatial credibility comes from camera, contact, perspective, shared light and materials rather than more gold/effects.
+- Accepted the three presentation modes: Orientation / Decision / Consequence.
+- Accepted C2 Decision Desk as the SV01 camera family.
+- Accepted layered 2.5D + semantic DOM as the initial browser strategy.
+- Accepted mobile as a closer rivalry composition rather than a stripped stadium tail.
+
+## V10.1 synthesis
+- Re-resolved production main after research intake; it remains `f077b9c5be5e4d5bf5ef17b2d219983dbf142962`.
+- Created `visual-assets/v10_1/SHOWDOWN_VISUAL_V10_1_CINEMATIC_AUTHORITY.md`.
+- Created `visual-assets/v10_1/SV01_C2_DECISION_DESK_SPEC.md`.
+- Created `visual-assets/v10_1/ASTRA_FOCUSED_ART_DIRECTOR_REVIEW_PACKET.md`.
+- Updated role architecture:
+  - Nik = final taste authority;
+  - Astra High = executive cinematic art-direction reviewer;
+  - GPT-5.6 Sol = producer/product-truth/synthesis;
+  - GPT-6 Sol High Work = production builder after frozen visual approval.
+- Image generation remains locked.
+- No new implementation has been authorized.
+- Next action: one focused Astra review of the frozen V10.1 SV01 spec.
