@@ -90,3 +90,22 @@ Build once and reuse:
 - cross-screen pose library
 
 The visual system is quality-first. Performance is a usability floor, not the art-direction goal.
+
+
+## Likeness image generation rule
+
+ChatGPT image generation remains the approved likeness-image surface.
+
+For any new Daniel/Nik likeness image:
+- use a fresh chat per asset;
+- use image EDIT from that manager's approved V1 pose;
+- attach only that person's approved V1 pose;
+- do not attach Transfer War key art or any second face to the likeness-edit chat;
+- preserve identity, wardrobe and lighting from the approved pose unless the producer ticket explicitly changes one;
+- paste the Lead Producer ticket verbatim;
+- do not allow prompt rewriting to replace the asset contract;
+- abandon/restart any chat that produces a collage or identity blend.
+
+This rule does not apply to environment-only generation.
+
+If three attempts on one ticket still fail likeness, stop and return to the Lead Visual Producer for a different identity-preservation route.
