@@ -27,6 +27,7 @@ visual-assets/v10_1/claude-project/CLAUDE_PROJECT_INSTRUCTIONS_V2.md
 
 Coordinator decisions:
 visual-assets/v10_1/coordination/SOL_RECONCILIATION_VPD02_VPD03_2026-09-27.md
+visual-assets/v10_1/coordination/SOL_RECONCILIATION_GATE0_R1_R2_2026-09-27.md
 
 ## Transfer direction
 
@@ -40,30 +41,46 @@ Owner accepted:
 - own-signings-only verdict reactions;
 - licensed real-player photo strategy.
 
-The old C2 technical proof remains rejected as visual target.
+Old C2 technical proof remains rejected as visual target.
 
-## Current production step
+## Gate 0 — current status
 
-GATE 0 ASSET GENERATION / REVIEW
+ROUND 1 COMPLETE / PARTIAL PASS.
 
-Gate 0 consists of five images:
-- War Room environment plate V1.1;
-- Daniel Window pose;
-- Nik Window pose;
-- Daniel Guess/private pose;
-- Nik Guess/private pose.
+Approved with intake fixes:
+- ENV_TR2_WARROOM_PLATE_V1.
 
-Gate 0 tickets were issued directly by Claude to Nik.
-Sol does not reissue them.
+Approved by reuse:
+- POSE_TRANSFER_DANIEL_FOCUSED_V1 for Guess Entry;
+- POSE_TRANSFER_NIK_TACTICAL_V1 for Guess Entry.
 
-No Cloud build starts until Claude approves Gate 0.
+Rejected:
+- all three newly generated generic-face poses;
+- round boardroom as Transfer asset.
 
-## Image generation
+Current blockers:
+- POSE_TR2_DANIEL_WINDOW_PITCH_V1;
+- POSE_TR2_NIK_WINDOW_POINT_V1.
 
-Image generation is now authorized only through the approved Gate 0 tickets that Nik received from Claude.
-No unticketed generation.
+Only two new Window pose generations remain.
+
+## Likeness method
+
+ChatGPT image generation remains active.
+For likeness assets:
+- fresh chat per image;
+- edit from the approved V1 pose;
+- only that manager's V1 pose attached;
+- no key-art / second-face reference;
+- exact producer ticket pasted verbatim;
+- no collage / identity blending.
+
+## CP1
+
+CP1 is HELD.
+
+Do not create claude-cloud/transfer-tr2-slice-01 until Claude completes Gate 0 R2 and issues the final CP1 CLOUD_BUILD_BRIEF.
 
 ## Main-project Cloud-credit reserve
 
-Keep a meaningful Cloud-credit reserve for main-game readiness and E2E testing.
-Visual work does not automatically consume the full promotional balance.
+Keep a meaningful Cloud-credit reserve for main-game readiness / E2E testing.
