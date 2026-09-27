@@ -1,78 +1,70 @@
 # V10 NEXT
 
-## Active route — ASTRA_CONSTRAINED
+## Next worker transition — Claude Code Cloud Session
 
-Claude Opus 5.5 is the provisional senior visual reviewer while Astra quota is constrained.
+COV-01 has been reconciled and the owner decisions are resolved.
 
-Claude does NOT replace Astra.
+The provisional C2 build is now authorized on an isolated branch.
 
-## Immediate next action
+### Exact branch to use
 
-Use the existing Claude project:
-`Claude Career Mode Showdown`
+In Claude Code, change the branch selector from:
 
-Model:
-`Opus 5.5`
+`main`
 
-Effort:
-`Extra / xhigh`
+to:
 
-Preferred surface:
-`Claude Chat Project`
+`claude-cloud/sv01-v10-1-c2-provisional-build`
 
-### Project setup
+Do not run this visual build from production main.
 
-Project Instructions:
-`visual-assets/v10_1/claude-project/CLAUDE_PROJECT_INSTRUCTIONS_V10_1.md`
+The dedicated branch is based on:
+`visual/cinematic-system-v10`
 
-Persistent Project knowledge:
-- Astra FIFA 17 / The Journey presentation bible
-- V10.1 cinematic authority
-- SV01 C2 Decision Desk spec
-- SV01 Product Truth Card
-- current V10_STATE
-- concise Claude Project knowledge pack
+### Cloud Session task
 
-GitHub Project integration:
-sync `visual/cinematic-system-v10`, not only `main`.
+Build one provisional SV01 C2 Decision Desk candidate using:
 
-For the COV-01 review chat attach directly:
-- desktop 7/10 baseline
-- mobile 7/10 baseline
-- Daniel Transfer pose
-- Nik Transfer pose
-- stadium base
+- `visual-assets/v10_1/SV01_C2_DECISION_DESK_SPEC.md`
+- `visual-assets/v10_1/SV01_C2_BLOCKING_ADDENDUM.md`
+- `visual-assets/v10/SV01_TRANSFER_GUESS_PRODUCT_TRUTH_CARD_V10.md`
+- current V10 state
+- approved Daniel/Nik/stadium assets
 
-Then run:
-`CLAUDE_FIRST_ASSIGNMENT_ASTRA_CONSTRAINED.md`
+Constraints:
+- no image generation;
+- CSS/SVG room authorized;
+- no product-behavior changes;
+- no main-branch writes;
+- no visual-system redesign;
+- output remains `PROVISIONAL_ASTRA_REVIEW_PENDING`.
 
-Required verdict:
-- `PROVISIONALLY READY FOR GOLDEN FRAME`
-or
-- `NOT PROVISIONALLY READY FOR GOLDEN FRAME`
+### Required outputs
 
-Claude remains read-only.
+- browser-openable candidate
+- 1366×768 rendered evidence
+- 390×844 rendered evidence
+- source/state QA
+- exact candidate SHA-256
+- implementation notes
+- changed-file list
+- no merge to main
 
-## Why not Max or Ultracode now
+### Budget discipline
 
-Max is held for a specific unresolved high-impact contradiction after Extra review.
+Visual Cloud Session soft envelope:
+approximately $55 total across visual implementation work.
 
-Ultracode is held for Claude Code tasks that materially benefit from autonomous workflow orchestration, such as broad repo audits or later isolated implementation.
+After this first substantive session, stop and check the cloud-credit balance before starting another large cloud session.
 
-The current job is art-direction review, not repository execution.
+Reserve approximately $45 for future main-product readiness / E2E / bug-audit work.
 
-## After Claude review
+### After build
 
-GPT-5.6 Sol:
-1. reconciles findings against product truth;
-2. updates only canonical V10.1 specifications;
-3. records accepted/rejected Claude deltas;
-4. performs or requests approved-asset fit audit.
+Return the exact branch result/evidence to GPT-5.6 Sol.
 
-If provisionally ready:
-one provisional desktop/mobile frame may be built and remains `PROVISIONAL_ASTRA_REVIEW_PENDING`.
-
-When Astra returns:
-use the compact Astra reentry protocol.
-
-Image generation remains LOCKED.
+Then:
+1. Sol checks product truth;
+2. Claude Chat Project performs RT-01 visual/technical red team;
+3. Astra later spot-checks the compact delta;
+4. Nik approves or rejects the visual result.
