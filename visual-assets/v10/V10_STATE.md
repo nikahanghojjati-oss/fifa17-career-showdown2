@@ -1,55 +1,58 @@
 # V10 STATE
 
-System: Showdown Visual Cinematic Experience OS V10
+System: Showdown Visual Cinematic Experience OS V10.1
 Branch: visual/cinematic-system-v10
 Current live-product anchor: main@f077b9c5be5e4d5bf5ef17b2d219983dbf142962
 Active screen: SV01 Transfer Guess Entry
-Golden-frame stage: FROZEN CANDIDATE — BROWSER PROOF PENDING
-Frozen candidate SHA-256: fee72b5a36c4d50685746c86f34bfcc5672a79694721008019d5a1ab312b438c
-Provisional Premium Visual Scorecard V5: 93 / 100
+Owner calibration of prior V10 candidate: 7/10
+Prior frozen candidate SHA-256: fee72b5a36c4d50685746c86f34bfcc5672a79694721008019d5a1ab312b438c
+Prior internal 93/100 score: RETIRED AS OVERRIDING QUALITY AUTHORITY
 Image generation: LOCKED
-Reference uploads: REFERENCE_ONLY unless Nik explicitly requests generation/editing
-Worker decision: GPT-6 Sol High in ChatGPT Work
-Escalation: GPT-6 Astra Medium/High only after evidence of worker-limit failure on a frozen critical slice
-Research status: V10 284-source expansion COMPLETE
-Last safe commit before this state update: 2760c8d53d75af485ee360115ddbbeedda609360
+Research status: Astra FIFA 17 / The Journey presentation bible INGESTED
+Art-direction stage: V10.1 C2 DECISION DESK SPEC FROZEN FOR ASTRA REVIEW
+Implementation worker: GPT-6 Sol High in ChatGPT Work, NOT YET AUTHORIZED
+Executive visual reviewer: GPT-6 Astra High
+Producer / product-truth / synthesis: GPT-5.6 Sol
+Final taste authority: Nik
 
-## Completed in V10
-- Cinematic Experience OS V10 authority
-- permanent reference-input semantics
-- interruption-resilient execution protocol
-- 284-source independent research ledger
-- owner-reference depth study
-- research synthesis
-- cinematic depth / 2.5D / 3D strategy
-- AAA + FIFA 17 presentation study
-- golden-frame quality gate
-- OpenAI worker-model decision
-- current main re-resolution for SV01
-- SV01 Guess Entry Product Truth Card
-- V10 SV01 golden-frame composition
-- approved Transfer-specific Daniel/Nik integration
-- deterministic 1366x768 and 390x844 render evidence
-- SV01 source/visual QA
-- provisional Premium Visual Scorecard V5 qualification at 93/100
+## Why the state changed
 
-## Current design decision
+Nik rated the prior SV01 candidate 7/10.
 
-Do NOT send SV01 to a worker yet.
+That owner calibration overrides the previous internal conclusion that the candidate was presentation-grade. The old candidate remains useful evidence but is not the V10.1 golden benchmark and is not waiting merely for browser proof anymore.
 
-The candidate is frozen. Do not visually redesign or regenerate it before browser proof.
+Astra's FIFA 17 / The Journey research identifies the central defect: the task board, Daniel and Nik do not yet convincingly inhabit one shared place. V10.1 therefore shifts the target from cinematic poster composition to an inhabited operations-room scene with deliberate camera, perspective, contact, eyelines and shared light.
 
-Required next evidence is a real browser render of the exact candidate fingerprint at 1366x768 and 390x844. This session's local Chromium hangs even on trivial HTML, so browser proof is honestly still pending.
+## Active authority
 
-If browser proof matches the deterministic render evidence and exposes no hard-gate defect, Sol may visually approve the Golden Frame for Nik's owner review. Owner approval remains required before this screen becomes the reusable V10 reference or before worker productionization.
+Read:
+- `visual-assets/v10_1/SHOWDOWN_VISUAL_V10_1_CINEMATIC_AUTHORITY.md`
+- `visual-assets/v10_1/SV01_C2_DECISION_DESK_SPEC.md`
+- `visual-assets/v10_1/ASTRA_FOCUSED_ART_DIRECTOR_REVIEW_PACKET.md`
 
-## Blockers
+The prior V10 research remains useful where not superseded.
 
-- Browser-render proof only. No product, asset or image-generation blocker.
+## Current decision
 
-## Next exact action
+Do NOT implement another golden frame yet.
+Do NOT send SV01 to GPT-6 Sol High yet.
+Do NOT generate new environment/character assets yet.
 
-Render candidate `fee72b5a36c4d50685746c86f34bfcc5672a79694721008019d5a1ab312b438c` unchanged in a functioning browser at 1366x768 and 390x844.
+The next action is one focused Astra art-director review of the frozen V10.1 C2 Decision Desk specification.
 
-If browser proof exposes a concrete defect, revise narrowly and assign a new fingerprint.
-If browser proof passes, present the exact rendered candidate to Nik for owner visual approval.
+After Astra review returns:
+1. GPT-5.6 Sol reconciles only the required deltas.
+2. If Astra says READY FOR GOLDEN FRAME, freeze V10.1.
+3. Audit existing approved assets against the C2 camera.
+4. If no true asset blocker exists, build the golden frame.
+5. If a true asset blocker exists, create a bounded owner-approval asset ticket before generation.
+6. Present desktop/mobile golden frame against the exact 7/10 baseline.
+7. Nik decides whether it materially clears the baseline.
+8. Only then authorize GPT-6 Sol High Work for production implementation.
+
+## Product status
+
+Production `main` was re-resolved after Astra intake and remains:
+`f077b9c5be5e4d5bf5ef17b2d219983dbf142962`
+
+No production behavior has been changed.
