@@ -12,4 +12,22 @@
 - Added AAA + FIFA 17 presentation study.
 - Added Golden Frame Gate V10.
 - Chose GPT-6 Sol High in ChatGPT Work as the single regular implementation worker; Astra is exception-only escalation.
-- Research/system phase complete. Next phase is actual SV01 golden-frame production by Sol.
+- Research/system phase completed.
+- Re-resolved production main for SV01; it remains `f077b9c5be5e4d5bf5ef17b2d219983dbf142962`.
+- Re-audited the production Shared Transfer Challenge GUESS_ENTRY contract.
+- Froze `SV01_TRANSFER_GUESS_PRODUCT_TRUTH_CARD_V10.md`.
+- Built a new V10 SV01 composition rather than extending the rejected flat/dashboard baseline.
+- Used only approved Transfer assets: Daniel focused pose, Nik tactical pose and warm stadium base.
+- Preserved Daniel left / Nik right while allowing acting emphasis to change without side swapping.
+- Built a visible stadium/world, glass-room depth treatment, compact dominant Transfer operations board and foreground desk plane.
+- Preserved Window Closed / Guess Entry, three private rival guesses, sealed opponent state and `LOCK MY GUESSES` with no active timer.
+- Built responsive mobile recomposition that removes large heroes and keeps the live task dominant.
+- Removed excess lower-board dead space after render inspection.
+- Strengthened rights-safe condensed franchise typography.
+- Ran source integrity checks: zero duplicate IDs, three guess type/value pairs, review controls outside canvas, reduced-motion handling and no forbidden Guess Entry timer/signing/verdict action copy.
+- Produced deterministic HTML/CSS render evidence at 1366x768 and 390x844.
+- Premium Visual Scorecard V5 provisional result: 93/100.
+- Froze self-contained candidate SHA-256 `fee72b5a36c4d50685746c86f34bfcc5672a79694721008019d5a1ab312b438c`.
+- System Chromium could not complete even a trivial headless screenshot in this environment; final browser-proof requirement remains pending and is not being falsely marked complete.
+- Created SV01 golden-frame build, scorecard and QA records.
+- Next action is browser proof of the exact frozen fingerprint, then owner review. No worker handoff yet.
