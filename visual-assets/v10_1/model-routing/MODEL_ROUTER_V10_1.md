@@ -1,3 +1,6 @@
+# SUPERSEDED FOR ACTIVE VISUAL WORK
+Use `visual-assets/v10_1/coordination/STUDIO_WORKFLOW_AND_ROUTING_V2.md`. This file is retained as historical routing evidence only.
+
 # SHOWDOWN VISUAL V10.1 — MODEL AVAILABILITY ROUTER
 
 Status: ACTIVE
