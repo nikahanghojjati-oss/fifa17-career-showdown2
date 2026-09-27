@@ -1,0 +1,1897 @@
+{
+  "candidate": "SV01_C2_PROVISIONAL_CANDIDATE.html",
+  "candidateSha256": "f1a5a27dd65e83bf5cef946111cd9ee3e18bbc3585ca22514411fd1c45c7462b",
+  "fontsSource": "Google Fonts (routed from local cache)",
+  "assets": {
+    "POSE_TRANSFER_DANIEL_FOCUSED_V1.png": {
+      "expected": "8c9cde1e4ef118d57ca9b1b6dacc7429bb70494e5f8ebce853ed7f46036b2c49",
+      "actual": "8c9cde1e4ef118d57ca9b1b6dacc7429bb70494e5f8ebce853ed7f46036b2c49"
+    },
+    "POSE_TRANSFER_NIK_TACTICAL_V1.png": {
+      "expected": "92c40b1290b06945122ba442bb0368c8025cc20b39e494c3d69926396b8488f5",
+      "actual": "92c40b1290b06945122ba442bb0368c8025cc20b39e494c3d69926396b8488f5"
+    },
+    "ENV_STADIUM_WARM_BASE_V1.webp": {
+      "expected": "2b484a6a8d0af8b3303c529dac42c571ae338651a2fe8896e81a73fa8d2b1e62",
+      "actual": "2b484a6a8d0af8b3303c529dac42c571ae338651a2fe8896e81a73fa8d2b1e62"
+    },
+    "sv01-v10-desktop-final.png": {
+      "expected": "cf629d964147d38d1b079256b302cfc4e43c7b755eab193ad2b4ca27c53f6ecf",
+      "actual": "cf629d964147d38d1b079256b302cfc4e43c7b755eab193ad2b4ca27c53f6ecf"
+    },
+    "sv01-v10-mobile-final.png": {
+      "expected": "531c2534a5fdee106990a9e34e3ed0f3c8acf9844f3c4f9c51cf8fd5e01b1de8",
+      "actual": "531c2534a5fdee106990a9e34e3ed0f3c8acf9844f3c4f9c51cf8fd5e01b1de8"
+    },
+    "SV01_V10_GOLDEN_FRAME_SELF_CONTAINED.html": {
+      "expected": "fee72b5a36c4d50685746c86f34bfcc5672a79694721008019d5a1ab312b438c",
+      "actual": "fee72b5a36c4d50685746c86f34bfcc5672a79694721008019d5a1ab312b438c"
+    }
+  },
+  "desktop": {
+    "horizonY": 330,
+    "vanishingPoint": [
+      700,
+      330
+    ],
+    "danielEyeY": 330,
+    "nikEyeY": 330,
+    "danielHeadPx": 124.1,
+    "nikHeadPx": 120.6,
+    "nikDeviceRightX": 520.7,
+    "nikAlphaRightX": 522.3,
+    "danielAlphaRightX": 279.7,
+    "display": {
+      "x": 560,
+      "y": 72,
+      "w": 760,
+      "h": 556,
+      "r": 1320,
+      "b": 628
+    },
+    "displayWidthShare": 0.556,
+    "titleTopY": 109,
+    "topbarH": 60,
+    "stadiumHorizonY": 330,
+    "stadiumVPX": 700,
+    "transforms": {
+      "daniel": "none",
+      "nik": "none"
+    },
+    "sources": {
+      "daniel": "../assets/POSE_TRANSFER_DANIEL_FOCUSED_V1.png",
+      "nik": "../assets/POSE_TRANSFER_NIK_TACTICAL_V1.png"
+    },
+    "horizontalScroll": false,
+    "eyeDelta": 0,
+    "headRatioDanielOverNik": 1.029,
+    "nikDeviceToDisplayGap": 39.3,
+    "luminance": {
+      "lockFillLum": 172.3,
+      "stadiumMaxLum": 124.1,
+      "stadiumP99Lum": 99.3,
+      "maxLumWithin48pxOfDisplay": 47.5
+    },
+    "squint": {
+      "peakWarmSalience": 108.7,
+      "at": [
+        1074,
+        552
+      ],
+      "inLockButton": true
+    }
+  },
+  "mobile": {
+    "topbarH": 56,
+    "sceneTop": 56,
+    "sceneH": 180,
+    "taskStartY": 251,
+    "danielHeadPx": 78.1,
+    "nikHeadPx": 76.1,
+    "danielEyeY": 148,
+    "nikEyeY": 148,
+    "pageEndBelowActions": 20,
+    "fixedOrSticky": [],
+    "horizontalScroll": false,
+    "names": [
+      {
+        "t": "DANIEL",
+        "x": 12,
+        "r": 53.046875,
+        "y": 120
+      },
+      {
+        "t": "NIK",
+        "x": 292,
+        "r": 311.53125,
+        "y": 120
+      }
+    ]
+  },
+  "states": {
+    "desktop:nik-editable": {
+      "acting": "nik",
+      "title": "SEASON 1 SHARED TRANSFER CHALLENGE",
+      "status": "GUESS ENTRY · YOUR RIVAL CANNOT SEE THESE BEFORE COMPLETION",
+      "intro": "Private Guess Entry · enter only your guesses; your rival cannot read them yet.",
+      "heading": "Nik guesses Daniel's signings",
+      "privacy": "Shared privacy: enter only your guesses. Your rival cannot read them until both managers complete the challenge.",
+      "error": "",
+      "lock": {
+        "text": "LOCK MY GUESSES",
+        "disabled": false
+      },
+      "continueReplay": null,
+      "refreshDisabled": false,
+      "fields": [
+        {
+          "id": "p1Guess1Type",
+          "label": "Guess 1 against Daniel type",
+          "disabled": false,
+          "value": "",
+          "placeholder": null,
+          "fontPx": 17
+        },
+        {
+          "id": "p1Guess1Value",
+          "label": "Guess 1 against Daniel value",
+          "disabled": true,
+          "value": "",
+          "placeholder": "Choose League or Nationality first",
+          "fontPx": 17
+        },
+        {
+          "id": "p1Guess2Type",
+          "label": "Guess 2 against Daniel type",
+          "disabled": false,
+          "value": "",
+          "placeholder": null,
+          "fontPx": 17
+        },
+        {
+          "id": "p1Guess2Value",
+          "label": "Guess 2 against Daniel value",
+          "disabled": true,
+          "value": "",
+          "placeholder": "Choose League or Nationality first",
+          "fontPx": 17
+        },
+        {
+          "id": "p1Guess3Type",
+          "label": "Guess 3 against Daniel type",
+          "disabled": false,
+          "value": "",
+          "placeholder": null,
+          "fontPx": 17
+        },
+        {
+          "id": "p1Guess3Value",
+          "label": "Guess 3 against Daniel value",
+          "disabled": true,
+          "value": "",
+          "placeholder": "Choose League or Nationality first",
+          "fontPx": 17
+        }
+      ]
+    },
+    "desktop:nik-one-row": {
+      "acting": "nik",
+      "title": "SEASON 1 SHARED TRANSFER CHALLENGE",
+      "status": "GUESS ENTRY · YOUR RIVAL CANNOT SEE THESE BEFORE COMPLETION",
+      "intro": "Private Guess Entry · enter only your guesses; your rival cannot read them yet.",
+      "heading": "Nik guesses Daniel's signings",
+      "privacy": "Shared privacy: enter only your guesses. Your rival cannot read them until both managers complete the challenge.",
+      "error": "",
+      "lock": {
+        "text": "LOCK MY GUESSES",
+        "disabled": false
+      },
+      "continueReplay": null,
+      "refreshDisabled": false,
+      "fields": [
+        {
+          "id": "p1Guess1Type",
+          "label": "Guess 1 against Daniel type",
+          "disabled": false,
+          "value": "league",
+          "placeholder": null,
+          "fontPx": 17
+        },
+        {
+          "id": "p1Guess1Value",
+          "label": "Guess 1 against Daniel value",
+          "disabled": false,
+          "value": "Premier League",
+          "placeholder": "Search FIFA 17 league",
+          "fontPx": 17
+        },
+        {
+          "id": "p1Guess2Type",
+          "label": "Guess 2 against Daniel type",
+          "disabled": false,
+          "value": "",
+          "placeholder": null,
+          "fontPx": 17
+        },
+        {
+          "id": "p1Guess2Value",
+          "label": "Guess 2 against Daniel value",
+          "disabled": true,
+          "value": "",
+          "placeholder": "Choose League or Nationality first",
+          "fontPx": 17
+        },
+        {
+          "id": "p1Guess3Type",
+          "label": "Guess 3 against Daniel type",
+          "disabled": false,
+          "value": "",
+          "placeholder": null,
+          "fontPx": 17
+        },
+        {
+          "id": "p1Guess3Value",
+          "label": "Guess 3 against Daniel value",
+          "disabled": true,
+          "value": "",
+          "placeholder": "Choose League or Nationality first",
+          "fontPx": 17
+        }
+      ]
+    },
+    "desktop:daniel-editable": {
+      "acting": "daniel",
+      "title": "SEASON 1 SHARED TRANSFER CHALLENGE",
+      "status": "GUESS ENTRY · YOUR RIVAL CANNOT SEE THESE BEFORE COMPLETION",
+      "intro": "Private Guess Entry · enter only your guesses; your rival cannot read them yet.",
+      "heading": "Daniel guesses Nik's signings",
+      "privacy": "Shared privacy: enter only your guesses. Your rival cannot read them until both managers complete the challenge.",
+      "error": "",
+      "lock": {
+        "text": "LOCK MY GUESSES",
+        "disabled": false
+      },
+      "continueReplay": null,
+      "refreshDisabled": false,
+      "fields": [
+        {
+          "id": "p2Guess1Type",
+          "label": "Guess 1 against Nik type",
+          "disabled": false,
+          "value": "",
+          "placeholder": null,
+          "fontPx": 17
+        },
+        {
+          "id": "p2Guess1Value",
+          "label": "Guess 1 against Nik value",
+          "disabled": true,
+          "value": "",
+          "placeholder": "Choose League or Nationality first",
+          "fontPx": 17
+        },
+        {
+          "id": "p2Guess2Type",
+          "label": "Guess 2 against Nik type",
+          "disabled": false,
+          "value": "",
+          "placeholder": null,
+          "fontPx": 17
+        },
+        {
+          "id": "p2Guess2Value",
+          "label": "Guess 2 against Nik value",
+          "disabled": true,
+          "value": "",
+          "placeholder": "Choose League or Nationality first",
+          "fontPx": 17
+        },
+        {
+          "id": "p2Guess3Type",
+          "label": "Guess 3 against Nik type",
+          "disabled": false,
+          "value": "",
+          "placeholder": null,
+          "fontPx": 17
+        },
+        {
+          "id": "p2Guess3Value",
+          "label": "Guess 3 against Nik value",
+          "disabled": true,
+          "value": "",
+          "placeholder": "Choose League or Nationality first",
+          "fontPx": 17
+        }
+      ]
+    },
+    "desktop:nik-locked": {
+      "acting": "nik",
+      "title": "SEASON 1 SHARED TRANSFER CHALLENGE",
+      "status": "YOUR GUESSES ARE LOCKED · WAITING FOR YOUR RIVAL",
+      "intro": "Private Guess Entry · enter only your guesses; your rival cannot read them yet.",
+      "heading": "Nik guesses Daniel's signings",
+      "privacy": "Shared privacy: enter only your guesses. Your rival cannot read them until both managers complete the challenge.",
+      "error": "",
+      "lock": null,
+      "continueReplay": null,
+      "refreshDisabled": false,
+      "fields": [
+        {
+          "id": "p1Guess1Type",
+          "label": "Guess 1 against Daniel type",
+          "disabled": true,
+          "value": "league",
+          "placeholder": null,
+          "fontPx": 17
+        },
+        {
+          "id": "p1Guess1Value",
+          "label": "Guess 1 against Daniel value",
+          "disabled": true,
+          "value": "Premier League",
+          "placeholder": "Search FIFA 17 league",
+          "fontPx": 17
+        },
+        {
+          "id": "p1Guess2Type",
+          "label": "Guess 2 against Daniel type",
+          "disabled": true,
+          "value": "nationality",
+          "placeholder": null,
+          "fontPx": 17
+        },
+        {
+          "id": "p1Guess2Value",
+          "label": "Guess 2 against Daniel value",
+          "disabled": true,
+          "value": "Brazil",
+          "placeholder": "Search nationality",
+          "fontPx": 17
+        },
+        {
+          "id": "p1Guess3Type",
+          "label": "Guess 3 against Daniel type",
+          "disabled": true,
+          "value": "nationality",
+          "placeholder": null,
+          "fontPx": 17
+        },
+        {
+          "id": "p1Guess3Value",
+          "label": "Guess 3 against Daniel value",
+          "disabled": true,
+          "value": "France",
+          "placeholder": "Search nationality",
+          "fontPx": 17
+        }
+      ]
+    },
+    "desktop:replay": {
+      "acting": "nik",
+      "title": "SEASON 1 SHARED TRANSFER CHALLENGE",
+      "status": "HISTORICAL REPLAY · PRIVATE GUESS ENTRY",
+      "intro": "Private Guess Entry · enter only your guesses; your rival cannot read them yet.",
+      "heading": "Nik guesses Daniel's signings",
+      "privacy": "Historical replay: this read-only screen does not reveal any opponent payload that provider authority has not already made available.",
+      "error": "",
+      "lock": null,
+      "continueReplay": {
+        "text": "CONTINUE REPLAY · GUESS ENTRY",
+        "disabled": false
+      },
+      "refreshDisabled": true,
+      "fields": [
+        {
+          "id": "p1Guess1Type",
+          "label": "Guess 1 against Daniel type",
+          "disabled": true,
+          "value": "league",
+          "placeholder": null,
+          "fontPx": 17
+        },
+        {
+          "id": "p1Guess1Value",
+          "label": "Guess 1 against Daniel value",
+          "disabled": true,
+          "value": "Premier League",
+          "placeholder": "Search FIFA 17 league",
+          "fontPx": 17
+        },
+        {
+          "id": "p1Guess2Type",
+          "label": "Guess 2 against Daniel type",
+          "disabled": true,
+          "value": "nationality",
+          "placeholder": null,
+          "fontPx": 17
+        },
+        {
+          "id": "p1Guess2Value",
+          "label": "Guess 2 against Daniel value",
+          "disabled": true,
+          "value": "Brazil",
+          "placeholder": "Search nationality",
+          "fontPx": 17
+        },
+        {
+          "id": "p1Guess3Type",
+          "label": "Guess 3 against Daniel type",
+          "disabled": true,
+          "value": "nationality",
+          "placeholder": null,
+          "fontPx": 17
+        },
+        {
+          "id": "p1Guess3Value",
+          "label": "Guess 3 against Daniel value",
+          "disabled": true,
+          "value": "France",
+          "placeholder": "Search nationality",
+          "fontPx": 17
+        }
+      ]
+    },
+    "desktop:error": {
+      "acting": "nik",
+      "title": "SEASON 1 SHARED TRANSFER CHALLENGE",
+      "status": "GUESS ENTRY · YOUR RIVAL CANNOT SEE THESE BEFORE COMPLETION",
+      "intro": "Private Guess Entry · enter only your guesses; your rival cannot read them yet.",
+      "heading": "Nik guesses Daniel's signings",
+      "privacy": "Shared privacy: enter only your guesses. Your rival cannot read them until both managers complete the challenge.",
+      "error": "TRANSFER_GUESSES_INVALID",
+      "lock": {
+        "text": "LOCK MY GUESSES",
+        "disabled": false
+      },
+      "continueReplay": null,
+      "refreshDisabled": false,
+      "fields": [
+        {
+          "id": "p1Guess1Type",
+          "label": "Guess 1 against Daniel type",
+          "disabled": false,
+          "value": "league",
+          "placeholder": null,
+          "fontPx": 17
+        },
+        {
+          "id": "p1Guess1Value",
+          "label": "Guess 1 against Daniel value",
+          "disabled": false,
+          "value": "",
+          "placeholder": "Search FIFA 17 league",
+          "fontPx": 17
+        },
+        {
+          "id": "p1Guess2Type",
+          "label": "Guess 2 against Daniel type",
+          "disabled": false,
+          "value": "",
+          "placeholder": null,
+          "fontPx": 17
+        },
+        {
+          "id": "p1Guess2Value",
+          "label": "Guess 2 against Daniel value",
+          "disabled": true,
+          "value": "",
+          "placeholder": "Choose League or Nationality first",
+          "fontPx": 17
+        },
+        {
+          "id": "p1Guess3Type",
+          "label": "Guess 3 against Daniel type",
+          "disabled": false,
+          "value": "",
+          "placeholder": null,
+          "fontPx": 17
+        },
+        {
+          "id": "p1Guess3Value",
+          "label": "Guess 3 against Daniel value",
+          "disabled": true,
+          "value": "",
+          "placeholder": "Choose League or Nationality first",
+          "fontPx": 17
+        }
+      ]
+    },
+    "desktop:busy": {
+      "acting": "nik",
+      "title": "SEASON 1 SHARED TRANSFER CHALLENGE",
+      "status": "GUESS ENTRY · YOUR RIVAL CANNOT SEE THESE BEFORE COMPLETION",
+      "intro": "Private Guess Entry · enter only your guesses; your rival cannot read them yet.",
+      "heading": "Nik guesses Daniel's signings",
+      "privacy": "Shared privacy: enter only your guesses. Your rival cannot read them until both managers complete the challenge.",
+      "error": "",
+      "lock": {
+        "text": "LOCK MY GUESSES",
+        "disabled": true
+      },
+      "continueReplay": null,
+      "refreshDisabled": true,
+      "fields": [
+        {
+          "id": "p1Guess1Type",
+          "label": "Guess 1 against Daniel type",
+          "disabled": false,
+          "value": "league",
+          "placeholder": null,
+          "fontPx": 17
+        },
+        {
+          "id": "p1Guess1Value",
+          "label": "Guess 1 against Daniel value",
+          "disabled": false,
+          "value": "Premier League",
+          "placeholder": "Search FIFA 17 league",
+          "fontPx": 17
+        },
+        {
+          "id": "p1Guess2Type",
+          "label": "Guess 2 against Daniel type",
+          "disabled": false,
+          "value": "nationality",
+          "placeholder": null,
+          "fontPx": 17
+        },
+        {
+          "id": "p1Guess2Value",
+          "label": "Guess 2 against Daniel value",
+          "disabled": false,
+          "value": "Brazil",
+          "placeholder": "Search nationality",
+          "fontPx": 17
+        },
+        {
+          "id": "p1Guess3Type",
+          "label": "Guess 3 against Daniel type",
+          "disabled": false,
+          "value": "nationality",
+          "placeholder": null,
+          "fontPx": 17
+        },
+        {
+          "id": "p1Guess3Value",
+          "label": "Guess 3 against Daniel value",
+          "disabled": false,
+          "value": "France",
+          "placeholder": "Search nationality",
+          "fontPx": 17
+        }
+      ]
+    },
+    "mobile:nik-editable": {
+      "acting": "nik",
+      "title": "SEASON 1 SHARED TRANSFER CHALLENGE",
+      "status": "GUESS ENTRY · YOUR RIVAL CANNOT SEE THESE BEFORE COMPLETION",
+      "intro": "Private Guess Entry · enter only your guesses; your rival cannot read them yet.",
+      "heading": "Nik guesses Daniel's signings",
+      "privacy": "Shared privacy: enter only your guesses. Your rival cannot read them until both managers complete the challenge.",
+      "error": "",
+      "lock": {
+        "text": "LOCK MY GUESSES",
+        "disabled": false
+      },
+      "continueReplay": null,
+      "refreshDisabled": false,
+      "fields": [
+        {
+          "id": "p1Guess1Type",
+          "label": "Guess 1 against Daniel type",
+          "disabled": false,
+          "value": "",
+          "placeholder": null,
+          "fontPx": 16
+        },
+        {
+          "id": "p1Guess1Value",
+          "label": "Guess 1 against Daniel value",
+          "disabled": true,
+          "value": "",
+          "placeholder": "Choose League or Nationality first",
+          "fontPx": 16
+        },
+        {
+          "id": "p1Guess2Type",
+          "label": "Guess 2 against Daniel type",
+          "disabled": false,
+          "value": "",
+          "placeholder": null,
+          "fontPx": 16
+        },
+        {
+          "id": "p1Guess2Value",
+          "label": "Guess 2 against Daniel value",
+          "disabled": true,
+          "value": "",
+          "placeholder": "Choose League or Nationality first",
+          "fontPx": 16
+        },
+        {
+          "id": "p1Guess3Type",
+          "label": "Guess 3 against Daniel type",
+          "disabled": false,
+          "value": "",
+          "placeholder": null,
+          "fontPx": 16
+        },
+        {
+          "id": "p1Guess3Value",
+          "label": "Guess 3 against Daniel value",
+          "disabled": true,
+          "value": "",
+          "placeholder": "Choose League or Nationality first",
+          "fontPx": 16
+        }
+      ]
+    },
+    "mobile:nik-one-row": {
+      "acting": "nik",
+      "title": "SEASON 1 SHARED TRANSFER CHALLENGE",
+      "status": "GUESS ENTRY · YOUR RIVAL CANNOT SEE THESE BEFORE COMPLETION",
+      "intro": "Private Guess Entry · enter only your guesses; your rival cannot read them yet.",
+      "heading": "Nik guesses Daniel's signings",
+      "privacy": "Shared privacy: enter only your guesses. Your rival cannot read them until both managers complete the challenge.",
+      "error": "",
+      "lock": {
+        "text": "LOCK MY GUESSES",
+        "disabled": false
+      },
+      "continueReplay": null,
+      "refreshDisabled": false,
+      "fields": [
+        {
+          "id": "p1Guess1Type",
+          "label": "Guess 1 against Daniel type",
+          "disabled": false,
+          "value": "league",
+          "placeholder": null,
+          "fontPx": 16
+        },
+        {
+          "id": "p1Guess1Value",
+          "label": "Guess 1 against Daniel value",
+          "disabled": false,
+          "value": "Premier League",
+          "placeholder": "Search FIFA 17 league",
+          "fontPx": 16
+        },
+        {
+          "id": "p1Guess2Type",
+          "label": "Guess 2 against Daniel type",
+          "disabled": false,
+          "value": "",
+          "placeholder": null,
+          "fontPx": 16
+        },
+        {
+          "id": "p1Guess2Value",
+          "label": "Guess 2 against Daniel value",
+          "disabled": true,
+          "value": "",
+          "placeholder": "Choose League or Nationality first",
+          "fontPx": 16
+        },
+        {
+          "id": "p1Guess3Type",
+          "label": "Guess 3 against Daniel type",
+          "disabled": false,
+          "value": "",
+          "placeholder": null,
+          "fontPx": 16
+        },
+        {
+          "id": "p1Guess3Value",
+          "label": "Guess 3 against Daniel value",
+          "disabled": true,
+          "value": "",
+          "placeholder": "Choose League or Nationality first",
+          "fontPx": 16
+        }
+      ]
+    },
+    "mobile:daniel-editable": {
+      "acting": "daniel",
+      "title": "SEASON 1 SHARED TRANSFER CHALLENGE",
+      "status": "GUESS ENTRY · YOUR RIVAL CANNOT SEE THESE BEFORE COMPLETION",
+      "intro": "Private Guess Entry · enter only your guesses; your rival cannot read them yet.",
+      "heading": "Daniel guesses Nik's signings",
+      "privacy": "Shared privacy: enter only your guesses. Your rival cannot read them until both managers complete the challenge.",
+      "error": "",
+      "lock": {
+        "text": "LOCK MY GUESSES",
+        "disabled": false
+      },
+      "continueReplay": null,
+      "refreshDisabled": false,
+      "fields": [
+        {
+          "id": "p2Guess1Type",
+          "label": "Guess 1 against Nik type",
+          "disabled": false,
+          "value": "",
+          "placeholder": null,
+          "fontPx": 16
+        },
+        {
+          "id": "p2Guess1Value",
+          "label": "Guess 1 against Nik value",
+          "disabled": true,
+          "value": "",
+          "placeholder": "Choose League or Nationality first",
+          "fontPx": 16
+        },
+        {
+          "id": "p2Guess2Type",
+          "label": "Guess 2 against Nik type",
+          "disabled": false,
+          "value": "",
+          "placeholder": null,
+          "fontPx": 16
+        },
+        {
+          "id": "p2Guess2Value",
+          "label": "Guess 2 against Nik value",
+          "disabled": true,
+          "value": "",
+          "placeholder": "Choose League or Nationality first",
+          "fontPx": 16
+        },
+        {
+          "id": "p2Guess3Type",
+          "label": "Guess 3 against Nik type",
+          "disabled": false,
+          "value": "",
+          "placeholder": null,
+          "fontPx": 16
+        },
+        {
+          "id": "p2Guess3Value",
+          "label": "Guess 3 against Nik value",
+          "disabled": true,
+          "value": "",
+          "placeholder": "Choose League or Nationality first",
+          "fontPx": 16
+        }
+      ]
+    },
+    "mobile:nik-locked": {
+      "acting": "nik",
+      "title": "SEASON 1 SHARED TRANSFER CHALLENGE",
+      "status": "YOUR GUESSES ARE LOCKED · WAITING FOR YOUR RIVAL",
+      "intro": "Private Guess Entry · enter only your guesses; your rival cannot read them yet.",
+      "heading": "Nik guesses Daniel's signings",
+      "privacy": "Shared privacy: enter only your guesses. Your rival cannot read them until both managers complete the challenge.",
+      "error": "",
+      "lock": null,
+      "continueReplay": null,
+      "refreshDisabled": false,
+      "fields": [
+        {
+          "id": "p1Guess1Type",
+          "label": "Guess 1 against Daniel type",
+          "disabled": true,
+          "value": "league",
+          "placeholder": null,
+          "fontPx": 16
+        },
+        {
+          "id": "p1Guess1Value",
+          "label": "Guess 1 against Daniel value",
+          "disabled": true,
+          "value": "Premier League",
+          "placeholder": "Search FIFA 17 league",
+          "fontPx": 16
+        },
+        {
+          "id": "p1Guess2Type",
+          "label": "Guess 2 against Daniel type",
+          "disabled": true,
+          "value": "nationality",
+          "placeholder": null,
+          "fontPx": 16
+        },
+        {
+          "id": "p1Guess2Value",
+          "label": "Guess 2 against Daniel value",
+          "disabled": true,
+          "value": "Brazil",
+          "placeholder": "Search nationality",
+          "fontPx": 16
+        },
+        {
+          "id": "p1Guess3Type",
+          "label": "Guess 3 against Daniel type",
+          "disabled": true,
+          "value": "nationality",
+          "placeholder": null,
+          "fontPx": 16
+        },
+        {
+          "id": "p1Guess3Value",
+          "label": "Guess 3 against Daniel value",
+          "disabled": true,
+          "value": "France",
+          "placeholder": "Search nationality",
+          "fontPx": 16
+        }
+      ]
+    },
+    "mobile:replay": {
+      "acting": "nik",
+      "title": "SEASON 1 SHARED TRANSFER CHALLENGE",
+      "status": "HISTORICAL REPLAY · PRIVATE GUESS ENTRY",
+      "intro": "Private Guess Entry · enter only your guesses; your rival cannot read them yet.",
+      "heading": "Nik guesses Daniel's signings",
+      "privacy": "Historical replay: this read-only screen does not reveal any opponent payload that provider authority has not already made available.",
+      "error": "",
+      "lock": null,
+      "continueReplay": {
+        "text": "CONTINUE REPLAY · GUESS ENTRY",
+        "disabled": false
+      },
+      "refreshDisabled": true,
+      "fields": [
+        {
+          "id": "p1Guess1Type",
+          "label": "Guess 1 against Daniel type",
+          "disabled": true,
+          "value": "league",
+          "placeholder": null,
+          "fontPx": 16
+        },
+        {
+          "id": "p1Guess1Value",
+          "label": "Guess 1 against Daniel value",
+          "disabled": true,
+          "value": "Premier League",
+          "placeholder": "Search FIFA 17 league",
+          "fontPx": 16
+        },
+        {
+          "id": "p1Guess2Type",
+          "label": "Guess 2 against Daniel type",
+          "disabled": true,
+          "value": "nationality",
+          "placeholder": null,
+          "fontPx": 16
+        },
+        {
+          "id": "p1Guess2Value",
+          "label": "Guess 2 against Daniel value",
+          "disabled": true,
+          "value": "Brazil",
+          "placeholder": "Search nationality",
+          "fontPx": 16
+        },
+        {
+          "id": "p1Guess3Type",
+          "label": "Guess 3 against Daniel type",
+          "disabled": true,
+          "value": "nationality",
+          "placeholder": null,
+          "fontPx": 16
+        },
+        {
+          "id": "p1Guess3Value",
+          "label": "Guess 3 against Daniel value",
+          "disabled": true,
+          "value": "France",
+          "placeholder": "Search nationality",
+          "fontPx": 16
+        }
+      ]
+    },
+    "mobile:error": {
+      "acting": "nik",
+      "title": "SEASON 1 SHARED TRANSFER CHALLENGE",
+      "status": "GUESS ENTRY · YOUR RIVAL CANNOT SEE THESE BEFORE COMPLETION",
+      "intro": "Private Guess Entry · enter only your guesses; your rival cannot read them yet.",
+      "heading": "Nik guesses Daniel's signings",
+      "privacy": "Shared privacy: enter only your guesses. Your rival cannot read them until both managers complete the challenge.",
+      "error": "TRANSFER_GUESSES_INVALID",
+      "lock": {
+        "text": "LOCK MY GUESSES",
+        "disabled": false
+      },
+      "continueReplay": null,
+      "refreshDisabled": false,
+      "fields": [
+        {
+          "id": "p1Guess1Type",
+          "label": "Guess 1 against Daniel type",
+          "disabled": false,
+          "value": "league",
+          "placeholder": null,
+          "fontPx": 16
+        },
+        {
+          "id": "p1Guess1Value",
+          "label": "Guess 1 against Daniel value",
+          "disabled": false,
+          "value": "",
+          "placeholder": "Search FIFA 17 league",
+          "fontPx": 16
+        },
+        {
+          "id": "p1Guess2Type",
+          "label": "Guess 2 against Daniel type",
+          "disabled": false,
+          "value": "",
+          "placeholder": null,
+          "fontPx": 16
+        },
+        {
+          "id": "p1Guess2Value",
+          "label": "Guess 2 against Daniel value",
+          "disabled": true,
+          "value": "",
+          "placeholder": "Choose League or Nationality first",
+          "fontPx": 16
+        },
+        {
+          "id": "p1Guess3Type",
+          "label": "Guess 3 against Daniel type",
+          "disabled": false,
+          "value": "",
+          "placeholder": null,
+          "fontPx": 16
+        },
+        {
+          "id": "p1Guess3Value",
+          "label": "Guess 3 against Daniel value",
+          "disabled": true,
+          "value": "",
+          "placeholder": "Choose League or Nationality first",
+          "fontPx": 16
+        }
+      ]
+    },
+    "mobile:busy": {
+      "acting": "nik",
+      "title": "SEASON 1 SHARED TRANSFER CHALLENGE",
+      "status": "GUESS ENTRY · YOUR RIVAL CANNOT SEE THESE BEFORE COMPLETION",
+      "intro": "Private Guess Entry · enter only your guesses; your rival cannot read them yet.",
+      "heading": "Nik guesses Daniel's signings",
+      "privacy": "Shared privacy: enter only your guesses. Your rival cannot read them until both managers complete the challenge.",
+      "error": "",
+      "lock": {
+        "text": "LOCK MY GUESSES",
+        "disabled": true
+      },
+      "continueReplay": null,
+      "refreshDisabled": true,
+      "fields": [
+        {
+          "id": "p1Guess1Type",
+          "label": "Guess 1 against Daniel type",
+          "disabled": false,
+          "value": "league",
+          "placeholder": null,
+          "fontPx": 16
+        },
+        {
+          "id": "p1Guess1Value",
+          "label": "Guess 1 against Daniel value",
+          "disabled": false,
+          "value": "Premier League",
+          "placeholder": "Search FIFA 17 league",
+          "fontPx": 16
+        },
+        {
+          "id": "p1Guess2Type",
+          "label": "Guess 2 against Daniel type",
+          "disabled": false,
+          "value": "nationality",
+          "placeholder": null,
+          "fontPx": 16
+        },
+        {
+          "id": "p1Guess2Value",
+          "label": "Guess 2 against Daniel value",
+          "disabled": false,
+          "value": "Brazil",
+          "placeholder": "Search nationality",
+          "fontPx": 16
+        },
+        {
+          "id": "p1Guess3Type",
+          "label": "Guess 3 against Daniel type",
+          "disabled": false,
+          "value": "nationality",
+          "placeholder": null,
+          "fontPx": 16
+        },
+        {
+          "id": "p1Guess3Value",
+          "label": "Guess 3 against Daniel value",
+          "disabled": false,
+          "value": "France",
+          "placeholder": "Search nationality",
+          "fontPx": 16
+        }
+      ]
+    }
+  },
+  "checks": [
+    {
+      "id": "asset-sha:POSE_TRANSFER_DANIEL_FOCUSED_V1.png",
+      "pass": true,
+      "detail": "8c9cde1e4ef118d57ca9b1b6dacc7429bb70494e5f8ebce853ed7f46036b2c49"
+    },
+    {
+      "id": "asset-sha:POSE_TRANSFER_NIK_TACTICAL_V1.png",
+      "pass": true,
+      "detail": "92c40b1290b06945122ba442bb0368c8025cc20b39e494c3d69926396b8488f5"
+    },
+    {
+      "id": "asset-sha:ENV_STADIUM_WARM_BASE_V1.webp",
+      "pass": true,
+      "detail": "2b484a6a8d0af8b3303c529dac42c571ae338651a2fe8896e81a73fa8d2b1e62"
+    },
+    {
+      "id": "asset-sha:sv01-v10-desktop-final.png",
+      "pass": true,
+      "detail": "cf629d964147d38d1b079256b302cfc4e43c7b755eab193ad2b4ca27c53f6ecf"
+    },
+    {
+      "id": "asset-sha:sv01-v10-mobile-final.png",
+      "pass": true,
+      "detail": "531c2534a5fdee106990a9e34e3ed0f3c8acf9844f3c4f9c51cf8fd5e01b1de8"
+    },
+    {
+      "id": "asset-sha:SV01_V10_GOLDEN_FRAME_SELF_CONTAINED.html",
+      "pass": true,
+      "detail": "fee72b5a36c4d50685746c86f34bfcc5672a79694721008019d5a1ab312b438c"
+    },
+    {
+      "id": "desktop:nik-editable:status-copy",
+      "pass": true,
+      "detail": "GUESS ENTRY · YOUR RIVAL CANNOT SEE THESE BEFORE COMPLETION"
+    },
+    {
+      "id": "desktop:nik-editable:own-card-only",
+      "pass": true,
+      "detail": "p1Guess1Type,p1Guess1Value,p1Guess2Type,p1Guess2Value,p1Guess3Type,p1Guess3Value"
+    },
+    {
+      "id": "desktop:nik-editable:three-guess-rows",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "desktop:nik-editable:no-timer",
+      "pass": true,
+      "detail": "no clock text / timer role"
+    },
+    {
+      "id": "desktop:nik-editable:no-shared-session-active",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "desktop:nik-editable:field-font>=16",
+      "pass": true,
+      "detail": "17,17,17,17,17,17"
+    },
+    {
+      "id": "desktop:nik-editable:value-disabled-until-type",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "desktop:nik-editable:lock-enabled",
+      "pass": true,
+      "detail": "{\"text\":\"LOCK MY GUESSES\",\"disabled\":false}"
+    },
+    {
+      "id": "desktop:nik-editable:content-fits-display(>=12px)",
+      "pass": true,
+      "detail": 45
+    },
+    {
+      "id": "desktop:nik-editable:no-rival-fields",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "desktop:nik-one-row:status-copy",
+      "pass": true,
+      "detail": "GUESS ENTRY · YOUR RIVAL CANNOT SEE THESE BEFORE COMPLETION"
+    },
+    {
+      "id": "desktop:nik-one-row:own-card-only",
+      "pass": true,
+      "detail": "p1Guess1Type,p1Guess1Value,p1Guess2Type,p1Guess2Value,p1Guess3Type,p1Guess3Value"
+    },
+    {
+      "id": "desktop:nik-one-row:three-guess-rows",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "desktop:nik-one-row:no-timer",
+      "pass": true,
+      "detail": "no clock text / timer role"
+    },
+    {
+      "id": "desktop:nik-one-row:no-shared-session-active",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "desktop:nik-one-row:field-font>=16",
+      "pass": true,
+      "detail": "17,17,17,17,17,17"
+    },
+    {
+      "id": "desktop:one-row:search-placeholder",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "desktop:nik-one-row:content-fits-display(>=12px)",
+      "pass": true,
+      "detail": 45
+    },
+    {
+      "id": "desktop:nik-one-row:no-rival-fields",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "desktop:daniel-editable:status-copy",
+      "pass": true,
+      "detail": "GUESS ENTRY · YOUR RIVAL CANNOT SEE THESE BEFORE COMPLETION"
+    },
+    {
+      "id": "desktop:daniel-editable:own-card-only",
+      "pass": true,
+      "detail": "p2Guess1Type,p2Guess1Value,p2Guess2Type,p2Guess2Value,p2Guess3Type,p2Guess3Value"
+    },
+    {
+      "id": "desktop:daniel-editable:three-guess-rows",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "desktop:daniel-editable:no-timer",
+      "pass": true,
+      "detail": "no clock text / timer role"
+    },
+    {
+      "id": "desktop:daniel-editable:no-shared-session-active",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "desktop:daniel-editable:field-font>=16",
+      "pass": true,
+      "detail": "17,17,17,17,17,17"
+    },
+    {
+      "id": "desktop:daniel-editable:value-disabled-until-type",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "desktop:daniel-editable:lock-enabled",
+      "pass": true,
+      "detail": "{\"text\":\"LOCK MY GUESSES\",\"disabled\":false}"
+    },
+    {
+      "id": "desktop:daniel-editable:content-fits-display(>=12px)",
+      "pass": true,
+      "detail": 45
+    },
+    {
+      "id": "desktop:daniel-editable:no-rival-fields",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "desktop:nik-locked:status-copy",
+      "pass": true,
+      "detail": "YOUR GUESSES ARE LOCKED · WAITING FOR YOUR RIVAL"
+    },
+    {
+      "id": "desktop:nik-locked:own-card-only",
+      "pass": true,
+      "detail": "p1Guess1Type,p1Guess1Value,p1Guess2Type,p1Guess2Value,p1Guess3Type,p1Guess3Value"
+    },
+    {
+      "id": "desktop:nik-locked:three-guess-rows",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "desktop:nik-locked:no-timer",
+      "pass": true,
+      "detail": "no clock text / timer role"
+    },
+    {
+      "id": "desktop:nik-locked:no-shared-session-active",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "desktop:nik-locked:field-font>=16",
+      "pass": true,
+      "detail": "17,17,17,17,17,17"
+    },
+    {
+      "id": "desktop:locked:no-lock-button-all-disabled",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "desktop:nik-locked:content-fits-display(>=12px)",
+      "pass": true,
+      "detail": 55
+    },
+    {
+      "id": "desktop:nik-locked:no-rival-fields",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "desktop:replay:status-copy",
+      "pass": true,
+      "detail": "HISTORICAL REPLAY · PRIVATE GUESS ENTRY"
+    },
+    {
+      "id": "desktop:replay:own-card-only",
+      "pass": true,
+      "detail": "p1Guess1Type,p1Guess1Value,p1Guess2Type,p1Guess2Value,p1Guess3Type,p1Guess3Value"
+    },
+    {
+      "id": "desktop:replay:three-guess-rows",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "desktop:replay:no-timer",
+      "pass": true,
+      "detail": "no clock text / timer role"
+    },
+    {
+      "id": "desktop:replay:no-shared-session-active",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "desktop:replay:field-font>=16",
+      "pass": true,
+      "detail": "17,17,17,17,17,17"
+    },
+    {
+      "id": "desktop:replay:read-only+continue",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "desktop:replay:content-fits-display(>=12px)",
+      "pass": true,
+      "detail": 35
+    },
+    {
+      "id": "desktop:replay:no-rival-fields",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "desktop:error:status-copy",
+      "pass": true,
+      "detail": "GUESS ENTRY · YOUR RIVAL CANNOT SEE THESE BEFORE COMPLETION"
+    },
+    {
+      "id": "desktop:error:own-card-only",
+      "pass": true,
+      "detail": "p1Guess1Type,p1Guess1Value,p1Guess2Type,p1Guess2Value,p1Guess3Type,p1Guess3Value"
+    },
+    {
+      "id": "desktop:error:three-guess-rows",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "desktop:error:no-timer",
+      "pass": true,
+      "detail": "no clock text / timer role"
+    },
+    {
+      "id": "desktop:error:no-shared-session-active",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "desktop:error:field-font>=16",
+      "pass": true,
+      "detail": "17,17,17,17,17,17"
+    },
+    {
+      "id": "desktop:error:inline-code",
+      "pass": true,
+      "detail": "TRANSFER_GUESSES_INVALID"
+    },
+    {
+      "id": "desktop:error:content-fits-display(>=12px)",
+      "pass": true,
+      "detail": 19
+    },
+    {
+      "id": "desktop:error:no-rival-fields",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "desktop:busy:status-copy",
+      "pass": true,
+      "detail": "GUESS ENTRY · YOUR RIVAL CANNOT SEE THESE BEFORE COMPLETION"
+    },
+    {
+      "id": "desktop:busy:own-card-only",
+      "pass": true,
+      "detail": "p1Guess1Type,p1Guess1Value,p1Guess2Type,p1Guess2Value,p1Guess3Type,p1Guess3Value"
+    },
+    {
+      "id": "desktop:busy:three-guess-rows",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "desktop:busy:no-timer",
+      "pass": true,
+      "detail": "no clock text / timer role"
+    },
+    {
+      "id": "desktop:busy:no-shared-session-active",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "desktop:busy:field-font>=16",
+      "pass": true,
+      "detail": "17,17,17,17,17,17"
+    },
+    {
+      "id": "desktop:busy:lock-disabled",
+      "pass": true,
+      "detail": "{\"text\":\"LOCK MY GUESSES\",\"disabled\":true}"
+    },
+    {
+      "id": "desktop:busy:content-fits-display(>=12px)",
+      "pass": true,
+      "detail": 45
+    },
+    {
+      "id": "desktop:busy:no-rival-fields",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "mobile:nik-editable:status-copy",
+      "pass": true,
+      "detail": "GUESS ENTRY · YOUR RIVAL CANNOT SEE THESE BEFORE COMPLETION"
+    },
+    {
+      "id": "mobile:nik-editable:own-card-only",
+      "pass": true,
+      "detail": "p1Guess1Type,p1Guess1Value,p1Guess2Type,p1Guess2Value,p1Guess3Type,p1Guess3Value"
+    },
+    {
+      "id": "mobile:nik-editable:three-guess-rows",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "mobile:nik-editable:no-timer",
+      "pass": true,
+      "detail": "no clock text / timer role"
+    },
+    {
+      "id": "mobile:nik-editable:no-shared-session-active",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "mobile:nik-editable:field-font>=16",
+      "pass": true,
+      "detail": "16,16,16,16,16,16"
+    },
+    {
+      "id": "mobile:nik-editable:value-disabled-until-type",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "mobile:nik-editable:lock-enabled",
+      "pass": true,
+      "detail": "{\"text\":\"LOCK MY GUESSES\",\"disabled\":false}"
+    },
+    {
+      "id": "mobile:nik-editable:no-rival-fields",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "mobile:nik-one-row:status-copy",
+      "pass": true,
+      "detail": "GUESS ENTRY · YOUR RIVAL CANNOT SEE THESE BEFORE COMPLETION"
+    },
+    {
+      "id": "mobile:nik-one-row:own-card-only",
+      "pass": true,
+      "detail": "p1Guess1Type,p1Guess1Value,p1Guess2Type,p1Guess2Value,p1Guess3Type,p1Guess3Value"
+    },
+    {
+      "id": "mobile:nik-one-row:three-guess-rows",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "mobile:nik-one-row:no-timer",
+      "pass": true,
+      "detail": "no clock text / timer role"
+    },
+    {
+      "id": "mobile:nik-one-row:no-shared-session-active",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "mobile:nik-one-row:field-font>=16",
+      "pass": true,
+      "detail": "16,16,16,16,16,16"
+    },
+    {
+      "id": "mobile:one-row:search-placeholder",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "mobile:nik-one-row:no-rival-fields",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "mobile:daniel-editable:status-copy",
+      "pass": true,
+      "detail": "GUESS ENTRY · YOUR RIVAL CANNOT SEE THESE BEFORE COMPLETION"
+    },
+    {
+      "id": "mobile:daniel-editable:own-card-only",
+      "pass": true,
+      "detail": "p2Guess1Type,p2Guess1Value,p2Guess2Type,p2Guess2Value,p2Guess3Type,p2Guess3Value"
+    },
+    {
+      "id": "mobile:daniel-editable:three-guess-rows",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "mobile:daniel-editable:no-timer",
+      "pass": true,
+      "detail": "no clock text / timer role"
+    },
+    {
+      "id": "mobile:daniel-editable:no-shared-session-active",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "mobile:daniel-editable:field-font>=16",
+      "pass": true,
+      "detail": "16,16,16,16,16,16"
+    },
+    {
+      "id": "mobile:daniel-editable:value-disabled-until-type",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "mobile:daniel-editable:lock-enabled",
+      "pass": true,
+      "detail": "{\"text\":\"LOCK MY GUESSES\",\"disabled\":false}"
+    },
+    {
+      "id": "mobile:daniel-editable:no-rival-fields",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "mobile:nik-locked:status-copy",
+      "pass": true,
+      "detail": "YOUR GUESSES ARE LOCKED · WAITING FOR YOUR RIVAL"
+    },
+    {
+      "id": "mobile:nik-locked:own-card-only",
+      "pass": true,
+      "detail": "p1Guess1Type,p1Guess1Value,p1Guess2Type,p1Guess2Value,p1Guess3Type,p1Guess3Value"
+    },
+    {
+      "id": "mobile:nik-locked:three-guess-rows",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "mobile:nik-locked:no-timer",
+      "pass": true,
+      "detail": "no clock text / timer role"
+    },
+    {
+      "id": "mobile:nik-locked:no-shared-session-active",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "mobile:nik-locked:field-font>=16",
+      "pass": true,
+      "detail": "16,16,16,16,16,16"
+    },
+    {
+      "id": "mobile:locked:no-lock-button-all-disabled",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "mobile:nik-locked:no-rival-fields",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "mobile:replay:status-copy",
+      "pass": true,
+      "detail": "HISTORICAL REPLAY · PRIVATE GUESS ENTRY"
+    },
+    {
+      "id": "mobile:replay:own-card-only",
+      "pass": true,
+      "detail": "p1Guess1Type,p1Guess1Value,p1Guess2Type,p1Guess2Value,p1Guess3Type,p1Guess3Value"
+    },
+    {
+      "id": "mobile:replay:three-guess-rows",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "mobile:replay:no-timer",
+      "pass": true,
+      "detail": "no clock text / timer role"
+    },
+    {
+      "id": "mobile:replay:no-shared-session-active",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "mobile:replay:field-font>=16",
+      "pass": true,
+      "detail": "16,16,16,16,16,16"
+    },
+    {
+      "id": "mobile:replay:read-only+continue",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "mobile:replay:no-rival-fields",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "mobile:error:status-copy",
+      "pass": true,
+      "detail": "GUESS ENTRY · YOUR RIVAL CANNOT SEE THESE BEFORE COMPLETION"
+    },
+    {
+      "id": "mobile:error:own-card-only",
+      "pass": true,
+      "detail": "p1Guess1Type,p1Guess1Value,p1Guess2Type,p1Guess2Value,p1Guess3Type,p1Guess3Value"
+    },
+    {
+      "id": "mobile:error:three-guess-rows",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "mobile:error:no-timer",
+      "pass": true,
+      "detail": "no clock text / timer role"
+    },
+    {
+      "id": "mobile:error:no-shared-session-active",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "mobile:error:field-font>=16",
+      "pass": true,
+      "detail": "16,16,16,16,16,16"
+    },
+    {
+      "id": "mobile:error:inline-code",
+      "pass": true,
+      "detail": "TRANSFER_GUESSES_INVALID"
+    },
+    {
+      "id": "mobile:error:no-rival-fields",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "mobile:busy:status-copy",
+      "pass": true,
+      "detail": "GUESS ENTRY · YOUR RIVAL CANNOT SEE THESE BEFORE COMPLETION"
+    },
+    {
+      "id": "mobile:busy:own-card-only",
+      "pass": true,
+      "detail": "p1Guess1Type,p1Guess1Value,p1Guess2Type,p1Guess2Value,p1Guess3Type,p1Guess3Value"
+    },
+    {
+      "id": "mobile:busy:three-guess-rows",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "mobile:busy:no-timer",
+      "pass": true,
+      "detail": "no clock text / timer role"
+    },
+    {
+      "id": "mobile:busy:no-shared-session-active",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "mobile:busy:field-font>=16",
+      "pass": true,
+      "detail": "16,16,16,16,16,16"
+    },
+    {
+      "id": "mobile:busy:lock-disabled",
+      "pass": true,
+      "detail": "{\"text\":\"LOCK MY GUESSES\",\"disabled\":true}"
+    },
+    {
+      "id": "mobile:busy:no-rival-fields",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "desktop:horizon-in-300-360",
+      "pass": true,
+      "detail": 330
+    },
+    {
+      "id": "desktop:vp-x-middle-third",
+      "pass": true,
+      "detail": 700
+    },
+    {
+      "id": "desktop:eyes-within-10px-of-horizon",
+      "pass": true,
+      "detail": "330/330"
+    },
+    {
+      "id": "desktop:head-90-130",
+      "pass": true,
+      "detail": "124.1/120.6"
+    },
+    {
+      "id": "desktop:head-ratio-1.00-1.10",
+      "pass": true,
+      "detail": 1.029
+    },
+    {
+      "id": "desktop:daniel-left-of-nik",
+      "pass": true,
+      "detail": "-40<236"
+    },
+    {
+      "id": "desktop:nik-device>=24px-from-display",
+      "pass": true,
+      "detail": 39.3
+    },
+    {
+      "id": "desktop:no-character-over-hit-areas",
+      "pass": true,
+      "detail": "all hit areas right of 522.3"
+    },
+    {
+      "id": "desktop:no-mirroring",
+      "pass": true,
+      "detail": "none/none"
+    },
+    {
+      "id": "desktop:exact-asset-sources",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "desktop:display-right-55pct",
+      "pass": true,
+      "detail": "560-1320"
+    },
+    {
+      "id": "desktop:ui-share-55-65",
+      "pass": true,
+      "detail": 0.556
+    },
+    {
+      "id": "desktop:topbar-56-64",
+      "pass": true,
+      "detail": 60
+    },
+    {
+      "id": "desktop:stadium-room-horizon-delta<=8",
+      "pass": true,
+      "detail": 0
+    },
+    {
+      "id": "desktop:stadium-room-vp-delta<=16",
+      "pass": true,
+      "detail": 0
+    },
+    {
+      "id": "desktop:no-horizontal-scroll",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "desktop:no-stadium-highlight-exceeds-lock-fill",
+      "pass": true,
+      "detail": "{\"lockFillLum\":172.3,\"stadiumMaxLum\":124.1,\"stadiumP99Lum\":99.3,\"maxLumWithin48pxOfDisplay\":47.5}"
+    },
+    {
+      "id": "desktop:no-bright-stadium-within-48px-of-display",
+      "pass": true,
+      "detail": 47.5
+    },
+    {
+      "id": "desktop:squint-lock-most-salient-warm",
+      "pass": true,
+      "detail": "{\"peakWarmSalience\":108.7,\"at\":[1074,552],\"inLockButton\":true}"
+    },
+    {
+      "id": "mobile:topbar-52-60",
+      "pass": true,
+      "detail": 56
+    },
+    {
+      "id": "mobile:scene-150-200-directly-below-topbar",
+      "pass": true,
+      "detail": "56/180"
+    },
+    {
+      "id": "mobile:heads>=56",
+      "pass": true,
+      "detail": "78.1/76.1"
+    },
+    {
+      "id": "mobile:one-horizon-eyes-aligned",
+      "pass": true,
+      "detail": "148/148"
+    },
+    {
+      "id": "mobile:daniel-left-of-nik",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "mobile:names-adjacent",
+      "pass": true,
+      "detail": "[{\"t\":\"DANIEL\",\"x\":12,\"r\":53.046875,\"y\":120},{\"t\":\"NIK\",\"x\":292,\"r\":311.53125,\"y\":120}]"
+    },
+    {
+      "id": "mobile:task-within-300",
+      "pass": true,
+      "detail": 251
+    },
+    {
+      "id": "mobile:page-ends-within-48-of-actions",
+      "pass": true,
+      "detail": 20
+    },
+    {
+      "id": "mobile:no-fixed-or-sticky",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "mobile:no-horizontal-scroll",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "mobile:no-mirroring",
+      "pass": true,
+      "detail": ""
+    }
+  ],
+  "summary": {
+    "total": 159,
+    "passed": 159,
+    "failed": []
+  },
+  "evidence": [
+    {
+      "file": "compare-desktop-baseline-vs-candidate.png",
+      "sha256": "0a88d53a8a98393b14cdfd824bede6b9ca66d7c34d137a62a1bfc5ebf0e88782"
+    },
+    {
+      "file": "compare-mobile-baseline-vs-candidate.png",
+      "sha256": "e20f083a9c3a0f723e1b33a5acb1257aaa0d6aaacf77eb579bebe120cb874327"
+    },
+    {
+      "file": "desktop-busy.png",
+      "sha256": "8d8b1781eb9749f60a6bca72bbfcc135057430428627305fc564f66739102abf"
+    },
+    {
+      "file": "desktop-daniel-editable.png",
+      "sha256": "3bf6d310fd6816d33ee0012e7b379d0fc5f29ab41784655f530b728cb5b53943"
+    },
+    {
+      "file": "desktop-error.png",
+      "sha256": "b5d69dcf8a6af67eeff76a62cc7e342e62d5bd88c82677db8aada0fe43700615"
+    },
+    {
+      "file": "desktop-nik-editable.png",
+      "sha256": "d4e589fbfd80239ef08c7ecb91fba18ecc3311b0efd426cbf27baa1e4d3c6419"
+    },
+    {
+      "file": "desktop-nik-locked.png",
+      "sha256": "a4f8353cb7e27d04f290feb96fafb078e227c0c6e65a436434c37fa7a7bce53d"
+    },
+    {
+      "file": "desktop-nik-one-row.png",
+      "sha256": "b260c7354dae315eb50cf925608ebde4e21e3382505a9fccc8722fd1e4811fce"
+    },
+    {
+      "file": "desktop-replay.png",
+      "sha256": "ab98f40a6afb65877586435d844fc4edacbbaf23f1644a1db06e024fdfc5d48a"
+    },
+    {
+      "file": "desktop-squint-blur8.png",
+      "sha256": "c45fbba6e0919bd558c1392c999f96d0f552457c4ad43ca823ed463ff5041507"
+    },
+    {
+      "file": "desktop-still-grayscale.png",
+      "sha256": "f366342db2634c55d8c6d42335290d44c7a033d2802d4e4cf4eb7ea5a66ab548"
+    },
+    {
+      "file": "mobile-busy.png",
+      "sha256": "eb98c39ff32a015b9aef12c038c08d23c12430e89eb28994aa842d50f3ea0e23"
+    },
+    {
+      "file": "mobile-daniel-editable.png",
+      "sha256": "002af42aad75c77b79217eedbec250fe67981703f98ec4e18a31ce2502781247"
+    },
+    {
+      "file": "mobile-error.png",
+      "sha256": "8ca4a323be9bacd65013906bf455b8ac3465ce5162216ce01b94b57104656800"
+    },
+    {
+      "file": "mobile-nik-editable-fullpage.png",
+      "sha256": "72fb002c31c5588fda2c5446dd489e2a8e8d944308f5cc5f2faa392072bc5350"
+    },
+    {
+      "file": "mobile-nik-editable.png",
+      "sha256": "7058e5d39a86cf70fd2247edb96accb2569a1b8f27a38bdb91993c32a2dcddf6"
+    },
+    {
+      "file": "mobile-nik-locked.png",
+      "sha256": "8c701403c1562e99e39bb399ed1e36ef8180acda31922299cb9c4b88220dda6c"
+    },
+    {
+      "file": "mobile-nik-one-row.png",
+      "sha256": "4be0f0cdb6289301bef90bf8293701d0e2b24c62807858ffc838d1ed74b402b4"
+    },
+    {
+      "file": "mobile-replay.png",
+      "sha256": "8a70f08d2ef504ec72b468cd0337023f720ea3568df1172248f4c9fbe739a08f"
+    }
+  ]
+}
