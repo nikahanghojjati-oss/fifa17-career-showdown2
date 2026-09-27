@@ -15,6 +15,30 @@ Cloud Session = hosted Claude Code execution environment.
 
 Do not confuse the two.
 
+
+## HARD ASSET AVAILABILITY GATE
+
+Before implementing any visual candidate, verify that these exact binaries are physically available in the Cloud Session workspace:
+
+- `POSE_TRANSFER_DANIEL_FOCUSED_V1.png`
+- `POSE_TRANSFER_NIK_TACTICAL_V1.png`
+- `ENV_STADIUM_WARM_BASE_V1.webp`
+- prior 1366×768 V10 baseline screenshot
+- prior 390×844 V10 baseline screenshot
+
+If any required implementation asset is unavailable:
+
+- STOP THE BUILD;
+- report `ASSET_IMPORT_BLOCKER`;
+- do NOT create placeholder asset slots;
+- do NOT approximate or substitute a pose/environment;
+- do NOT continue to a candidate/fingerprint;
+- wait for the owner-provided exact asset import package.
+
+When the owner supplies `SV01_CLOUD_SESSION_EXACT_ASSET_IMPORT.zip`, unpack it and commit the exact files under:
+`visual-assets/v10_1/cloud-session/assets/`
+with filenames unchanged. Verify their SHA-256 values against the package manifest before resuming.
+
 ## Objective
 
 Build one browser-openable provisional SV01 Transfer Guess Entry golden-frame candidate that materially addresses the owner-rated 7/10 baseline.
