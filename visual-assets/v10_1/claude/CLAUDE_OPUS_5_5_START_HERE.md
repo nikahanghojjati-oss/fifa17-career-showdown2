@@ -7,118 +7,167 @@ Owner: Nik
 Producer / product truth: GPT-5.6 Sol
 Executive cinematic authority when available: GPT-6 Astra High
 Principal implementation builder when authorized: GPT-6 Sol High in Work
+Recommended first-task effort: Extra High / xhigh
 
-## 1. Your role
+## 1. You are joining a multi-model coworking team
 
-You are joining an existing visual-production system.
+Read this as a collaboration system, not a solo assignment.
 
-You are NOT being asked to invent a new design language from zero.
-You are NOT replacing Astra.
-You are NOT the product owner.
-You are NOT authorized to change gameplay behavior.
+Nik
+- final taste authority
+- final approval
 
-Your primary value is:
-- high-quality independent visual reasoning;
-- cinematic composition critique;
-- UI/world integration critique;
-- code/DOM/CSS review when requested;
-- asset-fit analysis;
-- red-team review of work created by other models.
+GPT-5.6 Sol
+- producer and coordinator
+- product-truth director
+- V10.1 synthesis and authority reconciliation
+- receives your findings and decides what becomes canonical after checking source truth
 
-During ASTRA_CONSTRAINED mode, you temporarily perform the focused visual-review work that would otherwise consume Astra quota.
+GPT-6 Astra High
+- executive cinematic art-direction specialist when available
+- source of the FIFA 17 / The Journey presentation bible
+- resolves major camera/staging/spatial questions and milestone promotion reviews
 
-Your conclusions are provisional until reconciled by GPT-5.6 Sol and, for major art direction, later spot-checked by Astra or approved by Nik.
+GPT-6 Sol High in Work
+- principal implementation builder after the visual target is frozen
+- implements the approved browser contract
 
-## 2. Authority order
+Claude Opus 5.5
+- independent senior visual/technical reviewer
+- temporary Astra-constrained overflow reviewer
+- asset-fit / implementation-risk analyst
+- later independent red team
+- not an Astra replacement
 
-When sources conflict, use this order:
+Read:
+`CLAUDE_COLLABORATION_CHARTER_V10_1.md`
+
+## 2. Current temporary mode
+
+Current mode:
+`ASTRA_CONSTRAINED`
+
+Astra is temporarily quota-constrained. You are covering the focused senior visual review so the project can move.
+
+Your verdict remains provisional until:
+- GPT-5.6 Sol reconciles it; and
+- Astra later spot-checks major art-direction decisions or Nik directly approves the visual result.
+
+Read:
+`CLAUDE_EFFORT_POLICY_V10_1.md`
+and use xhigh / Extra High for COV-01.
+
+## 3. Repository / branch boundary
+
+Repository:
+`nikahanghojjati-oss/fifa17-career-showdown2`
+
+Production branch:
+`main`
+
+Visual authority branch:
+`visual/cinematic-system-v10`
+
+Your GitHub connection may initially place you on `main`.
+Do NOT work from main for this visual review.
+
+For Claude Code / a local git workspace, do:
+
+```bash
+git status
+git fetch origin
+git switch --detach origin/visual/cinematic-system-v10
+git rev-parse HEAD
+```
+
+This task is read-only, so detached HEAD is intentional.
+
+Do not:
+- commit;
+- push;
+- open a PR;
+- modify main;
+- create production changes.
+
+If a later assignment grants write authority, create a dedicated task branch from the latest visual branch, never from main:
+
+```bash
+git fetch origin
+git switch -c claude/<task-id> origin/visual/cinematic-system-v10
+```
+
+If your GitHub tool does not expose git commands, select/read the branch `visual/cinematic-system-v10` directly and keep all writes disabled.
+
+Current recorded production anchor:
+`f077b9c5be5e4d5bf5ef17b2d219983dbf142962`
+
+If current `main` differs, report `SOURCE_DRIFT` with the new SHA.
+Do not infer behavior is unchanged.
+
+## 4. Authority order
+
+When sources conflict:
 
 1. Nik's latest explicit instruction.
 2. Current production `main` for product behavior.
 3. `visual-assets/v10/V10_STATE.md`.
 4. `visual-assets/v10_1/SHOWDOWN_VISUAL_V10_1_CINEMATIC_AUTHORITY.md`.
 5. Current screen spec, presently `SV01_C2_DECISION_DESK_SPEC.md`.
-6. Product Truth Card for the screen.
-7. Astra's FIFA 17 / The Journey presentation bible as research/art-direction evidence.
-8. Model-specific task file.
-9. Older visual relay/handoff documents as historical reference only unless explicitly promoted.
+6. Screen Product Truth Card.
+7. Astra's FIFA 17 / The Journey bible as research/art-direction evidence.
+8. Current Claude assignment.
+9. Older handoff/relay material only as history unless promoted.
 
-Do not allow an old handoff to supersede a newer state file.
-
-## 3. Repository boundary
-
-Repository:
-`nikahanghojjati-oss/fifa17-career-showdown2`
-
-Visual branch:
-`visual/cinematic-system-v10`
-
-Production `main`:
-READ ONLY from this visual workflow.
-
-Current recorded production anchor:
-`f077b9c5be5e4d5bf5ef17b2d219983dbf142962`
-
-For your first assignment:
-READ ONLY.
-Do not commit.
-Do not open a PR.
-Do not mutate product code.
-
-If you can access the repository and current `main` is not the recorded anchor, report:
-`SOURCE_DRIFT`
-and identify the new SHA. Do not infer that behavior is unchanged.
-
-## 4. Canonical reading order
+## 5. Canonical reading order
 
 Read:
 
-1. `CLAUDE_CONTEXT_CAPSULE_V10_1.md`
-2. `SHOWDOWN_FIFA17_PRESENTATION_BIBLE.md`
-3. `SHOWDOWN_VISUAL_V10_1_CINEMATIC_AUTHORITY.md`
-4. `SV01_C2_DECISION_DESK_SPEC.md`
-5. `SV01_TRANSFER_GUESS_PRODUCT_TRUTH_CARD_V10.md`
-6. `V10_STATE.md`
-7. `MODEL_ROUTER_V10_1.md`
-8. the exact assignment file
+1. `visual-assets/v10_1/claude/CLAUDE_COLLABORATION_CHARTER_V10_1.md`
+2. `visual-assets/v10_1/claude/CLAUDE_EFFORT_POLICY_V10_1.md`
+3. `visual-assets/v10_1/claude/CLAUDE_CONTEXT_CAPSULE_V10_1.md`
+4. Astra's `SHOWDOWN_FIFA17_PRESENTATION_BIBLE.md` supplied in the onboarding package
+5. `visual-assets/v10_1/SHOWDOWN_VISUAL_V10_1_CINEMATIC_AUTHORITY.md`
+6. `visual-assets/v10_1/SV01_C2_DECISION_DESK_SPEC.md`
+7. `visual-assets/v10/SV01_TRANSFER_GUESS_PRODUCT_TRUTH_CARD_V10.md`
+8. `visual-assets/v10/V10_STATE.md`
+9. `visual-assets/v10_1/model-routing/MODEL_ROUTER_V10_1.md`
+10. `visual-assets/v10_1/claude/CLAUDE_FIRST_ASSIGNMENT_ASTRA_CONSTRAINED.md`
 
-Then inspect:
-9. prior 1366x768 desktop baseline
-10. prior 390x844 mobile baseline
-11. approved Daniel Transfer pose
-12. approved Nik Transfer pose
-13. approved warm stadium source
-14. prior self-contained SV01 candidate source only when useful
+Then inspect the supplied evidence:
+- prior 1366x768 desktop baseline
+- prior 390x844 mobile baseline
+- approved Daniel Transfer pose
+- approved Nik Transfer pose
+- approved warm stadium source
+- prior self-contained SV01 candidate source only when useful
 
 Do not broaden into the full repository until the assignment requires it.
 
-## 5. Non-negotiable product truth for SV01 Guess Entry
+## 6. Non-negotiable SV01 product truth
 
 - phases remain Window -> Guess Entry -> Signing Entry -> Completed/Verdicts;
-- Guess Entry occurs after the transfer window closes/advances;
+- Guess Entry occurs after transfer window close/advance;
 - no active 15-minute timer in Guess Entry;
 - each manager edits only that manager's own private rival guesses;
 - rival guesses remain unreadable before completion;
 - up to three guesses;
-- each complete guess is League or Nationality plus canonical value;
-- primary live action is `LOCK MY GUESSES`;
+- each completed guess is League or Nationality plus canonical value;
+- primary action is `LOCK MY GUESSES`;
 - after lock, acting manager waits for rival;
-- historical replay is read only;
-- error/recovery stays inline;
+- historical replay is read-only;
+- error/recovery remains inline;
 - Daniel = Manager 1 / physical left;
 - Nik = Manager 2 / physical right.
 
-Presentation cannot weaken these rules.
+## 7. V10.1 visual thesis
 
-## 6. V10.1 visual thesis
+Previous V10 SV01 is owner-rated 7/10.
 
-The previous V10 candidate is owner-rated 7/10.
+The central weakness is not insufficient effects.
 
-The primary defect is not lack of gold, blur, particles or expensive rendering.
+Daniel, Nik and the task board do not yet convincingly inhabit one shared physical place.
 
-The defect is that Daniel, Nik and the task board do not convincingly inhabit one shared physical scene.
-
-V10.1 target:
+Target:
 `inhabited football environment + deliberate camera + shared physical relationship + sharp live interface`
 
 SV01 uses C2 Decision Desk:
@@ -126,81 +175,62 @@ SV01 uses C2 Decision Desk:
 - medium environmental view;
 - near-level working eye height;
 - stadium operations room;
-- central task surface with believable physical support;
+- physically supported task surface;
 - coherent perspective;
 - purposeful eyelines;
 - shared lighting;
 - contact-bearing foreground;
-- sharp screen-aligned semantic DOM.
-
-## 7. What you should look for
-
-Ask:
-- Where is the camera physically located?
-- What is the horizon?
-- What surface supports the task?
-- What creates inside-vs-outside depth?
-- Are Daniel and Nik looking/acting within the same scene?
-- Do their scales and eye heights agree?
-- Does key light come from a coherent source?
-- Is there believable contact / occlusion?
-- Does the board lead while the world supports?
-- Is gold hierarchical rather than everywhere?
-- Does mobile preserve rivalry identity?
-- Does the frame work when frozen?
-- Does anything still look like a generic dark web dashboard?
+- screen-aligned semantic live UI.
 
 ## 8. Forbidden drift
 
-Do not add:
+Do not add or change:
 - routes;
 - timer in Guess Entry;
-- opponent payload;
-- fake online state;
-- fake player data;
-- new scoring;
-- new reveal;
-- new confirmation;
-- dialogue systems;
-- fame/followers/social feed;
-- background simulation;
-- public discovery/ranking;
-- new paid infrastructure.
+- opponent private data;
+- fake online/progress state;
+- scoring;
+- new reveal/confirmation;
+- dialogue/fame/social systems;
+- public discovery/rankings;
+- paid infrastructure.
 
 Do not:
 - copy FIFA assets;
 - request proprietary EA fonts;
-- mirror a character asset just to force composition;
-- skew live form text into fake perspective;
-- use decorative animation as product authority;
-- infer private opponent state from pose or lighting;
+- mirror character art merely to force composition;
+- skew live inputs into fake perspective;
+- allow decorative animation to own state;
+- infer hidden opponent state from pose/light;
 - treat a model score as owner approval.
 
-## 9. Image-generation rule
+## 9. Image generation
 
-Image generation is LOCKED.
+LOCKED.
 
-If you believe an asset is missing, write an asset blocker with:
-- exact role;
-- exact camera/crop need;
-- exact reason existing asset fails;
+If an asset is insufficient, return an exact asset blocker:
+- asset ID;
+- intended role;
+- camera/crop mismatch;
+- eyeline/light/contact issue;
 - safe zone;
-- light direction;
+- required replacement characteristics;
 - forbidden baked content.
 
-Do not generate the asset.
+Do not generate anything.
 
-## 10. Output discipline
+## 10. First assignment
 
-Your review must separate:
-- observed issue;
-- why it matters;
-- exact proposed correction;
-- whether correction is MUST / SHOULD / OPTIONAL;
-- product-truth risk;
-- confidence / evidence basis.
+Run:
+`CLAUDE_FIRST_ASSIGNMENT_ASTRA_CONSTRAINED.md`
 
-Do not rewrite the entire design bible.
-Do not produce vague advice such as "make it more cinematic."
+For COV-01:
+- read-only;
+- no implementation;
+- no file modification;
+- no commits;
+- no PR;
+- no image generation;
+- no broad repo changes.
 
-A useful finding can be handed directly to Sol as a bounded delta.
+Return precise bounded findings and stop.
