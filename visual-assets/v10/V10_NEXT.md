@@ -1,107 +1,45 @@
 # V10 NEXT
 
-## Immediate route — Lead Producer ambition reset
+## Immediate next worker
 
-Recipient:
-Claude Opus 5.5
+Recipient: Nik / image-generation run
+Surface: ChatGPT image generation, fresh chat(s)
+Model: image generation
+Effort: n/a
+Branch: none
+Role: execute Claude-approved Gate 0 image tickets
+Input authority: TRANSFER_GATE0_IMAGE_TICKETS.md from Claude
+Expected output: five Gate 0 image files
+Return to: fresh Claude Project chat for Gate 0 review
+Stop condition: generate only the five ticketed Gate 0 assets; no Cloud implementation yet
 
-Surface:
-Claude Chat Project — `Claude Career Mode Showdown`
+## After the five images are ready
 
-Model:
-Opus 5.5
-
-Effort:
-Extra
-
-Branch:
-`visual/cinematic-system-v10`
-
-Role:
-Lead Visual Producer + Art Director
-
-Input authority:
-- Nik's latest ambition reset
-- strong Transfer War reference
-- current production product truth
-- Astra FIFA 17 / The Journey presentation bible
-- current owner-rejected technical proof
-- current visual producer charter
-
-Task:
-`visual-assets/v10_1/claude/CLAUDE_LEAD_PRODUCER_AMBITIOUS_TRANSFER_BRIEF.md`
-
+Recipient: Claude Opus 5.5
+Surface: Claude Chat Project — Claude Career Mode Showdown
+Model: Opus 5.5
+Effort: High
+Branch context: visual/cinematic-system-v10
+Role: Gate 0 visual producer review
+Input: five Gate 0 images + ticket file + key art / likeness references
 Expected output:
-`VISUAL_PRODUCER_PACKAGE_TRANSFER_V1`
+- APPROVE / REGENERATE per asset;
+- SHA-256 / intake manifest;
+- final CP1 CLOUD_BUILD_BRIEF;
+- exact next-step card.
+Return to: GPT-5.6 Sol
+Stop condition: no implementation in Claude Chat.
 
-Return to:
-GPT-5.6 Sol coordinator
+## Then
 
-Stop condition:
-No code. No image generation. No Cloud Session yet.
+Sol product-truth-signs the final CP1 brief and creates:
+claude-cloud/transfer-tr2-slice-01
 
-## Attach directly to Claude Chat
+Expected CP1 worker:
+Surface: Claude Code Cloud Session
+Model: Sonnet 5
+Effort: High
+Role: static key-frame implementation
+Stop: Checkpoint 1 only.
 
-Required:
-- Nik's strong Transfer War reference image
-- owner-rejected current C2 candidate screenshot
-- previous 7/10 desktop baseline
-- previous 7/10 mobile baseline
-
-Optional if already present in Project knowledge:
-- Astra presentation bible
-- current producer charter
-
-## Ambition
-
-The producer must now design the Transfer experience as a multi-phase premium game presentation system, not one static screen.
-
-Current documented product phases:
-1. Window
-2. Guess Entry
-3. Signing Entry
-4. Completed / Verdicts
-
-The visual system should consider:
-- at least four core Transfer poses per manager;
-- reaction variants;
-- real phase transitions;
-- state-driven animation;
-- game-like controls/buttons/cards;
-- richer environments and props;
-- player/transfer visual language;
-- strong desktop and mobile presentation;
-- active timer presentation only where product truth owns the timer;
-- rights-safe player imagery strategy.
-
-Performance is a floor, not the main design goal.
-
-## After Claude returns
-
-Nik gives the complete `VISUAL_PRODUCER_PACKAGE_TRANSFER_V1` to GPT-5.6 Sol.
-
-Sol will:
-1. check product-truth conflicts;
-2. surface any owner decisions;
-3. commit the accepted producer package to the canonical visual branch;
-4. create a NEW dedicated Cloud implementation branch;
-5. write a compact `CLOUD_BUILD_BRIEF` using:
-   `visual-assets/v10_1/coordination/PRODUCER_TO_CLOUD_HANDOFF_SCHEMA.md`
-6. tell Nik the exact Cloud surface/model/effort/branch.
-
-Only then does the next Claude Code Cloud Session begin.
-
-## Mandatory routing standard
-
-Every handoff follows:
-`visual-assets/v10_1/coordination/WORKER_ROUTING_AND_HANDOFF_STANDARD.md`
-
-Every file handed to Nik must state:
-- recipient;
-- surface;
-- model;
-- effort;
-- branch;
-- role;
-- return target;
-- stop condition.
+Do not launch that Cloud session until Gate 0 passes.
