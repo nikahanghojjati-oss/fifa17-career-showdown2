@@ -2,7 +2,14 @@
 
 2026-09-27
 - Created visual/cinematic-system-v10 from premium-design-v5.
-- Added 00_START_HERE_CINEMATIC_OS_V10.md.
-- Added REFERENCE_INPUT_SEMANTICS_V10.md.
-- Added INTERRUPTION_RESILIENT_EXECUTION_V10.md.
-- Started expanded research across game UI, accessibility, cinematography, web motion/3D, sports branding, FIFA 17 and OpenAI worker models.
+- Added V10 start authority.
+- Added permanent REFERENCE_ONLY semantics for owner image attachments.
+- Added interruption-resilient atomic checkpoint protocol.
+- Studied and classified the latest owner cinematic/depth concept set.
+- Completed a 284-source independent source-level research ledger, excluding owner-supplied resource screenshots from the count.
+- Synthesized research across UI/UX, design systems, accessibility/game accessibility, cinematography, AAA/game UI, web motion/3D/performance, sports/FIFA presentation and OpenAI worker selection.
+- Added Cinematic Depth Engine V10 with 2.5D as the default depth strategy and real-time 3D only where interaction justifies it.
+- Added AAA + FIFA 17 presentation study.
+- Added Golden Frame Gate V10.
+- Chose GPT-6 Sol High in ChatGPT Work as the single regular implementation worker; Astra is exception-only escalation.
+- Research/system phase complete. Next phase is actual SV01 golden-frame production by Sol.
