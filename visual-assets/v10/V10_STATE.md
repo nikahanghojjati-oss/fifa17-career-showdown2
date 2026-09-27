@@ -1,96 +1,79 @@
 # V10 STATE
 
-System: Showdown Visual Cinematic Experience OS V10.1
+System: Showdown Visual
 Branch: visual/cinematic-system-v10
 Current live-product anchor: main@f077b9c5be5e4d5bf5ef17b2d219983dbf142962
 Active screen: SV01 Transfer Guess Entry
 Owner calibration of prior V10 candidate: 7/10
 Image generation: LOCKED
-Research status: Astra FIFA 17 / The Journey presentation bible INGESTED
-Availability mode: ASTRA_CONSTRAINED
-Producer / product-truth / synthesis: GPT-5.6 Sol
-Executive cinematic reviewer when available: GPT-6 Astra High
-Persistent visual reviewer: Claude Opus 5.5
 Final taste authority: Nik
 
-## Naming rule
+## Current studio leadership
 
-Claude = C-L-A-U-D-E = model/coworker.
+Lead Visual Producer / Art Director:
+Claude Opus 5.5
 
-Cloud Session = K-L-O-U-D in owner shorthand = Claude Code hosted cloud execution session / remote compute resource.
+Program Coordinator / Product-Truth Guard:
+GPT-5.6 Sol
 
-Never use the two terms interchangeably in project documentation.
+Executive cinematic specialist:
+GPT-6 Astra High
 
-## COV-01 status
+Senior technical production / integration specialist:
+GPT-6 Sol High Work
 
-COV-01 returned:
-NOT PROVISIONALLY READY FOR GOLDEN FRAME.
+Primary implementation arm while promotional credit exists:
+Claude Code Cloud Session
 
-GPT-5.6 Sol reconciled the findings on 2026-09-27.
+Runtime browser QA:
+Claude in Chrome
 
-Owner accepted:
-- N1: Daniel-left / Nik-right means relative ordering, not fixed screen halves.
-- N2: a deterministic CSS/SVG operations room is authorized for the provisional build; no new environment image is authorized.
+Read:
+visual-assets/v10_1/claude/CLAUDE_LEAD_VISUAL_PRODUCER_CHARTER.md
 
-Blocking resolution is frozen in:
-`visual-assets/v10_1/SV01_C2_BLOCKING_ADDENDUM.md`
+## Current candidate status
 
-M1–M7 and R1–R7 are accepted into the provisional build contract.
+Cloud task branch:
+claude-cloud/sv01-v10-1-c2-provisional-build
 
-## Current build status
+Candidate SHA-256:
+f1a5a27dd65e83bf5cef946111cd9ee3e18bbc3585ca22514411fd1c45c7462b
 
-The specification is now PROVISIONALLY READY FOR ONE ISOLATED GOLDEN-FRAME BUILD.
+Mechanical QA:
+159 / 159 checks passed.
 
-That build must be marked:
-`PROVISIONAL_ASTRA_REVIEW_PENDING`
+Owner visual verdict:
+REJECTED AS VISUAL TARGET.
 
-It may not:
-- modify production main;
-- generate images;
-- change product behavior;
-- become the reusable visual reference without review.
+Classification:
+TECHNICAL PROOF ONLY.
 
-## Cloud Session allocation strategy
+Reason:
+The build satisfies many geometric and state constraints but remains far below the target atmosphere and cinematic immersion. It still reads too much like a dark web dashboard with character cutouts instead of an inhabited football transfer environment.
 
-Claude Chat Project:
-- persistent art-direction/research coworker;
-- normal Claude plan usage.
-
-Cloud Session / Claude Code hosted execution:
-- temporary technical executor while promotional cloud credit exists;
-- visual implementation, CSS/SVG scene construction, testing and branch-level QA.
-
-Promo planning envelope:
-- visual track soft cap: approximately $55;
-- main-product readiness/testing soft reserve: approximately $45.
-
-These are planning caps, not guaranteed token-cost conversions. Check the promo balance after every substantive cloud session.
+No further implementation should extend this candidate until Claude completes VP-RESET-01.
 
 ## Immediate next action
 
-Start one isolated Claude Code Cloud Session for the SV01 provisional C2 build on the dedicated implementation branch.
+Run:
+visual-assets/v10_1/claude/CLAUDE_VISUAL_PRODUCER_RESET_TASK.md
 
-Do not start from `main`.
+Surface:
+Claude Chat Project — Claude Career Mode Showdown
 
-Dedicated branch:
-`claude-cloud/sv01-v10-1-c2-provisional-build`
+Model:
+Opus 5.5
 
-This branch must be created from the latest `visual/cinematic-system-v10` authority state.
+Effort:
+Extra
 
-After the first cloud session:
-1. inspect implementation output;
-2. record promo-credit burn;
-3. produce 1366×768 and 390×844 rendered evidence;
-4. return evidence/diff to GPT-5.6 Sol;
-5. Claude Chat Project performs RT-01 red-team review;
-6. Astra later receives compact re-entry packet;
-7. Nik remains final visual approval.
+Branch:
+visual/cinematic-system-v10
 
-## Main-project reserve
+Role:
+Lead Visual Producer + Art Director
 
-Do not use the visual implementation branch for game-readiness testing.
+Stop condition:
+Producer reset only. No implementation. No image generation.
 
-A separate future Cloud Session task/branch will be created from current `main` for end-to-end readiness/bug audit.
-
-Production main remains untouched at:
-`f077b9c5be5e4d5bf5ef17b2d219983dbf142962`
+After Claude returns, GPT-5.6 Sol will coordinate the next worker based on Claude's producer brief and product-truth constraints.
