@@ -39,7 +39,8 @@
   function psscResultsState(){try{return resultsApi?.getState?.()||null;}catch(_error){return null;}}
   function psscRequestContext(){const showdown=psscShowdown(),setup=psscSetupState(),rivalryId=String(showdown?.sharedJourney?.rivalryId||setup?.rivalryId||"").trim();let seasonNumber;try{seasonNumber=psscSeason();}catch(_error){return null;}const saveId=String(showdown?.id||showdown?.saveId||"").trim(),key=rivalryId?`${saveId||"shared"}|${rivalryId}:season_${seasonNumber}`:"";return key?Object.freeze({key,rivalryId,seasonNumber}):null;}
   function psscContextMatches(request){const current=psscRequestContext();return Boolean(request&&current&&request.key===current.key);}
-  function psscResultsReady(request=psscRequestContext()){const results=psscResultsState();return Boolean(request&&results&&results.state?.phase==="RESULTS_READY"&&results.state?.revision===2&&Number(results.seasonNumber)===request.seasonNumber&&String(results.rivalryId||"")===request.rivalryId&&results.allResults?.playerOne&&results.allResults?.playerTwo);}
+  function psscResultsPublished(request=psscRequestContext()){const results=psscResultsState();return Boolean(request&&results&&results.state?.phase==="RESULTS_READY"&&results.state?.revision===2&&Number(results.seasonNumber)===request.seasonNumber&&String(results.rivalryId||"")===request.rivalryId);}
+  function psscResultsReady(request=psscRequestContext()){const results=psscResultsState();return Boolean(psscResultsPublished(request)&&results.allResults?.playerOne&&results.allResults?.playerTwo);}
   function psscResultError(result,message){if(result&&result.ok===true)return result;const error=new Error(message||"Shared Season Commit request was rejected.");error.code=result&&result.code||"SEASON_COMMIT_PROVIDER_FAILED";throw error;}
   function psscQueue(task){const run=providerChain.then(task,task);providerChain=run.catch(()=>{});return run;}
   function psscRandomOperationId(){if(!root.crypto||typeof root.crypto.getRandomValues!=="function")psscFail("SEASON_COMMIT_CRYPTO_UNAVAILABLE");const bytes=new Uint8Array(16);root.crypto.getRandomValues(bytes);return `season_commit_op_${Array.from(bytes,b=>b.toString(16).padStart(2,"0")).join("")}`;}
@@ -47,7 +48,7 @@
     if(!psscSharedMarker())psscFail("SEASON_COMMIT_SHARED_MODE_REQUIRED");
     if(!request||!psscContextMatches(request))psscFail("SEASON_COMMIT_CONTEXT_STALE");
     await psscEnsureDependencies();
-    if(!psscResultsReady(request))psscFail("SEASON_COMMIT_RESULTS_NOT_READY","Both managers must publish Shared Season Results before the shared season can be committed.");
+    if(!psscResultsPublished(request))psscFail("SEASON_COMMIT_RESULTS_NOT_READY","Both managers must publish Shared Season Results before the shared season can be committed.");
     await setupApi.refresh();if(!psscContextMatches(request))psscFail("SEASON_COMMIT_CONTEXT_STALE");
     await resultsApi.refresh();if(!psscContextMatches(request))psscFail("SEASON_COMMIT_CONTEXT_STALE");
     if(!psscResultsReady(request))psscFail("SEASON_COMMIT_RESULTS_NOT_READY","Both managers must publish Shared Season Results before the shared season can be committed.");
@@ -71,7 +72,7 @@
   function psscManagerName(role){return psscShowdown()?.managers?.[role]||(role==="playerOne"?"Manager 1":"Manager 2");}
   function psscRender(){
     const ui=psscEnsureUi();if(!ui)return false;
-    const request=psscRequestContext(),ready=Boolean(psscSharedMarker()&&request&&psscResultsReady(request)),eligible=Boolean(ready&&contextKey===request.key&&view);
+    const request=psscRequestContext(),ready=Boolean(psscSharedMarker()&&request&&psscResultsPublished(request)),eligible=Boolean(ready&&psscResultsReady(request)&&contextKey===request.key&&view);
     psscHidden(ui.status,!ready);psscHidden(ui.action,!ready);if(!ready)return false;
     if(!eligible){
       psscText(ui.status,readError?`SHARED SEASON COMMIT CHECK FAILED · ${readError} · YOUR PUBLISHED RESULTS ARE SAVED`:'CHECKING SHARED SEASON COMMIT · YOUR PUBLISHED RESULTS ARE SAVED');
@@ -105,7 +106,7 @@
     refreshRequestKey=request.key;
     const current=psscQueue(()=>psscRefreshNow(request));refreshPromise=current;psscRender();
     current.then(()=>{if(refreshPromise===current){refreshPromise=null;psscRender();}},error=>{
-      if(refreshPromise===current){refreshPromise=null;if(psscContextMatches(request)&&psscResultsReady(request)){view=null;contextKey="";readError=String(error?.code||"SEASON_COMMIT_CHECK_FAILED").replace(/[^A-Za-z0-9_-]/g,"").slice(0,80);psscRender();psscReport("Unable to check Shared Season Commit",error);}}
+      if(refreshPromise===current){refreshPromise=null;if(psscContextMatches(request)&&psscResultsPublished(request)){view=null;contextKey="";readError=String(error?.code||"SEASON_COMMIT_CHECK_FAILED").replace(/[^A-Za-z0-9_-]/g,"").slice(0,80);psscRender();psscReport("Unable to check Shared Season Commit",error);}}
     });
     return current;
   }
