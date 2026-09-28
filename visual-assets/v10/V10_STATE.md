@@ -8,8 +8,8 @@ SOURCE_DRIFT: NO
 Owner / final taste authority: Nik
 Lead Visual Producer + Visual Coordinator: Claude Opus 5.5 in Claude Project
 Program Coordinator / Product-Truth Guard / Repo Steward: GPT-5.6 Sol
-Default implementation worker: Claude Code Cloud Opus 5.5 (Medium for exact-delta revisions; High for builds requiring judgment)
-First-of-kind architecture / rescue worker: Claude Code Cloud Opus 5.5
+Default implementation worker: Claude Opus 5.5 in Claude Project chat
+Cloud contingency worker: Claude Code Cloud Opus 5.5, Nik-approved per use
 Cinematic specialist: GPT-6 Astra High
 Integration architecture specialist: GPT-6 Sol High Work
 Runtime QA: Claude in Chrome
@@ -17,7 +17,7 @@ Runtime QA: Claude in Chrome
 ## Active visual authority
 
 Routing:
-visual-assets/v10_1/coordination/STUDIO_WORKFLOW_AND_ROUTING_V3.md
+visual-assets/v10_1/coordination/STUDIO_WORKFLOW_AND_ROUTING_V4_LEAN.md
 
 Likeness imagery:
 visual-assets/v10_1/coordination/LIKENESS_IMAGE_WORKFLOW_V1.md
@@ -119,57 +119,45 @@ The Window poses are approved assets, not golden anchors.
 Keep a meaningful Cloud-credit reserve for main-game readiness / E2E testing.
 
 
-## CP1 post-build review state
-
-Lead Visual Producer verdict: **REVISE**.
+## CP1P premium reconciliation
 
 Frozen CP1 candidate:
 `claude-cloud/transfer-tr2-slice-01 @ 646e227aa71cd5d712c791e6436ece103a2e2dfd`
 
-Producer handoff:
-`visual-assets/v10_1/claude/handoffs/CLAUDE_CP1-REVIEW_HANDOFF_TO_SOL_2026-09-27.md`
+Lead Visual Producer CP1 verdict: **REVISE**.
 
-CP1R brief:
-`visual-assets/v10_1/tr2/CP1R_CLOUD_REVISE_BRIEF_TR2_SLICE01.md`
+CP1R visual treatment is superseded by:
+`visual-assets/v10_1/tr2/CP1P_CLOUD_REVISE_BRIEF_TR2_SLICE01.md`
 
-CP1R status: **PAUSED BEFORE CLOUD FOR OWNER VISUAL CALIBRATION**.
+CP1P product-truth status: **SIGNED by GPT-5.6 Sol on 2026-09-27**.
 
-Revision route:
-- Claude Code Cloud;
-- Opus 5.5 · Medium;
-- continue the existing task branch from the frozen CP1 head above;
-- stop budget: 30 min / $6;
-- priority: M1 > M2 > M3 > M4 > R2 > R1 > R3 > R5 > R4 > evidence;
-- no production integration, PR or merge.
+Sol decisions:
+- PT1 APPROVED: rival side uses the wax seal only; no padlock or other lock-state implication.
+- PT2 APPROVED: F5 removes the separate rival dossier row and embeds `DANIEL · SEALED` inside the scene strip; presentation only.
+- PT3 APPROVED: exactly three identical blank folio tabs are constant decorative structure, never rival progress/state.
+- PT4 APPROVED: viewer identity becomes the workstation pane tab; rival identity becomes the desk plaque beside the sealed folio; `YOU`, `SEALED` and `PRIVATE` retain their existing meaning.
 
-Mandatory revision gates:
-- M1 desktop Guess panel fit / scroll reachability;
-- M2 mobile controls ≥ 48 px;
-- M3 360 px top-bar collision;
-- M4 sign-face depth / hair clearance.
+LEAN V4 execution scope:
+- DO: B0, M2, M3, M5, M4, P1, P2, P3, P4, P5, R3, A1.
+- DROP: A2 hair-rim pass and P6 contact shadows.
+- One fresh Claude Project chat, Opus 5.5 High, $0 Cloud credit.
+- Evidence: max four DPR1 screenshots (key desktop, alternate state, mobile, blur) plus QA JSON.
+- Sol product-truth checks and commits after return.
+- No Stage Engine, no PR, no merge, no main changes.
 
-Recorded package delta:
-`visual-assets/v10_1/tr2/CP1R_TRANSFER_PACKAGE_DELTA.md`
-contains the accepted B3-3 viewer-own-panel amendment and the CP1-N1 CP2 world-anchor prerequisite.
+## Active owner visual north star
 
-Routing authority:
-`STUDIO_WORKFLOW_AND_ROUTING_V3.md` is active. Sonnet 5 is removed unless Nik explicitly approves a named task.
-
-After Cloud returns `CLOUD_BUILD_RESULT_CP1R.md`:
-1. Sol Chat re-checks branch safety and product truth.
-2. GPT-5.6 Sol Work · High runs SW1 from `SOLWORK_CP1R_GATE_PRECHECK_TASK_CARD.md`.
-3. ALL-PASS routes to Claude for taste-only verify review; any gate failure routes to Claude High for re-brief.
-
-
-## Owner premium visual calibration · 2026-09-27
-
-Active north star:
 `visual-assets/v10_1/coordination/OWNER_VISUAL_NORTH_STAR_PREMIUM_TRANSFER_V1.md`
 
-Owner direction: the final Transfer experience must move away from generic rectangular card / dashboard presentation toward a premium integrated football operations desk. Glass, graphite, brass, stadium light, physical contact, layered depth, asymmetry and embedded task surfaces are preferred. Transparency may be reduced locally for readability; the answer is not a return to large opaque boxes.
+Transfer must move away from generic rectangular card/dashboard presentation toward an integrated football operations desk: smoked glass, graphite, brass, stadium light, layered depth, asymmetry, physically grounded task surfaces and a premium sealed-rival metaphor with zero rival-private data.
 
-Claude Opus 5.5 remains Lead Visual Producer and owns translation of this north star into exact reusable visual grammar and build briefs.
+## Visual Cloud-credit ledger
 
-CP1R status is now: **PAUSED BEFORE CLOUD FOR OWNER VISUAL CALIBRATION**.
+Approximate remaining credit at LEAN V4 reset: **$78**.
+Main-project reserve: **$43–50**.
+All remaining visual Cloud work: **target $30, hard stop $35**.
+Claude Project is the default builder, so expected additional visual Cloud spend is **$0–10** unless a contingency is approved.
 
-The signed CP1R mechanical requirements are retained as constraints, not discarded. Claude must reconcile the visual treatment first, then return an amended or replacement brief to Sol for product-truth sign-off before Cloud resumes.
+## Next action
+
+Run the signed CP1P build in a fresh Claude Project chat on Opus 5.5 High from the frozen task-branch candidate. After return, Sol checks product truth and branch safety, commits the accepted changes, and Nik performs the owner look. One focused correction round is allowed if needed.
