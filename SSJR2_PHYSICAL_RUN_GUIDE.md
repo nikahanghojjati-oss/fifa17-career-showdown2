@@ -1,7 +1,7 @@
 # SSJR-2.0 two-device run — Daniel and Nik
 
 This single run is the SSJR test. After a clean one-season run, and once Claude records it with Nik's signed statement, SSJR-2.0 moves from 0 to 82/100.
-- The remaining 18 points need a later run of two or more seasons: multi-season 8, final reconciliation 3, terminal close 2, physical journey 3 and stable release 2.
+- The remaining 18 points are multi-season 8, final reconciliation 3, terminal close 2, physical journey 3 and stable release 2. They need a future recorder upgrade that logs every season, followed by a run of two or more seasons. Today's recorder captures one-season plans only.
 - Rejection proof comes from the automated Rules and provider tests. No third account, extra rejection taps or 4-hour wait are needed.
 
 Only start once Claude confirms that production is on the expected runtime. The runtime is stamped into each export automatically.
@@ -40,23 +40,33 @@ Only start once Claude confirms that production is on the expected runtime. The 
 14. **Reload once more** on each device. The panel must show CLOSED AFTER RELOAD.
 
 ## Send the evidence
-15. **Export** on each device with `DOWNLOAD JSON`, or `COPY EVIDENCE` and paste it into a file.
-16. **Sign the statement.** Nik copies `acceptance/SSJR2_OWNER_ATTESTATION_TEMPLATE.json` and fills in only:
-    - `runDate`: today, as YYYY-MM-DD.
-    - `runtimeRevision`: the value shown in the exports.
-    - `deviceLabels`: the two labels exactly as saved.
-    - `stableReleaseAccepted`: leave `false` unless Nik is accepting the release as stable.
+15. **Export** on each device with `DOWNLOAD JSON`, or `COPY EVIDENCE` and paste it into a file. Send both exports to Claude without editing them.
+16. **Confirm Claude's statement.**
+    - Claude prepares the owner attestation from those exact files:
+      ```
+      node scripts/ssjr2-physical-run-credit.mjs --draft-attestation <daniel.json> <nik.json>
+      ```
+      It contains the fingerprint (SHA-256) of both exports, the runtime and the device labels.
+    - Nik reads it and confirms it to Claude, setting `stableReleaseAccepted` to `true` only if he is accepting the release as stable.
+    - Nobody edits the statement text.
 
-    Nik must not change the statement text.
-17. **Send Claude three files:** Daniel's export, Nik's export and the attestation.
-
-Claude then runs:
+Claude then assesses the run:
 ```
 node scripts/ssjr2-physical-run-credit.mjs <daniel.json> <nik.json> <attestation.json>
 ```
 It prints exactly which capabilities the run proves and what blocks the rest.
-- Claude then confirms Validate POS20 and the zero-billing Rules deployment for the production main, and records credit with `--record --main-sha <sha> --automated-verified`.
-- Nothing is credited from CI, emulators, two tabs, Incognito windows or simulated browsers.
+
+Claude then records it:
+```
+node scripts/ssjr2-physical-run-credit.mjs <daniel.json> <nik.json> <attestation.json> --record --main-sha <production-main-sha>
+```
+Before writing the ledger, this verifies the following against GitHub:
+- the SHA is live `main`;
+- every check on it passed, including the POS20 seal, the 1/3/5/10 lifecycle, the Pages deploy and the deployed-site smoke;
+- the latest zero-billing Firestore Rules deployment succeeded;
+- production's runtime equals the exports' runtime.
+
+Nothing is credited from CI, emulators, two tabs, Incognito windows or simulated browsers.
 
 ## If something goes wrong
 - Take a screenshot of both devices, including any status line or error code.

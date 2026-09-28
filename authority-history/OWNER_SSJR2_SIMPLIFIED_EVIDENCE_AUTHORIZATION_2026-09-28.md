@@ -27,9 +27,12 @@ Owner answers to the EVD-01 decision packet:
 
 1. **Rejection and denial behaviour** is proven by the automated deterministic and provider-enforcement suites named for each capability. Those suites include Firestore Rules emulator tests against the exact generated production Rules. They must pass on the production main being credited.
 2. **Real production behaviour** is proven by one validated two-device Physical Journey pair (`scripts/validate-ssjr-physical-journey-evidence.mjs`). The capability's milestones must be present on both devices. This includes the recorder's non-writing production stale/replay conflict probe.
-3. **Provenance** is Nik's signed owner attestation for that exact run (`acceptance/SSJR2_OWNER_ATTESTATION_TEMPLATE.json`).
+3. **Provenance** is Nik's owner attestation for that exact run (`acceptance/SSJR2_OWNER_ATTESTATION_TEMPLATE.json`), bound to the SHA-256 of both export files and delivered by Nik to the recording engineer.
+   - No independent identity channel exists: automation uses the owner's own GitHub account, and the game admits only the two manager Google accounts.
+   - This residual trust is accepted by the owner and stated in the model's `provenanceTrust`.
+   - The automated layer is verified live against GitHub at record time, never asserted by a flag.
 
-A one-season run cannot prove season-to-season advancement, so it cannot credit `multi-season`. Its dependents therefore remain uncredited from a one-season run: `final-reconciliation`, `terminal-close`, `physical-journey` and `stable-journey-release`. No weight or dependency was changed to avoid this.
+A one-season run cannot prove season-to-season advancement. The current recorder also records each stage only once, so no run can credit `multi-season` until a recorder and validator revision captures per-season milestones. Its dependents therefore remain uncredited from a one-season run: `final-reconciliation`, `terminal-close`, `physical-journey` and `stable-journey-release`. No weight or dependency was changed to avoid this.
 
 SSJR-1.1 files remain frozen and unchanged for history. Its score stays 0/100.
 
