@@ -299,27 +299,34 @@
     return W;
   }
 
-  // Portrait: the live UI keeps its natural height and the scene gets what is left (CSS flex).
-  // Pick the crop for that box: prefer plate y 34-640 (sign .. fingertip); zoom between
-  // 760 and 1300 plate px wide; if still too short, keep the sign + faces and let the table go.
+  // Portrait: the live UI keeps its natural height and the scene box gets what is left (CSS flex).
+  // The crop never gets narrower than wholeX (both managers whole) and never shows below sceneY[1]
+  // (the painted desktop panels start there): the plate fades to black above them. Spare height is a
+  // dark band around the scene; on very short screens the crop widens up to maxCropW.
   function layoutMobile(stage, world, map) {
     world.style.width = ""; world.style.height = ""; world.style.left = ""; world.style.top = "";
     stage.dataset.mode = "mobile"; stage.classList.remove("short");
     var scene = world.querySelector(".scene");
     var band = stage.dataset.phase === "none" ? 0 : (parseFloat(getComputedStyle(stage).getPropertyValue("--band-h")) || 28);
     var vw = stage.clientWidth, H = Math.max(1, scene.clientHeight - band);
-    var m = map.mobile, kMin = vw / m.maxCropW, kMax = vw / m.minCropW;
-    var k = Math.min(kMax, Math.max(kMin, H / (m.idealY[1] - m.idealY[0])));
-    var visH = H / k, y0;
-    if (stage.dataset.phase === "none") y0 = (PLATE_H - visH) / 2;              // plate only: centre it
-    else if (visH >= m.idealY[1] - m.idealY[0]) y0 = Math.max(0, Math.min(m.idealY[0], PLATE_H - visH)); // tall: never past the plate bottom
-    else if (visH >= m.mustY[1] - m.mustY[0]) y0 = Math.max(m.idealY[0], m.mustY[0] - (visH - (m.mustY[1] - m.mustY[0])) / 2);
-    else y0 = m.mustY[0];
-    var x0 = m.centerX - vw / k / 2;
+    var m = map.mobile, want = m.sceneY[1] - m.sceneY[0];
+    var kMax = vw / (m.wholeX[1] - m.wholeX[0]), kMin = vw / m.maxCropW;
+    var k = Math.min(kMax, Math.max(kMin, H / want));
+    var visH = H / k;
+    // spare height goes above the scene (blurred stadium), so the scene sits on the caption
+    var spare = stage.dataset.phase === "none" ? 0.5 : 1;                  // plate only: centred
+    var y0 = visH >= want ? m.sceneY[0] - (visH - want) * spare : m.sceneY[0];
+    var cutY = Math.min(m.sceneY[1], y0 + visH), fadeStart = cutY - m.fadePlate;
+    var x0 = (m.wholeX[0] + m.wholeX[1]) / 2 - vw / k / 2;
     world.style.setProperty("--k", k.toFixed(5));
     world.style.setProperty("--crop-x", x0.toFixed(1)); world.style.setProperty("--crop-y", y0.toFixed(1));
+    // plane-space mask: soft top edge, fade out before the painted desktop panels
+    world.style.setProperty("--mask-a", (Math.max(0, y0) * k + 22).toFixed(1) + "px");
+    world.style.setProperty("--mask-top", (Math.max(0, y0) * k).toFixed(1) + "px");
+    world.style.setProperty("--mask-b", (fadeStart * k).toFixed(1) + "px");
+    world.style.setProperty("--mask-c", (cutY * k).toFixed(1) + "px");
     stage.dataset.k = k.toFixed(4); stage.dataset.offY = Math.round(y0 * k); stage.dataset.offX = Math.round(x0 * k);
-    stage.dataset.sceneCrop = [Math.round(x0), Math.round(y0), Math.round(x0 + vw / k), Math.round(y0 + visH)].join(",");
+    stage.dataset.sceneCrop = [Math.round(x0), Math.round(y0), Math.round(x0 + vw / k), Math.round(cutY)].join(",");
     return PLATE_W * k;
   }
 
@@ -346,6 +353,7 @@
       : el("img", { src: base + "1672.png", srcset: base + "1672.png 1672w, " + base + "3344.png 3344w", alt: "", decoding: "sync" });
     pic.appendChild(img);
     plane.appendChild(pic);
+    scene.appendChild(el("div", { class: "scene-atmos", "aria-hidden": "true" }));
     scene.appendChild(plane);
     world.appendChild(scene);
 
@@ -372,6 +380,7 @@
     stage.appendChild(world);
     if (!cfg.plateOnly) stage.appendChild(buildFooter(S, cfg.phase === "WINDOW_OPEN" ? 0 : 1));
     world.style.setProperty("--glass", "url(" + map.mobile.glass.file + ")");
+    world.style.setProperty("--plate-url", "url(" + base + "1672.webp)");
 
     var mq = matchMedia(MOBILE_MQ);
     function isMobile() { return typeof opts.mobile === "boolean" ? opts.mobile : mq.matches; }

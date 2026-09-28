@@ -140,3 +140,17 @@ Nik: on phone, everything must fit on the screen with no scrolling to reach a bu
   - No scrolling at 390×664, 390×844, 430×740, 430×932, 360×640 and 375×667, in all F1 and Guess frames.
   - At 375×553 (iPhone SE browser) there is no scrolling either, and the primary button is visible. On Guess Entry the fingertip leaves the crop there.
   - Both faces and the sign are always inside the scene.
+
+## R3.2: phone scene keeps both managers whole; no painted desktop panels (owner note, Nik 2026-09-28 09:56 ET)
+Nik's notes:
+- The phone Window crop cut Daniel in half.
+- The painted desktop panels showing in the phone scene look like unused extras.
+
+Fix:
+- The phone crop never gets narrower than plate x 330–1390, so both managers stay whole on every screen.
+- The plate is masked out before y 528, where the painted panels start.
+- Spare height shows a dark, blurred extension of the same plate above the scene. No new art.
+- The scene sits directly on the caption.
+- Plate only on phone is centred.
+
+QA adds `managersWhole` and `paintedPanelsHidden` checks. The fingertip is masked out on phone by design. Result: 37 shots, 0 failures, still with no scrolling at every phone size.

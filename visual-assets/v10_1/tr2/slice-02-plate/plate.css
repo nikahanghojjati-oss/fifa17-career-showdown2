@@ -38,6 +38,7 @@ body { overflow: hidden; font-family: var(--text); -webkit-font-smoothing: antia
   width: calc(var(--k) * var(--w) * 1px); height: calc(var(--k) * var(--h) * 1px);
 }
 .m-only { display: none !important; }
+.scene-atmos { display: none; }
 
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
@@ -274,9 +275,13 @@ body { overflow: hidden; font-family: var(--text); -webkit-font-smoothing: antia
   .scene { position: relative; inset: auto; order: 0; flex: 1 1 0; min-height: 118px; margin: 0 -12px -8px; overflow: hidden; }
   .plane { inset: auto; left: calc(var(--k) * var(--crop-x) * -1px); top: calc(var(--k) * var(--crop-y) * -1px);
     width: calc(var(--k) * 1672px); height: calc(var(--k) * 941px); }
-  .scene::after { content: ""; position: absolute; left: 0; right: 0; bottom: var(--band-h); height: 18px; pointer-events: none;
-    background: linear-gradient(to bottom, rgba(7, 6, 4, 0), #070604); }
-  .stage[data-phase="none"] .scene::after { display: none; }
+  /* the plate fades out above the painted desktop panels; spare height shows a dark, blurred
+     extension of the same plate (a cinematic letterbox, no new art) */
+  .scene { background: #070604; }
+  .scene-atmos { display: block; position: absolute; inset: -24px; background: var(--plate-url) 50% 18% / cover no-repeat;
+    filter: blur(16px) brightness(0.32) saturate(0.85); }
+  .plane { -webkit-mask-image: linear-gradient(to bottom, transparent var(--mask-top, 0px), #000 var(--mask-a, 22px), #000 var(--mask-b, 60%), transparent var(--mask-c, 70%));
+                   mask-image: linear-gradient(to bottom, transparent var(--mask-top, 0px), #000 var(--mask-a, 22px), #000 var(--mask-b, 60%), transparent var(--mask-c, 70%)); }
   .stage[data-phase="none"] .world { padding-bottom: 0; }
   .stage[data-phase="none"] .scene { margin-bottom: 0; }
   .sign-main.timer { font-size: max(20px, calc(var(--k) * 34px)); line-height: 1.05; }

@@ -1,6 +1,6 @@
 {
   "base": "http://127.0.0.1:8765/",
-  "when": "2026-09-28T13:39:00.438Z",
+  "when": "2026-09-28T14:00:37.751Z",
   "staging": {
     "danielFace": [
       525,
@@ -2063,8 +2063,8 @@
       "dpr": 2,
       "mobile": true,
       "mode": "mobile",
-      "k": 0.5149,
-      "offY": 18,
+      "k": 0.3679,
+      "offY": -118,
       "titleCropPx": 0,
       "checks": {
         "noHorizontalScroll": true,
@@ -2091,10 +2091,12 @@
           "pageScroll": false,
           "primaryVisible": true,
           "sceneH": 312,
-          "sceneCrop": "506,34,1264,640",
+          "sceneCrop": "330,-320,1390,528",
           "facesInScene": true,
           "signInScene": true,
-          "fingertipInScene": true,
+          "fingertipInScene": false,
+          "managersWhole": true,
+          "paintedPanelsHidden": true,
           "hudNoOverlap": true
         }
       },
@@ -2185,8 +2187,8 @@
       "dpr": 2,
       "mobile": true,
       "mode": "mobile",
-      "k": 0.5149,
-      "offY": 18,
+      "k": 0.3679,
+      "offY": -118,
       "titleCropPx": 0,
       "checks": {
         "noHorizontalScroll": true,
@@ -2213,10 +2215,12 @@
           "pageScroll": false,
           "primaryVisible": true,
           "sceneH": 312,
-          "sceneCrop": "506,34,1264,640",
+          "sceneCrop": "330,-320,1390,528",
           "facesInScene": true,
           "signInScene": true,
-          "fingertipInScene": true,
+          "fingertipInScene": false,
+          "managersWhole": true,
+          "paintedPanelsHidden": true,
           "hudNoOverlap": true
         }
       },
@@ -2307,8 +2311,8 @@
       "dpr": 2,
       "mobile": true,
       "mode": "mobile",
-      "k": 0.5149,
-      "offY": 18,
+      "k": 0.3679,
+      "offY": -118,
       "titleCropPx": 0,
       "checks": {
         "noHorizontalScroll": true,
@@ -2335,10 +2339,12 @@
           "pageScroll": false,
           "primaryVisible": true,
           "sceneH": 312,
-          "sceneCrop": "506,34,1264,640",
+          "sceneCrop": "330,-320,1390,528",
           "facesInScene": true,
           "signInScene": true,
-          "fingertipInScene": true,
+          "fingertipInScene": false,
+          "managersWhole": true,
+          "paintedPanelsHidden": true,
           "hudNoOverlap": true
         }
       },
@@ -2415,8 +2421,8 @@
       "dpr": 2,
       "mobile": true,
       "mode": "mobile",
-      "k": 0.5149,
-      "offY": 18,
+      "k": 0.3679,
+      "offY": -118,
       "titleCropPx": 0,
       "checks": {
         "noHorizontalScroll": true,
@@ -2443,10 +2449,12 @@
           "pageScroll": false,
           "primaryVisible": true,
           "sceneH": 312,
-          "sceneCrop": "506,34,1264,640",
+          "sceneCrop": "330,-320,1390,528",
           "facesInScene": true,
           "signInScene": true,
-          "fingertipInScene": true,
+          "fingertipInScene": false,
+          "managersWhole": true,
+          "paintedPanelsHidden": true,
           "hudNoOverlap": true
         }
       },
@@ -2523,8 +2531,8 @@
       "dpr": 2,
       "mobile": true,
       "mode": "mobile",
-      "k": 0.5417,
-      "offY": 18,
+      "k": 0.3679,
+      "offY": -298,
       "titleCropPx": 0,
       "checks": {
         "noHorizontalScroll": true,
@@ -2551,10 +2559,12 @@
           "pageScroll": false,
           "primaryVisible": true,
           "sceneH": 492,
-          "sceneCrop": "525,33,1245,941",
+          "sceneCrop": "330,-809,1390,528",
           "facesInScene": true,
           "signInScene": true,
-          "fingertipInScene": true,
+          "fingertipInScene": false,
+          "managersWhole": true,
+          "paintedPanelsHidden": true,
           "hudNoOverlap": true
         }
       },
@@ -2632,8 +2642,8 @@
       "dpr": 2,
       "mobile": true,
       "mode": "mobile",
-      "k": 0.5972,
-      "offY": 20,
+      "k": 0.4057,
+      "offY": -174,
       "titleCropPx": 0,
       "checks": {
         "noHorizontalScroll": true,
@@ -2660,10 +2670,12 @@
           "pageScroll": false,
           "primaryVisible": true,
           "sceneH": 388,
-          "sceneCrop": "525,34,1245,684",
+          "sceneCrop": "330,-428,1390,528",
           "facesInScene": true,
           "signInScene": true,
-          "fingertipInScene": true,
+          "fingertipInScene": false,
+          "managersWhole": true,
+          "paintedPanelsHidden": true,
           "hudNoOverlap": true
         }
       },
@@ -2741,8 +2753,8 @@
       "dpr": 2,
       "mobile": true,
       "mode": "mobile",
-      "k": 0.5972,
-      "offY": 0,
+      "k": 0.4057,
+      "offY": -366,
       "titleCropPx": 0,
       "checks": {
         "noHorizontalScroll": true,
@@ -2769,10 +2781,12 @@
           "pageScroll": false,
           "primaryVisible": true,
           "sceneH": 580,
-          "sceneCrop": "525,0,1245,971",
+          "sceneCrop": "330,-902,1390,528",
           "facesInScene": true,
           "signInScene": true,
-          "fingertipInScene": true,
+          "fingertipInScene": false,
+          "managersWhole": true,
+          "paintedPanelsHidden": true,
           "hudNoOverlap": true
         }
       },
@@ -2850,8 +2864,8 @@
       "dpr": 2,
       "mobile": true,
       "mode": "mobile",
-      "k": 0.4488,
-      "offY": 15,
+      "k": 0.3396,
+      "offY": -93,
       "titleCropPx": 0,
       "checks": {
         "noHorizontalScroll": true,
@@ -2878,10 +2892,12 @@
           "pageScroll": false,
           "primaryVisible": true,
           "sceneH": 272,
-          "sceneCrop": "484,34,1286,640",
+          "sceneCrop": "330,-273,1390,528",
           "facesInScene": true,
           "signInScene": true,
-          "fingertipInScene": true,
+          "fingertipInScene": false,
+          "managersWhole": true,
+          "paintedPanelsHidden": true,
           "hudNoOverlap": true
         }
       },
@@ -2959,8 +2975,8 @@
       "dpr": 2,
       "mobile": true,
       "mode": "mobile",
-      "k": 0.5198,
-      "offY": 18,
+      "k": 0.3538,
+      "offY": -128,
       "titleCropPx": 0,
       "checks": {
         "noHorizontalScroll": true,
@@ -2987,10 +3003,12 @@
           "pageScroll": false,
           "primaryVisible": true,
           "sceneH": 315,
-          "sceneCrop": "524,34,1246,640",
+          "sceneCrop": "330,-362,1390,528",
           "facesInScene": true,
           "signInScene": true,
-          "fingertipInScene": true,
+          "fingertipInScene": false,
+          "managersWhole": true,
+          "paintedPanelsHidden": true,
           "hudNoOverlap": true
         }
       },
@@ -3069,8 +3087,8 @@
       "mobile": true,
       "tight": true,
       "mode": "mobile",
-      "k": 0.3317,
-      "offY": 11,
+      "k": 0.3538,
+      "offY": -14,
       "titleCropPx": 0,
       "checks": {
         "noHorizontalScroll": true,
@@ -3097,10 +3115,12 @@
           "pageScroll": false,
           "primaryVisible": true,
           "sceneH": 201,
-          "sceneCrop": "320,34,1450,640",
+          "sceneCrop": "330,-40,1390,528",
           "facesInScene": true,
           "signInScene": true,
-          "fingertipInScene": true,
+          "fingertipInScene": false,
+          "managersWhole": true,
+          "paintedPanelsHidden": true,
           "hudNoOverlap": true
         }
       },
@@ -3178,8 +3198,8 @@
       "dpr": 2,
       "mobile": true,
       "mode": "mobile",
-      "k": 0.3548,
-      "offY": 12,
+      "k": 0.3679,
+      "offY": -21,
       "titleCropPx": 0,
       "checks": {
         "noHorizontalScroll": true,
@@ -3208,10 +3228,12 @@
           "pageScroll": false,
           "primaryVisible": true,
           "sceneH": 215,
-          "sceneCrop": "335,34,1435,640",
+          "sceneCrop": "330,-56,1390,528",
           "facesInScene": true,
           "signInScene": true,
-          "fingertipInScene": true,
+          "fingertipInScene": false,
+          "managersWhole": true,
+          "paintedPanelsHidden": true,
           "hudNoOverlap": true
         }
       },
@@ -3348,8 +3370,8 @@
       "dpr": 2,
       "mobile": true,
       "mode": "mobile",
-      "k": 0.3548,
-      "offY": 12,
+      "k": 0.3679,
+      "offY": -21,
       "titleCropPx": 0,
       "checks": {
         "noHorizontalScroll": true,
@@ -3378,10 +3400,12 @@
           "pageScroll": false,
           "primaryVisible": true,
           "sceneH": 215,
-          "sceneCrop": "335,34,1435,640",
+          "sceneCrop": "330,-56,1390,528",
           "facesInScene": true,
           "signInScene": true,
-          "fingertipInScene": true,
+          "fingertipInScene": false,
+          "managersWhole": true,
+          "paintedPanelsHidden": true,
           "hudNoOverlap": true
         }
       },
@@ -3518,8 +3542,8 @@
       "dpr": 2,
       "mobile": true,
       "mode": "mobile",
-      "k": 0.5417,
-      "offY": 18,
+      "k": 0.3679,
+      "offY": -201,
       "titleCropPx": 0,
       "checks": {
         "noHorizontalScroll": true,
@@ -3548,10 +3572,12 @@
           "pageScroll": false,
           "primaryVisible": true,
           "sceneH": 395,
-          "sceneCrop": "525,34,1245,763",
+          "sceneCrop": "330,-546,1390,528",
           "facesInScene": true,
           "signInScene": true,
-          "fingertipInScene": true,
+          "fingertipInScene": false,
+          "managersWhole": true,
+          "paintedPanelsHidden": true,
           "hudNoOverlap": true
         }
       },
@@ -3675,8 +3701,8 @@
       "dpr": 2,
       "mobile": true,
       "mode": "mobile",
-      "k": 0.4802,
-      "offY": 16,
+      "k": 0.4057,
+      "offY": -77,
       "titleCropPx": 0,
       "checks": {
         "noHorizontalScroll": true,
@@ -3705,10 +3731,12 @@
           "pageScroll": false,
           "primaryVisible": true,
           "sceneH": 291,
-          "sceneCrop": "437,34,1333,640",
+          "sceneCrop": "330,-189,1390,528",
           "facesInScene": true,
           "signInScene": true,
-          "fingertipInScene": true,
+          "fingertipInScene": false,
+          "managersWhole": true,
+          "paintedPanelsHidden": true,
           "hudNoOverlap": true
         }
       },
@@ -3832,8 +3860,8 @@
       "dpr": 2,
       "mobile": true,
       "mode": "mobile",
-      "k": 0.5972,
-      "offY": 20,
+      "k": 0.4057,
+      "offY": -269,
       "titleCropPx": 0,
       "checks": {
         "noHorizontalScroll": true,
@@ -3862,10 +3890,12 @@
           "pageScroll": false,
           "primaryVisible": true,
           "sceneH": 483,
-          "sceneCrop": "525,34,1245,843",
+          "sceneCrop": "330,-663,1390,528",
           "facesInScene": true,
           "signInScene": true,
-          "fingertipInScene": true,
+          "fingertipInScene": false,
+          "managersWhole": true,
+          "paintedPanelsHidden": true,
           "hudNoOverlap": true
         }
       },
@@ -3989,8 +4019,8 @@
       "dpr": 2,
       "mobile": true,
       "mode": "mobile",
-      "k": 0.2888,
-      "offY": 10,
+      "k": 0.3396,
+      "offY": 4,
       "titleCropPx": 0,
       "checks": {
         "noHorizontalScroll": true,
@@ -4019,10 +4049,12 @@
           "pageScroll": false,
           "primaryVisible": true,
           "sceneH": 175,
-          "sceneCrop": "262,34,1508,640",
+          "sceneCrop": "330,13,1390,528",
           "facesInScene": true,
           "signInScene": true,
-          "fingertipInScene": true,
+          "fingertipInScene": false,
+          "managersWhole": true,
+          "paintedPanelsHidden": true,
           "hudNoOverlap": true
         }
       },
@@ -4146,8 +4178,8 @@
       "dpr": 2,
       "mobile": true,
       "mode": "mobile",
-      "k": 0.3597,
-      "offY": 12,
+      "k": 0.3538,
+      "offY": -31,
       "titleCropPx": 0,
       "checks": {
         "noHorizontalScroll": true,
@@ -4176,10 +4208,12 @@
           "pageScroll": false,
           "primaryVisible": true,
           "sceneH": 218,
-          "sceneCrop": "364,34,1406,640",
+          "sceneCrop": "330,-88,1390,528",
           "facesInScene": true,
           "signInScene": true,
-          "fingertipInScene": true,
+          "fingertipInScene": false,
+          "managersWhole": true,
+          "paintedPanelsHidden": true,
           "hudNoOverlap": true
         }
       },
@@ -4304,8 +4338,8 @@
       "mobile": true,
       "tight": true,
       "mode": "mobile",
-      "k": 0.2885,
-      "offY": 14,
+      "k": 0.2679,
+      "offY": 5,
       "titleCropPx": 0,
       "checks": {
         "noHorizontalScroll": true,
@@ -4334,10 +4368,12 @@
           "pageScroll": false,
           "primaryVisible": true,
           "sceneH": 104,
-          "sceneCrop": "235,50,1535,411",
+          "sceneCrop": "160,20,1560,408",
           "facesInScene": true,
           "signInScene": true,
           "fingertipInScene": false,
+          "managersWhole": true,
+          "paintedPanelsHidden": true,
           "hudNoOverlap": true
         }
       },
@@ -4461,8 +4497,8 @@
       "dpr": 2,
       "mobile": true,
       "mode": "mobile",
-      "k": 0.5417,
-      "offY": -77,
+      "k": 0.3679,
+      "offY": -231,
       "titleCropPx": 0,
       "checks": {
         "noHorizontalScroll": true
@@ -4474,7 +4510,7 @@
         "vw": 390,
         "vh": 664
       },
-      "sceneCrop": "525,-142,1245,1083",
+      "sceneCrop": "330,-628,1390,528",
       "tabOrder": [],
       "focusVisibleAll": true,
       "errors": []
@@ -4487,8 +4523,8 @@
       "dpr": 2,
       "mobile": true,
       "mode": "mobile",
-      "k": 0.5972,
-      "offY": -185,
+      "k": 0.4057,
+      "offY": -355,
       "titleCropPx": 0,
       "checks": {
         "noHorizontalScroll": true
@@ -4500,7 +4536,7 @@
         "vw": 430,
         "vh": 932
       },
-      "sceneCrop": "525,-310,1245,1251",
+      "sceneCrop": "330,-875,1390,528",
       "tabOrder": [],
       "focusVisibleAll": true,
       "errors": []

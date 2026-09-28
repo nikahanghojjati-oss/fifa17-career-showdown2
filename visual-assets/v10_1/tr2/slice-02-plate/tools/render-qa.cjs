@@ -201,6 +201,7 @@ function stringsFor(frame) {
         const box = { l: plane.left + r[0] * kk, t: plane.top + r[1] * kk, r: plane.left + r[2] * kk, b: plane.top + r[3] * kk };
         document.querySelectorAll(".sign-screen .sign-main, .sign-status > *, .panel-title > *, .panel-body > *, .rules-inner > *, .you-chip, .frost, .hud-footer").forEach((n) => {
           if (!vis(n)) return;
+          if (key === "nikFingertip" && mobile) return; // phone: the crop ends above the panels, fingertip is masked out by design
           if (key === "nikFingertip" && !mobile && n.closest(".panel.own[data-panel='A'], .panel.sealed[data-panel='A']")) return; // desktop: the finger rests on panel A by design and is layered above it
           const c = n.getBoundingClientRect();
           if (c.left < box.r && c.right > box.l && c.top < box.b && c.bottom > box.t) covers.push({ staging: key, el: n.className || n.tagName });
@@ -228,12 +229,14 @@ function stringsFor(frame) {
           facesInScene: inScene(STAGING.danielFace) && inScene(STAGING.nikFace),
           signInScene: sg.top >= scene.top - 0.5 && sg.bottom <= band.top + 0.5,
           fingertipInScene: inScene(STAGING.nikFingertip),
+          managersWhole: (() => { const c = (stage.dataset.sceneCrop || '').split(',').map(Number); return c[0] <= 330.5 && c[2] >= 1389.5; })(),
+          paintedPanelsHidden: (() => { const c = (stage.dataset.sceneCrop || '').split(',').map(Number); return c[3] <= 528.5; })(),
         };
         const home = q("#backToShowdownHome").getBoundingClientRect(), refresh = q("#refreshSharedTransferChallenge").getBoundingClientRect();
         const midKids = [...q(".hud-mid").querySelectorAll(".hud-title, .rail li")].filter(vis).map((b) => b.getBoundingClientRect());
         res.checks.layout.hudNoOverlap = midKids.every((b) => b.left >= home.right + 2 && b.right <= refresh.left - 2);
         const L = res.checks.layout;
-        if (!L.footerFixedBottom || L.pageScroll || !L.primaryVisible || !L.hudNoOverlap || !L.facesInScene || !L.signInScene || (!L.noScroll && !expect.__tight)) res.fail.push("mobile layout");
+        if (!L.footerFixedBottom || L.pageScroll || !L.primaryVisible || !L.hudNoOverlap || !L.facesInScene || !L.signInScene || !L.managersWhole || !L.paintedPanelsHidden || (!L.noScroll && !expect.__tight)) res.fail.push("mobile layout");
       } else {
         const panels = [...document.querySelectorAll(".panel-body, .frost")].map((n) => n.getBoundingClientRect().bottom);
         const sign = q(".sign-screen").getBoundingClientRect();

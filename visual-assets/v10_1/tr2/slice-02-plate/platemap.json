@@ -155,7 +155,7 @@
     }
   },
   "mobile": {
-    "_note": "Portrait: one screen, no scroll. The scene box is what the live UI leaves; plate.js picks k in [vw/maxCropW, vw/minCropW] to show idealY (sign top .. below the fingertip), falling back to mustY (sign + faces + hands).",
+    "_note": "Phone (owner note 2026-09-28 09:56): keep both managers whole (never narrower than wholeX), never show the painted desktop panels (content fades out above y 528, where the panel tops start at ~520). Spare height becomes a dark cinematic band around the scene, not zoom.",
     "glass": {
       "file": "assets/DER_TR2_PLATE_G_GLASS_C_V1.png",
       "srcRectPlate": [
@@ -177,16 +177,15 @@
         "left": 40
       }
     },
-    "centerX": 885,
-    "minCropW": 720,
-    "maxCropW": 1300,
-    "idealY": [
-      34,
-      640
+    "wholeX": [
+      330,
+      1390
     ],
-    "mustY": [
-      50,
-      560
-    ]
+    "maxCropW": 1400,
+    "sceneY": [
+      20,
+      528
+    ],
+    "fadePlate": 60
   }
 }
