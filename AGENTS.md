@@ -14,4 +14,6 @@ POS20 may escalate proof but never reduce any deterministic test or heavy proof 
 
 Billing permanently OFF; Firebase Spark only; no Blaze, Cloud Billing linkage, Cloud Run or Cloud Functions. App Check enforcement OFF. Firestore memory-only. Google Auth popup-only browserSessionPersistence without extra scopes. Exactly two private managers; pairing plus exact ACTIVE before league/club authority. Candidate C alone owns destructive remote-to-local Apply with exact rollback. Preserve canonical storage and private scope.
 
+SSJR-2.0 (`SHARED_SHOWDOWN_JOURNEY_MODEL_SSJR2.json`, ledger `SHARED_SHOWDOWN_JOURNEY_READINESS_SSJR2.json`, owner authority `authority-history/OWNER_SSJR2_SIMPLIFIED_EVIDENCE_AUTHORIZATION_2026-09-28.md`) is the active SSJR reporting model: unchanged SSJR-1.1 capabilities/weights/dependencies, credited only by `scripts/ssjr2-physical-run-credit.mjs` from one validated two-device production Physical Journey pair plus Nik's exact owner attestation and verified automated suites on the credited production main. SSJR-1.1 stays frozen for history. Run guide: `SSJR2_PHYSICAL_RUN_GUIDE.md`.
+
 POS20 process work earns zero SSJR and zero MDP credit. Once POS20 is active, resume the highest-value unfinished Shared Showdown Journey product dependency from live evidence.

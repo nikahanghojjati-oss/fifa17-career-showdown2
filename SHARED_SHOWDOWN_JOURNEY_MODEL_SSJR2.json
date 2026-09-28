@@ -1,0 +1,499 @@
+{
+  "modelVersion": "SSJR-2.0",
+  "denominator": 100,
+  "frozenAt": "2026-09-28",
+  "supersedesModelVersion": "SSJR-1.1",
+  "supersededModelFile": "SHARED_SHOWDOWN_JOURNEY_MODEL.json",
+  "supersededModelSha256": "sha256:096281493d9da6ea964c2bdbc7f9facadc064aa765206934ea2f1f5c17a65670",
+  "ownerAuthority": "authority-history/OWNER_SSJR2_SIMPLIFIED_EVIDENCE_AUTHORIZATION_2026-09-28.md",
+  "rationale": "SSJR-1.1 required manual production denial probes, a third unrelated Google account and self-authenticating browser exports. Its only setup validator hard-coded productionProvenanceAuthenticated:false, so no real run could ever earn credit. SSJR-2.0 keeps every SSJR-1.1 capability, weight and dependency unchanged and proves each capability with three layers: automated deterministic and provider-enforcement suites (including Rules emulator tests against the exact generated production Rules) that must pass on the credited production main, one validated two-device production Physical Journey pair containing the capability's milestones on both devices, and a signed owner attestation that Daniel and Nik personally played that run.",
+  "evidenceLayers": {
+    "automated": "Every listed suite exists at the credited production main SHA and the Validate POS20 exact-head checks and the zero-billing Firestore Rules deployment (which runs the Rules emulator suites before deploy) succeeded for production.",
+    "production-two-account": "scripts/validate-ssjr-physical-journey-evidence.mjs accepts the pair (opposite roles, distinct accounts/devices/networks, one rivalry, shared session, ordered journey) and every required milestone is present on both exports.",
+    "owner-attestation": "acceptance/SSJR2_OWNER_ATTESTATION_TEMPLATE.json completed by Nik with the exact statement, matching runtime and matching device labels."
+  },
+  "creditPolicy": {
+    "unit": "whole-capability",
+    "partialCredit": false,
+    "fixedWeights": true,
+    "dependenciesRequired": true,
+    "duplicateCapabilityCredit": false,
+    "zeroCreditActivities": [
+      "source creation",
+      "PR",
+      "CI count",
+      "review",
+      "merge",
+      "deployment alone",
+      "documentation",
+      "test tooling alone",
+      "simulated browsers, two tabs, Incognito, emulators or CI without the physical pair"
+    ],
+    "regressionPolicy": "Append an invalidation event for a proven failed capability and all currently credited dependents; recredit requires a new validated physical run.",
+    "modelChangePolicy": "SSJR-2.0 is frozen. Changes require a new modelVersion with rationale."
+  },
+  "domains": [
+    {
+      "id": "shared-entry",
+      "weight": 10,
+      "capabilities": [
+        {
+          "id": "entry-binding",
+          "weight": 5,
+          "outcome": "Create one shared journey bound to the exact active rivalry, two manager profiles and their local Save identities.",
+          "ssjr11Acceptance": "Provider-enforced two-account entry with inactive, wrong-rivalry, wrong-profile and wrong-Save denial.",
+          "dependsOn": [],
+          "automatedEvidence": [
+            "tests/contracts/persistent-nik-daniel-pair-contracts.cjs",
+            "tests/contracts/stage5d-production-session-rules-contracts.cjs",
+            "tests/firebase/persistent-nik-daniel-pair-provider-emulator.cjs"
+          ],
+          "productionEvidence": {
+            "source": "validated-physical-journey-pair",
+            "requiredMilestonesOnBothDevices": [
+              "remote-active"
+            ]
+          }
+        },
+        {
+          "id": "entry-before-draw",
+          "weight": 5,
+          "outcome": "Reach shared setup from both profiles without first committing two independent local league or club draws.",
+          "ssjr11Acceptance": "Production browser journey from fresh profiles through pairing, ACTIVE and the same empty shared setup.",
+          "dependsOn": [
+            "entry-binding"
+          ],
+          "automatedEvidence": [
+            "tests/contracts/shared-showdown-setup-contracts.cjs",
+            "tests/firebase/shared-showdown-setup-provider-emulator.cjs"
+          ],
+          "productionEvidence": {
+            "source": "validated-physical-journey-pair",
+            "requiredMilestonesOnBothDevices": [
+              "remote-active",
+              "setup-confirmed"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "shared-setup",
+      "weight": 25,
+      "capabilities": [
+        {
+          "id": "setup-league",
+          "weight": 8,
+          "outcome": "Both managers see one immutable authoritative League Wheel outcome.",
+          "ssjr11Acceptance": "Production two-account draw convergence plus racing requests, stale base and lost acknowledgement replay.",
+          "dependsOn": [
+            "entry-before-draw"
+          ],
+          "automatedEvidence": [
+            "tests/contracts/shared-showdown-setup-contracts.cjs",
+            "tests/firebase/shared-showdown-setup-provider-emulator.cjs",
+            "tests/firebase/shared-showdown-setup-production-provider-emulator.cjs"
+          ],
+          "productionEvidence": {
+            "source": "validated-physical-journey-pair",
+            "requiredMilestonesOnBothDevices": [
+              "setup-confirmed"
+            ]
+          }
+        },
+        {
+          "id": "setup-clubs",
+          "weight": 8,
+          "outcome": "Both managers receive different permanent clubs from that same committed league.",
+          "ssjr11Acceptance": "Production same-league distinct-club convergence, wrong-league/duplicate denial and no reroll.",
+          "dependsOn": [
+            "setup-league"
+          ],
+          "automatedEvidence": [
+            "tests/contracts/shared-showdown-setup-contracts.cjs",
+            "tests/firebase/shared-showdown-setup-provider-emulator.cjs"
+          ],
+          "productionEvidence": {
+            "source": "validated-physical-journey-pair",
+            "requiredMilestonesOnBothDevices": [
+              "setup-confirmed"
+            ]
+          }
+        },
+        {
+          "id": "setup-length",
+          "weight": 4,
+          "outcome": "Commit one supported 1/3/5/10 season length.",
+          "ssjr11Acceptance": "All supported values and unsupported-value denial; the peer sees the exact committed value.",
+          "dependsOn": [
+            "setup-clubs"
+          ],
+          "automatedEvidence": [
+            "tests/contracts/shared-showdown-setup-contracts.cjs",
+            "tests/firebase/shared-showdown-setup-provider-emulator.cjs"
+          ],
+          "productionEvidence": {
+            "source": "validated-physical-journey-pair",
+            "requiredMilestonesOnBothDevices": [
+              "setup-confirmed"
+            ]
+          }
+        },
+        {
+          "id": "setup-confirmation",
+          "weight": 5,
+          "outcome": "Each entitled manager confirms the exact setup before shared play starts.",
+          "ssjr11Acceptance": "Production role-isolated confirmation with stale setup rejection and identical final setup on both devices.",
+          "dependsOn": [
+            "setup-length"
+          ],
+          "automatedEvidence": [
+            "tests/contracts/shared-showdown-setup-contracts.cjs",
+            "tests/firebase/shared-showdown-setup-provider-session-emulator.cjs"
+          ],
+          "productionEvidence": {
+            "source": "validated-physical-journey-pair",
+            "requiredMilestonesOnBothDevices": [
+              "setup-confirmed"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "season-results",
+      "weight": 20,
+      "capabilities": [
+        {
+          "id": "career-start",
+          "weight": 4,
+          "outcome": "Both managers acknowledge starting the matching local FIFA17 careers.",
+          "ssjr11Acceptance": "Role-isolated acknowledgements bind the confirmed clubs and season plan without implying console control.",
+          "dependsOn": [
+            "setup-confirmation"
+          ],
+          "automatedEvidence": [
+            "tests/contracts/shared-career-start-contracts.cjs",
+            "tests/firebase/shared-gameplay-provider-lifecycle-emulator.cjs"
+          ],
+          "productionEvidence": {
+            "source": "validated-physical-journey-pair",
+            "requiredMilestonesOnBothDevices": [
+              "career-start-ready"
+            ]
+          }
+        },
+        {
+          "id": "transfer-challenge",
+          "weight": 6,
+          "outcome": "Preserve the supported transfer challenge and its phase locks across both managers.",
+          "ssjr11Acceptance": "Two-account transfer timer, guesses, signings and completion proof with role ownership and no lost update.",
+          "dependsOn": [
+            "career-start"
+          ],
+          "automatedEvidence": [
+            "tests/contracts/shared-transfer-challenge-contracts.cjs",
+            "tests/contracts/shared-transfer-challenge-provider-contracts.cjs",
+            "tests/firebase/shared-transfer-rules-diagnostic-emulator.cjs"
+          ],
+          "productionEvidence": {
+            "source": "validated-physical-journey-pair",
+            "requiredMilestonesOnBothDevices": [
+              "transfer-completed"
+            ]
+          }
+        },
+        {
+          "id": "results-publication",
+          "weight": 6,
+          "outcome": "Each manager publishes and reviews supported results for their own exact season.",
+          "ssjr11Acceptance": "Production separate-account submissions, field bounds, wrong-role denial and deliberate review before commit.",
+          "dependsOn": [
+            "transfer-challenge"
+          ],
+          "automatedEvidence": [
+            "tests/contracts/shared-season-results-contracts.cjs",
+            "tests/contracts/shared-season-results-provider-contracts.cjs",
+            "tests/contracts/shared-season-results-rules-contracts.cjs",
+            "tests/firebase/shared-season-results-rules-diagnostic-emulator.cjs"
+          ],
+          "productionEvidence": {
+            "source": "validated-physical-journey-pair",
+            "requiredMilestonesOnBothDevices": [
+              "results-ready"
+            ]
+          }
+        },
+        {
+          "id": "season-commit",
+          "weight": 4,
+          "outcome": "Commit one reconciled season only after both reviewed results are ready.",
+          "ssjr11Acceptance": "Production atomic commit with incomplete/duplicate/stale input denied and both manager acknowledgements.",
+          "dependsOn": [
+            "results-publication"
+          ],
+          "automatedEvidence": [
+            "tests/contracts/shared-season-commit-contracts.cjs",
+            "tests/contracts/shared-season-commit-provider-contracts.cjs",
+            "tests/contracts/shared-season-commit-rules-contracts.cjs",
+            "tests/firebase/shared-season-commit-rules-diagnostic-emulator.cjs"
+          ],
+          "productionEvidence": {
+            "source": "validated-physical-journey-pair",
+            "requiredMilestonesOnBothDevices": [
+              "season-acknowledged"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "scoring-progression",
+      "weight": 20,
+      "capabilities": [
+        {
+          "id": "canonical-scoring",
+          "weight": 7,
+          "outcome": "Recompute canonical scores and winner from authoritative supported results.",
+          "ssjr11Acceptance": "All trophy weights, both bonus caps and existing zero-score-only tiebreak rule proven without trusting submitted totals.",
+          "dependsOn": [
+            "season-commit"
+          ],
+          "automatedEvidence": [
+            "tests/contracts/shared-canonical-scoring-contracts.cjs",
+            "tests/contracts/shared-canonical-scoring-provider-contracts.cjs",
+            "tests/firebase/shared-gameplay-provider-lifecycle-emulator.cjs"
+          ],
+          "productionEvidence": {
+            "source": "validated-physical-journey-pair",
+            "requiredMilestonesOnBothDevices": [
+              "scoring-reconciled"
+            ]
+          }
+        },
+        {
+          "id": "history-convergence",
+          "weight": 5,
+          "outcome": "Both devices show matching season history, manager records and trophy attribution.",
+          "ssjr11Acceptance": "Production identity-safe history/statistics/trophy projections from the same accepted result revision.",
+          "dependsOn": [
+            "canonical-scoring"
+          ],
+          "automatedEvidence": [
+            "tests/contracts/shared-history-convergence-contracts.cjs",
+            "tests/contracts/shared-history-convergence-production-contracts.cjs"
+          ],
+          "productionEvidence": {
+            "source": "validated-physical-journey-pair",
+            "requiredMilestonesOnBothDevices": [
+              "history-converged"
+            ]
+          }
+        },
+        {
+          "id": "multi-season",
+          "weight": 8,
+          "outcome": "Advance exactly once through every season of 1/3/5/10 plans with fixed clubs.",
+          "ssjr11Acceptance": "Automated complete two-account journeys for all four lengths, no skipped/duplicate season, production progression proof.",
+          "dependsOn": [
+            "history-convergence"
+          ],
+          "automatedEvidence": [
+            "tests/contracts/shared-multi-season-progression-contracts.cjs",
+            "tests/contracts/shared-multi-season-progression-provider-contracts.cjs",
+            "tests/firebase/shared-gameplay-provider-lifecycle-emulator.cjs"
+          ],
+          "productionEvidence": {
+            "source": "validated-multi-season-physical-journey-pair",
+            "requiresConfirmedSeasons": {
+              "minimum": 2
+            },
+            "creditableFromOneSeasonRun": false,
+            "note": "A one-season plan never advances between seasons, so it cannot prove multi-season progression in production."
+          }
+        }
+      ]
+    },
+    {
+      "id": "recovery-conflicts",
+      "weight": 15,
+      "capabilities": [
+        {
+          "id": "journey-reconnect",
+          "weight": 5,
+          "outcome": "Recover shared setup and season work after offline, reload, expiry and fresh-session re-entry.",
+          "ssjr11Acceptance": "Stage-specific adverse-network proof preserves the committed journey and never treats an expired session as active.",
+          "dependsOn": [
+            "setup-confirmation",
+            "season-commit"
+          ],
+          "automatedEvidence": [
+            "tests/contracts/shared-journey-reconnect-contracts.cjs",
+            "tests/contracts/shared-journey-reconnect-production-contracts.cjs",
+            "tests/firebase/shared-transfer-challenge-fresh-session-emulator.cjs"
+          ],
+          "productionEvidence": {
+            "source": "validated-physical-journey-pair",
+            "requiredMilestonesOnBothDevices": [
+              "network-offline",
+              "network-online",
+              "reconnect-recovered",
+              "reload-resumed"
+            ]
+          }
+        },
+        {
+          "id": "journey-conflicts",
+          "weight": 5,
+          "outcome": "Reject stale, replay-altered and unauthorized shared journey changes.",
+          "ssjr11Acceptance": "Two-account contention, role/account/device revocation, receipt expiry and quota-failure tests plus provider enforcement.",
+          "dependsOn": [
+            "season-commit"
+          ],
+          "automatedEvidence": [
+            "tests/contracts/shared-journey-conflicts-contracts.cjs",
+            "tests/contracts/shared-journey-conflicts-production-contracts.cjs"
+          ],
+          "productionEvidence": {
+            "source": "validated-physical-journey-pair",
+            "requiredMilestonesOnBothDevices": [
+              "conflict-guard-proven"
+            ]
+          }
+        },
+        {
+          "id": "local-reconciliation",
+          "weight": 5,
+          "outcome": "Preserve exact local Save authority while reconciling shared journey state.",
+          "ssjr11Acceptance": "Read-only Candidate B preview and explicit backup-first Candidate C Apply with exact rollback, unrelated-save immutability and offline fallback.",
+          "dependsOn": [
+            "history-convergence"
+          ],
+          "automatedEvidence": [
+            "tests/contracts/shared-local-reconciliation-contracts.cjs",
+            "tests/contracts/shared-local-reconciliation-production-contracts.cjs"
+          ],
+          "productionEvidence": {
+            "source": "validated-physical-journey-pair",
+            "requiredMilestonesOnBothDevices": [
+              "local-reconciliation-storage-baseline",
+              "local-reconciliation-storage-verified",
+              "local-reconciliation-safe"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "completion",
+      "weight": 5,
+      "capabilities": [
+        {
+          "id": "final-reconciliation",
+          "weight": 3,
+          "outcome": "Reconcile the final season into exactly one completed Showdown on both devices.",
+          "ssjr11Acceptance": "Production final results and history converge with correct winner and no additional season.",
+          "dependsOn": [
+            "multi-season",
+            "local-reconciliation"
+          ],
+          "automatedEvidence": [
+            "tests/contracts/shared-final-reconciliation-contracts.cjs",
+            "tests/contracts/shared-final-reconciliation-production-contracts.cjs"
+          ],
+          "productionEvidence": {
+            "source": "validated-physical-journey-pair",
+            "requiredMilestonesOnBothDevices": [
+              "final-season-reconciled"
+            ]
+          }
+        },
+        {
+          "id": "terminal-close",
+          "weight": 2,
+          "outcome": "Close the completed shared journey terminally without resurrection.",
+          "ssjr11Acceptance": "Production CLOSED remains terminal under delayed publishes, retries, session re-entry and later reads.",
+          "dependsOn": [
+            "final-reconciliation"
+          ],
+          "automatedEvidence": [
+            "tests/contracts/shared-terminal-close-contracts.cjs",
+            "tests/contracts/shared-terminal-close-provider-contracts.cjs",
+            "tests/contracts/shared-terminal-close-rules-contracts.cjs",
+            "tests/firebase/shared-terminal-close-production-provider-emulator.cjs"
+          ],
+          "productionEvidence": {
+            "source": "validated-physical-journey-pair",
+            "requiredMilestonesOnBothDevices": [
+              "terminal-closed",
+              "terminal-reload-verified"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "full-journey-release",
+      "weight": 5,
+      "capabilities": [
+        {
+          "id": "physical-journey",
+          "weight": 3,
+          "outcome": "Complete the integrated journey on two physical devices and independent networks.",
+          "ssjr11Acceptance": "Sanitized Chromebook/Home WiFi plus iPhone/cellular equivalent full shared journey with offline recovery, final reconciliation and terminal closure.",
+          "dependsOn": [
+            "terminal-close",
+            "journey-reconnect",
+            "journey-conflicts"
+          ],
+          "automatedEvidence": [
+            "tests/contracts/ssjr-physical-journey-acceptance-contracts.cjs"
+          ],
+          "productionEvidence": {
+            "source": "validated-physical-journey-pair",
+            "requiredMilestonesOnBothDevices": [
+              "terminal-reload-verified"
+            ]
+          }
+        },
+        {
+          "id": "stable-journey-release",
+          "weight": 2,
+          "outcome": "Accept the integrated Shared Showdown Journey as a stable production release.",
+          "ssjr11Acceptance": "Exact deployed runtime complete journey, all mandatory release gates and no open release-blocking journey regression; owner-facing acceptance where required.",
+          "dependsOn": [
+            "physical-journey"
+          ],
+          "automatedEvidence": [
+            "tests/contracts/ssjr-physical-journey-publication-contracts.cjs"
+          ],
+          "productionEvidence": {
+            "source": "validated-physical-journey-pair",
+            "requiredMilestonesOnBothDevices": [
+              "terminal-reload-verified"
+            ]
+          },
+          "requiresOwnerStableReleaseAcceptance": true
+        }
+      ]
+    }
+  ],
+  "permanentLocks": {
+    "billingEnabled": false,
+    "firebasePlan": "Spark",
+    "cloudRun": false,
+    "cloudFunctions": false,
+    "appCheckEnforcement": false,
+    "firestorePersistence": "memory-only",
+    "googleAuth": "popup-only-browserSessionPersistence-no-extra-scopes",
+    "managerCount": 2,
+    "publicDiscovery": false,
+    "durableClientRawAuthorityIds": false,
+    "localApplyAuthority": "Candidate C only",
+    "canonicalLocalStorage": [
+      "careerModeShowdown.saveLibrary",
+      "careerModeShowdown.legacyShowdowns",
+      "careerModeShowdown.preferences"
+    ]
+  }
+}
