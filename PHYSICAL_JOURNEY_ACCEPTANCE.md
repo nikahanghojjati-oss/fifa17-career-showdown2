@@ -14,24 +14,22 @@ Before starting, make sure each Physical Journey panel belongs to this run. If a
 
 ## Sign in and establish manager identity first
 
-This is mandatory before creating the fresh Showdown shell.
+Both players must be signed in before starting or joining the new Showdown.
 
 1. On the Chromebook, sign in with Daniel's intended private account, choose/confirm **Daniel**, and wait until the connected-player identity is ready.
 2. On the iPhone, sign in with Nik's intended private account, choose/confirm **Nik**, and wait until the connected-player identity is ready.
-3. Only after both devices have a ready signed-in manager identity should either device press `START A SHOWDOWN` / prepare a fresh shared shell.
+3. Only Daniel starts the new Showdown and chooses the season count. Nik waits for Daniel's code and joins through the role-specific Home action; Nik does not start a second Showdown or choose a season count.
 4. If `START A SHOWDOWN` reports that the connection/identity service is unavailable while the device is not signed in, stop and complete sign-in first; do not classify that state as a provider outage.
 
-## Prepare both local shared shells before pairing
+## Daniel starts; Nik joins with Daniel's code
 
-This ordering remains mandatory in r46 and preserves the repaired peer-entry path for the physical two-device run.
+The app handles each device's local recovery copy internally. Neither player needs to create a separate offline save or use an engineering setup screen.
 
-1. On the Chromebook, open New Showdown/Create Showdown, choose exactly **1 Season**, and press the live fresh-start action (`START A SHOWDOWN`; older/internal surfaces may describe this as preparing the Shared Showdown).
-2. On the iPhone, independently enter the corresponding fresh Shared Showdown preparation path after Nik's identity is ready. Follow the role-specific live UI; do not use an unrelated old `CONTINUE CAREER` save as the starting point.
-3. Each device now owns its own new pre-draw Shared Showdown shell. Any older local career remains separately saved; **do not use `CONTINUE CAREER` to enter this shared journey**.
-4. Pair the two exact managers from these prepared shells so one binding is `playerOne` and the other is `playerTwo`.
-5. On the Chromebook/Daniel side, use `CREATE CODE FOR NIK` (or the equivalent host action), then share that one code directly with the iPhone peer.
-6. On the iPhone/Nik side, enter Daniel's code once and press `JOIN DANIEL'S SHOWDOWN` (older/internal surfaces may say `JOIN PRIVATE SESSION`). Do not enter the code a second time.
-7. If Daniel still shows a waiting state after Nik has joined, use `CHECK STATUS` once (older/internal surfaces may say `REFRESH / READ`). Both devices must converge on the same ACTIVE private Showdown before continuing.
+1. On the Chromebook, Daniel selects `START A SHOWDOWN`, chooses exactly **1 Season**, and presses `START A SHOWDOWN` on the season screen.
+2. Daniel follows `CONNECT PLAYERS` and selects `CREATE CODE FOR NIK`. Send that code directly to Nik.
+3. On the iPhone, Nik selects `JOIN DANIEL'S SHOWDOWN` on Home, enters Daniel's code once, and presses `JOIN DANIEL'S SHOWDOWN` in the connection panel. Nik does not select a season or create a separate Showdown. The app reads the season count from Daniel's code and automatically prepares Nik's local recovery copy during joining.
+4. If Daniel still shows a waiting state after Nik has joined, select `CHECK STATUS` once. Both devices must converge on the same ACTIVE private Showdown before continuing.
+5. Use the paired `CONTINUE` / `START CAREER` action to advance. If Home offers `CONTINUE CAREER` for this exact active paired Showdown after a reload, that is a valid recovery route; do not choose an unrelated older career.
 
 `OPEN SHARED SETUP` is not a Home-menu command. It is a host-only control inside the authoritative Shared Setup experience after both devices have entered the shared journey. The peer does not need that button: it observes the host-owned setup state and follows the shared presentation.
 
