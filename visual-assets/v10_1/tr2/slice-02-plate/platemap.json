@@ -1,0 +1,132 @@
+{
+  "_note": "All coordinates are plate pixels on ENV_TR2_PLATE_G_LOCKED_V1_1672 (1672x941). The renderer multiplies by k = worldWidth/1672. Measured 2026-09-28 by Claude from grid crops (evidence/E3_plate_measure.png).",
+  "plate": {
+    "w": 1672,
+    "h": 941,
+    "files": {
+      "1672": "assets/ENV_TR2_PLATE_G_LOCKED_V1_1672",
+      "3344": "assets/ENV_TR2_PLATE_G_LOCKED_V1_3344"
+    },
+    "sha256": {
+      "ENV_TR2_PLATE_G_EDIT_V1.png (owner-approved likeness source)": "f2080706c2b9f9769b24c2947675c81961a8eba93303ffbb5f363ae8c0c891cc",
+      "ENV_TR2_PLATE_G_LOCKED_V1_1672.png": "6f7d3d9cefe8c074b954b7fdf0e121cbaf812a90a33698f9d3f6adb4797fa10b",
+      "ENV_TR2_PLATE_G_LOCKED_V1_3344.png": "c49ea5a4177c71baa5dfb278b50648746267b218f693e522a9f4588652f06656"
+    }
+  },
+  "signScreen": {
+    "cx": 866,
+    "cy": 124,
+    "w": 166,
+    "h": 64,
+    "boardAngleDeg": 7.5
+  },
+  "panels": {
+    "A": {
+      "owner": "playerTwo",
+      "frame": [
+        842,
+        580,
+        1232,
+        786
+      ],
+      "title": [
+        922,
+        589,
+        1218,
+        617
+      ],
+      "content": [
+        858,
+        626,
+        1220,
+        777
+      ],
+      "angleDeg": 0
+    },
+    "B": {
+      "owner": "playerOne",
+      "frame": [
+        296,
+        520,
+        700,
+        772
+      ],
+      "title": [
+        380,
+        537,
+        684,
+        557
+      ],
+      "content": [
+        312,
+        578,
+        686,
+        744
+      ],
+      "angleDeg": 2.1
+    },
+    "C": {
+      "role": "rules card (shared)",
+      "frame": [
+        1296,
+        552,
+        1512,
+        708
+      ],
+      "title": [
+        1368,
+        561,
+        1500,
+        582
+      ],
+      "content": [
+        1310,
+        590,
+        1498,
+        688
+      ],
+      "angleDeg": 0
+    }
+  },
+  "paintedNames": {
+    "playerOne": {
+      "script": [
+        130,
+        280,
+        232,
+        322
+      ],
+      "chipAnchorRight": [
+        124,
+        302
+      ]
+    },
+    "playerTwo": {
+      "script": [
+        1310,
+        145,
+        1380,
+        205
+      ],
+      "chipAnchorLeft": [
+        1390,
+        168
+      ]
+    }
+  },
+  "keepVisible": {
+    "x": [
+      290,
+      1505
+    ],
+    "yTop": 45,
+    "panelBottom": 786
+  },
+  "contact": {
+    "nikFingertip": [
+      1066,
+      597
+    ],
+    "note": "Nik's fingertip rests on panel A's top edge"
+  }
+}

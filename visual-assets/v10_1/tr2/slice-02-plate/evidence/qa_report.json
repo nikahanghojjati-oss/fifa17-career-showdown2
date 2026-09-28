@@ -1,0 +1,788 @@
+{
+  "base": "http://127.0.0.1:8765/",
+  "when": "2026-09-28T04:41:18.234Z",
+  "results": [
+    {
+      "shot": "S0_1366x768.png",
+      "frame": "S0",
+      "vw": 1366,
+      "vh": 768,
+      "dpr": 1,
+      "checks": {},
+      "k": 0.817,
+      "offY": 0,
+      "offX": 0,
+      "docScroll": {
+        "w": 1366,
+        "h": 768,
+        "vw": 1366,
+        "vh": 768
+      },
+      "tabOrder": [
+        "BODY",
+        "BODY",
+        "BODY",
+        "BODY",
+        "BODY",
+        "BODY",
+        "BODY",
+        "BODY",
+        "BODY",
+        "BODY",
+        "BODY",
+        "BODY",
+        "BODY",
+        "BODY"
+      ],
+      "errors": []
+    },
+    {
+      "shot": "G2_1366x768.png",
+      "frame": "G2",
+      "vw": 1366,
+      "vh": 768,
+      "dpr": 1,
+      "checks": {
+        "fit": [],
+        "textClip": [],
+        "privacy": {
+          "sealedFocusable": 0,
+          "sealedText": "DANIELSEALEDCM17",
+          "ownPrefixIds": [
+            "p1",
+            "p1",
+            "p1",
+            "p1",
+            "p1",
+            "p1"
+          ],
+          "rivalIdsPresent": [
+            "p1"
+          ]
+        },
+        "layout": {
+          "footerTop": 732,
+          "panelBottomMax": 635,
+          "footerClearsPanels": true,
+          "signInView": true,
+          "noPageScroll": true,
+          "footerClip": false
+        }
+      },
+      "k": 0.817,
+      "offY": 0,
+      "offX": 0,
+      "docScroll": {
+        "w": 1366,
+        "h": 768,
+        "vw": 1366,
+        "vh": 768
+      },
+      "strings": {
+        "title": "SEASON 1 · TRANSFER CHALLENGE",
+        "back": "HOME",
+        "refresh": "REFRESH",
+        "rail": [
+          "Window",
+          "Guesses",
+          "Signings",
+          "Verdicts"
+        ],
+        "status": "GUESS ENTRY",
+        "sign": "WINDOW CLOSED",
+        "heading": "Guess Daniel's signings",
+        "privacy": "Hidden from Daniel until you both lock.",
+        "primary": "LOCK GUESSES",
+        "rule": "Guess a league or nationality. A matching signing must be released.",
+        "placeholder": "Pick a type first",
+        "chips": [
+          "SEALED",
+          "PRIVATE",
+          "YOU"
+        ],
+        "intro": false
+      },
+      "controls": {
+        "minH": 31,
+        "minFont": 13.0718,
+        "lockH": 33
+      },
+      "minTextFont": 12,
+      "tabOrder": [
+        "p1Guess1Type",
+        "p1Guess2Type",
+        "p1Guess3Type",
+        "completeTransferChallenge",
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge",
+        "BODY",
+        "p1Guess1Type",
+        "p1Guess2Type",
+        "p1Guess3Type",
+        "completeTransferChallenge",
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge",
+        "BODY"
+      ],
+      "interaction": {
+        "beforeDisabled": true,
+        "afterSelect": {
+          "disabled": false,
+          "ph": "League"
+        },
+        "reset": {
+          "disabled": true,
+          "v": "",
+          "ph": "Pick a type first"
+        },
+        "frostUnchangedByInput": true
+      },
+      "errors": []
+    },
+    {
+      "shot": "G3_1366x768.png",
+      "frame": "G3",
+      "vw": 1366,
+      "vh": 768,
+      "dpr": 1,
+      "checks": {
+        "fit": [],
+        "textClip": [],
+        "privacy": {
+          "sealedFocusable": 0,
+          "sealedText": "NIKSEALEDCM17",
+          "ownPrefixIds": [
+            "p2",
+            "p2",
+            "p2",
+            "p2",
+            "p2",
+            "p2"
+          ],
+          "rivalIdsPresent": [
+            "p2"
+          ]
+        },
+        "layout": {
+          "footerTop": 732,
+          "panelBottomMax": 608,
+          "footerClearsPanels": true,
+          "signInView": true,
+          "noPageScroll": true,
+          "footerClip": false
+        }
+      },
+      "k": 0.817,
+      "offY": 0,
+      "offX": 0,
+      "docScroll": {
+        "w": 1366,
+        "h": 768,
+        "vw": 1366,
+        "vh": 768
+      },
+      "strings": {
+        "title": "SEASON 1 · TRANSFER CHALLENGE",
+        "back": "HOME",
+        "refresh": "REFRESH",
+        "rail": [
+          "Window",
+          "Guesses",
+          "Signings",
+          "Verdicts"
+        ],
+        "status": "GUESS ENTRY",
+        "sign": "WINDOW CLOSED",
+        "heading": "Guess Nik's signings",
+        "privacy": "Hidden from Nik until you both lock.",
+        "primary": "LOCK GUESSES",
+        "rule": "Guess a league or nationality. A matching signing must be released.",
+        "placeholder": "Pick a type first",
+        "chips": [
+          "PRIVATE",
+          "SEALED",
+          "YOU"
+        ],
+        "intro": false
+      },
+      "controls": {
+        "minH": 31,
+        "minFont": 13.0718,
+        "lockH": 33
+      },
+      "minTextFont": 12,
+      "tabOrder": [
+        "p2Guess1Type",
+        "p2Guess2Type",
+        "p2Guess3Type",
+        "completeTransferChallenge",
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge",
+        "BODY",
+        "p2Guess1Type",
+        "p2Guess2Type",
+        "p2Guess3Type",
+        "completeTransferChallenge",
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge",
+        "BODY"
+      ],
+      "interaction": {
+        "beforeDisabled": true,
+        "afterSelect": {
+          "disabled": false,
+          "ph": "League"
+        },
+        "reset": {
+          "disabled": true,
+          "v": "",
+          "ph": "Pick a type first"
+        },
+        "frostUnchangedByInput": true
+      },
+      "errors": []
+    },
+    {
+      "shot": "G2_1366x640.png",
+      "frame": "G2",
+      "vw": 1366,
+      "vh": 640,
+      "dpr": 1,
+      "checks": {
+        "fit": [],
+        "textClip": [],
+        "privacy": {
+          "sealedFocusable": 0,
+          "sealedText": "DANIELSEALEDCM17",
+          "ownPrefixIds": [
+            "p1",
+            "p1",
+            "p1",
+            "p1",
+            "p1",
+            "p1"
+          ],
+          "rivalIdsPresent": [
+            "p1"
+          ]
+        },
+        "layout": {
+          "footerTop": 604,
+          "panelBottomMax": 591,
+          "footerClearsPanels": true,
+          "signInView": true,
+          "noPageScroll": true,
+          "footerClip": false
+        }
+      },
+      "k": 0.817,
+      "offY": 44,
+      "offX": 0,
+      "docScroll": {
+        "w": 1366,
+        "h": 640,
+        "vw": 1366,
+        "vh": 640
+      },
+      "strings": {
+        "title": "SEASON 1 · TRANSFER CHALLENGE",
+        "back": "HOME",
+        "refresh": "REFRESH",
+        "rail": [
+          "Window",
+          "Guesses",
+          "Signings",
+          "Verdicts"
+        ],
+        "status": "GUESS ENTRY",
+        "sign": "WINDOW CLOSED",
+        "heading": "Guess Daniel's signings",
+        "privacy": "Hidden from Daniel until you both lock.",
+        "primary": "LOCK GUESSES",
+        "rule": "Guess a league or nationality. A matching signing must be released.",
+        "placeholder": "Pick a type first",
+        "chips": [
+          "SEALED",
+          "PRIVATE",
+          "YOU"
+        ],
+        "intro": false
+      },
+      "controls": {
+        "minH": 31,
+        "minFont": 13.0718,
+        "lockH": 33
+      },
+      "minTextFont": 12,
+      "tabOrder": [
+        "p1Guess1Type",
+        "p1Guess2Type",
+        "p1Guess3Type",
+        "completeTransferChallenge",
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge",
+        "BODY",
+        "p1Guess1Type",
+        "p1Guess2Type",
+        "p1Guess3Type",
+        "completeTransferChallenge",
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge",
+        "BODY"
+      ],
+      "errors": []
+    },
+    {
+      "shot": "G3_1366x640.png",
+      "frame": "G3",
+      "vw": 1366,
+      "vh": 640,
+      "dpr": 1,
+      "checks": {
+        "fit": [],
+        "textClip": [],
+        "privacy": {
+          "sealedFocusable": 0,
+          "sealedText": "NIKSEALEDCM17",
+          "ownPrefixIds": [
+            "p2",
+            "p2",
+            "p2",
+            "p2",
+            "p2",
+            "p2"
+          ],
+          "rivalIdsPresent": [
+            "p2"
+          ]
+        },
+        "layout": {
+          "footerTop": 604,
+          "panelBottomMax": 564,
+          "footerClearsPanels": true,
+          "signInView": true,
+          "noPageScroll": true,
+          "footerClip": false
+        }
+      },
+      "k": 0.817,
+      "offY": 44,
+      "offX": 0,
+      "docScroll": {
+        "w": 1366,
+        "h": 640,
+        "vw": 1366,
+        "vh": 640
+      },
+      "strings": {
+        "title": "SEASON 1 · TRANSFER CHALLENGE",
+        "back": "HOME",
+        "refresh": "REFRESH",
+        "rail": [
+          "Window",
+          "Guesses",
+          "Signings",
+          "Verdicts"
+        ],
+        "status": "GUESS ENTRY",
+        "sign": "WINDOW CLOSED",
+        "heading": "Guess Nik's signings",
+        "privacy": "Hidden from Nik until you both lock.",
+        "primary": "LOCK GUESSES",
+        "rule": "Guess a league or nationality. A matching signing must be released.",
+        "placeholder": "Pick a type first",
+        "chips": [
+          "PRIVATE",
+          "SEALED",
+          "YOU"
+        ],
+        "intro": false
+      },
+      "controls": {
+        "minH": 31,
+        "minFont": 13.0718,
+        "lockH": 33
+      },
+      "minTextFont": 12,
+      "tabOrder": [
+        "p2Guess1Type",
+        "p2Guess2Type",
+        "p2Guess3Type",
+        "completeTransferChallenge",
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge",
+        "BODY",
+        "p2Guess1Type",
+        "p2Guess2Type",
+        "p2Guess3Type",
+        "completeTransferChallenge",
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge",
+        "BODY"
+      ],
+      "errors": []
+    },
+    {
+      "shot": "G2_1920x1080.png",
+      "frame": "G2",
+      "vw": 1920,
+      "vh": 1080,
+      "dpr": 1,
+      "checks": {
+        "fit": [],
+        "textClip": [],
+        "privacy": {
+          "sealedFocusable": 0,
+          "sealedText": "DANIELSEALEDCM17",
+          "ownPrefixIds": [
+            "p1",
+            "p1",
+            "p1",
+            "p1",
+            "p1",
+            "p1"
+          ],
+          "rivalIdsPresent": [
+            "p1"
+          ]
+        },
+        "layout": {
+          "footerTop": 1044,
+          "panelBottomMax": 892,
+          "footerClearsPanels": true,
+          "signInView": true,
+          "noPageScroll": true,
+          "footerClip": false
+        }
+      },
+      "k": 1.1483,
+      "offY": 0,
+      "offX": 0,
+      "docScroll": {
+        "w": 1920,
+        "h": 1080,
+        "vw": 1920,
+        "vh": 1080
+      },
+      "strings": {
+        "title": "SEASON 1 · TRANSFER CHALLENGE",
+        "back": "HOME",
+        "refresh": "REFRESH",
+        "rail": [
+          "Window",
+          "Guesses",
+          "Signings",
+          "Verdicts"
+        ],
+        "status": "GUESS ENTRY",
+        "sign": "WINDOW CLOSED",
+        "heading": "Guess Daniel's signings",
+        "privacy": "Hidden from Daniel until you both lock.",
+        "primary": "LOCK GUESSES",
+        "rule": "Guess a league or nationality. A matching signing must be released.",
+        "placeholder": "Pick a type first",
+        "chips": [
+          "SEALED",
+          "PRIVATE",
+          "YOU"
+        ],
+        "intro": false
+      },
+      "controls": {
+        "minH": 44,
+        "minFont": 18.3733,
+        "lockH": 46
+      },
+      "minTextFont": 12.5,
+      "tabOrder": [
+        "p1Guess1Type",
+        "p1Guess2Type",
+        "p1Guess3Type",
+        "completeTransferChallenge",
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge",
+        "BODY",
+        "p1Guess1Type",
+        "p1Guess2Type",
+        "p1Guess3Type",
+        "completeTransferChallenge",
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge",
+        "BODY"
+      ],
+      "errors": []
+    },
+    {
+      "shot": "G2_1440x900.png",
+      "frame": "G2",
+      "vw": 1440,
+      "vh": 900,
+      "dpr": 1,
+      "checks": {
+        "fit": [],
+        "textClip": [],
+        "privacy": {
+          "sealedFocusable": 0,
+          "sealedText": "DANIELSEALEDCM17",
+          "ownPrefixIds": [
+            "p1",
+            "p1",
+            "p1",
+            "p1",
+            "p1",
+            "p1"
+          ],
+          "rivalIdsPresent": [
+            "p1"
+          ]
+        },
+        "layout": {
+          "footerTop": 864,
+          "panelBottomMax": 743,
+          "footerClearsPanels": true,
+          "signInView": true,
+          "noPageScroll": true,
+          "footerClip": false
+        }
+      },
+      "k": 0.9564,
+      "offY": 0,
+      "offX": 138,
+      "docScroll": {
+        "w": 1440,
+        "h": 900,
+        "vw": 1440,
+        "vh": 900
+      },
+      "strings": {
+        "title": "SEASON 1 · TRANSFER CHALLENGE",
+        "back": "HOME",
+        "refresh": "REFRESH",
+        "rail": [
+          "Window",
+          "Guesses",
+          "Signings",
+          "Verdicts"
+        ],
+        "status": "GUESS ENTRY",
+        "sign": "WINDOW CLOSED",
+        "heading": "Guess Daniel's signings",
+        "privacy": "Hidden from Daniel until you both lock.",
+        "primary": "LOCK GUESSES",
+        "rule": "Guess a league or nationality. A matching signing must be released.",
+        "placeholder": "Pick a type first",
+        "chips": [
+          "SEALED",
+          "PRIVATE",
+          "YOU"
+        ],
+        "intro": false
+      },
+      "controls": {
+        "minH": 36,
+        "minFont": 15.3029,
+        "lockH": 38
+      },
+      "minTextFont": 12.5,
+      "tabOrder": [
+        "p1Guess1Type",
+        "p1Guess2Type",
+        "p1Guess3Type",
+        "completeTransferChallenge",
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge",
+        "BODY",
+        "p1Guess1Type",
+        "p1Guess2Type",
+        "p1Guess3Type",
+        "completeTransferChallenge",
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge",
+        "BODY"
+      ],
+      "errors": []
+    },
+    {
+      "shot": "G2_1366x768@2x.png",
+      "frame": "G2",
+      "vw": 1366,
+      "vh": 768,
+      "dpr": 2,
+      "checks": {
+        "fit": [],
+        "textClip": [],
+        "privacy": {
+          "sealedFocusable": 0,
+          "sealedText": "DANIELSEALEDCM17",
+          "ownPrefixIds": [
+            "p1",
+            "p1",
+            "p1",
+            "p1",
+            "p1",
+            "p1"
+          ],
+          "rivalIdsPresent": [
+            "p1"
+          ]
+        },
+        "layout": {
+          "footerTop": 732,
+          "panelBottomMax": 635,
+          "footerClearsPanels": true,
+          "signInView": true,
+          "noPageScroll": true,
+          "footerClip": false
+        }
+      },
+      "k": 0.817,
+      "offY": 0,
+      "offX": 0,
+      "docScroll": {
+        "w": 1366,
+        "h": 768,
+        "vw": 1366,
+        "vh": 768
+      },
+      "strings": {
+        "title": "SEASON 1 · TRANSFER CHALLENGE",
+        "back": "HOME",
+        "refresh": "REFRESH",
+        "rail": [
+          "Window",
+          "Guesses",
+          "Signings",
+          "Verdicts"
+        ],
+        "status": "GUESS ENTRY",
+        "sign": "WINDOW CLOSED",
+        "heading": "Guess Daniel's signings",
+        "privacy": "Hidden from Daniel until you both lock.",
+        "primary": "LOCK GUESSES",
+        "rule": "Guess a league or nationality. A matching signing must be released.",
+        "placeholder": "Pick a type first",
+        "chips": [
+          "SEALED",
+          "PRIVATE",
+          "YOU"
+        ],
+        "intro": false
+      },
+      "controls": {
+        "minH": 31,
+        "minFont": 13.0718,
+        "lockH": 33
+      },
+      "minTextFont": 12,
+      "tabOrder": [
+        "p1Guess1Type",
+        "p1Guess2Type",
+        "p1Guess3Type",
+        "completeTransferChallenge",
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge",
+        "BODY",
+        "p1Guess1Type",
+        "p1Guess2Type",
+        "p1Guess3Type",
+        "completeTransferChallenge",
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge",
+        "BODY"
+      ],
+      "errors": []
+    },
+    {
+      "shot": "G2_1366x768_grid.png",
+      "frame": "G2",
+      "vw": 1366,
+      "vh": 768,
+      "dpr": 1,
+      "grid": true,
+      "checks": {
+        "fit": [],
+        "textClip": [],
+        "privacy": {
+          "sealedFocusable": 0,
+          "sealedText": "DANIELSEALEDCM17",
+          "ownPrefixIds": [
+            "p1",
+            "p1",
+            "p1",
+            "p1",
+            "p1",
+            "p1"
+          ],
+          "rivalIdsPresent": [
+            "p1"
+          ]
+        },
+        "layout": {
+          "footerTop": 732,
+          "panelBottomMax": 635,
+          "footerClearsPanels": true,
+          "signInView": true,
+          "noPageScroll": true,
+          "footerClip": false
+        }
+      },
+      "k": 0.817,
+      "offY": 0,
+      "offX": 0,
+      "docScroll": {
+        "w": 1366,
+        "h": 768,
+        "vw": 1366,
+        "vh": 768
+      },
+      "strings": {
+        "title": "SEASON 1 · TRANSFER CHALLENGE",
+        "back": "HOME",
+        "refresh": "REFRESH",
+        "rail": [
+          "Window",
+          "Guesses",
+          "Signings",
+          "Verdicts"
+        ],
+        "status": "GUESS ENTRY",
+        "sign": "WINDOW CLOSED",
+        "heading": "Guess Daniel's signings",
+        "privacy": "Hidden from Daniel until you both lock.",
+        "primary": "LOCK GUESSES",
+        "rule": "Guess a league or nationality. A matching signing must be released.",
+        "placeholder": "Pick a type first",
+        "chips": [
+          "SEALED",
+          "PRIVATE",
+          "YOU"
+        ],
+        "intro": false
+      },
+      "controls": {
+        "minH": 31,
+        "minFont": 13.0718,
+        "lockH": 33
+      },
+      "minTextFont": 12,
+      "tabOrder": [
+        "p1Guess1Type",
+        "p1Guess2Type",
+        "p1Guess3Type",
+        "completeTransferChallenge",
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge",
+        "BODY",
+        "p1Guess1Type",
+        "p1Guess2Type",
+        "p1Guess3Type",
+        "completeTransferChallenge",
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge",
+        "BODY"
+      ],
+      "errors": []
+    }
+  ],
+  "frostIdenticalAcrossViewers": true
+}

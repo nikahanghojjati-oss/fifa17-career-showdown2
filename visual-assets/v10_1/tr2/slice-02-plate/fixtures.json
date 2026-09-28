@@ -1,0 +1,38 @@
+{
+  "_source": "Strings = SOL_DECISIONS_TO_CLAUDE_TW_RESET_R2_2026-09-28 S2 (approved Transfer deck). guessIntro removed. guessHeadingDanielViewer is the mirror of the approved Nik-viewer row (flagged for Sol).",
+  "managers": { "playerOne": "Daniel", "playerTwo": "Nik" },
+  "seasonNumber": 1,
+  "frames": {
+    "G2": { "viewer": "playerTwo", "phase": "GUESS_ENTRY", "desc": "Guess Entry, Nik viewing" },
+    "G3": { "viewer": "playerOne", "phase": "GUESS_ENTRY", "desc": "Guess Entry, Daniel viewing" },
+    "S0": { "viewer": null, "phase": null, "plateOnly": true, "desc": "Locked plate only" }
+  },
+  "strings": {
+    "title": "SEASON {season} · TRANSFER CHALLENGE",
+    "back": "HOME",
+    "refresh": "REFRESH",
+    "rail": ["Window", "Guesses", "Signings", "Verdicts"],
+    "railAriaLabel": "Transfer Challenge progress",
+    "f1Status": "WINDOW OPEN · BUILD YOUR SQUAD",
+    "f1Intro": "Ends early only if you both agree.",
+    "f1RulesLine": "15 MIN · 3 SIGNINGS · 3 GUESSES",
+    "f1Action": "END EARLY",
+    "ruleNote": "Guess a league or nationality. A matching signing must be released.",
+    "guessStatus": "GUESS ENTRY",
+    "guessHeadingNikViewer": "Guess Daniel's signings",
+    "guessHeadingDanielViewer": "Guess Nik's signings",
+    "privacyNoteNikViewer": "Hidden from Daniel until you both lock.",
+    "privacyNoteDanielViewer": "Hidden from Nik until you both lock.",
+    "selectPlaceholder": "Guess type",
+    "selectLeague": "League",
+    "selectNationality": "Nationality",
+    "valuePlaceholder": "Pick a type first",
+    "primary": "LOCK GUESSES",
+    "signWindowClosed": "WINDOW CLOSED",
+    "tagYou": "YOU",
+    "tagSealed": "SEALED",
+    "tagPrivate": "PRIVATE",
+    "nameplateOne": "DANIEL",
+    "nameplateTwo": "NIK"
+  }
+}

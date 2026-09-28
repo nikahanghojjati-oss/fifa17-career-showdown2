@@ -1,0 +1,178 @@
+/* TW-PLATE-G: the plate owns frame, glass, glow and contact.
+   CSS owns only live text and controls. No CSS frames or boxes around panels.
+   All in-world sizes are plate px × --k (k = world width / 1672). */
+
+@font-face { font-family: "Barlow Condensed"; font-weight: 600; font-display: block; src: url(assets/fonts/barlow-condensed-latin-600-normal.woff2) format("woff2"); }
+@font-face { font-family: "Barlow Condensed"; font-weight: 700; font-display: block; src: url(assets/fonts/barlow-condensed-latin-700-normal.woff2) format("woff2"); }
+@font-face { font-family: "Barlow"; font-weight: 400; font-display: block; src: url(assets/fonts/barlow-latin-400-normal.woff2) format("woff2"); }
+@font-face { font-family: "Barlow"; font-weight: 600; font-display: block; src: url(assets/fonts/barlow-latin-600-normal.woff2) format("woff2"); }
+
+:root {
+  --gold: #F2C45B;
+  --gold-deep: #C99B45;
+  --gold-hot: #FFD97A;
+  --cream: #F4E7C8;
+  --cream-dim: #CDBB8F;
+  --ink: #120E07;
+  --well: rgba(8, 6, 3, 0.62);
+  --hair: rgba(242, 196, 91, 0.38);
+  --cond: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --text: "Barlow", system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: #070604; color: var(--cream); }
+body { overflow: hidden; font-family: var(--text); -webkit-font-smoothing: antialiased; }
+
+.stage { position: fixed; inset: 0; overflow: hidden; --footer-h: 36px; }
+.world { position: absolute; --k: 0.817; }
+.plate, .plate img { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.plate img { object-fit: cover; }
+
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* ---------- hanging sign (live text on the blank painted screen) ---------- */
+.sign-screen {
+  position: absolute; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: calc(var(--k) * 3px); text-align: center; pointer-events: none;
+}
+.sign-main {
+  font-family: var(--cond); font-weight: 700; line-height: 1; white-space: nowrap;
+  font-size: calc(var(--k) * 24px); letter-spacing: 0.035em; color: var(--gold);
+  text-shadow: 0 0 calc(var(--k) * 10px) rgba(255, 190, 70, 0.55), 0 0 calc(var(--k) * 2px) rgba(255, 220, 140, 0.6);
+}
+.sign-main.closed { color: #E3AE4B; opacity: 0.9; }
+.sign-status {
+  font-family: var(--cond); font-weight: 600; white-space: nowrap;
+  font-size: max(12px, calc(var(--k) * 14.5px)); letter-spacing: 0.22em; color: var(--cream);
+  text-shadow: 0 0 calc(var(--k) * 6px) rgba(0, 0, 0, 0.9);
+}
+
+/* ---------- painted panels: text sits inside the painted glass ------------ */
+.panel-title, .panel-body, .frost, .rule-note { position: absolute; }
+
+.panel-title {
+  display: flex; align-items: center; justify-content: space-between; gap: calc(var(--k) * 8px);
+  padding: 0 calc(var(--k) * 4px) 0 0;
+}
+.own-heading {
+  margin: 0; font-family: var(--cond); font-weight: 700; white-space: nowrap; line-height: 1;
+  font-size: calc(var(--k) * 18px); letter-spacing: 0.02em; color: var(--cream);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+.rival-name {
+  font-family: var(--cond); font-weight: 700; line-height: 1; font-size: calc(var(--k) * 17px); letter-spacing: 0.14em; color: var(--cream-dim);
+}
+.chip {
+  display: inline-flex; align-items: center; flex: none;
+  height: calc(var(--k) * 19px); padding: 0 calc(var(--k) * 8px);
+  font-family: var(--cond); font-weight: 700; font-size: max(10.5px, calc(var(--k) * 13px)); letter-spacing: 0.16em;
+  border-radius: 999px; line-height: 1;
+}
+.chip-private { color: var(--gold); background: rgba(0, 0, 0, 0.38); box-shadow: inset 0 0 0 1px var(--hair); }
+.chip-sealed { color: var(--ink); background: linear-gradient(180deg, var(--gold-hot), var(--gold-deep)); }
+.chip-you { color: var(--ink); background: linear-gradient(180deg, var(--gold-hot), var(--gold-deep)); box-shadow: 0 0 calc(var(--k) * 10px) rgba(255, 200, 90, 0.45); }
+
+.panel-body {
+  display: flex; flex-direction: column; justify-content: flex-start;
+  padding: calc(var(--k) * 5px) calc(var(--k) * 4px) calc(var(--k) * 2px);
+  gap: calc(var(--k) * 7px);
+}
+.guess-cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: calc(var(--k) * 7px); }
+.guess-col { display: flex; flex-direction: column; gap: calc(var(--k) * 5px); min-width: 0; }
+.guess-num {
+  font-family: var(--cond); font-weight: 700; font-size: max(10px, calc(var(--k) * 12.5px)); line-height: 1;
+  letter-spacing: 0.12em; color: var(--gold-deep);
+}
+.guess-col select, .guess-col input {
+  width: 100%; min-width: 0; height: calc(var(--k) * 38px); margin: 0;
+  font-family: var(--cond); font-weight: 600; font-size: max(12.5px, calc(var(--k) * 16px)); letter-spacing: 0.01em;
+  color: var(--cream); background-color: var(--well);
+  border: 0; border-radius: calc(var(--k) * 3px);
+  box-shadow: inset 0 0 0 1px var(--hair), inset 0 calc(var(--k) * -2px) 0 rgba(242, 196, 91, 0.22);
+  padding: 0 calc(var(--k) * 8px);
+}
+.guess-col select {
+  appearance: none; -webkit-appearance: none; cursor: pointer;
+  padding-right: calc(var(--k) * 22px);
+  background-image: linear-gradient(45deg, transparent 50%, var(--gold) 50%), linear-gradient(135deg, var(--gold) 50%, transparent 50%);
+  background-position: calc(100% - var(--k) * 13px) 55%, calc(100% - var(--k) * 8px) 55%;
+  background-size: calc(var(--k) * 5px) calc(var(--k) * 5px);
+  background-repeat: no-repeat;
+}
+.guess-col select option { color: #111; background: #f4efe2; }
+.guess-col input::placeholder { color: rgba(205, 187, 143, 0.78); opacity: 1; }
+.guess-col input:disabled { background-color: rgba(8, 6, 3, 0.42); box-shadow: inset 0 0 0 1px rgba(242, 196, 91, 0.18); cursor: not-allowed; }
+.guess-col input:disabled::placeholder { color: rgba(205, 187, 143, 0.62); }
+.guess-col select:focus-visible, .guess-col input:focus-visible, .btn-lock:focus-visible, .ghost:focus-visible {
+  outline: 2px solid var(--gold-hot); outline-offset: 2px;
+}
+
+.action-row { display: flex; align-items: center; gap: calc(var(--k) * 8px); }
+.privacy-note {
+  flex: 1; margin: 0; min-width: 0;
+  font-family: var(--cond); font-weight: 600; font-size: max(12px, calc(var(--k) * 14.5px)); line-height: 1.12;
+  color: var(--cream-dim);
+}
+.btn-lock {
+  flex: none; height: calc(var(--k) * 40px); padding: 0 calc(var(--k) * 12px);
+  font-family: var(--cond); font-weight: 700; font-size: max(13px, calc(var(--k) * 17px)); letter-spacing: 0.1em;
+  color: var(--ink); border: 0; border-radius: calc(var(--k) * 3px); cursor: pointer;
+  background: linear-gradient(180deg, #FFE08F 0%, var(--gold) 45%, var(--gold-deep) 100%);
+  box-shadow: 0 0 calc(var(--k) * 14px) rgba(255, 196, 80, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.55);
+}
+.btn-lock:hover { filter: brightness(1.06); }
+.error-line:empty { display: none; }
+.error-line { margin: 0; font-size: 12px; color: #FFB4A0; }
+
+/* ---------- sealed rival panel: constant frost + CM17 seal ----------------- */
+.frost {
+  display: grid; place-items: center;
+  background:
+    repeating-linear-gradient(115deg, rgba(242, 196, 91, 0.045) 0 2px, transparent 2px 7px),
+    linear-gradient(180deg, rgba(30, 24, 12, 0.66), rgba(10, 8, 5, 0.8));
+  -webkit-backdrop-filter: blur(6px) saturate(0.7); backdrop-filter: blur(6px) saturate(0.7);
+  -webkit-mask-image: radial-gradient(120% 130% at 50% 50%, #000 62%, transparent 100%);
+          mask-image: radial-gradient(120% 130% at 50% 50%, #000 62%, transparent 100%);
+}
+.seal { width: calc(var(--k) * 76px); height: calc(var(--k) * 76px); color: var(--gold); opacity: 0.9;
+  filter: drop-shadow(0 0 calc(var(--k) * 8px) rgba(255, 196, 80, 0.55)); }
+.seal svg { width: 100%; height: 100%; display: block; }
+
+/* ---------- shared rules card ------------------------------------------- */
+.rule-note {
+  margin: 0; display: flex; align-items: center;
+  padding: 0 calc(var(--k) * 6px);
+  font-family: var(--cond); font-weight: 600; font-size: max(12.5px, calc(var(--k) * 17px)); line-height: 1.22;
+  color: var(--cream);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+/* ---------- YOU chip beside the painted script name ---------------------- */
+.you-chip { position: absolute; top: calc(var(--k) * var(--ay) * 1px); }
+.you-chip.anchor-left { left: calc(var(--k) * var(--ax) * 1px); transform: translateY(-50%); }
+.you-chip.anchor-right { left: calc(var(--k) * var(--ax) * 1px); transform: translate(-100%, -50%); }
+
+/* ---------- screen-aligned HUD footer (FIFA-style hint bar) --------------- */
+.hud-footer {
+  position: absolute; left: 0; right: 0; bottom: 0; height: var(--footer-h);
+  display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 0 16px;
+  background: linear-gradient(to top, rgba(6, 5, 3, 0.9) 0%, rgba(6, 5, 3, 0.72) 65%, rgba(6, 5, 3, 0) 100%);
+  font-family: var(--cond);
+}
+.ghost {
+  height: 26px; padding: 0 12px; font-family: var(--cond); font-weight: 700; font-size: 12.5px; letter-spacing: 0.16em;
+  color: var(--cream); background: rgba(0, 0, 0, 0.35); border: 0; border-radius: 999px; box-shadow: inset 0 0 0 1px var(--hair); cursor: pointer;
+}
+.hud-mid { display: flex; align-items: center; gap: 22px; min-width: 0; }
+.hud-title { margin: 0; font-weight: 700; font-size: 12.5px; letter-spacing: 0.2em; color: var(--gold); white-space: nowrap; }
+.rail { display: flex; gap: 16px; margin: 0; padding: 0; list-style: none; }
+.rail li { display: flex; align-items: baseline; gap: 5px; font-size: 12.5px; letter-spacing: 0.08em; white-space: nowrap; color: rgba(244, 231, 200, 0.45); }
+.rail .num { font-weight: 700; font-size: 11px; }
+.rail li.done { color: rgba(244, 231, 200, 0.72); }
+.rail li.active { color: var(--gold-hot); font-weight: 700; text-shadow: 0 0 8px rgba(255, 196, 80, 0.5); }
+.rail li.active .label { box-shadow: 0 2px 0 var(--gold); }
+
+/* ---------- debug plate map (?grid=1) ------------------------------------ */
+.debug-grid .dbg { position: absolute; outline: 1px dashed rgba(0, 255, 255, 0.8); }
+.debug-grid .dbg::after { content: attr(data-label); position: absolute; left: 2px; top: 2px; font: 10px monospace; color: #0ff; }
