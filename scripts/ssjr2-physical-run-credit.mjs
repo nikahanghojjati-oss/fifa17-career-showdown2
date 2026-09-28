@@ -92,6 +92,26 @@ export function curlJson(url){
 }
 export function curlText(url){const result=spawnSync("curl",["-sS","-f","-H","Accept: application/vnd.github.raw",...(process.env.GITHUB_TOKEN?["-H",`Authorization: Bearer ${process.env.GITHUB_TOKEN}`]:[]),url],{encoding:"utf8"});if(result.status!==0)throw new Error(`SSJR2_GITHUB_UNREACHABLE: ${url}`);return result.stdout;}
 
+// A Rules deployment run on an older SHA is only evidence for mainSha when none of the
+// inputs its Rules/emulator suites depend on changed in between (conservative superset).
+export const RULES_INPUT_PATTERNS=Object.freeze([/^js\//,/^tests\/firebase\//,/^tests\/support\//,/^firestore[^/]*\.rules$/,/^firebase[^/]*\.json$/,/^package(-lock)?\.json$/,/^ops\/firebase-rules-deploy-request\.json$/,/^\.github\/workflows\/deploy-firestore-rules-zero-billing\.yml$/]);
+export function rulesWorkflowInputs(workflowText){
+  const text=String(workflowText||""),paths=new Set();
+  const filter=text.match(/paths:\s*\n((?:\s+-\s+[^\n]+\n?)+)/);if(filter)for(const line of filter[1].split("\n"))if(line.trim().startsWith("- "))paths.add(line.trim().slice(2).trim());
+  for(const match of text.matchAll(/\b(?:tests|scripts)\/[A-Za-z0-9_./-]+\.(?:cjs|mjs|js)\b/g))paths.add(match[0]);
+  return paths;
+}
+export function rulesInputsUnchanged({api,fromSha,mainSha,fetchJson,fetchText}){
+  const problems=[],compare=fetchJson(`${api}/compare/${fromSha}...${mainSha}`);
+  if(!compare||!["ahead","identical"].includes(compare.status))return [`the last successful Rules deployment (${String(fromSha).slice(0,7)}) is not an ancestor of main`];
+  const files=Array.isArray(compare.files)?compare.files.map(item=>item.filename):[];
+  if(files.length>=300)return ["too many files changed since the last successful Rules deployment to prove its suites still apply"];
+  let inputs;try{inputs=rulesWorkflowInputs(fetchText(`${api}/contents/.github/workflows/${RULES_WORKFLOW}?ref=${mainSha}`));}catch(error){return [error.message];}
+  const changed=files.filter(file=>inputs.has(file)||RULES_INPUT_PATTERNS.some(pattern=>pattern.test(file)));
+  if(changed.length)problems.push(`Rules suite inputs changed since the last successful Rules deployment (${String(fromSha).slice(0,7)}): ${changed.slice(0,8).join(", ")}${changed.length>8?", ...":""}. Run the "${RULES_WORKFLOW}" workflow on main once, then record again`);
+  return problems;
+}
+
 // Live verification of the automated layer for the credited production main.
 export function verifyAutomatedEvidence({mainSha,runtimeRevision,fetchJson=curlJson,fetchText=curlText,repository=REPOSITORY}){
   const api=`https://api.github.com/repos/${repository}`,problems=[];
@@ -103,6 +123,7 @@ export function verifyAutomatedEvidence({mainSha,runtimeRevision,fetchJson=curlJ
   for(const name of REQUIRED_MAIN_CHECKS)if(!runs.some(run=>run.name===name&&run.conclusion==="success"))problems.push(`required check ${name} did not succeed`);
   const rules=fetchJson(`${api}/actions/workflows/${RULES_WORKFLOW}/runs?branch=main&per_page=1`)?.workflow_runs||[];
   if(!rules.length||rules[0].conclusion!=="success")problems.push("the latest main zero-billing Firestore Rules deployment did not succeed");
+  else if(rules[0].head_sha!==mainSha)problems.push(...rulesInputsUnchanged({api,fromSha:rules[0].head_sha,mainSha,fetchJson,fetchText}));
   let mainRuntime=null;try{mainRuntime=runtimeFromServiceWorker(fetchText(`${api}/contents/service-worker.js?ref=${mainSha}`));}catch(error){problems.push(error.message);}
   if(mainRuntime&&mainRuntime!==runtimeRevision)problems.push(`production main runtime ${mainRuntime} differs from the evidence runtime ${runtimeRevision}`);
   if(problems.length)throw new Error(`SSJR2_AUTOMATED_EVIDENCE_UNVERIFIED: ${problems.join("; ")}`);

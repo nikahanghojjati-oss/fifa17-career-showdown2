@@ -79,7 +79,12 @@ const read=file=>fs.readFileSync(path.join(root,file),"utf8");
   // Recording requires a live verification of production main; flags or bare SHAs are not trusted.
   const sha="a".repeat(40),apiBase=`https://api.github.com/repos/${credit.REPOSITORY}`;
   const goodRuns=[...credit.REQUIRED_MAIN_CHECKS,"POS20 proof FULL"].map(name=>({name,status:"completed",conclusion:"success"}));
-  const fakeGitHub=({main=sha,runs=goodRuns,rules=[{id:77,head_sha:sha,conclusion:"success"}],swRuntime=runtime}={})=>({fetchJson:url=>{if(url===`${apiBase}/commits/main`)return {sha:main};if(url.startsWith(`${apiBase}/commits/${sha}/check-runs`))return {check_runs:runs};if(url.includes(`/actions/workflows/${credit.RULES_WORKFLOW}/runs`))return {workflow_runs:rules};throw new Error(`unexpected ${url}`);},fetchText:url=>{assert.equal(url,`${apiBase}/contents/service-worker.js?ref=${sha}`);return `const RUNTIME_REVISION = "${swRuntime}";`;}});
+  const workflowText=read(".github/workflows/"+credit.RULES_WORKFLOW),oldSha="c".repeat(40);
+  const fakeGitHub=({main=sha,runs=goodRuns,rules=[{id:77,head_sha:sha,conclusion:"success"}],swRuntime=runtime,compare={status:"ahead",files:[]}}={})=>({fetchJson:url=>{if(url===`${apiBase}/commits/main`)return {sha:main};if(url.startsWith(`${apiBase}/commits/${sha}/check-runs`))return {check_runs:runs};if(url.includes(`/actions/workflows/${credit.RULES_WORKFLOW}/runs`))return {workflow_runs:rules};if(url===`${apiBase}/compare/${oldSha}...${sha}`)return compare;throw new Error(`unexpected ${url}`);},fetchText:url=>{if(url===`${apiBase}/contents/.github/workflows/${credit.RULES_WORKFLOW}?ref=${sha}`)return workflowText;assert.equal(url,`${apiBase}/contents/service-worker.js?ref=${sha}`);return `const RUNTIME_REVISION = "${swRuntime}";`;}});
+  const inputs=credit.rulesWorkflowInputs(workflowText);
+  for(const file of ["firestore.spark.rules","scripts/build-production-firestore-rules.mjs","tests/contracts/shared-season-commit-rules-contracts.cjs","tests/contracts/persistent-nik-daniel-pair-contracts.cjs"])assert.ok(inputs.has(file),`Rules workflow input parsing must include ${file}`);
+  const olderRules=[{id:79,head_sha:oldSha,conclusion:"success"}];
+  assert.equal(credit.verifyAutomatedEvidence({mainSha:sha,runtimeRevision:runtime,...fakeGitHub({rules:olderRules,compare:{status:"ahead",files:[{filename:"SSJR2_PHYSICAL_RUN_GUIDE.md"},{filename:"css/app.css"}]}})}).rulesDeploymentRunId,79,"an older Rules run stays valid when no Rules-suite input changed");
   const verification=credit.verifyAutomatedEvidence({mainSha:sha,runtimeRevision:runtime,...fakeGitHub()});
   assert.equal(verification.rulesDeploymentRunId,77);
   for(const [label,options,pattern] of [
@@ -88,7 +93,13 @@ const read=file=>fs.readFileSync(path.join(root,file),"utf8");
     ["failed check on main",{...fakeGitHub({runs:[...goodRuns,{name:"POS20 proof FULL",status:"completed",conclusion:"failure"}]})},/POS20 proof FULL is completed\/failure/],
     ["missing required check",{...fakeGitHub({runs:goodRuns.filter(run=>run.name!=="deployed-site-smoke")})},/required check deployed-site-smoke/],
     ["failed Rules deployment",{...fakeGitHub({rules:[{id:78,head_sha:sha,conclusion:"failure"}]})},/Firestore Rules deployment did not succeed/],
-    ["runtime drift",{...fakeGitHub({swRuntime:"1.9.1-r99"})},/runtime 1\.9\.1-r99 differs/]
+    ["runtime drift",{...fakeGitHub({swRuntime:"1.9.1-r99"})},/runtime 1\.9\.1-r99 differs/],
+    ["stale Rules run with changed provider emulator",{...fakeGitHub({rules:olderRules,compare:{status:"ahead",files:[{filename:"tests/firebase/persistent-nik-daniel-pair-provider-emulator.cjs"}]}})},/Rules suite inputs changed/],
+    ["stale Rules run with changed game module",{...fakeGitHub({rules:olderRules,compare:{status:"ahead",files:[{filename:"js/sparkSharedSeasonCommit.js"}]}})},/Rules suite inputs changed/],
+    ["stale Rules run with changed rules fragment",{...fakeGitHub({rules:olderRules,compare:{status:"ahead",files:[{filename:"firestore.season-commit-production.fragment.rules"}]}})},/Rules suite inputs changed/],
+    ["stale Rules run with changed rules contract",{...fakeGitHub({rules:olderRules,compare:{status:"ahead",files:[{filename:"tests/contracts/shared-season-commit-rules-contracts.cjs"}]}})},/Rules suite inputs changed/],
+    ["Rules run not an ancestor of main",{...fakeGitHub({rules:olderRules,compare:{status:"diverged",files:[]}})},/not an ancestor of main/],
+    ["unprovable large diff",{...fakeGitHub({rules:olderRules,compare:{status:"ahead",files:Array.from({length:300},(_,i)=>({filename:`docs/${i}.md`}))}})},/too many files changed/]
   ])assert.throws(()=>credit.verifyAutomatedEvidence({mainSha:sha,runtimeRevision:runtime,...options}),pattern,label);
   const attestationText=JSON.stringify(attestation);
   assert.throws(()=>credit.recordRun({assessment:ok,attestationText,verification:null,ledger:empty}),/SSJR2_AUTOMATED_EVIDENCE_UNVERIFIED/,"recording without live verification must fail");

@@ -63,7 +63,7 @@ node scripts/ssjr2-physical-run-credit.mjs <daniel.json> <nik.json> <attestation
 Before writing the ledger, this verifies the following against GitHub:
 - the SHA is live `main`;
 - every check on it passed, including the POS20 seal, the 1/3/5/10 lifecycle, the Pages deploy and the deployed-site smoke;
-- the latest zero-billing Firestore Rules deployment succeeded;
+- the latest zero-billing Firestore Rules deployment succeeded, and either ran on that exact commit or nothing its Rules tests depend on has changed since. If game code or Rules tests changed, run **Actions → Deploy Firebase Firestore Rules - Zero Billing → Run workflow** on `main` once. It re-runs the Rules emulator tests and redeploys the same Spark rules. Then record again;
 - production's runtime equals the exports' runtime.
 
 Nothing is credited from CI, emulators, two tabs, Incognito windows or simulated browsers.
