@@ -1,4 +1,4 @@
-# TW-PLATE-G: Guess Entry desktop on the locked plate
+# TW-PLATE-G: Transfer Window (F1) + Guess Entry on the locked plate, desktop and phone
 
 Method: "paint the stage, place the live text" (Sol TW-RESET R2, S1–S7). Built by Claude (Opus 5.5), 2026-09-28.
 
@@ -6,9 +6,11 @@ Method: "paint the stage, place the live text" (Sol TW-RESET R2, S1–S7). Built
 ```
 cd visual-assets/v10_1/tr2/slice-02-plate
 python3 -m http.server 8765
-# open http://127.0.0.1:8765/index.html?frame=G2   (Nik viewing)
-#      http://127.0.0.1:8765/index.html?frame=G3   (Daniel viewing)
-#      ...?frame=S0 plate only, &grid=1 plate map overlay
+# open http://127.0.0.1:8765/index.html?frame=F1   (Window, Nik viewing; F1D = Daniel viewing)
+#      ...?frame=F1R / F1DR                          (Window, own early-end request locked)
+#      ...?frame=G2 / G3                             (Guess Entry, Nik / Daniel viewing)
+#      ...?frame=S0 plate only · &grid=1 plate map · &freeze=1 stops the demo clock
+# Phone layout: any portrait viewport up to 760 px wide (same URL)
 NODE_PATH=$(npm root -g) node tools/render-qa.cjs http://127.0.0.1:8765/ evidence
 ```
 
@@ -55,3 +57,66 @@ Nik: 3 guesses correct · readable · easy to use · finger on own panel with Da
 - Sign: `WINDOW CLOSED` now uses the painted lettering's gold gradient and glow.
 - `tools/build_preview.py` + `tools/preview_template.html` rebuild the single-file claude.ai preview (inline CSS/JS/JSON; the iframe version rendered black in the artifact viewer).
 - QA re-run: 0 fit or clip issues in 9 shots; frost identical G2↔G3; no page errors.
+
+## R3: F1 Transfer Window + phone recomposition (Sol TW-PLATE-G R2 decisions, 2026-09-28)
+Commit `85cb40b` (+ docs follow-up). No new images were generated. The only new raster is a crop of the locked plate.
+
+### F1 on the plate (desktop)
+| Plate element | Live content |
+| --- | --- |
+| Sign screen, rotated 7.5° to the board (TWG-S7: read-only text only) | `#transferTimerDisplay` (role=timer, live clock) + `#transferPhaseStatus` `WINDOW OPEN · BUILD YOUR SQUAD` on two lines |
+| Viewer's panel (A = Nik, B = Daniel) | Title: own nameplate. Body: `Ends early only if you both agree.` + `END EARLY` |
+| Rival panel | The same constant sealed frost + CM17 seal as Guess Entry (TWG-S10) |
+| Rules card C | `15 MIN · 3 SIGNINGS · 3 GUESSES` as a stat row + the rule note |
+| Footer HUD | Rail with Window active |
+
+Wiring: `END EARLY` keeps production's id `#endTransferTimer`. Production's capture handler maps that id to `requestEndWindow` (`js/productionSharedTransferChallenge.js`). The prototype only emits a `transfer:intent` event and echoes the requested state: disabled, label `EARLY END REQUESTED ✓`, which is production's existing label.
+
+The G frames' sign text (`WINDOW CLOSED` / `GUESS ENTRY`) is also rotated with the board.
+
+### Short height (TWG-S11)
+Below 700 px of viewport height:
+- the HUD slims to 30 px;
+- the HUD may overlap the panels' painted bottom glow, but never their glass content;
+- the camera drops accordingly.
+
+At 1366×640 the painted title loses **9 px** at the top (it was ~27 px). Shrinking the world instead would take panel controls under 31 px, which TWG-S6 forbids. That leaves this documented fallback.
+
+### Phone (portrait ≤ 760 px, CSS media query; same DOM, ids and actions)
+Top to bottom:
+1. **Scene:** a crop of Plate G (plate x 396–1316, y 34–670). It keeps both managers, the sign with the live clock, and Nik's fingertip contact. No live UI covers faces or the fingertip.
+2. **Status caption band** under the scene. The sign is too small for it at phone scale.
+3. **Viewer's glass** with the YOU chip in its title.
+4. **Sealed rival.**
+5. **Rules card.**
+6. **Fixed HUD:** HOME, title, rail (label shown on the active step only), REFRESH. The content scrolls inside the stage.
+
+The glass is a 9-slice of the plate's own rules card C: `assets/DER_TR2_PLATE_G_GLASS_C_V1.png`, made byte-reproducibly by `tools/make_glass_slice.py` and recorded in the ledger.
+
+On phone:
+- Guess Entry puts one guess per row: type select + value input, 44 px tall, 16 px text;
+- LOCK GUESSES and END EARLY are 48 px and full width.
+
+### QA (`tools/render-qa.cjs` → `evidence/qa_report.json`): 29 shots, 0 failures
+- **Desktop:** F1, F1D, F1R, F1DR, G2, G3 and S0 at 1366×768, 1366×640, 1440×900, 1920×1080, @2x and grid.
+- **Phone:** F1, F1D, F1R, F1DR, G2 and G3 at 390×844, 375×667, 360×780 and 430×932.
+- **Checks:**
+  - approved strings per phase;
+  - fit and control-text clipping;
+  - sign lines don't collide;
+  - rotation: the sign is at 7.5° and no interactive element is rotated;
+  - privacy: the sealed panel has no focusable elements, its markup and size are identical across F1/F1R/G frames for each viewer and across both viewers, and it is unchanged after END EARLY or typing;
+  - live UI never covers faces or the fingertip;
+  - tab order with visible focus;
+  - END EARLY emits exactly one `requestEndWindow` and disables itself;
+  - the clock ticks;
+  - desktop panel controls are at least 31 px;
+  - phone targets are at least 44 px and inputs at least 16 px;
+  - the fixed HUD doesn't overlap and the last content clears it;
+  - no page scroll, and no page errors.
+- **Measured:**
+  - desktop F1 controls are 32.7 px at 1366 (38.3 at 1440, 45.9 at 1920);
+  - the smallest text is 11.5 px (phone HUD title) and 12 px elsewhere.
+
+### Review page
+`tools/build_preview.py tools/preview_template.html <out.html> <sha>` builds a single-file page with a Desktop/Phone switch. It re-scopes the portrait CSS to `.stage.pv-mobile`, so the phone layout can be shown at 390×844 on any screen. Publish it together with `assets/`.

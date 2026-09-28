@@ -101,3 +101,17 @@ Decision record: `visual-assets/v10_1/coordination/SOL_DECISIONS_TO_CLAUDE_TW_PL
 - Environmental sign exception (TWG-S7): read-only live content on a painted in-world sign may be rotated to match the board (Plate G: ≈7.5°). Form fields, buttons and any interactive text stay screen-aligned.
 - F1 rival privacy (TWG-S10): during the Transfer Window the non-viewer panel shows the same constant sealed frost + CM17 seal as Guess Entry, with no live rival data and no state-dependent variation (text length, controls, glow, animation, loading state or geometry).
 - Desktop exception (TWG-S6): 31 px controls at 1366×768 on Plate G are accepted; do not go lower. Mobile keeps 44 px targets and 16 px inputs.
+
+## Owner decisions (Nik, 2026-09-28 09:27 ET)
+
+1. **No player photos for now.** Signings and verdicts show no player pictures. Real-player imagery is too slow and too inconsistent to reach a good result. `PLAYER_IMAGERY_POLICY_V2` is suspended until Nik reopens it. Player names, leagues and nationalities stay live DOM text; nothing is baked into images.
+2. **Model roles:**
+   - Claude (Claude Project + Claude Code) owns visual direction, builds, QA of visual builds and handoffs.
+   - ChatGPT is used only as:
+     - (a) coordinator: GPT-5.6 Sol in chat, for product truth, branches and state;
+     - (b) Codex code review when a change needs one; visual prototypes normally don't;
+     - (c) QA on the main project's QA branch `project/showdown-qa-reliability`.
+   - ChatGPT Work mode (Sol / GPT-6 Sol / Astra) is no longer routed visual tasks: no task cards, no gate pre-checks.
+
+## Transfer War · current head
+`claude-cloud/transfer-tr2-plate-g`: F1 Transfer Window + phone recomposition built and QA-passed (29/29). See `visual-assets/v10_1/tr2/slice-02-plate/BUILD_RESULT.md` R3. Owner look pending. No merge authorised.
