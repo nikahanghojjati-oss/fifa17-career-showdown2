@@ -17,7 +17,7 @@ Product-truth sign-off: `signed / 2026-09-27 · GPT-5.6 Sol`
 ```
 TASK_ID: CLOUD-TR2-01-CP1
 VISUAL_PACKAGE_ID: VPP-TRANSFER-V1 + V1.1 delta (VPD-02 Part 2) + VPD-03 + GATE0-R2. Everything CP1 needs is restated in this brief.
-TARGET_BRANCH_BASE: visual/cinematic-system-v10 @ PENDING_BRANCH_CREATION_SHA
+TARGET_BRANCH_BASE: visual/cinematic-system-v10 @ 491a27db6ba476741eca0232d0574f89e0e42222
 IMPLEMENTATION_SCOPE:
   Step 1: asset intake (Appendix A): verify, clean, upscale the plate, derive masks and maps, write the manifest.
   Step 2: build a static, fixture-driven prototype page at visual-assets/v10_1/tr2/slice-01/ that renders five frames (F1–F5, Appendix B) plus two plate-only cue stills.
