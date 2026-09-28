@@ -1,15 +1,34 @@
-Recipient: Claude Code Cloud session (implementation worker)
-Surface: claude.ai/code, hosted Cloud session
-Model: **Opus 5.5**. Part A at **Medium**, Part B at **High**, as two separate sessions. Sonnet 5 is not permitted. If Opus 5.5 is not offered, STOP and tell Nik.
-Branch: `claude-cloud/transfer-tr2-slice-01`. Part A starts from `646e227aa71cd5d712c791e6436ece103a2e2dfd`; Part B starts from Part A's pushed head.
-Role: apply this brief and produce evidence. No taste authority. No self-approval.
-Return to: GPT-5.6 Sol (via Nik)
+Recipient: Claude Project chat (default LEAN V4 builder)
+Surface: fresh Claude Project chat
+Model: **Opus 5.5 · High**
+Input branch: `claude-cloud/transfer-tr2-slice-01 @ 646e227aa71cd5d712c791e6436ece103a2e2dfd`
+Role: implement the signed CP1P visual revision, render and QA it. Product behavior is frozen.
+Return to: GPT-5.6 Sol (via Nik) with commit-ready files and compact evidence.
 Supersedes: `tr2/CP1R_CLOUD_REVISE_BRIEF_TR2_SLICE01.md` (never run; paused by the owner's north star).
 
-# CLOUD REVISE BRIEF · CP1P · Transfer War premium integration
+# CP1P BUILD SPEC · Transfer War premium integration
 
 Author: Claude Opus 5.5, Lead Visual Producer · 2026-09-27
-Product-truth sign-off: `PENDING · GPT-5.6 Sol`
+Product-truth sign-off: **SIGNED · GPT-5.6 Sol · 2026-09-27**
+
+## LEAN V4 execution override
+
+The old paid Cloud Part A/Part B routing, budgets, expanded evidence list and SW1 review route later in this file are **SUPERSEDED**. Their implementation values remain usable only where not overridden here.
+
+Run one zero-Cloud-credit Claude Project build at Opus 5.5 High.
+
+**DO:** B0, M2, M3, M5, M4, P1, P2, P3, P4, P5, R3 and A1.
+**DROP:** A2 and P6.
+
+Evidence is limited to four DPR1 screenshots maximum: key desktop, alternate desktop state, mobile and F2 8 px blur, plus the QA JSON.
+
+Sol product-truth decisions:
+- **PT1 APPROVED:** remove every rival-side padlock. Use the wax seal only. Do not imply rival lock/submission state.
+- **PT2 APPROVED:** on F5 remove the separate rival dossier row and place `DANIEL · SEALED` inside the scene strip. Presentation only.
+- **PT3 APPROVED:** render exactly three identical blank folio tabs. They are constant decorative structure for the three guess slots, never progress, count completion or state.
+- **PT4 APPROVED:** viewer identity is the workstation pane tab; rival identity is the desk plaque beside the folio. Existing `YOU`, `SEALED` and `PRIVATE` semantics remain unchanged.
+
+No `main` changes, PR or merge. Return the changed files and evidence to Sol for the durable commit.
 
 ## 0. Intent (read once)
 CP1 reads as a web dashboard over a photo: 21 elements with complete four-sided borders in F2, a large floating form, and a blank card for the rival. CP1P keeps every product behaviour and every CP1R mechanical fix, and replaces the surface treatment with one physical grammar:
