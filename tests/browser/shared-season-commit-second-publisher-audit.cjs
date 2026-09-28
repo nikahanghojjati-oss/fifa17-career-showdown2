@@ -49,6 +49,8 @@ const resultTwo={leaguePosition:3,leaguePoints:84,leagueGoals:79,domesticCup:fal
       };
       await loadRuntimeScript('ssjr-r47-audit-results','js/productionSharedSeasonResults.js',()=>window.CareerModeProductionSharedSeasonResults);
       CareerModeProductionSharedSeasonResults.install();
+      audit.failDependency=true;audit.stashedConflicts=window.CareerModeProductionSharedJourneyConflicts;window.CareerModeProductionSharedJourneyConflicts=undefined;
+      const loader=window.loadRuntimeScript;window.loadRuntimeScript=(key,path,ready)=>{if(audit.failDependency&&key==='ssjr-production-journey-conflicts')return Promise.reject(new Error('Simulated lazy Commit dependency load failure.'));return loader(key,path,ready);};
       await loadRuntimeScript('ssjr-r47-audit-commit','js/productionSharedSeasonCommit.js',()=>window.CareerModeProductionSharedSeasonCommit);
       CareerModeProductionSharedSeasonCommit.install();
       const opened=await CareerModeProductionSharedSeasonResults.open();if(!opened)throw new Error('Shared Season Results did not open.');
@@ -67,6 +69,9 @@ const resultTwo={leaguePosition:3,leaguePoints:84,leagueGoals:79,domesticCup:fal
     // The physical failure: published heading, but the Commit control must not disappear.
     await page.waitForFunction(()=>{const node=document.getElementById('sharedSeasonCommitAction');return Boolean(node&&!node.classList.contains('hidden')&&/COMMIT CHECK|CHECK SHARED SEASON COMMIT/.test(node.textContent||''));},null,{timeout:8000});
     assert.equal(await page.locator('#sharedSeasonCommitAction').isVisible(),true,'published Results must never leave the Commit area without a visible action');
+    await page.waitForFunction(()=>document.getElementById('sharedSeasonCommitAction')?.textContent==='RETRY COMMIT CHECK',null,{timeout:8000});
+    assert.match(await page.locator('#sharedSeasonCommitStatus').textContent(),/CHECK FAILED · SEASON_COMMIT_CHECK_FAILED/,'a failed lazy Commit dependency must expose recovery instead of hiding the Commit area');
+    await page.evaluate(()=>{const audit=window.__secondPublisherAudit;audit.failDependency=false;window.CareerModeProductionSharedJourneyConflicts=audit.stashedConflicts;});
     assert.match(await page.locator('#sharedSeasonCommitStatus').textContent(),/YOUR PUBLISHED RESULTS ARE SAVED/);
     assert.equal(await page.evaluate(()=>window.__secondPublisherAudit.commitWrites),0,'recovery must never write Commit state');
     // While the authoritative Results read keeps failing, a check must fail visibly and stay read-only.
