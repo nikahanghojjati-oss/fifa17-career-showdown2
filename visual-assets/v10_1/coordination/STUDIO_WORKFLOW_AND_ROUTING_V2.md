@@ -112,3 +112,29 @@ Current golden anchors:
 - Nik: `POSE_TRANSFER_NIK_TACTICAL_V1.png`
 
 The Gate 0 R2 Window poses are approved assets but are not golden anchors.
+
+
+## Work split and ChatGPT Work lane (V2.1)
+
+Target split of total work:
+
+| Share | Who | What |
+| --- | --- | --- |
+| 80–90% | Claude | Opus 5.5 in the Claude Project for direction, tickets, gate reviews, build briefs and checkpoint verdicts including evidence checks; Sonnet 5 in the Claude Project for simple docs and Tier B packages; Claude Code Cloud for Sonnet 5 builds, revisions and intake, with Opus 5.5 only for first-of-kind, first integration and rescue |
+| about 10% | ChatGPT Work mode, GPT-5.6 Sol | Only the Work-lane tasks below |
+| coordinator | ChatGPT chat, GPT-5.6 Sol | Product truth, branches, commits, state files and routing cards. Unchanged. |
+
+Work-lane tasks:
+
+| # | Task | When |
+| --- | --- | --- |
+| W1 | Tasks that need web access Claude lacks: player-photo pilot and Wikimedia Commons fetch (PI-03 / R14 data gathering), licence lookups, flag-set sourcing | Always Work mode |
+| W2 | Overflow: evidence pre-checks against a brief's checklist, and exact mechanical fixes such as a number, string or file swap | Only when Nik reports Claude's usage is near its limit. Otherwise Claude and Cloud Sonnet do these. |
+
+Work-mode model: GPT-5.6 Sol by default, based on the owner's reported workflow. GPT-6 Sol is reserved for R17 integration architecture review or after two failed 5.6 attempts at the same task. Astra is used only on Nik's explicit go. Luna is not used.
+
+Claude-side economy:
+- High is the default effort.
+- Extra only for the Transfer CP1 verdict and the final owner gate of each Tier S screen.
+- Sonnet 5 wherever the task is execution, not taste.
+- One chat per task.
