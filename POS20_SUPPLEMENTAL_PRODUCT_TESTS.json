@@ -142,6 +142,7 @@
         "^js/ssjr\\.js$",
         "^tests/contracts/shared-season-commit-production-contracts\\.cjs$",
         "^tests/browser/shared-season-commit-audit\\.cjs$",
+        "^tests/browser/shared-season-commit-second-publisher-audit\\.cjs$",
         "^package\\.json$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
