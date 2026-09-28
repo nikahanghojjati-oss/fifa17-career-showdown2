@@ -90,3 +90,14 @@ Next authority handoff: Nik opens a fresh Claude Project chat, Opus 5.5 High, an
 ## Main-project Cloud-credit reserve
 
 Keep a meaningful Cloud-credit reserve for main-game readiness / E2E testing.
+
+## Transfer War · Plate G (Sol decisions TW-PLATE-G R2, 2026-09-28)
+
+Decision record: `visual-assets/v10_1/coordination/SOL_DECISIONS_TO_CLAUDE_TW_PLATE_G_R2_2026-09-28.md`.
+
+- Accepted Claude working head: `claude-cloud/transfer-tr2-plate-g @ 03003c2` (R1 history point `f2125a5`). No merge is authorised.
+- Likeness (TWG-S1): an owner-accepted edited image is the likeness authority for its locked plate. Restoring against an earlier source applies only to edits that are not owner-accepted, or when Nik asks. See LIKENESS_IMAGE_WORKFLOW_V1 Part F.
+- Asset ledger (TWG-S2): every approved image used by the visual system has a repo path and SHA-256 in `visual-assets/v10_1/tr2/ASSET_LEDGER.md`. Once an asset is in the ledger and verified, it is never requested from Nik again, unless the hash is missing, the file is corrupt, or Nik supplies a replacement himself.
+- Environmental sign exception (TWG-S7): read-only live content on a painted in-world sign may be rotated to match the board (Plate G: ≈7.5°). Form fields, buttons and any interactive text stay screen-aligned.
+- F1 rival privacy (TWG-S10): during the Transfer Window the non-viewer panel shows the same constant sealed frost + CM17 seal as Guess Entry, with no live rival data and no state-dependent variation (text length, controls, glow, animation, loading state or geometry).
+- Desktop exception (TWG-S6): 31 px controls at 1366×768 on Plate G are accepted; do not go lower. Mobile keeps 44 px targets and 16 px inputs.

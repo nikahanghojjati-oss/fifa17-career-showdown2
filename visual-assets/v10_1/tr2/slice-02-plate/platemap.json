@@ -15,10 +15,12 @@
   },
   "signScreen": {
     "cx": 866,
-    "cy": 124,
-    "w": 166,
-    "h": 64,
-    "boardAngleDeg": 7.5
+    "cy": 126,
+    "w": 184,
+    "h": 66,
+    "boardAngleDeg": 7.5,
+    "rotateLiveText": true,
+    "_note": "TWG-S7: read-only sign content is rotated to the board (rotation about cx,cy). Form text never rotates."
   },
   "panels": {
     "A": {
@@ -81,11 +83,12 @@
       ],
       "content": [
         1310,
-        590,
-        1498,
-        688
+        587,
+        1500,
+        696
       ],
-      "angleDeg": 0
+      "angleDeg": 0,
+      "_note": "content widened into the painted title-strip gap (587) and the frame's lower band (696) on 2026-09-28 for the F1 rules line + note; still inside the inner frame line."
     }
   },
   "paintedNames": {
@@ -120,7 +123,10 @@
       1505
     ],
     "yTop": 45,
-    "panelBottom": 786
+    "panelBottom": 786,
+    "contentBottom": 777,
+    "titleTop": 22,
+    "_note": "panelBottom = painted frame bottom (A). contentBottom = lowest glass content (A). titleTop = top of the painted TRANSFER brush title (measured on the 1366x768 render)."
   },
   "contact": {
     "nikFingertip": [
@@ -146,6 +152,36 @@
         "3344": "assets/OVL_NIK_FINGERTIP_V1_3344.png"
       },
       "note": "Plate pixels + alpha. Sits above the live text so the finger is in front of the glass."
+    }
+  },
+  "mobile": {
+    "_note": "Portrait recomposition (no new art). scene = plate crop keeping both managers, the sign and Nik's fingertip contact. glass = 9-slice of rules card C (tools/make_glass_slice.py).",
+    "sceneCrop": [
+      396,
+      34,
+      1316,
+      670
+    ],
+    "glass": {
+      "file": "assets/DER_TR2_PLATE_G_GLASS_C_V1.png",
+      "srcRectPlate": [
+        1299,
+        552,
+        1519,
+        714
+      ],
+      "sliceSrcPx": {
+        "top": 68,
+        "right": 40,
+        "bottom": 62,
+        "left": 90
+      },
+      "borderCssPx": {
+        "top": 31,
+        "right": 18,
+        "bottom": 28,
+        "left": 40
+      }
     }
   }
 }

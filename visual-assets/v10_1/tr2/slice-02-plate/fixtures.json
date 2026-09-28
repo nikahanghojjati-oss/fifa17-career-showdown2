@@ -1,17 +1,64 @@
 {
-  "_source": "Strings = SOL_DECISIONS_TO_CLAUDE_TW_RESET_R2_2026-09-28 S2 (approved Transfer deck). guessIntro removed. guessHeadingDanielViewer is the mirror of the approved Nik-viewer row (flagged for Sol).",
-  "managers": { "playerOne": "Daniel", "playerTwo": "Nik" },
+  "_source": "Strings = SOL_DECISIONS_TO_CLAUDE_TW_RESET_R2_2026-09-28 S2 (approved Transfer deck) + Sol TW-PLATE-G R2 (TWG-S4 Daniel-viewer mirrors approved; TWG-S10 F1 contract). f1ActionRequested is production main's existing requested-state label (js/productionSharedTransferChallenge.js), carried unchanged pending Sol (TWF-S1).",
+  "managers": {
+    "playerOne": "Daniel",
+    "playerTwo": "Nik"
+  },
   "seasonNumber": 1,
   "frames": {
-    "G2": { "viewer": "playerTwo", "phase": "GUESS_ENTRY", "desc": "Guess Entry, Nik viewing" },
-    "G3": { "viewer": "playerOne", "phase": "GUESS_ENTRY", "desc": "Guess Entry, Daniel viewing" },
-    "S0": { "viewer": null, "phase": null, "plateOnly": true, "desc": "Locked plate only" }
+    "F1": {
+      "viewer": "playerTwo",
+      "phase": "WINDOW_OPEN",
+      "timerSeconds": 702,
+      "desc": "Transfer Window, Nik viewing"
+    },
+    "F1D": {
+      "viewer": "playerOne",
+      "phase": "WINDOW_OPEN",
+      "timerSeconds": 702,
+      "desc": "Transfer Window, Daniel viewing"
+    },
+    "F1R": {
+      "viewer": "playerTwo",
+      "phase": "WINDOW_OPEN",
+      "timerSeconds": 702,
+      "endRequested": true,
+      "desc": "Transfer Window, Nik viewing, own early-end request locked"
+    },
+    "F1DR": {
+      "viewer": "playerOne",
+      "phase": "WINDOW_OPEN",
+      "timerSeconds": 702,
+      "endRequested": true,
+      "desc": "Transfer Window, Daniel viewing, own early-end request locked"
+    },
+    "G2": {
+      "viewer": "playerTwo",
+      "phase": "GUESS_ENTRY",
+      "desc": "Guess Entry, Nik viewing"
+    },
+    "G3": {
+      "viewer": "playerOne",
+      "phase": "GUESS_ENTRY",
+      "desc": "Guess Entry, Daniel viewing"
+    },
+    "S0": {
+      "viewer": null,
+      "phase": null,
+      "plateOnly": true,
+      "desc": "Locked plate only"
+    }
   },
   "strings": {
     "title": "SEASON {season} · TRANSFER CHALLENGE",
     "back": "HOME",
     "refresh": "REFRESH",
-    "rail": ["Window", "Guesses", "Signings", "Verdicts"],
+    "rail": [
+      "Window",
+      "Guesses",
+      "Signings",
+      "Verdicts"
+    ],
     "railAriaLabel": "Transfer Challenge progress",
     "f1Status": "WINDOW OPEN · BUILD YOUR SQUAD",
     "f1Intro": "Ends early only if you both agree.",
@@ -33,6 +80,7 @@
     "tagSealed": "SEALED",
     "tagPrivate": "PRIVATE",
     "nameplateOne": "DANIEL",
-    "nameplateTwo": "NIK"
+    "nameplateTwo": "NIK",
+    "f1ActionRequested": "EARLY END REQUESTED ✓"
   }
 }

@@ -25,17 +25,29 @@ html, body { margin: 0; height: 100%; background: #070604; color: var(--cream); 
 body { overflow: hidden; font-family: var(--text); -webkit-font-smoothing: antialiased; }
 
 .stage { position: fixed; inset: 0; overflow: hidden; --footer-h: 36px; }
+.stage.short { --footer-h: 30px; }
 .world { position: absolute; --k: 0.817; }
+.scene, .plane { position: absolute; inset: 0; }
 .plate, .plate img { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
 .plate img { object-fit: cover; }
+
+/* Registration: every in-world node sits on a plate rect (--x/--y/--w/--h plate px) × --k. */
+.reg {
+  position: absolute;
+  left: calc(var(--k) * var(--x) * 1px); top: calc(var(--k) * var(--y) * 1px);
+  width: calc(var(--k) * var(--w) * 1px); height: calc(var(--k) * var(--h) * 1px);
+}
+.m-only { display: none !important; }
 
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
 /* ---------- hanging sign (live text on the blank painted screen) ---------- */
+.sign-screen, .sign-status { transform: rotate(var(--rot, 0deg)); transform-origin: 50% 50%; pointer-events: none; }
 .sign-screen {
-  position: absolute; display: flex; flex-direction: column; align-items: center; justify-content: center;
-  gap: calc(var(--k) * 3px); text-align: center; pointer-events: none;
+  display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
+  padding-top: calc(var(--k) * 8px); text-align: center;
 }
+.sign-screen.is-live { padding-top: calc(var(--k) * 3px); }
 .sign-main {
   font-family: var(--cond); font-weight: 700; line-height: 1.05; white-space: nowrap;
   font-size: calc(var(--k) * 25px); letter-spacing: 0.05em; color: #F6C75E;
@@ -44,14 +56,22 @@ body { overflow: hidden; font-family: var(--text); -webkit-font-smoothing: antia
   filter: drop-shadow(0 0 calc(var(--k) * 5px) rgba(255, 186, 64, 0.55));
 }
 .sign-main.closed { opacity: 0.94; }
+.sign-main.timer {
+  font-size: calc(var(--k) * 28px); line-height: 1; letter-spacing: 0.06em; font-variant-numeric: tabular-nums;
+  filter: drop-shadow(0 0 calc(var(--k) * 7px) rgba(255, 186, 64, 0.62));
+}
 .sign-status {
-  font-family: var(--cond); font-weight: 600; white-space: nowrap;
+  margin: 0; display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
+  padding-bottom: calc(var(--k) * 7px);
+  font-family: var(--cond); font-weight: 600; white-space: nowrap; line-height: 1.02;
   font-size: max(12px, calc(var(--k) * 14.5px)); letter-spacing: 0.22em; color: var(--cream);
   text-shadow: 0 0 calc(var(--k) * 6px) rgba(0, 0, 0, 0.9);
 }
+.sign-status .sep { display: none; }
+.sign-status.two-line { letter-spacing: 0.14em; line-height: 1; font-size: max(12px, calc(var(--k) * 13px)); padding-bottom: calc(var(--k) * 4px); }
+.sign-status.two-line .part:first-child { color: var(--gold-hot); }
 
 /* ---------- painted panels: text sits inside the painted glass ------------ */
-.panel-title, .panel-body, .frost, .rule-note { position: absolute; }
 
 .panel-title {
   display: flex; align-items: center; justify-content: space-between; gap: calc(var(--k) * 8px);
@@ -59,7 +79,7 @@ body { overflow: hidden; font-family: var(--text); -webkit-font-smoothing: antia
 }
 .panel.own[data-panel="A"] .panel-title { align-items: flex-end; padding-bottom: calc(var(--k) * 1px); }
 .panel.own[data-panel="A"] .chip-private { margin-bottom: calc(var(--k) * 2px); }
-.panel.own[data-panel="A"] .own-heading { transform: translateY(calc(var(--k) * 2.5px)); }
+.panel.own[data-panel="A"] .own-heading { transform: translateY(calc(var(--k) * 1.2px)); }
 .own-heading {
   margin: 0; font-family: var(--cond); font-weight: 700; white-space: nowrap; line-height: 1;
   font-size: calc(var(--k) * 18px); letter-spacing: 0.02em; color: #FBEFD2;
@@ -157,15 +177,15 @@ body { overflow: hidden; font-family: var(--text); -webkit-font-smoothing: antia
 .seal svg { width: 100%; height: 100%; display: block; }
 
 /* ---------- shared rules card ------------------------------------------- */
+.rules-inner { display: flex; flex-direction: column; justify-content: center; gap: calc(var(--k) * 6px); padding: 0 calc(var(--k) * 6px); }
 .rule-note {
-  margin: 0; display: flex; align-items: center;
-  padding: 0 calc(var(--k) * 6px);
+  margin: 0;
   font-family: var(--cond); font-weight: 600; font-size: max(12.5px, calc(var(--k) * 17px)); line-height: 1.22;
   color: #FBEFD2;
   text-shadow: 0 0 calc(var(--k) * 7px) rgba(255, 196, 96, 0.4), 0 1px 2px rgba(0, 0, 0, 0.7);
 }
 
-.overlay-fingertip { position: absolute; pointer-events: none; }
+.overlay-fingertip { pointer-events: none; }
 
 /* ---------- YOU chip beside the painted script name ---------------------- */
 .you-chip { position: absolute; top: calc(var(--k) * var(--ay) * 1px); }
@@ -195,3 +215,138 @@ body { overflow: hidden; font-family: var(--text); -webkit-font-smoothing: antia
 /* ---------- debug plate map (?grid=1) ------------------------------------ */
 .debug-grid .dbg { position: absolute; outline: 1px dashed rgba(0, 255, 255, 0.8); }
 .debug-grid .dbg::after { content: attr(data-label); position: absolute; left: 2px; top: 2px; font: 10px monospace; color: #0ff; }
+
+.debug-grid .dbg.rot { transform: rotate(var(--rot)); outline-color: rgba(255, 0, 255, 0.85); }
+
+/* ---------- F1 · Transfer Window ------------------------------------------ */
+.own-name {
+  font-size: calc(var(--k) * 18px); letter-spacing: 0.16em;
+}
+.window-body { justify-content: space-between; padding: calc(var(--k) * 10px) calc(var(--k) * 12px) calc(var(--k) * 10px); }
+.f1-brief {
+  margin: 0; max-width: 78%;
+  font-family: var(--cond); font-weight: 700; line-height: 1.08; letter-spacing: 0.01em;
+  font-size: calc(var(--k) * 27px); color: #FBEFD2;
+  text-shadow: 0 0 calc(var(--k) * 9px) rgba(255, 196, 96, 0.45), 0 0 1px rgba(255, 226, 160, 0.6);
+}
+.end-row { display: flex; justify-content: flex-end; }
+.btn-end {
+  flex: none; height: calc(var(--k) * 40px); padding: 0 calc(var(--k) * 16px);
+  font-family: var(--cond); font-weight: 700; font-size: max(13px, calc(var(--k) * 17px)); letter-spacing: 0.12em;
+  color: var(--gold-hot); background: rgba(8, 6, 3, 0.5); border: 0; border-radius: calc(var(--k) * 3px); cursor: pointer;
+  box-shadow: inset 0 0 0 1.5px rgba(242, 196, 91, 0.8), inset 0 calc(var(--k) * -1px) 0 rgba(255, 210, 120, 0.5), 0 0 calc(var(--k) * 12px) rgba(255, 190, 80, 0.28);
+  text-shadow: 0 0 calc(var(--k) * 6px) rgba(255, 196, 80, 0.5);
+}
+.btn-end:hover:not(:disabled) { background: rgba(242, 196, 91, 0.14); }
+.btn-end:focus-visible { outline: 2px solid var(--gold-hot); outline-offset: 2px; }
+.btn-end.requested { color: var(--cream-dim); cursor: default; text-shadow: none;
+  box-shadow: inset 0 0 0 1px rgba(242, 196, 91, 0.35); background: rgba(8, 6, 3, 0.35); }
+
+.rules-card.with-line .rules-inner { justify-content: space-between; padding-top: calc(var(--k) * 4px); padding-bottom: calc(var(--k) * 3px); gap: calc(var(--k) * 4px); }
+.rules-line { margin: 0; display: flex; justify-content: space-between; align-items: flex-end; }
+.rules-line .sep { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.rules-line .stat { display: flex; flex-direction: column; align-items: center; line-height: 1; }
+.rules-line .stat-n {
+  font-family: var(--cond); font-weight: 700; font-size: calc(var(--k) * 27px); color: var(--gold-hot);
+  text-shadow: 0 0 calc(var(--k) * 8px) rgba(255, 190, 80, 0.55);
+}
+.rules-line .stat-l {
+  font-family: var(--cond); font-weight: 700; font-size: max(12px, calc(var(--k) * 12.5px)); letter-spacing: 0.12em; color: var(--cream);
+  margin-top: calc(var(--k) * 2px);
+}
+.rules-card.with-line .rule-note { font-size: max(12px, calc(var(--k) * 14px)); line-height: 1.16; color: var(--cream-dim); }
+
+/* ======================================================================== *
+ *  PORTRAIT RECOMPOSITION (mobile). Same DOM, same ids, same actions.       *
+ *  1 scene crop of Plate G (both managers, sign, fingertip contact)         *
+ *  2 the viewer's glass · 3 sealed rival · 4 rules card  (plate-derived     *
+ *  9-slice of card C: tools/make_glass_slice.py) · fixed HUD at the bottom. *
+ * ======================================================================== */
+@media (max-width: 760px) and (orientation: portrait) {
+  .m-only { display: inline-flex !important; }
+  .d-only { display: none !important; }
+  .stage { --footer-h: 64px; overflow-x: hidden; overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; }
+  .world { position: relative; width: 100%; display: flex; flex-direction: column; gap: 10px;
+    padding: 0 12px calc(var(--footer-h) + 14px + env(safe-area-inset-bottom)); }
+
+  /* 1 · scene */
+  .scene { position: relative; inset: auto; margin: 0 -12px; height: calc(var(--k) * var(--crop-h) * 1px + 34px); overflow: hidden; order: 0; flex: none; }
+  .plane { inset: auto; left: calc(var(--k) * var(--crop-x) * -1px); top: calc(var(--k) * var(--crop-y) * -1px);
+    width: calc(var(--k) * 1672px); height: calc(var(--k) * 941px); }
+  .scene::after { content: ""; position: absolute; left: 0; right: 0; bottom: 34px; height: 9%; pointer-events: none;
+    background: linear-gradient(to bottom, rgba(7, 6, 4, 0), #070604); }
+  .sign-main.timer { font-size: max(21px, calc(var(--k) * 34px)); line-height: 1.05; }
+  .sign-main.closed { font-size: max(12px, calc(var(--k) * 25px)); letter-spacing: 0.02em; }
+  /* the painted screen is ~200 plate px wide at mid-height; the mobile sign uses that full width */
+  .sign-screen.reg { left: calc(var(--k) * (var(--x) - 8) * 1px); width: calc(var(--k) * (var(--w) + 16) * 1px); }
+  .sign-screen { padding-top: 0; justify-content: center; }
+  .sign-screen.is-live { padding-top: 0; }
+  /* status becomes a broadcast lower-third across the bottom of the scene */
+  .sign-status.reg { left: 0; right: 0; width: auto; top: auto; bottom: 0; height: 34px; z-index: 2; background: #070604;
+    transform: none; flex-direction: row !important; align-items: center; justify-content: center; gap: 0.5em; padding: 0 12px;
+    font-size: 13px; letter-spacing: 0.16em; line-height: 1.2; }
+  .sign-status .sep { display: inline; color: var(--gold-deep); }
+
+  /* shared glass material for 2/3/4 */
+  .panel, .rules-card { position: relative; order: 3; }
+  .panel.own { order: 1; }
+  .panel.sealed { order: 2; }
+  .panel::before, .rules-card::before {
+    content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 0;
+    border-style: solid; border-width: 31px 18px 28px 40px;
+    border-image: var(--glass) 68 40 62 90 fill / 31px 18px 28px 40px stretch;
+    filter: drop-shadow(0 0 10px rgba(255, 186, 64, 0.18));
+  }
+  .panel > *, .rules-card > * { position: relative; z-index: 1; }
+  .reg.panel-title, .reg.panel-body, .reg.frost, .reg.rules-inner { position: relative; left: auto; top: auto; width: auto; height: auto; }
+
+  .panel-title { min-height: 26px; margin: 5px 14px 0 44px; padding: 0; justify-content: flex-start; gap: 8px; align-items: center !important; }
+  .panel.own .own-heading { transform: none !important; font-size: 17px; }
+  .panel.own .chip-private { margin: 0 0 0 auto !important; }
+  .chip { height: 22px; padding: 0 9px; font-size: 11.5px; }
+  .chip-you.m-only { margin-left: 0; }
+  .phase-guess .chip-you.m-only { order: 3; }
+  .rival-name { font-size: 15px; }
+  .panel.sealed .chip-sealed { margin-left: auto; }
+  .panel-body { padding: 14px 16px 26px; gap: 12px; }
+  .panel-body::before { inset: 4px 8px; }
+
+  /* Guess Entry: one guess per row, 44 px targets, 16 px text */
+  .guess-cols { grid-template-columns: 1fr; gap: 10px; }
+  .guess-col { display: grid; grid-template-columns: 22px 1fr 1fr; align-items: center; gap: 8px; }
+  .guess-num { font-size: 13px; }
+  .guess-col select, .guess-col input { height: 44px; font-size: 16px; padding: 0 10px; border-radius: 3px; }
+  .guess-col select { padding-right: 26px; background-position: calc(100% - 15px) 55%, calc(100% - 10px) 55%; background-size: 5px 5px; }
+  .action-row { flex-direction: column; align-items: stretch; gap: 10px; }
+  .privacy-note { font-size: 14px; }
+  .btn-lock { height: 48px; font-size: 17px; }
+
+  /* F1 */
+  .window-body { padding: 14px 16px 26px; gap: 14px; }
+  .f1-brief { max-width: none; font-size: 22px; }
+  .btn-end { height: 48px; width: 100%; font-size: 17px; }
+
+  /* sealed rival: constant, compact */
+  .panel.sealed .frost { height: 86px; margin: 6px 12px 24px 14px; }
+  .seal { width: 58px; height: 58px; }
+
+  /* rules card */
+  .rules-inner { padding: 14px 18px 30px; gap: 10px; }
+  .rules-card:not(.with-line) .rules-inner { padding-top: 40px; }
+  .rules-line { margin-top: -2px; }
+  .rules-line .stat-n { font-size: 26px; }
+  .rules-line .stat-l { font-size: 12px; }
+  .rule-note, .rules-card.with-line .rule-note { font-size: 15px; line-height: 1.25; }
+  .rules-card.with-line .rules-inner { padding-top: 40px; padding-bottom: 30px; gap: 10px; }
+
+  /* HUD: fixed, 44 px targets, rail labels only for the active step */
+  .hud-footer { position: fixed; height: calc(var(--footer-h) + env(safe-area-inset-bottom)); padding: 0 10px env(safe-area-inset-bottom); gap: 8px; z-index: 5;
+    background: linear-gradient(to top, rgba(6, 5, 3, 0.97) 0%, rgba(6, 5, 3, 0.9) 70%, rgba(6, 5, 3, 0.0) 100%); }
+  .ghost { height: 44px; min-width: 44px; padding: 0 12px; font-size: 12.5px; }
+  .hud-mid { flex-direction: column; gap: 4px; align-items: center; flex: 1; }
+  .hud-title { font-size: 11.5px; letter-spacing: 0.1em; }
+  .ghost { padding: 0 10px; }
+  .rail { gap: 10px; }
+  .rail li { font-size: 12px; }
+  .rail li:not(.active) .label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+}
