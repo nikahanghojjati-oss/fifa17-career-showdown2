@@ -12,10 +12,10 @@ Model/effort that actually ran: **Claude Sonnet 5, High effort** (matches the br
 `ab36d9bcef58775c1fc1fb525997f8ec70d0cc69` (branch tip at session start; `visual: resolve CP1 branch creation base`, itself on `491a27db6ba476741eca0232d0574f89e0e42222` — the brief's `TARGET_BRANCH_BASE`).
 
 ## 4. Head SHA
-`<HEAD_SHA_PLACEHOLDER>` (this commit). A one-line follow-up commit immediately after records this same value inside this file, since a commit cannot know its own hash in advance.
+`6efbe1d1cbb00d4eeef495125e89fd1ff4307bea` — the commit that added everything below except this one line update, since a commit cannot record its own hash in advance. This edit is a small follow-up commit on top of it, updating only this field.
 
 ## 5. Changed files
-All new, under `visual-assets/v10_1/tr2/slice-01/` only (86 files, see Appendix G tree below). `main` and every production path (`js/`, `css/`, `index.html`, `data/`, `assets/`, `visual-assets/v10_1/cloud-session/`) are untouched — confirmed by `git status` showing only additions under the task-branch subtree.
+All new, under `visual-assets/v10_1/tr2/slice-01/` only (89 files, see Appendix G tree below). `main` and every production path (`js/`, `css/`, `index.html`, `data/`, `assets/`, `visual-assets/v10_1/cloud-session/`) are untouched — confirmed by `git status` showing only additions under the task-branch subtree.
 
 ```
 visual-assets/v10_1/tr2/slice-01/
