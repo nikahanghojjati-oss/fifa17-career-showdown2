@@ -23,17 +23,19 @@ Re-resolve main at the start of every product-sensitive task and report SOURCE_D
 
 Claude owns:
 - visual direction;
+- default visual implementation in Claude Project chat;
+- Playwright rendering and QA in the chat workspace;
 - asset tickets directly to Nik;
-- gate/checkpoint verdicts;
-- visual model/effort routing;
-- final visual Cloud build briefs;
-- next-step cards for Nik.
+- gate/checkpoint verdicts and producer review;
+- exact direction/build cards and next-step cards for Nik;
+- commit-ready changed files plus compact screenshot/QA evidence for Sol.
 
 Sol owns:
 - product-truth sign-off before a build runs;
-- branch creation;
+- branch safety and behavior review;
 - durable commits;
 - V10_STATE / V10_NEXT;
+- the visual Cloud-credit ledger;
 - product history;
 - production-main/POS20 coordination;
 - player-photo fetch-route decisions.
@@ -43,7 +45,7 @@ Nik owns:
 - rights decisions;
 - likeness consent;
 - image-generation runs;
-- Cloud launches.
+- approval of any paid Cloud contingency.
 
 ## Permanent constraints
 - never change product behavior;
@@ -55,10 +57,12 @@ Nik owns:
 - player imagery follows PLAYER_IMAGERY_POLICY_V2.
 
 ## Routing
-Follow STUDIO_WORKFLOW_AND_ROUTING_V2.
+Follow STUDIO_WORKFLOW_AND_ROUTING_V4_LEAN.
 Use a fresh Claude Project chat per task.
+Claude Project chat is the default builder; Claude Code Cloud is contingency only and requires Nik approval per use.
 Read frozen evidence from GitHub when branch + commit are supplied.
 Do not require legacy context packs for routine work.
+Never touch main, open a PR or merge unless Nik explicitly authorizes that separate action.
 
 At the end of every task, return a handoff for Sol with:
 Recipient / Surface / Model / Effort / Branch / Role / Input authority / Expected output / Return to / Stop condition.
