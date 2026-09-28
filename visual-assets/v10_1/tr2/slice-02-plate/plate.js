@@ -150,6 +150,14 @@
     return f;
   }
 
+  // Nik's fingertip, cut from the plate, above the live text: the finger is in front of the glass.
+  function buildFingertip(map) {
+    var o = map.overlays.nikFingertip;
+    var img = el("img", { class: "overlay-fingertip", alt: "", "aria-hidden": "true", decoding: "sync",
+      src: o.files["1672"], srcset: o.files["1672"] + " 1x, " + o.files["3344"] + " 2x" });
+    return placeRect(img, o.rect);
+  }
+
   function buildGrid(map) {
     var g = el("div", { class: "debug-grid", "aria-hidden": "true" });
     function box(r, label) { var b = placeRect(el("div", { class: "dbg" }), r); b.setAttribute("data-label", label); g.appendChild(b); }
@@ -215,6 +223,7 @@
           }
           world.appendChild(buildRulesCard(map.panels.C, S));
           world.appendChild(buildYouChip(map, nik, S));
+          world.appendChild(buildFingertip(map));
         }
         if (qs("grid", "") === "1") world.appendChild(buildGrid(map));
         stage.appendChild(world);

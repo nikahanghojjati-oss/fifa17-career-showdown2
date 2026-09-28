@@ -124,9 +124,28 @@
   },
   "contact": {
     "nikFingertip": [
-      1066,
-      597
+      1062,
+      600
     ],
-    "note": "Nik's fingertip rests on panel A's top edge"
+    "fingertipSpanX": [
+      1049,
+      1075
+    ],
+    "note": "Nik's fingertip rests on panel A's top edge; tip ends at y\u2248600"
+  },
+  "overlays": {
+    "nikFingertip": {
+      "rect": [
+        1040,
+        578,
+        1090,
+        608
+      ],
+      "files": {
+        "1672": "assets/OVL_NIK_FINGERTIP_V1_1672.png",
+        "3344": "assets/OVL_NIK_FINGERTIP_V1_3344.png"
+      },
+      "note": "Plate pixels + alpha. Sits above the live text so the finger is in front of the glass."
+    }
   }
 }

@@ -37,11 +37,13 @@ body { overflow: hidden; font-family: var(--text); -webkit-font-smoothing: antia
   gap: calc(var(--k) * 3px); text-align: center; pointer-events: none;
 }
 .sign-main {
-  font-family: var(--cond); font-weight: 700; line-height: 1; white-space: nowrap;
-  font-size: calc(var(--k) * 24px); letter-spacing: 0.035em; color: var(--gold);
-  text-shadow: 0 0 calc(var(--k) * 10px) rgba(255, 190, 70, 0.55), 0 0 calc(var(--k) * 2px) rgba(255, 220, 140, 0.6);
+  font-family: var(--cond); font-weight: 700; line-height: 1.05; white-space: nowrap;
+  font-size: calc(var(--k) * 25px); letter-spacing: 0.05em; color: #F6C75E;
+  background: linear-gradient(180deg, #FFEBB0 0%, #F7CB62 48%, #D99A32 100%);
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 calc(var(--k) * 5px) rgba(255, 186, 64, 0.55));
 }
-.sign-main.closed { color: #E3AE4B; opacity: 0.9; }
+.sign-main.closed { opacity: 0.94; }
 .sign-status {
   font-family: var(--cond); font-weight: 600; white-space: nowrap;
   font-size: max(12px, calc(var(--k) * 14.5px)); letter-spacing: 0.22em; color: var(--cream);
@@ -55,10 +57,13 @@ body { overflow: hidden; font-family: var(--text); -webkit-font-smoothing: antia
   display: flex; align-items: center; justify-content: space-between; gap: calc(var(--k) * 8px);
   padding: 0 calc(var(--k) * 4px) 0 0;
 }
+.panel.own[data-panel="A"] .panel-title { align-items: flex-end; padding-bottom: calc(var(--k) * 1px); }
+.panel.own[data-panel="A"] .chip-private { margin-bottom: calc(var(--k) * 2px); }
+.panel.own[data-panel="A"] .own-heading { transform: translateY(calc(var(--k) * 2.5px)); }
 .own-heading {
   margin: 0; font-family: var(--cond); font-weight: 700; white-space: nowrap; line-height: 1;
-  font-size: calc(var(--k) * 18px); letter-spacing: 0.02em; color: var(--cream);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+  font-size: calc(var(--k) * 18px); letter-spacing: 0.02em; color: #FBEFD2;
+  text-shadow: 0 0 calc(var(--k) * 7px) rgba(255, 196, 96, 0.45), 0 0 1px rgba(255, 226, 160, 0.6);
 }
 .rival-name {
   font-family: var(--cond); font-weight: 700; line-height: 1; font-size: calc(var(--k) * 17px); letter-spacing: 0.14em; color: var(--cream-dim);
@@ -78,18 +83,29 @@ body { overflow: hidden; font-family: var(--text); -webkit-font-smoothing: antia
   padding: calc(var(--k) * 5px) calc(var(--k) * 4px) calc(var(--k) * 2px);
   gap: calc(var(--k) * 7px);
 }
+.panel-body::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: repeating-linear-gradient(0deg, rgba(255, 214, 140, 0.035) 0 1px, transparent 1px 3px),
+              linear-gradient(115deg, rgba(255, 230, 170, 0.06), transparent 40%);
+  mix-blend-mode: screen;
+}
 .guess-cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: calc(var(--k) * 7px); }
 .guess-col { display: flex; flex-direction: column; gap: calc(var(--k) * 5px); min-width: 0; }
 .guess-num {
   font-family: var(--cond); font-weight: 700; font-size: max(10px, calc(var(--k) * 12.5px)); line-height: 1;
   letter-spacing: 0.12em; color: var(--gold-deep);
+  text-shadow: 0 0 calc(var(--k) * 5px) rgba(255, 190, 80, 0.5);
 }
 .guess-col select, .guess-col input {
   width: 100%; min-width: 0; height: calc(var(--k) * 38px); margin: 0;
   font-family: var(--cond); font-weight: 600; font-size: max(12.5px, calc(var(--k) * 16px)); letter-spacing: 0.01em;
-  color: var(--cream); background-color: var(--well);
-  border: 0; border-radius: calc(var(--k) * 3px);
-  box-shadow: inset 0 0 0 1px var(--hair), inset 0 calc(var(--k) * -2px) 0 rgba(242, 196, 91, 0.22);
+  color: var(--cream); background-color: rgba(6, 5, 2, 0.46);
+  border: 0; border-radius: calc(var(--k) * 2px);
+  box-shadow:
+    inset 0 calc(var(--k) * 2px) calc(var(--k) * 4px) rgba(0, 0, 0, 0.55),
+    inset 0 0 0 1px rgba(242, 196, 91, 0.24),
+    inset 0 calc(var(--k) * -1px) 0 rgba(255, 210, 120, 0.42),
+    0 0 calc(var(--k) * 6px) rgba(255, 190, 80, 0.10);
   padding: 0 calc(var(--k) * 8px);
 }
 .guess-col select {
@@ -113,6 +129,7 @@ body { overflow: hidden; font-family: var(--text); -webkit-font-smoothing: antia
   flex: 1; margin: 0; min-width: 0;
   font-family: var(--cond); font-weight: 600; font-size: max(12px, calc(var(--k) * 14.5px)); line-height: 1.12;
   color: var(--cream-dim);
+  text-shadow: 0 0 calc(var(--k) * 6px) rgba(255, 196, 96, 0.28);
 }
 .btn-lock {
   flex: none; height: calc(var(--k) * 40px); padding: 0 calc(var(--k) * 12px);
@@ -144,9 +161,11 @@ body { overflow: hidden; font-family: var(--text); -webkit-font-smoothing: antia
   margin: 0; display: flex; align-items: center;
   padding: 0 calc(var(--k) * 6px);
   font-family: var(--cond); font-weight: 600; font-size: max(12.5px, calc(var(--k) * 17px)); line-height: 1.22;
-  color: var(--cream);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+  color: #FBEFD2;
+  text-shadow: 0 0 calc(var(--k) * 7px) rgba(255, 196, 96, 0.4), 0 1px 2px rgba(0, 0, 0, 0.7);
 }
+
+.overlay-fingertip { position: absolute; pointer-events: none; }
 
 /* ---------- YOU chip beside the painted script name ---------------------- */
 .you-chip { position: absolute; top: calc(var(--k) * var(--ay) * 1px); }

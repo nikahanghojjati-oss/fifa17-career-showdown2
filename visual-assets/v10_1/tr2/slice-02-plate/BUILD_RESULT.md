@@ -47,3 +47,11 @@ All in-world sizes are plate px × k (k = world width / 1672). The camera is cov
 - The sign board is tilted ~7°. The live sign text is screen-aligned per the fixed rule, so there is a slight mismatch.
 - At 1366×640 the top ~14 px of the painted "TRANSFER" brush title is cropped.
 - `guessHeadingDanielViewer` / `privacyNoteDanielViewer` mirror the approved Nik-viewer strings.
+
+## R2 (owner look, Nik 2026-09-28 00:53 ET)
+Nik: 3 guesses correct · readable · easy to use · finger on own panel with Daniel's sealed = YES. Finger touched the top of "signings"; "painted into glass" and the sign "can be better, don't overdo it".
+- Nik's fingertip is cut from the plate (`assets/OVL_NIK_FINGERTIP_V1_{1672,3344}.png`, `tools/make_finger_overlay.py`) and layered above the live text, so the finger is in front of the glass. The heading is bottom-aligned in the title bar, clear of the fingertip (tip ends at y≈600; heading glyphs start below it).
+- Glass integration: fields are recessed into the glass (inner shadow, hairline, lit bottom edge), live text emits a soft gold glow, and a faint constant scanline sheen covers the live panel body.
+- Sign: `WINDOW CLOSED` now uses the painted lettering's gold gradient and glow.
+- `tools/build_preview.py` + `tools/preview_template.html` rebuild the single-file claude.ai preview (inline CSS/JS/JSON; the iframe version rendered black in the artifact viewer).
+- QA re-run: 0 fit or clip issues in 9 shots; frost identical G2↔G3; no page errors.
