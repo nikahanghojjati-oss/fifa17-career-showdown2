@@ -105,7 +105,7 @@
     refreshRequestKey=request.key;
     const current=psscQueue(()=>psscRefreshNow(request));refreshPromise=current;psscRender();
     current.then(()=>{if(refreshPromise===current){refreshPromise=null;psscRender();}},error=>{
-      if(refreshPromise===current){refreshPromise=null;if(psscContextMatches(request)&&psscResultsReady(request)){readError=String(error?.code||"SEASON_COMMIT_CHECK_FAILED").replace(/[^A-Za-z0-9_-]/g,"").slice(0,80);psscRender();psscReport("Unable to check Shared Season Commit",error);}}
+      if(refreshPromise===current){refreshPromise=null;if(psscContextMatches(request)&&psscResultsReady(request)){view=null;contextKey="";readError=String(error?.code||"SEASON_COMMIT_CHECK_FAILED").replace(/[^A-Za-z0-9_-]/g,"").slice(0,80);psscRender();psscReport("Unable to check Shared Season Commit",error);}}
     });
     return current;
   }

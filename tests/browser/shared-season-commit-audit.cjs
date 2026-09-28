@@ -91,6 +91,15 @@ const unchanged={selectedLeague:null,clubs:{playerOne:null,playerTwo:null},trans
     assert.equal(await peer.locator('#seasonReviewOne').isVisible(),true);assert.equal(await peer.locator('#seasonReviewTwo').isVisible(),true,'peer must experience the same complete shared Season Review before commit');
     assert.equal(await host.locator('#sharedSeasonCommitAction').textContent(),'COMMIT SHARED SEASON');assert.equal(await host.locator('#sharedSeasonCommitAction').isEnabled(),true);
     assert.equal(await peer.locator('#sharedSeasonCommitAction').textContent(),'WAITING FOR COORDINATOR');assert.equal(await peer.locator('#sharedSeasonCommitAction').isDisabled(),true,'non-coordinator must not create the commit');
+    await peer.evaluate(()=>{window.__forceCommitReadFailure=true;});
+    await peer.evaluate(()=>window.__ssjrCommitAudit.refresh().catch(()=>{}));
+    await peer.waitForFunction(()=>document.getElementById('sharedSeasonCommitAction')?.textContent==='RETRY COMMIT CHECK');
+    assert.match(await peer.locator('#sharedSeasonCommitStatus').textContent(),/permission-denied/,'a later read failure must replace the stale waiting state with its failure code');
+    assert.equal(server.calls.length,0,'failed polling after an earlier successful read must not mutate Commit');
+    await peer.evaluate(()=>{window.__forceCommitReadFailure=false;});
+    await peer.locator('#sharedSeasonCommitAction').click();
+    await peer.waitForFunction(()=>document.getElementById('sharedSeasonCommitAction')?.textContent==='WAITING FOR COORDINATOR');
+    assert.equal(server.calls.length,0,'recovering a later failed read must remain read-only');
     await host.locator('#sharedSeasonCommitAction').click();await host.waitForFunction(()=>/could not be committed/i.test(document.getElementById('seasonReviewError')?.textContent||''),null,{timeout:5000});
     assert.equal(server.revision,0,'rejected commit must not advance provider state');
     await refresh(host);assert.match(await host.locator('#seasonReviewError').textContent(),/could not be committed/i,'a Results refresh must preserve a still-relevant Commit error');
