@@ -28,8 +28,9 @@ The app handles each device's local recovery copy internally. Neither player nee
 1. On the Chromebook, Daniel selects `START A SHOWDOWN`, chooses exactly **1 Season**, and presses `START A SHOWDOWN` on the season screen.
 2. Daniel follows `CONNECT PLAYERS` and selects `CREATE CODE FOR NIK`. Send that code directly to Nik.
 3. On the iPhone, Nik selects `JOIN DANIEL'S SHOWDOWN` on Home, enters Daniel's code once, and presses `JOIN DANIEL'S SHOWDOWN` in the connection panel. Nik does not select a season or create a separate Showdown. The app reads the season count from Daniel's code and automatically prepares Nik's local recovery copy during joining.
-4. If Daniel still shows a waiting state after Nik has joined, select `CHECK STATUS` once. Both devices must converge on the same ACTIVE private Showdown before continuing.
-5. Use the paired `CONTINUE` / `START CAREER` action to advance. If Home offers `CONTINUE CAREER` for this exact active paired Showdown after a reload, that is a valid recovery route; do not choose an unrelated older career.
+4. If Daniel still shows a waiting state after Nik has joined, select `CHECK STATUS` once. Both devices must show the same connected pair. Pairing alone does not make the private play session ACTIVE.
+5. Both players open this exact paired career with `CONTINUE CAREER` if prompted. In the `GET READY` screen, select `CONTINUE` to open the private session controls. Daniel selects `HOST PRIVATE SESSION` and shares the new session code directly with Nik. This is a second code, separate from the earlier `CMS17-` pairing code. Nik enters this new code and selects `JOIN PRIVATE SESSION`.
+6. When both devices show the same ACTIVE private session, return to `GET READY` and select `START CAREER` on each device. Only then may Daniel spin the league wheel. If Home offers `CONTINUE CAREER` for this exact paired Showdown after a reload, that is a valid recovery route; do not choose an unrelated older career.
 
 `OPEN SHARED SETUP` is not a Home-menu command. It is a host-only control inside the authoritative Shared Setup experience after both devices have entered the shared journey. The peer does not need that button: it observes the host-owned setup state and follows the shared presentation.
 
@@ -37,7 +38,7 @@ If a completed product step is not reflected promptly in the Physical Journey pa
 
 ## One-season journey
 
-1. From the ACTIVE shared entry, continue to the authoritative shared league wheel. Complete the league draw, permanent distinct club assignment, choose exactly one season, and finish both-manager setup confirmation.
+1. From the ACTIVE shared entry, Daniel spins the authoritative league wheel and opens the two club packs. Nik watches the same league and club reveals on the iPhone. Confirm that the displayed season length is the same **1 Season** Daniel chose at the beginning; neither player chooses it again. Both managers select `CONFIRM SHARED SHOWDOWN` on their own device when available.
 2. Both managers acknowledge Career Start, complete the Transfer Challenge for season 1, publish/review their own season-1 results, finish the reconciled season-1 commit, and wait for canonical scoring plus Shared History convergence through season 1.
    - Results regression probe: before either manager publishes, both devices must remain on their unpublished Review screen for at least 35 seconds. Ordinary polling must not kick either device back to result entry, and any visible publication/review error must remain visible long enough to read.
    - After both publish, the same Results screen must expose the Shared Season Commit flow. Daniel/coordinator commits the shared snapshot, then Daniel and Nik independently acknowledge it. Canonical scoring and Shared History must appear without manually loading another capability or returning to a dead-end r9 screen.
