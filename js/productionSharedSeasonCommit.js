@@ -7,7 +7,7 @@
 
   const POLL_MS=15000;
   const ACTION_ID="sharedSeasonCommitAction";
-  let installed=false,busy=false,provider=null,conflictGuard=null,setupApi=null,resultsApi=null,view=null,contextKey="",providerChain=Promise.resolve(),refreshPromise=null,headingObserver=null,bootstrapObserver=null,errorMessage="",pendingErrorKind="";
+  let installed=false,busy=false,provider=null,conflictGuard=null,setupApi=null,resultsApi=null,view=null,contextKey="",providerChain=Promise.resolve(),refreshPromise=null,refreshRequestKey="",headingObserver=null,bootstrapObserver=null,errorMessage="",pendingErrorKind="",readError="";
 
   function psscFail(code,message){const error=new Error(message||code);error.code=code;throw error;}
   function psscShowdown(){try{return typeof currentShowdown!=="undefined"?currentShowdown:null;}catch(_error){return null;}}
@@ -71,8 +71,12 @@
   function psscManagerName(role){return psscShowdown()?.managers?.[role]||(role==="playerOne"?"Manager 1":"Manager 2");}
   function psscRender(){
     const ui=psscEnsureUi();if(!ui)return false;
-    const request=psscRequestContext(),eligible=Boolean(psscSharedMarker()&&request&&contextKey===request.key&&view&&psscResultsReady(request));
-    psscHidden(ui.status,!eligible);psscHidden(ui.action,!eligible);if(!eligible)return false;
+    const request=psscRequestContext(),ready=Boolean(psscSharedMarker()&&request&&psscResultsReady(request)),eligible=Boolean(ready&&contextKey===request.key&&view);
+    psscHidden(ui.status,!ready);psscHidden(ui.action,!ready);if(!ready)return false;
+    if(!eligible){
+      psscText(ui.status,readError?`SHARED SEASON COMMIT CHECK FAILED · ${readError} · YOUR PUBLISHED RESULTS ARE SAVED`:'CHECKING SHARED SEASON COMMIT · YOUR PUBLISHED RESULTS ARE SAVED');
+      psscText(ui.action,readError?'RETRY COMMIT CHECK':'CHECK SHARED SEASON COMMIT');psscDisable(ui.action,busy||Boolean(refreshPromise));return false;
+    }
     const role=view.managerRole,coordinator=view.coordinatorRole,phase=view.phase||"RESULTS_READY";
     if(phase==="ACKNOWLEDGED"){
       psscText(ui.status,"SHARED SEASON COMMIT ACKNOWLEDGED BY BOTH MANAGERS · SCORING REMAINS LOCKED FOR THE NEXT CAPABILITY");psscText(ui.action,"SEASON COMMIT ACKNOWLEDGED ✓");psscDisable(ui.action,true);return true;
@@ -86,7 +90,7 @@
     else{psscText(ui.status,`BOTH RESULTS ARE READY · WAITING FOR ${psscManagerName(coordinator)} TO COMMIT THE SHARED SEASON`);psscText(ui.action,"WAITING FOR COORDINATOR");psscDisable(ui.action,true);}
     return true;
   }
-  function psscBind(result,ctx,request){if(!psscContextMatches(request))return false;view={...result,rivalryId:ctx.setup.rivalryId,coordinatorRole:result.coordinatorRole||ctx.setup.setup.coordinatorRole};contextKey=request.key;psscRender();return true;}
+  function psscBind(result,ctx,request){if(!psscContextMatches(request))return false;view={...result,rivalryId:ctx.setup.rivalryId,coordinatorRole:result.coordinatorRole||ctx.setup.setup.coordinatorRole};contextKey=request.key;readError="";psscRender();return true;}
   async function psscRefreshNow(request=psscRequestContext()){
     if(!request)return null;
     if(contextKey&&contextKey!==request.key){psscSetError("");pendingErrorKind="";}
@@ -94,7 +98,17 @@
     if(pendingErrorKind&&psscSatisfied(pendingErrorKind,result)){psscSetError("");pendingErrorKind="";}
     psscBind(result,ctx,request);return view;
   }
-  function psscRefresh(){const request=psscRequestContext();if(!request)return Promise.resolve(null);if(refreshPromise&&contextKey===request.key)return refreshPromise;const current=psscQueue(()=>psscRefreshNow(request));refreshPromise=current;current.then(()=>{if(refreshPromise===current)refreshPromise=null;},()=>{if(refreshPromise===current)refreshPromise=null;});return current;}
+  function psscRefresh(){
+    const request=psscRequestContext();if(!request)return Promise.resolve(null);
+    if(refreshPromise&&refreshRequestKey===request.key)return refreshPromise;
+    if(contextKey!==request.key){view=null;contextKey="";readError="";}
+    refreshRequestKey=request.key;
+    const current=psscQueue(()=>psscRefreshNow(request));refreshPromise=current;psscRender();
+    current.then(()=>{if(refreshPromise===current){refreshPromise=null;psscRender();}},error=>{
+      if(refreshPromise===current){refreshPromise=null;if(psscContextMatches(request)&&psscResultsReady(request)){readError=String(error?.code||"SEASON_COMMIT_CHECK_FAILED").replace(/[^A-Za-z0-9_-]/g,"").slice(0,80);psscRender();psscReport("Unable to check Shared Season Commit",error);}}
+    });
+    return current;
+  }
   function psscSatisfied(kind,current){if(kind==="commit")return Boolean(current.committed);return Boolean(current.ownAcknowledged||current.phase==="ACKNOWLEDGED");}
   async function psscMutate(kind){
     if(busy)return false;const request=psscRequestContext();if(!request)return false;busy=true;psscSetError("");pendingErrorKind="";psscRender();const operationId=psscRandomOperationId();
@@ -117,8 +131,8 @@
     }catch(error){if(psscContextMatches(request)){pendingErrorKind=kind;psscSetError(error.message||error.code||"Shared Season Commit failed.");psscReport("Unable to update Shared Season Commit",error);}return false;}
     finally{busy=false;if(psscContextMatches(request))psscRender();}
   }
-  function psscCapture(event){const target=event.target&&event.target.closest&&event.target.closest("button");if(!target||target.id!==ACTION_ID||!psscSharedMarker())return;const screen=psscField("seasonEntry");if(!screen||screen.classList.contains("hidden"))return;event.preventDefault();event.stopPropagation();if(typeof event.stopImmediatePropagation==="function")event.stopImmediatePropagation();if(target.disabled)return;void psscMutate(view?.committed?"acknowledge":"commit");}
-  async function psscTick(){if(!psscSharedMarker()||busy||root.document?.visibilityState==="hidden")return;const screen=psscField("seasonEntry");if(!screen||screen.classList.contains("hidden"))return;if(view?.phase==="ACKNOWLEDGED"){psscRender();return;}try{await psscRefresh();}catch(_error){}}
+  function psscCapture(event){const target=event.target&&event.target.closest&&event.target.closest("button");if(!target||target.id!==ACTION_ID||!psscSharedMarker())return;const screen=psscField("seasonEntry");if(!screen||screen.classList.contains("hidden"))return;event.preventDefault();event.stopPropagation();if(typeof event.stopImmediatePropagation==="function")event.stopImmediatePropagation();if(target.disabled)return;const request=psscRequestContext();if(!request||contextKey!==request.key||!view){void psscRefresh().catch(()=>{});return;}void psscMutate(view.committed?"acknowledge":"commit");}
+  async function psscTick(){if(!psscSharedMarker()||busy||root.document?.visibilityState==="hidden")return;const screen=psscField("seasonEntry");if(!screen||screen.classList.contains("hidden"))return;psscRender();if(view?.phase==="ACKNOWLEDGED")return;try{await psscRefresh();}catch(_error){}}
   function psscAttachHeadingObserver(){
     if(!root.MutationObserver||!root.document)return false;const heading=psscField("seasonReviewHeading");if(!heading)return false;if(headingObserver)return true;
     headingObserver=new root.MutationObserver(()=>void psscTick());headingObserver.observe(heading,{childList:true,characterData:true,subtree:true});return true;
