@@ -1,36 +1,40 @@
 # V10 NEXT
 
-## Immediate action — run CP1R revision in Claude Code Cloud
+## Immediate action — Claude premium visual reconciliation before CP1R Cloud
 
-Repository: `nikahanghojjati-oss/fifa17-career-showdown2`  
-Task branch: `claude-cloud/transfer-tr2-slice-01`  
-Start from frozen CP1 head: `646e227aa71cd5d712c791e6436ece103a2e2dfd`  
-Model: **Opus 5.5**  
-Effort: **Medium**  
-Stop budget: **30 min / $6 credit**
+Do **not** launch the existing CP1R Cloud brief yet.
 
-Use the signed brief:
+Owner supplied a stronger Transfer visual north star on 2026-09-27. The current CP1R mechanical fixes remain required, but the box-heavy visual treatment must be reconciled first so Cloud does not spend time polishing a direction the owner has rejected.
 
-`visual-assets/v10_1/tr2/CP1R_CLOUD_REVISE_BRIEF_TR2_SLICE01.md`
+### Surface
+Claude Project
 
-Cloud authority is exact-delta implementation and evidence only. No taste verdict, no production integration, no PR and no merge.
+### Model
+Opus 5.5
 
-Priority order:
+### Effort
+High
 
-`M1 > M2 > M3 > M4 > R2 > R1 > R3 > R5 > R4 > evidence`
+### Inputs
+- `visual-assets/v10_1/coordination/OWNER_VISUAL_NORTH_STAR_PREMIUM_TRANSFER_V1.md`
+- the owner's premium Transfer reference image attached in the Claude chat;
+- `visual-assets/v10_1/claude/handoffs/CLAUDE_CP1-REVIEW_HANDOFF_TO_SOL_2026-09-27.md`;
+- `visual-assets/v10_1/tr2/CP1R_CLOUD_REVISE_BRIEF_TR2_SLICE01.md`;
+- frozen CP1 candidate `claude-cloud/transfer-tr2-slice-01 @ 646e227aa71cd5d712c791e6436ece103a2e2dfd`.
 
-At 24 minutes, stop adding scope and finish/capture/commit completed work. At 30 minutes, stop.
+### Claude assignment
 
-## After Cloud returns
+Act as Lead Visual Producer. Reconcile the current Transfer War CP1/CP1R direction against the owner's premium reference without changing product behavior.
 
-Cloud must return `CLOUD_BUILD_RESULT_CP1R.md`, the revised head SHA, `render_qa_report.json`, updated CSS/manifest and the required evidence.
+Preserve the valid mechanical gates from CP1R, especially reachability, 48 px mobile controls, 360 px collision removal, sign depth/hair clearance, accessibility and QA.
 
-Then:
+But explicitly reduce generic rectangular-card / dashboard-box presentation. Translate the reference into a reusable Showdown presentation language: integrated desk surfaces, smoked glass, graphite/brass material, controlled transparency, physical depth/contact, asymmetry, manager-to-task relationship, and a premium sealed-rival metaphor that exposes no private data.
 
-1. Return the exact Cloud result to GPT-5.6 Sol Chat for branch-safety and product-truth reconciliation.
-2. Open GPT-5.6 Sol in ChatGPT Work mode · High and run:
-   `visual-assets/v10_1/coordination/SOLWORK_CP1R_GATE_PRECHECK_TASK_CARD.md`
-3. Sol Work returns G1–G15 PASS / FAIL / MISSING.
-4. ALL-PASS → Claude Project taste-only verify review. HAS-FAIL → Claude Project High re-brief.
+Return:
+1. a short gap analysis of the frozen CP1 candidate versus the owner north star;
+2. which existing CP1R items remain unchanged, which become obsolete, and which need visual redesign;
+3. an exact bounded amended/replacement Cloud brief, ≤150 lines if possible;
+4. a small set of acceptance gates that prevent a generic-box regression;
+5. the announced model/effort/stop budget for the next Cloud step.
 
-Do not send CP1R back to Claude for visual review before the Cloud revision and Sol Work gate pre-check are complete.
+Do not launch Cloud from the Claude review chat. Return the revised brief to GPT-5.6 Sol Chat for product-truth sign-off first.
