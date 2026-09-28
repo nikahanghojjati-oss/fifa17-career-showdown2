@@ -29,19 +29,21 @@ const resultTwo={leaguePosition:3,leaguePoints:84,leagueGoals:79,domesticCup:fal
       const role='playerTwo';
       currentShowdown={id:'shared_second_publisher',currentRound:1,totalRounds:3,status:'Ready',sharedJourney:{mode:'shared',rivalryId},managers:{playerOne:'Daniel',playerTwo:'Nik'},selectedLeague:null,clubs:{playerOne:null,playerTwo:null},transferChallenges:[],rounds:[],score:{playerOne:0,playerTwo:0}};
       const setup={status:'ready',ready:true,revision:6,phase:'SHOWDOWN_CONFIRMED',rivalryId,sessionId,deviceId:'device_'+'2'.repeat(32),managerRole:role,setup:{phase:'SHOWDOWN_CONFIRMED',revision:6,coordinatorRole:'playerOne',leagueId:'premier_league',clubs:{playerOne:'Arsenal',playerTwo:'Liverpool'},totalSeasons:3,confirmedRoles:['playerOne','playerTwo']}};
-      const transfer={ok:true,revision:7,seasonNumber:1,managerRole:role,rivalryId,setup:setup.setup,state:{phase:'COMPLETED',revision:7,guessLockedRoles:['playerOne','playerTwo'],signingLockedRoles:['playerOne','playerTwo']}};
-      const audit=window.__secondPublisherAudit={resultsReads:0,publishCalls:0,commitReads:0,commitWrites:0,failResultsRead:false,published:false};
-      const waiting={ok:true,revision:1,state:{phase:'WAITING_FOR_RIVAL',revision:1,publishedRoles:['playerOne']},managerRole:role,seasonNumber:1,ownResult:null,opponentResult:null,allResults:null};
-      const ready={ok:true,revision:2,state:{phase:'RESULTS_READY',revision:2,publishedRoles:['playerOne','playerTwo']},managerRole:role,seasonNumber:1,ownResult:resultTwo,opponentResult:resultOne,allResults:{playerOne:resultOne,playerTwo:resultTwo}};
+      const season=()=>currentShowdown.currentRound;
+      window.CareerModeProductionSharedMultiSeasonProgression={resolveSeason:fallback=>fallback};
+      const transfer=()=>({ok:true,revision:7,seasonNumber:season(),managerRole:role,rivalryId,setup:setup.setup,state:{phase:'COMPLETED',revision:7,guessLockedRoles:['playerOne','playerTwo'],signingLockedRoles:['playerOne','playerTwo']}});
+      const audit=window.__secondPublisherAudit={resultsReads:0,publishCalls:0,commitReads:0,commitWrites:0,failResultsRead:false,published:false,season2Published:false,acknowledgedSeasons:[]};
+      const waiting=n=>({ok:true,revision:1,state:{phase:'WAITING_FOR_RIVAL',revision:1,publishedRoles:['playerOne']},managerRole:role,seasonNumber:n,ownResult:null,opponentResult:null,allResults:null});
+      const ready=n=>({ok:true,revision:2,state:{phase:'RESULTS_READY',revision:2,publishedRoles:['playerOne','playerTwo']},managerRole:role,seasonNumber:n,ownResult:resultTwo,opponentResult:resultOne,allResults:{playerOne:resultOne,playerTwo:resultTwo}});
       window.CareerModeProductionSharedShowdownSetup={getState:()=>setup,refresh:async()=>setup};
-      window.CareerModeProductionSharedTransferChallenge={getState:()=>transfer,refresh:async()=>transfer};
+      window.CareerModeProductionSharedTransferChallenge={getState:()=>transfer(),refresh:async()=>transfer()};
       window.CareerModeSparkSharedSeasonResults={
-        read:async()=>{audit.resultsReads+=1;if(audit.failResultsRead)return {ok:false,code:'unavailable'};return audit.published?ready:waiting;},
+        read:async options=>{audit.resultsReads+=1;if(audit.failResultsRead)return {ok:false,code:'unavailable'};const n=options.seasonNumber;return (n===1?audit.published:audit.season2Published)?ready(n):waiting(n);},
         publishResult:async()=>{audit.publishCalls+=1;audit.published=true;audit.failResultsRead=true;return {ok:true,status:'accepted',replayed:false,revision:2,state:{phase:'RESULTS_READY',revision:2,publishedRoles:['playerOne','playerTwo']},managerRole:role,seasonNumber:1,ownResult:resultTwo,opponentResult:null,allResults:null,needsRefresh:true};}
       };
       window.CareerModeProductionFirebaseRuntime={ensureAccountServices:async()=>({ok:true,auth:{currentUser:{uid:'account_two'}},firestore:{},firestoreSdk:{}})};
       window.CareerModeSparkSharedSeasonCommit={
-        read:async()=>{audit.commitReads+=1;return {ok:true,committed:false,ready:true,managerRole:role,seasonNumber:1,phase:'RESULTS_READY',revision:0,results:{playerOne:resultOne,playerTwo:resultTwo},coordinatorRole:'playerOne'};},
+        read:async options=>{audit.commitReads+=1;const n=options.seasonNumber;if(audit.acknowledgedSeasons.includes(n))return {ok:true,committed:true,ready:true,coordinatorRole:'playerOne',managerRole:role,seasonNumber:n,phase:'ACKNOWLEDGED',revision:3,ownAcknowledged:true,acknowledgedRoles:['playerOne','playerTwo'],results:{playerOne:resultOne,playerTwo:resultTwo}};return {ok:true,committed:false,ready:true,managerRole:role,seasonNumber:n,phase:'RESULTS_READY',revision:0,results:{playerOne:resultOne,playerTwo:resultTwo},coordinatorRole:'playerOne'};},
         commitSeason:async()=>{audit.commitWrites+=1;return {ok:false,code:'AUDIT_UNEXPECTED_WRITE'};},
         acknowledgeSeason:async()=>{audit.commitWrites+=1;return {ok:false,code:'AUDIT_UNEXPECTED_WRITE'};}
       };
@@ -83,10 +85,22 @@ const resultTwo={leaguePosition:3,leaguePoints:84,leagueGoals:79,domesticCup:fal
     assert.equal(await page.locator('#seasonReviewOne').isVisible(),true,'the healed Results read must reveal the rival result');
     assert.equal(await page.locator('#seasonReviewTwo').isVisible(),true);
     assert.equal(await page.locator('#seasonReviewError').textContent(),'','a healed authoritative Results read must clear the stale publish-refresh error');
+    // Multi-season: a season-1 ACKNOWLEDGED view must not freeze the automatic Commit check for season 2.
+    await page.evaluate(async()=>{window.__secondPublisherAudit.acknowledgedSeasons.push(1);await CareerModeProductionSharedSeasonCommit.refresh();});
+    await page.waitForFunction(()=>document.getElementById('sharedSeasonCommitAction')?.textContent==='SEASON COMMIT ACKNOWLEDGED ✓',null,{timeout:8000});
+    await page.evaluate(()=>{currentShowdown.currentRound=2;window.dispatchEvent(new Event('career-mode-shared-season-cursor-change'));});
+    await page.waitForFunction(()=>document.getElementById('seasonReviewHeading')?.textContent==='YOUR RESULT IS PUBLISHED'||document.getElementById('seasonReviewHeading')?.textContent==='REVIEW YOUR SEASON RESULT'||document.getElementById('seasonEntry')?.dataset.sharedSeasonResults==='entry',null,{timeout:20000});
+    const commitReadsBeforeSeason2=await page.evaluate(()=>window.__secondPublisherAudit.commitReads);
+    // Rival publishes season 2 while this manager's Results screen is already open; no tap, no reload.
+    await page.evaluate(()=>{window.__secondPublisherAudit.season2Published=true;window.dispatchEvent(new Event('career-mode-shared-season-cursor-change'));});
+    await page.waitForFunction(()=>document.getElementById('seasonReviewHeading')?.textContent==='BOTH MANAGERS PUBLISHED'&&document.getElementById('seasonEntryTitle')?.textContent==='SEASON 2 SHARED RESULTS',null,{timeout:20000});
+    await page.waitForFunction(()=>document.getElementById('sharedSeasonCommitAction')?.textContent==='WAITING FOR COORDINATOR',null,{timeout:35000});
+    assert.ok(await page.evaluate(()=>window.__secondPublisherAudit.commitReads)>commitReadsBeforeSeason2,'season 2 must perform its own automatic authoritative Commit read');
+    assert.equal(await page.evaluate(()=>CareerModeProductionSharedSeasonCommit.getState()?.seasonNumber),2,'season 2 must bind only season-2 Commit authority');
     const audit=await page.evaluate(()=>({publishCalls:window.__secondPublisherAudit.publishCalls,commitWrites:window.__secondPublisherAudit.commitWrites,commitReads:window.__secondPublisherAudit.commitReads}));
     assert.equal(audit.publishCalls,1);assert.equal(audit.commitWrites,0);assert.ok(audit.commitReads>=1);
     assert.deepEqual(await page.evaluate(()=>window.__secondPublisherAudit.storageAfter()),await page.evaluate(()=>window.__secondPublisherAudit.storageBefore),'recovery must not mutate canonical local storage');
     assert.deepEqual(errors,[],'second-publisher audit emitted page errors');
-    process.stdout.write('PASS Shared Season Commit second-publisher recovery: an incomplete RESULTS_READY publish projection with a failed follow-up read keeps a visible read-only Commit check, shows the failing code, never republishes or writes Commit, and one retry heals Results and restores the correct role action.\n');
+    process.stdout.write('PASS Shared Season Commit second-publisher recovery: an incomplete RESULTS_READY publish projection with a failed follow-up read keeps a visible read-only Commit check, shows the failing code, never republishes or writes Commit, and one retry heals Results and restores the correct role action; a later season still checks Commit automatically after the previous season was acknowledged.\n');
   }finally{await context.close().catch(()=>{});await browser.close().catch(()=>{});}
 })().catch(error=>{console.error(error);process.exitCode=1;});
