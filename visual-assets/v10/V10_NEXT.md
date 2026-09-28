@@ -1,54 +1,36 @@
 # V10 NEXT
 
-## Immediate action — CP1 Lead Visual Producer review
+## Immediate action — run CP1R revision in Claude Code Cloud
 
-Open a fresh Claude Project chat.
+Repository: `nikahanghojjati-oss/fifa17-career-showdown2`  
+Task branch: `claude-cloud/transfer-tr2-slice-01`  
+Start from frozen CP1 head: `646e227aa71cd5d712c791e6436ece103a2e2dfd`  
+Model: **Opus 5.5**  
+Effort: **Medium**  
+Stop budget: **30 min / $6 credit**
 
-Model: Opus 5.5  
-Effort: High initially. Do not escalate effort or launch another Cloud build without an explicit reason and owner approval.
+Use the signed brief:
 
-Instruction:
+`visual-assets/v10_1/tr2/CP1R_CLOUD_REVISE_BRIEF_TR2_SLICE01.md`
 
-`CP1 review: claude-cloud/transfer-tr2-slice-01 @ 646e227aa71cd5d712c791e6436ece103a2e2dfd`
+Cloud authority is exact-delta implementation and evidence only. No taste verdict, no production integration, no PR and no merge.
 
-Then paste the Sol check from:
+Priority order:
 
-`visual-assets/v10_1/coordination/SOL_CP1_BUILD_CHECK_2026-09-27.md`
+`M1 > M2 > M3 > M4 > R2 > R1 > R3 > R5 > R4 > evidence`
 
-No image attachments are required. The frozen evidence is committed on the task branch.
+At 24 minutes, stop adding scope and finish/capture/commit completed work. At 30 minutes, stop.
 
-## Producer review duties
+## After Cloud returns
 
-Review the exact frozen candidate and evidence, not a moving implementation.
+Cloud must return `CLOUD_BUILD_RESULT_CP1R.md`, the revised head SHA, `render_qa_report.json`, updated CSS/manifest and the required evidence.
 
-Decide:
+Then:
 
-1. overall CP1 visual verdict: `APPROVE_FOR_OWNER_REVIEW` or `REVISE`;
-2. `CP1-K1`: whether the remaining warm/gold hair rim is acceptable or needs a bounded intake correction;
-3. Nik skin: original intake vs denoise candidate from E4;
-4. `CP1-K2`: whether the 360×780 top-bar wrap must be fixed now;
-5. `SOL-CP1-E1`: inspect F2 and F3 because QA records their panel bottom at 800.67 px on a 768 px viewport even though B3-2 requires all live controls/copy visible without scrolling;
-6. any visual issues visible in F1–F5, especially face clearance, protected hand/prop contacts, hierarchy, mobile composition and dossier/privacy staging.
+1. Return the exact Cloud result to GPT-5.6 Sol Chat for branch-safety and product-truth reconciliation.
+2. Open GPT-5.6 Sol in ChatGPT Work mode · High and run:
+   `visual-assets/v10_1/coordination/SOLWORK_CP1R_GATE_PRECHECK_TASK_CARD.md`
+3. Sol Work returns G1–G15 PASS / FAIL / MISSING.
+4. ALL-PASS → Claude Project taste-only verify review. HAS-FAIL → Claude Project High re-brief.
 
-If `REVISE`, return stable issue IDs, exact bounded deltas, and whether each fix can remain in the existing task branch.
-
-## Routing-policy decision requested from producer
-
-Owner reports the Sonnet 5 High CP1 Cloud session took about 50 minutes and about $15 of Cloud credit, which is too expensive for one bounded checkpoint.
-
-Return a durable routing-policy adjustment for Sol to commit. It should:
-- optimize for total task cost and iteration count, not model label alone;
-- make Opus 5.5 the preferred candidate for substantial visual/agentic Cloud work when its stronger reasoning may shorten the run;
-- reserve Sonnet 5 High for cases where the producer specifically expects it to be cheaper overall;
-- require owner approval before another comparable Sonnet 5 High Cloud run;
-- define a time/credit stop budget before execution.
-
-Do not start a revision Cloud session from the producer-review chat.
-
-## After producer verdict
-
-Return the producer verdict to GPT-5.6 Sol.
-
-Sol will record the decision and either:
-- route the frozen candidate to Nik for owner review, or
-- create one bounded revision instruction from the producer's stable issue IDs.
+Do not send CP1R back to Claude for visual review before the Cloud revision and Sol Work gate pre-check are complete.
