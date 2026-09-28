@@ -23,6 +23,8 @@ async function prepare(page,{managerRole,saveId}){
 
     let activeRivalry=rivalryA;
     let serverPhase='COMPLETED';
+    let windowEndRequestedRoles=[];
+    let failNextRead=false;
     let reads=0;
     let mutations=0;
     let raceMode=false;
@@ -42,7 +44,7 @@ async function prepare(page,{managerRole,saveId}){
       signings:[{slot:1,name:role==='playerOne'?'Player A':'Player B',leagueId:'spain-primera-division',nationalityId:'england'}]
     });
     const makeView=()=>{
-      if(serverPhase==='WINDOW_OPEN')return {ok:true,revision:1,seasonNumber:1,managerRole,rivalryId:activeRivalry,state:{phase:'WINDOW_OPEN',revision:1,startedAtEpochMs:serverEpoch,endRequestedRoles:[],guessLockedRoles:[],signingLockedRoles:[]},ownInputs:{guesses:null,signings:null},opponentInputs:null,verdicts:null};
+      if(serverPhase==='WINDOW_OPEN')return {ok:true,revision:1,seasonNumber:1,managerRole,rivalryId:activeRivalry,state:{phase:'WINDOW_OPEN',revision:1,startedAtEpochMs:serverEpoch,endRequestedRoles:[...windowEndRequestedRoles],guessLockedRoles:[],signingLockedRoles:[]},ownInputs:{guesses:null,signings:null},opponentInputs:null,verdicts:null};
       if(serverPhase==='GUESS_ENTRY')return {ok:true,revision:3,seasonNumber:1,managerRole,rivalryId:activeRivalry,state:{phase:'GUESS_ENTRY',revision:3,startedAtEpochMs:serverEpoch-900000,endedAtEpochMs:serverEpoch-1,endRequestedRoles:['playerOne','playerTwo'],guessLockedRoles:[],signingLockedRoles:[]},ownInputs:{guesses:null,signings:null},opponentInputs:null,verdicts:null};
       if(serverPhase==='SIGNING_ENTRY')return {ok:true,revision:5,seasonNumber:1,managerRole,rivalryId:activeRivalry,state:{phase:'SIGNING_ENTRY',revision:5,startedAtEpochMs:serverEpoch-900000,endedAtEpochMs:serverEpoch-1,endRequestedRoles:['playerOne','playerTwo'],guessLockedRoles:['playerOne','playerTwo'],signingLockedRoles:[]},ownInputs:{guesses:[{slot:1,type:'league',valueId:'england-premier-league'}],signings:null},opponentInputs:null,verdicts:null};
       return {ok:true,revision:7,seasonNumber:1,managerRole,rivalryId:activeRivalry,state:{phase:'COMPLETED',revision:7,startedAtEpochMs:serverEpoch-900000,endedAtEpochMs:serverEpoch-1,endRequestedRoles:['playerOne','playerTwo'],guessLockedRoles:['playerOne','playerTwo'],signingLockedRoles:['playerOne','playerTwo']},ownInputs:completedInputs(managerRole),opponentInputs:completedInputs(roleOther),verdicts:{playerOne:[],playerTwo:[]}};
@@ -51,6 +53,7 @@ async function prepare(page,{managerRole,saveId}){
     window.CareerModeSparkSharedTransferChallenge={
       read:async()=>{
         reads+=1;
+        if(failNextRead){failNextRead=false;throw Object.assign(new Error('AUDIT_READ_FAILED'),{code:'AUDIT_READ_FAILED'});}
         const snapshot=makeView();
         if(raceMode){
           raceStage+=1;
@@ -67,7 +70,7 @@ async function prepare(page,{managerRole,saveId}){
     await loadRuntimeScript('ssjr-transfer-replay-audit','js/productionSharedTransferChallenge.js',()=>window.CareerModeProductionSharedTransferChallenge);
     CareerModeProductionSharedTransferChallenge.install();
     const switchSave=()=>{
-      activeRivalry=rivalryB;serverPhase='WINDOW_OPEN';
+      activeRivalry=rivalryB;serverPhase='WINDOW_OPEN';windowEndRequestedRoles=[];failNextRead=false;
       currentShowdown={...currentShowdown,id:`${saveId}_switched`,currentRound:1,sharedJourney:{mode:'shared',rivalryId:rivalryB}};
     };
     window.__transferAudit={
@@ -75,7 +78,9 @@ async function prepare(page,{managerRole,saveId}){
       setTokenEpoch(value){tokenEpoch=Number(value);},
       serverEpoch,
       switchSave,
-      async setPhase(phase){serverPhase=phase;await CareerModeProductionSharedTransferChallenge.refresh();return CareerModeProductionSharedTransferChallenge.getState()?.state?.phase||null;},
+      async setPhase(phase){serverPhase=phase;if(phase!=='WINDOW_OPEN')windowEndRequestedRoles=[];await CareerModeProductionSharedTransferChallenge.refresh();return CareerModeProductionSharedTransferChallenge.getState()?.state?.phase||null;},
+      async setWindowRequests(roles){serverPhase='WINDOW_OPEN';windowEndRequestedRoles=[...roles];await CareerModeProductionSharedTransferChallenge.refresh();return [...(CareerModeProductionSharedTransferChallenge.getState()?.state?.endRequestedRoles||[])];},
+      armReadFailure(){failNextRead=true;},
       beginRaceA(){raceMode=true;raceStage=0;releaseRaceA=null;releaseRaceB=null;window.__raceA=CareerModeProductionSharedTransferChallenge.refresh();},
       switchAndBeginRaceB(){switchSave();window.__raceB=CareerModeProductionSharedTransferChallenge.refresh();},
       raceStatus:()=>({raceStage,hasReleaseA:typeof releaseRaceA==='function',hasReleaseB:typeof releaseRaceB==='function'}),
@@ -92,6 +97,7 @@ async function assertReplay(page,roleLabel){
   await page.locator('#transferChallenge').waitFor({state:'visible',timeout:5000});
   const baseline=await page.evaluate(()=>window.__transferAudit.counts());
   assert.equal(await page.locator('#transferChallenge').getAttribute('data-shared-transfer-replay'),'WINDOW_OPEN',`${roleLabel} must replay the missed transfer window first.`);
+  assert.equal(await page.locator('#refreshSharedTransferChallenge').isVisible(),false,`${roleLabel} replay must keep provider refresh hidden because replay-next is local and read-only.`);
   assert.equal(await page.locator('#transferChallenge').getAttribute('data-transfer-phase'),'window');
   assert.match(await page.locator('#transferPhaseStatus').textContent(),/HISTORICAL REPLAY/);
   assert.equal(await page.locator('#transferTimerDisplay').textContent(),'REPLAY','historical window must never look like a live timer');
@@ -125,6 +131,8 @@ async function assertReplay(page,roleLabel){
 async function assertActiveGuessGuard(page,roleLabel){
   assert.equal(await page.evaluate(()=>window.__transferAudit.setPhase('GUESS_ENTRY')),'GUESS_ENTRY',`${roleLabel} must enter the live private guess phase.`);
   await page.waitForFunction(()=>document.getElementById('transferChallenge')?.dataset?.transferPhase==='guess_entry',null,{timeout:5000});
+  assert.equal(await page.locator('#transferChallenge').getAttribute('data-shared-transfer-presentation'),'guess-editable',`${roleLabel} must derive the editable Guess presentation from provider phase + own lock state.`);
+  assert.equal(await page.locator('#refreshSharedTransferChallenge').isVisible(),true,`${roleLabel} must have the existing shared refresh action reachable during Guess Entry.`);
   const visible=page.locator('#transferChallenge .transferGuessCard:not(.hidden)');
   assert.equal(await visible.count(),1,`${roleLabel} must see only its own guess card.`);
   const type=visible.locator('select').first(),value=visible.locator('input').first();
@@ -152,9 +160,23 @@ async function assertActiveGuessGuard(page,roleLabel){
   assert.equal(await value.isDisabled(),true,`${roleLabel} removing Nationality must return the row to a safe disabled value state.`);
 }
 
+async function assertReadRecovery(page,roleLabel){
+  await page.evaluate(()=>window.__transferAudit.armReadFailure());
+  await page.locator('#refreshSharedTransferChallenge').click();
+  await page.waitForFunction(()=>document.getElementById('transferChallenge')?.dataset?.sharedTransferRecovery==='read-unconfirmed',null,{timeout:5000});
+  assert.match(await page.locator('#transferChallengeError').textContent(),/Latest shared state could not be confirmed/, `${roleLabel} must describe a read failure as unconfirmed shared state.`);
+  const beforeRecoveryRead=await page.evaluate(()=>window.__transferAudit.counts().reads);
+  await page.locator('#refreshSharedTransferChallenge').click();
+  await page.waitForFunction(before=>window.__transferAudit.counts().reads>before,beforeRecoveryRead,{timeout:5000});
+  await page.waitForFunction(()=>!document.getElementById('transferChallenge')?.dataset?.sharedTransferRecovery,null,{timeout:5000});
+  assert.equal((await page.locator('#transferChallengeError').textContent()).trim(),'',
+    `${roleLabel} successful recovery read must clear the prior recovery error.`);
+}
+
 async function assertForegroundClockResync(page,roleLabel){
   assert.equal(await page.evaluate(()=>window.__transferAudit.setPhase('WINDOW_OPEN')),'WINDOW_OPEN',`${roleLabel} must enter the live shared transfer window.`);
   await page.waitForFunction(()=>document.getElementById('transferChallenge')?.dataset?.transferPhase==='window',null,{timeout:5000});
+  assert.equal(await page.locator('#transferChallenge').getAttribute('data-shared-transfer-presentation'),'window-live',`${roleLabel} must derive the live-window presentation from provider state.`);
   const before=await page.evaluate(()=>window.__transferAudit.counts().tokenReads);
   const serverEpoch=await page.evaluate(()=>window.__transferAudit.serverEpoch);
   await page.evaluate(epoch=>{window.__transferAudit.setTokenEpoch(epoch+120000);document.dispatchEvent(new Event('visibilitychange'));},serverEpoch);
@@ -163,6 +185,28 @@ async function assertForegroundClockResync(page,roleLabel){
   const shown=await page.locator('#transferTimerDisplay').textContent();
   const seconds=Number(shown.split(':')[0])*60+Number(shown.split(':')[1]);
   assert.ok(seconds<=13*60&&seconds>=12*60,`${roleLabel} foreground resync must move the display near 13:00 after two server minutes elapsed, got ${shown}.`);
+}
+
+async function assertEarlyEndProjection(page,roleLabel){
+  assert.deepEqual(await page.evaluate(()=>window.__transferAudit.setWindowRequests(['playerOne'])),['playerOne']);
+  assert.equal(await page.locator('#transferChallenge').getAttribute('data-shared-transfer-presentation'),'window-peer-end-requested',`${roleLabel} must distinguish the rival's public early-end request from its own request.`);
+  assert.match(await page.locator('#transferPhaseStatus').textContent(),/DANIEL REQUESTED EARLY END/, `${roleLabel} may surface public early-end progress without inventing presence.`);
+  assert.equal(await page.locator('#endTransferTimer').textContent(),'AGREE TO END EARLY');
+  assert.equal(await page.locator('#endTransferTimer').isDisabled(),false);
+
+  await page.locator('#endTransferTimer').click();
+  await page.waitForFunction(()=>document.getElementById('transferChallenge')?.dataset?.sharedTransferRecovery==='outcome-unconfirmed',null,{timeout:5000});
+  assert.match(await page.locator('#transferChallengeError').textContent(),/Outcome not confirmed\. Refresh shared state before trying again\./,
+    `${roleLabel} rejected or lost mutation acknowledgement must not be presented as confirmed success or confirmed failure.`);
+  const beforeMutationRecoveryRead=await page.evaluate(()=>window.__transferAudit.counts().reads);
+  await page.locator('#refreshSharedTransferChallenge').click();
+  await page.waitForFunction(before=>window.__transferAudit.counts().reads>before,beforeMutationRecoveryRead,{timeout:5000});
+  await page.waitForFunction(()=>!document.getElementById('transferChallenge')?.dataset?.sharedTransferRecovery,null,{timeout:5000});
+
+  assert.deepEqual(await page.evaluate(()=>window.__transferAudit.setWindowRequests(['playerTwo'])),['playerTwo']);
+  assert.equal(await page.locator('#transferChallenge').getAttribute('data-shared-transfer-presentation'),'window-own-end-requested');
+  assert.equal(await page.locator('#endTransferTimer').textContent(),'EARLY END REQUESTED ✓');
+  assert.equal(await page.locator('#endTransferTimer').isDisabled(),true);
 }
 
 async function assertCrossSaveRace(page){
@@ -198,7 +242,9 @@ async function assertCrossSaveRace(page){
     await prepare(peer,{managerRole:'playerTwo',saveId:'shared_save_peer'});
     await assertReplay(peer,'Player Two mobile');
     await assertActiveGuessGuard(peer,'Player Two mobile');
+    await assertReadRecovery(peer,'Player Two mobile');
     await assertForegroundClockResync(peer,'Player Two mobile');
+    await assertEarlyEndProjection(peer,'Player Two mobile');
     const beforeSwitch=await peer.evaluate(()=>window.__transferAudit.counts().reads);
     await peer.evaluate(()=>window.__transferAudit.switchSave());
     await peer.waitForFunction(before=>window.__transferAudit.counts().reads>before,beforeSwitch,{timeout:20000});
