@@ -132,7 +132,7 @@ Producer handoff:
 CP1R brief:
 `visual-assets/v10_1/tr2/CP1R_CLOUD_REVISE_BRIEF_TR2_SLICE01.md`
 
-CP1R status: **PRODUCT-TRUTH SIGNED / READY FOR CLOUD**.
+CP1R status: **PAUSED BEFORE CLOUD FOR OWNER VISUAL CALIBRATION**.
 
 Revision route:
 - Claude Code Cloud;
@@ -159,3 +159,17 @@ After Cloud returns `CLOUD_BUILD_RESULT_CP1R.md`:
 1. Sol Chat re-checks branch safety and product truth.
 2. GPT-5.6 Sol Work · High runs SW1 from `SOLWORK_CP1R_GATE_PRECHECK_TASK_CARD.md`.
 3. ALL-PASS routes to Claude for taste-only verify review; any gate failure routes to Claude High for re-brief.
+
+
+## Owner premium visual calibration · 2026-09-27
+
+Active north star:
+`visual-assets/v10_1/coordination/OWNER_VISUAL_NORTH_STAR_PREMIUM_TRANSFER_V1.md`
+
+Owner direction: the final Transfer experience must move away from generic rectangular card / dashboard presentation toward a premium integrated football operations desk. Glass, graphite, brass, stadium light, physical contact, layered depth, asymmetry and embedded task surfaces are preferred. Transparency may be reduced locally for readability; the answer is not a return to large opaque boxes.
+
+Claude Opus 5.5 remains Lead Visual Producer and owns translation of this north star into exact reusable visual grammar and build briefs.
+
+CP1R status is now: **PAUSED BEFORE CLOUD FOR OWNER VISUAL CALIBRATION**.
+
+The signed CP1R mechanical requirements are retained as constraints, not discarded. Claude must reconcile the visual treatment first, then return an amended or replacement brief to Sol for product-truth sign-off before Cloud resumes.
