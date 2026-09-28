@@ -8,7 +8,7 @@ SOURCE_DRIFT: NO
 Owner / final taste authority: Nik
 Lead Visual Producer + Visual Coordinator: Claude Opus 5.5 in Claude Project
 Program Coordinator / Product-Truth Guard / Repo Steward: GPT-5.6 Sol
-Default implementation worker: Claude Code Cloud Sonnet 5
+Default implementation worker: Claude Code Cloud Opus 5.5 (Medium for exact-delta revisions; High for builds requiring judgment)
 First-of-kind architecture / rescue worker: Claude Code Cloud Opus 5.5
 Cinematic specialist: GPT-6 Astra High
 Integration architecture specialist: GPT-6 Sol High Work
@@ -17,7 +17,7 @@ Runtime QA: Claude in Chrome
 ## Active visual authority
 
 Routing:
-visual-assets/v10_1/coordination/STUDIO_WORKFLOW_AND_ROUTING_V2.md
+visual-assets/v10_1/coordination/STUDIO_WORKFLOW_AND_ROUTING_V3.md
 
 Likeness imagery:
 visual-assets/v10_1/coordination/LIKENESS_IMAGE_WORKFLOW_V1.md
@@ -121,19 +121,41 @@ Keep a meaningful Cloud-credit reserve for main-game readiness / E2E testing.
 
 ## CP1 post-build review state
 
-Cloud implementation model: Claude Sonnet 5 · High.
+Lead Visual Producer verdict: **REVISE**.
 
-Owner cost report: approximately 50 minutes and approximately $15 Cloud credit for this bounded CP1 session. Future Cloud routing is under producer review; another comparable Sonnet 5 High run requires explicit owner approval.
+Frozen CP1 candidate:
+`claude-cloud/transfer-tr2-slice-01 @ 646e227aa71cd5d712c791e6436ece103a2e2dfd`
 
-Sol validation:
-- product truth: PASS;
-- branch safety: PASS;
-- scope containment: PASS;
-- frozen candidate: `claude-cloud/transfer-tr2-slice-01 @ 646e227aa71cd5d712c791e6436ece103a2e2dfd`.
+Producer handoff:
+`visual-assets/v10_1/claude/handoffs/CLAUDE_CP1-REVIEW_HANDOFF_TO_SOL_2026-09-27.md`
 
-Open producer-review items:
-- CP1-K1 warm/gold hair rim;
-- CP1-K2 360×780 top-bar wrap;
-- CP1-K3 B3 assertions were partly visual;
-- SOL-CP1-E1 F2/F3 panel evidence bottom at 800.67 px vs 768 px viewport requirement;
-- SOL-CP1-E2 combined fingerprint is pre-result; use the Git head SHA as immutable review fingerprint.
+CP1R brief:
+`visual-assets/v10_1/tr2/CP1R_CLOUD_REVISE_BRIEF_TR2_SLICE01.md`
+
+CP1R status: **PRODUCT-TRUTH SIGNED / READY FOR CLOUD**.
+
+Revision route:
+- Claude Code Cloud;
+- Opus 5.5 · Medium;
+- continue the existing task branch from the frozen CP1 head above;
+- stop budget: 30 min / $6;
+- priority: M1 > M2 > M3 > M4 > R2 > R1 > R3 > R5 > R4 > evidence;
+- no production integration, PR or merge.
+
+Mandatory revision gates:
+- M1 desktop Guess panel fit / scroll reachability;
+- M2 mobile controls ≥ 48 px;
+- M3 360 px top-bar collision;
+- M4 sign-face depth / hair clearance.
+
+Recorded package delta:
+`visual-assets/v10_1/tr2/CP1R_TRANSFER_PACKAGE_DELTA.md`
+contains the accepted B3-3 viewer-own-panel amendment and the CP1-N1 CP2 world-anchor prerequisite.
+
+Routing authority:
+`STUDIO_WORKFLOW_AND_ROUTING_V3.md` is active. Sonnet 5 is removed unless Nik explicitly approves a named task.
+
+After Cloud returns `CLOUD_BUILD_RESULT_CP1R.md`:
+1. Sol Chat re-checks branch safety and product truth.
+2. GPT-5.6 Sol Work · High runs SW1 from `SOLWORK_CP1R_GATE_PRECHECK_TASK_CARD.md`.
+3. ALL-PASS routes to Claude for taste-only verify review; any gate failure routes to Claude High for re-brief.
