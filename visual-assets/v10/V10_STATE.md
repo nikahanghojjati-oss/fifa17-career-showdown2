@@ -31,6 +31,7 @@ visual-assets/v10_1/claude-project/CLAUDE_PROJECT_INSTRUCTIONS_V2.md
 Coordinator decisions:
 visual-assets/v10_1/coordination/SOL_RECONCILIATION_VPD02_VPD03_2026-09-27.md
 visual-assets/v10_1/coordination/SOL_RECONCILIATION_GATE0_R1_R2_2026-09-27.md
+visual-assets/v10_1/coordination/SOL_RECONCILIATION_CP1_BRIEF_R4_2026-09-27.md
 
 ## Transfer direction
 
@@ -46,46 +47,72 @@ Owner accepted:
 
 Old C2 technical proof remains rejected as visual target.
 
-## Gate 0 — final status
+## Gate 0
 
 ROUND 2 COMPLETE. GATE 0 PASSED.
 
 All five Transfer Gate 0 assets are approved:
+- ENV_TR2_WARROOM_PLATE_V1;
+- POSE_TRANSFER_DANIEL_FOCUSED_V1;
+- POSE_TRANSFER_NIK_TACTICAL_V1;
+- POSE_TR2_DANIEL_WINDOW_PITCH_V1;
+- POSE_TR2_NIK_WINDOW_POINT_V1.
 
-Approved with CP1 intake fixes:
-- `ENV_TR2_WARROOM_PLATE_V1`;
-- `POSE_TR2_DANIEL_WINDOW_PITCH_V1`;
-- `POSE_TR2_NIK_WINDOW_POINT_V1`.
-
-Approved by reuse:
-- `POSE_TRANSFER_DANIEL_FOCUSED_V1` for Guess Entry;
-- `POSE_TRANSFER_NIK_TACTICAL_V1` for Guess Entry.
-
-Current blockers: NONE.
-
-CP1 intake requirements:
-- environment plate: remove corner mark and perform approved upscale;
-- Window poses: remap alpha 248–254 to 255;
-- Window poses: erode 1–2 px and decontaminate warm edge fringe;
-- Nik Window pose: judge skin crackle at CP1 display size; light skin-only denoise only if visible.
-
-## Likeness method
-
-`LIKENESS_IMAGE_WORKFLOW_V1.md` is STANDARD.
-
-Golden anchors remain:
-- Daniel: `POSE_TRANSFER_DANIEL_FOCUSED_V1.png`;
-- Nik: `POSE_TRANSFER_NIK_TACTICAL_V1.png`.
-
-The approved Window poses are not golden anchors.
+Gate 0 blockers: NONE.
 
 ## CP1
 
-CP1 is UNBLOCKED FROM GATE 0, but implementation has not started.
+CP1 brief status: PRODUCT-TRUTH SIGNED.
 
-Do not create `claude-cloud/transfer-tr2-slice-01` until Claude issues the final CP1 `CLOUD_BUILD_BRIEF` with the intake manifest.
+Canonical brief:
+visual-assets/v10_1/tr2/CP1_CLOUD_BUILD_BRIEF_TR2_SLICE01.md
 
-Next authority handoff: Nik opens a fresh Claude Project chat, Opus 5.5 High, and asks for `CP1 brief`. No image attachments are required because Gate 0 R2 already records the approved asset IDs and hashes.
+Task:
+CLOUD-TR2-01-CP1
+
+Task branch:
+claude-cloud/transfer-tr2-slice-01
+
+Branch-creation base:
+491a27db6ba476741eca0232d0574f89e0e42222
+
+Task branch post-pointer-resolution head:
+ab36d9bcef58775c1fc1fb525997f8ec70d0cc69
+
+The task branch exists and is ready for the bounded Cloud build.
+
+CP1 scope:
+- asset intake;
+- five static frames F1–F5;
+- two plate-only cue stills S1–S2;
+- evidence and self-QA;
+- CLOUD_BUILD_RESULT.md.
+
+CP1 stop:
+- no motion;
+- no transitions;
+- no Stage Engine;
+- no production integration;
+- no PR;
+- no merge;
+- main and production files untouched.
+
+Expected asset zip:
+TR2_CP1_ASSETS.zip
+SHA-256: 1e38367cfc4a170b47ae133bd7aa838b4b1b3b061703d70ec7fe8b5a059b2454
+
+Public-repo note:
+the CP1 brief instructs Cloud to commit the five approved source images under the task branch. The Window poses will therefore become public in the same public repository if the Cloud run proceeds.
+
+## Likeness method
+
+LIKENESS_IMAGE_WORKFLOW_V1.md remains STANDARD.
+
+Golden anchors remain:
+- Daniel: POSE_TRANSFER_DANIEL_FOCUSED_V1.png;
+- Nik: POSE_TRANSFER_NIK_TACTICAL_V1.png.
+
+The Window poses are approved assets, not golden anchors.
 
 ## Main-project Cloud-credit reserve
 
