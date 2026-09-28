@@ -114,4 +114,4 @@ Decision record: `visual-assets/v10_1/coordination/SOL_DECISIONS_TO_CLAUDE_TW_PL
    - ChatGPT Work mode (Sol / GPT-6 Sol / Astra) is no longer routed visual tasks: no task cards, no gate pre-checks.
 
 ## Transfer War · current head
-`claude-cloud/transfer-tr2-plate-g`: F1 Transfer Window + phone recomposition built and QA-passed (29/29). See `visual-assets/v10_1/tr2/slice-02-plate/BUILD_RESULT.md` R3. Owner look pending. No merge authorised.
+`claude-cloud/transfer-tr2-plate-g`: F1 Transfer Window + Guess Entry built for desktop and phone (phone fits one screen, both managers whole), QA 37/37. **Owner look PASSED 2026-09-28** at `d5e45d4`. See `visual-assets/v10_1/tr2/slice-02-plate/BUILD_RESULT.md` R3–R3.2. No merge authorised. Next: Signing Entry + Verdicts (text-only), after Sol issues the string deck.

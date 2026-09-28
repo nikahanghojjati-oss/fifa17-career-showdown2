@@ -154,3 +154,6 @@ Fix:
 - Plate only on phone is centred.
 
 QA adds `managersWhole` and `paintedPanelsHidden` checks. The fingertip is masked out on phone by design. Result: 37 shots, 0 failures, still with no scrolling at every phone size.
+
+## Owner look: PASSED (Nik, 2026-09-28 10:06 ET)
+"The pages are ok." F1 Window and Guess Entry are approved on desktop and phone, as of commit `d5e45d4`.
