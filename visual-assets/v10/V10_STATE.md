@@ -79,7 +79,7 @@ Branch-creation base:
 Task branch post-pointer-resolution head:
 ab36d9bcef58775c1fc1fb525997f8ec70d0cc69
 
-The task branch exists and is ready for the bounded Cloud build.
+The CP1 Cloud build completed. Frozen review head: `646e227aa71cd5d712c791e6436ece103a2e2dfd`. Sol product-truth and branch-safety validation passed with review notes in `visual-assets/v10_1/coordination/SOL_CP1_BUILD_CHECK_2026-09-27.md`.
 
 CP1 scope:
 - asset intake;
@@ -117,3 +117,23 @@ The Window poses are approved assets, not golden anchors.
 ## Main-project Cloud-credit reserve
 
 Keep a meaningful Cloud-credit reserve for main-game readiness / E2E testing.
+
+
+## CP1 post-build review state
+
+Cloud implementation model: Claude Sonnet 5 · High.
+
+Owner cost report: approximately 50 minutes and approximately $15 Cloud credit for this bounded CP1 session. Future Cloud routing is under producer review; another comparable Sonnet 5 High run requires explicit owner approval.
+
+Sol validation:
+- product truth: PASS;
+- branch safety: PASS;
+- scope containment: PASS;
+- frozen candidate: `claude-cloud/transfer-tr2-slice-01 @ 646e227aa71cd5d712c791e6436ece103a2e2dfd`.
+
+Open producer-review items:
+- CP1-K1 warm/gold hair rim;
+- CP1-K2 360×780 top-bar wrap;
+- CP1-K3 B3 assertions were partly visual;
+- SOL-CP1-E1 F2/F3 panel evidence bottom at 800.67 px vs 768 px viewport requirement;
+- SOL-CP1-E2 combined fingerprint is pre-result; use the Git head SHA as immutable review fingerprint.
