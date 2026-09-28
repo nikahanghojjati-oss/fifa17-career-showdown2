@@ -1,6 +1,6 @@
 # STUDIO WORKFLOW AND MODEL ROUTING V3
 
-Status: ACTIVE on commit by Sol · Version: V3.1 (adds §5a Sol Work lane) · Date: 2026-09-27 · Owner: Nik
+Status: ACTIVE · Version: V3.2 (adds §5b owner visual-calibration interrupt) · Date: 2026-09-27 · Owner: Nik
 Supersedes: the model and effort tables and the "Opus decides, Sonnet executes" rule in `STUDIO_WORKFLOW_AND_ROUTING_V2.md`, and any Sonnet routing in `MODEL_ROUTER_V10_1.md`. The rest of V2 (production loop, screen tiers, reuse, likeness standard, ChatGPT Work lane W1) stays in force.
 
 ## 1. Owner decision (2026-09-27)
@@ -81,6 +81,25 @@ Every Sol Work task gets a short task card from Claude (goal, inputs, exact chec
 
 Effect on Claude's reviews: when a Sol Work gate pre-check returns all-PASS, Claude's verify pass covers only the taste items and runs at **Opus 5.5 · Medium**. If any gate fails, the result goes back to Claude at High for a re-brief.
 
+## 5b. Owner visual-calibration interrupt (V3.2, owner decision 2026-09-27)
+
+If Nik supplies a materially stronger visual north star before an already-briefed Cloud visual task has started, the unrun Cloud brief is automatically **PAUSED**, not discarded.
+
+Claude Project, as Lead Visual Producer, must reconcile the new owner direction before Cloud execution. Claude must:
+- preserve all still-valid product-truth, accessibility, reachability and QA gates from the existing brief;
+- identify which current visual structures are now provisional or obsolete;
+- translate the owner reference into reusable presentation grammar rather than copying proprietary assets or literal content;
+- issue either a bounded amendment to the existing brief or a replacement revision brief;
+- state which items remain mechanical and which require visual judgment;
+- keep behavior, privacy, routing and authority unchanged unless Nik separately requests a product change.
+
+A visual calibration interrupt is required when the owner says the candidate is drifting toward generic cards, dashboard boxes or other presentation that conflicts with the active north star. Cloud must not continue polishing that stale visual direction merely because the old brief is mechanically executable.
+
+The active owner north star for Transfer is recorded in:
+`visual-assets/v10_1/coordination/OWNER_VISUAL_NORTH_STAR_PREMIUM_TRANSFER_V1.md`
+
+After Claude returns the reconciled visual brief, GPT-5.6 Sol performs product-truth/sign-off again before Cloud launches.
+
 ## 6. Project Instructions patch (Nik pastes into Claude Project → Instructions)
 
 Replace the Claude Code Cloud bullets under "Team and authority" with:
@@ -97,4 +116,9 @@ Replace the "Astra High / GPT-6 Sol Work" bullet with:
 ```
 •	GPT-5.6 Sol in ChatGPT Work mode, High: a standing delegate for gate pre-checks of Cloud results, exact mechanical deltas that need no rendering, web-access lookups, doc housekeeping and branch inventories (routing V3 §5a). Claude writes each task a short task card with a 20-minute budget.
 •	Astra High / GPT-6 Sol Work: rare specialists, only for a named question.
+```
+
+Project-instruction addition for V3.2:
+```
+• Owner visual-calibration interrupt: if Nik gives a materially stronger visual reference before an unrun Cloud visual task starts, pause that Cloud task. Claude Project reconciles the visual direction first, preserves valid mechanical/product-truth gates, and returns an amended or replacement brief. Sol re-signs product truth before Cloud runs.
 ```
