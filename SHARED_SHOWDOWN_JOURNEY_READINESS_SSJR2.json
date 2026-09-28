@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "modelVersion": "SSJR-2.0",
+  "modelFile": "SHARED_SHOWDOWN_JOURNEY_MODEL_SSJR2.json",
+  "denominator": 100,
+  "currentScore": 0,
+  "creditedCapabilityIds": [],
+  "events": [],
+  "note": "Credit is appended only by scripts/ssjr2-physical-run-credit.mjs --record after a validated physical pair and owner attestation. SSJR-1.1 remains frozen at 0/100 in SHARED_SHOWDOWN_JOURNEY_READINESS.json."
+}

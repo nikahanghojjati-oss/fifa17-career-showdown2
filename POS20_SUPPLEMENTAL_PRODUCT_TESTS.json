@@ -440,6 +440,20 @@
         "^RELEASE_V1\\.9\\.1_R19\\.md$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/ssjr2-physical-run-credit-contracts.cjs",
+      "patterns": [
+        "^SHARED_SHOWDOWN_JOURNEY_MODEL(_SSJR2)?\\.json$",
+        "^SHARED_SHOWDOWN_JOURNEY_READINESS(_SSJR2)?\\.json$",
+        "^scripts/ssjr2-physical-run-credit\\.mjs$",
+        "^scripts/validate-ssjr-physical-journey-evidence\\.mjs$",
+        "^acceptance/SSJR2_OWNER_ATTESTATION_TEMPLATE\\.json$",
+        "^authority-history/OWNER_SSJR2_SIMPLIFIED_EVIDENCE_AUTHORIZATION_2026-09-28\\.md$",
+        "^service-worker\\.js$",
+        "^tests/contracts/ssjr2-physical-run-credit-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }

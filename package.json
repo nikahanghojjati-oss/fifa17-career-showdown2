@@ -54,7 +54,8 @@
     "test:ssjr:physical-journey": "node tests/contracts/ssjr-physical-journey-acceptance-contracts.cjs && node tests/contracts/ssjr-physical-journey-publication-contracts.cjs",
     "test:ssjr:physical-journey:browser": "node tests/browser/ssjr-physical-journey-acceptance-audit.cjs",
     "validate:ssjr-physical-journey": "node scripts/validate-ssjr-physical-journey-evidence.mjs",
-    "test:persistent-pair-routing": "node tests/browser/persistent-pair-user-facing-routing-audit.cjs"
+    "test:persistent-pair-routing": "node tests/browser/persistent-pair-user-facing-routing-audit.cjs",
+    "ssjr2:credit": "node scripts/ssjr2-physical-run-credit.mjs"
   },
   "devDependencies": {
     "@sparticuz/chromium": "149.0.0",
