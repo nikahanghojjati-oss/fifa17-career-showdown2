@@ -76,6 +76,10 @@ const resultTwo={leaguePosition:3,leaguePoints:84,leagueGoals:79,domesticCup:fal
     assert.match(await page.locator('#sharedSeasonCommitStatus').textContent(),/CHECK FAILED · unavailable/,'the failing Results dependency code must be visible');
     assert.equal(await page.evaluate(()=>window.__secondPublisherAudit.publishCalls),1,'recovery must never republish results');
     assert.equal(await page.evaluate(()=>window.__secondPublisherAudit.commitWrites),0);
+    // Repeated identical failures on the same season must keep the code visible and must not re-notify every poll.
+    const repeatedReports=await page.evaluate(async()=>{const original=window.reportApplicationError;let count=0;window.reportApplicationError=(context,error)=>{if(/Shared Season Commit/.test(String(context)))count+=1;return original?.(context,error);};try{for(let i=0;i<2;i+=1)await CareerModeProductionSharedSeasonCommit.refresh().catch(()=>{});}finally{window.reportApplicationError=original;}return count;});
+    assert.equal(repeatedReports,0,'the same failing code on the same season must be reported once, not on every poll');
+    assert.match(await page.locator('#sharedSeasonCommitStatus').textContent(),/CHECK FAILED · unavailable/,'repeated failures must keep the failure code visible');
     // Provider recovers: one read-only retry heals Results and Commit together.
     await page.evaluate(()=>{window.__secondPublisherAudit.failResultsRead=false;});
     await page.waitForFunction(()=>!document.getElementById('sharedSeasonCommitAction')?.disabled,null,{timeout:8000});

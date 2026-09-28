@@ -35,6 +35,7 @@ assert.match(adapter,/eligible=Boolean\(ready&&psscResultsReady\(request\)&&cont
 assert.match(resultsAdapter,/if\(view\?\.state\?\.phase==="RESULTS_READY"&&view\.allResults\?\.playerOne&&view\.allResults\?\.playerTwo\)return;/,'r9 polling must continue until the incomplete second-publisher projection is replaced by a complete authoritative read');
 assert.match(adapter,/if\(view\?\.phase==="ACKNOWLEDGED"&&contextKey===psscRequestContext\(\)\?\.key\)return;/,'an earlier season ACKNOWLEDGED view must not stop automatic Commit checks for a later season');
 assert.match(adapter,/if\(!request\|\|contextKey!==request\.key\|\|!view\|\|!psscResultsReady\(request\)\)\{void psscRefresh\(\)/,'a tap may mutate only under the same eligibility that renders a Commit or acknowledgement action');
+assert.match(adapter,/if\(contextKey!==request\.key\)\{view=null;contextKey="";if\(readErrorKey!==request\.key\)\{readError="";readErrorKey="";\}\}/,'a same-context retry must preserve the visible read error so identical failures are reported once');
 assert.doesNotMatch(adapter,/persistCompletedSeason\s*\(/,'r10 shared commit must not invoke local season persistence');
 assert.doesNotMatch(adapter,/saveCurrentShowdown\s*\(/,'r10 shared commit must not write canonical local Save authority');
 assert.doesNotMatch(adapter,/calculatePlayerSeasonScore\s*\(/,'r10 season commit must not make scoring authoritative');
