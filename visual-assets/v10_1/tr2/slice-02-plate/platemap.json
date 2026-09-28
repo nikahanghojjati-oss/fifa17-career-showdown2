@@ -155,13 +155,7 @@
     }
   },
   "mobile": {
-    "_note": "Portrait recomposition (no new art). scene = plate crop keeping both managers, the sign and Nik's fingertip contact. glass = 9-slice of rules card C (tools/make_glass_slice.py).",
-    "sceneCrop": [
-      396,
-      34,
-      1316,
-      670
-    ],
+    "_note": "Portrait: one screen, no scroll. The scene box is what the live UI leaves; plate.js picks k in [vw/maxCropW, vw/minCropW] to show idealY (sign top .. below the fingertip), falling back to mustY (sign + faces + hands).",
     "glass": {
       "file": "assets/DER_TR2_PLATE_G_GLASS_C_V1.png",
       "srcRectPlate": [
@@ -182,6 +176,17 @@
         "bottom": 28,
         "left": 40
       }
-    }
+    },
+    "centerX": 885,
+    "minCropW": 720,
+    "maxCropW": 1300,
+    "idealY": [
+      34,
+      640
+    ],
+    "mustY": [
+      50,
+      560
+    ]
   }
 }

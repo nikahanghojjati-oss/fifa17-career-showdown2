@@ -15,7 +15,7 @@ css = css.replace('html, body { margin: 0; height: 100%; background: #070604; co
 css = css.replace('body { overflow: hidden; font-family: var(--text); -webkit-font-smoothing: antialiased; }\n', '')
 css = css.replace('.stage { position: fixed; inset: 0; overflow: hidden; --footer-h: 36px; }',
   '.stage { position: absolute; left: 0; top: 0; width: 1366px; height: 768px; overflow: hidden; --footer-h: 36px; font-family: var(--text); color: var(--cream); background: #070604; -webkit-font-smoothing: antialiased; }\n'
-  '.stage.pv-mobile { width: 390px; height: 844px; }')
+  '.stage.pv-mobile { width: 390px; height: 664px; }')
 css = css.replace(':root {\n  --gold:', '.stage {\n  --gold:', 1)
 
 # re-scope the portrait media block

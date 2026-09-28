@@ -299,17 +299,27 @@
     return W;
   }
 
-  // Portrait: the scene is a crop of the same plate; panels flow below it on plate-derived glass.
+  // Portrait: the live UI keeps its natural height and the scene gets what is left (CSS flex).
+  // Pick the crop for that box: prefer plate y 34-640 (sign .. fingertip); zoom between
+  // 760 and 1300 plate px wide; if still too short, keep the sign + faces and let the table go.
   function layoutMobile(stage, world, map) {
-    var c = map.mobile.sceneCrop;
-    var vw = stage.clientWidth;
-    var k = vw / (c[2] - c[0]);
     world.style.width = ""; world.style.height = ""; world.style.left = ""; world.style.top = "";
-    world.style.setProperty("--k", k.toFixed(5));
-    world.style.setProperty("--crop-x", c[0]); world.style.setProperty("--crop-y", c[1]);
-    world.style.setProperty("--crop-h", c[3] - c[1]);
     stage.dataset.mode = "mobile"; stage.classList.remove("short");
-    stage.dataset.k = k.toFixed(4); stage.dataset.offY = 0; stage.dataset.offX = Math.round(c[0] * k);
+    var scene = world.querySelector(".scene");
+    var band = stage.dataset.phase === "none" ? 0 : (parseFloat(getComputedStyle(stage).getPropertyValue("--band-h")) || 28);
+    var vw = stage.clientWidth, H = Math.max(1, scene.clientHeight - band);
+    var m = map.mobile, kMin = vw / m.maxCropW, kMax = vw / m.minCropW;
+    var k = Math.min(kMax, Math.max(kMin, H / (m.idealY[1] - m.idealY[0])));
+    var visH = H / k, y0;
+    if (stage.dataset.phase === "none") y0 = (PLATE_H - visH) / 2;              // plate only: centre it
+    else if (visH >= m.idealY[1] - m.idealY[0]) y0 = Math.max(0, Math.min(m.idealY[0], PLATE_H - visH)); // tall: never past the plate bottom
+    else if (visH >= m.mustY[1] - m.mustY[0]) y0 = Math.max(m.idealY[0], m.mustY[0] - (visH - (m.mustY[1] - m.mustY[0])) / 2);
+    else y0 = m.mustY[0];
+    var x0 = m.centerX - vw / k / 2;
+    world.style.setProperty("--k", k.toFixed(5));
+    world.style.setProperty("--crop-x", x0.toFixed(1)); world.style.setProperty("--crop-y", y0.toFixed(1));
+    stage.dataset.k = k.toFixed(4); stage.dataset.offY = Math.round(y0 * k); stage.dataset.offX = Math.round(x0 * k);
+    stage.dataset.sceneCrop = [Math.round(x0), Math.round(y0), Math.round(x0 + vw / k), Math.round(y0 + visH)].join(",");
     return PLATE_W * k;
   }
 
@@ -373,6 +383,8 @@
     }
     relayout();
     addEventListener("resize", relayout);
+    var ro = window.ResizeObserver ? new ResizeObserver(function () { if (isMobile()) relayout(); }) : null;
+    if (ro) ro.observe(scene);
     if (mq.addEventListener) mq.addEventListener("change", relayout);
 
     // Demo clock. Production owns the real value (server-authoritative; SYNC / 00:00 states).
@@ -383,6 +395,7 @@
     }
     stage.__tw = { dispose: function () {
       if (tick) clearInterval(tick);
+      if (ro) ro.disconnect();
       removeEventListener("resize", relayout);
       if (mq.removeEventListener) mq.removeEventListener("change", relayout);
     } };

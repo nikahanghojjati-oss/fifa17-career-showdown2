@@ -257,95 +257,100 @@ body { overflow: hidden; font-family: var(--text); -webkit-font-smoothing: antia
 .rules-card.with-line .rule-note { font-size: max(12px, calc(var(--k) * 14px)); line-height: 1.16; color: var(--cream-dim); }
 
 /* ======================================================================== *
- *  PORTRAIT RECOMPOSITION (mobile). Same DOM, same ids, same actions.       *
- *  1 scene crop of Plate G (both managers, sign, fingertip contact)         *
- *  2 the viewer's glass · 3 sealed rival · 4 rules card  (plate-derived     *
- *  9-slice of card C: tools/make_glass_slice.py) · fixed HUD at the bottom. *
+ *  PORTRAIT RECOMPOSITION (phone). Same DOM, same ids, same actions.        *
+ *  One screen, no scrolling: the scene takes whatever height is left after *
+ *  the live UI (JS picks the crop so both managers + the sign stay in).     *
+ *  scene · status + rules caption · viewer glass · sealed strip · fixed HUD *
+ *  Glass = 9-slice of Plate G card C (tools/make_glass_slice.py).           *
  * ======================================================================== */
 @media (max-width: 760px) and (orientation: portrait) {
   .m-only { display: inline-flex !important; }
   .d-only { display: none !important; }
-  .stage { --footer-h: 64px; overflow-x: hidden; overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; }
-  .world { position: relative; width: 100%; display: flex; flex-direction: column; gap: 10px;
-    padding: 0 12px calc(var(--footer-h) + 14px + env(safe-area-inset-bottom)); }
+  .stage { --footer-h: 56px; --band-h: 28px; overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain; }
+  .world { position: relative; width: 100%; min-height: 100%; display: flex; flex-direction: column; gap: 8px;
+    padding: 0 12px calc(var(--footer-h) + 8px + env(safe-area-inset-bottom)); }
 
-  /* 1 · scene */
-  .scene { position: relative; inset: auto; margin: 0 -12px; height: calc(var(--k) * var(--crop-h) * 1px + 34px); overflow: hidden; order: 0; flex: none; }
+  /* 1 · scene: flexes to the space the UI leaves */
+  .scene { position: relative; inset: auto; order: 0; flex: 1 1 0; min-height: 118px; margin: 0 -12px -8px; overflow: hidden; }
   .plane { inset: auto; left: calc(var(--k) * var(--crop-x) * -1px); top: calc(var(--k) * var(--crop-y) * -1px);
     width: calc(var(--k) * 1672px); height: calc(var(--k) * 941px); }
-  .scene::after { content: ""; position: absolute; left: 0; right: 0; bottom: 34px; height: 9%; pointer-events: none;
+  .scene::after { content: ""; position: absolute; left: 0; right: 0; bottom: var(--band-h); height: 18px; pointer-events: none;
     background: linear-gradient(to bottom, rgba(7, 6, 4, 0), #070604); }
-  .sign-main.timer { font-size: max(21px, calc(var(--k) * 34px)); line-height: 1.05; }
-  .sign-main.closed { font-size: max(12px, calc(var(--k) * 25px)); letter-spacing: 0.02em; }
-  /* the painted screen is ~200 plate px wide at mid-height; the mobile sign uses that full width */
-  .sign-screen.reg { left: calc(var(--k) * (var(--x) - 8) * 1px); width: calc(var(--k) * (var(--w) + 16) * 1px); }
+  .stage[data-phase="none"] .scene::after { display: none; }
+  .stage[data-phase="none"] .world { padding-bottom: 0; }
+  .stage[data-phase="none"] .scene { margin-bottom: 0; }
+  .sign-main.timer { font-size: max(20px, calc(var(--k) * 34px)); line-height: 1.05; }
+  /* scene-scale signage on phone: the phase is carried by the caption band */
+  .sign-main.closed { font-size: clamp(8px, calc(var(--k) * 25px), 12px); letter-spacing: 0.02em; }
   .sign-screen { padding-top: 0; justify-content: center; }
   .sign-screen.is-live { padding-top: 0; }
-  /* status becomes a broadcast lower-third across the bottom of the scene */
-  .sign-status.reg { left: 0; right: 0; width: auto; top: auto; bottom: 0; height: 34px; z-index: 2; background: #070604;
+  .sign-screen.reg { left: calc(var(--k) * (var(--x) - 8) * 1px); width: calc(var(--k) * (var(--w) + 16) * 1px); }
+  /* status: broadcast lower-third at the bottom of the scene */
+  .sign-status.reg { left: 0; right: 0; width: auto; top: auto; bottom: 0; height: var(--band-h); z-index: 2; background: #070604;
     transform: none; flex-direction: row !important; align-items: center; justify-content: center; gap: 0.5em; padding: 0 12px;
     font-size: 13px; letter-spacing: 0.16em; line-height: 1.2; }
   .sign-status .sep { display: inline; color: var(--gold-deep); }
 
-  /* shared glass material for 2/3/4 */
-  .panel, .rules-card { position: relative; order: 3; }
-  .panel.own { order: 1; }
-  .panel.sealed { order: 2; }
-  .panel::before, .rules-card::before {
+  /* 2 · rules: a caption under the status, not a card */
+  .rules-card { order: 1; flex: none; position: relative; }
+  .reg.rules-inner { position: relative; left: auto; top: auto; width: auto; height: auto; }
+  .rules-inner, .rules-card.with-line .rules-inner { padding: 0 4px; gap: 4px; }
+  .rules-line { justify-content: center; gap: 18px; margin: 0; }
+  .rules-line .stat { flex-direction: row; align-items: baseline; gap: 5px; }
+  .rules-line .stat-n { font-size: 19px; }
+  .rules-line .stat-l { font-size: 12px; margin: 0; }
+  .rule-note, .rules-card.with-line .rule-note { font-size: 13px; line-height: 1.25; text-align: center; color: var(--cream-dim); text-wrap: balance; }
+
+  /* shared glass material for the two panels */
+  .panel { position: relative; flex: none; }
+  .panel.own { order: 2; }
+  .panel.sealed { order: 3; }
+  .panel::before {
     content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 0;
     border-style: solid; border-width: 31px 18px 28px 40px;
     border-image: var(--glass) 68 40 62 90 fill / 31px 18px 28px 40px stretch;
     filter: drop-shadow(0 0 10px rgba(255, 186, 64, 0.18));
   }
-  .panel > *, .rules-card > * { position: relative; z-index: 1; }
-  .reg.panel-title, .reg.panel-body, .reg.frost, .reg.rules-inner { position: relative; left: auto; top: auto; width: auto; height: auto; }
+  .panel > * { position: relative; z-index: 1; }
+  .reg.panel-title, .reg.panel-body, .reg.frost { position: relative; left: auto; top: auto; width: auto; height: auto; }
 
   .panel-title { min-height: 26px; margin: 5px 14px 0 44px; padding: 0; justify-content: flex-start; gap: 8px; align-items: center !important; }
   .panel.own .own-heading { transform: none !important; font-size: 17px; }
   .panel.own .chip-private { margin: 0 0 0 auto !important; }
   .chip { height: 22px; padding: 0 9px; font-size: 11.5px; }
-  .chip-you.m-only { margin-left: 0; }
   .phase-guess .chip-you.m-only { order: 3; }
-  .rival-name { font-size: 15px; }
-  .panel.sealed .chip-sealed { margin-left: auto; }
-  .panel-body { padding: 14px 16px 26px; gap: 12px; }
+  .panel-body { padding: 8px 14px 22px; gap: 8px; }
   .panel-body::before { inset: 4px 8px; }
 
-  /* Guess Entry: one guess per row, 44 px targets, 16 px text */
-  .guess-cols { grid-template-columns: 1fr; gap: 10px; }
+  /* Guess Entry: one guess per row, 44 px targets, 16 px text; note + LOCK share a row */
+  .guess-cols { grid-template-columns: 1fr; gap: 6px; }
   .guess-col { display: grid; grid-template-columns: 22px 1fr 1fr; align-items: center; gap: 8px; }
   .guess-num { font-size: 13px; }
   .guess-col select, .guess-col input { height: 44px; font-size: 16px; padding: 0 10px; border-radius: 3px; }
   .guess-col select { padding-right: 26px; background-position: calc(100% - 15px) 55%, calc(100% - 10px) 55%; background-size: 5px 5px; }
-  .action-row { flex-direction: column; align-items: stretch; gap: 10px; }
-  .privacy-note { font-size: 14px; }
-  .btn-lock { height: 48px; font-size: 17px; }
+  .action-row { gap: 10px; }
+  .privacy-note { font-size: 13px; line-height: 1.2; }
+  .btn-lock { height: 48px; min-width: 46%; font-size: 17px; }
 
   /* F1 */
-  .window-body { padding: 14px 16px 26px; gap: 14px; }
-  .f1-brief { max-width: none; font-size: 22px; }
+  .window-body { padding: 8px 14px 22px; gap: 10px; }
+  .f1-brief { max-width: none; font-size: 20px; }
   .btn-end { height: 48px; width: 100%; font-size: 17px; }
 
-  /* sealed rival: constant, compact */
-  .panel.sealed .frost { height: 86px; margin: 6px 12px 24px 14px; }
-  .seal { width: 58px; height: 58px; }
-
-  /* rules card */
-  .rules-inner { padding: 14px 18px 30px; gap: 10px; }
-  .rules-card:not(.with-line) .rules-inner { padding-top: 40px; }
-  .rules-line { margin-top: -2px; }
-  .rules-line .stat-n { font-size: 26px; }
-  .rules-line .stat-l { font-size: 12px; }
-  .rule-note, .rules-card.with-line .rule-note { font-size: 15px; line-height: 1.25; }
-  .rules-card.with-line .rules-inner { padding-top: 40px; padding-bottom: 30px; gap: 10px; }
+  /* 3 · sealed rival: one constant strip (name · seal · SEALED) */
+  .panel.sealed { min-height: 64px; }
+  .panel.sealed .panel-title { position: relative; z-index: 2; min-height: 64px; margin: 0 16px 0 44px; }
+  .panel.sealed .chip-sealed { margin-left: auto; }
+  .panel.sealed .reg.frost { position: absolute; inset: 9px 12px 11px 12px; z-index: 1; place-items: center; }
+  .seal { width: 34px; height: 34px; filter: drop-shadow(0 0 5px rgba(255, 196, 80, 0.55)); }
+  .rival-name { font-size: 15px; }
 
   /* HUD: fixed, 44 px targets, rail labels only for the active step */
-  .hud-footer { position: fixed; height: calc(var(--footer-h) + env(safe-area-inset-bottom)); padding: 0 10px env(safe-area-inset-bottom); gap: 8px; z-index: 5;
-    background: linear-gradient(to top, rgba(6, 5, 3, 0.97) 0%, rgba(6, 5, 3, 0.9) 70%, rgba(6, 5, 3, 0.0) 100%); }
-  .ghost { height: 44px; min-width: 44px; padding: 0 12px; font-size: 12.5px; }
-  .hud-mid { flex-direction: column; gap: 4px; align-items: center; flex: 1; }
+  .hud-footer { position: fixed; height: calc(var(--footer-h) + env(safe-area-inset-bottom)); padding: 0 8px env(safe-area-inset-bottom); gap: 8px; z-index: 5;
+    background: linear-gradient(to top, rgba(6, 5, 3, 0.98) 0%, rgba(6, 5, 3, 0.94) 80%, rgba(6, 5, 3, 0.0) 100%); }
+  .ghost { height: 44px; min-width: 44px; padding: 0 10px; font-size: 12.5px; }
+  .hud-mid { flex-direction: column; gap: 3px; align-items: center; flex: 1; min-width: 0; }
   .hud-title { font-size: 11.5px; letter-spacing: 0.1em; }
-  .ghost { padding: 0 10px; }
   .rail { gap: 10px; }
   .rail li { font-size: 12px; }
   .rail li:not(.active) .label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }

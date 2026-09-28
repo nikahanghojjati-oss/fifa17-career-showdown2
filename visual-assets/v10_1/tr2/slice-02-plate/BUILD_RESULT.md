@@ -120,3 +120,23 @@ On phone:
 
 ### Review page
 `tools/build_preview.py tools/preview_template.html <out.html> <sha>` builds a single-file page with a Desktop/Phone switch. It re-scopes the portrait CSS to `.stage.pv-mobile`, so the phone layout can be shown at 390×844 on any screen. Publish it together with `assets/`.
+
+## R3.1: phone fits on one screen (owner note, Nik 2026-09-28 09:34 ET)
+Nik: on phone, everything must fit on the screen with no scrolling to reach a button. Plate only must also work on phone.
+- **Layout:** the live UI keeps its natural height, and the scene takes the rest (CSS flex). `plate.js` then picks the crop for that box:
+  - zoom between 720 and 1300 plate px wide, centred at x 885;
+  - prefer plate y 34–640 (sign → below the fingertip);
+  - fall back to y 50–560 (sign, faces and hands) on very short screens;
+  - never show past the plate's bottom.
+- **Compaction:**
+  - status + rules become a caption under the scene, with no card;
+  - the sealed rival is one constant 64 px strip (name · seal · SEALED);
+  - Guess Entry puts the privacy note beside LOCK;
+  - the HUD is 56 px.
+- **Plate only on phone:** shows the scene crop centred.
+- **Sealed constancy:** the seal glow is fixed in px on phone, so the rival strip is pixel-identical in every phase.
+- **Signage:** on phone, the sign's `WINDOW CLOSED` is scene-scale (8–12 px). The phase is carried by the `GUESS ENTRY` caption at 13 px.
+- **QA:** 37 shots, 0 failures.
+  - No scrolling at 390×664, 390×844, 430×740, 430×932, 360×640 and 375×667, in all F1 and Guess frames.
+  - At 375×553 (iPhone SE browser) there is no scrolling either, and the primary button is visible. On Guess Entry the fingertip leaves the crop there.
+  - Both faces and the sign are always inside the scene.

@@ -1,18 +1,18 @@
 {
   "base": "http://127.0.0.1:8765/",
-  "when": "2026-09-28T05:19:41.913Z",
+  "when": "2026-09-28T13:39:00.438Z",
   "staging": {
     "danielFace": [
-      510,
-      120,
-      670,
-      310
+      525,
+      130,
+      665,
+      300
     ],
     "nikFace": [
-      1060,
-      120,
-      1250,
-      310
+      1075,
+      130,
+      1235,
+      300
     ],
     "nikFingertip": [
       1040,
@@ -2056,6 +2056,466 @@
       "errors": []
     },
     {
+      "shot": "M_F1_390x664.jpg",
+      "frame": "F1",
+      "vw": 390,
+      "vh": 664,
+      "dpr": 2,
+      "mobile": true,
+      "mode": "mobile",
+      "k": 0.5149,
+      "offY": 18,
+      "titleCropPx": 0,
+      "checks": {
+        "noHorizontalScroll": true,
+        "stringMismatches": [],
+        "fit": [],
+        "textClip": [],
+        "privacy": {
+          "sealedFocusable": 0,
+          "sealedText": "DANIELSEALEDCM17",
+          "guessIdPrefixes": [],
+          "signingInputs": 0
+        },
+        "rotation": {
+          "sign": 7.5,
+          "status": 0,
+          "controls": []
+        },
+        "stagingCovered": [],
+        "layout": {
+          "footerFixedBottom": true,
+          "footerH": 56,
+          "noScroll": true,
+          "scrollExcess": 0,
+          "pageScroll": false,
+          "primaryVisible": true,
+          "sceneH": 312,
+          "sceneCrop": "506,34,1264,640",
+          "facesInScene": true,
+          "signInScene": true,
+          "fingertipInScene": true,
+          "hudNoOverlap": true
+        }
+      },
+      "fail": [],
+      "docScroll": {
+        "w": 390,
+        "h": 664,
+        "vw": 390,
+        "vh": 664
+      },
+      "strings": {
+        "title": "SEASON 1 · TRANSFER CHALLENGE",
+        "back": "HOME",
+        "refresh": "REFRESH",
+        "rail": [
+          "Window",
+          "Guesses",
+          "Signings",
+          "Verdicts"
+        ],
+        "activeRail": "Window",
+        "status": "WINDOW OPEN · BUILD YOUR SQUAD",
+        "sign": "11:42",
+        "heading": "NIK",
+        "rule": "Guess a league or nationality. A matching signing must be released.",
+        "brief": "Ends early only if you both agree.",
+        "action": "END EARLY",
+        "rulesLine": "15 MIN · 3 SIGNINGS · 3 GUESSES",
+        "visibleChips": [
+          "SEALED",
+          "YOU"
+        ],
+        "intro": false
+      },
+      "controls": [
+        {
+          "id": "endTransferTimer",
+          "h": 48,
+          "w": 338,
+          "font": 17,
+          "tag": "BUTTON"
+        },
+        {
+          "id": "backToShowdownHome",
+          "h": 44,
+          "w": 52,
+          "font": 12.5,
+          "tag": "BUTTON"
+        },
+        {
+          "id": "refreshSharedTransferChallenge",
+          "h": 44,
+          "w": 73,
+          "font": 12.5,
+          "tag": "BUTTON"
+        }
+      ],
+      "minTarget": 44,
+      "minFieldFont": null,
+      "minTextFont": 11.5,
+      "tabOrder": [
+        "endTransferTimer",
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "focusVisibleAll": true,
+      "interaction": {
+        "endEarly": {
+          "intents": [
+            {
+              "control": "endTransferTimer",
+              "action": "requestEndWindow"
+            }
+          ],
+          "requestedText": "EARLY END REQUESTED ✓",
+          "disabled": true,
+          "sealedUnchanged": true
+        }
+      },
+      "sealedSigKey": "m_390x664_playerTwo",
+      "errors": []
+    },
+    {
+      "shot": "M_F1D_390x664.jpg",
+      "frame": "F1D",
+      "vw": 390,
+      "vh": 664,
+      "dpr": 2,
+      "mobile": true,
+      "mode": "mobile",
+      "k": 0.5149,
+      "offY": 18,
+      "titleCropPx": 0,
+      "checks": {
+        "noHorizontalScroll": true,
+        "stringMismatches": [],
+        "fit": [],
+        "textClip": [],
+        "privacy": {
+          "sealedFocusable": 0,
+          "sealedText": "NIKSEALEDCM17",
+          "guessIdPrefixes": [],
+          "signingInputs": 0
+        },
+        "rotation": {
+          "sign": 7.5,
+          "status": 0,
+          "controls": []
+        },
+        "stagingCovered": [],
+        "layout": {
+          "footerFixedBottom": true,
+          "footerH": 56,
+          "noScroll": true,
+          "scrollExcess": 0,
+          "pageScroll": false,
+          "primaryVisible": true,
+          "sceneH": 312,
+          "sceneCrop": "506,34,1264,640",
+          "facesInScene": true,
+          "signInScene": true,
+          "fingertipInScene": true,
+          "hudNoOverlap": true
+        }
+      },
+      "fail": [],
+      "docScroll": {
+        "w": 390,
+        "h": 664,
+        "vw": 390,
+        "vh": 664
+      },
+      "strings": {
+        "title": "SEASON 1 · TRANSFER CHALLENGE",
+        "back": "HOME",
+        "refresh": "REFRESH",
+        "rail": [
+          "Window",
+          "Guesses",
+          "Signings",
+          "Verdicts"
+        ],
+        "activeRail": "Window",
+        "status": "WINDOW OPEN · BUILD YOUR SQUAD",
+        "sign": "11:42",
+        "heading": "DANIEL",
+        "rule": "Guess a league or nationality. A matching signing must be released.",
+        "brief": "Ends early only if you both agree.",
+        "action": "END EARLY",
+        "rulesLine": "15 MIN · 3 SIGNINGS · 3 GUESSES",
+        "visibleChips": [
+          "YOU",
+          "SEALED"
+        ],
+        "intro": false
+      },
+      "controls": [
+        {
+          "id": "endTransferTimer",
+          "h": 48,
+          "w": 338,
+          "font": 17,
+          "tag": "BUTTON"
+        },
+        {
+          "id": "backToShowdownHome",
+          "h": 44,
+          "w": 52,
+          "font": 12.5,
+          "tag": "BUTTON"
+        },
+        {
+          "id": "refreshSharedTransferChallenge",
+          "h": 44,
+          "w": 73,
+          "font": 12.5,
+          "tag": "BUTTON"
+        }
+      ],
+      "minTarget": 44,
+      "minFieldFont": null,
+      "minTextFont": 11.5,
+      "tabOrder": [
+        "endTransferTimer",
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "focusVisibleAll": true,
+      "interaction": {
+        "endEarly": {
+          "intents": [
+            {
+              "control": "endTransferTimer",
+              "action": "requestEndWindow"
+            }
+          ],
+          "requestedText": "EARLY END REQUESTED ✓",
+          "disabled": true,
+          "sealedUnchanged": true
+        }
+      },
+      "sealedSigKey": "m_390x664_playerOne",
+      "errors": []
+    },
+    {
+      "shot": "M_F1R_390x664.jpg",
+      "frame": "F1R",
+      "vw": 390,
+      "vh": 664,
+      "dpr": 2,
+      "mobile": true,
+      "mode": "mobile",
+      "k": 0.5149,
+      "offY": 18,
+      "titleCropPx": 0,
+      "checks": {
+        "noHorizontalScroll": true,
+        "stringMismatches": [],
+        "fit": [],
+        "textClip": [],
+        "privacy": {
+          "sealedFocusable": 0,
+          "sealedText": "DANIELSEALEDCM17",
+          "guessIdPrefixes": [],
+          "signingInputs": 0
+        },
+        "rotation": {
+          "sign": 7.5,
+          "status": 0,
+          "controls": []
+        },
+        "stagingCovered": [],
+        "layout": {
+          "footerFixedBottom": true,
+          "footerH": 56,
+          "noScroll": true,
+          "scrollExcess": 0,
+          "pageScroll": false,
+          "primaryVisible": true,
+          "sceneH": 312,
+          "sceneCrop": "506,34,1264,640",
+          "facesInScene": true,
+          "signInScene": true,
+          "fingertipInScene": true,
+          "hudNoOverlap": true
+        }
+      },
+      "fail": [],
+      "docScroll": {
+        "w": 390,
+        "h": 664,
+        "vw": 390,
+        "vh": 664
+      },
+      "strings": {
+        "title": "SEASON 1 · TRANSFER CHALLENGE",
+        "back": "HOME",
+        "refresh": "REFRESH",
+        "rail": [
+          "Window",
+          "Guesses",
+          "Signings",
+          "Verdicts"
+        ],
+        "activeRail": "Window",
+        "status": "WINDOW OPEN · BUILD YOUR SQUAD",
+        "sign": "11:42",
+        "heading": "NIK",
+        "rule": "Guess a league or nationality. A matching signing must be released.",
+        "brief": "Ends early only if you both agree.",
+        "action": "EARLY END REQUESTED ✓",
+        "rulesLine": "15 MIN · 3 SIGNINGS · 3 GUESSES",
+        "visibleChips": [
+          "SEALED",
+          "YOU"
+        ],
+        "intro": false
+      },
+      "controls": [
+        {
+          "id": "endTransferTimer",
+          "h": 48,
+          "w": 338,
+          "font": 17,
+          "tag": "BUTTON"
+        },
+        {
+          "id": "backToShowdownHome",
+          "h": 44,
+          "w": 52,
+          "font": 12.5,
+          "tag": "BUTTON"
+        },
+        {
+          "id": "refreshSharedTransferChallenge",
+          "h": 44,
+          "w": 73,
+          "font": 12.5,
+          "tag": "BUTTON"
+        }
+      ],
+      "minTarget": 44,
+      "minFieldFont": null,
+      "minTextFont": 11.5,
+      "tabOrder": [
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "focusVisibleAll": true,
+      "sealedSigKey": "m_390x664_playerTwo",
+      "errors": []
+    },
+    {
+      "shot": "M_F1DR_390x664.jpg",
+      "frame": "F1DR",
+      "vw": 390,
+      "vh": 664,
+      "dpr": 2,
+      "mobile": true,
+      "mode": "mobile",
+      "k": 0.5149,
+      "offY": 18,
+      "titleCropPx": 0,
+      "checks": {
+        "noHorizontalScroll": true,
+        "stringMismatches": [],
+        "fit": [],
+        "textClip": [],
+        "privacy": {
+          "sealedFocusable": 0,
+          "sealedText": "NIKSEALEDCM17",
+          "guessIdPrefixes": [],
+          "signingInputs": 0
+        },
+        "rotation": {
+          "sign": 7.5,
+          "status": 0,
+          "controls": []
+        },
+        "stagingCovered": [],
+        "layout": {
+          "footerFixedBottom": true,
+          "footerH": 56,
+          "noScroll": true,
+          "scrollExcess": 0,
+          "pageScroll": false,
+          "primaryVisible": true,
+          "sceneH": 312,
+          "sceneCrop": "506,34,1264,640",
+          "facesInScene": true,
+          "signInScene": true,
+          "fingertipInScene": true,
+          "hudNoOverlap": true
+        }
+      },
+      "fail": [],
+      "docScroll": {
+        "w": 390,
+        "h": 664,
+        "vw": 390,
+        "vh": 664
+      },
+      "strings": {
+        "title": "SEASON 1 · TRANSFER CHALLENGE",
+        "back": "HOME",
+        "refresh": "REFRESH",
+        "rail": [
+          "Window",
+          "Guesses",
+          "Signings",
+          "Verdicts"
+        ],
+        "activeRail": "Window",
+        "status": "WINDOW OPEN · BUILD YOUR SQUAD",
+        "sign": "11:42",
+        "heading": "DANIEL",
+        "rule": "Guess a league or nationality. A matching signing must be released.",
+        "brief": "Ends early only if you both agree.",
+        "action": "EARLY END REQUESTED ✓",
+        "rulesLine": "15 MIN · 3 SIGNINGS · 3 GUESSES",
+        "visibleChips": [
+          "YOU",
+          "SEALED"
+        ],
+        "intro": false
+      },
+      "controls": [
+        {
+          "id": "endTransferTimer",
+          "h": 48,
+          "w": 338,
+          "font": 17,
+          "tag": "BUTTON"
+        },
+        {
+          "id": "backToShowdownHome",
+          "h": 44,
+          "w": 52,
+          "font": 12.5,
+          "tag": "BUTTON"
+        },
+        {
+          "id": "refreshSharedTransferChallenge",
+          "h": 44,
+          "w": 73,
+          "font": 12.5,
+          "tag": "BUTTON"
+        }
+      ],
+      "minTarget": 44,
+      "minFieldFont": null,
+      "minTextFont": 11.5,
+      "tabOrder": [
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "focusVisibleAll": true,
+      "sealedSigKey": "m_390x664_playerOne",
+      "errors": []
+    },
+    {
       "shot": "M_F1_390x844.jpg",
       "frame": "F1",
       "vw": 390,
@@ -2063,8 +2523,8 @@
       "dpr": 2,
       "mobile": true,
       "mode": "mobile",
-      "k": 0.4239,
-      "offY": 0,
+      "k": 0.5417,
+      "offY": 18,
       "titleCropPx": 0,
       "checks": {
         "noHorizontalScroll": true,
@@ -2085,11 +2545,16 @@
         "stagingCovered": [],
         "layout": {
           "footerFixedBottom": true,
-          "footerH": 64,
-          "contentScrollable": true,
+          "footerH": 56,
+          "noScroll": true,
+          "scrollExcess": 0,
           "pageScroll": false,
-          "lastContentClearsFooterAtEnd": true,
-          "sceneH": 304,
+          "primaryVisible": true,
+          "sceneH": 492,
+          "sceneCrop": "525,33,1245,941",
+          "facesInScene": true,
+          "signInScene": true,
+          "fingertipInScene": true,
           "hudNoOverlap": true
         }
       },
@@ -2128,7 +2593,7 @@
         {
           "id": "endTransferTimer",
           "h": 48,
-          "w": 334,
+          "w": 338,
           "font": 17,
           "tag": "BUTTON"
         },
@@ -2152,239 +2617,6 @@
       "minTextFont": 11.5,
       "tabOrder": [
         "endTransferTimer",
-        "backToShowdownHome",
-        "refreshSharedTransferChallenge"
-      ],
-      "focusVisibleAll": true,
-      "interaction": {
-        "endEarly": {
-          "intents": [
-            {
-              "control": "endTransferTimer",
-              "action": "requestEndWindow"
-            }
-          ],
-          "requestedText": "EARLY END REQUESTED ✓",
-          "disabled": true,
-          "sealedUnchanged": true
-        }
-      },
-      "sealedSigKey": "m_390x844_playerTwo",
-      "errors": []
-    },
-    {
-      "shot": "M_F1D_390x844.jpg",
-      "frame": "F1D",
-      "vw": 390,
-      "vh": 844,
-      "dpr": 2,
-      "mobile": true,
-      "mode": "mobile",
-      "k": 0.4239,
-      "offY": 0,
-      "titleCropPx": 0,
-      "checks": {
-        "noHorizontalScroll": true,
-        "stringMismatches": [],
-        "fit": [],
-        "textClip": [],
-        "privacy": {
-          "sealedFocusable": 0,
-          "sealedText": "NIKSEALEDCM17",
-          "guessIdPrefixes": [],
-          "signingInputs": 0
-        },
-        "rotation": {
-          "sign": 7.5,
-          "status": 0,
-          "controls": []
-        },
-        "stagingCovered": [],
-        "layout": {
-          "footerFixedBottom": true,
-          "footerH": 64,
-          "contentScrollable": true,
-          "pageScroll": false,
-          "lastContentClearsFooterAtEnd": true,
-          "sceneH": 304,
-          "hudNoOverlap": true
-        }
-      },
-      "fail": [],
-      "docScroll": {
-        "w": 390,
-        "h": 844,
-        "vw": 390,
-        "vh": 844
-      },
-      "strings": {
-        "title": "SEASON 1 · TRANSFER CHALLENGE",
-        "back": "HOME",
-        "refresh": "REFRESH",
-        "rail": [
-          "Window",
-          "Guesses",
-          "Signings",
-          "Verdicts"
-        ],
-        "activeRail": "Window",
-        "status": "WINDOW OPEN · BUILD YOUR SQUAD",
-        "sign": "11:42",
-        "heading": "DANIEL",
-        "rule": "Guess a league or nationality. A matching signing must be released.",
-        "brief": "Ends early only if you both agree.",
-        "action": "END EARLY",
-        "rulesLine": "15 MIN · 3 SIGNINGS · 3 GUESSES",
-        "visibleChips": [
-          "YOU",
-          "SEALED"
-        ],
-        "intro": false
-      },
-      "controls": [
-        {
-          "id": "endTransferTimer",
-          "h": 48,
-          "w": 334,
-          "font": 17,
-          "tag": "BUTTON"
-        },
-        {
-          "id": "backToShowdownHome",
-          "h": 44,
-          "w": 52,
-          "font": 12.5,
-          "tag": "BUTTON"
-        },
-        {
-          "id": "refreshSharedTransferChallenge",
-          "h": 44,
-          "w": 73,
-          "font": 12.5,
-          "tag": "BUTTON"
-        }
-      ],
-      "minTarget": 44,
-      "minFieldFont": null,
-      "minTextFont": 11.5,
-      "tabOrder": [
-        "endTransferTimer",
-        "backToShowdownHome",
-        "refreshSharedTransferChallenge"
-      ],
-      "focusVisibleAll": true,
-      "interaction": {
-        "endEarly": {
-          "intents": [
-            {
-              "control": "endTransferTimer",
-              "action": "requestEndWindow"
-            }
-          ],
-          "requestedText": "EARLY END REQUESTED ✓",
-          "disabled": true,
-          "sealedUnchanged": true
-        }
-      },
-      "sealedSigKey": "m_390x844_playerOne",
-      "errors": []
-    },
-    {
-      "shot": "M_F1R_390x844.jpg",
-      "frame": "F1R",
-      "vw": 390,
-      "vh": 844,
-      "dpr": 2,
-      "mobile": true,
-      "mode": "mobile",
-      "k": 0.4239,
-      "offY": 0,
-      "titleCropPx": 0,
-      "checks": {
-        "noHorizontalScroll": true,
-        "stringMismatches": [],
-        "fit": [],
-        "textClip": [],
-        "privacy": {
-          "sealedFocusable": 0,
-          "sealedText": "DANIELSEALEDCM17",
-          "guessIdPrefixes": [],
-          "signingInputs": 0
-        },
-        "rotation": {
-          "sign": 7.5,
-          "status": 0,
-          "controls": []
-        },
-        "stagingCovered": [],
-        "layout": {
-          "footerFixedBottom": true,
-          "footerH": 64,
-          "contentScrollable": true,
-          "pageScroll": false,
-          "lastContentClearsFooterAtEnd": true,
-          "sceneH": 304,
-          "hudNoOverlap": true
-        }
-      },
-      "fail": [],
-      "docScroll": {
-        "w": 390,
-        "h": 844,
-        "vw": 390,
-        "vh": 844
-      },
-      "strings": {
-        "title": "SEASON 1 · TRANSFER CHALLENGE",
-        "back": "HOME",
-        "refresh": "REFRESH",
-        "rail": [
-          "Window",
-          "Guesses",
-          "Signings",
-          "Verdicts"
-        ],
-        "activeRail": "Window",
-        "status": "WINDOW OPEN · BUILD YOUR SQUAD",
-        "sign": "11:42",
-        "heading": "NIK",
-        "rule": "Guess a league or nationality. A matching signing must be released.",
-        "brief": "Ends early only if you both agree.",
-        "action": "EARLY END REQUESTED ✓",
-        "rulesLine": "15 MIN · 3 SIGNINGS · 3 GUESSES",
-        "visibleChips": [
-          "SEALED",
-          "YOU"
-        ],
-        "intro": false
-      },
-      "controls": [
-        {
-          "id": "endTransferTimer",
-          "h": 48,
-          "w": 334,
-          "font": 17,
-          "tag": "BUTTON"
-        },
-        {
-          "id": "backToShowdownHome",
-          "h": 44,
-          "w": 52,
-          "font": 12.5,
-          "tag": "BUTTON"
-        },
-        {
-          "id": "refreshSharedTransferChallenge",
-          "h": 44,
-          "w": 73,
-          "font": 12.5,
-          "tag": "BUTTON"
-        }
-      ],
-      "minTarget": 44,
-      "minFieldFont": null,
-      "minTextFont": 11.5,
-      "tabOrder": [
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
@@ -2393,118 +2625,15 @@
       "errors": []
     },
     {
-      "shot": "M_F1DR_390x844.jpg",
-      "frame": "F1DR",
-      "vw": 390,
-      "vh": 844,
-      "dpr": 2,
-      "mobile": true,
-      "mode": "mobile",
-      "k": 0.4239,
-      "offY": 0,
-      "titleCropPx": 0,
-      "checks": {
-        "noHorizontalScroll": true,
-        "stringMismatches": [],
-        "fit": [],
-        "textClip": [],
-        "privacy": {
-          "sealedFocusable": 0,
-          "sealedText": "NIKSEALEDCM17",
-          "guessIdPrefixes": [],
-          "signingInputs": 0
-        },
-        "rotation": {
-          "sign": 7.5,
-          "status": 0,
-          "controls": []
-        },
-        "stagingCovered": [],
-        "layout": {
-          "footerFixedBottom": true,
-          "footerH": 64,
-          "contentScrollable": true,
-          "pageScroll": false,
-          "lastContentClearsFooterAtEnd": true,
-          "sceneH": 304,
-          "hudNoOverlap": true
-        }
-      },
-      "fail": [],
-      "docScroll": {
-        "w": 390,
-        "h": 844,
-        "vw": 390,
-        "vh": 844
-      },
-      "strings": {
-        "title": "SEASON 1 · TRANSFER CHALLENGE",
-        "back": "HOME",
-        "refresh": "REFRESH",
-        "rail": [
-          "Window",
-          "Guesses",
-          "Signings",
-          "Verdicts"
-        ],
-        "activeRail": "Window",
-        "status": "WINDOW OPEN · BUILD YOUR SQUAD",
-        "sign": "11:42",
-        "heading": "DANIEL",
-        "rule": "Guess a league or nationality. A matching signing must be released.",
-        "brief": "Ends early only if you both agree.",
-        "action": "EARLY END REQUESTED ✓",
-        "rulesLine": "15 MIN · 3 SIGNINGS · 3 GUESSES",
-        "visibleChips": [
-          "YOU",
-          "SEALED"
-        ],
-        "intro": false
-      },
-      "controls": [
-        {
-          "id": "endTransferTimer",
-          "h": 48,
-          "w": 334,
-          "font": 17,
-          "tag": "BUTTON"
-        },
-        {
-          "id": "backToShowdownHome",
-          "h": 44,
-          "w": 52,
-          "font": 12.5,
-          "tag": "BUTTON"
-        },
-        {
-          "id": "refreshSharedTransferChallenge",
-          "h": 44,
-          "w": 73,
-          "font": 12.5,
-          "tag": "BUTTON"
-        }
-      ],
-      "minTarget": 44,
-      "minFieldFont": null,
-      "minTextFont": 11.5,
-      "tabOrder": [
-        "backToShowdownHome",
-        "refreshSharedTransferChallenge"
-      ],
-      "focusVisibleAll": true,
-      "sealedSigKey": "m_390x844_playerOne",
-      "errors": []
-    },
-    {
-      "shot": "M_F1_375x667.jpg",
+      "shot": "M_F1_430x740.jpg",
       "frame": "F1",
-      "vw": 375,
-      "vh": 667,
+      "vw": 430,
+      "vh": 740,
       "dpr": 2,
       "mobile": true,
       "mode": "mobile",
-      "k": 0.4076,
-      "offY": 0,
+      "k": 0.5972,
+      "offY": 20,
       "titleCropPx": 0,
       "checks": {
         "noHorizontalScroll": true,
@@ -2525,20 +2654,25 @@
         "stagingCovered": [],
         "layout": {
           "footerFixedBottom": true,
-          "footerH": 64,
-          "contentScrollable": true,
+          "footerH": 56,
+          "noScroll": true,
+          "scrollExcess": 0,
           "pageScroll": false,
-          "lastContentClearsFooterAtEnd": true,
-          "sceneH": 293,
+          "primaryVisible": true,
+          "sceneH": 388,
+          "sceneCrop": "525,34,1245,684",
+          "facesInScene": true,
+          "signInScene": true,
+          "fingertipInScene": true,
           "hudNoOverlap": true
         }
       },
       "fail": [],
       "docScroll": {
-        "w": 375,
-        "h": 667,
-        "vw": 375,
-        "vh": 667
+        "w": 430,
+        "h": 740,
+        "vw": 430,
+        "vh": 740
       },
       "strings": {
         "title": "SEASON 1 · TRANSFER CHALLENGE",
@@ -2568,7 +2702,7 @@
         {
           "id": "endTransferTimer",
           "h": 48,
-          "w": 319,
+          "w": 378,
           "font": 17,
           "tag": "BUTTON"
         },
@@ -2596,111 +2730,7 @@
         "refreshSharedTransferChallenge"
       ],
       "focusVisibleAll": true,
-      "sealedSigKey": "m_375x667_playerTwo",
-      "errors": []
-    },
-    {
-      "shot": "M_F1_360x780.jpg",
-      "frame": "F1",
-      "vw": 360,
-      "vh": 780,
-      "dpr": 2,
-      "mobile": true,
-      "mode": "mobile",
-      "k": 0.3913,
-      "offY": 0,
-      "titleCropPx": 0,
-      "checks": {
-        "noHorizontalScroll": true,
-        "stringMismatches": [],
-        "fit": [],
-        "textClip": [],
-        "privacy": {
-          "sealedFocusable": 0,
-          "sealedText": "DANIELSEALEDCM17",
-          "guessIdPrefixes": [],
-          "signingInputs": 0
-        },
-        "rotation": {
-          "sign": 7.5,
-          "status": 0,
-          "controls": []
-        },
-        "stagingCovered": [],
-        "layout": {
-          "footerFixedBottom": true,
-          "footerH": 64,
-          "contentScrollable": true,
-          "pageScroll": false,
-          "lastContentClearsFooterAtEnd": true,
-          "sceneH": 283,
-          "hudNoOverlap": true
-        }
-      },
-      "fail": [],
-      "docScroll": {
-        "w": 360,
-        "h": 780,
-        "vw": 360,
-        "vh": 780
-      },
-      "strings": {
-        "title": "SEASON 1 · TRANSFER CHALLENGE",
-        "back": "HOME",
-        "refresh": "REFRESH",
-        "rail": [
-          "Window",
-          "Guesses",
-          "Signings",
-          "Verdicts"
-        ],
-        "activeRail": "Window",
-        "status": "WINDOW OPEN · BUILD YOUR SQUAD",
-        "sign": "11:42",
-        "heading": "NIK",
-        "rule": "Guess a league or nationality. A matching signing must be released.",
-        "brief": "Ends early only if you both agree.",
-        "action": "END EARLY",
-        "rulesLine": "15 MIN · 3 SIGNINGS · 3 GUESSES",
-        "visibleChips": [
-          "SEALED",
-          "YOU"
-        ],
-        "intro": false
-      },
-      "controls": [
-        {
-          "id": "endTransferTimer",
-          "h": 48,
-          "w": 304,
-          "font": 17,
-          "tag": "BUTTON"
-        },
-        {
-          "id": "backToShowdownHome",
-          "h": 44,
-          "w": 52,
-          "font": 12.5,
-          "tag": "BUTTON"
-        },
-        {
-          "id": "refreshSharedTransferChallenge",
-          "h": 44,
-          "w": 73,
-          "font": 12.5,
-          "tag": "BUTTON"
-        }
-      ],
-      "minTarget": 44,
-      "minFieldFont": null,
-      "minTextFont": 11.5,
-      "tabOrder": [
-        "endTransferTimer",
-        "backToShowdownHome",
-        "refreshSharedTransferChallenge"
-      ],
-      "focusVisibleAll": true,
-      "sealedSigKey": "m_360x780_playerTwo",
+      "sealedSigKey": "m_430x740_playerTwo",
       "errors": []
     },
     {
@@ -2711,7 +2741,7 @@
       "dpr": 2,
       "mobile": true,
       "mode": "mobile",
-      "k": 0.4674,
+      "k": 0.5972,
       "offY": 0,
       "titleCropPx": 0,
       "checks": {
@@ -2733,11 +2763,16 @@
         "stagingCovered": [],
         "layout": {
           "footerFixedBottom": true,
-          "footerH": 64,
-          "contentScrollable": false,
+          "footerH": 56,
+          "noScroll": true,
+          "scrollExcess": 0,
           "pageScroll": false,
-          "lastContentClearsFooterAtEnd": true,
-          "sceneH": 331,
+          "primaryVisible": true,
+          "sceneH": 580,
+          "sceneCrop": "525,0,1245,971",
+          "facesInScene": true,
+          "signInScene": true,
+          "fingertipInScene": true,
           "hudNoOverlap": true
         }
       },
@@ -2776,7 +2811,7 @@
         {
           "id": "endTransferTimer",
           "h": 48,
-          "w": 374,
+          "w": 378,
           "font": 17,
           "tag": "BUTTON"
         },
@@ -2808,15 +2843,15 @@
       "errors": []
     },
     {
-      "shot": "M_G2_390x844.jpg",
-      "frame": "G2",
-      "vw": 390,
-      "vh": 844,
+      "shot": "M_F1_360x640.jpg",
+      "frame": "F1",
+      "vw": 360,
+      "vh": 640,
       "dpr": 2,
       "mobile": true,
       "mode": "mobile",
-      "k": 0.4239,
-      "offY": 0,
+      "k": 0.4488,
+      "offY": 15,
       "titleCropPx": 0,
       "checks": {
         "noHorizontalScroll": true,
@@ -2826,9 +2861,7 @@
         "privacy": {
           "sealedFocusable": 0,
           "sealedText": "DANIELSEALEDCM17",
-          "guessIdPrefixes": [
-            "p1"
-          ],
+          "guessIdPrefixes": [],
           "signingInputs": 0
         },
         "rotation": {
@@ -2839,20 +2872,25 @@
         "stagingCovered": [],
         "layout": {
           "footerFixedBottom": true,
-          "footerH": 64,
-          "contentScrollable": true,
+          "footerH": 56,
+          "noScroll": true,
+          "scrollExcess": 0,
           "pageScroll": false,
-          "lastContentClearsFooterAtEnd": true,
-          "sceneH": 304,
+          "primaryVisible": true,
+          "sceneH": 272,
+          "sceneCrop": "484,34,1286,640",
+          "facesInScene": true,
+          "signInScene": true,
+          "fingertipInScene": true,
           "hudNoOverlap": true
         }
       },
       "fail": [],
       "docScroll": {
-        "w": 390,
-        "h": 844,
-        "vw": 390,
-        "vh": 844
+        "w": 360,
+        "h": 640,
+        "vw": 360,
+        "vh": 640
       },
       "strings": {
         "title": "SEASON 1 · TRANSFER CHALLENGE",
@@ -2864,68 +2902,25 @@
           "Signings",
           "Verdicts"
         ],
-        "activeRail": "Guesses",
-        "status": "GUESS ENTRY",
-        "sign": "WINDOW CLOSED",
-        "heading": "Guess Daniel's signings",
+        "activeRail": "Window",
+        "status": "WINDOW OPEN · BUILD YOUR SQUAD",
+        "sign": "11:42",
+        "heading": "NIK",
         "rule": "Guess a league or nationality. A matching signing must be released.",
-        "privacy": "Hidden from Daniel until you both lock.",
-        "primary": "LOCK GUESSES",
-        "placeholder": "Pick a type first",
+        "brief": "Ends early only if you both agree.",
+        "action": "END EARLY",
+        "rulesLine": "15 MIN · 3 SIGNINGS · 3 GUESSES",
         "visibleChips": [
           "SEALED",
-          "PRIVATE",
           "YOU"
         ],
         "intro": false
       },
       "controls": [
         {
-          "id": "p1Guess1Type",
-          "h": 44,
-          "w": 148,
-          "font": 16,
-          "tag": "SELECT"
-        },
-        {
-          "id": "p1Guess1Value",
-          "h": 44,
-          "w": 148,
-          "font": 16,
-          "tag": "INPUT"
-        },
-        {
-          "id": "p1Guess2Type",
-          "h": 44,
-          "w": 148,
-          "font": 16,
-          "tag": "SELECT"
-        },
-        {
-          "id": "p1Guess2Value",
-          "h": 44,
-          "w": 148,
-          "font": 16,
-          "tag": "INPUT"
-        },
-        {
-          "id": "p1Guess3Type",
-          "h": 44,
-          "w": 148,
-          "font": 16,
-          "tag": "SELECT"
-        },
-        {
-          "id": "p1Guess3Value",
-          "h": 44,
-          "w": 148,
-          "font": 16,
-          "tag": "INPUT"
-        },
-        {
-          "id": "completeTransferChallenge",
+          "id": "endTransferTimer",
           "h": 48,
-          "w": 334,
+          "w": 308,
           "font": 17,
           "tag": "BUTTON"
         },
@@ -2945,208 +2940,27 @@
         }
       ],
       "minTarget": 44,
-      "minFieldFont": 16,
+      "minFieldFont": null,
       "minTextFont": 11.5,
       "tabOrder": [
-        "p1Guess1Type",
-        "p1Guess2Type",
-        "p1Guess3Type",
-        "completeTransferChallenge",
+        "endTransferTimer",
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
       "focusVisibleAll": true,
-      "interaction": {
-        "beforeDisabled": true,
-        "afterSelect": {
-          "disabled": false,
-          "ph": "League"
-        },
-        "reset": {
-          "disabled": true,
-          "v": "",
-          "ph": "Pick a type first"
-        },
-        "sealedUnchangedByInput": true
-      },
-      "sealedSigKey": "m_390x844_playerTwo",
+      "sealedSigKey": "m_360x640_playerTwo",
       "errors": []
     },
     {
-      "shot": "M_G3_390x844.jpg",
-      "frame": "G3",
-      "vw": 390,
-      "vh": 844,
-      "dpr": 2,
-      "mobile": true,
-      "mode": "mobile",
-      "k": 0.4239,
-      "offY": 0,
-      "titleCropPx": 0,
-      "checks": {
-        "noHorizontalScroll": true,
-        "stringMismatches": [],
-        "fit": [],
-        "textClip": [],
-        "privacy": {
-          "sealedFocusable": 0,
-          "sealedText": "NIKSEALEDCM17",
-          "guessIdPrefixes": [
-            "p2"
-          ],
-          "signingInputs": 0
-        },
-        "rotation": {
-          "sign": 7.5,
-          "status": 0,
-          "controls": []
-        },
-        "stagingCovered": [],
-        "layout": {
-          "footerFixedBottom": true,
-          "footerH": 64,
-          "contentScrollable": true,
-          "pageScroll": false,
-          "lastContentClearsFooterAtEnd": true,
-          "sceneH": 304,
-          "hudNoOverlap": true
-        }
-      },
-      "fail": [],
-      "docScroll": {
-        "w": 390,
-        "h": 844,
-        "vw": 390,
-        "vh": 844
-      },
-      "strings": {
-        "title": "SEASON 1 · TRANSFER CHALLENGE",
-        "back": "HOME",
-        "refresh": "REFRESH",
-        "rail": [
-          "Window",
-          "Guesses",
-          "Signings",
-          "Verdicts"
-        ],
-        "activeRail": "Guesses",
-        "status": "GUESS ENTRY",
-        "sign": "WINDOW CLOSED",
-        "heading": "Guess Nik's signings",
-        "rule": "Guess a league or nationality. A matching signing must be released.",
-        "privacy": "Hidden from Nik until you both lock.",
-        "primary": "LOCK GUESSES",
-        "placeholder": "Pick a type first",
-        "visibleChips": [
-          "PRIVATE",
-          "YOU",
-          "SEALED"
-        ],
-        "intro": false
-      },
-      "controls": [
-        {
-          "id": "p2Guess1Type",
-          "h": 44,
-          "w": 148,
-          "font": 16,
-          "tag": "SELECT"
-        },
-        {
-          "id": "p2Guess1Value",
-          "h": 44,
-          "w": 148,
-          "font": 16,
-          "tag": "INPUT"
-        },
-        {
-          "id": "p2Guess2Type",
-          "h": 44,
-          "w": 148,
-          "font": 16,
-          "tag": "SELECT"
-        },
-        {
-          "id": "p2Guess2Value",
-          "h": 44,
-          "w": 148,
-          "font": 16,
-          "tag": "INPUT"
-        },
-        {
-          "id": "p2Guess3Type",
-          "h": 44,
-          "w": 148,
-          "font": 16,
-          "tag": "SELECT"
-        },
-        {
-          "id": "p2Guess3Value",
-          "h": 44,
-          "w": 148,
-          "font": 16,
-          "tag": "INPUT"
-        },
-        {
-          "id": "completeTransferChallenge",
-          "h": 48,
-          "w": 334,
-          "font": 17,
-          "tag": "BUTTON"
-        },
-        {
-          "id": "backToShowdownHome",
-          "h": 44,
-          "w": 52,
-          "font": 12.5,
-          "tag": "BUTTON"
-        },
-        {
-          "id": "refreshSharedTransferChallenge",
-          "h": 44,
-          "w": 73,
-          "font": 12.5,
-          "tag": "BUTTON"
-        }
-      ],
-      "minTarget": 44,
-      "minFieldFont": 16,
-      "minTextFont": 11.5,
-      "tabOrder": [
-        "p2Guess1Type",
-        "p2Guess2Type",
-        "p2Guess3Type",
-        "completeTransferChallenge",
-        "backToShowdownHome",
-        "refreshSharedTransferChallenge"
-      ],
-      "focusVisibleAll": true,
-      "interaction": {
-        "beforeDisabled": true,
-        "afterSelect": {
-          "disabled": false,
-          "ph": "League"
-        },
-        "reset": {
-          "disabled": true,
-          "v": "",
-          "ph": "Pick a type first"
-        },
-        "sealedUnchangedByInput": true
-      },
-      "sealedSigKey": "m_390x844_playerOne",
-      "errors": []
-    },
-    {
-      "shot": "M_G2_375x667.jpg",
-      "frame": "G2",
+      "shot": "M_F1_375x667.jpg",
+      "frame": "F1",
       "vw": 375,
       "vh": 667,
       "dpr": 2,
       "mobile": true,
       "mode": "mobile",
-      "k": 0.4076,
-      "offY": 0,
+      "k": 0.5198,
+      "offY": 18,
       "titleCropPx": 0,
       "checks": {
         "noHorizontalScroll": true,
@@ -3156,9 +2970,7 @@
         "privacy": {
           "sealedFocusable": 0,
           "sealedText": "DANIELSEALEDCM17",
-          "guessIdPrefixes": [
-            "p1"
-          ],
+          "guessIdPrefixes": [],
           "signingInputs": 0
         },
         "rotation": {
@@ -3169,11 +2981,16 @@
         "stagingCovered": [],
         "layout": {
           "footerFixedBottom": true,
-          "footerH": 64,
-          "contentScrollable": true,
+          "footerH": 56,
+          "noScroll": true,
+          "scrollExcess": 0,
           "pageScroll": false,
-          "lastContentClearsFooterAtEnd": true,
-          "sceneH": 293,
+          "primaryVisible": true,
+          "sceneH": 315,
+          "sceneCrop": "524,34,1246,640",
+          "facesInScene": true,
+          "signInScene": true,
+          "fingertipInScene": true,
           "hudNoOverlap": true
         }
       },
@@ -3194,6 +3011,227 @@
           "Signings",
           "Verdicts"
         ],
+        "activeRail": "Window",
+        "status": "WINDOW OPEN · BUILD YOUR SQUAD",
+        "sign": "11:42",
+        "heading": "NIK",
+        "rule": "Guess a league or nationality. A matching signing must be released.",
+        "brief": "Ends early only if you both agree.",
+        "action": "END EARLY",
+        "rulesLine": "15 MIN · 3 SIGNINGS · 3 GUESSES",
+        "visibleChips": [
+          "SEALED",
+          "YOU"
+        ],
+        "intro": false
+      },
+      "controls": [
+        {
+          "id": "endTransferTimer",
+          "h": 48,
+          "w": 323,
+          "font": 17,
+          "tag": "BUTTON"
+        },
+        {
+          "id": "backToShowdownHome",
+          "h": 44,
+          "w": 52,
+          "font": 12.5,
+          "tag": "BUTTON"
+        },
+        {
+          "id": "refreshSharedTransferChallenge",
+          "h": 44,
+          "w": 73,
+          "font": 12.5,
+          "tag": "BUTTON"
+        }
+      ],
+      "minTarget": 44,
+      "minFieldFont": null,
+      "minTextFont": 11.5,
+      "tabOrder": [
+        "endTransferTimer",
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "focusVisibleAll": true,
+      "sealedSigKey": "m_375x667_playerTwo",
+      "errors": []
+    },
+    {
+      "shot": "M_F1_375x553.jpg",
+      "frame": "F1",
+      "vw": 375,
+      "vh": 553,
+      "dpr": 2,
+      "mobile": true,
+      "tight": true,
+      "mode": "mobile",
+      "k": 0.3317,
+      "offY": 11,
+      "titleCropPx": 0,
+      "checks": {
+        "noHorizontalScroll": true,
+        "stringMismatches": [],
+        "fit": [],
+        "textClip": [],
+        "privacy": {
+          "sealedFocusable": 0,
+          "sealedText": "DANIELSEALEDCM17",
+          "guessIdPrefixes": [],
+          "signingInputs": 0
+        },
+        "rotation": {
+          "sign": 7.5,
+          "status": 0,
+          "controls": []
+        },
+        "stagingCovered": [],
+        "layout": {
+          "footerFixedBottom": true,
+          "footerH": 56,
+          "noScroll": true,
+          "scrollExcess": 0,
+          "pageScroll": false,
+          "primaryVisible": true,
+          "sceneH": 201,
+          "sceneCrop": "320,34,1450,640",
+          "facesInScene": true,
+          "signInScene": true,
+          "fingertipInScene": true,
+          "hudNoOverlap": true
+        }
+      },
+      "fail": [],
+      "docScroll": {
+        "w": 375,
+        "h": 553,
+        "vw": 375,
+        "vh": 553
+      },
+      "strings": {
+        "title": "SEASON 1 · TRANSFER CHALLENGE",
+        "back": "HOME",
+        "refresh": "REFRESH",
+        "rail": [
+          "Window",
+          "Guesses",
+          "Signings",
+          "Verdicts"
+        ],
+        "activeRail": "Window",
+        "status": "WINDOW OPEN · BUILD YOUR SQUAD",
+        "sign": "11:42",
+        "heading": "NIK",
+        "rule": "Guess a league or nationality. A matching signing must be released.",
+        "brief": "Ends early only if you both agree.",
+        "action": "END EARLY",
+        "rulesLine": "15 MIN · 3 SIGNINGS · 3 GUESSES",
+        "visibleChips": [
+          "SEALED",
+          "YOU"
+        ],
+        "intro": false
+      },
+      "controls": [
+        {
+          "id": "endTransferTimer",
+          "h": 48,
+          "w": 323,
+          "font": 17,
+          "tag": "BUTTON"
+        },
+        {
+          "id": "backToShowdownHome",
+          "h": 44,
+          "w": 52,
+          "font": 12.5,
+          "tag": "BUTTON"
+        },
+        {
+          "id": "refreshSharedTransferChallenge",
+          "h": 44,
+          "w": 73,
+          "font": 12.5,
+          "tag": "BUTTON"
+        }
+      ],
+      "minTarget": 44,
+      "minFieldFont": null,
+      "minTextFont": 11.5,
+      "tabOrder": [
+        "endTransferTimer",
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "focusVisibleAll": true,
+      "sealedSigKey": "m_375x553_playerTwo",
+      "errors": []
+    },
+    {
+      "shot": "M_G2_390x664.jpg",
+      "frame": "G2",
+      "vw": 390,
+      "vh": 664,
+      "dpr": 2,
+      "mobile": true,
+      "mode": "mobile",
+      "k": 0.3548,
+      "offY": 12,
+      "titleCropPx": 0,
+      "checks": {
+        "noHorizontalScroll": true,
+        "stringMismatches": [],
+        "fit": [],
+        "textClip": [],
+        "privacy": {
+          "sealedFocusable": 0,
+          "sealedText": "DANIELSEALEDCM17",
+          "guessIdPrefixes": [
+            "p1"
+          ],
+          "signingInputs": 0
+        },
+        "rotation": {
+          "sign": 7.5,
+          "status": 0,
+          "controls": []
+        },
+        "stagingCovered": [],
+        "layout": {
+          "footerFixedBottom": true,
+          "footerH": 56,
+          "noScroll": true,
+          "scrollExcess": 0,
+          "pageScroll": false,
+          "primaryVisible": true,
+          "sceneH": 215,
+          "sceneCrop": "335,34,1435,640",
+          "facesInScene": true,
+          "signInScene": true,
+          "fingertipInScene": true,
+          "hudNoOverlap": true
+        }
+      },
+      "fail": [],
+      "docScroll": {
+        "w": 390,
+        "h": 664,
+        "vw": 390,
+        "vh": 664
+      },
+      "strings": {
+        "title": "SEASON 1 · TRANSFER CHALLENGE",
+        "back": "HOME",
+        "refresh": "REFRESH",
+        "rail": [
+          "Window",
+          "Guesses",
+          "Signings",
+          "Verdicts"
+        ],
         "activeRail": "Guesses",
         "status": "GUESS ENTRY",
         "sign": "WINDOW CLOSED",
@@ -3213,49 +3251,49 @@
         {
           "id": "p1Guess1Type",
           "h": 44,
-          "w": 141,
+          "w": 150,
           "font": 16,
           "tag": "SELECT"
         },
         {
           "id": "p1Guess1Value",
           "h": 44,
-          "w": 141,
+          "w": 150,
           "font": 16,
           "tag": "INPUT"
         },
         {
           "id": "p1Guess2Type",
           "h": 44,
-          "w": 141,
+          "w": 150,
           "font": 16,
           "tag": "SELECT"
         },
         {
           "id": "p1Guess2Value",
           "h": 44,
-          "w": 141,
+          "w": 150,
           "font": 16,
           "tag": "INPUT"
         },
         {
           "id": "p1Guess3Type",
           "h": 44,
-          "w": 141,
+          "w": 150,
           "font": 16,
           "tag": "SELECT"
         },
         {
           "id": "p1Guess3Value",
           "h": 44,
-          "w": 141,
+          "w": 150,
           "font": 16,
           "tag": "INPUT"
         },
         {
           "id": "completeTransferChallenge",
           "h": 48,
-          "w": 319,
+          "w": 155,
           "font": 17,
           "tag": "BUTTON"
         },
@@ -3286,19 +3324,32 @@
         "refreshSharedTransferChallenge"
       ],
       "focusVisibleAll": true,
-      "sealedSigKey": "m_375x667_playerTwo",
+      "interaction": {
+        "beforeDisabled": true,
+        "afterSelect": {
+          "disabled": false,
+          "ph": "League"
+        },
+        "reset": {
+          "disabled": true,
+          "v": "",
+          "ph": "Pick a type first"
+        },
+        "sealedUnchangedByInput": true
+      },
+      "sealedSigKey": "m_390x664_playerTwo",
       "errors": []
     },
     {
-      "shot": "M_G3_360x780.jpg",
+      "shot": "M_G3_390x664.jpg",
       "frame": "G3",
-      "vw": 360,
-      "vh": 780,
+      "vw": 390,
+      "vh": 664,
       "dpr": 2,
       "mobile": true,
       "mode": "mobile",
-      "k": 0.3913,
-      "offY": 0,
+      "k": 0.3548,
+      "offY": 12,
       "titleCropPx": 0,
       "checks": {
         "noHorizontalScroll": true,
@@ -3321,20 +3372,25 @@
         "stagingCovered": [],
         "layout": {
           "footerFixedBottom": true,
-          "footerH": 64,
-          "contentScrollable": true,
+          "footerH": 56,
+          "noScroll": true,
+          "scrollExcess": 0,
           "pageScroll": false,
-          "lastContentClearsFooterAtEnd": true,
-          "sceneH": 283,
+          "primaryVisible": true,
+          "sceneH": 215,
+          "sceneCrop": "335,34,1435,640",
+          "facesInScene": true,
+          "signInScene": true,
+          "fingertipInScene": true,
           "hudNoOverlap": true
         }
       },
       "fail": [],
       "docScroll": {
-        "w": 360,
-        "h": 780,
-        "vw": 360,
-        "vh": 780
+        "w": 390,
+        "h": 664,
+        "vw": 390,
+        "vh": 664
       },
       "strings": {
         "title": "SEASON 1 · TRANSFER CHALLENGE",
@@ -3365,49 +3421,49 @@
         {
           "id": "p2Guess1Type",
           "h": 44,
-          "w": 133,
+          "w": 150,
           "font": 16,
           "tag": "SELECT"
         },
         {
           "id": "p2Guess1Value",
           "h": 44,
-          "w": 133,
+          "w": 150,
           "font": 16,
           "tag": "INPUT"
         },
         {
           "id": "p2Guess2Type",
           "h": 44,
-          "w": 133,
+          "w": 150,
           "font": 16,
           "tag": "SELECT"
         },
         {
           "id": "p2Guess2Value",
           "h": 44,
-          "w": 133,
+          "w": 150,
           "font": 16,
           "tag": "INPUT"
         },
         {
           "id": "p2Guess3Type",
           "h": 44,
-          "w": 133,
+          "w": 150,
           "font": 16,
           "tag": "SELECT"
         },
         {
           "id": "p2Guess3Value",
           "h": 44,
-          "w": 133,
+          "w": 150,
           "font": 16,
           "tag": "INPUT"
         },
         {
           "id": "completeTransferChallenge",
           "h": 48,
-          "w": 304,
+          "w": 155,
           "font": 17,
           "tag": "BUTTON"
         },
@@ -3438,19 +3494,32 @@
         "refreshSharedTransferChallenge"
       ],
       "focusVisibleAll": true,
-      "sealedSigKey": "m_360x780_playerOne",
+      "interaction": {
+        "beforeDisabled": true,
+        "afterSelect": {
+          "disabled": false,
+          "ph": "League"
+        },
+        "reset": {
+          "disabled": true,
+          "v": "",
+          "ph": "Pick a type first"
+        },
+        "sealedUnchangedByInput": true
+      },
+      "sealedSigKey": "m_390x664_playerOne",
       "errors": []
     },
     {
-      "shot": "M_G2_430x932.jpg",
+      "shot": "M_G2_390x844.jpg",
       "frame": "G2",
-      "vw": 430,
-      "vh": 932,
+      "vw": 390,
+      "vh": 844,
       "dpr": 2,
       "mobile": true,
       "mode": "mobile",
-      "k": 0.4674,
-      "offY": 0,
+      "k": 0.5417,
+      "offY": 18,
       "titleCropPx": 0,
       "checks": {
         "noHorizontalScroll": true,
@@ -3473,11 +3542,330 @@
         "stagingCovered": [],
         "layout": {
           "footerFixedBottom": true,
-          "footerH": 64,
-          "contentScrollable": true,
+          "footerH": 56,
+          "noScroll": true,
+          "scrollExcess": 0,
           "pageScroll": false,
-          "lastContentClearsFooterAtEnd": true,
-          "sceneH": 331,
+          "primaryVisible": true,
+          "sceneH": 395,
+          "sceneCrop": "525,34,1245,763",
+          "facesInScene": true,
+          "signInScene": true,
+          "fingertipInScene": true,
+          "hudNoOverlap": true
+        }
+      },
+      "fail": [],
+      "docScroll": {
+        "w": 390,
+        "h": 844,
+        "vw": 390,
+        "vh": 844
+      },
+      "strings": {
+        "title": "SEASON 1 · TRANSFER CHALLENGE",
+        "back": "HOME",
+        "refresh": "REFRESH",
+        "rail": [
+          "Window",
+          "Guesses",
+          "Signings",
+          "Verdicts"
+        ],
+        "activeRail": "Guesses",
+        "status": "GUESS ENTRY",
+        "sign": "WINDOW CLOSED",
+        "heading": "Guess Daniel's signings",
+        "rule": "Guess a league or nationality. A matching signing must be released.",
+        "privacy": "Hidden from Daniel until you both lock.",
+        "primary": "LOCK GUESSES",
+        "placeholder": "Pick a type first",
+        "visibleChips": [
+          "SEALED",
+          "PRIVATE",
+          "YOU"
+        ],
+        "intro": false
+      },
+      "controls": [
+        {
+          "id": "p1Guess1Type",
+          "h": 44,
+          "w": 150,
+          "font": 16,
+          "tag": "SELECT"
+        },
+        {
+          "id": "p1Guess1Value",
+          "h": 44,
+          "w": 150,
+          "font": 16,
+          "tag": "INPUT"
+        },
+        {
+          "id": "p1Guess2Type",
+          "h": 44,
+          "w": 150,
+          "font": 16,
+          "tag": "SELECT"
+        },
+        {
+          "id": "p1Guess2Value",
+          "h": 44,
+          "w": 150,
+          "font": 16,
+          "tag": "INPUT"
+        },
+        {
+          "id": "p1Guess3Type",
+          "h": 44,
+          "w": 150,
+          "font": 16,
+          "tag": "SELECT"
+        },
+        {
+          "id": "p1Guess3Value",
+          "h": 44,
+          "w": 150,
+          "font": 16,
+          "tag": "INPUT"
+        },
+        {
+          "id": "completeTransferChallenge",
+          "h": 48,
+          "w": 155,
+          "font": 17,
+          "tag": "BUTTON"
+        },
+        {
+          "id": "backToShowdownHome",
+          "h": 44,
+          "w": 52,
+          "font": 12.5,
+          "tag": "BUTTON"
+        },
+        {
+          "id": "refreshSharedTransferChallenge",
+          "h": 44,
+          "w": 73,
+          "font": 12.5,
+          "tag": "BUTTON"
+        }
+      ],
+      "minTarget": 44,
+      "minFieldFont": 16,
+      "minTextFont": 11.5,
+      "tabOrder": [
+        "p1Guess1Type",
+        "p1Guess2Type",
+        "p1Guess3Type",
+        "completeTransferChallenge",
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "focusVisibleAll": true,
+      "sealedSigKey": "m_390x844_playerTwo",
+      "errors": []
+    },
+    {
+      "shot": "M_G2_430x740.jpg",
+      "frame": "G2",
+      "vw": 430,
+      "vh": 740,
+      "dpr": 2,
+      "mobile": true,
+      "mode": "mobile",
+      "k": 0.4802,
+      "offY": 16,
+      "titleCropPx": 0,
+      "checks": {
+        "noHorizontalScroll": true,
+        "stringMismatches": [],
+        "fit": [],
+        "textClip": [],
+        "privacy": {
+          "sealedFocusable": 0,
+          "sealedText": "DANIELSEALEDCM17",
+          "guessIdPrefixes": [
+            "p1"
+          ],
+          "signingInputs": 0
+        },
+        "rotation": {
+          "sign": 7.5,
+          "status": 0,
+          "controls": []
+        },
+        "stagingCovered": [],
+        "layout": {
+          "footerFixedBottom": true,
+          "footerH": 56,
+          "noScroll": true,
+          "scrollExcess": 0,
+          "pageScroll": false,
+          "primaryVisible": true,
+          "sceneH": 291,
+          "sceneCrop": "437,34,1333,640",
+          "facesInScene": true,
+          "signInScene": true,
+          "fingertipInScene": true,
+          "hudNoOverlap": true
+        }
+      },
+      "fail": [],
+      "docScroll": {
+        "w": 430,
+        "h": 740,
+        "vw": 430,
+        "vh": 740
+      },
+      "strings": {
+        "title": "SEASON 1 · TRANSFER CHALLENGE",
+        "back": "HOME",
+        "refresh": "REFRESH",
+        "rail": [
+          "Window",
+          "Guesses",
+          "Signings",
+          "Verdicts"
+        ],
+        "activeRail": "Guesses",
+        "status": "GUESS ENTRY",
+        "sign": "WINDOW CLOSED",
+        "heading": "Guess Daniel's signings",
+        "rule": "Guess a league or nationality. A matching signing must be released.",
+        "privacy": "Hidden from Daniel until you both lock.",
+        "primary": "LOCK GUESSES",
+        "placeholder": "Pick a type first",
+        "visibleChips": [
+          "SEALED",
+          "PRIVATE",
+          "YOU"
+        ],
+        "intro": false
+      },
+      "controls": [
+        {
+          "id": "p1Guess1Type",
+          "h": 44,
+          "w": 170,
+          "font": 16,
+          "tag": "SELECT"
+        },
+        {
+          "id": "p1Guess1Value",
+          "h": 44,
+          "w": 170,
+          "font": 16,
+          "tag": "INPUT"
+        },
+        {
+          "id": "p1Guess2Type",
+          "h": 44,
+          "w": 170,
+          "font": 16,
+          "tag": "SELECT"
+        },
+        {
+          "id": "p1Guess2Value",
+          "h": 44,
+          "w": 170,
+          "font": 16,
+          "tag": "INPUT"
+        },
+        {
+          "id": "p1Guess3Type",
+          "h": 44,
+          "w": 170,
+          "font": 16,
+          "tag": "SELECT"
+        },
+        {
+          "id": "p1Guess3Value",
+          "h": 44,
+          "w": 170,
+          "font": 16,
+          "tag": "INPUT"
+        },
+        {
+          "id": "completeTransferChallenge",
+          "h": 48,
+          "w": 174,
+          "font": 17,
+          "tag": "BUTTON"
+        },
+        {
+          "id": "backToShowdownHome",
+          "h": 44,
+          "w": 52,
+          "font": 12.5,
+          "tag": "BUTTON"
+        },
+        {
+          "id": "refreshSharedTransferChallenge",
+          "h": 44,
+          "w": 73,
+          "font": 12.5,
+          "tag": "BUTTON"
+        }
+      ],
+      "minTarget": 44,
+      "minFieldFont": 16,
+      "minTextFont": 11.5,
+      "tabOrder": [
+        "p1Guess1Type",
+        "p1Guess2Type",
+        "p1Guess3Type",
+        "completeTransferChallenge",
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "focusVisibleAll": true,
+      "sealedSigKey": "m_430x740_playerTwo",
+      "errors": []
+    },
+    {
+      "shot": "M_G3_430x932.jpg",
+      "frame": "G3",
+      "vw": 430,
+      "vh": 932,
+      "dpr": 2,
+      "mobile": true,
+      "mode": "mobile",
+      "k": 0.5972,
+      "offY": 20,
+      "titleCropPx": 0,
+      "checks": {
+        "noHorizontalScroll": true,
+        "stringMismatches": [],
+        "fit": [],
+        "textClip": [],
+        "privacy": {
+          "sealedFocusable": 0,
+          "sealedText": "NIKSEALEDCM17",
+          "guessIdPrefixes": [
+            "p2"
+          ],
+          "signingInputs": 0
+        },
+        "rotation": {
+          "sign": 7.5,
+          "status": 0,
+          "controls": []
+        },
+        "stagingCovered": [],
+        "layout": {
+          "footerFixedBottom": true,
+          "footerH": 56,
+          "noScroll": true,
+          "scrollExcess": 0,
+          "pageScroll": false,
+          "primaryVisible": true,
+          "sceneH": 483,
+          "sceneCrop": "525,34,1245,843",
+          "facesInScene": true,
+          "signInScene": true,
+          "fingertipInScene": true,
           "hudNoOverlap": true
         }
       },
@@ -3501,6 +3889,163 @@
         "activeRail": "Guesses",
         "status": "GUESS ENTRY",
         "sign": "WINDOW CLOSED",
+        "heading": "Guess Nik's signings",
+        "rule": "Guess a league or nationality. A matching signing must be released.",
+        "privacy": "Hidden from Nik until you both lock.",
+        "primary": "LOCK GUESSES",
+        "placeholder": "Pick a type first",
+        "visibleChips": [
+          "PRIVATE",
+          "YOU",
+          "SEALED"
+        ],
+        "intro": false
+      },
+      "controls": [
+        {
+          "id": "p2Guess1Type",
+          "h": 44,
+          "w": 170,
+          "font": 16,
+          "tag": "SELECT"
+        },
+        {
+          "id": "p2Guess1Value",
+          "h": 44,
+          "w": 170,
+          "font": 16,
+          "tag": "INPUT"
+        },
+        {
+          "id": "p2Guess2Type",
+          "h": 44,
+          "w": 170,
+          "font": 16,
+          "tag": "SELECT"
+        },
+        {
+          "id": "p2Guess2Value",
+          "h": 44,
+          "w": 170,
+          "font": 16,
+          "tag": "INPUT"
+        },
+        {
+          "id": "p2Guess3Type",
+          "h": 44,
+          "w": 170,
+          "font": 16,
+          "tag": "SELECT"
+        },
+        {
+          "id": "p2Guess3Value",
+          "h": 44,
+          "w": 170,
+          "font": 16,
+          "tag": "INPUT"
+        },
+        {
+          "id": "completeTransferChallenge",
+          "h": 48,
+          "w": 174,
+          "font": 17,
+          "tag": "BUTTON"
+        },
+        {
+          "id": "backToShowdownHome",
+          "h": 44,
+          "w": 52,
+          "font": 12.5,
+          "tag": "BUTTON"
+        },
+        {
+          "id": "refreshSharedTransferChallenge",
+          "h": 44,
+          "w": 73,
+          "font": 12.5,
+          "tag": "BUTTON"
+        }
+      ],
+      "minTarget": 44,
+      "minFieldFont": 16,
+      "minTextFont": 11.5,
+      "tabOrder": [
+        "p2Guess1Type",
+        "p2Guess2Type",
+        "p2Guess3Type",
+        "completeTransferChallenge",
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "focusVisibleAll": true,
+      "sealedSigKey": "m_430x932_playerOne",
+      "errors": []
+    },
+    {
+      "shot": "M_G2_360x640.jpg",
+      "frame": "G2",
+      "vw": 360,
+      "vh": 640,
+      "dpr": 2,
+      "mobile": true,
+      "mode": "mobile",
+      "k": 0.2888,
+      "offY": 10,
+      "titleCropPx": 0,
+      "checks": {
+        "noHorizontalScroll": true,
+        "stringMismatches": [],
+        "fit": [],
+        "textClip": [],
+        "privacy": {
+          "sealedFocusable": 0,
+          "sealedText": "DANIELSEALEDCM17",
+          "guessIdPrefixes": [
+            "p1"
+          ],
+          "signingInputs": 0
+        },
+        "rotation": {
+          "sign": 7.5,
+          "status": 0,
+          "controls": []
+        },
+        "stagingCovered": [],
+        "layout": {
+          "footerFixedBottom": true,
+          "footerH": 56,
+          "noScroll": true,
+          "scrollExcess": 0,
+          "pageScroll": false,
+          "primaryVisible": true,
+          "sceneH": 175,
+          "sceneCrop": "262,34,1508,640",
+          "facesInScene": true,
+          "signInScene": true,
+          "fingertipInScene": true,
+          "hudNoOverlap": true
+        }
+      },
+      "fail": [],
+      "docScroll": {
+        "w": 360,
+        "h": 640,
+        "vw": 360,
+        "vh": 640
+      },
+      "strings": {
+        "title": "SEASON 1 · TRANSFER CHALLENGE",
+        "back": "HOME",
+        "refresh": "REFRESH",
+        "rail": [
+          "Window",
+          "Guesses",
+          "Signings",
+          "Verdicts"
+        ],
+        "activeRail": "Guesses",
+        "status": "GUESS ENTRY",
+        "sign": "WINDOW CLOSED",
         "heading": "Guess Daniel's signings",
         "rule": "Guess a league or nationality. A matching signing must be released.",
         "privacy": "Hidden from Daniel until you both lock.",
@@ -3517,49 +4062,49 @@
         {
           "id": "p1Guess1Type",
           "h": 44,
-          "w": 168,
+          "w": 135,
           "font": 16,
           "tag": "SELECT"
         },
         {
           "id": "p1Guess1Value",
           "h": 44,
-          "w": 168,
+          "w": 135,
           "font": 16,
           "tag": "INPUT"
         },
         {
           "id": "p1Guess2Type",
           "h": 44,
-          "w": 168,
+          "w": 135,
           "font": 16,
           "tag": "SELECT"
         },
         {
           "id": "p1Guess2Value",
           "h": 44,
-          "w": 168,
+          "w": 135,
           "font": 16,
           "tag": "INPUT"
         },
         {
           "id": "p1Guess3Type",
           "h": 44,
-          "w": 168,
+          "w": 135,
           "font": 16,
           "tag": "SELECT"
         },
         {
           "id": "p1Guess3Value",
           "h": 44,
-          "w": 168,
+          "w": 135,
           "font": 16,
           "tag": "INPUT"
         },
         {
           "id": "completeTransferChallenge",
           "h": 48,
-          "w": 374,
+          "w": 142,
           "font": 17,
           "tag": "BUTTON"
         },
@@ -3590,7 +4135,374 @@
         "refreshSharedTransferChallenge"
       ],
       "focusVisibleAll": true,
-      "sealedSigKey": "m_430x932_playerTwo",
+      "sealedSigKey": "m_360x640_playerTwo",
+      "errors": []
+    },
+    {
+      "shot": "M_G3_375x667.jpg",
+      "frame": "G3",
+      "vw": 375,
+      "vh": 667,
+      "dpr": 2,
+      "mobile": true,
+      "mode": "mobile",
+      "k": 0.3597,
+      "offY": 12,
+      "titleCropPx": 0,
+      "checks": {
+        "noHorizontalScroll": true,
+        "stringMismatches": [],
+        "fit": [],
+        "textClip": [],
+        "privacy": {
+          "sealedFocusable": 0,
+          "sealedText": "NIKSEALEDCM17",
+          "guessIdPrefixes": [
+            "p2"
+          ],
+          "signingInputs": 0
+        },
+        "rotation": {
+          "sign": 7.5,
+          "status": 0,
+          "controls": []
+        },
+        "stagingCovered": [],
+        "layout": {
+          "footerFixedBottom": true,
+          "footerH": 56,
+          "noScroll": true,
+          "scrollExcess": 0,
+          "pageScroll": false,
+          "primaryVisible": true,
+          "sceneH": 218,
+          "sceneCrop": "364,34,1406,640",
+          "facesInScene": true,
+          "signInScene": true,
+          "fingertipInScene": true,
+          "hudNoOverlap": true
+        }
+      },
+      "fail": [],
+      "docScroll": {
+        "w": 375,
+        "h": 667,
+        "vw": 375,
+        "vh": 667
+      },
+      "strings": {
+        "title": "SEASON 1 · TRANSFER CHALLENGE",
+        "back": "HOME",
+        "refresh": "REFRESH",
+        "rail": [
+          "Window",
+          "Guesses",
+          "Signings",
+          "Verdicts"
+        ],
+        "activeRail": "Guesses",
+        "status": "GUESS ENTRY",
+        "sign": "WINDOW CLOSED",
+        "heading": "Guess Nik's signings",
+        "rule": "Guess a league or nationality. A matching signing must be released.",
+        "privacy": "Hidden from Nik until you both lock.",
+        "primary": "LOCK GUESSES",
+        "placeholder": "Pick a type first",
+        "visibleChips": [
+          "PRIVATE",
+          "YOU",
+          "SEALED"
+        ],
+        "intro": false
+      },
+      "controls": [
+        {
+          "id": "p2Guess1Type",
+          "h": 44,
+          "w": 143,
+          "font": 16,
+          "tag": "SELECT"
+        },
+        {
+          "id": "p2Guess1Value",
+          "h": 44,
+          "w": 143,
+          "font": 16,
+          "tag": "INPUT"
+        },
+        {
+          "id": "p2Guess2Type",
+          "h": 44,
+          "w": 143,
+          "font": 16,
+          "tag": "SELECT"
+        },
+        {
+          "id": "p2Guess2Value",
+          "h": 44,
+          "w": 143,
+          "font": 16,
+          "tag": "INPUT"
+        },
+        {
+          "id": "p2Guess3Type",
+          "h": 44,
+          "w": 143,
+          "font": 16,
+          "tag": "SELECT"
+        },
+        {
+          "id": "p2Guess3Value",
+          "h": 44,
+          "w": 143,
+          "font": 16,
+          "tag": "INPUT"
+        },
+        {
+          "id": "completeTransferChallenge",
+          "h": 48,
+          "w": 149,
+          "font": 17,
+          "tag": "BUTTON"
+        },
+        {
+          "id": "backToShowdownHome",
+          "h": 44,
+          "w": 52,
+          "font": 12.5,
+          "tag": "BUTTON"
+        },
+        {
+          "id": "refreshSharedTransferChallenge",
+          "h": 44,
+          "w": 73,
+          "font": 12.5,
+          "tag": "BUTTON"
+        }
+      ],
+      "minTarget": 44,
+      "minFieldFont": 16,
+      "minTextFont": 11.5,
+      "tabOrder": [
+        "p2Guess1Type",
+        "p2Guess2Type",
+        "p2Guess3Type",
+        "completeTransferChallenge",
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "focusVisibleAll": true,
+      "sealedSigKey": "m_375x667_playerOne",
+      "errors": []
+    },
+    {
+      "shot": "M_G2_375x553.jpg",
+      "frame": "G2",
+      "vw": 375,
+      "vh": 553,
+      "dpr": 2,
+      "mobile": true,
+      "tight": true,
+      "mode": "mobile",
+      "k": 0.2885,
+      "offY": 14,
+      "titleCropPx": 0,
+      "checks": {
+        "noHorizontalScroll": true,
+        "stringMismatches": [],
+        "fit": [],
+        "textClip": [],
+        "privacy": {
+          "sealedFocusable": 0,
+          "sealedText": "DANIELSEALEDCM17",
+          "guessIdPrefixes": [
+            "p1"
+          ],
+          "signingInputs": 0
+        },
+        "rotation": {
+          "sign": 7.5,
+          "status": 0,
+          "controls": []
+        },
+        "stagingCovered": [],
+        "layout": {
+          "footerFixedBottom": true,
+          "footerH": 56,
+          "noScroll": true,
+          "scrollExcess": 0,
+          "pageScroll": false,
+          "primaryVisible": true,
+          "sceneH": 104,
+          "sceneCrop": "235,50,1535,411",
+          "facesInScene": true,
+          "signInScene": true,
+          "fingertipInScene": false,
+          "hudNoOverlap": true
+        }
+      },
+      "fail": [],
+      "docScroll": {
+        "w": 375,
+        "h": 553,
+        "vw": 375,
+        "vh": 553
+      },
+      "strings": {
+        "title": "SEASON 1 · TRANSFER CHALLENGE",
+        "back": "HOME",
+        "refresh": "REFRESH",
+        "rail": [
+          "Window",
+          "Guesses",
+          "Signings",
+          "Verdicts"
+        ],
+        "activeRail": "Guesses",
+        "status": "GUESS ENTRY",
+        "sign": "WINDOW CLOSED",
+        "heading": "Guess Daniel's signings",
+        "rule": "Guess a league or nationality. A matching signing must be released.",
+        "privacy": "Hidden from Daniel until you both lock.",
+        "primary": "LOCK GUESSES",
+        "placeholder": "Pick a type first",
+        "visibleChips": [
+          "SEALED",
+          "PRIVATE",
+          "YOU"
+        ],
+        "intro": false
+      },
+      "controls": [
+        {
+          "id": "p1Guess1Type",
+          "h": 44,
+          "w": 143,
+          "font": 16,
+          "tag": "SELECT"
+        },
+        {
+          "id": "p1Guess1Value",
+          "h": 44,
+          "w": 143,
+          "font": 16,
+          "tag": "INPUT"
+        },
+        {
+          "id": "p1Guess2Type",
+          "h": 44,
+          "w": 143,
+          "font": 16,
+          "tag": "SELECT"
+        },
+        {
+          "id": "p1Guess2Value",
+          "h": 44,
+          "w": 143,
+          "font": 16,
+          "tag": "INPUT"
+        },
+        {
+          "id": "p1Guess3Type",
+          "h": 44,
+          "w": 143,
+          "font": 16,
+          "tag": "SELECT"
+        },
+        {
+          "id": "p1Guess3Value",
+          "h": 44,
+          "w": 143,
+          "font": 16,
+          "tag": "INPUT"
+        },
+        {
+          "id": "completeTransferChallenge",
+          "h": 48,
+          "w": 149,
+          "font": 17,
+          "tag": "BUTTON"
+        },
+        {
+          "id": "backToShowdownHome",
+          "h": 44,
+          "w": 52,
+          "font": 12.5,
+          "tag": "BUTTON"
+        },
+        {
+          "id": "refreshSharedTransferChallenge",
+          "h": 44,
+          "w": 73,
+          "font": 12.5,
+          "tag": "BUTTON"
+        }
+      ],
+      "minTarget": 44,
+      "minFieldFont": 16,
+      "minTextFont": 11.5,
+      "tabOrder": [
+        "p1Guess1Type",
+        "p1Guess2Type",
+        "p1Guess3Type",
+        "completeTransferChallenge",
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "focusVisibleAll": true,
+      "sealedSigKey": "m_375x553_playerTwo",
+      "errors": []
+    },
+    {
+      "shot": "M_S0_390x664.jpg",
+      "frame": "S0",
+      "vw": 390,
+      "vh": 664,
+      "dpr": 2,
+      "mobile": true,
+      "mode": "mobile",
+      "k": 0.5417,
+      "offY": -77,
+      "titleCropPx": 0,
+      "checks": {
+        "noHorizontalScroll": true
+      },
+      "fail": [],
+      "docScroll": {
+        "w": 390,
+        "h": 664,
+        "vw": 390,
+        "vh": 664
+      },
+      "sceneCrop": "525,-142,1245,1083",
+      "tabOrder": [],
+      "focusVisibleAll": true,
+      "errors": []
+    },
+    {
+      "shot": "M_S0_430x932.jpg",
+      "frame": "S0",
+      "vw": 430,
+      "vh": 932,
+      "dpr": 2,
+      "mobile": true,
+      "mode": "mobile",
+      "k": 0.5972,
+      "offY": -185,
+      "titleCropPx": 0,
+      "checks": {
+        "noHorizontalScroll": true
+      },
+      "fail": [],
+      "docScroll": {
+        "w": 430,
+        "h": 932,
+        "vw": 430,
+        "vh": 932
+      },
+      "sceneCrop": "525,-310,1245,1251",
+      "tabOrder": [],
+      "focusVisibleAll": true,
       "errors": []
     }
   ],
@@ -3639,7 +4551,7 @@
       ],
       "identical": true
     },
-    "m_390x844_playerTwo": {
+    "m_390x664_playerTwo": {
       "frames": [
         "F1",
         "F1R",
@@ -3647,7 +4559,7 @@
       ],
       "identical": true
     },
-    "m_390x844_playerOne": {
+    "m_390x664_playerOne": {
       "frames": [
         "F1D",
         "F1DR",
@@ -3655,27 +4567,53 @@
       ],
       "identical": true
     },
-    "m_375x667_playerTwo": {
+    "m_390x844_playerTwo": {
       "frames": [
         "F1",
         "G2"
       ],
       "identical": true
     },
-    "m_360x780_playerTwo": {
+    "m_430x740_playerTwo": {
       "frames": [
-        "F1"
+        "F1",
+        "G2"
       ],
       "identical": true
     },
     "m_430x932_playerTwo": {
       "frames": [
+        "F1"
+      ],
+      "identical": true
+    },
+    "m_360x640_playerTwo": {
+      "frames": [
         "F1",
         "G2"
       ],
       "identical": true
     },
-    "m_360x780_playerOne": {
+    "m_375x667_playerTwo": {
+      "frames": [
+        "F1"
+      ],
+      "identical": true
+    },
+    "m_375x553_playerTwo": {
+      "frames": [
+        "F1",
+        "G2"
+      ],
+      "identical": true
+    },
+    "m_430x932_playerOne": {
+      "frames": [
+        "G3"
+      ],
+      "identical": true
+    },
+    "m_375x667_playerOne": {
       "frames": [
         "G3"
       ],
@@ -3684,7 +4622,7 @@
   },
   "sealedMarkupIdenticalAcrossViewersAndPhases": true,
   "summary": {
-    "shots": 29,
+    "shots": 37,
     "shotsWithFailures": 0,
     "sealedConstancyFail": false
   }

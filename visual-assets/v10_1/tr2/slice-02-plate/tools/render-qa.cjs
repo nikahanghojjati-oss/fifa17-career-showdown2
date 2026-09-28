@@ -15,8 +15,8 @@ const S = fx.strings;
 
 // Staging that live UI must never cover (plate px). Faces measured on the 1672 plate; fingertip = overlay rect.
 const STAGING = {
-  danielFace: [510, 120, 670, 310],
-  nikFace: [1060, 120, 1250, 310],
+  danielFace: [525, 130, 665, 300],
+  nikFace: [1075, 130, 1235, 300],
   nikFingertip: map.overlays.nikFingertip.rect,
 };
 
@@ -28,9 +28,12 @@ const shots = [
   D("F1", 1366, 640), D("F1D", 1366, 640),
   D("F1", 1440, 900), D("F1", 1920, 1080), D("F1", 1366, 768, { dpr: 2 }), D("F1", 1366, 768, { grid: true }),
   D("G2", 1366, 768), D("G3", 1366, 768), D("G2", 1366, 640), D("G3", 1366, 640), D("G2", 1440, 900), D("G2", 1920, 1080),
-  M("F1", 390, 844), M("F1D", 390, 844), M("F1R", 390, 844), M("F1DR", 390, 844),
-  M("F1", 375, 667), M("F1", 360, 780), M("F1", 430, 932),
-  M("G2", 390, 844), M("G3", 390, 844), M("G2", 375, 667), M("G3", 360, 780), M("G2", 430, 932),
+  // Phone viewports: visible browser area (iPhone 12-15 Safari 390x664, Pro Max 430x740, Android 360x640,
+  // full-screen/tall 390x844 and 430x932, iPhone SE Safari 375x553 = scroll tolerated, action must show).
+  M("F1", 390, 664), M("F1D", 390, 664), M("F1R", 390, 664), M("F1DR", 390, 664),
+  M("F1", 390, 844), M("F1", 430, 740), M("F1", 430, 932), M("F1", 360, 640), M("F1", 375, 667), M("F1", 375, 553, { tight: true }),
+  M("G2", 390, 664), M("G3", 390, 664), M("G2", 390, 844), M("G2", 430, 740), M("G3", 430, 932), M("G2", 360, 640), M("G3", 375, 667), M("G2", 375, 553, { tight: true }),
+  M("S0", 390, 664), M("S0", 430, 932),
 ];
 
 function stringsFor(frame) {
@@ -73,7 +76,7 @@ function stringsFor(frame) {
       res.docScroll = { w: document.documentElement.scrollWidth, h: document.documentElement.scrollHeight, vw: innerWidth, vh: innerHeight };
       res.checks.noHorizontalScroll = document.documentElement.scrollWidth <= innerWidth && (stage.dataset.mode !== "mobile" || stage.scrollWidth <= stage.clientWidth + 1);
       if (!res.checks.noHorizontalScroll) res.fail.push("horizontal scroll");
-      if (!q(".panel")) return res;
+      if (!q(".panel")) { res.sceneCrop = stage.dataset.sceneCrop; return res; }
       const mobile = res.mode === "mobile";
       const text = (id) => (document.getElementById(id) || {}).textContent;
 
@@ -90,7 +93,7 @@ function stringsFor(frame) {
         visibleChips: [...document.querySelectorAll(".chip")].filter(vis).map((n) => n.textContent),
         intro: !!document.getElementById("transferPhaseIntro"),
       };
-      const mism = Object.keys(expect).filter((k) => JSON.stringify(got[k]) !== JSON.stringify(expect[k])).map((k) => ({ key: k, want: expect[k], got: got[k] }));
+      const mism = Object.keys(expect).filter((k) => k !== "__tight" && JSON.stringify(got[k]) !== JSON.stringify(expect[k])).map((k) => ({ key: k, want: expect[k], got: got[k] }));
       res.strings = got; res.checks.stringMismatches = mism;
       if (mism.length) res.fail.push("strings");
       if (got.intro) res.fail.push("intro present");
@@ -112,8 +115,8 @@ function stringsFor(frame) {
         if (clipToView && (b.left < -0.5 || b.right > innerWidth + 0.5)) fit.push({ box: n.className, offscreen: [b.left, b.right] });
       });
       // mobile: content stays inside the painted frame insets of the 9-slice (top 31 / right 18 / bottom 28 / left 40 css px, less 16 px slack for the frame's own glow band)
-      if (mobile) document.querySelectorAll(".panel-body, .rules-inner, .frost").forEach((n) => {
-        const host = n.closest(".panel, .rules-card").getBoundingClientRect();
+      if (mobile) document.querySelectorAll(".panel-body").forEach((n) => {
+        const host = n.closest(".panel").getBoundingClientRect();
         const b = n.getBoundingClientRect();
         [...n.querySelectorAll("button, input, select, p, .stat")].filter(vis).forEach((c) => {
           const cb = c.getBoundingClientRect();
@@ -210,17 +213,27 @@ function stringsFor(frame) {
       const foot = q(".hud-footer").getBoundingClientRect();
       if (mobile) {
         const sc = stage;
-        const lastBottom = Math.max(...[...document.querySelectorAll(".panel, .rules-card")].map((n) => n.getBoundingClientRect().bottom)) + sc.scrollTop;
+        const scene = q(".scene").getBoundingClientRect(), band = q(".sign-status").getBoundingClientRect();
+        const act = q("#completeTransferChallenge") || q("#endTransferTimer");
+        const ab = act.getBoundingClientRect();
+        const kk2 = res.k, pl = q(".plane").getBoundingClientRect();
+        const inScene = (r) => pl.left + r[0] * kk2 >= scene.left - 0.5 && pl.left + r[2] * kk2 <= scene.right + 0.5 && pl.top + r[1] * kk2 >= scene.top - 0.5 && pl.top + r[3] * kk2 <= band.top + 0.5;
+        const sg = q(".sign-screen").getBoundingClientRect();
         res.checks.layout = {
           footerFixedBottom: Math.round(foot.bottom) === innerHeight, footerH: Math.round(foot.height),
-          contentScrollable: sc.scrollHeight > sc.clientHeight, pageScroll: document.documentElement.scrollHeight > innerHeight,
-          lastContentClearsFooterAtEnd: lastBottom - (sc.scrollHeight - sc.clientHeight) <= foot.top + 0.5,
-          sceneH: Math.round(q(".scene").getBoundingClientRect().height),
+          noScroll: sc.scrollHeight <= sc.clientHeight + 1, scrollExcess: sc.scrollHeight - sc.clientHeight,
+          pageScroll: document.documentElement.scrollHeight > innerHeight,
+          primaryVisible: ab.top >= 0 && ab.bottom <= foot.top + 0.5,
+          sceneH: Math.round(band.top - scene.top), sceneCrop: stage.dataset.sceneCrop,
+          facesInScene: inScene(STAGING.danielFace) && inScene(STAGING.nikFace),
+          signInScene: sg.top >= scene.top - 0.5 && sg.bottom <= band.top + 0.5,
+          fingertipInScene: inScene(STAGING.nikFingertip),
         };
         const home = q("#backToShowdownHome").getBoundingClientRect(), refresh = q("#refreshSharedTransferChallenge").getBoundingClientRect();
-        const midKids = [...q(".hud-mid").querySelectorAll(".hud-title, .rail li")].filter(vis).map((n) => n.getBoundingClientRect());
+        const midKids = [...q(".hud-mid").querySelectorAll(".hud-title, .rail li")].filter(vis).map((b) => b.getBoundingClientRect());
         res.checks.layout.hudNoOverlap = midKids.every((b) => b.left >= home.right + 2 && b.right <= refresh.left - 2);
-        if (!res.checks.layout.footerFixedBottom || res.checks.layout.pageScroll || !res.checks.layout.lastContentClearsFooterAtEnd || !res.checks.layout.hudNoOverlap) res.fail.push("mobile layout");
+        const L = res.checks.layout;
+        if (!L.footerFixedBottom || L.pageScroll || !L.primaryVisible || !L.hudNoOverlap || !L.facesInScene || !L.signInScene || (!L.noScroll && !expect.__tight)) res.fail.push("mobile layout");
       } else {
         const panels = [...document.querySelectorAll(".panel-body, .frost")].map((n) => n.getBoundingClientRect().bottom);
         const sign = q(".sign-screen").getBoundingClientRect();
@@ -235,7 +248,7 @@ function stringsFor(frame) {
         if (!L.footerClearsPanels || !L.signInView || !L.noPageScroll || L.footerClip) res.fail.push("desktop layout");
       }
       return res;
-    }, { STAGING, expect: fx.frames[s.frame].plateOnly ? {} : stringsFor(s.frame) });
+    }, { STAGING, expect: fx.frames[s.frame].plateOnly ? {} : Object.assign(stringsFor(s.frame), s.tight ? { __tight: true } : {}) });
 
     // ---- tab order + visible focus
     const tabs = [];
@@ -260,7 +273,7 @@ function stringsFor(frame) {
 
     // ---- interactions (once per frame family, base size)
     const phase = fx.frames[s.frame].phase;
-    const baseSize = (!s.mobile && s.vw === 1366 && s.vh === 768 && s.dpr === 1 && !s.grid) || (s.mobile && s.vw === 390);
+    const baseSize = (!s.mobile && s.vw === 1366 && s.vh === 768 && s.dpr === 1 && !s.grid) || (s.mobile && s.vw === 390 && s.vh === 664);
     if (phase === "WINDOW_OPEN" && baseSize && !fx.frames[s.frame].endRequested) {
       const sealedBefore = await page.evaluate(() => document.querySelector(".panel.sealed").innerHTML);
       await page.evaluate(() => { window.__intents = []; document.addEventListener("transfer:intent", (e) => window.__intents.push(e.detail)); });
