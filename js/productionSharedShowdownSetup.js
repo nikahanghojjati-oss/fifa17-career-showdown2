@@ -127,7 +127,16 @@
     if(!result||result.ok!==true)fail(result&&result.code||"SHARED_SETUP_PROVIDER_FAILED");
     return setState({status:"ready",busy:false,ready:true,revision:result.revision||0,phase:result.state&&result.state.phase||null,rivalryId:context.rivalryId,sessionId:context.sessionId,accountId:context.accountId,deviceId:context.deviceId,managerRole:context.managerRole,remoteRole:context.remoteRole,setup:result.state||null,message});
   }
-  async function refresh(){
+  // r49: taps used to be dropped with SHARED_SETUP_BUSY whenever any module's background refresh was
+  // in flight (every 2.5-15s), so the wheel/packs/confirm needed a second tap. Refreshes now coalesce,
+  // a refresh during a write keeps the write's state, and a write waits for an in-flight refresh.
+  let refreshInFlight=null,mutateInFlight=false;
+  function refresh(){
+    if(mutateInFlight)return Promise.resolve(state);
+    if(refreshInFlight)return refreshInFlight;
+    const run=refreshNow().finally(()=>{if(refreshInFlight===run)refreshInFlight=null;});refreshInFlight=run;return run;
+  }
+  async function refreshNow(){
     const before=storageSnapshot();setState({status:"reading",busy:true,message:"Reading the authoritative Shared Setup for this exact ACTIVE session…"});
     try{
       const context=await resolveContext();const result=await context.adapter.read(providerOptions(context));assertStorageUnchanged(before);
@@ -142,7 +151,11 @@
     }
   }
   async function mutate(type,extra={}){
-    if(state.busy)return Object.freeze({ok:false,code:"SHARED_SETUP_BUSY"});
+    if(mutateInFlight)return Object.freeze({ok:false,code:"SHARED_SETUP_BUSY"});
+    mutateInFlight=true;
+    try{if(refreshInFlight){try{await refreshInFlight;}catch(_error){}}return await mutateNow(type,extra);}finally{mutateInFlight=false;}
+  }
+  async function mutateNow(type,extra={}){
     const before=storageSnapshot();setState({status:`writing-${type}`,busy:true,message:"Submitting one authoritative Shared Setup transition…"});
     try{
       const context=await resolveContext();

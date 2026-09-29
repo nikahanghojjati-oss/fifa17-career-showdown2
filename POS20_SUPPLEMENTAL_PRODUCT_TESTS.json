@@ -454,6 +454,15 @@
         "^tests/contracts/ssjr2-physical-run-credit-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/shared-setup-no-dropped-taps-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedShowdownSetup\\.js$",
+        "^js/productionSharedShowdownPresentation\\.js$",
+        "^tests/contracts/shared-setup-no-dropped-taps-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
