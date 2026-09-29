@@ -6,9 +6,9 @@
   "use strict";
 
   const POLL_MS=15000;
-  const READ_TIMEOUT_MS=25000;
+  function psscReadTimeoutMs(){const value=Number(root.CMS_COMMIT_READ_TIMEOUT_MS);return Number.isFinite(value)&&value>=1000&&value<=25000?value:25000;}
   const ACTION_ID="sharedSeasonCommitAction";
-  let installed=false,busy=false,provider=null,conflictGuard=null,setupApi=null,resultsApi=null,view=null,contextKey="",providerChain=Promise.resolve(),refreshPromise=null,refreshRequestKey="",headingObserver=null,bootstrapObserver=null,errorMessage="",pendingErrorKind="",readError="",readErrorKey="";
+  let installed=false,busy=false,provider=null,conflictGuard=null,setupApi=null,resultsApi=null,view=null,contextKey="",providerChain=Promise.resolve(),refreshPromise=null,refreshRequestKey="",headingObserver=null,bootstrapObserver=null,errorMessage="",pendingErrorKind="",readError="",readErrorKey="",readGeneration=0;
 
   function psscFail(code,message){const error=new Error(message||code);error.code=code;throw error;}
   function psscShowdown(){try{return typeof currentShowdown!=="undefined"?currentShowdown:null;}catch(_error){return null;}}
@@ -96,10 +96,11 @@
     return true;
   }
   function psscBind(result,ctx,request){if(!psscContextMatches(request))return false;view={...result,rivalryId:ctx.setup.rivalryId,coordinatorRole:result.coordinatorRole||ctx.setup.setup.coordinatorRole};contextKey=request.key;readError="";readErrorKey="";psscRender();return true;}
-  async function psscRefreshNow(request=psscRequestContext()){
+  async function psscRefreshNow(request=psscRequestContext(),generation=0){
     if(!request)return null;
     if(contextKey&&contextKey!==request.key){psscSetError("");pendingErrorKind="";}
     const ctx=await psscProviderContext(request);if(!psscContextMatches(request))return null;const result=psscResultError(await provider.read(ctx.options),"Shared Season Commit could not be read.");if(!psscContextMatches(request))return null;
+    if(generation&&generation!==readGeneration)return null;
     if(pendingErrorKind&&psscSatisfied(pendingErrorKind,result)){psscSetError("");pendingErrorKind="";}
     psscBind(result,ctx,request);return view;
   }
@@ -108,7 +109,8 @@
     if(refreshPromise&&refreshRequestKey===request.key)return refreshPromise;
     if(contextKey!==request.key){view=null;contextKey="";if(readErrorKey!==request.key){readError="";readErrorKey="";}}
     refreshRequestKey=request.key;
-    const current=psscQueue(()=>psscWithTimeout(psscRefreshNow(request),READ_TIMEOUT_MS,"SEASON_COMMIT_CHECK_TIMEOUT"));refreshPromise=current;psscRender();
+    const generation=++readGeneration;
+    const current=psscQueue(()=>psscWithTimeout(psscRefreshNow(request,generation),psscReadTimeoutMs(),"SEASON_COMMIT_CHECK_TIMEOUT"));refreshPromise=current;psscRender();
     current.then(()=>{if(refreshPromise===current){refreshPromise=null;psscRender();}},error=>{
       if(refreshPromise===current){refreshPromise=null;if(psscContextMatches(request)&&psscResultsPublished(request)){const previous=readErrorKey===request.key?readError:"";view=null;contextKey="";readErrorKey=request.key;readError=String(error?.code||"SEASON_COMMIT_CHECK_FAILED").replace(/[^A-Za-z0-9_-]/g,"").slice(0,80);psscRender();if(readError!==previous)psscReport("Unable to check Shared Season Commit",error);}}
     });
@@ -116,7 +118,7 @@
   }
   function psscSatisfied(kind,current){if(kind==="commit")return Boolean(current.committed);return Boolean(current.ownAcknowledged||current.phase==="ACKNOWLEDGED");}
   async function psscMutate(kind){
-    if(busy)return false;const request=psscRequestContext();if(!request)return false;busy=true;psscSetError("");pendingErrorKind="";psscRender();const operationId=psscRandomOperationId();
+    if(busy)return false;const request=psscRequestContext();if(!request)return false;busy=true;readGeneration+=1;psscSetError("");pendingErrorKind="";psscRender();const operationId=psscRandomOperationId();
     try{
       return await psscQueue(async()=>{
         const ctx=await psscProviderContext(request);if(!psscContextMatches(request))return false;let current=psscResultError(await provider.read(ctx.options));

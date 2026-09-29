@@ -23,6 +23,9 @@ Automated audits missed it because they stubbed the provider, and Node tests res
 - The Commit provider now resolves its commit, results, setup and catalog protocols when they are used, not when the file loads.
 - The bootstrap and the Commit adapter both load the Setup and Season Results protocols before the Commit provider.
 - A Commit check that takes longer than 25 seconds fails visibly with `SEASON_COMMIT_CHECK_TIMEOUT` and `RETRY COMMIT CHECK`. A hung read can no longer block every later check.
+  - Only the newest check, or a commit or acknowledgement after it, may update the screen, so a timed-out check that finishes late cannot overwrite a newer result.
+  - The browser audit hangs a check, heals it, then releases the hung read to prove this.
+- The Season Results adapter also loads the Setup protocol before its provider, closing the same latent load-order class.
 - `tests/contracts/shared-season-commit-provider-contracts.cjs` evaluates the real provider in browser mode before its protocol modules exist. It then loads them into the same page global and proves that the next read and commit succeed. This check fails on r47.
 
 ## What did not change
