@@ -16,7 +16,7 @@
     ["ssjr-production-final-reconciliation","js/productionSharedFinalReconciliation.js",()=>root.CareerModeProductionSharedFinalReconciliation],
     ["ssjr-production-terminal-close","js/productionSharedTerminalClose.js",()=>root.CareerModeProductionSharedTerminalClose]
   ]);
-  let installed=false,observer=null,postResultsBootstrapPromise=null;
+  let installed=false,observer=null,postResultsBootstrapPromise=null,openPromise=null;
   function routeShowdown(){try{return typeof currentShowdown!=="undefined"?currentShowdown:null;}catch(_error){return null;}}
   function routeShared(){const showdown=routeShowdown();return Boolean(showdown&&showdown.sharedJourney&&showdown.sharedJourney.mode==="shared");}
   function routeButton(id){return root.document&&root.document.getElementById(id);}
@@ -49,13 +49,23 @@
   function routeDecorate(){
     if(!routeReady())return false;
     const continueButton=routeButton("continueFromTransfers");
-    if(continueButton){routeSetText(continueButton,"CONTINUE TO SHARED SEASON RESULTS");routeEnable(continueButton);if(continueButton.classList.contains("hidden"))continueButton.classList.remove("hidden");continueButton.dataset.sharedSeasonResultsRoute="true";}
+    if(continueButton&&openPromise){routeSetText(continueButton,"OPENING SEASON RESULTS…");if(!continueButton.disabled)continueButton.disabled=true;continueButton.dataset.sharedSeasonResultsRoute="true";}
+    else if(continueButton){routeSetText(continueButton,"CONTINUE TO SHARED SEASON RESULTS");routeEnable(continueButton);if(continueButton.classList.contains("hidden"))continueButton.classList.remove("hidden");continueButton.dataset.sharedSeasonResultsRoute="true";}
     const dashboardButton=routeButton("seasonPrimaryAction"),status=routeButton("dashboardTransferStatus"),results=routeResults(),resultView=results&&typeof results.getState==="function"?results.getState():null;
-    if(dashboardButton){const label=resultView?.state?.phase==="RESULTS_READY"?"VIEW SHARED SEASON RESULTS":resultView?.ownResult?"VIEW MY PUBLISHED RESULT":"ENTER SHARED SEASON RESULTS";routeSetText(dashboardButton,label);routeEnable(dashboardButton);dashboardButton.dataset.sharedSeasonResultsRoute="true";}
+    if(dashboardButton&&openPromise){routeSetText(dashboardButton,"OPENING SEASON RESULTS…");if(!dashboardButton.disabled)dashboardButton.disabled=true;dashboardButton.setAttribute("aria-busy","true");dashboardButton.dataset.sharedSeasonResultsRoute="true";}
+    else if(dashboardButton){if(dashboardButton.hasAttribute("aria-busy"))dashboardButton.removeAttribute("aria-busy");const label=resultView?.state?.phase==="RESULTS_READY"?"VIEW SHARED SEASON RESULTS":resultView?.ownResult?"VIEW MY PUBLISHED RESULT":"ENTER SHARED SEASON RESULTS";routeSetText(dashboardButton,label);routeEnable(dashboardButton);dashboardButton.dataset.sharedSeasonResultsRoute="true";}
     if(status){const label=resultView?.state?.phase==="RESULTS_READY"?"Shared season results: both published":resultView?.ownResult?"Shared season results: waiting for rival":"Shared transfer challenge: complete · season results ready";routeSetText(status,label);}
     return true;
   }
-  async function routeOpen(){
+  // r50: opening Results loads the Results, Commit and Scoring runtime and may wait on the Commit
+  // check. The tapped control shows OPENING… and overlapping taps share one open.
+  function routeOpen(){
+    if(openPromise)return openPromise;if(!routeReady())return Promise.resolve(false);
+    const run=Promise.resolve().then(routeOpenNow);openPromise=run;routeDecorate();
+    run.finally(()=>{if(openPromise===run)openPromise=null;routeDecorate();}).catch(()=>{});
+    return run;
+  }
+  async function routeOpenNow(){
     if(!routeReady())return false;
     if(typeof root.loadRuntimeScript!=="function")throw new Error("Shared Season Results runtime loader is unavailable.");
     await root.loadRuntimeScript("ssjr-production-season-results","js/productionSharedSeasonResults.js",()=>root.CareerModeProductionSharedSeasonResults);

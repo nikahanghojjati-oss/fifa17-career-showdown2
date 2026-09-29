@@ -8,7 +8,7 @@
   const PANEL_ID="productionSharedCareerStartOverlay";
   const CONTROL_ID="continueClubAssignment";
   const POLL_MS=15000;
-  let installed=false,busy=false,pollTimer=null,setupApi=null,provider=null,view=null,lastError="",operationTail=Promise.resolve(),refreshPromise=null;
+  let installed=false,busy=false,pollTimer=null,setupApi=null,provider=null,view=null,lastError="",operationTail=Promise.resolve(),refreshPromise=null,openPromise=null;
 
   function pcstCreate(tag,className,text){const node=root.document.createElement(tag);if(className)node.className=className;if(text!==undefined)node.textContent=String(text);return node;}
   function pcstReport(context,error){if(typeof root.reportApplicationError==="function")root.reportApplicationError(context,error);else root.console?.error?.(context,error);}
@@ -120,7 +120,16 @@
     const status=pcstCreate("p","remoteJoiningStatus",statusText);status.dataset.careerStatus="true";status.setAttribute("role","status");status.setAttribute("aria-live","polite");body.append(status);
     const actions=pcstCreate("div","remoteJoiningActions");const confirm=pcstCreate("button","compactButton",ready?"CONTINUE TO TRANSFER CHALLENGE":mine?"MY CAREER STARTED ✓":`I STARTED AT ${String(ownClub).toUpperCase()}`);confirm.type="button";confirm.disabled=busy||(!ready&&mine);confirm.addEventListener("click",()=>void (ready?pcstOpenTransferChallenge():pcstAcknowledge()));actions.append(confirm);const refreshButton=pcstCreate("button","compactButton","REFRESH");refreshButton.type="button";refreshButton.disabled=busy;refreshButton.addEventListener("click",()=>void pcstRefresh().catch(error=>pcstReport("Unable to refresh Shared Career Start",error)));actions.append(refreshButton);body.append(actions);
   }
-  async function pcstOpenPanel(){
+  // r50: opening Career Start loads its protocol, provider and styles on first use. The tapped control
+  // shows OPENING… and stays disabled until the panel is up, and overlapping opens share one attempt,
+  // so a slow first load never looks like a tap that did nothing.
+  function pcstOpenPanel(){
+    if(openPromise)return openPromise;
+    const run=Promise.resolve().then(pcstOpenPanelNow);openPromise=run;pcstDecorateControl();
+    run.finally(()=>{if(openPromise===run)openPromise=null;pcstDecorateControl();}).catch(()=>{});
+    return run;
+  }
+  async function pcstOpenPanelNow(){
     pcstDeactivateSetupPresentation();await pcstEnsureDependencies();let overlay=root.document.getElementById(PANEL_ID);if(!overlay){overlay=pcstCreate("div","remoteJoiningOverlay");overlay.id=PANEL_ID;overlay.setAttribute("role","dialog");overlay.setAttribute("aria-modal","true");overlay.setAttribute("aria-label","Shared Career Start");const shell=pcstCreate("div","remoteJoiningShell"),header=pcstCreate("div","remoteJoiningHeader");header.append(pcstCreate("strong","","CAREER MODE SHOWDOWN // 17"));const close=pcstCreate("button","remoteJoiningDismiss","×");close.type="button";close.setAttribute("aria-label","Close Career Start");close.addEventListener("click",pcstClosePanel);header.append(close);const body=pcstCreate("div","remoteJoiningBody");shell.append(header,body);overlay.append(shell);root.document.body.append(overlay);}overlay.classList.remove("hidden");pcstRender();await pcstRefresh();return true;
   }
   function pcstClosePanel(){const overlay=root.document&&root.document.getElementById(PANEL_ID);if(overlay)overlay.classList.add("hidden");return true;}
@@ -129,10 +138,12 @@
   function pcstDecorateControl(){
     const button=root.document&&root.document.getElementById(CONTROL_ID);if(!button)return false;
     if(!pcstConfirmed()||pcstPresentationOwnsControl())return pcstClearControlOwnership(button);
-    if(button.textContent!=="CONTINUE TO CAREER START")button.textContent="CONTINUE TO CAREER START";
-    if(button.disabled)button.disabled=false;
+    const opening=Boolean(openPromise),label=opening?"OPENING CAREER START…":"CONTINUE TO CAREER START";
+    if(button.textContent!==label)button.textContent=label;
+    if(button.disabled!==opening)button.disabled=opening;
+    if(opening)button.setAttribute("aria-busy","true");else if(button.hasAttribute("aria-busy"))button.removeAttribute("aria-busy");
     if(button.classList.contains("hidden"))button.classList.remove("hidden");
-    if(button.getAttribute("aria-disabled")!=="false")button.setAttribute("aria-disabled","false");
+    if(button.getAttribute("aria-disabled")!==String(opening))button.setAttribute("aria-disabled",String(opening));
     if(button.dataset.sharedCareerStart!=="true")button.dataset.sharedCareerStart="true";
     return true;
   }
