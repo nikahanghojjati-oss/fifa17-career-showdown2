@@ -96,7 +96,7 @@
     if(nestedPhase(commit)==="ACKNOWLEDGED")milestone("season-acknowledged","ACKNOWLEDGED",{revision:nestedRevision(commit),seasonNumber:nestedSeason(commit)});
     if(nestedPhase(scoring)==="SCORING_RECONCILED")milestone("scoring-reconciled","SCORING_RECONCILED",{revision:nestedRevision(scoring),seasonNumber:nestedSeason(scoring)});
     if(nestedPhase(history)==="HISTORY_CONVERGED")milestone("history-converged","HISTORY_CONVERGED",{revision:nestedRevision(history),seasonNumber:nestedSeason(history)});
-    const plan=multi?.state;if(multi?.phase==="SHOWDOWN_COMPLETE"&&plan?.terminal===true&&Number.isInteger(plan.acceptedSeasons)&&plan.acceptedSeasons===plan.totalSeasons)milestone("showdown-complete","SHOWDOWN_COMPLETE",{seasonNumber:plan.acceptedSeasons,totalSeasons:plan.totalSeasons});
+    const plan=multi?.state;if(multi?.phase==="SHOWDOWN_COMPLETE"&&plan?.terminal===true&&Number.isInteger(plan.acceptedSeasons)&&plan.acceptedSeasons===plan.totalSeasons&&safe.milestones.some(item=>item.stage==="history-converged"&&item.seasonNumber===plan.acceptedSeasons))milestone("showdown-complete","SHOWDOWN_COMPLETE",{seasonNumber:plan.acceptedSeasons,totalSeasons:plan.totalSeasons});
     if(reconnect?.phase==="ACTIVE_RECOVERED"||reconnect?.phase==="TERMINAL_RECOVERED"){
       const browserOnline=!root.navigator||root.navigator.onLine!==false;
       if(safe.offlineObserved&&hasStage("network-online")&&browserOnline){
@@ -109,7 +109,8 @@
     const terminalSeen=hasStage("terminal-closed"),recoveredSeen=hasStage("reconnect-recovered");
     if(!terminalSeen&&recoveredSeen&&Number.isInteger(safe.reconnectRecoveredStartupCount)&&safe.startupCount>safe.reconnectRecoveredStartupCount&&safe.rivalryFingerprint&&!safe.reloadResumed){safe.reloadResumed=true;milestone("reload-resumed","SAME_SANITIZED_AUTHORITY",{startupCount:safe.startupCount});persist();}
     if(local&&["REMOTE_OBSERVED","PREVIEW_READY","APPLIED"].includes(local.phase)){if(local.phase==="APPLIED")safe.candidateCApplied=true;milestone("local-reconciliation-safe",local.phase,{providerWrite:false});persist();}
-    if(finalState?.phase==="FINAL_SEASON_RECONCILED"&&finalState.finalSeasonReconciled===true)milestone("final-season-reconciled","FINAL_SEASON_RECONCILED",{seasonNumber:Number(finalState.completedSeason)||null});
+    // Final Reconciliation may already be reachable from REMOTE_OBSERVED; record it only once this device has proven the read-only preview, which is the order the run guide and validator require.
+    if(finalState?.phase==="FINAL_SEASON_RECONCILED"&&finalState.finalSeasonReconciled===true&&safe.milestones.some(item=>item.stage==="local-reconciliation-safe"&&item.phase==="PREVIEW_READY")&&storageProofComplete())milestone("final-season-reconciled","FINAL_SEASON_RECONCILED",{seasonNumber:Number(finalState.completedSeason)||null});
     if(terminal?.phase==="CLOSED"&&terminal.terminal===true){
       if(safe.terminalClosedStartupCount===null)safe.terminalClosedStartupCount=safe.startupCount;
       milestone("terminal-closed","CLOSED",{revision:Number.isInteger(terminal.rivalryRevision)?terminal.rivalryRevision:null,startupCount:safe.startupCount});
