@@ -32,7 +32,7 @@ const resultTwo={leaguePosition:3,leaguePoints:84,leagueGoals:79,domesticCup:fal
       const season=()=>currentShowdown.currentRound;
       window.CareerModeProductionSharedMultiSeasonProgression={resolveSeason:fallback=>fallback};
       const transfer=()=>({ok:true,revision:7,seasonNumber:season(),managerRole:role,rivalryId,setup:setup.setup,state:{phase:'COMPLETED',revision:7,guessLockedRoles:['playerOne','playerTwo'],signingLockedRoles:['playerOne','playerTwo']}});
-      const audit=window.__secondPublisherAudit={resultsReads:0,publishCalls:0,commitReads:0,commitWrites:0,failResultsRead:false,published:false,season2Published:false,acknowledgedSeasons:[]};
+      const audit=window.__secondPublisherAudit={resultsReads:0,publishCalls:0,commitReads:0,commitWrites:0,failResultsRead:false,published:false,season2Published:false,acknowledgedSeasons:[],committedSeasons:[],hangNextCommitRead:false,releaseHungRead:null};
       const waiting=n=>({ok:true,revision:1,state:{phase:'WAITING_FOR_RIVAL',revision:1,publishedRoles:['playerOne']},managerRole:role,seasonNumber:n,ownResult:null,opponentResult:null,allResults:null});
       const ready=n=>({ok:true,revision:2,state:{phase:'RESULTS_READY',revision:2,publishedRoles:['playerOne','playerTwo']},managerRole:role,seasonNumber:n,ownResult:resultTwo,opponentResult:resultOne,allResults:{playerOne:resultOne,playerTwo:resultTwo}});
       window.CareerModeProductionSharedShowdownSetup={getState:()=>setup,refresh:async()=>setup};
@@ -43,7 +43,7 @@ const resultTwo={leaguePosition:3,leaguePoints:84,leagueGoals:79,domesticCup:fal
       };
       window.CareerModeProductionFirebaseRuntime={ensureAccountServices:async()=>({ok:true,auth:{currentUser:{uid:'account_two'}},firestore:{},firestoreSdk:{}})};
       window.CareerModeSparkSharedSeasonCommit={
-        read:async options=>{audit.commitReads+=1;const n=options.seasonNumber;if(audit.acknowledgedSeasons.includes(n))return {ok:true,committed:true,ready:true,coordinatorRole:'playerOne',managerRole:role,seasonNumber:n,phase:'ACKNOWLEDGED',revision:3,ownAcknowledged:true,acknowledgedRoles:['playerOne','playerTwo'],results:{playerOne:resultOne,playerTwo:resultTwo}};return {ok:true,committed:false,ready:true,managerRole:role,seasonNumber:n,phase:'RESULTS_READY',revision:0,results:{playerOne:resultOne,playerTwo:resultTwo},coordinatorRole:'playerOne'};},
+        read:async options=>{audit.commitReads+=1;const n=options.seasonNumber;if(audit.hangNextCommitRead){audit.hangNextCommitRead=false;const stale={ok:true,committed:false,ready:true,managerRole:role,seasonNumber:n,phase:'RESULTS_READY',revision:0,results:{playerOne:resultOne,playerTwo:resultTwo},coordinatorRole:'playerOne'};return new Promise(resolve=>{audit.releaseHungRead=()=>resolve(stale);});}if(audit.committedSeasons.includes(n)&&!audit.acknowledgedSeasons.includes(n))return {ok:true,committed:true,ready:true,coordinatorRole:'playerOne',managerRole:role,seasonNumber:n,phase:'COMMITTED',revision:1,ownAcknowledged:false,acknowledgedRoles:[],results:{playerOne:resultOne,playerTwo:resultTwo}};if(audit.acknowledgedSeasons.includes(n))return {ok:true,committed:true,ready:true,coordinatorRole:'playerOne',managerRole:role,seasonNumber:n,phase:'ACKNOWLEDGED',revision:3,ownAcknowledged:true,acknowledgedRoles:['playerOne','playerTwo'],results:{playerOne:resultOne,playerTwo:resultTwo}};return {ok:true,committed:false,ready:true,managerRole:role,seasonNumber:n,phase:'RESULTS_READY',revision:0,results:{playerOne:resultOne,playerTwo:resultTwo},coordinatorRole:'playerOne'};},
         commitSeason:async()=>{audit.commitWrites+=1;return {ok:false,code:'AUDIT_UNEXPECTED_WRITE'};},
         acknowledgeSeason:async()=>{audit.commitWrites+=1;return {ok:false,code:'AUDIT_UNEXPECTED_WRITE'};}
       };
@@ -51,6 +51,7 @@ const resultTwo={leaguePosition:3,leaguePoints:84,leagueGoals:79,domesticCup:fal
       CareerModeProductionSharedSeasonResults.install();
       audit.failDependency=true;audit.stashedConflicts=window.CareerModeProductionSharedJourneyConflicts;window.CareerModeProductionSharedJourneyConflicts=undefined;
       const loader=window.loadRuntimeScript;window.loadRuntimeScript=(key,path,ready)=>{if(audit.failDependency&&key==='ssjr-production-journey-conflicts')return Promise.reject(new Error('Simulated lazy Commit dependency load failure.'));return loader(key,path,ready);};
+      window.CMS_COMMIT_READ_TIMEOUT_MS=1500;
       await loadRuntimeScript('ssjr-r47-audit-commit','js/productionSharedSeasonCommit.js',()=>window.CareerModeProductionSharedSeasonCommit);
       CareerModeProductionSharedSeasonCommit.install();
       const opened=await CareerModeProductionSharedSeasonResults.open();if(!opened)throw new Error('Shared Season Results did not open.');
@@ -106,10 +107,31 @@ const resultTwo={leaguePosition:3,leaguePoints:84,leagueGoals:79,domesticCup:fal
     await page.waitForFunction(()=>document.getElementById('sharedSeasonCommitAction')?.textContent==='WAITING FOR COORDINATOR',null,{timeout:35000});
     assert.ok(await page.evaluate(()=>window.__secondPublisherAudit.commitReads)>commitReadsBeforeSeason2,'season 2 must perform its own automatic authoritative Commit read');
     assert.equal(await page.evaluate(()=>CareerModeProductionSharedSeasonCommit.getState()?.seasonNumber),2,'season 2 must bind only season-2 Commit authority');
+    // r48: a Commit check that hangs must time out visibly, and when it finally resolves it must not
+    // overwrite the newer view obtained by later checks (stale-generation guard).
+    await page.evaluate(()=>{window.__seenCommitStatuses=[];const node=document.getElementById('sharedSeasonCommitStatus');new MutationObserver(()=>window.__seenCommitStatuses.push(node.textContent)).observe(node,{childList:true,characterData:true,subtree:true});const audit=window.__secondPublisherAudit;audit.hangNextCommitRead=true;audit.committedSeasons.push(2);});
+    await page.evaluate(()=>{CareerModeProductionSharedSeasonCommit.refresh().catch(()=>{});});
+    await page.waitForFunction(()=>window.__seenCommitStatuses.some(text=>/CHECK FAILED · SEASON_COMMIT_CHECK_TIMEOUT/.test(text)),null,{timeout:8000});
+    // Released before any newer check starts: the expired read must still never bind its older view.
+    await page.evaluate(()=>window.__secondPublisherAudit.releaseHungRead());await page.waitForTimeout(800);
+    assert.notEqual(await page.evaluate(()=>CareerModeProductionSharedSeasonCommit.getState()?.committed),false,'an expired read released before any retry must not bind its stale view');
+    await page.evaluate(()=>{window.__seenCommitStatuses.length=0;window.__secondPublisherAudit.hangNextCommitRead=true;window.__secondPublisherAudit.releaseHungRead=null;});
+    await page.evaluate(()=>{CareerModeProductionSharedSeasonCommit.refresh().catch(()=>{});});
+    await page.waitForTimeout(2200);
+    assert.match(await page.locator('#sharedSeasonCommitStatus').textContent(),/SEASON_COMMIT_CHECK_TIMEOUT/,'the repeated timeout must stay visible');
+    await page.waitForFunction(()=>['RETRY COMMIT CHECK','ACKNOWLEDGE SHARED SEASON'].includes(document.getElementById('sharedSeasonCommitAction')?.textContent)&&!document.getElementById('sharedSeasonCommitAction')?.disabled,null,{timeout:20000});
+    if(await page.locator('#sharedSeasonCommitAction').textContent()==='RETRY COMMIT CHECK')await page.locator('#sharedSeasonCommitAction').click();
+    await page.waitForFunction(()=>document.getElementById('sharedSeasonCommitAction')?.textContent==='ACKNOWLEDGE SHARED SEASON',null,{timeout:20000});
+    assert.equal(await page.evaluate(()=>typeof window.__secondPublisherAudit.releaseHungRead),'function','the hung read must still be pending when the newer view binds');
+    await page.evaluate(()=>window.__secondPublisherAudit.releaseHungRead());
+    await page.waitForTimeout(800);
+    assert.equal(await page.locator('#sharedSeasonCommitAction').textContent(),'ACKNOWLEDGE SHARED SEASON','a late timed-out read must never rebind an older view over a newer result');
+    assert.equal(await page.evaluate(()=>CareerModeProductionSharedSeasonCommit.getState()?.committed),true);
+    assert.equal(await page.evaluate(()=>window.__secondPublisherAudit.commitWrites),0,'timeouts and late reads must never write Commit state');
     const audit=await page.evaluate(()=>({publishCalls:window.__secondPublisherAudit.publishCalls,commitWrites:window.__secondPublisherAudit.commitWrites,commitReads:window.__secondPublisherAudit.commitReads}));
     assert.equal(audit.publishCalls,1);assert.equal(audit.commitWrites,0);assert.ok(audit.commitReads>=1);
     assert.deepEqual(await page.evaluate(()=>window.__secondPublisherAudit.storageAfter()),await page.evaluate(()=>window.__secondPublisherAudit.storageBefore),'recovery must not mutate canonical local storage');
     assert.deepEqual(errors,[],'second-publisher audit emitted page errors');
-    process.stdout.write('PASS Shared Season Commit second-publisher recovery: an incomplete RESULTS_READY publish projection with a failed follow-up read keeps a visible read-only Commit check, shows the failing code, never republishes or writes Commit, and one retry heals Results and restores the correct role action; a later season still checks Commit automatically after the previous season was acknowledged.\n');
+    process.stdout.write('PASS Shared Season Commit second-publisher recovery: an incomplete RESULTS_READY publish projection with a failed follow-up read keeps a visible read-only Commit check, shows the failing code, never republishes or writes Commit, and one retry heals Results and restores the correct role action; a later season still checks Commit automatically after the previous season was acknowledged; a hung check times out visibly and cannot later overwrite the retry result.\n');
   }finally{await context.close().catch(()=>{});await browser.close().catch(()=>{});}
 })().catch(error=>{console.error(error);process.exitCode=1;});
