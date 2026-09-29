@@ -9,7 +9,7 @@
   const ACTION_ID="sharedMultiSeasonContinueAction";
   const STATUS_ID="sharedMultiSeasonProgressionStatus";
   let installed=false,busy=false,provider=null,setupApi=null,historyApi=null,view=null,contextKey="",refreshPromise=null,exposedRivalryId="",exposedSeason=0,dashboardObserver=null;
-  let lastErrorCode="";
+  let lastErrorCode="",lastErrorKey="";
 
   function pmspFail(code,message){const error=new Error(message||code);error.code=code;throw error;}
   function pmspShowdown(){try{return typeof currentShowdown!=="undefined"?currentShowdown:null;}catch(_error){return null;}}
@@ -137,7 +137,7 @@
     if(result.runtimeRevision!=="1.9.1-r13"||String(result.rivalryId)!==request.rivalryId||!["SEASON_READY","SHOWDOWN_COMPLETE"].includes(result.phase)||result.state.runtimeRevision!=="1.9.1-r13"||result.state.rivalryId!==request.rivalryId)pmspFail("MULTI_SEASON_PROJECTION_INVALID");
     view=result;contextKey=request.key;const cursor=pmspEnsureCursor();if(cursor>result.state.acceptedSeasons+1)pmspFail("MULTI_SEASON_CURSOR_AHEAD_OF_AUTHORITY");pmspRender();pmspDecorateDashboard();return view;
   }
-  function pmspRefresh(){const request=pmspRequest();if(!request)return Promise.resolve(null);if(refreshPromise&&contextKey===request.key)return refreshPromise;busy=true;const current=pmspRefreshNow(request).then(value=>{if(value)lastErrorCode="";return value;},error=>{const code=String(error?.code||"MULTI_SEASON_REFRESH_FAILED").replace(/[^A-Za-z0-9_-]/g,"").slice(0,80);if(pmspContextMatches(request)&&code!==lastErrorCode)pmspReport("Unable to refresh Shared Multi Season progression",error);lastErrorCode=code;return null;}).finally(()=>{busy=false;if(refreshPromise===current)refreshPromise=null;pmspRender();});refreshPromise=current;return current;}
+  function pmspRefresh(){const request=pmspRequest();if(!request)return Promise.resolve(null);if(refreshPromise&&contextKey===request.key)return refreshPromise;busy=true;const current=pmspRefreshNow(request).then(value=>{if(pmspContextMatches(request)){lastErrorCode="";lastErrorKey="";}return value;},error=>{const code=String(error?.code||"MULTI_SEASON_REFRESH_FAILED").replace(/[^A-Za-z0-9_-]/g,"").slice(0,80);if(!pmspContextMatches(request))return null;const key=`${request.key}|${code}`;if(key!==lastErrorKey)pmspReport("Unable to refresh Shared Multi Season progression",error);lastErrorCode=code;lastErrorKey=key;return null;}).finally(()=>{busy=false;if(refreshPromise===current)refreshPromise=null;pmspRender();});refreshPromise=current;return current;}
   async function pmspAdvance(){
     if(busy&&refreshPromise){try{await refreshPromise;}catch(_error){}}
     if(busy||!pmspCanContinue())return false;const request=pmspRequest();if(!request)return false;const state=view.state,season=pmspEnsureCursor();

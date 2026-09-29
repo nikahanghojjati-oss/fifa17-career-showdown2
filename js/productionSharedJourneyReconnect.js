@@ -119,7 +119,7 @@
   }
   function pjrRefresh(){
     if(refreshPromise)return refreshPromise;busy=true;
-    const run=pjrRefreshNow().then(value=>{lastReportedCode="";return value;},error=>{const code=`${String(error?.code||"JOURNEY_RECONNECT_FAILED")}|${String(multiApi?.lastError?.()||"")}`;if(code!==lastReportedCode)pjrReport("Unable to refresh Shared Journey recovery",error);lastReportedCode=code;return state;}).finally(()=>{busy=false;if(refreshPromise===run)refreshPromise=null;pjrRender();});refreshPromise=run;return run;
+    const run=pjrRefreshNow().then(value=>{lastReportedCode="";return value;},error=>{const code=`${String(accountApi?.getState?.()?.accountId||"")}|${String(pairingApi?.getState?.()?.deviceId||"")}|${String(pjrMarkerRivalry()||"")}|${String(error?.code||"JOURNEY_RECONNECT_FAILED")}|${String(multiApi?.lastError?.()||"")}`;if(code!==lastReportedCode)pjrReport("Unable to refresh Shared Journey recovery",error);lastReportedCode=code;return state;}).finally(()=>{busy=false;if(refreshPromise===run)refreshPromise=null;pjrRender();});refreshPromise=run;return run;
   }
   function pjrWake(){if(busy||!pjrSharedMarker()||root.document?.visibilityState==="hidden")return;void pjrRefresh();}
   function pjrInstall(){

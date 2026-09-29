@@ -11,9 +11,9 @@ const {webcrypto}=require("node:crypto");
 const root=path.resolve(__dirname,"../..");
 const R="pair_"+"7".repeat(64),S="session_"+"6".repeat(64),D="device_"+"1".repeat(32),U="account_one";
 
-function sandboxWithStubs({hangFirstRead=true}={}){
+function sandboxWithStubs({hangFirstRead=true,waitMs=null}={}){
   const calls={reads:0,mutations:[]};let releaseRead=null;
-  const sandbox={console,crypto:webcrypto,setTimeout,clearTimeout,Promise};sandbox.globalThis=sandbox;
+  const sandbox={console,crypto:webcrypto,setTimeout,clearTimeout,Promise};sandbox.globalThis=sandbox;if(waitMs)sandbox.CMS_SETUP_REFRESH_WAIT_MS=waitMs;
   sandbox.CareerModeProductionFirebaseRuntime={ensureAccountServices:async()=>({ok:true,auth:{currentUser:{uid:U}},firestore:{},firestoreSdk:{}})};
   sandbox.CareerModeSparkConnectedAccount={initialize:async()=>true,getState:()=>({connected:true,accountId:U})};
   sandbox.CareerModeSparkPrivatePairing={initialize:async()=>true,getState:()=>({registered:true,deviceId:D})};
@@ -30,7 +30,7 @@ function sandboxWithStubs({hangFirstRead=true}={}){
   return {api:sandbox.CareerModeProductionSharedShowdownSetup,calls,release:()=>releaseRead&&releaseRead()};
 }
 
-const watchdog=setTimeout(()=>{console.error('shared-setup-no-dropped-taps: a promise never settled');process.exit(1);},10000);
+const watchdog=setTimeout(()=>{console.error('shared-setup-no-dropped-taps: a promise never settled');process.exit(1);},15000);
 (async()=>{
   const {api,calls,release}=sandboxWithStubs();
   assert.ok(api&&typeof api.refresh==="function"&&typeof api.mutate==="function","production Setup adapter must install on the page global");
@@ -62,9 +62,19 @@ const watchdog=setTimeout(()=>{console.error('shared-setup-no-dropped-taps: a pr
   // A refresh that starts during a write must not overwrite the write's newer state with a stale read.
   const {api:api3,calls:calls3}=sandboxWithStubs({hangFirstRead:false});await api3.refresh();
   const readsBefore=calls3.reads;const writing=api3.mutate("open");const during=await api3.refresh();
-  assert.equal(calls3.reads,readsBefore,"a refresh during a write must not issue a racing read");
-  assert.ok(during,"a refresh during a write must still return the current state");
+  assert.equal(calls3.reads,readsBefore+1,"a refresh during a write must not issue its own racing read (only the write's read)");
+  assert.equal(during?.revision,1,"a refresh during a write must resolve with the write's accepted state, not the pre-write state");
   await writing;
+
+  // A background read that never settles must not wedge taps forever: the write proceeds after the bound.
+  const {api:api4,calls:calls4}=sandboxWithStubs({waitMs:300});
+  api4.refresh();await new Promise(resolve=>setImmediate(resolve));
+  const realSetTimeout=setTimeout;
+  const hungTap=api4.mutate("open");
+  // the bound is shortened to 300ms for this test via CMS_SETUP_REFRESH_WAIT_MS (production default 20s)
+  const settled=await Promise.race([hungTap.then(()=>"settled"),new Promise(resolve=>realSetTimeout(()=>resolve("still-waiting"),3000))]);
+  assert.equal(settled,"settled","a tap waiting on a hung refresh must proceed after the bounded wait");
+  assert.deepEqual(calls4.mutations,["open"],"the bounded tap still performs exactly one write");
 
   clearTimeout(watchdog);
   console.log("PASS Shared Setup no-dropped-taps contracts: a tap during a background refresh waits and performs exactly one write, background refreshes coalesce, overlapping taps never duplicate a write, and a refresh during a write never races it.");

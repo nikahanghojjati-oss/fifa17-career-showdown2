@@ -130,11 +130,16 @@
   // r49: taps used to be dropped with SHARED_SETUP_BUSY whenever any module's background refresh was
   // in flight (every 2.5-15s), so the wheel/packs/confirm needed a second tap. Refreshes now coalesce,
   // a refresh during a write keeps the write's state, and a write waits for an in-flight refresh.
-  let refreshInFlight=null,mutateInFlight=false;
+  function refreshWaitMs(){const value=Number(root.CMS_SETUP_REFRESH_WAIT_MS);return Number.isFinite(value)&&value>=100&&value<=20000?value:20000;}
+  let refreshInFlight=null,refreshStartedAt=0,mutateInFlight=null;
+  function boundedWait(promise){let timer=null;return Promise.race([promise.catch(()=>null),new Promise(resolve=>{timer=root.setTimeout?.(resolve,refreshWaitMs());})]).finally(()=>{if(timer!==null)root.clearTimeout?.(timer);});}
   function refresh(){
-    if(mutateInFlight)return Promise.resolve(state);
-    if(refreshInFlight)return refreshInFlight;
-    const run=refreshNow().finally(()=>{if(refreshInFlight===run)refreshInFlight=null;});refreshInFlight=run;return run;
+    // A refresh during a write resolves after the write publishes its accepted state.
+    if(mutateInFlight)return mutateInFlight.then(()=>state,()=>state);
+    // Coalesce concurrent refreshes, but never wait on one that has hung past the bound.
+    if(refreshInFlight&&Date.now()-refreshStartedAt<refreshWaitMs())return refreshInFlight;
+    refreshStartedAt=Date.now();
+    const run=Promise.resolve().then(refreshNow).finally(()=>{if(refreshInFlight===run)refreshInFlight=null;});refreshInFlight=run;return run;
   }
   async function refreshNow(){
     const before=storageSnapshot();setState({status:"reading",busy:true,message:"Reading the authoritative Shared Setup for this exact ACTIVE session…"});
@@ -150,10 +155,12 @@
       return setState({status:"locked",busy:false,ready:false,message:error&&error.message&&error.message!==error.code?error.message:String(safeError(error,"SHARED_SETUP_UNAVAILABLE")).replace(/_/g," ")});
     }
   }
-  async function mutate(type,extra={}){
-    if(mutateInFlight)return Object.freeze({ok:false,code:"SHARED_SETUP_BUSY"});
-    mutateInFlight=true;
-    try{if(refreshInFlight){try{await refreshInFlight;}catch(_error){}}return await mutateNow(type,extra);}finally{mutateInFlight=false;}
+  function mutate(type,extra={}){
+    if(mutateInFlight)return Promise.resolve(Object.freeze({ok:false,code:"SHARED_SETUP_BUSY"}));
+    const pendingRefresh=refreshInFlight;
+    const run=(async()=>{if(pendingRefresh)await boundedWait(pendingRefresh);return mutateNow(type,extra);})();
+    mutateInFlight=run;
+    return run.finally(()=>{if(mutateInFlight===run)mutateInFlight=null;});
   }
   async function mutateNow(type,extra={}){
     const before=storageSnapshot();setState({status:`writing-${type}`,busy:true,message:"Submitting one authoritative Shared Setup transition…"});
