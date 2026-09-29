@@ -10,7 +10,9 @@ const FORBIDDEN_KEYS=new Set(["accountid","deviceid","rivalryid","sessionid","sa
 const ROLES=new Set(["playerOne","playerTwo"]);
 const REMOTE_ROLES=new Set(["host","peer"]);
 const CORE_STAGES=["remote-active","setup-confirmed","career-start-ready","transfer-completed","results-ready","season-acknowledged","scoring-reconciled","history-converged","local-reconciliation-safe","final-season-reconciled","terminal-closed"];
-const SEASON_ONE_STAGES=["transfer-completed","results-ready","season-acknowledged","scoring-reconciled","history-converged","final-season-reconciled"];
+// r51: a run may use any supported plan; every season must be proven in order on each device.
+const SEASON_STAGES=["transfer-completed","results-ready","season-acknowledged","scoring-reconciled","history-converged"];
+const PLAN_LENGTHS=[1,3,5,10];
 const STORAGE_SCOPE="local-reconciliation-preview";
 
 const plain=value=>!!value&&typeof value==="object"&&!Array.isArray(value);
@@ -64,8 +66,17 @@ function validateSingle(evidence,source,{expectedAppVersion,expectedRuntimeRevis
   }
   let corePrior=0;for(const stage of CORE_STAGES){const item=byStage.get(stage);require(Boolean(item),"CORE_STAGE_MISSING",`Required stage missing: ${stage}.`);if(item){require(item.sequence>corePrior,"CORE_STAGE_ORDER_INVALID",`Required stage is out of order: ${stage}.`);corePrior=item.sequence;}}
   const conflict=byStage.get("conflict-guard-proven");require(Boolean(conflict),"CONFLICT_MILESTONE_MISSING","The non-writing conflict-guard milestone must be recorded.");
-  const setup=byStage.get("setup-confirmed");require(Boolean(setup&&setup.totalSeasons===1),"ONE_SEASON_PLAN_REQUIRED","Physical Journey acceptance requires the confirmed one-season plan.");
-  for(const stage of SEASON_ONE_STAGES){const item=byStage.get(stage);require(Boolean(item&&item.seasonNumber===1),"SEASON_ONE_REQUIRED",`Physical Journey stage must refer to season 1: ${stage}.`);}
+  const setup=byStage.get("setup-confirmed"),totalSeasons=PLAN_LENGTHS.includes(setup?.totalSeasons)?setup.totalSeasons:null;require(Boolean(totalSeasons),"SEASON_PLAN_INVALID","Physical Journey acceptance requires a confirmed 1, 3, 5 or 10 season plan.");
+  let seasonPrior=setup?.sequence||0,lastHistory=null;
+  for(let season=1;totalSeasons&&season<=totalSeasons;season+=1)for(const stage of SEASON_STAGES){
+    const item=milestones.find(entry=>plain(entry)&&entry.stage===stage&&entry.seasonNumber===season);
+    if(!require(Boolean(item),"SEASON_STAGE_MISSING",`Season ${season} is missing ${stage}.`))continue;
+    require(item.sequence>seasonPrior,"SEASON_ORDER_INVALID",`Season ${season} ${stage} is out of order.`);seasonPrior=item.sequence;if(stage==="history-converged")lastHistory=item;
+  }
+  require(milestones.every(entry=>!plain(entry)||!SEASON_STAGES.includes(entry.stage)||(Number.isInteger(entry.seasonNumber)&&entry.seasonNumber>=1&&entry.seasonNumber<=(totalSeasons||1))),"SEASON_OUT_OF_PLAN","Every season milestone must name a season inside the confirmed plan.");
+  const finalSeason=byStage.get("final-season-reconciled");require(Boolean(finalSeason&&finalSeason.seasonNumber===totalSeasons&&lastHistory&&finalSeason.sequence>lastHistory.sequence),"FINAL_SEASON_MISMATCH","Final Reconciliation must reconcile the last season of the plan after its Shared History.");
+  const complete=milestones.find(entry=>plain(entry)&&entry.stage==="showdown-complete"&&entry.seasonNumber===totalSeasons);
+  if(totalSeasons>1)require(Boolean(complete&&complete.totalSeasons===totalSeasons&&lastHistory&&complete.sequence>lastHistory.sequence),"SHOWDOWN_COMPLETE_MISSING","A multi-season run must record the completed season plan after the last Shared History.");
   const localMilestones=milestones.filter(item=>plain(item)&&item.stage==="local-reconciliation-safe"),localPreview=localMilestones.find(item=>item.phase==="PREVIEW_READY");
   const history=byStage.get("history-converged"),offline=byStage.get("network-offline"),online=byStage.get("network-online"),recovered=byStage.get("reconnect-recovered"),reload=byStage.get("reload-resumed"),storageBaseline=byStage.get("local-reconciliation-storage-baseline"),storageVerified=byStage.get("local-reconciliation-storage-verified"),finalState=byStage.get("final-season-reconciled"),terminal=byStage.get("terminal-closed"),terminalReload=byStage.get("terminal-reload-verified");
   require(Boolean(history&&offline&&online&&recovered&&reload&&storageBaseline&&storageVerified&&localPreview&&finalState&&terminal&&terminalReload&&history.sequence<offline.sequence&&offline.sequence<online.sequence&&online.sequence<recovered.sequence&&recovered.sequence<reload.sequence&&reload.sequence<storageBaseline.sequence&&storageBaseline.sequence<localPreview.sequence&&storageBaseline.sequence<storageVerified.sequence&&localPreview.sequence<finalState.sequence&&storageVerified.sequence<finalState.sequence&&finalState.sequence<terminal.sequence&&terminal.sequence<terminalReload.sequence),"RECOVERY_ORDER_INVALID","History, offline, online, reconnect and pre-terminal reload must precede the scoped Local Reconciliation baseline; PREVIEW_READY and the unchanged after-hash verification may arrive in either order after that baseline, but both must finish before Final Reconciliation, terminal close and terminal reload.");
@@ -75,23 +86,24 @@ function validateSingle(evidence,source,{expectedAppVersion,expectedRuntimeRevis
   require(Boolean(storageBaseline&&storageBaseline.phase==="CAPTURED"&&storageBaseline.providerWrite===false&&storageVerified&&storageVerified.phase==="UNCHANGED"&&storageVerified.providerWrite===false),"LOCAL_RECONCILIATION_STORAGE_PROOF_INVALID","The Local Reconciliation preview must carry a bounded before/after canonical storage proof with no provider write attributed to the recorder.");
   require(Boolean(localPreview&&localPreview.providerWrite===false),"LOCAL_RECONCILIATION_PREVIEW_REQUIRED","Standard Physical Journey must record an actual read-only PREVIEW_READY Local Reconciliation milestone.");
   require(localMilestones.every(item=>item.phase!=="APPLIED"),"LOCAL_RECONCILIATION_UNSAFE","Standard Physical Journey must never record Candidate C Apply.");
-  return {issues,facts:{managerRole:evidence.managerRole,remoteRole:evidence.remoteRole,accountFingerprint:evidence.accountFingerprint,deviceFingerprint:evidence.deviceFingerprint,rivalryFingerprint:evidence.rivalryFingerprint,sessionFingerprints:new Set(sessionFingerprints),deviceLabel,networkLabel,signature}};
+  return {issues,facts:{totalSeasons,managerRole:evidence.managerRole,remoteRole:evidence.remoteRole,accountFingerprint:evidence.accountFingerprint,deviceFingerprint:evidence.deviceFingerprint,rivalryFingerprint:evidence.rivalryFingerprint,sessionFingerprints:new Set(sessionFingerprints),deviceLabel,networkLabel,signature}};
 }
 
 export function validatePhysicalJourneyPair(first,second,options={}){
-  const expectedAppVersion=String(options.expectedAppVersion||"1.9.1"),expectedRuntimeRevision=String(options.expectedRuntimeRevision||"1.9.1-r50");
+  const expectedAppVersion=String(options.expectedAppVersion||"1.9.1"),expectedRuntimeRevision=String(options.expectedRuntimeRevision||"1.9.1-r51");
   const left=validateSingle(first,"first export",{expectedAppVersion,expectedRuntimeRevision}),right=validateSingle(second,"second export",{expectedAppVersion,expectedRuntimeRevision}),issues=[...left.issues,...right.issues],a=left.facts,b=right.facts;
   const pair=(condition,code,message)=>{if(!condition)issues.push(issue("pair",code,message));};
   pair(a.managerRole&&b.managerRole&&a.managerRole!==b.managerRole&&new Set([a.managerRole,b.managerRole]).size===2,"MANAGER_ROLES_NOT_OPPOSITE","The exports must represent playerOne and playerTwo.");
   pair(a.remoteRole&&b.remoteRole&&a.remoteRole!==b.remoteRole,"REMOTE_ROLES_NOT_OPPOSITE","The exports must represent host and peer sides.");
   pair(a.accountFingerprint&&b.accountFingerprint&&a.accountFingerprint!==b.accountFingerprint,"ACCOUNT_NOT_DISTINCT","The two managers must use distinct account fingerprints.");
   pair(a.deviceFingerprint&&b.deviceFingerprint&&a.deviceFingerprint!==b.deviceFingerprint,"DEVICE_NOT_DISTINCT","The two managers must use distinct registered-device fingerprints.");
+  pair(a.totalSeasons&&a.totalSeasons===b.totalSeasons,"SEASON_PLAN_MISMATCH","Both exports must record the same confirmed season plan.");
   pair(a.rivalryFingerprint&&a.rivalryFingerprint===b.rivalryFingerprint,"RIVALRY_MISMATCH","Both exports must belong to the same private rivalry.");
   const sharedSessions=a.sessionFingerprints&&b.sessionFingerprints?[...a.sessionFingerprints].filter(value=>b.sessionFingerprints.has(value)):[];pair(sharedSessions.length>0,"SESSION_CORRELATION_MISSING","The two devices must share at least one sanitized private-session fingerprint.");
   pair(a.signature&&b.signature&&a.signature!==b.signature,"PHYSICAL_DEVICE_FACTS_NOT_DISTINCT","Browser device facts must differ across the physical pair.");
   pair(a.deviceLabel&&b.deviceLabel&&a.deviceLabel.toLowerCase()!==b.deviceLabel.toLowerCase(),"DEVICE_LABELS_NOT_DISTINCT","Device labels must identify two different physical devices.");
   pair(a.networkLabel&&b.networkLabel&&a.networkLabel.toLowerCase()!==b.networkLabel.toLowerCase(),"NETWORK_LABELS_NOT_DISTINCT","Network labels must identify two independent networks.");
-  return Object.freeze({schema:RESULT_SCHEMA,valid:issues.length===0,expectedAppVersion,expectedRuntimeRevision,issues,summary:{managerRoles:[a.managerRole,b.managerRole],remoteRoles:[a.remoteRole,b.remoteRole],sharedSessionFingerprints:sharedSessions.length,distinctDevices:Boolean(a.deviceFingerprint&&b.deviceFingerprint&&a.deviceFingerprint!==b.deviceFingerprint),sameRivalry:Boolean(a.rivalryFingerprint&&a.rivalryFingerprint===b.rivalryFingerprint)}});
+  return Object.freeze({schema:RESULT_SCHEMA,valid:issues.length===0,expectedAppVersion,expectedRuntimeRevision,issues,summary:{totalSeasons:a.totalSeasons&&a.totalSeasons===b.totalSeasons?a.totalSeasons:null,managerRoles:[a.managerRole,b.managerRole],remoteRoles:[a.remoteRole,b.remoteRole],sharedSessionFingerprints:sharedSessions.length,distinctDevices:Boolean(a.deviceFingerprint&&b.deviceFingerprint&&a.deviceFingerprint!==b.deviceFingerprint),sameRivalry:Boolean(a.rivalryFingerprint&&a.rivalryFingerprint===b.rivalryFingerprint)}});
 }
 
 function readJson(file){return JSON.parse(fs.readFileSync(path.resolve(file),"utf8"));}

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "modelVersion": "SSJR-2.0",
+  "modelVersion": "SSJR-2.1",
   "modelFile": "SHARED_SHOWDOWN_JOURNEY_MODEL_SSJR2.json",
   "denominator": 100,
   "currentScore": 0,

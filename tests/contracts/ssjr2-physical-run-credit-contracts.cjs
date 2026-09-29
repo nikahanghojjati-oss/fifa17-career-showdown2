@@ -13,9 +13,15 @@ const read=file=>fs.readFileSync(path.join(root,file),"utf8");
   const v1=JSON.parse(read("SHARED_SHOWDOWN_JOURNEY_MODEL.json")),v2=credit.loadModel(root),ledger=credit.loadLedger(root);
   const runtime=credit.currentProductionRuntime(root);
 
-  // SSJR-1.1 stays frozen and SSJR-2.0 keeps every capability, weight and dependency.
-  assert.equal(v2.modelVersion,"SSJR-2.0");assert.equal(v2.supersedesModelVersion,"SSJR-1.1");
-  assert.equal(v2.supersededModelSha256,`sha256:${crypto.createHash("sha256").update(fs.readFileSync(path.join(root,"SHARED_SHOWDOWN_JOURNEY_MODEL.json"))).digest("hex")}`,"SSJR-1.1 model file must remain byte-identical");
+  // SSJR-1.1 and SSJR-2.0 stay frozen; SSJR-2.1 keeps every capability, weight and dependency.
+  const fileHash=file=>`sha256:${crypto.createHash("sha256").update(fs.readFileSync(path.join(root,file))).digest("hex")}`;
+  assert.equal(v2.modelVersion,"SSJR-2.1");assert.equal(v2.supersedesModelVersion,"SSJR-2.0");
+  assert.equal(v2.supersededModelSha256,fileHash(v2.supersededModelFile),"the SSJR-2.0 model copy must remain byte-identical");
+  const v20=JSON.parse(read(v2.supersededModelFile));assert.equal(v20.modelVersion,"SSJR-2.0");assert.equal(v20.supersededModelSha256,fileHash("SHARED_SHOWDOWN_JOURNEY_MODEL.json"),"SSJR-1.1 model file must remain byte-identical");
+  assert.deepEqual(v2.capabilityLineage,{modelVersion:"SSJR-1.1",file:"SHARED_SHOWDOWN_JOURNEY_MODEL.json",sha256:v20.supersededModelSha256});
+  const stripMulti=model=>JSON.stringify(model.domains.map(d=>({...d,capabilities:d.capabilities.map(c=>c.id==="multi-season"?{...c,productionEvidence:null}:c)})));
+  assert.equal(stripMulti(v2),stripMulti(v20),"SSJR-2.1 changes only how multi-season is proven");
+  assert.deepEqual([v2.evidenceLayers,v2.creditPolicy,v2.permanentLocks],[v20.evidenceLayers,v20.creditPolicy,v20.permanentLocks]);
   const flat=model=>model.domains.flatMap(domain=>domain.capabilities.map(item=>({domain:domain.id,id:item.id,weight:item.weight,dependsOn:item.dependsOn})));
   assert.deepEqual(flat(v2),flat(v1),"SSJR-2.0 must not change capabilities, weights or dependencies");
   assert.deepEqual(v2.domains.map(d=>[d.id,d.weight]),v1.domains.map(d=>[d.id,d.weight]));
@@ -25,14 +31,14 @@ const read=file=>fs.readFileSync(path.join(root,file),"utf8");
     for(const file of item.automatedEvidence)assert.ok(fs.existsSync(path.join(root,file)),`${item.id} automated suite missing: ${file}`);
     assert.ok(plain(item.productionEvidence),`${item.id} needs a production evidence rule`);
   }
-  const multi=credit.capabilities(v2).find(item=>item.id==="multi-season").productionEvidence;assert.equal(multi.capturable,false,"the current one-season recorder must not be treated as multi-season proof");assert.equal(multi.requiresConfirmedSeasons.minimum,2);
+  const multi=credit.capabilities(v2).find(item=>item.id==="multi-season").productionEvidence;assert.notEqual(multi.capturable,false,"r51 recorder captures every season");assert.deepEqual(multi.requiredMilestonesOnBothDevices,["showdown-complete"]);assert.equal(multi.requiresConfirmedSeasons.minimum,2);
   assert.match(v2.provenanceTrust,/No independent identity channel exists/,"residual owner-provenance trust must be stated explicitly");
   assert.ok(fs.existsSync(path.join(root,v2.ownerAuthority)),"owner authority record must exist");
   assert.equal(JSON.parse(read("SHARED_SHOWDOWN_JOURNEY_READINESS.json")).modelVersion,"SSJR-1.1","SSJR-1.1 ledger remains untouched");
 
   // Ledger integrity: score equals credited weights and credit is dependency-closed.
   const weights=new Map(credit.capabilities(v2).map(item=>[item.id,item]));
-  assert.equal(ledger.modelVersion,"SSJR-2.0");
+  assert.equal(ledger.modelVersion,"SSJR-2.1");
   assert.equal(ledger.currentScore,(ledger.creditedCapabilityIds||[]).reduce((sum,id)=>sum+weights.get(id).weight,0),"ledger score must equal credited weights");
   for(const id of ledger.creditedCapabilityIds||[])for(const dep of weights.get(id).dependsOn)assert.ok(ledger.creditedCapabilityIds.includes(dep),`${id} credited without ${dep}`);
   for(const event of ledger.events||[]){assert.ok(/^[0-9a-f]{40}$/.test(event.productionMainSha)&&Number.isInteger(event.automatedEvidence?.rulesDeploymentRunId)&&event.exportHashes.length===2&&/^sha256:/.test(event.attestationHash),"every credit event needs a live-verified production main, a physical pair and a bound attestation");}
@@ -58,9 +64,22 @@ const read=file=>fs.readFileSync(path.join(root,file),"utf8");
   assert.deepEqual(ok.newlyCreditable.map(item=>item.id).sort(),[...expected].sort(),"a valid one-season run credits exactly the capabilities it proves");
   assert.equal(ok.scoreAfter,82,"a valid one-season run is worth exactly 82/100 under the unchanged SSJR weights");
   const blocked=new Map(ok.blocked.map(item=>[item.id,item.reasons.join("; ")]));
-  assert.match(blocked.get("multi-season"),/recorder cannot capture/);
+  assert.match(blocked.get("multi-season"),/at least 2 confirmed seasons/,"a one-season run cannot prove multi-season");
   for(const id of ["final-reconciliation","terminal-close","physical-journey","stable-journey-release"])assert.match(blocked.get(id),/depends on uncredited/,`${id} must stay blocked by its unchanged dependency`);
   assert.equal(ok.creditRecorded,false,"assessment alone never records credit");
+
+  // r51: one validated 3-season run proves every capability; stable release still needs Nik's explicit acceptance.
+  const seasonStages=["transfer-completed","results-ready","season-acknowledged","scoring-reconciled","history-converged"];
+  const planRun=(base,total)=>{const e=structuredClone(base),list=[];for(const item of e.milestones){if(seasonStages.includes(item.stage))continue;if(item.stage==="setup-confirmed")item.totalSeasons=total;if(item.stage==="final-season-reconciled")item.seasonNumber=total;list.push(item);if(item.stage==="career-start-ready"){for(let season=1;season<=total;season+=1)for(const stage of seasonStages)list.push({stage,phase:base.milestones.find(entry=>entry.stage===stage).phase,online:true,seasonNumber:season});list.push({stage:"showdown-complete",phase:"SHOWDOWN_COMPLETE",online:true,seasonNumber:total,totalSeasons:total});}}e.milestones=list.map((item,index)=>({...item,sequence:index+1,at:new Date(Date.UTC(2026,8,29,20,0,index)).toISOString()}));return e;};
+  const daniel3=planRun(daniel,3),nik3=planRun(nik,3),daniel3Text=JSON.stringify(daniel3,null,2),nik3Text=JSON.stringify(nik3,null,2);
+  const attestation3=credit.draftAttestation({first:daniel3,second:nik3,firstText:daniel3Text,secondText:nik3Text,runtimeRevision:runtime,runDate:"2026-09-29"});
+  const full=assess({first:daniel3,second:nik3,firstText:daniel3Text,secondText:nik3Text,attestation:{...attestation3,stableReleaseAccepted:true}});
+  assert.equal(full.valid,true,JSON.stringify(full.issues));assert.equal(full.scoreAfter,100,`a validated 3-season run with stable acceptance proves every capability: ${JSON.stringify(full.blocked)}`);assert.equal(full.blocked.length,0);
+  const notStable=assess({first:daniel3,second:nik3,firstText:daniel3Text,secondText:nik3Text,attestation:attestation3});
+  assert.equal(notStable.scoreAfter,98,"without Nik's stable-release acceptance only that 2-point capability stays blocked");assert.deepEqual(notStable.blocked.map(item=>item.id),["stable-journey-release"]);
+  const oneDeviceComplete={...nik3,milestones:nik3.milestones.filter(item=>item.stage!=="showdown-complete")};const oneDeviceText=JSON.stringify(oneDeviceComplete);
+  const partial=assess({first:daniel3,second:oneDeviceComplete,firstText:daniel3Text,secondText:oneDeviceText,attestation:credit.draftAttestation({first:daniel3,second:oneDeviceComplete,firstText:daniel3Text,secondText:oneDeviceText,runtimeRevision:runtime,runDate:"2026-09-29"})});
+  assert.equal(partial.valid,false,"a 3-season export without the completed plan is not a valid pair");assert.equal(partial.scoreAfter,0);
 
   // Nothing is creditable without a valid pair and exact owner attestation.
   for(const [label,overrides,code] of [
@@ -113,6 +132,6 @@ const read=file=>fs.readFileSync(path.join(root,file),"utf8");
   const again=credit.evaluateRun({first:daniel,second:nik,firstText:danielText,secondText:nikText,attestation,model:v2,ledger:recorded,runtimeRevision:runtime,repoRoot:root});
   assert.equal(again.newlyCreditable.length,0,"already-credited capabilities are never credited twice");assert.equal(again.scoreAfter,82);
 
-  console.log(`PASS SSJR-2.0 physical-run credit contracts: SSJR-1.1 stays frozen, capabilities/weights/dependencies are unchanged, a validated two-device ${runtime} run plus Nik's exact attestation credits exactly 82/100, multi-season and its dependents stay blocked for a one-season run, and invalid pairs, edited or replayed attestations, duplicates and unverified production mains credit nothing.`);
+  console.log(`PASS SSJR-2.1 physical-run credit contracts: SSJR-1.1 and SSJR-2.0 stay frozen, capabilities/weights/dependencies are unchanged, a validated two-device ${runtime} one-season run credits exactly 82/100 with multi-season and its dependents blocked, one validated 3-season run credits 100/100 (98 without Nik's stable-release acceptance), and invalid pairs, edited or replayed attestations, duplicates and unverified production mains credit nothing.`);
 })().catch(error=>{console.error(error);process.exit(1);});
 function plain(value){return !!value&&typeof value==="object"&&!Array.isArray(value);}
