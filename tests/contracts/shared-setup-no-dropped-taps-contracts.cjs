@@ -67,7 +67,7 @@ const watchdog=setTimeout(()=>{console.error('shared-setup-no-dropped-taps: a pr
   await writing;
 
   // A background read that never settles must not wedge taps forever: the write proceeds after the bound.
-  const {api:api4,calls:calls4}=sandboxWithStubs({waitMs:300});
+  const {api:api4,calls:calls4,release:release4}=sandboxWithStubs({waitMs:300});
   api4.refresh();await new Promise(resolve=>setImmediate(resolve));
   const realSetTimeout=setTimeout;
   const hungTap=api4.mutate("open");
@@ -75,6 +75,9 @@ const watchdog=setTimeout(()=>{console.error('shared-setup-no-dropped-taps: a pr
   const settled=await Promise.race([hungTap.then(()=>"settled"),new Promise(resolve=>realSetTimeout(()=>resolve("still-waiting"),3000))]);
   assert.equal(settled,"settled","a tap waiting on a hung refresh must proceed after the bounded wait");
   assert.deepEqual(calls4.mutations,["open"],"the bounded tap still performs exactly one write");
+  assert.equal(api4.getState().revision,1);
+  release4();await new Promise(resolve=>setImmediate(resolve));await new Promise(resolve=>setImmediate(resolve));
+  assert.equal(api4.getState().revision,1,"an overtaken refresh that finally resolves must never publish its pre-write state");
 
   clearTimeout(watchdog);
   console.log("PASS Shared Setup no-dropped-taps contracts: a tap during a background refresh waits and performs exactly one write, background refreshes coalesce, overlapping taps never duplicate a write, and a refresh during a write never races it.");

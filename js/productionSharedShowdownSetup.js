@@ -131,7 +131,7 @@
   // in flight (every 2.5-15s), so the wheel/packs/confirm needed a second tap. Refreshes now coalesce,
   // a refresh during a write keeps the write's state, and a write waits for an in-flight refresh.
   function refreshWaitMs(){const value=Number(root.CMS_SETUP_REFRESH_WAIT_MS);return Number.isFinite(value)&&value>=100&&value<=20000?value:20000;}
-  let refreshInFlight=null,refreshStartedAt=0,mutateInFlight=null;
+  let refreshInFlight=null,refreshStartedAt=0,mutateInFlight=null,setupGeneration=0;
   function boundedWait(promise){let timer=null;return Promise.race([promise.catch(()=>null),new Promise(resolve=>{timer=root.setTimeout?.(resolve,refreshWaitMs());})]).finally(()=>{if(timer!==null)root.clearTimeout?.(timer);});}
   function refresh(){
     // A refresh during a write resolves after the write publishes its accepted state.
@@ -139,12 +139,14 @@
     // Coalesce concurrent refreshes, but never wait on one that has hung past the bound.
     if(refreshInFlight&&Date.now()-refreshStartedAt<refreshWaitMs())return refreshInFlight;
     refreshStartedAt=Date.now();
-    const run=Promise.resolve().then(refreshNow).finally(()=>{if(refreshInFlight===run)refreshInFlight=null;});refreshInFlight=run;return run;
+    const generation=++setupGeneration;
+    const run=Promise.resolve().then(()=>refreshNow(generation)).finally(()=>{if(refreshInFlight===run)refreshInFlight=null;});refreshInFlight=run;return run;
   }
-  async function refreshNow(){
+  async function refreshNow(generation=setupGeneration){
     const before=storageSnapshot();setState({status:"reading",busy:true,message:"Reading the authoritative Shared Setup for this exact ACTIVE session…"});
     try{
       const context=await resolveContext();const result=await context.adapter.read(providerOptions(context));assertStorageUnchanged(before);
+      if(generation!==setupGeneration)return state;
       if(!result||result.ok!==true)fail(result&&result.code||"SHARED_SETUP_READ_FAILED");
       const message=result.status==="empty"
         ? context.remoteRole==="host"?"The paired managers have reached an empty Shared Setup. Open it once for both managers.":"The paired managers have reached an empty Shared Setup. Waiting for the session host to open it."
@@ -152,13 +154,14 @@
       return accept(result,context,message);
     }catch(error){
       try{assertStorageUnchanged(before);}catch(storageError){error=storageError;}
+      if(generation!==setupGeneration)return state;
       return setState({status:"locked",busy:false,ready:false,message:error&&error.message&&error.message!==error.code?error.message:String(safeError(error,"SHARED_SETUP_UNAVAILABLE")).replace(/_/g," ")});
     }
   }
   function mutate(type,extra={}){
     if(mutateInFlight)return Promise.resolve(Object.freeze({ok:false,code:"SHARED_SETUP_BUSY"}));
     const pendingRefresh=refreshInFlight;
-    const run=(async()=>{if(pendingRefresh)await boundedWait(pendingRefresh);return mutateNow(type,extra);})();
+    const run=(async()=>{if(pendingRefresh)await boundedWait(pendingRefresh);setupGeneration+=1;return mutateNow(type,extra);})();
     mutateInFlight=run;
     return run.finally(()=>{if(mutateInFlight===run)mutateInFlight=null;});
   }
