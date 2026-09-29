@@ -112,6 +112,13 @@ const resultTwo={leaguePosition:3,leaguePoints:84,leagueGoals:79,domesticCup:fal
     await page.evaluate(()=>{window.__seenCommitStatuses=[];const node=document.getElementById('sharedSeasonCommitStatus');new MutationObserver(()=>window.__seenCommitStatuses.push(node.textContent)).observe(node,{childList:true,characterData:true,subtree:true});const audit=window.__secondPublisherAudit;audit.hangNextCommitRead=true;audit.committedSeasons.push(2);});
     await page.evaluate(()=>{CareerModeProductionSharedSeasonCommit.refresh().catch(()=>{});});
     await page.waitForFunction(()=>window.__seenCommitStatuses.some(text=>/CHECK FAILED · SEASON_COMMIT_CHECK_TIMEOUT/.test(text)),null,{timeout:8000});
+    // Released before any newer check starts: the expired read must still never bind its older view.
+    await page.evaluate(()=>window.__secondPublisherAudit.releaseHungRead());await page.waitForTimeout(800);
+    assert.notEqual(await page.evaluate(()=>CareerModeProductionSharedSeasonCommit.getState()?.committed),false,'an expired read released before any retry must not bind its stale view');
+    await page.evaluate(()=>{window.__seenCommitStatuses.length=0;window.__secondPublisherAudit.hangNextCommitRead=true;window.__secondPublisherAudit.releaseHungRead=null;});
+    await page.evaluate(()=>{CareerModeProductionSharedSeasonCommit.refresh().catch(()=>{});});
+    await page.waitForTimeout(2200);
+    assert.match(await page.locator('#sharedSeasonCommitStatus').textContent(),/SEASON_COMMIT_CHECK_TIMEOUT/,'the repeated timeout must stay visible');
     await page.waitForFunction(()=>['RETRY COMMIT CHECK','ACKNOWLEDGE SHARED SEASON'].includes(document.getElementById('sharedSeasonCommitAction')?.textContent)&&!document.getElementById('sharedSeasonCommitAction')?.disabled,null,{timeout:20000});
     if(await page.locator('#sharedSeasonCommitAction').textContent()==='RETRY COMMIT CHECK')await page.locator('#sharedSeasonCommitAction').click();
     await page.waitForFunction(()=>document.getElementById('sharedSeasonCommitAction')?.textContent==='ACKNOWLEDGE SHARED SEASON',null,{timeout:20000});
