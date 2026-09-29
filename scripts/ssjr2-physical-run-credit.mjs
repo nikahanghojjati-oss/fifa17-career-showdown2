@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// SSJR-2.0 credit assessor: one validated two-device production Physical Journey pair
+// SSJR-2.x credit assessor (model version comes from the model file): one validated two-device production Physical Journey pair
 // + Nik's hash-bound owner attestation + automated suites verified live on production main.
 // It never invents credit: without all three layers nothing is creditable or recordable.
 import fs from "node:fs";
@@ -69,6 +69,8 @@ export function evaluateRun({first,second,firstText,secondText,attestation,model
     const production=capability.productionEvidence||{};
     if(production.capturable===false)reasons.push("the current Physical Journey recorder cannot capture this capability; a recorder and validator revision is required");
     for(const stage of production.requiredMilestonesOnBothDevices||[])if(!a.has(stage)||!b.has(stage))reasons.push(`milestone ${stage} missing on a device`);
+    const minimumSeasons=Number(production.requiresConfirmedSeasons?.minimum||0),runSeasons=Number(pair.summary?.totalSeasons||0);
+    if(minimumSeasons&&runSeasons<minimumSeasons)reasons.push(`needs a run of at least ${minimumSeasons} confirmed seasons (this run confirmed ${runSeasons||"none"})`);
     if(capability.requiresOwnerStableReleaseAcceptance&&attestation?.stableReleaseAccepted!==true)reasons.push("owner has not accepted the stable release");
     const missingDeps=capability.dependsOn.filter(id=>!credited.has(id));
     if(missingDeps.length)reasons.push(`depends on uncredited ${missingDeps.join(", ")}`);
