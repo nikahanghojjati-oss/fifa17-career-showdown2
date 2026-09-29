@@ -202,7 +202,7 @@
         if(confirmed&&state?.setup?.phase==="SHOWDOWN_CONFIRMED"&&state?.ready===true)await ssjpOpenCareerStart();
         return confirmed?"done":"failed";
       }
-      if(state.setup&&state.setup.phase==="SHOWDOWN_CONFIRMED"&&state.ready===true){await ssjpOpenCareerStart();return "done";}
+      if(state.setup&&state.setup.phase==="SHOWDOWN_CONFIRMED"&&state.ready===true)return await ssjpOpenCareerStart()?"done":"stale";
       return "stale";
     }
     return "done";

@@ -125,8 +125,9 @@
   // so a slow first load never looks like a tap that did nothing.
   function pcstOpenPanel(){
     if(openPromise)return openPromise;
-    const run=Promise.resolve().then(pcstOpenPanelNow);openPromise=run;pcstDecorateControl();
+    const run=Promise.resolve().then(pcstOpenPanelNow);openPromise=run;
     run.finally(()=>{if(openPromise===run)openPromise=null;pcstDecorateControl();}).catch(()=>{});
+    try{pcstDecorateControl();}catch(_error){}
     return run;
   }
   async function pcstOpenPanelNow(){

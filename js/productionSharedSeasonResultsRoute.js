@@ -61,8 +61,9 @@
   // check. The tapped control shows OPENING… and overlapping taps share one open.
   function routeOpen(){
     if(openPromise)return openPromise;if(!routeReady())return Promise.resolve(false);
-    const run=Promise.resolve().then(routeOpenNow);openPromise=run;routeDecorate();
+    const run=Promise.resolve().then(routeOpenNow);openPromise=run;
     run.finally(()=>{if(openPromise===run)openPromise=null;routeDecorate();}).catch(()=>{});
+    try{routeDecorate();}catch(_error){}
     return run;
   }
   async function routeOpenNow(){
