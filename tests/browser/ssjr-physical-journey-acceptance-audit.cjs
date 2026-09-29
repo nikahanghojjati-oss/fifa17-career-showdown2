@@ -66,7 +66,8 @@ async function reinstall(page,stage,storage,plan={}){
     multi=await openCase(browser,true);const mp=multi.page;await setCanonical(mp,"three-season");await mp.evaluate(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.install());
     const observe=()=>mp.evaluate(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.observe());
     for(let season=1;season<=3;season+=1){
-      if(season===3){await expose(mp,"history",{storage:"three-season",season:2,total:3,accepted:3});await observe();assert.equal((await mp.evaluate(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.getEvidence())).milestones.some(item=>item.stage==="showdown-complete"),false,"a terminal plan seen before this device records season 3 History must wait");}
+      if(season===3){await multi.context.setOffline(true);await mp.waitForTimeout(120);await multi.context.setOffline(false);await mp.waitForTimeout(120);assert.equal((await mp.evaluate(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.getState())).offlineObserved,false,"a mid-game signal drop must not consume the one-time recovery proof");
+        await expose(mp,"history",{storage:"three-season",season:2,total:3,accepted:3});await observe();assert.equal((await mp.evaluate(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.getEvidence())).milestones.some(item=>item.stage==="showdown-complete"),false,"a terminal plan seen before this device records season 3 History must wait");}
       await expose(mp,"history",{storage:"three-season",season,total:3,accepted:season});await observe();await observe();
     }
     await mp.waitForFunction(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.getState().conflictGuardProven===true,null,{timeout:5000});

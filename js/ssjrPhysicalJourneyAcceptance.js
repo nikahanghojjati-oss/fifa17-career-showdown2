@@ -119,8 +119,10 @@
     }
   }
   async function observe(){if(!enabled)return false;return queue=queue.then(async()=>{const identity=await bindIdentity();observeMilestones(identity);await safeConflictProbe(identity);render();return true;}).catch(error=>{root.console?.warn?.("[Career Mode Showdown] Physical Journey recorder observation failed.",error);render(String(error?.message||error));return false;});}
-  function onOffline(){if(!enabled||!hasStage("history-converged"))return;safe.offlineObserved=true;milestone("network-offline","OFFLINE");persist();}
-  function onOnline(){if(!enabled||!hasStage("history-converged")||!safe.offlineObserved)return;milestone("network-online","ONLINE");persist();void observe();}
+  // Recovery proof starts only after the last season of the plan converges, so a signal drop mid-game is ignored instead of consuming the one-time offline milestone.
+  function lastSeasonHistoryRecorded(){const total=planSeasons();return Boolean(total&&safe.milestones.some(item=>item.stage==="history-converged"&&item.seasonNumber===total));}
+  function onOffline(){if(!enabled||!lastSeasonHistoryRecorded())return;safe.offlineObserved=true;milestone("network-offline","OFFLINE");persist();}
+  function onOnline(){if(!enabled||!lastSeasonHistoryRecorded()||!safe.offlineObserved)return;milestone("network-online","ONLINE");persist();void observe();}
   function storageProofComplete(){return Boolean(safe.canonicalStorageBeforeHash&&safe.canonicalStorageAfterHash&&safe.canonicalStorageBeforeHash===safe.canonicalStorageAfterHash&&safe.canonicalStorageViolation!==true);}
   function planSeasons(){const setup=safe.milestones.find(item=>item.stage==="setup-confirmed"),count=Number(setup?.totalSeasons);return PLAN_LENGTHS.includes(count)?count:null;}
   function seasonsRecorded(){const total=planSeasons();let done=0;for(let season=1;total&&season<=total;season+=1){if(SEASON_STAGES.every(stage=>safe.milestones.some(item=>item.stage===stage&&item.seasonNumber===season)))done=season;else break;}return done;}
