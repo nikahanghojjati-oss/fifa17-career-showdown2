@@ -47,6 +47,8 @@ Only start once Claude confirms that production is on the expected runtime. The 
     - After season 3, the button says `SEASON PLAN COMPLETE ✓`, and the gold panel shows **✓ SEASONS 3/3**.
 
 ## Part 4: Recovery checks (only after season 3's Shared History)
+Start only when the gold panel shows **✓ SEASONS 3/3**. If it still shows 2/3 or an empty circle, wait a few seconds or tap `CHECK NOW`. Going offline earlier doesn't count and doesn't spoil anything.
+
 13. **Go offline once each** for about 15 seconds, then reconnect:
     - Nik: Airplane Mode on, then off, keeping Wi-Fi off.
     - Daniel: Wi-Fi off, then on.

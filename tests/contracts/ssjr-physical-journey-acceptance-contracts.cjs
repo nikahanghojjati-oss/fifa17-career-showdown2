@@ -140,6 +140,8 @@ const path=require("node:path");
   assert.ok(codes(one,threeTwo).includes("SEASON_PLAN_MISMATCH"),"both devices must record the same plan");
   const midGame=structuredClone(threeTwo),recoveryStages=["network-offline","network-online","reconnect-recovered","reload-resumed"],moved=midGame.milestones.filter(item=>recoveryStages.includes(item.stage));midGame.milestones=midGame.milestones.filter(item=>!recoveryStages.includes(item.stage));midGame.milestones.splice(midGame.milestones.findIndex(item=>item.stage==="history-converged"&&item.seasonNumber===1)+1,0,...moved);resequence(midGame);
   assert.ok(codes(threeOne,midGame).includes("RECOVERY_ORDER_INVALID"),"recovery proof must follow the last season's History, not season 1's");
+  const lateComplete=structuredClone(threeTwo),completeItem=lateComplete.milestones.find(item=>item.stage==="showdown-complete");lateComplete.milestones=lateComplete.milestones.filter(item=>item!==completeItem);lateComplete.milestones.splice(lateComplete.milestones.findIndex(item=>item.stage==="reconnect-recovered")+1,0,completeItem);resequence(lateComplete);
+  assert.ok(codes(threeOne,lateComplete).includes("RECOVERY_ORDER_INVALID"),"recovery proof must start after the completed plan is recorded");
   assert.ok(codes(planEvidence(one,2),planEvidence(two,2)).includes("SEASON_PLAN_INVALID"),"only supported 1/3/5/10 plans are valid");
   const fakeOffline=structuredClone(two);fakeOffline.milestones.find(item=>item.stage==="network-offline").online=true;
   assert.ok(validator.validatePhysicalJourneyPair(one,fakeOffline).issues.some(item=>item.code==="OFFLINE_FLAG_INVALID"));
