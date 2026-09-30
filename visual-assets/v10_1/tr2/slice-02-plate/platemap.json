@@ -43,7 +43,20 @@
         1220,
         777
       ],
-      "angleDeg": 0
+      "angleDeg": 0,
+      "signingContent": [
+        858,
+        619,
+        1220,
+        782
+      ],
+      "verdictContent": [
+        858,
+        622,
+        1220,
+        780
+      ],
+      "_note_f3f4": "F3/F4 (2026-09-30): signingContent / verdictContent use the painted glass between the title strip's bottom line (~618) and the inner frame line (~783) so three 31 px rows + LOCK fit at 1366 (TWG-S6). Measured on evidence/F1_1366x768_grid.jpg."
     },
     "B": {
       "owner": "playerOne",
@@ -65,7 +78,13 @@
         686,
         744
       ],
-      "angleDeg": 2.1
+      "angleDeg": 2.1,
+      "verdictContent": [
+        312,
+        572,
+        686,
+        748
+      ]
     },
     "C": {
       "role": "rules card (shared)",

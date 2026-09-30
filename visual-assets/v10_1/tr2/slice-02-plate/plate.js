@@ -4,6 +4,8 @@
  *
  * Frames: ?frame=F1 (Window, Nik viewing) | F1D (Window, Daniel viewing) | F1R / F1DR (own early-end request locked)
  *         G2 (Guess Entry, Nik viewing) | G3 (Guess Entry, Daniel viewing) | S0 (plate only)
+ *         F3 / F3D (Signing Entry, Nik / Daniel viewing) | F3L / F3DL (own signings locked, waiting)
+ *         F4 / F4D (Verdicts, Nik / Daniel viewing) | F4E / F4DE (Verdicts, Daniel entered no signings)
  * Flags:  &grid=1 plate map · &freeze=1 stops the demo clock (QA)
  *
  * Desktop: the plate is the stage; live DOM is registered to the painted glass.
@@ -88,6 +90,7 @@
       wrap.appendChild(el("div", { id: "transferTimerDisplay", class: "sign-main timer", role: "timer", "aria-live": "off", text: fmtClock(cfg.timerSeconds) }));
     } else {
       wrap.appendChild(el("div", { id: "transferTimerDisplay", class: "sign-main closed", text: S.signWindowClosed }));
+      if (cfg.phase === "SIGNING_ENTRY" || cfg.phase === "COMPLETED") wrap.classList.add("status-board");
     }
     return wrap;
   }
@@ -96,10 +99,20 @@
   function buildStatus(map, cfg, S) {
     var st = placeRect(el("p", { id: "transferPhaseStatus", class: "sign-status", role: "status", "aria-live": "polite" }), signRect(map));
     st.style.setProperty("--rot", map.signScreen.boardAngleDeg + "deg");
-    var text = cfg.phase === "WINDOW_OPEN" ? S.f1Status : S.guessStatus;
-    splitDots(text).forEach(function (n) { st.appendChild(n); });
+    splitDots(phaseStatus(cfg, S)).forEach(function (n) { st.appendChild(n); });
     if (cfg.phase === "WINDOW_OPEN") st.classList.add("two-line");
+    if (cfg.phase === "SIGNING_ENTRY" || cfg.phase === "COMPLETED") {
+      st.classList.add("full");
+      if (phaseStatus(cfg, S).split(" · ")[0].length <= 14) st.classList.add("lead"); // short phase name gets the board lettering
+    }
     return st;
+  }
+
+  function phaseStatus(cfg, S) {
+    if (cfg.phase === "WINDOW_OPEN") return S.f1Status;
+    if (cfg.phase === "GUESS_ENTRY") return S.guessStatus;
+    if (cfg.phase === "SIGNING_ENTRY") return cfg.signingsLocked ? S.signingStatusLocked : S.signingStatus;
+    return S.completedStatus;
   }
 
   // ---------- viewer panel -----------------------------------------------------
@@ -190,6 +203,123 @@
     return sec;
   }
 
+  // ---------- F3 · Signing Entry ------------------------------------------------
+  // Production ids: p1Signing{i}* = Daniel (playerOne), p2Signing{i}* = Nik (playerTwo); only the viewer's own
+  // three rows exist in the DOM. LOCK MY SIGNINGS keeps #completeTransferChallenge (production maps it to
+  // lockSignings in SIGNING_ENTRY). The prototype validates like production and emits the intent only.
+  function buildSigningPanel(p, viewerIsNik, cfg, fx, S) {
+    var role = viewerIsNik ? "playerTwo" : "playerOne";
+    var prefix = viewerIsNik ? "p2" : "p1";
+    var who = viewerIsNik ? "Player Two" : "Player One";
+    var headingId = viewerIsNik ? "transferManagerTwo" : "transferManagerOne";
+    var sec = panelShell(p, viewerIsNik, headingId, "phase-signing");
+    var locked = !!cfg.signingsLocked;
+    if (locked) sec.classList.add("is-locked");
+
+    var title = placeRect(el("div", { class: "panel-title" }), p.title);
+    title.appendChild(el("h3", { id: headingId, class: "own-heading own-name", text: viewerIsNik ? S.nameplateTwo : S.nameplateOne }));
+    title.appendChild(el("span", { class: "chip chip-private", text: S.tagPrivate }));
+    title.appendChild(el("span", { class: "chip chip-you m-only", text: S.tagYou }));
+    sec.appendChild(title);
+
+    var body = placeRect(el("div", { class: "panel-body signing-body" }), p.signingContent || p.content);
+    var rows = el("div", { class: "signing-rows" });
+    var own = (fx.inputs[role] || {}).signings || [];
+    var fields = [["Name", S.signingPlaceholderName, "player name"], ["League", S.signingPlaceholderLeague, "previous league"], ["Nationality", S.signingPlaceholderNationality, "nationality"]];
+    for (var i = 1; i <= 3; i++) {
+      var row = el("div", { class: "signing-row signingRow" });
+      row.appendChild(el("span", { class: "guess-num", "aria-hidden": "true", text: "0" + i }));
+      var data = own.filter(function (r) { return r.slot === i; })[0] || {};
+      fields.forEach(function (f) {
+        var key = f[0] === "Name" ? "name" : f[0].toLowerCase();
+        row.appendChild(el("input", { type: "text", id: prefix + "Signing" + i + f[0], "data-transfer-field": true, autocomplete: "off",
+          "aria-label": who + " signing " + i + " " + f[2], placeholder: f[1], disabled: locked, value: locked ? (data[key] || "") : null }));
+      });
+      rows.appendChild(row);
+    }
+    body.appendChild(rows);
+    var act = el("div", { class: "action-row" });
+    var note = el("p", { id: "transferSigningPrivacyNote", class: "privacy-note", text: viewerIsNik ? S.privacyNoteNikViewer : S.privacyNoteDanielViewer });
+    act.appendChild(note);
+    var err = el("p", { id: "transferChallengeError", class: "error-line", role: "alert" });
+    act.appendChild(err);
+    if (!locked) {
+      var btn = el("button", { type: "button", id: "completeTransferChallenge", class: "btn-lock", text: S.signingPrimary });
+      btn.addEventListener("click", function () {
+        var out = [];
+        for (var n = 1; n <= 3; n++) {
+          var v = ["Name", "League", "Nationality"].map(function (f) { return document.getElementById(prefix + "Signing" + n + f).value.trim(); });
+          if (!v[0] && !v[1] && !v[2]) continue;
+          if (!v[0] || !v[1] || !v[2]) { err.textContent = S.signingInvalid.replace("{n}", n); sec.classList.add("has-error"); return; }
+          out.push({ slot: n });
+        }
+        err.textContent = ""; sec.classList.remove("has-error");
+        document.dispatchEvent(new CustomEvent("transfer:intent", { detail: { control: "completeTransferChallenge", action: "lockSignings", rows: out.length } }));
+      });
+      act.appendChild(btn);
+    }
+    body.appendChild(act);
+    sec.appendChild(body);
+    return sec;
+  }
+
+  // ---------- F4 · Verdicts (both sides revealed read-only) ----------------------
+  // #transferResultsOne / Two keep production's ids and heading format; verdict lines are the provider's
+  // (fixtures.results), never recomputed here. Revealed inputs are text, not fields.
+  function buildVerdictPanel(p, role, cfg, fx, S, isViewer) {
+    var nik = role === "playerTwo";
+    var rival = nik ? "playerOne" : "playerTwo";
+    var name = fx.managers[role], club = fx.clubs[role];
+    var sec = el("section", { class: "panel verdict" + (isViewer ? " own" : " rival"), id: nik ? "transferResultsTwo" : "transferResultsOne",
+      "aria-labelledby": (nik ? "transferResultsTwo" : "transferResultsOne") + "Heading", "data-panel": nik ? "A" : "B" });
+    sec.style.setProperty("--pa", (p.angleDeg || 0) + "deg");
+    var title = placeRect(el("div", { class: "panel-title" }), p.title);
+    var h = el("h4", { id: sec.id + "Heading", class: "own-heading verdict-heading" });
+    splitDots(S.verdictHeading.replace("{MANAGER}", name).replace("{CLUB}", club), "vh").forEach(function (n) { h.appendChild(n); });
+    title.appendChild(h);
+    if (isViewer) title.appendChild(el("span", { class: "chip chip-you m-only", text: S.tagYou }));
+    sec.appendChild(title);
+
+    var body = placeRect(el("div", { class: "panel-body verdict-body" }), p.verdictContent || p.content);
+    var verdicts = fx.results[cfg.result][role] || [];
+    var inputs = fx.inputs[role].signings;
+    if (!verdicts.length) {
+      body.classList.add("is-empty");
+      body.appendChild(el("p", { class: "verdict-empty", text: S.verdictEmpty }));
+    } else {
+      var list = el("ol", { class: "verdict-rows" });
+      verdicts.forEach(function (v) {
+        var sig = inputs.filter(function (r) { return r.slot === v.slot; })[0];
+        var li = el("li", { class: "verdict-row " + (v.release ? "is-release" : "is-keep"), "data-slot": v.slot });
+        li.appendChild(el("span", { class: "guess-num", "aria-hidden": "true", text: "0" + v.slot }));
+        var who = el("div", { class: "vr-who" });
+        who.appendChild(el("strong", { class: "vr-name", text: sig.name }));
+        who.appendChild(el("span", { class: "vr-meta", text: sig.league + " · " + sig.nationality }));
+        li.appendChild(who);
+        var line = v.release ? S.verdictRelease : S.verdictKeep;
+        var st = el("span", { class: "vr-verdict" });
+        var parts = line.split(" · ");
+        st.appendChild(el("span", { class: "vr-word", text: parts[0] }));
+        st.appendChild(el("span", { class: "sep", text: " · " }));
+        st.appendChild(el("span", { class: "vr-why", text: parts[1] }));
+        li.appendChild(st);
+        list.appendChild(li);
+      });
+      body.appendChild(list);
+    }
+    // The rival's guesses against this manager (read-only reveal): why a signing is released.
+    var g = fx.inputs[rival].guessesAgainstRival || [];
+    var gl = el("p", { class: "guess-reveal" });
+    gl.appendChild(el("span", { class: "gr-head", text: S.guessRevealHeading.replace("{GUESSER}", fx.managers[rival]).replace("{OWNER}", name) }));
+    if (!g.length) gl.appendChild(el("span", { class: "gr-item", text: S.guessRevealNone }));
+    g.forEach(function (x) {
+      gl.appendChild(el("span", { class: "gr-item" }, [el("span", { class: "gr-type", text: x.type === "league" ? S.selectLeague : S.selectNationality }), " ", el("span", { class: "gr-val", text: x.value })]));
+    });
+    body.appendChild(gl);
+    sec.appendChild(body);
+    return sec;
+  }
+
   // Constant for every phase and state: never reads or reflects rival data.
   function buildSealedPanel(p, rivalName, S, panelKey) {
     var sec = el("section", { class: "panel sealed", "aria-label": rivalName + " " + S.tagSealed, "data-panel": panelKey });
@@ -219,7 +349,16 @@
       });
       inner.appendChild(line);
     }
-    inner.appendChild(el("p", { class: "rule-note transferRuleNote", text: S.ruleNote }));
+    if (cfg.phase === "SIGNING_ENTRY") {
+      card.classList.add("with-summary");
+      inner.appendChild(el("p", { id: "transferPhaseLockSummary", class: "lock-summary", text: S.signingLockSummary }));
+    } else {
+      inner.appendChild(el("p", { class: "rule-note transferRuleNote", text: S.ruleNote }));
+    }
+    if (cfg.phase === "COMPLETED") {
+      card.classList.add("with-continue");
+      inner.appendChild(el("button", { type: "button", id: "continueFromTransfers", class: "btn-continue", disabled: true, text: S.continueLabel }));
+    }
     card.appendChild(inner);
     return card;
   }
@@ -365,7 +504,14 @@
       plane.appendChild(buildFingertip(map));
       scene.appendChild(buildStatus(map, cfg, S));
       var own = nik ? map.panels.A : map.panels.B;
-      var ownPanel = win ? buildWindowPanel(own, nik, cfg, S) : buildGuessPanel(own, nik, S);
+      if (cfg.phase === "COMPLETED") {
+        // Both sides revealed; viewer's panel first in DOM (reading order: you, then rival).
+        var vA = buildVerdictPanel(map.panels.A, "playerTwo", cfg, fx, S, nik);
+        var vB = buildVerdictPanel(map.panels.B, "playerOne", cfg, fx, S, !nik);
+        world.appendChild(nik ? vA : vB); world.appendChild(nik ? vB : vA);
+      } else {
+      var ownPanel = win ? buildWindowPanel(own, nik, cfg, S)
+        : cfg.phase === "SIGNING_ENTRY" ? buildSigningPanel(own, nik, cfg, fx, S) : buildGuessPanel(own, nik, S);
       // Left-to-right DOM order (B then A). The sealed panel has no focusable content.
       if (nik) {
         world.appendChild(buildSealedPanel(map.panels.B, fx.managers.playerOne, S, "B"));
@@ -374,11 +520,12 @@
         world.appendChild(ownPanel);
         world.appendChild(buildSealedPanel(map.panels.A, fx.managers.playerTwo, S, "A"));
       }
+      }
       world.appendChild(buildRulesCard(map.panels.C, cfg, S));
     }
     if (opts.grid) plane.appendChild(buildGrid(map));
     stage.appendChild(world);
-    if (!cfg.plateOnly) stage.appendChild(buildFooter(S, cfg.phase === "WINDOW_OPEN" ? 0 : 1));
+    if (!cfg.plateOnly) stage.appendChild(buildFooter(S, ["WINDOW_OPEN", "GUESS_ENTRY", "SIGNING_ENTRY", "COMPLETED"].indexOf(cfg.phase)));
     world.style.setProperty("--glass", "url(" + map.mobile.glass.file + ")");
     world.style.setProperty("--plate-url", "url(" + base + "1672.webp)");
 
