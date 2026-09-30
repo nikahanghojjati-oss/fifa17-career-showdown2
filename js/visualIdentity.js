@@ -505,7 +505,7 @@ function buildLeagueMarkSvg(recipe, idPrefix){
 
 function getLeagueMark(leagueId){
     const id = String(leagueId || "").trim();
-    const recipe = LEAGUE_MARK_RECIPES[id];
+    const recipe = Object.prototype.hasOwnProperty.call(LEAGUE_MARK_RECIPES, id) ? LEAGUE_MARK_RECIPES[id] : null;
     if(!recipe){ return null; }
     const svg = buildLeagueMarkSvg(recipe, nextCrestIdPrefix());
     return Object.freeze({
@@ -588,7 +588,7 @@ function getClubIdentity(clubName){
     }
 
     const hash = getClubIdentityHash(name);
-    const palette = CLUB_IDENTITY_PALETTES[name]
+    const palette = (Object.prototype.hasOwnProperty.call(CLUB_IDENTITY_PALETTES, name) && CLUB_IDENTITY_PALETTES[name])
         || CLUB_IDENTITY_FALLBACK_PALETTES[hash % CLUB_IDENTITY_FALLBACK_PALETTES.length];
     const recipe = Object.prototype.hasOwnProperty.call(CLUB_CREST_RECIPES, name)
         ? CLUB_CREST_RECIPES[name]
