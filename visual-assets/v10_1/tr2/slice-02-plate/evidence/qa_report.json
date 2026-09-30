@@ -1,6 +1,6 @@
 {
   "base": "http://127.0.0.1:8765/",
-  "when": "2026-09-30T00:14:00.082Z",
+  "when": "2026-09-30T00:21:53.965Z",
   "staging": {
     "danielFace": [
       525,
@@ -43,6 +43,8 @@
         "vh": 768
       },
       "tabOrder": [],
+      "tabOrderExpected": [],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "errors": []
     },
@@ -158,6 +160,12 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "endTransferTimer",
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "interaction": {
         "endEarly": {
@@ -293,6 +301,12 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "endTransferTimer",
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "interaction": {
         "endEarly": {
@@ -421,6 +435,11 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "sealedSigKey": "d_1366x768_playerTwo",
       "errors": []
@@ -536,6 +555,11 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "sealedSigKey": "d_1366x768_playerOne",
       "errors": []
@@ -652,6 +676,12 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "endTransferTimer",
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "sealedSigKey": "d_1366x640_playerTwo",
       "errors": []
@@ -768,6 +798,12 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "endTransferTimer",
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "sealedSigKey": "d_1366x640_playerOne",
       "errors": []
@@ -884,6 +920,12 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "endTransferTimer",
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "sealedSigKey": "d_1440x900_playerTwo",
       "errors": []
@@ -1000,6 +1042,12 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "endTransferTimer",
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "sealedSigKey": "d_1920x1080_playerTwo",
       "errors": []
@@ -1116,6 +1164,12 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "endTransferTimer",
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "sealedSigKey": "d_1366x768_playerTwo",
       "errors": []
@@ -1233,6 +1287,12 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "endTransferTimer",
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "sealedSigKey": "d_1366x768_playerTwo",
       "errors": []
@@ -1397,6 +1457,15 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "p1Guess1Type",
+        "p1Guess2Type",
+        "p1Guess3Type",
+        "completeTransferChallenge",
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "interaction": {
         "beforeDisabled": true,
@@ -1574,6 +1643,15 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "p2Guess1Type",
+        "p2Guess2Type",
+        "p2Guess3Type",
+        "completeTransferChallenge",
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "interaction": {
         "beforeDisabled": true,
@@ -1751,6 +1829,15 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "p1Guess1Type",
+        "p1Guess2Type",
+        "p1Guess3Type",
+        "completeTransferChallenge",
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "sealedSigKey": "d_1366x640_playerTwo",
       "errors": []
@@ -1915,6 +2002,15 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "p2Guess1Type",
+        "p2Guess2Type",
+        "p2Guess3Type",
+        "completeTransferChallenge",
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "sealedSigKey": "d_1366x640_playerOne",
       "errors": []
@@ -2079,6 +2175,15 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "p1Guess1Type",
+        "p1Guess2Type",
+        "p1Guess3Type",
+        "completeTransferChallenge",
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "sealedSigKey": "d_1440x900_playerTwo",
       "errors": []
@@ -2243,6 +2348,15 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "p1Guess1Type",
+        "p1Guess2Type",
+        "p1Guess3Type",
+        "completeTransferChallenge",
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "sealedSigKey": "d_1920x1080_playerTwo",
       "errors": []
@@ -2366,6 +2480,12 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "endTransferTimer",
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "interaction": {
         "endEarly": {
@@ -2502,6 +2622,12 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "endTransferTimer",
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "interaction": {
         "endEarly": {
@@ -2637,6 +2763,11 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "sealedSigKey": "m_390x664_playerTwo",
       "errors": []
@@ -2759,6 +2890,11 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "sealedSigKey": "m_390x664_playerOne",
       "errors": []
@@ -2882,6 +3018,12 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "endTransferTimer",
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "sealedSigKey": "m_390x844_playerTwo",
       "errors": []
@@ -3005,6 +3147,12 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "endTransferTimer",
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "sealedSigKey": "m_430x740_playerTwo",
       "errors": []
@@ -3128,6 +3276,12 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "endTransferTimer",
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "sealedSigKey": "m_430x932_playerTwo",
       "errors": []
@@ -3251,6 +3405,12 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "endTransferTimer",
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "sealedSigKey": "m_360x640_playerTwo",
       "errors": []
@@ -3374,6 +3534,12 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "endTransferTimer",
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "sealedSigKey": "m_375x667_playerTwo",
       "errors": []
@@ -3498,6 +3664,12 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "endTransferTimer",
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "sealedSigKey": "m_375x553_playerTwo",
       "errors": []
@@ -3669,6 +3841,15 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "p1Guess1Type",
+        "p1Guess2Type",
+        "p1Guess3Type",
+        "completeTransferChallenge",
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "interaction": {
         "beforeDisabled": true,
@@ -3853,6 +4034,15 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "p2Guess1Type",
+        "p2Guess2Type",
+        "p2Guess3Type",
+        "completeTransferChallenge",
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "interaction": {
         "beforeDisabled": true,
@@ -4037,6 +4227,15 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "p1Guess1Type",
+        "p1Guess2Type",
+        "p1Guess3Type",
+        "completeTransferChallenge",
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "sealedSigKey": "m_390x844_playerTwo",
       "errors": []
@@ -4208,6 +4407,15 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "p1Guess1Type",
+        "p1Guess2Type",
+        "p1Guess3Type",
+        "completeTransferChallenge",
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "sealedSigKey": "m_430x740_playerTwo",
       "errors": []
@@ -4379,6 +4587,15 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "p2Guess1Type",
+        "p2Guess2Type",
+        "p2Guess3Type",
+        "completeTransferChallenge",
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "sealedSigKey": "m_430x932_playerOne",
       "errors": []
@@ -4550,6 +4767,15 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "p1Guess1Type",
+        "p1Guess2Type",
+        "p1Guess3Type",
+        "completeTransferChallenge",
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "sealedSigKey": "m_360x640_playerTwo",
       "errors": []
@@ -4721,6 +4947,15 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "p2Guess1Type",
+        "p2Guess2Type",
+        "p2Guess3Type",
+        "completeTransferChallenge",
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "sealedSigKey": "m_375x667_playerOne",
       "errors": []
@@ -4893,6 +5128,15 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "p1Guess1Type",
+        "p1Guess2Type",
+        "p1Guess3Type",
+        "completeTransferChallenge",
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "sealedSigKey": "m_375x553_playerTwo",
       "errors": []
@@ -4920,6 +5164,8 @@
       },
       "sceneCrop": "330,-628,1390,528",
       "tabOrder": [],
+      "tabOrderExpected": [],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "errors": []
     },
@@ -4946,6 +5192,8 @@
       },
       "sceneCrop": "330,-875,1390,528",
       "tabOrder": [],
+      "tabOrderExpected": [],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "errors": []
     },
@@ -5139,6 +5387,21 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "p2Signing1Name",
+        "p2Signing1League",
+        "p2Signing1Nationality",
+        "p2Signing2Name",
+        "p2Signing2League",
+        "p2Signing2Nationality",
+        "p2Signing3Name",
+        "p2Signing3League",
+        "p2Signing3Nationality",
+        "completeTransferChallenge",
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "interaction": {
         "invalid": {
@@ -5353,6 +5616,21 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "p1Signing1Name",
+        "p1Signing1League",
+        "p1Signing1Nationality",
+        "p1Signing2Name",
+        "p1Signing2League",
+        "p1Signing2Nationality",
+        "p1Signing3Name",
+        "p1Signing3League",
+        "p1Signing3Nationality",
+        "completeTransferChallenge",
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "interaction": {
         "invalid": {
@@ -5484,6 +5762,11 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "sealedSigKey": "d_1366x768_playerTwo",
       "errors": []
@@ -5591,6 +5874,11 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "sealedSigKey": "d_1366x768_playerOne",
       "errors": []
@@ -5785,6 +6073,21 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "p2Signing1Name",
+        "p2Signing1League",
+        "p2Signing1Nationality",
+        "p2Signing2Name",
+        "p2Signing2League",
+        "p2Signing2Nationality",
+        "p2Signing3Name",
+        "p2Signing3League",
+        "p2Signing3Nationality",
+        "completeTransferChallenge",
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "sealedSigKey": "d_1366x640_playerTwo",
       "errors": []
@@ -5979,6 +6282,21 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "p1Signing1Name",
+        "p1Signing1League",
+        "p1Signing1Nationality",
+        "p1Signing2Name",
+        "p1Signing2League",
+        "p1Signing2Nationality",
+        "p1Signing3Name",
+        "p1Signing3League",
+        "p1Signing3Nationality",
+        "completeTransferChallenge",
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "sealedSigKey": "d_1366x640_playerOne",
       "errors": []
@@ -6173,6 +6491,21 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "p2Signing1Name",
+        "p2Signing1League",
+        "p2Signing1Nationality",
+        "p2Signing2Name",
+        "p2Signing2League",
+        "p2Signing2Nationality",
+        "p2Signing3Name",
+        "p2Signing3League",
+        "p2Signing3Nationality",
+        "completeTransferChallenge",
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "sealedSigKey": "d_1440x900_playerTwo",
       "errors": []
@@ -6367,6 +6700,21 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "p1Signing1Name",
+        "p1Signing1League",
+        "p1Signing1Nationality",
+        "p1Signing2Name",
+        "p1Signing2League",
+        "p1Signing2Nationality",
+        "p1Signing3Name",
+        "p1Signing3League",
+        "p1Signing3Nationality",
+        "completeTransferChallenge",
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "sealedSigKey": "d_1920x1080_playerOne",
       "errors": []
@@ -6561,6 +6909,21 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "p2Signing1Name",
+        "p2Signing1League",
+        "p2Signing1Nationality",
+        "p2Signing2Name",
+        "p2Signing2League",
+        "p2Signing2Nationality",
+        "p2Signing3Name",
+        "p2Signing3League",
+        "p2Signing3Nationality",
+        "completeTransferChallenge",
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "sealedSigKey": "d_1366x768_playerTwo",
       "errors": []
@@ -6643,6 +7006,25 @@
           ]
         ],
         "emptyLines": [],
+        "guessReveal": [
+          {
+            "head": "Nik guesses Daniel's signings",
+            "items": [
+              "Nationality Netherlands",
+              "League Ligue 1"
+            ],
+            "fields": 0
+          },
+          {
+            "head": "Daniel guesses Nik's signings",
+            "items": [
+              "League Serie A",
+              "Nationality Brazil",
+              "Nationality Spain"
+            ],
+            "fields": 0
+          }
+        ],
         "visibleChips": [
           "YOU"
         ],
@@ -6679,6 +7061,11 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "errors": []
     },
@@ -6760,6 +7147,25 @@
           ]
         ],
         "emptyLines": [],
+        "guessReveal": [
+          {
+            "head": "Nik guesses Daniel's signings",
+            "items": [
+              "Nationality Netherlands",
+              "League Ligue 1"
+            ],
+            "fields": 0
+          },
+          {
+            "head": "Daniel guesses Nik's signings",
+            "items": [
+              "League Serie A",
+              "Nationality Brazil",
+              "Nationality Spain"
+            ],
+            "fields": 0
+          }
+        ],
         "visibleChips": [
           "YOU"
         ],
@@ -6796,6 +7202,11 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "errors": []
     },
@@ -6875,6 +7286,25 @@
         "emptyLines": [
           "No signings were entered."
         ],
+        "guessReveal": [
+          {
+            "head": "Nik guesses Daniel's signings",
+            "items": [
+              "Nationality Netherlands",
+              "League Ligue 1"
+            ],
+            "fields": 0
+          },
+          {
+            "head": "Daniel guesses Nik's signings",
+            "items": [
+              "League Serie A",
+              "Nationality Brazil",
+              "Nationality Spain"
+            ],
+            "fields": 0
+          }
+        ],
         "visibleChips": [
           "YOU"
         ],
@@ -6911,6 +7341,11 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "errors": []
     },
@@ -6990,6 +7425,25 @@
         "emptyLines": [
           "No signings were entered."
         ],
+        "guessReveal": [
+          {
+            "head": "Nik guesses Daniel's signings",
+            "items": [
+              "Nationality Netherlands",
+              "League Ligue 1"
+            ],
+            "fields": 0
+          },
+          {
+            "head": "Daniel guesses Nik's signings",
+            "items": [
+              "League Serie A",
+              "Nationality Brazil",
+              "Nationality Spain"
+            ],
+            "fields": 0
+          }
+        ],
         "visibleChips": [
           "YOU"
         ],
@@ -7026,6 +7480,11 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "errors": []
     },
@@ -7107,6 +7566,25 @@
           ]
         ],
         "emptyLines": [],
+        "guessReveal": [
+          {
+            "head": "Nik guesses Daniel's signings",
+            "items": [
+              "Nationality Netherlands",
+              "League Ligue 1"
+            ],
+            "fields": 0
+          },
+          {
+            "head": "Daniel guesses Nik's signings",
+            "items": [
+              "League Serie A",
+              "Nationality Brazil",
+              "Nationality Spain"
+            ],
+            "fields": 0
+          }
+        ],
         "visibleChips": [
           "YOU"
         ],
@@ -7143,6 +7621,11 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "errors": []
     },
@@ -7224,6 +7707,25 @@
           ]
         ],
         "emptyLines": [],
+        "guessReveal": [
+          {
+            "head": "Nik guesses Daniel's signings",
+            "items": [
+              "Nationality Netherlands",
+              "League Ligue 1"
+            ],
+            "fields": 0
+          },
+          {
+            "head": "Daniel guesses Nik's signings",
+            "items": [
+              "League Serie A",
+              "Nationality Brazil",
+              "Nationality Spain"
+            ],
+            "fields": 0
+          }
+        ],
         "visibleChips": [
           "YOU"
         ],
@@ -7260,6 +7762,11 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "errors": []
     },
@@ -7341,6 +7848,25 @@
           ]
         ],
         "emptyLines": [],
+        "guessReveal": [
+          {
+            "head": "Nik guesses Daniel's signings",
+            "items": [
+              "Nationality Netherlands",
+              "League Ligue 1"
+            ],
+            "fields": 0
+          },
+          {
+            "head": "Daniel guesses Nik's signings",
+            "items": [
+              "League Serie A",
+              "Nationality Brazil",
+              "Nationality Spain"
+            ],
+            "fields": 0
+          }
+        ],
         "visibleChips": [
           "YOU"
         ],
@@ -7377,6 +7903,11 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "errors": []
     },
@@ -7458,6 +7989,25 @@
           ]
         ],
         "emptyLines": [],
+        "guessReveal": [
+          {
+            "head": "Nik guesses Daniel's signings",
+            "items": [
+              "Nationality Netherlands",
+              "League Ligue 1"
+            ],
+            "fields": 0
+          },
+          {
+            "head": "Daniel guesses Nik's signings",
+            "items": [
+              "League Serie A",
+              "Nationality Brazil",
+              "Nationality Spain"
+            ],
+            "fields": 0
+          }
+        ],
         "visibleChips": [
           "YOU"
         ],
@@ -7494,6 +8044,11 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "errors": []
     },
@@ -7575,6 +8130,25 @@
           ]
         ],
         "emptyLines": [],
+        "guessReveal": [
+          {
+            "head": "Nik guesses Daniel's signings",
+            "items": [
+              "Nationality Netherlands",
+              "League Ligue 1"
+            ],
+            "fields": 0
+          },
+          {
+            "head": "Daniel guesses Nik's signings",
+            "items": [
+              "League Serie A",
+              "Nationality Brazil",
+              "Nationality Spain"
+            ],
+            "fields": 0
+          }
+        ],
         "visibleChips": [
           "YOU"
         ],
@@ -7611,6 +8185,11 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "errors": []
     },
@@ -7811,6 +8390,21 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "p2Signing1Name",
+        "p2Signing1League",
+        "p2Signing1Nationality",
+        "p2Signing2Name",
+        "p2Signing2League",
+        "p2Signing2Nationality",
+        "p2Signing3Name",
+        "p2Signing3League",
+        "p2Signing3Nationality",
+        "completeTransferChallenge",
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "interaction": {
         "invalid": {
@@ -8036,6 +8630,21 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "p1Signing1Name",
+        "p1Signing1League",
+        "p1Signing1Nationality",
+        "p1Signing2Name",
+        "p1Signing2League",
+        "p1Signing2Nationality",
+        "p1Signing3Name",
+        "p1Signing3League",
+        "p1Signing3Nationality",
+        "completeTransferChallenge",
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "interaction": {
         "invalid": {
@@ -8174,6 +8783,11 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "sealedSigKey": "m_390x664_playerTwo",
       "errors": []
@@ -8288,6 +8902,11 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "sealedSigKey": "m_390x664_playerOne",
       "errors": []
@@ -8489,6 +9108,21 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "p2Signing1Name",
+        "p2Signing1League",
+        "p2Signing1Nationality",
+        "p2Signing2Name",
+        "p2Signing2League",
+        "p2Signing2Nationality",
+        "p2Signing3Name",
+        "p2Signing3League",
+        "p2Signing3Nationality",
+        "completeTransferChallenge",
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "sealedSigKey": "m_390x844_playerTwo",
       "errors": []
@@ -8690,6 +9324,21 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "p1Signing1Name",
+        "p1Signing1League",
+        "p1Signing1Nationality",
+        "p1Signing2Name",
+        "p1Signing2League",
+        "p1Signing2Nationality",
+        "p1Signing3Name",
+        "p1Signing3League",
+        "p1Signing3Nationality",
+        "completeTransferChallenge",
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "sealedSigKey": "m_430x740_playerOne",
       "errors": []
@@ -8891,6 +9540,21 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "p2Signing1Name",
+        "p2Signing1League",
+        "p2Signing1Nationality",
+        "p2Signing2Name",
+        "p2Signing2League",
+        "p2Signing2Nationality",
+        "p2Signing3Name",
+        "p2Signing3League",
+        "p2Signing3Nationality",
+        "completeTransferChallenge",
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "sealedSigKey": "m_430x932_playerTwo",
       "errors": []
@@ -9092,6 +9756,21 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "p2Signing1Name",
+        "p2Signing1League",
+        "p2Signing1Nationality",
+        "p2Signing2Name",
+        "p2Signing2League",
+        "p2Signing2Nationality",
+        "p2Signing3Name",
+        "p2Signing3League",
+        "p2Signing3Nationality",
+        "completeTransferChallenge",
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "sealedSigKey": "m_360x640_playerTwo",
       "errors": []
@@ -9293,6 +9972,21 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "p1Signing1Name",
+        "p1Signing1League",
+        "p1Signing1Nationality",
+        "p1Signing2Name",
+        "p1Signing2League",
+        "p1Signing2Nationality",
+        "p1Signing3Name",
+        "p1Signing3League",
+        "p1Signing3Nationality",
+        "completeTransferChallenge",
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "sealedSigKey": "m_360x640_playerOne",
       "errors": []
@@ -9407,6 +10101,11 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "sealedSigKey": "m_360x640_playerTwo",
       "errors": []
@@ -9608,6 +10307,21 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "p2Signing1Name",
+        "p2Signing1League",
+        "p2Signing1Nationality",
+        "p2Signing2Name",
+        "p2Signing2League",
+        "p2Signing2Nationality",
+        "p2Signing3Name",
+        "p2Signing3League",
+        "p2Signing3Nationality",
+        "completeTransferChallenge",
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "sealedSigKey": "m_375x667_playerTwo",
       "errors": []
@@ -9810,6 +10524,21 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "p2Signing1Name",
+        "p2Signing1League",
+        "p2Signing1Nationality",
+        "p2Signing2Name",
+        "p2Signing2League",
+        "p2Signing2Nationality",
+        "p2Signing3Name",
+        "p2Signing3League",
+        "p2Signing3Nationality",
+        "completeTransferChallenge",
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "sealedSigKey": "m_375x553_playerTwo",
       "errors": []
@@ -10012,6 +10741,21 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "p1Signing1Name",
+        "p1Signing1League",
+        "p1Signing1Nationality",
+        "p1Signing2Name",
+        "p1Signing2League",
+        "p1Signing2Nationality",
+        "p1Signing3Name",
+        "p1Signing3League",
+        "p1Signing3Nationality",
+        "completeTransferChallenge",
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "sealedSigKey": "m_375x553_playerOne",
       "errors": []
@@ -10102,6 +10846,25 @@
           ]
         ],
         "emptyLines": [],
+        "guessReveal": [
+          {
+            "head": "Nik guesses Daniel's signings",
+            "items": [
+              "Nationality Netherlands",
+              "League Ligue 1"
+            ],
+            "fields": 0
+          },
+          {
+            "head": "Daniel guesses Nik's signings",
+            "items": [
+              "League Serie A",
+              "Nationality Brazil",
+              "Nationality Spain"
+            ],
+            "fields": 0
+          }
+        ],
         "visibleChips": [
           "YOU"
         ],
@@ -10137,6 +10900,11 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "errors": []
     },
@@ -10226,6 +10994,25 @@
           ]
         ],
         "emptyLines": [],
+        "guessReveal": [
+          {
+            "head": "Nik guesses Daniel's signings",
+            "items": [
+              "Nationality Netherlands",
+              "League Ligue 1"
+            ],
+            "fields": 0
+          },
+          {
+            "head": "Daniel guesses Nik's signings",
+            "items": [
+              "League Serie A",
+              "Nationality Brazil",
+              "Nationality Spain"
+            ],
+            "fields": 0
+          }
+        ],
         "visibleChips": [
           "YOU"
         ],
@@ -10261,6 +11048,11 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "errors": []
     },
@@ -10348,6 +11140,25 @@
         "emptyLines": [
           "No signings were entered."
         ],
+        "guessReveal": [
+          {
+            "head": "Nik guesses Daniel's signings",
+            "items": [
+              "Nationality Netherlands",
+              "League Ligue 1"
+            ],
+            "fields": 0
+          },
+          {
+            "head": "Daniel guesses Nik's signings",
+            "items": [
+              "League Serie A",
+              "Nationality Brazil",
+              "Nationality Spain"
+            ],
+            "fields": 0
+          }
+        ],
         "visibleChips": [
           "YOU"
         ],
@@ -10383,6 +11194,11 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "errors": []
     },
@@ -10470,6 +11286,25 @@
         "emptyLines": [
           "No signings were entered."
         ],
+        "guessReveal": [
+          {
+            "head": "Nik guesses Daniel's signings",
+            "items": [
+              "Nationality Netherlands",
+              "League Ligue 1"
+            ],
+            "fields": 0
+          },
+          {
+            "head": "Daniel guesses Nik's signings",
+            "items": [
+              "League Serie A",
+              "Nationality Brazil",
+              "Nationality Spain"
+            ],
+            "fields": 0
+          }
+        ],
         "visibleChips": [
           "YOU"
         ],
@@ -10505,6 +11340,11 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "errors": []
     },
@@ -10594,6 +11434,25 @@
           ]
         ],
         "emptyLines": [],
+        "guessReveal": [
+          {
+            "head": "Nik guesses Daniel's signings",
+            "items": [
+              "Nationality Netherlands",
+              "League Ligue 1"
+            ],
+            "fields": 0
+          },
+          {
+            "head": "Daniel guesses Nik's signings",
+            "items": [
+              "League Serie A",
+              "Nationality Brazil",
+              "Nationality Spain"
+            ],
+            "fields": 0
+          }
+        ],
         "visibleChips": [
           "YOU"
         ],
@@ -10629,6 +11488,11 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "errors": []
     },
@@ -10718,6 +11582,25 @@
           ]
         ],
         "emptyLines": [],
+        "guessReveal": [
+          {
+            "head": "Nik guesses Daniel's signings",
+            "items": [
+              "Nationality Netherlands",
+              "League Ligue 1"
+            ],
+            "fields": 0
+          },
+          {
+            "head": "Daniel guesses Nik's signings",
+            "items": [
+              "League Serie A",
+              "Nationality Brazil",
+              "Nationality Spain"
+            ],
+            "fields": 0
+          }
+        ],
         "visibleChips": [
           "YOU"
         ],
@@ -10753,6 +11636,11 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "errors": []
     },
@@ -10842,6 +11730,25 @@
           ]
         ],
         "emptyLines": [],
+        "guessReveal": [
+          {
+            "head": "Nik guesses Daniel's signings",
+            "items": [
+              "Nationality Netherlands",
+              "League Ligue 1"
+            ],
+            "fields": 0
+          },
+          {
+            "head": "Daniel guesses Nik's signings",
+            "items": [
+              "League Serie A",
+              "Nationality Brazil",
+              "Nationality Spain"
+            ],
+            "fields": 0
+          }
+        ],
         "visibleChips": [
           "YOU"
         ],
@@ -10877,6 +11784,11 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "errors": []
     },
@@ -10966,6 +11878,25 @@
           ]
         ],
         "emptyLines": [],
+        "guessReveal": [
+          {
+            "head": "Nik guesses Daniel's signings",
+            "items": [
+              "Nationality Netherlands",
+              "League Ligue 1"
+            ],
+            "fields": 0
+          },
+          {
+            "head": "Daniel guesses Nik's signings",
+            "items": [
+              "League Serie A",
+              "Nationality Brazil",
+              "Nationality Spain"
+            ],
+            "fields": 0
+          }
+        ],
         "visibleChips": [
           "YOU"
         ],
@@ -11001,6 +11932,11 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "errors": []
     },
@@ -11090,6 +12026,25 @@
           ]
         ],
         "emptyLines": [],
+        "guessReveal": [
+          {
+            "head": "Nik guesses Daniel's signings",
+            "items": [
+              "Nationality Netherlands",
+              "League Ligue 1"
+            ],
+            "fields": 0
+          },
+          {
+            "head": "Daniel guesses Nik's signings",
+            "items": [
+              "League Serie A",
+              "Nationality Brazil",
+              "Nationality Spain"
+            ],
+            "fields": 0
+          }
+        ],
         "visibleChips": [
           "YOU"
         ],
@@ -11125,6 +12080,11 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "errors": []
     },
@@ -11212,6 +12172,25 @@
         "emptyLines": [
           "No signings were entered."
         ],
+        "guessReveal": [
+          {
+            "head": "Nik guesses Daniel's signings",
+            "items": [
+              "Nationality Netherlands",
+              "League Ligue 1"
+            ],
+            "fields": 0
+          },
+          {
+            "head": "Daniel guesses Nik's signings",
+            "items": [
+              "League Serie A",
+              "Nationality Brazil",
+              "Nationality Spain"
+            ],
+            "fields": 0
+          }
+        ],
         "visibleChips": [
           "YOU"
         ],
@@ -11247,6 +12226,11 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "errors": []
     },
@@ -11336,6 +12320,25 @@
           ]
         ],
         "emptyLines": [],
+        "guessReveal": [
+          {
+            "head": "Nik guesses Daniel's signings",
+            "items": [
+              "Nationality Netherlands",
+              "League Ligue 1"
+            ],
+            "fields": 0
+          },
+          {
+            "head": "Daniel guesses Nik's signings",
+            "items": [
+              "League Serie A",
+              "Nationality Brazil",
+              "Nationality Spain"
+            ],
+            "fields": 0
+          }
+        ],
         "visibleChips": [
           "YOU"
         ],
@@ -11371,6 +12374,11 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "errors": []
     },
@@ -11461,6 +12469,25 @@
           ]
         ],
         "emptyLines": [],
+        "guessReveal": [
+          {
+            "head": "Nik guesses Daniel's signings",
+            "items": [
+              "Nationality Netherlands",
+              "League Ligue 1"
+            ],
+            "fields": 0
+          },
+          {
+            "head": "Daniel guesses Nik's signings",
+            "items": [
+              "League Serie A",
+              "Nationality Brazil",
+              "Nationality Spain"
+            ],
+            "fields": 0
+          }
+        ],
         "visibleChips": [
           "YOU"
         ],
@@ -11496,6 +12523,11 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
       "errors": []
     },
@@ -11584,6 +12616,25 @@
         "emptyLines": [
           "No signings were entered."
         ],
+        "guessReveal": [
+          {
+            "head": "Nik guesses Daniel's signings",
+            "items": [
+              "Nationality Netherlands",
+              "League Ligue 1"
+            ],
+            "fields": 0
+          },
+          {
+            "head": "Daniel guesses Nik's signings",
+            "items": [
+              "League Serie A",
+              "Nationality Brazil",
+              "Nationality Spain"
+            ],
+            "fields": 0
+          }
+        ],
         "visibleChips": [
           "YOU"
         ],
@@ -11619,7 +12670,371 @@
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
       ],
+      "tabOrderExpected": [
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
       "focusVisibleAll": true,
+      "errors": []
+    },
+    {
+      "shot": "M_F3L_375x553.jpg",
+      "frame": "F3L",
+      "vw": 375,
+      "vh": 553,
+      "dpr": 2,
+      "mobile": true,
+      "tight": true,
+      "mode": "mobile",
+      "k": 0.2679,
+      "offY": 5,
+      "titleCropPx": 0,
+      "checks": {
+        "noHorizontalScroll": true,
+        "stringMismatches": [],
+        "fit": [],
+        "textClip": [],
+        "privacy": {
+          "signingIdPrefixes": [],
+          "guessIdPrefixes": [],
+          "interactiveFields": 0,
+          "fields": 0,
+          "sealedFocusable": 0,
+          "sealedText": "DANIELSEALEDCM17"
+        },
+        "rotation": {
+          "sign": 7.5,
+          "status": 0,
+          "controls": []
+        },
+        "stagingCovered": [],
+        "layout": {
+          "footerFixedBottom": true,
+          "footerH": 56,
+          "noScroll": true,
+          "scrollExcess": 0,
+          "pageScroll": false,
+          "primaryVisible": true,
+          "sceneH": 88,
+          "sceneCrop": "160,20,1560,349",
+          "facesInScene": true,
+          "signInScene": true,
+          "fingertipInScene": false,
+          "managersWhole": true,
+          "paintedPanelsHidden": true,
+          "hudNoOverlap": true
+        }
+      },
+      "fail": [],
+      "docScroll": {
+        "w": 375,
+        "h": 553,
+        "vw": 375,
+        "vh": 553
+      },
+      "strings": {
+        "title": "SEASON 1 · TRANSFER CHALLENGE",
+        "back": "HOME",
+        "refresh": "REFRESH",
+        "rail": [
+          "Window",
+          "Guesses",
+          "Signings",
+          "Verdicts"
+        ],
+        "activeRail": "Signings",
+        "status": "YOUR SIGNINGS ARE LOCKED · WAITING FOR YOUR RIVAL",
+        "sign": "WINDOW CLOSED",
+        "heading": "NIK",
+        "signingPrivacy": "Hidden from Daniel until you both lock.",
+        "summary": "Both managers locked their private guesses. Enter only your own completed signings; your rival still cannot see your inputs.",
+        "placeholders": [],
+        "verdictHeadings": [
+          null,
+          null
+        ],
+        "verdictLines": [
+          [],
+          []
+        ],
+        "emptyLines": [],
+        "visibleChips": [
+          "SEALED",
+          "PRIVATE",
+          "YOU"
+        ],
+        "intro": false
+      },
+      "controls": [
+        {
+          "id": "backToShowdownHome",
+          "h": 44,
+          "w": 52,
+          "font": 12.5,
+          "tag": "BUTTON"
+        },
+        {
+          "id": "refreshSharedTransferChallenge",
+          "h": 44,
+          "w": 73,
+          "font": 12.5,
+          "tag": "BUTTON"
+        }
+      ],
+      "minTarget": 44,
+      "minFieldFont": null,
+      "minTextFont": 11.5,
+      "tabOrder": [
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderExpected": [
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
+      "focusVisibleAll": true,
+      "sealedSigKey": "m_375x553_playerTwo",
+      "errors": []
+    },
+    {
+      "shot": "M_F3DL_375x553.jpg",
+      "frame": "F3DL",
+      "vw": 375,
+      "vh": 553,
+      "dpr": 2,
+      "mobile": true,
+      "tight": true,
+      "mode": "mobile",
+      "k": 0.2679,
+      "offY": 5,
+      "titleCropPx": 0,
+      "checks": {
+        "noHorizontalScroll": true,
+        "stringMismatches": [],
+        "fit": [],
+        "textClip": [],
+        "privacy": {
+          "signingIdPrefixes": [],
+          "guessIdPrefixes": [],
+          "interactiveFields": 0,
+          "fields": 0,
+          "sealedFocusable": 0,
+          "sealedText": "NIKSEALEDCM17"
+        },
+        "rotation": {
+          "sign": 7.5,
+          "status": 0,
+          "controls": []
+        },
+        "stagingCovered": [],
+        "layout": {
+          "footerFixedBottom": true,
+          "footerH": 56,
+          "noScroll": true,
+          "scrollExcess": 0,
+          "pageScroll": false,
+          "primaryVisible": true,
+          "sceneH": 88,
+          "sceneCrop": "160,20,1560,349",
+          "facesInScene": true,
+          "signInScene": true,
+          "fingertipInScene": false,
+          "managersWhole": true,
+          "paintedPanelsHidden": true,
+          "hudNoOverlap": true
+        }
+      },
+      "fail": [],
+      "docScroll": {
+        "w": 375,
+        "h": 553,
+        "vw": 375,
+        "vh": 553
+      },
+      "strings": {
+        "title": "SEASON 1 · TRANSFER CHALLENGE",
+        "back": "HOME",
+        "refresh": "REFRESH",
+        "rail": [
+          "Window",
+          "Guesses",
+          "Signings",
+          "Verdicts"
+        ],
+        "activeRail": "Signings",
+        "status": "YOUR SIGNINGS ARE LOCKED · WAITING FOR YOUR RIVAL",
+        "sign": "WINDOW CLOSED",
+        "heading": "DANIEL",
+        "signingPrivacy": "Hidden from Nik until you both lock.",
+        "summary": "Both managers locked their private guesses. Enter only your own completed signings; your rival still cannot see your inputs.",
+        "placeholders": [],
+        "verdictHeadings": [
+          null,
+          null
+        ],
+        "verdictLines": [
+          [],
+          []
+        ],
+        "emptyLines": [],
+        "visibleChips": [
+          "PRIVATE",
+          "YOU",
+          "SEALED"
+        ],
+        "intro": false
+      },
+      "controls": [
+        {
+          "id": "backToShowdownHome",
+          "h": 44,
+          "w": 52,
+          "font": 12.5,
+          "tag": "BUTTON"
+        },
+        {
+          "id": "refreshSharedTransferChallenge",
+          "h": 44,
+          "w": 73,
+          "font": 12.5,
+          "tag": "BUTTON"
+        }
+      ],
+      "minTarget": 44,
+      "minFieldFont": null,
+      "minTextFont": 11.5,
+      "tabOrder": [
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderExpected": [
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
+      "focusVisibleAll": true,
+      "sealedSigKey": "m_375x553_playerOne",
+      "errors": []
+    },
+    {
+      "shot": "M_F3DL_360x640.jpg",
+      "frame": "F3DL",
+      "vw": 360,
+      "vh": 640,
+      "dpr": 2,
+      "mobile": true,
+      "mode": "mobile",
+      "k": 0.3396,
+      "offY": 4,
+      "titleCropPx": 0,
+      "checks": {
+        "noHorizontalScroll": true,
+        "stringMismatches": [],
+        "fit": [],
+        "textClip": [],
+        "privacy": {
+          "signingIdPrefixes": [],
+          "guessIdPrefixes": [],
+          "interactiveFields": 0,
+          "fields": 0,
+          "sealedFocusable": 0,
+          "sealedText": "NIKSEALEDCM17"
+        },
+        "rotation": {
+          "sign": 7.5,
+          "status": 0,
+          "controls": []
+        },
+        "stagingCovered": [],
+        "layout": {
+          "footerFixedBottom": true,
+          "footerH": 56,
+          "noScroll": true,
+          "scrollExcess": 0,
+          "pageScroll": false,
+          "primaryVisible": true,
+          "sceneH": 175,
+          "sceneCrop": "330,13,1390,528",
+          "facesInScene": true,
+          "signInScene": true,
+          "fingertipInScene": false,
+          "managersWhole": true,
+          "paintedPanelsHidden": true,
+          "hudNoOverlap": true
+        }
+      },
+      "fail": [],
+      "docScroll": {
+        "w": 360,
+        "h": 640,
+        "vw": 360,
+        "vh": 640
+      },
+      "strings": {
+        "title": "SEASON 1 · TRANSFER CHALLENGE",
+        "back": "HOME",
+        "refresh": "REFRESH",
+        "rail": [
+          "Window",
+          "Guesses",
+          "Signings",
+          "Verdicts"
+        ],
+        "activeRail": "Signings",
+        "status": "YOUR SIGNINGS ARE LOCKED · WAITING FOR YOUR RIVAL",
+        "sign": "WINDOW CLOSED",
+        "heading": "DANIEL",
+        "signingPrivacy": "Hidden from Nik until you both lock.",
+        "summary": "Both managers locked their private guesses. Enter only your own completed signings; your rival still cannot see your inputs.",
+        "placeholders": [],
+        "verdictHeadings": [
+          null,
+          null
+        ],
+        "verdictLines": [
+          [],
+          []
+        ],
+        "emptyLines": [],
+        "visibleChips": [
+          "PRIVATE",
+          "YOU",
+          "SEALED"
+        ],
+        "intro": false
+      },
+      "controls": [
+        {
+          "id": "backToShowdownHome",
+          "h": 44,
+          "w": 52,
+          "font": 12.5,
+          "tag": "BUTTON"
+        },
+        {
+          "id": "refreshSharedTransferChallenge",
+          "h": 44,
+          "w": 73,
+          "font": 12.5,
+          "tag": "BUTTON"
+        }
+      ],
+      "minTarget": 44,
+      "minFieldFont": null,
+      "minTextFont": 11.5,
+      "tabOrder": [
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderExpected": [
+        "backToShowdownHome",
+        "refreshSharedTransferChallenge"
+      ],
+      "tabOrderMatches": true,
+      "focusVisibleAll": true,
+      "sealedSigKey": "m_360x640_playerOne",
       "errors": []
     }
   ],
@@ -11737,7 +13152,8 @@
       "frames": [
         "F1",
         "G2",
-        "F3"
+        "F3",
+        "F3L"
       ],
       "identical": true
     },
@@ -11767,13 +13183,15 @@
     },
     "m_360x640_playerOne": {
       "frames": [
-        "F3D"
+        "F3D",
+        "F3DL"
       ],
       "identical": true
     },
     "m_375x553_playerOne": {
       "frames": [
-        "F3D"
+        "F3D",
+        "F3DL"
       ],
       "identical": true
     }
@@ -11878,7 +13296,7 @@
     }
   },
   "summary": {
-    "shots": 81,
+    "shots": 84,
     "shotsWithFailures": 0,
     "sealedConstancyFail": false,
     "verdictAuthorityFail": false

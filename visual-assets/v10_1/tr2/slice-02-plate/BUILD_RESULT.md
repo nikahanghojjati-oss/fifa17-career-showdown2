@@ -176,3 +176,11 @@ LOCK MY SIGNINGS validates like production (a partly filled row → `Complete si
 Desktop: panel A's F3/F4 content uses the painted glass down to the inner frame line (`platemap.json` `signingContent` / `verdictContent`) so 3 rows + LOCK fit at 31 px (TWG-S6). In the short (<700 px) camera this lowers the view by ~4 px: at 1366×640 the painted title loses 13 px on F3 and 11 px on F4 (9 px on F1/G).
 
 QA (`tools/render-qa.cjs` → `evidence/qa_report.json`): **81 shots, 0 failures** (37 carried F1/G + 44 new). New checks: F3/F4 strings, own-only private ids, signing validation + intent, placeholder/value clipping, board status fit, verdict text overlap, no fields in F4, verdict authority identical for both viewers (`verdictAuthorityShared`), sealed constancy now includes F3/F3L. Phone: no scroll at 390×664, 390×844, 430×740, 430×932, 360×640, 375×667; at 375×553 action visible (F3 has 3 px inner scroll there, F4 none).
+
+### R4.1: gate pre-check follow-up (QA only, no visual change; 2026-09-30)
+Closes the gaps in `F3_F4_GATE_PRECHECK_2026-09-30.md` (Sonnet 5.5):
+- Tab order is asserted against `expectedTabOrder(frame)` on every shot (fail `tab order`), not only recorded.
+- New shots: `F3L` and `F3DL` at 375×553, `F3DL` at 360×640 → **84 shots, 0 failures**; all three have no scroll and the locked glass in view.
+- F4 revealed guesses asserted per card: heading `{Guesser} guesses {Owner}'s signings`, each `League|Nationality value`, no control inside the block.
+- `tools/baseline-diff.cjs`: F1, F1D, F1R, F1DR, G2, G3, S0 rendered from `18db080` and from this head at 1366×768, 1366×640, 1920×1080, phone 390×664, 360×640, 375×553 → `evidence/baseline_diff_18db080.json`: **42/42 DOM identical and pixel identical**. The approved build itself is not raster-deterministic for G2 (two renders of `18db080` at 1366×640 once differed by 1006 px, at 360×640 by 66 px), so on a pixel diff the tool re-samples the baseline up to 4 times and passes only on an exact match with a sample; in the committed run no re-sample was needed.
+- Phase-intro strings (§3/§4) remain unrendered by design (S2 deck); raised to GPT-5.6 Sol as TWF3-S4.

@@ -43,7 +43,24 @@ const shots = [
   M("F3", 360, 640), M("F3D", 360, 640), M("F3L", 360, 640), M("F3", 375, 667), M("F3", 375, 553, { tight: true }), M("F3D", 375, 553, { tight: true }),
   M("F4", 390, 664), M("F4D", 390, 664), M("F4E", 390, 664), M("F4DE", 390, 664), M("F4", 390, 844), M("F4D", 430, 740), M("F4", 430, 932),
   M("F4", 360, 640), M("F4D", 360, 640), M("F4E", 360, 640), M("F4", 375, 667), M("F4", 375, 553, { tight: true }), M("F4DE", 375, 553, { tight: true }),
+  // gate pre-check gaps (F3 items 4/6): locked frames at the SE floor, Daniel locked at the 360x640 floor
+  M("F3L", 375, 553, { tight: true }), M("F3DL", 375, 553, { tight: true }), M("F3DL", 360, 640),
 ];
+
+// Expected keyboard order per frame (= visual order, top to bottom, left to right). Asserted, not just recorded.
+function expectedTabOrder(frame) {
+  const c = fx.frames[frame];
+  const hud = ["backToShowdownHome", "refreshSharedTransferChallenge"];
+  if (c.plateOnly) return [];
+  if (c.phase === "WINDOW_OPEN") return (c.endRequested ? [] : ["endTransferTimer"]).concat(hud);
+  if (c.phase === "GUESS_ENTRY") { const p = c.viewer === "playerTwo" ? "p1" : "p2"; return [1, 2, 3].map((i) => `${p}Guess${i}Type`).concat(["completeTransferChallenge"], hud); }
+  if (c.phase === "SIGNING_ENTRY") {
+    if (c.signingsLocked) return hud;
+    const p = c.viewer === "playerTwo" ? "p2" : "p1";
+    return [1, 2, 3].flatMap((i) => ["Name", "League", "Nationality"].map((f) => `${p}Signing${i}${f}`)).concat(["completeTransferChallenge"], hud);
+  }
+  return hud; // COMPLETED: continuation is disabled, no private fields
+}
 
 function stringsFor(frame) {
   const c = fx.frames[frame];
@@ -67,6 +84,12 @@ function stringsFor(frame) {
       status: S.completedStatus, sign: S.signWindowClosed, heading: heading(c.viewer), activeRail: S.rail[3], continueLabel: S.continueLabel,
       verdictHeadings: [heading("playerOne"), heading("playerTwo")], verdictLines: [lines("playerOne"), lines("playerTwo")],
       emptyLines: ["playerOne", "playerTwo"].filter((r) => !(fx.results[c.result][r] || []).length).map(() => S.verdictEmpty),
+      // revealed read-only guesses: card One (Daniel) carries Nik's guesses against Daniel, card Two the reverse
+      guessReveal: [["playerOne", "playerTwo"], ["playerTwo", "playerOne"]].map(([owner, guesser]) => {
+        const g = fx.inputs[guesser].guessesAgainstRival || [];
+        return { head: S.guessRevealHeading.replace("{GUESSER}", fx.managers[guesser]).replace("{OWNER}", fx.managers[owner]),
+          items: g.length ? g.map((x) => `${x.type === "league" ? S.selectLeague : S.selectNationality} ${x.value}`) : [S.guessRevealNone], fields: 0 };
+      }),
     });
   }
   return Object.assign(common, {
@@ -121,6 +144,11 @@ function stringsFor(frame) {
         verdictHeadings: ["transferResultsOne", "transferResultsTwo"].map((id) => (q("#" + id + " h4") || {}).textContent),
         verdictLines: ["transferResultsOne", "transferResultsTwo"].map((id) => [...document.querySelectorAll("#" + id + " .vr-verdict")].map((n) => n.textContent)),
         emptyLines: [...document.querySelectorAll(".verdict-empty")].map((n) => n.textContent),
+        guessReveal: document.getElementById("transferResultsOne") ? ["transferResultsOne", "transferResultsTwo"].map((id) => {
+          const b = q("#" + id + " .guess-reveal");
+          return b ? { head: (b.querySelector(".gr-head") || {}).textContent, items: [...b.querySelectorAll(".gr-item")].filter(vis).map((n) => n.textContent),
+            fields: b.querySelectorAll("input, select, textarea, button, [contenteditable]").length } : null;
+        }) : undefined,
         visibleChips: [...document.querySelectorAll(".chip")].filter(vis).map((n) => n.textContent),
         intro: !!document.getElementById("transferPhaseIntro"),
       };
@@ -337,7 +365,7 @@ function stringsFor(frame) {
     const tabs = [];
     let focusVisibleAll = true;
     await page.focus("body");
-    for (let i = 0; i < 12; i++) {
+    for (let i = 0; i < 20; i++) {
       await page.keyboard.press("Tab");
       const f = await page.evaluate(() => {
         const a = document.activeElement;
@@ -351,6 +379,9 @@ function stringsFor(frame) {
       if (!f.outline) focusVisibleAll = false;
     }
     r.tabOrder = tabs;
+    r.tabOrderExpected = expectedTabOrder(s.frame);
+    r.tabOrderMatches = JSON.stringify(tabs) === JSON.stringify(r.tabOrderExpected);
+    if (!r.tabOrderMatches) r.fail.push("tab order");
     r.focusVisibleAll = focusVisibleAll;
     if (r.strings && !focusVisibleAll) r.fail.push("focus not visible");
 
