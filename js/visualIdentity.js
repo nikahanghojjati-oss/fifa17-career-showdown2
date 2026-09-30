@@ -255,7 +255,7 @@ const CREST_MOTIFS = Object.freeze({
     castle: (c, d) => `<path d="M28 100V60H24V48H32V54H38V48H46V60H50V44H46V34H54V40H58V34H62V40H66V34H74V44H70V60H74V48H82V54H88V48H96V60H92V100Z" fill="${c}"/><path d="M52 100V82Q60 72 68 82V100Z" fill="${d}"/>`,
     wolf: (c, d) => crestCanineHead(c, d, 28, 104),
     fox: (c, d) => `<path d="M30 34L50 52H70L90 34L86 64L60 104L34 64Z" fill="${c}"/><path d="M40 70L60 104L80 70L60 80Z" fill="#f5f5f3"/><path d="M47 62L55 65L47 67ZM73 62L65 65L73 67Z" fill="${d}"/><circle cx="60" cy="101" r="3" fill="${d}"/>`,
-    dog: (c, d) => `<path d="M34 44Q30 70 40 78L44 60L50 50H70L76 60L80 78Q90 70 86 44Q72 38 60 40Q48 38 34 44Z" fill="${c}"/><path d="M46 56H74L76 82L68 98H52L44 82Z" fill="${c}"/><path d="M52 66L57 68L52 70ZM68 66L63 68L68 70Z" fill="${d}"/><path d="M54 84H66L60 91Z" fill="${d}"/>`,
+    dog: (c, d) => crestCanineHead(c, d, 44, 100) + `<path d="M34 44L30 66L40 60ZM86 44L90 66L80 60Z" fill="${d}" fill-opacity=".35"/>`,
     cat: (c, d) => `<path d="M36 38L50 54H70L84 38L86 74Q82 96 60 100Q38 96 34 74Z" fill="${c}"/><path d="M46 66Q52 60 56 68Q52 72 46 66ZM74 66Q68 60 64 68Q68 72 74 66Z" fill="${d}"/><path d="M56 80H64L60 85Z" fill="${d}"/><path d="M38 84H52M38 90L52 87M82 84H68M82 90L68 87" stroke="${d}" stroke-width="1.6"/>`,
     bear: (c, d) => `<circle cx="42" cy="46" r="10" fill="${c}"/><circle cx="78" cy="46" r="10" fill="${c}"/><circle cx="60" cy="70" r="28" fill="${c}"/><ellipse cx="60" cy="82" rx="12" ry="9" fill="${d}" fill-opacity=".45"/><circle cx="50" cy="64" r="3.2" fill="${d}"/><circle cx="70" cy="64" r="3.2" fill="${d}"/><ellipse cx="60" cy="78" rx="5" ry="3.5" fill="${d}"/>`,
     bee: (c, d) => `<ellipse cx="44" cy="54" rx="16" ry="9" fill="#f5f5f3" fill-opacity=".85" transform="rotate(-30 44 54)"/><ellipse cx="76" cy="54" rx="16" ry="9" fill="#f5f5f3" fill-opacity=".85" transform="rotate(30 76 54)"/><ellipse cx="60" cy="76" rx="15" ry="22" fill="${c}"/><path d="M46 70H74V76H46ZM47 84H73V90H47Z" fill="${d}"/><circle cx="60" cy="52" r="8" fill="${d}"/>`,
@@ -300,7 +300,7 @@ const CREST_MOTIFS = Object.freeze({
     owl: (c, d) => `<path d="M38 36L48 46Q60 40 72 46L82 36L84 60Q90 96 60 108Q30 96 36 60Z" fill="${c}"/><circle cx="50" cy="62" r="9" fill="#f5f5f3"/><circle cx="70" cy="62" r="9" fill="#f5f5f3"/><circle cx="50" cy="62" r="4" fill="${d}"/><circle cx="70" cy="62" r="4" fill="${d}"/><path d="M56 72H64L60 80Z" fill="#e8b92e"/>`,
     ermine: c => [[40, 52], [80, 52], [60, 76], [40, 100], [80, 100]].map(([x, y]) => `<g fill="${c}"><path d="M${x - 3} ${y}H${x + 3}L${x + 6} ${y + 16}L${x} ${y + 10}L${x - 6} ${y + 16}Z"/><circle cx="${x}" cy="${y - 5}" r="2.5"/><circle cx="${x - 5}" cy="${y - 1}" r="2.5"/><circle cx="${x + 5}" cy="${y - 1}" r="2.5"/></g>`).join(""),
     fish: (c, d) => `<path d="M26 72Q48 46 82 66L100 52V92L82 78Q48 98 26 72Z" fill="${c}"/><circle cx="40" cy="68" r="3" fill="${d}"/><path d="M52 60Q58 72 52 84" fill="none" stroke="${d}" stroke-width="2"/>`,
-    thistle: (c, d) => `<path d="M44 58Q60 22 76 58Z" fill="${c}"/><path d="M46 56H74V64Q60 88 46 64Z" fill="${d}"/><path d="M42 58L50 50M78 58L70 50M40 66L50 62M80 66L70 62" stroke="${d}" stroke-width="3"/><path d="M58 84H62V112H58Z" fill="${d}"/><path d="M60 98Q40 90 32 100Q46 96 60 104ZM60 94Q80 86 88 96Q74 92 60 100Z" fill="${d}"/>`
+    thistle: (c, d) => `<path d="M42 56L46 30L53 46L60 24L67 46L74 30L78 56Z" fill="${c}"/><ellipse cx="60" cy="66" rx="17" ry="13" fill="${d}"/><path d="M47 60L73 74M73 60L47 74M60 54V78" stroke="#15191c" stroke-opacity=".25" stroke-width="2"/><rect x="57.5" y="76" width="5" height="38" fill="${d}"/><path d="M60 96Q42 84 30 94Q46 94 60 104ZM60 90Q78 78 90 88Q74 88 60 98Z" fill="${d}"/>`
 });
 
 const CREST_MOTIF_PLACES = Object.freeze({
@@ -459,7 +459,7 @@ const CLUB_CREST_RECIPES = Object.freeze({
     "Metz": crestRecipe("roundel", "foot:s", "lorraine:a", "maroon, white, gold; cross of Lorraine", "roundel not shield, no dragon, no text"),
     "Monaco": crestRecipe("roundel", "diag:s", "crown@hi:a:p", "red and white diagonal; a crown", "roundel not diamond, crown inside not on top, no letters"),
     "Montpellier": crestRecipe("heater", "halves:s", "star:a", "blue and orange halves", "shield not roundel, no text"),
-    "Nancy": crestRecipe("hex", "foot:s", "thistle:#8e5bb5:s", "red, white; a thistle", "hex not shield, no text"),
+    "Nancy": crestRecipe("hex", "field:s foot:p", "thistle:#8e5bb5:#2e7d32", "red, white; a thistle", "hex not shield, no text"),
     "Nantes": crestRecipe("heater", "foot:s", "bird:s", "yellow and green; a canary (club nickname)", "shield not roundel, bird in flight, no text"),
     "Nice": crestRecipe("roundel", "stripes:s", "eagleR:a", "red and black stripes; an eagle", "roundel not shield, eagle faces right, no text"),
     "Paris Saint-Germain": crestRecipe("heater", "paleEdge:s:a", "eiffel:a", "navy, red, white; an iron tower", "shield not roundel, tower on the red stripe, no lily, no cradle, no text"),

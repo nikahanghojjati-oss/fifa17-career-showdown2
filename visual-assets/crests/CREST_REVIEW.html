@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Crest Review V1</title>
+<style>
+:root{--bg:#0b0f14;--ink:#eef1f4;--mute:#9aa6b2;--gold:#d9b54a}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% 0,#1b2430,#0b0f14 70%);color:var(--ink);font:14px/1.4 system-ui,Segoe UI,Roboto,sans-serif;padding:16px}
+h1{font-size:18px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin:4px 0 2px}
+h2{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin:22px 0 8px}
+p.lead{color:var(--mute);margin:0 0 8px;font-size:12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px}
+.c{background:linear-gradient(180deg,#18202a,#10151c);border:1px solid #232d39;border-radius:12px;padding:10px;text-align:center}
+.c .art svg{width:96px;height:112px;filter:drop-shadow(0 6px 10px rgba(0,0,0,.55))}
+.lg .art svg{width:84px;height:84px}
+.n{font-weight:700;margin-top:4px}.k{font-size:11px;color:var(--mute);text-align:left;margin-top:6px}
+.k b{color:#c9d3dc;font-weight:600}
+#strip{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end}
+#strip .s{display:flex;gap:6px;align-items:flex-end;background:#10151c;border:1px solid #232d39;border-radius:8px;padding:6px}
+#strip svg{display:block}
+</style></head><body>
+<h1>Club crests · CREST-V1</h1>
+<p class="lead">Original artwork from <code>js/visualIdentity.js</code> recipes. Each crest shares the club's colours plus one redrawn theme; outline, pose, layout and text differ from the real badge. Names are live page text, not part of the art.</p>
+<div id="clubs"></div>
+<h2>League marks</h2><div class="grid lg" id="leagues"></div>
+<h2 id="stripTitle" hidden>Small-size strip (24 / 42 / 96 px)</h2><div id="strip" hidden></div>
+<script src="../../data/clubs.js"></script>
+<script src="../../js/visualIdentity.js"></script>
+<script>
+const LEAGUE_NAMES={premier_league:"England, top flight",laliga:"Spain, top flight",bundesliga:"Germany, top flight",serie_a:"Italy, top flight",ligue_1:"France, top flight"};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"})[c]);
+document.getElementById("clubs").innerHTML=Object.entries(clubsByLeague).map(([id,list])=>`<h2>${esc(LEAGUE_NAMES[id])}</h2><div class="grid">${list.map(name=>{const x=getClubIdentity(name);return `<div class="c" data-club="${esc(name)}"><div class="art">${getClubCrestSvg(name)}</div><div class="n">${esc(name)}</div><div class="k"><b>Keeps</b> ${esc(x.recipe.keep)}<br><b>Changes</b> ${esc(x.recipe.change)}</div></div>`}).join("")}</div>`).join("");
+document.getElementById("leagues").innerHTML=Object.keys(LEAGUE_NAMES).map(id=>{const m=getLeagueMark(id);return `<div class="c" data-league="${id}"><div class="art">${m.svg}</div><div class="n">${esc(LEAGUE_NAMES[id])}</div><div class="k">${esc(m.code)} · national flag shield</div></div>`}).join("");
+if(/strip/.test(location.search)){
+  document.getElementById("stripTitle").hidden=false;const st=document.getElementById("strip");st.hidden=false;
+  st.innerHTML=Object.values(clubsByLeague).flat().map(name=>`<div class="s" title="${esc(name)}">${[24,42,96].map(w=>getClubCrestSvg(name).replace("<svg ",`<svg width="${w}" height="${Math.round(w*1.2)}" `)).join("")}</div>`).join("");
+}
+</script></body></html>
