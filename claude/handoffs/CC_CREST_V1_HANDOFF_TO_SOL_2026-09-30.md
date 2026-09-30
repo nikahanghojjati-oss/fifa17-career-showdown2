@@ -24,6 +24,8 @@ Files changed (from `3ec6f8c`, excluding the plate-g merge):
   - SVG ids come from `nextCrestIdPrefix()` (`cmsc<n>x…`), and league marks use the same factory. No fixed ids from the proof sheet (`bym`, `en`, `es`, `de`, `it`) remain.
   - Unknown names: the old hash path chooses shape, pattern and motif, drawn in the new frame.
 - `tests/contracts/crest-v1-identity-contracts.cjs`: new, additive. Covers the 8 extra QA points Sol required.
+- `visual-assets/crests/CREST_REVIEW_STANDALONE.html`: generated copy with `data/clubs.js` and `js/visualIdentity.js` inlined, for file previews that cannot load relative scripts (the plain page showed `ReferenceError: clubsByLeague is not defined` in the claude.ai file preview). The plain page now shows a notice instead of crashing.
+- `visual-assets/crests/CREST_REVIEW_STANDALONE.html`: generated copy with `data/clubs.js` and `js/visualIdentity.js` inlined, for file previews that cannot load relative scripts (the plain page showed `ReferenceError: clubsByLeague is not defined` in the claude.ai file preview). The plain page now shows a notice instead of crashing.
 - `visual-assets/crests/CREST_REVIEW.html`: all 98 crests grouped by league, then the 5 marks, each with Keeps/Changes. `?strip=1` adds a 24/42/96 px strip.
 - `visual-assets/crests/qa/`: `review-1280-full.png`, `small-size-strip-24-42-96.png`, `phone-360x640.png`, `phone-375x553.png`.
 - `visual-assets/crests/CREST_QA.md`: measured QA record.

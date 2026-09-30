@@ -25,6 +25,7 @@ p.lead{color:var(--mute);margin:0 0 8px;font-size:12px}
 <script src="../../data/clubs.js"></script>
 <script src="../../js/visualIdentity.js"></script>
 <script>
+if(typeof clubsByLeague==="undefined"||typeof getClubIdentity!=="function"){document.body.insertAdjacentHTML("afterbegin",'<p style="background:#5a1d1d;color:#fff;padding:10px;border-radius:8px">This page needs ../../data/clubs.js and ../../js/visualIdentity.js. In a file preview that cannot load them, open CREST_REVIEW_STANDALONE.html instead.</p>');throw new Error("crest review scripts not loaded");}
 const LEAGUE_NAMES={premier_league:"England, top flight",laliga:"Spain, top flight",bundesliga:"Germany, top flight",serie_a:"Italy, top flight",ligue_1:"France, top flight"};
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"})[c]);
 document.getElementById("clubs").innerHTML=Object.entries(clubsByLeague).map(([id,list])=>`<h2>${esc(LEAGUE_NAMES[id])}</h2><div class="grid">${list.map(name=>{const x=getClubIdentity(name);return `<div class="c" data-club="${esc(name)}"><div class="art">${getClubCrestSvg(name)}</div><div class="n">${esc(name)}</div><div class="k"><b>Keeps</b> ${esc(x.recipe.keep)}<br><b>Changes</b> ${esc(x.recipe.change)}</div></div>`}).join("")}</div>`).join("");

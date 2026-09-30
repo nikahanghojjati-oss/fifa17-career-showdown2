@@ -23,6 +23,8 @@ Branch `claude-cloud/crest-v1`. Source: `claude/project-thread-ss6886` @ `3ec6f8
 | `node tests/contracts/crest-v1-identity-contracts.cjs` (new, additive) | PASS |
 | `npm run test:home-visual` | Not run. Needs `npm ci` (`tar-fs` plus packaged Chromium), which is a heavy install the brief excludes. |
 
+Standalone review copy `CREST_REVIEW_STANDALONE.html`, loaded alone in an empty folder: 98 crests, 5 marks, 0 errors.
+
 ## Shots (`qa/`)
 - `review-1280-full.png`: full review page at 1280 wide
 - `small-size-strip-24-42-96.png`: every crest at 24, 42 and 96 px
