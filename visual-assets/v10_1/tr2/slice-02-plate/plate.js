@@ -320,7 +320,6 @@
     var g = fx.inputs[rival].guessesAgainstRival || [];
     var gl = el("p", { class: "guess-reveal" });
     gl.appendChild(el("span", { class: "gr-head", text: S.guessRevealHeading.replace("{GUESSER}", fx.managers[rival]).replace("{OWNER}", name) }));
-    if (!g.length) gl.appendChild(el("span", { class: "gr-item", text: S.guessRevealNone }));
     g.forEach(function (x) {
       gl.appendChild(el("span", { class: "gr-item" }, [el("span", { class: "gr-type", text: x.type === "league" ? S.selectLeague : S.selectNationality }), " ", el("span", { class: "gr-val", text: x.value })]));
     });
