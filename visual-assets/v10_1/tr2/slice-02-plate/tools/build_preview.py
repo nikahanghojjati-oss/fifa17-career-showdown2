@@ -29,6 +29,17 @@ while True:
         if depth == 0: break
     j += 1
 inner = css[i + len(MQ): j]
+# nested short-phone query (viewport height) does not apply to the fixed 390x664 review box
+k = inner.find('@media (max-height: 600px)')
+if k >= 0:
+    d = 0; e = inner.index('{', k)
+    while True:
+        if inner[e] == '{': d += 1
+        elif inner[e] == '}':
+            d -= 1
+            if d == 0: break
+        e += 1
+    inner = inner[:k] + inner[e + 1:]
 def scope(m):
     sels = [s.strip() for s in m.group(1).split(',')]
     fixed = []

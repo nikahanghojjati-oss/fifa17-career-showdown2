@@ -1,4 +1,4 @@
-// TW-PLATE-G render + QA harness (F1 Window + Guess Entry, desktop + portrait).
+// TW-PLATE-G render + QA harness (F1 Window, Guess Entry, F3 Signing Entry, F4 Verdicts; desktop + portrait).
 // Usage: NODE_PATH=$(npm root -g) node tools/render-qa.cjs <baseUrl> <outDir>
 // Carries forward the CP1P harness intent: strings, privacy, tab order, fit, scroll safety,
 // plus M2/M3/M5-style mobile sizing (44 px targets, 16 px inputs) and staging-cover checks.
@@ -34,6 +34,15 @@ const shots = [
   M("F1", 390, 844), M("F1", 430, 740), M("F1", 430, 932), M("F1", 360, 640), M("F1", 375, 667), M("F1", 375, 553, { tight: true }),
   M("G2", 390, 664), M("G3", 390, 664), M("G2", 390, 844), M("G2", 430, 740), M("G3", 430, 932), M("G2", 360, 640), M("G3", 375, 667), M("G2", 375, 553, { tight: true }),
   M("S0", 390, 664), M("S0", 430, 932),
+  // F3 Signing Entry + F4 Verdicts (Sol TWF F3/F4 brief R2 §6)
+  D("F3", 1366, 768), D("F3D", 1366, 768), D("F3L", 1366, 768), D("F3DL", 1366, 768), D("F3", 1366, 640), D("F3D", 1366, 640),
+  D("F3", 1440, 900), D("F3D", 1920, 1080), D("F3", 1366, 768, { dpr: 2 }),
+  D("F4", 1366, 768), D("F4D", 1366, 768), D("F4E", 1366, 768), D("F4DE", 1366, 768), D("F4", 1366, 640), D("F4D", 1366, 640),
+  D("F4", 1440, 900), D("F4D", 1920, 1080), D("F4", 1366, 768, { dpr: 2 }),
+  M("F3", 390, 664), M("F3D", 390, 664), M("F3L", 390, 664), M("F3DL", 390, 664), M("F3", 390, 844), M("F3D", 430, 740), M("F3", 430, 932),
+  M("F3", 360, 640), M("F3D", 360, 640), M("F3L", 360, 640), M("F3", 375, 667), M("F3", 375, 553, { tight: true }), M("F3D", 375, 553, { tight: true }),
+  M("F4", 390, 664), M("F4D", 390, 664), M("F4E", 390, 664), M("F4DE", 390, 664), M("F4", 390, 844), M("F4D", 430, 740), M("F4", 430, 932),
+  M("F4", 360, 640), M("F4D", 360, 640), M("F4E", 360, 640), M("F4", 375, 667), M("F4", 375, 553, { tight: true }), M("F4DE", 375, 553, { tight: true }),
 ];
 
 function stringsFor(frame) {
@@ -44,6 +53,22 @@ function stringsFor(frame) {
     status: S.f1Status, heading: nik ? S.nameplateTwo : S.nameplateOne, brief: S.f1Intro,
     action: c.endRequested ? S.f1ActionRequested : S.f1Action, rulesLine: S.f1RulesLine, activeRail: S.rail[0],
   });
+  if (c.phase === "SIGNING_ENTRY") return Object.assign({ title: common.title, back: S.back, refresh: S.refresh, rail: S.rail }, {
+    status: c.signingsLocked ? S.signingStatusLocked : S.signingStatus, sign: S.signWindowClosed, heading: nik ? S.nameplateTwo : S.nameplateOne,
+    signingPrivacy: nik ? S.privacyNoteNikViewer : S.privacyNoteDanielViewer, primary: c.signingsLocked ? undefined : S.signingPrimary,
+    summary: S.signingLockSummary, activeRail: S.rail[2],
+    placeholders: c.signingsLocked ? [] : [S.signingPlaceholderName, S.signingPlaceholderLeague, S.signingPlaceholderNationality],
+    __locked: !!c.signingsLocked,
+  });
+  if (c.phase === "COMPLETED") {
+    const heading = (role) => S.verdictHeading.replace("{MANAGER}", fx.managers[role]).replace("{CLUB}", fx.clubs[role]);
+    const lines = (role) => (fx.results[c.result][role] || []).map((v) => (v.release ? S.verdictRelease : S.verdictKeep));
+    return Object.assign(common, {
+      status: S.completedStatus, sign: S.signWindowClosed, heading: heading(c.viewer), activeRail: S.rail[3], continueLabel: S.continueLabel,
+      verdictHeadings: [heading("playerOne"), heading("playerTwo")], verdictLines: [lines("playerOne"), lines("playerTwo")],
+      emptyLines: ["playerOne", "playerTwo"].filter((r) => !(fx.results[c.result][r] || []).length).map(() => S.verdictEmpty),
+    });
+  }
   return Object.assign(common, {
     status: S.guessStatus, sign: S.signWindowClosed, heading: nik ? S.guessHeadingNikViewer : S.guessHeadingDanielViewer,
     privacy: nik ? S.privacyNoteNikViewer : S.privacyNoteDanielViewer, primary: S.primary, placeholder: S.valuePlaceholder, activeRail: S.rail[1],
@@ -54,6 +79,7 @@ function stringsFor(frame) {
   const browser = await chromium.launch();
   const report = { base, when: new Date().toISOString(), staging: STAGING, results: [] };
   const sealedSig = {};
+  const verdictSig = {};
   let failures = 0;
   for (const s of shots) {
     const ctx = await browser.newContext({ viewport: { width: s.vw, height: s.vh }, deviceScaleFactor: s.dpr, isMobile: !!s.mobile, hasTouch: !!s.mobile });
@@ -90,10 +116,15 @@ function stringsFor(frame) {
         brief: text("transferWindowBrief"), action: text("endTransferTimer"), rulesLine: (q(".rules-line") || {}).textContent,
         privacy: text("transferGuessPrivacyNote"), primary: text("completeTransferChallenge"),
         placeholder: (q(".guess-col input") || {}).placeholder,
+        signingPrivacy: text("transferSigningPrivacyNote"), summary: text("transferPhaseLockSummary"), continueLabel: text("continueFromTransfers"),
+        placeholders: [...new Set([...document.querySelectorAll(".signing-row input")].map((n) => n.placeholder))],
+        verdictHeadings: ["transferResultsOne", "transferResultsTwo"].map((id) => (q("#" + id + " h4") || {}).textContent),
+        verdictLines: ["transferResultsOne", "transferResultsTwo"].map((id) => [...document.querySelectorAll("#" + id + " .vr-verdict")].map((n) => n.textContent)),
+        emptyLines: [...document.querySelectorAll(".verdict-empty")].map((n) => n.textContent),
         visibleChips: [...document.querySelectorAll(".chip")].filter(vis).map((n) => n.textContent),
         intro: !!document.getElementById("transferPhaseIntro"),
       };
-      const mism = Object.keys(expect).filter((k) => k !== "__tight" && JSON.stringify(got[k]) !== JSON.stringify(expect[k])).map((k) => ({ key: k, want: expect[k], got: got[k] }));
+      const mism = Object.keys(expect).filter((k) => !k.startsWith("__") && JSON.stringify(got[k]) !== JSON.stringify(expect[k])).map((k) => ({ key: k, want: expect[k], got: got[k] }));
       res.strings = got; res.checks.stringMismatches = mism;
       if (mism.length) res.fail.push("strings");
       if (got.intro) res.fail.push("intro present");
@@ -124,6 +155,30 @@ function stringsFor(frame) {
             fit.push({ glass: n.className, el: c.tagName + (c.id ? "#" + c.id : "." + c.className), rect: [Math.round(cb.left - host.left), Math.round(host.right - cb.right), Math.round(host.bottom - cb.bottom)] });
         });
       });
+      // F3/F4: the full status stays inside the board (desktop, measured unrotated) and verdict text never overlaps
+      const full = q(".sign-status.full");
+      if (full && !mobile) {
+        const keep = full.style.transform; full.style.transform = "none";
+        const fb = full.getBoundingClientRect();
+        full.querySelectorAll(".part").forEach((c) => { const cb = c.getBoundingClientRect();
+          if (cb.left < fb.left - 0.5 || cb.right > fb.right + 0.5 || cb.top < fb.top - 0.5 || cb.bottom > fb.bottom + 0.5) fit.push({ box: "sign-status.full", el: c.textContent, over: [Math.round(fb.left - cb.left), Math.round(cb.right - fb.right), Math.round(fb.top - cb.top), Math.round(cb.bottom - fb.bottom)] }); });
+        full.style.transform = keep;
+      }
+      document.querySelectorAll(".signing-row.is-readonly").forEach((row) => {
+        const rb = row.getBoundingClientRect();
+        row.querySelectorAll(".vr-name, .vr-meta").forEach((c) => { const cb = c.getBoundingClientRect(); if (cb.right > rb.right + 0.5) fit.push({ readonlyClip: c.textContent, by: Math.round(cb.right - rb.right) }); });
+      });
+      document.querySelectorAll(".verdict-row").forEach((row) => {
+        const v = row.querySelector(".vr-verdict").getBoundingClientRect();
+        row.querySelectorAll(".vr-name, .vr-meta").forEach((c) => { const cb = c.getBoundingClientRect(); if (cb.right > v.left - 2) fit.push({ verdictOverlap: c.textContent, by: Math.round(cb.right - v.left + 2) }); });
+      });
+      if (mobile) document.querySelectorAll(".verdict-body").forEach((n) => {
+        const host = n.closest(".panel").getBoundingClientRect();
+        [...n.querySelectorAll(".verdict-row, .guess-reveal, .verdict-empty")].filter(vis).forEach((c) => {
+          const cb = c.getBoundingClientRect();
+          if (cb.bottom > host.bottom - 12 || cb.left < host.left + 12 || cb.right > host.right - 10) fit.push({ glass: "verdict", el: c.className, rect: [Math.round(cb.left - host.left), Math.round(host.right - cb.right), Math.round(host.bottom - cb.bottom)] });
+        });
+      });
       res.checks.fit = fit;
       if (fit.length) res.fail.push("fit");
 
@@ -140,6 +195,18 @@ function stringsFor(frame) {
         const need = cv.measureText(t).width;
         if (need > avail + 0.5) clip.push({ el: c.id || c.className, t, need: Math.round(need), avail: Math.round(avail) });
       });
+      document.querySelectorAll(".signing-row input, .btn-continue").forEach((c) => {
+        if (!vis(c)) return;
+        const cs = getComputedStyle(c);
+        const avail = c.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+        if (c.tagName === "INPUT") {
+          const ps = getComputedStyle(c, "::placeholder");
+          cv.font = `${ps.fontWeight} ${ps.fontSize} ${ps.fontFamily}`; cv.letterSpacing = ps.letterSpacing === "normal" ? "0px" : ps.letterSpacing;
+          if (cv.measureText(c.placeholder).width > avail + 0.5) clip.push({ el: c.id, t: c.placeholder, need: Math.round(cv.measureText(c.placeholder).width), avail: Math.round(avail) });
+          if (c.value) { cv.font = `${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`; cv.letterSpacing = cs.letterSpacing === "normal" ? "0px" : cs.letterSpacing;
+            if (cv.measureText(c.value).width > avail + 0.5) clip.push({ el: c.id, t: c.value, need: Math.round(cv.measureText(c.value).width), avail: Math.round(avail) }); }
+        } else if (c.scrollWidth > c.clientWidth + 1 || c.scrollHeight > c.clientHeight + 1) clip.push({ el: c.id, t: c.textContent });
+      });
       res.checks.textClip = clip;
       if (clip.length) res.fail.push("text clip");
 
@@ -152,7 +219,7 @@ function stringsFor(frame) {
       res.minTarget = Math.min(...ctls.map((c) => Math.min(c.h, c.w)));
       const fields = ctls.filter((c) => c.tag !== "BUTTON");
       res.minFieldFont = fields.length ? Math.min(...fields.map((c) => c.font)) : null;
-      const txt = [...document.querySelectorAll(".own-heading, .privacy-note, .rule-note, .sign-status, .rail li, .hud-title, .rival-name, .f1-brief, .stat-l")].filter(vis).map((n) => parseFloat(getComputedStyle(n).fontSize));
+      const txt = [...document.querySelectorAll(".own-heading, .privacy-note, .rule-note, .sign-status, .rail li, .hud-title, .rival-name, .f1-brief, .stat-l, .lock-summary, .vr-name, .vr-meta, .vr-word, .vr-why, .guess-reveal span, .verdict-empty, .error-line")].filter(vis).map((n) => parseFloat(getComputedStyle(n).fontSize));
       res.minTextFont = Math.min(...txt);
       if (mobile) {
         if (res.minTarget < 44) res.fail.push("mobile target < 44");
@@ -165,17 +232,30 @@ function stringsFor(frame) {
 
       // ---- privacy: the sealed rival surface is constant
       const sealed = q(".panel.sealed");
+      const ids = [...document.querySelectorAll("[id]")].map((n) => n.id);
+      res.checks.privacy = {
+        signingIdPrefixes: [...new Set(ids.filter((i) => /^p\dSigning/.test(i)).map((i) => i.slice(0, 2)))],
+        guessIdPrefixes: [...new Set(ids.filter((i) => /^p\dGuess/.test(i)).map((i) => i.slice(0, 2)))],
+        interactiveFields: document.querySelectorAll("input:not([disabled]), select:not([disabled]), textarea").length,
+        fields: document.querySelectorAll("input, select, textarea").length,
+      };
+      if (!sealed) {
+        // F4: both sides revealed read-only; no private field exists and nothing is sealed
+        if (res.checks.privacy.fields) res.fail.push("interactive private fields in verdicts");
+        res.verdictSig = JSON.stringify(["transferResultsOne", "transferResultsTwo"].map((id) => q("#" + id + " h4").textContent + " | " + q("#" + id + " .verdict-body").textContent));
+      } else {
       const sb = sealed.querySelector(".frost").getBoundingClientRect();
       const st = sealed.querySelector(".panel-title").getBoundingClientRect();
-      res.checks.privacy = {
-        sealedFocusable: sealed.querySelectorAll("input,select,button,textarea,a,[tabindex]").length,
-        sealedText: sealed.textContent,
-        guessIdPrefixes: [...new Set([...document.querySelectorAll("[id]")].map((n) => n.id).filter((i) => /^p\dGuess/.test(i)).map((i) => i.slice(0, 2)))],
-        signingInputs: document.querySelectorAll("[id*='Signing']").length,
-      };
+      Object.assign(res.checks.privacy, { sealedFocusable: sealed.querySelectorAll("input,select,button,textarea,a,[tabindex]").length, sealedText: sealed.textContent });
       if (res.checks.privacy.sealedFocusable) res.fail.push("sealed focusable");
+      // only the viewer's own private inputs exist (Signing: Nik p2 / Daniel p1; Guess: Nik p1 / Daniel p2)
+      const nikV = expect.heading === "NIK" || /Daniel's/.test(expect.heading || "");
+      const phase = stage.dataset.phase;
+      const wantSign = phase === "SIGNING_ENTRY" && !expect.__locked ? [nikV ? "p2" : "p1"] : [], wantGuess = phase === "GUESS_ENTRY" ? [nikV ? "p1" : "p2"] : [];
+      if (JSON.stringify(res.checks.privacy.signingIdPrefixes) !== JSON.stringify(wantSign) || JSON.stringify(res.checks.privacy.guessIdPrefixes) !== JSON.stringify(wantGuess)) res.fail.push("rival or foreign private ids present");
       res.sealedSig = JSON.stringify({ html: sealed.innerHTML.replace(/--[xywh]: [\d.]+;?/g, ""), frost: [Math.round(sb.width), Math.round(sb.height)], title: [Math.round(st.width), Math.round(st.height)],
         glow: getComputedStyle(sealed.querySelector(".seal")).filter, anim: getComputedStyle(sealed.querySelector(".frost")).animationName });
+      }
 
       // ---- sign: timer/closed line and status never collide (measured unrotated, desktop only)
       if (!mobile) {
@@ -202,7 +282,7 @@ function stringsFor(frame) {
         document.querySelectorAll(".sign-screen .sign-main, .sign-status > *, .panel-title > *, .panel-body > *, .rules-inner > *, .you-chip, .frost, .hud-footer").forEach((n) => {
           if (!vis(n)) return;
           if (key === "nikFingertip" && mobile) return; // phone: the crop ends above the panels, fingertip is masked out by design
-          if (key === "nikFingertip" && !mobile && n.closest(".panel.own[data-panel='A'], .panel.sealed[data-panel='A']")) return; // desktop: the finger rests on panel A by design and is layered above it
+          if (key === "nikFingertip" && !mobile && n.closest(".panel[data-panel='A']")) return; // desktop: the finger rests on panel A by design and is layered above it
           const c = n.getBoundingClientRect();
           if (c.left < box.r && c.right > box.l && c.top < box.b && c.bottom > box.t) covers.push({ staging: key, el: n.className || n.tagName });
         });
@@ -215,7 +295,7 @@ function stringsFor(frame) {
       if (mobile) {
         const sc = stage;
         const scene = q(".scene").getBoundingClientRect(), band = q(".sign-status").getBoundingClientRect();
-        const act = q("#completeTransferChallenge") || q("#endTransferTimer");
+        const act = q("#completeTransferChallenge") || q("#endTransferTimer") || q("#continueFromTransfers") || q(".panel.own .signing-row:last-child");
         const ab = act.getBoundingClientRect();
         const kk2 = res.k, pl = q(".plane").getBoundingClientRect();
         const inScene = (r) => pl.left + r[0] * kk2 >= scene.left - 0.5 && pl.left + r[2] * kk2 <= scene.right + 0.5 && pl.top + r[1] * kk2 >= scene.top - 0.5 && pl.top + r[3] * kk2 <= band.top + 0.5;
@@ -238,7 +318,7 @@ function stringsFor(frame) {
         const L = res.checks.layout;
         if (!L.footerFixedBottom || L.pageScroll || !L.primaryVisible || !L.hudNoOverlap || !L.facesInScene || !L.signInScene || !L.managersWhole || !L.paintedPanelsHidden || (!L.noScroll && !expect.__tight)) res.fail.push("mobile layout");
       } else {
-        const panels = [...document.querySelectorAll(".panel-body, .frost")].map((n) => n.getBoundingClientRect().bottom);
+        const panels = [...document.querySelectorAll(".panel-body, .frost, .rules-inner")].map((n) => n.getBoundingClientRect().bottom);
         const sign = q(".sign-screen").getBoundingClientRect();
         res.checks.layout = {
           footerTop: Math.round(foot.top), panelBottomMax: Math.round(Math.max(...panels)),
@@ -302,6 +382,27 @@ function stringsFor(frame) {
       r.interaction = { beforeDisabled: before, afterSelect: afterSel, reset, sealedUnchangedByInput: sealedAfter === sealedBefore };
       if (!before || afterSel.disabled || !reset.disabled || reset.v !== "" || sealedAfter !== sealedBefore) r.fail.push("guess interaction");
     }
+    // ---- F3: LOCK MY SIGNINGS validates like production, then emits one lockSignings intent
+    if (phase === "SIGNING_ENTRY" && baseSize && !fx.frames[s.frame].signingsLocked) {
+      const pre = fx.frames[s.frame].viewer === "playerTwo" ? "p2" : "p1";
+      const own = fx.inputs[fx.frames[s.frame].viewer].signings;
+      const sealedBefore = await page.evaluate(() => document.querySelector(".panel.sealed").innerHTML);
+      await page.evaluate(() => { window.__intents = []; document.addEventListener("transfer:intent", (e) => window.__intents.push(e.detail)); });
+      for (const f of ["Name", "League", "Nationality"]) await page.fill(`#${pre}Signing1${f}`, own[0][f === "Name" ? "name" : f.toLowerCase()]);
+      await page.fill(`#${pre}Signing2Name`, own[1].name);
+      await page.click("#completeTransferChallenge");
+      const invalid = await page.evaluate(() => ({ err: document.getElementById("transferChallengeError").textContent, intents: window.__intents.length }));
+      await page.screenshot({ path: path.join(out, `${s.mobile ? "M_" : ""}${s.frame}_${s.vw}x${s.vh}_invalid.jpg`), type: "jpeg", quality: 86 });
+      const errFits = await page.evaluate(() => { const e = document.getElementById("transferChallengeError"), b = e.closest(".panel-body").getBoundingClientRect(), r = e.getBoundingClientRect(), st = document.getElementById("stage-root"); return r.bottom <= b.bottom && r.top >= b.top && st.scrollHeight <= st.clientHeight + 1; });
+      for (const i of [2, 3]) for (const f of ["Name", "League", "Nationality"]) await page.fill(`#${pre}Signing${i}${f}`, own[i - 1][f === "Name" ? "name" : f.toLowerCase()]);
+      await page.screenshot({ path: path.join(out, `${s.mobile ? "M_" : ""}${s.frame}_${s.vw}x${s.vh}_filled.jpg`), type: "jpeg", quality: 86 });
+      const clipFilled = await page.evaluate(() => { const cv = document.createElement("canvas").getContext("2d"); return [...document.querySelectorAll(".signing-row input")].filter((c) => { const cs = getComputedStyle(c); cv.font = `${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`; cv.letterSpacing = cs.letterSpacing === "normal" ? "0px" : cs.letterSpacing; return cv.measureText(c.value).width > c.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight) + 0.5; }).map((c) => c.id + "=" + c.value); });
+      await page.click("#completeTransferChallenge");
+      const ok = await page.evaluate(() => ({ err: document.getElementById("transferChallengeError").textContent, intents: window.__intents, sealed: document.querySelector(".panel.sealed").innerHTML }));
+      r.interaction = { invalid, errFitsNoScroll: errFits, filledValuesClipped: clipFilled, valid: { err: ok.err, intents: ok.intents }, sealedUnchangedByInput: ok.sealed === sealedBefore };
+      if (invalid.err !== S.signingInvalid.replace("{n}", "2") || invalid.intents !== 0 || ok.err !== "" || ok.intents.length !== 1 || ok.intents[0].action !== "lockSignings" || ok.sealed !== sealedBefore || !errFits) r.fail.push("signing interaction");
+      r.filledValuesClipped = clipFilled; // recorded; entry fields scroll natively, so this is informational
+    }
     // ---- live clock ticks when not frozen (read-only sign; production owns the value)
     if (phase === "WINDOW_OPEN" && baseSize && !s.mobile && s.frame === "F1") {
       const p2 = await ctx.newPage();
@@ -321,6 +422,11 @@ function stringsFor(frame) {
       r.sealedSigKey = key;
     }
     delete r.sealedSig;
+    if (r.verdictSig) {
+      const key = `${s.mobile ? "m" : "d"}_${s.vw}x${s.vh}_${fx.frames[s.frame].result}`;
+      (verdictSig[key] = verdictSig[key] || {})[fx.frames[s.frame].viewer] = r.verdictSig;
+      delete r.verdictSig;
+    }
     r.errors = errors;
     if (errors.length) r.fail.push("page errors");
     if (r.fail.length) failures++;
@@ -335,7 +441,12 @@ function stringsFor(frame) {
   const allHtml = [...new Set(Object.values(sealedSig).flatMap((o) => Object.values(o)).map(htmlOnly))];
   report.sealedMarkupIdenticalAcrossViewersAndPhases = allHtml.length === 1;
   const constancyFail = Object.values(constancy).some((c) => !c.identical) || allHtml.length !== 1;
-  report.summary = { shots: shots.length, shotsWithFailures: failures, sealedConstancyFail: constancyFail };
+  // F4: both viewers see the same verdict authority (same text in both result cards) at the same viewport
+  const shared = {};
+  Object.entries(verdictSig).forEach(([k, byViewer]) => { const v = Object.values(byViewer); shared[k] = { viewers: Object.keys(byViewer), identical: v.every((x) => x === v[0]) }; });
+  report.verdictAuthorityShared = shared;
+  const sharedFail = Object.values(shared).some((c) => !c.identical) || !Object.values(shared).some((c) => c.viewers.length === 2);
+  report.summary = { shots: shots.length, shotsWithFailures: failures, sealedConstancyFail: constancyFail, verdictAuthorityFail: sharedFail };
   fs.writeFileSync(path.join(out, "qa_report.json"), JSON.stringify(report, null, 2));
   await browser.close();
   console.log(JSON.stringify(report.summary));

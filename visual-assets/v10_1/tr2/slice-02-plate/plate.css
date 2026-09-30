@@ -267,6 +267,7 @@ body { overflow: hidden; font-family: var(--text); -webkit-font-smoothing: antia
   font-size: max(11.5px, calc(var(--k) * 13px)); letter-spacing: 0.1em; line-height: 1.08;
 }
 .sign-status.full .part { display: block; }
+.sign-status.full:not(.lead) { letter-spacing: 0.06em; }
 .sign-status.full .part:first-child { color: var(--gold-hot); }
 .sign-status.full.lead .part:first-child {
   font-weight: 700; font-size: calc(var(--k) * 23px); letter-spacing: 0.05em; line-height: 1.05;
@@ -283,10 +284,15 @@ body { overflow: hidden; font-family: var(--text); -webkit-font-smoothing: antia
 .signing-row input::placeholder { color: rgba(205, 187, 143, 0.78); opacity: 1; font-size: max(11.5px, calc(var(--k) * 13.5px)); letter-spacing: 0; }
 .signing-row input:disabled { color: var(--cream); -webkit-text-fill-color: var(--cream); opacity: 1; cursor: default;
   background-color: rgba(8, 6, 3, 0.30); box-shadow: inset 0 0 0 1px rgba(242, 196, 91, 0.16), inset 0 calc(var(--k) * -1px) 0 rgba(255, 210, 120, 0.22); }
+.signing-row.is-readonly { grid-template-columns: calc(var(--k) * 16px) minmax(0, 1fr); min-height: calc(var(--k) * 30px);
+  padding-bottom: calc(var(--k) * 2px); box-shadow: inset 0 -1px 0 rgba(242, 196, 91, 0.14); }
+.signing-row.is-readonly:last-child { box-shadow: none; }
+.is-locked .signing-rows { gap: calc(var(--k) * 4px); padding-top: calc(var(--k) * 3px); }
 .phase-signing .action-row { min-height: calc(var(--k) * 38px); }
 .phase-signing .privacy-note { line-height: 1.04; }
 .phase-signing .btn-lock { height: calc(var(--k) * 38px); }
-.phase-signing .error-line { flex: 1; font-family: var(--cond); font-weight: 600; font-size: max(12px, calc(var(--k) * 14px)); line-height: 1.12; }
+.phase-signing .error-line { flex: 1; min-width: 0; font-family: var(--cond); font-weight: 600; font-size: max(11.5px, calc(var(--k) * 13.5px)); line-height: 1.04; }
+.phase-signing.has-error .btn-lock { padding: 0 calc(var(--k) * 8px); letter-spacing: 0.06em; }
 .phase-signing.has-error .privacy-note { display: none; }
 
 /* shared card C: F3 lock summary, F4 rule + disabled continuation */
@@ -304,6 +310,8 @@ body { overflow: hidden; font-family: var(--text); -webkit-font-smoothing: antia
 }
 
 /* F4 verdicts: both glasses revealed; KEEP gold, RELEASE ember stamp */
+.verdict-heading span { display: inline-block; line-height: 1; }
+.verdict-heading .sep { white-space: pre; }
 .verdict-heading .vh:first-child { text-transform: uppercase; letter-spacing: 0.12em; }
 .verdict-heading .vh + .sep + .vh, .verdict-heading .vh:last-child { color: var(--cream-dim); font-weight: 600; letter-spacing: 0.04em; }
 .verdict-heading .sep { color: var(--gold-deep); }
@@ -448,6 +456,8 @@ body { overflow: hidden; font-family: var(--text); -webkit-font-smoothing: antia
   .signing-body { padding: 8px 14px 22px; gap: 8px; }
   .signing-rows { gap: 6px; }
   .signing-row { grid-template-columns: 16px 1.08fr 1.14fr 0.92fr; gap: 6px; }
+  .signing-row.is-readonly { grid-template-columns: 16px minmax(0, 1fr); gap: 8px; min-height: 40px; padding-bottom: 3px; }
+  .is-locked .signing-rows { gap: 4px; padding-top: 2px; }
   .signing-row input { height: 44px; font-size: 16px; padding: 0 7px; border-radius: 3px; }
   .signing-row input::placeholder { font-size: 12.5px; }
   .phase-signing .btn-lock { height: 48px; }
@@ -469,4 +479,19 @@ body { overflow: hidden; font-family: var(--text); -webkit-font-smoothing: antia
   .vr-why { font-size: 11.5px; }
   .verdict-empty { font-size: 15px; padding: 6px 0; }
   .guess-reveal { font-size: 12px; column-gap: 8px; }
+
+  /* very short phones (375x553 floor for a visible action): tighter F4 glass */
+  @media (max-height: 600px) {
+    .stage[data-phase="COMPLETED"] { --band-h: 34px; }
+    .stage[data-phase="COMPLETED"] .scene { min-height: 112px; }
+    .stage[data-phase="COMPLETED"] .guess-reveal { line-height: 1.08; }
+    .stage[data-phase="COMPLETED"] .vr-name { font-size: 14px; }
+    .stage[data-phase="COMPLETED"] .world { gap: 6px; }
+    .stage[data-phase="COMPLETED"] .sign-status.full.reg { font-size: 12px; line-height: 1.1; }
+    .verdict .panel-title { margin-top: 3px; }
+    .verdict-body { padding: 2px 14px 13px; gap: 2px; }
+    .verdict-row { padding: 0; }
+    .verdict-rows { gap: 0; }
+    .btn-continue { min-height: 44px; }
+  }
 }

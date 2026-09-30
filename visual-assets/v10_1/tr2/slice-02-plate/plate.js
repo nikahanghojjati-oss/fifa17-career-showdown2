@@ -230,10 +230,19 @@
       var row = el("div", { class: "signing-row signingRow" });
       row.appendChild(el("span", { class: "guess-num", "aria-hidden": "true", text: "0" + i }));
       var data = own.filter(function (r) { return r.slot === i; })[0] || {};
+      if (locked) {
+        // Locked: the viewer's own committed signings read back as text (production shows them disabled).
+        row.classList.add("is-readonly");
+        var who = el("div", { class: "vr-who" });
+        who.appendChild(el("strong", { class: "vr-name", text: data.name || "" }));
+        who.appendChild(el("span", { class: "vr-meta", text: data.name ? data.league + " · " + data.nationality : "" }));
+        row.appendChild(who);
+        rows.appendChild(row);
+        continue;
+      }
       fields.forEach(function (f) {
-        var key = f[0] === "Name" ? "name" : f[0].toLowerCase();
         row.appendChild(el("input", { type: "text", id: prefix + "Signing" + i + f[0], "data-transfer-field": true, autocomplete: "off",
-          "aria-label": who + " signing " + i + " " + f[2], placeholder: f[1], disabled: locked, value: locked ? (data[key] || "") : null }));
+          "aria-label": who + " signing " + i + " " + f[2], placeholder: f[1] }));
       });
       rows.appendChild(row);
     }
@@ -421,7 +430,8 @@
     var short = vh < 700;
     stage.classList.toggle("short", short);
     var footerH = short ? 30 : 36;
-    var bottom = short ? map.keepVisible.contentBottom * k + footerH + 2 : map.keepVisible.panelBottom * k + footerH + 6;
+    var contentBottom = Math.max(map.keepVisible.contentBottom, +(stage.dataset.contentBottom || 0));
+    var bottom = short ? contentBottom * k + footerH + 2 : map.keepVisible.panelBottom * k + footerH + 6;
     var offY = 0, offX = 0;
     if (H > vh) offY = Math.max(0, Math.min(H - vh, bottom - vh));
     if (W > vw) {
@@ -479,6 +489,10 @@
     stage.innerHTML = "";
     stage.dataset.frame = frameId;
     stage.dataset.phase = cfg.phase || "none";
+    // F3/F4 glass content uses the painted glass down to the inner frame line (platemap signingContent / verdictContent)
+    if (cfg.phase === "SIGNING_ENTRY") stage.dataset.contentBottom = map.panels.A.signingContent[3];
+    else if (cfg.phase === "COMPLETED") stage.dataset.contentBottom = map.panels.A.verdictContent[3];
+    else delete stage.dataset.contentBottom;
 
     var world = el("div", { class: "world" });
     var scene = el("div", { class: "scene" });
