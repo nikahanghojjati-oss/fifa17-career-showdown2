@@ -157,3 +157,22 @@ QA adds `managersWhole` and `paintedPanelsHidden` checks. The fingertip is maske
 
 ## Owner look: PASSED (Nik, 2026-09-28 10:06 ET)
 "The pages are ok." F1 Window and Guess Entry are approved on desktop and phone, as of commit `d5e45d4`.
+
+## R4: F3 Signing Entry + F4 Verdicts (Sol TWF decisions + F3/F4 brief R2, 2026-09-29)
+Built by Claude (Opus 5.5), 2026-09-30, on top of `18db080` (F1 + Guess Entry owner PASS, untouched). Text only: no images generated, no player pictures. Strings = Sol brief §3–4 (production truth at main@2de2373). Clubs, player rows and guesses are fixtures; verdicts are fixture authority (`fixtures.json` → `results`), never computed in the visual layer.
+
+Frames: `F3` / `F3D` (Signing Entry, Nik / Daniel viewing, editable) · `F3L` / `F3DL` (own signings locked, waiting) · `F4` / `F4D` (Verdicts) · `F4E` / `F4DE` (Verdicts, Daniel entered no signings).
+
+| Surface | F3 Signing Entry | F4 Verdicts |
+| --- | --- | --- |
+| Sign (desktop, rotated 7.5°) | full status: `SIGNING ENTRY` in board lettering + `RECORD YOUR COMPLETED FIFA 17 TRANSFERS`; locked: `YOUR SIGNINGS ARE LOCKED · WAITING FOR YOUR RIVAL` | `SHARED TRANSFER CHALLENGE COMPLETE · VERDICTS REVEALED TO BOTH MANAGERS` (4 short lines) |
+| Viewer glass | nameplate + PRIVATE; 3 rows × (Player name, Previous league, Nationality) with production ids (`p2Signing{i}*` Nik, `p1Signing{i}*` Daniel); privacy note + `LOCK MY SIGNINGS` (`#completeTransferChallenge`). Locked: rows read back as text, no button | `#transferResultsTwo/One`, heading `{MANAGER} · {CLUB}`, per signing: name, league · nationality, verdict `KEEP · NO RIVAL GUESS MATCH` (gold) or `RELEASE · MATCHED BY RIVAL GUESS` (ember); `No signings were entered.`; rival's guesses revealed read-only |
+| Rival glass | the constant sealed panel (identical markup/size to F1/G) | revealed read-only verdict glass |
+| Card C | `#transferPhaseLockSummary` (production lock summary) | rule note + disabled `SHARED SEASON RESULTS COMING NEXT` (`#continueFromTransfers`) |
+| Phone | status in a 2-line caption band (TWF-S3), lock summary caption, 44 px / 16 px rows, sealed strip | own verdicts, rival verdicts, disabled continuation; rule note hidden on phone |
+
+LOCK MY SIGNINGS validates like production (a partly filled row → `Complete signing {n} with player name, previous league and nationality.`) and otherwise emits one `transfer:intent` `lockSignings`.
+
+Desktop: panel A's F3/F4 content uses the painted glass down to the inner frame line (`platemap.json` `signingContent` / `verdictContent`) so 3 rows + LOCK fit at 31 px (TWG-S6). In the short (<700 px) camera this lowers the view by ~4 px: at 1366×640 the painted title loses 13 px on F3 and 11 px on F4 (9 px on F1/G).
+
+QA (`tools/render-qa.cjs` → `evidence/qa_report.json`): **81 shots, 0 failures** (37 carried F1/G + 44 new). New checks: F3/F4 strings, own-only private ids, signing validation + intent, placeholder/value clipping, board status fit, verdict text overlap, no fields in F4, verdict authority identical for both viewers (`verdictAuthorityShared`), sealed constancy now includes F3/F3L. Phone: no scroll at 390×664, 390×844, 430×740, 430×932, 360×640, 375×667; at 375×553 action visible (F3 has 3 px inner scroll there, F4 none).
