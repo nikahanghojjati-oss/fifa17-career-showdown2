@@ -142,8 +142,7 @@
     "verdictRelease": "RELEASE · MATCHED BY RIVAL GUESS",
     "verdictKeep": "KEEP · NO RIVAL GUESS MATCH",
     "continueLabel": "SHARED SEASON RESULTS COMING NEXT",
-    "guessRevealHeading": "{GUESSER} guesses {OWNER}'s signings",
-    "guessRevealNone": "No guesses were entered."
+    "guessRevealHeading": "{GUESSER} guesses {OWNER}'s signings"
   },
   "clubs": {
     "playerOne": "Juventus",

@@ -88,7 +88,7 @@ function stringsFor(frame) {
       guessReveal: [["playerOne", "playerTwo"], ["playerTwo", "playerOne"]].map(([owner, guesser]) => {
         const g = fx.inputs[guesser].guessesAgainstRival || [];
         return { head: S.guessRevealHeading.replace("{GUESSER}", fx.managers[guesser]).replace("{OWNER}", fx.managers[owner]),
-          items: g.length ? g.map((x) => `${x.type === "league" ? S.selectLeague : S.selectNationality} ${x.value}`) : [S.guessRevealNone], fields: 0 };
+          items: g.length ? g.map((x) => `${x.type === "league" ? S.selectLeague : S.selectNationality} ${x.value}`) : [], fields: 0 };
       }),
     });
   }
