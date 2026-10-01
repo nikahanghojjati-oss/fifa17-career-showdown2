@@ -7,6 +7,11 @@
   const BEZEL = 268 / 240, POINTER = 36 / 240;         // bezel outer radius / pointer rise, as fractions of R
   const LABEL_REACH = 0.78;                            // lowest live label pixel below centre, fraction of R
   const VEIL_R = 272;                                  // slot veil radius (plate px)
+  // finger overlay rect (plate px): keep_rects[0] widened to the hand-box rows so the cut can follow
+  // Daniel's sleeve outline (Sol decision LEAGUE-M1); must match tools/make_finger_overlay.py
+  const OVL_RECT = [440, 410, 560, 500];
+  const PHONE_MIN_R = 112;   // phone wheel floor (D 224 px = the smallest 360x640 wheel); decision LEAGUE-M2
+  const PHONE_FLOW_R = 114;  // short-phone wheel when the page scrolls (D 228 px >= every 360x640 frame: 224-227)
   const PHONE_X = [195, 1280], PHONE_Y_TOP = 70, PHONE_HAND_CUT_Y = 400; // phone band crop (plate px)
   const q = (s) => document.querySelector(s);
   const stage = q("#stage-root");
@@ -98,7 +103,7 @@
     heal(".heal-foot", [0, 776, 1536, 864]);
     const c = plateToScreen(SLOT.cx, SLOT.cy);
     box(q(".slot-veil"), c.x - VEIL_R * T.k - origin.x, c.y - VEIL_R * T.k - origin.y, 2 * VEIL_R * T.k, 2 * VEIL_R * T.k);
-    const kr = MAP.keep_rects[0], f = plateRect(kr);
+    const f = plateRect(OVL_RECT);
     box(q(".finger-ovl"), f.l - origin.x, f.t - origin.y, f.r - f.l, f.b - f.t);
   }
 
@@ -113,7 +118,21 @@
     Object.assign(stage.dataset, { wheelCx: cx.toFixed(2), wheelCy: cy.toFixed(2), wheelR: R.toFixed(2) });
   }
 
+  // Short phones may scroll (decision LEAGUE-M2: only the primary action must be in the first view).
+  function setPageScroll(contentH) {
+    if (window.LEAGUE_PREVIEW) return;
+    const de = document.documentElement, b = document.body;
+    if (contentH && contentH > innerHeight + 0.5) {
+      Object.assign(stage.style, { position: "absolute", height: px(contentH) });
+      de.style.overflowY = "auto"; b.style.overflow = "visible"; b.style.height = "auto";
+    } else {
+      stage.style.removeProperty("position"); stage.style.removeProperty("height");
+      de.style.removeProperty("overflow-y"); b.style.removeProperty("overflow"); b.style.removeProperty("height");
+    }
+  }
+
   function layoutDesktop(W, H) {
+    setPageScroll(null);
     const hdr = 56, ftr = 28;
     const k = Math.max(W / PW, H / PH);
     let ox = (W - PW * k) / 2, oy = (H - PH * k) / 2;
@@ -192,29 +211,53 @@
     Object.assign(T, { k: kb, ox: -PHONE_X[0] * kb, oy: bandTop - PHONE_Y_TOP * kb });
 
     const row = q(".button-row");
-    const rowH = 48 * 2 + 8, btnTop = H - 12 - rowH;
-    row.style.top = px(btnTop);
+    const rowH = 48 * 2 + 8;
     const note = q("#leagueStateNote");
     // Phone band: plate y 70..400 keeps both faces whole and ends above Daniel's hand box (- 8 px),
     // so the wheel can overlap the band's lower centre without touching any hand. The finger overlay
     // is hidden on phone (W5: overlay cannot stay aligned with a 220-250 px wheel).
     const bandBottom = plateToScreen(0, PHONE_HAND_CUT_Y).y;
     const noteH = note.classList.contains("hidden") ? 0 : note.getBoundingClientRect().height;
-    const deckTop = noteH ? btnTop - 8 - noteH : btnTop;
     // The wheel hides the plate slot dome: its bezel must cover the slot circle (r 250) wherever it sits,
-    // and it must stay >= 8 px clear of both face boxes. Largest radius that satisfies both wins.
+    // and it must stay >= 8 px clear of both face boxes.
     const slotC = plateToScreen(SLOT.cx, SLOT.cy), slotR = 250 * T.k, domeTop = slotC.y - slotR;
-    const hi = deckTop - 8;
     const faces = ["face_daniel", "face_nik"].map((n) => plateRect(MAP.protected_boxes[n]));
     const clear = (cx, cy, rb) => faces.every((r) => { const nx = Math.max(r.l - 8, Math.min(cx, r.r + 8)), ny = Math.max(r.t - 8, Math.min(cy, r.b + 8)); return Math.hypot(cx - nx, cy - ny) > rb; });
-    let R = 80, cy = hi - 80 * BEZEL;
-    for (let r = Math.min(Math.max(110, W * 0.34), 150); r >= 80; r -= 0.5) {
-      const rb = r * BEZEL, c = Math.min(domeTop + rb, hi - rb);
-      if (rb + 1 >= slotR + Math.abs(c - slotC.y) && clear(slotC.x, c, rb)) { R = r; cy = c; break; }
+    const valid = (r, c) => { const rb = r * BEZEL; return rb + 1 >= slotR + Math.abs(c - slotC.y) && clear(slotC.x, c, rb); };
+    // 1) fixed layout (no scroll): buttons at the bottom, note above them, largest wheel that fits
+    const btnTopFixed = H - 12 - rowH, hi = (noteH ? btnTopFixed - 8 - noteH : btnTopFixed) - 8;
+    let R = null, cy = null, flow = false, btnTop = btnTopFixed;
+    for (let r = Math.min(Math.max(110, W * 0.34), 150); r >= PHONE_MIN_R; r -= 0.5) {
+      const c = Math.min(domeTop + r * BEZEL, hi - r * BEZEL);
+      if (valid(r, c)) { R = r; cy = c; break; }
     }
-    if (noteH) note.style.top = px(btnTop - 8 - noteH);
+    if (R !== null) {
+      if (noteH) note.style.top = px(btnTopFixed - 8 - noteH);
+    } else {
+      // 2) short phones (decision LEAGUE-M2): the wheel stays at the 360x640 size or larger; the note
+      //    overlaps the wheel's bottom rim below the labels (as on desktop) and the buttons follow it.
+      //    Largest R in [PHONE_FLOW_R .. PHONE_MIN_R] that fits without scroll, else PHONE_FLOW_R and the
+      //    page scrolls; #spinLeague must stay in the first view either way (G4).
+      flow = true;
+      const place = (r) => {
+        let c = null;
+        for (let t = slotC.y - (r * BEZEL - slotR); t <= slotC.y + (r * BEZEL - slotR); t += 0.5) if (valid(r, t)) { c = t; break; }
+        if (c === null) c = domeTop + r * BEZEL;
+        const nTop = c + r * LABEL_REACH + 2;
+        const bTop = noteH ? nTop + noteH + 8 : c + r * BEZEL + 8;
+        return { r, c, nTop, bTop, end: bTop + rowH + 12 };
+      };
+      let f = null;
+      for (let r = PHONE_FLOW_R; r >= PHONE_MIN_R; r -= 0.5) { const t = place(r); if (t.end <= H) { f = t; break; } }
+      if (!f) f = place(PHONE_FLOW_R);
+      R = f.r; cy = f.c; btnTop = f.bTop;
+      if (noteH) note.style.top = px(f.nTop);
+    }
+    row.style.top = px(btnTop);
     placeWheel(slotC.x, cy, R);
     stage.dataset.phoneWheelD = String(Math.round(2 * R));
+    stage.dataset.flow = String(flow);
+    setPageScroll(flow ? btnTop + rowH + 12 : null);
     const sc = q(".scene"), st = q(".scene-top");
     placeScene(sc, 0, bandTop, W, bandBottom - bandTop); placeScene(st, 0, bandTop, W, bandBottom - bandTop);
     const fade = "linear-gradient(to bottom, #000 calc(100% - 28px), transparent)";
@@ -235,6 +278,7 @@
     const add = (r, color, label) => { const R = plateRect(r); const d = document.createElement("div"); box(d, R.l, R.t, R.r - R.l, R.b - R.t); d.style.borderColor = color; d.style.color = color; d.textContent = label; g.appendChild(d); };
     Object.entries(MAP.protected_boxes).forEach(([k2, r]) => add(r, "#ff4d6d", k2));
     MAP.keep_rects.forEach((r) => add(r, "#38f2a6", "keep"));
+    add(OVL_RECT, "#f6d743", "finger overlay");
     MAP.remove_rects.forEach((r) => add(r, "rgba(120,200,255,.8)", ""));
     const [cx, cy, rr] = MAP.remove_circles_cx_cy_r[0];
     const c = plateToScreen(cx, cy), d = document.createElement("div");
@@ -242,7 +286,8 @@
   }
 
   function layout() {
-    const W = stage.clientWidth, H = stage.clientHeight;   // = viewport in the prototype (stage is fixed, inset 0)
+    // viewport in the prototype (the stage may grow taller than it on short phones); stage box in the preview
+    const W = window.LEAGUE_PREVIEW ? stage.clientWidth : innerWidth, H = window.LEAGUE_PREVIEW ? stage.clientHeight : innerHeight;
     stage.dataset.wide = W >= 1200 ? "1" : "0";
     stage.dataset.narrow = W < 900 ? "1" : "0";
     if (W <= 760 && H > W) layoutPhone(W, H); else layoutDesktop(W, H);
@@ -265,6 +310,6 @@
     img.src = devicePixelRatio > 1 ? "assets/ENV_LEAGUE_PLATE_V1_2X.webp" : "assets/ENV_LEAGUE_PLATE_V1_1X.webp";
   }
   function setFrame(id) { frameId = id; stage.dataset.frame = id; applyFrame(); layout(); }
-  window.LeagueV1 = { plateToScreen, T, SLOT, main, setFrame, layout };
+  window.LeagueV1 = { plateToScreen, T, SLOT, OVL_RECT, main, setFrame, layout };
   if (!window.LEAGUE_DEFER_MAIN) main();
 })();

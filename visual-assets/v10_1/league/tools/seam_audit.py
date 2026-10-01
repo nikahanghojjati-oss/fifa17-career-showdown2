@@ -19,37 +19,44 @@ yy, xx = np.mgrid[0:864, 0:1536]
 rr = np.hypot(xx - CX, yy - CY)
 
 # ---------- 1. fingertip / old rim strip ----------
-KEEP = M["keep_rects"][0]
+KEEP = [440, 410, 560, 500]  # finger overlay rect (keep_rects[0] widened to the hand-box rows, LEAGUE-M1)
 HB = M["protected_boxes"]["hand_daniel"]
 ovl = np.zeros((864, 1536))
 a = np.asarray(Image.open("assets/OVL_DANIEL_FINGER_V1_1X.png"))[..., 3] / 255.0
 ovl[KEEP[1]:KEEP[3], KEEP[0]:KEEP[2]] = a
 hand = np.zeros((864, 1536), bool); hand[HB[1]:HB[3], HB[0]:HB[2]] = True
-# Daniel's outline inside the hand box: overlay polygon inside the keep rect, sleeve edge x <= 505 outside it
-daniel = hand & (xx <= 505)
+# Every wheel-paint pixel inside hand_daniel is classified: restored by the overlay (alpha >= 0.5), or
+# not restored. Not-restored pixels are split with the intake input (plates-in edit, resized like intake):
+# old-rim/old-wheel remnant (differs from the edit by > 45, x >= 506: the goal's wheel kept by the intake
+# hard-restore), background glow (equals the edit: no Daniel there in either image), or OTHER (would be
+# Daniel pixels left under the wheel; must be 0 or explained).
 k = np.zeros_like(hand); k[KEEP[1]:KEEP[3], KEEP[0]:KEEP[2]] = True
-daniel = np.where(k, ovl > 0.5, daniel)
 wheel = rr <= BEZEL_R
-overlap = daniel & wheel
-uncovered = overlap & (ovl < 0.5)
-g8 = {"wheel_paint_radius_plate_px": BEZEL_R, "rim_radius_plate_px": RIM_R,
-      "daniel_px_under_wheel_paint": int(overlap.sum()),
-      "of_which_restored_by_overlay_alpha_ge_0_5": int((overlap & (ovl >= 0.5)).sum()),
-      "daniel_px_under_wheel_paint_not_restored": int(uncovered.sum())}
-if uncovered.any():
-    ys, xs = np.nonzero(uncovered)
-    g8["not_restored_bbox"] = [int(xs.min()), int(ys.min()), int(xs.max()) + 1, int(ys.max()) + 1]
-    g8["not_restored_note"] = "sleeve-edge pixels outside keep_rects[0] (overlay is confined to the keep rect by W2); dark bezel over dark sleeve"
+paint = hand & wheel
+restored = paint & (ovl >= 0.5)
+g8 = {"wheel_paint_radius_plate_px": BEZEL_R, "rim_radius_plate_px": RIM_R, "overlay_rect_1x": KEEP,
+      "wheel_paint_px_in_hand_box": int(paint.sum()), "restored_by_overlay_alpha_ge_0_5": int(restored.sum())}
 edit_path = sys.argv[1] if len(sys.argv) > 1 else None
 if edit_path:
     e = np.asarray(Image.open(edit_path).convert("RGB").resize((1536, 864), Image.LANCZOS)).astype(float)
     diff = np.abs(plate - e).sum(2)
-    remnant = hand & (diff > 45) & (xx >= 506) & ~(k & (ovl > 0.5))
-    g8["old_rim_remnant_px"] = int(remnant.sum())
-    g8["old_rim_remnant_visible_outside_wheel_paint"] = int((remnant & ~wheel).sum())
-    g8["old_rim_remnant_restored_by_overlay"] = int((hand & (diff > 45) & (xx >= 506) & (ovl > 0.05)).sum())
-    if (remnant & ~wheel).any():
-        ys, xs = np.nonzero(remnant & ~wheel); g8["remnant_visible_bbox"] = [int(xs.min()), int(ys.min()), int(xs.max()) + 1, int(ys.max()) + 1]
+    left = paint & (ovl < 0.5)
+    remnant = left & (diff > 45) & (xx >= 506)
+    glow = left & (diff <= 45)
+    other = left & ~remnant & ~glow
+    g8.update({"not_restored_old_rim_remnant_px": int(remnant.sum()), "not_restored_background_glow_px": int(glow.sum()), "not_restored_other_px": int(other.sum())})
+    if other.any():
+        ys, xs = np.nonzero(other); g8["other_bbox"] = [int(xs.min()), int(ys.min()), int(xs.max()) + 1, int(ys.max()) + 1]
+    rem_all = hand & (diff > 45) & (xx >= 506) & (ovl < 0.5)
+    g8["old_rim_remnant_px_total"] = int(rem_all.sum())
+    g8["old_rim_remnant_visible_outside_wheel_paint"] = int((rem_all & ~wheel).sum())
+    if (rem_all & ~wheel).any():
+        ys, xs = np.nonzero(rem_all & ~wheel); g8["remnant_visible_bbox"] = [int(xs.min()), int(ys.min()), int(xs.max()) + 1, int(ys.max()) + 1]
+    # Daniel's sleeve just below the hand box (not protected, reported for the look): wheel paint over
+    # pixels that are dark jacket in the plate (luma < 60) left of x 507, rows 500-520
+    luma = plate @ np.array([.2126, .7152, .0722])
+    below = (yy >= 500) & (yy < 520) & (xx < 507) & wheel & (luma < 60)
+    g8["below_hand_box_dark_sleeve_px_under_wheel_paint"] = int(below.sum())
 json.dump(g8, open("evidence/g8_finger.json", "w"), indent=1)
 print("g8", g8)
 

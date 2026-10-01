@@ -60,11 +60,11 @@
    "button zone bottom": -97.2,
    "footer zone top": -2.8,
    "hand_daniel right (old wheel patch)": -25.8,
-   "hand_daniel top (old rim strip)": -0.7,
-   "hand_daniel bottom (old rim strip)": -3.0,
+   "hand_daniel top (old rim strip)": 1.6,
+   "hand_daniel bottom (old rim strip)": 2.8,
    "face_nik right": -18.9,
    "face_daniel left": -16.3,
-   "slot circle r=250": 8.1
+   "slot circle r=250": 8.6
   },
   "L1_1440x900.jpg": {
    "header zone A right": -0.6,
@@ -92,11 +92,11 @@
    "button zone bottom": 0.2,
    "footer zone top": -1.0,
    "hand_daniel right (old wheel patch)": -30.7,
-   "hand_daniel top (old rim strip)": -2.2,
-   "hand_daniel bottom (old rim strip)": 0.7,
+   "hand_daniel top (old rim strip)": -4.3,
+   "hand_daniel bottom (old rim strip)": 7.4,
    "face_nik right": -15.2,
    "face_daniel left": -10.5,
-   "slot circle r=250": 0.4
+   "slot circle r=250": 0.5
   },
   "L1_1920x1080.jpg": {
    "header zone A right": 0.3,
@@ -124,11 +124,11 @@
    "button zone bottom": 0.2,
    "footer zone top": -0.9,
    "hand_daniel right (old wheel patch)": -39.2,
-   "hand_daniel top (old rim strip)": -1.6,
-   "hand_daniel bottom (old rim strip)": -0.5,
+   "hand_daniel top (old rim strip)": -2.8,
+   "hand_daniel bottom (old rim strip)": 6.0,
    "face_nik right": -13.0,
    "face_daniel left": -1.0,
-   "slot circle r=250": -5.2
+   "slot circle r=250": -5.1
   },
   "L1_1366x640.jpg": {
    "header zone A right": -0.0,
@@ -156,11 +156,11 @@
    "button zone bottom": null,
    "footer zone top": null,
    "hand_daniel right (old wheel patch)": 16.7,
-   "hand_daniel top (old rim strip)": 1.8,
-   "hand_daniel bottom (old rim strip)": 0.5,
+   "hand_daniel top (old rim strip)": 1.3,
+   "hand_daniel bottom (old rim strip)": 7.3,
    "face_nik right": -19.7,
    "face_daniel left": -14.4,
-   "slot circle r=250": 6.8
+   "slot circle r=250": 6.9
   },
   "L1_360x640.jpg": {
    "header zone A right": 68.3,
@@ -205,7 +205,7 @@
    "title zone left": 8.8,
    "title zone right": 21.8,
    "title zone top": 1.5,
-   "title zone bottom": 22.2,
+   "title zone bottom": 22.8,
    "left slogan zone left": "out of frame",
    "left slogan zone right": "out of frame",
    "left slogan zone top": "out of frame",
@@ -290,6 +290,38 @@
    "face_daniel left": -10.5,
    "slot circle r=250": "behind wheel / veil (phone)"
   },
+  "L1_393x660.jpg": {
+   "header zone A right": 172.4,
+   "header zone A bottom": 13.6,
+   "header zone B left": 1.0,
+   "header zone B right": null,
+   "header zone B bottom": 10.1,
+   "header zone C left": null,
+   "header zone C bottom": null,
+   "title zone left": 11.6,
+   "title zone right": 25.0,
+   "title zone top": 2.0,
+   "title zone bottom": 21.7,
+   "left slogan zone left": "out of frame",
+   "left slogan zone right": "out of frame",
+   "left slogan zone top": "out of frame",
+   "left slogan zone bottom": "out of frame",
+   "right slogan zone left": "out of frame",
+   "right slogan zone right": "out of frame",
+   "right slogan zone top": "out of frame",
+   "right slogan zone bottom": "out of frame",
+   "button zone left": "out of frame",
+   "button zone right": "out of frame",
+   "button zone top": "out of frame",
+   "button zone bottom": "out of frame",
+   "footer zone top": "out of frame",
+   "hand_daniel right (old wheel patch)": "out of frame",
+   "hand_daniel top (old rim strip)": "out of frame",
+   "hand_daniel bottom (old rim strip)": "out of frame",
+   "face_nik right": 79.7,
+   "face_daniel left": 4.0,
+   "slot circle r=250": "behind wheel / veil (phone)"
+  },
   "L3_1366x768.jpg": {
    "header zone A right": -0.3,
    "header zone A bottom": -2.4,
@@ -316,11 +348,11 @@
    "button zone bottom": -104.5,
    "footer zone top": -2.9,
    "hand_daniel right (old wheel patch)": 2.9,
-   "hand_daniel top (old rim strip)": -1.7,
-   "hand_daniel bottom (old rim strip)": -3.1,
+   "hand_daniel top (old rim strip)": 0.9,
+   "hand_daniel bottom (old rim strip)": 2.8,
    "face_nik right": -18.9,
    "face_daniel left": -16.3,
-   "slot circle r=250": 5.6
+   "slot circle r=250": 6.1
   },
   "L3_1440x900.jpg": {
    "header zone A right": -0.6,
@@ -348,11 +380,11 @@
    "button zone bottom": 0.4,
    "footer zone top": -0.9,
    "hand_daniel right (old wheel patch)": -36.4,
-   "hand_daniel top (old rim strip)": -2.2,
-   "hand_daniel bottom (old rim strip)": 0.7,
+   "hand_daniel top (old rim strip)": -4.3,
+   "hand_daniel bottom (old rim strip)": 7.4,
    "face_nik right": -15.2,
    "face_daniel left": -10.5,
-   "slot circle r=250": -2.1
+   "slot circle r=250": -2.0
   },
   "L3_1920x1080.jpg": {
    "header zone A right": 0.3,
@@ -380,11 +412,11 @@
    "button zone bottom": 0.0,
    "footer zone top": -0.9,
    "hand_daniel right (old wheel patch)": -39.3,
-   "hand_daniel top (old rim strip)": -1.6,
-   "hand_daniel bottom (old rim strip)": -0.7,
+   "hand_daniel top (old rim strip)": -2.9,
+   "hand_daniel bottom (old rim strip)": 5.8,
    "face_nik right": -13.0,
    "face_daniel left": -1.0,
-   "slot circle r=250": -1.4
+   "slot circle r=250": -1.3
   },
   "L3_1366x640.jpg": {
    "header zone A right": -0.0,
@@ -412,11 +444,11 @@
    "button zone bottom": null,
    "footer zone top": null,
    "hand_daniel right (old wheel patch)": -47.5,
-   "hand_daniel top (old rim strip)": 1.1,
-   "hand_daniel bottom (old rim strip)": 0.4,
+   "hand_daniel top (old rim strip)": 0.6,
+   "hand_daniel bottom (old rim strip)": 7.2,
    "face_nik right": -19.7,
    "face_daniel left": -14.4,
-   "slot circle r=250": -2.0
+   "slot circle r=250": -1.9
   },
   "L3_360x640.jpg": {
    "header zone A right": -22.6,
@@ -429,7 +461,7 @@
    "title zone left": 8.2,
    "title zone right": 23.3,
    "title zone top": 0.5,
-   "title zone bottom": 12.7,
+   "title zone bottom": 17.6,
    "left slogan zone left": "out of frame",
    "left slogan zone right": "out of frame",
    "left slogan zone top": "out of frame",
@@ -461,7 +493,7 @@
    "title zone left": 8.7,
    "title zone right": 22.1,
    "title zone top": 0.6,
-   "title zone bottom": 12.2,
+   "title zone bottom": 21.9,
    "left slogan zone left": "out of frame",
    "left slogan zone right": "out of frame",
    "left slogan zone top": "out of frame",
@@ -545,6 +577,38 @@
    "face_nik right": 24.1,
    "face_daniel left": -15.4,
    "slot circle r=250": "behind wheel / veil (phone)"
+  },
+  "L3_393x660.jpg": {
+   "header zone A right": 202.6,
+   "header zone A bottom": 11.3,
+   "header zone B left": 1.2,
+   "header zone B right": null,
+   "header zone B bottom": 10.7,
+   "header zone C left": null,
+   "header zone C bottom": null,
+   "title zone left": 11.7,
+   "title zone right": 25.3,
+   "title zone top": 1.1,
+   "title zone bottom": 27.7,
+   "left slogan zone left": "out of frame",
+   "left slogan zone right": "out of frame",
+   "left slogan zone top": "out of frame",
+   "left slogan zone bottom": "out of frame",
+   "right slogan zone left": "out of frame",
+   "right slogan zone right": "out of frame",
+   "right slogan zone top": "out of frame",
+   "right slogan zone bottom": "out of frame",
+   "button zone left": "out of frame",
+   "button zone right": "out of frame",
+   "button zone top": "out of frame",
+   "button zone bottom": "out of frame",
+   "footer zone top": "out of frame",
+   "hand_daniel right (old wheel patch)": "out of frame",
+   "hand_daniel top (old rim strip)": "out of frame",
+   "hand_daniel bottom (old rim strip)": "out of frame",
+   "face_nik right": 71.4,
+   "face_daniel left": 8.6,
+   "slot circle r=250": "behind wheel / veil (phone)"
   }
  },
  "render_steps_ge_threshold_any_cause": {
@@ -591,6 +655,13 @@
    "title zone bottom",
    "face_nik right"
   ],
+  "L1_393x660.jpg": [
+   "header zone A right",
+   "header zone A bottom",
+   "title zone right",
+   "title zone bottom",
+   "face_nik right"
+  ],
   "L3_1366x768.jpg": [
    "header zone B left",
    "header zone B right",
@@ -626,6 +697,12 @@
    "face_nik right"
   ],
   "L3_430x932.jpg": [
+   "header zone A right",
+   "title zone right",
+   "title zone bottom",
+   "face_nik right"
+  ],
+  "L3_393x660.jpg": [
    "header zone A right",
    "title zone right",
    "title zone bottom",

@@ -1,6 +1,6 @@
 {
  "base": "http://127.0.0.1:8765/visual-assets/v10_1/league/",
- "when": "2026-10-01T22:25:50.858Z",
+ "when": "2026-10-01T22:38:39.303Z",
  "viewports": [
   {
    "vw": 1366,
@@ -37,7 +37,8 @@
    "vw": 375,
    "vh": 553,
    "dpr": 2,
-   "phone": true
+   "phone": true,
+   "scrollAllowed": true
   },
   {
    "vw": 390,
@@ -49,6 +50,12 @@
    "vw": 430,
    "vh": 932,
    "dpr": 2,
+   "phone": true
+  },
+  {
+   "vw": 393,
+   "vh": 660,
+   "dpr": 3,
    "phone": true
   }
  ],
@@ -149,7 +156,9 @@
     "vp": [
      1366,
      768
-    ]
+    ],
+    "verticalScroll": false,
+    "scrollAllowed": false
    },
    "G4": {
     "rect": [
@@ -232,8 +241,15 @@
     },
     "fingerOverlay": {
      "shown": true,
-     "note": "CSS px; Chromium LayoutUnit = 1/64 px, so <= 0.0157 is 0 device px",
-     "regErrPx": 0.015625
+     "rect": [
+      440,
+      410,
+      560,
+      500
+     ],
+     "regErrCssPx": 0.0208,
+     "regErrDevicePx": 0,
+     "note": "edges compared on the device-pixel grid; CSS-px residue is Chromium LayoutUnit (1/64 px) rounding of top and height"
     }
    },
    "G9": {
@@ -368,35 +384,35 @@
      "t": "Premier League",
      "large": true,
      "ratio": 6.02,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "wheelItem",
      "t": "LaLiga",
      "large": true,
      "ratio": 14.18,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "wheelItem",
      "t": "Bundesliga",
      "large": true,
      "ratio": 14.18,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "wheelItem",
      "t": "Serie A",
      "large": true,
      "ratio": 14.18,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "wheelItem",
      "t": "Ligue 1",
      "large": true,
      "ratio": 14.18,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "selectedLeague",
@@ -483,17 +499,17 @@
    },
    "loaded": [
     "/visual-assets/v10_1/league/index.html?frame=L1",
-    "/visual-assets/v10_1/league/league.css",
     "/visual-assets/v10_1/league/assets/OVL_DANIEL_FINGER_V1_1X.png",
+    "/visual-assets/v10_1/league/league.css",
     "/js/visualIdentity.js",
     "/visual-assets/v10_1/league/league.js",
     "/visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_1X.webp",
-    "/visual-assets/v10_1/league/fixtures.json",
     "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-700-normal.woff2",
-    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-600-normal.woff2",
     "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2",
-    "/visual-assets/v10_1/league/assets/platemap.json",
-    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-600-normal.woff2"
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2",
+    "/visual-assets/v10_1/league/fixtures.json",
+    "/visual-assets/v10_1/league/assets/platemap.json"
    ],
    "shot": {
     "file": "L1_1366x768.jpg",
@@ -599,7 +615,9 @@
     "vp": [
      1440,
      900
-    ]
+    ],
+    "verticalScroll": false,
+    "scrollAllowed": false
    },
    "G4": {
     "rect": [
@@ -682,8 +700,15 @@
     },
     "fingerOverlay": {
      "shown": true,
-     "note": "CSS px; Chromium LayoutUnit = 1/64 px, so <= 0.0157 is 0 device px",
-     "regErrPx": 0.015625
+     "rect": [
+      440,
+      410,
+      560,
+      500
+     ],
+     "regErrCssPx": 0.0052,
+     "regErrDevicePx": 0,
+     "note": "edges compared on the device-pixel grid; CSS-px residue is Chromium LayoutUnit (1/64 px) rounding of top and height"
     }
    },
    "G9": {
@@ -818,35 +843,35 @@
      "t": "Premier League",
      "large": true,
      "ratio": 6.08,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "wheelItem",
      "t": "LaLiga",
      "large": true,
      "ratio": 14.18,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "wheelItem",
      "t": "Bundesliga",
      "large": true,
      "ratio": 14.17,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "wheelItem",
      "t": "Serie A",
      "large": true,
      "ratio": 14.17,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "wheelItem",
      "t": "Ligue 1",
      "large": true,
      "ratio": 14.18,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "selectedLeague",
@@ -938,12 +963,12 @@
     "/js/visualIdentity.js",
     "/visual-assets/v10_1/league/league.js",
     "/visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_1X.webp",
+    "/visual-assets/v10_1/league/fixtures.json",
+    "/visual-assets/v10_1/league/assets/platemap.json",
     "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-700-normal.woff2",
     "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2",
-    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-600-normal.woff2",
     "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2",
-    "/visual-assets/v10_1/league/fixtures.json",
-    "/visual-assets/v10_1/league/assets/platemap.json"
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-600-normal.woff2"
    ],
    "shot": {
     "file": "L1_1440x900.jpg",
@@ -1049,7 +1074,9 @@
     "vp": [
      1920,
      1080
-    ]
+    ],
+    "verticalScroll": false,
+    "scrollAllowed": false
    },
    "G4": {
     "rect": [
@@ -1132,8 +1159,15 @@
     },
     "fingerOverlay": {
      "shown": true,
-     "note": "CSS px; Chromium LayoutUnit = 1/64 px, so <= 0.0157 is 0 device px",
-     "regErrPx": 0
+     "rect": [
+      440,
+      410,
+      560,
+      500
+     ],
+     "regErrCssPx": 0,
+     "regErrDevicePx": 0,
+     "note": "edges compared on the device-pixel grid; CSS-px residue is Chromium LayoutUnit (1/64 px) rounding of top and height"
     }
    },
    "G9": {
@@ -1268,35 +1302,35 @@
      "t": "Premier League",
      "large": true,
      "ratio": 6.08,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "wheelItem",
      "t": "LaLiga",
      "large": true,
      "ratio": 14.18,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "wheelItem",
      "t": "Bundesliga",
      "large": true,
      "ratio": 14.18,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "wheelItem",
      "t": "Serie A",
      "large": true,
      "ratio": 14.18,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "wheelItem",
      "t": "Ligue 1",
      "large": true,
      "ratio": 14.18,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "selectedLeague",
@@ -1383,16 +1417,16 @@
    },
    "loaded": [
     "/visual-assets/v10_1/league/index.html?frame=L1",
-    "/visual-assets/v10_1/league/league.css",
     "/visual-assets/v10_1/league/assets/OVL_DANIEL_FINGER_V1_1X.png",
-    "/visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_1X.webp",
+    "/visual-assets/v10_1/league/league.css",
     "/visual-assets/v10_1/league/league.js",
+    "/visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_1X.webp",
     "/js/visualIdentity.js",
-    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-700-normal.woff2",
-    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-600-normal.woff2",
     "/visual-assets/v10_1/league/fixtures.json",
-    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-600-normal.woff2",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-700-normal.woff2",
     "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2",
     "/visual-assets/v10_1/league/assets/platemap.json"
    ],
    "shot": {
@@ -1499,7 +1533,9 @@
     "vp": [
      1366,
      640
-    ]
+    ],
+    "verticalScroll": false,
+    "scrollAllowed": false
    },
    "G4": {
     "rect": [
@@ -1582,8 +1618,15 @@
     },
     "fingerOverlay": {
      "shown": true,
-     "note": "CSS px; Chromium LayoutUnit = 1/64 px, so <= 0.0157 is 0 device px",
-     "regErrPx": 0.014322916666685614
+     "rect": [
+      440,
+      410,
+      560,
+      500
+     ],
+     "regErrCssPx": 0.0195,
+     "regErrDevicePx": 0,
+     "note": "edges compared on the device-pixel grid; CSS-px residue is Chromium LayoutUnit (1/64 px) rounding of top and height"
     }
    },
    "G9": {
@@ -1840,9 +1883,9 @@
     "/js/visualIdentity.js",
     "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-700-normal.woff2",
     "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-600-normal.woff2",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2",
     "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2",
     "/visual-assets/v10_1/league/fixtures.json",
-    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2",
     "/visual-assets/v10_1/league/assets/platemap.json"
    ],
    "shot": {
@@ -1949,7 +1992,9 @@
     "vp": [
      1366,
      768
-    ]
+    ],
+    "verticalScroll": false,
+    "scrollAllowed": false
    },
    "G4": {
     "rect": [
@@ -2032,8 +2077,15 @@
     },
     "fingerOverlay": {
      "shown": true,
-     "note": "CSS px; Chromium LayoutUnit = 1/64 px, so <= 0.0157 is 0 device px",
-     "regErrPx": 0.015625
+     "rect": [
+      440,
+      410,
+      560,
+      500
+     ],
+     "regErrCssPx": 0.0208,
+     "regErrDevicePx": 0,
+     "note": "edges compared on the device-pixel grid; CSS-px residue is Chromium LayoutUnit (1/64 px) rounding of top and height"
     }
    },
    "G9": {
@@ -2168,35 +2220,35 @@
      "t": "Premier League",
      "large": true,
      "ratio": 6.07,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "wheelItem",
      "t": "LaLiga",
      "large": true,
      "ratio": 14.18,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "wheelItem",
      "t": "Bundesliga",
      "large": true,
      "ratio": 14.18,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "wheelItem",
      "t": "Serie A",
      "large": true,
      "ratio": 14.18,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "wheelItem",
      "t": "Ligue 1",
      "large": true,
      "ratio": 14.18,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "selectedLeague",
@@ -2285,14 +2337,14 @@
     "/visual-assets/v10_1/league/index.html?frame=L1",
     "/visual-assets/v10_1/league/league.css",
     "/visual-assets/v10_1/league/assets/OVL_DANIEL_FINGER_V1_2X.png",
+    "/js/visualIdentity.js",
     "/visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_2X.webp",
     "/visual-assets/v10_1/league/league.js",
-    "/js/visualIdentity.js",
-    "/visual-assets/v10_1/league/fixtures.json",
     "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-700-normal.woff2",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2",
     "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-600-normal.woff2",
     "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2",
-    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2",
+    "/visual-assets/v10_1/league/fixtures.json",
     "/visual-assets/v10_1/league/assets/platemap.json"
    ],
    "shot": {
@@ -2316,6 +2368,7 @@
     "wheelCy": "309.82",
     "wheelR": "113.40",
     "phoneWheelD": "227",
+    "flow": "false",
     "onSlot": "false",
     "handVisible": "false",
     "band": "0,125,360,234",
@@ -2390,7 +2443,9 @@
     "vp": [
      360,
      640
-    ]
+    ],
+    "verticalScroll": false,
+    "scrollAllowed": false
    },
    "G4": {
     "rect": [
@@ -2621,13 +2676,13 @@
    },
    "loaded": [
     "/visual-assets/v10_1/league/index.html?frame=L1",
-    "/visual-assets/v10_1/league/league.css",
     "/visual-assets/v10_1/league/assets/OVL_DANIEL_FINGER_V1_2X.png",
-    "/visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_2X.webp",
+    "/visual-assets/v10_1/league/league.css",
     "/visual-assets/v10_1/league/league.js",
+    "/visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_2X.webp",
     "/js/visualIdentity.js",
-    "/visual-assets/v10_1/league/fixtures.json",
     "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-700-normal.woff2",
+    "/visual-assets/v10_1/league/fixtures.json",
     "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-600-normal.woff2",
     "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2",
     "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2",
@@ -2652,9 +2707,10 @@
     "narrow": "1",
     "mode": "phone",
     "wheelCx": "195.97",
-    "wheelCy": "305.05",
-    "wheelR": "111.00",
-    "phoneWheelD": "222",
+    "wheelCy": "309.64",
+    "wheelR": "114.00",
+    "phoneWheelD": "228",
+    "flow": "true",
     "onSlot": "false",
     "handVisible": "false",
     "band": "0,125,375,239",
@@ -2720,23 +2776,25 @@
    "G3": {
     "html": [
      375,
-     553
+     561
     ],
     "body": [
      375,
-     553
+     0
     ],
     "vp": [
      375,
      553
-    ]
+    ],
+    "verticalScroll": true,
+    "scrollAllowed": true
    },
    "G4": {
     "rect": [
      16,
-     437,
+     445,
      359,
-     485
+     493
     ],
     "inView": true,
     "hit": true
@@ -2794,7 +2852,7 @@
      "outOfFrame": true
     },
     "hand_nik": {
-     "minClearPx": 70.3,
+     "minClearPx": 68.5,
      "nearest": "wheelItem",
      "box": [
       339,
@@ -2900,7 +2958,7 @@
      "el": "wheelItem",
      "t": "Premier League",
      "large": false,
-     "ratio": 6.07,
+     "ratio": 6.08,
      "need": 4.5
     },
     {
@@ -2960,8 +3018,8 @@
    },
    "loaded": [
     "/visual-assets/v10_1/league/index.html?frame=L1",
-    "/visual-assets/v10_1/league/assets/OVL_DANIEL_FINGER_V1_2X.png",
     "/visual-assets/v10_1/league/league.css",
+    "/visual-assets/v10_1/league/assets/OVL_DANIEL_FINGER_V1_2X.png",
     "/visual-assets/v10_1/league/league.js",
     "/js/visualIdentity.js",
     "/visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_2X.webp",
@@ -2978,7 +3036,8 @@
     "vw": 375,
     "vh": 553,
     "dpr": 2,
-    "phone": true
+    "phone": true,
+    "scrollAllowed": true
    }
   },
   {
@@ -2994,6 +3053,7 @@
     "wheelCy": "327.75",
     "wheelR": "125.10",
     "phoneWheelD": "250",
+    "flow": "false",
     "onSlot": "false",
     "handVisible": "false",
     "band": "0,125,390,243",
@@ -3068,7 +3128,9 @@
     "vp": [
      390,
      844
-    ]
+    ],
+    "verticalScroll": false,
+    "scrollAllowed": false
    },
    "G4": {
     "rect": [
@@ -3302,13 +3364,13 @@
     "/visual-assets/v10_1/league/assets/OVL_DANIEL_FINGER_V1_2X.png",
     "/visual-assets/v10_1/league/league.css",
     "/visual-assets/v10_1/league/league.js",
-    "/visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_2X.webp",
     "/js/visualIdentity.js",
+    "/visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_2X.webp",
     "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-700-normal.woff2",
-    "/visual-assets/v10_1/league/fixtures.json",
     "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-600-normal.woff2",
-    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2",
     "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2",
+    "/visual-assets/v10_1/league/fixtures.json",
     "/visual-assets/v10_1/league/assets/platemap.json"
    ],
    "shot": {
@@ -3333,6 +3395,7 @@
     "wheelCy": "351.66",
     "wheelR": "140.70",
     "phoneWheelD": "281",
+    "flow": "false",
     "onSlot": "false",
     "handVisible": "false",
     "band": "0,125,430,256",
@@ -3407,7 +3470,9 @@
     "vp": [
      430,
      932
-    ]
+    ],
+    "verticalScroll": false,
+    "scrollAllowed": false
    },
    "G4": {
     "rect": [
@@ -3640,14 +3705,14 @@
     "/visual-assets/v10_1/league/index.html?frame=L1",
     "/visual-assets/v10_1/league/league.css",
     "/visual-assets/v10_1/league/assets/OVL_DANIEL_FINGER_V1_2X.png",
+    "/visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_2X.webp",
     "/visual-assets/v10_1/league/league.js",
     "/js/visualIdentity.js",
-    "/visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_2X.webp",
-    "/visual-assets/v10_1/league/fixtures.json",
-    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-700-normal.woff2",
     "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-600-normal.woff2",
-    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-700-normal.woff2",
     "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2",
+    "/visual-assets/v10_1/league/fixtures.json",
     "/visual-assets/v10_1/league/assets/platemap.json"
    ],
    "shot": {
@@ -3656,6 +3721,348 @@
     "vw": 430,
     "vh": 932,
     "dpr": 2,
+    "phone": true
+   }
+  },
+  {
+   "mode": "phone",
+   "data": {
+    "frame": "L1",
+    "missingMarks": "",
+    "hasLeague": "false",
+    "wide": "0",
+    "narrow": "1",
+    "mode": "phone",
+    "wheelCx": "205.37",
+    "wheelCy": "329.38",
+    "wheelR": "126.12",
+    "phoneWheelD": "252",
+    "flow": "false",
+    "onSlot": "false",
+    "handVisible": "false",
+    "band": "0,125,393,244",
+    "bandPlateY": "70,400",
+    "k": "0.36221",
+    "ox": "-70.63",
+    "oy": "99.44"
+   },
+   "fail": [],
+   "G1": {
+    "visible": [
+     "CM 17",
+     "SIGN IN",
+     "Season 1 / 5",
+     "SELECT LEAGUE",
+     "Premier League",
+     "LaLiga",
+     "Bundesliga",
+     "Serie A",
+     "Ligue 1",
+     "Spin to select league",
+     "SPIN WHEEL",
+     "BACK"
+    ],
+    "missing": [],
+    "extra": []
+   },
+   "G2": {
+    "counts": {
+     "topHeader": 1,
+     "onlinePlayerIdentityBadge": 1,
+     "seasonIndicator": 1,
+     "leagueWheelScreen": 1,
+     "leagueWheel": 1,
+     "selectedLeague": 1,
+     "leagueStateNote": 1,
+     "spinLeague": 1
+    },
+    "shape": {
+     "h2": true,
+     "pointer": true,
+     "wheel": true,
+     "items": [
+      "Premier League",
+      "LaLiga",
+      "Bundesliga",
+      "Serie A",
+      "Ligue 1"
+     ],
+     "back": 1,
+     "selectedLeagueAria": [
+      "status",
+      "polite",
+      "true"
+     ],
+     "noteAria": [
+      "status",
+      "polite"
+     ],
+     "trackTransform": "rotate(0deg)"
+    }
+   },
+   "G3": {
+    "html": [
+     393,
+     660
+    ],
+    "body": [
+     393,
+     660
+    ],
+    "vp": [
+     393,
+     660
+    ],
+    "verticalScroll": false,
+    "scrollAllowed": false
+   },
+   "G4": {
+    "rect": [
+     16,
+     544,
+     377,
+     592
+    ],
+    "inView": true,
+    "hit": true
+   },
+   "G5": {
+    "clipped": []
+   },
+   "G6": {
+    "controls": [
+     {
+      "id": "onlinePlayerIdentityBadge",
+      "w": 65,
+      "h": 44
+     },
+     {
+      "id": "spinLeague",
+      "w": 361,
+      "h": 48
+     },
+     {
+      "id": "backButton",
+      "w": 361,
+      "h": 48
+     }
+    ],
+    "minFont": 12,
+    "minFontEl": {
+     "el": "wheelItem is-top",
+     "px": 12
+    },
+    "noteFont": null
+   },
+   "G8": {
+    "face_daniel": {
+     "minClearPx": 13.1,
+     "nearest": "subtitle-row",
+     "box": [
+      4,
+      134,
+      85,
+      223
+     ]
+    },
+    "face_nik": {
+     "minClearPx": 14.9,
+     "nearest": "subtitle-row",
+     "box": [
+      321,
+      136,
+      389,
+      230
+     ]
+    },
+    "hand_daniel": {
+     "outOfFrame": true
+    },
+    "hand_nik": {
+     "minClearPx": 68.1,
+     "nearest": "wheelItem",
+     "box": [
+      355,
+      204,
+      393,
+      244
+     ]
+    },
+    "fingerOverlay": {
+     "shown": false
+    }
+   },
+   "G9": {
+    "urls": [
+     "http://127.0.0.1:8765/visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_1X.webp",
+     "http://127.0.0.1:8765/visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_2X.webp",
+     "data:image/svg+xml,%3Csvg ",
+     "data:image/svg+xml,%3Csvg%",
+     "http://127.0.0.1:8765/visual-assets/v10_1/league/assets/OVL_DANIEL_FINGER_V1_2X.png"
+    ]
+   },
+   "G10": {
+    "faces": [
+     44,
+     355
+    ],
+    "hands": [
+     91,
+     377
+    ]
+   },
+   "G11": {
+    "dom": [
+     "onlinePlayerIdentityBadge",
+     "spinLeague",
+     "backButton"
+    ],
+    "visual": [
+     "onlinePlayerIdentityBadge",
+     "spinLeague",
+     "backButton"
+    ]
+   },
+   "G13": {
+    "header": {
+     "h": 48,
+     "bg": "linear-gradient(rgba(6, 7, 9, 0.92), rgba(6, 7, 9, 0.7))",
+     "border": "1px solid rgba(201, 155, 69, 0.45)",
+     "badge": [
+      0,
+      0,
+      88.4,
+      47
+     ],
+     "badgeFont": "italic 700 24px / 28.8px \"Barlow Condensed\", \"Arial Narrow\", sans-serif",
+     "brand": null,
+     "identity": [
+      214.7,
+      1.5,
+      64.8,
+      44
+     ],
+     "season": [
+      287.5,
+      1.5,
+      95.5,
+      44
+     ],
+     "controlFont": "600 14px / 14px \"Barlow Condensed\", \"Arial Narrow\", sans-serif"
+    },
+    "footer": null
+   },
+   "G7": [
+    {
+     "el": "SPAN",
+     "t": "CM 17",
+     "large": true,
+     "ratio": 11.72,
+     "need": 3
+    },
+    {
+     "el": "onlinePlayerIdentityBadge",
+     "t": "SIGN IN",
+     "large": false,
+     "ratio": 14.96,
+     "need": 4.5
+    },
+    {
+     "el": "seasonIndicator",
+     "t": "Season 1 / 5",
+     "large": false,
+     "ratio": 14.96,
+     "need": 4.5
+    },
+    {
+     "el": "H2",
+     "t": "SELECT LEAGUE",
+     "large": true,
+     "ratio": 12.37,
+     "need": 3
+    },
+    {
+     "el": "wheelItem",
+     "t": "Premier League",
+     "large": false,
+     "ratio": 6.23,
+     "need": 4.5
+    },
+    {
+     "el": "wheelItem",
+     "t": "LaLiga",
+     "large": false,
+     "ratio": 14.18,
+     "need": 4.5
+    },
+    {
+     "el": "wheelItem",
+     "t": "Bundesliga",
+     "large": false,
+     "ratio": 14.18,
+     "need": 4.5
+    },
+    {
+     "el": "wheelItem",
+     "t": "Serie A",
+     "large": false,
+     "ratio": 14.18,
+     "need": 4.5
+    },
+    {
+     "el": "wheelItem",
+     "t": "Ligue 1",
+     "large": false,
+     "ratio": 14.18,
+     "need": 4.5
+    },
+    {
+     "el": "selectedLeague",
+     "t": "Spin to select league",
+     "large": false,
+     "ratio": 15.29,
+     "need": 4.5
+    },
+    {
+     "el": "spinLeague",
+     "t": "SPIN WHEEL",
+     "large": true,
+     "ratio": 10.37,
+     "need": 3
+    },
+    {
+     "el": "backButton",
+     "t": "BACK",
+     "large": true,
+     "ratio": 15.04,
+     "need": 3
+    }
+   ],
+   "G7fails": [],
+   "G12": {
+    "errors": [],
+    "failed": []
+   },
+   "loaded": [
+    "/visual-assets/v10_1/league/index.html?frame=L1",
+    "/visual-assets/v10_1/league/league.css",
+    "/visual-assets/v10_1/league/assets/OVL_DANIEL_FINGER_V1_2X.png",
+    "/js/visualIdentity.js",
+    "/visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_2X.webp",
+    "/visual-assets/v10_1/league/league.js",
+    "/visual-assets/v10_1/league/fixtures.json",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-700-normal.woff2",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-600-normal.woff2",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2",
+    "/visual-assets/v10_1/league/assets/platemap.json"
+   ],
+   "shot": {
+    "file": "L1_393x660.jpg",
+    "frame": "L1",
+    "vw": 393,
+    "vh": 660,
+    "dpr": 3,
     "phone": true
    }
   },
@@ -3755,7 +4162,9 @@
     "vp": [
      1366,
      768
-    ]
+    ],
+    "verticalScroll": false,
+    "scrollAllowed": false
    },
    "G4": {
     "rect": [
@@ -3838,8 +4247,15 @@
     },
     "fingerOverlay": {
      "shown": true,
-     "note": "CSS px; Chromium LayoutUnit = 1/64 px, so <= 0.0157 is 0 device px",
-     "regErrPx": 0.015625
+     "rect": [
+      440,
+      410,
+      560,
+      500
+     ],
+     "regErrCssPx": 0.0208,
+     "regErrDevicePx": 0,
+     "note": "edges compared on the device-pixel grid; CSS-px residue is Chromium LayoutUnit (1/64 px) rounding of top and height"
     }
    },
    "G9": {
@@ -3970,35 +4386,35 @@
      "t": "Premier League",
      "large": true,
      "ratio": 12.71,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "wheelItem",
      "t": "LaLiga",
      "large": true,
      "ratio": 12.71,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "wheelItem",
      "t": "Bundesliga",
      "large": true,
      "ratio": 12.71,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "wheelItem",
      "t": "Serie A",
      "large": true,
      "ratio": 6.52,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "wheelItem",
      "t": "Ligue 1",
      "large": true,
      "ratio": 12.71,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "selectedLeague",
@@ -4087,14 +4503,14 @@
     "/visual-assets/v10_1/league/index.html?frame=L2",
     "/visual-assets/v10_1/league/league.css",
     "/visual-assets/v10_1/league/assets/OVL_DANIEL_FINGER_V1_1X.png",
-    "/js/visualIdentity.js",
     "/visual-assets/v10_1/league/league.js",
+    "/js/visualIdentity.js",
     "/visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_1X.webp",
+    "/visual-assets/v10_1/league/fixtures.json",
     "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-700-normal.woff2",
     "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2",
-    "/visual-assets/v10_1/league/fixtures.json",
-    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2",
     "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-600-normal.woff2",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2",
     "/visual-assets/v10_1/league/assets/platemap.json"
    ],
    "shot": {
@@ -4201,7 +4617,9 @@
     "vp": [
      1440,
      900
-    ]
+    ],
+    "verticalScroll": false,
+    "scrollAllowed": false
    },
    "G4": {
     "rect": [
@@ -4284,8 +4702,15 @@
     },
     "fingerOverlay": {
      "shown": true,
-     "note": "CSS px; Chromium LayoutUnit = 1/64 px, so <= 0.0157 is 0 device px",
-     "regErrPx": 0.015625
+     "rect": [
+      440,
+      410,
+      560,
+      500
+     ],
+     "regErrCssPx": 0.0052,
+     "regErrDevicePx": 0,
+     "note": "edges compared on the device-pixel grid; CSS-px residue is Chromium LayoutUnit (1/64 px) rounding of top and height"
     }
    },
    "G9": {
@@ -4416,35 +4841,35 @@
      "t": "Premier League",
      "large": true,
      "ratio": 12.71,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "wheelItem",
      "t": "LaLiga",
      "large": true,
      "ratio": 12.71,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "wheelItem",
      "t": "Bundesliga",
      "large": true,
      "ratio": 12.71,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "wheelItem",
      "t": "Serie A",
      "large": true,
      "ratio": 6.52,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "wheelItem",
      "t": "Ligue 1",
      "large": true,
      "ratio": 12.71,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "selectedLeague",
@@ -4534,14 +4959,14 @@
     "/visual-assets/v10_1/league/league.css",
     "/visual-assets/v10_1/league/assets/OVL_DANIEL_FINGER_V1_1X.png",
     "/visual-assets/v10_1/league/league.js",
-    "/js/visualIdentity.js",
     "/visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_1X.webp",
+    "/js/visualIdentity.js",
     "/visual-assets/v10_1/league/fixtures.json",
-    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-700-normal.woff2",
-    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2",
-    "/visual-assets/v10_1/league/assets/platemap.json",
     "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-600-normal.woff2",
-    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2"
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-700-normal.woff2",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2",
+    "/visual-assets/v10_1/league/assets/platemap.json"
    ],
    "shot": {
     "file": "L2_1440x900.jpg",
@@ -4647,7 +5072,9 @@
     "vp": [
      1920,
      1080
-    ]
+    ],
+    "verticalScroll": false,
+    "scrollAllowed": false
    },
    "G4": {
     "rect": [
@@ -4730,8 +5157,15 @@
     },
     "fingerOverlay": {
      "shown": true,
-     "note": "CSS px; Chromium LayoutUnit = 1/64 px, so <= 0.0157 is 0 device px",
-     "regErrPx": 0
+     "rect": [
+      440,
+      410,
+      560,
+      500
+     ],
+     "regErrCssPx": 0,
+     "regErrDevicePx": 0,
+     "note": "edges compared on the device-pixel grid; CSS-px residue is Chromium LayoutUnit (1/64 px) rounding of top and height"
     }
    },
    "G9": {
@@ -4862,35 +5296,35 @@
      "t": "Premier League",
      "large": true,
      "ratio": 12.71,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "wheelItem",
      "t": "LaLiga",
      "large": true,
      "ratio": 12.71,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "wheelItem",
      "t": "Bundesliga",
      "large": true,
      "ratio": 12.71,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "wheelItem",
      "t": "Serie A",
      "large": true,
      "ratio": 6.52,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "wheelItem",
      "t": "Ligue 1",
      "large": true,
      "ratio": 12.71,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "selectedLeague",
@@ -4977,16 +5411,16 @@
    },
    "loaded": [
     "/visual-assets/v10_1/league/index.html?frame=L2",
-    "/visual-assets/v10_1/league/league.css",
     "/visual-assets/v10_1/league/assets/OVL_DANIEL_FINGER_V1_1X.png",
+    "/visual-assets/v10_1/league/league.css",
+    "/js/visualIdentity.js",
     "/visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_1X.webp",
     "/visual-assets/v10_1/league/league.js",
-    "/js/visualIdentity.js",
-    "/visual-assets/v10_1/league/fixtures.json",
-    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-600-normal.woff2",
     "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-700-normal.woff2",
     "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2",
     "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2",
+    "/visual-assets/v10_1/league/fixtures.json",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-600-normal.woff2",
     "/visual-assets/v10_1/league/assets/platemap.json"
    ],
    "shot": {
@@ -5093,7 +5527,9 @@
     "vp": [
      1366,
      640
-    ]
+    ],
+    "verticalScroll": false,
+    "scrollAllowed": false
    },
    "G4": {
     "rect": [
@@ -5176,8 +5612,15 @@
     },
     "fingerOverlay": {
      "shown": true,
-     "note": "CSS px; Chromium LayoutUnit = 1/64 px, so <= 0.0157 is 0 device px",
-     "regErrPx": 0.014322916666685614
+     "rect": [
+      440,
+      410,
+      560,
+      500
+     ],
+     "regErrCssPx": 0.0195,
+     "regErrDevicePx": 0,
+     "note": "edges compared on the device-pixel grid; CSS-px residue is Chromium LayoutUnit (1/64 px) rounding of top and height"
     }
    },
    "G9": {
@@ -5426,13 +5869,13 @@
     "/visual-assets/v10_1/league/league.css",
     "/visual-assets/v10_1/league/assets/OVL_DANIEL_FINGER_V1_1X.png",
     "/visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_1X.webp",
-    "/visual-assets/v10_1/league/league.js",
     "/js/visualIdentity.js",
+    "/visual-assets/v10_1/league/league.js",
+    "/visual-assets/v10_1/league/fixtures.json",
     "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-600-normal.woff2",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-700-normal.woff2",
     "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2",
     "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2",
-    "/visual-assets/v10_1/league/fixtures.json",
-    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-700-normal.woff2",
     "/visual-assets/v10_1/league/assets/platemap.json"
    ],
    "shot": {
@@ -5539,7 +5982,9 @@
     "vp": [
      1366,
      768
-    ]
+    ],
+    "verticalScroll": false,
+    "scrollAllowed": false
    },
    "G4": {
     "rect": [
@@ -5622,8 +6067,15 @@
     },
     "fingerOverlay": {
      "shown": true,
-     "note": "CSS px; Chromium LayoutUnit = 1/64 px, so <= 0.0157 is 0 device px",
-     "regErrPx": 0.015625
+     "rect": [
+      440,
+      410,
+      560,
+      500
+     ],
+     "regErrCssPx": 0.0208,
+     "regErrDevicePx": 0,
+     "note": "edges compared on the device-pixel grid; CSS-px residue is Chromium LayoutUnit (1/64 px) rounding of top and height"
     }
    },
    "G9": {
@@ -5754,35 +6206,35 @@
      "t": "Premier League",
      "large": true,
      "ratio": 12.57,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "wheelItem",
      "t": "LaLiga",
      "large": true,
      "ratio": 12.57,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "wheelItem",
      "t": "Bundesliga",
      "large": true,
      "ratio": 12.57,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "wheelItem",
      "t": "Serie A",
      "large": true,
      "ratio": 6.52,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "wheelItem",
      "t": "Ligue 1",
      "large": true,
      "ratio": 12.57,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "selectedLeague",
@@ -5869,13 +6321,13 @@
    },
    "loaded": [
     "/visual-assets/v10_1/league/index.html?frame=L2",
-    "/visual-assets/v10_1/league/league.css",
     "/visual-assets/v10_1/league/assets/OVL_DANIEL_FINGER_V1_2X.png",
+    "/visual-assets/v10_1/league/league.css",
     "/visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_2X.webp",
-    "/visual-assets/v10_1/league/league.js",
     "/js/visualIdentity.js",
-    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-600-normal.woff2",
+    "/visual-assets/v10_1/league/league.js",
     "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-700-normal.woff2",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-600-normal.woff2",
     "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2",
     "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2",
     "/visual-assets/v10_1/league/fixtures.json",
@@ -5902,6 +6354,7 @@
     "wheelCy": "309.82",
     "wheelR": "113.40",
     "phoneWheelD": "227",
+    "flow": "false",
     "onSlot": "false",
     "handVisible": "false",
     "band": "0,125,360,234",
@@ -5976,7 +6429,9 @@
     "vp": [
      360,
      640
-    ]
+    ],
+    "verticalScroll": false,
+    "scrollAllowed": false
    },
    "G4": {
     "rect": [
@@ -6205,14 +6660,14 @@
     "/visual-assets/v10_1/league/index.html?frame=L2",
     "/visual-assets/v10_1/league/league.css",
     "/visual-assets/v10_1/league/assets/OVL_DANIEL_FINGER_V1_2X.png",
-    "/visual-assets/v10_1/league/league.js",
     "/visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_2X.webp",
+    "/visual-assets/v10_1/league/league.js",
     "/js/visualIdentity.js",
-    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-600-normal.woff2",
     "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-700-normal.woff2",
-    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2",
-    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2",
     "/visual-assets/v10_1/league/fixtures.json",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-600-normal.woff2",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2",
     "/visual-assets/v10_1/league/assets/platemap.json"
    ],
    "shot": {
@@ -6234,9 +6689,10 @@
     "narrow": "1",
     "mode": "phone",
     "wheelCx": "195.97",
-    "wheelCy": "305.05",
-    "wheelR": "111.00",
-    "phoneWheelD": "222",
+    "wheelCy": "309.64",
+    "wheelR": "114.00",
+    "phoneWheelD": "228",
+    "flow": "true",
     "onSlot": "false",
     "handVisible": "false",
     "band": "0,125,375,239",
@@ -6302,23 +6758,25 @@
    "G3": {
     "html": [
      375,
-     553
+     561
     ],
     "body": [
      375,
-     553
+     0
     ],
     "vp": [
      375,
      553
-    ]
+    ],
+    "verticalScroll": true,
+    "scrollAllowed": true
    },
    "G4": {
     "rect": [
      16,
-     437,
+     445,
      359,
-     485
+     493
     ],
     "inView": true,
     "hit": true
@@ -6376,7 +6834,7 @@
      "outOfFrame": true
     },
     "hand_nik": {
-     "minClearPx": 70.1,
+     "minClearPx": 68.2,
      "nearest": "wheelItem",
      "box": [
       339,
@@ -6499,7 +6957,7 @@
      "el": "wheelItem",
      "t": "Serie A",
      "large": false,
-     "ratio": 6.52,
+     "ratio": 6.66,
      "need": 4.5
     },
     {
@@ -6538,16 +6996,16 @@
    },
    "loaded": [
     "/visual-assets/v10_1/league/index.html?frame=L2",
-    "/visual-assets/v10_1/league/assets/OVL_DANIEL_FINGER_V1_2X.png",
     "/visual-assets/v10_1/league/league.css",
+    "/visual-assets/v10_1/league/assets/OVL_DANIEL_FINGER_V1_2X.png",
     "/visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_2X.webp",
-    "/js/visualIdentity.js",
     "/visual-assets/v10_1/league/league.js",
-    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-700-normal.woff2",
-    "/visual-assets/v10_1/league/fixtures.json",
+    "/js/visualIdentity.js",
     "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-600-normal.woff2",
-    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-700-normal.woff2",
     "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2",
+    "/visual-assets/v10_1/league/fixtures.json",
     "/visual-assets/v10_1/league/assets/platemap.json"
    ],
    "shot": {
@@ -6556,7 +7014,8 @@
     "vw": 375,
     "vh": 553,
     "dpr": 2,
-    "phone": true
+    "phone": true,
+    "scrollAllowed": true
    }
   },
   {
@@ -6572,6 +7031,7 @@
     "wheelCy": "327.75",
     "wheelR": "125.10",
     "phoneWheelD": "250",
+    "flow": "false",
     "onSlot": "false",
     "handVisible": "false",
     "band": "0,125,390,243",
@@ -6646,7 +7106,9 @@
     "vp": [
      390,
      844
-    ]
+    ],
+    "verticalScroll": false,
+    "scrollAllowed": false
    },
    "G4": {
     "rect": [
@@ -6875,14 +7337,14 @@
     "/visual-assets/v10_1/league/index.html?frame=L2",
     "/visual-assets/v10_1/league/league.css",
     "/visual-assets/v10_1/league/assets/OVL_DANIEL_FINGER_V1_2X.png",
+    "/visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_2X.webp",
     "/visual-assets/v10_1/league/league.js",
     "/js/visualIdentity.js",
-    "/visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_2X.webp",
-    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2",
-    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-700-normal.woff2",
-    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-600-normal.woff2",
-    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2",
     "/visual-assets/v10_1/league/fixtures.json",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-600-normal.woff2",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-700-normal.woff2",
     "/visual-assets/v10_1/league/assets/platemap.json"
    ],
    "shot": {
@@ -6907,6 +7369,7 @@
     "wheelCy": "351.66",
     "wheelR": "140.70",
     "phoneWheelD": "281",
+    "flow": "false",
     "onSlot": "false",
     "handVisible": "false",
     "band": "0,125,430,256",
@@ -6981,7 +7444,9 @@
     "vp": [
      430,
      932
-    ]
+    ],
+    "verticalScroll": false,
+    "scrollAllowed": false
    },
    "G4": {
     "rect": [
@@ -7208,17 +7673,17 @@
    },
    "loaded": [
     "/visual-assets/v10_1/league/index.html?frame=L2",
-    "/visual-assets/v10_1/league/league.css",
     "/visual-assets/v10_1/league/assets/OVL_DANIEL_FINGER_V1_2X.png",
-    "/js/visualIdentity.js",
+    "/visual-assets/v10_1/league/league.css",
     "/visual-assets/v10_1/league/league.js",
     "/visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_2X.webp",
-    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2",
+    "/js/visualIdentity.js",
     "/visual-assets/v10_1/league/fixtures.json",
-    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-600-normal.woff2",
-    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2",
     "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-700-normal.woff2",
-    "/visual-assets/v10_1/league/assets/platemap.json"
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-600-normal.woff2",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2",
+    "/visual-assets/v10_1/league/assets/platemap.json",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2"
    ],
    "shot": {
     "file": "L2_430x932.jpg",
@@ -7226,6 +7691,344 @@
     "vw": 430,
     "vh": 932,
     "dpr": 2,
+    "phone": true
+   }
+  },
+  {
+   "mode": "phone",
+   "data": {
+    "frame": "L2",
+    "missingMarks": "",
+    "hasLeague": "false",
+    "wide": "0",
+    "narrow": "1",
+    "mode": "phone",
+    "wheelCx": "205.37",
+    "wheelCy": "329.38",
+    "wheelR": "126.12",
+    "phoneWheelD": "252",
+    "flow": "false",
+    "onSlot": "false",
+    "handVisible": "false",
+    "band": "0,125,393,244",
+    "bandPlateY": "70,400",
+    "k": "0.36221",
+    "ox": "-70.63",
+    "oy": "99.44"
+   },
+   "fail": [],
+   "G1": {
+    "visible": [
+     "CM 17",
+     "SIGN IN",
+     "Season 1 / 5",
+     "SELECT LEAGUE",
+     "Premier League",
+     "LaLiga",
+     "Bundesliga",
+     "Serie A",
+     "Ligue 1",
+     "SPINNING...",
+     "SPINNING...",
+     "BACK"
+    ],
+    "missing": [],
+    "extra": []
+   },
+   "G2": {
+    "counts": {
+     "topHeader": 1,
+     "onlinePlayerIdentityBadge": 1,
+     "seasonIndicator": 1,
+     "leagueWheelScreen": 1,
+     "leagueWheel": 1,
+     "selectedLeague": 1,
+     "leagueStateNote": 1,
+     "spinLeague": 1
+    },
+    "shape": {
+     "h2": true,
+     "pointer": true,
+     "wheel": true,
+     "items": [
+      "Premier League",
+      "LaLiga",
+      "Bundesliga",
+      "Serie A",
+      "Ligue 1"
+     ],
+     "back": 1,
+     "selectedLeagueAria": [
+      "status",
+      "polite",
+      "true"
+     ],
+     "noteAria": [
+      "status",
+      "polite"
+     ],
+     "trackTransform": "rotate(512deg)"
+    }
+   },
+   "G3": {
+    "html": [
+     393,
+     660
+    ],
+    "body": [
+     393,
+     660
+    ],
+    "vp": [
+     393,
+     660
+    ],
+    "verticalScroll": false,
+    "scrollAllowed": false
+   },
+   "G4": {
+    "rect": [
+     16,
+     544,
+     377,
+     592
+    ],
+    "inView": true,
+    "hit": true
+   },
+   "G5": {
+    "clipped": []
+   },
+   "G6": {
+    "controls": [
+     {
+      "id": "onlinePlayerIdentityBadge",
+      "w": 65,
+      "h": 44
+     },
+     {
+      "id": "spinLeague",
+      "w": 361,
+      "h": 48
+     },
+     {
+      "id": "backButton",
+      "w": 361,
+      "h": 48
+     }
+    ],
+    "minFont": 12,
+    "minFontEl": {
+     "el": "wheelItem",
+     "px": 12
+    },
+    "noteFont": null
+   },
+   "G8": {
+    "face_daniel": {
+     "minClearPx": 14.8,
+     "nearest": "subtitle-row",
+     "box": [
+      4,
+      134,
+      85,
+      223
+     ]
+    },
+    "face_nik": {
+     "minClearPx": 27.4,
+     "nearest": "subtitle-row",
+     "box": [
+      321,
+      136,
+      389,
+      230
+     ]
+    },
+    "hand_daniel": {
+     "outOfFrame": true
+    },
+    "hand_nik": {
+     "minClearPx": 67.5,
+     "nearest": "wheelItem",
+     "box": [
+      355,
+      204,
+      393,
+      244
+     ]
+    },
+    "fingerOverlay": {
+     "shown": false
+    }
+   },
+   "G9": {
+    "urls": [
+     "http://127.0.0.1:8765/visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_1X.webp",
+     "http://127.0.0.1:8765/visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_2X.webp",
+     "data:image/svg+xml,%3Csvg ",
+     "data:image/svg+xml,%3Csvg%",
+     "http://127.0.0.1:8765/visual-assets/v10_1/league/assets/OVL_DANIEL_FINGER_V1_2X.png"
+    ]
+   },
+   "G10": {
+    "faces": [
+     44,
+     355
+    ],
+    "hands": [
+     91,
+     377
+    ]
+   },
+   "G11": {
+    "dom": [
+     "onlinePlayerIdentityBadge"
+    ],
+    "visual": [
+     "onlinePlayerIdentityBadge"
+    ]
+   },
+   "G13": {
+    "header": {
+     "h": 48,
+     "bg": "linear-gradient(rgba(6, 7, 9, 0.92), rgba(6, 7, 9, 0.7))",
+     "border": "1px solid rgba(201, 155, 69, 0.45)",
+     "badge": [
+      0,
+      0,
+      88.4,
+      47
+     ],
+     "badgeFont": "italic 700 24px / 28.8px \"Barlow Condensed\", \"Arial Narrow\", sans-serif",
+     "brand": null,
+     "identity": [
+      214.7,
+      1.5,
+      64.8,
+      44
+     ],
+     "season": [
+      287.5,
+      1.5,
+      95.5,
+      44
+     ],
+     "controlFont": "600 14px / 14px \"Barlow Condensed\", \"Arial Narrow\", sans-serif"
+    },
+    "footer": null
+   },
+   "G7": [
+    {
+     "el": "SPAN",
+     "t": "CM 17",
+     "large": true,
+     "ratio": 11.72,
+     "need": 3
+    },
+    {
+     "el": "onlinePlayerIdentityBadge",
+     "t": "SIGN IN",
+     "large": false,
+     "ratio": 14.96,
+     "need": 4.5
+    },
+    {
+     "el": "seasonIndicator",
+     "t": "Season 1 / 5",
+     "large": false,
+     "ratio": 14.96,
+     "need": 4.5
+    },
+    {
+     "el": "H2",
+     "t": "SELECT LEAGUE",
+     "large": true,
+     "ratio": 12.37,
+     "need": 3
+    },
+    {
+     "el": "wheelItem",
+     "t": "Premier League",
+     "large": false,
+     "ratio": 12.71,
+     "need": 4.5
+    },
+    {
+     "el": "wheelItem",
+     "t": "LaLiga",
+     "large": false,
+     "ratio": 12.71,
+     "need": 4.5
+    },
+    {
+     "el": "wheelItem",
+     "t": "Bundesliga",
+     "large": false,
+     "ratio": 12.71,
+     "need": 4.5
+    },
+    {
+     "el": "wheelItem",
+     "t": "Serie A",
+     "large": false,
+     "ratio": 6.66,
+     "need": 4.5
+    },
+    {
+     "el": "wheelItem",
+     "t": "Ligue 1",
+     "large": false,
+     "ratio": 12.71,
+     "need": 4.5
+    },
+    {
+     "el": "selectedLeague",
+     "t": "SPINNING...",
+     "large": false,
+     "ratio": 15.29,
+     "need": 4.5
+    },
+    {
+     "el": "spinLeague",
+     "t": "SPINNING...",
+     "large": true,
+     "ratio": 5.47,
+     "need": 3
+    },
+    {
+     "el": "backButton",
+     "t": "BACK",
+     "large": true,
+     "ratio": 7.59,
+     "need": 3
+    }
+   ],
+   "G7fails": [],
+   "G12": {
+    "errors": [],
+    "failed": []
+   },
+   "loaded": [
+    "/visual-assets/v10_1/league/index.html?frame=L2",
+    "/visual-assets/v10_1/league/league.css",
+    "/visual-assets/v10_1/league/assets/OVL_DANIEL_FINGER_V1_2X.png",
+    "/visual-assets/v10_1/league/league.js",
+    "/js/visualIdentity.js",
+    "/visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_2X.webp",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-700-normal.woff2",
+    "/visual-assets/v10_1/league/fixtures.json",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-600-normal.woff2",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2",
+    "/visual-assets/v10_1/league/assets/platemap.json"
+   ],
+   "shot": {
+    "file": "L2_393x660.jpg",
+    "frame": "L2",
+    "vw": 393,
+    "vh": 660,
+    "dpr": 3,
     "phone": true
    }
   },
@@ -7326,7 +8129,9 @@
     "vp": [
      1366,
      768
-    ]
+    ],
+    "verticalScroll": false,
+    "scrollAllowed": false
    },
    "G4": {
     "rect": [
@@ -7409,8 +8214,15 @@
     },
     "fingerOverlay": {
      "shown": true,
-     "note": "CSS px; Chromium LayoutUnit = 1/64 px, so <= 0.0157 is 0 device px",
-     "regErrPx": 0.015625
+     "rect": [
+      440,
+      410,
+      560,
+      500
+     ],
+     "regErrCssPx": 0.0208,
+     "regErrDevicePx": 0,
+     "note": "edges compared on the device-pixel grid; CSS-px residue is Chromium LayoutUnit (1/64 px) rounding of top and height"
     }
    },
    "G9": {
@@ -7545,35 +8357,35 @@
      "t": "Premier League",
      "large": true,
      "ratio": 14.18,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "wheelItem",
      "t": "LaLiga",
      "large": true,
      "ratio": 14.18,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "wheelItem",
      "t": "Bundesliga",
      "large": true,
      "ratio": 6.44,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "wheelItem",
      "t": "Serie A",
      "large": true,
      "ratio": 14.18,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "wheelItem",
      "t": "Ligue 1",
      "large": true,
      "ratio": 14.18,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "selectedLeague",
@@ -7667,15 +8479,15 @@
    },
    "loaded": [
     "/visual-assets/v10_1/league/index.html?frame=L3",
-    "/visual-assets/v10_1/league/assets/OVL_DANIEL_FINGER_V1_1X.png",
     "/visual-assets/v10_1/league/league.css",
+    "/visual-assets/v10_1/league/assets/OVL_DANIEL_FINGER_V1_1X.png",
+    "/visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_1X.webp",
     "/js/visualIdentity.js",
     "/visual-assets/v10_1/league/league.js",
-    "/visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_1X.webp",
-    "/visual-assets/v10_1/league/fixtures.json",
-    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-700-normal.woff2",
     "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-600-normal.woff2",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-700-normal.woff2",
     "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2",
+    "/visual-assets/v10_1/league/fixtures.json",
     "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2",
     "/visual-assets/v10_1/league/assets/platemap.json"
    ],
@@ -7784,7 +8596,9 @@
     "vp": [
      1440,
      900
-    ]
+    ],
+    "verticalScroll": false,
+    "scrollAllowed": false
    },
    "G4": {
     "rect": [
@@ -7867,8 +8681,15 @@
     },
     "fingerOverlay": {
      "shown": true,
-     "note": "CSS px; Chromium LayoutUnit = 1/64 px, so <= 0.0157 is 0 device px",
-     "regErrPx": 0.015625
+     "rect": [
+      440,
+      410,
+      560,
+      500
+     ],
+     "regErrCssPx": 0.0052,
+     "regErrDevicePx": 0,
+     "note": "edges compared on the device-pixel grid; CSS-px residue is Chromium LayoutUnit (1/64 px) rounding of top and height"
     }
    },
    "G9": {
@@ -8003,35 +8824,35 @@
      "t": "Premier League",
      "large": true,
      "ratio": 14.17,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "wheelItem",
      "t": "LaLiga",
      "large": true,
      "ratio": 14.18,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "wheelItem",
      "t": "Bundesliga",
      "large": true,
      "ratio": 6.44,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "wheelItem",
      "t": "Serie A",
      "large": true,
      "ratio": 14.18,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "wheelItem",
      "t": "Ligue 1",
      "large": true,
      "ratio": 14.17,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "selectedLeague",
@@ -8130,11 +8951,11 @@
     "/visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_1X.webp",
     "/visual-assets/v10_1/league/league.js",
     "/js/visualIdentity.js",
-    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-700-normal.woff2",
-    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2",
-    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-600-normal.woff2",
-    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2",
     "/visual-assets/v10_1/league/fixtures.json",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-700-normal.woff2",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-600-normal.woff2",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2",
     "/visual-assets/v10_1/league/assets/platemap.json"
    ],
    "shot": {
@@ -8242,7 +9063,9 @@
     "vp": [
      1920,
      1080
-    ]
+    ],
+    "verticalScroll": false,
+    "scrollAllowed": false
    },
    "G4": {
     "rect": [
@@ -8325,8 +9148,15 @@
     },
     "fingerOverlay": {
      "shown": true,
-     "note": "CSS px; Chromium LayoutUnit = 1/64 px, so <= 0.0157 is 0 device px",
-     "regErrPx": 0
+     "rect": [
+      440,
+      410,
+      560,
+      500
+     ],
+     "regErrCssPx": 0,
+     "regErrDevicePx": 0,
+     "note": "edges compared on the device-pixel grid; CSS-px residue is Chromium LayoutUnit (1/64 px) rounding of top and height"
     }
    },
    "G9": {
@@ -8461,35 +9291,35 @@
      "t": "Premier League",
      "large": true,
      "ratio": 14.18,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "wheelItem",
      "t": "LaLiga",
      "large": true,
      "ratio": 14.18,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "wheelItem",
      "t": "Bundesliga",
      "large": true,
      "ratio": 6.44,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "wheelItem",
      "t": "Serie A",
      "large": true,
      "ratio": 14.18,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "wheelItem",
      "t": "Ligue 1",
      "large": true,
      "ratio": 14.18,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "selectedLeague",
@@ -8588,11 +9418,11 @@
     "/js/visualIdentity.js",
     "/visual-assets/v10_1/league/league.js",
     "/visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_1X.webp",
-    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-600-normal.woff2",
-    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2",
-    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-700-normal.woff2",
-    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2",
     "/visual-assets/v10_1/league/fixtures.json",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-600-normal.woff2",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-700-normal.woff2",
     "/visual-assets/v10_1/league/assets/platemap.json"
    ],
    "shot": {
@@ -8700,7 +9530,9 @@
     "vp": [
      1366,
      640
-    ]
+    ],
+    "verticalScroll": false,
+    "scrollAllowed": false
    },
    "G4": {
     "rect": [
@@ -8783,8 +9615,15 @@
     },
     "fingerOverlay": {
      "shown": true,
-     "note": "CSS px; Chromium LayoutUnit = 1/64 px, so <= 0.0157 is 0 device px",
-     "regErrPx": 0.014322916666685614
+     "rect": [
+      440,
+      410,
+      560,
+      500
+     ],
+     "regErrCssPx": 0.0195,
+     "regErrDevicePx": 0,
+     "note": "edges compared on the device-pixel grid; CSS-px residue is Chromium LayoutUnit (1/64 px) rounding of top and height"
     }
    },
    "G9": {
@@ -9047,10 +9886,10 @@
     "/visual-assets/v10_1/league/league.js",
     "/js/visualIdentity.js",
     "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-700-normal.woff2",
-    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2",
+    "/visual-assets/v10_1/league/fixtures.json",
     "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2",
     "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-600-normal.woff2",
-    "/visual-assets/v10_1/league/fixtures.json",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2",
     "/visual-assets/v10_1/league/assets/platemap.json"
    ],
    "shot": {
@@ -9158,7 +9997,9 @@
     "vp": [
      1366,
      768
-    ]
+    ],
+    "verticalScroll": false,
+    "scrollAllowed": false
    },
    "G4": {
     "rect": [
@@ -9241,8 +10082,15 @@
     },
     "fingerOverlay": {
      "shown": true,
-     "note": "CSS px; Chromium LayoutUnit = 1/64 px, so <= 0.0157 is 0 device px",
-     "regErrPx": 0.015625
+     "rect": [
+      440,
+      410,
+      560,
+      500
+     ],
+     "regErrCssPx": 0.0208,
+     "regErrDevicePx": 0,
+     "note": "edges compared on the device-pixel grid; CSS-px residue is Chromium LayoutUnit (1/64 px) rounding of top and height"
     }
    },
    "G9": {
@@ -9377,35 +10225,35 @@
      "t": "Premier League",
      "large": true,
      "ratio": 14.18,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "wheelItem",
      "t": "LaLiga",
      "large": true,
      "ratio": 14.17,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "wheelItem",
      "t": "Bundesliga",
      "large": true,
      "ratio": 6.44,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "wheelItem",
      "t": "Serie A",
      "large": true,
      "ratio": 14.18,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "wheelItem",
      "t": "Ligue 1",
      "large": true,
      "ratio": 14.18,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "selectedLeague",
@@ -9501,15 +10349,15 @@
     "/visual-assets/v10_1/league/index.html?frame=L3",
     "/visual-assets/v10_1/league/league.css",
     "/visual-assets/v10_1/league/assets/OVL_DANIEL_FINGER_V1_2X.png",
-    "/js/visualIdentity.js",
     "/visual-assets/v10_1/league/league.js",
+    "/js/visualIdentity.js",
     "/visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_2X.webp",
-    "/visual-assets/v10_1/league/fixtures.json",
-    "/visual-assets/v10_1/league/assets/platemap.json",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-700-normal.woff2",
     "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-600-normal.woff2",
-    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2",
     "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2",
-    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-700-normal.woff2"
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2",
+    "/visual-assets/v10_1/league/fixtures.json",
+    "/visual-assets/v10_1/league/assets/platemap.json"
    ],
    "shot": {
     "file": "L3_1366x768@2x.jpg",
@@ -9529,9 +10377,10 @@
     "narrow": "1",
     "mode": "phone",
     "wheelCx": "188.13",
-    "wheelCy": "312.37",
-    "wheelR": "111.90",
-    "phoneWheelD": "224",
+    "wheelCy": "315.70",
+    "wheelR": "114.00",
+    "phoneWheelD": "228",
+    "flow": "true",
     "onSlot": "false",
     "handVisible": "false",
     "band": "0,130,360,239",
@@ -9607,14 +10456,16 @@
     "vp": [
      360,
      640
-    ]
+    ],
+    "verticalScroll": false,
+    "scrollAllowed": false
    },
    "G4": {
     "rect": [
      16,
-     524,
+     485,
      344,
-     572
+     533
     ],
     "inView": true,
     "hit": true
@@ -9672,7 +10523,7 @@
      "outOfFrame": true
     },
     "hand_nik": {
-     "minClearPx": 63.9,
+     "minClearPx": 62.6,
      "nearest": "wheelItem",
      "box": [
       325,
@@ -9820,7 +10671,7 @@
      "el": "leagueStateNote",
      "t": "Bundesliga has been selected",
      "large": false,
-     "ratio": 14.89,
+     "ratio": 13.79,
      "need": 4.5
     },
     {
@@ -9845,17 +10696,17 @@
    },
    "loaded": [
     "/visual-assets/v10_1/league/index.html?frame=L3",
-    "/visual-assets/v10_1/league/assets/OVL_DANIEL_FINGER_V1_2X.png",
     "/visual-assets/v10_1/league/league.css",
+    "/visual-assets/v10_1/league/assets/OVL_DANIEL_FINGER_V1_2X.png",
     "/visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_2X.webp",
-    "/js/visualIdentity.js",
     "/visual-assets/v10_1/league/league.js",
-    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-700-normal.woff2",
-    "/visual-assets/v10_1/league/fixtures.json",
+    "/js/visualIdentity.js",
     "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-600-normal.woff2",
-    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2",
+    "/visual-assets/v10_1/league/fixtures.json",
     "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2",
-    "/visual-assets/v10_1/league/assets/platemap.json"
+    "/visual-assets/v10_1/league/assets/platemap.json",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-700-normal.woff2"
    ],
    "shot": {
     "file": "L3_360x640.jpg",
@@ -9876,9 +10727,10 @@
     "narrow": "1",
     "mode": "phone",
     "wheelCx": "195.97",
-    "wheelCy": "260.99",
-    "wheelR": "80.00",
-    "phoneWheelD": "160",
+    "wheelCy": "314.84",
+    "wheelR": "114.00",
+    "phoneWheelD": "228",
+    "flow": "true",
     "onSlot": "false",
     "handVisible": "false",
     "band": "0,130,375,244",
@@ -9887,9 +10739,7 @@
     "ox": "-67.40",
     "oy": "105.81"
    },
-   "fail": [
-    "G7"
-   ],
+   "fail": [],
    "G1": {
     "visible": [
      "CM 17",
@@ -9947,23 +10797,25 @@
    "G3": {
     "html": [
      375,
-     553
+     600
     ],
     "body": [
      375,
-     553
+     0
     ],
     "vp": [
      375,
      553
-    ]
+    ],
+    "verticalScroll": true,
+    "scrollAllowed": true
    },
    "G4": {
     "rect": [
      16,
-     437,
+     484,
      359,
-     485
+     532
     ],
     "inView": true,
     "hit": true
@@ -10021,8 +10873,8 @@
      "outOfFrame": true
     },
     "hand_nik": {
-     "minClearPx": 80,
-     "nearest": "subtitle-row",
+     "minClearPx": 68.4,
+     "nearest": "wheelItem",
      "box": [
       339,
       206,
@@ -10127,7 +10979,7 @@
      "el": "wheelItem",
      "t": "Premier League",
      "large": false,
-     "ratio": 1.44,
+     "ratio": 14.18,
      "need": 4.5
     },
     {
@@ -10141,7 +10993,7 @@
      "el": "wheelItem",
      "t": "Bundesliga",
      "large": false,
-     "ratio": 5.94,
+     "ratio": 6.44,
      "need": 4.5
     },
     {
@@ -10169,7 +11021,7 @@
      "el": "leagueStateNote",
      "t": "Bundesliga has been selected",
      "large": false,
-     "ratio": 14.89,
+     "ratio": 13.79,
      "need": 4.5
     },
     {
@@ -10187,31 +11039,23 @@
      "need": 3
     }
    ],
-   "G7fails": [
-    {
-     "el": "wheelItem",
-     "t": "Premier League",
-     "large": false,
-     "ratio": 1.44,
-     "need": 4.5
-    }
-   ],
+   "G7fails": [],
    "G12": {
     "errors": [],
     "failed": []
    },
    "loaded": [
     "/visual-assets/v10_1/league/index.html?frame=L3",
-    "/visual-assets/v10_1/league/assets/OVL_DANIEL_FINGER_V1_2X.png",
     "/visual-assets/v10_1/league/league.css",
+    "/visual-assets/v10_1/league/assets/OVL_DANIEL_FINGER_V1_2X.png",
     "/visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_2X.webp",
-    "/visual-assets/v10_1/league/league.js",
     "/js/visualIdentity.js",
-    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-700-normal.woff2",
-    "/visual-assets/v10_1/league/fixtures.json",
+    "/visual-assets/v10_1/league/league.js",
     "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-600-normal.woff2",
-    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2",
+    "/visual-assets/v10_1/league/fixtures.json",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-700-normal.woff2",
     "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2",
     "/visual-assets/v10_1/league/assets/platemap.json"
    ],
    "shot": {
@@ -10220,7 +11064,8 @@
     "vw": 375,
     "vh": 553,
     "dpr": 2,
-    "phone": true
+    "phone": true,
+    "scrollAllowed": true
    }
   },
   {
@@ -10236,6 +11081,7 @@
     "wheelCy": "332.96",
     "wheelR": "125.10",
     "phoneWheelD": "250",
+    "flow": "false",
     "onSlot": "false",
     "handVisible": "false",
     "band": "0,130,390,249",
@@ -10311,7 +11157,9 @@
     "vp": [
      390,
      844
-    ]
+    ],
+    "verticalScroll": false,
+    "scrollAllowed": false
    },
    "G4": {
     "rect": [
@@ -10549,16 +11397,16 @@
    },
    "loaded": [
     "/visual-assets/v10_1/league/index.html?frame=L3",
-    "/visual-assets/v10_1/league/league.css",
     "/visual-assets/v10_1/league/assets/OVL_DANIEL_FINGER_V1_2X.png",
-    "/visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_2X.webp",
+    "/visual-assets/v10_1/league/league.css",
     "/visual-assets/v10_1/league/league.js",
+    "/visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_2X.webp",
     "/js/visualIdentity.js",
-    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-700-normal.woff2",
     "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-600-normal.woff2",
-    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2",
-    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2",
     "/visual-assets/v10_1/league/fixtures.json",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-700-normal.woff2",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2",
     "/visual-assets/v10_1/league/assets/platemap.json"
    ],
    "shot": {
@@ -10583,6 +11431,7 @@
     "wheelCy": "356.87",
     "wheelR": "140.70",
     "phoneWheelD": "281",
+    "flow": "false",
     "onSlot": "false",
     "handVisible": "false",
     "band": "0,130,430,261",
@@ -10658,7 +11507,9 @@
     "vp": [
      430,
      932
-    ]
+    ],
+    "verticalScroll": false,
+    "scrollAllowed": false
    },
    "G4": {
     "rect": [
@@ -10898,14 +11749,14 @@
     "/visual-assets/v10_1/league/index.html?frame=L3",
     "/visual-assets/v10_1/league/league.css",
     "/visual-assets/v10_1/league/assets/OVL_DANIEL_FINGER_V1_2X.png",
+    "/visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_2X.webp",
     "/visual-assets/v10_1/league/league.js",
     "/js/visualIdentity.js",
-    "/visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_2X.webp",
-    "/visual-assets/v10_1/league/fixtures.json",
-    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2",
-    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-600-normal.woff2",
     "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-700-normal.woff2",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2",
+    "/visual-assets/v10_1/league/fixtures.json",
     "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-600-normal.woff2",
     "/visual-assets/v10_1/league/assets/platemap.json"
    ],
    "shot": {
@@ -10914,6 +11765,356 @@
     "vw": 430,
     "vh": 932,
     "dpr": 2,
+    "phone": true
+   }
+  },
+  {
+   "mode": "phone",
+   "data": {
+    "frame": "L3",
+    "missingMarks": "",
+    "hasLeague": "true",
+    "wide": "0",
+    "narrow": "1",
+    "mode": "phone",
+    "wheelCx": "205.37",
+    "wheelCy": "323.75",
+    "wheelR": "119.62",
+    "phoneWheelD": "239",
+    "flow": "false",
+    "onSlot": "false",
+    "handVisible": "false",
+    "band": "0,130,393,250",
+    "bandPlateY": "70,400",
+    "k": "0.36221",
+    "ox": "-70.63",
+    "oy": "104.65"
+   },
+   "fail": [],
+   "G1": {
+    "visible": [
+     "CM 17",
+     "SIGN IN",
+     "Season 1 / 5",
+     "SELECT LEAGUE",
+     "Premier League",
+     "LaLiga",
+     "Bundesliga",
+     "Serie A",
+     "Ligue 1",
+     "Bundesliga",
+     "Bundesliga has been selected and locked. Press Continue to confirm the league and open Club Assignment.",
+     "CONTINUE TO CLUB ASSIGNMENT",
+     "BACK"
+    ],
+    "missing": [],
+    "extra": []
+   },
+   "G2": {
+    "counts": {
+     "topHeader": 1,
+     "onlinePlayerIdentityBadge": 1,
+     "seasonIndicator": 1,
+     "leagueWheelScreen": 1,
+     "leagueWheel": 1,
+     "selectedLeague": 1,
+     "leagueStateNote": 1,
+     "spinLeague": 1
+    },
+    "shape": {
+     "h2": true,
+     "pointer": true,
+     "wheel": true,
+     "items": [
+      "Premier League",
+      "LaLiga",
+      "Bundesliga",
+      "Serie A",
+      "Ligue 1"
+     ],
+     "back": 1,
+     "selectedLeagueAria": [
+      "status",
+      "polite",
+      "true"
+     ],
+     "noteAria": [
+      "status",
+      "polite"
+     ],
+     "trackTransform": "rotate(-144deg)"
+    }
+   },
+   "G3": {
+    "html": [
+     393,
+     660
+    ],
+    "body": [
+     393,
+     660
+    ],
+    "vp": [
+     393,
+     660
+    ],
+    "verticalScroll": false,
+    "scrollAllowed": false
+   },
+   "G4": {
+    "rect": [
+     16,
+     544,
+     377,
+     592
+    ],
+    "inView": true,
+    "hit": true
+   },
+   "G5": {
+    "clipped": []
+   },
+   "G6": {
+    "controls": [
+     {
+      "id": "onlinePlayerIdentityBadge",
+      "w": 65,
+      "h": 44
+     },
+     {
+      "id": "spinLeague",
+      "w": 361,
+      "h": 48
+     },
+     {
+      "id": "backButton",
+      "w": 361,
+      "h": 48
+     }
+    ],
+    "minFont": 12,
+    "minFontEl": {
+     "el": "wheelItem",
+     "px": 12
+    },
+    "noteFont": 14
+   },
+   "G8": {
+    "face_daniel": {
+     "minClearPx": 13.1,
+     "nearest": "subtitle-row",
+     "box": [
+      4,
+      139,
+      85,
+      228
+     ]
+    },
+    "face_nik": {
+     "minClearPx": 14.9,
+     "nearest": "subtitle-row",
+     "box": [
+      321,
+      141,
+      389,
+      235
+     ]
+    },
+    "hand_daniel": {
+     "outOfFrame": true
+    },
+    "hand_nik": {
+     "minClearPx": 71.8,
+     "nearest": "wheelItem",
+     "box": [
+      355,
+      210,
+      393,
+      250
+     ]
+    },
+    "fingerOverlay": {
+     "shown": false
+    }
+   },
+   "G9": {
+    "urls": [
+     "http://127.0.0.1:8765/visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_1X.webp",
+     "http://127.0.0.1:8765/visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_2X.webp",
+     "data:image/svg+xml,%3Csvg ",
+     "data:image/svg+xml,%3Csvg%",
+     "http://127.0.0.1:8765/visual-assets/v10_1/league/assets/OVL_DANIEL_FINGER_V1_2X.png"
+    ]
+   },
+   "G10": {
+    "faces": [
+     44,
+     355
+    ],
+    "hands": [
+     91,
+     377
+    ]
+   },
+   "G11": {
+    "dom": [
+     "onlinePlayerIdentityBadge",
+     "spinLeague",
+     "backButton"
+    ],
+    "visual": [
+     "onlinePlayerIdentityBadge",
+     "spinLeague",
+     "backButton"
+    ]
+   },
+   "G13": {
+    "header": {
+     "h": 48,
+     "bg": "linear-gradient(rgba(6, 7, 9, 0.92), rgba(6, 7, 9, 0.7))",
+     "border": "1px solid rgba(201, 155, 69, 0.45)",
+     "badge": [
+      0,
+      0,
+      88.4,
+      47
+     ],
+     "badgeFont": "italic 700 24px / 28.8px \"Barlow Condensed\", \"Arial Narrow\", sans-serif",
+     "brand": null,
+     "identity": [
+      214.7,
+      1.5,
+      64.8,
+      44
+     ],
+     "season": [
+      287.5,
+      1.5,
+      95.5,
+      44
+     ],
+     "controlFont": "600 14px / 14px \"Barlow Condensed\", \"Arial Narrow\", sans-serif"
+    },
+    "footer": null
+   },
+   "G7": [
+    {
+     "el": "SPAN",
+     "t": "CM 17",
+     "large": true,
+     "ratio": 11.72,
+     "need": 3
+    },
+    {
+     "el": "onlinePlayerIdentityBadge",
+     "t": "SIGN IN",
+     "large": false,
+     "ratio": 14.96,
+     "need": 4.5
+    },
+    {
+     "el": "seasonIndicator",
+     "t": "Season 1 / 5",
+     "large": false,
+     "ratio": 14.96,
+     "need": 4.5
+    },
+    {
+     "el": "H2",
+     "t": "SELECT LEAGUE",
+     "large": true,
+     "ratio": 12.37,
+     "need": 3
+    },
+    {
+     "el": "wheelItem",
+     "t": "Premier League",
+     "large": false,
+     "ratio": 14.18,
+     "need": 4.5
+    },
+    {
+     "el": "wheelItem",
+     "t": "LaLiga",
+     "large": false,
+     "ratio": 14.18,
+     "need": 4.5
+    },
+    {
+     "el": "wheelItem",
+     "t": "Bundesliga",
+     "large": false,
+     "ratio": 6.52,
+     "need": 4.5
+    },
+    {
+     "el": "wheelItem",
+     "t": "Serie A",
+     "large": false,
+     "ratio": 14.18,
+     "need": 4.5
+    },
+    {
+     "el": "wheelItem",
+     "t": "Ligue 1",
+     "large": false,
+     "ratio": 14.18,
+     "need": 4.5
+    },
+    {
+     "el": "selectedLeague",
+     "t": "Bundesliga",
+     "large": true,
+     "ratio": 12.37,
+     "need": 3
+    },
+    {
+     "el": "leagueStateNote",
+     "t": "Bundesliga has been selected",
+     "large": false,
+     "ratio": 14.89,
+     "need": 4.5
+    },
+    {
+     "el": "spinLeague",
+     "t": "CONTINUE TO CLUB ASSIGNMENT",
+     "large": true,
+     "ratio": 10.37,
+     "need": 3
+    },
+    {
+     "el": "backButton",
+     "t": "BACK",
+     "large": true,
+     "ratio": 15.04,
+     "need": 3
+    }
+   ],
+   "G7fails": [],
+   "G12": {
+    "errors": [],
+    "failed": []
+   },
+   "loaded": [
+    "/visual-assets/v10_1/league/index.html?frame=L3",
+    "/visual-assets/v10_1/league/league.css",
+    "/visual-assets/v10_1/league/assets/OVL_DANIEL_FINGER_V1_2X.png",
+    "/visual-assets/v10_1/league/league.js",
+    "/js/visualIdentity.js",
+    "/visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_2X.webp",
+    "/visual-assets/v10_1/league/fixtures.json",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-600-normal.woff2",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-700-normal.woff2",
+    "/visual-assets/v10_1/league/assets/platemap.json"
+   ],
+   "shot": {
+    "file": "L3_393x660.jpg",
+    "frame": "L3",
+    "vw": 393,
+    "vh": 660,
+    "dpr": 3,
     "phone": true
    }
   },
@@ -11014,7 +12215,9 @@
     "vp": [
      1366,
      768
-    ]
+    ],
+    "verticalScroll": false,
+    "scrollAllowed": false
    },
    "G4": {
     "rect": [
@@ -11097,8 +12300,15 @@
     },
     "fingerOverlay": {
      "shown": true,
-     "note": "CSS px; Chromium LayoutUnit = 1/64 px, so <= 0.0157 is 0 device px",
-     "regErrPx": 0.015625
+     "rect": [
+      440,
+      410,
+      560,
+      500
+     ],
+     "regErrCssPx": 0.0208,
+     "regErrDevicePx": 0,
+     "note": "edges compared on the device-pixel grid; CSS-px residue is Chromium LayoutUnit (1/64 px) rounding of top and height"
     }
    },
    "G9": {
@@ -11231,35 +12441,35 @@
      "t": "Premier League",
      "large": true,
      "ratio": 14.18,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "wheelItem",
      "t": "LaLiga",
      "large": true,
      "ratio": 14.18,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "wheelItem",
      "t": "Bundesliga",
      "large": true,
      "ratio": 6.44,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "wheelItem",
      "t": "Serie A",
      "large": true,
      "ratio": 14.18,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "wheelItem",
      "t": "Ligue 1",
      "large": true,
      "ratio": 14.18,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "selectedLeague",
@@ -11355,14 +12565,14 @@
     "/visual-assets/v10_1/league/index.html?frame=L4",
     "/visual-assets/v10_1/league/assets/OVL_DANIEL_FINGER_V1_1X.png",
     "/visual-assets/v10_1/league/league.css",
+    "/js/visualIdentity.js",
     "/visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_1X.webp",
     "/visual-assets/v10_1/league/league.js",
-    "/js/visualIdentity.js",
     "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-700-normal.woff2",
-    "/visual-assets/v10_1/league/fixtures.json",
-    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2",
     "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-600-normal.woff2",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2",
     "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2",
+    "/visual-assets/v10_1/league/fixtures.json",
     "/visual-assets/v10_1/league/assets/platemap.json"
    ],
    "shot": {
@@ -11470,7 +12680,9 @@
     "vp": [
      1440,
      900
-    ]
+    ],
+    "verticalScroll": false,
+    "scrollAllowed": false
    },
    "G4": {
     "rect": [
@@ -11553,8 +12765,15 @@
     },
     "fingerOverlay": {
      "shown": true,
-     "note": "CSS px; Chromium LayoutUnit = 1/64 px, so <= 0.0157 is 0 device px",
-     "regErrPx": 0.015625
+     "rect": [
+      440,
+      410,
+      560,
+      500
+     ],
+     "regErrCssPx": 0.0052,
+     "regErrDevicePx": 0,
+     "note": "edges compared on the device-pixel grid; CSS-px residue is Chromium LayoutUnit (1/64 px) rounding of top and height"
     }
    },
    "G9": {
@@ -11687,35 +12906,35 @@
      "t": "Premier League",
      "large": true,
      "ratio": 14.17,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "wheelItem",
      "t": "LaLiga",
      "large": true,
      "ratio": 14.18,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "wheelItem",
      "t": "Bundesliga",
      "large": true,
      "ratio": 6.44,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "wheelItem",
      "t": "Serie A",
      "large": true,
      "ratio": 14.18,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "wheelItem",
      "t": "Ligue 1",
      "large": true,
      "ratio": 14.17,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "selectedLeague",
@@ -11809,16 +13028,16 @@
    },
    "loaded": [
     "/visual-assets/v10_1/league/index.html?frame=L4",
-    "/visual-assets/v10_1/league/assets/OVL_DANIEL_FINGER_V1_1X.png",
     "/visual-assets/v10_1/league/league.css",
-    "/visual-assets/v10_1/league/league.js",
+    "/visual-assets/v10_1/league/assets/OVL_DANIEL_FINGER_V1_1X.png",
     "/visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_1X.webp",
+    "/visual-assets/v10_1/league/league.js",
     "/js/visualIdentity.js",
+    "/visual-assets/v10_1/league/fixtures.json",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-600-normal.woff2",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2",
     "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-700-normal.woff2",
     "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2",
-    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2",
-    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-600-normal.woff2",
-    "/visual-assets/v10_1/league/fixtures.json",
     "/visual-assets/v10_1/league/assets/platemap.json"
    ],
    "shot": {
@@ -11926,7 +13145,9 @@
     "vp": [
      1920,
      1080
-    ]
+    ],
+    "verticalScroll": false,
+    "scrollAllowed": false
    },
    "G4": {
     "rect": [
@@ -12009,8 +13230,15 @@
     },
     "fingerOverlay": {
      "shown": true,
-     "note": "CSS px; Chromium LayoutUnit = 1/64 px, so <= 0.0157 is 0 device px",
-     "regErrPx": 0
+     "rect": [
+      440,
+      410,
+      560,
+      500
+     ],
+     "regErrCssPx": 0,
+     "regErrDevicePx": 0,
+     "note": "edges compared on the device-pixel grid; CSS-px residue is Chromium LayoutUnit (1/64 px) rounding of top and height"
     }
    },
    "G9": {
@@ -12143,35 +13371,35 @@
      "t": "Premier League",
      "large": true,
      "ratio": 14.18,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "wheelItem",
      "t": "LaLiga",
      "large": true,
      "ratio": 14.18,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "wheelItem",
      "t": "Bundesliga",
      "large": true,
      "ratio": 6.44,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "wheelItem",
      "t": "Serie A",
      "large": true,
      "ratio": 14.18,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "wheelItem",
      "t": "Ligue 1",
      "large": true,
      "ratio": 14.18,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "selectedLeague",
@@ -12267,15 +13495,15 @@
     "/visual-assets/v10_1/league/index.html?frame=L4",
     "/visual-assets/v10_1/league/league.css",
     "/visual-assets/v10_1/league/assets/OVL_DANIEL_FINGER_V1_1X.png",
-    "/visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_1X.webp",
-    "/visual-assets/v10_1/league/league.js",
     "/js/visualIdentity.js",
+    "/visual-assets/v10_1/league/league.js",
+    "/visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_1X.webp",
     "/visual-assets/v10_1/league/fixtures.json",
-    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-600-normal.woff2",
-    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2",
-    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2",
     "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-700-normal.woff2",
-    "/visual-assets/v10_1/league/assets/platemap.json"
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-600-normal.woff2",
+    "/visual-assets/v10_1/league/assets/platemap.json",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2"
    ],
    "shot": {
     "file": "L4_1920x1080.jpg",
@@ -12382,7 +13610,9 @@
     "vp": [
      1366,
      640
-    ]
+    ],
+    "verticalScroll": false,
+    "scrollAllowed": false
    },
    "G4": {
     "rect": [
@@ -12465,8 +13695,15 @@
     },
     "fingerOverlay": {
      "shown": true,
-     "note": "CSS px; Chromium LayoutUnit = 1/64 px, so <= 0.0157 is 0 device px",
-     "regErrPx": 0.014322916666685614
+     "rect": [
+      440,
+      410,
+      560,
+      500
+     ],
+     "regErrCssPx": 0.0195,
+     "regErrDevicePx": 0,
+     "note": "edges compared on the device-pixel grid; CSS-px residue is Chromium LayoutUnit (1/64 px) rounding of top and height"
     }
    },
    "G9": {
@@ -12723,15 +13960,15 @@
     "/visual-assets/v10_1/league/index.html?frame=L4",
     "/visual-assets/v10_1/league/league.css",
     "/visual-assets/v10_1/league/assets/OVL_DANIEL_FINGER_V1_1X.png",
-    "/visual-assets/v10_1/league/league.js",
     "/js/visualIdentity.js",
+    "/visual-assets/v10_1/league/league.js",
     "/visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_1X.webp",
     "/visual-assets/v10_1/league/fixtures.json",
+    "/visual-assets/v10_1/league/assets/platemap.json",
     "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2",
     "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-600-normal.woff2",
     "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-700-normal.woff2",
-    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2",
-    "/visual-assets/v10_1/league/assets/platemap.json"
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2"
    ],
    "shot": {
     "file": "L4_1366x640.jpg",
@@ -12838,7 +14075,9 @@
     "vp": [
      1366,
      768
-    ]
+    ],
+    "verticalScroll": false,
+    "scrollAllowed": false
    },
    "G4": {
     "rect": [
@@ -12921,8 +14160,15 @@
     },
     "fingerOverlay": {
      "shown": true,
-     "note": "CSS px; Chromium LayoutUnit = 1/64 px, so <= 0.0157 is 0 device px",
-     "regErrPx": 0.015625
+     "rect": [
+      440,
+      410,
+      560,
+      500
+     ],
+     "regErrCssPx": 0.0208,
+     "regErrDevicePx": 0,
+     "note": "edges compared on the device-pixel grid; CSS-px residue is Chromium LayoutUnit (1/64 px) rounding of top and height"
     }
    },
    "G9": {
@@ -13055,35 +14301,35 @@
      "t": "Premier League",
      "large": true,
      "ratio": 14.18,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "wheelItem",
      "t": "LaLiga",
      "large": true,
      "ratio": 14.17,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "wheelItem",
      "t": "Bundesliga",
      "large": true,
      "ratio": 6.44,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "wheelItem",
      "t": "Serie A",
      "large": true,
      "ratio": 14.18,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "wheelItem",
      "t": "Ligue 1",
      "large": true,
      "ratio": 14.18,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "selectedLeague",
@@ -13177,17 +14423,17 @@
    },
    "loaded": [
     "/visual-assets/v10_1/league/index.html?frame=L4",
-    "/visual-assets/v10_1/league/assets/OVL_DANIEL_FINGER_V1_2X.png",
     "/visual-assets/v10_1/league/league.css",
+    "/visual-assets/v10_1/league/assets/OVL_DANIEL_FINGER_V1_2X.png",
+    "/visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_2X.webp",
     "/js/visualIdentity.js",
     "/visual-assets/v10_1/league/league.js",
-    "/visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_2X.webp",
     "/visual-assets/v10_1/league/fixtures.json",
-    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-600-normal.woff2",
-    "/visual-assets/v10_1/league/assets/platemap.json",
     "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-700-normal.woff2",
     "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2",
-    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2"
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-600-normal.woff2",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2",
+    "/visual-assets/v10_1/league/assets/platemap.json"
    ],
    "shot": {
     "file": "L4_1366x768@2x.jpg",
@@ -13210,6 +14456,7 @@
     "wheelCy": "315.03",
     "wheelR": "113.40",
     "phoneWheelD": "227",
+    "flow": "false",
     "onSlot": "false",
     "handVisible": "false",
     "band": "0,130,360,239",
@@ -13285,7 +14532,9 @@
     "vp": [
      360,
      640
-    ]
+    ],
+    "verticalScroll": false,
+    "scrollAllowed": false
    },
    "G4": {
     "rect": [
@@ -13523,13 +14772,13 @@
     "/visual-assets/v10_1/league/index.html?frame=L4",
     "/visual-assets/v10_1/league/assets/OVL_DANIEL_FINGER_V1_2X.png",
     "/visual-assets/v10_1/league/league.css",
-    "/visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_2X.webp",
     "/visual-assets/v10_1/league/league.js",
+    "/visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_2X.webp",
     "/js/visualIdentity.js",
     "/visual-assets/v10_1/league/fixtures.json",
     "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-700-normal.woff2",
-    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-600-normal.woff2",
     "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-600-normal.woff2",
     "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2",
     "/visual-assets/v10_1/league/assets/platemap.json"
    ],
@@ -13552,9 +14801,10 @@
     "narrow": "1",
     "mode": "phone",
     "wheelCx": "195.97",
-    "wheelCy": "264.25",
-    "wheelR": "94.00",
-    "phoneWheelD": "188",
+    "wheelCy": "314.84",
+    "wheelR": "114.00",
+    "phoneWheelD": "228",
+    "flow": "true",
     "onSlot": "false",
     "handVisible": "false",
     "band": "0,130,375,244",
@@ -13621,23 +14871,25 @@
    "G3": {
     "html": [
      375,
-     553
+     582
     ],
     "body": [
      375,
-     553
+     0
     ],
     "vp": [
      375,
      553
-    ]
+    ],
+    "verticalScroll": true,
+    "scrollAllowed": true
    },
    "G4": {
     "rect": [
      16,
-     437,
+     466,
      359,
-     485
+     514
     ],
     "inView": true,
     "hit": true
@@ -13695,8 +14947,8 @@
      "outOfFrame": true
     },
     "hand_nik": {
-     "minClearPx": 80,
-     "nearest": "subtitle-row",
+     "minClearPx": 68.4,
+     "nearest": "wheelItem",
      "box": [
       339,
       206,
@@ -13799,7 +15051,7 @@
      "el": "wheelItem",
      "t": "Premier League",
      "large": false,
-     "ratio": 14.04,
+     "ratio": 14.18,
      "need": 4.5
     },
     {
@@ -13813,7 +15065,7 @@
      "el": "wheelItem",
      "t": "Bundesliga",
      "large": false,
-     "ratio": 6.23,
+     "ratio": 6.44,
      "need": 4.5
     },
     {
@@ -13841,7 +15093,7 @@
      "el": "leagueStateNote",
      "t": "League and clubs are permane",
      "large": false,
-     "ratio": 16.63,
+     "ratio": 15.41,
      "need": 4.5
     },
     {
@@ -13866,8 +15118,8 @@
    },
    "loaded": [
     "/visual-assets/v10_1/league/index.html?frame=L4",
-    "/visual-assets/v10_1/league/assets/OVL_DANIEL_FINGER_V1_2X.png",
     "/visual-assets/v10_1/league/league.css",
+    "/visual-assets/v10_1/league/assets/OVL_DANIEL_FINGER_V1_2X.png",
     "/visual-assets/v10_1/league/league.js",
     "/js/visualIdentity.js",
     "/visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_2X.webp",
@@ -13884,7 +15136,8 @@
     "vw": 375,
     "vh": 553,
     "dpr": 2,
-    "phone": true
+    "phone": true,
+    "scrollAllowed": true
    }
   },
   {
@@ -13900,6 +15153,7 @@
     "wheelCy": "332.96",
     "wheelR": "125.10",
     "phoneWheelD": "250",
+    "flow": "false",
     "onSlot": "false",
     "handVisible": "false",
     "band": "0,130,390,249",
@@ -13975,7 +15229,9 @@
     "vp": [
      390,
      844
-    ]
+    ],
+    "verticalScroll": false,
+    "scrollAllowed": false
    },
    "G4": {
     "rect": [
@@ -14211,16 +15467,16 @@
    },
    "loaded": [
     "/visual-assets/v10_1/league/index.html?frame=L4",
-    "/visual-assets/v10_1/league/league.css",
     "/visual-assets/v10_1/league/assets/OVL_DANIEL_FINGER_V1_2X.png",
-    "/visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_2X.webp",
+    "/visual-assets/v10_1/league/league.css",
     "/visual-assets/v10_1/league/league.js",
     "/js/visualIdentity.js",
-    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-700-normal.woff2",
+    "/visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_2X.webp",
     "/visual-assets/v10_1/league/fixtures.json",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-700-normal.woff2",
     "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2",
-    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2",
     "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-600-normal.woff2",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2",
     "/visual-assets/v10_1/league/assets/platemap.json"
    ],
    "shot": {
@@ -14245,6 +15501,7 @@
     "wheelCy": "356.87",
     "wheelR": "140.70",
     "phoneWheelD": "281",
+    "flow": "false",
     "onSlot": "false",
     "handVisible": "false",
     "band": "0,130,430,261",
@@ -14320,7 +15577,9 @@
     "vp": [
      430,
      932
-    ]
+    ],
+    "verticalScroll": false,
+    "scrollAllowed": false
    },
    "G4": {
     "rect": [
@@ -14559,14 +15818,14 @@
     "/visual-assets/v10_1/league/league.css",
     "/visual-assets/v10_1/league/assets/OVL_DANIEL_FINGER_V1_2X.png",
     "/visual-assets/v10_1/league/league.js",
-    "/visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_2X.webp",
     "/js/visualIdentity.js",
-    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2",
+    "/visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_2X.webp",
+    "/visual-assets/v10_1/league/fixtures.json",
+    "/visual-assets/v10_1/league/assets/platemap.json",
     "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-600-normal.woff2",
     "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-700-normal.woff2",
-    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2",
-    "/visual-assets/v10_1/league/fixtures.json",
-    "/visual-assets/v10_1/league/assets/platemap.json"
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2"
    ],
    "shot": {
     "file": "L4_430x932.jpg",
@@ -14574,6 +15833,354 @@
     "vw": 430,
     "vh": 932,
     "dpr": 2,
+    "phone": true
+   }
+  },
+  {
+   "mode": "phone",
+   "data": {
+    "frame": "L4",
+    "missingMarks": "",
+    "hasLeague": "true",
+    "wide": "0",
+    "narrow": "1",
+    "mode": "phone",
+    "wheelCx": "205.37",
+    "wheelCy": "334.58",
+    "wheelR": "126.12",
+    "phoneWheelD": "252",
+    "flow": "false",
+    "onSlot": "false",
+    "handVisible": "false",
+    "band": "0,130,393,250",
+    "bandPlateY": "70,400",
+    "k": "0.36221",
+    "ox": "-70.63",
+    "oy": "104.65"
+   },
+   "fail": [],
+   "G1": {
+    "visible": [
+     "CM 17",
+     "SIGN IN",
+     "Season 1 / 5",
+     "SELECT LEAGUE",
+     "Premier League",
+     "LaLiga",
+     "Bundesliga",
+     "Serie A",
+     "Ligue 1",
+     "Bundesliga",
+     "League and clubs are permanent for this showdown.",
+     "LEAGUE LOCKED",
+     "BACK"
+    ],
+    "missing": [],
+    "extra": []
+   },
+   "G2": {
+    "counts": {
+     "topHeader": 1,
+     "onlinePlayerIdentityBadge": 1,
+     "seasonIndicator": 1,
+     "leagueWheelScreen": 1,
+     "leagueWheel": 1,
+     "selectedLeague": 1,
+     "leagueStateNote": 1,
+     "spinLeague": 1
+    },
+    "shape": {
+     "h2": true,
+     "pointer": true,
+     "wheel": true,
+     "items": [
+      "Premier League",
+      "LaLiga",
+      "Bundesliga",
+      "Serie A",
+      "Ligue 1"
+     ],
+     "back": 1,
+     "selectedLeagueAria": [
+      "status",
+      "polite",
+      "true"
+     ],
+     "noteAria": [
+      "status",
+      "polite"
+     ],
+     "trackTransform": "rotate(-144deg)"
+    }
+   },
+   "G3": {
+    "html": [
+     393,
+     660
+    ],
+    "body": [
+     393,
+     660
+    ],
+    "vp": [
+     393,
+     660
+    ],
+    "verticalScroll": false,
+    "scrollAllowed": false
+   },
+   "G4": {
+    "rect": [
+     16,
+     544,
+     377,
+     592
+    ],
+    "inView": true,
+    "hit": true
+   },
+   "G5": {
+    "clipped": []
+   },
+   "G6": {
+    "controls": [
+     {
+      "id": "onlinePlayerIdentityBadge",
+      "w": 65,
+      "h": 44
+     },
+     {
+      "id": "spinLeague",
+      "w": 361,
+      "h": 48
+     },
+     {
+      "id": "backButton",
+      "w": 361,
+      "h": 48
+     }
+    ],
+    "minFont": 12,
+    "minFontEl": {
+     "el": "wheelItem",
+     "px": 12
+    },
+    "noteFont": 14
+   },
+   "G8": {
+    "face_daniel": {
+     "minClearPx": 13.1,
+     "nearest": "subtitle-row",
+     "box": [
+      4,
+      139,
+      85,
+      228
+     ]
+    },
+    "face_nik": {
+     "minClearPx": 14.9,
+     "nearest": "subtitle-row",
+     "box": [
+      321,
+      141,
+      389,
+      235
+     ]
+    },
+    "hand_daniel": {
+     "outOfFrame": true
+    },
+    "hand_nik": {
+     "minClearPx": 67.9,
+     "nearest": "wheelItem",
+     "box": [
+      355,
+      210,
+      393,
+      250
+     ]
+    },
+    "fingerOverlay": {
+     "shown": false
+    }
+   },
+   "G9": {
+    "urls": [
+     "http://127.0.0.1:8765/visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_1X.webp",
+     "http://127.0.0.1:8765/visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_2X.webp",
+     "data:image/svg+xml,%3Csvg ",
+     "data:image/svg+xml,%3Csvg%",
+     "http://127.0.0.1:8765/visual-assets/v10_1/league/assets/OVL_DANIEL_FINGER_V1_2X.png"
+    ]
+   },
+   "G10": {
+    "faces": [
+     44,
+     355
+    ],
+    "hands": [
+     91,
+     377
+    ]
+   },
+   "G11": {
+    "dom": [
+     "onlinePlayerIdentityBadge",
+     "backButton"
+    ],
+    "visual": [
+     "onlinePlayerIdentityBadge",
+     "backButton"
+    ]
+   },
+   "G13": {
+    "header": {
+     "h": 48,
+     "bg": "linear-gradient(rgba(6, 7, 9, 0.92), rgba(6, 7, 9, 0.7))",
+     "border": "1px solid rgba(201, 155, 69, 0.45)",
+     "badge": [
+      0,
+      0,
+      88.4,
+      47
+     ],
+     "badgeFont": "italic 700 24px / 28.8px \"Barlow Condensed\", \"Arial Narrow\", sans-serif",
+     "brand": null,
+     "identity": [
+      214.7,
+      1.5,
+      64.8,
+      44
+     ],
+     "season": [
+      287.5,
+      1.5,
+      95.5,
+      44
+     ],
+     "controlFont": "600 14px / 14px \"Barlow Condensed\", \"Arial Narrow\", sans-serif"
+    },
+    "footer": null
+   },
+   "G7": [
+    {
+     "el": "SPAN",
+     "t": "CM 17",
+     "large": true,
+     "ratio": 11.72,
+     "need": 3
+    },
+    {
+     "el": "onlinePlayerIdentityBadge",
+     "t": "SIGN IN",
+     "large": false,
+     "ratio": 14.96,
+     "need": 4.5
+    },
+    {
+     "el": "seasonIndicator",
+     "t": "Season 1 / 5",
+     "large": false,
+     "ratio": 14.96,
+     "need": 4.5
+    },
+    {
+     "el": "H2",
+     "t": "SELECT LEAGUE",
+     "large": true,
+     "ratio": 12.37,
+     "need": 3
+    },
+    {
+     "el": "wheelItem",
+     "t": "Premier League",
+     "large": false,
+     "ratio": 14.18,
+     "need": 4.5
+    },
+    {
+     "el": "wheelItem",
+     "t": "LaLiga",
+     "large": false,
+     "ratio": 14.18,
+     "need": 4.5
+    },
+    {
+     "el": "wheelItem",
+     "t": "Bundesliga",
+     "large": false,
+     "ratio": 6.52,
+     "need": 4.5
+    },
+    {
+     "el": "wheelItem",
+     "t": "Serie A",
+     "large": false,
+     "ratio": 14.18,
+     "need": 4.5
+    },
+    {
+     "el": "wheelItem",
+     "t": "Ligue 1",
+     "large": false,
+     "ratio": 14.18,
+     "need": 4.5
+    },
+    {
+     "el": "selectedLeague",
+     "t": "Bundesliga",
+     "large": true,
+     "ratio": 12.37,
+     "need": 3
+    },
+    {
+     "el": "leagueStateNote",
+     "t": "League and clubs are permane",
+     "large": false,
+     "ratio": 16.63,
+     "need": 4.5
+    },
+    {
+     "el": "spinLeague",
+     "t": "LEAGUE LOCKED",
+     "large": true,
+     "ratio": 5.47,
+     "need": 3
+    },
+    {
+     "el": "backButton",
+     "t": "BACK",
+     "large": true,
+     "ratio": 15.04,
+     "need": 3
+    }
+   ],
+   "G7fails": [],
+   "G12": {
+    "errors": [],
+    "failed": []
+   },
+   "loaded": [
+    "/visual-assets/v10_1/league/index.html?frame=L4",
+    "/visual-assets/v10_1/league/league.css",
+    "/visual-assets/v10_1/league/assets/OVL_DANIEL_FINGER_V1_2X.png",
+    "/visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_2X.webp",
+    "/visual-assets/v10_1/league/league.js",
+    "/js/visualIdentity.js",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-700-normal.woff2",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-600-normal.woff2",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2",
+    "/visual-assets/v10_1/league/fixtures.json",
+    "/visual-assets/v10_1/league/assets/platemap.json"
+   ],
+   "shot": {
+    "file": "L4_393x660.jpg",
+    "frame": "L4",
+    "vw": 393,
+    "vh": 660,
+    "dpr": 3,
     "phone": true
    }
   },
@@ -14627,7 +16234,8 @@
      "face_nik",
      "hand_daniel",
      "hand_nik",
-     "keep"
+     "keep",
+     "finger overlay"
     ],
     "missing": [],
     "extra": [
@@ -14635,7 +16243,8 @@
      "face_nik",
      "hand_daniel",
      "hand_nik",
-     "keep"
+     "keep",
+     "finger overlay"
     ]
    },
    "G2": {
@@ -14685,7 +16294,9 @@
     "vp": [
      1366,
      768
-    ]
+    ],
+    "verticalScroll": false,
+    "scrollAllowed": false
    },
    "G4": {
     "rect": [
@@ -14768,8 +16379,15 @@
     },
     "fingerOverlay": {
      "shown": true,
-     "note": "CSS px; Chromium LayoutUnit = 1/64 px, so <= 0.0157 is 0 device px",
-     "regErrPx": 0.015625
+     "rect": [
+      440,
+      410,
+      560,
+      500
+     ],
+     "regErrCssPx": 0.0208,
+     "regErrDevicePx": 0,
+     "note": "edges compared on the device-pixel grid; CSS-px residue is Chromium LayoutUnit (1/64 px) rounding of top and height"
     }
    },
    "G9": {
@@ -14904,35 +16522,35 @@
      "t": "Premier League",
      "large": true,
      "ratio": 6.02,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "wheelItem",
      "t": "LaLiga",
      "large": true,
      "ratio": 14.18,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "wheelItem",
      "t": "Bundesliga",
      "large": true,
      "ratio": 14.18,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "wheelItem",
      "t": "Serie A",
      "large": true,
      "ratio": 14.18,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "wheelItem",
      "t": "Ligue 1",
      "large": true,
      "ratio": 14.18,
-     "need": 3
+     "need": 4.5
     },
     {
      "el": "selectedLeague",
@@ -15055,16 +16673,16 @@
    },
    "loaded": [
     "/visual-assets/v10_1/league/index.html?frame=L1&grid=1",
-    "/visual-assets/v10_1/league/assets/OVL_DANIEL_FINGER_V1_1X.png",
     "/visual-assets/v10_1/league/league.css",
+    "/visual-assets/v10_1/league/assets/OVL_DANIEL_FINGER_V1_1X.png",
+    "/js/visualIdentity.js",
     "/visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_1X.webp",
     "/visual-assets/v10_1/league/league.js",
-    "/js/visualIdentity.js",
-    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2",
-    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-600-normal.woff2",
-    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2",
     "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-700-normal.woff2",
     "/visual-assets/v10_1/league/fixtures.json",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-600-normal.woff2",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2",
+    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2",
     "/visual-assets/v10_1/league/assets/platemap.json"
    ],
    "shot": {
@@ -15085,17 +16703,17 @@
  "G9": {
   "loaded": [
    "/visual-assets/v10_1/league/index.html?frame=L1",
-   "/visual-assets/v10_1/league/league.css",
    "/visual-assets/v10_1/league/assets/OVL_DANIEL_FINGER_V1_1X.png",
+   "/visual-assets/v10_1/league/league.css",
    "/js/visualIdentity.js",
    "/visual-assets/v10_1/league/league.js",
    "/visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_1X.webp",
-   "/visual-assets/v10_1/league/fixtures.json",
    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-700-normal.woff2",
-   "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2",
-   "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2",
-   "/visual-assets/v10_1/league/assets/platemap.json",
    "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-600-normal.woff2",
+   "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2",
+   "/visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2",
+   "/visual-assets/v10_1/league/fixtures.json",
+   "/visual-assets/v10_1/league/assets/platemap.json",
    "/visual-assets/v10_1/league/assets/OVL_DANIEL_FINGER_V1_2X.png",
    "/visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_2X.webp",
    "/visual-assets/v10_1/league/index.html?frame=L2",
@@ -15134,25 +16752,26 @@
  "G8_finger": {
   "wheel_paint_radius_plate_px": 268,
   "rim_radius_plate_px": 240,
-  "daniel_px_under_wheel_paint": 1264,
-  "of_which_restored_by_overlay_alpha_ge_0_5": 1038,
-  "daniel_px_under_wheel_paint_not_restored": 226,
-  "not_restored_bbox": [
-   494,
-   421,
-   506,
+  "overlay_rect_1x": [
+   440,
+   410,
+   560,
    500
   ],
-  "not_restored_note": "sleeve-edge pixels outside keep_rects[0] (overlay is confined to the keep rect by W2); dark bezel over dark sleeve",
-  "old_rim_remnant_px": 2644,
-  "old_rim_remnant_visible_outside_wheel_paint": 1,
-  "old_rim_remnant_restored_by_overlay": 232,
-  "remnant_visible_bbox": [
+  "wheel_paint_px_in_hand_box": 5479,
+  "restored_by_overlay_alpha_ge_0_5": 1255,
+  "not_restored_old_rim_remnant_px": 2631,
+  "not_restored_background_glow_px": 1571,
+  "not_restored_other_px": 22,
+  "other_bbox": [
+   503,
+   467,
    506,
-   414,
-   507,
-   415
-  ]
+   485
+  ],
+  "old_rim_remnant_px_total": 2631,
+  "old_rim_remnant_visible_outside_wheel_paint": 0,
+  "below_hand_box_dark_sleeve_px_under_wheel_paint": 240
  },
  "seams": {
   "method": "mean over the seam of |px(+1.5) - px(-1.5)| minus the same step measured 3 px beside it (sum of RGB, 0-765); >= 12 = visible line",
@@ -15216,11 +16835,11 @@
     "button zone bottom": -97.2,
     "footer zone top": -2.8,
     "hand_daniel right (old wheel patch)": -25.8,
-    "hand_daniel top (old rim strip)": -0.7,
-    "hand_daniel bottom (old rim strip)": -3,
+    "hand_daniel top (old rim strip)": 1.6,
+    "hand_daniel bottom (old rim strip)": 2.8,
     "face_nik right": -18.9,
     "face_daniel left": -16.3,
-    "slot circle r=250": 8.1
+    "slot circle r=250": 8.6
    },
    "L1_1440x900.jpg": {
     "header zone A right": -0.6,
@@ -15248,11 +16867,11 @@
     "button zone bottom": 0.2,
     "footer zone top": -1,
     "hand_daniel right (old wheel patch)": -30.7,
-    "hand_daniel top (old rim strip)": -2.2,
-    "hand_daniel bottom (old rim strip)": 0.7,
+    "hand_daniel top (old rim strip)": -4.3,
+    "hand_daniel bottom (old rim strip)": 7.4,
     "face_nik right": -15.2,
     "face_daniel left": -10.5,
-    "slot circle r=250": 0.4
+    "slot circle r=250": 0.5
    },
    "L1_1920x1080.jpg": {
     "header zone A right": 0.3,
@@ -15280,11 +16899,11 @@
     "button zone bottom": 0.2,
     "footer zone top": -0.9,
     "hand_daniel right (old wheel patch)": -39.2,
-    "hand_daniel top (old rim strip)": -1.6,
-    "hand_daniel bottom (old rim strip)": -0.5,
+    "hand_daniel top (old rim strip)": -2.8,
+    "hand_daniel bottom (old rim strip)": 6,
     "face_nik right": -13,
     "face_daniel left": -1,
-    "slot circle r=250": -5.2
+    "slot circle r=250": -5.1
    },
    "L1_1366x640.jpg": {
     "header zone A right": 0,
@@ -15312,11 +16931,11 @@
     "button zone bottom": null,
     "footer zone top": null,
     "hand_daniel right (old wheel patch)": 16.7,
-    "hand_daniel top (old rim strip)": 1.8,
-    "hand_daniel bottom (old rim strip)": 0.5,
+    "hand_daniel top (old rim strip)": 1.3,
+    "hand_daniel bottom (old rim strip)": 7.3,
     "face_nik right": -19.7,
     "face_daniel left": -14.4,
-    "slot circle r=250": 6.8
+    "slot circle r=250": 6.9
    },
    "L1_360x640.jpg": {
     "header zone A right": 68.3,
@@ -15361,7 +16980,7 @@
     "title zone left": 8.8,
     "title zone right": 21.8,
     "title zone top": 1.5,
-    "title zone bottom": 22.2,
+    "title zone bottom": 22.8,
     "left slogan zone left": "out of frame",
     "left slogan zone right": "out of frame",
     "left slogan zone top": "out of frame",
@@ -15446,6 +17065,38 @@
     "face_daniel left": -10.5,
     "slot circle r=250": "behind wheel / veil (phone)"
    },
+   "L1_393x660.jpg": {
+    "header zone A right": 172.4,
+    "header zone A bottom": 13.6,
+    "header zone B left": 1,
+    "header zone B right": null,
+    "header zone B bottom": 10.1,
+    "header zone C left": null,
+    "header zone C bottom": null,
+    "title zone left": 11.6,
+    "title zone right": 25,
+    "title zone top": 2,
+    "title zone bottom": 21.7,
+    "left slogan zone left": "out of frame",
+    "left slogan zone right": "out of frame",
+    "left slogan zone top": "out of frame",
+    "left slogan zone bottom": "out of frame",
+    "right slogan zone left": "out of frame",
+    "right slogan zone right": "out of frame",
+    "right slogan zone top": "out of frame",
+    "right slogan zone bottom": "out of frame",
+    "button zone left": "out of frame",
+    "button zone right": "out of frame",
+    "button zone top": "out of frame",
+    "button zone bottom": "out of frame",
+    "footer zone top": "out of frame",
+    "hand_daniel right (old wheel patch)": "out of frame",
+    "hand_daniel top (old rim strip)": "out of frame",
+    "hand_daniel bottom (old rim strip)": "out of frame",
+    "face_nik right": 79.7,
+    "face_daniel left": 4,
+    "slot circle r=250": "behind wheel / veil (phone)"
+   },
    "L3_1366x768.jpg": {
     "header zone A right": -0.3,
     "header zone A bottom": -2.4,
@@ -15472,11 +17123,11 @@
     "button zone bottom": -104.5,
     "footer zone top": -2.9,
     "hand_daniel right (old wheel patch)": 2.9,
-    "hand_daniel top (old rim strip)": -1.7,
-    "hand_daniel bottom (old rim strip)": -3.1,
+    "hand_daniel top (old rim strip)": 0.9,
+    "hand_daniel bottom (old rim strip)": 2.8,
     "face_nik right": -18.9,
     "face_daniel left": -16.3,
-    "slot circle r=250": 5.6
+    "slot circle r=250": 6.1
    },
    "L3_1440x900.jpg": {
     "header zone A right": -0.6,
@@ -15504,11 +17155,11 @@
     "button zone bottom": 0.4,
     "footer zone top": -0.9,
     "hand_daniel right (old wheel patch)": -36.4,
-    "hand_daniel top (old rim strip)": -2.2,
-    "hand_daniel bottom (old rim strip)": 0.7,
+    "hand_daniel top (old rim strip)": -4.3,
+    "hand_daniel bottom (old rim strip)": 7.4,
     "face_nik right": -15.2,
     "face_daniel left": -10.5,
-    "slot circle r=250": -2.1
+    "slot circle r=250": -2
    },
    "L3_1920x1080.jpg": {
     "header zone A right": 0.3,
@@ -15536,11 +17187,11 @@
     "button zone bottom": 0,
     "footer zone top": -0.9,
     "hand_daniel right (old wheel patch)": -39.3,
-    "hand_daniel top (old rim strip)": -1.6,
-    "hand_daniel bottom (old rim strip)": -0.7,
+    "hand_daniel top (old rim strip)": -2.9,
+    "hand_daniel bottom (old rim strip)": 5.8,
     "face_nik right": -13,
     "face_daniel left": -1,
-    "slot circle r=250": -1.4
+    "slot circle r=250": -1.3
    },
    "L3_1366x640.jpg": {
     "header zone A right": 0,
@@ -15568,11 +17219,11 @@
     "button zone bottom": null,
     "footer zone top": null,
     "hand_daniel right (old wheel patch)": -47.5,
-    "hand_daniel top (old rim strip)": 1.1,
-    "hand_daniel bottom (old rim strip)": 0.4,
+    "hand_daniel top (old rim strip)": 0.6,
+    "hand_daniel bottom (old rim strip)": 7.2,
     "face_nik right": -19.7,
     "face_daniel left": -14.4,
-    "slot circle r=250": -2
+    "slot circle r=250": -1.9
    },
    "L3_360x640.jpg": {
     "header zone A right": -22.6,
@@ -15585,7 +17236,7 @@
     "title zone left": 8.2,
     "title zone right": 23.3,
     "title zone top": 0.5,
-    "title zone bottom": 12.7,
+    "title zone bottom": 17.6,
     "left slogan zone left": "out of frame",
     "left slogan zone right": "out of frame",
     "left slogan zone top": "out of frame",
@@ -15617,7 +17268,7 @@
     "title zone left": 8.7,
     "title zone right": 22.1,
     "title zone top": 0.6,
-    "title zone bottom": 12.2,
+    "title zone bottom": 21.9,
     "left slogan zone left": "out of frame",
     "left slogan zone right": "out of frame",
     "left slogan zone top": "out of frame",
@@ -15701,6 +17352,38 @@
     "face_nik right": 24.1,
     "face_daniel left": -15.4,
     "slot circle r=250": "behind wheel / veil (phone)"
+   },
+   "L3_393x660.jpg": {
+    "header zone A right": 202.6,
+    "header zone A bottom": 11.3,
+    "header zone B left": 1.2,
+    "header zone B right": null,
+    "header zone B bottom": 10.7,
+    "header zone C left": null,
+    "header zone C bottom": null,
+    "title zone left": 11.7,
+    "title zone right": 25.3,
+    "title zone top": 1.1,
+    "title zone bottom": 27.7,
+    "left slogan zone left": "out of frame",
+    "left slogan zone right": "out of frame",
+    "left slogan zone top": "out of frame",
+    "left slogan zone bottom": "out of frame",
+    "right slogan zone left": "out of frame",
+    "right slogan zone right": "out of frame",
+    "right slogan zone top": "out of frame",
+    "right slogan zone bottom": "out of frame",
+    "button zone left": "out of frame",
+    "button zone right": "out of frame",
+    "button zone top": "out of frame",
+    "button zone bottom": "out of frame",
+    "footer zone top": "out of frame",
+    "hand_daniel right (old wheel patch)": "out of frame",
+    "hand_daniel top (old rim strip)": "out of frame",
+    "hand_daniel bottom (old rim strip)": "out of frame",
+    "face_nik right": 71.4,
+    "face_daniel left": 8.6,
+    "slot circle r=250": "behind wheel / veil (phone)"
    }
   },
   "render_steps_ge_threshold_any_cause": {
@@ -15747,6 +17430,13 @@
     "title zone bottom",
     "face_nik right"
    ],
+   "L1_393x660.jpg": [
+    "header zone A right",
+    "header zone A bottom",
+    "title zone right",
+    "title zone bottom",
+    "face_nik right"
+   ],
    "L3_1366x768.jpg": [
     "header zone B left",
     "header zone B right",
@@ -15786,6 +17476,12 @@
     "title zone right",
     "title zone bottom",
     "face_nik right"
+   ],
+   "L3_393x660.jpg": [
+    "header zone A right",
+    "title zone right",
+    "title zone bottom",
+    "face_nik right"
    ]
   },
   "plate_seams_still_visible_in_render": {
@@ -15801,9 +17497,7 @@
   ]
  },
  "summary": {
-  "shots": 37,
-  "failingShots": [
-   "L3_375x553.jpg: G7"
-  ]
+  "shots": 41,
+  "failingShots": []
  }
 }

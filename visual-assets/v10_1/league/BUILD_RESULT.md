@@ -3,7 +3,17 @@
 Task: `CLOUD-LEAGUE-V1` (brief `visual-assets/goals/CLOUD_BRIEF_LEAGUE_V1_R3.md` R3.4 on `claude-cloud/hlc-goals`, launched by `CC-002_league-build.md`)
 Model: Opus 5.5 · Effort: High · Role: build + evidence only (no taste authority, no self-approval)
 Start: 2026-10-01T21:51:07Z · End: 2026-10-01T22:27:04Z (wall clock 36 min of the 45 min STOP_BUDGET)
+R2 (decisions LEAGUE-M1 / LEAGUE-M2 + 393×660 captures): 2026-10-01T22:29Z to 22:42Z
 Branch: `claude-cloud/league-v1` · Head: see the push reply / `git log -1` (this file is committed in that head)
+
+## R2 changes (2026-10-01, decisions relayed by Nik)
+1. **LEAGUE-M1, approved.** The finger overlay now follows Daniel's hand/sleeve outline inside his hand box, so the wheel bezel no longer covers his sleeve. The overlay rect is `[440,410,560,500]`: `keep_rects[0]` `[440,425,560,480]` widened to the `hand_daniel` rows. The polygon is in `tools/make_finger_overlay.py` and still stops at Daniel's outline, so the old rim strip stays hidden.
+2. **LEAGUE-M2.** At 375×553 only the primary action has to be in the first view; the page may scroll there.
+   - The wheel no longer shrinks to 160 px. On short phones it is 228 px, at least the 360×640 size in every frame (224–227 px; 228 in L3).
+   - The note overlaps the wheel's bottom rim below the labels, as on desktop, and the buttons follow. Spin stays in the first view; BACK sits below the fold.
+   - Every league label must reach 4.5:1 whatever its size. Measured minimum: 6.02:1, so no label backing was needed.
+3. **393×660, DPR 3 (Nik's iPhone in Safari).** Added for every frame: no page scroll, Spin visible, wheel 239–252 px.
+4. **Overlay registration** is now gated on the device-pixel grid: 0 device px everywhere. The CSS-px residue (0.0208) is LayoutUnit rounding of top + height and is reported separately.
 
 ## Source and base
 - Plate G base (C1b): `claude-cloud/transfer-tr2-plate-g@8fbda036c1d1f7910631964e982705d0f25290c0` (the branch was cut there by the HLC intake session; intake commit `7ecb0b7`).
@@ -40,39 +50,53 @@ All strings come from `origin/main:js/leagueWheel.js`. The BACK disabled state c
 |---|---|---|
 | W0 source check + crest merge | DONE | No drift, pinned SHA merged, `fixtures.json` built from main |
 | W1 wheel + crest-v1 league marks | DONE | Rim 18 px gold ring with 20 studs and an inner dark ring. Five 72° dark-glass segments with 2 px gold spokes. A fixed gold wedge at 85 % sits under a chevron+crown pointer. 22 % hub with crown. Marks come only from `applyLeagueMark` (pinned SHA) and get a CSS-only monochrome treatment (pale gold on glass, near-black on gold). Main's order and the rotation contract are kept: item i sits at +i×72°, `.wheelTrack` gets `rotate(getLeagueRotation)`. Evidence: `evidence/W1_league_marks_1x.png` |
-| W2 fingertip overlay | DONE | `tools/make_finger_overlay.py`, hand-drawn polygon inside `keep_rects[0]` with a 1.5 px feather, `assets/OVL_DANIEL_FINGER_V1_{1X,2X}.png`. Registered through `plateToScreen`; error 0.0156 CSS px = one Chromium LayoutUnit (1/64 px), so 0 device px |
+| W2 fingertip overlay | DONE (R2) | `tools/make_finger_overlay.py`. Hand-drawn polygon following Daniel's finger and sleeve outline inside the overlay rect `[440,410,560,500]` (keep rect widened to the hand-box rows, LEAGUE-M1), 1.5 px feather, `assets/OVL_DANIEL_FINGER_V1_{1X,2X}.png`. Registered through `plateToScreen`: 0 device px on every desktop shot (CSS-px residue 0.0208 = LayoutUnit rounding) |
 | W3 desktop layout (L1) | DONE | C6 chrome, title block, slogans, buttons. The wheel sits exactly on the slot (`onSlot=true`, scale 1.000) at 1366×768, 1440×900 and 1920×1080 in all four frames. At 1366×640 the scale is 0.838 (L1/L2) and 0.824 (L3/L4) |
-| checkpoint commit + push | DONE | `db45cb9` |
+| checkpoint commit + push | DONE | `db45cb9`; R1 final `d5b8986` |
 | W4 frames L2–L4 | DONE | L2 uses a static CSS motion-blur ring (no animation) |
-| W5 phone | DONE, with limits | See Known limits 2–4 |
+| W5 phone | DONE (R2) | 360×640, 375×553 (scroll allowed, Spin in first view), 390×844, 393×660 and 430×932. See Known limits 2–4 |
 | G gates | See table | `evidence/qa_report.json` |
 | C9 deliverables | DONE | This file, `evidence/`, `preview.html`, `CLAUDE_LEAGUE-BUILD_HANDOFF_TO_SOL_2026-10-01.md` |
 
-## Gate results (37 shots: 4 frames × 9 viewports + 1 grid)
+## Gate results (R2: 41 shots = 4 frames × 10 viewports + 1 grid; 40 gated)
+Viewports: desktop 1366×768, 1440×900, 1920×1080, 1366×640, plus 1366×768 at DPR 2. Phone at DPR 2: 360×640, 375×553, 390×844, 430×932. **393×660 at DPR 3** (Nik's iPhone, Safari visible area).
+
 | Gate | Result | Measured |
 |---|---|---|
-| G1 Strings | PASS 36/36 | 0 missing, 0 extra in every frame/viewport (decorative list per section S) |
-| G2 IDs | PASS 36/36 | All section-S ids exactly once; roles/aria match main; `.wheelContainer > .wheelPointer`, `#leagueWheel > .wheelTrack > 5 .wheelItem` in main's order |
-| G3 No scroll | PASS 36/36 | html/body scroll size <= viewport + 1 everywhere, 375x553 included |
-| G4 Primary action | PASS 36/36 | `#spinLeague` fully in view and hit by `elementFromPoint` at its centre (also at 375x553 and 1366x640) |
-| G5 No clipping | PASS 36/36 | No scroll overflow on any text element and no ellipsis; wheel labels fit their item boxes |
-| G6 Sizes | PASS 36/36 | Phone controls 48 px tall, full width; desktop 56 px; smallest text 12 px; phone note 14 px |
-| G7 Contrast | 35/36; **BLOCKED** at L3 375x553 | Failing: Premier League 1.44:1 (need 4.5). Wheel diameter there is 160 px and the 2-line label's glyph quad touches a spoke or the mark. Two fixes tried (quad sampling, phone label geometry), so no third attempt per C8. The title is measured on its gradient body colour #F2C45B. All text is sampled in its glyph box (line box minus half-leading) |
-| G8 Faces and hands | PASS 36/36 (live UI) · see note | Smallest clearance: face_daniel 8.0 px, face_nik 12.4 px, hand_daniel 49.6 px, hand_nik 62.9 px. Finger overlay registration 0.0156 CSS px = 1 LayoutUnit = 0 device px at 1X. Fingertip containment (`evidence/g8_finger.json`): 1264 Daniel pixels under the wheel paint, 1038 restored by the overlay alpha, **226 sleeve-edge pixels (plate 494-506 x 421-500) outside `keep_rects[0]` stay under the dark bezel**; open question 1 in the handoff |
+| G1 Strings | PASS 40/40 | 0 missing, 0 extra in every frame/viewport (decorative list per section S) |
+| G2 IDs | PASS 40/40 | All section-S ids exactly once. Roles and aria match main. `.wheelContainer > .wheelPointer` and `#leagueWheel > .wheelTrack > 5 .wheelItem` in main's order |
+| G3 No scroll | PASS 40/40 | No horizontal scroll anywhere. No vertical scroll anywhere except 375×553, where it is allowed by LEAGUE-M2: page height L1 561, L2 561, L3 600, L4 582 px vs 553. 360×640 and 393×660 have no scroll |
+| G4 Primary action | PASS 40/40 | `#spinLeague` fully in the first view (scroll 0) and hit by `elementFromPoint` at its centre, at 375×553, 393×660 and 1366×640 too. At 375×553 Spin bottom is 493 (L1/L2), 532 (L3), 514 (L4) |
+| G5 No clipping | PASS 40/40 | No scroll overflow on any text element and no ellipsis. Wheel labels fit their item boxes |
+| G6 Sizes | PASS 40/40 | Phone controls 48 px tall, full width. Desktop controls 56 px. Smallest text 12 px. Phone note 14 px |
+| G7 Contrast | PASS 40/40 | Every league label (`.wheelItem`) measured against 4.5:1 regardless of size; minimum 6.02:1, so no label backing needed. Other text: 4.5:1 normal / 3:1 large. The title is measured on its gradient body #F2C45B. Glyph box = line box minus half-leading; rotated labels are sampled inside their glyph quad. Brightest-pixel method for light text, darkest-pixel method for dark text |
+| G8 Faces and hands | PASS 40/40 | Smallest clearance: face_daniel 8.0 px, face_nik 12.4 px, hand_daniel 49.6 px, hand_nik 62.6 px. Finger overlay registration 0 device px. Fingertip containment: see the next section |
 | G9 Imagery | PASS | Loaded: plate webp 1X/2X, finger overlay 1X/2X, woff2 fonts, inline/data SVG (marks, pointer, icons), page files. 0 disallowed. Name grep in folder: 0 hits |
-| G10 Sides | PASS 36/36 | Daniel face/hand centre x < Nik's everywhere; all four plate SHA-256 equal `intake_report.md` |
-| G11 Tab order | PASS 36/36 | SIGN IN -> spin (when enabled) -> BACK (when enabled) = visual reading order |
-| G12 Clean run | PASS 36/36 | 0 console errors, 0 failed requests, 0 uncaught exceptions |
+| G10 Sides | PASS 40/40 | Daniel's face and hand centre x < Nik's everywhere. All four plate SHA-256 equal `intake_report.md` |
+| G11 Tab order | PASS 40/40 | SIGN IN -> spin (when enabled) -> BACK (when enabled) = visual reading order |
+| G12 Clean run | PASS 40/40 | 0 console errors, 0 failed requests, 0 uncaught exceptions |
 | G13 Chrome snapshot | Reported | `qa_report.json` -> results[].G13 (header 56/48 px, badge, control boxes, footer 28 px) |
 
+### G8 fingertip containment (`evidence/g8_finger.json`, 1X plate px, wheel paint = rim r 240 + bezel to r 268)
+Inside `hand_daniel` the wheel paint covers 5479 px. They break down as follows:
+- **1255** are restored by the finger overlay alpha (≥ 0.5): Daniel's finger and sleeve.
+- **2631** are old rim / old wheel remnant: goal pixels the intake hard-restore kept, differing from the plates-in edit by > 45 at x ≥ 506.
+- **1571** are background glow that equals the edit, so there is no Daniel there in either image.
+- **22** are unclassified (bbox 503–506 × 467–485). On a 2X crop they are the left edge of the old gold rim block, not Daniel's sleeve.
+
+**Result: no Daniel pixel stays under the wheel paint inside the hand box.**
+
+Remnant pixels outside the wheel paint: 0.
+
+Outside the protected box, just below the hand box (y 500–520), 240 dark sleeve pixels sit under the bezel. That matches the goal composition, where Daniel's arm is behind the wheel below the fingertip. I report it and did not change it.
 
 ## Intake seams (owner follow-up: "intake darkened some plate zones")
 Method: `tools/seam_audit.py` measures the step across each seam minus the step 3 px beside it, as RGB sum 0–765, with ≥ 12 counting as a visible line. It does this on the raw plate and on every L1/L3 render. The full table is `evidence/seam_report.json`. I also checked each edge by eye on before/after crops.
 
 Hidden by the build:
-- **Old rim strip by Daniel's fingertip.** The goal's gold wheel rim and blurred-logo patch (x ≈ 506–560, y 410–500) survived because the intake hard-restored `hand_daniel`. Measured steps: plate right edge 61.4, top 57.5, bottom 48.2; after render at 1366×768 they are −25.8, −0.7 and −3.0 (hidden). The wheel paint (rim r 240 plus a dark bezel to r 268) covers it, and the fingertip overlay polygon stops at Daniel's outline, so it never restores the strip. `g8_finger.json`: 2644 remnant px, **1 visible outside the wheel paint** (plate 506,414: one sub-threshold pixel at the bezel fade). The script's `old_rim_remnant_restored_by_overlay` = 232 counts fingertip pixels at x >= 506: the edit input regenerated the finger, so goal and edit differ there. Those pixels are the finger, not rim (checked on 2X zoom crops).
-- **Slot circle edge (darkened disc r = 250).** On desktop the rim plus bezel covers it (render 8.1, below threshold). On phone and at 1366×640, where the wheel is off-slot or smaller, the slot veil (blur + darken ring) and the wheel cover it.
-- **Footer zone top (y 812).** Strongest plate seam (110.4). Render −2.6 under the footer shade veil.
+- **Old rim strip by Daniel's fingertip.** The goal's gold wheel rim and blurred-logo patch (x ≈ 506–560, y 410–500) survived because the intake hard-restored `hand_daniel`. Measured steps: plate right edge 61.4, top 57.5, bottom 48.2; after render at 1366×768 (R2) they are −25.8, 1.6 and 2.8 (hidden). The wheel paint (rim r 240 plus a dark bezel to r 268) covers it, and the fingertip overlay polygon stops at Daniel's outline, so it never restores the strip. `g8_finger.json` (R2): 2631 remnant px, **0 visible outside the wheel paint**.
+- **Slot circle edge (darkened disc r = 250).** On desktop the rim plus bezel covers it (render 8.6, below threshold). On phone and at 1366×640, where the wheel is off-slot or smaller, the slot veil (blur + darken ring) and the wheel cover it.
+- **Footer zone top (y 812).** Strongest plate seam (110.4). Render −2.8 under the footer shade veil.
 - **Slogan zone outlines** (left `36,642,290,774`, right `1248,642,1502,774`). The two slogan boxes cover them at the goal positions (+6 px). At 1366×640 the boxes move up to clear the footer and still cover the visible part.
 - **Header zones (y 78 bottom edges).** Covered by the header plus the header shade veil.
 - **Button zone (`498,740,1014,808`).** Under the buttons and the deck veil.
@@ -80,16 +104,17 @@ Hidden by the build:
 Still visible (listed as requested):
 1. **Title zone right edge** (plate x = 1062, y ≈ 100–246, beside Nik's hair). The tone-match darkening made a faint vertical tonal boundary. The title veil softens it but cannot reach past x = 1072 without entering `face_nik` + 8 px. Faint on desktop; visible on close inspection at 1366×768 and 1440×900.
 2. **Title zone left edge** (plate x = 470, y ≈ 100–246). Same cause, softened, fainter than the right edge. The veil stops at x = 440 (face_daniel + 8).
-3. On phone the same two title-zone edges sit inside the band, where they are about 1/3 scale and faint.
+3. On phone (393×660 included) the same two title-zone edges sit inside the band, where they are about 1/3 scale and faint.
 The step metric does not flag the darkening as a sharp line on the plate: the intake feathered it over 24 px, so it reads as a soft box rather than an edge. Items 1–2 come from my visual check, not from the metric.
 Metric summary (`seam_report.json` → `plate_seams_still_visible_in_render`): of the plate seams that measure >= 12 on the raw plate (footer zone top 110.4, old wheel patch 61.4, old rim strip 57.5 / 48.2), only one measures >= 12 in a render: `hand_daniel right` at **L1 1366×640 = 16.7**. There the shrunk wheel's own gold rim edge falls on plate x = 560. On a 4× zoom crop no old rim or patch pixels are visible (L3 1366×640 = −47.5). I report it as a metric hit, not a visible seam. Steps >= 12 that appear only in renders are UI edges on a zone line (header hairline, kicker text, button borders), listed under `render_steps_ge_threshold_any_cause`.
 
 ## Known limits
 1. **1366×640.** Title, wheel, note and buttons only fit with the wheel at 80–83 % (brief floor 80 %). The wheel then leaves the plate slot: the slot veil hides the slot edge and old rim strip, and Daniel's finger points at the wheel without touching the rim. The plate is biased down (`oy = −20.5`) so both faces stay ≥ 8 px below the header (C4b: the offsets follow).
 2. **Phone band.** It shows plate y 70–400 (x 195–1280), which keeps both faces whole and ends above Daniel's hand box − 8 px. Below the 220–250 px wheel, the hand cannot stay clear of the wheel on 360–430 px wide phones once the L3 note is shown. So the hand is out of frame and the finger overlay is hidden on phone (W5 fallback). The band transform is `k = W/1085`, `ox = −195k`, `oy = bandTop − 70k`. The wheel is concentric with the slot and its bezel covers the slot dome.
-3. **Phone wheel diameters.** 360×640: 224–227 px. 390×844: 250 px. 430×932: 281 px. 375×553: 222 px (L1), 188 px (L2/L4) and 160 px (L3). It is below the brief's 220–250 range only where the note and the two 48 px buttons must fit without scroll.
-4. **Phone wheel labels** use 12 px minimum text (G6), which is larger than the 22/240 R ratio. "PREMIER LEAGUE" wraps to two lines on the smallest wheels.
-5. **L2 angle.** I used +8° instead of the brief's +31° sample. At +31° the Serie A and Bundesliga labels straddle the fixed wedge edge: half gold, half glass, measured 1.09:1 and 1.56:1. +8° is still a positive whole-turn-plus-offset angle in production's direction.
-6. **The fixed wedge is counter-rotated** inside `.wheelTrack::before` with a `--rot` custom property. Production sets only `style.transform`, so a production port must also set `--rot`, or draw the wedge outside the track with the labels in a separate layer.
-7. `data/leagues.js` was not touched. Its `logo` fields still point at non-existent real-logo files; that is flagged for Sol.
-8. Static checkpoint: nothing animates.
+3. **Phone wheel diameters (R2).** 360×640: 227 (L1/L2/L4) and 228 (L3). 375×553: 228 in every frame, with the page scrolling. 393×660: 252 (L1/L2/L4) and 239 (L3). 390×844: 250. 430×932: 281. On short phones (375×553, and L3 at 360×640) the note overlaps the wheel's bottom rim below the labels, as on desktop, and the buttons follow it. At 360×640 that still fits without scroll.
+4. **Phone wheel labels** use 12 px minimum text (G6), which is larger than the 22/240 R ratio. All five league labels are ≥ 6.02:1 in every frame and viewport.
+5. **375×553 scrolls** (allowed by LEAGUE-M2): 8 px (L1/L2), 47 px (L3) and 29 px (L4) of page scroll. BACK is fully in view in L1/L2 (only the 12 px bottom margin scrolls) and partly below the fold in L3/L4. `evidence/*_375x553.jpg` is the first view; `*_375x553_fullpage.jpg` is the whole page.
+6. **L2 angle.** I used +8° instead of the brief's +31° sample. At +31° the Serie A and Bundesliga labels straddle the fixed wedge edge: half gold, half glass, measured 1.09:1 and 1.56:1. +8° is still a positive whole-turn-plus-offset angle in production's direction.
+7. **The fixed wedge is counter-rotated** inside `.wheelTrack::before` with a `--rot` custom property. Production sets only `style.transform`, so a production port must also set `--rot`, or draw the wedge outside the track with the labels in a separate layer.
+8. `data/leagues.js` was not touched. Its `logo` fields still point at non-existent real-logo files; that is flagged for Sol.
+9. Static checkpoint: nothing animates.

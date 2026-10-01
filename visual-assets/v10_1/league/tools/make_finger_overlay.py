@@ -9,13 +9,13 @@ import json
 import numpy as np
 from PIL import Image, ImageDraw, ImageFilter
 
-KEEP = (440, 425, 560, 480)
-# Daniel outline, clockwise, 1X plate px. Top edge = keep rect top; right edge follows the sleeve,
+KEEP = (440, 410, 560, 500)  # overlay rect: keep_rects[0] widened to the hand box rows (R2)
+# Daniel outline, clockwise, 1X plate px. Top edge = hand box top; right edge follows the sleeve,
 # the finger's upper edge, the fingertip and the finger's lower edge; then back down the sleeve.
 POLY = [
-    (440, 425), (509, 425), (509.5, 432), (510.5, 440.5), (516, 442), (523, 443.5), (529, 446),
+    (440, 410), (505, 410), (507, 417), (509, 425), (509.5, 432), (510.5, 440.5), (516, 442), (523, 443.5), (529, 446),
     (533, 448.5), (535, 451.5), (535.5, 455), (535, 459), (532, 462.5), (527, 464.5), (516, 465.5),
-    (506, 466), (502.5, 468), (502, 480), (440, 480),
+    (506, 466), (502.5, 468), (503, 480), (504, 487), (505, 500), (440, 500),
 ]
 FEATHER_1X = 1.5
 
@@ -41,7 +41,9 @@ def main():
         a = mask(scale)
         Image.fromarray(np.dstack([rgb, a]), "RGBA").save(f"assets/OVL_DANIEL_FINGER_V1_{tag}.png", optimize=True)
         stats[tag] = {"rect_plate_px": [x0, y0, x1, y1], "alpha_gt_0": int((a > 0).sum()), "alpha_gt_127": int((a > 127).sum())}
-    stats["keep_rect_1x"] = list(KEEP)
+    stats["overlay_rect_1x"] = list(KEEP)
+    stats["keep_rect_1x_brief"] = [440, 425, 560, 480]
+    stats["hand_box_1x"] = [330, 410, 560, 500]
     stats["polygon_1x"] = POLY
     stats["feather_px_1x"] = FEATHER_1X
     json.dump(stats, open("evidence/finger_overlay.json", "w"), indent=1)

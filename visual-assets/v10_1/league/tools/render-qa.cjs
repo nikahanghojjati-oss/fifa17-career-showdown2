@@ -19,7 +19,9 @@ const FRAMES = ["L1", "L2", "L3", "L4"];
 const VIEWS = [
   { vw: 1366, vh: 768, dpr: 1 }, { vw: 1440, vh: 900, dpr: 1 }, { vw: 1920, vh: 1080, dpr: 1 }, { vw: 1366, vh: 640, dpr: 1 },
   { vw: 1366, vh: 768, dpr: 2 },
-  { vw: 360, vh: 640, dpr: 2, phone: true }, { vw: 375, vh: 553, dpr: 2, phone: true }, { vw: 390, vh: 844, dpr: 2, phone: true }, { vw: 430, vh: 932, dpr: 2, phone: true },
+  { vw: 360, vh: 640, dpr: 2, phone: true }, { vw: 375, vh: 553, dpr: 2, phone: true, scrollAllowed: true }, { vw: 390, vh: 844, dpr: 2, phone: true }, { vw: 430, vh: 932, dpr: 2, phone: true },
+  // Nik's iPhone in Safari (visible area 393x660, DPR 3): no page scroll, Spin visible
+  { vw: 393, vh: 660, dpr: 3, phone: true },
 ];
 const shots = [];
 for (const f of FRAMES) for (const v of VIEWS) shots.push(Object.assign({ frame: f }, v));
@@ -54,8 +56,9 @@ const DECOR = [d.kicker, d.badge, d.script, d.footerTag, ...d.sloganLeft, ...d.s
     await page.waitForTimeout(250);
     const name = `${s.frame}_${s.vw}x${s.vh}${s.dpr > 1 && !s.phone ? "@2x" : ""}${s.grid ? "_grid" : ""}.jpg`;
     await page.screenshot({ path: path.join(out, name), type: "jpeg", quality: 88 });
+    if (s.scrollAllowed) await page.screenshot({ path: path.join(out, name.replace(".jpg", "_fullpage.jpg")), type: "jpeg", quality: 88, fullPage: true });
 
-    const r = await page.evaluate(({ want, decor, phone }) => {
+    const r = await page.evaluate(({ want, decor, phone, scrollAllowed }) => {
       const q = (x) => document.querySelector(x);
       const stage = q("#stage-root");
       const vis = (n) => { for (let e = n; e && e !== document.body; e = e.parentElement) { const cs = getComputedStyle(e); if (cs.display === "none" || cs.visibility === "hidden" || +cs.opacity === 0 || /rect\(0px,? 0px,? 0px,? 0px\)/.test(cs.clip)) return false; if (e.classList.contains("vh")) return false; } const b = n.getBoundingClientRect(); return b.width > 0 && b.height > 0; };
@@ -63,7 +66,7 @@ const DECOR = [d.kicker, d.badge, d.script, d.footerTag, ...d.sloganLeft, ...d.s
       // G1 visible text nodes
       const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
       const got = []; let tn;
-      while ((tn = walker.nextNode())) { const t = tn.textContent.trim(); if (!t || tn.parentElement.closest("script,style,svg")) continue; const rg = document.createRange(); rg.selectNodeContents(tn); const b = rg.getBoundingClientRect(); if (b.width < 1 || b.height < 1 || !vis(tn.parentElement)) continue; if (b.right < 0 || b.bottom < 0 || b.left > innerWidth || b.top > innerHeight) continue; got.push(t); }
+      while ((tn = walker.nextNode())) { const t = tn.textContent.trim(); if (!t || tn.parentElement.closest("script,style,svg")) continue; const rg = document.createRange(); rg.selectNodeContents(tn); const b = rg.getBoundingClientRect(); if (b.width < 1 || b.height < 1 || !vis(tn.parentElement)) continue; if (b.right < 0 || b.bottom < 0 || b.left > innerWidth || b.top > Math.max(innerHeight, document.documentElement.scrollHeight)) continue; got.push(t); }
       const missing = want.filter((w) => !got.includes(w));
       const extra = got.filter((g) => !want.includes(g) && !decor.includes(g));
       res.G1 = { visible: got, missing, extra };
@@ -88,7 +91,10 @@ const DECOR = [d.kicker, d.badge, d.script, d.footerTag, ...d.sloganLeft, ...d.s
       // G3 no scroll
       const de = document.documentElement, bd = document.body;
       res.G3 = { html: [de.scrollWidth, de.scrollHeight], body: [bd.scrollWidth, bd.scrollHeight], vp: [innerWidth, innerHeight] };
-      if (de.scrollHeight > innerHeight + 1 || de.scrollWidth > innerWidth + 1 || bd.scrollHeight > innerHeight + 1 || bd.scrollWidth > innerWidth + 1) res.fail.push("G3");
+      const vScroll = de.scrollHeight > innerHeight + 1 || bd.scrollHeight > innerHeight + 1, hScroll = de.scrollWidth > innerWidth + 1 || bd.scrollWidth > innerWidth + 1;
+      // 375x553: vertical page scroll allowed (decision LEAGUE-M2: only the primary action must be in the first view)
+      res.G3.verticalScroll = vScroll; res.G3.scrollAllowed = scrollAllowed;
+      if (hScroll || (vScroll && !scrollAllowed)) res.fail.push("G3");
       // G4 primary action
       const sp = q("#spinLeague"), sb = sp.getBoundingClientRect();
       const hit = document.elementFromPoint(sb.left + sb.width / 2, sb.top + sb.height / 2);
@@ -128,8 +134,14 @@ const DECOR = [d.kicker, d.badge, d.script, d.footerTag, ...d.sloganLeft, ...d.s
         if (min < 8) res.fail.push("G8:" + k);
       }
       // fingertip overlay registration (desktop, plate-registered) in CSS px and in device px
-      const fo = q(".finger-ovl"), kr = window.LEAGUE_MAP_FOR_QA.keep_rects[0];
-      if (vis(fo)) { const b = fo.getBoundingClientRect(), e = pr(kr); g8.fingerOverlay = { shown: true, note: "CSS px; Chromium LayoutUnit = 1/64 px, so <= 0.0157 is 0 device px", regErrPx: Math.max(Math.abs(b.left - e.l), Math.abs(b.top - e.t), Math.abs(b.right - e.r), Math.abs(b.bottom - e.b)) }; if (g8.fingerOverlay.regErrPx > 1 / 64 + 1e-6) res.fail.push("G8:overlay-registration"); }
+      const fo = q(".finger-ovl"), kr = window.LeagueV1.OVL_RECT;
+      if (vis(fo)) {
+        const b = fo.getBoundingClientRect(), e = pr(kr), d = devicePixelRatio;
+        const css = Math.max(Math.abs(b.left - e.l), Math.abs(b.top - e.t), Math.abs(b.right - e.r), Math.abs(b.bottom - e.b));
+        const dev = Math.max(...[[b.left, e.l], [b.top, e.t], [b.right, e.r], [b.bottom, e.b]].map(([x, y]) => Math.abs(Math.round(x * d) - Math.round(y * d))));
+        g8.fingerOverlay = { shown: true, rect: kr, regErrCssPx: Math.round(css * 1e4) / 1e4, regErrDevicePx: dev, note: "edges compared on the device-pixel grid; CSS-px residue is Chromium LayoutUnit (1/64 px) rounding of top and height" };
+        if (dev > 0) res.fail.push("G8:overlay-registration");
+      }
       else g8.fingerOverlay = { shown: false };
       res.G8 = g8;
       // G9 imagery: every image + CSS background URL
@@ -173,12 +185,12 @@ const DECOR = [d.kicker, d.badge, d.script, d.footerTag, ...d.sloganLeft, ...d.s
         const lead = Math.max(0, (parseFloat(cs.lineHeight) - parseFloat(cs.fontSize)) / 2) || 0; const b = { left: b0.left, right: b0.right, top: b0.top + lead, bottom: b0.bottom - lead }; const big = parseFloat(cs.fontSize) >= 24 || (parseFloat(cs.fontSize) >= 18.66 && +cs.fontWeight >= 700); g7.push({ el: n.id || n.className.split(" ")[0] || n.tagName, t: tnode.textContent.trim().slice(0, 28), rect: [b.left, b.top, b.right, b.bottom], color: n.matches("#leagueWheelScreen h2") ? "rgb(242, 196, 91)" : cs.color, large: big, quad: n.classList.contains("wheelItem") ? quadOf(n) : null }); });
       res.__g7 = g7;
       return res;
-    }, { want: expectedStrings(s.frame, !!s.phone), decor: DECOR, phone: !!s.phone }).catch((e) => ({ fail: ["eval " + e] }));
+    }, { want: expectedStrings(s.frame, !!s.phone), decor: DECOR, phone: !!s.phone, scrollAllowed: !!s.scrollAllowed }).catch((e) => ({ fail: ["eval " + e] }));
 
     // G7 contrast: hide all text, screenshot, then brightest (light text) / darkest (dark text) pixel under each glyph run
     await page.addStyleTag({ content: "*{color:transparent!important;-webkit-text-fill-color:transparent!important;text-shadow:none!important} #leagueWheelScreen h2{background:none!important;filter:none!important}" });
     await page.waitForTimeout(80);
-    const png = (await page.screenshot({ type: "png" })).toString("base64");
+    const png = (await page.screenshot({ type: "png", fullPage: true })).toString("base64");   // page coords = rects at scroll 0
     r.G7 = await page.evaluate(async ({ png, items, dpr }) => {
       const img = new Image(); img.src = "data:image/png;base64," + png; await img.decode();
       const cv = document.createElement("canvas"); cv.width = img.width; cv.height = img.height; const c2 = cv.getContext("2d"); c2.drawImage(img, 0, 0);
@@ -193,7 +205,8 @@ const DECOR = [d.kicker, d.badge, d.script, d.footerTag, ...d.sloganLeft, ...d.s
         const inQuad = (px, py) => { if (!it.quad) return true; const Q = it.quad.map(([a, b]) => [a * dpr, b * dpr]); let s = 0; for (let k = 0; k < 4; k++) { const [ax, ay] = Q[k], [bx, by] = Q[(k + 1) % 4]; const c = (bx - ax) * (py - ay) - (by - ay) * (px - ax); if (c !== 0) { if (s === 0) s = Math.sign(c); else if (Math.sign(c) !== s) return false; } } return true; };
         for (let i = 0; i < d.length; i += 4) { const pxl = (i / 4) % (x1 - x0) + x0, pyl = Math.floor(i / 4 / (x1 - x0)) + y0; if (!inQuad(pxl + .5, pyl + .5)) continue; const l = lum(d[i], d[i + 1], d[i + 2]); ext = light ? Math.max(ext, l) : Math.min(ext, l); }
         const ratio = (Math.max(lt, ext) + 0.05) / (Math.min(lt, ext) + 0.05);
-        return { el: it.el, t: it.t, large: it.large, ratio: Math.round(ratio * 100) / 100, need: it.large ? 3 : 4.5 };
+        const need = it.el === "wheelItem" ? 4.5 : it.large ? 3 : 4.5;   // every league label must reach 4.5:1 (LEAGUE-M2)
+        return { el: it.el, t: it.t, large: it.large, ratio: Math.round(ratio * 100) / 100, need };
       });
     }, { png, items: r.__g7 || [], dpr: s.dpr });
     delete r.__g7;

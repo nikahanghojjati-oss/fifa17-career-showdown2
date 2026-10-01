@@ -1,23 +1,24 @@
 {
  "wheel_paint_radius_plate_px": 268,
  "rim_radius_plate_px": 240,
- "daniel_px_under_wheel_paint": 1264,
- "of_which_restored_by_overlay_alpha_ge_0_5": 1038,
- "daniel_px_under_wheel_paint_not_restored": 226,
- "not_restored_bbox": [
-  494,
-  421,
-  506,
+ "overlay_rect_1x": [
+  440,
+  410,
+  560,
   500
  ],
- "not_restored_note": "sleeve-edge pixels outside keep_rects[0] (overlay is confined to the keep rect by W2); dark bezel over dark sleeve",
- "old_rim_remnant_px": 2644,
- "old_rim_remnant_visible_outside_wheel_paint": 1,
- "old_rim_remnant_restored_by_overlay": 232,
- "remnant_visible_bbox": [
+ "wheel_paint_px_in_hand_box": 5479,
+ "restored_by_overlay_alpha_ge_0_5": 1255,
+ "not_restored_old_rim_remnant_px": 2631,
+ "not_restored_background_glow_px": 1571,
+ "not_restored_other_px": 22,
+ "other_bbox": [
+  503,
+  467,
   506,
-  414,
-  507,
-  415
- ]
+  485
+ ],
+ "old_rim_remnant_px_total": 2631,
+ "old_rim_remnant_visible_outside_wheel_paint": 0,
+ "below_hand_box_dark_sleeve_px_under_wheel_paint": 240
 }
