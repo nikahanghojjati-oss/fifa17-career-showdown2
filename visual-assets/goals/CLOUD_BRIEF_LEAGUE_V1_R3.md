@@ -3,7 +3,7 @@ Surface: claude.ai/code, repository `nikahanghojjati-oss/fifa17-career-showdown2
 Model: **Opus 5.5** · Effort: **High**. If Opus 5.5 is not offered, STOP and tell Nik. No automatic fallback.
 Branch: `claude-cloud/league-v1` (cut by the HLC intake session from `claude-cloud/transfer-tr2-plate-g@8fbda03`, the expected base recorded in `assets/intake_report.md`). Start with `git fetch origin claude-cloud/league-v1 && git checkout claude-cloud/league-v1`. If the branch or `visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_1X.webp` is missing, STOP and reply "League plate not committed yet".
 Dependency (SOL-HLC-3): **run only after the crest set is accepted.** The crests and league marks come from the crest build (`CC_CREST_BUILD_BRIEF_V2.md` and its owner-gate revision, branch `claude-cloud/crest-v1`). After Claude's visual check, Sol's clearance and Nik's final look, the accepted commit is recorded as:
-`ACCEPTED_CREST_SHA=<full 40-char SHA, filled in by Nik or Claude before launch>`
+`ACCEPTED_CREST_SHA=f1cfff4cc79278ac1f93cd4bff58700eadd58cf9` (Frozen 2026-10-01: Sol PASS (S2C-000) + Nik owner OK.)
 After checking out your branch: `git fetch origin claude-cloud/crest-v1`, verify with `git cat-file -e $ACCEPTED_CREST_SHA^{commit}` that this exact commit exists, then `git merge --no-edit $ACCEPTED_CREST_SHA` (a merge commit; never rebase; never merge the floating branch head, even if it has moved). If the SHA line above is still a placeholder, the commit is missing, or `js/visualIdentity.js` after the merge has no `window.getLeagueMark`, STOP and reply "Accepted crest SHA not available".
 Role: build and produce evidence. No taste authority. No self-approval.
 Return to: GPT-5.6 Sol (via Nik), and Claude in the project chat.
@@ -24,6 +24,7 @@ Changelog:
 - R3 2026-10-01: D1, D2 (via intake), D6, D8 (see FOR_SOL change log).
 - R3.1 2026-10-01: Sol R3.1-1..5 applied
 - R3.2 2026-10-01: Sol verdict B D9–D11 merged with R3.1
+- R3.3 2026-10-01: ACCEPTED_CREST_SHA frozen; OWNER-3 pack rip
 Product-truth sign-off: `PENDING · GPT-5.6 Sol R3 quick check` (run only after Sol OKs R3, the intake has committed this plate, and ACCEPTED_CREST_SHA is filled in)
 
 ## 0. Intent
