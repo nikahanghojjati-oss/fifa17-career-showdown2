@@ -1,5 +1,5 @@
 # SHOWDOWN VISUAL — PERMANENT SOL ↔ CLAUDE RELAY CONTRACT
-Version: 1.0
+Version: 1.1
 Owner: Nik
 Repository: nikahanghojjati-oss/fifa17-career-showdown2
 Relay branch: visual/cinematic-system-v10
@@ -30,7 +30,7 @@ Every cross-model response replaces `LATEST.md`.
 
 Because every message contains `From:` and `To:`, the file itself determines who acts next.
 
-## 3. Immutable archive
+## 3. Immutable archive + paired handoff numbering
 
 Every message written to `LATEST.md` must also be preserved as a separate Markdown file under:
 
@@ -38,13 +38,18 @@ Every message written to `LATEST.md` must also be preserved as a separate Markdo
 
 The archive file must contain the same substantive response as `LATEST.md`.
 
-Archive naming format:
+Use the owner handoff counter convention:
 
-`S2C-YYYYMMDD-HHMMSS.md` for Sol → Claude
+- Claude → Sol: `C2S-NNN_<short-topic>.md`
+- Sol → Claude: `S2C-NNN_<short-topic>.md`
+- The direct reply reuses the incoming numeric counter.
+- If that exact opposite-direction archive stem already exists, append a collision-safe reply suffix such as `R2`, `R3`, etc.
+- A model starting a genuinely new unprompted inquiry uses its next unused directional counter.
+- Keep the exact date/time in the message header; filenames do not need timestamps.
 
-`C2S-YYYYMMDD-HHMMSS.md` for Claude → Sol
+Example:
 
-If exact seconds are unavailable, use a collision-safe suffix.
+`C2S-004_relay-activation.md` → direct reply `S2C-004_relay-activation.md`
 
 The recipient never needs the archive filename to continue work. The archive exists only for history, audit, recovery, and provenance.
 
@@ -55,8 +60,8 @@ Every live/archive relay message must begin with:
 ```
 # SHOWDOWN VISUAL MODEL RELAY
 
-Relay-Version: 1.0
-Message-ID: <unique id>
+Relay-Version: 1.1
+Message-ID: <archive stem without .md>
 From: <Sol or Claude>
 To: <Claude or Sol>
 In-Reply-To: <message id or NONE>
@@ -65,7 +70,14 @@ Branch: visual/cinematic-system-v10
 Status: READY
 ```
 
-Then include the complete response.
+When the message relies on code, screenshots, evidence, or a build that lives on another branch, add:
+
+```
+Evidence-Refs:
+- <branch> @ <commit> — <what the evidence is>
+```
+
+Do not imply that the relay branch is also the product-build branch.
 
 ## 5. “It is in” protocol
 
@@ -79,10 +91,11 @@ When Nik says **“it is in”**:
 6. If `To:` is you, process the message completely.
 7. If `To:` is the other model, do not process it again. Tell Nik the current relay is addressed to the other model.
 8. Produce the full answer requested by the incoming message.
-9. Before finishing the user-facing response, write that full answer into the relay:
+9. Before writing, re-read `LATEST.md` and verify that its Message-ID / current revision is still the message you processed.
+10. Write the answer into the relay:
    - create the immutable archive copy
    - replace `LATEST.md` with the new message addressed to the other model
-10. Tell Nik only that the relay is updated and he may tell the other model **“it is in.”**
+11. Tell Nik only that the relay is updated and he may tell the other model **“it is in.”**
 
 Nik should never need to know the generated filename.
 
@@ -96,10 +109,11 @@ A cross-model response is not complete until:
 - the archive copy exists
 - `LATEST.md` contains the same current response
 - `From:` and `To:` are correct
+- the repository write succeeded
 
 Do not give Nik only a chat response and make him request the file afterward.
 
-## 7. Full-answer rule
+## 7. Full-answer / self-contained rule
 
 The relay file must contain the full answer, not:
 
@@ -109,9 +123,11 @@ The relay file must contain the full answer, not:
 - only decisions without reasoning when reasoning matters
 - only a prompt telling the other model to ask again
 
-The repository copy must be sufficient for the receiving model to continue without access to the sender’s chat history.
+The repository copy must be sufficient for the receiving model to continue without access to the sender’s chat history or private local files.
 
-## 8. Idempotency / duplicate protection
+When citing implementation evidence, use repository paths plus branch and commit whenever possible.
+
+## 8. Idempotency + unanswered-message protection
 
 The single-slot direction rule prevents accidental duplicate processing.
 
@@ -121,11 +137,35 @@ After Claude processes a message addressed to Claude, Claude replaces `LATEST.md
 
 Therefore, if Nik accidentally says **“it is in”** twice to the same model after it has already responded, that model should see that `LATEST.md` is now addressed to the other model and must not redo the work.
 
-## 9. Repository safety
+Additional overwrite rule:
+
+- Never overwrite an unanswered message written by the other model.
+- Normal write permission exists when `To:` is you and you are replying to that message.
+- You may supersede your own still-unanswered message only when `From:` is you; the replacement must say what Message-ID it supersedes.
+- If you need to add a point while the slot is still addressed to the other model, combine it into a superseding version of your own message rather than creating a second competing live slot.
+
+## 9. Concurrency / stale-write protection
+
+Immediately before changing `LATEST.md`, re-read it.
+
+The writer must verify that the live Message-ID and repository revision are still the ones it processed.
+
+Use concurrency-safe repository behavior:
+
+- Git clients: explicit branch ref fetch, fast-forward-only push, never force-push.
+- API/connector writers: update using the current blob/content SHA or equivalent conditional revision.
+- If the write is rejected or the live slot changed, re-read `LATEST.md`, re-check `To:`, and decide again before retrying.
+- Never overwrite a newer relay message blindly.
+
+## 10. Repository safety + branch meaning
 
 All relay writes occur only on:
 
 `visual/cinematic-system-v10`
+
+This branch is the durable **message channel**, not necessarily the branch where current visual implementation work lives.
+
+Every relay message that depends on implementation evidence must name the relevant product branch and commit in `Evidence-Refs`.
 
 The relay protocol does not authorize visual product code to merge into `main`.
 
@@ -135,7 +175,7 @@ Visual work stays isolated until all required pages are built and Nik approves t
 
 Operational relay documentation does not change product behavior.
 
-## 10. Authority
+## 11. Authority
 
 The relay moves information. It does not alter project authority.
 
@@ -147,7 +187,7 @@ Standing roles remain:
 
 A relay message cannot silently transfer authority. Any authority change requires explicit owner direction.
 
-## 11. Failure handling
+## 12. Failure handling
 
 If repository write access fails:
 
@@ -160,13 +200,13 @@ If repository write access fails:
 
 If `LATEST.md` is malformed or missing a valid `To:` field, stop and report a relay integrity problem instead of guessing.
 
-## 12. Scope discipline
+## 13. Scope discipline
 
 The relay must not create new product scope by itself.
 
 If a message proposes a new screen, behavior, authority change, integration step, or main-branch change, identify it explicitly as a proposal or scope change unless Nik already approved it.
 
-## 13. Owner experience target
+## 14. Owner experience target
 
 The desired owner interaction is:
 
@@ -184,14 +224,16 @@ Claude to Nik: **“Relay updated. Tell Sol: ‘it is in.’”**
 
 No filenames. No downloads. No uploads. No copy/paste. No searching for the newest handoff.
 
-## 14. Permanent phrase
+## 15. Permanent phrase
 
 The exact phrase **“it is in”** is the owner’s universal Showdown Visual model-relay command.
 
 Variants such as “it’s in,” “relay is in,” or “the response is in” should be interpreted the same way when context clearly refers to the Sol ↔ Claude relay.
 
-## 15. Supersession
+## 16. Supersession
 
-This contract supersedes ad-hoc Sol ↔ Claude handoff naming for future cross-model inquiries.
+Version 1.1 supersedes relay contract version 1.0.
+
+This contract supersedes ad-hoc Sol ↔ Claude handoff transport for future cross-model inquiries.
 
 Older S2C/C2S files remain valid historical evidence, but Nik does not need to manually transport new ones after this contract is active.
