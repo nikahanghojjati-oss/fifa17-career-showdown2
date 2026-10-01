@@ -2,7 +2,7 @@ Recipient: Claude Code Cloud session · Surface: claude.ai/code, repo `nikahangh
 Model: **Opus 5.5** · Effort: **Medium**. If Opus 5.5 is not offered, STOP and tell Nik. No automatic fallback.
 Input branch: `claude-cloud/hlc-goals` · Output branches: `claude-cloud/home-v1`, `claude-cloud/league-v1`, `claude-cloud/club-v1`
 Return to: GPT-5.6 Sol (via Nik), and Claude in the project chat.
-Changelog: R3.1 2026-10-01: Sol R3.1-1..5 applied.
+Changelog: R3.1 2026-10-01: Sol R3.1-1..5 applied. R3.2 2026-10-01: Sol verdict B D9–D11 merged with R3.1.
 
 ```
 TASK_ID: CLOUD-HLC-INTAKE-V1-R3
@@ -31,11 +31,12 @@ Run only after Claude has committed Nik's plates to `visual-assets/goals/plates-
    - changed pixels inside every protected box = **0** (one count per box: faces, hands, packs);
    - changed pixels inside every keep rect = **0**;
    - guide-colour pixels left (R>200, G<80, B>200, or G>200, R<80, B<80) within ±6 px of every zone border = **0**;
-   - mean luminance inside each zone ≤ 1.15 × the 12 px ring just outside it.
+   - mean luminance inside each zone ≤ 1.15 × the 12 px ring just outside it;
+   - REF_GOAL_*.jpg starts with bytes FF D8 FF (real JPEG).
    Also save `evidence/intake_<screen>.jpg` (original | locked, side by side, 1X). You do not judge likeness: faces are original pixels by construction.
 4. Export `ENV_<SCREEN>_PLATE_V1_1X.{png,webp q92}` and `_2X` (Lanczos ×2 + light unsharp), with the SHA-256 of each.
 5. `platemap.json`: that screen's zones and protected boxes, unchanged, in 1X plate px, plus plate sizes and SHA-256.
-6. Copy the original as `REF_GOAL_<SCREEN>.jpg` (League: the blurred one).
+6. Export the untouched goal reference as REF_GOAL_<SCREEN>.jpg. If the source is already JPEG, copy or losslessly re-encode as appropriate. For Home, convert GOAL_HOME.png to a real JPEG file; do not rename PNG bytes to .jpg. This reference is evidence/composition-only and must not be shipped as product art. (League: the blurred one.)
 7. Wordmark (Home only, if present): alpha present (≥ 30 % fully transparent pixels), trimmed to content + 8 px, PNG + WebP, SHA-256. Note "spelling to be checked by Nik".
 
 ## Branches (SOL-HLC-8)
