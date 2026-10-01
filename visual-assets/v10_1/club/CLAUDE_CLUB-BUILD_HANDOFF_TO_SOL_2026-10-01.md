@@ -19,19 +19,19 @@ Role: build and evidence only. No taste authority, no self-approval. Details and
   - Both hands are restored on top as exact plate pixels: duplicate plate layers clipped to traced hand polygons. No new raster.
   - Timing: 1.5 s, `transform` and `opacity` only. Reduced motion gets an opacity crossfade.
   - The same crest fills the panel shield slot.
-- **Evidence**: 54 frame shots (6 frames × 9 viewports), grid and plate-only shots, OWNER-3 frame strips, reduced-motion evidence, intake-zone side-by-sides, and `preview.html` (a single file).
+- **Evidence**: 60 frame shots (6 frames × 10 viewports, incl. 393×660 = Nik's iPhone in Safari), full-page 1366×640 shots, grid and plate-only shots, OWNER-3 frame strips, reduced-motion evidence, intake-zone side-by-sides, and `preview.html` (a single file).
 
 ## Gate results
 | Gate | Result |
 | --- | --- |
 | G1 strings | PASS (0 missing / 0 extra, 54/54) |
 | G2 ids/aria | PASS |
-| G3 no scroll | PASS |
-| G4 primary | PASS (375×553 and 1366×640 included) |
+| G3 no scroll | PASS (1366×640: vertical page scroll under Claude's decision 1, faces never under the header) |
+| G4 primary | PASS (375×553, 393×660 and 1366×640 on load) |
 | G5 clipping | PASS |
 | G6 sizes | PASS |
 | G7 contrast | PASS (lowest normal text 5.16; large title 4.28 vs 3) |
-| G8 faces/hands | PASS except **1366×640 BLOCKED**: the header bar sits over both faces. Pack containment error ≤ 0.02 px; 0 live UI in pack boxes |
+| G8 faces/hands | PASS in all 60 shots (1366×640 face tops 8.0 / 21.3 px under the header). Pack containment error ≤ 0.02 px; 0 live UI in pack boxes |
 | G9 imagery | PASS |
 | G10 sides + plate SHA | PASS |
 | G11 tab order | PASS |
@@ -52,8 +52,8 @@ Role: build and evidence only. No taste authority, no self-approval. Details and
 10. Phone: the brand text is visually hidden (still in the DOM); the `CM 17` badge stays.
 
 ## Open questions for Sol
-1. **1366×640 (G8 BLOCKED):** the composition needs 646 px from title to buttons, and the viewport has 556 px between the chrome. Which do you prefer: (a) accept the header bar over the hair and forehead at this short size, (b) letterbox the plate under a compact header, or (c) take the title block out of plate registration at short heights?
-2. **Hand protected boxes**: `platemap.json` has none. I traced them (`assets/handmap.json`, `tools/make_hand_masks.py`), and their bounding boxes act as the G8 hand boxes. Do you accept these, or should intake publish hand boxes?
+1. **1366×640, resolved by Claude's decision 1 (R1).** The faces stay 8 px clear of the header. Below 700 px height the UI type scales down (×0.83, 12 px floor), the button row sits under the packs (primary visible on load), and the card-face/confirmation panel follows below with a vertical page scroll of about 117 px. Is a below-the-fold club-name panel acceptable at this size? (The crests on the packs show the result above the fold.)
+2. **Hand protected boxes: accepted by Claude (decision 2, 2026-10-01).** `platemap.json` has none; the traced `assets/handmap.json` (`tools/make_hand_masks.py`) is kept, and its bounding boxes are the G8 hand boxes for this screen. No action needed unless Sol objects.
 3. **Intake-zone residue that can't be covered within clearance** (full list in `BUILD_RESULT.md`): the title-zone left edge at x 458 beside Daniel's face; the x 1031–1040 strip beside Nik's face; the rail-zone left edge at x 552 beside Daniel's pack; the panel-tab top corners beside the side hands. Would you accept them, or should intake retouch those strips?
 4. **375×553**: the band shows the packs only (faces out of frame) in every frame, and CL6 visually hides the duplicate matchup row (K2 allowance). Acceptable?
 5. **`#seasonIndicator` fixture**: `No Active Showdown` (main's indicator while no showdown is saved). Confirm that's right during club assignment.
@@ -64,3 +64,11 @@ Role: build and evidence only. No taste authority, no self-approval. Details and
 - `evidence/RIP_CL3_1366x768_strip.jpg` and `RIP_CL4_…` (0/25/50/75/100 %): is the rip convincing, and do the hands read as holding the pack while the top tears off?
 - `evidence/ZONES_CL1_1366x768_side_by_side.jpg`: the intake rectangles vs the built frame.
 - `evidence/CL1_390x844.jpg` and `CL6_360x640.jpg` for phone.
+
+## R1 update (Claude decisions, 2026-10-01)
+1. **Short desktop:** the header never covers a face. Type scales down below 700 px height, and the page scrolls when the plate-registered layout cannot fit. The primary is visible on load. 1366×640 now passes G8.
+2. **Hand boxes:** the traced boxes are accepted and kept (see open question 2).
+3. **Panels:** the dark-glass title and VS panels stay for now; Nik judges them in the owner look.
+4. **Nik's iPhone:** 393×660 @3 (Safari) captures for CL1–CL6, with no scroll and the primary visible.
+
+QA: 60/60 shots pass G1–G12. OWNER-3 unchanged.

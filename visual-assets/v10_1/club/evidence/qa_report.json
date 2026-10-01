@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-01T22:28:58.708Z",
+ "generated": "2026-10-01T22:41:23.387Z",
  "base": "http://127.0.0.1:8765/visual-assets/v10_1/club/",
  "intakeSha": {
   "ENV_CLUB_PLATE_V1_1X.png": "24549db363c032ab37e8717649835cfe0f3f79a7778e0fd3ea84e1369f8ce76c",
@@ -114,6 +114,7 @@
      768
     ],
     "pass": true,
+    "shortDesktopScroll": false,
     "sectionOverflow": 0
    },
    "G4": {
@@ -1122,6 +1123,7 @@
      768
     ],
     "pass": true,
+    "shortDesktopScroll": false,
     "sectionOverflow": 0
    },
    "G4": {
@@ -2109,6 +2111,7 @@
      768
     ],
     "pass": true,
+    "shortDesktopScroll": false,
     "sectionOverflow": 0
    },
    "G4": {
@@ -3102,6 +3105,7 @@
      768
     ],
     "pass": true,
+    "shortDesktopScroll": false,
     "sectionOverflow": 0
    },
    "G4": {
@@ -4104,6 +4108,7 @@
      768
     ],
     "pass": true,
+    "shortDesktopScroll": false,
     "sectionOverflow": 0
    },
    "G4": {
@@ -5144,6 +5149,7 @@
      768
     ],
     "pass": true,
+    "shortDesktopScroll": false,
     "sectionOverflow": 0
    },
    "G4": {
@@ -6201,6 +6207,7 @@
      900
     ],
     "pass": true,
+    "shortDesktopScroll": false,
     "sectionOverflow": 0
    },
    "G4": {
@@ -7195,6 +7202,7 @@
      900
     ],
     "pass": true,
+    "shortDesktopScroll": false,
     "sectionOverflow": 0
    },
    "G4": {
@@ -8168,6 +8176,7 @@
      900
     ],
     "pass": true,
+    "shortDesktopScroll": false,
     "sectionOverflow": 0
    },
    "G4": {
@@ -9147,6 +9156,7 @@
      900
     ],
     "pass": true,
+    "shortDesktopScroll": false,
     "sectionOverflow": 0
    },
    "G4": {
@@ -10135,6 +10145,7 @@
      900
     ],
     "pass": true,
+    "shortDesktopScroll": false,
     "sectionOverflow": 0
    },
    "G4": {
@@ -11161,6 +11172,7 @@
      900
     ],
     "pass": true,
+    "shortDesktopScroll": false,
     "sectionOverflow": 0
    },
    "G4": {
@@ -12204,6 +12216,7 @@
      1080
     ],
     "pass": true,
+    "shortDesktopScroll": false,
     "sectionOverflow": 0
    },
    "G4": {
@@ -13212,6 +13225,7 @@
      1080
     ],
     "pass": true,
+    "shortDesktopScroll": false,
     "sectionOverflow": 0
    },
    "G4": {
@@ -14199,6 +14213,7 @@
      1080
     ],
     "pass": true,
+    "shortDesktopScroll": false,
     "sectionOverflow": 0
    },
    "G4": {
@@ -15192,6 +15207,7 @@
      1080
     ],
     "pass": true,
+    "shortDesktopScroll": false,
     "sectionOverflow": 0
    },
    "G4": {
@@ -16194,6 +16210,7 @@
      1080
     ],
     "pass": true,
+    "shortDesktopScroll": false,
     "sectionOverflow": 0
    },
    "G4": {
@@ -17234,6 +17251,7 @@
      1080
     ],
     "pass": true,
+    "shortDesktopScroll": false,
     "sectionOverflow": 0
    },
    "G4": {
@@ -18186,14 +18204,12 @@
    }
   },
   {
-   "fail": [
-    "G8"
-   ],
+   "fail": [],
    "frame": "CL1",
    "T": {
     "k": 0.88932,
     "offX": 0,
-    "offY": -113.91,
+    "offY": 6.19,
     "mode": "desktop"
    },
    "G1": {
@@ -18210,6 +18226,7 @@
      "BACK",
      "CAREER DRAW",
      "CAREER MODE",
+     "CAREER MODE SHOWDOWN 17",
      "CLUB ASSIGNMENT",
      "CM 17",
      "Career Mode Showdown",
@@ -18281,26 +18298,28 @@
    "G3": {
     "html": [
      1366,
-     640
+     757
     ],
     "body": [
      1366,
-     640
+     0
     ],
     "inner": [
      1366,
      640
     ],
     "pass": true,
+    "shortDesktopScroll": true,
+    "waiver": "decision 1: vertical scroll allowed on short desktop",
     "sectionOverflow": 0
    },
    "G4": {
     "id": "openClubPack",
     "rect": [
-     373,
-     554,
-     400,
-     56
+     424.7,
+     549,
+     333.3,
+     46.7
     ],
     "inside": true,
     "hitOk": true,
@@ -18319,13 +18338,13 @@
      },
      {
       "id": "openClubPack",
-      "w": 400,
-      "h": 56
+      "w": 333.3,
+      "h": 46.7
      },
      {
       "id": "clubAssignmentBack",
-      "w": 200,
-      "h": 56
+      "w": 166.7,
+      "h": 46.7
      }
     ],
     "smallText": [],
@@ -18336,30 +18355,24 @@
     "face": {
      "face_daniel": {
       "onScreen": true,
-      "minClearancePx": 2.1,
+      "minClearancePx": 33.9,
       "nearest": "text:SHOWDOWN // 17",
-      "intersections": [
-       "text:SHOWDOWN // 17 d=2.1"
-      ],
+      "intersections": [],
       "coverHits": []
      },
      "face_nik": {
       "onScreen": true,
-      "minClearancePx": 0,
-      "nearest": "text:SIGN IN",
-      "intersections": [
-       "text:SIGN IN d=0.0",
-       "text:No Active Showdown d=0.0",
-       "control:onlinePlayerIdentityBadge d=0.0"
-      ],
+      "minClearancePx": 16.5,
+      "nearest": "control:onlinePlayerIdentityBadge",
+      "intersections": [],
       "coverHits": []
      }
     },
     "hand": {
      "hand_daniel_top": {
       "onScreen": true,
-      "minClearancePx": 95.2,
-      "nearest": "text:SHOWDOWN // 17",
+      "minClearancePx": 125.6,
+      "nearest": "panel:.clubAssignmentHeader",
       "intersections": [],
       "coverHits": []
      },
@@ -18372,15 +18385,15 @@
      },
      "hand_nik_top": {
       "onScreen": true,
-      "minClearancePx": 89.4,
-      "nearest": "control:onlinePlayerIdentityBadge",
+      "minClearancePx": 132.7,
+      "nearest": "text:05 LOCK",
       "intersections": [],
       "coverHits": []
      },
      "hand_nik_side": {
       "onScreen": true,
-      "minClearancePx": 44.5,
-      "nearest": "panel:.clubVs",
+      "minClearancePx": 21.7,
+      "nearest": "control:clubAssignmentBack",
       "intersections": [],
       "coverHits": []
      }
@@ -18388,35 +18401,29 @@
     "pack": {
      "pack_daniel": {
       "onScreen": true,
-      "minClearancePx": 18,
-      "nearest": "text:Daniel",
+      "minClearancePx": 11,
+      "nearest": "control:openClubPack",
       "intersections": [],
       "coverHits": []
      },
      "pack_nik": {
       "onScreen": true,
-      "minClearancePx": 18,
-      "nearest": "text:Nik",
+      "minClearancePx": 11,
+      "nearest": "control:clubAssignmentBack",
       "intersections": [],
       "coverHits": []
      }
     },
     "coverHits": {},
     "headerBand": {
-     "face_daniel": -98.8,
-     "face_nik": -112.1
+     "face_daniel": 21.3,
+     "face_nik": 8
     },
-    "headerBandOverlap": [
-     "face_daniel -98.8",
-     "face_nik -112.1"
-    ],
+    "headerBandOverlap": [],
     "revealContainment": [],
     "phoneFaceFraming": {},
-    "pass": false,
-    "failing": [
-     "text:SHOWDOWN // 17",
-     "text:SIGN IN"
-    ]
+    "pass": true,
+    "failing": []
    },
    "G9": {
     "loaded": [
@@ -18432,36 +18439,36 @@
      {
       "a": "#clubPlayerOne",
       "b": "#clubPlayerTwo",
-      "one": 292.8,
-      "two": 987.4,
+      "one": 271.6,
+      "two": 968.4,
       "ok": true
      },
      {
       "a": "#clubNameOne",
       "b": "#clubNameTwo",
-      "one": 363,
-      "two": 1070.9,
+      "one": 358.4,
+      "two": 1066.3,
       "ok": true
      },
      {
       "a": "#clubCardStateOne",
       "b": "#clubCardStateTwo",
-      "one": 363,
-      "two": 1070.9,
+      "one": 358.4,
+      "two": 1066.3,
       "ok": true
      },
      {
       "a": "#clubCardOne .clubRevealIndex",
       "b": "#clubCardTwo .clubRevealIndex",
-      "one": 245.1,
-      "two": 954.1,
+      "one": 233,
+      "two": 941.9,
       "ok": true
      },
      {
       "a": "#clubCardOne .shieldSlot",
       "b": "#clubCardTwo .shieldSlot",
-      "one": 195.2,
-      "two": 903.1,
+      "one": 190.5,
+      "two": 898.4,
       "ok": true
      },
      {
@@ -18549,7 +18556,7 @@
     "footer": {
      "box": [
       0,
-      612,
+      729,
       1366,
       28
      ],
@@ -18571,85 +18578,91 @@
     },
     {
      "t": "CAREER MODE",
-     "ratio": 14.57,
+     "ratio": 15.28,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "SHOWDOWN // 17",
-     "ratio": 5.92,
+     "ratio": 6.31,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "SIGN IN",
-     "ratio": 14.8,
+     "ratio": 15.19,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "No Active Showdown",
-     "ratio": 14.56,
+     "ratio": 15.03,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "More Than A Game",
-     "ratio": 7.27,
+     "ratio": 11.85,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "CAREER MODE SHOWDOWN 17",
+     "ratio": 13.24,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "CLUB ASSIGNMENT",
-     "ratio": 4.31,
+     "ratio": 5.07,
      "need": 3,
      "pass": true
     },
     {
      "t": "LEAGUE CONFIRMED",
-     "ratio": 13.89,
+     "ratio": 12.08,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "Premier League",
-     "ratio": 9.85,
+     "ratio": 8.24,
      "need": 3,
      "pass": true
     },
     {
      "t": "LEAGUE CONFIRMED · TWO SEALED CL",
-     "ratio": 14.09,
+     "ratio": 13.7,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "01 DRAW",
-     "ratio": 8.24,
+     "ratio": 8.14,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "02 PACK 1",
-     "ratio": 8.12,
+     "ratio": 8.01,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "03 PACK 2",
-     "ratio": 8.12,
+     "ratio": 7.96,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "04 VS",
-     "ratio": 8.18,
+     "ratio": 8.06,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "05 LOCK",
-     "ratio": 8.14,
+     "ratio": 8.12,
      "need": 4.5,
      "pass": true
     },
@@ -18661,43 +18674,43 @@
     },
     {
      "t": "Daniel",
-     "ratio": 16.25,
-     "need": 3,
+     "ratio": 16.42,
+     "need": 4.5,
      "pass": true
     },
     {
      "t": "CAREER DRAW",
-     "ratio": 8.88,
+     "ratio": 8.57,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "ASSIGNED CLUB",
-     "ratio": 8.5,
+     "ratio": 8.38,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "?",
-     "ratio": 16.61,
+     "ratio": 16.17,
      "need": 3,
      "pass": true
     },
     {
      "t": "SEALED",
-     "ratio": 5.27,
+     "ratio": 5.28,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "RIVALRY",
-     "ratio": 16,
+     "ratio": 16.04,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "VS",
-     "ratio": 6.09,
+     "ratio": 6.16,
      "need": 3,
      "pass": true
     },
@@ -18709,50 +18722,50 @@
     },
     {
      "t": "Nik",
-     "ratio": 16.37,
-     "need": 3,
+     "ratio": 16.26,
+     "need": 4.5,
      "pass": true
     },
     {
      "t": "CAREER DRAW",
-     "ratio": 8.82,
+     "ratio": 8.43,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "ASSIGNED CLUB",
-     "ratio": 8.84,
+     "ratio": 8.71,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "?",
-     "ratio": 16.48,
+     "ratio": 15.68,
      "need": 3,
      "pass": true
     },
     {
      "t": "SEALED",
-     "ratio": 5.23,
+     "ratio": 5.35,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "VS",
-     "ratio": 11.46,
+     "ratio": 11.52,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "OPEN SHOWDOWN PACKS",
      "ratio": 10.67,
-     "need": 3,
+     "need": 4.5,
      "pass": true
     },
     {
      "t": "BACK",
-     "ratio": 16.68,
-     "need": 3,
+     "ratio": 16.19,
+     "need": 4.5,
      "pass": true
     },
     {
@@ -18769,7 +18782,7 @@
     }
    ],
    "G7summary": {
-    "checked": 34,
+    "checked": 35,
     "failing": []
    },
    "G11": {
@@ -18785,6 +18798,7 @@
     ],
     "pass": true
    },
+   "fullPageShot": "CL1_1366x640_fullpage.jpg",
    "zones": [
     {
      "zone": [
@@ -18807,8 +18821,15 @@
        "segments": []
       },
       "B": {
-       "visiblePlatePx": 0,
-       "segments": []
+       "visiblePlatePx": 216,
+       "segments": [
+        [
+         250,
+         78,
+         464,
+         78
+        ]
+       ]
       }
      }
     },
@@ -18821,8 +18842,15 @@
      ],
      "edges": {
       "L": {
-       "visiblePlatePx": 0,
-       "segments": []
+       "visiblePlatePx": 8,
+       "segments": [
+        [
+         1192,
+         58,
+         1192,
+         64
+        ]
+       ]
       },
       "R": {
        "visiblePlatePx": 0,
@@ -18833,8 +18861,15 @@
        "segments": []
       },
       "B": {
-       "visiblePlatePx": 0,
-       "segments": []
+       "visiblePlatePx": 10,
+       "segments": [
+        [
+         1266,
+         78,
+         1274,
+         78
+        ]
+       ]
       }
      }
     },
@@ -18873,11 +18908,11 @@
      ],
      "edges": {
       "L": {
-       "visiblePlatePx": 108,
+       "visiblePlatePx": 208,
        "segments": [
         [
          458,
-         192,
+         92,
          458,
          298
         ]
@@ -18888,8 +18923,21 @@
        "segments": []
       },
       "T": {
-       "visiblePlatePx": 0,
-       "segments": []
+       "visiblePlatePx": 26,
+       "segments": [
+        [
+         458,
+         92,
+         468,
+         92
+        ],
+        [
+         1026,
+         92,
+         1038,
+         92
+        ]
+       ]
       },
       "B": {
        "visiblePlatePx": 18,
@@ -19049,13 +19097,13 @@
        ]
       },
       "R": {
-       "visiblePlatePx": 46,
+       "visiblePlatePx": 76,
        "segments": [
         [
          1400,
          598,
          1400,
-         642
+         672
         ]
        ]
       },
@@ -19133,13 +19181,13 @@
        "segments": []
       },
       "R": {
-       "visiblePlatePx": 6,
+       "visiblePlatePx": 2,
        "segments": [
         [
          1536,
          812,
          1536,
-         816
+         812
         ]
        ]
       },
@@ -19168,14 +19216,12 @@
    }
   },
   {
-   "fail": [
-    "G8"
-   ],
+   "fail": [],
    "frame": "CL2",
    "T": {
     "k": 0.88932,
     "offX": 0,
-    "offY": -113.91,
+    "offY": 6.19,
     "mode": "desktop"
    },
    "G1": {
@@ -19191,6 +19237,7 @@
      "ASSIGNED CLUB",
      "CAREER DRAW",
      "CAREER MODE",
+     "CAREER MODE SHOWDOWN 17",
      "CLUB ASSIGNMENT",
      "CLUB DRAW SAVED · PREPARING PACK 01",
      "CM 17",
@@ -19262,17 +19309,19 @@
    "G3": {
     "html": [
      1366,
-     640
+     757
     ],
     "body": [
      1366,
-     640
+     0
     ],
     "inner": [
      1366,
      640
     ],
     "pass": true,
+    "shortDesktopScroll": true,
+    "waiver": "decision 1: vertical scroll allowed on short desktop",
     "sectionOverflow": 0
    },
    "G4": {
@@ -19292,8 +19341,8 @@
      },
      {
       "id": "openClubPack",
-      "w": 400,
-      "h": 56
+      "w": 333.3,
+      "h": 46.7
      }
     ],
     "smallText": [],
@@ -19304,30 +19353,24 @@
     "face": {
      "face_daniel": {
       "onScreen": true,
-      "minClearancePx": 2.1,
+      "minClearancePx": 33.9,
       "nearest": "text:SHOWDOWN // 17",
-      "intersections": [
-       "text:SHOWDOWN // 17 d=2.1"
-      ],
+      "intersections": [],
       "coverHits": []
      },
      "face_nik": {
       "onScreen": true,
-      "minClearancePx": 0,
-      "nearest": "text:SIGN IN",
-      "intersections": [
-       "text:SIGN IN d=0.0",
-       "text:No Active Showdown d=0.0",
-       "control:onlinePlayerIdentityBadge d=0.0"
-      ],
+      "minClearancePx": 16.5,
+      "nearest": "control:onlinePlayerIdentityBadge",
+      "intersections": [],
       "coverHits": []
      }
     },
     "hand": {
      "hand_daniel_top": {
       "onScreen": true,
-      "minClearancePx": 95.2,
-      "nearest": "text:SHOWDOWN // 17",
+      "minClearancePx": 162.9,
+      "nearest": "text:CLUB ASSIGNMENT",
       "intersections": [],
       "coverHits": []
      },
@@ -19340,15 +19383,15 @@
      },
      "hand_nik_top": {
       "onScreen": true,
-      "minClearancePx": 89.4,
-      "nearest": "control:onlinePlayerIdentityBadge",
+      "minClearancePx": 132.7,
+      "nearest": "text:05 LOCK",
       "intersections": [],
       "coverHits": []
      },
      "hand_nik_side": {
       "onScreen": true,
-      "minClearancePx": 44.5,
-      "nearest": "panel:.clubVs",
+      "minClearancePx": 21.7,
+      "nearest": "control:openClubPack",
       "intersections": [],
       "coverHits": []
      }
@@ -19356,35 +19399,29 @@
     "pack": {
      "pack_daniel": {
       "onScreen": true,
-      "minClearancePx": 18,
-      "nearest": "text:Daniel",
+      "minClearancePx": 26,
+      "nearest": "text:01 DRAW",
       "intersections": [],
       "coverHits": []
      },
      "pack_nik": {
       "onScreen": true,
-      "minClearancePx": 18,
-      "nearest": "text:Nik",
+      "minClearancePx": 26.9,
+      "nearest": "text:05 LOCK",
       "intersections": [],
       "coverHits": []
      }
     },
     "coverHits": {},
     "headerBand": {
-     "face_daniel": -98.8,
-     "face_nik": -112.1
+     "face_daniel": 21.3,
+     "face_nik": 8
     },
-    "headerBandOverlap": [
-     "face_daniel -98.8",
-     "face_nik -112.1"
-    ],
+    "headerBandOverlap": [],
     "revealContainment": [],
     "phoneFaceFraming": {},
-    "pass": false,
-    "failing": [
-     "text:SHOWDOWN // 17",
-     "text:SIGN IN"
-    ]
+    "pass": true,
+    "failing": []
    },
    "G9": {
     "loaded": [
@@ -19400,36 +19437,36 @@
      {
       "a": "#clubPlayerOne",
       "b": "#clubPlayerTwo",
-      "one": 292.8,
-      "two": 987.4,
+      "one": 271.6,
+      "two": 968.4,
       "ok": true
      },
      {
       "a": "#clubNameOne",
       "b": "#clubNameTwo",
-      "one": 363,
-      "two": 1070.9,
+      "one": 358.4,
+      "two": 1066.3,
       "ok": true
      },
      {
       "a": "#clubCardStateOne",
       "b": "#clubCardStateTwo",
-      "one": 363,
-      "two": 1070.9,
+      "one": 358.4,
+      "two": 1066.3,
       "ok": true
      },
      {
       "a": "#clubCardOne .clubRevealIndex",
       "b": "#clubCardTwo .clubRevealIndex",
-      "one": 245.1,
-      "two": 954.1,
+      "one": 233,
+      "two": 941.9,
       "ok": true
      },
      {
       "a": "#clubCardOne .shieldSlot",
       "b": "#clubCardTwo .shieldSlot",
-      "one": 195.2,
-      "two": 903.1,
+      "one": 190.5,
+      "two": 898.4,
       "ok": true
      },
      {
@@ -19517,7 +19554,7 @@
     "footer": {
      "box": [
       0,
-      612,
+      729,
       1366,
       28
      ],
@@ -19539,85 +19576,91 @@
     },
     {
      "t": "CAREER MODE",
-     "ratio": 14.57,
+     "ratio": 15.28,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "SHOWDOWN // 17",
-     "ratio": 5.92,
+     "ratio": 6.31,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "SIGN IN",
-     "ratio": 14.8,
+     "ratio": 15.19,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "No Active Showdown",
-     "ratio": 14.56,
+     "ratio": 15.03,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "More Than A Game",
-     "ratio": 7.27,
+     "ratio": 11.85,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "CAREER MODE SHOWDOWN 17",
+     "ratio": 13.24,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "CLUB ASSIGNMENT",
-     "ratio": 4.31,
+     "ratio": 5.07,
      "need": 3,
      "pass": true
     },
     {
      "t": "LEAGUE CONFIRMED",
-     "ratio": 13.89,
+     "ratio": 12.08,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "Premier League",
-     "ratio": 9.85,
+     "ratio": 8.24,
      "need": 3,
      "pass": true
     },
     {
      "t": "CLUB DRAW SAVED · PREPARING PACK",
-     "ratio": 13.94,
+     "ratio": 13.7,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "01 DRAW",
-     "ratio": 11.15,
+     "ratio": 10.93,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "02 PACK 1",
-     "ratio": 8.12,
+     "ratio": 8.01,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "03 PACK 2",
-     "ratio": 8.12,
+     "ratio": 7.96,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "04 VS",
-     "ratio": 8.18,
+     "ratio": 8.06,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "05 LOCK",
-     "ratio": 8.14,
+     "ratio": 8.12,
      "need": 4.5,
      "pass": true
     },
@@ -19629,43 +19672,43 @@
     },
     {
      "t": "Daniel",
-     "ratio": 16.25,
-     "need": 3,
+     "ratio": 16.42,
+     "need": 4.5,
      "pass": true
     },
     {
      "t": "CAREER DRAW",
-     "ratio": 8.88,
+     "ratio": 8.57,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "ASSIGNED CLUB",
-     "ratio": 8.5,
+     "ratio": 8.38,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "?",
-     "ratio": 16.61,
+     "ratio": 16.17,
      "need": 3,
      "pass": true
     },
     {
      "t": "SEALED",
-     "ratio": 5.27,
+     "ratio": 5.28,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "RIVALRY",
-     "ratio": 16,
+     "ratio": 16.04,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "VS",
-     "ratio": 6.09,
+     "ratio": 6.16,
      "need": 3,
      "pass": true
     },
@@ -19677,44 +19720,44 @@
     },
     {
      "t": "Nik",
-     "ratio": 16.37,
-     "need": 3,
+     "ratio": 16.26,
+     "need": 4.5,
      "pass": true
     },
     {
      "t": "CAREER DRAW",
-     "ratio": 8.82,
+     "ratio": 8.43,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "ASSIGNED CLUB",
-     "ratio": 8.84,
+     "ratio": 8.71,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "?",
-     "ratio": 16.48,
+     "ratio": 15.68,
      "need": 3,
      "pass": true
     },
     {
      "t": "SEALED",
-     "ratio": 5.23,
+     "ratio": 5.35,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "VS",
-     "ratio": 11.46,
+     "ratio": 11.52,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "DRAW LOCKED...",
-     "ratio": 14.85,
-     "need": 3,
+     "ratio": 14.76,
+     "need": 4.5,
      "pass": true
     },
     {
@@ -19731,7 +19774,7 @@
     }
    ],
    "G7summary": {
-    "checked": 33,
+    "checked": 34,
     "failing": []
    },
    "G11": {
@@ -19743,6 +19786,7 @@
     ],
     "pass": true
    },
+   "fullPageShot": "CL2_1366x640_fullpage.jpg",
    "zones": [
     {
      "zone": [
@@ -19765,8 +19809,15 @@
        "segments": []
       },
       "B": {
-       "visiblePlatePx": 0,
-       "segments": []
+       "visiblePlatePx": 216,
+       "segments": [
+        [
+         250,
+         78,
+         464,
+         78
+        ]
+       ]
       }
      }
     },
@@ -19779,8 +19830,15 @@
      ],
      "edges": {
       "L": {
-       "visiblePlatePx": 0,
-       "segments": []
+       "visiblePlatePx": 8,
+       "segments": [
+        [
+         1192,
+         58,
+         1192,
+         64
+        ]
+       ]
       },
       "R": {
        "visiblePlatePx": 0,
@@ -19791,8 +19849,15 @@
        "segments": []
       },
       "B": {
-       "visiblePlatePx": 0,
-       "segments": []
+       "visiblePlatePx": 10,
+       "segments": [
+        [
+         1266,
+         78,
+         1274,
+         78
+        ]
+       ]
       }
      }
     },
@@ -19831,11 +19896,11 @@
      ],
      "edges": {
       "L": {
-       "visiblePlatePx": 108,
+       "visiblePlatePx": 208,
        "segments": [
         [
          458,
-         192,
+         92,
          458,
          298
         ]
@@ -19846,8 +19911,21 @@
        "segments": []
       },
       "T": {
-       "visiblePlatePx": 0,
-       "segments": []
+       "visiblePlatePx": 26,
+       "segments": [
+        [
+         458,
+         92,
+         468,
+         92
+        ],
+        [
+         1026,
+         92,
+         1038,
+         92
+        ]
+       ]
       },
       "B": {
        "visiblePlatePx": 18,
@@ -20007,13 +20085,13 @@
        ]
       },
       "R": {
-       "visiblePlatePx": 46,
+       "visiblePlatePx": 76,
        "segments": [
         [
          1400,
          598,
          1400,
-         642
+         672
         ]
        ]
       },
@@ -20091,13 +20169,13 @@
        "segments": []
       },
       "R": {
-       "visiblePlatePx": 6,
+       "visiblePlatePx": 2,
        "segments": [
         [
          1536,
          812,
          1536,
-         816
+         812
         ]
        ]
       },
@@ -20126,14 +20204,12 @@
    }
   },
   {
-   "fail": [
-    "G8"
-   ],
+   "fail": [],
    "frame": "CL3",
    "T": {
     "k": 0.88932,
     "offX": 0,
-    "offY": -113.91,
+    "offY": 6.19,
     "mode": "desktop"
    },
    "G1": {
@@ -20150,6 +20226,7 @@
      "Arsenal",
      "CAREER DRAW",
      "CAREER MODE",
+     "CAREER MODE SHOWDOWN 17",
      "CLUB ASSIGNMENT",
      "CM 17",
      "Career Mode Showdown",
@@ -20222,17 +20299,19 @@
    "G3": {
     "html": [
      1366,
-     640
+     757
     ],
     "body": [
      1366,
-     640
+     0
     ],
     "inner": [
      1366,
      640
     ],
     "pass": true,
+    "shortDesktopScroll": true,
+    "waiver": "decision 1: vertical scroll allowed on short desktop",
     "sectionOverflow": 0
    },
    "G4": {
@@ -20252,8 +20331,8 @@
      },
      {
       "id": "openClubPack",
-      "w": 400,
-      "h": 56
+      "w": 333.3,
+      "h": 46.7
      }
     ],
     "smallText": [],
@@ -20264,30 +20343,24 @@
     "face": {
      "face_daniel": {
       "onScreen": true,
-      "minClearancePx": 2.1,
+      "minClearancePx": 33.9,
       "nearest": "text:SHOWDOWN // 17",
-      "intersections": [
-       "text:SHOWDOWN // 17 d=2.1"
-      ],
+      "intersections": [],
       "coverHits": []
      },
      "face_nik": {
       "onScreen": true,
-      "minClearancePx": 0,
-      "nearest": "text:SIGN IN",
-      "intersections": [
-       "text:SIGN IN d=0.0",
-       "text:No Active Showdown d=0.0",
-       "control:onlinePlayerIdentityBadge d=0.0"
-      ],
+      "minClearancePx": 16.5,
+      "nearest": "control:onlinePlayerIdentityBadge",
+      "intersections": [],
       "coverHits": []
      }
     },
     "hand": {
      "hand_daniel_top": {
       "onScreen": true,
-      "minClearancePx": 95.2,
-      "nearest": "text:SHOWDOWN // 17",
+      "minClearancePx": 162.9,
+      "nearest": "text:CLUB ASSIGNMENT",
       "intersections": [],
       "coverHits": []
      },
@@ -20300,15 +20373,15 @@
      },
      "hand_nik_top": {
       "onScreen": true,
-      "minClearancePx": 89.4,
-      "nearest": "control:onlinePlayerIdentityBadge",
+      "minClearancePx": 132.7,
+      "nearest": "text:05 LOCK",
       "intersections": [],
       "coverHits": []
      },
      "hand_nik_side": {
       "onScreen": true,
-      "minClearancePx": 44.5,
-      "nearest": "panel:.clubVs",
+      "minClearancePx": 21.7,
+      "nearest": "control:openClubPack",
       "intersections": [],
       "coverHits": []
      }
@@ -20316,28 +20389,25 @@
     "pack": {
      "pack_daniel": {
       "onScreen": true,
-      "minClearancePx": 18,
-      "nearest": "text:Daniel",
+      "minClearancePx": 26,
+      "nearest": "text:01 DRAW",
       "intersections": [],
       "coverHits": []
      },
      "pack_nik": {
       "onScreen": true,
-      "minClearancePx": 18,
-      "nearest": "text:Nik",
+      "minClearancePx": 26.9,
+      "nearest": "text:05 LOCK",
       "intersections": [],
       "coverHits": []
      }
     },
     "coverHits": {},
     "headerBand": {
-     "face_daniel": -98.8,
-     "face_nik": -112.1
+     "face_daniel": 21.3,
+     "face_nik": 8
     },
-    "headerBandOverlap": [
-     "face_daniel -98.8",
-     "face_nik -112.1"
-    ],
+    "headerBandOverlap": [],
     "revealContainment": [
      {
       "side": "daniel",
@@ -20347,11 +20417,8 @@
      }
     ],
     "phoneFaceFraming": {},
-    "pass": false,
-    "failing": [
-     "text:SHOWDOWN // 17",
-     "text:SIGN IN"
-    ]
+    "pass": true,
+    "failing": []
    },
    "G9": {
     "loaded": [
@@ -20367,36 +20434,36 @@
      {
       "a": "#clubPlayerOne",
       "b": "#clubPlayerTwo",
-      "one": 292.8,
-      "two": 987.4,
+      "one": 271.6,
+      "two": 968.4,
       "ok": true
      },
      {
       "a": "#clubNameOne",
       "b": "#clubNameTwo",
-      "one": 363,
-      "two": 1070.9,
+      "one": 358.4,
+      "two": 1066.3,
       "ok": true
      },
      {
       "a": "#clubCardStateOne",
       "b": "#clubCardStateTwo",
-      "one": 363,
-      "two": 1070.9,
+      "one": 358.4,
+      "two": 1066.3,
       "ok": true
      },
      {
       "a": "#clubCardOne .clubRevealIndex",
       "b": "#clubCardTwo .clubRevealIndex",
-      "one": 245.1,
-      "two": 954.1,
+      "one": 233,
+      "two": 941.9,
       "ok": true
      },
      {
       "a": "#clubCardOne .shieldSlot",
       "b": "#clubCardTwo .shieldSlot",
-      "one": 195.2,
-      "two": 903.1,
+      "one": 190.5,
+      "two": 898.4,
       "ok": true
      },
      {
@@ -20484,7 +20551,7 @@
     "footer": {
      "box": [
       0,
-      612,
+      729,
       1366,
       28
      ],
@@ -20506,85 +20573,91 @@
     },
     {
      "t": "CAREER MODE",
-     "ratio": 14.57,
+     "ratio": 15.28,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "SHOWDOWN // 17",
-     "ratio": 5.92,
+     "ratio": 6.31,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "SIGN IN",
-     "ratio": 14.8,
+     "ratio": 15.19,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "No Active Showdown",
-     "ratio": 14.56,
+     "ratio": 15.03,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "More Than A Game",
-     "ratio": 7.27,
+     "ratio": 11.85,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "CAREER MODE SHOWDOWN 17",
+     "ratio": 13.24,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "CLUB ASSIGNMENT",
-     "ratio": 4.28,
+     "ratio": 5.07,
      "need": 3,
      "pass": true
     },
     {
      "t": "LEAGUE CONFIRMED",
-     "ratio": 13.89,
+     "ratio": 12.08,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "Premier League",
-     "ratio": 9.85,
+     "ratio": 8.24,
      "need": 3,
      "pass": true
     },
     {
      "t": "DANIEL · PACK 01 OPEN",
-     "ratio": 13.58,
+     "ratio": 13.7,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "01 DRAW",
-     "ratio": 14.66,
+     "ratio": 14.47,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "02 PACK 1",
-     "ratio": 11,
+     "ratio": 10.7,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "03 PACK 2",
-     "ratio": 8.12,
+     "ratio": 7.96,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "04 VS",
-     "ratio": 8.18,
+     "ratio": 8.06,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "05 LOCK",
-     "ratio": 8.14,
+     "ratio": 8.12,
      "need": 4.5,
      "pass": true
     },
@@ -20596,43 +20669,43 @@
     },
     {
      "t": "Daniel",
-     "ratio": 16.25,
-     "need": 3,
+     "ratio": 16.42,
+     "need": 4.5,
      "pass": true
     },
     {
      "t": "CAREER DRAW",
-     "ratio": 8.71,
+     "ratio": 8.52,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "ASSIGNED CLUB",
-     "ratio": 8.5,
+     "ratio": 8.38,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "Arsenal",
-     "ratio": 19.3,
+     "ratio": 18.77,
      "need": 3,
      "pass": true
     },
     {
      "t": "REVEALED",
-     "ratio": 11.78,
+     "ratio": 11.8,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "RIVALRY",
-     "ratio": 16,
+     "ratio": 16.04,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "VS",
-     "ratio": 6.09,
+     "ratio": 6.16,
      "need": 3,
      "pass": true
     },
@@ -20644,44 +20717,44 @@
     },
     {
      "t": "Nik",
-     "ratio": 16.37,
-     "need": 3,
+     "ratio": 16.26,
+     "need": 4.5,
      "pass": true
     },
     {
      "t": "CAREER DRAW",
-     "ratio": 8.83,
+     "ratio": 8.43,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "ASSIGNED CLUB",
-     "ratio": 8.84,
+     "ratio": 8.71,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "?",
-     "ratio": 16.48,
+     "ratio": 15.68,
      "need": 3,
      "pass": true
     },
     {
      "t": "SEALED",
-     "ratio": 5.24,
+     "ratio": 5.35,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "VS",
-     "ratio": 11.46,
+     "ratio": 11.52,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "DRAW LOCKED...",
-     "ratio": 14.85,
-     "need": 3,
+     "ratio": 14.76,
+     "need": 4.5,
      "pass": true
     },
     {
@@ -20698,7 +20771,7 @@
     }
    ],
    "G7summary": {
-    "checked": 33,
+    "checked": 34,
     "failing": []
    },
    "G11": {
@@ -20710,6 +20783,7 @@
     ],
     "pass": true
    },
+   "fullPageShot": "CL3_1366x640_fullpage.jpg",
    "zones": [
     {
      "zone": [
@@ -20732,8 +20806,15 @@
        "segments": []
       },
       "B": {
-       "visiblePlatePx": 0,
-       "segments": []
+       "visiblePlatePx": 216,
+       "segments": [
+        [
+         250,
+         78,
+         464,
+         78
+        ]
+       ]
       }
      }
     },
@@ -20746,8 +20827,15 @@
      ],
      "edges": {
       "L": {
-       "visiblePlatePx": 0,
-       "segments": []
+       "visiblePlatePx": 8,
+       "segments": [
+        [
+         1192,
+         58,
+         1192,
+         64
+        ]
+       ]
       },
       "R": {
        "visiblePlatePx": 0,
@@ -20758,8 +20846,15 @@
        "segments": []
       },
       "B": {
-       "visiblePlatePx": 0,
-       "segments": []
+       "visiblePlatePx": 10,
+       "segments": [
+        [
+         1266,
+         78,
+         1274,
+         78
+        ]
+       ]
       }
      }
     },
@@ -20798,11 +20893,11 @@
      ],
      "edges": {
       "L": {
-       "visiblePlatePx": 108,
+       "visiblePlatePx": 208,
        "segments": [
         [
          458,
-         192,
+         92,
          458,
          298
         ]
@@ -20813,8 +20908,21 @@
        "segments": []
       },
       "T": {
-       "visiblePlatePx": 0,
-       "segments": []
+       "visiblePlatePx": 26,
+       "segments": [
+        [
+         458,
+         92,
+         468,
+         92
+        ],
+        [
+         1026,
+         92,
+         1038,
+         92
+        ]
+       ]
       },
       "B": {
        "visiblePlatePx": 18,
@@ -20974,13 +21082,13 @@
        ]
       },
       "R": {
-       "visiblePlatePx": 46,
+       "visiblePlatePx": 76,
        "segments": [
         [
          1400,
          598,
          1400,
-         642
+         672
         ]
        ]
       },
@@ -21058,13 +21166,13 @@
        "segments": []
       },
       "R": {
-       "visiblePlatePx": 6,
+       "visiblePlatePx": 2,
        "segments": [
         [
          1536,
          812,
          1536,
-         816
+         812
         ]
        ]
       },
@@ -21093,14 +21201,12 @@
    }
   },
   {
-   "fail": [
-    "G8"
-   ],
+   "fail": [],
    "frame": "CL4",
    "T": {
     "k": 0.88932,
     "offX": 0,
-    "offY": -113.91,
+    "offY": 6.19,
     "mode": "desktop"
    },
    "G1": {
@@ -21116,6 +21222,7 @@
      "Arsenal",
      "CAREER DRAW",
      "CAREER MODE",
+     "CAREER MODE SHOWDOWN 17",
      "CLUB ASSIGNMENT",
      "CM 17",
      "Career Mode Showdown",
@@ -21188,17 +21295,19 @@
    "G3": {
     "html": [
      1366,
-     640
+     757
     ],
     "body": [
      1366,
-     640
+     0
     ],
     "inner": [
      1366,
      640
     ],
     "pass": true,
+    "shortDesktopScroll": true,
+    "waiver": "decision 1: vertical scroll allowed on short desktop",
     "sectionOverflow": 0
    },
    "G4": {
@@ -21218,8 +21327,8 @@
      },
      {
       "id": "openClubPack",
-      "w": 400,
-      "h": 56
+      "w": 333.3,
+      "h": 46.7
      }
     ],
     "smallText": [],
@@ -21230,30 +21339,24 @@
     "face": {
      "face_daniel": {
       "onScreen": true,
-      "minClearancePx": 2.1,
+      "minClearancePx": 33.9,
       "nearest": "text:SHOWDOWN // 17",
-      "intersections": [
-       "text:SHOWDOWN // 17 d=2.1"
-      ],
+      "intersections": [],
       "coverHits": []
      },
      "face_nik": {
       "onScreen": true,
-      "minClearancePx": 0,
-      "nearest": "text:SIGN IN",
-      "intersections": [
-       "text:SIGN IN d=0.0",
-       "text:No Active Showdown d=0.0",
-       "control:onlinePlayerIdentityBadge d=0.0"
-      ],
+      "minClearancePx": 16.5,
+      "nearest": "control:onlinePlayerIdentityBadge",
+      "intersections": [],
       "coverHits": []
      }
     },
     "hand": {
      "hand_daniel_top": {
       "onScreen": true,
-      "minClearancePx": 95.2,
-      "nearest": "text:SHOWDOWN // 17",
+      "minClearancePx": 162.9,
+      "nearest": "text:CLUB ASSIGNMENT",
       "intersections": [],
       "coverHits": []
      },
@@ -21266,15 +21369,15 @@
      },
      "hand_nik_top": {
       "onScreen": true,
-      "minClearancePx": 89.4,
-      "nearest": "control:onlinePlayerIdentityBadge",
+      "minClearancePx": 132.7,
+      "nearest": "text:05 LOCK",
       "intersections": [],
       "coverHits": []
      },
      "hand_nik_side": {
       "onScreen": true,
-      "minClearancePx": 44.5,
-      "nearest": "panel:.clubVs",
+      "minClearancePx": 21.7,
+      "nearest": "control:openClubPack",
       "intersections": [],
       "coverHits": []
      }
@@ -21282,28 +21385,25 @@
     "pack": {
      "pack_daniel": {
       "onScreen": true,
-      "minClearancePx": 18,
-      "nearest": "text:Daniel",
+      "minClearancePx": 26,
+      "nearest": "text:01 DRAW",
       "intersections": [],
       "coverHits": []
      },
      "pack_nik": {
       "onScreen": true,
-      "minClearancePx": 18,
-      "nearest": "text:Nik",
+      "minClearancePx": 26.9,
+      "nearest": "text:05 LOCK",
       "intersections": [],
       "coverHits": []
      }
     },
     "coverHits": {},
     "headerBand": {
-     "face_daniel": -98.8,
-     "face_nik": -112.1
+     "face_daniel": 21.3,
+     "face_nik": 8
     },
-    "headerBandOverlap": [
-     "face_daniel -98.8",
-     "face_nik -112.1"
-    ],
+    "headerBandOverlap": [],
     "revealContainment": [
      {
       "side": "daniel",
@@ -21319,11 +21419,8 @@
      }
     ],
     "phoneFaceFraming": {},
-    "pass": false,
-    "failing": [
-     "text:SHOWDOWN // 17",
-     "text:SIGN IN"
-    ]
+    "pass": true,
+    "failing": []
    },
    "G9": {
     "loaded": [
@@ -21339,36 +21436,36 @@
      {
       "a": "#clubPlayerOne",
       "b": "#clubPlayerTwo",
-      "one": 292.8,
-      "two": 987.4,
+      "one": 271.6,
+      "two": 968.4,
       "ok": true
      },
      {
       "a": "#clubNameOne",
       "b": "#clubNameTwo",
-      "one": 363,
-      "two": 1070.9,
+      "one": 358.4,
+      "two": 1066.3,
       "ok": true
      },
      {
       "a": "#clubCardStateOne",
       "b": "#clubCardStateTwo",
-      "one": 363,
-      "two": 1070.9,
+      "one": 358.4,
+      "two": 1066.3,
       "ok": true
      },
      {
       "a": "#clubCardOne .clubRevealIndex",
       "b": "#clubCardTwo .clubRevealIndex",
-      "one": 245.1,
-      "two": 954.1,
+      "one": 233,
+      "two": 941.9,
       "ok": true
      },
      {
       "a": "#clubCardOne .shieldSlot",
       "b": "#clubCardTwo .shieldSlot",
-      "one": 195.2,
-      "two": 903.1,
+      "one": 190.5,
+      "two": 898.4,
       "ok": true
      },
      {
@@ -21456,7 +21553,7 @@
     "footer": {
      "box": [
       0,
-      612,
+      729,
       1366,
       28
      ],
@@ -21478,85 +21575,91 @@
     },
     {
      "t": "CAREER MODE",
-     "ratio": 14.57,
+     "ratio": 15.28,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "SHOWDOWN // 17",
-     "ratio": 5.92,
+     "ratio": 6.31,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "SIGN IN",
-     "ratio": 14.8,
+     "ratio": 15.19,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "No Active Showdown",
-     "ratio": 14.56,
+     "ratio": 15.03,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "More Than A Game",
-     "ratio": 7.27,
+     "ratio": 11.85,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "CAREER MODE SHOWDOWN 17",
+     "ratio": 13.24,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "CLUB ASSIGNMENT",
-     "ratio": 4.28,
+     "ratio": 5.07,
      "need": 3,
      "pass": true
     },
     {
      "t": "LEAGUE CONFIRMED",
-     "ratio": 13.89,
+     "ratio": 12.08,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "Premier League",
-     "ratio": 9.85,
+     "ratio": 8.24,
      "need": 3,
      "pass": true
     },
     {
      "t": "NIK · PACK 02 OPEN",
-     "ratio": 13.54,
+     "ratio": 13.7,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "01 DRAW",
-     "ratio": 14.66,
+     "ratio": 14.47,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "02 PACK 1",
-     "ratio": 14.44,
+     "ratio": 14.24,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "03 PACK 2",
-     "ratio": 10.9,
+     "ratio": 10.6,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "04 VS",
-     "ratio": 8.18,
+     "ratio": 8.06,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "05 LOCK",
-     "ratio": 8.14,
+     "ratio": 8.12,
      "need": 4.5,
      "pass": true
     },
@@ -21568,43 +21671,43 @@
     },
     {
      "t": "Daniel",
-     "ratio": 16.25,
-     "need": 3,
+     "ratio": 16.42,
+     "need": 4.5,
      "pass": true
     },
     {
      "t": "CAREER DRAW",
-     "ratio": 8.71,
+     "ratio": 8.52,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "ASSIGNED CLUB",
-     "ratio": 8.5,
+     "ratio": 8.38,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "Arsenal",
-     "ratio": 19.3,
+     "ratio": 18.77,
      "need": 3,
      "pass": true
     },
     {
      "t": "REVEALED",
-     "ratio": 11.78,
+     "ratio": 11.8,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "RIVALRY",
-     "ratio": 16,
+     "ratio": 16.04,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "VS",
-     "ratio": 6.09,
+     "ratio": 6.16,
      "need": 3,
      "pass": true
     },
@@ -21616,44 +21719,44 @@
     },
     {
      "t": "Nik",
-     "ratio": 16.37,
-     "need": 3,
+     "ratio": 16.26,
+     "need": 4.5,
      "pass": true
     },
     {
      "t": "CAREER DRAW",
-     "ratio": 8.77,
+     "ratio": 8.39,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "ASSIGNED CLUB",
-     "ratio": 8.84,
+     "ratio": 8.71,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "Chelsea",
-     "ratio": 19.28,
+     "ratio": 18.43,
      "need": 3,
      "pass": true
     },
     {
      "t": "REVEALED",
-     "ratio": 11.7,
+     "ratio": 11.87,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "VS",
-     "ratio": 11.46,
+     "ratio": 11.52,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "DRAW LOCKED...",
-     "ratio": 14.85,
-     "need": 3,
+     "ratio": 14.76,
+     "need": 4.5,
      "pass": true
     },
     {
@@ -21670,7 +21773,7 @@
     }
    ],
    "G7summary": {
-    "checked": 33,
+    "checked": 34,
     "failing": []
    },
    "G11": {
@@ -21682,6 +21785,7 @@
     ],
     "pass": true
    },
+   "fullPageShot": "CL4_1366x640_fullpage.jpg",
    "zones": [
     {
      "zone": [
@@ -21704,8 +21808,15 @@
        "segments": []
       },
       "B": {
-       "visiblePlatePx": 0,
-       "segments": []
+       "visiblePlatePx": 216,
+       "segments": [
+        [
+         250,
+         78,
+         464,
+         78
+        ]
+       ]
       }
      }
     },
@@ -21718,8 +21829,15 @@
      ],
      "edges": {
       "L": {
-       "visiblePlatePx": 0,
-       "segments": []
+       "visiblePlatePx": 8,
+       "segments": [
+        [
+         1192,
+         58,
+         1192,
+         64
+        ]
+       ]
       },
       "R": {
        "visiblePlatePx": 0,
@@ -21730,8 +21848,15 @@
        "segments": []
       },
       "B": {
-       "visiblePlatePx": 0,
-       "segments": []
+       "visiblePlatePx": 10,
+       "segments": [
+        [
+         1266,
+         78,
+         1274,
+         78
+        ]
+       ]
       }
      }
     },
@@ -21770,11 +21895,11 @@
      ],
      "edges": {
       "L": {
-       "visiblePlatePx": 108,
+       "visiblePlatePx": 208,
        "segments": [
         [
          458,
-         192,
+         92,
          458,
          298
         ]
@@ -21785,8 +21910,21 @@
        "segments": []
       },
       "T": {
-       "visiblePlatePx": 0,
-       "segments": []
+       "visiblePlatePx": 26,
+       "segments": [
+        [
+         458,
+         92,
+         468,
+         92
+        ],
+        [
+         1026,
+         92,
+         1038,
+         92
+        ]
+       ]
       },
       "B": {
        "visiblePlatePx": 18,
@@ -21946,13 +22084,13 @@
        ]
       },
       "R": {
-       "visiblePlatePx": 46,
+       "visiblePlatePx": 76,
        "segments": [
         [
          1400,
          598,
          1400,
-         642
+         672
         ]
        ]
       },
@@ -22030,13 +22168,13 @@
        "segments": []
       },
       "R": {
-       "visiblePlatePx": 6,
+       "visiblePlatePx": 2,
        "segments": [
         [
          1536,
          812,
          1536,
-         816
+         812
         ]
        ]
       },
@@ -22065,14 +22203,12 @@
    }
   },
   {
-   "fail": [
-    "G8"
-   ],
+   "fail": [],
    "frame": "CL5",
    "T": {
     "k": 0.88932,
     "offX": 0,
-    "offY": -113.91,
+    "offY": 6.19,
     "mode": "desktop"
    },
    "G1": {
@@ -22089,6 +22225,7 @@
      "BOTH CLUBS REVEALED · BUILDING RIVALRY",
      "CAREER DRAW",
      "CAREER MODE",
+     "CAREER MODE SHOWDOWN 17",
      "CLUB ASSIGNMENT",
      "CLUBS LOCKED",
      "CM 17",
@@ -22163,17 +22300,19 @@
    "G3": {
     "html": [
      1366,
-     640
+     757
     ],
     "body": [
      1366,
-     640
+     0
     ],
     "inner": [
      1366,
      640
     ],
     "pass": true,
+    "shortDesktopScroll": true,
+    "waiver": "decision 1: vertical scroll allowed on short desktop",
     "sectionOverflow": 0
    },
    "G4": {
@@ -22193,58 +22332,52 @@
      }
     ],
     "smallText": [],
-    "lockNoteFs": 14,
+    "lockNoteFs": 12,
     "pass": true
    },
    "G8": {
     "face": {
      "face_daniel": {
       "onScreen": true,
-      "minClearancePx": 2.1,
+      "minClearancePx": 33.9,
       "nearest": "text:SHOWDOWN // 17",
-      "intersections": [
-       "text:SHOWDOWN // 17 d=2.1"
-      ],
+      "intersections": [],
       "coverHits": []
      },
      "face_nik": {
       "onScreen": true,
-      "minClearancePx": 0,
-      "nearest": "text:SIGN IN",
-      "intersections": [
-       "text:SIGN IN d=0.0",
-       "text:No Active Showdown d=0.0",
-       "control:onlinePlayerIdentityBadge d=0.0"
-      ],
+      "minClearancePx": 16.5,
+      "nearest": "control:onlinePlayerIdentityBadge",
+      "intersections": [],
       "coverHits": []
      }
     },
     "hand": {
      "hand_daniel_top": {
       "onScreen": true,
-      "minClearancePx": 95.2,
-      "nearest": "text:SHOWDOWN // 17",
+      "minClearancePx": 159.4,
+      "nearest": "panel:.clubAssignmentHeader",
       "intersections": [],
       "coverHits": []
      },
      "hand_daniel_side": {
       "onScreen": true,
-      "minClearancePx": 8.9,
-      "nearest": "panel:#clubRivalryConfirmation",
+      "minClearancePx": 33.8,
+      "nearest": "panel:.clubVs",
       "intersections": [],
       "coverHits": []
      },
      "hand_nik_top": {
       "onScreen": true,
-      "minClearancePx": 89.4,
-      "nearest": "control:onlinePlayerIdentityBadge",
+      "minClearancePx": 132.7,
+      "nearest": "text:05 LOCK",
       "intersections": [],
       "coverHits": []
      },
      "hand_nik_side": {
       "onScreen": true,
-      "minClearancePx": 8.9,
-      "nearest": "panel:#clubRivalryConfirmation",
+      "minClearancePx": 44.5,
+      "nearest": "panel:.clubVs",
       "intersections": [],
       "coverHits": []
      }
@@ -22252,28 +22385,25 @@
     "pack": {
      "pack_daniel": {
       "onScreen": true,
-      "minClearancePx": 18,
-      "nearest": "text:Daniel",
+      "minClearancePx": 26,
+      "nearest": "text:01 DRAW",
       "intersections": [],
       "coverHits": []
      },
      "pack_nik": {
       "onScreen": true,
-      "minClearancePx": 18,
-      "nearest": "text:Nik",
+      "minClearancePx": 26.9,
+      "nearest": "text:05 LOCK",
       "intersections": [],
       "coverHits": []
      }
     },
     "coverHits": {},
     "headerBand": {
-     "face_daniel": -98.8,
-     "face_nik": -112.1
+     "face_daniel": 21.3,
+     "face_nik": 8
     },
-    "headerBandOverlap": [
-     "face_daniel -98.8",
-     "face_nik -112.1"
-    ],
+    "headerBandOverlap": [],
     "revealContainment": [
      {
       "side": "daniel",
@@ -22289,11 +22419,8 @@
      }
     ],
     "phoneFaceFraming": {},
-    "pass": false,
-    "failing": [
-     "text:SHOWDOWN // 17",
-     "text:SIGN IN"
-    ]
+    "pass": true,
+    "failing": []
    },
    "G9": {
     "loaded": [
@@ -22309,50 +22436,50 @@
      {
       "a": "#clubPlayerOne",
       "b": "#clubPlayerTwo",
-      "one": 292.8,
-      "two": 987.4,
+      "one": 271.6,
+      "two": 968.4,
       "ok": true
      },
      {
       "a": "#clubNameOne",
       "b": "#clubNameTwo",
-      "one": 363,
-      "two": 1070.9,
+      "one": 358.4,
+      "two": 1066.3,
       "ok": true
      },
      {
       "a": "#clubCardStateOne",
       "b": "#clubCardStateTwo",
-      "one": 363,
-      "two": 1070.9,
+      "one": 358.4,
+      "two": 1066.3,
       "ok": true
      },
      {
       "a": "#clubCardOne .clubRevealIndex",
       "b": "#clubCardTwo .clubRevealIndex",
-      "one": 245.1,
-      "two": 954.1,
+      "one": 233,
+      "two": 941.9,
       "ok": true
      },
      {
       "a": "#clubCardOne .shieldSlot",
       "b": "#clubCardTwo .shieldSlot",
-      "one": 195.2,
-      "two": 903.1,
+      "one": 190.5,
+      "two": 898.4,
       "ok": true
      },
      {
       "a": "#clubConfirmationManagerOne",
       "b": "#clubConfirmationManagerTwo",
-      "one": 579.3,
-      "two": 718,
+      "one": 602.1,
+      "two": 716.9,
       "ok": true
      },
      {
       "a": "#clubConfirmationClubOne",
       "b": "#clubConfirmationClubTwo",
-      "one": 633.7,
-      "two": 764.3,
+      "one": 646.7,
+      "two": 755,
       "ok": true
      },
      {
@@ -22426,7 +22553,7 @@
     "footer": {
      "box": [
       0,
-      612,
+      729,
       1366,
       28
      ],
@@ -22448,49 +22575,55 @@
     },
     {
      "t": "CAREER MODE",
-     "ratio": 14.57,
+     "ratio": 15.28,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "SHOWDOWN // 17",
-     "ratio": 5.92,
+     "ratio": 6.31,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "SIGN IN",
-     "ratio": 14.8,
+     "ratio": 15.19,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "No Active Showdown",
-     "ratio": 14.56,
+     "ratio": 15.03,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "More Than A Game",
-     "ratio": 7.27,
+     "ratio": 11.85,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "CAREER MODE SHOWDOWN 17",
+     "ratio": 13.24,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "CLUB ASSIGNMENT",
-     "ratio": 4.28,
+     "ratio": 5.07,
      "need": 3,
      "pass": true
     },
     {
      "t": "LEAGUE CONFIRMED",
-     "ratio": 13.89,
+     "ratio": 12.08,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "Premier League",
-     "ratio": 9.85,
+     "ratio": 8.24,
      "need": 3,
      "pass": true
     },
@@ -22502,31 +22635,31 @@
     },
     {
      "t": "01 DRAW",
-     "ratio": 14.66,
+     "ratio": 14.47,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "02 PACK 1",
-     "ratio": 14.44,
+     "ratio": 14.24,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "03 PACK 2",
-     "ratio": 14.44,
+     "ratio": 14.16,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "04 VS",
-     "ratio": 11.1,
+     "ratio": 10.81,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "05 LOCK",
-     "ratio": 8.14,
+     "ratio": 8.12,
      "need": 4.5,
      "pass": true
     },
@@ -22538,43 +22671,43 @@
     },
     {
      "t": "Daniel",
-     "ratio": 16.25,
-     "need": 3,
+     "ratio": 16.42,
+     "need": 4.5,
      "pass": true
     },
     {
      "t": "CAREER DRAW",
-     "ratio": 8.71,
+     "ratio": 8.52,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "ASSIGNED CLUB",
-     "ratio": 8.5,
+     "ratio": 8.38,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "Arsenal",
-     "ratio": 19.3,
+     "ratio": 18.77,
      "need": 3,
      "pass": true
     },
     {
      "t": "REVEALED",
-     "ratio": 11.78,
+     "ratio": 11.8,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "RIVALRY",
-     "ratio": 16.38,
+     "ratio": 16.41,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "VS",
-     "ratio": 6.24,
+     "ratio": 6.27,
      "need": 3,
      "pass": true
     },
@@ -22586,85 +22719,85 @@
     },
     {
      "t": "Nik",
-     "ratio": 16.37,
-     "need": 3,
+     "ratio": 16.26,
+     "need": 4.5,
      "pass": true
     },
     {
      "t": "CAREER DRAW",
-     "ratio": 8.77,
+     "ratio": 8.39,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "ASSIGNED CLUB",
-     "ratio": 8.84,
+     "ratio": 8.71,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "Chelsea",
-     "ratio": 19.28,
+     "ratio": 18.43,
      "need": 3,
      "pass": true
     },
     {
      "t": "REVEALED",
-     "ratio": 11.7,
+     "ratio": 11.87,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "CLUBS LOCKED",
-     "ratio": 10.89,
+     "ratio": 11.42,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "Daniel vs Nik",
-     "ratio": 16.3,
-     "need": 3,
+     "ratio": 17.27,
+     "need": 4.5,
      "pass": true
     },
     {
      "t": "Premier League · 3 seasons",
-     "ratio": 9.96,
-     "need": 4.5,
-     "pass": true
-    },
-    {
-     "t": "Daniel",
-     "ratio": 10.27,
-     "need": 4.5,
-     "pass": true
-    },
-    {
-     "t": "Arsenal",
-     "ratio": 18.23,
-     "need": 3,
-     "pass": true
-    },
-    {
-     "t": "VS",
-     "ratio": 11.16,
-     "need": 4.5,
-     "pass": true
-    },
-    {
-     "t": "Nik",
      "ratio": 10.29,
      "need": 4.5,
      "pass": true
     },
     {
+     "t": "Daniel",
+     "ratio": 10.45,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "Arsenal",
+     "ratio": 19.01,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "VS",
+     "ratio": 11.71,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "Nik",
+     "ratio": 10.52,
+     "need": 4.5,
+     "pass": true
+    },
+    {
      "t": "Chelsea",
-     "ratio": 18.46,
-     "need": 3,
+     "ratio": 18.61,
+     "need": 4.5,
      "pass": true
     },
     {
      "t": "These clubs are permanent for th",
-     "ratio": 13.45,
+     "ratio": 13.94,
      "need": 4.5,
      "pass": true
     },
@@ -22682,7 +22815,7 @@
     }
    ],
    "G7summary": {
-    "checked": 40,
+    "checked": 41,
     "failing": []
    },
    "G11": {
@@ -22694,6 +22827,7 @@
     ],
     "pass": true
    },
+   "fullPageShot": "CL5_1366x640_fullpage.jpg",
    "zones": [
     {
      "zone": [
@@ -22716,8 +22850,15 @@
        "segments": []
       },
       "B": {
-       "visiblePlatePx": 0,
-       "segments": []
+       "visiblePlatePx": 216,
+       "segments": [
+        [
+         250,
+         78,
+         464,
+         78
+        ]
+       ]
       }
      }
     },
@@ -22730,8 +22871,15 @@
      ],
      "edges": {
       "L": {
-       "visiblePlatePx": 0,
-       "segments": []
+       "visiblePlatePx": 8,
+       "segments": [
+        [
+         1192,
+         58,
+         1192,
+         64
+        ]
+       ]
       },
       "R": {
        "visiblePlatePx": 0,
@@ -22742,8 +22890,15 @@
        "segments": []
       },
       "B": {
-       "visiblePlatePx": 0,
-       "segments": []
+       "visiblePlatePx": 10,
+       "segments": [
+        [
+         1266,
+         78,
+         1274,
+         78
+        ]
+       ]
       }
      }
     },
@@ -22782,11 +22937,11 @@
      ],
      "edges": {
       "L": {
-       "visiblePlatePx": 108,
+       "visiblePlatePx": 208,
        "segments": [
         [
          458,
-         192,
+         92,
          458,
          298
         ]
@@ -22797,8 +22952,21 @@
        "segments": []
       },
       "T": {
-       "visiblePlatePx": 0,
-       "segments": []
+       "visiblePlatePx": 26,
+       "segments": [
+        [
+         458,
+         92,
+         468,
+         92
+        ],
+        [
+         1026,
+         92,
+         1038,
+         92
+        ]
+       ]
       },
       "B": {
        "visiblePlatePx": 18,
@@ -22958,13 +23126,13 @@
        ]
       },
       "R": {
-       "visiblePlatePx": 46,
+       "visiblePlatePx": 76,
        "segments": [
         [
          1400,
          598,
          1400,
-         642
+         672
         ]
        ]
       },
@@ -23042,13 +23210,13 @@
        "segments": []
       },
       "R": {
-       "visiblePlatePx": 6,
+       "visiblePlatePx": 2,
        "segments": [
         [
          1536,
          812,
          1536,
-         816
+         812
         ]
        ]
       },
@@ -23077,14 +23245,12 @@
    }
   },
   {
-   "fail": [
-    "G8"
-   ],
+   "fail": [],
    "frame": "CL6",
    "T": {
     "k": 0.88932,
     "offX": 0,
-    "offY": -113.91,
+    "offY": 6.19,
     "mode": "desktop"
    },
    "G1": {
@@ -23100,6 +23266,7 @@
      "Arsenal",
      "CAREER DRAW",
      "CAREER MODE",
+     "CAREER MODE SHOWDOWN 17",
      "CLUB ASSIGNMENT",
      "CLUBS LOCKED",
      "CM 17",
@@ -23176,26 +23343,28 @@
    "G3": {
     "html": [
      1366,
-     640
+     757
     ],
     "body": [
      1366,
-     640
+     0
     ],
     "inner": [
      1366,
      640
     ],
     "pass": true,
+    "shortDesktopScroll": true,
+    "waiver": "decision 1: vertical scroll allowed on short desktop",
     "sectionOverflow": 0
    },
    "G4": {
     "id": "continueClubAssignment",
     "rect": [
-     423,
-     554,
-     520,
-     56
+     466.3,
+     549,
+     433.3,
+     46.7
     ],
     "inside": true,
     "hitOk": true,
@@ -23214,63 +23383,57 @@
      },
      {
       "id": "continueClubAssignment",
-      "w": 520,
-      "h": 56
+      "w": 433.3,
+      "h": 46.7
      }
     ],
     "smallText": [],
-    "lockNoteFs": 14,
+    "lockNoteFs": 12,
     "pass": true
    },
    "G8": {
     "face": {
      "face_daniel": {
       "onScreen": true,
-      "minClearancePx": 2.1,
+      "minClearancePx": 33.9,
       "nearest": "text:SHOWDOWN // 17",
-      "intersections": [
-       "text:SHOWDOWN // 17 d=2.1"
-      ],
+      "intersections": [],
       "coverHits": []
      },
      "face_nik": {
       "onScreen": true,
-      "minClearancePx": 0,
-      "nearest": "text:SIGN IN",
-      "intersections": [
-       "text:SIGN IN d=0.0",
-       "text:No Active Showdown d=0.0",
-       "control:onlinePlayerIdentityBadge d=0.0"
-      ],
+      "minClearancePx": 16.5,
+      "nearest": "control:onlinePlayerIdentityBadge",
+      "intersections": [],
       "coverHits": []
      }
     },
     "hand": {
      "hand_daniel_top": {
       "onScreen": true,
-      "minClearancePx": 95.2,
-      "nearest": "text:SHOWDOWN // 17",
+      "minClearancePx": 162.9,
+      "nearest": "text:CLUB ASSIGNMENT",
       "intersections": [],
       "coverHits": []
      },
      "hand_daniel_side": {
       "onScreen": true,
-      "minClearancePx": 8.9,
-      "nearest": "panel:#clubRivalryConfirmation",
+      "minClearancePx": 33.8,
+      "nearest": "panel:.clubVs",
       "intersections": [],
       "coverHits": []
      },
      "hand_nik_top": {
       "onScreen": true,
-      "minClearancePx": 89.4,
-      "nearest": "control:onlinePlayerIdentityBadge",
+      "minClearancePx": 132.7,
+      "nearest": "text:05 LOCK",
       "intersections": [],
       "coverHits": []
      },
      "hand_nik_side": {
       "onScreen": true,
-      "minClearancePx": 8.9,
-      "nearest": "panel:#clubRivalryConfirmation",
+      "minClearancePx": 21.7,
+      "nearest": "control:continueClubAssignment",
       "intersections": [],
       "coverHits": []
      }
@@ -23278,28 +23441,25 @@
     "pack": {
      "pack_daniel": {
       "onScreen": true,
-      "minClearancePx": 18,
-      "nearest": "text:Daniel",
+      "minClearancePx": 11,
+      "nearest": "control:continueClubAssignment",
       "intersections": [],
       "coverHits": []
      },
      "pack_nik": {
       "onScreen": true,
-      "minClearancePx": 18,
-      "nearest": "text:Nik",
+      "minClearancePx": 11,
+      "nearest": "control:continueClubAssignment",
       "intersections": [],
       "coverHits": []
      }
     },
     "coverHits": {},
     "headerBand": {
-     "face_daniel": -98.8,
-     "face_nik": -112.1
+     "face_daniel": 21.3,
+     "face_nik": 8
     },
-    "headerBandOverlap": [
-     "face_daniel -98.8",
-     "face_nik -112.1"
-    ],
+    "headerBandOverlap": [],
     "revealContainment": [
      {
       "side": "daniel",
@@ -23315,11 +23475,8 @@
      }
     ],
     "phoneFaceFraming": {},
-    "pass": false,
-    "failing": [
-     "text:SHOWDOWN // 17",
-     "text:SIGN IN"
-    ]
+    "pass": true,
+    "failing": []
    },
    "G9": {
     "loaded": [
@@ -23335,50 +23492,50 @@
      {
       "a": "#clubPlayerOne",
       "b": "#clubPlayerTwo",
-      "one": 292.8,
-      "two": 987.4,
+      "one": 271.6,
+      "two": 968.4,
       "ok": true
      },
      {
       "a": "#clubNameOne",
       "b": "#clubNameTwo",
-      "one": 363,
-      "two": 1070.9,
+      "one": 358.4,
+      "two": 1066.3,
       "ok": true
      },
      {
       "a": "#clubCardStateOne",
       "b": "#clubCardStateTwo",
-      "one": 363,
-      "two": 1070.9,
+      "one": 358.4,
+      "two": 1066.3,
       "ok": true
      },
      {
       "a": "#clubCardOne .clubRevealIndex",
       "b": "#clubCardTwo .clubRevealIndex",
-      "one": 245.1,
-      "two": 954.1,
+      "one": 233,
+      "two": 941.9,
       "ok": true
      },
      {
       "a": "#clubCardOne .shieldSlot",
       "b": "#clubCardTwo .shieldSlot",
-      "one": 195.2,
-      "two": 903.1,
+      "one": 190.5,
+      "two": 898.4,
       "ok": true
      },
      {
       "a": "#clubConfirmationManagerOne",
       "b": "#clubConfirmationManagerTwo",
-      "one": 579.3,
-      "two": 718,
+      "one": 602.1,
+      "two": 716.9,
       "ok": true
      },
      {
       "a": "#clubConfirmationClubOne",
       "b": "#clubConfirmationClubTwo",
-      "one": 633.7,
-      "two": 764.3,
+      "one": 646.7,
+      "two": 755,
       "ok": true
      },
      {
@@ -23452,7 +23609,7 @@
     "footer": {
      "box": [
       0,
-      612,
+      729,
       1366,
       28
      ],
@@ -23474,85 +23631,91 @@
     },
     {
      "t": "CAREER MODE",
-     "ratio": 14.57,
+     "ratio": 15.28,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "SHOWDOWN // 17",
-     "ratio": 5.92,
+     "ratio": 6.31,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "SIGN IN",
-     "ratio": 14.8,
+     "ratio": 15.19,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "No Active Showdown",
-     "ratio": 14.56,
+     "ratio": 15.03,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "More Than A Game",
-     "ratio": 7.27,
+     "ratio": 11.85,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "CAREER MODE SHOWDOWN 17",
+     "ratio": 13.24,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "CLUB ASSIGNMENT",
-     "ratio": 4.28,
+     "ratio": 5.07,
      "need": 3,
      "pass": true
     },
     {
      "t": "LEAGUE CONFIRMED",
-     "ratio": 13.89,
+     "ratio": 12.08,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "Premier League",
-     "ratio": 9.85,
+     "ratio": 8.24,
      "need": 3,
      "pass": true
     },
     {
      "t": "RIVALRY READY · CONFIRM TO BEGIN",
-     "ratio": 14.09,
+     "ratio": 13.7,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "01 DRAW",
-     "ratio": 14.66,
+     "ratio": 14.47,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "02 PACK 1",
-     "ratio": 14.44,
+     "ratio": 14.24,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "03 PACK 2",
-     "ratio": 14.44,
+     "ratio": 14.16,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "04 VS",
-     "ratio": 14.54,
+     "ratio": 14.34,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "05 LOCK",
-     "ratio": 11.32,
+     "ratio": 11.1,
      "need": 4.5,
      "pass": true
     },
@@ -23564,43 +23727,43 @@
     },
     {
      "t": "Daniel",
-     "ratio": 16.25,
-     "need": 3,
+     "ratio": 16.42,
+     "need": 4.5,
      "pass": true
     },
     {
      "t": "CAREER DRAW",
-     "ratio": 8.71,
+     "ratio": 8.52,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "ASSIGNED CLUB",
-     "ratio": 8.5,
+     "ratio": 8.38,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "Arsenal",
-     "ratio": 19.3,
+     "ratio": 18.77,
      "need": 3,
      "pass": true
     },
     {
      "t": "REVEALED",
-     "ratio": 11.78,
+     "ratio": 11.8,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "RIVALRY",
-     "ratio": 16.38,
+     "ratio": 16.41,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "VS",
-     "ratio": 6.24,
+     "ratio": 6.27,
      "need": 3,
      "pass": true
     },
@@ -23612,92 +23775,92 @@
     },
     {
      "t": "Nik",
-     "ratio": 16.37,
-     "need": 3,
+     "ratio": 16.26,
+     "need": 4.5,
      "pass": true
     },
     {
      "t": "CAREER DRAW",
-     "ratio": 8.77,
+     "ratio": 8.39,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "ASSIGNED CLUB",
-     "ratio": 8.84,
+     "ratio": 8.71,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "Chelsea",
-     "ratio": 19.28,
+     "ratio": 18.43,
      "need": 3,
      "pass": true
     },
     {
      "t": "REVEALED",
-     "ratio": 11.7,
+     "ratio": 11.87,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "CLUBS LOCKED",
-     "ratio": 10.89,
+     "ratio": 10.56,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "Daniel vs Nik",
-     "ratio": 16.3,
-     "need": 3,
+     "ratio": 15.31,
+     "need": 4.5,
      "pass": true
     },
     {
      "t": "Premier League · 3 seasons",
-     "ratio": 9.96,
-     "need": 4.5,
-     "pass": true
-    },
-    {
-     "t": "Daniel",
-     "ratio": 10.27,
-     "need": 4.5,
-     "pass": true
-    },
-    {
-     "t": "Arsenal",
-     "ratio": 18.23,
-     "need": 3,
-     "pass": true
-    },
-    {
-     "t": "VS",
-     "ratio": 11.16,
-     "need": 4.5,
-     "pass": true
-    },
-    {
-     "t": "Nik",
      "ratio": 10.29,
      "need": 4.5,
      "pass": true
     },
     {
+     "t": "Daniel",
+     "ratio": 10.45,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "Arsenal",
+     "ratio": 19.01,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "VS",
+     "ratio": 11.71,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "Nik",
+     "ratio": 10.52,
+     "need": 4.5,
+     "pass": true
+    },
+    {
      "t": "Chelsea",
-     "ratio": 18.46,
-     "need": 3,
+     "ratio": 18.61,
+     "need": 4.5,
      "pass": true
     },
     {
      "t": "These clubs are permanent for th",
-     "ratio": 13.45,
+     "ratio": 13.94,
      "need": 4.5,
      "pass": true
     },
     {
      "t": "CONFIRM RIVALRY & START SHOWDOWN",
      "ratio": 10.67,
-     "need": 3,
+     "need": 4.5,
      "pass": true
     },
     {
@@ -23714,7 +23877,7 @@
     }
    ],
    "G7summary": {
-    "checked": 41,
+    "checked": 42,
     "failing": []
    },
    "G11": {
@@ -23728,6 +23891,7 @@
     ],
     "pass": true
    },
+   "fullPageShot": "CL6_1366x640_fullpage.jpg",
    "zones": [
     {
      "zone": [
@@ -23750,8 +23914,15 @@
        "segments": []
       },
       "B": {
-       "visiblePlatePx": 0,
-       "segments": []
+       "visiblePlatePx": 216,
+       "segments": [
+        [
+         250,
+         78,
+         464,
+         78
+        ]
+       ]
       }
      }
     },
@@ -23764,8 +23935,15 @@
      ],
      "edges": {
       "L": {
-       "visiblePlatePx": 0,
-       "segments": []
+       "visiblePlatePx": 8,
+       "segments": [
+        [
+         1192,
+         58,
+         1192,
+         64
+        ]
+       ]
       },
       "R": {
        "visiblePlatePx": 0,
@@ -23776,8 +23954,15 @@
        "segments": []
       },
       "B": {
-       "visiblePlatePx": 0,
-       "segments": []
+       "visiblePlatePx": 10,
+       "segments": [
+        [
+         1266,
+         78,
+         1274,
+         78
+        ]
+       ]
       }
      }
     },
@@ -23816,11 +24001,11 @@
      ],
      "edges": {
       "L": {
-       "visiblePlatePx": 108,
+       "visiblePlatePx": 208,
        "segments": [
         [
          458,
-         192,
+         92,
          458,
          298
         ]
@@ -23831,8 +24016,21 @@
        "segments": []
       },
       "T": {
-       "visiblePlatePx": 0,
-       "segments": []
+       "visiblePlatePx": 26,
+       "segments": [
+        [
+         458,
+         92,
+         468,
+         92
+        ],
+        [
+         1026,
+         92,
+         1038,
+         92
+        ]
+       ]
       },
       "B": {
        "visiblePlatePx": 18,
@@ -23992,13 +24190,13 @@
        ]
       },
       "R": {
-       "visiblePlatePx": 46,
+       "visiblePlatePx": 76,
        "segments": [
         [
          1400,
          598,
          1400,
-         642
+         672
         ]
        ]
       },
@@ -24076,13 +24274,13 @@
        "segments": []
       },
       "R": {
-       "visiblePlatePx": 6,
+       "visiblePlatePx": 2,
        "segments": [
         [
          1536,
          812,
          1536,
-         816
+         812
         ]
        ]
       },
@@ -24216,6 +24414,7 @@
      768
     ],
     "pass": true,
+    "shortDesktopScroll": false,
     "sectionOverflow": 0
    },
    "G4": {
@@ -25224,6 +25423,7 @@
      768
     ],
     "pass": true,
+    "shortDesktopScroll": false,
     "sectionOverflow": 0
    },
    "G4": {
@@ -26211,6 +26411,7 @@
      768
     ],
     "pass": true,
+    "shortDesktopScroll": false,
     "sectionOverflow": 0
    },
    "G4": {
@@ -27204,6 +27405,7 @@
      768
     ],
     "pass": true,
+    "shortDesktopScroll": false,
     "sectionOverflow": 0
    },
    "G4": {
@@ -28206,6 +28408,7 @@
      768
     ],
     "pass": true,
+    "shortDesktopScroll": false,
     "sectionOverflow": 0
    },
    "G4": {
@@ -29246,6 +29449,7 @@
      768
     ],
     "pass": true,
+    "shortDesktopScroll": false,
     "sectionOverflow": 0
    },
    "G4": {
@@ -30296,6 +30500,7 @@
      640
     ],
     "pass": true,
+    "shortDesktopScroll": false,
     "sectionOverflow": 0
    },
    "G4": {
@@ -31298,6 +31503,7 @@
      640
     ],
     "pass": true,
+    "shortDesktopScroll": false,
     "sectionOverflow": 0
    },
    "G4": {
@@ -32231,6 +32437,7 @@
      640
     ],
     "pass": true,
+    "shortDesktopScroll": false,
     "sectionOverflow": 0
    },
    "G4": {
@@ -33170,6 +33377,7 @@
      640
     ],
     "pass": true,
+    "shortDesktopScroll": false,
     "sectionOverflow": 0
    },
    "G4": {
@@ -34118,6 +34326,7 @@
      640
     ],
     "pass": true,
+    "shortDesktopScroll": false,
     "sectionOverflow": 0
    },
    "G4": {
@@ -35049,6 +35258,7 @@
      640
     ],
     "pass": true,
+    "shortDesktopScroll": false,
     "sectionOverflow": 0
    },
    "G4": {
@@ -35997,6 +36207,7 @@
      553
     ],
     "pass": true,
+    "shortDesktopScroll": false,
     "sectionOverflow": 0
    },
    "G4": {
@@ -36865,6 +37076,7 @@
      553
     ],
     "pass": true,
+    "shortDesktopScroll": false,
     "sectionOverflow": 0
    },
    "G4": {
@@ -37846,6 +38058,7 @@
      553
     ],
     "pass": true,
+    "shortDesktopScroll": false,
     "sectionOverflow": 0
    },
    "G4": {
@@ -38833,6 +39046,7 @@
      553
     ],
     "pass": true,
+    "shortDesktopScroll": false,
     "sectionOverflow": 0
    },
    "G4": {
@@ -39829,6 +40043,7 @@
      553
     ],
     "pass": true,
+    "shortDesktopScroll": false,
     "sectionOverflow": 0
    },
    "G4": {
@@ -40730,6 +40945,7 @@
      553
     ],
     "pass": true,
+    "shortDesktopScroll": false,
     "sectionOverflow": 0
    },
    "G4": {
@@ -41596,6 +41812,7 @@
      844
     ],
     "pass": true,
+    "shortDesktopScroll": false,
     "sectionOverflow": 0
    },
    "G4": {
@@ -42564,6 +42781,7 @@
      844
     ],
     "pass": true,
+    "shortDesktopScroll": false,
     "sectionOverflow": 0
    },
    "G4": {
@@ -43511,6 +43729,7 @@
      844
     ],
     "pass": true,
+    "shortDesktopScroll": false,
     "sectionOverflow": 0
    },
    "G4": {
@@ -44464,6 +44683,7 @@
      844
     ],
     "pass": true,
+    "shortDesktopScroll": false,
     "sectionOverflow": 0
    },
    "G4": {
@@ -45426,6 +45646,7 @@
      844
     ],
     "pass": true,
+    "shortDesktopScroll": false,
     "sectionOverflow": 0
    },
    "G4": {
@@ -46357,6 +46578,7 @@
      844
     ],
     "pass": true,
+    "shortDesktopScroll": false,
     "sectionOverflow": 0
    },
    "G4": {
@@ -47305,6 +47527,7 @@
      932
     ],
     "pass": true,
+    "shortDesktopScroll": false,
     "sectionOverflow": 0
    },
    "G4": {
@@ -48273,6 +48496,7 @@
      932
     ],
     "pass": true,
+    "shortDesktopScroll": false,
     "sectionOverflow": 0
    },
    "G4": {
@@ -49220,6 +49444,7 @@
      932
     ],
     "pass": true,
+    "shortDesktopScroll": false,
     "sectionOverflow": 0
    },
    "G4": {
@@ -50173,6 +50398,7 @@
      932
     ],
     "pass": true,
+    "shortDesktopScroll": false,
     "sectionOverflow": 0
    },
    "G4": {
@@ -51135,6 +51361,7 @@
      932
     ],
     "pass": true,
+    "shortDesktopScroll": false,
     "sectionOverflow": 0
    },
    "G4": {
@@ -52066,6 +52293,7 @@
      932
     ],
     "pass": true,
+    "shortDesktopScroll": false,
     "sectionOverflow": 0
    },
    "G4": {
@@ -52914,6 +53142,5713 @@
     "failedRequests": [],
     "pass": true
    }
+  },
+  {
+   "fail": [],
+   "frame": "CL1",
+   "T": {
+    "k": 0.27473,
+    "offX": -14.5,
+    "offY": 236.89,
+    "mode": "phone"
+   },
+   "G1": {
+    "visible": [
+     "01",
+     "01 DRAW",
+     "02",
+     "02 PACK 1",
+     "03 PACK 2",
+     "04 VS",
+     "05 LOCK",
+     "?",
+     "ASSIGNED CLUB",
+     "BACK",
+     "CAREER DRAW",
+     "CLUB ASSIGNMENT",
+     "CM 17",
+     "Daniel",
+     "LEAGUE CONFIRMED",
+     "LEAGUE CONFIRMED · TWO SEALED CLUB PACKS READY",
+     "Nik",
+     "No Active Showdown",
+     "OPEN SHOWDOWN PACKS",
+     "Premier League",
+     "RIVALRY",
+     "SEALED",
+     "SIGN IN",
+     "VS"
+    ],
+    "missing": [],
+    "extra": [],
+    "pass": true
+   },
+   "G2": {
+    "idCounts": {
+     "clubWheelScreen": 1,
+     "clubAssignmentLeague": 1,
+     "clubPackStatus": 1,
+     "clubCardOne": 1,
+     "clubCardTwo": 1,
+     "clubPlayerOne": 1,
+     "clubPlayerTwo": 1,
+     "clubNameOne": 1,
+     "clubNameTwo": 1,
+     "clubCardStateOne": 1,
+     "clubCardStateTwo": 1,
+     "clubRivalryConfirmation": 1,
+     "clubConfirmationShowdown": 1,
+     "clubConfirmationMeta": 1,
+     "clubConfirmationManagerOne": 1,
+     "clubConfirmationManagerTwo": 1,
+     "clubConfirmationClubOne": 1,
+     "clubConfirmationClubTwo": 1,
+     "openClubPack": 1,
+     "continueClubAssignment": 1,
+     "clubAssignmentBack": 1,
+     "topHeader": 1,
+     "seasonIndicator": 1,
+     "onlinePlayerIdentityBadge": 1
+    },
+    "aria": {
+     "statusLive": "polite",
+     "confLive": "polite",
+     "progressHidden": "true",
+     "doorsHidden": [
+      "true",
+      "true"
+     ],
+     "progressSteps": [
+      "01 DRAW",
+      "02 PACK 1",
+      "03 PACK 2",
+      "04 VS",
+      "05 LOCK"
+     ]
+    },
+    "pass": true
+   },
+   "G3": {
+    "html": [
+     393,
+     660
+    ],
+    "body": [
+     393,
+     660
+    ],
+    "inner": [
+     393,
+     660
+    ],
+    "pass": true,
+    "shortDesktopScroll": false,
+    "sectionOverflow": 0
+   },
+   "G4": {
+    "id": "openClubPack",
+    "rect": [
+     14,
+     530,
+     365,
+     56
+    ],
+    "inside": true,
+    "hitOk": true,
+    "pass": true
+   },
+   "G5": {
+    "clipped": [],
+    "pass": true
+   },
+   "G6": {
+    "controls": [
+     {
+      "id": "onlinePlayerIdentityBadge",
+      "w": 64.3,
+      "h": 44
+     },
+     {
+      "id": "openClubPack",
+      "w": 365,
+      "h": 56
+     },
+     {
+      "id": "clubAssignmentBack",
+      "w": 365,
+      "h": 56
+     }
+    ],
+    "smallText": [],
+    "lockNoteFs": null,
+    "pass": true
+   },
+   "G8": {
+    "face": {
+     "face_daniel": {
+      "onScreen": true,
+      "minClearancePx": 20.2,
+      "nearest": "panel:.clubRevealProgress",
+      "intersections": [],
+      "coverHits": []
+     },
+     "face_nik": {
+      "onScreen": true,
+      "minClearancePx": 16.1,
+      "nearest": "panel:.clubRevealProgress",
+      "intersections": [],
+      "coverHits": []
+     }
+    },
+    "hand": {
+     "hand_daniel_top": {
+      "onScreen": true,
+      "minClearancePx": 62.4,
+      "nearest": "panel:.clubVs",
+      "intersections": [],
+      "coverHits": []
+     },
+     "hand_daniel_side": {
+      "onScreen": true,
+      "minClearancePx": 10.4,
+      "nearest": "panel:.clubVs",
+      "intersections": [],
+      "coverHits": []
+     },
+     "hand_nik_top": {
+      "onScreen": true,
+      "minClearancePx": 61.9,
+      "nearest": "panel:.clubVs",
+      "intersections": [],
+      "coverHits": []
+     },
+     "hand_nik_side": {
+      "onScreen": true,
+      "minClearancePx": 13.8,
+      "nearest": "panel:.clubVs",
+      "intersections": [],
+      "coverHits": []
+     }
+    },
+    "pack": {
+     "pack_daniel": {
+      "onScreen": true,
+      "minClearancePx": 13.6,
+      "nearest": "text:Daniel",
+      "intersections": [],
+      "coverHits": []
+     },
+     "pack_nik": {
+      "onScreen": true,
+      "minClearancePx": 13.8,
+      "nearest": "text:Nik",
+      "intersections": [],
+      "coverHits": []
+     }
+    },
+    "coverHits": {},
+    "headerBand": {
+     "face_daniel": 210.9,
+     "face_nik": 206.7
+    },
+    "headerBandOverlap": [],
+    "revealContainment": [],
+    "phoneFaceFraming": {
+     "face_daniel": "whole",
+     "face_nik": "whole"
+    },
+    "pass": true,
+    "failing": []
+   },
+   "G9": {
+    "loaded": [
+     "/visual-assets/v10_1/club/assets/ENV_CLUB_PLATE_V1_2X.webp"
+    ],
+    "cssBackgrounds": [
+     "image-set(url(\"/visual-assets/v10_1/club/assets/ENV_CLUB_PLATE_V1_1X.webp\") 1dppx, url(\"http://127.0.0.1:8765/visual-assets/v10_1/club/assets/ENV_CLUB_PLATE_V1_2X.webp\") 2dppx)"
+    ],
+    "pass": true
+   },
+   "G10": {
+    "pairs": [
+     {
+      "a": "#clubPlayerOne",
+      "b": "#clubPlayerTwo",
+      "one": 117.8,
+      "two": 305.3,
+      "ok": true
+     },
+     {
+      "a": "#clubNameOne",
+      "b": "#clubNameTwo",
+      "one": 126.8,
+      "two": 314.3,
+      "ok": true
+     },
+     {
+      "a": "#clubCardStateOne",
+      "b": "#clubCardStateTwo",
+      "one": 126.8,
+      "two": 314.3,
+      "ok": true
+     },
+     {
+      "a": "#clubCardOne .clubRevealIndex",
+      "b": "#clubCardTwo .clubRevealIndex",
+      "one": 24,
+      "two": 212.5,
+      "ok": true
+     },
+     {
+      "a": "#clubCardOne .shieldSlot",
+      "b": "#clubCardTwo .shieldSlot",
+      "one": 34,
+      "two": 221.5,
+      "ok": true
+     },
+     {
+      "a": "#clubConfirmationManagerOne",
+      "b": "#clubConfirmationManagerTwo",
+      "one": null,
+      "two": null,
+      "ok": true
+     },
+     {
+      "a": "#clubConfirmationClubOne",
+      "b": "#clubConfirmationClubTwo",
+      "one": null,
+      "two": null,
+      "ok": true
+     },
+     {
+      "a": ".reveal[data-side='0']",
+      "b": ".reveal[data-side='1']",
+      "one": null,
+      "two": null,
+      "ok": true
+     }
+    ],
+    "pass": true
+   },
+   "G13": {
+    "header": {
+     "box": [
+      0,
+      0,
+      393,
+      48
+     ],
+     "height": "48px",
+     "backgroundImage": "linear-gradient(rgba(6, 7, 9, 0.92), rgba(6, 7, 9, 0.7))",
+     "borderBottom": "1px solid rgba(201, 155, 69, 0.45)"
+    },
+    "badge": {
+     "box": [
+      14,
+      9.8,
+      43.2,
+      27.5
+     ],
+     "fontFamily": "\"Barlow Condensed\", \"Arial Narrow\", sans-serif",
+     "fontSize": "22px",
+     "fontStyle": "italic",
+     "color": "rgb(242, 196, 91)"
+    },
+    "brand": {
+     "box": [
+      18,
+      23.5,
+      0,
+      16.3
+     ],
+     "fontSize": "13px",
+     "letterSpacing": "2.34px",
+     "color": "rgb(233, 223, 200)"
+    },
+    "identity": {
+     "box": [
+      170,
+      1.5,
+      64.3,
+      44
+     ],
+     "fontFamily": "\"Barlow Condensed\", \"Arial Narrow\", sans-serif",
+     "fontSize": "13px",
+     "minHeight": "44px",
+     "background": "rgba(10, 12, 15, 0.72) none repeat scroll 0% 0% / auto padding-box border-box",
+     "borderTop": "1px solid rgba(201, 155, 69, 0.55)"
+    },
+    "season": {
+     "box": [
+      242.3,
+      1.5,
+      140.7,
+      44
+     ],
+     "fontSize": "13px",
+     "minHeight": "44px"
+    },
+    "footer": {
+     "box": [
+      0,
+      0,
+      0,
+      0
+     ],
+     "height": "28px",
+     "display": "none"
+    }
+   },
+   "vw": 393,
+   "vh": 660,
+   "dpr": 3,
+   "mobile": true,
+   "shot": "CL1_393x660.jpg",
+   "G7": [
+    {
+     "t": "CM 17",
+     "ratio": 11.79,
+     "need": 3,
+     "pass": true
+    },
+    {
+     "t": "SIGN IN",
+     "ratio": 15.29,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "No Active Showdown",
+     "ratio": 15.29,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "CLUB ASSIGNMENT",
+     "ratio": 6.51,
+     "need": 3,
+     "pass": true
+    },
+    {
+     "t": "LEAGUE CONFIRMED",
+     "ratio": 17.22,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "Premier League",
+     "ratio": 12.38,
+     "need": 3,
+     "pass": true
+    },
+    {
+     "t": "LEAGUE CONFIRMED · TWO SEALED CL",
+     "ratio": 17.22,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "01 DRAW",
+     "ratio": 8.61,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "02 PACK 1",
+     "ratio": 8.61,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "03 PACK 2",
+     "ratio": 8.61,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "04 VS",
+     "ratio": 8.61,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "05 LOCK",
+     "ratio": 8.61,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "01",
+     "ratio": 11.88,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "Daniel",
+     "ratio": 17.22,
+     "need": 3,
+     "pass": true
+    },
+    {
+     "t": "CAREER DRAW",
+     "ratio": 9.22,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "ASSIGNED CLUB",
+     "ratio": 9.22,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "?",
+     "ratio": 17.22,
+     "need": 3,
+     "pass": true
+    },
+    {
+     "t": "SEALED",
+     "ratio": 5.54,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "RIVALRY",
+     "ratio": 15.66,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "VS",
+     "ratio": 6.1,
+     "need": 3,
+     "pass": true
+    },
+    {
+     "t": "02",
+     "ratio": 11.88,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "Nik",
+     "ratio": 17.22,
+     "need": 3,
+     "pass": true
+    },
+    {
+     "t": "CAREER DRAW",
+     "ratio": 9.22,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "ASSIGNED CLUB",
+     "ratio": 9.22,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "?",
+     "ratio": 17.22,
+     "need": 3,
+     "pass": true
+    },
+    {
+     "t": "SEALED",
+     "ratio": 5.54,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "OPEN SHOWDOWN PACKS",
+     "ratio": 10.67,
+     "need": 3,
+     "pass": true
+    },
+    {
+     "t": "BACK",
+     "ratio": 16.92,
+     "need": 3,
+     "pass": true
+    }
+   ],
+   "G7summary": {
+    "checked": 28,
+    "failing": []
+   },
+   "G11": {
+    "expected": [
+     "onlinePlayerIdentityBadge",
+     "openClubPack",
+     "clubAssignmentBack"
+    ],
+    "actual": [
+     "onlinePlayerIdentityBadge",
+     "openClubPack",
+     "clubAssignmentBack"
+    ],
+    "pass": true
+   },
+   "zones": [
+    {
+     "zone": [
+      0,
+      22,
+      888,
+      78
+     ],
+     "edges": {
+      "L": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "R": {
+       "visiblePlatePx": 30,
+       "segments": [
+        [
+         888,
+         50,
+         888,
+         78
+        ]
+       ]
+      },
+      "T": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "B": {
+       "visiblePlatePx": 836,
+       "segments": [
+        [
+         54,
+         78,
+         888,
+         78
+        ]
+       ]
+      }
+     }
+    },
+    {
+     "zone": [
+      1192,
+      22,
+      1398,
+      78
+     ],
+     "edges": {
+      "L": {
+       "visiblePlatePx": 16,
+       "segments": [
+        [
+         1192,
+         50,
+         1192,
+         64
+        ]
+       ]
+      },
+      "R": {
+       "visiblePlatePx": 30,
+       "segments": [
+        [
+         1398,
+         50,
+         1398,
+         78
+        ]
+       ]
+      },
+      "T": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "B": {
+       "visiblePlatePx": 134,
+       "segments": [
+        [
+         1266,
+         78,
+         1398,
+         78
+        ]
+       ]
+      }
+     }
+    },
+    {
+     "zone": [
+      1400,
+      6,
+      1528,
+      78
+     ],
+     "edges": {
+      "L": {
+       "visiblePlatePx": 30,
+       "segments": [
+        [
+         1400,
+         50,
+         1400,
+         78
+        ]
+       ]
+      },
+      "R": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "T": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "B": {
+       "visiblePlatePx": 84,
+       "segments": [
+        [
+         1400,
+         78,
+         1482,
+         78
+        ]
+       ]
+      }
+     }
+    },
+    {
+     "zone": [
+      458,
+      92,
+      1070,
+      298
+     ],
+     "edges": {
+      "L": {
+       "visiblePlatePx": 208,
+       "segments": [
+        [
+         458,
+         92,
+         458,
+         298
+        ]
+       ]
+      },
+      "R": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "T": {
+       "visiblePlatePx": 66,
+       "segments": [
+        [
+         458,
+         92,
+         488,
+         92
+        ],
+        [
+         1006,
+         92,
+         1038,
+         92
+        ]
+       ]
+      },
+      "B": {
+       "visiblePlatePx": 58,
+       "segments": [
+        [
+         458,
+         298,
+         484,
+         298
+        ],
+        [
+         1010,
+         298,
+         1038,
+         298
+        ]
+       ]
+      }
+     }
+    },
+    {
+     "zone": [
+      552,
+      306,
+      980,
+      388
+     ],
+     "edges": {
+      "L": {
+       "visiblePlatePx": 84,
+       "segments": [
+        [
+         552,
+         306,
+         552,
+         388
+        ]
+       ]
+      },
+      "R": {
+       "visiblePlatePx": 84,
+       "segments": [
+        [
+         980,
+         306,
+         980,
+         388
+        ]
+       ]
+      },
+      "T": {
+       "visiblePlatePx": 48,
+       "segments": [
+        [
+         552,
+         306,
+         580,
+         306
+        ],
+        [
+         964,
+         306,
+         980,
+         306
+        ]
+       ]
+      },
+      "B": {
+       "visiblePlatePx": 56,
+       "segments": [
+        [
+         552,
+         388,
+         584,
+         388
+        ],
+        [
+         960,
+         388,
+         980,
+         388
+        ]
+       ]
+      }
+     }
+    },
+    {
+     "zone": [
+      680,
+      405,
+      850,
+      555
+     ],
+     "edges": {
+      "L": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "R": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "T": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "B": {
+       "visiblePlatePx": 0,
+       "segments": []
+      }
+     }
+    },
+    {
+     "zone": [
+      556,
+      572,
+      980,
+      628
+     ],
+     "edges": {
+      "L": {
+       "visiblePlatePx": 34,
+       "segments": [
+        [
+         556,
+         572,
+         556,
+         604
+        ]
+       ]
+      },
+      "R": {
+       "visiblePlatePx": 34,
+       "segments": [
+        [
+         980,
+         572,
+         980,
+         604
+        ]
+       ]
+      },
+      "T": {
+       "visiblePlatePx": 156,
+       "segments": [
+        [
+         556,
+         572,
+         626,
+         572
+        ],
+        [
+         898,
+         572,
+         980,
+         572
+        ]
+       ]
+      },
+      "B": {
+       "visiblePlatePx": 0,
+       "segments": []
+      }
+     }
+    },
+    {
+     "zone": [
+      140,
+      598,
+      1400,
+      742
+     ],
+     "edges": {
+      "L": {
+       "visiblePlatePx": 8,
+       "segments": [
+        [
+         140,
+         598,
+         140,
+         604
+        ]
+       ]
+      },
+      "R": {
+       "visiblePlatePx": 8,
+       "segments": [
+        [
+         1400,
+         598,
+         1400,
+         604
+        ]
+       ]
+      },
+      "T": {
+       "visiblePlatePx": 458,
+       "segments": [
+        [
+         140,
+         598,
+         288,
+         598
+        ],
+        [
+         552,
+         598,
+         616,
+         598
+        ],
+        [
+         904,
+         598,
+         994,
+         598
+        ],
+        [
+         1252,
+         598,
+         1400,
+         598
+        ]
+       ]
+      },
+      "B": {
+       "visiblePlatePx": 0,
+       "segments": []
+      }
+     }
+    },
+    {
+     "zone": [
+      444,
+      744,
+      1086,
+      806
+     ],
+     "edges": {
+      "L": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "R": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "T": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "B": {
+       "visiblePlatePx": 0,
+       "segments": []
+      }
+     }
+    },
+    {
+     "zone": [
+      0,
+      812,
+      1536,
+      864
+     ],
+     "edges": {
+      "L": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "R": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "T": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "B": {
+       "visiblePlatePx": 0,
+       "segments": []
+      }
+     }
+    }
+   ],
+   "G12": {
+    "consoleErrors": [],
+    "failedRequests": [],
+    "pass": true
+   }
+  },
+  {
+   "fail": [],
+   "frame": "CL2",
+   "T": {
+    "k": 0.38155,
+    "offX": -96.53,
+    "offY": 221.83,
+    "mode": "phone"
+   },
+   "G1": {
+    "visible": [
+     "01",
+     "01 DRAW",
+     "02",
+     "02 PACK 1",
+     "03 PACK 2",
+     "04 VS",
+     "05 LOCK",
+     "?",
+     "ASSIGNED CLUB",
+     "CAREER DRAW",
+     "CLUB ASSIGNMENT",
+     "CLUB DRAW SAVED · PREPARING PACK 01",
+     "CM 17",
+     "DRAW LOCKED...",
+     "Daniel",
+     "LEAGUE CONFIRMED",
+     "Nik",
+     "No Active Showdown",
+     "Premier League",
+     "RIVALRY",
+     "SEALED",
+     "SIGN IN",
+     "VS"
+    ],
+    "missing": [],
+    "extra": [],
+    "pass": true
+   },
+   "G2": {
+    "idCounts": {
+     "clubWheelScreen": 1,
+     "clubAssignmentLeague": 1,
+     "clubPackStatus": 1,
+     "clubCardOne": 1,
+     "clubCardTwo": 1,
+     "clubPlayerOne": 1,
+     "clubPlayerTwo": 1,
+     "clubNameOne": 1,
+     "clubNameTwo": 1,
+     "clubCardStateOne": 1,
+     "clubCardStateTwo": 1,
+     "clubRivalryConfirmation": 1,
+     "clubConfirmationShowdown": 1,
+     "clubConfirmationMeta": 1,
+     "clubConfirmationManagerOne": 1,
+     "clubConfirmationManagerTwo": 1,
+     "clubConfirmationClubOne": 1,
+     "clubConfirmationClubTwo": 1,
+     "openClubPack": 1,
+     "continueClubAssignment": 1,
+     "clubAssignmentBack": 1,
+     "topHeader": 1,
+     "seasonIndicator": 1,
+     "onlinePlayerIdentityBadge": 1
+    },
+    "aria": {
+     "statusLive": "polite",
+     "confLive": "polite",
+     "progressHidden": "true",
+     "doorsHidden": [
+      "true",
+      "true"
+     ],
+     "progressSteps": [
+      "01 DRAW",
+      "02 PACK 1",
+      "03 PACK 2",
+      "04 VS",
+      "05 LOCK"
+     ]
+    },
+    "pass": true
+   },
+   "G3": {
+    "html": [
+     393,
+     660
+    ],
+    "body": [
+     393,
+     660
+    ],
+    "inner": [
+     393,
+     660
+    ],
+    "pass": true,
+    "shortDesktopScroll": false,
+    "sectionOverflow": 0
+   },
+   "G4": {
+    "exempt": true,
+    "pass": true
+   },
+   "G5": {
+    "clipped": [],
+    "pass": true
+   },
+   "G6": {
+    "controls": [
+     {
+      "id": "onlinePlayerIdentityBadge",
+      "w": 64.3,
+      "h": 44
+     },
+     {
+      "id": "openClubPack",
+      "w": 365,
+      "h": 56
+     }
+    ],
+    "smallText": [],
+    "lockNoteFs": null,
+    "pass": true
+   },
+   "G8": {
+    "face": {
+     "face_daniel": {
+      "onScreen": true,
+      "minClearancePx": 30,
+      "nearest": "panel:.clubRevealProgress",
+      "intersections": [],
+      "coverHits": []
+     },
+     "face_nik": {
+      "onScreen": true,
+      "minClearancePx": 24.3,
+      "nearest": "panel:.clubRevealProgress",
+      "intersections": [],
+      "coverHits": []
+     }
+    },
+    "hand": {
+     "hand_daniel_top": {
+      "onScreen": true,
+      "minClearancePx": 86.7,
+      "nearest": "panel:.clubVs",
+      "intersections": [],
+      "coverHits": []
+     },
+     "hand_daniel_side": {
+      "onScreen": true,
+      "minClearancePx": 14.5,
+      "nearest": "panel:.clubVs",
+      "intersections": [],
+      "coverHits": []
+     },
+     "hand_nik_top": {
+      "onScreen": true,
+      "minClearancePx": 85.9,
+      "nearest": "panel:.clubVs",
+      "intersections": [],
+      "coverHits": []
+     },
+     "hand_nik_side": {
+      "onScreen": true,
+      "minClearancePx": 19.1,
+      "nearest": "panel:.clubVs",
+      "intersections": [],
+      "coverHits": []
+     }
+    },
+    "pack": {
+     "pack_daniel": {
+      "onScreen": true,
+      "minClearancePx": 20.8,
+      "nearest": "text:Daniel",
+      "intersections": [],
+      "coverHits": []
+     },
+     "pack_nik": {
+      "onScreen": true,
+      "minClearancePx": 33.5,
+      "nearest": "text:Nik",
+      "intersections": [],
+      "coverHits": []
+     }
+    },
+    "coverHits": {},
+    "headerBand": {
+     "face_daniel": 204.4,
+     "face_nik": 198.6
+    },
+    "headerBandOverlap": [],
+    "revealContainment": [],
+    "phoneFaceFraming": {
+     "face_daniel": "whole",
+     "face_nik": "whole"
+    },
+    "pass": true,
+    "failing": []
+   },
+   "G9": {
+    "loaded": [
+     "/visual-assets/v10_1/club/assets/ENV_CLUB_PLATE_V1_2X.webp"
+    ],
+    "cssBackgrounds": [
+     "image-set(url(\"/visual-assets/v10_1/club/assets/ENV_CLUB_PLATE_V1_1X.webp\") 1dppx, url(\"http://127.0.0.1:8765/visual-assets/v10_1/club/assets/ENV_CLUB_PLATE_V1_2X.webp\") 2dppx)"
+    ],
+    "pass": true
+   },
+   "G10": {
+    "pairs": [
+     {
+      "a": "#clubPlayerOne",
+      "b": "#clubPlayerTwo",
+      "one": 117.8,
+      "two": 305.3,
+      "ok": true
+     },
+     {
+      "a": "#clubNameOne",
+      "b": "#clubNameTwo",
+      "one": 126.8,
+      "two": 314.3,
+      "ok": true
+     },
+     {
+      "a": "#clubCardStateOne",
+      "b": "#clubCardStateTwo",
+      "one": 126.8,
+      "two": 314.3,
+      "ok": true
+     },
+     {
+      "a": "#clubCardOne .clubRevealIndex",
+      "b": "#clubCardTwo .clubRevealIndex",
+      "one": 24,
+      "two": 212.5,
+      "ok": true
+     },
+     {
+      "a": "#clubCardOne .shieldSlot",
+      "b": "#clubCardTwo .shieldSlot",
+      "one": 34,
+      "two": 221.5,
+      "ok": true
+     },
+     {
+      "a": "#clubConfirmationManagerOne",
+      "b": "#clubConfirmationManagerTwo",
+      "one": null,
+      "two": null,
+      "ok": true
+     },
+     {
+      "a": "#clubConfirmationClubOne",
+      "b": "#clubConfirmationClubTwo",
+      "one": null,
+      "two": null,
+      "ok": true
+     },
+     {
+      "a": ".reveal[data-side='0']",
+      "b": ".reveal[data-side='1']",
+      "one": null,
+      "two": null,
+      "ok": true
+     }
+    ],
+    "pass": true
+   },
+   "G13": {
+    "header": {
+     "box": [
+      0,
+      0,
+      393,
+      48
+     ],
+     "height": "48px",
+     "backgroundImage": "linear-gradient(rgba(6, 7, 9, 0.92), rgba(6, 7, 9, 0.7))",
+     "borderBottom": "1px solid rgba(201, 155, 69, 0.45)"
+    },
+    "badge": {
+     "box": [
+      14,
+      9.8,
+      43.2,
+      27.5
+     ],
+     "fontFamily": "\"Barlow Condensed\", \"Arial Narrow\", sans-serif",
+     "fontSize": "22px",
+     "fontStyle": "italic",
+     "color": "rgb(242, 196, 91)"
+    },
+    "brand": {
+     "box": [
+      18,
+      23.5,
+      0,
+      16.3
+     ],
+     "fontSize": "13px",
+     "letterSpacing": "2.34px",
+     "color": "rgb(233, 223, 200)"
+    },
+    "identity": {
+     "box": [
+      170,
+      1.5,
+      64.3,
+      44
+     ],
+     "fontFamily": "\"Barlow Condensed\", \"Arial Narrow\", sans-serif",
+     "fontSize": "13px",
+     "minHeight": "44px",
+     "background": "rgba(10, 12, 15, 0.72) none repeat scroll 0% 0% / auto padding-box border-box",
+     "borderTop": "1px solid rgba(201, 155, 69, 0.55)"
+    },
+    "season": {
+     "box": [
+      242.3,
+      1.5,
+      140.7,
+      44
+     ],
+     "fontSize": "13px",
+     "minHeight": "44px"
+    },
+    "footer": {
+     "box": [
+      0,
+      0,
+      0,
+      0
+     ],
+     "height": "28px",
+     "display": "none"
+    }
+   },
+   "vw": 393,
+   "vh": 660,
+   "dpr": 3,
+   "mobile": true,
+   "shot": "CL2_393x660.jpg",
+   "G7": [
+    {
+     "t": "CM 17",
+     "ratio": 11.79,
+     "need": 3,
+     "pass": true
+    },
+    {
+     "t": "SIGN IN",
+     "ratio": 15.29,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "No Active Showdown",
+     "ratio": 15.29,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "CLUB ASSIGNMENT",
+     "ratio": 6.51,
+     "need": 3,
+     "pass": true
+    },
+    {
+     "t": "LEAGUE CONFIRMED",
+     "ratio": 17.22,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "Premier League",
+     "ratio": 12.38,
+     "need": 3,
+     "pass": true
+    },
+    {
+     "t": "CLUB DRAW SAVED · PREPARING PACK",
+     "ratio": 17.22,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "01 DRAW",
+     "ratio": 11.43,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "02 PACK 1",
+     "ratio": 8.61,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "03 PACK 2",
+     "ratio": 8.61,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "04 VS",
+     "ratio": 8.61,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "05 LOCK",
+     "ratio": 8.61,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "01",
+     "ratio": 11.88,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "Daniel",
+     "ratio": 17.22,
+     "need": 3,
+     "pass": true
+    },
+    {
+     "t": "CAREER DRAW",
+     "ratio": 9.22,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "ASSIGNED CLUB",
+     "ratio": 9.22,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "?",
+     "ratio": 17.22,
+     "need": 3,
+     "pass": true
+    },
+    {
+     "t": "SEALED",
+     "ratio": 5.54,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "RIVALRY",
+     "ratio": 15.87,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "VS",
+     "ratio": 6.09,
+     "need": 3,
+     "pass": true
+    },
+    {
+     "t": "02",
+     "ratio": 11.88,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "Nik",
+     "ratio": 17.22,
+     "need": 3,
+     "pass": true
+    },
+    {
+     "t": "CAREER DRAW",
+     "ratio": 9.22,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "ASSIGNED CLUB",
+     "ratio": 9.22,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "?",
+     "ratio": 17.22,
+     "need": 3,
+     "pass": true
+    },
+    {
+     "t": "SEALED",
+     "ratio": 5.54,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "DRAW LOCKED...",
+     "ratio": 14.85,
+     "need": 3,
+     "pass": true
+    }
+   ],
+   "G7summary": {
+    "checked": 27,
+    "failing": []
+   },
+   "G11": {
+    "expected": [
+     "onlinePlayerIdentityBadge"
+    ],
+    "actual": [
+     "onlinePlayerIdentityBadge"
+    ],
+    "pass": true
+   },
+   "zones": [
+    {
+     "zone": [
+      0,
+      22,
+      888,
+      78
+     ],
+     "edges": {
+      "L": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "R": {
+       "visiblePlatePx": 46,
+       "segments": [
+        [
+         888,
+         34,
+         888,
+         78
+        ]
+       ]
+      },
+      "T": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "B": {
+       "visiblePlatePx": 636,
+       "segments": [
+        [
+         254,
+         78,
+         888,
+         78
+        ]
+       ]
+      }
+     }
+    },
+    {
+     "zone": [
+      1192,
+      22,
+      1398,
+      78
+     ],
+     "edges": {
+      "L": {
+       "visiblePlatePx": 32,
+       "segments": [
+        [
+         1192,
+         34,
+         1192,
+         64
+        ]
+       ]
+      },
+      "R": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "T": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "B": {
+       "visiblePlatePx": 18,
+       "segments": [
+        [
+         1266,
+         78,
+         1282,
+         78
+        ]
+       ]
+      }
+     }
+    },
+    {
+     "zone": [
+      1400,
+      6,
+      1528,
+      78
+     ],
+     "edges": {
+      "L": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "R": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "T": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "B": {
+       "visiblePlatePx": 0,
+       "segments": []
+      }
+     }
+    },
+    {
+     "zone": [
+      458,
+      92,
+      1070,
+      298
+     ],
+     "edges": {
+      "L": {
+       "visiblePlatePx": 208,
+       "segments": [
+        [
+         458,
+         92,
+         458,
+         298
+        ]
+       ]
+      },
+      "R": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "T": {
+       "visiblePlatePx": 50,
+       "segments": [
+        [
+         458,
+         92,
+         480,
+         92
+        ],
+        [
+         1014,
+         92,
+         1038,
+         92
+        ]
+       ]
+      },
+      "B": {
+       "visiblePlatePx": 42,
+       "segments": [
+        [
+         458,
+         298,
+         476,
+         298
+        ],
+        [
+         1018,
+         298,
+         1038,
+         298
+        ]
+       ]
+      }
+     }
+    },
+    {
+     "zone": [
+      552,
+      306,
+      980,
+      388
+     ],
+     "edges": {
+      "L": {
+       "visiblePlatePx": 76,
+       "segments": [
+        [
+         552,
+         314,
+         552,
+         388
+        ]
+       ]
+      },
+      "R": {
+       "visiblePlatePx": 76,
+       "segments": [
+        [
+         980,
+         314,
+         980,
+         388
+        ]
+       ]
+      },
+      "T": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "B": {
+       "visiblePlatePx": 36,
+       "segments": [
+        [
+         552,
+         388,
+         574,
+         388
+        ],
+        [
+         970,
+         388,
+         980,
+         388
+        ]
+       ]
+      }
+     }
+    },
+    {
+     "zone": [
+      680,
+      405,
+      850,
+      555
+     ],
+     "edges": {
+      "L": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "R": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "T": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "B": {
+       "visiblePlatePx": 0,
+       "segments": []
+      }
+     }
+    },
+    {
+     "zone": [
+      556,
+      572,
+      980,
+      628
+     ],
+     "edges": {
+      "L": {
+       "visiblePlatePx": 48,
+       "segments": [
+        [
+         556,
+         572,
+         556,
+         618
+        ]
+       ]
+      },
+      "R": {
+       "visiblePlatePx": 48,
+       "segments": [
+        [
+         980,
+         572,
+         980,
+         618
+        ]
+       ]
+      },
+      "T": {
+       "visiblePlatePx": 138,
+       "segments": [
+        [
+         556,
+         572,
+         616,
+         572
+        ],
+        [
+         906,
+         572,
+         980,
+         572
+        ]
+       ]
+      },
+      "B": {
+       "visiblePlatePx": 0,
+       "segments": []
+      }
+     }
+    },
+    {
+     "zone": [
+      140,
+      598,
+      1400,
+      742
+     ],
+     "edges": {
+      "L": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "R": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "T": {
+       "visiblePlatePx": 198,
+       "segments": [
+        [
+         254,
+         598,
+         288,
+         598
+        ],
+        [
+         552,
+         598,
+         600,
+         598
+        ],
+        [
+         916,
+         598,
+         994,
+         598
+        ],
+        [
+         1252,
+         598,
+         1282,
+         598
+        ]
+       ]
+      },
+      "B": {
+       "visiblePlatePx": 0,
+       "segments": []
+      }
+     }
+    },
+    {
+     "zone": [
+      444,
+      744,
+      1086,
+      806
+     ],
+     "edges": {
+      "L": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "R": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "T": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "B": {
+       "visiblePlatePx": 0,
+       "segments": []
+      }
+     }
+    },
+    {
+     "zone": [
+      0,
+      812,
+      1536,
+      864
+     ],
+     "edges": {
+      "L": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "R": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "T": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "B": {
+       "visiblePlatePx": 0,
+       "segments": []
+      }
+     }
+    }
+   ],
+   "G12": {
+    "consoleErrors": [],
+    "failedRequests": [],
+    "pass": true
+   }
+  },
+  {
+   "fail": [],
+   "frame": "CL3",
+   "T": {
+    "k": 0.38155,
+    "offX": -96.53,
+    "offY": 221.83,
+    "mode": "phone"
+   },
+   "G1": {
+    "visible": [
+     "01",
+     "01 DRAW",
+     "02",
+     "02 PACK 1",
+     "03 PACK 2",
+     "04 VS",
+     "05 LOCK",
+     "?",
+     "ASSIGNED CLUB",
+     "Arsenal",
+     "CAREER DRAW",
+     "CLUB ASSIGNMENT",
+     "CM 17",
+     "DANIEL · PACK 01 OPEN",
+     "DRAW LOCKED...",
+     "Daniel",
+     "LEAGUE CONFIRMED",
+     "Nik",
+     "No Active Showdown",
+     "Premier League",
+     "REVEALED",
+     "RIVALRY",
+     "SEALED",
+     "SIGN IN",
+     "VS"
+    ],
+    "missing": [],
+    "extra": [],
+    "pass": true
+   },
+   "G2": {
+    "idCounts": {
+     "clubWheelScreen": 1,
+     "clubAssignmentLeague": 1,
+     "clubPackStatus": 1,
+     "clubCardOne": 1,
+     "clubCardTwo": 1,
+     "clubPlayerOne": 1,
+     "clubPlayerTwo": 1,
+     "clubNameOne": 1,
+     "clubNameTwo": 1,
+     "clubCardStateOne": 1,
+     "clubCardStateTwo": 1,
+     "clubRivalryConfirmation": 1,
+     "clubConfirmationShowdown": 1,
+     "clubConfirmationMeta": 1,
+     "clubConfirmationManagerOne": 1,
+     "clubConfirmationManagerTwo": 1,
+     "clubConfirmationClubOne": 1,
+     "clubConfirmationClubTwo": 1,
+     "openClubPack": 1,
+     "continueClubAssignment": 1,
+     "clubAssignmentBack": 1,
+     "topHeader": 1,
+     "seasonIndicator": 1,
+     "onlinePlayerIdentityBadge": 1
+    },
+    "aria": {
+     "statusLive": "polite",
+     "confLive": "polite",
+     "progressHidden": "true",
+     "doorsHidden": [
+      "true",
+      "true"
+     ],
+     "progressSteps": [
+      "01 DRAW",
+      "02 PACK 1",
+      "03 PACK 2",
+      "04 VS",
+      "05 LOCK"
+     ]
+    },
+    "pass": true
+   },
+   "G3": {
+    "html": [
+     393,
+     660
+    ],
+    "body": [
+     393,
+     660
+    ],
+    "inner": [
+     393,
+     660
+    ],
+    "pass": true,
+    "shortDesktopScroll": false,
+    "sectionOverflow": 0
+   },
+   "G4": {
+    "exempt": true,
+    "pass": true
+   },
+   "G5": {
+    "clipped": [],
+    "pass": true
+   },
+   "G6": {
+    "controls": [
+     {
+      "id": "onlinePlayerIdentityBadge",
+      "w": 64.3,
+      "h": 44
+     },
+     {
+      "id": "openClubPack",
+      "w": 365,
+      "h": 56
+     }
+    ],
+    "smallText": [],
+    "lockNoteFs": null,
+    "pass": true
+   },
+   "G8": {
+    "face": {
+     "face_daniel": {
+      "onScreen": true,
+      "minClearancePx": 30,
+      "nearest": "panel:.clubRevealProgress",
+      "intersections": [],
+      "coverHits": []
+     },
+     "face_nik": {
+      "onScreen": true,
+      "minClearancePx": 24.3,
+      "nearest": "panel:.clubRevealProgress",
+      "intersections": [],
+      "coverHits": []
+     }
+    },
+    "hand": {
+     "hand_daniel_top": {
+      "onScreen": true,
+      "minClearancePx": 86.7,
+      "nearest": "panel:.clubVs",
+      "intersections": [],
+      "coverHits": []
+     },
+     "hand_daniel_side": {
+      "onScreen": true,
+      "minClearancePx": 14.5,
+      "nearest": "panel:.clubVs",
+      "intersections": [],
+      "coverHits": []
+     },
+     "hand_nik_top": {
+      "onScreen": true,
+      "minClearancePx": 85.9,
+      "nearest": "panel:.clubVs",
+      "intersections": [],
+      "coverHits": []
+     },
+     "hand_nik_side": {
+      "onScreen": true,
+      "minClearancePx": 19.1,
+      "nearest": "panel:.clubVs",
+      "intersections": [],
+      "coverHits": []
+     }
+    },
+    "pack": {
+     "pack_daniel": {
+      "onScreen": true,
+      "minClearancePx": 20.8,
+      "nearest": "text:Daniel",
+      "intersections": [],
+      "coverHits": []
+     },
+     "pack_nik": {
+      "onScreen": true,
+      "minClearancePx": 33.5,
+      "nearest": "text:Nik",
+      "intersections": [],
+      "coverHits": []
+     }
+    },
+    "coverHits": {},
+    "headerBand": {
+     "face_daniel": 204.4,
+     "face_nik": 198.6
+    },
+    "headerBandOverlap": [],
+    "revealContainment": [
+     {
+      "side": "daniel",
+      "overflow": "hidden",
+      "rectErrPx": 0.01,
+      "pass": true
+     }
+    ],
+    "phoneFaceFraming": {
+     "face_daniel": "whole",
+     "face_nik": "whole"
+    },
+    "pass": true,
+    "failing": []
+   },
+   "G9": {
+    "loaded": [
+     "/visual-assets/v10_1/club/assets/ENV_CLUB_PLATE_V1_2X.webp"
+    ],
+    "cssBackgrounds": [
+     "image-set(url(\"/visual-assets/v10_1/club/assets/ENV_CLUB_PLATE_V1_1X.webp\") 1dppx, url(\"http://127.0.0.1:8765/visual-assets/v10_1/club/assets/ENV_CLUB_PLATE_V1_2X.webp\") 2dppx)"
+    ],
+    "pass": true
+   },
+   "G10": {
+    "pairs": [
+     {
+      "a": "#clubPlayerOne",
+      "b": "#clubPlayerTwo",
+      "one": 117.8,
+      "two": 305.3,
+      "ok": true
+     },
+     {
+      "a": "#clubNameOne",
+      "b": "#clubNameTwo",
+      "one": 126.8,
+      "two": 314.3,
+      "ok": true
+     },
+     {
+      "a": "#clubCardStateOne",
+      "b": "#clubCardStateTwo",
+      "one": 126.8,
+      "two": 314.3,
+      "ok": true
+     },
+     {
+      "a": "#clubCardOne .clubRevealIndex",
+      "b": "#clubCardTwo .clubRevealIndex",
+      "one": 24,
+      "two": 212.5,
+      "ok": true
+     },
+     {
+      "a": "#clubCardOne .shieldSlot",
+      "b": "#clubCardTwo .shieldSlot",
+      "one": 34,
+      "two": 221.5,
+      "ok": true
+     },
+     {
+      "a": "#clubConfirmationManagerOne",
+      "b": "#clubConfirmationManagerTwo",
+      "one": null,
+      "two": null,
+      "ok": true
+     },
+     {
+      "a": "#clubConfirmationClubOne",
+      "b": "#clubConfirmationClubTwo",
+      "one": null,
+      "two": null,
+      "ok": true
+     },
+     {
+      "a": ".reveal[data-side='0']",
+      "b": ".reveal[data-side='1']",
+      "one": 63.7,
+      "two": null,
+      "ok": true
+     }
+    ],
+    "pass": true
+   },
+   "G13": {
+    "header": {
+     "box": [
+      0,
+      0,
+      393,
+      48
+     ],
+     "height": "48px",
+     "backgroundImage": "linear-gradient(rgba(6, 7, 9, 0.92), rgba(6, 7, 9, 0.7))",
+     "borderBottom": "1px solid rgba(201, 155, 69, 0.45)"
+    },
+    "badge": {
+     "box": [
+      14,
+      9.8,
+      43.2,
+      27.5
+     ],
+     "fontFamily": "\"Barlow Condensed\", \"Arial Narrow\", sans-serif",
+     "fontSize": "22px",
+     "fontStyle": "italic",
+     "color": "rgb(242, 196, 91)"
+    },
+    "brand": {
+     "box": [
+      18,
+      23.5,
+      0,
+      16.3
+     ],
+     "fontSize": "13px",
+     "letterSpacing": "2.34px",
+     "color": "rgb(233, 223, 200)"
+    },
+    "identity": {
+     "box": [
+      170,
+      1.5,
+      64.3,
+      44
+     ],
+     "fontFamily": "\"Barlow Condensed\", \"Arial Narrow\", sans-serif",
+     "fontSize": "13px",
+     "minHeight": "44px",
+     "background": "rgba(10, 12, 15, 0.72) none repeat scroll 0% 0% / auto padding-box border-box",
+     "borderTop": "1px solid rgba(201, 155, 69, 0.55)"
+    },
+    "season": {
+     "box": [
+      242.3,
+      1.5,
+      140.7,
+      44
+     ],
+     "fontSize": "13px",
+     "minHeight": "44px"
+    },
+    "footer": {
+     "box": [
+      0,
+      0,
+      0,
+      0
+     ],
+     "height": "28px",
+     "display": "none"
+    }
+   },
+   "vw": 393,
+   "vh": 660,
+   "dpr": 3,
+   "mobile": true,
+   "shot": "CL3_393x660.jpg",
+   "G7": [
+    {
+     "t": "CM 17",
+     "ratio": 11.79,
+     "need": 3,
+     "pass": true
+    },
+    {
+     "t": "SIGN IN",
+     "ratio": 15.29,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "No Active Showdown",
+     "ratio": 15.29,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "CLUB ASSIGNMENT",
+     "ratio": 6.51,
+     "need": 3,
+     "pass": true
+    },
+    {
+     "t": "LEAGUE CONFIRMED",
+     "ratio": 17.22,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "Premier League",
+     "ratio": 12.38,
+     "need": 3,
+     "pass": true
+    },
+    {
+     "t": "DANIEL · PACK 01 OPEN",
+     "ratio": 17.22,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "01 DRAW",
+     "ratio": 15.31,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "02 PACK 1",
+     "ratio": 11.43,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "03 PACK 2",
+     "ratio": 8.61,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "04 VS",
+     "ratio": 8.61,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "05 LOCK",
+     "ratio": 8.61,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "01",
+     "ratio": 11.88,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "Daniel",
+     "ratio": 17.22,
+     "need": 3,
+     "pass": true
+    },
+    {
+     "t": "CAREER DRAW",
+     "ratio": 9.22,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "ASSIGNED CLUB",
+     "ratio": 9.22,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "Arsenal",
+     "ratio": 20.28,
+     "need": 3,
+     "pass": true
+    },
+    {
+     "t": "REVEALED",
+     "ratio": 12.38,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "RIVALRY",
+     "ratio": 15.87,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "VS",
+     "ratio": 6.09,
+     "need": 3,
+     "pass": true
+    },
+    {
+     "t": "02",
+     "ratio": 11.88,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "Nik",
+     "ratio": 17.22,
+     "need": 3,
+     "pass": true
+    },
+    {
+     "t": "CAREER DRAW",
+     "ratio": 9.22,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "ASSIGNED CLUB",
+     "ratio": 9.22,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "?",
+     "ratio": 17.22,
+     "need": 3,
+     "pass": true
+    },
+    {
+     "t": "SEALED",
+     "ratio": 5.54,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "DRAW LOCKED...",
+     "ratio": 14.85,
+     "need": 3,
+     "pass": true
+    }
+   ],
+   "G7summary": {
+    "checked": 27,
+    "failing": []
+   },
+   "G11": {
+    "expected": [
+     "onlinePlayerIdentityBadge"
+    ],
+    "actual": [
+     "onlinePlayerIdentityBadge"
+    ],
+    "pass": true
+   },
+   "zones": [
+    {
+     "zone": [
+      0,
+      22,
+      888,
+      78
+     ],
+     "edges": {
+      "L": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "R": {
+       "visiblePlatePx": 46,
+       "segments": [
+        [
+         888,
+         34,
+         888,
+         78
+        ]
+       ]
+      },
+      "T": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "B": {
+       "visiblePlatePx": 636,
+       "segments": [
+        [
+         254,
+         78,
+         888,
+         78
+        ]
+       ]
+      }
+     }
+    },
+    {
+     "zone": [
+      1192,
+      22,
+      1398,
+      78
+     ],
+     "edges": {
+      "L": {
+       "visiblePlatePx": 32,
+       "segments": [
+        [
+         1192,
+         34,
+         1192,
+         64
+        ]
+       ]
+      },
+      "R": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "T": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "B": {
+       "visiblePlatePx": 18,
+       "segments": [
+        [
+         1266,
+         78,
+         1282,
+         78
+        ]
+       ]
+      }
+     }
+    },
+    {
+     "zone": [
+      1400,
+      6,
+      1528,
+      78
+     ],
+     "edges": {
+      "L": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "R": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "T": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "B": {
+       "visiblePlatePx": 0,
+       "segments": []
+      }
+     }
+    },
+    {
+     "zone": [
+      458,
+      92,
+      1070,
+      298
+     ],
+     "edges": {
+      "L": {
+       "visiblePlatePx": 208,
+       "segments": [
+        [
+         458,
+         92,
+         458,
+         298
+        ]
+       ]
+      },
+      "R": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "T": {
+       "visiblePlatePx": 50,
+       "segments": [
+        [
+         458,
+         92,
+         480,
+         92
+        ],
+        [
+         1014,
+         92,
+         1038,
+         92
+        ]
+       ]
+      },
+      "B": {
+       "visiblePlatePx": 42,
+       "segments": [
+        [
+         458,
+         298,
+         476,
+         298
+        ],
+        [
+         1018,
+         298,
+         1038,
+         298
+        ]
+       ]
+      }
+     }
+    },
+    {
+     "zone": [
+      552,
+      306,
+      980,
+      388
+     ],
+     "edges": {
+      "L": {
+       "visiblePlatePx": 76,
+       "segments": [
+        [
+         552,
+         314,
+         552,
+         388
+        ]
+       ]
+      },
+      "R": {
+       "visiblePlatePx": 76,
+       "segments": [
+        [
+         980,
+         314,
+         980,
+         388
+        ]
+       ]
+      },
+      "T": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "B": {
+       "visiblePlatePx": 36,
+       "segments": [
+        [
+         552,
+         388,
+         574,
+         388
+        ],
+        [
+         970,
+         388,
+         980,
+         388
+        ]
+       ]
+      }
+     }
+    },
+    {
+     "zone": [
+      680,
+      405,
+      850,
+      555
+     ],
+     "edges": {
+      "L": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "R": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "T": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "B": {
+       "visiblePlatePx": 0,
+       "segments": []
+      }
+     }
+    },
+    {
+     "zone": [
+      556,
+      572,
+      980,
+      628
+     ],
+     "edges": {
+      "L": {
+       "visiblePlatePx": 48,
+       "segments": [
+        [
+         556,
+         572,
+         556,
+         618
+        ]
+       ]
+      },
+      "R": {
+       "visiblePlatePx": 48,
+       "segments": [
+        [
+         980,
+         572,
+         980,
+         618
+        ]
+       ]
+      },
+      "T": {
+       "visiblePlatePx": 138,
+       "segments": [
+        [
+         556,
+         572,
+         616,
+         572
+        ],
+        [
+         906,
+         572,
+         980,
+         572
+        ]
+       ]
+      },
+      "B": {
+       "visiblePlatePx": 0,
+       "segments": []
+      }
+     }
+    },
+    {
+     "zone": [
+      140,
+      598,
+      1400,
+      742
+     ],
+     "edges": {
+      "L": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "R": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "T": {
+       "visiblePlatePx": 198,
+       "segments": [
+        [
+         254,
+         598,
+         288,
+         598
+        ],
+        [
+         552,
+         598,
+         600,
+         598
+        ],
+        [
+         916,
+         598,
+         994,
+         598
+        ],
+        [
+         1252,
+         598,
+         1282,
+         598
+        ]
+       ]
+      },
+      "B": {
+       "visiblePlatePx": 0,
+       "segments": []
+      }
+     }
+    },
+    {
+     "zone": [
+      444,
+      744,
+      1086,
+      806
+     ],
+     "edges": {
+      "L": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "R": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "T": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "B": {
+       "visiblePlatePx": 0,
+       "segments": []
+      }
+     }
+    },
+    {
+     "zone": [
+      0,
+      812,
+      1536,
+      864
+     ],
+     "edges": {
+      "L": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "R": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "T": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "B": {
+       "visiblePlatePx": 0,
+       "segments": []
+      }
+     }
+    }
+   ],
+   "G12": {
+    "consoleErrors": [],
+    "failedRequests": [],
+    "pass": true
+   }
+  },
+  {
+   "fail": [],
+   "frame": "CL4",
+   "T": {
+    "k": 0.38155,
+    "offX": -96.53,
+    "offY": 221.83,
+    "mode": "phone"
+   },
+   "G1": {
+    "visible": [
+     "01",
+     "01 DRAW",
+     "02",
+     "02 PACK 1",
+     "03 PACK 2",
+     "04 VS",
+     "05 LOCK",
+     "ASSIGNED CLUB",
+     "Arsenal",
+     "CAREER DRAW",
+     "CLUB ASSIGNMENT",
+     "CM 17",
+     "Chelsea",
+     "DRAW LOCKED...",
+     "Daniel",
+     "LEAGUE CONFIRMED",
+     "NIK · PACK 02 OPEN",
+     "Nik",
+     "No Active Showdown",
+     "Premier League",
+     "REVEALED",
+     "RIVALRY",
+     "SIGN IN",
+     "VS"
+    ],
+    "missing": [],
+    "extra": [],
+    "pass": true
+   },
+   "G2": {
+    "idCounts": {
+     "clubWheelScreen": 1,
+     "clubAssignmentLeague": 1,
+     "clubPackStatus": 1,
+     "clubCardOne": 1,
+     "clubCardTwo": 1,
+     "clubPlayerOne": 1,
+     "clubPlayerTwo": 1,
+     "clubNameOne": 1,
+     "clubNameTwo": 1,
+     "clubCardStateOne": 1,
+     "clubCardStateTwo": 1,
+     "clubRivalryConfirmation": 1,
+     "clubConfirmationShowdown": 1,
+     "clubConfirmationMeta": 1,
+     "clubConfirmationManagerOne": 1,
+     "clubConfirmationManagerTwo": 1,
+     "clubConfirmationClubOne": 1,
+     "clubConfirmationClubTwo": 1,
+     "openClubPack": 1,
+     "continueClubAssignment": 1,
+     "clubAssignmentBack": 1,
+     "topHeader": 1,
+     "seasonIndicator": 1,
+     "onlinePlayerIdentityBadge": 1
+    },
+    "aria": {
+     "statusLive": "polite",
+     "confLive": "polite",
+     "progressHidden": "true",
+     "doorsHidden": [
+      "true",
+      "true"
+     ],
+     "progressSteps": [
+      "01 DRAW",
+      "02 PACK 1",
+      "03 PACK 2",
+      "04 VS",
+      "05 LOCK"
+     ]
+    },
+    "pass": true
+   },
+   "G3": {
+    "html": [
+     393,
+     660
+    ],
+    "body": [
+     393,
+     660
+    ],
+    "inner": [
+     393,
+     660
+    ],
+    "pass": true,
+    "shortDesktopScroll": false,
+    "sectionOverflow": 0
+   },
+   "G4": {
+    "exempt": true,
+    "pass": true
+   },
+   "G5": {
+    "clipped": [],
+    "pass": true
+   },
+   "G6": {
+    "controls": [
+     {
+      "id": "onlinePlayerIdentityBadge",
+      "w": 64.3,
+      "h": 44
+     },
+     {
+      "id": "openClubPack",
+      "w": 365,
+      "h": 56
+     }
+    ],
+    "smallText": [],
+    "lockNoteFs": null,
+    "pass": true
+   },
+   "G8": {
+    "face": {
+     "face_daniel": {
+      "onScreen": true,
+      "minClearancePx": 30,
+      "nearest": "panel:.clubRevealProgress",
+      "intersections": [],
+      "coverHits": []
+     },
+     "face_nik": {
+      "onScreen": true,
+      "minClearancePx": 24.3,
+      "nearest": "panel:.clubRevealProgress",
+      "intersections": [],
+      "coverHits": []
+     }
+    },
+    "hand": {
+     "hand_daniel_top": {
+      "onScreen": true,
+      "minClearancePx": 86.7,
+      "nearest": "panel:.clubVs",
+      "intersections": [],
+      "coverHits": []
+     },
+     "hand_daniel_side": {
+      "onScreen": true,
+      "minClearancePx": 14.5,
+      "nearest": "panel:.clubVs",
+      "intersections": [],
+      "coverHits": []
+     },
+     "hand_nik_top": {
+      "onScreen": true,
+      "minClearancePx": 85.9,
+      "nearest": "panel:.clubVs",
+      "intersections": [],
+      "coverHits": []
+     },
+     "hand_nik_side": {
+      "onScreen": true,
+      "minClearancePx": 19.1,
+      "nearest": "panel:.clubVs",
+      "intersections": [],
+      "coverHits": []
+     }
+    },
+    "pack": {
+     "pack_daniel": {
+      "onScreen": true,
+      "minClearancePx": 20.8,
+      "nearest": "text:Daniel",
+      "intersections": [],
+      "coverHits": []
+     },
+     "pack_nik": {
+      "onScreen": true,
+      "minClearancePx": 33.5,
+      "nearest": "text:Nik",
+      "intersections": [],
+      "coverHits": []
+     }
+    },
+    "coverHits": {},
+    "headerBand": {
+     "face_daniel": 204.4,
+     "face_nik": 198.6
+    },
+    "headerBandOverlap": [],
+    "revealContainment": [
+     {
+      "side": "daniel",
+      "overflow": "hidden",
+      "rectErrPx": 0.01,
+      "pass": true
+     },
+     {
+      "side": "nik",
+      "overflow": "hidden",
+      "rectErrPx": 0.02,
+      "pass": true
+     }
+    ],
+    "phoneFaceFraming": {
+     "face_daniel": "whole",
+     "face_nik": "whole"
+    },
+    "pass": true,
+    "failing": []
+   },
+   "G9": {
+    "loaded": [
+     "/visual-assets/v10_1/club/assets/ENV_CLUB_PLATE_V1_2X.webp"
+    ],
+    "cssBackgrounds": [
+     "image-set(url(\"/visual-assets/v10_1/club/assets/ENV_CLUB_PLATE_V1_1X.webp\") 1dppx, url(\"http://127.0.0.1:8765/visual-assets/v10_1/club/assets/ENV_CLUB_PLATE_V1_2X.webp\") 2dppx)"
+    ],
+    "pass": true
+   },
+   "G10": {
+    "pairs": [
+     {
+      "a": "#clubPlayerOne",
+      "b": "#clubPlayerTwo",
+      "one": 117.8,
+      "two": 305.3,
+      "ok": true
+     },
+     {
+      "a": "#clubNameOne",
+      "b": "#clubNameTwo",
+      "one": 126.8,
+      "two": 314.3,
+      "ok": true
+     },
+     {
+      "a": "#clubCardStateOne",
+      "b": "#clubCardStateTwo",
+      "one": 126.8,
+      "two": 314.3,
+      "ok": true
+     },
+     {
+      "a": "#clubCardOne .clubRevealIndex",
+      "b": "#clubCardTwo .clubRevealIndex",
+      "one": 24,
+      "two": 212.5,
+      "ok": true
+     },
+     {
+      "a": "#clubCardOne .shieldSlot",
+      "b": "#clubCardTwo .shieldSlot",
+      "one": 34,
+      "two": 221.5,
+      "ok": true
+     },
+     {
+      "a": "#clubConfirmationManagerOne",
+      "b": "#clubConfirmationManagerTwo",
+      "one": null,
+      "two": null,
+      "ok": true
+     },
+     {
+      "a": "#clubConfirmationClubOne",
+      "b": "#clubConfirmationClubTwo",
+      "one": null,
+      "two": null,
+      "ok": true
+     },
+     {
+      "a": ".reveal[data-side='0']",
+      "b": ".reveal[data-side='1']",
+      "one": 63.7,
+      "two": 331.8,
+      "ok": true
+     }
+    ],
+    "pass": true
+   },
+   "G13": {
+    "header": {
+     "box": [
+      0,
+      0,
+      393,
+      48
+     ],
+     "height": "48px",
+     "backgroundImage": "linear-gradient(rgba(6, 7, 9, 0.92), rgba(6, 7, 9, 0.7))",
+     "borderBottom": "1px solid rgba(201, 155, 69, 0.45)"
+    },
+    "badge": {
+     "box": [
+      14,
+      9.8,
+      43.2,
+      27.5
+     ],
+     "fontFamily": "\"Barlow Condensed\", \"Arial Narrow\", sans-serif",
+     "fontSize": "22px",
+     "fontStyle": "italic",
+     "color": "rgb(242, 196, 91)"
+    },
+    "brand": {
+     "box": [
+      18,
+      23.5,
+      0,
+      16.3
+     ],
+     "fontSize": "13px",
+     "letterSpacing": "2.34px",
+     "color": "rgb(233, 223, 200)"
+    },
+    "identity": {
+     "box": [
+      170,
+      1.5,
+      64.3,
+      44
+     ],
+     "fontFamily": "\"Barlow Condensed\", \"Arial Narrow\", sans-serif",
+     "fontSize": "13px",
+     "minHeight": "44px",
+     "background": "rgba(10, 12, 15, 0.72) none repeat scroll 0% 0% / auto padding-box border-box",
+     "borderTop": "1px solid rgba(201, 155, 69, 0.55)"
+    },
+    "season": {
+     "box": [
+      242.3,
+      1.5,
+      140.7,
+      44
+     ],
+     "fontSize": "13px",
+     "minHeight": "44px"
+    },
+    "footer": {
+     "box": [
+      0,
+      0,
+      0,
+      0
+     ],
+     "height": "28px",
+     "display": "none"
+    }
+   },
+   "vw": 393,
+   "vh": 660,
+   "dpr": 3,
+   "mobile": true,
+   "shot": "CL4_393x660.jpg",
+   "G7": [
+    {
+     "t": "CM 17",
+     "ratio": 11.79,
+     "need": 3,
+     "pass": true
+    },
+    {
+     "t": "SIGN IN",
+     "ratio": 15.29,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "No Active Showdown",
+     "ratio": 15.29,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "CLUB ASSIGNMENT",
+     "ratio": 6.51,
+     "need": 3,
+     "pass": true
+    },
+    {
+     "t": "LEAGUE CONFIRMED",
+     "ratio": 17.22,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "Premier League",
+     "ratio": 12.38,
+     "need": 3,
+     "pass": true
+    },
+    {
+     "t": "NIK · PACK 02 OPEN",
+     "ratio": 16.15,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "01 DRAW",
+     "ratio": 15.31,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "02 PACK 1",
+     "ratio": 15.31,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "03 PACK 2",
+     "ratio": 11.43,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "04 VS",
+     "ratio": 8.61,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "05 LOCK",
+     "ratio": 8.61,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "01",
+     "ratio": 11.88,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "Daniel",
+     "ratio": 17.22,
+     "need": 3,
+     "pass": true
+    },
+    {
+     "t": "CAREER DRAW",
+     "ratio": 9.22,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "ASSIGNED CLUB",
+     "ratio": 9.22,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "Arsenal",
+     "ratio": 20.28,
+     "need": 3,
+     "pass": true
+    },
+    {
+     "t": "REVEALED",
+     "ratio": 12.38,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "RIVALRY",
+     "ratio": 15.87,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "VS",
+     "ratio": 6.09,
+     "need": 3,
+     "pass": true
+    },
+    {
+     "t": "02",
+     "ratio": 11.88,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "Nik",
+     "ratio": 17.22,
+     "need": 3,
+     "pass": true
+    },
+    {
+     "t": "CAREER DRAW",
+     "ratio": 9.22,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "ASSIGNED CLUB",
+     "ratio": 9.22,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "Chelsea",
+     "ratio": 20.28,
+     "need": 3,
+     "pass": true
+    },
+    {
+     "t": "REVEALED",
+     "ratio": 12.38,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "DRAW LOCKED...",
+     "ratio": 14.85,
+     "need": 3,
+     "pass": true
+    }
+   ],
+   "G7summary": {
+    "checked": 27,
+    "failing": []
+   },
+   "G11": {
+    "expected": [
+     "onlinePlayerIdentityBadge"
+    ],
+    "actual": [
+     "onlinePlayerIdentityBadge"
+    ],
+    "pass": true
+   },
+   "zones": [
+    {
+     "zone": [
+      0,
+      22,
+      888,
+      78
+     ],
+     "edges": {
+      "L": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "R": {
+       "visiblePlatePx": 46,
+       "segments": [
+        [
+         888,
+         34,
+         888,
+         78
+        ]
+       ]
+      },
+      "T": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "B": {
+       "visiblePlatePx": 636,
+       "segments": [
+        [
+         254,
+         78,
+         888,
+         78
+        ]
+       ]
+      }
+     }
+    },
+    {
+     "zone": [
+      1192,
+      22,
+      1398,
+      78
+     ],
+     "edges": {
+      "L": {
+       "visiblePlatePx": 32,
+       "segments": [
+        [
+         1192,
+         34,
+         1192,
+         64
+        ]
+       ]
+      },
+      "R": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "T": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "B": {
+       "visiblePlatePx": 18,
+       "segments": [
+        [
+         1266,
+         78,
+         1282,
+         78
+        ]
+       ]
+      }
+     }
+    },
+    {
+     "zone": [
+      1400,
+      6,
+      1528,
+      78
+     ],
+     "edges": {
+      "L": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "R": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "T": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "B": {
+       "visiblePlatePx": 0,
+       "segments": []
+      }
+     }
+    },
+    {
+     "zone": [
+      458,
+      92,
+      1070,
+      298
+     ],
+     "edges": {
+      "L": {
+       "visiblePlatePx": 208,
+       "segments": [
+        [
+         458,
+         92,
+         458,
+         298
+        ]
+       ]
+      },
+      "R": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "T": {
+       "visiblePlatePx": 50,
+       "segments": [
+        [
+         458,
+         92,
+         480,
+         92
+        ],
+        [
+         1014,
+         92,
+         1038,
+         92
+        ]
+       ]
+      },
+      "B": {
+       "visiblePlatePx": 42,
+       "segments": [
+        [
+         458,
+         298,
+         476,
+         298
+        ],
+        [
+         1018,
+         298,
+         1038,
+         298
+        ]
+       ]
+      }
+     }
+    },
+    {
+     "zone": [
+      552,
+      306,
+      980,
+      388
+     ],
+     "edges": {
+      "L": {
+       "visiblePlatePx": 76,
+       "segments": [
+        [
+         552,
+         314,
+         552,
+         388
+        ]
+       ]
+      },
+      "R": {
+       "visiblePlatePx": 76,
+       "segments": [
+        [
+         980,
+         314,
+         980,
+         388
+        ]
+       ]
+      },
+      "T": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "B": {
+       "visiblePlatePx": 36,
+       "segments": [
+        [
+         552,
+         388,
+         574,
+         388
+        ],
+        [
+         970,
+         388,
+         980,
+         388
+        ]
+       ]
+      }
+     }
+    },
+    {
+     "zone": [
+      680,
+      405,
+      850,
+      555
+     ],
+     "edges": {
+      "L": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "R": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "T": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "B": {
+       "visiblePlatePx": 0,
+       "segments": []
+      }
+     }
+    },
+    {
+     "zone": [
+      556,
+      572,
+      980,
+      628
+     ],
+     "edges": {
+      "L": {
+       "visiblePlatePx": 48,
+       "segments": [
+        [
+         556,
+         572,
+         556,
+         618
+        ]
+       ]
+      },
+      "R": {
+       "visiblePlatePx": 48,
+       "segments": [
+        [
+         980,
+         572,
+         980,
+         618
+        ]
+       ]
+      },
+      "T": {
+       "visiblePlatePx": 138,
+       "segments": [
+        [
+         556,
+         572,
+         616,
+         572
+        ],
+        [
+         906,
+         572,
+         980,
+         572
+        ]
+       ]
+      },
+      "B": {
+       "visiblePlatePx": 0,
+       "segments": []
+      }
+     }
+    },
+    {
+     "zone": [
+      140,
+      598,
+      1400,
+      742
+     ],
+     "edges": {
+      "L": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "R": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "T": {
+       "visiblePlatePx": 198,
+       "segments": [
+        [
+         254,
+         598,
+         288,
+         598
+        ],
+        [
+         552,
+         598,
+         600,
+         598
+        ],
+        [
+         916,
+         598,
+         994,
+         598
+        ],
+        [
+         1252,
+         598,
+         1282,
+         598
+        ]
+       ]
+      },
+      "B": {
+       "visiblePlatePx": 0,
+       "segments": []
+      }
+     }
+    },
+    {
+     "zone": [
+      444,
+      744,
+      1086,
+      806
+     ],
+     "edges": {
+      "L": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "R": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "T": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "B": {
+       "visiblePlatePx": 0,
+       "segments": []
+      }
+     }
+    },
+    {
+     "zone": [
+      0,
+      812,
+      1536,
+      864
+     ],
+     "edges": {
+      "L": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "R": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "T": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "B": {
+       "visiblePlatePx": 0,
+       "segments": []
+      }
+     }
+    }
+   ],
+   "G12": {
+    "consoleErrors": [],
+    "failedRequests": [],
+    "pass": true
+   }
+  },
+  {
+   "fail": [],
+   "frame": "CL5",
+   "T": {
+    "k": 0.38681,
+    "offX": -101.34,
+    "offY": 102.49,
+    "mode": "phone"
+   },
+   "G1": {
+    "visible": [
+     "01",
+     "01 DRAW",
+     "02",
+     "02 PACK 1",
+     "03 PACK 2",
+     "04 VS",
+     "05 LOCK",
+     "ASSIGNED CLUB",
+     "Arsenal",
+     "BOTH CLUBS REVEALED · BUILDING RIVALRY",
+     "CAREER DRAW",
+     "CLUB ASSIGNMENT",
+     "CLUBS LOCKED",
+     "CM 17",
+     "Chelsea",
+     "Daniel",
+     "Daniel vs Nik",
+     "LEAGUE CONFIRMED",
+     "Nik",
+     "No Active Showdown",
+     "Premier League",
+     "Premier League · 3 seasons",
+     "REVEALED",
+     "RIVALRY",
+     "SIGN IN",
+     "These clubs are permanent for the full showdown. Confirmation starts the rivalry and never rerolls either club.",
+     "VS"
+    ],
+    "missing": [],
+    "extra": [],
+    "pass": true
+   },
+   "G2": {
+    "idCounts": {
+     "clubWheelScreen": 1,
+     "clubAssignmentLeague": 1,
+     "clubPackStatus": 1,
+     "clubCardOne": 1,
+     "clubCardTwo": 1,
+     "clubPlayerOne": 1,
+     "clubPlayerTwo": 1,
+     "clubNameOne": 1,
+     "clubNameTwo": 1,
+     "clubCardStateOne": 1,
+     "clubCardStateTwo": 1,
+     "clubRivalryConfirmation": 1,
+     "clubConfirmationShowdown": 1,
+     "clubConfirmationMeta": 1,
+     "clubConfirmationManagerOne": 1,
+     "clubConfirmationManagerTwo": 1,
+     "clubConfirmationClubOne": 1,
+     "clubConfirmationClubTwo": 1,
+     "openClubPack": 1,
+     "continueClubAssignment": 1,
+     "clubAssignmentBack": 1,
+     "topHeader": 1,
+     "seasonIndicator": 1,
+     "onlinePlayerIdentityBadge": 1
+    },
+    "aria": {
+     "statusLive": "polite",
+     "confLive": "polite",
+     "progressHidden": "true",
+     "doorsHidden": [
+      "true",
+      "true"
+     ],
+     "progressSteps": [
+      "01 DRAW",
+      "02 PACK 1",
+      "03 PACK 2",
+      "04 VS",
+      "05 LOCK"
+     ]
+    },
+    "pass": true
+   },
+   "G3": {
+    "html": [
+     393,
+     660
+    ],
+    "body": [
+     393,
+     660
+    ],
+    "inner": [
+     393,
+     660
+    ],
+    "pass": true,
+    "shortDesktopScroll": false,
+    "sectionOverflow": 0
+   },
+   "G4": {
+    "exempt": true,
+    "pass": true
+   },
+   "G5": {
+    "clipped": [],
+    "pass": true
+   },
+   "G6": {
+    "controls": [
+     {
+      "id": "onlinePlayerIdentityBadge",
+      "w": 64.3,
+      "h": 44
+     }
+    ],
+    "smallText": [],
+    "lockNoteFs": 14,
+    "pass": true
+   },
+   "G8": {
+    "face": {
+     "face_daniel": {
+      "onScreen": false,
+      "minClearancePx": 48.9,
+      "nearest": "panel:.clubRevealProgress",
+      "intersections": [],
+      "coverHits": []
+     },
+     "face_nik": {
+      "onScreen": false,
+      "minClearancePx": 48.9,
+      "nearest": "panel:.clubRevealProgress",
+      "intersections": [],
+      "coverHits": []
+     }
+    },
+    "hand": {
+     "hand_daniel_top": {
+      "onScreen": false,
+      "minClearancePx": 48.9,
+      "nearest": "panel:.clubRevealProgress",
+      "intersections": [],
+      "coverHits": []
+     },
+     "hand_daniel_side": {
+      "onScreen": true,
+      "minClearancePx": 14.7,
+      "nearest": "panel:.clubVs",
+      "intersections": [],
+      "coverHits": []
+     },
+     "hand_nik_top": {
+      "onScreen": false,
+      "minClearancePx": 48.9,
+      "nearest": "panel:.clubRevealProgress",
+      "intersections": [],
+      "coverHits": []
+     },
+     "hand_nik_side": {
+      "onScreen": true,
+      "minClearancePx": 19.4,
+      "nearest": "panel:.clubVs",
+      "intersections": [],
+      "coverHits": []
+     }
+    },
+    "pack": {
+     "pack_daniel": {
+      "onScreen": true,
+      "minClearancePx": 27.8,
+      "nearest": "panel:.clubVs",
+      "intersections": [],
+      "coverHits": []
+     },
+     "pack_nik": {
+      "onScreen": true,
+      "minClearancePx": 40.6,
+      "nearest": "panel:.clubVs",
+      "intersections": [],
+      "coverHits": []
+     }
+    },
+    "coverHits": {},
+    "headerBand": {
+     "face_daniel": 203,
+     "face_nik": 203
+    },
+    "headerBandOverlap": [],
+    "revealContainment": [
+     {
+      "side": "daniel",
+      "overflow": "hidden",
+      "rectErrPx": 0.02,
+      "pass": true
+     },
+     {
+      "side": "nik",
+      "overflow": "hidden",
+      "rectErrPx": 0.02,
+      "pass": true
+     }
+    ],
+    "phoneFaceFraming": {
+     "face_daniel": "out",
+     "face_nik": "out"
+    },
+    "pass": true,
+    "failing": []
+   },
+   "G9": {
+    "loaded": [
+     "/visual-assets/v10_1/club/assets/ENV_CLUB_PLATE_V1_2X.webp"
+    ],
+    "cssBackgrounds": [
+     "image-set(url(\"/visual-assets/v10_1/club/assets/ENV_CLUB_PLATE_V1_1X.webp\") 1dppx, url(\"http://127.0.0.1:8765/visual-assets/v10_1/club/assets/ENV_CLUB_PLATE_V1_2X.webp\") 2dppx)"
+    ],
+    "pass": true
+   },
+   "G10": {
+    "pairs": [
+     {
+      "a": "#clubPlayerOne",
+      "b": "#clubPlayerTwo",
+      "one": 117.8,
+      "two": 305.3,
+      "ok": true
+     },
+     {
+      "a": "#clubNameOne",
+      "b": "#clubNameTwo",
+      "one": 126.8,
+      "two": 314.3,
+      "ok": true
+     },
+     {
+      "a": "#clubCardStateOne",
+      "b": "#clubCardStateTwo",
+      "one": 126.8,
+      "two": 314.3,
+      "ok": true
+     },
+     {
+      "a": "#clubCardOne .clubRevealIndex",
+      "b": "#clubCardTwo .clubRevealIndex",
+      "one": 24,
+      "two": 212.5,
+      "ok": true
+     },
+     {
+      "a": "#clubCardOne .shieldSlot",
+      "b": "#clubCardTwo .shieldSlot",
+      "one": 34,
+      "two": 221.5,
+      "ok": true
+     },
+     {
+      "a": "#clubConfirmationManagerOne",
+      "b": "#clubConfirmationManagerTwo",
+      "one": 104,
+      "two": 237.4,
+      "ok": true
+     },
+     {
+      "a": "#clubConfirmationClubOne",
+      "b": "#clubConfirmationClubTwo",
+      "one": 155.8,
+      "two": 280.4,
+      "ok": true
+     },
+     {
+      "a": ".reveal[data-side='0']",
+      "b": ".reveal[data-side='1']",
+      "one": 61.1,
+      "two": 332.8,
+      "ok": true
+     }
+    ],
+    "pass": true
+   },
+   "G13": {
+    "header": {
+     "box": [
+      0,
+      0,
+      393,
+      48
+     ],
+     "height": "48px",
+     "backgroundImage": "linear-gradient(rgba(6, 7, 9, 0.92), rgba(6, 7, 9, 0.7))",
+     "borderBottom": "1px solid rgba(201, 155, 69, 0.45)"
+    },
+    "badge": {
+     "box": [
+      14,
+      9.8,
+      43.2,
+      27.5
+     ],
+     "fontFamily": "\"Barlow Condensed\", \"Arial Narrow\", sans-serif",
+     "fontSize": "22px",
+     "fontStyle": "italic",
+     "color": "rgb(242, 196, 91)"
+    },
+    "brand": {
+     "box": [
+      18,
+      23.5,
+      0,
+      16.3
+     ],
+     "fontSize": "13px",
+     "letterSpacing": "2.34px",
+     "color": "rgb(233, 223, 200)"
+    },
+    "identity": {
+     "box": [
+      170,
+      1.5,
+      64.3,
+      44
+     ],
+     "fontFamily": "\"Barlow Condensed\", \"Arial Narrow\", sans-serif",
+     "fontSize": "13px",
+     "minHeight": "44px",
+     "background": "rgba(10, 12, 15, 0.72) none repeat scroll 0% 0% / auto padding-box border-box",
+     "borderTop": "1px solid rgba(201, 155, 69, 0.55)"
+    },
+    "season": {
+     "box": [
+      242.3,
+      1.5,
+      140.7,
+      44
+     ],
+     "fontSize": "13px",
+     "minHeight": "44px"
+    },
+    "footer": {
+     "box": [
+      0,
+      0,
+      0,
+      0
+     ],
+     "height": "28px",
+     "display": "none"
+    }
+   },
+   "vw": 393,
+   "vh": 660,
+   "dpr": 3,
+   "mobile": true,
+   "shot": "CL5_393x660.jpg",
+   "G7": [
+    {
+     "t": "CM 17",
+     "ratio": 11.79,
+     "need": 3,
+     "pass": true
+    },
+    {
+     "t": "SIGN IN",
+     "ratio": 15.29,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "No Active Showdown",
+     "ratio": 15.29,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "CLUB ASSIGNMENT",
+     "ratio": 6.51,
+     "need": 3,
+     "pass": true
+    },
+    {
+     "t": "LEAGUE CONFIRMED",
+     "ratio": 17.22,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "Premier League",
+     "ratio": 12.38,
+     "need": 3,
+     "pass": true
+    },
+    {
+     "t": "BOTH CLUBS REVEALED · BUILDING R",
+     "ratio": 16.15,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "01 DRAW",
+     "ratio": 15.31,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "02 PACK 1",
+     "ratio": 15.31,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "03 PACK 2",
+     "ratio": 15.31,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "04 VS",
+     "ratio": 11.32,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "05 LOCK",
+     "ratio": 8.61,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "01",
+     "ratio": 11.88,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "Daniel",
+     "ratio": 17.22,
+     "need": 3,
+     "pass": true
+    },
+    {
+     "t": "CAREER DRAW",
+     "ratio": 9.22,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "ASSIGNED CLUB",
+     "ratio": 9.22,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "Arsenal",
+     "ratio": 20.28,
+     "need": 3,
+     "pass": true
+    },
+    {
+     "t": "REVEALED",
+     "ratio": 12.38,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "RIVALRY",
+     "ratio": 15.87,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "VS",
+     "ratio": 6.09,
+     "need": 3,
+     "pass": true
+    },
+    {
+     "t": "02",
+     "ratio": 11.88,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "Nik",
+     "ratio": 17.22,
+     "need": 3,
+     "pass": true
+    },
+    {
+     "t": "CAREER DRAW",
+     "ratio": 9.22,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "ASSIGNED CLUB",
+     "ratio": 9.22,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "Chelsea",
+     "ratio": 20.28,
+     "need": 3,
+     "pass": true
+    },
+    {
+     "t": "REVEALED",
+     "ratio": 12.38,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "CLUBS LOCKED",
+     "ratio": 12.23,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "Daniel vs Nik",
+     "ratio": 18.59,
+     "need": 3,
+     "pass": true
+    },
+    {
+     "t": "Premier League · 3 seasons",
+     "ratio": 11.01,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "Daniel",
+     "ratio": 11.01,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "Arsenal",
+     "ratio": 20.04,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "VS",
+     "ratio": 12.23,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "Nik",
+     "ratio": 11.01,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "Chelsea",
+     "ratio": 20.04,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "These clubs are permanent for th",
+     "ratio": 14.28,
+     "need": 4.5,
+     "pass": true
+    }
+   ],
+   "G7summary": {
+    "checked": 35,
+    "failing": []
+   },
+   "G11": {
+    "expected": [
+     "onlinePlayerIdentityBadge"
+    ],
+    "actual": [
+     "onlinePlayerIdentityBadge"
+    ],
+    "pass": true
+   },
+   "zones": [
+    {
+     "zone": [
+      0,
+      22,
+      888,
+      78
+     ],
+     "edges": {
+      "L": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "R": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "T": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "B": {
+       "visiblePlatePx": 0,
+       "segments": []
+      }
+     }
+    },
+    {
+     "zone": [
+      1192,
+      22,
+      1398,
+      78
+     ],
+     "edges": {
+      "L": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "R": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "T": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "B": {
+       "visiblePlatePx": 0,
+       "segments": []
+      }
+     }
+    },
+    {
+     "zone": [
+      1400,
+      6,
+      1528,
+      78
+     ],
+     "edges": {
+      "L": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "R": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "T": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "B": {
+       "visiblePlatePx": 0,
+       "segments": []
+      }
+     }
+    },
+    {
+     "zone": [
+      458,
+      92,
+      1070,
+      298
+     ],
+     "edges": {
+      "L": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "R": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "T": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "B": {
+       "visiblePlatePx": 0,
+       "segments": []
+      }
+     }
+    },
+    {
+     "zone": [
+      552,
+      306,
+      980,
+      388
+     ],
+     "edges": {
+      "L": {
+       "visiblePlatePx": 6,
+       "segments": [
+        [
+         552,
+         384,
+         552,
+         388
+        ]
+       ]
+      },
+      "R": {
+       "visiblePlatePx": 6,
+       "segments": [
+        [
+         980,
+         384,
+         980,
+         388
+        ]
+       ]
+      },
+      "T": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "B": {
+       "visiblePlatePx": 36,
+       "segments": [
+        [
+         552,
+         388,
+         574,
+         388
+        ],
+        [
+         970,
+         388,
+         980,
+         388
+        ]
+       ]
+      }
+     }
+    },
+    {
+     "zone": [
+      680,
+      405,
+      850,
+      555
+     ],
+     "edges": {
+      "L": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "R": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "T": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "B": {
+       "visiblePlatePx": 0,
+       "segments": []
+      }
+     }
+    },
+    {
+     "zone": [
+      556,
+      572,
+      980,
+      628
+     ],
+     "edges": {
+      "L": {
+       "visiblePlatePx": 32,
+       "segments": [
+        [
+         556,
+         572,
+         556,
+         602
+        ]
+       ]
+      },
+      "R": {
+       "visiblePlatePx": 32,
+       "segments": [
+        [
+         980,
+         572,
+         980,
+         602
+        ]
+       ]
+      },
+      "T": {
+       "visiblePlatePx": 138,
+       "segments": [
+        [
+         556,
+         572,
+         616,
+         572
+        ],
+        [
+         906,
+         572,
+         980,
+         572
+        ]
+       ]
+      },
+      "B": {
+       "visiblePlatePx": 0,
+       "segments": []
+      }
+     }
+    },
+    {
+     "zone": [
+      140,
+      598,
+      1400,
+      742
+     ],
+     "edges": {
+      "L": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "R": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "T": {
+       "visiblePlatePx": 186,
+       "segments": [
+        [
+         262,
+         598,
+         288,
+         598
+        ],
+        [
+         552,
+         598,
+         600,
+         598
+        ],
+        [
+         916,
+         598,
+         994,
+         598
+        ],
+        [
+         1252,
+         598,
+         1278,
+         598
+        ]
+       ]
+      },
+      "B": {
+       "visiblePlatePx": 0,
+       "segments": []
+      }
+     }
+    },
+    {
+     "zone": [
+      444,
+      744,
+      1086,
+      806
+     ],
+     "edges": {
+      "L": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "R": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "T": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "B": {
+       "visiblePlatePx": 0,
+       "segments": []
+      }
+     }
+    },
+    {
+     "zone": [
+      0,
+      812,
+      1536,
+      864
+     ],
+     "edges": {
+      "L": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "R": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "T": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "B": {
+       "visiblePlatePx": 0,
+       "segments": []
+      }
+     }
+    }
+   ],
+   "G12": {
+    "consoleErrors": [],
+    "failedRequests": [],
+    "pass": true
+   }
+  },
+  {
+   "fail": [],
+   "frame": "CL6",
+   "T": {
+    "k": 0.38681,
+    "offX": -101.34,
+    "offY": 72.49,
+    "mode": "phone"
+   },
+   "G1": {
+    "visible": [
+     "01",
+     "01 DRAW",
+     "02",
+     "02 PACK 1",
+     "03 PACK 2",
+     "04 VS",
+     "05 LOCK",
+     "ASSIGNED CLUB",
+     "Arsenal",
+     "CAREER DRAW",
+     "CLUB ASSIGNMENT",
+     "CLUBS LOCKED",
+     "CM 17",
+     "CONFIRM RIVALRY & START SHOWDOWN",
+     "Chelsea",
+     "Daniel",
+     "Daniel vs Nik",
+     "LEAGUE CONFIRMED",
+     "Nik",
+     "No Active Showdown",
+     "Premier League",
+     "Premier League · 3 seasons",
+     "REVEALED",
+     "RIVALRY",
+     "RIVALRY READY · CONFIRM TO BEGIN",
+     "SIGN IN",
+     "These clubs are permanent for the full showdown. Confirmation starts the rivalry and never rerolls either club.",
+     "VS"
+    ],
+    "missing": [],
+    "extra": [],
+    "pass": true
+   },
+   "G2": {
+    "idCounts": {
+     "clubWheelScreen": 1,
+     "clubAssignmentLeague": 1,
+     "clubPackStatus": 1,
+     "clubCardOne": 1,
+     "clubCardTwo": 1,
+     "clubPlayerOne": 1,
+     "clubPlayerTwo": 1,
+     "clubNameOne": 1,
+     "clubNameTwo": 1,
+     "clubCardStateOne": 1,
+     "clubCardStateTwo": 1,
+     "clubRivalryConfirmation": 1,
+     "clubConfirmationShowdown": 1,
+     "clubConfirmationMeta": 1,
+     "clubConfirmationManagerOne": 1,
+     "clubConfirmationManagerTwo": 1,
+     "clubConfirmationClubOne": 1,
+     "clubConfirmationClubTwo": 1,
+     "openClubPack": 1,
+     "continueClubAssignment": 1,
+     "clubAssignmentBack": 1,
+     "topHeader": 1,
+     "seasonIndicator": 1,
+     "onlinePlayerIdentityBadge": 1
+    },
+    "aria": {
+     "statusLive": "polite",
+     "confLive": "polite",
+     "progressHidden": "true",
+     "doorsHidden": [
+      "true",
+      "true"
+     ],
+     "progressSteps": [
+      "01 DRAW",
+      "02 PACK 1",
+      "03 PACK 2",
+      "04 VS",
+      "05 LOCK"
+     ]
+    },
+    "pass": true
+   },
+   "G3": {
+    "html": [
+     393,
+     660
+    ],
+    "body": [
+     393,
+     660
+    ],
+    "inner": [
+     393,
+     660
+    ],
+    "pass": true,
+    "shortDesktopScroll": false,
+    "sectionOverflow": 0
+   },
+   "G4": {
+    "id": "continueClubAssignment",
+    "rect": [
+     14,
+     586,
+     365,
+     56
+    ],
+    "inside": true,
+    "hitOk": true,
+    "pass": true
+   },
+   "G5": {
+    "clipped": [],
+    "pass": true
+   },
+   "G6": {
+    "controls": [
+     {
+      "id": "onlinePlayerIdentityBadge",
+      "w": 64.3,
+      "h": 44
+     },
+     {
+      "id": "continueClubAssignment",
+      "w": 365,
+      "h": 56
+     }
+    ],
+    "smallText": [],
+    "lockNoteFs": 14,
+    "pass": true
+   },
+   "G8": {
+    "face": {
+     "face_daniel": {
+      "onScreen": false,
+      "minClearancePx": 18.9,
+      "nearest": "panel:.clubRevealProgress",
+      "intersections": [],
+      "coverHits": []
+     },
+     "face_nik": {
+      "onScreen": false,
+      "minClearancePx": 18.9,
+      "nearest": "panel:.clubRevealProgress",
+      "intersections": [],
+      "coverHits": []
+     }
+    },
+    "hand": {
+     "hand_daniel_top": {
+      "onScreen": false,
+      "minClearancePx": 18.9,
+      "nearest": "panel:.clubRevealProgress",
+      "intersections": [],
+      "coverHits": []
+     },
+     "hand_daniel_side": {
+      "onScreen": true,
+      "minClearancePx": 14.7,
+      "nearest": "panel:.clubVs",
+      "intersections": [],
+      "coverHits": []
+     },
+     "hand_nik_top": {
+      "onScreen": false,
+      "minClearancePx": 18.9,
+      "nearest": "panel:.clubRevealProgress",
+      "intersections": [],
+      "coverHits": []
+     },
+     "hand_nik_side": {
+      "onScreen": true,
+      "minClearancePx": 19.4,
+      "nearest": "panel:.clubVs",
+      "intersections": [],
+      "coverHits": []
+     }
+    },
+    "pack": {
+     "pack_daniel": {
+      "onScreen": true,
+      "minClearancePx": 18.9,
+      "nearest": "panel:.clubRevealProgress",
+      "intersections": [],
+      "coverHits": []
+     },
+     "pack_nik": {
+      "onScreen": true,
+      "minClearancePx": 18.9,
+      "nearest": "panel:.clubRevealProgress",
+      "intersections": [],
+      "coverHits": []
+     }
+    },
+    "coverHits": {},
+    "headerBand": {
+     "face_daniel": 173,
+     "face_nik": 173
+    },
+    "headerBandOverlap": [],
+    "revealContainment": [
+     {
+      "side": "daniel",
+      "overflow": "hidden",
+      "rectErrPx": 0.02,
+      "pass": true
+     },
+     {
+      "side": "nik",
+      "overflow": "hidden",
+      "rectErrPx": 0.02,
+      "pass": true
+     }
+    ],
+    "phoneFaceFraming": {
+     "face_daniel": "out",
+     "face_nik": "out"
+    },
+    "pass": true,
+    "failing": []
+   },
+   "G9": {
+    "loaded": [
+     "/visual-assets/v10_1/club/assets/ENV_CLUB_PLATE_V1_2X.webp"
+    ],
+    "cssBackgrounds": [
+     "image-set(url(\"/visual-assets/v10_1/club/assets/ENV_CLUB_PLATE_V1_1X.webp\") 1dppx, url(\"http://127.0.0.1:8765/visual-assets/v10_1/club/assets/ENV_CLUB_PLATE_V1_2X.webp\") 2dppx)"
+    ],
+    "pass": true
+   },
+   "G10": {
+    "pairs": [
+     {
+      "a": "#clubPlayerOne",
+      "b": "#clubPlayerTwo",
+      "one": 117.8,
+      "two": 305.3,
+      "ok": true
+     },
+     {
+      "a": "#clubNameOne",
+      "b": "#clubNameTwo",
+      "one": 126.8,
+      "two": 314.3,
+      "ok": true
+     },
+     {
+      "a": "#clubCardStateOne",
+      "b": "#clubCardStateTwo",
+      "one": 126.8,
+      "two": 314.3,
+      "ok": true
+     },
+     {
+      "a": "#clubCardOne .clubRevealIndex",
+      "b": "#clubCardTwo .clubRevealIndex",
+      "one": 24,
+      "two": 212.5,
+      "ok": true
+     },
+     {
+      "a": "#clubCardOne .shieldSlot",
+      "b": "#clubCardTwo .shieldSlot",
+      "one": 34,
+      "two": 221.5,
+      "ok": true
+     },
+     {
+      "a": "#clubConfirmationManagerOne",
+      "b": "#clubConfirmationManagerTwo",
+      "one": 104,
+      "two": 237.4,
+      "ok": true
+     },
+     {
+      "a": "#clubConfirmationClubOne",
+      "b": "#clubConfirmationClubTwo",
+      "one": 155.8,
+      "two": 280.4,
+      "ok": true
+     },
+     {
+      "a": ".reveal[data-side='0']",
+      "b": ".reveal[data-side='1']",
+      "one": 61.1,
+      "two": 332.8,
+      "ok": true
+     }
+    ],
+    "pass": true
+   },
+   "G13": {
+    "header": {
+     "box": [
+      0,
+      0,
+      393,
+      48
+     ],
+     "height": "48px",
+     "backgroundImage": "linear-gradient(rgba(6, 7, 9, 0.92), rgba(6, 7, 9, 0.7))",
+     "borderBottom": "1px solid rgba(201, 155, 69, 0.45)"
+    },
+    "badge": {
+     "box": [
+      14,
+      9.8,
+      43.2,
+      27.5
+     ],
+     "fontFamily": "\"Barlow Condensed\", \"Arial Narrow\", sans-serif",
+     "fontSize": "22px",
+     "fontStyle": "italic",
+     "color": "rgb(242, 196, 91)"
+    },
+    "brand": {
+     "box": [
+      18,
+      23.5,
+      0,
+      16.3
+     ],
+     "fontSize": "13px",
+     "letterSpacing": "2.34px",
+     "color": "rgb(233, 223, 200)"
+    },
+    "identity": {
+     "box": [
+      170,
+      1.5,
+      64.3,
+      44
+     ],
+     "fontFamily": "\"Barlow Condensed\", \"Arial Narrow\", sans-serif",
+     "fontSize": "13px",
+     "minHeight": "44px",
+     "background": "rgba(10, 12, 15, 0.72) none repeat scroll 0% 0% / auto padding-box border-box",
+     "borderTop": "1px solid rgba(201, 155, 69, 0.55)"
+    },
+    "season": {
+     "box": [
+      242.3,
+      1.5,
+      140.7,
+      44
+     ],
+     "fontSize": "13px",
+     "minHeight": "44px"
+    },
+    "footer": {
+     "box": [
+      0,
+      0,
+      0,
+      0
+     ],
+     "height": "28px",
+     "display": "none"
+    }
+   },
+   "vw": 393,
+   "vh": 660,
+   "dpr": 3,
+   "mobile": true,
+   "shot": "CL6_393x660.jpg",
+   "G7": [
+    {
+     "t": "CM 17",
+     "ratio": 11.79,
+     "need": 3,
+     "pass": true
+    },
+    {
+     "t": "SIGN IN",
+     "ratio": 15.29,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "No Active Showdown",
+     "ratio": 15.29,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "CLUB ASSIGNMENT",
+     "ratio": 6.51,
+     "need": 3,
+     "pass": true
+    },
+    {
+     "t": "LEAGUE CONFIRMED",
+     "ratio": 17.22,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "Premier League",
+     "ratio": 12.38,
+     "need": 3,
+     "pass": true
+    },
+    {
+     "t": "RIVALRY READY · CONFIRM TO BEGIN",
+     "ratio": 17.22,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "01 DRAW",
+     "ratio": 15.31,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "02 PACK 1",
+     "ratio": 15.31,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "03 PACK 2",
+     "ratio": 15.31,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "04 VS",
+     "ratio": 15.31,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "05 LOCK",
+     "ratio": 11.32,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "01",
+     "ratio": 11.88,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "Daniel",
+     "ratio": 17.22,
+     "need": 3,
+     "pass": true
+    },
+    {
+     "t": "CAREER DRAW",
+     "ratio": 9.22,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "ASSIGNED CLUB",
+     "ratio": 9.22,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "Arsenal",
+     "ratio": 20.28,
+     "need": 3,
+     "pass": true
+    },
+    {
+     "t": "REVEALED",
+     "ratio": 12.38,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "RIVALRY",
+     "ratio": 15.87,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "VS",
+     "ratio": 6.09,
+     "need": 3,
+     "pass": true
+    },
+    {
+     "t": "02",
+     "ratio": 11.88,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "Nik",
+     "ratio": 17.22,
+     "need": 3,
+     "pass": true
+    },
+    {
+     "t": "CAREER DRAW",
+     "ratio": 9.22,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "ASSIGNED CLUB",
+     "ratio": 9.22,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "Chelsea",
+     "ratio": 20.28,
+     "need": 3,
+     "pass": true
+    },
+    {
+     "t": "REVEALED",
+     "ratio": 12.38,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "CLUBS LOCKED",
+     "ratio": 12.23,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "Daniel vs Nik",
+     "ratio": 18.59,
+     "need": 3,
+     "pass": true
+    },
+    {
+     "t": "Premier League · 3 seasons",
+     "ratio": 11.01,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "Daniel",
+     "ratio": 11.01,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "Arsenal",
+     "ratio": 20.04,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "VS",
+     "ratio": 12.23,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "Nik",
+     "ratio": 11.01,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "Chelsea",
+     "ratio": 20.04,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "These clubs are permanent for th",
+     "ratio": 14.28,
+     "need": 4.5,
+     "pass": true
+    },
+    {
+     "t": "CONFIRM RIVALRY & START SHOWDOWN",
+     "ratio": 10.67,
+     "need": 3,
+     "pass": true
+    }
+   ],
+   "G7summary": {
+    "checked": 36,
+    "failing": []
+   },
+   "G11": {
+    "expected": [
+     "onlinePlayerIdentityBadge",
+     "continueClubAssignment"
+    ],
+    "actual": [
+     "onlinePlayerIdentityBadge",
+     "continueClubAssignment"
+    ],
+    "pass": true
+   },
+   "zones": [
+    {
+     "zone": [
+      0,
+      22,
+      888,
+      78
+     ],
+     "edges": {
+      "L": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "R": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "T": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "B": {
+       "visiblePlatePx": 0,
+       "segments": []
+      }
+     }
+    },
+    {
+     "zone": [
+      1192,
+      22,
+      1398,
+      78
+     ],
+     "edges": {
+      "L": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "R": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "T": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "B": {
+       "visiblePlatePx": 0,
+       "segments": []
+      }
+     }
+    },
+    {
+     "zone": [
+      1400,
+      6,
+      1528,
+      78
+     ],
+     "edges": {
+      "L": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "R": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "T": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "B": {
+       "visiblePlatePx": 0,
+       "segments": []
+      }
+     }
+    },
+    {
+     "zone": [
+      458,
+      92,
+      1070,
+      298
+     ],
+     "edges": {
+      "L": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "R": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "T": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "B": {
+       "visiblePlatePx": 0,
+       "segments": []
+      }
+     }
+    },
+    {
+     "zone": [
+      552,
+      306,
+      980,
+      388
+     ],
+     "edges": {
+      "L": {
+       "visiblePlatePx": 6,
+       "segments": [
+        [
+         552,
+         384,
+         552,
+         388
+        ]
+       ]
+      },
+      "R": {
+       "visiblePlatePx": 6,
+       "segments": [
+        [
+         980,
+         384,
+         980,
+         388
+        ]
+       ]
+      },
+      "T": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "B": {
+       "visiblePlatePx": 36,
+       "segments": [
+        [
+         552,
+         388,
+         574,
+         388
+        ],
+        [
+         970,
+         388,
+         980,
+         388
+        ]
+       ]
+      }
+     }
+    },
+    {
+     "zone": [
+      680,
+      405,
+      850,
+      555
+     ],
+     "edges": {
+      "L": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "R": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "T": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "B": {
+       "visiblePlatePx": 0,
+       "segments": []
+      }
+     }
+    },
+    {
+     "zone": [
+      556,
+      572,
+      980,
+      628
+     ],
+     "edges": {
+      "L": {
+       "visiblePlatePx": 32,
+       "segments": [
+        [
+         556,
+         572,
+         556,
+         602
+        ]
+       ]
+      },
+      "R": {
+       "visiblePlatePx": 32,
+       "segments": [
+        [
+         980,
+         572,
+         980,
+         602
+        ]
+       ]
+      },
+      "T": {
+       "visiblePlatePx": 138,
+       "segments": [
+        [
+         556,
+         572,
+         616,
+         572
+        ],
+        [
+         906,
+         572,
+         980,
+         572
+        ]
+       ]
+      },
+      "B": {
+       "visiblePlatePx": 0,
+       "segments": []
+      }
+     }
+    },
+    {
+     "zone": [
+      140,
+      598,
+      1400,
+      742
+     ],
+     "edges": {
+      "L": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "R": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "T": {
+       "visiblePlatePx": 186,
+       "segments": [
+        [
+         262,
+         598,
+         288,
+         598
+        ],
+        [
+         552,
+         598,
+         600,
+         598
+        ],
+        [
+         916,
+         598,
+         994,
+         598
+        ],
+        [
+         1252,
+         598,
+         1278,
+         598
+        ]
+       ]
+      },
+      "B": {
+       "visiblePlatePx": 0,
+       "segments": []
+      }
+     }
+    },
+    {
+     "zone": [
+      444,
+      744,
+      1086,
+      806
+     ],
+     "edges": {
+      "L": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "R": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "T": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "B": {
+       "visiblePlatePx": 0,
+       "segments": []
+      }
+     }
+    },
+    {
+     "zone": [
+      0,
+      812,
+      1536,
+      864
+     ],
+     "edges": {
+      "L": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "R": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "T": {
+       "visiblePlatePx": 0,
+       "segments": []
+      },
+      "B": {
+       "visiblePlatePx": 0,
+       "segments": []
+      }
+     }
+    }
+   ],
+   "G12": {
+    "consoleErrors": [],
+    "failedRequests": [],
+    "pass": true
+   }
   }
  ],
  "owner3": {
@@ -53093,7 +59028,7 @@
     "q8_reducedMotion": {
      "endStateDiffInPackBoxes": {
       "pixelsChecked": 103500,
-      "changedPx": 49,
+      "changedPx": 59,
       "maxAbsDiff": 32
      },
      "evidence": [
@@ -53689,14 +59624,7 @@
    "failing": []
   },
   "G8": {
-   "failing": [
-    "CL1_1366x640.jpg",
-    "CL2_1366x640.jpg",
-    "CL3_1366x640.jpg",
-    "CL4_1366x640.jpg",
-    "CL5_1366x640.jpg",
-    "CL6_1366x640.jpg"
-   ]
+   "failing": []
   },
   "G9": {
    "failing": []
@@ -53710,8 +59638,8 @@
   "G12": {
    "failing": []
   },
-  "shots": 54,
-  "shotsAllPass": 48
+  "shots": 60,
+  "shotsAllPass": 60
  },
  "plateSha": {
   "ENV_CLUB_PLATE_V1_1X.webp": "398e74faeb18ab2df655122fa0f78e9737aad4c1eff1ba16d019a305f275c255",

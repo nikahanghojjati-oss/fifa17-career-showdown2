@@ -211,6 +211,7 @@
     const tl = Math.max(pl, hds[2] + m), tr = Math.min(pr, hns[0] - m);
     const sl = hds[3] + m, sr = hns[3] + m;              // shoulder heights clear the side hands
     const panel = [[140, top], [pl, top], [tl, Math.min(top, sl)], [tl + 14, 566], [tr - 14, 566], [tr, Math.min(top, sr)], [pr, top], [1396, top], [1412, 750], [124, 750]];
+    if (T.short) { panel.splice(panel.length - 2, 2, [1412, PH], [124, PH]); }
     const dock = [[432, 744], [1104, 744], [1104, 812], [432, 812]];
     const apron = [[0, 804], [PW, 804], [PW, PH], [0, PH]];
     // header shadow apron, split around the face boxes (desktop only)
@@ -260,9 +261,15 @@
       const offX = (W - PW * k) / 2;
       // Vertical bias (C4b): faces clear the 56 px header by 8 px, buttons stay above the footer;
       // the plate may slide up under the header/footer chrome but never leaves a visible gap.
-      let offY = Math.min(HEADER_D + 8 - 65 * k, H - FOOTER_D - L.buttonsY[1] * k - 2);
+      const faceY = HEADER_D + 8 - 65 * k;              // highest plate offset that keeps both faces 8 px under the header
+      // Short desktop (decision 1, 2026-10-01): the header never covers a face. If the plate-registered
+      // layout cannot also keep the buttons above the footer, the faces stay clear and the page scrolls
+      // (buttons move up under the packs so the primary stays visible on load).
+      const short = H - FOOTER_D - L.buttonsY[1] * k - 2 < faceY;
+      let offY = Math.min(faceY, H - FOOTER_D - L.buttonsY[1] * k - 2);
       offY = Math.max(H - PH * k - FOOTER_D, Math.min(HEADER_D, offY));
-      return { k, offX, offY, mode: "desktop", clip: [0, 0, W, H] };
+      if (short) offY = Math.min(HEADER_D, faceY);
+      return { k, offX, offY, mode: "desktop", clip: [0, 0, W, H], short };
     }
     // Phone band: its own transform (C4b) fitting a plate window into the band slot.
     const slot = $(".bandSlot").getBoundingClientRect();
@@ -307,7 +314,11 @@
     document.documentElement.classList.toggle("desktop", !phone);
     T = computeTransform();
     const { k } = T;
-    const s = phone ? 1 : k / (1366 / PW);           // desktop type scale: 1 at the 1366 Tier S reference
+    // desktop type scale: 1 at the 1366 Tier S reference; short desktops (height < 700) scale the UI down
+    const shortF = !phone && innerHeight < 700 ? Math.max(0.8, Math.min(1, innerHeight / 768)) : 1;
+    const s = phone ? 1 : (k / (1366 / PW)) * shortF;
+    document.documentElement.classList.toggle("scrolly", Boolean(T.short));
+    $("#stage").style.height = "";
     const root = document.documentElement;
     root.style.setProperty("--s", s.toFixed(4));
     root.style.setProperty("--k", k.toFixed(5));
@@ -368,10 +379,36 @@
       root.style.setProperty("--noteBleedR", Math.max(0, c.right - tr.right) + "px");
       root.style.setProperty("--tabH", tr.height + "px");
       // buttons row
-      const by = plateToScreen(0, L.buttonsY[0])[1];
+      let by = plateToScreen(0, L.buttonsY[0])[1];
       const cx = plateToScreen(768, 0)[0];
+      if (T.short) {
+        // buttons directly under the packs (and the side hands), card faces + confirmation below them
+        const hb = ["hand_daniel_side", "hand_nik_side"].map(n => rectToScreen(HANDS.hands[n].box).bottom);
+        by = Math.ceil(Math.max(packs[0].bottom, packs[1].bottom, ...hb) + 10);
+        const panelTop = by + 56 * s + 16 * s;
+        [["#clubCardOne", 0], ["#clubCardTwo", 1]].forEach(([sel, i]) => {
+          const card = $(sel), fr = rectToScreen(L.faces[i]), pk = packs[i];
+          place($(".clubCardFace", card), { left: fr.left - pk.left, top: panelTop + 30 * s - pk.top, width: fr.width, height: 92 * s });
+          place($(".clubRevealIndex", card), { left: fr.left + 68 * s, top: panelTop + 6 * s });
+          place($(".clubManager", card), { left: fr.left + 68 * s + 30 * s, top: panelTop + 2 * s });
+        });
+        place($(".panelDivider"), { left: c.left, top: panelTop, width: c.width, height: 110 * s });
+        place($("#clubRivalryConfirmation"), { left: c.left, top: panelTop - 4 * s, width: c.width, height: "auto" });
+        $("#clubRivalryConfirmation").style.height = "auto";
+        root.style.setProperty("--noteBleedL", "0px"); root.style.setProperty("--noteBleedR", "0px");
+        root.style.setProperty("--tabH", (26 * s) + "px");
+      }
       root.style.setProperty("--btnTop", by + "px");
       root.style.setProperty("--btnCx", cx + "px");
+      if (T.short) {
+        // document height = everything placed + footer; the page scrolls, the faces never go under the header
+        const bottoms = [".clubCardFace", "#clubRivalryConfirmation:not(.hidden)", "#clubWheelScreen button:not(.hidden)"].flatMap(q => $$(q)).map(n => n.getBoundingClientRect().bottom);
+        const Hs = Math.ceil(Math.max(innerHeight, ...bottoms) + 18 + FOOTER_D);
+        $("#stage").style.height = Hs + "px";
+        T.clip = [0, 0, innerWidth, Hs];
+        place($(".plateClip"), { left: 0, top: 0, width: innerWidth, height: Hs });
+        drawCovers(k, phone);
+      }
     } else {
       root.classList.remove("compact");
       root.style.setProperty("--noteBleedL", "0px"); root.style.setProperty("--noteBleedR", "0px");

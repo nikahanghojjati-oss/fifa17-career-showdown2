@@ -17,8 +17,9 @@ for (const m of intake.matchAll(/`(ENV_CLUB_PLATE_V1_[12]X\.(?:png|webp))` `([0-
 
 const FRAMES = ["CL1", "CL2", "CL3", "CL4", "CL5", "CL6"];
 const D = (vw, vh, dpr = 1) => ({ vw, vh, dpr, mobile: false });
-const M = (vw, vh) => ({ vw, vh, dpr: 2, mobile: true });
-const VIEWS = [D(1366, 768), D(1440, 900), D(1920, 1080), D(1366, 640), D(1366, 768, 2), M(360, 640), M(375, 553), M(390, 844), M(430, 932)];
+const M = (vw, vh, dpr = 2) => ({ vw, vh, dpr, mobile: true });
+// 393x660 @3 = Nik's iPhone, Safari visible area (owner request 2026-10-01)
+const VIEWS = [D(1366, 768), D(1440, 900), D(1920, 1080), D(1366, 640), D(1366, 768, 2), M(360, 640), M(375, 553), M(390, 844), M(430, 932), M(393, 660, 3)];
 const PRODUCT_IDS = ["clubWheelScreen", "clubAssignmentLeague", "clubPackStatus", "clubCardOne", "clubCardTwo", "clubPlayerOne", "clubPlayerTwo",
   "clubNameOne", "clubNameTwo", "clubCardStateOne", "clubCardStateTwo", "clubRivalryConfirmation", "clubConfirmationShowdown", "clubConfirmationMeta",
   "clubConfirmationManagerOne", "clubConfirmationManagerTwo", "clubConfirmationClubOne", "clubConfirmationClubTwo", "openClubPack",
@@ -80,6 +81,10 @@ function measure(args) {
   const de = document.documentElement, bd = document.body;
   r.G3 = { html: [de.scrollWidth, de.scrollHeight], body: [bd.scrollWidth, bd.scrollHeight], inner: [innerWidth, innerHeight] };
   r.G3.pass = de.scrollHeight <= innerHeight + 1 && de.scrollWidth <= innerWidth + 1 && bd.scrollHeight <= innerHeight + 1 && bd.scrollWidth <= innerWidth + 1;
+  // Short desktop (decision 1, 2026-10-01): vertical page scroll is allowed there so the header never covers
+  // a face; horizontal scroll is still a fail. Recorded as an owner-approved waiver, not a silent pass.
+  r.G3.shortDesktopScroll = !mobile && de.classList.contains("scrolly");
+  if (r.G3.shortDesktopScroll) { r.G3.waiver = "decision 1: vertical scroll allowed on short desktop"; r.G3.pass = de.scrollWidth <= innerWidth + 1 && bd.scrollWidth <= innerWidth + 1; }
   // phone: the stage itself must not overflow (content clipped by overflow hidden would also be a fail)
   const sec = document.getElementById("clubWheelScreen");
   r.G3.sectionOverflow = mobile ? sec.scrollHeight - sec.clientHeight : 0;
@@ -101,7 +106,7 @@ function measure(args) {
     if (e.clientWidth > 0 && (e.scrollWidth > e.clientWidth + 1 || e.scrollHeight > e.clientHeight + 1) && cs.display !== "inline") clipped.push({ t: e.textContent.trim().slice(0, 40), sw: e.scrollWidth, cw: e.clientWidth, sh: e.scrollHeight, ch: e.clientHeight });
     // also: not cut by the viewport
     const b = e.getBoundingClientRect();
-    if (b.right > innerWidth + 1 || b.left < -1 || b.bottom > innerHeight + 1) clipped.push({ t: e.textContent.trim().slice(0, 40), why: "outside viewport" });
+    if (b.right > innerWidth + 1 || b.left < -1 || b.bottom > Math.max(innerHeight, de.classList.contains("scrolly") ? de.scrollHeight : 0) + 1) clipped.push({ t: e.textContent.trim().slice(0, 40), why: "outside viewport" });
   });
   r.G5 = { clipped, pass: !clipped.length }; if (!r.G5.pass) r.fail.push("G5");
   // G6 sizes
@@ -211,6 +216,7 @@ function zoneCoverage() {
   const inBox = (b, x, y) => x >= b[0] && x <= b[2] && y >= b[1] && y <= b[3];
   const P = Object.values(MAP.protected_boxes);
   const hdrH = document.getElementById("topHeader").getBoundingClientRect().bottom;
+  const docH = document.documentElement.classList.contains("scrolly") ? document.documentElement.scrollHeight : innerHeight;
   const ft = document.querySelector("footer"); const ftTop = getComputedStyle(ft).display === "none" ? innerHeight : ft.getBoundingClientRect().top;
   const clip = T.clip;
   const res = [];
@@ -223,7 +229,7 @@ function zoneCoverage() {
       for (let i = 0; i <= n; i++) {
         const x = x0 + (x1 - x0) * i / n, y = y0 + (y1 - y0) * i / n;
         const [sx, sy] = Q.plateToScreen(x, y);
-        const offscreen = sx < clip[0] || sx > clip[0] + clip[2] || sy < clip[1] || sy > clip[1] + clip[3] || sx < 0 || sx > innerWidth || sy < 0 || sy > innerHeight;
+        const offscreen = sx < clip[0] || sx > clip[0] + clip[2] || sy < clip[1] || sy > clip[1] + clip[3] || sx < 0 || sx > innerWidth || sy < 0 || sy > docH;
         const chrome = sy <= hdrH || sy >= ftTop;
         const protectedPx = P.some(b => inBox(b, x, y));   // intake hard-restored these pixels: no zone edge there
         const covered = polys.some(p => pip(p, x, y));
@@ -287,7 +293,8 @@ async function contrast(page, dpr) {
     document.documentElement.classList.add("qa-notext");
     return out;
   });
-  const png = (await page.screenshot({ type: "png" })).toString("base64");
+  const full = await page.evaluate(() => document.documentElement.classList.contains("scrolly"));
+  const png = (await page.screenshot({ type: "png", fullPage: full })).toString("base64");
   await page.evaluate(() => document.documentElement.classList.remove("qa-notext"));
   return page.evaluate(async ({ png, items, dpr }) => {
     const i = await new Promise(r => { const im = new Image(); im.onload = () => r(im); im.src = "data:image/png;base64," + png; });
@@ -348,6 +355,7 @@ async function contrast(page, dpr) {
       if (!r.G11.pass) r.fail.push("G11");
       await page.evaluate(() => document.activeElement && document.activeElement.blur());
       await page.screenshot({ path: path.join(out, r.shot), type: "jpeg", quality: 86 });
+      if (r.G3.shortDesktopScroll) { r.fullPageShot = name(frame, v, "_fullpage"); await page.screenshot({ path: path.join(out, r.fullPageShot), type: "jpeg", quality: 86, fullPage: true }); }
       r.zones = await page.evaluate(zoneCoverage);
       r.G12 = { consoleErrors: errors, failedRequests: failed, pass: !errors.length && !failed.length };
       if (!r.G12.pass) r.fail.push("G12");

@@ -69,7 +69,7 @@ main { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
 #clubWheelScreen button { pointer-events: auto; }
 .clubAssignmentShell, .clubRevealArena, .clubRevealArea, .clubRevealCard { display: contents; }
 .clubKicker, #clubWheelScreen h2, .clubAssignmentHeader { position: absolute; transform: translateX(-50%); white-space: nowrap; text-align: center; }
-.clubKicker { font: 600 calc(var(--s) * 13px)/1.25 var(--cond); letter-spacing: .5em; padding-left: .5em; color: #E9DFC8; text-shadow: 0 1px 6px #000; }
+.clubKicker { font: 600 max(12px, calc(var(--s) * 13px))/1.25 var(--cond); letter-spacing: .5em; padding-left: .5em; color: #E9DFC8; text-shadow: 0 1px 6px #000; }
 #clubWheelScreen h2 {
   margin: 0; font: italic 700 calc(var(--s) * 64px)/1.25 var(--cond); text-transform: uppercase; letter-spacing: .01em; padding: 0 .12em;
   background: linear-gradient(180deg, #FFF1B8 0%, #F2C45B 52%, #B98A2F 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: #F2C45B;
@@ -78,14 +78,14 @@ main { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
 .clubAssignmentHeader { display: flex; flex-direction: column; align-items: center; gap: calc(var(--s) * 5px); }
 .ebRow, .stRow { display: inline-flex; align-items: center; gap: calc(var(--s) * 8px); }
 .glyph { width: calc(var(--s) * 18px); height: calc(var(--s) * 18px); flex: none; }
-.clubAssignmentEyebrow { font: 600 calc(var(--s) * 15px)/1.25 var(--cond); letter-spacing: .24em; color: #F4ECD8; }
+.clubAssignmentEyebrow { font: 600 max(12px, calc(var(--s) * 15px))/1.25 var(--cond); letter-spacing: .24em; color: #F4ECD8; }
 #clubAssignmentLeague { font: 700 calc(var(--s) * 26px)/1.25 var(--cond); letter-spacing: .04em; color: var(--gold); text-shadow: 0 0 14px rgba(242,196,91,.3); }
-#clubPackStatus { font: 600 calc(var(--s) * 15px)/1.25 var(--cond); letter-spacing: .2em; color: #F4ECD8; }
+#clubPackStatus { font: 600 max(12px, calc(var(--s) * 15px))/1.25 var(--cond); letter-spacing: .2em; color: #F4ECD8; }
 
 /* rail */
 .clubRevealProgress { position: absolute; display: flex; justify-content: space-between; }
 .clubRevealProgress::before { content: ""; position: absolute; left: 4px; right: 4px; top: calc(var(--s) * 18px); height: 1px; background: linear-gradient(90deg, transparent, rgba(242,196,91,.75) 8%, rgba(242,196,91,.75) 92%, transparent); }
-.clubRevealProgress span { position: relative; width: 0; display: flex; flex-direction: column; align-items: center; white-space: nowrap; font: 600 calc(var(--s) * 13px)/1.25 var(--cond); letter-spacing: .12em; color: #B3A88F; }
+.clubRevealProgress span { position: relative; width: 0; display: flex; flex-direction: column; align-items: center; white-space: nowrap; font: 600 max(12px, calc(var(--s) * 13px))/1.25 var(--cond); letter-spacing: .12em; color: #B3A88F; }
 .ring { display: grid; place-items: center; width: calc(var(--s) * 36px); height: calc(var(--s) * 36px); margin-bottom: calc(var(--s) * 7px); border-radius: 50%; border: 1.5px solid rgba(242,196,91,.55); background: #0b0c0e; color: var(--ink); }
 .ringCheck { width: 55%; height: 55%; display: none; }
 .clubRevealProgress span.active { color: var(--gold); }
@@ -101,7 +101,7 @@ main { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
 
 /* VS medallion */
 .clubVs { position: absolute; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: calc(var(--s) * 2px); }
-.clubVs span { font: 600 calc(var(--s) * 14px)/1.25 var(--cond); letter-spacing: .5em; padding-left: .5em; color: #F4ECD8; }
+.clubVs span { font: 600 max(12px, calc(var(--s) * 14px))/1.25 var(--cond); letter-spacing: .5em; padding-left: .5em; color: #F4ECD8; }
 .clubVs strong {
   font: italic 700 calc(var(--s) * 96px)/1.25 var(--cond); padding: 0 .1em; letter-spacing: -.02em;
   background: linear-gradient(180deg, #FFF1B8 0%, #F2C45B 50%, #B98A2F 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: #F2C45B;
@@ -110,23 +110,23 @@ main { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
 [data-club-reveal-stage="versus"] .clubVs strong, [data-club-reveal-stage="confirmation"] .clubVs strong { font-size: calc(var(--s) * 64px); }
 
 /* panel faces */
-.clubCardFace { position: absolute; display: grid; grid-template-columns: calc(var(--s) * 56px) auto auto 1fr; grid-template-rows: auto auto auto; column-gap: calc(var(--s) * 12px); align-content: start; }
+.clubCardFace { position: absolute; display: grid; grid-template-columns: calc(var(--s) * 56px) auto auto 1fr; grid-template-rows: auto auto auto; column-gap: max(12px, calc(var(--s) * 12px)); align-content: start; }
 #clubCardTwo .clubCardFace { }
 .shieldSlot { grid-row: 1 / span 3; position: relative; width: calc(var(--s) * 56px); height: calc(var(--s) * 60px); margin-top: calc(var(--s) * -24px); }
 .shieldSlot .sealedShield { width: 100%; height: 100%; display: block; }
 .panelCrest { position: absolute; inset: 0; display: none; }
 .panelCrest.on { display: block; }
 .is-revealed .sealedShield { display: none !important; }
-.clubCardEyebrow, .clubCardLabel { font: 600 calc(var(--s) * 12px)/1.2 var(--cond); letter-spacing: .16em; color: #B9AE95; white-space: nowrap; }
+.clubCardEyebrow, .clubCardLabel { font: 600 max(12px, calc(var(--s) * 12px))/1.2 var(--cond); letter-spacing: .16em; color: #B9AE95; white-space: nowrap; }
 .clubCardEyebrow { grid-column: 2; grid-row: 1; }
 .clubCardLabel { grid-column: 3; grid-row: 1; padding-left: calc(var(--s) * 6px); }
 .clubCardLabel::before { content: "·"; margin-right: calc(var(--s) * 6px); color: var(--gold-deep); }
 .clubCardFace strong { grid-column: 2 / -1; grid-row: 2; font: 700 calc(var(--s) * 26px)/1.25 var(--cond); letter-spacing: .03em; color: #F4ECD8; white-space: nowrap; }
 .is-revealed .clubCardFace strong { color: #FFF; }
-.clubCardState { grid-column: 2 / -1; grid-row: 3; font: 600 calc(var(--s) * 12px)/1.2 var(--cond); letter-spacing: .2em; color: #8E8570; }
+.clubCardState { grid-column: 2 / -1; grid-row: 3; font: 600 max(12px, calc(var(--s) * 12px))/1.2 var(--cond); letter-spacing: .2em; color: #8E8570; }
 .is-revealed .clubCardState { color: var(--gold); }
 .clubManager { position: absolute; font: 700 calc(var(--s) * 22px)/1.25 var(--cond); letter-spacing: .04em; color: #F4ECD8; white-space: nowrap; }
-.clubRevealIndex { position: absolute; font: 700 calc(var(--s) * 12px)/1.25 var(--cond); letter-spacing: .08em; color: var(--ink); background: var(--gold); padding: calc(var(--s) * 3px) calc(var(--s) * 5px); border-radius: 2px; }
+.clubRevealIndex { position: absolute; font: 700 max(12px, calc(var(--s) * 12px))/1.25 var(--cond); letter-spacing: .08em; color: var(--ink); background: var(--gold); padding: calc(var(--s) * 3px) calc(var(--s) * 5px); border-radius: 2px; }
 .panelDivider { position: absolute; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; pointer-events: none; }
 .panelDivider i { width: 1px; height: calc(var(--s) * 26px); background: linear-gradient(transparent, rgba(242,196,91,.7), transparent); }
 .panelDivider b { font: italic 700 calc(var(--s) * 18px)/1.25 var(--cond); color: var(--gold); letter-spacing: .04em; }
@@ -135,17 +135,17 @@ main { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
 
 /* confirmation: tab headline + centre column */
 .clubRivalryConfirmation { position: absolute; display: flex; flex-direction: column; align-items: center; text-align: center; }
-.clubRivalryHeadline { display: grid; grid-template-columns: auto auto; grid-template-rows: var(--tabH) auto; align-items: center; justify-content: center; column-gap: calc(var(--s) * 12px); }
+.clubRivalryHeadline { display: grid; grid-template-columns: auto auto; grid-template-rows: var(--tabH) auto; align-items: center; justify-content: center; column-gap: max(12px, calc(var(--s) * 12px)); }
 .clubRivalryHeadline small { grid-column: 1 / -1; }
-.clubRivalryHeadline span { font: 600 calc(var(--s) * 12px)/1.25 var(--cond); letter-spacing: .3em; color: var(--gold); }
+.clubRivalryHeadline span { font: 600 max(12px, calc(var(--s) * 12px))/1.25 var(--cond); letter-spacing: .3em; color: var(--gold); }
 .clubRivalryHeadline strong { font: 700 calc(var(--s) * 20px)/1.25 var(--cond); letter-spacing: .04em; color: #FFF6DE; }
-.clubRivalryHeadline small { font: 600 calc(var(--s) * 13px)/1.2 var(--cond); letter-spacing: .12em; color: #CDBF9E; margin-top: calc(var(--s) * 3px); }
-.clubRivalryMatchup { display: flex; align-items: center; gap: calc(var(--s) * 14px); margin-top: calc(var(--s) * 4px); }
+.clubRivalryHeadline small { font: 600 max(12px, calc(var(--s) * 13px))/1.2 var(--cond); letter-spacing: .12em; color: #CDBF9E; margin-top: calc(var(--s) * 3px); }
+.clubRivalryMatchup { display: flex; align-items: center; gap: max(12px, calc(var(--s) * 14px)); margin-top: calc(var(--s) * 4px); }
 .clubConfirmationSide { display: flex; align-items: baseline; gap: calc(var(--s) * 6px); }
-.clubConfirmationSide span { font: 600 calc(var(--s) * 14px)/1.25 var(--cond); letter-spacing: .08em; color: #CDBF9E; }
+.clubConfirmationSide span { font: 600 max(12px, calc(var(--s) * 14px))/1.25 var(--cond); letter-spacing: .08em; color: #CDBF9E; }
 .clubConfirmationSide strong { font: 700 calc(var(--s) * 20px)/1.25 var(--cond); letter-spacing: .03em; color: #FFF; }
 .clubConfirmationVs { font: italic 700 calc(var(--s) * 18px)/1.25 var(--cond); color: var(--gold); }
-.clubRivalryLockNote { margin: calc(var(--s) * 6px) calc(var(--noteBleedR, 0px) * -1) 0 calc(var(--noteBleedL, 0px) * -1); font: 400 calc(var(--s) * 14px)/1.3 var(--text); color: #E3D9C2; }
+.clubRivalryLockNote { margin: calc(var(--s) * 6px) calc(var(--noteBleedR, 0px) * -1) 0 calc(var(--noteBleedL, 0px) * -1); font: 400 max(12px, calc(var(--s) * 14px))/1.3 var(--text); color: #E3D9C2; }
 
 /* buttons (C6) */
 #clubWheelScreen .menuButton, #clubWheelScreen .backButton {
@@ -274,3 +274,7 @@ main { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
   .clubCardFace strong { font-size: 18px; }
   .clubRivalryLockNote { line-height: 1.22; }
 }
+
+/* short desktop (decision 1): the stage grows to its content and the document scrolls */
+html.scrolly, html.scrolly body { overflow-y: auto; overflow-x: hidden; height: auto; }
+html.scrolly .stage { position: absolute; left: 0; right: 0; top: 0; bottom: auto; }
