@@ -29,7 +29,7 @@ body { overflow: hidden; font-family: var(--text); -webkit-font-smoothing: antia
 .heal { -webkit-backdrop-filter: blur(var(--heal-blur, 6px)) brightness(var(--heal-dim, .86)); backdrop-filter: blur(var(--heal-blur, 6px)) brightness(var(--heal-dim, .86)); }
 .heal-head { background: linear-gradient(to bottom, rgba(6,7,9,.72), rgba(6,7,9,.30) 70%, rgba(6,7,9,0));
   -webkit-mask-image: linear-gradient(to bottom, #000 0 72%, transparent 100%); mask-image: linear-gradient(to bottom, #000 0 72%, transparent 100%); --heal-blur: 5px; }
-.heal-title { background: radial-gradient(ellipse at 50% 50%, rgba(6,7,9,.34), rgba(6,7,9,.18) 70%, rgba(6,7,9,0));
+.heal-title { background: radial-gradient(ellipse at 50% 46%, rgba(6,7,9,.62), rgba(6,7,9,.34) 62%, rgba(6,7,9,0));
   -webkit-mask-image: linear-gradient(to right, transparent 0, #000 5%, #000 95%, transparent 100%), linear-gradient(to bottom, transparent 0, #000 16%, #000 84%, transparent 100%);
   -webkit-mask-composite: source-in; mask-image: linear-gradient(to right, transparent 0, #000 5%, #000 95%, transparent 100%), linear-gradient(to bottom, transparent 0, #000 16%, #000 84%, transparent 100%); mask-composite: intersect; --heal-blur: 9px; --heal-dim: .92; }
 .heal-deck { background: radial-gradient(ellipse at 50% 55%, rgba(6,7,9,.55), rgba(6,7,9,.25) 70%, rgba(6,7,9,0));
@@ -39,35 +39,38 @@ body { overflow: hidden; font-family: var(--text); -webkit-font-smoothing: antia
 /* Slot veil: plate-registered, sits under the wheel. Hides the darkened slot's circular edge and the
    goal's old rim strip beside Daniel's fingertip whenever the wheel is not exactly on the slot. */
 .slot-veil { border-radius: 50%;
-  background: radial-gradient(closest-side, rgba(6,7,9,.10) 0 70%, rgba(6,7,9,.55) 86%, rgba(6,7,9,.88) 93%, rgba(6,7,9,.88) 97%, rgba(6,7,9,0) 100%);
+  background: radial-gradient(closest-side, rgba(6,7,9,.10) 0 62%, rgba(6,7,9,.55) 76%, rgba(6,7,9,.88) 90%, rgba(6,7,9,.88) 97%, rgba(6,7,9,0) 100%);
   -webkit-backdrop-filter: blur(5px); backdrop-filter: blur(5px);
-  -webkit-mask-image: radial-gradient(closest-side, transparent 78%, #000 86%, #000 97%, transparent 100%); mask-image: radial-gradient(closest-side, transparent 78%, #000 86%, #000 97%, transparent 100%); }
+  -webkit-mask-image: radial-gradient(closest-side, transparent 62%, #000 70%, #000 97%, transparent 100%); mask-image: radial-gradient(closest-side, transparent 62%, #000 70%, #000 97%, transparent 100%); }
 
 /* ---------- header / footer (C6) ---------- */
 #topHeader { position: absolute; z-index: 40; left: 0; right: 0; top: 0; height: var(--header-h); box-sizing: border-box; display: flex; align-items: center; gap: 14px; padding: 0 20px 0 0;
   background: linear-gradient(to bottom, rgba(6,7,9,.92), rgba(6,7,9,.70)); border-bottom: 1px solid rgba(201,155,69,.45); }
 .cm-badge { position: relative; height: 100%; display: flex; align-items: center; padding: 0 22px 0 18px; }
 .cm-badge::before { content: ""; position: absolute; inset: 0 0 0 -12px; background: #0d0f12; border-right: 2px solid var(--gold); transform: skewX(-14deg); transform-origin: bottom left; }
-.cm-badge span { position: relative; font: italic 700 24px/1 var(--cond); color: var(--gold); letter-spacing: .02em; }
+.cm-badge span { position: relative; font: italic 700 24px/1.2 var(--cond); color: var(--gold); letter-spacing: .02em; }
 .brand h1, .brand p { margin: 0; font: 600 13px/1.25 var(--cond); letter-spacing: .18em; color: var(--cream); font-variant: small-caps; }
 .brand p { color: var(--muted); font-size: 12px; }
 #onlinePlayerIdentityBadge, #seasonIndicator { min-height: 40px; box-sizing: border-box; display: inline-flex; align-items: center; padding: 0 14px; background: rgba(10,12,15,.72); border: 1px solid rgba(201,155,69,.55);
   color: var(--cream); font: 600 14px/1 var(--cond); letter-spacing: .12em; }
 #onlinePlayerIdentityBadge { margin-left: auto; cursor: pointer; }
-.script-tag { font: 400 18px/1 "Kaushan Script", cursive; color: var(--gold); transform: rotate(-8deg); margin-left: 6px; white-space: nowrap; }
+.script-tag { font: 400 18px/1.35 "Kaushan Script", cursive; color: var(--gold); transform: rotate(-8deg); margin-left: 6px; white-space: nowrap; }
 footer { position: absolute; z-index: 40; left: 0; right: 0; bottom: 0; height: var(--footer-h); box-sizing: border-box; padding: 0 20px; display: flex; align-items: center; gap: 8px;
   background: linear-gradient(to top, rgba(6,7,9,.92), rgba(6,7,9,.72)); border-top: 1px solid rgba(201,155,69,.30); font: 400 12px/1 var(--text); color: var(--muted); }
 footer br { display: none; }
 footer .foot-ver::before { content: "·"; margin-right: 8px; }
-.foot-tag { margin-left: auto; font: 600 12px/1 var(--cond); letter-spacing: .34em; color: var(--muted); display: inline-flex; align-items: center; gap: 10px; }
+.foot-tag { margin-left: auto; font: 600 12px/1 var(--cond); letter-spacing: .34em; color: #B3A88F; display: inline-flex; align-items: center; gap: 10px; }
 .crown { display: inline-block; width: 18px; height: 13px; background: var(--gold); -webkit-mask: var(--crown) center/contain no-repeat; mask: var(--crown) center/contain no-repeat; }
 :root { --crown: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 16'%3E%3Cpath d='M1 4l5 4 6-7 6 7 5-4-2 11H3z'/%3E%3C/svg%3E"); }
 
 /* ---------- title block ---------- */
-.title-block, .subtitle-row, .stateNote, .button-row, .wheel-rig, .slogan { position: absolute; z-index: 20; }
+.title-block, .subtitle-row, .stateNote, .button-row, .slogan { position: absolute; z-index: 20; }
+.wheel-bezel, .leagueWheel, .wheelPointer { position: absolute; z-index: 18; }
+.leagueWheel { z-index: 19; } .wheelPointer { z-index: 21; }
 .title-block { left: 0; right: 0; text-align: center; pointer-events: none; }
+.title-block > * { width: fit-content; margin-left: auto !important; margin-right: auto !important; }
 .kicker { font: 600 13px/1 var(--cond); letter-spacing: .5em; color: var(--cream); margin-right: -.5em; }
-#leagueWheelScreen h2 { margin: 6px 0 0; font: italic 700 var(--title-size, 72px)/1 var(--cond); text-transform: uppercase; letter-spacing: .01em;
+#leagueWheelScreen h2 { margin: 0; font: italic 700 var(--title-size, 72px)/1.2 var(--cond); text-transform: uppercase; letter-spacing: .01em; padding: 0 .08em;
   background: linear-gradient(to bottom, #FFF1B8, #F2C45B 55%, #B98A2F); -webkit-background-clip: text; background-clip: text; color: transparent;
   filter: url(#brush) drop-shadow(0 0 18px rgba(242,196,91,.35)); }
 .subtitle-row { left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 14px; white-space: nowrap; }
@@ -93,11 +96,10 @@ footer .foot-ver::before { content: "·"; margin-right: 8px; }
 button:focus-visible { outline: 2px solid #FFF1B8; outline-offset: 3px; }
 
 /* ---------- wheel (sizes are fractions of the rim radius --R) ---------- */
-.wheel-rig { width: calc(var(--R) * 2); height: calc(var(--R) * 2); }
 .wheelContainer { position: static; }
-.wheel-bezel { position: absolute; inset: calc(var(--R) * -28 / 240); border-radius: 50%;
+.wheel-bezel { border-radius: 50%;
   background: radial-gradient(closest-side, transparent 88%, rgba(7,8,10,.96) 89.5%, rgba(9,10,12,.95) 97.6%, rgba(9,10,12,0) 100%); }
-.leagueWheel { position: absolute; inset: 0; border-radius: 50%; overflow: hidden; }
+.leagueWheel { border-radius: 50%; overflow: hidden; }
 .wheelTrack { position: absolute; inset: 0; border-radius: 50%; transform: rotate(var(--rot, 0deg));
   background:
     repeating-conic-gradient(from -36deg, rgba(242,196,91,.95) 0 .5deg, transparent .5deg 71.5deg, rgba(242,196,91,.95) 71.5deg 72deg),
@@ -108,7 +110,7 @@ button:focus-visible { outline: 2px solid #FFF1B8; outline-offset: 3px; }
 .wheelItem { position: absolute; left: 50%; top: 50%; z-index: 2; width: calc(var(--R) * .70); margin-left: calc(var(--R) * -.35); box-sizing: border-box;
   display: flex; flex-direction: column; align-items: center; gap: calc(var(--R) * .025);
   transform-origin: 50% 0; transform: rotate(var(--a)) translateY(calc(var(--R) * -.86));
-  color: var(--pale); font: 700 calc(var(--R) * 22 / 240) / 1.05 var(--cond); letter-spacing: .03em; text-transform: uppercase; text-align: center; white-space: nowrap; }
+  color: var(--pale); font: 700 calc(var(--R) * 22 / 240) / 1.15 var(--cond); letter-spacing: .03em; padding-bottom: .12em; text-transform: uppercase; text-align: center; white-space: nowrap; }
 .wheelItem:nth-child(1) { --a: 0deg; } .wheelItem:nth-child(2) { --a: 72deg; } .wheelItem:nth-child(3) { --a: 144deg; } .wheelItem:nth-child(4) { --a: 216deg; } .wheelItem:nth-child(5) { --a: 288deg; }
 .wheelItem::before { content: ""; order: -1; width: calc(var(--R) * 64 / 240); height: calc(var(--R) * 64 / 240); background: var(--league-mark-image) center/contain no-repeat;
   /* presentation-only monochrome: pale gold family, internal tones kept */
@@ -123,7 +125,7 @@ button:focus-visible { outline: 2px solid #FFF1B8; outline-offset: 3px; }
   -webkit-backdrop-filter: blur(.9px); backdrop-filter: blur(.9px);
   -webkit-mask-image: radial-gradient(closest-side, transparent 30%, #000 45%, #000 92%, transparent 93%); mask-image: radial-gradient(closest-side, transparent 30%, #000 45%, #000 92%, transparent 93%); }
 .stage[data-frame="L2"] .wheel-blur { display: block; }
-.wheelPointer { position: absolute; z-index: 6; left: 50%; top: calc(var(--R) * -36 / 240); width: calc(var(--R) * 44 / 240); height: calc(var(--R) * 62 / 240); margin-left: calc(var(--R) * -22 / 240); }
+.wheelPointer { pointer-events: none; }
 .wheelPointer::before { content: ""; position: absolute; inset: 0; background: var(--pointer-svg) center/contain no-repeat; filter: drop-shadow(0 2px 4px rgba(0,0,0,.6)); }
 :root { --pointer-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 62'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23FFF1B8'/%3E%3Cstop offset='.55' stop-color='%23F2C45B'/%3E%3Cstop offset='1' stop-color='%237A5A22'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M9 14l4 4 9-10 9 10 4-4-2 10H11z' fill='url(%23g)' stroke='%237A5A22' stroke-width='1'/%3E%3Cpath d='M4 28h36L22 60z' fill='url(%23g)' stroke='%237A5A22' stroke-width='1.2'/%3E%3Cpath d='M12 31h20L22 50z' fill='%237A5A22' opacity='.35'/%3E%3C/svg%3E"); }
 
@@ -135,8 +137,8 @@ button:focus-visible { outline: 2px solid #FFF1B8; outline-offset: 3px; }
 .slogan::before, .slogan::after { content: ""; position: absolute; width: 28px; height: 28px; border-color: var(--gold); border-style: solid; }
 .slogan::before { left: 0; top: 0; border-width: 2px 0 0 2px; }
 .slogan::after { right: 0; bottom: 0; border-width: 0 2px 2px 0; }
-@media (min-width: 1200px) { .stage[data-mode="desktop"] .slogan { display: flex; } }
-@media (max-width: 899px) { .script-tag { display: none; } }
+.stage[data-mode="desktop"][data-wide="1"] .slogan { display: flex; }      /* desktop >= 1200 px only */
+.stage[data-narrow="1"] .script-tag { display: none; }                      /* hidden below 900 px */
 
 /* ---------- grid evidence ---------- */
 .grid-layer { position: absolute; inset: 0; z-index: 60; pointer-events: none; display: none; }
@@ -158,4 +160,5 @@ button:focus-visible { outline: 2px solid #FFF1B8; outline-offset: 3px; }
 .stage[data-mode="phone"] .menuButton, .stage[data-mode="phone"] .backButton { width: 100%; min-width: 0; height: 48px; font-size: 19px; }
 .stage[data-mode="phone"] .slot-veil { background: radial-gradient(closest-side, rgba(6,7,9,.55) 0 60%, rgba(6,7,9,.9) 88%, rgba(6,7,9,.9) 96%, rgba(6,7,9,0) 100%); -webkit-mask-image: none; mask-image: none; }
 .stage[data-mode="phone"] .stateNote { left: 16px; right: 16px; width: auto; transform: none; max-width: none; padding: 6px 12px; }
-.stage[data-mode="phone"] .wheelItem { width: calc(var(--R) * .76); margin-left: calc(var(--R) * -.38); font-size: max(12px, calc(var(--R) * 22 / 240)); line-height: 1; letter-spacing: .01em; white-space: normal; }
+.stage[data-mode="phone"] .wheelItem { width: calc(var(--R) * .76); margin-left: calc(var(--R) * -.38); font-size: max(12px, calc(var(--R) * 22 / 240)); line-height: 1.1; letter-spacing: 0; white-space: normal; gap: calc(var(--R) * .02); }
+.stage[data-mode="phone"] .wheelItem::before { width: calc(var(--R) * 50 / 240); height: calc(var(--R) * 50 / 240); }

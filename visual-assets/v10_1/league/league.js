@@ -11,7 +11,7 @@
   const q = (s) => document.querySelector(s);
   const stage = q("#stage-root");
   const params = new URLSearchParams(location.search);
-  const frameId = params.get("frame") || "L1";
+  let frameId = params.get("frame") || "L1";
   stage.dataset.frame = frameId;
   if (params.get("grid") === "1") stage.dataset.grid = "1";
 
@@ -21,7 +21,9 @@
   function plateRect(r) { const a = plateToScreen(r[0], r[1]), b = plateToScreen(r[2], r[3]); return { l: a.x, t: a.y, r: b.x, b: b.y }; }
 
   let FX, MAP;
-  const px = (v) => `${Math.round(v * 100) / 100}px`;
+  const px = (v) => `${v}px`;
+  // measurements relative to the stage (equal to viewport coords in the prototype, where the stage is at 0,0)
+  function rel(el) { const b = el.getBoundingClientRect(), o = stage.getBoundingClientRect(); return { top: b.top - o.top, bottom: b.bottom - o.top, height: b.height }; }
   function box(el, l, t, w, h) { Object.assign(el.style, { left: px(l), top: px(t), width: px(w), height: px(h) }); }
 
   /* ---------- frame state: strings exactly as js/leagueWheel.js sets them ---------- */
@@ -101,9 +103,14 @@
   }
 
   function placeWheel(cx, cy, R) {
-    const rig = q(".wheel-rig");
-    rig.style.setProperty("--R", px(R));
-    box(rig, cx - R, cy - R, 2 * R, 2 * R);
+    stage.style.setProperty("--R", px(R));
+    box(q("#leagueWheel"), cx - R, cy - R, 2 * R, 2 * R);
+    const rb = R * BEZEL;
+    box(q(".wheel-bezel"), cx - rb, cy - rb, 2 * rb, 2 * rb);
+    // pointer: gold chevron + crown at 12 o'clock, sitting on the rim (44 x 62 plate px at R = 240)
+    const pw = R * 44 / 240, ph = R * 62 / 240;
+    box(q(".wheelPointer"), cx - pw / 2, cy - R - R * POINTER, pw, ph);
+    Object.assign(stage.dataset, { wheelCx: cx.toFixed(2), wheelCy: cy.toFixed(2), wheelR: R.toFixed(2) });
   }
 
   function layoutDesktop(W, H) {
@@ -126,10 +133,12 @@
     const tb = q(".title-block");
     const kickerTop = Math.max(hdr + (short ? 6 : 12), oy + 86 * k);
     tb.style.top = px(kickerTop);
-    const h2b = q("#leagueWheelScreen h2").getBoundingClientRect();
+    const h2b = rel(q("#leagueWheelScreen h2"));
     const sub = q(".subtitle-row");
-    sub.style.top = px(h2b.bottom + (short ? 2 : 6));
-    const titleBottom = sub.getBoundingClientRect().bottom;
+    // the h2 line box carries ~0.2em of italic-glyph headroom (G5); tuck the subtitle into it
+    const ts = parseFloat(getComputedStyle(q("#leagueWheelScreen h2")).fontSize);
+    sub.style.top = px(h2b.bottom - ts * 0.16);
+    const titleBottom = rel(sub).bottom;
 
     const row = q(".button-row");
     const btnTop = Math.min(oy + 743 * k, H - ftr - (short ? 8 : 12) - 56);
@@ -172,13 +181,14 @@
   function layoutPhone(W, H) {
     const hdr = 48;
     stage.dataset.mode = "phone";
+    q("#leagueWheelScreen h2").style.removeProperty("--title-size");
     const kb = W / (PHONE_X[1] - PHONE_X[0]);
     const tb = q(".title-block");
     tb.style.top = px(hdr + 6);
-    const h2b = q("#leagueWheelScreen h2").getBoundingClientRect();
+    const h2b = rel(q("#leagueWheelScreen h2"));
     const sub = q(".subtitle-row");
     sub.style.top = px(h2b.bottom + 2);
-    const bandTop = sub.getBoundingClientRect().bottom + 4;
+    const bandTop = rel(sub).bottom + 4;
     Object.assign(T, { k: kb, ox: -PHONE_X[0] * kb, oy: bandTop - PHONE_Y_TOP * kb });
 
     const row = q(".button-row");
@@ -232,7 +242,9 @@
   }
 
   function layout() {
-    const W = innerWidth, H = innerHeight;
+    const W = stage.clientWidth, H = stage.clientHeight;   // = viewport in the prototype (stage is fixed, inset 0)
+    stage.dataset.wide = W >= 1200 ? "1" : "0";
+    stage.dataset.narrow = W < 900 ? "1" : "0";
     if (W <= 760 && H > W) layoutPhone(W, H); else layoutDesktop(W, H);
     stage.dataset.k = T.k.toFixed(5); stage.dataset.ox = T.ox.toFixed(2); stage.dataset.oy = T.oy.toFixed(2);
     drawGrid();
@@ -241,15 +253,18 @@
   async function main() {
     FX = window.LEAGUE_FX || await (await fetch("fixtures.json")).json();
     MAP = window.LEAGUE_MAP || await (await fetch("assets/platemap.json")).json();
+    window.LEAGUE_MAP_FOR_QA = MAP;
     buildWheelArt();
     applyFrame();
     if (document.fonts && document.fonts.ready) await document.fonts.ready;
     layout();
     addEventListener("resize", layout);
+    if (window.LEAGUE_PREVIEW) { window.__leagueReady = true; return; }
     const img = new Image();
     img.onload = img.onerror = () => { window.__leagueReady = true; };
     img.src = devicePixelRatio > 1 ? "assets/ENV_LEAGUE_PLATE_V1_2X.webp" : "assets/ENV_LEAGUE_PLATE_V1_1X.webp";
   }
-  window.LeagueV1 = { plateToScreen, T, SLOT, main };
+  function setFrame(id) { frameId = id; stage.dataset.frame = id; applyFrame(); layout(); }
+  window.LeagueV1 = { plateToScreen, T, SLOT, main, setFrame, layout };
   if (!window.LEAGUE_DEFER_MAIN) main();
 })();
