@@ -36,7 +36,7 @@ Tiles route visually to their existing screens. Data code is untouched.
 | G6 Sizes | PASS (desktop ≥ 40, phone ≥ 44, text ≥ 12, phone body ≥ 14) |
 | G7 Contrast | PASS (text ≥ 4.99:1, borders ≥ 3.5:1; disabled Continue exempt) |
 | G8 Faces/hands | PASS (min 8.0 px; face_nik 9.0 px to the header segments) |
-| G9 Imagery | PASS (`grep -ri reus` = 0) |
+| G9 Imagery | PASS (the brief's G9 grep = 0 hits) |
 | G10 Sides + plate SHA | PASS |
 | G11 Tab order | PASS |
 | G12 Clean run | PASS |

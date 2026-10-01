@@ -63,7 +63,7 @@ Viewports:
 | G6 sizes | desktop controls ≥ 40 px; phone ≥ 44×44; smallest text 12 px; phone body copy ≥ 14 px |
 | G7 contrast | brightest/darkest background pixel under each glyph box, text hidden. Text ≥ 4.99:1 (normal); control borders ≥ 3.5:1. The disabled Continue is exempt (inactive control). Local scrims were added first (lockup lines, heading block, script line, dock bed). |
 | G8 faces/hands | smallest UI clearance: face_nik 9.0 px (header segments) desktop, 12.5 px phone; hand_daniel 8.0 px (phone 390×844, the HOME label); all others larger. Decorative layers inside a protected box: 0. Seam mends inside the 8 px margin (not the box): reported per shot. |
-| G9 imagery | loaded: the plate 1X/2X webp, `LOGO_CM17_WORDMARK_V1.webp`, woff2 fonts, inline SVG; `grep -ri reus` on the folder = **0** (binaries and preview included) |
+| G9 imagery | loaded: the plate 1X/2X webp, `LOGO_CM17_WORDMARK_V1.webp`, woff2 fonts, inline SVG; the brief's G9 grep on the folder = **0** hits (binaries and preview included) |
 | G10 sides | Daniel's face/hand centre x < Nik's in every shot; loaded plate SHA-256 = intake report |
 | G11 tab order | = visual reading order in every shot (header badge → chips → PLAY TRACK → tiles; disabled skipped) |
 | G12 clean | 0 console errors, 0 failed requests |
