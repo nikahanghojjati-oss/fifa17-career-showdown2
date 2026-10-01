@@ -8,14 +8,9 @@ Hard rules: never touch `main`, no force-push, no merges to main, no PR.
 
 Setup: clone the repo, then `git fetch origin claude-cloud/hlc-goals && git checkout -B claude-cloud/hlc-goals origin/claude-cloud/hlc-goals`.
 
-## PART A · documents only
+## PART A
 
-1. Read `visual-assets/goals/SOL_HLC_R3_QUICK_CHECK_VERDICT_2026-10-01.md`.
-2. Apply exactly its five corrections R3.1-1 through R3.1-5, using Sol's replacement wording verbatim, to the four R3 briefs in `visual-assets/goals/`: `CLOUD_HLC_INTAKE_V1_R3.md`, `CLOUD_BRIEF_HOME_V1_R3.md`, `CLOUD_BRIEF_LEAGUE_V1_R3.md`, `CLOUD_BRIEF_CLUB_V1_R3.md`. Edit in place. Add a changelog line `R3.1 2026-10-01: Sol R3.1-1..5 applied` to each. Change nothing else.
-3. Write `visual-assets/goals/FOR_SOL_5.6_HLC_R3_1_CHANGED_LINES_2026-10-01.md`: for each of the five items, the file, the old text and the new text, plus the commit SHA and `git diff --stat`.
-4. Commit `HLC R3.1: Sol five line corrections (docs only)` and `git push -u origin claude-cloud/hlc-goals`. Record this SHA as the Part A SHA.
-
-Do not run intake or any screen build before Part A is pushed.
+ALREADY DONE at faa2c09. Only verify the R3.1 changelog line is present in all four R3 briefs, then go straight to Part B. Do not re-apply.
 
 ## PART B · intake (only after Part A is pushed)
 
