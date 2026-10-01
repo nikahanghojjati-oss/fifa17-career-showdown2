@@ -2,6 +2,7 @@ Recipient: Claude Code Cloud session · Surface: claude.ai/code, repo `nikahangh
 Model: **Opus 5.5** · Effort: **Medium**. If Opus 5.5 is not offered, STOP and tell Nik. No automatic fallback.
 Input branch: `claude-cloud/hlc-goals` · Output branches: `claude-cloud/home-v1`, `claude-cloud/league-v1`, `claude-cloud/club-v1`
 Return to: GPT-5.6 Sol (via Nik), and Claude in the project chat.
+Changelog: R3.1 2026-10-01: Sol R3.1-1..5 applied.
 
 ```
 TASK_ID: CLOUD-HLC-INTAKE-V1-R3
@@ -38,7 +39,7 @@ Run only after Claude has committed Nik's plates to `visual-assets/goals/plates-
 7. Wordmark (Home only, if present): alpha present (≥ 30 % fully transparent pixels), trimmed to content + 8 px, PNG + WebP, SHA-256. Note "spelling to be checked by Nik".
 
 ## Branches (SOL-HLC-8)
-Resolve `claude-cloud/transfer-tr2-plate-g`. Expected base is `8fbda036c1d1f7910631964e982705d0f25290c0`. If the live head differs, STOP and report `PLATE_G_SOURCE_DRIFT` with the expected SHA, live SHA, and changed-path list. Do not cut HLC branches from an unreviewed newer Plate G head. For each PASS screen, create `claude-cloud/<screen>-v1` from that base, add `visual-assets/v10_1/<screen>/assets/` (plates, `platemap.json`, `REF_GOAL_*`, `intake_report.md` with base SHA, sizes, SHA-256 values and the gate counts) and `visual-assets/v10_1/<screen>/evidence/intake_*`. Commit `visual: <SCREEN>-V1 plate intake`, then `git push -u origin claude-cloud/<screen>-v1`. A FAILED plate gets no branch.
+Resolve `claude-cloud/transfer-tr2-plate-g`. Expected base is `8fbda036c1d1f7910631964e982705d0f25290c0`. If the live head differs, STOP and report `PLATE_G_SOURCE_DRIFT` with the expected SHA, live SHA, and changed-path list. Do not cut HLC branches from an unreviewed newer Plate G head. For each PASS screen, create `claude-cloud/<screen>-v1` from that base, add `visual-assets/v10_1/<screen>/assets/` (plates, `platemap.json`, `REF_GOAL_*`, `intake_report.md` with base SHA, sizes, SHA-256 values and the gate counts), `visual-assets/v10_1/<screen>/evidence/` (`intake_*`) and `visual-assets/v10_1/<screen>/tools/intake_hlc.py`; if `BUILD_RESULT.md` is emitted at screen root under the chosen structure, include it as well. Do not broaden write scope beyond the R3 intake scope. Commit `visual: <SCREEN>-V1 plate intake`, then `git push -u origin claude-cloud/<screen>-v1`. A FAILED plate gets no branch.
 
 ## Reply at the end
 Per screen: PASS or FAILED with the gate counts, base SHA, branch head SHA, and the side-by-side JPG path so Nik can glance at it.
