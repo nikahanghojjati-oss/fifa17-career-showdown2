@@ -3,7 +3,7 @@
 (function () {
   "use strict";
   const PW = 1672, PH = 941;
-  const qs = new URLSearchParams(location.search);
+  const qs = new URLSearchParams(window.HOME_QS || location.search); // HOME_QS: single-file preview (srcdoc)
   const stage = document.getElementById("stage-root");
   const H = window.HomePlate = window.HomePlate || {};
 
@@ -21,15 +21,21 @@
     return { k, offX: (W - PW * k) / 2, offY: 0, boxX: 0, boxY: 0, mode: "desktop" };
   }
   // Phone band: fit the union of both face boxes (+ margin) into the band, never cutting a face, while the plate still covers the band.
-  const BAND_TARGET = [705, 18, 1322, 410];
+  // Faces (face_daniel ∪ face_nik = x 725–1300, y 30–400) are fitted inside the band with >= 10 px above and below,
+  // so the header and the UI under the band stay >= 8 px clear. Where the plate cannot cover the band's top edge
+  // without that, the band's own ink background shows (a few px under the header).
+  const FACES = [725, 30, 1300, 400], BAND_PAD = 10, BAND_SIDE = 20;
   function bandTransform(box) {
-    const tw = BAND_TARGET[2] - BAND_TARGET[0], th = BAND_TARGET[3] - BAND_TARGET[1];
-    let k = Math.min(box.width / tw, box.height / th);
-    k = Math.max(k, box.width / PW, box.height / PH);
-    const cx = (BAND_TARGET[0] + BAND_TARGET[2]) / 2, cy = (BAND_TARGET[1] + BAND_TARGET[3]) / 2;
-    let offX = box.width / 2 - cx * k, offY = box.height / 2 - cy * k;
+    const tw = FACES[2] - FACES[0] + 2 * BAND_SIDE, th = FACES[3] - FACES[1];
+    let k = Math.min(box.width / tw, (box.height - 2 * BAND_PAD) / th);
+    k = Math.max(k, box.width / PW);
+    const cx = (FACES[0] + FACES[2]) / 2;
+    let offX = box.width / 2 - cx * k;
     offX = Math.min(0, Math.max(box.width - PW * k, offX));
-    offY = Math.min(0, Math.max(box.height - PH * k, offY));
+    // centre the faces vertically, then prefer covering the band with plate while keeping the face margins
+    let offY = (box.height - th * k) / 2 - FACES[1] * k;
+    const lo = BAND_PAD - FACES[1] * k, hi = box.height - BAND_PAD - FACES[3] * k; // face-margin window for offY
+    offY = Math.min(Math.max(offY, Math.max(lo, box.height - PH * k)), Math.max(lo, Math.min(hi, 0)));
     return { k, offX, offY, boxX: box.left, boxY: box.top, mode: "mobile" };
   }
 
@@ -93,7 +99,7 @@
 
   // Seam mends: one strip per intake zone edge (plate px), trimmed so it never enters a protected box (+2 px).
   function mendStrips(MAP) {
-    const T = 10, out = [];
+    const T = 12, out = [];
     const prot = protectedList(MAP).map(([n, r]) => [n, grow(r, 2)]);
     MAP.remove_rects.forEach((z, zi) => {
       const [x0, y0, x1, y1] = z;
@@ -114,8 +120,9 @@
             if (s.b > pb) next.push({ a: pb, b: s.b, lo: s.lo, hi: s.hi });
             // overlapped part: shrink thickness to the side of the line away from the box
             let lo = s.lo, hi = s.hi;
-            if (plo > e.at) hi = Math.min(hi, plo); else if (phi < e.at) lo = Math.max(lo, phi); else { lo = hi = e.at; }
-            if (hi - lo >= 6 && lo <= e.at - 2 && hi >= e.at + 2) next.push({ a: Math.max(s.a, pa), b: Math.min(s.b, pb), lo, hi, trimmed: n });
+            // keep the part of the strip on the far side of the box (the hairline can sit a few px inside the zone edge)
+            if (plo > s.lo) hi = Math.min(hi, plo); else if (phi < s.hi) lo = Math.max(lo, phi); else { lo = hi = e.at; }
+            if (hi - lo >= 6) next.push({ a: Math.max(s.a, pa), b: Math.min(s.b, pb), lo, hi, trimmed: n });
             else out.push({ zone: zi, edge: e.name, o: e.o, at: e.at, a: Math.max(s.a, pa), b: Math.min(s.b, pb), skipped: n });
           });
           segs = next;
@@ -131,6 +138,21 @@
     layer.replaceChildren();
     if (qs.get("mends") === "0") return [];
     const strips = mendStrips(MAP);
+    // area mends (plate px): the left-column zone union, the top-right nav remnant zones, the right card zone
+    const AREAS = [
+      { r: [26, 104, 604, 694], mb: 4, f: 26, name: "left-column zones 3-5" },
+      { r: [1314, 0, 1672, 104], mb: 7, mbr: 0.72, f: 22, name: "top-right zones 1-2" },
+    ];
+    AREAS.forEach((A) => {
+      const a = { x: cam.offX + A.r[0] * cam.k, y: cam.offY + A.r[1] * cam.k }, b = { x: cam.offX + A.r[2] * cam.k, y: cam.offY + A.r[3] * cam.k };
+      const d = document.createElement("i");
+      d.className = "areaMend"; d.dataset.zone = A.name;
+      Object.assign(d.style, { left: a.x + "px", top: a.y + "px", width: b.x - a.x + "px", height: b.y - a.y + "px" });
+      d.style.setProperty("--mb", (A.mb * Math.min(1, cam.k * 1.2)).toFixed(2) + "px");
+      if (A.mbr) d.style.setProperty("--mbr", A.mbr);
+      d.style.setProperty("--fx", Math.max(6, A.f * cam.k) + "px"); d.style.setProperty("--fy", Math.max(6, A.f * cam.k) + "px");
+      layer.appendChild(d);
+    });
     strips.filter((s) => !s.skipped).forEach((s) => {
       const r = s.o === "h" ? [s.a, s.lo, s.b, s.hi] : [s.lo, s.a, s.hi, s.b];
       const a = { x: cam.offX + r[0] * cam.k, y: cam.offY + r[1] * cam.k }, b = { x: cam.offX + r[2] * cam.k, y: cam.offY + r[3] * cam.k };
@@ -138,7 +160,7 @@
       d.className = "mend " + s.o;
       d.dataset.zone = s.zone; d.dataset.edge = s.edge;
       Object.assign(d.style, { left: a.x + "px", top: a.y + "px", width: Math.max(1, b.x - a.x) + "px", height: Math.max(1, b.y - a.y) + "px" });
-      d.style.setProperty("--mb", Math.max(1.5, 3 * Math.min(1, cam.k * 1.2)).toFixed(2) + "px");
+      d.style.setProperty("--mb", Math.max(2, 5 * Math.min(1, cam.k * 1.2)).toFixed(2) + "px");
       layer.appendChild(d);
     });
     return strips;
@@ -169,13 +191,19 @@
     pv.style.backgroundPosition = `${cam.offX}px ${cam.offY}px`;
     const P = MAP.protected_boxes;
     const gutter = 0.024 * W, hdr = 56, ftr = 28;
-    const tileH = Math.min(156, Math.max(128, 0.17 * Hh));
+    const tileH = Math.min(158, Math.max(136, 0.175 * Hh));
     const tileTop = Math.round(Hh - ftr - 8 - tileH);
     stage.style.setProperty("--tile-top", tileTop + "px");
     stage.style.setProperty("--tile-h", tileH + "px");
+    // dock bed starts above the dock zone's top edge (plate y 684) so the tone-match edge sits under its opaque part
 
-    const handD = rectToScreen(grow(P.hand_daniel, 8)), faceD = rectToScreen(grow(P.face_daniel, 8));
-    const handN = rectToScreen(grow(P.hand_nik, 8)), faceN = rectToScreen(grow(P.face_nik, 8));
+
+    const growS = (r, g) => ({ left: r.left - g, top: r.top - g, right: r.right + g, bottom: r.bottom + g, width: r.width + 2 * g, height: r.height + 2 * g });
+    const handD = growS(rectToScreen(P.hand_daniel), 9), faceD = growS(rectToScreen(P.face_daniel), 9);
+    const handN = growS(rectToScreen(P.hand_nik), 9), faceN = growS(rectToScreen(P.face_nik), 9);
+    // dock bed starts above the dock zone's top edge (plate y 684) so the tone-match edge sits under its opaque part,
+    // but never above Daniel's pointing hand (+9 px)
+    stage.style.setProperty("--bed-top", Math.max(handD.bottom, Math.min(tileTop - 24, plateToScreen(0, 662).y)) + "px");
 
     // left column: heading width stops 12 px before Daniel's pointing hand
     const colW = Math.max(260, Math.min(0.36 * W, handD.left - gutter - 12));
@@ -200,6 +228,11 @@
     // keep the right header controls inside the right segment
     const rightSeg = segs[segs.length - 1];
     stage.dataset.headerRightSeg = JSON.stringify(rightSeg.map(Math.round));
+    // right header controls must start >= 8 px right of the open gap (face box clearance); tighten their padding if needed
+    const hdrEl = document.getElementById("topHeader"), badgeEl = document.getElementById("onlinePlayerIdentityBadge");
+    hdrEl.classList.remove("tight");
+    if (badgeEl.getBoundingClientRect().left < rightSeg[0]) hdrEl.classList.add("tight");
+    stage.dataset.headerTight = hdrEl.classList.contains("tight") ? "1" : "0";
 
     // scrims (H1): brief gradient .78 → .35 (73 %) → 0, ended before the protected boxes (+8)
     const sTop = stage.querySelector(".scrimTop"), sLow = stage.querySelector(".scrimLow");
@@ -219,12 +252,12 @@
   function placeCard(MAP, L) {
     const card = stage.querySelector(".menuMusicTile");
     const set = (left, top, width, height) => Object.assign(card.style, { left: left + "px", top: top + "px", width: width + "px", height: height == null ? "auto" : height + "px" });
-    const need = (w, side) => { card.classList.toggle("side", !!side); set(0, 0, w, null); return card.scrollHeight; };
+    const need = (w, side) => { card.classList.toggle("side", !!side); set(0, 0, w, null); return card.offsetHeight; };
     // goal position: plate x 1060..1640 (goal 64–97.6 %, widened to cover the intake zone edges), y from 486 (below Nik's hand +8)
     const left = plateToScreen(1060, 0).x, right = Math.min(plateToScreen(1640, 0).x, L.W - 16);
     const top = Math.max(plateToScreen(0, 486).y, L.handN.bottom);
     const bottomMax = L.tileTop - 12;
-    const w = right - left, h = need(w, false);
+    const w = right - left, h = need(w, false) + 2;
     if (top + h <= bottomMax) {
       const bottom = Math.min(bottomMax, Math.max(top + h, plateToScreen(0, 670).y));
       set(left, top, w, bottom - top);
@@ -232,7 +265,7 @@
     } else {
       // short desktops: beside Nik's hand/face (+8), bottom-anchored over the tile row
       const sl = Math.max(L.handN.right, L.faceN.right) + 4, sr = L.W - L.gutter;
-      const sw = sr - sl, sh = need(sw, true);
+      const sw = sr - sl, sh = need(sw, true) + 2;
       const sTop = Math.max(L.hdr + 40, bottomMax - sh);
       set(sl, sTop, sw, Math.min(sh, bottomMax - sTop));
       stage.dataset.cardMode = "side";
@@ -277,6 +310,12 @@
     layout(MAP);
     layout(MAP); // second pass: heading height settles after fonts and widths
     addEventListener("resize", () => layout(MAP));
+    // Visual-only routing: each tile names the existing product destination it opens (fixtures.routes); no data code runs.
+    document.querySelectorAll(".fifaMenuGrid > button.menuTile").forEach((b) => b.addEventListener("click", () => {
+      const r = FX.routes[b.id];
+      stage.dataset.lastIntent = b.id;
+      document.dispatchEvent(new CustomEvent("home:intent", { detail: { tile: b.id, opens: r && r.opens } }));
+    }));
     window.__homeReady = true;
   }
   main().catch((e) => { console.error(e); });

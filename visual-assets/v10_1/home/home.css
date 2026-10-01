@@ -20,7 +20,7 @@
   --script: "Kaushan Script", cursive;
   --hdr: 56px;
   --ftr: 28px;
-  --tile-h: clamp(128px, 17vh, 156px);
+  --tile-h: clamp(136px, 17.5vh, 158px);
   --tile-top: 600px;      /* set by home.js */
   --gutter: 2.4vw;
 }
@@ -31,8 +31,8 @@ button { font: inherit; color: inherit; }
 :focus-visible { outline: 2px solid var(--gold-hi); outline-offset: 3px; }
 .sr-only { position: absolute !important; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; border: 0; }
 
-/* Product runtime containment (js/onlinePlayerIdentity.js, injected style): Legacy + Statistics hidden. */
-#legacyButton:not([data-test-surface='internal-audit']), #careerStatisticsButton:not([data-test-surface='internal-audit']) { display: none !important; }
+/* Owner change (Nik, 2026-10-01): the r43 online containment that hid #legacyButton / #careerStatisticsButton is NOT applied here;
+   Home shows the full tile set from Nik's mockup. Production still carries that style in js/onlinePlayerIdentity.js (untouched). */
 
 /* ---------- plate (cover-fit, horizontally centred, top-anchored; offsets written by plateToScreen) ---------- */
 .plateView {
@@ -46,19 +46,47 @@ button { font: inherit; color: inherit; }
   position: absolute; pointer-events: none;
   -webkit-backdrop-filter: blur(var(--mb, 3px)); backdrop-filter: blur(var(--mb, 3px));
 }
-.mend.h { -webkit-mask-image: linear-gradient(180deg, transparent, #000 30%, #000 70%, transparent); mask-image: linear-gradient(180deg, transparent, #000 30%, #000 70%, transparent); }
-.mend.v { -webkit-mask-image: linear-gradient(90deg, transparent, #000 30%, #000 70%, transparent); mask-image: linear-gradient(90deg, transparent, #000 30%, #000 70%, transparent); }
+.mend.h { -webkit-mask-image: linear-gradient(180deg, transparent, #000 15%, #000 85%, transparent); mask-image: linear-gradient(180deg, transparent, #000 15%, #000 85%, transparent); }
+.mend.v { -webkit-mask-image: linear-gradient(90deg, transparent, #000 15%, #000 85%, transparent); mask-image: linear-gradient(90deg, transparent, #000 15%, #000 85%, transparent); }
 .mend.box { -webkit-mask-image: radial-gradient(closest-side, #000 72%, transparent); mask-image: radial-gradient(closest-side, #000 72%, transparent); }
 
 /* ---------- desktop scrims (positions/stops written by home.js) ---------- */
 .scrim { position: absolute; pointer-events: none; }
 .scrimLow { -webkit-mask-image: linear-gradient(180deg, transparent, #000 48px); mask-image: linear-gradient(180deg, transparent, #000 48px); }
 .dockBed {
-  position: absolute; left: 0; right: 0; bottom: 0; top: calc(var(--tile-top) - 24px); pointer-events: none;
-  background: linear-gradient(180deg, rgba(6,7,9,.30), rgba(6,7,9,.62) 60%, rgba(6,7,9,.82));
+  position: absolute; left: 0; right: 0; bottom: 0; top: var(--bed-top, calc(var(--tile-top) - 24px)); pointer-events: none;
+  background: linear-gradient(180deg, rgba(6,7,9,.74), rgba(6,7,9,.8) 50%, rgba(6,7,9,.88));
   -webkit-backdrop-filter: blur(7px); backdrop-filter: blur(7px);
-  -webkit-mask-image: linear-gradient(180deg, transparent, #000 14px); mask-image: linear-gradient(180deg, transparent, #000 14px);
+  -webkit-mask-image: linear-gradient(180deg, transparent, #000 10px); mask-image: linear-gradient(180deg, transparent, #000 10px);
 }
+
+/* Area mends: soft blur (+ optional darkening) over a whole intake zone where an edge step survives a thin strip. */
+.areaMend {
+  position: absolute; pointer-events: none;
+  -webkit-backdrop-filter: blur(var(--mb, 5px)) brightness(var(--mbr, 1)); backdrop-filter: blur(var(--mb, 5px)) brightness(var(--mbr, 1));
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 var(--fx, 24px), #000 calc(100% - var(--fx, 24px)), transparent), linear-gradient(180deg, transparent, #000 var(--fy, 24px), #000 calc(100% - var(--fy, 24px)), transparent);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(90deg, transparent, #000 var(--fx, 24px), #000 calc(100% - var(--fx, 24px)), transparent), linear-gradient(180deg, transparent, #000 var(--fy, 24px), #000 calc(100% - var(--fy, 24px)), transparent);
+  mask-composite: intersect;
+}
+/* Local scrims behind plate-backed text (G7: fix with a local scrim first). Text always sits inside the opaque part. */
+.homeLockup, .fifaMenuHeading, .scriptLine { isolation: isolate; }
+.homeLockup::before, .homeLockup::after, .fifaMenuHeading::before, .scriptLine::before {
+  content: ""; position: absolute; z-index: -1; pointer-events: none; background: rgba(6,7,9,.74);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 14px, #000 calc(100% - 14px), transparent), linear-gradient(180deg, transparent, #000 8px, #000 calc(100% - 8px), transparent);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(90deg, transparent, #000 14px, #000 calc(100% - 14px), transparent), linear-gradient(180deg, transparent, #000 8px, #000 calc(100% - 8px), transparent);
+  mask-composite: intersect;
+}
+/* one scrim per lockup line, on the lockup wrapper (kicker = first line, legacy line = last line) */
+.homeLockup::before { left: -18px; right: -18px; top: -9px; height: 37px; }
+.homeLockup::after { left: -18px; right: -18px; bottom: -9px; height: 37px; }
+.scriptLine::before { inset: -18px -16px -18px -16px; background: rgba(6,7,9,.86); border-radius: 50%;
+  -webkit-mask-image: radial-gradient(closest-side, #000 74%, transparent); mask-image: radial-gradient(closest-side, #000 74%, transparent); -webkit-mask-composite: source-over; mask-composite: add; }
+.scriptLine > span { display: block; padding: 4px 18px; }
+.fifaMenuHeading::before { inset: -14px -10px -12px calc(-1 * var(--gutter)); background: rgba(6,7,9,.72);
+  -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 10px), transparent), linear-gradient(180deg, transparent, #000 14px, #000 calc(100% - 12px), transparent);
+  mask-image: linear-gradient(90deg, #000 calc(100% - 10px), transparent), linear-gradient(180deg, transparent, #000 14px, #000 calc(100% - 12px), transparent); }
 
 /* ---------- header (C6) ---------- */
 .hdrBg { position: absolute; left: 0; right: 0; top: 0; height: var(--hdr); pointer-events: none; }
@@ -72,8 +100,8 @@ button { font: inherit; color: inherit; }
   display: flex; align-items: center; gap: 14px; padding: 0 16px 0 0; box-sizing: border-box;
 }
 .cmBadge {
-  position: relative; display: flex; align-items: center; height: 100%; padding: 0 22px 0 18px;
-  font: italic 700 24px/1 var(--cond); color: var(--gold); letter-spacing: .02em;
+  position: relative; display: flex; align-items: center; height: 100%; padding: 0 22px 0 18px; margin-right: 14px;
+  font: italic 700 24px/1.15 var(--cond); color: var(--gold); letter-spacing: .02em;
 }
 .cmBadge::before {
   content: ""; position: absolute; inset: 0 0 0 -20px; z-index: -1;
@@ -89,9 +117,11 @@ button { font: inherit; color: inherit; }
 }
 #onlinePlayerIdentityBadge { margin-left: auto; cursor: pointer; color: var(--gold); }
 #onlinePlayerIdentityBadge:hover { border-color: var(--gold); }
+#topHeader.tight #onlinePlayerIdentityBadge, #topHeader.tight .seasonIndicator { padding: 0 9px; letter-spacing: .06em; }
+#topHeader.tight { gap: 8px; }
 .scriptLine {
-  position: absolute; z-index: 6; right: 18px; top: calc(var(--hdr) + 6px); pointer-events: none;
-  font: 400 18px/1 var(--script); color: var(--gold); transform: rotate(-8deg); transform-origin: 100% 50%;
+  position: absolute; z-index: 6; right: 30px; top: calc(var(--hdr) + 28px); pointer-events: none;
+  font: 400 18px/1.7 var(--script); color: var(--gold); transform: rotate(-8deg); transform-origin: 100% 50%;
   text-shadow: 0 2px 10px rgba(0,0,0,.85); white-space: nowrap;
 }
 
@@ -101,7 +131,7 @@ button { font: inherit; color: inherit; }
   display: flex; flex-direction: column; align-items: flex-start; gap: 6px; width: var(--wm-w, 32vw);
 }
 .lockupKicker, .lockupLegacy {
-  margin: 0; font: 600 15px/1.25 var(--cond); letter-spacing: .5em; color: #E9DFC8; white-space: nowrap;
+  margin: 0; width: max-content; font: 600 15px/1.25 var(--cond); letter-spacing: .5em; color: #E9DFC8; white-space: nowrap;
   text-shadow: 0 1px 8px rgba(0,0,0,.9);
 }
 .lockupKicker { padding-left: .2em; }
@@ -119,28 +149,38 @@ button { font: inherit; color: inherit; }
 .fifaMenuHeading h2::after { content: ""; position: absolute; left: 0; bottom: 0; width: 28px; height: 2px; background: var(--gold); }
 .fifaMenuHeadingMeta { margin: 0; font: 400 16px/1.35 var(--text); color: var(--cream); text-shadow: 0 1px 6px rgba(0,0,0,.8); }
 .fifaMenuHeadingMeta span {
-  display: block; margin-bottom: 6px; font: 700 44px/1 var(--cond); color: #FFFFFF; letter-spacing: .01em;
+  display: block; margin-bottom: 4px; font: 700 44px/1.16 var(--cond); color: #FFFFFF; letter-spacing: .01em;
   text-transform: uppercase; text-shadow: 0 2px 14px rgba(0,0,0,.7);
 }
 
 /* ---------- tile row (H2) ---------- */
 .fifaMenuGrid {
   position: absolute; z-index: 4; left: var(--gutter); right: var(--gutter); top: var(--tile-top); height: var(--tile-h);
-  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px;
+  display: grid; grid-template-columns: minmax(0, 1.72fr) minmax(0, 1.72fr) repeat(4, minmax(0, 1fr)); gap: 10px;
 }
 .menuTile {
   position: relative; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 3px;
-  min-width: 0; height: 100%; box-sizing: border-box; padding: 12px 98px 12px 16px; margin: 0; text-align: left; cursor: pointer;
+  min-width: 0; height: 100%; box-sizing: border-box; padding: 9px 98px 9px 16px; margin: 0; text-align: left; cursor: pointer;
   background: var(--glass); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
-  border: 1px solid var(--hair); border-radius: 3px; color: #fff;
+  border: 1px solid rgba(201,155,69,.6); border-radius: 3px; color: #fff; /* brief .45; .6 for G7 control borders at 1366x640 */
   box-shadow: inset 0 2px 0 var(--gold), 0 10px 28px rgba(0,0,0,.45);
 }
 .menuTileCode { font: 600 12px/1.15 var(--cond); letter-spacing: .2em; color: var(--gold-deep); text-transform: uppercase; }
-.menuTileLabel { font: 700 26px/1 var(--cond); color: #fff; text-transform: uppercase; letter-spacing: .01em; max-width: 100%; }
+.menuTileLabel { font: 700 26px/1.1 var(--cond); color: #fff; text-transform: uppercase; letter-spacing: .01em; max-width: 100%; }
 .menuTileMeta { font: 400 14px/1.25 var(--text); color: var(--meta); max-width: 100%; }
 .tileIcon { position: absolute; right: 22px; top: 50%; width: 72px; height: 72px; margin-top: -40px; pointer-events: none; }
+#continueCareer, #newShowdown { padding-right: 96px; }
 .tileChevron { position: absolute; right: 12px; bottom: 11px; width: 9px; height: 15px; color: var(--gold); pointer-events: none; }
 .menuTile:not(:disabled):hover, .menuTile:not(:disabled):focus-visible { border-color: var(--gold); transform: translateY(-1px); }
+/* secondary tiles (Legacy, Statistics + Trophy Room, Rule Book, Settings): goal tile language = code + big label + icon;
+   their meta stays in the DOM, visually hidden (owner change: six tiles must fit one row) */
+.menuTileLegacy, .menuTileTrophy, .menuTileRules, .menuTileSettings { justify-content: flex-start; padding: 12px 12px 10px 14px; }
+.menuTileLegacy .menuTileMeta, .menuTileTrophy .menuTileMeta, .menuTileRules .menuTileMeta, .menuTileSettings .menuTileMeta { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
+.menuTileLegacy .tileIcon, .menuTileTrophy .tileIcon, .menuTileRules .tileIcon, .menuTileSettings .tileIcon { top: auto; bottom: 10px; right: 26px; margin-top: 0; width: 64px; height: 64px; }
+.menuTileTag {
+  margin-top: 4px; padding: 3px 7px 3px; border: 1px solid var(--gold); border-radius: 2px; background: rgba(242,196,91,.12);
+  font: 700 12px/1.15 var(--cond); letter-spacing: .14em; color: #FFD97A; white-space: nowrap;
+}
 #continueCareer { background: linear-gradient(135deg, #F7D46A, #E0AE3A); border-color: rgba(255,241,184,.7); box-shadow: 0 10px 28px rgba(0,0,0,.45); }
 #continueCareer .menuTileCode { color: #3B2C0C; }
 #continueCareer .menuTileLabel { color: var(--ink); }
@@ -152,17 +192,17 @@ button { font: inherit; color: inherit; }
 
 /* ---------- soundtrack card (H3; box written by home.js) ---------- */
 .menuMusicTile {
-  position: fixed; z-index: 4; box-sizing: border-box; padding: 9px 12px; overflow: hidden;
+  position: fixed; z-index: 4; box-sizing: border-box; padding: 8px 12px; overflow: hidden;
   background: var(--glass); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
   border: 1px solid var(--hair); border-radius: 3px; box-shadow: inset 0 2px 0 var(--gold), 0 12px 30px rgba(0,0,0,.5);
-  display: grid; grid-template-columns: 52px minmax(0, 1fr) auto; column-gap: 12px; row-gap: 6px;
+  display: grid; grid-template-columns: 52px minmax(0, 1fr) auto; column-gap: 12px; row-gap: 5px;
   grid-template-areas: "player head head" "sel sel sel" "status status ctrl"; --vinyl: 44px;
   align-items: center;
 }
 .menuMusicHeader { grid-area: head; display: flex; align-items: flex-start; gap: 10px; min-width: 0; }
 .menuMusicHeader > div { min-width: 0; flex: 1; }
 .menuMusicHeader span { display: block; font: 600 12px/1.2 var(--cond); letter-spacing: .2em; color: var(--gold-deep); }
-.menuMusicHeader strong { display: block; font: 700 26px/1.05 var(--cond); color: #fff; letter-spacing: .01em; }
+.menuMusicHeader strong { display: block; font: 700 26px/1.15 var(--cond); color: #fff; letter-spacing: .01em; }
 .menuMusicArtist { margin: 1px 0 0; font: 400 14px/1.25 var(--text); color: var(--meta); }
 .menuMusicSource { font: 600 12px/1.2 var(--cond); letter-spacing: .16em; color: var(--cream); margin-left: auto; }
 .menuMusicPlayer { grid-area: player; align-self: center; }
@@ -222,7 +262,7 @@ footer {
 .footDeco svg { width: 18px; height: 14px; }
 
 /* ---------- &grid=1 ---------- */
-.gridOverlay { position: absolute; inset: 0; z-index: 20; pointer-events: none; display: none; }
+.gridOverlay { position: absolute; inset: 0; z-index: 20; pointer-events: none; display: none; overflow: hidden; }
 .stage.grid .gridOverlay { display: block; }
 .gridOverlay b { position: absolute; box-sizing: border-box; border: 2px solid #FF3B3B; background: rgba(255,59,59,.12); font: 700 11px/1 var(--cond); color: #FF7A7A; padding: 2px; }
 .gridOverlay b.grow { border: 1px dashed #FF7A7A; background: none; }
@@ -237,21 +277,33 @@ footer {
 /* ================= phone (portrait, up to 760 px wide) ================= */
 @media (max-width: 760px) and (orientation: portrait) {
   :root { --hdr: 48px; --gutter: 12px; }
-  .stage { display: flex; flex-direction: column; }
+  .stage { display: flex; flex-direction: column; overflow-x: hidden; overflow-y: auto; }
   #topHeader { order: 0; } .plateView { order: 1; } main { order: 2; }
   .scrim, .dockBed, .hdrBg, .scriptLine, .footDeco, .homeLockup { display: none !important; }
   #topHeader { position: relative; flex: none; padding: 0 10px 0 0; gap: 8px; background: linear-gradient(to bottom, rgba(6,7,9,.98), rgba(6,7,9,.9)); border-bottom: 1px solid var(--hair); }
-  .cmBadge { font-size: 22px; padding: 0 16px 0 14px; }
+  .cmBadge { font-size: 22px; line-height: 1.2; padding: 0 16px 0 14px; }
   .brand { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
-  #onlinePlayerIdentityBadge, .seasonIndicator { min-height: 44px; padding: 0 10px; font-size: 14px; letter-spacing: .08em; }
+  #onlinePlayerIdentityBadge, .seasonIndicator { min-height: 44px; min-width: 44px; justify-content: center; border-color: rgba(242,196,91,.9); padding: 0 10px; font-size: 14px; letter-spacing: .08em; }
   .plateView { position: relative; inset: auto; flex: 1 1 auto; min-height: 60px; border-bottom: 1px solid var(--hair); }
   main { flex: none; }
   .fifaMenuShell { display: flex; flex-direction: column; gap: 8px; padding: 8px 12px 10px; }
   .fifaMenuHeading { position: static; width: auto; max-width: none; }
+  .fifaMenuHeading::before { display: none; }
+  .plateView { background-color: #060709; }
   .fifaMenuHeading h2 { font-size: 16px; margin-bottom: 5px; padding-bottom: 4px; }
   .fifaMenuHeadingMeta { font-size: 14px; line-height: 1.3; }
-  .fifaMenuHeadingMeta span { font-size: 28px; margin-bottom: 3px; }
-  .fifaMenuGrid { position: static; height: auto; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .fifaMenuHeadingMeta span { font-size: 28px; line-height: 1.12; margin-bottom: 3px; }
+  .fifaMenuGrid { position: static; height: auto; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px 6px; }
+  #continueCareer, #newShowdown { grid-column: span 2; }
+  .menuTileLegacy, .menuTileTrophy, .menuTileRules, .menuTileSettings { padding: 7px 5px 7px 8px; min-height: 64px; gap: 2px; }
+  #continueCareer, #newShowdown { padding-right: 10px; }
+  .menuTileLegacy .menuTileLabel, .menuTileTrophy .menuTileLabel, .menuTileRules .menuTileLabel, .menuTileSettings .menuTileLabel { font-size: 14px; padding-right: 0; }
+  .menuTileLegacy .menuTileCode, .menuTileTrophy .menuTileCode, .menuTileRules .menuTileCode, .menuTileSettings .menuTileCode { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
+  .menuTileLegacy, .menuTileTrophy, .menuTileRules, .menuTileSettings { justify-content: center; }
+  .menuTileLegacy .tileIcon, .menuTileTrophy .tileIcon, .menuTileRules .tileIcon, .menuTileSettings .tileIcon { display: none; }
+  .menuTileTag { margin-top: 3px; padding: 3px 4px; letter-spacing: .02em; white-space: normal; line-height: 1.1; }
+  .menuTileLegacy .tileChevron, .menuTileTrophy .tileChevron, .menuTileRules .tileChevron, .menuTileSettings .tileChevron { right: 4px; bottom: 5px; width: 7px; height: 12px; }
+  .menuTileTrophy { padding-right: 14px; }
   .menuMusicTile {
     position: static; grid-column: 1 / -1; width: auto !important; height: auto !important; padding: 8px 10px;
     grid-template-columns: minmax(0, 1fr); grid-template-areas: "head" "sel" "ctrl"; row-gap: 6px;
@@ -271,7 +323,7 @@ footer {
   .menuMusicTile { grid-template-columns: auto minmax(0, 1fr); grid-template-areas: "head head" "sel sel" "ctrl status"; column-gap: 10px; }
   .menuMusicStatus { font-size: 12px; }
   .menuTile { padding: 9px 10px 9px 11px; min-height: 72px; height: auto; gap: 2px; justify-content: flex-start; }
-  .menuTileLabel { font-size: 18px; line-height: 1.05; padding-right: 34px; }
+  .menuTileLabel { font-size: 18px; line-height: 1.12; padding-right: 34px; }
   .menuTileMeta { font-size: 14px; line-height: 1.25; }
   .menuTile .menuTileMeta { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
   #continueCareer .menuTileMeta, .stage.primary-new #newShowdown .menuTileMeta { position: static !important; width: auto; height: auto; overflow: visible; clip: auto; clip-path: none; white-space: normal; }
@@ -279,6 +331,15 @@ footer {
   .tileChevron { right: 9px; bottom: 9px; }
   .menuBottomStrip, footer { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; padding: 0; border: 0; }
   @media (max-height: 600px) {
+    .plateView { min-height: 48px; }
+    .fifaMenuShell { gap: 4px; padding: 5px 12px 5px; }
+    .fifaMenuGrid { gap: 5px; }
+    .fifaMenuHeading h2 { font-size: 14px; padding-bottom: 3px; }
+    .fifaMenuHeadingMeta { line-height: 1.24; }
+    .menuMusicTile { padding: 6px 10px; row-gap: 5px; }
+    .menuTileLegacy, .menuTileTrophy, .menuTileRules, .menuTileSettings { min-height: 56px; padding-top: 5px; padding-bottom: 5px; }
+    .menuTile { padding-top: 7px; padding-bottom: 7px; }
+    .fifaMenuHeading h2 { margin-bottom: 3px; }
     .menuMusicStatus { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
     .menuMusicTile { grid-template-areas: "head head" "sel sel" "ctrl ctrl"; }
   }
