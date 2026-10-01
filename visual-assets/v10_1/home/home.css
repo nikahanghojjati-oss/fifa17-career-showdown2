@@ -1,0 +1,285 @@
+/* HOME-V1 · Rivalry Headquarters on the Home plate. Static checkpoint: nothing animates. */
+@font-face { font-family: "Barlow Condensed"; font-weight: 600; font-display: block; src: url(../tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-600-normal.woff2) format("woff2"); }
+@font-face { font-family: "Barlow Condensed"; font-weight: 700; font-display: block; src: url(../tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-700-normal.woff2) format("woff2"); }
+@font-face { font-family: "Barlow"; font-weight: 400; font-display: block; src: url(../tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2) format("woff2"); }
+@font-face { font-family: "Barlow"; font-weight: 600; font-display: block; src: url(../tr2/slice-02-plate/assets/fonts/barlow-latin-600-normal.woff2) format("woff2"); }
+@font-face { font-family: "Kaushan Script"; font-weight: 400; font-display: block; src: url(../tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2) format("woff2"); }
+
+:root {
+  --gold: #F2C45B;
+  --gold-deep: #C99B45;
+  --gold-hi: #FFF1B8;
+  --ink: #0B0D10;
+  --cream: #E9DFC8;
+  --meta: #CFC6B4;
+  --foot: #9A8F7A;
+  --glass: rgba(10, 12, 15, .78);
+  --hair: rgba(201, 155, 69, .45);
+  --cond: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --text: "Barlow", system-ui, sans-serif;
+  --script: "Kaushan Script", cursive;
+  --hdr: 56px;
+  --ftr: 28px;
+  --tile-h: clamp(128px, 17vh, 156px);
+  --tile-top: 600px;      /* set by home.js */
+  --gutter: 2.4vw;
+}
+html, body { margin: 0; height: 100%; background: #060709; color: var(--cream); }
+body { overflow: hidden; font-family: var(--text); -webkit-font-smoothing: antialiased; }
+.stage { position: fixed; inset: 0; overflow: hidden; background: #060709; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--gold-hi); outline-offset: 3px; }
+.sr-only { position: absolute !important; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; border: 0; }
+
+/* Product runtime containment (js/onlinePlayerIdentity.js, injected style): Legacy + Statistics hidden. */
+#legacyButton:not([data-test-surface='internal-audit']), #careerStatisticsButton:not([data-test-surface='internal-audit']) { display: none !important; }
+
+/* ---------- plate (cover-fit, horizontally centred, top-anchored; offsets written by plateToScreen) ---------- */
+.plateView {
+  position: absolute; inset: 0; overflow: hidden;
+  background-color: #060709; background-repeat: no-repeat;
+  background-image: image-set(url(assets/ENV_HOME_PLATE_V1_1X.webp) 1x, url(assets/ENV_HOME_PLATE_V1_2X.webp) 2x);
+}
+.plateLayer { position: absolute; inset: 0; }
+/* Seam mends: plate-registered strips over the intake zone edges. They only blur the plate under them. */
+.mend {
+  position: absolute; pointer-events: none;
+  -webkit-backdrop-filter: blur(var(--mb, 3px)); backdrop-filter: blur(var(--mb, 3px));
+}
+.mend.h { -webkit-mask-image: linear-gradient(180deg, transparent, #000 30%, #000 70%, transparent); mask-image: linear-gradient(180deg, transparent, #000 30%, #000 70%, transparent); }
+.mend.v { -webkit-mask-image: linear-gradient(90deg, transparent, #000 30%, #000 70%, transparent); mask-image: linear-gradient(90deg, transparent, #000 30%, #000 70%, transparent); }
+.mend.box { -webkit-mask-image: radial-gradient(closest-side, #000 72%, transparent); mask-image: radial-gradient(closest-side, #000 72%, transparent); }
+
+/* ---------- desktop scrims (positions/stops written by home.js) ---------- */
+.scrim { position: absolute; pointer-events: none; }
+.scrimLow { -webkit-mask-image: linear-gradient(180deg, transparent, #000 48px); mask-image: linear-gradient(180deg, transparent, #000 48px); }
+.dockBed {
+  position: absolute; left: 0; right: 0; bottom: 0; top: calc(var(--tile-top) - 24px); pointer-events: none;
+  background: linear-gradient(180deg, rgba(6,7,9,.30), rgba(6,7,9,.62) 60%, rgba(6,7,9,.82));
+  -webkit-backdrop-filter: blur(7px); backdrop-filter: blur(7px);
+  -webkit-mask-image: linear-gradient(180deg, transparent, #000 14px); mask-image: linear-gradient(180deg, transparent, #000 14px);
+}
+
+/* ---------- header (C6) ---------- */
+.hdrBg { position: absolute; left: 0; right: 0; top: 0; height: var(--hdr); pointer-events: none; }
+.hdrBg i {
+  position: absolute; top: 0; bottom: 0; display: block;
+  background: linear-gradient(to bottom, rgba(6,7,9,.92), rgba(6,7,9,.70));
+  border-bottom: 1px solid var(--hair);
+}
+#topHeader {
+  position: absolute; left: 0; right: 0; top: 0; height: var(--hdr); z-index: 5;
+  display: flex; align-items: center; gap: 14px; padding: 0 16px 0 0; box-sizing: border-box;
+}
+.cmBadge {
+  position: relative; display: flex; align-items: center; height: 100%; padding: 0 22px 0 18px;
+  font: italic 700 24px/1 var(--cond); color: var(--gold); letter-spacing: .02em;
+}
+.cmBadge::before {
+  content: ""; position: absolute; inset: 0 0 0 -20px; z-index: -1;
+  background: linear-gradient(180deg, #14161A, #0B0D10); border-right: 2px solid var(--gold);
+  transform: skewX(-14deg); transform-origin: 0 100%;
+}
+.brand h1, .brand p { margin: 0; font: 600 13px/1.15 var(--cond); letter-spacing: .18em; color: var(--cream); text-transform: uppercase; }
+.brand p { color: var(--gold-deep); }
+#onlinePlayerIdentityBadge, .seasonIndicator {
+  min-height: 40px; box-sizing: border-box; display: inline-flex; align-items: center; padding: 0 14px;
+  background: rgba(10,12,15,.72); border: 1px solid rgba(201,155,69,.55); border-radius: 2px;
+  font: 600 14px/1 var(--cond); letter-spacing: .12em; color: var(--cream); white-space: nowrap;
+}
+#onlinePlayerIdentityBadge { margin-left: auto; cursor: pointer; color: var(--gold); }
+#onlinePlayerIdentityBadge:hover { border-color: var(--gold); }
+.scriptLine {
+  position: absolute; z-index: 6; right: 18px; top: calc(var(--hdr) + 6px); pointer-events: none;
+  font: 400 18px/1 var(--script); color: var(--gold); transform: rotate(-8deg); transform-origin: 100% 50%;
+  text-shadow: 0 2px 10px rgba(0,0,0,.85); white-space: nowrap;
+}
+
+/* ---------- left column: lockup + heading ---------- */
+.homeLockup {
+  position: absolute; z-index: 3; left: var(--gutter); top: calc(var(--hdr) + clamp(14px, 4vh, 44px));
+  display: flex; flex-direction: column; align-items: flex-start; gap: 6px; width: var(--wm-w, 32vw);
+}
+.lockupKicker, .lockupLegacy {
+  margin: 0; font: 600 15px/1.25 var(--cond); letter-spacing: .5em; color: #E9DFC8; white-space: nowrap;
+  text-shadow: 0 1px 8px rgba(0,0,0,.9);
+}
+.lockupKicker { padding-left: .2em; }
+.lockupLegacy { align-self: center; letter-spacing: .42em; }
+.lockupWordmark { display: block; width: 100%; height: auto; filter: drop-shadow(0 6px 18px rgba(0,0,0,.55)); }
+.fifaMenuHeading {
+  position: absolute; z-index: 3; left: var(--gutter); bottom: calc(100% - var(--tile-top) + clamp(12px, 2.4vh, 22px));
+  width: var(--col-w, 34vw); max-width: var(--col-w, 34vw);
+}
+.fifaMenuEyebrow { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
+.fifaMenuHeading h2 {
+  display: inline-block; margin: 0 0 8px; padding-bottom: 5px; position: relative;
+  font: 700 18px/1.1 var(--cond); letter-spacing: .12em; color: var(--gold); text-transform: uppercase;
+}
+.fifaMenuHeading h2::after { content: ""; position: absolute; left: 0; bottom: 0; width: 28px; height: 2px; background: var(--gold); }
+.fifaMenuHeadingMeta { margin: 0; font: 400 16px/1.35 var(--text); color: var(--cream); text-shadow: 0 1px 6px rgba(0,0,0,.8); }
+.fifaMenuHeadingMeta span {
+  display: block; margin-bottom: 6px; font: 700 44px/1 var(--cond); color: #FFFFFF; letter-spacing: .01em;
+  text-transform: uppercase; text-shadow: 0 2px 14px rgba(0,0,0,.7);
+}
+
+/* ---------- tile row (H2) ---------- */
+.fifaMenuGrid {
+  position: absolute; z-index: 4; left: var(--gutter); right: var(--gutter); top: var(--tile-top); height: var(--tile-h);
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px;
+}
+.menuTile {
+  position: relative; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 3px;
+  min-width: 0; height: 100%; box-sizing: border-box; padding: 12px 98px 12px 16px; margin: 0; text-align: left; cursor: pointer;
+  background: var(--glass); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  border: 1px solid var(--hair); border-radius: 3px; color: #fff;
+  box-shadow: inset 0 2px 0 var(--gold), 0 10px 28px rgba(0,0,0,.45);
+}
+.menuTileCode { font: 600 12px/1.15 var(--cond); letter-spacing: .2em; color: var(--gold-deep); text-transform: uppercase; }
+.menuTileLabel { font: 700 26px/1 var(--cond); color: #fff; text-transform: uppercase; letter-spacing: .01em; max-width: 100%; }
+.menuTileMeta { font: 400 14px/1.25 var(--text); color: var(--meta); max-width: 100%; }
+.tileIcon { position: absolute; right: 22px; top: 50%; width: 72px; height: 72px; margin-top: -40px; pointer-events: none; }
+.tileChevron { position: absolute; right: 12px; bottom: 11px; width: 9px; height: 15px; color: var(--gold); pointer-events: none; }
+.menuTile:not(:disabled):hover, .menuTile:not(:disabled):focus-visible { border-color: var(--gold); transform: translateY(-1px); }
+#continueCareer { background: linear-gradient(135deg, #F7D46A, #E0AE3A); border-color: rgba(255,241,184,.7); box-shadow: 0 10px 28px rgba(0,0,0,.45); }
+#continueCareer .menuTileCode { color: #3B2C0C; }
+#continueCareer .menuTileLabel { color: var(--ink); }
+#continueCareer .menuTileMeta { color: #2A2008; }
+#continueCareer .tileChevron { color: var(--ink); }
+#continueCareer:disabled { opacity: .45; cursor: default; }
+#continueCareer:disabled:hover { transform: none; }
+.stage.primary-new #newShowdown { border-color: var(--gold); box-shadow: inset 0 4px 0 var(--gold), 0 10px 28px rgba(0,0,0,.45); }
+
+/* ---------- soundtrack card (H3; box written by home.js) ---------- */
+.menuMusicTile {
+  position: fixed; z-index: 4; box-sizing: border-box; padding: 9px 12px; overflow: hidden;
+  background: var(--glass); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  border: 1px solid var(--hair); border-radius: 3px; box-shadow: inset 0 2px 0 var(--gold), 0 12px 30px rgba(0,0,0,.5);
+  display: grid; grid-template-columns: 52px minmax(0, 1fr) auto; column-gap: 12px; row-gap: 6px;
+  grid-template-areas: "player head head" "sel sel sel" "status status ctrl"; --vinyl: 44px;
+  align-items: center;
+}
+.menuMusicHeader { grid-area: head; display: flex; align-items: flex-start; gap: 10px; min-width: 0; }
+.menuMusicHeader > div { min-width: 0; flex: 1; }
+.menuMusicHeader span { display: block; font: 600 12px/1.2 var(--cond); letter-spacing: .2em; color: var(--gold-deep); }
+.menuMusicHeader strong { display: block; font: 700 26px/1.05 var(--cond); color: #fff; letter-spacing: .01em; }
+.menuMusicArtist { margin: 1px 0 0; font: 400 14px/1.25 var(--text); color: var(--meta); }
+.menuMusicSource { font: 600 12px/1.2 var(--cond); letter-spacing: .16em; color: var(--cream); margin-left: auto; }
+.menuMusicPlayer { grid-area: player; align-self: center; }
+.vinylDeck { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+.vinyl {
+  position: relative; display: block; width: var(--vinyl, 60px); height: var(--vinyl, 60px); border-radius: 50%;
+  background: radial-gradient(circle, #0B0D10 0 6%, transparent 6.5%), radial-gradient(circle, #E9B84D 0 30%, #9A6E22 31%, transparent 32%),
+    repeating-radial-gradient(circle, #121317 0 2px, #1E2026 2.5px 3.5px);
+  box-shadow: 0 0 0 1px rgba(201,155,69,.5), 0 6px 16px rgba(0,0,0,.6);
+}
+.vinyl i { position: absolute; inset: 14%; border-radius: 50%; box-shadow: inset 0 0 0 1px rgba(255,241,184,.08); }
+.eq { display: flex; align-items: flex-end; gap: 3px; height: 12px; }
+.eq i { display: block; width: 4px; background: var(--gold); border-radius: 1px; }
+.eq i:nth-child(1) { height: 5px; } .eq i:nth-child(2) { height: 10px; } .eq i:nth-child(3) { height: 12px; } .eq i:nth-child(4) { height: 7px; } .eq i:nth-child(5) { height: 9px; }
+.menuMediaSelector { grid-area: sel; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
+.menuMediaChoice {
+  min-height: 40px; min-width: 0; box-sizing: border-box; padding: 4px 8px; margin: 0; text-align: left; cursor: pointer;
+  display: flex; flex-direction: column; justify-content: center; gap: 1px;
+  background: rgba(255,255,255,.04); border: 1px solid rgba(201,155,69,.5); border-radius: 2px; color: var(--cream);
+}
+.menuMediaChoice strong { font: 700 13px/1.1 var(--cond); letter-spacing: .04em; color: #fff; }
+.menuMediaChoice small { font: 600 12px/1.15 var(--cond); letter-spacing: .02em; color: var(--meta); }
+.menuMediaChoice.selected { background: linear-gradient(180deg, #F7D46A, #E0AE3A); border-color: #FFF1B8; }
+.menuMediaChoice.selected strong, .menuMediaChoice.selected small { color: var(--ink); }
+.menuMediaChoice:not(.selected):hover { border-color: var(--gold); }
+.menuMusicStatus { grid-area: status; margin: 0; font: 600 12px/1.2 var(--cond); letter-spacing: .12em; color: var(--cream); min-width: 0; }
+.menuMusicControls { grid-area: ctrl; display: flex; gap: 8px; }
+.menuMusicControl {
+  height: 40px; box-sizing: border-box; padding: 0 16px; margin: 0; cursor: pointer; white-space: nowrap;
+  font: 700 15px/1 var(--cond); letter-spacing: .06em; border-radius: 2px;
+}
+#menuMusicToggle { color: var(--ink); background: linear-gradient(180deg, #F7D46A, #E0AE3A); border: 1px solid #FFF1B8; }
+#menuMusicMute { color: var(--cream); background: rgba(10,12,15,.6); border: 1px solid rgba(233,223,200,.55); }
+#menuMusicMute:disabled { cursor: default; color: #B8AE98; border-color: rgba(233,223,200,.45); }
+/* narrow card (beside Nik's hand on short desktops) */
+.menuMusicTile.side { grid-template-columns: 52px minmax(0, 1fr); grid-template-areas: "player head" "sel sel" "ctrl ctrl" "status status"; --vinyl: 48px; }
+.menuMusicTile.side .menuMediaSelector { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.menuMusicTile.side .menuMusicControls > * { flex: 1; }
+
+/* ---------- bottom strip + footer ---------- */
+.menuBottomStrip {
+  position: absolute; z-index: 6; left: 50%; bottom: 0; height: var(--ftr); transform: translateX(-50%);
+  display: flex; align-items: center; gap: 22px; white-space: nowrap;
+  font: 600 12px/1 var(--cond); letter-spacing: .14em; color: var(--cream);
+}
+.menuBottomStrip b { color: var(--gold); font-weight: 700; margin-right: 4px; }
+.menuBottomStrip strong { color: var(--ink); background: var(--gold); padding: 3px 7px; letter-spacing: .16em; font-weight: 700; }
+footer {
+  position: absolute; z-index: 5; left: 0; right: 0; bottom: 0; height: var(--ftr); box-sizing: border-box; padding: 0 16px;
+  display: block; padding-top: 1px; font: 400 12px/13px var(--text); color: var(--foot);
+  background: linear-gradient(180deg, rgba(6,7,9,.86), rgba(6,7,9,.96)); border-top: 1px solid rgba(201,155,69,.3);
+}
+.footDeco {
+  position: absolute; z-index: 6; right: 16px; bottom: 0; height: var(--ftr); display: flex; align-items: center; gap: 8px;
+  font: 600 12px/1 var(--cond); letter-spacing: .24em; color: var(--cream); pointer-events: none;
+}
+.footDeco svg { width: 18px; height: 14px; }
+
+/* ---------- &grid=1 ---------- */
+.gridOverlay { position: absolute; inset: 0; z-index: 20; pointer-events: none; display: none; }
+.stage.grid .gridOverlay { display: block; }
+.gridOverlay b { position: absolute; box-sizing: border-box; border: 2px solid #FF3B3B; background: rgba(255,59,59,.12); font: 700 11px/1 var(--cond); color: #FF7A7A; padding: 2px; }
+.gridOverlay b.grow { border: 1px dashed #FF7A7A; background: none; }
+.gridOverlay b.zone { border: 1px dashed #36E0FF; background: none; color: #36E0FF; }
+.gridOverlay b.mendBox { border: 1px solid rgba(120,255,120,.8); background: rgba(120,255,120,.10); }
+
+.stage.plate-only > :not(.plateView):not(.gridOverlay) { display: none !important; }
+
+@media (max-width: 1100px) { .menuBottomStrip { left: auto; right: 16px; transform: none; } .footDeco { display: none; } }
+@media (max-width: 900px) { .scriptLine { display: none; } }
+
+/* ================= phone (portrait, up to 760 px wide) ================= */
+@media (max-width: 760px) and (orientation: portrait) {
+  :root { --hdr: 48px; --gutter: 12px; }
+  .stage { display: flex; flex-direction: column; }
+  #topHeader { order: 0; } .plateView { order: 1; } main { order: 2; }
+  .scrim, .dockBed, .hdrBg, .scriptLine, .footDeco, .homeLockup { display: none !important; }
+  #topHeader { position: relative; flex: none; padding: 0 10px 0 0; gap: 8px; background: linear-gradient(to bottom, rgba(6,7,9,.98), rgba(6,7,9,.9)); border-bottom: 1px solid var(--hair); }
+  .cmBadge { font-size: 22px; padding: 0 16px 0 14px; }
+  .brand { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
+  #onlinePlayerIdentityBadge, .seasonIndicator { min-height: 44px; padding: 0 10px; font-size: 14px; letter-spacing: .08em; }
+  .plateView { position: relative; inset: auto; flex: 1 1 auto; min-height: 60px; border-bottom: 1px solid var(--hair); }
+  main { flex: none; }
+  .fifaMenuShell { display: flex; flex-direction: column; gap: 8px; padding: 8px 12px 10px; }
+  .fifaMenuHeading { position: static; width: auto; max-width: none; }
+  .fifaMenuHeading h2 { font-size: 16px; margin-bottom: 5px; padding-bottom: 4px; }
+  .fifaMenuHeadingMeta { font-size: 14px; line-height: 1.3; }
+  .fifaMenuHeadingMeta span { font-size: 28px; margin-bottom: 3px; }
+  .fifaMenuGrid { position: static; height: auto; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .menuMusicTile {
+    position: static; grid-column: 1 / -1; width: auto !important; height: auto !important; padding: 8px 10px;
+    grid-template-columns: minmax(0, 1fr); grid-template-areas: "head" "sel" "ctrl"; row-gap: 6px;
+  }
+  .menuMusicPlayer { display: none; }
+  .menuMusicHeader { align-items: baseline; }
+  .menuMusicHeader span { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
+  .menuMusicHeader > div { display: flex; align-items: baseline; gap: 8px; flex-wrap: nowrap; min-width: 0; }
+  .menuMusicHeader strong { font-size: 18px; white-space: nowrap; }
+  .menuMusicArtist { font-size: 14px; white-space: nowrap; margin: 0; }
+  .menuMediaSelector { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 5px; }
+  .menuMediaChoice { min-height: 44px; padding: 3px 5px; }
+  .menuMediaChoice strong { font-size: 12px; }
+  .menuMediaChoice small { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
+  .menuMusicControls { grid-area: ctrl; }
+  .menuMusicControl { height: 44px; font-size: 16px; }
+  .menuMusicTile { grid-template-columns: auto minmax(0, 1fr); grid-template-areas: "head head" "sel sel" "ctrl status"; column-gap: 10px; }
+  .menuMusicStatus { font-size: 12px; }
+  .menuTile { padding: 9px 10px 9px 11px; min-height: 72px; height: auto; gap: 2px; justify-content: flex-start; }
+  .menuTileLabel { font-size: 18px; line-height: 1.05; padding-right: 34px; }
+  .menuTileMeta { font-size: 14px; line-height: 1.25; }
+  .menuTile .menuTileMeta { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
+  #continueCareer .menuTileMeta, .stage.primary-new #newShowdown .menuTileMeta { position: static !important; width: auto; height: auto; overflow: visible; clip: auto; clip-path: none; white-space: normal; }
+  .tileIcon { width: 34px; height: 34px; right: 8px; top: 8px; margin-top: 0; }
+  .tileChevron { right: 9px; bottom: 9px; }
+  .menuBottomStrip, footer { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; padding: 0; border: 0; }
+  @media (max-height: 600px) {
+    .menuMusicStatus { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
+    .menuMusicTile { grid-template-areas: "head head" "sel sel" "ctrl ctrl"; }
+  }
+}
