@@ -123,6 +123,13 @@ function measure(args) {
   const prot = {};
   for (const [n, b] of Object.entries(P)) prot[n] = scr(b);
   for (const [n, h] of Object.entries(HANDS.hands)) prot[n] = scr(h.box);
+  // phone: only the part of a protected box that the band shows can be covered; faces must be whole or fully out
+  const faceFrame = {}, protFull = Object.assign({}, prot);
+  if (T.mode === "phone") for (const n of Object.keys(prot)) {
+    const b = prot[n], c = clipR;
+    if (n.startsWith("face")) faceFrame[n] = (b.left >= c.left && b.right <= c.right && b.top >= c.top && b.bottom <= c.bottom) ? "whole" : inter(b, c) ? "CUT" : "out";
+    prot[n] = { left: Math.max(b.left, c.left), top: Math.max(b.top, c.top), right: Math.min(b.right, c.right), bottom: Math.min(b.bottom, c.bottom) };
+  }
   const uiBoxes = [];
   textEls.forEach(e => { if (e.closest(".clubPackDoor")) return; const rg = document.createRange(); rg.selectNodeContents(e); const b = rg.getBoundingClientRect(); uiBoxes.push({ kind: "text", what: e.textContent.trim().slice(0, 28), b }); });
   [...document.querySelectorAll("button")].filter(vis).forEach(e => uiBoxes.push({ kind: "control", what: e.id, b: e.getBoundingClientRect() }));
@@ -162,11 +169,12 @@ function measure(args) {
   g8.headerBandOverlap = Object.entries(g8.headerBand).filter(([n, d]) => d < 8 && prot[n].bottom > hdr.bottom).map(([n, d]) => n + " " + d);
   // reveal containment (b) and no live UI in pack boxes (c)
   g8.revealContainment = [...document.querySelectorAll(".reveal.on")].map(w => {
-    const i = +w.dataset.side, b = w.getBoundingClientRect(), pb = prot[i ? "pack_nik" : "pack_daniel"];
+    const i = +w.dataset.side, b = w.getBoundingClientRect(), pb = protFull[i ? "pack_nik" : "pack_daniel"];
     const err = Math.max(Math.abs(b.left - pb.left), Math.abs(b.top - pb.top), Math.abs(b.right - pb.right), Math.abs(b.bottom - pb.bottom));
     return { side: i ? "nik" : "daniel", overflow: getComputedStyle(w).overflow, rectErrPx: +err.toFixed(2), pass: getComputedStyle(w).overflow === "hidden" && err < 0.5 };
   });
-  g8.pass = !bad.length && !g8.headerBandOverlap.length && g8.revealContainment.every(c => c.pass);
+  g8.phoneFaceFraming = faceFrame;
+  g8.pass = !bad.length && !g8.headerBandOverlap.length && g8.revealContainment.every(c => c.pass) && !Object.values(faceFrame).includes("CUT");
   g8.failing = bad.map(v => v.nearest);
   r.G8 = g8; if (!g8.pass) r.fail.push("G8");
   // G9 imagery

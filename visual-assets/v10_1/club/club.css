@@ -58,8 +58,8 @@ html:not(.ready) .stage { visibility: hidden; }
 button:focus-visible { outline: 2px solid #FFF1B8; outline-offset: 3px; }
 
 /* ---------- footer (C6) ---------- */
-footer { position: absolute; left: 0; right: 0; bottom: 0; height: 28px; z-index: 5; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; background: rgba(4,4,5,.9); border-top: 1px solid rgba(201,155,69,.25); }
-.footText { font: 400 12px/1.25 var(--text); color: #9A8F7A; white-space: nowrap; }
+footer { position: absolute; left: 0; right: 0; bottom: 0; height: 28px; z-index: 5; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; background: #050506; border-top: 1px solid rgba(201,155,69,.25); }
+.footText { font: 400 12px/1.05 var(--text); color: #9A8F7A; white-space: nowrap; }
 .footSlogan { font: 600 12px/1.25 var(--cond); letter-spacing: .2em; color: #C9BC9C; display: flex; align-items: center; gap: 8px; }
 .crown { display: inline-block; width: 16px; height: 12px; background: linear-gradient(#F2C45B, #C99B45); clip-path: polygon(0 100%, 0 20%, 25% 55%, 50% 0, 75% 55%, 100% 20%, 100% 100%); }
 
@@ -153,7 +153,8 @@ main { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
   font: 700 calc(var(--s) * 20px)/1.25 var(--cond); letter-spacing: .06em; border-radius: 3px; cursor: pointer; white-space: nowrap; padding: 0 18px;
 }
 #clubWheelScreen .menuButton { background: linear-gradient(180deg, #F7D46A, #E0AE3A); color: var(--ink); border: 1px solid #FFE8A0; box-shadow: 0 6px 22px rgba(224,174,58,.28); }
-#clubWheelScreen .menuButton:disabled { background: linear-gradient(180deg, #8B7440, #6B5628); color: #1A160D; border-color: #A88D50; box-shadow: none; cursor: default; }
+#clubWheelScreen .menuButton:disabled { background: rgba(12,12,13,.94); color: #E9DFC8; border-color: rgba(242,196,91,.6); box-shadow: inset 0 0 18px rgba(242,196,91,.12); cursor: default; }
+#openClubPack:disabled .btnGlyph svg rect { fill: #E9DFC8; }
 #clubWheelScreen .backButton { background: rgba(10,12,15,.55); color: #F4ECD8; border: 1px solid rgba(233,223,200,.55); }
 #openClubPack { width: calc(var(--s) * 400px); left: calc(var(--btnCx) - var(--s) * 310px); }
 #clubAssignmentBack { width: calc(var(--s) * 200px); left: calc(var(--btnCx) + var(--s) * 110px); }
@@ -189,7 +190,7 @@ main { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
   }
   .clubKicker { display: none; }
   .clubKicker, #clubWheelScreen h2, .clubAssignmentHeader { position: static; transform: none; }
-  #clubWheelScreen h2 { grid-column: 1 / -1; grid-row: 1; justify-self: center; font-size: 34px; line-height: 1.05; }
+  #clubWheelScreen h2 { grid-column: 1 / -1; grid-row: 1; justify-self: center; font-size: 34px; line-height: 1.32; }
   .clubAssignmentHeader { grid-column: 1 / -1; grid-row: 2; gap: 3px; white-space: normal; }
   .glyph { width: 16px; height: 16px; }
   .clubAssignmentEyebrow { font-size: 13px; }
@@ -199,13 +200,12 @@ main { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
   .clubRevealProgress::before { top: 12px; }
   .clubRevealProgress span { font-size: 12px; letter-spacing: .06em; }
   .ring { width: 24px; height: 24px; margin-bottom: 5px; }
-  .bandSlot { display: block; grid-column: 1 / -1; grid-row: 4; min-height: 96px; margin: 0 -14px 4px; }
+  .bandSlot { display: block; grid-column: 1 / -1; grid-row: 4; min-height: 96px; max-height: calc(100vw * .82); height: calc(100% - 12px); align-self: center; margin: 6px -14px 6px; }
   .clubPackStage { position: static; display: contents; }
   .clubPackDoor { position: absolute; inset: auto; }
   .clubVs { gap: 0; }
   .clubVs span { font-size: 12px; letter-spacing: .3em; padding-left: .3em; }
-  .clubVs strong { font-size: 40px; }
-  [data-club-reveal-stage="versus"] .clubVs strong, [data-club-reveal-stage="confirmation"] .clubVs strong { font-size: 32px; }
+  .clubVs strong, [data-club-reveal-stage="versus"] .clubVs strong, [data-club-reveal-stage="confirmation"] .clubVs strong { font-size: var(--vsFs, 32px); }
   .clubRevealIndex, .clubManager { position: static; }
   .clubRevealIndex { grid-row: 5; align-self: center; justify-self: start; font-size: 12px; padding: 2px 5px; }
   .clubManager { grid-row: 5; align-self: center; margin-left: 30px; font-size: 20px; }
@@ -233,8 +233,19 @@ main { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
   #clubWheelScreen > *, .bandSlot { position: relative; z-index: 2; }
   .bandSlot { z-index: 0; }
 }
+/* phone CL5/CL6: eyebrow + league share a row, the band holds the pack bodies only */
+@media (max-width: 760px) and (orientation: portrait) {
+  [data-club-reveal-stage="versus"] .clubAssignmentHeader, [data-club-reveal-stage="confirmation"] .clubAssignmentHeader { display: grid; grid-template-columns: auto auto; column-gap: 12px; row-gap: 2px; align-items: center; justify-content: center; justify-items: center; }
+  [data-club-reveal-stage="versus"] .stRow, [data-club-reveal-stage="confirmation"] .stRow { grid-column: 1 / -1; }
+  [data-club-reveal-stage="versus"] .bandSlot, [data-club-reveal-stage="confirmation"] .bandSlot { min-height: 80px; }
+  [data-club-reveal-stage="versus"] #clubWheelScreen, [data-club-reveal-stage="confirmation"] #clubWheelScreen { row-gap: 4px; padding-bottom: 6px; }
+  [data-club-reveal-stage="versus"] .clubRivalryHeadline, [data-club-reveal-stage="confirmation"] .clubRivalryHeadline { grid-template-columns: auto auto; column-gap: 10px; }
+  [data-club-reveal-stage="versus"] .clubRivalryHeadline small, [data-club-reveal-stage="confirmation"] .clubRivalryHeadline small { grid-column: 1 / -1; }
+}
 @media (max-width: 760px) and (orientation: portrait) and (max-height: 600px) {
   #clubWheelScreen h2 { font-size: 30px; }
+  .bandSlot { min-height: 72px; }
+  #clubWheelScreen { grid-template-rows: auto auto auto minmax(72px, 1fr) auto auto auto auto auto; }
   #clubWheelScreen { row-gap: 4px; padding-top: 6px; }
   .clubRevealProgress { height: 42px; }
   .shieldSlot { width: 34px; height: 37px; }

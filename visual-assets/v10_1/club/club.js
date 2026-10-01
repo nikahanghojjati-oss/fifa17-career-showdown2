@@ -6,7 +6,7 @@
   const PW = 1536, PH = 864;
   const HEADER_D = 56, HEADER_M = 48, FOOTER_D = 28;
   const qs = new URLSearchParams(location.search);
-  const FRAME = (qs.get("frame") || "CL1").toUpperCase();
+  const FRAME = (qs.get("frame") || location.hash.replace("#", "") || "CL1").toUpperCase();
   const GRID = qs.get("grid") === "1";
   const T_PARAM = qs.has("t") ? Math.max(0, Math.min(1, parseFloat(qs.get("t")))) : null;
   const PLAY = qs.get("play") === "1";
@@ -232,8 +232,10 @@
       <linearGradient id="cvHdr" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#060709" stop-opacity=".9"/><stop offset=".7" stop-color="#060709" stop-opacity=".75"/><stop offset="1" stop-color="#060709" stop-opacity="0"/></linearGradient>
       <linearGradient id="cvGold" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#C99B45" stop-opacity="0"/><stop offset=".18" stop-color="#F2C45B"/><stop offset=".82" stop-color="#F2C45B"/><stop offset="1" stop-color="#C99B45" stop-opacity="0"/></linearGradient>
       <filter id="cvUnder" x="-10%" y="-40%" width="120%" height="180%"><feGaussianBlur stdDeviation="9"/></filter>
+      <filter id="cvPulse" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="5"/></filter>
     </defs>
     ${hdr}
+    ${FRAME === "CL2" ? RIP.map(r => `<polygon points="${pts(r.body)}" fill="none" stroke="#FFD97A" stroke-width="7" opacity=".35" filter="url(#cvPulse)"/><polygon points="${pts(r.body)}" fill="none" stroke="#FFE7A1" stroke-width="1.6" opacity=".85"/>`).join("") : ""}
     <polygon points="${pts(s.apron)}" fill="url(#cvApron)"/>
     <polygon points="${pts(s.dock)}" fill="url(#cvDock)"/>
     <polygon points="${pts(s.panel)}" fill="#F2C45B" opacity=".22" filter="url(#cvUnder)" transform="translate(0 6)"/>
@@ -244,7 +246,7 @@
     <polygon points="${pts(s.banner)}" fill="none" stroke="#C99B45" stroke-opacity=".55" stroke-width="1.1"/>
     <polygon points="${pts(s.vs)}" fill="url(#cvVs)"/>
     <polygon points="${pts(s.vs)}" fill="none" stroke="#F2C45B" stroke-opacity=".7" stroke-width="1.3"/>
-    <g opacity=".5" stroke="#F2C45B" stroke-width="1.2" fill="none">
+    <g opacity="${phone ? 0 : 0.5}" stroke="#F2C45B" stroke-width="1.2" fill="none">
       <path d="M${L.vs[0] + 16} ${L.vs[3] - 26} L${L.vs[0] + 52} ${L.vs[1] + 30}"/><path d="M${L.vs[0] + 28} ${L.vs[3] - 20} L${L.vs[0] + 62} ${L.vs[1] + 40}"/>
       <path d="M${L.vs[2] - 16} ${L.vs[1] + 26} L${L.vs[2] - 52} ${L.vs[3] - 30}"/><path d="M${L.vs[2] - 28} ${L.vs[1] + 20} L${L.vs[2] - 62} ${L.vs[3] - 40}"/>
     </g>`;
@@ -265,16 +267,30 @@
     // Phone band: its own transform (C4b) fitting a plate window into the band slot.
     const slot = $(".bandSlot").getBoundingClientRect();
     const stage = $("#clubWheelScreen").dataset.clubRevealStage;
-    const packsOnly = stage === "versus" || stage === "confirmation";
-    const win = packsOnly ? [262, 322, 1278, 602] : [236, 56, 1300, 600];
+    // CL5/CL6 (K4), or any band too short to hold both faces whole at the plate's minimum scale: packs only
+    const kWhole = Math.max(slot.width / PW, Math.min(slot.width / 1030, slot.height / 554));
+    const packsOnly = stage === "versus" || stage === "confirmation" || slot.height / kWhole < 554;
+    // CL1-CL4: both managers whole (faces + hands); CL5/CL6: pack bodies only (faces and top hands out of frame)
+    const win = packsOnly ? [262, 384, 1278, 604] : [236, 50, 1300, 604];
     const ww = win[2] - win[0], wh = win[3] - win[1];
     let k = packsOnly ? slot.width / ww : Math.min(slot.width / ww, slot.height / wh);
     k = Math.max(k, slot.width / PW, slot.height / PH);
     let offX = slot.left + (slot.width - ww * k) / 2 - win[0] * k;
     let offY = packsOnly ? slot.top - win[1] * k : slot.top + (slot.height - wh * k) / 2 - win[1] * k;
+    if (!packsOnly) {
+      // CL1-CL4: fill the slot; both faces (x 260-1265) stay whole, extra height shows more stadium/pitch
+      k = Math.max(slot.width / PW, slot.height / PH, Math.min(slot.width / 1030, slot.height / wh));
+      offX = slot.left + slot.width / 2 - 768 * k;
+      offY = slot.top + slot.height / 2 - ((win[1] + win[3]) / 2) * k;
+      offY = Math.min(slot.top, Math.max(slot.bottom - PH * k, offY));
+      offX = Math.min(slot.left, Math.max(slot.right - PW * k, offX));
+      return { k, offX, offY, mode: "phone", clip: [slot.left, slot.top, slot.width, slot.height], packsOnly };
+    }
+    // CL5/CL6: the visible band is never taller than the packs window, so faces stay fully out of frame
+    const ch = Math.min(slot.height, wh * k), ct = slot.top + (slot.height - ch) / 2;
+    offY = ct - win[1] * k;
     offX = Math.min(slot.left, Math.max(slot.right - PW * k, offX));
-    offY = Math.min(slot.top, Math.max(slot.bottom - PH * k, offY));
-    return { k, offX, offY, mode: "phone", clip: [slot.left, slot.top, slot.width, slot.height], packsOnly };
+    return { k, offX, offY, mode: "phone", clip: [slot.left, ct, slot.width, ch], packsOnly };
   }
 
   function place(node, r, extra) {
@@ -365,7 +381,9 @@
       const sec = $("#clubWheelScreen").getBoundingClientRect();
       const rel = r => ({ left: r.left - sec.left, top: r.top - sec.top, width: r.width, height: r.height });
       $$(".clubPackDoor").forEach((d, i) => place(d, rel(packs[i])));
-      place($(".clubVs"), rel(rectToScreen(L.vs)));
+      const vr = rectToScreen(L.vs);
+      place($(".clubVs"), rel(vr));
+      root.style.setProperty("--vsFs", Math.max(20, Math.min(40, (vr.height - 15 - 6) / 1.25)).toFixed(1) + "px");
     }
     // phone doors: reset on desktop
     if (!phone) $$(".clubPackDoor").forEach(d => d.removeAttribute("style"));

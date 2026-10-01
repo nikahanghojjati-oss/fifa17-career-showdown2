@@ -1,6 +1,6 @@
 # Traces the four gripping hands on the Club plate into clip-path polygons (1X plate px).
 # No raster is written: the runtime hand overlays are duplicate plate layers clipped by these
-# polygons (OWNER-3 "reuse the already-loaded plate"). Deterministic: same plate -> same JSON.
+# polygons (OWNER-3: the already-loaded plate is the pixel source). Deterministic: same plate -> same JSON.
 # Usage (from the club folder): python3 tools/make_hand_masks.py [--debug out.png]
 import json, sys
 import numpy as np, cv2
