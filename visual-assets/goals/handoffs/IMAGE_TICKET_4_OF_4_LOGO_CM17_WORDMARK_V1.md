@@ -29,8 +29,4 @@ Do not include the small lines of text above and below the title. No stadium, no
 ```
 
 ## After you save it
-Upload it to GitHub (no Claude needed):
-1. Open https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/tree/claude-cloud/hlc-goals/visual-assets/goals/plates-in
-2. Click **Add file → Upload files**, drop the image in (keep the file name above), and click **Commit changes**.
-
-The intake Claude Code session then checks it, locks your faces back to the originals, upscales it and hands it to the build.
+Drop the image in the project chat. Claude commits it to the repo, and the intake Claude Code session then checks it, locks your faces back to the originals and upscales it.

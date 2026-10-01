@@ -14,10 +14,10 @@ SCOPE: create the 3 screen branches; write only visual-assets/v10_1/{home,league
 
 Revision: R2 (2026-10-01). Applies GPT-5.6 Sol verdict SOL_HLC_BRIEFS_PRODUCT_TRUTH_VERDICT_2026-09-30 (SOL-HLC-5, -6, -8). This Cloud session is the only place intake happens (SOL-HLC-6); the project thread only reviews your evidence.
 
-Run only after Nik has uploaded his plates to `visual-assets/goals/plates-in/` and Sol has OK'd R2.
+Run only after Claude has committed Nik's plates to `visual-assets/goals/plates-in/` and Sol has OK'd R2.
 
 ## Inputs (`git fetch origin claude-cloud/hlc-goals`)
-- Nik's ChatGPT edits in `visual-assets/goals/plates-in/`: `ENV_HOME_PLATE_V1.png`, `ENV_LEAGUE_PLATE_V1.png`, `ENV_CLUB_PLATE_V1.png`, optional `LOGO_CM17_WORDMARK_V1.png`. Process the ones present; list the missing ones.
+- Nik's ChatGPT edits, already committed by Claude to `visual-assets/goals/plates-in/` under the ticket file names: `ENV_HOME_PLATE_V1.png`, `ENV_LEAGUE_PLATE_V1.png`, `ENV_CLUB_PLATE_V1.png`, optional `LOGO_CM17_WORDMARK_V1.png`. Process the ones present; list the missing ones.
 - Originals: `visual-assets/goals/GOAL_HOME.png` (1672×941), `GOAL_LEAGUE_LOGOS_BLURRED.jpg` (1536×864; the wheel interior is blurred, which is inside a remove zone), `GOAL_CLUB.jpg` (1536×864).
 - Zones: `visual-assets/goals/handoffs/HLC_PLATE_ZONES_V1.json`: per screen `remove_rects`, `remove_circles_cx_cy_r`, `keep_rects`, `protected_boxes`, in goal px.
 - Method reference: `visual-assets/v10_1/tr2/slice-02-plate/tools/lock_and_clean.py` and that folder's BUILD_RESULT.md.
