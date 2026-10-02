@@ -1,0 +1,159 @@
+name: Job 31 Home edges baseline
+on:
+  push:
+    branches: [factory/v1-wtt5ye]
+    paths:
+      - ".github/workflows/job31-home-edges.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  baseline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: factory/v1-wtt5ye
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install render dependencies
+        run: |
+          python -m pip install --quiet pillow
+          npm install -g playwright@1.55.0
+          npx playwright install --with-deps chromium
+
+      - name: Render HM1-HM3 before evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT="visual-assets/v10_1/home/evidence/edges_before"
+          rm -rf "$OUT"
+          mkdir -p "$OUT/full" "$OUT/crops"
+          python3 -m http.server 8765 >/tmp/job31-server.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill $SERVER_PID 2>/dev/null || true' EXIT
+          for i in $(seq 1 30); do curl -fsS http://127.0.0.1:8765/ >/dev/null && break; sleep 1; done
+
+          NODE_PATH=$(npm root -g) node <<'NODE'
+          const { chromium } = require("playwright");
+          const fs = require("fs");
+          const path = require("path");
+          const out = "visual-assets/v10_1/home/evidence/edges_before";
+          const base = "http://127.0.0.1:8765/visual-assets/v10_1/home/index.html";
+          const frames = ["HM1","HM2","HM3"];
+          const sizes = [[1366,768],[1920,1080]];
+          function safeName(s){return s.replace(/[^a-z0-9_-]+/gi,"_");}
+          (async()=>{
+            const browser = await chromium.launch({headless:true});
+            const manifest = [];
+            for (const [w,h] of sizes) {
+              let auditBoxes = null;
+              for (const mendOn of [true,false]) {
+                for (const frame of frames) {
+                  const page = await browser.newPage({viewport:{width:w,height:h}, deviceScaleFactor:1});
+                  const q = new URLSearchParams({frame});
+                  if (!mendOn) q.set("mends","0");
+                  await page.goto(base+"?"+q.toString(), {waitUntil:"networkidle"});
+                  await page.waitForFunction(()=>window.HomePlate && window.HomePlate.MAP && window.HomePlate.cam);
+                  await page.evaluate(()=>document.fonts && document.fonts.ready);
+                  const tag = mendOn ? "mends_on" : "mends_off";
+                  const full = path.join(out,"full",`${frame}_${w}x${h}_${tag}.png`);
+                  await page.screenshot({path:full, fullPage:false});
+                  const meta = await page.evaluate(() => {
+                    const H=window.HomePlate, M=H.MAP;
+                    const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+                    const vp={w:innerWidth,h:innerHeight};
+                    const box=(r,name,type)=>{
+                      const s=H.rectToScreen(r);
+                      return {name,type,left:clamp(s.left,0,vp.w),top:clamp(s.top,0,vp.h),right:clamp(s.right,0,vp.w),bottom:clamp(s.bottom,0,vp.h)};
+                    };
+                    const items=[
+                      box(M.protected_boxes.face_daniel,"face_daniel","protected"),
+                      box(M.protected_boxes.face_nik,"face_nik","protected"),
+                      box(M.protected_boxes.hand_daniel,"hand_daniel","protected")
+                    ];
+                    for (const el of [...document.querySelectorAll(".areaMend,.mend")]) {
+                      const r=el.getBoundingClientRect();
+                      items.push({
+                        name: el.classList.contains("areaMend")
+                          ? "area_"+(el.dataset.zone||"mend")
+                          : "zone"+el.dataset.zone+"_"+(el.dataset.edge||"edge"),
+                        type: el.classList.contains("areaMend") ? "areaMend" : "mend",
+                        left:clamp(r.left-4,0,vp.w), top:clamp(r.top-4,0,vp.h),
+                        right:clamp(r.right+4,0,vp.w), bottom:clamp(r.bottom+4,0,vp.h)
+                      });
+                    }
+                    return {cam:H.cam,items};
+                  });
+                  if (mendOn && frame==="HM1") auditBoxes = meta.items;
+                  manifest.push({frame,w,h,mends:mendOn,full,cam:meta.cam,items:(frame==="HM1"&&mendOn)?meta.items:undefined});
+                  await page.close();
+                }
+              }
+              fs.writeFileSync(path.join(out,`boxes_${w}x${h}.json`), JSON.stringify(auditBoxes,null,2));
+            }
+            fs.writeFileSync(path.join(out,"manifest.json"),JSON.stringify(manifest,null,2));
+            await browser.close();
+          })().catch(e=>{console.error(e);process.exit(1)});
+          NODE
+
+          python3 <<'PY'
+          from pathlib import Path
+          from PIL import Image, ImageOps, ImageDraw
+          import json, re
+          root=Path("visual-assets/v10_1/home/evidence/edges_before")
+          crops=root/"crops"
+          crops.mkdir(exist_ok=True)
+          frames=["HM1","HM2","HM3"]
+          for w,h in [(1366,768),(1920,1080)]:
+              boxes=json.loads((root/f"boxes_{w}x{h}.json").read_text())
+              for frame in frames:
+                  for tag in ["mends_on","mends_off"]:
+                      im=Image.open(root/"full"/f"{frame}_{w}x{h}_{tag}.png").convert("RGB")
+                      for i,b in enumerate(boxes):
+                          l=max(0,int(b["left"])); t=max(0,int(b["top"])); r=min(w,int(b["right"])); bt=min(h,int(b["bottom"]))
+                          if r-l<2 or bt-t<2: continue
+                          crop=im.crop((l,t,r,bt)).resize(((r-l)*4,(bt-t)*4),Image.Resampling.NEAREST)
+                          name=re.sub(r"[^A-Za-z0-9_-]+","_",b["name"]).strip("_") or f"box{i:02d}"
+                          crop.save(crops/f"{frame}_{w}x{h}_{tag}_{i:02d}_{name}_x4.jpg",quality=96,subsampling=0,optimize=True)
+          PY
+
+      - name: Save Step 1 status and commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 <<'PY'
+          from pathlib import Path
+          p=Path("project-documents/factory/status/JOB-031.md")
+          s=p.read_text()
+          s=s.replace("Step: 0 of 5","Step: 1 of 5")
+          s=s.replace("Updated: 2026-10-02 19:28 UTC","Updated: 2026-10-02 19:40 UTC")
+          anchor="## Self-check"
+          note="- Step 1: rendered HM1-HM3 at 1366x768 and 1920x1080 with mends off/on; saved full frames plus 400% crops for both faces, Daniel's pointing hand and every active seam-mend/area-mend box in home/evidence/edges_before/.\n"
+          if note not in s: s=s.replace(anchor,note+"\n"+anchor)
+          p.write_text(s)
+          PY
+          git config user.name "Showdown Factory Job 31"
+          git config user.email "actions@users.noreply.github.com"
+          git add visual-assets/v10_1/home/evidence/edges_before project-documents/factory/status/JOB-031.md
+          git commit -m "Job 31 step 1/5: render before crops"
+          git pull --rebase origin factory/v1-wtt5ye
+          git push origin HEAD:factory/v1-wtt5ye
+
+      - name: Upload Step 1 evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: job31-step1-edges-before
+          path: visual-assets/v10_1/home/evidence/edges_before
+          if-no-files-found: error
+          compression-level: 6
