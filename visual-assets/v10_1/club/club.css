@@ -39,7 +39,7 @@ html:not(.ready) .stage { visibility: hidden; }
 /* ---------- header (C6) ---------- */
 #topHeader {
   position: absolute; left: 0; right: 0; top: 0; height: 56px; z-index: 5; display: flex; align-items: center; gap: 14px;
-  padding: 0 20px 0 0; background: linear-gradient(to bottom, rgba(6,7,9,.92), rgba(6,7,9,.70)); border-bottom: 1px solid rgba(201,155,69,.45);
+  padding: 0 20px 0 0; background: transparent; border-bottom: 0;
 }
 .cmBadge { position: relative; height: 100%; display: flex; align-items: center; padding: 0 18px 0 18px; }
 .cmBadge::before { content: ""; position: absolute; inset: 0 -4px 0 -10px; background: #0d0e10; border-right: 2px solid var(--gold); transform: skewX(-14deg); transform-origin: 0 100%; }

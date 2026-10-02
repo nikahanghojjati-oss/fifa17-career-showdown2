@@ -257,21 +257,19 @@
   function computeTransform() {
     const W = innerWidth, H = innerHeight;
     if (!isPhone()) {
-      const k = Math.max(W / PW, H / PH);
-      const offX = (W - PW * k) / 2;
-      // Vertical bias (C4b): faces clear the 56 px header by 8 px, buttons stay above the footer;
-      // the plate may slide up under the header/footer chrome but never leaves a visible gap.
-      const faceY = HEADER_D + 8 - 65 * k;              // highest plate offset that keeps both faces 8 px under the header
-      // Short desktop (decision 1, 2026-10-01): the header never covers a face. If the plate-registered
-      // layout cannot also keep the buttons above the footer, the faces stay clear and the page scrolls
-      // (buttons move up under the packs so the primary stays visible on load).
-      const short = H - FOOTER_D - L.buttonsY[1] * k - 2 < faceY;
-      let offY = Math.min(faceY, H - FOOTER_D - L.buttonsY[1] * k - 2);
-      offY = Math.max(H - PH * k - FOOTER_D, Math.min(HEADER_D, offY));
-      if (short) offY = Math.min(HEADER_D, faceY);
-      return { k, offX, offY, mode: "desktop", clip: [0, 0, W, H], short };
-    }
-    // Phone band: its own transform (C4b) fitting a plate window into the band slot.
+    // JOB-043: Tier-S / 16:9 desktop is the mockup camera, exactly. Cover-fit the
+    // 1536x864 plate, centre it, and do not add a face/header or button/footer bias.
+    // Non-16:9 short desktops keep the prior safety composition so a face is never cut.
+    const k = Math.max(W / PW, H / PH);
+    const offX = (W - PW * k) / 2;
+    const centeredY = (H - PH * k) / 2;
+    const faceY = HEADER_D + 8 - 65 * k;
+    const short = H - FOOTER_D - L.buttonsY[1] * k - 2 < faceY;
+    if (!short) return { k, offX, offY: centeredY, mode: "desktop", clip: [0, 0, W, H], short: false };
+    const offY = Math.min(HEADER_D, faceY);
+    return { k, offX, offY, mode: "desktop", clip: [0, 0, W, H], short: true };
+  }
+  // Phone band: its own transform (C4b) fitting a plate window into the band slot.
     const slot = $(".bandSlot").getBoundingClientRect();
     const stage = $("#clubWheelScreen").dataset.clubRevealStage;
     // CL5/CL6 (K4), or any band too short to hold both faces whole at the plate's minimum scale: packs only
