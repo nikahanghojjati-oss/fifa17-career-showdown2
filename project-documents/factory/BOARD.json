@@ -1,0 +1,1723 @@
+{
+ "branch": "factory/v1-wtt5ye",
+ "generated": "2026-10-02",
+ "jobs": [
+  {
+   "number": 0,
+   "key": "smoke",
+   "title": "Factory smoke test",
+   "phase": "0 Setup",
+   "wave": 1,
+   "depends_on": [],
+   "type": "test",
+   "worker": "GPT-5.6 Sol chat",
+   "steps": 7,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 1,
+   "key": "baseline",
+   "title": "Baseline shots of the four built screens",
+   "phase": "0 Setup",
+   "wave": 2,
+   "depends_on": [
+    0
+   ],
+   "type": "review",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 5,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 2,
+   "key": "truth_TR",
+   "title": "Truth sheet: Trophy Room",
+   "phase": "1 Truth",
+   "wave": 1,
+   "depends_on": [],
+   "type": "data",
+   "worker": "GPT-5.6 Sol chat",
+   "steps": 7,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 3,
+   "key": "truth_CS",
+   "title": "Truth sheet: Career Statistics",
+   "phase": "1 Truth",
+   "wave": 1,
+   "depends_on": [],
+   "type": "data",
+   "worker": "GPT-5.6 Sol chat",
+   "steps": 7,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 4,
+   "key": "truth_RV",
+   "title": "Truth sheet: Rivalry Statistics",
+   "phase": "1 Truth",
+   "wave": 1,
+   "depends_on": [],
+   "type": "data",
+   "worker": "GPT-5.6 Sol chat",
+   "steps": 7,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 5,
+   "key": "truth_LG",
+   "title": "Truth sheet: Legacy (History)",
+   "phase": "1 Truth",
+   "wave": 1,
+   "depends_on": [],
+   "type": "data",
+   "worker": "GPT-5.6 Sol chat",
+   "steps": 7,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 6,
+   "key": "truth_SR",
+   "title": "Truth sheet: Season Results",
+   "phase": "1 Truth",
+   "wave": 1,
+   "depends_on": [],
+   "type": "data",
+   "worker": "GPT-5.6 Sol chat",
+   "steps": 7,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 7,
+   "key": "truth_FW",
+   "title": "Truth sheet: Final Winner",
+   "phase": "1 Truth",
+   "wave": 1,
+   "depends_on": [],
+   "type": "data",
+   "worker": "GPT-5.6 Sol chat",
+   "steps": 7,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 8,
+   "key": "truth_SJ",
+   "title": "Truth sheet: Start / Join",
+   "phase": "1 Truth",
+   "wave": 1,
+   "depends_on": [],
+   "type": "data",
+   "worker": "GPT-5.6 Sol chat",
+   "steps": 7,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 9,
+   "key": "truth_RB",
+   "title": "Truth sheet: Rule Book",
+   "phase": "1 Truth",
+   "wave": 1,
+   "depends_on": [],
+   "type": "data",
+   "worker": "GPT-5.6 Sol chat",
+   "steps": 7,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 10,
+   "key": "truth_ST",
+   "title": "Truth sheet: Settings",
+   "phase": "1 Truth",
+   "wave": 1,
+   "depends_on": [],
+   "type": "data",
+   "worker": "GPT-5.6 Sol chat",
+   "steps": 7,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 11,
+   "key": "truth_LD",
+   "title": "Truth sheet: Loading",
+   "phase": "1 Truth",
+   "wave": 1,
+   "depends_on": [],
+   "type": "data",
+   "worker": "GPT-5.6 Sol chat",
+   "steps": 7,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 12,
+   "key": "tokens",
+   "title": "Showdown tokens and type system",
+   "phase": "2 Foundation",
+   "wave": 2,
+   "depends_on": [
+    0
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 6,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 13,
+   "key": "kit",
+   "title": "Panel, button and table kit",
+   "phase": "2 Foundation",
+   "wave": 3,
+   "depends_on": [
+    12
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 6,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 14,
+   "key": "cutout",
+   "title": "Character cut-out tool and standard",
+   "phase": "2 Foundation",
+   "wave": 2,
+   "depends_on": [
+    0
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol chat",
+   "steps": 5,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 15,
+   "key": "stage",
+   "title": "Cinematic stage engine",
+   "phase": "2 Foundation",
+   "wave": 3,
+   "depends_on": [
+    12,
+    14
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 6,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 16,
+   "key": "motion",
+   "title": "Motion kit (pack-rip grade)",
+   "phase": "2 Foundation",
+   "wave": 4,
+   "depends_on": [
+    13
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 5,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 17,
+   "key": "qa",
+   "title": "Shared QA harness and compare sheets",
+   "phase": "2 Foundation",
+   "wave": 2,
+   "depends_on": [
+    0
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 5,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 18,
+   "key": "found_review",
+   "title": "Foundation review",
+   "phase": "2 Foundation",
+   "wave": 5,
+   "depends_on": [
+    13,
+    15,
+    16,
+    14,
+    17
+   ],
+   "type": "review",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 5,
+   "waits_on_nik": null,
+   "needs_claude_look": true
+  },
+  {
+   "number": 19,
+   "key": "trophy_showdown",
+   "title": "Trophy art: Showdown Champion trophy",
+   "phase": "3 Art",
+   "wave": 2,
+   "depends_on": [
+    0
+   ],
+   "type": "image",
+   "worker": "GPT-5.6 Sol chat with image generation",
+   "steps": 4,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 20,
+   "key": "trophy_league",
+   "title": "Trophy art: League Title trophy",
+   "phase": "3 Art",
+   "wave": 2,
+   "depends_on": [
+    0
+   ],
+   "type": "image",
+   "worker": "GPT-5.6 Sol chat with image generation",
+   "steps": 4,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 21,
+   "key": "trophy_cup",
+   "title": "Trophy art: Domestic Cup trophy",
+   "phase": "3 Art",
+   "wave": 2,
+   "depends_on": [
+    0
+   ],
+   "type": "image",
+   "worker": "GPT-5.6 Sol chat with image generation",
+   "steps": 4,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 22,
+   "key": "trophy_cont",
+   "title": "Trophy art: Champions League (continental) trophy",
+   "phase": "3 Art",
+   "wave": 2,
+   "depends_on": [
+    0
+   ],
+   "type": "image",
+   "worker": "GPT-5.6 Sol chat with image generation",
+   "steps": 4,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 23,
+   "key": "plate_TR",
+   "title": "Plate: Trophy Room",
+   "phase": "3 Art",
+   "wave": 2,
+   "depends_on": [
+    0
+   ],
+   "type": "image",
+   "worker": "GPT-5.6 Sol chat with image generation",
+   "steps": 6,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 24,
+   "key": "plate_CS",
+   "title": "Plate: Career Statistics",
+   "phase": "3 Art",
+   "wave": 2,
+   "depends_on": [
+    0
+   ],
+   "type": "image",
+   "worker": "GPT-5.6 Sol chat with image generation",
+   "steps": 6,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 25,
+   "key": "plate_RV",
+   "title": "Plate: Rivalry Statistics",
+   "phase": "3 Art",
+   "wave": 2,
+   "depends_on": [
+    0
+   ],
+   "type": "image",
+   "worker": "GPT-5.6 Sol chat with image generation",
+   "steps": 6,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 26,
+   "key": "plate_LG",
+   "title": "Plate: Legacy",
+   "phase": "3 Art",
+   "wave": 2,
+   "depends_on": [
+    0
+   ],
+   "type": "image",
+   "worker": "GPT-5.6 Sol chat with image generation",
+   "steps": 6,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 27,
+   "key": "plate_SR",
+   "title": "Plate: Season Results",
+   "phase": "3 Art",
+   "wave": 2,
+   "depends_on": [
+    0
+   ],
+   "type": "image",
+   "worker": "GPT-5.6 Sol chat with image generation",
+   "steps": 6,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 28,
+   "key": "plate_SJ",
+   "title": "Plate: Start / Join",
+   "phase": "3 Art",
+   "wave": 2,
+   "depends_on": [
+    0
+   ],
+   "type": "image",
+   "worker": "GPT-5.6 Sol chat with image generation",
+   "steps": 6,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 29,
+   "key": "plate_SYS",
+   "title": "Plate: system stadium (no people)",
+   "phase": "3 Art",
+   "wave": 2,
+   "depends_on": [
+    0
+   ],
+   "type": "image",
+   "worker": "GPT-5.6 Sol chat with image generation",
+   "steps": 4,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 30,
+   "key": "art_review",
+   "title": "Art review: trophies and plates",
+   "phase": "3 Art",
+   "wave": 3,
+   "depends_on": [
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29
+   ],
+   "type": "review",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 4,
+   "waits_on_nik": null,
+   "needs_claude_look": true
+  },
+  {
+   "number": 31,
+   "key": "home_faces",
+   "title": "Home: face edges and seams",
+   "phase": "4 Polish built screens",
+   "wave": 3,
+   "depends_on": [
+    14,
+    1
+   ],
+   "type": "fix",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 5,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 32,
+   "key": "home_seven",
+   "title": "Home: seven destinations and premium tiles",
+   "phase": "4 Polish built screens",
+   "wave": 6,
+   "depends_on": [
+    31,
+    18,
+    20
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 6,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 33,
+   "key": "home_phone",
+   "title": "Home: phone with seven destinations",
+   "phase": "4 Polish built screens",
+   "wave": 7,
+   "depends_on": [
+    32
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 6,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 34,
+   "key": "home_review",
+   "title": "Home: review",
+   "phase": "4 Polish built screens",
+   "wave": 8,
+   "depends_on": [
+    33
+   ],
+   "type": "review",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 7,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 35,
+   "key": "home_fix",
+   "title": "Home: fix round",
+   "phase": "4 Polish built screens",
+   "wave": 9,
+   "depends_on": [
+    34
+   ],
+   "type": "fix",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 5,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 36,
+   "key": "home_motion",
+   "title": "Home: motion pass",
+   "phase": "4 Polish built screens",
+   "wave": 10,
+   "depends_on": [
+    35,
+    16
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 7,
+   "waits_on_nik": null,
+   "needs_claude_look": true
+  },
+  {
+   "number": 37,
+   "key": "league_hands",
+   "title": "League: hands on the wheel",
+   "phase": "4 Polish built screens",
+   "wave": 6,
+   "depends_on": [
+    14,
+    1,
+    18
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 6,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 38,
+   "key": "league_marks",
+   "title": "League: swap in the new league marks",
+   "phase": "4 Polish built screens",
+   "wave": 7,
+   "depends_on": [
+    37
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 4,
+   "waits_on_nik": "Nik picks one mark per league from visual-assets/league-marks-v2/LEAGUE_MARKS_V2_PROOF@1x.png: Premier League A Crown or B Lion; LaLiga A Bull or B Sun; Bundesliga A Eagle or B Schale; Serie A A Shield or B Laurel; Ligue 1 A Numeral or B Rooster. (Claude leans B, A, A, A, A.) Claude writes the picks into this job's status file; until then this job is WAITING ON NIK.",
+   "needs_claude_look": false
+  },
+  {
+   "number": 39,
+   "key": "league_phone",
+   "title": "League: phone with the hand in frame",
+   "phase": "4 Polish built screens",
+   "wave": 7,
+   "depends_on": [
+    37
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 6,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 40,
+   "key": "league_review",
+   "title": "League: review",
+   "phase": "4 Polish built screens",
+   "wave": 8,
+   "depends_on": [
+    39
+   ],
+   "type": "review",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 7,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 41,
+   "key": "league_fix",
+   "title": "League: fix round",
+   "phase": "4 Polish built screens",
+   "wave": 9,
+   "depends_on": [
+    40
+   ],
+   "type": "fix",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 5,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 42,
+   "key": "league_motion",
+   "title": "League: spin feel",
+   "phase": "4 Polish built screens",
+   "wave": 10,
+   "depends_on": [
+    41,
+    16
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 7,
+   "waits_on_nik": null,
+   "needs_claude_look": true
+  },
+  {
+   "number": 43,
+   "key": "club_faces",
+   "title": "Club: faces, hands and seams",
+   "phase": "4 Polish built screens",
+   "wave": 3,
+   "depends_on": [
+    14,
+    1
+   ],
+   "type": "fix",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 4,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 44,
+   "key": "club_panels",
+   "title": "Club: panels and short-laptop fit",
+   "phase": "4 Polish built screens",
+   "wave": 6,
+   "depends_on": [
+    43,
+    18
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 4,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 45,
+   "key": "club_phone",
+   "title": "Club: phone",
+   "phase": "4 Polish built screens",
+   "wave": 7,
+   "depends_on": [
+    44
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 6,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 46,
+   "key": "club_review",
+   "title": "Club: review",
+   "phase": "4 Polish built screens",
+   "wave": 8,
+   "depends_on": [
+    45
+   ],
+   "type": "review",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 7,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 47,
+   "key": "club_fix",
+   "title": "Club: fix round",
+   "phase": "4 Polish built screens",
+   "wave": 9,
+   "depends_on": [
+    46
+   ],
+   "type": "fix",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 5,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 48,
+   "key": "club_packrip",
+   "title": "Club: the pack rip",
+   "phase": "4 Polish built screens",
+   "wave": 10,
+   "depends_on": [
+    47,
+    16
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 7,
+   "waits_on_nik": null,
+   "needs_claude_look": true
+  },
+  {
+   "number": 49,
+   "key": "tr_polish",
+   "title": "Transfer War: polish to the key art",
+   "phase": "4 Polish built screens",
+   "wave": 6,
+   "depends_on": [
+    1,
+    18
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 5,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 50,
+   "key": "tr_phone",
+   "title": "Transfer War: phone polish",
+   "phase": "4 Polish built screens",
+   "wave": 7,
+   "depends_on": [
+    49
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 6,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 51,
+   "key": "tr_review",
+   "title": "Transfer War: review",
+   "phase": "4 Polish built screens",
+   "wave": 8,
+   "depends_on": [
+    50
+   ],
+   "type": "review",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 7,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 52,
+   "key": "tr_fix",
+   "title": "Transfer War: fix round",
+   "phase": "4 Polish built screens",
+   "wave": 9,
+   "depends_on": [
+    51
+   ],
+   "type": "fix",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 5,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 53,
+   "key": "tr_motion",
+   "title": "Transfer War: motion",
+   "phase": "4 Polish built screens",
+   "wave": 10,
+   "depends_on": [
+    52,
+    16
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 7,
+   "waits_on_nik": null,
+   "needs_claude_look": true
+  },
+  {
+   "number": 54,
+   "key": "ld_polish",
+   "title": "Loading: new look and Reus credit",
+   "phase": "4 Polish built screens",
+   "wave": 6,
+   "depends_on": [
+    11,
+    18
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 5,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 55,
+   "key": "ld_review",
+   "title": "Loading: review",
+   "phase": "4 Polish built screens",
+   "wave": 7,
+   "depends_on": [
+    54
+   ],
+   "type": "review",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 7,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 56,
+   "key": "ld_fix",
+   "title": "Loading: fix round",
+   "phase": "4 Polish built screens",
+   "wave": 8,
+   "depends_on": [
+    55
+   ],
+   "type": "fix",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 5,
+   "waits_on_nik": null,
+   "needs_claude_look": true
+  },
+  {
+   "number": 57,
+   "key": "TR_build",
+   "title": "Trophy Room: build (desktop)",
+   "phase": "5 New screens",
+   "wave": 6,
+   "depends_on": [
+    2,
+    23,
+    30,
+    18
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 9,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 58,
+   "key": "TR_phone",
+   "title": "Trophy Room: phone",
+   "phase": "5 New screens",
+   "wave": 7,
+   "depends_on": [
+    57
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 6,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 59,
+   "key": "TR_review",
+   "title": "Trophy Room: review",
+   "phase": "5 New screens",
+   "wave": 8,
+   "depends_on": [
+    58
+   ],
+   "type": "review",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 7,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 60,
+   "key": "TR_fix",
+   "title": "Trophy Room: fix round",
+   "phase": "5 New screens",
+   "wave": 9,
+   "depends_on": [
+    59
+   ],
+   "type": "fix",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 5,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 61,
+   "key": "TR_motion",
+   "title": "Trophy Room: motion",
+   "phase": "5 New screens",
+   "wave": 10,
+   "depends_on": [
+    60,
+    16
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 7,
+   "waits_on_nik": null,
+   "needs_claude_look": true
+  },
+  {
+   "number": 62,
+   "key": "CS_build",
+   "title": "Career Statistics: build (desktop)",
+   "phase": "5 New screens",
+   "wave": 6,
+   "depends_on": [
+    3,
+    24,
+    30,
+    18
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 9,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 63,
+   "key": "CS_phone",
+   "title": "Career Statistics: phone",
+   "phase": "5 New screens",
+   "wave": 7,
+   "depends_on": [
+    62
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 6,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 64,
+   "key": "CS_review",
+   "title": "Career Statistics: review",
+   "phase": "5 New screens",
+   "wave": 8,
+   "depends_on": [
+    63
+   ],
+   "type": "review",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 7,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 65,
+   "key": "CS_fix",
+   "title": "Career Statistics: fix round",
+   "phase": "5 New screens",
+   "wave": 9,
+   "depends_on": [
+    64
+   ],
+   "type": "fix",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 5,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 66,
+   "key": "CS_motion",
+   "title": "Career Statistics: motion",
+   "phase": "5 New screens",
+   "wave": 10,
+   "depends_on": [
+    65,
+    16
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 7,
+   "waits_on_nik": null,
+   "needs_claude_look": true
+  },
+  {
+   "number": 67,
+   "key": "RV_build",
+   "title": "Rivalry Statistics: build (desktop)",
+   "phase": "5 New screens",
+   "wave": 6,
+   "depends_on": [
+    4,
+    25,
+    30,
+    18
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 9,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 68,
+   "key": "RV_phone",
+   "title": "Rivalry Statistics: phone",
+   "phase": "5 New screens",
+   "wave": 7,
+   "depends_on": [
+    67
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 6,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 69,
+   "key": "RV_review",
+   "title": "Rivalry Statistics: review",
+   "phase": "5 New screens",
+   "wave": 8,
+   "depends_on": [
+    68
+   ],
+   "type": "review",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 7,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 70,
+   "key": "RV_fix",
+   "title": "Rivalry Statistics: fix round",
+   "phase": "5 New screens",
+   "wave": 9,
+   "depends_on": [
+    69
+   ],
+   "type": "fix",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 5,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 71,
+   "key": "RV_motion",
+   "title": "Rivalry Statistics: motion",
+   "phase": "5 New screens",
+   "wave": 10,
+   "depends_on": [
+    70,
+    16
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 7,
+   "waits_on_nik": null,
+   "needs_claude_look": true
+  },
+  {
+   "number": 72,
+   "key": "LG_build",
+   "title": "Legacy (History): build (desktop)",
+   "phase": "5 New screens",
+   "wave": 6,
+   "depends_on": [
+    5,
+    26,
+    30,
+    18
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 9,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 73,
+   "key": "LG_phone",
+   "title": "Legacy (History): phone",
+   "phase": "5 New screens",
+   "wave": 7,
+   "depends_on": [
+    72
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 6,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 74,
+   "key": "LG_review",
+   "title": "Legacy (History): review",
+   "phase": "5 New screens",
+   "wave": 8,
+   "depends_on": [
+    73
+   ],
+   "type": "review",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 7,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 75,
+   "key": "LG_fix",
+   "title": "Legacy (History): fix round",
+   "phase": "5 New screens",
+   "wave": 9,
+   "depends_on": [
+    74
+   ],
+   "type": "fix",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 5,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 76,
+   "key": "LG_motion",
+   "title": "Legacy (History): motion",
+   "phase": "5 New screens",
+   "wave": 10,
+   "depends_on": [
+    75,
+    16
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 7,
+   "waits_on_nik": null,
+   "needs_claude_look": true
+  },
+  {
+   "number": 77,
+   "key": "SR_build",
+   "title": "Season Results: build (desktop)",
+   "phase": "5 New screens",
+   "wave": 6,
+   "depends_on": [
+    6,
+    27,
+    30,
+    18
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 9,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 78,
+   "key": "SR_phone",
+   "title": "Season Results: phone",
+   "phase": "5 New screens",
+   "wave": 7,
+   "depends_on": [
+    77
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 6,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 79,
+   "key": "SR_review",
+   "title": "Season Results: review",
+   "phase": "5 New screens",
+   "wave": 8,
+   "depends_on": [
+    78
+   ],
+   "type": "review",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 7,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 80,
+   "key": "SR_fix",
+   "title": "Season Results: fix round",
+   "phase": "5 New screens",
+   "wave": 9,
+   "depends_on": [
+    79
+   ],
+   "type": "fix",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 5,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 81,
+   "key": "SR_motion",
+   "title": "Season Results: motion",
+   "phase": "5 New screens",
+   "wave": 10,
+   "depends_on": [
+    80,
+    16
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 7,
+   "waits_on_nik": null,
+   "needs_claude_look": true
+  },
+  {
+   "number": 82,
+   "key": "FW_build",
+   "title": "Final Winner: build (desktop)",
+   "phase": "5 New screens",
+   "wave": 6,
+   "depends_on": [
+    7,
+    23,
+    30,
+    18
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 9,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 83,
+   "key": "FW_phone",
+   "title": "Final Winner: phone",
+   "phase": "5 New screens",
+   "wave": 7,
+   "depends_on": [
+    82
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 6,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 84,
+   "key": "FW_review",
+   "title": "Final Winner: review",
+   "phase": "5 New screens",
+   "wave": 8,
+   "depends_on": [
+    83
+   ],
+   "type": "review",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 7,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 85,
+   "key": "FW_fix",
+   "title": "Final Winner: fix round",
+   "phase": "5 New screens",
+   "wave": 9,
+   "depends_on": [
+    84
+   ],
+   "type": "fix",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 5,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 86,
+   "key": "FW_motion",
+   "title": "Final Winner: motion",
+   "phase": "5 New screens",
+   "wave": 10,
+   "depends_on": [
+    85,
+    16
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 7,
+   "waits_on_nik": null,
+   "needs_claude_look": true
+  },
+  {
+   "number": 87,
+   "key": "SJ_build",
+   "title": "Start / Join: build (desktop)",
+   "phase": "5 New screens",
+   "wave": 6,
+   "depends_on": [
+    8,
+    28,
+    30,
+    18
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 9,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 88,
+   "key": "SJ_phone",
+   "title": "Start / Join: phone",
+   "phase": "5 New screens",
+   "wave": 7,
+   "depends_on": [
+    87
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 6,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 89,
+   "key": "SJ_review",
+   "title": "Start / Join: review",
+   "phase": "5 New screens",
+   "wave": 8,
+   "depends_on": [
+    88
+   ],
+   "type": "review",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 7,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 90,
+   "key": "SJ_fix",
+   "title": "Start / Join: fix round",
+   "phase": "5 New screens",
+   "wave": 9,
+   "depends_on": [
+    89
+   ],
+   "type": "fix",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 5,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 91,
+   "key": "SJ_motion",
+   "title": "Start / Join: motion",
+   "phase": "5 New screens",
+   "wave": 10,
+   "depends_on": [
+    90,
+    16
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 7,
+   "waits_on_nik": null,
+   "needs_claude_look": true
+  },
+  {
+   "number": 92,
+   "key": "RB_build",
+   "title": "Rule Book: build (desktop and phone)",
+   "phase": "5 New screens",
+   "wave": 6,
+   "depends_on": [
+    9,
+    29,
+    18
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 10,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 93,
+   "key": "RB_review",
+   "title": "Rule Book: review",
+   "phase": "5 New screens",
+   "wave": 7,
+   "depends_on": [
+    92
+   ],
+   "type": "review",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 7,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 94,
+   "key": "RB_fix",
+   "title": "Rule Book: fix round and motion",
+   "phase": "5 New screens",
+   "wave": 8,
+   "depends_on": [
+    93,
+    16
+   ],
+   "type": "fix",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 5,
+   "waits_on_nik": null,
+   "needs_claude_look": true
+  },
+  {
+   "number": 95,
+   "key": "ST_build",
+   "title": "Settings: build (desktop and phone)",
+   "phase": "5 New screens",
+   "wave": 6,
+   "depends_on": [
+    10,
+    29,
+    18
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 10,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 96,
+   "key": "ST_review",
+   "title": "Settings: review",
+   "phase": "5 New screens",
+   "wave": 7,
+   "depends_on": [
+    95
+   ],
+   "type": "review",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 7,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 97,
+   "key": "ST_fix",
+   "title": "Settings: fix round and motion",
+   "phase": "5 New screens",
+   "wave": 8,
+   "depends_on": [
+    96,
+    16
+   ],
+   "type": "fix",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 5,
+   "waits_on_nik": null,
+   "needs_claude_look": true
+  },
+  {
+   "number": 98,
+   "key": "data_model",
+   "title": "History data: the career model (pure code)",
+   "phase": "6 Online history",
+   "wave": 1,
+   "depends_on": [],
+   "type": "data",
+   "worker": "GPT-5.6 Sol, Work mode (needs a terminal)",
+   "steps": 5,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 99,
+   "key": "data_index",
+   "title": "History data: own-account career index (D1)",
+   "phase": "6 Online history",
+   "wave": 2,
+   "depends_on": [
+    98
+   ],
+   "type": "data",
+   "worker": "GPT-5.6 Sol, Work mode (needs a terminal)",
+   "steps": 5,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 100,
+   "key": "data_reader",
+   "title": "History data: completed-Showdown reader (D2)",
+   "phase": "6 Online history",
+   "wave": 3,
+   "depends_on": [
+    99
+   ],
+   "type": "data",
+   "worker": "GPT-5.6 Sol, Work mode (needs a terminal)",
+   "steps": 5,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 101,
+   "key": "data_review",
+   "title": "History data: Codex review",
+   "phase": "6 Online history",
+   "wave": 4,
+   "depends_on": [
+    100
+   ],
+   "type": "review",
+   "worker": "Codex (review only)",
+   "steps": 4,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 102,
+   "key": "data_fix",
+   "title": "History data: fix round",
+   "phase": "6 Online history",
+   "wave": 5,
+   "depends_on": [
+    101
+   ],
+   "type": "fix",
+   "worker": "GPT-5.6 Sol, Work mode (needs a terminal)",
+   "steps": 3,
+   "waits_on_nik": null,
+   "needs_claude_look": true
+  },
+  {
+   "number": 103,
+   "key": "int_hub",
+   "title": "Showcase: every screen in one place",
+   "phase": "7 Integration",
+   "wave": 11,
+   "depends_on": [
+    36,
+    42,
+    48,
+    53,
+    56,
+    61,
+    66,
+    71,
+    76,
+    81,
+    86,
+    91,
+    94,
+    97
+   ],
+   "type": "integrate",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 4,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 104,
+   "key": "int_bind",
+   "title": "Showcase: history screens read the career model",
+   "phase": "7 Integration",
+   "wave": 12,
+   "depends_on": [
+    103,
+    102
+   ],
+   "type": "integrate",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 4,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 105,
+   "key": "int_phone",
+   "title": "Full phone pass",
+   "phase": "7 Integration",
+   "wave": 13,
+   "depends_on": [
+    104
+   ],
+   "type": "review",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 4,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 106,
+   "key": "int_phone_fix",
+   "title": "Full phone pass: fixes",
+   "phase": "7 Integration",
+   "wave": 14,
+   "depends_on": [
+    105
+   ],
+   "type": "fix",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 3,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 107,
+   "key": "int_motion",
+   "title": "Motion and sound consistency pass",
+   "phase": "7 Integration",
+   "wave": 15,
+   "depends_on": [
+    106
+   ],
+   "type": "review",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 4,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 108,
+   "key": "int_final_review",
+   "title": "Final package review (Codex)",
+   "phase": "7 Integration",
+   "wave": 16,
+   "depends_on": [
+    107
+   ],
+   "type": "review",
+   "worker": "Codex (review only)",
+   "steps": 5,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 109,
+   "key": "int_final_fix",
+   "title": "Final fixes",
+   "phase": "7 Integration",
+   "wave": 17,
+   "depends_on": [
+    108
+   ],
+   "type": "fix",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 3,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 110,
+   "key": "int_package",
+   "title": "Package for Nik and handoff to GPT-5.6 Sol",
+   "phase": "7 Integration",
+   "wave": 18,
+   "depends_on": [
+    109
+   ],
+   "type": "integrate",
+   "worker": "GPT-5.6 Sol chat",
+   "steps": 3,
+   "waits_on_nik": null,
+   "needs_claude_look": true
+  }
+ ]
+}
