@@ -217,3 +217,18 @@ When a provider/runtime path supplies no human-readable message, its error code 
 * `OPENING SEASON RESULTS…`
 
 Dashboard status variants are `Shared transfer challenge: complete · season results ready`, `Shared season results: waiting for rival`, and `Shared season results: both published`.
+
+
+### Post-commit canonical scoring layer on the same screen
+
+After Shared Season Commit reaches acknowledged revision 3, `js/productionSharedCanonicalScoring.js` injects one more live panel into the same review shell:
+
+| Hook | Kind | Exact/live use |
+| --- | --- | --- |
+| `#sharedCanonicalScoringPanel.seasonReviewBreakdown.sharedCanonicalScoringPanel` | id/classes | Hidden until authoritative `SCORING_RECONCILED`; `aria-live="polite"`. |
+| `#sharedCanonicalScoringHeading` | id | `SHARED CANONICAL SCORE` |
+| `#sharedCanonicalScoringTotals` | id | `{DanielName}: {danielTotal} · {NikName}: {nikTotal}` |
+| `#sharedCanonicalScoringBreakdown` | id | `Champions League {D}–{N} · League Title {D}–{N} · Domestic Cup {D}–{N} · Performance Bonus {D}–{N} · Awards Bonus {D}–{N}` |
+| `#sharedCanonicalScoringWinner` | id | `Season result: Draw` or `Season winner: {managerName}` |
+
+This layer is authoritative, read-only and appears only after both managers have acknowledged the shared season commit. Its live code stores the fifth breakdown component as `individualAwardsBonus`; the factory data contract renames that display/model field to `awardsBonus`.
