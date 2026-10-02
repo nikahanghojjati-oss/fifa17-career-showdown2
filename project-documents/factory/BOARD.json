@@ -1173,7 +1173,7 @@
     25,
     30,
     18,
-    134
+    135
    ],
    "type": "build",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
@@ -1447,7 +1447,7 @@
     30,
     18,
     124,
-    135
+    134
    ],
    "type": "build",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
@@ -2372,12 +2372,12 @@
   },
   {
    "number": 134,
-   "key": "truthfix_RV",
-   "title": "Truth sheet fix: Rivalry Statistics",
+   "key": "truthfix_FW",
+   "title": "Truth sheet fix: Final Winner",
    "phase": "1 Truth",
    "wave": 2,
    "depends_on": [
-    4
+    7
    ],
    "type": "fix",
    "worker": "GPT-5.6 Sol chat",
@@ -2389,12 +2389,12 @@
   },
   {
    "number": 135,
-   "key": "truthfix_FW",
-   "title": "Truth sheet fix: Final Winner",
+   "key": "truthfix_RV",
+   "title": "Truth sheet fix: Rivalry Statistics",
    "phase": "1 Truth",
    "wave": 2,
    "depends_on": [
-    7
+    4
    ],
    "type": "fix",
    "worker": "GPT-5.6 Sol chat",
