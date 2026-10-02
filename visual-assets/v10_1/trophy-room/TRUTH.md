@@ -273,7 +273,7 @@ Required categories are `ALL · SHOWDOWN · LEAGUE TITLES · DOMESTIC CUPS · CH
 
 ### TR1 derivation check
 
-TR1 includes a `checkSource` block used only to validate preview aggregates; it is not a Trophy Room view-model field and is never rendered. Its five fictional Premier League seasons obey the contract bounds and never give Daniel and Nik the same league position. A league title is derived only from `leaguePosition === 1`. The scoring formula recomputes TR1 to Daniel 27 career points / 3 season wins / 6 season trophies and Nik 22 / 2 / 6; the three grouped Showdowns resolve to Daniel 2 wins and Nik 1.
+The fixture validation source is never rendered. Its five fictional Premier League seasons are grouped into valid 1-, 3-, and 1-season Showdowns: season 1 is `preview-showdown-1`, seasons 2–4 are `preview-showdown-2`, and season 5 is `preview-showdown-3`. A league title is derived only from `leaguePosition === 1`. At this step's grouping, the scoring formula recomputes TR1 to Daniel 27 career points / 3 season wins / 6 season trophies and Nik 22 / 2 / 6; the Showdowns resolve to Daniel 2 wins and Nik 1, with Daniel's 8-point `preview-showdown-1` win the biggest. TR3's two readable Showdowns are the first four seasons and recompute to Daniel 26 points / 3 season wins / 6 trophies and Nik 16 / 1 / 4.
 
 ### Preview frames
 
