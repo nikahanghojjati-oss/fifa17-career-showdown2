@@ -2,15 +2,15 @@
 
 Branch `factory/v1-wtt5ye`. 135 Team V jobs, plus 5 lines that track Team G. Two kinds of job. **Project (type number):** open a new chat in the ChatGPT project "Showdown visual" and type the number (up to 5 at once). **Fresh chat (image):** run the job's ticket from [tickets/](tickets/README.md) in a ChatGPT Temporary Chat (no memory) outside any project, then drop the image in Claude's factory thread (up to 2 at once).
 
-**Overall (Team V):** █░░░░░░░░░ 17 % · 23 of 135 jobs done
+**Overall (Team V):** █░░░░░░░░░ 17 % · 24 of 135 jobs done
 
-**Start now · project (type the number in Showdown visual):** 31, 43, 136, 137 · queued next: 138, 139
+**Start now · project (type the number in Showdown visual):** 16, 31, 43, 136, 137 · queued next: 138, 139
 
 **Start now · fresh chat (image ticket, outside the project):** 19, 20 · queued next: 21, 22, 23, 24, 25, 26, 27, 28, 29, 122, 123, 124 · waiting for Claude to write the ticket: 111, 112, 113, 114
 
 **Start now (Sol Work mode, press Use Work):** -
 
-**Working:** 13 · **Blocked:** -
+**Working:** - · **Blocked:** -
 
 **Team G tracking (never start these):** 98 (done), 99 (open), 100 (open), 101 (open), 102 (open). Claude marks them done when Team G delivers.
 
@@ -29,7 +29,7 @@ Branch `factory/v1-wtt5ye`. 135 Team V jobs, plus 5 lines that track Team G. Two
 | 10 | [Truth sheet: Settings](jobs/JOB-010.md) | 1 Truth | data | project (type number) | - | ██████████ 100 % | DONE |  |
 | 11 | [Truth sheet: Loading](jobs/JOB-011.md) | 1 Truth | data | project (type number) | - | ██████████ 100 % | DONE |  |
 | 12 | [Showdown tokens and type system](jobs/JOB-012.md) | 2 Foundation | build | project (type number) | - | ██████████ 100 % | DONE |  |
-| 13 | [Panel, button and table kit](jobs/JOB-013.md) | 2 Foundation | build | project (type number) | 12 | ██████░░░░ 66 % | IN PROGRESS |  |
+| 13 | [Panel, button and table kit](jobs/JOB-013.md) | 2 Foundation | build | project (type number) | 12 | ██████████ 100 % | DONE |  |
 | 14 | [Character cut-out tool and standard](jobs/JOB-014.md) | 2 Foundation | build | project (type number) | 0 | ██████████ 100 % | DONE |  |
 | 15 | [Cinematic stage engine](jobs/JOB-015.md) | 2 Foundation | build | project (type number) | 12, 14 | ██████████ 100 % | DONE |  |
 | 16 | [Motion kit (pack-rip grade)](jobs/JOB-016.md) | 2 Foundation | build | project (type number) | 13 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
