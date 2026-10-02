@@ -319,10 +319,17 @@ For LG1, the fixture uses eight total records and two pages (four records per pa
 
 ## Mockup element decisions
 
-Mockup authority inspected through the factory's own Legacy job descriptions: `MOCKUP_LEGACY_V2.png` is the primary reference; V1 is secondary. `JOB-026` and `JOB-072` enumerate the visual contents of V2, including the title, managers, archive panel, 4 × 2 card grid, pager, side menu, bottom controls and footer. Product truth overrides any mockup data or real-world marks.
+Mockup authority: directly opened `MOCKUP_LEGACY_V2.png` from the project Files (1672 × 941) for Job 132 step 2. V2 is the primary reference; V1 is secondary. The image itself shows the CM 17 identity, top-right slogan, crown/eyebrow, side banners, brush title, managers, archive grid, side menu, bottom controls and footer slogans. Product truth overrides its data and real-world marks.
 
 | Mockup element | Product answer |
 | --- | --- |
+| CM 17 crown/wordmark at top left (repeated at footer left) | KEEP our decorative Showdown brand identity; use original CM17 wordmark/crown artwork, never EA/FIFA identity. Keep one top-brand treatment; DROP the duplicate footer logo with the footer chrome. |
+| Top-right handwritten `More Than A Game` | KEEP as decorative brand text, not a route, button or product claim. Optional on short phone layouts. |
+| Left stadium banner `TWO MANAGERS ONE LEGACY` | KEEP as decorative stadium brand text; no live manager or record data. |
+| Right stadium banner `FOOTBALL BRINGS US TOGETHER` | KEEP as decorative stadium brand text; no live data. |
+| Crown above title and eyebrow `CAREER MODE SHOWDOWN 17` | KEEP our original crown and decorative brand eyebrow exactly; CHANGE fixture `CAREER MODE // SHOWDOWN 17` to the visible wording. |
+| Footer-centre slogan `FOOTBALL BRINGS US TOGETHER.` and footer-right `TWO MANAGERS. ONE LEGACY.` | KEEP the decorative brand language, already represented by the stadium banners; DROP the footer instances with the footer bar to preserve hub navigation space. Do not create extra controls or duplicate phone text. |
+| Footer-left `CAREER MODE SHOWDOWN 17` brand line | KEEP its brand wording in the main eyebrow; DROP this duplicate footer instance with the footer bar. |
 | Night stadium, crowd bokeh, floodlights, banners, warm gold/black atmosphere | KEEP as the scene language. The clean plate job removes UI but preserves this environment. |
 | Daniel on the left, hand on chin | KEEP as is. Daniel must remain left and must never be mirrored. |
 | Nik on the right | KEEP as is. Nik must remain right and must never be mirrored. |

@@ -2,7 +2,7 @@
   "version": "LEGACY_V1_FIXTURES",
   "authority": "DATA_CONTRACT_V1 §0/§6/§8/§9 + PRODUCT_TRUTH §1/§4/§6/§7 + main js/legacy.js, js/storage.js, js/screens.js, js/optionalModules.js",
   "strings": {
-    "eyebrow": "CAREER MODE // SHOWDOWN 17",
+    "eyebrow": "CAREER MODE SHOWDOWN 17",
     "heading": "LEGACY",
     "tagline": "PAST SHOWDOWNS. A LASTING JOURNEY.",
     "previewLabel": "Preview data",
@@ -29,7 +29,13 @@
       "STANDINGS",
       "STATS",
       "RULES"
-    ]
+    ],
+    "decorative": {
+      "wordmark": "CM 17",
+      "moreThanAGame": "More Than A Game",
+      "leftBanner": "TWO MANAGERS ONE LEGACY",
+      "rightBanner": "FOOTBALL BRINGS US TOGETHER"
+    }
   },
   "ids": {
     "screen": "legacy",
@@ -1573,6 +1579,31 @@
       "kind": "status-message"
     },
     "tagline": {
+      "source": "mockup",
+      "kind": "decorative-brand-text",
+      "liveData": false
+    },
+    "eyebrow": {
+      "source": "mockup",
+      "kind": "decorative-brand-text",
+      "liveData": false
+    },
+    "decorative.wordmark": {
+      "source": "mockup",
+      "kind": "decorative-brand-text",
+      "liveData": false
+    },
+    "decorative.moreThanAGame": {
+      "source": "mockup",
+      "kind": "decorative-brand-text",
+      "liveData": false
+    },
+    "decorative.leftBanner": {
+      "source": "mockup",
+      "kind": "decorative-brand-text",
+      "liveData": false
+    },
+    "decorative.rightBanner": {
       "source": "mockup",
       "kind": "decorative-brand-text",
       "liveData": false
