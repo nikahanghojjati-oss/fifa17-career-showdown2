@@ -1,0 +1,68 @@
+name: Validate Gameplay Fast
+
+on:
+  push:
+    branches:
+      - 'gameplay/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: gameplay-fast-${{ github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  contracts:
+    name: Gameplay contracts
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 1
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Product contracts
+        run: npm run test:contracts
+      - name: Operations audit
+        run: npm run test:ops
+
+  rules-emulator:
+    name: Composed Rules on the emulator
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 1
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '21'
+      - run: npm ci
+      - name: Install pinned Firebase emulator test dependencies
+        run: npm install --no-save --package-lock=false firebase@12.17.1 @firebase/rules-unit-testing@5.0.1 firebase-admin@14.2.0
+      - name: Build the composed production Rules
+        run: |
+          node scripts/build-production-firestore-rules.mjs
+          node scripts/build-production-firestore-rules-with-persistent-pair.mjs
+          node scripts/assert-firestore-zero-billing-boundary.mjs
+      - name: Shared Setup provider matrix
+        run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-gameplay-fast-setup "node tests/firebase/shared-showdown-setup-production-provider-emulator.cjs"
+      - name: Transfer fresh-session recovery
+        run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-gameplay-fast-transfer "node tests/firebase/shared-transfer-challenge-fresh-session-emulator.cjs"
+      - name: Gameplay lifecycle (1 and 3 seasons)
+        run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-gameplay-fast-lifecycle "CMS_SHOWDOWN_LENGTH=1 node tests/firebase/shared-gameplay-provider-lifecycle-emulator.cjs && CMS_SHOWDOWN_LENGTH=3 node tests/firebase/shared-gameplay-provider-lifecycle-emulator.cjs"
+      - name: Terminal Close matrix
+        run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-gameplay-fast-terminal "node tests/firebase/shared-terminal-close-production-provider-emulator.cjs"
+      - name: Persistent Nik and Daniel pair matrix
+        run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-gameplay-fast-pair "node tests/firebase/persistent-nik-daniel-pair-provider-emulator.cjs"
