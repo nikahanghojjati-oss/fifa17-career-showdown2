@@ -136,6 +136,10 @@ Authority: `project-documents/factory/DATA_CONTRACT_V1.md` §6 Career Statistics
 
 Managers are keyed by role only: `playerOne → daniel` and `playerTwo → nik`. Daniel is always the first / left presentation.
 
+### Showdown outcome field shape
+
+Keep the contract/fixture shape nested by manager role: `showdowns.daniel.completed`, `showdowns.daniel.wins`, `showdowns.daniel.draws`, `showdowns.daniel.losses`, with the same four fields under `showdowns.nik`. In particular, `showdowns.daniel.wins` stays exactly in that shape; do not flatten or rename it. Trophy Room is being aligned to the same nested outcome shape.
+
 ### What counts
 
 From DATA_CONTRACT_V1 §6:
