@@ -392,29 +392,29 @@ jobs:
           hand_start=s.index("    // exact original-pixel hand overlays")
           hand_stop=s.index("    if (GRID)",hand_start)
           new_hands='''    // JOB-043: the derived contact shadow paints on the pack below the fingers.
-    const contact = el("div", "handContact plateDup", world);
-    contact.style.backgroundImage = "image-set(url(assets/OVL_CLUB_HAND_CONTACTS_V1_1X.webp) 1x, url(assets/OVL_CLUB_HAND_CONTACTS_V1_2X.webp) 2x)";
-    const handAsset = {
-      hand_daniel_top: "OVL_CLUB_DANIEL_TOP_HAND_V1",
-      hand_daniel_side: "OVL_CLUB_DANIEL_SIDE_HAND_V1",
-      hand_nik_top: "OVL_CLUB_NIK_TOP_HAND_V1",
-      hand_nik_side: "OVL_CLUB_NIK_SIDE_HAND_V1",
-    };
-    Object.entries(HANDS.hands).forEach(([name]) => {
-      const d = el("div", "handOv plateDup", world); d.dataset.hand = name; d.dataset.cutout = "1";
-      const stem = handAsset[name];
-      d.style.backgroundImage = `image-set(url(assets/${stem}_1X.webp) 1x, url(assets/${stem}_2X.webp) 2x)`;
-    });
-'''
+          const contact = el("div", "handContact plateDup", world);
+          contact.style.backgroundImage = "image-set(url(assets/OVL_CLUB_HAND_CONTACTS_V1_1X.webp) 1x, url(assets/OVL_CLUB_HAND_CONTACTS_V1_2X.webp) 2x)";
+          const handAsset = {
+          hand_daniel_top: "OVL_CLUB_DANIEL_TOP_HAND_V1",
+          hand_daniel_side: "OVL_CLUB_DANIEL_SIDE_HAND_V1",
+          hand_nik_top: "OVL_CLUB_NIK_TOP_HAND_V1",
+          hand_nik_side: "OVL_CLUB_NIK_SIDE_HAND_V1",
+          };
+          Object.entries(HANDS.hands).forEach(([name]) => {
+          const d = el("div", "handOv plateDup", world); d.dataset.hand = name; d.dataset.cutout = "1";
+          const stem = handAsset[name];
+          d.style.backgroundImage = `image-set(url(assets/${stem}_1X.webp) 1x, url(assets/${stem}_2X.webp) 2x)`;
+          });
+          '''
           s=s[:hand_start]+new_hands+s[hand_stop:]
           lh_start=s.index("  function layoutHands()")
           lh_stop=s.index("  /* ---------------- K3 / OWNER-3 pack rip",lh_start)
           new_lh='''  function layoutHands() {
-    // Full-canvas registered raster cutouts: the shared tool owns erosion/feather/fringe.
-    $$(".handOv").forEach(d => { d.style.clipPath = "none"; });
-}
+          // Full-canvas registered raster cutouts: the shared tool owns erosion/feather/fringe.
+          $$(".handOv").forEach(d => { d.style.clipPath = "none"; });
+          }
 
-'''
+          '''
           s=s[:lh_start]+new_lh+s[lh_stop:]
           p.write_text(s)
 
@@ -437,7 +437,7 @@ jobs:
               he=q.index("        const base = document.querySelector",hs)
               newgeo='''        const hands = Object.entries(Q.HANDS.hands).map(([n, h]) => ({ n, poly: h.polygon.map(([x, y]) => Q.plateToScreen(x, y)), overlap: h.pack_overlap_box,
           cutoutOk: (() => { const el=document.querySelector(`.handOv[data-hand="${n}"]`); return !!el && el.dataset.cutout==="1" && getComputedStyle(el).backgroundImage.includes("OVL_CLUB_"); })() }));
-'''
+          '''
               q=q[:hs]+newgeo+q[he:]
           q=q.replace('''      const handOverlap = geo.hands.map(h => ({ hand: h.n, packBoxOverlapPlatePx: h.overlap, overlayClipMatchesHandmap: h.clipOk }));''',
                       '''      const handOverlap = geo.hands.map(h => ({ hand: h.n, packBoxOverlapPlatePx: h.overlap, registeredCutout: h.cutoutOk }));''')
