@@ -1,7 +1,8 @@
-# GAMEPLAY LEAD HANDOFF: feature recovery, data contract, gameplay factory, automated bug hunt
+# TEAM G HANDOFF: feature recovery, data contract, gameplay factory, automated bug hunt, V↔G relay
 
-From: Claude, Visual lead (Claude project "Claude Career Mode Showdown - Visual lead")
-To: Claude, Gameplay lead (Claude project "Gameplay Engineering", Opus 5.5, manager role)
+From: Claude, Team V lead (Claude project "Claude Career Mode Showdown - Visual lead")
+To: Claude, Team G lead (Claude gameplay project, Opus 5.5, manager role)
+Names (Nik, 2026-10-02): **Team V** = the Claude visual team (works on the visual branch). **Team G** = the Claude gameplay team (works from `main`, behind its gates).
 Owner: Nik
 Date: 2026-10-02
 Repository: [nikahanghojjati-oss/fifa17-career-showdown2](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2)
@@ -14,7 +15,7 @@ This file is complete. You should not need to ask Nik anything to start. Where s
 
 ## 0. What Nik wants, in one paragraph
 
-Nik wants the Gameplay lead to run gameplay the way the Visual lead now runs visuals. You are the manager and keeper of gameplay product truth and history. You restore the features that were hidden during the online migration (History/Legacy, Statistics, Rivalry, Trophy Room, Season Results scoring and the final winner, Continue, Start/Join) so they read real online data. You agree a data contract with the Visual lead so the new screens have true numbers behind them. You run a factory of GPT-5.6 Sol worker chats (about 5 at once; Nik types only a job number), with Codex used sensibly as a reviewer. You replace Nik's manual smoke tests with automated two-manager tests that run on every push, and every bug found becomes a factory job. The two leads talk through the repo, so Nik never carries messages.
+Nik wants the Team G lead to run gameplay the way the Team V lead now runs visuals. You are the manager and keeper of gameplay product truth and history. You restore the features that were hidden during the online migration (History/Legacy, Statistics, Rivalry, Trophy Room, Season Results scoring and the final winner, Continue, Start/Join) so they read real online data. You agree a data contract with the Team V lead so the new screens have true numbers behind them. You run a factory of GPT-5.6 Sol worker chats (about 5 at once; Nik types only a job number), with Codex used sensibly as a reviewer. You replace Nik's manual smoke tests with automated two-manager tests that run on every push, and every bug found becomes a factory job. The two leads talk through the repo automatically (§7), so Nik never carries messages, and he can watch the conversation on Team V's board. Team V keeps building every screen that does not need your fixes while you fix the rest (§5a). You also judge whether the FIFA 17 top navigation bar from the mockups can be built (§4.10).
 
 ---
 
@@ -23,10 +24,10 @@ Nik wants the Gameplay lead to run gameplay the way the Visual lead now runs vis
 | Who | Role |
 | --- | --- |
 | **Nik** | Owner. Final say on scope, taste, money, rules deploys and anything merged into `main`. |
-| **Claude, Gameplay lead** (you, Opus 5.5) | Manager for gameplay, data, Firestore Rules, tests and bugs. Holds gameplay product truth and history, so workers never need to ask Nik. Writes jobs, reviews results, keeps the board. |
-| **Claude, Visual lead** (Opus 5.5) | Manager for visuals. Holds visual truth and history. Builds every screen on labelled sample data until your fields are real. |
-| **GPT-5.6 Sol chats** | Workers in both factories. They do one job each, from the repo job file. They do not hold authority. |
-| **Codex** | Reviewer. Use it on gameplay PRs that touch Firestore Rules, providers, privacy or the merge into `main` (see §6.6). On the visual side Codex only reviews visual jobs 14 and 15; its other time is yours. |
+| **Claude, Team G lead** (you, Opus 5.5) | Manager for gameplay, data, Firestore Rules, tests and bugs. Holds gameplay product truth and history, so workers never need to ask Nik. Writes jobs, reviews results, keeps the board. |
+| **Claude, Team V lead** (Opus 5.5) | Manager for visuals. Holds visual truth and history. Builds every screen on labelled sample data until your fields are real. |
+| **GPT-5.6 Sol chats** | Workers. They do one job each, from the repo job file, and hold no authority. Team G's workers live in Nik's ChatGPT project **"Career Mode Showdown"**; Team V's live in the ChatGPT project **"Visual"**. Each team has its own numbers, branch and board, so a number typed in one project never reaches the other team. How many workers to run against Nik's ChatGPT limits is being researched by a Team V thread; the answer reaches you through the relay. Until then, plan for up to 5 at once. |
+| **Codex** | Team G's reviewer for its workers' output (see §6.6). Team V may also use it as a reviewer, within reason. |
 | **Claude Code cloud sessions** | Rare, for the hardest one or two jobs only (likely the career-index rules job). Nik's cloud credit is small. |
 
 Standing rules that do not change:
@@ -46,7 +47,7 @@ Standing rules that do not change:
 **Source documents (read these first):**
 
 1. Owner directive: [CMS_HOME_FEATURE_RECOVERY_ONLINE_REINTEGRATION_DIRECTIVE_2026-10-01.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/visual/cinematic-system-v10/project-documents/product-authority/CMS_HOME_FEATURE_RECOVERY_ONLINE_REINTEGRATION_DIRECTIVE_2026-10-01.md) on `visual/cinematic-system-v10`. Acceptance criteria are its §12 (20 items).
-2. Visual lead's recovery plan: [C2S-005R2_home-recovery-plan.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/visual/cinematic-system-v10/project-documents/model-relay/archive/C2S-005R2_home-recovery-plan.md) (full provider map with `file:line` on `main` @ `2de2373`).
+2. Team V lead's recovery plan: [C2S-005R2_home-recovery-plan.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/visual/cinematic-system-v10/project-documents/model-relay/archive/C2S-005R2_home-recovery-plan.md) (full provider map with `file:line` on `main` @ `2de2373`).
 3. GPT-5.6 Sol's product-truth ruling: [S2C-005R2_home-recovery-ruling.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/visual/cinematic-system-v10/project-documents/model-relay/archive/S2C-005R2_home-recovery-ruling.md). It accepts the plan and adds required corrections (§3 and §4 there). Treat it as binding.
 
 Fetch with explicit refspecs, for example:
@@ -105,7 +106,7 @@ Defaults you may take without asking (say so on the relay):
 
 ---
 
-## 4. Data contract with the Visual lead
+## 4. Data contract with the Team V lead
 
 **How it works.** Visual builds every screen now on a labelled sample file (`FIXTURE` shown on screen) with all states designed. Gameplay makes the fields real. They meet in one place: a view model per screen produced by the shared career model. Field names below are the proposal; reply on the relay (§7) with changes, then commit the agreed version as `project-documents/leads/DATA_CONTRACT_V1.md` on `leads/relay`. After that, a field changes only by a relay message.
 
@@ -194,6 +195,25 @@ Only buttons the real app has. Plain words.
 
 Do not build fields for, and Visual removes from mockups: clean sheets, biggest single-match win, European wins other than the Champions League, player names, player-based "leaders" or player photos, match-by-match results, possession or any per-match stat. "Top scorer" and "top assist" are yes/no per season (the manager's player won the award), not a player name.
 
+### 4.10 Decision for Team G: the FIFA 17 top navigation bar
+
+The mockups carry a top bar (HOME / CAREER / STANDINGS / STATS / RULES / ABOUT). It was left out so far because no product truth stood behind it. Nik likes it and wants it built if the product can support it. **You judge feasibility; if you say yes, Team V builds it.**
+
+Check, and answer in a `G2V` message:
+
+| Tab | Likely real destination | Question for Team G |
+| --- | --- | --- |
+| HOME | Home | none |
+| CAREER | Continue (current Showdown dashboard) | What it shows with no active Showdown (Start/Join?) |
+| STANDINGS | Rivalry standings for the current Showdown, career standings once G-9 lands | Same data as Rivalry/Trophy Room, or its own view? |
+| STATS | Career Statistics (Rivalry inside it) | none beyond §4.6 |
+| RULES | Rule Book | none |
+| ABOUT | No such screen today. Could hold Settings, the credits (Reus photo licence) and the app version | Keep, rename to SETTINGS, or drop? |
+
+Also confirm: tabs are plain client-side routes (no extra Firestore reads beyond what each screen already does, so no Spark cost); which tabs must lock or confirm during a live step (transfer window, season entry) so a tap never loses a manager's input; and the phone form (Team V proposes a bottom tab bar or a menu button at 393×660).
+
+**Recommended default:** build it. Five tabs, HOME / CAREER / STANDINGS / STATS / RULES, with ABOUT folded into a settings icon at the right end. A tab whose data is not ready shows the screen's own unavailable state rather than hiding. Tabs lock with a short "Finish this step first" note during live steps. Phone: a 5-icon bottom bar. Team V treats the bar as fixtures-only until you answer.
+
 ---
 
 ## 5. Recovery work plan (becomes your first factory jobs)
@@ -219,13 +239,33 @@ Order of value. Each line is one job unless noted. IDs D-1..D-7 and J-1..J-4 mat
 | G-14 | J-3 acceptance: directive §12 (1–20) and Sol's 8 proofs, emulator first | |
 | G-15 | One real two-device run with Nik (Chromebook + iPhone) | The only manual step; Nik plays, the recorder captures |
 
-Note for both boards: the Visual factory's job 14 "Online history data" belongs to this plan (G-3 to G-10). Visual keeps only the fixture-to-model binding.
+Note for both boards: the Team V factory's job 14 "Online history data" belongs to this plan (G-3 to G-10). Team V keeps only the fixture-to-model binding.
+
+### 5a. Parallel work: which screens wait on Team G
+
+Team V keeps building while you fix. This list tells Team V what is free now. Update it in a `G2V` message whenever a row changes.
+
+| Screen | Blocks Team V? | Why |
+| --- | --- | --- |
+| Loading | No | No game data |
+| Rule Book, Settings | No | Static, or existing data |
+| League wheel, Club pick, Transfer War | No | Built on today's real flows |
+| Home | No to build; the Continue line binds after G-5 | Pair and setup data already exist |
+| Start / Join | No | Every action exists today; G-6 only adds one view model |
+| Season Results + scoring | No | Inputs and scoring exist; only `tiebreak` is added (G-5) |
+| Final winner | No to build; `completion-pending` binds after G-5 | Totals and winner exist |
+| Rivalry Statistics | Builds on fixtures; binding waits G-5 | Needs the provider adapter |
+| Career Statistics | Builds on fixtures; real data waits G-3, G-7 to G-9 | Needs career index and closed-Showdown reads |
+| Trophy Room | Builds on fixtures; real data waits G-3, G-7 to G-9 | Career-wide counts |
+| History / Legacy | Builds on fixtures; real data waits G-7 to G-10 | Needs career index and closed-Showdown reads |
+| Top navigation bar | Waits on your feasibility answer (§4.10) | Destinations must be real |
+| Unhiding everything in the live app | Yes, last (G-13) | Waits for both teams |
 
 ---
 
 ## 6. The gameplay factory
 
-Copy the Visual lead's factory. Its model is on branch `factory/v1` under `project-documents/factory/` (BOARD.md, jobs/JOB-NN.md, one status file per job). **It may still be landing**; if the branch is not there yet, use this section, which is self-sufficient.
+Copy Team V's factory. Team G works from `main` (its home branch); the factory board lives on its own branch because workers must never push to `main`. Its model is on branch `factory/v1` under `project-documents/factory/` (BOARD.md, jobs/JOB-NN.md, one status file per job). **It may still be landing**; if the branch is not there yet, use this section, which is self-sufficient.
 
 ### 6.1 Shape
 
@@ -256,9 +296,9 @@ GPT-5.6 Sol workers start cold and never see your history. Each `jobs/JOB-NN.md`
 
 Per job: one worker build, one review by you (and Codex where §6.6 says), one fix round. A job that fails the same check twice is BLOCKED; you rewrite the job file before anyone tries again.
 
-### 6.4 Factory rules text (Nik pastes once into a ChatGPT project named "Gameplay")
+### 6.4 Factory rules text (Nik pastes once into Nik's ChatGPT project "Career Mode Showdown")
 
-> You are a GPT-5.6 Sol worker in the Career Mode Showdown gameplay factory. Nik will type only a number. That number is a job. Open the repo nikahanghojjati-oss/fifa17-career-showdown2, branch factory/gameplay-v1, and read project-documents/gameplay-factory/RULES.md, then BOARD.md, then jobs/JOB-NN.md for that number. Do only that job, step by step. After each step, update status/JOB-NN.md and push to factory/gameplay-v1 with the commit "Job N step k: title"; when finished, "Job N done: title". Put code on the branch the job names, never on main. Never deploy, never change Firebase billing or settings, never force-push or delete. The Claude Gameplay lead owns product truth; if the job file and anything else disagree, follow the job file and write the question in the status file. If you cannot push, give Nik the changed files in full so he can drop them in the Gameplay lead's chat.
+> You are a GPT-5.6 Sol worker in the Career Mode Showdown gameplay factory. Nik will type only a number. That number is a job. Open the repo nikahanghojjati-oss/fifa17-career-showdown2, branch factory/gameplay-v1, and read project-documents/gameplay-factory/RULES.md, then BOARD.md, then jobs/JOB-NN.md for that number. Do only that job, step by step. After each step, update status/JOB-NN.md and push to factory/gameplay-v1 with the commit "Job N step k: title"; when finished, "Job N done: title". Put code on the branch the job names, never on main. Never deploy, never change Firebase billing or settings, never force-push or delete. The Claude Team G lead owns product truth; if the job file and anything else disagree, follow the job file and write the question in the status file. If you cannot push, give Nik the changed files in full so he can drop them in the Team G lead's chat.
 
 Put the same rules in `AGENTS.md` (a short "Gameplay factory" section) through one small docs PR into `main` under the normal POS20 gates, so Codex understands a bare job number too. Until it merges, `RULES.md` on the factory branch is the source.
 
@@ -275,7 +315,7 @@ Put the same rules in `AGENTS.md` (a short "Gameplay factory" section) through o
 
 ### 6.6 Codex, used reasonably
 
-Codex reviews: every PR that changes Firestore Rules or providers (G-7, G-8, G-10, G-12), anything touching privacy, and the final gated PR into `main`. Skip Codex for test-only and docs jobs. One Codex review per PR, then you decide.
+Codex is Team G's reviewer: one Codex review on every worker code PR, and always on Firestore Rules, providers, privacy (G-7, G-8, G-10, G-12) and the final gated PR into `main`. Skip it for docs-only jobs. After Codex, you decide. Team V may borrow Codex for a review now and then; that is fine.
 
 ### 6.7 How you talk to Nik
 
@@ -283,26 +323,30 @@ Plain words. Short. Tell him which numbers to start ("Start 3, 4 and 5"), and wh
 
 ---
 
-## 7. Lead-to-lead relay (Nik never carries messages)
+## 7. Team V ↔ Team G relay (automatic; Nik never carries messages)
+
+This channel is **already set up** and holds the first message.
 
 Same contract as the Visual ↔ GPT-5.6 Sol relay ([CONTRACT.md v1.1](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/visual/cinematic-system-v10/project-documents/model-relay/CONTRACT.md)), adapted:
 
-- **Branch:** `leads/relay` (set up by the Visual lead with this file). Folder `project-documents/leads-relay/`: `CONTRACT.md`, `LATEST.md` (the one live slot), `archive/` (every message, never edited).
-- **Tracker PR:** [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312), a draft from `leads/relay` into `leads/relay-base` (frozen copy of `main` @ `2de2373`, never merged). Already open; the Visual lead is subscribed. Both leads call `subscribe_pr_activity` on it, so a push from one wakes the other.
-- **Message ids:** `V2G-NNN_<topic>` (Visual → Gameplay) and `G2V-NNN_<topic>` (Gameplay → Visual). A direct reply reuses the number; `R2`, `R3` on collision. First message: `V2G-001_gameplay-handoff`.
+- **Branch:** `leads/relay` (never into `main`). Folder `project-documents/leads-relay/`: `CONTRACT.md`, `LATEST.md` (the one live slot), `archive/` (every message, never edited), and `FEED.md` (one line per message, so Nik can watch the teams talk).
+- **Feed:** every message adds one table row to `FEED.md` in the same commit: time (UTC), from, to, message id, subject, needs reply (yes/no). Team V's Overview board shows this feed to Nik. You can show it on your own board too.
+- **Tracker PR:** [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312), a draft from `leads/relay` into `leads/relay-base` (frozen copy of `main` @ `2de2373`, never merged). Already open; the Team V lead is subscribed. Both leads call `subscribe_pr_activity` on it, so a push from one wakes the other.
+- **Message ids:** `V2G-NNN_<topic>` (Team V → Team G) and `G2V-NNN_<topic>` (Team G → Team V). A direct reply reuses the number; `R2`, `R3` on collision. First message: `V2G-001_gameplay-handoff`.
 - **Header:** `From:`, `To:`, `Message-ID:`, `In-Reply-To:`, `Date:`, `Status: READY`, and `Evidence-Refs:` (branch @ commit) when citing code.
 - **Rules:** on wake, fetch with an explicit refspec, read `LATEST.md`, act only if `To:` is you. Before writing, re-read `LATEST.md`; never overwrite an unanswered message from the other lead (you may supersede your own, saying so). Write the archive copy **and** `LATEST.md` in one commit; fast-forward push only, never force. The message holds the full answer, not a pointer to chat.
+- **Reporting:** each lead tells Nik in its own project what matters from the relay, in plain words. Nik never forwards anything.
 - **If a wake is missed:** Nik can type "relay" to either lead; it means "read `LATEST.md` and act if it is yours".
-- GPT-5.6 Sol keeps its own relay with the Visual lead on `visual/cinematic-system-v10`. The leads relay does not replace it.
+- GPT-5.6 Sol keeps its own relay with the Team V lead on `visual/cinematic-system-v10`. The leads relay does not replace it.
 
 ---
 
 ## 8. Your first moves
 
 1. Read §2's three source documents and this file. Check `main` is still `2de2373`; if it moved, note the new SHA (source drift) and re-check the cited lines.
-2. Subscribe to the leads relay tracker [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312) and answer `V2G-001` on `leads/relay` with a `G2V-001`: accept or change the data contract (§4), confirm the job list (§5).
+2. Subscribe to the leads relay tracker [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312) and answer `V2G-001` on `leads/relay` with a `G2V-001`: accept or change the data contract (§4), confirm the job list (§5) and the parallel-work list (§5a), and give the top bar verdict (§4.10) or say when it will come.
 3. Create `factory/gameplay-v1`, its base, the tracker PR, `RULES.md`, `BOARD.md`, and jobs G-0 to G-3 in full. Subscribe to the tracker PR.
-4. Tell Nik: paste the rules text (§6.4) into a ChatGPT project named "Gameplay", then type 0 in one chat, and 1, 2 and 3 in three more.
+4. Tell Nik: paste the rules text (§6.4) into Nik's ChatGPT project "Career Mode Showdown", then type 0 in one chat, and 1, 2 and 3 in three more.
 
 ---
 
@@ -310,8 +354,8 @@ Same contract as the Visual ↔ GPT-5.6 Sol relay ([CONTRACT.md v1.1](https://gi
 
 | Step | Who | Where | File | What comes back |
 | --- | --- | --- | --- | --- |
-| 1 | Nik | Gameplay lead's Claude project chat | The one-line paste prompt | Gameplay lead starts |
-| 2 | Gameplay lead | Repo, `leads/relay` | This file → `G2V-001` | Visual lead is woken by the tracker PR |
-| 3 | Gameplay lead | Repo, `factory/gameplay-v1` | RULES, BOARD, JOB-00..03 | Job numbers for Nik |
-| 4 | Nik | ChatGPT project "Gameplay" (GPT-5.6 Sol) | Rules text §6.4, then numbers | Pushes wake the Gameplay lead |
-| 5 | Visual lead | Visual factory | Fixtures matching `DATA_CONTRACT_V1.md` | Screens ready to bind (G-11, G-13) |
+| 1 | Nik | Team G lead's Claude project chat | The one-line paste prompt | Team G lead starts |
+| 2 | Team G lead | Repo, `leads/relay` | This file → `G2V-001` | Team V lead is woken by the tracker PR |
+| 3 | Team G lead | Repo, `factory/gameplay-v1` | RULES, BOARD, JOB-00..03 | Job numbers for Nik |
+| 4 | Nik | ChatGPT project "Career Mode Showdown" (GPT-5.6 Sol) | Rules text §6.4, then numbers | Pushes wake the Team G lead |
+| 5 | Team V lead | Visual factory | Fixtures matching `DATA_CONTRACT_V1.md` | Screens ready to bind (G-11, G-13) |
