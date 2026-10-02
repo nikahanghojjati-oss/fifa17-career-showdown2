@@ -38,6 +38,7 @@ jobs:
         run: |
           set -euo pipefail
           ROOT="visual-assets/v10_1/club"
+          if grep -Eq "Step: [2-5] of 5" project-documents/factory/status/JOB-043.md; then echo "JOB-043 Step 1 already committed; skipping"; exit 0; fi
           rm -rf "$ROOT/evidence/diff/job43_before" "$ROOT/evidence/diff/job43_after"
           mkdir -p "$ROOT/evidence/diff/job43_before" "$ROOT/evidence/diff/job43_after"
 
@@ -140,6 +141,7 @@ jobs:
         run: |
           set -euo pipefail
           ROOT="visual-assets/v10_1/club"
+          if grep -Eq "Step: [2-5] of 5" project-documents/factory/status/JOB-043.md; then echo "JOB-043 Step 2 already committed; skipping"; exit 0; fi
           OUT="$ROOT/evidence/edges_before"
           rm -rf "$OUT"
           mkdir -p "$OUT/full" "$OUT/crops"
@@ -379,53 +381,42 @@ jobs:
           from pathlib import Path
           p=Path("visual-assets/v10_1/club/club.js")
           s=p.read_text()
-          old='''    el("div", "plateBase", world);
-            // intake-zone covers (desktop and phone): dark glass shapes that the live UI sits on
-            worldSvg("covers", world).id = "covers";'''
-          new='''    el("div", "plateBase", world);
-            // JOB-043: transparent, tone-matched seam repairs are registered to the same full plate.
-            // They never enter protected faces, packs or hand polygons.
-            const seamMend = el("div", "seamMend plateDup", world);
-            seamMend.style.backgroundImage = "image-set(url(assets/OVL_CLUB_SEAM_MENDS_V1_1X.webp) 1x, url(assets/OVL_CLUB_SEAM_MENDS_V1_2X.webp) 2x)";
-            // intake-zone covers (desktop and phone): dark glass shapes that the live UI sits on
-            worldSvg("covers", world).id = "covers";'''
-          if old not in s: raise SystemExit("plate insertion anchor not found")
-          s=s.replace(old,new)
-          old2='''    // exact original-pixel hand overlays (duplicate plate layer clipped to the traced hands), above the reveal
-            Object.entries(HANDS.hands).forEach(([name, h]) => {
-              const d = el("div", "handOv plateDup", world); d.dataset.hand = name;
-            });'''
-          new2='''    // JOB-043: 2.5 px derived contact shadow sits on the pack below the fingers,
-            // then straight-alpha cutouts from shared/tools/cutout.py restore the fingers above the reveal.
-            const contact = el("div", "handContact plateDup", world);
-            contact.style.backgroundImage = "image-set(url(assets/OVL_CLUB_HAND_CONTACTS_V1_1X.webp) 1x, url(assets/OVL_CLUB_HAND_CONTACTS_V1_2X.webp) 2x)";
-            const handAsset = {
-              hand_daniel_top: "OVL_CLUB_DANIEL_TOP_HAND_V1",
-              hand_daniel_side: "OVL_CLUB_DANIEL_SIDE_HAND_V1",
-              hand_nik_top: "OVL_CLUB_NIK_TOP_HAND_V1",
-              hand_nik_side: "OVL_CLUB_NIK_SIDE_HAND_V1",
-            };
-            Object.entries(HANDS.hands).forEach(([name]) => {
-              const d = el("div", "handOv plateDup", world); d.dataset.hand = name; d.dataset.cutout = "1";
-              const stem = handAsset[name];
-              d.style.backgroundImage = `image-set(url(assets/${stem}_1X.webp) 1x, url(assets/${stem}_2X.webp) 2x)`;
-            });'''
-          if old2 not in s: raise SystemExit("hand overlay source block not found")
-          s=s.replace(old2,new2)
-          old3='''  function layoutHands() {
-              const k = T.k;
-              $$(".handOv").forEach(d => {
-                const poly = HANDS.hands[d.dataset.hand].polygon;
-                d.style.clipPath = `polygon(${poly.map(([x, y]) => `${(x * k).toFixed(2)}px ${(y * k).toFixed(2)}px`).join(",")})`;
-              });
-            }'''
-          new3='''  function layoutHands() {
-              // JOB-043 cutouts are full-canvas registered rasters. Do not clip them again at runtime:
-              // the shared cutout tool owns erosion, feather and fringe decontamination.
-              $$(".handOv").forEach(d => { d.style.clipPath = "none"; });
-            }'''
-          if old3 not in s: raise SystemExit("layoutHands source block not found")
-          p.write_text(s.replace(old3,new3))
+          plate_line='    el("div", "plateBase", world);\n'
+          if "JOB-043: transparent, tone-matched seam repairs" not in s:
+              if plate_line not in s: raise SystemExit("plate insertion anchor not found")
+              s=s.replace(plate_line, plate_line +
+                  '    // JOB-043: transparent, tone-matched seam repairs are registered to the same full plate.\n' +
+                  '    // They never enter protected faces, packs or hand polygons.\n' +
+                  '    const seamMend = el("div", "seamMend plateDup", world);\n' +
+                  '    seamMend.style.backgroundImage = "image-set(url(assets/OVL_CLUB_SEAM_MENDS_V1_1X.webp) 1x, url(assets/OVL_CLUB_SEAM_MENDS_V1_2X.webp) 2x)";\n', 1)
+          hand_start=s.index("    // exact original-pixel hand overlays")
+          hand_stop=s.index("    if (GRID)",hand_start)
+          new_hands='''    // JOB-043: the derived contact shadow paints on the pack below the fingers.
+    const contact = el("div", "handContact plateDup", world);
+    contact.style.backgroundImage = "image-set(url(assets/OVL_CLUB_HAND_CONTACTS_V1_1X.webp) 1x, url(assets/OVL_CLUB_HAND_CONTACTS_V1_2X.webp) 2x)";
+    const handAsset = {
+      hand_daniel_top: "OVL_CLUB_DANIEL_TOP_HAND_V1",
+      hand_daniel_side: "OVL_CLUB_DANIEL_SIDE_HAND_V1",
+      hand_nik_top: "OVL_CLUB_NIK_TOP_HAND_V1",
+      hand_nik_side: "OVL_CLUB_NIK_SIDE_HAND_V1",
+    };
+    Object.entries(HANDS.hands).forEach(([name]) => {
+      const d = el("div", "handOv plateDup", world); d.dataset.hand = name; d.dataset.cutout = "1";
+      const stem = handAsset[name];
+      d.style.backgroundImage = `image-set(url(assets/${stem}_1X.webp) 1x, url(assets/${stem}_2X.webp) 2x)`;
+    });
+'''
+          s=s[:hand_start]+new_hands+s[hand_stop:]
+          lh_start=s.index("  function layoutHands()")
+          lh_stop=s.index("  /* ---------------- K3 / OWNER-3 pack rip",lh_start)
+          new_lh='''  function layoutHands() {
+    // Full-canvas registered raster cutouts: the shared tool owns erosion/feather/fringe.
+    $$(".handOv").forEach(d => { d.style.clipPath = "none"; });
+}
+
+'''
+          s=s[:lh_start]+new_lh+s[lh_stop:]
+          p.write_text(s)
 
           css=Path("visual-assets/v10_1/club/club.css")
           c=css.read_text()
@@ -441,13 +432,13 @@ jobs:
             || /^data:image\\/svg/.test(u);'''
           if oldq not in q: raise SystemExit("G9 whitelist anchor not found")
           q=q.replace(oldq,newq)
-          oldgeo='''        const hands = Object.entries(Q.HANDS.hands).map(([n, h]) => ({ n, poly: h.polygon.map(([x, y]) => Q.plateToScreen(x, y)), overlap: h.pack_overlap_box,
-                  clipOk: (() => { const got = (document.querySelector(`.handOv[data-hand="${n}"]`).style.clipPath.match(/-?[\\d.]+/g) || []).map(Number);
-                    const want = h.polygon.flat().map(v => v * k); return got.length === want.length && got.every((g, i) => Math.abs(g - want[i]) < 0.01); })() }));'''
-          newgeo='''        const hands = Object.entries(Q.HANDS.hands).map(([n, h]) => ({ n, poly: h.polygon.map(([x, y]) => Q.plateToScreen(x, y)), overlap: h.pack_overlap_box,
-                  cutoutOk: (() => { const el=document.querySelector(`.handOv[data-hand="${n}"]`); return !!el && el.dataset.cutout==="1" && getComputedStyle(el).backgroundImage.includes("OVL_CLUB_"); })() }));'''
-          if oldgeo not in q: raise SystemExit("OWNER3 hand check anchor not found")
-          q=q.replace(oldgeo,newgeo)
+          if "cutoutOk:" not in q:
+              hs=q.index("        const hands = Object.entries(Q.HANDS.hands)")
+              he=q.index("        const base = document.querySelector",hs)
+              newgeo='''        const hands = Object.entries(Q.HANDS.hands).map(([n, h]) => ({ n, poly: h.polygon.map(([x, y]) => Q.plateToScreen(x, y)), overlap: h.pack_overlap_box,
+          cutoutOk: (() => { const el=document.querySelector(`.handOv[data-hand="${n}"]`); return !!el && el.dataset.cutout==="1" && getComputedStyle(el).backgroundImage.includes("OVL_CLUB_"); })() }));
+'''
+              q=q[:hs]+newgeo+q[he:]
           q=q.replace('''      const handOverlap = geo.hands.map(h => ({ hand: h.n, packBoxOverlapPlatePx: h.overlap, overlayClipMatchesHandmap: h.clipOk }));''',
                       '''      const handOverlap = geo.hands.map(h => ({ hand: h.n, packBoxOverlapPlatePx: h.overlap, registeredCutout: h.cutoutOk }));''')
           q=q.replace('''        q3_overlapCoveredByOverlay: handOverlap.every(h => h.overlayClipMatchesHandmap) && geo.handsAbove,''',
