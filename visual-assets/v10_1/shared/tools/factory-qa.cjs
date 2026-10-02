@@ -102,23 +102,32 @@ function gateRecord(result) {
 }
 
 function summaryMarkdown(report) {
-  const rows=["# Factory QA summary","",
-    "Screen: "+report.screenFolder,
-    "Frames: "+report.frames.join(", "),
-    "Generated: "+report.generatedAt,"",
+  const rows = [
+    "# Factory QA summary",
+    "",
+    "Screen: " + report.screenFolder,
+    "Frames: " + report.frames.join(", "),
+    "Generated: " + report.generatedAt,
+    "",
     "| Frame | Viewport | Result | Failing gates |",
-    "| --- | --- | --- | --- |"];
+    "| --- | --- | --- | --- |"
+  ];
   for (const r of report.results) {
-    const failing=Object.entries(r.gates).filter(([,g])=>!g.pass).map(([k])=>k);
-    rows.push("| "+r.frame+" | "+r.viewport.label+" | "+(failing.length?"FAIL":"PASS")+" | "+(failing.join(", ")||"none")+" |");
+    const failing = Object.entries(r.gates).filter(([, g]) => !g.pass).map(([k]) => k);
+    rows.push("| " + r.frame + " | " + r.viewport.label + " | " + (failing.length ? "FAIL" : "PASS") + " | " + (failing.join(", ") || "none") + " |");
   }
-  rows.push("","## Gate details","");
-  for (const r of report.results) {
-    rows.push("### "+r.frame+" · "+r.viewport.label);
-    for (const [name,g] of Object.entries(r.gates)) rows.push("- "+name+": "+(g.pass?"PASS":"FAIL")+" · "+JSON.stringify(g.details));
-    rows.push("");
+
+  rows.push("", "## Gate rollup", "", "| Gate | Result | Runs | Details |", "| --- | --- | --- | --- |");
+  const gateNames = [...new Set(report.results.flatMap(r => Object.keys(r.gates)))];
+  for (const name of gateNames) {
+    const runs = report.results.map(r => r.gates[name]).filter(Boolean);
+    const fails = runs.filter(g => !g.pass);
+    const detail = fails.length
+      ? JSON.stringify(fails[0].details).replace(/\|/g, "\\|").slice(0, 360)
+      : "all checks passed";
+    rows.push("| " + name + " | " + (fails.length ? "FAIL" : "PASS") + " | " + (runs.length - fails.length) + "/" + runs.length + " pass | " + detail + " |");
   }
-  return rows.join("\n")+"\n";
+  return rows.join("\n") + "\n";
 }
 
 async function visibleText(page) {
