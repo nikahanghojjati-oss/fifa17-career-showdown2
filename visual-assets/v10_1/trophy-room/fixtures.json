@@ -74,29 +74,29 @@
           "leagueTitles": 3,
           "domesticCups": 1,
           "totalTrophies": 6,
-          "careerPoints": 27,
+          "careerPoints": 26,
           "seasonWins": 3
         },
         "nik": {
           "displayName": "Nik",
           "championsLeagues": 1,
           "leagueTitles": 2,
-          "domesticCups": 3,
-          "totalTrophies": 6,
-          "careerPoints": 22,
+          "domesticCups": 2,
+          "totalTrophies": 5,
+          "careerPoints": 20,
           "seasonWins": 2
         }
       },
       "standings": [
         {
           "manager": "daniel",
-          "careerPoints": 27,
+          "careerPoints": 26,
           "seasonWins": 3,
           "rank": "#1"
         },
         {
           "manager": "nik",
-          "careerPoints": 22,
+          "careerPoints": 20,
           "seasonWins": 2,
           "rank": "#2"
         }
@@ -123,7 +123,7 @@
         {
           "label": "BIGGEST SHOWDOWN WIN",
           "manager": "daniel",
-          "value": 8,
+          "value": 9,
           "ref": "preview-showdown-1"
         },
         {
@@ -162,7 +162,7 @@
               "leaguePoints": 96,
               "leagueGoals": 124,
               "championsLeague": false,
-              "domesticCup": true,
+              "domesticCup": false,
               "topScorer": true,
               "topAssist": false
             }
@@ -185,7 +185,7 @@
               "leagueGoals": 88,
               "championsLeague": false,
               "domesticCup": true,
-              "topScorer": true,
+              "topScorer": false,
               "topAssist": false
             }
           },
@@ -242,7 +242,7 @@
               "leagueGoals": 90,
               "championsLeague": false,
               "domesticCup": false,
-              "topScorer": true,
+              "topScorer": false,
               "topAssist": false
             },
             "nik": {
@@ -338,9 +338,9 @@
           "displayName": "Nik",
           "championsLeagues": 1,
           "leagueTitles": 1,
-          "domesticCups": 2,
-          "totalTrophies": 4,
-          "careerPoints": 16,
+          "domesticCups": 1,
+          "totalTrophies": 3,
+          "careerPoints": 14,
           "seasonWins": 1
         }
       },
@@ -353,7 +353,7 @@
         },
         {
           "manager": "nik",
-          "careerPoints": 16,
+          "careerPoints": 14,
           "seasonWins": 1,
           "rank": "#2"
         }
@@ -380,7 +380,7 @@
         {
           "label": "BIGGEST SHOWDOWN WIN",
           "manager": "daniel",
-          "value": 8,
+          "value": 9,
           "ref": "preview-showdown-1"
         },
         {
@@ -421,7 +421,7 @@
               "leaguePoints": 96,
               "leagueGoals": 124,
               "championsLeague": false,
-              "domesticCup": true,
+              "domesticCup": false,
               "topScorer": true,
               "topAssist": false
             }
@@ -444,7 +444,7 @@
               "leagueGoals": 88,
               "championsLeague": false,
               "domesticCup": true,
-              "topScorer": true,
+              "topScorer": false,
               "topAssist": false
             }
           },
@@ -511,29 +511,29 @@
           "leagueTitles": 3,
           "domesticCups": 1,
           "totalTrophies": 6,
-          "careerPoints": 27,
+          "careerPoints": 26,
           "seasonWins": 3
         },
         "nik": {
           "displayName": "Nik",
           "championsLeagues": 1,
           "leagueTitles": 2,
-          "domesticCups": 3,
-          "totalTrophies": 6,
-          "careerPoints": 22,
+          "domesticCups": 2,
+          "totalTrophies": 5,
+          "careerPoints": 20,
           "seasonWins": 2
         }
       },
       "standings": [
         {
           "manager": "daniel",
-          "careerPoints": 27,
+          "careerPoints": 26,
           "seasonWins": 3,
           "rank": "#1"
         },
         {
           "manager": "nik",
-          "careerPoints": 22,
+          "careerPoints": 20,
           "seasonWins": 2,
           "rank": "#2"
         }
@@ -560,7 +560,7 @@
         {
           "label": "BIGGEST SHOWDOWN WIN",
           "manager": "daniel",
-          "value": 8,
+          "value": 9,
           "ref": "preview-showdown-1"
         },
         {
@@ -599,7 +599,7 @@
               "leaguePoints": 96,
               "leagueGoals": 124,
               "championsLeague": false,
-              "domesticCup": true,
+              "domesticCup": false,
               "topScorer": true,
               "topAssist": false
             }
@@ -622,7 +622,7 @@
               "leagueGoals": 88,
               "championsLeague": false,
               "domesticCup": true,
-              "topScorer": true,
+              "topScorer": false,
               "topAssist": false
             }
           },
@@ -679,7 +679,7 @@
               "leagueGoals": 90,
               "championsLeague": false,
               "domesticCup": false,
-              "topScorer": true,
+              "topScorer": false,
               "topAssist": false
             },
             "nik": {
@@ -731,9 +731,9 @@
           "displayName": "Daniel",
           "championsLeagues": 1,
           "leagueTitles": 2,
-          "domesticCups": 3,
-          "totalTrophies": 6,
-          "careerPoints": 22,
+          "domesticCups": 2,
+          "totalTrophies": 5,
+          "careerPoints": 20,
           "seasonWins": 2
         },
         "nik": {
@@ -742,20 +742,20 @@
           "leagueTitles": 3,
           "domesticCups": 1,
           "totalTrophies": 6,
-          "careerPoints": 27,
+          "careerPoints": 26,
           "seasonWins": 3
         }
       },
       "standings": [
         {
           "manager": "daniel",
-          "careerPoints": 22,
+          "careerPoints": 20,
           "seasonWins": 2,
           "rank": "#2"
         },
         {
           "manager": "nik",
-          "careerPoints": 27,
+          "careerPoints": 26,
           "seasonWins": 3,
           "rank": "#1"
         }
@@ -782,7 +782,7 @@
         {
           "label": "BIGGEST SHOWDOWN WIN",
           "manager": "nik",
-          "value": 8,
+          "value": 9,
           "ref": "preview-showdown-1"
         },
         {
@@ -812,7 +812,7 @@
               "leaguePoints": 96,
               "leagueGoals": 124,
               "championsLeague": false,
-              "domesticCup": true,
+              "domesticCup": false,
               "topScorer": true,
               "topAssist": false
             },
@@ -835,7 +835,7 @@
               "leagueGoals": 88,
               "championsLeague": false,
               "domesticCup": true,
-              "topScorer": true,
+              "topScorer": false,
               "topAssist": false
             },
             "nik": {
@@ -910,7 +910,7 @@
               "leagueGoals": 90,
               "championsLeague": false,
               "domesticCup": false,
-              "topScorer": true,
+              "topScorer": false,
               "topAssist": false
             }
           }
