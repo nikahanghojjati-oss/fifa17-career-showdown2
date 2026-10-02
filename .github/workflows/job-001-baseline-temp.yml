@@ -1,0 +1,269 @@
+name: Job 001 temporary baseline runner
+
+on:
+  push:
+    branches:
+      - 'factory/v1-wtt5ye'
+    paths:
+      - '.github/workflows/job-001-baseline-temp.yml'
+      - 'project-documents/factory/status/JOB-001.md'
+
+permissions:
+  contents: read
+
+jobs:
+  baseline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    env:
+      SOURCE_SHA: a485975c191e4cd6a0732d06e4f541184bd0098c
+    steps:
+      - name: Check out triggering branch
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Choose saved step
+        id: mode
+        shell: bash
+        run: |
+          set -euo pipefail
+          STEP="$(awk '/^Step:/ {print $2; exit}' project-documents/factory/status/JOB-001.md)"
+          case "$STEP" in
+            0) ACTION=step1 ;;
+            1) ACTION=step2 ;;
+            3) ACTION=step4 ;;
+            *) ACTION=noop ;;
+          esac
+          echo "step=$STEP" >> "$GITHUB_OUTPUT"
+          echo "action=$ACTION" >> "$GITHUB_OUTPUT"
+          echo "Saved step $STEP -> $ACTION"
+
+      - name: Restore pinned visual snapshot
+        if: steps.mode.outputs.action != 'noop'
+        shell: bash
+        run: |
+          set -euo pipefail
+          git checkout "$SOURCE_SHA" -- visual-assets/v10_1 project-documents/factory/mockups package.json package-lock.json
+
+      - name: Set up Node.js
+        if: steps.mode.outputs.action != 'noop'
+        uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install browser dependencies
+        if: steps.mode.outputs.action != 'noop'
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: Serve pinned repo snapshot
+        if: steps.mode.outputs.action != 'noop'
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m http.server 8765 > /tmp/job001-server.log 2>&1 &
+          echo $! > /tmp/job001-server.pid
+          for i in {1..30}; do
+            if curl -fsS http://127.0.0.1:8765/ >/dev/null; then exit 0; fi
+            sleep 1
+          done
+          cat /tmp/job001-server.log
+          exit 1
+
+      - name: Step 1 console check
+        if: steps.mode.outputs.action == 'step1'
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p job001-out
+          node <<'NODE'
+          const fs = require("fs");
+          const { chromium } = require("playwright");
+          const screens = [
+            {name:"home", base:"/visual-assets/v10_1/home/index.html", frames:["HM1","HM2","HM3"], ready:"__homeReady"},
+            {name:"league", base:"/visual-assets/v10_1/league/index.html", frames:["L1","L2","L3","L4"], ready:"__leagueReady"},
+            {name:"club", base:"/visual-assets/v10_1/club/index.html", frames:["CL1","CL2","CL3","CL4","CL5","CL6"], ready:null},
+            {name:"transfer", base:"/visual-assets/v10_1/tr2/slice-02-plate/index.html", frames:["F1","F1D","F1R","F1DR","G2","G3","F3","F3D","F3L","F3DL","F4","F4D","F4E","F4DE","S0"], ready:"__plateReady", freeze:true},
+          ];
+          (async()=>{
+            const browser = await chromium.launch({headless:true});
+            const out = {sourceSha:process.env.SOURCE_SHA, capturedAt:new Date().toISOString(), screens:{}};
+            for (const s of screens) {
+              out.screens[s.name] = {};
+              for (const frame of s.frames) {
+                const ctx = await browser.newContext({viewport:{width:1366,height:768}, deviceScaleFactor:1});
+                const page = await ctx.newPage();
+                const rec = {consoleErrors:[], pageErrors:[], failedRequests:[], navigationError:null};
+                page.on("console", m => { if (m.type()==="error") rec.consoleErrors.push(m.text()); });
+                page.on("pageerror", e => rec.pageErrors.push(String(e)));
+                page.on("requestfailed", r => rec.failedRequests.push({url:r.url(), error:(r.failure()||{}).errorText||""}));
+                const q = "?frame="+encodeURIComponent(frame)+(s.freeze ? "&freeze=1" : "");
+                try {
+                  await page.goto("http://127.0.0.1:8765"+s.base+q,{waitUntil:"networkidle",timeout:30000});
+                  if (s.ready) await page.waitForFunction(k => window[k] === true, s.ready, {timeout:15000}).catch(()=>{});
+                  await page.evaluate(()=>document.fonts && document.fonts.ready).catch(()=>{});
+                  await page.waitForTimeout(300);
+                } catch (e) {
+                  rec.navigationError = String(e);
+                }
+                out.screens[s.name][frame] = rec;
+                await ctx.close();
+              }
+            }
+            await browser.close();
+            fs.writeFileSync("job001-out/step1_console.json", JSON.stringify(out,null,2));
+          })().catch(e=>{console.error(e);process.exit(1)});
+          NODE
+
+      - name: Upload Step 1 evidence
+        if: steps.mode.outputs.action == 'step1'
+        uses: actions/upload-artifact@v7
+        with:
+          name: job001-step1-${{ github.run_id }}
+          path: job001-out/step1_console.json
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Step 2 capture every required frame
+        if: steps.mode.outputs.action == 'step2'
+        shell: bash
+        run: |
+          set -euo pipefail
+          node <<'NODE'
+          const fs = require("fs"), path = require("path");
+          const { chromium } = require("playwright");
+          const screens = [
+            {name:"home", base:"/visual-assets/v10_1/home/index.html", frames:["HM1","HM2","HM3"], ready:"__homeReady"},
+            {name:"league", base:"/visual-assets/v10_1/league/index.html", frames:["L1","L2","L3","L4"], ready:"__leagueReady"},
+            {name:"club", base:"/visual-assets/v10_1/club/index.html", frames:["CL1","CL2","CL3","CL4","CL5","CL6"], ready:null},
+            {name:"transfer", base:"/visual-assets/v10_1/tr2/slice-02-plate/index.html", frames:["F1","F1D","F1R","F1DR","G2","G3","F3","F3D","F3L","F3DL","F4","F4D","F4E","F4DE","S0"], ready:"__plateReady", freeze:true},
+          ];
+          const views = [
+            {w:1366,h:768,dpr:1,mobile:false},
+            {w:1920,h:1080,dpr:1,mobile:false},
+            {w:393,h:660,dpr:3,mobile:true},
+            {w:360,h:640,dpr:1,mobile:true},
+          ];
+          (async()=>{
+            const browser = await chromium.launch({headless:true});
+            for (const s of screens) {
+              const dir = path.join("project-documents/factory/baseline",s.name);
+              fs.mkdirSync(dir,{recursive:true});
+              for (const v of views) {
+                const ctx = await browser.newContext({
+                  viewport:{width:v.w,height:v.h}, deviceScaleFactor:v.dpr,
+                  isMobile:v.mobile, hasTouch:v.mobile
+                });
+                const page = await ctx.newPage();
+                for (const frame of s.frames) {
+                  const q = "?frame="+encodeURIComponent(frame)+(s.freeze ? "&freeze=1" : "");
+                  await page.goto("http://127.0.0.1:8765"+s.base+q,{waitUntil:"networkidle",timeout:30000});
+                  if (s.ready) await page.waitForFunction(k => window[k] === true, s.ready, {timeout:15000}).catch(()=>{});
+                  await page.evaluate(()=>document.fonts && document.fonts.ready).catch(()=>{});
+                  await page.waitForTimeout(300);
+                  await page.screenshot({path:path.join(dir,frame+"_"+v.w+"x"+v.h+".png"),type:"png"});
+                }
+                await ctx.close();
+              }
+            }
+            await browser.close();
+            fs.mkdirSync("job001-out/goals",{recursive:true});
+            for (const f of ["GOAL_HOME.jpg","GOAL_LEAGUE.jpg","GOAL_CLUB.jpg","GOAL_TRANSFER_PLATE_G.png"]) {
+              fs.copyFileSync(path.join("project-documents/factory/mockups",f),path.join("job001-out/goals",f));
+            }
+            fs.writeFileSync("job001-out/step2_manifest.json",JSON.stringify({sourceSha:process.env.SOURCE_SHA,views,screens:screens.map(s=>({name:s.name,frames:s.frames}))},null,2));
+          })().catch(e=>{console.error(e);process.exit(1)});
+          NODE
+
+      - name: Upload Step 2 screenshots
+        if: steps.mode.outputs.action == 'step2'
+        uses: actions/upload-artifact@v7
+        with:
+          name: job001-step2-${{ github.run_id }}
+          path: |
+            project-documents/factory/baseline/
+            job001-out/goals/
+            job001-out/step2_manifest.json
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Step 4 run screen QA
+        if: steps.mode.outputs.action == 'step4'
+        shell: bash
+        run: |
+          set +e
+          mkdir -p job001-out/qa
+          NODE_PATH="$GITHUB_WORKSPACE/node_modules" node visual-assets/v10_1/home/tools/render-qa.cjs http://127.0.0.1:8765/visual-assets/v10_1/home/ job001-out/qa/home
+          HOME_RC=$?
+          NODE_PATH="$GITHUB_WORKSPACE/node_modules" node visual-assets/v10_1/league/tools/render-qa.cjs http://127.0.0.1:8765/visual-assets/v10_1/league/ job001-out/qa/league
+          LEAGUE_RC=$?
+          NODE_PATH="$GITHUB_WORKSPACE/node_modules" node visual-assets/v10_1/club/tools/render-qa.cjs http://127.0.0.1:8765/visual-assets/v10_1/club/ job001-out/qa/club
+          CLUB_RC=$?
+          NODE_PATH="$GITHUB_WORKSPACE/node_modules" node visual-assets/v10_1/tr2/slice-02-plate/tools/render-qa.cjs http://127.0.0.1:8765/visual-assets/v10_1/tr2/slice-02-plate/ job001-out/qa/transfer
+          TRANSFER_RC=$?
+          printf '{"home":%s,"league":%s,"club":%s,"transfer":%s}\n' "$HOME_RC" "$LEAGUE_RC" "$CLUB_RC" "$TRANSFER_RC" > job001-out/qa/exit_codes.json
+          exit 0
+
+      - name: Step 4 capture main 1920 frames
+        if: steps.mode.outputs.action == 'step4'
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p job001-out/diffshots
+          node <<'NODE'
+          const {chromium}=require("playwright");
+          const fs=require("fs"),path=require("path");
+          const rows=[
+            ["home","/visual-assets/v10_1/home/index.html","HM1","__homeReady"],
+            ["league","/visual-assets/v10_1/league/index.html","L1","__leagueReady"],
+            ["club","/visual-assets/v10_1/club/index.html","CL1",null],
+          ];
+          (async()=>{
+            const browser=await chromium.launch({headless:true});
+            const ctx=await browser.newContext({viewport:{width:1920,height:1080},deviceScaleFactor:1});
+            const page=await ctx.newPage();
+            for(const [name,p,f,ready] of rows){
+              await page.goto("http://127.0.0.1:8765"+p+"?frame="+f,{waitUntil:"networkidle",timeout:30000});
+              if(ready) await page.waitForFunction(k=>window[k]===true,ready,{timeout:15000}).catch(()=>{});
+              await page.evaluate(()=>document.fonts&&document.fonts.ready).catch(()=>{});
+              await page.waitForTimeout(300);
+              await page.screenshot({path:path.join("job001-out/diffshots",name+".png"),type:"png"});
+            }
+            await browser.close();
+          })().catch(e=>{console.error(e);process.exit(1)});
+          NODE
+
+      - name: Step 4 mockup diff
+        if: steps.mode.outputs.action == 'step4'
+        shell: bash
+        run: |
+          set +e
+          python3 -m pip install --disable-pip-version-check pillow numpy scikit-image
+          mkdir -p project-documents/factory/baseline/home/diff project-documents/factory/baseline/league/diff project-documents/factory/baseline/club/diff
+          python3 visual-assets/v10_1/shared/tools/mockup_diff.py             --mockup project-documents/factory/mockups/GOAL_HOME.jpg             --build job001-out/diffshots/home.png             --plate visual-assets/v10_1/home/assets/ENV_HOME_PLATE_V1_1X.webp             --platemap visual-assets/v10_1/home/assets/platemap.json             --out project-documents/factory/baseline/home/diff/
+          HOME_DIFF_RC=$?
+          python3 visual-assets/v10_1/shared/tools/mockup_diff.py             --mockup project-documents/factory/mockups/GOAL_LEAGUE.jpg             --build job001-out/diffshots/league.png             --plate visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_1X.webp             --platemap visual-assets/v10_1/league/assets/platemap.json             --out project-documents/factory/baseline/league/diff/
+          LEAGUE_DIFF_RC=$?
+          python3 visual-assets/v10_1/shared/tools/mockup_diff.py             --mockup project-documents/factory/mockups/GOAL_CLUB.jpg             --build job001-out/diffshots/club.png             --plate visual-assets/v10_1/club/assets/ENV_CLUB_PLATE_V1_1X.webp             --platemap visual-assets/v10_1/club/assets/platemap.json             --out project-documents/factory/baseline/club/diff/
+          CLUB_DIFF_RC=$?
+          printf '{"home":%s,"league":%s,"club":%s}\n' "$HOME_DIFF_RC" "$LEAGUE_DIFF_RC" "$CLUB_DIFF_RC" > job001-out/qa/diff_exit_codes.json
+          exit 0
+
+      - name: Upload Step 4 QA and diff
+        if: steps.mode.outputs.action == 'step4'
+        uses: actions/upload-artifact@v7
+        with:
+          name: job001-step4-${{ github.run_id }}
+          path: |
+            job001-out/qa/
+            job001-out/diffshots/
+            project-documents/factory/baseline/home/diff/
+            project-documents/factory/baseline/league/diff/
+            project-documents/factory/baseline/club/diff/
+          if-no-files-found: error
+          retention-days: 14
