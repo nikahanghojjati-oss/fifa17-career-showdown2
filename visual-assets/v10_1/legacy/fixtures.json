@@ -79,16 +79,16 @@
           "seasonsPlayed": 3,
           "totalSeasons": 3,
           "totals": {
-            "daniel": 22,
-            "nik": 21
+            "daniel": 15,
+            "nik": 14
           },
           "winner": "daniel",
           "seasons": [
             {
               "season": 1,
               "score": {
-                "daniel": 8,
-                "nik": 6
+                "daniel": 5,
+                "nik": 5
               },
               "winner": "daniel",
               "leaguePosition": {
@@ -108,9 +108,9 @@
               "season": 2,
               "score": {
                 "daniel": 5,
-                "nik": 7
+                "nik": 2
               },
-              "winner": "nik",
+              "winner": "daniel",
               "leaguePosition": {
                 "daniel": 4,
                 "nik": 2
@@ -127,10 +127,10 @@
             {
               "season": 3,
               "score": {
-                "daniel": 9,
-                "nik": 8
+                "daniel": 5,
+                "nik": 7
               },
-              "winner": "daniel",
+              "winner": "nik",
               "leaguePosition": {
                 "daniel": 1,
                 "nik": 2
@@ -157,16 +157,16 @@
           "seasonsPlayed": 3,
           "totalSeasons": 3,
           "totals": {
-            "daniel": 18,
-            "nik": 21
+            "daniel": 9,
+            "nik": 15
           },
           "winner": "nik",
           "seasons": [
             {
               "season": 1,
               "score": {
-                "daniel": 5,
-                "nik": 7
+                "daniel": 1,
+                "nik": 6
               },
               "winner": "nik",
               "leaguePosition": {
@@ -186,9 +186,9 @@
               "season": 2,
               "score": {
                 "daniel": 6,
-                "nik": 8
+                "nik": 4
               },
-              "winner": "nik",
+              "winner": "daniel",
               "leaguePosition": {
                 "daniel": 3,
                 "nik": 1
@@ -205,10 +205,10 @@
             {
               "season": 3,
               "score": {
-                "daniel": 7,
-                "nik": 6
+                "daniel": 2,
+                "nik": 5
               },
-              "winner": "daniel",
+              "winner": "nik",
               "leaguePosition": {
                 "daniel": 2,
                 "nik": 4
@@ -235,18 +235,18 @@
           "seasonsPlayed": 3,
           "totalSeasons": 3,
           "totals": {
-            "daniel": 18,
-            "nik": 18
+            "daniel": 9,
+            "nik": 9
           },
           "winner": "draw",
           "seasons": [
             {
               "season": 1,
               "score": {
-                "daniel": 7,
+                "daniel": 3,
                 "nik": 5
               },
-              "winner": "daniel",
+              "winner": "nik",
               "leaguePosition": {
                 "daniel": 2,
                 "nik": 4
@@ -264,9 +264,9 @@
               "season": 2,
               "score": {
                 "daniel": 5,
-                "nik": 7
+                "nik": 3
               },
-              "winner": "nik",
+              "winner": "daniel",
               "leaguePosition": {
                 "daniel": 5,
                 "nik": 2
@@ -283,8 +283,8 @@
             {
               "season": 3,
               "score": {
-                "daniel": 6,
-                "nik": 6
+                "daniel": 1,
+                "nik": 1
               },
               "winner": "daniel",
               "leaguePosition": {
@@ -313,18 +313,18 @@
           "seasonsPlayed": 3,
           "totalSeasons": 3,
           "totals": {
-            "daniel": 24,
-            "nik": 19
+            "daniel": 16,
+            "nik": 13
           },
           "winner": "daniel",
           "seasons": [
             {
               "season": 1,
               "score": {
-                "daniel": 8,
+                "daniel": 4,
                 "nik": 6
               },
-              "winner": "daniel",
+              "winner": "nik",
               "leaguePosition": {
                 "daniel": 1,
                 "nik": 3
@@ -341,8 +341,8 @@
             {
               "season": 2,
               "score": {
-                "daniel": 7,
-                "nik": 6
+                "daniel": 6,
+                "nik": 1
               },
               "winner": "daniel",
               "leaguePosition": {
@@ -361,8 +361,8 @@
             {
               "season": 3,
               "score": {
-                "daniel": 9,
-                "nik": 7
+                "daniel": 6,
+                "nik": 6
               },
               "winner": "daniel",
               "leaguePosition": {
@@ -391,16 +391,16 @@
           "seasonsPlayed": 3,
           "totalSeasons": 3,
           "totals": {
-            "daniel": 17,
-            "nik": 22
+            "daniel": 12,
+            "nik": 13
           },
           "winner": "nik",
           "seasons": [
             {
               "season": 1,
               "score": {
-                "daniel": 6,
-                "nik": 8
+                "daniel": 5,
+                "nik": 5
               },
               "winner": "nik",
               "leaguePosition": {
@@ -419,8 +419,8 @@
             {
               "season": 2,
               "score": {
-                "daniel": 5,
-                "nik": 7
+                "daniel": 2,
+                "nik": 5
               },
               "winner": "nik",
               "leaguePosition": {
@@ -439,10 +439,10 @@
             {
               "season": 3,
               "score": {
-                "daniel": 6,
-                "nik": 7
+                "daniel": 5,
+                "nik": 3
               },
-              "winner": "nik",
+              "winner": "daniel",
               "leaguePosition": {
                 "daniel": 4,
                 "nik": 2
@@ -469,16 +469,16 @@
           "seasonsPlayed": 3,
           "totalSeasons": 3,
           "totals": {
-            "daniel": 20,
-            "nik": 20
+            "daniel": 14,
+            "nik": 12
           },
-          "winner": "draw",
+          "winner": "daniel",
           "seasons": [
             {
               "season": 1,
               "score": {
-                "daniel": 7,
-                "nik": 6
+                "daniel": 6,
+                "nik": 2
               },
               "winner": "daniel",
               "leaguePosition": {
@@ -497,8 +497,8 @@
             {
               "season": 2,
               "score": {
-                "daniel": 6,
-                "nik": 8
+                "daniel": 5,
+                "nik": 5
               },
               "winner": "nik",
               "leaguePosition": {
@@ -517,10 +517,10 @@
             {
               "season": 3,
               "score": {
-                "daniel": 7,
-                "nik": 6
+                "daniel": 3,
+                "nik": 5
               },
-              "winner": "daniel",
+              "winner": "nik",
               "leaguePosition": {
                 "daniel": 2,
                 "nik": 3
@@ -547,15 +547,15 @@
           "seasonsPlayed": 3,
           "totalSeasons": 3,
           "totals": {
-            "daniel": 21,
-            "nik": 18
+            "daniel": 16,
+            "nik": 9
           },
           "winner": "daniel",
           "seasons": [
             {
               "season": 1,
               "score": {
-                "daniel": 8,
+                "daniel": 5,
                 "nik": 5
               },
               "winner": "daniel",
@@ -575,10 +575,10 @@
             {
               "season": 2,
               "score": {
-                "daniel": 6,
-                "nik": 7
+                "daniel": 5,
+                "nik": 3
               },
-              "winner": "nik",
+              "winner": "daniel",
               "leaguePosition": {
                 "daniel": 3,
                 "nik": 2
@@ -595,8 +595,8 @@
             {
               "season": 3,
               "score": {
-                "daniel": 7,
-                "nik": 6
+                "daniel": 6,
+                "nik": 1
               },
               "winner": "daniel",
               "leaguePosition": {
@@ -625,16 +625,16 @@
           "seasonsPlayed": 3,
           "totalSeasons": 3,
           "totals": {
-            "daniel": 16,
-            "nik": 17
+            "daniel": 8,
+            "nik": 13
           },
           "winner": "nik",
           "seasons": [
             {
               "season": 1,
               "score": {
-                "daniel": 5,
-                "nik": 6
+                "daniel": 2,
+                "nik": 5
               },
               "winner": "nik",
               "leaguePosition": {
@@ -653,8 +653,8 @@
             {
               "season": 2,
               "score": {
-                "daniel": 6,
-                "nik": 5
+                "daniel": 5,
+                "nik": 2
               },
               "winner": "daniel",
               "leaguePosition": {
@@ -673,7 +673,7 @@
             {
               "season": 3,
               "score": {
-                "daniel": 5,
+                "daniel": 1,
                 "nik": 6
               },
               "winner": "nik",
@@ -715,15 +715,15 @@
           "seasonsPlayed": 2,
           "totalSeasons": 5,
           "totals": {
-            "daniel": 13,
-            "nik": 12
+            "daniel": 8,
+            "nik": 7
           },
           "seasons": [
             {
               "season": 1,
               "score": {
-                "daniel": 7,
-                "nik": 6
+                "daniel": 6,
+                "nik": 2
               },
               "winner": "daniel",
               "leaguePosition": {
@@ -742,10 +742,10 @@
             {
               "season": 2,
               "score": {
-                "daniel": 6,
-                "nik": 6
+                "daniel": 2,
+                "nik": 5
               },
-              "winner": "daniel",
+              "winner": "nik",
               "leaguePosition": {
                 "daniel": 3,
                 "nik": 5
@@ -772,16 +772,16 @@
           "seasonsPlayed": 3,
           "totalSeasons": 3,
           "totals": {
-            "daniel": 22,
-            "nik": 21
+            "daniel": 15,
+            "nik": 14
           },
           "winner": "daniel",
           "seasons": [
             {
               "season": 1,
               "score": {
-                "daniel": 8,
-                "nik": 6
+                "daniel": 5,
+                "nik": 5
               },
               "winner": "daniel",
               "leaguePosition": {
@@ -801,9 +801,9 @@
               "season": 2,
               "score": {
                 "daniel": 5,
-                "nik": 7
+                "nik": 2
               },
-              "winner": "nik",
+              "winner": "daniel",
               "leaguePosition": {
                 "daniel": 4,
                 "nik": 2
@@ -820,10 +820,10 @@
             {
               "season": 3,
               "score": {
-                "daniel": 9,
-                "nik": 8
+                "daniel": 5,
+                "nik": 7
               },
-              "winner": "daniel",
+              "winner": "nik",
               "leaguePosition": {
                 "daniel": 1,
                 "nik": 2
@@ -850,16 +850,16 @@
           "seasonsPlayed": 3,
           "totalSeasons": 3,
           "totals": {
-            "daniel": 18,
-            "nik": 21
+            "daniel": 9,
+            "nik": 15
           },
           "winner": "nik",
           "seasons": [
             {
               "season": 1,
               "score": {
-                "daniel": 5,
-                "nik": 7
+                "daniel": 1,
+                "nik": 6
               },
               "winner": "nik",
               "leaguePosition": {
@@ -879,9 +879,9 @@
               "season": 2,
               "score": {
                 "daniel": 6,
-                "nik": 8
+                "nik": 4
               },
-              "winner": "nik",
+              "winner": "daniel",
               "leaguePosition": {
                 "daniel": 3,
                 "nik": 1
@@ -898,10 +898,10 @@
             {
               "season": 3,
               "score": {
-                "daniel": 7,
-                "nik": 6
+                "daniel": 2,
+                "nik": 5
               },
-              "winner": "daniel",
+              "winner": "nik",
               "leaguePosition": {
                 "daniel": 2,
                 "nik": 4
@@ -944,16 +944,16 @@
           "seasonsPlayed": 3,
           "totalSeasons": 3,
           "totals": {
-            "daniel": 22,
-            "nik": 21
+            "daniel": 15,
+            "nik": 14
           },
           "winner": "daniel",
           "seasons": [
             {
               "season": 1,
               "score": {
-                "daniel": 8,
-                "nik": 6
+                "daniel": 5,
+                "nik": 5
               },
               "winner": "daniel",
               "leaguePosition": {
@@ -973,9 +973,9 @@
               "season": 2,
               "score": {
                 "daniel": 5,
-                "nik": 7
+                "nik": 2
               },
-              "winner": "nik",
+              "winner": "daniel",
               "leaguePosition": {
                 "daniel": 4,
                 "nik": 2
@@ -992,10 +992,10 @@
             {
               "season": 3,
               "score": {
-                "daniel": 9,
-                "nik": 8
+                "daniel": 5,
+                "nik": 7
               },
-              "winner": "daniel",
+              "winner": "nik",
               "leaguePosition": {
                 "daniel": 1,
                 "nik": 2
@@ -1022,16 +1022,16 @@
           "seasonsPlayed": 3,
           "totalSeasons": 3,
           "totals": {
-            "daniel": 18,
-            "nik": 21
+            "daniel": 9,
+            "nik": 15
           },
           "winner": "nik",
           "seasons": [
             {
               "season": 1,
               "score": {
-                "daniel": 5,
-                "nik": 7
+                "daniel": 1,
+                "nik": 6
               },
               "winner": "nik",
               "leaguePosition": {
@@ -1051,9 +1051,9 @@
               "season": 2,
               "score": {
                 "daniel": 6,
-                "nik": 8
+                "nik": 4
               },
-              "winner": "nik",
+              "winner": "daniel",
               "leaguePosition": {
                 "daniel": 3,
                 "nik": 1
@@ -1070,10 +1070,10 @@
             {
               "season": 3,
               "score": {
-                "daniel": 7,
-                "nik": 6
+                "daniel": 2,
+                "nik": 5
               },
-              "winner": "daniel",
+              "winner": "nik",
               "leaguePosition": {
                 "daniel": 2,
                 "nik": 4
@@ -1123,15 +1123,15 @@
           "seasonsPlayed": 2,
           "totalSeasons": 5,
           "totals": {
-            "daniel": 13,
-            "nik": 12
+            "daniel": 8,
+            "nik": 7
           },
           "seasons": [
             {
               "season": 1,
               "score": {
-                "daniel": 7,
-                "nik": 6
+                "daniel": 6,
+                "nik": 2
               },
               "winner": "daniel",
               "leaguePosition": {
@@ -1150,10 +1150,10 @@
             {
               "season": 2,
               "score": {
-                "daniel": 6,
-                "nik": 6
+                "daniel": 2,
+                "nik": 5
               },
-              "winner": "daniel",
+              "winner": "nik",
               "leaguePosition": {
                 "daniel": 3,
                 "nik": 5
@@ -1216,16 +1216,16 @@
           "seasonsPlayed": 3,
           "totalSeasons": 3,
           "totals": {
-            "daniel": 22,
-            "nik": 21
+            "daniel": 15,
+            "nik": 14
           },
           "winner": "daniel",
           "seasons": [
             {
               "season": 1,
               "score": {
-                "daniel": 8,
-                "nik": 6
+                "daniel": 5,
+                "nik": 5
               },
               "winner": "daniel",
               "leaguePosition": {
@@ -1245,9 +1245,9 @@
               "season": 2,
               "score": {
                 "daniel": 5,
-                "nik": 7
+                "nik": 2
               },
-              "winner": "nik",
+              "winner": "daniel",
               "leaguePosition": {
                 "daniel": 4,
                 "nik": 2
@@ -1264,10 +1264,10 @@
             {
               "season": 3,
               "score": {
-                "daniel": 9,
-                "nik": 8
+                "daniel": 5,
+                "nik": 7
               },
-              "winner": "daniel",
+              "winner": "nik",
               "leaguePosition": {
                 "daniel": 1,
                 "nik": 2
@@ -1294,16 +1294,16 @@
           "seasonsPlayed": 3,
           "totalSeasons": 3,
           "totals": {
-            "daniel": 18,
-            "nik": 21
+            "daniel": 9,
+            "nik": 15
           },
           "winner": "nik",
           "seasons": [
             {
               "season": 1,
               "score": {
-                "daniel": 5,
-                "nik": 7
+                "daniel": 1,
+                "nik": 6
               },
               "winner": "nik",
               "leaguePosition": {
@@ -1323,9 +1323,9 @@
               "season": 2,
               "score": {
                 "daniel": 6,
-                "nik": 8
+                "nik": 4
               },
-              "winner": "nik",
+              "winner": "daniel",
               "leaguePosition": {
                 "daniel": 3,
                 "nik": 1
@@ -1342,10 +1342,10 @@
             {
               "season": 3,
               "score": {
-                "daniel": 7,
-                "nik": 6
+                "daniel": 2,
+                "nik": 5
               },
-              "winner": "daniel",
+              "winner": "nik",
               "leaguePosition": {
                 "daniel": 2,
                 "nik": 4
@@ -1388,16 +1388,16 @@
           "seasonsPlayed": 3,
           "totalSeasons": 3,
           "totals": {
-            "daniel": 19,
-            "nik": 18
+            "daniel": 14,
+            "nik": 13
           },
           "winner": "daniel",
           "seasons": [
             {
               "season": 1,
               "score": {
-                "daniel": 7,
-                "nik": 6
+                "daniel": 6,
+                "nik": 2
               },
               "winner": "daniel",
               "leaguePosition": {
@@ -1416,10 +1416,10 @@
             {
               "season": 2,
               "score": {
-                "daniel": 6,
-                "nik": 6
+                "daniel": 2,
+                "nik": 5
               },
-              "winner": "daniel",
+              "winner": "nik",
               "leaguePosition": {
                 "daniel": 3,
                 "nik": 5
@@ -1466,16 +1466,16 @@
           "seasonsPlayed": 3,
           "totalSeasons": 3,
           "totals": {
-            "daniel": 22,
-            "nik": 21
+            "daniel": 15,
+            "nik": 14
           },
           "winner": "daniel",
           "seasons": [
             {
               "season": 1,
               "score": {
-                "daniel": 8,
-                "nik": 6
+                "daniel": 5,
+                "nik": 5
               },
               "winner": "daniel",
               "leaguePosition": {
@@ -1495,9 +1495,9 @@
               "season": 2,
               "score": {
                 "daniel": 5,
-                "nik": 7
+                "nik": 2
               },
-              "winner": "nik",
+              "winner": "daniel",
               "leaguePosition": {
                 "daniel": 4,
                 "nik": 2
@@ -1514,10 +1514,10 @@
             {
               "season": 3,
               "score": {
-                "daniel": 9,
-                "nik": 8
+                "daniel": 5,
+                "nik": 7
               },
-              "winner": "daniel",
+              "winner": "nik",
               "leaguePosition": {
                 "daniel": 1,
                 "nik": 2
@@ -1622,10 +1622,10 @@
                 "leaguePosition": 1,
                 "leaguePoints": 91,
                 "leagueGoals": 98,
-                "domesticCup": false,
-                "championsLeague": true,
+                "domesticCup": true,
+                "championsLeague": false,
                 "topScorer": false,
-                "topAssist": false
+                "topAssist": true
               },
               "nik": {
                 "leaguePosition": 3,
@@ -1633,24 +1633,24 @@
                 "leagueGoals": 89,
                 "domesticCup": false,
                 "championsLeague": true,
-                "topScorer": true,
-                "topAssist": true
+                "topScorer": false,
+                "topAssist": false
               }
             },
             "expectedBreakdown": {
               "daniel": {
-                "championsLeague": 5,
+                "championsLeague": 0,
                 "leagueTitle": 3,
-                "domesticCup": 0,
+                "domesticCup": 1,
                 "performanceBonus": 0,
-                "awardsBonus": 0
+                "awardsBonus": 1
               },
               "nik": {
                 "championsLeague": 5,
                 "leagueTitle": 0,
                 "domesticCup": 0,
                 "performanceBonus": 0,
-                "awardsBonus": 1
+                "awardsBonus": 0
               }
             }
           },
@@ -1671,9 +1671,9 @@
                 "leaguePoints": 88,
                 "leagueGoals": 101,
                 "domesticCup": false,
-                "championsLeague": true,
+                "championsLeague": false,
                 "topScorer": true,
-                "topAssist": true
+                "topAssist": false
               }
             },
             "expectedBreakdown": {
@@ -1685,7 +1685,7 @@
                 "awardsBonus": 0
               },
               "nik": {
-                "championsLeague": 5,
+                "championsLeague": 0,
                 "leagueTitle": 0,
                 "domesticCup": 0,
                 "performanceBonus": 1,
@@ -1700,8 +1700,8 @@
                 "leaguePosition": 1,
                 "leaguePoints": 96,
                 "leagueGoals": 117,
-                "domesticCup": false,
-                "championsLeague": true,
+                "domesticCup": true,
+                "championsLeague": false,
                 "topScorer": false,
                 "topAssist": false
               },
@@ -1709,24 +1709,24 @@
                 "leaguePosition": 2,
                 "leaguePoints": 90,
                 "leagueGoals": 104,
-                "domesticCup": true,
+                "domesticCup": false,
                 "championsLeague": true,
-                "topScorer": true,
+                "topScorer": false,
                 "topAssist": true
               }
             },
             "expectedBreakdown": {
               "daniel": {
-                "championsLeague": 5,
+                "championsLeague": 0,
                 "leagueTitle": 3,
-                "domesticCup": 0,
+                "domesticCup": 1,
                 "performanceBonus": 1,
                 "awardsBonus": 0
               },
               "nik": {
                 "championsLeague": 5,
                 "leagueTitle": 0,
-                "domesticCup": 1,
+                "domesticCup": 0,
                 "performanceBonus": 1,
                 "awardsBonus": 1
               }
@@ -1735,16 +1735,16 @@
         ],
         "expectedTrophies": {
           "daniel": {
-            "championsLeague": 3,
+            "championsLeague": 1,
             "leagueTitles": 2,
-            "domesticCups": 0,
+            "domesticCups": 2,
             "total": 5
           },
           "nik": {
-            "championsLeague": 3,
+            "championsLeague": 2,
             "leagueTitles": 0,
-            "domesticCups": 1,
-            "total": 4
+            "domesticCups": 0,
+            "total": 2
           }
         },
         "expectedMargin": 1
@@ -1758,8 +1758,8 @@
                 "leaguePosition": 5,
                 "leaguePoints": 72,
                 "leagueGoals": 77,
-                "domesticCup": false,
-                "championsLeague": true,
+                "domesticCup": true,
+                "championsLeague": false,
                 "topScorer": false,
                 "topAssist": false
               },
@@ -1767,24 +1767,24 @@
                 "leaguePosition": 2,
                 "leaguePoints": 89,
                 "leagueGoals": 96,
-                "domesticCup": true,
+                "domesticCup": false,
                 "championsLeague": true,
                 "topScorer": true,
-                "topAssist": true
+                "topAssist": false
               }
             },
             "expectedBreakdown": {
               "daniel": {
-                "championsLeague": 5,
+                "championsLeague": 0,
                 "leagueTitle": 0,
-                "domesticCup": 0,
+                "domesticCup": 1,
                 "performanceBonus": 0,
                 "awardsBonus": 0
               },
               "nik": {
                 "championsLeague": 5,
                 "leagueTitle": 0,
-                "domesticCup": 1,
+                "domesticCup": 0,
                 "performanceBonus": 0,
                 "awardsBonus": 1
               }
@@ -1799,15 +1799,15 @@
                 "leagueGoals": 93,
                 "domesticCup": false,
                 "championsLeague": true,
-                "topScorer": true,
+                "topScorer": false,
                 "topAssist": true
               },
               "nik": {
                 "leaguePosition": 1,
                 "leaguePoints": 97,
                 "leagueGoals": 98,
-                "domesticCup": false,
-                "championsLeague": true,
+                "domesticCup": true,
+                "championsLeague": false,
                 "topScorer": false,
                 "topAssist": false
               }
@@ -1821,9 +1821,9 @@
                 "awardsBonus": 1
               },
               "nik": {
-                "championsLeague": 5,
+                "championsLeague": 0,
                 "leagueTitle": 3,
-                "domesticCup": 0,
+                "domesticCup": 1,
                 "performanceBonus": 0,
                 "awardsBonus": 0
               }
@@ -1837,9 +1837,9 @@
                 "leaguePoints": 90,
                 "leagueGoals": 105,
                 "domesticCup": false,
-                "championsLeague": true,
+                "championsLeague": false,
                 "topScorer": true,
-                "topAssist": true
+                "topAssist": false
               },
               "nik": {
                 "leaguePosition": 4,
@@ -1847,13 +1847,13 @@
                 "leagueGoals": 86,
                 "domesticCup": false,
                 "championsLeague": true,
-                "topScorer": true,
-                "topAssist": true
+                "topScorer": false,
+                "topAssist": false
               }
             },
             "expectedBreakdown": {
               "daniel": {
-                "championsLeague": 5,
+                "championsLeague": 0,
                 "leagueTitle": 0,
                 "domesticCup": 0,
                 "performanceBonus": 1,
@@ -1864,26 +1864,26 @@
                 "leagueTitle": 0,
                 "domesticCup": 0,
                 "performanceBonus": 0,
-                "awardsBonus": 1
+                "awardsBonus": 0
               }
             }
           }
         ],
         "expectedTrophies": {
           "daniel": {
-            "championsLeague": 3,
+            "championsLeague": 1,
             "leagueTitles": 0,
-            "domesticCups": 0,
-            "total": 3
+            "domesticCups": 1,
+            "total": 2
           },
           "nik": {
-            "championsLeague": 3,
+            "championsLeague": 2,
             "leagueTitles": 1,
             "domesticCups": 1,
-            "total": 5
+            "total": 4
           }
         },
-        "expectedMargin": 3
+        "expectedMargin": 6
       },
       "completed:10": {
         "seasons": [
@@ -1894,10 +1894,10 @@
                 "leaguePosition": 2,
                 "leaguePoints": 88,
                 "leagueGoals": 104,
-                "domesticCup": false,
-                "championsLeague": true,
+                "domesticCup": true,
+                "championsLeague": false,
                 "topScorer": true,
-                "topAssist": true
+                "topAssist": false
               },
               "nik": {
                 "leaguePosition": 4,
@@ -1911,9 +1911,9 @@
             },
             "expectedBreakdown": {
               "daniel": {
-                "championsLeague": 5,
+                "championsLeague": 0,
                 "leagueTitle": 0,
-                "domesticCup": 0,
+                "domesticCup": 1,
                 "performanceBonus": 1,
                 "awardsBonus": 1
               },
@@ -1942,9 +1942,9 @@
                 "leaguePosition": 2,
                 "leaguePoints": 92,
                 "leagueGoals": 109,
-                "domesticCup": false,
-                "championsLeague": true,
-                "topScorer": true,
+                "domesticCup": true,
+                "championsLeague": false,
+                "topScorer": false,
                 "topAssist": true
               }
             },
@@ -1957,9 +1957,9 @@
                 "awardsBonus": 0
               },
               "nik": {
-                "championsLeague": 5,
+                "championsLeague": 0,
                 "leagueTitle": 0,
-                "domesticCup": 0,
+                "domesticCup": 1,
                 "performanceBonus": 1,
                 "awardsBonus": 1
               }
@@ -1972,31 +1972,31 @@
                 "leaguePosition": 2,
                 "leaguePoints": 83,
                 "leagueGoals": 90,
-                "domesticCup": false,
-                "championsLeague": true,
-                "topScorer": true,
-                "topAssist": true
+                "domesticCup": true,
+                "championsLeague": false,
+                "topScorer": false,
+                "topAssist": false
               },
               "nik": {
                 "leaguePosition": 3,
                 "leaguePoints": 83,
                 "leagueGoals": 90,
                 "domesticCup": false,
-                "championsLeague": true,
-                "topScorer": true,
+                "championsLeague": false,
+                "topScorer": false,
                 "topAssist": true
               }
             },
             "expectedBreakdown": {
               "daniel": {
-                "championsLeague": 5,
+                "championsLeague": 0,
                 "leagueTitle": 0,
-                "domesticCup": 0,
+                "domesticCup": 1,
                 "performanceBonus": 0,
-                "awardsBonus": 1
+                "awardsBonus": 0
               },
               "nik": {
-                "championsLeague": 5,
+                "championsLeague": 0,
                 "leagueTitle": 0,
                 "domesticCup": 0,
                 "performanceBonus": 0,
@@ -2007,16 +2007,16 @@
         ],
         "expectedTrophies": {
           "daniel": {
-            "championsLeague": 3,
+            "championsLeague": 1,
             "leagueTitles": 0,
-            "domesticCups": 0,
+            "domesticCups": 2,
             "total": 3
           },
           "nik": {
-            "championsLeague": 3,
+            "championsLeague": 1,
             "leagueTitles": 0,
-            "domesticCups": 0,
-            "total": 3
+            "domesticCups": 1,
+            "total": 2
           }
         },
         "expectedMargin": 0
@@ -2030,8 +2030,8 @@
                 "leaguePosition": 1,
                 "leaguePoints": 94,
                 "leagueGoals": 99,
-                "domesticCup": false,
-                "championsLeague": true,
+                "domesticCup": true,
+                "championsLeague": false,
                 "topScorer": false,
                 "topAssist": false
               },
@@ -2042,14 +2042,14 @@
                 "domesticCup": false,
                 "championsLeague": true,
                 "topScorer": true,
-                "topAssist": true
+                "topAssist": false
               }
             },
             "expectedBreakdown": {
               "daniel": {
-                "championsLeague": 5,
+                "championsLeague": 0,
                 "leagueTitle": 3,
-                "domesticCup": 0,
+                "domesticCup": 1,
                 "performanceBonus": 0,
                 "awardsBonus": 0
               },
@@ -2069,35 +2069,35 @@
                 "leaguePosition": 2,
                 "leaguePoints": 87,
                 "leagueGoals": 99,
-                "domesticCup": true,
+                "domesticCup": false,
                 "championsLeague": true,
-                "topScorer": true,
+                "topScorer": false,
                 "topAssist": true
               },
               "nik": {
                 "leaguePosition": 4,
                 "leaguePoints": 75,
                 "leagueGoals": 80,
-                "domesticCup": false,
-                "championsLeague": true,
-                "topScorer": true,
-                "topAssist": true
+                "domesticCup": true,
+                "championsLeague": false,
+                "topScorer": false,
+                "topAssist": false
               }
             },
             "expectedBreakdown": {
               "daniel": {
                 "championsLeague": 5,
                 "leagueTitle": 0,
-                "domesticCup": 1,
+                "domesticCup": 0,
                 "performanceBonus": 0,
                 "awardsBonus": 1
               },
               "nik": {
-                "championsLeague": 5,
+                "championsLeague": 0,
                 "leagueTitle": 0,
-                "domesticCup": 0,
+                "domesticCup": 1,
                 "performanceBonus": 0,
-                "awardsBonus": 1
+                "awardsBonus": 0
               }
             }
           },
@@ -2108,9 +2108,9 @@
                 "leaguePosition": 1,
                 "leaguePoints": 101,
                 "leagueGoals": 126,
-                "domesticCup": false,
-                "championsLeague": true,
-                "topScorer": false,
+                "domesticCup": true,
+                "championsLeague": false,
+                "topScorer": true,
                 "topAssist": false
               },
               "nik": {
@@ -2119,43 +2119,43 @@
                 "leagueGoals": 103,
                 "domesticCup": false,
                 "championsLeague": true,
-                "topScorer": true,
-                "topAssist": true
+                "topScorer": false,
+                "topAssist": false
               }
             },
             "expectedBreakdown": {
               "daniel": {
-                "championsLeague": 5,
+                "championsLeague": 0,
                 "leagueTitle": 3,
-                "domesticCup": 0,
+                "domesticCup": 1,
                 "performanceBonus": 1,
-                "awardsBonus": 0
+                "awardsBonus": 1
               },
               "nik": {
                 "championsLeague": 5,
                 "leagueTitle": 0,
                 "domesticCup": 0,
                 "performanceBonus": 1,
-                "awardsBonus": 1
+                "awardsBonus": 0
               }
             }
           }
         ],
         "expectedTrophies": {
           "daniel": {
-            "championsLeague": 3,
+            "championsLeague": 1,
             "leagueTitles": 2,
-            "domesticCups": 1,
-            "total": 6
+            "domesticCups": 2,
+            "total": 5
           },
           "nik": {
-            "championsLeague": 3,
+            "championsLeague": 2,
             "leagueTitles": 0,
-            "domesticCups": 0,
+            "domesticCups": 1,
             "total": 3
           }
         },
-        "expectedMargin": 5
+        "expectedMargin": 3
       },
       "completed:8": {
         "seasons": [
@@ -2168,17 +2168,17 @@
                 "leagueGoals": 88,
                 "domesticCup": false,
                 "championsLeague": true,
-                "topScorer": true,
-                "topAssist": true
+                "topScorer": false,
+                "topAssist": false
               },
               "nik": {
                 "leaguePosition": 1,
                 "leaguePoints": 95,
                 "leagueGoals": 99,
-                "domesticCup": false,
-                "championsLeague": true,
+                "domesticCup": true,
+                "championsLeague": false,
                 "topScorer": false,
-                "topAssist": false
+                "topAssist": true
               }
             },
             "expectedBreakdown": {
@@ -2187,14 +2187,14 @@
                 "leagueTitle": 0,
                 "domesticCup": 0,
                 "performanceBonus": 0,
-                "awardsBonus": 1
+                "awardsBonus": 0
               },
               "nik": {
-                "championsLeague": 5,
+                "championsLeague": 0,
                 "leagueTitle": 3,
-                "domesticCup": 0,
+                "domesticCup": 1,
                 "performanceBonus": 0,
-                "awardsBonus": 0
+                "awardsBonus": 1
               }
             }
           },
@@ -2205,35 +2205,35 @@
                 "leaguePosition": 5,
                 "leaguePoints": 73,
                 "leagueGoals": 79,
-                "domesticCup": false,
-                "championsLeague": true,
-                "topScorer": false,
+                "domesticCup": true,
+                "championsLeague": false,
+                "topScorer": true,
                 "topAssist": false
               },
               "nik": {
                 "leaguePosition": 2,
                 "leaguePoints": 87,
                 "leagueGoals": 98,
-                "domesticCup": true,
+                "domesticCup": false,
                 "championsLeague": true,
-                "topScorer": true,
-                "topAssist": true
+                "topScorer": false,
+                "topAssist": false
               }
             },
             "expectedBreakdown": {
               "daniel": {
+                "championsLeague": 0,
+                "leagueTitle": 0,
+                "domesticCup": 1,
+                "performanceBonus": 0,
+                "awardsBonus": 1
+              },
+              "nik": {
                 "championsLeague": 5,
                 "leagueTitle": 0,
                 "domesticCup": 0,
                 "performanceBonus": 0,
                 "awardsBonus": 0
-              },
-              "nik": {
-                "championsLeague": 5,
-                "leagueTitle": 0,
-                "domesticCup": 1,
-                "performanceBonus": 0,
-                "awardsBonus": 1
               }
             }
           },
@@ -2246,16 +2246,16 @@
                 "leagueGoals": 84,
                 "domesticCup": false,
                 "championsLeague": true,
-                "topScorer": true,
-                "topAssist": true
+                "topScorer": false,
+                "topAssist": false
               },
               "nik": {
                 "leaguePosition": 2,
                 "leaguePoints": 89,
                 "leagueGoals": 101,
-                "domesticCup": false,
-                "championsLeague": true,
-                "topScorer": true,
+                "domesticCup": true,
+                "championsLeague": false,
+                "topScorer": false,
                 "topAssist": true
               }
             },
@@ -2265,12 +2265,12 @@
                 "leagueTitle": 0,
                 "domesticCup": 0,
                 "performanceBonus": 0,
-                "awardsBonus": 1
+                "awardsBonus": 0
               },
               "nik": {
-                "championsLeague": 5,
+                "championsLeague": 0,
                 "leagueTitle": 0,
-                "domesticCup": 0,
+                "domesticCup": 1,
                 "performanceBonus": 1,
                 "awardsBonus": 1
               }
@@ -2279,19 +2279,19 @@
         ],
         "expectedTrophies": {
           "daniel": {
-            "championsLeague": 3,
+            "championsLeague": 2,
             "leagueTitles": 0,
-            "domesticCups": 0,
+            "domesticCups": 1,
             "total": 3
           },
           "nik": {
-            "championsLeague": 3,
+            "championsLeague": 1,
             "leagueTitles": 1,
-            "domesticCups": 1,
-            "total": 5
+            "domesticCups": 2,
+            "total": 4
           }
         },
-        "expectedMargin": 5
+        "expectedMargin": 1
       },
       "completed:7": {
         "seasons": [
@@ -2304,16 +2304,16 @@
                 "leagueGoals": 102,
                 "domesticCup": false,
                 "championsLeague": true,
-                "topScorer": true,
-                "topAssist": true
+                "topScorer": false,
+                "topAssist": false
               },
               "nik": {
                 "leaguePosition": 5,
                 "leaguePoints": 74,
                 "leagueGoals": 82,
-                "domesticCup": false,
-                "championsLeague": true,
-                "topScorer": true,
+                "domesticCup": true,
+                "championsLeague": false,
+                "topScorer": false,
                 "topAssist": true
               }
             },
@@ -2323,12 +2323,12 @@
                 "leagueTitle": 0,
                 "domesticCup": 0,
                 "performanceBonus": 1,
-                "awardsBonus": 1
+                "awardsBonus": 0
               },
               "nik": {
-                "championsLeague": 5,
+                "championsLeague": 0,
                 "leagueTitle": 0,
-                "domesticCup": 0,
+                "domesticCup": 1,
                 "performanceBonus": 0,
                 "awardsBonus": 1
               }
@@ -2343,16 +2343,16 @@
                 "leagueGoals": 87,
                 "domesticCup": false,
                 "championsLeague": true,
-                "topScorer": true,
-                "topAssist": true
+                "topScorer": false,
+                "topAssist": false
               },
               "nik": {
                 "leaguePosition": 1,
                 "leaguePoints": 96,
                 "leagueGoals": 99,
-                "domesticCup": false,
-                "championsLeague": true,
-                "topScorer": false,
+                "domesticCup": true,
+                "championsLeague": false,
+                "topScorer": true,
                 "topAssist": false
               }
             },
@@ -2362,14 +2362,14 @@
                 "leagueTitle": 0,
                 "domesticCup": 0,
                 "performanceBonus": 0,
-                "awardsBonus": 1
+                "awardsBonus": 0
               },
               "nik": {
-                "championsLeague": 5,
+                "championsLeague": 0,
                 "leagueTitle": 3,
-                "domesticCup": 0,
+                "domesticCup": 1,
                 "performanceBonus": 0,
-                "awardsBonus": 0
+                "awardsBonus": 1
               }
             }
           },
@@ -2380,9 +2380,9 @@
                 "leaguePosition": 2,
                 "leaguePoints": 93,
                 "leagueGoals": 109,
-                "domesticCup": false,
-                "championsLeague": true,
-                "topScorer": true,
+                "domesticCup": true,
+                "championsLeague": false,
+                "topScorer": false,
                 "topAssist": true
               },
               "nik": {
@@ -2391,15 +2391,15 @@
                 "leagueGoals": 95,
                 "domesticCup": false,
                 "championsLeague": true,
-                "topScorer": true,
-                "topAssist": true
+                "topScorer": false,
+                "topAssist": false
               }
             },
             "expectedBreakdown": {
               "daniel": {
-                "championsLeague": 5,
+                "championsLeague": 0,
                 "leagueTitle": 0,
-                "domesticCup": 0,
+                "domesticCup": 1,
                 "performanceBonus": 1,
                 "awardsBonus": 1
               },
@@ -2408,26 +2408,26 @@
                 "leagueTitle": 0,
                 "domesticCup": 0,
                 "performanceBonus": 0,
-                "awardsBonus": 1
+                "awardsBonus": 0
               }
             }
           }
         ],
         "expectedTrophies": {
           "daniel": {
-            "championsLeague": 3,
+            "championsLeague": 2,
             "leagueTitles": 0,
-            "domesticCups": 0,
+            "domesticCups": 1,
             "total": 3
           },
           "nik": {
-            "championsLeague": 3,
+            "championsLeague": 1,
             "leagueTitles": 1,
-            "domesticCups": 0,
+            "domesticCups": 2,
             "total": 4
           }
         },
-        "expectedMargin": 0
+        "expectedMargin": 2
       },
       "completed:6": {
         "seasons": [
@@ -2438,9 +2438,9 @@
                 "leaguePosition": 1,
                 "leaguePoints": 98,
                 "leagueGoals": 99,
-                "domesticCup": false,
-                "championsLeague": true,
-                "topScorer": false,
+                "domesticCup": true,
+                "championsLeague": false,
+                "topScorer": true,
                 "topAssist": false
               },
               "nik": {
@@ -2455,11 +2455,11 @@
             },
             "expectedBreakdown": {
               "daniel": {
-                "championsLeague": 5,
+                "championsLeague": 0,
                 "leagueTitle": 3,
-                "domesticCup": 0,
+                "domesticCup": 1,
                 "performanceBonus": 0,
-                "awardsBonus": 0
+                "awardsBonus": 1
               },
               "nik": {
                 "championsLeague": 5,
@@ -2479,16 +2479,16 @@
                 "leagueGoals": 91,
                 "domesticCup": false,
                 "championsLeague": true,
-                "topScorer": true,
-                "topAssist": true
+                "topScorer": false,
+                "topAssist": false
               },
               "nik": {
                 "leaguePosition": 2,
                 "leaguePoints": 91,
                 "leagueGoals": 103,
-                "domesticCup": false,
-                "championsLeague": true,
-                "topScorer": true,
+                "domesticCup": true,
+                "championsLeague": false,
+                "topScorer": false,
                 "topAssist": true
               }
             },
@@ -2498,12 +2498,12 @@
                 "leagueTitle": 0,
                 "domesticCup": 0,
                 "performanceBonus": 0,
-                "awardsBonus": 1
+                "awardsBonus": 0
               },
               "nik": {
-                "championsLeague": 5,
+                "championsLeague": 0,
                 "leagueTitle": 0,
-                "domesticCup": 0,
+                "domesticCup": 1,
                 "performanceBonus": 1,
                 "awardsBonus": 1
               }
@@ -2518,17 +2518,17 @@
                 "leagueGoals": 101,
                 "domesticCup": false,
                 "championsLeague": true,
-                "topScorer": true,
-                "topAssist": true
+                "topScorer": false,
+                "topAssist": false
               },
               "nik": {
                 "leaguePosition": 4,
                 "leaguePoints": 77,
                 "leagueGoals": 85,
-                "domesticCup": false,
-                "championsLeague": true,
-                "topScorer": true,
-                "topAssist": true
+                "domesticCup": true,
+                "championsLeague": false,
+                "topScorer": false,
+                "topAssist": false
               }
             },
             "expectedBreakdown": {
@@ -2537,33 +2537,33 @@
                 "leagueTitle": 0,
                 "domesticCup": 0,
                 "performanceBonus": 1,
-                "awardsBonus": 1
+                "awardsBonus": 0
               },
               "nik": {
-                "championsLeague": 5,
+                "championsLeague": 0,
                 "leagueTitle": 0,
-                "domesticCup": 0,
+                "domesticCup": 1,
                 "performanceBonus": 0,
-                "awardsBonus": 1
+                "awardsBonus": 0
               }
             }
           }
         ],
         "expectedTrophies": {
           "daniel": {
-            "championsLeague": 3,
+            "championsLeague": 2,
             "leagueTitles": 1,
-            "domesticCups": 0,
+            "domesticCups": 1,
             "total": 4
           },
           "nik": {
-            "championsLeague": 3,
+            "championsLeague": 1,
             "leagueTitles": 0,
-            "domesticCups": 0,
+            "domesticCups": 2,
             "total": 3
           }
         },
-        "expectedMargin": 3
+        "expectedMargin": 7
       },
       "completed:5": {
         "seasons": [
@@ -2574,10 +2574,10 @@
                 "leaguePosition": 4,
                 "leaguePoints": 72,
                 "leagueGoals": 76,
-                "domesticCup": false,
-                "championsLeague": true,
+                "domesticCup": true,
+                "championsLeague": false,
                 "topScorer": false,
-                "topAssist": false
+                "topAssist": true
               },
               "nik": {
                 "leaguePosition": 2,
@@ -2585,24 +2585,24 @@
                 "leagueGoals": 91,
                 "domesticCup": false,
                 "championsLeague": true,
-                "topScorer": true,
-                "topAssist": true
+                "topScorer": false,
+                "topAssist": false
               }
             },
             "expectedBreakdown": {
               "daniel": {
-                "championsLeague": 5,
+                "championsLeague": 0,
                 "leagueTitle": 0,
-                "domesticCup": 0,
+                "domesticCup": 1,
                 "performanceBonus": 0,
-                "awardsBonus": 0
+                "awardsBonus": 1
               },
               "nik": {
                 "championsLeague": 5,
                 "leagueTitle": 0,
                 "domesticCup": 0,
                 "performanceBonus": 0,
-                "awardsBonus": 1
+                "awardsBonus": 0
               }
             }
           },
@@ -2615,16 +2615,16 @@
                 "leagueGoals": 95,
                 "domesticCup": false,
                 "championsLeague": true,
-                "topScorer": true,
-                "topAssist": true
+                "topScorer": false,
+                "topAssist": false
               },
               "nik": {
                 "leaguePosition": 5,
                 "leaguePoints": 69,
                 "leagueGoals": 73,
-                "domesticCup": false,
-                "championsLeague": true,
-                "topScorer": false,
+                "domesticCup": true,
+                "championsLeague": false,
+                "topScorer": true,
                 "topAssist": false
               }
             },
@@ -2634,14 +2634,14 @@
                 "leagueTitle": 0,
                 "domesticCup": 0,
                 "performanceBonus": 0,
-                "awardsBonus": 1
+                "awardsBonus": 0
               },
               "nik": {
-                "championsLeague": 5,
+                "championsLeague": 0,
                 "leagueTitle": 0,
-                "domesticCup": 0,
+                "domesticCup": 1,
                 "performanceBonus": 0,
-                "awardsBonus": 0
+                "awardsBonus": 1
               }
             }
           },
@@ -2652,8 +2652,8 @@
                 "leaguePosition": 6,
                 "leaguePoints": 64,
                 "leagueGoals": 68,
-                "domesticCup": false,
-                "championsLeague": true,
+                "domesticCup": true,
+                "championsLeague": false,
                 "topScorer": false,
                 "topAssist": false
               },
@@ -2663,15 +2663,15 @@
                 "leagueGoals": 86,
                 "domesticCup": false,
                 "championsLeague": true,
-                "topScorer": true,
+                "topScorer": false,
                 "topAssist": true
               }
             },
             "expectedBreakdown": {
               "daniel": {
-                "championsLeague": 5,
+                "championsLeague": 0,
                 "leagueTitle": 0,
-                "domesticCup": 0,
+                "domesticCup": 1,
                 "performanceBonus": 0,
                 "awardsBonus": 0
               },
@@ -2687,19 +2687,19 @@
         ],
         "expectedTrophies": {
           "daniel": {
-            "championsLeague": 3,
+            "championsLeague": 1,
             "leagueTitles": 0,
-            "domesticCups": 0,
+            "domesticCups": 2,
             "total": 3
           },
           "nik": {
-            "championsLeague": 3,
+            "championsLeague": 2,
             "leagueTitles": 0,
-            "domesticCups": 0,
+            "domesticCups": 1,
             "total": 3
           }
         },
-        "expectedMargin": 1
+        "expectedMargin": 5
       },
       "in-progress:13": {
         "seasons": [
@@ -2712,16 +2712,16 @@
                 "leagueGoals": 100,
                 "domesticCup": false,
                 "championsLeague": true,
-                "topScorer": true,
-                "topAssist": true
+                "topScorer": false,
+                "topAssist": false
               },
               "nik": {
                 "leaguePosition": 4,
                 "leaguePoints": 78,
                 "leagueGoals": 84,
-                "domesticCup": false,
-                "championsLeague": true,
-                "topScorer": true,
+                "domesticCup": true,
+                "championsLeague": false,
+                "topScorer": false,
                 "topAssist": true
               }
             },
@@ -2731,12 +2731,12 @@
                 "leagueTitle": 0,
                 "domesticCup": 0,
                 "performanceBonus": 1,
-                "awardsBonus": 1
+                "awardsBonus": 0
               },
               "nik": {
-                "championsLeague": 5,
+                "championsLeague": 0,
                 "leagueTitle": 0,
-                "domesticCup": 0,
+                "domesticCup": 1,
                 "performanceBonus": 0,
                 "awardsBonus": 1
               }
@@ -2749,10 +2749,10 @@
                 "leaguePosition": 3,
                 "leaguePoints": 82,
                 "leagueGoals": 91,
-                "domesticCup": false,
-                "championsLeague": true,
+                "domesticCup": true,
+                "championsLeague": false,
                 "topScorer": true,
-                "topAssist": true
+                "topAssist": false
               },
               "nik": {
                 "leaguePosition": 5,
@@ -2760,15 +2760,15 @@
                 "leagueGoals": 79,
                 "domesticCup": false,
                 "championsLeague": true,
-                "topScorer": true,
-                "topAssist": true
+                "topScorer": false,
+                "topAssist": false
               }
             },
             "expectedBreakdown": {
               "daniel": {
-                "championsLeague": 5,
+                "championsLeague": 0,
                 "leagueTitle": 0,
-                "domesticCup": 0,
+                "domesticCup": 1,
                 "performanceBonus": 0,
                 "awardsBonus": 1
               },
@@ -2777,22 +2777,22 @@
                 "leagueTitle": 0,
                 "domesticCup": 0,
                 "performanceBonus": 0,
-                "awardsBonus": 1
+                "awardsBonus": 0
               }
             }
           }
         ],
         "expectedTrophies": {
           "daniel": {
-            "championsLeague": 2,
+            "championsLeague": 1,
             "leagueTitles": 0,
-            "domesticCups": 0,
+            "domesticCups": 1,
             "total": 2
           },
           "nik": {
-            "championsLeague": 2,
+            "championsLeague": 1,
             "leagueTitles": 0,
-            "domesticCups": 0,
+            "domesticCups": 1,
             "total": 2
           }
         },
@@ -2809,16 +2809,16 @@
                 "leagueGoals": 100,
                 "domesticCup": false,
                 "championsLeague": true,
-                "topScorer": true,
-                "topAssist": true
+                "topScorer": false,
+                "topAssist": false
               },
               "nik": {
                 "leaguePosition": 4,
                 "leaguePoints": 78,
                 "leagueGoals": 84,
-                "domesticCup": false,
-                "championsLeague": true,
-                "topScorer": true,
+                "domesticCup": true,
+                "championsLeague": false,
+                "topScorer": false,
                 "topAssist": true
               }
             },
@@ -2828,12 +2828,12 @@
                 "leagueTitle": 0,
                 "domesticCup": 0,
                 "performanceBonus": 1,
-                "awardsBonus": 1
+                "awardsBonus": 0
               },
               "nik": {
-                "championsLeague": 5,
+                "championsLeague": 0,
                 "leagueTitle": 0,
-                "domesticCup": 0,
+                "domesticCup": 1,
                 "performanceBonus": 0,
                 "awardsBonus": 1
               }
@@ -2846,10 +2846,10 @@
                 "leaguePosition": 3,
                 "leaguePoints": 82,
                 "leagueGoals": 91,
-                "domesticCup": false,
-                "championsLeague": true,
+                "domesticCup": true,
+                "championsLeague": false,
                 "topScorer": true,
-                "topAssist": true
+                "topAssist": false
               },
               "nik": {
                 "leaguePosition": 5,
@@ -2857,15 +2857,15 @@
                 "leagueGoals": 79,
                 "domesticCup": false,
                 "championsLeague": true,
-                "topScorer": true,
-                "topAssist": true
+                "topScorer": false,
+                "topAssist": false
               }
             },
             "expectedBreakdown": {
               "daniel": {
-                "championsLeague": 5,
+                "championsLeague": 0,
                 "leagueTitle": 0,
-                "domesticCup": 0,
+                "domesticCup": 1,
                 "performanceBonus": 0,
                 "awardsBonus": 1
               },
@@ -2874,7 +2874,7 @@
                 "leagueTitle": 0,
                 "domesticCup": 0,
                 "performanceBonus": 0,
-                "awardsBonus": 1
+                "awardsBonus": 0
               }
             }
           },
@@ -2887,7 +2887,7 @@
                 "leagueGoals": 116,
                 "domesticCup": true,
                 "championsLeague": false,
-                "topScorer": true,
+                "topScorer": false,
                 "topAssist": true
               },
               "nik": {
@@ -2920,15 +2920,15 @@
         ],
         "expectedTrophies": {
           "daniel": {
-            "championsLeague": 2,
+            "championsLeague": 1,
             "leagueTitles": 1,
-            "domesticCups": 1,
+            "domesticCups": 2,
             "total": 4
           },
           "nik": {
-            "championsLeague": 3,
+            "championsLeague": 2,
             "leagueTitles": 0,
-            "domesticCups": 0,
+            "domesticCups": 1,
             "total": 3
           }
         },
