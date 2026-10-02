@@ -152,7 +152,7 @@ async function playFreshSingleSeason(env,{rivalryId,sessionId,nowMs,closeAtEnd=f
 }
 
 async function runSecondShowdownAndAbandon(env,main){
-  const now2=main.now+200000;
+  const now2=Date.now();
   await pairFreshRivalry(env,{rivalryId:R2,sessionId:S2,nowMs:now2});
   await seedGameplayBridge(env,{rivalryId:R2,sessionId:S2,nowMs:now2+2000});
   const pairA2=(await assertSucceeds(getDoc(doc(main.dbA,"accounts",A,"pairLinks","current")))).data(),pairB2=(await assertSucceeds(getDoc(doc(main.dbB,"accounts",B,"pairLinks","current")))).data();
@@ -164,7 +164,7 @@ async function runSecondShowdownAndAbandon(env,main){
   }
   await playFreshSingleSeason(env,{rivalryId:R2,sessionId:S2,nowMs:now2+5000,closeAtEnd:true});
 
-  const now3=now2+200000;
+  const now3=Date.now();
   await pairFreshRivalry(env,{rivalryId:R3,sessionId:S3,nowMs:now3});
   await seedGameplayBridge(env,{rivalryId:R3,sessionId:S3,nowMs:now3+2000});
   const fresh=await playFreshSingleSeason(env,{rivalryId:R3,sessionId:S3,nowMs:now3+5000,closeAtEnd:false});
