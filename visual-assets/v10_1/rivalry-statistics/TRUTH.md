@@ -259,3 +259,49 @@ Additional designed states not assigned a dedicated numbered frame in this truth
 Reason for adjustment from the job's wording: `error` is not a sixth contract status. DATA_CONTRACT_V1 defines a failed read as `unavailable`; the build should still have explicit error copy/presentation, but its machine state remains `unavailable`.
 
 Every owner-review preview carries `previewLabel: "Preview data"`. Until model-true provider history replaces the samples, the preview view model also uses the exact interim label `Current Showdown only. Career history is not yet available.`
+
+
+## Mockup → product reconciliation
+
+Mockup authority for composition: `project-documents/factory/mockups/MOCKUP_RIVALRY_STATISTICS.png`.
+The later plate/build specifications describe its concrete anatomy: Daniel left pointing; Nik right with arms crossed; a tall seven-row comparison panel; three bottom panels (Head-to-Head, Season-by-Season, Trophy Cabinet); one Back button; top navigation, title block, footer and the decorative caption `RIVALS BUILD LEGACIES`.
+
+| Mockup element | Product answer | Binding reason / implementation note |
+| --- | --- | --- |
+| Night stadium, crowd bokeh, banners, floodlights, warm-gold atmosphere | KEEP AS IS | Pure scene art; keep exact mockup registration on desktop. No real league/club marks may appear in any banner. |
+| Daniel on the left, pointing toward viewer/panel | KEEP AS IS | Daniel is always LEFT. His face, hair and pointing hand are likeness-locked. The pointing hand is the signature depth moment and must sit over the panel edge where they overlap. |
+| Nik on the right, arms crossed | KEEP AS IS | Nik is always RIGHT. Never mirror him. Preserve likeness and crossed-arm pose. |
+| Daniel / Nik handwritten decorative tags | KEEP AS IS | PRODUCT_TRUTH explicitly permits these decorative brand tags. They are art, not live/private data. |
+| Mockup top navigation bar | CHANGE TO shared product navigation | Desktop shell is the 52 px shared top bar: HOME / CAREER / STANDINGS / STATS / RULES plus the settings icon. No ABOUT, search or profile item. Job 125 owns the shared bar. |
+| Mockup title block | KEEP WITH PRODUCT WORDING | Fixed screen title is exactly `RIVALRY STATISTICS`; render it as the approved gold brush wordmark image with visually-hidden real text. Keep the shared eyebrow/tagline hierarchy; no cover box behind it unless the reference visibly has one. |
+| Tall central comparison panel | KEEP AS IS structurally | Keep the mockup's tall centred comparison-panel composition and gold-edged dark-glass craft. All numbers, names, clubs and state are live DOM from the view model / fixture, never baked into the plate. |
+| Daniel header crest in comparison panel | CHANGE TO original code-drawn crest | Real club crest in the reference is rights-ineligible. Use the app's original generated club identity / crest for Daniel's current club. |
+| Daniel header name and club name | KEEP WITH LIVE PRODUCT DATA | Daniel remains the left header. Manager and club strings come from the view model. |
+| Nik header crest in comparison panel | CHANGE TO original code-drawn crest | Same rights rule as Daniel; use the app's original generated club identity / crest. |
+| Nik header name and club name | KEEP WITH LIVE PRODUCT DATA | Nik remains the right header. |
+| Seven comparison rows: overall structure (large number left · gold icon/label · large number right) | KEEP AS IS structurally | Preserve seven-row hierarchy and leader emphasis, but only contract-supported values may occupy the rows. |
+| Comparison row 1 | CHANGE TO `Showdown Points` | Contract field `score.{daniel,nik}`; exact live label already exists on `main`. |
+| Comparison row 2 | CHANGE TO `Season Wins` | Contract field `managerRecords.*.seasonWins`; exact live label exists. |
+| Comparison row 3 | CHANGE TO `Total Trophies` | Contract field `managerRecords.*.totalTrophies`; exact live label exists. This count is league + domestic cup + Champions League wins and does not include a Showdown Champion display token. |
+| Comparison row 4 | CHANGE TO `Champions Leagues` | Contract field `managerRecords.*.championsLeagues`; exact live label exists. |
+| Comparison row 5 | CHANGE TO `League Titles` | Contract field `managerRecords.*.leagueTitles`; exact live label exists. |
+| Comparison row 6 | CHANGE TO `Domestic Cups` | Contract field `managerRecords.*.domesticCups`; exact live label exists. |
+| Comparison row 7 | CHANGE TO `Transfer Signings` when available; otherwise `Unavailable` | Transfer summary is G-10. Never turn an unavailable transfer read into zero. The row remains present so the seven-row mockup rhythm is stable. |
+| Any mockup comparison row for clean sheets, biggest win, non-CL European wins, match stats, player names/photos, possession, averages or other uncontracted stats | DROP | DATA_CONTRACT_V1 §5/§9 and PRODUCT_TRUTH §3. These values are not recorded or are outside this screen contract. |
+| Gold icon in each comparison row | KEEP CONCEPT, CHANGE ART AS NEEDED | Use original/generic stat iconography only. No real competition, league, club or trophy logo. Icons are decorative; labels carry meaning. |
+| Leader number highlighted gold, other number white | KEEP AS IS | This is presentation only and does not alter scoring. Equal values receive no false leader. |
+| Bottom panel: `HEAD-TO-HEAD` | KEEP WITH PRODUCT DATA | Show Daniel season wins, Nik season wins and season draws as the three giant numerals from `managerRecords`. Because this is a two-manager rivalry, each manager's season losses are the rival's wins; do not invent another match-result stat. |
+| Bottom panel: `SEASON-BY-SEASON` | KEEP WITH PRODUCT DATA | Each row uses contract `seasons[].season`, canonical `score.daniel`, `score.nik`, and `winner`. Position/points/goals remain available in the view model but are not added to this compact mockup panel unless a later approved interaction needs them. |
+| Season winner icon in Season-by-Season panel | CHANGE TO original winner crest / draw treatment | Winner uses that manager's original code-drawn crest. A draw uses a gold dash plus exact text `Draw`. |
+| Bottom panel: `TROPHY CABINET` | KEEP, CHANGE ALL TROPHY ART | Use only original trophy art from jobs 19–22. League Title, Domestic Cup and Champions League counts come from `managerRecords`. The Showdown Champion trophy may show a winner token only when the current Showdown is completed and the final point total has a winner; it is not added into `managerRecords.totalTrophies`. Active/undecided state shows no fabricated win. |
+| Any real-looking trophy art in the mockup | CHANGE TO factory trophy assets | PRODUCT_TRUTH rights gate. Never trace or ship the reference trophies. |
+| One button: `BACK TO SHOWDOWN HOME` | KEEP AS IS | Exact live product button and smart-back behaviour from `main`. It is the screen's only module-local button. |
+| Mockup footer bar | DROP as screen-local decoration | Global navigation is supplied by the shared top bar on desktop and shared bottom bar on phone. Do not duplicate navigation chrome. |
+| Small caption `RIVALS BUILD LEGACIES` | DROP | It is not a live product string and the later build specification does not require it. Removing it avoids inventing persistent product copy. |
+| Any names, club names, scores, counts, season rows or transfer values baked into the mockup | CHANGE TO live DOM | H3: no live/private data in images. The clean plate contains only scene/people/decorative art. |
+| Any real club crests / league logos present in reference pixels | DROP / REPLACE | H2 rights gate. Club identity is original code-drawn art; league identity uses the factory league marks when needed. |
+| Any player photo or player-based leader in the reference | DROP | Players are not a recorded Rivalry Statistics entity; PRODUCT_TRUTH forbids player photos/names as stats. |
+
+### Contract fields intentionally available but not promoted into the seven primary rows
+
+The adapter still carries `seasonDraws`, `seasonLosses`, `hundredPointSeasons`, `hundredGoalSeasons`, `topScorerSeasons`, `topAssistSeasons`, `perfectSeasons`, `bestSeasonScore`, and per-season league position/points/goals. They remain model truth for state/details and future approved UI, but the desktop mockup's fixed seven-row comparison rhythm is not expanded to cram them in. Head-to-Head already surfaces draws, and Season-by-Season owns the canonical season sequence.
