@@ -42,6 +42,7 @@
       "savedToLegacy": "Saved to Legacy",
       "legacyPending": "Active save retained · Legacy sync pending",
       "metaTemplate": "{seasonsPlayed} seasons completed · Final score {danielTotal} - {nikTotal} · {archiveState}",
+      "metaTemplateSingular": "{seasonsPlayed} season completed · Final score {danielTotal} - {nikTotal} · {archiveState}",
       "actions": [
         "VIEW LEGACY",
         "TROPHY ROOM",
@@ -221,8 +222,8 @@
           "total": 4
         },
         "nik": {
-          "championsLeague": 1,
-          "leagueTitles": 2,
+          "championsLeague": 2,
+          "leagueTitles": 1,
           "domesticCups": 0,
           "total": 3
         }
@@ -253,8 +254,8 @@
           "total": 4
         },
         "nik": {
-          "championsLeague": 1,
-          "leagueTitles": 2,
+          "championsLeague": 2,
+          "leagueTitles": 1,
           "domesticCups": 0,
           "total": 3
         }

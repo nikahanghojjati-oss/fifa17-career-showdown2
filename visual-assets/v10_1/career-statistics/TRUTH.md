@@ -146,8 +146,10 @@ From DATA_CONTRACT_V1 §6:
 | Active | accepted / acknowledged seasons only | no |
 | Final result reconciled, Terminal Close pending | all accepted seasons | no; it is a `completion-pending` result |
 | Closed with verified Terminal Close | all accepted seasons | exactly one |
+| Abandoned (closed without Terminal Close) | none, including seasons shown before | none; History row only |
+| Unreadable | nothing invented | nothing; screen goes `partial` |
 
-Abandoned Showdowns count for nothing.
+Abandoned Showdowns count for nothing; abandoning rebuilds the whole model (records, bests, averages, trophies), not a subtraction.
 
 ### Contract screen states
 
@@ -219,7 +221,7 @@ Career Leaders are manager records, never player records or player photos. Allow
 - `MOST TROPHIES` → max `totalTrophies`
 - `MOST CAREER POINTS` → max `careerPoints`
 - `BEST SEASON SCORE` → max `bestSeasonScore`
-- `MOST LEAGUE POINTS` → max `bestLeaguePoints`
+- `HIGHEST LEAGUE POINTS` → max `bestLeaguePoints` (best single season; live label from `js/trophyRoom.js`)
 - `MOST LEAGUE GOALS` → max `bestLeagueGoals`
 - `BIGGEST SHOWDOWN WIN` → `biggestShowdownWin`
 
@@ -260,7 +262,7 @@ The mockup is visual reference, not product authority. PRODUCT_TRUTH.md, DATA_CO
 | Most trophies leader | KEEP as `MOST TROPHIES`. |
 | Career points leader | KEEP as `MOST CAREER POINTS`. |
 | Best season score leader | KEEP as `BEST SEASON SCORE`. |
-| League-points record | KEEP as `MOST LEAGUE POINTS` using contracted `bestLeaguePoints`. |
+| League-points record | KEEP as `HIGHEST LEAGUE POINTS` (live `js/trophyRoom.js` label) using contracted `bestLeaguePoints`; it is a best single season, not a total. |
 | League-goals record | KEEP as `MOST LEAGUE GOALS` using contracted `bestLeagueGoals`. |
 | Biggest Showdown margin record | KEEP as `BIGGEST SHOWDOWN WIN` using contracted `biggestShowdownWin`. |
 | Player names as statistical leaders | DROP. Top scorer / top assist are yes/no season achievements, not recorded player identities. |
@@ -275,6 +277,12 @@ The mockup is visual reference, not product authority. PRODUCT_TRUTH.md, DATA_CO
 | Failed history read | CHANGE to contract `unavailable`; never present a failed read as zero career totals. |
 | In-flight history read | CHANGE to contract `loading`; no fake values. |
 | Pre-provider owner-review history | CHANGE to exactly `Current Showdown only. Career history is not yet available.` |
+| Mockup sub-navigation strip `CAREER HUB > CAREER STATISTICS \| TROPHY ROOM \| TRANSFERS \| HISTORY` | DROP. The product has no such sub-tabs; Trophy Room is reached by `OPEN TROPHY ROOM` (and its Home tile), History by the Home/CAREER routes. |
+| Mockup Career Table columns `SHOWDOWNS · SEASONS · POINTS · TROPHIES · WIN %` | CHANGE to the live headers `#`, `Manager`, `Showdowns`, `Season W-D-L`, `Points`, `Trophies` mapped to `showdowns.completed`, `seasonWins/seasonDraws/seasonLosses`, `careerPoints`, `totalTrophies`. DROP `WIN %` (showdown win rate is not a §6 field). |
+| Mockup Career Leaders `TOP SCORER · 102 Goals` and `TOP ASSISTS · 48 Assists` | DROP. Goal/assist totals by player are not recorded; top scorer/top assist are yes/no per season. |
+| Mockup Career Leaders `MOST CLEAN SHEETS` | DROP. Clean sheets are not recorded (§9). |
+| Mockup comparison rows `LEAGUE WINS` / `CUP WINS` / `GOALS SCORED` | `LEAGUE WINS` → `LEAGUE TITLES`; `CUP WINS` → `DOMESTIC CUPS`; `GOALS SCORED` → `AVERAGE LEAGUE GOALS` (see rows above). |
+| Phone layout (393 × 660, no page scroll) | CHANGE to stacked sections / tabs with Daniel first or left; never shrink labels to fit. |
 | Shared top navigation, if shown in the mockup | CHANGE to HOME / CAREER / STANDINGS / STATS / RULES plus settings; no ABOUT, search or profile destination. |
 
 The repository mockup is a binary PNG and the GitHub text connector in this chat does not expose its pixels. This table therefore resolves every Career Statistics mockup element explicitly called out by JOB-003, plus every data, rights, button, manager-order and history-state element governed by the binding product papers, without inventing unverified decorative details.

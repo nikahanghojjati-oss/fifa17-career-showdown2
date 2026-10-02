@@ -23,6 +23,7 @@
     },
     "notWonYet": "Not won yet",
     "interimLabel": "Current Showdown only. Career history is not yet available.",
+    "coverageTemplate": "{READABLE} of {INDEXED} Showdowns readable",
     "recordLabels": {
       "highestSeasonScore": "HIGHEST SEASON SCORE",
       "highestLeaguePoints": "HIGHEST LEAGUE POINTS",
@@ -114,7 +115,7 @@
         {
           "label": "PERFECT 11-POINT SEASONS",
           "manager": "shared",
-          "value": 2,
+          "value": 1,
           "ref": "preview-career"
         }
       ]
@@ -327,7 +328,7 @@
         {
           "label": "PERFECT 11-POINT SEASONS",
           "manager": "shared",
-          "value": 2,
+          "value": 1,
           "ref": "preview-career"
         }
       ]

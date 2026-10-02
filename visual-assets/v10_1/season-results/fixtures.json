@@ -103,7 +103,10 @@
       "dashboardStatusWaiting": "Shared season results: waiting for rival",
       "dashboardStatusReady": "Shared season results: both published"
     },
+    "scoringRulesSource": "index.html #seasonEntry .seasonEntryHint (static copy on main; the shared adapter replaces it with entryHintTemplate during shared entry, so the scoring panel / How scoring works pop-up must render this text from DOM, not from the hint node)",
+    "scoringRules": "Scoring: Champions League +5, league title +3, domestic cup +1. 100 league points and/or 100 league goals share one +1 performance bonus. Top Scorer and/or Top Assist share one +1 awards bonus. Maximum season score: 11.",
     "interimLabel": "Current Showdown only. Career history is not yet available.",
+    "topBarLockSource": "DATA_CONTRACT_V1 §10 (A, G-6); not on main yet",
     "topBarLock": "Finish this step first"
   },
   "ids": {

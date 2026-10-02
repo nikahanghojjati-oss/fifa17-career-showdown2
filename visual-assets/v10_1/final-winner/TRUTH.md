@@ -269,7 +269,7 @@ The five named owner-preview frames below use fictional values and must display 
 - `margin`: 2
 - `seasonsPlayed`: 3
 - Daniel trophies: Champions League 1, league titles 2, domestic cups 1, total 4
-- Nik trophies: Champions League 1, league titles 2, domestic cups 0, total 3
+- Nik trophies: Champions League 2, league titles 1, domestic cups 0, total 3
 - Required visible mark: `Completion pending`
 
 ### FW5 · Completed
@@ -284,7 +284,7 @@ FW5 intentionally uses the same sporting result as FW4 so the preview isolates t
 - `margin`: 2
 - `seasonsPlayed`: 3
 - Daniel trophies: Champions League 1, league titles 2, domestic cups 1, total 4
-- Nik trophies: Champions League 1, league titles 2, domestic cups 0, total 3
+- Nik trophies: Champions League 2, league titles 1, domestic cups 0, total 3
 
 ### Why these frames match the real product
 
@@ -346,7 +346,7 @@ The only contract field marked A is the normalized §4 `state` supplied by Team 
 - Exact-string spot check passed against main for: `SHOWDOWN FINAL RECONCILED`; `FINAL RESULTS ARE READ-ONLY · TERMINAL CLOSE REMAINS A SEPARATE STEP`; `FINAL RESULT READY FOR TERMINAL CLOSE`; `CLOSE SHARED SHOWDOWN`; `SHOWDOWN COMPLETE`.
 - Mockup reconciliation covers every Final Winner-relevant element borrowed from the two style references and gives it an explicit live, preview or drop answer. There is no dedicated Final Winner mockup.
 - Final Winner data is limited to DATA_CONTRACT_V1 §4 plus universal §0 state metadata. Unrecorded/player/per-match statistics are explicitly DROP.
-- FW1–FW5 all use fictional values, all carry `Preview data`, all use valid Showdown lengths, all keep totals within the 11-points-per-season ceiling, all have correct winner/margin arithmetic, and all trophy totals equal the three permitted trophy families.
+- FW1–FW5 all use fictional values, all carry `Preview data`, all use valid Showdown lengths, all keep totals within the 11-points-per-season ceiling, all have correct winner/margin arithmetic, all trophy totals equal the three permitted trophy families, and per trophy family Daniel + Nik never exceeds `seasonsPlayed` (one league, one title / cup / CL winner per season).
 - Daniel is first/left and Nik second/right in truth, ids and every fixture frame.
 - No fixture frame references a real club crest, league logo, real competition trophy, player image or other image asset.
 - Every JOB-007 commit changes only `visual-assets/v10_1/final-winner/TRUTH.md`, `visual-assets/v10_1/final-winner/fixtures.json`, or `project-documents/factory/status/JOB-007.md`.

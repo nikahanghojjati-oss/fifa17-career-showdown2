@@ -219,7 +219,7 @@ Managers are keyed by role, never account identity: `playerOne → daniel` and `
 | `status` = `loading | empty | unavailable | partial | ready` | A | No equivalent honest five-state model exists in `js/legacy.js`; `loadLegacyShowdowns()` in `js/storage.js` currently collapses a parse failure to `[]`. Team G/provider adapter must supply the state. | Screen | Drives the whole view. Never translate a failed read into empty/zero. |
 | `interimLabel` | A | Not present in the live Legacy renderer; supplied by the interim adapter under contract §0. | Screen | Exact value when used: `Current Showdown only. Career history is not yet available.` This is owner-review only, never a launch state. |
 
-Contract §0 requires a partial state to show coverage. §8 does not define a History-specific structured `coverage.*` field, so this truth sheet does not invent one. The visual may show the provider's supplied readable/indexed coverage once Team G exposes it; until then fixtures label partiality without fabricating counts.
+Contract §0 requires a partial state to show `coverage`; the build uses the §6 shape `coverage.{readable,indexed}` (A, Team G). Fixture LG8 carries a fictional `coverage` of 2 readable of 3 indexed.
 
 ### `showdowns[]` fields from contract §8
 
@@ -320,10 +320,10 @@ Mockup authority inspected through the factory's own Legacy job descriptions: `M
 | Tagline `PAST SHOWDOWNS. A LASTING JOURNEY.` | KEEP as the mockup's decorative screen tagline. |
 | Mockup top navigation bar | CHANGE to the shared product nav from DATA_CONTRACT_V1 §10: HOME / CAREER / STANDINGS / STATS / RULES plus Settings at the right. No extra destinations. |
 | One wide archive panel | KEEP as the primary content surface. |
-| Left side menu | KEEP, but only with destinations the product actually has. |
+| Left side menu | KEEP, but only with destinations the product actually has. On phone (≤ 900 px) it becomes tabs. |
 | `LEGACY ARCHIVE` active side-menu item | KEEP as is for this view. |
-| `TROPHY ROOM` side-menu item | KEEP; route to the existing `trophyRoom` optional screen. |
-| `RECORDS` side-menu item | KEEP with product meaning: route to Career Statistics (`careerStatistics`). |
+| `TROPHY CABINET` side-menu item | KEEP as `TROPHY ROOM`; route to the existing `trophyRoom` optional screen. |
+| `MANAGER RECORDS` side-menu item | KEEP as `RECORDS` with product meaning: route to Career Statistics (`careerStatistics`). |
 | `TRANSFER HISTORY` side-menu item | DROP for this screen now. The current product has Transfer War data but no Transfer History screen/route, and DATA_CONTRACT_V1 §8 does not include transfer history in Legacy. Team G's transfer-history work is separate. |
 | `CHALLENGE TRACKER` side-menu item | DROP because no real product destination/route exists in `screens.js`, `index.html`, or the optional-module registry. |
 | 4 × 2 Showdown-card grid | KEEP as desktop layout capacity. Fixture LG1 uses pagination with eight total records over two pages; unused capacity is allowed. |

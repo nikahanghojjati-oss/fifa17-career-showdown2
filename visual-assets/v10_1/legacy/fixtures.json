@@ -94,7 +94,7 @@
                 "nik": 82
               },
               "leagueGoals": {
-                "daniel": 108,
+                "daniel": 98,
                 "nik": 89
               }
             },
@@ -193,7 +193,7 @@
               },
               "leagueGoals": {
                 "daniel": 93,
-                "nik": 112
+                "nik": 98
               }
             },
             {
@@ -242,7 +242,7 @@
               },
               "winner": "daniel",
               "leaguePosition": {
-                "daniel": 1,
+                "daniel": 2,
                 "nik": 4
               },
               "leaguePoints": {
@@ -263,7 +263,7 @@
               "winner": "nik",
               "leaguePosition": {
                 "daniel": 5,
-                "nik": 1
+                "nik": 2
               },
               "leaguePoints": {
                 "daniel": 70,
@@ -280,10 +280,10 @@
                 "daniel": 6,
                 "nik": 6
               },
-              "winner": "draw",
+              "winner": "daniel",
               "leaguePosition": {
                 "daniel": 2,
-                "nik": 2
+                "nik": 3
               },
               "leaguePoints": {
                 "daniel": 83,
@@ -328,7 +328,7 @@
                 "nik": 82
               },
               "leagueGoals": {
-                "daniel": 111,
+                "daniel": 99,
                 "nik": 92
               }
             },
@@ -407,7 +407,7 @@
               },
               "leagueGoals": {
                 "daniel": 88,
-                "nik": 110
+                "nik": 99
               }
             },
             {
@@ -505,7 +505,7 @@
               },
               "leagueGoals": {
                 "daniel": 87,
-                "nik": 114
+                "nik": 99
               }
             },
             {
@@ -516,7 +516,7 @@
               },
               "winner": "daniel",
               "leaguePosition": {
-                "daniel": 1,
+                "daniel": 2,
                 "nik": 3
               },
               "leaguePoints": {
@@ -562,7 +562,7 @@
                 "nik": 68
               },
               "leagueGoals": {
-                "daniel": 120,
+                "daniel": 99,
                 "nik": 72
               }
             },
@@ -619,7 +619,7 @@
           "seasonsPlayed": 3,
           "totalSeasons": 3,
           "totals": {
-            "daniel": 15,
+            "daniel": 16,
             "nik": 17
           },
           "winner": "nik",
@@ -667,7 +667,7 @@
             {
               "season": 3,
               "score": {
-                "daniel": 4,
+                "daniel": 5,
                 "nik": 6
               },
               "winner": "nik",
@@ -787,7 +787,7 @@
                 "nik": 82
               },
               "leagueGoals": {
-                "daniel": 108,
+                "daniel": 98,
                 "nik": 89
               }
             },
@@ -886,7 +886,7 @@
               },
               "leagueGoals": {
                 "daniel": 93,
-                "nik": 112
+                "nik": 98
               }
             },
             {
@@ -959,7 +959,7 @@
                 "nik": 82
               },
               "leagueGoals": {
-                "daniel": 108,
+                "daniel": 98,
                 "nik": 89
               }
             },
@@ -1058,7 +1058,7 @@
               },
               "leagueGoals": {
                 "daniel": 93,
-                "nik": 112
+                "nik": 98
               }
             },
             {
@@ -1187,6 +1187,10 @@
     },
     "LG8": {
       "status": "partial",
+      "coverage": {
+        "readable": 2,
+        "indexed": 3
+      },
       "previewLabel": "Preview data",
       "ui": {
         "page": 1,
@@ -1227,7 +1231,7 @@
                 "nik": 82
               },
               "leagueGoals": {
-                "daniel": 108,
+                "daniel": 98,
                 "nik": 89
               }
             },
@@ -1326,7 +1330,7 @@
               },
               "leagueGoals": {
                 "daniel": 93,
-                "nik": 112
+                "nik": 98
               }
             },
             {
@@ -1378,7 +1382,7 @@
           "seasonsPlayed": 3,
           "totalSeasons": 3,
           "totals": {
-            "daniel": 20,
+            "daniel": 19,
             "nik": 18
           },
           "winner": "daniel",
@@ -1426,7 +1430,7 @@
             {
               "season": 3,
               "score": {
-                "daniel": 7,
+                "daniel": 6,
                 "nik": 6
               },
               "winner": "daniel",
@@ -1477,7 +1481,7 @@
                 "nik": 82
               },
               "leagueGoals": {
-                "daniel": 108,
+                "daniel": 98,
                 "nik": 89
               }
             },

@@ -285,7 +285,7 @@ The mockup is reference, not product authority. Every product-sensitive element 
 | League-title trophy | CHANGE to our original League Title trophy art; never a real league trophy. |
 | Domestic-cup trophy | CHANGE to our original Domestic Cup trophy art; never a real cup trophy. |
 | Continental / Champions League trophy | CHANGE to our original Champions League cup art; never the real UEFA trophy or marks. |
-| Real league/competition logos | CHANGE to original `getLeagueMark` output only. A small league badge is optional when league context is useful. |
+| Real league/competition logos | CHANGE to original `getLeagueMark` output only. The §7 career counts carry no per-league split, so a league badge may appear only where the view model supplies a `leagueId` (for example a current-Showdown card); never invent a per-league count. |
 | Daniel cabinet/counts | KEEP with live data. Daniel is always first/left. |
 | Nik cabinet/counts | KEEP with live data. Nik is always second/right. |
 | Trophy type with zero wins | CHANGE: keep the card visible, dark, with exactly `Not won yet`. |
@@ -312,6 +312,11 @@ The mockup is reference, not product authority. Every product-sensitive element 
 | In-flight history read | CHANGE to `loading`; no fake zero values. |
 | Back control | KEEP with live wording `BACK` and centralized Smart Back. |
 | Any extra mockup button with no product behaviour | DROP. |
+| Mockup sub-navigation strip `CAREER HUB > TROPHIES \| TRANSFERS \| HISTORY \| RECORDS` | DROP. The product has no such sub-tabs; records live on this screen, History is its own Home destination. |
+| Mockup category tab `LEAGUE` | CHANGE to `LEAGUE TITLES`. |
+| Mockup per-competition trophy cards `PREMIER LEAGUE ×1`, `CHAMPIONS LEAGUE ×0`, `LALIGA ×1`, `FA CUP ×1`, `COPA DEL REY ×0` | CHANGE to the four original trophy families (Showdown Champion, League Title, Domestic Cup, Champions League), each card showing Daniel's count left and Nik's right. |
+| Mockup `SUPERCOPA ×0` card | DROP. Super cups are not recorded. |
+| Phone trophy shelf | CHANGE to a sideways-swipe shelf (Nik's review), Daniel's count left on every card; 393 × 660 with no page scroll. |
 | Mockup top navigation, if present | CHANGE to shared HOME / CAREER / STANDINGS / STATS / RULES plus settings; no ABOUT, search or profile destinations. |
 
 The binary mockup cannot be decoded by this chat's repository text connector. This table therefore resolves every Trophy Room mockup element explicitly enumerated by JOB-002 and every rights/data/navigation-sensitive element governed by the binding product papers, without inventing unverified decorative elements.
