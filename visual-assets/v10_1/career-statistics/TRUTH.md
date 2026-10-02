@@ -232,3 +232,47 @@ Ties are shown as shared manager leadership. Cards use the manager portrait crop
 - `CS5` · `loading` · added because `loading` is a distinct required contract state even though the job's four named frames omit it. Reserve the layout with Daniel first and Nik second, but show no fake data.
 
 If owner review temporarily uses current-Showdown-only data before provider career history exists, the only permitted interim copy is exactly `Current Showdown only. Career history is not yet available.` That interim mode is not a launch state.
+
+## Mockup reconciliation
+
+The mockup is visual reference, not product authority. PRODUCT_TRUTH.md, DATA_CONTRACT_V1.md and the live route/button behaviour on `main` win wherever they disagree.
+
+| Mockup element | Product answer |
+| --- | --- |
+| Career Statistics title / data-screen composition | KEEP as visual direction. Use the live title `CAREER STATISTICS`. |
+| Daniel / Nik comparison | KEEP, with Daniel always first/left and Nik second/right. Never mirror either character. |
+| Headline statistic tiles | KEEP the hierarchy, but values must be contract-backed. `COMPLETED SHOWDOWNS` may be clearly labelled `Together`; per-manager `SEASONS PLAYED`, `CAREER POINTS` and `TROPHIES WON` show Daniel and Nik separately rather than one ambiguous number. |
+| League titles comparison | KEEP with contract field `leagueTitles`. |
+| Domestic cups comparison | KEEP with contract field `domesticCups`. |
+| `EUROPEAN WINS` | CHANGE to `CHAMPIONS LEAGUE WINS` and use only `championsLeagues`. Other European wins are not recorded. |
+| League points comparison | CHANGE to `AVERAGE LEAGUE POINTS` using `averageLeaguePoints`, the contracted career field that matches the current live comparison. |
+| League goals comparison | CHANGE to `AVERAGE LEAGUE GOALS` using `averageLeagueGoals`, the contracted career field that matches the current live comparison. |
+| Season wins comparison | KEEP with `seasonWins`. |
+| `CLEAN SHEETS` | DROP. The game never records clean sheets. |
+| `BIGGEST WIN` when it means a single match | DROP. The game records no match-by-match results. The separate contracted `BIGGEST SHOWDOWN WIN` may appear only as a Career Leader record based on Showdown-points margin. |
+| Comparison bars | KEEP the visual idea. Daniel uses the Daniel shared-token accent on the left; Nik uses the Nik shared-token accent on the right. |
+| Career Leaders section | KEEP, but leaders are managers, never players. |
+| Player portrait / player-card treatment in Career Leaders | CHANGE to the leading manager portrait crop from this screen's approved plate, or an original club crest plus initials. No player photos. |
+| `Cian Cheets` | DROP. It is a typo and an unrecorded/player-style stat. |
+| Most season wins leader | KEEP as `MOST SEASON WINS`. |
+| Most trophies leader | KEEP as `MOST TROPHIES`. |
+| Career points leader | KEEP as `MOST CAREER POINTS`. |
+| Best season score leader | KEEP as `BEST SEASON SCORE`. |
+| League-points record | KEEP as `MOST LEAGUE POINTS` using contracted `bestLeaguePoints`. |
+| League-goals record | KEEP as `MOST LEAGUE GOALS` using contracted `bestLeagueGoals`. |
+| Biggest Showdown margin record | KEEP as `BIGGEST SHOWDOWN WIN` using contracted `biggestShowdownWin`. |
+| Player names as statistical leaders | DROP. Top scorer / top assist are yes/no season achievements, not recorded player identities. |
+| Real club crests / league logos / trophies / player imagery | CHANGE to original Showdown art only; no real crests, league logos, trophies or players. |
+| Manager names, scores, totals, stat values or coverage baked into art | CHANGE to live DOM text from the view model / fixtures. |
+| `CURRENT RIVALRY STATISTICS` button | KEEP with live wording and behaviour; hide only when no `currentShowdown` exists. |
+| `OPEN TROPHY ROOM` button | KEEP with live wording and optional-module route. |
+| `BACK TO MAIN MENU` button | KEEP with live wording and shared Smart Back to `mainMenu`. |
+| Any extra mockup button with no live product behaviour | DROP. |
+| Complete-career / all-time implication | KEEP only in `ready`. CHANGE in `partial` to show coverage such as `3 of 4 Showdowns readable`; never imply complete history. |
+| New-career state | CHANGE to contract `empty`; do not populate fake zero leader records. |
+| Failed history read | CHANGE to contract `unavailable`; never present a failed read as zero career totals. |
+| In-flight history read | CHANGE to contract `loading`; no fake values. |
+| Pre-provider owner-review history | CHANGE to exactly `Current Showdown only. Career history is not yet available.` |
+| Shared top navigation, if shown in the mockup | CHANGE to HOME / CAREER / STANDINGS / STATS / RULES plus settings; no ABOUT, search or profile destination. |
+
+The repository mockup is a binary PNG and the GitHub text connector in this chat does not expose its pixels. This table therefore resolves every Career Statistics mockup element explicitly called out by JOB-003, plus every data, rights, button, manager-order and history-state element governed by the binding product papers, without inventing unverified decorative details.
