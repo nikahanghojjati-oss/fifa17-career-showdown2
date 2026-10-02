@@ -991,7 +991,8 @@
     23,
     30,
     18,
-    130
+    130,
+    136
    ],
    "type": "build",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
@@ -1082,7 +1083,8 @@
     24,
     30,
     18,
-    131
+    131,
+    137
    ],
    "type": "build",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
@@ -1264,7 +1266,8 @@
     26,
     30,
     18,
-    132
+    132,
+    138
    ],
    "type": "build",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
@@ -1447,7 +1450,8 @@
     30,
     18,
     124,
-    134
+    134,
+    139
    ],
    "type": "build",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
@@ -2400,6 +2404,74 @@
    "worker": "GPT-5.6 Sol chat",
    "lane": "plain",
    "steps": 5,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 136,
+   "key": "realism_TR",
+   "title": "Fixture realism: Trophy Room",
+   "phase": "1 Truth",
+   "wave": 3,
+   "depends_on": [
+    130
+   ],
+   "type": "fix",
+   "worker": "GPT-5.6 Sol chat",
+   "lane": "plain",
+   "steps": 3,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 137,
+   "key": "realism_CS",
+   "title": "Fixture realism: Career Statistics",
+   "phase": "1 Truth",
+   "wave": 3,
+   "depends_on": [
+    131
+   ],
+   "type": "fix",
+   "worker": "GPT-5.6 Sol chat",
+   "lane": "plain",
+   "steps": 3,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 138,
+   "key": "realism_LG",
+   "title": "Fixture realism: Legacy (History)",
+   "phase": "1 Truth",
+   "wave": 3,
+   "depends_on": [
+    132
+   ],
+   "type": "fix",
+   "worker": "GPT-5.6 Sol chat",
+   "lane": "plain",
+   "steps": 3,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 139,
+   "key": "realism_FW",
+   "title": "Fixture realism: Final Winner",
+   "phase": "1 Truth",
+   "wave": 3,
+   "depends_on": [
+    134
+   ],
+   "type": "fix",
+   "worker": "GPT-5.6 Sol chat",
+   "lane": "plain",
+   "steps": 4,
    "waits_on_nik": null,
    "waits_on_team_g": null,
    "needs_claude_look": false

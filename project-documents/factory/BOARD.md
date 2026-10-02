@@ -1,10 +1,10 @@
 # Showdown Factory board
 
-Branch `factory/v1-wtt5ye`. 131 Team V jobs, plus 5 lines that track Team G. Open a new chat in the ChatGPT "Showdown visual" project and type a number. Up to 5 plain chats at once (at most 2 image jobs) plus up to 2 Sol Work mode workers.
+Branch `factory/v1-wtt5ye`. 135 Team V jobs, plus 5 lines that track Team G. Open a new chat in the ChatGPT "Showdown visual" project and type a number. Up to 5 plain chats at once (at most 2 image jobs) plus up to 2 Sol Work mode workers.
 
-**Overall (Team V):** █░░░░░░░░░ 16 % · 22 of 131 jobs done
+**Overall (Team V):** █░░░░░░░░░ 16 % · 22 of 135 jobs done
 
-**Start now (plain chats, press Stay in Chat):** 13, 15, 19, 20, 31 · queued next: 21, 22, 23, 24, 25, 26, 27, 28, 29, 43, 111, 112, 113, 114, 122, 123, 124
+**Start now (plain chats, press Stay in Chat):** 13, 15, 19, 20, 31 · queued next: 21, 22, 23, 24, 25, 26, 27, 28, 29, 43, 111, 112, 113, 114, 122, 123, 124, 136, 137, 138, 139
 
 **Start now (Sol Work mode, press Use Work):** -
 
@@ -71,12 +71,12 @@ Branch `factory/v1-wtt5ye`. 131 Team V jobs, plus 5 lines that track Team G. Ope
 | 54 | [Loading: new look and Reus credit](jobs/JOB-054.md) | 4 Polish built screens | build | plain (work if job 0 says no screenshots) | 11, 18 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 55 | [Loading: review](jobs/JOB-055.md) | 4 Polish built screens | review | plain (work if job 0 says no screenshots) | 54 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 56 | [Loading: fix round](jobs/JOB-056.md) | 4 Polish built screens | fix | plain (work if job 0 says no screenshots) | 55 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
-| 57 | [Trophy Room: build (desktop)](jobs/JOB-057.md) | 5 New screens | build | plain (work if job 0 says no screenshots) | 2, 23, 30, 18, 130 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
+| 57 | [Trophy Room: build (desktop)](jobs/JOB-057.md) | 5 New screens | build | plain (work if job 0 says no screenshots) | 2, 23, 30, 18, 130, 136 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 58 | [Trophy Room: phone](jobs/JOB-058.md) | 5 New screens | build | plain (work if job 0 says no screenshots) | 57, 115 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 59 | [Trophy Room: review](jobs/JOB-059.md) | 5 New screens | review | plain (work if job 0 says no screenshots) | 58 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 60 | [Trophy Room: fix round](jobs/JOB-060.md) | 5 New screens | fix | plain (work if job 0 says no screenshots) | 59 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 61 | [Trophy Room: motion](jobs/JOB-061.md) | 5 New screens | build | plain (work if job 0 says no screenshots) | 60, 16 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
-| 62 | [Career Statistics: build (desktop)](jobs/JOB-062.md) | 5 New screens | build | plain (work if job 0 says no screenshots) | 3, 24, 30, 18, 131 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
+| 62 | [Career Statistics: build (desktop)](jobs/JOB-062.md) | 5 New screens | build | plain (work if job 0 says no screenshots) | 3, 24, 30, 18, 131, 137 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 63 | [Career Statistics: phone](jobs/JOB-063.md) | 5 New screens | build | plain (work if job 0 says no screenshots) | 62, 116 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 64 | [Career Statistics: review](jobs/JOB-064.md) | 5 New screens | review | plain (work if job 0 says no screenshots) | 63 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 65 | [Career Statistics: fix round](jobs/JOB-065.md) | 5 New screens | fix | plain (work if job 0 says no screenshots) | 64 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
@@ -86,7 +86,7 @@ Branch `factory/v1-wtt5ye`. 131 Team V jobs, plus 5 lines that track Team G. Ope
 | 69 | [Rivalry Statistics: review](jobs/JOB-069.md) | 5 New screens | review | plain (work if job 0 says no screenshots) | 68 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 70 | [Rivalry Statistics: fix round](jobs/JOB-070.md) | 5 New screens | fix | plain (work if job 0 says no screenshots) | 69 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 71 | [Rivalry Statistics: motion](jobs/JOB-071.md) | 5 New screens | build | plain (work if job 0 says no screenshots) | 70, 16 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
-| 72 | [Legacy (History): build (desktop)](jobs/JOB-072.md) | 5 New screens | build | plain (work if job 0 says no screenshots) | 5, 26, 30, 18, 132 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
+| 72 | [Legacy (History): build (desktop)](jobs/JOB-072.md) | 5 New screens | build | plain (work if job 0 says no screenshots) | 5, 26, 30, 18, 132, 138 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 73 | [Legacy (History): phone](jobs/JOB-073.md) | 5 New screens | build | plain (work if job 0 says no screenshots) | 72, 118 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 74 | [Legacy (History): review](jobs/JOB-074.md) | 5 New screens | review | plain (work if job 0 says no screenshots) | 73 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 75 | [Legacy (History): fix round](jobs/JOB-075.md) | 5 New screens | fix | plain (work if job 0 says no screenshots) | 74 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
@@ -96,7 +96,7 @@ Branch `factory/v1-wtt5ye`. 131 Team V jobs, plus 5 lines that track Team G. Ope
 | 79 | [Season Results: review](jobs/JOB-079.md) | 5 New screens | review | plain (work if job 0 says no screenshots) | 78 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 80 | [Season Results: fix round](jobs/JOB-080.md) | 5 New screens | fix | plain (work if job 0 says no screenshots) | 79 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 81 | [Season Results: motion](jobs/JOB-081.md) | 5 New screens | build | plain (work if job 0 says no screenshots) | 80, 16 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
-| 82 | [Final Winner: build (desktop)](jobs/JOB-082.md) | 5 New screens | build | plain (work if job 0 says no screenshots) | 7, 23, 30, 18, 124, 134 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
+| 82 | [Final Winner: build (desktop)](jobs/JOB-082.md) | 5 New screens | build | plain (work if job 0 says no screenshots) | 7, 23, 30, 18, 124, 134, 139 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 83 | [Final Winner: phone](jobs/JOB-083.md) | 5 New screens | build | plain (work if job 0 says no screenshots) | 82, 115 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 84 | [Final Winner: review](jobs/JOB-084.md) | 5 New screens | review | plain (work if job 0 says no screenshots) | 83 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 85 | [Final Winner: fix round](jobs/JOB-085.md) | 5 New screens | fix | plain (work if job 0 says no screenshots) | 84 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
@@ -150,6 +150,10 @@ Branch `factory/v1-wtt5ye`. 131 Team V jobs, plus 5 lines that track Team G. Ope
 | 133 | [Truth sheet fix: Season Results](jobs/JOB-133.md) | 1 Truth | fix | plain | 6 | ██████████ 100 % | DONE |  |
 | 134 | [Truth sheet fix: Final Winner](jobs/JOB-134.md) | 1 Truth | fix | plain | 7 | ██████████ 100 % | DONE |  |
 | 135 | [Truth sheet fix: Rivalry Statistics](jobs/JOB-135.md) | 1 Truth | fix | plain | 4 | ██████████ 100 % | DONE |  |
+| 136 | [Fixture realism: Trophy Room](jobs/JOB-136.md) | 1 Truth | fix | plain | 130 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
+| 137 | [Fixture realism: Career Statistics](jobs/JOB-137.md) | 1 Truth | fix | plain | 131 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
+| 138 | [Fixture realism: Legacy (History)](jobs/JOB-138.md) | 1 Truth | fix | plain | 132 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
+| 139 | [Fixture realism: Final Winner](jobs/JOB-139.md) | 1 Truth | fix | plain | 134 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 
 Lanes: **plain** = a plain GPT-5.6 Sol chat in the Visual project; **plain-image** = plain chat with image generation (max 2 at once); **plain (work if …)** = plain chat unless job 0 finds plain chats cannot take screenshots, then Work mode; **work** = Work mode (shares one small pool with Codex, about 3–5 real jobs per 5 hours, so batch them); **codex** = Codex review (job 108 only); **team-g** = tracks a Team G job, never started by Team V.
 

@@ -171,7 +171,7 @@ Large files: images go in the zip as the job names them (WebP plus PNG masters w
 - Stay inside the files the job names. Do not "improve" other screens, papers or jobs.
 - Copy product strings word for word from the code on `main`. Never paraphrase them.
 - Every number and name that can change is live DOM text from `fixtures.json`, never baked into an image.
-- Preview data is fictional, labelled "Preview data", and within the bounds in DATA_CONTRACT_V1 §0.
+- Preview data is fictional, labelled "Preview data", and within the bounds in DATA_CONTRACT_V1 §0. Whenever you write or change preview numbers, keep the plain season inputs in a top-level `checkSource` block and run `python3 visual-assets/v10_1/shared/tools/check_fixtures.py <fixtures.json>` until it prints `0 errors`. Real Showdowns have limits: both managers play in one league, so only one can finish in each position and only one can win the Champions League, the domestic cup, top scorer or top assist in a season.
 - Measure, don't guess: positions as a % of the mockup, phone fit with factory-qa, page weight in KB.
 - When the job says "Claude look: yes", finish normally; Claude reviews after you.
 
