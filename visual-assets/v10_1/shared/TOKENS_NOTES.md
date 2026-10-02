@@ -680,3 +680,15 @@ The following is an exhaustive inventory of colour literals and font/font-size d
 | `--band-h: 28px` | 354 |
 | `--band-h: 42px` | 448 |
 | `--band-h: 34px` | 485 |
+
+## Bundled font provenance
+
+Copied byte-for-byte from tr2/slice-02-plate/assets/fonts/. Existing repo font licensing/provenance is retained at the source; no new font family was downloaded.
+
+| File | Bytes | SHA-256 |
+| --- | --- | --- |
+| kaushan-script-latin-400-normal.woff2 | 34748 | `addcc80ddcc170ff8c97140ab37ac380ac4e6d0b8fd14e5d107b4cb87ffd778f` |
+| barlow-condensed-latin-600-normal.woff2 | 22308 | `215a93c696f442034a46fbb382958f753fda60e30490683aeea6b235fcbb2b66` |
+| barlow-condensed-latin-700-normal.woff2 | 22444 | `3787a5a419171630e6890cfa47c4da067474d005cd0ff8dc11ec090fdc3ee2b8` |
+| barlow-latin-400-normal.woff2 | 22196 | `b0a8ad37ac45f5fb22ced461576db72e44e295107aad7a9c8a7a4bad728fd03b` |
+| barlow-latin-600-normal.woff2 | 22772 | `4b52ddd4836b592df0e4832b8286956883cdc651b015126bdd18f184b7f90cc3` |
