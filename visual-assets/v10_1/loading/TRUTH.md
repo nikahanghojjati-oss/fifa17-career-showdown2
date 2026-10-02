@@ -194,3 +194,7 @@ The new look follows `CRAFT_GUIDE.md` §4: black/gold Showdown materials, restra
 - The Reus credit is the one required content change: live `Display crop` becomes product-truth `Cropped for display`, with accessible links.
 - The visual palette changes from the current blue/grey FIFA-era styling to the factory's black/gold Showdown system.
 - No mockup-only element exists to copy, and no new button, stat, route or history panel is introduced.
+
+## Open questions
+
+None. The former reference-image ambiguity was resolved by the updated JOB-011 instruction and Claude's unblock note: Loading has no mockup, so the live `main` startup screen is the reference authority. The build has enough product truth to proceed.
