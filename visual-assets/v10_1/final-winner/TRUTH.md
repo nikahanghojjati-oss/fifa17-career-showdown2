@@ -333,3 +333,20 @@ There is no dedicated Final Winner mockup. `MOCKUP_SEASON_RESULTS.jpg` and `MOCK
 | Real club crest, league logo, real competition trophy, real player photo or EA/FIFA artwork | Never use them. Use original code-drawn marks and original Showdown trophy/manager art. | PRODUCT_TRUTH + factory rules | drop |
 
 The styling target is therefore a premium stadium ceremony with the two managers and trophy-cabinet polish, while the product content stays intentionally small: final totals, winner, margin, seasons played, per-Showdown trophy attribution, completion state and only the real actions for that state.
+
+
+## Open questions
+
+None blocking.
+
+The only contract field marked A is the normalized §4 `state` supplied by Team G's G-5 adapter. Main already exposes the underlying Final Reconciliation and Terminal Close evidence, so this is an implementation handoff rather than a product question. Exact motion, spacing, decorative stadium composition and original trophy-art placement remain visual implementation choices and may not change the truth above.
+
+## Self-check
+
+- Exact-string spot check passed against main for: `SHOWDOWN FINAL RECONCILED`; `FINAL RESULTS ARE READ-ONLY · TERMINAL CLOSE REMAINS A SEPARATE STEP`; `FINAL RESULT READY FOR TERMINAL CLOSE`; `CLOSE SHARED SHOWDOWN`; `SHOWDOWN COMPLETE`.
+- Mockup reconciliation covers every Final Winner-relevant element borrowed from the two style references and gives it an explicit live, preview or drop answer. There is no dedicated Final Winner mockup.
+- Final Winner data is limited to DATA_CONTRACT_V1 §4 plus universal §0 state metadata. Unrecorded/player/per-match statistics are explicitly DROP.
+- FW1–FW5 all use fictional values, all carry `Preview data`, all use valid Showdown lengths, all keep totals within the 11-points-per-season ceiling, all have correct winner/margin arithmetic, and all trophy totals equal the three permitted trophy families.
+- Daniel is first/left and Nik second/right in truth, ids and every fixture frame.
+- No fixture frame references a real club crest, league logo, real competition trophy, player image or other image asset.
+- Every JOB-007 commit changes only `visual-assets/v10_1/final-winner/TRUTH.md`, `visual-assets/v10_1/final-winner/fixtures.json`, or `project-documents/factory/status/JOB-007.md`.
