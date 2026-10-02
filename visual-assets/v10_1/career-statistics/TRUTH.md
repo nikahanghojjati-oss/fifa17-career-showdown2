@@ -171,6 +171,18 @@ For an owner-review interim build before provider history is real, the only perm
 
 It is not a launch state.
 
+### Provider-state copy
+
+These strings are factory copy because current `main` has no provider-history wording for these states. Each entry has `source: "new"`.
+
+| State | Heading | Body | Source |
+| --- | --- | --- | --- |
+| `loading` | `LOADING CAREER HISTORY` | `Loading career history…` | `new` |
+| `partial` | `PARTIAL CAREER HISTORY` | `Some Showdowns could not be read. Statistics below use readable Showdowns only.` | `new` |
+| `unavailable` | `CAREER HISTORY UNAVAILABLE` | `Career history could not be loaded. No statistics are being shown.` | `new` |
+
+The partial state must also show the existing coverage line `{READABLE} of {INDEXED} Showdowns readable` directly with the partial heading/body.
+
 ### Fields from current `main` that do not survive this contract
 
 These currently rendered Career Statistics fields are not listed in contract §6 and therefore are dropped from the factory screen:
