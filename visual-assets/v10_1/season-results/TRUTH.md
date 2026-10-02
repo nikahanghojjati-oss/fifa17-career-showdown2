@@ -298,11 +298,20 @@ Fixtures obey DATA_CONTRACT_V1 §0:
 * the four achievement inputs are booleans.
 * managers are keyed `daniel` and `nik`; Daniel is always first/left.
 
+
+### Context for every fixture frame
+
+Every frame, including SR7–SR10, carries a `context` block with `season`, `totalSeasons`, `leagueId` and `clubs.{daniel,nik}`. All ten frames belong to the same fictional preview: season 1 of a 3-season Premier League Showdown, with permanent club identifiers `arsenal` for Daniel and `chelsea` for Nik. Club labels and original crests are resolved by the presentation adapter; the identifiers do not authorize real club artwork.
+
+`season` is a whole number from 1 through `totalSeasons`; `totalSeasons` is one of 1, 3, 5 or 10; `leagueId` must be in the five-league contract set. The league determines the position/points limits (20 teams here: position 1–20, points 0–114, goals 0–300). Both clubs belong to that selected league and remain fixed across this preview sequence.
+
+This is context metadata, not another season input or a fabricated provider result. For non-ready frames the preview context remains known independently; do not infer missing result records or turn unavailable inputs into zero. On a real failed context read, do not substitute fixture context.
+
 ### Fields explicitly dropped
 
 DATA_CONTRACT_V1 §9 forbids clean sheets, biggest single-match win, European wins other than Champions League, player names, player-based leaders/photos, match-by-match results, possession, and every other per-match stat. `topScorer` and `topAssist` are booleans only, never player names.
 
-No field outside §0 and §3 is added to the Season Results build.
+No extra season input or statistic outside §0 and §3 is added. The job-required `context` metadata above identifies the existing Showdown and season; it does not add a gameplay statistic.
 
 
 ## Screen states and preview frames

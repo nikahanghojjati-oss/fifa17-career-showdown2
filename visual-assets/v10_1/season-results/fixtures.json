@@ -194,6 +194,15 @@
           "topScorer": false,
           "topAssist": true
         }
+      },
+      "context": {
+        "season": 1,
+        "totalSeasons": 3,
+        "leagueId": "premier_league",
+        "clubs": {
+          "daniel": "arsenal",
+          "nik": "chelsea"
+        }
       }
     },
     "SR2": {
@@ -219,6 +228,15 @@
           "topScorer": true,
           "topAssist": false
         }
+      },
+      "context": {
+        "season": 1,
+        "totalSeasons": 3,
+        "leagueId": "premier_league",
+        "clubs": {
+          "daniel": "arsenal",
+          "nik": "chelsea"
+        }
       }
     },
     "SR3": {
@@ -243,6 +261,15 @@
           "championsLeague": true,
           "topScorer": false,
           "topAssist": true
+        }
+      },
+      "context": {
+        "season": 1,
+        "totalSeasons": 3,
+        "leagueId": "premier_league",
+        "clubs": {
+          "daniel": "arsenal",
+          "nik": "chelsea"
         }
       }
     },
@@ -275,6 +302,15 @@
           "championsLeague": true,
           "topScorer": true,
           "topAssist": false
+        }
+      },
+      "context": {
+        "season": 1,
+        "totalSeasons": 3,
+        "leagueId": "premier_league",
+        "clubs": {
+          "daniel": "arsenal",
+          "nik": "chelsea"
         }
       }
     },
@@ -326,7 +362,16 @@
         }
       },
       "winner": "daniel",
-      "tiebreak": "none"
+      "tiebreak": "none",
+      "context": {
+        "season": 1,
+        "totalSeasons": 3,
+        "leagueId": "premier_league",
+        "clubs": {
+          "daniel": "arsenal",
+          "nik": "chelsea"
+        }
+      }
     },
     "SR6": {
       "note": "Review validation/action error with only bounded fictional values. The exact changed-after-review error is layered onto the entering phase.",
@@ -352,7 +397,16 @@
           "topAssist": true
         }
       },
-      "error": "Your season result changed after review. Choose Edit My Result and review it again before publishing."
+      "error": "Your season result changed after review. Choose Edit My Result and review it again before publishing.",
+      "context": {
+        "season": 1,
+        "totalSeasons": 3,
+        "leagueId": "premier_league",
+        "clubs": {
+          "daniel": "arsenal",
+          "nik": "chelsea"
+        }
+      }
     },
     "SR7": {
       "note": "Contract loading state; no result values are presented as facts.",
@@ -361,7 +415,16 @@
       "managerOrder": [
         "daniel",
         "nik"
-      ]
+      ],
+      "context": {
+        "season": 1,
+        "totalSeasons": 3,
+        "leagueId": "premier_league",
+        "clubs": {
+          "daniel": "arsenal",
+          "nik": "chelsea"
+        }
+      }
     },
     "SR8": {
       "note": "Contract empty state; the read succeeded but no usable Season Results record is shown, and no zero score is invented.",
@@ -370,7 +433,16 @@
       "managerOrder": [
         "daniel",
         "nik"
-      ]
+      ],
+      "context": {
+        "season": 1,
+        "totalSeasons": 3,
+        "leagueId": "premier_league",
+        "clubs": {
+          "daniel": "arsenal",
+          "nik": "chelsea"
+        }
+      }
     },
     "SR9": {
       "note": "Contract partial/interim coverage state; no private rival values or fake complete result is shown.",
@@ -381,7 +453,16 @@
         "nik"
       ],
       "interimLabel": "Current Showdown only. Career history is not yet available.",
-      "launchState": false
+      "launchState": false,
+      "context": {
+        "season": 1,
+        "totalSeasons": 3,
+        "leagueId": "premier_league",
+        "clubs": {
+          "daniel": "arsenal",
+          "nik": "chelsea"
+        }
+      }
     },
     "SR10": {
       "note": "Contract unavailable state; provider read failed and no result values are presented as facts.",
@@ -390,7 +471,16 @@
       "managerOrder": [
         "daniel",
         "nik"
-      ]
+      ],
+      "context": {
+        "season": 1,
+        "totalSeasons": 3,
+        "leagueId": "premier_league",
+        "clubs": {
+          "daniel": "arsenal",
+          "nik": "chelsea"
+        }
+      }
     }
   },
   "routes": {
