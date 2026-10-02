@@ -262,3 +262,54 @@ State / status strings and templates include:
 ### Factory wording override
 
 `PRODUCT_TRUTH.md` requires plain words on the factory Start / Join screen. The build must not carry forward jargon such as `page-memory session`, `exact capability`, `256-bit capability`, or provider implementation detail. It may change presentation wording only where the product already has an equivalent plain meaning. The live strings above remain the source record for behaviour and state mapping.
+
+## Data contract
+
+Authority: `project-documents/factory/DATA_CONTRACT_V1.md`, especially §0 (global states, manager keys and bounds), §2 (Start / Join), and §9 (dropped stats). §2 is the binding field/action list. The factory build does not add anything outside this contract.
+
+| Contract field / action | E/A | Source on `main` | Level |
+| --- | --- | --- | --- |
+| `status` = `loading` / `empty` / `unavailable` / `partial` / `ready` | A | G-6 adapter normalizes the existing pairing state from `CareerModePersistentNikDanielPair.getState()` and session state from `CareerModeSparkRemoteJoining.getState()`. | Start / Join view |
+| `totalSeasons` ∈ {1,3,5,10} | E | `index.html#roundAmount`; persisted as the Showdown season count and read by `productionSharedJourneyEntry.js::provisionJoinerShell` / `persistentNikDanielPair.js::pairPreparedTotalRounds`. | per Showdown |
+| `pairing.state` = `none` / `code-created` / `waiting-for-nik` / `paired` | E | `persistentNikDanielPair.js::pairInitialize`, `pairStartPairing`, `pairJoinPairing`; adapter maps live `status` + `connectionState` to the four contract values. | per Showdown |
+| `pairing.code` (host only, after creation) | E | `persistentNikDanielPair.js::pairStartPairing` builds the player code with `pairBuildPlayerJoinCode` and stores it in `state.capability`. | per Showdown |
+| `createCode` | E | `persistentNikDanielPair.js::pairStartPairing` | per Showdown |
+| `join` (pairing) | E | `persistentNikDanielPair.js::pairJoinPairing` | per Showdown |
+| `copyCode` | E | `persistentNikDanielPair.js::pairRender` → `pairCopyText` | per Showdown |
+| `newCode` | E | `persistentNikDanielPair.js::pairRender` → `pairStartPairing` | per Showdown |
+| `checkStatus` | E | `persistentNikDanielPair.js::pairRender` → `pairInitialize({force:true})` | per Showdown |
+| `retry` | E | `persistentNikDanielPair.js::pairRetryPairLink` | per Showdown |
+| `session.state` = `open` / `active` / `revoked` / `closed` / `expired` | E | `sparkRemoteJoining.js` `srjState.sessionState`; `srjExpiredByClock` supplies the clock-expired presentation state. | per Showdown private session |
+| `host` | E | `sparkRemoteJoining.js::srjHostSession` | per Showdown private session |
+| `join` (session) | E | `sparkRemoteJoining.js::srjJoinSession` | per Showdown private session |
+| `refresh` | E | `sparkRemoteJoining.js::srjRefreshSession` | per Showdown private session |
+| `revoke` | E | `sparkRemoteJoining.js::srjRevokeSession` | per Showdown private session |
+| `close` | E | `sparkRemoteJoining.js::srjCloseSession` | per Showdown private session |
+| `forget` | E | `sparkRemoteJoining.js::srjForgetSession` | current browser's copy of the private-session code |
+| `abandonShowdown` (with confirm) | E | `persistentNikDanielPair.js::pairAbandonCurrentShowdown`; current callers confirm in `productionSharedJourneyEntry.js::prepareFreshStart` and the recovery/start-over flow before closure. | per Showdown |
+| `forgetThisDevice` (with confirm) | E | `onlinePlayerIdentity.js::forgetOnlineDevice`, exported as `forgetThisDevice`; provider device revocation is `sparkPrivatePairing.js::revokeRegisteredDevice`. The current live Settings action exists; the consolidated Start / Join adapter must supply the contract-required confirm before invoking it. | per registered browser / player identity |
+| One view model for both layers: two big buttons plus a `More` menu containing Revoke / Close / Forget, each with confirm | A | G-6 presentation adapter only; it composes the existing persistent-pair and Remote Joining actions without changing their underlying functions. | Start / Join view |
+
+### Contract state handling
+
+The factory screen uses exactly the five global states from `DATA_CONTRACT_V1.md §0`:
+
+- `loading`: identity, pairing or session authority is still being read. Show progress, never guessed values.
+- `empty`: the read succeeded and there is no current pairing/session yet. Show the Start / Join choices, not zeroes.
+- `unavailable`: the required read failed or connectivity/service authority is unavailable. Keep existing local career data untouched and provide the real retry path.
+- `partial`: one layer is known while another required layer cannot currently be verified. Show what is known plus coverage/availability wording; never call it complete.
+- `ready`: the current pairing/session state is verified and the role-appropriate actions can be shown.
+
+Before career history is available, the only allowed interim history label is exactly:
+
+`Current Showdown only. Career history is not yet available.`
+
+Start / Join does not invent career totals. If the adapter exposes any current-Showdown-only context while Team G history is unfinished, it uses that exact label. Job 104 later replaces the labelled sample values with Team G's G-11 model-true fixtures.
+
+### Manager and privacy rules from the contract
+
+- Manager keys are exactly `daniel` = `playerOne` and `nik` = `playerTwo`. Daniel is listed first / left; Nik second / right.
+- Daniel is the established pairing host and Nik joins Daniel's code. The code is live DOM text and is never baked into art.
+- No rival private inputs belong in this view model.
+- The only numeric setup field shown here is `totalSeasons`, bounded to 1, 3, 5 or 10.
+- §9 dropped stats are not represented here at all: clean sheets, biggest win, non-CL European wins, player names/leaders/photos, match-by-match results, possession and per-match statistics.
