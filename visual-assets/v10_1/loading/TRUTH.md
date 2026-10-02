@@ -104,3 +104,32 @@ This is a product-truth correction to the current live text/accessibility treatm
 ### Missing state-specific copy on the live splash
 
 The current product has no Loading-specific empty, unavailable, partial, slow-network, retry, or error string, and no state-dependent button label. Generic runtime errors are shown by the separate application runtime notice system, not by `#loadingText`.
+
+## Data contract
+
+Source: `project-documents/factory/DATA_CONTRACT_V1.md` §0. Loading shows no history, score, season, club, league, manager-record or transfer data. Therefore §0 is the only applicable contract section.
+
+| Contract field | E/A | Main source | Level | Loading use |
+| --- | --- | --- | --- | --- |
+| `status` | E (derived adapter) | `index.html #loadingScreen` + `js/app.js ra()` / `finishStartupPresentation()` | per startup screen instance | Required screen-state field. Main already exposes the underlying lifecycle through `aria-busy`, `.is-ready`, `.is-exiting` and `.hidden`; the factory view model names that state with the contract token. |
+
+No other DATA_CONTRACT_V1 field is displayed by Loading. In particular, Loading does not show `viewerRole`, manager values, `season`, `totalSeasons`, `leagueId`, clubs, scores, trophies, history coverage or transfers. Contract §9 dropped stats are also absent.
+
+### Contract state vocabulary
+
+The preview/build view model uses the contract's exact five states:
+
+- `loading` — startup presentation is active.
+- `empty` — contract-safe empty-state preview only; the live startup currently has no separate empty state.
+- `unavailable` — contract-safe unavailable-state preview only; the live startup currently has no separate unavailable state.
+- `partial` — contract-safe partial-state preview only; the live startup currently has no separate partial state.
+- `ready` — startup work is complete and the screen hands off to Home.
+
+The contract's exact interim label is:
+`Current Showdown only. Career history is not yet available.`
+
+Loading does not display career history, so this label is retained in fixture metadata for contract fidelity but is not rendered on the Loading screen.
+
+### Bounds and identity rules
+
+Although Loading does not render gameplay values, any fixture context that is present elsewhere in a future preview must obey §0: `totalSeasons` ∈ {1, 3, 5, 10}; league IDs are `premier_league`, `laliga`, `bundesliga`, `serie_a`, `ligue_1`; positions/points/goals stay within league bounds; managers are keyed `daniel` then `nik`. No such values are needed by the current Loading UI.
