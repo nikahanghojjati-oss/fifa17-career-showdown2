@@ -13,7 +13,7 @@
   const CABINET=Object.freeze(["championsLeagues","leagueTitles","domesticCups","totalTrophies"]);
   const LABELS=Object.freeze(["Highest season score","Highest league points","Highest league goals","Biggest Showdown win","Most perfect seasons"]);
 
-  function freeze(value){if(value&&typeof value==="object"&&!Object.isFrozen(value)){Object.values(value).forEach(freeze);Object.freeze(value);}return value;}
+  function caFreeze(value){if(value&&typeof value==="object"&&!Object.isFrozen(value)){Object.values(value).forEach(caFreeze);Object.freeze(value);}return value;}
   function managerBase(unknown){
     return {...Object.fromEntries(COUNTERS.map(key=>[key,unknown?null:0])),...Object.fromEntries([...BESTS,...AVERAGES].map(key=>[key,null])),showdowns:{completed:unknown?null:0,wins:unknown?null:0,draws:unknown?null:0,losses:unknown?null:0}};
   }
@@ -25,9 +25,9 @@
     if(a.leaguePoints!==b.leaguePoints)return "league-points";
     return "draw";
   }
-  function canonical(value){
-    if(Array.isArray(value))return "["+value.map(canonical).join(",")+"]";
-    if(value&&typeof value==="object")return "{"+Object.keys(value).sort().map(key=>JSON.stringify(key)+":"+canonical(value[key])).join(",")+"}";
+  function caCanonical(value){
+    if(Array.isArray(value))return "["+value.map(caCanonical).join(",")+"]";
+    if(value&&typeof value==="object")return "{"+Object.keys(value).sort().map(key=>JSON.stringify(key)+":"+caCanonical(value[key])).join(",")+"}";
     return JSON.stringify(value);
   }
   function verified(entry){
@@ -53,7 +53,7 @@
       if(source.classification==="pending")continue;
       const entry=verified(source),id=entry.rivalryId;
       // Lifecycle and setup disagreements are also integrity failures; never choose a side.
-      const fingerprint=canonical({classification:source.classification,projection:source.projection??null,final:source.final??null});
+      const fingerprint=caCanonical({classification:source.classification,projection:source.projection??null,final:source.final??null});
       if(!positions.has(id)){
         positions.set(id,entries.length);fingerprints.set(id,fingerprint);entries.push(entry);
       }else if(fingerprints.get(id)!==fingerprint||entry.classification==="unavailable"){
@@ -91,7 +91,7 @@
     const value=Math.max(...candidates.map(candidate=>candidate.value));
     const tied=candidates.filter(candidate=>candidate.value===value);
     const managers=new Set(tied.map(candidate=>candidate.manager));
-    const places=new Set(tied.map(candidate=>canonical(candidate.ref)));
+    const places=new Set(tied.map(candidate=>caCanonical(candidate.ref)));
     return {label,manager:managers.size===1?tied[0].manager:"shared",value,ref:places.size===1&&tied[0].ref?{...tied[0].ref}:null};
   }
   function trophyRoom(managers,records,unknown){
@@ -105,7 +105,7 @@
     const interimLabel=options["current"+"ShowdownOnly"]===true?"Current Showdown only. Career history is not yet available.":null;
     const unknown=indexStatus!=="ready";
     const managers={daniel:managerBase(unknown),nik:managerBase(unknown)};
-    if(unknown)return freeze({status:indexStatus==="loading"?"loading":"unavailable",interimLabel,coverage:{readable:null,indexed:null},managers,biggestShowdownWin:null,trophyRoom:trophyRoom(managers,[],true),history:{showdowns:[]}});
+    if(unknown)return caFreeze({status:indexStatus==="loading"?"loading":"unavailable",interimLabel,coverage:{readable:null,indexed:null},managers,biggestShowdownWin:null,trophyRoom:trophyRoom(managers,[],true),history:{showdowns:[]}});
 
     const entries=uniqueEntries(showdowns),rows=[],sums={daniel:{points:0,goals:0},nik:{points:0,goals:0}};
     const candidates=[[],[],[],[],[]];
@@ -152,7 +152,7 @@
       }
     }
     const records=LABELS.map((label,index)=>bestRecord(label,candidates[index]));
-    return freeze({status:entries.length===0?"empty":readable<entries.length?"partial":"ready",interimLabel,coverage:{readable,indexed:entries.length},managers,biggestShowdownWin,trophyRoom:trophyRoom(managers,records,false),history:{showdowns:rows}});
+    return caFreeze({status:entries.length===0?"empty":readable<entries.length?"partial":"ready",interimLabel,coverage:{readable,indexed:entries.length},managers,biggestShowdownWin,trophyRoom:trophyRoom(managers,records,false),history:{showdowns:rows}});
   }
   return Object.freeze({buildCareerModel,seasonTiebreak});
 });
