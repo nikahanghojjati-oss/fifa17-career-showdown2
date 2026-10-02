@@ -1,0 +1,240 @@
+<title>Gameplay Job Board</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Source+Sans+3:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: a matchday-programme league table. Header + "your next move" card, then one table block per phase. */
+:root {
+  --bg: #f3f5f1;
+  --surface: #ffffff;
+  --ink: #15201a;
+  --muted: #5b6a60;
+  --line: #dbe2dc;
+  --accent: #1e6a45;      /* pitch green */
+  --accent-soft: #e2efe7;
+  --gold: #9a6c12;        /* Codex review flag */
+  --gold-soft: #f6ecd6;
+  --ok: #1e6a45; --ok-soft: #e2efe7;
+  --run: #1d5fa8; --run-soft: #e3edf9;
+  --warn: #a4400f; --warn-soft: #fbe7dc;
+  --idle: #6b756f; --idle-soft: #eceff0;
+  --track: #e3e8e4;
+  --f-display: "Barlow Condensed", "Arial Narrow", "Roboto Condensed", sans-serif;
+  --f-body: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+  --f-data: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0f1512; --surface: #17201b; --ink: #e6ede8; --muted: #9aaba0; --line: #2a3630;
+  --accent: #5cc48d; --accent-soft: #1d3327; --gold: #e0b55a; --gold-soft: #3a2f17;
+  --ok: #5cc48d; --ok-soft: #1d3327; --run: #7fb2ef; --run-soft: #1a2b40;
+  --warn: #f08a5d; --warn-soft: #3d2216; --idle: #9aa49e; --idle-soft: #232c27; --track: #26302b;
+  color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #0f1512; --surface: #17201b; --ink: #e6ede8; --muted: #9aaba0; --line: #2a3630;
+  --accent: #5cc48d; --accent-soft: #1d3327; --gold: #e0b55a; --gold-soft: #3a2f17;
+  --ok: #5cc48d; --ok-soft: #1d3327; --run: #7fb2ef; --run-soft: #1a2b40;
+  --warn: #f08a5d; --warn-soft: #3d2216; --idle: #9aa49e; --idle-soft: #232c27; --track: #26302b;
+  color-scheme: dark }
+* { box-sizing: border-box }
+body { background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 15px; line-height: 1.45; }
+.wrap { max-width: 1040px; margin: 0 auto; padding-inline: 16px; padding-block: 28px 48px; display: grid; gap: 28px; }
+a { color: var(--accent); }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.eyebrow { font-family: var(--f-display); font-weight: 600; text-transform: uppercase; letter-spacing: .12em; font-size: 13px; color: var(--muted); }
+h1 { font-family: var(--f-display); font-weight: 700; font-size: clamp(34px, 6vw, 52px); line-height: 1; margin: 4px 0 0; text-transform: uppercase; letter-spacing: .01em; text-wrap: balance; }
+h2 { font-family: var(--f-display); font-weight: 700; font-size: 24px; text-transform: uppercase; letter-spacing: .03em; margin: 0; }
+.meta { color: var(--muted); font-size: 13px; font-family: var(--f-data); margin-top: 8px; }
+.overall { display: grid; gap: 8px; margin-top: 18px; }
+.overall .row { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.big { font-family: var(--f-display); font-weight: 700; font-size: 40px; line-height: 1; font-variant-numeric: tabular-nums; }
+.bar { height: 10px; background: var(--track); border-radius: 999px; overflow: hidden; }
+.bar > i { display: block; height: 100%; background: var(--accent); border-radius: 999px; }
+.bar.thin { height: 6px; }
+
+/* Next move card */
+.next { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 20px; display: grid; gap: 16px; }
+.lanes { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+.lane { border: 1px solid var(--line); border-radius: 10px; padding: 14px; display: grid; gap: 8px; align-content: start; min-width: 0; }
+.lane .label { font-weight: 700; }
+.lane .how { color: var(--muted); font-size: 13px; }
+.nums { display: flex; flex-wrap: wrap; gap: 8px; }
+.num { font-family: var(--f-display); font-weight: 700; font-size: 26px; min-width: 48px; height: 48px; padding: 0 10px; display: inline-grid; place-items: center; border-radius: 10px; background: var(--accent); color: var(--surface); font-variant-numeric: tabular-nums; }
+.num.queued { background: var(--accent-soft); color: var(--accent); }
+.none { color: var(--muted); font-style: italic; }
+.copybox { display: grid; gap: 8px; }
+.copybox code { font-family: var(--f-data); font-size: 12px; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 10px; display: block; overflow-wrap: anywhere; user-select: all; }
+button { font: inherit; cursor: pointer; }
+.btn { justify-self: start; border: 1px solid var(--accent); background: var(--accent); color: var(--surface); border-radius: 8px; padding: 7px 14px; font-weight: 600; }
+.btn:hover { filter: brightness(1.08); }
+
+/* Filters */
+.filters { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.chipbtn { border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 999px; padding: 5px 14px; font-size: 14px; }
+.chipbtn[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+
+/* Phase tables */
+.phase { display: grid; gap: 10px; }
+.phase-head { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
+.phase-head .count { font-family: var(--f-data); font-size: 13px; color: var(--muted); }
+.table { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+.job { display: grid; grid-template-columns: 64px minmax(0, 1fr) 170px; gap: 16px; padding: 14px 18px; border-top: 1px solid var(--line); align-items: start; }
+.job:first-child { border-top: 0; }
+.job .n { font-family: var(--f-display); font-weight: 700; font-size: 34px; line-height: 1; font-variant-numeric: tabular-nums; color: var(--ink); }
+.job .gid { font-family: var(--f-data); font-size: 11px; color: var(--muted); margin-top: 4px; }
+.job .title { font-weight: 700; font-size: 16px; }
+.job .title a { color: var(--ink); text-decoration-color: var(--line); text-underline-offset: 3px; }
+.job .title a:hover { text-decoration-color: var(--accent); }
+.job .plain { color: var(--muted); margin-top: 2px; }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.tag { font-size: 12px; border: 1px solid var(--line); border-radius: 6px; padding: 1px 7px; color: var(--muted); white-space: nowrap; }
+.tag.lane-work { color: var(--run); border-color: var(--run-soft); background: var(--run-soft); }
+.tag.lane-chat { color: var(--accent); border-color: var(--accent-soft); background: var(--accent-soft); }
+.tag.lane-nik { color: var(--warn); border-color: var(--warn-soft); background: var(--warn-soft); }
+.tag.codex { color: var(--gold); background: var(--gold-soft); border-color: var(--gold-soft); }
+.tag.dep-done { text-decoration: line-through; opacity: .7; }
+.status { display: grid; gap: 6px; justify-items: end; text-align: right; }
+.pill { font-family: var(--f-display); font-weight: 600; font-size: 13px; text-transform: uppercase; letter-spacing: .06em; padding: 2px 10px; border-radius: 999px; white-space: nowrap; }
+.s-done { background: var(--ok-soft); color: var(--ok); }
+.s-run { background: var(--run-soft); color: var(--run); }
+.s-block { background: var(--warn-soft); color: var(--warn); }
+.s-ready { background: var(--accent); color: var(--surface); }
+.s-idle { background: var(--idle-soft); color: var(--idle); }
+.status .bar { width: 100%; }
+.status .pct { font-family: var(--f-data); font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.legend { color: var(--muted); font-size: 13px; display: grid; gap: 6px; }
+@media (max-width: 640px) {
+  .job { grid-template-columns: 44px minmax(0, 1fr); }
+  .job .n { font-size: 28px; }
+  .status { grid-column: 2; justify-items: start; text-align: left; }
+}
+@media (prefers-reduced-motion: no-preference) { .bar > i { transition: width .4s ease; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Career Mode Showdown · Team G gameplay factory</div>
+    <h1>Gameplay Job Board</h1>
+    <div class="meta" id="meta"></div>
+    <div class="overall">
+      <div class="row"><span class="big" id="overallPct"></span><span id="overallText"></span></div>
+      <div class="bar"><i id="overallBar"></i></div>
+    </div>
+  </header>
+
+  <section class="next" aria-labelledby="nextH">
+    <h2 id="nextH">Your next move</h2>
+    <div class="lanes" id="lanes"></div>
+    <div class="copybox">
+      <div class="how">Work-mode starter line (press <b>Use Work</b>, paste this as the first message):</div>
+      <code id="starter"></code>
+      <button class="btn" id="copyBtn" type="button">Copy starter line</button>
+    </div>
+  </section>
+
+  <div class="filters" role="group" aria-label="Filter jobs">
+    <button class="chipbtn" id="f-all" data-f="all" aria-pressed="true" type="button">All jobs</button>
+    <button class="chipbtn" id="f-open" data-f="open" aria-pressed="false" type="button">Still to do</button>
+    <button class="chipbtn" id="f-done" data-f="done" aria-pressed="false" type="button">Done</button>
+  </div>
+
+  <div id="phases" style="display:grid;gap:28px"></div>
+
+  <footer class="legend" id="legend"></footer>
+</div>
+
+<script>
+const DATA = /*BOARD_DATA*/null;
+const REPO = "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2";
+const RAW = "https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2";
+const $ = id => document.getElementById(id);
+const pad = n => String(n).padStart(2, "0");
+const FIN = ["DONE", "SKIPPED"];
+const byNum = Object.fromEntries(DATA.jobs.map(j => [j.number, j]));
+const laneName = { chat: "Normal chat", work: "Sol Work mode", nik: "Nik on two phones" };
+
+function pillFor(j) {
+  const s = j.state;
+  if (FIN.includes(s)) return ["s-done", s === "DONE" ? "Done" : "Skipped"];
+  if (s.startsWith("IN PROGRESS")) return ["s-run", "Working"];
+  if (s.startsWith("BLOCKED")) return ["s-block", "Blocked"];
+  if (s.startsWith("WAITING")) return ["s-block", s.replace("WAITING ON", "Waiting on").toLowerCase().replace(/^w/, "W")];
+  if (s === "NOT WRITTEN") return ["s-idle", "Not written yet"];
+  if (j.ready) return ["s-ready", "Ready"];
+  return ["s-idle", "Waiting on " + j.depends_on.filter(d => !FIN.includes(byNum[d].state)).join(", ")];
+}
+
+$("meta").textContent = `Updated ${DATA.generated} · branch ${DATA.branch} · code merges into ${DATA.integration_branch}`;
+$("overallPct").textContent = DATA.overall + " %";
+$("overallText").textContent = `${DATA.done} of ${DATA.total} jobs done`;
+$("overallBar").style.width = DATA.overall + "%";
+
+const laneCards = [
+  { lane: "work", nums: DATA.start.work, how: "Press Use Work and paste the starter line below; it already names this job." },
+  { lane: "chat", nums: DATA.start.chat, how: "Open a new chat in the ChatGPT project, press Stay in Chat, and type just the number." },
+];
+$("lanes").innerHTML = laneCards.map(c => `
+  <div class="lane">
+    <div class="label">Start now · ${laneName[c.lane]}</div>
+    <div class="nums">${c.nums.length ? c.nums.map(n => `<span class="num">${n}</span>`).join("") : `<span class="none">Nothing to start</span>`}</div>
+    <div class="how">${c.how}</div>
+  </div>`).join("") + `
+  <div class="lane">
+    <div class="label">Next in line</div>
+    <div class="nums">${DATA.queued.length ? DATA.queued.map(n => `<span class="num queued">${n}</span>`).join("") : `<span class="none">None</span>`}</div>
+    <div class="how">Working now: ${DATA.working.length ? DATA.working.join(", ") : "none"} · Blocked: ${DATA.blocked.length ? DATA.blocked.join(", ") : "none"}. Only ${DATA.capacity.work} Work-mode chat and ${DATA.capacity.chat} normal chats run at once.</div>
+  </div>`;
+
+const firstWork = DATA.start.work[0] ?? DATA.queued[0] ?? 1;
+const starter = `Gameplay factory job ${firstWork}. Read ${RAW}/factory/gameplay-v1/project-documents/gameplay-factory/RULES.md and obey the box in it as your rules, then read WORKER_HANDBOOK.md next to it and do job ${firstWork} (repo nikahanghojjati-oss/fifa17-career-showdown2, branch factory/gameplay-v1). Ignore any older relay contract or memory.`;
+$("starter").textContent = starter;
+$("copyBtn").addEventListener("click", () => {
+  const done = () => { $("copyBtn").textContent = "Copied"; setTimeout(() => $("copyBtn").textContent = "Copy starter line", 1600); };
+  const fallback = () => { const r = document.createRange(); r.selectNodeContents($("starter")); const s = getSelection(); s.removeAllRanges(); s.addRange(r); $("copyBtn").textContent = "Selected, press Copy"; };
+  try { navigator.clipboard.writeText(starter).then(done, fallback); } catch (e) { fallback(); }
+});
+
+const phases = [...new Set(DATA.jobs.map(j => j.phase))];
+function render(filter) {
+  $("phases").innerHTML = phases.map(ph => {
+    const all = DATA.jobs.filter(j => j.phase === ph);
+    const jobs = all.filter(j => filter === "all" || (filter === "done") === FIN.includes(j.state));
+    if (!jobs.length) return "";
+    const doneN = all.filter(j => FIN.includes(j.state)).length;
+    const pct = Math.round(all.reduce((a, j) => a + j.pct, 0) / all.length);
+    return `<section class="phase">
+      <div class="phase-head"><h2>${ph.replace(/^\d+\s/, m => "Phase " + m)}</h2><span class="count">${doneN}/${all.length} done · ${pct} %</span></div>
+      <div class="table">${jobs.map(row).join("")}</div>
+    </section>`;
+  }).join("") || `<p class="none">No jobs match this filter.</p>`;
+}
+function row(j) {
+  const [cls, label] = pillFor(j);
+  const title = j.written ? `<a href="${REPO}/blob/${DATA.branch}/project-documents/gameplay-factory/jobs/JOB-${pad(j.number)}.md" target="_blank" rel="noopener">${j.title}</a>` : j.title;
+  const deps = j.depends_on.map(d => `<span class="tag ${FIN.includes(byNum[d].state) ? "dep-done" : ""}" title="${byNum[d].title}">after ${d}</span>`).join("");
+  const step = j.state === "NOT WRITTEN" ? "" : `<span class="pct">step ${j.step} of ${j.steps_total} · ${j.pct} %</span>`;
+  return `<div class="job">
+    <div><div class="n">${j.number}</div><div class="gid">${j.key}</div></div>
+    <div style="min-width:0">
+      <div class="title">${title}</div>
+      <div class="plain">${j.plain || ""}</div>
+      <div class="tags">
+        <span class="tag lane-${j.lane}">${laneName[j.lane] || j.lane}</span>
+        <span class="tag">${j.type}</span>
+        ${j.codex_review ? `<span class="tag codex">Codex review</span>` : ""}
+        ${deps}
+        ${j.waits_on ? `<span class="tag">after ${j.waits_on}</span>` : ""}
+      </div>
+    </div>
+    <div class="status"><span class="pill ${cls}">${label}</span><div class="bar thin"><i style="width:${j.pct}%"></i></div>${step}</div>
+  </div>`;
+}
+document.querySelectorAll(".chipbtn").forEach(b => b.addEventListener("click", () => {
+  document.querySelectorAll(".chipbtn").forEach(x => x.setAttribute("aria-pressed", x === b));
+  render(b.dataset.f);
+}));
+render("all");
+
+$("legend").innerHTML = `
+  <div><b>Normal chat</b> saves text and opens pull requests; no package downloads, no screenshots. <b>Sol Work mode</b> runs code and checks; Firebase emulator tests run on GitHub automatically. <b>Codex review</b> = a second code review before merge, used only on the Rules jobs.</div>
+  <div>"Not written yet" means Claude has not written that job's instructions; never start it. Built from <a href="${REPO}/blob/${DATA.branch}/project-documents/gameplay-factory/BOARD.md" target="_blank" rel="noopener">BOARD.md</a> on GitHub, refreshed by Claude whenever a job moves.</div>`;
+</script>

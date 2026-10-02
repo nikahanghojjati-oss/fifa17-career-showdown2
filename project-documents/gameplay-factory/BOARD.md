@@ -1,6 +1,6 @@
 # Team G gameplay factory board
 
-Branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-02 08:40 UTC
+Branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-02 08:43 UTC
 
 **Overall:** █░░░░░░░░░ 11 % · 2 of 18 jobs done
 
@@ -12,29 +12,29 @@ Branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generate
 
 **Working:** - · **Blocked:** -
 
-| # | G id | Job | Lane | Depends on | Codex | Progress | State |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| 0 | G-0 | [Factory smoke test (chat lane)](jobs/JOB-00.md) | chat | - |  | ██████████ 100 % | DONE |
-| 90 | G-0W | [Factory smoke test (Work lane)](jobs/JOB-90.md) | work | - |  | ██████████ 100 % | DONE |
-| 1 | G-1 | [Fast regression CI on every gameplay push](jobs/JOB-01.md) | work | - |  | ░░░░░░░░░░ 0 % | NOT STARTED |
-| 2 | G-2 | [Two-manager journey on the emulator (provider level)](jobs/JOB-02.md) | work | 1 |  | ░░░░░░░░░░ 0 % | NOT STARTED |
-| 3 | G-3 | [Pure shared career model + tests](jobs/JOB-03.md) | work | - |  | ░░░░░░░░░░ 0 % | NOT STARTED |
-| 16 | G-2b | Two-manager browser journey (localhost-only emulator switch) | chat | 2 |  | ░░░░░░░░░░ 0 % | NOT WRITTEN |
-| 4 | G-4 | Renderer seams: screens take a model, never the local path | work | 3 |  | ░░░░░░░░░░ 0 % | NOT WRITTEN |
-| 5 | G-5 | Active Showdown adapter (Rivalry, Continue, tiebreak, final state) | work | 3 |  | ░░░░░░░░░░ 0 % | NOT WRITTEN |
-| 6 | G-6 | Start/Join view model + nav.locked | work | 3 |  | ░░░░░░░░░░ 0 % | NOT WRITTEN |
-| 11 | G-11 | Contract fixtures generated from the real model | work | 3, 5 |  | ░░░░░░░░░░ 0 % | NOT WRITTEN |
-| 7 | G-7 | Career index Rules + client + emulator proofs | work | 1, 2 | yes | ░░░░░░░░░░ 0 % | NOT WRITTEN |
-| 8 | G-8 | Completed-only read grant + session-free reader | work | 7 | yes | ░░░░░░░░░░ 0 % | NOT WRITTEN |
-| 9 | G-9 | Closed-Showdown adapter into the career model | work | 3, 8 |  | ░░░░░░░░░░ 0 % | NOT WRITTEN |
-| 10 | G-10 | Transfer history, completed only | work | 8 | yes | ░░░░░░░░░░ 0 % | NOT WRITTEN |
-| 12 | G-12 | Composed production Rules regression | work | 7, 8 | yes | ░░░░░░░░░░ 0 % | NOT WRITTEN |
-| 13 | G-13 | Remove the r43 containment, bind #trophyRoomButton | work | 4, 5, 6, 9; approved Team V visual package |  | ░░░░░░░░░░ 0 % | NOT WRITTEN |
-| 14 | G-14 | Acceptance: directive §12 and Sol's 8 proofs on the emulator | work | 13 |  | ░░░░░░░░░░ 0 % | NOT WRITTEN |
-| 15 | G-15 | One real two-device run with Nik | nik | 14 |  | ░░░░░░░░░░ 0 % | NOT WRITTEN |
+| # | G id | Job | Phase | Type | Lane | Depends on | Codex | Progress | State |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 0 | G-0 | [Factory smoke test (chat lane)](jobs/JOB-00.md) | 0 Setup | test | chat | - |  | ██████████ 100 % | DONE |
+| 90 | G-0W | [Factory smoke test (Work lane)](jobs/JOB-90.md) | 0 Setup | test | work | - |  | ██████████ 100 % | DONE |
+| 1 | G-1 | [Fast regression CI on every gameplay push](jobs/JOB-01.md) | 0 Setup | build | work | - |  | ░░░░░░░░░░ 0 % | NOT STARTED |
+| 2 | G-2 | [Two-manager journey on the emulator (provider level)](jobs/JOB-02.md) | 1 Safety net | test | work | 1 |  | ░░░░░░░░░░ 0 % | NOT STARTED |
+| 16 | G-2b | Two-manager browser journey (localhost-only emulator switch) | 1 Safety net | test | chat | 2 |  | ░░░░░░░░░░ 0 % | NOT WRITTEN |
+| 12 | G-12 | Composed production Rules regression | 1 Safety net | test | work | 7, 8 | yes | ░░░░░░░░░░ 0 % | NOT WRITTEN |
+| 3 | G-3 | [Pure shared career model + tests](jobs/JOB-03.md) | 2 Career model | build | work | - |  | ░░░░░░░░░░ 0 % | NOT STARTED |
+| 4 | G-4 | Renderer seams: screens take a model, never the local path | 2 Career model | build | work | 3 |  | ░░░░░░░░░░ 0 % | NOT WRITTEN |
+| 5 | G-5 | Active Showdown adapter (Rivalry, Continue, tiebreak, final state) | 2 Career model | build | work | 3 |  | ░░░░░░░░░░ 0 % | NOT WRITTEN |
+| 6 | G-6 | Start/Join view model + nav.locked | 2 Career model | build | work | 3 |  | ░░░░░░░░░░ 0 % | NOT WRITTEN |
+| 11 | G-11 | Contract fixtures generated from the real model | 2 Career model | test | work | 3, 5 |  | ░░░░░░░░░░ 0 % | NOT WRITTEN |
+| 7 | G-7 | Career index Rules + client + emulator proofs | 3 Career history | rules | work | 1, 2 | yes | ░░░░░░░░░░ 0 % | NOT WRITTEN |
+| 8 | G-8 | Completed-only read grant + session-free reader | 3 Career history | rules | work | 7 | yes | ░░░░░░░░░░ 0 % | NOT WRITTEN |
+| 9 | G-9 | Closed-Showdown adapter into the career model | 3 Career history | build | work | 3, 8 |  | ░░░░░░░░░░ 0 % | NOT WRITTEN |
+| 10 | G-10 | Transfer history, completed only | 3 Career history | rules | work | 8 | yes | ░░░░░░░░░░ 0 % | NOT WRITTEN |
+| 13 | G-13 | Remove the r43 containment, bind #trophyRoomButton | 4 Ship | build | work | 4, 5, 6, 9; approved Team V visual package |  | ░░░░░░░░░░ 0 % | NOT WRITTEN |
+| 14 | G-14 | Acceptance: directive §12 and Sol's 8 proofs on the emulator | 4 Ship | test | work | 13 |  | ░░░░░░░░░░ 0 % | NOT WRITTEN |
+| 15 | G-15 | One real two-device run with Nik | 4 Ship | nik | nik | 14 |  | ░░░░░░░░░░ 0 % | NOT WRITTEN |
 
-Lanes: **chat** = normal GPT-5.6 Sol chat (text, local Chromium, no reliable npm); **work** = Sol Work mode (terminal, no browser); **nik** = Nik on his real devices. NOT WRITTEN = the lead has not written the job file yet; never start it.
+Lanes: **chat** = normal GPT-5.6 Sol chat (text and PRs only: no npm, no screenshots); **work** = Sol Work mode (terminal and npm; emulator proofs run on GitHub CI); **nik** = Nik on his real devices. NOT WRITTEN = the lead has not written the job file yet; never start it.
 
 Capacity: 2 normal chats and 1 Work-mode chat at once for Team G.
 
-Generated by `project-documents/gameplay-factory/tools/board.py` from `BOARD.json` and `status/`. Workers never edit this file.
+Web page for Nik: https://claude.ai/artifact/8rVEWRCUNnjNv6Ff97ELKr (built by `tools/board_page.py`). Generated by `project-documents/gameplay-factory/tools/board.py` from `BOARD.json` and `status/`. Workers never edit this file.
