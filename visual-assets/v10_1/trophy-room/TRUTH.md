@@ -264,3 +264,54 @@ Required categories are `ALL · SHOWDOWN · LEAGUE TITLES · DOMESTIC CUPS · CH
 - TR6 · loading. Added because this is a distinct required contract state; layout order is reserved but no fake counts or records appear.
 
 All populated preview numbers are fictional, visibly labelled `Preview data`, and must obey DATA_CONTRACT_V1 §0 bounds. No separate `error`, `active`, `completed`, or Daniel-only preview frame exists.
+
+
+## Mockup reconciliation
+
+The mockup is reference, not product authority. Every product-sensitive element explicitly identified by JOB-002 is resolved below.
+
+| Mockup element | Product answer |
+| --- | --- |
+| Trophy Room stadium / gold-black ceremony composition | KEEP as visual direction. Daniel stays left and Nik right; names and counts remain live DOM text. |
+| `TROPHY ROOM` title | KEEP with product wording `TROPHY ROOM`. |
+| `ALL` | KEEP. Show all four original trophy families for both managers. |
+| `SHOWDOWN` | KEEP. Use per-manager `showdowns.wins` for Showdown Champion. |
+| `LEAGUE TITLES` | KEEP. Use `leagueTitles`. |
+| `DOMESTIC CUPS` | KEEP. Use `domesticCups`. |
+| Mockup `CONTINEENTAL` | CHANGE to `CHAMPIONS LEAGUE`. |
+| Duplicate `ABOUT` | DROP. It is not a Trophy Room action and shared navigation has no ABOUT tab. |
+| `SPECIAL` | DROP. The agreed contract has no special-trophy field. |
+| Showdown trophy | CHANGE to our original Showdown Champion trophy art. |
+| League-title trophy | CHANGE to our original League Title trophy art; never a real league trophy. |
+| Domestic-cup trophy | CHANGE to our original Domestic Cup trophy art; never a real cup trophy. |
+| Continental / Champions League trophy | CHANGE to our original Champions League cup art; never the real UEFA trophy or marks. |
+| Real league/competition logos | CHANGE to original `getLeagueMark` output only. A small league badge is optional when league context is useful. |
+| Daniel cabinet/counts | KEEP with live data. Daniel is always first/left. |
+| Nik cabinet/counts | KEEP with live data. Nik is always second/right. |
+| Trophy type with zero wins | CHANGE: keep the card visible, dark, with exactly `Not won yet`. |
+| Baked manager names, counts, scores, records or league names | CHANGE to live DOM data; never bake them into imagery. |
+| Trophy total | KEEP only as contract `totalTrophies`. Showdown Champion remains separate so §7 total meaning is not silently changed. |
+| Career standings | KEEP with contract order: `careerPoints`, then `seasonWins`, else level/shared rank. |
+| Career points / season wins used for standings | KEEP as contract-backed live data. |
+| Highest season score | KEEP; §7 record. |
+| Highest league points | KEEP; §7 record. |
+| Highest league goals | KEEP; §7 record. |
+| Biggest Showdown win | KEEP; §7 record based on Showdown point margin, not a match score. |
+| Most perfect seasons | KEEP; §7 record, perfect means computed score 11. |
+| Clean sheets | DROP; not recorded. |
+| Biggest single-match win | DROP; match-by-match results are not recorded. |
+| European wins other than Champions League | DROP; not recorded. |
+| Assists totals / goalscorer-name leaderboards | DROP; top scorer/top assist are season booleans, not player statistics. |
+| Player photo/portrait | DROP; player photos are not allowed. |
+| Possession or any per-match statistic | DROP; excluded by DATA_CONTRACT_V1 §9. |
+| Legacy supporting cabinet stats: 100-point seasons, 100-goal seasons, performance/awards bonus counts, safe signings, club-history lists | DROP from Trophy Room because §7 does not list them. |
+| `ALL-TIME` / complete-career wording | KEEP only in `ready`. CHANGE in `partial`: show coverage and avoid all-time/complete-career claims. |
+| Pre-provider current-Showdown preview | CHANGE to exactly `Current Showdown only. Career history is not yet available.` |
+| New-career state | CHANGE to `empty`: both managers and all trophy families remain visible with `Not won yet`. |
+| Failed history read | CHANGE to `unavailable`; never present failed data as zero trophies. |
+| In-flight history read | CHANGE to `loading`; no fake zero values. |
+| Back control | KEEP with live wording `BACK` and centralized Smart Back. |
+| Any extra mockup button with no product behaviour | DROP. |
+| Mockup top navigation, if present | CHANGE to shared HOME / CAREER / STANDINGS / STATS / RULES plus settings; no ABOUT, search or profile destinations. |
+
+The binary mockup cannot be decoded by this chat's repository text connector. This table therefore resolves every Trophy Room mockup element explicitly enumerated by JOB-002 and every rights/data/navigation-sensitive element governed by the binding product papers, without inventing unverified decorative elements.
