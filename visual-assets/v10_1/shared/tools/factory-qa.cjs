@@ -122,6 +122,19 @@ async function measure(page, frame, view) {
       tag:el.tagName.toLowerCase(),
       fontSizePx:parseFloat(getComputedStyle(el).fontSize)
     }));
+    const managerBoxes = {
+      daniel:[...document.querySelectorAll('[data-manager="daniel"]')].filter(vis).map(box),
+      nik:[...document.querySelectorAll('[data-manager="nik"]')].filter(vis).map(box)
+    };
+    const centerX = r => (r.left + r.right) / 2;
+    const H1 = {
+      pass:managerBoxes.daniel.length>0 && managerBoxes.nik.length>0 &&
+        centerX(managerBoxes.daniel[0]) < centerX(managerBoxes.nik[0]),
+      daniel:managerBoxes.daniel,
+      nik:managerBoxes.nik,
+      rule:'data-manager="daniel" must be left of data-manager="nik"'
+    };
+
     const frameFx=window.__factoryFrame || {};
     const stageRoot=document.getElementById("stage-root") || body;
     const primaryId=stageRoot.dataset.primary || frameFx.primary || null;
@@ -146,7 +159,8 @@ async function measure(page, frame, view) {
         rect:pr,visibleInViewport:pr ? inside(pr) : false} : null,
       inputFonts,
       inputsBelow16px:inputFonts.filter(x => x.fontSizePx<16),
-      fixtureStrings:{missing}
+      fixtureStrings:{missing},
+      hardGates:{H1}
     };
   }, {frame,view,missing});
 }
@@ -183,8 +197,42 @@ async function measure(page, frame, view) {
       r.consoleErrors=consoleErrors;
       r.failedRequests=[...new Set(failedRequests)];
       r.screenshot=shot;
+
+      const reduced=await browser.newContext({
+        viewport:{width:view.w,height:view.h},
+        deviceScaleFactor:view.dpr,
+        isMobile:!!view.phone,
+        hasTouch:!!view.phone,
+        reducedMotion:"reduce"
+      });
+      const reducedPage=await reduced.newPage();
+      await reducedPage.addInitScript(frameFx => { window.__factoryFrame=frameFx; }, fixtures.frames[frame]);
+      await reducedPage.goto(url.href,{waitUntil:"domcontentloaded",timeout:15000});
+      await reducedPage.waitForLoadState("load",{timeout:15000}).catch(() => {});
+      await reducedPage.waitForTimeout(300);
+      const runningAnimations=await reducedPage.evaluate(() => document.getAnimations({subtree:true})
+        .filter(a => a.playState==="running")
+        .map(a => {
+          const effect=a.effect;
+          const target=effect && effect.target;
+          const timing=effect && effect.getComputedTiming ? effect.getComputedTiming() : {};
+          return {
+            target:target ? (target.id ? "#"+target.id : target.className || target.tagName) : null,
+            animationName:a.animationName || null,
+            currentTime:a.currentTime,
+            duration:timing.duration
+          };
+        }));
+      r.hardGates.H7={
+        pass:runningAnimations.length===0,
+        reducedMotion:"reduce",
+        checkedAfterMs:300,
+        runningAnimations
+      };
+      await reduced.close();
+
       results.push(r);
-      console.log(frame+" "+view.label+": captured");
+      console.log(frame+" "+view.label+": captured H1="+(r.hardGates.H1.pass?"PASS":"FAIL")+" H7="+(r.hardGates.H7.pass?"PASS":"FAIL"));
       await context.close();
     }
   } finally {
