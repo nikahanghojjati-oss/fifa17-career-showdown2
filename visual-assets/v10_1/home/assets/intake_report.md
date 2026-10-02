@@ -65,3 +65,16 @@ REF_GOAL: PNG converted to real JPEG (q95, 4:4:4); evidence/composition only, ne
 - Spelling confirmed correct by Nik and Claude (2026-10-01).
 
 Likeness is not judged: faces, hands and packs are original pixels by construction (hard restore).
+
+## JOB-031 source seam repair (2026-10-02)
+
+- D1–D7 were repaired inside the existing remove zones only. Each affected edge samples the 12 px outside ring, matches RGB mean and variance, and feathers the correction 42 px inward.
+- Protected face/hand pixels and every pixel outside the remove-zone union are byte-identical to the pre-JOB-031 1X PNG (hard assertions in the repair run).
+- Runtime area/strip blur mends are disabled by JOB-031 after this source repair; the plate itself now owns the transition.
+
+### Current plate SHA-256
+
+- \`ENV_HOME_PLATE_V1_1X.png\` \`fa236f881a07863be2eaee2e6a2d41efed6fbf2eff564d318cdd1add28dd6f7a\`
+- \`ENV_HOME_PLATE_V1_1X.webp\` \`df53ebd5abfcdee43a2a1769df592727945704fdf6acc13dd18a665c6e5faf27\`
+- \`ENV_HOME_PLATE_V1_2X.png\` \`e0504ac6859e0d51f5bb408b0fd53ae18be60d937b2449964389b2bffe86c6db\`
+- \`ENV_HOME_PLATE_V1_2X.webp\` \`d469248f47f78d4d5847409ae7c0f788a1de3b3a09351eafa79e563959566481\`

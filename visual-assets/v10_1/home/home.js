@@ -134,37 +134,13 @@
   }
 
   function renderMends(MAP) {
-    const layer = stage.querySelector(".plateLayer");
-    layer.replaceChildren();
-    if (qs.get("mends") === "0") return [];
-    const strips = mendStrips(MAP);
-    // area mends (plate px): the left-column zone union, the top-right nav remnant zones, the right card zone
-    const AREAS = [
-      { r: [26, 104, 604, 694], mb: 4, f: 26, name: "left-column zones 3-5" },
-      { r: [1314, 0, 1672, 104], mb: 7, mbr: 0.72, f: 22, name: "top-right zones 1-2" },
-    ];
-    AREAS.forEach((A) => {
-      const a = { x: cam.offX + A.r[0] * cam.k, y: cam.offY + A.r[1] * cam.k }, b = { x: cam.offX + A.r[2] * cam.k, y: cam.offY + A.r[3] * cam.k };
-      const d = document.createElement("i");
-      d.className = "areaMend"; d.dataset.zone = A.name;
-      Object.assign(d.style, { left: a.x + "px", top: a.y + "px", width: b.x - a.x + "px", height: b.y - a.y + "px" });
-      d.style.setProperty("--mb", (A.mb * Math.min(1, cam.k * 1.2)).toFixed(2) + "px");
-      if (A.mbr) d.style.setProperty("--mbr", A.mbr);
-      d.style.setProperty("--fx", Math.max(6, A.f * cam.k) + "px"); d.style.setProperty("--fy", Math.max(6, A.f * cam.k) + "px");
-      layer.appendChild(d);
-    });
-    strips.filter((s) => !s.skipped).forEach((s) => {
-      const r = s.o === "h" ? [s.a, s.lo, s.b, s.hi] : [s.lo, s.a, s.hi, s.b];
-      const a = { x: cam.offX + r[0] * cam.k, y: cam.offY + r[1] * cam.k }, b = { x: cam.offX + r[2] * cam.k, y: cam.offY + r[3] * cam.k };
-      const d = document.createElement("i");
-      d.className = "mend " + s.o;
-      d.dataset.zone = s.zone; d.dataset.edge = s.edge;
-      Object.assign(d.style, { left: a.x + "px", top: a.y + "px", width: Math.max(1, b.x - a.x) + "px", height: Math.max(1, b.y - a.y) + "px" });
-      d.style.setProperty("--mb", Math.max(2, 5 * Math.min(1, cam.k * 1.2)).toFixed(2) + "px");
-      layer.appendChild(d);
-    });
-    return strips;
-  }
+  // JOB-031: the plate source now owns the repaired transitions.
+  // Runtime backdrop blur/brightness mends created visible soft patches at 400%,
+  // so keep the layer empty in both normal and evidence modes.
+  const layer = stage.querySelector(".plateLayer");
+  layer.replaceChildren();
+  return [];
+}
 
   function renderGrid(MAP, strips) {
     const g = stage.querySelector(".gridOverlay");

@@ -94,10 +94,10 @@
   ]
  },
  "sha256": {
-  "ENV_HOME_PLATE_V1_1X.png": "9cf0239ea765cb4dfdaef63b2a9e1cc258a153e4bce882aef3a4dc73e456479b",
-  "ENV_HOME_PLATE_V1_1X.webp": "1e2aca74e00117e14b0f190b01b986111f4385fecd1fb31d226a8160b33ccd04",
-  "ENV_HOME_PLATE_V1_2X.png": "ca48638f2201c6cdce4b1e79575cd6c2b2d142e7a3cfddbeb3bf160ed96a7512",
-  "ENV_HOME_PLATE_V1_2X.webp": "d633341e8bbf843c4255dd302960b7205f43d71b55cd81754bbffbafcc853323"
+  "ENV_HOME_PLATE_V1_1X.png": "fa236f881a07863be2eaee2e6a2d41efed6fbf2eff564d318cdd1add28dd6f7a",
+  "ENV_HOME_PLATE_V1_1X.webp": "df53ebd5abfcdee43a2a1769df592727945704fdf6acc13dd18a665c6e5faf27",
+  "ENV_HOME_PLATE_V1_2X.png": "e0504ac6859e0d51f5bb408b0fd53ae18be60d937b2449964389b2bffe86c6db",
+  "ENV_HOME_PLATE_V1_2X.webp": "d469248f47f78d4d5847409ae7c0f788a1de3b3a09351eafa79e563959566481"
  },
  "source_zones": "visual-assets/goals/handoffs/HLC_PLATE_ZONES_V1.json@claude-cloud/hlc-goals"
 }
