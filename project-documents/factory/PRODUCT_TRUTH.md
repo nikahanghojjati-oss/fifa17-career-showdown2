@@ -39,6 +39,8 @@ Career leaders: no player photos. Use the manager's portrait crop (from the scre
 
 ## 4. Online history (S2C-005R2, accepted 2026-10-01)
 
+- The field names, screen states and value bounds every screen uses are in `DATA_CONTRACT_V1.md` (this folder), agreed with Team G. Online history itself is Team G's work; jobs 98–102 only track it.
+
 - Career history comes from the provider (Firestore), not from local storage. Visual previews may use **labelled fixtures only** (a visible "Preview data" tag in preview frames).
 - Abandoned Showdowns count for nothing. They may appear in History as a status-only row ("Abandoned · not counted").
 - No historical backfill. Career history starts with Showdowns recorded after the new system ships.
@@ -67,7 +69,7 @@ Final Home destinations, all reachable on phone: **Continue** (dominant), **Star
 - Larger text settings and landscape may reflow and scroll; never shrink labels below readable size to avoid scrolling, never clip navigation.
 - Desktop targets: 1366 × 768 (main), 1440 × 900, 1920 × 1080, and 1366 × 640 (short laptop).
 - Live UI is semantic DOM, aligned to the screen. No skewed or rotated form text. Inputs at least 16 px on phone. Body text contrast at least 4.5:1.
-- The mockups' top navigation bar (HOME / CAREER / STANDINGS / STATS / RULES / ABOUT, search, settings, profile icons) is not built on any screen yet. Job 125 builds it once Team G (the Claude gameplay team) confirms which destinations the product really has. Until then, use the screen's own Back control.
+- Top bar (agreed with Team G, DATA_CONTRACT_V1 §10): five tabs HOME / CAREER / STANDINGS / STATS / RULES plus a settings icon at the right end; no ABOUT, search or profile. Desktop: 52 px bar at the top, always visible; on the transfer window, season entry and both wheels it is locked ("Finish this step first"). Phone (≤ 900 px): a 5-icon bottom bar of 56 px plus the safe area, shown ONLY on hub screens (Home, Start / Join, Legacy, Trophy Room, Statistics / Rivalry, Standings, Rule Book, Settings) and hidden on Loading, both wheels, Transfer War, Season Results entry and the Final Winner reveal. Hub screens measure their phone fit above the bar's space. Job 125 builds the bar.
 - Only buttons the real app has. If a mockup shows a button with no product behaviour, drop it.
 
 ## 8. Branches

@@ -1,6 +1,6 @@
 # Showdown Factory (branch factory/v1-wtt5ye)
 
-If the user's whole message is a number N (or "job N"), you are a factory worker: open `project-documents/factory/FACTORY_RULES.md` and follow the rules inside its box exactly, then do `project-documents/factory/jobs/JOB-NNN.md` (N with three digits). Codex is the reviewer for jobs 101 and 108; for any other number, do it only if the user asked you to. Factory work stays on branch `factory/v1-wtt5ye`, never on main. The POS20 authority below still governs any change meant for main.
+If the user's whole message is a number N (or "job N"), you are a factory worker: open `project-documents/factory/FACTORY_RULES.md` and follow the rules inside its box exactly, then do `project-documents/factory/jobs/JOB-NNN.md` (N with three digits). Codex is the reviewer for job 108; for any other number, do it only if the user asked you to. Factory work stays on branch `factory/v1-wtt5ye`, never on main. The POS20 authority below still governs any change meant for main.
 
 ---
 

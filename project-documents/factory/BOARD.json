@@ -573,7 +573,7 @@
    "type": "build",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "lane": "plain (work if job 0 says no screenshots)",
-   "steps": 6,
+   "steps": 7,
    "waits_on_nik": null,
    "waits_on_team_g": null,
    "needs_claude_look": false
@@ -664,7 +664,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "lane": "plain (work if job 0 says no screenshots)",
    "steps": 4,
-   "waits_on_nik": "Nik picks one mark per league from visual-assets/league-marks-v2/LEAGUE_MARKS_V2_PROOF@1x.png: Premier League A Crown or B Lion; LaLiga A Bull or B Sun; Bundesliga A Eagle or B Schale; Serie A A Shield or B Laurel; Ligue 1 A Numeral or B Rooster. (Claude leans B, A, A, A, A.) Claude writes the picks into this job's status file; until then this job is WAITING ON NIK.",
+   "waits_on_nik": null,
    "waits_on_team_g": null,
    "needs_claude_look": false
   },
@@ -1019,7 +1019,7 @@
    "type": "build",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "lane": "plain (work if job 0 says no screenshots)",
-   "steps": 6,
+   "steps": 7,
    "waits_on_nik": null,
    "waits_on_team_g": null,
    "needs_claude_look": false
@@ -1109,7 +1109,7 @@
    "type": "build",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "lane": "plain (work if job 0 says no screenshots)",
-   "steps": 6,
+   "steps": 7,
    "waits_on_nik": null,
    "waits_on_team_g": null,
    "needs_claude_look": false
@@ -1199,7 +1199,7 @@
    "type": "build",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "lane": "plain (work if job 0 says no screenshots)",
-   "steps": 6,
+   "steps": 7,
    "waits_on_nik": null,
    "waits_on_team_g": null,
    "needs_claude_look": false
@@ -1289,7 +1289,7 @@
    "type": "build",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "lane": "plain (work if job 0 says no screenshots)",
-   "steps": 6,
+   "steps": 7,
    "waits_on_nik": null,
    "waits_on_team_g": null,
    "needs_claude_look": false
@@ -1560,7 +1560,7 @@
    "type": "build",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "lane": "plain (work if job 0 says no screenshots)",
-   "steps": 6,
+   "steps": 7,
    "waits_on_nik": null,
    "waits_on_team_g": null,
    "needs_claude_look": false
@@ -1732,85 +1732,85 @@
   {
    "number": 98,
    "key": "data_model",
-   "title": "History data: the career model (pure code)",
+   "title": "Team G G-3: the pure career model",
    "phase": "6 Online history",
    "wave": 1,
    "depends_on": [],
-   "type": "data",
-   "worker": "GPT-5.6 Sol, Work mode (needs a terminal)",
-   "lane": "work",
-   "steps": 5,
+   "type": "tracking",
+   "worker": "Team G (Claude gameplay team); tracking only",
+   "lane": "team-g",
+   "steps": 1,
    "waits_on_nik": null,
-   "waits_on_team_g": "Team G (Claude gameplay team) ships or hands over the online career history provider work from S2C-005R2: the D1 own-account career index and the D2 completed-Showdown read grant. These are provider rules and product code on main, so Team G owns them. Claude clears this flag when Team G hands the work to the factory or delivers it.",
+   "waits_on_team_g": "Team G's job G-3. Claude marks it DONE when Team G delivers.",
    "needs_claude_look": false
   },
   {
    "number": 99,
    "key": "data_index",
-   "title": "History data: own-account career index (D1)",
+   "title": "Team G G-7: own-account career index",
    "phase": "6 Online history",
    "wave": 2,
    "depends_on": [
     98
    ],
-   "type": "data",
-   "worker": "GPT-5.6 Sol, Work mode (needs a terminal)",
-   "lane": "work",
-   "steps": 5,
+   "type": "tracking",
+   "worker": "Team G (Claude gameplay team); tracking only",
+   "lane": "team-g",
+   "steps": 1,
    "waits_on_nik": null,
-   "waits_on_team_g": "Team G (Claude gameplay team) ships or hands over the online career history provider work from S2C-005R2: the D1 own-account career index and the D2 completed-Showdown read grant. These are provider rules and product code on main, so Team G owns them. Claude clears this flag when Team G hands the work to the factory or delivers it.",
+   "waits_on_team_g": "Team G's job G-7. Claude marks it DONE when Team G delivers.",
    "needs_claude_look": false
   },
   {
    "number": 100,
    "key": "data_reader",
-   "title": "History data: completed-Showdown reader (D2)",
+   "title": "Team G G-8: completed-Showdown reader",
    "phase": "6 Online history",
    "wave": 3,
    "depends_on": [
     99
    ],
-   "type": "data",
-   "worker": "GPT-5.6 Sol, Work mode (needs a terminal)",
-   "lane": "work",
-   "steps": 5,
+   "type": "tracking",
+   "worker": "Team G (Claude gameplay team); tracking only",
+   "lane": "team-g",
+   "steps": 1,
    "waits_on_nik": null,
-   "waits_on_team_g": "Team G (Claude gameplay team) ships or hands over the online career history provider work from S2C-005R2: the D1 own-account career index and the D2 completed-Showdown read grant. These are provider rules and product code on main, so Team G owns them. Claude clears this flag when Team G hands the work to the factory or delivers it.",
+   "waits_on_team_g": "Team G's job G-8. Claude marks it DONE when Team G delivers.",
    "needs_claude_look": false
   },
   {
    "number": 101,
    "key": "data_review",
-   "title": "History data: Codex review",
+   "title": "Team G G-9 and G-10: Trophy Room standings and records, transfer history",
    "phase": "6 Online history",
    "wave": 4,
    "depends_on": [
     100
    ],
-   "type": "review",
-   "worker": "Codex (review only)",
-   "lane": "codex",
-   "steps": 4,
+   "type": "tracking",
+   "worker": "Team G (Claude gameplay team); tracking only",
+   "lane": "team-g",
+   "steps": 1,
    "waits_on_nik": null,
-   "waits_on_team_g": "Team G (Claude gameplay team) ships or hands over the online career history provider work from S2C-005R2: the D1 own-account career index and the D2 completed-Showdown read grant. These are provider rules and product code on main, so Team G owns them. Claude clears this flag when Team G hands the work to the factory or delivers it.",
+   "waits_on_team_g": "Team G's job G-9 and G-10. Claude marks it DONE when Team G delivers.",
    "needs_claude_look": false
   },
   {
    "number": 102,
    "key": "data_fix",
-   "title": "History data: fix round",
+   "title": "Team G G-5, G-6 and G-11: active adapter, nav lock fields, model-true fixtures",
    "phase": "6 Online history",
-   "wave": 5,
+   "wave": 2,
    "depends_on": [
-    101
+    98
    ],
-   "type": "fix",
-   "worker": "GPT-5.6 Sol, Work mode (needs a terminal)",
-   "lane": "work",
-   "steps": 3,
+   "type": "tracking",
+   "worker": "Team G (Claude gameplay team); tracking only",
+   "lane": "team-g",
+   "steps": 1,
    "waits_on_nik": null,
-   "waits_on_team_g": "Team G (Claude gameplay team) ships or hands over the online career history provider work from S2C-005R2: the D1 own-account career index and the D2 completed-Showdown read grant. These are provider rules and product code on main, so Team G owns them. Claude clears this flag when Team G hands the work to the factory or delivers it.",
-   "needs_claude_look": true
+   "waits_on_team_g": "Team G's job G-5, G-6 and G-11. Claude marks it DONE when Team G delivers.",
+   "needs_claude_look": false
   },
   {
    "number": 103,
@@ -1832,7 +1832,8 @@
     86,
     91,
     94,
-    97
+    97,
+    129
    ],
    "type": "integrate",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
@@ -1845,7 +1846,7 @@
   {
    "number": 104,
    "key": "int_bind",
-   "title": "Showcase: history screens read the career model",
+   "title": "Showcase: screens read Team G's model-true fixtures",
    "phase": "7 Integration",
    "wave": 12,
    "depends_on": [
@@ -1857,7 +1858,7 @@
    "lane": "plain (work if job 0 says no screenshots)",
    "steps": 4,
    "waits_on_nik": null,
-   "waits_on_team_g": "Team G delivers the online career history (career model + reader) that this job binds the screens to. Until then the screens stay on labelled preview data.",
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -2214,7 +2215,7 @@
   {
    "number": 125,
    "key": "navbar",
-   "title": "Top navigation bar from the mockups",
+   "title": "Top bar and phone bottom bar",
    "phase": "5 New screens",
    "wave": 6,
    "depends_on": [
@@ -2226,8 +2227,80 @@
    "lane": "plain (work if job 0 says no screenshots)",
    "steps": 5,
    "waits_on_nik": null,
-   "waits_on_team_g": "Team G checks feasibility against the product: which of HOME / CAREER / STANDINGS / STATS / RULES / ABOUT (plus search, settings and profile icons, and the CAREER sub-menu CAREER HUB / TROPHIES / TRANSFERS / HISTORY / RECORDS) map to real product destinations and states, which must be dropped or renamed, whether a sticky top bar fits the phone target, and that it works with the Firebase Spark limits and the private two-manager scope. Claude writes Team G's answer into this job's status file and clears the flag.",
+   "waits_on_team_g": null,
    "needs_claude_look": false
+  },
+  {
+   "number": 126,
+   "key": "truth_SD",
+   "title": "Truth sheet: Standings",
+   "phase": "1 Truth",
+   "wave": 1,
+   "depends_on": [],
+   "type": "data",
+   "worker": "GPT-5.6 Sol chat",
+   "lane": "plain",
+   "steps": 3,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 127,
+   "key": "SD_build",
+   "title": "Standings: build (desktop and phone)",
+   "phase": "5 New screens",
+   "wave": 6,
+   "depends_on": [
+    126,
+    25,
+    117,
+    30,
+    18,
+    124
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "lane": "plain (work if job 0 says no screenshots)",
+   "steps": 6,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 128,
+   "key": "SD_review",
+   "title": "Standings: review",
+   "phase": "5 New screens",
+   "wave": 7,
+   "depends_on": [
+    127
+   ],
+   "type": "review",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "lane": "plain (work if job 0 says no screenshots)",
+   "steps": 8,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 129,
+   "key": "SD_fix",
+   "title": "Standings: fix round and motion",
+   "phase": "5 New screens",
+   "wave": 8,
+   "depends_on": [
+    128,
+    16
+   ],
+   "type": "fix",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "lane": "plain (work if job 0 says no screenshots)",
+   "steps": 5,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": true
   }
  ]
 }

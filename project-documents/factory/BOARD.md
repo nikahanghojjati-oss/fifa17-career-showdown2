@@ -1,14 +1,14 @@
 # Showdown Factory board
 
-Branch `factory/v1-wtt5ye`. 126 jobs. Open a new chat in the ChatGPT "Visual" project and type a number. Team V runs at most 4 chats at once (Team G uses the rest of the 5), and at most 2 image jobs at once.
+Branch `factory/v1-wtt5ye`. 125 Team V jobs, plus 5 lines that track Team G. Open a new chat in the ChatGPT "Visual" project and type a number. Team V runs at most 4 chats at once (Team G uses the rest of the 5), and at most 2 image jobs at once.
 
-**Overall:** ░░░░░░░░░░ 0 % · 0 of 126 jobs done
+**Overall (Team V):** ░░░░░░░░░░ 0 % · 0 of 125 jobs done
 
-**Start now:** 0, 2, 3, 4 · queued next: 5, 6, 7, 8, 9, 10, 11
+**Start now:** 0, 2, 3, 4 · queued next: 5, 6, 7, 8, 9, 10, 11, 126
 
 **Working:** - · **Blocked:** -
 
-**Waiting on Team G (gameplay):** 98, 99, 100, 101, 102, 104, 125. Do not start these; Claude clears them when Team G delivers.
+**Team G tracking (never start these):** 98 (open), 99 (open), 100 (open), 101 (open), 102 (open). Claude marks them done when Team G delivers.
 
 | # | Job | Phase | Type | Lane | Depends on | Progress | State | Claude look |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -110,13 +110,13 @@ Branch `factory/v1-wtt5ye`. 126 jobs. Open a new chat in the ChatGPT "Visual" pr
 | 95 | [Settings: build (desktop and phone)](jobs/JOB-095.md) | 5 New screens | build | plain (work if job 0 says no screenshots) | 10, 29, 18, 124, 121 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 96 | [Settings: review](jobs/JOB-096.md) | 5 New screens | review | plain (work if job 0 says no screenshots) | 95 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 97 | [Settings: fix round and motion](jobs/JOB-097.md) | 5 New screens | fix | plain (work if job 0 says no screenshots) | 96, 16 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
-| 98 | [History data: the career model (pure code)](jobs/JOB-098.md) | 6 Online history | data | work | - | ░░░░░░░░░░ 0 % | WAITING ON TEAM G |  |
-| 99 | [History data: own-account career index (D1)](jobs/JOB-099.md) | 6 Online history | data | work | 98 | ░░░░░░░░░░ 0 % | WAITING ON TEAM G |  |
-| 100 | [History data: completed-Showdown reader (D2)](jobs/JOB-100.md) | 6 Online history | data | work | 99 | ░░░░░░░░░░ 0 % | WAITING ON TEAM G |  |
-| 101 | [History data: Codex review](jobs/JOB-101.md) | 6 Online history | review | codex | 100 | ░░░░░░░░░░ 0 % | WAITING ON TEAM G |  |
-| 102 | [History data: fix round](jobs/JOB-102.md) | 6 Online history | fix | work | 101 | ░░░░░░░░░░ 0 % | WAITING ON TEAM G | yes |
-| 103 | [Showcase: every screen in one place](jobs/JOB-103.md) | 7 Integration | integrate | plain (work if job 0 says no screenshots) | 36, 42, 48, 53, 56, 61, 66, 71, 76, 81, 86, 91, 94, 97 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
-| 104 | [Showcase: history screens read the career model](jobs/JOB-104.md) | 7 Integration | integrate | plain (work if job 0 says no screenshots) | 103, 102 | ░░░░░░░░░░ 0 % | WAITING ON TEAM G |  |
+| 98 | [Team G G-3: the pure career model](jobs/JOB-098.md) | 6 Online history | tracking | team-g | - | ░░░░░░░░░░ 0 % | WAITING ON TEAM G |  |
+| 99 | [Team G G-7: own-account career index](jobs/JOB-099.md) | 6 Online history | tracking | team-g | 98 | ░░░░░░░░░░ 0 % | WAITING ON TEAM G |  |
+| 100 | [Team G G-8: completed-Showdown reader](jobs/JOB-100.md) | 6 Online history | tracking | team-g | 99 | ░░░░░░░░░░ 0 % | WAITING ON TEAM G |  |
+| 101 | [Team G G-9 and G-10: Trophy Room standings and records, transfer history](jobs/JOB-101.md) | 6 Online history | tracking | team-g | 100 | ░░░░░░░░░░ 0 % | WAITING ON TEAM G |  |
+| 102 | [Team G G-5, G-6 and G-11: active adapter, nav lock fields, model-true fixtures](jobs/JOB-102.md) | 6 Online history | tracking | team-g | 98 | ░░░░░░░░░░ 0 % | WAITING ON TEAM G |  |
+| 103 | [Showcase: every screen in one place](jobs/JOB-103.md) | 7 Integration | integrate | plain (work if job 0 says no screenshots) | 36, 42, 48, 53, 56, 61, 66, 71, 76, 81, 86, 91, 94, 97, 129 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
+| 104 | [Showcase: screens read Team G's model-true fixtures](jobs/JOB-104.md) | 7 Integration | integrate | plain (work if job 0 says no screenshots) | 103, 102 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 105 | [Full phone pass](jobs/JOB-105.md) | 7 Integration | review | plain (work if job 0 says no screenshots) | 104 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 106 | [Full phone pass: fixes](jobs/JOB-106.md) | 7 Integration | fix | plain (work if job 0 says no screenshots) | 105 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 107 | [Motion and sound consistency pass](jobs/JOB-107.md) | 7 Integration | review | plain (work if job 0 says no screenshots) | 106 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
@@ -137,8 +137,12 @@ Branch `factory/v1-wtt5ye`. 126 jobs. Open a new chat in the ChatGPT "Visual" pr
 | 122 | [Art: Home tile illustrations](jobs/JOB-122.md) | 3 Art | image | plain-image | 0 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 123 | [Art: League wheel rim](jobs/JOB-123.md) | 3 Art | image | plain-image | 0, 1 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 124 | [Art: brush title wordmarks](jobs/JOB-124.md) | 3 Art | image | plain-image | 0 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
-| 125 | [Top navigation bar from the mockups](jobs/JOB-125.md) | 5 New screens | build | plain (work if job 0 says no screenshots) | 18, 124 | ░░░░░░░░░░ 0 % | WAITING ON TEAM G |  |
+| 125 | [Top bar and phone bottom bar](jobs/JOB-125.md) | 5 New screens | build | plain (work if job 0 says no screenshots) | 18, 124 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
+| 126 | [Truth sheet: Standings](jobs/JOB-126.md) | 1 Truth | data | plain | - | ░░░░░░░░░░ 0 % | NOT STARTED |  |
+| 127 | [Standings: build (desktop and phone)](jobs/JOB-127.md) | 5 New screens | build | plain (work if job 0 says no screenshots) | 126, 25, 117, 30, 18, 124 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
+| 128 | [Standings: review](jobs/JOB-128.md) | 5 New screens | review | plain (work if job 0 says no screenshots) | 127 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
+| 129 | [Standings: fix round and motion](jobs/JOB-129.md) | 5 New screens | fix | plain (work if job 0 says no screenshots) | 128, 16 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
 
-Lanes: **plain** = a plain GPT-5.6 Sol chat in the Visual project; **plain-image** = plain chat with image generation (max 2 at once); **plain (work if …)** = plain chat unless job 0 finds plain chats cannot take screenshots, then Work mode; **work** = Work mode (shares one small pool with Codex, about 3–5 real jobs per 5 hours, so batch them); **codex** = Codex review (jobs 101 and 108 only).
+Lanes: **plain** = a plain GPT-5.6 Sol chat in the Visual project; **plain-image** = plain chat with image generation (max 2 at once); **plain (work if …)** = plain chat unless job 0 finds plain chats cannot take screenshots, then Work mode; **work** = Work mode (shares one small pool with Codex, about 3–5 real jobs per 5 hours, so batch them); **codex** = Codex review (job 108 only); **team-g** = tracks a Team G job, never started by Team V.
 
 Generated by `project-documents/factory/tools/board.py` from `BOARD.json` and `status/`. Workers never edit this file; Claude regenerates it.
