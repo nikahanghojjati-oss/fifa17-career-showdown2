@@ -2,12 +2,12 @@
 
 State: IN PROGRESS
 Step: 7 of 8
-Updated: 2026-10-02 19:13 UTC
+Updated: 2026-10-02 19:20 UTC
 Chat: GPT-5.6 Sol normal chat
 Code branch: gameplay/job-02-two-manager-journey
-Head commit: 8d79c1ff4a90fee7a86b5211aaeda81389883760
+Head commit: 5eaa01f2d06b2ec985d3ec40adf03f9a70d799fa
 PR:
-CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37052179546
+CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37053162850
 
 ## Notes
 - Step 1: Job 1 is DONE and merged into gameplay/recovery-v1 at fb28e70. Baseline is Job 1 exact-head green run 36986447232: Gameplay contracts SUCCESS and Composed Rules on the emulator SUCCESS. Per the job's lane override, no local install/emulator run was attempted.
@@ -67,7 +67,7 @@ let results=await Results.publishResult({...a(300),seasonNumber:1,operationId:op
 
 - Step 6: Sections F/G now pass after the Team G lead-approved fixes: Rules hex normalization in e45c4f9, real-time fresh-rivalry clocks in b6f7eb, and the disabled-rules fixture read in 8d79c1f. Exact-head CI 37052179546 passed Gameplay contracts and the full Composed Rules emulator job, including Two-manager journey. Real pairing is proved separately, then the JOB-02-authorized template-equivalent gameplay reseed is used; R2 remains the regression proof.
 
-- Step 7: Validate Gameplay Fast run 37052179546 is green on exact head 8d79c1f: Gameplay contracts SUCCESS (including Operations audit) and Composed Rules on the emulator SUCCESS, including Two-manager journey. The journey CI step was already added in Step 2 per the lane override. PR #318 is open into gameplay/recovery-v1. Compare against recovery shows only the new journey test, the workflow step, and the approved two-line Rules fix.
+- Step 7: Final Validate Gameplay Fast run 37053162850 is green on exact head 5eaa01f: Gameplay contracts SUCCESS (including Operations audit) and Composed Rules on the emulator SUCCESS, including the required 3-season Two-manager journey. A temporary CI proof at run 37052830310 also passed the full Two-manager journey with CMS_SHOWDOWN_LENGTH=1, then the workflow was restored to the required 3-season command. PR #318 is open into gameplay/recovery-v1. Final diff against recovery shows only the new journey test, the workflow step, and the approved two-line Rules fix.
 
 ## Self-check
 
