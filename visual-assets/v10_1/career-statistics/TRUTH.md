@@ -218,7 +218,11 @@ There is no Daniel-view versus Nik-view data variant. Viewer role does not reord
 
 ### Career Table order and rank
 
-Career Table presentation order is fixed: Daniel's row is always first and Nik's row is always second, matching the product-wide manager order. The `#` cell shows each manager's actual career rank; it does not become the row index. Preserve the live `main/js/analytics.js` ranking rule for this table: Showdown wins first, then total trophies, then career points. Therefore a Nik-leading frame still renders Daniel first with `#2`, then Nik with `#1`. `expectedCareerTableRows` in fixtures is a presentation test oracle, not a provider field.
+Career Table presentation order is fixed: Daniel's row is always first and Nik's row is always second, matching the product-wide manager order. The `#` cell shows each manager's actual career rank; it does not become the row index. Preserve the live `main/js/analytics.js` ranking rule for this table: Showdown wins first, then total trophies, then career points. Therefore a Nik-leading frame still renders Daniel first with `#2`, then Nik with `#1`.
+
+Trophy Room standings are a separate ranking defined by `DATA_CONTRACT_V1.md` §7: career points first, then season wins, then level. Never reuse the Career Table comparator for Trophy Room standings, and never use the Trophy Room career-points-first comparator for the Career Table. The `rankingRules` fixture block labels both comparators so build and review jobs cannot mix them.
+
+`expectedCareerTableRows` in fixtures is a presentation test oracle, not a provider field.
 
 ### Final comparison rows
 

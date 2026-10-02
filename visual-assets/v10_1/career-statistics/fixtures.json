@@ -1,6 +1,6 @@
 {
   "version": "CAREER_STATISTICS_V1_FIXTURES",
-  "authority": "main@2de237391e17c7de2c6deb606b102b68ee640212 + DATA_CONTRACT_V1 §0/§6/§9 + PRODUCT_TRUTH.md + JOB-003",
+  "authority": "main@2de237391e17c7de2c6deb606b102b68ee640212 + DATA_CONTRACT_V1 §0/§6/§7/§9 + PRODUCT_TRUTH.md + JOB-003 + JOB-137",
   "strings": {
     "heading": "CAREER STATISTICS",
     "previewLabel": "Preview data",
@@ -999,6 +999,30 @@
     "topNavigation": {
       "tab": "STATS",
       "destination": "careerStatistics"
+    }
+  },
+  "rankingRules": {
+    "careerTable": {
+      "label": "Career Table rank",
+      "order": [
+        "showdowns.wins DESC",
+        "totalTrophies DESC",
+        "careerPoints DESC"
+      ],
+      "presentationOrder": [
+        "daniel",
+        "nik"
+      ],
+      "note": "The # cell shows rank; row order never flips."
+    },
+    "trophyRoomStandings": {
+      "label": "Trophy Room standings rank",
+      "order": [
+        "careerPoints DESC",
+        "seasonWins DESC",
+        "level"
+      ],
+      "note": "Separate ranking from Career Table; never reuse the Career Table comparator."
     }
   }
 }
