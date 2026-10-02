@@ -2,12 +2,12 @@
 
 State: IN PROGRESS
 Step: 5 of 7
-Updated: 2026-10-02 22:07 UTC
+Updated: 2026-10-02 22:10 UTC
 Chat: Sol Work mode (2230aaf674be)
 Code branch: gameplay/job-04-renderer-seams
 Head commit: 11867307325a6ad24093c3c4c6e098fd7e8cea1c
 PR:
-CI run:
+CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37070727744 (in progress, exact head 11867307325a6ad24093c3c4c6e098fd7e8cea1c)
 
 ## Notes
 - Step 1: Job 3 model exists on gameplay/recovery-v1; baseline cfffd4a7d6ce9420262c55aa0484ba0f12a4e069. npm ci exit 0; contracts 100/100; operations 73/73, fail 0. Later merged jobs increased the baseline census above the job's original 97. Public git clone/read works; saving uses the GitHub connector as instructed.
@@ -20,7 +20,7 @@ CI run:
 
 - Step 5: Renderer edits and open-function forwarding saved at bd62944969195fd0b0954ef97cd57cbfc7ecb415; all 17 seam cases pass locally. GitHub Gameplay contracts job 111048865553 ran npm run test:contracts (99/99) and npm run test:ops (73/73, fail 0) successfully on this exact head. Local long-suite captures ended without the final census; CI is the complete proof. Only the prescribed lazy renderer and cache lines changed.
 
-- Step 6 (unfinished): Required registry and two narrow operations edits saved at 11867307325a6ad24093c3c4c6e098fd7e8cea1c; local operations pass 73/73 with fail 0. Exact-head Validate Gameplay Fast and PR still pending; complete CI proof required before DONE.
+- Step 6 (unfinished): Required registry and exactly two narrow operations edits saved at 11867307325a6ad24093c3c4c6e098fd7e8cea1c; local operations pass 73/73, fail 0. Exact-head GitHub job 111049892098 confirms seam 17/17, full contracts 100/100 and operations 73/73. Composed Rules emulator checks still running; PR follows green CI.
 
 ## Self-check
 
