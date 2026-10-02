@@ -1,16 +1,18 @@
 {
- "generated": "2026-10-02 19:30 UTC",
+ "generated": "2026-10-02 19:34 UTC",
  "branch": "factory/gameplay-v1",
  "integration_branch": "gameplay/recovery-v1",
  "capacity": {
   "chat": 2,
   "work": 1
  },
- "overall": 29,
+ "overall": 27,
  "done": 5,
- "total": 18,
+ "total": 19,
  "start": {
-  "chat": [],
+  "chat": [
+   17
+  ],
   "work": []
  },
  "queued": [
@@ -104,6 +106,28 @@
    "steps_total": 8,
    "pct": 100,
    "ready": false
+  },
+  {
+   "number": 17,
+   "key": "G-2c",
+   "title": "Simultaneous result taps: loser gets stale, not denied",
+   "lane": "chat",
+   "depends_on": [
+    2
+   ],
+   "steps": 5,
+   "code_branch": "gameplay/job-17-results-race",
+   "codex_review": false,
+   "written": true,
+   "waits_on": null,
+   "phase": "1 Safety net",
+   "type": "fix",
+   "plain": "When you both submit a result at once, the slower tap is told to refresh instead of getting an error.",
+   "state": "NOT STARTED",
+   "step": 0,
+   "steps_total": 5,
+   "pct": 0,
+   "ready": true
   },
   {
    "number": 16,

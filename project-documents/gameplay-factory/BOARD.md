@@ -1,10 +1,10 @@
 # Team G gameplay factory board
 
-Branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-02 19:30 UTC
+Branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-02 19:34 UTC
 
-**Overall:** ██░░░░░░░░ 29 % · 5 of 18 jobs done
+**Overall:** ██░░░░░░░░ 27 % · 5 of 19 jobs done
 
-**Start now in a normal chat (press Stay in Chat):** -
+**Start now in a normal chat (press Stay in Chat):** 17
 
 **Start now in Sol Work mode (press Use Work, paste the starter line from RULES.md):** -
 
@@ -18,6 +18,7 @@ Branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generate
 | 90 | G-0W | [Factory smoke test (Work lane)](jobs/JOB-90.md) | 0 Setup | test | work | - |  | ██████████ 100 % | DONE |
 | 1 | G-1 | [Fast regression CI on every gameplay push](jobs/JOB-01.md) | 0 Setup | build | work | - |  | ██████████ 100 % | DONE |
 | 2 | G-2 | [Two-manager journey on the emulator (provider level)](jobs/JOB-02.md) | 1 Safety net | test | chat | 1 |  | ██████████ 100 % | DONE |
+| 17 | G-2c | [Simultaneous result taps: loser gets stale, not denied](jobs/JOB-17.md) | 1 Safety net | fix | chat | 2 |  | ░░░░░░░░░░ 0 % | NOT STARTED |
 | 16 | G-2b | Two-manager browser journey (localhost-only emulator switch) | 1 Safety net | test | chat | 2 |  | ░░░░░░░░░░ 0 % | NOT WRITTEN |
 | 12 | G-12 | Composed production Rules regression | 1 Safety net | test | work | 7, 8 | yes | ░░░░░░░░░░ 0 % | NOT WRITTEN |
 | 3 | G-3 | [Pure shared career model + tests](jobs/JOB-03.md) | 2 Career model | build | work | - |  | ██████████ 100 % | DONE |

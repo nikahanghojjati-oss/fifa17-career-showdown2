@@ -70,6 +70,23 @@
    "plain": "Daniel and Nik play a whole Showdown against the real Rules in a test database, with a stranger and privacy checks."
   },
   {
+   "number": 17,
+   "key": "G-2c",
+   "title": "Simultaneous result taps: loser gets stale, not denied",
+   "lane": "chat",
+   "depends_on": [
+    2
+   ],
+   "steps": 5,
+   "code_branch": "gameplay/job-17-results-race",
+   "codex_review": false,
+   "written": true,
+   "waits_on": null,
+   "phase": "1 Safety net",
+   "type": "fix",
+   "plain": "When you both submit a result at once, the slower tap is told to refresh instead of getting an error."
+  },
+  {
    "number": 16,
    "key": "G-2b",
    "title": "Two-manager browser journey (localhost-only emulator switch)",
