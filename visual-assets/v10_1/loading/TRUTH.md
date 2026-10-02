@@ -165,12 +165,32 @@ There is no slow-network message in the product. Therefore the suggested LD3 slo
 
 Loading is not manager-specific, so no Daniel/Nik role variants are created. Daniel-first ordering remains relevant only to any fixture metadata that carries managers; this screen currently carries none.
 
-## Mockup audit blocker
+## Live reference element audit
 
-Step 5 requires opening the Loading mockup image itself and producing an element-by-element mockup → product table.
+JOB-011 has no mockup image. Per the updated job instruction and Claude's unblock note, the reference authority for this step is the live Loading screen on `main`: `index.html #loadingScreen`, its startup flow in `js/app.js` / `js/screens.js`, its styling in `css/app.css`, and the licensed Reus asset plus credit in `THIRD_PARTY_NOTICES.md`.
 
-A branch-wide tree scan of the current `factory/v1-wtt5ye` head found no Loading/startup mockup image. The only factory mockup/goal images are for Home, League, Club, Transfer War, Career Statistics, Legacy, Rivalry Statistics, Season Results, Start / Join and Trophy Room. `project-documents/factory/mockups/README.md` also lists no Loading reference image.
+The new look follows `CRAFT_GUIDE.md` §4: black/gold Showdown materials, restrained glass, Barlow UI type, gold edges/highlights, and no invented controls or data. Loading has no phone bottom bar.
 
-The live product's Reus source photo (`assets/marco-reus-2015-cc-by.webp`) is not a screen mockup and cannot substitute for the required screen-level mockup audit.
+| Live element | New-look answer | Product reason |
+| --- | --- | --- |
+| `#loadingScreen` full-screen startup shell | KEEP with new styling | Preserve the real startup-only lifecycle and automatic handoff. Regrade from the current blue/grey treatment into the shared black/gold Showdown look without turning Loading into a routed screen. |
+| `.startupScene` backdrop | KEEP with new styling | Preserve the live full-screen scene role. Use dark stadium atmosphere and restrained gold light consistent with the Showdown system; do not add a real logo or extra player. |
+| `.startupShardOne`, `.startupShardTwo`, `.startupGrid` | KEEP with new styling | They are decorative geometry, not data. Retain the sense of motion/depth but recolor to the shared black/gold palette and keep them subordinate to the athlete and title. |
+| `.startupAthleteFrame` + `#startupAthlete` Marco Reus photo | KEEP | OWNER-4 / PRODUCT_TRUTH §6 explicitly permits this one player-photo exception on Loading. Keep the licensed local asset and reviewed crop; styling may regrade around it but must not replace it with generated player art. |
+| `.startupRoundel` with `CM` / `17` | KEEP with new styling | This is project-owned decorative brand text, not a real crest or competition logo. Restyle to match the shared gold/black identity. |
+| `.startupKicker` — `THE RIVALRY STARTS HERE` | KEEP with new styling | Exact live string is retained. Make it a restrained eyebrow/kicker in the shared typography system. |
+| `.startupIdentity h1` — `CAREER MODE` / `SHOWDOWN 17` | KEEP with new styling | Exact live title remains. Use the Showdown title hierarchy and metallic/gold treatment while keeping accessible DOM text; no state value is baked into art. |
+| `.startupEdition` — `TWO MANAGERS · ONE LEGACY` | KEEP with new styling | Exact live decorative copy remains; use the shared edge/plate treatment only if needed for legibility. |
+| `.startupStatus` + `.startupPulse` + `#loadingText` | KEEP with new styling | This is the only live loading-status presentation. Keep `PREPARING CAREER MODE SHOWDOWN`; retain motion/reduced-motion behavior and recolor the pulse to the shared gold family. |
+| `.startupSaveNote` — `TWO MANAGERS · ONE SHOWDOWN` | KEEP with new styling | Exact live support line remains. Keep it visually secondary. |
+| `.startupPhotoCredit` | CHANGE to binding OWNER-4 treatment | Keep the credit visible, but replace live `Display crop` wording with exact product truth: `Marco Reus photo: Tim Reckmann · CC BY 2.0 · Cropped for display`. Remove `aria-hidden`; make Tim Reckmann link to `https://www.flickr.com/photos/foto_db/16204330530/` and CC BY 2.0 link to `https://creativecommons.org/licenses/by/2.0/`, readable by screen readers. |
+| `.is-ready`, `.is-exiting`, `.hidden` lifecycle states | KEEP as behavior | These states implement the real startup handoff. Visual polish may change easing/grade later, but truth jobs do not invent a new route or user action. |
+| Back button / retry button / slow-network control | DROP / do not add | The live Loading screen has none. PRODUCT_TRUTH permits only real controls; initialization errors belong to the separate runtime notice system. |
+| Top navigation / phone bottom bar | DROP / do not add | PRODUCT_TRUTH §7 explicitly hides the phone bottom bar on Loading, and the live startup precedes routed navigation. |
+| History/score/club/league/manager data panels | DROP / do not add | Loading displays none of those fields. DATA_CONTRACT_V1 §0 contributes only the derived `status` vocabulary here. |
 
-Step 5 therefore cannot be completed without Claude identifying or adding the intended Loading mockup image, or explicitly changing the job instruction to use a named live-screen reference instead.
+### Reference differences that are intentional
+
+- The Reus credit is the one required content change: live `Display crop` becomes product-truth `Cropped for display`, with accessible links.
+- The visual palette changes from the current blue/grey FIFA-era styling to the factory's black/gold Showdown system.
+- No mockup-only element exists to copy, and no new button, stat, route or history panel is introduced.
