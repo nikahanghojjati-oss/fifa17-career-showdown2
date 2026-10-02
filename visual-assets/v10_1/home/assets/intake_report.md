@@ -68,13 +68,14 @@ Likeness is not judged: faces, hands and packs are original pixels by constructi
 
 ## JOB-031 source seam repair (2026-10-02)
 
-- D1–D7 were repaired inside the existing remove zones only. Each affected edge samples the 12 px outside ring, matches RGB mean and variance, and feathers the correction 42 px inward.
-- Protected face/hand pixels and every pixel outside the remove-zone union are byte-identical to the pre-JOB-031 1X PNG (hard assertions in the repair run).
-- Runtime area/strip blur mends are disabled by JOB-031 after this source repair; the plate itself now owns the transition.
+- Restored the pre-JOB-031 plate, then repaired only D2/D3/D5/D6/D7 edge bands. Each edge uses the 12 px outside ring as the target; RGB mean and local variance are matched per edge position, smoothed tangentially, and feathered 28 px into the generated side.
+- D1 and D4 were runtime broad-blur/darken artifacts, so they are fixed by retiring those runtime mends rather than repainting broad source rectangles.
+- Protected face/hand pixels and every 1X pixel outside the remove-zone union are byte-identical to the pre-JOB-031 plate.
 
 ### Current plate SHA-256
 
-- \`ENV_HOME_PLATE_V1_1X.png\` \`fa236f881a07863be2eaee2e6a2d41efed6fbf2eff564d318cdd1add28dd6f7a\`
-- \`ENV_HOME_PLATE_V1_1X.webp\` \`df53ebd5abfcdee43a2a1769df592727945704fdf6acc13dd18a665c6e5faf27\`
-- \`ENV_HOME_PLATE_V1_2X.png\` \`e0504ac6859e0d51f5bb408b0fd53ae18be60d937b2449964389b2bffe86c6db\`
-- \`ENV_HOME_PLATE_V1_2X.webp\` \`d469248f47f78d4d5847409ae7c0f788a1de3b3a09351eafa79e563959566481\`
+- `ENV_HOME_PLATE_V1_1X.png` `fc0d10ccfa994517844ee4e690c20315a44a97b0733e4491a9a37c92035360d3`
+- `ENV_HOME_PLATE_V1_1X.webp` `3c35391805507bf8910f36f98147cd8383e4944eeb999021661d6d7030d30c39`
+- `ENV_HOME_PLATE_V1_2X.png` `ebba497bf337f7eb9fbf625a5cde3c68b633c3c8df695723b877ba2e91bec34f`
+- `ENV_HOME_PLATE_V1_2X.webp` `aed61ed9d6e10cbaead7251539e188101bc1371d83639b2ab6953dae875274f9`
+
