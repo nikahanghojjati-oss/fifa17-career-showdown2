@@ -159,6 +159,17 @@ def report(path, im, role):
             'sha256': hashlib.sha256(path.read_bytes()).hexdigest()}
 
 
+def rim_mask(layer, scale):
+    """Outer-only 3 logical px alpha band; white RGB so CSS can tint it."""
+    alpha = layer.getchannel('A')
+    outer = np.asarray(morph(alpha, 3 * scale, grow=True)).astype(np.int16)
+    band = np.maximum(outer - np.asarray(alpha).astype(np.int16), 0).astype(np.uint8)
+    rgba = np.zeros((layer.height, layer.width, 4), dtype=np.uint8)
+    rgba[band > 0, :3] = 255
+    rgba[..., 3] = band
+    return Image.fromarray(rgba)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--plate', required=True, type=Path)
@@ -169,6 +180,7 @@ def main():
     parser.add_argument('--source-scale', type=int, choices=(1, 2), default=1)
     parser.add_argument('--erode', type=int, choices=(0, 1, 2), default=1, help='1X pixels; 0 for hair')
     parser.add_argument('--feather', type=float, default=1, help='Gaussian radius in 1X px, 0..3')
+    parser.add_argument('--rim', action='store_true', help='Also export a white outer 3 px alpha band at both densities')
     args = parser.parse_args()
     try:
         if not 0 <= args.feather <= 3 or not math.isfinite(args.feather):
@@ -219,6 +231,9 @@ def main():
             layer = native if size == native.size else resize_rgba(native, size)
             path = stem.with_name(stem.name + f'_{density}X.png')
             outputs.append(report(path, layer, 'cutout'))
+            if args.rim:
+                path = stem.with_name(stem.name + f'_RIM_{density}X.png')
+                outputs.append(report(path, rim_mask(layer, density), 'rim'))
         print(json.dumps({'source': str(args.plate), 'source_scale': scale,
                           'coordinate_units': '1X plate px', 'polygons': len(polygons),
                           'erode_px_1x': args.erode, 'feather_radius_px_1x': args.feather,

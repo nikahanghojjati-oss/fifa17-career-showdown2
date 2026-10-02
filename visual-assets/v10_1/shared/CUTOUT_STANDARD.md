@@ -26,3 +26,5 @@ Both outputs are full plate canvases, with transparent space outside the cut-out
 Select a nested JSON key with `--map <platemap.json> --key <dot.path>`. The value may be one polygon, a list of polygons (union), or an object with `polygon`/`polygons`. `--polygon '<JSON>'` or `--polygon @file.json` also works. When both are supplied, the selected map key must be a bounding box constraining the supplied contour. A box alone is rejected because it is not a silhouette.
 
 Validation rejects out-of-bounds/nonfinite/degenerate points, wrong map sizes, non-PNG masters, empty masks and contours too thin to refine. Review skin, hair and dark suit separately; for hair, `--erode 0 --feather 1.5` preserves more of the soft edge. Defaults remain 1 px erosion/feather for firm silhouettes.
+
+`--rim` additionally exports `_RIM_1X.png` and `_RIM_2X.png`, the white outer alpha band (`dilate(alpha, 3 px) − alpha`, scaled to 6 px at 2X). Same full canvas and registration as the cut-out. Opaque interiors have zero rim alpha. This is a neutral lighting mask, not baked gold. CSS selects the light-facing side and tints it; never light the full perimeter uniformly.
