@@ -199,3 +199,93 @@ It may appear only on labelled owner-review/current-Showdown previews before car
 The Final Winner build uses only §4 fields plus universal §0 state/coverage metadata. These values may exist elsewhere on main but are not Final Winner fields and are dropped here: club names, league id/name, league position, league points, league goals, season W/D/L, individual season scoring breakdowns, performance-bonus trigger detail, awards-bonus trigger detail, transfer facts, best/average statistics and career totals.
 
 DATA_CONTRACT_V1 §9 also permanently drops clean sheets, biggest single-match win, European wins other than Champions League, player names, player-based leaders or photos, match-by-match results, possession and all per-match stats. Top scorer and top assist remain yes/no per-season inputs elsewhere; they are not player-name statistics and are not Final Winner fields.
+
+
+## States and preview frames
+
+### State matrix
+
+The Final Winner view has two independent state axes.
+
+1. `status`, required by DATA_CONTRACT_V1 §0: `loading`, `empty`, `unavailable`, `partial`, `ready`.
+2. `state`, required by §4 once a final result exists: `completion-pending` or `completed`.
+
+Required treatment:
+
+| Status / state | Visual truth |
+| --- | --- |
+| `loading` | Show the Final Winner shell in a neutral loading state. No scores, trophy counts or winner are replaced with zero. |
+| `empty` | Read succeeded but there is no completed Showdown result. Do not render a winner. |
+| `unavailable` | Read failed. Show a clear unavailable state; do not turn missing values into zero. |
+| `partial` | Show only authoritative fields that were actually read, identify incomplete coverage, and never claim all-time/career coverage. |
+| `ready` + `completion-pending` | Show the authoritative result and a visible `Completion pending` mark. Terminal Close is not yet verified. |
+| `ready` + `completed` | Show the same authoritative result as final/closed. Terminal Close is verified. |
+
+The five named owner-preview frames below use fictional values and must display `Preview data`. They deliberately keep Daniel first/left and Nik second/right.
+
+### FW1 · Daniel wins
+
+- `previewLabel`: `Preview data`
+- `status`: `ready`
+- `state`: `completed`
+- `totals`: Daniel 28, Nik 23
+- `winner`: `daniel`
+- `margin`: 5
+- `seasonsPlayed`: 5
+- Daniel trophies: Champions League 2, league titles 3, domestic cups 1, total 6
+- Nik trophies: Champions League 1, league titles 2, domestic cups 2, total 5
+
+### FW2 · Nik wins
+
+- `previewLabel`: `Preview data`
+- `status`: `ready`
+- `state`: `completed`
+- `totals`: Daniel 21, Nik 27
+- `winner`: `nik`
+- `margin`: 6
+- `seasonsPlayed`: 5
+- Daniel trophies: Champions League 1, league titles 2, domestic cups 1, total 4
+- Nik trophies: Champions League 2, league titles 3, domestic cups 0, total 5
+
+### FW3 · Draw
+
+- `previewLabel`: `Preview data`
+- `status`: `ready`
+- `state`: `completed`
+- `totals`: Daniel 24, Nik 24
+- `winner`: `draw`
+- `margin`: 0
+- `seasonsPlayed`: 5
+- Daniel trophies: Champions League 1, league titles 3, domestic cups 2, total 6
+- Nik trophies: Champions League 2, league titles 2, domestic cups 0, total 4
+
+### FW4 · Result reconciled, completion pending
+
+- `previewLabel`: `Preview data`
+- `status`: `ready`
+- `state`: `completion-pending`
+- `totals`: Daniel 17, Nik 15
+- `winner`: `daniel`
+- `margin`: 2
+- `seasonsPlayed`: 3
+- Daniel trophies: Champions League 1, league titles 2, domestic cups 1, total 4
+- Nik trophies: Champions League 1, league titles 2, domestic cups 0, total 3
+- Required visible mark: `Completion pending`
+
+### FW5 · Completed
+
+FW5 intentionally uses the same sporting result as FW4 so the preview isolates the state transition caused by verified Terminal Close.
+
+- `previewLabel`: `Preview data`
+- `status`: `ready`
+- `state`: `completed`
+- `totals`: Daniel 17, Nik 15
+- `winner`: `daniel`
+- `margin`: 2
+- `seasonsPlayed`: 3
+- Daniel trophies: Champions League 1, league titles 2, domestic cups 1, total 4
+- Nik trophies: Champions League 1, league titles 2, domestic cups 0, total 3
+
+### Why these frames match the real product
+
+Main decides the final winner from accumulated Showdown points only, so FW1–FW3 do not use season tie-breakers. FW4 reflects the real split between Final Reconciliation and Terminal Close: the result is already readable while completion is still pending. FW5 changes only the normalized completion state after Terminal Close is verified. The current product does not have a separate Final Winner route, so these frames are visual states of the product truth, not invented navigation.
