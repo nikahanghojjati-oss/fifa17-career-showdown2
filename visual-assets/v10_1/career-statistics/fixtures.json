@@ -249,6 +249,96 @@
         "daniel",
         "nik"
       ]
+    },
+    "CS6": {
+      "note": "ready provider career history where Nik leads; Daniel row stays first while # shows actual rank",
+      "previewLabel": "Preview data",
+      "status": "ready",
+      "managerOrder": [
+        "daniel",
+        "nik"
+      ],
+      "expectedCareerTableRows": [
+        {
+          "manager": "daniel",
+          "rank": 2
+        },
+        {
+          "manager": "nik",
+          "rank": 1
+        }
+      ],
+      "managers": {
+        "daniel": {
+          "seasonWins": 2,
+          "seasonDraws": 1,
+          "seasonLosses": 3,
+          "championsLeagues": 0,
+          "leagueTitles": 1,
+          "domesticCups": 1,
+          "totalTrophies": 2,
+          "hundredPointSeasons": 0,
+          "hundredGoalSeasons": 0,
+          "topScorerSeasons": 1,
+          "topAssistSeasons": 1,
+          "perfectSeasons": 0,
+          "bestSeasonScore": 5,
+          "careerPoints": 11,
+          "seasons": 6,
+          "averageSeasonScore": 1.83,
+          "averageLeaguePoints": 76.5,
+          "averageLeagueGoals": 80.3,
+          "bestLeaguePoints": 96,
+          "bestLeagueGoals": 99,
+          "bestLeaguePosition": 1,
+          "performanceBonuses": 1,
+          "awardsBonuses": 1
+        },
+        "nik": {
+          "seasonWins": 3,
+          "seasonDraws": 1,
+          "seasonLosses": 2,
+          "championsLeagues": 1,
+          "leagueTitles": 2,
+          "domesticCups": 1,
+          "totalTrophies": 4,
+          "hundredPointSeasons": 2,
+          "hundredGoalSeasons": 3,
+          "topScorerSeasons": 2,
+          "topAssistSeasons": 2,
+          "perfectSeasons": 0,
+          "bestSeasonScore": 8,
+          "careerPoints": 18,
+          "seasons": 6,
+          "averageSeasonScore": 3,
+          "averageLeaguePoints": 88.2,
+          "averageLeagueGoals": 95,
+          "bestLeaguePoints": 108,
+          "bestLeagueGoals": 130,
+          "bestLeaguePosition": 1,
+          "performanceBonuses": 3,
+          "awardsBonuses": 2
+        }
+      },
+      "showdowns": {
+        "daniel": {
+          "completed": 2,
+          "wins": 0,
+          "draws": 0,
+          "losses": 2
+        },
+        "nik": {
+          "completed": 2,
+          "wins": 2,
+          "draws": 0,
+          "losses": 0
+        }
+      },
+      "biggestShowdownWin": {
+        "manager": "nik",
+        "margin": 4,
+        "showdownRef": "preview-showdown-2"
+      }
     }
   },
   "routes": {

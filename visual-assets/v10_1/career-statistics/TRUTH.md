@@ -204,6 +204,10 @@ There is no Career Statistics `active` or `completed` screen state. Active / com
 
 There is no Daniel-view versus Nik-view data variant. Viewer role does not reorder the comparison: `daniel` is always first/left and `nik` always second/right.
 
+### Career Table order and rank
+
+Career Table presentation order is fixed: Daniel's row is always first and Nik's row is always second, matching the product-wide manager order. The `#` cell shows each manager's actual career rank; it does not become the row index. Preserve the live `main/js/analytics.js` ranking rule for this table: Showdown wins first, then total trophies, then career points. Therefore a Nik-leading frame still renders Daniel first with `#2`, then Nik with `#1`. `expectedCareerTableRows` in fixtures is a presentation test oracle, not a provider field.
+
 ### Final comparison rows
 
 The rebuilt comparison uses only contract-backed fields and keeps Daniel on the left:
@@ -238,6 +242,7 @@ Ties are shown as shared manager leadership. Cards use the manager portrait crop
 - `CS3` · `partial` · readable-history values plus visible coverage note. Example fixture coverage is `3 of 4 Showdowns readable`.
 - `CS4` · `unavailable` · provider history cannot be read; no numeric values are presented as facts.
 - `CS5` · `loading` · added because `loading` is a distinct required contract state even though the job's four named frames omit it. Reserve the layout with Daniel first and Nik second, but show no fake data.
+- `CS6` · `ready` · Nik leads the career ranking. Daniel's row still renders first with `#2`; Nik renders second with `#1`, proving that presentation order never flips.
 
 If owner review temporarily uses current-Showdown-only data before provider career history exists, the only permitted interim copy is exactly `Current Showdown only. Career history is not yet available.` That interim mode is not a launch state.
 
