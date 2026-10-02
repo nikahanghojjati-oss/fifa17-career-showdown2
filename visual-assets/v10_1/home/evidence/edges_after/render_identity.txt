@@ -1,0 +1,6 @@
+HM1 1366x768: final == mends_off
+HM2 1366x768: final == mends_off
+HM3 1366x768: final == mends_off
+HM1 1920x1080: final == mends_off
+HM2 1920x1080: final == mends_off
+HM3 1920x1080: final == mends_off
