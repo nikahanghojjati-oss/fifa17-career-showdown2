@@ -1,8 +1,8 @@
 # Status · JOB-02 · Two-manager journey on the emulator (provider level)
 
 State: IN PROGRESS
-Step: 6 of 8
-Updated: 2026-10-02 19:12 UTC
+Step: 7 of 8
+Updated: 2026-10-02 19:13 UTC
 Chat: GPT-5.6 Sol normal chat
 Code branch: gameplay/job-02-two-manager-journey
 Head commit: 8d79c1ff4a90fee7a86b5211aaeda81389883760
@@ -66,6 +66,8 @@ let results=await Results.publishResult({...a(300),seasonNumber:1,operationId:op
 - Step 6 BLOCKED: direct real-pair chaining failed at Daniel's first fresh-rivalry Season Results publish with permission-denied in CI 36993445788. The job-authorized fallback then proved real pairing separately and reseeded the paired gameplay root exactly like the lifecycle template, but the same Season Results publish failed again with permission-denied in CI 36994806517. Per handbook, stopped after the same Step 6 failure twice; no app code or Rules were changed.
 
 - Step 6: Sections F/G now pass after the Team G lead-approved fixes: Rules hex normalization in e45c4f9, real-time fresh-rivalry clocks in b6f7eb, and the disabled-rules fixture read in 8d79c1f. Exact-head CI 37052179546 passed Gameplay contracts and the full Composed Rules emulator job, including Two-manager journey. Real pairing is proved separately, then the JOB-02-authorized template-equivalent gameplay reseed is used; R2 remains the regression proof.
+
+- Step 7: Validate Gameplay Fast run 37052179546 is green on exact head 8d79c1f: Gameplay contracts SUCCESS (including Operations audit) and Composed Rules on the emulator SUCCESS, including Two-manager journey. The journey CI step was already added in Step 2 per the lane override. PR #318 is open into gameplay/recovery-v1. Compare against recovery shows only the new journey test, the workflow step, and the approved two-line Rules fix.
 
 ## Self-check
 
