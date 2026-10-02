@@ -163,3 +163,8 @@ Product-truth overrides that still govern the later visual build even without a 
 - DROP any unrecorded-stat additions listed in PRODUCT_TRUTH §3 / DATA_CONTRACT_V1 §9.
 - DROP any real crests, league logos, trophies, EA/FIFA art or player imagery.
 - KEEP only the real Back action plus shared navigation supplied by the factory navigation job; do not invent Rule Book actions.
+
+
+## Open questions
+
+None. The live product fully determines Rule Book content, scoring, routing and Back behavior, and there is no Rule Book mockup to reconcile. The later build may recompose the static content for the factory phone/no-scroll quality bar, but it must not add competition rules, change wording, add unrecorded data, or invent Rule Book actions.
