@@ -90,3 +90,90 @@ There are no Career Statistics-specific `aria-label` strings on these buttons in
 ### Live state gaps
 
 The current `main` implementation is synchronous local-history presentation. It does not provide Career Statistics-specific visible strings for provider `loading`, provider `unavailable`, provider `partial` coverage, or provider read errors. Those are contract states handled in the next sections; they must not be filled with invented old-product copy.
+
+## Data contract
+
+Authority: `project-documents/factory/DATA_CONTRACT_V1.md` §6 Career Statistics, including its "What counts" table; global state and bounds come from §0. Contract §9 defines stats that are never recorded. The E/A value below follows the contract, not whether a similarly named local-only field happens to exist in today's analytics object.
+
+### Career fields
+
+| Contract field | E/A | Source / analogue on `main` | Level | Product note |
+| --- | --- | --- | --- | --- |
+| `managers.{daniel,nik}.seasonWins` | A | `accumulateRoundStats()`, `js/analytics.js` | career | Counts accepted season wins. |
+| `managers.{daniel,nik}.seasonDraws` | A | `accumulateRoundStats()`, `js/analytics.js` | career | Counts accepted season draws. |
+| `managers.{daniel,nik}.seasonLosses` | A | `accumulateRoundStats()`, `js/analytics.js` | career | Counts accepted season losses. |
+| `managers.{daniel,nik}.championsLeagues` | A | `accumulateRoundStats()`, `js/analytics.js` | career | Count of Champions League wins. |
+| `managers.{daniel,nik}.leagueTitles` | A | `accumulateRoundStats()`, `js/analytics.js` | career | League position 1. |
+| `managers.{daniel,nik}.domesticCups` | A | `accumulateRoundStats()`, `js/analytics.js` | career | Count of domestic cup wins. |
+| `managers.{daniel,nik}.totalTrophies` | A | `finalizeManagerCareerStats()`, `js/analytics.js` | career | `leagueTitles + domesticCups + championsLeagues`. |
+| `managers.{daniel,nik}.hundredPointSeasons` | A | `accumulateRoundStats()`, `js/analytics.js` | career | Seasons with league points ≥ 100. |
+| `managers.{daniel,nik}.hundredGoalSeasons` | A | `accumulateRoundStats()`, `js/analytics.js` | career | Seasons with league goals ≥ 100. |
+| `managers.{daniel,nik}.topScorerSeasons` | A | `accumulateRoundStats()`, `js/analytics.js` | career | Counts boolean `topScorer` season flags, never player names. |
+| `managers.{daniel,nik}.topAssistSeasons` | A | `accumulateRoundStats()`, `js/analytics.js` | career | Counts boolean `topAssist` season flags, never player names. |
+| `managers.{daniel,nik}.perfectSeasons` | A | `accumulateRoundStats()`, `js/analytics.js` | career | Season score exactly 11. |
+| `managers.{daniel,nik}.bestSeasonScore` | A | `accumulateRoundStats()`, `js/analytics.js` | career | Best computed season score. |
+| `managers.{daniel,nik}.careerPoints` | A | local analogue `totalPoints` in `createManagerCareerStats()` / `accumulateRoundStats()`, `js/analytics.js` | career | Sum of counted season scores; contract name is `careerPoints`. |
+| `managers.{daniel,nik}.seasons` | A | `createManagerCareerStats()` / `accumulateRoundStats()`, `js/analytics.js` | career | Counted accepted seasons. |
+| `managers.{daniel,nik}.averageSeasonScore` | A | `finalizeManagerCareerStats()`, `js/analytics.js` | career | Combined sum / combined season count, never average of averages. |
+| `managers.{daniel,nik}.averageLeaguePoints` | A | `finalizeManagerCareerStats()`, `js/analytics.js` | career | Combined league-point sum / seasons. |
+| `managers.{daniel,nik}.averageLeagueGoals` | A | `finalizeManagerCareerStats()`, `js/analytics.js` | career | Combined league-goal sum / seasons. |
+| `managers.{daniel,nik}.bestLeaguePoints` | A | `accumulateRoundStats()`, `js/analytics.js` | career | Best single accepted season league points. |
+| `managers.{daniel,nik}.bestLeagueGoals` | A | `accumulateRoundStats()`, `js/analytics.js` | career | Best single accepted season league goals. |
+| `managers.{daniel,nik}.bestLeaguePosition` | A | `accumulateRoundStats()`, `js/analytics.js` | career | Lowest numeric finishing position. |
+| `managers.{daniel,nik}.performanceBonuses` | A | `accumulateRoundStats()` using computed scoring, `js/analytics.js`; scoring source `calculatePlayerSeasonScore()`, `js/scoring.js` | career | One performance bonus max per season. |
+| `managers.{daniel,nik}.awardsBonuses` | A | `accumulateRoundStats()` using computed scoring, `js/analytics.js`; scoring source `calculatePlayerSeasonScore()`, `js/scoring.js` | career | One awards bonus max per season. |
+| `showdowns.{daniel,nik}.completed` | A | local analogue `stats.showdowns` in `calculateCareerAnalytics()`, `js/analytics.js` | career / completed Showdowns | Closed with verified Terminal Close only for outcome accounting. |
+| `showdowns.{daniel,nik}.wins` | A | local analogue `showdownWins` in `calculateCareerAnalytics()`, `js/analytics.js` | career / completed Showdowns | Completed Showdowns only. |
+| `showdowns.{daniel,nik}.draws` | A | local analogue `showdownDraws` in `calculateCareerAnalytics()`, `js/analytics.js` | career / completed Showdowns | Completed Showdowns only. |
+| `showdowns.{daniel,nik}.losses` | A | local analogue `showdownLosses` in `calculateCareerAnalytics()`, `js/analytics.js` | career / completed Showdowns | Completed Showdowns only. |
+| `biggestShowdownWin.manager` | A | local analogue `findBiggestShowdownMargin()`, `js/analytics.js` | career record | Contract carries the winning manager role, not free-form player identity. |
+| `biggestShowdownWin.margin` | A | local analogue `findBiggestShowdownMargin()`, `js/analytics.js` | per Showdown record / career leader | Absolute Showdown-points margin. |
+| `biggestShowdownWin.showdownRef` | A | no exact field on `main`; local analogue records the Showdown name in `findBiggestShowdownMargin()`, `js/analytics.js` | per Showdown record / career leader | Team G provides the stable Showdown reference. |
+| `coverage.readable` | A | no provider-history equivalent on `main` | career read state | Number of readable indexed Showdowns. |
+| `coverage.indexed` | A | no provider-history equivalent on `main` | career read state | Number of indexed Showdowns considered. |
+
+Managers are keyed by role only: `playerOne → daniel` and `playerTwo → nik`. Daniel is always the first / left presentation.
+
+### What counts
+
+From DATA_CONTRACT_V1 §6:
+
+| Showdown state | Seasons count toward career totals | Showdown outcome counts |
+| --- | --- | --- |
+| Pending pairing | no | no |
+| Active | accepted / acknowledged seasons only | no |
+| Final result reconciled, Terminal Close pending | all accepted seasons | no; it is a `completion-pending` result |
+| Closed with verified Terminal Close | all accepted seasons | exactly one |
+
+Abandoned Showdowns count for nothing.
+
+### Contract screen states
+
+The Career Statistics view model uses exactly one of these five states:
+
+- `loading`: provider history read is in progress.
+- `empty`: read succeeded and there is no career history yet.
+- `unavailable`: provider history read failed. Never render zeroes as if they were real.
+- `partial`: some Showdowns are unreadable. Show `coverage.readable` of `coverage.indexed`; do not label the result "all-time" or "career" without the coverage qualification.
+- `ready`: the indexed career history needed for the screen is readable.
+
+For an owner-review interim build before provider history is real, the only permitted interim label is exactly:
+
+`Current Showdown only. Career history is not yet available.`
+
+It is not a launch state.
+
+### Fields from current `main` that do not survive this contract
+
+These currently rendered Career Statistics fields are not listed in contract §6 and therefore are dropped from the factory screen:
+
+- `showdownWinRate` / visible row `Showdown Win Rate`
+- transfer `signings` / visible row `Transfer Signings`
+- transfer `releasedSignings` / visible row `Signings Released`
+- the local identity-link warning / Local Profiles notice, because the contract keys managers directly by `daniel` and `nik` role
+
+Contract §9 also drops, everywhere: clean sheets, biggest single-match win, European wins other than Champions League wins, player names, player-based leaders or photos, match-by-match results, possession and all per-match stats. `topScorer` and `topAssist` remain yes/no season achievements, never player-name stats.
+
+### Presentation decision for headline tiles
+
+The old combined summary values are not separate contract fields. The new screen may still present sums derived only from the contracted Daniel and Nik values, but any such tile must be explicitly labelled `Together`. Where a number is manager-specific, the screen shows Daniel first / left and Nik second / right rather than implying one anonymous career total.
