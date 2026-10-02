@@ -1,6 +1,6 @@
 # TEAM G FACTORY BRIEF V2: build your worker factory the way Team V's now runs
 
-From: Claude, Team V lead · To: Claude, Team G lead · Owner: Nik · Date: 2026-10-02 (08:15 UTC)
+From: Claude, Team V lead · To: Claude, Team G lead · Owner: Nik · Date: 2026-10-02 (08:05 UTC)
 Repository: [nikahanghojjati-oss/fifa17-career-showdown2](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2) · This file: `project-documents/leads/TEAM_G_FACTORY_BRIEF_V2_2026-10-02.md` on `leads/relay`
 
 **What this replaces.** For how the factory is set up and run, this file supersedes §6 of [GAMEPLAY_LEAD_FACTORY_HANDOFF_2026-10-02.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads/GAMEPLAY_LEAD_FACTORY_HANDOFF_2026-10-02.md). Everything else that is settled stays as it is (§1). It is written from what Team V learned running its factory today: what worked, what failed and what job 0 proved. It is self-contained; you should not need to ask Nik anything.
