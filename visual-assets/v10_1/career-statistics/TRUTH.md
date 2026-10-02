@@ -177,3 +177,58 @@ Contract §9 also drops, everywhere: clean sheets, biggest single-match win, Eur
 ### Presentation decision for headline tiles
 
 The old combined summary values are not separate contract fields. The new screen may still present sums derived only from the contracted Daniel and Nik values, but any such tile must be explicitly labelled `Together`. Where a number is manager-specific, the screen shows Daniel first / left and Nik second / right rather than implying one anonymous career total.
+
+## Screen states and preview frames
+
+Career Statistics is a career-history view. The screen state comes from DATA_CONTRACT_V1 §0, not from one Showdown's lifecycle or from which manager is viewing.
+
+| State | Meaning | Rendering rule |
+| --- | --- | --- |
+| `loading` | Provider career-history read is in flight. | Show the stable Career Statistics shell and manager order only; never show placeholder zeroes as facts. |
+| `empty` | Read succeeded and there is no counted career history yet. | New-career treatment. Daniel remains first/left and Nik second/right; no leader is invented. |
+| `partial` | Some indexed Showdowns are unreadable. | Show only readable aggregates plus a visible `coverage.readable` of `coverage.indexed` line; avoid unqualified "all-time" / complete-career claims. |
+| `unavailable` | Provider read failed. | Honest unavailable treatment; no career value is rendered as zero just because the read failed. |
+| `ready` | Required indexed history is readable. | Render the full contracted career comparison and leaders. |
+
+There is no sixth contract `error` state: a history read failure maps to `unavailable`.
+
+There is no Career Statistics `active` or `completed` screen state. Active / completion-pending / completed are source-Showdown conditions governed by the "What counts" rules above.
+
+There is no Daniel-view versus Nik-view data variant. Viewer role does not reorder the comparison: `daniel` is always first/left and `nik` always second/right.
+
+### Final comparison rows
+
+The rebuilt comparison uses only contract-backed fields and keeps Daniel on the left:
+
+1. `LEAGUE TITLES` → `leagueTitles`
+2. `DOMESTIC CUPS` → `domesticCups`
+3. `CHAMPIONS LEAGUE WINS` → `championsLeagues`
+4. `SEASON WINS` → `seasonWins`
+5. `AVERAGE LEAGUE POINTS` → `averageLeaguePoints`
+6. `AVERAGE LEAGUE GOALS` → `averageLeagueGoals`
+
+This replaces mockup rows for European wins, clean sheets and biggest single-match win, and also removes current-main comparison rows that are not in contract §6.
+
+### Career Leaders categories
+
+Career Leaders are manager records, never player records or player photos. Allowed cards are derived from the contracted fields:
+
+- `MOST SEASON WINS` → max `seasonWins`
+- `MOST TROPHIES` → max `totalTrophies`
+- `MOST CAREER POINTS` → max `careerPoints`
+- `BEST SEASON SCORE` → max `bestSeasonScore`
+- `MOST LEAGUE POINTS` → max `bestLeaguePoints`
+- `MOST LEAGUE GOALS` → max `bestLeagueGoals`
+- `BIGGEST SHOWDOWN WIN` → `biggestShowdownWin`
+
+Ties are shown as shared manager leadership. Cards use the manager portrait crop from this screen's approved plate, or an original club crest plus initials. No player imagery is permitted.
+
+### Preview frames
+
+- `CS1` · `ready` · several Showdowns. Fictional but internally coherent career history, Daniel first/left and Nik right, all comparison rows and Career Leaders populated.
+- `CS2` · `empty` · new career. Successful read with no counted history; no leader or zero-filled fake career table is invented.
+- `CS3` · `partial` · readable-history values plus visible coverage note. Example fixture coverage is `3 of 4 Showdowns readable`.
+- `CS4` · `unavailable` · provider history cannot be read; no numeric values are presented as facts.
+- `CS5` · `loading` · added because `loading` is a distinct required contract state even though the job's four named frames omit it. Reserve the layout with Daniel first and Nik second, but show no fake data.
+
+If owner review temporarily uses current-Showdown-only data before provider career history exists, the only permitted interim copy is exactly `Current Showdown only. Career history is not yet available.` That interim mode is not a launch state.
