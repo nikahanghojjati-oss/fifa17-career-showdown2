@@ -22,6 +22,8 @@ const Final=require("../../js/sharedFinalReconciliation.js");
 const Terminal=require("../../js/sharedTerminalClose.js");
 const TerminalProvider=require("../../js/sparkTerminalClose.js");
 const Sessions=require("../../js/sparkPrivateSession.js");
+const Pairing=require("../../js/sparkPrivatePairing.js");
+const PersistentPair=require("../../js/persistentNikDanielPair.js");
 
 const PROJECT_ID="demo-cms-two-manager-journey";
 const RULES=fs.readFileSync("firestore.spark.generated.rules","utf8");
@@ -29,8 +31,8 @@ const TOTAL_SEASONS=Number(process.env.CMS_SHOWDOWN_LENGTH||3);
 assert.ok([1,3,5,10].includes(TOTAL_SEASONS),`Unsupported journey length: ${TOTAL_SEASONS}`);
 
 const A="acct_game_a",B="acct_game_b",C="acct_game_c";
-const R1=`pair_${"1".repeat(64)}`;
-const S1=`session_${"b".repeat(64)}`;
+const R1=`pair_${"1".repeat(64)}`,R2=`pair_${"2".repeat(64)}`,R3=`pair_${"3".repeat(64)}`;
+const S1=`session_${"b".repeat(64)}`,S2=`session_${"c".repeat(64)}`,S3=`session_${"d".repeat(64)}`;
 const DA=`device_${"a".repeat(32)}`,DB=`device_${"b".repeat(32)}`,DC=`device_${"c".repeat(32)}`;
 const PA=`profile_${"1".repeat(24)}`,PB=`profile_${"2".repeat(24)}`;
 const SA=`save_${"3".repeat(24)}`,SB=`save_${"4".repeat(24)}`;
@@ -73,6 +75,94 @@ async function assertStrangerDenied(env,dbA,dbB,label){
   ];
   for(const [name,ref] of paths)await assertFails(getDoc(ref),`${label}: stranger must not read ${name}`);
   for(const [who,db] of [["Daniel",dbA],["Nik",dbB],["stranger",dbC]])await assertFails(getDocs(collection(db,"rivalries",R1,"seasonCommits")),`${label}: ${who} must not list season commits`);
+}
+
+
+function pairingIdentity(deviceId,seed,nowMs){return {schemaVersion:1,installationId:`installation_${seed.repeat(32).slice(0,32)}`,deviceId,createdAtEpochMs:nowMs-180000};}
+function bindingFor(role){return role==="playerOne"?{saveId:SA,profileId:PA,managerRole:role,displayLabel:"Daniel"}:{saveId:SB,profileId:PB,managerRole:role,displayLabel:"Nik"};}
+function managerIdFor(role){return role==="playerOne"?"daniel":"nik";}
+
+function pairLinkWitness(db,uid,deviceId,role){
+  return async({transaction,binding,capability,now})=>{
+    const ref=doc(db,"accounts",uid,"pairLinks","current"),snapshot=await transaction.get(ref);
+    let revision=0,parentRevision=null,priorHash=null,linkedAt=now;
+    if(snapshot.exists()){const prior=snapshot.data();revision=prior.revision+1;parentRevision=prior.revision;priorHash=prior.contentHash;linkedAt=prior.data.linkedAt;}
+    const data={rivalryId:capability,managerRole:role,managerId:managerIdFor(role),linkedAt,lastConfirmedAt:now};
+    const next=await envelope("pairLink","current",revision,data,{accountId:uid,deviceId,updatedAt:now,priorHash});
+    if(parentRevision!==null)next.parentRevision=parentRevision;
+    transaction.set(ref,next);
+    return {ok:true,rivalryId:capability,managerRole:role,managerId:managerIdFor(role),providerSaveId:binding.saveId,providerProfileId:binding.profileId};
+  };
+}
+
+async function pairFreshRivalry(env,{rivalryId,sessionId,nowMs}){
+  const dbA=env.authenticatedContext(A).firestore(),dbB=env.authenticatedContext(B).firestore();
+  const created=await Pairing.createPairing({user:{uid:A},firestore:dbA,firebaseSdk:sdk(),identity:pairingIdentity(DA,"a",nowMs),binding:bindingFor("playerOne"),capability:rivalryId,nowEpochMs:nowMs,cryptoImpl:crypto.webcrypto,durableWitness:pairLinkWitness(dbA,A,DA,"playerOne")});
+  assert.equal(created.ok,true,`Daniel provider createPairing failed: ${JSON.stringify(created)}`);
+  const redeemed=await Pairing.redeemPairing({user:{uid:B},firestore:dbB,firebaseSdk:sdk(),identity:pairingIdentity(DB,"b",nowMs),binding:bindingFor("playerTwo"),capability:rivalryId,nowEpochMs:nowMs+1000,cryptoImpl:crypto.webcrypto,durableWitness:pairLinkWitness(dbB,B,DB,"playerTwo")});
+  assert.equal(redeemed.ok,true,`Nik provider redeemPairing failed: ${JSON.stringify(redeemed)}`);
+  const rootA=await assertSucceeds(getDoc(doc(dbA,"rivalries",rivalryId))),rootB=await assertSucceeds(getDoc(doc(dbB,"rivalries",rivalryId)));
+  assert.equal(rootA.data().data.connectionState,"active");assert.deepEqual(rootA.data().data.managerSlots,rootB.data().data.managerSlots);
+  await env.withSecurityRulesDisabled(async context=>{await setDoc(doc(context.firestore(),"rivalries",rivalryId,"sessions",sessionId),await session(rivalryId,sessionId,nowMs+2000));});
+  return {dbA,dbB};
+}
+
+async function playFreshSingleSeason(env,{rivalryId,sessionId,nowMs,closeAtEnd=false}){
+  const dbA=env.authenticatedContext(A).firestore(),dbB=env.authenticatedContext(B).firestore();
+  const a=t=>base(dbA,A,DA,rivalryId,sessionId,nowMs+t),b=t=>base(dbB,B,DB,rivalryId,sessionId,nowMs+t);
+  for(const [type,baseRevision,n,extra] of [["open",0,101,{}],["commit-league",1,102,{}],["commit-clubs",2,103,{}],["commit-length",3,104,{totalSeasons:1}]]){const value=await Setup.mutate({...a(n),type,baseRevision,operationId:op("setup_op_",n),...extra});assert.equal(value.ok,true,JSON.stringify(value));}
+  let setup=await Setup.mutate({...a(105),type:"confirm",baseRevision:4,operationId:op("setup_op_",105)});assert.equal(setup.ok,true,JSON.stringify(setup));
+  setup=await Setup.mutate({...b(106),type:"confirm",baseRevision:5,operationId:op("setup_op_",106)});assert.equal(setup.ok,true,JSON.stringify(setup));assert.equal(setup.state.phase,"SHOWDOWN_CONFIRMED");assert.equal(setup.state.totalSeasons,1);
+  let career=await Career.acknowledge({...a(110),operationId:op("career_start_op_",101),baseRevision:0});assert.equal(career.ok,true,JSON.stringify(career));
+  career=await Career.acknowledge({...b(120),operationId:op("career_start_op_",102),baseRevision:1});assert.equal(career.ok,true,JSON.stringify(career));assert.equal(career.state.phase,"CAREER_START_READY");
+  let transfer=await Transfer.startWindow({...a(200),seasonNumber:1,operationId:op("transfer_op_",101),baseRevision:0});assert.equal(transfer.ok,true,JSON.stringify(transfer));
+  transfer=await Transfer.requestEndWindow({...a(210),seasonNumber:1,operationId:op("transfer_op_",102),baseRevision:1});assert.equal(transfer.ok,true,JSON.stringify(transfer));
+  transfer=await Transfer.requestEndWindow({...b(220),seasonNumber:1,operationId:op("transfer_op_",103),baseRevision:2});assert.equal(transfer.ok,true,JSON.stringify(transfer));
+  transfer=await Transfer.lockGuesses({...a(230),seasonNumber:1,operationId:op("transfer_op_",104),baseRevision:3,guesses:[{slot:1,type:"league",valueId:"england-premier-league"}]});assert.equal(transfer.ok,true,JSON.stringify(transfer));
+  transfer=await Transfer.lockGuesses({...b(240),seasonNumber:1,operationId:op("transfer_op_",105),baseRevision:4,guesses:[{slot:1,type:"nationality",valueId:"brazil"}]});assert.equal(transfer.ok,true,JSON.stringify(transfer));
+  transfer=await Transfer.lockSignings({...a(250),seasonNumber:1,operationId:op("transfer_op_",106),baseRevision:5,signings:[{slot:1,name:"Daniel fresh signing",leagueId:"spain-primera-division",nationalityId:"england"}]});assert.equal(transfer.ok,true,JSON.stringify(transfer));
+  transfer=await Transfer.lockSignings({...b(260),seasonNumber:1,operationId:op("transfer_op_",107),baseRevision:6,signings:[{slot:1,name:"Nik fresh signing",leagueId:"england-premier-league",nationalityId:"brazil"}]});assert.equal(transfer.ok,true,JSON.stringify(transfer));assert.equal(transfer.state.phase,"COMPLETED");
+  let results=await Results.publishResult({...a(300),seasonNumber:1,operationId:op("season_result_op_",101),baseRevision:0,result:resultFor("playerOne",1)});assert.equal(results.ok,true,JSON.stringify(results));
+  results=await Results.publishResult({...b(310),seasonNumber:1,operationId:op("season_result_op_",102),baseRevision:1,result:resultFor("playerTwo",1)});assert.equal(results.ok,true,JSON.stringify(results));assert.equal(results.state.phase,"RESULTS_READY");
+  let commit=await Commit.commitSeason({...a(320),seasonNumber:1,operationId:op("season_commit_op_",101),baseRevision:0});assert.equal(commit.ok,true,JSON.stringify(commit));
+  commit=await Commit.acknowledgeSeason({...b(330),seasonNumber:1,operationId:op("season_commit_op_",102),baseRevision:1});assert.equal(commit.ok,true,JSON.stringify(commit));
+  commit=await Commit.acknowledgeSeason({...a(340),seasonNumber:1,operationId:op("season_commit_op_",103),baseRevision:2});assert.equal(commit.ok,true,JSON.stringify(commit));assert.equal(commit.phase,"ACKNOWLEDGED");
+  const scoreA=await Scoring.read({...a(350),seasonNumber:1,teamCount:20}),scoreB=await Scoring.read({...b(350),seasonNumber:1,teamCount:20});assert.deepEqual(scoreA.scoring,scoreB.scoring);assert.equal(scoreA.winner,scoreB.winner);
+  const historyA=await History.read({...a(360),throughSeason:1}),historyB=await History.read({...b(360),throughSeason:1});assert.deepEqual(historyA.projection,historyB.projection);assert.equal(historyA.projection.seasonHistory.length,1);
+  const multiA=await Multi.read(a(370)),multiB=await Multi.read(b(370));assert.deepEqual(multiA.state,multiB.state);
+  const finalA=Final.reconcile({sharedActive:true,multiSeason:multiA,history:historyA,localReconciliation:localAuthority("playerOne")}),finalB=Final.reconcile({sharedActive:true,multiSeason:multiB,history:historyB,localReconciliation:localAuthority("playerTwo")});assert.deepEqual(finalA,finalB);assert.equal(finalA.phase,"FINAL_SEASON_RECONCILED");
+  if(closeAtEnd){const intent=Terminal.prepare(finalA,{sessionId});const closed=await TerminalProvider.close({...a(400),intent});assert.equal(closed.ok,true,JSON.stringify(closed));assert.equal(closed.rivalryState,"closed");}
+  return {dbA,dbB,a,b,history:historyA,multi:multiA,final:finalA};
+}
+
+async function runSecondShowdownAndAbandon(env,main){
+  const now2=main.now+200000;
+  await pairFreshRivalry(env,{rivalryId:R2,sessionId:S2,nowMs:now2});
+  const pairA2=(await assertSucceeds(getDoc(doc(main.dbA,"accounts",A,"pairLinks","current")))).data(),pairB2=(await assertSucceeds(getDoc(doc(main.dbB,"accounts",B,"pairLinks","current")))).data();
+  assert.equal(pairA2.data.rivalryId,R2,"KNOWN GAP 2 (fixed by G-7): accounts/A/pairLinks/current names only the new rivalry");
+  assert.equal(pairB2.data.rivalryId,R2,"Nik current pair must also move to the new rivalry");
+  for(const [who,db] of [["Daniel",main.dbA],["Nik",main.dbB]]){
+    await assertFails(getDoc(doc(db,"rivalries",R1,"sharedSetup","authoritative")),`KNOWN GAP 1 (fixed by G-8): ${who} cannot read Showdown 1 setup after close`);
+    await assertFails(getDoc(doc(db,"rivalries",R1,"seasonCommits","season_1")),`KNOWN GAP 1 (fixed by G-8): ${who} cannot read Showdown 1 season 1 after close`);
+  }
+  await playFreshSingleSeason(env,{rivalryId:R2,sessionId:S2,nowMs:now2+5000,closeAtEnd:true});
+
+  const now3=now2+200000;
+  await pairFreshRivalry(env,{rivalryId:R3,sessionId:S3,nowMs:now3});
+  const fresh=await playFreshSingleSeason(env,{rivalryId:R3,sessionId:S3,nowMs:now3+5000,closeAtEnd:false});
+  globalThis.CareerModeProductionFirebaseRuntime={ensureAccountServices:async()=>({ok:true,auth:{currentUser:{uid:A}},firestore:fresh.dbA,firestoreSdk:sdk()})};
+  globalThis.CareerModeSparkConnectedAccount={initialize:async()=>{},getState:()=>({connected:true,accountId:A})};
+  globalThis.CareerModeSparkPrivatePairing={initialize:async()=>{},getState:()=>({registered:true,deviceId:DA})};
+  globalThis.CareerModeOnlinePlayerIdentity={getState:()=>({managerId:"daniel"})};
+  const abandoned=await PersistentPair.abandonCurrentShowdown({expectedRivalryId:R3,expectedSaveId:SA,cryptoImpl:crypto.webcrypto});
+  assert.equal(abandoned.ok,true,JSON.stringify(abandoned));assert.equal(abandoned.status,"closed");
+  const abandonedRoot=(await assertSucceeds(getDoc(doc(fresh.dbA,"rivalries",R3)))).data();
+  assert.equal(abandonedRoot.data.connectionState,"closed","Abandon must close the rivalry root");
+  assert.equal(Object.hasOwn(abandonedRoot.data,"terminalClose"),false,"Abandon must not create a terminalClose witness");
+  const denied=await Results.publishResult({...fresh.a(500),seasonNumber:1,operationId:op("season_result_op_",199),baseRevision:2,result:resultFor("playerOne",1)});
+  assert.equal(denied.ok,false,"Further season writes must be denied after abandon");
+  const storedCommit=(await env.withSecurityRulesDisabled(async context=>getDoc(doc(context.firestore(),"rivalries",R3,"seasonCommits","season_1")))).data();
+  await assertFails(setDoc(doc(fresh.dbA,"rivalries",R3,"seasonCommits","season_1"),storedCommit),"Further direct season writes must be denied after abandon");
 }
 
 async function playMainJourney(env){
@@ -150,4 +240,4 @@ async function playMainJourney(env){
   return {now,dbA,dbB,finalA};
 }
 
-(async()=>{const env=await initializeTestEnvironment({projectId:PROJECT_ID,firestore:{rules:RULES}});try{await env.clearFirestore();await playMainJourney(env);process.stdout.write(`PASS two-manager journey Section A (${TOTAL_SEASONS} season${TOTAL_SEASONS===1?"":"s"}): Daniel and Nik converged through setup, Career Start, transfer challenge, results, commit, canonical scoring, history, multi-season final reconciliation and Terminal Close.\n`);}finally{await env.cleanup();}})().catch(error=>{console.error(error.stack||error);process.exit(1);});
+(async()=>{const env=await initializeTestEnvironment({projectId:PROJECT_ID,firestore:{rules:RULES}});try{await env.clearFirestore();const main=await playMainJourney(env);await runSecondShowdownAndAbandon(env,main);process.stdout.write(`PASS two-manager journey Sections A-G (${TOTAL_SEASONS} season${TOTAL_SEASONS===1?"":"s"} main): main journey, stranger denial, privacy, idempotent retry, simultaneous taps, second Showdown known gaps, and persistent-provider abandon all proved.\n`);}finally{await env.cleanup();}})().catch(error=>{console.error(error.stack||error);process.exit(1);});
