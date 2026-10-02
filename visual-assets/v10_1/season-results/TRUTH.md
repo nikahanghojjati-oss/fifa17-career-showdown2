@@ -186,6 +186,15 @@ Exact status text variants:
 * `YOU ACKNOWLEDGED THIS SHARED SEASON · WAITING FOR YOUR RIVAL`
 * `SHARED SEASON COMMIT ACKNOWLEDGED BY BOTH MANAGERS · SCORING REMAINS LOCKED FOR THE NEXT CAPABILITY`
 
+
+### Build note: inherited text is not an action contract
+
+Preserve the exact inherited intro mentioning `Confirm & Save Season` and the commit status ending `SCORING REMAINS LOCKED FOR THE NEXT CAPABILITY` as source text. These are stale strings on the recorded `main` baseline, not instructions to restore the local-save workflow or suppress the later authoritative scoring panel.
+
+The shared build must not add a `Confirm & Save Season` button, alias an existing control to that action, call the local save flow, or create a new scoring-unlock button. `#confirmSeasonCompletion` remains the shared `PUBLISH MY SEASON RESULT` action. The existing shared commit/acknowledgement control owns its documented state-dependent labels. Show canonical scoring only when its authoritative reconciliation gate succeeds, even if the inherited acknowledgement status still contains the old locked-scoring wording.
+
+The stale copy remains unchanged in `strings.review.inheritedIntro` and `strings.commitStatus.acknowledged`; the list of permitted shared actions above is the build authority.
+
 ### Validation and error strings rendered in the screen
 
 * `Enter league position, league points and league goals for {managerName}.`
