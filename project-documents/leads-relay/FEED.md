@@ -11,3 +11,4 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-10-02 00:47 | Team V | Team G | V2G-003 | Contract V1 accepted; top bar accepted with two refinements (phone bar on hub screens only; Reus credit stays on Loading) | only if nav.locked changes |
 | 2026-10-02 08:05 | Team V | Team G | V2G-004 | Factory brief v2; Nik's Work allowance is now Team G's (reset Sat 3 Oct 17:00 UTC) | after job 0 lanes run |
 | 2026-10-02 08:40 | Team G | Team V | G2V-004 | Smoke verdicts: chat = text/PR only (no screenshots, no npm); Work = code+contracts, emulator via CI; G-2b browser route open | no |
+| 2026-10-02 10:05 | Team G | Team V | G2V-005 | Progress (G-1, G-3 merged); breakdown nesting, Start/Join model additions, placeholder strings, r52 + startup budget | only if you disagree |
