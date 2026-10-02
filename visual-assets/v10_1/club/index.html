@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Club Assignment · Club plate</title>
+<link rel="stylesheet" href="club.css">
+</head>
+<body>
+<div id="stage" class="stage">
+<div class="plateClip" aria-hidden="true"><div class="world" id="world"></div></div>
+
+<header id="topHeader">
+<span class="cmBadge" aria-hidden="true"><b>CM 17</b></span>
+<div class="brand"><h1>CAREER MODE</h1><p>SHOWDOWN // 17</p></div>
+<button id="onlinePlayerIdentityBadge" type="button">SIGN IN</button>
+<div class="seasonIndicator" id="seasonIndicator">No Active Showdown</div>
+<span class="headerScript" aria-hidden="true">More Than A Game</span>
+</header>
+
+<main>
+<section id="clubWheelScreen" class="screen" data-club-reveal-stage="ready">
+<span class="clubKicker" aria-hidden="true">CAREER MODE SHOWDOWN 17</span>
+<h2>CLUB ASSIGNMENT</h2>
+<div class="clubAssignmentShell">
+<div class="clubAssignmentHeader">
+<span class="clubAssignmentEyebrow">LEAGUE CONFIRMED</span>
+<div id="clubAssignmentLeague">League</div>
+<div id="clubPackStatus" aria-live="polite">TWO SEALED CLUB PACKS READY</div>
+</div>
+
+<div class="clubRevealProgress" aria-hidden="true">
+<span data-reveal-step="opening">01 DRAW</span>
+<span data-reveal-step="manager-one">02 PACK 1</span>
+<span data-reveal-step="manager-two">03 PACK 2</span>
+<span data-reveal-step="versus">04 VS</span>
+<span data-reveal-step="confirmation">05 LOCK</span>
+</div>
+
+<div class="clubRevealArena">
+<div class="clubRevealArea">
+<div class="clubRevealCard" id="clubCardOne" data-reveal-code="01">
+<span class="clubRevealIndex">01</span>
+<div class="clubManager" id="clubPlayerOne">Daniel</div>
+<div class="clubPackStage">
+<div class="clubPackDoor" aria-hidden="true">
+<span class="clubPackBrand">CAREER MODE<small>SHOWDOWN CLUB DRAW</small></span>
+<span class="clubPackSeal">17</span>
+<span class="clubPackSerial">PACK 01 · SEALED</span>
+</div>
+<div class="clubCardFace">
+<span class="clubCardEyebrow">CAREER DRAW</span>
+<span class="clubCardLabel">ASSIGNED CLUB</span>
+<strong id="clubNameOne">?</strong>
+<small id="clubCardStateOne" class="clubCardState">SEALED</small>
+</div>
+</div>
+</div>
+<div class="clubVs"><span>RIVALRY</span><strong>VS</strong></div>
+<div class="clubRevealCard" id="clubCardTwo" data-reveal-code="02">
+<span class="clubRevealIndex">02</span>
+<div class="clubManager" id="clubPlayerTwo">Nik</div>
+<div class="clubPackStage">
+<div class="clubPackDoor" aria-hidden="true">
+<span class="clubPackBrand">CAREER MODE<small>SHOWDOWN CLUB DRAW</small></span>
+<span class="clubPackSeal">17</span>
+<span class="clubPackSerial">PACK 02 · SEALED</span>
+</div>
+<div class="clubCardFace">
+<span class="clubCardEyebrow">CAREER DRAW</span>
+<span class="clubCardLabel">ASSIGNED CLUB</span>
+<strong id="clubNameTwo">?</strong>
+<small id="clubCardStateTwo" class="clubCardState">SEALED</small>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="clubRivalryConfirmation" class="clubRivalryConfirmation hidden" aria-live="polite">
+<div class="clubRivalryHeadline">
+<span>CLUBS LOCKED</span>
+<strong id="clubConfirmationShowdown">SHOWDOWN</strong>
+<small id="clubConfirmationMeta">League · 1 season</small>
+</div>
+<div class="clubRivalryMatchup">
+<div class="clubConfirmationSide">
+<span id="clubConfirmationManagerOne">Daniel</span>
+<strong id="clubConfirmationClubOne">Club</strong>
+</div>
+<div class="clubConfirmationVs">VS</div>
+<div class="clubConfirmationSide">
+<span id="clubConfirmationManagerTwo">Nik</span>
+<strong id="clubConfirmationClubTwo">Club</strong>
+</div>
+</div>
+<p class="clubRivalryLockNote">These clubs are permanent for the full showdown. Confirmation starts the rivalry and never rerolls either club.</p>
+</div>
+
+<button class="menuButton" id="openClubPack" type="button">OPEN SHOWDOWN PACKS</button>
+<button class="menuButton hidden" id="continueClubAssignment" type="button" disabled>CONFIRM RIVALRY & START SHOWDOWN</button>
+<button class="backButton" id="clubAssignmentBack" data-smart-back type="button">BACK</button>
+</div>
+</section>
+</main>
+
+<footer><span class="footText">Career Mode Showdown<br>v1.9.1</span><span class="footSlogan" aria-hidden="true"><span>FOOTBALL BRINGS US TOGETHER</span><i class="crown"></i></span></footer>
+</div>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+<filter id="brushEdge" x="-5%" y="-10%" width="110%" height="120%"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="3" xChannelSelector="R" yChannelSelector="G"/></filter>
+</svg>
+<script src="../../../js/visualIdentity.js"></script>
+<script src="club.js"></script>
+</body>
+</html>
