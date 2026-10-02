@@ -10,4 +10,4 @@ PR:
 CI run:
 
 ## Notes
-- Lead: waits for JOB-02 to merge. The lead creates the code branch from gameplay/recovery-v1 at that point.
+- Lead: JOB-02 merged (4491e36). Code branch gameplay/job-07-career-index created from gameplay/recovery-v1. Ready to start.
