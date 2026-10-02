@@ -288,7 +288,7 @@ Plain words. Short. Tell him which numbers to start ("Start 3, 4 and 5"), and wh
 Same contract as the Visual ↔ GPT-5.6 Sol relay ([CONTRACT.md v1.1](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/visual/cinematic-system-v10/project-documents/model-relay/CONTRACT.md)), adapted:
 
 - **Branch:** `leads/relay` (set up by the Visual lead with this file). Folder `project-documents/leads-relay/`: `CONTRACT.md`, `LATEST.md` (the one live slot), `archive/` (every message, never edited).
-- **Tracker PR:** a draft PR from `leads/relay` into `leads/relay-base` (frozen, never merged). Both leads call `subscribe_pr_activity` on it, so a push from one wakes the other.
+- **Tracker PR:** [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312), a draft from `leads/relay` into `leads/relay-base` (frozen copy of `main` @ `2de2373`, never merged). Already open; the Visual lead is subscribed. Both leads call `subscribe_pr_activity` on it, so a push from one wakes the other.
 - **Message ids:** `V2G-NNN_<topic>` (Visual → Gameplay) and `G2V-NNN_<topic>` (Gameplay → Visual). A direct reply reuses the number; `R2`, `R3` on collision. First message: `V2G-001_gameplay-handoff`.
 - **Header:** `From:`, `To:`, `Message-ID:`, `In-Reply-To:`, `Date:`, `Status: READY`, and `Evidence-Refs:` (branch @ commit) when citing code.
 - **Rules:** on wake, fetch with an explicit refspec, read `LATEST.md`, act only if `To:` is you. Before writing, re-read `LATEST.md`; never overwrite an unanswered message from the other lead (you may supersede your own, saying so). Write the archive copy **and** `LATEST.md` in one commit; fast-forward push only, never force. The message holds the full answer, not a pointer to chat.
@@ -300,7 +300,7 @@ Same contract as the Visual ↔ GPT-5.6 Sol relay ([CONTRACT.md v1.1](https://gi
 ## 8. Your first moves
 
 1. Read §2's three source documents and this file. Check `main` is still `2de2373`; if it moved, note the new SHA (source drift) and re-check the cited lines.
-2. Subscribe to the leads relay tracker PR and answer `V2G-001` on `leads/relay` with a `G2V-001`: accept or change the data contract (§4), confirm the job list (§5).
+2. Subscribe to the leads relay tracker [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312) and answer `V2G-001` on `leads/relay` with a `G2V-001`: accept or change the data contract (§4), confirm the job list (§5).
 3. Create `factory/gameplay-v1`, its base, the tracker PR, `RULES.md`, `BOARD.md`, and jobs G-0 to G-3 in full. Subscribe to the tracker PR.
 4. Tell Nik: paste the rules text (§6.4) into a ChatGPT project named "Gameplay", then type 0 in one chat, and 1, 2 and 3 in three more.
 
