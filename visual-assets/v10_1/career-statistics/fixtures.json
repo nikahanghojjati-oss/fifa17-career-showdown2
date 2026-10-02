@@ -24,9 +24,9 @@
       "LEAGUE TITLES",
       "DOMESTIC CUPS",
       "CHAMPIONS LEAGUE WINS",
-      "SEASON WINS",
-      "AVERAGE LEAGUE POINTS",
-      "AVERAGE LEAGUE GOALS"
+      "Season Wins",
+      "Average League Points",
+      "Average League Goals"
     ],
     "leaderLabels": [
       "MOST SEASON WINS",
