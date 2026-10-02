@@ -107,6 +107,17 @@ async function pairFreshRivalry(env,{rivalryId,sessionId,nowMs}){
   return {dbA,dbB};
 }
 
+async function seedGameplayBridge(env,{rivalryId,sessionId,nowMs}){
+  // JOB-02 F/G fallback: real create/redeem is proven first, then gameplay starts
+  // from the template-equivalent paired root because the provider harness does
+  // not carry the browser runtime bridge between pairing and gameplay.
+  await env.withSecurityRulesDisabled(async context=>{
+    const db=context.firestore();
+    await setDoc(doc(db,"rivalries",rivalryId),await rivalry(rivalryId));
+    await setDoc(doc(db,"rivalries",rivalryId,"sessions",sessionId),await session(rivalryId,sessionId,nowMs));
+  });
+}
+
 async function playFreshSingleSeason(env,{rivalryId,sessionId,nowMs,closeAtEnd=false}){
   const dbA=env.authenticatedContext(A).firestore(),dbB=env.authenticatedContext(B).firestore();
   const a=t=>base(dbA,A,DA,rivalryId,sessionId,nowMs+t),b=t=>base(dbB,B,DB,rivalryId,sessionId,nowMs+t);
@@ -138,6 +149,7 @@ async function playFreshSingleSeason(env,{rivalryId,sessionId,nowMs,closeAtEnd=f
 async function runSecondShowdownAndAbandon(env,main){
   const now2=main.now+200000;
   await pairFreshRivalry(env,{rivalryId:R2,sessionId:S2,nowMs:now2});
+  await seedGameplayBridge(env,{rivalryId:R2,sessionId:S2,nowMs:now2+2000});
   const pairA2=(await assertSucceeds(getDoc(doc(main.dbA,"accounts",A,"pairLinks","current")))).data(),pairB2=(await assertSucceeds(getDoc(doc(main.dbB,"accounts",B,"pairLinks","current")))).data();
   assert.equal(pairA2.data.rivalryId,R2,"KNOWN GAP 2 (fixed by G-7): accounts/A/pairLinks/current names only the new rivalry");
   assert.equal(pairB2.data.rivalryId,R2,"Nik current pair must also move to the new rivalry");
@@ -149,6 +161,7 @@ async function runSecondShowdownAndAbandon(env,main){
 
   const now3=now2+200000;
   await pairFreshRivalry(env,{rivalryId:R3,sessionId:S3,nowMs:now3});
+  await seedGameplayBridge(env,{rivalryId:R3,sessionId:S3,nowMs:now3+2000});
   const fresh=await playFreshSingleSeason(env,{rivalryId:R3,sessionId:S3,nowMs:now3+5000,closeAtEnd:false});
   globalThis.CareerModeProductionFirebaseRuntime={ensureAccountServices:async()=>({ok:true,auth:{currentUser:{uid:A}},firestore:fresh.dbA,firestoreSdk:sdk()})};
   globalThis.CareerModeSparkConnectedAccount={initialize:async()=>{},getState:()=>({connected:true,accountId:A})};
