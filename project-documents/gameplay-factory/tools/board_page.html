@@ -151,6 +151,7 @@ const pad = n => String(n).padStart(2, "0");
 const FIN = ["DONE", "SKIPPED"];
 const byNum = Object.fromEntries(DATA.jobs.map(j => [j.number, j]));
 const laneName = { chat: "Normal chat", work: "Sol Work mode", nik: "Nik on two phones" };
+const laneStart = { chat: "Start in: normal chat (Stay in Chat, type the number)", work: "Start in: Sol Work mode (Use Work, paste the starter line)", nik: "Nik and Daniel on two phones" };
 
 function pillFor(j) {
   const s = j.state;
@@ -218,7 +219,7 @@ function row(j) {
       <div class="title">${title}</div>
       <div class="plain">${j.plain || ""}</div>
       <div class="tags">
-        <span class="tag lane-${j.lane}">${laneName[j.lane] || j.lane}</span>
+        <span class="tag lane-${j.lane}"><b>${laneStart[j.lane] || j.lane}</b></span>
         <span class="tag">${j.type}</span>
         ${j.codex_review ? `<span class="tag codex">Codex review</span>` : ""}
         ${deps}
