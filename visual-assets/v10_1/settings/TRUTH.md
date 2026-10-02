@@ -294,3 +294,20 @@ The minimum product frames from the job are ST1–ST3. Four additional contract-
 | `ST7` | `partial` | `nik` | Partial provider history. If current-Showdown-only owner-review data is shown, display exactly `Current Showdown only. Career history is not yet available.` and never call it career/all-time. |
 
 No extra `active` or `completed` contract statuses are invented: active-Showdown presence is a local action gate inside the five-state wrapper, and completed is represented in the dedicated career/history flows.
+
+
+## Mockup reconciliation
+
+There is no Settings mockup or goal image in `project-documents/factory/mockups/`. The directory README assigns mockups/goals to Trophy Room, Career Statistics, Rivalry Statistics, Legacy, Season Results, Start / Join, Home, League, Club and Transfer War only.
+
+Because no Settings mockup exists, there are no visual mockup elements to copy or reject. The Settings build authority is therefore the live product behaviour on `main`, the binding product truth, the data contract, shared factory visual language and the quality bar.
+
+| Mockup element | Product answer |
+| --- | --- |
+| Settings mockup | N/A — no Settings mockup exists in the factory reference set. Do not borrow a different screen's composition and call it the Settings mockup. |
+| Real club crests / league logos / trophies / player imagery | DROP / prohibited by `PRODUCT_TRUTH.md §6`; Settings needs none of them. |
+| Reus photograph | Do not add the photograph to Settings. KEEP only the required text credit and links. The sole permitted Reus image remains on Loading. |
+| ABOUT destination | DROP as a separate destination. `DATA_CONTRACT_V1.md §10` folds app version and credits into Settings. |
+| Unrecorded football statistics | DROP. Settings does not invent stats; `DATA_CONTRACT_V1.md §9` remains binding. |
+
+The absence of a Settings mockup is not a blocker because the product behaviour and content authority are explicit.
