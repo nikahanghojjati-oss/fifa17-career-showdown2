@@ -122,9 +122,9 @@
         },
         {
           "label": "BIGGEST SHOWDOWN WIN",
-          "manager": "nik",
-          "value": 14,
-          "ref": "preview-showdown-3"
+          "manager": "daniel",
+          "value": 8,
+          "ref": "preview-showdown-1"
         },
         {
           "label": "PERFECT 11-POINT SEASONS",
@@ -213,7 +213,7 @@
           },
           {
             "season": 4,
-            "showdownRef": "preview-showdown-3",
+            "showdownRef": "preview-showdown-2",
             "daniel": {
               "leaguePosition": 4,
               "leaguePoints": 99,
@@ -331,30 +331,30 @@
           "leagueTitles": 3,
           "domesticCups": 1,
           "totalTrophies": 6,
-          "careerPoints": 25,
+          "careerPoints": 26,
           "seasonWins": 3
         },
         "nik": {
           "displayName": "Nik",
-          "championsLeagues": 0,
-          "leagueTitles": 0,
+          "championsLeagues": 1,
+          "leagueTitles": 1,
           "domesticCups": 2,
-          "totalTrophies": 2,
-          "careerPoints": 6,
-          "seasonWins": 0
+          "totalTrophies": 4,
+          "careerPoints": 16,
+          "seasonWins": 1
         }
       },
       "standings": [
         {
           "manager": "daniel",
-          "careerPoints": 25,
+          "careerPoints": 26,
           "seasonWins": 3,
           "rank": "#1"
         },
         {
           "manager": "nik",
-          "careerPoints": 6,
-          "seasonWins": 0,
+          "careerPoints": 16,
+          "seasonWins": 1,
           "rank": "#2"
         }
       ],
@@ -380,8 +380,8 @@
         {
           "label": "BIGGEST SHOWDOWN WIN",
           "manager": "daniel",
-          "value": 11,
-          "ref": "preview-showdown-2"
+          "value": 8,
+          "ref": "preview-showdown-1"
         },
         {
           "label": "PERFECT 11-POINT SEASONS",
@@ -469,6 +469,28 @@
               "topScorer": false,
               "topAssist": false
             }
+          },
+          {
+            "season": 4,
+            "showdownRef": "preview-showdown-2",
+            "daniel": {
+              "leaguePosition": 4,
+              "leaguePoints": 99,
+              "leagueGoals": 100,
+              "championsLeague": false,
+              "domesticCup": false,
+              "topScorer": false,
+              "topAssist": false
+            },
+            "nik": {
+              "leaguePosition": 1,
+              "leaguePoints": 104,
+              "leagueGoals": 110,
+              "championsLeague": true,
+              "domesticCup": false,
+              "topScorer": false,
+              "topAssist": true
+            }
           }
         ]
       }
@@ -537,9 +559,9 @@
         },
         {
           "label": "BIGGEST SHOWDOWN WIN",
-          "manager": "nik",
-          "value": 14,
-          "ref": "preview-showdown-3"
+          "manager": "daniel",
+          "value": 8,
+          "ref": "preview-showdown-1"
         },
         {
           "label": "PERFECT 11-POINT SEASONS",
@@ -628,7 +650,7 @@
           },
           {
             "season": 4,
-            "showdownRef": "preview-showdown-3",
+            "showdownRef": "preview-showdown-2",
             "daniel": {
               "leaguePosition": 4,
               "leaguePoints": 99,
@@ -759,9 +781,9 @@
         },
         {
           "label": "BIGGEST SHOWDOWN WIN",
-          "manager": "daniel",
-          "value": 14,
-          "ref": "preview-showdown-3"
+          "manager": "nik",
+          "value": 8,
+          "ref": "preview-showdown-1"
         },
         {
           "label": "PERFECT 11-POINT SEASONS",
@@ -850,7 +872,7 @@
           },
           {
             "season": 4,
-            "showdownRef": "preview-showdown-3",
+            "showdownRef": "preview-showdown-2",
             "daniel": {
               "leaguePosition": 1,
               "leaguePoints": 104,
