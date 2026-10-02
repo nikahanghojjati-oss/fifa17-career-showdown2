@@ -133,3 +133,34 @@ Loading does not display career history, so this label is retained in fixture me
 ### Bounds and identity rules
 
 Although Loading does not render gameplay values, any fixture context that is present elsewhere in a future preview must obey §0: `totalSeasons` ∈ {1, 3, 5, 10}; league IDs are `premier_league`, `laliga`, `bundesliga`, `serie_a`, `ligue_1`; positions/points/goals stay within league bounds; managers are keyed `daniel` then `nik`. No such values are needed by the current Loading UI.
+
+## Screen states and preview frames
+
+### States the live product actually has
+
+| Live state | Evidence on main | User-visible result |
+| --- | --- | --- |
+| startup / loading | initial `#loadingScreen[aria-busy="true"]`; app hidden | Reus startup composition with `PREPARING CAREER MODE SHOWDOWN` and animated pulse |
+| ready-to-handoff | `ra()` adds `.is-ready`, reveals `#app` but keeps it inert until handoff | same splash remains visible until the minimum startup duration expires |
+| exiting | `finishStartupPresentation()` sets `aria-busy="false"`, `aria-hidden="true"`, adds `.is-exiting` | splash fades/scales out over 240 ms in normal motion |
+| handed off / done | splash receives `hidden` + `.hidden`; `#app` becomes interactive | Home / `mainMenu` is active |
+
+Reduced motion uses the same semantic states but a 220 ms minimum and no delayed exit transition.
+
+The live Loading screen has no distinct `empty`, `partial`, `unavailable`, error, active-showdown, completed-showdown, Daniel-role or Nik-role presentation. It is identical for both managers.
+
+If initialization throws, `reportApplicationError()` uses the separate application runtime notice system; Loading itself does not switch to an error frame.
+
+There is no slow-network message in the product. Therefore the suggested LD3 slow-network frame is dropped rather than invented.
+
+### Preview-frame plan
+
+- `LD1` — loading in progress. Real live startup state.
+- `LD2` — loading done / handoff to Home. Real ready/exiting state.
+- `LD3` — omitted. The product has no slow-network message.
+- `LD4_EMPTY` — contract-only empty preview. New copy, clearly marked preview data; not claimed as current live behavior.
+- `LD5_PARTIAL` — contract-only partial preview. New copy, clearly marked preview data.
+- `LD6_UNAVAILABLE` — contract-only unavailable preview. New copy, clearly marked preview data.
+- `LD7_READY` — contract `ready` alias for the LD2 handoff state, so all five DATA_CONTRACT_V1 §0 tokens can be exercised without inventing a new live route.
+
+Loading is not manager-specific, so no Daniel/Nik role variants are created. Daniel-first ordering remains relevant only to any fixture metadata that carries managers; this screen currently carries none.
