@@ -379,12 +379,18 @@ None blocking. JOB-134 resolves the presentation choices as follows.
 
 The only contract field marked A is the normalized §4 `state` supplied by Team G's G-5 adapter. Main already exposes the underlying Final Reconciliation and Terminal Close evidence, so this is an implementation handoff rather than a product question. Exact motion, spacing, decorative stadium composition and original trophy-art placement remain visual implementation choices and may not change the truth above.
 
+## Fixture arithmetic evidence (JOB-134)
+
+`fixtures.json.fixtureEvidence.frames` contains fictional, already-revealed per-season inputs for FW1–FW5 and FW9. It is validator evidence only, never Final Winner UI data. The rendered view stays limited to contract §4 fields and universal status/coverage metadata. Do not render season breakdowns or infer unavailable FW9 values from this audit evidence. FW6–FW8 intentionally have no scoring evidence or result facts because their reads do not supply a result.
+
+Each evidence row records valid league position/points/goals and four boolean inputs, computed breakdown/score, and season winner. League title is derived solely from position 1; both managers have distinct positions in each season. The independent Python check recomputes every component, both capped bonuses, each season score/winner, all displayed totals, final winner/margin and all available trophy counts. Equal final points remain a draw even if season winners differ. It also checks the five status states, copy provenance, online heading family, crown/lighting rules, phone requirements and missing-field honesty. Output is recorded in JOB-134 status notes.
+
 ## Self-check
 
 - Exact-string spot check passed against main for: `SHOWDOWN FINAL RECONCILED`; `FINAL RESULTS ARE READ-ONLY · TERMINAL CLOSE REMAINS A SEPARATE STEP`; `FINAL RESULT READY FOR TERMINAL CLOSE`; `CLOSE SHARED SHOWDOWN`; `SHOWDOWN COMPLETE`.
 - Mockup reconciliation covers every Final Winner-relevant element borrowed from the two style references and gives it an explicit live, preview or drop answer. There is no dedicated Final Winner mockup.
 - Final Winner data is limited to DATA_CONTRACT_V1 §4 plus universal §0 state metadata. Unrecorded/player/per-match statistics are explicitly DROP.
-- FW1–FW5 all use fictional values, all carry `Preview data`, all use valid Showdown lengths, all keep totals within the 11-points-per-season ceiling, all have correct winner/margin arithmetic, all trophy totals equal the three permitted trophy families, and per trophy family Daniel + Nik never exceeds `seasonsPlayed` (one league, one title / cup / CL winner per season).
+- FW1–FW9 are fictional and carry `Preview data`. Independent Python validation recomputes FW1–FW5/FW9 from published season evidence, including capped bonuses, valid bounds, distinct positions, totals, final winner/margin and available trophy counts. FW6–FW8 carry no invented result values; FW9 missing trophy fields remain absent.
 - Daniel is first/left and Nik second/right in truth, ids and every fixture frame.
 - No fixture frame references a real club crest, league logo, real competition trophy, player image or other image asset.
 - Every JOB-007 commit changes only `visual-assets/v10_1/final-winner/TRUTH.md`, `visual-assets/v10_1/final-winner/fixtures.json`, or `project-documents/factory/status/JOB-007.md`.

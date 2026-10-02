@@ -590,5 +590,1013 @@
     "drawTreatment": "DRAW and The showdown finishes level in the top band, no crown; balanced Daniel-left/Nik-right heroes.",
     "actionLayout": "Two-column grid of existing destinations; Daniel/Nik data remain paired left/right. Three rows of >=44px targets for five completed navigation controls; MAIN MENU last. Pending close remains primary.",
     "missingData": "Neutral top-band state copy when no confirmed winner; partial winner only when both final totals are authoritative."
+  },
+  "fixtureEvidence": {
+    "usage": "Fictional, already-revealed season inputs for arithmetic validation only. Never render this evidence or expose it as additional Final Winner view-model fields.",
+    "source": "new",
+    "frames": {
+      "FW1": {
+        "leagueId": "premier_league",
+        "totalSeasons": 5,
+        "phase": "committed",
+        "seasons": [
+          {
+            "season": 1,
+            "managers": {
+              "daniel": {
+                "leaguePosition": 1,
+                "leaguePoints": 102,
+                "leagueGoals": 100,
+                "domesticCup": true,
+                "championsLeague": true,
+                "topScorer": true,
+                "topAssist": true,
+                "breakdown": {
+                  "championsLeague": 5,
+                  "leagueTitle": 3,
+                  "domesticCup": 1,
+                  "performanceBonus": 1,
+                  "awardsBonus": 1
+                },
+                "score": 11
+              },
+              "nik": {
+                "leaguePosition": 3,
+                "leaguePoints": 72,
+                "leagueGoals": 100,
+                "domesticCup": false,
+                "championsLeague": false,
+                "topScorer": true,
+                "topAssist": true,
+                "breakdown": {
+                  "championsLeague": 0,
+                  "leagueTitle": 0,
+                  "domesticCup": 0,
+                  "performanceBonus": 1,
+                  "awardsBonus": 1
+                },
+                "score": 2
+              }
+            },
+            "winner": "daniel"
+          },
+          {
+            "season": 2,
+            "managers": {
+              "daniel": {
+                "leaguePosition": 1,
+                "leaguePoints": 102,
+                "leagueGoals": 100,
+                "domesticCup": false,
+                "championsLeague": true,
+                "topScorer": true,
+                "topAssist": false,
+                "breakdown": {
+                  "championsLeague": 5,
+                  "leagueTitle": 3,
+                  "domesticCup": 0,
+                  "performanceBonus": 1,
+                  "awardsBonus": 1
+                },
+                "score": 10
+              },
+              "nik": {
+                "leaguePosition": 3,
+                "leaguePoints": 72,
+                "leagueGoals": 100,
+                "domesticCup": true,
+                "championsLeague": false,
+                "topScorer": true,
+                "topAssist": false,
+                "breakdown": {
+                  "championsLeague": 0,
+                  "leagueTitle": 0,
+                  "domesticCup": 1,
+                  "performanceBonus": 1,
+                  "awardsBonus": 1
+                },
+                "score": 3
+              }
+            },
+            "winner": "daniel"
+          },
+          {
+            "season": 3,
+            "managers": {
+              "daniel": {
+                "leaguePosition": 1,
+                "leaguePoints": 102,
+                "leagueGoals": 100,
+                "domesticCup": false,
+                "championsLeague": false,
+                "topScorer": true,
+                "topAssist": false,
+                "breakdown": {
+                  "championsLeague": 0,
+                  "leagueTitle": 3,
+                  "domesticCup": 0,
+                  "performanceBonus": 1,
+                  "awardsBonus": 1
+                },
+                "score": 5
+              },
+              "nik": {
+                "leaguePosition": 3,
+                "leaguePoints": 72,
+                "leagueGoals": 100,
+                "domesticCup": true,
+                "championsLeague": true,
+                "topScorer": true,
+                "topAssist": false,
+                "breakdown": {
+                  "championsLeague": 5,
+                  "leagueTitle": 0,
+                  "domesticCup": 1,
+                  "performanceBonus": 1,
+                  "awardsBonus": 1
+                },
+                "score": 8
+              }
+            },
+            "winner": "nik"
+          },
+          {
+            "season": 4,
+            "managers": {
+              "daniel": {
+                "leaguePosition": 2,
+                "leaguePoints": 72,
+                "leagueGoals": 100,
+                "domesticCup": false,
+                "championsLeague": false,
+                "topScorer": false,
+                "topAssist": false,
+                "breakdown": {
+                  "championsLeague": 0,
+                  "leagueTitle": 0,
+                  "domesticCup": 0,
+                  "performanceBonus": 1,
+                  "awardsBonus": 0
+                },
+                "score": 1
+              },
+              "nik": {
+                "leaguePosition": 1,
+                "leaguePoints": 102,
+                "leagueGoals": 100,
+                "domesticCup": false,
+                "championsLeague": false,
+                "topScorer": true,
+                "topAssist": false,
+                "breakdown": {
+                  "championsLeague": 0,
+                  "leagueTitle": 3,
+                  "domesticCup": 0,
+                  "performanceBonus": 1,
+                  "awardsBonus": 1
+                },
+                "score": 5
+              }
+            },
+            "winner": "nik"
+          },
+          {
+            "season": 5,
+            "managers": {
+              "daniel": {
+                "leaguePosition": 2,
+                "leaguePoints": 72,
+                "leagueGoals": 100,
+                "domesticCup": false,
+                "championsLeague": false,
+                "topScorer": false,
+                "topAssist": false,
+                "breakdown": {
+                  "championsLeague": 0,
+                  "leagueTitle": 0,
+                  "domesticCup": 0,
+                  "performanceBonus": 1,
+                  "awardsBonus": 0
+                },
+                "score": 1
+              },
+              "nik": {
+                "leaguePosition": 1,
+                "leaguePoints": 102,
+                "leagueGoals": 100,
+                "domesticCup": false,
+                "championsLeague": false,
+                "topScorer": true,
+                "topAssist": false,
+                "breakdown": {
+                  "championsLeague": 0,
+                  "leagueTitle": 3,
+                  "domesticCup": 0,
+                  "performanceBonus": 1,
+                  "awardsBonus": 1
+                },
+                "score": 5
+              }
+            },
+            "winner": "nik"
+          }
+        ]
+      },
+      "FW2": {
+        "leagueId": "premier_league",
+        "totalSeasons": 5,
+        "phase": "committed",
+        "seasons": [
+          {
+            "season": 1,
+            "managers": {
+              "daniel": {
+                "leaguePosition": 1,
+                "leaguePoints": 102,
+                "leagueGoals": 100,
+                "domesticCup": true,
+                "championsLeague": true,
+                "topScorer": true,
+                "topAssist": true,
+                "breakdown": {
+                  "championsLeague": 5,
+                  "leagueTitle": 3,
+                  "domesticCup": 1,
+                  "performanceBonus": 1,
+                  "awardsBonus": 1
+                },
+                "score": 11
+              },
+              "nik": {
+                "leaguePosition": 3,
+                "leaguePoints": 72,
+                "leagueGoals": 100,
+                "domesticCup": false,
+                "championsLeague": false,
+                "topScorer": true,
+                "topAssist": true,
+                "breakdown": {
+                  "championsLeague": 0,
+                  "leagueTitle": 0,
+                  "domesticCup": 0,
+                  "performanceBonus": 1,
+                  "awardsBonus": 1
+                },
+                "score": 2
+              }
+            },
+            "winner": "daniel"
+          },
+          {
+            "season": 2,
+            "managers": {
+              "daniel": {
+                "leaguePosition": 1,
+                "leaguePoints": 102,
+                "leagueGoals": 100,
+                "domesticCup": false,
+                "championsLeague": false,
+                "topScorer": true,
+                "topAssist": false,
+                "breakdown": {
+                  "championsLeague": 0,
+                  "leagueTitle": 3,
+                  "domesticCup": 0,
+                  "performanceBonus": 1,
+                  "awardsBonus": 1
+                },
+                "score": 5
+              },
+              "nik": {
+                "leaguePosition": 3,
+                "leaguePoints": 72,
+                "leagueGoals": 100,
+                "domesticCup": false,
+                "championsLeague": true,
+                "topScorer": true,
+                "topAssist": false,
+                "breakdown": {
+                  "championsLeague": 5,
+                  "leagueTitle": 0,
+                  "domesticCup": 0,
+                  "performanceBonus": 1,
+                  "awardsBonus": 1
+                },
+                "score": 7
+              }
+            },
+            "winner": "nik"
+          },
+          {
+            "season": 3,
+            "managers": {
+              "daniel": {
+                "leaguePosition": 2,
+                "leaguePoints": 72,
+                "leagueGoals": 100,
+                "domesticCup": false,
+                "championsLeague": false,
+                "topScorer": true,
+                "topAssist": false,
+                "breakdown": {
+                  "championsLeague": 0,
+                  "leagueTitle": 0,
+                  "domesticCup": 0,
+                  "performanceBonus": 1,
+                  "awardsBonus": 1
+                },
+                "score": 2
+              },
+              "nik": {
+                "leaguePosition": 1,
+                "leaguePoints": 102,
+                "leagueGoals": 100,
+                "domesticCup": false,
+                "championsLeague": true,
+                "topScorer": true,
+                "topAssist": false,
+                "breakdown": {
+                  "championsLeague": 5,
+                  "leagueTitle": 3,
+                  "domesticCup": 0,
+                  "performanceBonus": 1,
+                  "awardsBonus": 1
+                },
+                "score": 10
+              }
+            },
+            "winner": "nik"
+          },
+          {
+            "season": 4,
+            "managers": {
+              "daniel": {
+                "leaguePosition": 2,
+                "leaguePoints": 72,
+                "leagueGoals": 100,
+                "domesticCup": false,
+                "championsLeague": false,
+                "topScorer": true,
+                "topAssist": false,
+                "breakdown": {
+                  "championsLeague": 0,
+                  "leagueTitle": 0,
+                  "domesticCup": 0,
+                  "performanceBonus": 1,
+                  "awardsBonus": 1
+                },
+                "score": 2
+              },
+              "nik": {
+                "leaguePosition": 1,
+                "leaguePoints": 102,
+                "leagueGoals": 100,
+                "domesticCup": false,
+                "championsLeague": false,
+                "topScorer": false,
+                "topAssist": false,
+                "breakdown": {
+                  "championsLeague": 0,
+                  "leagueTitle": 3,
+                  "domesticCup": 0,
+                  "performanceBonus": 1,
+                  "awardsBonus": 0
+                },
+                "score": 4
+              }
+            },
+            "winner": "nik"
+          },
+          {
+            "season": 5,
+            "managers": {
+              "daniel": {
+                "leaguePosition": 2,
+                "leaguePoints": 72,
+                "leagueGoals": 100,
+                "domesticCup": false,
+                "championsLeague": false,
+                "topScorer": false,
+                "topAssist": false,
+                "breakdown": {
+                  "championsLeague": 0,
+                  "leagueTitle": 0,
+                  "domesticCup": 0,
+                  "performanceBonus": 1,
+                  "awardsBonus": 0
+                },
+                "score": 1
+              },
+              "nik": {
+                "leaguePosition": 1,
+                "leaguePoints": 102,
+                "leagueGoals": 100,
+                "domesticCup": false,
+                "championsLeague": false,
+                "topScorer": false,
+                "topAssist": false,
+                "breakdown": {
+                  "championsLeague": 0,
+                  "leagueTitle": 3,
+                  "domesticCup": 0,
+                  "performanceBonus": 1,
+                  "awardsBonus": 0
+                },
+                "score": 4
+              }
+            },
+            "winner": "nik"
+          }
+        ]
+      },
+      "FW3": {
+        "leagueId": "premier_league",
+        "totalSeasons": 5,
+        "phase": "committed",
+        "seasons": [
+          {
+            "season": 1,
+            "managers": {
+              "daniel": {
+                "leaguePosition": 1,
+                "leaguePoints": 102,
+                "leagueGoals": 100,
+                "domesticCup": true,
+                "championsLeague": true,
+                "topScorer": true,
+                "topAssist": true,
+                "breakdown": {
+                  "championsLeague": 5,
+                  "leagueTitle": 3,
+                  "domesticCup": 1,
+                  "performanceBonus": 1,
+                  "awardsBonus": 1
+                },
+                "score": 11
+              },
+              "nik": {
+                "leaguePosition": 3,
+                "leaguePoints": 72,
+                "leagueGoals": 100,
+                "domesticCup": false,
+                "championsLeague": false,
+                "topScorer": true,
+                "topAssist": true,
+                "breakdown": {
+                  "championsLeague": 0,
+                  "leagueTitle": 0,
+                  "domesticCup": 0,
+                  "performanceBonus": 1,
+                  "awardsBonus": 1
+                },
+                "score": 2
+              }
+            },
+            "winner": "daniel"
+          },
+          {
+            "season": 2,
+            "managers": {
+              "daniel": {
+                "leaguePosition": 1,
+                "leaguePoints": 102,
+                "leagueGoals": 100,
+                "domesticCup": true,
+                "championsLeague": false,
+                "topScorer": true,
+                "topAssist": false,
+                "breakdown": {
+                  "championsLeague": 0,
+                  "leagueTitle": 3,
+                  "domesticCup": 1,
+                  "performanceBonus": 1,
+                  "awardsBonus": 1
+                },
+                "score": 6
+              },
+              "nik": {
+                "leaguePosition": 3,
+                "leaguePoints": 72,
+                "leagueGoals": 100,
+                "domesticCup": false,
+                "championsLeague": true,
+                "topScorer": true,
+                "topAssist": false,
+                "breakdown": {
+                  "championsLeague": 5,
+                  "leagueTitle": 0,
+                  "domesticCup": 0,
+                  "performanceBonus": 1,
+                  "awardsBonus": 1
+                },
+                "score": 7
+              }
+            },
+            "winner": "nik"
+          },
+          {
+            "season": 3,
+            "managers": {
+              "daniel": {
+                "leaguePosition": 1,
+                "leaguePoints": 102,
+                "leagueGoals": 100,
+                "domesticCup": false,
+                "championsLeague": false,
+                "topScorer": true,
+                "topAssist": false,
+                "breakdown": {
+                  "championsLeague": 0,
+                  "leagueTitle": 3,
+                  "domesticCup": 0,
+                  "performanceBonus": 1,
+                  "awardsBonus": 1
+                },
+                "score": 5
+              },
+              "nik": {
+                "leaguePosition": 3,
+                "leaguePoints": 72,
+                "leagueGoals": 100,
+                "domesticCup": false,
+                "championsLeague": true,
+                "topScorer": true,
+                "topAssist": false,
+                "breakdown": {
+                  "championsLeague": 5,
+                  "leagueTitle": 0,
+                  "domesticCup": 0,
+                  "performanceBonus": 1,
+                  "awardsBonus": 1
+                },
+                "score": 7
+              }
+            },
+            "winner": "nik"
+          },
+          {
+            "season": 4,
+            "managers": {
+              "daniel": {
+                "leaguePosition": 2,
+                "leaguePoints": 72,
+                "leagueGoals": 100,
+                "domesticCup": false,
+                "championsLeague": false,
+                "topScorer": false,
+                "topAssist": false,
+                "breakdown": {
+                  "championsLeague": 0,
+                  "leagueTitle": 0,
+                  "domesticCup": 0,
+                  "performanceBonus": 1,
+                  "awardsBonus": 0
+                },
+                "score": 1
+              },
+              "nik": {
+                "leaguePosition": 1,
+                "leaguePoints": 102,
+                "leagueGoals": 100,
+                "domesticCup": false,
+                "championsLeague": false,
+                "topScorer": false,
+                "topAssist": false,
+                "breakdown": {
+                  "championsLeague": 0,
+                  "leagueTitle": 3,
+                  "domesticCup": 0,
+                  "performanceBonus": 1,
+                  "awardsBonus": 0
+                },
+                "score": 4
+              }
+            },
+            "winner": "nik"
+          },
+          {
+            "season": 5,
+            "managers": {
+              "daniel": {
+                "leaguePosition": 2,
+                "leaguePoints": 72,
+                "leagueGoals": 100,
+                "domesticCup": false,
+                "championsLeague": false,
+                "topScorer": false,
+                "topAssist": false,
+                "breakdown": {
+                  "championsLeague": 0,
+                  "leagueTitle": 0,
+                  "domesticCup": 0,
+                  "performanceBonus": 1,
+                  "awardsBonus": 0
+                },
+                "score": 1
+              },
+              "nik": {
+                "leaguePosition": 1,
+                "leaguePoints": 102,
+                "leagueGoals": 100,
+                "domesticCup": false,
+                "championsLeague": false,
+                "topScorer": false,
+                "topAssist": false,
+                "breakdown": {
+                  "championsLeague": 0,
+                  "leagueTitle": 3,
+                  "domesticCup": 0,
+                  "performanceBonus": 1,
+                  "awardsBonus": 0
+                },
+                "score": 4
+              }
+            },
+            "winner": "nik"
+          }
+        ]
+      },
+      "FW4": {
+        "leagueId": "premier_league",
+        "totalSeasons": 3,
+        "phase": "committed",
+        "seasons": [
+          {
+            "season": 1,
+            "managers": {
+              "daniel": {
+                "leaguePosition": 1,
+                "leaguePoints": 102,
+                "leagueGoals": 100,
+                "domesticCup": true,
+                "championsLeague": true,
+                "topScorer": true,
+                "topAssist": true,
+                "breakdown": {
+                  "championsLeague": 5,
+                  "leagueTitle": 3,
+                  "domesticCup": 1,
+                  "performanceBonus": 1,
+                  "awardsBonus": 1
+                },
+                "score": 11
+              },
+              "nik": {
+                "leaguePosition": 3,
+                "leaguePoints": 72,
+                "leagueGoals": 100,
+                "domesticCup": false,
+                "championsLeague": false,
+                "topScorer": false,
+                "topAssist": false,
+                "breakdown": {
+                  "championsLeague": 0,
+                  "leagueTitle": 0,
+                  "domesticCup": 0,
+                  "performanceBonus": 1,
+                  "awardsBonus": 0
+                },
+                "score": 1
+              }
+            },
+            "winner": "daniel"
+          },
+          {
+            "season": 2,
+            "managers": {
+              "daniel": {
+                "leaguePosition": 1,
+                "leaguePoints": 102,
+                "leagueGoals": 100,
+                "domesticCup": false,
+                "championsLeague": false,
+                "topScorer": true,
+                "topAssist": false,
+                "breakdown": {
+                  "championsLeague": 0,
+                  "leagueTitle": 3,
+                  "domesticCup": 0,
+                  "performanceBonus": 1,
+                  "awardsBonus": 1
+                },
+                "score": 5
+              },
+              "nik": {
+                "leaguePosition": 3,
+                "leaguePoints": 72,
+                "leagueGoals": 100,
+                "domesticCup": false,
+                "championsLeague": true,
+                "topScorer": false,
+                "topAssist": false,
+                "breakdown": {
+                  "championsLeague": 5,
+                  "leagueTitle": 0,
+                  "domesticCup": 0,
+                  "performanceBonus": 1,
+                  "awardsBonus": 0
+                },
+                "score": 6
+              }
+            },
+            "winner": "nik"
+          },
+          {
+            "season": 3,
+            "managers": {
+              "daniel": {
+                "leaguePosition": 2,
+                "leaguePoints": 72,
+                "leagueGoals": 100,
+                "domesticCup": false,
+                "championsLeague": false,
+                "topScorer": false,
+                "topAssist": false,
+                "breakdown": {
+                  "championsLeague": 0,
+                  "leagueTitle": 0,
+                  "domesticCup": 0,
+                  "performanceBonus": 1,
+                  "awardsBonus": 0
+                },
+                "score": 1
+              },
+              "nik": {
+                "leaguePosition": 1,
+                "leaguePoints": 92,
+                "leagueGoals": 80,
+                "domesticCup": false,
+                "championsLeague": true,
+                "topScorer": false,
+                "topAssist": false,
+                "breakdown": {
+                  "championsLeague": 5,
+                  "leagueTitle": 3,
+                  "domesticCup": 0,
+                  "performanceBonus": 0,
+                  "awardsBonus": 0
+                },
+                "score": 8
+              }
+            },
+            "winner": "nik"
+          }
+        ]
+      },
+      "FW5": {
+        "leagueId": "premier_league",
+        "totalSeasons": 3,
+        "phase": "committed",
+        "seasons": [
+          {
+            "season": 1,
+            "managers": {
+              "daniel": {
+                "leaguePosition": 1,
+                "leaguePoints": 102,
+                "leagueGoals": 100,
+                "domesticCup": true,
+                "championsLeague": true,
+                "topScorer": true,
+                "topAssist": true,
+                "breakdown": {
+                  "championsLeague": 5,
+                  "leagueTitle": 3,
+                  "domesticCup": 1,
+                  "performanceBonus": 1,
+                  "awardsBonus": 1
+                },
+                "score": 11
+              },
+              "nik": {
+                "leaguePosition": 3,
+                "leaguePoints": 72,
+                "leagueGoals": 100,
+                "domesticCup": false,
+                "championsLeague": false,
+                "topScorer": false,
+                "topAssist": false,
+                "breakdown": {
+                  "championsLeague": 0,
+                  "leagueTitle": 0,
+                  "domesticCup": 0,
+                  "performanceBonus": 1,
+                  "awardsBonus": 0
+                },
+                "score": 1
+              }
+            },
+            "winner": "daniel"
+          },
+          {
+            "season": 2,
+            "managers": {
+              "daniel": {
+                "leaguePosition": 1,
+                "leaguePoints": 102,
+                "leagueGoals": 100,
+                "domesticCup": false,
+                "championsLeague": false,
+                "topScorer": true,
+                "topAssist": false,
+                "breakdown": {
+                  "championsLeague": 0,
+                  "leagueTitle": 3,
+                  "domesticCup": 0,
+                  "performanceBonus": 1,
+                  "awardsBonus": 1
+                },
+                "score": 5
+              },
+              "nik": {
+                "leaguePosition": 3,
+                "leaguePoints": 72,
+                "leagueGoals": 100,
+                "domesticCup": false,
+                "championsLeague": true,
+                "topScorer": false,
+                "topAssist": false,
+                "breakdown": {
+                  "championsLeague": 5,
+                  "leagueTitle": 0,
+                  "domesticCup": 0,
+                  "performanceBonus": 1,
+                  "awardsBonus": 0
+                },
+                "score": 6
+              }
+            },
+            "winner": "nik"
+          },
+          {
+            "season": 3,
+            "managers": {
+              "daniel": {
+                "leaguePosition": 2,
+                "leaguePoints": 72,
+                "leagueGoals": 100,
+                "domesticCup": false,
+                "championsLeague": false,
+                "topScorer": false,
+                "topAssist": false,
+                "breakdown": {
+                  "championsLeague": 0,
+                  "leagueTitle": 0,
+                  "domesticCup": 0,
+                  "performanceBonus": 1,
+                  "awardsBonus": 0
+                },
+                "score": 1
+              },
+              "nik": {
+                "leaguePosition": 1,
+                "leaguePoints": 92,
+                "leagueGoals": 80,
+                "domesticCup": false,
+                "championsLeague": true,
+                "topScorer": false,
+                "topAssist": false,
+                "breakdown": {
+                  "championsLeague": 5,
+                  "leagueTitle": 3,
+                  "domesticCup": 0,
+                  "performanceBonus": 0,
+                  "awardsBonus": 0
+                },
+                "score": 8
+              }
+            },
+            "winner": "nik"
+          }
+        ]
+      },
+      "FW9": {
+        "leagueId": "premier_league",
+        "totalSeasons": 3,
+        "phase": "committed",
+        "seasons": [
+          {
+            "season": 1,
+            "managers": {
+              "daniel": {
+                "leaguePosition": 1,
+                "leaguePoints": 102,
+                "leagueGoals": 100,
+                "domesticCup": true,
+                "championsLeague": true,
+                "topScorer": true,
+                "topAssist": true,
+                "breakdown": {
+                  "championsLeague": 5,
+                  "leagueTitle": 3,
+                  "domesticCup": 1,
+                  "performanceBonus": 1,
+                  "awardsBonus": 1
+                },
+                "score": 11
+              },
+              "nik": {
+                "leaguePosition": 3,
+                "leaguePoints": 72,
+                "leagueGoals": 100,
+                "domesticCup": false,
+                "championsLeague": false,
+                "topScorer": false,
+                "topAssist": false,
+                "breakdown": {
+                  "championsLeague": 0,
+                  "leagueTitle": 0,
+                  "domesticCup": 0,
+                  "performanceBonus": 1,
+                  "awardsBonus": 0
+                },
+                "score": 1
+              }
+            },
+            "winner": "daniel"
+          },
+          {
+            "season": 2,
+            "managers": {
+              "daniel": {
+                "leaguePosition": 1,
+                "leaguePoints": 102,
+                "leagueGoals": 100,
+                "domesticCup": false,
+                "championsLeague": false,
+                "topScorer": true,
+                "topAssist": false,
+                "breakdown": {
+                  "championsLeague": 0,
+                  "leagueTitle": 3,
+                  "domesticCup": 0,
+                  "performanceBonus": 1,
+                  "awardsBonus": 1
+                },
+                "score": 5
+              },
+              "nik": {
+                "leaguePosition": 3,
+                "leaguePoints": 72,
+                "leagueGoals": 100,
+                "domesticCup": false,
+                "championsLeague": true,
+                "topScorer": false,
+                "topAssist": false,
+                "breakdown": {
+                  "championsLeague": 5,
+                  "leagueTitle": 0,
+                  "domesticCup": 0,
+                  "performanceBonus": 1,
+                  "awardsBonus": 0
+                },
+                "score": 6
+              }
+            },
+            "winner": "nik"
+          },
+          {
+            "season": 3,
+            "managers": {
+              "daniel": {
+                "leaguePosition": 2,
+                "leaguePoints": 72,
+                "leagueGoals": 100,
+                "domesticCup": false,
+                "championsLeague": false,
+                "topScorer": false,
+                "topAssist": false,
+                "breakdown": {
+                  "championsLeague": 0,
+                  "leagueTitle": 0,
+                  "domesticCup": 0,
+                  "performanceBonus": 1,
+                  "awardsBonus": 0
+                },
+                "score": 1
+              },
+              "nik": {
+                "leaguePosition": 1,
+                "leaguePoints": 92,
+                "leagueGoals": 80,
+                "domesticCup": false,
+                "championsLeague": true,
+                "topScorer": false,
+                "topAssist": false,
+                "breakdown": {
+                  "championsLeague": 5,
+                  "leagueTitle": 3,
+                  "domesticCup": 0,
+                  "performanceBonus": 0,
+                  "awardsBonus": 0
+                },
+                "score": 8
+              }
+            },
+            "winner": "nik"
+          }
+        ]
+      }
+    }
   }
 }
