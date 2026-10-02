@@ -17,4 +17,12 @@ The League `assets/platemap.json` contains `protected_boxes.hand_daniel` = [330,
 
 ## Shared tool
 
-Implementation, validation and usage are added in the following job steps.
+`shared/tools/cutout.py` uses only Pillow and NumPy. It rasterises at 4×, refines a ±2 px band using nearby foreground/background means, erodes 1 px and applies a 1 px Gaussian feather. Colours are compared in linear light. Low-contrast edges keep the polygon geometry; this is an edge refiner, not an automatic segmentation model.
+
+Fringe recovery treats plate pixels as a flattened foreground/background mixture. It estimates the original coverage, recovers straight foreground colour and pulls it toward the local interior colour. It never divides straight RGB by the newly feathered output alpha. Opaque interior pixels stay unchanged; fully transparent RGB is zero. PNG outputs use straight alpha; resizing uses Pillow's premultiplied RGBA resampling to avoid dark seams.
+
+Both outputs are full plate canvases, with transparent space outside the cut-out. At 1X they have the plate's logical width/height; at 2X both dimensions double. Coordinates always remain 1X. Prefer the genuine 2X source with `--source-scale 2`; a 1X source can also produce 2X but adds no image detail. The tool prints JSON with each output's pixel size, exclusive alpha bounding box and SHA-256.
+
+Select a nested JSON key with `--map <platemap.json> --key <dot.path>`. The value may be one polygon, a list of polygons (union), or an object with `polygon`/`polygons`. `--polygon '<JSON>'` or `--polygon @file.json` also works. When both are supplied, the selected map key must be a bounding box constraining the supplied contour. A box alone is rejected because it is not a silhouette.
+
+Validation rejects out-of-bounds/nonfinite/degenerate points, wrong map sizes, non-PNG masters, empty masks and contours too thin to refine. Review skin, hair and dark suit separately; for hair, `--erode 0 --feather 1.5` preserves more of the soft edge. Defaults remain 1 px erosion/feather for firm silhouettes.
