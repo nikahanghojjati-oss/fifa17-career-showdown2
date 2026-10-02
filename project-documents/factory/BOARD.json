@@ -990,7 +990,8 @@
     2,
     23,
     30,
-    18
+    18,
+    130
    ],
    "type": "build",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
@@ -1080,7 +1081,8 @@
     3,
     24,
     30,
-    18
+    18,
+    131
    ],
    "type": "build",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
@@ -1260,7 +1262,8 @@
     5,
     26,
     30,
-    18
+    18,
+    132
    ],
    "type": "build",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
@@ -1350,7 +1353,8 @@
     6,
     27,
     30,
-    18
+    18,
+    133
    ],
    "type": "build",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
@@ -1441,7 +1445,8 @@
     23,
     30,
     18,
-    124
+    124,
+    134
    ],
    "type": "build",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
@@ -2295,6 +2300,91 @@
    "waits_on_nik": null,
    "waits_on_team_g": null,
    "needs_claude_look": true
+  },
+  {
+   "number": 130,
+   "key": "truthfix_TR",
+   "title": "Truth sheet fix: Trophy Room",
+   "phase": "1 Truth",
+   "wave": 2,
+   "depends_on": [
+    2
+   ],
+   "type": "fix",
+   "worker": "GPT-5.6 Sol chat",
+   "lane": "plain",
+   "steps": 6,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 131,
+   "key": "truthfix_CS",
+   "title": "Truth sheet fix: Career Statistics",
+   "phase": "1 Truth",
+   "wave": 2,
+   "depends_on": [
+    3
+   ],
+   "type": "fix",
+   "worker": "GPT-5.6 Sol chat",
+   "lane": "plain",
+   "steps": 6,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 132,
+   "key": "truthfix_LG",
+   "title": "Truth sheet fix: Legacy (History)",
+   "phase": "1 Truth",
+   "wave": 2,
+   "depends_on": [
+    5
+   ],
+   "type": "fix",
+   "worker": "GPT-5.6 Sol chat",
+   "lane": "plain",
+   "steps": 4,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 133,
+   "key": "truthfix_SR",
+   "title": "Truth sheet fix: Season Results",
+   "phase": "1 Truth",
+   "wave": 2,
+   "depends_on": [
+    6
+   ],
+   "type": "fix",
+   "worker": "GPT-5.6 Sol chat",
+   "lane": "plain",
+   "steps": 5,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 134,
+   "key": "truthfix_FW",
+   "title": "Truth sheet fix: Final Winner",
+   "phase": "1 Truth",
+   "wave": 2,
+   "depends_on": [
+    7
+   ],
+   "type": "fix",
+   "worker": "GPT-5.6 Sol chat",
+   "lane": "plain",
+   "steps": 5,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false
   }
  ]
 }
