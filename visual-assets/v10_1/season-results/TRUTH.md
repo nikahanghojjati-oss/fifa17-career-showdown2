@@ -114,3 +114,106 @@ Read from `main`:
 * `tests/browser/shared-season-commit-second-publisher-audit.cjs`
 * `tests/contracts/shared-season-results-production-contracts.cjs`
 * `tests/contracts/shared-season-commit-production-contracts.cjs`
+
+
+## Buttons and visible strings
+
+### Buttons on the Season Results screen
+
+| Control | Exact live label(s) | Behaviour |
+| --- | --- | --- |
+| `#completeSeason` | `REVIEW MY SEASON RESULT` | Entry only. Validates this manager's seven season facts, then opens review. |
+| `#confirmSeasonCompletion` | `PUBLISH MY SEASON RESULT`; waiting state `PUBLISHED ✓` | Publishes the reviewed result. Waiting version is disabled; hidden once both managers publish. |
+| `#editSeasonResults` | `EDIT MY RESULT` | Returns an unpublished draft to entry; hidden after publication. |
+| `#sharedSeasonCommitAction` | `CHECK SHARED SEASON COMMIT`, `RETRY COMMIT CHECK`, `COMMIT SHARED SEASON`, `WAITING FOR COORDINATOR`, `ACKNOWLEDGE SHARED SEASON`, `ACKNOWLEDGED ✓ · WAITING FOR RIVAL`, `SEASON COMMIT ACKNOWLEDGED ✓` | Shared-only commit / acknowledgement / retry control. |
+| `#seasonEntry .seasonEntryActions .backButton` | `BACK TO SHOWDOWN HOME` | Central smart Back; shared browser audit verifies return to dashboard. |
+
+No Season Results button on `main` has an explicit `aria-label`; the accessible button name is the visible text. The panel uses `aria-labelledby="seasonReviewHeading"`. Result/error nodes use `aria-live`.
+
+### Entry state
+
+Exact visible strings are:
+
+* title: `SEASON {seasonNumber} SHARED RESULTS`
+* hint: `Enter only {managerName}'s FIFA 17 season result. Your rival enters their own result privately on their device. Nothing on this screen writes to the canonical local Save.`
+* `LEAGUE POSITION`
+* `LEAGUE POINTS`
+* `LEAGUE GOALS`
+* `Domestic Cup Winner`
+* `Champions League Winner`
+* `Top Scorer`
+* `Top Assist`
+
+Input placeholders in the inherited shell are Daniel/playerOne `1`, `86`, `92` and Nik/playerTwo `2`, `82`, `85`. Manager and club names are live values. The legacy scoring paragraph is replaced by the private-entry hint before the shared entry state is shown.
+
+### Review shell strings inherited from `js/seasonEngine.js`
+
+These remain visible because the shared adapter does not replace them:
+
+* `FINAL CHECK`
+* `Verify both managers' results and the calculated scores. Nothing becomes permanent until Confirm & Save Season is pressed.`
+
+The inherited `PROJECTED OVERALL SHOWDOWN SCORE` / `0 • 0` block exists in the DOM but is hidden by Shared Season Results.
+
+### Review / waiting / results-ready strings
+
+| State | Surface | Exact string |
+| --- | --- | --- |
+| unpublished review | heading | `REVIEW YOUR SEASON RESULT` |
+| unpublished review | status | `NOT PUBLISHED YET` |
+| unpublished review | result | `Check your seven season facts carefully. Publishing is immutable for this manager and season.` |
+| unpublished review | warning | `PUBLISHING IS FINAL FOR YOUR MANAGER · CANONICAL LOCAL SAVE IS NOT MODIFIED` |
+| waiting for rival | heading | `YOUR RESULT IS PUBLISHED` |
+| waiting for rival | status | `PUBLISHED · WAITING FOR YOUR RIVAL` |
+| waiting for rival | result | `Your rival cannot see this result until they publish their own. This screen refreshes automatically.` |
+| waiting for rival | warning | `PUBLISHING IS FINAL FOR YOUR MANAGER · CANONICAL LOCAL SAVE IS NOT MODIFIED` |
+| both published | heading | `BOTH MANAGERS PUBLISHED` |
+| both published | status | `RESULTS READY · BOTH PRIVATE SIDES REVEALED` |
+| both published | result | `Both managers published their reviewed FIFA 17 season results. Continue with the Shared Season Commit below.` |
+| both published | warning | `RESULT PUBLICATION COMPLETE · SHARED SEASON COMMIT IS READY` |
+
+Each visible review card contains the live manager name and club plus `League Position`, `League Points`, `League Goals`, then each of `Domestic Cup`, `Champions League`, `Top Scorer`, `Top Assist` prefixed by `✓` when earned or `—` when not earned. Before `RESULTS_READY`, only the current manager's card is visible; after it, both are visible.
+
+### Shared Season Commit status strings
+
+Exact status text variants:
+
+* `CHECKING SHARED SEASON COMMIT · YOUR PUBLISHED RESULTS ARE SAVED`
+* `SHARED SEASON COMMIT CHECK FAILED · {errorCode} · YOUR PUBLISHED RESULTS ARE SAVED`
+* `BOTH RESULTS ARE READY · AS COORDINATOR, COMMIT THE IMMUTABLE SHARED SEASON SNAPSHOT`
+* `BOTH RESULTS ARE READY · WAITING FOR {coordinatorName} TO COMMIT THE SHARED SEASON`
+* `THE SHARED RESULT SNAPSHOT IS COMMITTED · BOTH MANAGERS MUST ACKNOWLEDGE BEFORE SCORING CAN BEGIN`
+* `YOU ACKNOWLEDGED THIS SHARED SEASON · WAITING FOR YOUR RIVAL`
+* `SHARED SEASON COMMIT ACKNOWLEDGED BY BOTH MANAGERS · SCORING REMAINS LOCKED FOR THE NEXT CAPABILITY`
+
+### Validation and error strings rendered in the screen
+
+* `Enter league position, league points and league goals for {managerName}.`
+* `{managerName}'s league position must be a whole number from 1 to {teamCount}.`
+* `{managerName}'s league points must be a whole number from 0 to {maxPoints}.`
+* `{managerName}'s league goals must be a whole number from 0 to 300.`
+* `The shared season context changed. Review your result again.`
+* `Your season result changed after review. Choose Edit My Result and review it again before publishing.`
+* `Finish the shared Transfer Challenge before publishing Season Results.`
+* `Connected account services are unavailable.`
+* `Shared Season Results could not be refreshed before publishing.`
+* `Your shared Season Result could not be published.`
+* `Shared Season Result publication failed.`
+* `Both managers must publish Shared Season Results before the shared season can be committed.`
+* `The Shared Season Commit check took too long. Check your connection and retry.`
+* `Only the confirmed coordinator can create the shared season commit.`
+* `The shared season could not be committed.`
+* `Your shared season acknowledgement could not be recorded.`
+* `Shared Season Commit failed.`
+
+When a provider/runtime path supplies no human-readable message, its error code can be written into the same error region. Initial route-open failures are reported at app level rather than as a dedicated in-screen loading frame.
+
+### Entry-route strings outside the screen
+
+* `CONTINUE TO SHARED SEASON RESULTS`
+* `ENTER SHARED SEASON RESULTS`
+* `VIEW MY PUBLISHED RESULT`
+* `VIEW SHARED SEASON RESULTS`
+* `OPENING SEASON RESULTS…`
+
+Dashboard status variants are `Shared transfer challenge: complete · season results ready`, `Shared season results: waiting for rival`, and `Shared season results: both published`.
