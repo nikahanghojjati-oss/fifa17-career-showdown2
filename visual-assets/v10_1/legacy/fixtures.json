@@ -1,0 +1,1554 @@
+{
+  "version": "LEGACY_V1_FIXTURES",
+  "authority": "DATA_CONTRACT_V1 §0/§6/§8/§9 + PRODUCT_TRUTH §1/§4/§6/§7 + main js/legacy.js, js/storage.js, js/screens.js, js/optionalModules.js",
+  "strings": {
+    "eyebrow": "CAREER MODE // SHOWDOWN 17",
+    "heading": "LEGACY",
+    "tagline": "PAST SHOWDOWNS. A LASTING JOURNEY.",
+    "previewLabel": "Preview data",
+    "sideMenu": {
+      "legacy": "LEGACY ARCHIVE",
+      "trophyRoom": "TROPHY ROOM",
+      "records": "RECORDS"
+    },
+    "actions": {
+      "viewSeasonHistory": "VIEW SEASON HISTORY"
+    },
+    "states": {
+      "abandoned": "Abandoned · not counted",
+      "completionPending": "Completion pending",
+      "interim": "Current Showdown only. Career history is not yet available.",
+      "loading": "LOADING",
+      "partial": "PARTIAL",
+      "unavailable": "UNAVAILABLE",
+      "empty": "No completed showdowns yet. Finish a rivalry and it will be archived here automatically."
+    },
+    "topNav": [
+      "HOME",
+      "CAREER",
+      "STANDINGS",
+      "STATS",
+      "RULES"
+    ]
+  },
+  "ids": {
+    "screen": "legacy",
+    "homeButton": "legacyButton",
+    "renderTarget": "#legacy .legacyBox",
+    "backHook": ".backButton[data-smart-back]"
+  },
+  "frames": {
+    "LG1": {
+      "status": "ready",
+      "previewLabel": "Preview data",
+      "ui": {
+        "page": 1,
+        "pageSize": 4,
+        "totalPages": 2,
+        "pageMap": [
+          [
+            12,
+            11,
+            10,
+            9
+          ],
+          [
+            8,
+            7,
+            6,
+            5
+          ]
+        ],
+        "selectedShowdown": 12
+      },
+      "showdowns": [
+        {
+          "number": 12,
+          "status": "completed",
+          "leagueId": "premier_league",
+          "clubs": {
+            "daniel": "Northbridge FC",
+            "nik": "Harbor City"
+          },
+          "seasonsPlayed": 3,
+          "totalSeasons": 3,
+          "totals": {
+            "daniel": 22,
+            "nik": 21
+          },
+          "winner": "daniel",
+          "seasons": [
+            {
+              "season": 1,
+              "score": {
+                "daniel": 8,
+                "nik": 6
+              },
+              "winner": "daniel",
+              "leaguePosition": {
+                "daniel": 1,
+                "nik": 3
+              },
+              "leaguePoints": {
+                "daniel": 91,
+                "nik": 82
+              },
+              "leagueGoals": {
+                "daniel": 108,
+                "nik": 89
+              }
+            },
+            {
+              "season": 2,
+              "score": {
+                "daniel": 5,
+                "nik": 7
+              },
+              "winner": "nik",
+              "leaguePosition": {
+                "daniel": 4,
+                "nik": 2
+              },
+              "leaguePoints": {
+                "daniel": 76,
+                "nik": 88
+              },
+              "leagueGoals": {
+                "daniel": 81,
+                "nik": 101
+              }
+            },
+            {
+              "season": 3,
+              "score": {
+                "daniel": 9,
+                "nik": 8
+              },
+              "winner": "daniel",
+              "leaguePosition": {
+                "daniel": 1,
+                "nik": 2
+              },
+              "leaguePoints": {
+                "daniel": 96,
+                "nik": 90
+              },
+              "leagueGoals": {
+                "daniel": 117,
+                "nik": 104
+              }
+            }
+          ]
+        },
+        {
+          "number": 11,
+          "status": "completed",
+          "leagueId": "laliga",
+          "clubs": {
+            "daniel": "Solano Athletic",
+            "nik": "Rivermouth FC"
+          },
+          "seasonsPlayed": 3,
+          "totalSeasons": 3,
+          "totals": {
+            "daniel": 18,
+            "nik": 21
+          },
+          "winner": "nik",
+          "seasons": [
+            {
+              "season": 1,
+              "score": {
+                "daniel": 5,
+                "nik": 7
+              },
+              "winner": "nik",
+              "leaguePosition": {
+                "daniel": 5,
+                "nik": 2
+              },
+              "leaguePoints": {
+                "daniel": 72,
+                "nik": 89
+              },
+              "leagueGoals": {
+                "daniel": 77,
+                "nik": 96
+              }
+            },
+            {
+              "season": 2,
+              "score": {
+                "daniel": 6,
+                "nik": 8
+              },
+              "winner": "nik",
+              "leaguePosition": {
+                "daniel": 3,
+                "nik": 1
+              },
+              "leaguePoints": {
+                "daniel": 84,
+                "nik": 97
+              },
+              "leagueGoals": {
+                "daniel": 93,
+                "nik": 112
+              }
+            },
+            {
+              "season": 3,
+              "score": {
+                "daniel": 7,
+                "nik": 6
+              },
+              "winner": "daniel",
+              "leaguePosition": {
+                "daniel": 2,
+                "nik": 4
+              },
+              "leaguePoints": {
+                "daniel": 90,
+                "nik": 79
+              },
+              "leagueGoals": {
+                "daniel": 105,
+                "nik": 86
+              }
+            }
+          ]
+        },
+        {
+          "number": 10,
+          "status": "completed",
+          "leagueId": "bundesliga",
+          "clubs": {
+            "daniel": "Ironstadt 04",
+            "nik": "Rheinwald SC"
+          },
+          "seasonsPlayed": 3,
+          "totalSeasons": 3,
+          "totals": {
+            "daniel": 18,
+            "nik": 18
+          },
+          "winner": "draw",
+          "seasons": [
+            {
+              "season": 1,
+              "score": {
+                "daniel": 7,
+                "nik": 5
+              },
+              "winner": "daniel",
+              "leaguePosition": {
+                "daniel": 1,
+                "nik": 4
+              },
+              "leaguePoints": {
+                "daniel": 88,
+                "nik": 72
+              },
+              "leagueGoals": {
+                "daniel": 104,
+                "nik": 78
+              }
+            },
+            {
+              "season": 2,
+              "score": {
+                "daniel": 5,
+                "nik": 7
+              },
+              "winner": "nik",
+              "leaguePosition": {
+                "daniel": 5,
+                "nik": 1
+              },
+              "leaguePoints": {
+                "daniel": 70,
+                "nik": 92
+              },
+              "leagueGoals": {
+                "daniel": 75,
+                "nik": 109
+              }
+            },
+            {
+              "season": 3,
+              "score": {
+                "daniel": 6,
+                "nik": 6
+              },
+              "winner": "draw",
+              "leaguePosition": {
+                "daniel": 2,
+                "nik": 2
+              },
+              "leaguePoints": {
+                "daniel": 83,
+                "nik": 83
+              },
+              "leagueGoals": {
+                "daniel": 90,
+                "nik": 90
+              }
+            }
+          ]
+        },
+        {
+          "number": 9,
+          "status": "completed",
+          "leagueId": "serie_a",
+          "clubs": {
+            "daniel": "Luna Calcio",
+            "nik": "Vento FC"
+          },
+          "seasonsPlayed": 3,
+          "totalSeasons": 3,
+          "totals": {
+            "daniel": 24,
+            "nik": 19
+          },
+          "winner": "daniel",
+          "seasons": [
+            {
+              "season": 1,
+              "score": {
+                "daniel": 8,
+                "nik": 6
+              },
+              "winner": "daniel",
+              "leaguePosition": {
+                "daniel": 1,
+                "nik": 3
+              },
+              "leaguePoints": {
+                "daniel": 94,
+                "nik": 82
+              },
+              "leagueGoals": {
+                "daniel": 111,
+                "nik": 92
+              }
+            },
+            {
+              "season": 2,
+              "score": {
+                "daniel": 7,
+                "nik": 6
+              },
+              "winner": "daniel",
+              "leaguePosition": {
+                "daniel": 2,
+                "nik": 4
+              },
+              "leaguePoints": {
+                "daniel": 87,
+                "nik": 75
+              },
+              "leagueGoals": {
+                "daniel": 99,
+                "nik": 80
+              }
+            },
+            {
+              "season": 3,
+              "score": {
+                "daniel": 9,
+                "nik": 7
+              },
+              "winner": "daniel",
+              "leaguePosition": {
+                "daniel": 1,
+                "nik": 2
+              },
+              "leaguePoints": {
+                "daniel": 101,
+                "nik": 90
+              },
+              "leagueGoals": {
+                "daniel": 126,
+                "nik": 103
+              }
+            }
+          ]
+        },
+        {
+          "number": 8,
+          "status": "completed",
+          "leagueId": "ligue_1",
+          "clubs": {
+            "daniel": "Montclair FC",
+            "nik": "Rivage AC"
+          },
+          "seasonsPlayed": 3,
+          "totalSeasons": 3,
+          "totals": {
+            "daniel": 17,
+            "nik": 22
+          },
+          "winner": "nik",
+          "seasons": [
+            {
+              "season": 1,
+              "score": {
+                "daniel": 6,
+                "nik": 8
+              },
+              "winner": "nik",
+              "leaguePosition": {
+                "daniel": 3,
+                "nik": 1
+              },
+              "leaguePoints": {
+                "daniel": 81,
+                "nik": 95
+              },
+              "leagueGoals": {
+                "daniel": 88,
+                "nik": 110
+              }
+            },
+            {
+              "season": 2,
+              "score": {
+                "daniel": 5,
+                "nik": 7
+              },
+              "winner": "nik",
+              "leaguePosition": {
+                "daniel": 5,
+                "nik": 2
+              },
+              "leaguePoints": {
+                "daniel": 73,
+                "nik": 87
+              },
+              "leagueGoals": {
+                "daniel": 79,
+                "nik": 98
+              }
+            },
+            {
+              "season": 3,
+              "score": {
+                "daniel": 6,
+                "nik": 7
+              },
+              "winner": "nik",
+              "leaguePosition": {
+                "daniel": 4,
+                "nik": 2
+              },
+              "leaguePoints": {
+                "daniel": 78,
+                "nik": 89
+              },
+              "leagueGoals": {
+                "daniel": 84,
+                "nik": 101
+              }
+            }
+          ]
+        },
+        {
+          "number": 7,
+          "status": "completed",
+          "leagueId": "premier_league",
+          "clubs": {
+            "daniel": "Kingston Vale",
+            "nik": "Eastborough"
+          },
+          "seasonsPlayed": 3,
+          "totalSeasons": 3,
+          "totals": {
+            "daniel": 20,
+            "nik": 20
+          },
+          "winner": "draw",
+          "seasons": [
+            {
+              "season": 1,
+              "score": {
+                "daniel": 7,
+                "nik": 6
+              },
+              "winner": "daniel",
+              "leaguePosition": {
+                "daniel": 2,
+                "nik": 5
+              },
+              "leaguePoints": {
+                "daniel": 88,
+                "nik": 74
+              },
+              "leagueGoals": {
+                "daniel": 102,
+                "nik": 82
+              }
+            },
+            {
+              "season": 2,
+              "score": {
+                "daniel": 6,
+                "nik": 8
+              },
+              "winner": "nik",
+              "leaguePosition": {
+                "daniel": 4,
+                "nik": 1
+              },
+              "leaguePoints": {
+                "daniel": 79,
+                "nik": 96
+              },
+              "leagueGoals": {
+                "daniel": 87,
+                "nik": 114
+              }
+            },
+            {
+              "season": 3,
+              "score": {
+                "daniel": 7,
+                "nik": 6
+              },
+              "winner": "daniel",
+              "leaguePosition": {
+                "daniel": 1,
+                "nik": 3
+              },
+              "leaguePoints": {
+                "daniel": 93,
+                "nik": 84
+              },
+              "leagueGoals": {
+                "daniel": 109,
+                "nik": 95
+              }
+            }
+          ]
+        },
+        {
+          "number": 6,
+          "status": "completed",
+          "leagueId": "laliga",
+          "clubs": {
+            "daniel": "Sierra Union",
+            "nik": "Marina CF"
+          },
+          "seasonsPlayed": 3,
+          "totalSeasons": 3,
+          "totals": {
+            "daniel": 21,
+            "nik": 18
+          },
+          "winner": "daniel",
+          "seasons": [
+            {
+              "season": 1,
+              "score": {
+                "daniel": 8,
+                "nik": 5
+              },
+              "winner": "daniel",
+              "leaguePosition": {
+                "daniel": 1,
+                "nik": 6
+              },
+              "leaguePoints": {
+                "daniel": 98,
+                "nik": 68
+              },
+              "leagueGoals": {
+                "daniel": 120,
+                "nik": 72
+              }
+            },
+            {
+              "season": 2,
+              "score": {
+                "daniel": 6,
+                "nik": 7
+              },
+              "winner": "nik",
+              "leaguePosition": {
+                "daniel": 3,
+                "nik": 2
+              },
+              "leaguePoints": {
+                "daniel": 82,
+                "nik": 91
+              },
+              "leagueGoals": {
+                "daniel": 91,
+                "nik": 103
+              }
+            },
+            {
+              "season": 3,
+              "score": {
+                "daniel": 7,
+                "nik": 6
+              },
+              "winner": "daniel",
+              "leaguePosition": {
+                "daniel": 2,
+                "nik": 4
+              },
+              "leaguePoints": {
+                "daniel": 89,
+                "nik": 77
+              },
+              "leagueGoals": {
+                "daniel": 101,
+                "nik": 85
+              }
+            }
+          ]
+        },
+        {
+          "number": 5,
+          "status": "completed",
+          "leagueId": "bundesliga",
+          "clubs": {
+            "daniel": "Nordhafen SV",
+            "nik": "Waldkreis FC"
+          },
+          "seasonsPlayed": 3,
+          "totalSeasons": 3,
+          "totals": {
+            "daniel": 15,
+            "nik": 17
+          },
+          "winner": "nik",
+          "seasons": [
+            {
+              "season": 1,
+              "score": {
+                "daniel": 5,
+                "nik": 6
+              },
+              "winner": "nik",
+              "leaguePosition": {
+                "daniel": 4,
+                "nik": 2
+              },
+              "leaguePoints": {
+                "daniel": 72,
+                "nik": 84
+              },
+              "leagueGoals": {
+                "daniel": 76,
+                "nik": 91
+              }
+            },
+            {
+              "season": 2,
+              "score": {
+                "daniel": 6,
+                "nik": 5
+              },
+              "winner": "daniel",
+              "leaguePosition": {
+                "daniel": 2,
+                "nik": 5
+              },
+              "leaguePoints": {
+                "daniel": 85,
+                "nik": 69
+              },
+              "leagueGoals": {
+                "daniel": 95,
+                "nik": 73
+              }
+            },
+            {
+              "season": 3,
+              "score": {
+                "daniel": 4,
+                "nik": 6
+              },
+              "winner": "nik",
+              "leaguePosition": {
+                "daniel": 6,
+                "nik": 3
+              },
+              "leaguePoints": {
+                "daniel": 64,
+                "nik": 79
+              },
+              "leagueGoals": {
+                "daniel": 68,
+                "nik": 86
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "LG2": {
+      "status": "ready",
+      "previewLabel": "Preview data",
+      "ui": {
+        "page": 1,
+        "pageSize": 4,
+        "totalPages": 1,
+        "selectedShowdown": 13
+      },
+      "showdowns": [
+        {
+          "number": 13,
+          "status": "in-progress",
+          "leagueId": "serie_a",
+          "clubs": {
+            "daniel": "Aurora 17",
+            "nik": "Capstone FC"
+          },
+          "seasonsPlayed": 2,
+          "totalSeasons": 5,
+          "totals": {
+            "daniel": 13,
+            "nik": 12
+          },
+          "seasons": [
+            {
+              "season": 1,
+              "score": {
+                "daniel": 7,
+                "nik": 6
+              },
+              "winner": "daniel",
+              "leaguePosition": {
+                "daniel": 2,
+                "nik": 4
+              },
+              "leaguePoints": {
+                "daniel": 88,
+                "nik": 78
+              },
+              "leagueGoals": {
+                "daniel": 100,
+                "nik": 84
+              }
+            },
+            {
+              "season": 2,
+              "score": {
+                "daniel": 6,
+                "nik": 6
+              },
+              "winner": "daniel",
+              "leaguePosition": {
+                "daniel": 3,
+                "nik": 5
+              },
+              "leaguePoints": {
+                "daniel": 82,
+                "nik": 73
+              },
+              "leagueGoals": {
+                "daniel": 91,
+                "nik": 79
+              }
+            }
+          ]
+        },
+        {
+          "number": 12,
+          "status": "completed",
+          "leagueId": "premier_league",
+          "clubs": {
+            "daniel": "Northbridge FC",
+            "nik": "Harbor City"
+          },
+          "seasonsPlayed": 3,
+          "totalSeasons": 3,
+          "totals": {
+            "daniel": 22,
+            "nik": 21
+          },
+          "winner": "daniel",
+          "seasons": [
+            {
+              "season": 1,
+              "score": {
+                "daniel": 8,
+                "nik": 6
+              },
+              "winner": "daniel",
+              "leaguePosition": {
+                "daniel": 1,
+                "nik": 3
+              },
+              "leaguePoints": {
+                "daniel": 91,
+                "nik": 82
+              },
+              "leagueGoals": {
+                "daniel": 108,
+                "nik": 89
+              }
+            },
+            {
+              "season": 2,
+              "score": {
+                "daniel": 5,
+                "nik": 7
+              },
+              "winner": "nik",
+              "leaguePosition": {
+                "daniel": 4,
+                "nik": 2
+              },
+              "leaguePoints": {
+                "daniel": 76,
+                "nik": 88
+              },
+              "leagueGoals": {
+                "daniel": 81,
+                "nik": 101
+              }
+            },
+            {
+              "season": 3,
+              "score": {
+                "daniel": 9,
+                "nik": 8
+              },
+              "winner": "daniel",
+              "leaguePosition": {
+                "daniel": 1,
+                "nik": 2
+              },
+              "leaguePoints": {
+                "daniel": 96,
+                "nik": 90
+              },
+              "leagueGoals": {
+                "daniel": 117,
+                "nik": 104
+              }
+            }
+          ]
+        },
+        {
+          "number": 11,
+          "status": "completed",
+          "leagueId": "laliga",
+          "clubs": {
+            "daniel": "Solano Athletic",
+            "nik": "Rivermouth FC"
+          },
+          "seasonsPlayed": 3,
+          "totalSeasons": 3,
+          "totals": {
+            "daniel": 18,
+            "nik": 21
+          },
+          "winner": "nik",
+          "seasons": [
+            {
+              "season": 1,
+              "score": {
+                "daniel": 5,
+                "nik": 7
+              },
+              "winner": "nik",
+              "leaguePosition": {
+                "daniel": 5,
+                "nik": 2
+              },
+              "leaguePoints": {
+                "daniel": 72,
+                "nik": 89
+              },
+              "leagueGoals": {
+                "daniel": 77,
+                "nik": 96
+              }
+            },
+            {
+              "season": 2,
+              "score": {
+                "daniel": 6,
+                "nik": 8
+              },
+              "winner": "nik",
+              "leaguePosition": {
+                "daniel": 3,
+                "nik": 1
+              },
+              "leaguePoints": {
+                "daniel": 84,
+                "nik": 97
+              },
+              "leagueGoals": {
+                "daniel": 93,
+                "nik": 112
+              }
+            },
+            {
+              "season": 3,
+              "score": {
+                "daniel": 7,
+                "nik": 6
+              },
+              "winner": "daniel",
+              "leaguePosition": {
+                "daniel": 2,
+                "nik": 4
+              },
+              "leaguePoints": {
+                "daniel": 90,
+                "nik": 79
+              },
+              "leagueGoals": {
+                "daniel": 105,
+                "nik": 86
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "LG3": {
+      "status": "ready",
+      "previewLabel": "Preview data",
+      "ui": {
+        "page": 1,
+        "pageSize": 4,
+        "totalPages": 1,
+        "selectedShowdown": 12
+      },
+      "showdowns": [
+        {
+          "number": 14,
+          "status": "abandoned"
+        },
+        {
+          "number": 12,
+          "status": "completed",
+          "leagueId": "premier_league",
+          "clubs": {
+            "daniel": "Northbridge FC",
+            "nik": "Harbor City"
+          },
+          "seasonsPlayed": 3,
+          "totalSeasons": 3,
+          "totals": {
+            "daniel": 22,
+            "nik": 21
+          },
+          "winner": "daniel",
+          "seasons": [
+            {
+              "season": 1,
+              "score": {
+                "daniel": 8,
+                "nik": 6
+              },
+              "winner": "daniel",
+              "leaguePosition": {
+                "daniel": 1,
+                "nik": 3
+              },
+              "leaguePoints": {
+                "daniel": 91,
+                "nik": 82
+              },
+              "leagueGoals": {
+                "daniel": 108,
+                "nik": 89
+              }
+            },
+            {
+              "season": 2,
+              "score": {
+                "daniel": 5,
+                "nik": 7
+              },
+              "winner": "nik",
+              "leaguePosition": {
+                "daniel": 4,
+                "nik": 2
+              },
+              "leaguePoints": {
+                "daniel": 76,
+                "nik": 88
+              },
+              "leagueGoals": {
+                "daniel": 81,
+                "nik": 101
+              }
+            },
+            {
+              "season": 3,
+              "score": {
+                "daniel": 9,
+                "nik": 8
+              },
+              "winner": "daniel",
+              "leaguePosition": {
+                "daniel": 1,
+                "nik": 2
+              },
+              "leaguePoints": {
+                "daniel": 96,
+                "nik": 90
+              },
+              "leagueGoals": {
+                "daniel": 117,
+                "nik": 104
+              }
+            }
+          ]
+        },
+        {
+          "number": 11,
+          "status": "completed",
+          "leagueId": "laliga",
+          "clubs": {
+            "daniel": "Solano Athletic",
+            "nik": "Rivermouth FC"
+          },
+          "seasonsPlayed": 3,
+          "totalSeasons": 3,
+          "totals": {
+            "daniel": 18,
+            "nik": 21
+          },
+          "winner": "nik",
+          "seasons": [
+            {
+              "season": 1,
+              "score": {
+                "daniel": 5,
+                "nik": 7
+              },
+              "winner": "nik",
+              "leaguePosition": {
+                "daniel": 5,
+                "nik": 2
+              },
+              "leaguePoints": {
+                "daniel": 72,
+                "nik": 89
+              },
+              "leagueGoals": {
+                "daniel": 77,
+                "nik": 96
+              }
+            },
+            {
+              "season": 2,
+              "score": {
+                "daniel": 6,
+                "nik": 8
+              },
+              "winner": "nik",
+              "leaguePosition": {
+                "daniel": 3,
+                "nik": 1
+              },
+              "leaguePoints": {
+                "daniel": 84,
+                "nik": 97
+              },
+              "leagueGoals": {
+                "daniel": 93,
+                "nik": 112
+              }
+            },
+            {
+              "season": 3,
+              "score": {
+                "daniel": 7,
+                "nik": 6
+              },
+              "winner": "daniel",
+              "leaguePosition": {
+                "daniel": 2,
+                "nik": 4
+              },
+              "leaguePoints": {
+                "daniel": 90,
+                "nik": 79
+              },
+              "leagueGoals": {
+                "daniel": 105,
+                "nik": 86
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "LG4": {
+      "status": "empty",
+      "previewLabel": "Preview data",
+      "ui": {
+        "page": 1,
+        "pageSize": 4,
+        "totalPages": 1
+      },
+      "showdowns": []
+    },
+    "LG5": {
+      "status": "ready",
+      "previewLabel": "Preview data",
+      "interimLabel": "Current Showdown only. Career history is not yet available.",
+      "ui": {
+        "page": 1,
+        "pageSize": 4,
+        "totalPages": 1,
+        "selectedShowdown": 13
+      },
+      "showdowns": [
+        {
+          "number": 13,
+          "status": "in-progress",
+          "leagueId": "serie_a",
+          "clubs": {
+            "daniel": "Aurora 17",
+            "nik": "Capstone FC"
+          },
+          "seasonsPlayed": 2,
+          "totalSeasons": 5,
+          "totals": {
+            "daniel": 13,
+            "nik": 12
+          },
+          "seasons": [
+            {
+              "season": 1,
+              "score": {
+                "daniel": 7,
+                "nik": 6
+              },
+              "winner": "daniel",
+              "leaguePosition": {
+                "daniel": 2,
+                "nik": 4
+              },
+              "leaguePoints": {
+                "daniel": 88,
+                "nik": 78
+              },
+              "leagueGoals": {
+                "daniel": 100,
+                "nik": 84
+              }
+            },
+            {
+              "season": 2,
+              "score": {
+                "daniel": 6,
+                "nik": 6
+              },
+              "winner": "daniel",
+              "leaguePosition": {
+                "daniel": 3,
+                "nik": 5
+              },
+              "leaguePoints": {
+                "daniel": 82,
+                "nik": 73
+              },
+              "leagueGoals": {
+                "daniel": 91,
+                "nik": 79
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "LG6": {
+      "status": "unavailable",
+      "previewLabel": "Preview data",
+      "ui": {
+        "page": 1,
+        "pageSize": 4,
+        "totalPages": 1
+      },
+      "showdowns": []
+    },
+    "LG7": {
+      "status": "loading",
+      "previewLabel": "Preview data",
+      "ui": {
+        "page": 1,
+        "pageSize": 4,
+        "totalPages": 1
+      },
+      "showdowns": []
+    },
+    "LG8": {
+      "status": "partial",
+      "previewLabel": "Preview data",
+      "ui": {
+        "page": 1,
+        "pageSize": 4,
+        "totalPages": 1,
+        "selectedShowdown": 12
+      },
+      "showdowns": [
+        {
+          "number": 12,
+          "status": "completed",
+          "leagueId": "premier_league",
+          "clubs": {
+            "daniel": "Northbridge FC",
+            "nik": "Harbor City"
+          },
+          "seasonsPlayed": 3,
+          "totalSeasons": 3,
+          "totals": {
+            "daniel": 22,
+            "nik": 21
+          },
+          "winner": "daniel",
+          "seasons": [
+            {
+              "season": 1,
+              "score": {
+                "daniel": 8,
+                "nik": 6
+              },
+              "winner": "daniel",
+              "leaguePosition": {
+                "daniel": 1,
+                "nik": 3
+              },
+              "leaguePoints": {
+                "daniel": 91,
+                "nik": 82
+              },
+              "leagueGoals": {
+                "daniel": 108,
+                "nik": 89
+              }
+            },
+            {
+              "season": 2,
+              "score": {
+                "daniel": 5,
+                "nik": 7
+              },
+              "winner": "nik",
+              "leaguePosition": {
+                "daniel": 4,
+                "nik": 2
+              },
+              "leaguePoints": {
+                "daniel": 76,
+                "nik": 88
+              },
+              "leagueGoals": {
+                "daniel": 81,
+                "nik": 101
+              }
+            },
+            {
+              "season": 3,
+              "score": {
+                "daniel": 9,
+                "nik": 8
+              },
+              "winner": "daniel",
+              "leaguePosition": {
+                "daniel": 1,
+                "nik": 2
+              },
+              "leaguePoints": {
+                "daniel": 96,
+                "nik": 90
+              },
+              "leagueGoals": {
+                "daniel": 117,
+                "nik": 104
+              }
+            }
+          ]
+        },
+        {
+          "number": 11,
+          "status": "completed",
+          "leagueId": "laliga",
+          "clubs": {
+            "daniel": "Solano Athletic",
+            "nik": "Rivermouth FC"
+          },
+          "seasonsPlayed": 3,
+          "totalSeasons": 3,
+          "totals": {
+            "daniel": 18,
+            "nik": 21
+          },
+          "winner": "nik",
+          "seasons": [
+            {
+              "season": 1,
+              "score": {
+                "daniel": 5,
+                "nik": 7
+              },
+              "winner": "nik",
+              "leaguePosition": {
+                "daniel": 5,
+                "nik": 2
+              },
+              "leaguePoints": {
+                "daniel": 72,
+                "nik": 89
+              },
+              "leagueGoals": {
+                "daniel": 77,
+                "nik": 96
+              }
+            },
+            {
+              "season": 2,
+              "score": {
+                "daniel": 6,
+                "nik": 8
+              },
+              "winner": "nik",
+              "leaguePosition": {
+                "daniel": 3,
+                "nik": 1
+              },
+              "leaguePoints": {
+                "daniel": 84,
+                "nik": 97
+              },
+              "leagueGoals": {
+                "daniel": 93,
+                "nik": 112
+              }
+            },
+            {
+              "season": 3,
+              "score": {
+                "daniel": 7,
+                "nik": 6
+              },
+              "winner": "daniel",
+              "leaguePosition": {
+                "daniel": 2,
+                "nik": 4
+              },
+              "leaguePoints": {
+                "daniel": 90,
+                "nik": 79
+              },
+              "leagueGoals": {
+                "daniel": 105,
+                "nik": 86
+              }
+            }
+          ]
+        },
+        {
+          "number": 10,
+          "status": "unavailable"
+        }
+      ]
+    },
+    "LG9": {
+      "status": "ready",
+      "previewLabel": "Preview data",
+      "ui": {
+        "page": 1,
+        "pageSize": 4,
+        "totalPages": 1,
+        "selectedShowdown": 13
+      },
+      "showdowns": [
+        {
+          "number": 13,
+          "status": "completion-pending",
+          "leagueId": "serie_a",
+          "clubs": {
+            "daniel": "Aurora 17",
+            "nik": "Capstone FC"
+          },
+          "seasonsPlayed": 3,
+          "totalSeasons": 3,
+          "totals": {
+            "daniel": 20,
+            "nik": 18
+          },
+          "winner": "daniel",
+          "seasons": [
+            {
+              "season": 1,
+              "score": {
+                "daniel": 7,
+                "nik": 6
+              },
+              "winner": "daniel",
+              "leaguePosition": {
+                "daniel": 2,
+                "nik": 4
+              },
+              "leaguePoints": {
+                "daniel": 88,
+                "nik": 78
+              },
+              "leagueGoals": {
+                "daniel": 100,
+                "nik": 84
+              }
+            },
+            {
+              "season": 2,
+              "score": {
+                "daniel": 6,
+                "nik": 6
+              },
+              "winner": "daniel",
+              "leaguePosition": {
+                "daniel": 3,
+                "nik": 5
+              },
+              "leaguePoints": {
+                "daniel": 82,
+                "nik": 73
+              },
+              "leagueGoals": {
+                "daniel": 91,
+                "nik": 79
+              }
+            },
+            {
+              "season": 3,
+              "score": {
+                "daniel": 7,
+                "nik": 6
+              },
+              "winner": "daniel",
+              "leaguePosition": {
+                "daniel": 1,
+                "nik": 2
+              },
+              "leaguePoints": {
+                "daniel": 96,
+                "nik": 90
+              },
+              "leagueGoals": {
+                "daniel": 116,
+                "nik": 103
+              }
+            }
+          ]
+        },
+        {
+          "number": 12,
+          "status": "completed",
+          "leagueId": "premier_league",
+          "clubs": {
+            "daniel": "Northbridge FC",
+            "nik": "Harbor City"
+          },
+          "seasonsPlayed": 3,
+          "totalSeasons": 3,
+          "totals": {
+            "daniel": 22,
+            "nik": 21
+          },
+          "winner": "daniel",
+          "seasons": [
+            {
+              "season": 1,
+              "score": {
+                "daniel": 8,
+                "nik": 6
+              },
+              "winner": "daniel",
+              "leaguePosition": {
+                "daniel": 1,
+                "nik": 3
+              },
+              "leaguePoints": {
+                "daniel": 91,
+                "nik": 82
+              },
+              "leagueGoals": {
+                "daniel": 108,
+                "nik": 89
+              }
+            },
+            {
+              "season": 2,
+              "score": {
+                "daniel": 5,
+                "nik": 7
+              },
+              "winner": "nik",
+              "leaguePosition": {
+                "daniel": 4,
+                "nik": 2
+              },
+              "leaguePoints": {
+                "daniel": 76,
+                "nik": 88
+              },
+              "leagueGoals": {
+                "daniel": 81,
+                "nik": 101
+              }
+            },
+            {
+              "season": 3,
+              "score": {
+                "daniel": 9,
+                "nik": 8
+              },
+              "winner": "daniel",
+              "leaguePosition": {
+                "daniel": 1,
+                "nik": 2
+              },
+              "leaguePoints": {
+                "daniel": 96,
+                "nik": 90
+              },
+              "leagueGoals": {
+                "daniel": 117,
+                "nik": 104
+              }
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "routes": {
+    "legacy": {
+      "opens": "#legacy",
+      "productBinding": "js/screens.js openLegacy() -> js/optionalModules.js openOptionalModule('legacy') -> showScreen('legacy') -> js/legacy.js renderLegacy()"
+    },
+    "back": {
+      "productBinding": "js/screens.js navigateBackSmart()",
+      "legalTargets": [
+        "dashboard",
+        "mainMenu"
+      ]
+    },
+    "trophyRoom": {
+      "opens": "trophyRoom",
+      "productBinding": "js/optionalModules.js openOptionalModule('trophyRoom')"
+    },
+    "records": {
+      "opens": "careerStatistics",
+      "productBinding": "js/optionalModules.js openOptionalModule('careerStatistics')"
+    },
+    "viewSeasonHistory": {
+      "action": "expand selected Showdown seasons[]",
+      "productBinding": "main js/legacy.js .legacyDetails summary / populateLegacySeasonHistory()"
+    }
+  }
+}
