@@ -172,6 +172,7 @@ Managers are keyed by slot role only: `playerOne = daniel` and `playerTwo = nik`
 | `totalTrophies` per manager | A | `finalizeManagerCareerStats()` computes `leagueTitles + domesticCups + championsLeagues`. | Per career, per manager | Cabinet total; counts wins, not scoring points. |
 | `careerPoints` per manager | A | Legacy equivalent is `manager.totalPoints`, accumulated from each accepted season score by `accumulateRoundStats()`. | Per career, per manager | Primary Trophy Room standings sort/display value. |
 | `seasonWins` per manager | A | Legacy local equivalent is incremented from `round.winner` in `accumulateRoundStats()`. | Per career, per manager | Secondary standings tiebreak/display value. |
+| `showdowns.wins` per manager | A | Main equivalent: `manager.showdownWins` in `calculateCareerAnalytics()`. | Per career, per manager | Powers the required Showdown Champion card/category; it remains separate from §7 `totalTrophies`. |
 | `standings` | A | `calculateCareerAnalytics()` currently sorts legacy managers by Showdown wins, then trophies, then points; `createCareerStandingsTable()` renders that order. | Per career | Contract overrides the legacy order: sort by `careerPoints`, then `seasonWins`, else level/shared rank. |
 | `records[]` | A | `buildCareerRecords()` in `js/analytics.js` builds the legacy local record set. | Per career | Only the five contract record families below. Each item is `{label, manager or "shared", value, ref}`. |
 | `records[].label` | A | Legacy labels are authored in `renderAllTimeRecords()` in `js/trophyRoom.js`. | Per career record | Human-readable record name. |
@@ -227,3 +228,39 @@ The current `main` Trophy Room exposes more legacy analytics than DATA_CONTRACT_
 `careerPoints` and `seasonWins` remain allowed only because §7 defines the standings order using them and §6 defines those career aggregates. Trophy counts remain the four per-manager cabinet fields in §7.
 
 DATA_CONTRACT_V1 §9 also forbids clean sheets, biggest single-match win, European wins other than Champions League, player names/player leaders/photos, match-by-match results, possession and all per-match stats. Top scorer/top assist are season booleans, not player-name statistics, and are not Trophy Room fields.
+
+
+## Screen states and preview frames
+
+Trophy Room is a career-history view. It uses the contract's five states, not a single Showdown's lifecycle status.
+
+| State | Meaning | Rendering rule |
+| --- | --- | --- |
+| `loading` | Provider history read is in flight. | Stable shell only; never present placeholder zeroes as facts. |
+| `empty` | Read succeeded and no counted career history exists. | Daniel first/left, Nik second/right; all four trophy cards remain visible, dark, with `Not won yet`. |
+| `unavailable` | History read failed. | Honest unavailable treatment; no trophy or record values are invented. |
+| `partial` | Some indexed Showdowns are unreadable. | Show readable data plus `coverage.{readable,indexed}`; never label incomplete data "all-time" or complete career history. |
+| `ready` | Counted provider history is readable. | Full cabinets, standings and the five contract record families. |
+
+A generic read error maps to `unavailable`; there is no sixth `error` state. There is no Trophy Room `active` or `completed` state: those are source-Showdown conditions handled by the §6 counting rules. There is no viewer-role variant; Daniel and Nik remain fixed in that order.
+
+### Trophy/category sources
+
+Required categories are `ALL · SHOWDOWN · LEAGUE TITLES · DOMESTIC CUPS · CHAMPIONS LEAGUE`.
+
+- Showdown Champion: per-manager `showdowns.wins` from §6.
+- League Title: `leagueTitles`.
+- Domestic Cup: `domesticCups`.
+- Champions League: `championsLeagues`.
+- `totalTrophies` remains the agreed §7 season-trophy total; Showdown Champion is displayed separately rather than silently changing that field's meaning.
+
+### Preview frames
+
+- TR1 · ready · both managers have trophies. Category `ALL`; fictional provider values; Daniel left/first, Nik right/second; standings plus all five allowed record families.
+- TR2 · empty · new career. All four original trophy cards stay visible at zero, dark, each unwon card saying exactly `Not won yet`; no record holder is invented.
+- TR3 · partial · readable-history values plus visible coverage. If owner review temporarily uses current-Showdown-only data before provider history exists, the only interim copy is exactly `Current Showdown only. Career history is not yet available.`
+- TR4 · ready · category `LEAGUE TITLES`. This replaces the suggested Daniel-only filter: neither live main nor PRODUCT_TRUTH defines a manager-only filter, and both managers must stay comparable. Daniel remains left/first and Nik right/second.
+- TR5 · unavailable. Added because this is a distinct required contract state; no zero values are presented as provider facts.
+- TR6 · loading. Added because this is a distinct required contract state; layout order is reserved but no fake counts or records appear.
+
+All populated preview numbers are fictional, visibly labelled `Preview data`, and must obey DATA_CONTRACT_V1 §0 bounds. No separate `error`, `active`, `completed`, or Daniel-only preview frame exists.
