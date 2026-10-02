@@ -1,0 +1,310 @@
+{
+  "version": "FINAL_WINNER_V1_FIXTURES",
+  "authority": "DATA_CONTRACT_V1.md §0/§4 + main js/sharedFinalReconciliation.js, js/productionSharedFinalReconciliation.js, js/productionSharedTerminalClose.js, js/showdownUI.js, js/screens.js, js/seasonEngine.js",
+  "strings": {
+    "previewLabel": "Preview data",
+    "interimLabel": "Current Showdown only. Career history is not yet available.",
+    "statusTokens": [
+      "loading",
+      "empty",
+      "unavailable",
+      "partial",
+      "ready"
+    ],
+    "completionStates": [
+      "completion-pending",
+      "completed"
+    ],
+    "completionPendingMark": "Completion pending",
+    "finalReconciliation": {
+      "heading": "SHOWDOWN FINAL RECONCILED",
+      "seasonsTemplate": "{acceptedSeasons} OF {totalSeasons} SEASONS ACCEPTED · NO ADDITIONAL SEASON",
+      "winnerTemplate": "{Daniel} {danielTotal} · {Nik} {nikTotal} · {winner}",
+      "readOnlyNote": "FINAL RESULTS ARE READ-ONLY · TERMINAL CLOSE REMAINS A SEPARATE STEP"
+    },
+    "terminalClose": {
+      "readyHeading": "FINAL RESULT READY FOR TERMINAL CLOSE",
+      "readyStatus": "This permanently closes the shared rivalry and exact active private session. Final results remain readable; another season or replacement session cannot resurrect this Showdown.",
+      "closeAction": "CLOSE SHARED SHOWDOWN",
+      "recoveryHeading": "TERMINAL CLOSE OUTCOME PENDING",
+      "recoveryStatus": "Provider acknowledgement was not received. Retry uses the exact same terminal witness and session capability.",
+      "retryAction": "RETRY SAME TERMINAL CLOSE",
+      "blockedHeading": "TERMINAL CLOSE READY WHEN PRIVATE AUTHORITY RETURNS",
+      "blockedStatus": "Final results are preserved. Open or join one fresh exact private session for this rivalry, then refresh Terminal Close.",
+      "closedHeading": "SHARED SHOWDOWN CLOSED",
+      "closedStatus": "TERMINAL · NO NEW SESSION · NO NEW SEASON · FINAL RESULTS REMAIN READ-ONLY"
+    },
+    "completedHub": {
+      "heading": "SHOWDOWN COMPLETE",
+      "danielWinTemplate": "{Daniel} wins the showdown",
+      "nikWinTemplate": "{Nik} wins the showdown",
+      "draw": "The showdown finishes level",
+      "savedToLegacy": "Saved to Legacy",
+      "legacyPending": "Active save retained · Legacy sync pending",
+      "metaTemplate": "{seasonsPlayed} seasons completed · Final score {danielTotal} - {nikTotal} · {archiveState}",
+      "actions": [
+        "VIEW LEGACY",
+        "TROPHY ROOM",
+        "RIVALRY STATISTICS",
+        "NEW SHOWDOWN",
+        "MAIN MENU"
+      ],
+      "handoffAction": "VIEW COMPLETED SHOWDOWN"
+    }
+  },
+  "ids": {
+    "sharedFinalReconciliation": {
+      "panel": "sharedFinalReconciliationPanel",
+      "heading": "sharedFinalReconciliationHeading",
+      "summary": "sharedFinalReconciliationSummary",
+      "winner": "sharedFinalReconciliationWinner",
+      "closeNote": "sharedFinalReconciliationClose"
+    },
+    "terminalClose": {
+      "panel": "sharedTerminalClosePanel",
+      "heading": "sharedTerminalCloseHeading",
+      "summary": "sharedTerminalCloseSummary",
+      "status": "sharedTerminalCloseStatus",
+      "actions": "sharedTerminalCloseActions",
+      "closeAction": "sharedTerminalCloseAction",
+      "retryAction": "sharedTerminalCloseRetry"
+    },
+    "reviewAnchor": {
+      "screen": "seasonEntry",
+      "panel": "seasonReviewPanel",
+      "heading": "seasonReviewHeading",
+      "error": "seasonReviewError"
+    },
+    "completedHub": {
+      "screen": "dashboard",
+      "hub": "completedShowdownHub",
+      "title": "completedShowdownTitle",
+      "result": "completedShowdownResult",
+      "meta": "completedShowdownMeta",
+      "primaryAction": "seasonPrimaryAction"
+    },
+    "seasonSummaryHandoff": {
+      "screen": "seasonSummary",
+      "title": "seasonSummaryTitle",
+      "result": "seasonSummaryResult",
+      "overall": "seasonOverallScore",
+      "action": "nextSeasonAction"
+    }
+  },
+  "frames": {
+    "FW1": {
+      "previewLabel": "Preview data",
+      "note": "Daniel wins; verified Terminal Close",
+      "status": "ready",
+      "state": "completed",
+      "totals": {
+        "daniel": 28,
+        "nik": 23
+      },
+      "winner": "daniel",
+      "margin": 5,
+      "seasonsPlayed": 5,
+      "trophies": {
+        "daniel": {
+          "championsLeague": 2,
+          "leagueTitles": 3,
+          "domesticCups": 1,
+          "total": 6
+        },
+        "nik": {
+          "championsLeague": 1,
+          "leagueTitles": 2,
+          "domesticCups": 2,
+          "total": 5
+        }
+      },
+      "heading": "SHOWDOWN COMPLETE",
+      "resultText": "Daniel wins the showdown",
+      "actions": [
+        "VIEW LEGACY",
+        "TROPHY ROOM",
+        "RIVALRY STATISTICS",
+        "NEW SHOWDOWN",
+        "MAIN MENU"
+      ]
+    },
+    "FW2": {
+      "previewLabel": "Preview data",
+      "note": "Nik wins; verified Terminal Close",
+      "status": "ready",
+      "state": "completed",
+      "totals": {
+        "daniel": 21,
+        "nik": 27
+      },
+      "winner": "nik",
+      "margin": 6,
+      "seasonsPlayed": 5,
+      "trophies": {
+        "daniel": {
+          "championsLeague": 1,
+          "leagueTitles": 2,
+          "domesticCups": 1,
+          "total": 4
+        },
+        "nik": {
+          "championsLeague": 2,
+          "leagueTitles": 3,
+          "domesticCups": 0,
+          "total": 5
+        }
+      },
+      "heading": "SHOWDOWN COMPLETE",
+      "resultText": "Nik wins the showdown",
+      "actions": [
+        "VIEW LEGACY",
+        "TROPHY ROOM",
+        "RIVALRY STATISTICS",
+        "NEW SHOWDOWN",
+        "MAIN MENU"
+      ]
+    },
+    "FW3": {
+      "previewLabel": "Preview data",
+      "note": "Draw; verified Terminal Close",
+      "status": "ready",
+      "state": "completed",
+      "totals": {
+        "daniel": 24,
+        "nik": 24
+      },
+      "winner": "draw",
+      "margin": 0,
+      "seasonsPlayed": 5,
+      "trophies": {
+        "daniel": {
+          "championsLeague": 1,
+          "leagueTitles": 3,
+          "domesticCups": 2,
+          "total": 6
+        },
+        "nik": {
+          "championsLeague": 2,
+          "leagueTitles": 2,
+          "domesticCups": 0,
+          "total": 4
+        }
+      },
+      "heading": "SHOWDOWN COMPLETE",
+      "resultText": "The showdown finishes level",
+      "actions": [
+        "VIEW LEGACY",
+        "TROPHY ROOM",
+        "RIVALRY STATISTICS",
+        "NEW SHOWDOWN",
+        "MAIN MENU"
+      ]
+    },
+    "FW4": {
+      "previewLabel": "Preview data",
+      "note": "Final result reconciled; Terminal Close not yet verified",
+      "status": "ready",
+      "state": "completion-pending",
+      "completionMark": "Completion pending",
+      "totals": {
+        "daniel": 17,
+        "nik": 15
+      },
+      "winner": "daniel",
+      "margin": 2,
+      "seasonsPlayed": 3,
+      "trophies": {
+        "daniel": {
+          "championsLeague": 1,
+          "leagueTitles": 2,
+          "domesticCups": 1,
+          "total": 4
+        },
+        "nik": {
+          "championsLeague": 1,
+          "leagueTitles": 2,
+          "domesticCups": 0,
+          "total": 3
+        }
+      },
+      "heading": "FINAL RESULT READY FOR TERMINAL CLOSE",
+      "terminalStatus": "This permanently closes the shared rivalry and exact active private session. Final results remain readable; another season or replacement session cannot resurrect this Showdown.",
+      "actions": [
+        "CLOSE SHARED SHOWDOWN"
+      ]
+    },
+    "FW5": {
+      "previewLabel": "Preview data",
+      "note": "Same sporting result as FW4 after verified Terminal Close",
+      "status": "ready",
+      "state": "completed",
+      "totals": {
+        "daniel": 17,
+        "nik": 15
+      },
+      "winner": "daniel",
+      "margin": 2,
+      "seasonsPlayed": 3,
+      "trophies": {
+        "daniel": {
+          "championsLeague": 1,
+          "leagueTitles": 2,
+          "domesticCups": 1,
+          "total": 4
+        },
+        "nik": {
+          "championsLeague": 1,
+          "leagueTitles": 2,
+          "domesticCups": 0,
+          "total": 3
+        }
+      },
+      "heading": "SHARED SHOWDOWN CLOSED",
+      "terminalStatus": "TERMINAL · NO NEW SESSION · NO NEW SEASON · FINAL RESULTS REMAIN READ-ONLY",
+      "actions": [
+        "VIEW LEGACY",
+        "TROPHY ROOM",
+        "RIVALRY STATISTICS",
+        "NEW SHOWDOWN",
+        "MAIN MENU"
+      ]
+    }
+  },
+  "routes": {
+    "sharedFinalResult": {
+      "opens": "#seasonEntry with #seasonReviewPanel",
+      "productBinding": "js/productionSharedSeasonResultsRoute.js -> js/productionSharedFinalReconciliation.js + js/productionSharedTerminalClose.js",
+      "note": "No standalone Final Winner route exists on main."
+    },
+    "completedShowdown": {
+      "opens": "#dashboard",
+      "productBinding": "js/seasonEngine.js handleSeasonSummaryAction() and js/screens.js resolveCanonicalShowdownRoute()",
+      "trigger": "#nextSeasonAction = VIEW COMPLETED SHOWDOWN"
+    },
+    "viewLegacy": {
+      "opens": "legacy",
+      "productBinding": "js/showdownUI.js completion hub -> openOptionalModule('legacy')"
+    },
+    "trophyRoom": {
+      "opens": "trophyRoom",
+      "productBinding": "js/showdownUI.js completion hub -> openOptionalModule('trophyRoom')"
+    },
+    "rivalryStatistics": {
+      "opens": "statistics",
+      "productBinding": "js/showdownUI.js completion hub -> openOptionalModule('statistics')"
+    },
+    "newShowdown": {
+      "opens": "#createShowdown",
+      "productBinding": "js/showdownUI.js completion hub -> navigateTo('createShowdown')"
+    },
+    "mainMenu": {
+      "opens": "#mainMenu",
+      "productBinding": "js/showdownUI.js completion hub / centralized smart Back"
+    },
+    "terminalClose": {
+      "action": "CLOSE SHARED SHOWDOWN",
+      "productBinding": "js/productionSharedTerminalClose.js ptcClose()",
+      "retry": "RETRY SAME TERMINAL CLOSE"
+    }
+  }
+}
