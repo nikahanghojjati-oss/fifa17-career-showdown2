@@ -2,12 +2,12 @@
 
 State: IN PROGRESS
 Step: 6 of 7
-Updated: 2026-10-02 22:13 UTC
+Updated: 2026-10-02 23:33 UTC
 Chat: Sol Work mode (2230aaf674be)
 Code branch: gameplay/job-04-renderer-seams
-Head commit: 11867307325a6ad24093c3c4c6e098fd7e8cea1c
-PR: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/322 (open, integration conflicts)
-CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37070727744 (success, exact head 11867307325a6ad24093c3c4c6e098fd7e8cea1c)
+Head commit: 8986bae0e9229b918b3ea988a0045868d2450e50
+PR: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/322 (open, mergeable)
+CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37077871820 (success, exact head 8986bae0e9229b918b3ea988a0045868d2450e50); POS20 https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37077875338 (in progress)
 
 ## Notes
 - Step 1: Job 3 model exists on gameplay/recovery-v1; baseline cfffd4a7d6ce9420262c55aa0484ba0f12a4e069. npm ci exit 0; contracts 100/100; operations 73/73, fail 0. Later merged jobs increased the baseline census above the job's original 97. Public git clone/read works; saving uses the GitHub connector as instructed.
@@ -22,6 +22,8 @@ CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/r
 
 
 - Step 6: Registered seam contract with exactly the prescribed registry entry and two operations edits. Final-head seam 17/17, contracts 100/100, operations 73/73, all emulator matrices PASS; CI https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37070727744. PR #322 open into gameplay/recovery-v1. Completion is BLOCKED on integration conflicts; step 7 not started.
+
+- Step 6 resumed: Lead integration refresh 8986bae0e9229b918b3ea988a0045868d2450e50 preserves all seven seam/renderer/test/cache files byte-for-byte. Seam 17/17 PASS locally; exact-head Gameplay Fast PASS with contracts 101/101 and operations 73/73 plus all composed Rules emulator matrices. PR #322 now mergeable:true. POS20 is green except FULL and REMOTE still running; step 7 waits for those final checks.
 
 ## Self-check
 - PASS Tests first: throwing stub and all required cases saved at https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/commit/db7adf3b18ed44bfc9145c429c4de2671296b547; observed exit 1, Error: 1. Request normalising: not implemented. Final contract PASS (17/17).
