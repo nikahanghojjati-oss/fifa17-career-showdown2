@@ -34,6 +34,17 @@ Reference builds to study:
 - `visual-assets/v10_1/club/` (hand masks: `tools/make_hand_masks.py`, `assets/handmap.json`)
 - `visual-assets/v10_1/tr2/slice-02-plate/` (Transfer War, the first plate build; fonts live in `assets/fonts/`)
 
+## 1b. Five rules from the mockup-fidelity research (read `research/MOCKUP_FIDELITY_REPORT.md`)
+
+1. **Desktop = mockup registration.** At 16:9 the plate is drawn exactly where the mockup has it (`cover`, centred, no extra zoom, no shift). Club broke this (faces scored 0.15–0.24) and that alone made it look unlike the mockup.
+2. **Fully clean plates**, so UI floats on the scene. Panels only where the mockup has panels.
+3. **Titles are brush wordmark images** made from the mockup's own lettering, with real text hidden for screen readers. Live text uses the fonts.
+4. **Mockup objects become art assets** (tile objects, wheel rim, trophies, packs, frames): original transparent WebP, never flat boxes.
+5. **Phone is its own composition**: Daniel and Nik as large cut-outs in the top ~55 % over a portrait stadium, controls in the bottom ~45 %.
+
+Weight budget: first paint ≤ 450 KB on phone, ≤ 900 KB on desktop. Serve WebP with `<picture>` and a phone source; the phone loads the ~1179 px portrait art, never the desktop 2X plate; never ship PNG masters.
+Safari notes: use `svh`/`dvh` for the visible height; `backdrop-filter` needs `-webkit-` and is costly on large areas; keep each decoded image under about 16 megapixels; no `background-attachment: fixed`; measure only after fonts have loaded.
+
 ## 2. The depth sandwich (how characters "stand out of the menu")
 
 A flat background photo with panels on top always looks cheap, because the panel sits in front of the person. In FIFA 17 the person is in front. Build every character screen as five layers:
@@ -94,8 +105,8 @@ Use the shared motion kit (job 16) once it exists. The feel to copy is the FIFA 
 
 ## 6. Phone composition patterns
 
-Desktop is wide: managers on the sides, panels in the middle. A phone is tall and narrow, so recompose:
-- **Face band** at the top (about 30–38 % of 660 px): both faces from the plate, Daniel left, Nik right, title over the gap between them.
+Desktop is wide: managers on the sides, panels in the middle. A phone is tall and narrow, so recompose (each screen has a phone art job that makes the pieces):
+- **Heroes on top** (about 55 % of 660 px): the portrait stadium `ENV_<X>_PHONE_V1` with Daniel (left) and Nik (right) as large cut-outs `OVL_<X>_*_PHONE_V1`, heads fully visible, slightly overlapping the UI below; the brush title between or above them. Positions come from `phonemap.json`.
 - **Content** in the middle: tabs (Daniel / Nik toggle, or section tabs) or a sideways swipe row (Trophy shelf, Legacy cards). Never a long scrolling list.
 - **Primary action** pinned at the bottom inside the safe area (`env(safe-area-inset-bottom)`).
 - Rare extras go behind a "More" or "How it works" pop-up.

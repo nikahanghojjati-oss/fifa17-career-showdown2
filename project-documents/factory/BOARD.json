@@ -341,7 +341,7 @@
    ],
    "type": "image",
    "worker": "GPT-5.6 Sol chat with image generation",
-   "steps": 6,
+   "steps": 7,
    "waits_on_nik": null,
    "needs_claude_look": false
   },
@@ -356,7 +356,7 @@
    ],
    "type": "image",
    "worker": "GPT-5.6 Sol chat with image generation",
-   "steps": 6,
+   "steps": 7,
    "waits_on_nik": null,
    "needs_claude_look": false
   },
@@ -371,7 +371,7 @@
    ],
    "type": "image",
    "worker": "GPT-5.6 Sol chat with image generation",
-   "steps": 6,
+   "steps": 7,
    "waits_on_nik": null,
    "needs_claude_look": false
   },
@@ -386,7 +386,7 @@
    ],
    "type": "image",
    "worker": "GPT-5.6 Sol chat with image generation",
-   "steps": 6,
+   "steps": 7,
    "waits_on_nik": null,
    "needs_claude_look": false
   },
@@ -401,7 +401,7 @@
    ],
    "type": "image",
    "worker": "GPT-5.6 Sol chat with image generation",
-   "steps": 6,
+   "steps": 7,
    "waits_on_nik": null,
    "needs_claude_look": false
   },
@@ -416,7 +416,7 @@
    ],
    "type": "image",
    "worker": "GPT-5.6 Sol chat with image generation",
-   "steps": 6,
+   "steps": 7,
    "waits_on_nik": null,
    "needs_claude_look": false
   },
@@ -485,7 +485,8 @@
    "depends_on": [
     31,
     18,
-    20
+    20,
+    122
    ],
    "type": "build",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
@@ -500,7 +501,8 @@
    "phase": "4 Polish built screens",
    "wave": 7,
    "depends_on": [
-    32
+    32,
+    111
    ],
    "type": "build",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
@@ -519,7 +521,7 @@
    ],
    "type": "review",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
-   "steps": 7,
+   "steps": 8,
    "waits_on_nik": null,
    "needs_claude_look": false
   },
@@ -563,11 +565,13 @@
    "depends_on": [
     14,
     1,
-    18
+    18,
+    123,
+    124
    ],
    "type": "build",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
-   "steps": 6,
+   "steps": 7,
    "waits_on_nik": null,
    "needs_claude_look": false
   },
@@ -593,7 +597,8 @@
    "phase": "4 Polish built screens",
    "wave": 7,
    "depends_on": [
-    37
+    37,
+    112
    ],
    "type": "build",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
@@ -612,7 +617,7 @@
    ],
    "type": "review",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
-   "steps": 7,
+   "steps": 8,
    "waits_on_nik": null,
    "needs_claude_look": false
   },
@@ -650,7 +655,7 @@
   {
    "number": 43,
    "key": "club_faces",
-   "title": "Club: faces, hands and seams",
+   "title": "Club: scene registration, faces, hands and seams",
    "phase": "4 Polish built screens",
    "wave": 3,
    "depends_on": [
@@ -659,7 +664,7 @@
    ],
    "type": "fix",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
-   "steps": 4,
+   "steps": 5,
    "waits_on_nik": null,
    "needs_claude_look": false
   },
@@ -671,7 +676,8 @@
    "wave": 6,
    "depends_on": [
     43,
-    18
+    18,
+    124
    ],
    "type": "build",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
@@ -686,7 +692,8 @@
    "phase": "4 Polish built screens",
    "wave": 7,
    "depends_on": [
-    44
+    44,
+    113
    ],
    "type": "build",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
@@ -705,7 +712,7 @@
    ],
    "type": "review",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
-   "steps": 7,
+   "steps": 8,
    "waits_on_nik": null,
    "needs_claude_look": false
   },
@@ -748,7 +755,8 @@
    "wave": 6,
    "depends_on": [
     1,
-    18
+    18,
+    124
    ],
    "type": "build",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
@@ -763,7 +771,8 @@
    "phase": "4 Polish built screens",
    "wave": 7,
    "depends_on": [
-    49
+    49,
+    114
    ],
    "type": "build",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
@@ -782,7 +791,7 @@
    ],
    "type": "review",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
-   "steps": 7,
+   "steps": 8,
    "waits_on_nik": null,
    "needs_claude_look": false
   },
@@ -844,7 +853,7 @@
    ],
    "type": "review",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
-   "steps": 7,
+   "steps": 8,
    "waits_on_nik": null,
    "needs_claude_look": false
   },
@@ -888,7 +897,8 @@
    "phase": "5 New screens",
    "wave": 7,
    "depends_on": [
-    57
+    57,
+    115
    ],
    "type": "build",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
@@ -907,7 +917,7 @@
    ],
    "type": "review",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
-   "steps": 7,
+   "steps": 8,
    "waits_on_nik": null,
    "needs_claude_look": false
   },
@@ -967,7 +977,8 @@
    "phase": "5 New screens",
    "wave": 7,
    "depends_on": [
-    62
+    62,
+    116
    ],
    "type": "build",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
@@ -986,7 +997,7 @@
    ],
    "type": "review",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
-   "steps": 7,
+   "steps": 8,
    "waits_on_nik": null,
    "needs_claude_look": false
   },
@@ -1046,7 +1057,8 @@
    "phase": "5 New screens",
    "wave": 7,
    "depends_on": [
-    67
+    67,
+    117
    ],
    "type": "build",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
@@ -1065,7 +1077,7 @@
    ],
    "type": "review",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
-   "steps": 7,
+   "steps": 8,
    "waits_on_nik": null,
    "needs_claude_look": false
   },
@@ -1125,7 +1137,8 @@
    "phase": "5 New screens",
    "wave": 7,
    "depends_on": [
-    72
+    72,
+    118
    ],
    "type": "build",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
@@ -1144,7 +1157,7 @@
    ],
    "type": "review",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
-   "steps": 7,
+   "steps": 8,
    "waits_on_nik": null,
    "needs_claude_look": false
   },
@@ -1204,7 +1217,8 @@
    "phase": "5 New screens",
    "wave": 7,
    "depends_on": [
-    77
+    77,
+    119
    ],
    "type": "build",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
@@ -1223,7 +1237,7 @@
    ],
    "type": "review",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
-   "steps": 7,
+   "steps": 8,
    "waits_on_nik": null,
    "needs_claude_look": false
   },
@@ -1268,7 +1282,8 @@
     7,
     23,
     30,
-    18
+    18,
+    124
    ],
    "type": "build",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
@@ -1283,7 +1298,8 @@
    "phase": "5 New screens",
    "wave": 7,
    "depends_on": [
-    82
+    82,
+    115
    ],
    "type": "build",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
@@ -1302,7 +1318,7 @@
    ],
    "type": "review",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
-   "steps": 7,
+   "steps": 8,
    "waits_on_nik": null,
    "needs_claude_look": false
   },
@@ -1362,7 +1378,8 @@
    "phase": "5 New screens",
    "wave": 7,
    "depends_on": [
-    87
+    87,
+    120
    ],
    "type": "build",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
@@ -1381,7 +1398,7 @@
    ],
    "type": "review",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
-   "steps": 7,
+   "steps": 8,
    "waits_on_nik": null,
    "needs_claude_look": false
   },
@@ -1425,7 +1442,9 @@
    "depends_on": [
     9,
     29,
-    18
+    18,
+    124,
+    121
    ],
    "type": "build",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
@@ -1444,7 +1463,7 @@
    ],
    "type": "review",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
-   "steps": 7,
+   "steps": 8,
    "waits_on_nik": null,
    "needs_claude_look": false
   },
@@ -1473,7 +1492,9 @@
    "depends_on": [
     10,
     29,
-    18
+    18,
+    124,
+    121
    ],
    "type": "build",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
@@ -1492,7 +1513,7 @@
    ],
    "type": "review",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
-   "steps": 7,
+   "steps": 8,
    "waits_on_nik": null,
    "needs_claude_look": false
   },
@@ -1718,6 +1739,227 @@
    "steps": 3,
    "waits_on_nik": null,
    "needs_claude_look": true
+  },
+  {
+   "number": 111,
+   "key": "phoneart_HOME",
+   "title": "Phone art: Home",
+   "phase": "3 Art",
+   "wave": 3,
+   "depends_on": [
+    14,
+    1
+   ],
+   "type": "image",
+   "worker": "GPT-5.6 Sol chat with image generation",
+   "steps": 6,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 112,
+   "key": "phoneart_LEAGUE",
+   "title": "Phone art: League",
+   "phase": "3 Art",
+   "wave": 3,
+   "depends_on": [
+    14,
+    1
+   ],
+   "type": "image",
+   "worker": "GPT-5.6 Sol chat with image generation",
+   "steps": 6,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 113,
+   "key": "phoneart_CLUB",
+   "title": "Phone art: Club Assignment",
+   "phase": "3 Art",
+   "wave": 3,
+   "depends_on": [
+    14,
+    1
+   ],
+   "type": "image",
+   "worker": "GPT-5.6 Sol chat with image generation",
+   "steps": 6,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 114,
+   "key": "phoneart_TRANSFER",
+   "title": "Phone art: Transfer War",
+   "phase": "3 Art",
+   "wave": 3,
+   "depends_on": [
+    14,
+    1
+   ],
+   "type": "image",
+   "worker": "GPT-5.6 Sol chat with image generation",
+   "steps": 6,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 115,
+   "key": "phoneart_TR",
+   "title": "Phone art: Trophy Room",
+   "phase": "3 Art",
+   "wave": 3,
+   "depends_on": [
+    14,
+    23
+   ],
+   "type": "image",
+   "worker": "GPT-5.6 Sol chat with image generation",
+   "steps": 6,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 116,
+   "key": "phoneart_CS",
+   "title": "Phone art: Career Statistics",
+   "phase": "3 Art",
+   "wave": 3,
+   "depends_on": [
+    14,
+    24
+   ],
+   "type": "image",
+   "worker": "GPT-5.6 Sol chat with image generation",
+   "steps": 6,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 117,
+   "key": "phoneart_RV",
+   "title": "Phone art: Rivalry Statistics",
+   "phase": "3 Art",
+   "wave": 3,
+   "depends_on": [
+    14,
+    25
+   ],
+   "type": "image",
+   "worker": "GPT-5.6 Sol chat with image generation",
+   "steps": 6,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 118,
+   "key": "phoneart_LG",
+   "title": "Phone art: Legacy (History)",
+   "phase": "3 Art",
+   "wave": 3,
+   "depends_on": [
+    14,
+    26
+   ],
+   "type": "image",
+   "worker": "GPT-5.6 Sol chat with image generation",
+   "steps": 6,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 119,
+   "key": "phoneart_SR",
+   "title": "Phone art: Season Results",
+   "phase": "3 Art",
+   "wave": 3,
+   "depends_on": [
+    14,
+    27
+   ],
+   "type": "image",
+   "worker": "GPT-5.6 Sol chat with image generation",
+   "steps": 6,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 120,
+   "key": "phoneart_SJ",
+   "title": "Phone art: Start / Join",
+   "phase": "3 Art",
+   "wave": 3,
+   "depends_on": [
+    14,
+    28
+   ],
+   "type": "image",
+   "worker": "GPT-5.6 Sol chat with image generation",
+   "steps": 6,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 121,
+   "key": "phoneart_SYS",
+   "title": "Phone art: system stadium portrait",
+   "phase": "3 Art",
+   "wave": 3,
+   "depends_on": [
+    29
+   ],
+   "type": "image",
+   "worker": "GPT-5.6 Sol chat with image generation",
+   "steps": 2,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 122,
+   "key": "art_home_tiles",
+   "title": "Art: Home tile illustrations",
+   "phase": "3 Art",
+   "wave": 2,
+   "depends_on": [
+    0
+   ],
+   "type": "image",
+   "worker": "GPT-5.6 Sol chat with image generation",
+   "steps": 4,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 123,
+   "key": "art_wheel",
+   "title": "Art: League wheel rim",
+   "phase": "3 Art",
+   "wave": 3,
+   "depends_on": [
+    0,
+    1
+   ],
+   "type": "image",
+   "worker": "GPT-5.6 Sol chat with image generation",
+   "steps": 3,
+   "waits_on_nik": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 124,
+   "key": "wordmarks",
+   "title": "Art: brush title wordmarks",
+   "phase": "3 Art",
+   "wave": 2,
+   "depends_on": [
+    0
+   ],
+   "type": "image",
+   "worker": "GPT-5.6 Sol chat with image generation",
+   "steps": 4,
+   "waits_on_nik": null,
+   "needs_claude_look": false
   }
  ]
 }

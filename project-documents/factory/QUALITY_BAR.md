@@ -4,7 +4,7 @@ Nik wants AAA game menus. Think FIFA 17's Career Mode and The Journey: a dark st
 
 Every build job checks itself against this page before it says "done". Every review job scores with it. Nobody passes a screen because "it works". It must **feel** like the mockup.
 
-> This scorecard may be amended by Claude after the "How close to the mockups" research (for example a measured mockup-diff score and separate phone compositions). Always use the version on the branch when your job starts.
+> Updated 2026-10-02 with the mockup-fidelity research (`research/MOCKUP_FIDELITY_REPORT.md`). Realistic target: on desktop the scene is the mockup's own pixels and the whole screen matches about 85–90 %; the rest differs only where live buttons, real data and our own crests go. Phone is its own composition.
 
 ## How to score
 
@@ -25,8 +25,8 @@ Score each criterion 0–5. Write one sentence of evidence for every score (what
 ## The ten criteria
 
 ### 1. Mockup fidelity
-Same composition, same hierarchy, same feel as the mockup at 1366 × 768. Side-by-side with the mockup, a stranger would say "that's the same screen". Title position, panel proportions, where the eye goes first, how much stadium shows. Differences are allowed only where PRODUCT_TRUTH.md demands them.
-- 5: overlay the mockup at 50 % and the big shapes line up within about 2 % of the width.
+Same composition, same hierarchy, same feel as the mockup. **The scene stays exactly where the mockup has it**: at 16:9 the plate is never zoomed or shifted, so Daniel, Nik, hands and stadium are the mockup's own pixels in the mockup's places (other desktop ratios may crop edges, never scale faces more than ±5 %). Title position, panel proportions, where the eye goes first. Differences only where PRODUCT_TRUTH.md demands them.
+- 5: mockup-diff gate passes with margin and the 50 % overlay lines up within about 2 % of the width.
 - 3: right pieces, wrong proportions or spacing.
 
 ### 2. Characters stand out of the menu
@@ -49,13 +49,15 @@ Hands are where AI and cheap compositing fail first. Check every hand.
 - No blown whites on gold, no muddy brown gold. Gold is `--sd-gold-500` family from the shared tokens.
 
 ### 5. Typography and title treatment
-- Screen title in the brush display style (Kaushan Script, gold metallic gradient, slight skew in the **image or title only**, never in form text), with the letter-spaced eyebrow "CAREER MODE SHOWDOWN 17" above and the tagline below.
+- Screen title is a **gold brush wordmark image** (cut from the mockup's own lettering or re-lettered in the same brush style), with the real words as visually-hidden text. Never a block font. Letter-spaced eyebrow "CAREER MODE SHOWDOWN 17" above and the tagline below.
+- No dark box behind text unless the mockup has one there: plates are fully clean, so text floats on the scene.
 - UI text: Barlow / Barlow Condensed, uppercase labels letter-spaced, numbers tabular.
 - Numbers are the hero of data screens: big, gold or white, aligned.
 - No text overflow, no ellipsis on important words, no orphan words in buttons.
 
 ### 6. Panel craft
-- Gold-edged dark glass panels with the Showdown corner cut, consistent radius and edge width from the shared kit.
+- Panels only where the mockup has panels: gold-edged dark glass with the Showdown corner cut from the shared kit. No "cover" panels that exist only to hide plate edges.
+- Every illustrated object in the mockup (trophies, tile objects, wheel rim, packs, frames) is a real art asset, not a flat box or thin icon.
 - Spacing on an 8 px grid. Columns align. Table rows are evenly spaced. Icons are the same visual weight.
 - Primary button: solid gold, black text, one per screen. Secondary: dark with gold outline. Danger actions: hidden behind a menu and a confirm.
 
@@ -71,7 +73,7 @@ Hands are where AI and cheap compositing fail first. Check every hand.
 - `prefers-reduced-motion` and the app's own reduced-motion setting: everything appears with a short fade only.
 
 ### 9. Phone composition
-- 393 × 660 is a **designed** composition, not a squashed desktop: faces still visible (top band), title readable, data in tabs or a swipe row, primary action in thumb reach.
+- 393 × 660 is its **own** composition, not a squashed desktop: top about 55 % holds Daniel (left) and Nik (right) as large cut-outs, heads fully visible, over a portrait stadium, slightly overlapping the UI; bottom about 45 % holds the primary action and the few controls the screen needs; more content goes in tabs or a sheet.
 - No page scroll at 393 × 660 and 360 × 640. At 375 × 553 the primary action is visible.
 - Touch targets ≥ 44 × 44 px. Inputs ≥ 16 px.
 
@@ -94,6 +96,8 @@ Hands are where AI and cheap compositing fail first. Check every hand.
 | H7 | Reduced motion respected | emulate `prefers-reduced-motion: reduce` |
 | H8 | Keyboard: every control reachable with Tab and has a visible focus ring | tab through |
 | H9 | No console errors or failed requests | browser log |
+| H10 | Mockup-diff gate (desktop, screens with a mockup or goal): faces ≥ 0.90, other protected boxes ≥ 0.75, SSIM ≥ plate SSIM − 0.15, ΔE ≤ plate ΔE + 6. A moved scene or drifted colour fails. The numbers are a floor, not the verdict | `python3 visual-assets/v10_1/shared/tools/mockup_diff.py --mockup <mockup> --build <1920×1080 shot> --plate <plate 1X> --platemap <platemap.json> --out <dir>`; commit scores.json, heatmap.jpg, side_by_side.jpg |
+| H11 | Page weight on first paint ≤ 450 KB phone, ≤ 900 KB desktop; WebP via `<picture>`; PNG masters never shipped | browser network log |
 
 ## Review output format
 
@@ -101,5 +105,5 @@ Every review writes `visual-assets/v10_1/<screen>/review/REVIEW_<job>.md` with:
 1. Verdict: **PASS** or **FAIL**.
 2. The scorecard table (criterion, score, evidence sentence).
 3. The hard-gate table.
-4. The compare sheet: mockup and build side by side at 1366 × 768, and the 393 × 660 phone shot (file paths).
+4. The mockup-diff output (scores.json, heatmap, side by side) and the compare sheet: mockup and build side by side at 1366 × 768, and the 393 × 660 phone shot (file paths).
 5. **Fix list**: numbered, each item one exact change (what, where, target value). The fix job does exactly this list, nothing more.
