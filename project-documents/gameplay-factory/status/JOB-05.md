@@ -2,10 +2,10 @@
 
 State: IN PROGRESS
 Step: 5 of 7
-Updated: 2026-10-02 19:36 UTC
+Updated: 2026-10-02 19:38 UTC
 Chat: Sol Work mode (job 5, 82817ee4c652)
 Code branch: gameplay/job-05-active-adapter
-Head commit: 3757530bc05b520a58a8912400e7b3522dc23520
+Head commit: 62f06893de994fa1f86ee19f5e39b2ad0136ab30
 PR:
 CI run:
 
@@ -19,6 +19,8 @@ CI run:
 - Step 4: All 18 contract cases PASS. Adapter verifies provider projections and close witnesses, maps fixed manager roles, hides unpublished rival inputs, and freezes owned copies without changing caller data.
 
 - Step 5: All 19 cases PASS; every shared manager field and score agrees with job 3 for both managers across three accepted active seasons. Sentinel check covers aggregate career input; already-frozen provider projections retain full deep-freeze.
+
+- Step 5: Step 6 in progress: exact registry edits saved. Static-release duplicate-name guard found plain/freeze/context collisions; renamed only adapter helpers. Local contracts now 98/98 and operations pass 73, fail 0. Awaiting exact-head Validate Gameplay Fast on 62f06893de994fa1f86ee19f5e39b2ad0136ab30.
 
 ## Self-check
 
