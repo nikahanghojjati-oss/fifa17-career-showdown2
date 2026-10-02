@@ -263,6 +263,14 @@ Contract §0 requires a partial state to show `coverage`; the build uses the §6
 | `leagueGoals.daniel` | A | `round.playerOne.leagueGoals` in `createSeasonManagerCell()`. | Per season | 0..300. |
 | `leagueGoals.nik` | A | `round.playerTwo.leagueGoals`. | Per season | Same bound. |
 
+### Fixture scoring evidence (preview only)
+
+History §8 does not expose the four scoring booleans, trophy cabinets or margin. To make this truth sheet's fixture arithmetic independently checkable, `fixtures.json.fixtureEvidence.showdowns` carries fictional raw inputs, expected five-part breakdowns, trophy counts and absolute margins, keyed by `{status}:{number}`. These are fixture metadata, not new provider fields or additional Legacy display statistics. Pass `frames` only to the History view model.
+
+The four booleans were authored as one valid fictional scenario for the existing numeric previews, not inferred as historical facts. All repeated cards are checked against that explicit input scenario. League title is derived from position 1. Both top awards share one point; league points/goals share one point. Each title win counts as one trophy. Every season winner is recomputed from score, then position, then league points. Completed/pending Showdown winners use summed points only; active cards have no final outcome. Margin is the absolute difference of summed points, zero for a final draw. Abandoned and unreadable rows remain status-only and have no scoring evidence.
+
+Job 132's Python check covers all nine frames, including every repeated season/card. Its output is recorded in `project-documents/factory/status/JOB-132.md`.
+
 ### What counts, contract §6
 
 - Pending pairing: no seasons and no Showdown outcome count.
