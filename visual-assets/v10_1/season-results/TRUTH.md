@@ -232,3 +232,74 @@ After Shared Season Commit reaches acknowledged revision 3, `js/productionShared
 | `#sharedCanonicalScoringWinner` | id | `Season result: Draw` or `Season winner: {managerName}` |
 
 This layer is authoritative, read-only and appears only after both managers have acknowledged the shared season commit. Its live code stores the fifth breakdown component as `individualAwardsBonus`; the factory data contract renames that display/model field to `awardsBonus`.
+
+
+## Data contract
+
+Authority: `project-documents/factory/DATA_CONTRACT_V1.md`, especially §0 and §3 Season Results. `E` means the fact exists on `main` and only needs an adapter. `A` means Team G must add it.
+
+### Fields allowed on this screen
+
+| Exact contract field | E/A | Source on `main` | Level | Product use |
+| --- | --- | --- | --- | --- |
+| `leaguePosition` | E | `pssrReadForm()` in `js/productionSharedSeasonResults.js`; validated by `ssrNormalizeResult()` in `js/sharedSeasonResults.js` | per season, per manager | number input; also derives League Title and participates in the season tiebreak |
+| `leaguePoints` | E | same functions as above | per season, per manager | number input; performance-bonus trigger and second tiebreak |
+| `leagueGoals` | E | same functions as above | per season, per manager | number input; performance-bonus trigger |
+| `domesticCup` | E | `pssrReadForm()`; `ssrNormalizeResult()` | per season, per manager | yes/no input; 1 point when true |
+| `championsLeague` | E | `pssrReadForm()`; `ssrNormalizeResult()` | per season, per manager | yes/no input; 5 points when true |
+| `topScorer` | E | `pssrReadForm()`; `ssrNormalizeResult()` | per season, per manager | yes/no input; one of the awards-bonus triggers |
+| `topAssist` | E | `pssrReadForm()`; `ssrNormalizeResult()` | per season, per manager | yes/no input; one of the awards-bonus triggers |
+| `breakdown.championsLeague` | E | `calculatePlayerSeasonScore()` in `js/scoring.js`; authoritative equivalent `scBreakdown()` in `js/sharedCanonicalScoring.js` | per season, per manager | computed scoring row |
+| `breakdown.leagueTitle` | E | same scoring functions; derived from `leaguePosition === 1` | per season, per manager | computed scoring row; never a checkbox |
+| `breakdown.domesticCup` | E | same scoring functions | per season, per manager | computed scoring row |
+| `breakdown.performanceBonus` | E | same scoring functions | per season, per manager | max 1 when league points and/or league goals reach 100 |
+| `breakdown.awardsBonus` | E | `calculatePlayerSeasonScore()` exposes `awardsBonus`; authoritative scoring uses `individualAwardsBonus` in `js/sharedCanonicalScoring.js`, renamed by the adapter per contract | per season, per manager | max 1 when top scorer and/or top assist is true |
+| `total` | E | `calculatePlayerSeasonScore()` / `scBreakdown()` | per season, per manager | computed season score, maximum 11; never typed |
+| `winner` | E | `determineSeasonWinner()` in `js/scoring.js`; authoritative `scWinner()` in `js/sharedCanonicalScoring.js` | per season | exact contract values `daniel` / `nik` / `draw`; adapter maps live `playerOne` / `playerTwo` to Daniel / Nik |
+| `tiebreak` | A | no field exists on `main` yet; G-5 adds it. Existing winner functions already encode the rule but do not expose the deciding reason | per season | exact values `none` / `league-position` / `league-points` / `draw`; feeds “How scoring works” |
+| `phase` | E | `projectForRole()` in `js/sharedSeasonResults.js` plus `pssrRenderEntry()` / `pssrRenderReview()` in `js/productionSharedSeasonResults.js`; committed/acknowledged state from `js/productionSharedSeasonCommit.js` | per season within the active Showdown | adapter-normalized workflow phase |
+
+Contract `phase` values are exactly:
+
+* `entering`: this manager has not published; only this manager's inputs are editable/visible.
+* `waiting-for-rival`: this manager published; rival inputs remain sealed.
+* `results-ready`: both published; both managers' inputs are visible and shared commit is pending.
+* `committed`: the season snapshot is committed and acknowledged.
+
+The rival's unpublished inputs are never part of the view model before `results-ready`.
+
+### Screen-state envelope from DATA_CONTRACT_V1 §0
+
+Every factory preview frame also carries `status` with exactly one of:
+
+* `loading`
+* `empty`
+* `unavailable`
+* `partial`
+* `ready`
+
+These are read/view-model states, not replacements for the operational `phase` above. A failed read is `unavailable`, never fake zero/empty data. `partial` must be labelled as partial and must not claim to be all-time/career coverage. The Season Results build must not silently render a ready scoring result while `status` is loading, empty, unavailable or partial.
+
+The contract's exact interim label is:
+
+`Current Showdown only. Career history is not yet available.`
+
+That label is allowed only for an explicit current-Showdown-only owner-review preview before career history is real; DATA_CONTRACT_V1 §0 says it is never a launch state.
+
+### Bounds and manager keys
+
+Fixtures obey DATA_CONTRACT_V1 §0:
+
+* `totalSeasons` is 1, 3, 5 or 10.
+* `leagueId` is one of `premier_league`, `laliga`, `bundesliga`, `serie_a`, `ligue_1`.
+* `leaguePosition` is 1 through the league's team count.
+* `leaguePoints` is 0 through `(teams - 1) × 6`.
+* `leagueGoals` is 0 through 300.
+* the four achievement inputs are booleans.
+* managers are keyed `daniel` and `nik`; Daniel is always first/left.
+
+### Fields explicitly dropped
+
+DATA_CONTRACT_V1 §9 forbids clean sheets, biggest single-match win, European wins other than Champions League, player names, player-based leaders/photos, match-by-match results, possession, and every other per-match stat. `topScorer` and `topAssist` are booleans only, never player names.
+
+No field outside §0 and §3 is added to the Season Results build.
