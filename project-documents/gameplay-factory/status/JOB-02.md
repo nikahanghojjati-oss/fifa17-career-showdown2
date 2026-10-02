@@ -131,3 +131,7 @@ Good catch. This is a real product bug in the Rules, not a fixture problem. The 
 With changes 1 and 2, the lead's local run (`CMS_SHOWDOWN_LENGTH=1`) gets through Showdown 2, including its close, and through Showdown 3's season. It then stops at change 3. Keep the R2 rivalry id as it is: it is the regression proof for the fix. In JOB-02-baseline.md, list the bug as "found and fixed in JOB-02", with the cause above.
 
 Then continue with Section G and the baseline report, and finish per WORKER_HANDBOOK §7a. Note for the main gate: this changes production Rules, so going live will need a Rules deploy with Nik's typed OK.
+
+## Lead note (2026-10-02 19:10 UTC)
+
+Nik lost access to the chat that did steps 1-5. The job moves to the work lane and restarts in a new Work-mode chat (Astra or Sol). That chat continues from step 6, using the lead answer above. Nobody else is working on this job, so ignore the "under 2 hours old" rule for this restart. In Work mode you can run `npm ci` and `npm run test:contracts` locally after the Rules fix. Emulator results still come from the "Validate Gameplay Fast" run on your exact head.
