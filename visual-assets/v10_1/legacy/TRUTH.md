@@ -376,6 +376,18 @@ Mockup authority: directly opened `MOCKUP_LEGACY_V2.png` from the project Files 
 
 The mockup is visual reference only. Live data remains DOM text; no manager name, club, league, score, season number, status or date is baked into the plate.
 
+## Phone
+
+Legacy is a hub screen. Recompose at ≤ 900 px rather than shrinking the desktop grid.
+
+- At 393 × 660 visible Safari area, keep Daniel left/first and Nik right/second, never mirror the art. Use the portrait stage and cut-outs above the controls with both heads visible.
+- Replace the desktop card grid with one sideways swipe row of Showdown cards. Horizontal overflow is confined to that row with scroll snap; it never makes the page scroll vertically or overflow sideways. Swiping and keyboard-accessible previous/next controls select the card; preserve `ui.selectedShowdown`. Show the current card/page indication without inventing data.
+- Convert the side menu to tabs: `LEGACY ARCHIVE`, `TROPHY ROOM`, `RECORDS`. Preserve the documented routes; do not add Transfer History or Challenge Tracker.
+- Pin `VIEW SEASON HISTORY` above the shared bottom navigation, outside the horizontal card scroller. Reserve 56 px plus `env(safe-area-inset-bottom)` for the hub bar; the action must never sit beneath it. Enable it only for a selected readable card with permitted season detail; do not expose seasons for abandoned/unavailable entries.
+- Season detail opens a bounded accessible sheet/disclosure. Long season lists may scroll inside that sheet, with its close control visible and focus returned to the opener; the underlying page stays fixed. No new product action is introduced.
+- Target no page scroll at 393 × 660 and 360 × 640. At 375 × 553, the primary action remains visible without scrolling. Use `svh`/`dvh`, safe-area padding, and ≥ 44 × 44 px touch targets. Remove optional decorative duplicates before reducing readable text.
+- Keep loading/empty/unavailable messages and LG8 partial coverage visible in the content band. Only LG1–LG9 labelled preview data is used during review; this truth fix specifies the layout, and the build/phone jobs must measure it.
+
 ## Open questions
 
 No blocking product question remains for the Legacy truth sheet.
