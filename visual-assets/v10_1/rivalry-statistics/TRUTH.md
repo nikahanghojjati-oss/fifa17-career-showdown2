@@ -347,3 +347,16 @@ DATA_CONTRACT_V1 §10: Standings shows this block with its own layout. Exact fie
 ### Contract fields intentionally available but not promoted into the seven primary rows
 
 The adapter still carries `seasonDraws`, `seasonLosses`, `hundredPointSeasons`, `hundredGoalSeasons`, `topScorerSeasons`, `topAssistSeasons`, `perfectSeasons`, `bestSeasonScore`, and per-season league position/points/goals. They remain model truth for state/details and future approved UI, but the desktop mockup's fixed seven-row comparison rhythm is not expanded to cram them in. Head-to-Head already surfaces draws, and Season-by-Season owns the canonical season sequence.
+
+
+## Phone
+
+This is a hub screen. Recompose for 393 × 660 visible Safari pixels; do not squash the desktop table. Reserve the shared 56 px bottom bar plus `env(safe-area-inset-bottom)` before allocating content height. The same layout must have no page scroll at 360 × 640; at 375 × 553 the Back action remains visible. Larger text / landscape may reflow accessibly as PRODUCT_TRUTH permits.
+
+- Managers occupy the top band over portrait stadium art: Daniel LEFT, Nik RIGHT, both heads fully visible, never mirrored. Start near the craft guide's 55% hero / 45% content split, then reduce the hero band on shorter viewports to protect readable content, the Back action and navigation. Brush title, eyebrow and required Preview data / interim notices stay legible. No face or pointing hand is covered.
+- Head-to-head comes first: current Showdown points and compact Daniel-wins / Nik-wins / draws are the initial visible content. Daniel values always precede Nik values. Partial coverage is visible before these available-subset totals; loading and unavailable substitute their honest notices rather than fake numerals.
+- Use local presentation tabs or an accessible horizontal swipe to select comparison, season history or trophy content; these are ways to view existing data, not new product routes or mutations. Keep hidden panes out of the focus order, retain a visible focus indicator, use 44 × 44 px touch targets and support keyboard selection. Avoid displaying all seven comparison rows and all seasons at once; paginate rows within the selected pane where needed, with semantic labels and no vertical page scroll.
+- Season list uses season tabs or a swipe with one readable season at a time. Header order remains SEASON / Daniel / Nik / WINNER. Indicate selected season and total available seasons. RV7 exposes only season 1 and identifies missing season coverage; it never invents season 2 results. The first-season empty message replaces the list.
+- Trophy content uses a horizontal shelf of original assets and DOM counts. Never add the Showdown Champion token to recorded trophy totals. Transfer unavailability stays visible independently when its row is selected.
+- Keep `BACK TO SHOWDOWN HOME` visible above the reserved bottom bar and safe area. Shared Settings remains in the top corner; no search, profile, ABOUT or duplicate screen-local navigation.
+- Fit acceptance for the later build: measure `scrollHeight <= innerHeight` at 393 × 660 and 360 × 640 after fonts load, Back rectangle fully inside the available area at 375 × 553, and shared navigation unobscured. These are specification requirements, not a claim that this truth-sheet job rendered or passed a phone build.
