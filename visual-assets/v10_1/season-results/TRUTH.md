@@ -361,3 +361,67 @@ The six named workflow frames do not cover the four non-ready values required by
 - `SR10` · `status: unavailable`. Provider read failed; no result values presented as facts.
 
 `SR7`–`SR10` are contract coverage frames, not new gameplay phases. They do not invent new buttons, score rules or publication behaviour.
+
+
+## Mockup reconciliation
+
+Mockup authority: `project-documents/factory/mockups/MOCKUP_SEASON_RESULTS.jpg` at blob `ac20f2a8a9aa6399f25c89b97f77b258dbc5aca9`. It is a 16:9 cinematic visual reference. Product truth, DATA_CONTRACT_V1 and live `main` behaviour override it.
+
+| Mockup element | Product answer |
+| --- | --- |
+| Night stadium, warm floodlights, crowd and gold/black grade | KEEP as visual direction, but use original Showdown stadium art only. No EA/FIFA or press artwork. |
+| `CM 17` top-left brand | KEEP as static Showdown branding. |
+| Desktop top bar `HOME / CAREER / STANDINGS / STATS / RULES / ABOUT` | CHANGE to the shared product bar: `HOME / CAREER / STANDINGS / STATS / RULES` plus settings. DROP `ABOUT`. On Season Results the bar is locked; do not imply HOME is freely actionable. |
+| Search icon | DROP. Product top bar has no search. |
+| Settings gear | KEEP as the shared settings control, subject to the gameplay-screen lock. |
+| Profile/person icon | DROP. Product top bar has no profile destination. |
+| `More Than A Game` handwritten mark | KEEP as decorative brand text only. |
+| Eyebrow `CAREER MODE SHOWDOWN 17` | KEEP as static decorative screen branding. |
+| Small crown above title | KEEP only as original Showdown decorative art, not a real league/club mark. |
+| Gold brush `SEASON RESULTS` title | KEEP as the static visual title treatment. The semantic/live heading remains `SEASON {seasonNumber} SHARED RESULTS` in DOM text; the season number is never baked into the image. |
+| Tagline `TWO MANAGERS · ONE LEGACY` | KEEP as static decorative brand text. |
+| Daniel staged on the LEFT | KEEP position and energetic foreground staging. Daniel is always left. |
+| Daniel football shirt / visible sportswear branding | CHANGE to the approved Daniel look from PRODUCT_TRUTH: charcoal pinstripe suit and open white shirt. Remove the swoosh and every real brand mark. |
+| Daniel handwritten name / `SKILL. VISION. MAGIC.` | KEEP as permitted decorative character branding, but render name/data text in DOM where it functions as identity rather than baking live data into art. |
+| Left banner `FOOTBALL BRINGS US TOGETHER` | KEEP as permitted decorative brand slogan. |
+| Left field slogan `RIVALS MAKE LEGENDS` | KEEP as decorative slogan. |
+| Nik staged on the RIGHT | KEEP position and foreground staging. Nik is always right. |
+| Nik football shirt / `17` shirt number / sportswear treatment | CHANGE to the approved Nik look from PRODUCT_TRUTH: dark suit, black shirt, black tie and wristwatch. Remove shirt number and any real brand mark. |
+| Nik handwritten name / `TACTICS. DISCIPLINE. PROGRESS.` | KEEP as permitted decorative character branding, with functional identity text in DOM. |
+| Right banner `DIFFERENT MANAGERS SAME PASSION` | KEEP as decorative slogan. |
+| Right field slogan `SAME GAME HIGHER STAKES` | KEEP as decorative slogan. |
+| Central `SEASON SCORING SYSTEM` panel | KEEP the hierarchy and placement. The contents must be product-true and live DOM text, not baked into the plate. |
+| Trophy illustration inside scoring panel | CHANGE to original Showdown trophy art only. No real competition trophy image. |
+| `Champions League Winner +5` | KEEP rule: Champions League = 5. |
+| `League Title +3` | KEEP rule, but League Title is derived from `leaguePosition === 1`; it is never a separate user checkbox. |
+| `Domestic Cup Winner +1` | KEEP rule: domestic cup = 1. |
+| `100 League Points and/or 100 League Goals +1` with shared performance-bonus note | KEEP rule: either or both triggers produce one shared `performanceBonus`, maximum 1. |
+| `Top Scorer and/or Top Assist +1` with shared awards-bonus note | KEEP rule: either or both triggers produce one shared `awardsBonus`, maximum 1. |
+| `Maximum Season Score 11` | KEEP exactly. |
+| Daniel entry card on left / Nik entry card on right | KEEP two-manager visual grammar, Daniel first/left and Nik second/right. In `entering` only the viewer's inputs are live and the rival is sealed; both full result cards appear only from `results-ready`. |
+| Crown marks in manager card headers | KEEP only as original Showdown decorative marks, never real club/league crests. |
+| Large manager names `DANIEL` / `NIK` | KEEP identities and order, but as DOM text, never baked into a background/plate. |
+| Card subheading `ENTER YOUR SEASON RESULTS` | CHANGE to the live shared privacy instruction: `Enter only {managerName}'s FIFA 17 season result. Your rival enters their own result privately on their device. Nothing on this screen writes to the canonical local Save.` |
+| League Position shown as a dropdown | CHANGE to a number input. Current `main` uses `type="number"`, `inputmode="numeric"`; bounds are 1 through league team count. |
+| League Points shown as a dropdown | CHANGE to a number input with `inputmode="numeric"`; contract bounds apply. |
+| League Goals shown as a dropdown | CHANGE to a number input with `inputmode="numeric"`; contract bounds 0 through 300 apply. |
+| Domestic Cup Winner checkbox | KEEP with live wording and boolean field `domesticCup`. |
+| Champions League Winner checkbox | KEEP with live wording and boolean field `championsLeague`. |
+| Top Scorer checkbox | KEEP with live wording and boolean field `topScorer`. |
+| Top Assist checkbox | KEEP with live wording and boolean field `topAssist`. |
+| Daniel mockup values position 1 / 98 points / 87 goals plus Cup, CL and Top Assist checked | KEEP only as reference facts if used in a preview, as live DOM data. Their computed score is 10, not the mockup's 9: CL 5 + title 3 + cup 1 + awards 1. |
+| Daniel `SEASON SCORE 9` | CHANGE. The number 9 is mathematically wrong. The user never types a score. Current shared `main` does not expose an authoritative season total during private entry; canonical total is shown read-only only after the shared commit is acknowledged and scoring reconciles. If those exact mockup facts are scored, the result is 10. |
+| Nik mockup values position 2 / 91 points / 72 goals with Top Scorer checked | KEEP only as reference facts if used in a preview, as live DOM data. Their computed score is 1. |
+| Nik `SEASON SCORE 1` | CHANGE from an entry-time score tile to the same read-only canonical timing used for Daniel. The value 1 is arithmetically correct for those mockup facts, but it is not typed or trusted. |
+| Gold `REVIEW SEASON` primary button | CHANGE to the exact shared live label `REVIEW MY SEASON RESULT`. |
+| Trophy icon inside Review button | DROP. The real action is the text button; do not introduce a trophy asset into a control that does not need one. |
+| Review-button right chevron | KEEP only as non-semantic decoration if it does not create a new action or accessible name. |
+| `BACK TO SHOWDOWN HOME` secondary button | KEEP exact live wording and shared smart-Back behaviour. |
+| Back-button left chevron | KEEP as non-semantic navigation decoration. |
+| Bottom-left `CM 17 | CAREER MODE SHOWDOWN 17` footer branding | KEEP as static Showdown branding. |
+| Bottom-right `FOOTBALL BRINGS US TOGETHER` / crown | KEEP as static decorative Showdown branding using original art. |
+| Every displayed manager name, input number, checkbox state, score, season number, winner, status or tiebreak | CHANGE to live DOM text/state from the view model or labelled fixtures. Never bake it into the plate. |
+| Any real club crest, league logo, competition trophy, player photo or EA/FIFA artwork not explicitly present in this table | DROP / REPLACE with original Showdown assets. The only player-photo exception in the whole product is Loading's credited Marco Reus image, not this screen. |
+| Any mockup stat outside DATA_CONTRACT_V1 §3 | DROP. The Season Results build uses only the seven inputs, computed breakdown/total, winner, tiebreak and phase. |
+
+The mockup's central composition, manager staging, gold/black hierarchy and scoring-panel prominence are visual targets. Its data-entry mechanics, top navigation, wardrobes, trophy art and score timing are not product authority.
