@@ -463,6 +463,16 @@
         "^tests/contracts/shared-setup-no-dropped-taps-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/shared-career-analytics-contracts.cjs",
+      "patterns": [
+        "^js/sharedCareerAnalytics\\.js$",
+        "^js/sharedHistoryConvergence\\.js$",
+        "^tests/support/career-fixture-helpers\\.cjs$",
+        "^tests/contracts/shared-career-analytics-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
