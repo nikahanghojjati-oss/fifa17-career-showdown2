@@ -10,20 +10,20 @@
   const TRANSIENT=Object.freeze(["idle","starting","joining","continuing","retrying-link","abandoning","pair-link-retry"]);
   const FAILED=Object.freeze(["signed-out","unavailable","error","save-required"]);
   const COUNTED=Object.freeze(["active","completion-pending","completed"]);
-  function plain(x){return Boolean(x)&&typeof x==="object"&&!Array.isArray(x);}
+  function asdPlain(x){return Boolean(x)&&typeof x==="object"&&!Array.isArray(x);}
   // The projection is borrowed by identity. Freeze only objects this adapter owns.
-  function freeze(value,borrowed=null){if(value===borrowed)return value;if(value&&typeof value==="object"&&!Object.isFrozen(value)){Object.values(value).forEach(v=>freeze(v,borrowed));Object.freeze(value);}return value;}
+  function asdFreeze(value,borrowed=null){if(value===borrowed)return value;if(value&&typeof value==="object"&&!Object.isFrozen(value)){Object.values(value).forEach(v=>asdFreeze(v,borrowed));Object.freeze(value);}return value;}
   function manager(role){return role==="playerOne"?"daniel":role==="playerTwo"?"nik":role==="draw"?"draw":null;}
   function managerId(id){return MANAGERS.includes(id)?id:null;}
   function pairValues(a,b){return {daniel:a,nik:b};}
   function finalFor(p){const playerOne=p.managerRecords.playerOne.totalPoints,playerTwo=p.managerRecords.playerTwo.totalPoints;return {totals:{playerOne,playerTwo},winner:playerOne>playerTwo?"playerOne":playerTwo>playerOne?"playerTwo":"draw"};}
   function inspect(snapshot){
-    const s=plain(snapshot)?snapshot:{},pair=plain(s.pair)?s.pair:null,identity=plain(s.identity)?s.identity:null;
-    const close=plain(s.terminalClose)?s.terminalClose:null;
+    const s=asdPlain(snapshot)?snapshot:{},pair=asdPlain(s.pair)?s.pair:null,identity=asdPlain(s.identity)?s.identity:null;
+    const close=asdPlain(s.terminalClose)?s.terminalClose:null;
     const rid=typeof pair?.rivalryId==="string"?pair.rivalryId:close?.phase==="CLOSED"&&typeof close.rivalryId==="string"?close.rivalryId:null;
     const viewer=identity?.status==="ready"&&managerId(identity.managerId)||managerId(pair?.managerId);
-    const multi=plain(s.multiSeason)&&s.multiSeason.ok===true&&s.multiSeason.authoritative===true&&s.multiSeason.rivalryId===rid&&plain(s.multiSeason.state)?s.multiSeason:null;
-    const history=plain(s.history)&&s.history.rivalryId===rid?s.history:null;
+    const multi=asdPlain(s.multiSeason)&&s.multiSeason.ok===true&&s.multiSeason.authoritative===true&&s.multiSeason.rivalryId===rid&&asdPlain(s.multiSeason.state)?s.multiSeason:null;
+    const history=asdPlain(s.history)&&s.history.rivalryId===rid?s.history:null;
     let p=null,invalid=false,witness=null,zero=false;
     if(history){
       try{
@@ -55,7 +55,7 @@
     else if(p&&p.acceptedSeasons===p.totalSeasons&&(!multi||multi.phase==="SHOWDOWN_COMPLETE")){
       classification="completion-pending";
       const final=s.finalReconciliation;
-      if(plain(final)&&final.rivalryId===rid&&final.phase==="FINAL_SEASON_RECONCILED"){
+      if(asdPlain(final)&&final.rivalryId===rid&&final.phase==="FINAL_SEASON_RECONCILED"){
         try{
           const verified=Final.verifyProjection(final),expected=finalFor(p);
           if(verified.acceptedRevisionKey!==p.acceptedRevisionKey||verified.managerTotals.playerOne!==expected.totals.playerOne||verified.managerTotals.playerTwo!==expected.totals.playerTwo||verified.winner!==expected.winner)throw new Error("FINAL_AUTHORITY_MISMATCH");
@@ -91,14 +91,14 @@
     return v;
   }
   function inputs(result){
-    if(!plain(result))return null;
+    if(!asdPlain(result))return null;
     if(INPUTS.slice(0,3).some(key=>!Number.isInteger(result[key]))||INPUTS.slice(3).some(key=>typeof result[key]!=="boolean"))return null;
     return Object.fromEntries(INPUTS.map(key=>[key,result[key]]));
   }
   function breakdown(result){const s=result.scoring;return {championsLeague:s.championsLeague,leagueTitle:s.leagueTitle,domesticCup:s.domesticCup,performanceBonus:s.performanceBonus,awardsBonus:s.individualAwardsBonus,total:s.total};}
   function results(c,options){
-    const source=plain(c.s.seasonResults)&&c.s.seasonResults.rivalryId===c.rid?c.s.seasonResults:null;
-    const requested=plain(options)?options.season:null;
+    const source=asdPlain(c.s.seasonResults)&&c.s.seasonResults.rivalryId===c.rid?c.s.seasonResults:null;
+    const requested=asdPlain(options)?options.season:null;
     const season=requested??source?.seasonNumber??c.multi?.state.activeSeason??null;
     const v={status:"loading",season:Number.isInteger(season)?season:null,phase:null,viewerRole:c.viewer,inputs:{daniel:null,nik:null},breakdown:null,winner:null,tiebreak:null};
     const role=c.pair?.managerRole;
@@ -137,13 +137,13 @@
     return {indexStatus,showdowns,currentShowdownOnly:true};
   }
   function fallback(){return {s:{},pair:null,rid:null,viewer:null,multi:null,p:null,witness:null,classification:"unavailable",zero:false};}
-  function context(s){try{return inspect(s);}catch(_error){return fallback();}}
-  function buildActiveShowdownViews(s){const c=context(s);try{return freeze({classification:c.classification,home:home(c),rivalry:rivalry(c),seasonResults:results(c),finalWinner:winner(c),careerInput:career(c)},c.p);}catch(_error){const f=fallback();return freeze({classification:f.classification,home:home(f),rivalry:rivalry(f),seasonResults:results(f),finalWinner:winner(f),careerInput:career(f)});}}
-  function classifyCurrentShowdown(s){return context(s).classification;}
+  function asdContext(s){try{return inspect(s);}catch(_error){return fallback();}}
+  function buildActiveShowdownViews(s){const c=asdContext(s);try{return asdFreeze({classification:c.classification,home:home(c),rivalry:rivalry(c),seasonResults:results(c),finalWinner:winner(c),careerInput:career(c)},c.p);}catch(_error){const f=fallback();return asdFreeze({classification:f.classification,home:home(f),rivalry:rivalry(f),seasonResults:results(f),finalWinner:winner(f),careerInput:career(f)});}}
+  function classifyCurrentShowdown(s){return asdContext(s).classification;}
   function homeView(s){return buildActiveShowdownViews(s).home;}
   function rivalryView(s){return buildActiveShowdownViews(s).rivalry;}
   function finalWinnerView(s){return buildActiveShowdownViews(s).finalWinner;}
   function careerInput(s){return buildActiveShowdownViews(s).careerInput;}
-  function seasonResultsView(s,options={}){const c=context(s);try{return freeze(results(c,options));}catch(_error){return freeze(results(fallback()));}}
+  function seasonResultsView(s,options={}){const c=asdContext(s);try{return asdFreeze(results(c,options));}catch(_error){return asdFreeze(results(fallback()));}}
   return Object.freeze({buildActiveShowdownViews,classifyCurrentShowdown,homeView,rivalryView,seasonResultsView,finalWinnerView,careerInput});
 });
