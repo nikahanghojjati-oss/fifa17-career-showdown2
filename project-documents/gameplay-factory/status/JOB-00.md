@@ -1,8 +1,8 @@
 # Status · JOB-00 · Factory smoke test (chat lane)
 
-State: IN PROGRESS
+State: BLOCKED
 Step: 4 of 6
-Updated: 2026-10-02 08:19 UTC
+Updated: 2026-10-02 08:26 UTC
 Chat: normal GPT-5.6 Sol chat
 Code branch: gameplay/job-00-smoke
 Head commit: d8d905aa43d4eb77ea3a2af599ea3b4bd0ef3178
@@ -14,7 +14,10 @@ CI run:
 - Step 2: Factory text save YES. Created project-documents/gameplay-factory/smoke/hello.md on factory/gameplay-v1.
 - Step 3: Code-branch text save YES at gameplay/job-00-smoke, commit d8d905a. Draft PR YES: #314 into gameplay/recovery-v1.
 - Step 4: Python YES (Python 3.13.5). Node YES (v22.16.0). npm registry reachable NO: "npm view playwright version" timed out. Java YES (openjdk version "21.0.11" 2026-04-21).
+- Step 5 BLOCKED: Python http.server on 127.0.0.1:8765 started and localhost fetch succeeded. Chromium is installed at /usr/bin/chromium, but two screenshot attempts hung and produced no PNG. Attempt 1 hit the 45-second tool timeout. Attempt 2 used /usr/bin/timeout 15s and exited RC=124 with repeated Chromium D-Bus connection errors; no screenshot file was written. Per handbook, stopped after the same step failed twice for the same reason.
 
 ## Self-check
+- Not run because step 5 is blocked.
 
 ## Blocked question
+Should Job 0 record Chromium screenshots as NO and continue to the binary-save/verdict step, or should the normal-chat smoke use a different approved Chromium capture method?
