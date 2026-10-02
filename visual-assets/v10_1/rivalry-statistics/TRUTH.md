@@ -211,3 +211,51 @@ DATA_CONTRACT_V1 says anything not listed for this screen is dropped. Therefore 
 `Transfer Signings` survives only through the contract transfer summary and only when `transfers.status` makes that history available.
 
 DATA_CONTRACT_V1 §9 also forbids clean sheets, biggest single-match win, non-Champions-League European wins, player names, player-based leaders/photos, match-by-match results, possession and any per-match stat. Top scorer and top assist are boolean season achievements, never player names.
+
+
+## Screen states and preview frames
+
+### State model
+
+There are two independent axes.
+
+Top-level data-read state (binding DATA_CONTRACT_V1 §0):
+- `loading`: request in flight; no stale values presented as current.
+- `empty`: successful read with no recorded rivalry seasons yet.
+- `unavailable`: read failed. This is the contract's error state; do not invent a sixth `error` status.
+- `partial`: some readable data exists and some is missing; show `coverage`.
+- `ready`: all data required for the current view was read successfully.
+
+Transfer-history state:
+- `transfers.status` independently uses `loading | empty | unavailable | partial | ready`.
+- Transfer unavailable/partial never suppresses non-transfer points, season history or trophies.
+- Transfer unavailable is labelled unavailable, never rendered as 0 signings.
+
+Showdown lifecycle (orthogonal to read status):
+- active / in progress: `season` is within the configured Showdown and fewer than `totalSeasons` seasons may be completed.
+- completed: all configured seasons are closed; scores and manager records are final for that Showdown.
+- first season / nothing played: valid successful `empty` state for rivalry results while league, clubs and season plan may already exist.
+
+Viewer role:
+- The screen can be opened by Daniel or Nik, but the content order does not change with viewer role.
+- Daniel is always first/left and Nik second/right. No private inputs are revealed and no role-specific rivalry stat row is hidden.
+- Therefore preview frames do not need mirrored Daniel-view and Nik-view duplicates; the same frame is valid for both viewers.
+
+### Required preview frames
+
+| Frame | Product situation | Top-level status | Transfer status | What the preview must prove |
+| --- | --- | --- | --- | --- |
+| RV1 | Active Showdown mid-way | `ready` | `ready` | Current season/total, Daniel-left/Nik-right score, completed season rows, recorded manager totals and available transfer summary. Fictional preview data only. |
+| RV2 | Completed Showdown | `ready` | `ready` | Final score, all configured seasons present, final manager record/trophy counts, winner/draw treatment. Fictional preview data only. |
+| RV3 | First season, nothing played yet | `empty` | `empty` | League/clubs/season plan may exist, but no completed season row. Use honest empty copy rather than fabricated career history. Fictional preview setup only. |
+| RV4 | Rivalry data readable, transfer history unavailable | `ready` | `unavailable` | All non-transfer stats remain visible; transfer area explicitly says unavailable and never shows 0 signings. Fictional preview data only. |
+
+Additional designed states not assigned a dedicated numbered frame in this truth job:
+- top-level `loading`
+- top-level `unavailable` (the read-error presentation)
+- top-level `partial` with a visible `coverage` value
+- independent transfer `loading` and `partial`
+
+Reason for adjustment from the job's wording: `error` is not a sixth contract status. DATA_CONTRACT_V1 defines a failed read as `unavailable`; the build should still have explicit error copy/presentation, but its machine state remains `unavailable`.
+
+Every owner-review preview carries `previewLabel: "Preview data"`. Until model-true provider history replaces the samples, the preview view model also uses the exact interim label `Current Showdown only. Career history is not yet available.`
