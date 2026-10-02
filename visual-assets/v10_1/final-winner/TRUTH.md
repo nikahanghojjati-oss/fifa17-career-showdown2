@@ -221,7 +221,7 @@ Required treatment:
 | `ready` + `completion-pending` | Show the authoritative result and a visible `Completion pending` mark. Terminal Close is not yet verified. |
 | `ready` + `completed` | Show the same authoritative result as final/closed. Terminal Close is verified. |
 
-The five named owner-preview frames below use fictional values and must display `Preview data`. They deliberately keep Daniel first/left and Nik second/right.
+The nine named owner-preview frames below use fictional values and must display `Preview data`. They deliberately keep Daniel first/left and Nik second/right.
 
 ### FW1 · Daniel wins
 
@@ -285,6 +285,19 @@ FW5 intentionally uses the same sporting result as FW4 so the preview isolates t
 - `seasonsPlayed`: 3
 - Daniel trophies: Champions League 1, league titles 2, domestic cups 1, total 4
 - Nik trophies: Champions League 2, league titles 1, domestic cups 0, total 3
+
+### FW6–FW9 · Required read states
+
+Every frame displays `Preview data`. New state words are stored as `{ "text": "…", "source": "new" }` in fixtures.json; existing product strings remain exact.
+
+| Frame | Status | Heading (new copy) | Message (new copy) | Available facts |
+| --- | --- | --- | --- | --- |
+| FW6 | `loading` | Loading final result | Resolving the shared Showdown result. Scores and trophies will appear when confirmed. | No scores, winner, margin, seasons, completion assertion or trophy counts. Neutral shell; no crown. |
+| FW7 | `empty` | No final result yet | No completed Showdown result is available to reveal. | Successful read with no result. No result facts or crown. |
+| FW8 | `unavailable` | Final result unavailable | The shared Showdown result could not be read. Missing values are not zero. | Failed read. No invented zeroes, result facts or crown; no invented retry control. |
+| FW9 | `partial` | Final result partially available | Final totals are confirmed. Nik’s domestic cup count and trophy total are unavailable. | FW5 totals 17–15, winner Daniel, margin 2, 3 seasons and verified completion remain readable. Daniel trophies 1/2/1/4; Nik CL 2 and league titles 1 only. Nik domestic cups and total are omitted, never zero. |
+
+FW9 has `coverage = {readable: 1, indexed: 1}` for the one current Showdown, plus `missingFields` naming the two unreadable trophy fields. Complete Showdown coverage does not imply complete field coverage. It never claims career or all-time coverage. Its winner is allowed only because both authoritative totals are available; if either total is missing, withhold winner, margin, crown and winner lighting. FW6–FW8 omit `state` because no final result exists to classify. Their empty actions lists prevent invented operations. All state messages describe only the read outcome, never the rival’s unpublished progress.
 
 ### Why these frames match the real product
 
@@ -350,3 +363,4 @@ The only contract field marked A is the normalized §4 `state` supplied by Team 
 - Daniel is first/left and Nik second/right in truth, ids and every fixture frame.
 - No fixture frame references a real club crest, league logo, real competition trophy, player image or other image asset.
 - Every JOB-007 commit changes only `visual-assets/v10_1/final-winner/TRUTH.md`, `visual-assets/v10_1/final-winner/fixtures.json`, or `project-documents/factory/status/JOB-007.md`.
+

@@ -269,6 +269,97 @@
         "NEW SHOWDOWN",
         "MAIN MENU"
       ]
+    },
+    "FW6": {
+      "previewLabel": "Preview data",
+      "note": "Fictional owner-review state; no final-result facts are available.",
+      "status": "loading",
+      "heading": {
+        "text": "Loading final result",
+        "source": "new"
+      },
+      "message": {
+        "text": "Resolving the shared Showdown result. Scores and trophies will appear when confirmed.",
+        "source": "new"
+      },
+      "actions": []
+    },
+    "FW7": {
+      "previewLabel": "Preview data",
+      "note": "Fictional owner-review state; no final-result facts are available.",
+      "status": "empty",
+      "heading": {
+        "text": "No final result yet",
+        "source": "new"
+      },
+      "message": {
+        "text": "No completed Showdown result is available to reveal.",
+        "source": "new"
+      },
+      "actions": []
+    },
+    "FW8": {
+      "previewLabel": "Preview data",
+      "note": "Fictional owner-review state; no final-result facts are available.",
+      "status": "unavailable",
+      "heading": {
+        "text": "Final result unavailable",
+        "source": "new"
+      },
+      "message": {
+        "text": "The shared Showdown result could not be read. Missing values are not zero.",
+        "source": "new"
+      },
+      "actions": []
+    },
+    "FW9": {
+      "previewLabel": "Preview data",
+      "note": "Confirmed final totals and completion; only part of trophy attribution is readable.",
+      "status": "partial",
+      "state": "completed",
+      "totals": {
+        "daniel": 17,
+        "nik": 15
+      },
+      "winner": "daniel",
+      "margin": 2,
+      "seasonsPlayed": 3,
+      "trophies": {
+        "daniel": {
+          "championsLeague": 1,
+          "leagueTitles": 2,
+          "domesticCups": 1,
+          "total": 4
+        },
+        "nik": {
+          "championsLeague": 2,
+          "leagueTitles": 1
+        }
+      },
+      "heading": {
+        "text": "Final result partially available",
+        "source": "new"
+      },
+      "terminalStatus": "TERMINAL · NO NEW SESSION · NO NEW SEASON · FINAL RESULTS REMAIN READ-ONLY",
+      "actions": [
+        "VIEW LEGACY",
+        "TROPHY ROOM",
+        "RIVALRY STATISTICS",
+        "NEW SHOWDOWN",
+        "MAIN MENU"
+      ],
+      "coverage": {
+        "readable": 1,
+        "indexed": 1
+      },
+      "message": {
+        "text": "Final totals are confirmed. Nik’s domestic cup count and trophy total are unavailable.",
+        "source": "new"
+      },
+      "missingFields": [
+        "trophies.nik.domesticCups",
+        "trophies.nik.total"
+      ]
     }
   },
   "routes": {
