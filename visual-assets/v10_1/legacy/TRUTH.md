@@ -208,7 +208,71 @@ Factory conclusion for step 2: all local backup, delete, import, restore and res
 
 ## Data contract
 
-_To be completed in step 3._
+Authority: `project-documents/factory/DATA_CONTRACT_V1.md`, especially §0 (all-screen states and bounds), §6 (what counts), §8 (History / Legacy) and §9 (dropped data). E/A below uses that contract's legend: E = exists on `main` as the provider-ready field; A = Team G must add it. Legacy history fields are A even where a local-storage analogue exists today.
+
+Managers are keyed by role, never account identity: `playerOne → daniel` and `playerTwo → nik`. Daniel is always rendered first/left.
+
+### Screen-level fields
+
+| Contract field | E/A | Source on `main` / adapter evidence | Level | Legacy use |
+| --- | --- | --- | --- | --- |
+| `status` = `loading | empty | unavailable | partial | ready` | A | No equivalent honest five-state model exists in `js/legacy.js`; `loadLegacyShowdowns()` in `js/storage.js` currently collapses a parse failure to `[]`. Team G/provider adapter must supply the state. | Screen | Drives the whole view. Never translate a failed read into empty/zero. |
+| `interimLabel` | A | Not present in the live Legacy renderer; supplied by the interim adapter under contract §0. | Screen | Exact value when used: `Current Showdown only. Career history is not yet available.` This is owner-review only, never a launch state. |
+
+Contract §0 requires a partial state to show coverage. §8 does not define a History-specific structured `coverage.*` field, so this truth sheet does not invent one. The visual may show the provider's supplied readable/indexed coverage once Team G exposes it; until then fixtures label partiality without fabricating counts.
+
+### `showdowns[]` fields from contract §8
+
+| Exact contract field | E/A | Local `main` analogue / source function | Level | Display rule |
+| --- | --- | --- | --- | --- |
+| `showdowns[].number` | A | Current local cards use `showdown.name` in `createLegacyShowdownCard()`, `js/legacy.js`; no provider History number exists yet. | Per Showdown | Card identifier, displayed as `Showdown #{number}` in the factory mockup language. |
+| `showdowns[].status` | A | Local Legacy archives only completed saves through `archiveShowdown()` in `js/storage.js`; richer statuses are absent. | Per Showdown | Closed set: `completed`, `in-progress`, `completion-pending`, `abandoned`, `unavailable`. Abandoned is status-only, no score or seasons. |
+| `showdowns[].leagueId` | A | Local completed save carries `showdown.selectedLeague.id`; `createLegacyShowdownCard()` currently renders `selectedLeague.name`. | Per Showdown | Use our original league mark/name mapping; never a real league logo. |
+| `showdowns[].clubs.daniel` | A | Local `showdown.clubs.playerOne` rendered by `createLegacyShowdownCard()`. | Per Showdown | Daniel side, always first/left; use original code-drawn crest. |
+| `showdowns[].clubs.nik` | A | Local `showdown.clubs.playerTwo` rendered by `createLegacyShowdownCard()`. | Per Showdown | Nik side, always second/right; use original code-drawn crest. |
+| `showdowns[].seasonsPlayed` | A | Local card derives `rounds.length` in `createLegacyShowdownCard()`. | Per Showdown | Number of accepted/countable seasons available for that history row. |
+| `showdowns[].totalSeasons` | A | Local save schema carries the configured total as `totalRounds`; current Legacy card does not expose the contract name. | Per Showdown | Must be one of 1, 3, 5 or 10. |
+| `showdowns[].totals.daniel` | A | Local `showdown.score.playerOne`, read by `getArchivedShowdownWinner()` and `createLegacyShowdownCard()`. | Per Showdown | Card score left value: total Showdown points, not wins/trophies. |
+| `showdowns[].totals.nik` | A | Local `showdown.score.playerTwo`, same functions. | Per Showdown | Card score right value: total Showdown points. |
+| `showdowns[].winner` | A | Local winner derived by `getArchivedShowdownWinner()`, `js/legacy.js`, from the two Showdown point totals. | Per Showdown | `daniel`, `nik` or `draw`; final winner uses total points only. |
+| `showdowns[].seasons[]` | A | Local archived `showdown.rounds[]`; rendered lazily by `populateLegacySeasonHistory()` / `createLegacySeasonRow()`. | Per Showdown collection | Expanded by VIEW SEASON HISTORY only when the Showdown status permits season detail. |
+
+### `showdowns[].seasons[]` fields, shape from contract §5
+
+| Exact contract field | E/A in History | Local `main` analogue / source function | Level | Display rule |
+| --- | --- | --- | --- | --- |
+| `season` | A | `round.roundNumber` in `createLegacySeasonRow()`, `js/legacy.js`. | Per season | Season number. |
+| `score.daniel` | A | `getLegacyScoring(round.playerOne).total` in `createLegacySeasonRow()`. | Per season | Computed season score, max 11. |
+| `score.nik` | A | `getLegacyScoring(round.playerTwo).total`. | Per season | Computed season score, max 11. |
+| `winner` | A | Local `round.winner`; also read by `buildRivalryAnalytics()` / season analytics in `js/analytics.js`. | Per season | `daniel`, `nik` or `draw`. |
+| `leaguePosition.daniel` | A | `round.playerOne.leaguePosition` in `createSeasonManagerCell()`. | Per season | 1..league team count. |
+| `leaguePosition.nik` | A | `round.playerTwo.leaguePosition`. | Per season | Same bound. |
+| `leaguePoints.daniel` | A | `round.playerOne.leaguePoints` in `createSeasonManagerCell()`. | Per season | 0..(`teams − 1`) × 6. |
+| `leaguePoints.nik` | A | `round.playerTwo.leaguePoints`. | Per season | Same bound. |
+| `leagueGoals.daniel` | A | `round.playerOne.leagueGoals` in `createSeasonManagerCell()`. | Per season | 0..300. |
+| `leagueGoals.nik` | A | `round.playerTwo.leagueGoals`. | Per season | Same bound. |
+
+### What counts, contract §6
+
+- Pending pairing: no seasons and no Showdown outcome count.
+- Active: accepted/acknowledged seasons count toward career totals; no Showdown outcome yet.
+- Final result reconciled with Terminal Close pending: all accepted seasons count; no completed Showdown outcome yet; show `completion-pending`.
+- Closed with verified Terminal Close: all accepted seasons count and exactly one Showdown outcome counts.
+- Abandoned (closed without Terminal Close): no seasons count, even seasons previously shown; no outcome counts; History may show only the status row.
+- Unreadable: invent nothing; the screen becomes `partial`.
+
+### Bounds and IDs, contract §0
+
+- `totalSeasons`: 1, 3, 5 or 10.
+- `leagueId`: `premier_league`, `laliga`, `bundesliga`, `serie_a`, `ligue_1`.
+- League sizes: 20 except Bundesliga 18.
+- `leaguePosition`: 1..teams.
+- `leaguePoints`: 0..(`teams − 1`) × 6.
+- `leagueGoals`: 0..300.
+
+### Explicitly dropped, contract §9
+
+Do not show clean sheets, biggest single-match win, European wins other than Champions League, player names, player-based leaders/photos, match-by-match results, possession or any per-match stat. `topScorer` and `topAssist` are yes/no season facts, not player names. The current local Legacy's transfer-release suffix is also excluded from this screen because §8 does not list transfer history in the History view model; transfer availability belongs to its own contract path.
 
 ## Screen states and preview frames
 
