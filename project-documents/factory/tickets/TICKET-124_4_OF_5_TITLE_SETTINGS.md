@@ -2,14 +2,15 @@
 
 Image 4 of 5 for job 124. One image only.
 
-1. Open a **new chat in ChatGPT outside any project** (not in Showdown visual).
+1. Open a **ChatGPT Temporary Chat**: start a new chat outside any project, then tap the dashed-circle icon at the top right. A Temporary Chat uses no memory and no chat history, so other chats cannot leak into the picture.
 2. Attach this one file only: **STYLE_BRUSH_TITLE.png** ([download](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/v1-wtt5ye/project-documents/factory/tickets/attach/STYLE_BRUSH_TITLE.png)).
 3. Paste the prompt below exactly. If ChatGPT offers to change it, reply: `No, use my prompt exactly.`
 4. Check the picture:
    - it says exactly SETTINGS, check letter by letter
    - the same brush gold style as the attached picture
    - nothing else: no other words, no logos, no background picture
-5. If it passes, download it and drop it into Claude's factory thread with the words `124-TITLE_SETTINGS`. If it fails, close that chat and start again in a new chat (up to 3 tries). Never send a picture that fails.
+   - Save only the picture this Temporary Chat just made. Never take one from the Images library or from another chat.
+5. If it passes, download it and drop it into Claude's factory thread with the words `124-TITLE_SETTINGS`. If it fails, close that chat and start again in a new Temporary Chat (up to 3 tries). Never send a picture that fails.
 
 Prompt:
 

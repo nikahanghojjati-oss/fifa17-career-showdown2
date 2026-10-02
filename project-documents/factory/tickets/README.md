@@ -1,6 +1,6 @@
 # Image tickets (fresh ChatGPT chat, outside the project)
 
-Image jobs never run inside the ChatGPT project **Showdown visual**. Each ticket below makes **one** image. Run it in a **plain new chat outside any project**, then drop the image into Claude's factory thread with the ticket's code (for example `19` or `122-TILE_HISTORY`). Claude checks it, saves it and finishes the job.
+Image jobs never run inside the ChatGPT project **Showdown visual**. Each ticket below makes **one** image. Run it in a **ChatGPT Temporary Chat** (new chat outside any project, then the dashed-circle icon at the top right; it uses no memory and no chat history). Save only the picture that chat just made, never one from the Images library. Then drop the image into Claude's factory thread with the ticket's code (for example `19` or `122-TILE_HISTORY`). Claude checks it, saves it and finishes the job.
 
 Run at most two tickets at once. A ticket's job number is the same number as on the board.
 

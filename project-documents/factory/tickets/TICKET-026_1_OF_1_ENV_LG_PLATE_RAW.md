@@ -2,7 +2,7 @@
 
 Image 1 of 1 for job 26. One image only.
 
-1. Open a **new chat in ChatGPT outside any project** (not in Showdown visual).
+1. Open a **ChatGPT Temporary Chat**: start a new chat outside any project, then tap the dashed-circle icon at the top right. A Temporary Chat uses no memory and no chat history, so other chats cannot leak into the picture.
 2. Attach this one file only: **GUIDE_LG_PLATE.png** ([download](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/v1-wtt5ye/project-documents/factory/tickets/attach/GUIDE_LG_PLATE.png)).
 3. Paste the prompt below exactly. If ChatGPT offers to change it, reply: `No, use my prompt exactly.`
 4. Check the picture:
@@ -12,7 +12,8 @@ Image 1 of 1 for job 26. One image only.
    - no new or extra people
    - the repainted parts blend in: no visible box edge, smear or colour step
    - same wide 16:9 picture, not cropped
-5. If it passes, download it and drop it into Claude's factory thread with the words `26`. If it fails, close that chat and start again in a new chat (up to 3 tries). Never send a picture that fails.
+   - Save only the picture this Temporary Chat just made. Never take one from the Images library or from another chat.
+5. If it passes, download it and drop it into Claude's factory thread with the words `26`. If it fails, close that chat and start again in a new Temporary Chat (up to 3 tries). Never send a picture that fails.
 
 Prompt:
 
