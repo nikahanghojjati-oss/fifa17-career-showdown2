@@ -58,3 +58,151 @@ Authority: `main` @ `2de237391e17c7de2c6deb606b102b68ee640212` (r51), plus `proj
 ### Internal-only ids that must stay out of the player-facing visual
 
 `#saveLibraryProductPanel`, `#sparkConnectedAccountPanel`, `#sparkPrivatePairingPanel` and `#sparkConnectedRivalryPanel` are explicitly hidden and tagged `data-product-surface="internal"` by `js/onlinePlayerIdentity.js`. Factory Settings must not promote these engineering/recovery panels into the normal screen.
+
+
+## Live buttons and visible strings
+
+Normal online Settings is the player-facing modal after `js/onlinePlayerIdentity.js` applies its containment rules. The Offline App recovery panel, Save Library recovery panel and provider engineering panels exist in the DOM but are hidden; they are not part of the player-facing visual.
+
+### Modal shell
+
+| Kind | Exact product text / behaviour |
+| --- | --- |
+| Eyebrow | `CAREER MODE SHOWDOWN` |
+| Heading | `SETTINGS` |
+| Close button | visible glyph `×`; aria-label `Close Settings`; closes Settings and restores focus |
+| Footer button | `DONE`; closes Settings and restores focus |
+
+### Account panel
+
+Inserted by `js/onlinePlayerIdentity.js::renderOnlineSettings()`.
+
+| State | Exact visible text |
+| --- | --- |
+| Eyebrow | `ACCOUNT` |
+| Title, no selected manager | `DANIEL & NIK` |
+| Title, Daniel | `WELCOME DANIEL` |
+| Title, Nik | `WELCOME NIK` |
+| Description | `Your player identity and this browser.` |
+| Row label | `PLAYER` |
+| Player value | `Not selected`, `Daniel` or `Nik` |
+| Row label | `DEVICE` |
+| Device value | `Ready` or `Not ready` |
+
+Account actions are stateful and are the only buttons this panel may expose:
+
+- signed out: `SIGN IN WITH GOOGLE`
+- choose-manager: `DANIEL · PLAYER ONE` and `NIK · PLAYER TWO`
+- offline / error / device-error: `TRY AGAIN`
+- registered account/device: `FORGET THIS DEVICE`
+
+Daniel is always the first manager choice.
+
+### Application panel
+
+| Kind | Exact product text |
+| --- | --- |
+| Eyebrow | `APPLICATION` |
+| Title | `CAREER MODE SHOWDOWN` |
+| Description | `Daniel and Nik's two-manager FIFA 17 Career Mode rivalry companion, built for the connected Showdown experience.` |
+| Row | `APPLICATION VERSION` → `v1.9.1` on current main (`APP_VERSION = "1.9.1"`) |
+| Row | `BUILD` → `1.9.1-r51` on current main (meta `app-asset-revision`) |
+| Row | `CAREER DATA` → `Automatic Showdown storage` |
+| Row | `PLAY MODE` → `Daniel vs Nik · two devices` |
+| Update button | normally `UPDATE TO LATEST VERSION`; becomes `APPLY READY UPDATE` when a verified worker is waiting |
+| Default status | `Updates keep your current Showdown and player identity.` |
+
+Update-status / notice strings that can replace the default status or appear as an app notice are copied from `js/offlineApp.js`:
+
+- `This browser does not support the application update service.`
+- `Connect to the internet before checking for the latest Career Mode Showdown version.`
+- `Checking for the latest Career Mode Showdown version…`
+- `Latest verified version is being applied.`
+- `A verified update is ready to apply.`
+- `The latest application update is still downloading. Keep this page open and press Update to Latest Version again in a moment.`
+- `You are already using the latest available Career Mode Showdown version.`
+- error fallback: `The latest version could not be checked right now.`
+- unsafe/busy boundary: `Update is ready, but an application operation is still in progress. Finish it and return to Home or Showdown Home before updating.`
+- unsafe route boundary: `Update is ready. Return to Home or Showdown Home before applying it so unsaved form work is never discarded.`
+
+### Motion & Feedback panel
+
+| Kind | Exact product text |
+| --- | --- |
+| Eyebrow | `ACCESSIBILITY` |
+| Title | `MOTION & FEEDBACK` |
+| Description | `Follow the device by default, force non-essential motion to be minimized, and control the optional menu confirmation cue.` |
+| Effective badge | `STANDARD` or `REDUCED` |
+| Row | `DEVICE PREFERENCE` → `Standard motion` or `Reduced motion` |
+| Row | `EFFECTIVE APP MOTION` → `Standard motion` or `Reduced motion` |
+| Radiogroup aria-label | `Application motion preference` |
+| Choice | `FOLLOW DEVICE` |
+| Choice description | `Use the browser or operating-system accessibility preference.` |
+| Choice | `REDUCE MOTION` |
+| Choice description | `Always minimize menu transitions, League Wheel delay and Club Reveal theatrics.` |
+| Feedback label | `MENU CLICK FEEDBACK` |
+| Feedback description | `A short original confirmation cue. It stays silent while Home media is playing and never blocks navigation.` |
+| Switch text | `ON` or `OFF` |
+| Switch aria-label | `Menu click feedback on` or `Menu click feedback off` |
+
+Exact notices from these controls:
+
+- `Motion preferences are unavailable in this browser session.`
+- `Reduced motion is enabled.`
+- `Motion now follows your device preference.`
+- `Menu feedback preferences are unavailable in this browser session.`
+- `Menu click feedback is enabled.`
+- `Menu click feedback is muted.`
+
+### Showdown Data panel
+
+| Kind | Exact product text / state |
+| --- | --- |
+| Eyebrow | `CAREER DATA` |
+| Title | `SHOWDOWN DATA` |
+| Description | `Delete a broken current Showdown safely or open History & Backup. Starting over closes only the current Showdown connection; your player identity and registered device stay ready.` |
+| Row label | `CURRENT SHOWDOWN` |
+| Current value, active | `{active.name or "Unnamed Showdown"} · {active.status or "Saved"}` |
+| Current value, none | `None` |
+| Row label | `HISTORY` |
+| History value | `{n} completed showdown` when n = 1; otherwise `{n} completed showdowns` |
+| Destructive button, active only | `DELETE CURRENT SHOWDOWN` |
+| Route button | `OPEN HISTORY & BACKUP` |
+| Note, active | `Delete Current Showdown closes this Showdown connection for both players before removing this device's current local copy. Player identity, registered device, completed history and app settings are kept.` |
+| Note, none | `No current Showdown is stored on this device. Completed history, backup export and full reset remain available under History & Backup.` |
+
+Delete confirmation (with live showdown name substituted):
+
+`Delete the current "{name}" Showdown and start over? This closes the current Showdown connection for both players, removes this device's current local Showdown, and keeps your player identity, registered device, Legacy history and app settings. This cannot be undone.`
+
+Delete success notice:
+
+`Deleted the current "{name}" Showdown and closed its connection. Your player identity, registered device, Legacy history and app settings were kept.`
+
+Delete failure prefix:
+
+`The current Showdown was not deleted. {error message or "No saved data was changed."}`
+
+Other exact route/error strings from this panel:
+
+- `Data Management could not be opened.`
+- `Showdown storage is unavailable in this session.`
+- `Showdown storage could not be verified.`
+- `The Showdown connection service is unavailable.`
+- `Safe Showdown restart is unavailable in this build.`
+- `The online Showdown connection was not closed, so the local copy was kept.`
+- `The current Showdown could not be verified safely.`
+- `The active Showdown changed after you confirmed deletion. Nothing was deleted. Review the current Showdown and confirm again.`
+- `The online Showdown was closed, but this device could not remove its local copy. Retry Delete Current Showdown; no new connection will be created.`
+
+### Product-truth addition required for the factory Settings rebuild
+
+Current `main` does not yet repeat the Loading credit inside Settings. `PRODUCT_TRUTH.md §6` and `DATA_CONTRACT_V1.md §10` deliberately add it here, while OWNER-4 keeps the credit on Loading as well.
+
+Exact required credit:
+
+`Marco Reus photo: Tim Reckmann · CC BY 2.0 · Cropped for display`
+
+- `Tim Reckmann` link: `https://www.flickr.com/photos/foto_db/16204330530/`
+- `CC BY 2.0` link: `https://creativecommons.org/licenses/by/2.0/`
+- The Settings copy is not a replacement for the Loading-screen credit.
