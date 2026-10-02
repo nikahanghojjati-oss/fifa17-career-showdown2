@@ -164,3 +164,61 @@ All frames visibly say `Preview data`. Codes are live DOM text, never image pixe
 | `SJ5` connected/paired | `status=ready`; `pairing.state=paired`; `session.state=active` | Both connected; no pairing code; START CAREER. Session management is secondary in More. |
 
 Additional QA coverage: `loading`, `partial`, `unavailable`, pair retry/recovery-required, and session `revoked`, `closed`, `expired`. These supplement rather than replace SJ1-SJ5.
+
+
+## 5. Mockup audit
+
+Image opened directly: `MOCKUP_START_JOIN.png`. The mockup is a visual reference only; live product behaviour and `PRODUCT_TRUTH.md` override it.
+
+| Mockup element | Product answer |
+| --- | --- |
+| Full-screen night stadium, black/gold grade, floodlights | KEEP as visual composition. It must remain original Showdown art, not EA/FIFA or press imagery. |
+| Daniel portrait on the left | KEEP as is. Daniel is always LEFT and must never be mirrored. |
+| Nik portrait on the right | KEEP as is. Nik is always RIGHT and must never be mirrored. |
+| Handwritten `Daniel` plus `SKILL. VISION. MAGIC.` | KEEP as is. Decorative manager-brand text is allowed. |
+| Handwritten `Nik` plus `TACTICS. DISCIPLINE. PROGRESS.` | KEEP as is. Decorative manager-brand text is allowed. |
+| Left stadium banner `FOOTBALL BRINGS US TOGETHER` | KEEP as decorative brand copy. |
+| Right stadium banner `DIFFERENT MANAGERS SAME PASSION` | KEEP as decorative brand copy. |
+| Left lower plaque `RIVALS BUILD LEGACIES` | KEEP as decorative brand copy. |
+| Right lower plaque `MORE THAN A GAME` | KEEP as decorative brand copy. |
+| Top-left CM17/crown brand block | KEEP as Showdown branding only; no real league, club or EA/FIFA mark may replace it. |
+| Top navigation `HOME / CAREER / STANDINGS / STATS / RULES / ABOUT` | CHANGE to the binding five tabs `HOME / CAREER / STANDINGS / STATS / RULES`. ABOUT is removed and its information belongs in Settings. |
+| Top-bar search icon | DROP because the real product has no search action. |
+| Top-bar settings icon | KEEP with product behavior: opens existing Settings. |
+| Top-bar profile/person icon | DROP because the binding navigation has no profile button. Identity stays in the real connection flow/settings. |
+| Top-right handwritten `More Than A Game` | KEEP as decorative brand copy. |
+| Eyebrow `CAREER MODE [crown] SHOWDOWN 17` | KEEP with Showdown-owned crown/wordmark treatment only. |
+| Brush title `PRIVATE REMOTE JOINING` | CHANGE to live product wording for this factory screen: `CONNECT PLAYERS` for connection setup; state-specific live headings such as `CAREER READY` may replace it when the product reaches that state. Do not keep implementation jargon as the fixed screen title. |
+| Subtitle `PRIVATE SESSION • EXACT CAPABILITY ONLY` | CHANGE to plain live product copy. Do not expose `exact capability` jargon. The setup may use `Daniel and Nik must both be connected before the career begins.` where that live state applies. |
+| Large gold-edged central glass panel | KEEP as the primary live DOM container. It is presentation only; codes, states, names and actions remain DOM text/controls. |
+| Panel close `×` in top-right | CHANGE to the real Start / Join Back behavior. The factory screen is a routed hub screen, not a fake dismiss-only overlay; Back returns through `navigateBackSmart` (normally Home). |
+| Left card laptop icon | KEEP as a generic, original connection/start icon if redrawn in the shared icon system. |
+| Left heading `HOST PRIVATE SESSION` | CHANGE to role-aware live action wording. Daniel's established start path uses `START A SHOWDOWN` / `CREATE CODE FOR NIK`; do not make remote-session jargon the primary label. |
+| Left explanatory text `Create a private session and share the code with your friend.` | CHANGE to the plainer live pairing meaning. When a code exists, use exact live copy such as `Send this code to Nik. It is needed only once.` |
+| Left gold button `HOST PRIVATE SESSION` | CHANGE to the real Daniel action for the current state: `START A SHOWDOWN`, `CREATE CODE FOR NIK`, `NEW CODE`, or the relevant exact live label. Only an enabled real action may be primary. |
+| Right card people icon | KEEP as a generic, original join/connection icon if redrawn in the shared icon system. |
+| Right heading `JOIN PRIVATE SESSION` | CHANGE to live product wording `JOIN DANIEL'S SHOWDOWN` for Nik's established join path. |
+| Right explanatory text `Enter the session code from your friend to join their session.` | CHANGE to exact live wording from the pairing flow, including `NIK ENTERS THE CODE DANIEL SENDS` where appropriate. |
+| Join-code text field | KEEP with product behavior. It is a real DOM input, at least 16 px on phone, and its value is never baked into the plate. |
+| Input placeholder `session_…` | CHANGE by layer/state. Persistent pairing uses exact live placeholder `Paste Daniel's code`; remote-session tooling may retain `session_…` only when that real action is surfaced. |
+| Right button `JOIN PRIVATE SESSION` | CHANGE to the real join action `JOIN DANIEL'S SHOWDOWN` on the established pairing path. |
+| Section heading `CURRENT PAGE-MEMORY SESSION` | CHANGE to a plain current-connection/status heading. Do not expose `page-memory` jargon. |
+| Database/cylinder icon beside current session | CHANGE to a neutral original connection/status icon if used; it must not imply a stored career/history record that the product does not have. |
+| Helper `Use the code below on the other device.` | KEEP WITH PRODUCT WORDING: use the exact live pairing instructions for the current state, not a generic invented sentence. |
+| Large code value `session_a0710e7c5d` | KEEP as a live DOM value only when the current user is allowed to see a real host code. Never bake a sample or real code into imagery. |
+| Copy icon beside code | KEEP with real `COPY CODE` behavior and clipboard feedback. |
+| Green `OPEN` state plus dot | KEEP WITH PRODUCT WORDING/state. Render the actual contract/session state; do not guess a state while loading or unavailable. |
+| `Ready for a partner to join.` status sentence | CHANGE to exact live state copy, for example `Send this code to Nik. It is needed only once.` when the pairing state is waiting for Nik. |
+| `COPY CODE` button | KEEP as a real action when a visible code exists. |
+| `REFRESH / READ` button | CHANGE by layer: pairing uses exact `CHECK STATUS`; remote-session management may use exact `REFRESH / READ` only when that existing session action is surfaced. |
+| `REVOKE OPEN SESSION` button | CHANGE: move into one `More` menu. It remains a real session action and requires a confirm step in the factory UI. |
+| `CLOSE SESSION` button | CHANGE: move into the same `More` menu and require a confirm step. |
+| `FORGET CODE` button | CHANGE: move into the same `More` menu and require a confirm step. |
+| Lock icon + `Private exact-capability session. No public discovery.` | CHANGE to plain words. Use `Only someone with this code can join.` rather than protocol jargon; no public-discovery promise needs implementation language. |
+| Bottom-left `CM 17 | CAREER MODE SHOWDOWN 17` | KEEP as decorative footer branding. |
+| Bottom-center crown + `FOOTBALL BRINGS US TOGETHER.` | KEEP as decorative footer branding. |
+| Bottom-right `TWO MANAGERS. ONE LEGACY.` | KEEP as decorative footer branding. |
+| Any code, revision, role, expiry time, session id or state shown in the mockup | KEEP only as live DOM data when the real state exposes it. Never bake it into the image and never invent a value for production. |
+| Any mockup-only button or icon with no live behavior | DROP. The build may expose only actions listed in the live product / contract. |
+
+The mockup's private-session layout is therefore retained as a visual composition reference, not as product authority. The factory Start / Join screen must present the established Daniel-starts / Nik-joins journey first, keep the private-session layer behavior available where the real app uses it, and hide destructive session controls behind one confirmed `More` menu.
