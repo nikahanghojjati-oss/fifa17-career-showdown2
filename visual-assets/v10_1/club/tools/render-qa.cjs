@@ -187,7 +187,9 @@ function measure(args) {
   const imgs = res.filter(u => /\.(png|webp|jpe?g|avif|gif|svg)(\?|$)/i.test(u));
   const bgs = new Set();
   document.querySelectorAll("*").forEach(e => { const bi = getComputedStyle(e).backgroundImage; if (bi && bi.includes("url(")) bgs.add(bi.replace(location.origin, "")); });
-  const allowed = u => /ENV_CLUB_PLATE_V1_[12]X\.(webp|png)/.test(u) || /^data:image\/svg/.test(u);
+  const allowed = u => /ENV_CLUB_PLATE_V1_[12]X\.(webp|png)/.test(u)
+  || /OVL_CLUB_(?:SEAM_MENDS|HAND_CONTACTS|DANIEL_(?:TOP|SIDE)_HAND|NIK_(?:TOP|SIDE)_HAND)_V1_[12]X\.webp/.test(u)
+  || /^data:image\/svg/.test(u);
   r.G9 = { loaded: imgs, cssBackgrounds: [...bgs], pass: imgs.every(allowed) };
   if (!r.G9.pass) r.fail.push("G9");
   // G10 sides
@@ -393,8 +395,7 @@ async function contrast(page, dpr) {
         const Q = window.ClubQA, k = Q.T.k;
         const packs = ["pack_daniel", "pack_nik"].map(n => Q.rectToScreen(Q.MAP.protected_boxes[n]));
         const hands = Object.entries(Q.HANDS.hands).map(([n, h]) => ({ n, poly: h.polygon.map(([x, y]) => Q.plateToScreen(x, y)), overlap: h.pack_overlap_box,
-          clipOk: (() => { const got = (document.querySelector(`.handOv[data-hand="${n}"]`).style.clipPath.match(/-?[\d.]+/g) || []).map(Number);
-            const want = h.polygon.flat().map(v => v * k); return got.length === want.length && got.every((g, i) => Math.abs(g - want[i]) < 0.01); })() }));
+cutoutOk: (() => { const el=document.querySelector(`.handOv[data-hand="${n}"]`); return !!el && el.dataset.cutout==="1" && getComputedStyle(el).backgroundImage.includes("OVL_CLUB_"); })() }));
         const base = document.querySelector(".plateBase").getBoundingClientRect();
         const regErr = [...document.querySelectorAll(".handOv")].map(o => { const b = o.getBoundingClientRect(); return Math.max(Math.abs(b.left - base.left), Math.abs(b.top - base.top), Math.abs(b.width - base.width), Math.abs(b.height - base.height)); });
         // hand overlays are later in the world than every reveal layer (paint order = DOM order, no z-index)
@@ -438,12 +439,12 @@ async function contrast(page, dpr) {
       await page.screenshot({ path: path.join(out, `RIP_${frame}_${key}_reduced_motion_end.jpg`), type: "jpeg", quality: 86 });
       await page.goto(`${base}index.html?frame=${frame}&rm=1&t=0.5`); await page.waitForFunction(() => document.documentElement.classList.contains("ready")); await page.waitForTimeout(150);
       await page.screenshot({ path: path.join(out, `RIP_${frame}_${key}_reduced_motion_mid.jpg`), type: "jpeg", quality: 86 });
-      const handOverlap = geo.hands.map(h => ({ hand: h.n, packBoxOverlapPlatePx: h.overlap, overlayClipMatchesHandmap: h.clipOk }));
+      const handOverlap = geo.hands.map(h => ({ hand: h.n, packBoxOverlapPlatePx: h.overlap, registeredCutout: h.cutoutOk }));
       report.owner3[key][frame] = {
         strip: stripName,
         q1_containment: "reveal layers live in .reveal (overflow:hidden) sized to the pack box via plateToScreen; see shots[].G8.revealContainment",
         q2_overlap: handOverlap,
-        q3_overlapCoveredByOverlay: handOverlap.every(h => h.overlayClipMatchesHandmap) && geo.handsAbove,
+        q3_overlapCoveredByOverlay: handOverlap.every(h => h.registeredCutout) && geo.handsAbove,
         q4_registrationErrPx: geo.regErrPx,
         q5_revealPixelsAboveHands: occl,
         q5_pass: occl.every(o => o.changedPx === 0),

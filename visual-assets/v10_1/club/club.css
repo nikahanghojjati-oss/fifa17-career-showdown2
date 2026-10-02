@@ -253,7 +253,7 @@ main { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
 }
 
 /* evidence-only modes */
-.plateOnly .covers, .plateOnly main, .plateOnly .reveal, .plateOnly .handOv, .plateOnly #topHeader, .plateOnly footer { display: none !important; }
+.plateOnly .covers, .plateOnly .seamMend, .plateOnly .handContact, .plateOnly main, .plateOnly .reveal, .plateOnly .handOv, .plateOnly #topHeader, .plateOnly footer { display: none !important; }
 .qa-noreveal .reveal { display: none !important; }
 .qa-notext #clubWheelScreen *, .qa-notext #topHeader *, .qa-notext footer * { color: transparent !important; -webkit-text-fill-color: transparent !important; text-shadow: none !important; }
 .qa-notext #clubWheelScreen h2, .qa-notext .clubVs strong { background: none !important; filter: none !important; }

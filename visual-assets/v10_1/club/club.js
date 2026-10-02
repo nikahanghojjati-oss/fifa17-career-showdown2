@@ -147,6 +147,10 @@
     const world = $("#world");
     world.innerHTML = "";
     el("div", "plateBase", world);
+    // JOB-043: transparent, tone-matched seam repairs are registered to the same full plate.
+    // They never enter protected faces, packs or hand polygons.
+    const seamMend = el("div", "seamMend plateDup", world);
+    seamMend.style.backgroundImage = "image-set(url(assets/OVL_CLUB_SEAM_MENDS_V1_1X.webp) 1x, url(assets/OVL_CLUB_SEAM_MENDS_V1_2X.webp) 2x)";
     // intake-zone covers (desktop and phone): dark glass shapes that the live UI sits on
     worldSvg("covers", world).id = "covers";
     // pack reveal per side
@@ -189,10 +193,20 @@
       const flap = el("div", "rvFlap plateDup", inner);
       r.els = { wrap, inner, dark, hole: holeS, edge, burst, crest, flap };
     });
-    // exact original-pixel hand overlays (duplicate plate layer clipped to the traced hands), above the reveal
-    Object.entries(HANDS.hands).forEach(([name, h]) => {
-      const d = el("div", "handOv plateDup", world); d.dataset.hand = name;
-    });
+    // JOB-043: the derived contact shadow paints on the pack below the fingers.
+const contact = el("div", "handContact plateDup", world);
+contact.style.backgroundImage = "image-set(url(assets/OVL_CLUB_HAND_CONTACTS_V1_1X.webp) 1x, url(assets/OVL_CLUB_HAND_CONTACTS_V1_2X.webp) 2x)";
+const handAsset = {
+hand_daniel_top: "OVL_CLUB_DANIEL_TOP_HAND_V1",
+hand_daniel_side: "OVL_CLUB_DANIEL_SIDE_HAND_V1",
+hand_nik_top: "OVL_CLUB_NIK_TOP_HAND_V1",
+hand_nik_side: "OVL_CLUB_NIK_SIDE_HAND_V1",
+};
+Object.entries(HANDS.hands).forEach(([name]) => {
+const d = el("div", "handOv plateDup", world); d.dataset.hand = name; d.dataset.cutout = "1";
+const stem = handAsset[name];
+d.style.backgroundImage = `image-set(url(assets/${stem}_1X.webp) 1x, url(assets/${stem}_2X.webp) 2x)`;
+});
     if (GRID) worldSvg("gridSvg", world).id = "gridSvg";
   }
 
@@ -427,12 +441,9 @@
   }
 
   function layoutHands() {
-    const k = T.k;
-    $$(".handOv").forEach(d => {
-      const poly = HANDS.hands[d.dataset.hand].polygon;
-      d.style.clipPath = `polygon(${poly.map(([x, y]) => `${(x * k).toFixed(2)}px ${(y * k).toFixed(2)}px`).join(",")})`;
-    });
-  }
+// Full-canvas registered raster cutouts: the shared tool owns erosion/feather/fringe.
+$$(".handOv").forEach(d => { d.style.clipPath = "none"; });
+}
 
   /* ---------------- K3 / OWNER-3 pack rip ---------------- */
   function layoutReveal() {
