@@ -23,7 +23,7 @@ E means an existing main value needing only an adapter; A means Team G must add 
 
 | Visible item | Contract field | E/A | Level / scope | Display rule |
 | --- | --- | --- | --- | --- |
-| Availability | status | §0 common state; supplied by the model | Selected view | loading, empty, unavailable, partial or ready |
+| Availability | status | A (provider availability envelope; §0) | Selected view | loading, empty, unavailable, partial or ready |
 | Manager identity | daniel / nik slot keys | E (§0) | Both views | Static labels Daniel and Nik; never account/profile ids |
 | Current points | score.daniel / score.nik | E (§5) | This Showdown | App-computed cumulative accepted scores |
 | Season progress | season / totalSeasons | E (§5) | This Showdown | "Season {season} of {totalSeasons}"; season is current round, not completed count |
@@ -37,7 +37,7 @@ E means an existing main value needing only an adapter; A means Team G must add 
 | Career points | per-manager careerPoints within standings | A (§6, §7) | Career | Sum of counted season scores |
 | Career comparison | standings | A (§7, G-9) | Career | Higher careerPoints, then higher seasonWins; equal both means level |
 | Partial coverage | coverage.readable / coverage.indexed | A (§6), required by §0 partial | Incomplete provider history | Show readable/indexed counts; never label this as complete career history |
-| Review-only fallback | interimLabel | §0 explicit interim allowance | Current Showdown only | Exact approved sentence; never a launch state |
+| Review-only fallback | interimLabel | A (review-only envelope; §0) | Current Showdown only | Exact approved sentence; never a launch state |
 
 This Showdown uses role-keyed managers containing the §5 counts. Career preview standings uses two role-keyed entries containing the §6/§7 values. The contract defines standings semantics but not its nested wire shape: this fixture layout is a preview representation, not a new binding provider schema. A future adapter projects Team G's delivered shape without inventing fields. Render identity order remains Daniel, Nik.
 
@@ -79,3 +79,50 @@ Before provider history is real, owner review can select Career but show the cur
 All dynamic labels, values and manager identities are semantic live DOM. No names or numbers baked into art. Original rights-safe art only; no real logos, trophies or player images. All controls keyboard reachable and labelled; announce changes and state messages without relying on gold highlight alone.
 
 Phone: 393 × 660 and 360 × 640 without page scroll; primary control visible at 375 × 553. Daniel first, Nik second. Reserve hub navigation height. Typography/body contrast and touch targets follow QUALITY_BAR. This job contains truth and fixtures only; screenshots, responsive fit and visual-score gates belong to build job 127.
+
+## Exact strings
+
+The following dictionary is copied into fixtures.json. Existing current comparison labels are copied word for word from main renderRivalryComparison; no-active and no-season messages from renderRivalryStatistics/renderSeasonProgression are retained. New Standings-only headings, Season Losses, toggle and availability copy are Team V-owned presentation (§10), not claims that main already contains these strings. Manager labels are static product identities.
+
+```json
+{
+  "heading": "STANDINGS",
+  "viewThisShowdown": "This Showdown",
+  "viewCareer": "Career",
+  "sectionThisShowdown": "HEAD-TO-HEAD",
+  "sectionCareer": "CAREER STANDINGS",
+  "sectionPartial": "Available history",
+  "sectionInterim": "This Showdown",
+  "managers": {
+    "daniel": "Daniel",
+    "nik": "Nik"
+  },
+  "fields": {
+    "score": "Showdown Points",
+    "careerPoints": "Career Points",
+    "seasonWins": "Season Wins",
+    "seasonDraws": "Season Draws",
+    "seasonLosses": "Season Losses",
+    "totalTrophies": "Total Trophies",
+    "championsLeagues": "Champions Leagues",
+    "leagueTitles": "League Titles",
+    "domesticCups": "Domestic Cups"
+  },
+  "seasonTemplate": "Season {season} of {totalSeasons}",
+  "level": "Level",
+  "leaderTemplate": "{manager} leads",
+  "leaderSeasonWinsTemplate": "{manager} leads on season wins",
+  "emptyShowdown": "No active showdown is available.",
+  "emptySeason": "No season has been completed yet. Statistics will build automatically as seasons are finished.",
+  "emptyCareer": "Career standings will appear after the first recorded season.",
+  "loading": "Loading standings.",
+  "unavailable": "Standings are unavailable right now.",
+  "partial": "Some Showdowns could not be read. These totals cover available history only.",
+  "coverageTemplate": "{readable} of {indexed} Showdowns available.",
+  "interimLabel": "Current Showdown only. Career history is not yet available.",
+  "previewLabel": "Preview data",
+  "navLocked": "Finish this step first"
+}
+```
+
+Use sectionPartial for partial history rather than the Career heading. Interpolate only the listed model values; manager is Daniel or Nik. Neither loading nor unavailable has a leader. For equal careerPoints but unequal seasonWins use leaderSeasonWinsTemplate; for equal points and wins use level. For partial history suppress leader text entirely. No retry, export, delete, backup or other new product action is introduced.
