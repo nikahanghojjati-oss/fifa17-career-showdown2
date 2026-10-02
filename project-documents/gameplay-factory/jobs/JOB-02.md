@@ -16,6 +16,7 @@ Write one automated test where Daniel and Nik play a whole Shared Showdown again
 - Edit: `.github/workflows/validate-gameplay-fast.yml`, adding one step at the end of the `rules-emulator` job (step 7 below).
 - On `factory/gameplay-v1`: `project-documents/gameplay-factory/reports/JOB-02-baseline.md` and `status/JOB-02.md`.
 - Change nothing else. **Never edit app code (`js/`) or Rules files in this job**, even if you find a bug. Bugs go in the baseline report.
+- **Lead override (2026-10-02):** one Rules change is approved. In `firestore.shared-setup-production.fragment.rules`, change both `.toHexString()` calls to `.toHexString().lower()`, in its own commit. See "Lead answer" in `status/JOB-02.md`. The same fix is going to main as PR #317. Nothing else in `js/` or the Rules may change.
 
 Read first (on `gameplay/recovery-v1`), in this order:
 
@@ -82,7 +83,7 @@ This job is the test. A check that fails because the app has a real bug stays in
 - [ ] "Validate Gameplay Fast" is green on the exact head SHA, including the new step (run URL).
 - [ ] Sections A to G are all present; known gaps carry their labels.
 - [ ] Stranger, privacy and list-denial checks use `assertFails` against the composed production rules.
-- [ ] No file in `js/` or any `*.rules` file changed; no existing test changed.
+- [ ] No file in `js/` changed, no existing test changed, and the only `*.rules` change is the approved `.toHexString().lower()` fix (two lines, own commit).
 - [ ] Baseline report pushed, with a "Bugs found" section (it may say "none").
 - [ ] PR open into `gameplay/recovery-v1`; nothing pushed to `main`; nothing deployed.
 
