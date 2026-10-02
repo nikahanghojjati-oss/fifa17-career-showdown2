@@ -164,3 +164,13 @@ There is no slow-network message in the product. Therefore the suggested LD3 slo
 - `LD7_READY` — contract `ready` alias for the LD2 handoff state, so all five DATA_CONTRACT_V1 §0 tokens can be exercised without inventing a new live route.
 
 Loading is not manager-specific, so no Daniel/Nik role variants are created. Daniel-first ordering remains relevant only to any fixture metadata that carries managers; this screen currently carries none.
+
+## Mockup audit blocker
+
+Step 5 requires opening the Loading mockup image itself and producing an element-by-element mockup → product table.
+
+A branch-wide tree scan of the current `factory/v1-wtt5ye` head found no Loading/startup mockup image. The only factory mockup/goal images are for Home, League, Club, Transfer War, Career Statistics, Legacy, Rivalry Statistics, Season Results, Start / Join and Trophy Room. `project-documents/factory/mockups/README.md` also lists no Loading reference image.
+
+The live product's Reus source photo (`assets/marco-reus-2015-cc-by.webp`) is not a screen mockup and cannot substitute for the required screen-level mockup audit.
+
+Step 5 therefore cannot be completed without Claude identifying or adding the intended Loading mockup image, or explicitly changing the job instruction to use a named live-screen reference instead.
