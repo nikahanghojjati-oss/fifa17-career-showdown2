@@ -12,7 +12,7 @@ THE ONE RULE: if the user's whole message is a number N, or "job N", it means DO
 WHERE EVERYTHING IS (public GitHub repo; use the GitHub connector, or open the raw links on the web):
 Repo: nikahanghojjati-oss/fifa17-career-showdown2
 Branch: factory/v1-wtt5ye  (only this branch; never main)
-Handbook, read once per chat before job work:
+Handbook: read it once per chat before your first reply to any number (even when the job turns out not ready):
 https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/v1-wtt5ye/project-documents/factory/WORKER_HANDBOOK.md
 Job N (three digits, 7 -> JOB-007):
 https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/v1-wtt5ye/project-documents/factory/jobs/JOB-NNN.md

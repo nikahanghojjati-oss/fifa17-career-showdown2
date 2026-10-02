@@ -135,7 +135,7 @@ Check these in order. Stop at the first one that applies and reply with exactly 
 | State `DONE` | `Job N is already done.` |
 | State `SKIPPED` | `Job N was skipped: <reason from the notes>.` |
 | State `WAITING ON NIK` | `Job N is waiting on Nik: <the WAITING ON NIK line from the job file>.` |
-| State `WAITING ON TEAM G` | `Job N is waiting on Team G: <the WAITS ON TEAM G line>. Claude clears it when Team G delivers.` |
+| State `WAITING ON TEAM G` | `Job N is waiting on Team G: <the WAITS ON TEAM G line from the job file>. Claude clears it when Team G delivers.` |
 | State `BLOCKED` | `Job N is blocked on a question for Claude: <the blocked question>.` |
 | A dependency's status is not `DONE` or `SKIPPED` | `Job N waits for job X, Y (not done yet).` |
 | Wrong kind of chat for the lane | see §4 |
