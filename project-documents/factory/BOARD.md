@@ -2,11 +2,11 @@
 
 Branch `factory/v1-wtt5ye`. 135 Team V jobs, plus 5 lines that track Team G. Two kinds of job. **Project (type number):** open a new chat in the ChatGPT project "Showdown visual" and type the number (up to 5 at once). **Fresh chat (image):** run the job's ticket from [tickets/](tickets/README.md) in a ChatGPT Temporary Chat (no memory) outside any project, then drop the image in Claude's factory thread (up to 2 at once).
 
-**Overall (Team V):** █░░░░░░░░░ 17 % · 24 of 135 jobs done
+**Overall (Team V):** █░░░░░░░░░ 18 % · 25 of 135 jobs done
 
 **Start now · project (type the number in Showdown visual):** 16, 31, 43, 136, 137 · queued next: 138, 139
 
-**Start now · fresh chat (image ticket, outside the project):** 19, 20 · queued next: 21, 22, 23, 24, 25, 26, 27, 28, 29, 122, 123, 124 · waiting for Claude to write the ticket: 111, 112, 113, 114
+**Start now · fresh chat (image ticket, outside the project):** 20, 21 · queued next: 22, 23, 24, 25, 26, 27, 28, 29, 122, 123, 124 · waiting for Claude to write the ticket: 111, 112, 113, 114
 
 **Start now (Sol Work mode, press Use Work):** -
 
@@ -35,7 +35,7 @@ Branch `factory/v1-wtt5ye`. 135 Team V jobs, plus 5 lines that track Team G. Two
 | 16 | [Motion kit (pack-rip grade)](jobs/JOB-016.md) | 2 Foundation | build | project (type number) | 13 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 17 | [Shared QA harness and compare sheets](jobs/JOB-017.md) | 2 Foundation | build | project (type number) | - | ██████████ 100 % | DONE |  |
 | 18 | [Foundation review](jobs/JOB-018.md) | 2 Foundation | review | project (type number) | 13, 15, 16, 14, 17 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
-| 19 | [Trophy art: Showdown Champion trophy](jobs/JOB-019.md) | 3 Art | image | fresh chat (image) | 0 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
+| 19 | [Trophy art: Showdown Champion trophy](jobs/JOB-019.md) | 3 Art | image | fresh chat (image) | 0 | ██████████ 100 % | DONE |  |
 | 20 | [Trophy art: League Title trophy](jobs/JOB-020.md) | 3 Art | image | fresh chat (image) | 0 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 21 | [Trophy art: Domestic Cup trophy](jobs/JOB-021.md) | 3 Art | image | fresh chat (image) | 0 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 22 | [Trophy art: Champions League (continental) trophy](jobs/JOB-022.md) | 3 Art | image | fresh chat (image) | 0 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
