@@ -303,3 +303,61 @@ Fixtures obey DATA_CONTRACT_V1 §0:
 DATA_CONTRACT_V1 §9 forbids clean sheets, biggest single-match win, European wins other than Champions League, player names, player-based leaders/photos, match-by-match results, possession, and every other per-match stat. `topScorer` and `topAssist` are booleans only, never player names.
 
 No field outside §0 and §3 is added to the Season Results build.
+
+
+## Screen states and preview frames
+
+Season Results has two state axes. DATA_CONTRACT_V1 §0 supplies the read envelope `status`; DATA_CONTRACT_V1 §3 supplies the season workflow `phase`. They are not interchangeable.
+
+### Operational workflow on `main`
+
+| Workflow state | Contract phase | Viewer role | What is visible |
+| --- | --- | --- | --- |
+| private entry | `entering` | Daniel or Nik | Only the current manager's editable seven inputs. Rival inputs stay sealed. |
+| local review draft | `entering` | Daniel or Nik | Only the current manager's reviewed seven facts. Publish and Edit actions are available. |
+| own result published | `waiting-for-rival` | Daniel or Nik | Own result is read-only; rival stays sealed; Back remains available. |
+| both results published | `results-ready` | either | Daniel first/left, Nik second/right; both results visible; Shared Season Commit action/status appears. |
+| shared snapshot committed, acknowledgements pending | `results-ready` | either | Both results remain visible; commit action changes to acknowledgement/waiting states. |
+| commit acknowledged by both + authoritative scoring reconciled | `committed` | either | Both results remain visible and the read-only Shared Canonical Score panel appears. |
+
+The current production adapter is role-symmetric. Viewer role never changes manager order: Daniel remains first/left and Nik second/right. On a Nik device, Nik's own editable panel is the active one but Daniel's side is still the first/left side when both sides are represented.
+
+### Contract read states
+
+| `status` | Meaning on this screen | Rendering rule |
+| --- | --- | --- |
+| `loading` | Authoritative Season Results read is in progress. | Do not show fake result values. Current `main` keeps the user on the calling route and shows `OPENING SEASON RESULTS…`; the factory screen must still reserve this contract state. |
+| `empty` | Read succeeded but there is no usable Season Results record for the requested context. | Honest empty shell only; do not convert it into zero scores. In the normal live route a completed Transfer Challenge leads to `ready + entering`, so this is a contract fallback rather than the common path. |
+| `unavailable` | Provider read failed. | Never present the failure as empty or zero. Current `main` reports initial open failures at app level rather than rendering an in-screen unavailable frame. |
+| `partial` | The view is deliberately incomplete. | Never imply complete data. This one-season live adapter normally has all-or-nothing role projections, so `partial` is a contract fallback rather than a distinct production phase. If an owner-review interim current-Showdown-only preview is used, the only permitted label is `Current Showdown only. Career history is not yet available.` |
+| `ready` | Required data for the current operational phase is readable. | Render the phase-specific entry, waiting, results-ready or committed treatment. |
+
+There is no sixth contract `error` status. Form/review/publish/commit errors are messages layered onto the otherwise valid workflow state. A provider read failure maps to `unavailable`.
+
+There is no independent `active` field. The active season is represented by `ready` plus `entering`, `waiting-for-rival` or `results-ready`. A completed/accepted season is `ready + committed`.
+
+### Primary workflow preview frames
+
+All values below are fictional preview data. The later fixtures file marks every frame with `previewLabel: "Preview data"`. Values respect the contract bounds.
+
+- `SR1` · Daniel device · `status: ready` · `phase: entering`. Daniel's entry panel is live. Nik is sealed. Use valid fictional Daniel draft values: league position 1, 96 points, 94 goals, domestic cup true, Champions League true, top scorer false, top assist true. No computed total is editable.
+- `SR2` · Nik device · `status: ready` · `phase: entering`. Nik's entry panel is live. Daniel is sealed. Use valid fictional Nik draft values: league position 2, 91 points, 103 goals, domestic cup false, Champions League true, top scorer true, top assist false.
+- `SR3` · Daniel device example · `status: ready` · `phase: waiting-for-rival`. Daniel's published result is visible/read-only. Nik's inputs are sealed and absent from the view model. The same rule applies symmetrically when Nik is the first publisher.
+- `SR4` · either device · `status: ready` · `phase: results-ready`. Both published results are visible, Daniel first/left and Nik second/right. Shared Season Commit is pending. Preview computed scores are Daniel 10 and Nik 7; `winner: daniel`; `tiebreak: none`.
+- `SR5` · either device · `status: ready` · `phase: committed`. Both managers have acknowledged the immutable shared season snapshot. The authoritative scoring panel is visible with the same fictional results and computed totals; the result is read-only.
+- `SR6` · Daniel device example · `status: ready` · `phase: entering`, review substate with validation/action error. Use only valid bounded sample values, then surface the exact live changed-after-review message: `Your season result changed after review. Choose Edit My Result and review it again before publishing.` This exercises error presentation without placing an out-of-contract numeric value in fixtures.
+
+For SR4/SR5, the fictional example that yields Daniel 10 is: league position 1, 96 points, 94 goals, domestic cup true, Champions League true, top scorer false, top assist true. Computed breakdown: Champions League 5 + League Title 3 + Domestic Cup 1 + Performance Bonus 0 + Awards Bonus 1 = 10.
+
+For SR4/SR5, the fictional Nik example is: league position 2, 91 points, 103 goals, domestic cup false, Champions League true, top scorer true, top assist false. Computed breakdown: Champions League 5 + League Title 0 + Domestic Cup 0 + Performance Bonus 1 + Awards Bonus 1 = 7.
+
+### Additional contract-state preview frames
+
+The six named workflow frames do not cover the four non-ready values required by DATA_CONTRACT_V1 §0, so four contract-only frames are added rather than pretending those states do not exist:
+
+- `SR7` · `status: loading`. Stable shell, no result values presented as facts.
+- `SR8` · `status: empty`. Successful read with no usable Season Results record; no zero-filled score or honours.
+- `SR9` · `status: partial`. Incomplete-data treatment. When used for the pre-history owner-review case, show exactly `Current Showdown only. Career history is not yet available.`
+- `SR10` · `status: unavailable`. Provider read failed; no result values presented as facts.
+
+`SR7`–`SR10` are contract coverage frames, not new gameplay phases. They do not invent new buttons, score rules or publication behaviour.
