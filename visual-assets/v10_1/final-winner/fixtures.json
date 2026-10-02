@@ -126,13 +126,7 @@
       },
       "heading": "SHARED SHOWDOWN CLOSED",
       "resultText": "Daniel wins the showdown",
-      "actions": [
-        "VIEW LEGACY",
-        "TROPHY ROOM",
-        "RIVALRY STATISTICS",
-        "NEW SHOWDOWN",
-        "MAIN MENU"
-      ],
+      "actions": [],
       "presentation": {
         "managerOrder": [
           "daniel",
@@ -179,13 +173,7 @@
       },
       "heading": "SHARED SHOWDOWN CLOSED",
       "resultText": "Nik wins the showdown",
-      "actions": [
-        "VIEW LEGACY",
-        "TROPHY ROOM",
-        "RIVALRY STATISTICS",
-        "NEW SHOWDOWN",
-        "MAIN MENU"
-      ],
+      "actions": [],
       "presentation": {
         "managerOrder": [
           "daniel",
@@ -232,13 +220,7 @@
       },
       "heading": "SHARED SHOWDOWN CLOSED",
       "resultText": "The showdown finishes level",
-      "actions": [
-        "VIEW LEGACY",
-        "TROPHY ROOM",
-        "RIVALRY STATISTICS",
-        "NEW SHOWDOWN",
-        "MAIN MENU"
-      ],
+      "actions": [],
       "presentation": {
         "managerOrder": [
           "daniel",
@@ -334,13 +316,7 @@
       },
       "heading": "SHARED SHOWDOWN CLOSED",
       "terminalStatus": "TERMINAL · NO NEW SESSION · NO NEW SEASON · FINAL RESULTS REMAIN READ-ONLY",
-      "actions": [
-        "VIEW LEGACY",
-        "TROPHY ROOM",
-        "RIVALRY STATISTICS",
-        "NEW SHOWDOWN",
-        "MAIN MENU"
-      ],
+      "actions": [],
       "presentation": {
         "managerOrder": [
           "daniel",
@@ -469,13 +445,7 @@
         "source": "new"
       },
       "terminalStatus": "TERMINAL · NO NEW SESSION · NO NEW SEASON · FINAL RESULTS REMAIN READ-ONLY",
-      "actions": [
-        "VIEW LEGACY",
-        "TROPHY ROOM",
-        "RIVALRY STATISTICS",
-        "NEW SHOWDOWN",
-        "MAIN MENU"
-      ],
+      "actions": [],
       "coverage": {
         "readable": 1,
         "indexed": 1
