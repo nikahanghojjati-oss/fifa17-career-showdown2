@@ -222,3 +222,11 @@ Image opened directly: `MOCKUP_START_JOIN.png`. The mockup is a visual reference
 | Any mockup-only button or icon with no live behavior | DROP. The build may expose only actions listed in the live product / contract. |
 
 The mockup's private-session layout is therefore retained as a visual composition reference, not as product authority. The factory Start / Join screen must present the established Daniel-starts / Nik-joins journey first, keep the private-session layer behavior available where the real app uses it, and hide destructive session controls behind one confirmed `More` menu.
+
+
+## 6. Open questions
+
+- None block the build.
+- G-6 owns the future unified view model; these labelled fixtures are samples until job 104 replaces them.
+- Loading, empty, partial and unavailable copy in fixtures.json is marked source new as required by this job.
+- The Nik-leading rank sample is validation-only because Start / Join does not display standings or scoring.
