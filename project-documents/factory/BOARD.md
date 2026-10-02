@@ -2,21 +2,21 @@
 
 Branch `factory/v1-wtt5ye`. 125 Team V jobs, plus 5 lines that track Team G. Open a new chat in the ChatGPT "Showdown visual" project and type a number. Up to 5 plain chats at once (at most 2 image jobs) plus up to 2 Sol Work mode workers.
 
-**Overall (Team V):** ░░░░░░░░░░ 0 % · 0 of 125 jobs done
+**Overall (Team V):** ░░░░░░░░░░ 1 % · 1 of 125 jobs done
 
-**Start now (plain chats, press Stay in Chat):** 2, 3, 4, 5 · queued next: 6, 7, 8, 9, 10, 11, 17, 126
+**Start now (plain chats, press Stay in Chat):** 1, 3, 4, 5 · queued next: 6, 7, 8, 9, 10, 11, 12, 14, 17, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 122, 124, 126
 
-**Start now (Sol Work mode, press Use Work):** 1, 12
+**Start now (Sol Work mode, press Use Work):** -
 
-**Working:** 0 · **Blocked:** -
+**Working:** 2 · **Blocked:** -
 
 **Team G tracking (never start these):** 98 (open), 99 (open), 100 (open), 101 (open), 102 (open). Claude marks them done when Team G delivers.
 
 | # | Job | Phase | Type | Lane | Depends on | Progress | State | Claude look |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 0 | [Factory smoke test](jobs/JOB-000.md) | 0 Setup | test | plain | - | █████░░░░░ 57 % | IN PROGRESS |  |
-| 1 | [Baseline shots of the four built screens](jobs/JOB-001.md) | 0 Setup | review | work | - | ░░░░░░░░░░ 0 % | NOT STARTED |  |
-| 2 | [Truth sheet: Trophy Room](jobs/JOB-002.md) | 1 Truth | data | plain | - | ░░░░░░░░░░ 0 % | NOT STARTED |  |
+| 0 | [Factory smoke test](jobs/JOB-000.md) | 0 Setup | test | plain | - | ██████████ 100 % | DONE |  |
+| 1 | [Baseline shots of the four built screens](jobs/JOB-001.md) | 0 Setup | review | plain (work if job 0 says no screenshots) | - | ░░░░░░░░░░ 0 % | NOT STARTED |  |
+| 2 | [Truth sheet: Trophy Room](jobs/JOB-002.md) | 1 Truth | data | plain | - | ██████████ 100 % | IN PROGRESS |  |
 | 3 | [Truth sheet: Career Statistics](jobs/JOB-003.md) | 1 Truth | data | plain | - | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 4 | [Truth sheet: Rivalry Statistics](jobs/JOB-004.md) | 1 Truth | data | plain | - | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 5 | [Truth sheet: Legacy (History)](jobs/JOB-005.md) | 1 Truth | data | plain | - | ░░░░░░░░░░ 0 % | NOT STARTED |  |
@@ -26,12 +26,12 @@ Branch `factory/v1-wtt5ye`. 125 Team V jobs, plus 5 lines that track Team G. Ope
 | 9 | [Truth sheet: Rule Book](jobs/JOB-009.md) | 1 Truth | data | plain | - | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 10 | [Truth sheet: Settings](jobs/JOB-010.md) | 1 Truth | data | plain | - | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 11 | [Truth sheet: Loading](jobs/JOB-011.md) | 1 Truth | data | plain | - | ░░░░░░░░░░ 0 % | NOT STARTED |  |
-| 12 | [Showdown tokens and type system](jobs/JOB-012.md) | 2 Foundation | build | work | - | ░░░░░░░░░░ 0 % | NOT STARTED |  |
+| 12 | [Showdown tokens and type system](jobs/JOB-012.md) | 2 Foundation | build | plain (work if job 0 says no screenshots) | - | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 13 | [Panel, button and table kit](jobs/JOB-013.md) | 2 Foundation | build | plain (work if job 0 says no screenshots) | 12 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 14 | [Character cut-out tool and standard](jobs/JOB-014.md) | 2 Foundation | build | plain | 0 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 15 | [Cinematic stage engine](jobs/JOB-015.md) | 2 Foundation | build | plain (work if job 0 says no screenshots) | 12, 14 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 16 | [Motion kit (pack-rip grade)](jobs/JOB-016.md) | 2 Foundation | build | plain (work if job 0 says no screenshots) | 13 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
-| 17 | [Shared QA harness and compare sheets](jobs/JOB-017.md) | 2 Foundation | build | work | - | ░░░░░░░░░░ 0 % | NOT STARTED |  |
+| 17 | [Shared QA harness and compare sheets](jobs/JOB-017.md) | 2 Foundation | build | plain (work if job 0 says no screenshots) | - | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 18 | [Foundation review](jobs/JOB-018.md) | 2 Foundation | review | plain (work if job 0 says no screenshots) | 13, 15, 16, 14, 17 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
 | 19 | [Trophy art: Showdown Champion trophy](jobs/JOB-019.md) | 3 Art | image | plain-image | 0 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 20 | [Trophy art: League Title trophy](jobs/JOB-020.md) | 3 Art | image | plain-image | 0 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
