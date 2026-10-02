@@ -258,6 +258,10 @@ Ties are shown as shared manager leadership. Cards use the manager portrait crop
 
 If owner review temporarily uses current-Showdown-only data before provider career history exists, the only permitted interim copy is exactly `Current Showdown only. Career history is not yet available.` That interim mode is not a launch state.
 
+## Phone
+
+Career Statistics is a hub screen on phone. At 393 × 660 it must fit with no page scroll while reserving the shared 56 px bottom navigation bar plus safe area. Use stacked sections or section tabs rather than one long desktop table. Keep Daniel and Nik together in the top band, with Daniel first/left and Nik second/right; never reorder them to match rank. The Career Table, comparison and leaders may switch by tab/stacked section as needed, but the primary view must remain usable above the reserved bottom bar.
+
 ## Mockup reconciliation
 
 The mockup is visual reference, not product authority. PRODUCT_TRUTH.md, DATA_CONTRACT_V1.md and the live route/button behaviour on `main` win wherever they disagree.
