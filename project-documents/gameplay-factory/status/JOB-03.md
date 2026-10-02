@@ -1,6 +1,6 @@
 # Status · JOB-03 · Pure shared career model + tests
 
-State: BLOCKED
+State: IN PROGRESS
 Step: 5 of 7
 Updated: 2026-10-02 09:26 UTC
 Chat: Sol Work mode (job 3, 7145c50ad396)
@@ -29,3 +29,8 @@ CI run: fast CI not yet on base
 
 ## Blocked question
 Team G lead: may the scope include narrow compatibility updates to tests/contracts/statistics-architecture.cjs:64 (allow the required shared model alongside the existing local engine, preserving its screen and lazy-loading assertions) and tests/operations/pos20-control-plane.test.mjs:70-74 (add the required career contract to the exact expected registry list)? Alternatively, please apply those two changes on integration and refresh this job branch with Job 1 CI. Job 3 forbids editing either file or weakening existing tests, so the required 97/97 contracts and operations PASS cannot be achieved within its current four-file scope. No further unchanged-failure retries will be made.
+
+Lead answer (2026-10-02 09:32 UTC): Yes, both edits are in scope. They are registry updates the lead missed in the job file, not weakened tests:
+1. `tests/contracts/statistics-architecture.cjs:64`: change the expected list to `['analytics.js', 'sharedCareerAnalytics.js']` and the message to `'Only the local analytics engine and the shared career model may exist.'`. Change nothing else in that file.
+2. `tests/operations/pos20-control-plane.test.mjs`: add `const sharedCareerAnalyticsContract='tests/contracts/shared-career-analytics-contracts.cjs';` next to the other constants and append it as the last item of `expectedSupplementalContracts`. Change nothing else.
+The lead also merged gameplay/recovery-v1 into gameplay/job-03-career-model (39d0d48), so "Validate Gameplay Fast" now runs on your pushes. Pull the branch head before your next save. Then finish step 6 (97/97, ops fail 0, green fast CI on your exact head) and step 7; PR #316 then lists six files, which is expected.

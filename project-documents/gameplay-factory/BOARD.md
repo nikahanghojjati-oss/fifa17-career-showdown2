@@ -1,14 +1,14 @@
 # Team G gameplay factory board
 
-Branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-02 09:12 UTC
+Branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-02 09:28 UTC
 
-**Overall:** █░░░░░░░░░ 16 % · 3 of 18 jobs done
+**Overall:** ██░░░░░░░░ 20 % · 3 of 18 jobs done
 
 **Start now in a normal chat (press Stay in Chat):** 2
 
-**Start now in Sol Work mode (press Use Work, paste the starter line from RULES.md):** 3
+**Start now in Sol Work mode (press Use Work, paste the starter line from RULES.md):** -
 
-**Working:** - · **Blocked:** -
+**Working:** 3 · **Blocked:** -
 
 | # | G id | Job | Phase | Type | Lane | Depends on | Codex | Progress | State |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -18,7 +18,7 @@ Branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generate
 | 2 | G-2 | [Two-manager journey on the emulator (provider level)](jobs/JOB-02.md) | 1 Safety net | test | chat | 1 |  | ░░░░░░░░░░ 0 % | NOT STARTED |
 | 16 | G-2b | Two-manager browser journey (localhost-only emulator switch) | 1 Safety net | test | chat | 2 |  | ░░░░░░░░░░ 0 % | NOT WRITTEN |
 | 12 | G-12 | Composed production Rules regression | 1 Safety net | test | work | 7, 8 | yes | ░░░░░░░░░░ 0 % | NOT WRITTEN |
-| 3 | G-3 | [Pure shared career model + tests](jobs/JOB-03.md) | 2 Career model | build | work | - |  | ░░░░░░░░░░ 0 % | NOT STARTED |
+| 3 | G-3 | [Pure shared career model + tests](jobs/JOB-03.md) | 2 Career model | build | work | - |  | ███████░░░ 71 % | IN PROGRESS |
 | 4 | G-4 | Renderer seams: screens take a model, never the local path | 2 Career model | build | work | 3 |  | ░░░░░░░░░░ 0 % | NOT WRITTEN |
 | 5 | G-5 | Active Showdown adapter (Rivalry, Continue, tiebreak, final state) | 2 Career model | build | work | 3 |  | ░░░░░░░░░░ 0 % | NOT WRITTEN |
 | 6 | G-6 | Start/Join view model + nav.locked | 2 Career model | build | work | 3 |  | ░░░░░░░░░░ 0 % | NOT WRITTEN |
