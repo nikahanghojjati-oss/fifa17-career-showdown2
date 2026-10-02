@@ -4,6 +4,8 @@ Source branch: `factory/v1-wtt5ye`
 Pinned visual source: `a485975c191e4cd6a0732d06e4f541184bd0098c`  
 Capture date: 2026-10-02 UTC
 
+Screenshots were delivered as PNG (JOB-001-part1..3.zip) and stored as WebP quality 85 by Claude to keep the branch light; COMPARE sheets and diff images are WebP or JPG.
+
 This baseline is a review snapshot, not a visual rewrite. No product visual source files were changed.
 
 ## Capture matrix
@@ -20,15 +22,15 @@ Total: 112 screenshots. Raw browser error evidence is in `console-check.json`. N
 ### Home
 
 Frames: `HM1`, `HM2`, `HM3`  
-Files: `home/<FRAME>_1366x768.png`, `home/<FRAME>_1920x1080.png`, `home/<FRAME>_393x660.png`, `home/<FRAME>_360x640.png`  
+Files: `home/<FRAME>_1366x768.webp`, `home/<FRAME>_1920x1080.webp`, `home/<FRAME>_393x660.webp`, `home/<FRAME>_360x640.webp`  
 Main comparison frame: `HM1`  
-Comparison: `home/COMPARE.png`
+Comparison: `home/COMPARE.webp`
 
 Console check: 3/3 states clean. Zero console errors, page errors, failed requests, or navigation failures.
 
 Native render QA: 33/33 shots pass, 0 fail.
 
-Mockup diff on `HM1_1920x1080.png`: PASS.
+Mockup diff on `HM1_1920x1080.webp`: PASS.
 
 | Measure | Build | Plate reference | Gate |
 | --- | ---: | ---: | --- |
@@ -50,15 +52,15 @@ Five biggest visible gaps to `GOAL_HOME.jpg`:
 ### Select League
 
 Frames: `L1`, `L2`, `L3`, `L4`  
-Files: `league/<FRAME>_1366x768.png`, `league/<FRAME>_1920x1080.png`, `league/<FRAME>_393x660.png`, `league/<FRAME>_360x640.png`  
+Files: `league/<FRAME>_1366x768.webp`, `league/<FRAME>_1920x1080.webp`, `league/<FRAME>_393x660.webp`, `league/<FRAME>_360x640.webp`  
 Main comparison frame: `L1`  
-Comparison: `league/COMPARE.png`
+Comparison: `league/COMPARE.webp`
 
 Console check: 4/4 states clean. Zero console errors, page errors, failed requests, or navigation failures.
 
 Native render QA: 41/41 shots pass, 0 fail.
 
-Mockup diff on `L1_1920x1080.png`: PASS.
+Mockup diff on `L1_1920x1080.webp`: PASS.
 
 | Measure | Build | Plate reference | Gate |
 | --- | ---: | ---: | --- |
@@ -80,15 +82,15 @@ Five biggest visible gaps to `GOAL_LEAGUE.jpg`:
 ### Club Assignment
 
 Frames: `CL1`, `CL2`, `CL3`, `CL4`, `CL5`, `CL6`  
-Files: `club/<FRAME>_1366x768.png`, `club/<FRAME>_1920x1080.png`, `club/<FRAME>_393x660.png`, `club/<FRAME>_360x640.png`  
+Files: `club/<FRAME>_1366x768.webp`, `club/<FRAME>_1920x1080.webp`, `club/<FRAME>_393x660.webp`, `club/<FRAME>_360x640.webp`  
 Main comparison frame: `CL1`  
-Comparison: `club/COMPARE.png`
+Comparison: `club/COMPARE.webp`
 
 Console check: 6/6 states clean. Zero console errors, page errors, failed requests, or navigation failures.
 
 Native render QA: 60/60 shots pass, 0 fail.
 
-Mockup diff on `CL1_1920x1080.png`: FAIL.
+Mockup diff on `CL1_1920x1080.webp`: FAIL.
 
 | Measure | Build | Plate reference | Gate |
 | --- | ---: | ---: | --- |
@@ -110,9 +112,9 @@ Five biggest visible gaps to `GOAL_CLUB.jpg`:
 ### Transfer War
 
 Frames: `F1`, `F1D`, `F1R`, `F1DR`, `G2`, `G3`, `F3`, `F3D`, `F3L`, `F3DL`, `F4`, `F4D`, `F4E`, `F4DE`, `S0`  
-Files: `transfer/<FRAME>_1366x768.png`, `transfer/<FRAME>_1920x1080.png`, `transfer/<FRAME>_393x660.png`, `transfer/<FRAME>_360x640.png`  
+Files: `transfer/<FRAME>_1366x768.webp`, `transfer/<FRAME>_1920x1080.webp`, `transfer/<FRAME>_393x660.webp`, `transfer/<FRAME>_360x640.webp`  
 Main comparison frame: `F1`  
-Comparison: `transfer/COMPARE.png`
+Comparison: `transfer/COMPARE.webp`
 
 Console check: 15/15 states clean. Zero console errors, page errors, failed requests, or navigation failures.
 
@@ -120,7 +122,7 @@ Native render QA: 84/84 shots pass, 0 fail. Sealed-panel constancy and verdict-a
 
 The Job 1 mockup-diff gate is not specified for Transfer; it is run only for Home, League and Club.
 
-Five biggest visible gaps to `GOAL_TRANSFER_PLATE_G.png`:
+Five biggest visible gaps to `GOAL_TRANSFER_PLATE_G.webp`:
 
 1. The goal's top `TRANSFER WINDOW` sign is a clean plate with empty body space. F1 fills it with the live `11:42`, `WINDOW OPEN`, and `BUILD YOUR SQUAD` state. This is a functional DOM overlay, not a plate-geometry change.
 2. The large left glass plate is empty in the goal. F1 adds the Daniel header, `SEALED` badge, striped privacy fill, and center CM17 mark across the same plate.

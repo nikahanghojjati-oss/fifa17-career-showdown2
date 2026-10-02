@@ -1,10 +1,26 @@
 {
   "sourceSha": "a485975c191e4cd6a0732d06e4f541184bd0098c",
   "nativeQa": {
-    "home": { "shots": 33, "failures": 0, "pass": true },
-    "league": { "shots": 41, "failures": 0, "pass": true },
-    "club": { "shots": 60, "failures": 0, "pass": true },
-    "transfer": { "shots": 84, "failures": 0, "pass": true }
+    "home": {
+      "shots": 33,
+      "failures": 0,
+      "pass": true
+    },
+    "league": {
+      "shots": 41,
+      "failures": 0,
+      "pass": true
+    },
+    "club": {
+      "shots": 60,
+      "failures": 0,
+      "pass": true
+    },
+    "transfer": {
+      "shots": 84,
+      "failures": 0,
+      "pass": true
+    }
   },
   "mockupDiff": {
     "home": {
