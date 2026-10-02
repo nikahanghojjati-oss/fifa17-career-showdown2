@@ -148,3 +148,54 @@ Main defines no Final Winner-specific `aria-label` string on the final buttons. 
 - `#seasonReviewPanel` uses `aria-labelledby="seasonReviewHeading"`.
 - `#sharedTerminalCloseStatus` uses `role="status"` and `aria-live="polite"`.
 - `#seasonReviewError` uses `aria-live="assertive"`, but there is no fixed final-specific error string on that node.
+
+
+## Data contract
+
+Authority: `project-documents/factory/DATA_CONTRACT_V1.md`, especially §0 Rules for every screen and §4 Final winner. Contract names below are the build names. Manager keys are always `daniel` first and `nik` second; main's `playerOne` maps to `daniel`, and `playerTwo` maps to `nik`.
+
+| Contract field | E/A | Source on main | Level | Final Winner use |
+| --- | --- | --- | --- | --- |
+| `status` | A view-model wrapper | §0 requires the normalized five-state screen wrapper; current final adapters expose protocol phases rather than this field | per screen read | Exactly one of `loading`, `empty`, `unavailable`, `partial`, `ready`. |
+| `totals.daniel` | E | `frReconcile()`, `js/sharedFinalReconciliation.js`: `managerTotals.playerOne` from converged `managerRecords.playerOne.totalPoints` | per Showdown | Daniel's total Showdown points. |
+| `totals.nik` | E | `frReconcile()`, `js/sharedFinalReconciliation.js`: `managerTotals.playerTwo` from converged `managerRecords.playerTwo.totalPoints` | per Showdown | Nik's total Showdown points. |
+| `winner` | E | `frReconcile()`, `js/sharedFinalReconciliation.js` compares the two manager totals only | per Showdown | `daniel`, `nik`, or `draw`; equal totals are a draw. |
+| `margin` | E | totals from `frReconcile()`; `phcRender()` in `js/productionSharedHistoryConvergence.js` already derives the lead as the points difference | per Showdown | Absolute points difference; `0` for a draw. |
+| `seasonsPlayed` | E | `frReconcile()` exposes accepted/total seasons after complete convergence; `renderCompletionHub()` in `js/showdownUI.js` also uses `currentShowdown.rounds.length` | per Showdown | Number of completed seasons; valid Showdown lengths are 1, 3, 5 or 10. |
+| `state` | A (G-5) | underlying evidence exists in `pfrRender()`, `js/productionSharedFinalReconciliation.js`, and `ptcRender()`, `js/productionSharedTerminalClose.js`; Team G supplies the normalized contract field | per Showdown | `completion-pending` when reconciled but Terminal Close is not verified; `completed` after verified Terminal Close. |
+| `trophies.daniel.championsLeague` | E | `hcAccumulate()` / `hcBuild()`, `js/sharedHistoryConvergence.js`: playerOne `championsLeagues` / `trophyAttribution` | per Showdown | Count of Champions League wins. |
+| `trophies.daniel.leagueTitles` | E | `hcAccumulate()` / `hcBuild()`, `js/sharedHistoryConvergence.js`: playerOne `leagueTitles` | per Showdown | Count of league titles. |
+| `trophies.daniel.domesticCups` | E | `hcAccumulate()` / `hcBuild()`, `js/sharedHistoryConvergence.js`: playerOne `domesticCups` | per Showdown | Count of domestic cup wins. |
+| `trophies.daniel.total` | E | `hcFinalize()`, `js/sharedHistoryConvergence.js`: playerOne `totalTrophies` | per Showdown | Sum of the three trophy counts. |
+| `trophies.nik.championsLeague` | E | same functions, playerTwo `championsLeagues` / `trophyAttribution` | per Showdown | Count of Champions League wins. |
+| `trophies.nik.leagueTitles` | E | same functions, playerTwo `leagueTitles` | per Showdown | Count of league titles. |
+| `trophies.nik.domesticCups` | E | same functions, playerTwo `domesticCups` | per Showdown | Count of domestic cup wins. |
+| `trophies.nik.total` | E | `hcFinalize()`, playerTwo `totalTrophies` | per Showdown | Sum of the three trophy counts. |
+
+Main's history projection uses `championsLeagues` and `totalTrophies`; the Final Winner adapter must expose the contract's exact names `championsLeague` and `total`. This is an adapter rename, not a new statistic.
+
+### Required five screen states
+
+These are the exact §0 state names and must have designed frames/variants even though the current main adapters mostly hide until their protocol state is ready.
+
+| `status` | Product meaning on Final Winner |
+| --- | --- |
+| `loading` | Final-result data is being resolved. Do not show zeroes as facts. |
+| `empty` | The read succeeded but there is no completed Showdown result to display. |
+| `unavailable` | The read failed. Preserve the failure state; never render missing data as zero. |
+| `partial` | Only available authoritative fields are shown. Missing coverage is identified; never label it all-time or career. A winner is shown only if authoritative final totals are available. |
+| `ready` | All §4 fields required for the Final Winner view are available. |
+
+`state` is separate from `status`. A `ready` result can still be `completion-pending`; the result remains visible and must carry the visible mark `Completion pending`. After Terminal Close is verified, `state` becomes `completed`.
+
+The exact interim label required by §0 is:
+
+`Current Showdown only. Career history is not yet available.`
+
+It may appear only on labelled owner-review/current-Showdown previews before career history is real. It is not a launch-state replacement for missing provider history.
+
+### Contract exclusions
+
+The Final Winner build uses only §4 fields plus universal §0 state/coverage metadata. These values may exist elsewhere on main but are not Final Winner fields and are dropped here: club names, league id/name, league position, league points, league goals, season W/D/L, individual season scoring breakdowns, performance-bonus trigger detail, awards-bonus trigger detail, transfer facts, best/average statistics and career totals.
+
+DATA_CONTRACT_V1 §9 also permanently drops clean sheets, biggest single-match win, European wins other than Champions League, player names, player-based leaders or photos, match-by-match results, possession and all per-match stats. Top scorer and top assist remain yes/no per-season inputs elsewhere; they are not player-name statistics and are not Final Winner fields.
