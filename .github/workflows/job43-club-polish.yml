@@ -70,7 +70,7 @@ jobs:
           p=Path("visual-assets/v10_1/club/club.js")
           s=p.read_text()
           import re
-          pattern=r'    if \\(!isPhone\\(\\)\\) \\{\\n.*?\\n    \\}\\n    // Phone band:'
+          pattern=r'    if \(!isPhone\(\)\) \{\n.*?\n    \}\n    // Phone band:'
           new='''    if (!isPhone()) {
               // JOB-043: Tier-S / 16:9 desktop is the mockup camera, exactly. Cover-fit the
               // 1536x864 plate, centre it, and do not add a face/header or button/footer bias.
