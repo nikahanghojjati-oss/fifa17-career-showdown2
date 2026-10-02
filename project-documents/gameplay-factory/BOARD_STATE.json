@@ -1,17 +1,19 @@
 {
- "generated": "2026-10-02 09:45 UTC",
+ "generated": "2026-10-02 09:51 UTC",
  "branch": "factory/gameplay-v1",
  "integration_branch": "gameplay/recovery-v1",
  "capacity": {
   "chat": 2,
   "work": 1
  },
- "overall": 22,
+ "overall": 23,
  "done": 4,
  "total": 18,
  "start": {
   "chat": [],
-  "work": []
+  "work": [
+   5
+  ]
  },
  "queued": [],
  "working": [
@@ -96,9 +98,9 @@
    "type": "test",
    "plain": "Daniel and Nik play a whole Showdown against the real Rules in a test database, with a stranger and privacy checks.",
    "state": "IN PROGRESS",
-   "step": 1,
+   "step": 2,
    "steps_total": 8,
-   "pct": 12,
+   "pct": 25,
    "ready": false
   },
   {
@@ -196,19 +198,19 @@
    "depends_on": [
     3
    ],
-   "steps": null,
-   "code_branch": null,
+   "steps": 7,
+   "code_branch": "gameplay/job-05-active-adapter",
    "codex_review": false,
-   "written": false,
+   "written": true,
    "waits_on": null,
    "phase": "2 Career model",
    "type": "build",
    "plain": "Live Showdown (Rivalry, Continue, tiebreak, final result) feeds the career model.",
-   "state": "NOT WRITTEN",
+   "state": "NOT STARTED",
    "step": 0,
-   "steps_total": 1,
+   "steps_total": 7,
    "pct": 0,
-   "ready": false
+   "ready": true
   },
   {
    "number": 6,

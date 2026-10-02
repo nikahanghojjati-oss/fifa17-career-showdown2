@@ -1,12 +1,12 @@
 # Team G gameplay factory board
 
-Branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-02 09:45 UTC
+Branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-02 09:51 UTC
 
-**Overall:** ██░░░░░░░░ 22 % · 4 of 18 jobs done
+**Overall:** ██░░░░░░░░ 23 % · 4 of 18 jobs done
 
 **Start now in a normal chat (press Stay in Chat):** -
 
-**Start now in Sol Work mode (press Use Work, paste the starter line from RULES.md):** -
+**Start now in Sol Work mode (press Use Work, paste the starter line from RULES.md):** 5
 
 **Working:** 2 · **Blocked:** -
 
@@ -15,12 +15,12 @@ Branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generate
 | 0 | G-0 | [Factory smoke test (chat lane)](jobs/JOB-00.md) | 0 Setup | test | chat | - |  | ██████████ 100 % | DONE |
 | 90 | G-0W | [Factory smoke test (Work lane)](jobs/JOB-90.md) | 0 Setup | test | work | - |  | ██████████ 100 % | DONE |
 | 1 | G-1 | [Fast regression CI on every gameplay push](jobs/JOB-01.md) | 0 Setup | build | work | - |  | ██████████ 100 % | DONE |
-| 2 | G-2 | [Two-manager journey on the emulator (provider level)](jobs/JOB-02.md) | 1 Safety net | test | chat | 1 |  | █░░░░░░░░░ 12 % | IN PROGRESS |
+| 2 | G-2 | [Two-manager journey on the emulator (provider level)](jobs/JOB-02.md) | 1 Safety net | test | chat | 1 |  | ██░░░░░░░░ 25 % | IN PROGRESS |
 | 16 | G-2b | Two-manager browser journey (localhost-only emulator switch) | 1 Safety net | test | chat | 2 |  | ░░░░░░░░░░ 0 % | NOT WRITTEN |
 | 12 | G-12 | Composed production Rules regression | 1 Safety net | test | work | 7, 8 | yes | ░░░░░░░░░░ 0 % | NOT WRITTEN |
 | 3 | G-3 | [Pure shared career model + tests](jobs/JOB-03.md) | 2 Career model | build | work | - |  | ██████████ 100 % | DONE |
 | 4 | G-4 | Renderer seams: screens take a model, never the local path | 2 Career model | build | work | 3 |  | ░░░░░░░░░░ 0 % | NOT WRITTEN |
-| 5 | G-5 | Active Showdown adapter (Rivalry, Continue, tiebreak, final state) | 2 Career model | build | work | 3 |  | ░░░░░░░░░░ 0 % | NOT WRITTEN |
+| 5 | G-5 | [Active Showdown adapter (Rivalry, Continue, tiebreak, final state)](jobs/JOB-05.md) | 2 Career model | build | work | 3 |  | ░░░░░░░░░░ 0 % | NOT STARTED |
 | 6 | G-6 | Start/Join view model + nav.locked | 2 Career model | build | work | 3 |  | ░░░░░░░░░░ 0 % | NOT WRITTEN |
 | 11 | G-11 | Contract fixtures generated from the real model | 2 Career model | test | work | 3, 5 |  | ░░░░░░░░░░ 0 % | NOT WRITTEN |
 | 7 | G-7 | Career index Rules + client + emulator proofs | 3 Career history | rules | work | 1, 2 | yes | ░░░░░░░░░░ 0 % | NOT WRITTEN |
