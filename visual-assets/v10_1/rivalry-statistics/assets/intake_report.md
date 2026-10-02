@@ -6,11 +6,11 @@
 
 | File | Bytes | SHA-256 |
 | --- | --- | --- |
-| ENV_RV_PLATE_V1_SRC.png | 2206532 | 473f0b6748fd60b998dd5d4814036f98136535e4d927eab25ba839e6a457b33d |
-| ENV_RV_PLATE_V1_1X.png | 2206532 | 473f0b6748fd60b998dd5d4814036f98136535e4d927eab25ba839e6a457b33d |
-| ENV_RV_PLATE_V1_1X.webp | 256400 | 1b74c6714c1dce6f068489e08ce27c62b385b3fd3cbd2d4439fb049a3ca1195f |
-| ENV_RV_PLATE_V1_2X.png | 6078264 | 77b08e364cc4bd760005dbc49860302ccdd833119a4855f7097911a30ae2e2c8 |
-| ENV_RV_PLATE_V1_2X.webp | 533200 | 31cc9471d1966e95909389b439ceba89fd0d56b011979e2cedbcd4952af398ae |
+| ENV_RV_PLATE_V1_SRC.png | 2140645 | e7acc983be51af14934e0f0107306a514188f75cf269f6439dbb5cdf6a70c0a2 |
+| ENV_RV_PLATE_V1_1X.png | 2140645 | e7acc983be51af14934e0f0107306a514188f75cf269f6439dbb5cdf6a70c0a2 |
+| ENV_RV_PLATE_V1_1X.webp | 243642 | c207d7a0dce3bc176b1b88b8903ab35bf772acf71c5b30ca4ef92be88e6f4c0c |
+| ENV_RV_PLATE_V1_2X.png | 5880996 | 0b77ccc3060f9671909aacfc2f50aa8257ecf83248ee71c3fe9fd003c053771f |
+| ENV_RV_PLATE_V1_2X.webp | 502170 | a599c8e67e8b1c68add7d71a7425b9ddfacc11fb67a420e59624b661e3fca98f |
 | raw/ENV_RV_PLATE_RAW_try1.png | 3486356 | 4228a3207fd34b53d8d03336135b9ba7bd74fa239e4fbe9e0c35ab034b7dc54a |
 
 Prompt:
@@ -18,3 +18,7 @@ Prompt:
 ```
 Edit this image. Repaint every solid cyan area so it shows what would naturally be behind it: the night stadium, crowd bokeh, floodlights, banners and dark atmosphere, continuing the existing perspective and the warm golden lighting. Where a person's body was covered, continue their clothes naturally. Keep everything that is not cyan exactly as it is: same people, same faces, same hands, same pose, same framing. Remove all cyan. Add no text, no letters, no logos, no new people. Same 16:9 framing, largest size available.
 ```
+
+## Text clean-up (Claude, 2026-10-02 22:30 UTC)
+
+The big banners all read correctly. The small crowd-board ribbons carried garbled AI lettering, so Claude smeared those thin ribbon bands sideways (41 px horizontal blur, feathered, polygons kept clear of both managers). They now read as glowing ribbons with no letters. The 1X/2X files were re-exported; the table above has the new SHA-256.

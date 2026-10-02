@@ -6,10 +6,10 @@
 
 | File | Bytes | SHA-256 |
 | --- | --- | --- |
-| ENV_SYS_PLATE_V1_1X.png | 2344982 | 987119377a732e5b2b3d1d547a075e727283667625974f932fffd30b6da81462 |
-| ENV_SYS_PLATE_V1_1X.webp | 338398 | 003c65d1d0d566446c99148dba95804310a26a7cd84f13bc16f3dbb2cf4fd63e |
-| ENV_SYS_PLATE_V1_2X.png | 6602025 | 8b57395941c4b4363576a3d22da3338033eb9b01c19f510ddb48a9956899d605 |
-| ENV_SYS_PLATE_V1_2X.webp | 712350 | 6a09d937fa3e367575e7f7ea1e739958a5fc1cce6f7fdbf597519517c144cd0e |
+| ENV_SYS_PLATE_V1_1X.png | 2326519 | 0906b8c95b7e9528937fcaadcd5a357daf6a869d80d6f7472cbe27e1e147cfcb |
+| ENV_SYS_PLATE_V1_1X.webp | 335110 | 0342875dca95999886d5bd0b81daf1aca4a86d0b95bb738e2f6cc4548365a2b8 |
+| ENV_SYS_PLATE_V1_2X.png | 6547734 | da8a64723ed69ec305b7edbb76bf926760b63bb522b1742550419f6ca34de284 |
+| ENV_SYS_PLATE_V1_2X.webp | 705436 | 005420e4c40d42fbe34d7a66ff7e5428cd3b58b15587ad9ca7ef438b2105b9fd |
 | raw/ENV_SYS_PLATE_RAW_try1.png | 3614024 | 550f0b445307be738684587ecd30e389be33a9548d5a274ba03fb2a466a360b7 |
 
 Prompt:
@@ -17,3 +17,8 @@ Prompt:
 ```
 Edit this image. Repaint every solid cyan area so it shows what would naturally be behind it: the night stadium, crowd bokeh, floodlights, banners and dark atmosphere, continuing the existing perspective and the warm golden lighting. Keep everything that is not cyan exactly as it is: same framing. Remove all cyan. Add no text, no letters, no logos, no new people. Same 16:9 framing, largest size available. There are no people in the final image; the cyan areas become empty stadium.
 ```
+
+## Text clean-up (Claude, 2026-10-02 22:30 UTC)
+
+The big banners all read correctly. The small crowd-board ribbons carried garbled AI lettering, so Claude smeared those thin ribbon bands sideways (41 px horizontal blur, feathered, polygons kept clear of the empty stands). They now read as glowing ribbons with no letters. The 1X/2X files were re-exported; the table above has the new SHA-256.
+A ghost of the old centre banner's letters (left of centre, under the roof) was also cloned out with the truss beside it. The crowd is distant bokeh with no readable faces, which is what the ticket allows (no foreground people).
