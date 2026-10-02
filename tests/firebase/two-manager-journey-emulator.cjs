@@ -179,7 +179,8 @@ async function runSecondShowdownAndAbandon(env,main){
   assert.equal(Object.hasOwn(abandonedRoot.data,"terminalClose"),false,"Abandon must not create a terminalClose witness");
   const denied=await Results.publishResult({...fresh.a(500),seasonNumber:1,operationId:op("season_result_op_",199),baseRevision:2,result:resultFor("playerOne",1)});
   assert.equal(denied.ok,false,"Further season writes must be denied after abandon");
-  const storedCommit=(await env.withSecurityRulesDisabled(async context=>getDoc(doc(context.firestore(),"rivalries",R3,"seasonCommits","season_1")))).data();
+  let storedCommit;
+  await env.withSecurityRulesDisabled(async context=>{storedCommit=(await getDoc(doc(context.firestore(),"rivalries",R3,"seasonCommits","season_1"))).data();});
   await assertFails(setDoc(doc(fresh.dbA,"rivalries",R3,"seasonCommits","season_1"),storedCommit),"Further direct season writes must be denied after abandon");
 }
 
