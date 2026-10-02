@@ -1,8 +1,8 @@
 # Status · JOB-02 · Two-manager journey on the emulator (provider level)
 
-State: IN PROGRESS
-Step: 7 of 8
-Updated: 2026-10-02 19:20 UTC
+State: DONE
+Step: 8 of 8
+Updated: 2026-10-02 19:22 UTC
 Chat: GPT-5.6 Sol normal chat
 Code branch: gameplay/job-02-two-manager-journey
 Head commit: 5eaa01f2d06b2ec985d3ec40adf03f9a70d799fa
@@ -69,9 +69,20 @@ let results=await Results.publishResult({...a(300),seasonNumber:1,operationId:op
 
 - Step 7: Final Validate Gameplay Fast run 37053162850 is green on exact head 5eaa01f: Gameplay contracts SUCCESS (including Operations audit) and Composed Rules on the emulator SUCCESS, including the required 3-season Two-manager journey. A temporary CI proof at run 37052830310 also passed the full Two-manager journey with CMS_SHOWDOWN_LENGTH=1, then the workflow was restored to the required 3-season command. PR #318 is open into gameplay/recovery-v1. Final diff against recovery shows only the new journey test, the workflow step, and the approved two-line Rules fix.
 
+- Step 8: Baseline report pushed at project-documents/gameplay-factory/reports/JOB-02-baseline.md with A-G evidence, the two tracked known gaps, and all three Step-6 failures documented, including the Rules bug as found and fixed in JOB-02.
+
 ## Self-check
 
+- [x] PASS — The job lane forbids local emulator execution, so the required CI path was used: run 37053162850 passed the full journey with CMS_SHOWDOWN_LENGTH=3 and run 37052830310 passed it with CMS_SHOWDOWN_LENGTH=1.
+- [x] PASS — Validate Gameplay Fast is green on exact head 5eaa01f2d06b2ec985d3ec40adf03f9a70d799fa; run 37053162850 passed Gameplay contracts, Operations audit, the composed Rules emulator matrix and Two-manager journey.
+- [x] PASS — Sections A through G are present; KNOWN GAP 1 (fixed by G-8) and KNOWN GAP 2 (fixed by G-7) remain explicit.
+- [x] PASS — Stranger, privacy and seasonCommits list-denial checks use assertFails against the composed production Rules.
+- [x] PASS — Final diff versus gameplay/recovery-v1 changes no js/ file and no existing test; it contains only the new journey test, the workflow step and the approved two-line .toHexString().lower() Rules fix.
+- [x] PASS — JOB-02-baseline.md is pushed with A-G evidence and a Bugs found section covering the Rules bug plus the two harness issues.
+- [x] PASS — PR #318 is open into gameplay/recovery-v1 at exact head 5eaa01f; nothing was pushed to main and nothing was deployed.
 ## Blocked question
+
+Resolved by the Team G lead's approved JOB-02 scope change; historical question and answer retained below.
 
 Step 6 has failed twice at the same first Season Results write for the fresh second Showdown, including after the JOB-02-authorized seeded paired-state fallback. Should the Team G lead treat this repeat permission-denied as a product/Rules bug to split into a prerequisite job, or provide the exact intended fixture/authority change for JOB-02 to continue?
 
