@@ -80,7 +80,7 @@ check("7. Abandoned removal",()=>{
   assert.equal(m.managers.nik.bestLeaguePoints,70);
   assert.equal(m.managers.nik.perfectSeasons,0);
   assert.equal(m.managers.nik.averageLeaguePoints,70);
-  assert.deepEqual(m.history.showdowns[1],{number:2,rivalryId:b.rivalryId,status:"abandoned",leagueId:null,clubs:{daniel:null,nik:null},seasonsPlayed:null,totalSeasons:null,totals:null,winner:null,seasons:[]});
+  assert.deepEqual(m.history.showdowns[1],{number:2,rivalryId:b.rivalryId,status:"abandoned",leagueId:null,clubs:null,seasonsPlayed:null,totalSeasons:null,totals:null,winner:null,seasons:[]});
   assert.deepEqual(m.coverage,{readable:2,indexed:2});
   assert.equal(record(m,"Highest season score").value,1);
 });
@@ -198,9 +198,7 @@ check("16. Pure and frozen",()=>{
   frozen(m);assert.deepEqual(Analytics.buildCareerModel(input),m);assert.deepEqual(input,before,"caller input stays unchanged");
   assert.ok(!Object.isFrozen(input.showdowns[0].projection),"must not freeze caller objects");
   const source=fs.readFileSync("js/sharedCareerAnalytics.js","utf8");
-  // The job requires the currentShowdownOnly option while banning the shorter substring:
-  // ban reads of currentShowdown itself, allowing the explicitly required argument name.
-  assert.doesNotMatch(source,/localStorage|sessionStorage|indexedDB|document\.|currentShowdown(?!Only)|Date\.now|Math\.random/);
+  assert.doesNotMatch(source,/localStorage|sessionStorage|indexedDB|document\.|currentShowdown|Date\.now|Math\.random/);
   const previous=Object.getOwnPropertyDescriptor(globalThis,"localStorage");
   try{Object.defineProperty(globalThis,"localStorage",{configurable:true,value:{careerPoints:999999}});assert.deepEqual(Analytics.buildCareerModel(input),m);}
   finally{if(previous)Object.defineProperty(globalThis,"localStorage",previous);else delete globalThis.localStorage;}
