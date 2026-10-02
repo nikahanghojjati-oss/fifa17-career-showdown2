@@ -23,7 +23,7 @@ Branch `factory/v1-wtt5ye`. 130 Team V jobs, plus 5 lines that track Team G. Ope
 | 6 | [Truth sheet: Season Results](jobs/JOB-006.md) | 1 Truth | data | plain | - | ██████████ 100 % | DONE |  |
 | 7 | [Truth sheet: Final Winner](jobs/JOB-007.md) | 1 Truth | data | plain | - | ██████████ 100 % | DONE |  |
 | 8 | [Truth sheet: Start / Join](jobs/JOB-008.md) | 1 Truth | data | plain | - | █████░░░░░ 57 % | IN PROGRESS |  |
-| 9 | [Truth sheet: Rule Book](jobs/JOB-009.md) | 1 Truth | data | plain | - | █░░░░░░░░░ 14 % | IN PROGRESS |  |
+| 9 | [Truth sheet: Rule Book](jobs/JOB-009.md) | 1 Truth | data | plain | - | ████░░░░░░ 42 % | IN PROGRESS |  |
 | 10 | [Truth sheet: Settings](jobs/JOB-010.md) | 1 Truth | data | plain | - | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 11 | [Truth sheet: Loading](jobs/JOB-011.md) | 1 Truth | data | plain | - | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 12 | [Showdown tokens and type system](jobs/JOB-012.md) | 2 Foundation | build | plain (work if job 0 says no screenshots) | - | ██████████ 100 % | DONE |  |
