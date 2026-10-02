@@ -55,7 +55,8 @@
     "content": "careerStatisticsContent",
     "rivalryButton": "careerStatisticsRivalryButton",
     "trophyButton": "careerStatisticsTrophyButton",
-    "backClass": "backButton"
+    "backClass": "backButton",
+    "screenTitle": "careerStatisticsScreenTitle"
   },
   "frames": {
     "CS1": {
@@ -93,9 +94,9 @@
           "awardsBonuses": 3
         },
         "nik": {
-          "seasonWins": 6,
+          "seasonWins": 3,
           "seasonDraws": 2,
-          "seasonLosses": 4,
+          "seasonLosses": 7,
           "championsLeagues": 1,
           "leagueTitles": 2,
           "domesticCups": 3,
@@ -186,9 +187,9 @@
           "awardsBonuses": 2
         },
         "nik": {
-          "seasonWins": 4,
+          "seasonWins": 3,
           "seasonDraws": 1,
-          "seasonLosses": 4,
+          "seasonLosses": 5,
           "championsLeagues": 1,
           "leagueTitles": 1,
           "domesticCups": 2,

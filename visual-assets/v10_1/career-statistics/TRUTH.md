@@ -19,6 +19,7 @@ Authority: `main` product code plus `project-documents/factory/PRODUCT_TRUTH.md`
 | Element | Id | Product dependency |
 | --- | --- | --- |
 | Career Statistics section | `careerStatistics` | route target used by `showScreen` / `screens.js` |
+| Accessible screen title | `careerStatisticsScreenTitle` | assigned by `prepareScreenAccessibility()` to the screen `h2`; used by `aria-labelledby` and route focus |
 | Main dynamic content host | `careerStatisticsContent` | read by `renderCareerStatistics()` |
 | Rivalry Statistics action | `careerStatisticsRivalryButton` | click opens current-rivalry statistics; renderer hides it when no `currentShowdown` |
 | Trophy Room action | `careerStatisticsTrophyButton` | click calls `window.openOptionalModule("trophyRoom")`; Trophy Room can Back to Career Statistics |
@@ -43,6 +44,7 @@ These are live presentation hooks emitted by `js/statistics.js`; the factory bui
 - `CURRENT RIVALRY STATISTICS` is visible only when `currentShowdown` exists.
 - `OPEN TROPHY ROOM` routes through the optional-module loader.
 - Back is not a bespoke handler on this screen. The shared smart-back delegation intercepts `.backButton`; for Career Statistics the only legal target is `mainMenu`.
+- Central navigation assigns the `h2` id `careerStatisticsScreenTitle`, `tabindex="-1"` and `data-route-focus-target="true"`, then sets the section `aria-labelledby="careerStatisticsScreenTitle"`.
 
 ## Live buttons and strings
 
