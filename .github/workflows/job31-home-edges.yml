@@ -1,4 +1,4 @@
-name: Job 31 Home after evidence
+name: Job 31 Home seam repair v2
 on:
   push:
     branches: [factory/v1-wtt5ye]
@@ -9,9 +9,9 @@ permissions:
   contents: write
 
 jobs:
-  evidence:
+  repair:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 35
     steps:
       - uses: actions/checkout@v4
         with:
@@ -23,20 +23,187 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
-      - name: Install render dependencies
+      - name: Install dependencies
         run: |
-          python -m pip install --quiet pillow
+          python -m pip install --quiet pillow numpy
           npm install -g playwright@1.55.0
           npx playwright install --with-deps chromium
 
-      - name: Render repaired HM1-HM3 and registered crops
+      - name: Restore pre-repair plate and apply local ring match
+        shell: bash
+        run: |
+          set -euo pipefail
+          P1="visual-assets/v10_1/home/assets/ENV_HOME_PLATE_V1_1X.png"
+          P2="visual-assets/v10_1/home/assets/ENV_HOME_PLATE_V1_2X.png"
+          PREV1=$(git log --format=%H -- "$P1" | sed -n '2p')
+          PREV2=$(git log --format=%H -- "$P2" | sed -n '2p')
+          test -n "$PREV1" && test -n "$PREV2"
+          git show "$PREV1:$P1" > /tmp/home-original-1x.png
+          git show "$PREV2:$P2" > /tmp/home-original-2x.png
+
+          python3 <<'PY'
+          from pathlib import Path
+          from PIL import Image, ImageFilter
+          import numpy as np, json, hashlib, math, re, shutil
+
+          home=Path("visual-assets/v10_1/home")
+          assets=home/"assets"
+          pm=json.loads((assets/"platemap.json").read_text())
+          orig1=Image.open("/tmp/home-original-1x.png").convert("RGB")
+          orig2=Image.open("/tmp/home-original-2x.png").convert("RGB")
+          arr=np.asarray(orig1).astype(np.float32)
+          base=arr.copy()
+          H,W=arr.shape[:2]
+
+          remove=np.zeros((H,W),bool)
+          for x0,y0,x1,y1 in pm["remove_rects"]:
+              remove[max(0,y0):min(H,y1),max(0,x0):min(W,x1)]=True
+          protected=np.zeros((H,W),bool)
+          for x0,y0,x1,y1 in pm["protected_boxes"].values():
+              protected[max(0,y0):min(H,y1),max(0,x0):min(W,x1)]=True
+
+          low=np.asarray(orig1.filter(ImageFilter.GaussianBlur(radius=5))).astype(np.float32)
+          hi=base-low
+
+          # Gaussian smoothing for 1D edge statistics.
+          def smooth1d(v,sigma=9):
+              r=max(1,int(math.ceil(sigma*3)))
+              x=np.arange(-r,r+1,dtype=np.float32)
+              k=np.exp(-(x*x)/(2*sigma*sigma)); k/=k.sum()
+              out=np.empty_like(v,dtype=np.float32)
+              for c in range(v.shape[1]):
+                  pad=np.pad(v[:,c],(r,r),mode="edge")
+                  out[:,c]=np.convolve(pad,k,mode="valid")
+              return out
+
+          # Each repair changes only the generated side of an intake edge.
+          # ring=12 follows the job. width=28 gives a smooth fade with no broad block.
+          specs=[
+            ("D6 zone0 bottom","h",84,0,968,-1),
+            ("D5 zone1 bottom","h",88,1305,1520,-1),
+            ("D5 zone2 bottom","h",84,1522,1662,-1),
+            ("D5 zone2 right","v",1662,4,84,-1),
+            ("D7 zone3 top","h",118,40,605,+1),
+            ("D3 zone4 bottom","h",540,140,530,-1),
+            ("D3 zone5 top","h",535,35,530,+1),
+            ("D2 zone4 right","v",530,398,540,-1),
+            ("D2 zone5 right","v",530,535,678,-1),
+          ]
+          ring=12; width=28
+          report=[]
+
+          def valid_mean(block,mask,axis):
+              a=np.where(mask[...,None],block,np.nan)
+              return np.nanmean(a,axis=axis)
+          def valid_std(block,mask,axis):
+              a=np.where(mask[...,None],block,np.nan)
+              return np.nanstd(a,axis=axis)
+
+          for name,o,e,s0,s1,idir in specs:
+              if o=="h":
+                  xs=np.arange(max(0,s0),min(W,s1))
+                  if idir<0:
+                      inside=np.arange(max(0,e-ring),e)
+                      outside=np.arange(e,min(H,e+ring))
+                  else:
+                      outside=np.arange(max(0,e-ring),e)
+                      inside=np.arange(e,min(H,e+ring))
+                  if len(xs)<2 or len(inside)<2 or len(outside)<2: continue
+                  ib=low[np.ix_(inside,xs)]; ob=low[np.ix_(outside,xs)]
+                  im=(remove & ~protected)[np.ix_(inside,xs)]
+                  om=(~protected)[np.ix_(outside,xs)]
+                  mu_i=valid_mean(ib,im,axis=0); mu_o=valid_mean(ob,om,axis=0)
+                  sd_i=valid_std(ib,im,axis=0); sd_o=valid_std(ob,om,axis=0)
+                  diff=np.nan_to_num(mu_o-mu_i,nan=0.0)
+                  scale=np.clip(np.nan_to_num(sd_o/np.maximum(sd_i,3.0),nan=1.0),0.90,1.10)
+                  diff=smooth1d(diff,8); scale=smooth1d(scale,8)
+                  for d in range(width):
+                      y=e-1-d if idir<0 else e+d
+                      if y<0 or y>=H: continue
+                      wgt=0.5*(1+math.cos(math.pi*d/width))
+                      ok=(remove[y,xs] & ~protected[y,xs])
+                      xx=xs[ok]
+                      if not len(xx): continue
+                      di=diff[ok]; sc=scale[ok]
+                      arr[y,xx]=np.clip((low[y,xx]+di*wgt) + hi[y,xx]*(1+(sc-1)*wgt),0,255)
+                  report.append({"name":name,"samples":len(xs),"mean_abs_delta":float(np.mean(np.abs(diff)))})
+              else:
+                  ys=np.arange(max(0,s0),min(H,s1))
+                  if idir<0:
+                      inside=np.arange(max(0,e-ring),e)
+                      outside=np.arange(e,min(W,e+ring))
+                  else:
+                      outside=np.arange(max(0,e-ring),e)
+                      inside=np.arange(e,min(W,e+ring))
+                  if len(ys)<2 or len(inside)<2 or len(outside)<2: continue
+                  ib=low[np.ix_(ys,inside)]; ob=low[np.ix_(ys,outside)]
+                  im=(remove & ~protected)[np.ix_(ys,inside)]
+                  om=(~protected)[np.ix_(ys,outside)]
+                  mu_i=valid_mean(ib,im,axis=1); mu_o=valid_mean(ob,om,axis=1)
+                  sd_i=valid_std(ib,im,axis=1); sd_o=valid_std(ob,om,axis=1)
+                  diff=np.nan_to_num(mu_o-mu_i,nan=0.0)
+                  scale=np.clip(np.nan_to_num(sd_o/np.maximum(sd_i,3.0),nan=1.0),0.90,1.10)
+                  diff=smooth1d(diff,8); scale=smooth1d(scale,8)
+                  for d in range(width):
+                      x=e-1-d if idir<0 else e+d
+                      if x<0 or x>=W: continue
+                      wgt=0.5*(1+math.cos(math.pi*d/width))
+                      ok=(remove[ys,x] & ~protected[ys,x])
+                      yy=ys[ok]
+                      if not len(yy): continue
+                      di=diff[ok]; sc=scale[ok]
+                      arr[yy,x]=np.clip((low[yy,x]+di*wgt) + hi[yy,x]*(1+(sc-1)*wgt),0,255)
+                  report.append({"name":name,"samples":len(ys),"mean_abs_delta":float(np.mean(np.abs(diff)))})
+
+          out=np.rint(arr).astype(np.uint8)
+          # Absolute scope locks.
+          out[~remove]=np.asarray(orig1)[~remove]
+          out[protected]=np.asarray(orig1)[protected]
+          assert np.array_equal(out[~remove],np.asarray(orig1)[~remove])
+          assert np.array_equal(out[protected],np.asarray(orig1)[protected])
+
+          fixed=Image.fromarray(out,"RGB")
+          p1=assets/"ENV_HOME_PLATE_V1_1X.png"
+          fixed.save(p1,optimize=True)
+          fixed.save(assets/"ENV_HOME_PLATE_V1_1X.webp","WEBP",quality=88,method=6)
+
+          # 2X derivative, with approved protected 2X pixels pasted back.
+          two=fixed.resize((W*2,H*2),Image.Resampling.LANCZOS)
+          for x0,y0,x1,y1 in pm["protected_boxes"].values():
+              b=(x0*2,y0*2,x1*2,y1*2)
+              two.paste(orig2.crop(b),b)
+          two.save(assets/"ENV_HOME_PLATE_V1_2X.png",optimize=True)
+          two.save(assets/"ENV_HOME_PLATE_V1_2X.webp","WEBP",quality=88,method=6)
+
+          def sha(p): return hashlib.sha256(Path(p).read_bytes()).hexdigest()
+          fs=["ENV_HOME_PLATE_V1_1X.png","ENV_HOME_PLATE_V1_1X.webp","ENV_HOME_PLATE_V1_2X.png","ENV_HOME_PLATE_V1_2X.webp"]
+          hashes={f:sha(assets/f) for f in fs}
+          pm["sha256"].update(hashes)
+          (assets/"platemap.json").write_text(json.dumps(pm,indent=1)+"\n")
+
+          intake=assets/"intake_report.md"
+          txt=intake.read_text()
+          head="## JOB-031 source seam repair"
+          if head in txt: txt=txt.split(head)[0].rstrip()
+          txt += "\n\n"+head+" (2026-10-02)\n\n"
+          txt += "- Restored the pre-JOB-031 plate, then repaired only D2/D3/D5/D6/D7 edge bands. Each edge uses the 12 px outside ring as the target; RGB mean and local variance are matched per edge position, smoothed tangentially, and feathered 28 px into the generated side.\n"
+          txt += "- D1 and D4 were runtime broad-blur/darken artifacts, so they are fixed by retiring those runtime mends rather than repainting broad source rectangles.\n"
+          txt += "- Protected face/hand pixels and every 1X pixel outside the remove-zone union are byte-identical to the pre-JOB-031 plate.\n\n"
+          txt += "### Current plate SHA-256\n\n"
+          for f in fs: txt += f"- `{f}` `{hashes[f]}`\n"
+          intake.write_text(txt+"\n")
+          (home/"evidence/edges_after/repair_v2.json").parent.mkdir(parents=True,exist_ok=True)
+          (home/"evidence/edges_after/repair_v2.json").write_text(json.dumps({"repairs":report,"hashes":hashes},indent=2)+"\n")
+          print(json.dumps(report,indent=2))
+          PY
+
+      - name: Render corrected after evidence
         shell: bash
         run: |
           set -euo pipefail
           OUT="visual-assets/v10_1/home/evidence/edges_after"
-          rm -rf "$OUT"
+          rm -rf "$OUT/full" "$OUT/crops"
           mkdir -p "$OUT/full" "$OUT/crops"
-
           python3 -m http.server 8765 >/tmp/job31-server.log 2>&1 &
           SERVER_PID=$!
           trap 'kill $SERVER_PID 2>/dev/null || true' EXIT
@@ -44,96 +211,71 @@ jobs:
 
           NODE_PATH=$(npm root -g) node <<'NODE'
           const { chromium } = require("playwright");
-          const fs = require("fs"), path=require("path");
+          const fs=require("fs"),path=require("path");
           const out="visual-assets/v10_1/home/evidence/edges_after";
           const base="http://127.0.0.1:8765/visual-assets/v10_1/home/index.html";
           (async()=>{
-            const browser=await chromium.launch({headless:true});
+            const b=await chromium.launch({headless:true});
             for(const [w,h] of [[1366,768],[1920,1080]]){
-              for(const mendOn of [true,false]){
-                for(const frame of ["HM1","HM2","HM3"]){
-                  const page=await browser.newPage({viewport:{width:w,height:h},deviceScaleFactor:1});
-                  const q=new URLSearchParams({frame}); if(!mendOn) q.set("mends","0");
-                  await page.goto(base+"?"+q.toString(),{waitUntil:"networkidle"});
-                  await page.waitForFunction(()=>window.__homeReady===true);
-                  await page.evaluate(()=>document.fonts && document.fonts.ready);
-                  const tag=mendOn?"mends_on":"mends_off";
-                  await page.screenshot({path:path.join(out,"full",`${frame}_${w}x${h}_${tag}.png`),fullPage:false});
-                  await page.close();
-                }
+              for(const frame of ["HM1","HM2","HM3"]){
+                const p=await b.newPage({viewport:{width:w,height:h},deviceScaleFactor:1});
+                await p.goto(base+"?frame="+frame,{waitUntil:"networkidle"});
+                await p.waitForFunction(()=>window.__homeReady===true);
+                await p.evaluate(()=>document.fonts&&document.fonts.ready);
+                await p.screenshot({path:path.join(out,"full",`${frame}_${w}x${h}_final.png`)});
+                await p.close();
               }
             }
-            await browser.close();
+            await b.close();
           })().catch(e=>{console.error(e);process.exit(1)});
           NODE
 
           python3 <<'PY'
           from pathlib import Path
-          from PIL import Image, ImageDraw, ImageFont
-          import json,re,math
-
+          from PIL import Image,ImageDraw,ImageFont
+          import json,re
           home=Path("visual-assets/v10_1/home")
-          before=home/"evidence/edges_before"
-          after=home/"evidence/edges_after"
-
-          # Exact Step-1 boxes: same crops, same registration.
+          before=home/"evidence/edges_before"; after=home/"evidence/edges_after"
           for wh in ["1366x768","1920x1080"]:
               w,h=map(int,wh.split("x"))
               boxes=json.loads((before/f"boxes_{wh}.json").read_text())
               (after/f"boxes_{wh}.json").write_text(json.dumps(boxes,indent=2)+"\n")
               for frame in ["HM1","HM2","HM3"]:
-                  for tag in ["mends_on","mends_off"]:
-                      im=Image.open(after/"full"/f"{frame}_{wh}_{tag}.png").convert("RGB")
-                      for i,b in enumerate(boxes):
-                          l=max(0,int(b["left"])); t=max(0,int(b["top"])); r=min(w,int(b["right"])); bt=min(h,int(b["bottom"]))
-                          if r-l<2 or bt-t<2: continue
-                          crop=im.crop((l,t,r,bt)).resize(((r-l)*4,(bt-t)*4),Image.Resampling.NEAREST)
-                          name=re.sub(r"[^A-Za-z0-9_-]+","_",b["name"]).strip("_") or f"box{i:02d}"
-                          crop.save(after/"crops"/f"{frame}_{wh}_{tag}_{i:02d}_{name}_x4.jpg",quality=96,subsampling=0,optimize=True)
+                  im=Image.open(after/"full"/f"{frame}_{wh}_final.png").convert("RGB")
+                  for i,b in enumerate(boxes):
+                      l=max(0,int(b["left"]));t=max(0,int(b["top"]));r=min(w,int(b["right"]));bt=min(h,int(b["bottom"]))
+                      if r-l<2 or bt-t<2: continue
+                      c=im.crop((l,t,r,bt)).resize(((r-l)*4,(bt-t)*4),Image.Resampling.NEAREST)
+                      n=re.sub(r"[^A-Za-z0-9_-]+","_",b["name"]).strip("_") or f"box{i:02d}"
+                      c.save(after/"crops"/f"{frame}_{wh}_final_{i:02d}_{n}_x4.jpg",quality=96,subsampling=0,optimize=True)
 
-          # One registered before/after sheet for D1-D7 using the exact Step-2 pixel boxes at 1920x1080.
-          before_full=Image.open(before/"full/HM1_1920x1080_mends_on.png").convert("RGB")
-          after_full=Image.open(after/"full/HM1_1920x1080_mends_on.png").convert("RGB")
-          regions=[
-              ("D1 left-column tone patch",(26,115,698,801)),
-              ("D2 zones 4–5 right edge",(591,446,626,789)),
-              ("D3 zones 4–5 join",(29,597,620,638)),
-              ("D4 top-right dark patch",(1505,0,1920,123)),
-              ("D5 top-right lower/right fringe",(1491,79,1920,119)),
-              ("D6 zone 0 bottom seam",(0,79,1122,114)),
-              ("D7 zone 3 top line",(35,118,706,153)),
+          # Rebuild compact registered before/after sheet using Step-2 boxes.
+          bef=Image.open(before/"full/HM1_1920x1080_mends_on.png").convert("RGB")
+          aft=Image.open(after/"full/HM1_1920x1080_final.png").convert("RGB")
+          regs=[
+            ("D1 left-column",(26,115,698,801)),
+            ("D2 zones4-5 right",(591,446,626,789)),
+            ("D3 zones4-5 join",(29,597,620,638)),
+            ("D4 top-right patch",(1505,0,1920,123)),
+            ("D5 top-right edges",(1491,79,1920,119)),
+            ("D6 zone0 bottom",(0,79,1122,114)),
+            ("D7 zone3 top",(35,118,706,153)),
           ]
-
-          W=1500; label_w=260; col_w=(W-label_w)//2; row_h=180; header_h=64
-          sheet=Image.new("RGB",(W,header_h+row_h*len(regions)),(10,11,14))
-          d=ImageDraw.Draw(sheet)
-          font=ImageFont.load_default()
-          d.text((18,18),"JOB-031 · HOME EDGES · BEFORE / AFTER · 1920×1080 REGISTERED CROPS",fill=(242,196,91),font=font)
-          d.text((label_w+12,44),"BEFORE",fill=(244,241,234),font=font)
-          d.text((label_w+col_w+12,44),"AFTER",fill=(244,241,234),font=font)
-
-          def fit(img,boxw,boxh):
-              img=img.copy()
-              scale=min(boxw/img.width,boxh/img.height)
-              nw=max(1,round(img.width*scale)); nh=max(1,round(img.height*scale))
-              return img.resize((nw,nh),Image.Resampling.LANCZOS)
-
-          for idx,(name,box) in enumerate(regions):
-              y=header_h+idx*row_h
-              d.rectangle((0,y,W,y+row_h-1),outline=(50,50,52))
-              d.text((18,y+18),name,fill=(244,241,234),font=font)
-              d.text((18,y+42),f"x {box[0]}–{box[2]} · y {box[1]}–{box[3]}",fill=(185,179,164),font=font)
-              for ci,src in enumerate([before_full,after_full]):
-                  crop=src.crop(box)
-                  thumb=fit(crop,col_w-24,row_h-24)
-                  x=label_w+ci*col_w+(col_w-thumb.width)//2
-                  yy=y+(row_h-thumb.height)//2
-                  sheet.paste(thumb,(x,yy))
-                  ImageDraw.Draw(sheet).rectangle((x,yy,x+thumb.width-1,yy+thumb.height-1),outline=(120,105,60))
+          W=1500; lw=250; cw=(W-lw)//2; rh=180; hh=64
+          sheet=Image.new("RGB",(W,hh+rh*len(regs)),(10,11,14)); d=ImageDraw.Draw(sheet); f=ImageFont.load_default()
+          d.text((16,18),"JOB-031 HOME EDGES · BEFORE / AFTER · REGISTERED 1920×1080 CROPS",fill=(242,196,91),font=f)
+          d.text((lw+12,44),"BEFORE",fill=(244,241,234),font=f); d.text((lw+cw+12,44),"AFTER",fill=(244,241,234),font=f)
+          def fit(im,bw,bh):
+              k=min(bw/im.width,bh/im.height); return im.resize((max(1,round(im.width*k)),max(1,round(im.height*k))),Image.Resampling.LANCZOS)
+          for i,(name,box) in enumerate(regs):
+              y=hh+i*rh; d.rectangle((0,y,W-1,y+rh-1),outline=(50,50,52)); d.text((16,y+18),name,fill=(244,241,234),font=f)
+              for ci,src in enumerate((bef,aft)):
+                  t=fit(src.crop(box),cw-24,rh-24); x=lw+ci*cw+(cw-t.width)//2; yy=y+(rh-t.height)//2
+                  sheet.paste(t,(x,yy)); d.rectangle((x,yy,x+t.width-1,yy+t.height-1),outline=(120,105,60))
           sheet.save(home/"evidence/EDGES_BEFORE_AFTER.png",optimize=True)
           PY
 
-      - name: Save Step 4 status and commit
+      - name: Record correction and commit
         shell: bash
         run: |
           set -euo pipefail
@@ -143,15 +285,14 @@ jobs:
           import re
           p=Path("project-documents/factory/status/JOB-031.md")
           s=p.read_text()
-          s=s.replace("Step: 3 of 5","Step: 4 of 5")
           s=re.sub(r"Updated: .*","Updated: "+datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"),s,count=1)
-          note="- Step 4: re-rendered HM1-HM3 at 1366×768 and 1920×1080 with the exact Step-1 crop boxes into edges_after/; generated EDGES_BEFORE_AFTER.png with registered before/after views for D1-D7.\n"
-          if note not in s: s=s.replace("## Self-check",note+"\n## Self-check")
+          n="- Step 3 correction: rejected the first broad-band source match after Step 4 exposed rectangular patches/colour fringe. Restored the pre-repair plate and replaced it with local 12 px ring matching feathered 28 px only into the generated side; faces/hands and pixels outside remove zones remain locked. Step 4 evidence was regenerated from this corrected source.\n"
+          if n not in s: s=s.replace("## Self-check",n+"\n## Self-check")
           p.write_text(s)
           PY
           git config user.name "Showdown Factory Job 31"
           git config user.email "actions@users.noreply.github.com"
-          git add visual-assets/v10_1/home/evidence/edges_after                   visual-assets/v10_1/home/evidence/EDGES_BEFORE_AFTER.png                   project-documents/factory/status/JOB-031.md
-          git commit -m "Job 31 step 4/5: render after evidence"
+          git add visual-assets/v10_1/home/assets/ENV_HOME_PLATE_V1_1X.png                   visual-assets/v10_1/home/assets/ENV_HOME_PLATE_V1_1X.webp                   visual-assets/v10_1/home/assets/ENV_HOME_PLATE_V1_2X.png                   visual-assets/v10_1/home/assets/ENV_HOME_PLATE_V1_2X.webp                   visual-assets/v10_1/home/assets/platemap.json                   visual-assets/v10_1/home/assets/intake_report.md                   visual-assets/v10_1/home/evidence/edges_after                   visual-assets/v10_1/home/evidence/EDGES_BEFORE_AFTER.png                   project-documents/factory/status/JOB-031.md
+          git commit -m "Job 31 step 3/5: correct local seam repair"
           git pull --rebase origin factory/v1-wtt5ye
           git push origin HEAD:factory/v1-wtt5ye
