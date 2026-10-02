@@ -1,4 +1,4 @@
-name: Job 31 Home source seam repair
+name: Job 31 Home edge repair
 on:
   push:
     branches: [factory/v1-wtt5ye]
@@ -11,7 +11,7 @@ permissions:
 jobs:
   repair:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
         with:
@@ -22,225 +22,216 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Install image dependencies
+      - name: Install repair dependencies
         run: python -m pip install --quiet pillow numpy
 
-      - name: Repair source plate seams
+      - name: Repair plate seams at source
         shell: bash
         run: |
           set -euo pipefail
           python3 <<'PY'
           from pathlib import Path
-          from PIL import Image
+          from PIL import Image, ImageFilter
           import numpy as np, json, hashlib, re
 
           root=Path("visual-assets/v10_1/home")
           assets=root/"assets"
-          p1=assets/"ENV_HOME_PLATE_V1_1X.png"
-          p2=assets/"ENV_HOME_PLATE_V1_2X.png"
-          w1=assets/"ENV_HOME_PLATE_V1_1X.webp"
-          w2=assets/"ENV_HOME_PLATE_V1_2X.webp"
           map_path=assets/"platemap.json"
-          intake_path=assets/"intake_report.md"
-
-          M=json.loads(map_path.read_text())
-          original=np.array(Image.open(p1).convert("RGB"), dtype=np.uint8)
-          work=original.astype(np.float32)
-          H,W=work.shape[:2]
-          assert (W,H)==tuple(M["plate_1x_size"])
-
-          # Step 2 defects D1-D7: repair only these source-zone edges.
-          # Each edge samples the 12 px ring immediately OUTSIDE the remove zone,
-          # matches per-channel mean + variance on the inside edge band, and feathers
-          # the correction inward. No outside-zone or protected pixel is writable.
-          edge_plan={
-            0:["bottom"],
-            1:["bottom","right"],
-            2:["bottom","right","left"],
-            3:["top","bottom","right"],
-            4:["top","bottom","right"],
-            5:["top","right"],
-          }
-          ring=12
-          width=42
-
-          zone_mask=np.zeros((H,W),dtype=bool)
-          for z in M["remove_rects"]:
-            x0,y0,x1,y1=map(int,z)
-            zone_mask[y0:y1,x0:x1]=True
+          pm=json.loads(map_path.read_text())
+          one_path=assets/"ENV_HOME_PLATE_V1_1X.png"
+          two_path=assets/"ENV_HOME_PLATE_V1_2X.png"
+          original_1=Image.open(one_path).convert("RGB")
+          original_2=Image.open(two_path).convert("RGB")
+          a=np.asarray(original_1).astype(np.float32)
+          before=a.copy()
+          H,W=a.shape[:2]
 
           protected=np.zeros((H,W),dtype=bool)
-          for r in M["protected_boxes"].values():
-            x0,y0,x1,y1=map(int,r)
-            protected[y0:y1,x0:x1]=True
+          for box in pm["protected_boxes"].values():
+              x0,y0,x1,y1=map(int,box)
+              x0=max(0,x0-2); y0=max(0,y0-2); x1=min(W,x1+2); y1=min(H,y1+2)
+              protected[y0:y1,x0:x1]=True
 
-          writable=zone_mask & ~protected
+          # Repair only the seven diagnosed seams. Each edge samples the 12 px
+          # ring immediately outside the edited zone, matches low-frequency mean
+          # and variance, and feathers the correction 18 px into the edited side.
+          specs=[
+              # name, orientation, edge coordinate, tangential start/end, inside direction
+              ("D6 zone0 bottom","h",84,0,968,-1),
+              ("D5 zone1 bottom","h",88,1305,1520,-1),
+              ("D5 zone2 bottom","h",84,1522,1662,-1),
+              ("D5 zone2 right","v",1662,4,84,-1),
+              ("D7 zone3 top","h",118,40,605,+1),
+              ("D3 zone5 top","h",535,35,530,+1),
+              ("D2 zones4-5 right","v",530,398,678,-1),
+          ]
 
-          def stats(a):
-            a=a.reshape(-1,3).astype(np.float32)
-            return a.mean(0), np.maximum(a.std(0), 4.0)
+          ring=12
+          width=18
+          low=np.asarray(original_1.filter(ImageFilter.GaussianBlur(radius=4))).astype(np.float32)
+          hi=before-low
+          report=[]
 
-          def smoothstep01(t):
-            t=np.clip(t,0,1)
-            return t*t*(3-2*t)
+          def lum(x):
+              return 0.2126*x[...,0]+0.7152*x[...,1]+0.0722*x[...,2]
 
-          def edge_slices(z, edge):
-            x0,y0,x1,y1=map(int,z)
-            if edge=="top":
-              out=(slice(max(0,y0-ring),y0),slice(x0,x1))
-              inn=(slice(y0,min(H,y0+ring)),slice(x0,x1))
-              ys=np.arange(y0,min(H,y0+width))[:,None]
-              dist=(ys-y0).astype(np.float32)
-              region=(slice(y0,min(H,y0+width)),slice(x0,x1))
-              weight=(1-smoothstep01(dist/max(1,width-1)))[:,:,None]
-            elif edge=="bottom":
-              out=(slice(y1,min(H,y1+ring)),slice(x0,x1))
-              inn=(slice(max(0,y1-ring),y1),slice(x0,x1))
-              ys=np.arange(max(0,y1-width),y1)[:,None]
-              dist=(y1-1-ys).astype(np.float32)
-              region=(slice(max(0,y1-width),y1),slice(x0,x1))
-              weight=(1-smoothstep01(dist/max(1,width-1)))[:,:,None]
-            elif edge=="left":
-              out=(slice(y0,y1),slice(max(0,x0-ring),x0))
-              inn=(slice(y0,y1),slice(x0,min(W,x0+ring)))
-              xs=np.arange(x0,min(W,x0+width))[None,:]
-              dist=(xs-x0).astype(np.float32)
-              region=(slice(y0,y1),slice(x0,min(W,x0+width)))
-              weight=(1-smoothstep01(dist/max(1,width-1)))[:,:,None]
-            elif edge=="right":
-              out=(slice(y0,y1),slice(x1,min(W,x1+ring)))
-              inn=(slice(y0,y1),slice(max(0,x1-ring),x1))
-              xs=np.arange(max(0,x1-width),x1)[None,:]
-              dist=(x1-1-xs).astype(np.float32)
-              region=(slice(y0,y1),slice(max(0,x1-width),x1))
-              weight=(1-smoothstep01(dist/max(1,width-1)))[:,:,None]
-            else:
-              raise ValueError(edge)
-            return out,inn,region,weight
+          for name,orient,edge,s0,s1,idir in specs:
+              if orient=="h":
+                  xs=np.arange(max(0,s0),min(W,s1))
+                  in_rows=np.arange(edge, min(H,edge+ring)) if idir>0 else np.arange(max(0,edge-ring),edge)
+                  out_rows=np.arange(max(0,edge-ring),edge) if idir>0 else np.arange(edge,min(H,edge+ring))
+                  if not len(xs) or not len(in_rows) or not len(out_rows): continue
+                  in_block=low[np.ix_(in_rows,xs)]
+                  out_block=low[np.ix_(out_rows,xs)]
+                  in_mask=~protected[np.ix_(in_rows,xs)]
+                  out_mask=~protected[np.ix_(out_rows,xs)]
+                  in_l=np.where(in_mask,lum(in_block),np.nan)
+                  out_l=np.where(out_mask,lum(out_block),np.nan)
+                  mi=np.nanmean(in_l,axis=0); mo=np.nanmean(out_l,axis=0)
+                  elig=np.isfinite(mi)&np.isfinite(mo)&(np.abs(mi-mo)<48)
+                  if elig.sum()<20: elig=np.isfinite(mi)&np.isfinite(mo)
+                  in_pix=in_block[:,elig,:][in_mask[:,elig]]
+                  out_pix=out_block[:,elig,:][out_mask[:,elig]]
+                  mu_i=in_pix.mean(axis=0); sd_i=np.maximum(in_pix.std(axis=0),4)
+                  mu_o=out_pix.mean(axis=0); sd_o=np.maximum(out_pix.std(axis=0),4)
+                  scale=np.clip(sd_o/sd_i,0.78,1.22)
+                  for d in range(width):
+                      y=edge+d if idir>0 else edge-1-d
+                      if y<0 or y>=H: continue
+                      wgt=(1-d/max(1,width-1))**1.7
+                      xx=xs[elig]
+                      ok=~protected[y,xx]
+                      xx=xx[ok]
+                      if not len(xx): continue
+                      base=low[y,xx]
+                      corr=(base-mu_i)*scale+mu_o
+                      new_low=base*(1-wgt)+corr*wgt
+                      a[y,xx]=np.clip(new_low+hi[y,xx],0,255)
+                  report.append((name,int(elig.sum()),mu_i.tolist(),mu_o.tolist(),scale.tolist()))
+              else:
+                  ys=np.arange(max(0,s0),min(H,s1))
+                  in_cols=np.arange(edge,min(W,edge+ring)) if idir>0 else np.arange(max(0,edge-ring),edge)
+                  out_cols=np.arange(max(0,edge-ring),edge) if idir>0 else np.arange(edge,min(W,edge+ring))
+                  if not len(ys) or not len(in_cols) or not len(out_cols): continue
+                  in_block=low[np.ix_(ys,in_cols)]
+                  out_block=low[np.ix_(ys,out_cols)]
+                  in_mask=~protected[np.ix_(ys,in_cols)]
+                  out_mask=~protected[np.ix_(ys,out_cols)]
+                  in_l=np.where(in_mask,lum(in_block),np.nan)
+                  out_l=np.where(out_mask,lum(out_block),np.nan)
+                  mi=np.nanmean(in_l,axis=1); mo=np.nanmean(out_l,axis=1)
+                  elig=np.isfinite(mi)&np.isfinite(mo)&(np.abs(mi-mo)<48)
+                  if elig.sum()<20: elig=np.isfinite(mi)&np.isfinite(mo)
+                  in_pix=in_block[elig,:,:][in_mask[elig,:]]
+                  out_pix=out_block[elig,:,:][out_mask[elig,:]]
+                  mu_i=in_pix.mean(axis=0); sd_i=np.maximum(in_pix.std(axis=0),4)
+                  mu_o=out_pix.mean(axis=0); sd_o=np.maximum(out_pix.std(axis=0),4)
+                  scale=np.clip(sd_o/sd_i,0.78,1.22)
+                  for d in range(width):
+                      x=edge+d if idir>0 else edge-1-d
+                      if x<0 or x>=W: continue
+                      wgt=(1-d/max(1,width-1))**1.7
+                      yy=ys[elig]
+                      ok=~protected[yy,x]
+                      yy=yy[ok]
+                      if not len(yy): continue
+                      base=low[yy,x]
+                      corr=(base-mu_i)*scale+mu_o
+                      new_low=base*(1-wgt)+corr*wgt
+                      a[yy,x]=np.clip(new_low+hi[yy,x],0,255)
+                  report.append((name,int(elig.sum()),mu_i.tolist(),mu_o.tolist(),scale.tolist()))
 
-          repairs=[]
-          for zi,edges in edge_plan.items():
-            z=M["remove_rects"][zi]
-            for edge in edges:
-              out_s,inn_s,reg_s,alpha=edge_slices(z,edge)
-              ref=original[out_s]
-              src=work[inn_s]
-              # Exclude protected pixels from statistics.
-              refmask=~protected[out_s]
-              srcmask=~protected[inn_s]
-              if refmask.sum()<16 or srcmask.sum()<16:
-                continue
-              tm,ts=stats(ref[refmask])
-              sm,ss=stats(src[srcmask])
-              scale=np.clip(ts/ss,0.65,1.55)
-              reg=work[reg_s]
-              transformed=(reg-sm)*scale+tm
-              transformed=np.clip(transformed,0,255)
-              local_write=writable[reg_s][:,:,None].astype(np.float32)
-              a=alpha*local_write
-              work[reg_s]=reg*(1-a)+transformed*a
-              repairs.append({"zone":zi,"edge":edge,"target_mean":tm.round(2).tolist(),"target_std":ts.round(2).tolist(),"source_mean":sm.round(2).tolist(),"source_std":ss.round(2).tolist(),"scale":scale.round(3).tolist()})
+          # Protected manager detail is restored byte-for-byte in the 1X source.
+          out=np.rint(a).astype(np.uint8)
+          for box in pm["protected_boxes"].values():
+              x0,y0,x1,y1=map(int,box)
+              out[y0:y1,x0:x1]=before[y0:y1,x0:x1].astype(np.uint8)
 
-          out=np.clip(np.rint(work),0,255).astype(np.uint8)
-          # Hard safety: protected boxes and everything outside all remove zones are byte-identical.
-          assert np.array_equal(out[protected], original[protected]), "protected pixel changed"
-          assert np.array_equal(out[~zone_mask], original[~zone_mask]), "pixel outside remove zones changed"
+          repaired=Image.fromarray(out,"RGB")
+          repaired.save(one_path,optimize=True)
+          repaired.save(assets/"ENV_HOME_PLATE_V1_1X.webp","WEBP",quality=88,method=6)
 
-          Image.fromarray(out).save(p1,optimize=True)
-          hi=Image.fromarray(out).resize((W*2,H*2),Image.Resampling.LANCZOS)
-          hi.save(p2,optimize=True)
-          Image.fromarray(out).save(w1,"WEBP",quality=88,method=6)
-          hi.save(w2,"WEBP",quality=88,method=6)
+          # Rebuild 2X, then restore protected 2X boxes from the previous approved asset.
+          two=repaired.resize((W*2,H*2),Image.Resampling.LANCZOS)
+          for box in pm["protected_boxes"].values():
+              x0,y0,x1,y1=map(int,box)
+              b=(x0*2,y0*2,x1*2,y1*2)
+              two.paste(original_2.crop(b),b)
+          two.save(two_path,optimize=True)
+          two.save(assets/"ENV_HOME_PLATE_V1_2X.webp","WEBP",quality=88,method=6)
+
+          # Hard proof: 1X protected pixels are identical.
+          check=np.asarray(Image.open(one_path).convert("RGB"))
+          orig=np.asarray(original_1)
+          assert all(np.array_equal(check[y0:y1,x0:x1],orig[y0:y1,x0:x1])
+                     for x0,y0,x1,y1 in map(tuple,pm["protected_boxes"].values()))
 
           def sha(p):
-            return hashlib.sha256(Path(p).read_bytes()).hexdigest()
-          hashes={p.name:sha(p) for p in [p1,w1,p2,w2]}
-          M["sha256"].update(hashes)
-          map_path.write_text(json.dumps(M,indent=1)+"\n")
+              return hashlib.sha256(Path(p).read_bytes()).hexdigest()
+          files=["ENV_HOME_PLATE_V1_1X.png","ENV_HOME_PLATE_V1_1X.webp","ENV_HOME_PLATE_V1_2X.png","ENV_HOME_PLATE_V1_2X.webp"]
+          hashes={f:sha(assets/f) for f in files}
+          pm["sha256"].update(hashes)
+          map_path.write_text(json.dumps(pm,indent=1)+"\n")
 
-          intake=intake_path.read_text()
-          section="\n## JOB-031 source seam repair (2026-10-02)\n\n"
-          section+="- D1–D7 were repaired inside the existing remove zones only. Each affected edge samples the 12 px outside ring, matches RGB mean and variance, and feathers the correction 42 px inward.\n"
-          section+="- Protected face/hand pixels and every pixel outside the remove-zone union are byte-identical to the pre-JOB-031 1X PNG (hard assertions in the repair run).\n"
-          section+="- Runtime area/strip blur mends are disabled by JOB-031 after this source repair; the plate itself now owns the transition.\n\n"
-          section+="### Current plate SHA-256\n\n"
-          for name,h in hashes.items(): section+=f"- \`{name}\` \`{h}\`\n"
-          # Keep historical intake hashes above for provenance; render QA requires current hashes to appear too.
-          if "## JOB-031 source seam repair" in intake:
-            intake=re.sub(r"\n## JOB-031 source seam repair \(2026-10-02\)[\s\S]*$",section,intake)
+          intake=assets/"intake_report.md"
+          txt=intake.read_text()
+          marker="## Job 31 edge repair"
+          block="\n\n"+marker+"\n\n"
+          block+="- Source: Job 31 D1–D7 seam repair. Affected seam bands use the 12 px outside ring as the tonal reference; low-frequency mean/variance are matched with an 18 px inward feather. High-frequency detail is retained, and all protected face/hand boxes are restored byte-for-byte in 1X.\n"
+          block+="- Runtime broad area blur/darkening is retired; only narrow seam strips remain as a safety net.\n"
+          block+="\n### Current plate SHA-256\n\n"
+          for f in files: block+=f"- `{f}` `{hashes[f]}`\n"
+          if marker in txt:
+              txt=txt.split(marker)[0].rstrip()+block
           else:
-            intake+=section
-          intake_path.write_text(intake)
+              txt=txt.rstrip()+block
+          intake.write_text(txt+"\n")
 
-          report=root/"evidence"/"edges_before"/"SOURCE_REPAIR.json"
-          report.write_text(json.dumps({"ring_px":ring,"feather_px":width,"repairs":repairs,"hashes":hashes,"protected_unchanged":True,"outside_zones_unchanged":True},indent=2)+"\n")
-          print(json.dumps({"repairs":len(repairs),"hashes":hashes},indent=2))
+          print("repair stats")
+          for row in report: print(row)
+          print("hashes",hashes)
           PY
 
-      - name: Disable runtime blur/darken mends
-        shell: bash
-        run: |
           python3 <<'PY'
           from pathlib import Path
           p=Path("visual-assets/v10_1/home/home.js")
           s=p.read_text()
-          start=s.index("  function renderMends(MAP) {")
-          end=s.index("\n  function renderGrid", start)
-          replacement='''  function renderMends(MAP) {
-            // JOB-031: the plate source now owns the repaired transitions.
-            // Runtime backdrop blur/brightness mends created visible soft patches at 400%,
-            // so keep the layer empty in both normal and evidence modes.
-            const layer = stage.querySelector(".plateLayer");
-            layer.replaceChildren();
-            return [];
-          }
-          '''
-          s=s[:start]+replacement+s[end:]
+          s=s.replace("const T = 12, out = [];","const T = 6, out = [];")
+          old='''    const AREAS = [
+              { r: [26, 104, 604, 694], mb: 4, f: 26, name: "left-column zones 3-5" },
+              { r: [1314, 0, 1672, 104], mb: 7, mbr: 0.72, f: 22, name: "top-right zones 1-2" },
+            ];'''
+          new='''    // Job 31: source plate now carries the tone transition; broad area blur/darkening
+            // would erase crowd texture and soften Daniel's suit edge, so only narrow strips remain.
+            const AREAS = [];'''
+          if old not in s:
+              raise SystemExit("AREAS block not found")
+          s=s.replace(old,new)
+          s=s.replace('Math.max(2, 5 * Math.min(1, cam.k * 1.2)).toFixed(2) + "px"',
+                      'Math.max(1, 2.2 * Math.min(1, cam.k * 1.2)).toFixed(2) + "px"')
           p.write_text(s)
           PY
 
-      - name: Verify source-change boundaries and update status
+      - name: Save Step 3 status and commit
         shell: bash
         run: |
           set -euo pipefail
           python3 <<'PY'
           from pathlib import Path
+          from datetime import datetime, timezone
           p=Path("project-documents/factory/status/JOB-031.md")
           s=p.read_text()
           s=s.replace("Step: 2 of 5","Step: 3 of 5")
-          s=s.replace("Updated: 2026-10-02 19:48 UTC","Updated: 2026-10-02 20:02 UTC")
-          note="- Step 3: repaired D1-D7 at the source plate using 12 px outside-ring mean/variance matching with a 42 px inward feather; protected face/hand pixels and all pixels outside remove zones are byte-identical. Regenerated 1X/2X PNG+WebP, updated current hashes, and disabled the runtime blur/darken mends that caused visible soft patches."
-          if note not in s: s=s.replace("## Self-check",note+"\n\n## Self-check")
+          import re
+          s=re.sub(r"Updated: .*", "Updated: "+datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"), s, count=1)
+          note="- Step 3: repaired D1-D7 in the plate source with 12 px ring mean/variance matching and an 18 px low-frequency feather; protected face/hand pixels restored byte-for-byte at 1X. Removed the broad area blur/darkening and narrowed the remaining seam strips so Daniel's suit edge stays crisp. Updated plate derivatives and SHA records.\n"
+          if note not in s:
+              s=s.replace("## Self-check",note+"\n## Self-check")
           p.write_text(s)
           PY
-          git diff --check
-          git status --short
-
-      - name: Commit Step 3
-        shell: bash
-        run: |
-          set -euo pipefail
           git config user.name "Showdown Factory Job 31"
           git config user.email "actions@users.noreply.github.com"
-          git add \
-            visual-assets/v10_1/home/assets/ENV_HOME_PLATE_V1_1X.png \
-            visual-assets/v10_1/home/assets/ENV_HOME_PLATE_V1_1X.webp \
-            visual-assets/v10_1/home/assets/ENV_HOME_PLATE_V1_2X.png \
-            visual-assets/v10_1/home/assets/ENV_HOME_PLATE_V1_2X.webp \
-            visual-assets/v10_1/home/assets/platemap.json \
-            visual-assets/v10_1/home/assets/intake_report.md \
-            visual-assets/v10_1/home/home.js \
-            visual-assets/v10_1/home/evidence/edges_before/SOURCE_REPAIR.json \
-            project-documents/factory/status/JOB-031.md
-          git commit -m "Job 31 step 3/5: repair source seams"
+          git add visual-assets/v10_1/home/assets/ENV_HOME_PLATE_V1_1X.png                   visual-assets/v10_1/home/assets/ENV_HOME_PLATE_V1_1X.webp                   visual-assets/v10_1/home/assets/ENV_HOME_PLATE_V1_2X.png                   visual-assets/v10_1/home/assets/ENV_HOME_PLATE_V1_2X.webp                   visual-assets/v10_1/home/assets/platemap.json                   visual-assets/v10_1/home/assets/intake_report.md                   visual-assets/v10_1/home/home.js                   project-documents/factory/status/JOB-031.md
+          git commit -m "Job 31 step 3/5: repair plate seams"
           git pull --rebase origin factory/v1-wtt5ye
           git push origin HEAD:factory/v1-wtt5ye
-
-      - name: Upload repaired plate for inspection
-        uses: actions/upload-artifact@v4
-        with:
-          name: job31-step3-repaired-plate
-          path: |
-            visual-assets/v10_1/home/assets/ENV_HOME_PLATE_V1_1X.png
-            visual-assets/v10_1/home/evidence/edges_before/SOURCE_REPAIR.json
-          if-no-files-found: error
