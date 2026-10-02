@@ -1,16 +1,16 @@
 # Team G gameplay factory board
 
-Branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-02 19:34 UTC
+Branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-02 19:49 UTC
 
-**Overall:** ██░░░░░░░░ 27 % · 5 of 19 jobs done
+**Overall:** ███░░░░░░░ 36 % · 7 of 19 jobs done
 
 **Start now in a normal chat (press Stay in Chat):** 17
 
-**Start now in Sol Work mode (press Use Work, paste the starter line from RULES.md):** -
+**Start now in Sol Work mode (press Use Work, paste the starter line from RULES.md):** 4
 
-**Ready but no free slot yet:** 4, 7
+**Ready but no free slot yet:** 7
 
-**Working:** 5, 6 · **Blocked:** -
+**Working:** - · **Blocked:** -
 
 | # | G id | Job | Phase | Type | Lane | Depends on | Codex | Progress | State |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -22,9 +22,9 @@ Branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generate
 | 16 | G-2b | Two-manager browser journey (localhost-only emulator switch) | 1 Safety net | test | chat | 2 |  | ░░░░░░░░░░ 0 % | NOT WRITTEN |
 | 12 | G-12 | Composed production Rules regression | 1 Safety net | test | work | 7, 8 | yes | ░░░░░░░░░░ 0 % | NOT WRITTEN |
 | 3 | G-3 | [Pure shared career model + tests](jobs/JOB-03.md) | 2 Career model | build | work | - |  | ██████████ 100 % | DONE |
-| 5 | G-5 | [Active Showdown adapter (Rivalry, Continue, tiebreak, final state)](jobs/JOB-05.md) | 2 Career model | build | work | 3 |  | ██░░░░░░░░ 28 % | IN PROGRESS |
+| 5 | G-5 | [Active Showdown adapter (Rivalry, Continue, tiebreak, final state)](jobs/JOB-05.md) | 2 Career model | build | work | 3 |  | ██████████ 100 % | DONE |
 | 4 | G-4 | [Renderer seams: screens take a model, never the local path](jobs/JOB-04.md) | 2 Career model | build | work | 3 |  | ░░░░░░░░░░ 0 % | NOT STARTED |
-| 6 | G-6 | [Start/Join view model + nav.locked](jobs/JOB-06.md) | 2 Career model | build | chat | - |  | ░░░░░░░░░░ 0 % | IN PROGRESS |
+| 6 | G-6 | [Start/Join view model + nav.locked](jobs/JOB-06.md) | 2 Career model | build | chat | - |  | ██████████ 100 % | DONE |
 | 11 | G-11 | Contract fixtures generated from the real model | 2 Career model | test | work | 3, 5 |  | ░░░░░░░░░░ 0 % | NOT WRITTEN |
 | 7 | G-7 | [Career index Rules + client + emulator proofs](jobs/JOB-07.md) | 3 Career history | rules | work | 1, 2 | yes | ░░░░░░░░░░ 0 % | NOT STARTED |
 | 8 | G-8 | Completed-only read grant + session-free reader | 3 Career history | rules | work | 7 | yes | ░░░░░░░░░░ 0 % | NOT WRITTEN |
