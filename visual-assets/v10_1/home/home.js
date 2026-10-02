@@ -99,7 +99,7 @@
 
   // Seam mends: one strip per intake zone edge (plate px), trimmed so it never enters a protected box (+2 px).
   function mendStrips(MAP) {
-    const T = 12, out = [];
+    const T = 4, out = [];
     const prot = protectedList(MAP).map(([n, r]) => [n, grow(r, 2)]);
     MAP.remove_rects.forEach((z, zi) => {
       const [x0, y0, x1, y1] = z;
@@ -134,13 +134,44 @@
   }
 
   function renderMends(MAP) {
-  // JOB-031: the plate source now owns the repaired transitions.
-  // Runtime backdrop blur/brightness mends created visible soft patches at 400%,
-  // so keep the layer empty in both normal and evidence modes.
-  const layer = stage.querySelector(".plateLayer");
-  layer.replaceChildren();
-  return [];
-}
+    const layer = stage.querySelector(".plateLayer");
+    layer.replaceChildren();
+    if (qs.get("mends") === "0") return [];
+
+    // JOB-031: source tone/variance repair owns the broad transitions.
+    // Keep only narrow edge mends where the 400% audit still showed a 1–2 px ridge.
+    const wanted = new Map([
+      [0, new Set(["bottom"])],
+      [1, new Set(["bottom", "left", "right"])],
+      [2, new Set(["bottom", "left", "right"])],
+      [3, new Set(["top", "bottom", "right"])],
+      [4, new Set(["top", "bottom", "right"])],
+      [5, new Set(["top", "right"])],
+      [6, new Set(["top"])],
+    ]);
+    const strips = mendStrips(MAP).filter((s) => wanted.get(s.zone)?.has(s.edge));
+
+    strips.filter((s) => !s.skipped).forEach((s) => {
+      const r = s.o === "h" ? [s.a, s.lo, s.b, s.hi] : [s.lo, s.a, s.hi, s.b];
+      const a = { x: cam.offX + r[0] * cam.k, y: cam.offY + r[1] * cam.k };
+      const b = { x: cam.offX + r[2] * cam.k, y: cam.offY + r[3] * cam.k };
+      const d = document.createElement("i");
+      d.className = "mend " + s.o;
+      d.dataset.zone = s.zone;
+      d.dataset.edge = s.edge;
+      Object.assign(d.style, {
+        left: a.x + "px",
+        top: a.y + "px",
+        width: Math.max(1, b.x - a.x) + "px",
+        height: Math.max(1, b.y - a.y) + "px"
+      });
+      // Slightly stronger only at the sky/nav seams; left-column figure edges stay crisp.
+      const plateBlur = s.zone <= 2 ? 2.0 : (s.zone === 6 ? 1.7 : 1.45);
+      d.style.setProperty("--mb", Math.max(0.9, plateBlur * Math.min(1, cam.k * 1.15)).toFixed(2) + "px");
+      layer.appendChild(d);
+    });
+    return strips;
+  }
 
   function renderGrid(MAP, strips) {
     const g = stage.querySelector(".gridOverlay");
