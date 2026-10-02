@@ -2,7 +2,7 @@
 
 Job: JOB-007 · Truth sheet: Final Winner
 
-This sheet records the behaviour on main. There is no standalone Final Winner route on main.
+This sheet records the behaviour on main. There is no standalone Final Winner route on main. JOB-134 selects one completed surface for the online reveal: the shared Terminal Close result (`state = completed`), headed `SHARED SHOWDOWN CLOSED`.
 
 ## Ids and routes
 
@@ -41,7 +41,7 @@ The reconciliation panel is visible only when the current view is `FINAL_SEASON_
 
 The panel sets `data-terminal="true"` only for phase `CLOSED`.
 
-### Completed dashboard ids and classes
+### Local completed dashboard reference only: ids and classes
 
 | Element | Id | Classes |
 | --- | --- | --- |
@@ -123,9 +123,9 @@ Authority/dependency failures originate with these exact messages in the Termina
 - `Attach the exact completed Connected Rivalry before Terminal Close.`
 - `Private Firebase services are unavailable. No terminal state was changed.`
 
-### Completed Showdown hub strings
+### Local completed dashboard reference only: strings
 
-Copied exactly from `showdownUI.js`.
+Copied exactly from `showdownUI.js`. These are local-dashboard source notes. `SHOWDOWN COMPLETE` is not a second online reveal heading. Existing navigation labels may be reused only through their recorded route bindings; do not mount a second completion hub.
 
 - `SHOWDOWN COMPLETE`
 - Daniel win: `{Daniel} wins the showdown`
@@ -234,6 +234,8 @@ The nine named owner-preview frames below use fictional values and must display 
 - `seasonsPlayed`: 5
 - Daniel trophies: Champions League 2, league titles 3, domestic cups 1, total 6
 - Nik trophies: Champions League 1, league titles 2, domestic cups 2, total 5
+- Online surface: `sharedTerminalClosePanel` · `SHARED SHOWDOWN CLOSED` · `completed`.
+
 
 ### FW2 · Nik wins
 
@@ -246,6 +248,8 @@ The nine named owner-preview frames below use fictional values and must display 
 - `seasonsPlayed`: 5
 - Daniel trophies: Champions League 1, league titles 2, domestic cups 1, total 4
 - Nik trophies: Champions League 2, league titles 3, domestic cups 0, total 5
+- Online surface: `sharedTerminalClosePanel` · `SHARED SHOWDOWN CLOSED` · `completed`.
+
 
 ### FW3 · Draw
 
@@ -258,6 +262,8 @@ The nine named owner-preview frames below use fictional values and must display 
 - `seasonsPlayed`: 5
 - Daniel trophies: Champions League 1, league titles 3, domestic cups 2, total 6
 - Nik trophies: Champions League 2, league titles 2, domestic cups 0, total 4
+- Online surface: `sharedTerminalClosePanel` · `SHARED SHOWDOWN CLOSED` · `completed`.
+
 
 ### FW4 · Result reconciled, completion pending
 
@@ -285,6 +291,8 @@ FW5 intentionally uses the same sporting result as FW4 so the preview isolates t
 - `seasonsPlayed`: 3
 - Daniel trophies: Champions League 1, league titles 2, domestic cups 1, total 4
 - Nik trophies: Champions League 2, league titles 1, domestic cups 0, total 3
+- Online surface: `sharedTerminalClosePanel` · `SHARED SHOWDOWN CLOSED` · `completed`.
+
 
 ### FW6–FW9 · Required read states
 
@@ -301,7 +309,7 @@ FW9 has `coverage = {readable: 1, indexed: 1}` for the one current Showdown, plu
 
 ### Why these frames match the real product
 
-Main decides the final winner from accumulated Showdown points only, so FW1–FW3 do not use season tie-breakers. FW4 reflects the real split between Final Reconciliation and Terminal Close: the result is already readable while completion is still pending. FW5 changes only the normalized completion state after Terminal Close is verified. The current product does not have a separate Final Winner route, so these frames are visual states of the product truth, not invented navigation.
+Main decides the final winner from accumulated Showdown points only, so FW1–FW3 do not use season tie-breakers. FW4 reflects the real split between Final Reconciliation and Terminal Close: the result is already readable while completion is still pending. FW5 changes the normalized completion state, status copy and available actions after Terminal Close is verified; the sporting result is unchanged. The current product does not have a separate Final Winner route, so these frames are visual states of the product truth, not invented navigation.
 
 
 ## Mockup pass
@@ -319,7 +327,7 @@ There is no dedicated Final Winner mockup. `MOCKUP_SEASON_RESULTS.jpg` and `MOCK
 | Search icon | Do not carry it over. | Season Results mockup vs DATA_CONTRACT §10 | drop |
 | Profile/person icon | Do not carry it over. | Season Results mockup vs DATA_CONTRACT §10 | drop |
 | ABOUT tab | Do not carry it over. | Both mockup language / Trophy Room truth vs DATA_CONTRACT §10 | drop |
-| Brush/ceremony title treatment | Reuse the visual treatment, but the visible product heading must come from the real state: `SHOWDOWN FINAL RECONCILED`, `FINAL RESULT READY FOR TERMINAL CLOSE`, `TERMINAL CLOSE OUTCOME PENDING`, `TERMINAL CLOSE READY WHEN PRIVATE AUTHORITY RETURNS`, `SHARED SHOWDOWN CLOSED` or completed-hub `SHOWDOWN COMPLETE`. Do not invent a static `FINAL WINNER` heading as product copy. | main Final Reconciliation / Terminal Close / Showdown UI | live text; preview styling |
+| Brush/ceremony title treatment | Reuse the visual treatment, but the visible product heading must come from the real state: `SHOWDOWN FINAL RECONCILED`, `FINAL RESULT READY FOR TERMINAL CLOSE`, `TERMINAL CLOSE OUTCOME PENDING`, `TERMINAL CLOSE READY WHEN PRIVATE AUTHORITY RETURNS`, `SHARED SHOWDOWN CLOSED` on the shared online route. `SHOWDOWN COMPLETE` is a local-dashboard note only, never an alternative online heading. Do not invent a static `FINAL WINNER` heading as product copy. | main Final Reconciliation / Terminal Close / Showdown UI | live text; preview styling |
 | Winner hero line | Show only the contract winner derived from total Showdown points: Daniel, Nik or draw. Equal totals are a draw. | DATA_CONTRACT §4 + `frReconcile()` | live |
 | Large manager score blocks | Change from per-season score to `totals.daniel` and `totals.nik` for the whole Showdown. They are read-only. | DATA_CONTRACT §4 | live |
 | Winner margin | May be shown as the §4 `margin` value; it is the absolute Showdown-points difference and is 0 for a draw. | DATA_CONTRACT §4 | live |
@@ -355,6 +363,9 @@ None blocking. JOB-134 resolves the presentation choices as follows.
 - Draw: use the product headline `DRAW` and exact main result sentence `The showdown finishes level`. No crown anywhere on the draw frame, including the shared decorative title crown; neither manager gets winner lighting. Both remain at full opacity with balanced neutral light. Equal final totals alone decide the draw, regardless of league positions or season winners.
 - Winner: keep Daniel left and Nik right. The winning manager gets a warm gold spotlight at full opacity; dim only the other manager’s character art to 70 % opacity. Do not dim their live text, score, controls or focus indicators, and do not move or mirror either manager. Original crown art may indicate the winner; its visibility is selected from live `winner`, never baked into the plate.
 - Unconfirmed outcome: neutral light, full-opacity managers and no crown. Partial data allows winner presentation only when both final totals are authoritative; FW9 meets that condition.
+
+- Completed online surface: FW1, FW2, FW3 and FW5 all use `#sharedTerminalClosePanel` in phase `CLOSED`, normalized `state = completed`, with heading `SHARED SHOWDOWN CLOSED` and status `TERMINAL · NO NEW SESSION · NO NEW SEASON · FINAL RESULTS REMAIN READ-ONLY`. The winner summary remains `Daniel {danielTotal} · Nik {nikTotal} · {managerName} WINS` or `Daniel {danielTotal} · Nik {nikTotal} · DRAW`; the outcome line for a draw is `The showdown finishes level`. FW9 keeps its new partial-state heading plus the confirmed shared closed heading, because read coverage and terminal completion are independent. FW4 retains the shared pending heading/action. `SHOWDOWN COMPLETE` survives only as a local-dashboard source note. No duplicate online completed hub or extra route is introduced.
+- Completed navigation labels remain the five existing route-bound destinations listed above. They are navigation after the result, not Terminal Close operations; CLOSED hides both close and retry. A standalone preview must bind these to the documented existing destinations and never pretend a live provider action happened.
 
 The only contract field marked A is the normalized §4 `state` supplied by Team G's G-5 adapter. Main already exposes the underlying Final Reconciliation and Terminal Close evidence, so this is an implementation handoff rather than a product question. Exact motion, spacing, decorative stadium composition and original trophy-art placement remain visual implementation choices and may not change the truth above.
 

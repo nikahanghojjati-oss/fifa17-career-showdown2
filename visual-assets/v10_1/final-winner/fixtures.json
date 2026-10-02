@@ -35,7 +35,6 @@
       "closedStatus": "TERMINAL · NO NEW SESSION · NO NEW SEASON · FINAL RESULTS REMAIN READ-ONLY"
     },
     "completedHub": {
-      "heading": "SHOWDOWN COMPLETE",
       "danielWinTemplate": "{Daniel} wins the showdown",
       "nikWinTemplate": "{Nik} wins the showdown",
       "draw": "The showdown finishes level",
@@ -125,7 +124,7 @@
           "total": 5
         }
       },
-      "heading": "SHOWDOWN COMPLETE",
+      "heading": "SHARED SHOWDOWN CLOSED",
       "resultText": "Daniel wins the showdown",
       "actions": [
         "VIEW LEGACY",
@@ -147,7 +146,10 @@
         },
         "crown": "daniel"
       },
-      "outcomeHeadline": "Daniel WINS"
+      "outcomeHeadline": "Daniel WINS",
+      "terminalStatus": "TERMINAL · NO NEW SESSION · NO NEW SEASON · FINAL RESULTS REMAIN READ-ONLY",
+      "surface": "sharedTerminalClosePanel",
+      "terminalSummary": "Daniel 28 · Nik 23 · Daniel WINS"
     },
     "FW2": {
       "previewLabel": "Preview data",
@@ -175,7 +177,7 @@
           "total": 5
         }
       },
-      "heading": "SHOWDOWN COMPLETE",
+      "heading": "SHARED SHOWDOWN CLOSED",
       "resultText": "Nik wins the showdown",
       "actions": [
         "VIEW LEGACY",
@@ -197,7 +199,10 @@
         },
         "crown": "nik"
       },
-      "outcomeHeadline": "Nik WINS"
+      "outcomeHeadline": "Nik WINS",
+      "terminalStatus": "TERMINAL · NO NEW SESSION · NO NEW SEASON · FINAL RESULTS REMAIN READ-ONLY",
+      "surface": "sharedTerminalClosePanel",
+      "terminalSummary": "Daniel 21 · Nik 27 · Nik WINS"
     },
     "FW3": {
       "previewLabel": "Preview data",
@@ -225,7 +230,7 @@
           "total": 4
         }
       },
-      "heading": "SHOWDOWN COMPLETE",
+      "heading": "SHARED SHOWDOWN CLOSED",
       "resultText": "The showdown finishes level",
       "actions": [
         "VIEW LEGACY",
@@ -247,7 +252,10 @@
         },
         "crown": null
       },
-      "outcomeHeadline": "DRAW"
+      "outcomeHeadline": "DRAW",
+      "terminalStatus": "TERMINAL · NO NEW SESSION · NO NEW SEASON · FINAL RESULTS REMAIN READ-ONLY",
+      "surface": "sharedTerminalClosePanel",
+      "terminalSummary": "Daniel 24 · Nik 24 · DRAW"
     },
     "FW4": {
       "previewLabel": "Preview data",
@@ -294,7 +302,9 @@
         },
         "crown": "daniel"
       },
-      "outcomeHeadline": "Daniel WINS"
+      "outcomeHeadline": "Daniel WINS",
+      "terminalSummary": "Daniel 17 · Nik 15 · Daniel WINS",
+      "surface": "sharedTerminalClosePanel"
     },
     "FW5": {
       "previewLabel": "Preview data",
@@ -344,7 +354,10 @@
         },
         "crown": "daniel"
       },
-      "outcomeHeadline": "Daniel WINS"
+      "outcomeHeadline": "Daniel WINS",
+      "surface": "sharedTerminalClosePanel",
+      "resultText": "Daniel wins the showdown",
+      "terminalSummary": "Daniel 17 · Nik 15 · Daniel WINS"
     },
     "FW6": {
       "previewLabel": "Preview data",
@@ -488,19 +501,24 @@
         },
         "crown": "daniel"
       },
-      "outcomeHeadline": "Daniel WINS"
+      "outcomeHeadline": "Daniel WINS",
+      "terminalSummary": "Daniel 17 · Nik 15 · Daniel WINS",
+      "surface": "sharedTerminalClosePanel",
+      "terminalHeading": "SHARED SHOWDOWN CLOSED"
     }
   },
   "routes": {
     "sharedFinalResult": {
       "opens": "#seasonEntry with #seasonReviewPanel",
       "productBinding": "js/productionSharedSeasonResultsRoute.js -> js/productionSharedFinalReconciliation.js + js/productionSharedTerminalClose.js",
-      "note": "No standalone Final Winner route exists on main."
+      "note": "No standalone Final Winner route exists on main.",
+      "selectedCompletedSurface": "sharedTerminalClosePanel, phase CLOSED, normalized state completed"
     },
     "completedShowdown": {
       "opens": "#dashboard",
       "productBinding": "js/seasonEngine.js handleSeasonSummaryAction() and js/screens.js resolveCanonicalShowdownRoute()",
-      "trigger": "#nextSeasonAction = VIEW COMPLETED SHOWDOWN"
+      "trigger": "#nextSeasonAction = VIEW COMPLETED SHOWDOWN",
+      "scope": "Local completed dashboard reference only; not the selected online Final Winner surface."
     },
     "viewLegacy": {
       "opens": "legacy",
@@ -527,5 +545,19 @@
       "productBinding": "js/productionSharedTerminalClose.js ptcClose()",
       "retry": "RETRY SAME TERMINAL CLOSE"
     }
+  },
+  "localDashboardNote": {
+    "heading": "SHOWDOWN COMPLETE",
+    "source": "main js/showdownUI.js renderCompletionHub()",
+    "usage": "Local dashboard reference only; never the selected online Final Winner heading."
+  },
+  "onlineSurface": {
+    "route": "sharedFinalResult",
+    "panel": "sharedTerminalClosePanel",
+    "headingId": "sharedTerminalCloseHeading",
+    "completedHeading": "SHARED SHOWDOWN CLOSED",
+    "completedStatus": "TERMINAL · NO NEW SESSION · NO NEW SEASON · FINAL RESULTS REMAIN READ-ONLY",
+    "completionState": "completed",
+    "note": "One online completed surface: verified shared Terminal Close result; dashboard is a local reference only."
   }
 }
