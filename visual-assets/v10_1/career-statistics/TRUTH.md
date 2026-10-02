@@ -224,12 +224,12 @@ Career Table presentation order is fixed: Daniel's row is always first and Nik's
 
 The rebuilt comparison uses only contract-backed fields and keeps Daniel on the left:
 
-1. `LEAGUE TITLES` → `leagueTitles`
-2. `DOMESTIC CUPS` → `domesticCups`
-3. `CHAMPIONS LEAGUE WINS` → `championsLeagues`
-4. `SEASON WINS` → `seasonWins`
-5. `AVERAGE LEAGUE POINTS` → `averageLeaguePoints`
-6. `AVERAGE LEAGUE GOALS` → `averageLeagueGoals`
+1. `LEAGUE TITLES` → `leagueTitles` · source: `new`
+2. `DOMESTIC CUPS` → `domesticCups` · source: `new`
+3. `CHAMPIONS LEAGUE WINS` → `championsLeagues` · source: `new`
+4. `Season Wins` → `seasonWins` · source: `main`
+5. `Average League Points` → `averageLeaguePoints` · source: `main`
+6. `Average League Goals` → `averageLeagueGoals` · source: `main`
 
 This replaces mockup rows for European wins, clean sheets and biggest single-match win, and also removes current-main comparison rows that are not in contract §6.
 
@@ -270,8 +270,8 @@ The mockup is visual reference, not product authority. PRODUCT_TRUTH.md, DATA_CO
 | League titles comparison | KEEP with contract field `leagueTitles`. |
 | Domestic cups comparison | KEEP with contract field `domesticCups`. |
 | `EUROPEAN WINS` | CHANGE to `CHAMPIONS LEAGUE WINS` and use only `championsLeagues`. Other European wins are not recorded. |
-| League points comparison | CHANGE to `AVERAGE LEAGUE POINTS` using `averageLeaguePoints`, the contracted career field that matches the current live comparison. |
-| League goals comparison | CHANGE to `AVERAGE LEAGUE GOALS` using `averageLeagueGoals`, the contracted career field that matches the current live comparison. |
+| League points comparison | CHANGE to `Average League Points` using `averageLeaguePoints`, the contracted career field that matches the current live comparison. |
+| League goals comparison | CHANGE to `Average League Goals` using `averageLeagueGoals`, the contracted career field that matches the current live comparison. |
 | Season wins comparison | KEEP with `seasonWins`. |
 | `CLEAN SHEETS` | DROP. The game never records clean sheets. |
 | `BIGGEST WIN` when it means a single match | DROP. The game records no match-by-match results. The separate contracted `BIGGEST SHOWDOWN WIN` may appear only as a Career Leader record based on Showdown-points margin. |
@@ -302,7 +302,7 @@ The mockup is visual reference, not product authority. PRODUCT_TRUTH.md, DATA_CO
 | Mockup Career Table columns `SHOWDOWNS · SEASONS · POINTS · TROPHIES · WIN %` | CHANGE to the live headers `#`, `Manager`, `Showdowns`, `Season W-D-L`, `Points`, `Trophies` mapped to `showdowns.completed`, `seasonWins/seasonDraws/seasonLosses`, `careerPoints`, `totalTrophies`. DROP `WIN %` (showdown win rate is not a §6 field). |
 | Mockup Career Leaders `TOP SCORER · 102 Goals` and `TOP ASSISTS · 48 Assists` | DROP. Goal/assist totals by player are not recorded; top scorer/top assist are yes/no per season. |
 | Mockup Career Leaders `MOST CLEAN SHEETS` | DROP. Clean sheets are not recorded (§9). |
-| Mockup comparison rows `LEAGUE WINS` / `CUP WINS` / `GOALS SCORED` | `LEAGUE WINS` → `LEAGUE TITLES`; `CUP WINS` → `DOMESTIC CUPS`; `GOALS SCORED` → `AVERAGE LEAGUE GOALS` (see rows above). |
+| Mockup comparison rows `LEAGUE WINS` / `CUP WINS` / `GOALS SCORED` | `LEAGUE WINS` → `LEAGUE TITLES`; `CUP WINS` → `DOMESTIC CUPS`; `GOALS SCORED` → `Average League Goals` (see rows above). |
 | Phone layout (393 × 660, no page scroll) | CHANGE to stacked sections / tabs with Daniel first or left; never shrink labels to fit. |
 | Shared top navigation, if shown in the mockup | CHANGE to HOME / CAREER / STANDINGS / STATS / RULES plus settings; no ABOUT, search or profile destination. |
 
