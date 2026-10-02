@@ -264,7 +264,7 @@ Every owner-review preview carries `previewLabel: "Preview data"`. Until model-t
 ## Mockup → product reconciliation
 
 Mockup authority for composition: `project-documents/factory/mockups/MOCKUP_RIVALRY_STATISTICS.png`.
-The later plate/build specifications describe its concrete anatomy: Daniel left pointing; Nik right with arms crossed; a tall seven-row comparison panel; three bottom panels (Head-to-Head, Season-by-Season, Trophy Cabinet); one Back button; top navigation, title block, footer and the decorative caption `RIVALS BUILD LEGACIES`.
+Directly inspected project Files image `MOCKUP_RIVALRY_STATISTICS.png` (1672 × 941) for JOB-135. Its concrete anatomy: Daniel left pointing; Nik right with arms crossed; a tall seven-row comparison panel; three bottom panels (Head-to-Head, Season-by-Season, Trophy Cabinet); one Back button; top navigation, title block, footer and the decorative caption `RIVALS BUILD LEGACIES`.
 
 | Mockup element | Product answer | Binding reason / implementation note |
 | --- | --- | --- |
@@ -287,6 +287,28 @@ The later plate/build specifications describe its concrete anatomy: Daniel left 
 | Comparison row 5 | CHANGE TO `League Titles` | Contract field `managerRecords.*.leagueTitles`; exact live label exists. |
 | Comparison row 6 | CHANGE TO `Domestic Cups` | Contract field `managerRecords.*.domesticCups`; exact live label exists. |
 | Comparison row 7 | CHANGE TO `Transfer Signings` when available; otherwise `Unavailable` | Transfer summary is G-10. Never turn an unavailable transfer read into zero. The row remains present so the seven-row mockup rhythm is stable. |
+| Mockup `Seasons Completed` row (5 / 5) | CHANGE TO derived completed-season progress in the overview | Count only readable completed `seasons[]` rows against `totalSeasons`; do not copy 5 / 5 or add an uncontracted aggregate. The primary row 2 remains `Season Wins`. |
+| Mockup `Trophies Won` row (7 / 5) | CHANGE TO `Total Trophies` | `managerRecords.*.totalTrophies`, recalculated from recorded title wins; never copy reference counts. |
+| Mockup `League Points` totals (412 / 398) | DROP | §5 has per-season points only, no aggregate league-points total. Primary slot 4 becomes `Champions Leagues`. |
+| Mockup `League Goals` totals (126 / 118) | DROP | §5 has per-season goals only, no aggregate league-goals total. Primary slot 5 becomes `League Titles`. |
+| Mockup `Transfer Signings` row (34 / 29) | CHANGE TO available per-season summary, move to primary row 7 | Sum only revealed, readable fixture summaries; actual nested adapter shape waits for G-10. Missing data is unavailable, never zero. |
+| Mockup `Season Wins` row (18 / 16) | KEEP LABEL, CHANGE VALUES; move to primary row 2 | `managerRecords.*.seasonWins`; counts cannot exceed readable completed seasons. Reference 18 / 16 is impossible for five seasons. Primary row 6 instead uses recorded `Domestic Cups`. |
+| Eyebrow `CAREER MODE SHOWDOWN 17` and crown | KEEP WORDING, CHANGE crown to original art | Decorative brand copy; shared title hierarchy. Never use EA/FIFA/real-club marks. |
+| Tagline `TWO MANAGERS • ONE LEGACY` | KEEP AS IS | Decorative brand copy only, not a career-coverage claim; it cannot replace the visible partial/interim notices. |
+| Head-to-Head labels `DANIEL WINS`, `NIK WINS`, `DRAWS` | KEEP WITH LIVE VALUES | Daniel wins left, Nik wins right, neutral draws last; values from `managerRecords`, never reference numerals. |
+| Head-to-Head caption `EVERY SEASON WRITES A NEW CHAPTER.` | DROP | No recorded behaviour or required live text; preserve the panel proportions with breathing room. |
+| Season-by-Season headers `SEASON`, `DANIEL`, `NIK`, `WINNER` | KEEP WITH LIVE ROLE NAMES | Season index, Daniel score left, Nik score right, winner last. Manager headings are DOM values from fixed roles, not baked text. Headers absent from the copied live-string list are identified as new presentation copy. |
+| Trophy label `SHOWDOWN TROPHY` | CHANGE TO `Showdown Champion` | Completed Showdown winner token only; no token for active or final tied totals, never counted as a fourth recorded trophy type. |
+| Trophy label `LEAGUE` | CHANGE TO `League Title` | Counts from `managerRecords.*.leagueTitles`; original job 20 art. |
+| Trophy label `DOMESTIC CUP` | KEEP WORDING (`Domestic Cup`) | Counts from `managerRecords.*.domesticCups`; original job 21 art. |
+| Trophy label `CONTINENTAL` | CHANGE TO `Champions League` | Only the Champions League win is recorded; original job 22 art, no generic European-win category. |
+| Top-right `More Than A Game` | DROP | Extra screen-local chrome is not part of the shared navigation specification; it has no product action. |
+| Left banner `FOOTBALL BRINGS US TOGETHER` | KEEP AS IS; original crown only | Permitted decorative banner text under PRODUCT_TRUTH §6, no live data or real logo. |
+| Right banner `DIFFERENT MANAGERS SAME PASSION` | KEEP AS IS; original crown only | Same decorative-text rule. |
+| Search icon | DROP | No product search behaviour on this screen or shared navigation. |
+| Profile icon | DROP | No profile destination in the agreed shared navigation. |
+| `ABOUT` navigation item | DROP | Credits and app version live in Settings. |
+| Settings gear | CHANGE TO shared Settings control | Use job 125 shared navigation; no duplicate module-local settings button. |
 | Any mockup comparison row for clean sheets, biggest win, non-CL European wins, match stats, player names/photos, possession, averages or other uncontracted stats | DROP | DATA_CONTRACT_V1 §5/§9 and PRODUCT_TRUTH §3. These values are not recorded or are outside this screen contract. |
 | Gold icon in each comparison row | KEEP CONCEPT, CHANGE ART AS NEEDED | Use original/generic stat iconography only. No real competition, league, club or trophy logo. Icons are decorative; labels carry meaning. |
 | Leader number highlighted gold, other number white | KEEP AS IS | This is presentation only and does not alter scoring. Equal values receive no false leader. |

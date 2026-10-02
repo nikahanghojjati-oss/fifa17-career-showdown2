@@ -35,6 +35,62 @@
         "TROPHY CABINET",
         "Unavailable"
       ]
+    },
+    "decorativeCopy": {
+      "eyebrow": {
+        "text": "CAREER MODE SHOWDOWN 17",
+        "source": "mockup"
+      },
+      "tagline": {
+        "text": "TWO MANAGERS • ONE LEGACY",
+        "source": "mockup"
+      },
+      "leftBanner": {
+        "text": "FOOTBALL BRINGS US TOGETHER",
+        "source": "mockup"
+      },
+      "rightBanner": {
+        "text": "DIFFERENT MANAGERS SAME PASSION",
+        "source": "mockup"
+      }
+    },
+    "seasonTableHeaders": [
+      {
+        "text": "SEASON",
+        "source": "new"
+      },
+      {
+        "text": "DANIEL",
+        "source": "new",
+        "role": "daniel"
+      },
+      {
+        "text": "NIK",
+        "source": "new",
+        "role": "nik"
+      },
+      {
+        "text": "WINNER",
+        "source": "new"
+      }
+    ],
+    "trophyLabels": {
+      "showdownChampion": {
+        "text": "Showdown Champion",
+        "source": "new"
+      },
+      "leagueTitle": {
+        "text": "League Title",
+        "source": "new"
+      },
+      "domesticCup": {
+        "text": "Domestic Cup",
+        "source": "new"
+      },
+      "championsLeague": {
+        "text": "Champions League",
+        "source": "new"
+      }
     }
   },
   "ids": {
