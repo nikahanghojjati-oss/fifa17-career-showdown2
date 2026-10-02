@@ -19,7 +19,7 @@ const PUBLIC_TARGET="allow create: if ssjrResultsValidCreate(rivalryId, seasonId
 const UPDATE_TARGET="allow update: if ssjrResultsValidUpdate(rivalryId, seasonId);";
 const PRIVATE_TARGET="allow create: if ssjrResultsPrivateCreateValid(rivalryId, seasonId, managerRole);";
 const A="acct_results_diag_a",B="acct_results_diag_b";
-const R=`pair_${"7".repeat(64)}`;
+let R=`pair_${"7".repeat(64)}`;
 const S=`session_${"d".repeat(64)}`;
 const DA=`device_${"a".repeat(32)}`,DB=`device_${"b".repeat(32)}`;
 const PA=`profile_${"1".repeat(24)}`,PB=`profile_${"2".repeat(24)}`;
@@ -133,6 +133,26 @@ async function runSecondVariant(index,label,updateExpression,privateExpression){
   }finally{await env.cleanup();}
 }
 
+// Regression: the Rules must derive the same league (and team count) as the app
+// for every rivalry id. Uppercase hex from toHexString() once made the first
+// result of some Showdowns (for example pair_222...) permission-denied.
+async function runLeagueDrawCaseRegression(){
+  const ids=[`pair_${"1".repeat(64)}`,`pair_${"2".repeat(64)}`,`pair_${"7".repeat(64)}`];
+  for(let i=0;i<5;i++)ids.push(`pair_${crypto.createHash("sha256").update(`league-draw-case-${i}`).digest("hex")}`);
+  const failures=[];
+  for(let i=0;i<ids.length;i++){
+    R=ids[i];
+    const env=await initializeTestEnvironment({projectId:`demo-cms17-league-draw-case-${i}`,firestore:{rules:RULES}});
+    try{
+      const now=Date.now(),{dbA}=await prepare(env,now);
+      const published=await Results.publishResult({...base(dbA,A,DA,now+800),seasonNumber:1,operationId:op("season_result_op_",11),baseRevision:0,result:result()});
+      process.stdout.write(`SEASON_RESULTS_LEAGUE_DRAW_CASE ${R.slice(0,13)} publish=${published.ok?"PASS":"FAIL:"+published.code}\n`);
+      if(published.ok!==true)failures.push(R);
+    }finally{await env.cleanup();}
+  }
+  if(failures.length)throw new Error(`First season result denied for ${failures.length} rivalry id(s): ${failures.join(", ")}`);
+}
+
 (async()=>{
   const actor="ssjrActorRole(rivalryId)";
   const publicShape="ssjrResultsPublicShape(request.resource.data, rivalryId, seasonId)";
@@ -231,4 +251,5 @@ async function runSecondVariant(index,label,updateExpression,privateExpression){
     ["ACTUAL","ssjrResultsValidUpdate(rivalryId, seasonId)","ssjrResultsPrivateCreateValid(rivalryId, seasonId, managerRole)"]
   ];
   for(let i=0;i<updateVariants.length;i++)await runSecondVariant(i+1,updateVariants[i][0],updateVariants[i][1],updateVariants[i][2]);
+  await runLeagueDrawCaseRegression();
 })().catch(error=>{console.error(error.stack||error);process.exit(1);});
