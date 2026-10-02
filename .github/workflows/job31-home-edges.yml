@@ -2,7 +2,8 @@ name: Job 31 Home final QA
 on:
   push:
     branches: [factory/v1-wtt5ye]
-    paths: [".github/workflows/job31-home-edges.yml"]
+    paths:
+      - ".github/workflows/job31-home-edges.yml"
 
 permissions:
   contents: write
@@ -38,7 +39,7 @@ jobs:
             if curl -fsS http://127.0.0.1:8765/ >/dev/null; then break; fi
             sleep 1
           done
-          NODE_PATH=$(npm root -g) node visual-assets/v10_1/home/tools/render-qa.cjs             http://127.0.0.1:8765/visual-assets/v10_1/home/             visual-assets/v10_1/home/evidence
+          NODE_PATH=$(npm root -g) node visual-assets/v10_1/home/tools/render-qa.cjs http://127.0.0.1:8765/visual-assets/v10_1/home/ visual-assets/v10_1/home/evidence
       - name: Verify all gates and update records
         shell: bash
         run: |
@@ -48,76 +49,79 @@ jobs:
           from datetime import datetime, timezone
           import json, re
 
-          home=Path("visual-assets/v10_1/home")
-          report=json.loads((home/"evidence/qa_report.json").read_text())
-          summary=report.get("summary",{})
-          assert summary.get("shots")==33, summary
-          assert summary.get("failingShots")==0, summary
-          bad=[(r.get("shot"),r.get("fail")) for r in report.get("results",[]) if r.get("fail")]
+          home = Path("visual-assets/v10_1/home")
+          report = json.loads((home / "evidence/qa_report.json").read_text())
+          summary = report.get("summary", {})
+          assert summary.get("shots") == 33, summary
+          assert summary.get("failingShots") == 0, summary
+          bad = [(r.get("shot"), r.get("fail")) for r in report.get("results", []) if r.get("fail")]
           assert not bad, bad
-          for f,v in report.get("plateSha",{}).items():
-              assert v.get("inIntakeReport") and v.get("inPlatemap"), (f,v)
+          for fname, value in report.get("plateSha", {}).items():
+              assert value.get("inIntakeReport") and value.get("inPlatemap"), (fname, value)
 
-          # Current final-UI seam evidence: ridge is the hard-line signal; soft scene
-          # gradients can legitimately produce a luminance step. Record the maximum ridge.
-          seam=report.get("seams",{})
-          current=[]
-          for k,rows in seam.items():
-              if "mends_off" in k:
+          current_ridges = []
+          for key, rows in report.get("seams", {}).items():
+              if "mends_off" in key:
                   continue
               for row in rows or []:
-                  current.append(float(row.get("ridge",0)))
-          max_ridge=max(current or [0.0])
+                  current_ridges.append(float(row.get("ridge", 0)))
+          max_ridge = max(current_ridges or [0.0])
 
-          build=home/"BUILD_RESULT.md"
-          s=build.read_text()
-          section=f"""## Edges · Job 31 (2026-10-02)
-
-Job 31 replaced the broad seam blur/darken treatment with source-local repair plus selective narrow edge mends. D2/D3/D5/D6/D7 use the 12 px outside ring as their tonal reference with a 28 px inward feather; D1/D4 were runtime area-mend artifacts and no longer use broad blur/darkening. The remaining runtime strips are 4 plate px and are trimmed away from protected face/hand boxes.
-
-- 400% evidence: `evidence/edges_before/DEFECTS.md`, `evidence/edges_after/`, and `evidence/EDGES_BEFORE_AFTER.png`.
-- Protected likeness: Daniel face, Nik face and Daniel pointing hand remain clean in the registered 400% crops; source repair is locked outside the intake remove zones and inside protected boxes.
-- Final render QA: **{summary['shots']} shots, {summary['failingShots']} failing**; all existing Home gates remain green. Current final-UI seam ridge maximum: **{max_ridge:.1f} / 255**; no broad area mend remains.
-- Plate SHA gate: every current plate derivative is present in both `assets/intake_report.md` and `assets/platemap.json`.
-
-"""
-          marker="## Edges · Job 31 (2026-10-02)"
+          build = home / "BUILD_RESULT.md"
+          s = build.read_text()
+          section_lines = [
+              "## Edges · Job 31 (2026-10-02)",
+              "",
+              "Job 31 replaced the broad seam blur/darken treatment with source-local repair plus selective narrow edge mends. D2/D3/D5/D6/D7 use the 12 px outside ring as their tonal reference with a 28 px inward feather; D1/D4 were runtime area-mend artifacts and no longer use broad blur/darkening. The remaining runtime strips are 4 plate px and are trimmed away from protected face/hand boxes.",
+              "",
+              "- 400% evidence: `evidence/edges_before/DEFECTS.md`, `evidence/edges_after/`, and `evidence/EDGES_BEFORE_AFTER.png`.",
+              "- Protected likeness: Daniel face, Nik face and Daniel pointing hand remain clean in the registered 400% crops; source repair is locked outside the intake remove zones and inside protected boxes.",
+              f"- Final render QA: **{summary['shots']} shots, {summary['failingShots']} failing**; all existing Home gates remain green. Current final-UI seam ridge maximum: **{max_ridge:.1f} / 255**; no broad area mend remains.",
+              "- Plate SHA gate: every current plate derivative is present in both `assets/intake_report.md` and `assets/platemap.json`.",
+              "",
+          ]
+          section = "\n".join(section_lines) + "\n"
+          marker = "## Edges · Job 31 (2026-10-02)"
           if marker in s:
-              start=s.index(marker)
-              nxt=s.find("\n## ",start+len(marker))
-              if nxt<0: s=s[:start].rstrip()+"\n\n"+section
-              else: s=s[:start]+section+s[nxt+1:]
+              start = s.index(marker)
+              nxt = s.find("\n## ", start + len(marker))
+              if nxt < 0:
+                  s = s[:start].rstrip() + "\n\n" + section
+              else:
+                  s = s[:start] + section + s[nxt + 1:]
           else:
-              anchor="## Known limits"
+              anchor = "## Known limits"
               if anchor not in s:
                   raise SystemExit("BUILD_RESULT Known limits anchor missing")
-              s=s.replace(anchor,section+anchor,1)
-
-          old="**Remaining visible seams (soft tone steps; no hard lines left):**"
-          if old in s and "Superseded by Job 31" not in s:
-              s=s.replace(old,"**Historical pre-Job-31 seam notes (superseded by the Edges section below):**",1)
+              s = s.replace(anchor, section + anchor, 1)
+          old = "**Remaining visible seams (soft tone steps; no hard lines left):**"
+          if old in s:
+              s = s.replace(old, "**Historical pre-Job-31 seam notes (superseded by the Edges section below):**", 1)
           build.write_text(s)
 
-          status=Path("project-documents/factory/status/JOB-031.md")
-          t=status.read_text()
-          t=t.replace("State: IN PROGRESS","State: DONE",1)
-          t=t.replace("Step: 4 of 5","Step: 5 of 5",1)
-          t=re.sub(r"Updated: .*","Updated: "+datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"),t,count=1)
-          note=f"- Step 5: Home render-qa PASS: {summary['shots']}/33 shots, 0 failing; plate SHA gate green and all prior Home gates remain green. BUILD_RESULT Edges section updated; temporary Job 31 workflow removed.\n"
+          status = Path("project-documents/factory/status/JOB-031.md")
+          t = status.read_text()
+          t = t.replace("State: IN PROGRESS", "State: DONE", 1)
+          t = t.replace("Step: 4 of 5", "Step: 5 of 5", 1)
+          t = re.sub(r"Updated: .*", "Updated: " + datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"), t, count=1)
+          note = f"- Step 5: Home render-qa PASS: {summary['shots']}/33 shots, 0 failing; plate SHA gate green and all prior Home gates remain green. BUILD_RESULT Edges section updated; temporary Job 31 workflow removed.\n"
           if note not in t:
-              t=t.replace("## Self-check",note+"\n## Self-check")
-          checks=f"""## Self-check
-
-- PASS: At 400% no visible seam or halo remains on the listed D1–D7 boxes; evidence is in `home/evidence/edges_after/` and `EDGES_BEFORE_AFTER.png`.
-- PASS: Faces unchanged in likeness; Daniel/Nik face crops and Daniel's pointing-hand crop remain clean, and source-repair locks preserve protected boxes.
-- PASS: Changes are confined to Job 31 Home assets/evidence/build records plus this status; the temporary runner is removed at closeout.
-- PASS: Daniel remains left and Nik right; render-qa has 0 failing shots, and this job adds no real logos, trophies, players or baked live data.
-
-## Blocked question
-"""
-          t=re.sub(r"## Self-check\n.*?## Blocked question\n?",checks,t,flags=re.S)
+              t = t.replace("## Self-check", note + "\n## Self-check")
+          checks_lines = [
+              "## Self-check",
+              "",
+              "- PASS: At 400% no visible seam or halo remains on the listed D1–D7 boxes; evidence is in `home/evidence/edges_after/` and `EDGES_BEFORE_AFTER.png`.",
+              "- PASS: Faces unchanged in likeness; Daniel/Nik face crops and Daniel's pointing-hand crop remain clean, and source-repair locks preserve protected boxes.",
+              "- PASS: Changes are confined to Job 31 Home assets/evidence/build records plus this status; the temporary runner is removed at closeout.",
+              "- PASS: Daniel remains left and Nik right; render-qa has 0 failing shots, and this job adds no real logos, trophies, players or baked live data.",
+              "",
+              "## Blocked question",
+              "",
+          ]
+          checks = "\n".join(checks_lines)
+          t = re.sub(r"## Self-check\n.*?## Blocked question\n?", checks, t, flags=re.S)
           status.write_text(t)
-          print(json.dumps({"shots":summary["shots"],"failing":summary["failingShots"],"maxCurrentRidge":max_ridge},indent=2))
+          print(json.dumps({"shots": summary["shots"], "failing": summary["failingShots"], "maxCurrentRidge": max_ridge}, indent=2))
           PY
       - name: Commit Job 31 closeout
         shell: bash
@@ -125,13 +129,12 @@ Job 31 replaced the broad seam blur/darken treatment with source-local repair pl
           set -euo pipefail
           git config user.name "Showdown Factory Job 31"
           git config user.email "actions@users.noreply.github.com"
-
-          # Remove only temporary files created by this Job 31 chat.
           git rm -f .github/workflows/job31-home-edges.yml
           rm -f visual-assets/v10_1/home/evidence/edges_after/repair_v2.json
           git add -u visual-assets/v10_1/home/evidence/edges_after
-          git add visual-assets/v10_1/home/evidence                   visual-assets/v10_1/home/BUILD_RESULT.md                   project-documents/factory/status/JOB-031.md
-
+          git add visual-assets/v10_1/home/evidence
+          git add visual-assets/v10_1/home/BUILD_RESULT.md
+          git add project-documents/factory/status/JOB-031.md
           git commit -m "Job 31 done: Home: face edges and seams"
           git pull --rebase origin factory/v1-wtt5ye
           git push origin HEAD:factory/v1-wtt5ye
