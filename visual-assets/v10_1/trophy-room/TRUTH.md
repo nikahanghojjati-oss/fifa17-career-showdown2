@@ -188,6 +188,10 @@ The five allowed `records[]` families from §7 are:
 4. Biggest Showdown win. Main equivalent: `findBiggestShowdownMargin(history)`.
 5. Most perfect seasons. Main equivalent: `findManagerLeaders(managers, "perfectSeasons")`, where `accumulateRoundStats()` increments at season score 11.
 
+### Standings row order and rank
+
+The visual row order is fixed for identity consistency: Daniel is always the first row and Nik is always the second row. Do not sort or swap the rows when the leader changes. The `#` column carries the computed career rank instead: `#1` for the leader, `#2` for the other manager, and the same rank for a level tie. This keeps Daniel-first presentation while still showing who leads by `careerPoints`, then `seasonWins`.
+
 ### What counts
 
 Per DATA_CONTRACT_V1 §6:
@@ -256,12 +260,13 @@ Required categories are `ALL · SHOWDOWN · LEAGUE TITLES · DOMESTIC CUPS · CH
 
 ### Preview frames
 
-- TR1 · ready · both managers have trophies. Category `ALL`; fictional provider values; Daniel left/first, Nik right/second; standings plus all five allowed record families.
+- TR1 · ready · both managers have trophies. Category `ALL`; fictional provider values; Daniel left/first, Nik right/second; standings rows remain Daniel-first and the `#` rank shows Daniel leading; includes all five allowed record families.
 - TR2 · empty · new career. All four original trophy cards stay visible at zero, dark, each unwon card saying exactly `Not won yet`; no record holder is invented.
 - TR3 · partial · readable-history values plus visible coverage. If owner review temporarily uses current-Showdown-only data before provider history exists, the only interim copy is exactly `Current Showdown only. Career history is not yet available.`
 - TR4 · ready · category `LEAGUE TITLES`. This replaces the suggested Daniel-only filter: neither live main nor PRODUCT_TRUTH defines a manager-only filter, and both managers must stay comparable. Daniel remains left/first and Nik right/second.
 - TR5 · unavailable. Added because this is a distinct required contract state; no zero values are presented as provider facts.
 - TR6 · loading. Added because this is a distinct required contract state; layout order is reserved but no fake counts or records appear.
+- TR7 · ready · Nik leads the career standings. The rows still render Daniel first and Nik second; the `#` column shows Daniel `#2` and Nik `#1`.
 
 All populated preview numbers are fictional, visibly labelled `Preview data`, and must obey DATA_CONTRACT_V1 §0 bounds. No separate `error`, `active`, `completed`, or Daniel-only preview frame exists.
 

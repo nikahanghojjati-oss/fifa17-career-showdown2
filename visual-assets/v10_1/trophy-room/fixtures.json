@@ -73,12 +73,14 @@
         {
           "manager": "daniel",
           "careerPoints": 44,
-          "seasonWins": 7
+          "seasonWins": 7,
+          "rank": "#1"
         },
         {
           "manager": "nik",
           "careerPoints": 40,
-          "seasonWins": 6
+          "seasonWins": 6,
+          "rank": "#2"
         }
       ],
       "records": [
@@ -155,12 +157,14 @@
         {
           "manager": "daniel",
           "careerPoints": 0,
-          "seasonWins": 0
+          "seasonWins": 0,
+          "rank": "#1"
         },
         {
           "manager": "nik",
           "careerPoints": 0,
-          "seasonWins": 0
+          "seasonWins": 0,
+          "rank": "#1"
         }
       ],
       "records": [],
@@ -210,12 +214,14 @@
         {
           "manager": "daniel",
           "careerPoints": 18,
-          "seasonWins": 3
+          "seasonWins": 3,
+          "rank": "#1"
         },
         {
           "manager": "nik",
           "careerPoints": 17,
-          "seasonWins": 2
+          "seasonWins": 2,
+          "rank": "#2"
         }
       ],
       "records": [
@@ -292,12 +298,14 @@
         {
           "manager": "daniel",
           "careerPoints": 44,
-          "seasonWins": 7
+          "seasonWins": 7,
+          "rank": "#1"
         },
         {
           "manager": "nik",
           "careerPoints": 40,
-          "seasonWins": 6
+          "seasonWins": 6,
+          "rank": "#2"
         }
       ],
       "records": [
@@ -360,6 +368,90 @@
         "daniel",
         "nik"
       ]
+    },
+    "TR7": {
+      "note": "ready history with Nik leading; rows remain Daniel-first and # communicates rank",
+      "previewLabel": "Preview data",
+      "status": "ready",
+      "activeCategory": "ALL",
+      "managerOrder": [
+        "daniel",
+        "nik"
+      ],
+      "managers": {
+        "daniel": {
+          "displayName": "Daniel",
+          "championsLeagues": 2,
+          "leagueTitles": 3,
+          "domesticCups": 1,
+          "totalTrophies": 6,
+          "careerPoints": 38,
+          "seasonWins": 5
+        },
+        "nik": {
+          "displayName": "Nik",
+          "championsLeagues": 1,
+          "leagueTitles": 2,
+          "domesticCups": 3,
+          "totalTrophies": 6,
+          "careerPoints": 42,
+          "seasonWins": 7
+        }
+      },
+      "standings": [
+        {
+          "manager": "daniel",
+          "careerPoints": 38,
+          "seasonWins": 5,
+          "rank": "#2"
+        },
+        {
+          "manager": "nik",
+          "careerPoints": 42,
+          "seasonWins": 7,
+          "rank": "#1"
+        }
+      ],
+      "records": [
+        {
+          "label": "HIGHEST SEASON SCORE",
+          "manager": "shared",
+          "value": 11,
+          "ref": "preview-season-5"
+        },
+        {
+          "label": "HIGHEST LEAGUE POINTS",
+          "manager": "daniel",
+          "value": 108,
+          "ref": "preview-season-3"
+        },
+        {
+          "label": "MOST LEAGUE GOALS",
+          "manager": "nik",
+          "value": 124,
+          "ref": "preview-season-4"
+        },
+        {
+          "label": "BIGGEST SHOWDOWN WIN",
+          "manager": "daniel",
+          "value": 9,
+          "ref": "preview-showdown-2"
+        },
+        {
+          "label": "PERFECT 11-POINT SEASONS",
+          "manager": "shared",
+          "value": 1,
+          "ref": "preview-career"
+        }
+      ],
+      "showdowns": {
+        "daniel": {
+          "wins": 2
+        },
+        "nik": {
+          "wins": 1
+        }
+      }
     }
   },
   "routes": {
