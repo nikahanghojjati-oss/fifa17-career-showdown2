@@ -65,7 +65,7 @@ check("7. Tiebreak",()=>{
 check("8. No rival leak",()=>{
  const p=P({seasons:[[R(),R()]]});for(const id of ["daniel","nik"]){const role=id==="daniel"?"playerOne":"playerTwo",other=role==="playerOne"?"playerTwo":"playerOne",s=snap(p,{identity:F.identity(id),pair:F.pair(p.rivalryId,{managerId:id})}),own=R(),rival=R({leagueGoals:287});
  const sr=o=>F.seasonResults({rivalryId:p.rivalryId,seasonNumber:2,managerRole:role,own,opponent:rival,...o});
- for(const state of [sr({phase:"COLLECTING",published:[role]}),{...sr({phase:"COLLECTING",published:[role]}),allResults:{[role]:own,[other]:rival}},sr({}),sr({managerRole:other,own:rival})]){const x={...s,seasonResults:state};noLeak(screenViews(x));noLeak(A.seasonResultsView(x));if(state.managerRole!==role)assert.equal(A.seasonResultsView(x).status,"unavailable");}
+ for(const state of [sr({phase:"COLLECTING",published:[role]}),{...sr({phase:"COLLECTING",published:[role]}),allResults:{[role]:own,[other]:rival}},sr({}),sr({managerRole:other,own:rival})]){const x={...s,seasonResults:state};noLeak(screenViews(x));noLeak(A.seasonResultsView(x));assert.equal(contains(A.buildActiveShowdownViews(x),287),false,"no unrevealed sentinel even in career input");if(state.managerRole!==role)assert.equal(A.seasonResultsView(x).status,"unavailable");}
  const ready={...s,seasonResults:sr({phase:"RESULTS_READY",published:[role,other]})};assert.ok(contains(screenViews(ready),287));assert.ok(contains(A.seasonResultsView(ready),287));
  }
 });
@@ -105,9 +105,14 @@ check("17. Never throws",()=>{
  for(const s of [undefined,{}, {pair:"x"},{pair:{initialized:true,status:"paired",rivalryId:7}},snap(cp(),{history:{...F.history(cp()),projection:{}}})]){const v=A.buildActiveShowdownViews(s);frozen(v);assert.ok(["loading","unavailable"].includes(v.home.status),"malformed snapshot is not ready");}
 });
 check("18. Pure frozen browser and Node",()=>{
- const p=cp(),s=clone(snap(p,{terminalClose:F.closed(p)})),before=clone(s),v=A.buildActiveShowdownViews(s);frozen(v,s.history.projection);assert.deepEqual(A.buildActiveShowdownViews(s),v);assert.deepEqual(s,before);assert.equal(Object.isFrozen(s),false);assert.equal(Object.isFrozen(s.history.projection),false,"caller projection is never frozen");
+ const p=cp();frozen(A.buildActiveShowdownViews(snap(p,{terminalClose:F.closed(p)})));const s=clone(snap(p,{terminalClose:F.closed(p)})),before=clone(s),v=A.buildActiveShowdownViews(s);frozen(v,s.history.projection);assert.deepEqual(A.buildActiveShowdownViews(s),v);assert.deepEqual(s,before);assert.equal(Object.isFrozen(s),false);assert.equal(Object.isFrozen(s.history.projection),false,"caller projection is never frozen");
  const source=fs.readFileSync(require.resolve("../../js/sharedActiveShowdownAdapter.js"),"utf8");assert.doesNotMatch(source,/localStorage|sessionStorage|indexedDB|document\.|\bwindow\b|\bcurrentShowdown\b|getState\s*\(|addEventListener|setInterval|setTimeout|Date\.now|Math\.random/);
  const oldStorage=globalThis.localStorage,oldShowdown=globalThis.currentShowdown;try{globalThis.localStorage={getItem:()=>"conflict"};globalThis.currentShowdown={playerOne:{score:999}};assert.deepEqual(A.buildActiveShowdownViews(s),v);}finally{if(oldStorage===undefined)delete globalThis.localStorage;else globalThis.localStorage=oldStorage;if(oldShowdown===undefined)delete globalThis.currentShowdown;else globalThis.currentShowdown=oldShowdown;}
  const context=vm.createContext({CareerModeSharedHistoryConvergence:History,CareerModeSharedCareerAnalytics:Career,CareerModeSharedTerminalClose:Terminal,CareerModeSharedFinalReconciliation:Final});vm.runInContext(source,context);assert.ok(context.CareerModeSharedActiveShowdownAdapter);assert.deepEqual(clone(context.CareerModeSharedActiveShowdownAdapter.buildActiveShowdownViews(s)),clone(v));
+});
+check("19. Agreement with job 3",()=>{
+ const p=P({totalSeasons:5,seasons:[[perfect,R({championsLeague:true})],[R({leaguePosition:2}),R({leaguePosition:3})],[R({leaguePoints:80}),R({leaguePoints:80})]]}),s=snap(p),r=A.rivalryView(s),m=career(s);
+ assert.equal(A.classifyCurrentShowdown(s),"active");assert.equal(p.acceptedSeasons,3);
+ for(const id of ["daniel","nik"]){for(const key of fields)assert.equal(r.managers[id][key],m.managers[id][key],id+" "+key+" agrees with career");assert.equal(r.score[id],m.managers[id].careerPoints,id+" points agree");}
 });
 console.log("PASS Shared Active Showdown Adapter contracts ("+cases+"/"+cases+" cases): provider authority, fixed manager roles, private inputs, lifecycle, capped scoring, tiebreaks and pure frozen views.");
