@@ -146,6 +146,19 @@ The shared Career Table renderer in `js/statistics.js`, which Trophy Room calls,
 
 The current live implementation has no Trophy Room loading, unavailable, partial, or generic error copy inside `#trophyRoom`. While the optional module is loading, the external entry button gets `aria-busy="true"`. A module-open failure is surfaced through the global application notice with context `Unable to open trophyRoom` plus the underlying loader error. The contract-specific history state copy is defined below and overrides this legacy omission for the rebuilt screen.
 
+### Rebuilt history-state copy
+
+These strings do not exist on the legacy `main` Trophy Room. They are contract-required new copy and are marked `source: "new"` in fixtures.
+
+| State / slot | Copy | Source |
+| --- | --- | --- |
+| Loading body | `Loading career history…` | `new` |
+| Partial body | `Some Showdowns could not be read. Showing {READABLE} of {INDEXED} Showdowns.` | `new` |
+| Partial records heading | `AVAILABLE RECORDS` | `new` |
+| Unavailable body | `Career history is unavailable right now.` | `new` |
+
+When `status = partial`, `AVAILABLE RECORDS` replaces `ALL-TIME RECORDS`; the incomplete frame must never make an all-time or complete-career claim.
+
 ### Accessibility text
 
 - The Trophy Room Back button has no explicit `aria-label`; its accessible name is the visible text `BACK`.
@@ -243,7 +256,7 @@ Trophy Room is a career-history view. It uses the contract's five states, not a 
 | `loading` | Provider history read is in flight. | Stable shell only; never present placeholder zeroes as facts. |
 | `empty` | Read succeeded and no counted career history exists. | Daniel first/left, Nik second/right; all four trophy cards remain visible, dark, with `Not won yet`. |
 | `unavailable` | History read failed. | Honest unavailable treatment; no trophy or record values are invented. |
-| `partial` | Some indexed Showdowns are unreadable. | Show readable data plus `coverage.{readable,indexed}`; never label incomplete data "all-time" or complete career history. |
+| `partial` | Some indexed Showdowns are unreadable. | Show readable data plus `coverage.{readable,indexed}`; use `AVAILABLE RECORDS` instead of `ALL-TIME RECORDS`; never label incomplete data "all-time" or complete career history. |
 | `ready` | Counted provider history is readable. | Full cabinets, standings and the five contract record families. |
 
 A generic read error maps to `unavailable`; there is no sixth `error` state. There is no Trophy Room `active` or `completed` state: those are source-Showdown conditions handled by the §6 counting rules. There is no viewer-role variant; Daniel and Nik remain fixed in that order.

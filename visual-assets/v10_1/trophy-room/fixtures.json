@@ -30,6 +30,24 @@
       "highestLeagueGoals": "MOST LEAGUE GOALS",
       "biggestShowdownWin": "BIGGEST SHOWDOWN WIN",
       "mostPerfectSeasons": "PERFECT 11-POINT SEASONS"
+    },
+    "stateCopy": {
+      "loading": {
+        "text": "Loading career history…",
+        "source": "new"
+      },
+      "partial": {
+        "text": "Some Showdowns could not be read. Showing {READABLE} of {INDEXED} Showdowns.",
+        "source": "new"
+      },
+      "partialRecordsHeading": {
+        "text": "AVAILABLE RECORDS",
+        "source": "new"
+      },
+      "unavailable": {
+        "text": "Career history is unavailable right now.",
+        "source": "new"
+      }
     }
   },
   "ids": {
@@ -263,7 +281,9 @@
         "nik": {
           "wins": 1
         }
-      }
+      },
+      "recordsHeading": "AVAILABLE RECORDS",
+      "stateMessage": "Some Showdowns could not be read. Showing 2 of 3 Showdowns."
     },
     "TR4": {
       "note": "ready history with real League Titles category selected; both managers remain visible",
@@ -357,7 +377,8 @@
       "managerOrder": [
         "daniel",
         "nik"
-      ]
+      ],
+      "stateMessage": "Career history is unavailable right now."
     },
     "TR6": {
       "note": "provider history loading; reserve Daniel first and Nik second without fake counts",
@@ -367,7 +388,8 @@
       "managerOrder": [
         "daniel",
         "nik"
-      ]
+      ],
+      "stateMessage": "Loading career history…"
     },
     "TR7": {
       "note": "ready history with Nik leading; rows remain Daniel-first and # communicates rank",
