@@ -311,3 +311,15 @@ Because no Settings mockup exists, there are no visual mockup elements to copy o
 | Unrecorded football statistics | DROP. Settings does not invent stats; `DATA_CONTRACT_V1.md §9` remains binding. |
 
 The absence of a Settings mockup is not a blocker because the product behaviour and content authority are explicit.
+
+
+## Open questions
+
+No blocking product question remains.
+
+Resolved notes for the build:
+
+1. Current `main` does not repeat the Reus credit inside Settings. This is not ambiguous: `PRODUCT_TRUTH.md §6` and `DATA_CONTRACT_V1.md §10` require the Settings copy, while Loading keeps its own credit.
+2. There is no Settings mockup in the factory mockup index. This is not a blocker: live behaviour, product truth, the shared visual system and the quality bar are the authorities.
+3. Current `main` renders a free-form current-Showdown name/status row and a local Legacy-history count. The factory data presentation drops those uncontracted summaries rather than inventing Settings field names; the real safe delete and History route behaviours remain documented.
+4. Settings does not directly link to `js/saveLibraryUI.js`; ordinary online Settings keeps the Save Library recovery panel hidden/internal. Therefore the conditional `saveLibraryUI.js` read in this job is not required.
