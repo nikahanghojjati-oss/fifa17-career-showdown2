@@ -190,6 +190,8 @@ Large files: images go in the zip as the job names them (WebP plus PNG masters w
 
 ## 10. Image jobs (lane plain-image)
 
+- **The image tool makes only the asset the job asks for.** Never make a summary, status or "job completed" picture, a screen mockup, or any person other than Daniel and Nik as the mockup shows them. Progress and results are plain text plus the JOB-NNN.zip. A result that is not the requested asset is a failed try: discard it and retry in a new chat.
+
 - One image per request. Never ask for several assets in one image.
 - Edits, not new pictures: attach the guide image and ask for an edit, as the job's prompt says, word for word.
 - **Likeness lock**: after an edit, keep the edited pixels only inside the edit zones (6 px feather) and the original mockup pixels everywhere else. Faces and hands always come from the original.

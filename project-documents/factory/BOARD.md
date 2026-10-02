@@ -2,13 +2,13 @@
 
 Branch `factory/v1-wtt5ye`. 135 Team V jobs, plus 5 lines that track Team G. Open a new chat in the ChatGPT "Showdown visual" project and type a number. Up to 5 plain chats at once (at most 2 image jobs) plus up to 2 Sol Work mode workers.
 
-**Overall (Team V):** █░░░░░░░░░ 16 % · 22 of 135 jobs done
+**Overall (Team V):** █░░░░░░░░░ 17 % · 23 of 135 jobs done
 
-**Start now (plain chats, press Stay in Chat):** 13, 15, 19, 20, 31 · queued next: 21, 22, 23, 24, 25, 26, 27, 28, 29, 43, 111, 112, 113, 114, 122, 123, 124, 136, 137, 138, 139
+**Start now (plain chats, press Stay in Chat):** 19, 20, 31, 43 · queued next: 21, 22, 23, 24, 25, 26, 27, 28, 29, 111, 112, 113, 114, 122, 123, 124, 136, 137, 138, 139
 
 **Start now (Sol Work mode, press Use Work):** -
 
-**Working:** - · **Blocked:** -
+**Working:** 13 · **Blocked:** -
 
 **Team G tracking (never start these):** 98 (done), 99 (open), 100 (open), 101 (open), 102 (open). Claude marks them done when Team G delivers.
 
@@ -27,9 +27,9 @@ Branch `factory/v1-wtt5ye`. 135 Team V jobs, plus 5 lines that track Team G. Ope
 | 10 | [Truth sheet: Settings](jobs/JOB-010.md) | 1 Truth | data | plain | - | ██████████ 100 % | DONE |  |
 | 11 | [Truth sheet: Loading](jobs/JOB-011.md) | 1 Truth | data | plain | - | ██████████ 100 % | DONE |  |
 | 12 | [Showdown tokens and type system](jobs/JOB-012.md) | 2 Foundation | build | plain (work if job 0 says no screenshots) | - | ██████████ 100 % | DONE |  |
-| 13 | [Panel, button and table kit](jobs/JOB-013.md) | 2 Foundation | build | plain (work if job 0 says no screenshots) | 12 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
+| 13 | [Panel, button and table kit](jobs/JOB-013.md) | 2 Foundation | build | plain (work if job 0 says no screenshots) | 12 | ██████░░░░ 66 % | IN PROGRESS |  |
 | 14 | [Character cut-out tool and standard](jobs/JOB-014.md) | 2 Foundation | build | plain | 0 | ██████████ 100 % | DONE |  |
-| 15 | [Cinematic stage engine](jobs/JOB-015.md) | 2 Foundation | build | plain (work if job 0 says no screenshots) | 12, 14 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
+| 15 | [Cinematic stage engine](jobs/JOB-015.md) | 2 Foundation | build | plain (work if job 0 says no screenshots) | 12, 14 | ██████████ 100 % | DONE |  |
 | 16 | [Motion kit (pack-rip grade)](jobs/JOB-016.md) | 2 Foundation | build | plain (work if job 0 says no screenshots) | 13 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 17 | [Shared QA harness and compare sheets](jobs/JOB-017.md) | 2 Foundation | build | plain (work if job 0 says no screenshots) | - | ██████████ 100 % | DONE |  |
 | 18 | [Foundation review](jobs/JOB-018.md) | 2 Foundation | review | plain (work if job 0 says no screenshots) | 13, 15, 16, 14, 17 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
