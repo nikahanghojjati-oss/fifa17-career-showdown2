@@ -195,10 +195,10 @@
     1,
     2
    ],
-   "steps": null,
-   "code_branch": null,
+   "steps": 9,
+   "code_branch": "gameplay/job-07-career-index",
    "codex_review": true,
-   "written": false,
+   "written": true,
    "waits_on": null,
    "phase": "3 Career history",
    "type": "rules",

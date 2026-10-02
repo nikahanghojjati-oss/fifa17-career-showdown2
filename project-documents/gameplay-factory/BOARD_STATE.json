@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-02 14:12 UTC",
+ "generated": "2026-10-02 14:29 UTC",
  "branch": "factory/gameplay-v1",
  "integration_branch": "gameplay/recovery-v1",
  "capacity": {
@@ -268,17 +268,17 @@
     1,
     2
    ],
-   "steps": null,
-   "code_branch": null,
+   "steps": 9,
+   "code_branch": "gameplay/job-07-career-index",
    "codex_review": true,
-   "written": false,
+   "written": true,
    "waits_on": null,
    "phase": "3 Career history",
    "type": "rules",
    "plain": "A shared list of every Showdown the two of you played, protected by Rules.",
-   "state": "NOT WRITTEN",
+   "state": "NOT STARTED",
    "step": 0,
-   "steps_total": 1,
+   "steps_total": 9,
    "pct": 0,
    "ready": false
   },
