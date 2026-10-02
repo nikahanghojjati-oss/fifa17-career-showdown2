@@ -1,13 +1,13 @@
 {
- "generated": "2026-10-02 09:28 UTC",
+ "generated": "2026-10-02 09:39 UTC",
  "branch": "factory/gameplay-v1",
  "integration_branch": "gameplay/recovery-v1",
  "capacity": {
   "chat": 2,
   "work": 1
  },
- "overall": 20,
- "done": 3,
+ "overall": 22,
+ "done": 4,
  "total": 18,
  "start": {
   "chat": [
@@ -16,9 +16,7 @@
   "work": []
  },
  "queued": [],
- "working": [
-  3
- ],
+ "working": [],
  "blocked": [],
  "jobs": [
   {
@@ -162,10 +160,10 @@
    "phase": "2 Career model",
    "type": "build",
    "plain": "One pure function that turns Showdown data into the career numbers every screen shows.",
-   "state": "IN PROGRESS",
-   "step": 5,
+   "state": "DONE",
+   "step": 7,
    "steps_total": 7,
-   "pct": 71,
+   "pct": 100,
    "ready": false
   },
   {
