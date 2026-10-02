@@ -322,6 +322,15 @@ Season Results has two state axes. DATA_CONTRACT_V1 §0 supplies the read envelo
 
 The current production adapter is role-symmetric. Viewer role never changes manager order: Daniel remains first/left and Nik second/right. On a Nik device, Nik's own editable panel is the active one but Daniel's side is still the first/left side when both sides are represented.
 
+
+### Sealed rival presentation
+
+Live `main` hides the rival's entry/review card before `results-ready`; it does not render a second card with masked numbers. The fixture `sealed` array is a privacy/presentation marker, not a rival record or a progress indicator.
+
+A factory build may reserve the rival's side as a visual-only sealed silhouette/closed plate to preserve the two-manager composition. This treatment has no rival input values, computed totals, checkbox states, publication progress or invented waiting copy. The real rival result card stays hidden and its record is absent from the view model. A sealed visual is never populated from private data, even behind CSS masking. On phone, it cannot make the rival tab selectable before the reveal.
+
+This distinction applies to SR1, SR2, SR3 and SR6. From `results-ready` onward, the two genuinely published records replace the visual-only treatment. No new sealed-state product string is required by this truth sheet.
+
 ### Contract read states
 
 | `status` | Meaning on this screen | Rendering rule |
