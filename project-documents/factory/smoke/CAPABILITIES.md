@@ -1,6 +1,8 @@
+NO PUSH
+
 # Factory chat capabilities
 
-Routing verdict pending step 7.
+Routing note: text repository writes work, but generated binary assets cannot be completed as branch updates in this chat. Jobs that produce binary artifacts must use the zip handoff path.
 
 | Capability | YES / NO | Detail |
 | --- | --- | --- |
