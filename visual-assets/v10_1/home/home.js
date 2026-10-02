@@ -335,7 +335,7 @@
   }
 
   function layout(MAP) {
-    const mobile = matchMedia("(max-width: 760px) and (orientation: portrait)").matches;
+    const mobile = matchMedia("(max-width: 900px) and (orientation: portrait)").matches;
     stage.dataset.mode = mobile ? "mobile" : "desktop";
     if (mobile) layoutMobile(MAP); else layoutDesktop(MAP);
     positionManagerMarkers(MAP);
