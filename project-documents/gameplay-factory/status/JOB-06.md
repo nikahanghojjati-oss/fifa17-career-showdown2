@@ -1,13 +1,13 @@
 # Status · JOB-06 · Start/Join view model + nav.locked
 
 State: IN PROGRESS
-Step: 5 of 7
-Updated: 2026-10-02 19:52 UTC
+Step: 6 of 7
+Updated: 2026-10-02 19:45 UTC
 Chat: Sol chat
 Code branch: gameplay/job-06-start-join-model
-Head commit: 7354601b08ec3bc616784b63fe585b37c2677979
-PR:
-CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37055033109
+Head commit: 7bca7253845b59c7d7c2d0ec48023306c1934cb9
+PR: #320 https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/320
+CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37055716278
 
 ## Notes
 - Step 1: baseline on recovery head `4491e36378446b3a06ff2d28aa861bb892d87357`; `js/sharedCareerAnalytics.js` exists; Product contracts passed `97/97`; Operations audit ended `ℹ pass 73`. Validate Gameplay Fast has only the lead-approved known JOB-02 race at `two-manager-journey-emulator.cjs:220`.
@@ -18,6 +18,8 @@ CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/r
 - Step 4: `navLockState`, `LOCKED_SCREENS`, and `NAV_LOCK_TEXT` implemented at `d00b7547140937fa5dfaecb7601d7b5294917bcc`; four locked ids map to the contract reasons, known other screens/null unlock, unknown strings throw `NAV_SCREEN_UNKNOWN`.
 
 - Step 5: full pure Start/Join view model implemented at `7354601b08ec3bc616784b63fe585b37c2677979`; direct execution of current branch source passed `PASS Start/Join view model contracts (20/20 cases)`.
+
+- Step 6: registered the contract in POS20 and wired the ops census; exact head `7bca7253845b59c7d7c2d0ec48023306c1934cb9` passed `20/20`, full contracts `98/98`, ops `73/73`, and all emulator lanes. PR #320 is open into `gameplay/recovery-v1`.
 
 ## Self-check
 
