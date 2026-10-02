@@ -1,27 +1,26 @@
 {
- "generated": "2026-10-02 19:25 UTC",
+ "generated": "2026-10-02 19:30 UTC",
  "branch": "factory/gameplay-v1",
  "integration_branch": "gameplay/recovery-v1",
  "capacity": {
   "chat": 2,
   "work": 1
  },
- "overall": 27,
+ "overall": 29,
  "done": 5,
  "total": 18,
  "start": {
-  "chat": [
-   6
-  ],
-  "work": [
-   5
-  ]
+  "chat": [],
+  "work": []
  },
  "queued": [
   4,
   7
  ],
- "working": [],
+ "working": [
+  5,
+  6
+ ],
  "blocked": [],
  "jobs": [
   {
@@ -187,11 +186,11 @@
    "phase": "2 Career model",
    "type": "build",
    "plain": "Live Showdown (Rivalry, Continue, tiebreak, final result) feeds the career model.",
-   "state": "NOT STARTED",
-   "step": 0,
+   "state": "IN PROGRESS",
+   "step": 2,
    "steps_total": 7,
-   "pct": 0,
-   "ready": true
+   "pct": 28,
+   "ready": false
   },
   {
    "number": 4,
@@ -229,11 +228,11 @@
    "phase": "2 Career model",
    "type": "build",
    "plain": "Start/Join screen and top-bar locking driven by one view model.",
-   "state": "NOT STARTED",
+   "state": "IN PROGRESS",
    "step": 0,
    "steps_total": 7,
    "pct": 0,
-   "ready": true
+   "ready": false
   },
   {
    "number": 11,
