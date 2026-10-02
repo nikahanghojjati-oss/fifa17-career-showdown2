@@ -23,14 +23,18 @@ function rivalryEnvelope(rivalryId,now,p1,p2,state='active'){
 function inviteEnvelope(rivalryId,now,expiresAt,state='open'){
   return envelope({objectType:'invite',objectId:rivalryId,updatedAt:now,accountId:'acct_d',deviceId:deviceId('d'),data:{purpose:'rivalry-pairing',slotId:'playerTwo',createdByAccountId:'acct_d',createdAt:now,expiresAt,state,redeemedByAccountId:null,redeemedAt:null,revokedAt:null}});
 }
+function careerIndexWrite(uid,device,headSnapshot,target,at){
+  const head=headSnapshot.exists()?headSnapshot.data():null;
+  return envelope({objectType:'careerIndex',objectId:'current',revision:head?head.revision+1:0,parentRevision:head?head.revision:null,contentHash:hash('9'),priorContentHash:head?head.contentHash:null,updatedAt:at,accountId:uid,deviceId:device,data:{rivalryIds:head?[...head.data.rivalryIds,target]:[target],sealedPageCount:head?head.data.sealedPageCount:0}});
+}
 function pairEnvelope(uid,id,role,managerId,device,linkedAt,lastConfirmedAt,{revision=0,parentRevision=null,contentHash=hash('a'),priorContentHash=null}={}){
   return envelope({objectType:'pairLink',objectId:'current',revision,parentRevision,contentHash,priorContentHash,updatedAt:lastConfirmedAt,accountId:uid,deviceId:device,data:{rivalryId:id,managerRole:role,managerId,linkedAt,lastConfirmedAt}});
 }
 
-async function atomicCreateWithPairLink(db,{uid,device,target,role,managerId,char,nowMs,writePairLink=true}){
-  const rivalryRef=doc(db,'rivalries',target),inviteRef=doc(db,'rivalries',target,'invites',target),pairRef=doc(db,'accounts',uid,'pairLinks','current');
+async function atomicCreateWithPairLink(db,{uid,device,target,role,managerId,char,nowMs,writePairLink=true,writeCareerIndex=writePairLink}){
+  const rivalryRef=doc(db,'rivalries',target),inviteRef=doc(db,'rivalries',target,'invites',target),pairRef=doc(db,'accounts',uid,'pairLinks','current'),indexRef=doc(db,'accounts',uid,'careerIndex','current');
   return runTransaction(db,async transaction=>{
-    const pairSnapshot=await transaction.get(pairRef),at=Timestamp.fromMillis(nowMs+4000),expiresAt=Timestamp.fromMillis(nowMs+604000),invitedRole=role==='playerOne'?'playerTwo':'playerOne';
+    const pairSnapshot=await transaction.get(pairRef),indexSnapshot=await transaction.get(indexRef),at=Timestamp.fromMillis(nowMs+4000),expiresAt=Timestamp.fromMillis(nowMs+604000),invitedRole=role==='playerOne'?'playerTwo':'playerOne';
     const p1=role==='playerOne'?managerSlot('playerOne',uid,char):openSlot('playerOne'),p2=role==='playerTwo'?managerSlot('playerTwo',uid,char):openSlot('playerTwo');
     const rivalryData={connectionState:'pending-pair',connectionStateBeforeDeletion:null,managerSlots:[p1,p2],authorizedAccountIds:[uid],createdByAccountId:uid,createdAt:at};
     const inviteData={purpose:'rivalry-pairing',slotId:invitedRole,createdByAccountId:uid,createdAt:at,expiresAt,state:'open',redeemedByAccountId:null,redeemedAt:null,revokedAt:null};
@@ -39,14 +43,14 @@ async function atomicCreateWithPairLink(db,{uid,device,target,role,managerId,cha
     let revision=0,parentRevision=null,priorContentHash=null,linkedAt=at;
     if(pairSnapshot.exists()){const prior=pairSnapshot.data();revision=prior.revision+1;parentRevision=prior.revision;priorContentHash=prior.contentHash;linkedAt=prior.data.linkedAt;}
     const pairNext=pairEnvelope(uid,target,role,managerId,device,linkedAt,at,{revision,parentRevision,contentHash:hash(char),priorContentHash});
-    if(writePairLink)transaction.set(pairRef,pairNext);transaction.set(rivalryRef,rivalryNext);transaction.set(inviteRef,inviteNext);return target;
+    if(writePairLink)transaction.set(pairRef,pairNext);if(writeCareerIndex)transaction.set(indexRef,careerIndexWrite(uid,device,indexSnapshot,target,at));transaction.set(rivalryRef,rivalryNext);transaction.set(inviteRef,inviteNext);return target;
   });
 }
 
-async function atomicRedeemWithPairLink(db,{uid,device,target,managerId,char,nowMs,writePairLink=true}){
-  const rivalryRef=doc(db,'rivalries',target),inviteRef=doc(db,'rivalries',target,'invites',target),pairRef=doc(db,'accounts',uid,'pairLinks','current');
+async function atomicRedeemWithPairLink(db,{uid,device,target,managerId,char,nowMs,writePairLink=true,writeCareerIndex=writePairLink}){
+  const rivalryRef=doc(db,'rivalries',target),inviteRef=doc(db,'rivalries',target,'invites',target),pairRef=doc(db,'accounts',uid,'pairLinks','current'),indexRef=doc(db,'accounts',uid,'careerIndex','current');
   return runTransaction(db,async transaction=>{
-    const rivalrySnapshot=await transaction.get(rivalryRef),inviteSnapshot=await transaction.get(inviteRef),pairSnapshot=await transaction.get(pairRef);
+    const rivalrySnapshot=await transaction.get(rivalryRef),inviteSnapshot=await transaction.get(inviteRef),pairSnapshot=await transaction.get(pairRef),indexSnapshot=await transaction.get(indexRef);
     const rivalry=rivalrySnapshot.data(),invite=inviteSnapshot.data(),at=Timestamp.fromMillis(nowMs+5000);
     const nextSlots=rivalry.data.managerSlots.map(slot=>slot.slotId===invite.data.slotId?managerSlot(slot.slotId,uid,char):{...slot});
     const rivalryData={...rivalry.data,connectionState:'active',managerSlots:nextSlots,authorizedAccountIds:[invite.data.createdByAccountId,uid]};
@@ -56,7 +60,7 @@ async function atomicRedeemWithPairLink(db,{uid,device,target,managerId,char,now
     let revision=0,parentRevision=null,priorContentHash=null,linkedAt=at,role='playerTwo';
     if(pairSnapshot.exists()){const prior=pairSnapshot.data();revision=prior.revision+1;parentRevision=prior.revision;priorContentHash=prior.contentHash;linkedAt=prior.data.linkedAt;role=prior.data.managerRole;}
     const pairNext=pairEnvelope(uid,target,role,managerId,device,linkedAt,at,{revision,parentRevision,contentHash:hash(char),priorContentHash});
-    if(writePairLink)transaction.set(pairRef,pairNext);transaction.set(rivalryRef,rivalryNext);transaction.set(inviteRef,inviteNext);return target;
+    if(writePairLink)transaction.set(pairRef,pairNext);if(writeCareerIndex)transaction.set(indexRef,careerIndexWrite(uid,device,indexSnapshot,target,at));transaction.set(rivalryRef,rivalryNext);transaction.set(inviteRef,inviteNext);return target;
   });
 }
 
@@ -108,6 +112,8 @@ async function abandonCurrentPairRivalry(db,{uid,device,target,nowMs,tamperCreat
       await setDoc(doc(db,'rivalries',atomicRecovery,'invites',atomicRecovery),inviteEnvelope(atomicRecovery,now,Timestamp.fromMillis(nowMs+600000)));
       await setDoc(doc(db,'rivalries',staleRedeem),rivalryEnvelope(staleRedeem,now,managerSlot('playerOne','acct_d','9'),openSlot('playerTwo'),'pending-pair'));
       await setDoc(doc(db,'rivalries',staleRedeem,'invites',staleRedeem),inviteEnvelope(staleRedeem,now,Timestamp.fromMillis(nowMs+600000)));
+      // JOB-07: the creator (acct_d) indexed its seeded pending invites at creation, as the provider now does.
+      await setDoc(doc(db,'accounts','acct_d','careerIndex','current'),envelope({objectType:'careerIndex',objectId:'current',updatedAt:now,accountId:'acct_d',deviceId:ids.d,data:{rivalryIds:[atomicRecovery,staleRedeem],sealedPageCount:0}}));
     });
 
     const dbA=testEnv.authenticatedContext('acct_a').firestore();
