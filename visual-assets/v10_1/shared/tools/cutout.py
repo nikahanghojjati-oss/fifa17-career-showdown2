@@ -113,11 +113,19 @@ def extract(plate, polygons, scale=1, erode=1, feather=1):
     distance_bg = np.sum((rgb - bg) ** 2, axis=-1)
     band = (np.asarray(grown) > 0) & ~core
     supported = (nf >= 3) & (nb >= 3) & (contrast > .008)
-    refined = np.asarray(binary).copy()
+    geometry = np.asarray(coverage).astype(np.float64)
+    refined = geometry.copy()
     decide = band & supported
-    refined[decide] = np.where(distance_fg[decide] < distance_bg[decide], 255, 0)
+    choice = np.where(distance_fg < distance_bg, 255, 0)
+    # Colour is guidance, not permission to invent a jagged silhouette. A plate
+    # often has skin, pinstripes and gold light in one tiny neighbourhood. Keep
+    # the hand-drawn contour authoritative and adjust only its subpixel edge.
+    refined[decide] = .8 * geometry[decide] + .2 * choice[decide]
+    smoothed = Image.fromarray(np.rint(refined).astype(np.uint8)).filter(
+        ImageFilter.GaussianBlur(.35 * scale))
+    refined = smoothed.point(lambda a: 255 if a >= 128 else 0)
     # Geometry-only where local colour cannot distinguish foreground/background.
-    clean = morph(Image.fromarray(refined), int(round(erode * scale)))
+    clean = morph(refined, int(round(erode * scale)))
     alpha = np.asarray(clean.filter(ImageFilter.GaussianBlur(feather * scale))).astype(np.float64) / 255
     alpha *= source_alpha
     # Flattened plate edge = t*foreground + (1-t)*background. Estimate t from
@@ -129,9 +137,12 @@ def extract(plate, polygons, scale=1, erode=1, feather=1):
     edge = (alpha > 0) & (alpha < .995)
     mixed = edge & supported & ((original < .999) | (t < .98))
     recovered = np.clip((rgb - (1 - t[..., None]) * bg) / t[..., None], 0, 1)
+    # Unmatting is ill-conditioned near tiny highlights. Bound recovery around
+    # the inside estimate to prevent saturated green/red single-pixel speckles.
+    recovered = np.clip(recovered, np.maximum(fg - .08, 0), np.minimum(fg + .08, 1))
     strength = np.clip(1 - alpha, 0, 1)[..., None]
     corrected = recovered * (1 - .6 * strength) + fg * (.6 * strength)
-    rgb[mixed] = corrected[mixed]
+    rgb[mixed] = (rgb * (1 - strength) + corrected * strength)[mixed]
     # Only fringe RGB changes. Opaque original pixels stay byte-identical.
     rgba[mixed, :3] = np.rint(srgb(rgb[mixed]) * 255).astype(np.uint8)
     rgba[..., 3] = np.rint(alpha * 255).astype(np.uint8)
