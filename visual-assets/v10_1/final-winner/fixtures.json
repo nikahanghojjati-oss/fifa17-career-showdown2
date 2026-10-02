@@ -418,7 +418,7 @@
     },
     "FW9": {
       "previewLabel": "Preview data",
-      "note": "Confirmed final totals and completion; only part of trophy attribution is readable.",
+      "note": "Partial provider read: 1 of 2 indexed Showdowns is readable; one indexed Showdown is unavailable, and two trophy fields in the readable final result are missing.",
       "status": "partial",
       "state": "completed",
       "totals": {
@@ -448,10 +448,10 @@
       "actions": [],
       "coverage": {
         "readable": 1,
-        "indexed": 1
+        "indexed": 2
       },
       "message": {
-        "text": "Final totals are confirmed. Nik’s domestic cup count and trophy total are unavailable.",
+        "text": "1 of 2 indexed Showdowns is readable; the other indexed Showdown is unavailable. In this final result, Nik’s domestic cup count and trophy total are unavailable.",
         "source": "new"
       },
       "missingFields": [
