@@ -379,9 +379,9 @@
    "depends_on": [
     0
    ],
-   "type": "image",
-   "worker": "GPT-5.6 Sol chat with image generation",
-   "lane": "fresh chat (image)",
+   "type": "build",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "lane": "project (type number)",
    "steps": 7,
    "waits_on_nik": null,
    "waits_on_team_g": null,
@@ -396,9 +396,9 @@
    "depends_on": [
     0
    ],
-   "type": "image",
-   "worker": "GPT-5.6 Sol chat with image generation",
-   "lane": "fresh chat (image)",
+   "type": "build",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "lane": "project (type number)",
    "steps": 7,
    "waits_on_nik": null,
    "waits_on_team_g": null,
@@ -413,9 +413,9 @@
    "depends_on": [
     0
    ],
-   "type": "image",
-   "worker": "GPT-5.6 Sol chat with image generation",
-   "lane": "fresh chat (image)",
+   "type": "build",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "lane": "project (type number)",
    "steps": 7,
    "waits_on_nik": null,
    "waits_on_team_g": null,
@@ -430,9 +430,9 @@
    "depends_on": [
     0
    ],
-   "type": "image",
-   "worker": "GPT-5.6 Sol chat with image generation",
-   "lane": "fresh chat (image)",
+   "type": "build",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "lane": "project (type number)",
    "steps": 7,
    "waits_on_nik": null,
    "waits_on_team_g": null,
@@ -447,9 +447,9 @@
    "depends_on": [
     0
    ],
-   "type": "image",
-   "worker": "GPT-5.6 Sol chat with image generation",
-   "lane": "fresh chat (image)",
+   "type": "build",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "lane": "project (type number)",
    "steps": 7,
    "waits_on_nik": null,
    "waits_on_team_g": null,
@@ -464,9 +464,9 @@
    "depends_on": [
     0
    ],
-   "type": "image",
-   "worker": "GPT-5.6 Sol chat with image generation",
-   "lane": "fresh chat (image)",
+   "type": "build",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "lane": "project (type number)",
    "steps": 7,
    "waits_on_nik": null,
    "waits_on_team_g": null,
@@ -2016,9 +2016,9 @@
     14,
     1
    ],
-   "type": "image",
-   "worker": "GPT-5.6 Sol chat with image generation",
-   "lane": "fresh chat (image)",
+   "type": "build",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "lane": "project (type number)",
    "steps": 6,
    "waits_on_nik": null,
    "waits_on_team_g": null,
@@ -2034,9 +2034,9 @@
     14,
     1
    ],
-   "type": "image",
-   "worker": "GPT-5.6 Sol chat with image generation",
-   "lane": "fresh chat (image)",
+   "type": "build",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "lane": "project (type number)",
    "steps": 6,
    "waits_on_nik": null,
    "waits_on_team_g": null,
@@ -2052,9 +2052,9 @@
     14,
     1
    ],
-   "type": "image",
-   "worker": "GPT-5.6 Sol chat with image generation",
-   "lane": "fresh chat (image)",
+   "type": "build",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "lane": "project (type number)",
    "steps": 6,
    "waits_on_nik": null,
    "waits_on_team_g": null,
