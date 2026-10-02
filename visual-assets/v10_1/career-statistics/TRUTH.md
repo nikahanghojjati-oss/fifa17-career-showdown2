@@ -276,3 +276,11 @@ The mockup is visual reference, not product authority. PRODUCT_TRUTH.md, DATA_CO
 | Shared top navigation, if shown in the mockup | CHANGE to HOME / CAREER / STANDINGS / STATS / RULES plus settings; no ABOUT, search or profile destination. |
 
 The repository mockup is a binary PNG and the GitHub text connector in this chat does not expose its pixels. This table therefore resolves every Career Statistics mockup element explicitly called out by JOB-003, plus every data, rights, button, manager-order and history-state element governed by the binding product papers, without inventing unverified decorative details.
+
+## Open questions
+
+None blocking.
+
+The binding product papers and agreed Team G data contract answer Career Statistics manager order, routes, counted-history rules, allowed fields, dropped stats, five provider states and rights constraints. The current live screen does not supply bespoke provider-loading, provider-unavailable or partial-history prose; the rebuild must therefore present those contract states honestly without pretending that legacy copy exists. Where copy is explicitly fixed by the contract, use it exactly, including `Current Showdown only. Career history is not yet available.` and visible partial coverage.
+
+The repository mockup's pixels are not exposed through this chat's GitHub text connector. That is not a product question: JOB-003 names the product-sensitive mockup corrections explicitly, and those plus the binding product papers are fully reconciled above. Decorative spacing, motion, exact plate composition and responsive layout remain implementation decisions for later visual jobs and may not change this truth sheet.
