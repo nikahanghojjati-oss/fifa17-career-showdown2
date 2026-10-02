@@ -192,9 +192,23 @@ function createTrophyIdentityNotice(analytics){
     return notice;
 }
 
-function renderTrophyRoom(force = false){
+let trophyRoomModel = null;
+
+function renderTrophyRoom(request = false){
     const content = document.getElementById("trophyRoomContent");
     if(!content){ return; }
+
+    const seam = readCareerScreenSeam(() => renderTrophyRoom(request));
+    if(!seam){ return; }
+    const normalized = seam.normalizeRenderRequest(request);
+    if(normalized.hasModel){ trophyRoomModel = normalized.model; }
+    const force = normalized.force;
+    const source = seam.selectCareerScreenSource({ identityState: readCareerIdentityState(), model: trophyRoomModel });
+    if(source !== "local"){
+        content.replaceChildren(seam.paintCareerScreenView(document, seam.careerScreenView("trophyRoom", source === "model" ? trophyRoomModel : null)));
+        trophyRoomRenderKey = null;
+        return;
+    }
 
     const nextKey = getTrophyRoomRenderKey();
     if(!force && trophyRoomRenderKey === nextKey && content.childElementCount){
@@ -251,9 +265,9 @@ function renderTrophyRoom(force = false){
     trophyRoomRenderKey = nextKey;
 }
 
-function openTrophyRoom(){
+function openTrophyRoom(request = false){
     createTrophyRoomScreen();
-    renderTrophyRoom();
+    renderTrophyRoom(request);
     showScreen("trophyRoom");
 }
 

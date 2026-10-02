@@ -6,6 +6,25 @@
 
 let rivalryStatisticsRenderKey = null;
 let careerStatisticsRenderKey = null;
+let careerStatisticsModel = null;
+let rivalryStatisticsModel = null;
+
+function readCareerScreenSeam(rerender){
+    const seam = window.CareerModeCareerScreenSeam;
+    if(seam){ return seam; }
+    if(typeof window.loadRuntimeScript === "function"){
+        window.loadRuntimeScript("career-screen-seam", "js/careerScreenSeam.js", () => Boolean(window.CareerModeCareerScreenSeam))
+            .then(rerender)
+            .catch(error => { if(typeof window.reportApplicationError === "function"){ window.reportApplicationError("Career screens could not load", error); } });
+    }
+    return null;
+}
+
+function readCareerIdentityState(){
+    const identity = window.CareerModeOnlinePlayerIdentity;
+    return identity && typeof identity.getState === "function" ? identity.getState() : null;
+}
+
 
 function createStatisticsScreen(){
     if(document.getElementById("statistics")){ return; }
@@ -310,9 +329,21 @@ function createCareerIdentityNotice(analytics){
     return notice;
 }
 
-function renderCareerStatistics(force = false){
+function renderCareerStatistics(request = false){
     const content = document.getElementById("careerStatisticsContent");
     if(!content){ return; }
+
+    const seam = readCareerScreenSeam(() => renderCareerStatistics(request));
+    if(!seam){ return; }
+    const normalized = seam.normalizeRenderRequest(request);
+    if(normalized.hasModel){ careerStatisticsModel = normalized.model; }
+    const force = normalized.force;
+    const source = seam.selectCareerScreenSource({ identityState: readCareerIdentityState(), model: careerStatisticsModel });
+    if(source !== "local"){
+        content.replaceChildren(seam.paintCareerScreenView(document, seam.careerScreenView("careerStatistics", source === "model" ? careerStatisticsModel : null)));
+        careerStatisticsRenderKey = null;
+        return;
+    }
 
     const nextKey = getCareerStatisticsRenderKey();
     if(!force && careerStatisticsRenderKey === nextKey && content.childElementCount){
@@ -484,9 +515,21 @@ function renderRivalryHighlights(container, analytics){
     container.append(heading, grid);
 }
 
-function renderRivalryStatistics(force = false){
+function renderRivalryStatistics(request = false){
     const content = document.getElementById("rivalryStatisticsContent");
     if(!content){ return; }
+
+    const seam = readCareerScreenSeam(() => renderRivalryStatistics(request));
+    if(!seam){ return; }
+    const normalized = seam.normalizeRenderRequest(request);
+    if(normalized.hasModel){ rivalryStatisticsModel = normalized.model; }
+    const force = normalized.force;
+    const source = seam.selectCareerScreenSource({ identityState: readCareerIdentityState(), model: rivalryStatisticsModel });
+    if(source !== "local"){
+        content.replaceChildren(seam.paintCareerScreenView(document, seam.careerScreenView("rivalryStatistics", source === "model" ? rivalryStatisticsModel : null)));
+        rivalryStatisticsRenderKey = null;
+        return;
+    }
 
     const nextKey = getRivalryStatisticsRenderKey();
     if(!force && rivalryStatisticsRenderKey === nextKey && content.childElementCount){
@@ -535,16 +578,17 @@ function renderRivalryStatistics(force = false){
     rivalryStatisticsRenderKey = nextKey;
 }
 
-function openCareerStatistics(){
+function openCareerStatistics(request = false){
     createCareerStatisticsScreen();
-    renderCareerStatistics();
+    renderCareerStatistics(request);
     showScreen("careerStatistics");
 }
 
-function openRivalryStatistics(){
-    if(!currentShowdown){ return; }
+function openRivalryStatistics(request = false){
+    const suppliesModel = Boolean(request && typeof request === "object" && request.model);
+    if(!suppliesModel && !currentShowdown){ return; }
     createStatisticsScreen();
-    renderRivalryStatistics();
+    renderRivalryStatistics(request);
     showScreen("statistics");
 }
 

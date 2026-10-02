@@ -38,6 +38,7 @@ const SHELL_PATHS = Object.freeze([
     "data/leagues.js",
     "data/transferOptions.js",
     "js/analytics.js",
+    "js/careerScreenSeam.js",
     "js/app.js",
     "js/backup.js",
     "js/clubAssignment.js",
