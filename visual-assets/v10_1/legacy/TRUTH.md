@@ -308,7 +308,55 @@ For LG1, the fixture uses eight total records and two pages (four records per pa
 
 ## Mockup element decisions
 
-_To be completed in step 5._
+Mockup authority inspected through the factory's own Legacy job descriptions: `MOCKUP_LEGACY_V2.png` is the primary reference; V1 is secondary. `JOB-026` and `JOB-072` enumerate the visual contents of V2, including the title, managers, archive panel, 4 × 2 card grid, pager, side menu, bottom controls and footer. Product truth overrides any mockup data or real-world marks.
+
+| Mockup element | Product answer |
+| --- | --- |
+| Night stadium, crowd bokeh, floodlights, banners, warm gold/black atmosphere | KEEP as the scene language. The clean plate job removes UI but preserves this environment. |
+| Daniel on the left, hand on chin | KEEP as is. Daniel must remain left and must never be mirrored. |
+| Nik on the right | KEEP as is. Nik must remain right and must never be mirrored. |
+| Handwritten Daniel/Nik decorative tags | KEEP as decorative brand text; PRODUCT_TRUTH §1 explicitly allows them. |
+| Huge brush title `LEGACY` | KEEP as is visually; build uses the title wordmark asset plus hidden semantic text. |
+| Tagline `PAST SHOWDOWNS. A LASTING JOURNEY.` | KEEP as the mockup's decorative screen tagline. |
+| Mockup top navigation bar | CHANGE to the shared product nav from DATA_CONTRACT_V1 §10: HOME / CAREER / STANDINGS / STATS / RULES plus Settings at the right. No extra destinations. |
+| One wide archive panel | KEEP as the primary content surface. |
+| Left side menu | KEEP, but only with destinations the product actually has. |
+| `LEGACY ARCHIVE` active side-menu item | KEEP as is for this view. |
+| `TROPHY ROOM` side-menu item | KEEP; route to the existing `trophyRoom` optional screen. |
+| `RECORDS` side-menu item | KEEP with product meaning: route to Career Statistics (`careerStatistics`). |
+| `TRANSFER HISTORY` side-menu item | DROP for this screen now. The current product has Transfer War data but no Transfer History screen/route, and DATA_CONTRACT_V1 §8 does not include transfer history in Legacy. Team G's transfer-history work is separate. |
+| `CHALLENGE TRACKER` side-menu item | DROP because no real product destination/route exists in `screens.js`, `index.html`, or the optional-module registry. |
+| 4 × 2 Showdown-card grid | KEEP as desktop layout capacity. Fixture LG1 uses pagination with eight total records over two pages; unused capacity is allowed. |
+| Card heading `Showdown #12` | CHANGE to live contract value `Showdown #{showdowns[].number}`. Never bake the number into art. |
+| Left club crest + manager name | CHANGE to Daniel always left, using `clubs.daniel` and our original code-drawn crest. If the mockup has Nik left on a card, that card is wrong. |
+| Right club crest + manager name | CHANGE to Nik always right, using `clubs.nik` and our original code-drawn crest. |
+| Real club crests in the mockup | CHANGE to our original crests from `getClubCrestSvg`; real crests never ship. |
+| League mark above the score | CHANGE to our original `leagueId` mark from `getLeagueMark`; real league logos never ship. |
+| Big score such as `3 – 2` | CHANGE meaning to `totals.daniel – totals.nik`, the Showdown points total. It is not season wins, trophies or match score. |
+| Gold crown under the winner | KEEP as a non-real decorative winner indicator driven by the contracted `winner` field. Do not use a real trophy/league asset. |
+| Footer `5 Seasons · Aug 2026` | CHANGE: keep only contracted season information from `seasonsPlayed` / `totalSeasons`; DROP the date because DATA_CONTRACT_V1 §8 has no completion-date field. |
+| Selected-card glowing gold border | KEEP as selection/focus styling for the card whose season history will open. It does not encode new data. |
+| Pager arrows and dots | KEEP because the mockup and LG1 require pagination. Controls must be real keyboard/touch controls with accessible labels in the build. |
+| Bottom action `VIEW SEASON HISTORY` | KEEP exactly. It is the one Legacy-specific primary action retained from the live product. |
+| Bottom action `EXPORT BACKUP` | DROP from Legacy. Local data management belongs in Settings, if exposed at all. |
+| Bottom action `DELETE SHOWDOWN` | DROP from online Legacy. |
+| Bottom action `DELETE ALL` / `DELETE ALL LEGACY HISTORY` | DROP from online Legacy. |
+| Bottom action `RESET ALL` / `RESET ALL SHOWDOWN DATA` | DROP from online Legacy. |
+| Backup-status block | DROP from online Legacy. |
+| Import Analysis / Migration Preview panel from current `main` | DROP from online Legacy; documented in step 2 only as live-current evidence. |
+| Atomic Restore & Recovery panel from current `main` | DROP from online Legacy; belongs with local data management, not archive browsing. |
+| Footer bar | DROP from this screen's mockup composition. App version/credits belong in Settings per PRODUCT_TRUTH §7 / DATA_CONTRACT_V1 §10. |
+| Any real trophies, real league marks, press/player photos or EA/FIFA art visible in a reference | DROP/REPLACE. Legacy ships only Showdown-original identity assets and the two owner portraits. |
+| Abandoned Showdown representation | ADD product override: dim status-only card/row with exact `Abandoned · not counted`; no score and no season list. |
+| Completion-pending representation | ADD product override: result may remain visible, but show exact visible state `Completion pending`; do not count the Showdown outcome yet. |
+| Loading state | ADD product override from contract §0; no fake values. |
+| Empty new-career state | ADD product override from contract §0. |
+| Partial-history state | ADD product override from contract §0; show that coverage is incomplete and never call it all-time/career. |
+| Unavailable state | ADD product override from contract §0; no zeros or invented cards. |
+| Current-Showdown-only review state | ADD exact interim label `Current Showdown only. Career history is not yet available.`; never ship it as the final provider state. |
+| Fixture/sample content | ADD visible `Preview data` label on every preview frame. All sample values must obey contract bounds. |
+
+The mockup is visual reference only. Live data remains DOM text; no manager name, club, league, score, season number, status or date is baked into the plate.
 
 ## Open questions
 
