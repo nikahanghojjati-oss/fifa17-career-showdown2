@@ -1,16 +1,18 @@
 # Showdown Factory board
 
-Branch `factory/v1-wtt5ye`. 125 jobs. Open a new chat in the ChatGPT "Visual" project and type a number. Up to 5 chats at a time.
+Branch `factory/v1-wtt5ye`. 126 jobs. Open a new chat in the ChatGPT "Visual" project and type a number. Up to 5 chats at a time.
 
-**Overall:** ░░░░░░░░░░ 0 % · 0 of 125 jobs done
+**Overall:** ░░░░░░░░░░ 0 % · 0 of 126 jobs done
 
-**Start next:** 0, 2, 3, 4, 5 (also ready: 6, 7, 8, 9, 10, 11, 98)
+**Start next:** 0, 2, 3, 4, 5 (also ready: 6, 7, 8, 9, 10, 11)
 
 **Working:** - · **Blocked:** -
 
 **Waiting on Nik:**
 
 - Job 38 (League: swap in the new league marks): Nik picks one mark per league from visual-assets/league-marks-v2/LEAGUE_MARKS_V2_PROOF@1x.png: Premier League A Crown or B Lion; LaLiga A Bull or B Sun; Bundesliga A Eagle or B Schale; Serie A A Shield or B Laurel; Ligue 1 A Numeral or B Rooster. (Claude leans B, A, A, A, A.) Claude writes the picks into this job's status file; until then this job is WAITING ON NIK.
+
+**Waiting on Team G (gameplay):** 98, 99, 100, 101, 102, 104, 125. Do not start these; Claude clears them when Team G delivers.
 
 | # | Job | Phase | Type | Worker | Depends on | Progress | State | Claude look |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -112,13 +114,13 @@ Branch `factory/v1-wtt5ye`. 125 jobs. Open a new chat in the ChatGPT "Visual" pr
 | 95 | [Settings: build (desktop and phone)](jobs/JOB-095.md) | 5 New screens | build | GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots) | 10, 29, 18, 124, 121 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 96 | [Settings: review](jobs/JOB-096.md) | 5 New screens | review | GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots) | 95 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 97 | [Settings: fix round and motion](jobs/JOB-097.md) | 5 New screens | fix | GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots) | 96, 16 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
-| 98 | [History data: the career model (pure code)](jobs/JOB-098.md) | 6 Online history | data | GPT-5.6 Sol, Work mode (needs a terminal) | - | ░░░░░░░░░░ 0 % | NOT STARTED |  |
-| 99 | [History data: own-account career index (D1)](jobs/JOB-099.md) | 6 Online history | data | GPT-5.6 Sol, Work mode (needs a terminal) | 98 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
-| 100 | [History data: completed-Showdown reader (D2)](jobs/JOB-100.md) | 6 Online history | data | GPT-5.6 Sol, Work mode (needs a terminal) | 99 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
-| 101 | [History data: Codex review](jobs/JOB-101.md) | 6 Online history | review | Codex (review only) | 100 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
-| 102 | [History data: fix round](jobs/JOB-102.md) | 6 Online history | fix | GPT-5.6 Sol, Work mode (needs a terminal) | 101 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
+| 98 | [History data: the career model (pure code)](jobs/JOB-098.md) | 6 Online history | data | GPT-5.6 Sol, Work mode (needs a terminal) | - | ░░░░░░░░░░ 0 % | WAITING ON TEAM G |  |
+| 99 | [History data: own-account career index (D1)](jobs/JOB-099.md) | 6 Online history | data | GPT-5.6 Sol, Work mode (needs a terminal) | 98 | ░░░░░░░░░░ 0 % | WAITING ON TEAM G |  |
+| 100 | [History data: completed-Showdown reader (D2)](jobs/JOB-100.md) | 6 Online history | data | GPT-5.6 Sol, Work mode (needs a terminal) | 99 | ░░░░░░░░░░ 0 % | WAITING ON TEAM G |  |
+| 101 | [History data: Codex review](jobs/JOB-101.md) | 6 Online history | review | Codex (review only) | 100 | ░░░░░░░░░░ 0 % | WAITING ON TEAM G |  |
+| 102 | [History data: fix round](jobs/JOB-102.md) | 6 Online history | fix | GPT-5.6 Sol, Work mode (needs a terminal) | 101 | ░░░░░░░░░░ 0 % | WAITING ON TEAM G | yes |
 | 103 | [Showcase: every screen in one place](jobs/JOB-103.md) | 7 Integration | integrate | GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots) | 36, 42, 48, 53, 56, 61, 66, 71, 76, 81, 86, 91, 94, 97 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
-| 104 | [Showcase: history screens read the career model](jobs/JOB-104.md) | 7 Integration | integrate | GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots) | 103, 102 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
+| 104 | [Showcase: history screens read the career model](jobs/JOB-104.md) | 7 Integration | integrate | GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots) | 103, 102 | ░░░░░░░░░░ 0 % | WAITING ON TEAM G |  |
 | 105 | [Full phone pass](jobs/JOB-105.md) | 7 Integration | review | GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots) | 104 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 106 | [Full phone pass: fixes](jobs/JOB-106.md) | 7 Integration | fix | GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots) | 105 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 107 | [Motion and sound consistency pass](jobs/JOB-107.md) | 7 Integration | review | GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots) | 106 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
@@ -139,5 +141,6 @@ Branch `factory/v1-wtt5ye`. 125 jobs. Open a new chat in the ChatGPT "Visual" pr
 | 122 | [Art: Home tile illustrations](jobs/JOB-122.md) | 3 Art | image | GPT-5.6 Sol chat with image generation | 0 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 123 | [Art: League wheel rim](jobs/JOB-123.md) | 3 Art | image | GPT-5.6 Sol chat with image generation | 0, 1 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 124 | [Art: brush title wordmarks](jobs/JOB-124.md) | 3 Art | image | GPT-5.6 Sol chat with image generation | 0 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
+| 125 | [Top navigation bar from the mockups](jobs/JOB-125.md) | 5 New screens | build | GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots) | 18, 124 | ░░░░░░░░░░ 0 % | WAITING ON TEAM G |  |
 
 Generated by `project-documents/factory/tools/board.py` from `BOARD.json` and `status/`. Workers never edit this file; Claude regenerates it.

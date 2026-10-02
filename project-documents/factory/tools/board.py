@@ -38,6 +38,7 @@ startable = [j["number"] for j in jobs if ready(j)]
 working = [j["number"] for j in jobs if info[j["number"]][0].startswith("IN PROGRESS")]
 blocked = [j["number"] for j in jobs if info[j["number"]][0].startswith("BLOCKED")]
 waiting = [j for j in jobs if info[j["number"]][0].startswith("WAITING ON NIK")]
+team_g = [j for j in jobs if info[j["number"]][0].startswith("WAITING ON TEAM G")]
 
 L = ["# Showdown Factory board", "",
      f"Branch `{board['branch']}`. {len(jobs)} jobs. Open a new chat in the ChatGPT \"Visual\" project and type a number. Up to 5 chats at a time.", "",
@@ -46,6 +47,8 @@ L = ["# Showdown Factory board", "",
      f"**Working:** {', '.join(map(str, working)) or '-'} · **Blocked:** {', '.join(map(str, blocked)) or '-'}", ""]
 if waiting:
     L += ["**Waiting on Nik:**", ""] + [f"- Job {j['number']} ({j['title']}): {j['waits_on_nik']}" for j in waiting] + [""]
+if team_g:
+    L += ["**Waiting on Team G (gameplay):** " + ", ".join(str(j["number"]) for j in team_g) + ". Do not start these; Claude clears them when Team G delivers.", ""]
 L += ["| # | Job | Phase | Type | Worker | Depends on | Progress | State | Claude look |", "| --- | --- | --- | --- | --- | --- | --- | --- | --- |"]
 for j in jobs:
     n = j["number"]

@@ -13,7 +13,7 @@ WHEN THE USER TYPES A NUMBER N:
 1. Read project-documents/factory/BOARD.md, then jobs/JOB-NNN.md (N with three digits, e.g. 7 -> JOB-007.md), then status/JOB-NNN.md.
 2. Read the papers the job names. Always read PRODUCT_TRUTH.md and QUALITY_BAR.md. For build, polish, review and fix jobs also read CRAFT_GUIDE.md.
 3. Check "Depends on" in the job. For each dependency, open status/JOB-XXX.md. If any dependency is not DONE (or SKIPPED), stop and reply in one line: "Job N waits for job X, Y." Do nothing else.
-4. If the status file says DONE, reply "Job N is already done." If it says IN PROGRESS from another chat, continue from the next unfinished step.
+4. If the status file says WAITING ON NIK or WAITING ON TEAM G, reply "Job N is waiting on <Nik / Team G>: <the reason from the job file>" and do nothing else. If it says DONE, reply "Job N is already done." If it says IN PROGRESS from another chat, continue from the next unfinished step.
 5. Do the job step by step, exactly as written. Steps are numbered; never skip one. Work to the quality bar, not to "it works".
 6. After EACH step: update status/JOB-NNN.md (State: IN PROGRESS, Step: k of n, one line of notes for that step) and commit it together with that step's files to branch factory/v1-wtt5ye with the message "Job N step k/n: <short step name>".
 7. Before you finish: run the job's self-check against QUALITY_BAR.md and write the result into the status file. If the self-check fails, fix it before finishing.

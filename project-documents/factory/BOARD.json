@@ -13,6 +13,7 @@
    "worker": "GPT-5.6 Sol chat",
    "steps": 7,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -28,6 +29,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 5,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -41,6 +43,7 @@
    "worker": "GPT-5.6 Sol chat",
    "steps": 7,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -54,6 +57,7 @@
    "worker": "GPT-5.6 Sol chat",
    "steps": 7,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -67,6 +71,7 @@
    "worker": "GPT-5.6 Sol chat",
    "steps": 7,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -80,6 +85,7 @@
    "worker": "GPT-5.6 Sol chat",
    "steps": 7,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -93,6 +99,7 @@
    "worker": "GPT-5.6 Sol chat",
    "steps": 7,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -106,6 +113,7 @@
    "worker": "GPT-5.6 Sol chat",
    "steps": 7,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -119,6 +127,7 @@
    "worker": "GPT-5.6 Sol chat",
    "steps": 7,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -132,6 +141,7 @@
    "worker": "GPT-5.6 Sol chat",
    "steps": 7,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -145,6 +155,7 @@
    "worker": "GPT-5.6 Sol chat",
    "steps": 7,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -158,6 +169,7 @@
    "worker": "GPT-5.6 Sol chat",
    "steps": 7,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -173,6 +185,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 6,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -188,6 +201,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 6,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -203,6 +217,7 @@
    "worker": "GPT-5.6 Sol chat",
    "steps": 5,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -219,6 +234,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 6,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -234,6 +250,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 5,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -249,6 +266,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 5,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -268,6 +286,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 5,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": true
   },
   {
@@ -283,6 +302,7 @@
    "worker": "GPT-5.6 Sol chat with image generation",
    "steps": 4,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -298,6 +318,7 @@
    "worker": "GPT-5.6 Sol chat with image generation",
    "steps": 4,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -313,6 +334,7 @@
    "worker": "GPT-5.6 Sol chat with image generation",
    "steps": 4,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -328,6 +350,7 @@
    "worker": "GPT-5.6 Sol chat with image generation",
    "steps": 4,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -343,6 +366,7 @@
    "worker": "GPT-5.6 Sol chat with image generation",
    "steps": 7,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -358,6 +382,7 @@
    "worker": "GPT-5.6 Sol chat with image generation",
    "steps": 7,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -373,6 +398,7 @@
    "worker": "GPT-5.6 Sol chat with image generation",
    "steps": 7,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -388,6 +414,7 @@
    "worker": "GPT-5.6 Sol chat with image generation",
    "steps": 7,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -403,6 +430,7 @@
    "worker": "GPT-5.6 Sol chat with image generation",
    "steps": 7,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -418,6 +446,7 @@
    "worker": "GPT-5.6 Sol chat with image generation",
    "steps": 7,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -433,6 +462,7 @@
    "worker": "GPT-5.6 Sol chat with image generation",
    "steps": 4,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -458,6 +488,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 4,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": true
   },
   {
@@ -474,6 +505,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 5,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -492,6 +524,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 6,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -508,6 +541,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 6,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -523,6 +557,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 8,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -538,6 +573,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 5,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -554,6 +590,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 7,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": true
   },
   {
@@ -573,6 +610,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 7,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -588,6 +626,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 4,
    "waits_on_nik": "Nik picks one mark per league from visual-assets/league-marks-v2/LEAGUE_MARKS_V2_PROOF@1x.png: Premier League A Crown or B Lion; LaLiga A Bull or B Sun; Bundesliga A Eagle or B Schale; Serie A A Shield or B Laurel; Ligue 1 A Numeral or B Rooster. (Claude leans B, A, A, A, A.) Claude writes the picks into this job's status file; until then this job is WAITING ON NIK.",
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -604,6 +643,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 6,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -619,6 +659,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 8,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -634,6 +675,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 5,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -650,6 +692,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 7,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": true
   },
   {
@@ -666,6 +709,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 5,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -683,6 +727,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 4,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -699,6 +744,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 6,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -714,6 +760,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 8,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -729,6 +776,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 5,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -745,6 +793,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 7,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": true
   },
   {
@@ -762,6 +811,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 5,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -778,6 +828,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 6,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -793,6 +844,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 8,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -808,6 +860,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 5,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -824,6 +877,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 7,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": true
   },
   {
@@ -840,6 +894,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 5,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -855,6 +910,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 8,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -870,6 +926,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 5,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": true
   },
   {
@@ -888,6 +945,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 9,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -904,6 +962,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 6,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -919,6 +978,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 8,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -934,6 +994,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 5,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -950,6 +1011,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 7,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": true
   },
   {
@@ -968,6 +1030,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 9,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -984,6 +1047,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 6,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -999,6 +1063,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 8,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -1014,6 +1079,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 5,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -1030,6 +1096,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 7,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": true
   },
   {
@@ -1048,6 +1115,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 9,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -1064,6 +1132,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 6,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -1079,6 +1148,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 8,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -1094,6 +1164,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 5,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -1110,6 +1181,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 7,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": true
   },
   {
@@ -1128,6 +1200,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 9,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -1144,6 +1217,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 6,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -1159,6 +1233,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 8,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -1174,6 +1249,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 5,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -1190,6 +1266,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 7,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": true
   },
   {
@@ -1208,6 +1285,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 9,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -1224,6 +1302,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 6,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -1239,6 +1318,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 8,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -1254,6 +1334,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 5,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -1270,6 +1351,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 7,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": true
   },
   {
@@ -1289,6 +1371,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 9,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -1305,6 +1388,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 6,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -1320,6 +1404,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 8,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -1335,6 +1420,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 5,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -1351,6 +1437,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 7,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": true
   },
   {
@@ -1369,6 +1456,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 9,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -1385,6 +1473,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 6,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -1400,6 +1489,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 8,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -1415,6 +1505,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 5,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -1431,6 +1522,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 7,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": true
   },
   {
@@ -1450,6 +1542,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 10,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -1465,6 +1558,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 8,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -1481,6 +1575,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 5,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": true
   },
   {
@@ -1500,6 +1595,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 10,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -1515,6 +1611,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 8,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -1531,6 +1628,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 5,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": true
   },
   {
@@ -1544,6 +1642,7 @@
    "worker": "GPT-5.6 Sol, Work mode (needs a terminal)",
    "steps": 5,
    "waits_on_nik": null,
+   "waits_on_team_g": "Team G (Claude gameplay team) ships or hands over the online career history provider work from S2C-005R2: the D1 own-account career index and the D2 completed-Showdown read grant. These are provider rules and product code on main, so Team G owns them. Claude clears this flag when Team G hands the work to the factory or delivers it.",
    "needs_claude_look": false
   },
   {
@@ -1559,6 +1658,7 @@
    "worker": "GPT-5.6 Sol, Work mode (needs a terminal)",
    "steps": 5,
    "waits_on_nik": null,
+   "waits_on_team_g": "Team G (Claude gameplay team) ships or hands over the online career history provider work from S2C-005R2: the D1 own-account career index and the D2 completed-Showdown read grant. These are provider rules and product code on main, so Team G owns them. Claude clears this flag when Team G hands the work to the factory or delivers it.",
    "needs_claude_look": false
   },
   {
@@ -1574,6 +1674,7 @@
    "worker": "GPT-5.6 Sol, Work mode (needs a terminal)",
    "steps": 5,
    "waits_on_nik": null,
+   "waits_on_team_g": "Team G (Claude gameplay team) ships or hands over the online career history provider work from S2C-005R2: the D1 own-account career index and the D2 completed-Showdown read grant. These are provider rules and product code on main, so Team G owns them. Claude clears this flag when Team G hands the work to the factory or delivers it.",
    "needs_claude_look": false
   },
   {
@@ -1589,6 +1690,7 @@
    "worker": "Codex (review only)",
    "steps": 4,
    "waits_on_nik": null,
+   "waits_on_team_g": "Team G (Claude gameplay team) ships or hands over the online career history provider work from S2C-005R2: the D1 own-account career index and the D2 completed-Showdown read grant. These are provider rules and product code on main, so Team G owns them. Claude clears this flag when Team G hands the work to the factory or delivers it.",
    "needs_claude_look": false
   },
   {
@@ -1604,6 +1706,7 @@
    "worker": "GPT-5.6 Sol, Work mode (needs a terminal)",
    "steps": 3,
    "waits_on_nik": null,
+   "waits_on_team_g": "Team G (Claude gameplay team) ships or hands over the online career history provider work from S2C-005R2: the D1 own-account career index and the D2 completed-Showdown read grant. These are provider rules and product code on main, so Team G owns them. Claude clears this flag when Team G hands the work to the factory or delivers it.",
    "needs_claude_look": true
   },
   {
@@ -1632,6 +1735,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 4,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -1648,6 +1752,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 4,
    "waits_on_nik": null,
+   "waits_on_team_g": "Team G delivers the online career history (career model + reader) that this job binds the screens to. Until then the screens stay on labelled preview data.",
    "needs_claude_look": false
   },
   {
@@ -1663,6 +1768,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 4,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -1678,6 +1784,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 3,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -1693,6 +1800,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 4,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -1708,6 +1816,7 @@
    "worker": "Codex (review only)",
    "steps": 5,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -1723,6 +1832,7 @@
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "steps": 3,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -1738,6 +1848,7 @@
    "worker": "GPT-5.6 Sol chat",
    "steps": 3,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": true
   },
   {
@@ -1754,6 +1865,7 @@
    "worker": "GPT-5.6 Sol chat with image generation",
    "steps": 6,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -1770,6 +1882,7 @@
    "worker": "GPT-5.6 Sol chat with image generation",
    "steps": 6,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -1786,6 +1899,7 @@
    "worker": "GPT-5.6 Sol chat with image generation",
    "steps": 6,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -1802,6 +1916,7 @@
    "worker": "GPT-5.6 Sol chat with image generation",
    "steps": 6,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -1818,6 +1933,7 @@
    "worker": "GPT-5.6 Sol chat with image generation",
    "steps": 6,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -1834,6 +1950,7 @@
    "worker": "GPT-5.6 Sol chat with image generation",
    "steps": 6,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -1850,6 +1967,7 @@
    "worker": "GPT-5.6 Sol chat with image generation",
    "steps": 6,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -1866,6 +1984,7 @@
    "worker": "GPT-5.6 Sol chat with image generation",
    "steps": 6,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -1882,6 +2001,7 @@
    "worker": "GPT-5.6 Sol chat with image generation",
    "steps": 6,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -1898,6 +2018,7 @@
    "worker": "GPT-5.6 Sol chat with image generation",
    "steps": 6,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -1913,6 +2034,7 @@
    "worker": "GPT-5.6 Sol chat with image generation",
    "steps": 2,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -1928,6 +2050,7 @@
    "worker": "GPT-5.6 Sol chat with image generation",
    "steps": 4,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -1944,6 +2067,7 @@
    "worker": "GPT-5.6 Sol chat with image generation",
    "steps": 3,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
    "needs_claude_look": false
   },
   {
@@ -1959,6 +2083,24 @@
    "worker": "GPT-5.6 Sol chat with image generation",
    "steps": 4,
    "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false
+  },
+  {
+   "number": 125,
+   "key": "navbar",
+   "title": "Top navigation bar from the mockups",
+   "phase": "5 New screens",
+   "wave": 6,
+   "depends_on": [
+    18,
+    124
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "steps": 5,
+   "waits_on_nik": null,
+   "waits_on_team_g": "Team G checks feasibility against the product: which of HOME / CAREER / STANDINGS / STATS / RULES / ABOUT (plus search, settings and profile icons, and the CAREER sub-menu CAREER HUB / TROPHIES / TRANSFERS / HISTORY / RECORDS) map to real product destinations and states, which must be dropped or renamed, whether a sticky top bar fits the phone target, and that it works with the Firebase Spark limits and the private two-manager scope. Claude writes Team G's answer into this job's status file and clears the flag.",
    "needs_claude_look": false
   }
  ]

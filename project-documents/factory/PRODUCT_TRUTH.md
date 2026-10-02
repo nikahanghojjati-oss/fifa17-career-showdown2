@@ -67,7 +67,7 @@ Final Home destinations, all reachable on phone: **Continue** (dominant), **Star
 - Larger text settings and landscape may reflow and scroll; never shrink labels below readable size to avoid scrolling, never clip navigation.
 - Desktop targets: 1366 × 768 (main), 1440 × 900, 1920 × 1080, and 1366 × 640 (short laptop).
 - Live UI is semantic DOM, aligned to the screen. No skewed or rotated form text. Inputs at least 16 px on phone. Body text contrast at least 4.5:1.
-- The mockups' top navigation bar (HOME / CAREER / STANDINGS / STATS / RULES / ABOUT, search, settings, profile icons) is **decoration in the mockup and is not built**. Use the screen's own Back control.
+- The mockups' top navigation bar (HOME / CAREER / STANDINGS / STATS / RULES / ABOUT, search, settings, profile icons) is not built on any screen yet. Job 125 builds it once Team G (the Claude gameplay team) confirms which destinations the product really has. Until then, use the screen's own Back control.
 - Only buttons the real app has. If a mockup shows a button with no product behaviour, drop it.
 
 ## 8. Branches
