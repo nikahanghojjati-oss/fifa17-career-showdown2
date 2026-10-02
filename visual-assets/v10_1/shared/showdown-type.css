@@ -1,0 +1,111 @@
+/* Load showdown-tokens.css before this sheet. Classes are opt-in: no global
+   heading/body reset and no change to existing screen typography.
+   Screen wordmark art remains authoritative; .sd-title is the live-text base. */
+.sd-eyebrow {
+  margin: 0;
+  color: var(--sd-text-primary);
+  font: 600 clamp(11px, 1vw, 16px)/1.4 var(--sd-font-condensed);
+  letter-spacing: .5em;
+  text-transform: uppercase;
+  text-align: center;
+  padding-inline-start: .5em;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, .95);
+}
+.sd-eyebrow::before {
+  content: "";
+  display: block;
+  inline-size: 24px;
+  block-size: 16px;
+  margin: 0 auto var(--sd-space-1);
+  background: var(--sd-gold-metal);
+  /* Original generic Showdown crown, drawn in CSS; no league/club mark. */
+  clip-path: polygon(0 22%, 25% 48%, 50% 0, 75% 48%, 100% 22%, 90% 85%, 10% 85%);
+}
+.sd-title {
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: .08em .15em .18em;
+  color: var(--sd-gold-300);
+  font: 400 clamp(30px, 5.8vw, 88px)/1.1 var(--sd-font-title);
+  letter-spacing: -.035em;
+  text-transform: uppercase;
+  text-align: center;
+  text-wrap: balance;
+  transform: skewX(-6deg);
+  filter: drop-shadow(0 3px 3px rgba(0, 0, 0, .95)) drop-shadow(0 0 12px rgba(242, 196, 91, .25));
+}
+@supports ((background-clip: text) or (-webkit-background-clip: text)) {
+  .sd-title {
+    background: var(--sd-gold-metal);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+  }
+}
+/* Use the screen's approved transparent brush lettering for a final wordmark.
+   The image is decorative; include .sd-visually-hidden text in the heading. */
+.sd-title--wordmark {
+  padding: 0;
+  background: none;
+  transform: none;
+}
+.sd-title--wordmark img { display: block; inline-size: 100%; block-size: auto; }
+.sd-tagline {
+  margin: var(--sd-space-1) 0 0;
+  color: var(--sd-text-warm);
+  font: 600 clamp(12px, 1.05vw, 18px)/1.4 var(--sd-font-condensed);
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  text-align: center;
+  padding-inline-start: .3em;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, .95);
+}
+.sd-label {
+  margin: 0;
+  color: var(--sd-text-secondary);
+  font: 600 clamp(13px, 1.1vw, 16px)/1.4 var(--sd-font-condensed);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+.sd-number {
+  display: inline-block;
+  color: var(--sd-gold-300);
+  font: 700 clamp(40px, 4vw, 72px)/1 var(--sd-font-condensed);
+  font-variant-numeric: tabular-nums lining-nums;
+  font-feature-settings: "tnum" 1, "lnum" 1;
+  letter-spacing: -.02em;
+  white-space: nowrap;
+}
+.sd-number--small { font-size: clamp(24px, 2.2vw, 40px); }
+.sd-number--medium { font-size: clamp(40px, 4vw, 72px); }
+.sd-number--large { font-size: clamp(64px, 6vw, 112px); }
+.sd-body {
+  margin: 0;
+  color: var(--sd-text-primary);
+  font: 400 clamp(16px, 1.2vw, 18px)/1.45 var(--sd-font-body);
+}
+.sd-body--secondary { color: var(--sd-text-secondary); }
+.sd-body strong { font-weight: 600; }
+.sd-visually-hidden {
+  position: absolute !important;
+  inline-size: 1px;
+  block-size: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+@media (max-width: 600px) {
+  .sd-eyebrow { letter-spacing: .32em; padding-inline-start: .32em; }
+  .sd-tagline { letter-spacing: .22em; padding-inline-start: .22em; }
+}
+@media (forced-colors: active) {
+  .sd-title { background: none; color: CanvasText; -webkit-text-fill-color: CanvasText; filter: none; }
+  .sd-eyebrow::before { background: CanvasText; }
+}
