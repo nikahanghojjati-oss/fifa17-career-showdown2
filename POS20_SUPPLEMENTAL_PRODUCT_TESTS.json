@@ -487,6 +487,18 @@
         "^tests/contracts/shared-active-showdown-adapter-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/start-join-view-model-contracts.cjs",
+      "patterns": [
+        "^js/startJoinViewModel\\.js$",
+        "^js/persistentNikDanielPair\\.js$",
+        "^js/sparkRemoteJoining\\.js$",
+        "^js/onlinePlayerIdentity\\.js$",
+        "^js/screens\\.js$",
+        "^tests/contracts/start-join-view-model-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
