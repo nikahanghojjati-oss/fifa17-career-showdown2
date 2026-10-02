@@ -1,4 +1,4 @@
-name: Job 31 Home edges baseline
+name: Job 31 Home source seam repair
 on:
   push:
     branches: [factory/v1-wtt5ye]
@@ -9,7 +9,7 @@ permissions:
   contents: write
 
 jobs:
-  baseline:
+  repair:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -22,113 +22,184 @@ jobs:
         with:
           python-version: "3.12"
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "20"
+      - name: Install image dependencies
+        run: python -m pip install --quiet pillow numpy
 
-      - name: Install render dependencies
-        run: |
-          python -m pip install --quiet pillow
-          npm install -g playwright@1.55.0
-          npx playwright install --with-deps chromium
-
-      - name: Render HM1-HM3 before evidence
+      - name: Repair source plate seams
         shell: bash
         run: |
           set -euo pipefail
-          OUT="visual-assets/v10_1/home/evidence/edges_before"
-          rm -rf "$OUT"
-          mkdir -p "$OUT/full" "$OUT/crops"
-          python3 -m http.server 8765 >/tmp/job31-server.log 2>&1 &
-          SERVER_PID=$!
-          trap 'kill $SERVER_PID 2>/dev/null || true' EXIT
-          for i in $(seq 1 30); do curl -fsS http://127.0.0.1:8765/ >/dev/null && break; sleep 1; done
-
-          NODE_PATH=$(npm root -g) node <<'NODE'
-          const { chromium } = require("playwright");
-          const fs = require("fs");
-          const path = require("path");
-          const out = "visual-assets/v10_1/home/evidence/edges_before";
-          const base = "http://127.0.0.1:8765/visual-assets/v10_1/home/index.html";
-          const frames = ["HM1","HM2","HM3"];
-          const sizes = [[1366,768],[1920,1080]];
-          function safeName(s){return s.replace(/[^a-z0-9_-]+/gi,"_");}
-          (async()=>{
-            const browser = await chromium.launch({headless:true});
-            const manifest = [];
-            for (const [w,h] of sizes) {
-              let auditBoxes = null;
-              for (const mendOn of [true,false]) {
-                for (const frame of frames) {
-                  const page = await browser.newPage({viewport:{width:w,height:h}, deviceScaleFactor:1});
-                  const q = new URLSearchParams({frame});
-                  if (!mendOn) q.set("mends","0");
-                  await page.goto(base+"?"+q.toString(), {waitUntil:"networkidle"});
-                  await page.waitForFunction(()=>window.HomePlate && window.HomePlate.MAP && window.HomePlate.cam);
-                  await page.evaluate(()=>document.fonts && document.fonts.ready);
-                  const tag = mendOn ? "mends_on" : "mends_off";
-                  const full = path.join(out,"full",`${frame}_${w}x${h}_${tag}.png`);
-                  await page.screenshot({path:full, fullPage:false});
-                  const meta = await page.evaluate(() => {
-                    const H=window.HomePlate, M=H.MAP;
-                    const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
-                    const vp={w:innerWidth,h:innerHeight};
-                    const box=(r,name,type)=>{
-                      const s=H.rectToScreen(r);
-                      return {name,type,left:clamp(s.left,0,vp.w),top:clamp(s.top,0,vp.h),right:clamp(s.right,0,vp.w),bottom:clamp(s.bottom,0,vp.h)};
-                    };
-                    const items=[
-                      box(M.protected_boxes.face_daniel,"face_daniel","protected"),
-                      box(M.protected_boxes.face_nik,"face_nik","protected"),
-                      box(M.protected_boxes.hand_daniel,"hand_daniel","protected")
-                    ];
-                    for (const el of [...document.querySelectorAll(".areaMend,.mend")]) {
-                      const r=el.getBoundingClientRect();
-                      items.push({
-                        name: el.classList.contains("areaMend")
-                          ? "area_"+(el.dataset.zone||"mend")
-                          : "zone"+el.dataset.zone+"_"+(el.dataset.edge||"edge"),
-                        type: el.classList.contains("areaMend") ? "areaMend" : "mend",
-                        left:clamp(r.left-4,0,vp.w), top:clamp(r.top-4,0,vp.h),
-                        right:clamp(r.right+4,0,vp.w), bottom:clamp(r.bottom+4,0,vp.h)
-                      });
-                    }
-                    return {cam:H.cam,items};
-                  });
-                  if (mendOn && frame==="HM1") auditBoxes = meta.items;
-                  manifest.push({frame,w,h,mends:mendOn,full,cam:meta.cam,items:(frame==="HM1"&&mendOn)?meta.items:undefined});
-                  await page.close();
-                }
-              }
-              fs.writeFileSync(path.join(out,`boxes_${w}x${h}.json`), JSON.stringify(auditBoxes,null,2));
-            }
-            fs.writeFileSync(path.join(out,"manifest.json"),JSON.stringify(manifest,null,2));
-            await browser.close();
-          })().catch(e=>{console.error(e);process.exit(1)});
-          NODE
-
           python3 <<'PY'
           from pathlib import Path
-          from PIL import Image, ImageOps, ImageDraw
-          import json, re
-          root=Path("visual-assets/v10_1/home/evidence/edges_before")
-          crops=root/"crops"
-          crops.mkdir(exist_ok=True)
-          frames=["HM1","HM2","HM3"]
-          for w,h in [(1366,768),(1920,1080)]:
-              boxes=json.loads((root/f"boxes_{w}x{h}.json").read_text())
-              for frame in frames:
-                  for tag in ["mends_on","mends_off"]:
-                      im=Image.open(root/"full"/f"{frame}_{w}x{h}_{tag}.png").convert("RGB")
-                      for i,b in enumerate(boxes):
-                          l=max(0,int(b["left"])); t=max(0,int(b["top"])); r=min(w,int(b["right"])); bt=min(h,int(b["bottom"]))
-                          if r-l<2 or bt-t<2: continue
-                          crop=im.crop((l,t,r,bt)).resize(((r-l)*4,(bt-t)*4),Image.Resampling.NEAREST)
-                          name=re.sub(r"[^A-Za-z0-9_-]+","_",b["name"]).strip("_") or f"box{i:02d}"
-                          crop.save(crops/f"{frame}_{w}x{h}_{tag}_{i:02d}_{name}_x4.jpg",quality=96,subsampling=0,optimize=True)
+          from PIL import Image
+          import numpy as np, json, hashlib, re
+
+          root=Path("visual-assets/v10_1/home")
+          assets=root/"assets"
+          p1=assets/"ENV_HOME_PLATE_V1_1X.png"
+          p2=assets/"ENV_HOME_PLATE_V1_2X.png"
+          w1=assets/"ENV_HOME_PLATE_V1_1X.webp"
+          w2=assets/"ENV_HOME_PLATE_V1_2X.webp"
+          map_path=assets/"platemap.json"
+          intake_path=assets/"intake_report.md"
+
+          M=json.loads(map_path.read_text())
+          original=np.array(Image.open(p1).convert("RGB"), dtype=np.uint8)
+          work=original.astype(np.float32)
+          H,W=work.shape[:2]
+          assert (W,H)==tuple(M["plate_1x_size"])
+
+          # Step 2 defects D1-D7: repair only these source-zone edges.
+          # Each edge samples the 12 px ring immediately OUTSIDE the remove zone,
+          # matches per-channel mean + variance on the inside edge band, and feathers
+          # the correction inward. No outside-zone or protected pixel is writable.
+          edge_plan={
+            0:["bottom"],
+            1:["bottom","right"],
+            2:["bottom","right","left"],
+            3:["top","bottom","right"],
+            4:["top","bottom","right"],
+            5:["top","right"],
+          }
+          ring=12
+          width=42
+
+          zone_mask=np.zeros((H,W),dtype=bool)
+          for z in M["remove_rects"]:
+            x0,y0,x1,y1=map(int,z)
+            zone_mask[y0:y1,x0:x1]=True
+
+          protected=np.zeros((H,W),dtype=bool)
+          for r in M["protected_boxes"].values():
+            x0,y0,x1,y1=map(int,r)
+            protected[y0:y1,x0:x1]=True
+
+          writable=zone_mask & ~protected
+
+          def stats(a):
+            a=a.reshape(-1,3).astype(np.float32)
+            return a.mean(0), np.maximum(a.std(0), 4.0)
+
+          def smoothstep01(t):
+            t=np.clip(t,0,1)
+            return t*t*(3-2*t)
+
+          def edge_slices(z, edge):
+            x0,y0,x1,y1=map(int,z)
+            if edge=="top":
+              out=(slice(max(0,y0-ring),y0),slice(x0,x1))
+              inn=(slice(y0,min(H,y0+ring)),slice(x0,x1))
+              ys=np.arange(y0,min(H,y0+width))[:,None]
+              dist=(ys-y0).astype(np.float32)
+              region=(slice(y0,min(H,y0+width)),slice(x0,x1))
+              weight=(1-smoothstep01(dist/max(1,width-1)))[:,:,None]
+            elif edge=="bottom":
+              out=(slice(y1,min(H,y1+ring)),slice(x0,x1))
+              inn=(slice(max(0,y1-ring),y1),slice(x0,x1))
+              ys=np.arange(max(0,y1-width),y1)[:,None]
+              dist=(y1-1-ys).astype(np.float32)
+              region=(slice(max(0,y1-width),y1),slice(x0,x1))
+              weight=(1-smoothstep01(dist/max(1,width-1)))[:,:,None]
+            elif edge=="left":
+              out=(slice(y0,y1),slice(max(0,x0-ring),x0))
+              inn=(slice(y0,y1),slice(x0,min(W,x0+ring)))
+              xs=np.arange(x0,min(W,x0+width))[None,:]
+              dist=(xs-x0).astype(np.float32)
+              region=(slice(y0,y1),slice(x0,min(W,x0+width)))
+              weight=(1-smoothstep01(dist/max(1,width-1)))[:,:,None]
+            elif edge=="right":
+              out=(slice(y0,y1),slice(x1,min(W,x1+ring)))
+              inn=(slice(y0,y1),slice(max(0,x1-ring),x1))
+              xs=np.arange(max(0,x1-width),x1)[None,:]
+              dist=(x1-1-xs).astype(np.float32)
+              region=(slice(y0,y1),slice(max(0,x1-width),x1))
+              weight=(1-smoothstep01(dist/max(1,width-1)))[:,:,None]
+            else:
+              raise ValueError(edge)
+            return out,inn,region,weight
+
+          repairs=[]
+          for zi,edges in edge_plan.items():
+            z=M["remove_rects"][zi]
+            for edge in edges:
+              out_s,inn_s,reg_s,alpha=edge_slices(z,edge)
+              ref=original[out_s]
+              src=work[inn_s]
+              # Exclude protected pixels from statistics.
+              refmask=~protected[out_s]
+              srcmask=~protected[inn_s]
+              if refmask.sum()<16 or srcmask.sum()<16:
+                continue
+              tm,ts=stats(ref[refmask])
+              sm,ss=stats(src[srcmask])
+              scale=np.clip(ts/ss,0.65,1.55)
+              reg=work[reg_s]
+              transformed=(reg-sm)*scale+tm
+              transformed=np.clip(transformed,0,255)
+              local_write=writable[reg_s][:,:,None].astype(np.float32)
+              a=alpha*local_write
+              work[reg_s]=reg*(1-a)+transformed*a
+              repairs.append({"zone":zi,"edge":edge,"target_mean":tm.round(2).tolist(),"target_std":ts.round(2).tolist(),"source_mean":sm.round(2).tolist(),"source_std":ss.round(2).tolist(),"scale":scale.round(3).tolist()})
+
+          out=np.clip(np.rint(work),0,255).astype(np.uint8)
+          # Hard safety: protected boxes and everything outside all remove zones are byte-identical.
+          assert np.array_equal(out[protected], original[protected]), "protected pixel changed"
+          assert np.array_equal(out[~zone_mask], original[~zone_mask]), "pixel outside remove zones changed"
+
+          Image.fromarray(out).save(p1,optimize=True)
+          hi=Image.fromarray(out).resize((W*2,H*2),Image.Resampling.LANCZOS)
+          hi.save(p2,optimize=True)
+          Image.fromarray(out).save(w1,"WEBP",quality=88,method=6)
+          hi.save(w2,"WEBP",quality=88,method=6)
+
+          def sha(p):
+            return hashlib.sha256(Path(p).read_bytes()).hexdigest()
+          hashes={p.name:sha(p) for p in [p1,w1,p2,w2]}
+          M["sha256"].update(hashes)
+          map_path.write_text(json.dumps(M,indent=1)+"\n")
+
+          intake=intake_path.read_text()
+          section="\n## JOB-031 source seam repair (2026-10-02)\n\n"
+          section+="- D1–D7 were repaired inside the existing remove zones only. Each affected edge samples the 12 px outside ring, matches RGB mean and variance, and feathers the correction 42 px inward.\n"
+          section+="- Protected face/hand pixels and every pixel outside the remove-zone union are byte-identical to the pre-JOB-031 1X PNG (hard assertions in the repair run).\n"
+          section+="- Runtime area/strip blur mends are disabled by JOB-031 after this source repair; the plate itself now owns the transition.\n\n"
+          section+="### Current plate SHA-256\n\n"
+          for name,h in hashes.items(): section+=f"- \`{name}\` \`{h}\`\n"
+          # Keep historical intake hashes above for provenance; render QA requires current hashes to appear too.
+          if "## JOB-031 source seam repair" in intake:
+            intake=re.sub(r"\n## JOB-031 source seam repair \(2026-10-02\)[\s\S]*$",section,intake)
+          else:
+            intake+=section
+          intake_path.write_text(intake)
+
+          report=root/"evidence"/"edges_before"/"SOURCE_REPAIR.json"
+          report.write_text(json.dumps({"ring_px":ring,"feather_px":width,"repairs":repairs,"hashes":hashes,"protected_unchanged":True,"outside_zones_unchanged":True},indent=2)+"\n")
+          print(json.dumps({"repairs":len(repairs),"hashes":hashes},indent=2))
           PY
 
-      - name: Save Step 1 status and commit
+      - name: Disable runtime blur/darken mends
+        shell: bash
+        run: |
+          python3 <<'PY'
+          from pathlib import Path
+          p=Path("visual-assets/v10_1/home/home.js")
+          s=p.read_text()
+          start=s.index("  function renderMends(MAP) {")
+          end=s.index("\n  function renderGrid", start)
+          replacement='''  function renderMends(MAP) {
+            // JOB-031: the plate source now owns the repaired transitions.
+            // Runtime backdrop blur/brightness mends created visible soft patches at 400%,
+            // so keep the layer empty in both normal and evidence modes.
+            const layer = stage.querySelector(".plateLayer");
+            layer.replaceChildren();
+            return [];
+          }
+          '''
+          s=s[:start]+replacement+s[end:]
+          p.write_text(s)
+          PY
+
+      - name: Verify source-change boundaries and update status
         shell: bash
         run: |
           set -euo pipefail
@@ -136,24 +207,40 @@ jobs:
           from pathlib import Path
           p=Path("project-documents/factory/status/JOB-031.md")
           s=p.read_text()
-          s=s.replace("Step: 0 of 5","Step: 1 of 5")
-          s=s.replace("Updated: 2026-10-02 19:28 UTC","Updated: 2026-10-02 19:40 UTC")
-          anchor="## Self-check"
-          note="- Step 1: rendered HM1-HM3 at 1366x768 and 1920x1080 with mends off/on; saved full frames plus 400% crops for both faces, Daniel's pointing hand and every active seam-mend/area-mend box in home/evidence/edges_before/.\n"
-          if note not in s: s=s.replace(anchor,note+"\n"+anchor)
+          s=s.replace("Step: 2 of 5","Step: 3 of 5")
+          s=s.replace("Updated: 2026-10-02 19:48 UTC","Updated: 2026-10-02 20:02 UTC")
+          note="- Step 3: repaired D1-D7 at the source plate using 12 px outside-ring mean/variance matching with a 42 px inward feather; protected face/hand pixels and all pixels outside remove zones are byte-identical. Regenerated 1X/2X PNG+WebP, updated current hashes, and disabled the runtime blur/darken mends that caused visible soft patches."
+          if note not in s: s=s.replace("## Self-check",note+"\n\n## Self-check")
           p.write_text(s)
           PY
+          git diff --check
+          git status --short
+
+      - name: Commit Step 3
+        shell: bash
+        run: |
+          set -euo pipefail
           git config user.name "Showdown Factory Job 31"
           git config user.email "actions@users.noreply.github.com"
-          git add visual-assets/v10_1/home/evidence/edges_before project-documents/factory/status/JOB-031.md
-          git commit -m "Job 31 step 1/5: render before crops"
+          git add \
+            visual-assets/v10_1/home/assets/ENV_HOME_PLATE_V1_1X.png \
+            visual-assets/v10_1/home/assets/ENV_HOME_PLATE_V1_1X.webp \
+            visual-assets/v10_1/home/assets/ENV_HOME_PLATE_V1_2X.png \
+            visual-assets/v10_1/home/assets/ENV_HOME_PLATE_V1_2X.webp \
+            visual-assets/v10_1/home/assets/platemap.json \
+            visual-assets/v10_1/home/assets/intake_report.md \
+            visual-assets/v10_1/home/home.js \
+            visual-assets/v10_1/home/evidence/edges_before/SOURCE_REPAIR.json \
+            project-documents/factory/status/JOB-031.md
+          git commit -m "Job 31 step 3/5: repair source seams"
           git pull --rebase origin factory/v1-wtt5ye
           git push origin HEAD:factory/v1-wtt5ye
 
-      - name: Upload Step 1 evidence
+      - name: Upload repaired plate for inspection
         uses: actions/upload-artifact@v4
         with:
-          name: job31-step1-edges-before
-          path: visual-assets/v10_1/home/evidence/edges_before
+          name: job31-step3-repaired-plate
+          path: |
+            visual-assets/v10_1/home/assets/ENV_HOME_PLATE_V1_1X.png
+            visual-assets/v10_1/home/evidence/edges_before/SOURCE_REPAIR.json
           if-no-files-found: error
-          compression-level: 6
