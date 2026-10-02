@@ -126,3 +126,23 @@ The following dictionary is copied into fixtures.json. Existing current comparis
 ```
 
 Use sectionPartial for partial history rather than the Career heading. Interpolate only the listed model values; manager is Daniel or Nik. Neither loading nor unavailable has a leader. For equal careerPoints but unequal seasonWins use leaderSeasonWinsTemplate; for equal points and wins use level. For partial history suppress leader text entirely. No retry, export, delete, backup or other new product action is introduced.
+
+## Fixture index and preview structure
+
+fixtures.json follows the Home example's version/authority/strings/frames envelope. Each frame has view, previewLabel, note and a selected model. All preview labels must be rendered visibly. managers and the role-keyed standings entries are fixture grouping only, not newly agreed wire fields. Keys and rendered order are always Daniel then Nik. No rank/leader is stored; comparison is derived as specified above.
+
+| Frame | Selected view | status | Purpose |
+| --- | --- | --- | --- |
+| SD1 | This Showdown | ready | Season 3 of 5; two accepted seasons, score 9 / 8 |
+| SD2 | Career | ready | Points 22 / 27; Nik leads, Daniel still first |
+| SD3 | This Showdown | empty | First season, no completed season; confirmed zeros |
+| SD4 | Career, interim | ready | Exact interim label; only current-Showdown data |
+| SD5 | Career | loading | No numbers supplied |
+| SD6 | Career | unavailable | No numbers supplied |
+| SD7 | Career selection, available history heading | partial | Coverage 1 of 2; no complete-career leader |
+| SD8 | Career | empty | Successful new-career read; no standings |
+| SD9 | Career | ready | Equal points and season wins; Level |
+
+SD1–SD6 are the required frames. SD7–SD9 additionally exercise partial coverage, new-career empty and a true level comparison without fabricating a drawn season. SD1 and SD4 share current values, not career totals. The SD7 readable subset has equal points but different season wins; this also demonstrates why partial data must not receive complete-career leader emphasis.
+
+All numeric scores are achievable with the unchanged 5/3/1/max-1/max-1 scoring rules. Current W/D/L totals match two completed seasons, SD2 five, SD7 three, and SD9 four. Trophies equal title counts, never weighted points. League ids and totalSeasons follow §0; no league position, points, goals or yes/no input fields are needed in these models.
