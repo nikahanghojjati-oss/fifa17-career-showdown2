@@ -51,6 +51,12 @@
         "MAIN MENU"
       ],
       "handoffAction": "VIEW COMPLETED SHOWDOWN"
+    },
+    "outcome": {
+      "drawHeadline": "DRAW",
+      "drawResult": "The showdown finishes level",
+      "danielHeadline": "Daniel WINS",
+      "nikHeadline": "Nik WINS"
     }
   },
   "ids": {
@@ -127,7 +133,21 @@
         "RIVALRY STATISTICS",
         "NEW SHOWDOWN",
         "MAIN MENU"
-      ]
+      ],
+      "presentation": {
+        "managerOrder": [
+          "daniel",
+          "nik"
+        ],
+        "mirrorArt": false,
+        "spotlight": "daniel",
+        "opacity": {
+          "daniel": 1,
+          "nik": 0.7
+        },
+        "crown": "daniel"
+      },
+      "outcomeHeadline": "Daniel WINS"
     },
     "FW2": {
       "previewLabel": "Preview data",
@@ -163,7 +183,21 @@
         "RIVALRY STATISTICS",
         "NEW SHOWDOWN",
         "MAIN MENU"
-      ]
+      ],
+      "presentation": {
+        "managerOrder": [
+          "daniel",
+          "nik"
+        ],
+        "mirrorArt": false,
+        "spotlight": "nik",
+        "opacity": {
+          "daniel": 0.7,
+          "nik": 1
+        },
+        "crown": "nik"
+      },
+      "outcomeHeadline": "Nik WINS"
     },
     "FW3": {
       "previewLabel": "Preview data",
@@ -199,7 +233,21 @@
         "RIVALRY STATISTICS",
         "NEW SHOWDOWN",
         "MAIN MENU"
-      ]
+      ],
+      "presentation": {
+        "managerOrder": [
+          "daniel",
+          "nik"
+        ],
+        "mirrorArt": false,
+        "spotlight": "neutral",
+        "opacity": {
+          "daniel": 1,
+          "nik": 1
+        },
+        "crown": null
+      },
+      "outcomeHeadline": "DRAW"
     },
     "FW4": {
       "previewLabel": "Preview data",
@@ -232,7 +280,21 @@
       "terminalStatus": "This permanently closes the shared rivalry and exact active private session. Final results remain readable; another season or replacement session cannot resurrect this Showdown.",
       "actions": [
         "CLOSE SHARED SHOWDOWN"
-      ]
+      ],
+      "presentation": {
+        "managerOrder": [
+          "daniel",
+          "nik"
+        ],
+        "mirrorArt": false,
+        "spotlight": "daniel",
+        "opacity": {
+          "daniel": 1,
+          "nik": 0.7
+        },
+        "crown": "daniel"
+      },
+      "outcomeHeadline": "Daniel WINS"
     },
     "FW5": {
       "previewLabel": "Preview data",
@@ -268,7 +330,21 @@
         "RIVALRY STATISTICS",
         "NEW SHOWDOWN",
         "MAIN MENU"
-      ]
+      ],
+      "presentation": {
+        "managerOrder": [
+          "daniel",
+          "nik"
+        ],
+        "mirrorArt": false,
+        "spotlight": "daniel",
+        "opacity": {
+          "daniel": 1,
+          "nik": 0.7
+        },
+        "crown": "daniel"
+      },
+      "outcomeHeadline": "Daniel WINS"
     },
     "FW6": {
       "previewLabel": "Preview data",
@@ -282,7 +358,20 @@
         "text": "Resolving the shared Showdown result. Scores and trophies will appear when confirmed.",
         "source": "new"
       },
-      "actions": []
+      "actions": [],
+      "presentation": {
+        "managerOrder": [
+          "daniel",
+          "nik"
+        ],
+        "mirrorArt": false,
+        "spotlight": "neutral",
+        "opacity": {
+          "daniel": 1,
+          "nik": 1
+        },
+        "crown": null
+      }
     },
     "FW7": {
       "previewLabel": "Preview data",
@@ -296,7 +385,20 @@
         "text": "No completed Showdown result is available to reveal.",
         "source": "new"
       },
-      "actions": []
+      "actions": [],
+      "presentation": {
+        "managerOrder": [
+          "daniel",
+          "nik"
+        ],
+        "mirrorArt": false,
+        "spotlight": "neutral",
+        "opacity": {
+          "daniel": 1,
+          "nik": 1
+        },
+        "crown": null
+      }
     },
     "FW8": {
       "previewLabel": "Preview data",
@@ -310,7 +412,20 @@
         "text": "The shared Showdown result could not be read. Missing values are not zero.",
         "source": "new"
       },
-      "actions": []
+      "actions": [],
+      "presentation": {
+        "managerOrder": [
+          "daniel",
+          "nik"
+        ],
+        "mirrorArt": false,
+        "spotlight": "neutral",
+        "opacity": {
+          "daniel": 1,
+          "nik": 1
+        },
+        "crown": null
+      }
     },
     "FW9": {
       "previewLabel": "Preview data",
@@ -359,7 +474,21 @@
       "missingFields": [
         "trophies.nik.domesticCups",
         "trophies.nik.total"
-      ]
+      ],
+      "presentation": {
+        "managerOrder": [
+          "daniel",
+          "nik"
+        ],
+        "mirrorArt": false,
+        "spotlight": "daniel",
+        "opacity": {
+          "daniel": 1,
+          "nik": 0.7
+        },
+        "crown": "daniel"
+      },
+      "outcomeHeadline": "Daniel WINS"
     }
   },
   "routes": {

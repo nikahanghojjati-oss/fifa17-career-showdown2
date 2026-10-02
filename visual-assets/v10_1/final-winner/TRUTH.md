@@ -341,7 +341,7 @@ There is no dedicated Final Winner mockup. `MOCKUP_SEASON_RESULTS.jpg` and `MOCK
 | Completion status mark | Add the product-required visible `Completion pending` mark only when `state = completion-pending`. It is not a mockup invention; it is contract truth. | DATA_CONTRACT §4 / PRODUCT_TRUTH | live |
 | Terminal Close action | When pending and actionable, use exact live button `CLOSE SHARED SHOWDOWN`. On uncertain acknowledgement use `RETRY SAME TERMINAL CLOSE`. | `productionSharedTerminalClose.js` | live |
 | Completed navigation actions | The completed result may expose the real completion-hub routes: `VIEW LEGACY`, `TROPHY ROOM`, `RIVALRY STATISTICS`, `NEW SHOWDOWN`, `MAIN MENU`. | `showdownUI.js` | live |
-| Decorative slogans / crown motifs | May be reused only as static Showdown decoration if they do not become controls or encode live data. Use original artwork. | Both mockups | preview |
+| Decorative slogans / crown motifs | Original crown art is a DOM-selected winner indicator only when an authoritative winner is Daniel or Nik. No crown, including the decorative eyebrow crown, on a draw or a state without a confirmed winner. Static non-data slogans may remain. | Both mockups + JOB-134 decision | preview art; live visibility |
 | Baked score, trophy count, state, season count, winner or manager data | Never bake these into images. All values are live DOM text/state or labelled fixture data. | QUALITY_BAR + factory rules | drop |
 | Real club crest, league logo, real competition trophy, real player photo or EA/FIFA artwork | Never use them. Use original code-drawn marks and original Showdown trophy/manager art. | PRODUCT_TRUTH + factory rules | drop |
 
@@ -350,7 +350,11 @@ The styling target is therefore a premium stadium ceremony with the two managers
 
 ## Open questions
 
-None blocking.
+None blocking. JOB-134 resolves the presentation choices as follows.
+
+- Draw: use the product headline `DRAW` and exact main result sentence `The showdown finishes level`. No crown anywhere on the draw frame, including the shared decorative title crown; neither manager gets winner lighting. Both remain at full opacity with balanced neutral light. Equal final totals alone decide the draw, regardless of league positions or season winners.
+- Winner: keep Daniel left and Nik right. The winning manager gets a warm gold spotlight at full opacity; dim only the other manager’s character art to 70 % opacity. Do not dim their live text, score, controls or focus indicators, and do not move or mirror either manager. Original crown art may indicate the winner; its visibility is selected from live `winner`, never baked into the plate.
+- Unconfirmed outcome: neutral light, full-opacity managers and no crown. Partial data allows winner presentation only when both final totals are authoritative; FW9 meets that condition.
 
 The only contract field marked A is the normalized §4 `state` supplied by Team G's G-5 adapter. Main already exposes the underlying Final Reconciliation and Terminal Close evidence, so this is an implementation handoff rather than a product question. Exact motion, spacing, decorative stadium composition and original trophy-art placement remain visual implementation choices and may not change the truth above.
 
