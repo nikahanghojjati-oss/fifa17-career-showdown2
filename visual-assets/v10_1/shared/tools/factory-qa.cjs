@@ -46,15 +46,39 @@ function flatten(v, out) {
 }
 function expectedStrings(frame) {
   const out = [];
-  ["strings","chrome","leagues","decorative"].forEach(k => { if (fixtures[k]) flatten(fixtures[k], out); });
-  flatten(fixtures.frames[frame], out);
   const f = fixtures.frames[frame] || {};
-  const nonUi = new Set([f.tier,f.note,f.primary,f.newTile,f.mode,f.state].filter(x => typeof x === "string"));
+  const variantRefs = new Set();
+  if (fixtures.frames) {
+    Object.values(fixtures.frames).forEach(fr => {
+      if (!fr || typeof fr !== "object") return;
+      Object.entries(fr).forEach(([k, v]) => {
+        if (typeof v === "string" && /(?:tile|variant|stateKey|choiceKey)$/i.test(k)) variantRefs.add(v);
+      });
+    });
+  }
+
+  function collect(v, key) {
+    if (typeof v === "string") {
+      if (!/^https?:\/\//i.test(v) && !/\{[^}]+\}/.test(v)) out.push(v);
+      return;
+    }
+    if (Array.isArray(v)) { v.forEach(x => collect(x)); return; }
+    if (!v || typeof v !== "object") return;
+    for (const [childKey, child] of Object.entries(v)) {
+      if (variantRefs.has(childKey) && childKey !== f.newTile && childKey !== f.variant && childKey !== f.choiceKey) continue;
+      collect(child, childKey);
+    }
+  }
+
+  ["strings","chrome","leagues","decorative"].forEach(k => { if (fixtures[k]) collect(fixtures[k], k); });
+  collect(f, "frame");
+
+  const nonUi = new Set([f.tier,f.note,f.primary,f.newTile,f.variant,f.choiceKey,f.mode,f.state].filter(x => typeof x === "string"));
   const keys = new Set();
   const media = fixtures.strings && fixtures.strings.media;
   if (media && Array.isArray(media.tracks)) media.tracks.forEach(t => { if (t && t.key) keys.add(t.key); });
   if (media && media.defaultTrack) keys.add(media.defaultTrack);
-  return [...new Set(out.filter(s => s && !nonUi.has(s) && !keys.has(s) && !/^https?:\/\//i.test(s)))];
+  return [...new Set(out.filter(s => s && !nonUi.has(s) && !keys.has(s)))];
 }
 function safeName(s) { return String(s).replace(/[^a-z0-9_.@-]+/gi, "-"); }
 
@@ -124,8 +148,17 @@ async function visibleText(page) {
 }
 
 async function measure(page, frame, view) {
-  const got = (await visibleText(page)).join("\n");
-  const missing = expectedStrings(frame).filter(s => !got.includes(s));
+  const got = await page.evaluate(() => {
+    const parts = [document.body ? document.body.textContent : ""];
+    document.querySelectorAll("*").forEach(el => {
+      for (const name of ["aria-label","alt","title","value","placeholder"]) {
+        const v = el.getAttribute && el.getAttribute(name);
+        if (v) parts.push(v);
+      }
+    });
+    return parts.join("\n").replace(/\s+/g, " ");
+  });
+  const missing = expectedStrings(frame).filter(s => !got.includes(String(s).replace(/\s+/g, " ").trim()));
   return page.evaluate(({frame,view,missing}) => {
     function vis(el) {
       if (!el) return false;
