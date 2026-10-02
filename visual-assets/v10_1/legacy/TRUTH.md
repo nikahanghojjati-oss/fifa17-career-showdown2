@@ -213,7 +213,7 @@ The contract tokens stay in `frames.*.status`; they are never presented as label
 | Fixture string | Visible text | Source / use |
 | --- | --- | --- |
 | `strings.states.loading` | `Loading your Showdown history…` | `source: "new"`; status message, no invented values. |
-| `strings.states.partial` | `Some Showdowns could not be loaded. Showing {readable} of {indexed} Showdowns.` | `source: "new"`; interpolate `coverage.readable` and `coverage.indexed` as DOM text. Never describe this as career or all-time coverage. |
+| `strings.states.partial` | `Some Showdowns could not be loaded. Showing {READABLE} of {INDEXED} Showdowns.` | `source: "new"`; interpolate `coverage.readable` and `coverage.indexed` as DOM text. Never describe this as career or all-time coverage. |
 | `strings.states.unavailable` | `Your Showdown history could not be loaded.` | `source: "new"`; failed read, never an empty career or zero totals. |
 | `strings.tagline` | `PAST SHOWDOWNS. A LASTING JOURNEY.` | `source: "mockup"`, `kind: "decorative-brand-text"`; not a product claim, statistic or action. |
 
