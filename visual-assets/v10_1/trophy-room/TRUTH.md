@@ -288,6 +288,13 @@ TR1 includes a `checkSource` block used only to validate preview aggregates; it 
 All populated preview numbers are fictional, visibly labelled `Preview data`, and must obey DATA_CONTRACT_V1 §0 bounds. No separate `error`, `active`, `completed`, or Daniel-only preview frame exists.
 
 
+## Phone
+
+- Trophy Room is a hub screen, so reserve the shared 56 px bottom bar plus safe-area space; the screen content must fit above it.
+- At 393 × 660 there is no page scroll. Keep the 360 × 640 safety target, and keep the primary action visible at 375 × 553.
+- Put both managers in the top band with Daniel first/left and Nik second/right; never swap them to reflect rank.
+- The trophy shelf becomes a sideways-swipe rail rather than a vertically stacked shelf. On every trophy card, Daniel's count is the left/first value and Nik's is the right/second value.
+
 ## Mockup reconciliation
 
 The mockup is reference, not product authority. Every product-sensitive element explicitly identified by JOB-002 is resolved below.
