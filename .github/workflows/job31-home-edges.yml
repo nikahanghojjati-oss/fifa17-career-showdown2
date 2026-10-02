@@ -1,4 +1,4 @@
-name: Job 31 Home edges after evidence
+name: Job 31 Home after-candidate render
 on:
   push:
     branches: [factory/v1-wtt5ye]
@@ -6,67 +6,78 @@ on:
       - ".github/workflows/job31-home-edges.yml"
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
-  after:
+  render:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
         with:
           ref: factory/v1-wtt5ye
-          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
-      - name: Install render dependencies
-        run: |
+      - run: |
           python -m pip install --quiet pillow
           npm install -g playwright@1.55.0
           npx playwright install --with-deps chromium
 
-      - name: Render matching after crops and comparison sheet
+      - name: Render repaired HM1-HM3 and 400 percent crops
         shell: bash
         run: |
           set -euo pipefail
-          BEFORE="visual-assets/v10_1/home/evidence/edges_before"
-          OUT="visual-assets/v10_1/home/evidence/edges_after"
-          rm -rf "$OUT"
+          OUT="/tmp/edges_after"
           mkdir -p "$OUT/full" "$OUT/crops"
-          cp "$BEFORE"/boxes_1366x768.json "$OUT"/boxes_1366x768.json
-          cp "$BEFORE"/boxes_1920x1080.json "$OUT"/boxes_1920x1080.json
-
-          python3 -m http.server 8765 >/tmp/job31-after-server.log 2>&1 &
+          python3 -m http.server 8765 >/tmp/job31-server.log 2>&1 &
           SERVER_PID=$!
           trap 'kill $SERVER_PID 2>/dev/null || true' EXIT
           for i in $(seq 1 30); do curl -fsS http://127.0.0.1:8765/ >/dev/null && break; sleep 1; done
 
           NODE_PATH=$(npm root -g) node <<'NODE'
           const { chromium } = require("playwright");
-          const fs = require("fs");
-          const path = require("path");
+          const fs = require("fs"), path=require("path");
+          const out="/tmp/edges_after";
           const base="http://127.0.0.1:8765/visual-assets/v10_1/home/index.html";
-          const out="visual-assets/v10_1/home/evidence/edges_after/full";
-          const frames=["HM1","HM2","HM3"];
-          const sizes=[[1366,768],[1920,1080]];
           (async()=>{
             const browser=await chromium.launch({headless:true});
-            for(const [w,h] of sizes){
-              for(const frame of frames){
-                for(const mode of ["final","mends_off"]){
+            for(const [w,h] of [[1366,768],[1920,1080]]){
+              let boxes=null;
+              for(const mendOn of [true,false]){
+                for(const frame of ["HM1","HM2","HM3"]){
                   const page=await browser.newPage({viewport:{width:w,height:h},deviceScaleFactor:1});
-                  const q=new URLSearchParams({frame}); if(mode==="mends_off") q.set("mends","0");
-                  await page.goto(base+"?"+q.toString(),{waitUntil:"networkidle"});
-                  await page.waitForFunction(()=>window.__homeReady===true);
-                  await page.evaluate(()=>document.fonts&&document.fonts.ready);
-                  await page.screenshot({path:path.join(out,`${frame}_${w}x${h}_${mode}.png`),fullPage:false});
+                  const q=new URLSearchParams({frame}); if(!mendOn)q.set("mends","0");
+                  await page.goto(base+"?"+q,{waitUntil:"networkidle"});
+                  await page.waitForFunction(()=>window.HomePlate&&window.HomePlate.MAP&&window.HomePlate.cam);
+                  const tag=mendOn?"mends_on":"mends_off";
+                  await page.screenshot({path:path.join(out,"full",`${frame}_${w}x${h}_${tag}.png`)});
+                  if(frame==="HM1"&&mendOn){
+                    boxes=await page.evaluate(()=>{
+                      const H=window.HomePlate,M=H.MAP, vp={w:innerWidth,h:innerHeight};
+                      const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+                      const box=(r,name,type)=>{const s=H.rectToScreen(r);return {name,type,left:clamp(s.left,0,vp.w),top:clamp(s.top,0,vp.h),right:clamp(s.right,0,vp.w),bottom:clamp(s.bottom,0,vp.h)}};
+                      const a=[box(M.protected_boxes.face_daniel,"face_daniel","protected"),box(M.protected_boxes.face_nik,"face_nik","protected"),box(M.protected_boxes.hand_daniel,"hand_daniel","protected")];
+                      // Source-repair defect regions from Step 2, expressed in plate pixels.
+                      for(const [name,r] of [
+                        ["D1_left_column",[20,100,610,700]],
+                        ["D2_zone4_5_right",[510,385,548,685]],
+                        ["D3_zone4_5_join",[20,515,548,558]],
+                        ["D4_top_right",[1290,0,1672,112]],
+                        ["D5_top_right_edges",[1290,64,1672,112]],
+                        ["D6_zone0_bottom",[0,68,980,96]],
+                        ["D7_zone3_top",[30,105,620,135]]
+                      ]) a.push(box(r,name,"defect"));
+                      return a;
+                    });
+                  }
                   await page.close();
                 }
               }
+              fs.writeFileSync(path.join(out,`boxes_${w}x${h}.json`),JSON.stringify(boxes,null,2));
             }
             await browser.close();
           })().catch(e=>{console.error(e);process.exit(1)});
@@ -74,103 +85,26 @@ jobs:
 
           python3 <<'PY'
           from pathlib import Path
-          from PIL import Image, ImageOps, ImageDraw, ImageFont
-          import json,re,hashlib
-          root=Path("visual-assets/v10_1/home/evidence")
-          before=root/"edges_before"
-          after=root/"edges_after"
-          crops=after/"crops"
-          crops.mkdir(exist_ok=True)
-          frames=["HM1","HM2","HM3"]
-          for w,h in [(1366,768),(1920,1080)]:
-              boxes=json.loads((before/f"boxes_{w}x{h}.json").read_text())
-              for frame in frames:
-                  for mode in ["final","mends_off"]:
-                      im=Image.open(after/"full"/f"{frame}_{w}x{h}_{mode}.png").convert("RGB")
+          from PIL import Image
+          import json,re
+          root=Path("/tmp/edges_after")
+          for wh in ["1366x768","1920x1080"]:
+              w,h=map(int,wh.split("x"))
+              boxes=json.loads((root/f"boxes_{wh}.json").read_text())
+              for frame in ["HM1","HM2","HM3"]:
+                  for tag in ["mends_on","mends_off"]:
+                      im=Image.open(root/"full"/f"{frame}_{wh}_{tag}.png").convert("RGB")
                       for i,b in enumerate(boxes):
                           l=max(0,int(b["left"])); t=max(0,int(b["top"])); r=min(w,int(b["right"])); bt=min(h,int(b["bottom"]))
                           if r-l<2 or bt-t<2: continue
-                          crop=im.crop((l,t,r,bt)).resize(((r-l)*4,(bt-t)*4),Image.Resampling.NEAREST)
-                          name=re.sub(r"[^A-Za-z0-9_-]+","_",b["name"]).strip("_") or f"box{i:02d}"
-                          crop.save(crops/f"{frame}_{w}x{h}_{mode}_{i:02d}_{name}_x4.jpg",quality=96,subsampling=0,optimize=True)
-
-          # Overview sheet uses the exact same 1920 crop boxes as Step 1.
-          rows=[
-            (0,"Daniel face — likeness"),
-            (1,"Nik face — likeness"),
-            (2,"Daniel pointing hand"),
-            (3,"D1 left-column broad patch"),
-            (4,"D4 top-right broad patch"),
-            (27,"D2 zone 4 right / suit edge"),
-            (28,"D3 zone 5 top transition"),
-            (19,"D5 zone 2 far-right edge"),
-            (6,"D6 zone 0 bottom"),
-            (20,"D7 zone 3 top"),
-          ]
-          boxes=json.loads((before/"boxes_1920x1080.json").read_text())
-          W=1540; cellw=720; cellh=260; head=72; gap=16
-          H=head+len(rows)*(cellh+gap)+16
-          sheet=Image.new("RGB",(W,H),(8,9,11))
-          d=ImageDraw.Draw(sheet)
-          font=ImageFont.load_default()
-          d.text((18,16),"JOB-031 · HOME EDGES · BEFORE / AFTER",fill=(245,197,24),font=font)
-          d.text((18,38),"Before: Step 1 runtime mends ON · After: repaired source plate, no broad runtime blur",fill=(230,230,225),font=font)
-          d.text((18,58),"BEFORE",fill=(245,197,24),font=font); d.text((18+cellw+gap,58),"AFTER",fill=(245,197,24),font=font)
-          y=head
-          for idx,label in rows:
-              b=boxes[idx]; safe=re.sub(r"[^A-Za-z0-9_-]+","_",b["name"]).strip("_")
-              bp=before/"crops"/f"HM1_1920x1080_mends_on_{idx:02d}_{safe}_x4.jpg"
-              ap=after/"crops"/f"HM1_1920x1080_final_{idx:02d}_{safe}_x4.jpg"
-              bi=Image.open(bp).convert("RGB"); ai=Image.open(ap).convert("RGB")
-              for x,img in [(18,bi),(18+cellw+gap,ai)]:
-                  canvas=Image.new("RGB",(cellw,cellh),(4,5,7))
-                  tmp=img.copy(); tmp.thumbnail((cellw,cellh-24),Image.Resampling.LANCZOS)
-                  canvas.paste(tmp,((cellw-tmp.width)//2,24+(cellh-24-tmp.height)//2))
-                  sheet.paste(canvas,(x,y))
-              d.text((22,y+5),label,fill=(245,245,240),font=font)
-              d.text((22+cellw+gap,y+5),label,fill=(245,245,240),font=font)
-              y+=cellh+gap
-          sheet.save(root/"EDGES_BEFORE_AFTER.png",optimize=True)
-
-          # Pixel identity proof for final vs mends_off now that runtime mends are retired.
-          same=[]
-          for w,h in [(1366,768),(1920,1080)]:
-              for f in frames:
-                  a=Path(after/"full"/f"{f}_{w}x{h}_final.png").read_bytes()
-                  b=Path(after/"full"/f"{f}_{w}x{h}_mends_off.png").read_bytes()
-                  same.append((f,w,h,hashlib.sha256(a).hexdigest()==hashlib.sha256(b).hexdigest()))
-          assert all(x[-1] for x in same), same
-          (after/"render_identity.txt").write_text("\n".join(f"{f} {w}x{h}: final == mends_off" for f,w,h,_ in same)+"\n")
+                          c=im.crop((l,t,r,bt)).resize(((r-l)*4,(bt-t)*4),Image.Resampling.NEAREST)
+                          name=re.sub(r"[^A-Za-z0-9_-]+","_",b["name"])
+                          c.save(root/"crops"/f"{frame}_{wh}_{tag}_{i:02d}_{name}_x4.jpg",quality=96,subsampling=0,optimize=True)
           PY
 
-      - name: Save Step 4 status and commit
-        shell: bash
-        run: |
-          set -euo pipefail
-          python3 <<'PY'
-          from pathlib import Path
-          from datetime import datetime,timezone
-          import re
-          p=Path("project-documents/factory/status/JOB-031.md")
-          s=p.read_text().replace("Step: 3 of 5","Step: 4 of 5")
-          s=re.sub(r"Updated: .*","Updated: "+datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"),s,count=1)
-          note="- Step 4: re-rendered HM1-HM3 at 1366x768 and 1920x1080 from the same Step 1 pixel boxes; saved 400% final crops in edges_after/ and built evidence/EDGES_BEFORE_AFTER.png. Final and mends=0 renders are byte-identical because runtime mends are retired.\n"
-          if note not in s: s=s.replace("## Self-check",note+"\n## Self-check")
-          p.write_text(s)
-          PY
-          git config user.name "Showdown Factory Job 31"
-          git config user.email "actions@users.noreply.github.com"
-          git add visual-assets/v10_1/home/evidence/edges_after                   visual-assets/v10_1/home/evidence/EDGES_BEFORE_AFTER.png                   project-documents/factory/status/JOB-031.md
-          git commit -m "Job 31 step 4/5: render after crops"
-          git pull --rebase origin factory/v1-wtt5ye
-          git push origin HEAD:factory/v1-wtt5ye
-
-      - name: Upload after evidence
-        uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v4
         with:
-          name: job31-step4-edges-after
-          path: |
-            visual-assets/v10_1/home/evidence/edges_after
-            visual-assets/v10_1/home/evidence/EDGES_BEFORE_AFTER.png
+          name: job31-step4-candidate
+          path: /tmp/edges_after
           if-no-files-found: error
           compression-level: 6
