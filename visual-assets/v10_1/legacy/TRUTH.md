@@ -34,7 +34,7 @@ The legacy stylesheet also contains import-analysis classes (`legacyImportAnalys
 
 ## Buttons and strings
 
-All strings below are copied from live `main`. Dynamic values are shown as code templates rather than rewritten prose.
+The live-product strings below are copied from `main`. Dynamic values are shown as code templates rather than rewritten prose. The provider-state copy and decorative brand text are listed separately with explicit provenance.
 
 ### Core Legacy actions
 
@@ -206,6 +206,17 @@ ARIA:
 
 Factory conclusion for step 2: all local backup, delete, import, restore and reset copy is historical evidence of what `main` currently shows, but the online Legacy build must not expose those controls because `DATA_CONTRACT_V1.md §8` explicitly says there are no delete, backup, export or reset controls on the online route.
 
+### Provider-state copy and decorative text
+
+The contract tokens stay in `frames.*.status`; they are never presented as labels. `strings` keeps plain string values for the renderer, with provenance in `stringMetadata`.
+
+| Fixture string | Visible text | Source / use |
+| --- | --- | --- |
+| `strings.states.loading` | `Loading your Showdown history…` | `source: "new"`; status message, no invented values. |
+| `strings.states.partial` | `Some Showdowns could not be loaded. Showing {readable} of {indexed} Showdowns.` | `source: "new"`; interpolate `coverage.readable` and `coverage.indexed` as DOM text. Never describe this as career or all-time coverage. |
+| `strings.states.unavailable` | `Your Showdown history could not be loaded.` | `source: "new"`; failed read, never an empty career or zero totals. |
+| `strings.tagline` | `PAST SHOWDOWNS. A LASTING JOURNEY.` | `source: "mockup"`, `kind: "decorative-brand-text"`; not a product claim, statistic or action. |
+
 ## Data contract
 
 Authority: `project-documents/factory/DATA_CONTRACT_V1.md`, especially §0 (all-screen states and bounds), §6 (what counts), §8 (History / Legacy) and §9 (dropped data). E/A below uses that contract's legend: E = exists on `main` as the provider-ready field; A = Team G must add it. Legacy history fields are A even where a local-storage analogue exists today.
@@ -363,6 +374,6 @@ The mockup is visual reference only. Live data remains DOM text; no manager name
 No blocking product question remains for the Legacy truth sheet.
 
 Non-blocking implementation notes:
-- DATA_CONTRACT_V1 does not prescribe sentence-level microcopy for `loading`, `partial` or `unavailable`; fixtures therefore expose the contract status words rather than inventing claims. The build may style those states but must preserve their meaning and must never turn unavailable data into zero.
+- DATA_CONTRACT_V1 leaves sentence-level provider-state copy to Team V. The new copy above replaces raw status tokens; `stringMetadata` records `source: "new"`. Preserve contract tokens in data, show partial coverage, and never turn unavailable data into zero.
 - `TRANSFER HISTORY` stays out of the side menu until the product has a real route/view for it. `CHALLENGE TRACKER` stays out because no product route exists.
 - LG1 follows the job's literal "eight completed Showdowns over two pages" as four cards per page while retaining the mockup's 4 × 2 panel capacity. This is presentation metadata only and does not change the data contract.

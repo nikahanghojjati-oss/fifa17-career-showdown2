@@ -18,9 +18,9 @@
       "abandoned": "Abandoned · not counted",
       "completionPending": "Completion pending",
       "interim": "Current Showdown only. Career history is not yet available.",
-      "loading": "LOADING",
-      "partial": "PARTIAL",
-      "unavailable": "UNAVAILABLE",
+      "loading": "Loading your Showdown history…",
+      "partial": "Some Showdowns could not be loaded. Showing {readable} of {indexed} Showdowns.",
+      "unavailable": "Your Showdown history could not be loaded.",
       "empty": "No completed showdowns yet. Finish a rivalry and it will be archived here automatically."
     },
     "topNav": [
@@ -1553,6 +1553,29 @@
     "viewSeasonHistory": {
       "action": "expand selected Showdown seasons[]",
       "productBinding": "main js/legacy.js .legacyDetails summary / populateLegacySeasonHistory()"
+    }
+  },
+  "stringMetadata": {
+    "states.loading": {
+      "source": "new",
+      "kind": "status-message"
+    },
+    "states.partial": {
+      "source": "new",
+      "kind": "status-message",
+      "parameters": [
+        "coverage.readable",
+        "coverage.indexed"
+      ]
+    },
+    "states.unavailable": {
+      "source": "new",
+      "kind": "status-message"
+    },
+    "tagline": {
+      "source": "mockup",
+      "kind": "decorative-brand-text",
+      "liveData": false
     }
   }
 }
