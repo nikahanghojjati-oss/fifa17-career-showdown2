@@ -360,4 +360,9 @@ The mockup is visual reference only. Live data remains DOM text; no manager name
 
 ## Open questions
 
-_To be completed in step 7._
+No blocking product question remains for the Legacy truth sheet.
+
+Non-blocking implementation notes:
+- DATA_CONTRACT_V1 does not prescribe sentence-level microcopy for `loading`, `partial` or `unavailable`; fixtures therefore expose the contract status words rather than inventing claims. The build may style those states but must preserve their meaning and must never turn unavailable data into zero.
+- `TRANSFER HISTORY` stays out of the side menu until the product has a real route/view for it. `CHALLENGE TRACKER` stays out because no product route exists.
+- LG1 follows the job's literal "eight completed Showdowns over two pages" as four cards per page while retaining the mockup's 4 × 2 panel capacity. This is presentation metadata only and does not change the data contract.
