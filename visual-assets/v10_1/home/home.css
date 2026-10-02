@@ -26,7 +26,7 @@
 }
 html, body { margin: 0; height: 100%; background: #060709; color: var(--cream); }
 body { overflow: hidden; font-family: var(--text); -webkit-font-smoothing: antialiased; }
-.stage { position: fixed; inset: 0; overflow: hidden; background: #060709; }
+.stage { position: fixed; inset: 0; overflow: hidden; background: #060709; }\n.managerPlateMarker { position: absolute; z-index: 0; display: block; pointer-events: none; background: transparent; }
 button { font: inherit; color: inherit; }
 :focus-visible { outline: 2px solid var(--gold-hi); outline-offset: 3px; }
 .sr-only { position: absolute !important; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; border: 0; }
@@ -162,7 +162,7 @@ button { font: inherit; color: inherit; }
   position: relative; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 3px;
   min-width: 0; height: 100%; box-sizing: border-box; padding: 9px 98px 9px 16px; margin: 0; text-align: left; cursor: pointer;
   background: var(--glass); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
-  border: 1px solid rgba(201,155,69,.6); border-radius: 3px; color: #fff; /* brief .45; .6 for G7 control borders at 1366x640 */
+  border: 1px solid var(--sd-edge, rgba(201,155,69,.6)); border-radius: 0; color: #fff; /* shared Showdown cut-corner panel */
   box-shadow: inset 0 2px 0 var(--gold), 0 10px 28px rgba(0,0,0,.45);
 }
 .menuTileCode { position: relative; z-index: 2; font: 600 12px/1.15 var(--cond); letter-spacing: .2em; color: var(--gold-deep); text-transform: uppercase; }
@@ -175,7 +175,24 @@ button { font: inherit; color: inherit; }
 }
 #continueCareer { padding-right: 96px; }\n#newShowdown { padding-right: 12px; }
 .tileChevron { position: absolute; right: 12px; bottom: 11px; width: 9px; height: 15px; color: var(--gold); pointer-events: none; }
-.menuTile:not(:disabled):hover, .menuTile:not(:disabled):focus-visible { border-color: var(--gold); transform: translateY(-1px); }
+.menuTile:not(:disabled):hover {
+  border-color: var(--sd-gold-300, var(--gold));
+  transform: translateY(-3px);
+  box-shadow: 0 14px 34px rgba(0,0,0,.58), 0 0 22px rgba(242,196,91,.28), inset 0 2px 0 var(--gold);
+}
+.menuTile:focus-visible {
+  outline: 2px solid var(--sd-gold-300, var(--gold-hi));
+  outline-offset: 3px;
+  box-shadow: 0 0 0 2px var(--sd-black, #060709), 0 0 24px rgba(242,196,91,.34);
+}
+.menuTile:active:not(:disabled) { transform: translateY(-1px); }
+.menuTile:disabled { opacity: .76; cursor: not-allowed; filter: saturate(.72); }
+.menuTile:disabled .tileArt { opacity: .34; filter: grayscale(.35) drop-shadow(0 8px 10px rgba(0,0,0,.55)); }
+.menuTile[data-available="false"] { justify-content: flex-start; }
+.menuTile[data-available="false"] .menuTileMeta {
+  position: relative !important; width: auto; height: auto; overflow: visible; clip: auto; clip-path: none;
+  white-space: normal; margin-top: 5px; color: #F1D58F; font: 600 12px/1.15 var(--cond);
+}
 /* secondary tiles (Legacy, Statistics + Trophy Room, Rule Book, Settings): goal tile language = code + big label + icon;
    their meta stays in the DOM, visually hidden (owner change: six tiles must fit one row) */
 .menuTileNew, .menuTileLegacy, .menuTileTrophy, .menuTileTrophyRoom, .menuTileRules, .menuTileSettings { justify-content: flex-start; padding: 12px 12px 10px 14px; }
@@ -183,13 +200,13 @@ button { font: inherit; color: inherit; }
 .menuTileNew .tileArt, .menuTileLegacy .tileArt, .menuTileTrophy .tileArt, .menuTileTrophyRoom .tileArt, .menuTileRules .tileArt, .menuTileSettings .tileArt {
   right: -17px; bottom: -20px; width: 116px; height: 116px;
 }
-#continueCareer .tileArt { right: -6px; bottom: -30px; width: 190px; height: 190px; opacity: .9; }
+#continueCareer .tileArt { right: -6px; bottom: -30px; width: 190px; height: 190px; opacity: .82; filter: brightness(.28) saturate(.45) drop-shadow(0 10px 12px rgba(0,0,0,.38)); }
 #trophyRoomButton .tileArt { right: -12px; bottom: -24px; width: 108px; height: 128px; }
 .menuTileTag {
   margin-top: 4px; padding: 3px 7px 3px; border: 1px solid var(--gold); border-radius: 2px; background: rgba(242,196,91,.12);
   font: 700 12px/1.15 var(--cond); letter-spacing: .14em; color: #FFD97A; white-space: nowrap;
 }
-#continueCareer { background: linear-gradient(135deg, #F7D46A, #E0AE3A); border-color: rgba(255,241,184,.7); box-shadow: 0 10px 28px rgba(0,0,0,.45); }
+#continueCareer { background: var(--sd-gold-500, #F2C45B); border-color: var(--sd-gold-100, #FFF1B8); box-shadow: 0 10px 28px rgba(0,0,0,.45); }
 #continueCareer .menuTileCode { color: #3B2C0C; }
 #continueCareer .menuTileLabel { color: var(--ink); }
 #continueCareer .menuTileMeta { color: #2A2008; }
@@ -333,7 +350,7 @@ footer {
   .menuTile { padding: 9px 10px 9px 11px; min-height: 72px; height: auto; gap: 2px; justify-content: flex-start; }
   .menuTileLabel { font-size: 18px; line-height: 1.12; padding-right: 34px; }
   .menuTileMeta { font-size: 14px; line-height: 1.25; }
-  .menuTile .menuTileMeta { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
+  .menuTile .menuTileMeta { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }\n  .menuTile[data-available="false"] .menuTileMeta { position: relative !important; width: auto; height: auto; overflow: visible; clip: auto; clip-path: none; white-space: normal; font-size: 10px; line-height: 1.05; margin-top: 2px; }
   #continueCareer .menuTileMeta, .stage.primary-new #newShowdown .menuTileMeta { position: static !important; width: auto; height: auto; overflow: visible; clip: auto; clip-path: none; white-space: normal; }
   .tileArt { width: 52px; height: 52px; right: 2px; bottom: -6px; }\n  #continueCareer .tileArt { width: 82px; height: 82px; right: -4px; bottom: -10px; }
   .tileChevron { right: 9px; bottom: 9px; }

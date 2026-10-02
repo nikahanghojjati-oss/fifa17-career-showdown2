@@ -68,6 +68,34 @@
     setText(nw.querySelector(".menuTileMeta"), nt.meta);
     const st = document.getElementById("settingsButton");
     setText(st.querySelector(".menuTileMeta"), S.tiles.settingsButton.meta);
+
+    // DATA_CONTRACT_V1 §1: never hide history/statistics/trophy tiles. Disable honestly with a closed-set reason.
+    const availabilityTargets = {
+      history: ["legacyButton", "legacyButton"],
+      statistics: ["careerStatisticsButton", "careerStatisticsButton"],
+      trophyRoom: ["trophyRoomButton", "trophyRoomButton"]
+    };
+    Object.entries(availabilityTargets).forEach(([key, pair]) => {
+      const state = f.tiles && f.tiles[key];
+      const tile = document.getElementById(pair[0]);
+      const copy = S.tiles[pair[1]];
+      if (!tile || !state) return;
+      tile.disabled = !state.available;
+      tile.setAttribute("aria-disabled", String(!state.available));
+      tile.dataset.available = String(!!state.available);
+      if (state.reason) {
+        tile.dataset.reason = state.reason;
+        setText(tile.querySelector(".menuTileMeta"), FX.availabilityMessages[state.reason]);
+      } else {
+        delete tile.dataset.reason;
+        setText(tile.querySelector(".menuTileMeta"), copy.meta);
+      }
+    });
+    if (f.tiles && f.tiles.rivalry) {
+      stage.dataset.rivalryAvailable = String(!!f.tiles.rivalry.available);
+      stage.dataset.rivalryReason = f.tiles.rivalry.reason || "";
+    }
+
     stage.classList.toggle("primary-new", f.primary === "newShowdown");
     stage.dataset.primary = f.primary;
   }
@@ -293,10 +321,24 @@
     stage.dataset.band = JSON.stringify({ top: Math.round(box.top), height: Math.round(box.height), k: +cam.k.toFixed(4), offX: Math.round(cam.offX), offY: Math.round(cam.offY) });
   }
 
+  function positionManagerMarkers(MAP) {
+    const targets = {
+      daniel: MAP.protected_boxes.face_daniel,
+      nik: MAP.protected_boxes.face_nik
+    };
+    Object.entries(targets).forEach(([manager, source]) => {
+      const el = stage.querySelector('[data-manager="' + manager + '"]');
+      if (!el || !source) return;
+      const r = rectToScreen(source);
+      Object.assign(el.style, { left: r.left + "px", top: r.top + "px", width: r.width + "px", height: r.height + "px" });
+    });
+  }
+
   function layout(MAP) {
     const mobile = matchMedia("(max-width: 760px) and (orientation: portrait)").matches;
     stage.dataset.mode = mobile ? "mobile" : "desktop";
     if (mobile) layoutMobile(MAP); else layoutDesktop(MAP);
+    positionManagerMarkers(MAP);
     // mends live in the plate box (desktop: viewport; phone: band), positioned in plate-box coordinates
     const strips = renderMends(MAP);
     renderGrid(MAP, strips);
