@@ -61,6 +61,6 @@ assert.ok(diagnostics.includes('"careerStatisticsButton"'), 'Runtime diagnostics
 assert.ok(diagnostics.includes('["careerStatisticsButton", "careerStatisticsBound"]'), 'Runtime diagnostics do not verify Statistics binding.');
 
 const analyticsNamedFiles = fs.readdirSync('js').filter(file => /analytics/i.test(file)).sort();
-assert.deepStrictEqual(analyticsNamedFiles, ['analytics.js'], 'Workstream 4 must not create a second analytics engine.');
+assert.deepStrictEqual(analyticsNamedFiles, ['analytics.js', 'sharedCareerAnalytics.js'], 'Only the local analytics engine and the shared career model may exist.');
 
 console.log(`Main Menu Statistics alignment, lazy loading, shared analytics, Trophy Room reuse, route contracts, and ${revision} shell identity passed.`);
