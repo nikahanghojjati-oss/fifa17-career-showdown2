@@ -268,6 +268,8 @@ Authority: `project-documents/factory/DATA_CONTRACT_V1.md`, especially §0 and �
 | `tiebreak` | A | no field exists on `main` yet; G-5 adds it. Existing winner functions already encode the rule but do not expose the deciding reason | per season | exact values `none` / `league-position` / `league-points` / `draw`; feeds “How scoring works” |
 | `phase` | E | `projectForRole()` in `js/sharedSeasonResults.js` plus `pssrRenderEntry()` / `pssrRenderReview()` in `js/productionSharedSeasonResults.js`; committed/acknowledged state from `js/productionSharedSeasonCommit.js` | per season within the active Showdown | adapter-normalized workflow phase |
 
+Provider shape (Team G, G2V-005, binding): `breakdown` is nested per manager, `breakdown.daniel.{championsLeague, leagueTitle, domesticCup, performanceBonus, awardsBonus, total}` and the same for `breakdown.nik`; `total` lives inside each manager's breakdown. `breakdown`, `winner` and `tiebreak` are `null` until `phase` is `committed` (fixtures SR1–SR4 and SR6 carry explicit nulls; SR5 carries the nested values). Before commit the screen may show a live score preview it computes itself from the manager's own visible inputs with the shared scoring function, labelled as a preview; it never reads a provider breakdown, winner or tiebreak before `committed`.
+
 Contract `phase` values are exactly:
 
 * `entering`: this manager has not published; only this manager's inputs are editable/visible.
@@ -474,7 +476,7 @@ The mockup's central composition, manager staging, gold/black hierarchy and scor
 
 The six primary workflow frames are SR1 through SR6. SR7 through SR10 exist only to prove the four non-ready contract statuses required by DATA_CONTRACT_V1 §0. The fixture never carries an unpublished rival result in SR1, SR2, SR3 or SR6.
 
-SR4 deliberately exposes both published input records but not canonical totals: live `main` reveals authoritative scoring only after the shared season commit is acknowledged. SR5 is the committed frame that contains `breakdown`, `total`, `winner` and `tiebreak`.
+SR4 deliberately exposes both published input records but not canonical totals: live `main` reveals authoritative scoring only after the shared season commit is acknowledged. SR5 is the committed frame that contains the per-manager `breakdown` (with `total` inside each manager), `winner` and `tiebreak`.
 
 The fixture uses the contract name `awardsBonus`. Production canonical scoring currently calls that value `individualAwardsBonus`; the adapter rename is required before presentation.
 

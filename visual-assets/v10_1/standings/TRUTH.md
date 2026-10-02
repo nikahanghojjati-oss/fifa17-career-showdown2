@@ -39,7 +39,7 @@ E means an existing main value needing only an adapter; A means Team G must add 
 | Partial coverage | coverage.readable / coverage.indexed | A (§6), required by §0 partial | Incomplete provider history | Show readable/indexed counts; never label this as complete career history |
 | Review-only fallback | interimLabel | A (review-only envelope; §0) | Current Showdown only | Exact approved sentence; never a launch state |
 
-This Showdown uses role-keyed managers containing the §5 counts. Career preview standings uses two role-keyed entries containing the §6/§7 values. The contract defines standings semantics but not its nested wire shape: this fixture layout is a preview representation, not a new binding provider schema. A future adapter projects Team G's delivered shape without inventing fields. Render identity order remains Daniel, Nik.
+This Showdown uses the §5 `managerRecords` field (role-keyed `daniel` / `nik`) containing the §5 counts. Career preview standings uses two role-keyed entries containing the §6/§7 values. The contract defines standings semantics but not its nested wire shape: this fixture layout is a preview representation, not a new binding provider schema. A future adapter projects Team G's delivered shape without inventing fields. Render identity order remains Daniel, Nik.
 
 Do not add league table position, match W/D/L, games played, goal difference, league tables, win rates, Showdown wins, transfer totals, bonuses, player names or new stats to this screen. Season W/D/L describes completed seasons, never individual matches. Trophy counts are titles won.
 
@@ -129,7 +129,7 @@ Use sectionPartial for partial history rather than the Career heading. Interpola
 
 ## Fixture index and preview structure
 
-fixtures.json follows the Home example's version/authority/strings/frames envelope. Each frame has view, previewLabel, note and a selected model. All preview labels must be rendered visibly. managers and the role-keyed standings entries are fixture grouping only, not newly agreed wire fields. Keys and rendered order are always Daniel then Nik. No rank/leader is stored; comparison is derived as specified above.
+fixtures.json follows the Home example's version/authority/strings/frames envelope. Each frame has view, previewLabel, note and a selected model. All preview labels must be rendered visibly. `managerRecords` is the §5 contract field name; the role-keyed standings entries are fixture grouping only, not newly agreed wire fields. Keys and rendered order are always Daniel then Nik. No rank/leader is stored; comparison is derived as specified above.
 
 | Frame | Selected view | status | Purpose |
 | --- | --- | --- | --- |

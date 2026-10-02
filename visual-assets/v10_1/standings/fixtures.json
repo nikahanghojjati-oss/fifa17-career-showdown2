@@ -58,7 +58,7 @@
           "daniel": 9,
           "nik": 8
         },
-        "managers": {
+        "managerRecords": {
           "daniel": {
             "seasonWins": 1,
             "seasonDraws": 0,
@@ -127,7 +127,7 @@
           "daniel": 0,
           "nik": 0
         },
-        "managers": {
+        "managerRecords": {
           "daniel": {
             "seasonWins": 0,
             "seasonDraws": 0,
@@ -166,7 +166,7 @@
           "daniel": 9,
           "nik": 8
         },
-        "managers": {
+        "managerRecords": {
           "daniel": {
             "seasonWins": 1,
             "seasonDraws": 0,

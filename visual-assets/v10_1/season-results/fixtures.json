@@ -203,7 +203,10 @@
           "daniel": "arsenal",
           "nik": "chelsea"
         }
-      }
+      },
+      "breakdown": null,
+      "winner": null,
+      "tiebreak": null
     },
     "SR2": {
       "note": "Nik device, private entry. Nik values are fictional preview data; Daniel's unpublished inputs are sealed and absent.",
@@ -237,7 +240,10 @@
           "daniel": "arsenal",
           "nik": "chelsea"
         }
-      }
+      },
+      "breakdown": null,
+      "winner": null,
+      "tiebreak": null
     },
     "SR3": {
       "note": "Daniel has published first; own result is read-only and Nik remains sealed. The same privacy rule applies symmetrically when Nik publishes first.",
@@ -271,7 +277,10 @@
           "daniel": "arsenal",
           "nik": "chelsea"
         }
-      }
+      },
+      "breakdown": null,
+      "winner": null,
+      "tiebreak": null
     },
     "SR4": {
       "note": "Both managers have published. Both input records are revealed, Daniel first and Nik second. Shared Season Commit is pending; authoritative canonical scoring is not displayed yet.",
@@ -312,7 +321,10 @@
           "daniel": "arsenal",
           "nik": "chelsea"
         }
-      }
+      },
+      "breakdown": null,
+      "winner": null,
+      "tiebreak": null
     },
     "SR5": {
       "note": "Shared season is committed and acknowledged; authoritative scoring is read-only and reconciled from the same fictional results.",
@@ -333,15 +345,7 @@
           "domesticCup": true,
           "championsLeague": true,
           "topScorer": false,
-          "topAssist": true,
-          "breakdown": {
-            "championsLeague": 5,
-            "leagueTitle": 3,
-            "domesticCup": 1,
-            "performanceBonus": 0,
-            "awardsBonus": 1
-          },
-          "total": 10
+          "topAssist": true
         },
         "nik": {
           "leaguePosition": 2,
@@ -350,14 +354,24 @@
           "domesticCup": false,
           "championsLeague": true,
           "topScorer": true,
-          "topAssist": false,
-          "breakdown": {
-            "championsLeague": 5,
-            "leagueTitle": 0,
-            "domesticCup": 0,
-            "performanceBonus": 1,
-            "awardsBonus": 1
-          },
+          "topAssist": false
+        }
+      },
+      "breakdown": {
+        "daniel": {
+          "championsLeague": 5,
+          "leagueTitle": 3,
+          "domesticCup": 1,
+          "performanceBonus": 0,
+          "awardsBonus": 1,
+          "total": 10
+        },
+        "nik": {
+          "championsLeague": 5,
+          "leagueTitle": 0,
+          "domesticCup": 0,
+          "performanceBonus": 1,
+          "awardsBonus": 1,
           "total": 7
         }
       },
@@ -406,7 +420,10 @@
           "daniel": "arsenal",
           "nik": "chelsea"
         }
-      }
+      },
+      "breakdown": null,
+      "winner": null,
+      "tiebreak": null
     },
     "SR7": {
       "note": "Contract loading state; no result values are presented as facts.",
