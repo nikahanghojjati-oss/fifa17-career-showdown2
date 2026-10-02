@@ -363,6 +363,20 @@ The six named workflow frames do not cover the four non-ready values required by
 `SR7`–`SR10` are contract coverage frames, not new gameplay phases. They do not invent new buttons, score rules or publication behaviour.
 
 
+
+## Phone
+
+Phone is a separate composition: 393 × 660 visible area with no page scroll; also no page scroll at 360 × 640, and the primary action visible at 375 × 553. Keep Daniel on the left/first and Nik on the right/second, with heads visible and character art never mirrored. Recompose the input area within the remaining space rather than stacking two full desktop cards.
+
+- Use a Daniel / Nik toggle, ordered Daniel then Nik, to select one result card at a time from `results-ready` onward, when both published records are public. Keep the selector available through `committed`; it changes presentation only, never the viewer role or ownership of inputs. Before `results-ready`, show only the viewer's own entry/review card and hide or disable rival selection without loading rival inputs.
+- Move the central desktop scoring explanation into a "How scoring works" pop-up. This label is new presentation copy (`source: "new"`), not an existing gameplay action. Show `strings.scoringRules` from fixtures as DOM text, preserving its exact live scoring copy, plus the contract's season tiebreak order: higher score, then better league position (lower number), then more league points, else draw. If available, the agreed `tiebreak` field may explain the committed result; never show canonical totals before authoritative reconciliation.
+- The pop-up is a keyboard-accessible modal with a visible close control, focus return to its opener and no background interaction. It must fit the phone viewport at normal text size; larger accessibility text may reflow as PRODUCT_TRUTH permits.
+- Pin the entry REVIEW control (`#completeSeason`, exact label `REVIEW MY SEASON RESULT`) at the bottom above `env(safe-area-inset-bottom)`. Keep the fields clear of its reserved space. REVIEW is available only in private entry; in draft review, waiting, results-ready and committed states, the pinned action region follows the existing Publish/Edit, published waiting, commit/check/acknowledgement or disabled completed controls. Do not resurrect REVIEW after publication or add a new progression action.
+- Keep the existing smart Back action reachable and all controls at least 44 × 44 px; numeric inputs use at least 16 px text. Show all seven own inputs without page scrolling at the normal phone targets.
+- Hide the five-icon bottom navigation bar on Season Results, per PRODUCT_TRUTH §7 and this job. Do not reserve its 56 px hub-screen space here. The desktop top bar remains locked as already documented.
+
+This is a build specification, not a claim that phone fit has already been measured. The phone build/review jobs must prove the three viewport checks.
+
 ## Mockup reconciliation
 
 Mockup authority: `project-documents/factory/mockups/MOCKUP_SEASON_RESULTS.jpg` at blob `ac20f2a8a9aa6399f25c89b97f77b258dbc5aca9`. It is a 16:9 cinematic visual reference. Product truth, DATA_CONTRACT_V1 and live `main` behaviour override it.
