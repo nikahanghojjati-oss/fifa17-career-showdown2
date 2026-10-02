@@ -250,11 +250,22 @@ Viewer role:
 | RV3 | First season, nothing played yet | `empty` | `empty` | League/clubs/season plan may exist, but no completed season row. Use honest empty copy rather than fabricated career history. Fictional preview setup only. |
 | RV4 | Rivalry data readable, transfer history unavailable | `ready` | `unavailable` | All non-transfer stats remain visible; transfer area explicitly says unavailable and never shows 0 signings. Fictional preview data only. |
 
-Additional designed states not assigned a dedicated numbered frame in this truth job:
-- top-level `loading`
-- top-level `unavailable` (the read-error presentation)
-- top-level `partial` with a visible `coverage` value
-- independent transfer `loading` and `partial`
+Additional concrete preview frames for JOB-135:
+
+| Frame | Status | Required presentation |
+| --- | --- | --- |
+| RV5 | `loading` | Known setup context may stay; `score`, `managerRecords` and `seasons` are absent until the read succeeds. No stale values or synthetic zero totals. Transfer read is independently `loading`. |
+| RV6 | `unavailable` | Explicit failed-read message; result fields are absent, never empty or zero. Back and shared hub navigation remain available; do not invent a module Retry button. |
+| RV7 | `partial` | Season 1 is readable and season 2 is missing. `coverage={readable:1,indexed:2}` counts recorded season segments in this fixture; show `1 of 2 recorded seasons available.` and available-subset totals. Final provider coverage binding is Team G adapter work. Transfer read is independently `unavailable`. |
+
+State copy lives in `strings.stateCopy`; every entry has `"source": "new"`:
+- loading: `Loading rivalry statistics…`
+- unavailable: `Rivalry statistics are unavailable right now.`
+- partial: `Partial rivalry history. Totals reflect available seasons only.`
+- coverage template: `{readable} of {indexed} recorded seasons available.`
+- transfer unavailable: `Transfer history is unavailable.`
+
+Render partial coverage before every subset-dependent total; never label a partial view complete, final, all-time or career-complete. RV7 uses the same fictional records as RV1 season 1, recomputed for the readable subset only. Read failure must not reuse the successful-empty string. Independent transfer `partial` still requires honest transfer-specific coverage; no unavailable transfers become zero signings.
 
 Reason for adjustment from the job's wording: `error` is not a sixth contract status. DATA_CONTRACT_V1 defines a failed read as `unavailable`; the build should still have explicit error copy/presentation, but its machine state remains `unavailable`.
 

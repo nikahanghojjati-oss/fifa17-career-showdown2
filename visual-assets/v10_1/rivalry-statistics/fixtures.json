@@ -91,6 +91,28 @@
         "text": "Champions League",
         "source": "new"
       }
+    },
+    "stateCopy": {
+      "loading": {
+        "text": "Loading rivalry statistics…",
+        "source": "new"
+      },
+      "unavailable": {
+        "text": "Rivalry statistics are unavailable right now.",
+        "source": "new"
+      },
+      "partial": {
+        "text": "Partial rivalry history. Totals reflect available seasons only.",
+        "source": "new"
+      },
+      "coverage": {
+        "text": "{readable} of {indexed} recorded seasons available.",
+        "source": "new"
+      },
+      "transferUnavailable": {
+        "text": "Transfer history is unavailable.",
+        "source": "new"
+      }
     }
   },
   "ids": {
@@ -564,6 +586,147 @@
         "status": "unavailable",
         "fixtureOnlyShape": true,
         "contractNote": "No transfer counts are present because an unavailable transfer read must never be represented as zero."
+      }
+    },
+    "RV5": {
+      "note": "Fictional preview setup. Read in flight: no stale or fabricated result values.",
+      "previewLabel": "Preview data",
+      "interimLabel": "Current Showdown only. Career history is not yet available.",
+      "status": "loading",
+      "ui": {
+        "lifecycle": "active",
+        "viewer": "either",
+        "messageKey": "loading"
+      },
+      "managerOrder": [
+        "daniel",
+        "nik"
+      ],
+      "leagueId": "premier_league",
+      "clubs": {
+        "daniel": "Northbridge FC",
+        "nik": "Harbor City"
+      },
+      "season": 3,
+      "totalSeasons": 5,
+      "transfers": {
+        "status": "loading",
+        "fixtureOnlyShape": true
+      }
+    },
+    "RV6": {
+      "note": "Fictional preview setup. Failed result read: no zero score, empty-history claim or trophy count. Known setup can remain visible.",
+      "previewLabel": "Preview data",
+      "interimLabel": "Current Showdown only. Career history is not yet available.",
+      "status": "unavailable",
+      "ui": {
+        "lifecycle": "active",
+        "viewer": "either",
+        "messageKey": "unavailable"
+      },
+      "managerOrder": [
+        "daniel",
+        "nik"
+      ],
+      "leagueId": "premier_league",
+      "clubs": {
+        "daniel": "Northbridge FC",
+        "nik": "Harbor City"
+      },
+      "season": 3,
+      "totalSeasons": 5,
+      "transfers": {
+        "status": "unavailable",
+        "fixtureOnlyShape": true
+      }
+    },
+    "RV7": {
+      "note": "Fictional partial current-Showdown read: season 1 readable, season 2 unreadable. Fixture coverage counts recorded season segments (readable/indexed), not career Showdowns; final provider coverage binding remains Team G adapter work. Display visible coverage and available-subset totals, never complete/final totals.",
+      "previewLabel": "Preview data",
+      "interimLabel": "Current Showdown only. Career history is not yet available.",
+      "status": "partial",
+      "ui": {
+        "lifecycle": "active",
+        "viewer": "either",
+        "messageKey": "partial",
+        "coverageKey": "coverage"
+      },
+      "managerOrder": [
+        "daniel",
+        "nik"
+      ],
+      "leagueId": "premier_league",
+      "clubs": {
+        "daniel": "Northbridge FC",
+        "nik": "Harbor City"
+      },
+      "season": 3,
+      "totalSeasons": 5,
+      "score": {
+        "daniel": 11,
+        "nik": 2
+      },
+      "managerRecords": {
+        "daniel": {
+          "seasonWins": 1,
+          "seasonDraws": 0,
+          "seasonLosses": 0,
+          "championsLeagues": 1,
+          "leagueTitles": 1,
+          "domesticCups": 1,
+          "totalTrophies": 3,
+          "hundredPointSeasons": 1,
+          "hundredGoalSeasons": 0,
+          "topScorerSeasons": 1,
+          "topAssistSeasons": 0,
+          "perfectSeasons": 1,
+          "bestSeasonScore": 11
+        },
+        "nik": {
+          "seasonWins": 0,
+          "seasonDraws": 0,
+          "seasonLosses": 1,
+          "championsLeagues": 0,
+          "leagueTitles": 0,
+          "domesticCups": 0,
+          "totalTrophies": 0,
+          "hundredPointSeasons": 0,
+          "hundredGoalSeasons": 1,
+          "topScorerSeasons": 1,
+          "topAssistSeasons": 0,
+          "perfectSeasons": 0,
+          "bestSeasonScore": 2
+        }
+      },
+      "seasons": [
+        {
+          "season": 1,
+          "score": {
+            "daniel": 11,
+            "nik": 2
+          },
+          "winner": "daniel",
+          "leaguePosition": {
+            "daniel": 1,
+            "nik": 2
+          },
+          "leaguePoints": {
+            "daniel": 101,
+            "nik": 88
+          },
+          "leagueGoals": {
+            "daniel": 92,
+            "nik": 105
+          }
+        }
+      ],
+      "transfers": {
+        "status": "unavailable",
+        "fixtureOnlyShape": true
+      },
+      "coverage": {
+        "readable": 1,
+        "indexed": 2
       }
     }
   },
