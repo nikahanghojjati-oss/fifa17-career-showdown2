@@ -56,7 +56,7 @@
    "number": 2,
    "key": "G-2",
    "title": "Two-manager journey on the emulator (provider level)",
-   "lane": "work",
+   "lane": "chat",
    "depends_on": [
     1
    ],

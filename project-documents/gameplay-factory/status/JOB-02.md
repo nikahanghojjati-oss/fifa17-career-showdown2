@@ -135,3 +135,7 @@ Then continue with Section G and the baseline report, and finish per WORKER_HAND
 ## Lead note (2026-10-02 19:10 UTC)
 
 Nik lost access to the chat that did steps 1-5. The job moves to the work lane and restarts in a new Work-mode chat (Astra or Sol). That chat continues from step 6, using the lead answer above. Nobody else is working on this job, so ignore the "under 2 hours old" rule for this restart. In Work mode you can run `npm ci` and `npm run test:contracts` locally after the Rules fix. Emulator results still come from the "Validate Gameplay Fast" run on your exact head.
+
+## Lead note (2026-10-02 19:15 UTC)
+
+Change of plan: the restart is in a new **normal chat** (chat lane), not Work mode. The rest of the 19:10 note still applies: continue from step 6, and ignore the "under 2 hours old" rule for this restart. Contracts run on CI, not locally.

@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-02 19:09 UTC",
+ "generated": "2026-10-02 19:10 UTC",
  "branch": "factory/gameplay-v1",
  "integration_branch": "gameplay/recovery-v1",
  "capacity": {
@@ -13,10 +13,11 @@
   "chat": [
    6
   ],
-  "work": []
+  "work": [
+   5
+  ]
  },
  "queued": [
-  5,
   4
  ],
  "working": [
@@ -88,7 +89,7 @@
    "number": 2,
    "key": "G-2",
    "title": "Two-manager journey on the emulator (provider level)",
-   "lane": "work",
+   "lane": "chat",
    "depends_on": [
     1
    ],

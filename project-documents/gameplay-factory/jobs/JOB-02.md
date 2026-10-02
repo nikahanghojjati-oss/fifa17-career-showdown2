@@ -2,7 +2,7 @@
 
 | Lane | Depends on | Steps | Code branch | PR into | Codex review |
 | --- | --- | --- | --- | --- | --- |
-| **work** (Work mode from step 6 on, since Nik lost the step 1-5 chat on 2026-10-02; every emulator run still happens on GitHub CI, see below) | JOB-01 merged into `gameplay/recovery-v1` | 8 | `gameplay/job-02-two-manager-journey` | `gameplay/recovery-v1` | no |
+| **chat** (normal chat; every emulator run happens on GitHub CI, see below) | JOB-01 merged into `gameplay/recovery-v1` | 8 | `gameplay/job-02-two-manager-journey` | `gameplay/recovery-v1` | no |
 
 ## 1. Goal
 
