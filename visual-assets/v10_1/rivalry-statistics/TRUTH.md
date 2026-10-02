@@ -246,7 +246,7 @@ Viewer role:
 | Frame | Product situation | Top-level status | Transfer status | What the preview must prove |
 | --- | --- | --- | --- | --- |
 | RV1 | Active Showdown mid-way | `ready` | `ready` | Current season/total, Daniel-left/Nik-right score, completed season rows, recorded manager totals and available transfer summary. Fictional preview data only. |
-| RV2 | Completed Showdown | `ready` | `ready` | Final score, all configured seasons present, final manager record/trophy counts, winner/draw treatment. Fictional preview data only. |
+| RV2 | Completed Showdown | `ready` | `ready` | Final score, all configured seasons present, final manager record/trophy counts, a level-score season won on league position. No drawn season: a draw needs equal league positions, which two managers in one league cannot have (review 2026-10-02). Fictional preview data only. |
 | RV3 | First season, nothing played yet | `empty` | `empty` | League/clubs/season plan may exist, but no completed season row. Use honest empty copy rather than fabricated career history. Fictional preview setup only. |
 | RV4 | Rivalry data readable, transfer history unavailable | `ready` | `unavailable` | All non-transfer stats remain visible; transfer area explicitly says unavailable and never shows 0 signings. Fictional preview data only. |
 
@@ -301,6 +301,15 @@ The later plate/build specifications describe its concrete anatomy: Daniel left 
 | Any names, club names, scores, counts, season rows or transfer values baked into the mockup | CHANGE TO live DOM | H3: no live/private data in images. The clean plate contains only scene/people/decorative art. |
 | Any real club crests / league logos present in reference pixels | DROP / REPLACE | H2 rights gate. Club identity is original code-drawn art; league identity uses the factory league marks when needed. |
 | Any player photo or player-based leader in the reference | DROP | Players are not a recorded Rivalry Statistics entity; PRODUCT_TRUTH forbids player photos/names as stats. |
+
+### Head-to-head block (reused by Standings, job 126)
+
+DATA_CONTRACT_V1 §10: Standings shows this block with its own layout. Exact fields:
+
+- `score.daniel`, `score.nik`: Showdown points (sum of `seasons[].score`).
+- `managerRecords.daniel.seasonWins` / `.seasonDraws` / `.seasonLosses` and the same three for `nik`.
+- Invariants: `daniel.seasonWins = nik.seasonLosses`, `nik.seasonWins = daniel.seasonLosses`, `daniel.seasonDraws = nik.seasonDraws`, wins + draws + losses = number of completed seasons.
+- On `main`, `HEAD-TO-HEAD` is the heading of the comparison table (`js/statistics.js`), not a W/D/L block; the W/D/L panel layout comes from the mockup.
 
 ### Contract fields intentionally available but not promoted into the seven primary rows
 

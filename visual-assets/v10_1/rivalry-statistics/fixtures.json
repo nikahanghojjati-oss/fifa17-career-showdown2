@@ -28,7 +28,14 @@
     "emptySeasonHistory": "No season has been completed yet. Statistics will build automatically as seasons are finished.",
     "noActiveShowdown": "No active showdown is available.",
     "leagueFallback": "League not selected",
-    "clubFallback": "Club"
+    "clubFallback": "Club",
+    "stringsNotOnMain": {
+      "note": "Factory strings with no text on main: TROPHY CABINET comes from the mockup, Unavailable from JOB-004. On main, HEAD-TO-HEAD heads the comparison table, not a W/D/L block.",
+      "values": [
+        "TROPHY CABINET",
+        "Unavailable"
+      ]
+    }
   },
   "ids": {
     "screen": "statistics",
@@ -180,7 +187,7 @@
       }
     },
     "RV2": {
-      "note": "Completed three-season Showdown including a drawn season. All values are fictional preview data.",
+      "note": "Completed three-season Showdown including a season level on points and decided by league position (Daniel 4th, Nik 5th). A drawn season needs equal league positions, which two managers in one league cannot have. All values are fictional preview data.",
       "previewLabel": "Preview data",
       "interimLabel": "Current Showdown only. Career history is not yet available.",
       "status": "ready",
@@ -205,8 +212,8 @@
       },
       "managerRecords": {
         "daniel": {
-          "seasonWins": 1,
-          "seasonDraws": 1,
+          "seasonWins": 2,
+          "seasonDraws": 0,
           "seasonLosses": 1,
           "championsLeagues": 1,
           "leagueTitles": 1,
@@ -221,8 +228,8 @@
         },
         "nik": {
           "seasonWins": 1,
-          "seasonDraws": 1,
-          "seasonLosses": 1,
+          "seasonDraws": 0,
+          "seasonLosses": 2,
           "championsLeagues": 1,
           "leagueTitles": 1,
           "domesticCups": 1,
@@ -282,10 +289,10 @@
             "daniel": 3,
             "nik": 3
           },
-          "winner": "draw",
+          "winner": "daniel",
           "leaguePosition": {
             "daniel": 4,
-            "nik": 4
+            "nik": 5
           },
           "leaguePoints": {
             "daniel": 70,
@@ -394,7 +401,7 @@
           "topScorerSeasons": 0,
           "topAssistSeasons": 0,
           "perfectSeasons": 0,
-          "bestSeasonScore": 0
+          "bestSeasonScore": null
         },
         "nik": {
           "seasonWins": 0,
@@ -409,7 +416,7 @@
           "topScorerSeasons": 0,
           "topAssistSeasons": 0,
           "perfectSeasons": 0,
-          "bestSeasonScore": 0
+          "bestSeasonScore": null
         }
       },
       "seasons": [],

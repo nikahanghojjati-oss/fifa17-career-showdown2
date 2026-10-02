@@ -24,6 +24,7 @@ You never ask Nik product questions. If something is genuinely undecided, mark y
 | **Maximum season score** | **11** |
 
 - Season winner tie-break: higher league position, then league points.
+- Both managers play in the same league, so in real data they never share a league position, and a season draw is practically impossible. Sample data must never give both managers the same position in one season. The draw state is still designed (the app does not block equal positions), but only one fixture frame needs it.
 - The final Showdown winner is decided by **total Showdown points only** (season tie-breaks are not used for the final total; equal totals = draw).
 - Trophy counts = wins (each title won is one trophy).
 - The app **computes** the season score. The user never types it. (The Season Results mockup shows Daniel 9 but its own ticks give 10: CL 5 + cup 1 + top assist 1 + title 3 = 10. That number in the mockup is wrong; the screen must show the computed value.)
