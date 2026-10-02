@@ -105,9 +105,7 @@ jobs:
 
           out=np.rint(a).astype(np.uint8)
 
-          # Reassert the job's immutable pixels against the pre-Job31 source.
-          prev=$(git log --format=%H -- "$p1" | tail -n 1)
-          # Python cannot expand shell above; original lock is read from git-created temp below.
+          # Save the candidate; immutable pixels are reasserted against the approved source below.
           Image.fromarray(out,"RGB").save(p1,optimize=True)
           PY
 
