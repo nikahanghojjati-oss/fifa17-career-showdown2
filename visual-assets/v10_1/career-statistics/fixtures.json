@@ -48,7 +48,24 @@
     "heroScoreLabel": "SHOWDOWN POINTS",
     "noCompletedRecord": "No completed record yet",
     "interimLabel": "Current Showdown only. Career history is not yet available.",
-    "coverageTemplate": "{READABLE} of {INDEXED} Showdowns readable"
+    "coverageTemplate": "{READABLE} of {INDEXED} Showdowns readable",
+    "stateCopy": {
+      "loading": {
+        "heading": "LOADING CAREER HISTORY",
+        "body": "Loading career history…",
+        "source": "new"
+      },
+      "partial": {
+        "heading": "PARTIAL CAREER HISTORY",
+        "body": "Some Showdowns could not be read. Statistics below use readable Showdowns only.",
+        "source": "new"
+      },
+      "unavailable": {
+        "heading": "CAREER HISTORY UNAVAILABLE",
+        "body": "Career history could not be loaded. No statistics are being shown.",
+        "source": "new"
+      }
+    }
   },
   "ids": {
     "screen": "careerStatistics",
