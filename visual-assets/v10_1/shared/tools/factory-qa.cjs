@@ -58,6 +58,45 @@ function expectedStrings(frame) {
 }
 function safeName(s) { return String(s).replace(/[^a-z0-9_.@-]+/gi, "-"); }
 
+function gateRecord(result) {
+  const s=result.scroll;
+  const noScroll=![s.html.horizontal,s.html.vertical,s.body.horizontal,s.body.vertical,s.stage.horizontal,s.stage.vertical].some(Boolean);
+  const v=result.viewport;
+  const is375=v.w===375 && v.h===553;
+  const H5pass=is375 ? !!(result.primary && result.primary.visibleInViewport) :
+    (noScroll && !!(result.primary && result.primary.visibleInViewport));
+  return {
+    H1:{pass:!!(result.hardGates && result.hardGates.H1 && result.hardGates.H1.pass),details:result.hardGates.H1},
+    H5:{pass:H5pass,details:{noScroll,primary:result.primary,rule:is375?"primary visible at 375x553":"no page/stage scroll and primary visible"}},
+    H6:{pass:result.inputsBelow16px.length===0,details:{inputsBelow16px:result.inputsBelow16px,inputFonts:result.inputFonts}},
+    H7:{pass:!!(result.hardGates && result.hardGates.H7 && result.hardGates.H7.pass),details:result.hardGates.H7},
+    CONTROL_BOUNDS:{pass:result.controlsOutsideViewport.length===0,details:result.controlsOutsideViewport},
+    CONSOLE:{pass:result.consoleErrors.length===0,details:result.consoleErrors},
+    REQUESTS:{pass:result.failedRequests.length===0,details:result.failedRequests},
+    FIXTURE_STRINGS:{pass:result.fixtureStrings.missing.length===0,details:result.fixtureStrings.missing}
+  };
+}
+
+function summaryMarkdown(report) {
+  const rows=["# Factory QA summary","",
+    "Screen: "+report.screenFolder,
+    "Frames: "+report.frames.join(", "),
+    "Generated: "+report.generatedAt,"",
+    "| Frame | Viewport | Result | Failing gates |",
+    "| --- | --- | --- | --- |"];
+  for (const r of report.results) {
+    const failing=Object.entries(r.gates).filter(([,g])=>!g.pass).map(([k])=>k);
+    rows.push("| "+r.frame+" | "+r.viewport.label+" | "+(failing.length?"FAIL":"PASS")+" | "+(failing.join(", ")||"none")+" |");
+  }
+  rows.push("","## Gate details","");
+  for (const r of report.results) {
+    rows.push("### "+r.frame+" · "+r.viewport.label);
+    for (const [name,g] of Object.entries(r.gates)) rows.push("- "+name+": "+(g.pass?"PASS":"FAIL")+" · "+JSON.stringify(g.details));
+    rows.push("");
+  }
+  return rows.join("\n")+"\n";
+}
+
 async function visibleText(page) {
   return page.evaluate(() => {
     function vis(el) {
@@ -238,9 +277,22 @@ async function measure(page, frame, view) {
   } finally {
     await browser.close();
   }
-  if (process.env.FACTORY_QA_STDOUT_JSON==="1") {
-    process.stdout.write(JSON.stringify({base,screenFolder:screenArg,frames,results},null,2)+"\n");
-  }
+  const report={
+    schema:"SHOWDOWN_FACTORY_QA_V1",
+    generatedAt:new Date().toISOString(),
+    base,
+    screenFolder:screenArg,
+    frames,
+    viewports:VIEWS,
+    results:results.map(r => Object.assign(r,{gates:gateRecord(r)}))
+  };
+  report.pass=report.results.every(r => Object.values(r.gates).every(g => g.pass));
+  report.failingRuns=report.results.filter(r => !Object.values(r.gates).every(g => g.pass))
+    .map(r => ({frame:r.frame,viewport:r.viewport.label,failingGates:Object.entries(r.gates).filter(([,g])=>!g.pass).map(([k])=>k)}));
+  fs.writeFileSync(path.join(outDir,"qa_report.json"),JSON.stringify(report,null,2)+"\n");
+  fs.writeFileSync(path.join(outDir,"QA_SUMMARY.md"),summaryMarkdown(report));
+  console.log("QA report: "+(report.pass?"PASS":"FAIL")+" · "+path.join(outDir,"qa_report.json"));
+  if (process.env.FACTORY_QA_STDOUT_JSON==="1") process.stdout.write(JSON.stringify(report,null,2)+"\n");
 })().catch(error => {
   console.error(error && error.stack ? error.stack : String(error));
   process.exit(1);
