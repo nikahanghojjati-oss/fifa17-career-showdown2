@@ -1,21 +1,21 @@
-name: Job 31 Home narrow-mend validation
+name: Job 31 Home current-branch evidence
 on:
   push:
     branches: [factory/v1-wtt5ye]
-    paths:
-      - ".github/workflows/job31-home-edges.yml"
+    paths: [".github/workflows/job31-home-edges.yml"]
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
-  validate:
+  render:
     runs-on: ubuntu-latest
-    timeout-minutes: 35
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
         with:
           ref: factory/v1-wtt5ye
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -26,89 +26,83 @@ jobs:
           python -m pip install --quiet pillow
           npm install -g playwright@1.55.0
           npx playwright install --with-deps chromium
-
-      - name: Render 400 percent edge validation crops
+      - name: Render current Home edge evidence
         shell: bash
         run: |
           set -euo pipefail
-          mkdir -p /tmp/job31validate/full /tmp/job31validate/crops /tmp/homeqa
+          OUT="visual-assets/v10_1/home/evidence/edges_after"
+          rm -rf "$OUT/full" "$OUT/crops"
+          mkdir -p "$OUT/full" "$OUT/crops"
           python3 -m http.server 8765 >/tmp/job31-server.log 2>&1 &
-          SERVER_PID=$!
-          trap 'kill $SERVER_PID 2>/dev/null || true' EXIT
+          PID=$!; trap 'kill $PID 2>/dev/null || true' EXIT
           for i in $(seq 1 30); do curl -fsS http://127.0.0.1:8765/ >/dev/null && break; sleep 1; done
-
           NODE_PATH=$(npm root -g) node <<'NODE'
-          const { chromium } = require("playwright");
-          const fs=require("fs"), path=require("path");
+          const {chromium}=require("playwright"),path=require("path");
           const base="http://127.0.0.1:8765/visual-assets/v10_1/home/index.html";
-          (async()=>{
-            const browser=await chromium.launch({headless:true});
+          const out="visual-assets/v10_1/home/evidence/edges_after";
+          (async()=>{const b=await chromium.launch({headless:true});
             for(const [w,h] of [[1366,768],[1920,1080]]){
-              let boxes=null;
-              for(const state of ["final","mends_off"]){
-                const page=await browser.newPage({viewport:{width:w,height:h},deviceScaleFactor:1});
-                const q=new URLSearchParams({frame:"HM1"}); if(state==="mends_off")q.set("mends","0");
-                await page.goto(base+"?"+q,{waitUntil:"networkidle"});
-                await page.waitForFunction(()=>window.HomePlate&&window.HomePlate.MAP&&window.HomePlate.cam);
-                await page.screenshot({path:path.join("/tmp/job31validate/full",`HM1_${w}x${h}_${state}.png`)});
-                if(state==="final"){
-                  boxes=await page.evaluate(()=>{
-                    const H=window.HomePlate,M=H.MAP,vp={w:innerWidth,h:innerHeight};
-                    const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
-                    const box=(r,name,type)=>{const s=H.rectToScreen(r);return {name,type,left:clamp(s.left,0,vp.w),top:clamp(s.top,0,vp.h),right:clamp(s.right,0,vp.w),bottom:clamp(s.bottom,0,vp.h)}};
-                    const a=[
-                      box(M.protected_boxes.face_daniel,"face_daniel","protected"),
-                      box(M.protected_boxes.face_nik,"face_nik","protected"),
-                      box(M.protected_boxes.hand_daniel,"hand_daniel","protected")
-                    ];
-                    for(const el of [...document.querySelectorAll(".mend")]){
-                      const r=el.getBoundingClientRect();
-                      a.push({name:`zone${el.dataset.zone}_${el.dataset.edge}`,type:"mend",left:clamp(r.left-5,0,vp.w),top:clamp(r.top-5,0,vp.h),right:clamp(r.right+5,0,vp.w),bottom:clamp(r.bottom+5,0,vp.h)});
-                    }
-                    return a;
-                  });
-                  fs.writeFileSync(`/tmp/job31validate/boxes_${w}x${h}.json`,JSON.stringify(boxes,null,2));
+              for(const tag of ["final","mends_off"]){
+                for(const f of ["HM1","HM2","HM3"]){
+                  const p=await b.newPage({viewport:{width:w,height:h},deviceScaleFactor:1});
+                  const q="?frame="+f+(tag==="mends_off"?"&mends=0":"");
+                  await p.goto(base+q,{waitUntil:"networkidle"});
+                  await p.waitForFunction(()=>window.__homeReady===true);
+                  await p.screenshot({path:path.join(out,"full",`${f}_${w}x${h}_${tag}.png`)});
+                  await p.close();
                 }
-                await page.close();
               }
             }
-            await browser.close();
+            await b.close();
           })().catch(e=>{console.error(e);process.exit(1)});
           NODE
-
           python3 <<'PY'
           from pathlib import Path
-          from PIL import Image
+          from PIL import Image,ImageDraw,ImageFont
           import json,re
-          root=Path("/tmp/job31validate")
+          home=Path("visual-assets/v10_1/home"); before=home/"evidence/edges_before"; after=home/"evidence/edges_after"
           for wh in ["1366x768","1920x1080"]:
-              w,h=map(int,wh.split("x"))
-              boxes=json.loads((root/f"boxes_{wh}.json").read_text())
-              for state in ["final","mends_off"]:
-                  im=Image.open(root/"full"/f"HM1_{wh}_{state}.png").convert("RGB")
-                  for i,b in enumerate(boxes):
-                      l=max(0,int(b["left"]));t=max(0,int(b["top"]));r=min(w,int(b["right"]));bt=min(h,int(b["bottom"]))
-                      if r-l<2 or bt-t<2: continue
-                      c=im.crop((l,t,r,bt)).resize(((r-l)*4,(bt-t)*4),Image.Resampling.NEAREST)
-                      n=re.sub(r"[^A-Za-z0-9_-]+","_",b["name"])
-                      c.save(root/"crops"/f"HM1_{wh}_{state}_{i:02d}_{n}_x4.jpg",quality=96,subsampling=0,optimize=True)
+              w,h=map(int,wh.split("x")); boxes=json.loads((before/f"boxes_{wh}.json").read_text())
+              (after/f"boxes_{wh}.json").write_text(json.dumps(boxes,indent=2)+"\n")
+              for frame in ["HM1","HM2","HM3"]:
+                  for tag in ["final","mends_off"]:
+                      im=Image.open(after/"full"/f"{frame}_{wh}_{tag}.png").convert("RGB")
+                      for i,b in enumerate(boxes):
+                          l=max(0,int(b["left"]));t=max(0,int(b["top"]));r=min(w,int(b["right"]));bt=min(h,int(b["bottom"]))
+                          if r-l<2 or bt-t<2: continue
+                          c=im.crop((l,t,r,bt)).resize(((r-l)*4,(bt-t)*4),Image.Resampling.NEAREST)
+                          n=re.sub(r"[^A-Za-z0-9_-]+","_",b["name"]).strip("_") or f"box{i:02d}"
+                          c.save(after/"crops"/f"{frame}_{wh}_{tag}_{i:02d}_{n}_x4.jpg",quality=96,subsampling=0,optimize=True)
+          bef=Image.open(before/"full/HM1_1920x1080_mends_on.png").convert("RGB")
+          aft=Image.open(after/"full/HM1_1920x1080_final.png").convert("RGB")
+          regs=[("D1",(26,115,698,801)),("D2",(591,446,626,789)),("D3",(29,597,620,638)),("D4",(1505,0,1920,123)),("D5",(1491,79,1920,119)),("D6",(0,79,1122,114)),("D7",(35,118,706,153))]
+          W=1500;lw=220;cw=(W-lw)//2;rh=180;hh=60
+          sh=Image.new("RGB",(W,hh+rh*len(regs)),(10,11,14));d=ImageDraw.Draw(sh);font=ImageFont.load_default()
+          d.text((16,18),"JOB-031 · BEFORE / AFTER · 1920×1080 REGISTERED",fill=(242,196,91),font=font)
+          def fit(im,bw,bh):
+              k=min(bw/im.width,bh/im.height);return im.resize((max(1,round(im.width*k)),max(1,round(im.height*k))),Image.Resampling.LANCZOS)
+          for i,(n,box) in enumerate(regs):
+              y=hh+i*rh;d.text((16,y+20),n,fill=(244,241,234),font=font)
+              for ci,src in enumerate((bef,aft)):
+                  t=fit(src.crop(box),cw-20,rh-20);x=lw+ci*cw+(cw-t.width)//2;yy=y+(rh-t.height)//2;sh.paste(t,(x,yy));d.rectangle((x,yy,x+t.width-1,yy+t.height-1),outline=(120,105,60))
+          sh.save(home/"evidence/EDGES_BEFORE_AFTER.png",optimize=True)
           PY
-
-          NODE_PATH=$(npm root -g) node visual-assets/v10_1/home/tools/render-qa.cjs \
-            http://127.0.0.1:8765/visual-assets/v10_1/home/ /tmp/homeqa
-          node <<'NODE'
-          const fs=require("fs");
-          const q=JSON.parse(fs.readFileSync("/tmp/homeqa/qa_report.json","utf8"));
-          console.log("FINAL_SUMMARY",JSON.stringify(q.summary));
-          console.log("SEAM_SUMMARY",JSON.stringify(q.seamSummary));
-          if(q.summary.failingShots!==0) process.exit(2);
-          NODE
-
-      - uses: actions/upload-artifact@v4
-        with:
-          name: job31-narrow-mend-validation
-          path: |
-            /tmp/job31validate
-            /tmp/homeqa/qa_report.json
-          if-no-files-found: error
-          compression-level: 6
+      - name: Commit refreshed Step 4 evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 <<'PY'
+          from pathlib import Path
+          from datetime import datetime,timezone
+          import re
+          p=Path("project-documents/factory/status/JOB-031.md");s=p.read_text()
+          s=re.sub(r"Updated: .*","Updated: "+datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"),s,count=1)
+          n="- Step 4 refresh: rendered the current branch after the selective 4 px mend tightening; edges_after/ now includes final and mends-off crops at both desktop sizes, and EDGES_BEFORE_AFTER.png was rebuilt from the current final render.\n"
+          if n not in s:s=s.replace("## Self-check",n+"\n## Self-check")
+          p.write_text(s)
+          PY
+          git config user.name "Showdown Factory Job 31"; git config user.email "actions@users.noreply.github.com"
+          git add visual-assets/v10_1/home/evidence/edges_after visual-assets/v10_1/home/evidence/EDGES_BEFORE_AFTER.png project-documents/factory/status/JOB-031.md
+          git commit -m "Job 31 step 4/5: refresh edge evidence"
+          git pull --rebase origin factory/v1-wtt5ye
+          git push origin HEAD:factory/v1-wtt5ye
