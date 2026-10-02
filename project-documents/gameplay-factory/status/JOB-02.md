@@ -1,13 +1,13 @@
 # Status · JOB-02 · Two-manager journey on the emulator (provider level)
 
 State: IN PROGRESS
-Step: 5 of 8
-Updated: 2026-10-02 10:22 UTC
+Step: 6 of 8
+Updated: 2026-10-02 19:12 UTC
 Chat: GPT-5.6 Sol normal chat
 Code branch: gameplay/job-02-two-manager-journey
-Head commit: b32d28e2dadeac415b7c892e4d67bd3900672b44
+Head commit: 8d79c1ff4a90fee7a86b5211aaeda81389883760
 PR:
-CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/36994806517
+CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37052179546
 
 ## Notes
 - Step 1: Job 1 is DONE and merged into gameplay/recovery-v1 at fb28e70. Baseline is Job 1 exact-head green run 36986447232: Gameplay contracts SUCCESS and Composed Rules on the emulator SUCCESS. Per the job's lane override, no local install/emulator run was attempted.
@@ -64,6 +64,8 @@ let results=await Results.publishResult({...a(300),seasonNumber:1,operationId:op
 ```
 
 - Step 6 BLOCKED: direct real-pair chaining failed at Daniel's first fresh-rivalry Season Results publish with permission-denied in CI 36993445788. The job-authorized fallback then proved real pairing separately and reseeded the paired gameplay root exactly like the lifecycle template, but the same Season Results publish failed again with permission-denied in CI 36994806517. Per handbook, stopped after the same Step 6 failure twice; no app code or Rules were changed.
+
+- Step 6: Sections F/G now pass after the Team G lead-approved fixes: Rules hex normalization in e45c4f9, real-time fresh-rivalry clocks in b6f7eb, and the disabled-rules fixture read in 8d79c1f. Exact-head CI 37052179546 passed Gameplay contracts and the full Composed Rules emulator job, including Two-manager journey. Real pairing is proved separately, then the JOB-02-authorized template-equivalent gameplay reseed is used; R2 remains the regression proof.
 
 ## Self-check
 
