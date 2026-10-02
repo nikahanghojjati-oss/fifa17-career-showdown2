@@ -256,6 +256,8 @@ Ties are shown as shared manager leadership. Cards use the manager portrait crop
 - `CS5` · `loading` · added because `loading` is a distinct required contract state even though the job's four named frames omit it. Reserve the layout with Daniel first and Nik second, but show no fake data.
 - `CS6` · `ready` · Nik leads the career ranking. Daniel's row still renders first with `#2`; Nik renders second with `#1`, proving that presentation order never flips.
 
+CS1, CS3 and CS6 carry a non-rendered `checkSource` block used only to validate the preview aggregates. It is not a provider/view-model field and must never render. Its fictional season inputs obey the contract bounds, use league position 1 as the league-title condition, and never give Daniel and Nik the same league position in one season.
+
 If owner review temporarily uses current-Showdown-only data before provider career history exists, the only permitted interim copy is exactly `Current Showdown only. Career history is not yet available.` That interim mode is not a launch state.
 
 ## Phone
