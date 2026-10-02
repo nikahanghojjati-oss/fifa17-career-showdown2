@@ -289,3 +289,47 @@ FW5 intentionally uses the same sporting result as FW4 so the preview isolates t
 ### Why these frames match the real product
 
 Main decides the final winner from accumulated Showdown points only, so FW1–FW3 do not use season tie-breakers. FW4 reflects the real split between Final Reconciliation and Terminal Close: the result is already readable while completion is still pending. FW5 changes only the normalized completion state after Terminal Close is verified. The current product does not have a separate Final Winner route, so these frames are visual states of the product truth, not invented navigation.
+
+
+## Mockup pass
+
+There is no dedicated Final Winner mockup. `MOCKUP_SEASON_RESULTS.jpg` and `MOCKUP_TROPHY_ROOM.png` are styling references only. Product truth, the §4 data contract and live `main` behaviour decide what the Final Winner build may show.
+
+| Mockup element | Product answer | Source | Live / preview / drop |
+| --- | --- | --- | --- |
+| Night stadium / gold-black ceremony composition | Reuse the premium ceremony mood, depth and gold/black hierarchy with original Showdown art. It is visual framing, not product data. | Season Results + Trophy Room mockups | preview |
+| Daniel staged on the left | Keep Daniel first/left in every state. Use approved manager art only; never substitute a football player photo. | Both mockups + PRODUCT_TRUTH | live identity rule; preview art |
+| Nik staged on the right | Keep Nik second/right in every state. Use approved manager art only. | Both mockups + PRODUCT_TRUTH | live identity rule; preview art |
+| Manager names | Render Daniel and Nik as live DOM identity text. Do not bake names into a plate/background. | Both mockups + DATA_CONTRACT §0 | live |
+| Top navigation | Use the shared product navigation, not either mockup's extra destinations. HOME / CAREER / STANDINGS / STATS / RULES plus settings. Final Winner has no ABOUT, search or profile destination. | PRODUCT_TRUTH + DATA_CONTRACT §10 | live |
+| Phone bottom navigation on reveal | Hide it on the Final Winner reveal as required by product truth; this is a deliberate exception to the normal phone bar. | PRODUCT_TRUTH | live |
+| Search icon | Do not carry it over. | Season Results mockup vs DATA_CONTRACT §10 | drop |
+| Profile/person icon | Do not carry it over. | Season Results mockup vs DATA_CONTRACT §10 | drop |
+| ABOUT tab | Do not carry it over. | Both mockup language / Trophy Room truth vs DATA_CONTRACT §10 | drop |
+| Brush/ceremony title treatment | Reuse the visual treatment, but the visible product heading must come from the real state: `SHOWDOWN FINAL RECONCILED`, `FINAL RESULT READY FOR TERMINAL CLOSE`, `TERMINAL CLOSE OUTCOME PENDING`, `TERMINAL CLOSE READY WHEN PRIVATE AUTHORITY RETURNS`, `SHARED SHOWDOWN CLOSED` or completed-hub `SHOWDOWN COMPLETE`. Do not invent a static `FINAL WINNER` heading as product copy. | main Final Reconciliation / Terminal Close / Showdown UI | live text; preview styling |
+| Winner hero line | Show only the contract winner derived from total Showdown points: Daniel, Nik or draw. Equal totals are a draw. | DATA_CONTRACT §4 + `frReconcile()` | live |
+| Large manager score blocks | Change from per-season score to `totals.daniel` and `totals.nik` for the whole Showdown. They are read-only. | DATA_CONTRACT §4 | live |
+| Winner margin | May be shown as the §4 `margin` value; it is the absolute Showdown-points difference and is 0 for a draw. | DATA_CONTRACT §4 | live |
+| Season Results scoring-system panel | Do not transplant the five scoring-rule rows onto Final Winner. They belong to Season Results, not §4. | Season Results mockup vs DATA_CONTRACT §4 | drop |
+| Season-entry inputs, checkboxes and dropdowns | Do not carry them over. Final Winner is read-only and has no per-season inputs. | Season Results mockup vs DATA_CONTRACT §4 | drop |
+| Season-score tiles | Do not carry over as season scores. Replace with the two Showdown totals only. | Season Results mockup + DATA_CONTRACT §4 | live replacement |
+| Central trophy illustration | If used decoratively, replace any real competition trophy with original Showdown trophy art. It must not imply a fourth counted trophy family. | rights rules + DATA_CONTRACT §4 | preview |
+| Trophy Room cabinet/shelf material language | Reuse shelf/cabinet polish as a visual language for Final Winner trophy counts. | Trophy Room mockup | preview |
+| Champions League trophy count | Show `trophies.{manager}.championsLeague` with original Champions League-style Showdown cup art, never the real UEFA trophy. | DATA_CONTRACT §4 + `hcBuild()` | live |
+| League-title trophy count | Show `trophies.{manager}.leagueTitles` with original league-title art, never a real league trophy. | DATA_CONTRACT §4 + `hcBuild()` | live |
+| Domestic-cup trophy count | Show `trophies.{manager}.domesticCups` with original domestic-cup art. | DATA_CONTRACT §4 + `hcBuild()` | live |
+| Trophy total | Show `trophies.{manager}.total` only as the sum of those three §4 trophy families. | DATA_CONTRACT §4 + `hcFinalize()` | live |
+| Showdown Champion trophy/category from Trophy Room | Do not add it to the §4 trophy object. The winner result already expresses the Showdown outcome. | Trophy Room mockup vs DATA_CONTRACT §4 | drop |
+| Trophy Room category/filter bar (`ALL`, `SHOWDOWN`, `LEAGUE TITLES`, `DOMESTIC CUPS`, `CHAMPIONS LEAGUE`) | Do not copy the filter UI. Final Winner shows one Showdown's compact trophy attribution, not a career cabinet browser. | Trophy Room mockup vs DATA_CONTRACT §4 | drop |
+| Trophy Room career standings | Do not carry them into Final Winner. | Trophy Room mockup vs DATA_CONTRACT §4 | drop |
+| Trophy Room records / leaderboards | Do not carry them into Final Winner. | Trophy Room mockup vs DATA_CONTRACT §4 | drop |
+| `ALL-TIME` / career language | Do not use it on this screen. This is per-Showdown truth. | DATA_CONTRACT §4 | drop |
+| `Not won yet` zero-card treatment | Do not import Trophy Room empty-career wording. Final Winner may display the authoritative numeric count 0 for a trophy family when the result is ready. | Trophy Room mockup vs Final Winner §4 | drop wording; live zero |
+| Completion status mark | Add the product-required visible `Completion pending` mark only when `state = completion-pending`. It is not a mockup invention; it is contract truth. | DATA_CONTRACT §4 / PRODUCT_TRUTH | live |
+| Terminal Close action | When pending and actionable, use exact live button `CLOSE SHARED SHOWDOWN`. On uncertain acknowledgement use `RETRY SAME TERMINAL CLOSE`. | `productionSharedTerminalClose.js` | live |
+| Completed navigation actions | The completed result may expose the real completion-hub routes: `VIEW LEGACY`, `TROPHY ROOM`, `RIVALRY STATISTICS`, `NEW SHOWDOWN`, `MAIN MENU`. | `showdownUI.js` | live |
+| Decorative slogans / crown motifs | May be reused only as static Showdown decoration if they do not become controls or encode live data. Use original artwork. | Both mockups | preview |
+| Baked score, trophy count, state, season count, winner or manager data | Never bake these into images. All values are live DOM text/state or labelled fixture data. | QUALITY_BAR + factory rules | drop |
+| Real club crest, league logo, real competition trophy, real player photo or EA/FIFA artwork | Never use them. Use original code-drawn marks and original Showdown trophy/manager art. | PRODUCT_TRUTH + factory rules | drop |
+
+The styling target is therefore a premium stadium ceremony with the two managers and trophy-cabinet polish, while the product content stays intentionally small: final totals, winner, margin, seasons played, per-Showdown trophy attribution, completion state and only the real actions for that state.
