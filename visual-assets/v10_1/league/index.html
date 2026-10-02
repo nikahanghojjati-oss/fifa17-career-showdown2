@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>League V1 · Select League</title>
+<link rel="stylesheet" href="league.css">
+</head>
+<body>
+<svg class="vh" aria-hidden="true" focusable="false"><filter id="brush" x="-5%" y="-10%" width="110%" height="120%"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.5" xChannelSelector="R" yChannelSelector="G"/></filter></svg>
+<div id="stage-root" class="stage" data-frame="L1">
+  <div class="scene" aria-hidden="true">
+    <div class="plate"></div>
+    <div class="heal heal-head"></div>
+    <div class="heal heal-title"></div>
+    <div class="heal heal-deck"></div>
+    <div class="heal heal-foot"></div>
+    <div class="slot-veil"></div>
+  </div>
+
+  <header id="topHeader">
+    <div class="cm-badge" aria-hidden="true"><span>CM 17</span></div>
+    <div class="brand"><h1>CAREER MODE</h1><p>SHOWDOWN // 17</p></div>
+    <button id="onlinePlayerIdentityBadge" type="button">SIGN IN</button>
+    <div class="seasonIndicator" id="seasonIndicator">Season 1 / 5</div>
+    <div class="script-tag" aria-hidden="true">More Than A Game</div>
+  </header>
+
+  <main>
+    <section id="leagueWheelScreen" class="screen">
+      <div class="title-block">
+        <div class="kicker" aria-hidden="true">CAREER MODE SHOWDOWN 17</div>
+        <h2>SELECT LEAGUE</h2>
+      </div>
+      <div class="wheelContainer">
+        <div class="wheel-bezel" aria-hidden="true"></div>
+        <div class="wheelPointer"><span class="vh">▼</span></div>
+        <div id="leagueWheel" class="leagueWheel">
+          <div class="wheel-rim" aria-hidden="true"></div>
+          <div class="wheelTrack">
+            <div class="wheelItem">Premier League</div>
+            <div class="wheelItem">LaLiga</div>
+            <div class="wheelItem">Bundesliga</div>
+            <div class="wheelItem">Serie A</div>
+            <div class="wheelItem">Ligue 1</div>
+          </div>
+          <div class="wheel-blur" aria-hidden="true"></div>
+          <div class="wheel-hub" aria-hidden="true"></div>
+        </div>
+        <div class="subtitle-row">
+          <div id="selectedLeague" role="status" aria-live="polite" aria-atomic="true">Spin to select league</div>
+        </div>
+        <div id="leagueStateNote" class="stateNote hidden" role="status" aria-live="polite"></div>
+        <div class="button-row">
+          <button class="menuButton" id="spinLeague" type="button">SPIN WHEEL</button>
+          <button class="backButton" data-smart-back type="button">BACK</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="slogan slogan-left" aria-hidden="true"><span>DIFFERENT LEAGUES</span><span>DIFFERENT STORIES</span><span>SAME PASSION</span></div>
+  <div class="slogan slogan-right" aria-hidden="true"><span>WHERE RIVALS</span><span>CREATE LEGENDS</span></div>
+
+  <div class="scene scene-top" aria-hidden="true"><img class="finger-ovl" alt="" src="assets/OVL_DANIEL_FINGER_V1_1X.png" srcset="assets/OVL_DANIEL_FINGER_V1_1X.png 1x, assets/OVL_DANIEL_FINGER_V1_2X.png 2x"></div>
+
+  <footer><span class="foot-name">Career Mode Showdown</span><br><span class="foot-ver">v1.9.1</span><span class="foot-tag" aria-hidden="true">FOOTBALL BRINGS US TOGETHER<i class="crown"></i></span></footer>
+  <div class="grid-layer" aria-hidden="true"></div>
+</div>
+<script src="../../../js/visualIdentity.js"></script>
+<script src="league.js"></script>
+</body>
+</html>

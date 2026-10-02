@@ -1,0 +1,371 @@
+{
+ "source": {
+  "main_anchor": "2de237391e17c7de2c6deb606b102b68ee640212",
+  "files": [
+   "index.html#clubWheelScreen",
+   "js/clubAssignment.js",
+   "css/app.css"
+  ]
+ },
+ "managers": {
+  "playerOne": "Daniel",
+  "playerTwo": "Nik"
+ },
+ "league": "Premier League",
+ "clubs": {
+  "playerOne": "Arsenal",
+  "playerTwo": "Chelsea"
+ },
+ "showdown": "Daniel vs Nik",
+ "totalRounds": 3,
+ "meta": "Premier League · 3 seasons",
+ "lockNote": "These clubs are permanent for the full showdown. Confirmation starts the rivalry and never rerolls either club.",
+ "header": {
+  "onlinePlayerIdentityBadge": "SIGN IN",
+  "seasonIndicator": "No Active Showdown"
+ },
+ "decorative": [
+  "CM 17",
+  "CAREER MODE SHOWDOWN 17",
+  "More Than A Game",
+  "FOOTBALL BRINGS US TOGETHER"
+ ],
+ "optional_visible": {
+  "desktop_only": [
+   "More Than A Game",
+   "FOOTBALL BRINGS US TOGETHER"
+  ],
+  "phone_may_hide": [
+   "01 DRAW",
+   "02 PACK 1",
+   "03 PACK 2",
+   "04 VS",
+   "05 LOCK",
+   "CAREER MODE",
+   "SHOWDOWN // 17",
+   "Career Mode Showdown",
+   "v1.9.1",
+   "CAREER MODE SHOWDOWN 17"
+  ]
+ },
+ "frames": {
+  "CL1": {
+   "stage": "ready",
+   "status": "LEAGUE CONFIRMED · TWO SEALED CLUB PACKS READY",
+   "revealed": [
+    false,
+    false
+   ],
+   "confirmation": false,
+   "open": {
+    "show": true,
+    "disabled": false,
+    "text": "OPEN SHOWDOWN PACKS"
+   },
+   "confirm": {
+    "show": false,
+    "disabled": true
+   },
+   "back": {
+    "show": true,
+    "disabled": false
+   },
+   "primary": "openClubPack",
+   "expected": [
+    "01",
+    "01 DRAW",
+    "02",
+    "02 PACK 1",
+    "03 PACK 2",
+    "04 VS",
+    "05 LOCK",
+    "?",
+    "ASSIGNED CLUB",
+    "BACK",
+    "CAREER DRAW",
+    "CAREER MODE",
+    "CLUB ASSIGNMENT",
+    "Career Mode Showdown",
+    "Daniel",
+    "LEAGUE CONFIRMED",
+    "LEAGUE CONFIRMED · TWO SEALED CLUB PACKS READY",
+    "Nik",
+    "No Active Showdown",
+    "OPEN SHOWDOWN PACKS",
+    "Premier League",
+    "RIVALRY",
+    "SEALED",
+    "SHOWDOWN // 17",
+    "SIGN IN",
+    "VS",
+    "v1.9.1"
+   ]
+  },
+  "CL2": {
+   "stage": "opening",
+   "status": "CLUB DRAW SAVED · PREPARING PACK 01",
+   "revealed": [
+    false,
+    false
+   ],
+   "confirmation": false,
+   "open": {
+    "show": true,
+    "disabled": true,
+    "text": "DRAW LOCKED..."
+   },
+   "confirm": {
+    "show": false,
+    "disabled": true
+   },
+   "back": {
+    "show": false,
+    "disabled": true
+   },
+   "primary": null,
+   "expected": [
+    "01",
+    "01 DRAW",
+    "02",
+    "02 PACK 1",
+    "03 PACK 2",
+    "04 VS",
+    "05 LOCK",
+    "?",
+    "ASSIGNED CLUB",
+    "CAREER DRAW",
+    "CAREER MODE",
+    "CLUB ASSIGNMENT",
+    "CLUB DRAW SAVED · PREPARING PACK 01",
+    "Career Mode Showdown",
+    "DRAW LOCKED...",
+    "Daniel",
+    "LEAGUE CONFIRMED",
+    "Nik",
+    "No Active Showdown",
+    "Premier League",
+    "RIVALRY",
+    "SEALED",
+    "SHOWDOWN // 17",
+    "SIGN IN",
+    "VS",
+    "v1.9.1"
+   ]
+  },
+  "CL3": {
+   "stage": "manager-one",
+   "status": "DANIEL · PACK 01 OPEN",
+   "revealed": [
+    true,
+    false
+   ],
+   "confirmation": false,
+   "open": {
+    "show": true,
+    "disabled": true,
+    "text": "DRAW LOCKED..."
+   },
+   "confirm": {
+    "show": false,
+    "disabled": true
+   },
+   "back": {
+    "show": false,
+    "disabled": true
+   },
+   "primary": null,
+   "expected": [
+    "01",
+    "01 DRAW",
+    "02",
+    "02 PACK 1",
+    "03 PACK 2",
+    "04 VS",
+    "05 LOCK",
+    "?",
+    "ASSIGNED CLUB",
+    "Arsenal",
+    "CAREER DRAW",
+    "CAREER MODE",
+    "CLUB ASSIGNMENT",
+    "Career Mode Showdown",
+    "DANIEL · PACK 01 OPEN",
+    "DRAW LOCKED...",
+    "Daniel",
+    "LEAGUE CONFIRMED",
+    "Nik",
+    "No Active Showdown",
+    "Premier League",
+    "REVEALED",
+    "RIVALRY",
+    "SEALED",
+    "SHOWDOWN // 17",
+    "SIGN IN",
+    "VS",
+    "v1.9.1"
+   ]
+  },
+  "CL4": {
+   "stage": "manager-two",
+   "status": "NIK · PACK 02 OPEN",
+   "revealed": [
+    true,
+    true
+   ],
+   "confirmation": false,
+   "open": {
+    "show": true,
+    "disabled": true,
+    "text": "DRAW LOCKED..."
+   },
+   "confirm": {
+    "show": false,
+    "disabled": true
+   },
+   "back": {
+    "show": false,
+    "disabled": true
+   },
+   "primary": null,
+   "expected": [
+    "01",
+    "01 DRAW",
+    "02",
+    "02 PACK 1",
+    "03 PACK 2",
+    "04 VS",
+    "05 LOCK",
+    "ASSIGNED CLUB",
+    "Arsenal",
+    "CAREER DRAW",
+    "CAREER MODE",
+    "CLUB ASSIGNMENT",
+    "Career Mode Showdown",
+    "Chelsea",
+    "DRAW LOCKED...",
+    "Daniel",
+    "LEAGUE CONFIRMED",
+    "NIK · PACK 02 OPEN",
+    "Nik",
+    "No Active Showdown",
+    "Premier League",
+    "REVEALED",
+    "RIVALRY",
+    "SHOWDOWN // 17",
+    "SIGN IN",
+    "VS",
+    "v1.9.1"
+   ]
+  },
+  "CL5": {
+   "stage": "versus",
+   "status": "BOTH CLUBS REVEALED · BUILDING RIVALRY",
+   "revealed": [
+    true,
+    true
+   ],
+   "confirmation": true,
+   "open": {
+    "show": false,
+    "disabled": true
+   },
+   "confirm": {
+    "show": false,
+    "disabled": true
+   },
+   "back": {
+    "show": false,
+    "disabled": true
+   },
+   "primary": null,
+   "expected": [
+    "01",
+    "01 DRAW",
+    "02",
+    "02 PACK 1",
+    "03 PACK 2",
+    "04 VS",
+    "05 LOCK",
+    "ASSIGNED CLUB",
+    "Arsenal",
+    "BOTH CLUBS REVEALED · BUILDING RIVALRY",
+    "CAREER DRAW",
+    "CAREER MODE",
+    "CLUB ASSIGNMENT",
+    "CLUBS LOCKED",
+    "Career Mode Showdown",
+    "Chelsea",
+    "Daniel",
+    "Daniel vs Nik",
+    "LEAGUE CONFIRMED",
+    "Nik",
+    "No Active Showdown",
+    "Premier League",
+    "Premier League · 3 seasons",
+    "REVEALED",
+    "RIVALRY",
+    "SHOWDOWN // 17",
+    "SIGN IN",
+    "These clubs are permanent for the full showdown. Confirmation starts the rivalry and never rerolls either club.",
+    "VS",
+    "v1.9.1"
+   ]
+  },
+  "CL6": {
+   "stage": "confirmation",
+   "status": "RIVALRY READY · CONFIRM TO BEGIN",
+   "revealed": [
+    true,
+    true
+   ],
+   "confirmation": true,
+   "open": {
+    "show": false,
+    "disabled": true
+   },
+   "confirm": {
+    "show": true,
+    "disabled": false,
+    "text": "CONFIRM RIVALRY & START SHOWDOWN"
+   },
+   "back": {
+    "show": false,
+    "disabled": true
+   },
+   "primary": "continueClubAssignment",
+   "expected": [
+    "01",
+    "01 DRAW",
+    "02",
+    "02 PACK 1",
+    "03 PACK 2",
+    "04 VS",
+    "05 LOCK",
+    "ASSIGNED CLUB",
+    "Arsenal",
+    "CAREER DRAW",
+    "CAREER MODE",
+    "CLUB ASSIGNMENT",
+    "CLUBS LOCKED",
+    "CONFIRM RIVALRY & START SHOWDOWN",
+    "Career Mode Showdown",
+    "Chelsea",
+    "Daniel",
+    "Daniel vs Nik",
+    "LEAGUE CONFIRMED",
+    "Nik",
+    "No Active Showdown",
+    "Premier League",
+    "Premier League · 3 seasons",
+    "REVEALED",
+    "RIVALRY",
+    "RIVALRY READY · CONFIRM TO BEGIN",
+    "SHOWDOWN // 17",
+    "SIGN IN",
+    "These clubs are permanent for the full showdown. Confirmation starts the rivalry and never rerolls either club.",
+    "VS",
+    "v1.9.1"
+   ]
+  }
+ }
+}

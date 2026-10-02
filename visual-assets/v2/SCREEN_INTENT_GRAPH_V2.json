@@ -1,0 +1,145 @@
+{
+  "source_anchor": "main@f077b9c5be5e4d5bf5ef17b2d219983dbf142962",
+  "screens": [
+    {
+      "id": "loadingScreen",
+      "family": "STARTUP",
+      "source": "index.html",
+      "intent": "anticipation / event opening",
+      "dominant_object": "brand identity / startup title",
+      "character_strategy": "optional original football figure; no recurring manager pose required",
+      "environment_recipe": "HOME_GOLDEN_RIVALRY_DARK",
+      "asset_priority": "medium"
+    },
+    {
+      "id": "mainMenu",
+      "family": "HOME_HUB",
+      "source": "index.html",
+      "intent": "rivalry headquarters / invitation to continue the story",
+      "dominant_object": "rivalry hero + action dock",
+      "character_strategy": "Home Daniel pointing + Home Nik thinking are valid here",
+      "environment_recipe": "HOME_GOLDEN_RIVALRY",
+      "asset_priority": "covered"
+    },
+    {
+      "id": "createShowdown",
+      "family": "CREATE",
+      "source": "index.html",
+      "intent": "formalizing the rivalry / pre-season setup",
+      "dominant_object": "single premium setup board",
+      "character_strategy": "dedicated setup / agreement poses preferred",
+      "environment_recipe": "SETUP_COMMAND",
+      "asset_priority": "high gap"
+    },
+    {
+      "id": "leagueWheelScreen",
+      "family": "LEAGUE",
+      "source": "index.html",
+      "intent": "ceremonial choice / suspense",
+      "dominant_object": "golden league wheel",
+      "character_strategy": "Daniel lateral point exists; Nik analytical league pose desirable",
+      "environment_recipe": "LEAGUE_SPOTLIGHT",
+      "asset_priority": "medium gap"
+    },
+    {
+      "id": "clubWheelScreen",
+      "family": "CLUB_ASSIGNMENT",
+      "source": "index.html",
+      "intent": "sealed reveal / rivalry lock-in",
+      "dominant_object": "club packs + VS axis",
+      "character_strategy": "pack-holding pair exists",
+      "environment_recipe": "CLUB_PACK_CEREMONY",
+      "asset_priority": "covered"
+    },
+    {
+      "id": "dashboard",
+      "family": "SHOWDOWN_HUB",
+      "source": "index.html",
+      "intent": "current rivalry status / next move",
+      "dominant_object": "score/trophy hierarchy + action dock",
+      "character_strategy": "Home/Hub family reuse acceptable",
+      "environment_recipe": "HOME_GOLDEN_RIVALRY",
+      "asset_priority": "covered"
+    },
+    {
+      "id": "transferChallenge",
+      "family": "TRANSFER",
+      "source": "index.html + transfer runtime",
+      "intent": "deadline war room / private prediction / signing resolution",
+      "dominant_object": "phase-specific operations board",
+      "character_strategy": "Transfer Daniel focused + Transfer Nik tactical approved",
+      "environment_recipe": "TRANSFER_DEADLINE_WARROOM",
+      "asset_priority": "covered for SV01"
+    },
+    {
+      "id": "seasonEntry",
+      "family": "RESULTS_ENTRY",
+      "source": "index.html",
+      "intent": "competitive accounting / evidence submission",
+      "dominant_object": "dual manager result panels + scoring system",
+      "character_strategy": "dedicated results-entry competitive poses recommended",
+      "environment_recipe": "RESULTS_FLOODLIGHT",
+      "asset_priority": "high gap"
+    },
+    {
+      "id": "seasonSummary",
+      "family": "SEASON_SUMMARY",
+      "source": "index.html",
+      "intent": "judgment / reaction / next season momentum",
+      "dominant_object": "season outcome + overall score",
+      "character_strategy": "winner/loser or neutral reaction variants needed",
+      "environment_recipe": "RESULTS_CELEBRATION",
+      "asset_priority": "high gap"
+    },
+    {
+      "id": "legacy",
+      "family": "LEGACY",
+      "source": "index.html + js/legacy.js",
+      "intent": "history / prestige / permanence",
+      "dominant_object": "records / trophies / completed rivalries",
+      "character_strategy": "characters optional; reflective or trophy pose only if composition benefits",
+      "environment_recipe": "TROPHY_GOLDEN_CEREMONY",
+      "asset_priority": "medium"
+    },
+    {
+      "id": "careerStatistics",
+      "family": "STATISTICS",
+      "source": "js/statistics.js",
+      "intent": "career-wide analysis / comparison",
+      "dominant_object": "records / graphs / honours",
+      "character_strategy": "data-first; analytical character art optional",
+      "environment_recipe": "STATS_NIGHT_ANALYTIC",
+      "asset_priority": "low-medium"
+    },
+    {
+      "id": "statistics",
+      "family": "STATISTICS",
+      "source": "js/statistics.js",
+      "intent": "active rivalry analytics",
+      "dominant_object": "head-to-head data",
+      "character_strategy": "data-first; no mandatory new pose",
+      "environment_recipe": "STATS_NIGHT_ANALYTIC",
+      "asset_priority": "low"
+    },
+    {
+      "id": "ruleBook",
+      "family": "RULES",
+      "source": "js/ruleBook.js",
+      "intent": "premium playbook / comprehension",
+      "dominant_object": "rule grid / scoring object",
+      "character_strategy": "optional framing only",
+      "environment_recipe": "RULES_PLAYBOOK",
+      "asset_priority": "low"
+    },
+    {
+      "id": "settingsOverlay",
+      "family": "SETTINGS",
+      "source": "js/settings.js",
+      "intent": "utility / preferences",
+      "dominant_object": "settings dialog",
+      "character_strategy": "none",
+      "environment_recipe": "inherit current context",
+      "asset_priority": "none"
+    }
+  ]
+}
