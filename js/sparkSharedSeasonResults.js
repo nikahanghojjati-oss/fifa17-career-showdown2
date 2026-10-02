@@ -156,7 +156,7 @@
   async function ssrpPublishResult(options={}){
     try{ssrpValidateSdk(options);const operationId=ssrpNormalizeOperationId(options.operationId),baseRevision=Number(options.baseRevision);if(!Number.isInteger(baseRevision)||baseRevision<0||baseRevision>2)ssrpFail("SEASON_RESULTS_COMMAND_INVALID");
       await ssrpEnsureLeagueProjection(options);
-      return await options.firebaseSdk.runTransaction(options.firestore,async transaction=>{
+      const runPublishTransaction=()=>options.firebaseSdk.runTransaction(options.firestore,async transaction=>{
         const ctx=await ssrpContext(options,transaction),current=ctx.state,revision=current?current.revision:0,normalizedResult=await ssrpNormalizeResult(options.result,ctx.teamCount,ctx.setupState,ctx.career,ctx.transfer,ctx.seasonNumber,ctx.role,operationId,ctx.cryptoImpl),operationHash=await ssrpHash({actorRole:ctx.role,type:"publish-result",operationId,baseRevision},ctx.cryptoImpl),commandHash=await ssrpHash({actorRole:ctx.role,type:"publish-result",operationId,baseRevision,result:normalizedResult},ctx.cryptoImpl);
         if(current){const index=current.operationIds.indexOf(operationId);if(index>=0){if(current.operationHashes[index]!==operationHash||current.baseRevisions[index]!==baseRevision||current.actorRoles[index]!==ctx.role||!ctx.own||ctx.own.operationId!==operationId||ctx.own.commandHash!==commandHash)ssrpFail("SEASON_RESULTS_IDEMPOTENCY_CONFLICT");const projected=current.phase==="RESULTS_READY"?ssrpProjection(await ssrpContext(options,transaction,{readOpponent:true})):ssrpProjection(ctx);return ssrpFreeze({...projected,status:"accepted",replayed:true,needsRefresh:current.phase==="RESULTS_READY"});}}
         if(baseRevision!==revision)ssrpFail("SEASON_RESULTS_STALE_BASE_REVISION");if(current&&current.phase==="RESULTS_READY")ssrpFail("SEASON_RESULTS_ALREADY_READY");if(current&&current.publishedRoles.includes(ctx.role))ssrpFail("SEASON_RESULTS_ROLE_ALREADY_PUBLISHED");if(ctx.own)ssrpFail("SEASON_RESULTS_PRIVATE_STATE_INVALID");
@@ -164,6 +164,19 @@
         const serverNow=ssrpServerTimestamp(ctx.sdk);transaction.set(ctx.refs.public,{schemaVersion:1,objectType:"sharedSeasonResults",rivalryId:ctx.rivalryId,seasonNumber:ctx.seasonNumber,runtimeRevision:resultsModule.runtimeRevision,phase:next.phase,revision:next.revision,teamCount:ctx.teamCount,publishedRoles:[...next.publishedRoles],operationIds:[...next.operationIds],operationHashes:[...next.operationHashes],baseRevisions:[...next.baseRevisions],actorRoles:[...next.actorRoles],activeSessionId:ctx.sessionId,updatedAt:serverNow,updatedByDeviceId:ctx.deviceId});transaction.set(ctx.refs.own,{schemaVersion:1,objectType:"sharedSeasonResultRole",rivalryId:ctx.rivalryId,seasonNumber:ctx.seasonNumber,managerRole:ctx.role,result:normalizedResult,operationId,commandHash,activeSessionId:ctx.sessionId,publishedAt:serverNow,updatedByDeviceId:ctx.deviceId});
         return ssrpFreeze({ok:true,status:"accepted",replayed:false,revision:next.revision,state:ssrpClone(next),managerRole:ctx.role,seasonNumber:ctx.seasonNumber,ownResult:ssrpClone(normalizedResult),opponentResult:null,allResults:null,needsRefresh:next.phase==="RESULTS_READY"});
       });
+      try{return await runPublishTransaction();}
+      catch(error){
+        const code=error&&typeof error.code==="string"?error.code:"";
+        if(code!=="permission-denied"&&code!=="firestore/permission-denied")throw error;
+        const sdk=options.firebaseSdk;if(typeof sdk.getDoc!=="function")throw error;
+        const rivalryId=ssrpNormalizeRivalryId(options.rivalryId),seasonNumber=Number(options.seasonNumber);if(!Number.isInteger(seasonNumber)||seasonNumber<1||seasonNumber>10)throw error;
+        let fresh;
+        try{fresh=ssrpSnapshot(await sdk.getDoc(sdk.doc(options.firestore,"rivalries",rivalryId,"seasonResults",`season_${seasonNumber}`)));}
+        catch(_readError){throw error;}
+        if(fresh&&Array.isArray(fresh.operationIds)&&fresh.operationIds.includes(operationId))return await runPublishTransaction();
+        if(fresh&&Number.isInteger(fresh.revision)&&fresh.revision>baseRevision)ssrpFail("SEASON_RESULTS_STALE_BASE_REVISION");
+        throw error;
+      }
     }catch(error){return ssrpResultError(error);}
   }
 
