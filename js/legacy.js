@@ -470,7 +470,34 @@ function createLegacyDataControls(history){
     return controls;
 }
 
-function renderLegacy(){
+let legacyModel = null;
+
+function readLegacyScreenSeam(rerender){
+    const seam = window.CareerModeCareerScreenSeam;
+    if(seam){ return seam; }
+    if(typeof window.loadRuntimeScript === "function"){
+        window.loadRuntimeScript("career-screen-seam", "js/careerScreenSeam.js", () => Boolean(window.CareerModeCareerScreenSeam))
+            .then(rerender)
+            .catch(error => { if(typeof window.reportApplicationError === "function"){ window.reportApplicationError("Career screens could not load", error); } });
+    }
+    return null;
+}
+
+function renderLegacy(request = false){
+    const seamContainer = document.querySelector("#legacy .legacyBox");
+    if(!seamContainer){ return; }
+    const seam = readLegacyScreenSeam(() => renderLegacy(request));
+    if(!seam){ return; }
+    const normalized = seam.normalizeRenderRequest(request);
+    if(normalized.hasModel){ legacyModel = normalized.model; }
+    const identity = window.CareerModeOnlinePlayerIdentity;
+    const identityState = identity && typeof identity.getState === "function" ? identity.getState() : null;
+    const source = seam.selectCareerScreenSource({ identityState, model: legacyModel });
+    if(source !== "local"){
+        seamContainer.replaceChildren(seam.paintCareerScreenView(document, seam.careerScreenView("legacy", source === "model" ? legacyModel : null)));
+        lastLegacyRenderedRevision = null;
+        return;
+    }
     archiveCompletedSaveBeforeLegacy();
 
     const container = document.querySelector("#legacy .legacyBox");

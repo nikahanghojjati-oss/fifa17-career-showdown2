@@ -501,11 +501,24 @@
       ]
     },
     {
+      "path": "tests/contracts/career-screen-seam-contracts.cjs",
+      "patterns": [
+        "^js/careerScreenSeam\\.js$",
+        "^js/statistics\\.js$",
+        "^js/trophyRoom\\.js$",
+        "^js/legacy\\.js$",
+        "^js/sharedCareerAnalytics\\.js$",
+        "^tests/support/fake-dom\\.cjs$",
+        "^tests/contracts/career-screen-seam-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
       "path": "tests/contracts/shared-season-results-race-contracts.cjs",
       "patterns": [
-        "^js/sparkSharedSeasonResults\\\\.js$",
-        "^tests/contracts/shared-season-results-race-contracts\\\\.cjs$",
-        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\\\.json$"
+        "^js/sparkSharedSeasonResults\\.js$",
+        "^tests/contracts/shared-season-results-race-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
     }
   ]
