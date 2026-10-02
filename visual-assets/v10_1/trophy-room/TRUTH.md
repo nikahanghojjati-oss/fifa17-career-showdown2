@@ -151,3 +151,79 @@ The current live implementation has no Trophy Room loading, unavailable, partial
 - The Trophy Room Back button has no explicit `aria-label`; its accessible name is the visible text `BACK`.
 - Central navigation assigns the `h2` id `trophyRoomScreenTitle`, `tabindex="-1"`, and `data-route-focus-target="true"`, then sets the section's `aria-labelledby="trophyRoomScreenTitle"`.
 - `aria-hidden` changes with route visibility. No other Trophy Room-specific aria-label string is authored in `js/trophyRoom.js`.
+
+
+## Data contract
+
+Authority: `project-documents/factory/DATA_CONTRACT_V1.md` v1.0, especially §0 (global state/key rules), §6 ("what counts" and career aggregates), §7 (Trophy Room), and §9 (dropped stats). The agreed contract is newer than the legacy local-history presentation on `main`; this section defines the rebuilt screen.
+
+Managers are keyed by slot role only: `playerOne = daniel` and `playerTwo = nik`. Daniel is always the left/first manager. Career history is provider history; abandoned Showdowns contribute nothing.
+
+### Fields the rebuilt Trophy Room may use
+
+| Contract field | E/A | Source/equivalent on `main` | Level | Trophy Room use |
+| --- | --- | --- | --- | --- |
+| `status` = `loading | empty | unavailable | partial | ready` | A | No five-state Trophy Room model exists on main; `renderTrophyRoom()` assumes a synchronous local read. | Career view | Drives the whole screen state. Failed reads are never drawn as zero. |
+| `coverage.{readable,indexed}` | A | No provider coverage field on main. §6 defines it for career history. | Career view | Required when `status = partial`; the screen must show coverage and must not call partial data "all-time" or "career". |
+| `interimLabel` | A | No equivalent on main. | Career view | Before provider history exists, owner-review current-Showdown previews use exactly: `Current Showdown only. Career history is not yet available.` Never a launch state. |
+| `championsLeagues` per manager | A | `accumulateRoundStats()` in `js/analytics.js` increments the legacy local aggregate when `player.championsLeague` is true. | Per career, per manager | Cabinet count; one win = one trophy. |
+| `leagueTitles` per manager | A | `accumulateRoundStats()` increments when `leaguePosition === 1`. | Per career, per manager | Cabinet count. |
+| `domesticCups` per manager | A | `accumulateRoundStats()` increments when `player.domesticCup` is true. | Per career, per manager | Cabinet count. |
+| `totalTrophies` per manager | A | `finalizeManagerCareerStats()` computes `leagueTitles + domesticCups + championsLeagues`. | Per career, per manager | Cabinet total; counts wins, not scoring points. |
+| `careerPoints` per manager | A | Legacy equivalent is `manager.totalPoints`, accumulated from each accepted season score by `accumulateRoundStats()`. | Per career, per manager | Primary Trophy Room standings sort/display value. |
+| `seasonWins` per manager | A | Legacy local equivalent is incremented from `round.winner` in `accumulateRoundStats()`. | Per career, per manager | Secondary standings tiebreak/display value. |
+| `standings` | A | `calculateCareerAnalytics()` currently sorts legacy managers by Showdown wins, then trophies, then points; `createCareerStandingsTable()` renders that order. | Per career | Contract overrides the legacy order: sort by `careerPoints`, then `seasonWins`, else level/shared rank. |
+| `records[]` | A | `buildCareerRecords()` in `js/analytics.js` builds the legacy local record set. | Per career | Only the five contract record families below. Each item is `{label, manager or "shared", value, ref}`. |
+| `records[].label` | A | Legacy labels are authored in `renderAllTimeRecords()` in `js/trophyRoom.js`. | Per career record | Human-readable record name. |
+| `records[].manager` or `"shared"` | A | Legacy `findSeasonRecord()` can return multiple holders; `findManagerLeaders()` also returns ties. | Per career record | Holder identity; ties normalize to `"shared"`. |
+| `records[].value` | A | Legacy record helpers compute numeric maxima/counts. | Per career record | Numeric record value. |
+| `records[].ref` | A | Main uses ad-hoc `showdown`, `season`, and club text rather than one normalized ref. | Record → season/Showdown reference | Stable source reference supplied by Team G. |
+
+The five allowed `records[]` families from §7 are:
+
+1. Highest season score. Main equivalent: `findSeasonRecord(history, player => getAnalyticsScoring(player).total)`.
+2. Highest league points. Main equivalent: `findSeasonRecord(history, player => player.leaguePoints)`.
+3. Highest league goals. Main equivalent: `findSeasonRecord(history, player => player.leagueGoals)`.
+4. Biggest Showdown win. Main equivalent: `findBiggestShowdownMargin(history)`.
+5. Most perfect seasons. Main equivalent: `findManagerLeaders(managers, "perfectSeasons")`, where `accumulateRoundStats()` increments at season score 11.
+
+### What counts
+
+Per DATA_CONTRACT_V1 §6:
+
+| Showdown state | Seasons count toward career totals | Showdown outcome counts |
+| --- | --- | --- |
+| Pending pairing | no | no |
+| Active | accepted/acknowledged seasons only | no |
+| Final result reconciled, Terminal Close pending | all accepted seasons | no; visible as completion-pending elsewhere |
+| Closed with verified Terminal Close | all accepted seasons | exactly one |
+| Abandoned | none, including previously visible seasons | none |
+| Unreadable | nothing invented | nothing; Trophy Room is `partial` and shows coverage |
+
+If a Showdown is abandoned, the provider rebuilds career trophies, standings and records from counted history; the UI never subtracts locally.
+
+### Five screen states
+
+The rebuilt Trophy Room uses only the contract states:
+
+- `loading`: history read is in progress. Do not render zeros as data.
+- `empty`: history read succeeded and this is a new career. All four original trophy types remain visible; unwon cards are dark and say `Not won yet`.
+- `unavailable`: history read failed. Do not render empty/zero trophy counts as though they were real.
+- `partial`: some Showdowns are unreadable. Render the readable results plus `coverage.{readable,indexed}`; do not use an "all-time" or "career" claim for incomplete coverage.
+- `ready`: provider career history is readable and the contract fields above may render normally.
+
+There is no separate contract `error` state; a career-history read failure is `unavailable`.
+
+### Legacy fields that are not allowed on the rebuilt Trophy Room
+
+The current `main` Trophy Room exposes more legacy analytics than DATA_CONTRACT_V1 §7. Those do not carry forward here unless another contract revision explicitly adds them:
+
+- Overall summary totals: completed Showdowns, seasons played, combined Showdown points.
+- Manager Showdown W-D-L and Showdown count.
+- Safe signings and club-history strings.
+- 100-point seasons, 100-goal seasons, performance-bonus counts and awards-bonus counts as cabinet supporting stats.
+- Legacy record cards for most Showdown wins, most career points, most trophies, most Champions Leagues, most league titles and most domestic cups.
+
+`careerPoints` and `seasonWins` remain allowed only because §7 defines the standings order using them and §6 defines those career aggregates. Trophy counts remain the four per-manager cabinet fields in §7.
+
+DATA_CONTRACT_V1 §9 also forbids clean sheets, biggest single-match win, European wins other than Champions League, player names/player leaders/photos, match-by-match results, possession and all per-match stats. Top scorer/top assist are season booleans, not player-name statistics, and are not Trophy Room fields.
