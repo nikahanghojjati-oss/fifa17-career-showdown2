@@ -258,3 +258,39 @@ Current `main` shows two free-form local summaries that have no Settings contrac
 | `BUILD` asset revision | DROP from the required data contract surface. §10 requires app version, not a build-revision field. |
 
 No §9 dropped stat is reintroduced here. Settings must not add clean sheets, biggest match win, non-CL European wins, player names/photos, match results, possession or per-match statistics.
+
+
+## Screen states and preview frames
+
+Settings combines the contract's screen-read state with local UI substates. The contract state is authoritative for any career/history-backed information; account, motion, feedback and update controls have their own local substates.
+
+### State inventory
+
+| State family | Values on the real product / contract | Factory treatment |
+| --- | --- | --- |
+| Contract screen state | `loading`, `empty`, `unavailable`, `partial`, `ready` | All five must have a designed presentation. No failed read is rendered as zero or empty. |
+| Viewer role | `daniel`, `nik` | Both are previewed. Daniel is always first/left wherever both appear. |
+| Account state | `connecting`, `signed-out`, `choose-manager`, `ready`, `offline`, `error`, `device-error`, plus busy transitions while sign-in/selection/forget runs | These change the Account title/actions but do not create new career stats. |
+| Motion | follow device / reduced override; effective motion standard or reduced | Preview both normal and reduced-motion choices. |
+| Menu feedback | on / off | Exact ON/OFF switch copy; no extra sound setting is invented. |
+| Update | current/checkable, waiting update, unsupported, offline, downloading/error | Button label/status changes only to strings copied in the Live buttons section. |
+| Current Showdown action gate | no active Showdown / active Showdown | Safe delete exists only when an active Showdown exists. The factory visual does not show the uncontracted free-form current-name/status row. |
+| Destructive confirmation | closed / open | Confirmation is native `window.confirm` behaviour on main; the factory preview must show the exact confirmation copy when open. |
+| Operational error | action-specific notice | Keep the Settings screen visible unless main deliberately navigates away; career-data read failure maps to contract `unavailable`. |
+| Completed | no distinct Settings screen state | A completed Showdown is handled by the career/history surfaces. Settings does not get a separate `completed` presentation. |
+
+### Required preview frames
+
+The minimum product frames from the job are ST1–ST3. Four additional contract-state frames are included so every required `status` can be reviewed without pretending that a failed read is an empty career.
+
+| Frame | Contract status | Viewer | Purpose |
+| --- | --- | --- | --- |
+| `ST1` | `ready` | `daniel` | Default Settings: account ready, follows device, effective standard motion, menu feedback on, update action available, no destructive dialog. |
+| `ST2` | `ready` | `nik` | Reduced-motion preview: reduced override on, effective reduced motion, menu feedback off. |
+| `ST3` | `ready` | `daniel` | Destructive confirmation open for `DELETE CURRENT SHOWDOWN`; exact confirm string; background Settings remains visible/inert behind the dialog. |
+| `ST4` | `loading` | `daniel` | Contract-backed data resolving; static app version, credit and local preference controls remain present; no fake zeroes. |
+| `ST5` | `empty` | `daniel` | New career/read succeeded; no active Showdown delete action; local controls remain usable. |
+| `ST6` | `unavailable` | `nik` | Contract-backed read failed/offline; show unavailable state, not zero history. Account recovery may expose `TRY AGAIN`. |
+| `ST7` | `partial` | `nik` | Partial provider history. If current-Showdown-only owner-review data is shown, display exactly `Current Showdown only. Career history is not yet available.` and never call it career/all-time. |
+
+No extra `active` or `completed` contract statuses are invented: active-Showdown presence is a local action gate inside the five-state wrapper, and completed is represented in the dedicated career/history flows.
