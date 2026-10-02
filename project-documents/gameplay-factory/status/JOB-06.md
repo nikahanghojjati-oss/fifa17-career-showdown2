@@ -1,11 +1,11 @@
 # Status · JOB-06 · Start/Join view model + nav.locked
 
 State: IN PROGRESS
-Step: 4 of 7
-Updated: 2026-10-02 19:48 UTC
+Step: 5 of 7
+Updated: 2026-10-02 19:52 UTC
 Chat: Sol chat
 Code branch: gameplay/job-06-start-join-model
-Head commit: d00b7547140937fa5dfaecb7601d7b5294917bcc
+Head commit: 7354601b08ec3bc616784b63fe585b37c2677979
 PR:
 CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37055033109
 
@@ -16,6 +16,8 @@ CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/r
 - Step 2 identity: functions `initialize, signIn, chooseManager, openGate, forgetThisDevice, readRole, clearRole, syncPair, subscribe, getState`; initial state verified. All Job 6 provider methods exist.
 - Step 3: all 20 contract cases saved first at `431bcc9c275dca446555f0c6c80599223dc623e1`; unimplemented wrapper saved at `0a9787067c79d4f28211e7239f1e5c7c1f90fadf`. Direct Node witness: `EXPECTED FAIL: not implemented`.
 - Step 4: `navLockState`, `LOCKED_SCREENS`, and `NAV_LOCK_TEXT` implemented at `d00b7547140937fa5dfaecb7601d7b5294917bcc`; four locked ids map to the contract reasons, known other screens/null unlock, unknown strings throw `NAV_SCREEN_UNKNOWN`.
+
+- Step 5: full pure Start/Join view model implemented at `7354601b08ec3bc616784b63fe585b37c2677979`; direct execution of current branch source passed `PASS Start/Join view model contracts (20/20 cases)`.
 
 ## Self-check
 
