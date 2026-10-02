@@ -206,3 +206,55 @@ Exact required credit:
 - `Tim Reckmann` link: `https://www.flickr.com/photos/foto_db/16204330530/`
 - `CC BY 2.0` link: `https://creativecommons.org/licenses/by/2.0/`
 - The Settings copy is not a replacement for the Loading-screen credit.
+
+
+## Data contract
+
+Authority: `project-documents/factory/DATA_CONTRACT_V1.md`, especially §0 (all-screen status, manager keys, value bounds and interim label), §1 (`viewerRole`), §8 (online History rules), §9 (dropped stats) and §10 (Settings holds credits and app version).
+
+The contract does not define a dedicated Settings view-model table. Therefore this sheet does not invent Team G field names. Where §10 states a Settings obligation in prose rather than naming a serialized field, the row below says so explicitly.
+
+| Contract field / obligation | E/A | Source on main | Level | Settings use |
+| --- | --- | --- | --- | --- |
+| `status` | A view-model wrapper | §0 requires the normalized five-state wrapper; `js/settings.js` currently exposes local/provider substates instead of this field | per screen read | Exactly `loading`, `empty`, `unavailable`, `partial` or `ready`. |
+| `viewerRole` | E | `js/onlinePlayerIdentity.js` maps selected manager id `daniel` / `nik`; contract §1 names the field | per viewer/session | Drives the player-facing Account label. Daniel is first/left, Nik second/right. |
+| `interimLabel` | A display adapter | contract §0 | per screen read | If owner-review data is current-Showdown-only, exact text is `Current Showdown only. Career history is not yet available.` Never a launch state. |
+| app version (Settings obligation; §10 has no serialized field name) | E | `js/app.js` `APP_VERSION` → `js/settings.js::getSettingsApplicationVersion()` | application | Current main value is `1.9.1`; visible as `v1.9.1`. |
+| credits (Settings obligation; §10 has no serialized field name) | A on Settings | Absent from current Settings; required by `PRODUCT_TRUTH.md §6` and contract §10 | application | Repeat the Reus photo credit and links in Settings; Loading keeps its own copy. |
+
+### Contract state behaviour
+
+The factory Settings view-model always exposes one `status`:
+
+- `loading`: Settings shell may render, but contract-backed career/history information is still resolving. Never substitute zeroes.
+- `empty`: read succeeded for a new career with no counted Showdown history. Local settings controls still work.
+- `unavailable`: a contract-backed read failed. Keep static app version, credit and local preference controls usable; show unavailable rather than zero.
+- `partial`: some Showdowns are unreadable. Never call the data `career` or `all-time`; show the available coverage where a future contracted data surface uses it.
+- `ready`: required reads succeeded.
+
+Exact interim copy, when the preview intentionally demonstrates current-Showdown-only data:
+
+`Current Showdown only. Career history is not yet available.`
+
+### What is not a Team G career-data field
+
+These are local application controls/state already on `main`, not recorded football/history stats. They remain legitimate Settings UI and are not renamed into invented Team G fields:
+
+- reduced-motion preference and effective device motion
+- menu click feedback on/off
+- application update availability/action
+- online identity/device readiness and the existing account actions
+
+The contract's drop rule is applied to career/history/stat data. It is not used to delete genuine local Settings controls that do not represent recorded game history.
+
+### Live fields dropped from the factory data presentation
+
+Current `main` shows two free-form local summaries that have no Settings contract field name:
+
+| Current main value | Product answer |
+| --- | --- |
+| `active.name` + `active.status` under `CURRENT SHOWDOWN` | DROP as a displayed data row in the factory visual. The safe current-Showdown action may remain; do not invent a Settings contract field for the free-form name/status summary. |
+| `loadLegacyShowdowns().length` under `HISTORY` | DROP as a displayed career count. Provider history is authoritative; local legacy length is not a contract career total. |
+| `BUILD` asset revision | DROP from the required data contract surface. §10 requires app version, not a build-revision field. |
+
+No §9 dropped stat is reintroduced here. Settings must not add clean sheets, biggest match win, non-CL European wins, player names/photos, match results, possession or per-match statistics.
