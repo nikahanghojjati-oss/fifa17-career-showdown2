@@ -1,8 +1,8 @@
 # Status · JOB-07 · Career index Rules + client + emulator proofs
 
 State: IN PROGRESS
-Step: 4 of 9
-Updated: 2026-10-02 23:51 UTC
+Step: 5 of 9
+Updated: 2026-10-02 23:55 UTC
 Chat: Sol Work mode
 Code branch: gameplay/job-07-career-index
 Head commit:
@@ -19,3 +19,5 @@ CI run:
 - Step 3: Added both Appendix C/D tests, registry/ops registration and last CI step. node --check passed both. Local new contract failed undefined !== 500 as required. Exact-head tests-first CI 37079063991 is red: contract 1/102 fails for missing capacity export, and Career index matrix fails I0 (missing composed index match); earlier emulator groups passed. Baseline CI logs confirm 101/101 and ops 73 pass, 0 fail.
 
 - Step 4: Applied Appendix A and injector Appendix F unchanged. Both builds PASS; exact index match count 1, composed size 128924 bytes (uncommitted). CI 37079315422 passed Setup, Transfer, Lifecycle and Terminal Close; pair fixture creation is denied as expected without its index write. Important CI sequencing observation: failed pair step skips Journey and Career index matrix, so the job's expected intermediate A-H/P1 output cannot appear until fixtures/client are implemented. Preserved the workflow as instructed; full matrix will be proved in step 7.
+
+- Step 5: Applied Appendix E and G fixture updates; kept Date.now() in G hunks to preserve JOB-02's approved clock fix. Both node --check PASS. Exact-head CI 37079528608: Persistent Nik and Daniel pair matrix SUCCESS; Two-manager journey fails on missing createDurableCreationWitness export as expected before step 6, so Career matrix is skipped. All previous assertions preserved except the chartered KNOWN GAP 2 replacement.
