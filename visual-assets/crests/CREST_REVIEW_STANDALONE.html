@@ -1,3 +1,57 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Crest Review V1</title>
+<!-- Generated: CREST_REVIEW.html with data/clubs.js and js/visualIdentity.js inlined, for file previews. -->
+<style>
+:root{--bg:#0b0f14;--ink:#eef1f4;--mute:#9aa6b2;--gold:#d9b54a}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% 0,#1b2430,#0b0f14 70%);color:var(--ink);font:14px/1.4 system-ui,Segoe UI,Roboto,sans-serif;padding:16px}
+h1{font-size:18px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin:4px 0 2px}
+h2{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin:22px 0 8px}
+p.lead{color:var(--mute);margin:0 0 8px;font-size:12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px}
+.c{background:linear-gradient(180deg,#18202a,#10151c);border:1px solid #232d39;border-radius:12px;padding:10px;text-align:center}
+.c .art svg{width:96px;height:112px;filter:drop-shadow(0 6px 10px rgba(0,0,0,.55))}
+.lg .art svg{width:84px;height:84px}
+.n{font-weight:700;margin-top:4px}.k{font-size:11px;color:var(--mute);text-align:left;margin-top:6px}
+.k b{color:#c9d3dc;font-weight:600}
+#strip{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end}
+#strip .s{display:flex;gap:6px;align-items:flex-end;background:#10151c;border:1px solid #232d39;border-radius:8px;padding:6px}
+#strip svg{display:block}
+</style></head><body>
+<h1>Club crests · CREST-V1</h1>
+<p class="lead">These are original Showdown crest interpretations built as self-contained vector artwork. Review each crest for visual quality, distinctiveness, and any resemblance that feels too close to or too far from its intended club identity. Names are live page text, not part of the art.</p>
+<div id="clubs"></div>
+<h2>League marks</h2><div class="grid lg" id="leagues"></div>
+<h2 id="stripTitle" hidden>Small-size strip (24 / 42 / 96 px)</h2><div id="strip" hidden></div>
+<script>
+/* =====================================================
+   FIFA 17 Career Mode Showdown
+   FIFA 17 Club Database
+===================================================== */
+
+const clubsByLeague = {
+    premier_league: ["Arsenal", "Bournemouth", "Burnley", "Chelsea", "Crystal Palace", "Everton", "Hull City", "Leicester City", "Liverpool", "Manchester City", "Manchester United", "Middlesbrough", "Southampton", "Stoke City", "Sunderland", "Swansea City", "Tottenham Hotspur", "Watford", "West Bromwich Albion", "West Ham United"],
+    laliga: ["Alavés", "Athletic Club", "Atlético Madrid", "Barcelona", "Celta Vigo", "Deportivo La Coruña", "Eibar", "Espanyol", "Granada", "Las Palmas", "Leganés", "Málaga", "Osasuna", "Real Betis", "Real Madrid", "Real Sociedad", "Sevilla", "Sporting Gijón", "Valencia", "Villarreal"],
+    bundesliga: ["Bayern Munich", "Borussia Dortmund", "Bayer Leverkusen", "Borussia Mönchengladbach", "Schalke 04", "Mainz 05", "Hertha BSC", "Wolfsburg", "Hoffenheim", "Eintracht Frankfurt", "Werder Bremen", "Hamburg", "FC Augsburg", "SC Freiburg", "RB Leipzig", "FC Ingolstadt", "Darmstadt 98", "1. FC Köln"],
+    serie_a: ["Atalanta", "Bologna", "Cagliari", "Chievo", "Crotone", "Empoli", "Fiorentina", "Genoa", "Inter Milan", "Juventus", "Lazio", "Milan", "Napoli", "Palermo", "Pescara", "Roma", "Sampdoria", "Sassuolo", "Torino", "Udinese"],
+    ligue_1: ["Angers", "Bastia", "Bordeaux", "Caen", "Dijon", "Guingamp", "Lille", "Lorient", "Lyon", "Marseille", "Metz", "Monaco", "Montpellier", "Nancy", "Nantes", "Nice", "Paris Saint-Germain", "Rennes", "Saint-Étienne", "Toulouse"]
+};
+
+function getClubsForLeague(leagueId){
+    return clubsByLeague[leagueId] || [];
+}
+
+function getRandomClubPair(leagueId){
+    const clubs = getClubsForLeague(leagueId);
+    if(clubs.length < 2){ return null; }
+    const firstIndex = Math.floor(Math.random() * clubs.length);
+    let secondIndex = Math.floor(Math.random() * clubs.length);
+    while(secondIndex === firstIndex){ secondIndex = Math.floor(Math.random() * clubs.length); }
+    return { playerOne: clubs[firstIndex], playerTwo: clubs[secondIndex] };
+}
+
+</script>
+<script>
 /* =====================================================
    Career Mode Showdown
    v1.1.0
@@ -685,3 +739,17 @@ window.refreshClubVisualIdentity = refreshClubVisualIdentity;
 window.getClubCrestSvg = getClubCrestSvg;
 window.getLeagueMark = getLeagueMark;
 window.applyLeagueMark = applyLeagueMark;
+
+</script>
+<script>
+if(typeof clubsByLeague==="undefined"||typeof getClubIdentity!=="function"){document.body.insertAdjacentHTML("afterbegin",'<p style="background:#5a1d1d;color:#fff;padding:10px;border-radius:8px">This page needs ../../data/clubs.js and ../../js/visualIdentity.js. In a file preview that cannot load them, open CREST_REVIEW_STANDALONE.html instead.</p>');throw new Error("crest review scripts not loaded");}
+const LEAGUE_NAMES={premier_league:"England, top flight",laliga:"Spain, top flight",bundesliga:"Germany, top flight",serie_a:"Italy, top flight",ligue_1:"France, top flight"};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"})[c]);
+document.getElementById("clubs").innerHTML=Object.entries(clubsByLeague).map(([id,list])=>`<h2>${esc(LEAGUE_NAMES[id])}</h2><div class="grid">${list.map(name=>{const x=getClubIdentity(name);return `<div class="c" data-club="${esc(name)}"><div class="art">${getClubCrestSvg(name)}</div><div class="n">${esc(name)}</div><div class="k"><b>Keeps</b> ${esc(x.recipe.keep)}<br><b>Changes</b> ${esc(x.recipe.change)}</div></div>`}).join("")}</div>`).join("");
+const LEAGUE_NOTES={premier_league:["England flag (red cross on white), a crown, league purple","no lion and no wordmark; flag shield on a rounded gold tile with the country code only"],laliga:["Spain flag (red-gold-red), a star, deep red","no ball emblem and no wordmark; flag shield on a rounded gold tile with the country code only"],bundesliga:["Germany flag (black-red-gold), a star, near-black ground","no player silhouette and no wordmark; flag shield on a rounded gold tile with the country code only"],serie_a:["Italy tricolour, navy ground","no stylised letter mark, no shield trophy motif and no wordmark; plain flag shield with no emblem and the country code only"],ligue_1:["French tricolour, a star, dark navy","no rooster and no wordmark; three rounded vertical bars instead of a flag shield, with the country code only"]};
+document.getElementById("leagues").innerHTML=Object.keys(LEAGUE_NAMES).map(id=>{const m=getLeagueMark(id);return `<div class="c" data-league="${id}"><div class="art">${m.svg}</div><div class="n">${esc(LEAGUE_NAMES[id])}</div><div class="k">${esc(m.code)}<br><b>Keeps</b> ${esc(LEAGUE_NOTES[id][0])}<br><b>Changes</b> ${esc(LEAGUE_NOTES[id][1])}</div></div>`}).join("");
+if(/strip/.test(location.search)){
+  document.getElementById("stripTitle").hidden=false;const st=document.getElementById("strip");st.hidden=false;
+  st.innerHTML=Object.values(clubsByLeague).flat().map(name=>`<div class="s" title="${esc(name)}">${[24,42,96].map(w=>getClubCrestSvg(name).replace("<svg ",`<svg width="${w}" height="${Math.round(w*1.2)}" `)).join("")}</div>`).join("");
+}
+</script></body></html>
