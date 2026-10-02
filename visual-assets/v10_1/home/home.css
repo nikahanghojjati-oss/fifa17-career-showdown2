@@ -136,7 +136,7 @@ button { font: inherit; color: inherit; }
 }
 .lockupKicker { padding-left: .2em; }
 .lockupLegacy { align-self: center; letter-spacing: .42em; }
-.lockupWordmark { display: block; width: 100%; height: auto; filter: drop-shadow(0 6px 18px rgba(0,0,0,.55)); }
+.lockupWordmarkWrap { display: block; width: 100%; max-width: none; margin: 0; filter: drop-shadow(0 6px 18px rgba(0,0,0,.55)); }\n.lockupWordmark { display: block; width: 100%; height: auto; }
 .fifaMenuHeading {
   position: absolute; z-index: 3; left: var(--gutter); bottom: calc(100% - var(--tile-top) + clamp(12px, 2.4vh, 22px));
   width: var(--col-w, 34vw); max-width: var(--col-w, 34vw);
@@ -144,12 +144,12 @@ button { font: inherit; color: inherit; }
 .fifaMenuEyebrow { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
 .fifaMenuHeading h2 {
   display: inline-block; margin: 0 0 8px; padding-bottom: 5px; position: relative;
-  font: 700 18px/1.1 var(--cond); letter-spacing: .12em; color: var(--gold); text-transform: uppercase;
+  font: 700 18px/1.1 var(--sd-font-condensed, var(--cond)); letter-spacing: .12em; color: var(--sd-gold-300, var(--gold)); text-transform: uppercase;
 }
 .fifaMenuHeading h2::after { content: ""; position: absolute; left: 0; bottom: 0; width: 28px; height: 2px; background: var(--gold); }
-.fifaMenuHeadingMeta { margin: 0; font: 400 16px/1.35 var(--text); color: var(--cream); text-shadow: 0 1px 6px rgba(0,0,0,.8); }
+.fifaMenuHeadingMeta { margin: 0; font: 400 16px/1.35 var(--sd-font-body, var(--text)); color: var(--sd-text-primary, var(--cream)); text-shadow: 0 1px 6px rgba(0,0,0,.8); }
 .fifaMenuHeadingMeta span {
-  display: block; margin-bottom: 4px; font: 700 44px/1.16 var(--cond); color: #FFFFFF; letter-spacing: .01em;
+  display: block; margin-bottom: 4px; font: 700 44px/1.16 var(--sd-font-condensed, var(--cond)); color: var(--sd-text-primary, #FFFFFF); letter-spacing: .01em;
   text-transform: uppercase; text-shadow: 0 2px 14px rgba(0,0,0,.7);
 }
 

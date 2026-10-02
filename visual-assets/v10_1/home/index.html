@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Home · Rivalry Headquarters</title>
-<link rel="stylesheet" href="../shared/showdown-tokens.css">\n<link rel="stylesheet" href="../shared/showdown-ui.css">\n<link rel="stylesheet" href="home.css">
+<link rel="stylesheet" href="../shared/showdown-tokens.css">\n<link rel="stylesheet" href="../shared/showdown-ui.css">\n<link rel="stylesheet" href="../shared/showdown-type.css">\n<link rel="stylesheet" href="home.css">
 </head>
 <body>
 <div id="stage-root" class="stage">
@@ -25,18 +25,21 @@
 <main>
 <section id="mainMenu" class="screen">
 <div class="fifaMenuShell">
-<div class="homeLockup" aria-hidden="true">
-<p class="lockupKicker">THE RIVALRY STARTS HERE</p>
-<img class="lockupWordmark" src="assets/LOGO_CM17_WORDMARK_V1.webp" alt="" width="2078" height="755" decoding="async">
-<p class="lockupLegacy">TWO MANAGERS · ONE LEGACY</p>
+<div class="homeLockup">
+<p class="lockupKicker sd-label">THE RIVALRY STARTS HERE</p>
+<div class="lockupWordmarkWrap sd-title sd-title--wordmark">
+<span class="sd-visually-hidden">CAREER MODE SHOWDOWN 17</span>
+<img class="lockupWordmark" src="assets/LOGO_CM17_WORDMARK_V1.webp" alt="" aria-hidden="true" width="2078" height="755" decoding="async">
+</div>
+<p class="lockupLegacy sd-tagline">TWO MANAGERS · ONE LEGACY</p>
 </div>
 
 <div class="fifaMenuHeading">
 <div class="fifaMenuHeadingText">
-<span class="fifaMenuEyebrow">CAREER MODE // SHOWDOWN 17</span>
-<h2>HOME</h2>
+<span class="fifaMenuEyebrow sd-label">CAREER MODE // SHOWDOWN 17</span>
+<h2 class="sd-label">HOME</h2>
 </div>
-<p class="fifaMenuHeadingMeta"><span>RIVALRY HEADQUARTERS</span>Build the rivalry, play every season, and carry each trophy into your Legacy.</p>
+<p class="fifaMenuHeadingMeta sd-body"><span class="sd-label">RIVALRY HEADQUARTERS</span>Build the rivalry, play every season, and carry each trophy into your Legacy.</p>
 </div>
 
 <div class="fifaMenuGrid">
