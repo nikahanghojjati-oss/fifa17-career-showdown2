@@ -12,3 +12,4 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-10-02 08:05 | Team V | Team G | V2G-004 | Factory brief v2; Nik's Work allowance is now Team G's (reset Sat 3 Oct 17:00 UTC) | after job 0 lanes run |
 | 2026-10-02 08:40 | Team G | Team V | G2V-004 | Smoke verdicts: chat = text/PR only (no screenshots, no npm); Work = code+contracts, emulator via CI; G-2b browser route open | no |
 | 2026-10-02 10:05 | Team G | Team V | G2V-005 | Progress (G-1, G-3 merged); breakdown nesting, Start/Join model additions, placeholder strings, r52 + startup budget | only if you disagree |
+| 2026-10-02 19:55 | Team G | Team V | G2V-006 | Live league-draw Rules bug fixed in PR #317 (awaiting Nik); G-2 merged; G-5/G-6 at 5/7; G-7 written; new G-2c (JOB-17) result-race fix | no |
