@@ -14,13 +14,14 @@
     * { box-sizing: border-box; }
     html, body { margin: 0; min-height: 100%; background: var(--sd-black); }
     body { color: var(--sd-text-primary); font-family: var(--sd-font-body); }
-    .specimen { position: relative; isolation: isolate; min-height: 100svh; padding: 24px 40px; display: flex; flex-direction: column; gap: 16px; }
+    .specimen { position: relative; isolation: isolate; min-height: 100svh; height: 100svh; padding: 20px 40px; display: flex; flex-direction: column; gap: 12px; }
     .specimen::before { content: ""; position: fixed; inset: 0; z-index: -2; background: url("../home/assets/ENV_HOME_PLATE_V1_1X.webp") center/cover no-repeat; }
     .specimen::after { content: ""; position: fixed; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(7,8,10,.3), rgba(7,8,10,.7) 34%, rgba(7,8,10,.96) 65%); }
     .mast { display: flex; justify-content: space-between; align-items: center; gap: 16px; color: var(--sd-text-secondary); font: 600 13px/1.2 var(--sd-font-condensed); letter-spacing: .15em; text-transform: uppercase; }
     .mast span:last-child { color: var(--sd-gold-300); }
     .titles { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; text-align: center; align-items: center; padding: 8px 0; }
     .titles .sd-title { font-size: clamp(30px, 4.2vw, 80px); }
+    .titles .sd-title--wordmark { width: min(100%, clamp(280px, 36vw, 660px)); margin-block: 8px; }
     .type-row { display: grid; grid-template-columns: 1.2fr 1fr 1fr 1.3fr; gap: 24px; align-items: center; }
     .number-sample { display: flex; align-items: baseline; gap: 12px; }
     .number-sample .sd-number { color: var(--sd-text-primary); }
@@ -29,33 +30,37 @@
     .manager span { display: block; color: var(--sd-text-secondary); font: 400 12px/1.3 var(--sd-font-body); }
     .glass-sample { padding: 16px; background: var(--sd-glass); border: 1px solid var(--sd-edge); border-radius: var(--sd-radius); box-shadow: var(--sd-shadow-panel); }
     .glass-sample p + p { margin-top: 4px; }
-    .atlas { min-width: 0; display: flex; flex-direction: column; gap: 12px; padding-top: 8px; }
+    .atlas { flex: 1; min-height: 0; min-width: 0; display: flex; flex-direction: column; gap: 12px; padding-top: 8px; }
     .tabs { display: flex; gap: 8px; border-bottom: 1px solid var(--sd-edge); padding-bottom: 8px; }
     .tabs button { min-height: 44px; padding: 0 16px; border: 1px solid var(--sd-edge); border-radius: 2px; background: var(--sd-panel); color: var(--sd-text-primary); font: 600 14px/1 var(--sd-font-condensed); letter-spacing: .1em; text-transform: uppercase; cursor: pointer; }
     .tabs button[aria-selected="true"] { color: var(--sd-text-on-gold); background: var(--sd-gold); border-color: var(--sd-gold-300); }
     :focus-visible { outline: 2px solid var(--sd-gold-100); outline-offset: 3px; }
-    .swatches { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 8px; }
-    .swatch { min-width: 0; display: flex; flex-direction: column; gap: 4px; padding: 8px; border: 1px solid rgba(255,211,77,.12); border-radius: 2px; background: var(--sd-panel); }
+    .swatches { flex: 1; overflow: auto; min-height: 0; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 8px; }
+    .swatch { min-width: 0; display: flex; flex-direction: column; gap: 4px; padding: 7px; border: 1px solid rgba(255,211,77,.12); border-radius: 2px; background: var(--sd-panel); }
     .chip { display: block; height: 18px; border-radius: 2px; border: 1px solid rgba(255,255,255,.18); }
     .swatch code { color: var(--sd-text-primary); font: 600 12px/1.2 var(--sd-font-condensed); overflow-wrap: anywhere; }
     .value { color: var(--sd-text-secondary); font: 400 11px/1.2 var(--sd-font-body); overflow-wrap: anywhere; }
     [hidden] { display: none !important; }
-    .swatches--technical { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+    .swatches--technical { grid-template-columns: repeat(5, minmax(0, 1fr)); grid-auto-rows: minmax(min-content, auto); align-content: start; }
     .swatches--technical .swatch { min-height: 50px; }
-    .footer { margin-top: auto; color: var(--sd-text-secondary); font: 400 12px/1.3 var(--sd-font-body); }
+    .technical-demo { min-height: 16px; max-height: 24px; display: block; margin-bottom: 4px; color: var(--sd-text-primary); font-size: 16px; }
+    .technical-demo.bar { height: 8px; min-height: 8px; max-width: 100%; background: var(--sd-gold-400); }
+    .footer { flex-shrink: 0; margin-top: auto; color: var(--sd-text-secondary); font: 400 12px/1.3 var(--sd-font-body); }
     @media (min-width: 1600px) { .specimen { padding: 40px 64px; gap: 24px; } .titles { padding: 32px 0; } .chip { height: 32px; } .swatch { padding: 12px; } }
     @media (max-width: 700px) {
-      .specimen { padding: 12px 16px; gap: 8px; height: 100svh; min-height: 640px; }
+      .specimen { padding: 12px 16px; gap: 6px; height: 100svh; min-height: 0; }
       .mast { font-size: 11px; letter-spacing: .08em; }
-      .titles { grid-template-columns: 1fr; gap: 8px; padding: 0; }
-      .titles .sd-title { font-size: 34px; }
+      .titles { grid-template-columns: 1fr; gap: 4px; padding: 0; }
+      .titles .sd-title { font-size: 32px; }
+      .titles .sd-title--wordmark { width: 270px; margin-block: 2px; }
+      .titles .secondary-title .sd-title--wordmark { width: 270px; }
       .titles .secondary-title .sd-eyebrow, .titles .secondary-title .sd-tagline { display: none; }
-      .titles .secondary-title .sd-title { font-size: 28px; }
+      .titles .secondary-title .sd-title { font-size: 26px; }
       .sd-eyebrow::before { width: 18px; height: 12px; margin-bottom: 4px; }
       .sd-tagline { margin-top: 0; }
       .type-row { grid-template-columns: 1fr 1fr; gap: 8px; }
       .number-sample { gap: 8px; justify-content: center; }
-      .number-sample .sd-number--large { font-size: 48px; }
+      .number-sample .sd-number--large { font-size: 44px; }
       .number-sample .sd-number--medium { font-size: 32px; }
       .number-sample .sd-number--small { font-size: 24px; }
       .type-row > .sd-label { display: none; }
@@ -68,8 +73,8 @@
       .atlas { flex: 1; min-height: 0; padding-top: 0; gap: 8px; }
       .tabs { gap: 6px; padding-bottom: 6px; }
       .tabs button { flex: 1; padding: 0 5px; font-size: 12px; letter-spacing: .04em; }
-      .swatches { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px; align-content: start; }
-      .swatch { padding: 4px; gap: 3px; }
+      .swatches { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px; align-content: start; overflow: auto; }
+      .swatch { padding: 3px; gap: 3px; }
       .chip { height: 12px; }
       .swatch code { font-size: 11px; }
       .swatch .value { display: none; }
@@ -84,8 +89,8 @@
 <main class="specimen">
   <header class="mast"><span>CM17 / Shared foundation</span><span>Type &amp; material specimen</span></header>
   <section class="titles" aria-label="Title treatment">
-    <div class="primary-title"><p class="sd-eyebrow">Career Mode Showdown 17</p><h1 class="sd-title">Trophy Room</h1><p class="sd-tagline">Two managers. One legacy.</p></div>
-    <div class="secondary-title"><p class="sd-eyebrow">Career Mode Showdown 17</p><h2 class="sd-title">Season Results</h2><p class="sd-tagline">Two managers. One legacy.</p></div>
+    <div class="primary-title"><p class="sd-eyebrow">Career Mode Showdown 17</p><h1 class="sd-title sd-title--wordmark"><img src="evidence/trophy_room_wordmark.webp" alt="" width="480" height="88"><span class="sd-visually-hidden">Trophy Room</span></h1><p class="sd-tagline">Two managers. One legacy.</p></div>
+    <div class="secondary-title"><p class="sd-eyebrow">Career Mode Showdown 17</p><h2 class="sd-title sd-title--wordmark"><img src="evidence/season_results_wordmark.webp" alt="" width="598" height="108"><span class="sd-visually-hidden">Season Results</span></h2><p class="sd-tagline">Two managers. One legacy.</p></div>
   </section>
   <section class="type-row" aria-label="Live typography samples">
     <div class="number-sample" aria-label="Preview number sizes"><span class="sd-number sd-number--large">11</span><span class="sd-number sd-number--medium">08</span><span class="sd-number sd-number--small">03</span></div>
@@ -103,7 +108,7 @@
     <div class="swatches swatches--technical" id="materials" role="tabpanel" aria-labelledby="tab-materials" tabindex="0" hidden></div>
     <div class="swatches swatches--technical" id="motion" role="tabpanel" aria-labelledby="tab-motion" tabindex="0" hidden></div>
   </section>
-  <footer class="footer">Preview data · Typography specimen · Final screen titles use approved brush wordmark art.</footer>
+  <footer class="footer">Preview data · Shared type and material specimen.</footer>
 </main>
 <script>
 const style = getComputedStyle(document.documentElement);
@@ -115,8 +120,16 @@ for (const token of tokens) {
   const panel = document.getElementById(colour ? 'colours' : motion ? 'motion' : 'materials');
   const swatch = document.createElement('div'); swatch.className = 'swatch'; swatch.dataset.token = token;
   if (colour) { const chip = document.createElement('span'); chip.className = 'chip'; chip.style.background = `var(${token})`; chip.setAttribute('aria-hidden','true'); swatch.append(chip); }
+  if (!colour && /--sd-(space-|shadow-|radius|corner-cut|edge-width|font-)/.test(token)) {
+    const demo = document.createElement('span'); demo.className = 'technical-demo'; demo.setAttribute('aria-hidden','true');
+    if (token.startsWith('--sd-space-')) { demo.classList.add('bar'); demo.style.width = `var(${token})`; }
+    else if (token.startsWith('--sd-font-')) { demo.textContent = 'Aa 17'; demo.style.fontFamily = `var(${token})`; }
+    else if (token.startsWith('--sd-shadow-')) { demo.style.width = '48px'; demo.style.background = 'var(--sd-panel)'; demo.style.boxShadow = `var(${token})`; demo.style.border = '1px solid var(--sd-edge)'; }
+    else { demo.style.width = '48px'; demo.style.border = '1px solid var(--sd-gold-300)'; if(token.includes('radius')) demo.style.borderRadius = `var(${token})`; else if(token.includes('corner-cut')) demo.style.clipPath = 'polygon(12px 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%,0 12px)'; else demo.style.borderWidth = `var(${token})`; }
+    swatch.append(demo);
+  }
   const name = document.createElement('code'); name.textContent = token; swatch.append(name);
-  const val = document.createElement('span'); val.className = 'value'; val.textContent = value; swatch.append(val);
+  const val = document.createElement('span'); val.className = 'value'; val.textContent = value.startsWith('linear-gradient') ? 'Metallic gradient' : value; val.title = value; swatch.append(val);
   panel.append(swatch);
 }
 const tabs = [...document.querySelectorAll('[role="tab"]')];

@@ -28,8 +28,10 @@
   margin: 0 auto;
   padding: .08em .15em .18em;
   color: var(--sd-gold-300);
-  font: 400 clamp(30px, 5.8vw, 88px)/1.1 var(--sd-font-title);
+  font: 700 clamp(30px, 5.8vw, 88px)/1.1 var(--sd-font-title);
   letter-spacing: -.035em;
+  /* Strengthen the supplied script face to the mockup’s broad gold strokes. */
+  -webkit-text-stroke: .035em var(--sd-gold-300);
   text-transform: uppercase;
   text-align: center;
   text-wrap: balance;

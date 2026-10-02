@@ -692,3 +692,41 @@ Copied byte-for-byte from tr2/slice-02-plate/assets/fonts/. Existing repo font l
 | barlow-condensed-latin-700-normal.woff2 | 22444 | `3787a5a419171630e6890cfa47c4da067474d005cd0ff8dc11ec090fdc3ee2b8` |
 | barlow-latin-400-normal.woff2 | 22196 | `b0a8ad37ac45f5fb22ced461576db72e44e295107aad7a9c8a7a4bad728fd03b` |
 | barlow-latin-600-normal.woff2 | 22772 | `4b52ddd4836b592df0e4832b8286956883cdc651b015126bdd18f184b7f90cc3` |
+
+## Step 6: evidence and final title decision
+
+The first Kaushan-only comparison did not match the mockup’s broad, angular dry brush edges. Rather than passing the font as equivalent, the specimen uses `.sd-title.sd-title--wordmark` with decorative title lettering extracted from the Trophy Room and Season Results mockups. These are static screen titles, not names or live values. All eyebrow/tagline/number/body content remains semantic DOM text; both wordmark headings contain visually hidden readable text. The title crops include no real logo, player or trophy. `evidence/wordmark_provenance.json` records source hashes, crop bounds, extraction method, final sizes and hashes. The extraction keeps original gold letter pixels, removes dark background, then exports compact transparent WebP at quality 92.
+
+The live text base still implements the exact job request: Kaushan Script, metallic CSS gradient, slight title-only skew and shadow. Its synthetic weight and .035em stroke make the supplied 400-weight face readable at display scale. Use it for the fallback/demo, not as a claim of pixel-identical brush art. Final screen lettering belongs in the approved wordmark variant. This resolves CRAFT_GUIDE §1b/QUALITY_BAR §5 alongside job 12’s font requirement.
+
+### Evidence files and measurements
+
+- `specimen_1366x768.png`: required desktop specimen.
+- `specimen_393x660_DPR3.png`: required phone specimen, physical PNG 1179 × 1980.
+- Additional safety captures: 1920 × 1080, 1366 × 640, 360 × 640, 375 × 553.
+- `specimen_materials_1366x768.png` and `specimen_motion_1366x768.png`: both remaining atlas categories.
+- `specimen_title.png` and `title_comparison.png`: title crop and same-height reference comparison.
+- `verification.json`: measured layout, loaded fonts, requests, two contrast samples, tab/keyboard checks and motion preferences.
+
+The specimen is a development atlas, not a product screen. Its token panels can scroll internally on short viewports so every token remains inspectable; the page itself does not scroll at any of the six captured sizes. No primary product action is invented. The Home image is a decorative, unchanged background, not a new phone composition or character-cutout deliverable.
+
+| Check | Result | Evidence |
+| --- | --- | --- |
+| Title family | PASS | title_comparison.png: source brush strokes, warm gold, condensed eyebrow/tagline and soft glow; reference crop on the left. |
+| Primary body contrast | PASS | 9.09:1 against the conservative brightest possible backdrop through 78% panel glass. |
+| Secondary body contrast | PASS | 4.91:1 using the same worst-case alpha-composite calculation. Both exceed 4.5:1. |
+| Required desktop/phone fit | PASS | Measured document width/height equal the viewport at 1366 × 768 and 393 × 660; DPR 3 on phone. |
+| Safety viewport fit | PASS | Also no page overflow at 1920 × 1080, 1366 × 640, 360 × 640 and 375 × 553. |
+| Token coverage | PASS | 70 distinct --sd- properties represented in the atlas; colours, material/spacing/fonts, depth/motion categories. |
+| Font loading / requests | PASS | Local WOFF2 files resolve, fonts measured after document.fonts.ready, no console error, failed request or 404. |
+| Keyboard | PASS | ArrowRight selects the next atlas tab and focuses it; visible solid 2px gold outline. |
+| Reduced motion | PASS | OS and html[data-motion-reduced=true] both set entrance to 150ms. No specimen animation is introduced. |
+| Manager order | PASS | Measured Daniel before Nik on all six layouts; blue first, yellow second. Original art was not mirrored. |
+| First-load bytes | PASS | Approximately 448 KB (decimal) including HTML/CSS, local fonts, Home WebP and two compact wordmarks; below 450 KB phone and 900 KB desktop. The specimen does not load its PNG evidence. |
+| Existing screens | PASS | No Home, League, Club, Transfer or live product file changed. The shared styles are opt-in. |
+
+### Adoption
+
+Load `showdown-tokens.css` then `showdown-type.css` once. Use the `--sd-` variables for screen-local styles, and the opt-in `.sd-*` typography classes. A title image uses `.sd-title--wordmark`, an empty image alt, and `.sd-visually-hidden` text inside the heading. Body contrast must still be measured after compositing against each screen’s actual glass; text-secondary is not licensed for arbitrary photography without a scrim. `--sd-text-dim` is decorative only. Motion consumers must respect the timing tokens and replace transforms with a short fade when reduced motion is active.
+
+Job 13 can now build the shared panel/button kit. Job 15 also uses these tokens but still needs job 14. No board/job definitions are edited.
