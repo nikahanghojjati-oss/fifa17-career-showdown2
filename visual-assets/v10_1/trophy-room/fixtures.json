@@ -52,9 +52,6 @@
       "managers": {
         "daniel": {
           "displayName": "Daniel",
-          "showdowns": {
-            "wins": 2
-          },
           "championsLeagues": 2,
           "leagueTitles": 3,
           "domesticCups": 1,
@@ -64,9 +61,6 @@
         },
         "nik": {
           "displayName": "Nik",
-          "showdowns": {
-            "wins": 1
-          },
           "championsLeagues": 1,
           "leagueTitles": 2,
           "domesticCups": 3,
@@ -118,7 +112,15 @@
           "value": 1,
           "ref": "preview-career"
         }
-      ]
+      ],
+      "showdowns": {
+        "daniel": {
+          "wins": 2
+        },
+        "nik": {
+          "wins": 1
+        }
+      }
     },
     "TR2": {
       "note": "new career; successful read with no counted history",
@@ -132,9 +134,6 @@
       "managers": {
         "daniel": {
           "displayName": "Daniel",
-          "showdowns": {
-            "wins": 0
-          },
           "championsLeagues": 0,
           "leagueTitles": 0,
           "domesticCups": 0,
@@ -144,9 +143,6 @@
         },
         "nik": {
           "displayName": "Nik",
-          "showdowns": {
-            "wins": 0
-          },
           "championsLeagues": 0,
           "leagueTitles": 0,
           "domesticCups": 0,
@@ -167,7 +163,15 @@
           "seasonWins": 0
         }
       ],
-      "records": []
+      "records": [],
+      "showdowns": {
+        "daniel": {
+          "wins": 0
+        },
+        "nik": {
+          "wins": 0
+        }
+      }
     },
     "TR3": {
       "note": "partial provider history; values cover readable history only and coverage must be visible",
@@ -185,9 +189,6 @@
       "managers": {
         "daniel": {
           "displayName": "Daniel",
-          "showdowns": {
-            "wins": 1
-          },
           "championsLeagues": 1,
           "leagueTitles": 1,
           "domesticCups": 0,
@@ -197,9 +198,6 @@
         },
         "nik": {
           "displayName": "Nik",
-          "showdowns": {
-            "wins": 1
-          },
           "championsLeagues": 0,
           "leagueTitles": 1,
           "domesticCups": 1,
@@ -251,7 +249,15 @@
           "value": 0,
           "ref": "preview-readable-history"
         }
-      ]
+      ],
+      "showdowns": {
+        "daniel": {
+          "wins": 1
+        },
+        "nik": {
+          "wins": 1
+        }
+      }
     },
     "TR4": {
       "note": "ready history with real League Titles category selected; both managers remain visible",
@@ -265,9 +271,6 @@
       "managers": {
         "daniel": {
           "displayName": "Daniel",
-          "showdowns": {
-            "wins": 2
-          },
           "championsLeagues": 2,
           "leagueTitles": 3,
           "domesticCups": 1,
@@ -277,9 +280,6 @@
         },
         "nik": {
           "displayName": "Nik",
-          "showdowns": {
-            "wins": 1
-          },
           "championsLeagues": 1,
           "leagueTitles": 2,
           "domesticCups": 3,
@@ -331,7 +331,15 @@
           "value": 1,
           "ref": "preview-career"
         }
-      ]
+      ],
+      "showdowns": {
+        "daniel": {
+          "wins": 2
+        },
+        "nik": {
+          "wins": 1
+        }
+      }
     },
     "TR5": {
       "note": "provider career history unavailable; no numeric values are presented as facts",

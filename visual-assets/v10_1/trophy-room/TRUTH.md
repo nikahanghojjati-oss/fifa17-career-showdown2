@@ -172,7 +172,7 @@ Managers are keyed by slot role only: `playerOne = daniel` and `playerTwo = nik`
 | `totalTrophies` per manager | A | `finalizeManagerCareerStats()` computes `leagueTitles + domesticCups + championsLeagues`. | Per career, per manager | Cabinet total; counts wins, not scoring points. |
 | `careerPoints` per manager | A | Legacy equivalent is `manager.totalPoints`, accumulated from each accepted season score by `accumulateRoundStats()`. | Per career, per manager | Primary Trophy Room standings sort/display value. |
 | `seasonWins` per manager | A | Legacy local equivalent is incremented from `round.winner` in `accumulateRoundStats()`. | Per career, per manager | Secondary standings tiebreak/display value. |
-| `showdowns.wins` per manager | A | Main equivalent: `manager.showdownWins` in `calculateCareerAnalytics()`. | Per career, per manager | Powers the required Showdown Champion card/category; it remains separate from §7 `totalTrophies`. |
+| `showdowns.{daniel,nik}.wins` | A | Main equivalent: `manager.showdownWins` in `calculateCareerAnalytics()`. | Per career, per manager | Showdown-record shape used by Career Statistics. `showdowns.daniel.wins` and `showdowns.nik.wins` power the Showdown Champion card/category; do not nest this under `managers.*`; it remains separate from §7 `totalTrophies`. |
 | `standings` | A | `calculateCareerAnalytics()` currently sorts legacy managers by Showdown wins, then trophies, then points; `createCareerStandingsTable()` renders that order. | Per career | Contract overrides the legacy order: sort by `careerPoints`, then `seasonWins`, else level/shared rank. |
 | `records[]` | A | `buildCareerRecords()` in `js/analytics.js` builds the legacy local record set. | Per career | Only the five contract record families below. Each item is `{label, manager or "shared", value, ref}`. |
 | `records[].label` | A | Legacy labels are authored in `renderAllTimeRecords()` in `js/trophyRoom.js`. | Per career record | Human-readable record name. |
@@ -248,7 +248,7 @@ A generic read error maps to `unavailable`; there is no sixth `error` state. The
 
 Required categories are `ALL · SHOWDOWN · LEAGUE TITLES · DOMESTIC CUPS · CHAMPIONS LEAGUE`.
 
-- Showdown Champion: per-manager `showdowns.wins` from §6.
+- Showdown Champion: `showdowns.daniel.wins` / `showdowns.nik.wins` from §6. This Showdown record is a sibling of `managers`; `managers.daniel.showdowns.wins` / `managers.nik.showdowns.wins` is not the contract shape.
 - League Title: `leagueTitles`.
 - Domestic Cup: `domesticCups`.
 - Champions League: `championsLeagues`.
@@ -275,7 +275,7 @@ The mockup is reference, not product authority. Every product-sensitive element 
 | Trophy Room stadium / gold-black ceremony composition | KEEP as visual direction. Daniel stays left and Nik right; names and counts remain live DOM text. |
 | `TROPHY ROOM` title | KEEP with product wording `TROPHY ROOM`. |
 | `ALL` | KEEP. Show all four original trophy families for both managers. |
-| `SHOWDOWN` | KEEP. Use per-manager `showdowns.wins` for Showdown Champion. |
+| `SHOWDOWN` | KEEP. Use `showdowns.daniel.wins` / `showdowns.nik.wins` for Showdown Champion. |
 | `LEAGUE TITLES` | KEEP. Use `leagueTitles`. |
 | `DOMESTIC CUPS` | KEEP. Use `domesticCups`. |
 | Mockup `CONTINEENTAL` | CHANGE to `CHAMPIONS LEAGUE`. |
