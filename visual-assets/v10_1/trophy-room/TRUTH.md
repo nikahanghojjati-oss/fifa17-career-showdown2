@@ -315,3 +315,10 @@ The mockup is reference, not product authority. Every product-sensitive element 
 | Mockup top navigation, if present | CHANGE to shared HOME / CAREER / STANDINGS / STATS / RULES plus settings; no ABOUT, search or profile destinations. |
 
 The binary mockup cannot be decoded by this chat's repository text connector. This table therefore resolves every Trophy Room mockup element explicitly enumerated by JOB-002 and every rights/data/navigation-sensitive element governed by the binding product papers, without inventing unverified decorative elements.
+
+
+## Open questions
+
+None blocking.
+
+The product papers and agreed Team G contract answer the Trophy Room's data, states, manager order, categories, rights, counting and navigation behavior. Remaining choices such as decorative spacing, motion, exact trophy-art placement and responsive composition are visual implementation decisions and may not change the truth above. The repository mockup binary could not be decoded through the text-only GitHub connector in this chat; JOB-002's explicit mockup corrections and the binding product papers were used for every product-sensitive reconciliation, so this does not create a product question.
