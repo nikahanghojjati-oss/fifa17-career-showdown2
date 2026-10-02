@@ -56,3 +56,114 @@ Synthetic flattened-colour test: an antialiased warm disk on a pale background r
 | `OVL_LEAGUE_DANIEL_FINGER_V1_RIM_2X.png` | 3072 × 1728 | [871,811,1080,1009] | `5d44d4ef53ad824bf7eb3fddde7ab8d238a04d218465a1a0cc61046b5c6e4c94` |
 
 Generated test layers are temporary; only the job-named compare PNG is committed. Evidence PNG SHA-256: `b7a496105a9800bae5e1a48a06f2c332e7f1b433b416c35146c7201d1fa98c18`.
+
+
+## Drawing contours
+
+1. Work on the approved 1X plate, at 200–400% zoom. Draw clockwise around the inside edge of the part crossing the UI, generally 10–40 points. Add points at bends, fingertips and wrist/sleeve transitions; avoid one point for every image pixel.
+2. Keep Daniel left, Nik right. Never mirror, rotate, repaint a face or use unrelated imagery. Separate disconnected pieces into multiple polygons in the same key; the tool unions them.
+3. Stay just inside the bright background fringe, without cutting away fingertips. The default erosion removes another 1 logical pixel. Hair needs a soft contour: retain the wisps within the polygon, use `--erode 0 --feather 1.5`, then review it independently. A hand-tuned polygon tool cannot reconstruct missing hair or details.
+4. Close a partial cut-out inside the figure, where the underlying plate remains visible. Those artificial closing edges must never sit over an opaque UI object: expand the contour/part if they would. A crop-boundary cut across a sleeve is acceptable only when it is concealed by the same registered plate.
+5. Store the points as `cutouts.<part>.polygon` or `cutouts.<part>.polygons` in that screen's map when the screen job owns it. Use 1X pixel units and preserve the map's `plate_1x_size`. Avoid protected face boxes; they are safety bounds, not cut-out silhouettes.
+6. Test on black, warm panel glass and a neutral light diagnostic background at 100%, 200% and 400%. Reject bright/dark matte rings, colour speckles, jagged tips or registration seams. Reduce rim strength if it reads as an outline.
+
+Example map entry:
+
+```json
+{
+  "plate_1x_size": [1536, 864],
+  "cutouts": {
+    "daniel_arm": {"polygon": [[440,410],[505,410],[516,442],[535,455],[516,466],[505,500],[440,500]]},
+    "two_parts": {"polygons": [[[20,20],[70,20],[70,80],[20,80]], [[90,20],[120,20],[120,80],[90,80]]]}
+  }
+}
+```
+
+These schematic points illustrate the schema; trace the actual figure instead of using them as approved art.
+
+## Naming and running
+
+Use `OVL_<SCREEN>_<PART>_V1_{1X,2X}.png`, with matching `OVL_<SCREEN>_<PART>_V1_RIM_{1X,2X}.png` when requested. Example part: `DANIEL_FINGER`. Version the asset when the approved contour changes. Give `--output` the stem without the density suffix; a final `.png` is optional. PNGs are lossless masters; convert runtime layers to transparent WebP in the consuming screen job and measure its page budget.
+
+```sh
+python3 visual-assets/v10_1/shared/tools/cutout.py \
+  --plate visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_2X.png \
+  --source-scale 2 \
+  --map /path/to/screen/platemap.json --key cutouts.daniel_arm \
+  --output /tmp/OVL_LEAGUE_DANIEL_ARM_V1 --rim
+```
+
+Exact League test reproduction, run from repository root (only temporary files are created):
+
+```python
+import ast, json, subprocess, sys, tempfile
+from pathlib import Path
+
+league = Path("visual-assets/v10_1/league")
+source = ast.parse((league / "tools/make_finger_overlay.py").read_text())
+polygon = next(ast.literal_eval(node.value) for node in source.body
+               if isinstance(node, ast.Assign)
+               and isinstance(node.targets[0], ast.Name)
+               and node.targets[0].id == "POLY")
+with tempfile.TemporaryDirectory() as temp:
+    temp = Path(temp)
+    contour = temp / "finger.json"
+    contour.write_text(json.dumps(polygon))
+    subprocess.run([
+        sys.executable, "visual-assets/v10_1/shared/tools/cutout.py",
+        "--plate", str(league / "assets/ENV_LEAGUE_PLATE_V1_2X.png"),
+        "--source-scale", "2", "--map", str(league / "assets/platemap.json"),
+        "--key", "protected_boxes.hand_daniel", "--polygon", "@" + str(contour),
+        "--output", str(temp / "OVL_LEAGUE_DANIEL_FINGER_V1"), "--rim"
+    ], check=True)
+    # Inspect/use files here before this temporary directory is removed.
+```
+
+The JSON output reports actual alpha bbox, not a CSS placement offset. Full-canvas overlays must be placed at (0,0) within the scene. The old cropped League overlay needed a (440,410) offset; applying that offset to the new full canvas would misalign it.
+
+## CSS placement and lighting
+
+Use one scene container for plate, UI and cut-outs. The container applies the cover scale/crop/translation once; every raster then fills it exactly. Do not give the overlay a different `object-fit`, focal point or transform. This example is a 1536 × 864 (16:9) plate; use the actual aspect ratio for other plates.
+
+```html
+<div class="screen">
+  <div class="scene">
+    <img class="plate" src="ENV_LEAGUE_PLATE_V1_2X.webp" alt="">
+    <div class="ui"><!-- Real semantic controls at mapped scene positions --></div>
+    <span class="contact" aria-hidden="true"></span>
+    <img class="cutout" src="OVL_LEAGUE_DANIEL_FINGER_V1_2X.webp" alt="" aria-hidden="true">
+    <span class="rim" aria-hidden="true"></span>
+  </div>
+</div>
+```
+
+```css
+/* .screen gets its size from the screen layout, above any phone bottom bar. */
+.screen { position: relative; width: 100%; height: 100%; overflow: hidden; container-type: size; }
+.scene {
+  position: absolute; left: 50%; top: 50%;
+  width: max(100cqw, calc(100cqh * 16 / 9)); aspect-ratio: 16 / 9;
+  transform: translate(-50%, -50%); isolation: isolate;
+}
+.plate, .cutout, .rim { position: absolute; inset: 0; width: 100%; height: 100%; }
+.plate { z-index: 0; }
+.ui { position: absolute; inset: 0; z-index: 2; }
+.cutout { z-index: 3; pointer-events: none; }
+.rim {
+  z-index: 4; pointer-events: none; opacity: .4;
+  background: linear-gradient(110deg, transparent 30%, #ffd34d 70%, transparent 95%);
+  -webkit-mask: url("OVL_LEAGUE_DANIEL_FINGER_V1_RIM_2X.webp") center / 100% 100% no-repeat;
+  mask: url("OVL_LEAGUE_DANIEL_FINGER_V1_RIM_2X.webp") center / 100% 100% no-repeat;
+}
+/* Example fingertip contact on the live wheel, mapped to the plate. */
+.contact {
+  position: absolute; z-index: 2; pointer-events: none;
+  left: 34.1%; top: 53.1%; width: 1.0%; height: .65%;
+  border-radius: 50%; background: rgb(0 0 0 / .4);
+  transform: translate(1px, 2px); filter: blur(3px);
+}
+```
+
+The contact example is a starting position; confirm it against the live wheel edge and finger, and place it above the wheel but below the cut-out. A sleeve/panel contact uses 6–14 logical px blur at 35–50% black, offset away from the key light. A fingertip contact uses 2–4 px. Scale these values with the scene scale so contact stays consistent across desktop sizes. The rim's mask occupies a 3 px outer band; make its visible glow only 1–3 px and fade the side facing away from the stadium lights. Never let lighting conceal a bad cut-out. Light gradients are authored for each scene, not chosen by the tool.
+
+On phone, retain Daniel first/left and Nik second/right and use the phone plate's own contour/map. Do not place a desktop overlay over a separately recropped phone plate; if character staging changes, make new phone overlays and keep each character's art unmirrored. Screen QA still checks no scrolling, readable controls and weight independently.
