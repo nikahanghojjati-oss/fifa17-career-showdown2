@@ -120,23 +120,6 @@
    "plain": "One pure function that turns Showdown data into the career numbers every screen shows."
   },
   {
-   "number": 4,
-   "key": "G-4",
-   "title": "Renderer seams: screens take a model, never the local path",
-   "lane": "work",
-   "depends_on": [
-    3
-   ],
-   "steps": 7,
-   "code_branch": "gameplay/job-04-renderer-seams",
-   "codex_review": false,
-   "written": true,
-   "waits_on": null,
-   "phase": "2 Career model",
-   "type": "build",
-   "plain": "Screens read from that career model instead of from one phone's local data."
-  },
-  {
    "number": 5,
    "key": "G-5",
    "title": "Active Showdown adapter (Rivalry, Continue, tiebreak, final state)",
@@ -152,6 +135,23 @@
    "phase": "2 Career model",
    "type": "build",
    "plain": "Live Showdown (Rivalry, Continue, tiebreak, final result) feeds the career model."
+  },
+  {
+   "number": 4,
+   "key": "G-4",
+   "title": "Renderer seams: screens take a model, never the local path",
+   "lane": "work",
+   "depends_on": [
+    3
+   ],
+   "steps": 7,
+   "code_branch": "gameplay/job-04-renderer-seams",
+   "codex_review": false,
+   "written": true,
+   "waits_on": null,
+   "phase": "2 Career model",
+   "type": "build",
+   "plain": "Screens read from that career model instead of from one phone's local data."
   },
   {
    "number": 6,

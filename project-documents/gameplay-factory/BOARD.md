@@ -6,9 +6,9 @@ Branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generate
 
 **Start now in a normal chat (press Stay in Chat):** 6
 
-**Start now in Sol Work mode (press Use Work, paste the starter line from RULES.md):** 4
+**Start now in Sol Work mode (press Use Work, paste the starter line from RULES.md):** 5
 
-**Ready but no free slot yet:** 5
+**Ready but no free slot yet:** 4
 
 **Working:** 2 · **Blocked:** -
 
@@ -21,8 +21,8 @@ Branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generate
 | 16 | G-2b | Two-manager browser journey (localhost-only emulator switch) | 1 Safety net | test | chat | 2 |  | ░░░░░░░░░░ 0 % | NOT WRITTEN |
 | 12 | G-12 | Composed production Rules regression | 1 Safety net | test | work | 7, 8 | yes | ░░░░░░░░░░ 0 % | NOT WRITTEN |
 | 3 | G-3 | [Pure shared career model + tests](jobs/JOB-03.md) | 2 Career model | build | work | - |  | ██████████ 100 % | DONE |
-| 4 | G-4 | [Renderer seams: screens take a model, never the local path](jobs/JOB-04.md) | 2 Career model | build | work | 3 |  | ░░░░░░░░░░ 0 % | NOT STARTED |
 | 5 | G-5 | [Active Showdown adapter (Rivalry, Continue, tiebreak, final state)](jobs/JOB-05.md) | 2 Career model | build | work | 3 |  | ░░░░░░░░░░ 0 % | NOT STARTED |
+| 4 | G-4 | [Renderer seams: screens take a model, never the local path](jobs/JOB-04.md) | 2 Career model | build | work | 3 |  | ░░░░░░░░░░ 0 % | NOT STARTED |
 | 6 | G-6 | [Start/Join view model + nav.locked](jobs/JOB-06.md) | 2 Career model | build | chat | - |  | ░░░░░░░░░░ 0 % | NOT STARTED |
 | 11 | G-11 | Contract fixtures generated from the real model | 2 Career model | test | work | 3, 5 |  | ░░░░░░░░░░ 0 % | NOT WRITTEN |
 | 7 | G-7 | Career index Rules + client + emulator proofs | 3 Career history | rules | work | 1, 2 | yes | ░░░░░░░░░░ 0 % | NOT WRITTEN |

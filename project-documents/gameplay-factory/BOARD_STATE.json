@@ -14,11 +14,11 @@
    6
   ],
   "work": [
-   4
+   5
   ]
  },
  "queued": [
-  5
+  4
  ],
  "working": [
   2
@@ -173,28 +173,6 @@
    "ready": false
   },
   {
-   "number": 4,
-   "key": "G-4",
-   "title": "Renderer seams: screens take a model, never the local path",
-   "lane": "work",
-   "depends_on": [
-    3
-   ],
-   "steps": 7,
-   "code_branch": "gameplay/job-04-renderer-seams",
-   "codex_review": false,
-   "written": true,
-   "waits_on": null,
-   "phase": "2 Career model",
-   "type": "build",
-   "plain": "Screens read from that career model instead of from one phone's local data.",
-   "state": "NOT STARTED",
-   "step": 0,
-   "steps_total": 7,
-   "pct": 0,
-   "ready": true
-  },
-  {
    "number": 5,
    "key": "G-5",
    "title": "Active Showdown adapter (Rivalry, Continue, tiebreak, final state)",
@@ -210,6 +188,28 @@
    "phase": "2 Career model",
    "type": "build",
    "plain": "Live Showdown (Rivalry, Continue, tiebreak, final result) feeds the career model.",
+   "state": "NOT STARTED",
+   "step": 0,
+   "steps_total": 7,
+   "pct": 0,
+   "ready": true
+  },
+  {
+   "number": 4,
+   "key": "G-4",
+   "title": "Renderer seams: screens take a model, never the local path",
+   "lane": "work",
+   "depends_on": [
+    3
+   ],
+   "steps": 7,
+   "code_branch": "gameplay/job-04-renderer-seams",
+   "codex_review": false,
+   "written": true,
+   "waits_on": null,
+   "phase": "2 Career model",
+   "type": "build",
+   "plain": "Screens read from that career model instead of from one phone's local data.",
    "state": "NOT STARTED",
    "step": 0,
    "steps_total": 7,
