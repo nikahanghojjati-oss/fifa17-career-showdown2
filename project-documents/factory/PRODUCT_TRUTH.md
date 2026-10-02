@@ -71,6 +71,7 @@ Final Home destinations, all reachable on phone: **Continue** (dominant), **Star
 - Desktop targets: 1366 × 768 (main), 1440 × 900, 1920 × 1080, and 1366 × 640 (short laptop).
 - Live UI is semantic DOM, aligned to the screen. No skewed or rotated form text. Inputs at least 16 px on phone. Body text contrast at least 4.5:1.
 - Top bar (agreed with Team G, DATA_CONTRACT_V1 §10): five tabs HOME / CAREER / STANDINGS / STATS / RULES plus a settings icon at the right end; no ABOUT, search or profile. Desktop: 52 px bar at the top, always visible; on the transfer window, season entry and both wheels it is locked ("Finish this step first"). Phone (≤ 900 px): a 5-icon bottom bar of 56 px plus the safe area, shown ONLY on hub screens (Home, Start / Join, Legacy, Trophy Room, Statistics / Rivalry, Standings, Rule Book, Settings) and hidden on Loading, both wheels, Transfer War, Season Results entry and the Final Winner reveal. Hub screens measure their phone fit above the bar's space. Job 125 builds the bar.
+- Startup budget (Team G, G2V-005): the app's startup JavaScript is at 37,493 of 37,500 gzip bytes. Every new visual script must be lazy-loaded (loaded when its screen opens), never added to startup. Keep CSS and images per screen too.
 - Only buttons the real app has. If a mockup shows a button with no product behaviour, drop it.
 
 ## 8. Branches
