@@ -1,11 +1,11 @@
 # Status · JOB-04 · Renderer seams: screens take a model, never the local path
 
 State: IN PROGRESS
-Step: 3 of 7
-Updated: 2026-10-02 22:01 UTC
+Step: 4 of 7
+Updated: 2026-10-02 22:04 UTC
 Chat: Sol Work mode (2230aaf674be)
 Code branch: gameplay/job-04-renderer-seams
-Head commit: db7adf3b18ed44bfc9145c429c4de2671296b547
+Head commit: 01a0407cf72a3fe804679d7e4e17c4196ba7527e
 PR:
 CI run:
 
@@ -15,6 +15,8 @@ CI run:
 - Step 2: Exact fake DOM helper copied; smoke command prints ok 1.
 
 - Step 3: All 17 prescribed test blocks written before implementation; throwing seam stub gives exit 1: Error: 1. Request normalising: not implemented. Tests-first commit db7adf3b18ed44bfc9145c429c4de2671296b547.
+
+- Step 4: Implemented frozen pure seam, exact text and row mappings, manager order, safe malformed-model handling and text-only DOM painting. Cases 1-10 and 17 PASS (11/11).
 
 ## Self-check
 
