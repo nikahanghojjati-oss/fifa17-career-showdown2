@@ -146,3 +146,20 @@ Preview frames for the factory build:
 - `RB2` · long-content stress view: still the same `ready` screen with all sections present. The job phrase “a long section open” is adjusted because `main` has no accordion/collapse behavior; every section is always expanded. Use this frame to verify the longest rule copy and scoring rows remain readable without changing wording.
 
 No preview frame may reveal private rivalry inputs or introduce manager-specific content.
+
+
+## Mockup reconciliation
+
+There is no Rule Book mockup or goal image in `project-documents/factory/mockups/`; the folder README lists Trophy Room, Career Statistics, Rivalry Statistics, Legacy, Season Results, Start / Join, Home, League, Club and Transfer only. For Rule Book, live product copy and product truth are the authority.
+
+| Mockup element | Product answer |
+| --- | --- |
+| No Rule Book mockup exists | N/A. Do not invent a visual-content requirement from another screen. Preserve the live Rule Book rules, scoring, routing and Back behavior, then apply the shared factory visual language in the later build job. |
+
+Product-truth overrides that still govern the later visual build even without a mockup:
+
+- KEEP Daniel before Nik in copy and any future composition; Daniel LEFT, Nik RIGHT if portraits are used.
+- KEEP scoring exactly: Champions League +5, league title +3, domestic cup +1, performance bonus max +1, awards bonus max +1, season max 11.
+- DROP any unrecorded-stat additions listed in PRODUCT_TRUTH §3 / DATA_CONTRACT_V1 §9.
+- DROP any real crests, league logos, trophies, EA/FIFA art or player imagery.
+- KEEP only the real Back action plus shared navigation supplied by the factory navigation job; do not invent Rule Book actions.
