@@ -1,8 +1,8 @@
 # Status · JOB-06 · Start/Join view model + nav.locked
 
 State: IN PROGRESS
-Step: 0 of 7
-Updated: 2026-10-02 19:27 UTC
+Step: 1 of 7
+Updated: 2026-10-02 19:41 UTC
 Chat: Sol chat
 Code branch: gameplay/job-06-start-join-model
 Head commit: 4491e36378446b3a06ff2d28aa861bb892d87357
@@ -10,16 +10,11 @@ PR:
 CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37054023600
 
 ## Notes
-- Step 1 blocked before Job 6 code changes: `js/sharedCareerAnalytics.js` exists and the recovery head's Gameplay contracts job passes Product contracts + Operations audit, but Validate Gameplay Fast fails in the existing `tests/firebase/two-manager-journey-emulator.cjs` test.
-- Failure at `tests/firebase/two-manager-journey-emulator.cjs:220`: actual `permission-denied`, expected `SEASON_RESULTS_STALE_BASE_REVISION`.
+- Step 1: baseline on recovery head `4491e36378446b3a06ff2d28aa861bb892d87357`; `js/sharedCareerAnalytics.js` exists; Product contracts passed with `PASS POS10 selected deterministic census (97/97 current blocking contracts: frozen POS10 floor + POS20 supplements).`; Operations audit ended `ℹ pass 73`. Validate Gameplay Fast has only the lead-approved known JOB-02 race at `two-manager-journey-emulator.cjs:220` (actual `permission-denied`, expected `SEASON_RESULTS_STALE_BASE_REVISION`).
 
 ## Self-check
 
 ## Blocked question
-The current `gameplay/recovery-v1` baseline at `4491e36378446b3a06ff2d28aa861bb892d87357` has a failing existing two-manager journey emulator test. Should Job 6 wait for the recovery baseline to be green before continuing?
 
 ## Lead answer (2026-10-02 19:40 UTC)
-
-Don't wait. Continue with step 1 and the rest of the job. The red step is not yours and not caused by your work. It is a timing race in JOB-02's new journey test, in the season 2 "simultaneous result taps" check at line 220. The same test passed twice on JOB-02's own head. When both managers publish at the same instant, the losing write sometimes comes back `permission-denied` instead of `SEASON_RESULTS_STALE_BASE_REVISION`. The lead is fixing that in a separate change.
-
-For your Done checklist: if the only red item on your exact head is that one assertion (`two-manager-journey-emulator.cjs:220`, actual `permission-denied`), mark the CI line "PASS except known JOB-02 race (lead fixing)", quote the line, and carry on. Any other red step is yours to fix as usual.
+Don't wait on the known JOB-02 race. If it is the only red item on Job 6's exact head, record it as `PASS except known JOB-02 race (lead fixing)` and continue.
