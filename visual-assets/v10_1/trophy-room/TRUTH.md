@@ -52,3 +52,102 @@ The lazy Trophy Room DOM currently emits these structural classes. They are part
 - Records/states: `.recordsGrid`, `.recordCard`, `.analyticsEmpty`, `.analyticsIdentityNotice`.
 - Live data attributes: `data-profile-id` on manager rows/cabinets and `data-unresolved-roles` on the identity notice.
 - The browser audit directly selects `#trophyRoom .managerCabinet[data-profile-id]` and `#trophyRoom .analyticsIdentityNotice`.
+
+
+## Live buttons and strings
+
+### Buttons on the live Trophy Room
+
+The live `main` Trophy Room itself has exactly one button:
+
+| Visible text | Element | Behaviour |
+| --- | --- | --- |
+| `BACK` | `button.backButton` | Delegated to `navigateBackSmart()`; legal Trophy Room targets are dashboard, Career Statistics, then Main Menu as described above. |
+
+There are no live category/filter buttons inside Trophy Room on `main`. The only current entry control is outside the screen: Career Statistics has `OPEN TROPHY ROOM` on `#careerStatisticsTrophyButton`, which lazy-loads and opens this module.
+
+### Static visible strings copied from `js/trophyRoom.js`
+
+These are literal strings emitted by the live screen:
+
+- `TROPHY ROOM`
+- `BACK`
+- `CAREER POINTS`
+- `Champions League`
+- `League Titles`
+- `Domestic Cups`
+- `UCL`
+- `LGE`
+- `CUP`
+- `TOTAL TROPHIES`
+- `SEASON WINS`
+- `PERFECT SEASONS`
+- `11 points`
+- `100-POINT SEASONS`
+- `100-GOAL SEASONS`
+- `SAFE SIGNINGS`
+- `No club history`
+- `—`
+- `No completed record yet`
+- `0`
+- `No manager has recorded this achievement yet`
+- `ALL-TIME RECORDS`
+- `MOST SHOWDOWN WINS`
+- `MOST CAREER POINTS`
+- `MOST TROPHIES`
+- `MOST CHAMPIONS LEAGUES`
+- `MOST LEAGUE TITLES`
+- `MOST DOMESTIC CUPS`
+- `PERFECT 11-POINT SEASONS`
+- `HIGHEST SEASON SCORE`
+- `HIGHEST LEAGUE POINTS`
+- `MOST LEAGUE GOALS`
+- `BIGGEST SHOWDOWN WIN`
+- `COMPLETED SHOWDOWNS`
+- `SEASONS PLAYED`
+- `TROPHIES WON`
+- `SHOWDOWN POINTS`
+- `CAREER TABLE`
+- `MANAGER CABINETS`
+- `The Trophy Room is empty. Complete a showdown and its managers, trophies, records, and career statistics will appear here automatically.`
+
+The shared Career Table renderer in `js/statistics.js`, which Trophy Room calls, adds these exact header strings:
+
+- `#`
+- `Manager`
+- `Showdowns`
+- `Season W-D-L`
+- `Points`
+- `Trophies`
+
+### Dynamic visible templates copied from `js/trophyRoom.js`
+
+- Manager rank: `#${rank}`.
+- Manager record: `${manager.showdownWins}W · ${manager.showdownDraws}D · ${manager.showdownLosses}L across ${manager.showdowns} showdown${manager.showdowns === 1 ? "" : "s"}`.
+- Achievement strip: `${manager.performanceBonuses} performance bonus${manager.performanceBonuses === 1 ? "" : "es"} · ${manager.awardsBonuses} awards bonus${manager.awardsBonuses === 1 ? "" : "es"}`.
+- Club history when non-empty: `${manager.clubs.length} club${manager.clubs.length === 1 ? "" : "s"}: ${manager.clubs.join(", ")}`.
+- Record-holder names: `record.holders.map(holder => holder.name).join(" · ")`.
+- Season-record detail: `${holder.manager} · ${holder.club} · Season ${holder.season} · ${holder.showdown}${tied}`.
+- Multi-holder suffix: ` · ${record.holders.length}-way tie`.
+- Record value suffixes used by cards: ` pts` and ` goals`.
+- Biggest Showdown win value: `${records.biggestShowdownMargin.value} pts`.
+- Biggest Showdown win detail: `${records.biggestShowdownMargin.manager} · ${records.biggestShowdownMargin.score} · ${records.biggestShowdownMargin.showdown}`.
+- Identity notice: `${unresolved} historical manager role${unresolved === 1 ? " remains" : "s remain"} unresolved. ${unresolved === 1 ? "It is" : "They are"} excluded from manager cabinets and longitudinal leaderboards until explicitly linked to Local Profiles. Overall trophy totals and Showdown or season records remain complete.`
+
+### State-dependent live strings
+
+- Empty manager history: the long `The Trophy Room is empty...` message above appears only when there are no manager cabinets and there is no unresolved-identity notice.
+- Unresolved identity: the identity-notice template appears only when `analytics.identity.unresolvedRoleCount > 0`.
+- No record yet: `—` plus `No completed record yet`.
+- A recorded achievement whose leading value is zero: `0` plus `No manager has recorded this achievement yet`.
+- No club history: `No club history`; otherwise the dynamic club-count/history string.
+- `BIGGEST SHOWDOWN WIN` is rendered only when `records.biggestShowdownMargin` exists.
+- `ALL-TIME RECORDS` is rendered only when `analytics.totals.showdowns` is non-zero.
+
+The current live implementation has no Trophy Room loading, unavailable, partial, or generic error copy inside `#trophyRoom`. While the optional module is loading, the external entry button gets `aria-busy="true"`. A module-open failure is surfaced through the global application notice with context `Unable to open trophyRoom` plus the underlying loader error. The contract-specific history state copy is defined below and overrides this legacy omission for the rebuilt screen.
+
+### Accessibility text
+
+- The Trophy Room Back button has no explicit `aria-label`; its accessible name is the visible text `BACK`.
+- Central navigation assigns the `h2` id `trophyRoomScreenTitle`, `tabindex="-1"`, and `data-route-focus-target="true"`, then sets the section's `aria-labelledby="trophyRoomScreenTitle"`.
+- `aria-hidden` changes with route visibility. No other Trophy Room-specific aria-label string is authored in `js/trophyRoom.js`.
