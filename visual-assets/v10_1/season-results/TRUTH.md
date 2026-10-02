@@ -436,3 +436,17 @@ The six primary workflow frames are SR1 through SR6. SR7 through SR10 exist only
 SR4 deliberately exposes both published input records but not canonical totals: live `main` reveals authoritative scoring only after the shared season commit is acknowledged. SR5 is the committed frame that contains `breakdown`, `total`, `winner` and `tiebreak`.
 
 The fixture uses the contract name `awardsBonus`. Production canonical scoring currently calls that value `individualAwardsBonus`; the adapter rename is required before presentation.
+
+
+## Open questions
+
+None blocking.
+
+The binding product papers, live shared-results route and agreed Team G data contract answer the screen's manager order, entry/privacy rules, scoring, commit timing, canonical score timing, routes, allowed fields and dropped stats.
+
+Two implementation notes are intentionally not treated as product questions:
+
+1. Current `main` does not provide bespoke in-screen release copy for the contract-only `loading`, `empty`, `partial` or `unavailable` shells. The factory fixtures therefore represent those states honestly without inventing numeric facts or pretending old copy exists. The one contract-fixed interim sentence remains exactly `Current Showdown only. Career history is not yet available.`
+2. `tiebreak` is an agreed contract addition owned by Team G (G-5). Until that field exists, later visual work may preview only labelled fixture values and must not change the established decision rule: total score, then league position, then league points, else draw.
+
+Visual implementation may restyle and recompose the approved mockup direction, but it may not change the IDs/actions that live code depends on, reveal a rival before `results-ready`, mirror Daniel/Nik, reintroduce dropped statistics, or show an authoritative canonical score before the committed/acknowledged scoring state.
