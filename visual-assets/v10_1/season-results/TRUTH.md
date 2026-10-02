@@ -343,13 +343,13 @@ All values below are fictional preview data. The later fixtures file marks every
 - `SR1` · Daniel device · `status: ready` · `phase: entering`. Daniel's entry panel is live. Nik is sealed. Use valid fictional Daniel draft values: league position 1, 96 points, 94 goals, domestic cup true, Champions League true, top scorer false, top assist true. No computed total is editable.
 - `SR2` · Nik device · `status: ready` · `phase: entering`. Nik's entry panel is live. Daniel is sealed. Use valid fictional Nik draft values: league position 2, 91 points, 103 goals, domestic cup false, Champions League true, top scorer true, top assist false.
 - `SR3` · Daniel device example · `status: ready` · `phase: waiting-for-rival`. Daniel's published result is visible/read-only. Nik's inputs are sealed and absent from the view model. The same rule applies symmetrically when Nik is the first publisher.
-- `SR4` · either device · `status: ready` · `phase: results-ready`. Both published results are visible, Daniel first/left and Nik second/right. Shared Season Commit is pending. Preview computed scores are Daniel 10 and Nik 7; `winner: daniel`; `tiebreak: none`.
+- `SR4` · either device · `status: ready` · `phase: results-ready`. Both published input records are visible, Daniel first/left and Nik second/right. Shared Season Commit is pending. Current `main` does not display authoritative canonical scoring yet, so no total/winner/tiebreak is presented as final in this frame.
 - `SR5` · either device · `status: ready` · `phase: committed`. Both managers have acknowledged the immutable shared season snapshot. The authoritative scoring panel is visible with the same fictional results and computed totals; the result is read-only.
 - `SR6` · Daniel device example · `status: ready` · `phase: entering`, review substate with validation/action error. Use only valid bounded sample values, then surface the exact live changed-after-review message: `Your season result changed after review. Choose Edit My Result and review it again before publishing.` This exercises error presentation without placing an out-of-contract numeric value in fixtures.
 
-For SR4/SR5, the fictional example that yields Daniel 10 is: league position 1, 96 points, 94 goals, domestic cup true, Champions League true, top scorer false, top assist true. Computed breakdown: Champions League 5 + League Title 3 + Domestic Cup 1 + Performance Bonus 0 + Awards Bonus 1 = 10.
+For SR5, the fictional example that yields Daniel 10 is: league position 1, 96 points, 94 goals, domestic cup true, Champions League true, top scorer false, top assist true. Computed breakdown: Champions League 5 + League Title 3 + Domestic Cup 1 + Performance Bonus 0 + Awards Bonus 1 = 10.
 
-For SR4/SR5, the fictional Nik example is: league position 2, 91 points, 103 goals, domestic cup false, Champions League true, top scorer true, top assist false. Computed breakdown: Champions League 5 + League Title 0 + Domestic Cup 0 + Performance Bonus 1 + Awards Bonus 1 = 7.
+For SR5, the fictional Nik example is: league position 2, 91 points, 103 goals, domestic cup false, Champions League true, top scorer true, top assist false. Computed breakdown: Champions League 5 + League Title 0 + Domestic Cup 0 + Performance Bonus 1 + Awards Bonus 1 = 7.
 
 ### Additional contract-state preview frames
 
@@ -425,3 +425,14 @@ Mockup authority: `project-documents/factory/mockups/MOCKUP_SEASON_RESULTS.jpg` 
 | Any mockup stat outside DATA_CONTRACT_V1 §3 | DROP. The Season Results build uses only the seven inputs, computed breakdown/total, winner, tiebreak and phase. |
 
 The mockup's central composition, manager staging, gold/black hierarchy and scoring-panel prominence are visual targets. Its data-entry mechanics, top navigation, wardrobes, trophy art and score timing are not product authority.
+
+
+## Fixture authority
+
+`visual-assets/v10_1/season-results/fixtures.json` is the preview-data source for this screen. It contains only labelled fictional preview frames. Every frame has `previewLabel: "Preview data"`.
+
+The six primary workflow frames are SR1 through SR6. SR7 through SR10 exist only to prove the four non-ready contract statuses required by DATA_CONTRACT_V1 §0. The fixture never carries an unpublished rival result in SR1, SR2, SR3 or SR6.
+
+SR4 deliberately exposes both published input records but not canonical totals: live `main` reveals authoritative scoring only after the shared season commit is acknowledged. SR5 is the committed frame that contains `breakdown`, `total`, `winner` and `tiebreak`.
+
+The fixture uses the contract name `awardsBonus`. Production canonical scoring currently calls that value `individualAwardsBonus`; the adapter rename is required before presentation.
