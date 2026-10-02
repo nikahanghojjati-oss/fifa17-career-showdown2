@@ -118,14 +118,14 @@
         + '"}],"rivalryId":"' + rivalryId + '"}';
     }
     function ssjrSetupBindingHash(rivalryId) {
-      return 'sha256:' + hashing.sha256(ssjrSetupBindingCanonical(rivalryId)).toHexString();
+      return 'sha256:' + hashing.sha256(ssjrSetupBindingCanonical(rivalryId)).toHexString().lower();
     }
     function ssjrSetupLeagueDigest(rivalryId, counter) {
       let seed = '{"bindingHash":"' + ssjrSetupBindingHash(rivalryId)
         + '","catalogHash":"sha256:f68d0a20f13304ae5af9faa2fee0b731d3491375304f635fb52c68840484d2ce'
         + '","counter":' + string(counter)
         + ',"domain":"shared-showdown-draw-v1","leagueId":null,"purpose":"league"}';
-      return hashing.sha256(seed).toHexString();
+      return hashing.sha256(seed).toHexString().lower();
     }
     function ssjrSetupLeagueIndex(rivalryId) {
       let first = ssjrSetupLeagueDigest(rivalryId, 0);
