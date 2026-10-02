@@ -1,21 +1,21 @@
 # Team G gameplay factory board
 
-Branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-02 08:09 UTC
+Branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-02 08:28 UTC
 
-**Overall:** ░░░░░░░░░░ 0 % · 0 of 18 jobs done
+**Overall:** ░░░░░░░░░░ 9 % · 1 of 18 jobs done
 
-**Start now in a normal chat (press Stay in Chat):** 0
+**Start now in a normal chat (press Stay in Chat):** -
 
-**Start now in Sol Work mode (press Use Work, paste the starter line from RULES.md):** 90
+**Start now in Sol Work mode (press Use Work, paste the starter line from RULES.md):** 1
 
-**Ready but no free slot yet:** 1, 3
+**Ready but no free slot yet:** 3
 
-**Working:** - · **Blocked:** -
+**Working:** 0 · **Blocked:** -
 
 | # | G id | Job | Lane | Depends on | Codex | Progress | State |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 0 | G-0 | [Factory smoke test (chat lane)](jobs/JOB-00.md) | chat | - |  | ░░░░░░░░░░ 0 % | NOT STARTED |
-| 90 | G-0W | [Factory smoke test (Work lane)](jobs/JOB-90.md) | work | - |  | ░░░░░░░░░░ 0 % | NOT STARTED |
+| 0 | G-0 | [Factory smoke test (chat lane)](jobs/JOB-00.md) | chat | - |  | ██████░░░░ 66 % | IN PROGRESS |
+| 90 | G-0W | [Factory smoke test (Work lane)](jobs/JOB-90.md) | work | - |  | ██████████ 100 % | DONE |
 | 1 | G-1 | [Fast regression CI on every gameplay push](jobs/JOB-01.md) | work | - |  | ░░░░░░░░░░ 0 % | NOT STARTED |
 | 2 | G-2 | [Two-manager journey on the emulator (provider level)](jobs/JOB-02.md) | work | 1 |  | ░░░░░░░░░░ 0 % | NOT STARTED |
 | 3 | G-3 | [Pure shared career model + tests](jobs/JOB-03.md) | work | - |  | ░░░░░░░░░░ 0 % | NOT STARTED |

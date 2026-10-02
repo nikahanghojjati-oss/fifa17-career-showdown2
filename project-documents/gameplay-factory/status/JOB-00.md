@@ -1,8 +1,8 @@
 # Status · JOB-00 · Factory smoke test (chat lane)
 
-State: BLOCKED
+State: IN PROGRESS
 Step: 4 of 6
-Updated: 2026-10-02 08:26 UTC
+Updated: 2026-10-02 08:28 UTC
 Chat: normal GPT-5.6 Sol chat
 Code branch: gameplay/job-00-smoke
 Head commit: d8d905aa43d4eb77ea3a2af599ea3b4bd0ef3178
@@ -21,3 +21,7 @@ CI run:
 
 ## Blocked question
 Should Job 0 record Chromium screenshots as NO and continue to the binary-save/verdict step, or should the normal-chat smoke use a different approved Chromium capture method?
+
+Lead answer (2026-10-02 08:28 UTC): Try exactly one more capture with these flags (the D-Bus hang is the sandbox, not the app):
+`/usr/bin/timeout 30s /usr/bin/chromium --headless=new --no-sandbox --disable-gpu --disable-dev-shm-usage --no-first-run --hide-scrollbars --window-size=393,660 --screenshot=/mnt/data/home_393x660.png http://127.0.0.1:8765/`
+(or Python Playwright with `chromium.launch(executable_path="/usr/bin/chromium", args=["--no-sandbox","--disable-gpu","--disable-dev-shm-usage"])`). If that also fails, record Chromium screenshots = NO with the error, skip the binary save, and finish step 6 with **NO SCREENSHOTS**. Either result is fine; Team G only needs screenshots for job 16. Continue from step 5.
