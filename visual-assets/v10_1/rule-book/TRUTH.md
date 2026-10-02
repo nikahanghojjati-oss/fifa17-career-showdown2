@@ -98,3 +98,26 @@ Rendered Rule Book copy from `js/ruleBook.js`, verbatim:
 There are no Rule Book-owned aria-labels, empty messages, loading messages, or in-screen error messages. The lazy Home entry only changes `aria-busy`; its visible label does not change. A lazy-open failure is reported at app level as `Unable to open ruleBook`, not as Rule Book body copy.
 
 No Rule Book body string changes by manager, Showdown progress, completion state, or history availability.
+
+
+## Data contract
+
+Authority: `project-documents/factory/DATA_CONTRACT_V1.md` §0 only. The Rule Book is static rules copy and displays no Showdown-history, season-history, transfer-history, manager-record, score, club, league, or provider field. There are therefore no displayed Rule Book data fields to classify E or A.
+
+### Universal contract state
+
+`DATA_CONTRACT_V1.md` §0 requires every screen view model to use exactly one `status`: `loading`, `empty`, `unavailable`, `partial`, or `ready`. The current `main` Rule Book has no provider read and no screen view model; once its lazy JS/CSS module mounts, its effective state is `ready`.
+
+| Contract status | Rule Book meaning |
+| --- | --- |
+| `loading` | Optional JS/CSS is loading before the screen mounts; `main` has no Rule Book body loading UI. |
+| `empty` | Not applicable: static rules cannot be an empty career. |
+| `unavailable` | Not a Rule Book body state: there is no provider read. A module-load failure remains an app-level open error. |
+| `partial` | Not applicable: static rules are not aggregated history. |
+| `ready` | The Rule Book is mounted and all six rule sections are available. |
+
+The exact §0 interim label is `Current Showdown only. Career history is not yet available.` It is not rendered on Rule Book because this screen shows no career-history data.
+
+The §0 fixture bounds do not create Rule Book fields. The fixed copy `1, 3, 5, or 10 seasons` matches the allowed `totalSeasons` values, but it is rules text rather than fixture data.
+
+Contract §9 dropped statistics do not appear and must not be added: clean sheets, biggest single-match win, European wins other than the Champions League, player names or player-based leaders/photos, match-by-match results, possession, or any per-match stat.
