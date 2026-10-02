@@ -8,10 +8,6 @@ Branch `factory/v1-wtt5ye`. 126 jobs. Open a new chat in the ChatGPT "Visual" pr
 
 **Working:** - · **Blocked:** -
 
-**Waiting on Nik:**
-
-- Job 38 (League: swap in the new league marks): Nik picks one mark per league from visual-assets/league-marks-v2/LEAGUE_MARKS_V2_PROOF@1x.png: Premier League A Crown or B Lion; LaLiga A Bull or B Sun; Bundesliga A Eagle or B Schale; Serie A A Shield or B Laurel; Ligue 1 A Numeral or B Rooster. (Claude leans B, A, A, A, A.) Claude writes the picks into this job's status file; until then this job is WAITING ON NIK.
-
 **Waiting on Team G (gameplay):** 98, 99, 100, 101, 102, 104, 125. Do not start these; Claude clears them when Team G delivers.
 
 | # | Job | Phase | Type | Lane | Depends on | Progress | State | Claude look |
@@ -54,7 +50,7 @@ Branch `factory/v1-wtt5ye`. 126 jobs. Open a new chat in the ChatGPT "Visual" pr
 | 35 | [Home: fix round](jobs/JOB-035.md) | 4 Polish built screens | fix | plain (work if job 0 says no screenshots) | 34 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 36 | [Home: motion pass](jobs/JOB-036.md) | 4 Polish built screens | build | plain (work if job 0 says no screenshots) | 35, 16 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
 | 37 | [League: hands on the wheel](jobs/JOB-037.md) | 4 Polish built screens | build | plain (work if job 0 says no screenshots) | 14, 1, 18, 123, 124 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
-| 38 | [League: swap in the new league marks](jobs/JOB-038.md) | 4 Polish built screens | build | plain (work if job 0 says no screenshots) | 37 | ░░░░░░░░░░ 0 % | WAITING ON NIK |  |
+| 38 | [League: swap in the new league marks](jobs/JOB-038.md) | 4 Polish built screens | build | plain (work if job 0 says no screenshots) | 37 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 39 | [League: phone with the hand in frame](jobs/JOB-039.md) | 4 Polish built screens | build | plain (work if job 0 says no screenshots) | 37, 112 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 40 | [League: review](jobs/JOB-040.md) | 4 Polish built screens | review | plain (work if job 0 says no screenshots) | 39 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 41 | [League: fix round](jobs/JOB-041.md) | 4 Polish built screens | fix | plain (work if job 0 says no screenshots) | 40 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
