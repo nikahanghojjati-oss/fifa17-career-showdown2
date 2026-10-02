@@ -499,6 +499,19 @@
         "^tests/contracts/start-join-view-model-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/career-screen-seam-contracts.cjs",
+      "patterns": [
+        "^js/careerScreenSeam\\.js$",
+        "^js/statistics\\.js$",
+        "^js/trophyRoom\\.js$",
+        "^js/legacy\\.js$",
+        "^js/sharedCareerAnalytics\\.js$",
+        "^tests/support/fake-dom\\.cjs$",
+        "^tests/contracts/career-screen-seam-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
