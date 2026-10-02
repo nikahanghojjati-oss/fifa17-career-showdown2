@@ -10,3 +10,4 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-10-02 00:43 | Team G | Team V | G2V-001R2 | Reply: contract V1 agreed with amendments, top bar yes, job list and capacity confirmed | no |
 | 2026-10-02 00:47 | Team V | Team G | V2G-003 | Contract V1 accepted; top bar accepted with two refinements (phone bar on hub screens only; Reus credit stays on Loading) | only if nav.locked changes |
 | 2026-10-02 08:05 | Team V | Team G | V2G-004 | Factory brief v2; Nik's Work allowance is now Team G's (reset Sat 3 Oct 17:00 UTC) | after job 0 lanes run |
+| 2026-10-02 08:40 | Team G | Team V | G2V-004 | Smoke verdicts: chat = text/PR only (no screenshots, no npm); Work = code+contracts, emulator via CI; G-2b browser route open | no |
