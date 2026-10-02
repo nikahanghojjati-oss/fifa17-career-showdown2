@@ -2,12 +2,12 @@
 
 State: BLOCKED
 Step: 5 of 8
-Updated: 2026-10-02 10:14 UTC
+Updated: 2026-10-02 10:22 UTC
 Chat: GPT-5.6 Sol normal chat
 Code branch: gameplay/job-02-two-manager-journey
-Head commit: aa77617a3b5b6446953cebb9b12a4436b26d24f1
+Head commit: b32d28e2dadeac415b7c892e4d67bd3900672b44
 PR:
-CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/36993997968
+CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/36994806517
 
 ## Notes
 - Step 1: Job 1 is DONE and merged into gameplay/recovery-v1 at fb28e70. Baseline is Job 1 exact-head green run 36986447232: Gameplay contracts SUCCESS and Composed Rules on the emulator SUCCESS. Per the job's lane override, no local install/emulator run was attempted.
@@ -63,7 +63,54 @@ let results=await Results.publishResult({...a(300),seasonNumber:1,operationId:op
 2026-10-02T10:12:58.3475719Z Cleaning up orphan processes
 ```
 
+- Step 6 BLOCKED: direct real-pair chaining failed at Daniel's first fresh-rivalry Season Results publish with permission-denied in CI 36993445788. The job-authorized fallback then proved real pairing separately and reseeded the paired gameplay root exactly like the lifecycle template, but the same Season Results publish failed again with permission-denied in CI 36994806517. Per handbook, stopped after the same Step 6 failure twice; no app code or Rules were changed.
+
 ## Self-check
 
 ## Blocked question
+
+Step 6 has failed twice at the same first Season Results write for the fresh second Showdown, including after the JOB-02-authorized seeded paired-state fallback. Should the Team G lead treat this repeat permission-denied as a product/Rules bug to split into a prerequisite job, or provide the exact intended fixture/authority change for JOB-02 to continue?
+
+### Failing assertion
+
+```text
+AssertionError [ERR_ASSERTION]: {"ok":false,"code":"permission-denied"}
+false !== true
+at playFreshSingleSeason (.../tests/firebase/two-manager-journey-emulator.cjs:141:165)
+```
+
+### Last 30 CI log lines
+
+```text
+2026-10-02T10:21:45.4518303Z false !== true
+2026-10-02T10:21:45.4518454Z 
+2026-10-02T10:21:45.4519118Z     at playFreshSingleSeason (/home/runner/work/fifa17-career-showdown2/fifa17-career-showdown2/tests/firebase/two-manager-journey-emulator.cjs:141:165)
+2026-10-02T10:21:45.4520048Z     at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+2026-10-02T10:21:45.4521248Z     at async runSecondShowdownAndAbandon (/home/runner/work/fifa17-career-showdown2/fifa17-career-showdown2/tests/firebase/two-manager-journey-emulator.cjs:165:3)
+2026-10-02T10:21:45.4522422Z     at async /home/runner/work/fifa17-career-showdown2/fifa17-career-showdown2/tests/firebase/two-manager-journey-emulator.cjs:261:171
+2026-10-02T10:21:45.4662146Z [33m[1m⚠ [22m[39m Script exited unsuccessfully (code 1)
+2026-10-02T10:21:45.9676531Z [36m[1mi  emulators:[22m[39m Shutting down emulators.
+2026-10-02T10:21:45.9679725Z [36m[1mi  firestore:[22m[39m Stopping Firestore Emulator
+2026-10-02T10:21:46.3106090Z [36m[1mi  hub:[22m[39m Stopping emulator hub
+2026-10-02T10:21:46.3110565Z [36m[1mi  logging:[22m[39m Stopping Logging Emulator
+2026-10-02T10:21:46.3145809Z 
+2026-10-02T10:21:46.3147270Z [1m[31mError:[39m[22m Script "[1mCMS_SHOWDOWN_LENGTH=3 node tests/firebase/two-manager-journey-emulator.cjs[22m" exited with code 1
+2026-10-02T10:21:46.6074502Z ##[error]Process completed with exit code 1.
+2026-10-02T10:21:46.6193809Z Post job cleanup.
+2026-10-02T10:21:46.7593994Z Post job cleanup.
+2026-10-02T10:21:46.8469601Z [command]/usr/bin/git version
+2026-10-02T10:21:46.8512635Z git version 2.55.0
+2026-10-02T10:21:46.8553959Z Temporarily overriding HOME='/home/runner/work/_temp/d9dd012b-b94d-47b0-9158-7e5370b332d9' before making global git config changes
+2026-10-02T10:21:46.8555766Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-02T10:21:46.8559907Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/fifa17-career-showdown2/fifa17-career-showdown2
+2026-10-02T10:21:46.8598732Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-02T10:21:46.8633113Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-02T10:21:46.8886431Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-02T10:21:46.8914842Z http.https://github.com/.extraheader
+2026-10-02T10:21:46.8926666Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-10-02T10:21:46.8961570Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-02T10:21:46.9278406Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-02T10:21:46.9318853Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-02T10:21:46.9729300Z Cleaning up orphan processes
+```
 Team G lead: Showdown 2 reaches transfer COMPLETED but the first season Results.publishResult is denied by the composed production Rules even after the job-authorized template-equivalent gameplay reseed. Please classify this as a gameplay gap/job or specify the expected provider-level bridge for Section F; worker must not change app code or Rules in JOB-02.
