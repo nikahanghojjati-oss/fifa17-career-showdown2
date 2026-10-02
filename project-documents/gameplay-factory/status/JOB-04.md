@@ -1,12 +1,12 @@
 # Status · JOB-04 · Renderer seams: screens take a model, never the local path
 
-State: IN PROGRESS
-Step: 6 of 7
+State: DONE
+Step: 7 of 7
 Updated: 2026-10-02 23:33 UTC
 Chat: Sol Work mode (2230aaf674be)
 Code branch: gameplay/job-04-renderer-seams
 Head commit: 8986bae0e9229b918b3ea988a0045868d2450e50
-PR: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/322 (open, mergeable)
+PR: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/322 (merged into gameplay/recovery-v1 as a11af48)
 CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37077871820 (success, exact head 8986bae0e9229b918b3ea988a0045868d2450e50); POS20 https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37077875338 (in progress)
 
 ## Notes
@@ -33,7 +33,7 @@ CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/r
 - PASS Online isolation: case 11 gives zero local analytics/archive/save/import spy calls for both managers and offline identity; a throwing currentShowdown getter proves renderers do not read it. Legacy creates no legacyDataControls.
 - PASS Empty and manager order: case 4 restricts empty text to empty model status; case 6 validates all comparison mappings and painted DANIEL / NIK headers. Cases 7-10 verify abandoned and unavailable status-only rows, one-Showdown rivalry, identity-free screen text and malformed-model denial.
 - PASS PR boundary: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/322 is open into gameplay/recovery-v1. No main write, merge, force push, deletion or deployment.
-- BLOCKED Merge readiness: GitHub live PR response is mergeable:false, mergeable_state:dirty at base cfffd4a7d6ce9420262c55aa0484ba0f12a4e069. New integration Job 12 and this job append to the same two registry files. Lead integration refresh is required; exact-head CI must be verified again after refresh before DONE.
+- PASS (lead) Merge readiness: after the lead refresh 8986bae, PR #322 was clean; Validate Gameplay Fast and Validate POS20 green on the exact head. Earlier note: GitHub live PR response is mergeable:false, mergeable_state:dirty at base cfffd4a7d6ce9420262c55aa0484ba0f12a4e069. New integration Job 12 and this job append to the same two registry files. Lead integration refresh is required; exact-head CI must be verified again after refresh before DONE.
 
 ## Blocked question
 Team G lead: please refresh gameplay/job-04-renderer-seams with gameplay/recovery-v1 at cfffd4a7d6ce9420262c55aa0484ba0f12a4e069 (or the current integration head), preserving the nine Job 4 files and both jobs' registry entries. PR #322 is mergeable:false, mergeable_state:dirty. Job 12 landed after this job branch was cut and appends to the same supplemental registry and operations expected-contract array. The worker is forbidden to merge, and importing Job 12's new test/implementation lies outside Job 4's exact nine-file scope. Please apply the integration refresh; then this worker can re-read the head, verify green CI on the refreshed exact head and finish step 7. Do not change main or deploy.
@@ -41,3 +41,6 @@ Team G lead: please refresh gameplay/job-04-renderer-seams with gameplay/recover
 ### Lead answer (2026-10-02 22:30 UTC)
 Done. The lead merged gameplay/recovery-v1 (cfffd4a, job 17) into gameplay/job-04-renderer-seams as commit 8986bae. Both registry entries and both expected contracts are kept (order: ...startJoinViewModel, careerScreenSeam, sharedSeasonResultsRace). The lead also corrected job 17's double-escaped registry patterns in that merge. Local checks on 8986bae: all contracts PASS 101/101, operations 73/73, career-screen-seam 17/17.
 Next: re-read the branch head, wait for Validate Gameplay Fast and POS20 checks green on the exact new head, confirm PR #322 is mergeable, then finish step 7 and mark DONE. Your nine-file scope is unchanged; the extra files in the merge come from the integration branch.
+
+### Lead close (2026-10-02 7:40 PM Boston time)
+The lead finished step 7: all checks green on 8986bae, merged PR #322. Job 4 is DONE; this chat can stop.

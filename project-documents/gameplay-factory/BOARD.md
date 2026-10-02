@@ -1,16 +1,14 @@
 # Team G gameplay factory board
 
-Branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-02 7:31 PM Boston time (EDT)
+Branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-02 7:37 PM Boston time (EDT)
 
-**Overall:** ████░░░░░░ 46 % · 8 of 19 jobs done
+**Overall:** ████░░░░░░ 47 % · 9 of 19 jobs done
 
 **Start now in a normal chat (press Stay in Chat):** -
 
-**Start now in Sol Work mode (press Use Work, paste the starter line from RULES.md):** -
+**Start now in Sol Work mode (press Use Work, paste the starter line from RULES.md):** 7
 
-**Ready but no free slot yet:** 7
-
-**Working:** 4 · **Blocked:** -
+**Working:** - · **Blocked:** -
 
 | # | G id | Job | Phase | Type | Lane | Depends on | Codex | Progress | State |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -23,7 +21,7 @@ Branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generate
 | 12 | G-12 | Composed production Rules regression | 1 Safety net | test | work | 7, 8 | yes | ░░░░░░░░░░ 0 % | NOT WRITTEN |
 | 3 | G-3 | [Pure shared career model + tests](jobs/JOB-03.md) | 2 Career model | build | work | - |  | ██████████ 100 % | DONE |
 | 5 | G-5 | [Active Showdown adapter (Rivalry, Continue, tiebreak, final state)](jobs/JOB-05.md) | 2 Career model | build | work | 3 |  | ██████████ 100 % | DONE |
-| 4 | G-4 | [Renderer seams: screens take a model, never the local path](jobs/JOB-04.md) | 2 Career model | build | work | 3 |  | ████████░░ 85 % | IN PROGRESS |
+| 4 | G-4 | [Renderer seams: screens take a model, never the local path](jobs/JOB-04.md) | 2 Career model | build | work | 3 |  | ██████████ 100 % | DONE |
 | 6 | G-6 | [Start/Join view model + nav.locked](jobs/JOB-06.md) | 2 Career model | build | chat | - |  | ██████████ 100 % | DONE |
 | 11 | G-11 | Contract fixtures generated from the real model | 2 Career model | test | work | 3, 5 |  | ░░░░░░░░░░ 0 % | NOT WRITTEN |
 | 7 | G-7 | [Career index Rules + client + emulator proofs](jobs/JOB-07.md) | 3 Career history | rules | work | 1, 2 | yes | ░░░░░░░░░░ 0 % | NOT STARTED |
