@@ -127,10 +127,10 @@
    "depends_on": [
     3
    ],
-   "steps": null,
-   "code_branch": null,
+   "steps": 7,
+   "code_branch": "gameplay/job-04-renderer-seams",
    "codex_review": false,
-   "written": false,
+   "written": true,
    "waits_on": null,
    "phase": "2 Career model",
    "type": "build",
@@ -157,14 +157,12 @@
    "number": 6,
    "key": "G-6",
    "title": "Start/Join view model + nav.locked",
-   "lane": "work",
-   "depends_on": [
-    3
-   ],
-   "steps": null,
-   "code_branch": null,
+   "lane": "chat",
+   "depends_on": [],
+   "steps": 7,
+   "code_branch": "gameplay/job-06-start-join-model",
    "codex_review": false,
-   "written": false,
+   "written": true,
    "waits_on": null,
    "phase": "2 Career model",
    "type": "build",

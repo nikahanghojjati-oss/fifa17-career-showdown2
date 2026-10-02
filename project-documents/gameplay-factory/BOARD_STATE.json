@@ -1,21 +1,25 @@
 {
- "generated": "2026-10-02 09:51 UTC",
+ "generated": "2026-10-02 10:04 UTC",
  "branch": "factory/gameplay-v1",
  "integration_branch": "gameplay/recovery-v1",
  "capacity": {
   "chat": 2,
   "work": 1
  },
- "overall": 23,
+ "overall": 25,
  "done": 4,
  "total": 18,
  "start": {
-  "chat": [],
+  "chat": [
+   6
+  ],
   "work": [
-   5
+   4
   ]
  },
- "queued": [],
+ "queued": [
+  5
+ ],
  "working": [
   2
  ],
@@ -98,9 +102,9 @@
    "type": "test",
    "plain": "Daniel and Nik play a whole Showdown against the real Rules in a test database, with a stranger and privacy checks.",
    "state": "IN PROGRESS",
-   "step": 2,
+   "step": 5,
    "steps_total": 8,
-   "pct": 25,
+   "pct": 62,
    "ready": false
   },
   {
@@ -176,19 +180,19 @@
    "depends_on": [
     3
    ],
-   "steps": null,
-   "code_branch": null,
+   "steps": 7,
+   "code_branch": "gameplay/job-04-renderer-seams",
    "codex_review": false,
-   "written": false,
+   "written": true,
    "waits_on": null,
    "phase": "2 Career model",
    "type": "build",
    "plain": "Screens read from that career model instead of from one phone's local data.",
-   "state": "NOT WRITTEN",
+   "state": "NOT STARTED",
    "step": 0,
-   "steps_total": 1,
+   "steps_total": 7,
    "pct": 0,
-   "ready": false
+   "ready": true
   },
   {
    "number": 5,
@@ -216,23 +220,21 @@
    "number": 6,
    "key": "G-6",
    "title": "Start/Join view model + nav.locked",
-   "lane": "work",
-   "depends_on": [
-    3
-   ],
-   "steps": null,
-   "code_branch": null,
+   "lane": "chat",
+   "depends_on": [],
+   "steps": 7,
+   "code_branch": "gameplay/job-06-start-join-model",
    "codex_review": false,
-   "written": false,
+   "written": true,
    "waits_on": null,
    "phase": "2 Career model",
    "type": "build",
    "plain": "Start/Join screen and top-bar locking driven by one view model.",
-   "state": "NOT WRITTEN",
+   "state": "NOT STARTED",
    "step": 0,
-   "steps_total": 1,
+   "steps_total": 7,
    "pct": 0,
-   "ready": false
+   "ready": true
   },
   {
    "number": 11,
