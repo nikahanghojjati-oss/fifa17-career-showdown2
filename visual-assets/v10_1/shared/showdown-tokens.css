@@ -1,0 +1,100 @@
+/* Showdown shared foundation · JOB-012. Opt in by importing this file.
+   Gold 500 is the primary action; 400 matches warm scene metal.
+   Manager accent mapping is inherited from main css/app.css (first/second card).
+   Colour tokens do not imply body-text contrast on arbitrary photography. */
+:root {
+  --sd-black: #07080a;
+  --sd-panel: #0d0f13;
+  --sd-glass: rgba(10, 11, 14, .78);
+  --sd-glass-strong: rgba(10, 11, 14, .94);
+  --sd-scrim: rgba(7, 8, 10, .84);
+  --sd-gold-100: #fff3b0;
+  --sd-gold-200: #fff1b8;
+  --sd-gold-300: #ffd34d;
+  --sd-gold-400: #f2c45b;
+  --sd-gold-500: #f5c518;
+  --sd-gold-600: #e0ae3a;
+  --sd-gold-700: #d4a017;
+  --sd-gold-800: #8a6a12;
+  --sd-gold-900: #493708;
+  --sd-gold: var(--sd-gold-500);
+  --sd-gold-edge: var(--sd-gold-700);
+  --sd-gold-metal: linear-gradient(180deg, var(--sd-gold-100) 0%, var(--sd-gold-300) 35%, var(--sd-gold-700) 70%, var(--sd-gold-800) 100%);
+  --sd-text-primary: #f4f1ea;
+  --sd-text-secondary: #b9b3a4;
+  --sd-text-warm: #e9dfc8;
+  --sd-text-on-gold: #07080a;
+  /* Decorative only: never use this for body text without measuring contrast. */
+  --sd-text-dim: #9a8f7a;
+  --sd-daniel: #2c7399;
+  --sd-nik: #f0d900;
+  --sd-edge-width: 1px;
+  --sd-edge-width-strong: 2px;
+  --sd-edge: rgba(212, 160, 23, .7);
+  --sd-edge-inner: rgba(255, 211, 77, .15);
+  --sd-corner-cut: 12px;
+  --sd-radius: 3px;
+  --sd-radius-small: 2px;
+  --sd-radius-round: 999px;
+  --sd-space-0: 0px;
+  --sd-space-1: 8px;
+  --sd-space-2: 16px;
+  --sd-space-3: 24px;
+  --sd-space-4: 32px;
+  --sd-space-5: 40px;
+  --sd-space-6: 48px;
+  --sd-space-7: 56px;
+  --sd-space-8: 64px;
+  --sd-space-9: 72px;
+  --sd-space-10: 80px;
+  --sd-space-11: 88px;
+  --sd-space-12: 96px;
+  --sd-shadow-contact: 0 4px 10px rgba(0, 0, 0, .45);
+  --sd-shadow-panel: 0 10px 28px rgba(0, 0, 0, .45), inset 0 1px 0 var(--sd-edge-inner);
+  --sd-shadow-glow: 0 0 18px rgba(242, 196, 91, .28);
+  --sd-shadow-title: 0 3px 4px rgba(0, 0, 0, .9);
+  --sd-z-plate: 0;
+  --sd-z-atmosphere: 1;
+  --sd-z-ui: 2;
+  --sd-z-cutout: 3;
+  --sd-z-light: 4;
+  --sd-duration-feedback: 100ms;
+  --sd-duration-fast: 150ms;
+  --sd-duration-scene: 400ms;
+  --sd-duration-character: 450ms;
+  --sd-duration-title: 450ms;
+  --sd-duration-panel: 500ms;
+  --sd-duration-number: 500ms;
+  --sd-duration-entrance: 900ms;
+  --sd-duration-stagger: 60ms;
+  --sd-duration-reduced: 150ms;
+  --sd-ease-out: cubic-bezier(.22, 1, .36, 1);
+  --sd-ease-in-out: cubic-bezier(.65, 0, .35, 1);
+  --sd-ease-press: cubic-bezier(.2, 0, .2, 1);
+  --sd-font-title: "Kaushan Script", "Brush Script MT", cursive;
+  --sd-font-condensed: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --sd-font-body: "Barlow", system-ui, sans-serif;
+}
+/* Both native and product preferences replace entrance timing with a short fade.
+   Screen motion kits still own the animation itself and must consume these tokens. */
+html[data-motion-reduced="true"],
+html[data-reduced-motion="true"] {
+  --sd-duration-scene: 150ms;
+  --sd-duration-character: 150ms;
+  --sd-duration-title: 150ms;
+  --sd-duration-panel: 150ms;
+  --sd-duration-number: 150ms;
+  --sd-duration-entrance: 150ms;
+  --sd-duration-stagger: 0ms;
+}
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --sd-duration-scene: 150ms;
+    --sd-duration-character: 150ms;
+    --sd-duration-title: 150ms;
+    --sd-duration-panel: 150ms;
+    --sd-duration-number: 150ms;
+    --sd-duration-entrance: 150ms;
+    --sd-duration-stagger: 0ms;
+  }
+}
