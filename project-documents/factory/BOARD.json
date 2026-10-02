@@ -22,13 +22,11 @@
    "key": "baseline",
    "title": "Baseline shots of the four built screens",
    "phase": "0 Setup",
-   "wave": 2,
-   "depends_on": [
-    0
-   ],
+   "wave": 1,
+   "depends_on": [],
    "type": "review",
-   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
-   "lane": "plain (work if job 0 says no screenshots)",
+   "worker": "GPT-5.6 Sol, Work mode (needs a terminal)",
+   "lane": "work",
    "steps": 5,
    "waits_on_nik": null,
    "waits_on_team_g": null,
@@ -189,13 +187,11 @@
    "key": "tokens",
    "title": "Showdown tokens and type system",
    "phase": "2 Foundation",
-   "wave": 2,
-   "depends_on": [
-    0
-   ],
+   "wave": 1,
+   "depends_on": [],
    "type": "build",
-   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
-   "lane": "plain (work if job 0 says no screenshots)",
+   "worker": "GPT-5.6 Sol, Work mode (needs a terminal)",
+   "lane": "work",
    "steps": 6,
    "waits_on_nik": null,
    "waits_on_team_g": null,
@@ -206,7 +202,7 @@
    "key": "kit",
    "title": "Panel, button and table kit",
    "phase": "2 Foundation",
-   "wave": 3,
+   "wave": 2,
    "depends_on": [
     12
    ],
@@ -258,7 +254,7 @@
    "key": "motion",
    "title": "Motion kit (pack-rip grade)",
    "phase": "2 Foundation",
-   "wave": 4,
+   "wave": 3,
    "depends_on": [
     13
    ],
@@ -275,13 +271,11 @@
    "key": "qa",
    "title": "Shared QA harness and compare sheets",
    "phase": "2 Foundation",
-   "wave": 2,
-   "depends_on": [
-    0
-   ],
+   "wave": 1,
+   "depends_on": [],
    "type": "build",
-   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
-   "lane": "plain (work if job 0 says no screenshots)",
+   "worker": "GPT-5.6 Sol, Work mode (needs a terminal)",
+   "lane": "work",
    "steps": 5,
    "waits_on_nik": null,
    "waits_on_team_g": null,
@@ -292,7 +286,7 @@
    "key": "found_review",
    "title": "Foundation review",
    "phase": "2 Foundation",
-   "wave": 5,
+   "wave": 4,
    "depends_on": [
     13,
     15,
@@ -545,7 +539,7 @@
    "key": "home_seven",
    "title": "Home: seven destinations and premium tiles",
    "phase": "4 Polish built screens",
-   "wave": 6,
+   "wave": 5,
    "depends_on": [
     31,
     18,
@@ -565,7 +559,7 @@
    "key": "home_phone",
    "title": "Home: phone with seven destinations",
    "phase": "4 Polish built screens",
-   "wave": 7,
+   "wave": 6,
    "depends_on": [
     32,
     111
@@ -583,7 +577,7 @@
    "key": "home_review",
    "title": "Home: review",
    "phase": "4 Polish built screens",
-   "wave": 8,
+   "wave": 7,
    "depends_on": [
     33
    ],
@@ -600,7 +594,7 @@
    "key": "home_fix",
    "title": "Home: fix round",
    "phase": "4 Polish built screens",
-   "wave": 9,
+   "wave": 8,
    "depends_on": [
     34
    ],
@@ -617,7 +611,7 @@
    "key": "home_motion",
    "title": "Home: motion pass",
    "phase": "4 Polish built screens",
-   "wave": 10,
+   "wave": 9,
    "depends_on": [
     35,
     16
@@ -635,7 +629,7 @@
    "key": "league_hands",
    "title": "League: hands on the wheel",
    "phase": "4 Polish built screens",
-   "wave": 6,
+   "wave": 5,
    "depends_on": [
     14,
     1,
@@ -656,7 +650,7 @@
    "key": "league_marks",
    "title": "League: swap in the new league marks",
    "phase": "4 Polish built screens",
-   "wave": 7,
+   "wave": 6,
    "depends_on": [
     37
    ],
@@ -673,7 +667,7 @@
    "key": "league_phone",
    "title": "League: phone with the hand in frame",
    "phase": "4 Polish built screens",
-   "wave": 7,
+   "wave": 6,
    "depends_on": [
     37,
     112
@@ -691,7 +685,7 @@
    "key": "league_review",
    "title": "League: review",
    "phase": "4 Polish built screens",
-   "wave": 8,
+   "wave": 7,
    "depends_on": [
     39
    ],
@@ -708,7 +702,7 @@
    "key": "league_fix",
    "title": "League: fix round",
    "phase": "4 Polish built screens",
-   "wave": 9,
+   "wave": 8,
    "depends_on": [
     40
    ],
@@ -725,7 +719,7 @@
    "key": "league_motion",
    "title": "League: spin feel",
    "phase": "4 Polish built screens",
-   "wave": 10,
+   "wave": 9,
    "depends_on": [
     41,
     16
@@ -761,7 +755,7 @@
    "key": "club_panels",
    "title": "Club: panels and short-laptop fit",
    "phase": "4 Polish built screens",
-   "wave": 6,
+   "wave": 5,
    "depends_on": [
     43,
     18,
@@ -780,7 +774,7 @@
    "key": "club_phone",
    "title": "Club: phone",
    "phase": "4 Polish built screens",
-   "wave": 7,
+   "wave": 6,
    "depends_on": [
     44,
     113
@@ -798,7 +792,7 @@
    "key": "club_review",
    "title": "Club: review",
    "phase": "4 Polish built screens",
-   "wave": 8,
+   "wave": 7,
    "depends_on": [
     45
    ],
@@ -815,7 +809,7 @@
    "key": "club_fix",
    "title": "Club: fix round",
    "phase": "4 Polish built screens",
-   "wave": 9,
+   "wave": 8,
    "depends_on": [
     46
    ],
@@ -832,7 +826,7 @@
    "key": "club_packrip",
    "title": "Club: the pack rip",
    "phase": "4 Polish built screens",
-   "wave": 10,
+   "wave": 9,
    "depends_on": [
     47,
     16
@@ -850,7 +844,7 @@
    "key": "tr_polish",
    "title": "Transfer War: polish to the key art",
    "phase": "4 Polish built screens",
-   "wave": 6,
+   "wave": 5,
    "depends_on": [
     1,
     18,
@@ -869,7 +863,7 @@
    "key": "tr_phone",
    "title": "Transfer War: phone polish",
    "phase": "4 Polish built screens",
-   "wave": 7,
+   "wave": 6,
    "depends_on": [
     49,
     114
@@ -887,7 +881,7 @@
    "key": "tr_review",
    "title": "Transfer War: review",
    "phase": "4 Polish built screens",
-   "wave": 8,
+   "wave": 7,
    "depends_on": [
     50
    ],
@@ -904,7 +898,7 @@
    "key": "tr_fix",
    "title": "Transfer War: fix round",
    "phase": "4 Polish built screens",
-   "wave": 9,
+   "wave": 8,
    "depends_on": [
     51
    ],
@@ -921,7 +915,7 @@
    "key": "tr_motion",
    "title": "Transfer War: motion",
    "phase": "4 Polish built screens",
-   "wave": 10,
+   "wave": 9,
    "depends_on": [
     52,
     16
@@ -939,7 +933,7 @@
    "key": "ld_polish",
    "title": "Loading: new look and Reus credit",
    "phase": "4 Polish built screens",
-   "wave": 6,
+   "wave": 5,
    "depends_on": [
     11,
     18
@@ -957,7 +951,7 @@
    "key": "ld_review",
    "title": "Loading: review",
    "phase": "4 Polish built screens",
-   "wave": 7,
+   "wave": 6,
    "depends_on": [
     54
    ],
@@ -974,7 +968,7 @@
    "key": "ld_fix",
    "title": "Loading: fix round",
    "phase": "4 Polish built screens",
-   "wave": 8,
+   "wave": 7,
    "depends_on": [
     55
    ],
@@ -991,7 +985,7 @@
    "key": "TR_build",
    "title": "Trophy Room: build (desktop)",
    "phase": "5 New screens",
-   "wave": 6,
+   "wave": 5,
    "depends_on": [
     2,
     23,
@@ -1011,7 +1005,7 @@
    "key": "TR_phone",
    "title": "Trophy Room: phone",
    "phase": "5 New screens",
-   "wave": 7,
+   "wave": 6,
    "depends_on": [
     57,
     115
@@ -1029,7 +1023,7 @@
    "key": "TR_review",
    "title": "Trophy Room: review",
    "phase": "5 New screens",
-   "wave": 8,
+   "wave": 7,
    "depends_on": [
     58
    ],
@@ -1046,7 +1040,7 @@
    "key": "TR_fix",
    "title": "Trophy Room: fix round",
    "phase": "5 New screens",
-   "wave": 9,
+   "wave": 8,
    "depends_on": [
     59
    ],
@@ -1063,7 +1057,7 @@
    "key": "TR_motion",
    "title": "Trophy Room: motion",
    "phase": "5 New screens",
-   "wave": 10,
+   "wave": 9,
    "depends_on": [
     60,
     16
@@ -1081,7 +1075,7 @@
    "key": "CS_build",
    "title": "Career Statistics: build (desktop)",
    "phase": "5 New screens",
-   "wave": 6,
+   "wave": 5,
    "depends_on": [
     3,
     24,
@@ -1101,7 +1095,7 @@
    "key": "CS_phone",
    "title": "Career Statistics: phone",
    "phase": "5 New screens",
-   "wave": 7,
+   "wave": 6,
    "depends_on": [
     62,
     116
@@ -1119,7 +1113,7 @@
    "key": "CS_review",
    "title": "Career Statistics: review",
    "phase": "5 New screens",
-   "wave": 8,
+   "wave": 7,
    "depends_on": [
     63
    ],
@@ -1136,7 +1130,7 @@
    "key": "CS_fix",
    "title": "Career Statistics: fix round",
    "phase": "5 New screens",
-   "wave": 9,
+   "wave": 8,
    "depends_on": [
     64
    ],
@@ -1153,7 +1147,7 @@
    "key": "CS_motion",
    "title": "Career Statistics: motion",
    "phase": "5 New screens",
-   "wave": 10,
+   "wave": 9,
    "depends_on": [
     65,
     16
@@ -1171,7 +1165,7 @@
    "key": "RV_build",
    "title": "Rivalry Statistics: build (desktop)",
    "phase": "5 New screens",
-   "wave": 6,
+   "wave": 5,
    "depends_on": [
     4,
     25,
@@ -1191,7 +1185,7 @@
    "key": "RV_phone",
    "title": "Rivalry Statistics: phone",
    "phase": "5 New screens",
-   "wave": 7,
+   "wave": 6,
    "depends_on": [
     67,
     117
@@ -1209,7 +1203,7 @@
    "key": "RV_review",
    "title": "Rivalry Statistics: review",
    "phase": "5 New screens",
-   "wave": 8,
+   "wave": 7,
    "depends_on": [
     68
    ],
@@ -1226,7 +1220,7 @@
    "key": "RV_fix",
    "title": "Rivalry Statistics: fix round",
    "phase": "5 New screens",
-   "wave": 9,
+   "wave": 8,
    "depends_on": [
     69
    ],
@@ -1243,7 +1237,7 @@
    "key": "RV_motion",
    "title": "Rivalry Statistics: motion",
    "phase": "5 New screens",
-   "wave": 10,
+   "wave": 9,
    "depends_on": [
     70,
     16
@@ -1261,7 +1255,7 @@
    "key": "LG_build",
    "title": "Legacy (History): build (desktop)",
    "phase": "5 New screens",
-   "wave": 6,
+   "wave": 5,
    "depends_on": [
     5,
     26,
@@ -1281,7 +1275,7 @@
    "key": "LG_phone",
    "title": "Legacy (History): phone",
    "phase": "5 New screens",
-   "wave": 7,
+   "wave": 6,
    "depends_on": [
     72,
     118
@@ -1299,7 +1293,7 @@
    "key": "LG_review",
    "title": "Legacy (History): review",
    "phase": "5 New screens",
-   "wave": 8,
+   "wave": 7,
    "depends_on": [
     73
    ],
@@ -1316,7 +1310,7 @@
    "key": "LG_fix",
    "title": "Legacy (History): fix round",
    "phase": "5 New screens",
-   "wave": 9,
+   "wave": 8,
    "depends_on": [
     74
    ],
@@ -1333,7 +1327,7 @@
    "key": "LG_motion",
    "title": "Legacy (History): motion",
    "phase": "5 New screens",
-   "wave": 10,
+   "wave": 9,
    "depends_on": [
     75,
     16
@@ -1351,7 +1345,7 @@
    "key": "SR_build",
    "title": "Season Results: build (desktop)",
    "phase": "5 New screens",
-   "wave": 6,
+   "wave": 5,
    "depends_on": [
     6,
     27,
@@ -1371,7 +1365,7 @@
    "key": "SR_phone",
    "title": "Season Results: phone",
    "phase": "5 New screens",
-   "wave": 7,
+   "wave": 6,
    "depends_on": [
     77,
     119
@@ -1389,7 +1383,7 @@
    "key": "SR_review",
    "title": "Season Results: review",
    "phase": "5 New screens",
-   "wave": 8,
+   "wave": 7,
    "depends_on": [
     78
    ],
@@ -1406,7 +1400,7 @@
    "key": "SR_fix",
    "title": "Season Results: fix round",
    "phase": "5 New screens",
-   "wave": 9,
+   "wave": 8,
    "depends_on": [
     79
    ],
@@ -1423,7 +1417,7 @@
    "key": "SR_motion",
    "title": "Season Results: motion",
    "phase": "5 New screens",
-   "wave": 10,
+   "wave": 9,
    "depends_on": [
     80,
     16
@@ -1441,7 +1435,7 @@
    "key": "FW_build",
    "title": "Final Winner: build (desktop)",
    "phase": "5 New screens",
-   "wave": 6,
+   "wave": 5,
    "depends_on": [
     7,
     23,
@@ -1462,7 +1456,7 @@
    "key": "FW_phone",
    "title": "Final Winner: phone",
    "phase": "5 New screens",
-   "wave": 7,
+   "wave": 6,
    "depends_on": [
     82,
     115
@@ -1480,7 +1474,7 @@
    "key": "FW_review",
    "title": "Final Winner: review",
    "phase": "5 New screens",
-   "wave": 8,
+   "wave": 7,
    "depends_on": [
     83
    ],
@@ -1497,7 +1491,7 @@
    "key": "FW_fix",
    "title": "Final Winner: fix round",
    "phase": "5 New screens",
-   "wave": 9,
+   "wave": 8,
    "depends_on": [
     84
    ],
@@ -1514,7 +1508,7 @@
    "key": "FW_motion",
    "title": "Final Winner: motion",
    "phase": "5 New screens",
-   "wave": 10,
+   "wave": 9,
    "depends_on": [
     85,
     16
@@ -1532,7 +1526,7 @@
    "key": "SJ_build",
    "title": "Start / Join: build (desktop)",
    "phase": "5 New screens",
-   "wave": 6,
+   "wave": 5,
    "depends_on": [
     8,
     28,
@@ -1552,7 +1546,7 @@
    "key": "SJ_phone",
    "title": "Start / Join: phone",
    "phase": "5 New screens",
-   "wave": 7,
+   "wave": 6,
    "depends_on": [
     87,
     120
@@ -1570,7 +1564,7 @@
    "key": "SJ_review",
    "title": "Start / Join: review",
    "phase": "5 New screens",
-   "wave": 8,
+   "wave": 7,
    "depends_on": [
     88
    ],
@@ -1587,7 +1581,7 @@
    "key": "SJ_fix",
    "title": "Start / Join: fix round",
    "phase": "5 New screens",
-   "wave": 9,
+   "wave": 8,
    "depends_on": [
     89
    ],
@@ -1604,7 +1598,7 @@
    "key": "SJ_motion",
    "title": "Start / Join: motion",
    "phase": "5 New screens",
-   "wave": 10,
+   "wave": 9,
    "depends_on": [
     90,
     16
@@ -1622,7 +1616,7 @@
    "key": "RB_build",
    "title": "Rule Book: build (desktop and phone)",
    "phase": "5 New screens",
-   "wave": 6,
+   "wave": 5,
    "depends_on": [
     9,
     29,
@@ -1643,7 +1637,7 @@
    "key": "RB_review",
    "title": "Rule Book: review",
    "phase": "5 New screens",
-   "wave": 7,
+   "wave": 6,
    "depends_on": [
     92
    ],
@@ -1660,7 +1654,7 @@
    "key": "RB_fix",
    "title": "Rule Book: fix round and motion",
    "phase": "5 New screens",
-   "wave": 8,
+   "wave": 7,
    "depends_on": [
     93,
     16
@@ -1678,7 +1672,7 @@
    "key": "ST_build",
    "title": "Settings: build (desktop and phone)",
    "phase": "5 New screens",
-   "wave": 6,
+   "wave": 5,
    "depends_on": [
     10,
     29,
@@ -1699,7 +1693,7 @@
    "key": "ST_review",
    "title": "Settings: review",
    "phase": "5 New screens",
-   "wave": 7,
+   "wave": 6,
    "depends_on": [
     95
    ],
@@ -1716,7 +1710,7 @@
    "key": "ST_fix",
    "title": "Settings: fix round and motion",
    "phase": "5 New screens",
-   "wave": 8,
+   "wave": 7,
    "depends_on": [
     96,
     16
@@ -1817,7 +1811,7 @@
    "key": "int_hub",
    "title": "Showcase: every screen in one place",
    "phase": "7 Integration",
-   "wave": 11,
+   "wave": 10,
    "depends_on": [
     36,
     42,
@@ -1848,7 +1842,7 @@
    "key": "int_bind",
    "title": "Showcase: screens read Team G's model-true fixtures",
    "phase": "7 Integration",
-   "wave": 12,
+   "wave": 11,
    "depends_on": [
     103,
     102
@@ -1866,7 +1860,7 @@
    "key": "int_phone",
    "title": "Full phone pass",
    "phase": "7 Integration",
-   "wave": 13,
+   "wave": 12,
    "depends_on": [
     104
    ],
@@ -1883,7 +1877,7 @@
    "key": "int_phone_fix",
    "title": "Full phone pass: fixes",
    "phase": "7 Integration",
-   "wave": 14,
+   "wave": 13,
    "depends_on": [
     105
    ],
@@ -1900,7 +1894,7 @@
    "key": "int_motion",
    "title": "Motion and sound consistency pass",
    "phase": "7 Integration",
-   "wave": 15,
+   "wave": 14,
    "depends_on": [
     106
    ],
@@ -1917,7 +1911,7 @@
    "key": "int_final_review",
    "title": "Final package review (Codex)",
    "phase": "7 Integration",
-   "wave": 16,
+   "wave": 15,
    "depends_on": [
     107
    ],
@@ -1934,7 +1928,7 @@
    "key": "int_final_fix",
    "title": "Final fixes",
    "phase": "7 Integration",
-   "wave": 17,
+   "wave": 16,
    "depends_on": [
     108
    ],
@@ -1951,7 +1945,7 @@
    "key": "int_package",
    "title": "Package for Nik and handoff to GPT-5.6 Sol",
    "phase": "7 Integration",
-   "wave": 18,
+   "wave": 17,
    "depends_on": [
     109
    ],
@@ -2182,7 +2176,7 @@
    "key": "art_wheel",
    "title": "Art: League wheel rim",
    "phase": "3 Art",
-   "wave": 3,
+   "wave": 2,
    "depends_on": [
     0,
     1
@@ -2217,7 +2211,7 @@
    "key": "navbar",
    "title": "Top bar and phone bottom bar",
    "phase": "5 New screens",
-   "wave": 6,
+   "wave": 5,
    "depends_on": [
     18,
     124
@@ -2250,7 +2244,7 @@
    "key": "SD_build",
    "title": "Standings: build (desktop and phone)",
    "phase": "5 New screens",
-   "wave": 6,
+   "wave": 5,
    "depends_on": [
     126,
     25,
@@ -2272,7 +2266,7 @@
    "key": "SD_review",
    "title": "Standings: review",
    "phase": "5 New screens",
-   "wave": 7,
+   "wave": 6,
    "depends_on": [
     127
    ],
@@ -2289,7 +2283,7 @@
    "key": "SD_fix",
    "title": "Standings: fix round and motion",
    "phase": "5 New screens",
-   "wave": 8,
+   "wave": 7,
    "depends_on": [
     128,
     16
