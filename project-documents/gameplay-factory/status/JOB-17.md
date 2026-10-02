@@ -1,8 +1,8 @@
 # Status · JOB-17 · Simultaneous result taps: loser gets "stale"
 
 State: IN PROGRESS
-Step: 3 of 5
-Updated: 2026-10-02 20:34 UTC
+Step: 4 of 5
+Updated: 2026-10-02 20:35 UTC
 Chat: GPT-5.6 Sol normal chat
 Code branch: gameplay/job-17-results-race
 Head commit: b9ec7626fd8b487e2c488dfed6f934ae57b0e4e3
@@ -15,6 +15,8 @@ CI run:
 - Step 2: Added and registered `tests/contracts/shared-season-results-race-contracts.cjs` for stale race loser, re-read-denied stranger, and own-operation replay. Before the fix, exact-head CI failed as required: `actual {ok:false,code:"permission-denied"}` vs `expected {ok:false,code:"SEASON_RESULTS_STALE_BASE_REVISION"}`; Product contracts reported `shared-season-results-race-contracts.cjs: exit 1`.
 
 - Step 3: Updated only `ssrpPublishResult` in `js/sparkSharedSeasonResults.js`: on a denied publish transaction it re-reads the public season result once, maps a newer revision to STALE, retries exactly once for an already-recorded own operation, and otherwise preserves the original denial. Exact-head Product contracts: `PASS shared season results race contracts: stale loser, denied stranger, idempotent replay.`
+
+- Step 4: Exact-head Validate Gameplay Fast run 37061275713 completed SUCCESS on b9ec7626fd8b487e2c488dfed6f934ae57b0e4e3. Gameplay contracts and Operations audit passed; Composed Rules emulator job passed Shared Setup, Transfer recovery, Gameplay lifecycle, Terminal Close, persistent pair, and the Two-manager journey.
 
 ## Self-check
 
