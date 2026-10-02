@@ -1,4 +1,4 @@
-name: Job 43 Club final QA
+name: Job 43 Club final QA with hand core
 
 on:
   push:
@@ -32,6 +32,84 @@ jobs:
           python -m pip install --quiet pillow numpy scikit-image
           npm install -g playwright@1.55.0
           npx playwright install --with-deps chromium
+
+      - name: Build registered hand cores
+        shell: bash
+        run: |
+          set -euo pipefail
+          ROOT="visual-assets/v10_1/club"
+
+          python3 <<'PY'
+          from pathlib import Path
+          from PIL import Image, ImageDraw, ImageFilter
+          import json, numpy as np, hashlib
+
+          root=Path("visual-assets/v10_1/club")
+          hm=json.loads((root/"assets/handmap.json").read_text())
+          manifest={}
+
+          for scale in (1,2):
+              plate=Image.open(root/f"assets/ENV_CLUB_PLATE_V1_{scale}X.png").convert("RGBA")
+              mask=Image.new("L",plate.size,0)
+              d=ImageDraw.Draw(mask)
+              for hand in hm["hands"].values():
+                  d.polygon([(round(x*scale),round(y*scale)) for x,y in hand["polygon"]],fill=255)
+              # One logical pixel of hidden safety absorbs transform/rasterisation variance.
+              # The shared-tool feathered cutouts remain above this layer and own the visible edge.
+              mask=mask.filter(ImageFilter.MaxFilter(2*scale+1))
+              arr=np.asarray(plate).copy()
+              alpha=np.asarray(mask)
+              arr[...,3]=alpha
+              arr[alpha==0,:3]=0
+              out=Image.fromarray(arr)
+              png=root/f"assets/OVL_CLUB_HAND_CORES_V1_{scale}X.png"
+              webp=root/f"assets/OVL_CLUB_HAND_CORES_V1_{scale}X.webp"
+              out.save(png,optimize=True)
+              out.save(webp,lossless=True,method=6)
+              manifest[str(scale)]={
+                  "bbox":list(out.getbbox()),
+                  "grow_logical_px":1,
+                  "sha256_png":hashlib.sha256(png.read_bytes()).hexdigest(),
+                  "sha256_webp":hashlib.sha256(webp.read_bytes()).hexdigest()
+              }
+          (root/"evidence/job43_hand_core_manifest.json").write_text(json.dumps(manifest,indent=2))
+          PY
+
+          python3 <<'PY'
+          from pathlib import Path
+
+          js=Path("visual-assets/v10_1/club/club.js")
+          s=js.read_text()
+          anchor='''const contact = el("div", "handContact plateDup", world);
+          contact.style.backgroundImage = "image-set(url(assets/OVL_CLUB_HAND_CONTACTS_V1_1X.webp) 1x, url(assets/OVL_CLUB_HAND_CONTACTS_V1_2X.webp) 2x)";
+          const handAsset = {'''
+          repl='''const contact = el("div", "handContact plateDup", world);
+          contact.style.backgroundImage = "image-set(url(assets/OVL_CLUB_HAND_CONTACTS_V1_1X.webp) 1x, url(assets/OVL_CLUB_HAND_CONTACTS_V1_2X.webp) 2x)";
+          const handCore = el("div", "handCore plateDup", world);
+          handCore.style.backgroundImage = "image-set(url(assets/OVL_CLUB_HAND_CORES_V1_1X.webp) 1x, url(assets/OVL_CLUB_HAND_CORES_V1_2X.webp) 2x)";
+          const handAsset = {'''
+          if anchor not in s:
+              raise SystemExit("hand-core insertion anchor not found")
+          js.write_text(s.replace(anchor,repl,1))
+
+          css=Path("visual-assets/v10_1/club/club.css")
+          c=css.read_text()
+          if ".handCore, .handOv { pointer-events: none; }" not in c:
+              if ".handOv { pointer-events: none; }" not in c:
+                  raise SystemExit("hand CSS anchor not found")
+              c=c.replace(".handOv { pointer-events: none; }",".handCore, .handOv { pointer-events: none; }",1)
+          c=c.replace(".plateOnly .covers, .plateOnly .seamMend, .plateOnly .handContact, .plateOnly main, .plateOnly .reveal, .plateOnly .handOv,",
+                      ".plateOnly .covers, .plateOnly .seamMend, .plateOnly .handContact, .plateOnly .handCore, .plateOnly main, .plateOnly .reveal, .plateOnly .handOv,")
+          css.write_text(c)
+
+          qa=Path("visual-assets/v10_1/club/tools/render-qa.cjs")
+          q=qa.read_text()
+          old='''/OVL_CLUB_(?:SEAM_MENDS|HAND_CONTACTS|DANIEL_(?:TOP|SIDE)_HAND|NIK_(?:TOP|SIDE)_HAND)_V1_[12]X\\.webp/'''
+          new='''/OVL_CLUB_(?:SEAM_MENDS|HAND_CONTACTS|HAND_CORES|DANIEL_(?:TOP|SIDE)_HAND|NIK_(?:TOP|SIDE)_HAND)_V1_[12]X\\.webp/'''
+          if old not in q:
+              raise SystemExit("G9 whitelist anchor not found")
+          qa.write_text(q.replace(old,new,1))
+          PY
 
       - name: Run complete Club QA
         shell: bash
