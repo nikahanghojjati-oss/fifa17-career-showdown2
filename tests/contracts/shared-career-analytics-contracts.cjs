@@ -209,4 +209,15 @@ check("16. Pure and frozen",()=>{
   frozen(model([]));frozen(model([],{indexStatus:"unavailable"}));
 });
 
-console.log(`PASS Shared Career Analytics contracts (${cases}/16 cases): capped scoring, verified deduplication, lifecycle exclusion, final integrity, weighted averages, role mapping, records, status and pure frozen outputs.`);
+check("17. Agreement with sharedHistoryConvergence",()=>{
+  const p=projection({seasons:[[perfect,result({leaguePosition:2,leaguePoints:100,leagueGoals:100,topAssist:true})],[result(),result({leaguePosition:3,championsLeague:true})],[result({leaguePoints:70,domesticCup:true}),result({leaguePoints:70,domesticCup:true})]]});
+  History.verifyProjection(p);
+  const m=model([entry(p)]);
+  const sharedFields=["seasons","seasonWins","seasonDraws","seasonLosses","championsLeagues","leagueTitles","domesticCups","totalTrophies","hundredPointSeasons","hundredGoalSeasons","topScorerSeasons","topAssistSeasons","perfectSeasons","bestSeasonScore","bestLeaguePoints","bestLeagueGoals","bestLeaguePosition"];
+  for(const [role,manager] of [["playerOne","daniel"],["playerTwo","nik"]]){
+    for(const field of sharedFields)assert.equal(m.managers[manager][field],p.managerRecords[role][field],`${manager}.${field} agrees with verified history`);
+    assert.equal(m.managers[manager].careerPoints,p.managerRecords[role].totalPoints,`${manager}.careerPoints equals totalPoints`);
+  }
+});
+
+console.log(`PASS Shared Career Analytics contracts (${cases}/17 cases): capped scoring, verified deduplication, lifecycle exclusion, final integrity, weighted averages, role mapping, records, status, pure frozen outputs and history agreement.`);
