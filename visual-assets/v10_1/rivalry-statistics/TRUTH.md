@@ -360,3 +360,10 @@ This is a hub screen. Recompose for 393 × 660 visible Safari pixels; do not squ
 - Trophy content uses a horizontal shelf of original assets and DOM counts. Never add the Showdown Champion token to recorded trophy totals. Transfer unavailability stays visible independently when its row is selected.
 - Keep `BACK TO SHOWDOWN HOME` visible above the reserved bottom bar and safe area. Shared Settings remains in the top corner; no search, profile, ABOUT or duplicate screen-local navigation.
 - Fit acceptance for the later build: measure `scrollHeight <= innerHeight` at 393 × 660 and 360 × 640 after fonts load, Back rectangle fully inside the available area at 375 × 553, and shared navigation unobscured. These are specification requirements, not a claim that this truth-sheet job rendered or passed a phone build.
+
+
+## Fixture arithmetic evidence
+
+`fixtureAudit` is fixture-only authoring evidence, outside the §5 runtime view model. Its `seasonInputs` retain the four published fictional boolean achievements needed to independently recompute canonical scores and recorded trophy/award counts. League titles come only from position 1; thresholds come from per-season points/goals. The renderer must consume `frames`, not add these audit fields to the Team G contract or reveal unpublished inputs.
+
+`fixtureAudit.scoreOutcomes` provides expected winners and absolute score margins for each readable nonempty frame. Only RV2 has a final Showdown outcome; RV1/RV4 are current leads and RV7 is an available-subset lead, never a final result. A successful-empty frame has zero recorded aggregates and no best score; loading/unavailable frames have no outcome or result fields. The JOB-135 Python check recomputes every season score/winner, Showdown point sum, W/D/L, trophy and achievement count, best/perfect score and outcome margin; it also checks contract bounds and unique league positions. Its exact output is recorded in JOB-135 status notes.

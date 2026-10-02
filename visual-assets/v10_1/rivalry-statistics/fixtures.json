@@ -770,5 +770,142 @@
       ],
       "settingsIcon": true
     }
+  },
+  "fixtureAudit": {
+    "fixtureOnly": true,
+    "note": "Published fictional scoring inputs for arithmetic verification only; not DATA_CONTRACT_V1 §5 runtime fields. League title and threshold bonuses are derived from each completed season row. Never expose unpublished rival inputs. Active/partial outcomes below describe readable-subset leads, not final winners. No outcome exists for loading, unavailable or successful-empty reads.",
+    "seasonInputs": {
+      "RV1": {
+        "1": {
+          "daniel": {
+            "domesticCup": true,
+            "championsLeague": true,
+            "topScorer": true,
+            "topAssist": false
+          },
+          "nik": {
+            "domesticCup": false,
+            "championsLeague": false,
+            "topScorer": true,
+            "topAssist": false
+          }
+        },
+        "2": {
+          "daniel": {
+            "domesticCup": true,
+            "championsLeague": false,
+            "topScorer": false,
+            "topAssist": true
+          },
+          "nik": {
+            "domesticCup": false,
+            "championsLeague": true,
+            "topScorer": false,
+            "topAssist": true
+          }
+        }
+      },
+      "RV2": {
+        "1": {
+          "daniel": {
+            "domesticCup": true,
+            "championsLeague": true,
+            "topScorer": true,
+            "topAssist": false
+          },
+          "nik": {
+            "domesticCup": false,
+            "championsLeague": false,
+            "topScorer": true,
+            "topAssist": false
+          }
+        },
+        "2": {
+          "daniel": {
+            "domesticCup": true,
+            "championsLeague": false,
+            "topScorer": false,
+            "topAssist": true
+          },
+          "nik": {
+            "domesticCup": false,
+            "championsLeague": true,
+            "topScorer": false,
+            "topAssist": true
+          }
+        },
+        "3": {
+          "daniel": {
+            "domesticCup": true,
+            "championsLeague": false,
+            "topScorer": false,
+            "topAssist": true
+          },
+          "nik": {
+            "domesticCup": true,
+            "championsLeague": false,
+            "topScorer": true,
+            "topAssist": false
+          }
+        }
+      },
+      "RV3": {},
+      "RV4": {
+        "1": {
+          "daniel": {
+            "domesticCup": true,
+            "championsLeague": false,
+            "topScorer": true,
+            "topAssist": false
+          },
+          "nik": {
+            "domesticCup": false,
+            "championsLeague": false,
+            "topScorer": false,
+            "topAssist": true
+          }
+        }
+      },
+      "RV5": {},
+      "RV6": {},
+      "RV7": {
+        "1": {
+          "daniel": {
+            "domesticCup": true,
+            "championsLeague": true,
+            "topScorer": true,
+            "topAssist": false
+          },
+          "nik": {
+            "domesticCup": false,
+            "championsLeague": false,
+            "topScorer": true,
+            "topAssist": false
+          }
+        }
+      }
+    },
+    "scoreOutcomes": {
+      "RV1": {
+        "winner": "daniel",
+        "margin": 1,
+        "final": false
+      },
+      "RV2": {
+        "winner": "daniel",
+        "margin": 1,
+        "final": true
+      },
+      "RV4": {
+        "winner": "nik",
+        "margin": 3,
+        "final": false
+      },
+      "RV7": {
+        "winner": "daniel",
+        "margin": 9,
+        "final": false
+      }
+    }
   }
 }
