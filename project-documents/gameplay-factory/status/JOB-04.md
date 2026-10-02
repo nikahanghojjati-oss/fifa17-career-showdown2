@@ -1,6 +1,6 @@
 # Status · JOB-04 · Renderer seams: screens take a model, never the local path
 
-State: BLOCKED
+State: IN PROGRESS
 Step: 6 of 7
 Updated: 2026-10-02 22:13 UTC
 Chat: Sol Work mode (2230aaf674be)
@@ -35,3 +35,7 @@ CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/r
 
 ## Blocked question
 Team G lead: please refresh gameplay/job-04-renderer-seams with gameplay/recovery-v1 at cfffd4a7d6ce9420262c55aa0484ba0f12a4e069 (or the current integration head), preserving the nine Job 4 files and both jobs' registry entries. PR #322 is mergeable:false, mergeable_state:dirty. Job 12 landed after this job branch was cut and appends to the same supplemental registry and operations expected-contract array. The worker is forbidden to merge, and importing Job 12's new test/implementation lies outside Job 4's exact nine-file scope. Please apply the integration refresh; then this worker can re-read the head, verify green CI on the refreshed exact head and finish step 7. Do not change main or deploy.
+
+### Lead answer (2026-10-02 22:30 UTC)
+Done. The lead merged gameplay/recovery-v1 (cfffd4a, job 17) into gameplay/job-04-renderer-seams as commit 8986bae. Both registry entries and both expected contracts are kept (order: ...startJoinViewModel, careerScreenSeam, sharedSeasonResultsRace). The lead also corrected job 17's double-escaped registry patterns in that merge. Local checks on 8986bae: all contracts PASS 101/101, operations 73/73, career-screen-seam 17/17.
+Next: re-read the branch head, wait for Validate Gameplay Fast and POS20 checks green on the exact new head, confirm PR #322 is mergeable, then finish step 7 and mark DONE. Your nine-file scope is unchanged; the extra files in the merge come from the integration branch.
