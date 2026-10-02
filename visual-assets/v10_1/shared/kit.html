@@ -207,6 +207,36 @@
       .phone-inner { padding: 8px 10px calc(8px + env(safe-area-inset-bottom)); grid-template-rows: 28px 58px 112px 132px 144px minmax(54px,1fr); gap: 6px; }
     }
   </style>
+
+<style id="job13-step5-layout-fix">
+.desktop-stage{grid-template-rows:34px 80px 196px minmax(0,1fr);overflow:hidden}
+.tile-row .sd-tile{min-block-size:80px;padding:10px 12px;grid-template-columns:30px minmax(0,1fr);column-gap:9px}
+.tile-row .sd-tile__icon{font-size:21px}.tile-row .sd-tile__label{font-size:10px}.tile-row .sd-tile__value{font-size:31px}
+.data-grid{grid-template-columns:minmax(0,1.44fr) minmax(280px,.86fr)}
+.data-grid .sd-panel{padding:8px 11px 10px;overflow:hidden}
+.data-grid .sd-panel__header{min-height:28px;margin:-8px -11px 5px;padding:8px 11px 7px;font-size:13px}
+.data-grid .sd-panel__header::after{left:11px;width:42px}
+.data-grid .sd-table th,.data-grid .sd-table td{height:30px;padding:5px 8px}.data-grid .sd-table th{font-size:9px}.data-grid .sd-table td{font-size:12px}
+.data-grid .sd-tabs{margin-top:5px}.data-grid .sd-tab{min-height:32px;height:32px;padding-inline:11px;font-size:10px}
+.compare-list .sd-compare-row{min-block-size:31px;grid-template-columns:38px 17px minmax(90px,1.6fr) 17px 38px;gap:3px}
+.compare-list .sd-compare-row__left,.compare-list .sd-compare-row__right{font-size:16px}.compare-list .sd-compare-row__label{font-size:9px}.compare-list .sd-compare-row__icon{font-size:11px}
+.control-grid{grid-template-columns:1.18fr .92fr 1fr;overflow:hidden}
+.control-grid>.sd-panel{padding:9px 10px;overflow:hidden}.control-grid .sd-panel__header{min-height:27px;margin:-9px -10px 7px;padding:7px 10px 6px;font-size:12px}
+.button-state-grid{gap:5px 7px}.button-state-grid .sd-btn{min-block-size:36px;padding-inline:9px;font-size:10px}.button-state-grid .sd-icon-btn{inline-size:44px;block-size:44px;min-block-size:44px}
+.mini-stack{gap:6px}.mini-row{gap:7px}.mini-row .sd-chip{min-block-size:32px;padding-inline:8px;font-size:10px}
+.mini-stack .sd-tabs{width:100%}.mini-stack .sd-tab{min-block-size:34px;height:34px;min-inline-size:0;flex:1 1 0;padding-inline:4px;font-size:9px}
+.field-row .sd-field>label{font-size:9px}.field-row .sd-input,.field-row .sd-select{min-block-size:40px;font-size:16px;padding-block:6px}
+.toggle-row{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,.65fr);gap:6px;align-items:center}.toggle-row .sd-check,.toggle-row .sd-toggle{min-width:0;font-size:10px;letter-spacing:.02em}
+.overlay-mini-grid .sd-sheet,.overlay-mini-grid .sd-confirm{position:relative;left:auto;top:auto;transform:none;width:100%;max-block-size:none;overflow:hidden;padding:10px}
+.phone-inner{grid-template-rows:28px 70px 106px 118px 150px minmax(122px,1fr)}
+.phone-tiles .sd-tile{min-block-size:70px}
+.phone-panel{padding:7px 8px}.phone-panel .sd-panel__header{min-height:21px;margin:-7px -8px 3px;padding:5px 8px 4px;font-size:10px}
+.phone-panel .sd-table th,.phone-panel .sd-table td{height:28px;padding:4px 5px;font-size:10px}.phone-panel .sd-table th{font-size:8px}
+.phone-compare .sd-compare-row{min-block-size:20px;grid-template-columns:36px 14px minmax(82px,1fr) 14px 36px;gap:1px}.phone-compare .sd-compare-row__left,.phone-compare .sd-compare-row__right{font-size:13px}.phone-compare .sd-compare-row__label{font-size:8px;letter-spacing:.035em}
+.phone-controls{gap:5px 6px}.phone-controls .sd-check,.phone-controls .sd-toggle{min-height:44px;font-size:10px;gap:6px;white-space:nowrap}
+.phone-actions{grid-template-rows:38px 44px 44px;gap:5px 6px}.phone-actions .sd-tab{min-height:38px;height:38px}.phone-action-row .sd-chip{min-height:44px}
+@media(max-width:700px){.phone-inner{grid-template-rows:28px 70px 106px 118px 150px minmax(122px,1fr)}}
+</style>
 </head>
 <body>
 <main class="kit">
@@ -233,10 +263,10 @@
         <section class="sd-panel sd-panel--hero" aria-labelledby="career-table-title">
           <h2 id="career-table-title" class="sd-panel__header">Career Table</h2>
           <table class="sd-table">
-            <thead><tr><th># Manager</th><th>Showdowns</th><th>Seasons</th><th>Points</th><th>Trophies</th><th>Win %</th></tr></thead>
+            <thead><tr><th># Manager</th><th>Showdowns</th><th>Seasons</th><th>Points</th><th>Trophies</th></tr></thead>
             <tbody>
-              <tr class="sd-table__leader" aria-current="true"><td>1 · Daniel</td><td>12</td><td>60</td><td>78</td><td>10</td><td>58%</td></tr>
-              <tr><td>2 · Nik</td><td>12</td><td>60</td><td>64</td><td>8</td><td>42%</td></tr>
+              <tr class="sd-table__leader" data-leader="true" aria-current="true"><td>1 · Daniel</td><td>12</td><td>60</td><td>78</td><td>10</td></tr>
+              <tr><td>2 · Nik</td><td>12</td><td>60</td><td>64</td><td>8</td></tr>
             </tbody>
           </table>
           <div class="sd-tabs" role="tablist" aria-label="Career table views" style="margin-top:10px">
@@ -249,14 +279,12 @@
         <section class="sd-panel" aria-labelledby="manager-comparison-title">
           <h2 id="manager-comparison-title" class="sd-panel__header">Manager Comparison</h2>
           <div class="compare-list">
-            <div class="sd-compare-row"><span class="sd-compare-row__left">68</span><span class="sd-compare-row__icon">◆</span><span class="sd-compare-row__label">Showdown Points</span><span class="sd-compare-row__icon">◆</span><span class="sd-compare-row__right">54</span></div>
-            <div class="sd-compare-row"><span class="sd-compare-row__left">5</span><span class="sd-compare-row__icon">▦</span><span class="sd-compare-row__label">Seasons Completed</span><span class="sd-compare-row__icon">▦</span><span class="sd-compare-row__right">5</span></div>
-            <div class="sd-compare-row"><span class="sd-compare-row__left">7</span><span class="sd-compare-row__icon">◇</span><span class="sd-compare-row__label">Trophies Won</span><span class="sd-compare-row__icon">◇</span><span class="sd-compare-row__right">5</span></div>
-            <div class="sd-compare-row"><span class="sd-compare-row__left">412</span><span class="sd-compare-row__icon">▥</span><span class="sd-compare-row__label">League Points</span><span class="sd-compare-row__icon">▥</span><span class="sd-compare-row__right">398</span></div>
-            <div class="sd-compare-row"><span class="sd-compare-row__left">126</span><span class="sd-compare-row__icon">●</span><span class="sd-compare-row__label">League Goals</span><span class="sd-compare-row__icon">●</span><span class="sd-compare-row__right">118</span></div>
-            <div class="sd-compare-row"><span class="sd-compare-row__left">34</span><span class="sd-compare-row__icon">↔</span><span class="sd-compare-row__label">Transfer Signings</span><span class="sd-compare-row__icon">↔</span><span class="sd-compare-row__right">29</span></div>
+            <div class="sd-compare-row"><span class="sd-compare-row__left">78</span><span class="sd-compare-row__icon">◆</span><span class="sd-compare-row__label">Showdown Points</span><span class="sd-compare-row__icon">◆</span><span class="sd-compare-row__right">64</span></div>
+            <div class="sd-compare-row"><span class="sd-compare-row__left">60</span><span class="sd-compare-row__icon">▦</span><span class="sd-compare-row__label">Seasons Completed</span><span class="sd-compare-row__icon">▦</span><span class="sd-compare-row__right">60</span></div>
+            <div class="sd-compare-row"><span class="sd-compare-row__left">10</span><span class="sd-compare-row__icon">◇</span><span class="sd-compare-row__label">Trophies Won</span><span class="sd-compare-row__icon">◇</span><span class="sd-compare-row__right">8</span></div>
+            <div class="sd-compare-row"><span class="sd-compare-row__left">32</span><span class="sd-compare-row__icon">★</span><span class="sd-compare-row__label">Season Wins</span><span class="sd-compare-row__icon">★</span><span class="sd-compare-row__right">28</span></div>
           </div>
-          <div class="sd-split-bar compact-bar" style="--sd-split:56%" aria-label="Daniel 56 percent, Nik 44 percent"></div>
+          <div class="sd-split-bar compact-bar" style="--sd-split:55%" aria-label="Daniel 55 percent, Nik 45 percent"></div>
         </section>
       </div>
 
@@ -320,14 +348,14 @@
         </div>
         <section class="sd-panel phone-panel">
           <h2 class="sd-panel__header">Career Table</h2>
-          <table class="sd-table"><thead><tr><th>Manager</th><th>Points</th><th>Trophies</th></tr></thead><tbody><tr class="sd-table__leader"><td>Daniel</td><td>78</td><td>10</td></tr><tr><td>Nik</td><td>64</td><td>8</td></tr></tbody></table>
+          <table class="sd-table"><thead><tr><th>Manager</th><th>Points</th><th>Trophies</th></tr></thead><tbody><tr class="sd-table__leader" data-leader="true"><td>Daniel</td><td>78</td><td>10</td></tr><tr><td>Nik</td><td>64</td><td>8</td></tr></tbody></table>
         </section>
         <section class="sd-panel phone-panel phone-compare">
           <h2 class="sd-panel__header">Head to Head</h2>
-          <div class="sd-compare-row"><span class="sd-compare-row__left">68</span><span class="sd-compare-row__icon">◆</span><span class="sd-compare-row__label">Showdown Points</span><span class="sd-compare-row__icon">◆</span><span class="sd-compare-row__right">54</span></div>
-          <div class="sd-compare-row"><span class="sd-compare-row__left">412</span><span class="sd-compare-row__icon">▥</span><span class="sd-compare-row__label">League Points</span><span class="sd-compare-row__icon">▥</span><span class="sd-compare-row__right">398</span></div>
-          <div class="sd-compare-row"><span class="sd-compare-row__left">34</span><span class="sd-compare-row__icon">↔</span><span class="sd-compare-row__label">Transfer Signings</span><span class="sd-compare-row__icon">↔</span><span class="sd-compare-row__right">29</span></div>
-          <div class="sd-split-bar" style="--sd-split:56%"></div>
+          <div class="sd-compare-row"><span class="sd-compare-row__left">78</span><span class="sd-compare-row__icon">◆</span><span class="sd-compare-row__label">Showdown Points</span><span class="sd-compare-row__icon">◆</span><span class="sd-compare-row__right">64</span></div>
+          <div class="sd-compare-row"><span class="sd-compare-row__left">10</span><span class="sd-compare-row__icon">◇</span><span class="sd-compare-row__label">Trophies Won</span><span class="sd-compare-row__icon">◇</span><span class="sd-compare-row__right">8</span></div>
+          <div class="sd-compare-row"><span class="sd-compare-row__left">32</span><span class="sd-compare-row__icon">★</span><span class="sd-compare-row__label">Season Wins</span><span class="sd-compare-row__icon">★</span><span class="sd-compare-row__right">28</span></div>
+          <div class="sd-split-bar" style="--sd-split:55%"></div>
         </section>
         <section class="sd-panel phone-panel">
           <h2 class="sd-panel__header">Season Entry Pieces</h2>
