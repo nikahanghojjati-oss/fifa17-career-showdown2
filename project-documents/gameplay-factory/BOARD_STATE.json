@@ -1,18 +1,16 @@
 {
- "generated": "2026-10-02 20:00 UTC",
+ "generated": "2026-10-02 20:45 UTC",
  "branch": "factory/gameplay-v1",
  "integration_branch": "gameplay/recovery-v1",
  "capacity": {
   "chat": 2,
   "work": 1
  },
- "overall": 36,
- "done": 7,
+ "overall": 42,
+ "done": 8,
  "total": 19,
  "start": {
-  "chat": [
-   17
-  ],
+  "chat": [],
   "work": [
    4
   ]
@@ -121,11 +119,11 @@
    "phase": "1 Safety net",
    "type": "fix",
    "plain": "When you both submit a result at once, the slower tap is told to refresh instead of getting an error.",
-   "state": "NOT STARTED",
-   "step": 0,
+   "state": "DONE",
+   "step": 5,
    "steps_total": 5,
-   "pct": 0,
-   "ready": true
+   "pct": 100,
+   "ready": false
   },
   {
    "number": 16,
