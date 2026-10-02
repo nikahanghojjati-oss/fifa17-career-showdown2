@@ -499,6 +499,14 @@
         "^tests/contracts/start-join-view-model-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/shared-season-results-race-contracts.cjs",
+      "patterns": [
+        "^js/sparkSharedSeasonResults\\\\.js$",
+        "^tests/contracts/shared-season-results-race-contracts\\\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\\\.json$"
+      ]
     }
   ]
 }
