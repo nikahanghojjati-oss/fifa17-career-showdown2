@@ -188,7 +188,9 @@ Large files: images go in the zip as the job names them (WebP plus PNG masters w
 9. **Never ask Nik product questions.** If something is truly missing or contradictory: `State: BLOCKED`, write the exact question under "Blocked question", save, and reply `Job N is blocked: <question>`. Claude answers it.
 10. **Never touch `main`**, never force-push, never delete branches or files you did not create.
 
-## 10. Image jobs (lane plain-image)
+## 10. Image jobs (lane fresh chat (image))
+
+- **Image jobs are not run inside the Showdown visual project** (Nik, 2026-10-02): images come out better in a plain new ChatGPT chat outside any project. Nik runs each image from its ticket in `project-documents/factory/tickets/` and drops the result in Claude's factory thread; Claude checks, commits and finishes the job. If a project chat is given an image job's number, it replies only: "Job N is an image job. Run its ticket in a new chat outside this project (see project-documents/factory/tickets/README.md)." The rules below still describe what a correct image is.
 
 - **The image tool makes only the asset the job asks for.** Never make a summary, status or "job completed" picture, a screen mockup, or any person other than Daniel and Nik as the mockup shows them. Progress and results are plain text plus the JOB-NNN.zip. A result that is not the requested asset is a failed try: discard it and retry in a new chat.
 
