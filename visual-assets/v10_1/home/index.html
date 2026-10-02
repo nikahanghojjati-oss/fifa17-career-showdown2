@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Home · Rivalry Headquarters</title>
+<link rel="stylesheet" href="home.css">
+</head>
+<body>
+<div id="stage-root" class="stage">
+<div class="plateView" aria-hidden="true"><div class="plateLayer"></div></div>
+<div class="scrim scrimTop" aria-hidden="true"></div>
+<div class="scrim scrimLow" aria-hidden="true"></div>
+<div class="dockBed" aria-hidden="true"></div>
+<div class="hdrBg" aria-hidden="true"></div>
+
+<header id="topHeader">
+<span class="cmBadge" aria-hidden="true"><span>CM 17</span></span>
+<div class="brand"><h1>CAREER MODE</h1><p>SHOWDOWN // 17</p></div>
+<button id="onlinePlayerIdentityBadge" type="button">SIGN IN</button>
+<div class="seasonIndicator" id="seasonIndicator">No Active Showdown</div>
+</header>
+<span class="scriptLine" aria-hidden="true"><span>More Than A Game</span></span>
+
+<main>
+<section id="mainMenu" class="screen">
+<div class="fifaMenuShell">
+<div class="homeLockup" aria-hidden="true">
+<p class="lockupKicker">THE RIVALRY STARTS HERE</p>
+<img class="lockupWordmark" src="assets/LOGO_CM17_WORDMARK_V1.webp" alt="" width="2078" height="755" decoding="async">
+<p class="lockupLegacy">TWO MANAGERS · ONE LEGACY</p>
+</div>
+
+<div class="fifaMenuHeading">
+<div class="fifaMenuHeadingText">
+<span class="fifaMenuEyebrow">CAREER MODE // SHOWDOWN 17</span>
+<h2>HOME</h2>
+</div>
+<p class="fifaMenuHeadingMeta"><span>RIVALRY HEADQUARTERS</span>Build the rivalry, play every season, and carry each trophy into your Legacy.</p>
+</div>
+
+<div class="fifaMenuGrid">
+<section class="menuMusicTile" aria-label="Menu media" data-media-kind="music">
+<div class="menuMusicHeader">
+<div>
+<span>AUDIUS SOUNDTRACK</span>
+<strong>WHAT YOU GOT</strong>
+<p class="menuMusicArtist">Valentino Khan &amp; NITTI</p>
+</div>
+<small class="menuMusicSource">AUDIUS</small>
+</div>
+<div id="menuMediaSelector" class="menuMediaSelector" role="group" aria-label="Choose Audius soundtrack"></div>
+<div id="menuMusicPlayer" class="menuMusicPlayer">
+<div class="vinylDeck" aria-hidden="true"><span class="vinyl"><i></i></span><span class="eq"><i></i><i></i><i></i><i></i><i></i></span></div>
+</div>
+<p id="menuMusicStatus" class="menuMusicStatus" role="status" aria-live="polite">WHAT YOU GOT · AUDIUS · READY</p>
+<div class="menuMusicControls">
+<button id="menuMusicToggle" class="menuMusicControl" type="button">PLAY TRACK</button>
+<button id="menuMusicMute" class="menuMusicControl" type="button" disabled>MUTE</button>
+</div>
+</section>
+
+<button class="menuTile menuTilePrimary" id="continueCareer" type="button">
+<span class="menuTileCode">CAREER</span><span class="menuTileLabel">CONTINUE CAREER</span><span class="menuTileMeta">Loading active showdown...</span>
+<svg class="tileIcon" aria-hidden="true" focusable="false" viewBox="0 0 96 96"><defs><linearGradient id="icPlayer" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2A2416"/><stop offset="1" stop-color="#0B0D10"/></linearGradient></defs><path fill="url(#icPlayer)" d="M48 8c-7.6 0-13 5.6-13 13.4 0 5 2.2 9.2 5.8 11.6l-1 4.2c-9.8 1.6-17.6 5.6-21.6 9.4C14 51 12.4 60 11 72l-1.6 16h77.2L85 72c-1.4-12-3-21-7.2-25.4-4-3.8-11.8-7.8-21.6-9.4l-1-4.2c3.6-2.4 5.8-6.6 5.8-11.6C61 13.6 55.6 8 48 8z"/><path fill="#0B0D10" d="M36.6 15.4c2.6-5 6.8-7.4 11.4-7.4 5.4 0 10 3 11.8 8.6-3.8-2-7.6-2.8-11.8-2.8s-8 .6-11.4 1.6z"/><path fill="none" stroke="#F2C45B" stroke-width="5.2" stroke-linecap="square" stroke-linejoin="miter" d="M34 54l5-3.2V78M50 52.2h14L54 78"/><path fill="none" stroke="rgba(242,196,91,.35)" stroke-width="1.5" d="M20 50c8-5 18-7.4 28-7.4S68 45 76 50"/></svg>
+<svg class="tileChevron" aria-hidden="true" focusable="false" viewBox="0 0 12 20"><path d="M2 2l8 8-8 8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</button>
+<button class="menuTile menuTileNew" id="newShowdown" type="button">
+<span class="menuTileCode">NEW</span><span class="menuTileLabel">START A SHOWDOWN</span><span class="menuTileMeta">Begin a new rivalry</span>
+<svg class="tileIcon" aria-hidden="true" focusable="false" viewBox="0 0 96 96"><g transform="rotate(8 48 50)"><rect x="18" y="14" width="58" height="76" rx="4" fill="#15181D" stroke="#C99B45" stroke-width="2"/><rect x="23" y="22" width="48" height="62" rx="1.5" fill="#0D0F12" stroke="rgba(242,196,91,.5)" stroke-width="1.2"/><path d="M36 10h22v6.5a3 3 0 0 1-3 3H39a3 3 0 0 1-3-3z" fill="#D6A843"/><circle cx="47" cy="11" r="2.6" fill="#15181D"/><g fill="none" stroke="#F2C45B" stroke-width="2.4" stroke-linecap="round"><path d="M55 29l6 6M61 29l-6 6M33 46l5 5M38 46l-5 5M56 54l5 5M61 54l-5 5"/><circle cx="36" cy="70" r="3.6"/><circle cx="52" cy="40" r="3.2"/></g><path d="M38 66C42 56 48 52 54 44" fill="none" stroke="#F2C45B" stroke-width="1.6" stroke-dasharray="3 3"/><path d="M52 41l3.4 2.6-.9-4.2z" fill="#F2C45B"/></g></svg>
+<svg class="tileChevron" aria-hidden="true" focusable="false" viewBox="0 0 12 20"><path d="M2 2l8 8-8 8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</button>
+<button class="menuTile menuTileLegacy" id="legacyButton" type="button">
+<span class="menuTileCode">HISTORY</span><span class="menuTileLabel">LEGACY</span><span class="menuTileMeta">Completed rivalries and season history</span>
+<svg class="tileIcon" aria-hidden="true" focusable="false" viewBox="0 0 96 96"><defs><linearGradient id="icCup" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFE7A0"/><stop offset=".45" stop-color="#D9A93F"/><stop offset="1" stop-color="#7A561A"/></linearGradient></defs><path d="M30 12h36v6c0 16-6 28-18 31C36 46 30 34 30 18z" fill="url(#icCup)"/><path d="M30 18c-9 0-14 4-14 10 0 8 8 13 17 14M66 18c9 0 14 4 14 10 0 8-8 13-17 14" fill="none" stroke="#C99B45" stroke-width="3.2"/><path d="M44 49h8v12h-8z" fill="#B88A2E"/><path d="M36 61h24l3 8H33z" fill="url(#icCup)"/><rect x="28" y="69" width="40" height="11" rx="1.5" fill="#1A1D22" stroke="#C99B45" stroke-width="1.6"/><path d="M38 16c0 12 3 21 8 27" fill="none" stroke="rgba(255,248,220,.55)" stroke-width="2"/></svg>
+<svg class="tileChevron" aria-hidden="true" focusable="false" viewBox="0 0 12 20"><path d="M2 2l8 8-8 8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</button>
+<button class="menuTile menuTileTrophy" id="careerStatisticsButton" type="button">
+<span class="menuTileCode">DATA</span><span class="menuTileLabel">STATISTICS</span><span class="menuTileMeta">Career totals, manager comparison and honours</span><span class="menuTileTag" data-route="trophyRoom">TROPHY ROOM</span>
+<svg class="tileIcon" aria-hidden="true" focusable="false" viewBox="0 0 96 96"><defs><linearGradient id="icBar" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE08A"/><stop offset="1" stop-color="#9A6E22"/></linearGradient></defs><g fill="url(#icBar)"><rect x="12" y="66" width="11" height="18"/><rect x="28" y="56" width="11" height="28"/><rect x="44" y="44" width="11" height="40"/><rect x="60" y="30" width="11" height="54"/><rect x="76" y="12" width="11" height="72"/></g><path d="M8 85h82" stroke="#C99B45" stroke-width="2"/></svg>
+<svg class="tileChevron" aria-hidden="true" focusable="false" viewBox="0 0 12 20"><path d="M2 2l8 8-8 8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</button>
+<button class="menuTile menuTileRules" id="ruleBookButton" type="button">
+<span class="menuTileCode">RULES</span><span class="menuTileLabel">RULE BOOK</span><span class="menuTileMeta">Scoring and competition rules</span>
+<svg class="tileIcon" aria-hidden="true" focusable="false" viewBox="0 0 96 96"><g transform="rotate(-10 50 50)"><rect x="24" y="12" width="56" height="76" rx="3" fill="#121418" stroke="#8C7440" stroke-width="1.6"/><rect x="21" y="14" width="56" height="76" rx="3" fill="#1A1D22" stroke="#C99B45" stroke-width="1.8"/><g fill="none" stroke="#D9DCE0" stroke-width="2" stroke-linecap="round"><path d="M17 22h8M17 31h8M17 40h8M17 49h8M17 58h8M17 67h8M17 76h8"/></g><g fill="none" stroke="#F2C45B" stroke-width="2.4" stroke-linecap="round"><path d="M40 26l5 5M45 26l-5 5M58 26l5 5M63 26l-5 5M48 42l5 5M53 42l-5 5M62 48l5 5M67 48l-5 5"/><circle cx="38" cy="62" r="3.4"/><circle cx="56" cy="74" r="3.4"/></g><path d="M38 58c4-8 8-10 12-12M56 70c2-8 6-12 10-14" fill="none" stroke="#F2C45B" stroke-width="1.5" stroke-dasharray="3 3"/></g></svg>
+<svg class="tileChevron" aria-hidden="true" focusable="false" viewBox="0 0 12 20"><path d="M2 2l8 8-8 8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</button>
+<button class="menuTile menuTileSettings" id="settingsButton" type="button">
+<span class="menuTileCode">SETTINGS</span><span class="menuTileLabel">SETTINGS</span><span class="menuTileMeta">Account, device and preferences</span>
+<svg class="tileIcon" aria-hidden="true" focusable="false" viewBox="0 0 96 96"><defs><linearGradient id="icCase" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3A3D42"/><stop offset=".55" stop-color="#1B1D21"/><stop offset="1" stop-color="#0E0F12"/></linearGradient><radialGradient id="icDisc" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#2A2B2E"/><stop offset=".3" stop-color="#8E8A80"/><stop offset=".75" stop-color="#5E5B55"/><stop offset="1" stop-color="#3D3B37"/></radialGradient></defs><g transform="rotate(-24 50 52)"><path d="M18 30l46-14 16 50-46 14z" fill="#08090B" transform="translate(3 4)"/><path d="M18 30l46-14 16 50-46 14z" fill="url(#icCase)" stroke="#6B6658" stroke-width="1.2"/><path d="M18 30l46-14 2 6-46 14z" fill="rgba(255,255,255,.08)"/></g><circle cx="58" cy="62" r="13" fill="url(#icDisc)"/><circle cx="58" cy="62" r="4" fill="#111215" stroke="#C99B45" stroke-width="1.2"/></svg>
+<svg class="tileChevron" aria-hidden="true" focusable="false" viewBox="0 0 12 20"><path d="M2 2l8 8-8 8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</button>
+</div>
+
+<div class="menuBottomStrip">
+<span><b>01</b> TWO MANAGER CAREER COMPETITION</span>
+<span><b>02</b> FIFA 17 ERA RULESET</span>
+<strong>READY</strong>
+</div>
+</div>
+</section>
+</main>
+
+<footer>Career Mode Showdown<br>v1.9.1</footer>
+<div class="footDeco" aria-hidden="true"><span>FOOTBALL BRINGS US TOGETHER</span><svg viewBox="0 0 24 18" focusable="false"><path d="M2 16h20l1.5-12-6 5L12 1 6.5 9l-6-5z" fill="#F2C45B"/></svg></div>
+<div class="gridOverlay" aria-hidden="true"></div>
+</div>
+<script src="home.js"></script>
+</body>
+</html>
