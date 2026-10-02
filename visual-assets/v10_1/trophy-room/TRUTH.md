@@ -271,6 +271,10 @@ Required categories are `ALL · SHOWDOWN · LEAGUE TITLES · DOMESTIC CUPS · CH
 - Champions League: `championsLeagues`.
 - `totalTrophies` remains the agreed §7 season-trophy total; Showdown Champion is displayed separately rather than silently changing that field's meaning.
 
+### TR1 derivation check
+
+TR1 includes a `checkSource` block used only to validate preview aggregates; it is not a Trophy Room view-model field and is never rendered. Its five fictional Premier League seasons obey the contract bounds and never give Daniel and Nik the same league position. A league title is derived only from `leaguePosition === 1`. The scoring formula recomputes TR1 to Daniel 27 career points / 3 season wins / 6 season trophies and Nik 22 / 2 / 6; the three grouped Showdowns resolve to Daniel 2 wins and Nik 1.
+
 ### Preview frames
 
 - TR1 · ready · both managers have trophies. Category `ALL`; fictional provider values; Daniel left/first, Nik right/second; standings rows remain Daniel-first and the `#` rank shows Daniel leading; includes all five allowed record families.
