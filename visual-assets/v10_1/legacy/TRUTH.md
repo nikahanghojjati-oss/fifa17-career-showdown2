@@ -34,7 +34,177 @@ The legacy stylesheet also contains import-analysis classes (`legacyImportAnalys
 
 ## Buttons and strings
 
-_To be completed in step 2._
+All strings below are copied from live `main`. Dynamic values are shown as code templates rather than rewritten prose.
+
+### Core Legacy actions
+
+| Control | Exact live label | Live behaviour | Factory answer |
+| --- | --- | --- | --- |
+| Home tile | `LEGACY` (code `HISTORY`; meta `Completed rivalries and season history`) | Opens the optional Legacy module. | Route authority. |
+| Back | `BACK TO MAIN MENU` | `.backButton[data-smart-back]` delegates to smart Back; legal targets are Dashboard then Home. | Keep Back semantics; presentation may be supplied by shared nav. |
+| Per-card disclosure | `VIEW SEASON HISTORY` | Opens that archived Showdown's season rows lazily. | KEEP; this is the one Legacy primary action required by product truth. |
+| Per-card destructive action | `DELETE SHOWDOWN` | Confirms, then deletes the local archived copy and possibly its matching completed active copy. | Live on `main`; DROP from the factory online Legacy surface. |
+| Local data action | `EXPORT BACKUP` | Exports local backup; busy label `BUILDING BACKUP…`. | DROP from online Legacy. |
+| Local data action | `DELETE ALL LEGACY HISTORY` | Destructive local-history clear behind confirm. | DROP from online Legacy. |
+| Local data action | `RESET ALL SHOWDOWN DATA` | Destructive local reset behind confirm. | DROP from online Legacy. |
+| Import preview | `ANALYZE BACKUP` | Read-only local backup analysis; busy label `ANALYZING…`. | DROP from online Legacy. |
+| Import preview | `CLEAR PREVIEW` | Clears selected import preview. | DROP from online Legacy. |
+| Restore | `REVIEW RESTORE` | Verifies a selected local backup; busy label `VERIFYING…`. | DROP from online Legacy. |
+| Restore | `APPLY RESTORE` | Applies an explicitly reviewed local restore; busy label `REVALIDATING & APPLYING…`. | DROP from online Legacy. |
+
+### Core Legacy visible copy
+
+Screen shell:
+- `LEGACY`
+- Initial HTML placeholders before `renderLegacy()`: `Showdowns Played`, `Trophies Won`, `Total Points`.
+- Rendered stat labels: `SHOWDOWNS PLAYED`, `TROPHIES WON`, `TOTAL POINTS`.
+- Section heading: `COMPLETED RIVALRIES`.
+- Empty state: `No completed showdowns yet. Finish a rivalry and it will be archived here automatically.`
+- Date fallback: `Date unavailable`.
+- League fallback: `League unavailable`.
+
+Card templates:
+- Subtitle: `{leagueName} · {N} season` / `{leagueName} · {N} seasons · completed {formattedDate}`.
+- Daniel-side live template today is `{playerOneManager} · {playerOneClub}`.
+- Score: `{playerOneShowdownPoints} - {playerTwoShowdownPoints}`.
+- Nik-side live template today is `{playerTwoClub} · {playerTwoManager}`.
+- Winner: `{playerOneManager} wins the showdown` / `{playerTwoManager} wins the showdown` / `Showdown finishes level`.
+- Meta line 1: `{N} trophies won`.
+- Meta line 2: `{N} total showdown points`.
+- Season heading: `SEASON {roundNumber}`.
+- Per-manager season line: `{managerName}: #{leaguePosition} · {leaguePoints} league pts · {leagueGoals} goals`.
+- Season score: `{danielSeasonScore} - {nikSeasonScore}`.
+- Honours tokens are exactly `Champions League`, `League`, `Domestic Cup`, `Performance Bonus`, `Awards Bonus`; fallback `No honours`; tokens are joined with ` · `.
+- Transfer-release suffix on current local history: ` · {N} transfer release` / ` · {N} transfer releases`. This is not a contracted online Legacy field and is dropped unless a future contract explicitly adds it.
+
+### Core Legacy local data-management copy on main
+
+These strings are live today because `renderLegacy()` appends `createLegacyDataControls()`. They are documented here so the new screen does not accidentally preserve them.
+
+- `DATA MANAGEMENT`
+- `Download a checksum-protected local backup before destructive maintenance. Export is read-only: it does not change your active Showdown, Legacy history or application preferences.`
+- `LOCAL BACKUP`
+- `Human-readable JSON · format v1 · SHA-256 corruption check · malformed current bytes preserved in recovery data`
+- `Backup export is ready.`
+- `Backup export is unavailable in this browser session.`
+- `Building a read-only backup and verifying its checksum…`
+- `Backup downloaded with {N} recovery warning. Your stored bytes were not changed.`
+- `Backup downloaded with {N} recovery warnings. Your stored bytes were not changed.`
+- `Backup downloaded successfully. Your stored bytes were not changed.`
+- `Backup could not be created: {error}`
+- `The Legacy showdown could not be deleted from browser storage.`
+- `The active completed copy could not be removed, so the Legacy deletion was rolled back.`
+- `The active completed copy could not be removed and the Legacy rollback also failed. Refresh before making more data changes.`
+- `Deleted "{showdown.name}" from local Legacy history.`
+- `Legacy history could not be cleared from browser storage.`
+- `The completed active copy could not be removed, so Legacy history was restored.`
+- `Legacy was cleared but the active completed copy could not be removed, and rollback failed. Refresh before continuing.`
+- `Legacy history was deleted successfully.`
+- `The full reset did not complete. The interface has reloaded the data that is still available; refresh before trying again.`
+- `All active and Legacy Showdown data was reset successfully. Application preferences were kept.`
+
+Exact confirms:
+- `Delete "{showdown.name}" from Legacy and remove its active completed copy? This cannot be undone.`
+- `Delete "{showdown.name}" from Legacy? This cannot be undone.`
+- `Delete every archived showdown from Legacy? The active copy of the completed showdown will also be removed so it cannot immediately re-archive. Unfinished active saves are not affected. This cannot be undone.`
+- `Delete every archived showdown from Legacy? Your unfinished active showdown, if any, will remain. This cannot be undone.`
+- `Reset ALL Career Mode Showdown data? This deletes the active showdown and every Legacy record. This cannot be undone.`
+
+### Import-analysis panel mounted on the live Legacy screen
+
+Static copy:
+- `PREVIEW ONLY · NO RESTORE WRITES`
+- `IMPORT ANALYSIS & MIGRATION PREVIEW`
+- `Choose a Career Mode Showdown backup to verify its checksum, validate supported schemas, preview historical migrations and classify conflicts. Candidate B never changes active data, Legacy history or preferences.`
+- `DROP BACKUP JSON HERE`
+- `or press Enter / Space to choose a file`
+- `ANALYZE BACKUP`
+- `CLEAR PREVIEW`
+- `Analysis is read-only. Restore is intentionally unavailable in Candidate B.`
+- `PREVIEW READY` / `ANALYSIS BLOCKED`
+- `Backup passed Candidate B analysis. Nothing has been restored or written.`
+- `The file cannot advance to a later restore stage until the listed problems are resolved.`
+- Result labels: `CHECKSUM`, `ACTIVE SHOWDOWN`, `LEGACY`, `PREFERENCES`, `MIGRATION PREVIEW`, `LEGACY RECORD PREVIEW`, `BLOCKING PROBLEMS`, `WARNINGS / REVIEW NOTES`.
+- Checksum values: `VERIFIED`, `FAILED`, fallback `Unavailable`.
+
+State templates:
+- `No file selected · maximum {size}`
+- `{filename} · {size}`
+- `This file exceeds the safe analysis limit and will be rejected before its contents are read.`
+- `File selected. Press Analyze Backup to run checksum, schema, migration and conflict preview.`
+- `Analyzing in memory. Browser storage will not be changed.`
+- `Preview complete. No browser data was changed. Candidate C restore remains unavailable.`
+- `Preview found blocking problems. No browser data was changed.`
+- `Analysis failed safely. No browser data was changed.`
+- `Preview cleared. Browser storage was not changed.`
+- Legacy preview value: `{newRecords} NEW · {exactDuplicates} EXACT`; detail `{sameEffectiveRevision} same-revision · {differentRevision} different-revision · {malformedUnresolvable} unresolved`.
+- Migration line: `{path}: schema {sourceVersion} → {targetVersion} · {steps}`; overflow `+ {N} additional migration record(s)`.
+- Record line: `{nameOrRecord} · ID {idOrUnresolved} · {category}`; overflow `Preview limited to 10 notable records; totals above include all {N}.`
+- Message overflow: `+ {N} additional message(s)`.
+
+ARIA on this panel:
+- `Choose or drop a Career Mode Showdown JSON backup`
+- `Career Mode Showdown backup JSON file`
+- The file state, status and result containers use live-region semantics (`role="status"` / `aria-live="polite"` as applicable).
+
+### Atomic restore panel mounted on the live Legacy screen
+
+Static copy:
+- `CANDIDATE C · VERIFIED APPLY`
+- `ATOMIC RESTORE & RECOVERY`
+- `Choose a backup to review restore choices. Apply locks the exact confirmed file and choices, revalidates browser state, snapshots exact raw bytes, verifies the complete commit and rolls back only transaction-owned mutations if any write or verification fails.`
+- `Choose…`
+- `BACKUP ACTIVE`, `BACKUP LEGACY`, `BACKUP PREFERENCES`
+- `Backup active slot is empty`
+- `Merge preserves local-only history; replace matches the backup archive.`
+- `Available`, `Empty`, `Reduced motion on`, `System motion`, `Menu feedback off`, `Menu feedback on`, `Backup has no saved preferences`
+- Choice labels `ACTIVE SHOWDOWN`, `LEGACY HISTORY`, `PREFERENCES`, `SAVE LIBRARY`
+- Choice values `Keep current active state`, `Use backup active Showdown`, `Match backup: remove current active Showdown`, `Keep current Legacy only`, `Merge backup into current Legacy`, `Replace current Legacy with backup`, `Keep current preferences`, `Use backup preferences`, `Match backup: remove saved preferences`, `Keep current Save Library`, `Replace entire Save Library with backup`
+- `LEGACY CONFLICT CHOICES REQUIRED`, `Choose conflict result…`, `Keep local record`, `Use backup record`
+- `EXACT STORAGE SNAPSHOT UNAVAILABLE`
+- `Browser storage could not be read without ambiguity. Nothing can be applied until a complete exact snapshot succeeds.`
+- `RESTORE PLAN READY`, `RESTORE PLAN INCOMPLETE`, `RECOVERY CHECKPOINT`
+- `Use Export Backup above first if you want an extra copy of the current browser data before applying replacement choices.`
+- `BACKUP BLOCKED`; fallback `Backup analysis failed.`
+- Recovery headings `RESTORE NOT STARTED`, `RESTORE ROLLED BACK`, `CRITICAL RECOVERY STATE`.
+
+Restore state/templates include:
+- `No active Showdown in backup`
+- `{N} record` / `{N} records`
+- `Showdown ID {id}`
+- `Local: {localName} · Backup: {backupName}`
+- `Analysis is read-only. Use Atomic Restore & Recovery below when you are ready to choose and apply a restore plan.`
+- `Preview complete. No browser data was changed. Use Atomic Restore & Recovery below when you are ready to choose and apply a restore plan.`
+- `Verifying checksum, schemas, migrations and an exact current-state snapshot in memory. Nothing is being changed.`
+- `{filename} selected. Review is read-only until Apply.`
+- `No restore file selected.`
+- `{filename} remains selected. Review again before applying.`
+- `No restore file selected. Export Backup above first if you want an extra recovery copy.`
+- `Backup verified against an exact browser-state snapshot. Choose how each data area should be resolved.`
+- `Backup verified, but exact browser storage could not be snapshotted safely. Nothing can be applied until Review succeeds with a complete snapshot.`
+- `Backup cannot be restored because verification found blocking problems.`
+- `Restore review failed safely: {error}`
+- `Confirmed choices are locked. Revalidating the exact selected file and browser bytes before any write…`
+- `Restore committed and verified. Refreshing the application from canonical state…`
+- `Backup restore completed and verified successfully.`
+- `Current data changed after review ({keys}). Nothing unverified was kept. Recheck the refreshed state and make new restore choices.`
+- `Exact browser storage could not be read safely. Nothing was written. Review again after storage access is available.`
+- `Current data changed or a conflict needs an explicit choice. Nothing was written. Review the refreshed plan and apply again.`
+- `Fresh verification found blocking problems. Nothing was written. Review the selected backup again before trying another restore.`
+- `Restore could not start writing. Existing browser data was left unchanged.`
+- `Restore failed safely and transaction-owned browser changes were verified restored.`
+- `Critical recovery state: canonical bytes are uncertain and restore controls are locked until refresh.`
+- `Restore verification was blocked before a verified commit. {reason}`
+- `Restore failed safely: {error}`
+
+Exact restore confirm:
+- `Apply this exact restore plan? The selected file and browser data will be verified again before any write. Export Backup above now if you want an extra current-state recovery copy.`
+
+ARIA:
+- Restore file input: `Backup file for restore`.
+- Restore status uses `role="status"` and `aria-live="polite"`.
+
+Factory conclusion for step 2: all local backup, delete, import, restore and reset copy is historical evidence of what `main` currently shows, but the online Legacy build must not expose those controls because `DATA_CONTRACT_V1.md §8` explicitly says there are no delete, backup, export or reset controls on the online route.
 
 ## Data contract
 
