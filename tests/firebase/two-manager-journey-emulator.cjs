@@ -4,7 +4,7 @@ const assert=require("node:assert/strict");
 const crypto=require("node:crypto");
 const fs=require("node:fs");
 const firestoreSdk=require("firebase/firestore");
-const {Timestamp,doc,getDoc,setDoc,serverTimestamp}=firestoreSdk;
+const {Timestamp,collection,doc,getDoc,getDocs,setDoc,serverTimestamp}=firestoreSdk;
 const {initializeTestEnvironment,assertFails,assertSucceeds}=require("@firebase/rules-unit-testing");
 
 global.window=globalThis;
@@ -58,6 +58,23 @@ function expectedWinner(season){return season===2?"playerTwo":"playerOne";}
 
 async function seedAccountsAndMainRivalry(env,now){await env.withSecurityRulesDisabled(async context=>{const db=context.firestore();for(const [uid,id,seed] of [[A,DA,"a"],[B,DB,"b"],[C,DC,"c"]]){await setDoc(doc(db,"accounts",uid),await account(uid));await setDoc(doc(db,"accounts",uid,"devices",id),await device(uid,id,seed));}await setDoc(doc(db,"rivalries",R1),await rivalry(R1));await setDoc(doc(db,"rivalries",R1,"sessions",S1),await session(R1,S1,now));await setDoc(doc(db,"accounts",A,"pairLinks","current"),await pairLink(A,R1,"playerOne","daniel",DA));await setDoc(doc(db,"accounts",B,"pairLinks","current"),await pairLink(B,R1,"playerTwo","nik",DB));});}
 
+async function assertStrangerDenied(env,dbA,dbB,label){
+  const dbC=env.authenticatedContext(C).firestore();
+  const paths=[
+    ["rivalry root",doc(dbC,"rivalries",R1)],
+    ["shared setup",doc(dbC,"rivalries",R1,"sharedSetup","authoritative")],
+    ["season 1 commit",doc(dbC,"rivalries",R1,"seasonCommits","season_1")],
+    ["season 1 results",doc(dbC,"rivalries",R1,"seasonResults","season_1")],
+    ["season 1 Daniel result",doc(dbC,"rivalries",R1,"seasonResults","season_1","roles","playerOne")],
+    ["season 1 transfer",doc(dbC,"rivalries",R1,"transferChallenges","season_1")],
+    ["season 1 Daniel transfer",doc(dbC,"rivalries",R1,"transferChallenges","season_1","roles","playerOne")],
+    ["season 1 Nik transfer",doc(dbC,"rivalries",R1,"transferChallenges","season_1","roles","playerTwo")],
+    ["Daniel pair link",doc(dbC,"accounts",A,"pairLinks","current")]
+  ];
+  for(const [name,ref] of paths)await assertFails(getDoc(ref),`${label}: stranger must not read ${name}`);
+  for(const [who,db] of [["Daniel",dbA],["Nik",dbB],["stranger",dbC]])await assertFails(getDocs(collection(db,"rivalries",R1,"seasonCommits")),`${label}: ${who} must not list season commits`);
+}
+
 async function playMainJourney(env){
   const now=Date.now();
   await seedAccountsAndMainRivalry(env,now);
@@ -66,7 +83,7 @@ async function playMainJourney(env){
 
   for(const [type,baseRevision,n,extra] of [["open",0,1,{}],["commit-league",1,2,{}],["commit-clubs",2,3,{}],["commit-length",3,4,{totalSeasons:TOTAL_SEASONS}]]){const result=await Setup.mutate({...a(n*10),type,baseRevision,operationId:op("setup_op_",n),...extra});assert.equal(result.ok,true,`Setup ${type} failed: ${JSON.stringify(result)}`);}
   let setup=await Setup.mutate({...a(50),type:"confirm",baseRevision:4,operationId:op("setup_op_",5)});assert.equal(setup.ok,true,JSON.stringify(setup));
-  setup=await Setup.mutate({...b(60),type:"confirm",baseRevision:5,operationId:op("setup_op_",6)});assert.equal(setup.ok,true,JSON.stringify(setup));assert.equal(setup.state.phase,"SHOWDOWN_CONFIRMED");assert.equal(setup.state.totalSeasons,TOTAL_SEASONS);
+  setup=await Setup.mutate({...b(60),type:"confirm",baseRevision:5,operationId:op("setup_op_",6)});assert.equal(setup.ok,true,JSON.stringify(setup));assert.equal(setup.state.phase,"SHOWDOWN_CONFIRMED");assert.equal(setup.state.totalSeasons,TOTAL_SEASONS);await assertStrangerDenied(env,dbA,dbB,"after setup confirmation");
   let career=await Career.acknowledge({...a(70),operationId:op("career_start_op_",1),baseRevision:0});assert.equal(career.ok,true,JSON.stringify(career));career=await Career.acknowledge({...b(80),operationId:op("career_start_op_",2),baseRevision:1});assert.equal(career.ok,true,JSON.stringify(career));assert.equal(career.state.phase,"CAREER_START_READY");
 
   let lastHistory=null,lastMulti=null;const totals={playerOne:0,playerTwo:0};
@@ -84,7 +101,7 @@ async function playMainJourney(env){
     results=await Results.publishResult({...b(offset+900),seasonNumber:season,operationId:op("season_result_op_",season*10+2),baseRevision:1,result:resultFor("playerTwo",season)});assert.equal(results.ok,true,JSON.stringify(results));assert.equal(results.state.phase,"RESULTS_READY");
     let commit=await Commit.commitSeason({...a(offset+1000),seasonNumber:season,operationId:op("season_commit_op_",season*10+1),baseRevision:0});assert.equal(commit.ok,true,JSON.stringify(commit));
     commit=await Commit.acknowledgeSeason({...b(offset+1100),seasonNumber:season,operationId:op("season_commit_op_",season*10+2),baseRevision:1});assert.equal(commit.ok,true,JSON.stringify(commit));
-    commit=await Commit.acknowledgeSeason({...a(offset+1200),seasonNumber:season,operationId:op("season_commit_op_",season*10+3),baseRevision:2});assert.equal(commit.ok,true,JSON.stringify(commit));assert.equal(commit.phase,"ACKNOWLEDGED");
+    commit=await Commit.acknowledgeSeason({...a(offset+1200),seasonNumber:season,operationId:op("season_commit_op_",season*10+3),baseRevision:2});assert.equal(commit.ok,true,JSON.stringify(commit));assert.equal(commit.phase,"ACKNOWLEDGED");if(season===1)await assertStrangerDenied(env,dbA,dbB,"after season 1 commit");
 
     const scoreA=await Scoring.read({...a(offset+1300),seasonNumber:season,teamCount:20}),scoreB=await Scoring.read({...b(offset+1300),seasonNumber:season,teamCount:20});assert.deepEqual(scoreA.scoring,scoreB.scoring,`S${season} scoring must converge`);assert.equal(scoreA.scoring.playerOne.total,expectedScore("playerOne",season));assert.equal(scoreA.scoring.playerTwo.total,expectedScore("playerTwo",season));assert.equal(scoreA.winner,expectedWinner(season));totals.playerOne+=scoreA.scoring.playerOne.total;totals.playerTwo+=scoreA.scoring.playerTwo.total;
     lastHistory=await History.read({...a(offset+1400),throughSeason:season});const historyB=await History.read({...b(offset+1400),throughSeason:season});assert.deepEqual(lastHistory.projection,historyB.projection,`S${season} history must converge`);assert.equal(lastHistory.projection.seasonHistory.length,season);
@@ -96,7 +113,7 @@ async function playMainJourney(env){
   assert.deepEqual(finalA,finalB,"Both managers must derive the same final Showdown");assert.deepEqual(finalA.managerTotals,totals);assert.equal(finalA.phase,"FINAL_SEASON_RECONCILED");
   const intent=Terminal.prepare(finalA,{sessionId:S1});
   const closed=await TerminalProvider.close({...a(TOTAL_SEASONS*10000+2000),intent});assert.equal(closed.ok,true,JSON.stringify(closed));assert.equal(closed.rivalryState,"closed");assert.equal(closed.sessionState,"closed");
-  const rootA=await assertSucceeds(getDoc(doc(dbA,"rivalries",R1))),rootB=await assertSucceeds(getDoc(doc(dbB,"rivalries",R1)));assert.deepEqual(rootA.data().data.terminalClose,rootB.data().data.terminalClose);assert.equal(rootA.data().data.connectionState,"closed");
+  const rootA=await assertSucceeds(getDoc(doc(dbA,"rivalries",R1))),rootB=await assertSucceeds(getDoc(doc(dbB,"rivalries",R1)));assert.deepEqual(rootA.data().data.terminalClose,rootB.data().data.terminalClose);assert.equal(rootA.data().data.connectionState,"closed");await assertStrangerDenied(env,dbA,dbB,"after Terminal Close");
   return {now,dbA,dbB,finalA};
 }
 
