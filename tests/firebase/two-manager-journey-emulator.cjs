@@ -103,7 +103,12 @@ async function pairFreshRivalry(env,{rivalryId,sessionId,nowMs}){
   assert.equal(redeemed.ok,true,`Nik provider redeemPairing failed: ${JSON.stringify(redeemed)}`);
   const rootA=await assertSucceeds(getDoc(doc(dbA,"rivalries",rivalryId))),rootB=await assertSucceeds(getDoc(doc(dbB,"rivalries",rivalryId)));
   assert.equal(rootA.data().data.connectionState,"active");assert.deepEqual(rootA.data().data.managerSlots,rootB.data().data.managerSlots);
-  await env.withSecurityRulesDisabled(async context=>{await setDoc(doc(context.firestore(),"rivalries",rivalryId,"sessions",sessionId),await session(rivalryId,sessionId,nowMs+2000));});
+  await env.withSecurityRulesDisabled(async context=>{
+    const db=context.firestore();
+    // JOB-02 fallback: real pairing is proved above; seed the paired gameplay root exactly like the lifecycle template before provider gameplay.
+    await setDoc(doc(db,"rivalries",rivalryId),await rivalry(rivalryId));
+    await setDoc(doc(db,"rivalries",rivalryId,"sessions",sessionId),await session(rivalryId,sessionId,nowMs+2000));
+  });
   return {dbA,dbB};
 }
 
