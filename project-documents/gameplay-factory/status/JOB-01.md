@@ -1,12 +1,12 @@
 # Status · JOB-01 · Fast regression CI on every gameplay push
 
 State: IN PROGRESS
-Step: 4 of 6
-Updated: 2026-10-02 08:52 UTC
+Step: 5 of 6
+Updated: 2026-10-02 08:54 UTC
 Chat: Sol Work mode /workspace/scratch/edc3bf1e46ba
 Code branch: gameplay/job-01-fast-ci
 Head commit: 9723ed9035886dbe90b469b3b6b6867949bf17ae
-PR:
+PR: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/315
 CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/36986447232
 
 ## Notes
@@ -19,7 +19,7 @@ CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/r
 - Step 3: With the workflow present, contracts passed 96/96 and ops passed 73/73 (`ℹ fail 0`; last line `ℹ duration_ms 653.187861`). Rebuilt both Rules scripts (121476-byte pair composition), then boundary assertion passed. Local emulator omitted under handbook §7 because Java is 17; exact-head CI supplies emulator proofs. Generated Rules have no diff.
 
 - Step 4: Required safety grep returned exit 1 with empty stdout: no deploy, secrets, Google authentication, non-demo project or main trigger. Manually confirmed only contents: read and five demo- project ids.
-- Step 5 underway: Connector push started Validate Gameplay Fast on exact head 9723ed9035886dbe90b469b3b6b6867949bf17ae. Gameplay contracts job is green; emulator job is running.
+- Step 5: Validate Gameplay Fast green on exact head 9723ed9035886dbe90b469b3b6b6867949bf17ae; Gameplay contracts SUCCESS; Composed Rules on the emulator SUCCESS (all five proof groups, including lifecycle lengths 1 and 3). Run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/36986447232. PR #315 open into gameplay/recovery-v1, unmerged. Only .github/workflows/validate-gameplay-fast.yml differs from integration (68 additions).
 
 ## Self-check
 
