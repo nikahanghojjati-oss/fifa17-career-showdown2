@@ -108,7 +108,7 @@ Hidden (measured, plate only, 1366×768, mends off → on, ridge = hairline stre
 - zone 6 bottom: 13.5 → under the card (not visible) · zones 7 and 8 (dock, footer): under the dock bed, tiles and footer, 0 flags in every UI frame.
 - Nav-bar slivers at plate (1302–1309, 32–50) and (1515–1520, 70–82): blurred and darkened (area mend + edge strips).
 
-**Remaining visible seams (soft tone steps; no hard lines left):**
+**Historical pre-Job-31 seam notes (superseded by the Edges section below):**
 1. **Top-right nav remnant, zones 1–2** (plate x 1305–1662, y 4–88), just under the header right of Nik's face. There is a soft darker patch whose lower edge reads at y 84–88: step 10–17 at 1366×768, 8–9 at 1920×1080.
 2. **Zone 2 right edge at 1920×1080** (plate x 1662, y 50–80, the far top-right corner): step 45 over 6 samples. It is only visible on wide screens, where less of the header covers it.
 3. **Left column, zones 4–5** (plate x 324–534, y 398–545, between the lockup and the heading, where the goal's loading bar was):
@@ -118,6 +118,15 @@ Hidden (measured, plate only, 1366×768, mends off → on, ridge = hairline stre
 5. **Zone 3 top (1920×1080 only,** plate x 584–596, y 118): step 10.3 over 3 samples, at the wordmark's right end.
 
 These need a plate fix (re-run the intake tone match with a wider feather on zones 1, 2, 4 and 5) or Sol/Nik's acceptance. More UI over these areas would cover the plate's crowd and the managers' surroundings.
+
+## Edges · Job 31 (2026-10-02)
+
+Job 31 replaced the broad seam blur/darken treatment with source-local repair plus selective narrow edge mends. D2/D3/D5/D6/D7 use the 12 px outside ring as their tonal reference with a 28 px inward feather; D1/D4 were runtime area-mend artifacts and no longer use broad blur/darkening. The remaining runtime strips are 4 plate px and are trimmed away from protected face/hand boxes.
+
+- 400% evidence: `evidence/edges_before/DEFECTS.md`, `evidence/edges_after/`, and `evidence/EDGES_BEFORE_AFTER.png`.
+- Protected likeness: Daniel face, Nik face and Daniel pointing hand remain clean in the registered 400% crops; source repair is locked outside the intake remove zones and inside protected boxes.
+- Final render QA: **33 shots, 0 failing**; all existing Home gates remain green. Current final-UI seam ridge maximum: **0.0 / 255**; no broad area mend remains.
+- Plate SHA gate: every current plate derivative is present in both `assets/intake_report.md` and `assets/platemap.json`.
 
 ## Known limits
 - The fonts have no italic Barlow Condensed file; `CM 17` uses synthesized oblique.
