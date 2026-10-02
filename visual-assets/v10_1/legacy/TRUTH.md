@@ -276,7 +276,35 @@ Do not show clean sheets, biggest single-match win, European wins other than Cha
 
 ## Screen states and preview frames
 
-_To be completed in step 4._
+The contract has exactly five screen-level `status` values: `loading`, `empty`, `unavailable`, `partial`, `ready`. "Error" is not a sixth view-model status: a history read failure maps to `unavailable`; an unreadable subset maps to `partial`. Showdown-card states are separate from the screen status.
+
+Role does not change the History facts or wording. Daniel and Nik may open the same published archive, but the model is always keyed by role and rendered Daniel first/left, Nik second/right. No unpublished rival input is ever present in this view model.
+
+### Card-level states inside a ready/partial screen
+
+- `completed`: score and winner may be shown; season history may expand.
+- `in-progress`: accepted/acknowledged seasons may be represented, but there is no completed Showdown outcome.
+- `completion-pending`: final result may be shown with a visible completion-pending status, but the Showdown outcome does not count as completed until verified Terminal Close.
+- `abandoned`: status-only row/card with exact visible status `Abandoned · not counted`; no score and no seasons.
+- `unavailable`: status-only representation; invent no score, winner or seasons.
+
+### Required preview frames
+
+| Frame | Screen status | Preview content | Why it exists |
+| --- | --- | --- | --- |
+| `LG1` | `ready` | Eight fictional completed Showdowns, paginated across two pages; Daniel is left on every card. The fixture records all eight and identifies the current page. | Main populated archive, pagination, completed cards and season-history action. |
+| `LG2` | `ready` | One fictional `in-progress` Showdown plus completed history. | Proves accepted active seasons can coexist with history without creating a completed Showdown outcome. |
+| `LG3` | `ready` | Completed history plus one `abandoned` status-only row/card reading `Abandoned · not counted`; abandoned entry has no score/seasons. | Proves §6 exclusion. |
+| `LG4` | `empty` | New-career state with no historical Showdowns. | Honest successful empty read. |
+| `LG5` | `ready` review-only interim | Current-Showdown-only preview with exact `interimLabel`: `Current Showdown only. Career history is not yet available.` | Owner review before provider history exists; explicitly not a launch state. |
+| `LG6` | `unavailable` | Provider history could not be read; no zeros, no fake cards. | Read failure. |
+| `LG7` | `loading` | History request in flight; archive structure may skeleton, but no invented values. | Required contract state omitted from the original six-frame shorthand. |
+| `LG8` | `partial` | Mix of readable completed Showdowns plus at least one unavailable history entry and a visible partial-coverage warning; do not call it "all-time" or "career". | Required contract state; unreadable records must not disappear into totals. |
+| `LG9` | `ready` | One `completion-pending` Showdown plus older completed history; result is visible but carries `Completion pending`. | Required PRODUCT_TRUTH §4 / contract §6 state. |
+
+Adjustment to the job's initial LG1–LG6 list: LG7–LG9 are added because the binding contract requires `loading`, `partial`, and `completion-pending` coverage. There is no separate `error` frame because the contract deliberately represents read failure as `unavailable`.
+
+For LG1, the fixture uses eight total records and two pages (four records per page) to satisfy the literal job requirement "eight completed Showdowns over two pages." The 4 × 2 mockup grid is treated as layout capacity rather than a requirement to fill all eight slots on every page.
 
 ## Mockup element decisions
 
