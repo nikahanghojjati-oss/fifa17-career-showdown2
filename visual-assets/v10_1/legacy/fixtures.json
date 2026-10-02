@@ -19,7 +19,7 @@
       "completionPending": "Completion pending",
       "interim": "Current Showdown only. Career history is not yet available.",
       "loading": "Loading your Showdown history…",
-      "partial": "Some Showdowns could not be loaded. Showing {readable} of {indexed} Showdowns.",
+      "partial": "Some Showdowns could not be loaded. Showing {READABLE} of {INDEXED} Showdowns.",
       "unavailable": "Your Showdown history could not be loaded.",
       "empty": "No completed showdowns yet. Finish a rivalry and it will be archived here automatically."
     },
