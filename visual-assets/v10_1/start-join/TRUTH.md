@@ -1,315 +1,166 @@
 # Start / Join product truth
 
 Factory screen: Start / Join  
-Live product authority: `main` (read only)  
-Factory authority: `project-documents/factory/PRODUCT_TRUTH.md` and `DATA_CONTRACT_V1.md`
+Live authority: `main` (read only)  
+Factory authority: `project-documents/factory/PRODUCT_TRUTH.md`, `DATA_CONTRACT_V1.md`
 
-The factory name "Start / Join" maps to the live `createShowdown` route plus the shared journey entry, persistent Daniel/Nik pairing controls, and private session overlay. The live Home tile still says "START A SHOWDOWN"; behaviour on `main` is authoritative.
+The factory screen consolidates the live season setup, Daniel/Nik pairing, and private-session entry. Behaviour stays live-authoritative; only presentation is simplified.
 
-## Ids and routes
+## 1. Routes, renderers, ids and selectors
 
-### Route and render authority
+### Route / Back truth
 
-- Home opens the screen from `#newShowdown`. `js/screens.js::initializeScreens` binds it to `navigateTo("createShowdown")`.
-- `createShowdown` is always a legal route in `isRouteStateValid`.
-- The live setup shell is `<section id="createShowdown" class="screen hidden">` in `index.html`. Its heading receives the runtime id `createShowdownScreenTitle` and becomes the route focus target via `prepareScreenAccessibility`.
-- The visible setup route is prepared by `showScreen` / `navigateTo`; `createShowdown` is also in `REQUIRED_FOOTBALL_VISUAL_SCREENS`, so the football visual layer is prepared before entry.
-- `#startShowdown` is initially bound by `js/screens.js::initializeScreens`, then `js/productionSharedJourneyEntry.js::installStartButton` takes canonical capture-phase ownership and calls `startShared`.
-- `startShared` creates or reuses the shared Showdown shell, then opens `#productionSharedJourneyEntryOverlay`. `renderPanel` is the renderer for that entry dialog.
-- From the entry dialog, CONNECT PLAYERS / REVIEW CONNECTION calls `openPersistentPairControls`, which returns to `mainMenu` and renders `js/persistentNikDanielPair.js::pairRender` into `#persistentNikDanielPairPanel`.
-- CONTINUE / CONNECTED calls `openRemote`, which opens `#sparkRemoteJoiningOverlay`; `js/sparkRemoteJoining.js::srjRenderPanel` renders the host/join session controls.
-- START CAREER calls `openSharedExperience`, which opens Career Start if the setup is already confirmed, otherwise activates the shared Showdown presentation.
-- Back on `createShowdown` is the real `.backButton[data-smart-back]`. `initializeSmartBackDelegation` captures it and calls `navigateBackSmart`. Legal back targets are `["dashboard", "mainMenu"]`; normal Home → Start flow returns to `mainMenu`.
-- The entry and remote joining layers are dialogs with their own close buttons; closing them hides the overlay and leaves the underlying route unchanged.
+- Home entry is `#newShowdown`.
+- `screens.js::initializeScreens` normally routes it to `navigateTo("createShowdown")`.
+- `onlinePlayerIdentity.js` intercepts Nik's ready-state Home click and calls `openCanonicalShowdownJoin()`; Daniel continues to `createShowdown`.
+- `createShowdown` is always legal in `isRouteStateValid`. `showScreen` / `navigateTo` own route visibility and focus.
+- `prepareScreenAccessibility` gives its h2 runtime id `createShowdownScreenTitle`.
+- `#startShowdown` is capture-intercepted by the online/shared entry modules; canonical Start prepares the shared shell and opens `#productionSharedJourneyEntryOverlay`.
+- Entry CONNECT PLAYERS / REVIEW CONNECTION calls `openPersistentPairControls`, returns to `mainMenu`, then `persistentNikDanielPair.js::pairRender` mounts `#persistentNikDanielPairPanel`.
+- Entry CONTINUE / CONNECTED calls `openRemote`, which opens `#sparkRemoteJoiningOverlay`; `sparkRemoteJoining.js::srjRenderPanel` renders it.
+- Entry START CAREER calls `openSharedExperience`.
+- `createShowdown` Back is the real `.backButton[data-smart-back]`; centralized `navigateBackSmart` allows `dashboard` or `mainMenu`. Normal Home -> Start returns Home.
+- Identity, entry and remote overlays close without changing the underlying screen route.
 
-### IDs depended on by product code
+### Product-code ids that must survive adapter/build wiring
 
-| ID | Source / dependency |
-| --- | --- |
-| `newShowdown` | Home tile; `screens.js` opens `createShowdown`. |
-| `createShowdown` | Route/screen id used by `screens.js`. |
-| `createShowdownScreenTitle` | Runtime heading id assigned by `prepareScreenAccessibility`. |
-| `showdownName` | Hidden canonical Showdown name field in live markup. |
-| `managerOne` | Hidden canonical Player One field; Daniel. |
-| `managerTwo` | Hidden canonical Player Two field; Nik. |
-| `roundAmount` | Season length selector; read by shared journey setup and joiner shell provisioning. |
-| `startShowdown` | Primary setup action intercepted by the shared journey entry module. |
-| `productionSharedJourneyEntryOverlay` | Entry dialog root rendered by `productionSharedJourneyEntry.js`. |
-| `startSharedShowdown` | Legacy/duplicate shared-start id checked and removed by the canonical installer. |
-| `continueSharedSetupGate` | Temporary continue control used while shared setup is pending. |
-| `sharedJourneyLeagueLockNote` | Temporary lock note inserted before league selection when both players are not connected. |
-| `spinLeague` | Locked while shared setup is pending. |
-| `openClubPack` | Locked while shared setup is pending. |
-| `persistentNikDanielPairPanel` | Persistent two-manager connection panel root. |
-| `persistentNikDanielPairCode` | Nik's Daniel-hosted code input in persistent pairing controls. |
-| `sparkRemoteJoiningOverlay` | Private session dialog root. |
-| `settingsContent`, `settingsOverlay`, `sparkConnectedAccountPanel`, `sparkPrivatePairingPanel`, `sparkPrivatePairingCodeInput` | Settings pairing ids used by `sparkPrivatePairing.js`; retained as product dependencies even though the factory Start / Join screen consolidates the flow. |
+`newShowdown`, `createShowdown`, `createShowdownScreenTitle`, `showdownName`, `managerOne`, `managerTwo`, `roundAmount`, `onlineShowdownSetupNote`, `onlinePlayerIdentityOverlay`, `onlinePlayerIdentityBadge`, `onlinePlayerIdentitySettingsPanel`, `startShowdown`, `productionSharedJourneyEntryOverlay`, `startSharedShowdown`, `continueSharedSetupGate`, `sharedJourneyLeagueLockNote`, `spinLeague`, `openClubPack`, `persistentNikDanielPairPanel`, `persistentNikDanielPairCode`, `sparkRemoteJoiningOverlay`, `settingsContent`, `settingsOverlay`, `sparkConnectedAccountPanel`, `sparkPrivatePairingPanel`, `sparkPrivatePairingCodeInput`.
 
-### Classes / selectors depended on by product code
+### Product-code classes/selectors
 
-- `.screen`, `.hidden`: screen routing / visibility.
-- `.setupBox`: live setup shell.
-- `.menuButton`: primary setup and pairing/session actions.
-- `.backButton`: centralized smart Back delegation.
-- `.stateNote`: setup note and persistent pairing panel host styling.
-- `.fifaMenuShell`, `.fifaMenuGrid`: persistent pairing insertion point on Home.
-- Entry / remote joining selectors shared by the live modules: `.remoteJoiningOverlay`, `.remoteJoiningShell`, `.remoteJoiningHeader`, `.remoteJoiningDismiss`, `.remoteJoiningBody`, `.remoteJoiningEyebrow`, `.remoteJoiningGrid`, `.remoteJoiningCard`, `.remoteJoiningStep`, `.remoteJoiningInput`, `.remoteJoiningCurrent`, `.remoteJoiningState`, `.remoteJoiningCode`, `.remoteJoiningMeta`, `.remoteJoiningActions`, `.remoteJoiningEmpty`, `.remoteJoiningStatus`, `.compactButton`.
-- Settings pairing selectors used by `sparkPrivatePairing.js`: `.settingsPanel`, `.settingsConnectedAccountPanel`, `.settingsPrivatePairingPanel`, `.settingsPanelHeading`, `.settingsPanelEyebrow`, `.settingsInfoGrid`, `.settingsInfoRow`, `.settingsOfflineActions`, `.settingsConnectedAccountActions`, `.settingsConnectedAccountButton`, `.settingsConnectedAccountInput`, `.settingsDataNote`.
+`.screen`, `.hidden`, `.setupBox`, `.menuButton`, `.backButton`, `.stateNote`, `.fifaMenuShell`, `.fifaMenuGrid`; remote selectors `.remoteJoiningOverlay`, `.remoteJoiningShell`, `.remoteJoiningHeader`, `.remoteJoiningDismiss`, `.remoteJoiningBody`, `.remoteJoiningEyebrow`, `.remoteJoiningGrid`, `.remoteJoiningCard`, `.remoteJoiningStep`, `.remoteJoiningInput`, `.remoteJoiningCurrent`, `.remoteJoiningState`, `.remoteJoiningCode`, `.remoteJoiningMeta`, `.remoteJoiningActions`, `.remoteJoiningEmpty`, `.remoteJoiningStatus`, `.compactButton`; settings pairing selectors `.settingsPanel`, `.settingsConnectedAccountPanel`, `.settingsPrivatePairingPanel`, `.settingsPanelHeading`, `.settingsPanelEyebrow`, `.settingsInfoGrid`, `.settingsInfoRow`, `.settingsOfflineActions`, `.settingsConnectedAccountActions`, `.settingsConnectedAccountButton`, `.settingsConnectedAccountInput`, `.settingsDataNote`.
 
-## Live buttons and strings
+## 2. Live buttons and visible strings
 
-Strings below are copied from `main`. Product wording overrides for the factory build are recorded later; this section preserves the live source truth.
+These are copied from `main`. Factory wording may simplify jargon only where it preserves the same product meaning.
 
-### Setup route: createShowdown
+### Home and identity gate
 
-Visible / accessible strings:
+Role-aware Home tile from `onlinePlayerIdentity.js::configureOnlineProductSurface`:
 
-- `NEW SHOWDOWN`
-- `Daniel is Player One. Nik is Player Two.`
-- `NUMBER OF SEASONS`
-- `1 Season`, `3 Seasons`, `5 Seasons`, `10 Seasons`
-- Hidden accessible labels retained by the live form: `SHOWDOWN NAME`, `PLAYER ONE`, `PLAYER TWO`
-- Hidden canonical values: `Daniel vs Nik`, `Daniel`, `Nik`
-- Back button: `BACK`
+| Player | Code | Label | Meta | Route |
+| --- | --- | --- | --- | --- |
+| Daniel | `NEW` | `START A SHOWDOWN` | `Choose seasons and create the code` | season setup |
+| Nik | `JOIN` | `JOIN DANIEL'S SHOWDOWN` | `Paste Daniel's code` | canonical Join |
 
-The primary start button changes with online identity state:
+Identity gate fixed strings: `CAREER MODE SHOWDOWN`, `CONNECTION REQUIRED`, `SIGN IN TO PLAY`, `WHO ARE YOU?`, `CONNECTION NEEDS ATTENTION`, `CONNECTING`, `TRY AGAIN`, `SIGN IN WITH GOOGLE`, `DANIEL · PLAYER ONE`, `NIK · PLAYER TWO`; close aria-label `Close sign-in`.
 
-| State | Exact label |
-| --- | --- |
-| identity ready | `START A SHOWDOWN` |
-| choose manager | `CHOOSE PLAYER TO START` |
-| offline | `RECONNECT TO START` |
-| signed out | `SIGN IN TO START` |
-| other not-ready state | `CONNECT TO START` |
+Identity status copy includes `Preparing your player…`, `Connection required. Reconnect before continuing.`, `Connecting…`, `Sign in with Google to play.`, `Choose your player.`, `Opening Google sign-in…`, `Welcome Daniel.`, `Welcome Nik.`, `Forgetting this device…`, `This device was forgotten.`, `This device was forgotten. Refresh before using it again.`.
 
-When identity is not ready its title is exactly `Sign in and choose Daniel or Nik before starting a Showdown.`
+### Season setup
 
-Actions:
+Visible strings: `NEW SHOWDOWN`, `Daniel is Player One. Nik is Player Two.`, `NUMBER OF SEASONS`, `1 Season`, `3 Seasons`, `5 Seasons`, `10 Seasons`, `BACK`. Hidden canonical labels/values remain `SHOWDOWN NAME` / `Daniel vs Nik`, `PLAYER ONE` / `Daniel`, `PLAYER TWO` / `Nik`.
 
-| Button | Live action |
-| --- | --- |
-| `START A SHOWDOWN` / state variant | Canonical capture listener calls `startShared`; if identity is not ready it opens the identity gate. If ready it prepares the shared Showdown shell and opens the entry dialog. |
-| `BACK` | Smart Back; normally returns to Home. |
+Start button exact state labels: `START A SHOWDOWN`, `CHOOSE PLAYER TO START`, `RECONNECT TO START`, `SIGN IN TO START`, `CONNECT TO START`. Not-ready title: `Sign in and choose Daniel or Nik before starting a Showdown.`
 
-Fresh-start confirmation when a live pair already exists:
-
+Fresh-start confirm:
 `Start a new Showdown? This will close the current Daniel vs Nik Showdown for both players. Your player identity, registered device, Legacy history, app settings and existing local recovery data will be kept.`
 
-### Shared journey entry dialog
+### Shared entry dialog
 
-Dialog aria-label: `Career Mode Showdown entry`  
-Close button aria-label: `Close career entry`
+Aria: `Career Mode Showdown entry`; close aria `Close career entry`.  
+Strings: `CAREER MODE SHOWDOWN // 17`, `CAREER MODE SHOWDOWN`, `GET READY`, `Daniel and Nik must both be connected before the career begins.`  
+Rows: `ACCOUNT`, `THIS BROWSER`, `DANIEL + NIK`, `CAREER`; values `READY`, `REQUIRED`, `CONNECTED`, `CONNECT`, `WAITING`.  
+Buttons: `CONNECT PLAYERS`, `REVIEW CONNECTION`, `CONTINUE`, `CONNECTED`, `WAITING FOR BOTH PLAYERS`, `START CAREER`, `REFRESH`, `×`.  
+Status: `Ready. Continue to Career Start.`, `Ready. Continue when both players are set.`, `Both players must be connected before league and club selection.`
 
-Static strings:
+### Persistent Daniel / Nik pairing
 
-- `CAREER MODE SHOWDOWN // 17`
-- `CAREER MODE SHOWDOWN`
-- `GET READY`
-- `Daniel and Nik must both be connected before the career begins.`
-- Row labels: `ACCOUNT`, `THIS BROWSER`, `DANIEL + NIK`, `CAREER`
-- Row values vary: `READY`, `REQUIRED`, `CONNECTED`, `CONNECT`, `WAITING`
+Headings: `CONNECT PLAYERS`, `WAITING FOR THE OTHER PLAYER`, `CAREER READY`, `FINISH CONNECTION`, `OLD SHOWDOWN FOUND`, `OLD CONNECTION FOUND`.
 
-Buttons and state-dependent labels:
+Instructions: `DANIEL STARTS THE SHOWDOWN AND SENDS THIS CODE TO NIK`, `NIK ENTERS THE CODE DANIEL SENDS`, `CHOOSE DANIEL OR NIK FOR THIS DEVICE FIRST`, `NIK WAITS FOR THE NEW CODE DANIEL CREATES`, `If the original code expired, create a new one.`, `DO NOT REFRESH UNTIL THE CONNECTION IS SAVED`, `SAVE THE CONNECTION BEFORE SHARING THE CODE`, `NO LOCAL CAREER DATA ON THIS BROWSER`; input placeholder `Paste Daniel's code`.
 
-| Button label | Live action / state |
-| --- | --- |
-| `CONNECT PLAYERS` | Opens persistent Daniel/Nik pairing controls when no rivalry is attached. |
-| `REVIEW CONNECTION` | Same action when a rivalry already exists. |
-| `CONTINUE` | Opens private Remote Joining when the private session is not active. Disabled until rivalry is ready. |
-| `CONNECTED` | Same action when the private session is active. |
-| `WAITING FOR BOTH PLAYERS` | Disabled career-start action until the session is active. |
-| `START CAREER` | Opens confirmed Career Start or activates the shared Showdown presentation. |
-| `REFRESH` | Re-reads the entry status. |
-| `×` | Closes the entry dialog. |
+Buttons: `CREATE CODE FOR NIK`, `JOIN DANIEL'S SHOWDOWN`, `COPY CODE`, `CHECK STATUS`, `NEW CODE`, `CONTINUE CAREER`, `TRY CONTINUE AGAIN`, `RETRY CONNECTION`, `DELETE OLD CONNECTION & START FRESH`, `DELETE OLD SHOWDOWN & START OVER`, `RESTORE BACKUP`.
 
-Live status sentences:
+Visible state/error copy includes: `Getting your Showdown ready…`, `Daniel and Nik need to connect before the first Showdown.`, `Preparing your Showdown…`, `Joining Daniel's Showdown…`, `Daniel and Nik are already connected.`, `Send this code to Nik. It is needed only once.`, `Nik joined Daniel's Showdown. Continue Career when both players are ready.`, `Finishing your connection…`, `Connection saved. Send the code to Nik. It is needed only once.`, `Opening your career…`, `Career ready.`, `The code could not be joined.`, `The Showdown could not be started.`, `This browser has conflicting player data. Forget this device and start again.`, `Choose Daniel or Nik before continuing.`, `Choose the number of seasons before creating a connection code.`, `Ask Daniel to create a new connection code, then paste that new code here.`, `Daniel's connection code is invalid.`, `This browser has a different unfinished Showdown. Delete the old Showdown first, then paste Daniel's code again.`
 
-- `Ready. Continue to Career Start.`
-- `Ready. Continue when both players are set.`
-- `Both players must be connected before league and club selection.`
+Opaque join failure:
+`This one-use pairing code could not be joined. It may be expired, already used, or unavailable to this account. Create a new code on the other device, or use Connected Rivalry below if these managers are already paired.`
 
-### Persistent Daniel / Nik pairing controls
-
-State headings:
-
-- `CONNECT PLAYERS`
-- `WAITING FOR THE OTHER PLAYER`
-- `CAREER READY`
-- `FINISH CONNECTION`
-- `OLD SHOWDOWN FOUND`
-- `OLD CONNECTION FOUND`
-
-Role / instruction strings:
-
-- `DANIEL STARTS THE SHOWDOWN AND SENDS THIS CODE TO NIK`
-- `NIK ENTERS THE CODE DANIEL SENDS`
-- `CHOOSE DANIEL OR NIK FOR THIS DEVICE FIRST`
-- `NIK WAITS FOR THE NEW CODE DANIEL CREATES`
-- `If the original code expired, create a new one.`
-- Input placeholder: `Paste Daniel's code`
-- `DO NOT REFRESH UNTIL THE CONNECTION IS SAVED`
-- `SAVE THE CONNECTION BEFORE SHARING THE CODE`
-- `NO LOCAL CAREER DATA ON THIS BROWSER`
-
-Buttons and live actions:
-
-| Button | Live action |
-| --- | --- |
-| `CREATE CODE FOR NIK` | Daniel creates a one-use, season-bound connection code. |
-| `JOIN DANIEL'S SHOWDOWN` | Nik redeems Daniel's code. |
-| `COPY CODE` | Copies the displayed code. |
-| `CHECK STATUS` | Re-initializes and reads provider pairing state. |
-| `NEW CODE` | Creates a replacement code for the same selected manager role. |
-| `CONTINUE CAREER` | Opens the shared career when active and recoverable locally. |
-| `TRY CONTINUE AGAIN` | Same continuation action after an error. |
-| `RETRY CONNECTION` | Retries saving the exact existing pair link. |
-| `DELETE OLD CONNECTION & START FRESH` | Nik-only stale pending cleanup, after confirmation. |
-| `DELETE OLD SHOWDOWN & START OVER` | Recovery path that closes the old Showdown, after confirmation. |
-| `RESTORE BACKUP` | Opens verified backup restore. |
-
-Important exact state / error text used by this surface includes:
-
-- `Getting your Showdown ready…`
-- `Daniel and Nik need to connect before the first Showdown.`
-- `Preparing your Showdown…`
-- `Joining Daniel's Showdown…`
-- `Daniel and Nik are already connected.`
-- `Send this code to Nik. It is needed only once.`
-- `Nik joined Daniel's Showdown. Continue Career when both players are ready.`
-- `Finishing your connection…`
-- `Connection saved. Send the code to Nik. It is needed only once.`
-- `Opening your career…`
-- `Career ready.`
-- `The code could not be joined.`
-- `The Showdown could not be started.`
-- `This browser has conflicting player data. Forget this device and start again.`
-- `Choose Daniel or Nik before continuing.`
-- `Choose the number of seasons before creating a connection code.`
-- `Ask Daniel to create a new connection code, then paste that new code here.`
-- `Daniel's connection code is invalid.`
-- `This browser has a different unfinished Showdown. Delete the old Showdown first, then paste Daniel's code again.`
-- `This one-use pairing code could not be joined. It may be expired, already used, or unavailable to this account. Create a new code on the other device, or use Connected Rivalry below if these managers are already paired.`
-
-Provider and recovery failures may surface their exact provider `error.message`; the fixed fallback text above is not paraphrased.
-
-Confirm text for stale Nik cleanup:
-
+Stale-Nik confirm:
 `Delete this old connection and start fresh? This closes the stale online test connection and removes only its unfinished local Showdown so Nik can join the new code Daniel creates.`
 
-Confirm text for recovery start-over:
-
+Recovery start-over confirm:
 `Delete the old Showdown and start over? This closes the old online Showdown for both players. Your player identity, registered device, Legacy history and app settings are kept.`
 
-### Private Remote Joining dialog
+### Private Remote Joining
 
-Dialog aria-label: `Private Remote Joining`  
-Close button aria-label: `Close Private Remote Joining`  
-Join input aria-label: `Exact private session code`  
-Join input placeholder: `session_…`
+Aria: `Private Remote Joining`; close aria `Close Private Remote Joining`; input aria `Exact private session code`; placeholder `session_…`.
 
-Live headings / explanatory copy:
+Visible headings/copy: `CAREER MODE SHOWDOWN // 17`, `PRIVATE SESSION · EXACT CAPABILITY ONLY`, `REMOTE JOINING`, `01 · HOST`, `OPEN PRIVATE SESSION`, `02 · JOIN`, `JOIN EXACT SESSION`, `CURRENT PAGE-MEMORY SESSION`, `No session capability is held in page memory.` Live explanatory text says there is no lobby/public discovery, uses a fresh 256-bit capability, and requires the exact directly shared code.
 
-- `CAREER MODE SHOWDOWN // 17`
-- `PRIVATE SESSION · EXACT CAPABILITY ONLY`
-- `REMOTE JOINING`
-- `No lobby, listing or public discovery. Session services resolve only after a private action. Ambiguous network outcomes retain only the exact page-memory capability for safe same-capability retry; no replacement session is generated.`
-- `01 · HOST`
-- `OPEN PRIVATE SESSION`
-- `Creates one fresh 256-bit capability for the currently attached two-manager Connected Rivalry.`
-- `02 · JOIN`
-- `JOIN EXACT SESSION`
-- `Paste the full code shared directly by the other already-paired manager.`
-- `CURRENT PAGE-MEMORY SESSION`
-- Empty state: `No session capability is held in page memory.`
+Buttons: `HOST PRIVATE SESSION`, `JOIN PRIVATE SESSION`, `COPY CODE`, `REFRESH / READ`, `REVOKE OPEN SESSION`, `CLOSE SESSION`, `FORGET CODE`, dynamic `RETRY SAME <ACTION>`, `×`. Clipboard feedback: `COPIED`, `COPY UNAVAILABLE`.
 
-Buttons and actions:
+Visible state copy includes `Remote Joining is private and action-only. No session request has been sent.`, `Creating an exact private session capability…`, `Joining the exact private session…`, `Reading exact private-session authority…`, `Revoking the exact open private session…`, `Private session is revoked terminally. It can no longer be joined; forget the code when ready.`, `Private session code forgotten from page memory. No provider state was changed.`; state line `<STATE> · REV <revision> · <role>`; expired uses `EXPIRED`; meta `Rivalry <short id> · expires <local time>`.
 
-| Button | Live action |
-| --- | --- |
-| `HOST PRIVATE SESSION` | Creates a new private session capability if no unresolved/nonterminal session is held. |
-| `JOIN PRIVATE SESSION` | Joins the exact pasted session capability. |
-| `COPY CODE` | Copies the current capability when copying is allowed. |
-| `REFRESH / READ` | Reads the exact current provider session. |
-| `REVOKE OPEN SESSION` | Revokes an open host session. |
-| `CLOSE SESSION` | Closes an active session. |
-| `FORGET CODE` | Forgets the terminal capability from page memory without changing provider state. |
-| `RETRY SAME <ACTION>` | Retries an unresolved host / join / close using the same capability. |
-| `×` | Closes the dialog. |
+Guards/errors: `Resolve, revoke or close the current private session before hosting another.`, `Resolve, revoke or close the current private session before joining another.`, `No private session code is held in page memory.`, `Only an open host session can be revoked before peer join.`, `Only an active private session can be closed.`, `Resolve the pending provider outcome before forgetting this page-memory capability.`, `Firebase Spark quota is temporarily exhausted. No upgrade will be attempted; local Career Mode remains available.`
 
-State / status strings and templates include:
+Factory wording rule: do not carry forward implementation jargon such as `page-memory session`, `exact capability`, `256-bit capability`, provider names, or protocol detail into the polished Start / Join UI. Use plain equivalents without changing behaviour.
 
-- Initial: `Remote Joining is private and action-only. No session request has been sent.`
-- `Creating an exact private session capability…`
-- `Opening the exact private session. Its full capability is hidden until provider acknowledgement is confirmed…`
-- `Joining the exact private session…`
-- `Joining the exact capability. Its full value remains hidden while provider acknowledgement is unresolved…`
-- `Reading exact private-session authority…`
-- `Revoking the exact open private session…`
-- `Closing the exact active private session. Copy is disabled until provider acknowledgement is confirmed…`
-- `Private session is revoked terminally. It can no longer be joined; forget the code when ready.`
-- `Private session code forgotten from page memory. No provider state was changed.`
-- State line template: `<STATE> · REV <revision> · <role>`; clock-expired state uses `EXPIRED`.
-- Meta template: `Rivalry <short id> · expires <local time>`.
-- Clipboard result labels: `COPIED`, `COPY UNAVAILABLE`.
-- Start-block errors: `Resolve, revoke or close the current private session before hosting another.` and `Resolve, revoke or close the current private session before joining another.`
-- Missing code: `No private session code is held in page memory.`
-- Pending-operation guard: `Resolve the pending operation before reading the session.`, `Resolve the pending operation before revoking the session.`, `Resolve the pending operation before closing the session.`
-- Revoke guard: `Only an open host session can be revoked before peer join.`
-- Close guard: `Only an active private session can be closed.`
-- Forget guard: `Resolve the pending provider outcome before forgetting this page-memory capability.`
-- Quota fallback: `Firebase Spark quota is temporarily exhausted. No upgrade will be attempted; local Career Mode remains available.`
+## 3. Data contract
 
-### Factory wording override
+Authority: `DATA_CONTRACT_V1.md §0, §2, §9`.
 
-`PRODUCT_TRUTH.md` requires plain words on the factory Start / Join screen. The build must not carry forward jargon such as `page-memory session`, `exact capability`, `256-bit capability`, or provider implementation detail. It may change presentation wording only where the product already has an equivalent plain meaning. The live strings above remain the source record for behaviour and state mapping.
-
-## Data contract
-
-Authority: `project-documents/factory/DATA_CONTRACT_V1.md`, especially §0 (global states, manager keys and bounds), §2 (Start / Join), and §9 (dropped stats). §2 is the binding field/action list. The factory build does not add anything outside this contract.
-
-| Contract field / action | E/A | Source on `main` | Level |
+| Contract field/action | E/A | Exact live source | Level |
 | --- | --- | --- | --- |
-| `status` = `loading` / `empty` / `unavailable` / `partial` / `ready` | A | G-6 adapter normalizes the existing pairing state from `CareerModePersistentNikDanielPair.getState()` and session state from `CareerModeSparkRemoteJoining.getState()`. | Start / Join view |
-| `totalSeasons` ∈ {1,3,5,10} | E | `index.html#roundAmount`; persisted as the Showdown season count and read by `productionSharedJourneyEntry.js::provisionJoinerShell` / `persistentNikDanielPair.js::pairPreparedTotalRounds`. | per Showdown |
-| `pairing.state` = `none` / `code-created` / `waiting-for-nik` / `paired` | E | `persistentNikDanielPair.js::pairInitialize`, `pairStartPairing`, `pairJoinPairing`; adapter maps live `status` + `connectionState` to the four contract values. | per Showdown |
-| `pairing.code` (host only, after creation) | E | `persistentNikDanielPair.js::pairStartPairing` builds the player code with `pairBuildPlayerJoinCode` and stores it in `state.capability`. | per Showdown |
-| `createCode` | E | `persistentNikDanielPair.js::pairStartPairing` | per Showdown |
-| `join` (pairing) | E | `persistentNikDanielPair.js::pairJoinPairing` | per Showdown |
-| `copyCode` | E | `persistentNikDanielPair.js::pairRender` → `pairCopyText` | per Showdown |
-| `newCode` | E | `persistentNikDanielPair.js::pairRender` → `pairStartPairing` | per Showdown |
-| `checkStatus` | E | `persistentNikDanielPair.js::pairRender` → `pairInitialize({force:true})` | per Showdown |
-| `retry` | E | `persistentNikDanielPair.js::pairRetryPairLink` | per Showdown |
-| `session.state` = `open` / `active` / `revoked` / `closed` / `expired` | E | `sparkRemoteJoining.js` `srjState.sessionState`; `srjExpiredByClock` supplies the clock-expired presentation state. | per Showdown private session |
-| `host` | E | `sparkRemoteJoining.js::srjHostSession` | per Showdown private session |
-| `join` (session) | E | `sparkRemoteJoining.js::srjJoinSession` | per Showdown private session |
-| `refresh` | E | `sparkRemoteJoining.js::srjRefreshSession` | per Showdown private session |
-| `revoke` | E | `sparkRemoteJoining.js::srjRevokeSession` | per Showdown private session |
-| `close` | E | `sparkRemoteJoining.js::srjCloseSession` | per Showdown private session |
-| `forget` | E | `sparkRemoteJoining.js::srjForgetSession` | current browser's copy of the private-session code |
-| `abandonShowdown` (with confirm) | E | `persistentNikDanielPair.js::pairAbandonCurrentShowdown`; current callers confirm in `productionSharedJourneyEntry.js::prepareFreshStart` and the recovery/start-over flow before closure. | per Showdown |
-| `forgetThisDevice` (with confirm) | E | `onlinePlayerIdentity.js::forgetOnlineDevice`, exported as `forgetThisDevice`; provider device revocation is `sparkPrivatePairing.js::revokeRegisteredDevice`. The current live Settings action exists; the consolidated Start / Join adapter must supply the contract-required confirm before invoking it. | per registered browser / player identity |
-| One view model for both layers: two big buttons plus a `More` menu containing Revoke / Close / Forget, each with confirm | A | G-6 presentation adapter only; it composes the existing persistent-pair and Remote Joining actions without changing their underlying functions. | Start / Join view |
+| `status`: `loading` / `empty` / `unavailable` / `partial` / `ready` | A | G-6 adapter over persistent-pair + remote-session states | Start / Join view |
+| `totalSeasons` ∈ {1,3,5,10} | E | `#roundAmount`; persisted Showdown season count; `pairPreparedTotalRounds` | Showdown |
+| `pairing.state`: `none` / `code-created` / `waiting-for-nik` / `paired` | E | `pairInitialize`, `pairStartPairing`, `pairJoinPairing` | Showdown |
+| `pairing.code` host only after creation | E | `pairStartPairing` -> `pairBuildPlayerJoinCode` -> `state.capability` | Showdown |
+| `createCode` | E | `pairStartPairing` | Showdown |
+| pairing `join` | E | `pairJoinPairing` | Showdown |
+| `copyCode` | E | `pairRender` -> `pairCopyText` | Showdown |
+| `newCode` | E | `pairRender` -> `pairStartPairing` | Showdown |
+| `checkStatus` | E | `pairRender` -> `pairInitialize({force:true})` | Showdown |
+| `retry` | E | `pairRetryPairLink` | Showdown |
+| `session.state`: `open` / `active` / `revoked` / `closed` / `expired` | E | `sparkRemoteJoining.js` `srjState.sessionState` + `srjExpiredByClock` | private session |
+| `host` | E | `srjHostSession` | private session |
+| session `join` | E | `srjJoinSession` | private session |
+| `refresh` | E | `srjRefreshSession` | private session |
+| `revoke` | E | `srjRevokeSession` | private session |
+| `close` | E | `srjCloseSession` | private session |
+| `forget` | E | `srjForgetSession` | current browser's session code |
+| `abandonShowdown` with confirm | E | `pairAbandonCurrentShowdown`; current callers confirm before closure | Showdown |
+| `forgetThisDevice` with confirm | E | `onlinePlayerIdentity.js::forgetOnlineDevice` exported as `forgetThisDevice`; provider revoke is `sparkPrivatePairing.js::revokeRegisteredDevice` | registered browser / identity |
+| one VM, two big buttons, More with Revoke / Close / Forget + confirm | A | G-6 adapter only | Start / Join view |
 
-### Contract state handling
+Contract-state meaning: `loading` = read pending; `empty` = successful read, no connection; `unavailable` = required read failed; `partial` = one required layer known and another unavailable; `ready` = authoritative current state. Never substitute zero/empty for a failed read.
 
-The factory screen uses exactly the five global states from `DATA_CONTRACT_V1.md §0`:
-
-- `loading`: identity, pairing or session authority is still being read. Show progress, never guessed values.
-- `empty`: the read succeeded and there is no current pairing/session yet. Show the Start / Join choices, not zeroes.
-- `unavailable`: the required read failed or connectivity/service authority is unavailable. Keep existing local career data untouched and provide the real retry path.
-- `partial`: one layer is known while another required layer cannot currently be verified. Show what is known plus coverage/availability wording; never call it complete.
-- `ready`: the current pairing/session state is verified and the role-appropriate actions can be shown.
-
-Before career history is available, the only allowed interim history label is exactly:
-
+Exact interim label if current-Showdown-only context is ever shown before real career history:
 `Current Showdown only. Career history is not yet available.`
 
-Start / Join does not invent career totals. If the adapter exposes any current-Showdown-only context while Team G history is unfinished, it uses that exact label. Job 104 later replaces the labelled sample values with Team G's G-11 model-true fixtures.
+Manager keys are `daniel` = `playerOne` and `nik` = `playerTwo`; Daniel is always first/left. No rival private inputs enter the VM. §9 dropped stats are absent.
 
-### Manager and privacy rules from the contract
+## 4. States and preview frames
 
-- Manager keys are exactly `daniel` = `playerOne` and `nik` = `playerTwo`. Daniel is listed first / left; Nik second / right.
-- Daniel is the established pairing host and Nik joins Daniel's code. The code is live DOM text and is never baked into art.
-- No rival private inputs belong in this view model.
-- The only numeric setup field shown here is `totalSeasons`, bounded to 1, 3, 5 or 10.
-- §9 dropped stats are not represented here at all: clean sheets, biggest win, non-CL European wins, player names/leaders/photos, match-by-match results, possession and per-match statistics.
+### State matrix
+
+| Runtime situation | Contract status | Product treatment |
+| --- | --- | --- |
+| identity/pair/session read pending | `loading` | progress only; no guessed code/state |
+| read succeeded, no pair/session | `empty` | Start / Join choices |
+| one layer known, another required read failed | `partial` | preserve known layer + availability wording + real retry |
+| required authority cannot be read | `unavailable` | unavailable message + retry; never delete local career |
+| valid current state known | `ready` | actions from actual pairing/session values |
+
+Live `error` is not a sixth contract status. A malformed pasted code is an inline action error while the successful read remains `empty` or `ready`. A failed state read maps to `unavailable`; one-layer failure maps to `partial`.
+
+Live `active` maps to `status=ready`, `pairing.state=paired`, `session.state=active`. Start / Join has no generic `completed` state. Terminal session states are `revoked`, `closed`, `expired` under top-level `ready`; confirmed setup continues to START CAREER.
+
+### Role behavior
+
+Daniel is Player One and established host: choose seasons, create code, send to Nik. Nik is Player Two and joins Daniel's code; his Home tile routes directly to Join. The factory composition keeps both large cards visible on both devices for orientation, Daniel first/left and Nik second/right, while only the selected identity's pairing action is enabled/primary. After pairing, the existing session actions remain intact; the established presentation is Daniel host, Nik joiner.
+
+### Required preview frames
+
+All frames visibly say `Preview data`. Codes are live DOM text, never image pixels.
+
+| Frame | Contract values | Required preview |
+| --- | --- | --- |
+| `SJ1` nothing hosted | `status=empty`; `pairing.state=none`; no code/session | Two choices: Daniel Start left with season selector/create path; Nik Join right with paste path. |
+| `SJ2` Daniel hosting | `status=ready`; `pairing.state=waiting-for-nik`; host-only `pairing.code`; no session | Daniel emphasized; selectable code + COPY CODE, NEW CODE, CHECK STATUS. |
+| `SJ3` Nik joining | `status=ready`; authoritative `pairing.state=none` until redemption | Nik emphasized; preview harness fills the live input; JOIN DANIEL'S SHOWDOWN. Typed draft is transient DOM input, not `pairing.code`. |
+| `SJ4` bad code | `status=empty` when state read succeeded and no pair exists | Keep Join form; malformed preview shows `Daniel's connection code is invalid.` inline. |
+| `SJ5` connected/paired | `status=ready`; `pairing.state=paired`; `session.state=active` | Both connected; no pairing code; START CAREER. Session management is secondary in More. |
+
+Additional QA coverage: `loading`, `partial`, `unavailable`, pair retry/recovery-required, and session `revoked`, `closed`, `expired`. These supplement rather than replace SJ1-SJ5.
