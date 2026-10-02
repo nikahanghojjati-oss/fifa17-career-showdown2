@@ -1,5 +1,7 @@
 # PLAYER IMAGERY POLICY V2
 
+> **SUSPENDED (Nik, 2026-09-28):** no player pictures are used for now (signings and verdicts included). This policy applies again only if Nik reopens player imagery.
+
 Status: ACTIVE
 Date: 2026-09-27
 Owner decision: licensed player photos only
