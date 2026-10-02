@@ -4,6 +4,8 @@ Nik wants AAA game menus. Think FIFA 17's Career Mode and The Journey: a dark st
 
 Every build job checks itself against this page before it says "done". Every review job scores with it. Nobody passes a screen because "it works". It must **feel** like the mockup.
 
+> This scorecard may be amended by Claude after the "How close to the mockups" research (for example a measured mockup-diff score and separate phone compositions). Always use the version on the branch when your job starts.
+
 ## How to score
 
 Score each criterion 0–5. Write one sentence of evidence for every score (what you saw, in which screenshot).
