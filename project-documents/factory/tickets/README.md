@@ -17,6 +17,9 @@ Run at most two tickets at once. A ticket's job number is the same number as on 
 | 27 | [27 · Season Results background plate](TICKET-027_1_OF_1_ENV_SR_PLATE_RAW.md) | GUIDE_SR_PLATE.png |
 | 28 | [28 · Start / Join background plate](TICKET-028_1_OF_1_ENV_SJ_PLATE_RAW.md) | GUIDE_SJ_PLATE.png |
 | 29 | [29 · Empty stadium background (no people)](TICKET-029_1_OF_1_ENV_SYS_PLATE_RAW.md) | GUIDE_SYS_PLATE.png |
+| 112 | [112 · League phone background (no people)](TICKET-112_1_OF_1_ENV_LEAGUE_PHONE_RAW.md) | GUIDE_LEAGUE_PHONE.png |
+| 113 | [113 · Club Assignment phone background (no people)](TICKET-113_1_OF_1_ENV_CLUB_PHONE_RAW.md) | GUIDE_CLUB_PHONE.png |
+| 114 | [114 · Transfer War phone background (no people)](TICKET-114_1_OF_1_ENV_TRANSFER_PHONE_RAW.md) | GUIDE_TRANSFER_PHONE.png |
 | 122 | [122-TILE_TACTICS · Home tile: tactics clipboard](TICKET-122_1_OF_6_TILE_TACTICS.md) | - |
 | 122 | [122-TILE_HISTORY · Home tile: collector cards (History)](TICKET-122_2_OF_6_TILE_HISTORY.md) | - |
 | 122 | [122-TILE_STATISTICS · Home tile: gold bars (Statistics)](TICKET-122_3_OF_6_TILE_STATISTICS.md) | - |

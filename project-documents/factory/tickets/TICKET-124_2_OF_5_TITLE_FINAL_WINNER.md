@@ -3,7 +3,7 @@
 Image 2 of 5 for job 124. One image only.
 
 1. Open a **ChatGPT Temporary Chat**: start a new chat outside any project, then tap the dashed-circle icon at the top right. A Temporary Chat uses no memory and no chat history, so other chats cannot leak into the picture.
-2. Attach this one file only: **STYLE_BRUSH_TITLE.png** ([download](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/v1-wtt5ye/project-documents/factory/tickets/attach/STYLE_BRUSH_TITLE.png)).
+2. Attach this one file only: **STYLE_BRUSH_TITLE.png**. On iPhone open https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/v1-wtt5ye/project-documents/factory/tickets/attach/STYLE_BRUSH_TITLE.png in Safari, press and hold the picture, then Save to Photos.
 3. Paste the prompt below exactly. If ChatGPT offers to change it, reply: `No, use my prompt exactly.`
 4. Check the picture:
    - it says exactly SHOWDOWN CHAMPION, check letter by letter

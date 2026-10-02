@@ -2,11 +2,11 @@
 
 Branch `factory/v1-wtt5ye`. 135 Team V jobs, plus 5 lines that track Team G. Two kinds of job. **Project (type number):** open a new chat in the ChatGPT project "Showdown visual" and type the number (up to 5 at once). **Fresh chat (image):** run the job's ticket from [tickets/](tickets/README.md) in a ChatGPT Temporary Chat (no memory) outside any project, then drop the image in Claude's factory thread (up to 2 at once).
 
-**Overall (Team V):** ██░░░░░░░░ 20 % · 27 of 135 jobs done
+**Overall (Team V):** ██░░░░░░░░ 22 % · 30 of 135 jobs done
 
-**Start now · project (type the number in Showdown visual):** 16, 31, 43, 137, 138 · queued next: 139
+**Start now · project (type the number in Showdown visual):** 16, 31, 43, 111
 
-**Start now · fresh chat (image ticket, outside the project):** 21, 22 · queued next: 23, 24, 25, 26, 27, 28, 29, 122, 123, 124 · waiting for Claude to write the ticket: 111, 112, 113, 114
+**Start now · fresh chat (image ticket, outside the project):** 21, 22 · queued next: 23, 24, 25, 26, 27, 28, 29, 112, 113, 114, 122, 123, 124
 
 **Start now (Sol Work mode, press Use Work):** -
 
@@ -53,67 +53,67 @@ Branch `factory/v1-wtt5ye`. 135 Team V jobs, plus 5 lines that track Team G. Two
 | 34 | [Home: review](jobs/JOB-034.md) | 4 Polish built screens | review | project (type number) | 33 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 35 | [Home: fix round](jobs/JOB-035.md) | 4 Polish built screens | fix | project (type number) | 34 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 36 | [Home: motion pass](jobs/JOB-036.md) | 4 Polish built screens | build | project (type number) | 35, 16 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
-| 37 | [League: hands on the wheel](jobs/JOB-037.md) | 4 Polish built screens | build | project (type number) | 14, 1, 18, 123, 124 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
+| 37 | [League: hands on the wheel](jobs/JOB-037.md) | 4 Polish built screens | build | project (type number) | 14, 1, 18, 123 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 38 | [League: swap in the new league marks](jobs/JOB-038.md) | 4 Polish built screens | build | project (type number) | 37 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 39 | [League: phone with the hand in frame](jobs/JOB-039.md) | 4 Polish built screens | build | project (type number) | 37, 112 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 40 | [League: review](jobs/JOB-040.md) | 4 Polish built screens | review | project (type number) | 39 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
-| 41 | [League: fix round](jobs/JOB-041.md) | 4 Polish built screens | fix | project (type number) | 40 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
+| 41 | [League: fix round](jobs/JOB-041.md) | 4 Polish built screens | fix | project (type number) | 40, 124 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 42 | [League: spin feel](jobs/JOB-042.md) | 4 Polish built screens | build | project (type number) | 41, 16 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
 | 43 | [Club: scene registration, faces, hands and seams](jobs/JOB-043.md) | 4 Polish built screens | fix | project (type number) | 14, 1 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
-| 44 | [Club: panels and short-laptop fit](jobs/JOB-044.md) | 4 Polish built screens | build | project (type number) | 43, 18, 124 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
+| 44 | [Club: panels and short-laptop fit](jobs/JOB-044.md) | 4 Polish built screens | build | project (type number) | 43, 18 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 45 | [Club: phone](jobs/JOB-045.md) | 4 Polish built screens | build | project (type number) | 44, 113 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 46 | [Club: review](jobs/JOB-046.md) | 4 Polish built screens | review | project (type number) | 45 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
-| 47 | [Club: fix round](jobs/JOB-047.md) | 4 Polish built screens | fix | project (type number) | 46 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
+| 47 | [Club: fix round](jobs/JOB-047.md) | 4 Polish built screens | fix | project (type number) | 46, 124 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 48 | [Club: the pack rip](jobs/JOB-048.md) | 4 Polish built screens | build | project (type number) | 47, 16 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
-| 49 | [Transfer War: polish to the key art](jobs/JOB-049.md) | 4 Polish built screens | build | project (type number) | 1, 18, 124 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
+| 49 | [Transfer War: polish to the key art](jobs/JOB-049.md) | 4 Polish built screens | build | project (type number) | 1, 18 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 50 | [Transfer War: phone polish](jobs/JOB-050.md) | 4 Polish built screens | build | project (type number) | 49, 114 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 51 | [Transfer War: review](jobs/JOB-051.md) | 4 Polish built screens | review | project (type number) | 50 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
-| 52 | [Transfer War: fix round](jobs/JOB-052.md) | 4 Polish built screens | fix | project (type number) | 51 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
+| 52 | [Transfer War: fix round](jobs/JOB-052.md) | 4 Polish built screens | fix | project (type number) | 51, 124 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 53 | [Transfer War: motion](jobs/JOB-053.md) | 4 Polish built screens | build | project (type number) | 52, 16 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
 | 54 | [Loading: new look and Reus credit](jobs/JOB-054.md) | 4 Polish built screens | build | project (type number) | 11, 18 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 55 | [Loading: review](jobs/JOB-055.md) | 4 Polish built screens | review | project (type number) | 54 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 56 | [Loading: fix round](jobs/JOB-056.md) | 4 Polish built screens | fix | project (type number) | 55 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
-| 57 | [Trophy Room: build (desktop)](jobs/JOB-057.md) | 5 New screens | build | project (type number) | 2, 23, 30, 18, 130, 136 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
+| 57 | [Trophy Room: build (desktop)](jobs/JOB-057.md) | 5 New screens | build | project (type number) | 2, 23, 18, 130, 136, 19, 20, 21, 22 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 58 | [Trophy Room: phone](jobs/JOB-058.md) | 5 New screens | build | project (type number) | 57, 115 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 59 | [Trophy Room: review](jobs/JOB-059.md) | 5 New screens | review | project (type number) | 58 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 60 | [Trophy Room: fix round](jobs/JOB-060.md) | 5 New screens | fix | project (type number) | 59 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 61 | [Trophy Room: motion](jobs/JOB-061.md) | 5 New screens | build | project (type number) | 60, 16 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
-| 62 | [Career Statistics: build (desktop)](jobs/JOB-062.md) | 5 New screens | build | project (type number) | 3, 24, 30, 18, 131, 137 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
+| 62 | [Career Statistics: build (desktop)](jobs/JOB-062.md) | 5 New screens | build | project (type number) | 3, 24, 18, 131, 137, 19, 20, 21, 22 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 63 | [Career Statistics: phone](jobs/JOB-063.md) | 5 New screens | build | project (type number) | 62, 116 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 64 | [Career Statistics: review](jobs/JOB-064.md) | 5 New screens | review | project (type number) | 63 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 65 | [Career Statistics: fix round](jobs/JOB-065.md) | 5 New screens | fix | project (type number) | 64 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 66 | [Career Statistics: motion](jobs/JOB-066.md) | 5 New screens | build | project (type number) | 65, 16 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
-| 67 | [Rivalry Statistics: build (desktop)](jobs/JOB-067.md) | 5 New screens | build | project (type number) | 4, 25, 30, 18, 135 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
+| 67 | [Rivalry Statistics: build (desktop)](jobs/JOB-067.md) | 5 New screens | build | project (type number) | 4, 25, 18, 135, 19, 20, 21, 22 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 68 | [Rivalry Statistics: phone](jobs/JOB-068.md) | 5 New screens | build | project (type number) | 67, 117 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 69 | [Rivalry Statistics: review](jobs/JOB-069.md) | 5 New screens | review | project (type number) | 68 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 70 | [Rivalry Statistics: fix round](jobs/JOB-070.md) | 5 New screens | fix | project (type number) | 69 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 71 | [Rivalry Statistics: motion](jobs/JOB-071.md) | 5 New screens | build | project (type number) | 70, 16 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
-| 72 | [Legacy (History): build (desktop)](jobs/JOB-072.md) | 5 New screens | build | project (type number) | 5, 26, 30, 18, 132, 138 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
+| 72 | [Legacy (History): build (desktop)](jobs/JOB-072.md) | 5 New screens | build | project (type number) | 5, 26, 18, 132, 138, 19, 20, 21, 22 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 73 | [Legacy (History): phone](jobs/JOB-073.md) | 5 New screens | build | project (type number) | 72, 118 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 74 | [Legacy (History): review](jobs/JOB-074.md) | 5 New screens | review | project (type number) | 73 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 75 | [Legacy (History): fix round](jobs/JOB-075.md) | 5 New screens | fix | project (type number) | 74 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 76 | [Legacy (History): motion](jobs/JOB-076.md) | 5 New screens | build | project (type number) | 75, 16 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
-| 77 | [Season Results: build (desktop)](jobs/JOB-077.md) | 5 New screens | build | project (type number) | 6, 27, 30, 18, 133 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
+| 77 | [Season Results: build (desktop)](jobs/JOB-077.md) | 5 New screens | build | project (type number) | 6, 27, 18, 133, 19, 20, 21, 22 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 78 | [Season Results: phone](jobs/JOB-078.md) | 5 New screens | build | project (type number) | 77, 119 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 79 | [Season Results: review](jobs/JOB-079.md) | 5 New screens | review | project (type number) | 78 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 80 | [Season Results: fix round](jobs/JOB-080.md) | 5 New screens | fix | project (type number) | 79 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 81 | [Season Results: motion](jobs/JOB-081.md) | 5 New screens | build | project (type number) | 80, 16 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
-| 82 | [Final Winner: build (desktop)](jobs/JOB-082.md) | 5 New screens | build | project (type number) | 7, 23, 30, 18, 124, 134, 139 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
+| 82 | [Final Winner: build (desktop)](jobs/JOB-082.md) | 5 New screens | build | project (type number) | 7, 23, 18, 134, 139, 19, 20, 21, 22 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 83 | [Final Winner: phone](jobs/JOB-083.md) | 5 New screens | build | project (type number) | 82, 115 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 84 | [Final Winner: review](jobs/JOB-084.md) | 5 New screens | review | project (type number) | 83 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
-| 85 | [Final Winner: fix round](jobs/JOB-085.md) | 5 New screens | fix | project (type number) | 84 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
+| 85 | [Final Winner: fix round](jobs/JOB-085.md) | 5 New screens | fix | project (type number) | 84, 124 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 86 | [Final Winner: motion](jobs/JOB-086.md) | 5 New screens | build | project (type number) | 85, 16 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
-| 87 | [Start / Join: build (desktop)](jobs/JOB-087.md) | 5 New screens | build | project (type number) | 8, 28, 30, 18 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
+| 87 | [Start / Join: build (desktop)](jobs/JOB-087.md) | 5 New screens | build | project (type number) | 8, 28, 18, 19, 20, 21, 22 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 88 | [Start / Join: phone](jobs/JOB-088.md) | 5 New screens | build | project (type number) | 87, 120 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 89 | [Start / Join: review](jobs/JOB-089.md) | 5 New screens | review | project (type number) | 88 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 90 | [Start / Join: fix round](jobs/JOB-090.md) | 5 New screens | fix | project (type number) | 89 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 91 | [Start / Join: motion](jobs/JOB-091.md) | 5 New screens | build | project (type number) | 90, 16 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
-| 92 | [Rule Book: build (desktop and phone)](jobs/JOB-092.md) | 5 New screens | build | project (type number) | 9, 29, 18, 124, 121 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
+| 92 | [Rule Book: build (desktop and phone)](jobs/JOB-092.md) | 5 New screens | build | project (type number) | 9, 29, 18, 121 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 93 | [Rule Book: review](jobs/JOB-093.md) | 5 New screens | review | project (type number) | 92 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
-| 94 | [Rule Book: fix round and motion](jobs/JOB-094.md) | 5 New screens | fix | project (type number) | 93, 16 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
-| 95 | [Settings: build (desktop and phone)](jobs/JOB-095.md) | 5 New screens | build | project (type number) | 10, 29, 18, 124, 121 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
+| 94 | [Rule Book: fix round and motion](jobs/JOB-094.md) | 5 New screens | fix | project (type number) | 93, 16, 124 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
+| 95 | [Settings: build (desktop and phone)](jobs/JOB-095.md) | 5 New screens | build | project (type number) | 10, 29, 18, 121 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 96 | [Settings: review](jobs/JOB-096.md) | 5 New screens | review | project (type number) | 95 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
-| 97 | [Settings: fix round and motion](jobs/JOB-097.md) | 5 New screens | fix | project (type number) | 96, 16 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
+| 97 | [Settings: fix round and motion](jobs/JOB-097.md) | 5 New screens | fix | project (type number) | 96, 16, 124 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
 | 98 | [Team G G-3: the pure career model](jobs/JOB-098.md) | 6 Online history | tracking | team-g | - | ██████████ 100 % | DONE |  |
 | 99 | [Team G G-7: own-account career index](jobs/JOB-099.md) | 6 Online history | tracking | team-g | 98 | ░░░░░░░░░░ 0 % | WAITING ON TEAM G |  |
 | 100 | [Team G G-8: completed-Showdown reader](jobs/JOB-100.md) | 6 Online history | tracking | team-g | 99 | ░░░░░░░░░░ 0 % | WAITING ON TEAM G |  |
@@ -127,7 +127,7 @@ Branch `factory/v1-wtt5ye`. 135 Team V jobs, plus 5 lines that track Team G. Two
 | 108 | [Final package review (Codex)](jobs/JOB-108.md) | 7 Integration | review | codex | 107 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 109 | [Final fixes](jobs/JOB-109.md) | 7 Integration | fix | project (type number) | 108 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 110 | [Package for Nik and handoff to GPT-5.6 Sol](jobs/JOB-110.md) | 7 Integration | integrate | project (type number) | 109 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
-| 111 | [Phone art: Home](jobs/JOB-111.md) | 3 Art | image | fresh chat (image) | 14, 1 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
+| 111 | [Phone art: Home](jobs/JOB-111.md) | 3 Art | build | project (type number) | 14, 1 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 112 | [Phone art: League](jobs/JOB-112.md) | 3 Art | image | fresh chat (image) | 14, 1 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 113 | [Phone art: Club Assignment](jobs/JOB-113.md) | 3 Art | image | fresh chat (image) | 14, 1 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 114 | [Phone art: Transfer War](jobs/JOB-114.md) | 3 Art | image | fresh chat (image) | 14, 1 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
@@ -143,9 +143,9 @@ Branch `factory/v1-wtt5ye`. 135 Team V jobs, plus 5 lines that track Team G. Two
 | 124 | [Art: brush title wordmarks](jobs/JOB-124.md) | 3 Art | image | fresh chat (image) | 0 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 125 | [Top bar and phone bottom bar](jobs/JOB-125.md) | 5 New screens | build | project (type number) | 18, 124 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 126 | [Truth sheet: Standings](jobs/JOB-126.md) | 1 Truth | data | project (type number) | - | ██████████ 100 % | DONE |  |
-| 127 | [Standings: build (desktop and phone)](jobs/JOB-127.md) | 5 New screens | build | project (type number) | 126, 25, 117, 30, 18, 124 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
+| 127 | [Standings: build (desktop and phone)](jobs/JOB-127.md) | 5 New screens | build | project (type number) | 126, 25, 117, 18, 19, 20, 21, 22 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 128 | [Standings: review](jobs/JOB-128.md) | 5 New screens | review | project (type number) | 127 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
-| 129 | [Standings: fix round and motion](jobs/JOB-129.md) | 5 New screens | fix | project (type number) | 128, 16 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
+| 129 | [Standings: fix round and motion](jobs/JOB-129.md) | 5 New screens | fix | project (type number) | 128, 16, 124 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
 | 130 | [Truth sheet fix: Trophy Room](jobs/JOB-130.md) | 1 Truth | fix | project (type number) | 2 | ██████████ 100 % | DONE |  |
 | 131 | [Truth sheet fix: Career Statistics](jobs/JOB-131.md) | 1 Truth | fix | project (type number) | 3 | ██████████ 100 % | DONE |  |
 | 132 | [Truth sheet fix: Legacy (History)](jobs/JOB-132.md) | 1 Truth | fix | project (type number) | 5 | ██████████ 100 % | DONE |  |
@@ -153,9 +153,9 @@ Branch `factory/v1-wtt5ye`. 135 Team V jobs, plus 5 lines that track Team G. Two
 | 134 | [Truth sheet fix: Final Winner](jobs/JOB-134.md) | 1 Truth | fix | project (type number) | 7 | ██████████ 100 % | DONE |  |
 | 135 | [Truth sheet fix: Rivalry Statistics](jobs/JOB-135.md) | 1 Truth | fix | project (type number) | 4 | ██████████ 100 % | DONE |  |
 | 136 | [Fixture realism: Trophy Room](jobs/JOB-136.md) | 1 Truth | fix | project (type number) | 130 | ██████████ 100 % | DONE |  |
-| 137 | [Fixture realism: Career Statistics](jobs/JOB-137.md) | 1 Truth | fix | project (type number) | 131 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
-| 138 | [Fixture realism: Legacy (History)](jobs/JOB-138.md) | 1 Truth | fix | project (type number) | 132 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
-| 139 | [Fixture realism: Final Winner](jobs/JOB-139.md) | 1 Truth | fix | project (type number) | 134 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
+| 137 | [Fixture realism: Career Statistics](jobs/JOB-137.md) | 1 Truth | fix | project (type number) | 131 | ██████████ 100 % | DONE |  |
+| 138 | [Fixture realism: Legacy (History)](jobs/JOB-138.md) | 1 Truth | fix | project (type number) | 132 | ██████████ 100 % | DONE |  |
+| 139 | [Fixture realism: Final Winner](jobs/JOB-139.md) | 1 Truth | fix | project (type number) | 134 | ██████████ 100 % | DONE |  |
 
 Lanes: **project (type number)** = a GPT-5.6 Sol chat inside the ChatGPT project Showdown visual, started by typing the number; **fresh chat (image)** = Nik runs the job's ticket(s) in a ChatGPT Temporary Chat outside any project and drops each image in Claude's factory thread, then Claude checks, commits and finishes the job (max 2 at once); **codex** = Codex review (job 108 only); **team-g** = tracks a Team G job, never started by Team V.
 

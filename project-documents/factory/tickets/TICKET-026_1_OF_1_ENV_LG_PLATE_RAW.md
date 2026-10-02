@@ -3,7 +3,7 @@
 Image 1 of 1 for job 26. One image only.
 
 1. Open a **ChatGPT Temporary Chat**: start a new chat outside any project, then tap the dashed-circle icon at the top right. A Temporary Chat uses no memory and no chat history, so other chats cannot leak into the picture.
-2. Attach this one file only: **GUIDE_LG_PLATE.png** ([download](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/v1-wtt5ye/project-documents/factory/tickets/attach/GUIDE_LG_PLATE.png)).
+2. Attach this one file only: **GUIDE_LG_PLATE.png**. On iPhone open https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/v1-wtt5ye/project-documents/factory/tickets/attach/GUIDE_LG_PLATE.png in Safari, press and hold the picture, then Save to Photos.
 3. Paste the prompt below exactly. If ChatGPT offers to change it, reply: `No, use my prompt exactly.`
 4. Check the picture:
    - no cyan left anywhere
