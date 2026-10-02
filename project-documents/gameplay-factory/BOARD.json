@@ -1,0 +1,262 @@
+{
+ "branch": "factory/gameplay-v1",
+ "integration_branch": "gameplay/recovery-v1",
+ "updated": "2026-10-02",
+ "capacity": {
+  "chat": 2,
+  "work": 1
+ },
+ "jobs": [
+  {
+   "number": 0,
+   "key": "G-0",
+   "title": "Factory smoke test (chat lane)",
+   "lane": "chat",
+   "depends_on": [],
+   "steps": 6,
+   "code_branch": "gameplay/job-00-smoke",
+   "codex_review": false,
+   "written": true,
+   "waits_on": null
+  },
+  {
+   "number": 90,
+   "key": "G-0W",
+   "title": "Factory smoke test (Work lane)",
+   "lane": "work",
+   "depends_on": [],
+   "steps": 6,
+   "code_branch": "gameplay/job-90-smoke-work",
+   "codex_review": false,
+   "written": true,
+   "waits_on": null
+  },
+  {
+   "number": 1,
+   "key": "G-1",
+   "title": "Fast regression CI on every gameplay push",
+   "lane": "work",
+   "depends_on": [],
+   "steps": 6,
+   "code_branch": "gameplay/job-01-fast-ci",
+   "codex_review": false,
+   "written": true,
+   "waits_on": null
+  },
+  {
+   "number": 2,
+   "key": "G-2",
+   "title": "Two-manager journey on the emulator (provider level)",
+   "lane": "work",
+   "depends_on": [
+    1
+   ],
+   "steps": 8,
+   "code_branch": "gameplay/job-02-two-manager-journey",
+   "codex_review": false,
+   "written": true,
+   "waits_on": null
+  },
+  {
+   "number": 3,
+   "key": "G-3",
+   "title": "Pure shared career model + tests",
+   "lane": "work",
+   "depends_on": [],
+   "steps": 7,
+   "code_branch": "gameplay/job-03-career-model",
+   "codex_review": false,
+   "written": true,
+   "waits_on": null
+  },
+  {
+   "number": 16,
+   "key": "G-2b",
+   "title": "Two-manager browser journey (localhost-only emulator switch)",
+   "lane": "chat",
+   "depends_on": [
+    2
+   ],
+   "steps": null,
+   "code_branch": null,
+   "codex_review": false,
+   "written": false,
+   "waits_on": null
+  },
+  {
+   "number": 4,
+   "key": "G-4",
+   "title": "Renderer seams: screens take a model, never the local path",
+   "lane": "work",
+   "depends_on": [
+    3
+   ],
+   "steps": null,
+   "code_branch": null,
+   "codex_review": false,
+   "written": false,
+   "waits_on": null
+  },
+  {
+   "number": 5,
+   "key": "G-5",
+   "title": "Active Showdown adapter (Rivalry, Continue, tiebreak, final state)",
+   "lane": "work",
+   "depends_on": [
+    3
+   ],
+   "steps": null,
+   "code_branch": null,
+   "codex_review": false,
+   "written": false,
+   "waits_on": null
+  },
+  {
+   "number": 6,
+   "key": "G-6",
+   "title": "Start/Join view model + nav.locked",
+   "lane": "work",
+   "depends_on": [
+    3
+   ],
+   "steps": null,
+   "code_branch": null,
+   "codex_review": false,
+   "written": false,
+   "waits_on": null
+  },
+  {
+   "number": 11,
+   "key": "G-11",
+   "title": "Contract fixtures generated from the real model",
+   "lane": "work",
+   "depends_on": [
+    3,
+    5
+   ],
+   "steps": null,
+   "code_branch": null,
+   "codex_review": false,
+   "written": false,
+   "waits_on": null
+  },
+  {
+   "number": 7,
+   "key": "G-7",
+   "title": "Career index Rules + client + emulator proofs",
+   "lane": "work",
+   "depends_on": [
+    1,
+    2
+   ],
+   "steps": null,
+   "code_branch": null,
+   "codex_review": true,
+   "written": false,
+   "waits_on": null
+  },
+  {
+   "number": 8,
+   "key": "G-8",
+   "title": "Completed-only read grant + session-free reader",
+   "lane": "work",
+   "depends_on": [
+    7
+   ],
+   "steps": null,
+   "code_branch": null,
+   "codex_review": true,
+   "written": false,
+   "waits_on": null
+  },
+  {
+   "number": 9,
+   "key": "G-9",
+   "title": "Closed-Showdown adapter into the career model",
+   "lane": "work",
+   "depends_on": [
+    3,
+    8
+   ],
+   "steps": null,
+   "code_branch": null,
+   "codex_review": false,
+   "written": false,
+   "waits_on": null
+  },
+  {
+   "number": 10,
+   "key": "G-10",
+   "title": "Transfer history, completed only",
+   "lane": "work",
+   "depends_on": [
+    8
+   ],
+   "steps": null,
+   "code_branch": null,
+   "codex_review": true,
+   "written": false,
+   "waits_on": null
+  },
+  {
+   "number": 12,
+   "key": "G-12",
+   "title": "Composed production Rules regression",
+   "lane": "work",
+   "depends_on": [
+    7,
+    8
+   ],
+   "steps": null,
+   "code_branch": null,
+   "codex_review": true,
+   "written": false,
+   "waits_on": null
+  },
+  {
+   "number": 13,
+   "key": "G-13",
+   "title": "Remove the r43 containment, bind #trophyRoomButton",
+   "lane": "work",
+   "depends_on": [
+    4,
+    5,
+    6,
+    9
+   ],
+   "steps": null,
+   "code_branch": null,
+   "codex_review": false,
+   "written": false,
+   "waits_on": "approved Team V visual package"
+  },
+  {
+   "number": 14,
+   "key": "G-14",
+   "title": "Acceptance: directive §12 and Sol's 8 proofs on the emulator",
+   "lane": "work",
+   "depends_on": [
+    13
+   ],
+   "steps": null,
+   "code_branch": null,
+   "codex_review": false,
+   "written": false,
+   "waits_on": null
+  },
+  {
+   "number": 15,
+   "key": "G-15",
+   "title": "One real two-device run with Nik",
+   "lane": "nik",
+   "depends_on": [
+    14
+   ],
+   "steps": null,
+   "code_branch": null,
+   "codex_review": false,
+   "written": false,
+   "waits_on": null
+  }
+ ]
+}

@@ -1,8 +1,8 @@
 # JOB-02 · Two-manager journey on the emulator (provider level)
 
-| Mode | Depends on | Steps | Code branch | PR into | Codex review |
+| Lane | Depends on | Steps | Code branch | PR into | Codex review |
 | --- | --- | --- | --- | --- | --- |
-| **Work mode** (terminal, Java 21, Firebase emulator) | JOB-01 merged into `gameplay/recovery-v1` | 8 | `gameplay/job-02-two-manager-journey` | `gameplay/recovery-v1` | no |
+| **work** (Sol Work mode: terminal, Java 21, Firebase emulator) | JOB-01 merged into `gameplay/recovery-v1` | 8 | `gameplay/job-02-two-manager-journey` | `gameplay/recovery-v1` | no |
 
 ## 1. Goal
 
@@ -10,7 +10,8 @@ Write one automated test where Daniel and Nik play a whole Shared Showdown again
 
 ## 2. Branches and files
 
-- Cut `gameplay/job-02-two-manager-journey` from `gameplay/recovery-v1` **after** the lead has merged Job 1 (check that `.github/workflows/validate-gameplay-fast.yml` exists on `gameplay/recovery-v1`; if not, reply "Job 2 waits for job 1.").
+- The lead creates `gameplay/job-02-two-manager-journey` from `gameplay/recovery-v1` right after merging Job 1; if it is missing, create it yourself from `gameplay/recovery-v1`, but only once Job 1 is merged (check that `.github/workflows/validate-gameplay-fast.yml` exists on `gameplay/recovery-v1`; if not, reply "Job 2 waits for job 1.").
+- If job 90 found that Work mode cannot run a command this job needs (see `smoke/CAPABILITIES_WORK.md`), use the CI path in WORKER_HANDBOOK.md §7: commit to the code branch and read the "Validate Gameplay Fast" result on your exact head commit instead.
 - Create: `tests/firebase/two-manager-journey-emulator.cjs`.
 - Edit: `.github/workflows/validate-gameplay-fast.yml`, adding one step at the end of the `rules-emulator` job (step 7 below).
 - On `factory/gameplay-v1`: `project-documents/gameplay-factory/reports/JOB-02-baseline.md` and `status/JOB-02.md`.

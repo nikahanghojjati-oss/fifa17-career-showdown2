@@ -1,8 +1,8 @@
 # JOB-01 · Fast regression CI on every gameplay push
 
-| Mode | Depends on | Steps | Code branch | PR into | Codex review |
+| Lane | Depends on | Steps | Code branch | PR into | Codex review |
 | --- | --- | --- | --- | --- | --- |
-| **Work mode** (terminal) | nothing | 6 | `gameplay/job-01-fast-ci` | `gameplay/recovery-v1` | no |
+| **work** (Sol Work mode: terminal) | nothing | 6 | `gameplay/job-01-fast-ci` | `gameplay/recovery-v1` | no |
 
 ## 1. Goal
 
@@ -10,7 +10,8 @@ Add one GitHub Actions workflow that runs on every push to a `gameplay/**` branc
 
 ## 2. Branches and files
 
-- Cut `gameplay/job-01-fast-ci` from `gameplay/recovery-v1`. Push code there. Open a PR into `gameplay/recovery-v1` titled `Job 1: fast gameplay CI`.
+- Code branch `gameplay/job-01-fast-ci` already exists (the lead cut it from `gameplay/recovery-v1`). Push code there. Open a PR into `gameplay/recovery-v1` titled `Job 1: fast gameplay CI`.
+- If job 90 found that Work mode cannot run a command this job needs (see `smoke/CAPABILITIES_WORK.md`), use the CI path in WORKER_HANDBOOK.md §7: commit to the code branch and read the "Validate Gameplay Fast" result on your exact head commit instead.
 - Status file: `project-documents/gameplay-factory/status/JOB-01.md` on `factory/gameplay-v1`.
 - The only file you create: `.github/workflows/validate-gameplay-fast.yml`. Change nothing else.
 

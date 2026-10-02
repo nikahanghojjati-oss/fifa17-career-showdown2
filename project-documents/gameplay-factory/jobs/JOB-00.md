@@ -1,20 +1,20 @@
-# JOB-00 · Factory smoke test
+# JOB-00 · Factory smoke test (chat lane)
 
-| Mode | Depends on | Steps | Code branch | Codex review |
-| --- | --- | --- | --- | --- |
-| plain chat (Work mode also fine) | nothing | 6 | `gameplay/job-00-smoke` (test only, never merged) | no |
+| Lane | Depends on | Steps | Code branch | PR into | Codex review |
+| --- | --- | --- | --- | --- | --- |
+| **chat** (normal chat, press Stay in Chat) | nothing | 6 | `gameplay/job-00-smoke` (test only, already created, never merged) | `gameplay/recovery-v1` | no |
 
 ## 1. Goal
 
-Find out exactly what a Team G worker chat can do: read the repo, push to the factory branch, push a code branch, open a pull request, and run a terminal. Every later job is routed by this answer, so Nik and Daniel get working tests instead of chats that stall halfway.
+Find out exactly what a normal Team G worker chat can do: read the repo, save text files, save to a code branch, open a pull request, run Python and node, reach npm, take Chromium screenshots of the app, and save binaries. Every later job is routed by this answer (job 90 does the same for Sol Work mode), so Nik and Daniel get working tests instead of chats that stall halfway.
 
 ## 2. Branches and files
 
-- Read from and push status to: `factory/gameplay-v1`.
-- Test code branch: create `gameplay/job-00-smoke` from `gameplay/recovery-v1`.
-- Files you may create: `project-documents/gameplay-factory/smoke/hello.md`, `project-documents/gameplay-factory/smoke/CAPABILITIES.md`, `project-documents/gameplay-factory/status/JOB-00.md`, and on the test code branch only `project-documents/gameplay-factory/smoke/branch-test.md`.
+- Status and results go to `factory/gameplay-v1`.
+- Test code branch: `gameplay/job-00-smoke` (the lead already created it from `gameplay/recovery-v1`).
+- Files you may create: `project-documents/gameplay-factory/smoke/hello.md`, `project-documents/gameplay-factory/smoke/CAPABILITIES.md`, `project-documents/gameplay-factory/status/JOB-00.md` (on `factory/gameplay-v1`), and on `gameplay/job-00-smoke` only `project-documents/gameplay-factory/smoke/branch-test.md`.
 
-## 3. Rules that apply (copied from the factory rules)
+## 3. Rules that apply
 
 - Never push to `main`, never merge, never force-push, never delete anything.
 - Never deploy or touch Firebase settings or billing.
@@ -22,31 +22,26 @@ Find out exactly what a Team G worker chat can do: read the repo, push to the fa
 
 ## 4. Steps
 
-After each step update `status/JOB-00.md` and push it to `factory/gameplay-v1` with the message `Job 0 step k/6: <step name>`.
+After each step update `status/JOB-00.md` and save it to `factory/gameplay-v1` with the message `Job 0 step k/6: <step name>`.
 
-1. **Repo read.** Open `project-documents/gameplay-factory/BOARD.md` on `factory/gameplay-v1` and copy its first line into the status notes. Write which ChatGPT mode this chat is in (plain chat or Work mode) and which GitHub access you have (connector, terminal git, or none).
-2. **Factory write.** Create `project-documents/gameplay-factory/smoke/hello.md` with the UTC date and time and the words "gameplay factory chat can write". Commit to `factory/gameplay-v1` with `Job 0 step 2/6: write test`. Record yes or no, and the exact error if no.
-3. **Code branch and pull request.** Create branch `gameplay/job-00-smoke` from `gameplay/recovery-v1`, add `project-documents/gameplay-factory/smoke/branch-test.md` (one line: "branch test"), push it, and open a **draft** pull request from `gameplay/job-00-smoke` into `gameplay/recovery-v1` titled `Job 0 smoke PR (do not merge)`. Record the branch push and the PR link, or the exact error. Do not merge it; the lead closes it.
-4. **Terminal.** If this chat has a terminal, run and record the output of each: `node --version` (the repo needs 24 or newer), `npm --version`, `git --version`, `java -version` (the Firebase emulator needs Java 21+), `npx --yes firebase-tools@15.28.1 --version`, `npx playwright --version`. If there is no terminal, write "no terminal" and go to step 6.
-5. **Repo tests.** In the terminal: clone the repo, `git checkout gameplay/recovery-v1`, run `npm ci`, then `npm run test:contracts`. Passing output ends with a line like `PASS POS10 selected deterministic census (96/96 current blocking contracts: frozen POS10 floor + POS20 supplements).` Record the last line and how long it took.
-6. **Verdict.** Write `project-documents/gameplay-factory/smoke/CAPABILITIES.md`: a table with rows repo read, factory push, code branch push, open PR, terminal, node ≥ 24, java ≥ 21, firebase emulator CLI, playwright, contract suite passes; each YES or NO with one line of detail. On its first line write exactly one verdict:
-   - **ALL GREEN**: everything YES.
-   - **NO TERMINAL**: code and test jobs must run in Work mode.
-   - **NO PUSH**: chats hand Nik zip files for the lead.
-   - **NO PR**: chats push branches; the lead opens the PRs.
-   Commit, set State: DONE, push `Job 0 done: Factory smoke test`.
+1. **Repo read.** Open `project-documents/gameplay-factory/BOARD.md` on `factory/gameplay-v1` and copy its first line into the status notes. Record how you read it (GitHub connector or raw link) and which tools this chat has (Python sandbox, image tool, connector writer, terminal).
+2. **Factory write.** Save `project-documents/gameplay-factory/smoke/hello.md` with the UTC date and time and the words "gameplay factory chat can write" to `factory/gameplay-v1`. Record YES or NO, and the exact error if NO.
+3. **Code branch and pull request.** Save `project-documents/gameplay-factory/smoke/branch-test.md` (one line: "branch test") to `gameplay/job-00-smoke`. Then try to open a **draft** pull request from `gameplay/job-00-smoke` into `gameplay/recovery-v1` titled `Job 0 smoke PR (do not merge)`. Record each as YES (with the link) or NO (with the error). Do not merge; the lead closes it.
+4. **Sandbox tools.** In your code tool run and record: `python3 --version`; `node --version` (if node exists); `npm view playwright version` (shows whether the sandbox reaches the npm registry); `java -version`. Missing tools are an answer, not a failure.
+5. **Screenshots and binaries.** Using the Python sandbox, get the repo files you need for the Home screen (`index.html`, `css/`, `js/`, `assets/`, `data/` from `gameplay/recovery-v1`, through the connector or raw links), serve them with `python3 -m http.server 8765`, and take Chromium screenshots of `http://127.0.0.1:8765/` at 1366 × 768 and at 393 × 660. Then try to save one PNG to `factory/gameplay-v1` as `project-documents/gameplay-factory/smoke/home_393x660.png`. Record whether the screenshots worked and whether the binary save worked. If the binary save fails, give Nik `JOB-00.zip` with the screenshots at the end.
+6. **Verdict.** Write `project-documents/gameplay-factory/smoke/CAPABILITIES.md`: a table with rows repo read, text save to factory branch, text save to code branch, open PR, Python, node, npm registry reachable, Java, Chromium screenshots, binary save; each YES or NO with one line of detail. On its first line write the verdicts that apply, from: **TEXT SAVE OK** or **NO SAVE** (zip only), **PR OK** or **NO PR** (the lead opens PRs), **SCREENSHOTS OK** or **NO SCREENSHOTS**, **NPM OK** or **NO NPM** (code is tested by CI on push). Save, set State: DONE, finish with `Job 0 done: Factory smoke test (chat lane)`.
 
 ## 5. Tests first
 
 None; this job makes no product change.
 
-## 6. Done checklist (write PASS/FAIL with evidence in the status file)
+## 6. Done checklist (PASS/FAIL with evidence in the status file)
 
 - [ ] Every capability row has YES/NO and evidence.
-- [ ] Only the files listed in section 2 changed.
+- [ ] Only the files in section 2 changed.
 - [ ] Nothing pushed to `main`; nothing merged; nothing deployed; no Firebase setting touched.
-- [ ] Status file shows State: DONE with the CAPABILITIES verdict copied in.
+- [ ] Status file shows State: DONE with the CAPABILITIES first line copied in.
 
 ## 7. When stuck
 
-Write the blocker in `status/JOB-00.md` with State: BLOCKED, push it, and reply "Job 0 is blocked: <reason>". If you cannot push at all, give Nik `JOB-00.zip` as the factory rules say.
+Write the blocker in `status/JOB-00.md` with State: BLOCKED, save, and reply `Job 0 is blocked: <reason>`. If you cannot save at all, give Nik `JOB-00.zip` as the handbook says.

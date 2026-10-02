@@ -1,8 +1,8 @@
 # JOB-03 · Pure shared career model + tests
 
-| Mode | Depends on | Steps | Code branch | PR into | Codex review |
+| Lane | Depends on | Steps | Code branch | PR into | Codex review |
 | --- | --- | --- | --- | --- | --- |
-| **Work mode** (terminal, node 24) | nothing | 7 | `gameplay/job-03-career-model` | `gameplay/recovery-v1` | no |
+| **work** (Sol Work mode: terminal, node 24) | nothing | 7 | `gameplay/job-03-career-model` | `gameplay/recovery-v1` | no |
 
 ## 1. Goal
 
@@ -10,7 +10,8 @@ Build `js/sharedCareerAnalytics.js`: one pure function that turns verified Showd
 
 ## 2. Branches and files
 
-- Cut `gameplay/job-03-career-model` from `gameplay/recovery-v1`. Open a PR into `gameplay/recovery-v1` titled `Job 3: pure shared career model`.
+- Code branch `gameplay/job-03-career-model` already exists (the lead cut it from `gameplay/recovery-v1`). Push code there. Open a PR into `gameplay/recovery-v1` titled `Job 3: pure shared career model`.
+- If job 90 found that Work mode cannot run a command this job needs (see `smoke/CAPABILITIES_WORK.md`), use the CI path in WORKER_HANDBOOK.md §7: commit to the code branch and read the "Validate Gameplay Fast" result on your exact head commit instead.
 - Create:
   - `tests/support/career-fixture-helpers.cjs` (given in full in section 6; copy it exactly)
   - `tests/contracts/shared-career-analytics-contracts.cjs`

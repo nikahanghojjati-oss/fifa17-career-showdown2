@@ -1,16 +1,16 @@
 # Status · JOB-01 · Fast regression CI on every gameplay push
 
-State: READY
+State: NOT STARTED
 Step: 0 of 6
-Percent: 0
-Worker chat mode:
+Updated: 2026-10-02 08:09 UTC
+Chat:
 Code branch:
 Head commit:
 PR:
 CI run:
 
-## Notes (one line per step)
+## Notes
 
-## Done checklist
+## Self-check
 
-## Questions for the Team G lead
+## Blocked question
