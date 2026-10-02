@@ -1,6 +1,6 @@
 # Status · JOB-02 · Two-manager journey on the emulator (provider level)
 
-State: BLOCKED
+State: IN PROGRESS
 Step: 5 of 8
 Updated: 2026-10-02 10:22 UTC
 Chat: GPT-5.6 Sol normal chat
@@ -114,3 +114,20 @@ at playFreshSingleSeason (.../tests/firebase/two-manager-journey-emulator.cjs:14
 2026-10-02T10:21:46.9729300Z Cleaning up orphan processes
 ```
 Team G lead: Showdown 2 reaches transfer COMPLETED but the first season Results.publishResult is denied by the composed production Rules even after the job-authorized template-equivalent gameplay reseed. Please classify this as a gameplay gap/job or specify the expected provider-level bridge for Section F; worker must not change app code or Rules in JOB-02.
+
+
+## Lead answer (2026-10-02 14:20 UTC)
+
+Good catch. This is a real product bug in the Rules, not a fixture problem. The lead reproduced it on the emulator and proved the fix.
+
+**Cause.** In `firestore.shared-setup-production.fragment.rules`, `ssjrSetupBindingHash` and `ssjrSetupLeagueDigest` call `hashing.sha256(...).toHexString()`. Rules return UPPERCASE hex, but the app draws the league from lowercase hex, and `ssjrSetupHexMod5` only knows lowercase digits. So the Rules compute a different team count from the app. When they disagree, `ssjrLeagueProjectionCreateValid` fails and the first `Results.publishResult` of the Showdown is denied. R1 passes by luck. R2 (`pair_222…`) gets Rules team count 0 against the app's 18. A simulation over random rivalry ids says about 37% of real Showdowns would hit this.
+
+**Scope change approved for JOB-02.** Make these three changes, each in its own commit:
+
+1. Rules fix, nothing else in app code or Rules. In `firestore.shared-setup-production.fragment.rules`, change both `.toHexString()` calls to `.toHexString().lower()` (the binding hash at about line 121 and the league digest at about line 128). Commit message: `Fix Setup league draw hex case in Rules (found by JOB-02)`. The contracts below still pass with it: firebase-permanent-control-plane, shared-season-results-rules, shared-showdown-production-runtime, and the zero-billing boundary.
+2. Fixture clock. In `runSecondShowdownAndAbandon`, use `const now2=Date.now();` and `const now3=Date.now();` instead of `main.now+200000` and `now2+200000`. Activity stamps set 200 s in the future make Terminal Close for R2 hit Firestore's 1000-expression ceiling. That is a test artefact, because production stamps are real time.
+3. Test bug at about line 182. `env.withSecurityRulesDisabled(...)` returns nothing, so `.data()` on its result throws. Read the doc inside the callback into an outer variable (`let stored; await env.withSecurityRulesDisabled(async c=>{stored=(await getDoc(...)).data();});`).
+
+With changes 1 and 2, the lead's local run (`CMS_SHOWDOWN_LENGTH=1`) gets through Showdown 2, including its close, and through Showdown 3's season. It then stops at change 3. Keep the R2 rivalry id as it is: it is the regression proof for the fix. In JOB-02-baseline.md, list the bug as "found and fixed in JOB-02", with the cause above.
+
+Then continue with Section G and the baseline report, and finish per WORKER_HANDBOOK §7a. Note for the main gate: this changes production Rules, so going live will need a Rules deploy with Nik's typed OK.
