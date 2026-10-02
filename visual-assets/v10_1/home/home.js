@@ -319,9 +319,11 @@
     addEventListener("resize", () => layout(MAP));
     // Visual-only routing: each tile names the existing product destination it opens (fixtures.routes); no data code runs.
     document.querySelectorAll(".fifaMenuGrid > button.menuTile").forEach((b) => b.addEventListener("click", () => {
-      const r = FX.routes[b.id];
+      const d = (FX.destinations || []).find((x) => x.id === b.id);
+      const routeKey = (d && d.route) || b.dataset.routeKey || b.id;
+      const r = FX.routes[routeKey];
       stage.dataset.lastIntent = b.id;
-      document.dispatchEvent(new CustomEvent("home:intent", { detail: { tile: b.id, opens: r && r.opens } }));
+      document.dispatchEvent(new CustomEvent("home:intent", { detail: { tile: b.id, route: routeKey, opens: r && r.opens } }));
     }));
     window.__homeReady = true;
   }

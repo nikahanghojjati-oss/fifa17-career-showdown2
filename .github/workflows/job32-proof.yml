@@ -1,0 +1,61 @@
+name: Job 32 layout proof
+on:
+  push:
+    branches: [factory/v1-wtt5ye]
+    paths:
+      - '.github/workflows/job32-proof.yml'
+permissions:
+  contents: write
+jobs:
+  proof:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: factory/v1-wtt5ye
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm install --no-save playwright@1.55.0
+      - run: npx playwright install --with-deps chromium
+      - name: Render seven-tile proof
+        run: |
+          python3 -m http.server 8765 >/tmp/job32-http.log 2>&1 &
+          sleep 2
+          node <<'NODE'
+          const { chromium } = require('playwright');
+          const fs = require('fs');
+          (async()=>{
+            const browser=await chromium.launch({headless:true});
+            const page=await browser.newPage({viewport:{width:1366,height:768}});
+            const errors=[]; page.on('console',m=>{if(m.type()==='error') errors.push(m.text())});
+            await page.goto('http://127.0.0.1:8765/visual-assets/v10_1/home/index.html?frame=HM2',{waitUntil:'networkidle'});
+            await page.waitForFunction(()=>window.__homeReady===true);
+            const m=await page.evaluate(()=>{
+              const tiles=[...document.querySelectorAll('.fifaMenuGrid > button.menuTile')];
+              return {
+                viewport:[innerWidth,innerHeight],
+                ids:tiles.map(x=>x.id),
+                labels:tiles.map(x=>({id:x.id,text:x.querySelector('.menuTileLabel')?.textContent.trim(),font:parseFloat(getComputedStyle(x.querySelector('.menuTileLabel')).fontSize),rect:x.getBoundingClientRect().toJSON()})),
+                grid:document.querySelector('.fifaMenuGrid').getBoundingClientRect().toJSON(),
+                overlap:tiles.some((a,i)=>tiles.some((b,j)=>j>i && !(a.getBoundingClientRect().right<=b.getBoundingClientRect().left || b.getBoundingClientRect().right<=a.getBoundingClientRect().left || a.getBoundingClientRect().bottom<=b.getBoundingClientRect().top || b.getBoundingClientRect().bottom<=a.getBoundingClientRect().top)))
+              };
+            });
+            if(m.ids.length!==7) throw new Error('expected 7 destination tiles, got '+m.ids.length);
+            if(m.labels.some(x=>x.font<18)) throw new Error('desktop tile label below 18px');
+            if(m.overlap) throw new Error('tile overlap');
+            fs.mkdirSync('visual-assets/v10_1/home/evidence',{recursive:true});
+            fs.writeFileSync('visual-assets/v10_1/home/evidence/step2_layout_metrics.json',JSON.stringify({...m,consoleErrors:errors},null,2)+'\n');
+            await page.screenshot({path:'visual-assets/v10_1/home/evidence/step2_layout_1366.png',fullPage:false});
+            await browser.close();
+          })().catch(e=>{console.error(e);process.exit(1)});
+          NODE
+      - name: Commit proof
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add visual-assets/v10_1/home/evidence/step2_layout_1366.png visual-assets/v10_1/home/evidence/step2_layout_metrics.json
+          git commit -m "Job 32 step 2/6: layout screenshot evidence"
+          git push origin HEAD:factory/v1-wtt5ye

@@ -156,7 +156,7 @@ button { font: inherit; color: inherit; }
 /* ---------- tile row (H2) ---------- */
 .fifaMenuGrid {
   position: absolute; z-index: 4; left: var(--gutter); right: var(--gutter); top: var(--tile-top); height: var(--tile-h);
-  display: grid; grid-template-columns: minmax(0, 1.72fr) minmax(0, 1.72fr) repeat(4, minmax(0, 1fr)); gap: 10px;
+  display: grid; grid-template-columns: minmax(0, 2fr) repeat(6, minmax(0, 1fr)); gap: 8px;
 }
 .menuTile {
   position: relative; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 3px;
@@ -166,17 +166,17 @@ button { font: inherit; color: inherit; }
   box-shadow: inset 0 2px 0 var(--gold), 0 10px 28px rgba(0,0,0,.45);
 }
 .menuTileCode { font: 600 12px/1.15 var(--cond); letter-spacing: .2em; color: var(--gold-deep); text-transform: uppercase; }
-.menuTileLabel { font: 700 26px/1.1 var(--cond); color: #fff; text-transform: uppercase; letter-spacing: .01em; max-width: 100%; }
+.menuTileLabel { font: 700 20px/1.08 var(--cond); color: #fff; text-transform: uppercase; letter-spacing: .01em; max-width: 100%; }\n#continueCareer .menuTileLabel { font-size: 26px; }
 .menuTileMeta { font: 400 14px/1.25 var(--text); color: var(--meta); max-width: 100%; }
 .tileIcon { position: absolute; right: 22px; top: 50%; width: 72px; height: 72px; margin-top: -40px; pointer-events: none; }
-#continueCareer, #newShowdown { padding-right: 96px; }
+#continueCareer { padding-right: 96px; }\n#newShowdown { padding-right: 12px; }
 .tileChevron { position: absolute; right: 12px; bottom: 11px; width: 9px; height: 15px; color: var(--gold); pointer-events: none; }
 .menuTile:not(:disabled):hover, .menuTile:not(:disabled):focus-visible { border-color: var(--gold); transform: translateY(-1px); }
 /* secondary tiles (Legacy, Statistics + Trophy Room, Rule Book, Settings): goal tile language = code + big label + icon;
    their meta stays in the DOM, visually hidden (owner change: six tiles must fit one row) */
-.menuTileLegacy, .menuTileTrophy, .menuTileRules, .menuTileSettings { justify-content: flex-start; padding: 12px 12px 10px 14px; }
-.menuTileLegacy .menuTileMeta, .menuTileTrophy .menuTileMeta, .menuTileRules .menuTileMeta, .menuTileSettings .menuTileMeta { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
-.menuTileLegacy .tileIcon, .menuTileTrophy .tileIcon, .menuTileRules .tileIcon, .menuTileSettings .tileIcon { top: auto; bottom: 10px; right: 26px; margin-top: 0; width: 64px; height: 64px; }
+.menuTileNew, .menuTileLegacy, .menuTileTrophy, .menuTileTrophyRoom, .menuTileRules, .menuTileSettings { justify-content: flex-start; padding: 12px 12px 10px 14px; }
+.menuTileNew .menuTileMeta, .menuTileLegacy .menuTileMeta, .menuTileTrophy .menuTileMeta, .menuTileTrophyRoom .menuTileMeta, .menuTileRules .menuTileMeta, .menuTileSettings .menuTileMeta { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
+.menuTileNew .tileIcon, .menuTileLegacy .tileIcon, .menuTileTrophy .tileIcon, .menuTileTrophyRoom .tileIcon, .menuTileRules .tileIcon, .menuTileSettings .tileIcon { top: auto; bottom: 8px; right: 18px; margin-top: 0; width: 62px; height: 62px; }
 .menuTileTag {
   margin-top: 4px; padding: 3px 7px 3px; border: 1px solid var(--gold); border-radius: 2px; background: rgba(242,196,91,.12);
   font: 700 12px/1.15 var(--cond); letter-spacing: .14em; color: #FFD97A; white-space: nowrap;
@@ -295,15 +295,15 @@ footer {
   .fifaMenuHeadingMeta span { font-size: 28px; line-height: 1.12; margin-bottom: 3px; }
   .fifaMenuGrid { position: static; height: auto; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px 6px; }
   #continueCareer, #newShowdown { grid-column: span 2; }
-  .menuTileLegacy, .menuTileTrophy, .menuTileRules, .menuTileSettings { padding: 7px 5px 7px 8px; min-height: 64px; gap: 2px; }
+  .menuTileLegacy, .menuTileTrophy, .menuTileTrophyRoom, .menuTileRules, .menuTileSettings { padding: 7px 4px 7px 6px; min-height: 64px; gap: 2px; }
   #continueCareer, #newShowdown { padding-right: 10px; }
-  .menuTileLegacy .menuTileLabel, .menuTileTrophy .menuTileLabel, .menuTileRules .menuTileLabel, .menuTileSettings .menuTileLabel { font-size: 14px; padding-right: 0; }
-  .menuTileLegacy .menuTileCode, .menuTileTrophy .menuTileCode, .menuTileRules .menuTileCode, .menuTileSettings .menuTileCode { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
-  .menuTileLegacy, .menuTileTrophy, .menuTileRules, .menuTileSettings { justify-content: center; }
-  .menuTileLegacy .tileIcon, .menuTileTrophy .tileIcon, .menuTileRules .tileIcon, .menuTileSettings .tileIcon { display: none; }
+  .menuTileLegacy .menuTileLabel, .menuTileTrophy .menuTileLabel, .menuTileTrophyRoom .menuTileLabel, .menuTileRules .menuTileLabel, .menuTileSettings .menuTileLabel { font-size: 13px; padding-right: 0; }
+  .menuTileLegacy .menuTileCode, .menuTileTrophy .menuTileCode, .menuTileTrophyRoom .menuTileCode, .menuTileRules .menuTileCode, .menuTileSettings .menuTileCode { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
+  .menuTileLegacy, .menuTileTrophy, .menuTileTrophyRoom, .menuTileRules, .menuTileSettings { justify-content: center; }
+  .menuTileLegacy .tileIcon, .menuTileTrophy .tileIcon, .menuTileTrophyRoom .tileIcon, .menuTileRules .tileIcon, .menuTileSettings .tileIcon { display: none; }
   .menuTileTag { margin-top: 3px; padding: 3px 4px; letter-spacing: .02em; white-space: normal; line-height: 1.1; }
-  .menuTileLegacy .tileChevron, .menuTileTrophy .tileChevron, .menuTileRules .tileChevron, .menuTileSettings .tileChevron { right: 4px; bottom: 5px; width: 7px; height: 12px; }
-  .menuTileTrophy { padding-right: 14px; }
+  .menuTileLegacy .tileChevron, .menuTileTrophy .tileChevron, .menuTileTrophyRoom .tileChevron, .menuTileRules .tileChevron, .menuTileSettings .tileChevron { right: 4px; bottom: 5px; width: 7px; height: 12px; }
+  .menuTileTrophy, .menuTileTrophyRoom { padding-right: 14px; }
   .menuMusicTile {
     position: static; grid-column: 1 / -1; width: auto !important; height: auto !important; padding: 8px 10px;
     grid-template-columns: minmax(0, 1fr); grid-template-areas: "head" "sel" "ctrl"; row-gap: 6px;
@@ -329,7 +329,7 @@ footer {
   #continueCareer .menuTileMeta, .stage.primary-new #newShowdown .menuTileMeta { position: static !important; width: auto; height: auto; overflow: visible; clip: auto; clip-path: none; white-space: normal; }
   .tileIcon { width: 34px; height: 34px; right: 8px; top: 8px; margin-top: 0; }
   .tileChevron { right: 9px; bottom: 9px; }
-  .menuBottomStrip, footer { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; padding: 0; border: 0; }
+  .menuBottomStrip, footer { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; padding: 0; border: 0; }\n  .nav-reserve { flex: 0 0 calc(56px + env(safe-area-inset-bottom)); height: calc(56px + env(safe-area-inset-bottom)); }
   @media (max-height: 600px) {
     .plateView { min-height: 48px; }
     .fifaMenuShell { gap: 4px; padding: 5px 12px 5px; }
@@ -337,7 +337,7 @@ footer {
     .fifaMenuHeading h2 { font-size: 14px; padding-bottom: 3px; }
     .fifaMenuHeadingMeta { line-height: 1.24; }
     .menuMusicTile { padding: 6px 10px; row-gap: 5px; }
-    .menuTileLegacy, .menuTileTrophy, .menuTileRules, .menuTileSettings { min-height: 56px; padding-top: 5px; padding-bottom: 5px; }
+    .menuTileLegacy, .menuTileTrophy, .menuTileTrophyRoom, .menuTileRules, .menuTileSettings { min-height: 56px; padding-top: 5px; padding-bottom: 5px; }
     .menuTile { padding-top: 7px; padding-bottom: 7px; }
     .fifaMenuHeading h2 { margin-bottom: 3px; }
     .menuMusicStatus { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
