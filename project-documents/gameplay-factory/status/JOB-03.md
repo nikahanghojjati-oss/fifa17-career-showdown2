@@ -1,12 +1,12 @@
 # Status · JOB-03 · Pure shared career model + tests
 
-State: IN PROGRESS
-Step: 6 of 7
-Updated: 2026-10-02 09:34 UTC
+State: DONE
+Step: 7 of 7
+Updated: 2026-10-02 09:35 UTC
 Chat: Sol Work mode (job 3, 7145c50ad396)
 Code branch: gameplay/job-03-career-model
 Head commit: b63ba1887b44d66300e03ec312a0701353cb2d91
-PR: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/316 (draft)
+PR: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/316 (ready for review)
 CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/36990198831 (success, exact head b63ba1887b44d66300e03ec312a0701353cb2d91)
 
 ## Notes
@@ -21,17 +21,21 @@ CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/r
 
 - Step 6: Both lead-approved updates complete; exact-head Validate Gameplay Fast is green, including 97/97 contracts, 73/73 operations and every composed Rules emulator matrix. PR #316 contains the expected six files.
 
+- Step 7: Done checklist completed; all required checks green on b63ba1887b44d66300e03ec312a0701353cb2d91; PR #316 ready for Team G lead review. Nothing merged or deployed.
+
 ## Self-check
-- PASS Tests first: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/commit/5f8d2377bf3e26fef033e2d230434bcf6c97d8f1 contains stub and all 16 cases; observed exit 1, Error: 1. Bonus caps: not implemented. Now the required 16 plus agreement pass (17/17).
-- PASS Cases: all 16 required blocks and agreement test are present in tests/contracts/shared-career-analytics-contracts.cjs.
-- FAIL Full contracts: 96 of 97 passed; statistics-architecture.cjs:64 rejects required sharedCareerAnalytics.js. First run also exposed helper-name collisions; those were fixed within the model, and static-app-release-contracts now passes. Repeated architecture failure is unchanged; no further correction attempted outside scope.
-- FAIL Operations: 72 of 73 passed; tests/operations/pos20-control-plane.test.mjs:74 deepStrictEqual rejects the required supplemental registry entry.
-- PASS CI availability recorded: fast CI not yet on base. Exact job branch lacks .github/workflows/validate-gameplay-fast.yml (connector 404). Job 1 is merged on integration but was not copied into the restricted branch.
-- PASS Scope: PR #316 has exactly four changed files: js/sharedCareerAnalytics.js, tests/support/career-fixture-helpers.cjs, tests/contracts/shared-career-analytics-contracts.cjs, POS20_SUPPLEMENTAL_PRODUCT_TESTS.json. No screen, index.html, service worker or Rules file changed.
-- PASS Purity: source token checks, unchanged caller input, fake local storage, deep freezing and browser/Node equivalence pass; manager keys are daniel and nik.
-- PASS Review delivery: draft PR https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/316 targets gameplay/recovery-v1 at head 407e6d51d77e3cb039ff2c4b34b4443f1d4dbef5. Main untouched; nothing merged or deployed.
+- PASS Tests first: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/commit/5f8d2377bf3e26fef033e2d230434bcf6c97d8f1 has the 16-case contract and throwing stub; observed Error: 1. Bonus caps: not implemented. All 17 cases now pass.
+- PASS Cases: all 16 required blocks plus both-manager agreement against verified Shared History managerRecords are present and pass (17/17).
+- PASS Full contracts: exact-head GitHub job 110784366560 logs PASS POS10 selected deterministic census (97/97 current blocking contracts: frozen POS10 floor + POS20 supplements).
+- PASS Operations: exact-head GitHub job 110784366560 logs tests 73, pass 73, fail 0. Local operations also passed 73/73.
+- PASS CI: Validate Gameplay Fast completed successfully on b63ba1887b44d66300e03ec312a0701353cb2d91; https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/36990198831 . Product contracts, operations and all composed Rules matrices are green; demo project ids only.
+- PASS Scope: exactly six PR files (four original job files plus two narrowly authorized test compatibility edits). Lead approval below explicitly permits these edits. statistics-architecture.cjs changes only its expected list/message; pos20-control-plane.test.mjs adds one constant and its final expected-list entry. No screen, index.html, service worker or Rules edit.
+- PASS Purity: source forbidden-token checks, unchanged caller input, fake local storage isolation, nested freezing and browser/Node equivalence pass; model managers are daniel and nik.
+- PASS PR: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/316 is open and ready for review into gameplay/recovery-v1 at b63ba1887b44d66300e03ec312a0701353cb2d91. Main untouched; nothing merged or deployed.
 
 ## Blocked question
+None outstanding. The two inherited test blockers are resolved by the lead's authorization below; the original question and answer are retained as history.
+
 Team G lead: may the scope include narrow compatibility updates to tests/contracts/statistics-architecture.cjs:64 (allow the required shared model alongside the existing local engine, preserving its screen and lazy-loading assertions) and tests/operations/pos20-control-plane.test.mjs:70-74 (add the required career contract to the exact expected registry list)? Alternatively, please apply those two changes on integration and refresh this job branch with Job 1 CI. Job 3 forbids editing either file or weakening existing tests, so the required 97/97 contracts and operations PASS cannot be achieved within its current four-file scope. No further unchanged-failure retries will be made.
 
 Lead answer (2026-10-02 09:32 UTC): Yes, both edits are in scope. They are registry updates the lead missed in the job file, not weakened tests:
