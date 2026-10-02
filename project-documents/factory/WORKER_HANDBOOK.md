@@ -65,6 +65,10 @@ Every screen moves through the same path: truth sheet → plate (background art)
 
 Not for you, ever: `project-documents/model-relay/` (the old Sol relay; the trigger "it is in" belongs to a different project), `project-documents/leads-relay/` (Claude-to-Claude channel), POS20 / POS10 / SSJR files and AGENTS.md's POS20 rules (they govern changes to `main`, which workers never make).
 
+## 3b. Mockup images: open them from the project Files
+
+The chat cannot decode images it reads from GitHub. Every mockup and goal image is therefore also uploaded to the **Files of the ChatGPT project "Showdown visual"**, with exactly the same file names as in `project-documents/factory/mockups/` (for example `MOCKUP_START_JOIN.png`, `GOAL_HOME.jpg`). When a job names a mockup, open that file from the project Files and look at the image itself. Never work from a text description of a mockup. If the file is not in the project Files, set `State: BLOCKED` with the question "Please add <file name> to the project Files." and stop.
+
 ## 4. Reading the board
 
 `BOARD.md` starts with:

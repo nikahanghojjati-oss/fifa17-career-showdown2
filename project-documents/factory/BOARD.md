@@ -2,29 +2,29 @@
 
 Branch `factory/v1-wtt5ye`. 131 Team V jobs, plus 5 lines that track Team G. Open a new chat in the ChatGPT "Showdown visual" project and type a number. Up to 5 plain chats at once (at most 2 image jobs) plus up to 2 Sol Work mode workers.
 
-**Overall (Team V):** ░░░░░░░░░░ 7 % · 8 of 131 jobs done
+**Overall (Team V):** ░░░░░░░░░░ 8 % · 11 of 131 jobs done
 
-**Start now (plain chats, press Stay in Chat):** 10, 11, 13 · queued next: 14, 17, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 122, 124, 126, 130, 131, 132, 133, 134, 135
+**Start now (plain chats, press Stay in Chat):** 11, 13, 14, 17 · queued next: 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 122, 123, 124, 126, 130, 131, 132, 133, 134, 135
 
 **Start now (Sol Work mode, press Use Work):** -
 
-**Working:** 1, 9 · **Blocked:** 8
+**Working:** 8 · **Blocked:** -
 
 **Team G tracking (never start these):** 98 (open), 99 (open), 100 (open), 101 (open), 102 (open). Claude marks them done when Team G delivers.
 
 | # | Job | Phase | Type | Lane | Depends on | Progress | State | Claude look |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 0 | [Factory smoke test](jobs/JOB-000.md) | 0 Setup | test | plain | - | ██████████ 100 % | DONE |  |
-| 1 | [Baseline shots of the four built screens](jobs/JOB-001.md) | 0 Setup | review | plain (work if job 0 says no screenshots) | - | ████████░░ 80 % | IN PROGRESS |  |
+| 1 | [Baseline shots of the four built screens](jobs/JOB-001.md) | 0 Setup | review | plain (work if job 0 says no screenshots) | - | ██████████ 100 % | DONE |  |
 | 2 | [Truth sheet: Trophy Room](jobs/JOB-002.md) | 1 Truth | data | plain | - | ██████████ 100 % | DONE |  |
 | 3 | [Truth sheet: Career Statistics](jobs/JOB-003.md) | 1 Truth | data | plain | - | ██████████ 100 % | DONE |  |
 | 4 | [Truth sheet: Rivalry Statistics](jobs/JOB-004.md) | 1 Truth | data | plain | - | ██████████ 100 % | DONE |  |
 | 5 | [Truth sheet: Legacy (History)](jobs/JOB-005.md) | 1 Truth | data | plain | - | ██████████ 100 % | DONE |  |
 | 6 | [Truth sheet: Season Results](jobs/JOB-006.md) | 1 Truth | data | plain | - | ██████████ 100 % | DONE |  |
 | 7 | [Truth sheet: Final Winner](jobs/JOB-007.md) | 1 Truth | data | plain | - | ██████████ 100 % | DONE |  |
-| 8 | [Truth sheet: Start / Join](jobs/JOB-008.md) | 1 Truth | data | plain | - | ███████░░░ 71 % | BLOCKED |  |
-| 9 | [Truth sheet: Rule Book](jobs/JOB-009.md) | 1 Truth | data | plain | - | ████████░░ 85 % | IN PROGRESS |  |
-| 10 | [Truth sheet: Settings](jobs/JOB-010.md) | 1 Truth | data | plain | - | ░░░░░░░░░░ 0 % | NOT STARTED |  |
+| 8 | [Truth sheet: Start / Join](jobs/JOB-008.md) | 1 Truth | data | plain | - | █████░░░░░ 57 % | IN PROGRESS |  |
+| 9 | [Truth sheet: Rule Book](jobs/JOB-009.md) | 1 Truth | data | plain | - | ██████████ 100 % | DONE |  |
+| 10 | [Truth sheet: Settings](jobs/JOB-010.md) | 1 Truth | data | plain | - | ██████████ 100 % | DONE |  |
 | 11 | [Truth sheet: Loading](jobs/JOB-011.md) | 1 Truth | data | plain | - | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 12 | [Showdown tokens and type system](jobs/JOB-012.md) | 2 Foundation | build | plain (work if job 0 says no screenshots) | - | ██████████ 100 % | DONE |  |
 | 13 | [Panel, button and table kit](jobs/JOB-013.md) | 2 Foundation | build | plain (work if job 0 says no screenshots) | 12 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
