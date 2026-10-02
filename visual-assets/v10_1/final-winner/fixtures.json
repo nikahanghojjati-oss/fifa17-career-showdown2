@@ -559,5 +559,36 @@
     "completedStatus": "TERMINAL · NO NEW SESSION · NO NEW SEASON · FINAL RESULTS REMAIN READ-ONLY",
     "completionState": "completed",
     "note": "One online completed surface: verified shared Terminal Close result; dashboard is a local reference only."
+  },
+  "phone": {
+    "viewport": {
+      "width": 393,
+      "height": 660
+    },
+    "safetyViewport": {
+      "width": 360,
+      "height": 640
+    },
+    "shortViewport": {
+      "width": 375,
+      "height": 553
+    },
+    "pageScroll": false,
+    "bottomBar": "hidden",
+    "heightStrategy": "100svh with 100dvh enhancement; safe area inside the visible-height budget",
+    "winnerFirst": "Announce the confirmed winner in the top band before supporting totals and actions. Keep both managers in their permanent left/right slots.",
+    "managerOrder": [
+      "daniel",
+      "nik"
+    ],
+    "mirrorArt": false,
+    "bands": {
+      "heroTargetPx": 360,
+      "contentTargetPx": 300,
+      "shortViewportRule": "Reduce hero height and decorative spacing first; preserve readable text, 44px targets and the primary action inside the viewport."
+    },
+    "drawTreatment": "DRAW and The showdown finishes level in the top band, no crown; balanced Daniel-left/Nik-right heroes.",
+    "actionLayout": "Two-column grid of existing destinations; Daniel/Nik data remain paired left/right. Three rows of >=44px targets for five completed navigation controls; MAIN MENU last. Pending close remains primary.",
+    "missingData": "Neutral top-band state copy when no confirmed winner; partial winner only when both final totals are authoritative."
   }
 }

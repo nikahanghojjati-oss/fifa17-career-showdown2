@@ -356,6 +356,16 @@ There is no dedicated Final Winner mockup. `MOCKUP_SEASON_RESULTS.jpg` and `MOCK
 The styling target is therefore a premium stadium ceremony with the two managers and trophy-cabinet polish, while the product content stays intentionally small: final totals, winner, margin, seasons played, per-Showdown trophy attribution, completion state and only the real actions for that state.
 
 
+## Phone
+
+The reveal fills the entire 393 × 660 visible Safari area with no page scroll. Hide the 56 px bottom navigation bar on this reveal; it reserves no space. Use `100svh` with a `100dvh` enhancement and include safe-area insets within the height budget. A later build must measure fit rather than simply clip overflow.
+
+Winner first means the confirmed outcome leads the top band, before supporting totals and actions. It never means swapping managers: Daniel stays left and Nik right in the hero pair, score columns, trophy counts and reading order. A Nik win highlights the right-hand hero and announces Nik at the top. A draw announces `DRAW` / `The showdown finishes level`, has no crown and uses balanced lighting. Loading, empty and unavailable use neutral state copy; partial uses a winner only when both totals are confirmed.
+
+At 393 × 660, budget roughly 360 px for the top band (brush heading, outcome and fully visible heads) and 300 px for the compact result/action band. Keep both totals side by side, supporting margin/seasons and the three trophy-family counts compact. Missing partial fields use the explicit availability message, never zeroes. Five completed navigation actions use two columns over three rows with targets at least 44 × 44 px; MAIN MENU is last. Pending completion keeps `CLOSE SHARED SHOWDOWN` as the visible primary action. Do not invent a next-season control or a new detail route.
+
+Safety fit is 360 × 640 with no scroll. At 375 × 553 the primary action must remain fully visible. Reduce hero height and decorative spacing before reducing body readability or touch targets; keep heads visible, body contrast at least 4.5:1, and live text at full opacity. Larger text settings and landscape may reflow as PRODUCT_TRUTH permits. These are build requirements, not claims that screenshots were measured in this truth-sheet job.
+
 ## Open questions
 
 None blocking. JOB-134 resolves the presentation choices as follows.
