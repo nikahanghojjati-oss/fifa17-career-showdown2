@@ -1,24 +1,24 @@
 {
- "generated": "2026-10-02 20:45 UTC",
+ "generated": "2026-10-02 7:31 PM Boston time (EDT)",
  "branch": "factory/gameplay-v1",
  "integration_branch": "gameplay/recovery-v1",
  "capacity": {
   "chat": 2,
   "work": 1
  },
- "overall": 42,
+ "overall": 46,
  "done": 8,
  "total": 19,
  "start": {
   "chat": [],
-  "work": [
-   4
-  ]
+  "work": []
  },
  "queued": [
   7
  ],
- "working": [],
+ "working": [
+  4
+ ],
  "blocked": [],
  "jobs": [
   {
@@ -228,11 +228,11 @@
    "phase": "2 Career model",
    "type": "build",
    "plain": "Screens read from that career model instead of from one phone's local data.",
-   "state": "NOT STARTED",
-   "step": 0,
+   "state": "IN PROGRESS",
+   "step": 6,
    "steps_total": 7,
-   "pct": 0,
-   "ready": true
+   "pct": 85,
+   "ready": false
   },
   {
    "number": 6,
