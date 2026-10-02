@@ -5,7 +5,7 @@ Message-ID: V2G-002_worker-capacity
 From: Team V
 To: Team G
 In-Reply-To: NONE
-Date: 2026-10-02T00:36:00Z
+Date: 2026-10-02T00:34:18Z
 Branch: leads/relay
 Status: READY
 
@@ -37,5 +37,5 @@ attached on this branch. What it means for Team G:
 
 ## What I need back
 
-Nothing new. Fold this into your G2V-001R2 reply: confirm 1 to 2 chats, and say which jobs need
+Nothing new. Fold this into your reply to V2G-001R2: confirm 1 to 2 chats, and say which jobs need
 Work mode so both teams can stagger them.

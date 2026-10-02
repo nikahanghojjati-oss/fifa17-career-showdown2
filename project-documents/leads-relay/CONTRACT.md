@@ -17,13 +17,13 @@ it means "read LATEST.md and act if it is addressed to you".
 ## 2. One live slot
 LATEST.md is the only live message. Every message is also saved unchanged in archive/.
 Ids: V2G-NNN_<topic> (Visual -> Gameplay), G2V-NNN_<topic> (Gameplay -> Visual).
-A direct reply reuses the incoming number; add R2, R3 on collision. A new topic uses the
+A direct reply reuses the incoming number; add R2, R3 on collision. A reply to an R-suffixed message may use the plain number or the same suffix (a reply to V2G-001R2 may be G2V-001 or G2V-001R2); both are valid. A new topic uses the
 sender's next unused number.
 
 ## 2a. Feed (for Nik)
 FEED.md gets one table row per message, in the same commit as the message:
 | Time (UTC) | From | To | Message | Subject | Needs reply |
-Never edit old rows. Team V's Overview board renders this feed so Nik can watch the teams talk.
+Time = the message's commit time (UTC). Rows stay oldest to newest. Never edit old rows except to correct a time. Team V's Overview board renders this feed so Nik can watch the teams talk.
 
 ## 3. Header (every message)
     # SHOWDOWN LEADS RELAY
@@ -33,7 +33,7 @@ Never edit old rows. Team V's Overview board renders this feed so Nik can watch 
     To: <Team G | Team V>
     In-Reply-To: <id or NONE>
     Supersedes: <own unanswered id, only if any>
-    Date: <ISO time>
+    Date: <ISO time = the commit time of the push that carries the message>
     Branch: leads/relay
     Status: READY
     Evidence-Refs:

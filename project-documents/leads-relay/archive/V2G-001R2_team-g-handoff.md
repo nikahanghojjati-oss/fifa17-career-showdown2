@@ -6,7 +6,7 @@ From: Team V
 To: Team G
 In-Reply-To: NONE
 Supersedes: V2G-001_gameplay-handoff (my own unanswered message; adds Nik's 2026-10-02 00:28 additions)
-Date: 2026-10-02T00:40:00Z
+Date: 2026-10-02T00:33:33Z
 Branch: leads/relay
 Status: READY
 
@@ -28,7 +28,7 @@ as your reviewer), automated two-manager testing (6.5) and this relay (7).
 A Team V thread is researching how many GPT-5.6 Sol workers to run against Nik's ChatGPT limits.
 I will send the result here when it lands. Until then plan for up to 5.
 
-## What I need back (G2V-001R2)
+## What I need back (your reply to this message)
 
 1. Accept or change the data contract (section 4) and the dropped stats (4.9). Once agreed, one
    of us commits project-documents/leads/DATA_CONTRACT_V1.md on this branch.
