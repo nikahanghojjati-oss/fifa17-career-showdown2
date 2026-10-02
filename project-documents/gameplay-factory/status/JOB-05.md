@@ -1,13 +1,13 @@
 # Status · JOB-05 · Active Showdown adapter (Rivalry, Continue, tiebreak, final state)
 
 State: IN PROGRESS
-Step: 5 of 7
-Updated: 2026-10-02 19:38 UTC
+Step: 6 of 7
+Updated: 2026-10-02 19:42 UTC
 Chat: Sol Work mode (job 5, 82817ee4c652)
 Code branch: gameplay/job-05-active-adapter
 Head commit: 62f06893de994fa1f86ee19f5e39b2ad0136ab30
-PR:
-CI run:
+PR: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/319
+CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37055468354 (success, exact head 62f06893de994fa1f86ee19f5e39b2ad0136ab30)
 
 ## Notes
 - Step 1: Job 3 merged (#316); code branch matches integration at 4491e36. npm ci exit 0; contracts PASS census 97/97; operations pass 73, fail 0. Node v24.19.0. Connector saves; CI will supply emulator proof.
@@ -21,6 +21,8 @@ CI run:
 - Step 5: All 19 cases PASS; every shared manager field and score agrees with job 3 for both managers across three accepted active seasons. Sentinel check covers aggregate career input; already-frozen provider projections retain full deep-freeze.
 
 - Step 5: Step 6 in progress: exact registry edits saved. Static-release duplicate-name guard found plain/freeze/context collisions; renamed only adapter helpers. Local contracts now 98/98 and operations pass 73, fail 0. Awaiting exact-head Validate Gameplay Fast on 62f06893de994fa1f86ee19f5e39b2ad0136ab30.
+
+- Step 6: Registry edits complete; contracts 98/98, operations pass 73/fail 0 locally and in CI. Validate Gameplay Fast succeeded on 62f06893de994fa1f86ee19f5e39b2ad0136ab30 including every emulator matrix and two-manager journey. PR #319 opened into gameplay/recovery-v1.
 
 ## Self-check
 
