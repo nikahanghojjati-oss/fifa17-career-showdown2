@@ -1,4 +1,4 @@
-name: Job 31 Home final QA
+name: Job 31 Home seam hairline pass
 on:
   push:
     branches: [factory/v1-wtt5ye]
@@ -6,48 +6,228 @@ on:
       - ".github/workflows/job31-home-edges.yml"
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
-  qa:
+  repair:
     runs-on: ubuntu-latest
     timeout-minutes: 35
     steps:
       - uses: actions/checkout@v4
         with:
           ref: factory/v1-wtt5ye
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
-      - name: Install Playwright
+      - name: Install dependencies
         run: |
+          python -m pip install --quiet pillow numpy
           npm install -g playwright@1.55.0
           npx playwright install --with-deps chromium
-      - name: Run Home render QA
+
+      - name: Kill residual hairlines with adjacent-ring patches
         shell: bash
         run: |
           set -euo pipefail
+          python3 <<'PY'
+          from pathlib import Path
+          from PIL import Image, ImageFilter, ImageDraw, ImageFont
+          import numpy as np, json, hashlib, math, re
+
+          home=Path("visual-assets/v10_1/home"); assets=home/"assets"
+          pm=json.loads((assets/"platemap.json").read_text())
+          p1=assets/"ENV_HOME_PLATE_V1_1X.png"
+          cur=Image.open(p1).convert("RGB")
+          a=np.asarray(cur).astype(np.float32)
+          H,W=a.shape[:2]
+
+          remove=np.zeros((H,W),bool)
+          for x0,y0,x1,y1 in pm["remove_rects"]:
+              remove[y0:y1,x0:x1]=True
+          protected=np.zeros((H,W),bool)
+          for x0,y0,x1,y1 in pm["protected_boxes"].values():
+              protected[y0:y1,x0:x1]=True
+
+          # Hairline patch: mirror the adjacent 12 px ring into the generated side,
+          # strongest at the seam and fading to zero. This preserves real local texture.
+          def patch_h(edge,x0,x1,inside):
+              xs=np.arange(max(0,x0),min(W,x1)); band=12
+              for d in range(band):
+                  y=edge-1-d if inside<0 else edge+d
+                  sy=edge+d if inside<0 else edge-1-d
+                  if not (0<=y<H and 0<=sy<H): continue
+                  w=0.92*(1-d/band)**2
+                  ok=(remove[y,xs] & ~protected[y,xs])
+                  xx=xs[ok]
+                  if len(xx): a[y,xx]=a[y,xx]*(1-w)+a[sy,xx]*w
+
+          def patch_v(edge,y0,y1,inside):
+              ys=np.arange(max(0,y0),min(H,y1)); band=12
+              for d in range(band):
+                  x=edge-1-d if inside<0 else edge+d
+                  sx=edge+d if inside<0 else edge-1-d
+                  if not (0<=x<W and 0<=sx<W): continue
+                  w=0.92*(1-d/band)**2
+                  ok=(remove[ys,x] & ~protected[ys,x])
+                  yy=ys[ok]
+                  if len(yy): a[yy,x]=a[yy,x]*(1-w)+a[yy,sx]*w
+
+          # D5 / D6 / D7 outside-ring edges.
+          patch_h(84,0,968,-1)
+          patch_h(88,1305,1520,-1)
+          patch_h(84,1522,1662,-1)
+          patch_v(1662,4,84,-1)
+          patch_h(118,40,605,+1)
+
+          # D2 right edges (outside is clean stadium, well clear of the suit edge).
+          patch_v(530,398,535,-1)
+          patch_v(530,540,678,-1)
+
+          # D3: zones 4 and 5 overlap at y 535..540. Make their shared band one
+          # continuous low-frequency field while preserving the current high-frequency texture.
+          img=Image.fromarray(np.clip(a,0,255).astype(np.uint8),"RGB")
+          low=np.asarray(img.filter(ImageFilter.GaussianBlur(radius=2))).astype(np.float32)
+          hi=a-low
+          xs=np.arange(140,530)
+          top=low[528,xs]; bot=low[547,xs]
+          for y in range(529,547):
+              t=(y-529)/(547-529)
+              target=top*(1-t)+bot*t
+              ok=(remove[y,xs] & ~protected[y,xs]); xx=xs[ok]
+              if len(xx):
+                  tv=target[ok]
+                  # retain texture; only the smooth field bridges the seam.
+                  a[y,xx]=np.clip(tv+hi[y,xx],0,255)
+
+          out=np.rint(a).astype(np.uint8)
+
+          # Reassert the job's immutable pixels against the pre-Job31 source.
+          prev=$(git log --format=%H -- "$p1" | tail -n 1)
+          # Python cannot expand shell above; original lock is read from git-created temp below.
+          Image.fromarray(out,"RGB").save(p1,optimize=True)
+          PY
+
+          # Recover the original approved source from the oldest plate revision and enforce locks.
+          FIRST=$(git log --format=%H --reverse -- visual-assets/v10_1/home/assets/ENV_HOME_PLATE_V1_1X.png | head -1)
+          git show "$FIRST:visual-assets/v10_1/home/assets/ENV_HOME_PLATE_V1_1X.png" > /tmp/home-approved-1x.png || true
+          FIRST2=$(git log --format=%H --reverse -- visual-assets/v10_1/home/assets/ENV_HOME_PLATE_V1_2X.png | head -1)
+          git show "$FIRST2:visual-assets/v10_1/home/assets/ENV_HOME_PLATE_V1_2X.png" > /tmp/home-approved-2x.png || true
+
+          python3 <<'PY'
+          from pathlib import Path
+          from PIL import Image
+          import numpy as np,json,hashlib
+          home=Path("visual-assets/v10_1/home"); assets=home/"assets"
+          pm=json.loads((assets/"platemap.json").read_text())
+          p1=assets/"ENV_HOME_PLATE_V1_1X.png"
+          fixed=np.asarray(Image.open(p1).convert("RGB"))
+          approved=np.asarray(Image.open("/tmp/home-approved-1x.png").convert("RGB"))
+          H,W=fixed.shape[:2]
+          remove=np.zeros((H,W),bool)
+          for x0,y0,x1,y1 in pm["remove_rects"]: remove[y0:y1,x0:x1]=True
+          prot=np.zeros((H,W),bool)
+          for x0,y0,x1,y1 in pm["protected_boxes"].values(): prot[y0:y1,x0:x1]=True
+          fixed[~remove]=approved[~remove]; fixed[prot]=approved[prot]
+          assert np.array_equal(fixed[~remove],approved[~remove])
+          assert np.array_equal(fixed[prot],approved[prot])
+          im=Image.fromarray(fixed,"RGB")
+          im.save(p1,optimize=True)
+          im.save(assets/"ENV_HOME_PLATE_V1_1X.webp","WEBP",quality=88,method=6)
+
+          orig2=Image.open("/tmp/home-approved-2x.png").convert("RGB")
+          two=im.resize((W*2,H*2),Image.Resampling.LANCZOS)
+          for x0,y0,x1,y1 in pm["protected_boxes"].values():
+              b=(x0*2,y0*2,x1*2,y1*2); two.paste(orig2.crop(b),b)
+          two.save(assets/"ENV_HOME_PLATE_V1_2X.png",optimize=True)
+          two.save(assets/"ENV_HOME_PLATE_V1_2X.webp","WEBP",quality=88,method=6)
+
+          def sha(p): return hashlib.sha256(Path(p).read_bytes()).hexdigest()
+          fs=["ENV_HOME_PLATE_V1_1X.png","ENV_HOME_PLATE_V1_1X.webp","ENV_HOME_PLATE_V1_2X.png","ENV_HOME_PLATE_V1_2X.webp"]
+          hashes={f:sha(assets/f) for f in fs}; pm["sha256"].update(hashes)
+          (assets/"platemap.json").write_text(json.dumps(pm,indent=1)+"\n")
+          txt=(assets/"intake_report.md").read_text()
+          h="### Current plate SHA-256"
+          if h in txt: txt=txt.split(h)[0].rstrip()+"\n\n"+h+"\n\n"
+          else: txt=txt.rstrip()+"\n\n"+h+"\n\n"
+          for f in fs: txt+=f"- `{f}` `{hashes[f]}`\n"
+          (assets/"intake_report.md").write_text(txt+"\n")
+          PY
+
+      - name: Re-render exact Step-1 crops and sheet
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT="visual-assets/v10_1/home/evidence/edges_after"
+          rm -rf "$OUT/full" "$OUT/crops"
+          mkdir -p "$OUT/full" "$OUT/crops"
           python3 -m http.server 8765 >/tmp/job31-server.log 2>&1 &
-          SERVER_PID=$!
-          trap 'kill $SERVER_PID 2>/dev/null || true' EXIT
+          SERVER_PID=$!; trap 'kill $SERVER_PID 2>/dev/null || true' EXIT
           for i in $(seq 1 30); do curl -fsS http://127.0.0.1:8765/ >/dev/null && break; sleep 1; done
-          mkdir -p /tmp/homeqa
-          NODE_PATH=$(npm root -g) node visual-assets/v10_1/home/tools/render-qa.cjs \
-            http://127.0.0.1:8765/visual-assets/v10_1/home/ /tmp/homeqa
-          node <<'NODE'
-          const fs=require("fs");
-          const q=JSON.parse(fs.readFileSync("/tmp/homeqa/qa_report.json","utf8"));
-          console.log("FINAL_SUMMARY",JSON.stringify(q.summary));
-          console.log("PLATE_SHA",JSON.stringify(q.plateSha));
-          console.log("SEAM_SUMMARY",JSON.stringify(q.seamSummary));
-          if(!q.summary || q.summary.failingShots!==0) process.exit(2);
-          for(const [name,v] of Object.entries(q.plateSha||{})){
-            if(!v.inIntakeReport || !v.inPlatemap) throw new Error("plate hash not registered: "+name);
-          }
+          NODE_PATH=$(npm root -g) node <<'NODE'
+          const {chromium}=require("playwright"),path=require("path");
+          const out="visual-assets/v10_1/home/evidence/edges_after";
+          const base="http://127.0.0.1:8765/visual-assets/v10_1/home/index.html";
+          (async()=>{const b=await chromium.launch({headless:true});
+            for(const [w,h] of [[1366,768],[1920,1080]]) for(const f of ["HM1","HM2","HM3"]){
+              const p=await b.newPage({viewport:{width:w,height:h},deviceScaleFactor:1});
+              await p.goto(base+"?frame="+f,{waitUntil:"networkidle"}); await p.waitForFunction(()=>window.__homeReady===true);
+              await p.screenshot({path:path.join(out,"full",`${f}_${w}x${h}_final.png`)}); await p.close();
+            }
+            await b.close();
+          })().catch(e=>{console.error(e);process.exit(1)});
           NODE
-      - uses: actions/upload-artifact@v4
-        with:
-          name: job31-final-qa
-          path: /tmp/homeqa
-          if-no-files-found: error
-          compression-level: 6
+
+          python3 <<'PY'
+          from pathlib import Path
+          from PIL import Image,ImageDraw,ImageFont
+          import json,re
+          home=Path("visual-assets/v10_1/home"); before=home/"evidence/edges_before"; after=home/"evidence/edges_after"
+          for wh in ["1366x768","1920x1080"]:
+              w,h=map(int,wh.split("x")); boxes=json.loads((before/f"boxes_{wh}.json").read_text())
+              (after/f"boxes_{wh}.json").write_text(json.dumps(boxes,indent=2)+"\n")
+              for frame in ["HM1","HM2","HM3"]:
+                  im=Image.open(after/"full"/f"{frame}_{wh}_final.png").convert("RGB")
+                  for i,b in enumerate(boxes):
+                      l=max(0,int(b["left"]));t=max(0,int(b["top"]));r=min(w,int(b["right"]));bt=min(h,int(b["bottom"]))
+                      if r-l<2 or bt-t<2: continue
+                      c=im.crop((l,t,r,bt)).resize(((r-l)*4,(bt-t)*4),Image.Resampling.NEAREST)
+                      n=re.sub(r"[^A-Za-z0-9_-]+","_",b["name"]).strip("_") or f"box{i:02d}"
+                      c.save(after/"crops"/f"{frame}_{wh}_final_{i:02d}_{n}_x4.jpg",quality=96,subsampling=0,optimize=True)
+          bef=Image.open(before/"full/HM1_1920x1080_mends_on.png").convert("RGB")
+          aft=Image.open(after/"full/HM1_1920x1080_final.png").convert("RGB")
+          regs=[("D1",(26,115,698,801)),("D2",(591,446,626,789)),("D3",(29,597,620,638)),("D4",(1505,0,1920,123)),("D5",(1491,79,1920,119)),("D6",(0,79,1122,114)),("D7",(35,118,706,153))]
+          W=1500;lw=220;cw=(W-lw)//2;rh=180;hh=60
+          sh=Image.new("RGB",(W,hh+rh*len(regs)),(10,11,14));d=ImageDraw.Draw(sh);font=ImageFont.load_default()
+          d.text((16,18),"JOB-031 · BEFORE / AFTER · 1920×1080 REGISTERED",fill=(242,196,91),font=font)
+          def fit(im,bw,bh):
+              k=min(bw/im.width,bh/im.height);return im.resize((max(1,round(im.width*k)),max(1,round(im.height*k))),Image.Resampling.LANCZOS)
+          for i,(n,box) in enumerate(regs):
+              y=hh+i*rh;d.text((16,y+20),n,fill=(244,241,234),font=font)
+              for ci,src in enumerate((bef,aft)):
+                  t=fit(src.crop(box),cw-20,rh-20);x=lw+ci*cw+(cw-t.width)//2;yy=y+(rh-t.height)//2;sh.paste(t,(x,yy));d.rectangle((x,yy,x+t.width-1,yy+t.height-1),outline=(120,105,60))
+          sh.save(home/"evidence/EDGES_BEFORE_AFTER.png",optimize=True)
+          PY
+
+      - name: Commit hairline correction
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 <<'PY'
+          from pathlib import Path
+          from datetime import datetime,timezone
+          import re
+          p=Path("project-documents/factory/status/JOB-031.md");s=p.read_text()
+          s=re.sub(r"Updated: .*","Updated: "+datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"),s,count=1)
+          n="- Step 3/4 polish: the v2 local match removed block artifacts but 400% review still caught hairlines at D2/D3/D5. Added a final 12 px adjacent-ring mirror feather plus a continuous low-frequency bridge across the overlapping zones 4/5 band, then regenerated all Step-4 evidence.\n"
+          if n not in s:s=s.replace("## Self-check",n+"\n## Self-check")
+          p.write_text(s)
+          PY
+          git config user.name "Showdown Factory Job 31";git config user.email "actions@users.noreply.github.com"
+          git add visual-assets/v10_1/home/assets/ENV_HOME_PLATE_V1_1X.png visual-assets/v10_1/home/assets/ENV_HOME_PLATE_V1_1X.webp                   visual-assets/v10_1/home/assets/ENV_HOME_PLATE_V1_2X.png visual-assets/v10_1/home/assets/ENV_HOME_PLATE_V1_2X.webp                   visual-assets/v10_1/home/assets/platemap.json visual-assets/v10_1/home/assets/intake_report.md                   visual-assets/v10_1/home/evidence/edges_after visual-assets/v10_1/home/evidence/EDGES_BEFORE_AFTER.png                   project-documents/factory/status/JOB-031.md
+          git commit -m "Job 31 step 4/5: remove residual seam hairlines"
+          git pull --rebase origin factory/v1-wtt5ye
+          git push origin HEAD:factory/v1-wtt5ye
