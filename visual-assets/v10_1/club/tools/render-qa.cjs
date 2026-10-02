@@ -194,7 +194,7 @@ function measure(args) {
   const bgs = new Set();
   document.querySelectorAll("*").forEach(e => { const bi = getComputedStyle(e).backgroundImage; if (bi && bi.includes("url(")) bgs.add(bi.replace(location.origin, "")); });
   const allowed = u => /ENV_CLUB_PLATE_V1_[12]X\.(webp|png)/.test(u)
-  || /OVL_CLUB_(?:SEAM_MENDS|HAND_CONTACTS|DANIEL_(?:TOP|SIDE)_HAND|NIK_(?:TOP|SIDE)_HAND)_V1_[12]X\.webp/.test(u)
+  || /OVL_CLUB_(?:SEAM_MENDS|HAND_CONTACTS|HAND_CORES|DANIEL_(?:TOP|SIDE)_HAND|NIK_(?:TOP|SIDE)_HAND)_V1_[12]X\.webp/.test(u)
   || /^data:image\/svg/.test(u);
   r.G9 = { loaded: imgs, cssBackgrounds: [...bgs], pass: imgs.every(allowed) };
   if (!r.G9.pass) r.fail.push("G9");

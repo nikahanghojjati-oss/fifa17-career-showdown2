@@ -196,6 +196,8 @@
     // JOB-043: the derived contact shadow paints on the pack below the fingers.
 const contact = el("div", "handContact plateDup", world);
 contact.style.backgroundImage = "image-set(url(assets/OVL_CLUB_HAND_CONTACTS_V1_1X.webp) 1x, url(assets/OVL_CLUB_HAND_CONTACTS_V1_2X.webp) 2x)";
+const handCore = el("div", "handCore plateDup", world);
+handCore.style.backgroundImage = "image-set(url(assets/OVL_CLUB_HAND_CORES_V1_1X.webp) 1x, url(assets/OVL_CLUB_HAND_CORES_V1_2X.webp) 2x)";
 const handAsset = {
 hand_daniel_top: "OVL_CLUB_DANIEL_TOP_HAND_V1",
 hand_daniel_side: "OVL_CLUB_DANIEL_SIDE_HAND_V1",

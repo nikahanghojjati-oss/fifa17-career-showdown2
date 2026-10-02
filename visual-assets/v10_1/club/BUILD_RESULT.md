@@ -130,3 +130,12 @@ OWNER-3 QA (`qa_report.json → owner3`, 1366×768 and 390×844, CL3–CL6). Eac
 4. Added 393×660 @3 (Nik's iPhone, Safari) for every frame: `evidence/CL1..CL6_393x660.jpg`. No page scroll, primary fully visible, faces whole in CL1–CL4 and out of frame in CL5/CL6.
 
 QA re-run: 60/60 shots pass G1–G12. OWNER-3 unchanged: 0 px registration and 0 reveal px above hands.
+
+## JOB-043 registration, face, hand and seam polish (2026-10-02)
+
+- **Registration:** normal 16:9 desktop uses a centred cover transform with no extra vertical bias. At 1920×1080 the 1536×864 plate lands at offset (0,0) with k=1.25.
+- **Mockup gate:** PASS. Face SSIM Daniel 0.993, Nik 0.983; before JOB-043 they were 0.150/0.239. Build SSIM 0.672, mean ΔE 7.7.
+- **Seams:** six residual face/hand/pack-adjacent seams use a registered transparent tone-matched repair layer that is asserted clear of protected face, pack and hand regions. Evidence: `evidence/edges_before/DEFECTS.md` and `evidence/EDGES_BEFORE_AFTER.png`.
+- **Hands/contact:** all four visible gripping hands are shared-tool straight-alpha cutouts from the approved 2X Club plate. A plate-pixel underlay grown by one logical pixel sits below those feathered cutouts only to block reveal light inside the protected hand interior. Top-finger contact shadows are derived from hand alpha, offset 2.5 logical px and blurred 2.5 px beneath the grip.
+- **QA:** 60/60 Club shots pass G1–G12, plate SHA is unchanged, and OWNER-3 passes at desktop and phone. The only compositor floor is one physical pixel at max RGB delta 3 in 390×844 CL5, present at t=0 and unchanged through the reveal timeline; no reveal energy increases above the protected hand. Full report: `evidence/job43_qa_report.json`.
+
