@@ -63,5 +63,5 @@ Gameplay factory job 90. Read https://raw.githubusercontent.com/nikahanghojjati-
 - The lead regenerates `BOARD.md` with `python3 project-documents/gameplay-factory/tools/board.py` on every wake.
 - One build, one lead review (plus Codex on G-7, G-8, G-10, G-12 and the final gated PR into `main`), one fix round. A job that fails the same check twice is BLOCKED and the lead rewrites it.
 - Zip deliveries Nik drops in the lead's chat are committed as `Job N done: <title> (zip from Nik)`.
-- The lead merges reviewed worker PRs into `gameplay/recovery-v1`. Only the lead opens the one gated PR from there into `main`, under the POS20 gates in `AGENTS.md`, and only with Nik's OK.
+- The lead merges reviewed worker PRs into `gameplay/recovery-v1` without asking Nik each time (Nik's standing OK, 2 Oct 2026): DONE status, green "Validate Gameplay Fast" and POS20 checks on the exact head, and the Codex review handled when the job requires one (the worker requests it with `@codex review`, WORKER_HANDBOOK.md §7a). Only the lead opens the one gated PR from there into `main`, under the POS20 gates in `AGENTS.md`, and only with Nik's OK.
 - Capacity: 1 to 2 normal chats for Team G, plus Work-mode workers (1, then 2 once job 90 proves Work mode runs the suites). Work mode and Codex share one pool.

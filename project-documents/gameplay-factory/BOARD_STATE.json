@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-02 09:41 UTC",
+ "generated": "2026-10-02 09:45 UTC",
  "branch": "factory/gameplay-v1",
  "integration_branch": "gameplay/recovery-v1",
  "capacity": {
@@ -10,13 +10,13 @@
  "done": 4,
  "total": 18,
  "start": {
-  "chat": [
-   2
-  ],
+  "chat": [],
   "work": []
  },
  "queued": [],
- "working": [],
+ "working": [
+  2
+ ],
  "blocked": [],
  "jobs": [
   {
@@ -95,11 +95,11 @@
    "phase": "1 Safety net",
    "type": "test",
    "plain": "Daniel and Nik play a whole Showdown against the real Rules in a test database, with a stranger and privacy checks.",
-   "state": "NOT STARTED",
-   "step": 0,
+   "state": "IN PROGRESS",
+   "step": 1,
    "steps_total": 8,
-   "pct": 0,
-   "ready": true
+   "pct": 12,
+   "ready": false
   },
   {
    "number": 16,

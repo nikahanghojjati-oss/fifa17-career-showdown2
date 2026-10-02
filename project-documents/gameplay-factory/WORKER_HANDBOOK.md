@@ -30,7 +30,7 @@ Raw link pattern (works without the GitHub connector):
 | **Claude, Team G lead** | Wrote every job, owns gameplay product truth and the board, answers BLOCKED questions, reviews and merges your code, commits zip deliveries. |
 | **You (GPT-5.6 Sol worker)** | Do one job per chat, exactly as written. |
 | **Team V** | The Claude visual team. It has its own factory and ChatGPT project; its job numbers are not yours. |
-| **Codex** | Reviewer on a few jobs; the job header says when. |
+| **Codex** | Reviewer on jobs whose header says "Codex review: yes". You request it yourself as a job step (see §7a); Codex reviews the PR on GitHub. |
 | **Daniel** | Manager 1 = `playerOne`, always on the LEFT. |
 | **Nik (in the game)** | Manager 2 = `playerTwo`. |
 
@@ -127,7 +127,15 @@ Find out once, at the start, what your chat can write.
 
 **When you cannot run the tests yourself** (no terminal, or `npm ci` cannot reach the registry): commit the code to the job's code branch anyway. The workflow "Validate Gameplay Fast" runs the contract suites and the Firebase emulator on GitHub for every push to `gameplay/**` (once job 1 is merged). Read its result on your exact head commit (the Actions tab, or the PR's checks) and fix until it is green. Write the run link in the status file. This is the normal path, not a failure.
 
-## 8. Doing the steps well
+## 7a. Finishing a job: tests, Codex, merge
+
+Your job is only DONE when the lead can merge it without re-testing it.
+
+1. **Tests are part of the job.** Run the tests the job file names (reasonable for what the job touches, not every test in the repo) and make "Validate Gameplay Fast" green on your exact head commit. Write the evidence in the Self-check.
+2. **Codex review (only when the header says "Codex review: yes").** After CI is green and the PR is open, post one PR comment that says exactly `@codex review`. Set State: WAITING ON CODEX and wait. When the review arrives, fix every finding that is a real bug (push, wait for green CI again) and reply on each finding thread in one line: fixed in <commit>, or why not. Then set State: DONE. If Codex does not answer, write that in the status file and set State: DONE; the lead decides.
+3. **Merge.** You never merge. When your status says DONE with green CI on the exact head (and Codex handled, if required), the lead checks it and merges your PR into `gameplay/recovery-v1`. Nik does not have to approve each merge. Nothing goes to `main` without Nik's own words.
+
+
 
 - Write the failing test first when the job says so, and save it before the code.
 - Run the exact commands the job gives and record the last line of output. "It should pass" is not evidence; the output is.
