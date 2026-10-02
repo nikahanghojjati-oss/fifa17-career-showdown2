@@ -116,24 +116,24 @@
           "seasonLosses": 7,
           "championsLeagues": 2,
           "leagueTitles": 4,
-          "domesticCups": 3,
-          "totalTrophies": 9,
+          "domesticCups": 2,
+          "totalTrophies": 8,
           "hundredPointSeasons": 3,
           "hundredGoalSeasons": 3,
-          "topScorerSeasons": 4,
+          "topScorerSeasons": 3,
           "topAssistSeasons": 3,
           "perfectSeasons": 0,
           "bestSeasonScore": 10,
-          "careerPoints": 36,
+          "careerPoints": 34,
           "seasons": 12,
-          "averageSeasonScore": 3,
+          "averageSeasonScore": 2.83,
           "averageLeaguePoints": 90.8,
           "averageLeagueGoals": 94.7,
           "bestLeaguePoints": 104,
           "bestLeagueGoals": 124,
           "bestLeaguePosition": 1,
           "performanceBonuses": 4,
-          "awardsBonuses": 7
+          "awardsBonuses": 6
         }
       },
       "showdowns": {
@@ -176,7 +176,7 @@
               "leaguePoints": 96,
               "leagueGoals": 124,
               "championsLeague": false,
-              "domesticCup": true,
+              "domesticCup": false,
               "topScorer": true,
               "topAssist": false
             }
@@ -221,7 +221,7 @@
               "leagueGoals": 88,
               "championsLeague": false,
               "domesticCup": true,
-              "topScorer": true,
+              "topScorer": false,
               "topAssist": false
             }
           },
@@ -479,24 +479,24 @@
           "seasonLosses": 5,
           "championsLeagues": 2,
           "leagueTitles": 3,
-          "domesticCups": 3,
-          "totalTrophies": 8,
+          "domesticCups": 2,
+          "totalTrophies": 7,
           "hundredPointSeasons": 3,
           "hundredGoalSeasons": 3,
-          "topScorerSeasons": 4,
+          "topScorerSeasons": 3,
           "topAssistSeasons": 3,
           "perfectSeasons": 0,
           "bestSeasonScore": 10,
-          "careerPoints": 33,
+          "careerPoints": 31,
           "seasons": 9,
-          "averageSeasonScore": 3.67,
+          "averageSeasonScore": 3.44,
           "averageLeaguePoints": 93.6,
           "averageLeagueGoals": 98.2,
           "bestLeaguePoints": 104,
           "bestLeagueGoals": 124,
           "bestLeaguePosition": 1,
           "performanceBonuses": 4,
-          "awardsBonuses": 7
+          "awardsBonuses": 6
         }
       },
       "showdowns": {
@@ -539,7 +539,7 @@
               "leaguePoints": 96,
               "leagueGoals": 124,
               "championsLeague": false,
-              "domesticCup": true,
+              "domesticCup": false,
               "topScorer": true,
               "topAssist": false
             }
@@ -584,7 +584,7 @@
               "leagueGoals": 88,
               "championsLeague": false,
               "domesticCup": true,
-              "topScorer": true,
+              "topScorer": false,
               "topAssist": false
             }
           },
@@ -766,24 +766,24 @@
           "seasonLosses": 5,
           "championsLeagues": 0,
           "leagueTitles": 1,
-          "domesticCups": 3,
-          "totalTrophies": 4,
+          "domesticCups": 2,
+          "totalTrophies": 3,
           "hundredPointSeasons": 2,
           "hundredGoalSeasons": 2,
-          "topScorerSeasons": 2,
+          "topScorerSeasons": 1,
           "topAssistSeasons": 0,
           "perfectSeasons": 0,
           "bestSeasonScore": 5,
-          "careerPoints": 11,
+          "careerPoints": 9,
           "seasons": 6,
-          "averageSeasonScore": 1.83,
+          "averageSeasonScore": 1.5,
           "averageLeaguePoints": 93.7,
           "averageLeagueGoals": 98.7,
           "bestLeaguePoints": 101,
           "bestLeagueGoals": 124,
           "bestLeaguePosition": 1,
           "performanceBonuses": 3,
-          "awardsBonuses": 2
+          "awardsBonuses": 1
         },
         "nik": {
           "seasonWins": 5,
@@ -827,7 +827,7 @@
       },
       "biggestShowdownWin": {
         "manager": "nik",
-        "margin": 19,
+        "margin": 21,
         "showdownRef": "preview-showdown-1"
       },
       "checkSource": {
@@ -842,7 +842,7 @@
               "leaguePoints": 96,
               "leagueGoals": 124,
               "championsLeague": false,
-              "domesticCup": true,
+              "domesticCup": false,
               "topScorer": true,
               "topAssist": false
             },
@@ -865,7 +865,7 @@
               "leagueGoals": 88,
               "championsLeague": false,
               "domesticCup": true,
-              "topScorer": true,
+              "topScorer": false,
               "topAssist": false
             },
             "nik": {
