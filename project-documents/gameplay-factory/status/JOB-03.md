@@ -10,7 +10,7 @@ PR: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/316 (dra
 CI run: fast CI not yet on base
 
 ## Notes
-- Step 1: Baseline at fb28e70: npm ci exit 0; PASS POS10 selected deterministic census (96/96 current blocking contracts: frozen POS10 floor + POS20 supplements). Job branch is untouched and will advance from the integration baseline containing Job 1 CI.
+- Step 1: Baseline at fb28e70: npm ci exit 0; PASS POS10 selected deterministic census (96/96 current blocking contracts: frozen POS10 floor + POS20 supplements). Integration baseline contains Job 1 CI; the pre-created job branch retains its earlier base.
 - Step 2: Exact helper copied; node tests/support/career-fixture-helpers.cjs prints 2 11 1 playerTwo. Connector write succeeded; code branch retains its original base (fast CI not yet on base).
 - Step 3: All 16 required cases written before implementation; node contract exits 1 with Error: 1. Bonus caps: not implemented. Tests-first commit 5f8d2377bf3e26fef033e2d230434bcf6c97d8f1.
 - Step 4: Implemented pure frozen career model and tiebreak API; all 16 cases pass, including browser/Node agreement, abandoned exclusion and integrity failures.
