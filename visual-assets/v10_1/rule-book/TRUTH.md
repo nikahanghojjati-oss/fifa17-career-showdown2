@@ -121,3 +121,28 @@ The exact §0 interim label is `Current Showdown only. Career history is not yet
 The §0 fixture bounds do not create Rule Book fields. The fixed copy `1, 3, 5, or 10 seasons` matches the allowed `totalSeasons` values, but it is rules text rather than fixture data.
 
 Contract §9 dropped statistics do not appear and must not be added: clean sheets, biggest single-match win, European wins other than the Champions League, player names or player-based leaders/photos, match-by-match results, possession, or any per-match stat.
+
+
+## Screen states and preview frames
+
+The live Rule Book is static and role-neutral. It does not vary with Daniel/Nik role, active/completed Showdown state, or career-history availability.
+
+| Candidate state | Product answer |
+| --- | --- |
+| `loading` | Exists only in the lazy module loader before the screen mounts. No Rule Book body loading frame exists on `main`. |
+| `empty` | Not applicable. |
+| `partial` | Not applicable. |
+| `unavailable` | Not a Rule Book body state because there is no data read. |
+| error | A module/open failure is app-level and prevents the Rule Book body from mounting. |
+| active Showdown | Same Rule Book copy and layout. |
+| completed Showdown | Same Rule Book copy and layout. |
+| Daniel viewer | Same Rule Book copy and layout. |
+| Nik viewer | Same Rule Book copy and layout. |
+| `ready` | The real Rule Book screen: all six rule sections present. |
+
+Preview frames for the factory build:
+
+- `RB1` · opened from Home: standard `ready` Rule Book, all six sections present, Back to Main Menu available.
+- `RB2` · long-content stress view: still the same `ready` screen with all sections present. The job phrase “a long section open” is adjusted because `main` has no accordion/collapse behavior; every section is always expanded. Use this frame to verify the longest rule copy and scoring rows remain readable without changing wording.
+
+No preview frame may reveal private rivalry inputs or introduce manager-specific content.
