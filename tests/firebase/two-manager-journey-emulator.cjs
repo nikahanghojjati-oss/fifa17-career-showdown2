@@ -97,14 +97,47 @@ async function playMainJourney(env){
     transfer=await Transfer.lockSignings({...b(offset+700),seasonNumber:season,operationId:op("transfer_op_",season*10+7),baseRevision:6,signings:[{slot:1,name:`Nik S${season} A`,leagueId:"england-premier-league",nationalityId:"brazil"},{slot:2,name:`Nik S${season} B`,leagueId:"italy-serie-a",nationalityId:"germany"},{slot:3,name:`Nik S${season} C`,leagueId:"france-ligue-1",nationalityId:"albania"}]});assert.equal(transfer.ok,true,JSON.stringify(transfer));assert.equal(transfer.state.phase,"COMPLETED");await assertSucceeds(getDoc(doc(dbB,"rivalries",R1,"transferChallenges",`season_${season}`,"roles","playerOne")));await assertSucceeds(getDoc(doc(dbA,"rivalries",R1,"transferChallenges",`season_${season}`,"roles","playerTwo")));
     const transferA=await Transfer.read({...a(offset+750),seasonNumber:season}),transferB=await Transfer.read({...b(offset+750),seasonNumber:season});assert.deepEqual(transferA.verdicts,transferB.verdicts,`S${season} transfer state must converge`);
 
-    let results=await Results.publishResult({...a(offset+800),seasonNumber:season,operationId:op("season_result_op_",season*10+1),baseRevision:0,result:resultFor("playerOne",season)});assert.equal(results.ok,true,JSON.stringify(results));await assertFails(getDoc(doc(dbB,"rivalries",R1,"seasonResults",`season_${season}`,"roles","playerOne")),`S${season}: Nik must not read Daniel unpublished-to-both result`);await assertFails(getDoc(doc(dbA,"rivalries",R1,"seasonResults",`season_${season}`,"roles","playerTwo")),`S${season}: Daniel must not read Nik unpublished result before Nik publishes`);
-    results=await Results.publishResult({...b(offset+900),seasonNumber:season,operationId:op("season_result_op_",season*10+2),baseRevision:1,result:resultFor("playerTwo",season)});assert.equal(results.ok,true,JSON.stringify(results));assert.equal(results.state.phase,"RESULTS_READY");await assertSucceeds(getDoc(doc(dbB,"rivalries",R1,"seasonResults",`season_${season}`,"roles","playerOne")));await assertSucceeds(getDoc(doc(dbA,"rivalries",R1,"seasonResults",`season_${season}`,"roles","playerTwo")));
-    let commit=await Commit.commitSeason({...a(offset+1000),seasonNumber:season,operationId:op("season_commit_op_",season*10+1),baseRevision:0});assert.equal(commit.ok,true,JSON.stringify(commit));
+    let results;
+    if(TOTAL_SEASONS>1&&season===2){
+      const opA=op("season_result_op_",season*10+1),opB=op("season_result_op_",season*10+2);
+      const simultaneous=await Promise.all([
+        Results.publishResult({...a(offset+800),seasonNumber:season,operationId:opA,baseRevision:0,result:resultFor("playerOne",season)}),
+        Results.publishResult({...b(offset+800),seasonNumber:season,operationId:opB,baseRevision:0,result:resultFor("playerTwo",season)})
+      ]);
+      const accepted=simultaneous.map((result,index)=>({result,index})).filter(item=>item.result.ok===true);
+      const stale=simultaneous.map((result,index)=>({result,index})).filter(item=>item.result.ok!==true);
+      assert.equal(accepted.length,1,"Simultaneous result taps must accept exactly one first writer");
+      assert.equal(stale.length,1,"Simultaneous result taps must leave exactly one stale writer to retry");
+      assert.equal(stale[0].result.code,"SEASON_RESULTS_STALE_BASE_REVISION",JSON.stringify(simultaneous));
+      results=stale[0].index===0
+        ?await Results.publishResult({...a(offset+900),seasonNumber:season,operationId:opA,baseRevision:1,result:resultFor("playerOne",season)})
+        :await Results.publishResult({...b(offset+900),seasonNumber:season,operationId:opB,baseRevision:1,result:resultFor("playerTwo",season)});
+      assert.equal(results.ok,true,JSON.stringify(results));assert.equal(results.state.phase,"RESULTS_READY");
+      const publicResults=(await assertSucceeds(getDoc(doc(dbA,"rivalries",R1,"seasonResults",`season_${season}`)))).data();
+      assert.equal(publicResults.phase,"RESULTS_READY");assert.equal(publicResults.revision,2);
+      assert.equal(new Set(publicResults.publishedRoles).size,2);assert.deepEqual([...publicResults.publishedRoles].sort(),["playerOne","playerTwo"]);
+      assert.equal(new Set(publicResults.operationIds).size,2,"Simultaneous taps must not duplicate result operations");
+      await assertSucceeds(getDoc(doc(dbB,"rivalries",R1,"seasonResults",`season_${season}`,"roles","playerOne")));
+      await assertSucceeds(getDoc(doc(dbA,"rivalries",R1,"seasonResults",`season_${season}`,"roles","playerTwo")));
+    }else{
+      results=await Results.publishResult({...a(offset+800),seasonNumber:season,operationId:op("season_result_op_",season*10+1),baseRevision:0,result:resultFor("playerOne",season)});assert.equal(results.ok,true,JSON.stringify(results));await assertFails(getDoc(doc(dbB,"rivalries",R1,"seasonResults",`season_${season}`,"roles","playerOne")),`S${season}: Nik must not read Daniel unpublished-to-both result`);await assertFails(getDoc(doc(dbA,"rivalries",R1,"seasonResults",`season_${season}`,"roles","playerTwo")),`S${season}: Daniel must not read Nik unpublished result before Nik publishes`);
+      results=await Results.publishResult({...b(offset+900),seasonNumber:season,operationId:op("season_result_op_",season*10+2),baseRevision:1,result:resultFor("playerTwo",season)});assert.equal(results.ok,true,JSON.stringify(results));assert.equal(results.state.phase,"RESULTS_READY");await assertSucceeds(getDoc(doc(dbB,"rivalries",R1,"seasonResults",`season_${season}`,"roles","playerOne")));await assertSucceeds(getDoc(doc(dbA,"rivalries",R1,"seasonResults",`season_${season}`,"roles","playerTwo")));
+    }
+    const commitOperationId=op("season_commit_op_",season*10+1);
+    let commit=await Commit.commitSeason({...a(offset+1000),seasonNumber:season,operationId:commitOperationId,baseRevision:0});assert.equal(commit.ok,true,JSON.stringify(commit));
+    if(season===1){
+      const commitRef=doc(dbA,"rivalries",R1,"seasonCommits","season_1");
+      const beforeRetry=(await assertSucceeds(getDoc(commitRef))).data();
+      const replay=await Commit.commitSeason({...a(offset+1000),seasonNumber:season,operationId:commitOperationId,baseRevision:0});
+      assert.equal(replay.ok,true,JSON.stringify(replay));assert.equal(replay.replayed,true,"Same operationId/baseRevision must replay idempotently");assert.equal(replay.revision,1);
+      const afterRetry=(await assertSucceeds(getDoc(commitRef))).data();
+      assert.deepEqual(afterRetry,beforeRetry,"Idempotent retry must not change the stored season commit");
+    }
     commit=await Commit.acknowledgeSeason({...b(offset+1100),seasonNumber:season,operationId:op("season_commit_op_",season*10+2),baseRevision:1});assert.equal(commit.ok,true,JSON.stringify(commit));
     commit=await Commit.acknowledgeSeason({...a(offset+1200),seasonNumber:season,operationId:op("season_commit_op_",season*10+3),baseRevision:2});assert.equal(commit.ok,true,JSON.stringify(commit));assert.equal(commit.phase,"ACKNOWLEDGED");if(season===1)await assertStrangerDenied(env,dbA,dbB,"after season 1 commit");
 
     const scoreA=await Scoring.read({...a(offset+1300),seasonNumber:season,teamCount:20}),scoreB=await Scoring.read({...b(offset+1300),seasonNumber:season,teamCount:20});assert.deepEqual(scoreA.scoring,scoreB.scoring,`S${season} scoring must converge`);assert.equal(scoreA.scoring.playerOne.total,expectedScore("playerOne",season));assert.equal(scoreA.scoring.playerTwo.total,expectedScore("playerTwo",season));assert.equal(scoreA.winner,expectedWinner(season));totals.playerOne+=scoreA.scoring.playerOne.total;totals.playerTwo+=scoreA.scoring.playerTwo.total;
-    lastHistory=await History.read({...a(offset+1400),throughSeason:season});const historyB=await History.read({...b(offset+1400),throughSeason:season});assert.deepEqual(lastHistory.projection,historyB.projection,`S${season} history must converge`);assert.equal(lastHistory.projection.seasonHistory.length,season);
+    lastHistory=await History.read({...a(offset+1400),throughSeason:season});const historyB=await History.read({...b(offset+1400),throughSeason:season});assert.deepEqual(lastHistory.projection,historyB.projection,`S${season} history must converge`);assert.equal(lastHistory.projection.seasonHistory.length,season);if(season===1)assert.equal(lastHistory.projection.seasonHistory.filter(item=>item.roundNumber===1).length,1,"Idempotent retry must leave exactly one season 1 history row");
     lastMulti=await Multi.read(a(offset+1500));const multiB=await Multi.read(b(offset+1500));assert.deepEqual(lastMulti.state,multiB.state,`S${season} progression must converge`);
   }
 
