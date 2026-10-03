@@ -2,12 +2,12 @@
 
 State: IN PROGRESS
 Step: 5 of 8
-Updated: 2026-10-03 15:59 UTC
+Updated: 2026-10-03 16:00 UTC
 Chat: Sol Work mode
 Code branch: gameplay/job-10-transfer-history
-Head commit: 2c1cc636d75dcd662464c100973b124ea3e37528
+Head commit: 6a698c38ab1c8b56a4361dba89642da8c36eb853
 PR:
-CI run: CI pending on 2c1cc636d75dcd662464c100973b124ea3e37528
+CI run: CI pending on 6a698c38ab1c8b56a4361dba89642da8c36eb853
 
 ## Notes
 - Lead: JOB-08 (PR #326, merge 843e64e) is merged. Lead to create code branch gameplay/job-10-transfer-history from gameplay/recovery-v1 at 843e64e before Nik starts the job. Lead reference run on 843e64e: new contract PASS, contracts 104/104, ops 73/0, every rules-emulator step PASS including the new Completed transfer history matrix (73 checks) and Completed-only read 56 with B8/B9 flipped; only budget diagnostics are the two known career-index D13 denials. Jobs 9, 11, 16 and 18 also append registry entries (9 also a rules-emulator step, 16 a CI job): whoever merges later re-appends last. Ready to start.
@@ -52,7 +52,10 @@ CI run: CI pending on 2c1cc636d75dcd662464c100973b124ea3e37528
 
 - Step 6e saved: adopted current recovery tree 31360a0 with byte-identical inherited JOB-09/JOB-18 and rivalry-lookup fix; overlaid only the ten chartered G-10 files. Registry and ops preserve all baseline entries and append G-10 last after sharedJourneyRivalryLookupContract. DEFAULT: same single-parent fast-forward content-sync policy; no merges/force-pushes. Remaining 6f: restore baseline CI including Closed-Showdown adapter journey and append transfer history matrix last; full local proof on updated head.
 
+- Step 6f saved: current recovery 31360a0 preserved; JOB-09 Closed-Showdown adapter journey retained and G-10 Completed transfer history matrix appended as last rules-emulator step. Local completed-transfer contract PASS; full census 108/108 contracts; operations 73 pass / 0 fail; both Rules builds PASS (132878 composed bytes); exactly ten chartered files differ from current recovery; no generated Rules/log tracked. Final code head 6a698c38ab1c8b56a4361dba89642da8c36eb853; step 6 awaits exact-head CI and qualified budget gate, then PR step 7.
+
 ## Self-check
+- PASS final local proof on 31360a0 baseline: 108/108 contracts, operations 73/0, new transfer contract PASS, composed Rules 132878 bytes; ten-file diff, inherited fixes/registries preserved, G-10 registry/ops/CI last.
 - PASS step 6b local: 106/106 contracts and operations 73/0 with merged JOB-18 preserved, ten-file diff against f7d18a1; both Rules builds PASS and generated Rules uncommitted.
 - PASS step 5 local: completed-only transfer history contract and existing completed-only read contract both PASS; composed artifact 132878 bytes, transfer helper calls 2/2. Four Rules/test files saved atomically; no writes changed or deploy.
 - PASS reader-only CI: exact 18b25b7, https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37133484967; K9 / I0 expected failures and every existing emulator step green.
