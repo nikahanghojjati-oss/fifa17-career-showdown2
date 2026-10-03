@@ -16,7 +16,9 @@
   <div class="sd-stage__layer sd-stage__layer--plate" aria-hidden="true">
     <div class="sd-stage__registered"><div class="sd-stage__plate"></div></div>
   </div>
-  <div class="sd-stage__layer sd-stage__layer--atmosphere" aria-hidden="true"></div>
+  <div class="sd-stage__layer sd-stage__layer--atmosphere" aria-hidden="true">
+    <div class="finalWinnerConfettiLayer"></div>
+  </div>
   <div class="sd-stage__layer sd-stage__layer--ui">
     <main id="finalWinnerScreen" class="screen" aria-labelledby="finalWinnerTitle">
       <header class="finalWinnerTitleBlock">
@@ -27,25 +29,33 @@
         </h1>
         <p class="finalWinnerTagline sd-tagline">TWO MANAGERS · ONE LEGACY</p>
       </header>
-      <p id="previewLabel"></p>
-      <p id="frameNote"></p>
-      <h1 id="finalWinnerHeading"></h1>
-      <p id="finalWinnerMessage"></p>
-      <p id="finalWinnerStatus"></p>
-      <p id="completionMark"></p>
-      <section aria-label="Final score">
-        <p><span id="danielName">Daniel</span> <span id="danielTotal"></span></p>
-        <p><span id="nikName">Nik</span> <span id="nikTotal"></span></p>
-        <p id="outcomeHeadline"></p>
-        <p id="resultText"></p>
-        <p id="seasonsPlayed"></p>
-      </section>
-      <section aria-label="Trophies">
-        <p id="danielTrophies"></p>
-        <p id="nikTrophies"></p>
-      </section>
-      <div id="winnerActions" aria-label="Actions"></div>
-      <pre id="fixtureDump" aria-label="Current preview fixture"></pre>
+
+      <div class="finalWinnerHeroCopySlot" aria-hidden="true"></div>
+      <div class="winnerTrophySlot" aria-hidden="true"></div>
+      <section class="finalWinnerResultsPanel sd-panel" aria-label="Final Showdown result"></section>
+      <div class="finalWinnerActionsSlot" aria-hidden="true"></div>
+
+      <div class="fixtureProbe" aria-hidden="true">
+        <p id="previewLabel"></p>
+        <p id="frameNote"></p>
+        <h2 id="finalWinnerHeading"></h2>
+        <p id="finalWinnerMessage"></p>
+        <p id="finalWinnerStatus"></p>
+        <p id="completionMark"></p>
+        <section aria-label="Final score">
+          <p><span id="danielName">Daniel</span> <span id="danielTotal"></span></p>
+          <p><span id="nikName">Nik</span> <span id="nikTotal"></span></p>
+          <p id="outcomeHeadline"></p>
+          <p id="resultText"></p>
+          <p id="seasonsPlayed"></p>
+        </section>
+        <section aria-label="Trophies">
+          <p id="danielTrophies"></p>
+          <p id="nikTrophies"></p>
+        </section>
+        <div id="winnerActions" aria-label="Actions"></div>
+        <pre id="fixtureDump" aria-label="Current preview fixture"></pre>
+      </div>
     </main>
   </div>
   <div class="sd-stage__layer sd-stage__layer--cutout" aria-hidden="true">
