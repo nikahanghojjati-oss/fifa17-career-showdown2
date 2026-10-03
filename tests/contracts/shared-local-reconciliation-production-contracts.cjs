@@ -16,6 +16,10 @@ assert.match(ssjr,/ssjr-local-reconciliation-protocol/);assert.match(ssjr,/ssjr-
 process.stdout.write("PASS r45 production Local Reconciliation exposes one contextual read-only preview action while delegating to existing Candidate B/C authority with shell/reload safety and no new provider/storage writer\n");
 (async()=>{
   // r52: a Preview tap observes the Connected Rivalry snapshot (and publishes it once, only after a terminal Showdown) through the existing authority.
+  const init=connected.slice(connected.indexOf("async function crInitialize("),connected.indexOf("function crShort("));
+  const keep=init.indexOf("if(sameAttachedContext)return crSetState({initialized:true,connected:true,attached:true,prefillRivalryId});"),reset=init.indexOf("observedEnvelope:null");
+  assert.ok(keep>0&&reset>keep,"re-initialising the same attached rivalry must keep the observed snapshot and preview authority (Terminal Close re-initialises on every refresh)");
+  assert.match(init,/sameAttachedContext=Boolean\(!autoAttached&&pointer&&crState\.initialized===true&&crState\.attached===true&&crState\.rivalryId===pointer\.rivalryId&&crState\.accountId===context\.accountId&&crState\.deviceId===context\.deviceId&&crSameBinding\(crState\.binding,binding\)\)/);
   assert.match(connected,/refreshAttachedSharedState:crHandleRefresh/);assert.match(connected,/publishAttachedSharedState:crHandlePublish/);
   const hex=n=>"a".repeat(n),rivalryId=`pair_${hex(64)}`,binding={saveId:`save_${hex(24)}`,profileId:`profile_${hex(24)}`,managerRole:"playerOne"};
   const envelope={revision:0,contentHash:`sha256:${"b".repeat(64)}`,lifecycleState:"live"};

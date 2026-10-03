@@ -59,4 +59,10 @@ assert.match(bootstrap,/finalReconciliation,terminalClose/);
 
 for(const asset of ["js/sharedTerminalClose.js","js/sparkTerminalClose.js","js/productionSharedTerminalClose.js"]){assert.ok(worker.includes(`"${asset}"`),`service worker shell missing ${asset}`);}
 
+// sparkTerminalClose.js captures CareerModeSparkPrivateSession when it loads, so the session protocol must load first,
+// otherwise every real close returns TERMINAL_CLOSE_DEPENDENCY_UNAVAILABLE (found by the two-manager browser journey).
+const sessionLoad=bootstrap.indexOf('["private-session","js/sparkPrivateSession.js","CareerModeSparkPrivateSession"]'),providerLoad=bootstrap.indexOf('["ssjr-terminal-close-provider","js/sparkTerminalClose.js"');
+assert.ok(sessionLoad>0&&providerLoad>sessionLoad,"the SSJR bootstrap must load the private-session protocol before the Terminal Close provider");
+const providerSource=fs.readFileSync("js/sparkTerminalClose.js","utf8");assert.match(providerSource,/root\.CareerModeSparkPrivateSession;/,"provider still binds the session protocol at load time");
+
 console.log("PASS r18 production Terminal Close contracts: exact r17 final authority + exact ACTIVE session gate the sole terminal mutation; ambiguous outcomes retain one exact witness for retry; closed rivalry recovers by exact read after reload; storage/list/billing/compute authority remains absent; bootstrap and offline shell ordering are explicit.");
