@@ -45,7 +45,7 @@
         classification="completed";
       }catch(_error){witness=null;classification="unavailable";}
     }else if(!pair||pair.initialized!==true||TRANSIENT.includes(pair.status))classification="loading";
-    else if(FAILED.includes(pair.status)||(identity?.status==="ready"&&identity.managerId!==pair.managerId))classification="unavailable";
+    else if(FAILED.includes(pair.status)||(identity?.status==="ready"&&pair.managerId!=null&&identity.managerId!==pair.managerId))classification="unavailable";
     else if(pair.rivalryId!=null&&typeof pair.rivalryId!=="string")classification="unavailable";
     else if(pair.status==="unpaired"||rid===null)classification="none";
     else if(pair.connectionState==="pending-pair")classification="pending";
@@ -68,7 +68,8 @@
   }
   function home(c){
     const {pair,viewer,multi,p,classification,zero}=c;
-    const state=["paired","waiting","recovery-required","unpaired"].includes(pair?.status)?pair.status:null;
+    // A closed rivalry is no live pair (live pairReadPairLink returns null for it, so Home offers a fresh start).
+    const state=pair?.connectionState==="closed"?"unpaired":["paired","waiting","recovery-required","unpaired"].includes(pair?.status)?pair.status:null;
     const m=["paired","recovery-required"].includes(state)?multi?.state:null;
     const text=x=>typeof x==="string"?x:null,num=x=>Number.isInteger(x)?x:null;
     return {status:classification==="loading"?"loading":classification==="unavailable"?"unavailable":"ready",viewerRole:viewer,continue:{state,leagueId:text(m?.leagueId),clubs:m&&typeof m.fixedClubs?.playerOne==="string"&&typeof m.fixedClubs?.playerTwo==="string"?pairValues(m.fixedClubs.playerOne,m.fixedClubs.playerTwo):null,season:num(m?.activeSeason??(m?.terminal?m.totalSeasons:null)),totalSeasons:num(m?.totalSeasons),score:COUNTED.includes(classification)&&p?pairValues(p.managerRecords.playerOne.totalPoints,p.managerRecords.playerTwo.totalPoints):zero?pairValues(0,0):null}};

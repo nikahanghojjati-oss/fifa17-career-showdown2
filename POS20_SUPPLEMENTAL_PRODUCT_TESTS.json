@@ -549,6 +549,65 @@
       ]
     },
     {
+      "path": "tests/contracts/data-contract-v1-fixtures-contracts.cjs",
+      "patterns": [
+        "^js/sharedActiveShowdownAdapter\\.js$",
+        "^js/sharedCareerAnalytics\\.js$",
+        "^js/startJoinViewModel\\.js$",
+        "^js/careerScreenSeam\\.js$",
+        "^js/sharedHistoryConvergence\\.js$",
+        "^js/sharedTerminalClose\\.js$",
+        "^js/sharedFinalReconciliation\\.js$",
+        "^data/clubs\\.js$",
+        "^tests/support/data-contract-v1-fixtures\\.cjs$",
+        "^tests/support/active-showdown-fixtures\\.cjs$",
+        "^tests/support/career-fixture-helpers\\.cjs$",
+        "^tests/fixtures/data-contract-v1/",
+        "^tests/contracts/data-contract-v1-fixtures-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/pair-code-entry-race-contracts.cjs",
+      "patterns": [
+        "^js/persistentNikDanielPair\\.js$",
+        "^js/onlinePlayerIdentity\\.js$",
+        "^tests/contracts/pair-code-entry-race-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/closed-showdown-adapter-contracts.cjs",
+      "patterns": [
+        "^js/sharedClosedShowdownAdapter\\.js$",
+        "^js/sparkClosedShowdownCareerLoader\\.js$",
+        "^js/sparkCompletedShowdownReader\\.js$",
+        "^js/persistentNikDanielPair\\.js$",
+        "^js/sharedActiveShowdownAdapter\\.js$",
+        "^js/sharedCareerAnalytics\\.js$",
+        "^js/sharedHistoryConvergence\\.js$",
+        "^js/sharedTerminalClose\\.js$",
+        "^js/sharedFinalReconciliation\\.js$",
+        "^tests/support/active-showdown-fixtures\\.cjs$",
+        "^tests/support/career-fixture-helpers\\.cjs$",
+        "^tests/contracts/closed-showdown-adapter-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/shared-journey-rivalry-lookup-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedCanonicalScoring\\.js$",
+        "^js/productionSharedHistoryConvergence\\.js$",
+        "^js/productionSharedMultiSeasonProgression\\.js$",
+        "^js/productionSharedTerminalClose\\.js$",
+        "^js/productionSharedFinalReconciliation\\.js$",
+        "^js/productionSharedJourneyEntry\\.js$",
+        "^tests/contracts/shared-journey-rivalry-lookup-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
       "path": "tests/contracts/browser-journey-emulator-switch-contracts.cjs",
       "patterns": [
         "^tests/browser/support/emulator-runtime-switch\\.js$",
