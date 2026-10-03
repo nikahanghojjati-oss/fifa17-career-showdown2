@@ -1,4 +1,4 @@
-name: Job 32 final QA
+name: Job 32 final QA # phone-fit-r3
 on:
   push:
     branches: [factory/v1-wtt5ye]
