@@ -2,14 +2,15 @@
 
 State: IN PROGRESS
 Step: 1 of 8
-Updated: 2026-10-03 17:25 UTC
+Updated: 2026-10-03 17:27 UTC
 Chat: Sol Work mode (job 12, 265263c2f906)
 Code branch: gameplay/job-12-composed-rules-regression
 Head commit: 15f14b12e63ff10fdb34a1a30dcedc9d94a66e3a
 PR:
-CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37140317460 (in_progress/pending, exact head 15f14b12e63ff10fdb34a1a30dcedc9d94a66e3a)
+CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37140317460 (SUCCESS, exact head 15f14b12e63ff10fdb34a1a30dcedc9d94a66e3a)
 
 ## Notes
+- Step 2c saved: exact-head 15f14b1 Gameplay Fast run 37140317460 completed SUCCESS (single read). Read JOB-07 §8a, JOB-08 §8a, lead handoff §5 G-12 row on leads/relay, and C2S-005R2 §2.1 on visual/cinematic-system-v10. Historical document-map denials are the baseline; reviewed exceptions are only G-7 career index and verified G-8/G-10 closed reads. Sessions/invites/state/idempotency/careerStart/leagueProjection remain excluded; own-account scope and exact active pairing remain required. Result roles contain final results readable at RESULTS_READY; transfers still require COMPLETED plus both locks. JOB-07 capacity 500, contractVersion 4 and shipped Phase A stay unchanged; Phase B exists only in temporary proof copies. G-12 §8a supersedes the older deploy-proof deferral: no deploy workflow edit here; lead handles the gated main PR. Next 2d-2f: read each existing composed suite in batches of four, then complete step 2.
 - Step 2b saved: read-only audit of publish helper, zero-billing validator, validate-pos10.yml and POS10 proof runner. Publish hashes UTF-8 Rules with the exact git blob header and verifies independent provider-source equality; actual request hosts are oauth2.googleapis.com and firebaserules.googleapis.com. No publish command executed. Validator keeps strict fragment billing bans and Terminal Close intent.billingRequired == false; no enablement/linkage allowed. POS20 lifecycle lane uses both builders and 1/3/5/10; inherited runner lists base/stage3/4/5 suites and separate non-asserting Rules diagnostics. Those remain read-only; composed union must include lifecycle 5/10, and only the two reviewed base suites are redirected. No source drift requiring edits. Step 2 remains partial; next authority and suite mapping.
 - Step 2a saved: copied Appendix A support module verbatim and regenerated the delta with --print-main-delta origin/main. Read deployment workflow and both builders plus injector; parsed 18 deploy steps, both exact build commands, 47 refusal needles and 12 deploy contracts unchanged. Injector retains completed-showdown/season counts 3/4 and transfer counts 2/2. The second builder re-runs the first before pair injection; transfer catalog validates shape without affecting emitted option lists. Nine hunks, -8 +228 lines; no hunk line hand-edited. node --check PASS; reverse-applied candidate hashes and byte count equal pinned main; candidate deterministic, Phase A, no broad grants; checkout artifact untouched. Step 2 is split under handbook pace rules (four-file read limit); remaining 2b+: publish/zero-billing and workflow/proof/authority/suite mapping, then mark step 2 complete. No CI polling this turn.
 - Step 2a productionMain: {"ref":"main","commit":"2e0bd45f52372e0d4d20c53dc1e22cf1d7fb4d81","sha256":"ce8abfe620696db7f8d8c3d20dcc35550901c7c3af082f2e1f775db0426f6a78","gitBlobSha1":"6fe04a8e5211629919d29a5f2940274794c1cc65","bytes":121492}
