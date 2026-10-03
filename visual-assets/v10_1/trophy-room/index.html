@@ -19,7 +19,14 @@
         <div class="sd-stage__layer sd-stage__layer--plate"><div class="sd-stage__registered"><div class="sd-stage__plate"></div></div></div>
         <div class="sd-stage__layer sd-stage__layer--atmosphere"></div>
         <div class="sd-stage__layer sd-stage__layer--ui">
+          <input id="trophyPhoneMoreToggle" class="phoneMoreToggle visually-hidden" type="checkbox" aria-label="Show career details">
           <div id="trophyRoomContent" class="trophyRoomContent sd-stage__ui-content" aria-live="polite"></div>
+          <aside class="sd-sheet trophyPhoneSheet" aria-labelledby="trophyPhoneSheetTitle">
+            <strong id="trophyPhoneSheetTitle" class="trophyPhoneSheetTitle">CAREER DETAILS</strong>
+            <span class="trophyPhoneSheetHint">Ranks and career records</span>
+            <label class="trophyPhoneSheetClose" for="trophyPhoneMoreToggle">CLOSE</label>
+          </aside>
+          <label class="trophyPhoneMoreButton" for="trophyPhoneMoreToggle">MORE</label>
         </div>
         <div class="sd-stage__layer sd-stage__layer--cutout"><div class="sd-stage__registered"></div></div>
         <div class="sd-stage__layer sd-stage__layer--light"><div class="sd-stage__registered"></div></div>
