@@ -1,3 +1,5 @@
+> **RETIRED 2026-10-03.** Workers no longer upload binaries. See WORKER_HANDBOOK §7: text only; binary files are made by Claude from the recipe in tools/MAKE_ASSETS.md.
+
 # Self-upload: save your own files to the repo (no zip for Nik)
 
 This is the normal way to save work for every factory job since 2026-10-03 (WORKER_HANDBOOK §7). Do not save screenshots or QA renders at all; Claude renders those from your committed code.

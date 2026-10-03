@@ -17,9 +17,10 @@ Long ChatGPT turns stall in "thinking" and Nik has to press stop and continue. S
 2. **Every step ends saved.** Step files plus the status file (`Step: k of n`, one note line) are on the branch before you say anything else. A stopped or broken chat then loses nothing: `continue` in this chat, or the job number in a new chat, resumes from the status file at step k+1.
 3. **Resume from the status file, not from memory.** On `continue` or on the number, re-read only `status/JOB-NNN.md` and the job file, then do the next step. Do not re-read papers you already used unless the step needs them.
 4. **Read only what the step needs.** Read the handbook, the job file and the status file at the start; read each other paper (PRODUCT_TRUTH, QUALITY_BAR, CRAFT_GUIDE, mockups, code) when a step actually uses it, and only the sections it uses. Never fetch whole folders.
-5. **Never trigger, wait on or poll GitHub Actions, CI or workflow logs.** No "waiting 60 seconds", no re-reading run logs. Save and move on. The one exception, an inbox receipt, is read ONCE at the start of your next turn; if it is not there yet, note `receipt pending` and carry on; Claude checks receipts too.
-6. **No browser QA loops.** If a step asks for screenshots or QA runs, do at most one quick run in your sandbox if it works first time, write the numbers in the notes, and move on. Claude renders and checks every screen from the committed code. Never retry a failing tool more than once.
-7. **Default, don't stop.** If something is unclear, pick the most reasonable option that keeps product truth, write `DEFAULT: <what you chose and why>` in the notes, and keep going. Use BLOCKED only for a real product-truth contradiction or a missing input you cannot work around (for example a mockup missing from project Files).
+5. **Never trigger, wait on or poll GitHub Actions, CI or workflow logs.** No "waiting 60 seconds", no re-reading run logs. Save and move on.
+6. **No browser QA, no screenshots.** Even if a step asks for them, do not run them; check by reading the code and write what you checked. Claude renders and checks every screen from the committed code. Never retry a failing tool more than once.
+7. **Sol capacity (the size of one step).** A step is right-sized when it reads at most 4 files (only the sections it needs), writes or edits at most 3 files and about 150 lines, and makes at most ONE decision. If a step is bigger, split it yourself into parts (5a, 5b, ...) and save after each part; the status note names the part. Never hold a whole screen in one answer.
+8. **Default, don't stop.** If something is unclear, pick the most reasonable option that keeps product truth, write `DEFAULT: <what you chose and why>` in the notes, and keep going. Use BLOCKED only for a real product-truth contradiction or a missing input you cannot work around (for example a mockup missing from project Files).
 
 ---
 
@@ -33,7 +34,7 @@ Long ChatGPT turns stall in "thinking" and Nik has to press stop and continue. S
 6. Do the steps in order, one at a time, at most two per turn (Pace rules). Never skip, merge or reorder steps.
 7. After each step, save: update the status file and save that step's files (§7).
 8. Run the self-check from the job file. Fix anything that fails.
-9. Set `State: DONE`, save it yourself (§7), and send Nik one line: what you made and which job numbers it unlocks. No zip unless §7 rule 4 or 5 applies.
+9. Set `State: DONE`, save it yourself (§7), and send Nik one line: what you made and which job numbers it unlocks. No zip, ever.
 10. Never start a second job in the same chat. One chat, one job.
 
 ---
@@ -167,18 +168,17 @@ To check dependencies, open each `status/JOB-XXX.md` named under "Depends on" an
 2. Open the status file pinned to that commit: `https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/<sha>/project-documents/factory/status/JOB-XXX.md`.
 Only if that pinned copy still is not DONE or SKIPPED do you reply `Job N waits for job X, Y (not done yet).` Use the same pinned links for the job file and everything else you read in that chat.
 
-## 7. Saving your work: you save it yourself (2026-10-03)
+## 7. Saving your work: text only, you save it yourself (2026-10-03, final rule)
 
-Nik never carries your work. You save every file to `factory/v1-wtt5ye` yourself, after every step. A zip for Nik is the last resort (rule 4), never the normal finish.
+One rule, no options: **you save text files to `factory/v1-wtt5ye` yourself, after every step. You never make, upload, zip or hand over binary files.** Nik carries nothing.
 
-1. **Text files go straight to the branch.** HTML, CSS, JS, JSON, MD, SVG, Python and your status file: after each step, save that step's files plus your updated status file to their repo paths on `factory/v1-wtt5ye` (commit message `Job N step k/n: <short step name>`; last one `Job N done: <job title>`). Never another branch, never force-push, never delete files you did not create in this job.
-2. **No screenshots or QA renders.** Do not save or send screenshots, QA shots, heatmaps or side-by-side renders, even when a step says "screenshot" or "QA". Run your checks in your sandbox if you can and write the numbers (scores, pass/fail, sizes) into BUILD_RESULT.md and the status notes. Claude renders and checks the screen from the committed code on a real server.
-3. **Small binary files go through the inbox.** Cut-outs, crops, icons, title wordmarks, small WebP/PNG: follow `project-documents/factory/SELF_UPLOAD.md` (pack to base64 parts, save the parts, save MANIFEST.json last, read the receipt). `Result: OK` = done. `Result: FAILED` = re-save the part it names, then MANIFEST.json again.
-4. **Zip to Nik: last resort only, and say why.** Only for (a) a binary file too big for the inbox (more than about 10 parts, for example a full-size plate or a PNG master over about 150 KB), or (b) a receipt that still says FAILED after one retry. Put ONLY those files in `JOB-NNN.zip` (repo-relative paths inside) and finish with: `Drop JOB-NNN.zip into the Claude project chat. Reason: <too big for the inbox: file names | receipt failed: delivery name>.` Everything else is already saved by you.
-5. **If your chat cannot write to GitHub at all** (the writer refuses or is missing): say so in one line in the status notes and in your finish line, and hand over everything as `JOB-NNN.zip` with `Reason: no GitHub write in this chat.` That is the only time a whole-job zip is right.
-6. **You cannot read the repo at all**: first line `I can't read the repo (<reason>). Fix: turn on GitHub with + > Connectors > GitHub, or allow web search, then send N again.`
+- **Text** (HTML, CSS, JS, JSON, MD, SVG, Python, your status file): save each to its repo path, commit message `Job N step k/n: <short step name>`; last one `Job N done: <job title>`. Never another branch, never force-push, never delete files you did not create in this job.
+- **Anything a script can make from files already in the repo** (cut-outs and rims, crops, title crops, WebP/PNG exports, previews, screenshots, QA renders, diffs): do NOT make it. Write the recipe instead: polygons or boxes in `platemap.json`, and the exact commands in `tools/MAKE_ASSETS.md` in the screen folder (for example `python3 visual-assets/v10_1/shared/tools/cutout.py --plate ... --map ... --key cutouts.daniel_arms --output assets/OVL_..._V1 --rim`). Reference the final file names in your code as if they exist. Claude runs the recipe, commits the files and renders the screen.
+- **Brand-new pictures** come only from image tickets in a ChatGPT Temporary Chat; Nik drops those in Claude's factory thread. A project chat never generates or hands over a picture.
+- **No inbox, no base64 parts, no zip.** (SELF_UPLOAD.md is retired.) If your chat cannot write to GitHub at all, set `State: BLOCKED` with `Blocked question: this chat cannot save to GitHub.` and stop.
+- **You cannot read the repo at all**: first line `I can't read the repo (<reason>). Fix: turn on GitHub with + > Connectors > GitHub, or allow web search, then send N again.`
 
-Job files written before 2026-10-03 may still say "Hand over as JOB-NNN.zip" or "go in JOB-NNN.zip (Path B)". Read those as this section: save it yourself; zip only under rule 4 or 5.
+Older job files may still say "zip", "inbox" or "upload". Read them as this section.
 
 ## 8. Doing the steps well
 
@@ -232,7 +232,7 @@ Job 0 records what plain chats can really do in `project-documents/factory/smoke
 - Plain, short sentences. He reads on a phone between other things.
 - First reply: the handshake line `Job N · <title> · <State>`, then one line on what you are doing first.
 - During work: one line per finished step at most.
-- Finish: one line, what you made and what it unlocks, and that it is saved. Example: `Job 7 done and saved: the Final Winner truth sheet and fixtures. It feeds the Final Winner build (job 82).` Only under §7 rule 4 or 5 add the zip line with its reason.
+- Finish: one line, what you made and what it unlocks, and that it is saved. Example: `Job 7 done and saved: the Final Winner truth sheet and fixtures. It feeds the Final Winner build (job 82).`
 - Never ask him to decide product questions. Never ask "should I continue?". The only stop line between steps is the Pace rules one: `Step k of n done and saved. Type continue for step k+1.`
 
 ## 13. Examples
