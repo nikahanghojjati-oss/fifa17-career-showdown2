@@ -609,6 +609,10 @@ $$(".handOv").forEach(d => { d.style.clipPath = "none"; });
     layout();
     addEventListener("resize", () => layout());
     document.documentElement.classList.add("ready");
+    const motionRoot = $("#stage");
+    if (motionRoot && typeof window.sdEnter === "function") {
+      window.sdEnter(motionRoot);
+    }
     window.ClubQA = {
       frame: FRAME, get T() { return T; }, plateToScreen, rectToScreen, MAP, HANDS, RIP, FX, RM,
       setT(t) { anims.forEach(a => { a.pause(); a.currentTime = t * (RM ? RM_MS : RIP_MS); }); },
