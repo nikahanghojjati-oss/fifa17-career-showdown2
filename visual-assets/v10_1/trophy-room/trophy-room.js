@@ -126,7 +126,7 @@
     state.frame = state.fixtures.frames[state.frameKey] || state.fixtures.frames.TR1;
     state.activeCategory = state.frame.activeCategory || "ALL";
     state.stage = window.ShowdownStage.mount(document.querySelector(".trophyRoomScene"), {
-      plate:{ width:1672, height:941, src1x:"assets/ENV_TR_PLATE_V1_1X.webp", src2x:"assets/ENV_TR_PLATE_V1_2X.webp" },
+      plate:{ width:1672, height:941, src1x:"../trophy-room/assets/ENV_TR_PLATE_V1_1X.webp", src2x:"../trophy-room/assets/ENV_TR_PLATE_V1_2X.webp" },
       focal:{ x:state.map.focal[0], y:state.map.focal[1] },
       platemap:state.map,
       dustCount:22,
