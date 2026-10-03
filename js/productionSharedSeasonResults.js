@@ -13,7 +13,7 @@
   function pssrFail(code,message){const error=new Error(message||code);error.code=code;throw error;}
   function pssrShowdown(){try{return typeof currentShowdown!=="undefined"?currentShowdown:null;}catch(_error){return null;}}
   function pssrSharedMarker(){const showdown=pssrShowdown();return Boolean(showdown&&showdown.sharedJourney&&showdown.sharedJourney.mode==="shared");}
-  function pssrReport(context,error){if(typeof root.reportApplicationError==="function")root.reportApplicationError(context,error);else root.console?.error?.(context,error);}
+  function pssrReport(context,error){const terminalClose=root.CareerModeProductionSharedTerminalClose;if(terminalClose&&typeof terminalClose.reportUnlessClosed==="function"){void terminalClose.reportUnlessClosed(context,error);return;}if(typeof root.reportApplicationError==="function")root.reportApplicationError(context,error);else root.console?.error?.(context,error);}
   function pssrField(id){return root.document&&root.document.getElementById(id);}
   function pssrText(id,value){const node=pssrField(id);if(node)node.textContent=String(value??"");return node;}
   function pssrHidden(node,hidden){if(node)node.classList.toggle("hidden",Boolean(hidden));}
