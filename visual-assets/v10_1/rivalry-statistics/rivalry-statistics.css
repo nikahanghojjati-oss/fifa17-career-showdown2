@@ -37,3 +37,11 @@ html,body{margin:0;width:100%;height:100%;background:#07080a;overflow:hidden}bod
 .rv-rim{inset:0!important;--sd-rim-opacity:.24;--sd-rim-angle:112deg}.rv-rim--nik{--sd-rim-opacity:.17}
 .rv-contact--daniel{--sd-contact-x:27.2%;--sd-contact-y:44%;--sd-contact-w:1.7%;--sd-contact-h:9.5%;--sd-contact-alpha:.42;--sd-contact-blur:7px;--sd-contact-dx:3px;--sd-contact-dy:3px}
 .rv-contact--nik{--sd-contact-x:71.5%;--sd-contact-y:57%;--sd-contact-w:2.4%;--sd-contact-h:3.8%;--sd-contact-alpha:.38;--sd-contact-blur:7px;--sd-contact-dx:-2px;--sd-contact-dy:2px}
+
+/* JOB-067 step 7: explicit loading / empty / unavailable / partial states. */
+.rv-coverage{position:absolute;left:6%;right:6%;top:22%;z-index:4;padding:5px 9px;border:1px solid rgba(242,196,91,.42);background:rgba(7,8,10,.91);color:var(--sd-gold-300);font:600 11px/1.25 var(--sd-font-body);text-align:center}
+.rv-comparison.hasCoverage .rv-rows{top:34%}
+.rv-readState{position:absolute;left:6%;right:6%;top:25%;bottom:7%;z-index:5;display:grid;place-items:center;padding:24px;border:1px dashed rgba(242,196,91,.35);background:linear-gradient(180deg,rgba(7,8,10,.94),rgba(9,10,13,.88));color:var(--sd-text-primary);text-align:center;font:600 14px/1.45 var(--sd-font-body)}
+.rv-readState::before{content:"◇";display:block;margin:0 auto 10px;color:var(--sd-gold-300);font:700 34px/1 var(--sd-font-condensed)}
+.rv-readState.loading::before{content:"◌";animation:rv-state-spin 1s linear infinite}@keyframes rv-state-spin{to{transform:rotate(360deg)}}
+.rv-bottom.isState .rv-headGrid,.rv-bottom.isState .rv-seasonTable,.rv-bottom.isState .rv-trophyGrid{display:none}.rv-bottom.isState .rv-emptyInline{height:76%}
