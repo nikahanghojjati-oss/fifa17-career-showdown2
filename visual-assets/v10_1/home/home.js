@@ -1,8 +1,34 @@
-// HOME-V1 · Rivalry Headquarters on the Home plate (static checkpoint; nothing animates).
+// HOME-V1 · Rivalry Headquarters on the Home plate.
 // Frames: ?frame=HM1|HM2|HM3|S0 · &grid=1 overlays platemap boxes · &mends=0 switches seam mends off (evidence only).
 (function () {
   "use strict";
   const PW = 1672, PH = 941;
+  let motionLoadPromise = null;
+
+  function loadMotionKit() {
+    if (typeof window.sdEnter === "function") return Promise.resolve(window.sdEnter);
+    if (motionLoadPromise) return motionLoadPromise;
+    motionLoadPromise = new Promise((resolve, reject) => {
+      const script = document.createElement("script");
+      script.src = "../shared/motion.js";
+      script.async = true;
+      script.onload = () => {
+        if (typeof window.sdEnter !== "function") {
+          reject(new Error("Showdown motion kit loaded without sdEnter"));
+          return;
+        }
+        resolve(window.sdEnter);
+      };
+      script.onerror = () => reject(new Error("Failed to load Showdown motion kit"));
+      document.head.appendChild(script);
+    });
+    return motionLoadPromise;
+  }
+
+  async function runHomeEntrance(root) {
+    const enter = await loadMotionKit();
+    return enter(root);
+  }
   const qs = new URLSearchParams(window.HOME_QS || location.search); // HOME_QS: single-file preview (srcdoc)
   const stage = document.getElementById("stage-root");
   const H = window.HomePlate = window.HomePlate || {};
@@ -358,6 +384,7 @@
     if (document.fonts && document.fonts.ready) await document.fonts.ready;
     layout(MAP);
     layout(MAP); // second pass: heading height settles after fonts and widths
+    await runHomeEntrance(stage);
     addEventListener("resize", () => layout(MAP));
     // Visual-only routing: each tile names the existing product destination it opens (fixtures.routes); no data code runs.
     document.querySelectorAll(".fifaMenuGrid > button.menuTile").forEach((b) => b.addEventListener("click", () => {
