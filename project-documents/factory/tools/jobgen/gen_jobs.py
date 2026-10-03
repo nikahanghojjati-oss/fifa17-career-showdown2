@@ -357,6 +357,210 @@ def motion_steps(s, folder):
      f"Update BUILD_RESULT.md (Motion section). Commit and finish. This is the screen's finish line: Claude takes a look next.",
     ]
 
+# ---------------------------------------------------------------- Sol-sized helpers (CC-006 audit, 2026-10-03)
+# One step = at most 4 files read (only the sections it needs), at most 3 files written (about 150 lines), ONE decision.
+# No browser, screenshots, factory-qa, mockup-diff, recordings or GitHub Actions in any step: the worker checks by
+# reading and Claude measures at intake. Binary files are never made by the worker: the recipe goes to tools/MAKE_ASSETS.md.
+# Jobs that had already started before the audit keep the v1 helpers above (their step totals must not change).
+FROZEN_V1 = {"TR_build", "CS_build", "RV_build", "ld_review", "ld_fix"}
+CLAUDE_MEASURES = "Claude measures this in a real browser at intake (H5, H6 contrast, H7, H8, H9, H10, H11); you check by reading only."
+STATUS = "`project-documents/factory/status/JOB-{n}.md`"
+WORDMARK_FILE = {"FW": V + "/shared/wordmarks/TITLE_FINAL_WINNER_V1.webp", "RB": V + "/shared/wordmarks/TITLE_RULE_BOOK_V1.webp",
+                 "ST": V + "/shared/wordmarks/TITLE_SETTINGS_V1.webp", "SD": V + "/shared/wordmarks/TITLE_STANDINGS_V1.webp"}
+
+def S(name, read, write, body, done):
+    """One Sol-sized step: what to read, what to write, what to do, what done looks like."""
+    def fmt(x):
+        if x.startswith("`") or x.startswith("the ") or x.startswith("only ") or x.startswith("MOCKUP"): return x
+        head, _, rest = x.partition(" ")
+        if "/" in head or head.endswith(".md") or head.endswith(".json"): return f"`{head}`" + ((" " + rest) if rest else "")
+        return x
+    rd = ", ".join(fmt(r) for r in read) if read else "nothing new"
+    wr = ", ".join(fmt(w) for w in write) if write else "nothing new"
+    return f"**{name}.** Read: {rd}. Write: {wr}. {body} Done: {done}"
+
+def paths(folder, name):
+    return dict(html=f"{folder}/index.html", css=f"{folder}/{name}.css", js=f"{folder}/{name}.js",
+                fx=f"{folder}/fixtures.json", truth=f"{folder}/TRUTH.md", br=f"{folder}/BUILD_RESULT.md",
+                mk=f"{folder}/tools/MAKE_ASSETS.md", rv=f"{folder}/review/REVIEW.md")
+
+def screen_build_steps_v2(code, s, folder, pf, system=False):
+    p = paths(folder, s["folder"])
+    plate = (V + "/shared/plates/ENV_SYS_PLATE_V1") if system else f"{pf}/ENV_{code}_PLATE_V1"
+    title = WORDMARK_FILE.get(code, f"{pf}/TITLE_{code}_V1.webp")
+    pm = f"{pf}/platemap.json"
+    frames = s.get("frames", "")
+    desktop = " ".join(s.get("desktop", s.get("design", [])))
+    depth = " ".join(s.get("depth", ["Only if a panel overlaps a person: cut-out and contact shadow per CUTOUT_STANDARD.md."]))
+    st = [
+     S("Scaffold", [V + "/home/index.html (the head and the page shell only)", V + "/home/home.js (only the part that reads `?frame=` and fills the DOM from fixtures.json)", p["fx"]],
+       [p["html"], p["css"], p["js"]],
+       "Make index.html link `../shared/showdown-tokens.css`, `showdown-type.css`, `showdown-ui.css`, `stage.css`, `motion.css`, `../shared/stage.js` and `../shared/motion.js`, plus your own css and js. The js reads `?frame=` and writes every string and value of that frame from fixtures.json into plain DOM (no styling yet). DEFAULT frame when `?frame=` is missing: the first frame in fixtures.json.",
+       "every frame id in fixtures.json opens via `?frame=` and shows its strings as unstyled text."),
+     (S("Stage", [V + "/shared/STAGE.md", pm], [p["html"], p["css"], p["js"]],
+        f"Load `{plate}_1X.webp` (and `_2X.webp` for DPR ≥ 2) through the stage engine. REGISTRATION RULE: at 16:9 (1920 × 1080, 1366 × 768) the plate is drawn exactly where the mockup has it (cover, centred, no extra zoom, no shift), so Daniel, Nik, hands and stadium are the mockup's own pixels in the mockup's own places. Other desktop ratios may crop edges but never scale faces more than ±5 % from the 16:9 position. Atmosphere layer on. Mark the managers' areas with `data-manager=\"daniel\"` (left) and `data-manager=\"nik\"` (right) using the face boxes from platemap.json.",
+        "the stage container is in index.html, both plate URLs are in the code, and the only transform is cover-centred.")
+      if not system else
+      S("Stage", [V + "/shared/STAGE.md"], [p["html"], p["css"]],
+        f"Load `{plate}_1X.webp` (and `_2X.webp` for DPR ≥ 2) through the stage engine with a heavier dark scrim (text panels need calm behind them). No managers on this screen, so no `data-manager` markers and no cut-outs.",
+        "the stage container and scrim are in the code, plate cover-centred.")),
+     S("Title block", [f"{pf}/intake_report.md (the title crop position)" if not system else V + "/shared/wordmarks/README.md", "the mockup image from the project Files" if not system else "MOCKUP_TROPHY_ROOM.png from the project Files (title position only)"],
+       [p["html"], p["css"]],
+       f"The screen title is the brush wordmark IMAGE `{title}` with the real words in visually-hidden text for screen readers, never a font. Eyebrow and tagline in the shared type classes. Place everything exactly where the mockup has it (centre x, top y, width as % of the frame, written as CSS comments). No dark box behind text unless the mockup has one there; the plate is fully clean, so UI floats on the scene. DEFAULT if the wordmark file is not on the branch: set the title in the kit's display font with the comment `TODO-WORDMARK` and carry on.",
+       "wordmark (or TODO-WORDMARK), hidden text, eyebrow and tagline are in the code with their measured positions."),
+     S("Layout skeleton (desktop, ≥ 1024 px)", ["the mockup image from the project Files", p["truth"] + " (the KEEP / CHANGE / DROP table only)"], [p["html"], p["css"]],
+       f"Place EMPTY `.sd-panel` boxes where the mockup has panels, nothing inside them yet: {desktop} Measure each box on the mockup (as % of 1366 × 768) and match it within about 2 %; write the measured % next to each rule as a comment. Panels only where the mockup has panels; every illustrated object in the mockup (trophy, icon art, frame) will get a real art asset in the next steps, never a flat box.",
+       "every panel box sits at its measured position; the ready frame shows the empty boxes over the plate."),
+     S("Element group A: everything above the main panel(s)", [p["truth"] + " (the KEEP / CHANGE / DROP table and the strings)", p["fx"], "the mockup image from the project Files"], [p["html"], p["css"], p["js"]],
+       "Build the mockup elements that sit above the main panel(s) (header rows, tiles, scoring panel, toggles, counters), following \"what to take\", \"product truth\" and the TRUTH.md table. Every word that can change is DOM text from fixtures.json; only buttons TRUTH.md lists. About 150 lines; if a group needs more, split it into saved parts 5a, 5b.",
+       "group A renders from fixtures.json in the ready frame and matches the mockup's positions."),
+     S("Element group B: the main panel(s)", [p["truth"] + " (table and strings)", p["fx"], "the mockup image from the project Files"], [p["html"], p["css"], p["js"]],
+       "Build the main panel(s) content: rows, cards, columns, numbers (tabular, condensed, gold for the leader where the design says so), icons as kit pieces or art assets. Daniel's column or side always left. Split into saved parts 6a, 6b if more than about 150 lines.",
+       "the main panel(s) render from fixtures.json in the ready frame with the right hierarchy."),
+     S("Element group C: everything below the main panel(s), and the buttons", [p["truth"] + " (buttons and routes)", p["fx"], "the mockup image from the project Files"], [p["html"], p["css"], p["js"]],
+       "Build the lower panels and the button row: `.sd-btn--primary` for the one primary action, `.sd-btn--secondary` for the rest, routes and ids from TRUTH.md, 44 × 44 targets, focus rings. Drop every mockup button the product does not have (TRUTH.md says DROP).",
+       "every real button and lower panel is in the code; no dropped button remains."),
+    ]
+    if not system:
+        st.append(S("Depth sandwich (recipe only)", [V + "/shared/CUTOUT_STANDARD.md", pm], [pm, p["mk"], p["css"]],
+          f"{depth} Write each cut-out polygon into platemap.json under `cutouts` (1X plate pixels) and the exact `python3 {V}/shared/tools/cutout.py --plate ... --map ... --key cutouts.<name> --output assets/OVL_{code}_<PART>_V1 --rim` commands into tools/MAKE_ASSETS.md; reference the `OVL_{code}_<PART>_V1_1X.webp` / `_2X.webp` files in the HTML as if they exist; style rim light and contact shadows in CSS. Do NOT make or upload the image files: Claude runs MAKE_ASSETS.md, commits them and renders the screen.",
+          "polygons are in platemap.json, the commands are in MAKE_ASSETS.md, the overlay files are referenced in the HTML."))
+    st += [
+     S("States: every frame", [p["fx"], p["truth"] + " (state words)"], [p["js"], p["css"], p["html"]],
+       f"Build every frame in fixtures.json ({frames}). Preview frames show the \"Preview data\" chip (`.sd-preview-tag`, above the crown, never on the title or tagline). Empty, partial, unavailable and loading states are designed panels with an icon and plain words, never blank space; a hidden state must really be hidden (set `display:none`, not only the `hidden` attribute, when a grid rule beats it). Split into saved parts (ready frames, then the other states) if more than about 150 lines.",
+       "each frame id renders a designed state; no frame shows another frame's numbers."),
+    ]
+    if system:
+        phone = " ".join(s.get("phone", s.get("design", [])[-2:]))
+        st += [
+         S("Phone layout (heavy step: alone in its turn)", [p["css"], p["html"]], [p["css"], p["html"]],
+           f"Portrait ≤ 760 px wide, same URL, same DOM: {phone} Background `{V}/shared/plates/ENV_SYS_PHONE_V1.webp` via `<picture>` (DEFAULT if it is not on the branch: the desktop plate cover-cropped). Primary action pinned at the bottom inside `env(safe-area-inset-bottom)`; the bottom bar space reserved as the truth section says (`<div class=\"nav-reserve\">`); touch targets ≥ 44 px; inputs ≥ 16 px.",
+           "the media query holds the whole phone layout; nothing is a shrunk desktop."),
+         S("Phone height budget by arithmetic", [p["css"]], [p["br"] + " (section \"Phone\", table \"Height budget\")"],
+           "Add up the fixed heights at 393 × 660, 360 × 640 and 375 × 553 (title band, panel, pinned button, reserved bar, gaps) and show they fit with no page scroll; a content panel may scroll inside itself. At 375 × 553 the primary action is visible. " + CLAUDE_MEASURES,
+           "the table shows the sum per size and the remaining pixels, all ≥ 0."),
+        ]
+    st += [
+     S("Check by reading", [p["html"], p["css"], p["js"], "project-documents/factory/QUALITY_BAR.md (criteria 1–7 and 10, gates H1–H4)"], [STATUS + " (Self-check section)"],
+       "No browser. Confirm: every frame in fixtures.json renders a designed state; every changing word is DOM text; no PNG master is loaded (WebP via `<picture>`); first-paint weight estimated from the file sizes in the plate's intake_report.md (≤ 900 KB); Daniel left; only TRUTH.md buttons; H1–H4 PASS from the code. Score criteria 1–7 and 10 yourself from the code (aim ≥ 4 each) with one evidence line each. Do NOT run factory-qa, screenshots or the mockup-diff: Claude renders the screen on a real server after you finish, runs H10 and the QA, and fixes or files what it finds.",
+       "the Self-check section lists every line with PASS or FAIL and evidence."),
+     S("BUILD_RESULT and the preview recipe", [V + "/home/BUILD_RESULT.md (headings only)", V + "/home/tools/build_preview.py"], [p["br"], f"{folder}/tools/build_preview.py", p["mk"]],
+       "Write BUILD_RESULT.md: how to run, frames, what you changed from the mockup and why, your scorecard, estimated weight, known gaps, and what Claude must make (MAKE_ASSETS.md). Copy build_preview.py with the file names changed for this screen, but do NOT run it (it needs the binary plate): add `python3 tools/build_preview.py` as the last line of MAKE_ASSETS.md; Claude makes preview.html. Commit and finish.",
+       "BUILD_RESULT.md, tools/build_preview.py and MAKE_ASSETS.md are committed; the last commit is `Job {N} done: <job title>`."),
+    ]
+    return st
+
+def phone_steps_v2(s, folder, name, art_code, art_folder, hub, extra_phone=None):
+    p = paths(folder, name)
+    phone = " ".join(extra_phone or s.get("phone", s.get("design", [])[-2:]))
+    bg = f"{art_folder}/ENV_{art_code}_PHONE_V1.webp"
+    ovl = f"{art_folder}/OVL_{art_code}_DANIEL_PHONE_V1.webp and OVL_{art_code}_NIK_PHONE_V1.webp"
+    reserve = (" Reserve the bottom bar space as this job's truth section says (`<div class=\"nav-reserve\">`, 56 px plus `env(safe-area-inset-bottom)`); the primary action is pinned ABOVE it." if hub else " No bottom bar on this screen: the primary action is pinned at the very bottom inside `env(safe-area-inset-bottom)`.")
+    return [
+     S("Phone plan", [p["br"], "project-documents/factory/CRAFT_GUIDE.md §6", "project-documents/factory/QUALITY_BAR.md criterion 9", p["css"]], [STATUS + " (notes: one line per desktop element with its phone fate)"],
+       "From the CSS alone (no browser), list every desktop element and what happens to it at 393 × 660: stays, moves into a tab, moves into a sheet, is hidden with its reason. DEFAULT: hub-like content goes into tabs, rare extras into a `.sd-sheet`.",
+       "the plan names every element; nothing is left to decide while building."),
+     S("Phone layout (heavy step: alone in its turn)", [p["css"], p["html"]], [p["css"], p["html"]],
+       f"Portrait ≤ 760 px wide, same URL, same DOM: {phone} Add the tab or sheet markup the plan needs; about 150 lines of CSS, split into saved parts 2a (structure) and 2b (tabs and sheets) if more.",
+       "the media query holds the whole phone layout; nothing is a shrunk desktop."),
+     S("Heroes on top", [f"{art_folder}/phonemap.json", f"{art_folder}/phone_intake.md"], [p["html"], p["css"], p["mk"]],
+       f"Top about 55 %: the portrait stadium `{bg}` with `{ovl}` as LARGE cut-outs (heads fully visible, Daniel left, slightly overlapping the UI below, rim light and contact shadow), the brush title between or above them, all through `<picture>` with the positions from phonemap.json. Bottom about 45 %: the primary action and the few controls the screen needs. DEFAULT if a cut-out file is not on the branch yet: reference it anyway and add its `cutout.py` line to tools/MAKE_ASSETS.md (Claude makes it).",
+       "both heroes and the background are referenced with phonemap positions; first paint on phone ≤ 450 KB by file sizes."),
+     S("Controls and the pinned action", [p["css"], p["html"]], [p["css"], p["html"]],
+       "Primary action pinned at the bottom inside `env(safe-area-inset-bottom)`; secondary actions compact; touch targets ≥ 44 px; inputs ≥ 16 px; the keyboard must not hide a primary button (test by arithmetic with a 300 px keyboard inset where the screen has inputs)." + reserve,
+       "every control has a 44 px target and the primary action is in the pinned slot."),
+     S("Height budget by arithmetic", [p["css"]], [p["br"] + " (section \"Phone\", table \"Height budget\")"],
+       "No browser: add up the fixed heights at 393 × 660, 360 × 640 and 375 × 553 (hero band, title, tabs, panel, pinned button, " + ("reserved bar, " if hub else "") + "gaps) and show they fit with no page scroll; at 375 × 553 the primary action is visible; bigger phones (390 × 844, 430 × 932) grow the layout instead of floating. " + CLAUDE_MEASURES,
+       "the table shows the sum per size and the remaining pixels, all ≥ 0."),
+     S("Phone section and check by reading", [p["css"], p["html"]], [p["br"] + " (section \"Phone\")", STATUS + " (Self-check)"],
+       "Write the Phone section: layout, what is hidden or moved and why, the height budget, assets used, what Claude must make. Self-check by reading: H1 (Daniel left in the band), H5 by arithmetic, H6 input sizes, 44 px targets, no PNG master loaded. Commit and finish.",
+       "BUILD_RESULT.md has the Phone section and the status file has the self-check; the last commit is `Job {N} done: <job title>`."),
+    ]
+
+def review_steps_v2(folder, name, mock, intake_keys, scope="static"):
+    p = paths(folder, name)
+    crit = "criteria 1–7, 9 and 10" if scope == "static" else "all 10 criteria"
+    intake = ", ".join("`project-documents/factory/status/JOB-{job:%s}.md` (Claude's intake note at the bottom)" % k for k in intake_keys)
+    return [
+     S("Set up the review", ["project-documents/factory/QUALITY_BAR.md (all of it)"], [p["rv"]],
+       "Confirm in the status notes that you did not build this screen (a fresh chat). You are a strict art director: when in doubt, score lower and write why. Write REVIEW.md as a skeleton with the five headings of the review output format (Verdict, Scorecard, Hard gates, Evidence, Fix list), empty for now.",
+       "the skeleton is committed and the status note says this chat is fresh."),
+     S("Carry Claude's measurements", [intake, f"{folder}/evidence/ (only `QA_SUMMARY.md` and `scores.json` if they exist; Claude renders every build on a real server)"], [p["rv"] + " (section Evidence)"],
+       "Copy Claude's measured results as given (H5 scroll per size, H6 contrast, H7, H8, H9, H10 scores, H11 weight) with the path each number came from. Do NOT run browser QA, screenshots or the mockup-diff yourself and do not re-measure. DEFAULT when a gate has no Claude measurement yet: write `NOT MEASURED (Claude measures)`, never FAIL.",
+       "every measured gate has a number and a source path, or the NOT MEASURED line."),
+     S("Compare with the mockup by reading", [(f"the mockup `{mock.split('/')[-1]}` from the project Files" if mock.startswith("project-documents") else f"the reference: {mock} (from the project Files)"), p["html"], p["css"]], [p["rv"] + " (section Evidence, list \"Mockup differences\")"],
+       "Element by element: where the code's positions (the measured % comments), sizes, words and states differ from the mockup and from TRUTH.md. One line per difference: element, mockup value, code value.",
+       "the list covers the title block, every panel, every button and the managers' areas."),
+     S("Product truth and code audit", [p["truth"], p["fx"], p["js"]], [p["rv"] + " (section Evidence, list \"Code audit\")"],
+       "Check: Daniel left in every row and frame, no invented stats or buttons, honest empty / partial / unavailable states, every changing word from fixtures.json, accessible names, focus order, 44 px targets on phone, inputs ≥ 16 px, no PNG master loaded, no live data in images. One line per finding with file and selector.",
+       "the audit list is complete; each finding names its file and selector."),
+     S("Hard gates table", [p["rv"]], [p["rv"] + " (section Hard gates)"],
+       "H1–H4 PASS or FAIL from your reading with evidence; H5–H11 copied from the Evidence section exactly as Claude measured them (marked \"Claude measures\"), NOT MEASURED where Claude has nothing yet. A gate you did not measure is never a FAIL.",
+       "all eleven rows are filled."),
+     S("Score the criteria", [p["rv"]], [p["rv"] + " (section Scorecard)"],
+       f"Score {crit} 0–5 with one evidence sentence each, from the mockup differences and the code audit. Pass line per QUALITY_BAR.",
+       "every score has its evidence sentence."),
+     S("Verdict and fix list", [p["rv"]], [p["rv"] + " (sections Verdict and Fix list)"],
+       "Verdict PASS or FAIL per the pass line and the gates. Fix list: numbered, each item one exact change (file, selector or asset, the change, the target value); gates Claude has not measured yet are not fix items. Commit and finish.",
+       "REVIEW.md is complete in the QUALITY_BAR format; the last commit is `Job {N} done: <job title>`."),
+    ]
+
+def fix_steps_v2(folder, name):
+    p = paths(folder, name)
+    return [
+     S("Read the fix list", [p["rv"]], [STATUS + " (notes: the fix list as a checklist)"],
+       "If the verdict is PASS: set State: SKIPPED, note \"review passed\", commit `Job N done: skipped (review passed)` and stop. Otherwise copy the numbered fix list into the status notes as a checklist.",
+       "the checklist is in the status file (or the job is SKIPPED)."),
+     S("Do the fix list, one item per saved part (2a, 2b, ...)", ["only the file(s) the item names"], ["only the file(s) the item names"],
+       "Do the items in order, nothing more, at most two items per turn. After each item save and note `item k: done, <file> <selector>`. If an item cannot be done as written, do not improvise: note `item k: BLOCKED, <reason>` and continue with the others. No screenshots, no browser.",
+       "every item is noted done or BLOCKED."),
+     S("Check by reading", [p["rv"] + " (the fix list targets)", p["css"], p["html"]], [STATUS + " (Self-check)"],
+       "Re-read every changed rule against its target value in the fix list. Do not run browser QA: Claude reruns it after you finish.",
+       "each item's target is met in the code, or it is BLOCKED with a reason."),
+     S("Fix round section", [p["br"] + " (headings only)"], [p["br"] + " (section \"Fix round\")"],
+       "List items done, items blocked and what Claude must re-measure. Commit and finish.",
+       "BUILD_RESULT.md has the Fix round section; the last commit is `Job {N} done: <job title>`."),
+    ]
+
+def motion_steps_v2(s, folder, name):
+    p = paths(folder, name)
+    moments = " ".join(s.get("motion", ["Panels rise with stagger; numbers count up."]))
+    return [
+     S("Motion plan", [V + "/shared/MOTION.md", "project-documents/factory/CRAFT_GUIDE.md §5", p["br"] + " (frames and layout)"], [STATUS + " (notes: the entrance order as a list)"],
+       "List the entrance order for this screen (scene, characters, title wipe, panels in order of importance, primary button last) and the screen-specific moments below, each with its target element selector.",
+       "the plan names every animated element and its order."),
+     S("Standard entrance", [p["html"], V + "/shared/motion.js (the `sdEnter` contract only)"], [p["html"], p["js"]],
+       "Wire the shared motion kit with `data-sd-enter` attributes in the planned order and call `sdEnter(root)` after the frame renders; stagger with `--i`.",
+       "every planned element has its `data-sd-enter` attribute and the call is in the js."),
+     S("Signature moments (heavy step: one moment per saved part 3a, 3b, ...)", [p["css"], p["js"]], [p["css"], p["js"]],
+       f"{moments} Use the kit (`sdCountUp`, `sdBurst`, `sdReveal`, keyframes from motion.css); transform and opacity only; particles ≤ 60; nothing changes product logic or timing contracts.",
+       "each moment is in the code with its duration and easing as constants."),
+     S("Interaction feel and reduced motion", [p["css"]], [p["css"]],
+       "Hover and press on every control ≤ 120 ms; tab and toggle changes cross-fade; no layout shift. Reduced motion (system `prefers-reduced-motion` block AND the app's own setting class from motion.js): fades only.",
+       "both reduced-motion paths exist and every transition is ≤ 120 ms."),
+     S("Timeline table and check by reading", [p["css"], p["js"]], [p["br"] + " (section \"Motion\")", STATUS + " (Self-check)"],
+       "Write the timeline as a table (element, delay, duration, easing): total entrance ≤ 1.2 s, usable at 0.6 s. Score criterion 8 yourself (aim 5) with evidence from the code. No frame strips or recordings: Claude records them into evidence/motion/ at intake. Commit and finish. This is the screen's finish line: Claude takes a look next.",
+       "BUILD_RESULT.md has the Motion section with the timeline; the last commit is `Job {N} done: <job title>`."),
+    ]
+
+
+def fixmotion_steps_v2(folder, name, entrance):
+    """Fix round plus motion for screens without a separate motion job. Never skips: the motion part always runs."""
+    p = paths(folder, name)
+    f = fix_steps_v2(folder, name)
+    return [
+     S("Read the fix list (this job never skips)", [p["rv"]], [STATUS + " (notes: the fix list as a checklist)"],
+       "Copy the numbered fix list into the status notes as a checklist. If the review passed, note `no fix items` and go on to step 4.",
+       "the checklist (or `no fix items`) is in the status file."),
+     f[1], f[2],
+     S("Standard entrance motion", [V + "/shared/MOTION.md", p["html"]], [p["html"], p["js"], p["css"]],
+       f"Wire the shared motion kit with `data-sd-enter` attributes and `sdEnter(root)`: {entrance}. Both reduced-motion paths (system block and app setting class). Transform and opacity only.",
+       "every panel and the title carry their `data-sd-enter` attribute and the reduced-motion block exists."),
+     S("Fix round and Motion sections", [p["br"] + " (headings only)"], [p["br"] + " (sections \"Fix round\" and \"Motion\")", STATUS + " (Self-check)"],
+       "List items done and blocked; write the motion timeline table (element, delay, duration, easing; total ≤ 1.2 s) and score criterion 8 yourself. No recordings: Claude records them at intake. Commit and finish.",
+       "BUILD_RESULT.md has both sections; the last commit is `Job {N} done: <job title>`."),
+    ]
+
 # ---------------------------------------------------------------- Existing screens (polish)
 
 # Home
@@ -396,19 +600,19 @@ job("home_seven", "Home: seven destinations and premium tiles", "4 Polish built 
 job("home_phone", "Home: phone with seven destinations", "4 Polish built screens", "build", SOL_SHOTS, ["home_seven", "phoneart_HOME"],
  goal="All seven destinations plus Continue and the soundtrack visible on a 393 × 660 iPhone without scrolling, and still cinematic.",
  read=BASE_READ + [CRAFT + " §6", HF + "/BUILD_RESULT.md"],
- steps=phone_steps(dict(phone=["Top: Daniel (pointing at the viewer) and Nik as large cut-outs over the portrait stadium with the brush lockup; then a slim soundtrack strip, Continue as a full-width gold button, and the six other destinations as a 3 × 2 grid of compact tiles (art + label, ≥ 44 px). If seven destinations and large heroes cannot both fit at 393 × 660, keep heroes at least 40 % and say so in BUILD_RESULT."]), HF),
+ steps=phone_steps_v2(dict(phone=["Top: Daniel (pointing at the viewer) and Nik as large cut-outs over the portrait stadium with the brush lockup; then a slim soundtrack strip, Continue as a full-width gold button, and the six other destinations as a 3 × 2 grid of compact tiles (art + label, ≥ 44 px). DEFAULT if seven destinations and large heroes cannot both fit at 393 × 660: keep the heroes at 40 % of the height and say so in BUILD_RESULT."]), HF, "home", "HOME", HF + "/assets", hub=True),
  deliverables=[HF + "/ (phone)"], selfcheck=["H5 at 393 × 660, 360 × 640, 375 × 553.", "Every destination ≥ 44 px and labelled."], done="Phone Home committed with measurements.")
 
 job("home_review", "Home: review", "4 Polish built screens", "review", SOL_SHOTS, ["home_phone"],
  goal="Independent scorecard review of Home against GOAL_HOME.jpg and QUALITY_BAR.", read=BASE_READ + [CRAFT],
- steps=review_steps(HF, "project-documents/factory/mockups/GOAL_HOME.jpg"), deliverables=[HF + "/review/REVIEW.md"], selfcheck=["Every score has evidence."], done="Review committed with verdict and fix list.")
+ steps=review_steps_v2(HF, "home", "project-documents/factory/mockups/GOAL_HOME.jpg", ["home_seven", "home_phone"]), deliverables=[HF + "/review/REVIEW.md"], selfcheck=["Every score has evidence."], done="Review committed with verdict and fix list.")
 job("home_fix", "Home: fix round", "4 Polish built screens", "fix", SOL_SHOTS, ["home_review"],
  goal="Apply the Home review's fix list exactly (or skip if it passed).", read=BASE_READ + [CRAFT],
- steps=fix_steps(HF), deliverables=[HF + "/ (fixed)"], selfcheck=["All hard gates PASS."], done="Fix list done or job skipped.")
+ steps=fix_steps_v2(HF, "home"), deliverables=[HF + "/ (fixed)"], selfcheck=["All hard gates PASS."], done="Fix list done or job skipped.")
 job("home_motion", "Home: motion pass", "4 Polish built screens", "build", SOL_SHOTS, ["home_fix", "motion"],
  goal="Give Home the FIFA menu entrance and tile feel.", read=BASE_READ + [CRAFT],
- steps=motion_steps(dict(motion=["Lockup brush-wipes in, the managers slide in from their sides (Daniel's pointing hand arrives last with a tiny settle), tiles rise left to right, Continue pulses once.", "Tile hover: illustration tilts 3° in 3D and its gold glints.", "Soundtrack vinyl spins only while playing."]), HF),
- deliverables=[HF + "/evidence/motion/"], selfcheck=["Criterion 8 ≥ 4.", "H7 PASS."], done="Motion committed; Home is at its finish line.", look=True)
+ steps=motion_steps_v2(dict(motion=["Lockup brush-wipes in, the managers slide in from their sides (Daniel's pointing hand arrives last with a tiny settle), tiles rise left to right, Continue pulses once.", "Tile hover: illustration tilts 3° in 3D and its gold glints.", "Soundtrack vinyl spins only while playing."]), HF, "home"),
+ deliverables=[HF + "/BUILD_RESULT.md (Motion section with the timeline table)", HF + "/evidence/motion/ (frame strips recorded by Claude at intake)"], selfcheck=["Criterion 8 ≥ 4.", "H7 PASS."], done="Motion committed; Home is at its finish line.", look=True)
 
 # League
 LF = V + "/league"
@@ -444,18 +648,18 @@ job("league_marks", "League: swap in the new league marks", "4 Polish built scre
 job("league_phone", "League: phone with the hand in frame", "4 Polish built screens", "build", SOL_SHOTS, ["league_hands", "phoneart_LEAGUE"],
  goal="On phones, keep the wheel big and bring Daniel's pointing hand into the frame so the touch moment survives.",
  read=BASE_READ + [CRAFT + " §6", LF + "/BUILD_RESULT.md"],
- steps=phone_steps(dict(phone=["Face band with both faces; the wheel overlaps the band's bottom so Daniel's fingertip (cut-out) still touches the rim on the left (shift the crop focal point to include his hand, or use a dedicated phone crop of the hand overlay).", "Wheel at least 240 px at 393 × 660.", "SPIN WHEEL pinned full width; BACK as a compact secondary."]), LF),
+ steps=phone_steps_v2(dict(phone=["Face band with both faces; the wheel overlaps the band's bottom so Daniel's fingertip (cut-out) still touches the rim on the left (shift the crop focal point to include his hand, or use a dedicated phone crop of the hand overlay).", "Wheel at least 240 px at 393 × 660.", "SPIN WHEEL pinned full width; BACK as a compact secondary."]), LF, "league", "LEAGUE", LF + "/assets", hub=False),
  deliverables=[LF + "/ (phone)"], selfcheck=["Fingertip touches the rim at 393 × 660 (zoom proof).", "H5."], done="Phone League committed.")
 job("league_review", "League: review", "4 Polish built screens", "review", SOL_SHOTS, ["league_phone"],
  goal="Independent scorecard review of League against GOAL_LEAGUE.jpg.", read=BASE_READ + [CRAFT],
- steps=review_steps(LF, "project-documents/factory/mockups/GOAL_LEAGUE.jpg"), deliverables=[LF + "/review/REVIEW.md"], selfcheck=["Every score has evidence."], done="Review committed.")
+ steps=review_steps_v2(LF, "league", "project-documents/factory/mockups/GOAL_LEAGUE.jpg", ["league_hands", "league_phone"]), deliverables=[LF + "/review/REVIEW.md"], selfcheck=["Every score has evidence."], done="Review committed.")
 job("league_fix", "League: fix round", "4 Polish built screens", "fix", SOL_SHOTS, ["league_review"],
- goal="Apply the League review's fix list exactly (or skip).", read=BASE_READ + [CRAFT], steps=fix_steps(LF), deliverables=[LF + "/ (fixed)"], selfcheck=["All hard gates PASS."], done="Fix list done or skipped.")
+ goal="Apply the League review's fix list exactly (or skip).", read=BASE_READ + [CRAFT], steps=fix_steps_v2(LF, "league"), deliverables=[LF + "/ (fixed)"], selfcheck=["All hard gates PASS."], done="Fix list done or skipped.")
 job("league_motion", "League: spin feel", "4 Polish built screens", "build", SOL_SHOTS, ["league_fix", "motion"],
  goal="Make the spin feel weighty and dramatic, like a draw on a TV broadcast.", read=BASE_READ + [CRAFT, "js/leagueWheel.js on main (spin timing, result event)"],
  truth=["Keep the product's spin result logic and timing contract; only the presentation changes."],
- steps=motion_steps(dict(motion=["Spin: fast start with motion blur on the wedges (CSS filter on a duplicate layer), long ease-out, a ticking pointer bounce at each wedge, final 300 ms slow creep, then the winning wedge flashes and its mark scales up 1.15 with a gold burst.", "Daniel's fingertip overlay stays registered during the spin (it does not rotate).", "Result: the league name brush-wipes into the subtitle line."]), LF),
- deliverables=[LF + "/evidence/motion/"], selfcheck=["Criterion 8 ≥ 4.", "Spin result identical to the product logic."], done="Motion committed; League is at its finish line.", look=True)
+ steps=motion_steps_v2(dict(motion=["Spin: fast start with motion blur on the wedges (CSS filter on a duplicate layer), long ease-out, a ticking pointer bounce at each wedge, final 300 ms slow creep, then the winning wedge flashes and its mark scales up 1.15 with a gold burst.", "Daniel's fingertip overlay stays registered during the spin (it does not rotate).", "Result: the league name brush-wipes into the subtitle line."]), LF, "league"),
+ deliverables=[LF + "/BUILD_RESULT.md (Motion section with the timeline table)", LF + "/evidence/motion/ (frame strips recorded by Claude at intake)"], selfcheck=["Criterion 8 ≥ 4.", "Spin result identical to the product logic."], done="Motion committed; League is at its finish line.", look=True)
 
 # Club
 CF = V + "/club"
@@ -487,19 +691,19 @@ job("club_panels", "Club: panels and short-laptop fit", "4 Polish built screens"
 
 job("club_phone", "Club: phone", "4 Polish built screens", "build", SOL_SHOTS, ["club_panels", "phoneart_CLUB"],
  goal="The club pack moment on a phone, with both packs and faces visible.", read=BASE_READ + [CRAFT + " §6", CF + "/BUILD_RESULT.md"],
- steps=phone_steps(dict(phone=["Face band with both managers and their packs (packs may scale down but stay in hand).", "Stepper as a compact row of five dots with the current label.", "Bottom panel: two crest rows stacked; OPEN SHOWDOWN PACKS pinned."]), CF),
+ steps=phone_steps_v2(dict(phone=["Face band with both managers and their packs (packs may scale down but stay in hand).", "Stepper as a compact row of five dots with the current label.", "Bottom panel: two crest rows stacked; OPEN SHOWDOWN PACKS pinned."]), CF, "club", "CLUB", CF + "/assets", hub=False),
  deliverables=[CF + "/ (phone)"], selfcheck=["H5.", "Packs still held (hands visible)."], done="Phone Club committed.")
 job("club_review", "Club: review", "4 Polish built screens", "review", SOL_SHOTS, ["club_phone"],
  goal="Independent scorecard review of Club against GOAL_CLUB.jpg.", read=BASE_READ + [CRAFT],
- steps=review_steps(CF, "project-documents/factory/mockups/GOAL_CLUB.jpg"), deliverables=[CF + "/review/REVIEW.md"], selfcheck=["Every score has evidence."], done="Review committed.")
+ steps=review_steps_v2(CF, "club", "project-documents/factory/mockups/GOAL_CLUB.jpg", ["club_panels", "club_phone"]), deliverables=[CF + "/review/REVIEW.md"], selfcheck=["Every score has evidence."], done="Review committed.")
 job("club_fix", "Club: fix round", "4 Polish built screens", "fix", SOL_SHOTS, ["club_review"],
- goal="Apply the Club review's fix list exactly (or skip).", read=BASE_READ + [CRAFT], steps=fix_steps(CF), deliverables=[CF + "/ (fixed)"], selfcheck=["All hard gates PASS."], done="Fix list done or skipped.")
+ goal="Apply the Club review's fix list exactly (or skip).", read=BASE_READ + [CRAFT], steps=fix_steps_v2(CF, "club"), deliverables=[CF + "/ (fixed)"], selfcheck=["All hard gates PASS."], done="Fix list done or skipped.")
 job("club_packrip", "Club: the pack rip", "4 Polish built screens", "build", SOL_SHOTS, ["club_fix", "motion"],
  goal="The signature moment of the whole app: opening the club packs must feel like a FIFA Ultimate Team walkout.",
  read=BASE_READ + [CRAFT, "js/clubAssignment.js on main (reveal order and events)"],
  truth=["Reveal order, timing contract and the permanence message come from the product. No player imagery in the reveal (crest only)."],
- steps=motion_steps(dict(motion=["Anticipation (500 ms): screen dims, the pack edges glow brighter, a low pulse.", "Rip: a bright seam tears across the pack top (animated clip-path along a jagged path), light pours out, the pack halves fall away (two layers translating and rotating out).", "Walkout: the club crest rises out of the light with a burst (≤ 60 particles) and a ring shockwave, club name brush-wipes on, a short camera push (scale 1.0 → 1.03).", "Second pack waits for the first to settle; VS slams between them; LOCK step stamps gold.", "Reduced motion: crest fades in, no tear."]), CF),
- deliverables=[CF + "/evidence/motion/"], selfcheck=["Criterion 8 = 5 is the target here.", "Reveal order identical to the product."], done="Pack rip committed; Club is at its finish line.", look=True)
+ steps=motion_steps_v2(dict(motion=["Anticipation (500 ms): screen dims, the pack edges glow brighter, a low pulse.", "Rip: a bright seam tears across the pack top (animated clip-path along a jagged path), light pours out, the pack halves fall away (two layers translating and rotating out).", "Walkout: the club crest rises out of the light with a burst (≤ 60 particles) and a ring shockwave, club name brush-wipes on, a short camera push (scale 1.0 → 1.03).", "Second pack waits for the first to settle; VS slams between them; LOCK step stamps gold.", "Reduced motion: crest fades in, no tear."]), CF, "club"),
+ deliverables=[CF + "/BUILD_RESULT.md (Motion section with the timeline table)", CF + "/evidence/motion/ (frame strips recorded by Claude at intake)"], selfcheck=["Criterion 8 = 5 is the target here.", "Reveal order identical to the product."], done="Pack rip committed; Club is at its finish line.", look=True)
 
 # Transfer
 TF = V + "/tr2/slice-02-plate"
@@ -518,17 +722,17 @@ job("tr_polish", "Transfer War: polish to the key art", "4 Polish built screens"
  deliverables=[TF + "/ (updated)", TF + "/evidence/polish/"], selfcheck=["F1–F4 strings and ids unchanged (diff fixtures).", "Sealed Dossier reveals nothing."], done="Transfer polish committed.")
 job("tr_phone", "Transfer War: phone polish", "4 Polish built screens", "build", SOL_SHOTS, ["tr_polish", "phoneart_TRANSFER"],
  goal="Phone layouts of F1–F4 on the shared kit, still cinematic.", read=BASE_READ + [CRAFT + " §6", TF + "/BUILD_RESULT.md"],
- steps=phone_steps(dict(phone=["Keep the passed phone structure; restyle with the kit; face band from the plate; your own panel first, the Sealed Dossier as a compact locked card; the main action pinned."]), TF),
+ steps=phone_steps_v2(dict(phone=["Keep the passed phone structure; restyle with the kit; your own panel first, the Sealed Dossier as a compact locked card; the main action pinned. Do this for every frame F1–F4 (one frame per saved part if the CSS passes about 150 lines)."]), TF, "plate", "TRANSFER", TF + "/assets", hub=False),
  deliverables=[TF + "/ (phone)"], selfcheck=["H5 on every frame."], done="Phone Transfer committed.")
 job("tr_review", "Transfer War: review", "4 Polish built screens", "review", SOL_SHOTS, ["tr_phone"],
  goal="Independent scorecard review of Transfer War against the Plate G key art.", read=BASE_READ + [CRAFT],
- steps=review_steps(TF, "project-documents/factory/mockups/GOAL_TRANSFER_PLATE_G.png"), deliverables=[TF + "/review/REVIEW.md"], selfcheck=["Every score has evidence."], done="Review committed.")
+ steps=review_steps_v2(TF, "plate", "project-documents/factory/mockups/GOAL_TRANSFER_PLATE_G.png", ["tr_polish", "tr_phone"]), deliverables=[TF + "/review/REVIEW.md"], selfcheck=["Every score has evidence."], done="Review committed.")
 job("tr_fix", "Transfer War: fix round", "4 Polish built screens", "fix", SOL_SHOTS, ["tr_review"],
- goal="Apply the Transfer review's fix list exactly (or skip).", read=BASE_READ + [CRAFT], steps=fix_steps(TF), deliverables=[TF + "/ (fixed)"], selfcheck=["All hard gates PASS."], done="Fix list done or skipped.")
+ goal="Apply the Transfer review's fix list exactly (or skip).", read=BASE_READ + [CRAFT], steps=fix_steps_v2(TF, "plate"), deliverables=[TF + "/ (fixed)"], selfcheck=["All hard gates PASS."], done="Fix list done or skipped.")
 job("tr_motion", "Transfer War: motion", "4 Polish built screens", "build", SOL_SHOTS, ["tr_fix", "motion"],
  goal="Transfer War tension in motion.", read=BASE_READ + [CRAFT],
- steps=motion_steps(dict(motion=["The window clock's hand ticks with a soft glow pulse each second (presentation only; real timers stay DOM text).", "Submitting a guess: the card slides into the dossier slot and a wax seal stamps.", "Verdict reveal: the dossier seal cracks, pages fan out, the verdict brush-wipes on, a burst for the winner."]), TF),
- deliverables=[TF + "/evidence/motion/"], selfcheck=["Criterion 8 ≥ 4.", "No motion reveals the rival's progress."], done="Motion committed; Transfer is at its finish line.", look=True)
+ steps=motion_steps_v2(dict(motion=["The window clock's hand ticks with a soft glow pulse each second (presentation only; real timers stay DOM text).", "Submitting a guess: the card slides into the dossier slot and a wax seal stamps.", "Verdict reveal: the dossier seal cracks, pages fan out, the verdict brush-wipes on, a burst for the winner."]), TF, "plate"),
+ deliverables=[TF + "/BUILD_RESULT.md (Motion section with the timeline table)", TF + "/evidence/motion/ (frame strips recorded by Claude at intake)"], selfcheck=["Criterion 8 ≥ 4.", "No motion reveals the rival's progress."], done="Motion committed; Transfer is at its finish line.", look=True)
 
 # Loading
 LDF = V + "/loading"
@@ -552,6 +756,7 @@ job("ld_fix", "Loading: fix round", "4 Polish built screens", "fix", SOL_SHOTS, 
 
 # ---------------------------------------------------------------- New screens
 ORDER = ["TR", "CS", "RV", "LG", "SR", "FW", "SJ"]
+HUBS = {"TR", "CS", "RV", "LG", "SJ"}  # screens that reserve the phone bottom bar (V2G-003); SR and FW hide it
 for code in ORDER:
     s = NEW_SCREENS[code]
     folder = V + "/" + s["folder"]
@@ -563,40 +768,39 @@ for code in ORDER:
      goal=f"Build the {nm} screen at desktop sizes to the mockup and the quality bar, with real product truth and the characters standing out of the menu.",
      read=BASE_READ + [CRAFT, folder + "/TRUTH.md", folder + "/fixtures.json", pf + "/platemap.json", pf + "/intake_report.md", V + "/shared/STAGE.md", V + "/shared/CUTOUT_STANDARD.md", V + "/shared/QA.md"],
      mockup=[f"Mockup: {mock}"] + s["mockup_take"], truth=s["overrides"],
-     steps=screen_build_steps(code, s, folder, pf),
-     deliverables=[folder + "/ (index.html, css, js, assets/OVL_*, evidence/, BUILD_RESULT.md, preview.html)"],
-     selfcheck=["Own scorecard criteria 1–7 and 10 at least 4 each, written in BUILD_RESULT.md.", "Hard gates H1–H4, H6, H8, H9 PASS at desktop sizes."],
-     done="Desktop build committed with compare sheet and QA.")
+     steps=(screen_build_steps(code, s, folder, pf) if code + "_build" in FROZEN_V1 else screen_build_steps_v2(code, s, folder, pf)),
+     deliverables=([folder + "/ (index.html, css, js, assets/OVL_*, evidence/, BUILD_RESULT.md, preview.html)"] if code + "_build" in FROZEN_V1 else
+                   [folder + "/ (index.html, css, js, tools/MAKE_ASSETS.md, tools/build_preview.py, BUILD_RESULT.md)", pf + "/platemap.json (cutout polygons)", "made by Claude from MAKE_ASSETS.md: assets/OVL_*, preview.html, evidence/"]),
+     selfcheck=["Own scorecard criteria 1–7 and 10 at least 4 each, written in BUILD_RESULT.md.", "Hard gates H1–H4, H6, H8, H9 PASS at desktop sizes." if code + "_build" in FROZEN_V1 else "Hard gates H1–H4 PASS from the code; H5–H11 are Claude's to measure at intake."],
+     done=("Desktop build committed with compare sheet and QA." if code + "_build" in FROZEN_V1 else "Desktop build, BUILD_RESULT.md and MAKE_ASSETS.md committed; Claude makes the overlays and preview.html, renders the screen and runs QA and H10."))
     job(code + "_phone", f"{nm}: phone", "5 New screens", "build", SOL_SHOTS, [code + "_build", "phoneart_" + s["plate"]],
      goal=f"Recompose {nm} for the 393 × 660 iPhone: cinematic, no scroll.", read=BASE_READ + [CRAFT + " §6", folder + "/BUILD_RESULT.md"],
-     steps=phone_steps(s, folder), deliverables=[folder + "/ (phone)"], selfcheck=["H5 at all three phone sizes.", "Faces visible in the band, Daniel left."], done="Phone layout committed with measurements.")
+     steps=phone_steps_v2(s, folder, s["folder"], s["plate"], pf, hub=code in HUBS), deliverables=[folder + "/ (phone)", folder + "/BUILD_RESULT.md (Phone section with the height budget)"], selfcheck=["H5 at all three phone sizes by arithmetic (Claude measures).", "Faces visible in the band, Daniel left."], done="Phone layout committed with the height budget; Claude measures it at intake.")
     job(code + "_review", f"{nm}: review", "5 New screens", "review", SOL_SHOTS, [code + "_phone"],
      goal=f"Independent scorecard review of {nm}.", read=BASE_READ + [CRAFT, folder + "/TRUTH.md"],
-     steps=review_steps(folder, mock), deliverables=[folder + "/review/REVIEW.md"], selfcheck=["Every score has evidence."], done="Review committed with verdict and fix list.")
+     steps=review_steps_v2(folder, s["folder"], mock, [code + "_build", code + "_phone"]), deliverables=[folder + "/review/REVIEW.md"], selfcheck=["Every score has evidence."], done="Review committed with verdict and fix list.")
     job(code + "_fix", f"{nm}: fix round", "5 New screens", "fix", SOL_SHOTS, [code + "_review"],
-     goal=f"Apply the {nm} review's fix list exactly (or skip if it passed).", read=BASE_READ + [CRAFT], steps=fix_steps(folder), deliverables=[folder + "/ (fixed)"], selfcheck=["All hard gates PASS."], done="Fix list done or skipped.")
+     goal=f"Apply the {nm} review's fix list exactly (or skip if it passed).", read=BASE_READ + [CRAFT], steps=fix_steps_v2(folder, s["folder"]), deliverables=[folder + "/ (fixed)"], selfcheck=["All hard gates PASS (H5–H11 as Claude measures them)."], done="Fix list done or skipped.")
     job(code + "_motion", f"{nm}: motion", "5 New screens", "build", SOL_SHOTS, [code + "_fix", "motion"],
-     goal=f"Give {nm} its entrance and signature moment.", read=BASE_READ + [CRAFT], steps=motion_steps(s, folder),
-     deliverables=[folder + "/evidence/motion/"], selfcheck=["Criterion 8 ≥ 4.", "H7 PASS."], done=f"Motion committed; {nm} is at its finish line.", look=True)
+     goal=f"Give {nm} its entrance and signature moment.", read=BASE_READ + [CRAFT], steps=motion_steps_v2(s, folder, s["folder"]),
+     deliverables=[folder + "/BUILD_RESULT.md (Motion section with the timeline table)", folder + "/evidence/motion/ (frame strips recorded by Claude at intake)"], selfcheck=["Criterion 8 ≥ 4.", "H7 PASS."], done=f"Motion committed; {nm} is at its finish line.", look=True)
 
 for code in ["RB", "ST"]:
     s = SYSTEM_SCREENS[code]
     folder = V + "/" + s["folder"]
     nm = s["name"]
-    sys_s = dict(desktop=s["design"], phone=s["design"][-2:], frames=s["frames"], mockup_take=[], overrides=["All text from the product word for word (TRUTH.md)."], depth=["No characters on this screen."])
-    steps = screen_build_steps(code, sys_s, folder, V + "/shared/plates")
-    steps[1] = f"Stage: the system plate `{V}/shared/plates/ENV_SYS_PLATE_V1` through the stage engine with a heavier dark scrim (text panels need calm behind them). No managers on this screen."
-    steps.insert(8, "Phone in the same job: " + " ".join(s["design"][-2:]) + " Measure 393 × 660, 360 × 640 and 375 × 553 with factory-qa (the page never scrolls; a content panel may scroll inside itself).")
+    sys_s = dict(desktop=s["design"], phone=s["design"][-2:], frames=s["frames"], mockup_take=[], overrides=["All text from the product word for word (TRUTH.md)."], depth=["No characters on this screen."], folder=s["folder"])
+    steps = screen_build_steps_v2(code, sys_s, folder, V + "/shared/plates", system=True)
     job(code + "_build", f"{nm}: build (desktop and phone)", "5 New screens", "build", SOL_SHOTS, ["truth_" + code, "plate_SYS", "found_review", "wordmarks", "phoneart_SYS"],
      goal=f"Build {nm} in the Showdown system style for desktop and phone.", read=BASE_READ + [CRAFT, folder + "/TRUTH.md", folder + "/fixtures.json", V + "/shared/STAGE.md", V + "/shared/QA.md"],
      mockup=["No own mockup. Take the system from the other screens' mockups: brush title, eyebrow, gold-edged glass panels, gold primary button."] + s["design"],
-     steps=steps, deliverables=[folder + "/"], selfcheck=["Text word for word from the product.", "H5 on phone."], done="Build committed with QA.")
+     steps=steps, deliverables=[folder + "/ (index.html, css, js, tools/MAKE_ASSETS.md, tools/build_preview.py, BUILD_RESULT.md)"], selfcheck=["Text word for word from the product.", "H5 on phone by arithmetic (Claude measures)."], done="Build and BUILD_RESULT.md committed; Claude renders it and runs QA.")
     job(code + "_review", f"{nm}: review", "5 New screens", "review", SOL_SHOTS, [code + "_build"],
      goal=f"Independent review of {nm}.", read=BASE_READ + [CRAFT, folder + "/TRUTH.md"],
-     steps=review_steps(folder, "the system mockups (MOCKUP_CAREER_STATISTICS.png for panel and title style)"), deliverables=[folder + "/review/REVIEW.md"], selfcheck=["Every score has evidence."], done="Review committed.")
+     steps=review_steps_v2(folder, s["folder"], "the system mockups (MOCKUP_CAREER_STATISTICS.png for panel and title style)", [code + "_build"]), deliverables=[folder + "/review/REVIEW.md"], selfcheck=["Every score has evidence."], done="Review committed.")
     job(code + "_fix", f"{nm}: fix round and motion", "5 New screens", "fix", SOL_SHOTS, [code + "_review", "motion"],
      goal=f"Apply the {nm} fix list (if any) and add the standard entrance motion.", read=BASE_READ + [CRAFT, V + "/shared/MOTION.md"],
-     steps=fix_steps(folder)[1:4] + ["Add the standard entrance with the shared motion kit (title wipe, panels rise with stagger); reduced motion = fades.", f"Update BUILD_RESULT.md (Fix round + Motion). Commit and finish."],
+     steps=fixmotion_steps_v2(folder, s["folder"], "title wipe, panels rise with stagger (60 ms), primary button last; reduced motion = fades"),
      deliverables=[folder + "/ (fixed + motion)"], selfcheck=["All hard gates PASS.", "Criterion 8 ≥ 4."], done=f"{nm} is at its finish line.", look=True,
      note="This job never skips: even when the review passed, the motion part still runs (then skip only the fix-list steps).")
 
@@ -664,12 +868,20 @@ job("int_hub", "Showcase: every screen in one place", "7 Integration", "integrat
  goal="One showcase page that opens every screen and frame and links them the way the app does, so Nik can walk the whole game.",
  read=BASE_READ + [CRAFT, "every screen's BUILD_RESULT.md"],
  steps=[
-  f"Build `{IN}/index.html`: a Showdown-styled hub (system plate, brush title \"SHOWDOWN SHOWCASE\") listing every screen with its frames as thumbnails.",
-  "Wire navigation inside the previews: Home tiles → their screens, Back controls → their product destinations, Statistics → Rivalry and Trophy Room, Season Results → Final Winner (preview route). Use a tiny shared router (`?screen=` + `?frame=`) without changing any screen's product ids.",
-  "Add a phone mode toggle that shows the screen in a 393 × 660 frame.",
-  "Smoke-click every link at desktop and phone; fix broken links. Commit and finish.",
+  S("Hub page (one screen group per saved part: 1a the four polished screens, 1b the seven new screens, 1c Loading, Standings, Rule Book, Settings)", ["each screen's BUILD_RESULT.md (its frames list only, one screen at a time)", V + "/shared/kit.html (panel and title classes)"], [IN + "/index.html", IN + "/showcase.css"],
+    f"A Showdown-styled hub on the system plate `{V}/shared/plates/ENV_SYS_PLATE_V1_1X.webp` with the title SHOWDOWN SHOWCASE (kit display font, comment `TODO-WORDMARK`), listing every screen with its frames as text links (no thumbnails: you may link Claude's committed shots in each screen's evidence/ folder, never copy or make images).",
+    "every screen folder and every frame id from the BUILD_RESULTs has a link."),
+  S("Router", [IN + "/index.html", V + "/home/home.js (how Home reads `routes` from fixtures.json)"], [IN + "/router.js", IN + "/routes.json", IN + "/index.html"],
+    "A tiny shared router (`?screen=` + `?frame=`) with its table in routes.json: Home tiles → their screens, Back controls → their product destinations, Statistics → Rivalry and Trophy Room, Season Results → Final Winner (preview route). No screen's product ids change. DEFAULT for a route the product has but the showcase lacks a screen for: route to the hub page.",
+    "routes.json names a destination for every tile, Back and in-screen link."),
+  S("Phone mode toggle", [IN + "/index.html", IN + "/showcase.css"], [IN + "/index.html", IN + "/showcase.css", IN + "/router.js"],
+    "A toggle that shows the chosen screen inside a 393 × 660 frame (an iframe) and remembers the choice in the URL (`&phone=1`).",
+    "the toggle exists and the iframe size is exactly 393 × 660."),
+  S("Check by reading", [IN + "/routes.json", IN + "/index.html", "each target screen's fixtures.json `routes` block (one at a time)"], [STATUS + " (Self-check)"],
+    "Every link target is an existing folder plus a frame id in that screen's fixtures.json; every Back route has a destination. No clicking in a browser: Claude walks the showcase at intake. Commit and finish.",
+    "the Self-check lists every screen as reachable with its Back destination."),
  ],
- deliverables=[IN + "/"], selfcheck=["Every screen reachable; every Back works."], done="Showcase committed.")
+ deliverables=[IN + "/ (index.html, showcase.css, router.js, routes.json)"], selfcheck=["Every screen reachable; every Back has a destination (by reading; Claude clicks it)."], done="Showcase committed.")
 job("int_bind", "Showcase: history screens read the career model", "7 Integration", "integrate", SOL_SHOTS, ["int_hub", "data_fix"],
  goal="Make Legacy, Statistics, Rivalry, Trophy Room and Home read the career model (with fixtures through the same model in preview), with honest states.",
  read=BASE_READ + [DD + "/DATA_PLAN.md", "js/careerHistoryModel.js", "js/careerHistoryReader.js"],
@@ -685,43 +897,100 @@ job("int_phone", "Full phone pass", "7 Integration", "review", SOL_SHOTS, ["int_
  goal="One reviewer walks every screen and frame on phone sizes and writes one fix list.",
  read=BASE_READ + [CRAFT + " §6"],
  steps=[
-  "Run factory-qa for every screen at 393 × 660 (DPR 3), 360 × 640, 375 × 553, 390 × 844, 430 × 932.",
-  "Walk the showcase in phone mode end to end (Home → Start/Join → League → Club → Transfer → Season Results → Final Winner → Legacy → Statistics → Rivalry → Trophy Room → Rule Book → Settings).",
-  "Check consistency between screens: face band height, title size, pinned button position, tab style.",
-  "Write `project-documents/factory/reviews/PHONE_PASS.md` with a per-screen table and one numbered fix list. Commit and finish.",
+  S("Collect Claude's phone measurements (one screen per saved part 1a, 1b, ...)", ["each screen's `evidence/qa/QA_SUMMARY.md` and its BUILD_RESULT.md Phone section (one screen at a time)"], ["project-documents/factory/reviews/PHONE_PASS.md (per-screen table)"],
+    "Copy per screen and frame: scroll at 393 × 660, 360 × 640, 375 × 553, 390 × 844, 430 × 932, primary visible at 375 × 553, 44 px targets, input sizes, errors. Do not run factory-qa: Claude measured these at each intake; write NOT MEASURED where a number is missing (Claude measures).",
+    "the table has one row per screen and frame with a source path per number."),
+  S("Walk the flow by reading", [IN + "/routes.json", "each screen's fixtures.json `routes` block (one at a time)"], ["project-documents/factory/reviews/PHONE_PASS.md (section Flow)"],
+    "Home → Start/Join → League → Club → Transfer → Season Results → Final Winner → Legacy → Statistics → Rivalry → Trophy Room → Rule Book → Settings: for each hop, the link exists in routes.json and the target frame exists. Claude clicks the real flow in phone mode at intake.",
+    "every hop is listed as present or missing."),
+  S("Consistency between screens (one css file per saved part)", ["each screen's phone media query in its css file (one at a time)"], ["project-documents/factory/reviews/PHONE_PASS.md (section Consistency)"],
+    "A table: screen, hero band height, title size, pinned button bottom offset, tab style, reserved bar. DEFAULT shared value: the one most screens use; mark every outlier.",
+    "every screen has a row and every outlier is marked."),
+  S("Fix list", ["project-documents/factory/reviews/PHONE_PASS.md"], ["project-documents/factory/reviews/PHONE_PASS.md (section Fix list)"],
+    "One numbered fix list (file, selector, change, target value). Commit and finish.",
+    "PHONE_PASS.md is complete; the last commit is `Job {N} done: <job title>`."),
  ],
- deliverables=["project-documents/factory/reviews/PHONE_PASS.md"], selfcheck=["Every screen and frame covered."], done="Phone pass committed.")
+ deliverables=["project-documents/factory/reviews/PHONE_PASS.md"], selfcheck=["Every screen and frame covered (Claude's numbers or NOT MEASURED)."], done="Phone pass committed.")
 job("int_phone_fix", "Full phone pass: fixes", "7 Integration", "fix", SOL_SHOTS, ["int_phone"],
  goal="Apply the phone pass fix list.", read=BASE_READ + ["project-documents/factory/reviews/PHONE_PASS.md"],
- steps=["Do the fix list item by item, re-shoot each.", "Re-run factory-qa on every touched screen.", "Write the result into PHONE_PASS.md (Fix round). Commit and finish."],
- deliverables=["fixed screens"], selfcheck=["H5 on every screen."], done="Phone fixes committed.")
+ steps=[
+  S("Do the fix list, one item per saved part (1a, 1b, ...)", ["project-documents/factory/reviews/PHONE_PASS.md (the fix list)", "only the file(s) the item names"], ["only the file(s) the item names"],
+    "In order, nothing more, at most two items per turn; note `item k: done, <file> <selector>` or `item k: BLOCKED, <reason>`. No screenshots, no factory-qa.",
+    "every item is noted done or BLOCKED."),
+  S("Check by reading", ["project-documents/factory/reviews/PHONE_PASS.md (targets)", "the changed css files"], [STATUS + " (Self-check)"],
+    "Re-read every changed rule against its target; redo the height arithmetic for each touched screen at 393 × 660. Claude re-measures at intake.",
+    "each item's target is met in the code."),
+  S("Fix round", ["project-documents/factory/reviews/PHONE_PASS.md"], ["project-documents/factory/reviews/PHONE_PASS.md (section Fix round)"],
+    "Items done, items blocked, screens Claude must re-measure. Commit and finish.",
+    "PHONE_PASS.md has the Fix round section; the last commit is `Job {N} done: <job title>`."),
+ ],
+ deliverables=["fixed screens", "project-documents/factory/reviews/PHONE_PASS.md (Fix round)"], selfcheck=["H5 on every touched screen by arithmetic (Claude measures)."], done="Phone fixes committed.")
 job("int_motion", "Motion and sound consistency pass", "7 Integration", "review", SOL_SHOTS, ["int_phone_fix"],
  goal="Make all screens move as one game: same timings, same easings, same entrance order, transitions between screens.",
  read=BASE_READ + [V + "/shared/MOTION.md"],
- steps=["Record frame strips of every screen's entrance; put them in one sheet.", "Align outliers to the shared timings; add a shared screen-to-screen transition in the showcase (fade through black with a gold wipe, 350 ms).", "Check menu feedback sounds (if the product plays any) fire once per action and respect the setting.", "Write `project-documents/factory/reviews/MOTION_PASS.md`. Commit and finish."],
+ steps=[
+  S("Collect the timelines (one screen per saved part 1a, 1b, ...)", ["each screen's BUILD_RESULT.md Motion section (one at a time)"], ["project-documents/factory/reviews/MOTION_PASS.md (table)"],
+    "One table: screen, entrance total, first usable, stagger, easings, reduced-motion path. No recordings: Claude's frame strips are in each screen's evidence/motion/; link them.",
+    "every screen has a row; outliers against MOTION.md are marked."),
+  S("Align outliers and add the shared transition", ["the outlier screens' css and js (one screen per saved part)", V + "/shared/motion.css"], ["only the timing constants in those files", IN + "/router.js", IN + "/showcase.css"],
+    "Set outliers to the shared timings (values only, no new effects). Shared screen-to-screen transition in the showcase: fade through black with a gold wipe, 350 ms; reduced motion = plain fade.",
+    "no screen deviates without a written reason; the transition is in the showcase."),
+  S("Menu feedback sounds by reading", ["js/menuFeedback.js on main", V + "/shared/motion.js"], ["project-documents/factory/reviews/MOTION_PASS.md (section Sound)"],
+    "If the product plays sounds: each fires once per action and respects the setting; write what you found. DEFAULT: Team V adds no new sounds.",
+    "the Sound section says what the product does and what the kit respects."),
+  S("Write the pass", ["project-documents/factory/reviews/MOTION_PASS.md"], ["project-documents/factory/reviews/MOTION_PASS.md"],
+    "Verdict per screen and one numbered fix list. Commit and finish.",
+    "MOTION_PASS.md is complete; the last commit is `Job {N} done: <job title>`."),
+ ],
  deliverables=["project-documents/factory/reviews/MOTION_PASS.md"], selfcheck=["No screen deviates from shared timings without a reason."], done="Motion pass committed.")
 job("int_final_review", "Final package review (Codex)", "7 Integration", "review", CODEX, ["int_motion"],
  goal="The last independent check of the whole visual package before Nik sees it.",
  read=BASE_READ + [CRAFT, "every REVIEW.md", "project-documents/factory/reviews/"],
  steps=[
-  "Run factory-qa on every screen; collect all hard gates into one table.",
-  "Score every screen with all 10 criteria (motion and final pass line) using compare sheets.",
-  "Rights sweep: list every image asset in the package with its source job and check H2/H3.",
-  "Product truth sweep: every button and stat traced to TRUTH.md.",
-  "Write `project-documents/factory/reviews/FINAL_REVIEW.md`: per-screen verdict, scores, and one numbered fix list. Commit and finish.",
+  S("Hard gates table", ["each screen's `evidence/qa/QA_SUMMARY.md` and `review/REVIEW.md` (one screen per saved part)"], ["project-documents/factory/reviews/FINAL_REVIEW.md (section Hard gates)"],
+    "Collect every hard gate per screen into one table. DEFAULT: carry Claude's committed measurements; rerun factory-qa only if your environment has a browser, and never wait on GitHub Actions.",
+    "all eleven gates have a value per screen."),
+  S("Score every screen", ["each screen's `review/REVIEW.md` and Claude's compare sheets in its evidence/ folder (read, never remake)"], ["project-documents/factory/reviews/FINAL_REVIEW.md (section Scores)"],
+    "All 10 criteria per screen against the motion and final pass line, one evidence sentence each.",
+    "every screen has ten scores with evidence."),
+  S("Rights sweep", ["each screen's assets folder listing and its intake_report.md / phone_intake.md"], ["project-documents/factory/reviews/FINAL_REVIEW.md (section Rights)"],
+    "List every image asset with its source job; check H2 and H3 (no real crests, logos, trophies, players; Reus only on Loading with credit; no live data in images).",
+    "every asset has a source job and a PASS/FAIL."),
+  S("Product truth sweep", ["each screen's TRUTH.md and index.html (one screen per saved part)"], ["project-documents/factory/reviews/FINAL_REVIEW.md (section Product truth)"],
+    "Every button and stat on every screen traced to a TRUTH.md line; anything untraced is a finding.",
+    "the trace table is complete."),
+  S("Verdict and fix list", ["project-documents/factory/reviews/FINAL_REVIEW.md"], ["project-documents/factory/reviews/FINAL_REVIEW.md"],
+    "Per-screen verdict and one numbered fix list (file, selector or asset, change, target). Commit and finish.",
+    "FINAL_REVIEW.md is complete; the last commit is `Job {N} done: <job title>`."),
  ],
  deliverables=["project-documents/factory/reviews/FINAL_REVIEW.md"], selfcheck=["Every screen scored; every asset traced."], done="Final review committed.")
 job("int_final_fix", "Final fixes", "7 Integration", "fix", SOL_SHOTS, ["int_final_review"],
  goal="Apply the final review's fix list.", read=BASE_READ + ["project-documents/factory/reviews/FINAL_REVIEW.md"],
- steps=["Do the fix list item by item, re-shoot each.", "Re-run factory-qa everywhere.", "Write the result into FINAL_REVIEW.md (Fix round). Commit and finish."],
- deliverables=["fixed screens"], selfcheck=["All hard gates PASS everywhere."], done="Final fixes committed.")
+ steps=[
+  S("Do the fix list, one item per saved part (1a, 1b, ...)", ["project-documents/factory/reviews/FINAL_REVIEW.md (the fix list)", "only the file(s) the item names"], ["only the file(s) the item names"],
+    "In order, nothing more, at most two items per turn; note `item k: done, <file> <selector>` or `item k: BLOCKED, <reason>`. No screenshots, no factory-qa.",
+    "every item is noted done or BLOCKED."),
+  S("Check by reading", ["project-documents/factory/reviews/FINAL_REVIEW.md (targets)", "the changed files"], [STATUS + " (Self-check)"],
+    "Re-read every changed rule against its target. Claude re-measures every touched screen at intake.",
+    "each item's target is met in the code."),
+  S("Fix round", ["project-documents/factory/reviews/FINAL_REVIEW.md"], ["project-documents/factory/reviews/FINAL_REVIEW.md (section Fix round)"],
+    "Items done, items blocked, screens Claude must re-measure. Commit and finish.",
+    "FINAL_REVIEW.md has the Fix round section; the last commit is `Job {N} done: <job title>`."),
+ ],
+ deliverables=["fixed screens", "project-documents/factory/reviews/FINAL_REVIEW.md (Fix round)"], selfcheck=["All hard gates PASS everywhere (as Claude measures them)."], done="Final fixes committed.")
 job("int_package", "Package for Nik and handoff to GPT-5.6 Sol", "7 Integration", "integrate", SOL, ["int_final_fix"],
  goal="One page Nik can open to approve the whole visual package, and one handoff for GPT-5.6 Sol to plan the move to main. Nothing goes to main in this job.",
  read=BASE_READ,
  steps=[
-  "Build `" + IN + "/APPROVAL.html`: every screen at 1366 × 768 and 393 × 660 next to its mockup, with its final scores, in the Showdown look.",
-  "Write `project-documents/factory/PACKAGE.md`: list of screens, folders, shared kit, assets with SHA-256, data candidate files, known gaps.",
-  "Write `project-documents/factory/HANDOFF_TO_SOL.md` for GPT-5.6 Sol: what is ready, what must go through POS20 to reach main (data candidate, screen integration), and the open questions. Commit and finish.",
+  S("Approval page (one screen group per saved part 1a, 1b, 1c)", ["each screen's `review/REVIEW.md` (scores) and the file names of Claude's 1366 × 768 and 393 × 660 shots in its evidence/ folder (one screen at a time)"], [IN + "/APPROVAL.html", IN + "/showcase.css"],
+    "Every screen: Claude's committed desktop and phone shots next to its mockup from `project-documents/factory/mockups/`, referenced by path (link, never copy or make an image), with its final scores, in the Showdown look. DEFAULT when a shot is missing: an empty gold-edged slot with the words `Claude renders this at intake`.",
+    "every screen has its row with mockup, two shots (or slots) and scores."),
+  S("Package list", ["each folder's intake_report.md, phone_intake.md or README.md for SHA-256 lines (one folder per saved part)"], ["project-documents/factory/PACKAGE.md"],
+    "Screens, folders, shared kit, assets with the SHA-256 copied from the intake files (never recompute binaries; DEFAULT when missing: `see <file>`), data candidate files, known gaps.",
+    "every asset folder is listed with its hashes or the pointer."),
+  S("Handoff", ["project-documents/factory/PACKAGE.md", "AGENTS.md (the POS20 paragraph only)"], ["project-documents/factory/HANDOFF_TO_SOL.md"],
+    "For GPT-5.6 Sol: what is ready, what must go through POS20 to reach main (data candidate, screen integration), and the open questions. Nothing goes to main in this job. Commit and finish.",
+    "HANDOFF_TO_SOL.md is committed; the last commit is `Job {N} done: <job title>`."),
  ],
  deliverables=[IN + "/APPROVAL.html", "project-documents/factory/PACKAGE.md", "project-documents/factory/HANDOFF_TO_SOL.md"], selfcheck=["No change to main."], done="Package and handoff committed.", look=True)
 
@@ -841,22 +1110,30 @@ for k, (title, gid, deps) in TG_TRACK.items():
              deliverables=["none (Team G delivers on its own branches)"], selfcheck=["Team G reported the job delivered."], done=f"Team G reported {gid} delivered.",
              team_g=f"Team G's job {gid}. Claude marks it DONE when Team G delivers.")
 
+NB = V + "/shared/navbar"
 j = BYK()["int_bind"]
 j.update(team_g=None, title="Showcase: screens read Team G's model-true fixtures",
  goal="Swap every screen's sample data for Team G's model-true fixtures (G-11) using the exact DATA_CONTRACT_V1 field names, bind the top bar locks (G-6), and prove every number agrees across screens.",
  read=BASE_READ + [DC, "Team G's G-11 fixture files and adapter notes (the leads relay names where they are)"],
  truth=["Previews keep the visible \"Preview data\" tag. The exact interim label from DATA_CONTRACT_V1 §0.", "Never invent a field: if a screen needs something the fixtures lack, set BLOCKED and name the field; Claude asks Team G through the relay."],
  steps=[
-  "List every screen's fixtures.json fields next to the contract field and the G-11 fixture file that supplies it; write the table to `project-documents/factory/reviews/BINDING.md`.",
-  "Replace each screen's sample numbers (Home, Start/Join, Season Results, Final Winner, Rivalry, Career Statistics, Standings, Legacy, Trophy Room) with the G-11 fixtures, keeping every screen's five states (`loading`, `empty`, `unavailable`, `partial`, `ready`).",
-  "Bind the top bar to `nav.locked` / `nav.reason` from the fixtures: locked tap shows \"Finish this step first\" and does not navigate; check every locked screen.",
-  "Consistency test: for the same fixture set, every number is identical across Home, Legacy, Statistics, Rivalry, Standings and Trophy Room. Commit and finish.",
+  S("Binding table (one screen per saved part 1a, 1b, ...)", [DC, "the screen's fixtures.json", "the G-11 fixture file that supplies it (the leads relay names where it is)"], ["project-documents/factory/reviews/BINDING.md"],
+    "For Home, Start/Join, Season Results, Final Winner, Rivalry, Career Statistics, Standings, Legacy and Trophy Room: every fixtures.json field next to its contract name and the G-11 file and key that supplies it. A field the fixtures lack: set BLOCKED and name it (Claude asks Team G).",
+    "every field of every screen has a contract name and a source, or a BLOCKED line."),
+  S("Replace the sample numbers (one screen per saved part 2a, 2b, ...)", ["the screen's fixtures.json", "its G-11 fixture file", "its js (only where a field name changes)"], ["the screen's fixtures.json", "its js if a field name changed"],
+    "Swap the sample numbers for the G-11 values, keeping the screen's five states (`loading`, `empty`, `unavailable`, `partial`, `ready`), the visible \"Preview data\" tag and Daniel first.",
+    "the screen's frames carry G-11 numbers and still render all five states."),
+  S("Bind the top bar locks", [NB + "/navbar.js", "each hub screen's fixtures.json `nav` block (one at a time)"], [NB + "/navbar.js", "each hub screen's fixtures.json (`nav: {active, locked, reason}`)"],
+    "Locked tap shows \"Finish this step first\" and does not navigate; a locked frame exists for every reason (`transfer-window` / `season-entry` / `setup`). Check every locked screen by reading; Claude clicks them at intake.",
+    "every hub screen has its nav block and the lock reasons are covered."),
+  S("Consistency check", ["the fixtures.json of Home, Legacy, Statistics, Rivalry, Standings and Trophy Room (one at a time)"], [V + "/shared/tools/check_binding.py", STATUS + " (notes: the script output)"],
+    "A small Python script (runs in your sandbox on the JSON files) that asserts every shared number is identical across those screens for the same fixture set; run it until it prints `0 errors` and paste the output into the notes. Commit and finish.",
+    "the script prints `0 errors`; the last commit is `Job {N} done: <job title>`."),
  ],
- deliverables=["screen bindings", "project-documents/factory/reviews/BINDING.md", "consistency test"])
+ deliverables=["screen bindings", "project-documents/factory/reviews/BINDING.md", V + "/shared/tools/check_binding.py"])
 
 # Top bar (contract §10 + V2G-003): build it now on fixtures
 j = BYK()["navbar"]
-NB = V + "/shared/navbar"
 j.update(team_g=None, title="Top bar and phone bottom bar",
  goal="Build the FIFA 17-style top bar Team G approved (five tabs plus a settings icon) and its phone bottom bar, as one shared component every hub screen uses. Build on fixtures now; the real lock fields arrive with Team G's G-6 and are bound in job 104.",
  read=BASE_READ + [CRAFT, DC + " §10 (the agreed bar)"],
@@ -866,11 +1143,24 @@ j.update(team_g=None, title="Top bar and phone bottom bar",
         "Phone (900 px wide and below): a 5-icon bottom bar, 56 px plus `env(safe-area-inset-bottom)`, with the settings icon in the top corner. It shows ONLY on hub screens: Home, Start / Join, Legacy, Trophy Room, Career Statistics / Rivalry, Standings, Rule Book, Settings. It is hidden on Loading, the League and Club wheels, Transfer War, Season Results entry and the Final Winner reveal.",
         "No real logos; the CM17 badge is our own."],
  steps=[
-  "Write `" + NB + "/NAV_CONTRACT.md`: the tabs with destinations, the lock rule and reasons, the hub / non-hub screen list, the two bar heights, and the fixture shape `nav: {active, locked, reason}`.",
-  "Build `" + NB + "/navbar.css` and `navbar.js` (desktop): slanted gold-edged CM17 badge on the left, the five uppercase tabs with a gold active state and underline, a dark slanted capsule on the right with the settings icon, `nav` + `aria-current`, keyboard focus, and the locked behaviour (toast \"Finish this step first\", no navigation).",
-  "Phone bottom bar in the same files: five icons with short labels, ≥ 44 px targets, gold active state, safe-area padding; a screen opts in with `data-nav=\"hub\"` and out with `data-nav=\"hidden\"`; settings icon in the top corner.",
-  "Proof: add the bar to Home (desktop and phone) and to a blank hub test page `" + NB + "/proof.html` with a locked frame; run factory-qa (393 × 660, 360 × 640, 375 × 553 no scroll with the bar) and the Home mockup-diff gate (must still PASS).",
-  "Write `" + NB + "/README.md` (how a screen adds the bar, the space it reserves, the active-tab rule). Commit and finish.",
+  S("Contract", [DC + " §10"], [NB + "/NAV_CONTRACT.md"],
+    "The tabs with destinations, the lock rule and reasons, the hub / non-hub screen list, the two bar heights (52 px top, 56 px bottom plus safe area), and the fixture shape `nav: {active, locked, reason}`.",
+    "NAV_CONTRACT.md answers every question the build steps need."),
+  S("Desktop bar: markup and CSS", [NB + "/NAV_CONTRACT.md", V + "/shared/showdown-ui.css (button and chip classes only)"], [NB + "/navbar.css", NB + "/navbar.js"],
+    "navbar.js builds the markup from a config object (`nav` element, slanted gold-edged CM17 badge on the left, the five uppercase tabs, a dark slanted capsule on the right with the settings icon); navbar.css styles it with the gold active state and underline, 52 px tall, kit tokens only.",
+    "a page that includes the two files shows the bar with the five tabs and the settings icon."),
+  S("Desktop bar: behaviour", [NB + "/navbar.js"], [NB + "/navbar.js", NB + "/navbar.css"],
+    "`aria-current` on the active tab, keyboard focus rings, and the locked behaviour: a locked tab tap shows the toast \"Finish this step first\" and does not navigate; tabs never hide. Routes come from the config object, never from the product ids.",
+    "the lock, the toast and `aria-current` are in the code."),
+  S("Phone bottom bar", [NB + "/navbar.css", NB + "/navbar.js"], [NB + "/navbar.css", NB + "/navbar.js"],
+    "Five icons with short labels, ≥ 44 px targets, gold active state, 56 px plus `env(safe-area-inset-bottom)`; a screen opts in with `data-nav=\"hub\"` and out with `data-nav=\"hidden\"`; the settings icon moves to the top corner. Icons are inline SVG you write (no image files).",
+    "the bottom bar renders only on `data-nav=\"hub\"` pages at ≤ 900 px."),
+  S("Proof by text", [V + "/home/index.html", V + "/home/home.css (the phone media query)"], [V + "/home/index.html", V + "/home/home.css", NB + "/proof.html"],
+    "Add the bar to Home (desktop and phone, Home is a hub) and write a blank hub test page proof.html with a locked frame. Redo Home's 393 × 660 height arithmetic with the bar reserved (no scroll at 393 × 660, 360 × 640, 375 × 553). No factory-qa and no mockup-diff: Claude runs both at intake (the Home gate must still PASS).",
+    "Home includes the bar, proof.html exists, the arithmetic shows the fit."),
+  S("README", [NB + "/NAV_CONTRACT.md"], [NB + "/README.md"],
+    "How a screen adds the bar, the space it reserves, the active-tab rule, the lock fixture. Commit and finish.",
+    "README.md is committed; the last commit is `Job {N} done: <job title>`."),
  ],
  deliverables=[NB + "/"], selfcheck=["Exactly five tabs plus settings.", "Locked tap does not navigate.", "No-scroll still holds on phone with the bar.", "Home mockup-diff gate still PASS."],
  done="Top bar and bottom bar committed with proof on Home and the test page.")
@@ -880,8 +1170,7 @@ BAR_HUB = "Bottom bar: this is a hub screen, so on phone (≤ 900 px) it reserve
 BAR_NONE = "No bottom bar on this screen (it is hidden here, V2G-003): use the full 393 × 660 on phone. On desktop the top bar may sit in the top 52 px; keep that strip free of faces and titles."
 for k in ["home_phone", "SJ_phone", "LG_phone", "TR_phone", "CS_phone", "RV_phone", "RB_build", "ST_build", "home_seven", "SJ_build", "LG_build", "TR_build", "CS_build", "RV_build"]:
     BYK()[k]["truth"].append(BAR_HUB)
-for k in ["home_phone", "SJ_phone", "LG_phone", "TR_phone", "CS_phone", "RV_phone"]:
-    st = BYK()[k]["steps"]; st.insert(len(st) - 1, "Reserve the bottom bar space as this job's truth section says, and re-measure 393 × 660, 360 × 640 and 375 × 553 with it reserved.")
+# (the v2 phone steps reserve the bar inside their "Controls and the pinned action" step for hub screens)
 for k in ["league_phone", "club_phone", "tr_phone", "SR_phone", "FW_phone", "ld_polish", "SR_build", "FW_build", "league_hands", "club_panels", "tr_polish"]:
     BYK()[k]["truth"].append(BAR_NONE)
 
@@ -913,20 +1202,44 @@ job("SD_build", "Standings: build (desktop and phone)", "5 New screens", "build"
  mockup=["No own mockup. Default (Claude's pick): reuse the Rivalry Statistics plate and phone art (the face-off scene), but with its own layout: the brush wordmark STANDINGS, one large central scoreboard (Daniel left, Nik right, Showdown points huge, season W/D/L and trophy counts beneath), a This Showdown / Career toggle above it. Style from MOCKUP_RIVALRY_STATISTICS.png panels."],
  truth=["Only contract fields (TRUTH.md). The leader's number gets the gold flash; a level score says \"Level\".", BAR_HUB],
  steps=[
-  f"Set up `{SDF}/` with index.html, standings.css, standings.js reading fixtures.json, using the shared kit (tokens, kit, stage). Draw the Rivalry plate through the stage engine at mockup registration.",
-  "Build the scoreboard panel centred between the managers (about 44 % width), the toggle, and the career table view; every number is DOM text.",
-  "Depth sandwich: where the panel meets a manager's shoulder or arm, cut that part out with `shared/tools/cutout.py` and lay it over the panel edge with rim light and a contact shadow.",
-  "Build every frame from fixtures.json; empty, loading, unavailable and interim states are designed panels, never blank space.",
-  "Phone: the Rivalry phone art with both managers large in the top ~55 %, the scoreboard and toggle below, with the bottom bar space reserved. Measure 393 × 660, 360 × 640 and 375 × 553 (no scroll).",
-  f"Desktop and phone QA with factory-qa; first paint ≤ 450 KB phone and ≤ 900 KB desktop. Write `{SDF}/BUILD_RESULT.md` and preview.html. Commit and finish.",
+  S("Scaffold", [V + "/home/index.html (the head and the page shell only)", V + "/home/home.js (only the part that reads `?frame=`)", SDF + "/fixtures.json"], [SDF + "/index.html", SDF + "/standings.css", SDF + "/standings.js"],
+    "Link the shared tokens, type, ui, stage and motion css and js; standings.js reads `?frame=` (DEFAULT: the first frame) and writes every string and value from fixtures.json into plain DOM.",
+    "every frame id opens via `?frame=` and shows its strings as unstyled text."),
+  S("Stage", [V + "/shared/STAGE.md", RVA + "/platemap.json"], [SDF + "/index.html", SDF + "/standings.css", SDF + "/standings.js"],
+    f"Draw the Rivalry plate `{RVA}/ENV_RV_PLATE_V1_1X.webp` (`_2X` for DPR ≥ 2) through the stage engine at mockup registration (cover, centred, no zoom, no shift); atmosphere on; `data-manager` markers from the face boxes.",
+    "stage container and both plate URLs are in the code."),
+  S("Title block", [V + "/shared/wordmarks/README.md"], [SDF + "/index.html", SDF + "/standings.css"],
+    f"The brush wordmark `{WORDMARK_FILE['SD']}` with the hidden real words, eyebrow and tagline in the shared type classes, placed like Rivalry Statistics' title (same top y). DEFAULT if the file is missing: kit display font with the comment `TODO-WORDMARK`.",
+    "the title block is in the code with its position."),
+  S("Scoreboard panel", [SDF + "/TRUTH.md (fields and strings)", SDF + "/fixtures.json"], [SDF + "/index.html", SDF + "/standings.css", SDF + "/standings.js"],
+    "One large central scoreboard (about 44 % width, Daniel left, Nik right): Showdown points huge, season W/D/L and trophy counts beneath; the leader's number gold, a level score says \"Level\"; every number DOM text.",
+    "the This Showdown view renders from fixtures.json."),
+  S("Toggle and career view", [SDF + "/TRUTH.md (career view and interim label)", SDF + "/fixtures.json"], [SDF + "/index.html", SDF + "/standings.css", SDF + "/standings.js"],
+    "The This Showdown / Career toggle above the scoreboard (`.sd-tabs`, `aria-selected`) and the career table view (`standings` by `careerPoints`, then season wins, else level) with the exact interim label when history is not real.",
+    "both views switch without a page reload and the interim label is word for word."),
+  S("Depth sandwich (recipe only)", [V + "/shared/CUTOUT_STANDARD.md", RVA + "/platemap.json"], [RVA + "/platemap.json", SDF + "/tools/MAKE_ASSETS.md", SDF + "/standings.css"],
+    f"Where the panel meets a manager's shoulder or arm, write the cut-out polygon under `cutouts` in platemap.json and the `python3 {V}/shared/tools/cutout.py ... --rim` command into MAKE_ASSETS.md; reference `OVL_SD_<PART>_V1` WebP files in the HTML and style rim light and contact shadow in CSS. Claude makes the files. DEFAULT if nothing overlaps: write `no cut-outs needed` in MAKE_ASSETS.md.",
+    "polygons and commands are written, or the no-cut-outs line is."),
+  S("States", [SDF + "/fixtures.json"], [SDF + "/standings.js", SDF + "/standings.css"],
+    "Every frame SD1–SD6: empty, loading, unavailable and interim states are designed panels with an icon and plain words, never blank space; the \"Preview data\" chip above the crown.",
+    "each frame renders its own designed state."),
+  S("Phone layout (heavy step: alone in its turn)", [RVA + "/phonemap.json", SDF + "/standings.css"], [SDF + "/standings.css", SDF + "/index.html", SDF + "/tools/MAKE_ASSETS.md"],
+    f"Portrait ≤ 760 px: the Rivalry phone art (`{RVA}/ENV_RV_PHONE_V1.webp`, `OVL_RV_DANIEL_PHONE_V1.webp`, `OVL_RV_NIK_PHONE_V1.webp` via `<picture>`, positions from phonemap.json) with both managers large in the top about 55 %, the scoreboard and toggle below, the bottom bar space reserved (`<div class=\"nav-reserve\">`), 44 px targets. DEFAULT if a cut-out file is missing: reference it and add its cutout.py line to MAKE_ASSETS.md.",
+    "the media query holds the whole phone layout."),
+  S("Phone height budget by arithmetic", [SDF + "/standings.css"], [SDF + "/BUILD_RESULT.md (section \"Phone\", table \"Height budget\")"],
+    "Add up the fixed heights at 393 × 660, 360 × 640 and 375 × 553 with the bar reserved and show they fit with no scroll. " + CLAUDE_MEASURES,
+    "the table shows the sum per size and the remaining pixels, all ≥ 0."),
+  S("Check by reading and BUILD_RESULT", [SDF + "/index.html", SDF + "/standings.css", SDF + "/standings.js", V + "/home/tools/build_preview.py"], [SDF + "/BUILD_RESULT.md", SDF + "/tools/build_preview.py", SDF + "/tools/MAKE_ASSETS.md"],
+    "Score criteria 1–7, 9 and 10 from the code (aim ≥ 4), estimate first paint from file sizes (≤ 450 KB phone, ≤ 900 KB desktop), confirm every number is DOM text and Daniel is left. Copy build_preview.py with this screen's file names but do not run it; add it to MAKE_ASSETS.md (Claude makes preview.html and runs QA). Commit and finish.",
+    "BUILD_RESULT.md, build_preview.py and MAKE_ASSETS.md are committed; the last commit is `Job {N} done: <job title>`."),
  ],
- deliverables=[SDF + "/"], selfcheck=["Own scorecard criteria 1–7, 9 and 10 at least 4 each.", "H5 on phone with the bar reserved."], done="Standings build committed with QA.")
+ deliverables=[SDF + "/ (index.html, standings.css, standings.js, tools/MAKE_ASSETS.md, tools/build_preview.py, BUILD_RESULT.md)"], selfcheck=["Own scorecard criteria 1–7, 9 and 10 at least 4 each.", "H5 on phone with the bar reserved, by arithmetic (Claude measures)."], done="Standings build and BUILD_RESULT.md committed; Claude makes the assets and runs QA.")
 job("SD_review", "Standings: review", "5 New screens", "review", SOL_SHOTS, ["SD_build"],
  goal="Independent review of Standings.", read=BASE_READ + [CRAFT, SDF + "/TRUTH.md"],
- steps=review_steps(SDF, "MOCKUP_RIVALRY_STATISTICS.png (style reference; Standings has no own mockup)"), deliverables=[SDF + "/review/REVIEW.md"], selfcheck=["Every score has evidence."], done="Review committed.")
+ steps=review_steps_v2(SDF, "standings", "MOCKUP_RIVALRY_STATISTICS.png (style reference; Standings has no own mockup)", ["SD_build"]), deliverables=[SDF + "/review/REVIEW.md"], selfcheck=["Every score has evidence."], done="Review committed.")
 job("SD_fix", "Standings: fix round and motion", "5 New screens", "fix", SOL_SHOTS, ["SD_review", "motion"],
  goal="Apply the Standings fix list (if any) and add its entrance and count-up motion.", read=BASE_READ + [CRAFT, V + "/shared/MOTION.md"],
- steps=fix_steps(SDF)[1:4] + ["Add the entrance with the shared motion kit (title wipe, managers slide in, points count up, leader flashes gold once); reduced motion = fades.", "Update BUILD_RESULT.md (Fix round + Motion). Commit and finish."],
+ steps=fixmotion_steps_v2(SDF, "standings", "title wipe, managers slide in from their sides, points count up with `sdCountUp`, the leader's number flashes gold once; reduced motion = fades"),
  deliverables=[SDF + "/ (fixed + motion)"], selfcheck=["All hard gates PASS.", "Criterion 8 ≥ 4."], done="Standings is at its finish line.", look=True,
  note="This job never skips: even when the review passed, the motion part still runs.")
 BYK()["int_hub"]["deps"].append("SD_fix")
@@ -1045,13 +1358,26 @@ for b, f in WM_FIX.items():
 # 2026-10-02 19:10 UTC: phone art whose background already exists becomes a project job (cut-outs, proof, weight).
 # Job 111: the Home plate's left side is clean stadium, so Claude cropped ENV_HOME_PHONE_V1 without any image request.
 import os as _os
-REPO = "/home/claude/fifa17-career-showdown2/"
+REPO = os.path.join(REPO, "")  # repo root with a trailing slash, from the top of this file
 for j in JOBS:
     if j["key"].startswith("phoneart_") and j["type"] == "image":
         bg = [m for st in j["steps"] for m in re.findall(r"visual-assets/[^`\s]*ENV_[A-Z0-9]+_PHONE_V1\.webp", st)]
         if bg and _os.path.exists(REPO + bg[0]):
             j["type"] = "build"; j["worker"] = SOL_SHOTS
             j["truth"].insert(0, f"The phone background `{bg[0]}` (and its .png master) is ALREADY on the branch, made by Claude. Skip steps 2, 3 and 4 (no image request in this job); do steps 1, 5 and 6 and mark 2-4 as 'done by Claude'. Write the polygons and the cutout.py commands into tools/MAKE_ASSETS.md (handbook §7); Claude makes the image files and the proof.")
+            code = j["key"].split("_", 1)[1]
+            nm, src, out, _d = PHONE_SRC[code]
+            screen = out.rsplit("/assets", 1)[0]
+            mk = screen + "/tools/MAKE_ASSETS.md"
+            j["steps"][0] = S("Cut-out polygons (recipe only)", [V + "/shared/CUTOUT_STANDARD.md", f"{out}/platemap.json (plate sizes and face boxes)", "the matching goal or mockup image from the project Files (same pixels as the plate, to see the figures)"], [f"{out}/phonemap.json", mk],
+              f"Draw one polygon around Daniel's whole visible figure (head, hair, shoulders, arms, hands, down to the plate's bottom edge or where his body leaves the frame) and one around Nik, in 1X plate pixels (`plate_1x_size` in platemap.json), 10–40 points each, hair kept soft, no straight cut through a body. Write them into phonemap.json under `cutouts.daniel_phone` and `cutouts.nik_phone`, and these two lines into MAKE_ASSETS.md: `python3 {V}/shared/tools/cutout.py --plate {src} --source-scale 2 --map {out}/phonemap.json --key cutouts.daniel_phone --output assets/OVL_{code}_DANIEL_PHONE_V1 --rim` and the same for `nik_phone` / `OVL_{code}_NIK_PHONE_V1`. The WebP files (about 1000 px tall, quality 85) and PNG masters are made by Claude; do NOT make or upload them.",
+              "both polygons are in phonemap.json and both commands are in MAKE_ASSETS.md.")
+            j["steps"][4] = S("Phone proof (recipe only)", [f"{out}/phonemap.json"], [f"{out}/phonemap.json", mk],
+              f"Write the 393 × 660 composition into phonemap.json under `phone_frame`: background cover, Daniel's and Nik's position and height as % of the frame (heads fully visible in the top 55 %, Daniel left, both slightly overlapping the centre and the area below), and where the dark bottom gradient starts. Add the line `# proof: Claude composites PHONE_PROOF.png (393 × 660 at 3×) from phone_frame` to MAKE_ASSETS.md. Do NOT make PHONE_PROOF.png yourself.",
+              "phone_frame holds every position as % and the proof line is in MAKE_ASSETS.md.")
+            j["steps"][5] = S("Weight and intake note", [f"{out}/phonemap.json", STATUS + " (Claude's note with the background's size)"], [f"{out}/phone_intake.md"],
+              f"The background `ENV_{code}_PHONE_V1.webp` size from the status note (Claude measured it), plus a budget for the two cut-outs so the total stays ≤ 350 KB (DEFAULT: ≤ 60 KB each at quality 85); list the files, the budget and leave the SHA-256 lines for Claude to fill after MAKE_ASSETS.md runs. Commit and finish.",
+              "phone_intake.md lists the four files with sizes or budgets; the last commit is `Job {N} done: <job title>`.")
 
 
 # 2026-10-02 22:00 UTC: plate jobs whose locked plate exists become project jobs for the two text/crop steps left (platemap, title wordmark).
@@ -1094,8 +1420,12 @@ def lane(j):
     if j["type"] == "image": return "fresh chat (image)"
     return "project (type number)"
 
+def sub(n, text):
+    text = text.replace("{navbar}", str(num("navbar"))).replace("{n}", f"{n:03d}").replace("{N}", str(n))
+    return re.sub(r"\{job:(\w+)\}", lambda m: f"{num(m.group(1)):03d}", text)
+
 def render(n, j):
-    j = dict(j, truth=[t.replace("{navbar}", str(num("navbar"))) for t in j["truth"]])
+    j = dict(j, truth=[sub(n, t) for t in j["truth"]], steps=[sub(n, s) for s in j["steps"]], read=[sub(n, r) for r in j["read"]], goal=sub(n, j["goal"]))
     deps = ", ".join(f"{num(d)} ({JOBS[num(d)]['title']})" for d in j["deps"]) or "nothing"
     L = [f"# JOB-{n:03d} · {j['title']}", "",
          "| Phase | Type | Lane | Worker | Wave | Steps | Claude look |", "| --- | --- | --- | --- | --- | --- | --- |",
