@@ -72,6 +72,28 @@ const accountId=m=>m.page.evaluate(()=>window.CareerModeSparkConnectedAccount?.g
 const entry=m=>m.page.locator("#productionSharedJourneyEntryOverlay");
 const remote=m=>m.page.locator("#sparkRemoteJoiningOverlay, #remoteJoiningOverlay").filter({hasText:"REMOTE JOINING"}).first();
 const pairPanel=m=>m.page.locator("#persistentNikDanielPairPanel");
+async function waitTransferPhase(m,phase){
+  await m.page.waitForFunction(value=>document.getElementById("transferChallenge")?.dataset.transferPhase===value,phase,{timeout:30000});
+}
+async function refreshTransfer(m){
+  const button=m.page.locator("#refreshSharedTransferChallenge");
+  if(await button.isVisible().catch(()=>false)){
+    await button.click({timeout:30000});
+  }
+}
+async function fillTransferCombo(m,id,value){
+  const input=m.page.locator(`#${id}`);
+  await input.fill(value);
+  await m.page.waitForFunction(fieldId=>Boolean(document.getElementById(fieldId)?.dataset.canonicalId),id,{timeout:5000});
+}
+async function assertPrivateTokenAbsent(m,token,label){
+  const leak=await m.page.evaluate(value=>({
+    text:(document.body.innerText||"").includes(value),
+    inputs:[...document.querySelectorAll("input")].filter(node=>String(node.value||"").includes(value)).map(node=>node.id)
+  }),token);
+  assert.equal(leak.text,false,`${label}: page text leaked ${token}`);
+  assert.deepEqual(leak.inputs,[],`${label}: input values leaked ${token}`);
+}
 
 // J1: sign in through the real gate and choose the player.
 async function signIn(m,label){
@@ -234,6 +256,63 @@ async function main(){
     for(const m of [daniel,nik])await m.page.locator("#transferChallenge").waitFor({state:"visible",timeout:30000});
     ok("J5.3","both managers reached the real Shared Transfer Challenge through the UI");
     await shot(daniel,"j5-career-start");await shot(nik,"j5-career-start");
+
+    // J6 season-1 Shared Transfer Challenge + rendered privacy.
+    assert.equal(await daniel.page.locator("#startTransferTimer").isVisible(),true,"Daniel is the transfer-window coordinator");
+    assert.equal(await nik.page.locator("#startTransferTimer").isVisible(),false,"Nik cannot start the shared transfer window");
+    await daniel.page.locator("#startTransferTimer").click({timeout:30000});
+    await waitTransferPhase(daniel,"window");
+    await refreshTransfer(nik);await waitTransferPhase(nik,"window");
+    assert.equal(await daniel.page.locator("#endTransferTimer").textContent(),"REQUEST EARLY END");
+    assert.equal(await nik.page.locator("#endTransferTimer").textContent(),"REQUEST EARLY END");
+    ok("J6.1","Daniel started the shared 15-minute window and both managers see the same live phase");
+
+    await daniel.page.locator("#endTransferTimer").click({timeout:30000});
+    await daniel.page.waitForFunction(()=>document.getElementById("endTransferTimer")?.textContent==="EARLY END REQUESTED ✓",null,{timeout:30000});
+    await refreshTransfer(nik);
+    await nik.page.locator("#endTransferTimer").click({timeout:30000});
+    await waitTransferPhase(nik,"guess_entry");
+    await refreshTransfer(daniel);await waitTransferPhase(daniel,"guess_entry");
+    ok("J6.2","both managers requested early end and the shared window advanced without waiting 15 minutes");
+
+    await daniel.page.locator("#p2Guess1Type").selectOption("league");
+    await daniel.page.locator("#p2Guess1Value").waitFor({state:"visible",timeout:5000});
+    await fillTransferCombo(daniel,"p2Guess1Value","Premier League");
+    await nik.page.locator("#p1Guess1Type").selectOption("nationality");
+    await nik.page.locator("#p1Guess1Value").waitFor({state:"visible",timeout:5000});
+    await fillTransferCombo(nik,"p1Guess1Value","Brazil");
+    await daniel.page.getByRole("button",{name:"LOCK MY GUESSES",exact:true}).click({timeout:30000});
+    await nik.page.getByRole("button",{name:"LOCK MY GUESSES",exact:true}).click({timeout:30000});
+    await waitTransferPhase(nik,"signing_entry");
+    await refreshTransfer(daniel);await waitTransferPhase(daniel,"signing_entry");
+    ok("J6.3","both managers entered and locked their private guesses through the real controls");
+
+    await daniel.page.locator("#p1Signing1Name").fill("QWX Daniel Signing");
+    await fillTransferCombo(daniel,"p1Signing1League","Premier League");
+    await fillTransferCombo(daniel,"p1Signing1Nationality","England");
+    await daniel.page.getByRole("button",{name:"LOCK MY SIGNINGS",exact:true}).click({timeout:30000});
+    await assertPrivateTokenAbsent(nik,"QWX","before transfer completion on Nik");
+
+    await nik.page.locator("#p2Signing1Name").fill("ZPV Nik Signing");
+    await fillTransferCombo(nik,"p2Signing1League","TIM Serie A");
+    await fillTransferCombo(nik,"p2Signing1Nationality","Brazil");
+    await assertPrivateTokenAbsent(daniel,"ZPV","before transfer completion on Daniel");
+    ok("J6.4","unfinished rival signings remain absent from rendered text and every input value");
+
+    await nik.page.getByRole("button",{name:"LOCK MY SIGNINGS",exact:true}).click({timeout:30000});
+    await waitTransferPhase(nik,"completed");
+    await refreshTransfer(daniel);await waitTransferPhase(daniel,"completed");
+    for(const m of [daniel,nik]){
+      assert.equal(await m.page.locator("#p1Signing1Name").inputValue(),"QWX Daniel Signing");
+      assert.equal(await m.page.locator("#p2Signing1Name").inputValue(),"ZPV Nik Signing");
+      await m.page.getByRole("button",{name:"CONTINUE TO SHARED SEASON RESULTS",exact:true}).waitFor({state:"visible",timeout:30000});
+      assert.equal(await m.page.getByRole("button",{name:"CONTINUE TO SHARED SEASON RESULTS",exact:true}).isEnabled(),true);
+    }
+    const verdictD=(await daniel.page.locator("#transferChallengeResults").innerText()).replace(/\s+/g," ").trim();
+    const verdictN=(await nik.page.locator("#transferChallengeResults").innerText()).replace(/\s+/g," ").trim();
+    assert.equal(verdictN,verdictD,"both managers see identical completed transfer verdicts");
+    ok("J6.5","COMPLETED reveals both signings identically and enables Shared Season Results");
+    await shot(daniel,"j6-transfers");await shot(nik,"j6-transfers");
 
     // J4..J12: added by the worker, one section per step (JOB-16 §4).
 
