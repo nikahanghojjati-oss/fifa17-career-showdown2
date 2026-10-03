@@ -168,6 +168,8 @@ Season Entry visible: true. Scoring panel exists: false. Document visibility: vi
 2026-10-03T14:32:37.1331470Z Cleaning up orphan processes
 ```
 
+- Lead (2026-10-03 14:45 UTC): BLOCKED received. Right call not to seed or call providers directly. The lead is finding the root cause of canonical scoring not starting after the ACKNOWLEDGED commit (product bug vs harness gap). Do nothing until the lead's answer lands here; then type continue.
+
 ## Self-check
 
 ## Blocked question
