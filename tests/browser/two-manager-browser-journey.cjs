@@ -118,6 +118,66 @@ async function publishSeasonResult(m){
   await m.page.waitForFunction(()=>/YOUR RESULT IS PUBLISHED|BOTH MANAGERS PUBLISHED/.test(document.getElementById("seasonReviewHeading")?.textContent||""),null,{timeout:30000});
 }
 
+async function prepareSeasonReview(m){
+  await m.page.locator("#completeSeason").click({timeout:30000});
+  await m.page.waitForFunction(()=>document.getElementById("seasonReviewHeading")?.textContent==="REVIEW YOUR SEASON RESULT",null,{timeout:30000});
+}
+async function commitSeasonViaUi(daniel,nik,p1,p2,winner){
+  await daniel.page.waitForFunction(()=>document.getElementById("sharedSeasonCommitAction")?.textContent==="COMMIT SHARED SEASON",null,{timeout:45000});
+  await daniel.page.locator("#sharedSeasonCommitAction").click({timeout:30000});
+  await daniel.page.waitForFunction(()=>document.getElementById("sharedSeasonCommitAction")?.textContent==="ACKNOWLEDGE SHARED SEASON",null,{timeout:30000});
+  await daniel.page.locator("#sharedSeasonCommitAction").click({timeout:30000});
+  await nik.page.waitForFunction(()=>document.getElementById("sharedSeasonCommitAction")?.textContent==="ACKNOWLEDGE SHARED SEASON",null,{timeout:45000});
+  await nik.page.locator("#sharedSeasonCommitAction").click({timeout:30000});
+  for(const m of [daniel,nik]){
+    await m.page.waitForFunction(()=>document.getElementById("sharedSeasonCommitAction")?.textContent==="SEASON COMMIT ACKNOWLEDGED ✓",null,{timeout:45000});
+    await m.page.locator("#sharedCanonicalScoringPanel").waitFor({state:"visible",timeout:45000});
+    assert.equal((await m.page.locator("#sharedCanonicalScoringTotals").textContent()).trim(),`Daniel: ${p1} · Nik: ${p2}`);
+    assert.equal((await m.page.locator("#sharedCanonicalScoringWinner").textContent()).trim(),winner==="draw"?"Season result: Draw":`Season winner: ${winner}`);
+    await m.page.locator("#sharedHistoryConvergencePanel").waitFor({state:"visible",timeout:45000});
+  }
+}
+async function continueToSeason(daniel,nik,season,total){
+  for(const m of [daniel,nik]){
+    await m.page.waitForFunction(next=>document.getElementById("sharedMultiSeasonContinueAction")?.textContent===`CONTINUE TO SEASON ${next}`,season,{timeout:45000});
+    await m.page.locator("#sharedMultiSeasonContinueAction").click({timeout:30000});
+    await m.page.locator("#dashboard").waitFor({state:"visible",timeout:30000});
+    await m.page.waitForFunction(value=>document.getElementById("seasonIndicator")?.textContent===value,`Season ${season} / ${total}`,{timeout:30000});
+  }
+}
+async function openSharedTransferFromDashboard(m,season){
+  await m.page.waitForFunction(value=>(document.getElementById("seasonPrimaryAction")?.textContent||"").includes(`SEASON ${value}`)||/SHARED TRANSFER/i.test(document.getElementById("seasonPrimaryAction")?.textContent||""),season,{timeout:30000});
+  await m.page.locator("#seasonPrimaryAction").click({timeout:30000});
+  await m.page.locator("#transferChallenge").waitFor({state:"visible",timeout:30000});
+}
+async function playTransferSeason(daniel,nik,season,tokenD,tokenN){
+  await daniel.page.waitForFunction(()=>document.getElementById("startTransferTimer")&&!document.getElementById("startTransferTimer").classList.contains("hidden"),null,{timeout:30000});
+  await daniel.page.locator("#startTransferTimer").click({timeout:30000});
+  await waitTransferPhase(daniel,"window");await refreshTransfer(nik);await waitTransferPhase(nik,"window");
+  await daniel.page.locator("#endTransferTimer").click({timeout:30000});
+  await daniel.page.waitForFunction(()=>window.CareerModeProductionSharedTransferChallenge?.getState?.()?.state?.endRequestedRoles?.includes("playerOne")===true,null,{timeout:30000});
+  await refreshTransfer(nik);await nik.page.locator("#endTransferTimer").click({timeout:30000});
+  await waitTransferPhase(nik,"guess_entry");await refreshTransfer(daniel);await waitTransferPhase(daniel,"guess_entry");
+
+  await daniel.page.locator("#p2Guess1Type").selectOption("league");await fillTransferCombo(daniel,"p2Guess1Value","Premier League");
+  await nik.page.locator("#p1Guess1Type").selectOption("nationality");await fillTransferCombo(nik,"p1Guess1Value","Brazil");
+  await daniel.page.getByRole("button",{name:"LOCK MY GUESSES",exact:true}).click({timeout:30000});
+  await daniel.page.waitForFunction(()=>window.CareerModeProductionSharedTransferChallenge?.getState?.()?.state?.guessLockedRoles?.includes("playerOne")===true,null,{timeout:30000});
+  await refreshTransfer(nik);await nik.page.getByRole("button",{name:"LOCK MY GUESSES",exact:true}).click({timeout:30000});
+  await waitTransferPhase(nik,"signing_entry");await refreshTransfer(daniel);await waitTransferPhase(daniel,"signing_entry");
+
+  await daniel.page.locator("#p1Signing1Name").fill(tokenD);await fillTransferCombo(daniel,"p1Signing1League","Premier League");await fillTransferCombo(daniel,"p1Signing1Nationality","England");
+  await daniel.page.getByRole("button",{name:"LOCK MY SIGNINGS",exact:true}).click({timeout:30000});
+  await daniel.page.waitForFunction(()=>window.CareerModeProductionSharedTransferChallenge?.getState?.()?.state?.signingLockedRoles?.includes("playerOne")===true,null,{timeout:30000});
+  await assertPrivateTokenAbsent(nik,tokenD.split(" ")[0],`season ${season} Daniel signing privacy`);
+  await refreshTransfer(nik);await waitTransferPhase(nik,"signing_entry");
+  await nik.page.locator("#p2Signing1Name").fill(tokenN);await fillTransferCombo(nik,"p2Signing1League","TIM Serie A");await fillTransferCombo(nik,"p2Signing1Nationality","Brazil");
+  await assertPrivateTokenAbsent(daniel,tokenN.split(" ")[0],`season ${season} Nik signing privacy`);
+  await nik.page.getByRole("button",{name:"LOCK MY SIGNINGS",exact:true}).click({timeout:30000});
+  await waitTransferPhase(nik,"completed");await refreshTransfer(daniel);await waitTransferPhase(daniel,"completed");
+  for(const m of [daniel,nik])await m.page.getByRole("button",{name:"CONTINUE TO SHARED SEASON RESULTS",exact:true}).waitFor({state:"visible",timeout:30000});
+}
+
 async function main(){
   // J0 preflight
   assert.equal(JSON.parse(fs.readFileSync(path.join(SDK_DIR,"package.json"),"utf8")).version,require(SWITCH).sdkVersion,"J0 SDK pin matches the switch");
@@ -408,6 +468,75 @@ async function main(){
         assert.equal((await m.page.locator("#dashboardClubTwo").textContent()).trim(),clubsD[1]);
       }
       ok("J8.2","both Showdown Home pages show 9-3 and Season 2 of 3 with the original permanent clubs");
+    }
+
+    // J8 season 1 commit + canonical scoring, then seasons 2 and 3.
+    await commitSeasonViaUi(daniel,nik,9,3,"Daniel");
+    ok("J7.3","after the immutable season-1 commit both pages show canonical 9-3 and Daniel as season winner");
+
+    if(LENGTH>1){
+      await continueToSeason(daniel,nik,2,LENGTH);
+      for(const m of [daniel,nik]){
+        assert.equal((await m.page.locator("#dashboardScoreOne").textContent()).trim(),"9");
+        assert.equal((await m.page.locator("#dashboardScoreTwo").textContent()).trim(),"3");
+        assert.match((await m.page.locator("#dashboardRound").textContent()).trim(),/Season 2 of 3/);
+      }
+      ok("J8.1","both dashboards show 9-3 and Season 2 of 3 after season-1 commit");
+
+      for(const m of [daniel,nik])await openSharedTransferFromDashboard(m,2);
+      await playTransferSeason(daniel,nik,2,"QWX2 Daniel Signing","ZPV2 Nik Signing");
+      ok("J8.2","season 2 repeated the shared transfer flow with rendered privacy before completion");
+
+      // J9 reload after season-2 transfers: browser-session auth and the test-only switch survive a real reload.
+      await Promise.all([daniel.page.reload({waitUntil:"domcontentloaded"}),nik.page.reload({waitUntil:"domcontentloaded"})]);
+      for(const m of [daniel,nik]){
+        await m.page.locator("#loadingScreen").waitFor({state:"hidden",timeout:30000});
+        await m.page.locator("#transferChallenge").waitFor({state:"visible",timeout:45000});
+        assert.equal(await m.page.evaluate(()=>window.__cmsEmulatorSwitch?.active===true),true,`${m.user} emulator switch reinstalled after reload`);
+        await waitTransferPhase(m,"completed");
+      }
+      assert.equal(await daniel.page.locator("#p1Signing1Name").inputValue(),"QWX2 Daniel Signing");
+      assert.equal(await nik.page.locator("#p2Signing1Name").inputValue(),"ZPV2 Nik Signing");
+      ok("J9.1","both tabs reloaded onto the same completed season-2 transfer step with browser-session auth and localhost emulator switch intact");
+
+      for(const m of [daniel,nik])await m.page.getByRole("button",{name:"CONTINUE TO SHARED SEASON RESULTS",exact:true}).click({timeout:30000});
+      for(const m of [daniel,nik])await m.page.locator("#seasonEntry").waitFor({state:"visible",timeout:30000});
+      const season2Daniel={leaguePosition:3,leaguePoints:70,leagueGoals:66,domesticCup:false,championsLeague:false,topScorer:false,topAssist:false};
+      const season2Nik={leaguePosition:1,leaguePoints:100,leagueGoals:80,domesticCup:true,championsLeague:true,topScorer:true,topAssist:true};
+      await fillSeasonResult(daniel,"p1",season2Daniel);await fillSeasonResult(nik,"p2",season2Nik);
+      await prepareSeasonReview(daniel);await prepareSeasonReview(nik);
+      await Promise.all([
+        daniel.page.locator("#confirmSeasonCompletion").click({timeout:30000}),
+        nik.page.locator("#confirmSeasonCompletion").click({timeout:30000})
+      ]);
+      for(const m of [daniel,nik]){
+        await m.page.waitForFunction(()=>document.getElementById("seasonReviewHeading")?.textContent==="BOTH MANAGERS PUBLISHED",null,{timeout:45000});
+        assert.equal((await m.page.locator("#seasonReviewError").textContent()).trim(),"","simultaneous publish must not leave an error banner");
+      }
+      ok("J8.3","season-2 simultaneous publish converged to RESULTS_READY with no error banner");
+      await commitSeasonViaUi(daniel,nik,0,11,"Nik");
+      ok("J8.4","season 2 canonical score is 0-11 and Nik wins");
+
+      if(LENGTH>2){
+        await continueToSeason(daniel,nik,3,LENGTH);
+        for(const m of [daniel,nik]){
+          assert.equal((await m.page.locator("#dashboardScoreOne").textContent()).trim(),"9");
+          assert.equal((await m.page.locator("#dashboardScoreTwo").textContent()).trim(),"14");
+          assert.match((await m.page.locator("#dashboardRound").textContent()).trim(),/Season 3 of 3/);
+        }
+        for(const m of [daniel,nik])await openSharedTransferFromDashboard(m,3);
+        await playTransferSeason(daniel,nik,3,"QWX3 Daniel Signing","ZPV3 Nik Signing");
+        for(const m of [daniel,nik])await m.page.getByRole("button",{name:"CONTINUE TO SHARED SEASON RESULTS",exact:true}).click({timeout:30000});
+        for(const m of [daniel,nik])await m.page.locator("#seasonEntry").waitFor({state:"visible",timeout:30000});
+        const season3Daniel={leaguePosition:2,leaguePoints:78,leagueGoals:70,domesticCup:true,championsLeague:false,topScorer:false,topAssist:false};
+        const season3Nik={leaguePosition:4,leaguePoints:65,leagueGoals:60,domesticCup:true,championsLeague:false,topScorer:false,topAssist:false};
+        await fillSeasonResult(daniel,"p1",season3Daniel);await publishSeasonResult(daniel);
+        assert.equal(await nik.page.locator("#seasonReviewOne").isVisible(),false,"season 3 Daniel result stays private until Nik publishes");
+        await fillSeasonResult(nik,"p2",season3Nik);await publishSeasonResult(nik);
+        for(const m of [daniel,nik])await m.page.waitForFunction(()=>document.getElementById("seasonReviewHeading")?.textContent==="BOTH MANAGERS PUBLISHED",null,{timeout:45000});
+        await commitSeasonViaUi(daniel,nik,1,1,"Daniel");
+        ok("J8.5","season 3 repeated privacy and scoring; 1-1 tie is won by Daniel on league position");
+      }
     }
 
     // J4..J12: added by the worker, one section per step (JOB-16 §4).
