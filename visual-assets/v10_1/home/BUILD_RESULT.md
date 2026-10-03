@@ -149,6 +149,22 @@ Job 31 replaced the broad seam blur/darken treatment with source-local repair pl
 
 The Home hub uses a separate portrait composition at ≤760 px wide. The hero band is 40vh by the job's fit DEFAULT; the shared bottom bar reserve is `56px + env(safe-area-inset-bottom)`. The brush lockup and top status chrome overlay the hero and therefore consume no additional vertical row. There are no destination tabs on Home: all seven destinations remain visible together. The soundtrack track picker is the only sheet.
 
+### Layout
+
+Phone Home is a dedicated portrait composition, not a compressed desktop. The screen is divided into three fixed zones: a 40vh cinematic hero band, the no-scroll hub content, then the shared `56px + env(safe-area-inset-bottom)` navigation reserve. Daniel stays left and Nik right over `ENV_HOME_PHONE_V1.webp`; the brush lockup and compact status chrome overlay the hero. The hub shows the soundtrack strip, six compact destination tiles in a 3 × 2 grid, and Continue as the dominant full-width action pinned in the final row directly above the reserved bottom bar.
+
+### Hidden or moved on phone
+
+Desktop seam mends, scrims, dock bed, menu heading, handwritten line, bottom strip, footer and decorative footer chrome are hidden because they duplicate content or consume the fixed phone height budget. The soundtrack vinyl/equalizer and AUDIUS source ornament are hidden. The four-track soundtrack selector moves into a phone-only `.sd-sheet`; all seven destinations remain visible together and do not move into tabs.
+
+### Assets used
+
+Runtime phone hero references are `assets/ENV_HOME_PHONE_V1.webp`, `assets/OVL_HOME_DANIEL_PHONE_V1.webp` and `assets/OVL_HOME_NIK_PHONE_V1.webp`. `phonemap.json.phone_frame` is authoritative: Daniel alpha-bbox centre x 31%, top 0.5%, height 58%; Nik alpha-bbox centre x 68%, top -0.5%, height 61%; neither manager is mirrored. The lower dark grade begins at 46% and reaches 0.92 opacity by 74% of frame height. The phone hero bundle is capped at 252,124 bytes from the measured 132,124-byte background plus two cut-outs capped at 60,000 bytes each, below the 450 KB job ceiling.
+
+### Claude intake
+
+The manager WebPs are intentionally referenced before they exist on the branch, per the job DEFAULT. Claude must run the two existing Job 111 `cutout.py` recipes in `tools/MAKE_ASSETS.md`, preserve the required lower-18% alpha fade, export runtime WebPs at quality 85, and composite the 393 × 660 phone proof from `phonemap.json`. Claude then performs the real-browser H5/H6/H7/H8/H9/H10/H11 intake; this worker check is reading/arithmetic only. PNG masters and `PHONE_PROOF.png` must remain production/evidence assets and must not load at runtime.
+
 ### Height budget
 
 Arithmetic only; Claude performs the browser measurement at intake. To make the no-scroll check conservative for iPhone Safari, the table evaluates `env(safe-area-inset-bottom)` as 34 px. The CSS itself keeps the live `env()` value. The shortest target still has 21.8 px spare at that inset; equivalently, it can absorb a safe-area inset up to 55.8 px before reaching zero spare.
