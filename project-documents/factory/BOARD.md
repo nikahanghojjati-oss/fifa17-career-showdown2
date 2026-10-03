@@ -1,6 +1,6 @@
 # Showdown Factory board
 
-**49 of 135 jobs done · 37 %** · updated Fri 8:47 p.m. Eastern
+**49 of 135 jobs done · 38 %** · updated Fri 8:48 p.m. Eastern
 
 ███░░░░░░░
 
@@ -47,7 +47,7 @@ Integration    ░░░░░░░░░░ 0/8
 
 Branch `factory/v1-wtt5ye`. 135 Team V jobs, plus 5 lines that track Team G. Two kinds of job. **Project (type number):** open a new chat in the ChatGPT project "Showdown visual" and type the number (up to 5 at once). **Fresh chat (image):** run the job's ticket from [tickets/](tickets/README.md) in a ChatGPT Temporary Chat (no memory) outside any project, then drop the image in Claude's factory thread (up to 2 at once).
 
-**Overall (Team V):** ███░░░░░░░ 37 % · 49 of 135 jobs done
+**Overall (Team V):** ███░░░░░░░ 38 % · 49 of 135 jobs done
 
 **Start now · project (type the number in Showdown visual):** 44, 49, 54, 57 · queued next: 62, 67, 72, 77, 82, 87, 111, 112, 113, 114, 125
 
@@ -99,7 +99,7 @@ Branch `factory/v1-wtt5ye`. 135 Team V jobs, plus 5 lines that track Team G. Two
 | 35 | [Home: fix round](jobs/JOB-035.md) | 4 Polish built screens | fix | project (type number) | 34 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 36 | [Home: motion pass](jobs/JOB-036.md) | 4 Polish built screens | build | project (type number) | 35, 16 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
 | 37 | [League: hands on the wheel](jobs/JOB-037.md) | 4 Polish built screens | build | project (type number) | 14, 1, 18, 123 | ██████████ 100 % | DONE |  |
-| 38 | [League: swap in the new league marks](jobs/JOB-038.md) | 4 Polish built screens | build | project (type number) | 37 | ██░░░░░░░░ 25 % | IN PROGRESS |  |
+| 38 | [League: swap in the new league marks](jobs/JOB-038.md) | 4 Polish built screens | build | project (type number) | 37 | █████░░░░░ 50 % | IN PROGRESS |  |
 | 39 | [League: phone with the hand in frame](jobs/JOB-039.md) | 4 Polish built screens | build | project (type number) | 37, 112 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 40 | [League: review](jobs/JOB-040.md) | 4 Polish built screens | review | project (type number) | 39 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 41 | [League: fix round](jobs/JOB-041.md) | 4 Polish built screens | fix | project (type number) | 40, 124 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
