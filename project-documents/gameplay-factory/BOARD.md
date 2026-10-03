@@ -6,9 +6,9 @@
 Gameplay factory job NN. Read https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/RULES.md and obey the box in it as your rules, then read WORKER_HANDBOOK.md next to it and do job NN (repo nikahanghojjati-oss/fifa17-career-showdown2, branch factory/gameplay-v1). Ignore any older relay contract or memory.
 ```
 
-Branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-03 10:09 AM Boston time (EDT)
+Branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-03 10:13 AM Boston time (EDT)
 
-**Overall:** █████░░░░░ 59 % · 11 of 20 jobs done
+**Overall:** ██████░░░░ 60 % · 11 of 20 jobs done
 
 **Start now in a normal chat (press Stay in Chat):** 18
 
@@ -31,7 +31,7 @@ Branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generate
 | 5 | G-5 | [Active Showdown adapter (Rivalry, Continue, tiebreak, final state)](jobs/JOB-05.md) | 2 Career model | build | work | 3 |  | ██████████ 100 % | DONE |
 | 4 | G-4 | [Renderer seams: screens take a model, never the local path](jobs/JOB-04.md) | 2 Career model | build | work | 3 |  | ██████████ 100 % | DONE |
 | 6 | G-6 | [Start/Join view model + nav.locked](jobs/JOB-06.md) | 2 Career model | build | chat | - |  | ██████████ 100 % | DONE |
-| 11 | G-11 | [Contract fixtures generated from the real model](jobs/JOB-11.md) | 2 Career model | test | work | 3, 5 |  | ██░░░░░░░░ 25 % | IN PROGRESS |
+| 11 | G-11 | [Contract fixtures generated from the real model](jobs/JOB-11.md) | 2 Career model | test | work | 3, 5 |  | █████░░░░░ 50 % | IN PROGRESS |
 | 7 | G-7 | [Career index Rules + client + emulator proofs](jobs/JOB-07.md) | 3 Career history | rules | work | 1, 2 | yes | ██████████ 100 % | DONE |
 | 8 | G-8 | [Completed-only read grant + session-free reader](jobs/JOB-08.md) | 3 Career history | rules | work | 7 | yes | ██████████ 100 % | DONE |
 | 9 | G-9 | [Closed-Showdown adapter into the career model](jobs/JOB-09.md) | 3 Career history | build | work | 3, 8 |  | ░░░░░░░░░░ 0 % | NOT STARTED |
