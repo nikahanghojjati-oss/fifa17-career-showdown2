@@ -4,9 +4,10 @@ body { overflow: hidden; font-family: var(--sd-font-body, system-ui, sans-serif)
 .loadingStage { width: 100vw; height: 100vh; height: 100svh; background: var(--sd-black, #07080a); }
 
 .startupScene { background: #07080a; }
-.startupAthleteFrame { position: absolute; top: 52px; right: 0; bottom: 0; left: 0; overflow: hidden; background: #0d0f13; }
-#startupAthlete { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 45% 10%; filter: saturate(.62) contrast(1.12) brightness(.54) sepia(.12); }
-.startupAthleteFrame::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(7,8,10,.08) 0 27%, rgba(7,8,10,.66) 54%, rgba(7,8,10,.98) 81%), linear-gradient(0deg, rgba(7,8,10,.82), transparent 40%, rgba(7,8,10,.2)); }
+.startupAthleteFrame { position: absolute; inset: -4% auto -8% -1%; width: 52%; overflow: hidden; background: #0d0f13; clip-path: polygon(0 0,88% 0,100% 100%,0 100%); }
+.startupAthleteFrame > picture { display: block; width: 100%; height: 100%; }
+#startupAthlete { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 53% 0; filter: saturate(.86) contrast(1.08) brightness(.84); }
+.startupAthleteFrame::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(90deg, transparent 0 70%, rgba(7,8,10,.12) 82%, rgba(7,8,10,.62) 100%); }
 .startupShard { position: absolute; display: block; background: rgba(7,8,10,.52); border-inline-end: 1px solid rgba(212,160,23,.24); transform: skewX(-18deg); }
 .startupShardOne { left: -8%; top: -10%; width: 22%; height: 34%; }
 .startupShardTwo { right: 14%; bottom: -18%; width: 16%; height: 52%; }
@@ -21,6 +22,8 @@ body { overflow: hidden; font-family: var(--sd-font-body, system-ui, sans-serif)
 .startupEyebrow::before { display: none; }
 .startupKicker { margin: 0 0 10px; color: var(--sd-text-warm, #e9dfc8); letter-spacing: .46em; text-shadow: 0 2px 12px rgba(0,0,0,.9); }
 .loadingWordmark { width: min(100%, 560px); margin: 0; filter: drop-shadow(0 8px 22px rgba(0,0,0,.72)); }
+.loadingWordmark > picture { display: block; width: 100%; }
+.loadingWordmark img { display: block; width: 100%; height: auto; }
 .startupEdition { margin-top: 10px; text-align: left; font-size: clamp(12px, 1vw, 16px); letter-spacing: .28em; }
 .startupStatus { position: absolute; left: 54%; bottom: 108px; width: min(39vw, 610px); }
 .startupProgress { position: relative; width: 100%; height: 4px; overflow: hidden; background: rgba(185,179,164,.18); box-shadow: inset 0 1px rgba(255,255,255,.04); }
@@ -42,8 +45,8 @@ body { overflow: hidden; font-family: var(--sd-font-body, system-ui, sans-serif)
 @media (max-width: 700px) {
   .loadingUi::before { display: none; }
   .startupAthleteFrame { inset: 0; }
-  #startupAthlete { object-position: 50% 0%; filter: saturate(.66) contrast(1.08) brightness(.56) sepia(.08); }
-  .startupAthleteFrame::after { background: linear-gradient(180deg, rgba(7,8,10,.08) 0 38%, rgba(7,8,10,.48) 58%, #07080a 78%, #07080a 100%), linear-gradient(90deg, rgba(7,8,10,.08), rgba(7,8,10,.22)); }
+  #startupAthlete { object-position: 50% 0%; filter: saturate(.86) contrast(1.08) brightness(.84); }
+  .startupAthleteFrame::after { background: linear-gradient(180deg, transparent 0 42%, rgba(7,8,10,.22) 58%, #07080a 80%, #07080a 100%); }
   .startupGrid { opacity: .18; }
   .startupShardTwo { right: -10%; }
   .startupIdentity { left: 24px; right: 24px; top: auto; bottom: 190px; width: auto; transform: none; }
@@ -55,6 +58,7 @@ body { overflow: hidden; font-family: var(--sd-font-body, system-ui, sans-serif)
   #loadingText { margin-top: 9px; font-size: 12px; letter-spacing: .14em; }
   .startupSaveNote { left: 24px; right: 24px; bottom: 79px; font-size: 10px; }
   .startupPhotoCredit { left: 24px; right: 24px; bottom: 19px; max-width: none; font-size: 12px; }
+  .startupPhotoCredit a { display: inline-block; min-width: 44px; min-height: 44px; padding-block: 15px; margin-block: -15px; }
 }
 
 @media (max-width: 380px), (max-height: 580px) {
