@@ -2,7 +2,7 @@
 
 State: IN PROGRESS
 Step: 7 of 8
-Updated: 2026-10-03 14:24 UTC
+Updated: 2026-10-03 14:29 UTC
 Chat: Sol Work mode (job 11, 83d4f3e64efe)
 Code branch: gameplay/job-11-contract-fixtures
 Head commit: 554c5b6cafd3362143f7363b75f842bca09e4c45
@@ -24,7 +24,16 @@ CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/r
 - Step 8 checkpoint: PR #327 open, ready for review, mergeable, exact head 554c5b6cafd3362143f7363b75f842bca09e4c45, base gameplay/recovery-v1 843e64e, exactly 21 files; required scenario and proof tables plus regenerate line included. Creating the PR also started POS20 validation run https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37129397528 . All fast CI checks are green; awaiting the PR checks before final DONE so the lead need not re-test. Codex review is not required.
 
 ## Self-check
-
+- PASS Tests first: K1 red only in new contract (1/104 failed), emulator SUCCESS, exact head a1d3df6a2ee1f1715ec74d09e97d2a67e37197b7, https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37128651006 . Step 4 missing-generator proof at fcfed2edff5c2e9cfe0d51d0fdbf2c6fdd53dd5f / run 37128872589; step 5 K2 missing-fixtures proof at d959605adeb2ebe6f8a1ff13b4be9e55849eb2c4 / run 37128943248. Local failures recorded in Notes.
+- PASS Fixture contract: PASS data contract v1 fixtures contracts (31 checks, 14 scenarios + nav): real provider shapes, generated from the model, V1 fields, privacy, scoring, cross-screen agreement, seam binding, state coverage. Local and exact-head GitHub job 111220560648.
+- PASS Regeneration: OK 16 fixture files match the model. All 14 scenario hashes and nav hash plus index content exactly equal Appendix E; no model/hash drift.
+- PASS Suites: exact-head Gameplay contracts job 111220560648 logs PASS POS10 selected deterministic census (104/104 current blocking contracts: frozen POS10 floor + POS20 supplements), operations tests 73/pass 73/fail 0 and adapter PASS (19/19 cases). Local focused checks and operations passed; local full-suite logs were incomplete, so full-suite evidence is CI per handbook section 7.
+- PASS Fast CI: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37129084547 SUCCESS on 554c5b6cafd3362143f7363b75f842bca09e4c45; both Gameplay contracts and Composed Rules on the emulator SUCCESS. Demo-project matrices include the full three-season two-manager journey, career index Phase A 56/Phase B 58 and completed-only read 56 checks.
+- PASS Privacy/scoring: K3-K6 assert exact V1 fields, unchanged bonus caps and tiebreaks, identical shared numbers, status-only abandoned rows, no account/profile/save/device/session ids or projection/witness/careerInput objects in fixtures. Sentinel 131 is absent from Nik's unrevealed view and shared parts; pairing code occurs only in Daniel's own Start/Join.
+- PASS Scope: GitHub PR #327 and local diff list exactly the 21 authorized files. Generator/contract byte-identical to Appendices A/B; one JS guard condition only. Registry entry and ops const/list appended last after JOB-08; prior entries preserved byte-for-byte and in order. index.html, service-worker.js, Rules, workflows, CURRENT_PRODUCT_TEST_MANIFEST.json, helpers and every existing contract unchanged.
+- PASS Safety: Nothing written to main, nothing merged, force-pushed or deployed, no production data or Firebase settings changes. Codex review is no in the job header; none requested.
+- PASS PR: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/327 open and ready for Team G lead review into gameplay/recovery-v1; head 554c5b6cafd3362143f7363b75f842bca09e4c45, 21 files. Scenario and requirement/proof tables, adapter explanation, exact-head fast CI URL and regenerate instruction included. equal-position-tiebreaks intentionally retains league-points/draw; the two expected Team V equal-position errors are explicitly disclosed per lead decision.
+- PENDING Additional PR checks: Validate POS20 https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37129397528 . Selector, deterministic census, operations, benchmark, STATIC, INLINE, VISUAL, STORAGE and 1/3/5/10 lifecycle SUCCESS; FULL and REMOTE pending, then seal. No code changes while these run.
 
 ## Blocked question
 
