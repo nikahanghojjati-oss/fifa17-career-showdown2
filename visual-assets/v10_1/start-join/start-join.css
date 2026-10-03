@@ -97,6 +97,30 @@ body {
   row-gap: 2.1%;
 }
 
+/* Mockup close control: centre ≈ 74.4% x / 31.0% y.
+   Product truth changes it into Back, but keeps the same corner silhouette. */
+.sj-back {
+  position: absolute;
+  z-index: 4;
+  top: -1px;
+  right: -1px;
+  width: 58px;
+  min-width: 58px;
+  height: 44px;
+  padding: 0 10px;
+  border-radius: 0 0 0 8px;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  pointer-events: auto;
+}
+
+.sj-back:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+
 /* Mockup role cards: host x ≈ 24.8%, join x ≈ 49.7%, y ≈ 30.9%;
    each w ≈ 24.2% of frame, h ≈ 23.4%. */
 .sj-role-grid {
