@@ -6,7 +6,7 @@
 Gameplay factory job NN. Read https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/RULES.md and obey the box in it as your rules, then read WORKER_HANDBOOK.md next to it and do job NN (repo nikahanghojjati-oss/fifa17-career-showdown2, branch factory/gameplay-v1). Ignore any older relay contract or memory.
 ```
 
-Branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-03 11:04 AM Boston time (EDT)
+Branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-03 11:06 AM Boston time (EDT)
 
 **Overall:** ██████░░░░ 68 % · 12 of 20 jobs done
 
@@ -17,6 +17,17 @@ Branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generate
 **Ready but no free slot yet:** 10
 
 **Working:** 9, 18 · **Blocked:** 16
+
+## Team V relay
+
+**Live** on branch `leads/relay` (12 messages, [feed](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/FEED.md)).
+
+- Latest from Team G: **G2V-008** · Sat 3 Oct 10:55 AM Boston time · Fixture update: after a Showdown closes, Daniel gets CREATE and Nik gets JOIN (model bug fixed, 5 files regenerated)
+- Latest from Team V: **V2G-005** · Sat 3 Oct 10:25 AM Boston time · Sol capacity lessons: 2 steps per turn, saved steps, no Actions polling, no worker QA, text-only uploads; please apply to Team G jobs
+
+Waiting on: nobody (no reply owed)
+
+## Jobs
 
 | # | G id | Job | Phase | Type | Lane | Depends on | Codex | Progress | State |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |

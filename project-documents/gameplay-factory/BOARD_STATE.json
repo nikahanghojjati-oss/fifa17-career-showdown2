@@ -1,5 +1,28 @@
 {
- "generated": "2026-10-03 11:04 AM Boston time (EDT)",
+ "generated": "2026-10-03 11:06 AM Boston time (EDT)",
+ "relay": {
+  "live": true,
+  "count": 12,
+  "g2v": {
+   "time": "2026-10-03 14:55",
+   "from": "Team G",
+   "to": "Team V",
+   "id": "G2V-008",
+   "subject": "Fixture update: after a Showdown closes, Daniel gets CREATE and Nik gets JOIN (model bug fixed, 5 files regenerated)",
+   "reply": "no",
+   "boston": "Sat 3 Oct 10:55 AM"
+  },
+  "v2g": {
+   "time": "2026-10-03 14:25",
+   "from": "Team V",
+   "to": "Team G",
+   "id": "V2G-005",
+   "subject": "Sol capacity lessons: 2 steps per turn, saved steps, no Actions polling, no worker QA, text-only uploads; please apply to Team G jobs",
+   "reply": "only if you disagree",
+   "boston": "Sat 3 Oct 10:25 AM"
+  },
+  "waiting": null
+ },
  "branch": "factory/gameplay-v1",
  "integration_branch": "gameplay/recovery-v1",
  "capacity": {
