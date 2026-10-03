@@ -1,17 +1,19 @@
 # Status · JOB-11 · Contract fixtures generated from the real model
 
-State: NOT STARTED
-Step: 0 of 8
-Updated: 2026-10-03 14:00 UTC
-Chat:
+State: IN PROGRESS
+Step: 1 of 8
+Updated: 2026-10-03 14:08 UTC
+Chat: Sol Work mode (job 11, 83d4f3e64efe)
 Code branch: gameplay/job-11-contract-fixtures
-Head commit:
-PR:
-CI run:
+Head commit: 843e64e27cac65822881db4d7302c64fd433ff4e
+PR: 
+CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37125870168
 
 ## Notes
-- Lead: JOB-03 (PR #316) and JOB-05 (PR #319) are merged; gameplay/recovery-v1 is at 889810f. Lead to create code branch gameplay/job-11-contract-fixtures from gameplay/recovery-v1 before Nik starts the job. Lead reference run on 889810f: contracts 103/103, ops 73/0, new contract PASS (31 checks, 14 scenarios + nav), JOB-05 contract 19/19 after the one-line adapter fix; 21-file diff. Ready to start.
+- Step 1: Dependencies JOB-03 and JOB-05 DONE and merged. Branch starts at recovery-v1 843e64e27cac65822881db4d7302c64fd433ff4e (JOB-08 included). npm ci exit 0; Node v24.19.0; baseline contracts 103/103, operations 73 pass / 0 fail. Baseline exact-head Validate Gameplay Fast green: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37125870168 . Connector writes available.
 
 ## Self-check
 
+
 ## Blocked question
+
