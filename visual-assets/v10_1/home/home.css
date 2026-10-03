@@ -25,6 +25,8 @@
   --gutter: 2.4vw;
   --home-lockup-wipe-duration: 450ms;
   --home-lockup-wipe-ease: cubic-bezier(.22,1,.36,1);
+  --home-feedback-duration: 110ms;
+  --home-feedback-ease: cubic-bezier(.2,.8,.2,1);
 }
 html, body { margin: 0; height: 100%; background: #060709; color: var(--cream); }
 body { overflow: hidden; font-family: var(--text); -webkit-font-smoothing: antialiased; }
@@ -133,6 +135,10 @@ button { font: inherit; color: inherit; }
   background: transparent;
   color: var(--cream);
   cursor: pointer;
+  transition:
+    transform var(--home-feedback-duration) var(--home-feedback-ease),
+    opacity var(--home-feedback-duration) linear,
+    color var(--home-feedback-duration) linear;
 }
 .topBarTab {
   padding: 0 18px;
@@ -146,12 +152,14 @@ button { font: inherit; color: inherit; }
   right: 16px;
   bottom: 0;
   height: 2px;
-  background: transparent;
+  background: var(--gold);
+  opacity: 0;
+  transition: opacity var(--home-feedback-duration) linear;
 }
 .topBarTab:hover,
 .topBarTab:focus-visible,
 .topBarTab.isActive { color: var(--gold); }
-.topBarTab.isActive::after { background: var(--gold); }
+.topBarTab.isActive::after { opacity: 1; }
 .topBarSettings {
   margin-left: auto;
   width: 48px;
@@ -166,6 +174,8 @@ button { font: inherit; color: inherit; }
 }
 .topBarSettings:hover,
 .topBarSettings:focus-visible { color: var(--gold); }
+.topBarTab:active,
+.topBarSettings:active { transform: translateY(1px); opacity: .88; }
 .homeRuntimeStatus { display: none !important; }
 .scriptLine {
   position: absolute; z-index: 6; right: 30px; top: calc(var(--hdr) + 28px); pointer-events: none;
@@ -228,6 +238,10 @@ button { font: inherit; color: inherit; }
   background: var(--glass); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
   border: 1px solid var(--sd-edge, rgba(201,155,69,.6)); border-radius: 0; color: #fff; /* shared Showdown cut-corner panel */
   box-shadow: inset 0 2px 0 var(--gold), 0 10px 28px rgba(0,0,0,.45);
+  transition:
+    transform var(--home-feedback-duration) var(--home-feedback-ease),
+    opacity var(--home-feedback-duration) linear,
+    border-color var(--home-feedback-duration) linear;
 }
 .menuTile[data-sd-enter="panel"] {
   --sd-duration-panel: var(--home-tile-rise-duration, 440ms);
@@ -371,21 +385,38 @@ button { font: inherit; color: inherit; }
   min-height: 40px; min-width: 0; box-sizing: border-box; padding: 4px 8px; margin: 0; text-align: left; cursor: pointer;
   display: flex; flex-direction: column; justify-content: center; gap: 1px;
   background: rgba(255,255,255,.04); border: 1px solid rgba(201,155,69,.5); border-radius: 2px; color: var(--cream);
+  transition:
+    transform var(--home-feedback-duration) var(--home-feedback-ease),
+    opacity var(--home-feedback-duration) linear,
+    background-color var(--home-feedback-duration) linear,
+    border-color var(--home-feedback-duration) linear,
+    color var(--home-feedback-duration) linear;
 }
 .menuMediaChoice strong { font: 700 13px/1.1 var(--cond); letter-spacing: .04em; color: #fff; }
 .menuMediaChoice small { font: 600 12px/1.15 var(--cond); letter-spacing: .02em; color: var(--meta); }
 .menuMediaChoice.selected { background: linear-gradient(180deg, #F7D46A, #E0AE3A); border-color: #FFF1B8; }
 .menuMediaChoice.selected strong, .menuMediaChoice.selected small { color: var(--ink); }
 .menuMediaChoice:not(.selected):hover { border-color: var(--gold); }
+.menuMediaChoice:active { transform: translateY(1px); opacity: .88; }
+.menuMediaChoice strong,
+.menuMediaChoice small { transition: color var(--home-feedback-duration) linear, opacity var(--home-feedback-duration) linear; }
 .menuMusicStatus { grid-area: status; margin: 0; font: 600 12px/1.2 var(--cond); letter-spacing: .12em; color: var(--cream); min-width: 0; }
 .menuMusicControls { grid-area: ctrl; display: flex; gap: 8px; }
 .menuMusicControl {
   height: 40px; box-sizing: border-box; padding: 0 16px; margin: 0; cursor: pointer; white-space: nowrap;
   font: 700 15px/1 var(--cond); letter-spacing: .06em; border-radius: 2px;
+  transition:
+    transform var(--home-feedback-duration) var(--home-feedback-ease),
+    opacity var(--home-feedback-duration) linear,
+    background-color var(--home-feedback-duration) linear,
+    border-color var(--home-feedback-duration) linear,
+    color var(--home-feedback-duration) linear;
 }
 #menuMusicToggle { color: var(--ink); background: linear-gradient(180deg, #F7D46A, #E0AE3A); border: 1px solid #FFF1B8; }
 #menuMusicMute { color: var(--cream); background: rgba(10,12,15,.6); border: 1px solid rgba(233,223,200,.55); }
 #menuMusicMute:disabled { cursor: default; color: #B8AE98; border-color: rgba(233,223,200,.45); }
+.menuMusicControl:not(:disabled):hover { opacity: .9; }
+.menuMusicControl:not(:disabled):active { transform: translateY(1px); opacity: .82; }
 /* narrow card (beside Nik's hand on short desktops) */
 .menuMusicTile.side { grid-template-columns: 52px minmax(0, 1fr); grid-template-areas: "player head" "sel sel" "ctrl ctrl" "status status"; --vinyl: 48px; }
 .menuMusicTile.side .menuMediaSelector { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -748,7 +779,13 @@ footer {
     letter-spacing: .04em;
     text-transform: uppercase;
     pointer-events: none;
+    transition:
+      opacity var(--home-feedback-duration) linear,
+      background-color var(--home-feedback-duration) linear,
+      border-color var(--home-feedback-duration) linear,
+      color var(--home-feedback-duration) linear;
   }
+  .phoneSheetToggle:checked + .phoneTrackSheetOpen { opacity: .68; }
   .menuMediaSelector {
     display: none;
   }
@@ -916,6 +953,103 @@ footer {
     .fifaMenuGrid { grid-template-rows: 44px 56px repeat(2, minmax(44px, 1fr)); gap: 4px; }
     .menuMusicTile { height: 44px !important; padding-top: 2px; padding-bottom: 2px; }
     #menuMusicMute { display: none; }
+  }
+}
+
+/* Job 36 · Home reduced-motion coverage.
+   motion.js exposes the app preference as html[data-motion-reduced="true"] and
+   stage[data-sd-motion-reduced="true"]; support the legacy html[data-reduced-motion] hook too. */
+html[data-motion-reduced="true"] .menuTile,
+html[data-reduced-motion="true"] .menuTile,
+.stage[data-sd-motion-reduced="true"] .menuTile,
+html[data-motion-reduced="true"] .tileArt,
+html[data-reduced-motion="true"] .tileArt,
+.stage[data-sd-motion-reduced="true"] .tileArt,
+html[data-motion-reduced="true"] .topBarTab,
+html[data-reduced-motion="true"] .topBarTab,
+.stage[data-sd-motion-reduced="true"] .topBarTab,
+html[data-motion-reduced="true"] .topBarSettings,
+html[data-reduced-motion="true"] .topBarSettings,
+.stage[data-sd-motion-reduced="true"] .topBarSettings,
+html[data-motion-reduced="true"] .menuMediaChoice,
+html[data-reduced-motion="true"] .menuMediaChoice,
+.stage[data-sd-motion-reduced="true"] .menuMediaChoice,
+html[data-motion-reduced="true"] .menuMusicControl,
+html[data-reduced-motion="true"] .menuMusicControl,
+.stage[data-sd-motion-reduced="true"] .menuMusicControl,
+html[data-motion-reduced="true"] .phoneTrackSheetOpen,
+html[data-reduced-motion="true"] .phoneTrackSheetOpen,
+.stage[data-sd-motion-reduced="true"] .phoneTrackSheetOpen {
+  transition-property: opacity, color, background-color, border-color !important;
+  transition-duration: var(--home-feedback-duration) !important;
+  transition-timing-function: linear !important;
+}
+
+html[data-motion-reduced="true"] .menuTile:not(:disabled):hover,
+html[data-reduced-motion="true"] .menuTile:not(:disabled):hover,
+.stage[data-sd-motion-reduced="true"] .menuTile:not(:disabled):hover,
+html[data-motion-reduced="true"] .menuTile:active:not(:disabled),
+html[data-reduced-motion="true"] .menuTile:active:not(:disabled),
+.stage[data-sd-motion-reduced="true"] .menuTile:active:not(:disabled),
+html[data-motion-reduced="true"] .menuTile:not(:disabled):hover .tileArt,
+html[data-reduced-motion="true"] .menuTile:not(:disabled):hover .tileArt,
+.stage[data-sd-motion-reduced="true"] .menuTile:not(:disabled):hover .tileArt {
+  transform: none !important;
+}
+
+html[data-motion-reduced="true"] .menuTile::after,
+html[data-reduced-motion="true"] .menuTile::after,
+.stage[data-sd-motion-reduced="true"] .menuTile::after,
+html[data-motion-reduced="true"] .menuMusicTile[data-playback="playing"] .vinyl,
+html[data-reduced-motion="true"] .menuMusicTile[data-playback="playing"] .vinyl,
+.stage[data-sd-motion-reduced="true"] .menuMusicTile[data-playback="playing"] .vinyl {
+  animation: none !important;
+  opacity: 0 !important;
+  will-change: auto !important;
+}
+
+@media (max-width: 760px) and (orientation: portrait) {
+  html[data-motion-reduced="true"] .phoneHeroDaniel[data-sd-enter="character-left"],
+  html[data-reduced-motion="true"] .phoneHeroDaniel[data-sd-enter="character-left"],
+  .stage[data-sd-motion-reduced="true"] .phoneHeroDaniel[data-sd-enter="character-left"],
+  html[data-motion-reduced="true"] .phoneHeroNik[data-sd-enter="character-right"],
+  html[data-reduced-motion="true"] .phoneHeroNik[data-sd-enter="character-right"],
+  .stage[data-sd-motion-reduced="true"] .phoneHeroNik[data-sd-enter="character-right"] {
+    transform: translateX(-50%) !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .menuTile,
+  .tileArt,
+  .topBarTab,
+  .topBarSettings,
+  .menuMediaChoice,
+  .menuMusicControl,
+  .phoneTrackSheetOpen {
+    transition-property: opacity, color, background-color, border-color !important;
+    transition-duration: var(--home-feedback-duration) !important;
+    transition-timing-function: linear !important;
+  }
+
+  .menuTile:not(:disabled):hover,
+  .menuTile:active:not(:disabled),
+  .menuTile:not(:disabled):hover .tileArt {
+    transform: none !important;
+  }
+
+  .menuTile::after,
+  .menuMusicTile[data-playback="playing"] .vinyl {
+    animation: none !important;
+    opacity: 0 !important;
+    will-change: auto !important;
+  }
+
+  @media (max-width: 760px) and (orientation: portrait) {
+    .phoneHeroDaniel[data-sd-enter="character-left"],
+    .phoneHeroNik[data-sd-enter="character-right"] {
+      transform: translateX(-50%) !important;
+    }
   }
 }
 
