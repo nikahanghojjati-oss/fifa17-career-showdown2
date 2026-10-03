@@ -22,3 +22,12 @@ The approved portrait background is already on the branch as `assets/ENV_HOME_PH
 Use `phone_frame` in `assets/phonemap.json` as the single composition authority. Cover the 393 × 660 frame with the portrait background, place Daniel's alpha-bbox on the left and Nik's on the right at the recorded percentages, preserve their unmirrored pixels, then apply the recorded dark bottom gradient above any lower UI.
 
 # proof: Claude composites PHONE_PROOF.png (393 × 660 at 3×) from phone_frame
+
+
+## Job 33 runtime handoff
+
+The phone Home now references both runtime cut-outs through picture elements. The files are not on the branch yet. The two existing commands in the Cut-outs section above are therefore the Job 33 missing-asset DEFAULT and Claude must run them before browser intake.
+
+Keep the lower-18% alpha fade and WebP quality-85 export rules above. Runtime placement is not guessed: phonemap.json phone_frame remains authoritative at 393 x 660. Daniel stays left with alpha-bbox centre x 31%, top 0.5%, height 58%. Nik stays right with alpha-bbox centre x 68%, top -0.5%, height 61%. Do not mirror either manager.
+
+Job 33 first-paint phone hero bundle budget is the Job 111 intake budget: 132,124-byte portrait background plus two cut-outs capped at 60,000 bytes each, for at most 252,124 bytes. This is below the 450 KB Job 33 ceiling. PNG masters and PHONE_PROOF.png are never runtime-loaded.
