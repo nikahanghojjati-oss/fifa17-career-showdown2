@@ -9,6 +9,20 @@ Raw link pattern (works without the GitHub connector):
 
 ---
 
+## Pace rules: short turns that always finish (2026-10-03, these beat anything below)
+
+Long ChatGPT turns stall in "thinking" and Nik has to press stop and continue. So every turn is short and ends cleanly:
+
+1. **At most TWO steps per turn.** After your second finished step (or one heavy step: a build, a cut-out, a long CSS pass), save, then stop with exactly: `Step k of n done and saved. Type continue for step k+1.` Never start a third step in the same turn.
+2. **Every step ends saved.** Step files plus the status file (`Step: k of n`, one note line) are on the branch before you say anything else. A stopped or broken chat then loses nothing: `continue` in this chat, or the job number in a new chat, resumes from the status file at step k+1.
+3. **Resume from the status file, not from memory.** On `continue` or on the number, re-read only `status/JOB-NNN.md` and the job file, then do the next step. Do not re-read papers you already used unless the step needs them.
+4. **Read only what the step needs.** Read the handbook, the job file and the status file at the start; read each other paper (PRODUCT_TRUTH, QUALITY_BAR, CRAFT_GUIDE, mockups, code) when a step actually uses it, and only the sections it uses. Never fetch whole folders.
+5. **Never trigger, wait on or poll GitHub Actions, CI or workflow logs.** No "waiting 60 seconds", no re-reading run logs. Save and move on. The one exception, an inbox receipt, is read ONCE at the start of your next turn; if it is not there yet, note `receipt pending` and carry on; Claude checks receipts too.
+6. **No browser QA loops.** If a step asks for screenshots or QA runs, do at most one quick run in your sandbox if it works first time, write the numbers in the notes, and move on. Claude renders and checks every screen from the committed code. Never retry a failing tool more than once.
+7. **Default, don't stop.** If something is unclear, pick the most reasonable option that keeps product truth, write `DEFAULT: <what you chose and why>` in the notes, and keep going. Use BLOCKED only for a real product-truth contradiction or a missing input you cannot work around (for example a mockup missing from project Files).
+
+---
+
 ## 0. The loop in ten lines
 
 1. The user types a number **N** (or "job N"). That means: do factory job N.
@@ -16,7 +30,7 @@ Raw link pattern (works without the GitHub connector):
 3. First reply line: `Job N · <title> · <State>`.
 4. Decide with the gate table in §6 whether you may start. If not, say why in one line and stop.
 5. Read every paper the job lists under "Read first" (always PRODUCT_TRUTH.md and QUALITY_BAR.md; CRAFT_GUIDE.md for build, polish, review and fix jobs).
-6. Do the steps in order, one at a time. Never skip, merge or reorder steps.
+6. Do the steps in order, one at a time, at most two per turn (Pace rules). Never skip, merge or reorder steps.
 7. After each step, save: update the status file and save that step's files (§7).
 8. Run the self-check from the job file. Fix anything that fails.
 9. Set `State: DONE`, save it yourself (§7), and send Nik one line: what you made and which job numbers it unlocks. No zip unless §7 rule 4 or 5 applies.
@@ -219,7 +233,7 @@ Job 0 records what plain chats can really do in `project-documents/factory/smoke
 - First reply: the handshake line `Job N · <title> · <State>`, then one line on what you are doing first.
 - During work: one line per finished step at most.
 - Finish: one line, what you made and what it unlocks, and that it is saved. Example: `Job 7 done and saved: the Final Winner truth sheet and fixtures. It feeds the Final Winner build (job 82).` Only under §7 rule 4 or 5 add the zip line with its reason.
-- Never ask him to decide product questions. Never ask "should I continue?"; just continue.
+- Never ask him to decide product questions. Never ask "should I continue?". The only stop line between steps is the Pace rules one: `Step k of n done and saved. Type continue for step k+1.`
 
 ## 13. Examples
 
@@ -247,6 +261,7 @@ Job 0 records what plain chats can really do in `project-documents/factory/smoke
 | --- | --- |
 | The connector can't see the repo or branch | Use the raw links (pattern at the top). Branch names with a slash work in raw links. |
 | A raw link returns 404 | Check the three-digit number and the exact path; the file may not exist yet (then the job is not ready). |
+| The chat stalls in "thinking" or Nik pressed stop | Nothing is lost if you saved per step. On `continue` (or the number in a new chat), re-read the status file and do the next unsaved step. |
 | You run out of room mid-job | Save (your files and the status at the last finished step, §7) and tell Nik: `Open a new chat and type N; it continues from step k+1.` |
 | Two chats on the same job | The status file decides. If it already says IN PROGRESS with a recent `Updated:` time from another chat, reply `Job N is already being worked on in another chat.` and stop. |
 | Mockup and PRODUCT_TRUTH disagree | PRODUCT_TRUTH wins. Write the difference in the notes. |

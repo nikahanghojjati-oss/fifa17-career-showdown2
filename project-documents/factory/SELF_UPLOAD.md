@@ -32,7 +32,7 @@ It writes `/mnt/data/outbox/<delivery>/`: part files (`<name>.b64.001`, `.002`, 
 
 **Step C. Save MANIFEST.json last.** The Action only unpacks a delivery that has its manifest, so saving it last means a half-finished upload is never unpacked.
 
-**Step D. Check the receipt.** About a minute later read `project-documents/factory/inbox/receipts/<delivery>.md`.
+**Step D. Check the receipt.** Do NOT wait or poll for it. Read it once at the start of your next turn (after `continue`); if it is not there yet, note `receipt pending` and carry on, Claude checks receipts too. Read `project-documents/factory/inbox/receipts/<delivery>.md`.
 - `Result: OK`: the files are in the repo at their paths, the inbox folder is gone. Carry on.
 - `Result: FAILED`: nothing was written. It names the part that broke (for example `part 2 of 4 ... checksum differs`). Save that part again from your sandbox, then save `MANIFEST.json` again (same content) to retry.
 
