@@ -196,10 +196,10 @@
     3,
     5
    ],
-   "steps": null,
-   "code_branch": null,
+   "steps": 8,
+   "code_branch": "gameplay/job-11-contract-fixtures",
    "codex_review": false,
-   "written": false,
+   "written": true,
    "waits_on": null,
    "phase": "2 Career model",
    "type": "test",

@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-03 9:21 AM Boston time (EDT)",
+ "generated": "2026-10-03 9:26 AM Boston time (EDT)",
  "branch": "factory/gameplay-v1",
  "integration_branch": "gameplay/recovery-v1",
  "capacity": {
@@ -14,7 +14,9 @@
    16,
    18
   ],
-  "work": []
+  "work": [
+   11
+  ]
  },
  "queued": [],
  "working": [],
@@ -264,19 +266,19 @@
     3,
     5
    ],
-   "steps": null,
-   "code_branch": null,
+   "steps": 8,
+   "code_branch": "gameplay/job-11-contract-fixtures",
    "codex_review": false,
-   "written": false,
+   "written": true,
    "waits_on": null,
    "phase": "2 Career model",
    "type": "test",
    "plain": "Example data for Team V generated from the real model, so visuals and gameplay agree.",
-   "state": "NOT WRITTEN",
+   "state": "NOT STARTED",
    "step": 0,
-   "steps_total": 1,
+   "steps_total": 8,
    "pct": 0,
-   "ready": false
+   "ready": true
   },
   {
    "number": 7,
