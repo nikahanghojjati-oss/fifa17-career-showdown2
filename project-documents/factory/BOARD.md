@@ -1,23 +1,23 @@
 # Showdown Factory board
 
-**68 of 135 jobs done and checked · 56 %** · updated Sat 6:08 p.m. Eastern
+**68 of 135 jobs done and checked · 56 %** · updated Sat 7:12 p.m. Eastern
 
-✅ **Quality check:** a job counts as done only after Claude checks it against the quality bar (average 4.2 or more, nothing under 3, hard gates pass). Average score 4.24 over 18 scored jobs. 🔍 Waiting for Claude's check: 39, 41, 115. 🔧 Sent back with a fix list: 45.
+✅ **Quality check:** a job counts as done only after Claude checks it against the quality bar (average 4.2 or more, nothing under 3, hard gates pass). Average score 4.24 over 18 scored jobs. 🔍 Waiting for Claude's check: 35, 39, 41, 115. 🔧 Sent back with a fix list: 45.
 
 █████░░░░░
 
 **Where to run:** 🟡 **project job** = new chat in the ChatGPT project "Showdown visual", type the number. 🟣 **image job** = its ticket in a ChatGPT **Temporary Chat** outside any project, then drop the picture in Claude's factory thread.
 
-🟡 **Type next:** 45 (fix) · then 42, 58, 83, 95, 114, 116, 117, 119, 120, 125
+🟡 **Type next:** 45 (fix) · then 36, 42, 58, 83, 95, 114, 116, 117, 119, 120, 125
 
 🟣 **Image next:** 118
 
-**Working:** 35, 47, 77, 87, 92 · **Blocked:** -
+**Working:** 47, 77, 87, 92 · **Blocked:** -
 
 ## Screens
 
 ```
-Home           ████████░░ 6/8
+Home           ████████░░ 7/8
 League         ████████░░ 7/8
 Club           ███████░░░ 4/7
 Transfer       ██░░░░░░░░ 1/6
@@ -51,13 +51,13 @@ Branch `factory/v1-wtt5ye`. 135 Team V jobs, plus 5 lines that track Team G. Two
 
 **Overall (Team V):** █████░░░░░ 56 % · 68 of 135 jobs done
 
-**Start now · project (type the number in Showdown visual):** 45 (fix) · queued next: 42, 58, 83, 95, 114, 116, 117, 119, 120, 125
+**Start now · project (type the number in Showdown visual):** 45 (fix) · queued next: 36, 42, 58, 83, 95, 114, 116, 117, 119, 120, 125
 
 **Start now · fresh chat (image ticket, outside the project):** 118
 
 **Start now (Sol Work mode, press Use Work):** -
 
-**Working:** 35, 47, 77, 87, 92 · **Blocked:** -
+**Working:** 47, 77, 87, 92 · **Blocked:** -
 
 **Team G tracking (never start these):** 98 (done), 99 (open), 100 (open), 101 (open), 102 (open). Claude marks them done when Team G delivers.
 
@@ -98,7 +98,7 @@ Branch `factory/v1-wtt5ye`. 135 Team V jobs, plus 5 lines that track Team G. Two
 | 32 | [Home: seven destinations and premium tiles](jobs/JOB-032.md) | 4 Polish built screens | build | project (type number) | 31, 18, 20, 122 | ██████████ 100 % | DONE |  |
 | 33 | [Home: phone with seven destinations](jobs/JOB-033.md) | 4 Polish built screens | build | project (type number) | 32, 111 | ██████████ 100 % | DONE |  |
 | 34 | [Home: review](jobs/JOB-034.md) | 4 Polish built screens | review | project (type number) | 33 | ██████████ 100 % | DONE |  |
-| 35 | [Home: fix round](jobs/JOB-035.md) | 4 Polish built screens | fix | project (type number) | 34 | ███████░░░ 75 % | IN PROGRESS |  |
+| 35 | [Home: fix round](jobs/JOB-035.md) | 4 Polish built screens | fix | project (type number) | 34 | ██████████ 100 % | DONE |  |
 | 36 | [Home: motion pass](jobs/JOB-036.md) | 4 Polish built screens | build | project (type number) | 35, 16 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
 | 37 | [League: hands on the wheel](jobs/JOB-037.md) | 4 Polish built screens | build | project (type number) | 14, 1, 18, 123 | ██████████ 100 % | DONE |  |
 | 38 | [League: swap in the new league marks](jobs/JOB-038.md) | 4 Polish built screens | build | project (type number) | 37 | ██████████ 100 % | DONE |  |
