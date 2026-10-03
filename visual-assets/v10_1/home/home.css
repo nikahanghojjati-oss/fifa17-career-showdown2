@@ -210,6 +210,11 @@ button { font: inherit; color: inherit; }
 #continueCareer .menuTileCode { color: #3B2C0C; }
 #continueCareer .menuTileLabel { color: var(--ink); }
 #continueCareer .menuTileMeta { color: #2A2008; }
+/* Claude fix 1: keep desktop Continue copy clear of the 17-shirt silhouette. */
+@media (min-width: 901px) {
+  #continueCareer .menuTileMeta { max-width: 154px; white-space: normal; }
+  #continueCareer .tileArt { right: -52px; }
+}
 #continueCareer .tileChevron { color: var(--ink); }
 #continueCareer:disabled { opacity: .45; cursor: default; }
 #continueCareer:disabled:hover { transform: none; }
