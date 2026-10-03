@@ -308,6 +308,44 @@
         && headAfter.revision == headBefore.revision + 1
         && headAfter.data.sealedPageCount == root.data.pageNumber;
     }
+
+    // CMS_COMPLETED_READ (D2, JOB-08): read-only grant for a Showdown closed by a verified
+    // Terminal Close. Get only; no write, list or delete rule refers to these functions.
+    function cmsCompletedShowdownReadable(rivalryId) {
+      let root = get(/databases/$(database)/documents/rivalries/$(rivalryId)).data;
+      let data = root.data;
+      let slots = data.managerSlots;
+      let progress = data.terminalProgress;
+      return signedIn()
+        && rivalryId.matches('^pair_[0-9a-f]{64}$')
+        && root.objectType == 'rivalry'
+        && root.objectId == rivalryId
+        && root.lifecycleState == 'live'
+        && data.connectionState == 'closed'
+        && data.authorizedAccountIds is list
+        && data.authorizedAccountIds.size() == 2
+        && data.authorizedAccountIds[0] != data.authorizedAccountIds[1]
+        && request.auth.uid in data.authorizedAccountIds
+        && slots is list
+        && slots.size() == 2
+        && slots[0].slotId == 'playerOne'
+        && slots[1].slotId == 'playerTwo'
+        && (slots[0].accountId == request.auth.uid || slots[1].accountId == request.auth.uid)
+        && activeAccount(request.auth.uid)
+        && 'terminalClose' in data
+        && ssjrTerminalValidIntent(rivalryId, data.terminalClose)
+        && ssjrTerminalProgressShape(progress)
+        && progress.acceptedThroughSeason == progress.totalSeasons
+        && progress.closedSessionRevision is int
+        && data.terminalClose.totalSeasons == progress.totalSeasons
+        && data.terminalClose.managerTotals == progress.managerTotals;
+    }
+
+    function cmsCompletedSeasonReadable(rivalryId, seasonId) {
+      let total = get(/databases/$(database)/documents/rivalries/$(rivalryId)).data.data.terminalProgress.totalSeasons;
+      return cmsCompletedShowdownReadable(rivalryId)
+        && seasonId in ['season_1','season_2','season_3','season_4','season_5','season_6','season_7','season_8','season_9','season_10'][0:total];
+    }
 // CMS_PERSISTENT_PAIR_FUNCTIONS_END
 
 // CMS_PERSISTENT_PAIR_MATCH_BEGIN

@@ -46,6 +46,11 @@ export function injectPersistentPairRules(){
     "      allow update: if (request.resource.data.data.connectionState == 'closed'\n          && !('terminalClose' in request.resource.data.data)\n          && cmsPersistentPairAbandonValid(rivalryId))\n        || ssjrTerminalValidRivalryUpdate(rivalryId)\n        || (!('terminalProgress' in request.resource.data.data) && validRivalryRedeem(rivalryId));",
     'persistent pair abandonment authority'
   );
+  // JOB-08 (D2): completed-only read grant. Get rules only; writes, list and delete stay as they are.
+  generated=replaceOnce(generated,'      match /sharedSetup/authoritative {\n        allow get: if ssjrEntitled(rivalryId);','      match /sharedSetup/authoritative {\n        allow get: if ssjrEntitled(rivalryId) || cmsCompletedShowdownReadable(rivalryId);','completed Showdown setup read');
+  generated=replaceOnce(generated,'      match /seasonResults/{seasonId} {\n        allow get: if ssjrEntitled(rivalryId);','      match /seasonResults/{seasonId} {\n        allow get: if ssjrEntitled(rivalryId) || cmsCompletedSeasonReadable(rivalryId, seasonId);','completed Showdown season results read');
+  generated=replaceOnce(generated,'          allow get: if ssjrResultsPrivateReadable(rivalryId, seasonId, managerRole);','          allow get: if ssjrResultsPrivateReadable(rivalryId, seasonId, managerRole)\n            || (managerRole in [\'playerOne\', \'playerTwo\'] && cmsCompletedSeasonReadable(rivalryId, seasonId));','completed Showdown season result role read');
+  generated=replaceOnce(generated,'      match /seasonCommits/{seasonId} {\n        allow get: if ssjrEntitled(rivalryId);','      match /seasonCommits/{seasonId} {\n        allow get: if ssjrEntitled(rivalryId) || cmsCompletedSeasonReadable(rivalryId, seasonId);','completed Showdown season commit read');
   for(const required of [
     'function cmsPersistentPairManagerValid(role, managerId)',
     'function cmsPersistentPairRivalryMembership(accountId, rivalryId, role)',
@@ -81,7 +86,13 @@ export function injectPersistentPairRules(){
     'next[0:prior.size()] == prior',
     '!(next[prior.size()] in prior)',
     'match /accounts/{accountId}/careerIndex/{indexId}',
-    "allow update: if indexId == 'current' && cmsCareerIndexHeadUpdateValid(accountId)"
+    "allow update: if indexId == 'current' && cmsCareerIndexHeadUpdateValid(accountId)",
+    'function cmsCompletedShowdownReadable(rivalryId)',
+    'function cmsCompletedSeasonReadable(rivalryId, seasonId)',
+    "'terminalClose' in data",
+    'progress.closedSessionRevision is int',
+    'allow get: if ssjrEntitled(rivalryId) || cmsCompletedShowdownReadable(rivalryId);',
+    'allow get: if ssjrEntitled(rivalryId) || cmsCompletedSeasonReadable(rivalryId, seasonId);'
   ]){
     if(!generated.includes(required))throw new Error(`Generated production Rules missing persistent pair boundary: ${required}`);
   }
@@ -90,6 +101,9 @@ export function injectPersistentPairRules(){
   }
   if((generated.match(/match \/accounts\/\{accountId\}\/pairLinks\/\{pairId\}/g)||[]).length!==1){
     throw new Error('Generated production Rules must contain exactly one persistent pair account match.');
+  }
+  if((generated.match(/cmsCompletedShowdownReadable\(rivalryId\)/g)||[]).length!==3||(generated.match(/cmsCompletedSeasonReadable\(rivalryId, seasonId\)/g)||[]).length!==4){
+    throw new Error('Generated production Rules must apply the completed-only read grant to exactly setup, season results, result roles and season commits.');
   }
   if(!generated.endsWith('\n'))generated+='\n';
   fs.writeFileSync(outputPath,generated,'utf8');
