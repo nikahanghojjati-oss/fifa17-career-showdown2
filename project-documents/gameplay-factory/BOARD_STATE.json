@@ -29,7 +29,7 @@
   "chat": 2,
   "work": 1
  },
- "overall": 70,
+ "overall": 71,
  "done": 13,
  "total": 20,
  "start": {
@@ -368,9 +368,9 @@
    "type": "build",
    "plain": "Finished Showdowns flow into career totals and the Trophy Room.",
    "state": "IN PROGRESS",
-   "step": 3,
+   "step": 4,
    "steps_total": 7,
-   "pct": 42,
+   "pct": 57,
    "ready": false
   },
   {
