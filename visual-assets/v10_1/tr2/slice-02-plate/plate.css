@@ -8,16 +8,17 @@
 @font-face { font-family: "Barlow"; font-weight: 600; font-display: block; src: url(assets/fonts/barlow-latin-600-normal.woff2) format("woff2"); }
 
 :root {
-  --gold: #F2C45B;
-  --gold-deep: #C99B45;
-  --gold-hot: #FFD97A;
-  --cream: #F4E7C8;
-  --cream-dim: #CDBB8F;
-  --ink: #120E07;
+  /* Plate-local aliases consume the shared Showdown foundation without moving registered geometry. */
+  --gold: var(--sd-gold-400);
+  --gold-deep: var(--sd-gold-700);
+  --gold-hot: var(--sd-gold-300);
+  --cream: var(--sd-text-primary);
+  --cream-dim: var(--sd-text-secondary);
+  --ink: var(--sd-text-on-gold);
   --well: rgba(8, 6, 3, 0.62);
-  --hair: rgba(242, 196, 91, 0.38);
-  --cond: "Barlow Condensed", "Arial Narrow", sans-serif;
-  --text: "Barlow", system-ui, sans-serif;
+  --hair: var(--sd-edge);
+  --cond: var(--sd-font-condensed);
+  --text: var(--sd-font-body);
 }
 
 * { box-sizing: border-box; }
@@ -495,3 +496,50 @@ body { overflow: hidden; font-family: var(--text); -webkit-font-smoothing: antia
     .btn-continue { min-height: 44px; }
   }
 }
+
+
+/* JOB-049 polish: shared-kit materials; approved Plate G registration stays untouched. */
+.scene::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none; z-index: var(--sd-z-light);
+  background:
+    radial-gradient(circle at 47% 13%, rgba(255,211,77,.11) 0 1px, transparent 1.7px),
+    radial-gradient(circle at 64% 22%, rgba(255,243,176,.09) 0 1px, transparent 1.6px),
+    radial-gradient(ellipse at 54% 0%, rgba(242,196,91,.08), transparent 38%),
+    linear-gradient(90deg, rgba(0,0,0,.14), transparent 17%, transparent 82%, rgba(0,0,0,.18));
+  background-size: 83px 71px, 117px 93px, auto, auto;
+  mix-blend-mode: screen;
+  opacity: .58;
+}
+.panel.sealed .frost {
+  background:
+    radial-gradient(circle at 50% 54%, rgba(123,31,20,.36) 0 14%, transparent 15%),
+    repeating-linear-gradient(92deg, rgba(255,243,176,.035) 0 1px, transparent 1px 4px),
+    linear-gradient(150deg, rgba(52,39,20,.80), rgba(13,10,7,.92));
+  box-shadow: inset 0 0 0 1px rgba(212,160,23,.24), inset 0 10px 24px rgba(255,211,77,.035), var(--sd-shadow-contact);
+}
+.panel.sealed .frost::before {
+  content: ""; position: absolute; left: 50%; top: 5%; bottom: 5%; width: calc(var(--k) * 10px);
+  transform: translateX(-50%);
+  background: var(--sd-gold-metal);
+  clip-path: polygon(20% 0,80% 0,100% 8%,82% 50%,100% 92%,80% 100%,20% 100%,0 92%,18% 50%,0 8%);
+  opacity: .62; filter: drop-shadow(0 2px 4px rgba(0,0,0,.55));
+}
+.panel.sealed .seal {
+  color: var(--sd-gold-300);
+  filter: drop-shadow(0 2px 3px rgba(0,0,0,.72)) drop-shadow(0 0 calc(var(--k) * 7px) rgba(245,197,24,.28));
+}
+.overlay-fingertip {
+  filter: drop-shadow(0 calc(var(--k) * 3px) calc(var(--k) * 3px) rgba(0,0,0,.58));
+}
+.btn-lock.sd-btn, .btn-end.sd-btn, .btn-continue.sd-btn {
+  min-inline-size: 0;
+  clip-path: polygon(calc(var(--k) * 8px) 0,100% 0,100% calc(100% - var(--k) * 8px),calc(100% - var(--k) * 8px) 100%,0 100%,0 calc(var(--k) * 8px));
+  border-radius: 0;
+  transition: transform var(--sd-duration-feedback) var(--sd-ease-press), box-shadow var(--sd-duration-feedback), filter var(--sd-duration-feedback);
+}
+.btn-lock.sd-btn--primary { background: var(--sd-gold-500); color: var(--sd-text-on-gold); }
+.btn-end.sd-btn--secondary, .btn-continue.sd-btn--secondary { background: rgba(8,9,12,.88); color: var(--sd-gold-300); border: 1px solid var(--sd-edge); }
+
+/* Product truth: Transfer War owns the full viewport; keep footer ids/strings in DOM for integration but no bottom bar is presented. */
+.hud-footer { display: none; }
+.stage { --footer-h: 0px; }
