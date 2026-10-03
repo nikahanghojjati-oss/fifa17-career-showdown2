@@ -1,0 +1,4862 @@
+{
+  "schema": "SHOWDOWN_FACTORY_QA_V1",
+  "generatedAt": "2026-10-03T11:36:24.797Z",
+  "base": "http://127.0.0.1:8765/visual-assets/v10_1/loading/",
+  "screenFolder": "visual-assets/v10_1/loading",
+  "frames": [
+    "LD1",
+    "LD2",
+    "LD6_UNAVAILABLE"
+  ],
+  "viewports": [
+    {
+      "w": 1366,
+      "h": 768,
+      "dpr": 1,
+      "label": "1366x768"
+    },
+    {
+      "w": 1440,
+      "h": 900,
+      "dpr": 1,
+      "label": "1440x900"
+    },
+    {
+      "w": 1920,
+      "h": 1080,
+      "dpr": 1,
+      "label": "1920x1080"
+    },
+    {
+      "w": 1366,
+      "h": 640,
+      "dpr": 1,
+      "label": "1366x640"
+    },
+    {
+      "w": 393,
+      "h": 660,
+      "dpr": 3,
+      "label": "393x660@3x",
+      "phone": true
+    },
+    {
+      "w": 360,
+      "h": 640,
+      "dpr": 2,
+      "label": "360x640",
+      "phone": true
+    },
+    {
+      "w": 375,
+      "h": 553,
+      "dpr": 2,
+      "label": "375x553",
+      "phone": true
+    },
+    {
+      "w": 390,
+      "h": 844,
+      "dpr": 2,
+      "label": "390x844",
+      "phone": true
+    },
+    {
+      "w": 430,
+      "h": 932,
+      "dpr": 2,
+      "label": "430x932",
+      "phone": true
+    }
+  ],
+  "results": [
+    {
+      "frame": "LD1",
+      "viewport": {
+        "w": 1366,
+        "h": 768,
+        "dpr": 1,
+        "label": "1366x768"
+      },
+      "scroll": {
+        "html": {
+          "width": 1366,
+          "height": 768,
+          "clientWidth": 1366,
+          "clientHeight": 768,
+          "horizontal": false,
+          "vertical": false
+        },
+        "body": {
+          "width": 1366,
+          "height": 768,
+          "clientWidth": 1366,
+          "clientHeight": 768,
+          "horizontal": false,
+          "vertical": false
+        },
+        "stage": {
+          "selector": "BODY",
+          "width": 1366,
+          "height": 768,
+          "clientWidth": 1366,
+          "clientHeight": 768,
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "controls": [
+        {
+          "tag": "a",
+          "id": null,
+          "label": "Tim Reckmann",
+          "rect": {
+            "left": 122,
+            "top": 734.40625,
+            "right": 197,
+            "bottom": 748.40625,
+            "width": 75,
+            "height": 14
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "a",
+          "id": null,
+          "label": "CC BY 2.0",
+          "rect": {
+            "left": 204,
+            "top": 734.40625,
+            "right": 253,
+            "bottom": 748.40625,
+            "width": 49,
+            "height": 14
+          },
+          "fullyInsideViewport": true
+        }
+      ],
+      "controlsOutsideViewport": [],
+      "primary": null,
+      "inputFonts": [],
+      "inputsBelow16px": [],
+      "fixtureStrings": {
+        "missing": [
+          "CM",
+          "Getting Career Mode Showdown ready.",
+          "new",
+          "Nothing is ready to open yet.",
+          "Some startup data is still loading. Continuing with what is available.",
+          "Career Mode Showdown cannot finish loading right now. Try again.",
+          "Career Mode Showdown is ready.",
+          "Current Showdown only. Career history is not yet available.",
+          "loading",
+          "Preview data",
+          "GETTING CAREER MODE SHOWDOWN READY.",
+          "VAL_NIK_LEADS"
+        ]
+      },
+      "hardGates": {
+        "H1": {
+          "pass": false,
+          "daniel": [],
+          "nik": [],
+          "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+        },
+        "H7": {
+          "pass": true,
+          "reducedMotion": "reduce",
+          "checkedAfterMs": 300,
+          "runningAnimations": []
+        }
+      },
+      "consoleErrors": [],
+      "failedRequests": [],
+      "screenshot": "LD1__1366x768.png",
+      "gates": {
+        "H1": {
+          "pass": false,
+          "details": {
+            "pass": false,
+            "daniel": [],
+            "nik": [],
+            "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+          }
+        },
+        "H5": {
+          "pass": false,
+          "details": {
+            "noScroll": true,
+            "primary": null,
+            "rule": "no page/stage scroll and primary visible"
+          }
+        },
+        "H6": {
+          "pass": true,
+          "details": {
+            "inputsBelow16px": [],
+            "inputFonts": []
+          }
+        },
+        "H7": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "reducedMotion": "reduce",
+            "checkedAfterMs": 300,
+            "runningAnimations": []
+          }
+        },
+        "CONTROL_BOUNDS": {
+          "pass": true,
+          "details": []
+        },
+        "CONSOLE": {
+          "pass": true,
+          "details": []
+        },
+        "REQUESTS": {
+          "pass": true,
+          "details": []
+        },
+        "FIXTURE_STRINGS": {
+          "pass": false,
+          "details": [
+            "CM",
+            "Getting Career Mode Showdown ready.",
+            "new",
+            "Nothing is ready to open yet.",
+            "Some startup data is still loading. Continuing with what is available.",
+            "Career Mode Showdown cannot finish loading right now. Try again.",
+            "Career Mode Showdown is ready.",
+            "Current Showdown only. Career history is not yet available.",
+            "loading",
+            "Preview data",
+            "GETTING CAREER MODE SHOWDOWN READY.",
+            "VAL_NIK_LEADS"
+          ]
+        }
+      }
+    },
+    {
+      "frame": "LD1",
+      "viewport": {
+        "w": 1440,
+        "h": 900,
+        "dpr": 1,
+        "label": "1440x900"
+      },
+      "scroll": {
+        "html": {
+          "width": 1440,
+          "height": 900,
+          "clientWidth": 1440,
+          "clientHeight": 900,
+          "horizontal": false,
+          "vertical": false
+        },
+        "body": {
+          "width": 1440,
+          "height": 900,
+          "clientWidth": 1440,
+          "clientHeight": 900,
+          "horizontal": false,
+          "vertical": false
+        },
+        "stage": {
+          "selector": "BODY",
+          "width": 1440,
+          "height": 900,
+          "clientWidth": 1440,
+          "clientHeight": 900,
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "controls": [
+        {
+          "tag": "a",
+          "id": null,
+          "label": "Tim Reckmann",
+          "rect": {
+            "left": 122,
+            "top": 866.40625,
+            "right": 197,
+            "bottom": 880.40625,
+            "width": 75,
+            "height": 14
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "a",
+          "id": null,
+          "label": "CC BY 2.0",
+          "rect": {
+            "left": 204,
+            "top": 866.40625,
+            "right": 253,
+            "bottom": 880.40625,
+            "width": 49,
+            "height": 14
+          },
+          "fullyInsideViewport": true
+        }
+      ],
+      "controlsOutsideViewport": [],
+      "primary": null,
+      "inputFonts": [],
+      "inputsBelow16px": [],
+      "fixtureStrings": {
+        "missing": [
+          "CM",
+          "Getting Career Mode Showdown ready.",
+          "new",
+          "Nothing is ready to open yet.",
+          "Some startup data is still loading. Continuing with what is available.",
+          "Career Mode Showdown cannot finish loading right now. Try again.",
+          "Career Mode Showdown is ready.",
+          "Current Showdown only. Career history is not yet available.",
+          "loading",
+          "Preview data",
+          "GETTING CAREER MODE SHOWDOWN READY.",
+          "VAL_NIK_LEADS"
+        ]
+      },
+      "hardGates": {
+        "H1": {
+          "pass": false,
+          "daniel": [],
+          "nik": [],
+          "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+        },
+        "H7": {
+          "pass": true,
+          "reducedMotion": "reduce",
+          "checkedAfterMs": 300,
+          "runningAnimations": []
+        }
+      },
+      "consoleErrors": [],
+      "failedRequests": [],
+      "screenshot": "LD1__1440x900.png",
+      "gates": {
+        "H1": {
+          "pass": false,
+          "details": {
+            "pass": false,
+            "daniel": [],
+            "nik": [],
+            "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+          }
+        },
+        "H5": {
+          "pass": false,
+          "details": {
+            "noScroll": true,
+            "primary": null,
+            "rule": "no page/stage scroll and primary visible"
+          }
+        },
+        "H6": {
+          "pass": true,
+          "details": {
+            "inputsBelow16px": [],
+            "inputFonts": []
+          }
+        },
+        "H7": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "reducedMotion": "reduce",
+            "checkedAfterMs": 300,
+            "runningAnimations": []
+          }
+        },
+        "CONTROL_BOUNDS": {
+          "pass": true,
+          "details": []
+        },
+        "CONSOLE": {
+          "pass": true,
+          "details": []
+        },
+        "REQUESTS": {
+          "pass": true,
+          "details": []
+        },
+        "FIXTURE_STRINGS": {
+          "pass": false,
+          "details": [
+            "CM",
+            "Getting Career Mode Showdown ready.",
+            "new",
+            "Nothing is ready to open yet.",
+            "Some startup data is still loading. Continuing with what is available.",
+            "Career Mode Showdown cannot finish loading right now. Try again.",
+            "Career Mode Showdown is ready.",
+            "Current Showdown only. Career history is not yet available.",
+            "loading",
+            "Preview data",
+            "GETTING CAREER MODE SHOWDOWN READY.",
+            "VAL_NIK_LEADS"
+          ]
+        }
+      }
+    },
+    {
+      "frame": "LD1",
+      "viewport": {
+        "w": 1920,
+        "h": 1080,
+        "dpr": 1,
+        "label": "1920x1080"
+      },
+      "scroll": {
+        "html": {
+          "width": 1920,
+          "height": 1080,
+          "clientWidth": 1920,
+          "clientHeight": 1080,
+          "horizontal": false,
+          "vertical": false
+        },
+        "body": {
+          "width": 1920,
+          "height": 1080,
+          "clientWidth": 1920,
+          "clientHeight": 1080,
+          "horizontal": false,
+          "vertical": false
+        },
+        "stage": {
+          "selector": "BODY",
+          "width": 1920,
+          "height": 1080,
+          "clientWidth": 1920,
+          "clientHeight": 1080,
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "controls": [
+        {
+          "tag": "a",
+          "id": null,
+          "label": "Tim Reckmann",
+          "rect": {
+            "left": 122,
+            "top": 1046.40625,
+            "right": 197,
+            "bottom": 1060.40625,
+            "width": 75,
+            "height": 14
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "a",
+          "id": null,
+          "label": "CC BY 2.0",
+          "rect": {
+            "left": 204,
+            "top": 1046.40625,
+            "right": 253,
+            "bottom": 1060.40625,
+            "width": 49,
+            "height": 14
+          },
+          "fullyInsideViewport": true
+        }
+      ],
+      "controlsOutsideViewport": [],
+      "primary": null,
+      "inputFonts": [],
+      "inputsBelow16px": [],
+      "fixtureStrings": {
+        "missing": [
+          "CM",
+          "Getting Career Mode Showdown ready.",
+          "new",
+          "Nothing is ready to open yet.",
+          "Some startup data is still loading. Continuing with what is available.",
+          "Career Mode Showdown cannot finish loading right now. Try again.",
+          "Career Mode Showdown is ready.",
+          "Current Showdown only. Career history is not yet available.",
+          "loading",
+          "Preview data",
+          "GETTING CAREER MODE SHOWDOWN READY.",
+          "VAL_NIK_LEADS"
+        ]
+      },
+      "hardGates": {
+        "H1": {
+          "pass": false,
+          "daniel": [],
+          "nik": [],
+          "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+        },
+        "H7": {
+          "pass": true,
+          "reducedMotion": "reduce",
+          "checkedAfterMs": 300,
+          "runningAnimations": []
+        }
+      },
+      "consoleErrors": [],
+      "failedRequests": [],
+      "screenshot": "LD1__1920x1080.png",
+      "gates": {
+        "H1": {
+          "pass": false,
+          "details": {
+            "pass": false,
+            "daniel": [],
+            "nik": [],
+            "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+          }
+        },
+        "H5": {
+          "pass": false,
+          "details": {
+            "noScroll": true,
+            "primary": null,
+            "rule": "no page/stage scroll and primary visible"
+          }
+        },
+        "H6": {
+          "pass": true,
+          "details": {
+            "inputsBelow16px": [],
+            "inputFonts": []
+          }
+        },
+        "H7": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "reducedMotion": "reduce",
+            "checkedAfterMs": 300,
+            "runningAnimations": []
+          }
+        },
+        "CONTROL_BOUNDS": {
+          "pass": true,
+          "details": []
+        },
+        "CONSOLE": {
+          "pass": true,
+          "details": []
+        },
+        "REQUESTS": {
+          "pass": true,
+          "details": []
+        },
+        "FIXTURE_STRINGS": {
+          "pass": false,
+          "details": [
+            "CM",
+            "Getting Career Mode Showdown ready.",
+            "new",
+            "Nothing is ready to open yet.",
+            "Some startup data is still loading. Continuing with what is available.",
+            "Career Mode Showdown cannot finish loading right now. Try again.",
+            "Career Mode Showdown is ready.",
+            "Current Showdown only. Career history is not yet available.",
+            "loading",
+            "Preview data",
+            "GETTING CAREER MODE SHOWDOWN READY.",
+            "VAL_NIK_LEADS"
+          ]
+        }
+      }
+    },
+    {
+      "frame": "LD1",
+      "viewport": {
+        "w": 1366,
+        "h": 640,
+        "dpr": 1,
+        "label": "1366x640"
+      },
+      "scroll": {
+        "html": {
+          "width": 1366,
+          "height": 640,
+          "clientWidth": 1366,
+          "clientHeight": 640,
+          "horizontal": false,
+          "vertical": false
+        },
+        "body": {
+          "width": 1366,
+          "height": 640,
+          "clientWidth": 1366,
+          "clientHeight": 640,
+          "horizontal": false,
+          "vertical": false
+        },
+        "stage": {
+          "selector": "BODY",
+          "width": 1366,
+          "height": 640,
+          "clientWidth": 1366,
+          "clientHeight": 640,
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "controls": [
+        {
+          "tag": "a",
+          "id": null,
+          "label": "Tim Reckmann",
+          "rect": {
+            "left": 122,
+            "top": 606.40625,
+            "right": 197,
+            "bottom": 620.40625,
+            "width": 75,
+            "height": 14
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "a",
+          "id": null,
+          "label": "CC BY 2.0",
+          "rect": {
+            "left": 204,
+            "top": 606.40625,
+            "right": 253,
+            "bottom": 620.40625,
+            "width": 49,
+            "height": 14
+          },
+          "fullyInsideViewport": true
+        }
+      ],
+      "controlsOutsideViewport": [],
+      "primary": null,
+      "inputFonts": [],
+      "inputsBelow16px": [],
+      "fixtureStrings": {
+        "missing": [
+          "CM",
+          "Getting Career Mode Showdown ready.",
+          "new",
+          "Nothing is ready to open yet.",
+          "Some startup data is still loading. Continuing with what is available.",
+          "Career Mode Showdown cannot finish loading right now. Try again.",
+          "Career Mode Showdown is ready.",
+          "Current Showdown only. Career history is not yet available.",
+          "loading",
+          "Preview data",
+          "GETTING CAREER MODE SHOWDOWN READY.",
+          "VAL_NIK_LEADS"
+        ]
+      },
+      "hardGates": {
+        "H1": {
+          "pass": false,
+          "daniel": [],
+          "nik": [],
+          "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+        },
+        "H7": {
+          "pass": true,
+          "reducedMotion": "reduce",
+          "checkedAfterMs": 300,
+          "runningAnimations": []
+        }
+      },
+      "consoleErrors": [],
+      "failedRequests": [],
+      "screenshot": "LD1__1366x640.png",
+      "gates": {
+        "H1": {
+          "pass": false,
+          "details": {
+            "pass": false,
+            "daniel": [],
+            "nik": [],
+            "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+          }
+        },
+        "H5": {
+          "pass": false,
+          "details": {
+            "noScroll": true,
+            "primary": null,
+            "rule": "no page/stage scroll and primary visible"
+          }
+        },
+        "H6": {
+          "pass": true,
+          "details": {
+            "inputsBelow16px": [],
+            "inputFonts": []
+          }
+        },
+        "H7": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "reducedMotion": "reduce",
+            "checkedAfterMs": 300,
+            "runningAnimations": []
+          }
+        },
+        "CONTROL_BOUNDS": {
+          "pass": true,
+          "details": []
+        },
+        "CONSOLE": {
+          "pass": true,
+          "details": []
+        },
+        "REQUESTS": {
+          "pass": true,
+          "details": []
+        },
+        "FIXTURE_STRINGS": {
+          "pass": false,
+          "details": [
+            "CM",
+            "Getting Career Mode Showdown ready.",
+            "new",
+            "Nothing is ready to open yet.",
+            "Some startup data is still loading. Continuing with what is available.",
+            "Career Mode Showdown cannot finish loading right now. Try again.",
+            "Career Mode Showdown is ready.",
+            "Current Showdown only. Career history is not yet available.",
+            "loading",
+            "Preview data",
+            "GETTING CAREER MODE SHOWDOWN READY.",
+            "VAL_NIK_LEADS"
+          ]
+        }
+      }
+    },
+    {
+      "frame": "LD1",
+      "viewport": {
+        "w": 393,
+        "h": 660,
+        "dpr": 3,
+        "label": "393x660@3x",
+        "phone": true
+      },
+      "scroll": {
+        "html": {
+          "width": 393,
+          "height": 660,
+          "clientWidth": 393,
+          "clientHeight": 660,
+          "horizontal": false,
+          "vertical": false
+        },
+        "body": {
+          "width": 393,
+          "height": 660,
+          "clientWidth": 393,
+          "clientHeight": 660,
+          "horizontal": false,
+          "vertical": false
+        },
+        "stage": {
+          "selector": "BODY",
+          "width": 393,
+          "height": 660,
+          "clientWidth": 393,
+          "clientHeight": 660,
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "controls": [
+        {
+          "tag": "a",
+          "id": null,
+          "label": "Tim Reckmann",
+          "rect": {
+            "left": 122,
+            "top": 625.40625,
+            "right": 197,
+            "bottom": 639.40625,
+            "width": 75,
+            "height": 14
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "a",
+          "id": null,
+          "label": "CC BY 2.0",
+          "rect": {
+            "left": 204,
+            "top": 625.40625,
+            "right": 253,
+            "bottom": 639.40625,
+            "width": 49,
+            "height": 14
+          },
+          "fullyInsideViewport": true
+        }
+      ],
+      "controlsOutsideViewport": [],
+      "primary": null,
+      "inputFonts": [],
+      "inputsBelow16px": [],
+      "fixtureStrings": {
+        "missing": [
+          "CM",
+          "Getting Career Mode Showdown ready.",
+          "new",
+          "Nothing is ready to open yet.",
+          "Some startup data is still loading. Continuing with what is available.",
+          "Career Mode Showdown cannot finish loading right now. Try again.",
+          "Career Mode Showdown is ready.",
+          "Current Showdown only. Career history is not yet available.",
+          "loading",
+          "Preview data",
+          "GETTING CAREER MODE SHOWDOWN READY.",
+          "VAL_NIK_LEADS"
+        ]
+      },
+      "hardGates": {
+        "H1": {
+          "pass": false,
+          "daniel": [],
+          "nik": [],
+          "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+        },
+        "H7": {
+          "pass": true,
+          "reducedMotion": "reduce",
+          "checkedAfterMs": 300,
+          "runningAnimations": []
+        }
+      },
+      "consoleErrors": [],
+      "failedRequests": [],
+      "screenshot": "LD1__393x660@3x.png",
+      "gates": {
+        "H1": {
+          "pass": false,
+          "details": {
+            "pass": false,
+            "daniel": [],
+            "nik": [],
+            "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+          }
+        },
+        "H5": {
+          "pass": false,
+          "details": {
+            "noScroll": true,
+            "primary": null,
+            "rule": "no page/stage scroll and primary visible"
+          }
+        },
+        "H6": {
+          "pass": true,
+          "details": {
+            "inputsBelow16px": [],
+            "inputFonts": []
+          }
+        },
+        "H7": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "reducedMotion": "reduce",
+            "checkedAfterMs": 300,
+            "runningAnimations": []
+          }
+        },
+        "CONTROL_BOUNDS": {
+          "pass": true,
+          "details": []
+        },
+        "CONSOLE": {
+          "pass": true,
+          "details": []
+        },
+        "REQUESTS": {
+          "pass": true,
+          "details": []
+        },
+        "FIXTURE_STRINGS": {
+          "pass": false,
+          "details": [
+            "CM",
+            "Getting Career Mode Showdown ready.",
+            "new",
+            "Nothing is ready to open yet.",
+            "Some startup data is still loading. Continuing with what is available.",
+            "Career Mode Showdown cannot finish loading right now. Try again.",
+            "Career Mode Showdown is ready.",
+            "Current Showdown only. Career history is not yet available.",
+            "loading",
+            "Preview data",
+            "GETTING CAREER MODE SHOWDOWN READY.",
+            "VAL_NIK_LEADS"
+          ]
+        }
+      }
+    },
+    {
+      "frame": "LD1",
+      "viewport": {
+        "w": 360,
+        "h": 640,
+        "dpr": 2,
+        "label": "360x640",
+        "phone": true
+      },
+      "scroll": {
+        "html": {
+          "width": 360,
+          "height": 640,
+          "clientWidth": 360,
+          "clientHeight": 640,
+          "horizontal": false,
+          "vertical": false
+        },
+        "body": {
+          "width": 360,
+          "height": 640,
+          "clientWidth": 360,
+          "clientHeight": 640,
+          "horizontal": false,
+          "vertical": false
+        },
+        "stage": {
+          "selector": "BODY",
+          "width": 360,
+          "height": 640,
+          "clientWidth": 360,
+          "clientHeight": 640,
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "controls": [
+        {
+          "tag": "a",
+          "id": null,
+          "label": "Tim Reckmann",
+          "rect": {
+            "left": 122,
+            "top": 594.8125,
+            "right": 197,
+            "bottom": 608.8125,
+            "width": 75,
+            "height": 14
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "a",
+          "id": null,
+          "label": "CC BY 2.0",
+          "rect": {
+            "left": 204,
+            "top": 594.8125,
+            "right": 253,
+            "bottom": 608.8125,
+            "width": 49,
+            "height": 14
+          },
+          "fullyInsideViewport": true
+        }
+      ],
+      "controlsOutsideViewport": [],
+      "primary": null,
+      "inputFonts": [],
+      "inputsBelow16px": [],
+      "fixtureStrings": {
+        "missing": [
+          "CM",
+          "Getting Career Mode Showdown ready.",
+          "new",
+          "Nothing is ready to open yet.",
+          "Some startup data is still loading. Continuing with what is available.",
+          "Career Mode Showdown cannot finish loading right now. Try again.",
+          "Career Mode Showdown is ready.",
+          "Current Showdown only. Career history is not yet available.",
+          "loading",
+          "Preview data",
+          "GETTING CAREER MODE SHOWDOWN READY.",
+          "VAL_NIK_LEADS"
+        ]
+      },
+      "hardGates": {
+        "H1": {
+          "pass": false,
+          "daniel": [],
+          "nik": [],
+          "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+        },
+        "H7": {
+          "pass": true,
+          "reducedMotion": "reduce",
+          "checkedAfterMs": 300,
+          "runningAnimations": []
+        }
+      },
+      "consoleErrors": [],
+      "failedRequests": [],
+      "screenshot": "LD1__360x640.png",
+      "gates": {
+        "H1": {
+          "pass": false,
+          "details": {
+            "pass": false,
+            "daniel": [],
+            "nik": [],
+            "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+          }
+        },
+        "H5": {
+          "pass": false,
+          "details": {
+            "noScroll": true,
+            "primary": null,
+            "rule": "no page/stage scroll and primary visible"
+          }
+        },
+        "H6": {
+          "pass": true,
+          "details": {
+            "inputsBelow16px": [],
+            "inputFonts": []
+          }
+        },
+        "H7": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "reducedMotion": "reduce",
+            "checkedAfterMs": 300,
+            "runningAnimations": []
+          }
+        },
+        "CONTROL_BOUNDS": {
+          "pass": true,
+          "details": []
+        },
+        "CONSOLE": {
+          "pass": true,
+          "details": []
+        },
+        "REQUESTS": {
+          "pass": true,
+          "details": []
+        },
+        "FIXTURE_STRINGS": {
+          "pass": false,
+          "details": [
+            "CM",
+            "Getting Career Mode Showdown ready.",
+            "new",
+            "Nothing is ready to open yet.",
+            "Some startup data is still loading. Continuing with what is available.",
+            "Career Mode Showdown cannot finish loading right now. Try again.",
+            "Career Mode Showdown is ready.",
+            "Current Showdown only. Career history is not yet available.",
+            "loading",
+            "Preview data",
+            "GETTING CAREER MODE SHOWDOWN READY.",
+            "VAL_NIK_LEADS"
+          ]
+        }
+      }
+    },
+    {
+      "frame": "LD1",
+      "viewport": {
+        "w": 375,
+        "h": 553,
+        "dpr": 2,
+        "label": "375x553",
+        "phone": true
+      },
+      "scroll": {
+        "html": {
+          "width": 375,
+          "height": 553,
+          "clientWidth": 375,
+          "clientHeight": 553,
+          "horizontal": false,
+          "vertical": false
+        },
+        "body": {
+          "width": 375,
+          "height": 553,
+          "clientWidth": 375,
+          "clientHeight": 553,
+          "horizontal": false,
+          "vertical": false
+        },
+        "stage": {
+          "selector": "BODY",
+          "width": 375,
+          "height": 553,
+          "clientWidth": 375,
+          "clientHeight": 553,
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "controls": [
+        {
+          "tag": "a",
+          "id": null,
+          "label": "Tim Reckmann",
+          "rect": {
+            "left": 122,
+            "top": 507.8125,
+            "right": 197,
+            "bottom": 521.8125,
+            "width": 75,
+            "height": 14
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "a",
+          "id": null,
+          "label": "CC BY 2.0",
+          "rect": {
+            "left": 204,
+            "top": 507.8125,
+            "right": 253,
+            "bottom": 521.8125,
+            "width": 49,
+            "height": 14
+          },
+          "fullyInsideViewport": true
+        }
+      ],
+      "controlsOutsideViewport": [],
+      "primary": null,
+      "inputFonts": [],
+      "inputsBelow16px": [],
+      "fixtureStrings": {
+        "missing": [
+          "CM",
+          "Getting Career Mode Showdown ready.",
+          "new",
+          "Nothing is ready to open yet.",
+          "Some startup data is still loading. Continuing with what is available.",
+          "Career Mode Showdown cannot finish loading right now. Try again.",
+          "Career Mode Showdown is ready.",
+          "Current Showdown only. Career history is not yet available.",
+          "loading",
+          "Preview data",
+          "GETTING CAREER MODE SHOWDOWN READY.",
+          "VAL_NIK_LEADS"
+        ]
+      },
+      "hardGates": {
+        "H1": {
+          "pass": false,
+          "daniel": [],
+          "nik": [],
+          "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+        },
+        "H7": {
+          "pass": true,
+          "reducedMotion": "reduce",
+          "checkedAfterMs": 300,
+          "runningAnimations": []
+        }
+      },
+      "consoleErrors": [],
+      "failedRequests": [],
+      "screenshot": "LD1__375x553.png",
+      "gates": {
+        "H1": {
+          "pass": false,
+          "details": {
+            "pass": false,
+            "daniel": [],
+            "nik": [],
+            "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+          }
+        },
+        "H5": {
+          "pass": false,
+          "details": {
+            "noScroll": true,
+            "primary": null,
+            "rule": "primary visible at 375x553"
+          }
+        },
+        "H6": {
+          "pass": true,
+          "details": {
+            "inputsBelow16px": [],
+            "inputFonts": []
+          }
+        },
+        "H7": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "reducedMotion": "reduce",
+            "checkedAfterMs": 300,
+            "runningAnimations": []
+          }
+        },
+        "CONTROL_BOUNDS": {
+          "pass": true,
+          "details": []
+        },
+        "CONSOLE": {
+          "pass": true,
+          "details": []
+        },
+        "REQUESTS": {
+          "pass": true,
+          "details": []
+        },
+        "FIXTURE_STRINGS": {
+          "pass": false,
+          "details": [
+            "CM",
+            "Getting Career Mode Showdown ready.",
+            "new",
+            "Nothing is ready to open yet.",
+            "Some startup data is still loading. Continuing with what is available.",
+            "Career Mode Showdown cannot finish loading right now. Try again.",
+            "Career Mode Showdown is ready.",
+            "Current Showdown only. Career history is not yet available.",
+            "loading",
+            "Preview data",
+            "GETTING CAREER MODE SHOWDOWN READY.",
+            "VAL_NIK_LEADS"
+          ]
+        }
+      }
+    },
+    {
+      "frame": "LD1",
+      "viewport": {
+        "w": 390,
+        "h": 844,
+        "dpr": 2,
+        "label": "390x844",
+        "phone": true
+      },
+      "scroll": {
+        "html": {
+          "width": 390,
+          "height": 844,
+          "clientWidth": 390,
+          "clientHeight": 844,
+          "horizontal": false,
+          "vertical": false
+        },
+        "body": {
+          "width": 390,
+          "height": 844,
+          "clientWidth": 390,
+          "clientHeight": 844,
+          "horizontal": false,
+          "vertical": false
+        },
+        "stage": {
+          "selector": "BODY",
+          "width": 390,
+          "height": 844,
+          "clientWidth": 390,
+          "clientHeight": 844,
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "controls": [
+        {
+          "tag": "a",
+          "id": null,
+          "label": "Tim Reckmann",
+          "rect": {
+            "left": 122,
+            "top": 809.40625,
+            "right": 197,
+            "bottom": 823.40625,
+            "width": 75,
+            "height": 14
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "a",
+          "id": null,
+          "label": "CC BY 2.0",
+          "rect": {
+            "left": 204,
+            "top": 809.40625,
+            "right": 253,
+            "bottom": 823.40625,
+            "width": 49,
+            "height": 14
+          },
+          "fullyInsideViewport": true
+        }
+      ],
+      "controlsOutsideViewport": [],
+      "primary": null,
+      "inputFonts": [],
+      "inputsBelow16px": [],
+      "fixtureStrings": {
+        "missing": [
+          "CM",
+          "Getting Career Mode Showdown ready.",
+          "new",
+          "Nothing is ready to open yet.",
+          "Some startup data is still loading. Continuing with what is available.",
+          "Career Mode Showdown cannot finish loading right now. Try again.",
+          "Career Mode Showdown is ready.",
+          "Current Showdown only. Career history is not yet available.",
+          "loading",
+          "Preview data",
+          "GETTING CAREER MODE SHOWDOWN READY.",
+          "VAL_NIK_LEADS"
+        ]
+      },
+      "hardGates": {
+        "H1": {
+          "pass": false,
+          "daniel": [],
+          "nik": [],
+          "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+        },
+        "H7": {
+          "pass": true,
+          "reducedMotion": "reduce",
+          "checkedAfterMs": 300,
+          "runningAnimations": []
+        }
+      },
+      "consoleErrors": [],
+      "failedRequests": [],
+      "screenshot": "LD1__390x844.png",
+      "gates": {
+        "H1": {
+          "pass": false,
+          "details": {
+            "pass": false,
+            "daniel": [],
+            "nik": [],
+            "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+          }
+        },
+        "H5": {
+          "pass": false,
+          "details": {
+            "noScroll": true,
+            "primary": null,
+            "rule": "no page/stage scroll and primary visible"
+          }
+        },
+        "H6": {
+          "pass": true,
+          "details": {
+            "inputsBelow16px": [],
+            "inputFonts": []
+          }
+        },
+        "H7": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "reducedMotion": "reduce",
+            "checkedAfterMs": 300,
+            "runningAnimations": []
+          }
+        },
+        "CONTROL_BOUNDS": {
+          "pass": true,
+          "details": []
+        },
+        "CONSOLE": {
+          "pass": true,
+          "details": []
+        },
+        "REQUESTS": {
+          "pass": true,
+          "details": []
+        },
+        "FIXTURE_STRINGS": {
+          "pass": false,
+          "details": [
+            "CM",
+            "Getting Career Mode Showdown ready.",
+            "new",
+            "Nothing is ready to open yet.",
+            "Some startup data is still loading. Continuing with what is available.",
+            "Career Mode Showdown cannot finish loading right now. Try again.",
+            "Career Mode Showdown is ready.",
+            "Current Showdown only. Career history is not yet available.",
+            "loading",
+            "Preview data",
+            "GETTING CAREER MODE SHOWDOWN READY.",
+            "VAL_NIK_LEADS"
+          ]
+        }
+      }
+    },
+    {
+      "frame": "LD1",
+      "viewport": {
+        "w": 430,
+        "h": 932,
+        "dpr": 2,
+        "label": "430x932",
+        "phone": true
+      },
+      "scroll": {
+        "html": {
+          "width": 430,
+          "height": 932,
+          "clientWidth": 430,
+          "clientHeight": 932,
+          "horizontal": false,
+          "vertical": false
+        },
+        "body": {
+          "width": 430,
+          "height": 932,
+          "clientWidth": 430,
+          "clientHeight": 932,
+          "horizontal": false,
+          "vertical": false
+        },
+        "stage": {
+          "selector": "BODY",
+          "width": 430,
+          "height": 932,
+          "clientWidth": 430,
+          "clientHeight": 932,
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "controls": [
+        {
+          "tag": "a",
+          "id": null,
+          "label": "Tim Reckmann",
+          "rect": {
+            "left": 122,
+            "top": 897.40625,
+            "right": 197,
+            "bottom": 911.40625,
+            "width": 75,
+            "height": 14
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "a",
+          "id": null,
+          "label": "CC BY 2.0",
+          "rect": {
+            "left": 204,
+            "top": 897.40625,
+            "right": 253,
+            "bottom": 911.40625,
+            "width": 49,
+            "height": 14
+          },
+          "fullyInsideViewport": true
+        }
+      ],
+      "controlsOutsideViewport": [],
+      "primary": null,
+      "inputFonts": [],
+      "inputsBelow16px": [],
+      "fixtureStrings": {
+        "missing": [
+          "CM",
+          "Getting Career Mode Showdown ready.",
+          "new",
+          "Nothing is ready to open yet.",
+          "Some startup data is still loading. Continuing with what is available.",
+          "Career Mode Showdown cannot finish loading right now. Try again.",
+          "Career Mode Showdown is ready.",
+          "Current Showdown only. Career history is not yet available.",
+          "loading",
+          "Preview data",
+          "GETTING CAREER MODE SHOWDOWN READY.",
+          "VAL_NIK_LEADS"
+        ]
+      },
+      "hardGates": {
+        "H1": {
+          "pass": false,
+          "daniel": [],
+          "nik": [],
+          "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+        },
+        "H7": {
+          "pass": true,
+          "reducedMotion": "reduce",
+          "checkedAfterMs": 300,
+          "runningAnimations": []
+        }
+      },
+      "consoleErrors": [],
+      "failedRequests": [],
+      "screenshot": "LD1__430x932.png",
+      "gates": {
+        "H1": {
+          "pass": false,
+          "details": {
+            "pass": false,
+            "daniel": [],
+            "nik": [],
+            "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+          }
+        },
+        "H5": {
+          "pass": false,
+          "details": {
+            "noScroll": true,
+            "primary": null,
+            "rule": "no page/stage scroll and primary visible"
+          }
+        },
+        "H6": {
+          "pass": true,
+          "details": {
+            "inputsBelow16px": [],
+            "inputFonts": []
+          }
+        },
+        "H7": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "reducedMotion": "reduce",
+            "checkedAfterMs": 300,
+            "runningAnimations": []
+          }
+        },
+        "CONTROL_BOUNDS": {
+          "pass": true,
+          "details": []
+        },
+        "CONSOLE": {
+          "pass": true,
+          "details": []
+        },
+        "REQUESTS": {
+          "pass": true,
+          "details": []
+        },
+        "FIXTURE_STRINGS": {
+          "pass": false,
+          "details": [
+            "CM",
+            "Getting Career Mode Showdown ready.",
+            "new",
+            "Nothing is ready to open yet.",
+            "Some startup data is still loading. Continuing with what is available.",
+            "Career Mode Showdown cannot finish loading right now. Try again.",
+            "Career Mode Showdown is ready.",
+            "Current Showdown only. Career history is not yet available.",
+            "loading",
+            "Preview data",
+            "GETTING CAREER MODE SHOWDOWN READY.",
+            "VAL_NIK_LEADS"
+          ]
+        }
+      }
+    },
+    {
+      "frame": "LD2",
+      "viewport": {
+        "w": 1366,
+        "h": 768,
+        "dpr": 1,
+        "label": "1366x768"
+      },
+      "scroll": {
+        "html": {
+          "width": 1366,
+          "height": 768,
+          "clientWidth": 1366,
+          "clientHeight": 768,
+          "horizontal": false,
+          "vertical": false
+        },
+        "body": {
+          "width": 1366,
+          "height": 768,
+          "clientWidth": 1366,
+          "clientHeight": 768,
+          "horizontal": false,
+          "vertical": false
+        },
+        "stage": {
+          "selector": "BODY",
+          "width": 1366,
+          "height": 768,
+          "clientWidth": 1366,
+          "clientHeight": 768,
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "controls": [
+        {
+          "tag": "a",
+          "id": null,
+          "label": "Tim Reckmann",
+          "rect": {
+            "left": 122,
+            "top": 734.40625,
+            "right": 197,
+            "bottom": 748.40625,
+            "width": 75,
+            "height": 14
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "a",
+          "id": null,
+          "label": "CC BY 2.0",
+          "rect": {
+            "left": 204,
+            "top": 734.40625,
+            "right": 253,
+            "bottom": 748.40625,
+            "width": 49,
+            "height": 14
+          },
+          "fullyInsideViewport": true
+        }
+      ],
+      "controlsOutsideViewport": [],
+      "primary": null,
+      "inputFonts": [],
+      "inputsBelow16px": [],
+      "fixtureStrings": {
+        "missing": [
+          "CM",
+          "PREPARING CAREER MODE SHOWDOWN",
+          "Getting Career Mode Showdown ready.",
+          "new",
+          "Nothing is ready to open yet.",
+          "Some startup data is still loading. Continuing with what is available.",
+          "Career Mode Showdown cannot finish loading right now. Try again.",
+          "Career Mode Showdown is ready.",
+          "Current Showdown only. Career history is not yet available.",
+          "ready",
+          "Preview data",
+          "mainMenu",
+          "VAL_NIK_LEADS"
+        ]
+      },
+      "hardGates": {
+        "H1": {
+          "pass": false,
+          "daniel": [],
+          "nik": [],
+          "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+        },
+        "H7": {
+          "pass": true,
+          "reducedMotion": "reduce",
+          "checkedAfterMs": 300,
+          "runningAnimations": []
+        }
+      },
+      "consoleErrors": [],
+      "failedRequests": [],
+      "screenshot": "LD2__1366x768.png",
+      "gates": {
+        "H1": {
+          "pass": false,
+          "details": {
+            "pass": false,
+            "daniel": [],
+            "nik": [],
+            "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+          }
+        },
+        "H5": {
+          "pass": false,
+          "details": {
+            "noScroll": true,
+            "primary": null,
+            "rule": "no page/stage scroll and primary visible"
+          }
+        },
+        "H6": {
+          "pass": true,
+          "details": {
+            "inputsBelow16px": [],
+            "inputFonts": []
+          }
+        },
+        "H7": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "reducedMotion": "reduce",
+            "checkedAfterMs": 300,
+            "runningAnimations": []
+          }
+        },
+        "CONTROL_BOUNDS": {
+          "pass": true,
+          "details": []
+        },
+        "CONSOLE": {
+          "pass": true,
+          "details": []
+        },
+        "REQUESTS": {
+          "pass": true,
+          "details": []
+        },
+        "FIXTURE_STRINGS": {
+          "pass": false,
+          "details": [
+            "CM",
+            "PREPARING CAREER MODE SHOWDOWN",
+            "Getting Career Mode Showdown ready.",
+            "new",
+            "Nothing is ready to open yet.",
+            "Some startup data is still loading. Continuing with what is available.",
+            "Career Mode Showdown cannot finish loading right now. Try again.",
+            "Career Mode Showdown is ready.",
+            "Current Showdown only. Career history is not yet available.",
+            "ready",
+            "Preview data",
+            "mainMenu",
+            "VAL_NIK_LEADS"
+          ]
+        }
+      }
+    },
+    {
+      "frame": "LD2",
+      "viewport": {
+        "w": 1440,
+        "h": 900,
+        "dpr": 1,
+        "label": "1440x900"
+      },
+      "scroll": {
+        "html": {
+          "width": 1440,
+          "height": 900,
+          "clientWidth": 1440,
+          "clientHeight": 900,
+          "horizontal": false,
+          "vertical": false
+        },
+        "body": {
+          "width": 1440,
+          "height": 900,
+          "clientWidth": 1440,
+          "clientHeight": 900,
+          "horizontal": false,
+          "vertical": false
+        },
+        "stage": {
+          "selector": "BODY",
+          "width": 1440,
+          "height": 900,
+          "clientWidth": 1440,
+          "clientHeight": 900,
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "controls": [
+        {
+          "tag": "a",
+          "id": null,
+          "label": "Tim Reckmann",
+          "rect": {
+            "left": 122,
+            "top": 866.40625,
+            "right": 197,
+            "bottom": 880.40625,
+            "width": 75,
+            "height": 14
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "a",
+          "id": null,
+          "label": "CC BY 2.0",
+          "rect": {
+            "left": 204,
+            "top": 866.40625,
+            "right": 253,
+            "bottom": 880.40625,
+            "width": 49,
+            "height": 14
+          },
+          "fullyInsideViewport": true
+        }
+      ],
+      "controlsOutsideViewport": [],
+      "primary": null,
+      "inputFonts": [],
+      "inputsBelow16px": [],
+      "fixtureStrings": {
+        "missing": [
+          "CM",
+          "PREPARING CAREER MODE SHOWDOWN",
+          "Getting Career Mode Showdown ready.",
+          "new",
+          "Nothing is ready to open yet.",
+          "Some startup data is still loading. Continuing with what is available.",
+          "Career Mode Showdown cannot finish loading right now. Try again.",
+          "Career Mode Showdown is ready.",
+          "Current Showdown only. Career history is not yet available.",
+          "ready",
+          "Preview data",
+          "mainMenu",
+          "VAL_NIK_LEADS"
+        ]
+      },
+      "hardGates": {
+        "H1": {
+          "pass": false,
+          "daniel": [],
+          "nik": [],
+          "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+        },
+        "H7": {
+          "pass": true,
+          "reducedMotion": "reduce",
+          "checkedAfterMs": 300,
+          "runningAnimations": []
+        }
+      },
+      "consoleErrors": [],
+      "failedRequests": [],
+      "screenshot": "LD2__1440x900.png",
+      "gates": {
+        "H1": {
+          "pass": false,
+          "details": {
+            "pass": false,
+            "daniel": [],
+            "nik": [],
+            "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+          }
+        },
+        "H5": {
+          "pass": false,
+          "details": {
+            "noScroll": true,
+            "primary": null,
+            "rule": "no page/stage scroll and primary visible"
+          }
+        },
+        "H6": {
+          "pass": true,
+          "details": {
+            "inputsBelow16px": [],
+            "inputFonts": []
+          }
+        },
+        "H7": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "reducedMotion": "reduce",
+            "checkedAfterMs": 300,
+            "runningAnimations": []
+          }
+        },
+        "CONTROL_BOUNDS": {
+          "pass": true,
+          "details": []
+        },
+        "CONSOLE": {
+          "pass": true,
+          "details": []
+        },
+        "REQUESTS": {
+          "pass": true,
+          "details": []
+        },
+        "FIXTURE_STRINGS": {
+          "pass": false,
+          "details": [
+            "CM",
+            "PREPARING CAREER MODE SHOWDOWN",
+            "Getting Career Mode Showdown ready.",
+            "new",
+            "Nothing is ready to open yet.",
+            "Some startup data is still loading. Continuing with what is available.",
+            "Career Mode Showdown cannot finish loading right now. Try again.",
+            "Career Mode Showdown is ready.",
+            "Current Showdown only. Career history is not yet available.",
+            "ready",
+            "Preview data",
+            "mainMenu",
+            "VAL_NIK_LEADS"
+          ]
+        }
+      }
+    },
+    {
+      "frame": "LD2",
+      "viewport": {
+        "w": 1920,
+        "h": 1080,
+        "dpr": 1,
+        "label": "1920x1080"
+      },
+      "scroll": {
+        "html": {
+          "width": 1920,
+          "height": 1080,
+          "clientWidth": 1920,
+          "clientHeight": 1080,
+          "horizontal": false,
+          "vertical": false
+        },
+        "body": {
+          "width": 1920,
+          "height": 1080,
+          "clientWidth": 1920,
+          "clientHeight": 1080,
+          "horizontal": false,
+          "vertical": false
+        },
+        "stage": {
+          "selector": "BODY",
+          "width": 1920,
+          "height": 1080,
+          "clientWidth": 1920,
+          "clientHeight": 1080,
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "controls": [
+        {
+          "tag": "a",
+          "id": null,
+          "label": "Tim Reckmann",
+          "rect": {
+            "left": 122,
+            "top": 1046.40625,
+            "right": 197,
+            "bottom": 1060.40625,
+            "width": 75,
+            "height": 14
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "a",
+          "id": null,
+          "label": "CC BY 2.0",
+          "rect": {
+            "left": 204,
+            "top": 1046.40625,
+            "right": 253,
+            "bottom": 1060.40625,
+            "width": 49,
+            "height": 14
+          },
+          "fullyInsideViewport": true
+        }
+      ],
+      "controlsOutsideViewport": [],
+      "primary": null,
+      "inputFonts": [],
+      "inputsBelow16px": [],
+      "fixtureStrings": {
+        "missing": [
+          "CM",
+          "PREPARING CAREER MODE SHOWDOWN",
+          "Getting Career Mode Showdown ready.",
+          "new",
+          "Nothing is ready to open yet.",
+          "Some startup data is still loading. Continuing with what is available.",
+          "Career Mode Showdown cannot finish loading right now. Try again.",
+          "Career Mode Showdown is ready.",
+          "Current Showdown only. Career history is not yet available.",
+          "ready",
+          "Preview data",
+          "mainMenu",
+          "VAL_NIK_LEADS"
+        ]
+      },
+      "hardGates": {
+        "H1": {
+          "pass": false,
+          "daniel": [],
+          "nik": [],
+          "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+        },
+        "H7": {
+          "pass": true,
+          "reducedMotion": "reduce",
+          "checkedAfterMs": 300,
+          "runningAnimations": []
+        }
+      },
+      "consoleErrors": [],
+      "failedRequests": [],
+      "screenshot": "LD2__1920x1080.png",
+      "gates": {
+        "H1": {
+          "pass": false,
+          "details": {
+            "pass": false,
+            "daniel": [],
+            "nik": [],
+            "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+          }
+        },
+        "H5": {
+          "pass": false,
+          "details": {
+            "noScroll": true,
+            "primary": null,
+            "rule": "no page/stage scroll and primary visible"
+          }
+        },
+        "H6": {
+          "pass": true,
+          "details": {
+            "inputsBelow16px": [],
+            "inputFonts": []
+          }
+        },
+        "H7": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "reducedMotion": "reduce",
+            "checkedAfterMs": 300,
+            "runningAnimations": []
+          }
+        },
+        "CONTROL_BOUNDS": {
+          "pass": true,
+          "details": []
+        },
+        "CONSOLE": {
+          "pass": true,
+          "details": []
+        },
+        "REQUESTS": {
+          "pass": true,
+          "details": []
+        },
+        "FIXTURE_STRINGS": {
+          "pass": false,
+          "details": [
+            "CM",
+            "PREPARING CAREER MODE SHOWDOWN",
+            "Getting Career Mode Showdown ready.",
+            "new",
+            "Nothing is ready to open yet.",
+            "Some startup data is still loading. Continuing with what is available.",
+            "Career Mode Showdown cannot finish loading right now. Try again.",
+            "Career Mode Showdown is ready.",
+            "Current Showdown only. Career history is not yet available.",
+            "ready",
+            "Preview data",
+            "mainMenu",
+            "VAL_NIK_LEADS"
+          ]
+        }
+      }
+    },
+    {
+      "frame": "LD2",
+      "viewport": {
+        "w": 1366,
+        "h": 640,
+        "dpr": 1,
+        "label": "1366x640"
+      },
+      "scroll": {
+        "html": {
+          "width": 1366,
+          "height": 640,
+          "clientWidth": 1366,
+          "clientHeight": 640,
+          "horizontal": false,
+          "vertical": false
+        },
+        "body": {
+          "width": 1366,
+          "height": 640,
+          "clientWidth": 1366,
+          "clientHeight": 640,
+          "horizontal": false,
+          "vertical": false
+        },
+        "stage": {
+          "selector": "BODY",
+          "width": 1366,
+          "height": 640,
+          "clientWidth": 1366,
+          "clientHeight": 640,
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "controls": [
+        {
+          "tag": "a",
+          "id": null,
+          "label": "Tim Reckmann",
+          "rect": {
+            "left": 122,
+            "top": 606.40625,
+            "right": 197,
+            "bottom": 620.40625,
+            "width": 75,
+            "height": 14
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "a",
+          "id": null,
+          "label": "CC BY 2.0",
+          "rect": {
+            "left": 204,
+            "top": 606.40625,
+            "right": 253,
+            "bottom": 620.40625,
+            "width": 49,
+            "height": 14
+          },
+          "fullyInsideViewport": true
+        }
+      ],
+      "controlsOutsideViewport": [],
+      "primary": null,
+      "inputFonts": [],
+      "inputsBelow16px": [],
+      "fixtureStrings": {
+        "missing": [
+          "CM",
+          "PREPARING CAREER MODE SHOWDOWN",
+          "Getting Career Mode Showdown ready.",
+          "new",
+          "Nothing is ready to open yet.",
+          "Some startup data is still loading. Continuing with what is available.",
+          "Career Mode Showdown cannot finish loading right now. Try again.",
+          "Career Mode Showdown is ready.",
+          "Current Showdown only. Career history is not yet available.",
+          "ready",
+          "Preview data",
+          "mainMenu",
+          "VAL_NIK_LEADS"
+        ]
+      },
+      "hardGates": {
+        "H1": {
+          "pass": false,
+          "daniel": [],
+          "nik": [],
+          "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+        },
+        "H7": {
+          "pass": true,
+          "reducedMotion": "reduce",
+          "checkedAfterMs": 300,
+          "runningAnimations": []
+        }
+      },
+      "consoleErrors": [],
+      "failedRequests": [],
+      "screenshot": "LD2__1366x640.png",
+      "gates": {
+        "H1": {
+          "pass": false,
+          "details": {
+            "pass": false,
+            "daniel": [],
+            "nik": [],
+            "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+          }
+        },
+        "H5": {
+          "pass": false,
+          "details": {
+            "noScroll": true,
+            "primary": null,
+            "rule": "no page/stage scroll and primary visible"
+          }
+        },
+        "H6": {
+          "pass": true,
+          "details": {
+            "inputsBelow16px": [],
+            "inputFonts": []
+          }
+        },
+        "H7": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "reducedMotion": "reduce",
+            "checkedAfterMs": 300,
+            "runningAnimations": []
+          }
+        },
+        "CONTROL_BOUNDS": {
+          "pass": true,
+          "details": []
+        },
+        "CONSOLE": {
+          "pass": true,
+          "details": []
+        },
+        "REQUESTS": {
+          "pass": true,
+          "details": []
+        },
+        "FIXTURE_STRINGS": {
+          "pass": false,
+          "details": [
+            "CM",
+            "PREPARING CAREER MODE SHOWDOWN",
+            "Getting Career Mode Showdown ready.",
+            "new",
+            "Nothing is ready to open yet.",
+            "Some startup data is still loading. Continuing with what is available.",
+            "Career Mode Showdown cannot finish loading right now. Try again.",
+            "Career Mode Showdown is ready.",
+            "Current Showdown only. Career history is not yet available.",
+            "ready",
+            "Preview data",
+            "mainMenu",
+            "VAL_NIK_LEADS"
+          ]
+        }
+      }
+    },
+    {
+      "frame": "LD2",
+      "viewport": {
+        "w": 393,
+        "h": 660,
+        "dpr": 3,
+        "label": "393x660@3x",
+        "phone": true
+      },
+      "scroll": {
+        "html": {
+          "width": 393,
+          "height": 660,
+          "clientWidth": 393,
+          "clientHeight": 660,
+          "horizontal": false,
+          "vertical": false
+        },
+        "body": {
+          "width": 393,
+          "height": 660,
+          "clientWidth": 393,
+          "clientHeight": 660,
+          "horizontal": false,
+          "vertical": false
+        },
+        "stage": {
+          "selector": "BODY",
+          "width": 393,
+          "height": 660,
+          "clientWidth": 393,
+          "clientHeight": 660,
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "controls": [
+        {
+          "tag": "a",
+          "id": null,
+          "label": "Tim Reckmann",
+          "rect": {
+            "left": 122,
+            "top": 625.40625,
+            "right": 197,
+            "bottom": 639.40625,
+            "width": 75,
+            "height": 14
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "a",
+          "id": null,
+          "label": "CC BY 2.0",
+          "rect": {
+            "left": 204,
+            "top": 625.40625,
+            "right": 253,
+            "bottom": 639.40625,
+            "width": 49,
+            "height": 14
+          },
+          "fullyInsideViewport": true
+        }
+      ],
+      "controlsOutsideViewport": [],
+      "primary": null,
+      "inputFonts": [],
+      "inputsBelow16px": [],
+      "fixtureStrings": {
+        "missing": [
+          "CM",
+          "PREPARING CAREER MODE SHOWDOWN",
+          "Getting Career Mode Showdown ready.",
+          "new",
+          "Nothing is ready to open yet.",
+          "Some startup data is still loading. Continuing with what is available.",
+          "Career Mode Showdown cannot finish loading right now. Try again.",
+          "Career Mode Showdown is ready.",
+          "Current Showdown only. Career history is not yet available.",
+          "ready",
+          "Preview data",
+          "mainMenu",
+          "VAL_NIK_LEADS"
+        ]
+      },
+      "hardGates": {
+        "H1": {
+          "pass": false,
+          "daniel": [],
+          "nik": [],
+          "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+        },
+        "H7": {
+          "pass": true,
+          "reducedMotion": "reduce",
+          "checkedAfterMs": 300,
+          "runningAnimations": []
+        }
+      },
+      "consoleErrors": [],
+      "failedRequests": [],
+      "screenshot": "LD2__393x660@3x.png",
+      "gates": {
+        "H1": {
+          "pass": false,
+          "details": {
+            "pass": false,
+            "daniel": [],
+            "nik": [],
+            "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+          }
+        },
+        "H5": {
+          "pass": false,
+          "details": {
+            "noScroll": true,
+            "primary": null,
+            "rule": "no page/stage scroll and primary visible"
+          }
+        },
+        "H6": {
+          "pass": true,
+          "details": {
+            "inputsBelow16px": [],
+            "inputFonts": []
+          }
+        },
+        "H7": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "reducedMotion": "reduce",
+            "checkedAfterMs": 300,
+            "runningAnimations": []
+          }
+        },
+        "CONTROL_BOUNDS": {
+          "pass": true,
+          "details": []
+        },
+        "CONSOLE": {
+          "pass": true,
+          "details": []
+        },
+        "REQUESTS": {
+          "pass": true,
+          "details": []
+        },
+        "FIXTURE_STRINGS": {
+          "pass": false,
+          "details": [
+            "CM",
+            "PREPARING CAREER MODE SHOWDOWN",
+            "Getting Career Mode Showdown ready.",
+            "new",
+            "Nothing is ready to open yet.",
+            "Some startup data is still loading. Continuing with what is available.",
+            "Career Mode Showdown cannot finish loading right now. Try again.",
+            "Career Mode Showdown is ready.",
+            "Current Showdown only. Career history is not yet available.",
+            "ready",
+            "Preview data",
+            "mainMenu",
+            "VAL_NIK_LEADS"
+          ]
+        }
+      }
+    },
+    {
+      "frame": "LD2",
+      "viewport": {
+        "w": 360,
+        "h": 640,
+        "dpr": 2,
+        "label": "360x640",
+        "phone": true
+      },
+      "scroll": {
+        "html": {
+          "width": 360,
+          "height": 640,
+          "clientWidth": 360,
+          "clientHeight": 640,
+          "horizontal": false,
+          "vertical": false
+        },
+        "body": {
+          "width": 360,
+          "height": 640,
+          "clientWidth": 360,
+          "clientHeight": 640,
+          "horizontal": false,
+          "vertical": false
+        },
+        "stage": {
+          "selector": "BODY",
+          "width": 360,
+          "height": 640,
+          "clientWidth": 360,
+          "clientHeight": 640,
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "controls": [
+        {
+          "tag": "a",
+          "id": null,
+          "label": "Tim Reckmann",
+          "rect": {
+            "left": 122,
+            "top": 594.8125,
+            "right": 197,
+            "bottom": 608.8125,
+            "width": 75,
+            "height": 14
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "a",
+          "id": null,
+          "label": "CC BY 2.0",
+          "rect": {
+            "left": 204,
+            "top": 594.8125,
+            "right": 253,
+            "bottom": 608.8125,
+            "width": 49,
+            "height": 14
+          },
+          "fullyInsideViewport": true
+        }
+      ],
+      "controlsOutsideViewport": [],
+      "primary": null,
+      "inputFonts": [],
+      "inputsBelow16px": [],
+      "fixtureStrings": {
+        "missing": [
+          "CM",
+          "PREPARING CAREER MODE SHOWDOWN",
+          "Getting Career Mode Showdown ready.",
+          "new",
+          "Nothing is ready to open yet.",
+          "Some startup data is still loading. Continuing with what is available.",
+          "Career Mode Showdown cannot finish loading right now. Try again.",
+          "Career Mode Showdown is ready.",
+          "Current Showdown only. Career history is not yet available.",
+          "ready",
+          "Preview data",
+          "mainMenu",
+          "VAL_NIK_LEADS"
+        ]
+      },
+      "hardGates": {
+        "H1": {
+          "pass": false,
+          "daniel": [],
+          "nik": [],
+          "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+        },
+        "H7": {
+          "pass": true,
+          "reducedMotion": "reduce",
+          "checkedAfterMs": 300,
+          "runningAnimations": []
+        }
+      },
+      "consoleErrors": [],
+      "failedRequests": [],
+      "screenshot": "LD2__360x640.png",
+      "gates": {
+        "H1": {
+          "pass": false,
+          "details": {
+            "pass": false,
+            "daniel": [],
+            "nik": [],
+            "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+          }
+        },
+        "H5": {
+          "pass": false,
+          "details": {
+            "noScroll": true,
+            "primary": null,
+            "rule": "no page/stage scroll and primary visible"
+          }
+        },
+        "H6": {
+          "pass": true,
+          "details": {
+            "inputsBelow16px": [],
+            "inputFonts": []
+          }
+        },
+        "H7": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "reducedMotion": "reduce",
+            "checkedAfterMs": 300,
+            "runningAnimations": []
+          }
+        },
+        "CONTROL_BOUNDS": {
+          "pass": true,
+          "details": []
+        },
+        "CONSOLE": {
+          "pass": true,
+          "details": []
+        },
+        "REQUESTS": {
+          "pass": true,
+          "details": []
+        },
+        "FIXTURE_STRINGS": {
+          "pass": false,
+          "details": [
+            "CM",
+            "PREPARING CAREER MODE SHOWDOWN",
+            "Getting Career Mode Showdown ready.",
+            "new",
+            "Nothing is ready to open yet.",
+            "Some startup data is still loading. Continuing with what is available.",
+            "Career Mode Showdown cannot finish loading right now. Try again.",
+            "Career Mode Showdown is ready.",
+            "Current Showdown only. Career history is not yet available.",
+            "ready",
+            "Preview data",
+            "mainMenu",
+            "VAL_NIK_LEADS"
+          ]
+        }
+      }
+    },
+    {
+      "frame": "LD2",
+      "viewport": {
+        "w": 375,
+        "h": 553,
+        "dpr": 2,
+        "label": "375x553",
+        "phone": true
+      },
+      "scroll": {
+        "html": {
+          "width": 375,
+          "height": 553,
+          "clientWidth": 375,
+          "clientHeight": 553,
+          "horizontal": false,
+          "vertical": false
+        },
+        "body": {
+          "width": 375,
+          "height": 553,
+          "clientWidth": 375,
+          "clientHeight": 553,
+          "horizontal": false,
+          "vertical": false
+        },
+        "stage": {
+          "selector": "BODY",
+          "width": 375,
+          "height": 553,
+          "clientWidth": 375,
+          "clientHeight": 553,
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "controls": [
+        {
+          "tag": "a",
+          "id": null,
+          "label": "Tim Reckmann",
+          "rect": {
+            "left": 122,
+            "top": 507.8125,
+            "right": 197,
+            "bottom": 521.8125,
+            "width": 75,
+            "height": 14
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "a",
+          "id": null,
+          "label": "CC BY 2.0",
+          "rect": {
+            "left": 204,
+            "top": 507.8125,
+            "right": 253,
+            "bottom": 521.8125,
+            "width": 49,
+            "height": 14
+          },
+          "fullyInsideViewport": true
+        }
+      ],
+      "controlsOutsideViewport": [],
+      "primary": null,
+      "inputFonts": [],
+      "inputsBelow16px": [],
+      "fixtureStrings": {
+        "missing": [
+          "CM",
+          "PREPARING CAREER MODE SHOWDOWN",
+          "Getting Career Mode Showdown ready.",
+          "new",
+          "Nothing is ready to open yet.",
+          "Some startup data is still loading. Continuing with what is available.",
+          "Career Mode Showdown cannot finish loading right now. Try again.",
+          "Career Mode Showdown is ready.",
+          "Current Showdown only. Career history is not yet available.",
+          "ready",
+          "Preview data",
+          "mainMenu",
+          "VAL_NIK_LEADS"
+        ]
+      },
+      "hardGates": {
+        "H1": {
+          "pass": false,
+          "daniel": [],
+          "nik": [],
+          "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+        },
+        "H7": {
+          "pass": true,
+          "reducedMotion": "reduce",
+          "checkedAfterMs": 300,
+          "runningAnimations": []
+        }
+      },
+      "consoleErrors": [],
+      "failedRequests": [],
+      "screenshot": "LD2__375x553.png",
+      "gates": {
+        "H1": {
+          "pass": false,
+          "details": {
+            "pass": false,
+            "daniel": [],
+            "nik": [],
+            "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+          }
+        },
+        "H5": {
+          "pass": false,
+          "details": {
+            "noScroll": true,
+            "primary": null,
+            "rule": "primary visible at 375x553"
+          }
+        },
+        "H6": {
+          "pass": true,
+          "details": {
+            "inputsBelow16px": [],
+            "inputFonts": []
+          }
+        },
+        "H7": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "reducedMotion": "reduce",
+            "checkedAfterMs": 300,
+            "runningAnimations": []
+          }
+        },
+        "CONTROL_BOUNDS": {
+          "pass": true,
+          "details": []
+        },
+        "CONSOLE": {
+          "pass": true,
+          "details": []
+        },
+        "REQUESTS": {
+          "pass": true,
+          "details": []
+        },
+        "FIXTURE_STRINGS": {
+          "pass": false,
+          "details": [
+            "CM",
+            "PREPARING CAREER MODE SHOWDOWN",
+            "Getting Career Mode Showdown ready.",
+            "new",
+            "Nothing is ready to open yet.",
+            "Some startup data is still loading. Continuing with what is available.",
+            "Career Mode Showdown cannot finish loading right now. Try again.",
+            "Career Mode Showdown is ready.",
+            "Current Showdown only. Career history is not yet available.",
+            "ready",
+            "Preview data",
+            "mainMenu",
+            "VAL_NIK_LEADS"
+          ]
+        }
+      }
+    },
+    {
+      "frame": "LD2",
+      "viewport": {
+        "w": 390,
+        "h": 844,
+        "dpr": 2,
+        "label": "390x844",
+        "phone": true
+      },
+      "scroll": {
+        "html": {
+          "width": 390,
+          "height": 844,
+          "clientWidth": 390,
+          "clientHeight": 844,
+          "horizontal": false,
+          "vertical": false
+        },
+        "body": {
+          "width": 390,
+          "height": 844,
+          "clientWidth": 390,
+          "clientHeight": 844,
+          "horizontal": false,
+          "vertical": false
+        },
+        "stage": {
+          "selector": "BODY",
+          "width": 390,
+          "height": 844,
+          "clientWidth": 390,
+          "clientHeight": 844,
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "controls": [
+        {
+          "tag": "a",
+          "id": null,
+          "label": "Tim Reckmann",
+          "rect": {
+            "left": 122,
+            "top": 809.40625,
+            "right": 197,
+            "bottom": 823.40625,
+            "width": 75,
+            "height": 14
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "a",
+          "id": null,
+          "label": "CC BY 2.0",
+          "rect": {
+            "left": 204,
+            "top": 809.40625,
+            "right": 253,
+            "bottom": 823.40625,
+            "width": 49,
+            "height": 14
+          },
+          "fullyInsideViewport": true
+        }
+      ],
+      "controlsOutsideViewport": [],
+      "primary": null,
+      "inputFonts": [],
+      "inputsBelow16px": [],
+      "fixtureStrings": {
+        "missing": [
+          "CM",
+          "PREPARING CAREER MODE SHOWDOWN",
+          "Getting Career Mode Showdown ready.",
+          "new",
+          "Nothing is ready to open yet.",
+          "Some startup data is still loading. Continuing with what is available.",
+          "Career Mode Showdown cannot finish loading right now. Try again.",
+          "Career Mode Showdown is ready.",
+          "Current Showdown only. Career history is not yet available.",
+          "ready",
+          "Preview data",
+          "mainMenu",
+          "VAL_NIK_LEADS"
+        ]
+      },
+      "hardGates": {
+        "H1": {
+          "pass": false,
+          "daniel": [],
+          "nik": [],
+          "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+        },
+        "H7": {
+          "pass": true,
+          "reducedMotion": "reduce",
+          "checkedAfterMs": 300,
+          "runningAnimations": []
+        }
+      },
+      "consoleErrors": [],
+      "failedRequests": [],
+      "screenshot": "LD2__390x844.png",
+      "gates": {
+        "H1": {
+          "pass": false,
+          "details": {
+            "pass": false,
+            "daniel": [],
+            "nik": [],
+            "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+          }
+        },
+        "H5": {
+          "pass": false,
+          "details": {
+            "noScroll": true,
+            "primary": null,
+            "rule": "no page/stage scroll and primary visible"
+          }
+        },
+        "H6": {
+          "pass": true,
+          "details": {
+            "inputsBelow16px": [],
+            "inputFonts": []
+          }
+        },
+        "H7": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "reducedMotion": "reduce",
+            "checkedAfterMs": 300,
+            "runningAnimations": []
+          }
+        },
+        "CONTROL_BOUNDS": {
+          "pass": true,
+          "details": []
+        },
+        "CONSOLE": {
+          "pass": true,
+          "details": []
+        },
+        "REQUESTS": {
+          "pass": true,
+          "details": []
+        },
+        "FIXTURE_STRINGS": {
+          "pass": false,
+          "details": [
+            "CM",
+            "PREPARING CAREER MODE SHOWDOWN",
+            "Getting Career Mode Showdown ready.",
+            "new",
+            "Nothing is ready to open yet.",
+            "Some startup data is still loading. Continuing with what is available.",
+            "Career Mode Showdown cannot finish loading right now. Try again.",
+            "Career Mode Showdown is ready.",
+            "Current Showdown only. Career history is not yet available.",
+            "ready",
+            "Preview data",
+            "mainMenu",
+            "VAL_NIK_LEADS"
+          ]
+        }
+      }
+    },
+    {
+      "frame": "LD2",
+      "viewport": {
+        "w": 430,
+        "h": 932,
+        "dpr": 2,
+        "label": "430x932",
+        "phone": true
+      },
+      "scroll": {
+        "html": {
+          "width": 430,
+          "height": 932,
+          "clientWidth": 430,
+          "clientHeight": 932,
+          "horizontal": false,
+          "vertical": false
+        },
+        "body": {
+          "width": 430,
+          "height": 932,
+          "clientWidth": 430,
+          "clientHeight": 932,
+          "horizontal": false,
+          "vertical": false
+        },
+        "stage": {
+          "selector": "BODY",
+          "width": 430,
+          "height": 932,
+          "clientWidth": 430,
+          "clientHeight": 932,
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "controls": [
+        {
+          "tag": "a",
+          "id": null,
+          "label": "Tim Reckmann",
+          "rect": {
+            "left": 122,
+            "top": 897.40625,
+            "right": 197,
+            "bottom": 911.40625,
+            "width": 75,
+            "height": 14
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "a",
+          "id": null,
+          "label": "CC BY 2.0",
+          "rect": {
+            "left": 204,
+            "top": 897.40625,
+            "right": 253,
+            "bottom": 911.40625,
+            "width": 49,
+            "height": 14
+          },
+          "fullyInsideViewport": true
+        }
+      ],
+      "controlsOutsideViewport": [],
+      "primary": null,
+      "inputFonts": [],
+      "inputsBelow16px": [],
+      "fixtureStrings": {
+        "missing": [
+          "CM",
+          "PREPARING CAREER MODE SHOWDOWN",
+          "Getting Career Mode Showdown ready.",
+          "new",
+          "Nothing is ready to open yet.",
+          "Some startup data is still loading. Continuing with what is available.",
+          "Career Mode Showdown cannot finish loading right now. Try again.",
+          "Career Mode Showdown is ready.",
+          "Current Showdown only. Career history is not yet available.",
+          "ready",
+          "Preview data",
+          "mainMenu",
+          "VAL_NIK_LEADS"
+        ]
+      },
+      "hardGates": {
+        "H1": {
+          "pass": false,
+          "daniel": [],
+          "nik": [],
+          "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+        },
+        "H7": {
+          "pass": true,
+          "reducedMotion": "reduce",
+          "checkedAfterMs": 300,
+          "runningAnimations": []
+        }
+      },
+      "consoleErrors": [],
+      "failedRequests": [],
+      "screenshot": "LD2__430x932.png",
+      "gates": {
+        "H1": {
+          "pass": false,
+          "details": {
+            "pass": false,
+            "daniel": [],
+            "nik": [],
+            "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+          }
+        },
+        "H5": {
+          "pass": false,
+          "details": {
+            "noScroll": true,
+            "primary": null,
+            "rule": "no page/stage scroll and primary visible"
+          }
+        },
+        "H6": {
+          "pass": true,
+          "details": {
+            "inputsBelow16px": [],
+            "inputFonts": []
+          }
+        },
+        "H7": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "reducedMotion": "reduce",
+            "checkedAfterMs": 300,
+            "runningAnimations": []
+          }
+        },
+        "CONTROL_BOUNDS": {
+          "pass": true,
+          "details": []
+        },
+        "CONSOLE": {
+          "pass": true,
+          "details": []
+        },
+        "REQUESTS": {
+          "pass": true,
+          "details": []
+        },
+        "FIXTURE_STRINGS": {
+          "pass": false,
+          "details": [
+            "CM",
+            "PREPARING CAREER MODE SHOWDOWN",
+            "Getting Career Mode Showdown ready.",
+            "new",
+            "Nothing is ready to open yet.",
+            "Some startup data is still loading. Continuing with what is available.",
+            "Career Mode Showdown cannot finish loading right now. Try again.",
+            "Career Mode Showdown is ready.",
+            "Current Showdown only. Career history is not yet available.",
+            "ready",
+            "Preview data",
+            "mainMenu",
+            "VAL_NIK_LEADS"
+          ]
+        }
+      }
+    },
+    {
+      "frame": "LD6_UNAVAILABLE",
+      "viewport": {
+        "w": 1366,
+        "h": 768,
+        "dpr": 1,
+        "label": "1366x768"
+      },
+      "scroll": {
+        "html": {
+          "width": 1366,
+          "height": 768,
+          "clientWidth": 1366,
+          "clientHeight": 768,
+          "horizontal": false,
+          "vertical": false
+        },
+        "body": {
+          "width": 1366,
+          "height": 768,
+          "clientWidth": 1366,
+          "clientHeight": 768,
+          "horizontal": false,
+          "vertical": false
+        },
+        "stage": {
+          "selector": "BODY",
+          "width": 1366,
+          "height": 768,
+          "clientWidth": 1366,
+          "clientHeight": 768,
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "controls": [
+        {
+          "tag": "a",
+          "id": null,
+          "label": "Tim Reckmann",
+          "rect": {
+            "left": 122,
+            "top": 734.40625,
+            "right": 197,
+            "bottom": 748.40625,
+            "width": 75,
+            "height": 14
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "a",
+          "id": null,
+          "label": "CC BY 2.0",
+          "rect": {
+            "left": 204,
+            "top": 734.40625,
+            "right": 253,
+            "bottom": 748.40625,
+            "width": 49,
+            "height": 14
+          },
+          "fullyInsideViewport": true
+        }
+      ],
+      "controlsOutsideViewport": [],
+      "primary": null,
+      "inputFonts": [],
+      "inputsBelow16px": [],
+      "fixtureStrings": {
+        "missing": [
+          "CM",
+          "PREPARING CAREER MODE SHOWDOWN",
+          "Getting Career Mode Showdown ready.",
+          "new",
+          "Nothing is ready to open yet.",
+          "Some startup data is still loading. Continuing with what is available.",
+          "Career Mode Showdown cannot finish loading right now. Try again.",
+          "Career Mode Showdown is ready.",
+          "Current Showdown only. Career history is not yet available.",
+          "unavailable",
+          "Preview data",
+          "VAL_NIK_LEADS"
+        ]
+      },
+      "hardGates": {
+        "H1": {
+          "pass": false,
+          "daniel": [],
+          "nik": [],
+          "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+        },
+        "H7": {
+          "pass": true,
+          "reducedMotion": "reduce",
+          "checkedAfterMs": 300,
+          "runningAnimations": []
+        }
+      },
+      "consoleErrors": [],
+      "failedRequests": [],
+      "screenshot": "LD6_UNAVAILABLE__1366x768.png",
+      "gates": {
+        "H1": {
+          "pass": false,
+          "details": {
+            "pass": false,
+            "daniel": [],
+            "nik": [],
+            "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+          }
+        },
+        "H5": {
+          "pass": false,
+          "details": {
+            "noScroll": true,
+            "primary": null,
+            "rule": "no page/stage scroll and primary visible"
+          }
+        },
+        "H6": {
+          "pass": true,
+          "details": {
+            "inputsBelow16px": [],
+            "inputFonts": []
+          }
+        },
+        "H7": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "reducedMotion": "reduce",
+            "checkedAfterMs": 300,
+            "runningAnimations": []
+          }
+        },
+        "CONTROL_BOUNDS": {
+          "pass": true,
+          "details": []
+        },
+        "CONSOLE": {
+          "pass": true,
+          "details": []
+        },
+        "REQUESTS": {
+          "pass": true,
+          "details": []
+        },
+        "FIXTURE_STRINGS": {
+          "pass": false,
+          "details": [
+            "CM",
+            "PREPARING CAREER MODE SHOWDOWN",
+            "Getting Career Mode Showdown ready.",
+            "new",
+            "Nothing is ready to open yet.",
+            "Some startup data is still loading. Continuing with what is available.",
+            "Career Mode Showdown cannot finish loading right now. Try again.",
+            "Career Mode Showdown is ready.",
+            "Current Showdown only. Career history is not yet available.",
+            "unavailable",
+            "Preview data",
+            "VAL_NIK_LEADS"
+          ]
+        }
+      }
+    },
+    {
+      "frame": "LD6_UNAVAILABLE",
+      "viewport": {
+        "w": 1440,
+        "h": 900,
+        "dpr": 1,
+        "label": "1440x900"
+      },
+      "scroll": {
+        "html": {
+          "width": 1440,
+          "height": 900,
+          "clientWidth": 1440,
+          "clientHeight": 900,
+          "horizontal": false,
+          "vertical": false
+        },
+        "body": {
+          "width": 1440,
+          "height": 900,
+          "clientWidth": 1440,
+          "clientHeight": 900,
+          "horizontal": false,
+          "vertical": false
+        },
+        "stage": {
+          "selector": "BODY",
+          "width": 1440,
+          "height": 900,
+          "clientWidth": 1440,
+          "clientHeight": 900,
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "controls": [
+        {
+          "tag": "a",
+          "id": null,
+          "label": "Tim Reckmann",
+          "rect": {
+            "left": 122,
+            "top": 866.40625,
+            "right": 197,
+            "bottom": 880.40625,
+            "width": 75,
+            "height": 14
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "a",
+          "id": null,
+          "label": "CC BY 2.0",
+          "rect": {
+            "left": 204,
+            "top": 866.40625,
+            "right": 253,
+            "bottom": 880.40625,
+            "width": 49,
+            "height": 14
+          },
+          "fullyInsideViewport": true
+        }
+      ],
+      "controlsOutsideViewport": [],
+      "primary": null,
+      "inputFonts": [],
+      "inputsBelow16px": [],
+      "fixtureStrings": {
+        "missing": [
+          "CM",
+          "PREPARING CAREER MODE SHOWDOWN",
+          "Getting Career Mode Showdown ready.",
+          "new",
+          "Nothing is ready to open yet.",
+          "Some startup data is still loading. Continuing with what is available.",
+          "Career Mode Showdown cannot finish loading right now. Try again.",
+          "Career Mode Showdown is ready.",
+          "Current Showdown only. Career history is not yet available.",
+          "unavailable",
+          "Preview data",
+          "VAL_NIK_LEADS"
+        ]
+      },
+      "hardGates": {
+        "H1": {
+          "pass": false,
+          "daniel": [],
+          "nik": [],
+          "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+        },
+        "H7": {
+          "pass": true,
+          "reducedMotion": "reduce",
+          "checkedAfterMs": 300,
+          "runningAnimations": []
+        }
+      },
+      "consoleErrors": [],
+      "failedRequests": [],
+      "screenshot": "LD6_UNAVAILABLE__1440x900.png",
+      "gates": {
+        "H1": {
+          "pass": false,
+          "details": {
+            "pass": false,
+            "daniel": [],
+            "nik": [],
+            "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+          }
+        },
+        "H5": {
+          "pass": false,
+          "details": {
+            "noScroll": true,
+            "primary": null,
+            "rule": "no page/stage scroll and primary visible"
+          }
+        },
+        "H6": {
+          "pass": true,
+          "details": {
+            "inputsBelow16px": [],
+            "inputFonts": []
+          }
+        },
+        "H7": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "reducedMotion": "reduce",
+            "checkedAfterMs": 300,
+            "runningAnimations": []
+          }
+        },
+        "CONTROL_BOUNDS": {
+          "pass": true,
+          "details": []
+        },
+        "CONSOLE": {
+          "pass": true,
+          "details": []
+        },
+        "REQUESTS": {
+          "pass": true,
+          "details": []
+        },
+        "FIXTURE_STRINGS": {
+          "pass": false,
+          "details": [
+            "CM",
+            "PREPARING CAREER MODE SHOWDOWN",
+            "Getting Career Mode Showdown ready.",
+            "new",
+            "Nothing is ready to open yet.",
+            "Some startup data is still loading. Continuing with what is available.",
+            "Career Mode Showdown cannot finish loading right now. Try again.",
+            "Career Mode Showdown is ready.",
+            "Current Showdown only. Career history is not yet available.",
+            "unavailable",
+            "Preview data",
+            "VAL_NIK_LEADS"
+          ]
+        }
+      }
+    },
+    {
+      "frame": "LD6_UNAVAILABLE",
+      "viewport": {
+        "w": 1920,
+        "h": 1080,
+        "dpr": 1,
+        "label": "1920x1080"
+      },
+      "scroll": {
+        "html": {
+          "width": 1920,
+          "height": 1080,
+          "clientWidth": 1920,
+          "clientHeight": 1080,
+          "horizontal": false,
+          "vertical": false
+        },
+        "body": {
+          "width": 1920,
+          "height": 1080,
+          "clientWidth": 1920,
+          "clientHeight": 1080,
+          "horizontal": false,
+          "vertical": false
+        },
+        "stage": {
+          "selector": "BODY",
+          "width": 1920,
+          "height": 1080,
+          "clientWidth": 1920,
+          "clientHeight": 1080,
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "controls": [
+        {
+          "tag": "a",
+          "id": null,
+          "label": "Tim Reckmann",
+          "rect": {
+            "left": 122,
+            "top": 1046.40625,
+            "right": 197,
+            "bottom": 1060.40625,
+            "width": 75,
+            "height": 14
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "a",
+          "id": null,
+          "label": "CC BY 2.0",
+          "rect": {
+            "left": 204,
+            "top": 1046.40625,
+            "right": 253,
+            "bottom": 1060.40625,
+            "width": 49,
+            "height": 14
+          },
+          "fullyInsideViewport": true
+        }
+      ],
+      "controlsOutsideViewport": [],
+      "primary": null,
+      "inputFonts": [],
+      "inputsBelow16px": [],
+      "fixtureStrings": {
+        "missing": [
+          "CM",
+          "PREPARING CAREER MODE SHOWDOWN",
+          "Getting Career Mode Showdown ready.",
+          "new",
+          "Nothing is ready to open yet.",
+          "Some startup data is still loading. Continuing with what is available.",
+          "Career Mode Showdown cannot finish loading right now. Try again.",
+          "Career Mode Showdown is ready.",
+          "Current Showdown only. Career history is not yet available.",
+          "unavailable",
+          "Preview data",
+          "VAL_NIK_LEADS"
+        ]
+      },
+      "hardGates": {
+        "H1": {
+          "pass": false,
+          "daniel": [],
+          "nik": [],
+          "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+        },
+        "H7": {
+          "pass": true,
+          "reducedMotion": "reduce",
+          "checkedAfterMs": 300,
+          "runningAnimations": []
+        }
+      },
+      "consoleErrors": [],
+      "failedRequests": [],
+      "screenshot": "LD6_UNAVAILABLE__1920x1080.png",
+      "gates": {
+        "H1": {
+          "pass": false,
+          "details": {
+            "pass": false,
+            "daniel": [],
+            "nik": [],
+            "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+          }
+        },
+        "H5": {
+          "pass": false,
+          "details": {
+            "noScroll": true,
+            "primary": null,
+            "rule": "no page/stage scroll and primary visible"
+          }
+        },
+        "H6": {
+          "pass": true,
+          "details": {
+            "inputsBelow16px": [],
+            "inputFonts": []
+          }
+        },
+        "H7": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "reducedMotion": "reduce",
+            "checkedAfterMs": 300,
+            "runningAnimations": []
+          }
+        },
+        "CONTROL_BOUNDS": {
+          "pass": true,
+          "details": []
+        },
+        "CONSOLE": {
+          "pass": true,
+          "details": []
+        },
+        "REQUESTS": {
+          "pass": true,
+          "details": []
+        },
+        "FIXTURE_STRINGS": {
+          "pass": false,
+          "details": [
+            "CM",
+            "PREPARING CAREER MODE SHOWDOWN",
+            "Getting Career Mode Showdown ready.",
+            "new",
+            "Nothing is ready to open yet.",
+            "Some startup data is still loading. Continuing with what is available.",
+            "Career Mode Showdown cannot finish loading right now. Try again.",
+            "Career Mode Showdown is ready.",
+            "Current Showdown only. Career history is not yet available.",
+            "unavailable",
+            "Preview data",
+            "VAL_NIK_LEADS"
+          ]
+        }
+      }
+    },
+    {
+      "frame": "LD6_UNAVAILABLE",
+      "viewport": {
+        "w": 1366,
+        "h": 640,
+        "dpr": 1,
+        "label": "1366x640"
+      },
+      "scroll": {
+        "html": {
+          "width": 1366,
+          "height": 640,
+          "clientWidth": 1366,
+          "clientHeight": 640,
+          "horizontal": false,
+          "vertical": false
+        },
+        "body": {
+          "width": 1366,
+          "height": 640,
+          "clientWidth": 1366,
+          "clientHeight": 640,
+          "horizontal": false,
+          "vertical": false
+        },
+        "stage": {
+          "selector": "BODY",
+          "width": 1366,
+          "height": 640,
+          "clientWidth": 1366,
+          "clientHeight": 640,
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "controls": [
+        {
+          "tag": "a",
+          "id": null,
+          "label": "Tim Reckmann",
+          "rect": {
+            "left": 122,
+            "top": 606.40625,
+            "right": 197,
+            "bottom": 620.40625,
+            "width": 75,
+            "height": 14
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "a",
+          "id": null,
+          "label": "CC BY 2.0",
+          "rect": {
+            "left": 204,
+            "top": 606.40625,
+            "right": 253,
+            "bottom": 620.40625,
+            "width": 49,
+            "height": 14
+          },
+          "fullyInsideViewport": true
+        }
+      ],
+      "controlsOutsideViewport": [],
+      "primary": null,
+      "inputFonts": [],
+      "inputsBelow16px": [],
+      "fixtureStrings": {
+        "missing": [
+          "CM",
+          "PREPARING CAREER MODE SHOWDOWN",
+          "Getting Career Mode Showdown ready.",
+          "new",
+          "Nothing is ready to open yet.",
+          "Some startup data is still loading. Continuing with what is available.",
+          "Career Mode Showdown cannot finish loading right now. Try again.",
+          "Career Mode Showdown is ready.",
+          "Current Showdown only. Career history is not yet available.",
+          "unavailable",
+          "Preview data",
+          "VAL_NIK_LEADS"
+        ]
+      },
+      "hardGates": {
+        "H1": {
+          "pass": false,
+          "daniel": [],
+          "nik": [],
+          "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+        },
+        "H7": {
+          "pass": true,
+          "reducedMotion": "reduce",
+          "checkedAfterMs": 300,
+          "runningAnimations": []
+        }
+      },
+      "consoleErrors": [],
+      "failedRequests": [],
+      "screenshot": "LD6_UNAVAILABLE__1366x640.png",
+      "gates": {
+        "H1": {
+          "pass": false,
+          "details": {
+            "pass": false,
+            "daniel": [],
+            "nik": [],
+            "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+          }
+        },
+        "H5": {
+          "pass": false,
+          "details": {
+            "noScroll": true,
+            "primary": null,
+            "rule": "no page/stage scroll and primary visible"
+          }
+        },
+        "H6": {
+          "pass": true,
+          "details": {
+            "inputsBelow16px": [],
+            "inputFonts": []
+          }
+        },
+        "H7": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "reducedMotion": "reduce",
+            "checkedAfterMs": 300,
+            "runningAnimations": []
+          }
+        },
+        "CONTROL_BOUNDS": {
+          "pass": true,
+          "details": []
+        },
+        "CONSOLE": {
+          "pass": true,
+          "details": []
+        },
+        "REQUESTS": {
+          "pass": true,
+          "details": []
+        },
+        "FIXTURE_STRINGS": {
+          "pass": false,
+          "details": [
+            "CM",
+            "PREPARING CAREER MODE SHOWDOWN",
+            "Getting Career Mode Showdown ready.",
+            "new",
+            "Nothing is ready to open yet.",
+            "Some startup data is still loading. Continuing with what is available.",
+            "Career Mode Showdown cannot finish loading right now. Try again.",
+            "Career Mode Showdown is ready.",
+            "Current Showdown only. Career history is not yet available.",
+            "unavailable",
+            "Preview data",
+            "VAL_NIK_LEADS"
+          ]
+        }
+      }
+    },
+    {
+      "frame": "LD6_UNAVAILABLE",
+      "viewport": {
+        "w": 393,
+        "h": 660,
+        "dpr": 3,
+        "label": "393x660@3x",
+        "phone": true
+      },
+      "scroll": {
+        "html": {
+          "width": 393,
+          "height": 660,
+          "clientWidth": 393,
+          "clientHeight": 660,
+          "horizontal": false,
+          "vertical": false
+        },
+        "body": {
+          "width": 393,
+          "height": 660,
+          "clientWidth": 393,
+          "clientHeight": 660,
+          "horizontal": false,
+          "vertical": false
+        },
+        "stage": {
+          "selector": "BODY",
+          "width": 393,
+          "height": 660,
+          "clientWidth": 393,
+          "clientHeight": 660,
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "controls": [
+        {
+          "tag": "a",
+          "id": null,
+          "label": "Tim Reckmann",
+          "rect": {
+            "left": 122,
+            "top": 625.40625,
+            "right": 197,
+            "bottom": 639.40625,
+            "width": 75,
+            "height": 14
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "a",
+          "id": null,
+          "label": "CC BY 2.0",
+          "rect": {
+            "left": 204,
+            "top": 625.40625,
+            "right": 253,
+            "bottom": 639.40625,
+            "width": 49,
+            "height": 14
+          },
+          "fullyInsideViewport": true
+        }
+      ],
+      "controlsOutsideViewport": [],
+      "primary": null,
+      "inputFonts": [],
+      "inputsBelow16px": [],
+      "fixtureStrings": {
+        "missing": [
+          "CM",
+          "PREPARING CAREER MODE SHOWDOWN",
+          "Getting Career Mode Showdown ready.",
+          "new",
+          "Nothing is ready to open yet.",
+          "Some startup data is still loading. Continuing with what is available.",
+          "Career Mode Showdown cannot finish loading right now. Try again.",
+          "Career Mode Showdown is ready.",
+          "Current Showdown only. Career history is not yet available.",
+          "unavailable",
+          "Preview data",
+          "VAL_NIK_LEADS"
+        ]
+      },
+      "hardGates": {
+        "H1": {
+          "pass": false,
+          "daniel": [],
+          "nik": [],
+          "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+        },
+        "H7": {
+          "pass": true,
+          "reducedMotion": "reduce",
+          "checkedAfterMs": 300,
+          "runningAnimations": []
+        }
+      },
+      "consoleErrors": [],
+      "failedRequests": [],
+      "screenshot": "LD6_UNAVAILABLE__393x660@3x.png",
+      "gates": {
+        "H1": {
+          "pass": false,
+          "details": {
+            "pass": false,
+            "daniel": [],
+            "nik": [],
+            "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+          }
+        },
+        "H5": {
+          "pass": false,
+          "details": {
+            "noScroll": true,
+            "primary": null,
+            "rule": "no page/stage scroll and primary visible"
+          }
+        },
+        "H6": {
+          "pass": true,
+          "details": {
+            "inputsBelow16px": [],
+            "inputFonts": []
+          }
+        },
+        "H7": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "reducedMotion": "reduce",
+            "checkedAfterMs": 300,
+            "runningAnimations": []
+          }
+        },
+        "CONTROL_BOUNDS": {
+          "pass": true,
+          "details": []
+        },
+        "CONSOLE": {
+          "pass": true,
+          "details": []
+        },
+        "REQUESTS": {
+          "pass": true,
+          "details": []
+        },
+        "FIXTURE_STRINGS": {
+          "pass": false,
+          "details": [
+            "CM",
+            "PREPARING CAREER MODE SHOWDOWN",
+            "Getting Career Mode Showdown ready.",
+            "new",
+            "Nothing is ready to open yet.",
+            "Some startup data is still loading. Continuing with what is available.",
+            "Career Mode Showdown cannot finish loading right now. Try again.",
+            "Career Mode Showdown is ready.",
+            "Current Showdown only. Career history is not yet available.",
+            "unavailable",
+            "Preview data",
+            "VAL_NIK_LEADS"
+          ]
+        }
+      }
+    },
+    {
+      "frame": "LD6_UNAVAILABLE",
+      "viewport": {
+        "w": 360,
+        "h": 640,
+        "dpr": 2,
+        "label": "360x640",
+        "phone": true
+      },
+      "scroll": {
+        "html": {
+          "width": 360,
+          "height": 640,
+          "clientWidth": 360,
+          "clientHeight": 640,
+          "horizontal": false,
+          "vertical": false
+        },
+        "body": {
+          "width": 360,
+          "height": 640,
+          "clientWidth": 360,
+          "clientHeight": 640,
+          "horizontal": false,
+          "vertical": false
+        },
+        "stage": {
+          "selector": "BODY",
+          "width": 360,
+          "height": 640,
+          "clientWidth": 360,
+          "clientHeight": 640,
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "controls": [
+        {
+          "tag": "a",
+          "id": null,
+          "label": "Tim Reckmann",
+          "rect": {
+            "left": 122,
+            "top": 594.8125,
+            "right": 197,
+            "bottom": 608.8125,
+            "width": 75,
+            "height": 14
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "a",
+          "id": null,
+          "label": "CC BY 2.0",
+          "rect": {
+            "left": 204,
+            "top": 594.8125,
+            "right": 253,
+            "bottom": 608.8125,
+            "width": 49,
+            "height": 14
+          },
+          "fullyInsideViewport": true
+        }
+      ],
+      "controlsOutsideViewport": [],
+      "primary": null,
+      "inputFonts": [],
+      "inputsBelow16px": [],
+      "fixtureStrings": {
+        "missing": [
+          "CM",
+          "PREPARING CAREER MODE SHOWDOWN",
+          "Getting Career Mode Showdown ready.",
+          "new",
+          "Nothing is ready to open yet.",
+          "Some startup data is still loading. Continuing with what is available.",
+          "Career Mode Showdown cannot finish loading right now. Try again.",
+          "Career Mode Showdown is ready.",
+          "Current Showdown only. Career history is not yet available.",
+          "unavailable",
+          "Preview data",
+          "VAL_NIK_LEADS"
+        ]
+      },
+      "hardGates": {
+        "H1": {
+          "pass": false,
+          "daniel": [],
+          "nik": [],
+          "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+        },
+        "H7": {
+          "pass": true,
+          "reducedMotion": "reduce",
+          "checkedAfterMs": 300,
+          "runningAnimations": []
+        }
+      },
+      "consoleErrors": [],
+      "failedRequests": [],
+      "screenshot": "LD6_UNAVAILABLE__360x640.png",
+      "gates": {
+        "H1": {
+          "pass": false,
+          "details": {
+            "pass": false,
+            "daniel": [],
+            "nik": [],
+            "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+          }
+        },
+        "H5": {
+          "pass": false,
+          "details": {
+            "noScroll": true,
+            "primary": null,
+            "rule": "no page/stage scroll and primary visible"
+          }
+        },
+        "H6": {
+          "pass": true,
+          "details": {
+            "inputsBelow16px": [],
+            "inputFonts": []
+          }
+        },
+        "H7": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "reducedMotion": "reduce",
+            "checkedAfterMs": 300,
+            "runningAnimations": []
+          }
+        },
+        "CONTROL_BOUNDS": {
+          "pass": true,
+          "details": []
+        },
+        "CONSOLE": {
+          "pass": true,
+          "details": []
+        },
+        "REQUESTS": {
+          "pass": true,
+          "details": []
+        },
+        "FIXTURE_STRINGS": {
+          "pass": false,
+          "details": [
+            "CM",
+            "PREPARING CAREER MODE SHOWDOWN",
+            "Getting Career Mode Showdown ready.",
+            "new",
+            "Nothing is ready to open yet.",
+            "Some startup data is still loading. Continuing with what is available.",
+            "Career Mode Showdown cannot finish loading right now. Try again.",
+            "Career Mode Showdown is ready.",
+            "Current Showdown only. Career history is not yet available.",
+            "unavailable",
+            "Preview data",
+            "VAL_NIK_LEADS"
+          ]
+        }
+      }
+    },
+    {
+      "frame": "LD6_UNAVAILABLE",
+      "viewport": {
+        "w": 375,
+        "h": 553,
+        "dpr": 2,
+        "label": "375x553",
+        "phone": true
+      },
+      "scroll": {
+        "html": {
+          "width": 375,
+          "height": 553,
+          "clientWidth": 375,
+          "clientHeight": 553,
+          "horizontal": false,
+          "vertical": false
+        },
+        "body": {
+          "width": 375,
+          "height": 553,
+          "clientWidth": 375,
+          "clientHeight": 553,
+          "horizontal": false,
+          "vertical": false
+        },
+        "stage": {
+          "selector": "BODY",
+          "width": 375,
+          "height": 553,
+          "clientWidth": 375,
+          "clientHeight": 553,
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "controls": [
+        {
+          "tag": "a",
+          "id": null,
+          "label": "Tim Reckmann",
+          "rect": {
+            "left": 122,
+            "top": 507.8125,
+            "right": 197,
+            "bottom": 521.8125,
+            "width": 75,
+            "height": 14
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "a",
+          "id": null,
+          "label": "CC BY 2.0",
+          "rect": {
+            "left": 204,
+            "top": 507.8125,
+            "right": 253,
+            "bottom": 521.8125,
+            "width": 49,
+            "height": 14
+          },
+          "fullyInsideViewport": true
+        }
+      ],
+      "controlsOutsideViewport": [],
+      "primary": null,
+      "inputFonts": [],
+      "inputsBelow16px": [],
+      "fixtureStrings": {
+        "missing": [
+          "CM",
+          "PREPARING CAREER MODE SHOWDOWN",
+          "Getting Career Mode Showdown ready.",
+          "new",
+          "Nothing is ready to open yet.",
+          "Some startup data is still loading. Continuing with what is available.",
+          "Career Mode Showdown cannot finish loading right now. Try again.",
+          "Career Mode Showdown is ready.",
+          "Current Showdown only. Career history is not yet available.",
+          "unavailable",
+          "Preview data",
+          "VAL_NIK_LEADS"
+        ]
+      },
+      "hardGates": {
+        "H1": {
+          "pass": false,
+          "daniel": [],
+          "nik": [],
+          "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+        },
+        "H7": {
+          "pass": true,
+          "reducedMotion": "reduce",
+          "checkedAfterMs": 300,
+          "runningAnimations": []
+        }
+      },
+      "consoleErrors": [],
+      "failedRequests": [],
+      "screenshot": "LD6_UNAVAILABLE__375x553.png",
+      "gates": {
+        "H1": {
+          "pass": false,
+          "details": {
+            "pass": false,
+            "daniel": [],
+            "nik": [],
+            "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+          }
+        },
+        "H5": {
+          "pass": false,
+          "details": {
+            "noScroll": true,
+            "primary": null,
+            "rule": "primary visible at 375x553"
+          }
+        },
+        "H6": {
+          "pass": true,
+          "details": {
+            "inputsBelow16px": [],
+            "inputFonts": []
+          }
+        },
+        "H7": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "reducedMotion": "reduce",
+            "checkedAfterMs": 300,
+            "runningAnimations": []
+          }
+        },
+        "CONTROL_BOUNDS": {
+          "pass": true,
+          "details": []
+        },
+        "CONSOLE": {
+          "pass": true,
+          "details": []
+        },
+        "REQUESTS": {
+          "pass": true,
+          "details": []
+        },
+        "FIXTURE_STRINGS": {
+          "pass": false,
+          "details": [
+            "CM",
+            "PREPARING CAREER MODE SHOWDOWN",
+            "Getting Career Mode Showdown ready.",
+            "new",
+            "Nothing is ready to open yet.",
+            "Some startup data is still loading. Continuing with what is available.",
+            "Career Mode Showdown cannot finish loading right now. Try again.",
+            "Career Mode Showdown is ready.",
+            "Current Showdown only. Career history is not yet available.",
+            "unavailable",
+            "Preview data",
+            "VAL_NIK_LEADS"
+          ]
+        }
+      }
+    },
+    {
+      "frame": "LD6_UNAVAILABLE",
+      "viewport": {
+        "w": 390,
+        "h": 844,
+        "dpr": 2,
+        "label": "390x844",
+        "phone": true
+      },
+      "scroll": {
+        "html": {
+          "width": 390,
+          "height": 844,
+          "clientWidth": 390,
+          "clientHeight": 844,
+          "horizontal": false,
+          "vertical": false
+        },
+        "body": {
+          "width": 390,
+          "height": 844,
+          "clientWidth": 390,
+          "clientHeight": 844,
+          "horizontal": false,
+          "vertical": false
+        },
+        "stage": {
+          "selector": "BODY",
+          "width": 390,
+          "height": 844,
+          "clientWidth": 390,
+          "clientHeight": 844,
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "controls": [
+        {
+          "tag": "a",
+          "id": null,
+          "label": "Tim Reckmann",
+          "rect": {
+            "left": 122,
+            "top": 809.40625,
+            "right": 197,
+            "bottom": 823.40625,
+            "width": 75,
+            "height": 14
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "a",
+          "id": null,
+          "label": "CC BY 2.0",
+          "rect": {
+            "left": 204,
+            "top": 809.40625,
+            "right": 253,
+            "bottom": 823.40625,
+            "width": 49,
+            "height": 14
+          },
+          "fullyInsideViewport": true
+        }
+      ],
+      "controlsOutsideViewport": [],
+      "primary": null,
+      "inputFonts": [],
+      "inputsBelow16px": [],
+      "fixtureStrings": {
+        "missing": [
+          "CM",
+          "PREPARING CAREER MODE SHOWDOWN",
+          "Getting Career Mode Showdown ready.",
+          "new",
+          "Nothing is ready to open yet.",
+          "Some startup data is still loading. Continuing with what is available.",
+          "Career Mode Showdown cannot finish loading right now. Try again.",
+          "Career Mode Showdown is ready.",
+          "Current Showdown only. Career history is not yet available.",
+          "unavailable",
+          "Preview data",
+          "VAL_NIK_LEADS"
+        ]
+      },
+      "hardGates": {
+        "H1": {
+          "pass": false,
+          "daniel": [],
+          "nik": [],
+          "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+        },
+        "H7": {
+          "pass": true,
+          "reducedMotion": "reduce",
+          "checkedAfterMs": 300,
+          "runningAnimations": []
+        }
+      },
+      "consoleErrors": [],
+      "failedRequests": [],
+      "screenshot": "LD6_UNAVAILABLE__390x844.png",
+      "gates": {
+        "H1": {
+          "pass": false,
+          "details": {
+            "pass": false,
+            "daniel": [],
+            "nik": [],
+            "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+          }
+        },
+        "H5": {
+          "pass": false,
+          "details": {
+            "noScroll": true,
+            "primary": null,
+            "rule": "no page/stage scroll and primary visible"
+          }
+        },
+        "H6": {
+          "pass": true,
+          "details": {
+            "inputsBelow16px": [],
+            "inputFonts": []
+          }
+        },
+        "H7": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "reducedMotion": "reduce",
+            "checkedAfterMs": 300,
+            "runningAnimations": []
+          }
+        },
+        "CONTROL_BOUNDS": {
+          "pass": true,
+          "details": []
+        },
+        "CONSOLE": {
+          "pass": true,
+          "details": []
+        },
+        "REQUESTS": {
+          "pass": true,
+          "details": []
+        },
+        "FIXTURE_STRINGS": {
+          "pass": false,
+          "details": [
+            "CM",
+            "PREPARING CAREER MODE SHOWDOWN",
+            "Getting Career Mode Showdown ready.",
+            "new",
+            "Nothing is ready to open yet.",
+            "Some startup data is still loading. Continuing with what is available.",
+            "Career Mode Showdown cannot finish loading right now. Try again.",
+            "Career Mode Showdown is ready.",
+            "Current Showdown only. Career history is not yet available.",
+            "unavailable",
+            "Preview data",
+            "VAL_NIK_LEADS"
+          ]
+        }
+      }
+    },
+    {
+      "frame": "LD6_UNAVAILABLE",
+      "viewport": {
+        "w": 430,
+        "h": 932,
+        "dpr": 2,
+        "label": "430x932",
+        "phone": true
+      },
+      "scroll": {
+        "html": {
+          "width": 430,
+          "height": 932,
+          "clientWidth": 430,
+          "clientHeight": 932,
+          "horizontal": false,
+          "vertical": false
+        },
+        "body": {
+          "width": 430,
+          "height": 932,
+          "clientWidth": 430,
+          "clientHeight": 932,
+          "horizontal": false,
+          "vertical": false
+        },
+        "stage": {
+          "selector": "BODY",
+          "width": 430,
+          "height": 932,
+          "clientWidth": 430,
+          "clientHeight": 932,
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "controls": [
+        {
+          "tag": "a",
+          "id": null,
+          "label": "Tim Reckmann",
+          "rect": {
+            "left": 122,
+            "top": 897.40625,
+            "right": 197,
+            "bottom": 911.40625,
+            "width": 75,
+            "height": 14
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "a",
+          "id": null,
+          "label": "CC BY 2.0",
+          "rect": {
+            "left": 204,
+            "top": 897.40625,
+            "right": 253,
+            "bottom": 911.40625,
+            "width": 49,
+            "height": 14
+          },
+          "fullyInsideViewport": true
+        }
+      ],
+      "controlsOutsideViewport": [],
+      "primary": null,
+      "inputFonts": [],
+      "inputsBelow16px": [],
+      "fixtureStrings": {
+        "missing": [
+          "CM",
+          "PREPARING CAREER MODE SHOWDOWN",
+          "Getting Career Mode Showdown ready.",
+          "new",
+          "Nothing is ready to open yet.",
+          "Some startup data is still loading. Continuing with what is available.",
+          "Career Mode Showdown cannot finish loading right now. Try again.",
+          "Career Mode Showdown is ready.",
+          "Current Showdown only. Career history is not yet available.",
+          "unavailable",
+          "Preview data",
+          "VAL_NIK_LEADS"
+        ]
+      },
+      "hardGates": {
+        "H1": {
+          "pass": false,
+          "daniel": [],
+          "nik": [],
+          "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+        },
+        "H7": {
+          "pass": true,
+          "reducedMotion": "reduce",
+          "checkedAfterMs": 300,
+          "runningAnimations": []
+        }
+      },
+      "consoleErrors": [],
+      "failedRequests": [],
+      "screenshot": "LD6_UNAVAILABLE__430x932.png",
+      "gates": {
+        "H1": {
+          "pass": false,
+          "details": {
+            "pass": false,
+            "daniel": [],
+            "nik": [],
+            "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+          }
+        },
+        "H5": {
+          "pass": false,
+          "details": {
+            "noScroll": true,
+            "primary": null,
+            "rule": "no page/stage scroll and primary visible"
+          }
+        },
+        "H6": {
+          "pass": true,
+          "details": {
+            "inputsBelow16px": [],
+            "inputFonts": []
+          }
+        },
+        "H7": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "reducedMotion": "reduce",
+            "checkedAfterMs": 300,
+            "runningAnimations": []
+          }
+        },
+        "CONTROL_BOUNDS": {
+          "pass": true,
+          "details": []
+        },
+        "CONSOLE": {
+          "pass": true,
+          "details": []
+        },
+        "REQUESTS": {
+          "pass": true,
+          "details": []
+        },
+        "FIXTURE_STRINGS": {
+          "pass": false,
+          "details": [
+            "CM",
+            "PREPARING CAREER MODE SHOWDOWN",
+            "Getting Career Mode Showdown ready.",
+            "new",
+            "Nothing is ready to open yet.",
+            "Some startup data is still loading. Continuing with what is available.",
+            "Career Mode Showdown cannot finish loading right now. Try again.",
+            "Career Mode Showdown is ready.",
+            "Current Showdown only. Career history is not yet available.",
+            "unavailable",
+            "Preview data",
+            "VAL_NIK_LEADS"
+          ]
+        }
+      }
+    }
+  ],
+  "pass": false,
+  "failingRuns": [
+    {
+      "frame": "LD1",
+      "viewport": "1366x768",
+      "failingGates": [
+        "H1",
+        "H5",
+        "FIXTURE_STRINGS"
+      ]
+    },
+    {
+      "frame": "LD1",
+      "viewport": "1440x900",
+      "failingGates": [
+        "H1",
+        "H5",
+        "FIXTURE_STRINGS"
+      ]
+    },
+    {
+      "frame": "LD1",
+      "viewport": "1920x1080",
+      "failingGates": [
+        "H1",
+        "H5",
+        "FIXTURE_STRINGS"
+      ]
+    },
+    {
+      "frame": "LD1",
+      "viewport": "1366x640",
+      "failingGates": [
+        "H1",
+        "H5",
+        "FIXTURE_STRINGS"
+      ]
+    },
+    {
+      "frame": "LD1",
+      "viewport": "393x660@3x",
+      "failingGates": [
+        "H1",
+        "H5",
+        "FIXTURE_STRINGS"
+      ]
+    },
+    {
+      "frame": "LD1",
+      "viewport": "360x640",
+      "failingGates": [
+        "H1",
+        "H5",
+        "FIXTURE_STRINGS"
+      ]
+    },
+    {
+      "frame": "LD1",
+      "viewport": "375x553",
+      "failingGates": [
+        "H1",
+        "H5",
+        "FIXTURE_STRINGS"
+      ]
+    },
+    {
+      "frame": "LD1",
+      "viewport": "390x844",
+      "failingGates": [
+        "H1",
+        "H5",
+        "FIXTURE_STRINGS"
+      ]
+    },
+    {
+      "frame": "LD1",
+      "viewport": "430x932",
+      "failingGates": [
+        "H1",
+        "H5",
+        "FIXTURE_STRINGS"
+      ]
+    },
+    {
+      "frame": "LD2",
+      "viewport": "1366x768",
+      "failingGates": [
+        "H1",
+        "H5",
+        "FIXTURE_STRINGS"
+      ]
+    },
+    {
+      "frame": "LD2",
+      "viewport": "1440x900",
+      "failingGates": [
+        "H1",
+        "H5",
+        "FIXTURE_STRINGS"
+      ]
+    },
+    {
+      "frame": "LD2",
+      "viewport": "1920x1080",
+      "failingGates": [
+        "H1",
+        "H5",
+        "FIXTURE_STRINGS"
+      ]
+    },
+    {
+      "frame": "LD2",
+      "viewport": "1366x640",
+      "failingGates": [
+        "H1",
+        "H5",
+        "FIXTURE_STRINGS"
+      ]
+    },
+    {
+      "frame": "LD2",
+      "viewport": "393x660@3x",
+      "failingGates": [
+        "H1",
+        "H5",
+        "FIXTURE_STRINGS"
+      ]
+    },
+    {
+      "frame": "LD2",
+      "viewport": "360x640",
+      "failingGates": [
+        "H1",
+        "H5",
+        "FIXTURE_STRINGS"
+      ]
+    },
+    {
+      "frame": "LD2",
+      "viewport": "375x553",
+      "failingGates": [
+        "H1",
+        "H5",
+        "FIXTURE_STRINGS"
+      ]
+    },
+    {
+      "frame": "LD2",
+      "viewport": "390x844",
+      "failingGates": [
+        "H1",
+        "H5",
+        "FIXTURE_STRINGS"
+      ]
+    },
+    {
+      "frame": "LD2",
+      "viewport": "430x932",
+      "failingGates": [
+        "H1",
+        "H5",
+        "FIXTURE_STRINGS"
+      ]
+    },
+    {
+      "frame": "LD6_UNAVAILABLE",
+      "viewport": "1366x768",
+      "failingGates": [
+        "H1",
+        "H5",
+        "FIXTURE_STRINGS"
+      ]
+    },
+    {
+      "frame": "LD6_UNAVAILABLE",
+      "viewport": "1440x900",
+      "failingGates": [
+        "H1",
+        "H5",
+        "FIXTURE_STRINGS"
+      ]
+    },
+    {
+      "frame": "LD6_UNAVAILABLE",
+      "viewport": "1920x1080",
+      "failingGates": [
+        "H1",
+        "H5",
+        "FIXTURE_STRINGS"
+      ]
+    },
+    {
+      "frame": "LD6_UNAVAILABLE",
+      "viewport": "1366x640",
+      "failingGates": [
+        "H1",
+        "H5",
+        "FIXTURE_STRINGS"
+      ]
+    },
+    {
+      "frame": "LD6_UNAVAILABLE",
+      "viewport": "393x660@3x",
+      "failingGates": [
+        "H1",
+        "H5",
+        "FIXTURE_STRINGS"
+      ]
+    },
+    {
+      "frame": "LD6_UNAVAILABLE",
+      "viewport": "360x640",
+      "failingGates": [
+        "H1",
+        "H5",
+        "FIXTURE_STRINGS"
+      ]
+    },
+    {
+      "frame": "LD6_UNAVAILABLE",
+      "viewport": "375x553",
+      "failingGates": [
+        "H1",
+        "H5",
+        "FIXTURE_STRINGS"
+      ]
+    },
+    {
+      "frame": "LD6_UNAVAILABLE",
+      "viewport": "390x844",
+      "failingGates": [
+        "H1",
+        "H5",
+        "FIXTURE_STRINGS"
+      ]
+    },
+    {
+      "frame": "LD6_UNAVAILABLE",
+      "viewport": "430x932",
+      "failingGates": [
+        "H1",
+        "H5",
+        "FIXTURE_STRINGS"
+      ]
+    }
+  ]
+}
