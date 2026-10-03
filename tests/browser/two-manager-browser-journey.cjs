@@ -302,6 +302,8 @@ async function main(){
     assert.equal(await daniel.page.locator("#p1Guess1Type").locator("xpath=ancestor::*[contains(@class,'transferGuessCard')]").isVisible(),false,"Daniel's rival guess card stays hidden");
     assert.equal(await nik.page.locator("#p2Guess1Type").locator("xpath=ancestor::*[contains(@class,'transferGuessCard')]").isVisible(),false,"Nik's rival guess card stays hidden");
     await daniel.page.getByRole("button",{name:"LOCK MY GUESSES",exact:true}).click({timeout:30000});
+    await refreshTransfer(nik);
+    await waitTransferPhase(nik,"guess_entry");
     await nik.page.getByRole("button",{name:"LOCK MY GUESSES",exact:true}).click({timeout:30000});
     await waitTransferPhase(nik,"signing_entry");
     await refreshTransfer(daniel);await waitTransferPhase(daniel,"signing_entry");
@@ -312,6 +314,9 @@ async function main(){
     await fillTransferCombo(daniel,"p1Signing1Nationality","England");
     await daniel.page.getByRole("button",{name:"LOCK MY SIGNINGS",exact:true}).click({timeout:30000});
     await assertPrivateTokenAbsent(nik,"QWX","before transfer completion on Nik");
+    await refreshTransfer(nik);
+    await waitTransferPhase(nik,"signing_entry");
+    await assertPrivateTokenAbsent(nik,"QWX","after Daniel signing lock but before COMPLETED");
 
     await nik.page.locator("#p2Signing1Name").fill("ZPV Nik Signing");
     await fillTransferCombo(nik,"p2Signing1League","TIM Serie A");
