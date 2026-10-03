@@ -1,12 +1,14 @@
 # Showdown Factory board
 
-**58 of 135 jobs done · 44 %** · updated Sat 10:49 a.m. Eastern
+**47 of 135 jobs done and checked · 44 %** · updated Sat 11:04 a.m. Eastern
+
+✅ **Quality check:** a job counts as done only after Claude checks it against the quality bar (average 4.2 or more, nothing under 3, hard gates pass). Average score 4.3 over 2 scored jobs. 🔍 Waiting for Claude's check: 31, 32, 37, 38, 43, 44, 54, 55, 56, 57. 🔧 Sent back with a fix list: 67.
 
 ████░░░░░░
 
 **Where to run:** 🟡 **project job** = new chat in the ChatGPT project "Showdown visual", type the number. 🟣 **image job** = its ticket in a ChatGPT **Temporary Chat** outside any project, then drop the picture in Claude's factory thread.
 
-🟡 **Type next:** 72, 77, 82, 87, 111 · then 112, 113, 114, 125
+🟡 **Type next:** 67 (fix), 72, 77, 82, 87 · then 111, 112, 113, 114, 125
 
 🟣 **Image next:** - · tickets not written yet: 115, 116, 117, 118, 119, 120, 121
 
@@ -22,7 +24,7 @@ Transfer       ██░░░░░░░░ 1/6
 Loading        ██████████ 4/4
 Trophy Room    █████░░░░░ 5/10
 Career Stats   █████░░░░░ 5/10
-Rivalry        ████░░░░░░ 4/9
+Rivalry        ████░░░░░░ 3/9
 Legacy         ████░░░░░░ 4/10
 Season Results ███░░░░░░░ 3/9
 Final Winner   ███░░░░░░░ 3/8
@@ -47,9 +49,9 @@ Integration    ░░░░░░░░░░ 0/8
 
 Branch `factory/v1-wtt5ye`. 135 Team V jobs, plus 5 lines that track Team G. Two kinds of job. **Project (type number):** open a new chat in the ChatGPT project "Showdown visual" and type the number (up to 5 at once). **Fresh chat (image):** run the job's ticket from [tickets/](tickets/README.md) in a ChatGPT Temporary Chat (no memory) outside any project, then drop the image in Claude's factory thread (up to 2 at once).
 
-**Overall (Team V):** ████░░░░░░ 44 % · 58 of 135 jobs done
+**Overall (Team V):** ████░░░░░░ 44 % · 47 of 135 jobs done
 
-**Start now · project (type the number in Showdown visual):** 72, 77, 82, 87, 111 · queued next: 112, 113, 114, 125
+**Start now · project (type the number in Showdown visual):** 67 (fix), 72, 77, 82, 87 · queued next: 111, 112, 113, 114, 125
 
 **Start now · fresh chat (image ticket, outside the project):** - · waiting for Claude to write the ticket: 115, 116, 117, 118, 119, 120, 121
 
@@ -128,7 +130,7 @@ Branch `factory/v1-wtt5ye`. 135 Team V jobs, plus 5 lines that track Team G. Two
 | 64 | [Career Statistics: review](jobs/JOB-064.md) | 5 New screens | review | project (type number) | 63 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 65 | [Career Statistics: fix round](jobs/JOB-065.md) | 5 New screens | fix | project (type number) | 64 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 66 | [Career Statistics: motion](jobs/JOB-066.md) | 5 New screens | build | project (type number) | 65, 16 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
-| 67 | [Rivalry Statistics: build (desktop)](jobs/JOB-067.md) | 5 New screens | build | project (type number) | 4, 25, 18, 135, 19, 20, 21, 22 | ██████████ 100 % | DONE |  |
+| 67 | [Rivalry Statistics: build (desktop)](jobs/JOB-067.md) | 5 New screens | build | project (type number) | 4, 25, 18, 135, 19, 20, 21, 22 | ██████████ 100 % | IN PROGRESS · FIX |  |
 | 68 | [Rivalry Statistics: phone](jobs/JOB-068.md) | 5 New screens | build | project (type number) | 67, 117 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 69 | [Rivalry Statistics: review](jobs/JOB-069.md) | 5 New screens | review | project (type number) | 68 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 70 | [Rivalry Statistics: fix round](jobs/JOB-070.md) | 5 New screens | fix | project (type number) | 69 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
