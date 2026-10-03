@@ -37,10 +37,11 @@
   "work": []
  },
  "queued": [],
- "working": [],
- "blocked": [
-  16,
+ "working": [
   10
+ ],
+ "blocked": [
+  16
  ],
  "jobs": [
   {
@@ -386,7 +387,7 @@
    "phase": "3 Career history",
    "type": "rules",
    "plain": "Transfer history visible only once a challenge is completed.",
-   "state": "BLOCKED",
+   "state": "IN PROGRESS",
    "step": 7,
    "steps_total": 8,
    "pct": 87,

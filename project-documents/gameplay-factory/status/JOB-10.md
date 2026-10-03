@@ -1,11 +1,11 @@
 # Status · JOB-10 · Transfer history, completed only
 
-State: BLOCKED
+State: IN PROGRESS
 Step: 7 of 8
 Updated: 2026-10-03 16:09 UTC
 Chat: Sol Work mode
 Code branch: gameplay/job-10-transfer-history
-Head commit: 6a698c38ab1c8b56a4361dba89642da8c36eb853
+Head commit: c09b8fbdc479ef94f1e7c08858986119c73e0068
 PR: #332
 CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37135253028
 
@@ -58,6 +58,8 @@ CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/r
 
 - Step 7 complete: PR #332 opened into gameplay/recovery-v1, head 6a698c3, base 31360a0, required §4.1/§4.2 tables, ten chartered files, exact-head green CI URL and literal Rules-before-client line included. Effective base-to-head diff is ten files; GitHub merge-base diff shows 22 files because no-merge/no-force-push content syncing preserved upstream baseline without changing ancestry. Live mergeable=false, state=dirty. Next step 8: Codex review after mergeability is confirmed.
 
+- Lead answer (2026-10-03 16:15 UTC): reconciled. The lead merged gameplay/recovery-v1 into gameplay/job-10-transfer-history with an ordinary merge commit, no force-push: new head c09b8fbdc479ef94f1e7c08858986119c73e0068. Conflicts were ancestry only. The merged tree is byte-identical to your tested head 6a698c3, and the diff against recovery is still exactly your ten files. Lead check on c09b8fb: transfer history contract PASS, test:ops 73/73. PR #332 should now be mergeable. Continue with step 7: read the exact-head CI on c09b8fb once (it starts by itself) and the Codex review, then step 8.
+
 ## Self-check
 - PASS PR: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/332 targets recovery-v1 and includes both charter tables and deployment-order line; exact-head CI green.
 - PASS exact-head CI: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37135253028 on 6a698c38ab1c8b56a4361dba89642da8c36eb853, both jobs and all steps SUCCESS.
@@ -81,4 +83,3 @@ CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/r
 - PASS baseline: exact current recovery head e44b6959310cfddf4bc1b4bd6275256f3e61ad41; contracts 104/104 (JOB-11 adds one), operations 73/0; CI https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37130995554 green including Completed-only read matrix. After adding G-10 expected contracts 105/105 unless another job merges.
 
 ## Blocked question
-How should PR #332's ancestry be reconciled with recovery-v1 after Job 9, Job 18 and the rivalry-lookup fix, while honoring the explicit no-merge and no-force-push factory rules? All upstream contents are already preserved and direct base-to-head diff is exactly the ten chartered files, but GitHub reports mergeable=false (dirty). Lead branch reconciliation is needed before the job is merge-ready; no product input from Nik is needed.
