@@ -12,19 +12,35 @@
 <link rel="stylesheet" href="season-results.css">
 </head>
 <body>
-<div id="stage-root" class="stage">
-  <main id="season-results-screen" aria-labelledby="screen-title">
-    <h1 id="screen-title">Season Results</h1>
-    <p id="frame-id" aria-live="polite"></p>
-    <section aria-labelledby="fixture-strings-heading">
-      <h2 id="fixture-strings-heading">Fixture strings</h2>
-      <div id="fixture-strings"></div>
-    </section>
-    <section aria-labelledby="frame-values-heading">
-      <h2 id="frame-values-heading">Frame values</h2>
-      <div id="frame-values"></div>
-    </section>
-  </main>
+<div id="stage-root" class="sd-stage" data-plate-width="1536" data-plate-height="864">
+  <div class="sd-stage__layer sd-stage__layer--plate" aria-hidden="true">
+    <div class="sd-stage__registered">
+      <div class="sd-stage__plate"></div>
+      <span class="manager-area manager-area--daniel" data-manager="daniel" data-box="182 88 389 365"></span>
+      <span class="manager-area manager-area--nik" data-manager="nik" data-box="1118 88 1338 355"></span>
+    </div>
+  </div>
+  <div class="sd-stage__layer sd-stage__layer--atmosphere" aria-hidden="true"></div>
+  <div class="sd-stage__layer sd-stage__layer--ui">
+    <main id="season-results-screen" aria-labelledby="screen-title">
+      <h1 id="screen-title">Season Results</h1>
+      <p id="frame-id" aria-live="polite"></p>
+      <section aria-labelledby="fixture-strings-heading">
+        <h2 id="fixture-strings-heading">Fixture strings</h2>
+        <div id="fixture-strings"></div>
+      </section>
+      <section aria-labelledby="frame-values-heading">
+        <h2 id="frame-values-heading">Frame values</h2>
+        <div id="frame-values"></div>
+      </section>
+    </main>
+  </div>
+  <div class="sd-stage__layer sd-stage__layer--cutout" aria-hidden="true">
+    <div class="sd-stage__registered"></div>
+  </div>
+  <div class="sd-stage__layer sd-stage__layer--light" aria-hidden="true">
+    <div class="sd-stage__registered"></div>
+  </div>
 </div>
 <script src="../shared/stage.js" defer></script>
 <script src="../shared/motion.js" defer></script>
