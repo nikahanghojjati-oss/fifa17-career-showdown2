@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Loading · Career Mode Showdown</title>
+<link rel="stylesheet" href="../shared/showdown-tokens.css">
+<link rel="stylesheet" href="../shared/showdown-type.css">
+<link rel="stylesheet" href="../shared/stage.css">
+<link rel="stylesheet" href="loading.css">
+</head>
+<body>
+<section id="loadingScreen" class="sd-stage loadingStage" role="status" aria-live="polite" aria-busy="true" aria-label="Career Mode Showdown is starting">
+  <div class="sd-stage__layer sd-stage__layer--plate startupScene" aria-hidden="true">
+    <div class="startupAthleteFrame">
+      <img id="startupAthlete" src="../../../assets/marco-reus-2015-cc-by.webp" alt="" decoding="async" fetchpriority="high">
+    </div>
+    <span class="startupShard startupShardOne"></span>
+    <span class="startupShard startupShardTwo"></span>
+    <span class="startupGrid"></span>
+  </div>
+
+  <div class="sd-stage__layer sd-stage__layer--atmosphere" aria-hidden="true">
+    <div class="sd-stage__flare"></div>
+    <div class="loadingVignette"></div>
+  </div>
+
+  <div class="sd-stage__layer sd-stage__layer--ui loadingUi">
+    <div class="startupIdentity">
+      <p class="startupKicker sd-label" data-bind="kicker">THE RIVALRY STARTS HERE</p>
+      <div class="loadingWordmark sd-title sd-title--wordmark">
+        <span class="sd-visually-hidden" data-bind="title-accessible">CAREER MODE SHOWDOWN 17</span>
+        <img src="../home/assets/LOGO_CM17_WORDMARK_V1.webp" alt="" aria-hidden="true" width="2078" height="755" decoding="async">
+      </div>
+      <p class="startupEdition sd-tagline" data-bind="edition">TWO MANAGERS · ONE LEGACY</p>
+    </div>
+
+    <div class="startupStatus" aria-live="polite">
+      <div class="startupProgress" aria-hidden="true"><span class="startupProgressFill"></span><span class="startupProgressGlint"></span></div>
+      <p id="loadingText" data-bind="status">PREPARING CAREER MODE SHOWDOWN</p>
+    </div>
+
+    <p class="startupSaveNote" data-bind="support">TWO MANAGERS · ONE SHOWDOWN</p>
+    <p class="startupPhotoCredit">Marco Reus photo: Tim Reckmann · CC BY 2.0 · Cropped for display</p>
+  </div>
+
+  <div class="sd-stage__layer sd-stage__layer--light" aria-hidden="true">
+    <div class="loadingGrain"></div>
+  </div>
+</section>
+<script src="loading.js"></script>
+</body>
+</html>
