@@ -8,23 +8,14 @@ body {
   min-height: 100%;
 }
 
-body {
-  min-height: 100vh;
-}
-
-#stage-root {
-  min-height: 100vh;
-}
-
-.managerPlateMarker {
-  pointer-events: none;
-}
+body { min-height: 100vh; }
+#stage-root { min-height: 100vh; }
+.managerPlateMarker { pointer-events: none; }
 
 /* Mockup title block measurements on the 1672 × 941 source frame:
    eyebrow centre x ≈ 50.3%, top ≈ 10.2%;
    title crop x 442..1241 = 47.8% wide, centre x 50.3%, top 132 = 14.0%;
-   tagline centre x ≈ 50.3%, top ≈ 23.7%.
-   No backing panel: this copy floats directly over the stadium scene. */
+   tagline centre x ≈ 50.3%, top ≈ 23.7%. */
 .sj-header {
   position: absolute;
   inset: 0;
@@ -46,7 +37,7 @@ body {
 
 .sj-title {
   position: absolute;
-  top: 14.0%;
+  top: 14%;
   left: 50.3%;
   width: 47.8%;
   margin: 0;
@@ -97,8 +88,7 @@ body {
   row-gap: 2.1%;
 }
 
-/* Mockup close control: centre ≈ 74.4% x / 31.0% y.
-   Product truth changes it into Back, but keeps the same corner silhouette. */
+/* Mockup close control: centre ≈ 74.4% x / 31.0% y. */
 .sj-back {
   position: absolute;
   z-index: 4;
@@ -134,24 +124,215 @@ body {
 .sj-current-panel {
   min-width: 0;
   min-height: 0;
+  box-sizing: border-box;
+  background:
+    linear-gradient(145deg, rgba(7, 10, 13, .88), rgba(12, 14, 17, .68));
+  border: 1px solid rgba(224, 178, 48, .5);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 222, 111, .08),
+    inset 0 -24px 44px rgba(0, 0, 0, .18);
+}
+
+.sj-role-panel {
+  padding: 5.2% 5.5% 4.8%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.sj-role-head,
+.sj-current-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.sj-role-glyph {
+  position: relative;
+  flex: 0 0 46px;
+  width: 46px;
+  height: 38px;
+  margin-top: 2px;
+  color: #f0c84b;
+}
+
+.sj-role-glyph--host::before {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 2px;
+  width: 34px;
+  height: 23px;
+  border: 3px solid currentColor;
+  border-radius: 2px;
+}
+
+.sj-role-glyph--host::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 4px;
+  width: 46px;
+  height: 4px;
+  border-radius: 3px;
+  background: currentColor;
+}
+
+.sj-role-glyph--join {
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 50% 26%, currentColor 0 16%, transparent 17%),
+    radial-gradient(circle at 26% 35%, currentColor 0 13%, transparent 14%),
+    radial-gradient(circle at 74% 35%, currentColor 0 13%, transparent 14%),
+    radial-gradient(ellipse at 50% 82%, currentColor 0 33%, transparent 34%);
+}
+
+.sj-role-kicker {
+  margin: 0 0 3px;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .18em;
+  color: rgba(244, 215, 123, .78);
+}
+
+.sj-role-heading {
+  margin: 0;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: clamp(20px, 1.45vw, 28px);
+  font-weight: 700;
+  line-height: .95;
+  letter-spacing: .025em;
+  text-transform: uppercase;
+}
+
+.sj-role-copy,
+.sj-current-copy {
+  margin: 13px 0 0;
+  font-size: clamp(12px, .82vw, 15px);
+  line-height: 1.35;
+  color: rgba(244, 244, 241, .76);
+}
+
+.sj-season-line {
+  margin-top: auto;
+  min-height: 38px;
+  padding: 7px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border: 1px solid rgba(255, 255, 255, .16);
+  background: rgba(0, 0, 0, .24);
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 12px;
+  letter-spacing: .12em;
+}
+
+.sj-season-line strong {
+  font-size: 25px;
+  font-variant-numeric: tabular-nums;
+  color: #f0c84b;
+}
+
+.sj-join-field {
+  margin-top: auto;
+}
+
+.sj-join-field label {
+  display: block;
+  margin-bottom: 5px;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .16em;
+}
+
+.sj-join-field input {
+  width: 100%;
+  height: 42px;
+  box-sizing: border-box;
+  padding: 0 13px;
+  border: 1px solid rgba(206, 215, 223, .52);
+  border-radius: 3px;
+  background: rgba(6, 9, 13, .78);
+  color: #f7f7f2;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 19px;
+  letter-spacing: .06em;
+}
+
+.sj-join-field input:focus-visible {
+  outline: 2px solid #f0c84b;
+  outline-offset: 2px;
+}
+
+.sj-card-actions {
+  min-height: 0;
 }
 
 /* Mockup current-session box: x ≈ 24.8%, y ≈ 55.5%, w ≈ 49.2%, h ≈ 23.5%. */
 .sj-current-panel {
   width: 100%;
   height: 100%;
+  padding: 3.6% 3%;
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(150px, .7fr);
+  grid-template-rows: auto 1fr;
+  column-gap: 20px;
+  align-content: start;
 }
 
-.sj-lock-slot {
-  min-height: 0;
+.sj-current-head {
+  grid-column: 1 / -1;
+  justify-content: space-between;
+  gap: 20px;
 }
 
-/* Reserved component measurements for the live code row added in later element steps. */
+.sj-state-badge {
+  min-width: 92px;
+  padding: 5px 10px;
+  align-self: start;
+  border: 1px solid rgba(240, 200, 75, .32);
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.sj-current-copy {
+  grid-column: 1 / -1;
+  margin-top: 8px;
+}
+
+.sj-code-row {
+  grid-column: 1 / -1;
+  margin-top: 12px;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+}
+
 .sj-code-field {
+  width: 100%;
+  min-height: 48px;
+  box-sizing: border-box;
+  padding: 5px 16px;
+  border: 1px solid rgba(205, 214, 223, .58);
+  border-radius: 3px;
+  background: rgba(5, 8, 11, .8);
   font-family: "Barlow Condensed", sans-serif;
   font-size: 32px;
   font-weight: 600;
+  font-variant-numeric: tabular-nums;
   letter-spacing: .08em;
+}
+
+.sj-current-actions,
+.sj-lock-slot {
+  min-height: 0;
 }
 
 .sj-copy-button {
@@ -160,7 +341,6 @@ body {
   height: 44px;
 }
 
-/* Keep the step-1 fixture plumbing alive while step 4 intentionally shows empty panel shells. */
 .sj-step1-scaffold {
   display: none !important;
 }
