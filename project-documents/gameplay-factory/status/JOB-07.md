@@ -1,6 +1,6 @@
 # Status · JOB-07 · Career index Rules + client + emulator proofs
 
-State: BLOCKED
+State: IN PROGRESS
 Step: 6 of 9
 Updated: 2026-10-03 00:04 UTC
 Chat: Sol Work mode
@@ -94,3 +94,15 @@ assert.equal(emulatorJobLog.includes('maximum of 1000 expressions'), false);
 2026-10-03T00:03:08.1322964Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
 2026-10-03T00:03:08.1709121Z Cleaning up orphan processes
 ```
+
+### Lead answer (2026-10-02 8:25 PM Boston time)
+Decision: the budget gate is qualified, not the Rules. No Rules change is needed for D13.
+
+Why: Firestore's 1000-expression limit is shared by every rule considered for one request. On D13 the create rule is already false (evaluation error at the membership check), and the leftover update candidates then hit the limit. Hitting the limit can only deny, never allow, so a denied-expected request that ends at the limit is still correctly denied. The real risk is a LEGITIMATE operation reaching the limit, and your runs show none does.
+
+New gate wording for step 7 (replaces "no 'maximum of 1000 expressions' anywhere in the emulator log"):
+- Every emulator case that expects success passes (creation, redemption, rollover, append, journey). PASS already.
+- The phrase "maximum of 1000 expressions" may appear only on the log lines of cases that expect PERMISSION_DENIED. Check it mechanically: for each occurrence, the next `ok N <case>` line must be a denial case (today only D13). Record the case name(s) in the self-check.
+- If the phrase ever appears next to a case that expects success, that is a FAIL and BLOCKED again.
+
+Do not edit any test assertion to hide the phrase; only change the self-check line to this qualified gate with the evidence. Then continue with step 8 (open the PR into gameplay/recovery-v1) and step 9 (Codex review).
