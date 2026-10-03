@@ -1,0 +1,175 @@
+"use strict";
+// G-2b: Daniel and Nik play through the real app screens in two Chromium contexts against the
+// Auth + Firestore emulators (composed production Rules). Test database only; project demo-cms-browser-journey.
+// Run: npx --yes firebase-tools@15.28.1 emulators:exec --config tests/browser/support/firebase.browser-journey.json \
+//        --only auth,firestore --project demo-cms-browser-journey "node tests/browser/two-manager-browser-journey.cjs"
+const assert=require("node:assert/strict");
+const fs=require("node:fs");
+const os=require("node:os");
+const path=require("node:path");
+const {spawn}=require("node:child_process");
+const {chromium}=require("playwright");
+const {resolveChromiumRuntime}=require("../support/chromium-runtime.cjs");
+
+const ROOT=path.resolve(__dirname,"../..");
+const PROJECT="demo-cms-browser-journey";
+const FIRESTORE="http://127.0.0.1:8181",AUTH_PORT=9199,FIRESTORE_PORT=8181;
+const APP_PORT=Number(process.env.CMS_TEST_PORT||4173);
+const BASE=`http://127.0.0.1:${APP_PORT}/`;
+const SWITCH=path.join(ROOT,"tests/browser/support/emulator-runtime-switch.js");
+const SDK_DIR=path.join(ROOT,"node_modules/firebase");
+const ARTIFACTS=process.env.CMS_BROWSER_JOURNEY_ARTIFACTS||path.join(os.tmpdir(),"cms-browser-journey");
+const LENGTH=Number(process.env.CMS_SHOWDOWN_LENGTH||3);
+const FORBIDDEN_HOSTS=/(^|\.)(firestore|identitytoolkit|securetoken|firebaseinstallations|firebaseappcheck|content-firebaseappcheck)\.googleapis\.com$/;
+let checks=0;
+const ok=(id,label)=>{checks+=1;console.log(`ok ${checks} ${id} ${label}`);};
+const urlFor=user=>`${BASE}?cmsEmulator=1&cmsEmulatorUser=${user}&cmsAuthPort=${AUTH_PORT}&cmsFirestorePort=${FIRESTORE_PORT}`;
+const docUrl=p=>`${FIRESTORE}/v1/projects/${PROJECT}/databases/(default)/documents/${p}`;
+async function admin(p){const r=await fetch(docUrl(p),{headers:{Authorization:"Bearer owner"}});return r.status===200?r.json():null;}
+const field=(doc,...keys)=>keys.reduce((v,k)=>v&&(v.mapValue?v.mapValue.fields[k]:v.fields?v.fields[k]:undefined),doc);
+const ids=arr=>(arr&&arr.arrayValue&&arr.arrayValue.values||[]).map(v=>v.stringValue);
+
+async function loadComposedRules(){
+  const probe=docUrl("rivalries/probe");
+  const before=await fetch(probe);
+  const put=await fetch(`${FIRESTORE}/emulator/v1/projects/${PROJECT}:securityRules`,{method:"PUT",headers:{"content-type":"application/json"},
+    body:JSON.stringify({rules:{files:[{name:"firestore.rules",content:fs.readFileSync(path.join(ROOT,"firestore.spark.generated.rules"),"utf8")}]}})});
+  const after=await fetch(probe);
+  assert.equal(put.status,200,"composed Rules upload");
+  assert.equal(after.status,403,`composed Rules active (open emulator read was ${before.status}, now ${after.status})`);
+}
+
+async function openManager(browser,user,viewport){
+  const context=await browser.newContext({viewport});
+  const log={errors:[],forbidden:[],productionRuntime:0};
+  await context.route(/^https:\/\/www\.gstatic\.com\/firebasejs\/[\d.]+\/(firebase-[a-z-]+\.js)$/,route=>{
+    const name=route.request().url().match(/(firebase-[a-z-]+\.js)$/)[1];
+    return route.fulfill({path:path.join(SDK_DIR,name),contentType:"text/javascript; charset=utf-8"});
+  });
+  await context.addInitScript({path:SWITCH});
+  const page=await context.newPage();
+  page.on("request",request=>{const u=new URL(request.url());if(FORBIDDEN_HOSTS.test(u.hostname))log.forbidden.push(u.hostname);if(/productionFirebaseRuntime\.js|firebase\.runtime-config\.json/.test(u.pathname))log.productionRuntime+=1;});
+  page.on("pageerror",error=>log.errors.push(error.message));
+  page.on("console",message=>{if(message.type()==="error"&&!/Failed to load resource/.test(message.text()))log.errors.push(message.text().slice(0,300));});
+  await page.goto(urlFor(user),{waitUntil:"domcontentloaded"});
+  await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:30000});
+  return {user,context,page,log};
+}
+
+async function shot(m,name){
+  try{fs.mkdirSync(ARTIFACTS,{recursive:true});await m.page.screenshot({path:path.join(ARTIFACTS,`${name}-${m.user}.png`),timeout:15000});}
+  catch(error){console.log(`screenshot skipped ${name}-${m.user}: ${error.message.split("\n")[0]}`);}
+}
+async function describe(m){
+  return m.page.evaluate(()=>{
+    const screens=[...document.querySelectorAll(".screen:not(.hidden)")].map(s=>s.id).join(",");
+    const overlays=[...document.querySelectorAll("[id$='Overlay']")].filter(o=>{const st=getComputedStyle(o);return !o.classList.contains("hidden")&&st.display!=="none"&&st.visibility!=="hidden";}).map(o=>`${o.id}: ${o.innerText.replace(/\s+/g," ").slice(0,400)}`);
+    const panel=(document.getElementById("persistentNikDanielPairPanel")?.innerText||"").replace(/\s+/g," ");
+    return `screens=${screens} | badge=${document.getElementById("onlinePlayerIdentityBadge")?.textContent||""} | panel=${panel} | overlays=${overlays.join(" ## ")}`;
+  });
+}
+const accountId=m=>m.page.evaluate(()=>window.CareerModeSparkConnectedAccount?.getState?.().accountId||null);
+const entry=m=>m.page.locator("#productionSharedJourneyEntryOverlay");
+const remote=m=>m.page.locator("#sparkRemoteJoiningOverlay, #remoteJoiningOverlay").filter({hasText:"REMOTE JOINING"}).first();
+const pairPanel=m=>m.page.locator("#persistentNikDanielPairPanel");
+
+// J1: sign in through the real gate and choose the player.
+async function signIn(m,label){
+  await m.page.locator("#newShowdown").click();
+  await m.page.getByRole("button",{name:"SIGN IN WITH GOOGLE"}).click({timeout:30000});
+  await m.page.getByRole("button",{name:new RegExp(`^${label} · PLAYER`,"i")}).click({timeout:30000});
+  await m.page.waitForFunction(text=>document.getElementById("onlinePlayerIdentityBadge")?.textContent===text,label.toUpperCase(),{timeout:30000});
+}
+
+async function main(){
+  // J0 preflight
+  assert.equal(JSON.parse(fs.readFileSync(path.join(SDK_DIR,"package.json"),"utf8")).version,require(SWITCH).sdkVersion,"J0 SDK pin matches the switch");
+  await loadComposedRules();ok("J0.1","composed production Rules active on the emulator (open read 404 -> 403)");
+  const server=spawn(process.execPath,[path.join(ROOT,"tests/support/static-server.cjs")],{stdio:"ignore",env:{...process.env,CMS_TEST_PORT:String(APP_PORT)}});
+  await new Promise(resolve=>setTimeout(resolve,800));
+  const runtime=await resolveChromiumRuntime();
+  const browser=await chromium.launch({executablePath:runtime.executablePath,headless:true,args:runtime.args});
+  const managers=[];
+  try{
+    const daniel=await openManager(browser,"daniel",{width:393,height:660});managers.push(daniel);
+    const nik=await openManager(browser,"nik",{width:360,height:640});managers.push(nik);
+    for(const m of [daniel,nik]){const s=await m.page.evaluate(()=>window.__cmsEmulatorSwitch||null);assert.equal(s&&s.active,true,`${m.user} switch active`);}
+    ok("J0.2","emulator switch active only via localhost + cmsEmulator=1 in both contexts");
+
+    // J1
+    await signIn(daniel,"Daniel");await signIn(nik,"Nik");
+    const uidD=await accountId(daniel),uidN=await accountId(nik);
+    assert.ok(uidD&&uidN&&uidD!==uidN,"two distinct accounts");
+    ok("J1.1","Daniel and Nik signed in through SIGN IN WITH GOOGLE and chose their players");
+    for(const uid of [uidD,uidN])assert.ok(await admin(`accounts/${uid}`),`account ${uid} bootstrapped`);
+    ok("J1.2","both accounts bootstrapped and devices registered through the composed Rules");
+
+    // J2 pairing (seasons chosen on the real create screen)
+    await daniel.page.locator("#newShowdown").click();
+    await daniel.page.locator("#createShowdown").waitFor({state:"visible",timeout:30000});
+    await daniel.page.locator("#roundAmount").selectOption(String(LENGTH));
+    await daniel.page.locator("#startShowdown").click();
+    await entry(daniel).getByRole("button",{name:"CONNECT PLAYERS"}).click({timeout:30000});
+    await pairPanel(daniel).getByRole("button",{name:"CREATE CODE FOR NIK"}).click({timeout:30000});
+    await pairPanel(daniel).locator("code").waitFor({timeout:30000});
+    const pairCode=(await pairPanel(daniel).locator("code").innerText()).trim();
+    assert.match(pairCode,/^CMS17-pair_/,"pair code shape");
+    ok("J2.1","Daniel created the pair code on the real Start screen");
+    await nik.page.locator("#newShowdown").click();
+    // Trap: the pair panel re-renders (replaceChildren) while the join sidecar syncs; a code typed before it settles is lost.
+    await nik.page.waitForFunction(()=>{const s=window.CareerModePersistentNikDanielPair?.getState?.();return Boolean(s&&s.busy===false&&s.status==="unpaired");},null,{timeout:30000});
+    await nik.page.waitForTimeout(500);
+    await pairPanel(nik).locator("#persistentNikDanielPairCode").fill(pairCode);
+    await pairPanel(nik).getByRole("button",{name:"JOIN DANIEL'S SHOWDOWN",exact:true}).click();
+    for(const m of [nik,daniel]){
+      if(m===daniel)await pairPanel(daniel).getByRole("button",{name:"CHECK STATUS"}).click().catch(()=>{});
+      await m.page.waitForFunction(()=>/CAREER READY/.test(document.getElementById("persistentNikDanielPairPanel")?.innerText||""),null,{timeout:30000});
+    }
+    const linkD=await admin(`accounts/${uidD}/pairLinks/current`),linkN=await admin(`accounts/${uidN}/pairLinks/current`);
+    assert.equal(field(linkD,"data","managerRole").stringValue,"playerOne","Daniel is playerOne");
+    assert.equal(field(linkN,"data","managerRole").stringValue,"playerTwo","Nik is playerTwo");
+    const R1=field(linkD,"data","rivalryId").stringValue;
+    assert.equal(field(linkN,"data","rivalryId").stringValue,R1,"same rivalry");
+    assert.deepEqual(ids(field(await admin(`accounts/${uidD}/careerIndex/current`),"data","rivalryIds")),[R1],"Daniel career index [R1]");
+    assert.deepEqual(ids(field(await admin(`accounts/${uidN}/careerIndex/current`),"data","rivalryIds")),[R1],"Nik career index [R1]");
+    ok("J2.2","Nik joined with the code; Daniel=playerOne, Nik=playerTwo, both career indexes [R1]");
+    await shot(daniel,"j2-paired");await shot(nik,"j2-paired");
+
+    // J3 private session through the real Remote Joining surface, then START CAREER
+    for(const m of [daniel,nik]){
+      await pairPanel(m).getByRole("button",{name:"CONTINUE CAREER"}).first().click();
+      await entry(m).filter({hasText:"CONNECTED"}).getByRole("button",{name:"CONTINUE",exact:true}).click({timeout:30000});
+      await remote(m).waitFor({state:"visible",timeout:30000});
+    }
+    await remote(daniel).getByRole("button",{name:"HOST PRIVATE SESSION"}).click({timeout:30000});
+    await daniel.page.waitForFunction(()=>/session_[A-Za-z0-9_-]{16,}/.test(document.body.innerText),null,{timeout:30000});
+    const sessionCode=await daniel.page.evaluate(()=>document.body.innerText.match(/session_[A-Za-z0-9_-]{16,}/)[0]);
+    await remote(nik).getByRole("textbox",{name:"Exact private session code"}).fill(sessionCode);
+    await remote(nik).getByRole("button",{name:"JOIN PRIVATE SESSION"}).click();
+    // The Remote Joining overlay may close by itself once the session is active; wait for GET READY's START CAREER instead of its text.
+    await entry(nik).getByRole("button",{name:"START CAREER"}).waitFor({state:"visible",timeout:30000});
+    if(await remote(daniel).isVisible())await remote(daniel).getByRole("button",{name:"REFRESH / READ"}).click();
+    for(const m of [daniel,nik]){
+      await entry(m).getByRole("button",{name:"START CAREER"}).click({timeout:30000});
+      await m.page.locator("#leagueWheelScreen").waitFor({state:"visible",timeout:30000});
+    }
+    ok("J3.1","private session hosted by Daniel, joined by Nik; both reached the league wheel");
+    await shot(daniel,"j3-setup");await shot(nik,"j3-setup");
+
+    // J4..J12: added by the worker, one section per step (JOB-16 §4).
+
+    for(const m of managers){
+      assert.deepEqual(m.log.forbidden,[],`${m.user} never contacted a production Firebase host`);
+      assert.equal(m.log.productionRuntime,0,`${m.user} never loaded the production Firebase runtime or config`);
+      assert.deepEqual(m.log.errors,[],`${m.user} page errors`);
+    }
+    ok("JZ.1","no production Firebase host, no production runtime/config load, no page errors in either context");
+    console.log(`PASS two-manager browser journey: ${checks} numbered checks (J0-J3 so far) on the Auth + Firestore emulators, composed production Rules, ${LENGTH}-season Showdown.`);
+  }catch(error){
+    for(const m of managers){console.log(`--- ${m.user}: ${await describe(m).catch(e=>e.message)}`);console.log(`--- ${m.user} errors: ${JSON.stringify(m.log.errors.slice(-10))}`);await shot(m,"failure");}
+    throw error;
+  }finally{
+    await browser.close();server.kill();
+  }
+}
+main().catch(error=>{console.error(error);process.exit(1);});
