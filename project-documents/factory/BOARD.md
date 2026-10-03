@@ -1,12 +1,12 @@
 # Showdown Factory board
 
-**54 of 135 jobs done · 41 %** · updated Sat 8:40 a.m. Eastern
+**55 of 135 jobs done · 42 %** · updated Sat 8:50 a.m. Eastern
 
 ████░░░░░░
 
 **Where to run:** 🟡 **project job** = new chat in the ChatGPT project "Showdown visual", type the number. 🟣 **image job** = its ticket in a ChatGPT **Temporary Chat** outside any project, then drop the picture in Claude's factory thread.
 
-🟡 **Type next:** 55, 62, 67, 72, 77 · then 82, 87, 111, 112, 113, 114, 125
+🟡 **Type next:** 55, 67, 72, 77, 82 · then 87, 111, 112, 113, 114, 125
 
 🟣 **Image next:** - · tickets not written yet: 115, 116, 117, 118, 119, 120, 121
 
@@ -21,7 +21,7 @@ Club           ███░░░░░░░ 2/7
 Transfer       ██░░░░░░░░ 1/6
 Loading        █████░░░░░ 2/4
 Trophy Room    █████░░░░░ 5/10
-Career Stats   ████░░░░░░ 4/10
+Career Stats   █████░░░░░ 5/10
 Rivalry        ███░░░░░░░ 3/9
 Legacy         ████░░░░░░ 4/10
 Season Results ███░░░░░░░ 3/9
@@ -47,9 +47,9 @@ Integration    ░░░░░░░░░░ 0/8
 
 Branch `factory/v1-wtt5ye`. 135 Team V jobs, plus 5 lines that track Team G. Two kinds of job. **Project (type number):** open a new chat in the ChatGPT project "Showdown visual" and type the number (up to 5 at once). **Fresh chat (image):** run the job's ticket from [tickets/](tickets/README.md) in a ChatGPT Temporary Chat (no memory) outside any project, then drop the image in Claude's factory thread (up to 2 at once).
 
-**Overall (Team V):** ████░░░░░░ 41 % · 54 of 135 jobs done
+**Overall (Team V):** ████░░░░░░ 42 % · 55 of 135 jobs done
 
-**Start now · project (type the number in Showdown visual):** 55, 62, 67, 72, 77 · queued next: 82, 87, 111, 112, 113, 114, 125
+**Start now · project (type the number in Showdown visual):** 55, 67, 72, 77, 82 · queued next: 87, 111, 112, 113, 114, 125
 
 **Start now · fresh chat (image ticket, outside the project):** - · waiting for Claude to write the ticket: 115, 116, 117, 118, 119, 120, 121
 
@@ -123,7 +123,7 @@ Branch `factory/v1-wtt5ye`. 135 Team V jobs, plus 5 lines that track Team G. Two
 | 59 | [Trophy Room: review](jobs/JOB-059.md) | 5 New screens | review | project (type number) | 58 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 60 | [Trophy Room: fix round](jobs/JOB-060.md) | 5 New screens | fix | project (type number) | 59 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 61 | [Trophy Room: motion](jobs/JOB-061.md) | 5 New screens | build | project (type number) | 60, 16 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
-| 62 | [Career Statistics: build (desktop)](jobs/JOB-062.md) | 5 New screens | build | project (type number) | 3, 24, 18, 131, 137, 19, 20, 21, 22 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
+| 62 | [Career Statistics: build (desktop)](jobs/JOB-062.md) | 5 New screens | build | project (type number) | 3, 24, 18, 131, 137, 19, 20, 21, 22 | ██████████ 100 % | DONE |  |
 | 63 | [Career Statistics: phone](jobs/JOB-063.md) | 5 New screens | build | project (type number) | 62, 116 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 64 | [Career Statistics: review](jobs/JOB-064.md) | 5 New screens | review | project (type number) | 63 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 65 | [Career Statistics: fix round](jobs/JOB-065.md) | 5 New screens | fix | project (type number) | 64 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
