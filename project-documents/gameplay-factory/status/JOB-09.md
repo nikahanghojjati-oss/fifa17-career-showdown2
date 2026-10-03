@@ -2,12 +2,12 @@
 
 State: IN PROGRESS
 Step: 2 of 7
-Updated: 2026-10-03 15:07 UTC
+Updated: 2026-10-03 15:08 UTC
 Chat: Sol Work mode (job 9, 04fd13bb5a42)
 Code branch: gameplay/job-09-closed-adapter
-Head commit: 94a569bfc4187e094ed1ce218fc335018c8ad80b
+Head commit: 88220a9293ca6f8ceab4b6c36d82bc47c4ba5eca
 PR:
-CI run: CI pending on 37d7d543a6a00712e3a8ae8e016ea5a4e8bcdbd1 (step 3a test files saved; registry and CI step follow in step 3b)
+CI run: CI pending on 88220a9293ca6f8ceab4b6c36d82bc47c4ba5eca (complete tests-first code; read once next turn)
 
 ## Notes
 - Lead: JOB-03 (PR #316) and JOB-08 (PR #326, merge 843e64e) are merged; JOB-05 and JOB-07 too. Lead to create code branch gameplay/job-09-closed-adapter from gameplay/recovery-v1 at 843e64e before Nik starts the job. Lead reference run on 843e64e: new contract 22/22, contracts 104/104, ops 73/0, every rules-emulator step PASS including the new Closed-Showdown adapter journey (12 checks); only budget diagnostics are the two known career-index D13 denials. Jobs 11, 16 and 18 also append registry entries: whoever merges later re-appends last. Ready to start.
@@ -22,7 +22,9 @@ CI run: CI pending on 37d7d543a6a00712e3a8ae8e016ea5a4e8bcdbd1 (step 3a test fil
 
 - Step 3a checkpoint: Copied Appendix C contract (313 lines) and Appendix D emulator journey (246 lines) verbatim; node --check both PASS. Local contract fails exactly MODULE_NOT_FOUND: Cannot find module /workspace/scratch/04fd13bb5a42/job9/js/sharedClosedShowdownAdapter.js. Both text files saved through connector. Step 3 still incomplete: Appendix E registry/ops/workflow changes and tests-first exact-head CI evidence are next. Implementation files remain absent; no existing assertion changed.
 
-- Step 3b checkpoint: Appendix E registry entry and ops const/list appended last after JOB-11, preserving every existing entry and assertion. Regex dots are escaped once in decoded patterns. Ops syntax PASS; focused control-plane test 17 pass / 0 fail. Saved both code files. Workflow addition follows in step 3c before reading tests-first CI.
+- Step 3b checkpoint: Appendix E registry entry and ops const/list appended last after JOB-11, preserving every existing entry and assertion. Regex dots are escaped once in decoded patterns. Ops syntax PASS; focused control-plane test 30 pass / 0 fail. Saved both code files. Workflow addition follows in step 3c before reading tests-first CI.
+
+- Step 3c checkpoint: Added Appendix E Closed-Showdown adapter journey as the final rules-emulator step after Completed-only read matrix; demo-cms-gameplay-fast-closed-adapter only. Both new tests node --check PASS; local contract fails exactly Cannot find module /workspace/scratch/04fd13bb5a42/job9/js/sharedClosedShowdownAdapter.js (MODULE_NOT_FOUND). Complete tests-first code saved on 88220a9293ca6f8ceab4b6c36d82bc47c4ba5eca. No implementation added. Step stays 2 until next-turn exact-head CI proves only the new contract and new journey fail, with all prior emulator steps green. No CI polling this turn.
 
 ## Self-check
 
