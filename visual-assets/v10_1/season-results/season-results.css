@@ -581,3 +581,65 @@ body {
   opacity: .82;
   cursor: default;
 }
+
+
+/* JOB-077 step 9b: contract read-state shells (SR7-SR10). */
+.entry-panel[hidden] {
+  display: none !important;
+}
+
+.season-review-panel.is-contract-state {
+  left: 33%;
+  top: 47.5%;
+  width: 34%;
+  min-height: 160px;
+  padding: 22px 26px;
+  text-align: center;
+  display: grid;
+  align-content: center;
+  gap: 7px;
+  border-color: rgb(216 221 229 / .70);
+  background:
+    linear-gradient(145deg, rgb(7 9 12 / .97), rgb(18 18 18 / .93)),
+    radial-gradient(circle at 50% 0%, rgb(242 196 91 / .12), transparent 58%);
+}
+
+.season-review-panel.is-contract-state::before {
+  content: "◌";
+  display: block;
+  margin: 0 auto 2px;
+  font-size: 34px;
+  line-height: 1;
+  color: rgb(242 196 91 / .92);
+}
+
+.season-review-panel.is-empty::before {
+  content: "◇";
+}
+
+.season-review-panel.is-partial::before {
+  content: "◐";
+}
+
+.season-review-panel.is-unavailable::before {
+  content: "!";
+}
+
+.season-review-panel.is-contract-state .seasonReviewStatus {
+  font-size: 11px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: rgb(216 221 229 / .78);
+}
+
+.season-review-panel.is-contract-state #seasonReviewHeading {
+  margin: 0;
+  font-size: clamp(16px, 1.15vw, 20px);
+  line-height: 1.25;
+}
+
+.season-review-panel.is-contract-state .seasonReviewResult {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.35;
+}
