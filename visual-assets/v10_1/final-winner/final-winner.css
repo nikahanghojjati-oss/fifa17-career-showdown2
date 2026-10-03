@@ -1254,3 +1254,195 @@ body {
   .finalWinnerManagerShade--nik,
   .finalWinnerManagerSpotlight--nik { left: 45%; }
 }
+
+
+/* JOB-083 STEP 2b · phone tabs and rare-detail sheet. */
+@media (max-width: 760px) {
+  .finalWinnerTabInput,
+  .finalWinnerPartialToggle {
+    display: block;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: 0;
+    opacity: 0;
+    clip-path: inset(50%);
+    pointer-events: none;
+  }
+
+  .finalWinnerPhoneTabs {
+    position: relative;
+    z-index: 3;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: 44px;
+    border-bottom: 1px solid rgb(242 196 91 / .24);
+    background: rgb(6 8 11 / .90);
+  }
+
+  .finalWinnerPhoneTabs label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    min-height: 44px;
+    color: var(--sd-text-secondary);
+    font: 700 11px/1 var(--sd-font-condensed);
+    letter-spacing: .12em;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  #finalWinnerTabSummary:checked ~ .finalWinnerPhoneTabs label[for="finalWinnerTabSummary"],
+  #finalWinnerTabHonours:checked ~ .finalWinnerPhoneTabs label[for="finalWinnerTabHonours"] {
+    color: var(--sd-gold-300);
+    border-bottom-color: var(--sd-gold-300);
+    background: linear-gradient(180deg, rgb(242 196 91 / .08), transparent);
+  }
+
+  #finalWinnerTabSummary:focus-visible ~ .finalWinnerPhoneTabs label[for="finalWinnerTabSummary"],
+  #finalWinnerTabHonours:focus-visible ~ .finalWinnerPhoneTabs label[for="finalWinnerTabHonours"] {
+    outline: 2px solid var(--sd-gold-300);
+    outline-offset: -3px;
+  }
+
+  .finalWinnerMetaStrip {
+    height: calc(100% - 44px);
+    grid-template-columns: 1fr 1fr;
+    border-right: 0;
+  }
+
+  .finalWinnerMetaCell {
+    padding: 7px 4px 6px;
+  }
+
+  .finalWinnerMetaCell span,
+  .finalWinnerMetaCell small {
+    font-size: 9px;
+    letter-spacing: .11em;
+  }
+
+  .finalWinnerMetaCell strong {
+    margin: 2px 0;
+    font-size: 28px;
+  }
+
+  .finalWinnerHonours {
+    height: calc(100% - 44px);
+    grid-template-rows: 26px repeat(4, 1fr);
+    padding: 3px 7px 5px;
+  }
+
+  .finalWinnerHonoursHead,
+  .finalWinnerTrophyMetric {
+    grid-template-columns: 34px 18px minmax(0, 1fr) 18px 34px;
+    gap: 3px;
+  }
+
+  .finalWinnerHonoursHead,
+  .finalWinnerTrophyMetric {
+    font-size: 8px;
+    letter-spacing: .035em;
+  }
+
+  .finalWinnerTrophyMetric img {
+    width: 15px;
+    height: 15px;
+  }
+
+  .finalWinnerMetricValue {
+    font-size: 16px;
+  }
+
+  .finalWinnerTotalMark {
+    font-size: 11px;
+  }
+
+  #finalWinnerTabSummary:checked ~ .finalWinnerMetaStrip {
+    display: grid;
+  }
+
+  #finalWinnerTabSummary:checked ~ .finalWinnerHonours {
+    display: none;
+  }
+
+  #finalWinnerTabHonours:checked ~ .finalWinnerMetaStrip {
+    display: none;
+  }
+
+  #finalWinnerTabHonours:checked ~ .finalWinnerHonours {
+    display: grid;
+  }
+
+  .finalWinnerStatePanel {
+    position: absolute;
+    inset: 44px 0 0;
+    width: auto;
+    height: auto;
+    padding: 12px 14px;
+  }
+
+  #stage-root[data-status="loading"] .finalWinnerPhoneTabs,
+  #stage-root[data-status="empty"] .finalWinnerPhoneTabs,
+  #stage-root[data-status="unavailable"] .finalWinnerPhoneTabs {
+    display: none;
+  }
+
+  #stage-root[data-status="loading"] .finalWinnerStatePanel,
+  #stage-root[data-status="empty"] .finalWinnerStatePanel,
+  #stage-root[data-status="unavailable"] .finalWinnerStatePanel {
+    inset: 0;
+  }
+
+  .finalWinnerPartialTrigger {
+    position: absolute;
+    z-index: 12;
+    right: 7px;
+    bottom: 7px;
+    min-height: 40px;
+    align-items: center;
+    justify-content: center;
+    padding: 0 10px;
+    box-sizing: border-box;
+    border: 1px solid rgb(242 196 91 / .50);
+    background: rgb(7 9 12 / .94);
+    color: var(--sd-gold-300);
+    font: 700 9px/1 var(--sd-font-condensed);
+    letter-spacing: .08em;
+    cursor: pointer;
+  }
+
+  #stage-root[data-status="partial"] .finalWinnerPartialTrigger {
+    display: flex;
+  }
+
+  #stage-root[data-status="partial"] .finalWinnerPartialNotice {
+    display: none;
+  }
+
+  #stage-root[data-status="partial"] #finalWinnerPartialToggle:checked ~ .finalWinnerPartialNotice {
+    display: grid;
+    inset: 44px 0 0;
+    width: auto;
+    min-height: 0;
+    padding: 12px 14px;
+    transform: none;
+    grid-template-columns: 30px minmax(0, 1fr);
+    grid-template-rows: auto auto;
+    align-content: center;
+    gap: 6px 10px;
+    background: rgb(7 9 12 / .98);
+    box-shadow: none;
+  }
+
+  #stage-root[data-status="partial"] #finalWinnerPartialToggle:checked ~ .finalWinnerPartialNotice strong {
+    grid-column: 2;
+    white-space: normal;
+  }
+
+  #stage-root[data-status="partial"] #finalWinnerPartialToggle:focus-visible + .finalWinnerPartialTrigger {
+    outline: 2px solid var(--sd-gold-300);
+    outline-offset: 2px;
+  }
+}
