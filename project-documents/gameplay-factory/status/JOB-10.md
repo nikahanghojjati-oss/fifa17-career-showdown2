@@ -2,12 +2,12 @@
 
 State: IN PROGRESS
 Step: 2 of 8
-Updated: 2026-10-03 15:24 UTC
+Updated: 2026-10-03 15:25 UTC
 Chat: Sol Work mode
 Code branch: gameplay/job-10-transfer-history
-Head commit: ff74ab2f72b4c7beb847cf50ceb25fcb327ba7bd
+Head commit: 70e3ae03cd324938ac213d0c81604906de0a0d9e
 PR:
-CI run: CI pending on ff74ab2f72b4c7beb847cf50ceb25fcb327ba7bd
+CI run: CI pending on 70e3ae03cd324938ac213d0c81604906de0a0d9e
 
 ## Notes
 - Lead: JOB-08 (PR #326, merge 843e64e) is merged. Lead to create code branch gameplay/job-10-transfer-history from gameplay/recovery-v1 at 843e64e before Nik starts the job. Lead reference run on 843e64e: new contract PASS, contracts 104/104, ops 73/0, every rules-emulator step PASS including the new Completed transfer history matrix (73 checks) and Completed-only read 56 with B8/B9 flipped; only budget diagnostics are the two known career-index D13 denials. Jobs 9, 11, 16 and 18 also append registry entries (9 also a rules-emulator step, 16 a CI job): whoever merges later re-appends last. Ready to start.
@@ -26,7 +26,10 @@ CI run: CI pending on ff74ab2f72b4c7beb847cf50ceb25fcb327ba7bd
 
 - Step 3a saved: Appendix C/D copied verbatim and Completed transfer history matrix appended as the last rules-emulator step in one connector code commit ff74ab2f72b4c7beb847cf50ceb25fcb327ba7bd. Both node --check commands PASS; local contract fails MODULE_NOT_FOUND for js/sparkCompletedTransferHistoryReader.js as required. No reader, Rules or JOB-08 assertions changed. Next 3b: append registry and ops entries after JOB-11, then stop for exact-head red CI evidence.
 
+- Step 3b saved on 70e3ae03cd324938ac213d0c81604906de0a0d9e: G-10 registry entry and ops const/array appended last after JOB-11, preserving all existing entries and literal-dot regexes. Local full contracts fail exactly 1/105: only new contract MODULE_NOT_FOUND for js/sparkCompletedTransferHistoryReader.js; operations 73 pass / 0 fail; syntax checks and git diff --check PASS. All five step-3 files are on the code branch; no Appendix F or product code yet. CI pending on exact head; next turn read once for prior steps green and new matrix I0 0 !== 1. Step stays 2 until that CI evidence completes step 3.
+
 ## Self-check
+- PASS local tests-first: both new tests syntax-check, new contract and full census fail only the absent reader (1/105); operations 73/0. Appendices C/D copied verbatim; CI new matrix is last in rules-emulator, registry/ops append after JOB-11.
 - PASS step 2: all listed read-first sources mapped. Only line drift is JOB-11 ops const/array insertion; existing transfer get seams each occur exactly once; JOB-08 K8 still 5, B8/B9 still deny and D6 untouched.
 - PASS baseline: exact current recovery head e44b6959310cfddf4bc1b4bd6275256f3e61ad41; contracts 104/104 (JOB-11 adds one), operations 73/0; CI https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37130995554 green including Completed-only read matrix. After adding G-10 expected contracts 105/105 unless another job merges.
 
