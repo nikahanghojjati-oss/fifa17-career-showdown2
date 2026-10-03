@@ -3,6 +3,16 @@
 (() => {
   "use strict";
   const PW = 1536, PH = 864;
+  // JOB-042 presentation constants. The 4000/80 ms durations mirror main/js/leagueWheel.js;
+  // these helpers never choose or persist a league, they only dramatize an already-rendered frame.
+  const SPIN_TOTAL_MS = 4000;
+  const SPIN_REDUCED_MS = 80;
+  const SPIN_CREEP_MS = 300;
+  const SPIN_CREEP_DEG = 18;
+  const SPIN_EXTRA_TURNS = 3;
+  const SPIN_EASE = "cubic-bezier(.16,.76,.16,1)";
+  const SPIN_CREEP_EASE = "cubic-bezier(.30,.78,.20,1)";
+  const SPIN_DEMO_DELAY_MS = 650;
   const SLOT = { cx: 762, cy: 496, r: 240 };          // intake slot centre + radius (plate px)
   // Job 37 measured goal geometry. The visible wheel follows this target; the fingertip is the
   // invariant desktop contact anchor so short-laptop fitting cannot detach the rim from Daniel.
@@ -30,6 +40,8 @@
   function plateRect(r) { const a = plateToScreen(r[0], r[1]), b = plateToScreen(r[2], r[3]); return { l: a.x, t: a.y, r: b.x, b: b.y }; }
 
   let FX, MAP;
+  let appliedRotation = 0;
+  let spinPresentationTimer = null;
   const px = (v) => `${v}px`;
   // measurements relative to the stage (equal to viewport coords in the prototype, where the stage is at 0,0)
   function rel(el) { const b = el.getBoundingClientRect(), o = stage.getBoundingClientRect(); return { top: b.top - o.top, bottom: b.bottom - o.top, height: b.height }; }
@@ -47,8 +59,10 @@
       if (!el.dataset.leagueMark) missing.push(FX.leagues[i].id);
     });
     stage.dataset.missingMarks = missing.join(",");
+    stage.dataset.spinStartRotation = String(appliedRotation);
     track.style.setProperty("--rot", `${f.rotation}deg`);
     track.style.transform = `rotate(${f.rotation}deg)`;          // same transform production sets
+    appliedRotation = Number(f.rotation) || 0;
     // the segment under the fixed wedge at 12 o'clock
     let top = 0, best = 999;
     items.forEach((el, i) => {
@@ -93,6 +107,91 @@
       <circle cx="240" cy="240" r="47" fill="none" stroke="rgba(242,196,91,.35)" stroke-width="1"/>
       <path d="M216 252l-6-28 16 12 14-22 14 22 16-12-6 28z" fill="url(#rimg)" stroke="#6E5020" stroke-width="1"/>
       <rect x="216" y="255" width="48" height="6" rx="1.5" fill="url(#rimg)"/></svg>`;
+  }
+
+  function ensureSpinBlurTrack(track) {
+    let ghost = q("#leagueWheel .wheelTrack--blur");
+    if (ghost) return ghost;
+    ghost = track.cloneNode(true);
+    ghost.classList.add("wheelTrack--blur");
+    ghost.setAttribute("aria-hidden", "true");
+    ghost.removeAttribute("style");
+    track.parentNode.insertBefore(ghost, q("#leagueWheel .wheel-blur"));
+    return ghost;
+  }
+
+  function reducedSpinPreferred() {
+    if (window.ShowdownMotion && typeof window.ShowdownMotion.isReducedMotion === "function") {
+      return window.ShowdownMotion.isReducedMotion();
+    }
+    return typeof window.matchMedia === "function"
+      && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  }
+
+  function cancelSpinPresentation() {
+    if (spinPresentationTimer) {
+      window.clearTimeout(spinPresentationTimer);
+      spinPresentationTimer = null;
+    }
+    stage.classList.remove("is-wheel-spinning");
+    [q("#leagueWheel .wheelTrack:not(.wheelTrack--blur)"), q("#leagueWheel .wheelTrack--blur")]
+      .filter(Boolean)
+      .forEach((el) => el.getAnimations().forEach((animation) => animation.cancel()));
+  }
+
+  async function runSpinPresentation() {
+    const f = FX.frames[frameId] || FX.frames.L1;
+    if (f.state !== "spinning") return false;
+    const track = q("#leagueWheel .wheelTrack:not(.wheelTrack--blur)");
+    if (!track) return false;
+    const ghost = ensureSpinBlurTrack(track);
+    const start = Number(stage.dataset.spinStartRotation) || 0;
+    const normalizedTarget = Number(f.rotation) || 0;
+
+    if (reducedSpinPreferred()) {
+      const reducedTarget = `rotate(${normalizedTarget}deg)`;
+      [track, ghost].forEach((el) => {
+        el.style.setProperty("--rot", `${normalizedTarget}deg`);
+        el.animate(
+          [{ opacity: .7, transform: reducedTarget }, { opacity: 1, transform: reducedTarget }],
+          { duration: SPIN_REDUCED_MS, easing: "linear", fill: "both" }
+        );
+      });
+      return true;
+    }
+
+    cancelSpinPresentation();
+    stage.classList.add("is-wheel-spinning");
+    const target = normalizedTarget + (SPIN_EXTRA_TURNS * 360);
+    const preCreep = target - SPIN_CREEP_DEG;
+    const creepOffset = (SPIN_TOTAL_MS - SPIN_CREEP_MS) / SPIN_TOTAL_MS;
+    const frames = [
+      { offset: 0, transform: `rotate(${start}deg)`, easing: SPIN_EASE },
+      { offset: creepOffset, transform: `rotate(${preCreep}deg)`, easing: SPIN_CREEP_EASE },
+      { offset: 1, transform: `rotate(${target}deg)` }
+    ];
+    const animations = [track, ghost].map((el) => el.animate(frames, {
+      duration: SPIN_TOTAL_MS,
+      fill: "both"
+    }));
+
+    await Promise.all(animations.map((animation) => animation.finished.catch(() => null)));
+    if ((FX.frames[frameId] || {}).state !== "spinning") return false;
+    [track, ghost].forEach((el) => {
+      el.style.setProperty("--rot", `${normalizedTarget}deg`);
+      el.style.transform = `rotate(${normalizedTarget}deg)`;
+      el.getAnimations().forEach((animation) => animation.cancel());
+    });
+    stage.classList.remove("is-wheel-spinning");
+    return true;
+  }
+
+  function scheduleSpinPresentation(delay = SPIN_DEMO_DELAY_MS) {
+    if (spinPresentationTimer) window.clearTimeout(spinPresentationTimer);
+    spinPresentationTimer = window.setTimeout(() => {
+      spinPresentationTimer = null;
+      runSpinPresentation();
+    }, Math.max(0, Number(delay) || 0));
   }
 
   /* ---------- layout ---------- */
@@ -368,11 +467,19 @@
     addEventListener("resize", layout);
     if (window.LEAGUE_PREVIEW) { window.__leagueReady = true; return; }
     await runStandardEntrance();
+    if ((FX.frames[frameId] || {}).state === "spinning") scheduleSpinPresentation();
     const img = new Image();
     img.onload = img.onerror = () => { window.__leagueReady = true; };
     img.src = devicePixelRatio > 1 ? "assets/ENV_LEAGUE_PLATE_V1_2X.webp" : "assets/ENV_LEAGUE_PLATE_V1_1X.webp";
   }
-  function setFrame(id) { frameId = id; stage.dataset.frame = id; applyFrame(); layout(); }
-  window.LeagueV1 = { plateToScreen, T, SLOT, OVL_RECT, main, setFrame, layout };
+  function setFrame(id) {
+    cancelSpinPresentation();
+    frameId = id;
+    stage.dataset.frame = id;
+    applyFrame();
+    layout();
+    if ((FX.frames[frameId] || {}).state === "spinning") scheduleSpinPresentation(50);
+  }
+  window.LeagueV1 = { plateToScreen, T, SLOT, OVL_RECT, main, setFrame, layout, runSpinPresentation };
   if (!window.LEAGUE_DEFER_MAIN) main();
 })();
