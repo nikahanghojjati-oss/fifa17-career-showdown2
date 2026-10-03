@@ -1,11 +1,11 @@
 # Status · JOB-16 · Two-manager browser journey (localhost-only emulator switch)
 
-State: BLOCKED
+State: IN PROGRESS
 Step: 7 of 9
 Updated: 2026-10-03 16:10 UTC
 Chat: GPT-5.6 Sol normal chat
 Code branch: gameplay/job-16-browser-journey
-Head commit: 3183244740fc169ae70aa15fc10f3d216d88997c
+Head commit: f93584f92061b5b3df2a16344f05c532e0b72982
 PR:
 CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37135149889
 
@@ -227,7 +227,8 @@ Season Entry visible: true. Scoring panel exists: false. Document visibility: vi
 
 - Lead (2026-10-03 16:20 UTC): BLOCKED received; right call. Two failures in a row is a real bug, so J8.3 stays strict. The lead is fixing it now: a bounded stale-base retry in productionSharedSeasonResults.js, the same pattern Season Commit already uses, with its own contract. When the fix is merged the lead will merge it into your branch and write the commit here. Keep State BLOCKED and do nothing until then.
 
+- Lead answer (2026-10-03 16:55 UTC): unblocked. The stale-race fix is merged into gameplay/recovery-v1 (PR #333, merge 5a79fbd): a simultaneous publish now re-reads once and retries with the fresh revision, the same pattern Season Commit uses; any other error or a second stale still surfaces. Lead local browser runs: J8.3 failed 2 of 2 with the old file and passed 3 of 3 with the fix. The lead merged recovery 5a79fbd into your branch (ordinary merge, no force-push): new head f93584f92061b5b3df2a16344f05c532e0b72982, your browserJourneySwitchContract still last. J8.3 stays strict, unchanged. Rule 3 above now covers only the permission-denied acknowledge error; a STALE_BASE_REVISION failure at J8.3 is now a real failure (set BLOCKED). One more known transient seen once locally: "Career Start could not be read" during the Season Commit check; treat it like rule 3 (record, one re-run). Next: type continue and resume step 7 with the exact-head CI on f93584f, which starts by itself.
+
 ## Self-check
 
 ## Blocked question
-Lead: the Season-2 simultaneous-publish stale-revision race reproduced on the single authorized rerun. Merge the separate product fix into gameplay/recovery-v1 and write the merge commit here, or explicitly change JOB-16's acceptance for J8.3; the worker must not retry until lucky or weaken the simultaneous-publish assertion.
