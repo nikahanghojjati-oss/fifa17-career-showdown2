@@ -194,9 +194,8 @@ async function main(){
     for(const m of [daniel,nik])await m.page.getByRole("button",{name:"CONFIRM SHARED SHOWDOWN"}).waitFor({state:"visible",timeout:30000});
     await daniel.page.getByRole("button",{name:"CONFIRM SHARED SHOWDOWN"}).click({timeout:30000});
     await nik.page.getByRole("button",{name:"CONFIRM SHARED SHOWDOWN"}).click({timeout:30000});
-    await nik.page.locator("#productionSharedCareerStartOverlay").waitFor({state:"visible",timeout:30000});
-    await daniel.page.waitForFunction(()=>document.getElementById("continueClubAssignment")?.textContent==="CONTINUE TO CAREER START",null,{timeout:30000});
-    ok("J4.4","both managers confirmed the identical shared setup; peer authority advanced automatically");
+    for(const m of [daniel,nik])await m.page.waitForFunction(()=>document.getElementById("continueClubAssignment")?.textContent==="CONTINUE TO CAREER START",null,{timeout:30000});
+    ok("J4.4","both managers confirmed the identical shared setup and both real club screens advanced to Career Start");
     await shot(daniel,"j4-setup");await shot(nik,"j4-setup");
 
     // J4..J12: added by the worker, one section per step (JOB-16 §4).
