@@ -148,6 +148,11 @@ Check these in order. Stop at the first one that applies and reply with exactly 
 
 To check dependencies, open each `status/JOB-XXX.md` named under "Depends on" and read its `State:` line. Do not trust the board's progress column for this; the status files are the truth.
 
+**Read the newest version, not a cached copy (2026-10-03).** Raw links that name the branch (`.../factory/v1-wtt5ye/...`) can be several minutes old, so a dependency that just finished can still look unfinished. Before you reply "waits for", re-check every dependency that is not DONE this way:
+1. Get the branch's newest commit id: through the GitHub connector, or by opening `https://api.github.com/repos/nikahanghojjati-oss/fifa17-career-showdown2/commits/factory/v1-wtt5ye` and reading the first `"sha"`.
+2. Open the status file pinned to that commit: `https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/<sha>/project-documents/factory/status/JOB-XXX.md`.
+Only if that pinned copy still is not DONE or SKIPPED do you reply `Job N waits for job X, Y (not done yet).` Use the same pinned links for the job file and everything else you read in that chat.
+
 ## 7. Saving your work
 
 How you save depends on what your chat can do. Find out once at the start (try a harmless read; your tools tell you whether you can write to GitHub).
