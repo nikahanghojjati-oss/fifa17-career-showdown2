@@ -37,11 +37,12 @@
     if(!provider||typeof provider.read!=="function")phcFail("HISTORY_CONVERGENCE_PROVIDER_UNAVAILABLE");
   }
   function phcSeason(){const progression=root.CareerModeProductionSharedMultiSeasonProgression,fallback=phcShowdown()?.currentRound,season=Number(phcSharedMarker()&&progression&&typeof progression.resolveSeason==="function"?progression.resolveSeason(fallback):fallback);if(!Number.isInteger(season)||season<1||season>10)return null;return season;}
-  function phcSetup(){try{return setupApi?.getState?.()||null;}catch(_error){return null;}}
+  function phcSetup(){try{return (setupApi||root.CareerModeProductionSharedShowdownSetup)?.getState?.()||null;}catch(_error){return null;}}
+  function phcConfirmedSetupRivalry(s){return s&&s.ready===true&&s.setup&&s.setup.phase==="SHOWDOWN_CONFIRMED"&&s.setup.revision===6&&s.rivalryId?String(s.rivalryId):"";}
   function phcCommit(){try{return commitApi?.getState?.()||null;}catch(_error){return null;}}
   function phcScoring(){try{return scoringApi?.getState?.()||null;}catch(_error){return null;}}
   function phcRequest(){
-    const showdown=phcShowdown(),setup=phcSetup(),throughSeason=phcSeason(),rivalryId=String(showdown?.sharedJourney?.rivalryId||setup?.rivalryId||"").trim(),saveId=String(showdown?.id||showdown?.saveId||"").trim();
+    const showdown=phcShowdown(),setup=phcSetup(),throughSeason=phcSeason(),rivalryId=String(showdown?.sharedJourney?.rivalryId||phcConfirmedSetupRivalry(setup)||"").trim(),saveId=String(showdown?.id||showdown?.saveId||"").trim();
     if(!rivalryId||!throughSeason)return null;return Object.freeze({rivalryId,throughSeason,key:`${saveId||"shared"}|${rivalryId}|history:${throughSeason}`});
   }
   function phcContextMatches(request){const current=phcRequest();return Boolean(request&&current&&request.key===current.key);}
