@@ -47,7 +47,9 @@
         <div id="legacyPager" class="legacyPager" aria-label="Legacy pages"></div>
       </section>
 
-      <button id="viewSeasonHistory" class="legacyPrimaryAction sd-btn sd-btn--primary" type="button">VIEW SEASON HISTORY</button>
+      <button id="viewSeasonHistory" class="legacyPrimaryAction sd-btn sd-btn--primary" type="button" data-action="viewSeasonHistory" aria-controls="legacySeasonHistory" aria-expanded="false"></button>
+      <section id="legacySeasonHistory" class="legacySeasonHistory sd-panel" aria-live="polite" hidden></section>
+      <div class="nav-reserve" aria-hidden="true"></div>
     </main>
   </div>
   <div class="sd-stage__layer sd-stage__layer--cutout" aria-hidden="true">
