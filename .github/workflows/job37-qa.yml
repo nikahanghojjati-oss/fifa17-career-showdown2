@@ -51,20 +51,6 @@ jobs:
           NODE_PATH: ${{ github.workspace }}/node_modules
           FACTORY_QA_OUT: visual-assets/v10_1/league/evidence/hands/factory-qa
         run: |
-          node visual-assets/v10_1/shared/tools/factory-qa.cjs             http://127.0.0.1:8765/visual-assets/v10_1/league/             visual-assets/v10_1/league L1
-          python3 - <<'PY'
-          import json
-          p='visual-assets/v10_1/league/evidence/hands/factory-qa/qa_report.json'
-          r=json.load(open(p))
-          if not r.get('pass'):
-              raise SystemExit('factory-qa failed: '+json.dumps(r.get('failingRuns',[])))
-          print('factory-qa PASS')
-          PY
-      - name: Factory QA
-        env:
-          NODE_PATH: ${{ github.workspace }}/node_modules
-          FACTORY_QA_OUT: visual-assets/v10_1/league/evidence/hands/factory-qa
-        run: |
           node visual-assets/v10_1/shared/tools/factory-qa.cjs             http://127.0.0.1:8765/visual-assets/v10_1/league/             visual-assets/v10_1/league L1,L2,L3,L4
           python3 - <<'PY'
           import json
