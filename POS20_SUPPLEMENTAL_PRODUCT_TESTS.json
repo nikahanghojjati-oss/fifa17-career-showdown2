@@ -566,6 +566,15 @@
         "^tests/contracts/data-contract-v1-fixtures-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/pair-code-entry-race-contracts.cjs",
+      "patterns": [
+        "^js/persistentNikDanielPair\\.js$",
+        "^js/onlinePlayerIdentity\\.js$",
+        "^tests/contracts/pair-code-entry-race-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
