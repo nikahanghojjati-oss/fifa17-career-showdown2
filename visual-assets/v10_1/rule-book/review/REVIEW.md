@@ -6,6 +6,20 @@
 
 ## Hard gates
 
+| Gate | Result | Evidence |
+| --- | --- | --- |
+| H1 · Daniel left, Nik right | PASS | `fixtures.json#managerOrder` is `["daniel","nik"]`; no manager portraits or rows render, so no frame can mirror or swap them. |
+| H2 · Rights-safe visuals | PASS | `index.html` references only Showdown system stadium/wordmark WebP assets; no real crest, league logo, trophy, player or EA/FIFA art is loaded. |
+| H3 · No live/private data baked into images | PASS | Stadium and title wordmark are static art; all rules, scores, states and button copy render as DOM text from `fixtures.json`. |
+| H4 · Product truth | FAIL | `rule-book.js#buildSections` invents six interactive section-anchor controls although `TRUTH.md` says the Rule Book itself has only the Back action and says not to invent Rule Book actions. Scoring values themselves are correct. |
+| H5 · Phone fit | NOT MEASURED (Claude measures) | No `evidence/QA_SUMMARY.md` exists. |
+| H6 · Input size / contrast | NOT MEASURED (Claude measures) | No `evidence/QA_SUMMARY.md` exists. |
+| H7 · Reduced motion | NOT MEASURED (Claude measures) | No `evidence/QA_SUMMARY.md` exists. |
+| H8 · Keyboard / focus | NOT MEASURED (Claude measures) | No `evidence/QA_SUMMARY.md` exists. |
+| H9 · Console / failed requests | NOT MEASURED (Claude measures) | No `evidence/QA_SUMMARY.md` exists. |
+| H10 · Mockup diff | NOT MEASURED (Claude measures) | No `evidence/scores.json` exists. |
+| H11 · First-paint weight | NOT MEASURED (Claude measures) | No `evidence/QA_SUMMARY.md` exists. |
+
 ## Evidence
 
 ### Claude measurements
