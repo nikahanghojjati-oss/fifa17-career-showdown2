@@ -17,6 +17,10 @@
     <div class="sd-stage__registered"><div class="sd-stage__plate"></div></div>
   </div>
   <div class="sd-stage__layer sd-stage__layer--atmosphere" aria-hidden="true">
+    <span class="finalWinnerManagerShade finalWinnerManagerShade--daniel"></span>
+    <span class="finalWinnerManagerShade finalWinnerManagerShade--nik"></span>
+    <span class="finalWinnerManagerSpotlight finalWinnerManagerSpotlight--daniel"></span>
+    <span class="finalWinnerManagerSpotlight finalWinnerManagerSpotlight--nik"></span>
     <div class="finalWinnerConfettiLayer"></div>
   </div>
   <div class="sd-stage__layer sd-stage__layer--ui">
@@ -42,9 +46,12 @@
       </header>
 
       <span id="previewLabel" class="finalWinnerPreview sd-preview-tag"></span>
+      <span class="finalWinnerCrown finalWinnerCrown--daniel" aria-hidden="true"></span>
+      <span class="finalWinnerCrown finalWinnerCrown--nik" aria-hidden="true"></span>
 
       <section class="finalWinnerHeroCopySlot" aria-labelledby="finalWinnerHeading">
         <h2 id="finalWinnerHeading" class="finalWinnerStateHeading sd-label"></h2>
+        <p id="finalWinnerTerminalHeading" class="finalWinnerTerminalHeading"></p>
         <p id="outcomeHeadline" class="finalWinnerOutcome"></p>
         <div class="finalWinnerTotals" aria-label="Final Showdown points">
           <span class="finalWinnerManager finalWinnerManager--daniel"><small id="danielName">Daniel</small><strong id="danielTotal" class="sd-number"></strong></span>
@@ -114,6 +121,18 @@
             <span class="finalWinnerTotalMark" aria-hidden="true">Σ</span>
             <strong id="panelNikTrophies" class="finalWinnerMetricValue"></strong>
           </div>
+        </div>
+
+        <div id="finalWinnerStatePanel" class="finalWinnerStatePanel" role="status" aria-live="polite">
+          <span id="finalWinnerStateGlyph" class="finalWinnerStateGlyph" aria-hidden="true"></span>
+          <strong id="finalWinnerStateTitle"></strong>
+          <p id="finalWinnerStateMessage"></p>
+        </div>
+
+        <div id="finalWinnerPartialNotice" class="finalWinnerPartialNotice">
+          <span class="finalWinnerPartialIcon" aria-hidden="true">!</span>
+          <p id="finalWinnerPartialMessage"></p>
+          <strong id="finalWinnerPartialCoverage"></strong>
         </div>
       </section>
       <section class="finalWinnerActionsSlot" aria-label="Final result status and actions">

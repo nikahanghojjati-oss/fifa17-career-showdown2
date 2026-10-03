@@ -125,6 +125,9 @@
     root.dataset.status = frame.status || "";
     root.dataset.state = frame.state || "";
     root.dataset.winner = frame.winner || "unconfirmed";
+    root.dataset.spotlight = frame.presentation && frame.presentation.spotlight
+      ? frame.presentation.spotlight
+      : "neutral";
 
     const heading = typeof frame.heading === "object" ? frame.heading.text : frame.heading;
     const message = typeof frame.message === "object" ? frame.message.text : frame.message;
@@ -132,7 +135,10 @@
     setText("previewLabel", frame.previewLabel || fixtures.strings.previewLabel);
     setText("frameNote", frame.note);
     setText("finalWinnerHeading", heading);
+    setText("finalWinnerTerminalHeading", frame.terminalHeading);
     setText("finalWinnerMessage", message);
+    setText("finalWinnerStateTitle", heading);
+    setText("finalWinnerStateMessage", message);
     setText("finalWinnerStatus", frame.terminalStatus);
     setText("sharedTerminalCloseStatus", frame.terminalStatus);
     setText("completionMark", frame.completionMark);
@@ -143,6 +149,18 @@
     setText("seasonsPlayed", frame.seasonsPlayed == null ? "" : `${frame.seasonsPlayed} seasons played`);
     setText("danielTrophies", trophyLine("Daniel", frame.trophies && frame.trophies.daniel));
     setText("nikTrophies", trophyLine("Nik", frame.trophies && frame.trophies.nik));
+    setText("finalWinnerPartialMessage", frame.status === "partial" ? message : "");
+    setText(
+      "finalWinnerPartialCoverage",
+      frame.status === "partial" && frame.coverage
+        ? `${frame.coverage.readable} OF ${frame.coverage.indexed} SHOWDOWNS READABLE`
+        : ""
+    );
+    const glyph = document.getElementById("finalWinnerStateGlyph");
+    if (glyph) {
+      glyph.textContent = "";
+      glyph.dataset.kind = frame.status || "";
+    }
     renderResultPanel(frame);
     renderActions(frame, fixtures);
     setText("fixtureDump", JSON.stringify(frame, null, 2));
