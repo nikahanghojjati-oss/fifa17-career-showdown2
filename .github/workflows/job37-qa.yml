@@ -88,7 +88,8 @@ jobs:
           const desktop=[[1366,768],[1920,1080],[1366,640]];
           const phone=[[393,660],[360,640],[375,553]];
           const frames=['L1','L2','L3','L4'];
-          const result={desktop:[],phone:[],consoleErrors:[],failedRequests:[]};
+          const result={desktop:[],phone:[],consoleErrors:[],failedRequests:[],failures:[]};
+          const fail=(msg)=>result.failures.push(msg);
           (async()=>{
             const browser=await chromium.launch({headless:true});
             try {
@@ -125,11 +126,11 @@ jobs:
                       pageScroll:document.documentElement.scrollHeight-innerHeight
                     };
                   });
-                  if(m.overlap<1.9||m.overlap>4.1) throw new Error(frame+' '+w+'x'+h+' contact '+m.overlap);
-                  if(!m.rimLoaded) throw new Error(frame+' '+w+'x'+h+' rim asset not loaded');
-                  if(!/Kaushan/i.test(m.titleFont)) throw new Error(frame+' '+w+'x'+h+' title fallback not brush display font');
-                  if(m.note && m.noteClear < 7) throw new Error(frame+' '+w+'x'+h+' note/rim clearance '+m.noteClear);
-                  if(errors.length||failed.length) throw new Error(frame+' '+w+'x'+h+' browser errors '+errors.join('|')+' failed '+failed.join('|'));
+                  if(m.overlap<1.9||m.overlap>4.1) fail(frame+' '+w+'x'+h+' contact '+m.overlap);
+                  if(!m.rimLoaded) fail(frame+' '+w+'x'+h+' rim asset not loaded');
+                  if(!/Kaushan/i.test(m.titleFont)) fail(frame+' '+w+'x'+h+' title fallback not brush display font');
+                  if(m.note && m.noteClear < 7) fail(frame+' '+w+'x'+h+' note/rim clearance '+m.noteClear);
+                  if(errors.length||failed.length) fail(frame+' '+w+'x'+h+' browser errors '+errors.join('|')+' failed '+failed.join('|'));
                   result.desktop.push({frame,viewport:[w,h],...m});
                   if(frame==='L1') await p.screenshot({path:OUT+'/L1_'+w+'x'+h+'.png'});
                   await p.close();
@@ -158,20 +159,31 @@ jobs:
                       noteClear:nb?nb.top-wheel.bottom:null
                     };
                   });
-                  if((w===393||w===360) && m.scroll>1) throw new Error(frame+' '+w+'x'+h+' unexpected scroll '+m.scroll);
-                  if(w===375 && !m.spinVisible) throw new Error(frame+' 375x553 primary action not visible');
-                  if(m.handVisible!=='true'||m.fingerDisplay==='none'||m.contactDisplay==='none') throw new Error(frame+' '+w+' phone hand/contact missing');
-                  if(m.contactOverlap<1.9||m.contactOverlap>4.1) throw new Error(frame+' '+w+' phone contact '+m.contactOverlap);
-                  if(m.bezel.left<-1||m.bezel.right>w+1) throw new Error(frame+' '+w+' phone bezel out of bounds '+JSON.stringify(m.bezel));
-                  if(m.noteClear!==null&&m.noteClear<7) throw new Error(frame+' '+w+' phone note/rim clearance '+m.noteClear);
+                  if((w===393||w===360) && m.scroll>1) fail(frame+' '+w+'x'+h+' unexpected scroll '+m.scroll);
+                  if(w===375 && !m.spinVisible) fail(frame+' 375x553 primary action not visible');
+                  if(m.handVisible!=='true'||m.fingerDisplay==='none'||m.contactDisplay==='none') fail(frame+' '+w+' phone hand/contact missing');
+                  if(m.contactOverlap<1.9||m.contactOverlap>4.1) fail(frame+' '+w+' phone contact '+m.contactOverlap);
+                  if(m.bezel.left<-1||m.bezel.right>w+1) fail(frame+' '+w+' phone bezel out of bounds '+JSON.stringify(m.bezel));
+                  if(m.noteClear!==null&&m.noteClear<7) fail(frame+' '+w+' phone note/rim clearance '+m.noteClear);
                   result.phone.push({frame,viewport:[w,h],...m});
                   await p.close();
                 }
               }
               fs.writeFileSync(OUT+'/qa_job37.json',JSON.stringify(result,null,2)+'\n');
+              if(result.failures.length) throw new Error(result.failures.join(' || '));
             } finally { await browser.close(); }
           })().catch(e=>{console.error(e);process.exit(1)});
           NODE
+      - name: Preserve contact diagnostics
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if test -f visual-assets/v10_1/league/evidence/hands/qa_job37.json; then
+            git add visual-assets/v10_1/league/evidence/hands/qa_job37.json
+            git diff --cached --quiet || git commit -m "Job 37 step 7/7: contact diagnostics"
+            git push origin HEAD:factory/v1-wtt5ye
+          fi
       - name: Goal compare and 4x fingertip proof
         run: |
           python3 - <<'PY'
