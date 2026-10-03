@@ -46,6 +46,24 @@
     parent.appendChild(row);
   }
 
+  function renderTopbar(fixtures) {
+    const nav = document.getElementById("season-nav-tabs");
+    const route = fixtures.routes.topNavigation;
+    nav.replaceChildren();
+    route.tabs.forEach((label) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.textContent = label;
+      button.disabled = route.lockedOnScreen;
+      button.setAttribute("aria-disabled", String(route.lockedOnScreen));
+      button.title = route.lockedOnScreen ? route.lockMessage : "";
+      nav.appendChild(button);
+    });
+    const settings = document.getElementById("season-settings");
+    settings.hidden = !route.settingsIcon;
+    settings.title = route.lockMessage;
+  }
+
   function renderTree(parent, value) {
     parent.replaceChildren();
     Object.entries(value || {}).forEach(([key, childValue]) => {
@@ -64,6 +82,10 @@
 
     stage.dataset.frame = frameId;
     frameIdNode.textContent = "Frame: " + frameId;
+    renderTopbar(fixtures);
+    document.getElementById("season-semantic-title").textContent =
+      fixtures.strings.titleTemplate.replace("{SEASON_NUMBER}", frame.context.season);
+    document.getElementById("scoring-rules-text").textContent = fixtures.strings.scoringRules;
     renderTree(stringsNode, fixtures.strings);
     renderTree(frameNode, frame);
   }
