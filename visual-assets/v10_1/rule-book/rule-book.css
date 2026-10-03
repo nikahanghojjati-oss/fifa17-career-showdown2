@@ -257,3 +257,30 @@ body {
 .ruleScoreRow,.ruleScoreMaximum{min-width:0;display:flex;align-items:baseline;justify-content:space-between;gap:10px;color:#f4f4f2;font:650 clamp(9px,.66vw,11px)/1.12 var(--sd-font-condensed)}
 .ruleScoreRow strong,.ruleScoreMaximum strong{flex:0 0 auto;color:var(--sd-gold-300);font-size:1.18em;font-variant-numeric:tabular-nums;white-space:nowrap}
 .ruleScoreMaximum{grid-column:1/-1;margin-top:2px;padding-top:5px;border-top:1px solid rgba(242,196,91,.42);color:var(--sd-gold-300);letter-spacing:.07em;text-transform:uppercase}
+
+
+/* Step 7 · group C: the Rule Book has one real lower action, Back to Main Menu.
+   No extra mockup actions are invented. */
+.ruleBookActions {
+  position: absolute;
+  z-index: 14;
+  left: 50%;
+  bottom: 5.2%;
+  visibility: visible;
+  transform: translateX(-50%);
+}
+
+#ruleBookBack {
+  min-width: 210px;
+  min-height: 44px;
+  padding-inline: 24px;
+  border-color: rgba(237, 196, 98, 0.86);
+  background: linear-gradient(180deg, rgba(24, 23, 19, 0.96), rgba(5, 6, 7, 0.98));
+  color: #f2deab;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.45), inset 0 1px rgba(255, 230, 153, 0.08);
+}
+
+#ruleBookBack:hover:not(:disabled) {
+  background: linear-gradient(180deg, #e9c86d, #cf9f3e);
+  color: #111;
+}
