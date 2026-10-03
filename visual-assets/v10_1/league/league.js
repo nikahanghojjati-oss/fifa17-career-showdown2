@@ -17,6 +17,7 @@
   const POINTER_TICK_EASE = "cubic-bezier(.22,.86,.30,1)";
   const WINNER_PAYOFF_MS = 520;
   const WINNER_BURST_PARTICLES = 42;
+  const RESULT_BRUSH_MS = 460;
   const SLOT = { cx: 762, cy: 496, r: 240 };          // intake slot centre + radius (plate px)
   // Job 37 measured goal geometry. The visible wheel follows this target; the fingertip is the
   // invariant desktop contact anchor so short-laptop fitting cannot detach the rim from Daniel.
@@ -49,6 +50,7 @@
   let pointerTickRaf = null;
   let pointerTickAnimation = null;
   let winnerPayoffTimer = null;
+  let resultRevealTimer = null;
   const px = (v) => `${v}px`;
   // measurements relative to the stage (equal to viewport coords in the prototype, where the stage is at 0,0)
   function rel(el) { const b = el.getBoundingClientRect(), o = stage.getBoundingClientRect(); return { top: b.top - o.top, bottom: b.bottom - o.top, height: b.height }; }
@@ -210,7 +212,43 @@
     return { flash, canvas };
   }
 
+  function cancelResultReveal() {
+    if (resultRevealTimer) {
+      clearTimeout(resultRevealTimer);
+      resultRevealTimer = null;
+    }
+    const result = q("#selectedLeague");
+    if (result) result.classList.remove("is-result-wiping");
+  }
+
+  async function runResultReveal() {
+    const f = FX.frames[frameId] || FX.frames.L1;
+    if (f.state !== "selected" || !f.selected) return false;
+    const result = q("#selectedLeague");
+    if (!result) return false;
+
+    cancelResultReveal();
+    if (!reducedSpinPreferred()) {
+      void result.offsetWidth;
+      result.classList.add("is-result-wiping");
+      window.setTimeout(() => result.classList.remove("is-result-wiping"), RESULT_BRUSH_MS + 40);
+    }
+    if (typeof window.sdReveal === "function") {
+      await window.sdReveal(result);
+    }
+    return true;
+  }
+
+  function scheduleResultReveal(delay = 120) {
+    cancelResultReveal();
+    resultRevealTimer = window.setTimeout(() => {
+      resultRevealTimer = null;
+      runResultReveal();
+    }, Math.max(0, Number(delay) || 0));
+  }
+
   function cancelWinnerPayoff() {
+    cancelResultReveal();
     if (winnerPayoffTimer) {
       clearTimeout(winnerPayoffTimer);
       winnerPayoffTimer = null;
@@ -258,6 +296,7 @@
     winnerPayoffTimer = window.setTimeout(() => {
       winnerPayoffTimer = null;
       runWinnerPayoff();
+      runResultReveal();
     }, Math.max(0, Number(delay) || 0));
   }
 
@@ -621,6 +660,6 @@
     if (nextFrame.state === "spinning") scheduleSpinPresentation(50);
     if (nextFrame.state === "selected") scheduleWinnerPayoff(120);
   }
-  window.LeagueV1 = { plateToScreen, T, SLOT, OVL_RECT, main, setFrame, layout, runSpinPresentation, runWinnerPayoff };
+  window.LeagueV1 = { plateToScreen, T, SLOT, OVL_RECT, main, setFrame, layout, runSpinPresentation, runWinnerPayoff, runResultReveal };
   if (!window.LEAGUE_DEFER_MAIN) main();
 })();
