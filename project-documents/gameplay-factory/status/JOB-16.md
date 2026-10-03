@@ -1,13 +1,13 @@
 # Status · JOB-16 · Two-manager browser journey (localhost-only emulator switch)
 
-State: IN PROGRESS
-Step: 6 of 9
-Updated: 2026-10-03 14:16 UTC
+State: BLOCKED
+Step: 7 of 9
+Updated: 2026-10-03 14:33 UTC
 Chat: GPT-5.6 Sol normal chat
 Code branch: gameplay/job-16-browser-journey
-Head commit: b8f45d5d6d9f24f9a06516f97eee7c87b3e7681d
+Head commit: 8184e3d6189dda5450f59c5493f5b61780bedf77
 PR:
-CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37128820835
+CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37129725411
 
 ## Notes
 - Step 1: JOB-02, JOB-07 and JOB-17 are DONE and merged; the provider journey exists on gameplay/recovery-v1. Recovery head 843e64e is green in Validate Gameplay Fast run 37125870168 (Gameplay contracts SUCCESS; Composed Rules on the emulator SUCCESS). Scanned all 117 js/*.js blobs on that exact tree: no connectAuthEmulator or connectFirestoreEmulator. validate-gameplay-fast.yml pins firebase@12.17.1; deploy-github-pages.yml copies only index/runtime files plus acceptance, assets, css, data and js, never tests/. The job branch was safely fast-forwarded from 889810f to current recovery 843e64e after JOB-08 merged; no force update and no product files changed.
@@ -26,6 +26,56 @@ CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/r
 
 - Step 6 / J6-J7 checkpoint: exact head b8f45d5 is fully green in run 37128820835. J6.1-J6.5 passed including rendered-page privacy for unfinished rival guesses/signings and identical reveal only after COMPLETED. J7.1-J7.2 passed: Daniel's 1/87/93 result stayed absent from Nik before Nik published; after RESULTS_READY both review cards converged with identical raw facts. Canonical scoring remains intentionally locked until Shared Season Commit acknowledgement, so exact 9-3 scoring is proved immediately after the UI commit in J8. Browser PASS: 22 numbered checks through J7 plus JZ; artifact 11276550184. Non-blocking bugs carried forward: Nik setup presentation needs a navigation-only club-screen tap after authority follows, and the shared early-end control can show stale legacy `END WINDOW EARLY` copy while shared WINDOW_OPEN authority remains active.
 
+- Step 7 BLOCKED / J8 canonical scoring wake: the same failure reproduced twice, first in run 37129309379 and again with diagnostics in run 37129725411. Both managers completed the real Shared Season Commit UI. Diagnostic state on Daniel proves the commit is authoritative and terminal for the season: committed=true, phase=ACKNOWLEDGED, revision=3, resultsRevision=2, acknowledgedRoles=[playerOne,playerTwo], with the exact Season 1 results. The production canonical scoring adapter nevertheless remained null for 60 seconds while #seasonEntry stayed visible and document.visibilityState was visible. This blocks exact 9-3 scoring, history convergence, Season 2 progression, reload, final reconciliation, Terminal Close, stranger, and second-Showdown sections. Per JOB-16 §8, work stops after the same step failed twice for the same reason.
+
+### Blocking assertion
+`J8_CANONICAL_SCORING_NOT_VISIBLE`: wait for `window.CareerModeProductionSharedCanonicalScoring.getState().phase === "SCORING_RECONCILED"` timed out after 60,000 ms after `#sharedSeasonCommitAction` showed `SEASON COMMIT ACKNOWLEDGED ✓`.
+
+### Browser descriptions
+`--- daniel: screens=seasonEntry | badge=DANIEL | panel=CAREER READYCareer ready.CONTINUE CAREERDaniel | overlays=`
+`--- nik: screens=seasonEntry | badge=NIK | panel=CAREER READYCareer ready.CONTINUE CAREERNik | overlays=`
+Both page error arrays were empty.
+
+### Diagnostic state
+Daniel commit: `{committed:true, ready:true, coordinatorRole:"playerOne", seasonNumber:1, phase:"ACKNOWLEDGED", revision:3, resultsRevision:2, acknowledgedRoles:["playerOne","playerTwo"]}`.
+Daniel scoring: `null`.
+Daniel setup: `SHOWDOWN_CONFIRMED`, revision 6, exact active session present.
+Season Entry visible: true. Scoring panel exists: false. Document visibility: visible.
+
+### Last 30 workflow log lines
+```text
+2026-10-03T14:32:35.9280464Z ##[endgroup]
+2026-10-03T14:32:36.0805701Z With the provided path, there will be 12 files uploaded
+2026-10-03T14:32:36.0815006Z Artifact name is valid!
+2026-10-03T14:32:36.0815726Z Root directory input is valid!
+2026-10-03T14:32:36.2599137Z Uploading artifact: browser-journey-screens.zip
+2026-10-03T14:32:36.2676123Z Beginning upload of artifact content to blob storage
+2026-10-03T14:32:36.4399338Z Uploaded bytes 1020281
+2026-10-03T14:32:36.4556742Z Finished uploading artifact content to blob storage!
+2026-10-03T14:32:36.4558576Z SHA256 digest of uploaded artifact is ede42d4ce6d24c85304d1f06ea3b377cfdf3b292a3d22cd0ab9ea1359ed10d2e
+2026-10-03T14:32:36.4559992Z Finalizing artifact upload
+2026-10-03T14:32:36.7011497Z Artifact browser-journey-screens successfully finalized. Artifact ID 11276581376
+2026-10-03T14:32:36.7013514Z Artifact browser-journey-screens has been successfully uploaded! Final size is 1020281 bytes. Artifact ID is 11276581376
+2026-10-03T14:32:36.7017316Z Artifact download URL: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37129725411/artifacts/11276581376
+2026-10-03T14:32:36.7205649Z Post job cleanup.
+2026-10-03T14:32:36.8836659Z Post job cleanup.
+2026-10-03T14:32:36.9805283Z [command]/usr/bin/git version
+2026-10-03T14:32:36.9856849Z git version 2.55.0
+2026-10-03T14:32:36.9895803Z Temporarily overriding HOME='/home/runner/work/_temp/7ec368a0-baf5-49dd-845d-2fd2bd30fe9e' before making global git config changes
+2026-10-03T14:32:36.9897588Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-03T14:32:36.9917681Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/fifa17-career-showdown2/fifa17-career-showdown2
+2026-10-03T14:32:36.9960533Z [command]/usr/bin/git config --local --name-only --get-regexp core\\.sshCommand
+2026-10-03T14:32:37.0013256Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-03T14:32:37.0387647Z [command]/usr/bin/git config --local --name-only --get-regexp http\\.https\\:\/\/github\\.com\/\\.extraheader
+2026-10-03T14:32:37.0412776Z http.https://github.com/.extraheader
+2026-10-03T14:32:37.0459161Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-10-03T14:32:37.0495961Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\\.https\\:\/\/github\\.com\/\\.extraheader' && git config --local --unset-all http.https://github.com/.extraheader || :"
+2026-10-03T14:32:37.0846402Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\\.gitdir:
+2026-10-03T14:32:37.0926325Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-03T14:32:37.1331470Z Cleaning up orphan processes
+```
+
 ## Self-check
 
 ## Blocked question
+Canonical scoring does not wake after an acknowledged revision-3 Shared Season Commit. The lead needs a production bug job to decide/fix the missing wake path between Shared Season Commit and Production Shared Canonical Scoring before JOB-16 can continue.
