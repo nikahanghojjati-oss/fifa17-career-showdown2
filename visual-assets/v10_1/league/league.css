@@ -83,7 +83,7 @@ footer .foot-ver::before { content: "·"; margin-right: 8px; }
 .title-block > * { width: fit-content; margin-left: auto !important; margin-right: auto !important; }
 .kicker { font: 600 13px/1 var(--cond); letter-spacing: .5em; color: var(--cream); margin-right: -.5em; }
 /* TODO-WORDMARK: replace this display-font fallback with shared/wordmarks/TITLE_LEAGUE_V1.webp when job 124 adds it. */
-#leagueWheelScreen h2 { margin: 0; font: 400 var(--title-size, 64px)/1.16 "Kaushan Script", cursive; text-transform: uppercase; letter-spacing: .01em; padding: .10em .12em .12em;
+#leagueWheelScreen h2 { margin: 0; font: 400 var(--title-size, 64px)/1.16 "Kaushan Script", cursive; text-transform: uppercase; letter-spacing: .01em; padding: .10em .12em .18em;
   background: linear-gradient(to bottom, #FFF1B8, #F2C45B 55%, #B98A2F); -webkit-background-clip: text; background-clip: text; color: transparent;
   filter: drop-shadow(0 3px 1px rgba(0,0,0,.96)) drop-shadow(0 0 14px rgba(242,196,91,.28)); }
 .subtitle-row { left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 14px; white-space: nowrap; }
@@ -170,15 +170,15 @@ button:focus-visible { outline: 2px solid #FFF1B8; outline-offset: 3px; }
 .stage[data-mode="phone"] .brand { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
 .stage[data-mode="phone"] .script-tag, .stage[data-mode="phone"] footer { display: none; }
 .stage[data-mode="phone"] #onlinePlayerIdentityBadge, .stage[data-mode="phone"] #seasonIndicator { min-height: 44px; padding: 0 10px; font-size: 14px; letter-spacing: .08em; }
-.stage[data-mode="phone"] #leagueWheelScreen h2 { --title-size: 40px; margin-top: 0; }
+.stage[data-mode="phone"] #leagueWheelScreen h2 { --title-size: 36px; margin-top: 0; line-height: 1.2; padding: .05em .1em .08em; }
 .stage[data-mode="phone"] .kicker { display: none; }
 .stage[data-mode="phone"] .subtitle-row::before, .stage[data-mode="phone"] .subtitle-row::after { width: 36px; }
 .stage[data-mode="phone"] #selectedLeague { font-size: 14px; letter-spacing: .28em; margin-right: -.28em; }
 .stage[data-mode="phone"][data-has-league="true"] #selectedLeague { font-size: 20px; letter-spacing: .2em; margin-right: -.2em; }
-.stage[data-mode="phone"] .button-row { flex-direction: column; gap: 8px; left: 16px; right: 16px; transform: none; }
-.stage[data-mode="phone"] .menuButton, .stage[data-mode="phone"] .backButton { width: 100%; min-width: 0; height: 48px; font-size: 19px; }
+.stage[data-mode="phone"] .button-row { flex-direction: column; gap: 6px; left: 16px; right: 16px; transform: none; }
+.stage[data-mode="phone"] .menuButton, .stage[data-mode="phone"] .backButton { width: 100%; min-width: 0; height: 44px; min-height: 44px; font-size: 18px; }
 .stage[data-mode="phone"] .slot-veil { background: radial-gradient(closest-side, rgba(6,7,9,.55) 0 60%, rgba(6,7,9,.9) 88%, rgba(6,7,9,.9) 96%, rgba(6,7,9,0) 100%); -webkit-mask-image: none; mask-image: none; }
-.stage[data-mode="phone"] .stateNote { left: 16px; right: 16px; width: auto; transform: none; max-width: none; padding: 6px 12px; }
+.stage[data-mode="phone"] .stateNote { left: 16px; right: 16px; width: auto; transform: none; max-width: none; padding: 4px 10px; }
 .stage[data-mode="phone"] .wheelItem { width: calc(var(--R) * .76); margin-left: calc(var(--R) * -.38); font-size: max(12px, calc(var(--R) * 22 / 240)); line-height: 1.1; letter-spacing: 0; white-space: normal; gap: calc(var(--R) * .02); }
 .stage[data-mode="phone"] .wheelItem::before { width: calc(var(--R) * 50 / 240); height: calc(var(--R) * 50 / 240); }
 
