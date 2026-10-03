@@ -75,7 +75,54 @@ Season Entry visible: true. Scoring panel exists: false. Document visibility: vi
 2026-10-03T14:32:37.1331470Z Cleaning up orphan processes
 ```
 
+
+- Step 7 BLOCKED after the same canonical-scoring failure reproduced twice (runs 37129309379 and 37129725411). J0-J7.2 still pass, both supporting CI jobs are green, and the season-1 commit itself is fully acknowledged. The browser cannot reach canonical scoring through the UI, so J8-J12 are not legally reachable without seeding or calling a provider/adapter directly.
+- Failing assertion: `J8_CANONICAL_SCORING_NOT_VISIBLE` after 60 seconds waiting for `CareerModeProductionSharedCanonicalScoring.getState().phase === "SCORING_RECONCILED"`.
+- Diagnostic at failure: commit `ok:true, committed:true, ready:true, phase:"ACKNOWLEDGED", revision:3, resultsRevision:2`; setup `ready:true, phase:"SHOWDOWN_CONFIRMED", revision:6`; `seasonEntryVisible:true`; `scoring:null`; `scoringPanel:false`; `visibility:"visible"`.
+- Page descriptions:
+  - `--- daniel: screens=seasonEntry | badge=DANIEL | panel=CAREER READYCareer ready.CONTINUE CAREERDaniel | overlays=`
+  - `--- daniel errors: []`
+  - `--- nik: screens=seasonEntry | badge=NIK | panel=CAREER READYCareer ready.CONTINUE CAREERNik | overlays=`
+  - `--- nik errors: []`
+- Failure excerpt:
+  - `Error: J8_CANONICAL_SCORING_NOT_VISIBLE {... "commit":{"ok":true,"committed":true,"ready":true,"phase":"ACKNOWLEDGED","revision":3,...},"scoring":null,...,"seasonEntryVisible":true,"scoringPanel":false,"visibility":"visible"}`
+  - `at commitSeasonViaUi (.../tests/browser/two-manager-browser-journey.cjs:145:13)`
+  - `at async main (.../tests/browser/two-manager-browser-journey.cjs:451:5)`
+  - `cause: page.waitForFunction: Timeout 60000ms exceeded`
+- Last 30 log lines:
+```text
+2026-10-03T14:32:35.9280464Z ##[endgroup]
+2026-10-03T14:32:36.0805701Z With the provided path, there will be 12 files uploaded
+2026-10-03T14:32:36.0815006Z Artifact name is valid!
+2026-10-03T14:32:36.0815726Z Root directory input is valid!
+2026-10-03T14:32:36.2599137Z Uploading artifact: browser-journey-screens.zip
+2026-10-03T14:32:36.2676123Z Beginning upload of artifact content to blob storage
+2026-10-03T14:32:36.4399338Z Uploaded bytes 1020281
+2026-10-03T14:32:36.4556742Z Finished uploading artifact content to blob storage!
+2026-10-03T14:32:36.4558576Z SHA256 digest of uploaded artifact is ede42d4ce6d24c85304d1f06ea3b377cfdf3b292a3d22cd0ab9ea1359ed10d2e
+2026-10-03T14:32:36.4559992Z Finalizing artifact upload
+2026-10-03T14:32:36.7011497Z Artifact browser-journey-screens successfully finalized. Artifact ID 11276581376
+2026-10-03T14:32:36.7013514Z Artifact browser-journey-screens has been successfully uploaded! Final size is 1020281 bytes. Artifact ID is 11276581376
+2026-10-03T14:32:36.7017316Z Artifact download URL: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37129725411/artifacts/11276581376
+2026-10-03T14:32:36.7205649Z Post job cleanup.
+2026-10-03T14:32:36.8836659Z Post job cleanup.
+2026-10-03T14:32:36.9805283Z [command]/usr/bin/git version
+2026-10-03T14:32:36.9856849Z git version 2.55.0
+2026-10-03T14:32:36.9895803Z Temporarily overriding HOME='/home/runner/work/_temp/7ec368a0-baf5-49dd-845d-2fd2bd30fe9e' before making global git config changes
+2026-10-03T14:32:36.9897588Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-03T14:32:36.9917681Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/fifa17-career-showdown2/fifa17-career-showdown2
+2026-10-03T14:32:36.9960533Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-03T14:32:37.0013256Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-03T14:32:37.0387647Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-03T14:32:37.0412776Z http.https://github.com/.extraheader
+2026-10-03T14:32:37.0459161Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-10-03T14:32:37.0495961Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-03T14:32:37.0846402Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-03T14:32:37.0926325Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-03T14:32:37.1331470Z Cleaning up orphan processes
+```
+
 ## Self-check
 
 ## Blocked question
-Canonical scoring does not wake after an acknowledged revision-3 Shared Season Commit. The lead needs a production bug job to decide/fix the missing wake path between Shared Season Commit and Production Shared Canonical Scoring before JOB-16 can continue.
+Lead follow-up required: after a valid RESULTS_READY result and a fully ACKNOWLEDGED season commit (revision 3), the production canonical-scoring adapter remains null and never creates #sharedCanonicalScoringPanel on a visible seasonEntry page. Because J8-J12 require on-screen canonical scoring and downstream history/multi-season authority, Job 16 cannot continue without a product fix or a lead-approved follow-up job. No provider/admin write, direct adapter refresh, seeding, or production-code workaround was used.
