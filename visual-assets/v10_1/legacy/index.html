@@ -28,11 +28,27 @@
         <p id="fixtureTagline" class="legacyTagline sd-tagline"></p>
       </section>
 
-      <p id="fixtureFrameLabel" aria-live="polite"></p>
-      <section class="legacyBox" aria-label="Legacy fixture frame">
+      <p id="fixtureFrameLabel" class="sd-visually-hidden" aria-live="polite"></p>
+      <section class="fixtureDebug" hidden aria-hidden="true">
         <div id="fixtureStrings"></div>
         <div id="fixtureValues"></div>
       </section>
+
+      <section class="legacyArchivePanel sd-panel" aria-label="Legacy archive">
+        <aside class="legacySidePanel sd-panel" aria-label="Legacy destinations"></aside>
+        <div class="legacyCardGrid" aria-label="Showdown archive cards">
+          <div class="legacyCardSlot sd-panel"></div>
+          <div class="legacyCardSlot sd-panel"></div>
+          <div class="legacyCardSlot sd-panel"></div>
+          <div class="legacyCardSlot sd-panel"></div>
+          <div class="legacyCardSlot sd-panel"></div>
+          <div class="legacyCardSlot sd-panel"></div>
+          <div class="legacyCardSlot sd-panel"></div>
+          <div class="legacyCardSlot sd-panel"></div>
+        </div>
+      </section>
+
+      <button id="viewSeasonHistory" class="legacyPrimaryAction sd-btn sd-btn--primary" type="button">VIEW SEASON HISTORY</button>
     </main>
   </div>
   <div class="sd-stage__layer sd-stage__layer--cutout" aria-hidden="true">
