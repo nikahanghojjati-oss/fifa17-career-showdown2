@@ -4,6 +4,8 @@
 | --- | --- | --- | --- | --- | --- |
 | **work** (Sol Work mode for npm, node and contract runs; every Firebase emulator run happens on GitHub CI, see §2) | JOB-08 merged into `gameplay/recovery-v1` (PR #326, merge `843e64e`) | 8 | `gameplay/job-10-transfer-history` | `gameplay/recovery-v1` | **yes** (you request it yourself in step 8) |
 
+**Pace:** at most two steps (or one heavy step) per turn, save after every step, never poll CI inside a turn (push, save, stop, read once next turn), no screenshots, DEFAULT instead of stopping, text only. See WORKER_HANDBOOK "Pace rules".
+
 ## 1. Goal
 
 JOB-08 made a finished Showdown readable again: setup, season results and season commits of a Showdown closed by a verified Terminal Close. It deliberately left transfers out (its checks B8 and B9 say "stays outside the grant (G-10)"). So today, once a Showdown closes, nobody can see who signed whom or which signings were released, even though both managers saw all of it the moment each season's Transfer Challenge reached `COMPLETED`. DATA_CONTRACT_V1 §5 lists `transfers.status` + a per-season guess/signing summary as **A (G-10)**.

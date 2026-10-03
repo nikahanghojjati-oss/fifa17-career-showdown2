@@ -4,6 +4,8 @@
 | --- | --- | --- | --- | --- | --- |
 | **chat** (normal chat; node 22 and Java 21 but no npm registry, so every Firebase emulator and browser run happens on GitHub CI, see §2) | JOB-02 merged into `gameplay/recovery-v1` (JOB-07 and JOB-17 are also merged; this test relies on both) | 9 | `gameplay/job-16-browser-journey` | `gameplay/recovery-v1` | no |
 
+**Pace:** at most two steps (or one heavy step) per turn, save after every step, never poll CI inside a turn (push, save, stop, read once next turn), no screenshots, DEFAULT instead of stopping, text only. See WORKER_HANDBOOK "Pace rules".
+
 ## 1. Goal
 
 JOB-02 proved the whole two-manager Showdown at the provider level (node calls into `js/` against the composed Rules). Nobody has yet proved it through **the real app screens**: the Google sign-in gate, "Who are you?", Start / Join with the pair code, Remote Joining, the setup wheels, the transfer window, season entry, commit, the final winner and Terminal Close, clicked in a real browser by two managers at once. That is what Nik still tests by hand.

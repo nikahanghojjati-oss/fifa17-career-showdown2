@@ -9,6 +9,20 @@ Raw link pattern (works without the GitHub connector):
 
 ---
 
+## Pace rules (read first; from 2026-10-03)
+
+Sol chats stall when a turn is too big, and Nik has to press Stop and Continue. So every job runs in small, saved turns:
+
+1. **At most two steps per turn, or one heavy step.** Then save and stop with: `Step k of n done and saved. Type continue for step k+1.`
+2. **Every step ends saved.** The step's files and the status file (`Step: k of n`) are committed before you reply. "continue", or the job number in a new chat, resumes from the status file, so a stopped chat loses nothing.
+3. **Size of one step:** read at most 4 files (only the sections you need), write at most 3 files and about 150 lines, make ONE decision. If a step is bigger, split it yourself into 5a, 5b and so on, and save after each part. Appendix files the job tells you to copy verbatim count as one file each, whatever their length.
+4. **Never wait on or poll GitHub Actions inside a turn.** When a step needs CI evidence: push, write the run link (or "CI pending on <commit>") in the status file, save, and stop with `Step k saved; CI is running on <commit>. Type continue to read the result.` On the next turn read the result once. If it is still running, say so in one line and stop again. Codex works the same way: post `@codex review`, set `WAITING ON CODEX`, stop; read it once on the next turn.
+5. **No screenshots or browser QA by hand.** Check by reading code and CI logs. Browser tests that are part of a job run on GitHub CI (Playwright), never in your chat.
+6. **Default, don't stop.** On anything unclear, pick the reasonable option, write `DEFAULT: <choice, why>` in the status notes, and keep going. BLOCKED is only for a contradiction with the job's product rules or a missing input.
+7. **Text only.** Commit text files straight to the branch. Never make, upload, zip or base64 a binary.
+
+---
+
 ## 0. The loop in ten lines
 
 1. The user types a number **N** (or "job N"). That means: do gameplay factory job N.
@@ -26,8 +40,8 @@ Raw link pattern (works without the GitHub connector):
 
 | Who | Role |
 | --- | --- |
-| **Nik** | Owner. He types numbers and carries zip files. Never ask him product or engineering questions. |
-| **Claude, Team G lead** | Wrote every job, owns gameplay product truth and the board, answers BLOCKED questions, reviews and merges your code, commits zip deliveries. |
+| **Nik** | Owner. He types numbers and "continue". He carries nothing. Never ask him product or engineering questions. |
+| **Claude, Team G lead** | Wrote every job, owns gameplay product truth and the board, answers BLOCKED questions, reviews and merges your code, checks CI at intake. |
 | **You (GPT-5.6 Sol worker)** | Do one job per chat, exactly as written. |
 | **Team V** | The Claude visual team. It has its own factory and ChatGPT project; its job numbers are not yours. |
 | **Codex** | Reviewer on jobs whose header says "Codex review: yes". You request it yourself as a job step (see §7a); Codex reviews the PR on GitHub. |
@@ -58,7 +72,7 @@ Not for you, ever: `main`, `project-documents/model-relay/` (the old Sol relay; 
 
 | Lane | Chat | Use it for |
 | --- | --- | --- |
-| `chat` | A normal GPT-5.6 Sol chat in the project (press **Stay in Chat**) | Text-only work: docs, fixtures, small code edits that CI tests on push, browser screenshots (normal chats have local Chromium) |
+| `chat` | A normal GPT-5.6 Sol chat in the project (press **Stay in Chat**) | Text-only work: docs, fixtures, small code edits that CI tests on push |
 | `work` | **Sol Work mode** (press **Use Work**), started with the starter line in RULES.md | Terminal work: npm, node tests, Java, the Firebase emulator. Work mode has **no web browser**. |
 
 If you are in the wrong kind of chat for the lane, reply `Job N needs <lane>.` and stop.
@@ -115,17 +129,14 @@ Find out once, at the start, what your chat can write.
 **Path A: you can write to GitHub** (connector writer, or `git push` from a terminal).
 - Status files go to `factory/gameplay-v1`. Code goes to the code branch the job names. The lead has already created that branch from `gameplay/recovery-v1`; if it is missing, create it from `gameplay/recovery-v1`.
 - Commit after each step with the message `Job N step k/n: <short step name>`. Finish with `Job N done: <job title>`.
-- Text files can be saved one at a time with the connector. Binary files (screenshots, traces, zips) usually cannot: put them in a zip (Path B) and keep going.
+- Text files can be saved one at a time with the connector. Never make or upload binary files (screenshots, traces, zips); CI keeps its own logs.
 - Open the job's PR into `gameplay/recovery-v1` when the job says. If you cannot open PRs, write "PR: lead to open" in the status file; the lead opens it.
 
-**Path B: you can read but not write.**
-- Keep a working copy of every changed file with its repo-relative path in your sandbox.
-- After each step tell Nik one line: `Step k of n done: <step name>.`
-- At the end build one zip `JOB-NN.zip` with repo-relative paths at its root, including your status file, and say: `Drop JOB-NN.zip into the Team G lead's Claude chat.`
+**Path B: you can read but not write.** Stop and say: `I can't save to GitHub (<reason>). Fix: turn on the GitHub connector with write access, then type continue.` Do not build zips.
 
 **Path C: you cannot read the repo.** First line: `I can't read the repo (<reason>). Fix: turn on GitHub with + > Connectors > GitHub, or allow web search, then send N again.`
 
-**When you cannot run the tests yourself** (no terminal, or `npm ci` cannot reach the registry): commit the code to the job's code branch anyway. The workflow "Validate Gameplay Fast" runs the contract suites and the Firebase emulator on GitHub for every push to `gameplay/**` (once job 1 is merged). Read its result on your exact head commit (the Actions tab, or the PR's checks) and fix until it is green. Write the run link in the status file. This is the normal path, not a failure.
+**When you cannot run the tests yourself** (no terminal, or `npm ci` cannot reach the registry): commit the code to the job's code branch anyway. The workflow "Validate Gameplay Fast" runs the contract suites and the Firebase emulator on GitHub for every push to `gameplay/**` (once job 1 is merged). Read its result on your exact head commit (the Actions tab, or the PR's checks) once, on the turn after you push (Pace rule 4), and fix until it is green. Write the run link in the status file. This is the normal path, not a failure.
 
 ## 7a. Finishing a job: tests, Codex, merge
 
@@ -180,5 +191,5 @@ Your job is only DONE when the lead can merge it without re-testing it.
 | `npm ci` cannot reach the registry | Use the CI path in §7. |
 | No Java or no emulator in your terminal | Use the CI path in §7. |
 | Emulator pair tests fail with `PERMISSION_DENIED … L2428` locally | `npm run test:contracts` rewrote `firestore.spark.generated.rules` without the pair fragment. Rebuild with `node scripts/build-production-firestore-rules.mjs && node scripts/build-production-firestore-rules-with-persistent-pair.mjs`. |
-| You run out of room mid-job | Save (Path A commit, or Path B zip at the last finished step) and tell Nik: `Open a new chat and type N; it continues from step k+1.` |
+| You run out of room mid-job | Save at the last finished step and tell Nik: `Open a new chat and type N; it continues from step k+1.` |
 | You remember an older Showdown process from ChatGPT memory | Ignore it. This handbook and the job file are the only rules here. |

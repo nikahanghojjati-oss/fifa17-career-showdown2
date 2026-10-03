@@ -4,6 +4,8 @@
 | --- | --- | --- | --- | --- | --- |
 | **chat** (normal chat; every emulator run happens on GitHub CI, WORKER_HANDBOOK §7) | none (the contract is node-only and needs no JOB-16 harness) | 5 | `gameplay/job-18-pair-code-race` | `gameplay/recovery-v1` | no |
 
+**Pace:** at most two steps (or one heavy step) per turn, save after every step, never poll CI inside a turn (push, save, stop, read once next turn), no screenshots, DEFAULT instead of stopping, text only. See WORKER_HANDBOOK "Pace rules".
+
 ## 1. Goal
 
 Nik opens "JOIN DANIEL'S SHOWDOWN", pastes Daniel's code and presses JOIN. If he does that while the app is still syncing the pair state, the code vanishes from the field and the panel says **"Daniel's connection code is invalid."** although the code is right. The JOB-16 browser prototype hit this and worked around it by waiting for the pair state to settle (JOB-16 §8 and Appendix C line "Trap: the pair panel re-renders …"). After this job a code Nik types is never thrown away, and an empty field never says "invalid".

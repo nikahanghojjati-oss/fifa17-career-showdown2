@@ -4,6 +4,8 @@
 | --- | --- | --- | --- | --- | --- |
 | **work** (Sol Work mode for npm, node and contract runs; every Firebase emulator run happens on GitHub CI, see §2) | JOB-03 **and** JOB-08 merged into `gameplay/recovery-v1` (JOB-08 PR #326, merge `843e64e`; JOB-05 and JOB-07 are also merged and this job uses both) | 7 | `gameplay/job-09-closed-adapter` | `gameplay/recovery-v1` | no |
 
+**Pace:** at most two steps (or one heavy step) per turn, save after every step, never poll CI inside a turn (push, save, stop, read once next turn), no screenshots, DEFAULT instead of stopping, text only. See WORKER_HANDBOOK "Pace rules".
+
 ## 1. Goal
 
 JOB-07 gave each account a career index (every Showdown it paired, oldest first). JOB-08 made a finished Showdown readable again without a session: `readCompletedShowdown()` answers `completed`, `abandoned`, `not-closed` or `unavailable`. Nothing turns those answers into career numbers yet. The career model from JOB-03 (`buildCareerModel`) still only ever sees the current Showdown (JOB-05's `careerInput`, which carries the interim label "Current Showdown only. Career history is not yet available.").

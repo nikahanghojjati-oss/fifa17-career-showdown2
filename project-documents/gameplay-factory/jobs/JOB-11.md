@@ -4,6 +4,8 @@
 | --- | --- | --- | --- | --- | --- |
 | **work** (Sol Work mode for npm and node; no browser, no emulator needed; writes go through the GitHub connector, CI "Validate Gameplay Fast" runs the suites, see §2) | JOB-03 **and** JOB-05 merged into `gameplay/recovery-v1` (PR #316 and PR #319; both are in `889810f`) | 8 | `gameplay/job-11-contract-fixtures` | `gameplay/recovery-v1` | no |
 
+**Pace:** at most two steps (or one heavy step) per turn, save after every step, never poll CI inside a turn (push, save, stop, read once next turn), no screenshots, DEFAULT instead of stopping, text only. See WORKER_HANDBOOK "Pace rules".
+
 ## 1. Goal
 
 Team V builds every screen on sample data today, and it will swap that sample data for ours (Team V job 104, "Showcase: screens read Team G's model-true fixtures"). If our sample data is typed by hand it will drift from what the app really computes, and the screens will be designed around numbers or states the game can never show. This job makes the sample data **impossible to drift**:

@@ -4,6 +4,8 @@
 | --- | --- | --- | --- | --- | --- |
 | **work** (Sol Work mode for npm, node and contract runs; every Firebase emulator run happens on GitHub CI, see §2) | JOB-07 (PR #325) and JOB-08 (PR #326, merge `843e64e`) merged into `gameplay/recovery-v1`; **and JOB-10 merged** (lead decision §8a: run G-12 after G-10) | 8 | `gameplay/job-12-composed-rules-regression` | `gameplay/recovery-v1` | **yes** (you request it yourself in step 8) |
 
+**Pace:** at most two steps (or one heavy step) per turn, save after every step, never poll CI inside a turn (push, save, stop, read once next turn), no screenshots, DEFAULT instead of stopping, text only. See WORKER_HANDBOOK "Pace rules".
+
 ## 1. Goal
 
 Before anything reaches `main`, the lead needs one test that answers: "Are the exact Rules we will deploy, built the exact way the deploy workflow builds them, still keeping every Rule promise, and is the only difference from what production runs today the career-data changes we reviewed?" Today the answer is scattered over ten CI steps, two workflows and several heavy proofs, each of which reads whatever `firestore.spark.generated.rules` happens to be on disk at that moment (and `npm run test:contracts` silently rewrites that file). Nothing checks that what the suites test is byte-for-byte what `deploy-firestore-rules-zero-billing.yml` will publish, and nothing shows the main gate the Rules delta.
