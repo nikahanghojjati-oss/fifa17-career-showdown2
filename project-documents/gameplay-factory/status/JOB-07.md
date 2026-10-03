@@ -2,10 +2,10 @@
 
 State: IN PROGRESS
 Step: 8 of 9
-Updated: 2026-10-03 12:13 UTC
+Updated: 2026-10-03 12:07 UTC
 Chat: Sol Work mode
 Code branch: gameplay/job-07-career-index
-Head commit: 65a53ff692e789ffa1d3025b6e7efa1adc56bf00
+Head commit: 7201d31c4c6cc7e5d23917886bf94e6ced6c45b6
 PR: #325 https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/325
 CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37080155517
 
@@ -128,3 +128,5 @@ Codex posted two P1 findings. This is your one fix round. The lead has already r
    g. Re-run all contracts, operations, the two-manager journey and the expression-budget gate (qualified as before) on the new exact head. Then post `@codex review` once more on PR #325 and mark DONE when CI is green and Codex has nothing new at P1.
 
 - Step 9 fix round in progress: Codex reviewed 65a53ff and found two P1 rollout issues. Read the lead's 2026-10-03 reply and exact fix instructions. Shell r52 stays with the gated main PR; staged coupling is being implemented here with cmsCareerIndexEnforced false, unchanged head/page Rules and client, and both shipped/enforced emulator runs. Full exact-head CI and a second Codex request are required before DONE.
+
+- Fix saved on 7201d31c4c6cc7e5d23917886bf94e6ced6c45b6: optional Phase A coupling; test-only Phase B copy. Existing missing-index denial cases B1/B8/C3/G1 run unchanged in Phase B; all other original assertions run in both phases; L1/L2 assert legacy success and absent index in Phase A. Local career-index contract PASS, full npm contracts exit 0, operations 73 pass / 0 fail. Composed head/page/eligibility Rules byte-identical to reviewed head; four protected functions/client unchanged. Exact-head CI pending.
