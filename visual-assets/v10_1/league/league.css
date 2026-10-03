@@ -271,6 +271,7 @@ button:focus-visible { outline: 2px solid #FFF1B8; outline-offset: 3px; }
     line-height: 1.08;
   }
 
+  /* Claude fix 1: the live wheel must stay fully readable above the hero bodies. */
   .stage[data-mode="phone"] .wheel-bezel,
   .stage[data-mode="phone"] .leagueWheel {
     left: 50% !important;
@@ -279,6 +280,8 @@ button:focus-visible { outline: 2px solid #FFF1B8; outline-offset: 3px; }
     height: var(--phone-wheel) !important;
     transform: translate(-50%, -50%) !important;
   }
+  .stage[data-mode="phone"] .wheel-bezel { z-index: 31; }
+  .stage[data-mode="phone"] .leagueWheel { z-index: 32; }
   .stage[data-mode="phone"] .wheel-bezel {
     width: calc(var(--phone-wheel) + 26px) !important;
     height: calc(var(--phone-wheel) + 26px) !important;
@@ -288,6 +291,7 @@ button:focus-visible { outline: 2px solid #FFF1B8; outline-offset: 3px; }
     overflow: hidden;
   }
   .stage[data-mode="phone"] .wheelPointer {
+    z-index: 35;
     left: 50% !important;
     top: calc(var(--phone-wheel-y) - var(--phone-wheel) / 2 - 20px) !important;
     width: 32px !important;
@@ -298,7 +302,7 @@ button:focus-visible { outline: 2px solid #FFF1B8; outline-offset: 3px; }
   /* Contact shadow sits under Daniel's phone cut-out and over the live wheel. */
   .stage[data-mode="phone"] .finger-contact {
     display: block;
-    z-index: 29;
+    z-index: 33;
     left: calc(60% - 14px) !important;
     top: calc(var(--phone-wheel-y) - var(--phone-wheel) * .47) !important;
     width: 30px !important;
