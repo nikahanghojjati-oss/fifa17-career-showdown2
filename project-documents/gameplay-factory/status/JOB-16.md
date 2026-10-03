@@ -2,7 +2,7 @@
 
 State: IN PROGRESS
 Step: 5 of 9
-Updated: 2026-10-03 13:53 UTC
+Updated: 2026-10-03 13:55 UTC
 Chat: GPT-5.6 Sol normal chat
 Code branch: gameplay/job-16-browser-journey
 Head commit: e6e982d99efa1c97d9a73bd7b77031e37d062442
@@ -21,6 +21,8 @@ CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/r
 - Step 5 / J4 checkpoint: Shared Setup is green on exact head 5bf7830 in browser run 37127199873. J4.1-J4.4 all passed: peer draw controls locked, same league, same distinct clubs, Daniel LEFT, both identical confirmations. One navigation behavior is being preserved as a non-blocking UI bug per §6: Nik receives the host league automatically but the presentation stays on the league screen until the non-authoritative `CONTINUE TO CLUB PACKS` navigation button is pressed.
 
 - Step 5 / J5 checkpoint: Career Start is green on exact head e6e982d in browser run 37127516841. J5.1-J5.3 passed: each manager saw only their assigned club acknowledgement, both acknowledgements converged, and both reached the real Shared Transfer Challenge. Browser PASS currently has 15 numbered checks through J5 plus JZ; artifact `browser-journey-screens` uploaded as 11275108038.
+
+- Step 5: J4 and J5 pass on the exact repaired head. J4 proves one authoritative league and two distinct clubs converge on both phone contexts with Daniel fixed in the LEFT/playerOne slot. A real presentation bug was captured without product code changes: after Daniel advances to the club screen, Nik's provider authority follows but Nik remains on the league screen until a navigation-only `CONTINUE TO CLUB PACKS` tap; the test marks this `// BUG` for the report. J5 proves each manager sees and acknowledges only their assigned Career Start club, both acknowledgements converge, and both reach the real Shared Transfer Challenge. Exact-head run 37127516841: Gameplay contracts SUCCESS, Composed Rules emulator SUCCESS, Two-manager browser journey SUCCESS; browser PASS line has 15 numbered checks and artifact `browser-journey-screens` 11275108038.
 
 ## Self-check
 
