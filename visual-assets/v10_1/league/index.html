@@ -4,12 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>League V1 · Select League</title>
-<link rel="stylesheet" href="league.css">
+<link rel="stylesheet" href="../shared/motion.css">\n<link rel="stylesheet" href="league.css">
 </head>
 <body>
 <svg class="vh" aria-hidden="true" focusable="false"><filter id="brush" x="-5%" y="-10%" width="110%" height="120%"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.5" xChannelSelector="R" yChannelSelector="G"/></filter></svg>
 <div id="stage-root" class="stage" data-frame="L1" data-primary="spinLeague">
-  <div class="scene" aria-hidden="true">
+  <div class="scene" data-sd-enter="scene" aria-hidden="true">
     <div class="plate"></div>
     <div class="heal heal-head"></div>
     <div class="heal heal-title"></div>
@@ -19,15 +19,15 @@
   </div>
 
   <div class="phone-hero-band" aria-hidden="true">
-    <picture class="phone-hero-bg">
+    <picture class="phone-hero-bg" data-sd-enter="scene">
       <source srcset="assets/ENV_LEAGUE_PHONE_V1.webp" type="image/webp">
       <img src="assets/ENV_LEAGUE_PHONE_V1.webp" alt="">
     </picture>
-    <picture class="phone-hero-person phone-hero-person--daniel">
+    <picture class="phone-hero-person phone-hero-person--daniel" data-sd-enter="character-left">
       <source srcset="assets/OVL_LEAGUE_DANIEL_PHONE_V1.webp" type="image/webp">
       <img src="assets/OVL_LEAGUE_DANIEL_PHONE_V1.webp" alt="">
     </picture>
-    <picture class="phone-hero-person phone-hero-person--nik">
+    <picture class="phone-hero-person phone-hero-person--nik" data-sd-enter="character-right">
       <source srcset="assets/OVL_LEAGUE_NIK_PHONE_V1.webp" type="image/webp">
       <img src="assets/OVL_LEAGUE_NIK_PHONE_V1.webp" alt="">
     </picture>
@@ -51,11 +51,11 @@
 
   <main class="league-main">
     <section id="leagueWheelScreen" class="screen league-screen">
-      <div class="title-block">
+      <div class="title-block sd-glint" data-sd-enter="title">
         <div class="kicker" aria-hidden="true">CAREER MODE SHOWDOWN 17</div>
         <h2>SELECT LEAGUE</h2>
       </div>
-      <div class="wheelContainer league-wheel-stack">
+      <div class="wheelContainer league-wheel-stack" data-sd-enter="panel">
         <div class="wheel-bezel" aria-hidden="true"></div>
         <div class="wheelPointer"><span class="vh">▼</span></div>
         <div class="finger-contact" aria-hidden="true"></div>
@@ -80,17 +80,17 @@
         </div>
         <div id="leagueStateNote" class="stateNote hidden" role="status" aria-live="polite"></div>
         <div class="button-row phone-action-dock">
-          <button class="menuButton sd-btn sd-btn--primary" id="spinLeague" type="button">SPIN WHEEL</button>
+          <button class="menuButton sd-btn sd-btn--primary" id="spinLeague" data-sd-enter="button" type="button">SPIN WHEEL</button>
           <button class="backButton sd-btn sd-btn--secondary" data-smart-back type="button">BACK</button>
         </div>
       </div>
     </section>
   </main>
 
-  <div class="slogan slogan-left sd-panel" aria-hidden="true"><span>DIFFERENT LEAGUES</span><span>DIFFERENT STORIES</span><span>SAME PASSION</span></div>
-  <div class="slogan slogan-right sd-panel" aria-hidden="true"><span>WHERE RIVALS</span><span>CREATE LEGENDS</span></div>
+  <div class="slogan slogan-left sd-panel" data-sd-enter="panel" aria-hidden="true"><span>DIFFERENT LEAGUES</span><span>DIFFERENT STORIES</span><span>SAME PASSION</span></div>
+  <div class="slogan slogan-right sd-panel" data-sd-enter="panel" aria-hidden="true"><span>WHERE RIVALS</span><span>CREATE LEGENDS</span></div>
 
-  <div class="scene scene-top" aria-hidden="true"><img class="finger-ovl" alt="" src="assets/OVL_DANIEL_FINGER_V1_1X.png" srcset="assets/OVL_DANIEL_FINGER_V1_1X.png 1x, assets/OVL_DANIEL_FINGER_V1_2X.png 2x"></div>
+  <div class="scene scene-top" data-sd-enter="scene" aria-hidden="true"><img class="finger-ovl" alt="" src="assets/OVL_DANIEL_FINGER_V1_1X.png" srcset="assets/OVL_DANIEL_FINGER_V1_1X.png 1x, assets/OVL_DANIEL_FINGER_V1_2X.png 2x"></div>
   <div class="manager-marker manager-marker--daniel" data-manager="daniel"></div>
   <div class="manager-marker manager-marker--nik" data-manager="nik"></div>
 
