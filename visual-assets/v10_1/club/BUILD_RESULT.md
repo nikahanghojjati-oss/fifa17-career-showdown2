@@ -183,3 +183,26 @@ Static arithmetic from the committed portrait CSS. The title and five-dot steppe
 Deck-stack arithmetic, normal tier: 22 header offset + 42 header + 6 gap + 50 Daniel row + 4 gap + 50 Nik row + 6 gap + 38 confirmation = 218 px. Short tier: 18 + 38 + 4 + 44 + 4 + 44 + 4 + 32 = 188 px. At 375×553 the primary begins at y=497 and ends at y=545, so it is visible before the 8 px safe reserve. At 393×660 it occupies y=600–652; at 360×640, y=580–632. The stage/body are fixed and overflow-hidden, so the arithmetic produces no document scroll path.
 
 The two larger phones deliberately grow instead of floating a fixed composition: the hero band remains proportional at 55vh, the manager cut-outs remain proportional to viewport height, the content deck follows the hero boundary, and only the breathing gap before the safe-area-pinned primary action expands.
+
+
+### Layout and phone-only behavior
+
+Portrait Club Assignment is a separate composition, not a compressed desktop. The top ~55% is the dedicated portrait stadium plus two transparent manager heroes. Daniel is locked left and Nik right from `phonemap.json`; both cut-outs include the held pack area and extend slightly into the control deck. The brush-style Club Assignment title and compact VS treatment float over the hero stage. The desktop top header, footer, old phone band crop, desktop divider and desktop repair overlays are hidden on portrait phone.
+
+The bottom deck keeps only the decision surface: league/status line, five-dot progress rail with the current step label, Daniel then Nik as two stacked crest rows, the compact lock confirmation, a 44 px BACK target and one safe-area-pinned primary slot shared by OPEN SHOWDOWN PACKS / CONFIRM RIVALRY & START SHOWDOWN. The duplicate confirmation matchup is retained in the DOM inside `.sd-sheet` but hidden from the constrained phone surface. There is no phone bottom navigation bar on this workflow screen.
+
+There are no text or numeric inputs on Club Assignment, so the 300 px software-keyboard obstruction test is not applicable. All phone buttons have a minimum 44 × 44 px target and visible focus outlines.
+
+### Phone assets
+
+Runtime HTML references WebP only:
+
+- `assets/ENV_CLUB_PHONE_V1.webp` — portrait stadium, cover crop at 50% / 45%.
+- `assets/OVL_CLUB_DANIEL_PHONE_V1.webp` — Daniel left, frame centre x 31%, top 3%, height 56%.
+- `assets/OVL_CLUB_NIK_PHONE_V1.webp` — Nik right, frame centre x 69%, top 2%, height 57%.
+
+The phone-art ceiling from JOB-113 is 348,506 bytes: 240,506-byte background plus two hero WebPs capped at 54,000 bytes each. PNG masters and `PHONE_PROOF.png` are build/QA artifacts only and are never referenced by runtime markup.
+
+### Claude intake work
+
+Run `visual-assets/v10_1/club/tools/MAKE_ASSETS.md` to make the two transparent hero WebPs from the approved Club plate, keeping the held packs/hands inside the silhouettes and never mirroring either manager. Inspect hair, beard, suit, hands and pack contact at 400%, enforce the ≤54 KB per-hero cap, then render the 393×660 proof from `phonemap.json`. Claude's browser intake verifies H5, contrast, reduced motion, focus/tab order, request cleanliness, page weight and the final visual contact of hands to packs; this worker made only source/read checks per the factory handbook.
