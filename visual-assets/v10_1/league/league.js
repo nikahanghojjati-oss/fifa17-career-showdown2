@@ -185,7 +185,7 @@
       const bottomLimit = noteTop === null ? btnTop - 4 : noteTop - 8;
       const span = (bottomLimit - topLimit) / (2 + POINTER);
       // Keep the short-laptop wheel heavy; shift its centre before shrinking it into a small disc.
-      R = Math.max(0.85 * Rfull, Math.min(Rfull, span));
+      R = Math.max((noteTop === null ? 0.85 : 0.82) * Rfull, Math.min(Rfull, span));
       const lo = topLimit + R * (1 + POINTER), hi = bottomLimit - R;
       cy = hi >= lo ? Math.min(Math.max(c.y, lo), hi) : (lo + hi) / 2;
     }
