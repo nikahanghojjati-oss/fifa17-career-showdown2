@@ -37,9 +37,16 @@
   <header id="topHeader">
     <div class="cm-badge" aria-hidden="true"><span>CM 17</span></div>
     <div class="brand"><h1>CAREER MODE</h1><p>SHOWDOWN // 17</p></div>
-    <button id="onlinePlayerIdentityBadge" type="button">SIGN IN</button>
-    <div class="seasonIndicator" id="seasonIndicator">Season 1 / 5</div>
-    <div class="script-tag" aria-hidden="true">More Than A Game</div>
+    <nav class="product-nav" aria-label="Primary navigation" style="margin-left:auto;display:flex;align-items:stretch;height:100%;">
+      <button type="button" disabled title="Finish this step first" style="min-width:86px;border:0;border-left:1px solid rgba(201,155,69,.24);background:transparent;color:#E9DFC8;font:600 13px/1 'Barlow Condensed','Arial Narrow',sans-serif;letter-spacing:.16em;">HOME</button>
+      <button type="button" disabled title="Finish this step first" aria-current="page" style="min-width:86px;border:0;border-left:1px solid rgba(201,155,69,.24);background:rgba(242,196,91,.12);color:#F2C45B;font:700 13px/1 'Barlow Condensed','Arial Narrow',sans-serif;letter-spacing:.16em;">CAREER</button>
+      <button type="button" disabled title="Finish this step first" style="min-width:104px;border:0;border-left:1px solid rgba(201,155,69,.24);background:transparent;color:#E9DFC8;font:600 13px/1 'Barlow Condensed','Arial Narrow',sans-serif;letter-spacing:.16em;">STANDINGS</button>
+      <button type="button" disabled title="Finish this step first" style="min-width:82px;border:0;border-left:1px solid rgba(201,155,69,.24);background:transparent;color:#E9DFC8;font:600 13px/1 'Barlow Condensed','Arial Narrow',sans-serif;letter-spacing:.16em;">STATS</button>
+      <button type="button" disabled title="Finish this step first" style="min-width:82px;border:0;border-left:1px solid rgba(201,155,69,.24);background:transparent;color:#E9DFC8;font:600 13px/1 'Barlow Condensed','Arial Narrow',sans-serif;letter-spacing:.16em;">RULES</button>
+      <button type="button" disabled title="Finish this step first" aria-label="Settings" style="width:56px;border:0;border-left:1px solid rgba(201,155,69,.38);background:rgba(10,12,15,.72);color:#F2C45B;font:600 20px/1 system-ui,sans-serif;">⚙</button>
+    </nav>
+    <button id="onlinePlayerIdentityBadge" type="button" hidden>Sign in</button>
+    <div class="seasonIndicator" id="seasonIndicator" hidden>Season 1 / 5</div>
   </header>
 
   <main class="league-main">
