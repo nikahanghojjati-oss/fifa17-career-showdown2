@@ -6,17 +6,17 @@
 Gameplay factory job NN. Read https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/RULES.md and obey the box in it as your rules, then read WORKER_HANDBOOK.md next to it and do job NN (repo nikahanghojjati-oss/fifa17-career-showdown2, branch factory/gameplay-v1). Ignore any older relay contract or memory.
 ```
 
-Branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-03 10:35 AM Boston time (EDT)
+Branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-03 10:49 AM Boston time (EDT)
 
-**Overall:** ██████░░░░ 63 % · 12 of 20 jobs done
+**Overall:** ██████░░░░ 64 % · 12 of 20 jobs done
 
-**Start now in a normal chat (press Stay in Chat):** 18
+**Start now in a normal chat (press Stay in Chat):** -
 
 **Start now in Sol Work mode (press Use Work, paste the starter line from RULES.md):** 9
 
 **Ready but no free slot yet:** 10
 
-**Working:** - · **Blocked:** 16
+**Working:** 18 · **Blocked:** 16
 
 | # | G id | Job | Phase | Type | Lane | Depends on | Codex | Progress | State |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -39,7 +39,7 @@ Branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generate
 | 13 | G-13 | Remove the r43 containment, bind #trophyRoomButton | 4 Ship | build | work | 4, 5, 6, 9; approved Team V visual package |  | ░░░░░░░░░░ 0 % | NOT WRITTEN |
 | 14 | G-14 | Acceptance: directive §12 and Sol's 8 proofs on the emulator | 4 Ship | test | work | 13 |  | ░░░░░░░░░░ 0 % | NOT WRITTEN |
 | 15 | G-15 | One real two-device run with Nik | 4 Ship | nik | nik | 14 |  | ░░░░░░░░░░ 0 % | NOT WRITTEN |
-| 18 | G-2d | [Nik's pair code survives the pair-panel re-render](jobs/JOB-18.md) | 1 Safety net | build | chat | - |  | ░░░░░░░░░░ 0 % | NOT STARTED |
+| 18 | G-2d | [Nik's pair code survives the pair-panel re-render](jobs/JOB-18.md) | 1 Safety net | build | chat | - |  | ██░░░░░░░░ 20 % | IN PROGRESS |
 
 Lanes: **chat** = normal GPT-5.6 Sol chat (text and PRs only: no npm, no screenshots); **work** = Sol Work mode (terminal and npm; emulator proofs run on GitHub CI); **nik** = Nik on his real devices. NOT WRITTEN = the lead has not written the job file yet; never start it.
 

@@ -1,18 +1,16 @@
 {
- "generated": "2026-10-03 10:35 AM Boston time (EDT)",
+ "generated": "2026-10-03 10:49 AM Boston time (EDT)",
  "branch": "factory/gameplay-v1",
  "integration_branch": "gameplay/recovery-v1",
  "capacity": {
   "chat": 2,
   "work": 1
  },
- "overall": 63,
+ "overall": 64,
  "done": 12,
  "total": 20,
  "start": {
-  "chat": [
-   18
-  ],
+  "chat": [],
   "work": [
    9
   ]
@@ -20,7 +18,9 @@
  "queued": [
   10
  ],
- "working": [],
+ "working": [
+  18
+ ],
  "blocked": [
   16
  ],
@@ -457,11 +457,11 @@
    "phase": "1 Safety net",
    "type": "build",
    "plain": "When Nik pastes Daniel's code quickly, the app keeps it instead of wiping it and wrongly calling it invalid.",
-   "state": "NOT STARTED",
-   "step": 0,
+   "state": "IN PROGRESS",
+   "step": 1,
    "steps_total": 5,
-   "pct": 0,
-   "ready": true
+   "pct": 20,
+   "ready": false
   }
  ]
 }
