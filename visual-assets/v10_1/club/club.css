@@ -16,6 +16,7 @@
 html, body { margin: 0; height: 100%; background: #050607; color: var(--cream); }
 body { overflow: hidden; font-family: var(--text); -webkit-font-smoothing: antialiased; }
 .hidden { display: none !important; }
+.sd-visually-hidden { position: absolute !important; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; border: 0; }
 html:not(.ready) .stage { visibility: hidden; }
 .stage { position: fixed; inset: 0; overflow: hidden; }
 
@@ -71,10 +72,11 @@ main { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
 .clubKicker, #clubWheelScreen h2, .clubAssignmentHeader { position: absolute; transform: translateX(-50%); white-space: nowrap; text-align: center; }
 .clubKicker { font: 600 max(12px, calc(var(--s) * 13px))/1.25 var(--cond); letter-spacing: .5em; padding-left: .5em; color: #E9DFC8; text-shadow: 0 1px 6px #000; }
 #clubWheelScreen h2 {
-  margin: 0; font: italic 700 calc(var(--s) * 64px)/1.25 var(--cond); text-transform: uppercase; letter-spacing: .01em; padding: 0 .12em;
-  background: linear-gradient(180deg, #FFF1B8 0%, #F2C45B 52%, #B98A2F 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: #F2C45B;
-  filter: url(#brushEdge) drop-shadow(0 0 18px rgba(242,196,91,.35));
+  margin: 0; padding: 0 .12em; font: 700 calc(var(--s) * 64px)/1.05 "Kaushan Script", "Brush Script MT", cursive;
+  text-transform: uppercase; letter-spacing: -.035em; color: #F2C45B; -webkit-text-stroke: .035em #F2C45B;
+  filter: drop-shadow(0 3px 3px rgba(0,0,0,.95)) drop-shadow(0 0 14px rgba(242,196,91,.28));
 }
+.clubTitleFallback { display: block; padding: .02em .1em .12em; transform: skewX(-6deg); background: linear-gradient(180deg, #FFF1B8 0%, #F2C45B 52%, #B98A2F 100%); -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent; }
 .clubAssignmentHeader { display: flex; flex-direction: column; align-items: center; gap: calc(var(--s) * 5px); }
 .ebRow, .stRow { display: inline-flex; align-items: center; gap: calc(var(--s) * 8px); }
 .glyph { width: calc(var(--s) * 18px); height: calc(var(--s) * 18px); flex: none; }
@@ -103,10 +105,11 @@ main { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
 .clubVs { position: absolute; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: calc(var(--s) * 2px); }
 .clubVs span { font: 600 max(12px, calc(var(--s) * 14px))/1.25 var(--cond); letter-spacing: .5em; padding-left: .5em; color: #F4ECD8; }
 .clubVs strong {
-  font: italic 700 calc(var(--s) * 96px)/1.25 var(--cond); padding: 0 .1em; letter-spacing: -.02em;
-  background: linear-gradient(180deg, #FFF1B8 0%, #F2C45B 50%, #B98A2F 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: #F2C45B;
-  filter: url(#brushEdge) drop-shadow(0 0 16px rgba(242,196,91,.45));
+  display: block; font: 700 calc(var(--s) * 96px)/1.02 "Kaushan Script", "Brush Script MT", cursive; padding: 0 .12em;
+  letter-spacing: -.055em; color: #F2C45B; -webkit-text-stroke: .04em #F2C45B;
+  filter: drop-shadow(0 3px 3px rgba(0,0,0,.95)) drop-shadow(0 0 16px rgba(242,196,91,.38));
 }
+.clubVsFallback { display: block; transform: skewX(-7deg); background: linear-gradient(180deg, #FFF1B8 0%, #F2C45B 50%, #B98A2F 100%); -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent; }
 [data-club-reveal-stage="versus"] .clubVs strong, [data-club-reveal-stage="confirmation"] .clubVs strong { font-size: calc(var(--s) * 64px); }
 
 /* panel faces */
