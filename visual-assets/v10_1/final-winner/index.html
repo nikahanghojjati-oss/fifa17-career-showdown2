@@ -36,6 +36,20 @@
       <button class="finalWinnerSettings" type="button" data-route="settings" aria-label="Settings">⚙</button>
     </nav>
     <main id="finalWinnerScreen" class="screen" aria-labelledby="finalWinnerTitle">
+      <!-- JOB-083 phone scene. Desktop plate/cut-outs remain authoritative above 760 px. -->
+      <picture class="finalWinnerPhoneBackground" aria-hidden="true">
+        <source type="image/webp" srcset="../trophy-room/assets/ENV_TR_PHONE_V1.webp">
+        <img src="../trophy-room/assets/ENV_TR_PHONE_V1.webp" alt="" fetchpriority="high" decoding="async">
+      </picture>
+      <span class="finalWinnerPhoneVeil" aria-hidden="true"></span>
+      <picture class="finalWinnerPhoneHero finalWinnerPhoneHero--daniel" aria-hidden="true">
+        <source type="image/webp" srcset="../trophy-room/assets/OVL_TR_DANIEL_PHONE_V1.webp">
+        <img src="../trophy-room/assets/OVL_TR_DANIEL_PHONE_V1.webp" alt="" decoding="async">
+      </picture>
+      <picture class="finalWinnerPhoneHero finalWinnerPhoneHero--nik" aria-hidden="true">
+        <source type="image/webp" srcset="../trophy-room/assets/OVL_TR_NIK_PHONE_V1.webp">
+        <img src="../trophy-room/assets/OVL_TR_NIK_PHONE_V1.webp" alt="" decoding="async">
+      </picture>
       <header class="finalWinnerTitleBlock">
         <p class="finalWinnerEyebrow sd-eyebrow">CAREER MODE SHOWDOWN 17</p>
         <h1 id="finalWinnerTitle" class="finalWinnerWordmark sd-title sd-title--wordmark">
