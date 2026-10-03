@@ -35,3 +35,40 @@ body {
 .sd-stage__layer--ui a {
   pointer-events: auto;
 }
+
+
+/* Step 3 · title block.
+   System reference: MOCKUP_TROPHY_ROOM.png, 1672×941.
+   Measured title group: left 34.7%, top 10.8%, width 29.6%; centre x ≈ 49.5%.
+   The Rule Book uses the same title geometry with its approved brush wordmark. */
+.ruleBookHero {
+  position: absolute;
+  z-index: 9;
+  left: 34.7%;
+  top: 10.8%;
+  width: 29.6%;
+  text-align: center;
+  pointer-events: none;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.9);
+}
+.ruleBookWordmark {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 0.4vh auto 0.15vh;
+  filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.55));
+}
+.ruleBookHero .sd-eyebrow { font-size: clamp(10px, 0.72vw, 14px); }
+.ruleBookHero .sd-tagline {
+  margin-top: 0.15vh;
+  font-size: clamp(9px, 0.62vw, 12px);
+  letter-spacing: 0.2em;
+}
+.ruleBookSummary {
+  max-width: 34rem;
+  margin: 0.65vh auto 0;
+  color: rgba(244, 241, 234, 0.78);
+  font-size: clamp(10px, 0.68vw, 13px);
+  line-height: 1.35;
+  text-align: center;
+}
