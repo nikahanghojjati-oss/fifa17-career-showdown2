@@ -4,7 +4,8 @@
 
   const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
   const pct = (v) => `${v * 100}%`;
-  const urlVar = (value) => `url("${String(value).replace(/"/g, "\\\"")}")`;
+  // URLs go into CSS custom properties, which resolve against stage.css, not the page; make them absolute first (Claude fix 2026-10-03).
+  const urlVar = (value) => `url("${new URL(String(value), document.baseURI).href.replace(/"/g, "\\\"")}")`;
 
   function phoneBandValue(map) {
     if (!map || !map.phone_band) return null;
