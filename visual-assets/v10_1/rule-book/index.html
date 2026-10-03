@@ -12,32 +12,59 @@
 <link rel="stylesheet" href="rule-book.css">
 </head>
 <body>
-<div id="stage-root" class="stage" data-screen="rule-book">
-  <main id="ruleBook" class="ruleBookScreen" aria-labelledby="ruleBookHeading">
-    <div id="ruleBookPreview" class="sd-preview-tag" hidden></div>
-
-    <header class="ruleBookHero">
-      <p id="ruleBookEyebrow" class="sd-label"></p>
-      <h1 id="ruleBookHeading" class="sd-title"></h1>
-      <p id="ruleBookHeroTitle" class="sd-tagline"></p>
-      <p id="ruleBookSummary" class="sd-body"></p>
-    </header>
-
-    <p id="ruleBookFrameStatus" aria-live="polite"></p>
-    <p id="ruleBookFrameNote"></p>
-
-    <nav id="ruleBookIndex" aria-label="Rule Book sections"></nav>
-    <section id="ruleBookSections" class="ruleBookGrid" aria-label="Competition rules"></section>
-
-    <div class="ruleBookActions">
-      <button id="ruleBookBack" class="backButton" type="button" data-smart-back></button>
+<div id="stage-root" class="sd-stage stage" data-screen="rule-book" data-plate-width="1672" data-plate-height="941">
+  <div class="sd-stage__layer sd-stage__layer--plate" aria-hidden="true">
+    <div class="sd-stage__registered">
+      <div class="sd-stage__plate"></div>
     </div>
-  </main>
-  <div class="nav-reserve" aria-hidden="true"></div>
+  </div>
+
+  <div class="sd-stage__layer sd-stage__layer--atmosphere" aria-hidden="true">
+    <div class="ruleBookScrim"></div>
+  </div>
+
+  <div class="sd-stage__layer sd-stage__layer--ui">
+    <main id="ruleBook" class="ruleBookScreen" aria-labelledby="ruleBookHeading">
+      <div id="ruleBookPreview" class="sd-preview-tag" hidden></div>
+
+      <header class="ruleBookHero">
+        <p id="ruleBookEyebrow" class="sd-label"></p>
+        <h1 id="ruleBookHeading" class="sd-title"></h1>
+        <p id="ruleBookHeroTitle" class="sd-tagline"></p>
+        <p id="ruleBookSummary" class="sd-body"></p>
+      </header>
+
+      <p id="ruleBookFrameStatus" aria-live="polite"></p>
+      <p id="ruleBookFrameNote"></p>
+
+      <nav id="ruleBookIndex" aria-label="Rule Book sections"></nav>
+      <section id="ruleBookSections" class="ruleBookGrid" aria-label="Competition rules"></section>
+
+      <div class="ruleBookActions">
+        <button id="ruleBookBack" class="backButton" type="button" data-smart-back></button>
+      </div>
+    </main>
+    <div class="nav-reserve" aria-hidden="true"></div>
+  </div>
 </div>
 
 <script src="../shared/stage.js" defer></script>
 <script src="../shared/motion.js" defer></script>
 <script src="rule-book.js" defer></script>
+<script>
+window.addEventListener("DOMContentLoaded", function () {
+  var stage = document.getElementById("stage-root");
+  if (!stage || !window.ShowdownStage) return;
+  window.ShowdownStage.mount(stage, {
+    plate: {
+      width: 1672,
+      height: 941,
+      src1x: "../shared/plates/ENV_SYS_PLATE_V1_1X.webp",
+      src2x: "../shared/plates/ENV_SYS_PLATE_V1_2X.webp"
+    },
+    focal: { x: 836, y: 470.5 }
+  });
+});
+</script>
 </body>
 </html>
