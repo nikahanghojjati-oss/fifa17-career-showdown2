@@ -26,13 +26,13 @@
     <div class="script-tag" aria-hidden="true">More Than A Game</div>
   </header>
 
-  <main>
-    <section id="leagueWheelScreen" class="screen">
+  <main class="league-main">
+    <section id="leagueWheelScreen" class="screen league-screen">
       <div class="title-block">
         <div class="kicker" aria-hidden="true">CAREER MODE SHOWDOWN 17</div>
         <h2>SELECT LEAGUE</h2>
       </div>
-      <div class="wheelContainer">
+      <div class="wheelContainer league-wheel-stack">
         <div class="wheel-bezel" aria-hidden="true"></div>
         <div class="wheelPointer"><span class="vh">▼</span></div>
         <div class="finger-contact" aria-hidden="true"></div>
@@ -56,7 +56,7 @@
           <div id="selectedLeague" role="status" aria-live="polite" aria-atomic="true">Spin to select league</div>
         </div>
         <div id="leagueStateNote" class="stateNote hidden" role="status" aria-live="polite"></div>
-        <div class="button-row">
+        <div class="button-row phone-action-dock">
           <button class="menuButton sd-btn sd-btn--primary" id="spinLeague" type="button">SPIN WHEEL</button>
           <button class="backButton sd-btn sd-btn--secondary" data-smart-back type="button">BACK</button>
         </div>
