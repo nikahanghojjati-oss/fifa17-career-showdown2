@@ -8,3 +8,5 @@ python3 visual-assets/v10_1/shared/tools/cutout.py --plate visual-assets/v10_1/t
 ```
 
 After edge refinement, export each runtime transparent WebP at about 1000 px tall, quality 85. Keep the lossless PNG masters and the rim outputs for Claude's proof/intake check.
+
+# proof: Claude composites PHONE_PROOF.png (393 × 660 at 3×) from phone_frame
