@@ -60,3 +60,7 @@ Claude intake checks before accepting the assets:
 - Reject matte rings, colour speckle, jagged fingertips, registration seams, or any cutout edge that crosses opaque UI.
 - Keep rim light directional and subtle; it must not look like a full outline.
 - The Final Winner hero trophy remains below the cutout layer and above the stadium/atmosphere.
+
+After those checks pass, change into `visual-assets/v10_1/final-winner`. The preview builder inlines the finished WebPs, shared CSS/JS, fixture data and screen code into `preview.html`. Run this as the final recipe command:
+
+python3 tools/build_preview.py
