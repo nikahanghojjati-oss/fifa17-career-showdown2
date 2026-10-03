@@ -12,3 +12,23 @@ html,body{margin:0;width:100%;height:100%;background:#07080a;overflow:hidden}bod
   .rv-bottom .sd-panel__header::after{display:inline-block;width:25%;height:2px;margin:0 0 4px 16px;vertical-align:middle}
   .rv-mini{font:600 14px/1.5 var(--sd-font-condensed);color:var(--sd-text-primary)}
 }
+/* JOB-067 step 5: data hierarchy and mockup elements. */
+.rv-progress{position:absolute;left:35%;right:35%;top:5%;text-align:center;color:var(--sd-text-secondary);font:600 10px/1.2 var(--sd-font-condensed);letter-spacing:.11em;text-transform:uppercase}
+.rv-headGrid{height:76%;display:grid;grid-template-columns:repeat(3,1fr);align-items:center;padding:0 5%;box-sizing:border-box}
+.rv-headStat{text-align:center;border-right:1px solid rgba(255,255,255,.16)}
+.rv-headStat:last-child{border-right:0}.rv-headStat span{display:block;color:var(--sd-text-secondary);font:600 12px/1 var(--sd-font-condensed);letter-spacing:.08em;text-transform:uppercase}
+.rv-headStat strong{display:block;margin-top:10px;color:var(--sd-text-primary);font:700 clamp(34px,3.2vw,58px)/.9 var(--sd-font-condensed);font-variant-numeric:tabular-nums}
+.rv-headStat:first-child strong{color:var(--sd-gold-300)}
+.rv-seasonTable{width:94%;margin:0 auto;border-collapse:collapse;table-layout:fixed;font:600 12px/1.15 var(--sd-font-condensed);font-variant-numeric:tabular-nums}
+.rv-seasonTable th{height:24px;color:var(--sd-text-secondary);font-size:9px;letter-spacing:.09em;text-transform:uppercase;border:1px solid rgba(255,255,255,.14)}
+.rv-seasonTable td{height:23px;text-align:center;border:1px solid rgba(255,255,255,.12);color:var(--sd-text-primary)}
+.rv-seasonTable td:nth-child(2){color:var(--sd-gold-300);font-weight:700}
+.rv-seasonWinner{display:flex;align-items:center;justify-content:center;gap:6px}.rv-seasonCrest{display:inline-grid;width:17px;height:20px}.rv-seasonCrest svg{width:100%;height:100%}.rv-drawMark{color:var(--sd-gold-300);font-weight:700}
+.rv-emptyInline{display:grid;place-items:center;height:72%;padding:0 9%;text-align:center;color:var(--sd-text-secondary);font:600 13px/1.35 var(--sd-font-condensed)}
+.rv-trophyGrid{height:76%;display:grid;grid-template-columns:repeat(4,1fr);align-items:end;gap:2px;padding:2px 4% 8px;box-sizing:border-box}
+.rv-trophy{text-align:center;min-width:0}.rv-trophy img{display:block;width:auto;height:84px;max-width:90%;margin:0 auto;object-fit:contain;filter:drop-shadow(0 3px 7px rgba(0,0,0,.8))}
+.rv-trophyLabel{display:block;color:var(--sd-text-primary);font:600 9px/1.05 var(--sd-font-condensed);letter-spacing:.03em;text-transform:uppercase;min-height:19px}
+.rv-trophyCount{display:block;margin-top:3px;color:var(--sd-text-secondary);font:700 10px/1 var(--sd-font-condensed);font-variant-numeric:tabular-nums}.rv-trophyCount b{color:var(--sd-gold-300)}
+.rv-rowSvg{display:block;width:18px;height:18px;margin:auto;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.rv-transferUnavailable{font-size:12px!important;letter-spacing:.02em}
+@media(max-height:700px) and (min-width:1024px){.rv-titleBlock{top:8.2%}.rv-comparison{top:25.5%;height:37%}.rv-bottom{top:62.5%;height:24%}.rv-actions{top:88%}.rv-trophy img{height:64px}.rv-row{min-height:0}.rv-value{font-size:20px}}

@@ -1,68 +1,17 @@
-(() => {
-"use strict";
-const qs = new URLSearchParams(window.RIVALRY_QS || location.search);
-const frameName = qs.get("frame") || "RV1";
-const fallback = {
- strings:{comparisonRows:["Showdown Points","Season Wins","Total Trophies","Champions Leagues","League Titles","Domestic Cups","Transfer Signings"],stateCopy:{}},
- frames:{RV1:{previewLabel:"Preview data",interimLabel:"Current Showdown only. Career history is not yet available.",status:"loading",clubs:{daniel:"Club",nik:"Club"},season:1,totalSeasons:1,transfers:{status:"loading"}}}
-};
-const icons=["◆","✦","♛","★","◆","♜","⇄"];
-function val(frame,key,side){
- if(key==="Showdown Points") return frame.score?.[side];
- const r=frame.managerRecords?.[side]||{};
- const map={"Season Wins":"seasonWins","Total Trophies":"totalTrophies","Champions Leagues":"championsLeagues","League Titles":"leagueTitles","Domestic Cups":"domesticCups"};
- if(map[key]) return r[map[key]];
- if(key==="Transfer Signings"){
-   if(frame.transfers?.status==="unavailable") return "Unavailable";
-   if(frame.transfers?.status==="loading") return "—";
-   return (frame.transfers?.previewPerSeasonSummary||[]).reduce((n,s)=>n+(s.signings?.[side]||0),0);
- }
- return "—";
-}
-function mountStage(map){
- if(!window.ShowdownStage || window.rvStage) return;
- const stage=document.getElementById("stage-root");
- window.rvStage=window.ShowdownStage.mount(stage,{
-   plate:{width:1672,height:941,src1x:"assets/ENV_RV_PLATE_V1_1X.webp",src2x:"assets/ENV_RV_PLATE_V1_2X.webp"},
-   platemap:map,
-   focal:{x:836,y:470.5},
-   dustCount:24,
-   phoneBandRatio:.46
- });
-}
-function render(data){
- const frame=data.frames?.[frameName]||data.frames?.RV1||fallback.frames.RV1;
- document.documentElement.dataset.frame=frameName;
- document.getElementById("rvPreviewChip").textContent=frame.previewLabel||data.strings?.previewLabel||"Preview data";
- document.getElementById("rvInterim").textContent=frame.interimLabel||"";
- document.getElementById("rvClubDaniel").textContent=frame.clubs?.daniel||"Club";
- document.getElementById("rvClubNik").textContent=frame.clubs?.nik||"Club";
- if(window.getClubCrestSvg){
-   document.getElementById("rvCrestDaniel").innerHTML=window.getClubCrestSvg(frame.clubs?.daniel||"");
-   document.getElementById("rvCrestNik").innerHTML=window.getClubCrestSvg(frame.clubs?.nik||"");
- }
- const rows=data.strings?.comparisonRows||fallback.strings.comparisonRows;
- document.getElementById("rvRows").innerHTML=rows.map((label,i)=>{
-   const l=val(frame,label,"daniel"),r=val(frame,label,"nik");
-   const ln=typeof l==="number"&&typeof r==="number"&&l>r, rn=typeof l==="number"&&typeof r==="number"&&r>l;
-   return `<div class="rv-row"><span class="rv-value left ${ln?"is-leader":""}">${l??"—"}</span><span class="rv-icon" aria-hidden="true">${icons[i]}</span><span class="rv-label">${label}</span><span class="rv-value right ${rn?"is-leader":""}">${r??"—"}</span></div>`;
- }).join("");
- document.getElementById("rvHeadBody").innerHTML=`<div class="rv-mini">Daniel ${frame.managerRecords?.daniel?.seasonWins??"—"} · Nik ${frame.managerRecords?.nik?.seasonWins??"—"} · Draws ${frame.managerRecords?.daniel?.seasonDraws??"—"}</div>`;
- document.getElementById("rvSeasonBody").innerHTML=(frame.seasons?.length?frame.seasons.map(s=>`<div class="rv-mini">SEASON ${s.season} · ${s.score.daniel} — ${s.score.nik} · ${s.winner==="daniel"?"Daniel":s.winner==="nik"?"Nik":"Draw"}</div>`).join(""):`<div class="rv-mini">No season has been completed yet. Statistics will build automatically as seasons are finished.</div>`);
- document.getElementById("rvTrophyBody").innerHTML=`<div class="rv-mini">Daniel ${frame.managerRecords?.daniel?.totalTrophies??"—"} · Nik ${frame.managerRecords?.nik?.totalTrophies??"—"}</div>`;
- const state=document.getElementById("rvState");
- if(frame.status==="loading"||frame.status==="unavailable"||frame.status==="partial"){
-   state.style.display="block";
-   state.textContent=(data.strings?.stateCopy?.[frame.status]?.text)||"";
- }
-}
-function boot(data,map){ window.RivalryFixtures=data; mountStage(map); render(data); }
-if(window.RIVALRY_BOOT?.fixtures){
- boot(window.RIVALRY_BOOT.fixtures,window.RIVALRY_BOOT.platemap||null);
-}else{
- Promise.all([
-   fetch("fixtures.json").then(r=>r.json()),
-   fetch("assets/platemap.json").then(r=>r.json())
- ]).then(([data,map])=>boot(data,map)).catch(()=>boot(fallback,null));
-}
+(()=>{"use strict";
+const q=new URLSearchParams(window.RIVALRY_QS||location.search),F=q.get("frame")||"RV1";
+const fallback={strings:{comparisonRows:["Showdown Points","Season Wins","Total Trophies","Champions Leagues","League Titles","Domestic Cups","Transfer Signings"],stateCopy:{}},frames:{RV1:{status:"loading",previewLabel:"Preview data",interimLabel:"Current Showdown only. Career history is not yet available.",clubs:{daniel:"Club",nik:"Club"},totalSeasons:1,transfers:{status:"loading"}}}};
+const arts=["../shared/trophies/TRO_SHOWDOWN_CHAMPION_V1_512.webp","../shared/trophies/TRO_LEAGUE_TITLE_V1_512.webp","../shared/trophies/TRO_DOMESTIC_CUP_V1_512.webp","../shared/trophies/TRO_CONTINENTAL_V1_512.webp"],icons=["◇","▦","♛","✦","⬡","♜","⇄"];
+const crest=c=>window.getClubCrestSvg?window.getClubCrestSvg(c||""):"";
+function mount(map){if(window.ShowdownStage&&!window.rvStage)window.rvStage=window.ShowdownStage.mount(document.getElementById("stage-root"),{plate:{width:1672,height:941,src1x:"assets/ENV_RV_PLATE_V1_1X.webp",src2x:"assets/ENV_RV_PLATE_V1_2X.webp"},platemap:map,focal:{x:836,y:470.5},dustCount:24,phoneBandRatio:.46});}
+function value(f,l,s){if(l==="Showdown Points")return f.score?.[s];const r=f.managerRecords?.[s]||{},m={"Season Wins":"seasonWins","Total Trophies":"totalTrophies","Champions Leagues":"championsLeagues","League Titles":"leagueTitles","Domestic Cups":"domesticCups"};if(m[l])return r[m[l]];if(l==="Transfer Signings"){if(["unavailable","partial"].includes(f.transfers?.status))return"Unavailable";if(f.transfers?.status==="loading")return"—";return(f.transfers?.previewPerSeasonSummary||[]).reduce((n,x)=>n+(+x.signings?.[s]||0),0)}return"—"}
+function rows(d,f){document.getElementById("rvRows").innerHTML=(d.strings?.comparisonRows||fallback.strings.comparisonRows).map((l,i)=>{const a=value(f,l,"daniel"),b=value(f,l,"nik"),an=typeof a==="number"&&typeof b==="number"&&a>b,bn=typeof a==="number"&&typeof b==="number"&&b>a;return '<div class="rv-row"><span class="rv-value left '+(an?"is-leader":"")+'">'+(a??"—")+'</span><span class="rv-icon" aria-hidden="true">'+icons[i]+'</span><span class="rv-label">'+l+'</span><span class="rv-value right '+(bn?"is-leader":"")+'">'+(b??"—")+"</span></div>"}).join("")}
+function head(f){const d=f.managerRecords?.daniel,n=f.managerRecords?.nik;document.getElementById("rvHeadBody").innerHTML='<div class="rv-headGrid"><div class="rv-headStat"><span>DANIEL WINS</span><strong>'+(d?.seasonWins??"—")+'</strong></div><div class="rv-headStat"><span>NIK WINS</span><strong>'+(n?.seasonWins??"—")+'</strong></div><div class="rv-headStat"><span>DRAWS</span><strong>'+(d?.seasonDraws??"—")+"</strong></div></div>"}
+function win(f,s){if(s.winner==="draw")return'<span class="rv-seasonWinner"><b class="rv-drawMark">—</b> Draw</span>';const side=s.winner==="nik"?"nik":"daniel",name=side==="daniel"?"Daniel":"Nik";return'<span class="rv-seasonWinner"><span class="rv-seasonCrest" aria-hidden="true">'+crest(f.clubs?.[side])+"</span>"+name+"</span>"}
+function seasons(d,f){const e=document.getElementById("rvSeasonBody");if(!f.seasons?.length){e.innerHTML='<div class="rv-emptyInline">'+(d.strings?.emptySeasonHistory||"No season has been completed yet. Statistics will build automatically as seasons are finished.")+"</div>";return}e.innerHTML='<table class="rv-seasonTable"><thead><tr><th>SEASON</th><th>DANIEL</th><th>NIK</th><th>WINNER</th></tr></thead><tbody>'+f.seasons.map(s=>"<tr><td>"+s.season+"</td><td>"+s.score.daniel+"</td><td>"+s.score.nik+"</td><td>"+win(f,s)+"</td></tr>").join("")+"</tbody></table>"}
+function champion(f){if(f.ui?.lifecycle!=="completed"||!f.score)return["—","—"];if(f.score.daniel===f.score.nik)return[0,0];return f.score.daniel>f.score.nik?[1,0]:[0,1]}
+function trophies(d,f){const a=f.managerRecords?.daniel||{},b=f.managerRecords?.nik||{},c=champion(f),L=d.strings?.trophyLabels||{},items=[[L.showdownChampion?.text||"Showdown Champion",c[0],c[1]],[L.leagueTitle?.text||"League Title",a.leagueTitles??"—",b.leagueTitles??"—"],[L.domesticCup?.text||"Domestic Cup",a.domesticCups??"—",b.domesticCups??"—"],[L.championsLeague?.text||"Champions League",a.championsLeagues??"—",b.championsLeagues??"—"]];document.getElementById("rvTrophyBody").innerHTML='<div class="rv-trophyGrid">'+items.map((x,i)=>'<div class="rv-trophy"><img src="'+arts[i]+'" alt="" aria-hidden="true"><span class="rv-trophyLabel">'+x[0]+'</span><span class="rv-trophyCount"><b>D '+x[1]+"</b> · N "+x[2]+"</span></div>").join("")+"</div>"}
+function render(d){const f=d.frames?.[F]||d.frames?.RV1||fallback.frames.RV1;document.documentElement.dataset.frame=F;document.getElementById("rvPreviewChip").textContent=f.previewLabel||d.strings?.previewLabel||"Preview data";document.getElementById("rvInterim").textContent=f.interimLabel||"";document.getElementById("rvClubDaniel").textContent=f.clubs?.daniel||d.strings?.clubFallback||"Club";document.getElementById("rvClubNik").textContent=f.clubs?.nik||d.strings?.clubFallback||"Club";document.getElementById("rvCrestDaniel").innerHTML=crest(f.clubs?.daniel);document.getElementById("rvCrestNik").innerHTML=crest(f.clubs?.nik);document.getElementById("rvProgress").textContent=(f.seasons?.length||0)+" / "+(f.totalSeasons??"—")+" SEASONS COMPLETED";rows(d,f);head(f);seasons(d,f);trophies(d,f)}
+function boot(d,m){window.RivalryFixtures=d;mount(m);render(d)}
+if(window.RIVALRY_BOOT?.fixtures)boot(window.RIVALRY_BOOT.fixtures,window.RIVALRY_BOOT.platemap||null);else Promise.all([fetch("fixtures.json").then(r=>r.json()),fetch("assets/platemap.json").then(r=>r.json())]).then(x=>boot(x[0],x[1])).catch(()=>boot(fallback,null));
 })();
