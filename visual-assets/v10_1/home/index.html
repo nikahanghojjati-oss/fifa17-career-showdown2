@@ -11,7 +11,22 @@
 </head>
 <body>
 <div id="stage-root" class="stage">
-<div class="plateView" aria-hidden="true"><div class="plateLayer"></div></div>
+<div class="plateView" aria-hidden="true">
+<picture class="phoneHeroBackground">
+<source media="(max-width: 760px) and (orientation: portrait)" srcset="assets/ENV_HOME_PHONE_V1.webp" type="image/webp">
+<img alt="" aria-hidden="true" decoding="async">
+</picture>
+<div class="plateLayer"></div>
+</div>
+<picture class="phoneHeroCutout phoneHeroDaniel" aria-hidden="true">
+<source media="(max-width: 760px) and (orientation: portrait)" srcset="assets/OVL_HOME_DANIEL_PHONE_V1.webp" type="image/webp">
+<img alt="" aria-hidden="true" decoding="async">
+</picture>
+<picture class="phoneHeroCutout phoneHeroNik" aria-hidden="true">
+<source media="(max-width: 760px) and (orientation: portrait)" srcset="assets/OVL_HOME_NIK_PHONE_V1.webp" type="image/webp">
+<img alt="" aria-hidden="true" decoding="async">
+</picture>
+<div class="phoneHeroGrade" aria-hidden="true"></div>
 <span class="managerPlateMarker" data-manager="daniel" role="presentation"></span>
 <span class="managerPlateMarker" data-manager="nik" role="presentation"></span>
 <div class="scrim scrimTop" aria-hidden="true"></div>
