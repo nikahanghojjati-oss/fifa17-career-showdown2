@@ -133,6 +133,45 @@
     return card;
   }
 
+  function renderSeasonHistory(frame, showdownNumber, strings) {
+    const drawer = document.getElementById("legacySeasonHistory");
+    const action = document.getElementById("viewSeasonHistory");
+    const showdown = (frame.showdowns || []).find((item) => item.number === showdownNumber);
+    drawer.replaceChildren();
+
+    if (!showdown || !Array.isArray(showdown.seasons) || !showdown.seasons.length) {
+      drawer.hidden = true;
+      action.setAttribute("aria-expanded", "false");
+      return;
+    }
+
+    const heading = document.createElement("h2");
+    heading.className = "legacyHistoryHeading sd-label";
+    heading.textContent = "Showdown #" + showdown.number + " · " + strings.actions.viewSeasonHistory;
+
+    const rows = document.createElement("div");
+    rows.className = "legacyHistoryRows";
+    showdown.seasons.forEach((season) => {
+      const row = document.createElement("div");
+      row.className = "legacyHistoryRow";
+      const label = document.createElement("span");
+      label.textContent = "Season " + season.season;
+      const daniel = document.createElement("span");
+      daniel.className = "daniel";
+      daniel.textContent = "Daniel " + season.score.daniel;
+      const divider = document.createElement("span");
+      divider.textContent = "–";
+      const nik = document.createElement("span");
+      nik.className = "nik";
+      nik.textContent = season.score.nik + " Nik";
+      row.append(label, daniel, divider, nik);
+      rows.appendChild(row);
+    });
+    drawer.append(heading, rows);
+    drawer.hidden = false;
+    action.setAttribute("aria-expanded", "true");
+  }
+
   function renderArchive(frame, strings) {
     const grid = document.getElementById("legacyCardGrid");
     const pager = document.getElementById("legacyPager");
@@ -155,6 +194,9 @@
         card.addEventListener("click", () => {
           selected = item.number;
           frame.ui.selectedShowdown = selected;
+          if (window.LegacyFixture) window.LegacyFixture.selectedShowdown = selected;
+          document.getElementById("legacySeasonHistory").hidden = true;
+          document.getElementById("viewSeasonHistory").setAttribute("aria-expanded", "false");
           paint();
         });
         grid.appendChild(card);
@@ -233,10 +275,24 @@
 
     renderSideMenu(fixtures.strings);
     renderArchive(frame, fixtures.strings);
+    const historyAction = document.getElementById("viewSeasonHistory");
+    historyAction.textContent = fixtures.strings.actions.viewSeasonHistory;
+    historyAction.dataset.route = "viewSeasonHistory";
+    historyAction.disabled = !(frame.ui && frame.ui.selectedShowdown);
+    historyAction.addEventListener("click", () => {
+      const selected = window.LegacyFixture && window.LegacyFixture.selectedShowdown;
+      const drawer = document.getElementById("legacySeasonHistory");
+      if (!drawer.hidden) {
+        drawer.hidden = true;
+        historyAction.setAttribute("aria-expanded", "false");
+        return;
+      }
+      renderSeasonHistory(frame, selected, fixtures.strings);
+    });
     renderObject(stringsRoot, fixtures.strings);
     renderObject(valuesRoot, frame);
 
-    window.LegacyFixture = { fixtures, frameId, frame, platemap, stageController };
+    window.LegacyFixture = { fixtures, frameId, frame, platemap, stageController, selectedShowdown: frame.ui && frame.ui.selectedShowdown };
   }
 
   boot().catch((error) => {
