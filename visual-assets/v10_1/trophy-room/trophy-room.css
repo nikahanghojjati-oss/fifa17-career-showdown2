@@ -1,7 +1,7 @@
 /* Trophy Room desktop visual build · JOB-057 */
 :root{--tr-gold:var(--sd-gold-500,#d9ae53);--tr-gold-hi:#f4dc8b;--tr-ink:#050607;--tr-glass:rgba(7,8,10,.88);--tr-line:rgba(230,183,83,.78)}
 *{box-sizing:border-box}html,body{width:100%;height:100%;margin:0;overflow:hidden;background:#050607;color:#f4f1ea}body{font-family:var(--sd-font-body,"Barlow",Arial,sans-serif)}button{font:inherit}#stage-root,.screen,.trophyRoomScene{width:100%;height:100%;min-height:100%;overflow:hidden}.trophyRoomContent{position:relative;width:100%;height:100%;overflow:hidden;isolation:isolate}
-.visually-hidden{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0 0 0 0)!important;white-space:nowrap!important;border:0!important}.trophyPhoneArt,.trophyPhoneSheet,.trophyPhoneMoreButton{display:none}.topbarReserve{position:absolute;z-index:25;inset:0 0 auto;height:52px;background:linear-gradient(180deg,rgba(2,3,4,.62),rgba(2,3,4,.16) 72%,transparent);border-bottom:1px solid rgba(217,174,83,.16);pointer-events:none}.phoneNavReserve{display:none}
+.visually-hidden{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0 0 0 0)!important;white-space:nowrap!important;border:0!important}.trophyPhoneArt,.trophyPhoneSheet,.trophyPhoneMoreButton,.trophyPhoneNavReserve{display:none}.topbarReserve{position:absolute;z-index:25;inset:0 0 auto;height:52px;background:linear-gradient(180deg,rgba(2,3,4,.62),rgba(2,3,4,.16) 72%,transparent);border-bottom:1px solid rgba(217,174,83,.16);pointer-events:none}.phoneNavReserve{display:none}
 .previewPill{position:absolute;z-index:28;right:2.2%;top:64px;padding:5px 9px;border:1px solid rgba(238,198,100,.55);background:rgba(4,5,6,.72);color:#f5d57f;font-size:11px;line-height:1;text-transform:uppercase;letter-spacing:.14em;box-shadow:0 8px 24px rgba(0,0,0,.22)}
 .managerRegistration{position:absolute;z-index:1;display:block;width:9.2%;height:20.6%;top:14%;pointer-events:none}.managerRegistration--daniel{left:19%}.managerRegistration--nik{left:68%}
 .trophyTitleBlock{position:absolute;z-index:9;left:34.7%;top:10.8%;width:29.6%;height:14.5%;text-align:center;pointer-events:none;text-shadow:0 2px 14px rgba(0,0,0,.9)}.trophyEyebrow,.trophyTagline{margin:0;color:#f4e5ba;text-transform:uppercase;letter-spacing:.24em;font-family:var(--sd-font-condensed,"Barlow Condensed",Arial,sans-serif);font-weight:600}.trophyEyebrow{font-size:clamp(10px,.72vw,14px)}.trophyBrushTitle{display:block;width:100%;height:auto;margin:.4vh auto .15vh;filter:drop-shadow(0 8px 14px rgba(0,0,0,.55))}.trophyTagline{font-size:clamp(9px,.62vw,12px);letter-spacing:.2em;color:#e8d7aa}
@@ -15,7 +15,7 @@
 @media (max-height:700px) and (min-width:761px){.previewPill{top:57px}.trophyTitleBlock{top:8.5%;width:27%;left:36.5%}.heroCeremony{top:24.5%;height:35.5%;width:23%;left:38.5%}.careerRanks{top:50.5%}.trophyShelf{top:64%;bottom:14.2%}.trophyTabs{top:-30px;height:31px}.trophyBack{bottom:5.4%;height:40px}.recordRibbon{height:26%}.recordItem{padding-top:3px;padding-bottom:3px}}
 @media (max-width:760px){
   .topbarReserve,.previewPill{display:none}
-  .phoneMoreToggle{position:absolute!important;width:1px!important;height:1px!important;opacity:0!important;pointer-events:none!important}
+  .phoneMoreToggle{position:absolute!important;z-index:42!important;right:12px!important;bottom:calc(64px + env(safe-area-inset-bottom))!important;width:78px!important;height:44px!important;margin:0!important;opacity:0!important;pointer-events:auto!important;cursor:pointer!important;clip:auto!important;clip-path:none!important;white-space:normal!important}
   .sd-stage__layer--plate{display:none}
   .trophyPhoneArt{display:block;position:absolute;z-index:1;inset:0;overflow:hidden;pointer-events:none}
   .trophyPhoneBackdrop{position:absolute;inset:0;display:block}
@@ -79,7 +79,7 @@
   .trophyPhoneSheet{display:none;position:absolute;z-index:30;left:10px;right:10px;top:48%;bottom:calc(116px + env(safe-area-inset-bottom));padding:14px 14px 52px;border:1px solid rgba(231,190,91,.62);background:linear-gradient(180deg,rgba(18,18,16,.98),rgba(4,5,6,.99));box-shadow:0 18px 36px rgba(0,0,0,.65);overflow:hidden}
   .trophyPhoneSheetTitle{display:block;color:var(--tr-gold-hi);font:700 15px/1 var(--sd-font-condensed,"Barlow Condensed",Arial,sans-serif);letter-spacing:.12em;text-transform:uppercase}
   .trophyPhoneSheetHint{display:block;margin-top:4px;color:#aa9f83;font-size:9px;letter-spacing:.08em;text-transform:uppercase}
-  .trophyPhoneSheetClose{position:absolute;left:12px;right:12px;bottom:8px;height:44px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(237,196,98,.62);color:#f2deab;font:700 11px/1 var(--sd-font-condensed,"Barlow Condensed",Arial,sans-serif);letter-spacing:.14em;text-transform:uppercase;cursor:pointer}
+  .trophyPhoneSheetClose{position:absolute;left:12px;right:12px;bottom:8px;height:44px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(237,196,98,.35);color:#a99f87;font:700 11px/1 var(--sd-font-condensed,"Barlow Condensed",Arial,sans-serif);letter-spacing:.14em;text-transform:uppercase;pointer-events:none}
   .phoneMoreToggle:checked ~ .trophyPhoneSheet{display:block}
   .phoneMoreToggle:checked ~ #trophyRoomContent .trophyShelf{opacity:.08;pointer-events:none}
   .phoneMoreToggle:checked ~ #trophyRoomContent .careerRanks{display:grid;z-index:34;top:44%;left:24px;right:24px;height:88px;grid-template-columns:1fr 1fr;gap:8px;pointer-events:none}
@@ -97,10 +97,14 @@
 
   /* Primary action stays above the shared 56 px hub bar; MORE is secondary. */
   .trophyBack{z-index:40;left:12px;right:100px;width:auto;bottom:calc(64px + env(safe-area-inset-bottom));height:44px;font-size:13px}
-  .trophyPhoneMoreButton{display:flex;position:absolute;z-index:41;right:12px;bottom:calc(64px + env(safe-area-inset-bottom));width:78px;height:44px;align-items:center;justify-content:center;border:1px solid rgba(237,196,98,.55);background:rgba(8,9,10,.94);color:#d9c79c;font:700 10px/1 var(--sd-font-condensed,"Barlow Condensed",Arial,sans-serif);letter-spacing:.12em;text-transform:uppercase;cursor:pointer}
+  .trophyPhoneMoreButton{display:flex;position:absolute;z-index:41;right:12px;bottom:calc(64px + env(safe-area-inset-bottom));width:78px;height:44px;align-items:center;justify-content:center;border:1px solid rgba(237,196,98,.55);background:rgba(8,9,10,.94);color:#d9c79c;font:700 10px/1 var(--sd-font-condensed,"Barlow Condensed",Arial,sans-serif);letter-spacing:.12em;text-transform:uppercase;pointer-events:none}
+  .trophyPhoneMoreClose{display:none}
   .phoneMoreToggle:checked ~ .trophyPhoneMoreButton{background:linear-gradient(180deg,#e8c96d,#c99839);color:#111}
-  .trophyPhoneMoreButton:focus-visible,.trophyPhoneSheetClose:focus-visible{outline:3px solid #fff3bd;outline-offset:2px}
-  .phoneNavReserve{display:block;position:absolute;z-index:36;left:0;right:0;bottom:0;height:calc(56px + env(safe-area-inset-bottom));background:linear-gradient(180deg,rgba(4,5,6,.78),rgba(2,3,4,.97));border-top:1px solid rgba(217,174,83,.25);pointer-events:none}
+  .phoneMoreToggle:checked ~ .trophyPhoneMoreButton .trophyPhoneMoreOpen{display:none}
+  .phoneMoreToggle:checked ~ .trophyPhoneMoreButton .trophyPhoneMoreClose{display:inline}
+  .phoneMoreToggle:focus-visible ~ .trophyPhoneMoreButton{outline:3px solid #fff3bd;outline-offset:2px}
+  .phoneNavReserve{display:none!important}
+  .trophyPhoneNavReserve{display:block;position:absolute;z-index:36;left:0;right:0;bottom:0;height:calc(56px + env(safe-area-inset-bottom));background:linear-gradient(180deg,rgba(4,5,6,.78),rgba(2,3,4,.97));border-top:1px solid rgba(217,174,83,.25);pointer-events:none}
 }
 @media (prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important}.statePanel--loading .stateGlyph{animation:none!important}}
 html[data-motion-reduced="true"] .statePanel--loading .stateGlyph,html[data-reduced-motion="true"] .statePanel--loading .stateGlyph{animation:none!important}
