@@ -593,6 +593,19 @@
         "^tests/contracts/closed-showdown-adapter-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/shared-journey-rivalry-lookup-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedCanonicalScoring\\.js$",
+        "^js/productionSharedHistoryConvergence\\.js$",
+        "^js/productionSharedMultiSeasonProgression\\.js$",
+        "^js/productionSharedTerminalClose\\.js$",
+        "^js/productionSharedFinalReconciliation\\.js$",
+        "^js/productionSharedJourneyEntry\\.js$",
+        "^tests/contracts/shared-journey-rivalry-lookup-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }

@@ -32,8 +32,9 @@
     if(!historyApi||typeof historyApi.refresh!=="function"||typeof historyApi.getState!=="function")pmspFail("MULTI_SEASON_HISTORY_UNAVAILABLE");
     if(!provider||typeof provider.read!=="function")pmspFail("MULTI_SEASON_PROVIDER_UNAVAILABLE");
   }
-  function pmspSetupState(){try{return setupApi?.getState?.()||null;}catch(_error){return null;}}
-  function pmspRivalryId(){const showdown=pmspShowdown(),setup=pmspSetupState();return String(showdown?.sharedJourney?.rivalryId||setup?.rivalryId||"").trim();}
+  function pmspSetupState(){try{return (setupApi||root.CareerModeProductionSharedShowdownSetup)?.getState?.()||null;}catch(_error){return null;}}
+  function pmspConfirmedSetupRivalry(s){return s&&s.ready===true&&s.setup&&s.setup.phase==="SHOWDOWN_CONFIRMED"&&s.setup.revision===6&&s.rivalryId?String(s.rivalryId):"";}
+  function pmspRivalryId(){const showdown=pmspShowdown(),setup=pmspSetupState();return String(showdown?.sharedJourney?.rivalryId||pmspConfirmedSetupRivalry(setup)||"").trim();}
   function pmspEnsureCursor(){
     if(!pmspSharedMarker())return null;
     const rivalryId=pmspRivalryId();if(!rivalryId)return null;
