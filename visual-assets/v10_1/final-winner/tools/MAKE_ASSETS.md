@@ -64,3 +64,31 @@ Claude intake checks before accepting the assets:
 After those checks pass, change into `visual-assets/v10_1/final-winner`. The preview builder inlines the finished WebPs, shared CSS/JS, fixture data and screen code into `preview.html`. Run this as the final recipe command:
 
 python3 tools/build_preview.py
+
+## JOB-083 phone hero inputs
+
+Final Winner reuses the Trophy Room portrait phone art. The portrait background WebP is already committed; the two transparent phone hero WebPs are intentionally referenced by the screen before generation. Run these from the repository root, preserving Daniel left and Nik right and never mirroring:
+
+```sh
+mkdir -p visual-assets/v10_1/trophy-room/assets
+
+python3 visual-assets/v10_1/shared/tools/cutout.py \
+  --plate visual-assets/v10_1/trophy-room/assets/ENV_TR_PLATE_V1_2X.png \
+  --source-scale 2 \
+  --map visual-assets/v10_1/trophy-room/assets/phonemap.json \
+  --key cutouts.daniel_phone \
+  --output visual-assets/v10_1/trophy-room/assets/OVL_TR_DANIEL_PHONE_V1 \
+  --rim
+
+python3 visual-assets/v10_1/shared/tools/cutout.py \
+  --plate visual-assets/v10_1/trophy-room/assets/ENV_TR_PLATE_V1_2X.png \
+  --source-scale 2 \
+  --map visual-assets/v10_1/trophy-room/assets/phonemap.json \
+  --key cutouts.nik_phone \
+  --output visual-assets/v10_1/trophy-room/assets/OVL_TR_NIK_PHONE_V1 \
+  --rim
+```
+
+Claude then follows the Trophy Room phone recipe: refine the generated edges, export the runtime transparent WebPs at about 1000 px tall and quality 85, and keep each cutout at or below 60,000 bytes. Runtime names consumed by Final Winner are exactly `OVL_TR_DANIEL_PHONE_V1.webp` and `OVL_TR_NIK_PHONE_V1.webp`.
+
+Phone placement is fixed by `phonemap.json`: Daniel x 29%, top 1.5%, visible height 59%; Nik x 71%, top 1%, visible height 60%; background position 50% 50%; hero boundary 55%; bottom darkening begins at 48% and reaches opaque by 66%. Background plus both cutout budgets total 253,986 bytes.
