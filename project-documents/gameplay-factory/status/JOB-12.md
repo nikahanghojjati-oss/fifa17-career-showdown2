@@ -1,15 +1,16 @@
 # Status · JOB-12 · Composed production Rules regression
 
 State: IN PROGRESS
-Step: 5 of 8
-Updated: 2026-10-03 23:11 UTC
+Step: 6 of 8
+Updated: 2026-10-03 23:20 UTC
 Chat: Sol Work mode (job 12, 0374185e849b)
 Code branch: gameplay/job-12-composed-rules-regression
 Head commit: 6dde19a087b29a69d680c34fd55a2e3276974bb9
 PR:
-CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37158530069 (attempt 1: three G-12 jobs SUCCESS, inherited browser journey FAIL; failed-job retry requested, CI pending on exact head 6dde19a)
+CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37158530069 (SUCCESS attempt 2, all four jobs, exact head 6dde19a087b29a69d680c34fd55a2e3276974bb9)
 
 ## Notes
+- Step 6 complete: single read confirms run 37158530069 attempt 2 SUCCESS on exact 6dde19a; all four jobs SUCCESS (the three G-12 jobs retained their successful evidence, inherited browser retry PASS 32 numbered checks J0-J12). Browser failure on attempt 1 is intermittent on the unchanged commit; no fix or assertion change was made. Local composed contract 10/10, census 111/111, operations 73/0, exact eight-file diff against recovery ab704a9, clean worktree; prior literal T2/T3/T8/T9/E1 and 49-check final PASS are verified again from the successful job logs. Live code and recovery refs still 6dde19a/ab704a9. Qualified gate: E1 only S8/D13 and S9/D13; all 49 unique checks PASS, no not ok/NOTE. Next step 7: PR into recovery; no code change, merge or deployment.
 - Step 6a resumed on refreshed exact head 6dde19a: npm ci PASS; standalone composed contract PASS 10 numbered checks; full contracts PASS 111/111; operations 73 pass / 0 fail. git diff --stat against current recovery ab704a9 lists exactly the eight chartered files (1298 insertions, 1 deletion); worktree clean, no generated Rules/debug logs staged or committed. Prior scope failure is resolved by the lead's ordinary merges; no code edits made in this turn.
 - Step 6a CI single read: run 37158530069 attempt 1 has Gameplay contracts, Composed Rules on the emulator and Composed production Rules regression SUCCESS. Regression has 49 unique numbered passes, 17 suites, nine Phase B runs, no not ok and no NOTE. Career-index Phase A 56 / Phase B 58; completed-read 56. Mechanical log check confirms T2=T3 git blob, pinned T9 and E1 exactly S8/D13, S9/D13; no literal budget diagnostic in the outer regression log because the runner gates suite logs internally.
 - Step 6a inherited CI blocker: fourth job Two-manager browser journey fails after J12.1 passed (distinct R2 and both managers at league wheel), at tests/browser/two-manager-browser-journey.cjs:660:14: AssertionError [ERR_ASSERTION]: nik page errors; actual contains "[Career Mode Showdown] Unable to check Shared Season Commit: Error: Both managers must finish Shared Setup before the Transfer Challenge."; expected []. This test/client is outside G-12 edit scope. Recovery ab704a9 has exact-head green run 37158455451. DEFAULT: retry only the failed browser job once on unchanged 6dde19a to distinguish an intermittent inherited failure; retry accepted by GitHub. No existing assertion weakened, no browser run locally, no merge or deployment. If the same failure repeats, BLOCKED with its output for the lead. Step stays 5 of 8 until overall exact-head Gameplay Fast is green. Next turn: read retry result once, then finish step 6 and save; no polling.
@@ -65,7 +66,7 @@ CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/r
 - PASS step 6 tests: new contract 10/10, full contracts 110/110, operations 73/0, exact-head CI all three jobs SUCCESS; regression 49/49 with 17 suites and nine Phase B runs, E1 only S8/D13 and S9/D13. No not ok/NOTE or tracked generated/debug artifacts.
 - PASS step 6a refreshed scope: exactly eight chartered files against recovery ab704a9; clean worktree. Prior eleven-file failure on 5cd8ad6 was resolved by lead merges.
 - PASS step 6a local/evidence on 6dde19a: composed contract 10/10, census 111/111, ops 73/0, regression 49/49, E1 S8/D13 and S9/D13, career index 56/58, completed-read 56.
-- PENDING step 6 exact-head overall CI: inherited browser job failed attempt 1; failed-job-only retry requested. Three G-12 jobs already green. Do not start PR/Codex steps until overall CI is green.
+- PASS step 6 overall CI: attempt 2 SUCCESS on exact 6dde19a, all four jobs green; inherited browser retry PASS 32 checks. Attempt 1 failure retained above for the lead; no assertion weakened.
 - PASS step 5 local: composed production Rules contracts 10 numbered checks; C2 confirms one emulator execution and main fetch; C3 discovers all 17 suites; Appendix F CI job is an append-only change. Exact-head runtime proof pending.
 - PASS step 4 static verification: both new emulator files syntax-check; discovery 17 suites / nine Phase B copy runs; G-10 mapped into M6/M7; BUDGET_ALLOWED stays exactly career-index D13. Runtime emulator evidence awaits step 5 CI.
 - PASS tests-first evidence: exact-head run 37140887220; Gameplay contracts fails only the new missing-job assertion (1/110); Composed Rules on the emulator entirely green. Expected red occurred before step 4/5 implementation.
