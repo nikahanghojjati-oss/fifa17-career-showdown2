@@ -1,4 +1,5 @@
 name: Job 37 League QA
+# rerun-final-gates-2026-10-03-0036
 # rerun after final contact-clearance solve
 on:
   push:
