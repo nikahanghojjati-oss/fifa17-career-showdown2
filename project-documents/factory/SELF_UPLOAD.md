@@ -1,5 +1,7 @@
 # Self-upload: save your own files to the repo (no zip for Nik)
 
+This is the normal way to save work for every factory job since 2026-10-03 (WORKER_HANDBOOK §7). Do not save screenshots or QA renders at all; Claude renders those from your committed code.
+
 Use this instead of "Drop JOB-NNN.zip into the Claude project chat" whenever your chat can write text files to `factory/v1-wtt5ye`. Nik carries nothing.
 
 ## 1. Text files: save them directly
@@ -38,7 +40,7 @@ It writes `/mnt/data/outbox/<delivery>/`: part files (`<name>.b64.001`, `.002`, 
 
 - Only paths under `visual-assets/` or `project-documents/` are written.
 - Each part is about 20,000 characters (about 15 KB of file). Small files (crops, icons, thumbnails, a small zip): up to about 10 parts per delivery is fine.
-- **Big pictures are too large for this.** A full-size PNG or WebP plate (hundreds of KB to several MB) would need dozens to hundreds of parts, which you cannot copy reliably. For those, fall back to the old way: offer `JOB-NNN.zip` as a download and tell Nik `Drop JOB-NNN.zip into the Claude project chat.` Make the files you can't upload as small as the job allows first (WebP, the size the job names), and upload everything else yourself.
+- **Big pictures are too large for this.** A full-size PNG or WebP plate (hundreds of KB to several MB) would need dozens to hundreds of parts, which you cannot copy reliably. For those, fall back to the old way: offer `JOB-NNN.zip` as a download and tell Nik `Drop JOB-NNN.zip into the Claude project chat. Reason: too big for the inbox: <file names>.` (put only those files in the zip) Make the files you can't upload as small as the job allows first (WebP, the size the job names), and upload everything else yourself.
 - Image tickets run in a ChatGPT Temporary Chat, which has no GitHub connector. Those pictures still go to Nik, who drops them in Claude's factory thread.
 
 ## Why base64 and not the zip itself

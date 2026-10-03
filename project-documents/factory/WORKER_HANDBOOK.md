@@ -19,7 +19,7 @@ Raw link pattern (works without the GitHub connector):
 6. Do the steps in order, one at a time. Never skip, merge or reorder steps.
 7. After each step, save: update the status file and save that step's files (§7).
 8. Run the self-check from the job file. Fix anything that fails.
-9. Set `State: DONE`, save, and send Nik one line: what you made and which job numbers it unlocks.
+9. Set `State: DONE`, save it yourself (§7), and send Nik one line: what you made and which job numbers it unlocks. No zip unless §7 rule 4 or 5 applies.
 10. Never start a second job in the same chat. One chat, one job.
 
 ---
@@ -28,8 +28,8 @@ Raw link pattern (works without the GitHub connector):
 
 | Who | Role |
 | --- | --- |
-| **Nik** | Owner. He types numbers and carries zip files. He is not your product oracle: never ask him product questions. |
-| **Claude (Team V lead)** | Wrote every job, owns product truth and the board, answers BLOCKED questions, commits zip deliveries, checks finished screens. |
+| **Nik** | Owner. He types numbers. He does not carry files: you save your own work (§7). He is not your product oracle: never ask him product questions. |
+| **Claude (Team V lead)** | Wrote every job, owns product truth and the board, answers BLOCKED questions, renders and checks every finished screen from the committed code (screenshots and QA runs), takes in image-ticket pictures. |
 | **You (GPT-5.6 Sol worker)** | Do one job per chat, exactly as written, to the quality bar. |
 | **Team G** | The Claude gameplay team. It owns product code and online-history data. Jobs that wait on it say `WAITING ON TEAM G`; board lines with lane `team-g` only track Team G's work and are never started by a worker. |
 | **Codex** | Reviewer for job 108 only. |
@@ -153,21 +153,18 @@ To check dependencies, open each `status/JOB-XXX.md` named under "Depends on" an
 2. Open the status file pinned to that commit: `https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/<sha>/project-documents/factory/status/JOB-XXX.md`.
 Only if that pinned copy still is not DONE or SKIPPED do you reply `Job N waits for job X, Y (not done yet).` Use the same pinned links for the job file and everything else you read in that chat.
 
-## 7. Saving your work
+## 7. Saving your work: you save it yourself (2026-10-03)
 
-How you save depends on what your chat can do. Find out once at the start (try a harmless read; your tools tell you whether you can write to GitHub).
+Nik never carries your work. You save every file to `factory/v1-wtt5ye` yourself, after every step. A zip for Nik is the last resort (rule 4), never the normal finish.
 
-**Path A: you can push to the repo.** After each step, commit that step's files plus your updated status file to `factory/v1-wtt5ye` with the message `Job N step k/n: <short step name>`. Finish with `Job N done: <job title>`. Never push to another branch, never force-push, never delete files you did not create in this job.
+1. **Text files go straight to the branch.** HTML, CSS, JS, JSON, MD, SVG, Python and your status file: after each step, save that step's files plus your updated status file to their repo paths on `factory/v1-wtt5ye` (commit message `Job N step k/n: <short step name>`; last one `Job N done: <job title>`). Never another branch, never force-push, never delete files you did not create in this job.
+2. **No screenshots or QA renders.** Do not save or send screenshots, QA shots, heatmaps or side-by-side renders, even when a step says "screenshot" or "QA". Run your checks in your sandbox if you can and write the numbers (scores, pass/fail, sizes) into BUILD_RESULT.md and the status notes. Claude renders and checks the screen from the committed code on a real server.
+3. **Small binary files go through the inbox.** Cut-outs, crops, icons, title wordmarks, small WebP/PNG: follow `project-documents/factory/SELF_UPLOAD.md` (pack to base64 parts, save the parts, save MANIFEST.json last, read the receipt). `Result: OK` = done. `Result: FAILED` = re-save the part it names, then MANIFEST.json again.
+4. **Zip to Nik: last resort only, and say why.** Only for (a) a binary file too big for the inbox (more than about 10 parts, for example a full-size plate or a PNG master over about 150 KB), or (b) a receipt that still says FAILED after one retry. Put ONLY those files in `JOB-NNN.zip` (repo-relative paths inside) and finish with: `Drop JOB-NNN.zip into the Claude project chat. Reason: <too big for the inbox: file names | receipt failed: delivery name>.` Everything else is already saved by you.
+5. **If your chat cannot write to GitHub at all** (the writer refuses or is missing): say so in one line in the status notes and in your finish line, and hand over everything as `JOB-NNN.zip` with `Reason: no GitHub write in this chat.` That is the only time a whole-job zip is right.
+6. **You cannot read the repo at all**: first line `I can't read the repo (<reason>). Fix: turn on GitHub with + > Connectors > GitHub, or allow web search, then send N again.`
 
-**Path B: you can read but not push** (the usual case for a plain ChatGPT chat; the GitHub connector there is read-only).
-- Keep a working copy of every file you create or change, with its repo-relative path, in your code tool's sandbox (for example `/mnt/data/JOB-007/visual-assets/v10_1/final-winner/TRUTH.md`).
-- After each step, update your copy of the status file and tell Nik in one short line: `Step k of n done: <step name>.` No zip yet.
-- At the end (or if the chat is about to run out of room), build ONE zip named `JOB-NNN.zip` whose inside paths are repo-relative (so `project-documents/...` and `visual-assets/...` at the zip root). Include the updated status file. Offer it as a download and say: `Drop JOB-NNN.zip into the Claude project chat; Claude commits it.`
-- If the job asks you to commit a mid-job check (for example job 0 step 2 "repo write"), record "push: NO (read-only connector)" and carry on; that answer is the result.
-
-**Path C: you cannot read the repo at all.** First line: `I can't read the repo (<reason>). Fix: turn on GitHub with + > Connectors > GitHub, or allow web search, then send N again.` If Nik attaches the job file and papers, continue with Path B.
-
-Large files: images go in the zip as the job names them (WebP plus PNG masters where asked). If a zip would be over about 100 MB, split it into `JOB-NNN-part1.zip`, `-part2.zip`.
+Job files written before 2026-10-03 may still say "Hand over as JOB-NNN.zip" or "go in JOB-NNN.zip (Path B)". Read those as this section: save it yourself; zip only under rule 4 or 5.
 
 ## 8. Doing the steps well
 
@@ -197,7 +194,7 @@ Large files: images go in the zip as the job names them (WebP plus PNG masters w
 
 - **Image jobs are not run inside the Showdown visual project** (Nik, 2026-10-02): images come out better in a ChatGPT Temporary Chat outside any project (no memory, no chat history; save only the picture that chat made). Nik runs each image from its ticket in `project-documents/factory/tickets/` and drops the result in Claude's factory thread; Claude checks, commits and finishes the job. If a project chat is given an image job's number, it replies only: "Job N is an image job. Run its ticket in a new chat outside this project (see project-documents/factory/tickets/README.md)." The rules below still describe what a correct image is.
 
-- **The image tool makes only the asset the job asks for.** Never make a summary, status or "job completed" picture, a screen mockup, or any person other than Daniel and Nik as the mockup shows them. Progress and results are plain text plus the JOB-NNN.zip. A result that is not the requested asset is a failed try: discard it and retry in a new chat.
+- **The image tool makes only the asset the job asks for.** Never make a summary, status or "job completed" picture, a screen mockup, or any person other than Daniel and Nik as the mockup shows them. Progress and results are plain text; the picture goes back the way the ticket says. A result that is not the requested asset is a failed try: discard it and retry in a new chat.
 
 - One image per request. Never ask for several assets in one image.
 - Edits, not new pictures: attach the guide image and ask for an edit, as the job's prompt says, word for word.
@@ -221,7 +218,7 @@ Job 0 records what plain chats can really do in `project-documents/factory/smoke
 - Plain, short sentences. He reads on a phone between other things.
 - First reply: the handshake line `Job N · <title> · <State>`, then one line on what you are doing first.
 - During work: one line per finished step at most.
-- Finish: one line, what you made and what it unlocks, plus the zip instruction if you used Path B. Example: `Job 7 done: the Final Winner truth sheet and fixtures. It feeds the Final Winner build (job 82). Drop JOB-007.zip into the Claude project chat.`
+- Finish: one line, what you made and what it unlocks, and that it is saved. Example: `Job 7 done and saved: the Final Winner truth sheet and fixtures. It feeds the Final Winner build (job 82).` Only under §7 rule 4 or 5 add the zip line with its reason.
 - Never ask him to decide product questions. Never ask "should I continue?"; just continue.
 
 ## 13. Examples
@@ -250,7 +247,7 @@ Job 0 records what plain chats can really do in `project-documents/factory/smoke
 | --- | --- |
 | The connector can't see the repo or branch | Use the raw links (pattern at the top). Branch names with a slash work in raw links. |
 | A raw link returns 404 | Check the three-digit number and the exact path; the file may not exist yet (then the job is not ready). |
-| You run out of room mid-job | Save (Path A commit, or Path B zip with the status at the last finished step) and tell Nik: `Open a new chat and type N; it continues from step k+1.` |
+| You run out of room mid-job | Save (your files and the status at the last finished step, §7) and tell Nik: `Open a new chat and type N; it continues from step k+1.` |
 | Two chats on the same job | The status file decides. If it already says IN PROGRESS with a recent `Updated:` time from another chat, reply `Job N is already being worked on in another chat.` and stop. |
 | Mockup and PRODUCT_TRUTH disagree | PRODUCT_TRUTH wins. Write the difference in the notes. |
 | PRODUCT_TRUTH and the live code on `main` disagree about behaviour | `main` wins. Write it as a NOTE. |
