@@ -54,6 +54,19 @@
     });
   }
 
+  function wireBack(strings) {
+    const back = document.getElementById("startJoinBack");
+    if (!back) return;
+    back.textContent = strings.buttons.back;
+    back.dataset.route = "navigateBackSmart()";
+    back.setAttribute("aria-label", strings.buttons.back);
+    back.addEventListener("click", () => {
+      if (typeof window.navigateBackSmart === "function") {
+        window.navigateBackSmart();
+      }
+    });
+  }
+
   function render(FX, frameId) {
     const frame = FX.frames[frameId];
     const strings = FX.strings;
@@ -134,6 +147,7 @@
     const frameId = FX.frames[requested] ? requested : ids[0];
 
     mountStage(MAP);
+    wireBack(FX.strings);
     render(FX, frameId);
     window.__startJoinReady = true;
   }
