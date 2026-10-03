@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-03 1:56 PM Boston time (EDT)",
+ "generated": "2026-10-03 1:58 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 12,
@@ -38,11 +38,10 @@
  },
  "queued": [],
  "working": [
-  16
- ],
- "blocked": [
+  16,
   12
  ],
+ "blocked": [],
  "jobs": [
   {
    "number": 0,
@@ -190,7 +189,7 @@
    "phase": "1 Safety net",
    "type": "test",
    "plain": "Re-proves the full production Rules after the new career-data Rules land.",
-   "state": "BLOCKED",
+   "state": "IN PROGRESS",
    "step": 5,
    "steps_total": 8,
    "pct": 62,
