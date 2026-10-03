@@ -1,14 +1,14 @@
 # Showdown Factory board
 
-**62 of 135 jobs done and checked · 53 %** · updated Sat 2:00 p.m. Eastern
+**62 of 135 jobs done and checked · 53 %** · updated Sat 2:03 p.m. Eastern
 
-✅ **Quality check:** a job counts as done only after Claude checks it against the quality bar (average 4.2 or more, nothing under 3, hard gates pass). Average score 4.25 over 15 scored jobs. 🔍 Waiting for Claude's check: 33, 34, 39, 40, 45, 46, 72. 🔧 Sent back with a fix list: 82.
+✅ **Quality check:** a job counts as done only after Claude checks it against the quality bar (average 4.2 or more, nothing under 3, hard gates pass). Average score 4.25 over 15 scored jobs. 🔍 Waiting for Claude's check: 33, 34, 39, 40, 45, 46, 72, 82. 
 
 █████░░░░░
 
 **Where to run:** 🟡 **project job** = new chat in the ChatGPT project "Showdown visual", type the number. 🟣 **image job** = its ticket in a ChatGPT **Temporary Chat** outside any project, then drop the picture in Claude's factory thread.
 
-🟡 **Type next:** 82 (fix), 41 · then 47, 92, 95, 114, 115, 116, 117, 119, 120, 125
+🟡 **Type next:** 41, 47 · then 92, 95, 114, 115, 116, 117, 119, 120, 125
 
 🟣 **Image next:** 118
 
@@ -27,7 +27,7 @@ Career Stats   █████░░░░░ 5/10
 Rivalry        ████░░░░░░ 4/9
 Legacy         █████░░░░░ 5/10
 Season Results ████░░░░░░ 3/9
-Final Winner   █████░░░░░ 3/8
+Final Winner   █████░░░░░ 4/8
 Start/Join     ██░░░░░░░░ 2/8
 Standings      ██░░░░░░░░ 1/4
 Rule Book      ██░░░░░░░░ 1/4
@@ -51,7 +51,7 @@ Branch `factory/v1-wtt5ye`. 135 Team V jobs, plus 5 lines that track Team G. Two
 
 **Overall (Team V):** █████░░░░░ 53 % · 62 of 135 jobs done
 
-**Start now · project (type the number in Showdown visual):** 82 (fix), 41 · queued next: 47, 92, 95, 114, 115, 116, 117, 119, 120, 125
+**Start now · project (type the number in Showdown visual):** 41, 47 · queued next: 92, 95, 114, 115, 116, 117, 119, 120, 125
 
 **Start now · fresh chat (image ticket, outside the project):** 118
 
@@ -145,7 +145,7 @@ Branch `factory/v1-wtt5ye`. 135 Team V jobs, plus 5 lines that track Team G. Two
 | 79 | [Season Results: review](jobs/JOB-079.md) | 5 New screens | review | project (type number) | 78 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 80 | [Season Results: fix round](jobs/JOB-080.md) | 5 New screens | fix | project (type number) | 79 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 81 | [Season Results: motion](jobs/JOB-081.md) | 5 New screens | build | project (type number) | 80, 16 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
-| 82 | [Final Winner: build (desktop)](jobs/JOB-082.md) | 5 New screens | build | project (type number) | 7, 23, 18, 134, 139, 19, 20, 21, 22 | ██████████ 100 % | IN PROGRESS · FIX |  |
+| 82 | [Final Winner: build (desktop)](jobs/JOB-082.md) | 5 New screens | build | project (type number) | 7, 23, 18, 134, 139, 19, 20, 21, 22 | ██████████ 100 % | DONE |  |
 | 83 | [Final Winner: phone](jobs/JOB-083.md) | 5 New screens | build | project (type number) | 82, 115 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 84 | [Final Winner: review](jobs/JOB-084.md) | 5 New screens | review | project (type number) | 83 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 85 | [Final Winner: fix round](jobs/JOB-085.md) | 5 New screens | fix | project (type number) | 84, 124 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
