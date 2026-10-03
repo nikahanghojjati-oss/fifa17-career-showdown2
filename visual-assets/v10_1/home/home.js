@@ -24,6 +24,9 @@
       durationMs: 110,
       easing: "cubic-bezier(.2,.8,.2,1)",
       tiltDeg: 3
+    }),
+    vinyl: Object.freeze({
+      rotationMs: 2400
     })
   });
   let motionLoadPromise = null;
@@ -42,6 +45,7 @@
     root.style.setProperty("--home-tile-hover-duration", HOME_MOTION.tileHover.durationMs + "ms");
     root.style.setProperty("--home-tile-hover-ease", HOME_MOTION.tileHover.easing);
     root.style.setProperty("--home-tile-hover-tilt", HOME_MOTION.tileHover.tiltDeg + "deg");
+    root.style.setProperty("--home-vinyl-rotation", HOME_MOTION.vinyl.rotationMs + "ms");
     // motion.js already schedules panel starts 60 ms apart; zero the CSS-side duplicate delay for Home.
     root.style.setProperty("--sd-duration-stagger", "0ms");
   }
@@ -186,6 +190,35 @@
     setText(document.querySelector(".menuMusicHeader strong"), d.title);
     setText(document.querySelector(".menuMusicArtist"), d.artist);
     setText(document.getElementById("menuMusicStatus"), M.statusTemplate.replace("{TITLE}", d.title));
+  }
+
+  function reflectSoundtrackPlaybackState() {
+    const card = document.querySelector(".menuMusicTile");
+    const toggle = document.getElementById("menuMusicToggle");
+    const status = document.getElementById("menuMusicStatus");
+    if (!card || !toggle) return;
+
+    const pressed = toggle.getAttribute("aria-pressed") === "true";
+    const dataPlaying = toggle.dataset.playing === "true" || card.dataset.playing === "true";
+    const controlText = (toggle.textContent || "").trim().toUpperCase();
+    const statusText = (status?.textContent || "").trim().toUpperCase();
+    const playing = pressed || dataPlaying || controlText.includes("PAUSE") || statusText.includes("PLAYING");
+
+    card.dataset.playback = playing ? "playing" : "stopped";
+  }
+
+  function watchSoundtrackPlaybackState() {
+    const toggle = document.getElementById("menuMusicToggle");
+    const status = document.getElementById("menuMusicStatus");
+    const card = document.querySelector(".menuMusicTile");
+    if (!toggle || !card) return;
+
+    reflectSoundtrackPlaybackState();
+    const observer = new MutationObserver(reflectSoundtrackPlaybackState);
+    observer.observe(toggle, { attributes: true, childList: true, characterData: true, subtree: true });
+    if (status) observer.observe(status, { attributes: true, childList: true, characterData: true, subtree: true });
+    observer.observe(card, { attributes: true, attributeFilter: ["data-playing"] });
+    H.musicStateObserver = observer;
   }
 
   // ---------- geometry helpers ----------
@@ -422,6 +455,7 @@
     const frame = FX.frames[qs.get("frame")] ? qs.get("frame") : "HM1";
     buildSelector(FX);
     applyFrame(FX, frame);
+    watchSoundtrackPlaybackState();
     if (document.fonts && document.fonts.ready) await document.fonts.ready;
     layout(MAP);
     layout(MAP); // second pass: heading height settles after fonts and widths
