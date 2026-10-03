@@ -347,10 +347,84 @@ body { min-height: 100vh; }
   min-height: 0;
 }
 
+.sj-card-actions,
+.sj-current-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.sj-card-actions {
+  margin-top: 9px;
+}
+
+.sj-current-actions {
+  grid-column: 1 / -1;
+  margin-top: 10px;
+}
+
+.sj-card-actions .sd-btn,
+.sj-current-actions .sd-btn {
+  min-height: 44px;
+  padding-inline: 16px;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: .08em;
+}
+
+.sj-card-actions .sd-btn:focus-visible,
+.sj-current-actions .sd-btn:focus-visible {
+  outline: 2px solid #f0c84b;
+  outline-offset: 3px;
+}
+
 .sj-copy-button {
   width: 44px;
   min-width: 44px;
   height: 44px;
+  padding: 0;
+}
+
+.sj-lock-slot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  align-self: center;
+  padding-top: 2px;
+  color: rgba(236, 236, 230, .68);
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 12px;
+  letter-spacing: .08em;
+  text-align: center;
+}
+
+.sj-lock-slot p {
+  margin: 0;
+}
+
+.sj-lock-icon {
+  position: relative;
+  width: 14px;
+  height: 11px;
+  flex: 0 0 14px;
+  border: 1px solid rgba(240, 200, 75, .8);
+  border-radius: 2px;
+}
+
+.sj-lock-icon::before {
+  content: "";
+  position: absolute;
+  left: 3px;
+  top: -8px;
+  width: 6px;
+  height: 8px;
+  box-sizing: border-box;
+  border: 1px solid rgba(240, 200, 75, .8);
+  border-bottom: 0;
+  border-radius: 6px 6px 0 0;
 }
 
 .sj-step1-scaffold {
