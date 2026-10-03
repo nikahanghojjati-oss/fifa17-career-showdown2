@@ -1,8 +1,8 @@
 # Status · JOB-16 · Two-manager browser journey (localhost-only emulator switch)
 
-State: IN PROGRESS
+State: BLOCKED
 Step: 7 of 9
-Updated: 2026-10-03 16:05 UTC
+Updated: 2026-10-03 16:10 UTC
 Chat: GPT-5.6 Sol normal chat
 Code branch: gameplay/job-16-browser-journey
 Head commit: 3183244740fc169ae70aa15fc10f3d216d88997c
@@ -182,6 +182,50 @@ Season Entry visible: true. Scoring panel exists: false. Document visibility: vi
 
 - Step 7 retry note: exact-head run 37135149889 reached J8.2, printed the required `J9 SKIPPED: resume after reload is a separate product job (lead decision 2026-10-03)`, then the season-2 simultaneous publish hit the lead-listed `SEASON_RESULTS_STALE_BASE_REVISION` race signature: one concurrent publish succeeded while Daniel's same-base publish was rejected with the generic Shared Season Result error, and the peer never reached BOTH MANAGERS PUBLISHED. Per the 16:00 UTC lead decision, rerunning only the failed browser job once; no code/product change for this known intermittent.
 
+- Step 7 BLOCKED again after the one lead-authorized browser-job rerun. Run 37135149889 attempt 1 and attempt 2 both reached J8.2, printed exactly `J9 SKIPPED: resume after reload is a separate product job (lead decision 2026-10-03)`, then failed at the season-2 simultaneous publish. Attempt 1 rejected Daniel's concurrent publish; attempt 2 rejected Nik's. This is the lead-listed `SEASON_RESULTS_STALE_BASE_REVISION` simultaneous-publish product race. Because the same step failed twice for the same reason and the one allowed rerun was not green, JOB-16 §8 requires stopping here. No provider call, seed, force click, Rules change, or test weakening was used.
+
+### Current blocking assertion
+`page.waitForFunction: Timeout 45000ms exceeded` while waiting for `#seasonReviewHeading === "BOTH MANAGERS PUBLISHED"` immediately after `Promise.all` clicks on the two real `#confirmSeasonCompletion` buttons for Season 2.
+
+### Current browser descriptions
+`--- daniel: screens=seasonEntry | badge=DANIEL | panel=CAREER READYCareer ready.CONTINUE CAREERDaniel | overlays=`
+`--- daniel errors: []`
+`--- nik: screens=seasonEntry | badge=NIK | panel=CAREER READYCareer ready.CONTINUE CAREERNik | overlays=`
+`--- nik errors: ["[Career Mode Showdown] Unable to publish Shared Season Result: Error: Your shared Season Result could not be published. ..."]`
+
+### Current last 30 browser-job log lines
+```text
+2026-10-03T16:09:42.2921091Z With the provided path, there will be 12 files uploaded
+2026-10-03T16:09:42.2926320Z Artifact name is valid!
+2026-10-03T16:09:42.2927172Z Root directory input is valid!
+2026-10-03T16:09:42.5880902Z Uploading artifact: browser-journey-screens.zip
+2026-10-03T16:09:42.5917812Z Beginning upload of artifact content to blob storage
+2026-10-03T16:09:42.9842993Z Uploaded bytes 1056839
+2026-10-03T16:09:43.0223856Z Finished uploading artifact content to blob storage!
+2026-10-03T16:09:43.0224941Z SHA256 digest of uploaded artifact is 13cd3e46fdadf0a2abd4cf0788f38f6aba4fbc4214ca03e804140eb46864b589
+2026-10-03T16:09:43.0225918Z Finalizing artifact upload
+2026-10-03T16:09:43.3040818Z Artifact browser-journey-screens successfully finalized. Artifact ID 11278662737
+2026-10-03T16:09:43.3041995Z Artifact browser-journey-screens has been successfully uploaded! Final size is 1056839 bytes. Artifact ID is 11278662737
+2026-10-03T16:09:43.3063673Z Artifact download URL: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37135149889/artifacts/11278662737
+2026-10-03T16:09:43.3209016Z Post job cleanup.
+2026-10-03T16:09:43.4448607Z Post job cleanup.
+2026-10-03T16:09:43.5178357Z [command]/usr/bin/git version
+2026-10-03T16:09:43.5211230Z git version 2.55.0
+2026-10-03T16:09:43.5240277Z Temporarily overriding HOME='/home/runner/work/_temp/92d8d776-5d3b-479c-af03-b452d3d6ba79' before making global git config changes
+2026-10-03T16:09:43.5242169Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-03T16:09:43.5244579Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/fifa17-career-showdown2/fifa17-career-showdown2
+2026-10-03T16:09:43.5275171Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-03T16:09:43.5301659Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-03T16:09:43.5490988Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-03T16:09:43.5512754Z http.https://github.com/.extraheader
+2026-10-03T16:09:43.5521184Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-10-03T16:09:43.5549435Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all http.https://github.com/.extraheader || :"
+2026-10-03T16:09:43.5720858Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-03T16:09:43.5745856Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-03T16:09:43.6035696Z Cleaning up orphan processes
+```
+
 ## Self-check
 
 ## Blocked question
+Lead: the Season-2 simultaneous-publish stale-revision race reproduced on the single authorized rerun. Merge the separate product fix into gameplay/recovery-v1 and write the merge commit here, or explicitly change JOB-16's acceptance for J8.3; the worker must not retry until lucky or weaken the simultaneous-publish assertion.
