@@ -185,3 +185,16 @@ Larger phones grow rather than float: at 390 × 844 the base main-area surplus i
 - Desktop tile border alpha is 0.6 (brief 0.45), for G7 control borders at 1366×640.
 - Desktop camera is top-anchored (C4b vertical bias), so faces are never cropped at 1366×640. `plateToScreen` uses `offsetY = 0`.
 - Phone band transform (explicit): `k = max(min(W/(575+40), (H−20)/370), W/1672)`; faces centred horizontally on x 1012.5, clamped to cover the band width; offY keeps ≥ 10 px above and below the faces (the band's ink background may show ≤ 3 px under the header).
+
+## Fix round · Job 35 (2026-10-03)
+
+The Home review fix list was applied by code reading only; browser QA and screenshots remain Claude-owned per factory rules.
+
+- Item 1 — DONE: the visible desktop header now uses the binding shared top bar destinations HOME / CAREER / STANDINGS / STATS / RULES plus Settings. ABOUT, search and profile are not exposed.
+- Item 2 — DONE: the desktop hero lockup is registered to the goal at approximately x 4%–35% of viewport width with the eyebrow at y 14.8% and the tagline around the requested 40% baseline. The existing brush asset and wording are preserved.
+- Item 3 — BLOCKED: no transparent desktop Daniel/Nik cut-out binaries exist in `visual-assets/v10_1/home/assets`. The plate remains the desktop manager source; no CSS-only fake crop or mirroring was introduced.
+- Item 4 — PARTIAL: the soundtrack card footprint and main-card hierarchy are registered at 64.5vw / 53.3vh / 33.5vw / 17vh and keep now-playing/status plus PLAY TRACK and MUTE. Desktop track-choice access still needs Claude verification because `.menuMediaSelector` remains hidden on desktop.
+- Item 5 — DONE: phone composition uses an approximately 55dvh manager stage with the remaining control zone, preserves all seven destinations, Daniel LEFT / Nik RIGHT, 44 px minimum controls, the 56 px bottom-nav reserve and the short-height rule that keeps Continue visible at 375 × 553.
+
+Claude must re-measure H5–H11 in the rendered Home after producing/confirming the desktop manager cut-out depth treatment, and must verify that desktop track-choice access remains available through the intended selector/sheet behaviour. H1–H4 remain satisfied by code reading in this fix round.
+
