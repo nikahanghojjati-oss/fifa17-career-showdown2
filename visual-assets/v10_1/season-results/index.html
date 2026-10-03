@@ -55,6 +55,25 @@
         </section>
         <section id="daniel-entry-panel" class="entry-panel entry-panel--daniel sd-panel" data-manager="daniel" aria-label="Daniel season result"></section>
         <section id="nik-entry-panel" class="entry-panel entry-panel--nik sd-panel" data-manager="nik" aria-label="Nik season result"></section>
+        <section id="seasonReviewPanel" class="season-review-panel sd-panel" aria-labelledby="seasonReviewHeading" hidden>
+          <div class="seasonReviewStatus"><span id="seasonReviewStatusMeta"></span></div>
+          <h2 id="seasonReviewHeading"></h2>
+          <p id="seasonReviewResult" class="seasonReviewResult" aria-live="polite"></p>
+          <div id="sharedCanonicalScoringPanel" class="sharedCanonicalScoringPanel" aria-live="polite" hidden>
+            <h3 id="sharedCanonicalScoringHeading"></h3>
+            <p id="sharedCanonicalScoringTotals"></p>
+            <p id="sharedCanonicalScoringBreakdown"></p>
+            <p id="sharedCanonicalScoringWinner"></p>
+          </div>
+          <p id="seasonReviewError" class="seasonReviewError" aria-live="assertive"></p>
+        </section>
+        <div class="seasonEntryActions season-action-row">
+          <button id="completeSeason" class="sd-btn sd-btn--primary" type="button"></button>
+          <button id="confirmSeasonCompletion" class="sd-btn sd-btn--primary" type="button" hidden></button>
+          <button id="editSeasonResults" class="sd-btn sd-btn--secondary" type="button" hidden></button>
+          <button id="sharedSeasonCommitAction" class="sd-btn sd-btn--primary" type="button" hidden></button>
+          <button class="backButton sd-btn sd-btn--secondary" type="button" data-smart-back></button>
+        </div>
       </section>
 
       <div class="fixture-dump" hidden>
