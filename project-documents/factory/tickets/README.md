@@ -32,3 +32,4 @@ Run at most two tickets at once. A ticket's job number is the same number as on 
 | 124 | [124-TITLE_RULE_BOOK · Brush title: RULE BOOK](TICKET-124_3_OF_5_TITLE_RULE_BOOK.md) | STYLE_BRUSH_TITLE.png |
 | 124 | [124-TITLE_SETTINGS · Brush title: SETTINGS](TICKET-124_4_OF_5_TITLE_SETTINGS.md) | STYLE_BRUSH_TITLE.png |
 | 124 | [124-TITLE_STANDINGS · Brush title: STANDINGS](TICKET-124_5_OF_5_TITLE_STANDINGS.md) | STYLE_BRUSH_TITLE.png |
+| 124 | [124-TITLE_CONNECT_PLAYERS · Brush title: CONNECT PLAYERS](TICKET-124_6_OF_6_TITLE_CONNECT_PLAYERS.md) (extra, for Start / Join) | STYLE_BRUSH_TITLE.png |
