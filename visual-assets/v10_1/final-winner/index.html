@@ -70,6 +70,12 @@
         <span class="winnerTrophyGlow"></span>
       </div>
       <section class="finalWinnerResultsPanel sd-panel" aria-label="Final Showdown result">
+        <input class="finalWinnerTabInput" type="radio" name="finalWinnerPhoneTab" id="finalWinnerTabSummary" checked>
+        <input class="finalWinnerTabInput" type="radio" name="finalWinnerPhoneTab" id="finalWinnerTabHonours">
+        <div class="finalWinnerPhoneTabs" role="tablist" aria-label="Final result sections">
+          <label for="finalWinnerTabSummary" role="tab">SUMMARY</label>
+          <label for="finalWinnerTabHonours" role="tab">HONOURS</label>
+        </div>
         <div class="finalWinnerMetaStrip" aria-label="Showdown summary">
           <div class="finalWinnerMetaCell">
             <span>SEASONS</span>
@@ -129,7 +135,9 @@
           <p id="finalWinnerStateMessage"></p>
         </div>
 
-        <div id="finalWinnerPartialNotice" class="finalWinnerPartialNotice">
+        <input class="finalWinnerPartialToggle" type="checkbox" id="finalWinnerPartialToggle">
+        <label class="finalWinnerPartialTrigger" for="finalWinnerPartialToggle">HISTORY COVERAGE</label>
+        <div id="finalWinnerPartialNotice" class="finalWinnerPartialNotice sd-sheet">
           <span class="finalWinnerPartialIcon" aria-hidden="true">!</span>
           <p id="finalWinnerPartialMessage"></p>
           <strong id="finalWinnerPartialCoverage"></strong>
