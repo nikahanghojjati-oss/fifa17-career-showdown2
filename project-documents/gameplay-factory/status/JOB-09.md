@@ -1,8 +1,8 @@
 # Status · JOB-09 · Closed-Showdown adapter into the career model
 
-State: IN PROGRESS
-Step: 6 of 7
-Updated: 2026-10-03 15:33 UTC
+State: DONE
+Step: 7 of 7
+Updated: 2026-10-03 15:39 UTC
 Chat: Sol Work mode (job 9, 04fd13bb5a42)
 Code branch: gameplay/job-09-closed-adapter
 Head commit: 744e9a0db9550be8cf74632edcb0f988c2e08ada
@@ -65,6 +65,8 @@ CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/r
 
 - Step 7 PR check read: PR #330 remains open/non-draft, mergeable, seven files, head 744e9a0, base gameplay/recovery-v1. Validate POS20 37133544901 IN PROGRESS on this head; no polling. Fast CI remains green. Finish when these PR checks pass.
 
+- Step 7: DONE. PR #330 open/non-draft, mergeable_state clean, exact head 744e9a0db9550be8cf74632edcb0f988c2e08ada, base gameplay/recovery-v1, exactly seven files. Validate Gameplay Fast 37133244137 SUCCESS and Validate POS20 37133544901 SUCCESS on that same head; all 12 POS20 jobs green including FULL, REMOTE, 1/3/5/10 lifecycle, benchmark and exact-head cognitive seal. PR body includes both green run URLs and required tables/no-change line. All job checklist items complete. No Codex review required; worker did not merge or deploy. Team G lead reviews and merges.
+
 ## Self-check
 - PASS Tests first: run 37132170119 on 88220a9 fails only the new contract (missing adapter) and new emulator journey (missing loader); every existing emulator step green. Adapter-only local test passed C1-C17 and failed L1, as required.
 - PASS Focused/suites: adapter+loader 22/22 locally and on CI; refreshed exact-head full contracts 106/106; operations 73 pass / 0 fail. Local full-suite log lacked final census, so CI provides that count under handbook section 7.
@@ -74,7 +76,9 @@ CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/r
 - PASS Scope: compare against recovery f7d18a1 and PR #330 list exactly seven authorized files. No Rules, shell, screen, existing provider/contract/helper, generated Rules or debug log changed. Persistent pair contractVersion stays 4; modules remain unreferenced by the app.
 - PASS Registry: JOB-18 entry retained before JOB-09; JOB-09 registry entry and ops array item last; decoded patterns escape dots once; new CI step last within rules-emulator.
 - PASS Safety: no worker merge, force-push, deploy or main write; no settings, billing, auth, scoring or private-read changes. Integration refresh was performed by the lead.
-- PASS PR: #330 open/non-draft into gameplay/recovery-v1 with both required mapping/proof tables, seven files, green exact-head CI URL and required sentence. Additional PR validation is running: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37133544901 (Validate POS20, exact head 744e9a0); DONE awaits its next-turn result.
+- PASS PR: #330 open/non-draft into gameplay/recovery-v1 with both required mapping/proof tables, seven files, green exact-head CI URL and required sentence. Validate POS20 https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37133544901 SUCCESS on exact head 744e9a0; all 12 jobs green. State DONE / Step 7 of 7; lead reviews and merges.
 
+
+- PASS Final PR validation: POS20 run 37133544901 SUCCESS on 744e9a0; all 12 checks green; PR #330 clean/mergeable/open, unchanged seven-file scope and exact head. No outstanding blocker.
 
 ## Blocked question
