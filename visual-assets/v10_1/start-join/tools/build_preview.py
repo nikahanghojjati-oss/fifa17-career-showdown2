@@ -43,6 +43,10 @@ css = "\n".join(css_parts)
 stage_js = (shared / "stage.js").read_text()
 motion_js = (shared / "motion.js").read_text()
 sj_js = (screen / "start-join.js").read_text()
+sj_js = sj_js.replace(
+    "const qs = new URLSearchParams(location.search);",
+    "const qs = new URLSearchParams(window.__SJ_QS || location.search);"
+)
 page = (screen / "index.html").read_text()
 fixtures = json.loads((screen / "fixtures.json").read_text())
 platemap = json.loads((screen / "assets/platemap.json").read_text())
@@ -74,6 +78,7 @@ page = re.sub(r'<script src="start-join\.js" defer></script>\s*', "", page)
 boot = """
 <script>
 window.__SJ_PREVIEW = true;
+window.__SJ_QS = "__QS__";
 const __SJ_FIXTURES = %s;
 const __SJ_PLATEMAP = %s;
 const __sjNativeFetch = window.fetch.bind(window);
@@ -139,7 +144,7 @@ h1{margin:0;color:var(--gold);font:700 26px/1.1 system-ui,sans-serif;letter-spac
 const TPL=__TPL__;
 let frame="SJ1";
 const screen=document.getElementById("screen"),view=document.getElementById("view");
-function render(){view.srcdoc=TPL.replace("</head>","<base href='?frame="+frame+"'></head>");fit()}
+function render(){view.srcdoc=TPL.replace("__QS__","?frame="+frame);fit()}
 function fit(){view.style.transform="scale("+(screen.clientWidth/1366)+")"}
 document.querySelectorAll("[data-frame]").forEach((b)=>b.onclick=()=>{frame=b.dataset.frame;document.querySelectorAll("[data-frame]").forEach((x)=>x.setAttribute("aria-pressed",String(x===b)));render()});
 addEventListener("resize",fit);
