@@ -2,12 +2,12 @@
 
 State: IN PROGRESS
 Step: 5 of 8
-Updated: 2026-10-03 15:55 UTC
+Updated: 2026-10-03 15:59 UTC
 Chat: Sol Work mode
 Code branch: gameplay/job-10-transfer-history
-Head commit: eb019c1352a5bbb61650a03d34f25ac135f47245
+Head commit: 2c1cc636d75dcd662464c100973b124ea3e37528
 PR:
-CI run: CI pending on eb019c1352a5bbb61650a03d34f25ac135f47245
+CI run: CI pending on 2c1cc636d75dcd662464c100973b124ea3e37528
 
 ## Notes
 - Lead: JOB-08 (PR #326, merge 843e64e) is merged. Lead to create code branch gameplay/job-10-transfer-history from gameplay/recovery-v1 at 843e64e before Nik starts the job. Lead reference run on 843e64e: new contract PASS, contracts 104/104, ops 73/0, every rules-emulator step PASS including the new Completed transfer history matrix (73 checks) and Completed-only read 56 with B8/B9 flipped; only budget diagnostics are the two known career-index D13 denials. Jobs 9, 11, 16 and 18 also append registry entries (9 also a rules-emulator step, 16 a CI job): whoever merges later re-appends last. Ready to start.
@@ -49,6 +49,8 @@ CI run: CI pending on eb019c1352a5bbb61650a03d34f25ac135f47245
 - Step 6c saved: preserve merged Job 9 readers byte-for-byte from recovery-v1 87f4f9183c7424da535383af2735a627b226fa26; inherited files js/sharedClosedShowdownAdapter.js, js/sparkClosedShowdownCareerLoader.js retained on d021b9f3b9bdb697960a5f0d3ae733c225296b71. Remaining: sync merged registry/ops and re-append G-10 last; preserve JOB-09 Closed-Showdown adapter journey CI step before G-10. Previous a74c2ac CI 37134529126 SUCCESS, transfer 73 and completed-read 56 PASS; next-check budget labels mechanically D14 denials (logged after D13, no success budget failure).
 
 - Step 6d saved: preserve merged Job 9 proofs byte-for-byte from recovery-v1 87f4f9183c7424da535383af2735a627b226fa26; inherited files tests/contracts/closed-showdown-adapter-contracts.cjs, tests/firebase/closed-showdown-adapter-emulator.cjs retained on eb019c1352a5bbb61650a03d34f25ac135f47245. Remaining: sync merged registry/ops and re-append G-10 last; preserve JOB-09 Closed-Showdown adapter journey CI step before G-10. Previous a74c2ac CI 37134529126 SUCCESS, transfer 73 and completed-read 56 PASS; next-check budget labels mechanically D14 denials (logged after D13, no success budget failure).
+
+- Step 6e saved: adopted current recovery tree 31360a0 with byte-identical inherited JOB-09/JOB-18 and rivalry-lookup fix; overlaid only the ten chartered G-10 files. Registry and ops preserve all baseline entries and append G-10 last after sharedJourneyRivalryLookupContract. DEFAULT: same single-parent fast-forward content-sync policy; no merges/force-pushes. Remaining 6f: restore baseline CI including Closed-Showdown adapter journey and append transfer history matrix last; full local proof on updated head.
 
 ## Self-check
 - PASS step 6b local: 106/106 contracts and operations 73/0 with merged JOB-18 preserved, ten-file diff against f7d18a1; both Rules builds PASS and generated Rules uncommitted.
