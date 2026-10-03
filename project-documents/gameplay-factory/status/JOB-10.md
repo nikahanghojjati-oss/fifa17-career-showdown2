@@ -2,12 +2,12 @@
 
 State: IN PROGRESS
 Step: 5 of 8
-Updated: 2026-10-03 15:46 UTC
+Updated: 2026-10-03 15:48 UTC
 Chat: Sol Work mode
 Code branch: gameplay/job-10-transfer-history
-Head commit: d2ab8e7e5b7651fbe6d2ea802dd6998041e9eec2
+Head commit: a74c2acad418684fdbd8fba92dbb810968f6a4f2
 PR:
-CI run: CI pending on d2ab8e7e5b7651fbe6d2ea802dd6998041e9eec2
+CI run: CI pending on a74c2acad418684fdbd8fba92dbb810968f6a4f2
 
 ## Notes
 - Lead: JOB-08 (PR #326, merge 843e64e) is merged. Lead to create code branch gameplay/job-10-transfer-history from gameplay/recovery-v1 at 843e64e before Nik starts the job. Lead reference run on 843e64e: new contract PASS, contracts 104/104, ops 73/0, every rules-emulator step PASS including the new Completed transfer history matrix (73 checks) and Completed-only read 56 with B8/B9 flipped; only budget diagnostics are the two known career-index D13 denials. Jobs 9, 11, 16 and 18 also append registry entries (9 also a rules-emulator step, 16 a CI job): whoever merges later re-appends last. Ready to start.
@@ -42,7 +42,10 @@ CI run: CI pending on d2ab8e7e5b7651fbe6d2ea802dd6998041e9eec2
 
 - Step 6a saved: preserved JOB-18 merged js/persistentNikDanielPair.js and its pair-code-entry-race contract byte-for-byte from f7d18a1 in d2ab8e7e5b7651fbe6d2ea802dd6998041e9eec2. DEFAULT: fast-forward content sync with a single parent, because factory instructions forbid merging and force-pushing. Remaining step 6b: append JOB-18 registry/ops entries before G-10; then run local full proof and wait for exact-head CI. Existing 48099f5 CI budget diagnostics mechanically map only to career-index D13 denials in Phases A/B.
 
+- Step 6b saved: JOB-18 registry entry and ops const retained; G-10 entry/const/array item appended last after JOB-18. Local completed-transfer contract PASS, full contracts 106/106, ops 73 pass / 0 fail, both builds PASS (132878 composed bytes), git diff vs current recovery lists exactly the ten chartered files, generated Rules/logs untracked, contractVersion 4. Saved on a74c2acad418684fdbd8fba92dbb810968f6a4f2; step 6 remains pending until next turn reads final exact-head CI once and records named matrix outputs plus qualified expression-budget gate. No merge or force-push.
+
 ## Self-check
+- PASS step 6b local: 106/106 contracts and operations 73/0 with merged JOB-18 preserved, ten-file diff against f7d18a1; both Rules builds PASS and generated Rules uncommitted.
 - PASS step 5 local: completed-only transfer history contract and existing completed-only read contract both PASS; composed artifact 132878 bytes, transfer helper calls 2/2. Four Rules/test files saved atomically; no writes changed or deploy.
 - PASS reader-only CI: exact 18b25b7, https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37133484967; K9 / I0 expected failures and every existing emulator step green.
 - PASS client-only local proof: Appendix B exact copy; syntax valid; K1-K8 pass and K9 fails missing completed-transfer Rules predicate.
