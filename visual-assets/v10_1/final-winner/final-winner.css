@@ -1446,3 +1446,119 @@ body {
     outline-offset: 2px;
   }
 }
+
+
+/* JOB-083 STEP 3 · portrait Trophy Room phone art.
+   Positions are copied from trophy-room/assets/phonemap.json phone_frame:
+   background 50% 50%; Daniel x 29%, top 1.5%, height 59%; Nik x 71%, top 1%, height 60%;
+   hero boundary 55%; darkening begins at 48% and becomes opaque by 66%. */
+.finalWinnerPhoneBackground,
+.finalWinnerPhoneVeil,
+.finalWinnerPhoneHero {
+  display: none;
+}
+
+@media (max-width: 760px) {
+  .finalWinnerPhoneBackground {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    display: block;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .finalWinnerPhoneBackground img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 50%;
+  }
+
+  .finalWinnerPhoneVeil {
+    position: absolute;
+    inset: 0;
+    z-index: 6;
+    display: block;
+    pointer-events: none;
+    background:
+      linear-gradient(
+        180deg,
+        rgb(3 5 7 / 0) 0%,
+        rgb(3 5 7 / 0) 48%,
+        rgb(3 5 7 / .72) 58%,
+        rgb(3 5 7 / .96) 66%,
+        #050607 100%
+      );
+  }
+
+  .finalWinnerPhoneHero {
+    position: absolute;
+    z-index: 12;
+    display: block;
+    width: auto;
+    pointer-events: none;
+    transform: translateX(-50%);
+    transform-origin: 50% 100%;
+    opacity: .96;
+  }
+
+  .finalWinnerPhoneHero img {
+    display: block;
+    width: auto;
+    height: 100%;
+    max-width: none;
+    filter:
+      drop-shadow(0 1px 1px rgb(255 221 143 / .46))
+      drop-shadow(0 11px 12px rgb(0 0 0 / .70));
+  }
+
+  .finalWinnerPhoneHero--daniel {
+    left: 29%;
+    top: 1.5%;
+    height: 59%;
+  }
+
+  .finalWinnerPhoneHero--nik {
+    left: 71%;
+    top: 1%;
+    height: 60%;
+  }
+
+  #stage-root[data-spotlight="daniel"] .finalWinnerPhoneHero--daniel,
+  #stage-root[data-spotlight="nik"] .finalWinnerPhoneHero--nik {
+    opacity: 1;
+    filter: brightness(1.08) saturate(1.04);
+  }
+
+  #stage-root[data-spotlight="daniel"] .finalWinnerPhoneHero--nik,
+  #stage-root[data-spotlight="nik"] .finalWinnerPhoneHero--daniel {
+    opacity: .72;
+    filter: brightness(.72) saturate(.82);
+  }
+
+  #stage-root[data-spotlight="neutral"] .finalWinnerPhoneHero {
+    opacity: .94;
+    filter: brightness(.98);
+  }
+
+  /* Heroes deliberately run 4–5% below the 55% face band and sit one layer over
+     the results-panel lip. The ceremony title and live copy stay above them. */
+  .finalWinnerTitleBlock,
+  .finalWinnerHeroCopySlot {
+    z-index: 13;
+  }
+
+  .winnerTrophySlot {
+    z-index: 10;
+  }
+
+  .finalWinnerResultsPanel {
+    z-index: 11;
+  }
+
+  .finalWinnerActionsSlot {
+    z-index: 14;
+  }
+}
