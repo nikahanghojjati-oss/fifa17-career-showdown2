@@ -93,6 +93,8 @@ check("13. Trophies",()=>{
 });
 check("14. Abandoned",()=>{
  const p=P({seasons:[[R(),perfect]]}),s=snap(p,{pair:F.pair(p.rivalryId,{connectionState:"closed"})});assert.equal(A.classifyCurrentShowdown(s),"abandoned");assert.deepEqual(A.careerInput(s).showdowns,[{rivalryId:p.rivalryId,classification:"abandoned",projection:null,final:null}]);assert.equal(A.rivalryView(s).status,"empty");assert.equal(A.finalWinnerView(s).status,"empty");assert.equal(career(s).managers.nik.bestSeasonScore,null);
+ for(const status of ["waiting","paired"])assert.equal(A.homeView(snap(p,{pair:F.pair(p.rivalryId,{status,connectionState:"closed"})})).continue.state,"unpaired","a closed pair is no live pair: Home offers a fresh start");
+ assert.equal(A.homeView(snap(p,{pair:F.pair(p.rivalryId,{status:"waiting",connectionState:"closed"}),terminalClose:F.closed(p)})).continue.state,"unpaired");
 });
 check("15. Career input",()=>{
  const p=P({seasons:[[R(),R()]]}),s=snap(p),end=cp(),pending={...s,pair:F.pair(p.rivalryId,{status:"waiting",connectionState:"pending-pair"})};
