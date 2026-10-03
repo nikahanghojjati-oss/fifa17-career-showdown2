@@ -97,9 +97,9 @@ function pairLinkWitness(db,uid,deviceId,role){
 
 async function pairFreshRivalry(env,{rivalryId,sessionId,nowMs}){
   const dbA=env.authenticatedContext(A).firestore(),dbB=env.authenticatedContext(B).firestore();
-  const created=await Pairing.createPairing({user:{uid:A},firestore:dbA,firebaseSdk:sdk(),identity:pairingIdentity(DA,"a",nowMs),binding:bindingFor("playerOne"),capability:rivalryId,nowEpochMs:nowMs,cryptoImpl:crypto.webcrypto,durableWitness:pairLinkWitness(dbA,A,DA,"playerOne")});
+  const created=await Pairing.createPairing({user:{uid:A},firestore:dbA,firebaseSdk:sdk(),identity:pairingIdentity(DA,"a",nowMs),binding:bindingFor("playerOne"),capability:rivalryId,nowEpochMs:nowMs,cryptoImpl:crypto.webcrypto,durableWitness:PersistentPair.createDurableCreationWitness({services:{firestoreSdk:sdk(),firestore:dbA},accountId:A,deviceId:DA},"playerOne",PersistentPair.managerByRole.playerOne)});
   assert.equal(created.ok,true,`Daniel provider createPairing failed: ${JSON.stringify(created)}`);
-  const redeemed=await Pairing.redeemPairing({user:{uid:B},firestore:dbB,firebaseSdk:sdk(),identity:pairingIdentity(DB,"b",nowMs),binding:bindingFor("playerTwo"),capability:rivalryId,nowEpochMs:nowMs+1000,cryptoImpl:crypto.webcrypto,durableWitness:pairLinkWitness(dbB,B,DB,"playerTwo")});
+  const redeemed=await Pairing.redeemPairing({user:{uid:B},firestore:dbB,firebaseSdk:sdk(),identity:pairingIdentity(DB,"b",nowMs),binding:bindingFor("playerTwo"),capability:rivalryId,nowEpochMs:nowMs+1000,cryptoImpl:crypto.webcrypto,durableWitness:PersistentPair.createDurableRedemptionWitness({services:{firestoreSdk:sdk(),firestore:dbB},accountId:B,deviceId:DB},"playerTwo",PersistentPair.managerByRole.playerTwo,rivalryId)});
   assert.equal(redeemed.ok,true,`Nik provider redeemPairing failed: ${JSON.stringify(redeemed)}`);
   const rootA=await assertSucceeds(getDoc(doc(dbA,"rivalries",rivalryId))),rootB=await assertSucceeds(getDoc(doc(dbB,"rivalries",rivalryId)));
   assert.equal(rootA.data().data.connectionState,"active");assert.deepEqual(rootA.data().data.managerSlots,rootB.data().data.managerSlots);
@@ -151,12 +151,22 @@ async function playFreshSingleSeason(env,{rivalryId,sessionId,nowMs,closeAtEnd=f
   return {dbA,dbB,a,b,history:historyA,multi:multiA,final:finalA};
 }
 
+async function assertCareerIndex(main,expected,label){
+  for(const [who,db,uid] of [["Daniel",main.dbA,A],["Nik",main.dbB,B]]){
+    const index=await PersistentPair.readCareerIndex({firestore:db,firebaseSdk:firestoreSdk,accountId:uid});
+    assert.equal(index.status,"ready",`${label}: ${who} index must be ready`);
+    assert.deepEqual(index.rivalryIds,expected,`${label}: ${who} index`);
+    assert.equal(index.rivalryIds.includes(R1),false,`${label}: ${who} index never contains pre-index R1`);
+  }
+}
+
 async function runSecondShowdownAndAbandon(env,main){
   const now2=Date.now();
   await pairFreshRivalry(env,{rivalryId:R2,sessionId:S2,nowMs:now2});
   await seedGameplayBridge(env,{rivalryId:R2,sessionId:S2,nowMs:now2+2000});
   const pairA2=(await assertSucceeds(getDoc(doc(main.dbA,"accounts",A,"pairLinks","current")))).data(),pairB2=(await assertSucceeds(getDoc(doc(main.dbB,"accounts",B,"pairLinks","current")))).data();
-  assert.equal(pairA2.data.rivalryId,R2,"KNOWN GAP 2 (fixed by G-7): accounts/A/pairLinks/current names only the new rivalry");
+  assert.equal(pairA2.data.rivalryId,R2,"Daniel current pair link moves to the new rivalry");
+  await assertCareerIndex(main,[R2],"G-7 after Showdown 2 pairing (R1 predates the index: never backfilled)");
   assert.equal(pairB2.data.rivalryId,R2,"Nik current pair must also move to the new rivalry");
   for(const [who,db] of [["Daniel",main.dbA],["Nik",main.dbB]]){
     await assertFails(getDoc(doc(db,"rivalries",R1,"sharedSetup","authoritative")),`KNOWN GAP 1 (fixed by G-8): ${who} cannot read Showdown 1 setup after close`);
@@ -167,6 +177,7 @@ async function runSecondShowdownAndAbandon(env,main){
   const now3=Date.now();
   await pairFreshRivalry(env,{rivalryId:R3,sessionId:S3,nowMs:now3});
   await seedGameplayBridge(env,{rivalryId:R3,sessionId:S3,nowMs:now3+2000});
+  await assertCareerIndex(main,[R2,R3],"G-7 after Showdown 3 pairing (closed R2 kept, order kept)");
   const fresh=await playFreshSingleSeason(env,{rivalryId:R3,sessionId:S3,nowMs:now3+5000,closeAtEnd:false});
   globalThis.CareerModeProductionFirebaseRuntime={ensureAccountServices:async()=>({ok:true,auth:{currentUser:{uid:A}},firestore:fresh.dbA,firestoreSdk:sdk()})};
   globalThis.CareerModeSparkConnectedAccount={initialize:async()=>{},getState:()=>({connected:true,accountId:A})};

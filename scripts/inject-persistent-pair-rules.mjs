@@ -69,9 +69,24 @@ export function injectPersistentPairRules(){
     "allow get: if signedIn() && request.auth.uid == accountId && pairId == 'current'",
     'allow create: if cmsPersistentPairCreateValid(accountId, pairId)',
     'allow update: if cmsPersistentPairUpdateValid(accountId, pairId)',
-    'allow list, delete: if false'
+    'allow list, delete: if false',
+    'function cmsCareerIndexPageCapacity()',
+    'function cmsCareerIndexEnforced()',
+    '(!cmsCareerIndexEnforced() || cmsCareerIndexPairLinkCoupled(accountId, root.data.rivalryId))',
+    '(!cmsCareerIndexEnforced() || cmsCareerIndexPairLinkCoupled(accountId, after.data.rivalryId))',
+    'function cmsCareerIndexPairLinkCoupled(accountId, rivalryId)',
+    'cmsCareerIndexPairLinkCoupled(accountId, root.data.rivalryId)',
+    'cmsCareerIndexPairLinkCoupled(accountId, after.data.rivalryId)',
+    'function cmsCareerIndexAppendEligible(accountId, rivalryId)',
+    'next[0:prior.size()] == prior',
+    '!(next[prior.size()] in prior)',
+    'match /accounts/{accountId}/careerIndex/{indexId}',
+    "allow update: if indexId == 'current' && cmsCareerIndexHeadUpdateValid(accountId)"
   ]){
     if(!generated.includes(required))throw new Error(`Generated production Rules missing persistent pair boundary: ${required}`);
+  }
+  if((generated.match(/match \/accounts\/\{accountId\}\/careerIndex\/\{indexId\}/g)||[]).length!==1){
+    throw new Error('Generated production Rules must contain exactly one career index account match.');
   }
   if((generated.match(/match \/accounts\/\{accountId\}\/pairLinks\/\{pairId\}/g)||[]).length!==1){
     throw new Error('Generated production Rules must contain exactly one persistent pair account match.');
