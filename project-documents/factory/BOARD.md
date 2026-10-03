@@ -1,6 +1,6 @@
 # Showdown Factory board
 
-**68 of 135 jobs done and checked · 58 %** · updated Sat 7:43 p.m. Eastern
+**68 of 135 jobs done and checked · 58 %** · updated Sat 7:45 p.m. Eastern
 
 ✅ **Quality check:** a job counts as done only after Claude checks it against the quality bar (average 4.2 or more, nothing under 3, hard gates pass). Average score 4.24 over 18 scored jobs. 🔍 Waiting for Claude's check: 35, 39, 41, 42, 45, 47, 77, 87, 115. 
 
@@ -17,7 +17,7 @@
 ## Screens
 
 ```
-Home           █████████░ 7/8
+Home           ████████░░ 7/8
 League         ██████████ 8/8
 Club           █████████░ 6/7
 Transfer       ██░░░░░░░░ 1/6
@@ -99,7 +99,7 @@ Branch `factory/v1-wtt5ye`. 135 Team V jobs, plus 5 lines that track Team G. Two
 | 33 | [Home: phone with seven destinations](jobs/JOB-033.md) | 4 Polish built screens | build | project (type number) | 32, 111 | ██████████ 100 % | DONE |  |
 | 34 | [Home: review](jobs/JOB-034.md) | 4 Polish built screens | review | project (type number) | 33 | ██████████ 100 % | DONE |  |
 | 35 | [Home: fix round](jobs/JOB-035.md) | 4 Polish built screens | fix | project (type number) | 34 | ██████████ 100 % | DONE |  |
-| 36 | [Home: motion pass](jobs/JOB-036.md) | 4 Polish built screens | build | project (type number) | 35, 16 | ████░░░░░░ 40 % | IN PROGRESS | yes |
+| 36 | [Home: motion pass](jobs/JOB-036.md) | 4 Polish built screens | build | project (type number) | 35, 16 | ░░░░░░░░░░ 0 % | IN PROGRESS | yes |
 | 37 | [League: hands on the wheel](jobs/JOB-037.md) | 4 Polish built screens | build | project (type number) | 14, 1, 18, 123 | ██████████ 100 % | DONE |  |
 | 38 | [League: swap in the new league marks](jobs/JOB-038.md) | 4 Polish built screens | build | project (type number) | 37 | ██████████ 100 % | DONE |  |
 | 39 | [League: phone with the hand in frame](jobs/JOB-039.md) | 4 Polish built screens | build | project (type number) | 37, 112 | ██████████ 100 % | DONE |  |
@@ -121,7 +121,7 @@ Branch `factory/v1-wtt5ye`. 135 Team V jobs, plus 5 lines that track Team G. Two
 | 55 | [Loading: review](jobs/JOB-055.md) | 4 Polish built screens | review | project (type number) | 54 | ██████████ 100 % | DONE |  |
 | 56 | [Loading: fix round](jobs/JOB-056.md) | 4 Polish built screens | fix | project (type number) | 55 | ██████████ 100 % | DONE | yes |
 | 57 | [Trophy Room: build (desktop)](jobs/JOB-057.md) | 5 New screens | build | project (type number) | 2, 23, 18, 130, 136, 19, 20, 21, 22 | ██████████ 100 % | DONE |  |
-| 58 | [Trophy Room: phone](jobs/JOB-058.md) | 5 New screens | build | project (type number) | 57, 115 | █░░░░░░░░░ 16 % | IN PROGRESS |  |
+| 58 | [Trophy Room: phone](jobs/JOB-058.md) | 5 New screens | build | project (type number) | 57, 115 | ███░░░░░░░ 33 % | IN PROGRESS |  |
 | 59 | [Trophy Room: review](jobs/JOB-059.md) | 5 New screens | review | project (type number) | 58 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 60 | [Trophy Room: fix round](jobs/JOB-060.md) | 5 New screens | fix | project (type number) | 59 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 61 | [Trophy Room: motion](jobs/JOB-061.md) | 5 New screens | build | project (type number) | 60, 16 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
