@@ -34,14 +34,15 @@
             </picture>
             <div class="trophyPhoneArtShade"></div>
           </div>
-          <input id="trophyPhoneMoreToggle" class="phoneMoreToggle visually-hidden" type="checkbox" aria-label="Show career details">
+          <input id="trophyPhoneMoreToggle" class="phoneMoreToggle visually-hidden" type="checkbox" aria-label="Toggle career details" aria-controls="trophyPhoneSheet">
           <div id="trophyRoomContent" class="trophyRoomContent sd-stage__ui-content" aria-live="polite"></div>
-          <aside class="sd-sheet trophyPhoneSheet" aria-labelledby="trophyPhoneSheetTitle">
+          <aside id="trophyPhoneSheet" class="sd-sheet trophyPhoneSheet" aria-labelledby="trophyPhoneSheetTitle">
             <strong id="trophyPhoneSheetTitle" class="trophyPhoneSheetTitle">CAREER DETAILS</strong>
             <span class="trophyPhoneSheetHint">Ranks and career records</span>
-            <label class="trophyPhoneSheetClose" for="trophyPhoneMoreToggle">CLOSE</label>
+            <span class="trophyPhoneSheetClose" aria-hidden="true">CLOSE</span>
           </aside>
-          <label class="trophyPhoneMoreButton" for="trophyPhoneMoreToggle">MORE</label>
+          <label class="trophyPhoneMoreButton" for="trophyPhoneMoreToggle" aria-hidden="true"><span class="trophyPhoneMoreOpen">MORE</span><span class="trophyPhoneMoreClose">CLOSE</span></label>
+          <div class="nav-reserve trophyPhoneNavReserve" aria-hidden="true"></div>
         </div>
         <div class="sd-stage__layer sd-stage__layer--cutout"><div class="sd-stage__registered"></div></div>
         <div class="sd-stage__layer sd-stage__layer--light"><div class="sd-stage__registered"></div></div>
