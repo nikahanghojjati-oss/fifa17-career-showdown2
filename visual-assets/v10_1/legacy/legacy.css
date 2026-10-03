@@ -38,11 +38,11 @@ button {
   text-align: center;
 }
 
-/* Mockup measurement: centre x = 836/1672 = 50.00%; eyebrow top ≈ 119/941 = 12.65%. */
+/* Mockup measurement baseline was y≈119/941. Claude fix 3: lift the eyebrow to 9.60% so the full label clears the LEGACY brush art. */
 .legacyEyebrow {
   position: absolute;
   left: 50%;
-  top: 12.65%;
+  top: 9.60%;
   transform: translateX(-50%);
   width: 25%;
   margin: 0;
