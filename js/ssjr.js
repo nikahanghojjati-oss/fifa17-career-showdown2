@@ -64,6 +64,7 @@
       await finalReconciliation;
       await prepare([
         ["ssjr-terminal-close-protocol","js/sharedTerminalClose.js","CareerModeSharedTerminalClose"],
+        ["private-session","js/sparkPrivateSession.js","CareerModeSparkPrivateSession"],
         ["ssjr-terminal-close-provider","js/sparkTerminalClose.js","CareerModeSparkTerminalClose"]
       ]);
       return install("ssjr-production-terminal-close","js/productionSharedTerminalClose.js","CareerModeProductionSharedTerminalClose");
