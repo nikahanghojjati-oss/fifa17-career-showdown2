@@ -1,0 +1,161 @@
+name: Job 54 Loading QA
+on:
+  push:
+    branches: [factory/v1-wtt5ye]
+    paths:
+      - '.github/workflows/job54-proof.yml'
+permissions:
+  contents: write
+jobs:
+  qa:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: factory/v1-wtt5ye
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm install --no-save playwright@1.55.0
+      - run: npx playwright install --with-deps chromium
+      - run: python3 -m pip install pillow
+      - name: Optimize Loading brush lockup
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from PIL import Image
+          src=Path('visual-assets/v10_1/home/assets/LOGO_CM17_WORDMARK_V1.webp')
+          out=Path('visual-assets/v10_1/loading/assets/LOGO_CM17_WORDMARK_LOADING_V1.webp')
+          out.parent.mkdir(parents=True,exist_ok=True)
+          im=Image.open(src).convert('RGBA')
+          im.thumbnail((720,320),Image.Resampling.LANCZOS)
+          im.save(out,'WEBP',quality=82,method=6,exact=True)
+          p=Path('visual-assets/v10_1/loading/index.html')
+          s=p.read_text()
+          s=s.replace('../home/assets/LOGO_CM17_WORDMARK_V1.webp','assets/LOGO_CM17_WORDMARK_LOADING_V1.webp')
+          s=s.replace('width="2078" height="755"','width="%d" height="%d"' % im.size)
+          p.write_text(s)
+          print('optimized wordmark',im.size,out.stat().st_size)
+          PY
+      - name: Start local server
+        run: |
+          python3 -m http.server 8765 >/tmp/job54-http.log 2>&1 &
+          sleep 2
+      - name: Run factory QA
+        env:
+          NODE_PATH: ${{ github.workspace }}/node_modules
+          FACTORY_QA_OUT: /tmp/job54-factory-qa
+        run: |
+          node visual-assets/v10_1/shared/tools/factory-qa.cjs             http://127.0.0.1:8765/visual-assets/v10_1/loading/             visual-assets/v10_1/loading LD1,LD2,LD6_UNAVAILABLE
+      - name: Loading-specific gates
+        run: |
+          node <<'NODE'
+          const { chromium } = require('playwright');
+          const fs = require('fs');
+          const path = require('path');
+          const factory=JSON.parse(fs.readFileSync('/tmp/job54-factory-qa/qa_report.json','utf8'));
+          const allowedFactoryNAs=new Set(['H1','H5','FIXTURE_STRINGS']);
+          const unexpected=[];
+          for(const r of factory.results){
+            const fails=Object.entries(r.gates).filter(([,g])=>!g.pass).map(([k])=>k);
+            const bad=fails.filter(k=>!allowedFactoryNAs.has(k));
+            if(bad.length) unexpected.push({frame:r.frame,viewport:r.viewport.label,bad});
+            const s=r.scroll;
+            const noScroll=![s.html.horizontal,s.html.vertical,s.body.horizontal,s.body.vertical,s.stage.horizontal,s.stage.vertical].some(Boolean);
+            if(!noScroll) unexpected.push({frame:r.frame,viewport:r.viewport.label,bad:['NO_SCROLL']});
+          }
+          if(unexpected.length) throw new Error('unexpected factory QA failures '+JSON.stringify(unexpected));
+
+          const VIEWS=[
+            [1366,768,1,'1366x768'],[1440,900,1,'1440x900'],[1920,1080,1,'1920x1080'],[1366,640,1,'1366x640'],
+            [393,660,3,'393x660@3x'],[360,640,2,'360x640'],[375,553,2,'375x553'],[390,844,2,'390x844'],[430,932,2,'430x932']
+          ];
+          const expectedCredit='Marco Reus photo: Tim Reckmann · CC BY 2.0 · Cropped for display';
+          const photographer='https://www.flickr.com/photos/foto_db/16204330530/';
+          const license='https://creativecommons.org/licenses/by/2.0/';
+          const out={factoryExpectedNAs:['H1','H5','FIXTURE_STRINGS'],views:[],pageWeight:{}};
+          (async()=>{
+            const browser=await chromium.launch({headless:true});
+            try{
+              for(const [w,h,dpr,label] of VIEWS){
+                const ctx=await browser.newContext({viewport:{width:w,height:h},deviceScaleFactor:dpr,isMobile:w<=700,hasTouch:w<=700});
+                const p=await ctx.newPage();
+                const errors=[]; p.on('console',m=>{if(m.type()==='error') errors.push(m.text())}); p.on('pageerror',e=>errors.push(String(e)));
+                await p.goto('http://127.0.0.1:8765/visual-assets/v10_1/loading/index.html?frame=LD1',{waitUntil:'networkidle'});
+                const m=await p.evaluate(({expectedCredit,photographer,license})=>{
+                  const rect=e=>{const r=e.getBoundingClientRect(); return {left:r.left,top:r.top,right:r.right,bottom:r.bottom,width:r.width,height:r.height}};
+                  const inside=r=>r.left>=-.5&&r.top>=-.5&&r.right<=innerWidth+.5&&r.bottom<=innerHeight+.5;
+                  const credit=document.querySelector('.startupPhotoCredit');
+                  const links=[...credit.querySelectorAll('a')];
+                  const img=document.getElementById('startupAthlete');
+                  const identity=document.querySelector('.startupIdentity');
+                  const status=document.querySelector('.startupStatus');
+                  const cr=rect(credit), ir=rect(identity), sr=rect(status);
+                  const resources=performance.getEntriesByType('resource').map(x=>({name:x.name,encodedBodySize:x.encodedBodySize||0,transferSize:x.transferSize||0}));
+                  return {
+                    viewport:[innerWidth,innerHeight],
+                    noScroll:document.documentElement.scrollWidth<=innerWidth+1&&document.documentElement.scrollHeight<=innerHeight+1&&document.body.scrollWidth<=innerWidth+1&&document.body.scrollHeight<=innerHeight+1,
+                    credit:{text:credit.textContent.replace(/\s+/g,' ').trim(),font:parseFloat(getComputedStyle(credit).fontSize),rect:cr,inside:inside(cr)},
+                    links:links.map(a=>a.href),
+                    image:{natural:[img.naturalWidth,img.naturalHeight],objectFit:getComputedStyle(img).objectFit,objectPosition:getComputedStyle(img).objectPosition},
+                    identity:{rect:ir,inside:inside(ir)},
+                    status:{rect:sr,inside:inside(sr)},
+                    stackGap:sr.top-ir.bottom,
+                    controls:[...document.querySelectorAll('button,input,select,textarea')].length,
+                    resources
+                  };
+                },{expectedCredit,photographer,license});
+                if(!m.noScroll||!m.credit.inside||m.credit.text!==expectedCredit||m.credit.font<12||m.credit.font>13.1||
+                   JSON.stringify(m.links)!==JSON.stringify([photographer,license])||
+                   m.image.natural[0]!==900||m.image.natural[1]!==1520||m.controls!==0||
+                   !m.identity.inside||!m.status.inside||errors.length){
+                  throw new Error(label+' loading gate failed '+JSON.stringify({m,errors}));
+                }
+                await p.keyboard.press('Tab');
+                const first=await p.evaluate(()=>document.activeElement && document.activeElement.href);
+                await p.keyboard.press('Tab');
+                const second=await p.evaluate(()=>document.activeElement && document.activeElement.href);
+                if(first!==photographer||second!==license) throw new Error(label+' credit keyboard order failed '+first+' '+second);
+                m.keyboard=[first,second]; m.consoleErrors=errors; out.views.push({label,...m});
+                if(label==='1366x768'||label==='393x660@3x'||label==='375x553'){
+                  await p.screenshot({path:'/tmp/JOB54_'+label.replace(/[^a-z0-9]+/gi,'_')+'.png'});
+                }
+                if(label==='393x660@3x'){
+                  out.pageWeight.resourceBytes=m.resources.reduce((a,x)=>a+x.encodedBodySize,0);
+                  out.pageWeight.limitBytes=450*1024;
+                }
+                await ctx.close();
+              }
+            } finally { await browser.close(); }
+            if(out.pageWeight.resourceBytes>out.pageWeight.limitBytes) throw new Error('phone first-paint resources exceed 450KB '+JSON.stringify(out.pageWeight));
+            fs.mkdirSync('visual-assets/v10_1/loading/evidence',{recursive:true});
+            fs.writeFileSync('visual-assets/v10_1/loading/evidence/loading_metrics.json',JSON.stringify(out,null,2)+'\n');
+          })().catch(e=>{console.error(e);process.exit(1)});
+          NODE
+      - name: Package selected QA evidence
+        run: |
+          cp /tmp/job54-factory-qa/qa_report.json visual-assets/v10_1/loading/evidence/factory_qa_report.json
+          cp /tmp/job54-factory-qa/QA_SUMMARY.md visual-assets/v10_1/loading/evidence/FACTORY_QA_SUMMARY.md
+          python3 - <<'PY'
+          from PIL import Image
+          from pathlib import Path
+          mapping={
+            '/tmp/JOB54_1366x768.png':'visual-assets/v10_1/loading/evidence/LD1_1366x768.webp',
+            '/tmp/JOB54_393x660_3x.png':'visual-assets/v10_1/loading/evidence/LD1_393x660.webp',
+            '/tmp/JOB54_375x553.png':'visual-assets/v10_1/loading/evidence/LD1_375x553.webp',
+          }
+          for src,dst in mapping.items():
+            im=Image.open(src).convert('RGB')
+            Path(dst).parent.mkdir(parents=True,exist_ok=True)
+            im.save(dst,'WEBP',quality=82,method=6)
+            print(dst,Path(dst).stat().st_size)
+          PY
+      - name: Commit QA artifacts and optimized lockup
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add visual-assets/v10_1/loading/index.html                   visual-assets/v10_1/loading/assets/LOGO_CM17_WORDMARK_LOADING_V1.webp                   visual-assets/v10_1/loading/evidence
+          git commit -m "Job 54 step 5/5: QA evidence and optimized lockup"
+          git push origin HEAD:factory/v1-wtt5ye
