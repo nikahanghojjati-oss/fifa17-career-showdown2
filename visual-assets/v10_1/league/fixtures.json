@@ -73,8 +73,8 @@
     },
     "L2": {
       "state": "spinning",
-      "rotation": 512,
-      "rotationWhy": "2 x 360 - 3 x 72 + 8 (illustrative Serie A mid-spin; positive whole-turn-plus-offset, same direction as getLeagueRotation(id, 5)). Offset 8 deg instead of the brief's sample 31 deg so no label straddles the fixed wedge edge (G7: at +31 the Serie A / Bundesliga labels sat half on gold, half on glass, 1.09:1 / 1.56:1).",
+      "rotation": 522,
+      "rotationWhy": "2 x 360 - 3 x 72 + 18 (clearer mid-spin offset than the old +8 frame; stays away from the +31 label-straddle contrast failure documented in the build handoff).",
       "selectedLeague": "SPINNING...",
       "spin": "SPINNING...",
       "spinDisabled": true,
