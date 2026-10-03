@@ -10,3 +10,7 @@ python3 visual-assets/v10_1/shared/tools/cutout.py --plate visual-assets/v10_1/c
 ```
 
 The polygons follow the whole visible figure in the approved Club plate, including the held pack area that lies inside each figure silhouette. Daniel remains left and Nik remains right. Do not mirror either cut-out. Review hair separately against the cut-out standard before runtime export; the final WebP target is about 1000 px tall at quality 85.
+
+## Phone proof
+
+# proof: Claude composites PHONE_PROOF.png (393 × 660 at 3×) from phone_frame
