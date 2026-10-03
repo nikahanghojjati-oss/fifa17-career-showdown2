@@ -1,11 +1,11 @@
 # Status · JOB-16 · Two-manager browser journey (localhost-only emulator switch)
 
-State: BLOCKED
+State: IN PROGRESS
 Step: 7 of 9
 Updated: 2026-10-03 14:33 UTC
 Chat: GPT-5.6 Sol normal chat
 Code branch: gameplay/job-16-browser-journey
-Head commit: 8184e3d6189dda5450f59c5493f5b61780bedf77
+Head commit: ba2eb69db015e0f91e4e6afceb928db4d90e5217
 PR:
 CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37129725411
 
@@ -172,7 +172,14 @@ Season Entry visible: true. Scoring panel exists: false. Document visibility: vi
 
 - Lead (2026-10-03 15:20 UTC): root cause found. It is a real product bug, also on live main: the app never puts the rivalry id into the Showdown's sharedJourney marker, and canonical scoring, history convergence and multi-season progression read the rivalry only from there, so they silently do nothing after the commit (the browser audits hid it by seeding the id). The lead is fixing it in a separate fix PR into gameplay/recovery-v1. Keep State BLOCKED and do nothing; when the fix is merged the lead will write here which commit to merge into your branch, then type continue.
 
+- Lead answer (2026-10-03 16:00 UTC): unblocked. The product fix is merged into gameplay/recovery-v1 (PR #331, merge 31360a0): canonical scoring, history convergence, multi-season, terminal close and final reconciliation now read the rivalry from confirmed Shared Setup when the marker lacks it. The lead merged recovery 31360a0 into your branch with an ordinary merge commit (no force-push): new head ba2eb69db015e0f91e4e6afceb928db4d90e5217. Registry and ops list keep every newer entry and put your browserJourneySwitchContract last; your browser-journey CI job comes after the Closed-Showdown adapter step. Lead check on ba2eb69: switch contract PASS, rivalry lookup 12/12, test:ops 73/73. Lead local browser runs with the fix: J0 to J8.5 and JZ pass (29/29) when J9 is skipped.
+- Lead decisions for the rest of the job:
+  1. Do not seed any id and do not call providers directly; the real UI path now works.
+  2. J9 (reload mid-journey): the current product cannot resume after a reload. The private session does not survive, the app opens on the main menu, and multi-season restarts its cursor at season 1. That is a separate product job (resume after reload), not this job. DEFAULT: change J9 to print exactly "J9 SKIPPED: resume after reload is a separate product job (lead decision 2026-10-03)" and continue to J10. Do not count J9 as a pass and do not hide it.
+  3. Known intermittent product bugs, each getting its own job: permission-denied on Nik's season acknowledge (about 2 in 8 runs, J7.3) and SEASON_RESULTS_STALE_BASE_REVISION on a simultaneous publish (about 1 in 8, J8.3). If one of these exact errors stops a CI run, record the run link and that error here, re-run the job once, and continue if the re-run is green. Any other failure is real: stop and set BLOCKED.
+  4. Job 18 is merged, so the pair-code settle wait may be removed (optional).
+- Next: type continue. Resume at step 7 with the exact-head CI on ba2eb69, which starts by itself because the lead pushed to gameplay/**.
+
 ## Self-check
 
 ## Blocked question
-Canonical scoring never wakes in the real browser after a valid ACKNOWLEDGED revision-3 Season Commit. The scoring API exists but getState() remains null and its UI panel is never created, so J8-J12 are unreachable without bypassing the UI. Lead action: create a product bug/fix job for the Shared Canonical Scoring wake/bootstrap after Season Commit completion, then resume JOB-16 from this checkpoint.
