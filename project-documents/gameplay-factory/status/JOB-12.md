@@ -2,14 +2,15 @@
 
 State: IN PROGRESS
 Step: 2 of 8
-Updated: 2026-10-03 17:31 UTC
+Updated: 2026-10-03 17:33 UTC
 Chat: Sol Work mode (job 12, 265263c2f906)
 Code branch: gameplay/job-12-composed-rules-regression
-Head commit: 25f6338b3b038a86acc27709135cfbcf5fd7d598
+Head commit: 8a583b92112c48c50172bfc0385c971d0bfede00
 PR:
-CI run: CI pending on 25f6338b3b038a86acc27709135cfbcf5fd7d598
+CI run: CI pending on 8a583b92112c48c50172bfc0385c971d0bfede00 (tests-first: expected missing composed-rules-regression job)
 
 ## Notes
+- Step 3b saved: appended exactly the Appendix F registry entry last after completed-transfer-history, preserving all inherited entries; appended composedProductionRulesContract const and ordered expectation last. Literal-dot escapes mechanically verified. Local operations 73 pass / 0 fail; full deterministic census fails only the newly registered contract with AssertionError: validate-gameplay-fast.yml needs the composed-rules-regression job (eight preceding numbered checks pass; existing 109 contracts pass). No workflow/emulator code added. CI pending on the exact head above; next turn read once and require Gameplay contracts fails only this assertion while rules-emulator stays green, then mark step 3 complete. No CI polling.
 - Step 3a saved: Appendix B copied verbatim; syntax checks on support and contract PASS. Local contract prints T1, T2, T4-T8 and C1 PASS, then the exact expected AssertionError: validate-gameplay-fast.yml needs the composed-rules-regression job. No CI job or emulator files added yet. Split step 3 into 3a contract and 3b registry/ops to keep each save within the three-file limit. Step 3 remains incomplete until 3b is saved and the next turn reads its tests-first CI result once.
 - Step 2f / step 2 complete: read closed-Showdown adapter, completed-transfer history, Spark account bootstrap and mutation-rate-limit suites. Adapter proves Terminal Close, abandoned-row removal, three-Showdown careers/cache and stranger/unknown-live handling (12 cases). G-10 transfer matrix keeps 73 cases: completed exact-get controls; unfinished/abandoned/stranger/forged witness and lock denials; separate transfer availability/provenance. Both base suites expose exactly one fs.readFileSync(firestore.spark.rules, utf8) seam, verified mechanically; redirected in memory only, preserving account privacy and server-time rate/idempotency authority. All Read first sources now mapped in four-file batches; workflow union includes merged G-9 and G-10 plus deploy-only lifecycle 5/10, deduplicated. Support/fixture are saved on 15f14b1 and exact-head CI green. Next step 3: copy Appendix B, append registry/ops last, save the expected missing-CI-job red test before adding emulator code or CI job.
 - Step 2e saved: mapped persistent-pair, two-manager journey, career-index and completed-read suites. All consume composed generated Rules. Pair covers canonical Daniel/playerOne and Nik/playerTwo, own-account access, atomic witnesses, no list/delete and rollback/abandon safety. Journey runs main and second Showdowns, privacy, retry/races, completed reads and abandon. Career-index keeps exactly one shipped false constant; CMS_CAREER_INDEX_ENFORCED=1 flips in memory; 56 Phase A / 58 Phase B cases include 500-entry rollover and append/CAS denial. D13 is stranger index creation; D14 is skipped revision. G-12 budget allowlist must remain D13 only; diagnostics will be judged mechanically in step 6, not widened. Completed-read remains 56 cases; G-10 changed B8/B9 into authorized completed-transfer controls while D6 and all other privacy denials remain. Next 2f: closed adapter, transfer history and two base suites, then finish step 2.
