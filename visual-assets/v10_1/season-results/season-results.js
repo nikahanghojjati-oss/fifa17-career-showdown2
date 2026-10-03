@@ -149,6 +149,38 @@
     panel.append(header, hint, body, scoreBar);
   }
 
+  function renderActions(fixtures, frame) {
+    const labels = fixtures.strings.buttons;
+    const review = document.getElementById("completeSeason");
+    const publish = document.getElementById("confirmSeasonCompletion");
+    const edit = document.getElementById("editSeasonResults");
+    const commit = document.getElementById("sharedSeasonCommitAction");
+    const back = document.querySelector(".season-action-row .backButton");
+
+    [review, publish, edit, commit].forEach((button) => {
+      button.hidden = true;
+      button.disabled = false;
+      button.removeAttribute("aria-disabled");
+    });
+    back.textContent = labels.back;
+
+    if (frame.phase === "entering") {
+      review.hidden = false;
+      review.textContent = labels.review;
+    } else if (frame.phase === "waiting-for-rival") {
+      publish.hidden = false;
+      publish.textContent = labels.published;
+      publish.disabled = true;
+      publish.setAttribute("aria-disabled", "true");
+    } else if (frame.phase === "results-ready") {
+      commit.hidden = false;
+      commit.textContent = labels.commitCheck;
+    } else if (frame.phase === "committed") {
+      commit.hidden = false;
+      commit.textContent = labels.acknowledge;
+    }
+  }
+
   function renderTopbar(fixtures) {
     const nav = document.getElementById("season-nav-tabs");
     const route = fixtures.routes.topNavigation;
@@ -191,6 +223,7 @@
     document.getElementById("scoring-rules-text").textContent = fixtures.strings.scoringRules;
     renderManagerPanel(fixtures, frame, "daniel");
     renderManagerPanel(fixtures, frame, "nik");
+    renderActions(fixtures, frame);
     renderTree(stringsNode, fixtures.strings);
     renderTree(frameNode, frame);
   }
