@@ -1,13 +1,13 @@
 # Status · JOB-10 · Transfer history, completed only
 
 State: IN PROGRESS
-Step: 3 of 8
-Updated: 2026-10-03 15:30 UTC
+Step: 4 of 8
+Updated: 2026-10-03 15:34 UTC
 Chat: Sol Work mode
 Code branch: gameplay/job-10-transfer-history
 Head commit: 18b25b7dce3f84c6dc1516a03e5faff4d5c1174e
 PR:
-CI run: CI pending on 18b25b7dce3f84c6dc1516a03e5faff4d5c1174e
+CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37133484967
 
 ## Notes
 - Lead: JOB-08 (PR #326, merge 843e64e) is merged. Lead to create code branch gameplay/job-10-transfer-history from gameplay/recovery-v1 at 843e64e before Nik starts the job. Lead reference run on 843e64e: new contract PASS, contracts 104/104, ops 73/0, every rules-emulator step PASS including the new Completed transfer history matrix (73 checks) and Completed-only read 56 with B8/B9 flipped; only budget diagnostics are the two known career-index D13 denials. Jobs 9, 11, 16 and 18 also append registry entries (9 also a rules-emulator step, 16 a CI job): whoever merges later re-appends last. Ready to start.
@@ -34,7 +34,10 @@ CI run: CI pending on 18b25b7dce3f84c6dc1516a03e5faff4d5c1174e
 
 - Step 4 client saved verbatim from Appendix B on 18b25b7dce3f84c6dc1516a03e5faff4d5c1174e. node --check reader PASS; local new contract passes K1-K8 and fails K9: AssertionError cmsCompletedSeasonReadable(rivalryId, transferId), as required before Rules grant. git diff --check PASS. No Rules or JOB-08 flip applied. CI pending; step stays 3 until next turn confirms emulator remains red only at I0. Next: read once, then step 5 Rules and JOB-08 flips together.
 
+- Step 4 complete: CI 37133484967 on exact 18b25b7dce3f84c6dc1516a03e5faff4d5c1174e confirms only new contract K9 failure (cmsCompletedSeasonReadable(rivalryId, transferId)); all prior emulator steps SUCCESS including JOB-08 56 checks; new matrix still fails I0 0 !== 1. Proceeding to step 5: Appendix A + F together in one save as explicitly required.
+
 ## Self-check
+- PASS reader-only CI: exact 18b25b7, https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37133484967; K9 / I0 expected failures and every existing emulator step green.
 - PASS client-only local proof: Appendix B exact copy; syntax valid; K1-K8 pass and K9 fails missing completed-transfer Rules predicate.
 - PASS CI tests-first: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37133168773 exact 70e3ae0, only new contract missing-module and new emulator I0 0 !== 1; all existing emulator steps SUCCESS.
 - PASS local tests-first: both new tests syntax-check, new contract and full census fail only the absent reader (1/105); operations 73/0. Appendices C/D copied verbatim; CI new matrix is last in rules-emulator, registry/ops append after JOB-11.
