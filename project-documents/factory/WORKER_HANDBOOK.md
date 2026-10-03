@@ -15,12 +15,13 @@ Long ChatGPT turns stall in "thinking" and Nik has to press stop and continue. S
 
 1. **At most TWO steps per turn.** After your second finished step (or one heavy step: a build, a cut-out, a long CSS pass), save, then stop with exactly: `Step k of n done and saved. Type continue for step k+1.` Never start a third step in the same turn.
 2. **Every step ends saved.** Step files plus the status file (`Step: k of n`, one note line) are on the branch before you say anything else. A stopped or broken chat then loses nothing: `continue` in this chat, or the job number in a new chat, resumes from the status file at step k+1.
-3. **Resume from the status file, not from memory.** On `continue` or on the number, re-read only `status/JOB-NNN.md` and the job file, then do the next step. Do not re-read papers you already used unless the step needs them.
+3. **Resume from the status file, not from memory.** On `continue` or on the number, re-read only `status/JOB-NNN.md` and the job file, then do the next step. Also look at the branch's newest commits: if any say `Job N step k+1/...` (a half-saved step from a chat that was cut off), keep those files, write only the missing ones, then save the status file. Do not re-read papers you already used unless the step needs them.
 4. **Read only what the step needs.** Read the handbook, the job file and the status file at the start; read each other paper (PRODUCT_TRUTH, QUALITY_BAR, CRAFT_GUIDE, mockups, code) when a step actually uses it, and only the sections it uses. Never fetch whole folders.
 5. **Never trigger, wait on or poll GitHub Actions, CI or workflow logs.** No "waiting 60 seconds", no re-reading run logs. Save and move on.
 6. **No browser QA, no screenshots.** Even if a step asks for them, do not run them; check by reading the code and write what you checked. Claude renders and checks every screen from the committed code. Never retry a failing tool more than once.
 7. **Sol capacity (the size of one step).** A step is right-sized when it reads at most 4 files (only the sections it needs), writes or edits at most 3 files and about 150 lines, and makes at most ONE decision. If a step is bigger, split it yourself into parts (5a, 5b, ...) and save after each part; the status note names the part. Never hold a whole screen in one answer.
 8. **Default, don't stop.** If something is unclear, pick the most reasonable option that keeps product truth, write `DEFAULT: <what you chose and why>` in the notes, and keep going. Use BLOCKED only for a real product-truth contradiction or a missing input you cannot work around (for example a mockup missing from project Files).
+9. **If GitHub refuses a write, stop at once.** ChatGPT's write guard sometimes refuses a save partway through a step (seen on job 72, 03 Oct; other chats saved 4 files in a row fine, so it is not a fixed limit). Do not retry it, do not write the file another way, do not start the next step. Reply exactly: `Job N paused: GitHub refused a save in step k. Type N in a new chat.` The new chat finishes the half-saved step (rule 3) and goes on. Always save the status file last in a step, so a refused save never marks a step done early.
 
 ---
 
@@ -270,6 +271,7 @@ Job 0 records what plain chats can really do in `project-documents/factory/smoke
 | --- | --- |
 | The connector can't see the repo or branch | Use the raw links (pattern at the top). Branch names with a slash work in raw links. |
 | A raw link returns 404 | Check the three-digit number and the exact path; the file may not exist yet (then the job is not ready). |
+| GitHub refused a save ("write guard") partway through a step | Pace rule 9: stop, reply `Job N paused: GitHub refused a save in step k. Type N in a new chat.` The new chat keeps the files already saved and writes only the missing ones. |
 | The chat stalls in "thinking" or Nik pressed stop | Nothing is lost if you saved per step. On `continue` (or the number in a new chat), re-read the status file and do the next unsaved step. |
 | You run out of room mid-job | Save (your files and the status at the last finished step, §7) and tell Nik: `Open a new chat and type N; it continues from step k+1.` |
 | Two chats on the same job | The status file decides. If it already says IN PROGRESS with a recent `Updated:` time from another chat, reply `Job N is already being worked on in another chat.` and stop. |
