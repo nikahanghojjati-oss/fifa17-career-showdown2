@@ -2,12 +2,12 @@
 
 State: IN PROGRESS
 Step: 2 of 8
-Updated: 2026-10-03 15:19 UTC
+Updated: 2026-10-03 15:24 UTC
 Chat: Sol Work mode
 Code branch: gameplay/job-10-transfer-history
-Head commit: e44b6959310cfddf4bc1b4bd6275256f3e61ad41
+Head commit: ff74ab2f72b4c7beb847cf50ceb25fcb327ba7bd
 PR:
-CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37130995554
+CI run: CI pending on ff74ab2f72b4c7beb847cf50ceb25fcb327ba7bd
 
 ## Notes
 - Lead: JOB-08 (PR #326, merge 843e64e) is merged. Lead to create code branch gameplay/job-10-transfer-history from gameplay/recovery-v1 at 843e64e before Nik starts the job. Lead reference run on 843e64e: new contract PASS, contracts 104/104, ops 73/0, every rules-emulator step PASS including the new Completed transfer history matrix (73 checks) and Completed-only read 56 with B8/B9 flipped; only budget diagnostics are the two known career-index D13 denials. Jobs 9, 11, 16 and 18 also append registry entries (9 also a rules-emulator step, 16 a CI job): whoever merges later re-appends last. Ready to start.
@@ -23,6 +23,8 @@ CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/r
 - Step 2c saved (tests + authority): JOB-08 emulator B8/B9 at 156/157 still deny with (G-10); D6 at 176 remains deny. S2C-005R2 sections 4/6 read: preserve private COMPLETED gating and separate unavailable transfers; DATA_CONTRACT_V1 sections 0/5 read: role-derived daniel/nik, independent transfers.status, no unfinished inputs. Ops line drift from JOB-11: completedShowdownReadContract still 72, dataContractFixturesContract appended at 73, expectedSupplementalContracts now 77 (was 76). DEFAULT: add G-10 const after JOB-11 and append G-10 array entry last. Remaining 2d: lead handoff and both composed Rules build/seam counts.
 
 - Step 2d complete: lead handoff sections 2 D2 / 3 transfer-failure default / 5 G-10 agree with the job (full terminal witness, completed-only role privacy, separate availability). Both Rules builds PASS: shared artifact 113974 bytes, composed pair artifact 131462 bytes; public transfer get seam count 1, private role get seam count 1. Generated Rules ignored and uncommitted; git status clean. Step 2 fully complete; next step 3 tests-first (copy Appendices C/D and append registry/ops/CI entry, preserving JOB-11).
+
+- Step 3a saved: Appendix C/D copied verbatim and Completed transfer history matrix appended as the last rules-emulator step in one connector code commit ff74ab2f72b4c7beb847cf50ceb25fcb327ba7bd. Both node --check commands PASS; local contract fails MODULE_NOT_FOUND for js/sparkCompletedTransferHistoryReader.js as required. No reader, Rules or JOB-08 assertions changed. Next 3b: append registry and ops entries after JOB-11, then stop for exact-head red CI evidence.
 
 ## Self-check
 - PASS step 2: all listed read-first sources mapped. Only line drift is JOB-11 ops const/array insertion; existing transfer get seams each occur exactly once; JOB-08 K8 still 5, B8/B9 still deny and D6 untouched.
