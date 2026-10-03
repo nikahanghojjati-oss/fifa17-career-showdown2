@@ -173,8 +173,12 @@ button:focus-visible { outline: 2px solid #FFF1B8; outline-offset: 3px; }
     --phone-edge: 12px;
     --phone-hero-h: 55svh;
     --phone-wheel: clamp(240px, 64vw, 282px);
-    --phone-wheel-y: clamp(260px, 46.5svh, 326px);
+    --phone-wheel-y: clamp(260px, 46.5svh, 440px);
     --phone-safe: max(8px, env(safe-area-inset-bottom));
+    --phone-primary-h: 48px;
+    --phone-secondary-h: 44px;
+    --phone-action-gap: 6px;
+    --phone-dock-core: calc(var(--phone-primary-h) + var(--phone-secondary-h) + var(--phone-action-gap));
     min-height: 100svh;
     overflow: hidden;
   }
@@ -327,7 +331,7 @@ button:focus-visible { outline: 2px solid #FFF1B8; outline-offset: 3px; }
     left: var(--phone-edge) !important;
     right: var(--phone-edge) !important;
     top: auto !important;
-    bottom: calc(var(--phone-safe) + 108px) !important;
+    bottom: calc(var(--phone-safe) + var(--phone-dock-core) + 6px) !important;
     width: auto;
     max-width: none;
     transform: none;
@@ -338,33 +342,43 @@ button:focus-visible { outline: 2px solid #FFF1B8; outline-offset: 3px; }
 
   .stage[data-mode="phone"] .button-row {
     z-index: 36;
-    left: var(--phone-edge) !important;
-    right: var(--phone-edge) !important;
+    left: 0 !important;
+    right: 0 !important;
     top: auto !important;
-    bottom: var(--phone-safe) !important;
+    bottom: 0 !important;
     transform: none;
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: var(--phone-action-gap);
+    padding: 0 var(--phone-edge) var(--phone-safe);
   }
   .stage[data-mode="phone"] .menuButton,
   .stage[data-mode="phone"] .backButton {
     min-width: 0;
     min-height: 44px;
-    height: 44px;
     font-size: 17px;
+    touch-action: manipulation;
   }
   .stage[data-mode="phone"] .menuButton {
     order: 2;
     width: 100%;
-    height: 48px;
+    height: var(--phone-primary-h);
+    flex: 0 0 var(--phone-primary-h);
   }
   .stage[data-mode="phone"] .backButton {
     order: 1;
     width: 96px;
+    height: var(--phone-secondary-h);
+    flex: 0 0 var(--phone-secondary-h);
     align-self: flex-start;
     padding-inline: 12px;
     font-size: 16px;
+  }
+  .stage[data-mode="phone"] input,
+  .stage[data-mode="phone"] select,
+  .stage[data-mode="phone"] textarea {
+    font-size: max(16px, 1em);
   }
 
   .stage[data-mode="phone"] .wheelItem {
