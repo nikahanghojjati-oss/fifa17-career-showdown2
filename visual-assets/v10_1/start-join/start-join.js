@@ -67,6 +67,73 @@
     });
   }
 
+  function stateLabel(frame) {
+    const raw = frame.session?.state || frame.pairing?.state || frame.status || "";
+    return String(raw).replace(/-/g, " ").toUpperCase();
+  }
+
+  function renderMainPanels(frame, strings) {
+    const paired = frame.pairing?.state === "paired";
+    const hostCode = frame.viewer === "daniel" ? frame.pairing?.code || "" : "";
+    const joinVisible =
+      !paired &&
+      frame.pairing?.state === "none" &&
+      (frame.viewer === "nik" || frame.viewer === "either") &&
+      frame.status !== "loading" &&
+      frame.status !== "unavailable";
+
+    setText("danielRoleHeading", strings.buttons.startShowdown);
+    setText("nikRoleHeading", strings.buttons.joinDaniel);
+
+    const fallbackMessage =
+      frame.message ||
+      frame.statusText ||
+      strings.stateCopy[frame.status]?.text ||
+      strings.liveStatus.needConnect;
+    setText(
+      "danielRoleCopy",
+      hostCode ? strings.liveStatus.sendCode : paired ? strings.liveStatus.careerReady : fallbackMessage
+    );
+    setText(
+      "nikRoleCopy",
+      frame.error || (frame.viewer === "nik" && frame.statusText) ||
+      (paired ? strings.liveStatus.careerReady : fallbackMessage)
+    );
+
+    const seasonLine = document.getElementById("danielSeasonLine");
+    const showSeasons = frame.context?.shown?.includes("totalSeasons");
+    seasonLine.hidden = !showSeasons;
+    setText("danielSeasonValue", showSeasons ? frame.context.totalSeasons : "");
+
+    const mainInputWrap = document.getElementById("joinCodeMainWrap");
+    const mainInput = document.getElementById("joinCodeMain");
+    mainInputWrap.hidden = !joinVisible;
+    mainInput.value = joinVisible ? frame.joinDraft?.value || "" : "";
+    mainInput.placeholder = frame.joinDraft?.placeholder || strings.inputs.pairingPlaceholder;
+
+    setText("currentHeading", paired ? strings.screen.readyHeading : strings.screen.connectionHeading);
+    setText("currentStateBadge", stateLabel(frame));
+    setText(
+      "currentStatusCopy",
+      frame.error || frame.statusText || frame.message || strings.stateCopy[frame.status]?.text || ""
+    );
+
+    const codeRow = document.getElementById("currentCodeRow");
+    codeRow.hidden = !hostCode;
+    setText("currentPairingCode", hostCode);
+
+    const danielPanel = document.querySelector(".sj-role-panel--daniel");
+    const nikPanel = document.querySelector(".sj-role-panel--nik");
+    danielPanel.classList.toggle("is-active", frame.viewer === "daniel");
+    nikPanel.classList.toggle("is-active", frame.viewer === "nik");
+    danielPanel.classList.toggle("is-paired", paired);
+    nikPanel.classList.toggle("is-paired", paired);
+
+    stage.dataset.status = frame.status || "";
+    stage.dataset.viewer = frame.viewer || "";
+    stage.dataset.pairingState = frame.pairing?.state || "";
+  }
+
   function render(FX, frameId) {
     const frame = FX.frames[frameId];
     const strings = FX.strings;
@@ -107,6 +174,7 @@
     if (frame.more?.label) addButton("sessionActions", frame.more.label);
     setText("sessionStatus", frame.statusText || frame.message || frame.error || "");
 
+    renderMainPanels(frame, strings);
     renderFrameValues(frame);
   }
 
