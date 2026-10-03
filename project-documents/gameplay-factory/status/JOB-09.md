@@ -2,10 +2,10 @@
 
 State: IN PROGRESS
 Step: 2 of 7
-Updated: 2026-10-03 15:05 UTC
+Updated: 2026-10-03 15:07 UTC
 Chat: Sol Work mode (job 9, 04fd13bb5a42)
 Code branch: gameplay/job-09-closed-adapter
-Head commit: 37d7d543a6a00712e3a8ae8e016ea5a4e8bcdbd1
+Head commit: 94a569bfc4187e094ed1ce218fc335018c8ad80b
 PR:
 CI run: CI pending on 37d7d543a6a00712e3a8ae8e016ea5a4e8bcdbd1 (step 3a test files saved; registry and CI step follow in step 3b)
 
@@ -21,6 +21,8 @@ CI run: CI pending on 37d7d543a6a00712e3a8ae8e016ea5a4e8bcdbd1 (step 3a test fil
 - Step 2: All read-first references checked. Journey lines 99/127/206 match; ops completedShowdownReadContract stays 72 and expectedSupplementalContracts moved 76 -> 77 because JOB-11 appended its entry. Read lead handoff sections 3/5 and S2C-005R2 sections 2/5. DEFAULT: ruling is absent on leads/relay (404); used the exact visual/cinematic-system-v10 archive path linked by the handoff, solely for the job-required authority. Counting, no backfill, account-scoped memory cache and no new read paths confirmed. Fixture smoke PASS CLOSED 5 playerOne SHOWDOWN_COMPLETE; both new modules remain absent. Step 2 complete.
 
 - Step 3a checkpoint: Copied Appendix C contract (313 lines) and Appendix D emulator journey (246 lines) verbatim; node --check both PASS. Local contract fails exactly MODULE_NOT_FOUND: Cannot find module /workspace/scratch/04fd13bb5a42/job9/js/sharedClosedShowdownAdapter.js. Both text files saved through connector. Step 3 still incomplete: Appendix E registry/ops/workflow changes and tests-first exact-head CI evidence are next. Implementation files remain absent; no existing assertion changed.
+
+- Step 3b checkpoint: Appendix E registry entry and ops const/list appended last after JOB-11, preserving every existing entry and assertion. Regex dots are escaped once in decoded patterns. Ops syntax PASS; focused control-plane test 17 pass / 0 fail. Saved both code files. Workflow addition follows in step 3c before reading tests-first CI.
 
 ## Self-check
 
