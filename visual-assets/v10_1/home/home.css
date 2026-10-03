@@ -398,8 +398,8 @@ footer {
   :root {
     --hdr: 48px;
     --gutter: 12px;
-    --phone-hero: 55dvh;
-    --phone-control: calc(45dvh - var(--phone-nav));
+    --phone-hero: 45dvh;
+    --phone-control: calc(55dvh - var(--phone-nav));
     --phone-nav: calc(56px + env(safe-area-inset-bottom));
   }
 
@@ -437,7 +437,7 @@ footer {
   }
   .phoneHeroCutout {
     position: absolute;
-    z-index: 4;
+    z-index: 2;
     display: block;
     width: auto;
     pointer-events: none;
@@ -454,22 +454,22 @@ footer {
   .phoneHeroDaniel {
     left: 31%;
     top: .5vh;
-    height: 58vh;
+    height: 46vh;
     transform: translateX(-50%);
   }
   .phoneHeroNik {
     left: 68%;
     top: -.5vh;
-    height: 61vh;
+    height: 48vh;
     transform: translateX(-50%);
   }
   .phoneHeroGrade {
     position: absolute;
-    z-index: 5;
+    z-index: 3;
     left: 0;
     right: 0;
-    top: 46vh;
-    height: 28vh;
+    top: 31dvh;
+    height: 14dvh;
     display: block;
     pointer-events: none;
     background: linear-gradient(180deg, rgba(5,6,7,0) 0%, rgba(5,6,7,.92) 100%);
@@ -477,11 +477,11 @@ footer {
   main {
     grid-row: 2;
     position: relative;
-    z-index: 2;
+    z-index: 4;
     min-width: 0;
     min-height: 0;
     overflow: hidden;
-    background: linear-gradient(180deg, rgba(6,7,9,.94), #060709 28%);
+    background: linear-gradient(180deg, rgba(6,7,9,.97), #060709 24%);
   }
   .nav-reserve {
     grid-row: 3;
@@ -823,8 +823,8 @@ footer {
   /* Very short Safari view: keep Continue visible while staying close to the 55/45 split. */
   @media (max-height: 600px) {
     :root {
-      --phone-hero: 52dvh;
-      --phone-control: calc(48dvh - var(--phone-nav));
+      --phone-hero: 45dvh;
+      --phone-control: calc(55dvh - var(--phone-nav));
     }
     .lockupKicker, .lockupLegacy { display: none; }
     .homeLockup { top: 14px; width: min(54vw, 202px); }
