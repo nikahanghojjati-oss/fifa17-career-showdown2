@@ -98,7 +98,7 @@ Branch `factory/v1-wtt5ye`. 135 Team V jobs, plus 5 lines that track Team G. Two
 | 34 | [Home: review](jobs/JOB-034.md) | 4 Polish built screens | review | project (type number) | 33 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 35 | [Home: fix round](jobs/JOB-035.md) | 4 Polish built screens | fix | project (type number) | 34 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 36 | [Home: motion pass](jobs/JOB-036.md) | 4 Polish built screens | build | project (type number) | 35, 16 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
-| 37 | [League: hands on the wheel](jobs/JOB-037.md) | 4 Polish built screens | build | project (type number) | 14, 1, 18, 123 | █████░░░░░ 57 % | IN PROGRESS |  |
+| 37 | [League: hands on the wheel](jobs/JOB-037.md) | 4 Polish built screens | build | project (type number) | 14, 1, 18, 123 | ███████░░░ 71 % | IN PROGRESS |  |
 | 38 | [League: swap in the new league marks](jobs/JOB-038.md) | 4 Polish built screens | build | project (type number) | 37 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 39 | [League: phone with the hand in frame](jobs/JOB-039.md) | 4 Polish built screens | build | project (type number) | 37, 112 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 40 | [League: review](jobs/JOB-040.md) | 4 Polish built screens | review | project (type number) | 39 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
