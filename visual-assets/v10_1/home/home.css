@@ -173,8 +173,15 @@ button { font: inherit; color: inherit; }
 
 /* ---------- left column: lockup + heading ---------- */
 .homeLockup {
-  position: absolute; z-index: 3; left: var(--gutter); top: calc(var(--hdr) + clamp(14px, 4vh, 44px));
-  display: flex; flex-direction: column; align-items: flex-start; gap: 6px; width: var(--wm-w, 32vw);
+  position: absolute;
+  z-index: 3;
+  left: 4vw;
+  top: 14.8vh;
+  width: 31vw;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
 }
 .lockupKicker, .lockupLegacy {
   margin: 0; width: max-content; font: 600 15px/1.25 var(--cond); letter-spacing: .5em; color: #E9DFC8; white-space: nowrap;
