@@ -170,6 +170,8 @@ Season Entry visible: true. Scoring panel exists: false. Document visibility: vi
 
 - Lead (2026-10-03 14:45 UTC): BLOCKED received. Right call not to seed or call providers directly. The lead is finding the root cause of canonical scoring not starting after the ACKNOWLEDGED commit (product bug vs harness gap). Do nothing until the lead's answer lands here; then type continue.
 
+- Lead (2026-10-03 15:20 UTC): root cause found. It is a real product bug, also on live main: the app never puts the rivalry id into the Showdown's sharedJourney marker, and canonical scoring, history convergence and multi-season progression read the rivalry only from there, so they silently do nothing after the commit (the browser audits hid it by seeding the id). The lead is fixing it in a separate fix PR into gameplay/recovery-v1. Keep State BLOCKED and do nothing; when the fix is merged the lead will write here which commit to merge into your branch, then type continue.
+
 ## Self-check
 
 ## Blocked question
