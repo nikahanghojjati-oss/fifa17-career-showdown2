@@ -458,3 +458,53 @@ body {
 .season-action-row{position:absolute;z-index:5;left:28.65%;top:86.23%;width:42.64%;min-height:6.83%;display:flex;align-items:center;justify-content:center;gap:12px;pointer-events:auto}
 .season-action-row .sd-btn{min-width:190px;min-height:44px}
 .season-action-row .sd-btn:focus-visible{outline:3px solid #f2c45b;outline-offset:3px}
+
+
+/* JOB-077 step 8: full-canvas fist/forearm overlays keep plate registration exact.
+   Contact shadows fall back onto the manager panels; rim masks add directional light
+   without shifting, mirroring or independently scaling either manager. */
+.season-depth-picture,
+.season-rim-picture {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.season-depth-overlay,
+.season-rim-overlay {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  pointer-events: none;
+}
+
+.season-depth-overlay--daniel {
+  filter:
+    drop-shadow(8px 7px 9px rgb(0 0 0 / .56))
+    drop-shadow(3px 2px 3px rgb(0 0 0 / .72));
+}
+
+.season-depth-overlay--nik {
+  filter:
+    drop-shadow(-8px 7px 9px rgb(0 0 0 / .56))
+    drop-shadow(-3px 2px 3px rgb(0 0 0 / .72));
+}
+
+.season-rim-overlay {
+  mix-blend-mode: screen;
+  opacity: .46;
+}
+
+.season-rim-overlay--daniel {
+  filter: drop-shadow(2px 0 6px rgb(242 196 91 / .58));
+}
+
+.season-rim-overlay--nik {
+  filter: drop-shadow(-2px 0 6px rgb(216 221 229 / .52));
+}
