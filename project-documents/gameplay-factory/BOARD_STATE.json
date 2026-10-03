@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-03 1:05 PM Boston time (EDT)",
+ "generated": "2026-10-03 1:06 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 12,
@@ -40,7 +40,9 @@
  "working": [
   16
  ],
- "blocked": [],
+ "blocked": [
+  10
+ ],
  "jobs": [
   {
    "number": 0,
@@ -385,7 +387,7 @@
    "phase": "3 Career history",
    "type": "rules",
    "plain": "Transfer history visible only once a challenge is completed.",
-   "state": "WAITING ON CODEX",
+   "state": "BLOCKED",
    "step": 7,
    "steps_total": 8,
    "pct": 87,
