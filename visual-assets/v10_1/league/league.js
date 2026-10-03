@@ -249,8 +249,10 @@
     const valid = (r, c) => { const rb = r * BEZEL; return rb + 1 >= slotR + Math.abs(c - slotC.y) && clear(slotC.x, c, rb); };
     // 1) fixed layout (no scroll): buttons at the bottom, note above them, largest wheel that fits
     const btnTopFixed = H - 12 - rowH, hi = (noteH ? btnTopFixed - 8 - noteH : btnTopFixed) - 8;
+    const phoneMinR = compactRow ? 100 : PHONE_MIN_R;
+    const phoneFlowR = compactRow ? 100 : PHONE_FLOW_R;
     let R = null, cy = null, flow = false, btnTop = btnTopFixed;
-    for (let r = Math.min(Math.max(110, W * 0.34), 150); r >= PHONE_MIN_R; r -= 0.5) {
+    for (let r = Math.min(Math.max(phoneMinR, W * 0.34), 150); r >= phoneMinR; r -= 0.5) {
       const c = Math.min(domeTop + r * BEZEL, hi - r * BEZEL);
       if (valid(r, c)) { R = r; cy = c; break; }
     }
@@ -271,8 +273,8 @@
         return { r, c, nTop, bTop, end: bTop + rowH + 12 };
       };
       let f = null;
-      for (let r = PHONE_FLOW_R; r >= PHONE_MIN_R; r -= 0.5) { const t = place(r); if (t.end <= H) { f = t; break; } }
-      if (!f) f = place(PHONE_FLOW_R);
+      for (let r = phoneFlowR; r >= phoneMinR; r -= 0.5) { const t = place(r); if (t.end <= H) { f = t; break; } }
+      if (!f) f = place(phoneFlowR);
       R = f.r; cy = f.c; btnTop = f.bTop;
       if (noteH) note.style.top = px(f.nTop);
     }
@@ -280,7 +282,7 @@
     const finger = plateToScreen(FINGER.x, FINGER.y);
     // Keep the contact wheel, including its outer bezel, inside the phone viewport.
     const maxContactR = (W - 4 - finger.x) / (1 + BEZEL);
-    R = Math.max(PHONE_MIN_R, Math.min(R, maxContactR));
+    R = Math.max(phoneMinR, Math.min(R, maxContactR));
     const targetDist = Math.max(4, R - 3);
     let dy = finger.y - cy;
     if (Math.abs(dy) >= targetDist) {
