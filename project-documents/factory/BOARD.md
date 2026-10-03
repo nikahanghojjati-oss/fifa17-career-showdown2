@@ -1,6 +1,6 @@
 # Showdown Factory board
 
-**68 of 135 jobs done and checked · 57 %** · updated Sat 7:27 p.m. Eastern
+**68 of 135 jobs done and checked · 57 %** · updated Sat 7:29 p.m. Eastern
 
 ✅ **Quality check:** a job counts as done only after Claude checks it against the quality bar (average 4.2 or more, nothing under 3, hard gates pass). Average score 4.24 over 18 scored jobs. 🔍 Waiting for Claude's check: 35, 39, 41, 45, 47, 77, 87, 115. 
 
@@ -19,7 +19,7 @@
 ```
 Home           ████████░░ 7/8
 League         █████████░ 7/8
-Club           ████████░░ 6/7
+Club           █████████░ 6/7
 Transfer       ██░░░░░░░░ 1/6
 Loading        ██████████ 4/4
 Trophy Room    ██████░░░░ 6/10
@@ -111,7 +111,7 @@ Branch `factory/v1-wtt5ye`. 135 Team V jobs, plus 5 lines that track Team G. Two
 | 45 | [Club: phone](jobs/JOB-045.md) | 4 Polish built screens | build | project (type number) | 44, 113 | ██████████ 100 % | DONE |  |
 | 46 | [Club: review](jobs/JOB-046.md) | 4 Polish built screens | review | project (type number) | 45 | ██████████ 100 % | DONE |  |
 | 47 | [Club: fix round](jobs/JOB-047.md) | 4 Polish built screens | fix | project (type number) | 46, 124 | ██████████ 100 % | DONE |  |
-| 48 | [Club: the pack rip](jobs/JOB-048.md) | 4 Polish built screens | build | project (type number) | 47, 16 | ██░░░░░░░░ 20 % | IN PROGRESS | yes |
+| 48 | [Club: the pack rip](jobs/JOB-048.md) | 4 Polish built screens | build | project (type number) | 47, 16 | ████░░░░░░ 40 % | IN PROGRESS | yes |
 | 49 | [Transfer War: polish to the key art](jobs/JOB-049.md) | 4 Polish built screens | build | project (type number) | 1, 18 | ██████████ 100 % | DONE |  |
 | 50 | [Transfer War: phone polish](jobs/JOB-050.md) | 4 Polish built screens | build | project (type number) | 49, 114 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 51 | [Transfer War: review](jobs/JOB-051.md) | 4 Polish built screens | review | project (type number) | 50 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
