@@ -129,6 +129,76 @@ jobs:
             } finally { await browser.close(); }
           })().catch(e=>{console.error(e);process.exit(1)});
           NODE
+      - name: Claude fix regression gates
+        run: |
+          node <<'NODE'
+          const { chromium } = require('playwright');
+          const fs = require('fs');
+          const box = r => ({left:r.left,top:r.top,right:r.right,bottom:r.bottom,width:r.width,height:r.height});
+          const inside = (r,p,m=1) => r.left >= p.left+m && r.right <= p.right-m && r.top >= p.top+m && r.bottom <= p.bottom-m;
+          const intersects = (a,b) => a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top;
+          const textRects = el => {
+            const range=document.createRange();
+            range.selectNodeContents(el);
+            return [...range.getClientRects()].map(box).filter(r=>r.width>0 && r.height>0);
+          };
+          (async()=>{
+            const browser=await chromium.launch({headless:true});
+            const out={desktop:null,phone:null};
+            try {
+              const d=await browser.newPage({viewport:{width:1366,height:768}});
+              await d.goto('http://127.0.0.1:8765/visual-assets/v10_1/home/index.html?frame=HM1',{waitUntil:'networkidle'});
+              await d.waitForFunction(()=>window.__homeReady===true);
+              out.desktop=await d.evaluate(() => {
+                const b=document.getElementById('continueCareer');
+                const meta=b.querySelector('.menuTileMeta');
+                const art=b.querySelector('.tileArt');
+                const range=document.createRange(); range.selectNodeContents(meta);
+                const tr=range.getBoundingClientRect(), ar=art.getBoundingClientRect(), br=b.getBoundingClientRect();
+                return {
+                  text:meta.textContent.trim(),
+                  textRect:{left:tr.left,top:tr.top,right:tr.right,bottom:tr.bottom,width:tr.width,height:tr.height},
+                  artRect:{left:ar.left,top:ar.top,right:ar.right,bottom:ar.bottom,width:ar.width,height:ar.height},
+                  tileRect:{left:br.left,top:br.top,right:br.right,bottom:br.bottom,width:br.width,height:br.height}
+                };
+              });
+              if(out.desktop.text!=='No active showdown saved') throw new Error('desktop Continue meta text changed: '+out.desktop.text);
+              if(!inside(out.desktop.textRect,out.desktop.tileRect,1)) throw new Error('desktop Continue meta leaves tile: '+JSON.stringify(out.desktop));
+              if(intersects(out.desktop.textRect,out.desktop.artRect)) throw new Error('desktop Continue meta still overlaps art: '+JSON.stringify(out.desktop));
+              await d.screenshot({path:'visual-assets/v10_1/home/evidence/FIX_HM1_1366.png'});
+              await d.close();
+
+              const p=await browser.newPage({viewport:{width:393,height:660},deviceScaleFactor:3});
+              await p.goto('http://127.0.0.1:8765/visual-assets/v10_1/home/index.html?frame=HM1',{waitUntil:'networkidle'});
+              await p.waitForFunction(()=>window.__homeReady===true);
+              out.phone=await p.evaluate(() => {
+                const read=id=>{
+                  const b=document.getElementById(id), l=b.querySelector('.menuTileLabel');
+                  const br=b.getBoundingClientRect();
+                  const range=document.createRange(); range.selectNodeContents(l);
+                  return {
+                    id,text:l.textContent.trim(),
+                    tileRect:{left:br.left,top:br.top,right:br.right,bottom:br.bottom,width:br.width,height:br.height},
+                    lineRects:[...range.getClientRects()].map(r=>({left:r.left,top:r.top,right:r.right,bottom:r.bottom,width:r.width,height:r.height})).filter(r=>r.width>0&&r.height>0),
+                    fontSize:parseFloat(getComputedStyle(l).fontSize),
+                    whiteSpace:getComputedStyle(l).whiteSpace
+                  };
+                };
+                return [read('continueCareer'),read('newShowdown')];
+              });
+              for(const row of out.phone){
+                if(!row.lineRects.length) throw new Error('phone title has no line boxes '+row.id);
+                if(row.lineRects.some(r=>!inside(r,row.tileRect,1))) throw new Error('phone title clipped '+JSON.stringify(row));
+                if(row.whiteSpace==='nowrap') throw new Error('phone title cannot wrap '+JSON.stringify(row));
+              }
+              await p.screenshot({path:'visual-assets/v10_1/home/evidence/FIX_HM1_393.png',fullPage:false});
+              await p.close();
+
+              fs.writeFileSync('visual-assets/v10_1/home/evidence/fix_text_metrics.json',JSON.stringify(out,null,2)+'\n');
+              console.log('Claude fix regression gates PASS');
+            } finally { await browser.close(); }
+          })().catch(e=>{console.error(e);process.exit(1)});
+          NODE
       - name: Compare to Home goal
         run: |
           python3 visual-assets/v10_1/shared/tools/compare_sheet.py \
@@ -143,5 +213,20 @@ jobs:
                   visual-assets/v10_1/home/evidence/FINAL_HM2_1366.png \
                   visual-assets/v10_1/home/evidence/final_desktop_metrics.json \
                   visual-assets/v10_1/home/evidence/COMPARE_1366.png
+          git add visual-assets/v10_1/home/evidence/FIX_HM1_1366.png \
+                  visual-assets/v10_1/home/evidence/FIX_HM1_393.png \
+                  visual-assets/v10_1/home/evidence/fix_text_metrics.json
+          if git diff --cached --quiet; then
+            echo "No evidence changes to commit"
+            exit 0
+          fi
           git commit -m "Job 32 step 6/6: QA evidence"
-          git push origin HEAD:factory/v1-wtt5ye
+          for attempt in 1 2 3; do
+            git fetch origin factory/v1-wtt5ye
+            git rebase origin/factory/v1-wtt5ye
+            if git push origin HEAD:factory/v1-wtt5ye; then
+              exit 0
+            fi
+            sleep 2
+          done
+          exit 1
