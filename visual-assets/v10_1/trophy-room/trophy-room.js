@@ -85,7 +85,7 @@
   function statePanel(strings, frame) {
     if (frame.status === "loading") return `<div class="statePanel statePanel--loading"><i class="stateGlyph" aria-hidden="true"></i><strong>${esc(strings.stateCopy.loading.text)}</strong></div>`;
     if (frame.status === "unavailable") return `<div class="statePanel statePanel--unavailable"><i class="stateGlyph" aria-hidden="true">!</i><strong>${esc(strings.stateCopy.unavailable.text)}</strong></div>`;
-    if (frame.status === "partial") return `<div class="stateNotice">${esc(frame.stateMessage || strings.stateCopy.partial.text.replace("{READABLE}", frame.coverage.readable).replace("{INDEXED}", frame.coverage.indexed))}<b>${frame.coverage.readable} of ${frame.coverage.indexed} Showdowns readable</b></div>`;
+    if (frame.status === "partial") return `<div class="stateNotice"><span class="stateNoticeIcon" aria-hidden="true">!</span><span>${esc(frame.stateMessage || strings.stateCopy.partial.text.replace("{READABLE}", frame.coverage.readable).replace("{INDEXED}", frame.coverage.indexed))}</span><b>${frame.coverage.readable} of ${frame.coverage.indexed} Showdowns readable</b></div>`;
     return "";
   }
 
