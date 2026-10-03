@@ -5,7 +5,7 @@ Step: 7 of 8
 Updated: 2026-10-03 16:09 UTC
 Chat: Sol Work mode
 Code branch: gameplay/job-10-transfer-history
-Head commit: c09b8fbdc479ef94f1e7c08858986119c73e0068
+Head commit: 6e1fe56f225c6f0a2d0430027bdea49022785dbd
 PR: #332
 CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37135253028
 
@@ -59,6 +59,8 @@ CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/r
 - Step 7 complete: PR #332 opened into gameplay/recovery-v1, head 6a698c3, base 31360a0, required §4.1/§4.2 tables, ten chartered files, exact-head green CI URL and literal Rules-before-client line included. Effective base-to-head diff is ten files; GitHub merge-base diff shows 22 files because no-merge/no-force-push content syncing preserved upstream baseline without changing ancestry. Live mergeable=false, state=dirty. Next step 8: Codex review after mergeability is confirmed.
 
 - Lead answer (2026-10-03 16:15 UTC): reconciled. The lead merged gameplay/recovery-v1 into gameplay/job-10-transfer-history with an ordinary merge commit, no force-push: new head c09b8fbdc479ef94f1e7c08858986119c73e0068. Conflicts were ancestry only. The merged tree is byte-identical to your tested head 6a698c3, and the diff against recovery is still exactly your ten files. Lead check on c09b8fb: transfer history contract PASS, test:ops 73/73. PR #332 should now be mergeable. Continue with step 7: read the exact-head CI on c09b8fb once (it starts by itself) and the Codex review, then step 8.
+
+- Lead (2026-10-03 16:58 UTC): the lead's season-results fix (PR #333) merged into recovery and touched the registry again, so the lead merged recovery 5a79fbd into your branch once more (ordinary merge, no force-push): new head 6e1fe56f225c6f0a2d0430027bdea49022785dbd. Your completedTransferHistoryContract is still last; your diff against recovery is still exactly your ten files; lead check: transfer history contract PASS, test:ops 73/73. Read the exact-head CI on 6e1fe56 instead of c09b8fb. Codex note: Codex reported its review usage limit at 16:43 UTC on another PR. If no Codex review appears on #332, write that in step 8 and set BLOCKED; do not wait in a loop.
 
 ## Self-check
 - PASS PR: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/332 targets recovery-v1 and includes both charter tables and deployment-order line; exact-head CI green.
