@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-03 12:09 PM Boston time (EDT)",
+ "generated": "2026-10-03 12:11 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 12,
@@ -37,10 +37,9 @@
   "work": []
  },
  "queued": [],
- "working": [
-  16
- ],
+ "working": [],
  "blocked": [
+  16,
   10
  ],
  "jobs": [
@@ -166,7 +165,7 @@
    "phase": "1 Safety net",
    "type": "test",
    "plain": "The same journey through the real app screens in a browser, test database only.",
-   "state": "IN PROGRESS",
+   "state": "BLOCKED",
    "step": 7,
    "steps_total": 9,
    "pct": 77,
