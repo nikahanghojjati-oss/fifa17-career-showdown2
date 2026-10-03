@@ -65,6 +65,8 @@ CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/r
 
 - Lead note (2026-10-03 22:35 UTC): job 16 merged into gameplay/recovery-v1, so the lead merged recovery into your branch again (ordinary merge, no force-push): new head 6dde19a. The registry, ops list and workflow keep recovery's entries first (job 16's browserJourneySwitchContract and its browser-journey CI job) with your composedProductionRulesContract and composed-rules-regression job last. Contracts PASS, test:ops 73/0. Pull before your next step.
 
+- Lead (2026-10-03 23:40 UTC): MERGED into gameplay/recovery-v1 as PR #338 (merge 0e11422). Gates checked: status DONE, all 16 checks green on exact head 6dde19a, no conflict, Codex reviewed 6dde19a with no issues, eight chartered test/CI files only. No open job branches needed a refresh.
+
 ## Self-check
 - PASS step 6 tests: new contract 10/10, full contracts 110/110, operations 73/0, exact-head CI all three jobs SUCCESS; regression 49/49 with 17 suites and nine Phase B runs, E1 only S8/D13 and S9/D13. No not ok/NOTE or tracked generated/debug artifacts.
 - PASS step 6a refreshed scope: exactly eight chartered files against recovery ab704a9; clean worktree. Prior eleven-file failure on 5cd8ad6 was resolved by lead merges.
