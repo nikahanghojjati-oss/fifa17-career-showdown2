@@ -547,6 +547,20 @@
         "^tests/contracts/completed-showdown-read-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/browser-journey-emulator-switch-contracts.cjs",
+      "patterns": [
+        "^tests/browser/support/emulator-runtime-switch\\.js$",
+        "^tests/browser/support/firebase\\.browser-journey\\.json$",
+        "^js/[^/]+\\.js$",
+        "^index\\.html$",
+        "^service-worker\\.js$",
+        "^manifest\\.webmanifest$",
+        "^\\.github/workflows/deploy-github-pages\\.yml$",
+        "^tests/contracts/browser-journey-emulator-switch-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
