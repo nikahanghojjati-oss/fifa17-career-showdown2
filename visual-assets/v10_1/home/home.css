@@ -398,14 +398,15 @@ footer {
   :root {
     --hdr: 48px;
     --gutter: 12px;
-    --phone-hero: 40vh;
+    --phone-hero: 55dvh;
+    --phone-control: calc(45dvh - var(--phone-nav));
     --phone-nav: calc(56px + env(safe-area-inset-bottom));
   }
 
   /* Fixed three-zone phone composition: cinematic hero, compact hub, shared nav reserve. */
   .stage {
     display: grid;
-    grid-template-rows: var(--phone-hero) minmax(0, 1fr) var(--phone-nav);
+    grid-template-rows: var(--phone-hero) minmax(0, var(--phone-control)) var(--phone-nav);
     overflow: hidden;
     min-height: 100dvh;
   }
@@ -496,55 +497,17 @@ footer {
     display: none !important;
   }
 
-  /* Status chrome overlays the hero instead of consuming its own row. */
-  #topHeader {
-    position: absolute;
-    z-index: 12;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: var(--hdr);
-    padding: 0 8px 0 0;
-    gap: 6px;
-    overflow: hidden;
-    background: linear-gradient(180deg, rgba(6,7,9,.94), rgba(6,7,9,.42));
-    border-bottom: 1px solid rgba(201,155,69,.4);
-  }
-  .cmBadge {
-    margin-right: 0;
-    padding: 0 13px 0 12px;
-    font-size: 20px;
-  }
-  .brand {
-    position: absolute !important;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip: rect(0 0 0 0);
-    clip-path: inset(50%);
-    white-space: nowrap;
-  }
-  #onlinePlayerIdentityBadge, .seasonIndicator {
-    min-width: 44px;
-    min-height: 44px;
-    height: 44px;
-    padding: 0 8px;
-    justify-content: center;
-    font-size: 12px;
-    letter-spacing: .055em;
-    background: rgba(6,7,9,.66);
-    border-color: rgba(242,196,91,.82);
-  }
-  #onlinePlayerIdentityBadge { margin-left: auto; }
+  /* Phone hubs use the shared 56 px bottom-bar reserve; desktop top navigation stays hidden here. */
+  #topHeader { display: none; }
 
-  /* Brush lockup belongs to the hero band. Character cut-outs are added in Step 3. */
+  /* Brush lockup belongs to the expanded cinematic hero band. */
   .homeLockup {
     display: flex !important;
     position: fixed;
     z-index: 8;
-    top: 58px;
+    top: 18px;
     left: 50%;
-    width: min(58vw, 228px);
+    width: min(60vw, 236px);
     transform: translateX(-50%);
     align-items: center;
     gap: 2px;
@@ -582,8 +545,8 @@ footer {
     height: 100%;
     min-height: 0;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    grid-template-rows: 60px repeat(2, minmax(44px, 1fr)) 52px;
-    gap: 6px;
+    grid-template-rows: 52px repeat(2, minmax(44px, 1fr)) 50px;
+    gap: 5px;
   }
 
   /* Soundtrack becomes one slim strip; the four-track picker opens as a sheet. */
@@ -592,9 +555,9 @@ footer {
     grid-column: 1 / -1;
     grid-row: 1;
     width: auto !important;
-    height: 60px !important;
+    height: 52px !important;
     min-width: 0;
-    padding: 7px 7px 7px 9px;
+    padding: 4px 6px 4px 8px;
     overflow: visible;
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto auto;
@@ -857,13 +820,17 @@ footer {
   }
   .tileChevron { display: none; }
 
-  /* Very short Safari view: preserve the 40% hero, tighten only ornamental copy. */
+  /* Very short Safari view: keep Continue visible while staying close to the 55/45 split. */
   @media (max-height: 600px) {
+    :root {
+      --phone-hero: 52dvh;
+      --phone-control: calc(48dvh - var(--phone-nav));
+    }
     .lockupKicker, .lockupLegacy { display: none; }
-    .homeLockup { top: 54px; width: min(54vw, 202px); }
-    .fifaMenuShell { padding-top: 5px; padding-bottom: 6px; }
-    .fifaMenuGrid { grid-template-rows: 56px repeat(2, minmax(44px, 1fr)) 50px; gap: 5px; }
-    .menuMusicTile { height: 56px !important; padding-top: 5px; padding-bottom: 5px; }
+    .homeLockup { top: 14px; width: min(54vw, 202px); }
+    .fifaMenuShell { padding: 4px 8px; }
+    .fifaMenuGrid { grid-template-rows: 44px repeat(2, minmax(44px, 1fr)) 48px; gap: 4px; }
+    .menuMusicTile { height: 44px !important; padding-top: 2px; padding-bottom: 2px; }
     .menuMusicArtist { display: none; }
     #menuMusicMute { display: none; }
   }
