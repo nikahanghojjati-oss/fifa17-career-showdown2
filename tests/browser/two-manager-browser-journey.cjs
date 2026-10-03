@@ -509,7 +509,30 @@ async function main(){
 
     // J10 final reconciliation and Terminal Close through the real UI.
     for(const m of [daniel,nik]){
-      await m.page.locator("#sharedFinalReconciliationPanel").waitFor({state:"visible",timeout:60000});
+      try{
+        await m.page.locator("#sharedFinalReconciliationPanel").waitFor({state:"visible",timeout:60000});
+      }catch(error){
+        const diag=await m.page.evaluate(()=>({
+          showdown:typeof currentShowdown!=="undefined"&&currentShowdown?{
+            id:currentShowdown.id||null,
+            saveId:currentShowdown.saveId||null,
+            currentRound:currentShowdown.currentRound||null,
+            identity:currentShowdown.identity||null,
+            sharedJourney:currentShowdown.sharedJourney||null
+          }:null,
+          saveLibraryReady:window.CareerModeSaveLibraryRuntime?.isReady?.()??null,
+          multi:window.CareerModeProductionSharedMultiSeasonProgression?.getState?.()||null,
+          history:window.CareerModeProductionSharedHistoryConvergence?.getState?.()||null,
+          local:window.CareerModeProductionSharedLocalReconciliation?.getState?.()||null,
+          final:window.CareerModeProductionSharedFinalReconciliation?.getState?.()||null,
+          finalActive:window.CareerModeProductionSharedFinalReconciliation?.isActive?.()??null,
+          terminal:window.CareerModeProductionSharedTerminalClose?.getState?.()||null,
+          panelExists:Boolean(document.getElementById("sharedFinalReconciliationPanel")),
+          panelHidden:document.getElementById("sharedFinalReconciliationPanel")?.classList.contains("hidden")??null,
+          visibility:document.visibilityState
+        }));
+        throw new Error(`J10_FINAL_RECONCILIATION_NOT_VISIBLE ${JSON.stringify(diag)}`,{cause:error});
+      }
       assert.equal((await m.page.locator("#sharedFinalReconciliationHeading").textContent()).trim(),"SHOWDOWN FINAL RECONCILED");
       assert.equal((await m.page.locator("#sharedFinalReconciliationWinner").textContent()).trim(),"Daniel 10 · Nik 15 · Nik WINS");
       await m.page.locator("#sharedTerminalCloseAction").waitFor({state:"visible",timeout:60000});
