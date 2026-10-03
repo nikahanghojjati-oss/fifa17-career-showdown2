@@ -38,7 +38,7 @@
   }
 
   function titleBlock(strings) {
-    return `<header class="trophyTitleBlock"><p class="trophyEyebrow">CAREER MODE SHOWDOWN 17</p><h2 id="trophyRoomScreenTitle" class="visually-hidden" tabindex="-1" data-route-focus-target="true">${esc(strings.heading)}</h2><img class="trophyBrushTitle" src="assets/TITLE_TR_V1.webp" alt="" aria-hidden="true"><p class="trophyTagline">TWO MANAGERS. ONE LEGACY.</p></header>`;
+    return `<header class="trophyTitleBlock"><p class="sd-eyebrow trophyEyebrow">CAREER MODE SHOWDOWN 17</p><h2 id="trophyRoomScreenTitle" class="visually-hidden" tabindex="-1" data-route-focus-target="true">${esc(strings.heading)}</h2><img class="trophyBrushTitle" src="assets/TITLE_TR_V1.webp" alt="" aria-hidden="true"><p class="sd-tagline trophyTagline">TWO MANAGERS. ONE LEGACY.</p></header>`;
   }
 
   function ranking(frame) {
