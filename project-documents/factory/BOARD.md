@@ -8,11 +8,11 @@
 
 **Where to run:** 🟡 **project job** = new chat in the ChatGPT project "Showdown visual", type the number. 🟣 **image job** = its ticket in a ChatGPT **Temporary Chat** outside any project, then drop the picture in Claude's factory thread.
 
-🟡 **Type next:** 47 · then 92, 95, 114, 115, 116, 117, 119, 120, 125
+🟡 **Type next:** - · then 47, 92, 95, 114, 116, 117, 119, 120, 125
 
 🟣 **Image next:** 118
 
-**Working:** 35, 41, 77, 87 · **Blocked:** -
+**Working:** 35, 41, 77, 87, 115 · **Blocked:** -
 
 ## Screens
 
@@ -51,13 +51,13 @@ Branch `factory/v1-wtt5ye`. 135 Team V jobs, plus 5 lines that track Team G. Two
 
 **Overall (Team V):** █████░░░░░ 53 % · 62 of 135 jobs done
 
-**Start now · project (type the number in Showdown visual):** 47 · queued next: 92, 95, 114, 115, 116, 117, 119, 120, 125
+**Start now · project (type the number in Showdown visual):** nothing (all slots busy or nothing ready) · queued next: 47, 92, 95, 114, 116, 117, 119, 120, 125
 
 **Start now · fresh chat (image ticket, outside the project):** 118
 
 **Start now (Sol Work mode, press Use Work):** -
 
-**Working:** 35, 41, 77, 87 · **Blocked:** -
+**Working:** 35, 41, 77, 87, 115 · **Blocked:** -
 
 **Team G tracking (never start these):** 98 (done), 99 (open), 100 (open), 101 (open), 102 (open). Claude marks them done when Team G delivers.
 
@@ -178,7 +178,7 @@ Branch `factory/v1-wtt5ye`. 135 Team V jobs, plus 5 lines that track Team G. Two
 | 112 | [Phone art: League](jobs/JOB-112.md) | 3 Art | build | project (type number) | 14, 1 | ██████████ 100 % | DONE |  |
 | 113 | [Phone art: Club Assignment](jobs/JOB-113.md) | 3 Art | build | project (type number) | 14, 1 | ██████████ 100 % | DONE |  |
 | 114 | [Phone art: Transfer War](jobs/JOB-114.md) | 3 Art | build | project (type number) | 14, 1 | ██████░░░░ 66 % | NOT STARTED |  |
-| 115 | [Phone art: Trophy Room](jobs/JOB-115.md) | 3 Art | build | project (type number) | 14, 23 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
+| 115 | [Phone art: Trophy Room](jobs/JOB-115.md) | 3 Art | build | project (type number) | 14, 23 | ░░░░░░░░░░ 0 % | IN PROGRESS |  |
 | 116 | [Phone art: Career Statistics](jobs/JOB-116.md) | 3 Art | build | project (type number) | 14, 24 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 117 | [Phone art: Rivalry Statistics](jobs/JOB-117.md) | 3 Art | build | project (type number) | 14, 25 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 118 | [Phone art: Legacy (History)](jobs/JOB-118.md) | 3 Art | image | fresh chat (image) | 14, 26 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
