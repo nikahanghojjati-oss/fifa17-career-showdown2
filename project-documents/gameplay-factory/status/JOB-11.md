@@ -1,8 +1,8 @@
 # Status · JOB-11 · Contract fixtures generated from the real model
 
-State: IN PROGRESS
-Step: 7 of 8
-Updated: 2026-10-03 14:29 UTC
+State: DONE
+Step: 8 of 8
+Updated: 2026-10-03 14:31 UTC
 Chat: Sol Work mode (job 11, 83d4f3e64efe)
 Code branch: gameplay/job-11-contract-fixtures
 Head commit: 554c5b6cafd3362143f7363b75f842bca09e4c45
@@ -22,6 +22,7 @@ CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/r
 - Step 7 exact-head Gameplay contracts job 111220560648 SUCCESS: PASS data contract v1 fixtures contracts (31 checks, 14 scenarios + nav); PASS POS10 selected deterministic census (104/104 current blocking contracts: frozen POS10 floor + POS20 supplements); adapter 19/19; operations tests 73/pass 73/fail 0. Local full-suite sessions twice returned exit 0 before a complete census log; no further local reruns, CI supplies full-suite evidence under handbook section 7. Local focused checks and operations complete normally.
 - Step 7: Validate Gameplay Fast https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37129084547 is SUCCESS on exact head 554c5b6cafd3362143f7363b75f842bca09e4c45. Gameplay contracts 111220560648 and Composed Rules on the emulator 111220560767 both SUCCESS; all demo-project matrices passed. Full proof complete, 104/104 contracts and ops 73/0; fixture 31 checks, adapter 19/19, all 21 files confirmed. No code changes during final validation.
 - Step 8 checkpoint: PR #327 open, ready for review, mergeable, exact head 554c5b6cafd3362143f7363b75f842bca09e4c45, base gameplay/recovery-v1 843e64e, exactly 21 files; required scenario and proof tables plus regenerate line included. Creating the PR also started POS20 validation run https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37129397528 . All fast CI checks are green; awaiting the PR checks before final DONE so the lead need not re-test. Codex review is not required.
+- Step 8: PR #327 verified open, ready, mergeable (clean) on exact head 554c5b6cafd3362143f7363b75f842bca09e4c45, targets gameplay/recovery-v1 and lists exactly 21 authorized files. Validate POS20 run 37129397528 SUCCESS with all 12 checks including FULL/REMOTE proofs and exact-head cognitive seal. PR body updated with both green validation runs. Done checklist complete; nothing merged or deployed. Team G lead reviews and merges.
 
 ## Self-check
 - PASS Tests first: K1 red only in new contract (1/104 failed), emulator SUCCESS, exact head a1d3df6a2ee1f1715ec74d09e97d2a67e37197b7, https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37128651006 . Step 4 missing-generator proof at fcfed2edff5c2e9cfe0d51d0fdbf2c6fdd53dd5f / run 37128872589; step 5 K2 missing-fixtures proof at d959605adeb2ebe6f8a1ff13b4be9e55849eb2c4 / run 37128943248. Local failures recorded in Notes.
@@ -33,7 +34,7 @@ CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/r
 - PASS Scope: GitHub PR #327 and local diff list exactly the 21 authorized files. Generator/contract byte-identical to Appendices A/B; one JS guard condition only. Registry entry and ops const/list appended last after JOB-08; prior entries preserved byte-for-byte and in order. index.html, service-worker.js, Rules, workflows, CURRENT_PRODUCT_TEST_MANIFEST.json, helpers and every existing contract unchanged.
 - PASS Safety: Nothing written to main, nothing merged, force-pushed or deployed, no production data or Firebase settings changes. Codex review is no in the job header; none requested.
 - PASS PR: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/327 open and ready for Team G lead review into gameplay/recovery-v1; head 554c5b6cafd3362143f7363b75f842bca09e4c45, 21 files. Scenario and requirement/proof tables, adapter explanation, exact-head fast CI URL and regenerate instruction included. equal-position-tiebreaks intentionally retains league-points/draw; the two expected Team V equal-position errors are explicitly disclosed per lead decision.
-- PENDING Additional PR checks: Validate POS20 https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37129397528 . Selector, deterministic census, operations, benchmark, STATIC, INLINE, VISUAL, STORAGE and 1/3/5/10 lifecycle SUCCESS; FULL and REMOTE pending, then seal. No code changes while these run.
+- PASS Additional PR checks: Validate POS20 https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37129397528 SUCCESS on 554c5b6cafd3362143f7363b75f842bca09e4c45; all 12 checks green including FULL, REMOTE, all other proof groups, 1/3/5/10 gameplay lifecycle, benchmark and POS20 exact-head cognitive seal. PR mergeable_state clean.
 
 ## Blocked question
-
+None. All job checks and additional PR validation passed. Team G lead review remains; the worker did not merge.
