@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Final Winner · Career Mode Showdown 17</title>
+<link rel="stylesheet" href="../shared/showdown-tokens.css">
+<link rel="stylesheet" href="../shared/showdown-type.css">
+<link rel="stylesheet" href="../shared/showdown-ui.css">
+<link rel="stylesheet" href="../shared/stage.css">
+<link rel="stylesheet" href="../shared/motion.css">
+<link rel="stylesheet" href="final-winner.css">
+</head>
+<body>
+<div id="stage-root" class="stage" data-screen="final-winner">
+  <main id="finalWinnerScreen" class="screen" aria-labelledby="finalWinnerHeading">
+    <p id="previewLabel"></p>
+    <p id="frameNote"></p>
+    <h1 id="finalWinnerHeading"></h1>
+    <p id="finalWinnerMessage"></p>
+    <p id="finalWinnerStatus"></p>
+    <p id="completionMark"></p>
+    <section aria-label="Final score">
+      <p><span id="danielName">Daniel</span> <span id="danielTotal"></span></p>
+      <p><span id="nikName">Nik</span> <span id="nikTotal"></span></p>
+      <p id="outcomeHeadline"></p>
+      <p id="resultText"></p>
+      <p id="seasonsPlayed"></p>
+    </section>
+    <section aria-label="Trophies">
+      <p id="danielTrophies"></p>
+      <p id="nikTrophies"></p>
+    </section>
+    <div id="winnerActions" aria-label="Actions"></div>
+    <pre id="fixtureDump" aria-label="Current preview fixture"></pre>
+  </main>
+</div>
+<script src="../shared/stage.js"></script>
+<script src="../shared/motion.js"></script>
+<script src="final-winner.js"></script>
+</body>
+</html>
