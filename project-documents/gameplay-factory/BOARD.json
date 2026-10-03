@@ -266,10 +266,10 @@
    "depends_on": [
     8
    ],
-   "steps": null,
-   "code_branch": null,
+   "steps": 8,
+   "code_branch": "gameplay/job-10-transfer-history",
    "codex_review": true,
-   "written": false,
+   "written": true,
    "waits_on": null,
    "phase": "3 Career history",
    "type": "rules",

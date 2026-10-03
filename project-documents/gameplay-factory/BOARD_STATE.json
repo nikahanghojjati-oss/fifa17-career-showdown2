@@ -16,7 +16,8 @@
   "work": []
  },
  "queued": [
-  9
+  9,
+  10
  ],
  "working": [
   16,
@@ -358,19 +359,19 @@
    "depends_on": [
     8
    ],
-   "steps": null,
-   "code_branch": null,
+   "steps": 8,
+   "code_branch": "gameplay/job-10-transfer-history",
    "codex_review": true,
-   "written": false,
+   "written": true,
    "waits_on": null,
    "phase": "3 Career history",
    "type": "rules",
    "plain": "Transfer history visible only once a challenge is completed.",
-   "state": "NOT WRITTEN",
+   "state": "NOT STARTED",
    "step": 0,
-   "steps_total": 1,
+   "steps_total": 8,
    "pct": 0,
-   "ready": false
+   "ready": true
   },
   {
    "number": 13,
