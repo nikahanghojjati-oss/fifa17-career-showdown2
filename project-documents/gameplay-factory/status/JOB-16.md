@@ -1,13 +1,13 @@
 # Status · JOB-16 · Two-manager browser journey (localhost-only emulator switch)
 
-State: IN PROGRESS
+State: BLOCKED
 Step: 8 of 9
-Updated: 2026-10-03 17:16 UTC
+Updated: 2026-10-03 17:24 UTC
 Chat: GPT-5.6 Sol normal chat
 Code branch: gameplay/job-16-browser-journey
 Head commit: 273b0ae95e976086b198eb8863ed0d79a03b1f62
 PR:
-CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37139296591
+CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37139853078
 
 ## Notes
 - Step 1: JOB-02, JOB-07 and JOB-17 are DONE and merged; the provider journey exists on gameplay/recovery-v1. Recovery head 843e64e is green in Validate Gameplay Fast run 37125870168 (Gameplay contracts SUCCESS; Composed Rules on the emulator SUCCESS). Scanned all 117 js/*.js blobs on that exact tree: no connectAuthEmulator or connectFirestoreEmulator. validate-gameplay-fast.yml pins firebase@12.17.1; deploy-github-pages.yml copies only index/runtime files plus acceptance, assets, css, data and js, never tests/. The job branch was safely fast-forwarded from 889810f to current recovery 843e64e after JOB-08 merged; no force update and no product files changed.
@@ -235,6 +235,61 @@ Season Entry visible: true. Scoring panel exists: false. Document visibility: vi
 
 - Step 8 first J10 failure: exact-head run 37139296591 kept Gameplay contracts and Composed Rules green and passed J0-J8.5, including strict J8.3 simultaneous publish. J10 then timed out for 60s waiting for #sharedFinalReconciliationPanel; the panel existed but stayed hidden on Daniel, both page error arrays were empty. Added read-only diagnostics only (getState/currentShowdown/SaveLibrary readiness; no refresh/provider call, no seed) on head 273b0ae for the required diagnostic retry. If J10 repeats for the same authority reason, §8 requires BLOCKED.
 
+
+- Step 8 BLOCKED at J10 after the same Final Reconciliation failure reproduced twice: run 37139296591 and diagnostic run 37139853078. Both runs passed J0-J8.5, including strict simultaneous Season-2 publish, all three canonical season scores, multi-season acceptance, and history convergence. J10 then waited 60 seconds for `#sharedFinalReconciliationPanel`; the panel existed but remained hidden. No page errors were present. Per §8, stop here; do not retry until lucky.
+
+### J10 diagnostic authority
+`multi`: authoritative `SHOWDOWN_COMPLETE`, totalSeasons=3, acceptedSeasons=3, managerTotals Daniel 10 / Nik 15, terminal=true.
+`history`: authoritative `HISTORY_CONVERGED` through season 3 with the same acceptedRevisionKey and exact 10 / 15 accumulated totals.
+`local`: `WAITING_REMOTE`, reason=`remote-not-observed`, previewAllowed=false, remoteRevision=null, remoteContentHash=null.
+`final`: null; `finalActive`: true; Save Library ready=true; final panel exists but hidden.
+The Final Reconciliation protocol requires Local Reconciliation phase REMOTE_OBSERVED / PREVIEW_READY / APPLIED, so the real UI path cannot reach J10 while Local Reconciliation never observes the remote snapshot.
+
+### Blocking assertion
+`J10_FINAL_RECONCILIATION_NOT_VISIBLE`: `#sharedFinalReconciliationPanel` remained hidden for 60,000 ms after season 3 was canonically committed and history converged.
+
+### Diagnostic run evidence
+Run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37139853078
+Artifact: browser-journey-screens 11279814588
+Daniel page: `screens=seasonEntry | badge=DANIEL | panel=CAREER READYCareer ready.CONTINUE CAREERDaniel | overlays=`
+Daniel errors: `[]`
+Nik page: `screens=seasonEntry | badge=NIK | panel=CAREER READYCareer ready.CONTINUE CAREERNik | overlays=`
+Nik errors: `[]`
+
+### Current last 30 browser-job log lines
+```text
+2026-10-03T17:22:44.6148752Z ##[endgroup]
+2026-10-03T17:22:44.7727531Z With the provided path, there will be 12 files uploaded
+2026-10-03T17:22:44.7728678Z Artifact name is valid!
+2026-10-03T17:22:44.7729188Z Root directory input is valid!
+2026-10-03T17:22:44.9502352Z Uploading artifact: browser-journey-screens.zip
+2026-10-03T17:22:44.9577299Z Beginning upload of artifact content to blob storage
+2026-10-03T17:22:45.1469755Z Uploaded bytes 1099687
+2026-10-03T17:22:45.1624244Z Finished uploading artifact content to blob storage!
+2026-10-03T17:22:45.1625545Z SHA256 digest of uploaded artifact is f8d4422a3ed52380b8415007e772f83a639b602f51cf45ed36803980ddb9909f
+2026-10-03T17:22:45.1626558Z Finalizing artifact upload
+2026-10-03T17:22:45.3849601Z Artifact browser-journey-screens successfully finalized. Artifact ID 11279814588
+2026-10-03T17:22:45.3850749Z Artifact browser-journey-screens has been successfully uploaded! Final size is 1099687 bytes. Artifact ID is 11279814588
+2026-10-03T17:22:45.3868409Z Artifact download URL: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37139853078/artifacts/11279814588
+2026-10-03T17:22:45.4048334Z Post job cleanup.
+2026-10-03T17:22:45.5491727Z Post job cleanup.
+2026-10-03T17:22:45.6384910Z [command]/usr/bin/git version
+2026-10-03T17:22:45.6427647Z git version 2.55.0
+2026-10-03T17:22:45.6467969Z Temporarily overriding HOME='/home/runner/work/_temp/ccb755a2-8828-45b2-b5ef-45fa18523d09' before making global git config changes
+2026-10-03T17:22:45.6469511Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-03T17:22:45.6474000Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/fifa17-career-showdown2/fifa17-career-showdown2
+2026-10-03T17:22:45.6513999Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-03T17:22:45.6549562Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-03T17:22:45.6799157Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-03T17:22:45.6828658Z http.https://github.com/.extraheader
+2026-10-03T17:22:45.6841000Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-10-03T17:22:45.6877934Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all http.https://github.com/.extraheader || :"
+2026-10-03T17:22:45.7225384Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-03T17:22:45.7277822Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-03T17:22:45.7733715Z Cleaning up orphan processes
+```
+
 ## Self-check
 
 ## Blocked question
+Lead: after the final accepted season, the real browser path leaves ProductionSharedLocalReconciliation at WAITING_REMOTE (reason remote-not-observed), so ProductionSharedFinalReconciliation remains null even though multi-season is SHOWDOWN_COMPLETE and history is fully converged at Daniel 10 / Nik 15. Please fix the missing remote-observation product path in gameplay/recovery-v1 and merge it into this branch, or explicitly change JOB-16 J10 acceptance. The worker must not seed, call a provider/refresh directly, weaken J10, or retry until lucky.
