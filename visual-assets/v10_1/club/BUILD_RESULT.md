@@ -221,3 +221,42 @@ Claude recheck:
 - Re-measure hard gates H5 through H11 from the committed code: phone fit/scroll, input-size/contrast applicability, reduced motion, keyboard/focus, console/failed requests, mockup diff, and first-paint weight.
 - Re-score mockup fidelity, typography/title treatment, information clarity and polish after the wordmark replacement and the completed source fixes.
 
+## Motion (JOB-048)
+
+The Club screen uses the shared Showdown entrance kit, then a separate product-timed pack-reveal choreography. The standard entrance reaches its latest panel end at 1200 ms and does not block interaction; scene and characters are settled by 600 ms, so the screen remains usable at the 0.6 s quality-bar mark. Shared entrance easing is `cubic-bezier(.22,1,.36,1)`. Reduced motion collapses the entrance and all signature moments to short opacity fades.
+
+### Standard entrance timeline
+
+| Element | Delay | Duration | Easing |
+| --- | ---: | ---: | --- |
+| Scene · `.plateClip` / `#world` | 0 ms | 400 ms | cubic-bezier(.22,1,.36,1) |
+| Daniel phone hero · `.phoneHeroDaniel` | 150 ms | 450 ms | cubic-bezier(.22,1,.36,1) |
+| Nik phone hero · `.phoneHeroNik` | 150 ms | 450 ms | cubic-bezier(.22,1,.36,1) |
+| Title · `#clubWheelScreen > h2` | 250 ms | 450 ms | cubic-bezier(.22,1,.36,1) |
+| Header panel · `.clubAssignmentHeader` | 400 ms | 500 ms | cubic-bezier(.22,1,.36,1) |
+| Progress rail · `.clubRevealProgress` | 460 ms | 500 ms | cubic-bezier(.22,1,.36,1) |
+| Daniel card · `#clubCardOne` | 520 ms | 500 ms | cubic-bezier(.22,1,.36,1) |
+| VS · `.clubVs` | 580 ms | 500 ms | cubic-bezier(.22,1,.36,1) |
+| Nik card · `#clubCardTwo` | 640 ms | 500 ms | cubic-bezier(.22,1,.36,1) |
+| Confirmation panel · `#clubRivalryConfirmation` | 700 ms | 500 ms | cubic-bezier(.22,1,.36,1) |
+| Back + primary controls · `#clubAssignmentBack`, active primary | 760 ms | 320 ms | cubic-bezier(.22,1,.36,1) |
+
+Entrance maximum: 1200 ms. Shared cleanup: 1200 ms. Reduced-motion entrance: 150 ms linear fade.
+
+### Pack-reveal signature timeline
+
+These timings run inside the product-owned stages and do not alter the reveal contract `ready → opening → manager-one → manager-two → versus → confirmation`.
+
+| Element / moment | Product-stage trigger | Duration | Easing |
+| --- | --- | ---: | --- |
+| Active pack anticipation · dim + edge pulse | `opening` for Pack 1; `manager-one` for Pack 2 | 500 ms | cubic-bezier(.2,.7,.3,1) |
+| Active pack rip · seam + two falling halves | `manager-one` / `manager-two` | 600 ms | cubic-bezier(.16,.78,.24,1) |
+| Crest walkout · crest + 42-particle burst + shockwave + name + 1.03 camera push | `manager-one` / `manager-two` | 520 ms | cubic-bezier(.18,.82,.24,1) |
+| VS slam · `.clubVs` + step ring | `versus` at product 2850 ms stage | 360 ms | cubic-bezier(.22,1,.36,1) |
+| LOCK stamp · confirmation step + panel | `confirmation` at product 3300 ms stage | 420 ms | cubic-bezier(.2,.9,.28,1) |
+
+Product stage timestamps remain unchanged: opening immediately, manager one at 650 ms, manager two at 1750 ms, versus at 2850 ms, confirmation at 3300 ms. Pack 2 waits for Pack 1's settled state. The runtime caps the burst at 42 particles, below the 60-particle ceiling.
+
+### Criterion 8 self-score
+
+Score: 5 / 5 by source readback. Evidence: scene, characters, title, six ordered panels and controls use the shared entrance choreography with 60 ms panel stagger; the latest entrance completion is exactly 1.2 s; scene and character settlement is complete by 0.6 s; hover/press feedback is 80–100 ms and state cross-fades are at most 120 ms; signature motion uses transform/opacity with the camera limited to transform scaling and particles capped at 42; both `prefers-reduced-motion` and the app motion dataset reduce the experience to fades only. Per the factory handbook, Claude records the motion strips and performs rendered intake checks.
