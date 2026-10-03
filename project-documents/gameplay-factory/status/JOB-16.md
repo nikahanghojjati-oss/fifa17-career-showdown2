@@ -1,13 +1,13 @@
 # Status · JOB-16 · Two-manager browser journey (localhost-only emulator switch)
 
-State: IN PROGRESS
+State: BLOCKED
 Step: 8 of 9
-Updated: 2026-10-03 17:53 UTC
+Updated: 2026-10-03 18:00 UTC
 Chat: GPT-5.6 Sol normal chat
 Code branch: gameplay/job-16-browser-journey
 Head commit: e607615dd6b15d8f8db9662a943c19a4cad3e4bc
 PR:
-CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37139853078
+CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37141913623
 
 ## Notes
 - Step 1: JOB-02, JOB-07 and JOB-17 are DONE and merged; the provider journey exists on gameplay/recovery-v1. Recovery head 843e64e is green in Validate Gameplay Fast run 37125870168 (Gameplay contracts SUCCESS; Composed Rules on the emulator SUCCESS). Scanned all 117 js/*.js blobs on that exact tree: no connectAuthEmulator or connectFirestoreEmulator. validate-gameplay-fast.yml pins firebase@12.17.1; deploy-github-pages.yml copies only index/runtime files plus acceptance, assets, css, data and js, never tests/. The job branch was safely fast-forwarded from 889810f to current recovery 843e64e after JOB-08 merged; no force update and no product files changed.
@@ -294,7 +294,60 @@ Nik errors: `[]`
 
 - Step 8 resumed after PR #334 / recovery merge 8282589 and branch merge 40257df. Per lead instruction, J10 now clicks the real `#sharedLocalReconciliationPreview` on Daniel first and Nik second, waits up to 60s for `PREVIEW READY`, then retains the existing Final Reconciliation and Terminal Close assertions. Added only read-only diagnostics on preview timeout; no direct refresh/provider call, seed, or acceptance weakening. Saved on code head e607615.
 
+
+- Step 8 BLOCKED again after applying the lead's PR #334 UI instruction on exact head e607615. Run 37141913623: Gameplay contracts SUCCESS, Composed Rules emulator SUCCESS; browser passed J0-J8.5 and J9 printed the approved SKIPPED line. J10 clicked `#sharedLocalReconciliationPreview` on Daniel first and Nik second and each reached visible `PREVIEW READY`, but Final Reconciliation still never remained visible. The final diagnostic after 60s shows Local Reconciliation regressed to `WAITING_REMOTE / remote-not-observed` and `final:null`.
+- Product interaction found by code read: `productionSharedTerminalClose.ptcRefreshNow()` calls `ptcResolveContext()` before checking Final Reconciliation; `ptcResolveContext()` calls `rivalryApi.initialize()` on every refresh. `sparkConnectedRivalry.crInitialize()` reconstructs the same attached rivalry state but unconditionally resets `observedExists`, `observedRevision`, `observedContentHash`, `observedEnvelope`, and reconciliation preview fields. Terminal Close polls every 15s and also wakes on Final Reconciliation/Connected Rivalry events, so it clears the just-created preview authority that Final Reconciliation requires. This is not safe to work around in the harness.
+- Additional product error captured on Daniel during the terminal wait: background Season Commit / Shared History checks logged `The shared Transfer Challenge could not be read.` after the Showdown was already `SHOWDOWN_COMPLETE`; Nik had no page errors. This would also violate JZ if it persists into a successful terminal path.
+
+### Current blocking assertion
+`J10_FINAL_RECONCILIATION_NOT_VISIBLE`: `#sharedFinalReconciliationPanel` stayed hidden for 60,000 ms after both real Local Reconciliation previews reached `PREVIEW READY`.
+
+### J10 authority at failure
+`multi`: authoritative `SHOWDOWN_COMPLETE`, acceptedSeasons=3/3, terminal=true, managerTotals Daniel 10 / Nik 15.
+`history`: authoritative `HISTORY_CONVERGED` through season 3 with the same acceptedRevisionKey and accumulated 10 / 15.
+`local`: `WAITING_REMOTE`, reason=`remote-not-observed`, previewAllowed=false, remoteRevision=null, remoteContentHash=null.
+`final`: null; `finalActive`: true; final panel exists but hidden.
+
+### Browser descriptions
+`--- daniel: screens=seasonEntry | badge=DANIEL | panel=CAREER READYCareer ready.CONTINUE CAREERDaniel | overlays=`
+`--- daniel errors: ["[Career Mode Showdown] Unable to check Shared Season Commit: Error: The shared Transfer Challenge could not be read. ...","[Career Mode Showdown] Unable to converge Shared History: Error: The shared Transfer Challenge could not be read. ..."]`
+`--- nik: screens=seasonEntry | badge=NIK | panel=CAREER READYCareer ready.CONTINUE CAREERNik | overlays=`
+`--- nik errors: []`
+
+### Current last 30 browser-job log lines
+```text
+2026-10-03T17:57:06.0283458Z ##[endgroup]
+2026-10-03T17:57:06.1507788Z With the provided path, there will be 12 files uploaded
+2026-10-03T17:57:06.1513133Z Artifact name is valid!
+2026-10-03T17:57:06.1513679Z Root directory input is valid!
+2026-10-03T17:57:06.3578360Z Uploading artifact: browser-journey-screens.zip
+2026-10-03T17:57:06.3610823Z Beginning upload of artifact content to blob storage
+2026-10-03T17:57:06.5290359Z Uploaded bytes 1144190
+2026-10-03T17:57:06.5433706Z Finished uploading artifact content to blob storage!
+2026-10-03T17:57:06.5434637Z SHA256 digest of uploaded artifact is d141c7915a057c93445907dd0c987f1a05410f645fc5013e2269e671010f93a5
+2026-10-03T17:57:06.5435342Z Finalizing artifact upload
+2026-10-03T17:57:06.7609659Z Artifact browser-journey-screens successfully finalized. Artifact ID 11280778059
+2026-10-03T17:57:06.7611020Z Artifact browser-journey-screens has been successfully uploaded! Final size is 1144190 bytes. Artifact ID is 11280778059
+2026-10-03T17:57:06.7614092Z Artifact download URL: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37141913623/artifacts/11280778059
+2026-10-03T17:57:06.7798684Z Post job cleanup.
+2026-10-03T17:57:06.9004343Z Post job cleanup.
+2026-10-03T17:57:06.9771289Z [command]/usr/bin/git version
+2026-10-03T17:57:06.9811783Z git version 2.55.0
+2026-10-03T17:57:06.9844821Z Temporarily overriding HOME='/home/runner/work/_temp/7ee2675d-dda2-4b28-b8ec-39cdbeba3b39' before making global git config changes
+2026-10-03T17:57:06.9846002Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-03T17:57:06.9850854Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/fifa17-career-showdown2/fifa17-career-showdown2
+2026-10-03T17:57:06.9891318Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-03T17:57:06.9930359Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-03T17:57:07.0167924Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-03T17:57:07.0210849Z http.https://github.com/.extraheader
+2026-10-03T17:57:07.0219837Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-10-03T17:57:07.0246177Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all http.https://github.com/.extraheader || :"
+2026-10-03T17:57:07.0516887Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-03T17:57:07.0555225Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-03T17:57:07.0922736Z Cleaning up orphan processes
+```
+
 ## Self-check
 
 ## Blocked question
-None.
+Lead: PR #334 lets the real Preview reach PREVIEW READY, but Terminal Close's own refresh path then calls Connected Rivalry initialize(), which clears observedEnvelope + preview authority and returns Local Reconciliation to WAITING_REMOTE before Final Reconciliation can stay published. Please fix this product interaction in gameplay/recovery-v1 (for example, preserve exact same-context observed/preview state across initialize, or stop Terminal Close from reinitializing an already exact attached rivalry) and merge it into this branch. Also review the post-terminal Shared Transfer Challenge read errors captured on Daniel, because JZ requires zero page errors. The worker must not bypass this by direct provider/refresh calls, repeated preview clicking, poll suppression, or weakening J10/JZ.
