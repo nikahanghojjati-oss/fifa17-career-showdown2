@@ -95,7 +95,7 @@ jobs:
           java-version: '21'
       - run: npm ci
       - name: Install pinned Firebase emulator test dependencies
-        run: npm install --no-save --package-lock=false firebase@12.17.1 @firebase/rules-unit-testing@5.0.1 firebase-admin@14.2.0
+        run: npm install --no-save --package-lock=false firebase@12.17.0 @firebase/rules-unit-testing@5.0.1 firebase-admin@14.2.0
       - name: Build the composed production Rules
         run: |
           node scripts/build-production-firestore-rules.mjs

@@ -95,5 +95,11 @@ assert.ok(!/functions|hosting|storage|database|pubsub|eventarc/.test(JSON.string
   for(const k of ["persistentFirestoreCache","authPersistence","provider","signInFlow","additionalGoogleScopes","writeScope","billingRequired","cloudFunctionsRequired"])assert.equal(test[k],prod[k],`6e ${k} matches production`);
   const apiKeys=Object.keys(prodApi).filter(k=>typeof prodApi[k]==="function");
   for(const k of ["initialize","ensureAccountServices","diagnostics","classifyContext","refreshAppCheckToken","loadConnectedAccount"])assert.ok(apiKeys.includes(k)&&typeof shim[k]==="function",`6f runtime method ${k} present on both`);
+  // The journey must exercise the Firebase client the production runtime ships (Codex P2 on #337).
+  const prodSdk=(read("js/productionFirebaseRuntime.js").match(/const FIREBASE_SDK_VERSION="([0-9.]+)";/)||[])[1];
+  assert.ok(prodSdk,"production runtime pins a Firebase SDK version");
+  assert.equal(Switch.sdkVersion,prodSdk,"emulator switch loads the production Firebase SDK version");
+  const journeyJob=read(".github/workflows/validate-gameplay-fast.yml").split("- name: Two-manager browser journey")[0].split("npm install --no-save").pop();
+  assert.ok(journeyJob.includes(`firebase@${prodSdk} `),"the browser journey CI job installs the production Firebase SDK version");
   console.log(`PASS browser journey emulator switch contracts: localhost+flag only, production runtime untouched, Pages excludes tests/, startup gzip ${gz}/37500, services parity.`);
 })().catch(error=>{console.error(error);process.exit(1);});

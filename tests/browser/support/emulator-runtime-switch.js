@@ -13,7 +13,7 @@
   const ALLOWED_HOSTS=Object.freeze(["localhost","127.0.0.1"]);
   const EMULATOR_HOST="127.0.0.1";
   const PROJECT_ID="demo-cms-browser-journey";
-  const SDK_VERSION="12.17.1";
+  const SDK_VERSION="12.17.0";
   const SDK_BASE=`https://www.gstatic.com/firebasejs/${SDK_VERSION}/`;
   const USERS=Object.freeze({
     daniel:Object.freeze({sub:"browser-journey-daniel",email:"daniel@example.test",name:"Daniel"}),
