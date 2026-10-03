@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-03 8:56 AM Boston time (EDT)",
+ "generated": "2026-10-03 8:59 AM Boston time (EDT)",
  "branch": "factory/gameplay-v1",
  "integration_branch": "gameplay/recovery-v1",
  "capacity": {
@@ -10,7 +10,9 @@
  "done": 10,
  "total": 19,
  "start": {
-  "chat": [],
+  "chat": [
+   16
+  ],
   "work": []
  },
  "queued": [],
@@ -129,21 +131,23 @@
    "title": "Two-manager browser journey (localhost-only emulator switch)",
    "lane": "chat",
    "depends_on": [
-    2
+    2,
+    7,
+    17
    ],
-   "steps": null,
-   "code_branch": null,
+   "steps": 9,
+   "code_branch": "gameplay/job-16-browser-journey",
    "codex_review": false,
-   "written": false,
+   "written": true,
    "waits_on": null,
    "phase": "1 Safety net",
    "type": "test",
    "plain": "The same journey through the real app screens in a browser, test database only.",
-   "state": "NOT WRITTEN",
+   "state": "NOT STARTED",
    "step": 0,
-   "steps_total": 1,
+   "steps_total": 9,
    "pct": 0,
-   "ready": false
+   "ready": true
   },
   {
    "number": 12,
