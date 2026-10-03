@@ -22,18 +22,37 @@
   </div>
   <div class="sd-stage__layer sd-stage__layer--atmosphere" aria-hidden="true"></div>
   <div class="sd-stage__layer sd-stage__layer--ui">
+    <nav class="season-topbar" aria-label="Showdown navigation">
+      <span class="season-brand">CM 17</span>
+      <div id="season-nav-tabs" class="season-nav-tabs"></div>
+      <button id="season-settings" class="season-settings" type="button" disabled aria-disabled="true" title="Finish this step first">⚙</button>
+    </nav>
     <main id="season-results-screen" aria-labelledby="screen-title">
       <header class="season-title-block">
         <p class="season-eyebrow sd-label">CAREER MODE SHOWDOWN 17</p>
         <h1 id="screen-title" class="sd-title sd-title--wordmark">
-          <span class="sd-visually-hidden">SEASON RESULTS</span>
+          <span id="season-semantic-title" class="sd-visually-hidden">SEASON RESULTS</span>
           <img class="season-title-wordmark" src="assets/TITLE_SR_V1.webp" alt="" aria-hidden="true" width="1232" height="182" decoding="async">
         </h1>
         <p class="season-tagline sd-tagline">TWO MANAGERS • ONE LEGACY</p>
       </header>
 
       <section class="season-layout" aria-label="Season results layout">
-        <div id="scoring-panel" class="scoring-panel sd-panel"></div>
+        <section id="scoring-panel" class="scoring-panel sd-panel" aria-labelledby="scoring-heading" aria-describedby="scoring-rules-text">
+          <img class="scoring-trophy" src="../shared/trophies/TRO_SHOWDOWN_CHAMPION_V1_512.webp" alt="" aria-hidden="true" decoding="async">
+          <div class="scoring-copy">
+            <h2 id="scoring-heading" class="sd-label">SEASON SCORING SYSTEM</h2>
+            <p id="scoring-rules-text" class="sd-visually-hidden"></p>
+            <div class="scoring-grid" aria-hidden="true">
+              <div class="scoring-rule"><span>Champions League Winner</span><strong>+5</strong></div>
+              <div class="scoring-rule"><span>100 League Points and/or 100 League Goals</span><strong>+1</strong></div>
+              <div class="scoring-rule"><span>League Title</span><strong>+3</strong></div>
+              <div class="scoring-rule"><span>Top Scorer and/or Top Assist</span><strong>+1</strong></div>
+              <div class="scoring-rule"><span>Domestic Cup Winner</span><strong>+1</strong></div>
+              <div class="scoring-rule scoring-rule--max"><span>Maximum Season Score</span><strong>11</strong></div>
+            </div>
+          </div>
+        </section>
         <div id="daniel-entry-panel" class="entry-panel entry-panel--daniel sd-panel" data-manager="daniel"></div>
         <div id="nik-entry-panel" class="entry-panel entry-panel--nik sd-panel" data-manager="nik"></div>
       </section>
