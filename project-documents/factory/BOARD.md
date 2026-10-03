@@ -1,6 +1,6 @@
 # Showdown Factory board
 
-**68 of 135 jobs done and checked · 54 %** · updated Sat 5:39 p.m. Eastern
+**68 of 135 jobs done and checked · 55 %** · updated Sat 5:39 p.m. Eastern
 
 ✅ **Quality check:** a job counts as done only after Claude checks it against the quality bar (average 4.2 or more, nothing under 3, hard gates pass). Average score 4.24 over 18 scored jobs. 🔍 Waiting for Claude's check: 115. 🔧 Sent back with a fix list: 39, 45.
 
@@ -49,7 +49,7 @@ Integration    ░░░░░░░░░░ 0/8
 
 Branch `factory/v1-wtt5ye`. 135 Team V jobs, plus 5 lines that track Team G. Two kinds of job. **Project (type number):** open a new chat in the ChatGPT project "Showdown visual" and type the number (up to 5 at once). **Fresh chat (image):** run the job's ticket from [tickets/](tickets/README.md) in a ChatGPT Temporary Chat (no memory) outside any project, then drop the image in Claude's factory thread (up to 2 at once).
 
-**Overall (Team V):** █████░░░░░ 54 % · 68 of 135 jobs done
+**Overall (Team V):** █████░░░░░ 55 % · 68 of 135 jobs done
 
 **Start now · project (type the number in Showdown visual):** 39 (fix), 45 (fix) · queued next: 58, 83, 95, 114, 116, 117, 119, 120, 125
 
@@ -104,7 +104,7 @@ Branch `factory/v1-wtt5ye`. 135 Team V jobs, plus 5 lines that track Team G. Two
 | 38 | [League: swap in the new league marks](jobs/JOB-038.md) | 4 Polish built screens | build | project (type number) | 37 | ██████████ 100 % | DONE |  |
 | 39 | [League: phone with the hand in frame](jobs/JOB-039.md) | 4 Polish built screens | build | project (type number) | 37, 112 | ██████████ 100 % | IN PROGRESS · FIX |  |
 | 40 | [League: review](jobs/JOB-040.md) | 4 Polish built screens | review | project (type number) | 39 | ██████████ 100 % | DONE |  |
-| 41 | [League: fix round](jobs/JOB-041.md) | 4 Polish built screens | fix | project (type number) | 40, 124 | █████░░░░░ 50 % | IN PROGRESS |  |
+| 41 | [League: fix round](jobs/JOB-041.md) | 4 Polish built screens | fix | project (type number) | 40, 124 | ███████░░░ 75 % | IN PROGRESS |  |
 | 42 | [League: spin feel](jobs/JOB-042.md) | 4 Polish built screens | build | project (type number) | 41, 16 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
 | 43 | [Club: scene registration, faces, hands and seams](jobs/JOB-043.md) | 4 Polish built screens | fix | project (type number) | 14, 1 | ██████████ 100 % | DONE |  |
 | 44 | [Club: panels and short-laptop fit](jobs/JOB-044.md) | 4 Polish built screens | build | project (type number) | 43, 18 | ██████████ 100 % | DONE |  |
