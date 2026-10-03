@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-03 8:11 AM Boston time (EDT)",
+ "generated": "2026-10-03 8:16 AM Boston time (EDT)",
  "branch": "factory/gameplay-v1",
  "integration_branch": "gameplay/recovery-v1",
  "capacity": {
@@ -7,7 +7,7 @@
   "work": 1
  },
  "overall": 52,
- "done": 9,
+ "done": 10,
  "total": 19,
  "start": {
   "chat": [],
@@ -290,10 +290,10 @@
    "phase": "3 Career history",
    "type": "rules",
    "plain": "A shared list of every Showdown the two of you played, protected by Rules.",
-   "state": "WAITING ON CODEX",
-   "step": 8,
+   "state": "DONE",
+   "step": 9,
    "steps_total": 9,
-   "pct": 88,
+   "pct": 100,
    "ready": false
   },
   {
