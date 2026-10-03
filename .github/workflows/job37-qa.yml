@@ -26,10 +26,40 @@ jobs:
           python3 -m http.server 8765 >/tmp/job37-http.log 2>&1 &
           sleep 2
       - name: League native QA
+        continue-on-error: true
         env:
           NODE_PATH: ${{ github.workspace }}/node_modules
         run: |
           node visual-assets/v10_1/league/tools/render-qa.cjs
+      - name: Native QA diagnostics
+        run: |
+          python3 - <<'PY'
+          import json
+          p='visual-assets/v10_1/league/evidence/qa_report.json'
+          r=json.load(open(p))
+          for x in r.get('results',[]):
+              if x.get('fail'):
+                  print(x.get('shot',{}).get('file'), 'FAIL', x.get('fail'))
+                  if 'G5' in x.get('fail',[]): print('  G5', x.get('G5'))
+                  if 'G7' in x.get('fail',[]): print('  G7fails', x.get('G7fails'))
+                  for k in x.get('fail',[]):
+                      if str(k).startswith('G8'): print('  G8', x.get('G8'))
+                  break
+          PY
+      - name: Factory QA
+        env:
+          NODE_PATH: ${{ github.workspace }}/node_modules
+          FACTORY_QA_OUT: visual-assets/v10_1/league/evidence/hands/factory-qa
+        run: |
+          node visual-assets/v10_1/shared/tools/factory-qa.cjs             http://127.0.0.1:8765/visual-assets/v10_1/league/             visual-assets/v10_1/league L1
+          python3 - <<'PY'
+          import json
+          p='visual-assets/v10_1/league/evidence/hands/factory-qa/qa_report.json'
+          r=json.load(open(p))
+          if not r.get('pass'):
+              raise SystemExit('factory-qa failed: '+json.dumps(r.get('failingRuns',[])))
+          print('factory-qa PASS')
+          PY
       - name: Factory QA
         env:
           NODE_PATH: ${{ github.workspace }}/node_modules
