@@ -1,15 +1,16 @@
 # Status · JOB-12 · Composed production Rules regression
 
 State: IN PROGRESS
-Step: 2 of 8
-Updated: 2026-10-03 17:34 UTC
+Step: 3 of 8
+Updated: 2026-10-03 17:43 UTC
 Chat: Sol Work mode (job 12, 265263c2f906)
 Code branch: gameplay/job-12-composed-rules-regression
 Head commit: 8a583b92112c48c50172bfc0385c971d0bfede00
 PR:
-CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37140887220 (IN PROGRESS, exact head 8a583b92112c48c50172bfc0385c971d0bfede00)
+CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37140887220 (EXPECTED RED: only new contract, exact head 8a583b92112c48c50172bfc0385c971d0bfede00; rules-emulator SUCCESS)
 
 ## Notes
+- Step 3 complete: single read of exact 8a583b9 run 37140887220 shows expected failure. Gameplay contracts log contains AssertionError: validate-gameplay-fast.yml needs the composed-rules-regression job and census failed in 1/110 contracts, naming only tests/contracts/composed-production-rules-contracts.cjs; all eight preceding T/C checks pass. Composed Rules on the emulator and every one of its steps are SUCCESS, including career index, completed-read, G-9 adapter and G-10 transfer matrix. Local operations remain 73/0. Tests-first evidence saved before any emulator files/CI job. Next step 4: gap suite and runner with G-10 discovery labels/Phase B/evidence.
 - Step 3 CI latest single read (17:34 UTC): run 37140887220 on exact 8a583b9 remains IN PROGRESS. No polling in this turn; expected tests-first evidence is not complete yet.
 - Step 3 CI single read: exact-head 8a583b9 Validate Gameplay Fast 37140887220 is still IN PROGRESS. No polling or dependent mutation; step 3 remains pending until the next turn verifies the required red contract and green rules-emulator evidence.
 - Step 3b saved: appended exactly the Appendix F registry entry last after completed-transfer-history, preserving all inherited entries; appended composedProductionRulesContract const and ordered expectation last. Literal-dot escapes mechanically verified. Local operations 73 pass / 0 fail; full deterministic census fails only the newly registered contract with AssertionError: validate-gameplay-fast.yml needs the composed-rules-regression job (eight preceding numbered checks pass; existing 109 contracts pass). No workflow/emulator code added. CI pending on the exact head above; next turn read once and require Gameplay contracts fails only this assertion while rules-emulator stays green, then mark step 3 complete. No CI polling.
@@ -29,6 +30,7 @@ CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/r
 - Lead: JOB-07 (PR #325) and JOB-08 (PR #326, merge 843e64e) are merged. Lead decision: G-12 runs after JOB-10 merges (depends_on 7, 8, 10) so the reviewed Rules delta is written once against the final pre-gate Rules; §4.7 re-bases the delta fixture on G-10. Lead to create code branch gameplay/job-12-composed-rules-regression from gameplay/recovery-v1 after JOB-10 merges. Lead reference run on 843e64e: new contract 10/10, contracts 104/104, ops 73/0; composed regression PASS 46 numbered checks (15 composed suites incl. lifecycle 5/10, 8 Phase B temp-copy runs, gap suite 69/69 in both phases) on sha256 cdae7f5d…b38ac141, git blob 2be6c0c5…62fb2b52f6; production main 2e0bd45 composes sha256 ce8abfe6…0426f6a78 (git blob 6fe04a8e…94c1cc65); delta 7 hunks, -6 +204 lines, all G-7/G-8; only budget diagnostics are the two known career-index D13 denials. Jobs 9, 10, 11, 16 and 18 also append registry entries or CI steps: whoever merges later re-appends last. Waits for job 10.
 
 ## Self-check
+- PASS tests-first evidence: exact-head run 37140887220; Gameplay contracts fails only the new missing-job assertion (1/110); Composed Rules on the emulator entirely green. Expected red occurred before step 4/5 implementation.
 - PASS step 2: deployment/parser/build/gate facts (18 steps, 47 needles, 12 contracts), publish blob algorithm, permanent zero-billing boundary, inherited workflow routes, both lead decisions and C2S denials, every existing composed suite and both single base-Rules seams mapped; nine-hunk G-7/G-8/G-10 delta reverse-applies exactly to pinned main. No existing code, Rules, deploy workflow or test modified.
 - PASS step 2a: support syntax; nine tool hunks unchanged; reverse-applied sha256 ce8abfe620696db7f8d8c3d20dcc35550901c7c3af082f2e1f775db0426f6a78; candidate sha256 a0a0d0b6412ab610666f7f94ac0e55d505a44afdfdcf83ea2a3eec52ab0cbff6 / blob 0f2cb384024281a64180721716a4684c2624f759 / 132878 bytes; Phase A and no broad grants.
 - PASS step 1 baseline: local contracts 109/109, operations 73 pass / 0 fail, npm ci successful, clean worktree, exact-head recovery CI SUCCESS at the URL above. No main writes, merges or deployment.
