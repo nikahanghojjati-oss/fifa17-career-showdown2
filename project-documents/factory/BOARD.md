@@ -1,6 +1,6 @@
 # Showdown Factory board
 
-**51 of 135 jobs done · 39 %** · updated Fri 9:06 p.m. Eastern
+**51 of 135 jobs done · 39 %** · updated Fri 9:07 p.m. Eastern
 
 ███░░░░░░░
 
@@ -115,7 +115,7 @@ Branch `factory/v1-wtt5ye`. 135 Team V jobs, plus 5 lines that track Team G. Two
 | 51 | [Transfer War: review](jobs/JOB-051.md) | 4 Polish built screens | review | project (type number) | 50 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 52 | [Transfer War: fix round](jobs/JOB-052.md) | 4 Polish built screens | fix | project (type number) | 51, 124 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 53 | [Transfer War: motion](jobs/JOB-053.md) | 4 Polish built screens | build | project (type number) | 52, 16 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
-| 54 | [Loading: new look and Reus credit](jobs/JOB-054.md) | 4 Polish built screens | build | project (type number) | 11, 18 | ██░░░░░░░░ 20 % | IN PROGRESS |  |
+| 54 | [Loading: new look and Reus credit](jobs/JOB-054.md) | 4 Polish built screens | build | project (type number) | 11, 18 | ████░░░░░░ 40 % | IN PROGRESS |  |
 | 55 | [Loading: review](jobs/JOB-055.md) | 4 Polish built screens | review | project (type number) | 54 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 56 | [Loading: fix round](jobs/JOB-056.md) | 4 Polish built screens | fix | project (type number) | 55 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
 | 57 | [Trophy Room: build (desktop)](jobs/JOB-057.md) | 5 New screens | build | project (type number) | 2, 23, 18, 130, 136, 19, 20, 21, 22 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
