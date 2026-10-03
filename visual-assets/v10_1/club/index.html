@@ -4,11 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Club Assignment · Club plate</title>
+<link rel="stylesheet" href="../shared/motion.css">
 <link rel="stylesheet" href="club.css">
 </head>
 <body>
 <div id="stage" class="stage">
-<div class="plateClip" aria-hidden="true"><div class="world" id="world"></div></div>
+<div class="plateClip" aria-hidden="true" data-sd-enter="scene"><div class="world" id="world"></div></div>
 
 <header id="topHeader">
 <nav class="productTruthNav" aria-label="Showdown navigation">
@@ -29,11 +30,11 @@
 <source srcset="assets/ENV_CLUB_PHONE_V1.webp" type="image/webp">
 <img src="assets/ENV_CLUB_PHONE_V1.webp" alt="" decoding="async">
 </picture>
-<picture class="phoneHero phoneHeroDaniel">
+<picture class="phoneHero phoneHeroDaniel" data-sd-enter="character-left">
 <source srcset="assets/OVL_CLUB_DANIEL_PHONE_V1.webp" type="image/webp">
 <img src="assets/OVL_CLUB_DANIEL_PHONE_V1.webp" alt="" decoding="async">
 </picture>
-<picture class="phoneHero phoneHeroNik">
+<picture class="phoneHero phoneHeroNik" data-sd-enter="character-right">
 <source srcset="assets/OVL_CLUB_NIK_PHONE_V1.webp" type="image/webp">
 <img src="assets/OVL_CLUB_NIK_PHONE_V1.webp" alt="" decoding="async">
 </picture>
@@ -41,15 +42,15 @@
 </div>
 <div class="phoneControlDeck" aria-hidden="true"></div>
 <!-- TODO-WORDMARK: replace the display-font fallback with ../shared/wordmarks/TITLE_CLUB_V1.webp when job 124 lands. -->
-<h2><span class="sd-visually-hidden">CLUB ASSIGNMENT</span><span class="clubTitleFallback" aria-hidden="true">CLUB ASSIGNMENT</span></h2>
+<h2 data-sd-enter="title"><span class="sd-visually-hidden">CLUB ASSIGNMENT</span><span class="clubTitleFallback" aria-hidden="true">CLUB ASSIGNMENT</span></h2>
 <div class="clubAssignmentShell">
-<div class="clubAssignmentHeader">
+<div class="clubAssignmentHeader" data-sd-enter="panel" style="--i:0">
 <span class="clubAssignmentEyebrow">LEAGUE CONFIRMED</span>
 <div id="clubAssignmentLeague">League</div>
 <div id="clubPackStatus" aria-live="polite">TWO SEALED CLUB PACKS READY</div>
 </div>
 
-<div class="clubRevealProgress" aria-hidden="true">
+<div class="clubRevealProgress" aria-hidden="true" data-sd-enter="panel" style="--i:1">
 <span data-reveal-step="opening" data-phone-label="DRAW">01 DRAW</span>
 <span data-reveal-step="manager-one" data-phone-label="PACK 1">02 PACK 1</span>
 <span data-reveal-step="manager-two" data-phone-label="PACK 2">03 PACK 2</span>
@@ -59,7 +60,7 @@
 
 <div class="clubRevealArena">
 <div class="clubRevealArea">
-<div class="clubRevealCard" id="clubCardOne" data-reveal-code="01">
+<div class="clubRevealCard" id="clubCardOne" data-reveal-code="01" data-sd-enter="panel" style="--i:2">
 <span class="clubRevealIndex">01</span>
 <div class="clubManager" id="clubPlayerOne">Daniel</div>
 <div class="clubPackStage">
@@ -77,8 +78,8 @@
 </div>
 </div>
 <!-- TODO-WORDMARK: replace the display-font VS fallback with the shared brush VS asset when the wordmarks job lands. -->
-<div class="clubVs"><span>RIVALRY</span><strong><span class="sd-visually-hidden">VS</span><span class="clubVsFallback" aria-hidden="true">VS</span></strong></div>
-<div class="clubRevealCard" id="clubCardTwo" data-reveal-code="02">
+<div class="clubVs" data-sd-enter="panel" style="--i:3"><span>RIVALRY</span><strong><span class="sd-visually-hidden">VS</span><span class="clubVsFallback" aria-hidden="true">VS</span></strong></div>
+<div class="clubRevealCard" id="clubCardTwo" data-reveal-code="02" data-sd-enter="panel" style="--i:4">
 <span class="clubRevealIndex">02</span>
 <div class="clubManager" id="clubPlayerTwo">Nik</div>
 <div class="clubPackStage">
@@ -98,7 +99,7 @@
 </div>
 </div>
 
-<div id="clubRivalryConfirmation" class="clubRivalryConfirmation hidden" aria-live="polite">
+<div id="clubRivalryConfirmation" class="clubRivalryConfirmation hidden" aria-live="polite" data-sd-enter="panel" style="--i:5">
 <div class="clubRivalryHeadline">
 <span>CLUBS LOCKED</span>
 <strong id="clubConfirmationShowdown">SHOWDOWN</strong>
@@ -120,9 +121,9 @@
 <p class="clubRivalryLockNote">These clubs are permanent for the full showdown. Confirmation starts the rivalry and never rerolls either club.</p>
 </div>
 
-<button class="menuButton" id="openClubPack" data-phone-role="primary" type="button">OPEN SHOWDOWN PACKS</button>
-<button class="menuButton hidden" id="continueClubAssignment" data-phone-role="primary" type="button" disabled>CONFIRM RIVALRY & START SHOWDOWN</button>
-<button class="backButton" id="clubAssignmentBack" data-phone-role="secondary" data-smart-back type="button" aria-label="Back">BACK</button>
+<button class="menuButton" id="openClubPack" data-sd-enter="button" data-phone-role="primary" type="button">OPEN SHOWDOWN PACKS</button>
+<button class="menuButton hidden" id="continueClubAssignment" data-sd-enter="button" data-phone-role="primary" type="button" disabled>CONFIRM RIVALRY & START SHOWDOWN</button>
+<button class="backButton" id="clubAssignmentBack" data-sd-enter="panel" style="--i:5" data-phone-role="secondary" data-smart-back type="button" aria-label="Back">BACK</button>
 </div>
 </section>
 </main>
@@ -133,6 +134,7 @@
 <filter id="brushEdge" x="-5%" y="-10%" width="110%" height="120%"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="3" xChannelSelector="R" yChannelSelector="G"/></filter>
 </svg>
 <script src="../../../js/visualIdentity.js"></script>
+<script src="../shared/motion.js"></script>
 <script src="club.js"></script>
 </body>
 </html>
