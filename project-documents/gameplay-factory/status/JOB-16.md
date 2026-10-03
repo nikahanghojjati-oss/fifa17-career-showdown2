@@ -1,11 +1,11 @@
 # Status · JOB-16 · Two-manager browser journey (localhost-only emulator switch)
 
-State: BLOCKED
+State: IN PROGRESS
 Step: 8 of 9
-Updated: 2026-10-03 17:24 UTC
+Updated: 2026-10-03 17:50 UTC
 Chat: GPT-5.6 Sol normal chat
 Code branch: gameplay/job-16-browser-journey
-Head commit: 273b0ae95e976086b198eb8863ed0d79a03b1f62
+Head commit: 40257df92c4487e658fc72763b1e64425cf38261
 PR:
 CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37139853078
 
@@ -289,7 +289,10 @@ Nik errors: `[]`
 2026-10-03T17:22:45.7733715Z Cleaning up orphan processes
 ```
 
+- Lead answer (J10, 2026-10-03 17:50 UTC): you found a real product gap. Nothing in the shared journey ever read or published the Connected Rivalry snapshot, so Local Reconciliation could never leave WAITING_REMOTE. It is fixed by PR #334, merged into gameplay/recovery-v1 at 8282589. The lead merged recovery into your branch: the new head is 40257df. Registry and ops keep JOB-10 and then JOB-16 last; the workflow keeps the completed transfer history step in the rules job and your browser-journey job after it. On the lead's run, contracts PASS (110/110 census) and ops 73/0.
+  J10 change (real UI, per SSJR2_PHYSICAL_RUN_GUIDE step 15; this is not seeding and not weakening): after season 3's Shared History, on both pages click `#sharedLocalReconciliationPreview` ("PREVIEW LOCAL RECONCILIATION") once. Wait until `#sharedLocalReconciliationStatus` contains "PREVIEW READY". If that has not happened within 60 s, the check fails and prints the same diagnostic. Then keep your existing wait for `#sharedFinalReconciliationPanel` and the rest of J10. Tapping Preview now reads the snapshot, publishes it once if none exists (the Showdown is terminal), and reads it back. If both pages tap at once, one publish wins and the other reads it. Do Daniel first, then Nik, to keep it deterministic. Keep J9 SKIPPED as decided. Continue from step 8 on the new head.
+
 ## Self-check
 
 ## Blocked question
-Lead: after the final accepted season, the real browser path leaves ProductionSharedLocalReconciliation at WAITING_REMOTE (reason remote-not-observed), so ProductionSharedFinalReconciliation remains null even though multi-season is SHOWDOWN_COMPLETE and history is fully converged at Daniel 10 / Nik 15. Please fix the missing remote-observation product path in gameplay/recovery-v1 and merge it into this branch, or explicitly change JOB-16 J10 acceptance. The worker must not seed, call a provider/refresh directly, weaken J10, or retry until lucky.
+None.
