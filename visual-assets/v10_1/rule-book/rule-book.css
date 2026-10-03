@@ -284,3 +284,15 @@ body {
   background: linear-gradient(180deg, #e9c86d, #cf9f3e);
   color: #111;
 }
+
+
+#stage-root[data-preview-mode="long-stress"] .ruleSection[data-stress-target="true"] {
+  border-color: rgba(242, 196, 91, 0.92);
+  box-shadow:
+    inset 0 1px rgba(255, 231, 161, 0.10),
+    0 0 0 1px rgba(242, 196, 91, 0.12),
+    0 18px 38px rgba(0, 0, 0, 0.38);
+}
+#stage-root[data-preview-mode="long-stress"] .ruleSection[data-stress-target="true"] .ruleSectionHeader {
+  border-bottom-color: rgba(242, 196, 91, 0.42);
+}
