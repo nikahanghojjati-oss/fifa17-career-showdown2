@@ -1059,3 +1059,198 @@ body {
   position: absolute !important; width: 1px; height: 1px; overflow: hidden;
   clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; transform: none; left: 0; top: 0;
 }
+
+
+/* JOB-083 STEP 2a · phone composition structure. Phone is a new portrait layout,
+   not a scaled desktop. Dedicated portrait art/cut-outs are wired in Step 3. */
+.finalWinnerPhoneTabs,
+.finalWinnerTabInput,
+.finalWinnerPartialToggle,
+.finalWinnerPartialTrigger {
+  display: none;
+}
+
+@media (max-width: 760px) {
+  #stage-root,
+  #finalWinnerScreen {
+    width: 100vw;
+    height: 100vh;
+    height: 100svh;
+    overflow: hidden;
+  }
+
+  #finalWinnerScreen {
+    position: absolute;
+    inset: 0;
+  }
+
+  .finalWinnerTopbar {
+    display: none;
+  }
+
+  .finalWinnerConfettiLayer {
+    inset: 0 0 auto;
+    width: 100%;
+    height: 55%;
+    overflow: hidden;
+  }
+
+  .finalWinnerTitleBlock {
+    left: 50%;
+    top: clamp(24px, 4.8svh, 34px);
+    width: 76%;
+    transform: translateX(-50%);
+    row-gap: 2px;
+    z-index: 8;
+  }
+
+  .finalWinnerEyebrow {
+    font-size: 8px;
+    letter-spacing: .30em;
+  }
+
+  .finalWinnerWordmark {
+    width: 70%;
+    margin-top: 1px;
+  }
+
+  .finalWinnerTagline {
+    margin-top: 2px;
+    font-size: 8px;
+    letter-spacing: .14em;
+  }
+
+  .finalWinnerPreview,
+  #stage-root[data-winner="daniel"] .finalWinnerPreview,
+  #stage-root[data-winner="nik"] .finalWinnerPreview,
+  #stage-root[data-winner="draw"] .finalWinnerPreview,
+  #stage-root[data-winner="unconfirmed"] .finalWinnerPreview {
+    left: 50%;
+    top: 6px;
+    width: auto;
+    min-width: 0;
+    transform: translateX(-50%);
+    z-index: 10;
+  }
+
+  .finalWinnerCrown--daniel,
+  .finalWinnerCrown--nik {
+    left: 50%;
+    top: clamp(47px, 8svh, 58px);
+    width: 22px;
+    height: 17px;
+    transform: translateX(-50%);
+  }
+
+  .winnerTrophySlot {
+    left: 50%;
+    top: clamp(112px, 19svh, 136px);
+    width: 36%;
+    height: clamp(132px, 23svh, 156px);
+    transform: translateX(-50%);
+    z-index: 5;
+  }
+
+  .winnerTrophyGlow {
+    width: 88%;
+  }
+
+  .finalWinnerHeroCopySlot {
+    left: 8%;
+    top: clamp(245px, 42svh, 282px);
+    width: 84%;
+    height: auto;
+    transform: none;
+    gap: 1px;
+    z-index: 9;
+  }
+
+  .finalWinnerStateHeading,
+  .finalWinnerTerminalHeading {
+    max-width: 100%;
+    font-size: 9px;
+    line-height: 1.05;
+    white-space: normal;
+  }
+
+  .finalWinnerOutcome {
+    margin-top: 1px;
+    font-size: clamp(20px, 6.4vw, 25px);
+    line-height: .95;
+  }
+
+  .finalWinnerTotals {
+    grid-template-columns: minmax(64px, 1fr) 0 minmax(64px, 1fr);
+    width: min(70vw, 260px);
+    margin-top: 0;
+  }
+
+  .finalWinnerManager small {
+    font-size: 9px;
+  }
+
+  .finalWinnerManager .sd-number {
+    font-size: clamp(27px, 8vw, 34px);
+  }
+
+  .finalWinnerCompletion {
+    min-height: 20px;
+    margin-top: 1px;
+    font-size: 9px;
+  }
+
+  .finalWinnerResultsPanel {
+    left: 4%;
+    right: 4%;
+    top: 57%;
+    bottom: calc(62px + env(safe-area-inset-bottom));
+    width: auto;
+    height: auto;
+    min-height: 0;
+    display: block;
+    overflow: hidden;
+    z-index: 11;
+  }
+
+  .finalWinnerActionsSlot {
+    left: 4%;
+    right: 4%;
+    top: auto;
+    bottom: env(safe-area-inset-bottom);
+    width: auto;
+    height: 54px;
+    z-index: 14;
+  }
+
+  .finalWinnerTerminalStatus {
+    left: 0;
+    top: auto;
+    bottom: calc(100% + 3px);
+    width: 100%;
+    padding: 0 4px;
+    transform: none;
+    font-size: 9px;
+    line-height: 1.1;
+    white-space: normal;
+  }
+
+  .finalWinnerCutout,
+  .finalWinnerRim,
+  .finalWinnerContact {
+    display: none;
+  }
+
+  .finalWinnerManagerShade,
+  .finalWinnerManagerSpotlight {
+    top: 0;
+    width: 55%;
+    height: 56%;
+    border-radius: 0;
+  }
+
+  .finalWinnerManagerShade--daniel,
+  .finalWinnerManagerSpotlight--daniel { left: 0; }
+
+  .finalWinnerManagerShade--nik,
+  .finalWinnerManagerSpotlight--nik { left: 45%; }
+}
