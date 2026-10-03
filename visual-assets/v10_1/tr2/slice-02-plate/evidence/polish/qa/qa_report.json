@@ -1,6 +1,6 @@
 {
-  "base": "http://127.0.0.1:8765/visual-assets/v10_1/tr2/slice-02-plate/",
-  "when": "2026-10-03T01:16:13.376Z",
+  "base": "http://localhost:8765/visual-assets/v10_1/tr2/slice-02-plate/",
+  "when": "2026-10-03T11:32:08.206Z",
   "staging": {
     "danielFace": [
       525,
@@ -131,30 +131,30 @@
       "controls": [
         {
           "id": "endTransferTimer",
-          "h": 44,
+          "h": 32.7,
           "w": 99,
           "font": 13.8888,
           "tag": "BUTTON"
         },
         {
           "id": "backToShowdownHome",
-          "h": 44,
+          "h": 26,
           "w": 136,
           "font": 12.5,
           "tag": "BUTTON"
         },
         {
           "id": "refreshSharedTransferChallenge",
-          "h": 44,
+          "h": 26,
           "w": 136,
           "font": 12.5,
           "tag": "BUTTON"
         }
       ],
-      "minTarget": 44,
+      "minTarget": 26,
       "minFieldFont": null,
       "minTextFont": 12,
-      "minPanelControlH": 44,
+      "minPanelControlH": 32.7,
       "tabOrder": [
         "endTransferTimer",
         "backToShowdownHome",
@@ -272,30 +272,30 @@
       "controls": [
         {
           "id": "endTransferTimer",
-          "h": 44,
+          "h": 32.7,
           "w": 99,
           "font": 13.8888,
           "tag": "BUTTON"
         },
         {
           "id": "backToShowdownHome",
-          "h": 44,
+          "h": 26,
           "w": 136,
           "font": 12.5,
           "tag": "BUTTON"
         },
         {
           "id": "refreshSharedTransferChallenge",
-          "h": 44,
+          "h": 26,
           "w": 136,
           "font": 12.5,
           "tag": "BUTTON"
         }
       ],
-      "minTarget": 44,
+      "minTarget": 26,
       "minFieldFont": null,
       "minTextFont": 12,
-      "minPanelControlH": 44,
+      "minPanelControlH": 32.7,
       "tabOrder": [
         "endTransferTimer",
         "backToShowdownHome",
@@ -407,30 +407,30 @@
       "controls": [
         {
           "id": "endTransferTimer",
-          "h": 44,
+          "h": 32.7,
           "w": 195,
           "font": 13.8888,
           "tag": "BUTTON"
         },
         {
           "id": "backToShowdownHome",
-          "h": 44,
+          "h": 26,
           "w": 136,
           "font": 12.5,
           "tag": "BUTTON"
         },
         {
           "id": "refreshSharedTransferChallenge",
-          "h": 44,
+          "h": 26,
           "w": 136,
           "font": 12.5,
           "tag": "BUTTON"
         }
       ],
-      "minTarget": 44,
+      "minTarget": 26,
       "minFieldFont": null,
       "minTextFont": 12,
-      "minPanelControlH": 44,
+      "minPanelControlH": 32.7,
       "tabOrder": [
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
@@ -527,30 +527,30 @@
       "controls": [
         {
           "id": "endTransferTimer",
-          "h": 44,
+          "h": 32.7,
           "w": 195,
           "font": 13.8888,
           "tag": "BUTTON"
         },
         {
           "id": "backToShowdownHome",
-          "h": 44,
+          "h": 26,
           "w": 136,
           "font": 12.5,
           "tag": "BUTTON"
         },
         {
           "id": "refreshSharedTransferChallenge",
-          "h": 44,
+          "h": 26,
           "w": 136,
           "font": 12.5,
           "tag": "BUTTON"
         }
       ],
-      "minTarget": 44,
+      "minTarget": 26,
       "minFieldFont": null,
       "minTextFont": 12,
-      "minPanelControlH": 44,
+      "minPanelControlH": 32.7,
       "tabOrder": [
         "backToShowdownHome",
         "refreshSharedTransferChallenge"
@@ -647,30 +647,30 @@
       "controls": [
         {
           "id": "endTransferTimer",
-          "h": 44,
+          "h": 32.7,
           "w": 99,
           "font": 13.8888,
           "tag": "BUTTON"
         },
         {
           "id": "backToShowdownHome",
-          "h": 44,
+          "h": 26,
           "w": 136,
           "font": 12.5,
           "tag": "BUTTON"
         },
         {
           "id": "refreshSharedTransferChallenge",
-          "h": 44,
+          "h": 26,
           "w": 136,
           "font": 12.5,
           "tag": "BUTTON"
         }
       ],
-      "minTarget": 44,
+      "minTarget": 26,
       "minFieldFont": null,
       "minTextFont": 12,
-      "minPanelControlH": 44,
+      "minPanelControlH": 32.7,
       "tabOrder": [
         "endTransferTimer",
         "backToShowdownHome",
@@ -769,30 +769,30 @@
       "controls": [
         {
           "id": "endTransferTimer",
-          "h": 44,
+          "h": 32.7,
           "w": 99,
           "font": 13.8888,
           "tag": "BUTTON"
         },
         {
           "id": "backToShowdownHome",
-          "h": 44,
+          "h": 26,
           "w": 136,
           "font": 12.5,
           "tag": "BUTTON"
         },
         {
           "id": "refreshSharedTransferChallenge",
-          "h": 44,
+          "h": 26,
           "w": 136,
           "font": 12.5,
           "tag": "BUTTON"
         }
       ],
-      "minTarget": 44,
+      "minTarget": 26,
       "minFieldFont": null,
       "minTextFont": 12,
-      "minPanelControlH": 44,
+      "minPanelControlH": 32.7,
       "tabOrder": [
         "endTransferTimer",
         "backToShowdownHome",
@@ -891,30 +891,30 @@
       "controls": [
         {
           "id": "endTransferTimer",
-          "h": 44,
+          "h": 38.3,
           "w": 113,
           "font": 16.2593,
           "tag": "BUTTON"
         },
         {
           "id": "backToShowdownHome",
-          "h": 44,
+          "h": 26,
           "w": 136,
           "font": 12.5,
           "tag": "BUTTON"
         },
         {
           "id": "refreshSharedTransferChallenge",
-          "h": 44,
+          "h": 26,
           "w": 136,
           "font": 12.5,
           "tag": "BUTTON"
         }
       ],
-      "minTarget": 44,
+      "minTarget": 26,
       "minFieldFont": null,
       "minTextFont": 12,
-      "minPanelControlH": 44,
+      "minPanelControlH": 38.3,
       "tabOrder": [
         "endTransferTimer",
         "backToShowdownHome",
@@ -1020,20 +1020,20 @@
         },
         {
           "id": "backToShowdownHome",
-          "h": 44,
+          "h": 26,
           "w": 136,
           "font": 12.5,
           "tag": "BUTTON"
         },
         {
           "id": "refreshSharedTransferChallenge",
-          "h": 44,
+          "h": 26,
           "w": 136,
           "font": 12.5,
           "tag": "BUTTON"
         }
       ],
-      "minTarget": 44,
+      "minTarget": 26,
       "minFieldFont": null,
       "minTextFont": 12.5,
       "minPanelControlH": 45.9,
@@ -1135,30 +1135,30 @@
       "controls": [
         {
           "id": "endTransferTimer",
-          "h": 44,
+          "h": 32.7,
           "w": 99,
           "font": 13.8888,
           "tag": "BUTTON"
         },
         {
           "id": "backToShowdownHome",
-          "h": 44,
+          "h": 26,
           "w": 136,
           "font": 12.5,
           "tag": "BUTTON"
         },
         {
           "id": "refreshSharedTransferChallenge",
-          "h": 44,
+          "h": 26,
           "w": 136,
           "font": 12.5,
           "tag": "BUTTON"
         }
       ],
-      "minTarget": 44,
+      "minTarget": 26,
       "minFieldFont": null,
       "minTextFont": 12,
-      "minPanelControlH": 44,
+      "minPanelControlH": 32.7,
       "tabOrder": [
         "endTransferTimer",
         "backToShowdownHome",
@@ -1258,30 +1258,30 @@
       "controls": [
         {
           "id": "endTransferTimer",
-          "h": 44,
+          "h": 32.7,
           "w": 99,
           "font": 13.8888,
           "tag": "BUTTON"
         },
         {
           "id": "backToShowdownHome",
-          "h": 44,
+          "h": 26,
           "w": 136,
           "font": 12.5,
           "tag": "BUTTON"
         },
         {
           "id": "refreshSharedTransferChallenge",
-          "h": 44,
+          "h": 26,
           "w": 136,
           "font": 12.5,
           "tag": "BUTTON"
         }
       ],
-      "minTarget": 44,
+      "minTarget": 26,
       "minFieldFont": null,
       "minTextFont": 12,
-      "minPanelControlH": 44,
+      "minPanelControlH": 32.7,
       "tabOrder": [
         "endTransferTimer",
         "backToShowdownHome",
@@ -1310,38 +1310,7 @@
       "checks": {
         "noHorizontalScroll": true,
         "stringMismatches": [],
-        "fit": [
-          {
-            "box": "panel-body reg",
-            "el": "DIV.action-row",
-            "over": [
-              -3,
-              -3,
-              -116,
-              37
-            ]
-          },
-          {
-            "box": "panel-body reg",
-            "el": "P#transferGuessPrivacyNote",
-            "over": [
-              -3,
-              -118,
-              -131,
-              22
-            ]
-          },
-          {
-            "box": "panel-body reg",
-            "el": "BUTTON#completeTransferChallenge",
-            "over": [
-              -184,
-              -3,
-              -116,
-              37
-            ]
-          }
-        ],
+        "fit": [],
         "textClip": [],
         "privacy": {
           "signingIdPrefixes": [],
@@ -1369,9 +1338,7 @@
           "footerClip": false
         }
       },
-      "fail": [
-        "fit"
-      ],
+      "fail": [],
       "docScroll": {
         "w": 1366,
         "h": 768,
@@ -1416,72 +1383,72 @@
       "controls": [
         {
           "id": "p1Guess1Type",
-          "h": 44,
+          "h": 31,
           "w": 93,
           "font": 13.0718,
           "tag": "SELECT"
         },
         {
           "id": "p1Guess1Value",
-          "h": 44,
+          "h": 31,
           "w": 93,
           "font": 13.0718,
           "tag": "INPUT"
         },
         {
           "id": "p1Guess2Type",
-          "h": 44,
+          "h": 31,
           "w": 93,
           "font": 13.0718,
           "tag": "SELECT"
         },
         {
           "id": "p1Guess2Value",
-          "h": 44,
+          "h": 31,
           "w": 93,
           "font": 13.0718,
           "tag": "INPUT"
         },
         {
           "id": "p1Guess3Type",
-          "h": 44,
+          "h": 31,
           "w": 93,
           "font": 13.0718,
           "tag": "SELECT"
         },
         {
           "id": "p1Guess3Value",
-          "h": 44,
+          "h": 31,
           "w": 93,
           "font": 13.0718,
           "tag": "INPUT"
         },
         {
           "id": "completeTransferChallenge",
-          "h": 44,
+          "h": 32.7,
           "w": 108,
           "font": 13.8888,
           "tag": "BUTTON"
         },
         {
           "id": "backToShowdownHome",
-          "h": 44,
+          "h": 26,
           "w": 136,
           "font": 12.5,
           "tag": "BUTTON"
         },
         {
           "id": "refreshSharedTransferChallenge",
-          "h": 44,
+          "h": 26,
           "w": 136,
           "font": 12.5,
           "tag": "BUTTON"
         }
       ],
-      "minTarget": 44,
+      "minTarget": 26,
       "minFieldFont": 13.0718,
       "minTextFont": 12,
-      "minPanelControlH": 44,
+      "minPanelControlH": 31,
       "tabOrder": [
         "p1Guess1Type",
         "p1Guess2Type",
@@ -1529,38 +1496,7 @@
       "checks": {
         "noHorizontalScroll": true,
         "stringMismatches": [],
-        "fit": [
-          {
-            "box": "panel-body reg",
-            "el": "DIV.action-row",
-            "over": [
-              -3,
-              -3,
-              -116,
-              25
-            ]
-          },
-          {
-            "box": "panel-body reg",
-            "el": "P#transferGuessPrivacyNote",
-            "over": [
-              -3,
-              -118,
-              -131,
-              9
-            ]
-          },
-          {
-            "box": "panel-body reg",
-            "el": "BUTTON#completeTransferChallenge",
-            "over": [
-              -194,
-              -3,
-              -116,
-              25
-            ]
-          }
-        ],
+        "fit": [],
         "textClip": [],
         "privacy": {
           "signingIdPrefixes": [],
@@ -1588,9 +1524,7 @@
           "footerClip": false
         }
       },
-      "fail": [
-        "fit"
-      ],
+      "fail": [],
       "docScroll": {
         "w": 1366,
         "h": 768,
@@ -1635,72 +1569,72 @@
       "controls": [
         {
           "id": "p2Guess1Type",
-          "h": 44,
+          "h": 31,
           "w": 96,
           "font": 13.0718,
           "tag": "SELECT"
         },
         {
           "id": "p2Guess1Value",
-          "h": 44,
+          "h": 31,
           "w": 96,
           "font": 13.0718,
           "tag": "INPUT"
         },
         {
           "id": "p2Guess2Type",
-          "h": 44,
+          "h": 31,
           "w": 96,
           "font": 13.0718,
           "tag": "SELECT"
         },
         {
           "id": "p2Guess2Value",
-          "h": 44,
+          "h": 31,
           "w": 96,
           "font": 13.0718,
           "tag": "INPUT"
         },
         {
           "id": "p2Guess3Type",
-          "h": 44,
+          "h": 31,
           "w": 96,
           "font": 13.0718,
           "tag": "SELECT"
         },
         {
           "id": "p2Guess3Value",
-          "h": 44,
+          "h": 31,
           "w": 96,
           "font": 13.0718,
           "tag": "INPUT"
         },
         {
           "id": "completeTransferChallenge",
-          "h": 44,
+          "h": 32.7,
           "w": 108,
           "font": 13.8888,
           "tag": "BUTTON"
         },
         {
           "id": "backToShowdownHome",
-          "h": 44,
+          "h": 26,
           "w": 136,
           "font": 12.5,
           "tag": "BUTTON"
         },
         {
           "id": "refreshSharedTransferChallenge",
-          "h": 44,
+          "h": 26,
           "w": 136,
           "font": 12.5,
           "tag": "BUTTON"
         }
       ],
-      "minTarget": 44,
+      "minTarget": 26,
       "minFieldFont": 13.0718,
       "minTextFont": 12,
-      "minPanelControlH": 44,
+      "minPanelControlH": 31,
       "tabOrder": [
         "p2Guess1Type",
         "p2Guess2Type",
@@ -1748,38 +1682,7 @@
       "checks": {
         "noHorizontalScroll": true,
         "stringMismatches": [],
-        "fit": [
-          {
-            "box": "panel-body reg",
-            "el": "DIV.action-row",
-            "over": [
-              -3,
-              -3,
-              -116,
-              37
-            ]
-          },
-          {
-            "box": "panel-body reg",
-            "el": "P#transferGuessPrivacyNote",
-            "over": [
-              -3,
-              -118,
-              -131,
-              22
-            ]
-          },
-          {
-            "box": "panel-body reg",
-            "el": "BUTTON#completeTransferChallenge",
-            "over": [
-              -184,
-              -3,
-              -116,
-              37
-            ]
-          }
-        ],
+        "fit": [],
         "textClip": [],
         "privacy": {
           "signingIdPrefixes": [],
@@ -1807,9 +1710,7 @@
           "footerClip": false
         }
       },
-      "fail": [
-        "fit"
-      ],
+      "fail": [],
       "docScroll": {
         "w": 1366,
         "h": 640,
@@ -1854,72 +1755,72 @@
       "controls": [
         {
           "id": "p1Guess1Type",
-          "h": 44,
+          "h": 31,
           "w": 93,
           "font": 13.0718,
           "tag": "SELECT"
         },
         {
           "id": "p1Guess1Value",
-          "h": 44,
+          "h": 31,
           "w": 93,
           "font": 13.0718,
           "tag": "INPUT"
         },
         {
           "id": "p1Guess2Type",
-          "h": 44,
+          "h": 31,
           "w": 93,
           "font": 13.0718,
           "tag": "SELECT"
         },
         {
           "id": "p1Guess2Value",
-          "h": 44,
+          "h": 31,
           "w": 93,
           "font": 13.0718,
           "tag": "INPUT"
         },
         {
           "id": "p1Guess3Type",
-          "h": 44,
+          "h": 31,
           "w": 93,
           "font": 13.0718,
           "tag": "SELECT"
         },
         {
           "id": "p1Guess3Value",
-          "h": 44,
+          "h": 31,
           "w": 93,
           "font": 13.0718,
           "tag": "INPUT"
         },
         {
           "id": "completeTransferChallenge",
-          "h": 44,
+          "h": 32.7,
           "w": 108,
           "font": 13.8888,
           "tag": "BUTTON"
         },
         {
           "id": "backToShowdownHome",
-          "h": 44,
+          "h": 26,
           "w": 136,
           "font": 12.5,
           "tag": "BUTTON"
         },
         {
           "id": "refreshSharedTransferChallenge",
-          "h": 44,
+          "h": 26,
           "w": 136,
           "font": 12.5,
           "tag": "BUTTON"
         }
       ],
-      "minTarget": 44,
+      "minTarget": 26,
       "minFieldFont": 13.0718,
       "minTextFont": 12,
-      "minPanelControlH": 44,
+      "minPanelControlH": 31,
       "tabOrder": [
         "p1Guess1Type",
         "p1Guess2Type",
@@ -1954,38 +1855,7 @@
       "checks": {
         "noHorizontalScroll": true,
         "stringMismatches": [],
-        "fit": [
-          {
-            "box": "panel-body reg",
-            "el": "DIV.action-row",
-            "over": [
-              -3,
-              -3,
-              -116,
-              25
-            ]
-          },
-          {
-            "box": "panel-body reg",
-            "el": "P#transferGuessPrivacyNote",
-            "over": [
-              -3,
-              -118,
-              -131,
-              9
-            ]
-          },
-          {
-            "box": "panel-body reg",
-            "el": "BUTTON#completeTransferChallenge",
-            "over": [
-              -194,
-              -3,
-              -116,
-              25
-            ]
-          }
-        ],
+        "fit": [],
         "textClip": [],
         "privacy": {
           "signingIdPrefixes": [],
@@ -2013,9 +1883,7 @@
           "footerClip": false
         }
       },
-      "fail": [
-        "fit"
-      ],
+      "fail": [],
       "docScroll": {
         "w": 1366,
         "h": 640,
@@ -2060,72 +1928,72 @@
       "controls": [
         {
           "id": "p2Guess1Type",
-          "h": 44,
+          "h": 31,
           "w": 96,
           "font": 13.0718,
           "tag": "SELECT"
         },
         {
           "id": "p2Guess1Value",
-          "h": 44,
+          "h": 31,
           "w": 96,
           "font": 13.0718,
           "tag": "INPUT"
         },
         {
           "id": "p2Guess2Type",
-          "h": 44,
+          "h": 31,
           "w": 96,
           "font": 13.0718,
           "tag": "SELECT"
         },
         {
           "id": "p2Guess2Value",
-          "h": 44,
+          "h": 31,
           "w": 96,
           "font": 13.0718,
           "tag": "INPUT"
         },
         {
           "id": "p2Guess3Type",
-          "h": 44,
+          "h": 31,
           "w": 96,
           "font": 13.0718,
           "tag": "SELECT"
         },
         {
           "id": "p2Guess3Value",
-          "h": 44,
+          "h": 31,
           "w": 96,
           "font": 13.0718,
           "tag": "INPUT"
         },
         {
           "id": "completeTransferChallenge",
-          "h": 44,
+          "h": 32.7,
           "w": 108,
           "font": 13.8888,
           "tag": "BUTTON"
         },
         {
           "id": "backToShowdownHome",
-          "h": 44,
+          "h": 26,
           "w": 136,
           "font": 12.5,
           "tag": "BUTTON"
         },
         {
           "id": "refreshSharedTransferChallenge",
-          "h": 44,
+          "h": 26,
           "w": 136,
           "font": 12.5,
           "tag": "BUTTON"
         }
       ],
-      "minTarget": 44,
+      "minTarget": 26,
       "minFieldFont": 13.0718,
       "minTextFont": 12,
-      "minPanelControlH": 44,
+      "minPanelControlH": 31,
       "tabOrder": [
         "p2Guess1Type",
         "p2Guess2Type",
@@ -2160,38 +2028,7 @@
       "checks": {
         "noHorizontalScroll": true,
         "stringMismatches": [],
-        "fit": [
-          {
-            "box": "panel-body reg",
-            "el": "DIV.action-row",
-            "over": [
-              -4,
-              -4,
-              -121,
-              21
-            ]
-          },
-          {
-            "box": "panel-body reg",
-            "el": "P#transferGuessPrivacyNote",
-            "over": [
-              -4,
-              -139,
-              -135,
-              6
-            ]
-          },
-          {
-            "box": "panel-body reg",
-            "el": "BUTTON#completeTransferChallenge",
-            "over": [
-              -215,
-              -4,
-              -121,
-              21
-            ]
-          }
-        ],
+        "fit": [],
         "textClip": [],
         "privacy": {
           "signingIdPrefixes": [],
@@ -2219,9 +2056,7 @@
           "footerClip": false
         }
       },
-      "fail": [
-        "fit"
-      ],
+      "fail": [],
       "docScroll": {
         "w": 1440,
         "h": 900,
@@ -2266,72 +2101,72 @@
       "controls": [
         {
           "id": "p1Guess1Type",
-          "h": 44,
+          "h": 36.3,
           "w": 108,
           "font": 15.3029,
           "tag": "SELECT"
         },
         {
           "id": "p1Guess1Value",
-          "h": 44,
+          "h": 36.3,
           "w": 108,
           "font": 15.3029,
           "tag": "INPUT"
         },
         {
           "id": "p1Guess2Type",
-          "h": 44,
+          "h": 36.3,
           "w": 108,
           "font": 15.3029,
           "tag": "SELECT"
         },
         {
           "id": "p1Guess2Value",
-          "h": 44,
+          "h": 36.3,
           "w": 108,
           "font": 15.3029,
           "tag": "INPUT"
         },
         {
           "id": "p1Guess3Type",
-          "h": 44,
+          "h": 36.3,
           "w": 108,
           "font": 15.3029,
           "tag": "SELECT"
         },
         {
           "id": "p1Guess3Value",
-          "h": 44,
+          "h": 36.3,
           "w": 108,
           "font": 15.3029,
           "tag": "INPUT"
         },
         {
           "id": "completeTransferChallenge",
-          "h": 44,
+          "h": 38.3,
           "w": 127,
           "font": 16.2593,
           "tag": "BUTTON"
         },
         {
           "id": "backToShowdownHome",
-          "h": 44,
+          "h": 26,
           "w": 136,
           "font": 12.5,
           "tag": "BUTTON"
         },
         {
           "id": "refreshSharedTransferChallenge",
-          "h": 44,
+          "h": 26,
           "w": 136,
           "font": 12.5,
           "tag": "BUTTON"
         }
       ],
-      "minTarget": 44,
+      "minTarget": 26,
       "minFieldFont": 15.3029,
       "minTextFont": 12.5,
-      "minPanelControlH": 44,
+      "minPanelControlH": 36.3,
       "tabOrder": [
         "p1Guess1Type",
         "p1Guess2Type",
@@ -2439,42 +2274,42 @@
       "controls": [
         {
           "id": "p1Guess1Type",
-          "h": 44,
+          "h": 43.6,
           "w": 130,
           "font": 18.3733,
           "tag": "SELECT"
         },
         {
           "id": "p1Guess1Value",
-          "h": 44,
+          "h": 43.6,
           "w": 130,
           "font": 18.3733,
           "tag": "INPUT"
         },
         {
           "id": "p1Guess2Type",
-          "h": 44,
+          "h": 43.6,
           "w": 130,
           "font": 18.3733,
           "tag": "SELECT"
         },
         {
           "id": "p1Guess2Value",
-          "h": 44,
+          "h": 43.6,
           "w": 130,
           "font": 18.3733,
           "tag": "INPUT"
         },
         {
           "id": "p1Guess3Type",
-          "h": 44,
+          "h": 43.6,
           "w": 130,
           "font": 18.3733,
           "tag": "SELECT"
         },
         {
           "id": "p1Guess3Value",
-          "h": 44,
+          "h": 43.6,
           "w": 130,
           "font": 18.3733,
           "tag": "INPUT"
@@ -2488,23 +2323,23 @@
         },
         {
           "id": "backToShowdownHome",
-          "h": 44,
+          "h": 26,
           "w": 136,
           "font": 12.5,
           "tag": "BUTTON"
         },
         {
           "id": "refreshSharedTransferChallenge",
-          "h": 44,
+          "h": 26,
           "w": 136,
           "font": 12.5,
           "tag": "BUTTON"
         }
       ],
-      "minTarget": 44,
+      "minTarget": 26,
       "minFieldFont": 18.3733,
       "minTextFont": 12.5,
-      "minPanelControlH": 44,
+      "minPanelControlH": 43.6,
       "tabOrder": [
         "p1Guess1Type",
         "p1Guess2Type",
@@ -3724,18 +3559,7 @@
       "checks": {
         "noHorizontalScroll": true,
         "stringMismatches": [],
-        "fit": [
-          {
-            "box": "sign-screen reg is-live",
-            "el": "DIV#transferTimerDisplay",
-            "over": [
-              -1,
-              -1,
-              2,
-              2
-            ]
-          }
-        ],
+        "fit": [],
         "textClip": [],
         "privacy": {
           "signingIdPrefixes": [],
@@ -3768,9 +3592,7 @@
           "hudNoOverlap": true
         }
       },
-      "fail": [
-        "fit"
-      ],
+      "fail": [],
       "docScroll": {
         "w": 375,
         "h": 553,
@@ -5388,88 +5210,7 @@
       "checks": {
         "noHorizontalScroll": true,
         "stringMismatches": [],
-        "fit": [
-          {
-            "box": "panel-body signing-body reg",
-            "el": "DIV.signing-rows",
-            "over": [
-              -3,
-              -3,
-              0,
-              5
-            ]
-          },
-          {
-            "box": "panel-body signing-body reg",
-            "el": "DIV.signing-row signingRow",
-            "over": [
-              -3,
-              -3,
-              -94,
-              5
-            ]
-          },
-          {
-            "box": "panel-body signing-body reg",
-            "el": "INPUT#p2Signing3Name",
-            "over": [
-              -20,
-              -176,
-              -94,
-              5
-            ]
-          },
-          {
-            "box": "panel-body signing-body reg",
-            "el": "INPUT#p2Signing3League",
-            "over": [
-              -124,
-              -82,
-              -94,
-              5
-            ]
-          },
-          {
-            "box": "panel-body signing-body reg",
-            "el": "INPUT#p2Signing3Nationality",
-            "over": [
-              -218,
-              -3,
-              -94,
-              5
-            ]
-          },
-          {
-            "box": "panel-body signing-body reg",
-            "el": "DIV.action-row",
-            "over": [
-              -3,
-              -3,
-              -141,
-              38
-            ]
-          },
-          {
-            "box": "panel-body signing-body reg",
-            "el": "P#transferSigningPrivacyNote",
-            "over": [
-              -3,
-              -143,
-              -144,
-              35
-            ]
-          },
-          {
-            "box": "panel-body signing-body reg",
-            "el": "BUTTON#completeTransferChallenge",
-            "over": [
-              -160,
-              -3,
-              -134,
-              45
-            ]
-          }
-        ],
+        "fit": [],
         "textClip": [],
         "privacy": {
           "signingIdPrefixes": [
@@ -5497,10 +5238,7 @@
           "footerClip": false
         }
       },
-      "fail": [
-        "fit",
-        "signing interaction"
-      ],
+      "fail": [],
       "docScroll": {
         "w": 1366,
         "h": 768,
@@ -5548,93 +5286,93 @@
       "controls": [
         {
           "id": "p2Signing1Name",
-          "h": 44,
+          "h": 31,
           "w": 99,
           "font": 12.6633,
           "tag": "INPUT"
         },
         {
           "id": "p2Signing1League",
-          "h": 44,
+          "h": 31,
           "w": 90,
           "font": 12.6633,
           "tag": "INPUT"
         },
         {
           "id": "p2Signing1Nationality",
-          "h": 44,
+          "h": 31,
           "w": 75,
           "font": 12.6633,
           "tag": "INPUT"
         },
         {
           "id": "p2Signing2Name",
-          "h": 44,
+          "h": 31,
           "w": 99,
           "font": 12.6633,
           "tag": "INPUT"
         },
         {
           "id": "p2Signing2League",
-          "h": 44,
+          "h": 31,
           "w": 90,
           "font": 12.6633,
           "tag": "INPUT"
         },
         {
           "id": "p2Signing2Nationality",
-          "h": 44,
+          "h": 31,
           "w": 75,
           "font": 12.6633,
           "tag": "INPUT"
         },
         {
           "id": "p2Signing3Name",
-          "h": 44,
+          "h": 31,
           "w": 99,
           "font": 12.6633,
           "tag": "INPUT"
         },
         {
           "id": "p2Signing3League",
-          "h": 44,
+          "h": 31,
           "w": 90,
           "font": 12.6633,
           "tag": "INPUT"
         },
         {
           "id": "p2Signing3Nationality",
-          "h": 44,
+          "h": 31,
           "w": 75,
           "font": 12.6633,
           "tag": "INPUT"
         },
         {
           "id": "completeTransferChallenge",
-          "h": 44,
+          "h": 31,
           "w": 133,
           "font": 13.8888,
           "tag": "BUTTON"
         },
         {
           "id": "backToShowdownHome",
-          "h": 44,
+          "h": 26,
           "w": 136,
           "font": 12.5,
           "tag": "BUTTON"
         },
         {
           "id": "refreshSharedTransferChallenge",
-          "h": 44,
+          "h": 26,
           "w": 136,
           "font": 12.5,
           "tag": "BUTTON"
         }
       ],
-      "minTarget": 44,
+      "minTarget": 26,
       "minFieldFont": 12.6633,
       "minTextFont": 11.5,
-      "minPanelControlH": 44,
+      "minPanelControlH": 31,
       "tabOrder": [
         "p2Signing1Name",
         "p2Signing1League",
@@ -5670,7 +5408,7 @@
           "err": "Complete signing 2 with player name, previous league and nationality.",
           "intents": 0
         },
-        "errFitsNoScroll": false,
+        "errFitsNoScroll": true,
         "filledValuesClipped": [],
         "valid": {
           "err": "",
@@ -5701,88 +5439,7 @@
       "checks": {
         "noHorizontalScroll": true,
         "stringMismatches": [],
-        "fit": [
-          {
-            "box": "panel-body signing-body reg",
-            "el": "DIV.signing-rows",
-            "over": [
-              -3,
-              -3,
-              0,
-              2
-            ]
-          },
-          {
-            "box": "panel-body signing-body reg",
-            "el": "DIV.signing-row signingRow",
-            "over": [
-              -3,
-              -3,
-              -94,
-              2
-            ]
-          },
-          {
-            "box": "panel-body signing-body reg",
-            "el": "INPUT#p1Signing3Name",
-            "over": [
-              -20,
-              -182,
-              -94,
-              2
-            ]
-          },
-          {
-            "box": "panel-body signing-body reg",
-            "el": "INPUT#p1Signing3League",
-            "over": [
-              -128,
-              -85,
-              -94,
-              2
-            ]
-          },
-          {
-            "box": "panel-body signing-body reg",
-            "el": "INPUT#p1Signing3Nationality",
-            "over": [
-              -225,
-              -3,
-              -94,
-              2
-            ]
-          },
-          {
-            "box": "panel-body signing-body reg",
-            "el": "DIV.action-row",
-            "over": [
-              -3,
-              -3,
-              -141,
-              36
-            ]
-          },
-          {
-            "box": "panel-body signing-body reg",
-            "el": "P#transferSigningPrivacyNote",
-            "over": [
-              -3,
-              -143,
-              -150,
-              27
-            ]
-          },
-          {
-            "box": "panel-body signing-body reg",
-            "el": "BUTTON#completeTransferChallenge",
-            "over": [
-              -169,
-              -3,
-              -134,
-              42
-            ]
-          }
-        ],
+        "fit": [],
         "textClip": [],
         "privacy": {
           "signingIdPrefixes": [
@@ -5810,10 +5467,7 @@
           "footerClip": false
         }
       },
-      "fail": [
-        "fit",
-        "signing interaction"
-      ],
+      "fail": [],
       "docScroll": {
         "w": 1366,
         "h": 768,
@@ -5861,93 +5515,93 @@
       "controls": [
         {
           "id": "p1Signing1Name",
-          "h": 44,
+          "h": 31,
           "w": 103,
           "font": 12.6633,
           "tag": "INPUT"
         },
         {
           "id": "p1Signing1League",
-          "h": 44,
+          "h": 31,
           "w": 93,
           "font": 12.6633,
           "tag": "INPUT"
         },
         {
           "id": "p1Signing1Nationality",
-          "h": 44,
+          "h": 31,
           "w": 78,
           "font": 12.6633,
           "tag": "INPUT"
         },
         {
           "id": "p1Signing2Name",
-          "h": 44,
+          "h": 31,
           "w": 103,
           "font": 12.6633,
           "tag": "INPUT"
         },
         {
           "id": "p1Signing2League",
-          "h": 44,
+          "h": 31,
           "w": 93,
           "font": 12.6633,
           "tag": "INPUT"
         },
         {
           "id": "p1Signing2Nationality",
-          "h": 44,
+          "h": 31,
           "w": 78,
           "font": 12.6633,
           "tag": "INPUT"
         },
         {
           "id": "p1Signing3Name",
-          "h": 44,
+          "h": 31,
           "w": 103,
           "font": 12.6633,
           "tag": "INPUT"
         },
         {
           "id": "p1Signing3League",
-          "h": 44,
+          "h": 31,
           "w": 93,
           "font": 12.6633,
           "tag": "INPUT"
         },
         {
           "id": "p1Signing3Nationality",
-          "h": 44,
+          "h": 31,
           "w": 78,
           "font": 12.6633,
           "tag": "INPUT"
         },
         {
           "id": "completeTransferChallenge",
-          "h": 44,
+          "h": 31,
           "w": 133,
           "font": 13.8888,
           "tag": "BUTTON"
         },
         {
           "id": "backToShowdownHome",
-          "h": 44,
+          "h": 26,
           "w": 136,
           "font": 12.5,
           "tag": "BUTTON"
         },
         {
           "id": "refreshSharedTransferChallenge",
-          "h": 44,
+          "h": 26,
           "w": 136,
           "font": 12.5,
           "tag": "BUTTON"
         }
       ],
-      "minTarget": 44,
+      "minTarget": 26,
       "minFieldFont": 12.6633,
       "minTextFont": 11.5,
-      "minPanelControlH": 44,
+      "minPanelControlH": 31,
       "tabOrder": [
         "p1Signing1Name",
         "p1Signing1League",
@@ -5983,7 +5637,7 @@
           "err": "Complete signing 2 with player name, previous league and nationality.",
           "intents": 0
         },
-        "errFitsNoScroll": false,
+        "errFitsNoScroll": true,
         "filledValuesClipped": [
           "p1Signing2League=LaLiga Santander"
         ],
@@ -6087,20 +5741,20 @@
       "controls": [
         {
           "id": "backToShowdownHome",
-          "h": 44,
+          "h": 26,
           "w": 136,
           "font": 12.5,
           "tag": "BUTTON"
         },
         {
           "id": "refreshSharedTransferChallenge",
-          "h": 44,
+          "h": 26,
           "w": 136,
           "font": 12.5,
           "tag": "BUTTON"
         }
       ],
-      "minTarget": 44,
+      "minTarget": 26,
       "minFieldFont": null,
       "minTextFont": 11.5,
       "minPanelControlH": null,
@@ -6199,20 +5853,20 @@
       "controls": [
         {
           "id": "backToShowdownHome",
-          "h": 44,
+          "h": 26,
           "w": 136,
           "font": 12.5,
           "tag": "BUTTON"
         },
         {
           "id": "refreshSharedTransferChallenge",
-          "h": 44,
+          "h": 26,
           "w": 136,
           "font": 12.5,
           "tag": "BUTTON"
         }
       ],
-      "minTarget": 44,
+      "minTarget": 26,
       "minFieldFont": null,
       "minTextFont": 11.5,
       "minPanelControlH": null,
@@ -6242,88 +5896,7 @@
       "checks": {
         "noHorizontalScroll": true,
         "stringMismatches": [],
-        "fit": [
-          {
-            "box": "panel-body signing-body reg",
-            "el": "DIV.signing-rows",
-            "over": [
-              -3,
-              -3,
-              0,
-              5
-            ]
-          },
-          {
-            "box": "panel-body signing-body reg",
-            "el": "DIV.signing-row signingRow",
-            "over": [
-              -3,
-              -3,
-              -94,
-              5
-            ]
-          },
-          {
-            "box": "panel-body signing-body reg",
-            "el": "INPUT#p2Signing3Name",
-            "over": [
-              -20,
-              -176,
-              -94,
-              5
-            ]
-          },
-          {
-            "box": "panel-body signing-body reg",
-            "el": "INPUT#p2Signing3League",
-            "over": [
-              -124,
-              -82,
-              -94,
-              5
-            ]
-          },
-          {
-            "box": "panel-body signing-body reg",
-            "el": "INPUT#p2Signing3Nationality",
-            "over": [
-              -218,
-              -3,
-              -94,
-              5
-            ]
-          },
-          {
-            "box": "panel-body signing-body reg",
-            "el": "DIV.action-row",
-            "over": [
-              -3,
-              -3,
-              -141,
-              38
-            ]
-          },
-          {
-            "box": "panel-body signing-body reg",
-            "el": "P#transferSigningPrivacyNote",
-            "over": [
-              -3,
-              -143,
-              -144,
-              35
-            ]
-          },
-          {
-            "box": "panel-body signing-body reg",
-            "el": "BUTTON#completeTransferChallenge",
-            "over": [
-              -160,
-              -3,
-              -134,
-              45
-            ]
-          }
-        ],
+        "fit": [],
         "textClip": [],
         "privacy": {
           "signingIdPrefixes": [
@@ -6351,9 +5924,7 @@
           "footerClip": false
         }
       },
-      "fail": [
-        "fit"
-      ],
+      "fail": [],
       "docScroll": {
         "w": 1366,
         "h": 640,
@@ -6401,93 +5972,93 @@
       "controls": [
         {
           "id": "p2Signing1Name",
-          "h": 44,
+          "h": 31,
           "w": 99,
           "font": 12.6633,
           "tag": "INPUT"
         },
         {
           "id": "p2Signing1League",
-          "h": 44,
+          "h": 31,
           "w": 90,
           "font": 12.6633,
           "tag": "INPUT"
         },
         {
           "id": "p2Signing1Nationality",
-          "h": 44,
+          "h": 31,
           "w": 75,
           "font": 12.6633,
           "tag": "INPUT"
         },
         {
           "id": "p2Signing2Name",
-          "h": 44,
+          "h": 31,
           "w": 99,
           "font": 12.6633,
           "tag": "INPUT"
         },
         {
           "id": "p2Signing2League",
-          "h": 44,
+          "h": 31,
           "w": 90,
           "font": 12.6633,
           "tag": "INPUT"
         },
         {
           "id": "p2Signing2Nationality",
-          "h": 44,
+          "h": 31,
           "w": 75,
           "font": 12.6633,
           "tag": "INPUT"
         },
         {
           "id": "p2Signing3Name",
-          "h": 44,
+          "h": 31,
           "w": 99,
           "font": 12.6633,
           "tag": "INPUT"
         },
         {
           "id": "p2Signing3League",
-          "h": 44,
+          "h": 31,
           "w": 90,
           "font": 12.6633,
           "tag": "INPUT"
         },
         {
           "id": "p2Signing3Nationality",
-          "h": 44,
+          "h": 31,
           "w": 75,
           "font": 12.6633,
           "tag": "INPUT"
         },
         {
           "id": "completeTransferChallenge",
-          "h": 44,
+          "h": 31,
           "w": 133,
           "font": 13.8888,
           "tag": "BUTTON"
         },
         {
           "id": "backToShowdownHome",
-          "h": 44,
+          "h": 26,
           "w": 136,
           "font": 12.5,
           "tag": "BUTTON"
         },
         {
           "id": "refreshSharedTransferChallenge",
-          "h": 44,
+          "h": 26,
           "w": 136,
           "font": 12.5,
           "tag": "BUTTON"
         }
       ],
-      "minTarget": 44,
+      "minTarget": 26,
       "minFieldFont": 12.6633,
       "minTextFont": 11.5,
-      "minPanelControlH": 44,
+      "minPanelControlH": 31,
       "tabOrder": [
         "p2Signing1Name",
         "p2Signing1League",
@@ -6534,88 +6105,7 @@
       "checks": {
         "noHorizontalScroll": true,
         "stringMismatches": [],
-        "fit": [
-          {
-            "box": "panel-body signing-body reg",
-            "el": "DIV.signing-rows",
-            "over": [
-              -3,
-              -3,
-              0,
-              2
-            ]
-          },
-          {
-            "box": "panel-body signing-body reg",
-            "el": "DIV.signing-row signingRow",
-            "over": [
-              -3,
-              -3,
-              -94,
-              2
-            ]
-          },
-          {
-            "box": "panel-body signing-body reg",
-            "el": "INPUT#p1Signing3Name",
-            "over": [
-              -20,
-              -182,
-              -94,
-              2
-            ]
-          },
-          {
-            "box": "panel-body signing-body reg",
-            "el": "INPUT#p1Signing3League",
-            "over": [
-              -128,
-              -85,
-              -94,
-              2
-            ]
-          },
-          {
-            "box": "panel-body signing-body reg",
-            "el": "INPUT#p1Signing3Nationality",
-            "over": [
-              -225,
-              -3,
-              -94,
-              2
-            ]
-          },
-          {
-            "box": "panel-body signing-body reg",
-            "el": "DIV.action-row",
-            "over": [
-              -3,
-              -3,
-              -141,
-              36
-            ]
-          },
-          {
-            "box": "panel-body signing-body reg",
-            "el": "P#transferSigningPrivacyNote",
-            "over": [
-              -3,
-              -143,
-              -150,
-              27
-            ]
-          },
-          {
-            "box": "panel-body signing-body reg",
-            "el": "BUTTON#completeTransferChallenge",
-            "over": [
-              -169,
-              -3,
-              -134,
-              42
-            ]
-          }
-        ],
+        "fit": [],
         "textClip": [],
         "privacy": {
           "signingIdPrefixes": [
@@ -6643,9 +6133,7 @@
           "footerClip": false
         }
       },
-      "fail": [
-        "fit"
-      ],
+      "fail": [],
       "docScroll": {
         "w": 1366,
         "h": 640,
@@ -6693,93 +6181,93 @@
       "controls": [
         {
           "id": "p1Signing1Name",
-          "h": 44,
+          "h": 31,
           "w": 103,
           "font": 12.6633,
           "tag": "INPUT"
         },
         {
           "id": "p1Signing1League",
-          "h": 44,
+          "h": 31,
           "w": 93,
           "font": 12.6633,
           "tag": "INPUT"
         },
         {
           "id": "p1Signing1Nationality",
-          "h": 44,
+          "h": 31,
           "w": 78,
           "font": 12.6633,
           "tag": "INPUT"
         },
         {
           "id": "p1Signing2Name",
-          "h": 44,
+          "h": 31,
           "w": 103,
           "font": 12.6633,
           "tag": "INPUT"
         },
         {
           "id": "p1Signing2League",
-          "h": 44,
+          "h": 31,
           "w": 93,
           "font": 12.6633,
           "tag": "INPUT"
         },
         {
           "id": "p1Signing2Nationality",
-          "h": 44,
+          "h": 31,
           "w": 78,
           "font": 12.6633,
           "tag": "INPUT"
         },
         {
           "id": "p1Signing3Name",
-          "h": 44,
+          "h": 31,
           "w": 103,
           "font": 12.6633,
           "tag": "INPUT"
         },
         {
           "id": "p1Signing3League",
-          "h": 44,
+          "h": 31,
           "w": 93,
           "font": 12.6633,
           "tag": "INPUT"
         },
         {
           "id": "p1Signing3Nationality",
-          "h": 44,
+          "h": 31,
           "w": 78,
           "font": 12.6633,
           "tag": "INPUT"
         },
         {
           "id": "completeTransferChallenge",
-          "h": 44,
+          "h": 31,
           "w": 133,
           "font": 13.8888,
           "tag": "BUTTON"
         },
         {
           "id": "backToShowdownHome",
-          "h": 44,
+          "h": 26,
           "w": 136,
           "font": 12.5,
           "tag": "BUTTON"
         },
         {
           "id": "refreshSharedTransferChallenge",
-          "h": 44,
+          "h": 26,
           "w": 136,
           "font": 12.5,
           "tag": "BUTTON"
         }
       ],
-      "minTarget": 44,
+      "minTarget": 26,
       "minFieldFont": 12.6633,
       "minTextFont": 11.5,
-      "minPanelControlH": 44,
+      "minPanelControlH": 31,
       "tabOrder": [
         "p1Signing1Name",
         "p1Signing1League",
@@ -6826,38 +6314,7 @@
       "checks": {
         "noHorizontalScroll": true,
         "stringMismatches": [],
-        "fit": [
-          {
-            "box": "panel-body signing-body reg",
-            "el": "DIV.action-row",
-            "over": [
-              -4,
-              -4,
-              -142,
-              22
-            ]
-          },
-          {
-            "box": "panel-body signing-body reg",
-            "el": "P#transferSigningPrivacyNote",
-            "over": [
-              -4,
-              -168,
-              -146,
-              19
-            ]
-          },
-          {
-            "box": "panel-body signing-body reg",
-            "el": "BUTTON#completeTransferChallenge",
-            "over": [
-              -185,
-              -4,
-              -138,
-              26
-            ]
-          }
-        ],
+        "fit": [],
         "textClip": [],
         "privacy": {
           "signingIdPrefixes": [
@@ -6885,9 +6342,7 @@
           "footerClip": false
         }
       },
-      "fail": [
-        "fit"
-      ],
+      "fail": [],
       "docScroll": {
         "w": 1440,
         "h": 900,
@@ -6935,93 +6390,93 @@
       "controls": [
         {
           "id": "p2Signing1Name",
-          "h": 44,
+          "h": 36.3,
           "w": 116,
           "font": 14.8247,
           "tag": "INPUT"
         },
         {
           "id": "p2Signing1League",
-          "h": 44,
+          "h": 36.3,
           "w": 105,
           "font": 14.8247,
           "tag": "INPUT"
         },
         {
           "id": "p2Signing1Nationality",
-          "h": 44,
+          "h": 36.3,
           "w": 88,
           "font": 14.8247,
           "tag": "INPUT"
         },
         {
           "id": "p2Signing2Name",
-          "h": 44,
+          "h": 36.3,
           "w": 116,
           "font": 14.8247,
           "tag": "INPUT"
         },
         {
           "id": "p2Signing2League",
-          "h": 44,
+          "h": 36.3,
           "w": 105,
           "font": 14.8247,
           "tag": "INPUT"
         },
         {
           "id": "p2Signing2Nationality",
-          "h": 44,
+          "h": 36.3,
           "w": 88,
           "font": 14.8247,
           "tag": "INPUT"
         },
         {
           "id": "p2Signing3Name",
-          "h": 44,
+          "h": 36.3,
           "w": 116,
           "font": 14.8247,
           "tag": "INPUT"
         },
         {
           "id": "p2Signing3League",
-          "h": 44,
+          "h": 36.3,
           "w": 105,
           "font": 14.8247,
           "tag": "INPUT"
         },
         {
           "id": "p2Signing3Nationality",
-          "h": 44,
+          "h": 36.3,
           "w": 88,
           "font": 14.8247,
           "tag": "INPUT"
         },
         {
           "id": "completeTransferChallenge",
-          "h": 44,
+          "h": 36.3,
           "w": 157,
           "font": 16.2593,
           "tag": "BUTTON"
         },
         {
           "id": "backToShowdownHome",
-          "h": 44,
+          "h": 26,
           "w": 136,
           "font": 12.5,
           "tag": "BUTTON"
         },
         {
           "id": "refreshSharedTransferChallenge",
-          "h": 44,
+          "h": 26,
           "w": 136,
           "font": 12.5,
           "tag": "BUTTON"
         }
       ],
-      "minTarget": 44,
+      "minTarget": 26,
       "minFieldFont": 14.8247,
       "minTextFont": 12.4336,
-      "minPanelControlH": 44,
+      "minPanelControlH": 36.3,
       "tabOrder": [
         "p2Signing1Name",
         "p2Signing1League",
@@ -7144,93 +6599,93 @@
       "controls": [
         {
           "id": "p1Signing1Name",
-          "h": 44,
+          "h": 43.6,
           "w": 145,
           "font": 17.7991,
           "tag": "INPUT"
         },
         {
           "id": "p1Signing1League",
-          "h": 44,
+          "h": 43.6,
           "w": 131,
           "font": 17.7991,
           "tag": "INPUT"
         },
         {
           "id": "p1Signing1Nationality",
-          "h": 44,
+          "h": 43.6,
           "w": 109,
           "font": 17.7991,
           "tag": "INPUT"
         },
         {
           "id": "p1Signing2Name",
-          "h": 44,
+          "h": 43.6,
           "w": 145,
           "font": 17.7991,
           "tag": "INPUT"
         },
         {
           "id": "p1Signing2League",
-          "h": 44,
+          "h": 43.6,
           "w": 131,
           "font": 17.7991,
           "tag": "INPUT"
         },
         {
           "id": "p1Signing2Nationality",
-          "h": 44,
+          "h": 43.6,
           "w": 109,
           "font": 17.7991,
           "tag": "INPUT"
         },
         {
           "id": "p1Signing3Name",
-          "h": 44,
+          "h": 43.6,
           "w": 145,
           "font": 17.7991,
           "tag": "INPUT"
         },
         {
           "id": "p1Signing3League",
-          "h": 44,
+          "h": 43.6,
           "w": 131,
           "font": 17.7991,
           "tag": "INPUT"
         },
         {
           "id": "p1Signing3Nationality",
-          "h": 44,
+          "h": 43.6,
           "w": 109,
           "font": 17.7991,
           "tag": "INPUT"
         },
         {
           "id": "completeTransferChallenge",
-          "h": 44,
+          "h": 43.6,
           "w": 187,
           "font": 19.5216,
           "tag": "BUTTON"
         },
         {
           "id": "backToShowdownHome",
-          "h": 44,
+          "h": 26,
           "w": 136,
           "font": 12.5,
           "tag": "BUTTON"
         },
         {
           "id": "refreshSharedTransferChallenge",
-          "h": 44,
+          "h": 26,
           "w": 136,
           "font": 12.5,
           "tag": "BUTTON"
         }
       ],
-      "minTarget": 44,
+      "minTarget": 26,
       "minFieldFont": 17.7991,
       "minTextFont": 12.5,
-      "minPanelControlH": 44,
+      "minPanelControlH": 43.6,
       "tabOrder": [
         "p1Signing1Name",
         "p1Signing1League",
@@ -7277,88 +6732,7 @@
       "checks": {
         "noHorizontalScroll": true,
         "stringMismatches": [],
-        "fit": [
-          {
-            "box": "panel-body signing-body reg",
-            "el": "DIV.signing-rows",
-            "over": [
-              -3,
-              -3,
-              0,
-              5
-            ]
-          },
-          {
-            "box": "panel-body signing-body reg",
-            "el": "DIV.signing-row signingRow",
-            "over": [
-              -3,
-              -3,
-              -94,
-              5
-            ]
-          },
-          {
-            "box": "panel-body signing-body reg",
-            "el": "INPUT#p2Signing3Name",
-            "over": [
-              -20,
-              -176,
-              -94,
-              5
-            ]
-          },
-          {
-            "box": "panel-body signing-body reg",
-            "el": "INPUT#p2Signing3League",
-            "over": [
-              -124,
-              -82,
-              -94,
-              5
-            ]
-          },
-          {
-            "box": "panel-body signing-body reg",
-            "el": "INPUT#p2Signing3Nationality",
-            "over": [
-              -218,
-              -3,
-              -94,
-              5
-            ]
-          },
-          {
-            "box": "panel-body signing-body reg",
-            "el": "DIV.action-row",
-            "over": [
-              -3,
-              -3,
-              -141,
-              38
-            ]
-          },
-          {
-            "box": "panel-body signing-body reg",
-            "el": "P#transferSigningPrivacyNote",
-            "over": [
-              -3,
-              -143,
-              -144,
-              35
-            ]
-          },
-          {
-            "box": "panel-body signing-body reg",
-            "el": "BUTTON#completeTransferChallenge",
-            "over": [
-              -160,
-              -3,
-              -134,
-              45
-            ]
-          }
-        ],
+        "fit": [],
         "textClip": [],
         "privacy": {
           "signingIdPrefixes": [
@@ -7386,9 +6760,7 @@
           "footerClip": false
         }
       },
-      "fail": [
-        "fit"
-      ],
+      "fail": [],
       "docScroll": {
         "w": 1366,
         "h": 768,
@@ -7436,93 +6808,93 @@
       "controls": [
         {
           "id": "p2Signing1Name",
-          "h": 44,
+          "h": 31,
           "w": 99,
           "font": 12.6633,
           "tag": "INPUT"
         },
         {
           "id": "p2Signing1League",
-          "h": 44,
+          "h": 31,
           "w": 90,
           "font": 12.6633,
           "tag": "INPUT"
         },
         {
           "id": "p2Signing1Nationality",
-          "h": 44,
+          "h": 31,
           "w": 75,
           "font": 12.6633,
           "tag": "INPUT"
         },
         {
           "id": "p2Signing2Name",
-          "h": 44,
+          "h": 31,
           "w": 99,
           "font": 12.6633,
           "tag": "INPUT"
         },
         {
           "id": "p2Signing2League",
-          "h": 44,
+          "h": 31,
           "w": 90,
           "font": 12.6633,
           "tag": "INPUT"
         },
         {
           "id": "p2Signing2Nationality",
-          "h": 44,
+          "h": 31,
           "w": 75,
           "font": 12.6633,
           "tag": "INPUT"
         },
         {
           "id": "p2Signing3Name",
-          "h": 44,
+          "h": 31,
           "w": 99,
           "font": 12.6633,
           "tag": "INPUT"
         },
         {
           "id": "p2Signing3League",
-          "h": 44,
+          "h": 31,
           "w": 90,
           "font": 12.6633,
           "tag": "INPUT"
         },
         {
           "id": "p2Signing3Nationality",
-          "h": 44,
+          "h": 31,
           "w": 75,
           "font": 12.6633,
           "tag": "INPUT"
         },
         {
           "id": "completeTransferChallenge",
-          "h": 44,
+          "h": 31,
           "w": 133,
           "font": 13.8888,
           "tag": "BUTTON"
         },
         {
           "id": "backToShowdownHome",
-          "h": 44,
+          "h": 26,
           "w": 136,
           "font": 12.5,
           "tag": "BUTTON"
         },
         {
           "id": "refreshSharedTransferChallenge",
-          "h": 44,
+          "h": 26,
           "w": 136,
           "font": 12.5,
           "tag": "BUTTON"
         }
       ],
-      "minTarget": 44,
+      "minTarget": 26,
       "minFieldFont": 12.6633,
       "minTextFont": 11.5,
-      "minPanelControlH": 44,
+      "minPanelControlH": 31,
       "tabOrder": [
         "p2Signing1Name",
         "p2Signing1League",
@@ -7661,27 +7033,27 @@
       "controls": [
         {
           "id": "continueFromTransfers",
-          "h": 32.7,
+          "h": 32.2,
           "w": 145,
           "font": 11.5,
           "tag": "BUTTON"
         },
         {
           "id": "backToShowdownHome",
-          "h": 44,
+          "h": 26,
           "w": 136,
           "font": 12.5,
           "tag": "BUTTON"
         },
         {
           "id": "refreshSharedTransferChallenge",
-          "h": 44,
+          "h": 26,
           "w": 136,
           "font": 12.5,
           "tag": "BUTTON"
         }
       ],
-      "minTarget": 32.7,
+      "minTarget": 26,
       "minFieldFont": null,
       "minTextFont": 11.5,
       "minPanelControlH": null,
@@ -7802,27 +7174,27 @@
       "controls": [
         {
           "id": "continueFromTransfers",
-          "h": 32.7,
+          "h": 32.2,
           "w": 145,
           "font": 11.5,
           "tag": "BUTTON"
         },
         {
           "id": "backToShowdownHome",
-          "h": 44,
+          "h": 26,
           "w": 136,
           "font": 12.5,
           "tag": "BUTTON"
         },
         {
           "id": "refreshSharedTransferChallenge",
-          "h": 44,
+          "h": 26,
           "w": 136,
           "font": 12.5,
           "tag": "BUTTON"
         }
       ],
-      "minTarget": 32.7,
+      "minTarget": 26,
       "minFieldFont": null,
       "minTextFont": 11.5,
       "minPanelControlH": null,
@@ -7941,27 +7313,27 @@
       "controls": [
         {
           "id": "continueFromTransfers",
-          "h": 32.7,
+          "h": 32.2,
           "w": 145,
           "font": 11.5,
           "tag": "BUTTON"
         },
         {
           "id": "backToShowdownHome",
-          "h": 44,
+          "h": 26,
           "w": 136,
           "font": 12.5,
           "tag": "BUTTON"
         },
         {
           "id": "refreshSharedTransferChallenge",
-          "h": 44,
+          "h": 26,
           "w": 136,
           "font": 12.5,
           "tag": "BUTTON"
         }
       ],
-      "minTarget": 32.7,
+      "minTarget": 26,
       "minFieldFont": null,
       "minTextFont": 11.5,
       "minPanelControlH": null,
@@ -8080,27 +7452,27 @@
       "controls": [
         {
           "id": "continueFromTransfers",
-          "h": 32.7,
+          "h": 32.2,
           "w": 145,
           "font": 11.5,
           "tag": "BUTTON"
         },
         {
           "id": "backToShowdownHome",
-          "h": 44,
+          "h": 26,
           "w": 136,
           "font": 12.5,
           "tag": "BUTTON"
         },
         {
           "id": "refreshSharedTransferChallenge",
-          "h": 44,
+          "h": 26,
           "w": 136,
           "font": 12.5,
           "tag": "BUTTON"
         }
       ],
-      "minTarget": 32.7,
+      "minTarget": 26,
       "minFieldFont": null,
       "minTextFont": 11.5,
       "minPanelControlH": null,
@@ -8221,27 +7593,27 @@
       "controls": [
         {
           "id": "continueFromTransfers",
-          "h": 32.7,
+          "h": 32.2,
           "w": 145,
           "font": 11.5,
           "tag": "BUTTON"
         },
         {
           "id": "backToShowdownHome",
-          "h": 44,
+          "h": 26,
           "w": 136,
           "font": 12.5,
           "tag": "BUTTON"
         },
         {
           "id": "refreshSharedTransferChallenge",
-          "h": 44,
+          "h": 26,
           "w": 136,
           "font": 12.5,
           "tag": "BUTTON"
         }
       ],
-      "minTarget": 32.7,
+      "minTarget": 26,
       "minFieldFont": null,
       "minTextFont": 11.5,
       "minPanelControlH": null,
@@ -8362,27 +7734,27 @@
       "controls": [
         {
           "id": "continueFromTransfers",
-          "h": 32.7,
+          "h": 32.2,
           "w": 145,
           "font": 11.5,
           "tag": "BUTTON"
         },
         {
           "id": "backToShowdownHome",
-          "h": 44,
+          "h": 26,
           "w": 136,
           "font": 12.5,
           "tag": "BUTTON"
         },
         {
           "id": "refreshSharedTransferChallenge",
-          "h": 44,
+          "h": 26,
           "w": 136,
           "font": 12.5,
           "tag": "BUTTON"
         }
       ],
-      "minTarget": 32.7,
+      "minTarget": 26,
       "minFieldFont": null,
       "minTextFont": 11.5,
       "minPanelControlH": null,
@@ -8503,27 +7875,27 @@
       "controls": [
         {
           "id": "continueFromTransfers",
-          "h": 38.3,
+          "h": 35.1,
           "w": 170,
           "font": 12.4336,
           "tag": "BUTTON"
         },
         {
           "id": "backToShowdownHome",
-          "h": 44,
+          "h": 26,
           "w": 136,
           "font": 12.5,
           "tag": "BUTTON"
         },
         {
           "id": "refreshSharedTransferChallenge",
-          "h": 44,
+          "h": 26,
           "w": 136,
           "font": 12.5,
           "tag": "BUTTON"
         }
       ],
-      "minTarget": 38.3,
+      "minTarget": 26,
       "minFieldFont": null,
       "minTextFont": 11.9554,
       "minPanelControlH": null,
@@ -8644,27 +8016,27 @@
       "controls": [
         {
           "id": "continueFromTransfers",
-          "h": 45.9,
+          "h": 41.7,
           "w": 204,
           "font": 14.9283,
           "tag": "BUTTON"
         },
         {
           "id": "backToShowdownHome",
-          "h": 44,
+          "h": 26,
           "w": 136,
           "font": 12.5,
           "tag": "BUTTON"
         },
         {
           "id": "refreshSharedTransferChallenge",
-          "h": 44,
+          "h": 26,
           "w": 136,
           "font": 12.5,
           "tag": "BUTTON"
         }
       ],
-      "minTarget": 44,
+      "minTarget": 26,
       "minFieldFont": null,
       "minTextFont": 12.5,
       "minPanelControlH": null,
@@ -8785,27 +8157,27 @@
       "controls": [
         {
           "id": "continueFromTransfers",
-          "h": 32.7,
+          "h": 32.2,
           "w": 145,
           "font": 11.5,
           "tag": "BUTTON"
         },
         {
           "id": "backToShowdownHome",
-          "h": 44,
+          "h": 26,
           "w": 136,
           "font": 12.5,
           "tag": "BUTTON"
         },
         {
           "id": "refreshSharedTransferChallenge",
-          "h": 44,
+          "h": 26,
           "w": 136,
           "font": 12.5,
           "tag": "BUTTON"
         }
       ],
-      "minTarget": 32.7,
+      "minTarget": 26,
       "minFieldFont": null,
       "minTextFont": 11.5,
       "minPanelControlH": null,
@@ -11419,13 +10791,13 @@
         "layout": {
           "footerFixedBottom": true,
           "footerH": 56,
-          "noScroll": false,
-          "scrollExcess": 14,
+          "noScroll": true,
+          "scrollExcess": 0,
           "pageScroll": false,
-          "primaryVisible": false,
-          "sceneH": 76,
-          "sceneCrop": "160,20,1560,293",
-          "facesInScene": false,
+          "primaryVisible": true,
+          "sceneH": 137,
+          "sceneCrop": "160,20,1560,512",
+          "facesInScene": true,
           "signInScene": true,
           "fingertipInScene": false,
           "managersWhole": true,
@@ -11433,9 +10805,7 @@
           "hudNoOverlap": true
         }
       },
-      "fail": [
-        "mobile layout"
-      ],
+      "fail": [],
       "docScroll": {
         "w": 390,
         "h": 664,
@@ -11569,13 +10939,13 @@
         "layout": {
           "footerFixedBottom": true,
           "footerH": 56,
-          "noScroll": false,
-          "scrollExcess": 14,
+          "noScroll": true,
+          "scrollExcess": 0,
           "pageScroll": false,
-          "primaryVisible": false,
-          "sceneH": 76,
-          "sceneCrop": "160,20,1560,293",
-          "facesInScene": false,
+          "primaryVisible": true,
+          "sceneH": 137,
+          "sceneCrop": "160,20,1560,512",
+          "facesInScene": true,
           "signInScene": true,
           "fingertipInScene": false,
           "managersWhole": true,
@@ -11583,9 +10953,7 @@
           "hudNoOverlap": true
         }
       },
-      "fail": [
-        "mobile layout"
-      ],
+      "fail": [],
       "docScroll": {
         "w": 390,
         "h": 664,
@@ -11696,8 +11064,8 @@
       "dpr": 2,
       "mobile": true,
       "mode": "mobile",
-      "k": 0.2786,
-      "offY": 6,
+      "k": 0.3679,
+      "offY": -9,
       "titleCropPx": 0,
       "checks": {
         "noHorizontalScroll": true,
@@ -11723,8 +11091,8 @@
           "scrollExcess": 0,
           "pageScroll": false,
           "primaryVisible": true,
-          "sceneH": 129,
-          "sceneCrop": "160,20,1560,483",
+          "sceneH": 203,
+          "sceneCrop": "330,-24,1390,528",
           "facesInScene": true,
           "signInScene": true,
           "fingertipInScene": false,
@@ -11842,8 +11210,8 @@
       "dpr": 2,
       "mobile": true,
       "mode": "mobile",
-      "k": 0.2786,
-      "offY": 6,
+      "k": 0.3679,
+      "offY": -9,
       "titleCropPx": 0,
       "checks": {
         "noHorizontalScroll": true,
@@ -11869,8 +11237,8 @@
           "scrollExcess": 0,
           "pageScroll": false,
           "primaryVisible": true,
-          "sceneH": 129,
-          "sceneCrop": "160,20,1560,483",
+          "sceneH": 203,
+          "sceneCrop": "330,-24,1390,528",
           "facesInScene": true,
           "signInScene": true,
           "fingertipInScene": false,
@@ -11989,7 +11357,7 @@
       "mobile": true,
       "mode": "mobile",
       "k": 0.3679,
-      "offY": -47,
+      "offY": -121,
       "titleCropPx": 0,
       "checks": {
         "noHorizontalScroll": true,
@@ -12015,8 +11383,8 @@
           "scrollExcess": 0,
           "pageScroll": false,
           "primaryVisible": true,
-          "sceneH": 241,
-          "sceneCrop": "330,-127,1390,528",
+          "sceneH": 315,
+          "sceneCrop": "330,-328,1390,528",
           "facesInScene": true,
           "signInScene": true,
           "fingertipInScene": false,
@@ -12136,8 +11504,8 @@
       "dpr": 2,
       "mobile": true,
       "mode": "mobile",
-      "k": 0.3071,
-      "offY": 6,
+      "k": 0.4057,
+      "offY": 3,
       "titleCropPx": 0,
       "checks": {
         "noHorizontalScroll": true,
@@ -12163,8 +11531,8 @@
           "scrollExcess": 0,
           "pageScroll": false,
           "primaryVisible": true,
-          "sceneH": 131,
-          "sceneCrop": "160,20,1560,447",
+          "sceneH": 211,
+          "sceneCrop": "330,8,1390,528",
           "facesInScene": true,
           "signInScene": true,
           "fingertipInScene": false,
@@ -12285,7 +11653,7 @@
       "mobile": true,
       "mode": "mobile",
       "k": 0.4057,
-      "offY": -108,
+      "offY": -189,
       "titleCropPx": 0,
       "checks": {
         "noHorizontalScroll": true,
@@ -12311,8 +11679,8 @@
           "scrollExcess": 0,
           "pageScroll": false,
           "primaryVisible": true,
-          "sceneH": 322,
-          "sceneCrop": "330,-266,1390,528",
+          "sceneH": 403,
+          "sceneCrop": "330,-465,1390,528",
           "facesInScene": true,
           "signInScene": true,
           "fingertipInScene": false,
@@ -12455,12 +11823,12 @@
         "layout": {
           "footerFixedBottom": true,
           "footerH": 56,
-          "noScroll": false,
-          "scrollExcess": 33,
+          "noScroll": true,
+          "scrollExcess": 0,
           "pageScroll": false,
-          "primaryVisible": false,
-          "sceneH": 76,
-          "sceneCrop": "160,20,1560,316",
+          "primaryVisible": true,
+          "sceneH": 113,
+          "sceneCrop": "160,20,1560,459",
           "facesInScene": true,
           "signInScene": true,
           "fingertipInScene": false,
@@ -12469,9 +11837,7 @@
           "hudNoOverlap": true
         }
       },
-      "fail": [
-        "mobile layout"
-      ],
+      "fail": [],
       "docScroll": {
         "w": 360,
         "h": 640,
@@ -12605,12 +11971,12 @@
         "layout": {
           "footerFixedBottom": true,
           "footerH": 56,
-          "noScroll": false,
-          "scrollExcess": 33,
+          "noScroll": true,
+          "scrollExcess": 0,
           "pageScroll": false,
-          "primaryVisible": false,
-          "sceneH": 76,
-          "sceneCrop": "160,20,1560,316",
+          "primaryVisible": true,
+          "sceneH": 113,
+          "sceneCrop": "160,20,1560,459",
           "facesInScene": true,
           "signInScene": true,
           "fingertipInScene": false,
@@ -12619,9 +11985,7 @@
           "hudNoOverlap": true
         }
       },
-      "fail": [
-        "mobile layout"
-      ],
+      "fail": [],
       "docScroll": {
         "w": 360,
         "h": 640,
@@ -12732,8 +12096,8 @@
       "dpr": 2,
       "mobile": true,
       "mode": "mobile",
-      "k": 0.2571,
-      "offY": 5,
+      "k": 0.3396,
+      "offY": -1,
       "titleCropPx": 0,
       "checks": {
         "noHorizontalScroll": true,
@@ -12759,8 +12123,8 @@
           "scrollExcess": 0,
           "pageScroll": false,
           "primaryVisible": true,
-          "sceneH": 110,
-          "sceneCrop": "160,20,1560,448",
+          "sceneH": 180,
+          "sceneCrop": "330,-2,1390,528",
           "facesInScene": true,
           "signInScene": true,
           "fingertipInScene": false,
@@ -12878,8 +12242,8 @@
       "dpr": 2,
       "mobile": true,
       "mode": "mobile",
-      "k": 0.2679,
-      "offY": 5,
+      "k": 0.2756,
+      "offY": 6,
       "titleCropPx": 0,
       "checks": {
         "noHorizontalScroll": true,
@@ -12901,12 +12265,12 @@
         "layout": {
           "footerFixedBottom": true,
           "footerH": 56,
-          "noScroll": false,
-          "scrollExcess": 9,
+          "noScroll": true,
+          "scrollExcess": 0,
           "pageScroll": false,
           "primaryVisible": true,
-          "sceneH": 76,
-          "sceneCrop": "160,20,1560,304",
+          "sceneH": 140,
+          "sceneCrop": "180,20,1540,528",
           "facesInScene": true,
           "signInScene": true,
           "fingertipInScene": false,
@@ -12915,9 +12279,7 @@
           "hudNoOverlap": true
         }
       },
-      "fail": [
-        "mobile layout"
-      ],
+      "fail": [],
       "docScroll": {
         "w": 375,
         "h": 667,
@@ -13052,12 +12414,12 @@
         "layout": {
           "footerFixedBottom": true,
           "footerH": 56,
-          "noScroll": false,
-          "scrollExcess": 64,
+          "noScroll": true,
+          "scrollExcess": 0,
           "pageScroll": false,
-          "primaryVisible": false,
-          "sceneH": 78,
-          "sceneCrop": "160,20,1560,311",
+          "primaryVisible": true,
+          "sceneH": 85,
+          "sceneCrop": "160,20,1560,337",
           "facesInScene": true,
           "signInScene": true,
           "fingertipInScene": false,
@@ -13066,9 +12428,7 @@
           "hudNoOverlap": true
         }
       },
-      "fail": [
-        "mobile layout"
-      ],
+      "fail": [],
       "docScroll": {
         "w": 375,
         "h": 553,
@@ -13180,8 +12540,8 @@
       "mobile": true,
       "tight": true,
       "mode": "mobile",
-      "k": 0.2679,
-      "offY": 5,
+      "k": 0.2756,
+      "offY": 6,
       "titleCropPx": 0,
       "checks": {
         "noHorizontalScroll": true,
@@ -13203,12 +12563,12 @@
         "layout": {
           "footerFixedBottom": true,
           "footerH": 56,
-          "noScroll": false,
-          "scrollExcess": 8,
+          "noScroll": true,
+          "scrollExcess": 0,
           "pageScroll": false,
           "primaryVisible": true,
-          "sceneH": 78,
-          "sceneCrop": "160,20,1560,311",
+          "sceneH": 140,
+          "sceneCrop": "180,20,1540,528",
           "facesInScene": true,
           "signInScene": true,
           "fingertipInScene": false,
@@ -13937,7 +13297,7 @@
   },
   "summary": {
     "shots": 84,
-    "shotsWithFailures": 18,
+    "shotsWithFailures": 0,
     "sealedConstancyFail": true,
     "verdictAuthorityFail": false
   }

@@ -184,3 +184,12 @@ Closes the gaps in `F3_F4_GATE_PRECHECK_2026-09-30.md` (Sonnet 5.5):
 - F4 revealed guesses asserted per card: heading `{Guesser} guesses {Owner}'s signings`, each `League|Nationality value`, no control inside the block.
 - `tools/baseline-diff.cjs`: F1, F1D, F1R, F1DR, G2, G3, S0 rendered from `18db080` and from this head at 1366×768, 1366×640, 1920×1080, phone 390×664, 360×640, 375×553 → `evidence/baseline_diff_18db080.json`: **42/42 DOM identical and pixel identical**. The approved build itself is not raster-deterministic for G2 (two renders of `18db080` at 1366×640 once differed by 1006 px, at 360×640 by 66 px), so on a pixel diff the tool re-samples the baseline up to 4 times and passes only on an exact match with a sample; in the committed run no re-sample was needed.
 - Phase-intro strings (§3/§4) remain unrendered by design (S2 deck); raised to GPT-5.6 Sol as TWF3-S4.
+
+### JOB-049: polish to the key art (finished by Claude, 2026-10-03)
+Steps 1-3 by GPT-5.6 Sol (shared Showdown token/type/UI sheets, cut-corner buttons, physical sealed dossier with clasp and wax seal, gold dust and lamp atmosphere, fingertip contact shadow, phone TRANSFER WAR wordmark). Gaps list: `evidence/polish/GAPS.md`.
+Claude fixes after QA:
+- The HUD footer (HOME + REFRESH) is kept; the worker had hidden it. Product truth hides the app's phone nav bar on Transfer War, not this screen's own controls.
+- Desktop: the shared kit's 44 px minimum on `.sd-btn` / `.sd-input` / `.sd-select` is reset to 0 inside the plate, so the registered `calc(var(--k) * 38-40px)` heights stay and the G2/G3/F3 action row and error line fit their panels again.
+- Phone: the wordmark sits out the verdict phase (no spare height with the footer back); on phones 600 px tall or less the timer is 18 px.
+
+QA (`tools/render-qa.cjs` → `evidence/polish/qa/qa_report.json`, key shots beside it): **84 of 84 shots pass** (baseline 846a2fe: 84 of 84).

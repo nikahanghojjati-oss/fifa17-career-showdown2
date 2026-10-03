@@ -548,6 +548,11 @@ body { overflow: hidden; font-family: var(--text); -webkit-font-smoothing: antia
 .btn-lock.sd-btn--primary { background: var(--sd-gold-500); color: var(--sd-text-on-gold); }
 .btn-end.sd-btn--secondary, .btn-continue.sd-btn--secondary { background: rgba(8,9,12,.88); color: var(--sd-gold-300); border: 1px solid var(--sd-edge); }
 
+/* Claude fix 2026-10-03: the shared kit's 44 px minimum is a phone touch rule; on desktop the plate's registered
+   control heights (calc(var(--k) * 38-40px)) stay, so the action row and error line fit their panels. */
+.guess-col .sd-select, .guess-col .sd-input, .signing-row .sd-input,
+.btn-lock.sd-btn, .btn-end.sd-btn, .btn-continue.sd-btn, .hud-footer .sd-btn { min-height: 0; }
+
 /* Claude review 2026-10-03: the HUD footer (HOME + REFRESH) stays. Product truth hides the app's phone NAV bar on Transfer War, not this screen's own controls. */
 
 @media (max-width: 760px) and (orientation: portrait) {
@@ -557,4 +562,14 @@ body { overflow: hidden; font-family: var(--text); -webkit-font-smoothing: antia
   .panel.sealed .frost::before { width: 7px; top: 8%; bottom: 8%; }
   .panel.sealed .seal { width: 38px; height: 38px; }
   .btn-lock.sd-btn, .btn-end.sd-btn, .btn-continue.sd-btn { min-height: 44px; }
+}
+
+/* Claude fix 2026-10-03 (JOB-049 QA): the phone verdict screen has no spare height for the TRANSFER WAR wordmark
+   once the HOME/REFRESH footer is back, so the wordmark sits out that phase only; short phones also get a slightly
+   smaller timer so it stays inside its sign. */
+@media (max-width: 760px) and (orientation: portrait) {
+  .world:has(.panel.verdict) .transfer-wordmark { display: none; }
+}
+@media (max-width: 760px) and (orientation: portrait) and (max-height: 600px) {
+  .sign-main.timer { font-size: 18px; line-height: 1; }
 }
