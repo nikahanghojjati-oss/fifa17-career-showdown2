@@ -173,6 +173,8 @@ async function main(){
     await daniel.page.locator("#spinLeague").click({timeout:30000});
     await daniel.page.locator("#clubWheelScreen").waitFor({state:"visible",timeout:30000});
     await nik.page.waitForFunction(()=>document.getElementById("spinLeague")?.textContent==="CONTINUE TO CLUB PACKS",null,{timeout:30000});
+    // BUG: see JOB-16-browser-journey.md — provider authority follows automatically, but Nik's presentation does not advance to the club screen without this navigation-only tap.
+    assert.equal(await nik.page.locator("#leagueWheelScreen").isVisible(),true,"today's peer presentation remains on the witnessed league screen");
     await nik.page.locator("#spinLeague").click({timeout:30000});
     await nik.page.locator("#clubWheelScreen").waitFor({state:"visible",timeout:30000});
     assert.match(await nik.page.locator("#openClubPack").textContent(),/WAITING FOR HOST/i,"Nik waits for host pack reveal");
@@ -203,7 +205,37 @@ async function main(){
       await m.page.locator("#continueClubAssignment").click({timeout:30000});
       await m.page.locator("#productionSharedCareerStartOverlay").waitFor({state:"visible",timeout:30000});
     }
-    assert.match(await daniel.page.locator("#productionSharedCareerStartOverlay").innerText(),new RegExp(`Daniel · ${clubsD[0].replace(/[.*+?^${\}()|[\]\\]/g,"\\    // J4..J12: added by the worker, one section per step (JOB-16 §4).")}`,"i"));
+    assert.match(await daniel.page.locator("#productionSharedCareerStartOverlay").innerText(),new RegExp(`Daniel · ${clubsD[0].replace(/[.*+?^${\}()|[\]\\]/g,"\\    // J5 each manager confirms only their own FIFA 17 career start, then both enter the shared Transfer Challenge.
+    for(const m of [daniel,nik]){
+      await m.page.getByRole("button",{name:"CONTINUE TO CAREER START"}).click({timeout:30000});
+      await m.page.locator("#productionSharedCareerStartOverlay").waitFor({state:"visible",timeout:30000});
+    }
+    const danielStartLabel=`I STARTED AT ${clubsD[0].toUpperCase()}`,nikStartLabel=`I STARTED AT ${clubsD[1].toUpperCase()}`;
+    await daniel.page.getByRole("button",{name:danielStartLabel}).waitFor({state:"visible",timeout:30000});
+    await nik.page.getByRole("button",{name:nikStartLabel}).waitFor({state:"visible",timeout:30000});
+    ok("J5.1","each manager sees the start acknowledgement for only their assigned club");
+
+    await daniel.page.getByRole("button",{name:danielStartLabel}).click({timeout:30000});
+    await daniel.page.getByRole("button",{name:"MY CAREER STARTED ✓"}).waitFor({state:"visible",timeout:30000});
+    await nik.page.getByRole("button",{name:nikStartLabel}).click({timeout:30000});
+    await nik.page.getByRole("button",{name:"CONTINUE TO TRANSFER CHALLENGE"}).waitFor({state:"visible",timeout:30000});
+    const danielContinue=daniel.page.getByRole("button",{name:"CONTINUE TO TRANSFER CHALLENGE"});
+    if(!await danielContinue.isVisible().catch(()=>false)){
+      const refresh=daniel.page.getByRole("button",{name:"REFRESH"});
+      if(await refresh.isVisible().catch(()=>false))await refresh.click({timeout:30000});
+    }
+    await danielContinue.waitFor({state:"visible",timeout:30000});
+    ok("J5.2","Daniel reached MY CAREER STARTED ✓ and both private acknowledgements converged to ready");
+
+    await Promise.all([
+      danielContinue.click({timeout:30000}),
+      nik.page.getByRole("button",{name:"CONTINUE TO TRANSFER CHALLENGE"}).click({timeout:30000})
+    ]);
+    for(const m of [daniel,nik])await m.page.locator("#transferChallenge").waitFor({state:"visible",timeout:30000});
+    ok("J5.3","both managers reached the real shared Transfer Challenge through CONTINUE TO TRANSFER CHALLENGE");
+    await shot(daniel,"j5-career-start");await shot(nik,"j5-career-start");
+
+    // J4..J12: added by the worker, one section per step (JOB-16 §4).")}`,"i"));
     assert.match(await nik.page.locator("#productionSharedCareerStartOverlay").innerText(),new RegExp(`Nik · ${clubsD[1].replace(/[.*+?^${\}()|[\]\\]/g,"\\    // J4..J12: added by the worker, one section per step (JOB-16 §4).")}`,"i"));
     ok("J5.1","both managers opened Career Start with their own permanent club");
 
