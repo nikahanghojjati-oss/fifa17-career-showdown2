@@ -117,7 +117,8 @@ footer .foot-ver::before { content: "·"; margin-right: 8px; }
 /* ---------- buttons ---------- */
 .button-row { left: 50%; transform: translateX(-50%); display: flex; gap: 16px; }
 .menuButton, .backButton { height: 56px; box-sizing: border-box; display: inline-flex; align-items: center; justify-content: center; gap: 12px; padding: 0 18px; cursor: pointer;
-  font: 700 20px/1 var(--cond); letter-spacing: .06em; text-transform: uppercase; white-space: nowrap; }
+  font: 700 20px/1 var(--cond); letter-spacing: .06em; text-transform: uppercase; white-space: nowrap;
+  transition: transform 100ms cubic-bezier(.22,1,.36,1), opacity 100ms linear, color 100ms linear, background-color 100ms linear, border-color 100ms linear, box-shadow 100ms linear; }
 .menuButton { min-width: 300px; color: var(--sd-text-on-gold); background: var(--sd-gold-500); border: 1px solid var(--sd-gold-800); box-shadow: 0 6px 18px rgba(0,0,0,.45), 0 0 18px rgba(245,197,24,.14); }
 @media (min-width: 761px) {
   .button-row { left: calc(50% - 11px); gap: 10px; }
@@ -131,6 +132,29 @@ footer .foot-ver::before { content: "·"; margin-right: 8px; }
 .backButton::before { content: ""; width: 10px; height: 10px; border-left: 2.5px solid currentColor; border-bottom: 2.5px solid currentColor; transform: rotate(45deg); margin-right: 2px; }
 .backButton:disabled { cursor: default; opacity: 1; color: #D8CEBB; border-color: rgba(233,223,200,.52); }
 button:focus-visible { outline: 2px solid #FFF1B8; outline-offset: 3px; }
+
+/* JOB-042 interaction feel: all control state changes complete in 100 ms with no layout shift. */
+.product-nav button,
+#onlinePlayerIdentityBadge {
+  transition: transform 100ms cubic-bezier(.22,1,.36,1), opacity 100ms linear, color 100ms linear, background-color 100ms linear, border-color 100ms linear;
+}
+@media (hover: hover) {
+  .menuButton:not(:disabled):hover,
+  .backButton:not(:disabled):hover,
+  .product-nav button:not(:disabled):hover,
+  #onlinePlayerIdentityBadge:not(:disabled):hover {
+    transform: translate3d(0,-1px,0);
+  }
+}
+.menuButton:not(:disabled):active,
+.backButton:not(:disabled):active,
+.product-nav button:not(:disabled):active,
+#onlinePlayerIdentityBadge:not(:disabled):active {
+  transform: translate3d(0,1px,0) scale(.995);
+  opacity: .88;
+}
+.product-nav button[aria-current="page"] { opacity: 1; }
+.product-nav button:not([aria-current="page"]) { opacity: .86; }
 
 /* ---------- wheel (sizes are fractions of the rim radius --R) ---------- */
 .wheelContainer { position: static; }
@@ -509,3 +533,65 @@ button:focus-visible { outline: 2px solid #FFF1B8; outline-offset: 3px; }
   padding-inline: 4px;
 }
 .menuButton:disabled { opacity: 1; }
+
+/* League-specific reduced-motion parity with shared/motion.css.
+   App preference attributes and OS preference both collapse custom choreography to fades only. */
+html[data-motion-reduced="true"] .winner-wedge-flash.is-active,
+html[data-reduced-motion="true"] .winner-wedge-flash.is-active,
+html[data-motion-reduced="true"] .wheelItem.is-winner-payoff::before,
+html[data-reduced-motion="true"] .wheelItem.is-winner-payoff::before {
+  animation: sd-reduced-fade 150ms linear both !important;
+  transform: none !important;
+}
+html[data-motion-reduced="true"] #selectedLeague.is-result-wiping::before,
+html[data-reduced-motion="true"] #selectedLeague.is-result-wiping::before {
+  animation: none !important;
+  opacity: 0 !important;
+  transform: none !important;
+}
+html[data-motion-reduced="true"] .wheelTrack--blur,
+html[data-reduced-motion="true"] .wheelTrack--blur,
+html[data-motion-reduced="true"] .wheel-blur,
+html[data-reduced-motion="true"] .wheel-blur,
+html[data-motion-reduced="true"] .spin-burst-canvas,
+html[data-reduced-motion="true"] .spin-burst-canvas {
+  display: none !important;
+  opacity: 0 !important;
+}
+html[data-motion-reduced="true"] .menuButton,
+html[data-reduced-motion="true"] .menuButton,
+html[data-motion-reduced="true"] .backButton,
+html[data-reduced-motion="true"] .backButton,
+html[data-motion-reduced="true"] .product-nav button,
+html[data-reduced-motion="true"] .product-nav button,
+html[data-motion-reduced="true"] #onlinePlayerIdentityBadge,
+html[data-reduced-motion="true"] #onlinePlayerIdentityBadge {
+  transform: none !important;
+  transition: opacity 100ms linear, color 100ms linear, background-color 100ms linear, border-color 100ms linear !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .winner-wedge-flash.is-active,
+  .wheelItem.is-winner-payoff::before {
+    animation: sd-reduced-fade 150ms linear both !important;
+    transform: none !important;
+  }
+  #selectedLeague.is-result-wiping::before {
+    animation: none !important;
+    opacity: 0 !important;
+    transform: none !important;
+  }
+  .wheelTrack--blur,
+  .wheel-blur,
+  .spin-burst-canvas {
+    display: none !important;
+    opacity: 0 !important;
+  }
+  .menuButton,
+  .backButton,
+  .product-nav button,
+  #onlinePlayerIdentityBadge {
+    transform: none !important;
+    transition: opacity 100ms linear, color 100ms linear, background-color 100ms linear, border-color 100ms linear !important;
+  }
+}
