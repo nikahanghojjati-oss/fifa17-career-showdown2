@@ -1,4 +1,4 @@
-/* JOB-072 step 2 · stage registration only. */
+/* JOB-072 step 3 · registered stage + mockup title block. */
 html,
 body {
   width: 100%;
@@ -15,7 +15,61 @@ body {
   height: 100vh;
 }
 
+#legacy {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
 /* Plate registration is owned entirely by ShowdownStage: cover + centred focal point. */
 .managerPlateMarker {
   pointer-events: none;
+}
+
+.legacyTitleBlock {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  text-align: center;
+}
+
+/* Mockup measurement: centre x = 836/1672 = 50.00%; eyebrow top ≈ 119/941 = 12.65%. */
+.legacyEyebrow {
+  position: absolute;
+  left: 50%;
+  top: 12.65%;
+  transform: translateX(-50%);
+  width: 25%;
+  margin: 0;
+  letter-spacing: .28em;
+  white-space: nowrap;
+}
+
+/* Mockup title crop: x 570..1099, y 130..274 => centre x = 49.91%, top = 13.82%, width = 31.64%. */
+.legacyWordmarkWrap {
+  position: absolute;
+  left: 49.91%;
+  top: 13.82%;
+  width: 31.64%;
+  margin: 0;
+  transform: translateX(-50%);
+}
+
+.legacyWordmark {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Mockup measurement: centre x ≈ 836/1672 = 50.00%; tagline top ≈ 278/941 = 29.54%; width ≈ 25.6%. */
+.legacyTagline {
+  position: absolute;
+  left: 50%;
+  top: 29.54%;
+  width: 25.6%;
+  margin: 0;
+  transform: translateX(-50%);
+  text-align: center;
+  letter-spacing: .24em;
+  white-space: nowrap;
 }
