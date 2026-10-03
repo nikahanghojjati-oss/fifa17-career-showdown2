@@ -84,12 +84,12 @@ const readWith=(docs,opts={},uid=A)=>{const f=fakeSdk(docs,opts);return Reader.r
   for(const script of ['scripts/build-production-firestore-rules.mjs','scripts/build-production-firestore-rules-with-persistent-pair.mjs']){const run=spawnSync(process.execPath,[script],{cwd:root,encoding:'utf8',timeout:30000});assert.equal(run.status,0,run.stderr);}
   const generated=read('firestore.spark.generated.rules');
   const getLines=generated.split('\n').filter(line=>/cmsCompleted(Showdown|Season)Readable\(rivalryId/.test(line)&&!/function /.test(line));
-  assert.equal(getLines.length,5,'setup, results, roles, commits + the season helper call');
+  assert.equal(getLines.length,7,'setup, results, roles, commits + the season helper call; JOB-10 adds the transfer challenge get and the transfer role helper call');
   assert.equal(/allow (create|update|delete|list|write)[^\n]*cmsCompleted/.test(generated),false);
-  for(const [match,granted] of [['match /sharedSetup/authoritative',true],['match /sharedSetup/leagueProjection',false],['match /careerStart/authoritative',false],['match /transferChallenges/{transferId}',false],['match /seasonResults/{seasonId}',true],['match /seasonCommits/{seasonId}',true],['match /sessions/{sessionId}',false],['match /invites/{inviteId}',false]]){
+  for(const [match,granted] of [['match /sharedSetup/authoritative',true],['match /sharedSetup/leagueProjection',false],['match /careerStart/authoritative',false],['match /transferChallenges/{transferId}',true],['match /seasonResults/{seasonId}',true],['match /seasonCommits/{seasonId}',true],['match /sessions/{sessionId}',false],['match /invites/{inviteId}',false]]){
     const at=generated.indexOf(match);assert.ok(at>=0,match);const getLine=generated.slice(at).split('\n').find(line=>line.includes('allow get'));
     assert.equal(/cmsCompleted/.test(getLine),granted,match);
   }
-  const transferRoles=generated.slice(generated.indexOf('match /transferChallenges/{transferId}'));assert.doesNotMatch(transferRoles.slice(0,transferRoles.indexOf('// SSJR_TRANSFER_CHALLENGE_MATCH_END')),/cmsCompleted/,'transfer roles stay with G-10');
+  const transferAt=generated.indexOf('match /transferChallenges/{transferId}'),transferRoles=generated.slice(generated.indexOf('match /roles/{managerRole}',transferAt),generated.indexOf('// SSJR_TRANSFER_CHALLENGE_MATCH_END'));assert.doesNotMatch(transferRoles,/cmsCompleted(Showdown|Season)Readable/,'transfer roles never get the blanket season grant (G-10 keeps the COMPLETED condition)');assert.match(transferRoles,/cmsCompletedTransferRoleReadable\(rivalryId, transferId\)/,'G-10: transfer roles only through the COMPLETED-gated grant');
   console.log('PASS completed-only read contracts: reader API, exact-get source, classification, witness checks, unavailable states, Rules text, composed artifact.');
 })().catch(e=>{console.error(e);process.exit(1);});

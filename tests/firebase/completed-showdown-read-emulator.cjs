@@ -153,8 +153,8 @@ async function run(env){
   await check("B5","season_2 of a 1-season Showdown is outside the grant",async()=>{await assertFails(getDoc(doc(dbA,"rivalries",X,"seasonCommits","season_2")));});
   await check("B6","malformed season id season_01 is outside the grant",async()=>{await assertFails(getDoc(doc(dbA,"rivalries",X,"seasonResults","season_01")));});
   await check("B7","listing X season commits is denied",async()=>{await assertFails(getDocs(collection(dbA,"rivalries",X,"seasonCommits")));});
-  await check("B8","X transfer challenge stays outside the grant (G-10)",async()=>{await assertFails(getDoc(doc(dbA,"rivalries",X,"transferChallenges","season_1")));});
-  await check("B9","X transfer roles stay outside the grant (G-10)",async()=>{await assertFails(getDoc(doc(dbB,"rivalries",X,"transferChallenges","season_1","roles","playerOne")));});
+  await check("B8","X transfer challenge is readable through the G-10 completed transfer grant",async()=>{const snap=await assertSucceeds(getDoc(doc(dbA,"rivalries",X,"transferChallenges","season_1")));assert.equal(snap.data().phase,"COMPLETED");});
+  await check("B9","X transfer role is readable through the G-10 grant only because season_1 is COMPLETED",async()=>{const snap=await assertSucceeds(getDoc(doc(dbB,"rivalries",X,"transferChallenges","season_1","roles","playerOne")));assert.equal(snap.data().managerRole,"playerOne");});
   await check("B10","X career start stays outside the grant",async()=>{await assertFails(getDoc(doc(dbA,"rivalries",X,"careerStart","authoritative")));});
   await check("B11","X league projection stays outside the grant",async()=>{await assertFails(getDoc(doc(dbA,"rivalries",X,"sharedSetup","leagueProjection")));});
   await check("B12","unknown role id playerThree is outside the grant",async()=>{await assertFails(getDoc(doc(dbA,"rivalries",X,"seasonResults","season_1","roles","playerThree")));});

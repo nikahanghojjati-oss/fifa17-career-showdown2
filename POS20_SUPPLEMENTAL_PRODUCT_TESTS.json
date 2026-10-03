@@ -615,6 +615,23 @@
         "^tests/contracts/shared-season-results-stale-retry-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/completed-transfer-history-contracts.cjs",
+      "patterns": [
+        "^js/sparkCompletedTransferHistoryReader\\.js$",
+        "^js/sparkCompletedShowdownReader\\.js$",
+        "^js/sharedTransferChallenge\\.js$",
+        "^js/sharedTerminalClose\\.js$",
+        "^data/transferOptions\\.js$",
+        "^firestore\\.persistent-pair-production\\.fragment\\.rules$",
+        "^firestore\\.spark\\.rules$",
+        "^firestore\\.(transfer-challenge|terminal-close)-production\\.fragment\\.rules$",
+        "^scripts/inject-persistent-pair-rules\\.mjs$",
+        "^scripts/build-production-firestore-rules(-with-persistent-pair)?\\.mjs$",
+        "^tests/contracts/completed-transfer-history-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }

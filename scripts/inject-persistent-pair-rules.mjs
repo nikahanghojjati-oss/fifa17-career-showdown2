@@ -51,6 +51,10 @@ export function injectPersistentPairRules(){
   generated=replaceOnce(generated,'      match /seasonResults/{seasonId} {\n        allow get: if ssjrEntitled(rivalryId);','      match /seasonResults/{seasonId} {\n        allow get: if ssjrEntitled(rivalryId) || cmsCompletedSeasonReadable(rivalryId, seasonId);','completed Showdown season results read');
   generated=replaceOnce(generated,'          allow get: if ssjrResultsPrivateReadable(rivalryId, seasonId, managerRole);','          allow get: if ssjrResultsPrivateReadable(rivalryId, seasonId, managerRole)\n            || (managerRole in [\'playerOne\', \'playerTwo\'] && cmsCompletedSeasonReadable(rivalryId, seasonId));','completed Showdown season result role read');
   generated=replaceOnce(generated,'      match /seasonCommits/{seasonId} {\n        allow get: if ssjrEntitled(rivalryId);','      match /seasonCommits/{seasonId} {\n        allow get: if ssjrEntitled(rivalryId) || cmsCompletedSeasonReadable(rivalryId, seasonId);','completed Showdown season commit read');
+  // JOB-10: completed-only transfer history. The public challenge follows the season grant; a role additionally
+  // needs that season's challenge to be publicly COMPLETED (cmsCompletedTransferRoleReadable). Get rules only.
+  generated=replaceOnce(generated,'      match /transferChallenges/{transferId} {\n        allow get: if ssjrEntitled(rivalryId);','      match /transferChallenges/{transferId} {\n        allow get: if ssjrEntitled(rivalryId) || cmsCompletedSeasonReadable(rivalryId, transferId);','completed Showdown transfer challenge read');
+  generated=replaceOnce(generated,'          allow get: if ssjrTransferPrivateReadable(rivalryId, transferId, managerRole);','          allow get: if ssjrTransferPrivateReadable(rivalryId, transferId, managerRole)\n            || (managerRole in [\'playerOne\', \'playerTwo\'] && cmsCompletedTransferRoleReadable(rivalryId, transferId));','completed Showdown transfer role read');
   for(const required of [
     'function cmsPersistentPairManagerValid(role, managerId)',
     'function cmsPersistentPairRivalryMembership(accountId, rivalryId, role)',
@@ -92,7 +96,11 @@ export function injectPersistentPairRules(){
     "'terminalClose' in data",
     'progress.closedSessionRevision is int',
     'allow get: if ssjrEntitled(rivalryId) || cmsCompletedShowdownReadable(rivalryId);',
-    'allow get: if ssjrEntitled(rivalryId) || cmsCompletedSeasonReadable(rivalryId, seasonId);'
+    'allow get: if ssjrEntitled(rivalryId) || cmsCompletedSeasonReadable(rivalryId, seasonId);',
+    'function cmsCompletedTransferRoleReadable(rivalryId, transferId)',
+    "challenge.phase == 'COMPLETED'",
+    'allow get: if ssjrEntitled(rivalryId) || cmsCompletedSeasonReadable(rivalryId, transferId);',
+    "|| (managerRole in ['playerOne', 'playerTwo'] && cmsCompletedTransferRoleReadable(rivalryId, transferId));"
   ]){
     if(!generated.includes(required))throw new Error(`Generated production Rules missing persistent pair boundary: ${required}`);
   }
@@ -104,6 +112,9 @@ export function injectPersistentPairRules(){
   }
   if((generated.match(/cmsCompletedShowdownReadable\(rivalryId\)/g)||[]).length!==3||(generated.match(/cmsCompletedSeasonReadable\(rivalryId, seasonId\)/g)||[]).length!==4){
     throw new Error('Generated production Rules must apply the completed-only read grant to exactly setup, season results, result roles and season commits.');
+  }
+  if((generated.match(/cmsCompletedSeasonReadable\(rivalryId, transferId\)/g)||[]).length!==2||(generated.match(/cmsCompletedTransferRoleReadable\(rivalryId, transferId\)/g)||[]).length!==2){
+    throw new Error('Generated production Rules must apply the completed-only transfer grant to exactly the transfer challenge and its COMPLETED roles.');
   }
   if(!generated.endsWith('\n'))generated+='\n';
   fs.writeFileSync(outputPath,generated,'utf8');
