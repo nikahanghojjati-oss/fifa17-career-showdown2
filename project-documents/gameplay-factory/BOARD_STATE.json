@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-03 9:40 AM Boston time (EDT)",
+ "generated": "2026-10-03 9:43 AM Boston time (EDT)",
  "branch": "factory/gameplay-v1",
  "integration_branch": "gameplay/recovery-v1",
  "capacity": {
@@ -17,7 +17,9 @@
    11
   ]
  },
- "queued": [],
+ "queued": [
+  9
+ ],
  "working": [
   16
  ],
@@ -335,19 +337,19 @@
     3,
     8
    ],
-   "steps": null,
-   "code_branch": null,
+   "steps": 7,
+   "code_branch": "gameplay/job-09-closed-adapter",
    "codex_review": false,
-   "written": false,
+   "written": true,
    "waits_on": null,
    "phase": "3 Career history",
    "type": "build",
    "plain": "Finished Showdowns flow into career totals and the Trophy Room.",
-   "state": "NOT WRITTEN",
+   "state": "NOT STARTED",
    "step": 0,
-   "steps_total": 1,
+   "steps_total": 7,
    "pct": 0,
-   "ready": false
+   "ready": true
   },
   {
    "number": 10,
