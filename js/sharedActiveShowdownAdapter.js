@@ -45,7 +45,7 @@
         classification="completed";
       }catch(_error){witness=null;classification="unavailable";}
     }else if(!pair||pair.initialized!==true||TRANSIENT.includes(pair.status))classification="loading";
-    else if(FAILED.includes(pair.status)||(identity?.status==="ready"&&identity.managerId!==pair.managerId))classification="unavailable";
+    else if(FAILED.includes(pair.status)||(identity?.status==="ready"&&pair.managerId!=null&&identity.managerId!==pair.managerId))classification="unavailable";
     else if(pair.rivalryId!=null&&typeof pair.rivalryId!=="string")classification="unavailable";
     else if(pair.status==="unpaired"||rid===null)classification="none";
     else if(pair.connectionState==="pending-pair")classification="pending";
