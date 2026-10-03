@@ -1,6 +1,6 @@
 # Showdown Factory board
 
-**56 of 135 jobs done and checked · 47 %** · updated Sat 12:31 p.m. Eastern
+**56 of 135 jobs done and checked · 47 %** · updated Sat 12:32 p.m. Eastern
 
 ✅ **Quality check:** a job counts as done only after Claude checks it against the quality bar (average 4.2 or more, nothing under 3, hard gates pass). Average score 4.28 over 10 scored jobs. 🔍 Waiting for Claude's check: 32, 44, 72, 111. 
 
@@ -175,7 +175,7 @@ Branch `factory/v1-wtt5ye`. 135 Team V jobs, plus 5 lines that track Team G. Two
 | 109 | [Final fixes](jobs/JOB-109.md) | 7 Integration | fix | project (type number) | 108 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 110 | [Package for Nik and handoff to GPT-5.6 Sol](jobs/JOB-110.md) | 7 Integration | integrate | project (type number) | 109 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
 | 111 | [Phone art: Home](jobs/JOB-111.md) | 3 Art | build | project (type number) | 14, 1 | ██████████ 100 % | DONE |  |
-| 112 | [Phone art: League](jobs/JOB-112.md) | 3 Art | build | project (type number) | 14, 1 | ██████░░░░ 66 % | IN PROGRESS |  |
+| 112 | [Phone art: League](jobs/JOB-112.md) | 3 Art | build | project (type number) | 14, 1 | ████████░░ 83 % | IN PROGRESS |  |
 | 113 | [Phone art: Club Assignment](jobs/JOB-113.md) | 3 Art | build | project (type number) | 14, 1 | ██████░░░░ 66 % | NOT STARTED |  |
 | 114 | [Phone art: Transfer War](jobs/JOB-114.md) | 3 Art | build | project (type number) | 14, 1 | ██████░░░░ 66 % | NOT STARTED |  |
 | 115 | [Phone art: Trophy Room](jobs/JOB-115.md) | 3 Art | image | fresh chat (image) | 14, 23 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
