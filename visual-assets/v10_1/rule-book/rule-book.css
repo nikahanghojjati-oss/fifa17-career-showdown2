@@ -391,3 +391,119 @@ body {
     line-height: 1.15;
   }
 }
+
+
+/* Step 9b · phone index, internal scroll viewport, pinned Back and bottom-bar reserve. */
+@media (max-width: 760px) {
+  #ruleBookIndex {
+    left: 10px;
+    right: 10px;
+    top: 110px;
+    width: auto;
+    height: 44px;
+    display: flex;
+    flex-direction: row;
+    gap: 6px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+    overscroll-behavior-inline: contain;
+  }
+
+  #ruleBookIndex::-webkit-scrollbar { display: none; }
+  #ruleBookIndex::before { display: none; }
+
+  #ruleBookIndex a {
+    flex: 1 0 44px;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0 8px;
+    font-size: 11px;
+    scroll-snap-align: center;
+  }
+
+  .ruleBookGrid {
+    left: 10px;
+    right: 10px;
+    top: 160px;
+    bottom: calc(116px + env(safe-area-inset-bottom));
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    grid-template-columns: none;
+    grid-template-rows: none;
+    padding: 0 2px 8px 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(242, 196, 91, .5) rgba(0, 0, 0, .18);
+  }
+
+  .ruleSection {
+    flex: 0 0 auto;
+    min-height: auto;
+    padding: 12px;
+    overflow: visible;
+    scroll-margin-top: 4px;
+    clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+  }
+
+  .ruleSectionHeader {
+    grid-template-columns: 30px minmax(0, 1fr);
+    min-height: 34px;
+    margin-bottom: 9px;
+  }
+
+  .ruleSectionHeader h2 {
+    font-size: 13px;
+    line-height: 1.05;
+  }
+
+  .ruleSection li {
+    font-size: 12px;
+    line-height: 1.28;
+  }
+
+  .ruleScoreTable {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .ruleScoreRow,
+  .ruleScoreMaximum {
+    font-size: 11px;
+    line-height: 1.2;
+  }
+
+  .ruleScoreMaximum { grid-column: auto; }
+
+  .ruleBookActions {
+    left: 50%;
+    bottom: calc(64px + env(safe-area-inset-bottom));
+    width: min(72%, 280px);
+    transform: translateX(-50%);
+  }
+
+  #ruleBookBack {
+    width: 100%;
+    min-width: 0;
+    min-height: 44px;
+    font-size: 12px;
+  }
+
+  .nav-reserve {
+    display: block;
+    position: absolute;
+    z-index: 13;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: calc(56px + env(safe-area-inset-bottom));
+    background: linear-gradient(180deg, rgba(4, 5, 6, .78), rgba(2, 3, 4, .96));
+    border-top: 1px solid rgba(217, 174, 83, .25);
+    pointer-events: none;
+  }
+}
