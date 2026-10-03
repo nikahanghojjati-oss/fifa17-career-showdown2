@@ -8,6 +8,11 @@ body {
 
 body {
   overflow: hidden;
+  font-family: var(--sd-font-body, "Barlow", system-ui, sans-serif);
+}
+
+button {
+  font-family: inherit;
 }
 
 #stage-root {
@@ -162,6 +167,7 @@ body {
 .legacyTopNav {
   display: flex;
   align-items: stretch;
+  font-family: var(--sd-font-condensed, "Barlow Condensed", "Arial Narrow", sans-serif);
 }
 
 .legacyTopNav button {
@@ -205,7 +211,7 @@ body {
   right: 1.6%;
   top: 112%;
   color: var(--sd-gold, #f2c45b);
-  font-family: cursive;
+  font-family: var(--sd-font-title, "Kaushan Script", "Brush Script MT", cursive);
   font-size: clamp(.9rem, 1.4vw, 1.35rem);
   transform: rotate(-7deg);
   text-shadow: 0 2px 10px #000;
@@ -216,6 +222,7 @@ body {
 /* Step 6: archive content. */
 .legacySidePanel {
   overflow: hidden;
+  font-family: var(--sd-font-condensed, "Barlow Condensed", "Arial Narrow", sans-serif);
   background: linear-gradient(180deg, rgba(5,7,8,.96), rgba(10,12,13,.9));
   border-color: rgba(242,196,91,.34);
 }
@@ -249,6 +256,7 @@ body {
 
 .legacyCard {
   position: relative;
+  font-family: var(--sd-font-condensed, "Barlow Condensed", "Arial Narrow", sans-serif);
   min-width: 0;
   min-height: 0;
   padding: 10px 12px 9px;
@@ -297,7 +305,7 @@ body {
   background: linear-gradient(150deg, #171b20, #353b43);
   border: 1px solid rgba(242,196,91,.75);
   color: #f7d875;
-  font: 700 .72rem/1 sans-serif;
+  font: 700 .72rem/1 var(--sd-font-condensed, "Barlow Condensed", "Arial Narrow", sans-serif);
   letter-spacing: .03em;
 }
 
@@ -308,6 +316,7 @@ body {
 
 .legacyClubName {
   max-width: 92px;
+  font-family: var(--sd-font-body, "Barlow", system-ui, sans-serif);
   overflow: hidden;
   color: rgba(255,255,255,.58);
   font-size: .58rem;
