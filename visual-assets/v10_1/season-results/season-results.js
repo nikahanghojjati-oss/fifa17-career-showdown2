@@ -61,20 +61,24 @@
 
   function renderManagerPanel(fixtures, frame, managerKey) {
     const panel = document.getElementById(managerKey + "-entry-panel");
+    panel.replaceChildren();
+    panel.hidden = frame.status !== "ready";
+    if (frame.status !== "ready") {
+      panel.classList.remove("is-sealed");
+      return;
+    }
+
     const result = frame.managers && frame.managers[managerKey];
     const sealed = (frame.sealed || []).includes(managerKey) || !result;
     const name = managerKey === "daniel" ? "DANIEL" : "NIK";
     panel.classList.toggle("is-sealed", sealed);
-    panel.replaceChildren();
 
     if (sealed) {
       const box = document.createElement("div");
       box.className = "sealed-copy";
       const strong = document.createElement("strong");
-      const sub = document.createElement("span");
       strong.textContent = "Waiting for " + name;
-      sub.textContent = "Your rival's unpublished season result stays private.";
-      box.append(strong, sub);
+      box.appendChild(strong);
       panel.appendChild(box);
       return;
     }
@@ -167,6 +171,8 @@
     });
     back.textContent = labels.back;
 
+    if (frame.status !== "ready") return;
+
     if (frame.phase === "entering") {
       review.hidden = false;
       review.textContent = labels.review;
@@ -207,11 +213,22 @@
 
     panel.hidden = true;
     panel.className = "season-review-panel sd-panel";
+    delete panel.dataset.contractState;
     canonical.hidden = true;
     status.textContent = "";
     heading.textContent = "";
     result.textContent = "";
     error.textContent = "";
+
+    if (frame.status !== "ready") {
+      panel.hidden = false;
+      panel.classList.add("is-contract-state", "is-" + frame.status);
+      panel.dataset.contractState = frame.status;
+      status.textContent = frame.status.toUpperCase();
+      heading.textContent = frame.note;
+      result.textContent = frame.interimLabel || "";
+      return;
+    }
 
     if (frame.phase === "waiting-for-rival") {
       const copy = fixtures.strings.review.waiting;
@@ -312,6 +329,7 @@
     const frame = fixtures.frames[frameId];
 
     stage.dataset.frame = frameId;
+    stage.dataset.status = frame.status || "ready";
     frameIdNode.textContent = "Frame: " + frameId;
     renderTopbar(fixtures);
     document.getElementById("season-semantic-title").textContent =
