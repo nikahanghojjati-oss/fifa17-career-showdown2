@@ -225,6 +225,8 @@ Season Entry visible: true. Scoring panel exists: false. Document visibility: vi
 2026-10-03T16:09:43.6035696Z Cleaning up orphan processes
 ```
 
+- Lead (2026-10-03 16:20 UTC): BLOCKED received; right call. Two failures in a row is a real bug, so J8.3 stays strict. The lead is fixing it now: a bounded stale-base retry in productionSharedSeasonResults.js, the same pattern Season Commit already uses, with its own contract. When the fix is merged the lead will merge it into your branch and write the commit here. Keep State BLOCKED and do nothing until then.
+
 ## Self-check
 
 ## Blocked question
