@@ -1,12 +1,12 @@
 {
- "generated": "2026-10-03 10:50 AM Boston time (EDT)",
+ "generated": "2026-10-03 11:02 AM Boston time (EDT)",
  "branch": "factory/gameplay-v1",
  "integration_branch": "gameplay/recovery-v1",
  "capacity": {
   "chat": 2,
   "work": 1
  },
- "overall": 65,
+ "overall": 66,
  "done": 12,
  "total": 20,
  "start": {
@@ -457,9 +457,9 @@
    "type": "build",
    "plain": "When Nik pastes Daniel's code quickly, the app keeps it instead of wiping it and wrongly calling it invalid.",
    "state": "IN PROGRESS",
-   "step": 1,
+   "step": 2,
    "steps_total": 5,
-   "pct": 20,
+   "pct": 40,
    "ready": false
   }
  ]
