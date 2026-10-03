@@ -60,6 +60,31 @@
     ].join(" · ");
   }
 
+  function setMetricValue(id, value) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const available = value !== undefined && value !== null;
+    el.textContent = available ? String(value) : "—";
+    el.dataset.missing = String(!available);
+    if (available) el.removeAttribute("aria-label");
+    else el.setAttribute("aria-label", "Unavailable");
+  }
+
+  function renderResultPanel(frame) {
+    setMetricValue("panelSeasons", frame.seasonsPlayed);
+    setMetricValue("panelMargin", frame.margin);
+    const d = frame.trophies && frame.trophies.daniel;
+    const n = frame.trophies && frame.trophies.nik;
+    setMetricValue("panelDanielContinental", d && d.championsLeague);
+    setMetricValue("panelNikContinental", n && n.championsLeague);
+    setMetricValue("panelDanielLeague", d && d.leagueTitles);
+    setMetricValue("panelNikLeague", n && n.leagueTitles);
+    setMetricValue("panelDanielCup", d && d.domesticCups);
+    setMetricValue("panelNikCup", n && n.domesticCups);
+    setMetricValue("panelDanielTrophies", d && d.total);
+    setMetricValue("panelNikTrophies", n && n.total);
+  }
+
   function renderActions(frame) {
     const host = document.getElementById("winnerActions");
     host.replaceChildren();
@@ -94,6 +119,7 @@
     setText("seasonsPlayed", frame.seasonsPlayed == null ? "" : `${frame.seasonsPlayed} seasons played`);
     setText("danielTrophies", trophyLine("Daniel", frame.trophies && frame.trophies.daniel));
     setText("nikTrophies", trophyLine("Nik", frame.trophies && frame.trophies.nik));
+    renderResultPanel(frame);
     renderActions(frame);
     setText("fixtureDump", JSON.stringify(frame, null, 2));
 

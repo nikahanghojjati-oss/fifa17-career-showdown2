@@ -348,3 +348,174 @@ body {
   opacity: .34;
   filter: saturate(.35);
 }
+
+/* STEP 6 · group B: compact final-result panel.
+   The panel is deliberately data-dense because it occupies only the measured
+   12.50% frame-height strip. No season-entry or career/all-time data appears. */
+.finalWinnerResultsPanel {
+  display: grid;
+  grid-template-columns: 19% 1fr;
+  overflow: hidden;
+  box-sizing: border-box;
+  padding: 0;
+  border-color: rgb(242 196 91 / .72);
+  background:
+    linear-gradient(110deg, rgb(8 9 11 / .93), rgb(13 14 17 / .82)),
+    linear-gradient(90deg, rgb(242 196 91 / .06), transparent 48%);
+  box-shadow: 0 16px 38px rgb(0 0 0 / .48), inset 0 1px 0 rgb(255 228 150 / .08);
+}
+
+.finalWinnerMetaStrip {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-right: 1px solid rgb(242 196 91 / .28);
+  background: linear-gradient(180deg, rgb(242 196 91 / .06), rgb(0 0 0 / .08));
+}
+
+.finalWinnerMetaCell {
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 0;
+  min-width: 0;
+  padding: .4vh .3vw;
+  box-sizing: border-box;
+}
+
+.finalWinnerMetaCell + .finalWinnerMetaCell {
+  border-left: 1px solid rgb(242 196 91 / .18);
+}
+
+.finalWinnerMetaCell span,
+.finalWinnerMetaCell small {
+  color: var(--sd-text-secondary);
+  font: 700 clamp(8px, .58vw, 10px)/1 var(--sd-font-condensed);
+  letter-spacing: .13em;
+  text-transform: uppercase;
+}
+
+.finalWinnerMetaCell strong {
+  margin: .1vh 0;
+  color: var(--sd-gold-300);
+  font-size: clamp(24px, 2vw, 34px);
+  line-height: .9;
+  font-variant-numeric: tabular-nums;
+}
+
+.finalWinnerHonours {
+  min-width: 0;
+  display: grid;
+  grid-template-rows: 20% repeat(4, 1fr);
+  padding: .45vh .8vw .35vh;
+  box-sizing: border-box;
+}
+
+.finalWinnerHonoursHead,
+.finalWinnerTrophyMetric {
+  display: grid;
+  grid-template-columns: minmax(34px, .62fr) 22px minmax(120px, 1.45fr) 22px minmax(34px, .62fr);
+  align-items: center;
+  gap: .35vw;
+  min-width: 0;
+}
+
+.finalWinnerHonoursHead {
+  color: var(--sd-text-secondary);
+  font: 700 clamp(8px, .62vw, 10px)/1 var(--sd-font-condensed);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  border-bottom: 1px solid rgb(242 196 91 / .22);
+}
+
+.finalWinnerHonoursHead > span {
+  grid-column: 2 / 5;
+  grid-row: 1;
+  text-align: center;
+  color: var(--sd-text-warm);
+}
+
+.finalWinnerHonoursManager {
+  grid-row: 1;
+  font: inherit;
+  color: var(--sd-text-primary);
+}
+
+.finalWinnerHonoursManager--daniel {
+  grid-column: 1;
+  text-align: right;
+}
+
+.finalWinnerHonoursManager--nik {
+  grid-column: 5;
+  text-align: left;
+}
+
+.finalWinnerTrophyMetric {
+  border-bottom: 1px solid rgb(242 196 91 / .10);
+  color: var(--sd-text-secondary);
+  font: 700 clamp(8px, .59vw, 10px)/1 var(--sd-font-condensed);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.finalWinnerTrophyMetric:last-child {
+  border-bottom: 0;
+}
+
+.finalWinnerTrophyMetric img {
+  display: block;
+  width: 18px;
+  height: 18px;
+  justify-self: center;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgb(0 0 0 / .7));
+}
+
+.finalWinnerTrophyMetric > span:nth-of-type(1) {
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.finalWinnerMetricValue {
+  color: var(--sd-text-primary);
+  font: 800 clamp(15px, 1.15vw, 20px)/1 var(--sd-font-condensed);
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+.finalWinnerMetricValue:first-child {
+  text-align: right;
+}
+
+.finalWinnerMetricValue:last-child {
+  text-align: left;
+}
+
+.finalWinnerMetricValue[data-missing="true"] {
+  color: var(--sd-text-secondary);
+  font-size: clamp(11px, .82vw, 14px);
+}
+
+.finalWinnerTotalMark {
+  justify-self: center;
+  color: var(--sd-gold-300);
+  font: 700 clamp(11px, .82vw, 14px)/1 var(--sd-font-condensed);
+}
+
+.finalWinnerTrophyMetric--total {
+  color: var(--sd-text-warm);
+  border-top: 1px solid rgb(242 196 91 / .22);
+}
+
+#stage-root[data-winner="daniel"] .finalWinnerHonoursManager--daniel,
+#stage-root[data-winner="nik"] .finalWinnerHonoursManager--nik {
+  color: var(--sd-gold-300);
+  text-shadow: 0 0 12px rgb(242 196 91 / .24);
+}
+
+#stage-root[data-status="loading"] .finalWinnerResultsPanel,
+#stage-root[data-status="empty"] .finalWinnerResultsPanel,
+#stage-root[data-status="unavailable"] .finalWinnerResultsPanel {
+  opacity: .62;
+}

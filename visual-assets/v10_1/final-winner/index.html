@@ -62,7 +62,60 @@
         </picture>
         <span class="winnerTrophyGlow"></span>
       </div>
-      <section class="finalWinnerResultsPanel sd-panel" aria-label="Final Showdown result"></section>
+      <section class="finalWinnerResultsPanel sd-panel" aria-label="Final Showdown result">
+        <div class="finalWinnerMetaStrip" aria-label="Showdown summary">
+          <div class="finalWinnerMetaCell">
+            <span>SEASONS</span>
+            <strong id="panelSeasons" class="sd-number sd-number--small"></strong>
+            <small>PLAYED</small>
+          </div>
+          <div class="finalWinnerMetaCell">
+            <span>MARGIN</span>
+            <strong id="panelMargin" class="sd-number sd-number--small"></strong>
+            <small>POINTS</small>
+          </div>
+        </div>
+
+        <div class="finalWinnerHonours" aria-label="Trophy attribution">
+          <div class="finalWinnerHonoursHead">
+            <strong class="finalWinnerHonoursManager finalWinnerHonoursManager--daniel">DANIEL</strong>
+            <span>SHOWDOWN HONOURS</span>
+            <strong class="finalWinnerHonoursManager finalWinnerHonoursManager--nik">NIK</strong>
+          </div>
+
+          <div class="finalWinnerTrophyMetric">
+            <strong id="panelDanielContinental" class="finalWinnerMetricValue"></strong>
+            <img src="../shared/trophies/TRO_CONTINENTAL_V1_512.webp" alt="" aria-hidden="true" decoding="async">
+            <span>CHAMPIONS LEAGUE</span>
+            <img src="../shared/trophies/TRO_CONTINENTAL_V1_512.webp" alt="" aria-hidden="true" decoding="async">
+            <strong id="panelNikContinental" class="finalWinnerMetricValue"></strong>
+          </div>
+
+          <div class="finalWinnerTrophyMetric">
+            <strong id="panelDanielLeague" class="finalWinnerMetricValue"></strong>
+            <img src="../shared/trophies/TRO_LEAGUE_TITLE_V1_512.webp" alt="" aria-hidden="true" decoding="async">
+            <span>LEAGUE TITLES</span>
+            <img src="../shared/trophies/TRO_LEAGUE_TITLE_V1_512.webp" alt="" aria-hidden="true" decoding="async">
+            <strong id="panelNikLeague" class="finalWinnerMetricValue"></strong>
+          </div>
+
+          <div class="finalWinnerTrophyMetric">
+            <strong id="panelDanielCup" class="finalWinnerMetricValue"></strong>
+            <img src="../shared/trophies/TRO_DOMESTIC_CUP_V1_512.webp" alt="" aria-hidden="true" decoding="async">
+            <span>DOMESTIC CUPS</span>
+            <img src="../shared/trophies/TRO_DOMESTIC_CUP_V1_512.webp" alt="" aria-hidden="true" decoding="async">
+            <strong id="panelNikCup" class="finalWinnerMetricValue"></strong>
+          </div>
+
+          <div class="finalWinnerTrophyMetric finalWinnerTrophyMetric--total">
+            <strong id="panelDanielTrophies" class="finalWinnerMetricValue"></strong>
+            <span class="finalWinnerTotalMark" aria-hidden="true">Σ</span>
+            <span>TOTAL TROPHIES</span>
+            <span class="finalWinnerTotalMark" aria-hidden="true">Σ</span>
+            <strong id="panelNikTrophies" class="finalWinnerMetricValue"></strong>
+          </div>
+        </div>
+      </section>
       <div class="finalWinnerActionsSlot" aria-hidden="true"></div>
 
       <div class="fixtureProbe" aria-hidden="true">
