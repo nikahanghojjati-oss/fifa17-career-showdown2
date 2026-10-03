@@ -2,6 +2,8 @@
 
 ## Verdict
 
+FAIL. The static review average is 3.44 / 5, below the QUALITY_BAR pass line of 4.2 / 5. No scored criterion is below 3. H1–H4 pass from source reading. H5–H11 remain NOT MEASURED (Claude measures), so none of those unmeasured gates is treated as a failure or a fix item. The screen needs the known source-level fidelity, typography and resilience fixes below before Claude's measured browser gates can determine final visual acceptance.
+
 ## Scorecard
 
 | Criterion | Score | Evidence |
@@ -95,3 +97,8 @@ Claude's prior `3.9` in `project-documents/factory/status/JOB-044.md` is a quali
 - Rights check in touched runtime — `club.js: crestMarkup()` and `PRODUCT_TRUTH §6`: club marks are generated through the accepted original `getClubCrestSvg` path; no player-photo, real trophy or real league-logo reference appears in the Club runtime examined.
 
 ## Fix list
+
+1. `visual-assets/v10_1/club/index.html` + `club.css` — `#clubWheelScreen h2 .clubTitleFallback` and `.clubVsFallback`: replace the Kaushan `TODO-WORDMARK` fallbacks with final Showdown-authored brush wordmarks matching GOAL_CLUB.jpg; target the CLUB ASSIGNMENT title at the same centred hero scale as the goal and keep VS centred between Daniel and Nik, with semantic text retained for accessibility.
+2. `visual-assets/v10_1/club/index.html` — `#topHeader`: replace the Club-local brand/sign-in/season/slogan composition with the shared product-truth top bar; target exactly HOME / CAREER / STANDINGS / STATS / RULES plus Settings, with no ABOUT/search/profile controls copied from the mockup.
+3. `visual-assets/v10_1/club/club.js` — `main()/loadJSON()`: add an explicit unavailable-state path for fixture/platemap/handmap load failure; target a visible Club stage with `#clubPackStatus` announcing UNAVAILABLE, both reveal/confirm primary actions disabled or hidden, and Back still available instead of leaving the entire stage hidden behind `html:not(.ready)`.
+4. `visual-assets/v10_1/club/index.html` — `footer .footText`: restore the fixed Club goal branding on the left footer to `CM17 / CAREER MODE SHOWDOWN 17` instead of the version string, while keeping the existing right-side slogan/crown treatment.
