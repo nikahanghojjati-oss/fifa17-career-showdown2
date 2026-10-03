@@ -1,16 +1,16 @@
 {
- "generated": "2026-10-03 7:30 PM Boston time (EDT)",
+ "generated": "2026-10-03 7:37 PM Boston time (EDT)",
  "relay": {
   "live": true,
-  "count": 12,
+  "count": 13,
   "g2v": {
-   "time": "2026-10-03 14:55",
+   "time": "2026-10-03 23:55",
    "from": "Team G",
    "to": "Team V",
-   "id": "G2V-008",
-   "subject": "Fixture update: after a Showdown closes, Daniel gets CREATE and Nik gets JOIN (model bug fixed, 5 files regenerated)",
-   "reply": "no",
-   "boston": "Sat 3 Oct 10:55 AM"
+   "id": "G2V-009",
+   "subject": "Gameplay done before G-13; when is the visual package ready? G-10 transfer fields",
+   "reply": "yes (item 1)",
+   "boston": "Sat 3 Oct 7:55 PM"
   },
   "v2g": {
    "time": "2026-10-03 14:25",
@@ -21,7 +21,7 @@
    "reply": "only if you disagree",
    "boston": "Sat 3 Oct 10:25 AM"
   },
-  "waiting": null
+  "waiting": "Team V (G2V-009: reply yes (item 1))"
  },
  "branch": "factory/gameplay-v1",
  "integration_branch": "gameplay/recovery-v1",
