@@ -449,3 +449,46 @@ body {
 .nav-reserve {
   display: none;
 }
+
+
+/* Step 8: depth sandwich. Full-canvas cutouts share the stage camera exactly. */
+.legacyDepthCutout,
+.legacyDepthRim {
+  pointer-events: none;
+}
+
+.legacyDepthRim--daniel {
+  --sd-rim-angle: 118deg;
+  --sd-rim-opacity: .28;
+}
+
+.legacyDepthRim--nik {
+  --sd-rim-angle: 66deg;
+  --sd-rim-opacity: .24;
+}
+
+/* Soft archive-edge contact shadows keep the managers behind the desk rather than pasted on it. */
+.legacyArchivePanel::before,
+.legacyArchivePanel::after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  top: -7px;
+  height: 18px;
+  pointer-events: none;
+  border-radius: 50%;
+  background: rgba(0,0,0,.48);
+  filter: blur(9px);
+}
+
+.legacyArchivePanel::before {
+  left: 4.2%;
+  width: 31%;
+  transform: rotate(.4deg);
+}
+
+.legacyArchivePanel::after {
+  right: 3.4%;
+  width: 32%;
+  transform: rotate(-.5deg);
+}
