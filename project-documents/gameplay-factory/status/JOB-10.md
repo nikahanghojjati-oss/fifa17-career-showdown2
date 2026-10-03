@@ -2,12 +2,12 @@
 
 State: IN PROGRESS
 Step: 5 of 8
-Updated: 2026-10-03 15:44 UTC
+Updated: 2026-10-03 15:46 UTC
 Chat: Sol Work mode
 Code branch: gameplay/job-10-transfer-history
-Head commit: 48099f5a464fa8f04b29fc5b4f668d80fdc2fae6
+Head commit: d2ab8e7e5b7651fbe6d2ea802dd6998041e9eec2
 PR:
-CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37133785402
+CI run: CI pending on d2ab8e7e5b7651fbe6d2ea802dd6998041e9eec2
 
 ## Notes
 - Lead: JOB-08 (PR #326, merge 843e64e) is merged. Lead to create code branch gameplay/job-10-transfer-history from gameplay/recovery-v1 at 843e64e before Nik starts the job. Lead reference run on 843e64e: new contract PASS, contracts 104/104, ops 73/0, every rules-emulator step PASS including the new Completed transfer history matrix (73 checks) and Completed-only read 56 with B8/B9 flipped; only budget diagnostics are the two known career-index D13 denials. Jobs 9, 11, 16 and 18 also append registry entries (9 also a rules-emulator step, 16 a CI job): whoever merges later re-appends last. Ready to start.
@@ -39,6 +39,8 @@ CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/r
 - Step 5 saved: Appendices A/F applied without drift, all four files in one code commit 48099f5a464fa8f04b29fc5b4f668d80fdc2fae6. Both Rules builds PASS; composed artifact 132878 bytes; new transfer role/season helper occurrence counts 2/2. Both local contracts PASS (new transfer history + JOB-08 completed-read); injector syntax and diff whitespace PASS. Generated Rules not committed. CI pending on exact head; next continue read once, then full proof step 6 and budget gate. Step remains 4 until CI verifies step 5.
 
 - Step 5 complete: Nik explicitly authorized this chat to take over. Exact-head CI 37133785402 on 48099f5a464fa8f04b29fc5b4f668d80fdc2fae6 SUCCESS; both jobs and every emulator step green, including new completed transfer history and existing completed-only read. JOB-18 merged meanwhile as f7d18a11a73dead8a466c53e0e0c02c1a8b2a95a; step 6 must bring its registry/ops entries forward and re-append G-10 last before final proof.
+
+- Step 6a saved: preserved JOB-18 merged js/persistentNikDanielPair.js and its pair-code-entry-race contract byte-for-byte from f7d18a1 in d2ab8e7e5b7651fbe6d2ea802dd6998041e9eec2. DEFAULT: fast-forward content sync with a single parent, because factory instructions forbid merging and force-pushing. Remaining step 6b: append JOB-18 registry/ops entries before G-10; then run local full proof and wait for exact-head CI. Existing 48099f5 CI budget diagnostics mechanically map only to career-index D13 denials in Phases A/B.
 
 ## Self-check
 - PASS step 5 local: completed-only transfer history contract and existing completed-only read contract both PASS; composed artifact 132878 bytes, transfer helper calls 2/2. Four Rules/test files saved atomically; no writes changed or deploy.
