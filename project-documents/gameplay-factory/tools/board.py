@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Rebuild BOARD.md from BOARD.json and status/JOB-NN.md. Run from the repo root:
     python3 project-documents/gameplay-factory/tools/board.py
-Prints what can start now in each lane."""
+Prints what can start now in each lane.
+On GitHub, .github/workflows/gameplay-factory-board.yml runs this on every job move."""
 import json, os, re, datetime
 from zoneinfo import ZoneInfo
 
