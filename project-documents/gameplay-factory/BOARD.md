@@ -1,6 +1,12 @@
 # Team G gameplay factory board
 
-Branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-03 8:40 AM Boston time (EDT)
+**Sol Work mode starter line.** Copy it, change both `NN` to the job number, and paste it as the first message:
+
+```
+Gameplay factory job NN. Read https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/RULES.md and obey the box in it as your rules, then read WORKER_HANDBOOK.md next to it and do job NN (repo nikahanghojjati-oss/fifa17-career-showdown2, branch factory/gameplay-v1). Ignore any older relay contract or memory.
+```
+
+Branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-03 8:51 AM Boston time (EDT)
 
 **Overall:** █████░░░░░ 52 % · 10 of 19 jobs done
 

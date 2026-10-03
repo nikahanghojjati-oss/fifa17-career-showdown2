@@ -70,7 +70,15 @@ working = [j["number"] for j in busy]
 blocked = [j["number"] for j in jobs if info[j["number"]][0].startswith("BLOCKED")]
 waiting = [j for j in jobs if info[j["number"]][0].startswith("WAITING")]
 
-L = ["# Team G gameplay factory board", "",
+_rules = open(os.path.join(F, "RULES.md")).read()
+_m = re.search(r"## Starter line for Sol Work mode chats.*?```\n(.*?)\n```", _rules, re.S)
+starter = _m.group(1).strip().replace("job 90", "job NN") if _m else ""
+
+L = ["# Team G gameplay factory board", ""]
+if starter:
+    L += ["**Sol Work mode starter line.** Copy it, change both `NN` to the job number, and paste it as the first message:", "",
+          "```", starter, "```", ""]
+L += [
      f"Branch `{board['branch']}` · code PRs into `{board['integration_branch']}` · generated {boston_now()}", "",
      f"**Overall:** {bar(overall)} {overall} % · {done} of {len(jobs)} jobs done", "",
      f"**Start now in a normal chat (press Stay in Chat):** {names(start['chat'])}", "",
