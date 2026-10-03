@@ -14,6 +14,11 @@
       easing: "cubic-bezier(.22,1,.36,1)",
       staggerMs: 60,
       settingsExtraDelayMs: 60
+    }),
+    continuePulse: Object.freeze({
+      delayMs: 40,
+      durationMs: 260,
+      easing: "cubic-bezier(.22,1,.36,1)"
     })
   });
   let motionLoadPromise = null;
@@ -26,6 +31,9 @@
     root.style.setProperty("--home-tile-rise-ease", HOME_MOTION.tiles.easing);
     root.style.setProperty("--home-tile-stagger", HOME_MOTION.tiles.staggerMs + "ms");
     root.style.setProperty("--home-settings-extra-delay", HOME_MOTION.tiles.settingsExtraDelayMs + "ms");
+    root.style.setProperty("--home-continue-pulse-delay", HOME_MOTION.continuePulse.delayMs + "ms");
+    root.style.setProperty("--home-continue-pulse-duration", HOME_MOTION.continuePulse.durationMs + "ms");
+    root.style.setProperty("--home-continue-pulse-ease", HOME_MOTION.continuePulse.easing);
     // motion.js already schedules panel starts 60 ms apart; zero the CSS-side duplicate delay for Home.
     root.style.setProperty("--sd-duration-stagger", "0ms");
   }
