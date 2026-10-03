@@ -505,9 +505,9 @@ footer {
     display: flex !important;
     position: fixed;
     z-index: 8;
-    top: 18px;
+    top: calc(var(--phone-hero) - 88px);
     left: 50%;
-    width: min(60vw, 236px);
+    width: min(44vw, 172px);
     transform: translateX(-50%);
     align-items: center;
     gap: 2px;
@@ -523,6 +523,7 @@ footer {
     text-align: center;
   }
   .lockupWordmarkWrap { width: 100%; margin: 0; }
+  .lockupWordmark { filter: drop-shadow(0 3px 8px rgba(0,0,0,.92)); }
   .lockupLegacy {
     align-self: center;
     max-width: 100%;
@@ -827,7 +828,7 @@ footer {
       --phone-control: calc(55dvh - var(--phone-nav));
     }
     .lockupKicker, .lockupLegacy { display: none; }
-    .homeLockup { top: 14px; width: min(54vw, 202px); }
+    .homeLockup { top: calc(var(--phone-hero) - 70px); width: min(46vw, 168px); }
     .fifaMenuShell { padding: 4px 8px; }
     .fifaMenuGrid { grid-template-rows: 44px repeat(2, minmax(44px, 1fr)) 48px; gap: 4px; }
     .menuMusicTile { height: 44px !important; padding-top: 2px; padding-bottom: 2px; }
