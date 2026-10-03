@@ -139,11 +139,14 @@
     });
 
     body.append(stats, achievements);
-    const score = scoreResult(result);
+    const canonical = frame.phase === "committed" && frame.breakdown && frame.breakdown[managerKey];
+    const score = canonical ? canonical.total : scoreResult(result);
     const scoreBar = document.createElement("div");
     scoreBar.className = "season-score";
     scoreBar.style.setProperty("--season-score", score);
-    scoreBar.innerHTML = '<span class="season-score-label">SEASON SCORE</span><span class="season-score-track"><i class="season-score-fill"></i></span><strong class="season-score-value"></strong>';
+    scoreBar.innerHTML = '<span class="season-score-label"></span><span class="season-score-track"><i class="season-score-fill"></i></span><strong class="season-score-value"></strong>';
+    scoreBar.querySelector(".season-score-label").textContent =
+      canonical ? "CANONICAL SCORE" : "PREVIEW SCORE";
     scoreBar.querySelector(".season-score-value").textContent = String(score);
 
     panel.append(header, hint, body, scoreBar);
@@ -167,6 +170,10 @@
     if (frame.phase === "entering") {
       review.hidden = false;
       review.textContent = labels.review;
+      if (frame.error) {
+        edit.hidden = false;
+        edit.textContent = labels.edit;
+      }
     } else if (frame.phase === "waiting-for-rival") {
       publish.hidden = false;
       publish.textContent = labels.published;
@@ -177,8 +184,97 @@
       commit.textContent = labels.commitCheck;
     } else if (frame.phase === "committed") {
       commit.hidden = false;
-      commit.textContent = labels.acknowledge;
+      commit.textContent = labels.acknowledged;
+      commit.disabled = true;
+      commit.setAttribute("aria-disabled", "true");
     }
+  }
+
+  function formatTemplate(template, replacements) {
+    return Object.entries(replacements).reduce(
+      (value, [token, replacement]) => value.replaceAll(token, String(replacement)),
+      template
+    );
+  }
+
+  function renderWorkflowState(fixtures, frame) {
+    const panel = document.getElementById("seasonReviewPanel");
+    const status = document.getElementById("seasonReviewStatusMeta");
+    const heading = document.getElementById("seasonReviewHeading");
+    const result = document.getElementById("seasonReviewResult");
+    const error = document.getElementById("seasonReviewError");
+    const canonical = document.getElementById("sharedCanonicalScoringPanel");
+
+    panel.hidden = true;
+    panel.className = "season-review-panel sd-panel";
+    canonical.hidden = true;
+    status.textContent = "";
+    heading.textContent = "";
+    result.textContent = "";
+    error.textContent = "";
+
+    if (frame.phase === "waiting-for-rival") {
+      const copy = fixtures.strings.review.waiting;
+      panel.hidden = false;
+      panel.classList.add("is-waiting");
+      status.textContent = copy.status;
+      heading.textContent = copy.heading;
+      result.textContent = copy.result;
+    } else if (frame.phase === "results-ready") {
+      const copy = fixtures.strings.review.ready;
+      panel.hidden = false;
+      panel.classList.add("is-ready");
+      status.textContent = copy.status;
+      heading.textContent = copy.heading;
+      result.textContent = copy.result;
+    } else if (frame.phase === "committed" && frame.breakdown) {
+      const labels = fixtures.strings.canonicalScoring;
+      const d = frame.breakdown.daniel;
+      const n = frame.breakdown.nik;
+      panel.hidden = false;
+      panel.classList.add("is-committed");
+      status.textContent = fixtures.strings.commitStatus.acknowledged;
+      heading.textContent = labels.heading;
+      result.textContent = frame.tiebreak === "none" ? "Authoritative scoring reconciled." : frame.tiebreak;
+      canonical.hidden = false;
+      document.getElementById("sharedCanonicalScoringHeading").textContent = labels.heading;
+      document.getElementById("sharedCanonicalScoringTotals").textContent =
+        formatTemplate(labels.totalsTemplate, {
+          "{DANIEL}": "DANIEL", "{DANIEL_TOTAL}": d.total,
+          "{NIK}": "NIK", "{NIK_TOTAL}": n.total
+        });
+      document.getElementById("sharedCanonicalScoringBreakdown").textContent =
+        formatTemplate(labels.breakdownTemplate, {
+          "{D_CL}": d.championsLeague, "{N_CL}": n.championsLeague,
+          "{D_LEAGUE}": d.leagueTitle, "{N_LEAGUE}": n.leagueTitle,
+          "{D_CUP}": d.domesticCup, "{N_CUP}": n.domesticCup,
+          "{D_PERFORMANCE}": d.performanceBonus, "{N_PERFORMANCE}": n.performanceBonus,
+          "{D_AWARDS}": d.awardsBonus, "{N_AWARDS}": n.awardsBonus
+        });
+      document.getElementById("sharedCanonicalScoringWinner").textContent =
+        frame.winner
+          ? labels.winnerTemplate.replace("{MANAGER}", frame.winner.toUpperCase())
+          : labels.draw;
+    } else if (frame.error) {
+      const copy = fixtures.strings.review.draft;
+      panel.hidden = false;
+      panel.classList.add("is-error");
+      status.textContent = copy.status;
+      heading.textContent = copy.heading;
+      result.textContent = copy.result;
+      error.textContent = frame.error;
+    }
+  }
+
+  function renderPreviewTag(fixtures, frame) {
+    let tag = document.getElementById("season-preview-tag");
+    if (!tag) {
+      tag = document.createElement("p");
+      tag.id = "season-preview-tag";
+      tag.className = "sd-preview-tag season-preview-tag";
+      document.querySelector(".season-layout").appendChild(tag);
+    }
+    tag.textContent = frame.previewLabel || fixtures.strings.previewLabel;
   }
 
   function renderTopbar(fixtures) {
@@ -224,6 +320,8 @@
     renderManagerPanel(fixtures, frame, "daniel");
     renderManagerPanel(fixtures, frame, "nik");
     renderActions(fixtures, frame);
+    renderWorkflowState(fixtures, frame);
+    renderPreviewTag(fixtures, frame);
     renderTree(stringsNode, fixtures.strings);
     renderTree(frameNode, frame);
   }
