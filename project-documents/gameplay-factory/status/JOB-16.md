@@ -2,12 +2,12 @@
 
 State: IN PROGRESS
 Step: 7 of 9
-Updated: 2026-10-03 14:33 UTC
+Updated: 2026-10-03 16:05 UTC
 Chat: GPT-5.6 Sol normal chat
 Code branch: gameplay/job-16-browser-journey
-Head commit: ba2eb69db015e0f91e4e6afceb928db4d90e5217
+Head commit: 3183244740fc169ae70aa15fc10f3d216d88997c
 PR:
-CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37129725411
+CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37135149889
 
 ## Notes
 - Step 1: JOB-02, JOB-07 and JOB-17 are DONE and merged; the provider journey exists on gameplay/recovery-v1. Recovery head 843e64e is green in Validate Gameplay Fast run 37125870168 (Gameplay contracts SUCCESS; Composed Rules on the emulator SUCCESS). Scanned all 117 js/*.js blobs on that exact tree: no connectAuthEmulator or connectFirestoreEmulator. validate-gameplay-fast.yml pins firebase@12.17.1; deploy-github-pages.yml copies only index/runtime files plus acceptance, assets, css, data and js, never tests/. The job branch was safely fast-forwarded from 889810f to current recovery 843e64e after JOB-08 merged; no force update and no product files changed.
@@ -179,6 +179,8 @@ Season Entry visible: true. Scoring panel exists: false. Document visibility: vi
   3. Known intermittent product bugs, each getting its own job: permission-denied on Nik's season acknowledge (about 2 in 8 runs, J7.3) and SEASON_RESULTS_STALE_BASE_REVISION on a simultaneous publish (about 1 in 8, J8.3). If one of these exact errors stops a CI run, record the run link and that error here, re-run the job once, and continue if the re-run is green. Any other failure is real: stop and set BLOCKED.
   4. Job 18 is merged, so the pair-code settle wait may be removed (optional).
 - Next: type continue. Resume at step 7 with the exact-head CI on ba2eb69, which starts by itself because the lead pushed to gameplay/**.
+
+- Step 7 retry note: exact-head run 37135149889 reached J8.2, printed the required `J9 SKIPPED: resume after reload is a separate product job (lead decision 2026-10-03)`, then the season-2 simultaneous publish hit the lead-listed `SEASON_RESULTS_STALE_BASE_REVISION` race signature: one concurrent publish succeeded while Daniel's same-base publish was rejected with the generic Shared Season Result error, and the peer never reached BOTH MANAGERS PUBLISHED. Per the 16:00 UTC lead decision, rerunning only the failed browser job once; no code/product change for this known intermittent.
 
 ## Self-check
 
