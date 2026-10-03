@@ -22,7 +22,12 @@ body { overflow: hidden; font-family: var(--text); -webkit-font-smoothing: antia
 .scene > * { position: absolute; }
 .plate { background-image: image-set(url("assets/ENV_LEAGUE_PLATE_V1_1X.webp") 1x, url("assets/ENV_LEAGUE_PLATE_V1_2X.webp") 2x); background-size: 100% 100%; }
 .scene-top { z-index: 30; }
-.finger-ovl { display: block; }
+.finger-ovl { display: block;
+  /* Job 14's 400% regression showed the current cut has no new matte ring or colour speckle,
+     so no destructive re-cut is needed here. A small upward offset shadow gives only the
+     light-facing upper edge a warm rim without outlining the whole hand. */
+  filter: drop-shadow(0 -1px 1px rgba(255,211,77,.34));
+}
 
 /* Seam heal veils: soften the hard edges the intake tone-match left at its zone borders.
    Blur + slight darkening, feathered with a mask so the veil itself has no edge. */
