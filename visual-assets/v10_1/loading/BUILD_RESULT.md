@@ -53,3 +53,35 @@ Evidence:
 This preview is the visual replacement specification for the existing root `index.html #loadingScreen` startup markup and the Loading-only selectors in `css/app.css` from `#loadingScreen` through `.startupPhotoCredit`. Production integration must preserve the current startup lifecycle IDs/classes used by `js/app.js` and browser tests, including `#loadingScreen`, `#startupAthlete`, `#loadingText`, `.is-ready`, `.is-exiting` and `.hidden`.
 
 This factory job does not modify `main`.
+
+## Fix round · JOB-056
+
+State: BLOCKED
+
+### Items done
+
+1. Restored the JOB-055 prescribed desktop Reus registration: athlete frame `inset: -4% auto -8% -1%`, `width: 52%`, production polygon clip, and `object-position: 53% 0`.
+2. Restored the production Reus colour treatment `saturate(.86) contrast(1.08) brightness(.84)` and kept the heavier dark treatment in the overlay instead of the protected photo pixels.
+3. Wrapped the Reus and wordmark WebPs in semantic `<picture>` delivery while preserving the image box geometry.
+4. Expanded both phone credit links to measured 45.59 px touch-target height without changing the visible 12 px credit type. The 393 × 660, 360 × 640 and 375 × 553 checks remain scroll-free.
+
+### Item blocked
+
+5. The required final H10 target cannot be reached from the five-item review list as written. After the exact prescribed Reus geometry/filter/treatment, the final production-reference diff is SSIM 0.343, ΔE 21.7, face SSIM 0.348, left hand 0.641 and right hand 0.344. The Reus source blob is identical on `main` and `factory/v1-wtt5ye` (Git blob `f6bb1608…`). The remaining mismatch therefore requires either a corrected Loading H10 baseline/mask or permission to change scene/UI work beyond JOB-055's named fixes.
+
+### New QA results
+
+- 54 factory runs: 6 Loading frames × 9 required viewports.
+- 0 scroll failures.
+- 0 reduced-motion failures.
+- 0 console-error runs.
+- 0 failed-request runs.
+- 0 out-of-view-control runs.
+- 0 sub-16-input runs.
+- Keyboard focus remains visible on both credit links; protected credit contrast remains 9.59:1.
+- Phone first-paint transfer measured 327,943 bytes, below the 450 KB limit; desktop is below its 900 KB limit.
+- H11 delivery requirement is satisfied with WebP assets through `<picture>`.
+- H10 remains FAIL with the measurements above, so JOB-056 cannot honestly claim every hard gate PASS.
+
+No QA screenshots or render artifacts were committed.
+
