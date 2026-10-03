@@ -1,2 +1,39 @@
-/* JOB-077 step 1 scaffold.
-   Visual styling begins in step 2; this file is intentionally empty. */
+/* JOB-077 step 2: 1536x864 mockup registration, no screen-specific zoom or shift. */
+html,
+body {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+}
+
+#stage-root {
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.manager-area {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0;
+}
+
+/* face_daniel = [182, 88, 389, 365] on the 1536x864 1X plate */
+.manager-area--daniel {
+  left: 11.848958%;
+  top: 10.185185%;
+  width: 13.476563%;
+  height: 32.060185%;
+}
+
+/* face_nik = [1118, 88, 1338, 355] on the 1536x864 1X plate */
+.manager-area--nik {
+  left: 72.786458%;
+  top: 10.185185%;
+  width: 14.322917%;
+  height: 30.902778%;
+}
+
+.sd-stage__layer--atmosphere {
+  display: block;
+  pointer-events: none;
+}
