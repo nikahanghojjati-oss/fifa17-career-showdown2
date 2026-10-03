@@ -508,6 +508,27 @@ async function main(){
     }
 
     // J10 final reconciliation and Terminal Close through the real UI.
+    // Lead decision 2026-10-03: observe/preview the terminal Connected Rivalry through the real UI,
+    // Daniel first then Nik, before Final Reconciliation can become authoritative.
+    for(const m of [daniel,nik]){
+      await m.page.locator("#sharedLocalReconciliationPreview").waitFor({state:"visible",timeout:60000});
+      await m.page.locator("#sharedLocalReconciliationPreview").click({timeout:30000});
+      try{
+        await m.page.waitForFunction(()=>/PREVIEW READY/.test(document.getElementById("sharedLocalReconciliationStatus")?.textContent||""),null,{timeout:60000});
+      }catch(error){
+        const diag=await m.page.evaluate(()=>({
+          multi:window.CareerModeProductionSharedMultiSeasonProgression?.getState?.()||null,
+          history:window.CareerModeProductionSharedHistoryConvergence?.getState?.()||null,
+          local:window.CareerModeProductionSharedLocalReconciliation?.getState?.()||null,
+          final:window.CareerModeProductionSharedFinalReconciliation?.getState?.()||null,
+          terminal:window.CareerModeProductionSharedTerminalClose?.getState?.()||null,
+          localStatus:document.getElementById("sharedLocalReconciliationStatus")?.textContent||"",
+          previewVisible:Boolean(document.getElementById("sharedLocalReconciliationPreview")&&!document.getElementById("sharedLocalReconciliationPreview").classList.contains("hidden")),
+          visibility:document.visibilityState
+        }));
+        throw new Error(`J10_LOCAL_RECONCILIATION_PREVIEW_NOT_READY ${JSON.stringify(diag)}`,{cause:error});
+      }
+    }
     for(const m of [daniel,nik]){
       try{
         await m.page.locator("#sharedFinalReconciliationPanel").waitFor({state:"visible",timeout:60000});
