@@ -366,6 +366,57 @@ async function main(){
     assert.equal(await daniel.page.locator("#sharedCanonicalScoringPanel").isVisible().catch(()=>false),false,"canonical scoring remains locked until Shared Season Commit is acknowledged");
     ok("J7.2","RESULTS_READY reveals the same raw season facts on both pages; canonical scoring correctly remains locked until commit");
 
+    // J6 season 1 transfers + rendered-page privacy.
+    await daniel.page.getByRole("button",{name:"START SHARED 15-MINUTE WINDOW",exact:true}).click({timeout:30000});
+    await refreshTransfer(nik);
+    for(const m of [daniel,nik])await waitTransferPhase(m,"window");
+    for(const m of [daniel,nik])await m.page.getByRole("button",{name:"REQUEST EARLY END",exact:true}).waitFor({state:"visible",timeout:30000});
+    ok("J6.1","both managers entered the same live 15-minute shared transfer window");
+
+    await daniel.page.getByRole("button",{name:"REQUEST EARLY END",exact:true}).click({timeout:30000});
+    await nik.page.getByRole("button",{name:"REQUEST EARLY END",exact:true}).click({timeout:30000});
+    await refreshTransfer(daniel);
+    for(const m of [daniel,nik])await waitTransferPhase(m,"guess_entry");
+    ok("J6.2","both managers requested early end; the journey advanced without waiting 15 minutes");
+
+    await daniel.page.locator("#p2Guess1Type").selectOption("league");
+    await fillTransferCombo(daniel,"p2Guess1Value","Premier League");
+    await nik.page.locator("#p1Guess1Type").selectOption("league");
+    await fillTransferCombo(nik,"p1Guess1Value","Premier League");
+    await daniel.page.getByRole("button",{name:"LOCK MY GUESSES",exact:true}).click({timeout:30000});
+    await nik.page.getByRole("button",{name:"LOCK MY GUESSES",exact:true}).click({timeout:30000});
+    await refreshTransfer(daniel);await refreshTransfer(nik);
+    for(const m of [daniel,nik])await waitTransferPhase(m,"signing_entry");
+    ok("J6.3","both private guess payloads locked and advanced to private signing entry");
+
+    const qwx="QWX Daniel Signing",zpv="ZPV Nik Signing";
+    await daniel.page.locator("#p1Signing1Name").fill(qwx);
+    await fillTransferCombo(daniel,"p1Signing1League","Premier League");
+    await fillTransferCombo(daniel,"p1Signing1Nationality","England");
+    await assertPrivateTokenAbsent(nik,"QWX","before Daniel signing lock");
+    await daniel.page.getByRole("button",{name:"LOCK MY SIGNINGS",exact:true}).click({timeout:30000});
+    await refreshTransfer(nik);
+    await waitTransferPhase(nik,"signing_entry");
+    await assertPrivateTokenAbsent(nik,"QWX","after Daniel signing lock but before COMPLETED");
+
+    await nik.page.locator("#p2Signing1Name").fill(zpv);
+    await fillTransferCombo(nik,"p2Signing1League","Premier League");
+    await fillTransferCombo(nik,"p2Signing1Nationality","England");
+    await assertPrivateTokenAbsent(daniel,"ZPV","before Nik signing lock");
+    ok("J6.4","rendered pages kept the rival signing tokens private before COMPLETED");
+
+    await nik.page.getByRole("button",{name:"LOCK MY SIGNINGS",exact:true}).click({timeout:30000});
+    await refreshTransfer(daniel);
+    for(const m of [daniel,nik])await waitTransferPhase(m,"completed");
+    for(const m of [daniel,nik]){
+      await m.page.waitForFunction(tokens=>{const text=document.body.innerText||"";return tokens.every(token=>text.includes(token));},["QWX","ZPV"],{timeout:30000});
+    }
+    const revealD=await daniel.page.locator("#transferResultsOne, #transferResultsTwo").allInnerTexts();
+    const revealN=await nik.page.locator("#transferResultsOne, #transferResultsTwo").allInnerTexts();
+    assert.deepEqual(revealN,revealD,"both pages must show the same transfer reveal");
+    ok("J6.5","after COMPLETED both pages revealed and agreed on both managers' transfer outcomes");
+    await shot(daniel,"j6-transfers");await shot(nik,"j6-transfers");
+
     // J4..J12: added by the worker, one section per step (JOB-16 §4).
 
     for(const m of managers){
