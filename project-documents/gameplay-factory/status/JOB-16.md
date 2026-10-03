@@ -1,11 +1,11 @@
 # Status · JOB-16 · Two-manager browser journey (localhost-only emulator switch)
 
-State: BLOCKED
+State: IN PROGRESS
 Step: 8 of 9
-Updated: 2026-10-03 18:00 UTC
+Updated: 2026-10-03 19:35 UTC
 Chat: GPT-5.6 Sol normal chat
 Code branch: gameplay/job-16-browser-journey
-Head commit: e607615dd6b15d8f8db9662a943c19a4cad3e4bc
+Head commit: eb14f81 (lead merge of recovery ca16956)
 PR:
 CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37141913623
 
@@ -346,6 +346,12 @@ Nik errors: `[]`
 2026-10-03T17:57:07.0555225Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
 2026-10-03T17:57:07.0922736Z Cleaning up orphan processes
 ```
+
+- Lead answer (J10 second blocker, 2026-10-03 19:35 UTC): unblocked. Three product fixes are merged into gameplay/recovery-v1. PR #335 (merge ecb41fb): Connected Rivalry initialize() keeps the observed snapshot and preview when it re-initializes the same attached rivalry, and the SSJR bootstrap loads the private-session protocol before the Terminal Close provider (Close used to return TERMINAL_CLOSE_DEPENDENCY_UNAVAILABLE). PR #336 (merge ca16956): once the session closes Shared Setup is no longer ready, so Terminal Close now takes the rivalry from the durable Connected Rivalry binding of the same save and manager (Nik's page now reaches SHARED SHOWDOWN CLOSED, also after a reload); and the season refreshers (multi-season, results, commit, scoring, history, transfers) stay quiet only after a verified CLOSED read, so the post-close read errors you saw on Daniel are gone. The lead merged recovery into your branch (ordinary merges, no force-push): new head eb14f81; your browserJourneySwitchContract stays last; contracts PASS and test:ops 73/0.
+  Lead local run on this code: PASS, 32 numbered checks J0 to J12 and JZ, zero page errors on Daniel, Nik and the stranger, twice. It needed two test-side changes that you should make (J10, J12 and JZ stay strict):
+  1. J5 Career Start: tap #continueClubAssignment only when #productionSharedCareerStartOverlay is not already visible (the overlay sometimes opens first and intercepts the tap).
+  2. J12 after the terminal reload: the career entry overlay (#productionSharedJourneyEntryOverlay, "GET READY") opens on both pages for the closed Showdown. If it is visible, close it with its "Close career entry" button before tapping New Showdown. This is current product behaviour for a closed Showdown and is logged for the resume-after-reload job; do not change product code for it.
+  Next: type continue, make those two test changes, and resume step 8 with the exact-head CI.
 
 ## Self-check
 
