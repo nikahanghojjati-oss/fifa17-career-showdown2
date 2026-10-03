@@ -324,6 +324,40 @@ button { font: inherit; color: inherit; }
 .menuMusicTile.side .menuMediaSelector { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .menuMusicTile.side .menuMusicControls > * { flex: 1; }
 
+/* Job 35 fix 4: goal-registered desktop soundtrack card.
+   Track choices remain in the existing selector/sheet DOM and are not allowed to enlarge the main card. */
+@media (min-width: 761px) {
+  .menuMusicTile,
+  .menuMusicTile.side {
+    left: 64.5vw !important;
+    top: 53.3vh !important;
+    width: 33.5vw !important;
+    height: 17vh !important;
+    min-height: 116px;
+    max-height: 184px;
+    overflow: hidden;
+    grid-template-columns: 52px minmax(0, 1fr) auto;
+    grid-template-rows: minmax(0, 1fr) auto;
+    grid-template-areas:
+      "player head head"
+      "status status ctrl";
+    column-gap: 12px;
+    row-gap: 8px;
+    --vinyl: 44px;
+  }
+  .menuMusicTile .menuMediaSelector,
+  .menuMusicTile.side .menuMediaSelector {
+    display: none;
+  }
+  .menuMusicTile .menuMusicControls,
+  .menuMusicTile.side .menuMusicControls {
+    align-self: end;
+  }
+  .menuMusicTile.side .menuMusicControls > * {
+    flex: initial;
+  }
+}
+
 /* ---------- bottom strip + footer ---------- */
 .menuBottomStrip {
   position: absolute; z-index: 6; left: 50%; bottom: 0; height: var(--ftr); transform: translateX(-50%);
