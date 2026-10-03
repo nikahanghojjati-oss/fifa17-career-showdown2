@@ -559,7 +559,42 @@ $$(".handOv").forEach(d => { d.style.clipPath = "none"; });
   }
 
   /* ---------------- boot ---------------- */
-  async function loadJSON(p, inline) { if (inline) return inline; const r = await fetch(p); return r.json(); }
+  async function loadJSON(p, inline) {
+    if (inline) return inline;
+    const r = await fetch(p);
+    if (!r.ok) throw new Error(`Failed to load ${p}: HTTP ${r.status}`);
+    return r.json();
+  }
+
+  function showUnavailable(err) {
+    console.error("Club Assignment unavailable:", err);
+    document.documentElement.dataset.frame = "UNAVAILABLE";
+    document.documentElement.classList.remove("plateOnly");
+    document.documentElement.classList.add("ready");
+    const stage = $("#stage");
+    if (stage) {
+      stage.style.visibility = "visible";
+      stage.style.opacity = "1";
+    }
+    const screen = $("#clubWheelScreen");
+    if (screen) screen.dataset.clubRevealStage = "unavailable";
+    setClubText($("#clubPackStatus"), "UNAVAILABLE");
+    const status = $("#clubPackStatus");
+    if (status) status.setAttribute("aria-live", "assertive");
+    [$("#openClubPack"), $("#continueClubAssignment")].forEach(button => {
+      if (!button) return;
+      button.disabled = true;
+      button.classList.add("hidden");
+      button.setAttribute("aria-disabled", "true");
+    });
+    const back = $("#clubAssignmentBack");
+    if (back) {
+      back.classList.remove("hidden");
+      back.disabled = false;
+      back.setAttribute("aria-disabled", "false");
+    }
+  }
+
   async function main() {
     const I = window.CLUB_INLINE || {};
     [FX, MAP, HANDS] = await Promise.all([loadJSON("fixtures.json", I.FX), loadJSON("assets/platemap.json", I.MAP), loadJSON("assets/handmap.json", I.HANDS)]);
@@ -581,5 +616,5 @@ $$(".handOv").forEach(d => { d.style.clipPath = "none"; });
     };
   }
   window.ClubPlate = { main, plateToScreen };
-  main();
+  main().catch(showUnavailable);
 })();
