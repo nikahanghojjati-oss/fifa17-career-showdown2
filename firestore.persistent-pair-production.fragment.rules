@@ -346,6 +346,27 @@
       return cmsCompletedShowdownReadable(rivalryId)
         && seasonId in ['season_1','season_2','season_3','season_4','season_5','season_6','season_7','season_8','season_9','season_10'][0:total];
     }
+
+    // CMS_COMPLETED_TRANSFER_READ (JOB-10): a transfer role of a Terminal-Closed Showdown, for season_1..season_N,
+    // only when that season's challenge is publicly COMPLETED (both guesses and both signings locked).
+    // Keeps the existing role/phase condition of ssjrTransferPrivateReadable. Get only.
+    function cmsCompletedTransferRoleReadable(rivalryId, transferId) {
+      let challenge = get(/databases/$(database)/documents/rivalries/$(rivalryId)/transferChallenges/$(transferId)).data;
+      return cmsCompletedSeasonReadable(rivalryId, transferId)
+        && challenge.schemaVersion == 1
+        && challenge.objectType == 'sharedTransferChallenge'
+        && challenge.rivalryId == rivalryId
+        && ssjrTransferSeasonMatches(transferId, challenge.seasonNumber)
+        && challenge.phase == 'COMPLETED'
+        && challenge.guessLockedRoles is list
+        && challenge.guessLockedRoles.size() == 2
+        && 'playerOne' in challenge.guessLockedRoles
+        && 'playerTwo' in challenge.guessLockedRoles
+        && challenge.signingLockedRoles is list
+        && challenge.signingLockedRoles.size() == 2
+        && 'playerOne' in challenge.signingLockedRoles
+        && 'playerTwo' in challenge.signingLockedRoles;
+    }
 // CMS_PERSISTENT_PAIR_FUNCTIONS_END
 
 // CMS_PERSISTENT_PAIR_MATCH_BEGIN
