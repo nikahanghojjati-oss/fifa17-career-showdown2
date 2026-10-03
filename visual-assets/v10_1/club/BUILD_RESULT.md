@@ -42,23 +42,25 @@ CL1 ready · CL2 opening · CL3 manager-one · CL4 manager-two · CL5 versus · 
 | checkpoint commit + push | DONE (`53f3265`) |
 | K4 phone CL1 + CL6 | DONE (all four phone viewports) |
 | K5 frames CL2, CL4, CL5 | DONE (CL2 static gold edge pulse on both packs) |
-| G gates | DONE: G1–G12 pass in all 60 shots (6 frames × 10 viewports). At 1366×640, G3 passes under the decision-1 scroll waiver (vertical scroll only) |
+| G gates | R1 baseline: G1–G12 passed in all 60 shots. JOB-044 closes the 1366×640 scroll waiver in current source/geometry QA; this worker does not claim a new screenshot-pass count because the connector-only repo could not be materialized into the local browser sandbox. |
 | C9 deliverables | DONE |
 
 ## Plate mapping (C4b)
 One function, `plateToScreen(x, y)` in `club.js`, drives the world layer, covers, reveal, hand overlays, `&grid=1` and every QA box.
 - Desktop: `k = max(W/1536, H/864)`, `offX = (W − 1536k)/2`. Vertical bias: `offY = min(64 − 65k, H − 28 − 814k − 2)`, clamped to `[H − 864k − 28, 56]`. The faces clear the 56 px header by 8 px and the buttons stay above the 28 px footer. The plate may slide under the header or footer chrome but never leaves a visible gap.
-- **Short desktop (R1, decision 1):** the header never covers a face.
-  - Trigger: `H − 28 − 814k − 2 < 64 − 65k`, i.e. the plate-registered buttons cannot sit above the footer while the faces clear the header. This happens at 1366×640.
-  - Plate: `offY = min(56, 64 − 65k)`, so the face tops sit exactly 8 px under the header.
-  - Type: below 700 px height, the UI type and controls scale by `max(0.8, H/768)` (0.83 at 640), with every text size floored at 12 px. That covers the title, kicker, league, status, rail, VS, buttons and panel text.
-  - The intake-zone covers keep their plate size, because shrinking them would expose the zone edges.
-  - Buttons: the row moves up to 10 px under the lower of the pack and side-hand boxes, so the primary is visible on load (1366×640: y 549–596).
-  - Panel: the card faces and the CL5/CL6 confirmation follow below the buttons, on the panel cover, which is extended to the plate bottom.
-  - Scroll: the stage grows to its content (757 px at 1366×640) and the document scrolls vertically; the header scrolls with the page. Full-page captures: `evidence/CL*_1366x640_fullpage.jpg`.
+- **Short desktop (JOB-044):** the header still never covers a face, but the page no longer grows or scrolls.
+  - Trigger remains the same short-layout test, which fires at 1366×640.
+  - Plate: the JOB-043 camera scale is preserved (`k = 1366/1536 = 0.8893`, `offY ≈ 6.2`), so the manager faces and packs do not jump to a different camera.
+  - Type: below 700 px height, the UI scale factor remains `max(0.8, H/768)`; body/label text is floored at 12 px.
+  - Bottom trapezoid: its side top rises to plate y 588 only in the short tier, which maps to about y 529 at 1366×640.
+  - Buttons: the primary row is pinned inside the viewport at about y 585–632; BACK moves to the free far-left lane and the main action owns the centre lane.
+  - Footer: decorative footer chrome yields in compact mode; product truth does not require a bottom bar on this screen.
+  - Scroll: `.compact body` and `.compact .stage` stay overflow-hidden/fixed, the old `.scrolly` rules are removed, and the stage never receives an extended document height.
 - Phone band: its own transform, written in `computeTransform()`. In CL1–CL4 the slot is filled with `k = max(w/1536, h/864, min(w/1030, h/554))`, centred on plate x 768 and on y between 50 and 604, so both faces stay whole and any extra height shows more stadium. In CL5/CL6, or when the band is too short to keep both faces whole, the window is plate `[262, 384, 1278, 604]` (pack bodies) at `k = w/1016`. That keeps the faces and top hands fully out of frame. The band slot is capped at 0.82 × viewport width.
 
 ## Intake zones: what the UI hides (owner request: VS and League-confirmed zones)
+
+**JOB-044 current presentation:** the R1 title/banner, rail, VS-medallion, dock and apron cover shapes are no longer rendered. Title, status lines, stepper and VS now float directly on the cleaned plate, as in GOAL_CLUB; the bottom trapezoid and the top-chrome shadow are the only remaining stage-cover geometry. The detailed cover notes below describe the archived R1 evidence and are retained for provenance, not the current render.
 Evidence: `evidence/ZONES_CL1_1366x768_side_by_side.jpg` and `ZONES_CL6_…` (left: plate with zones in magenta; right: built frame, still-visible zone-edge segments in red). Per-viewport segments are in `qa_report.json → shots[].zones`.
 
 Covers are `aria-hidden` dark-glass SVG shapes registered through `plateToScreen`. They are recomputed per viewport so they stay at least 8 screen px clear of faces, hands and packs.
@@ -91,7 +93,7 @@ Covers are `aria-hidden` dark-glass SVG shapes registered through `plateToScreen
 | --- | --- |
 | G1 strings | 0 missing / 0 extra in all 54 shots |
 | G2 ids/aria | all 24 product ids exactly once; `aria-live=polite` on status and confirmation; rail and doors `aria-hidden` |
-| G3 no scroll | pass in every phone and desktop shot (incl. 360×640, 375×553 and 393×660, all frames). 1366×640: vertical scroll is the decision-1 waiver (`G3.shortDesktopScroll`), no horizontal scroll |
+| G3 no scroll | R1 screenshot report passes all phone/normal-desktop shots. JOB-044 source/geometry QA closes the former 1366×640 waiver: fixed compact stage, no `.scrolly` rules, action bottom ≈631.7 px inside a 640 px viewport. |
 | G4 primary | pass, incl. 375×553, 393×660 (CL1 y 530–586, CL6 y 586–642) and 1366×640 on load (y 549–596). CL2–CL5 exempt |
 | G5 clipping | 0 |
 | G6 sizes | pass (phone controls ≥ 44 px, text ≥ 12 px, lock note 14 px) |
@@ -114,19 +116,19 @@ OWNER-3 QA (`qa_report.json → owner3`, 1366×768 and 390×844, CL3–CL6). Eac
 8. Reduced motion: end-state difference in the pack boxes is ≤ 59 of 103 500 px (antialiasing of the transformed crest vs the untransformed one). Evidence in `RIP_*_reduced_motion_{mid,end}.jpg`.
 
 ## Known limits
-1. **1366×640 (resolved in R1 by decision 1).** The plate-registered layout needs about 760 px at this width, so the page scrolls about 117 px. The faces stay 8 px clear of the header and the primary is visible on load. The club-name panel is below the fold until the user scrolls; the crests on the packs show the result above the fold.
+1. **1366×640 scroll waiver — resolved by JOB-044.** Compact mode now stays inside the 640 px viewport with the primary row at about y 585–632 and no vertical page scroll; the JOB-043 plate camera/face clearance is preserved.
 2. The hand protected boxes come from this build's tracing, not the intake platemap (see Pack rip geometry); Claude accepted them (decision 2).
 3. Intake-zone edges that cannot be covered without breaking face or pack clearance are listed above.
 4. At 375×553 the band shows the pack bodies only in every frame. Both faces are fully out of frame, because a 72–100 px band cannot hold them whole at the plate's minimum scale (K4: whole or out, never cut).
 5. CL6 at 375×553 visually hides the duplicate matchup row (K2 allowance). It stays in the DOM. Desktop and the other phone viewports show it.
 6. G9 grep note: the forbidden-asset grep is a raw byte match, and one evidence JPEG's compressed bytes happened to contain that 4-letter sequence. Evidence JPEGs are re-encoded until the grep over this folder returns 0 hits; no file references that asset.
-7. The h2 uses a synthetic italic: the shared fonts folder ships Barlow Condensed 700 upright only.
+7. `TITLE_CLUB_V1` and the shared brush VS asset are not on this branch yet. JOB-044 uses the approved Kaushan display-font fallback with `TODO-WORDMARK` markers and hidden real text for screen readers.
 8. Static checkpoint (C4): frames render at end states. The rip motion runs only with `&play=1` or is driven by `&t=` for evidence.
 
-## R1 (Claude decisions, 2026-10-01)
-1. Short desktop: the header never covers a face. UI type is scaled down below 700 px height and the page scrolls when the layout cannot fit. The primary is visible on load. Done, see Plate mapping.
+## R1 (Claude decisions, 2026-10-01 · historical; JOB-044 supersedes decisions 1 and 3)
+1. Short desktop: historical R1 used page scroll. **Superseded by JOB-044:** no-scroll compact fit; see Plate mapping.
 2. The traced hand boxes (`assets/handmap.json`) are accepted and kept. Noted in the Sol handoff.
-3. The dark-glass title and VS panels stay for now, for Nik's owner look.
+3. Dark-glass title and VS panels were retained in R1. **Superseded by JOB-044:** those covers are removed; title/status/stepper/VS float on the scene.
 4. Added 393×660 @3 (Nik's iPhone, Safari) for every frame: `evidence/CL1..CL6_393x660.jpg`. No page scroll, primary fully visible, faces whole in CL1–CL4 and out of frame in CL5/CL6.
 
 QA re-run: 60/60 shots pass G1–G12. OWNER-3 unchanged: 0 px registration and 0 reveal px above hands.
@@ -139,3 +141,26 @@ QA re-run: 60/60 shots pass G1–G12. OWNER-3 unchanged: 0 px registration and 0
 - **Hands/contact:** all four visible gripping hands are shared-tool straight-alpha cutouts from the approved 2X Club plate. A plate-pixel underlay grown by one logical pixel sits below those feathered cutouts only to block reveal light inside the protected hand interior. Top-finger contact shadows are derived from hand alpha, offset 2.5 logical px and blurred 2.5 px beneath the grip.
 - **QA:** 60/60 Club shots pass G1–G12, plate SHA is unchanged, and OWNER-3 passes at desktop and phone. The only compositor floor is one physical pixel at max RGB delta 3 in 390×844 CL5, present at t=0 and unchanged through the reveal timeline; no reveal energy increases above the protected hand. Full report: `evidence/job43_qa_report.json`.
 
+
+
+## JOB-044 panels + short-laptop polish (2026-10-03)
+
+### Goal comparison
+Compared directly with the supplied `GOAL_CLUB.jpeg`. The current Club composition now follows the goal's panel hierarchy: brush-style display title floating on stadium, two floating status lines, five-step gold-circle rail, a large brush-style VS with no medallion box, and one wide bottom trapezoid carrying the club-lock information. The goal's obsolete top-bar items are not copied; PRODUCT_TRUTH remains authoritative.
+
+`TITLE_CLUB_V1` and the shared brush VS file are not present on this branch, so the title and VS use the kit's Kaushan display-font fallback with `TODO-WORDMARK` comments and hidden semantic text. The phone selector targets only the RIVALRY label so the visual VS fallback keeps its intended size.
+
+### Desktop fit geometry
+Current source was checked at the four desktop tiers below using the same `computeTransform()` equations and CSS dimensions used by the page.
+
+| Viewport | k | Short tier | Primary row | Fit |
+| --- | ---: | --- | --- | --- |
+| 1366×640 | 0.8893 | yes | y 585–631.7 | PASS — inside 640 px; footer hidden |
+| 1366×768 | 0.8893 | no | y 667.7–723.7 | PASS — above footer y 740 |
+| 1440×900 | 1.0417 | no | y 782.3–847.9 | PASS — above footer y 872 |
+| 1920×1080 | 1.2500 | no | y 938.8–1017.5 | PASS — above footer y 1052 |
+
+Static code QA also passed: `club.js` parses, CSS braces balance, no `html.scrolly`/vertical-auto-scroll path remains, desktop stepper circles are exactly 44 px, and `drawCovers()` renders no banner/rail/VS/dock/apron cover polygons. Daniel remains player one on the left and Nik player two on the right.
+
+### Visual-QA limitation
+The supplied GOAL image was available for direct inspection, but this worker's browser sandbox does not have the current connector-only GitHub checkout/assets materialized, so a fresh rendered screenshot sheet could not be produced without inventing evidence. The prior R1/Job-043 screenshot evidence remains in `evidence/`; JOB-044 records only the checks actually run here.
