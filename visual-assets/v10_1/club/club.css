@@ -30,8 +30,12 @@ html:not(.ready) .stage { visibility: hidden; }
 .reveal.on { display: block; }
 .rvInner { position: absolute; }
 .rvBurst { mix-blend-mode: screen; }
-.rvCrest { position: absolute; will-change: transform, opacity; }
-.rvFlap { will-change: transform, opacity; }
+.rvEdge, .rvVoid, .rvHalf { will-change: transform, opacity; }
+.rvVoid { mix-blend-mode: multiply; }
+.rvHalf { z-index: 2; }
+.rvBurst { z-index: 3; }
+.rvCrest { position: absolute; z-index: 4; will-change: transform, opacity; }
+.rvFlap { z-index: 5; will-change: transform, opacity; }
 .crestRim { display: block; width: 100%; height: 100%; filter: drop-shadow(0 0 .6px #F2C45B) drop-shadow(0 0 .6px #F2C45B) drop-shadow(0 0 calc(var(--k) * 12px) rgba(242,196,91,.6)); }
 .crestRim svg { display: block; width: 100%; height: 100%; }
 .handCore, .handOv { pointer-events: none; }
