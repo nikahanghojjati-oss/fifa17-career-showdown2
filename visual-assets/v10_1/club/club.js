@@ -12,6 +12,10 @@
   const PLAY = qs.get("play") === "1";
   const RM = qs.get("rm") === "1" || matchMedia("(prefers-reduced-motion: reduce)").matches;
   const RIP_MS = 1500, RM_MS = 600;
+  const CLUB_SIGNATURE = Object.freeze({
+    anticipationMs: 500,
+    anticipationEase: "cubic-bezier(.2,.7,.3,1)"
+  });
 
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
@@ -505,9 +509,27 @@ $$(".handOv").forEach(d => { d.style.clipPath = "none"; });
     return T_PARAM;
   }
 
+  function setAnticipationState() {
+    const f = FX.frames[FRAME] || FX.frames.CL1;
+    const stages = $(".clubPackStage");
+    const dim = $(".clubAnticipationDim");
+    stages.forEach(stage => stage.classList.remove("is-anticipating"));
+    if (dim) dim.classList.remove("is-anticipating");
+    document.documentElement.style.setProperty("--club-anticipation-ms", CLUB_SIGNATURE.anticipationMs + "ms");
+    document.documentElement.style.setProperty("--club-anticipation-ease", CLUB_SIGNATURE.anticipationEase);
+
+    if (RM || !PLAY) return;
+    const side = f.stage === "opening" ? 0 : (f.stage === "manager-one" ? 1 : -1);
+    if (side < 0 || !stages[side]) return;
+    void stages[side].offsetWidth;
+    stages[side].classList.add("is-anticipating");
+    if (dim) dim.classList.add("is-anticipating");
+  }
+
   function buildAnimations() {
     anims.forEach(a => a.cancel()); anims = [];
     const f = FX.frames[FRAME] || FX.frames.CL1;
+    setAnticipationState();
     RIP.forEach((r, i) => {
       const E = r.els, p = sideProgress(i);
       E.wrap.classList.toggle("on", p != null);
@@ -544,7 +566,9 @@ $$(".handOv").forEach(d => { d.style.clipPath = "none"; });
     const st = $("#clubPackStatus"); st.insertAdjacentHTML("beforebegin", `<span class="stRow"></span>`);
     const sr = $(".stRow"); sr.innerHTML = PACK; sr.appendChild(st);
     $$(".clubRevealProgress span").forEach(s => s.insertAdjacentHTML("afterbegin", `<i class="ring" aria-hidden="true">${svg(20, 20, '<path d="M5.5 10.4l3 3 6-6.4" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>', "ringCheck")}</i>`));
-    $$(".clubCardFace").forEach((f, i) => f.insertAdjacentHTML("afterbegin", `<span class="shieldSlot" aria-hidden="true">${SEALED_SHIELD}<span class="panelCrest"><span class="crestRim">${crestMarkup(i ? FX.clubs.playerTwo : FX.clubs.playerOne)}</span></span></span>`));
+    $(".clubCardFace").forEach((f, i) => f.insertAdjacentHTML("afterbegin", `<span class="shieldSlot" aria-hidden="true">${SEALED_SHIELD}<span class="panelCrest"><span class="crestRim">${crestMarkup(i ? FX.clubs.playerTwo : FX.clubs.playerOne)}</span></span></span>`));
+    $(".clubPackStage").forEach(stage => stage.insertAdjacentHTML("beforeend", '<span class="clubPackAnticipation" aria-hidden="true"></span>'));
+    $("#stage").insertAdjacentHTML("beforeend", '<div class="clubAnticipationDim" aria-hidden="true"></div>');
     $(".clubRevealArea").insertAdjacentHTML("beforeend", `<div class="panelDivider" aria-hidden="true"><i></i><b>VS</b><i></i></div>`);
     $(".clubRevealProgress").insertAdjacentHTML("afterend", `<div class="bandSlot" aria-hidden="true"></div>`);
     $("#openClubPack").insertAdjacentHTML("afterbegin", `<span class="btnGlyph" aria-hidden="true">${PACK_INK}</span>`);
