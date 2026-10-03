@@ -1,4 +1,4 @@
-// JOB-077 step 1 scaffold: fixture-driven text only, no visual styling yet.
+// JOB-077 scaffold + registered Season Results plate.
 (function () {
   "use strict";
 
@@ -7,6 +7,17 @@
   const frameIdNode = document.getElementById("frame-id");
   const stringsNode = document.getElementById("fixture-strings");
   const frameNode = document.getElementById("frame-values");
+
+  window.ShowdownStage.mount(stage, {
+    plate: {
+      width: 1536,
+      height: 864,
+      src1x: "assets/ENV_SR_PLATE_V1_1X.webp",
+      src2x: "assets/ENV_SR_PLATE_V1_2X.webp"
+    },
+    focal: { x: 768, y: 432 },
+    platemap: { phone_band: [120, 45, 1450, 575] }
+  });
 
   function appendValue(parent, key, value) {
     if (value && typeof value === "object") {
