@@ -12,17 +12,32 @@
 <link rel="stylesheet" href="legacy.css">
 </head>
 <body>
-<div id="stage-root" class="stage" data-screen="legacy">
-  <main id="legacy" class="screen" aria-labelledby="legacyHeading">
-    <p id="fixtureEyebrow"></p>
-    <h1 id="legacyHeading"></h1>
-    <p id="fixtureTagline"></p>
-    <p id="fixtureFrameLabel" aria-live="polite"></p>
-    <section class="legacyBox" aria-label="Legacy fixture frame">
-      <div id="fixtureStrings"></div>
-      <div id="fixtureValues"></div>
-    </section>
-  </main>
+<div id="stage-root" class="sd-stage" data-screen="legacy" data-plate-width="1672" data-plate-height="941">
+  <div class="sd-stage__layer sd-stage__layer--plate" aria-hidden="true">
+    <div class="sd-stage__registered"><div class="sd-stage__plate"></div></div>
+  </div>
+  <div class="sd-stage__layer sd-stage__layer--atmosphere" aria-hidden="true"></div>
+  <div class="sd-stage__layer sd-stage__layer--ui">
+    <main id="legacy" class="screen" aria-labelledby="legacyHeading">
+      <p id="fixtureEyebrow"></p>
+      <h1 id="legacyHeading"></h1>
+      <p id="fixtureTagline"></p>
+      <p id="fixtureFrameLabel" aria-live="polite"></p>
+      <section class="legacyBox" aria-label="Legacy fixture frame">
+        <div id="fixtureStrings"></div>
+        <div id="fixtureValues"></div>
+      </section>
+    </main>
+  </div>
+  <div class="sd-stage__layer sd-stage__layer--cutout" aria-hidden="true">
+    <div class="sd-stage__registered">
+      <span class="sd-stage__cutout managerPlateMarker" data-manager="daniel" role="presentation"></span>
+      <span class="sd-stage__cutout managerPlateMarker" data-manager="nik" role="presentation"></span>
+    </div>
+  </div>
+  <div class="sd-stage__layer sd-stage__layer--light" aria-hidden="true">
+    <div class="sd-stage__registered"></div>
+  </div>
 </div>
 <script src="../shared/stage.js"></script>
 <script src="../shared/motion.js"></script>
