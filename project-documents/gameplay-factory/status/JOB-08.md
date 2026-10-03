@@ -34,6 +34,8 @@ CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/r
 
 - Step 8: Codex review arrived during final verification: no major issues on the exact code head, no threads to answer. Gameplay Fast and POS20 are both SUCCESS; PR remains open, mergeable, unmerged. All Done checks PASS; no worker merge or deployment. Team G lead reviews and merges.
 
+- Lead close (2026-10-03): verified PR #326 on exact head e09a9f2: 14/14 checks green, Codex no major issues, nine allowed files, grant limited to closed Showdowns with a verified Terminal Close for the two managers. Merged into gameplay/recovery-v1 as 843e64e. Deploy order at main gate: Rules release before client.
+
 ## Self-check
 - PASS: Tests-first CI 37124538984 at 0108614dd8c3f9d949b20fbac6722ccfa7401a4f: only new contract failed missing module (1/103); all prior emulator steps succeeded; completed matrix I0 failed 0 !== 1. Client-only CI 37124801380 at e827ace71bae43dc5f3cd41f5dfa9ddb20ed9a81: K1-K6 passed, K7 failed at data.connectionState == 'closed'; emulator I0 failed as expected.
 - PASS: Local completed-only contract; full contracts 103/103; operations 73 pass / 0 fail. node --check reader, new tests, journey and injector PASS.
