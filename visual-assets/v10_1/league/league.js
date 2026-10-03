@@ -137,7 +137,7 @@
 
   function layoutDesktop(W, H) {
     setPageScroll(null);
-    const hdr = 56, ftr = 28;
+    const hdr = 56, short = H < 700, ftr = short ? 0 : 28;
     const k = Math.max(W / PW, H / PH);
     let ox = (W - PW * k) / 2, oy = (H - PH * k) / 2;
     // vertical bias: keep both faces >= 8 px below the header (C4b: offsets follow the position)
@@ -151,7 +151,6 @@
     placePlateLayers({ x: 0, y: 0 });
 
     const s = k / (1366 / PW);
-    const short = H < 700;
     q("#leagueWheelScreen h2").style.setProperty("--title-size", px(Math.round((short ? 60 : 72) * Math.min(Math.max(s, 1), 1.25))));
     const tb = q(".title-block");
     const kickerTop = Math.max(hdr + (short ? 6 : 12), oy + 86 * k);
@@ -186,7 +185,7 @@
       const bottomLimit = noteTop === null ? btnTop - 4 : noteTop - 8;
       const span = (bottomLimit - topLimit) / (2 + POINTER);
       // Keep the short-laptop wheel heavy; shift its centre before shrinking it into a small disc.
-      R = Math.max(0.88 * Rfull, Math.min(Rfull, span));
+      R = Math.max(0.85 * Rfull, Math.min(Rfull, span));
       const lo = topLimit + R * (1 + POINTER), hi = bottomLimit - R;
       cy = hi >= lo ? Math.min(Math.max(c.y, lo), hi) : (lo + hi) / 2;
     }
