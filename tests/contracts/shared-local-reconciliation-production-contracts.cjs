@@ -19,9 +19,9 @@ process.stdout.write("PASS r45 production Local Reconciliation exposes one conte
   assert.match(connected,/refreshAttachedSharedState:crHandleRefresh/);assert.match(connected,/publishAttachedSharedState:crHandlePublish/);
   const hex=n=>"a".repeat(n),rivalryId=`pair_${hex(64)}`,binding={saveId:`save_${hex(24)}`,profileId:`profile_${hex(24)}`,managerRole:"playerOne"};
   const envelope={revision:0,contentHash:`sha256:${"b".repeat(64)}`,lifecycleState:"live"};
-  const load=({remoteExists,terminal,refreshOk=true})=>{
+  const load=({remoteExists,terminal,refreshOk=true,cached=null})=>{
     delete require.cache[require.resolve("../../js/productionSharedLocalReconciliation.js")];
-    const calls=[];let cr={connected:true,attached:true,rivalryId,binding,status:"saved-link",observedExists:false,observedEnvelope:null,observedTombstone:false};let published=remoteExists;
+    const calls=[];let cr={connected:true,attached:true,rivalryId,binding,status:"saved-link",observedExists:Boolean(cached),observedEnvelope:cached,observedTombstone:false};let published=remoteExists;
     globalThis.currentShowdown={id:"s",saveId:binding.saveId,sharedJourney:{mode:"shared",rivalryId}};
     globalThis.CareerModeSharedLocalReconciliation=require("../../js/sharedLocalReconciliation.js");
     globalThis.CareerModeProductionSharedHistoryConvergence={getState:()=>({authoritative:true,phase:"HISTORY_CONVERGED",rivalryId})};
@@ -38,7 +38,10 @@ process.stdout.write("PASS r45 production Local Reconciliation exposes one conte
   let r=await t.api.preview();assert.equal(r.ok,true);assert.equal(r.state.phase,"PREVIEW_READY");assert.deepEqual(t.calls,["refresh","preview"],"an existing snapshot is only read, never republished");
   t=load({remoteExists:false,terminal:true});r=await t.api.preview();assert.equal(r.ok,true);assert.deepEqual(t.calls,["refresh","publish","refresh","preview"],"a missing snapshot is published once after a terminal Showdown, then read back");
   t=load({remoteExists:false,terminal:false});r=await t.api.preview();assert.equal(r.ok,false);assert.equal(r.code,"LOCAL_RECONCILIATION_PREVIEW_BLOCKED");assert.deepEqual(t.calls,["refresh"],"no publish before the Showdown is terminal");
+  const stale={...envelope,contentHash:`sha256:${"c".repeat(64)}`};
+  t=load({remoteExists:true,terminal:true,cached:stale});assert.equal(t.api.refresh().phase,"REMOTE_OBSERVED");r=await t.api.preview();assert.equal(r.ok,true);assert.deepEqual(t.calls,["refresh","preview"],"an online Preview re-reads even when a snapshot is cached");assert.equal(globalThis.CareerModeSparkConnectedRivalry.getState().observedEnvelope.contentHash,envelope.contentHash);
   t=load({remoteExists:false,terminal:true,refreshOk:false});r=await t.api.preview();assert.equal(r.ok,false);assert.deepEqual(t.calls,["refresh"],"a failed read never leads to a blind publish");
+  t=load({remoteExists:true,terminal:true,refreshOk:false,cached:stale});r=await t.api.preview();assert.equal(r.ok,false);assert.equal(r.code,"LOCAL_RECONCILIATION_REMOTE_READ_FAILED");assert.deepEqual(t.calls,["refresh"],"a failed online read never previews a cached snapshot");
   for(const k of ["currentShowdown","CareerModeSharedLocalReconciliation","CareerModeProductionSharedHistoryConvergence","CareerModeProductionSharedMultiSeasonProgression","CareerModeSparkConnectedRivalry"])delete globalThis[k];
-  process.stdout.write("PASS r52 Local Reconciliation Preview observes the remote snapshot: read-only when it exists, one terminal-only publish when it is missing, no publish after a failed read or before the Showdown ends\n");
+  process.stdout.write("PASS r52 Local Reconciliation Preview observes the remote snapshot: read-only when it exists, one terminal-only publish when it is missing, online Preview always re-reads, no stale or blind preview/publish after a failed read, no publish before the Showdown ends\n");
 })().catch(error=>{console.error(error);process.exit(1);});

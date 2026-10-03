@@ -56,12 +56,13 @@
   }
   function lrMultiTerminal(){try{const m=root.CareerModeProductionSharedMultiSeasonProgression?.getState?.()||null;return Boolean(m&&m.ok===true&&m.authoritative===true&&m.phase==="SHOWDOWN_COMPLETE"&&m.state&&m.state.terminal===true);}catch(_error){return false;}}
   async function lrObserveRemote(api,before){
-    // Read-only first; publish through the existing Connected Rivalry authority only when the read proves no snapshot and the Showdown is terminal.
-    if(!before||before.phase!=="WAITING_REMOTE"||before.reason!=="remote-not-observed"||!before.binding||!lrOnline())return before;
+    // Online Preview always re-reads (a cached snapshot is only the offline fallback); publish through the existing Connected Rivalry authority only when the read proves no snapshot and the Showdown is terminal.
+    if(!before||!(before.phase==="WAITING_REMOTE"||before.phase==="REMOTE_OBSERVED")||!before.binding||!lrOnline())return before;
     if(typeof api.refreshAttachedSharedState!=="function")return before;
     await api.refreshAttachedSharedState(before.binding);
     const read=api.getState?.()||null;
-    if(read&&read.status==="refreshed"&&read.observedExists===false&&read.observedTombstone!==true&&lrMultiTerminal()&&typeof api.publishAttachedSharedState==="function"){
+    if(!read||!(read.status==="refreshed"||read.status==="tombstoned"))return null;
+    if(read.status==="refreshed"&&read.observedExists===false&&read.observedTombstone!==true&&lrMultiTerminal()&&typeof api.publishAttachedSharedState==="function"){
       await api.publishAttachedSharedState(before.binding);
       await api.refreshAttachedSharedState(before.binding);
     }
@@ -69,7 +70,7 @@
   }
   async function lrPreview(){
     const api=await lrEnsureConnected();let before=lrRefresh();
-    before=await lrObserveRemote(api,before);
+    const observed=await lrObserveRemote(api,before);if(observed===null)return {ok:false,code:"LOCAL_RECONCILIATION_REMOTE_READ_FAILED",state:lrRefresh()};before=observed;
     if(!before||before.previewAllowed!==true)return {ok:false,code:"LOCAL_RECONCILIATION_PREVIEW_BLOCKED",state:before};
     const acceptance=root.CareerModeSSJRPhysicalJourneyAcceptance;
     const acceptanceEnabled=Boolean(acceptance&&acceptance.enabled===true&&typeof acceptance.captureLocalReconciliationBaseline==="function"&&typeof acceptance.verifyLocalReconciliationPreview==="function");
