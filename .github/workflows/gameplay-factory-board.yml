@@ -1,0 +1,50 @@
+name: Gameplay factory board auto-update
+
+# Rebuilds project-documents/gameplay-factory/BOARD.md (and BOARD_STATE.json) whenever a job
+# status or BOARD.json changes on the Team G factory branch, so Nik always sees a current board
+# on GitHub without asking Claude. Times are Boston time. Factory branch only; never runs on main.
+on:
+  push:
+    branches: [factory/gameplay-v1]
+    paths:
+      - project-documents/gameplay-factory/status/**
+      - project-documents/gameplay-factory/jobs/**
+      - project-documents/gameplay-factory/BOARD.json
+      - project-documents/gameplay-factory/tools/board.py
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: gameplay-factory-board
+  cancel-in-progress: false
+
+jobs:
+  board:
+    # Loop guard: the bot's own commit never re-runs this (GITHUB_TOKEN pushes do not trigger workflows either).
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: factory/gameplay-v1
+          fetch-depth: 50
+      - name: Rebuild and commit the board if a job moved
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          B=project-documents/gameplay-factory
+          for i in 1 2 3 4; do
+            git fetch origin factory/gameplay-v1
+            git reset --hard origin/factory/gameplay-v1
+            python3 $B/tools/board.py
+            # Ignore the timestamp line alone: commit only when a job's row actually changed.
+            if git diff -U0 -- $B/BOARD.md | grep '^[-+][^-+]' | grep -qv '· generated 20'; then :; else echo "Board unchanged"; exit 0; fi
+            git add $B/BOARD.md $B/BOARD_STATE.json
+            git commit -m "Gameplay factory: board auto-update [skip ci]"
+            git push origin HEAD:factory/gameplay-v1 && exit 0
+            sleep $((2**i))
+          done
+          exit 1
