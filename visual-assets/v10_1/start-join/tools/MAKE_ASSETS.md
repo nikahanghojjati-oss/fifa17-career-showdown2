@@ -47,3 +47,12 @@ assets/OVL_SJ_DANIEL_HAND_V1_RIM_2X.webp
 ```
 
 Registration rule: every overlay is a full 1672 × 941 logical canvas at 1X, or 3344 × 1882 at 2X, and must remain at scene origin (0,0). Do not add a placement offset, mirror, rotate, or independently scale Daniel.
+
+## Claude intake finish
+
+Ticket 124 remains the authority for the missing CONNECT PLAYERS brush wordmark. Do not use the existing TITLE_SJ_V1.webp because it spells PRIVATE REMOTE JOINING. After the correct wordmark is committed, replace the TODO-WORDMARK display-font fallback in index.html without changing the hidden semantic title.
+
+After the four Daniel hand/rim WebPs above and the correct wordmark are present, build the single-file review page from the Start / Join folder:
+
+cd visual-assets/v10_1/start-join
+python3 tools/build_preview.py
