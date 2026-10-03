@@ -159,3 +159,81 @@ body {
 .ruleBookActions {
   visibility: hidden;
 }
+
+
+/* Step 5 · group A: shared hub reserve, preview state and section index.
+   Rule Book has no product-owned header controls. Keep the 52px shared-nav reserve decorative
+   and expose only fixture-driven preview copy plus the six in-page section numbers. */
+.topbarReserve {
+  position: absolute;
+  z-index: 7;
+  inset: 0 0 auto;
+  height: 52px;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(2, 3, 4, 0.62), rgba(2, 3, 4, 0.16) 72%, transparent);
+  border-bottom: 1px solid rgba(217, 174, 83, 0.16);
+}
+
+#ruleBookPreview.sd-preview-tag {
+  display: inline-flex;
+  position: absolute;
+  z-index: 15;
+  top: 64px;
+  right: 2.2%;
+  min-height: 32px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
+}
+
+#ruleBookPreview[hidden] {
+  display: none;
+}
+
+#ruleBookIndex::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -12px;
+  width: 34px;
+  height: 2px;
+  transform: translateX(-50%);
+  background: var(--sd-gold-metal);
+  box-shadow: 0 0 12px rgba(242, 196, 91, 0.24);
+}
+
+#ruleBookIndex a {
+  position: relative;
+  isolation: isolate;
+  transition:
+    transform var(--sd-duration-feedback) var(--sd-ease-press),
+    border-color var(--sd-duration-feedback),
+    color var(--sd-duration-feedback),
+    background-color var(--sd-duration-feedback),
+    box-shadow var(--sd-duration-feedback);
+}
+
+#ruleBookIndex a::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 5px;
+  border: 1px solid rgba(255, 225, 150, 0.06);
+  pointer-events: none;
+}
+
+#ruleBookIndex a:hover {
+  border-color: var(--sd-gold-300);
+  color: var(--sd-gold-300);
+  background: rgba(24, 21, 13, 0.86);
+  box-shadow: 0 0 18px rgba(242, 196, 91, 0.18);
+}
+
+#ruleBookIndex a:active {
+  transform: translateY(1px);
+}
+
+#ruleBookIndex a:focus-visible {
+  outline: 2px solid var(--sd-gold-300);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px var(--sd-black), var(--sd-shadow-glow);
+}
