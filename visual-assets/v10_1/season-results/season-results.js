@@ -46,6 +46,109 @@
     parent.appendChild(row);
   }
 
+  function scoreResult(result) {
+    if (!result) return null;
+    return (result.championsLeague ? 5 : 0)
+      + (result.leaguePosition === 1 ? 3 : 0)
+      + (result.domesticCup ? 1 : 0)
+      + ((result.leaguePoints >= 100 || result.leagueGoals >= 100) ? 1 : 0)
+      + ((result.topScorer || result.topAssist) ? 1 : 0);
+  }
+
+  function clubLabel(value) {
+    return String(value || "").replaceAll("_", " ").toUpperCase();
+  }
+
+  function renderManagerPanel(fixtures, frame, managerKey) {
+    const panel = document.getElementById(managerKey + "-entry-panel");
+    const result = frame.managers && frame.managers[managerKey];
+    const sealed = (frame.sealed || []).includes(managerKey) || !result;
+    const name = managerKey === "daniel" ? "DANIEL" : "NIK";
+    panel.classList.toggle("is-sealed", sealed);
+    panel.replaceChildren();
+
+    if (sealed) {
+      const box = document.createElement("div");
+      box.className = "sealed-copy";
+      const strong = document.createElement("strong");
+      const sub = document.createElement("span");
+      strong.textContent = "Waiting for " + name;
+      sub.textContent = "Your rival's unpublished season result stays private.";
+      box.append(strong, sub);
+      panel.appendChild(box);
+      return;
+    }
+
+    const ids = fixtures.ids;
+    const fields = ids.fields[managerKey];
+    const header = document.createElement("header");
+    header.className = "manager-card-header";
+    header.innerHTML = '<span class="manager-crown" aria-hidden="true">♛</span><h2 class="manager-name"></h2><p class="manager-club"></p>';
+    header.querySelector(".manager-name").id = ids.managerNames[managerKey];
+    header.querySelector(".manager-name").textContent = name;
+    header.querySelector(".manager-club").id = ids.clubPlaceholders[managerKey];
+    header.querySelector(".manager-club").textContent = clubLabel(frame.context.clubs[managerKey]);
+
+    const hint = document.createElement("p");
+    hint.className = "manager-hint";
+    hint.textContent = fixtures.strings.entryHintTemplate.replace("{MANAGER}", name);
+
+    const body = document.createElement("div");
+    body.className = "manager-fields";
+    const stats = document.createElement("div");
+    stats.className = "stat-fields";
+    const achievements = document.createElement("div");
+    achievements.className = "achievement-fields";
+
+    const numeric = [
+      ["leaguePosition", result.leaguePosition, 1, 20],
+      ["leaguePoints", result.leaguePoints, 0, 114],
+      ["leagueGoals", result.leagueGoals, 0, 300]
+    ];
+    numeric.forEach(([key, value, min, max]) => {
+      const row = document.createElement("div");
+      row.className = "field-row";
+      const label = document.createElement("label");
+      const input = document.createElement("input");
+      label.htmlFor = fields[key];
+      label.textContent = fixtures.strings.fieldLabels[key];
+      input.id = fields[key];
+      input.type = "number";
+      input.inputMode = "numeric";
+      input.min = String(min);
+      input.max = String(max);
+      input.value = String(value);
+      input.disabled = frame.phase !== "entering" || frame.viewer !== managerKey;
+      row.append(label, input);
+      stats.appendChild(row);
+    });
+
+    ["domesticCup", "championsLeague", "topScorer", "topAssist"].forEach((key) => {
+      const row = document.createElement("div");
+      row.className = "achievement-row";
+      const label = document.createElement("label");
+      const input = document.createElement("input");
+      label.htmlFor = fields[key];
+      label.textContent = fixtures.strings.inputAchievements[key];
+      input.id = fields[key];
+      input.type = "checkbox";
+      input.checked = !!result[key];
+      input.disabled = frame.phase !== "entering" || frame.viewer !== managerKey;
+      row.append(label, input);
+      achievements.appendChild(row);
+    });
+
+    body.append(stats, achievements);
+    const score = scoreResult(result);
+    const scoreBar = document.createElement("div");
+    scoreBar.className = "season-score";
+    scoreBar.style.setProperty("--season-score", score);
+    scoreBar.innerHTML = '<span class="season-score-label">SEASON SCORE</span><span class="season-score-track"><i class="season-score-fill"></i></span><strong class="season-score-value"></strong>';
+    scoreBar.querySelector(".season-score-value").textContent = String(score);
+
+    panel.append(header, hint, body, scoreBar);
+  }
+
   function renderTopbar(fixtures) {
     const nav = document.getElementById("season-nav-tabs");
     const route = fixtures.routes.topNavigation;
@@ -86,6 +189,8 @@
     document.getElementById("season-semantic-title").textContent =
       fixtures.strings.titleTemplate.replace("{SEASON_NUMBER}", frame.context.season);
     document.getElementById("scoring-rules-text").textContent = fixtures.strings.scoringRules;
+    renderManagerPanel(fixtures, frame, "daniel");
+    renderManagerPanel(fixtures, frame, "nik");
     renderTree(stringsNode, fixtures.strings);
     renderTree(frameNode, frame);
   }
