@@ -202,14 +202,15 @@ main { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
 
 /* =================== PHONE · JOB-045 =================== */
 .phoneHeroStage, .phoneControlDeck { display: none; }
+.phoneSceneBackground, .phoneHero, .phoneHeroScrim { display: none; }
 .sd-sheet { display: contents; }
 
 @media (max-width: 760px) and (orientation: portrait) {
-  :root { --phone-hero-h: 52dvh; --phone-safe: max(8px, env(safe-area-inset-bottom)); }
+  :root { --phone-hero-h: 55dvh; --phone-safe: max(8px, env(safe-area-inset-bottom)); }
   html, body, .stage { width: 100%; height: 100%; min-height: 0; overflow: hidden; }
   #topHeader, footer { display: none !important; }
   main { position: absolute; inset: 0; overflow: hidden; pointer-events: auto; }
-  .plateClip { inset: 0; z-index: 0; }
+  .plateClip { display: none !important; }
   .hairlineRepair { display: none !important; }
 
   #clubWheelScreen {
@@ -217,11 +218,27 @@ main { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
     display: block; background: #050607;
   }
   .phoneHeroStage {
-    display: block; position: absolute; inset: 0 0 auto; height: var(--phone-hero-h); z-index: 1;
-    overflow: hidden; pointer-events: none;
-    background:
-      radial-gradient(circle at 50% 74%, rgba(242,196,91,.15), transparent 42%),
-      linear-gradient(180deg, rgba(2,3,5,.03), rgba(2,3,5,.26) 70%, #08090b 100%);
+    display: block; position: absolute; inset: 0 0 auto; height: var(--phone-hero-h); z-index: 3;
+    overflow: visible; pointer-events: none;
+  }
+  .phoneSceneBackground {
+    display: block; position: absolute; inset: 0; z-index: 0; overflow: hidden;
+  }
+  .phoneSceneBackground img {
+    display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 45%;
+  }
+  .phoneHero {
+    display: block; position: absolute; z-index: 3; top: 0; width: auto;
+    transform: translateX(-50%); transform-origin: 50% 0; pointer-events: none;
+    filter: drop-shadow(0 8px 10px rgba(0,0,0,.58)) drop-shadow(0 0 2px rgba(255,225,157,.52));
+  }
+  .phoneHero img { display: block; width: auto; height: 100%; max-width: none; object-fit: contain; }
+  .phoneHeroDaniel { left: 31%; top: 3dvh; height: 56dvh; }
+  .phoneHeroNik { left: 69%; top: 2dvh; height: 57dvh; }
+  .phoneHeroScrim {
+    display: block; position: absolute; z-index: 4; left: 0; right: 0; top: 52dvh; height: 48dvh;
+    background: linear-gradient(180deg, rgba(5,6,7,0) 0%, rgba(5,6,7,.58) 42%, rgba(5,6,7,.96) 100%);
+    pointer-events: none;
   }
   .phoneControlDeck {
     display: block; position: absolute; z-index: 2; left: 0; right: 0; top: calc(var(--phone-hero-h) - 8px); bottom: 0;
@@ -348,7 +365,7 @@ main { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
 }
 
 @media (max-width: 760px) and (orientation: portrait) and (max-height: 600px) {
-  :root { --phone-hero-h: 50dvh; }
+  :root { --phone-hero-h: 53dvh; }
   #clubWheelScreen h2 { font-size: 28px; }
   .clubAssignmentHeader { top: calc(var(--phone-hero-h) + 18px); min-height: 38px; }
   #clubCardOne { top: calc(var(--phone-hero-h) + 60px); }
