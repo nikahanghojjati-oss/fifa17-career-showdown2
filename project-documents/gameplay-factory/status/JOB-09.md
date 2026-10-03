@@ -2,11 +2,11 @@
 
 State: IN PROGRESS
 Step: 6 of 7
-Updated: 2026-10-03 15:30 UTC
+Updated: 2026-10-03 15:32 UTC
 Chat: Sol Work mode (job 9, 04fd13bb5a42)
 Code branch: gameplay/job-09-closed-adapter
 Head commit: 744e9a0db9550be8cf74632edcb0f988c2e08ada
-PR:
+PR: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/330 (open, ready for review)
 CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37133244137 (SUCCESS, exact head 744e9a0db9550be8cf74632edcb0f988c2e08ada)
 
 ## Notes
@@ -61,6 +61,18 @@ CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/r
 - PASS closed-Showdown adapter emulator: 12 numbered checks (I0, A Terminal Close, B abandon rebuild, C three-Showdown career for both managers with cache, D stranger and unknown live state).
 - Step 6 qualified budget gate PASS on the refreshed emulator log: exactly two maximum-of-1000 diagnostic lines, followed immediately by denied career-index D13 in Phase A and Phase B; none in the new adapter journey. Compare with recovery f7d18a1 is ahead, behind 0, exactly seven authorized files. Current-head registry has JOB-18 then JOB-09 last; ops ordered likewise; regex dots correct; CI new step last in rules-emulator; persistent pair contractVersion still 4. No worker merge, force-push or deploy.
 
+- Step 7 checkpoint: PR #330 created open/non-draft into gameplay/recovery-v1, exact head 744e9a0, seven files. Body contains both required tables, seven-file list, exact-head green CI URL and required no-change line. PR creation starts the additional POS20 validation checks; do not poll this turn. Fast CI and job proofs are complete; keep IN PROGRESS / Step 6 until next-turn PR checks are read, then finish DONE if green. No Codex review required.
+
 ## Self-check
+- PASS Tests first: run 37132170119 on 88220a9 fails only the new contract (missing adapter) and new emulator journey (missing loader); every existing emulator step green. Adapter-only local test passed C1-C17 and failed L1, as required.
+- PASS Focused/suites: adapter+loader 22/22 locally and on CI; refreshed exact-head full contracts 106/106; operations 73 pass / 0 fail. Local full-suite log lacked final census, so CI provides that count under handbook section 7.
+- PASS Fast CI: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37133244137 SUCCESS on 744e9a0db9550be8cf74632edcb0f988c2e08ada. Both jobs and every step green; new journey 12 checks, completed-only 56, index Phase A 56 / Phase B 58, two-manager journey PASS.
+- PASS Both-manager proofs: new journey A2/C4/C5 verifies Terminal Close witness totals and identical fresh-client models; B2 removes abandoned seasons/records; C2/C3 cache get counts 17 then 2. Live R3 uses JOB-05; unknown live state is partial, stranger gets nothing.
+- PASS Qualified budget gate: exactly two diagnostic lines, immediately followed by denied career-index D13 in Phase A/B; no new-journey diagnostic; all expected-success cases PASS.
+- PASS Scope: compare against recovery f7d18a1 and PR #330 list exactly seven authorized files. No Rules, shell, screen, existing provider/contract/helper, generated Rules or debug log changed. Persistent pair contractVersion stays 4; modules remain unreferenced by the app.
+- PASS Registry: JOB-18 entry retained before JOB-09; JOB-09 registry entry and ops array item last; decoded patterns escape dots once; new CI step last within rules-emulator.
+- PASS Safety: no worker merge, force-push, deploy or main write; no settings, billing, auth, scoring or private-read changes. Integration refresh was performed by the lead.
+- PASS PR: #330 open/non-draft into gameplay/recovery-v1 with both required mapping/proof tables, seven files, green exact-head CI URL and required sentence. Additional PR validation is pending; DONE awaits its next-turn result.
+
 
 ## Blocked question
