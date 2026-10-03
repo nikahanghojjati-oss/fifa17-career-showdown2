@@ -1,8 +1,8 @@
 # Status · JOB-12 · Composed production Rules regression
 
-State: IN PROGRESS
+State: WAITING ON CODEX
 Step: 7 of 8
-Updated: 2026-10-03 23:22 UTC
+Updated: 2026-10-03 23:23 UTC
 Chat: Sol Work mode (job 12, 0374185e849b)
 Code branch: gameplay/job-12-composed-rules-regression
 Head commit: 6dde19a087b29a69d680c34fd55a2e3276974bb9
@@ -10,6 +10,7 @@ PR: #338 https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/338
 CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37158530069 (SUCCESS attempt 2, all four jobs, exact head 6dde19a087b29a69d680c34fd55a2e3276974bb9)
 
 ## Notes
+- Step 8 request saved: PR #338 is open into gameplay/recovery-v1, unmerged, exact head remains 6dde19a. Posted exactly @codex review once after green exact-head CI (comment 5974566096: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/338#issuecomment-5974566096). State WAITING ON CODEX; Step remains 7 of 8 until review or recorded nonresponse is handled. Next turn read review/comments once, fix any real findings in the one permitted fix round, or record review quota/nonresponse per lead instruction; do not repeat the request. No code mutation, merge or deployment.
 - Step 7 complete: opened PR #338, Job 12: composed production Rules regression, from gameplay/job-12-composed-rules-regression into gameplay/recovery-v1. Returned head 6dde19a/base ab704a9, eight changed files, +1298/-1. Body includes the full requirement/proof table, nine hunk owners and line counts, both artifact identities, eight-file scope, exact-head successful CI and tests-first evidence, intermittent inherited browser failure, and required tests-only/no-deployment line. No merge. Next step 8: request Codex once, set WAITING ON CODEX and stop per handbook.
 - Step 6 complete: single read confirms run 37158530069 attempt 2 SUCCESS on exact 6dde19a; all four jobs SUCCESS (the three G-12 jobs retained their successful evidence, inherited browser retry PASS 32 numbered checks J0-J12). Browser failure on attempt 1 is intermittent on the unchanged commit; no fix or assertion change was made. Local composed contract 10/10, census 111/111, operations 73/0, exact eight-file diff against recovery ab704a9, clean worktree; prior literal T2/T3/T8/T9/E1 and 49-check final PASS are verified again from the successful job logs. Live code and recovery refs still 6dde19a/ab704a9. Qualified gate: E1 only S8/D13 and S9/D13; all 49 unique checks PASS, no not ok/NOTE. Next step 7: PR into recovery; no code change, merge or deployment.
 - Step 6a resumed on refreshed exact head 6dde19a: npm ci PASS; standalone composed contract PASS 10 numbered checks; full contracts PASS 111/111; operations 73 pass / 0 fail. git diff --stat against current recovery ab704a9 lists exactly the eight chartered files (1298 insertions, 1 deletion); worktree clean, no generated Rules/debug logs staged or committed. Prior scope failure is resolved by the lead's ordinary merges; no code edits made in this turn.
