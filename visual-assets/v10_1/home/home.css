@@ -246,6 +246,10 @@ button { font: inherit; color: inherit; }
   position: absolute; right: -14px; bottom: -18px; width: 118px; height: 118px;
   object-fit: contain; object-position: center bottom; pointer-events: none; opacity: .96;
   filter: drop-shadow(0 10px 12px rgba(0,0,0,.62)) drop-shadow(0 0 10px rgba(242,196,91,.13));
+  transform-origin: 50% 84%;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  transition: transform var(--home-tile-hover-duration, 110ms) var(--home-tile-hover-ease, cubic-bezier(.2,.8,.2,1));
 }
 #continueCareer { padding-right: 96px; }
 #newShowdown { padding-right: 12px; }
@@ -254,6 +258,31 @@ button { font: inherit; color: inherit; }
   border-color: var(--sd-gold-300, var(--gold));
   transform: translateY(-3px);
   box-shadow: 0 14px 34px rgba(0,0,0,.58), 0 0 22px rgba(242,196,91,.28), inset 0 2px 0 var(--gold);
+}
+.menuTile:not(:disabled):hover .tileArt {
+  transform: perspective(640px) rotateY(calc(-1 * var(--home-tile-hover-tilt, 3deg))) scale(1.015);
+}
+.menuTile::after {
+  content: "";
+  position: absolute;
+  z-index: 3;
+  top: -32%;
+  bottom: -32%;
+  left: -36%;
+  width: 24%;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(100deg, transparent 0%, rgba(255,243,176,.9) 48%, transparent 100%);
+  transform: translate3d(-170%,0,0) skewX(-16deg);
+}
+@keyframes home-tile-hover-glint {
+  0% { opacity: 0; transform: translate3d(-170%,0,0) skewX(-16deg); }
+  20% { opacity: .72; }
+  100% { opacity: 0; transform: translate3d(650%,0,0) skewX(-16deg); }
+}
+.menuTile:not(:disabled):hover::after {
+  animation: home-tile-hover-glint var(--home-tile-hover-duration, 110ms) var(--home-tile-hover-ease, cubic-bezier(.2,.8,.2,1)) both;
+  will-change: transform, opacity;
 }
 .menuTile:focus-visible {
   outline: 2px solid var(--sd-gold-300, var(--gold-hi));
