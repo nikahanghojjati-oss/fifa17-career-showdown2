@@ -1,12 +1,12 @@
 {
- "generated": "2026-10-03 7:53 AM Boston time (EDT)",
+ "generated": "2026-10-03 7:56 AM Boston time (EDT)",
  "branch": "factory/gameplay-v1",
  "integration_branch": "gameplay/recovery-v1",
  "capacity": {
   "chat": 2,
   "work": 1
  },
- "overall": 50,
+ "overall": 51,
  "done": 9,
  "total": 19,
  "start": {
@@ -293,9 +293,9 @@
    "type": "rules",
    "plain": "A shared list of every Showdown the two of you played, protected by Rules.",
    "state": "IN PROGRESS",
-   "step": 6,
+   "step": 7,
    "steps_total": 9,
-   "pct": 66,
+   "pct": 77,
    "ready": false
   },
   {
