@@ -1,27 +1,27 @@
 {
- "generated": "2026-10-03 10:27 AM Boston time (EDT)",
+ "generated": "2026-10-03 10:31 AM Boston time (EDT)",
  "branch": "factory/gameplay-v1",
  "integration_branch": "gameplay/recovery-v1",
  "capacity": {
   "chat": 2,
   "work": 1
  },
- "overall": 62,
- "done": 11,
+ "overall": 63,
+ "done": 12,
  "total": 20,
  "start": {
   "chat": [
    18
   ],
-  "work": []
+  "work": [
+   9
+  ]
  },
  "queued": [
-  9,
   10
  ],
  "working": [
-  16,
-  11
+  16
  ],
  "blocked": [],
  "jobs": [
@@ -278,10 +278,10 @@
    "phase": "2 Career model",
    "type": "test",
    "plain": "Example data for Team V generated from the real model, so visuals and gameplay agree.",
-   "state": "IN PROGRESS",
-   "step": 7,
+   "state": "DONE",
+   "step": 8,
    "steps_total": 8,
-   "pct": 87,
+   "pct": 100,
    "ready": false
   },
   {
