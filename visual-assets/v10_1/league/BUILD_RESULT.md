@@ -133,3 +133,22 @@ Final factory pass: 2026-10-03 UTC on `factory/v1-wtt5ye`.
 - **Factory QA:** `evidence/hands/factory-qa/qa_report.json` = **PASS**, no failing runs across L1–L4 and the factory viewport matrix.
 - **Mockup fidelity (H10):** `evidence/hands/mockup-diff/scores.json` = **PASS**. Build SSIM 0.662, coarse SSIM 0.638, mean ΔE 8.8; protected-box SSIM: Daniel face 0.992, Nik face 0.994, Daniel hand 0.788, Nik hand 0.994. The compare sheet and 4× fingertip proof are in `evidence/hands/COMPARE_GOAL_BUILD.png` and `evidence/hands/FINGERTIP_4X.png`.
 - The transient Job 37 QA workflow removed itself after committing the final evidence.
+
+
+## Job 39 phone · height budget
+
+Arithmetic only; Claude does the real browser intake. The phone composition is absolute-positioned inside a 100svh stage, so the budget treats the title as nested inside the hero band rather than double-counting it. Tabs/sheets are 0 px because Step 1 removed them. The state-note panel is budgeted at 60 px (14 px text × 1.18 line-height, up to 3 lines, plus 10 px vertical padding). The action dock is conservatively budgeted with a 34 px safe-area inset even though CSS floors it at 8 px: 48 px primary + 44 px BACK + 6 px action gap + 34 px safe area = 132 px. A further 6 px separates the state note from the dock.
+
+### Height budget
+
+| viewport | hero band 55svh | title inside hero | tabs/sheet | state-note panel | note→dock gap | action dock incl. 34 px safe area | total reserved | remaining |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 393 × 660 | 363.0 | 44 nested | 0 | 60 | 6 | 132 | 561.0 | 99.0 |
+| 360 × 640 | 352.0 | 44 nested | 0 | 60 | 6 | 132 | 550.0 | 90.0 |
+| 375 × 553 | 304.2 | 44 nested | 0 | 60 | 6 | 132 | 502.2 | 50.8 |
+| 390 × 844 | 464.2 | 44 nested | 0 | 60 | 6 | 132 | 662.2 | 181.8 |
+| 430 × 932 | 512.6 | 44 nested | 0 | 60 | 6 | 132 | 710.6 | 221.4 |
+
+The wheel is intentionally an overlapping focal object, not another stacked row. Its CSS arithmetic also clears the action stack: at 360 × 640 the 240 px wheel ends at y=417.6 while the conservative 60 px note starts at y=442; at 393 × 660 the 251.5 px wheel ends at y=432.7 and the note starts at y=462. At 375 × 553 the 240 px wheel ends at y=380 and the note starts at y=355, a 25 px overlap confined to the lower rim area allowed by the phone plan. The primary button remains fully visible from y=471–519 with the 34 px safe area below it.
+
+Bigger phones grow rather than float: the hero remains 55svh, wheel centre remains 46.5svh until its 440 px clamp, and wheel diameter remains 64vw until its 282 px clamp. Therefore 390 × 844 and 430 × 932 gain 181.8 px and 221.4 px respectively after the reserved composition.
