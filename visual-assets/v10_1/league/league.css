@@ -100,6 +100,9 @@ footer .foot-ver::before { content: "·"; margin-right: 8px; }
 .menuButton, .backButton { height: 56px; box-sizing: border-box; display: inline-flex; align-items: center; justify-content: center; gap: 12px; padding: 0 18px; cursor: pointer;
   font: 700 20px/1 var(--cond); letter-spacing: .06em; text-transform: uppercase; white-space: nowrap; }
 .menuButton { min-width: 300px; color: var(--sd-text-on-gold); background: var(--sd-gold-500); border: 1px solid var(--sd-gold-800); box-shadow: 0 6px 18px rgba(0,0,0,.45), 0 0 18px rgba(245,197,24,.14); }
+@media (min-width: 761px) {
+  #spinLeague { min-width: 285px; width: 285px; height: 58px; }
+}
 .menuButton::before { content: ""; width: 22px; height: 22px; flex: none; background: currentColor; -webkit-mask: var(--spin-ico) center/contain no-repeat; mask: var(--spin-ico) center/contain no-repeat; }
 :root { --spin-ico: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 11a8 8 0 0 0-14.3-4.9L4 8'/%3E%3Cpath d='M4 3v5h5'/%3E%3Cpath d='M4 13a8 8 0 0 0 14.3 4.9L20 16'/%3E%3Cpath d='M20 21v-5h-5'/%3E%3C/svg%3E"); }
 .menuButton:disabled { cursor: default; opacity: 1; color: #17130d; background: linear-gradient(180deg, #D8C184, #B79A59); }
