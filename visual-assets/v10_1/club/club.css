@@ -86,9 +86,9 @@ main { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
 
 /* rail */
 .clubRevealProgress { position: absolute; display: flex; justify-content: space-between; }
-.clubRevealProgress::before { content: ""; position: absolute; left: 4px; right: 4px; top: calc(var(--s) * 18px); height: 1px; background: linear-gradient(90deg, transparent, rgba(242,196,91,.75) 8%, rgba(242,196,91,.75) 92%, transparent); }
+.clubRevealProgress::before { content: ""; position: absolute; left: 4px; right: 4px; top: 22px; height: 1px; background: linear-gradient(90deg, transparent, rgba(242,196,91,.75) 8%, rgba(242,196,91,.75) 92%, transparent); }
 .clubRevealProgress span { position: relative; width: 0; display: flex; flex-direction: column; align-items: center; white-space: nowrap; font: 600 max(12px, calc(var(--s) * 13px))/1.25 var(--cond); letter-spacing: .12em; color: #B3A88F; }
-.ring { display: grid; place-items: center; width: calc(var(--s) * 36px); height: calc(var(--s) * 36px); margin-bottom: calc(var(--s) * 7px); border-radius: 50%; border: 1.5px solid rgba(242,196,91,.55); background: #0b0c0e; color: var(--ink); }
+.ring { display: grid; place-items: center; width: 44px; height: 44px; margin-bottom: calc(var(--s) * 7px); border-radius: 50%; border: 1.5px solid rgba(242,196,91,.55); background: #0b0c0e; color: var(--ink); }
 .ringCheck { width: 55%; height: 55%; display: none; }
 .clubRevealProgress span.active { color: var(--gold); }
 .clubRevealProgress span.active .ring { background: radial-gradient(circle at 50% 35%, #FFE592, #E0AE3A); border-color: #FFE592; box-shadow: 0 0 14px rgba(242,196,91,.6); }
