@@ -8,6 +8,12 @@
       durationMs: 450,
       easing: "cubic-bezier(.22,1,.36,1)",
       danielSettlePx: 2
+    }),
+    tiles: Object.freeze({
+      durationMs: 440,
+      easing: "cubic-bezier(.22,1,.36,1)",
+      staggerMs: 60,
+      settingsExtraDelayMs: 60
     })
   });
   let motionLoadPromise = null;
@@ -16,6 +22,12 @@
     root.style.setProperty("--home-manager-duration", HOME_MOTION.manager.durationMs + "ms");
     root.style.setProperty("--home-manager-ease", HOME_MOTION.manager.easing);
     root.style.setProperty("--home-daniel-settle", HOME_MOTION.manager.danielSettlePx + "px");
+    root.style.setProperty("--home-tile-rise-duration", HOME_MOTION.tiles.durationMs + "ms");
+    root.style.setProperty("--home-tile-rise-ease", HOME_MOTION.tiles.easing);
+    root.style.setProperty("--home-tile-stagger", HOME_MOTION.tiles.staggerMs + "ms");
+    root.style.setProperty("--home-settings-extra-delay", HOME_MOTION.tiles.settingsExtraDelayMs + "ms");
+    // motion.js already schedules panel starts 60 ms apart; zero the CSS-side duplicate delay for Home.
+    root.style.setProperty("--sd-duration-stagger", "0ms");
   }
 
   function loadMotionKit() {
