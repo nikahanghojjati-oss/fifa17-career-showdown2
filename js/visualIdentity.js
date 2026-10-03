@@ -470,65 +470,131 @@ const CLUB_CREST_RECIPES = Object.freeze({
     "Toulouse": crestRecipe("heater", "foot:s", "occitan:a", "purple, white, gold; the Occitan cross", "shield, cross not letters")
 });
 
-const LEAGUE_FLAG_SHIELD = "M32 18H68V44C68 60 58 68 50 72C42 68 32 60 32 44Z";
+const LEAGUE_MARK_V2_TONES = Object.freeze({
+    gold: "#e2b84a",
+    ink: "#121212"
+});
+
+function leagueMarkStar(cx, cy, outer, inner, rotationDeg){
+    const points = [];
+    const start = (rotationDeg || 0) - 90;
+    for(let index = 0; index < 10; index += 1){
+        const radius = index % 2 === 0 ? outer : inner;
+        const angle = (start + index * 36) * Math.PI / 180;
+        points.push(`${(cx + radius * Math.cos(angle)).toFixed(2)} ${(cy + radius * Math.sin(angle)).toFixed(2)}`);
+    }
+    return `M${points.join("L")}Z`;
+}
+
+function leagueMarkCircle(cx, cy, r){
+    return `M${cx - r} ${cy}a${r} ${r} 0 1 0 ${r * 2} 0a${r} ${r} 0 1 0 ${-r * 2} 0Z`;
+}
+
+const LEAGUE_MARK_V2_STUDS = [];
+for(let index = 0; index < 10; index += 1){
+    const angle = (index * 36 - 90) * Math.PI / 180;
+    LEAGUE_MARK_V2_STUDS.push(leagueMarkCircle(
+        Number((50 + 37 * Math.cos(angle)).toFixed(2)),
+        Number((50 + 37 * Math.sin(angle)).toFixed(2)),
+        3.6
+    ));
+}
 
 const LEAGUE_MARK_RECIPES = Object.freeze({
-    premier_league: Object.freeze({ code: "ENG · I", primary: "#3d195b", flag: "england", emblem: "crown" }),
-    laliga: Object.freeze({ code: "ESP · I", primary: "#8f0f1a", flag: "spain", emblem: "star" }),
-    bundesliga: Object.freeze({ code: "GER · I", primary: "#1b1b1f", flag: "germany", emblem: "star" }),
-    serie_a: Object.freeze({ code: "ITA · I", primary: "#0b3a6f", flag: "italy", emblem: "" }),
-    ligue_1: Object.freeze({ code: "FRA · I", primary: "#0b1f4a", flag: "france", emblem: "star" })
+    premier_league: Object.freeze({
+        code: "ENG · I", primary: "#3d195b",
+        layers: Object.freeze([
+            Object.freeze({ d: "M16 62L20 30L36 47L50 20L64 47L80 30L84 62Z" + leagueMarkStar(50, 50, 8, 3.6, 0), rule: "evenodd" }),
+            Object.freeze({ d: leagueMarkCircle(20, 25, 7) + leagueMarkCircle(50, 15, 7.5) + leagueMarkCircle(80, 25, 7) }),
+            Object.freeze({ d: "M16 67H84V76Q84 82 78 82H22Q16 82 16 76Z" })
+        ])
+    }),
+    laliga: Object.freeze({
+        code: "ESP · I", primary: "#8f0f1a",
+        layers: Object.freeze([
+            Object.freeze({ d: "M6 12C8 34 20 44 38 44L62 44C80 44 92 34 94 12C85 25 74 32 62 32L38 32C26 32 15 25 6 12Z" }),
+            Object.freeze({ d: "M20 38L33 38L33 50ZM80 38L67 38L67 50Z" }),
+            Object.freeze({
+                d: "M30 36L70 36L67 62L61 88L39 88L33 62Z"
+                    + "M37 50L47 54L39 58ZM63 50L53 54L61 58Z"
+                    + leagueMarkCircle(44, 78, 3.4) + leagueMarkCircle(56, 78, 3.4),
+                rule: "evenodd"
+            })
+        ])
+    }),
+    bundesliga: Object.freeze({
+        code: "GER · I", primary: "#1b1b1f",
+        layers: Object.freeze([
+            Object.freeze({ d: leagueMarkCircle(50, 50, 45) + leagueMarkCircle(50, 50, 30) + LEAGUE_MARK_V2_STUDS.join(""), rule: "evenodd" }),
+            Object.freeze({ d: leagueMarkCircle(50, 50, 25) + leagueMarkStar(50, 50, 13, 5.6, 0), rule: "evenodd" })
+        ])
+    }),
+    serie_a: Object.freeze({
+        code: "ITA · I", primary: "#0b3a6f",
+        layers: Object.freeze([
+            Object.freeze({ d: "M14 12L40 12L50 19L60 12L86 12L86 48C86 70 70 84 50 93C30 84 14 70 14 48ZM22 19L38 19L50 27L62 19L78 19L78 48C78 65 66 76 50 84C34 76 22 65 22 48Z", rule: "evenodd" }),
+            Object.freeze({ d: "M27 24L37 24L50 32.5L63 24L73 24L73 48C73 62 63 71 50 78C37 71 27 62 27 48Z" + leagueMarkStar(50, 49, 15, 6.4, 0), rule: "evenodd" })
+        ])
+    }),
+    ligue_1: Object.freeze({
+        code: "FRA · I", primary: "#0b1f4a",
+        layers: Object.freeze([
+            Object.freeze({ d: "M44 10L70 10L58 76L72 76L69 90L23 90L26 76L38 76L45 38L31 44L35 24Z" + leagueMarkStar(57, 24, 6.5, 2.8, 10), rule: "evenodd" })
+        ])
+    })
 });
 
-const LEAGUE_FLAGS = Object.freeze({
-    england: `<rect x="32" y="18" width="36" height="60" fill="#f5f5f5"/><rect x="46" y="18" width="8" height="60" fill="#ce1124"/><rect x="32" y="36" width="36" height="8" fill="#ce1124"/>`,
-    spain: `<rect x="32" y="18" width="36" height="60" fill="#c60b1e"/><rect x="32" y="33" width="36" height="22" fill="#ffc400"/>`,
-    germany: `<rect x="32" y="18" width="36" height="60" fill="#dd0000"/><rect x="32" y="18" width="36" height="14" fill="#111"/><rect x="32" y="46" width="36" height="32" fill="#ffce00"/>`,
-    italy: `<rect x="32" y="18" width="12" height="60" fill="#009246"/><rect x="44" y="18" width="12" height="60" fill="#f4f5f0"/><rect x="56" y="18" width="12" height="60" fill="#ce2b37"/>`
-});
-
-function buildLeagueMarkSvg(recipe, idPrefix){
-    let inner;
-    if(recipe.flag === "france"){
-        inner = `<rect x="28" y="26" width="14" height="36" rx="3" fill="#2d5bd6"/><rect x="43" y="26" width="14" height="36" rx="3" fill="#f4f5f0"/><rect x="58" y="26" width="14" height="36" rx="3" fill="#e1343f"/>${crestStar(50, 17, 7, "#d9b54a")}`;
-    }else{
-        inner = `<clipPath id="${idPrefix}f"><path d="${LEAGUE_FLAG_SHIELD}"/></clipPath><g clip-path="url(#${idPrefix}f)">${LEAGUE_FLAGS[recipe.flag] || ""}</g><path d="${LEAGUE_FLAG_SHIELD}" fill="none" stroke="#f3d470" stroke-width="1.5"/>`;
-        if(recipe.emblem === "crown"){
-            inner += `<g transform="translate(35 -3) scale(.25)">${CREST_MOTIFS.crown("#d9b54a", recipe.primary)}</g>`;
-        }else if(recipe.emblem === "star"){
-            inner += crestStar(50, 11, 6, "#d9b54a");
-        }
-    }
-    return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><defs><linearGradient id="${idPrefix}t" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".2"/><stop offset="1" stop-color="#000" stop-opacity=".25"/></linearGradient></defs>`
-        + `<rect x="4" y="4" width="92" height="92" rx="20" fill="#c69a34"/><rect x="8" y="8" width="84" height="84" rx="17" fill="${recipe.primary}"/>${inner}`
-        + `<rect x="8" y="8" width="84" height="84" rx="17" fill="url(#${idPrefix}t)"/>`
-        + `<text x="50" y="87" text-anchor="middle" font-family="system-ui,sans-serif" font-size="10" font-weight="800" letter-spacing="2" fill="#fff">${escapeClubIdentityXml(recipe.code)}</text></svg>`;
+function buildLeagueMarkSvg(recipe, tone = "gold"){
+    const fill = LEAGUE_MARK_V2_TONES[tone] || LEAGUE_MARK_V2_TONES.gold;
+    const body = recipe.layers.map((layer) =>
+        `<path d="${layer.d}"${layer.rule ? ` fill-rule="${layer.rule}"` : ""}/>`
+    ).join("");
+    return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><g fill="${fill}">${body}</g></svg>`;
 }
 
 function getLeagueMark(leagueId){
     const id = String(leagueId || "").trim();
     const recipe = Object.prototype.hasOwnProperty.call(LEAGUE_MARK_RECIPES, id) ? LEAGUE_MARK_RECIPES[id] : null;
     if(!recipe){ return null; }
-    const svg = buildLeagueMarkSvg(recipe, nextCrestIdPrefix());
+    const svg = buildLeagueMarkSvg(recipe, "gold");
     return Object.freeze({
         id,
         code: recipe.code,
         primary: recipe.primary,
         svg,
-        image: toSvgDataUri(buildLeagueMarkSvg(recipe, "lm"))
+        image: toSvgDataUri(svg)
     });
 }
 
+const leagueMarkObservers = new WeakMap();
+
 function applyLeagueMark(element, leagueId){
     if(!element){ return; }
-    const mark = getLeagueMark(leagueId);
-    if(!mark){
+    const id = String(leagueId || "").trim();
+    const recipe = Object.prototype.hasOwnProperty.call(LEAGUE_MARK_RECIPES, id) ? LEAGUE_MARK_RECIPES[id] : null;
+    if(!recipe){
         delete element.dataset.leagueMark;
         element.style.removeProperty("--league-mark-image");
+        const oldObserver = leagueMarkObservers.get(element);
+        if(oldObserver){ oldObserver.disconnect(); leagueMarkObservers.delete(element); }
         return;
     }
+
+    const paint = () => {
+        const tone = element.classList && element.classList.contains("is-top") ? "ink" : "gold";
+        element.style.setProperty("--league-mark-image", toSvgDataUri(buildLeagueMarkSvg(recipe, tone)));
+    };
+
     element.dataset.leagueMark = "original";
-    element.style.setProperty("--league-mark-image", mark.image);
+    paint();
+
+    if(typeof MutationObserver !== "undefined" && !leagueMarkObservers.has(element)){
+        const observer = new MutationObserver((mutations) => {
+            if(mutations.some((mutation) => mutation.attributeName === "class")){ paint(); }
+        });
+        observer.observe(element, { attributes: true, attributeFilter: ["class"] });
+        leagueMarkObservers.set(element, observer);
+    }
 }
 
 const clubIdentityCache = new Map();
