@@ -1,8 +1,8 @@
 # Status · JOB-10 · Transfer history, completed only
 
-State: BLOCKED
-Step: 7 of 8
-Updated: 2026-10-03 17:06 UTC
+State: DONE
+Step: 8 of 8
+Updated: 2026-10-03 17:20 UTC
 Chat: Sol Work mode
 Code branch: gameplay/job-10-transfer-history
 Head commit: 6e1fe56f225c6f0a2d0430027bdea49022785dbd
@@ -103,5 +103,7 @@ CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/r
 - PASS step 2: all listed read-first sources mapped. Only line drift is JOB-11 ops const/array insertion; existing transfer get seams each occur exactly once; JOB-08 K8 still 5, B8/B9 still deny and D6 untouched.
 - PASS baseline: exact current recovery head e44b6959310cfddf4bc1b4bd6275256f3e61ad41; contracts 104/104 (JOB-11 adds one), operations 73/0; CI https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37130995554 green including Completed-only read matrix. After adding G-10 expected contracts 105/105 unless another job merges.
 
+- Lead (step 8): Codex was out of quota, so Nik asked the lead to review in its place. Lead review of 6e1fe56 posted on PR #332 (issuecomment-5971508312): approve, no blocking findings. Role reads are gated on COMPLETED with both lock lists; no list/write grants; unfinished and abandoned challenges stay denied; the reader is lazy, exact-get only, and provenance-checked. CI is 14/14 green on 6e1fe56 and the PR is mergeable. The lead marks the job DONE and merges.
+
 ## Blocked question
-Team G lead: Codex code-review quota is exhausted (PR #332 bot comment 5970904031); review request 5971411469 is posted, but no review or finding threads exist after the single response check. How should the required step-8 review be supplied or authorized when Codex is available? All local/CI evidence is green on 6e1fe56 and the PR is mergeable with exactly ten files. Worker will not purchase credits, change account settings, keep polling, or merge.
+None.

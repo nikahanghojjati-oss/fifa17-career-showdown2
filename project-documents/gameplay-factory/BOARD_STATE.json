@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-03 1:06 PM Boston time (EDT)",
+ "generated": "2026-10-03 1:12 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 12,
@@ -29,20 +29,20 @@
   "chat": 2,
   "work": 1
  },
- "overall": 78,
- "done": 14,
+ "overall": 79,
+ "done": 15,
  "total": 20,
  "start": {
   "chat": [],
-  "work": []
+  "work": [
+   12
+  ]
  },
  "queued": [],
  "working": [
   16
  ],
- "blocked": [
-  10
- ],
+ "blocked": [],
  "jobs": [
   {
    "number": 0,
@@ -194,7 +194,7 @@
    "step": 0,
    "steps_total": 8,
    "pct": 0,
-   "ready": false
+   "ready": true
   },
   {
    "number": 3,
@@ -387,10 +387,10 @@
    "phase": "3 Career history",
    "type": "rules",
    "plain": "Transfer history visible only once a challenge is completed.",
-   "state": "BLOCKED",
-   "step": 7,
+   "state": "DONE",
+   "step": 8,
    "steps_total": 8,
-   "pct": 87,
+   "pct": 100,
    "ready": false
   },
   {
