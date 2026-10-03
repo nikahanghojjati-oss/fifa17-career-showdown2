@@ -2,6 +2,10 @@
 
 ## Verdict
 
+FAIL. Static-review average is 4.11/5, below the 4.2 pass line, and H4 fails because the section index creates six interactive Rule Book actions that product truth does not authorize. H5–H11 remain NOT MEASURED pending Claude evidence and are not treated as failures or fix items.
+
+The review can pass its static product-truth bar once the index becomes non-interactive decoration: criterion 7 would rise from 3/5 to 4/5, taking the nine scored criteria to 4.22/5, while H4 would become PASS. Claude still owns H5–H11 measurement.
+
 ## Scorecard
 
 | Criterion | Score | Evidence |
@@ -83,3 +87,5 @@ Reference: `MOCKUP_CAREER_STATISTICS.png` is style-only for this screen because 
 - NOTE · preview-only fetch failure — `rule-book.js#loadFixtures/.catch` creates the internal error string `Rule Book fixtures could not be loaded.`, but `#ruleBookFrameStatus` is CSS-hidden. It is not a visible invented product state; `TRUTH.md` keeps real module-open failure at app level.
 
 ## Fix list
+
+1. `visual-assets/v10_1/rule-book/rule-book.js` · `buildSections()` / `.ruleBookIndexChip`: replace each generated focusable `<a href="#rule-section-…">` section chip with non-interactive display markup and remove link-only attributes/keyboard focus. Target: `#ruleBookIndex` may still show 01–06 as decoration, but the Rule Book body has zero interactive section-navigation controls and `#ruleBookBack` is the only product action.
