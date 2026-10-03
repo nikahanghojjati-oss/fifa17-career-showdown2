@@ -8,6 +8,19 @@
 
 ## Hard gates
 
+| Gate | Result | Evidence |
+| --- | --- | --- |
+| H1 · Daniel left, Nik right, never mirrored | PASS | Desktop keeps both managers in the registered Home plate with no mirror transform; phone uses explicit Daniel left at 31% and Nik right at 68%, and fixture copy preserves “Daniel vs Nik”. |
+| H2 · Rights / no real crests, leagues, trophies, players or EA/FIFA art | PASS | Runtime Home references original Showdown tile art, the original Showdown trophy asset and manager/scene assets only; no real crest, league logo, real trophy, player photo or EA/FIFA asset is referenced in index.html. |
+| H3 · No live or private data baked into images | PASS | Save state, season status, manager names, availability reasons, destination labels and Audius track text remain DOM/fixture data; image URLs are generic decorative assets. |
+| H4 · Product truth | FAIL | The seven Home destinations are correct and no invented stats appear, but PRODUCT_TRUTH §7 requires the shared desktop top bar HOME / CAREER / STANDINGS / STATS / RULES plus settings. `#topHeader` instead shows CM17 branding, SIGN IN and season status only, so the screen-level code does not yet satisfy the binding navigation truth. |
+| H5 · Phone fit | NOT MEASURED (Claude measures) | No Claude browser measurement is present; worker arithmetic is not promoted to a gate result. |
+| H6 · Inputs ≥16 px / contrast ≥4.5:1 | NOT MEASURED (Claude measures) | No Claude contrast measurement is present. |
+| H7 · Reduced motion | NOT MEASURED (Claude measures) | No Claude reduced-motion measurement is present. |
+| H8 · Keyboard / focus | NOT MEASURED (Claude measures) | No Claude tab-through measurement is present. |
+| H9 · Console / failed requests | NOT MEASURED (Claude measures) | JOB-032 records worker QA with zero console errors, but no Claude intake measurement is present. |
+| H10 · Mockup diff | NOT MEASURED (Claude measures) | `visual-assets/v10_1/home/evidence/scores.json` is absent and no Claude H10 scores are recorded. |
+| H11 · First-paint weight | NOT MEASURED (Claude measures) | Worker-calculated phone hero ceiling exists in JOB-033, but no Claude network measurement is present. |
 
 ## Evidence
 
