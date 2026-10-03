@@ -13,6 +13,8 @@
   const SPIN_EASE = "cubic-bezier(.16,.76,.16,1)";
   const SPIN_CREEP_EASE = "cubic-bezier(.30,.78,.20,1)";
   const SPIN_DEMO_DELAY_MS = 650;
+  const POINTER_TICK_MS = 96;
+  const POINTER_TICK_EASE = "cubic-bezier(.22,.86,.30,1)";
   const SLOT = { cx: 762, cy: 496, r: 240 };          // intake slot centre + radius (plate px)
   // Job 37 measured goal geometry. The visible wheel follows this target; the fingertip is the
   // invariant desktop contact anchor so short-laptop fitting cannot detach the rim from Daniel.
@@ -42,6 +44,8 @@
   let FX, MAP;
   let appliedRotation = 0;
   let spinPresentationTimer = null;
+  let pointerTickRaf = null;
+  let pointerTickAnimation = null;
   const px = (v) => `${v}px`;
   // measurements relative to the stage (equal to viewport coords in the prototype, where the stage is at 0,0)
   function rel(el) { const b = el.getBoundingClientRect(), o = stage.getBoundingClientRect(); return { top: b.top - o.top, bottom: b.bottom - o.top, height: b.height }; }
@@ -128,12 +132,68 @@
       && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   }
 
+  function rotorSector(track) {
+    const transform = getComputedStyle(track).transform;
+    if (!transform || transform === "none") return 0;
+    const matrix = new DOMMatrixReadOnly(transform);
+    const degrees = (Math.atan2(matrix.b, matrix.a) * 180 / Math.PI + 360) % 360;
+    return Math.floor(((degrees + 36) % 360) / 72);
+  }
+
+  function tickPointer(pointer) {
+    if (!pointer || reducedSpinPreferred()) return;
+    if (pointerTickAnimation) pointerTickAnimation.cancel();
+    pointerTickAnimation = pointer.animate([
+      { transform: "translate3d(0,0,0) rotate(0deg)", opacity: 1 },
+      { offset: .34, transform: "translate3d(0,5px,0) rotate(8deg)", opacity: .96 },
+      { offset: .68, transform: "translate3d(0,-1px,0) rotate(-2deg)", opacity: 1 },
+      { transform: "translate3d(0,0,0) rotate(0deg)", opacity: 1 }
+    ], {
+      duration: POINTER_TICK_MS,
+      easing: POINTER_TICK_EASE
+    });
+    pointerTickAnimation.onfinish = () => { pointerTickAnimation = null; };
+  }
+
+  function stopPointerTicks() {
+    if (pointerTickRaf) {
+      cancelAnimationFrame(pointerTickRaf);
+      pointerTickRaf = null;
+    }
+    if (pointerTickAnimation) {
+      pointerTickAnimation.cancel();
+      pointerTickAnimation = null;
+    }
+  }
+
+  function startPointerTicks(track) {
+    if (!track || reducedSpinPreferred()) return;
+    const pointer = q(".wheelPointer");
+    if (!pointer) return;
+    stopPointerTicks();
+    let sector = rotorSector(track);
+    const sample = () => {
+      if (!stage.classList.contains("is-wheel-spinning")) {
+        pointerTickRaf = null;
+        return;
+      }
+      const nextSector = rotorSector(track);
+      if (nextSector !== sector) {
+        tickPointer(pointer);
+        sector = nextSector;
+      }
+      pointerTickRaf = requestAnimationFrame(sample);
+    };
+    pointerTickRaf = requestAnimationFrame(sample);
+  }
+
   function cancelSpinPresentation() {
     if (spinPresentationTimer) {
       window.clearTimeout(spinPresentationTimer);
       spinPresentationTimer = null;
     }
     stage.classList.remove("is-wheel-spinning");
+    stopPointerTicks();
     [q("#leagueWheel .wheelTrack:not(.wheelTrack--blur)"), q("#leagueWheel .wheelTrack--blur")]
       .filter(Boolean)
       .forEach((el) => el.getAnimations().forEach((animation) => animation.cancel()));
@@ -174,6 +234,7 @@
       duration: SPIN_TOTAL_MS,
       fill: "both"
     }));
+    startPointerTicks(track);
 
     await Promise.all(animations.map((animation) => animation.finished.catch(() => null)));
     if ((FX.frames[frameId] || {}).state !== "spinning") return false;
@@ -182,6 +243,7 @@
       el.style.transform = `rotate(${normalizedTarget}deg)`;
       el.getAnimations().forEach((animation) => animation.cancel());
     });
+    stopPointerTicks();
     stage.classList.remove("is-wheel-spinning");
     return true;
   }
