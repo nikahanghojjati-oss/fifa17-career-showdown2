@@ -65,3 +65,9 @@ assets/OVL_SR_NIK_HAND_V1_RIM_2X.webp
 ```
 
 The full-canvas overlays stay registered at (0,0). Do not crop or add placement offsets. CSS supplies the contact shadows and directional rim tint.
+
+## Build review preview
+
+After the generated runtime WebPs exist, change into `visual-assets/v10_1/season-results` and build the self-contained Claude review file. Do not render or screenshot it in the worker chat.
+
+python3 tools/build_preview.py
