@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Rivalry Statistics · Career Mode Showdown</title>
+<link rel="stylesheet" href="../shared/showdown-tokens.css">
+<link rel="stylesheet" href="../shared/showdown-type.css">
+<link rel="stylesheet" href="../shared/showdown-ui.css">
+<link rel="stylesheet" href="../shared/stage.css">
+<link rel="stylesheet" href="../shared/motion.css">
+<link rel="stylesheet" href="rivalry-statistics.css">
+</head>
+<body>
+<section id="statistics" class="screen analyticsScreen" aria-labelledby="statisticsScreenTitle">
+  <div id="stage-root" class="rv-stage" data-primary="#rvBack">
+    <span class="managerMarker managerMarkerDaniel" data-manager="daniel" aria-hidden="true"></span>
+    <span class="managerMarker managerMarkerNik" data-manager="nik" aria-hidden="true"></span>
+    <div class="topbarReserve" aria-hidden="true"></div>
+    <main id="rivalryStatisticsContent" class="analyticsContent rv-shell">
+      <header class="rv-titleBlock" id="rvTitleBlock">
+        <p class="sd-eyebrow">CAREER MODE SHOWDOWN 17</p>
+        <h1 id="statisticsScreenTitle" class="sd-title rv-liveTitle">RIVALRY STATISTICS</h1>
+        <p class="sd-tagline">TWO MANAGERS • ONE LEGACY</p>
+      </header>
+      <div id="rvPreviewChip" class="sd-preview-tag rv-preview">Preview data</div>
+      <div id="rvInterim" class="rv-interim"></div>
+      <section class="rv-comparison sd-panel sd-panel--hero" aria-label="Rivalry totals">
+        <div class="rv-manager rv-manager--left">
+          <div class="rv-crest" id="rvCrestDaniel" aria-hidden="true"></div>
+          <div><strong>DANIEL</strong><span id="rvClubDaniel">Club</span></div>
+        </div>
+        <div class="rv-manager rv-manager--right">
+          <div><strong>NIK</strong><span id="rvClubNik">Club</span></div>
+          <div class="rv-crest" id="rvCrestNik" aria-hidden="true"></div>
+        </div>
+        <div id="rvRows" class="rv-rows"></div>
+      </section>
+      <section class="rv-bottom rv-bottom--head sd-panel" aria-labelledby="rvHeadTitle">
+        <h2 id="rvHeadTitle" class="sd-panel__header">HEAD-TO-HEAD</h2>
+        <div id="rvHeadBody"></div>
+      </section>
+      <section class="rv-bottom rv-bottom--seasons sd-panel" aria-labelledby="rvSeasonTitle">
+        <h2 id="rvSeasonTitle" class="sd-panel__header">SEASON-BY-SEASON</h2>
+        <div id="rvSeasonBody"></div>
+      </section>
+      <section class="rv-bottom rv-bottom--trophies sd-panel" aria-labelledby="rvTrophyTitle">
+        <h2 id="rvTrophyTitle" class="sd-panel__header">TROPHY CABINET</h2>
+        <div id="rvTrophyBody"></div>
+      </section>
+      <div id="rvState" class="rv-state" role="status" aria-live="polite"></div>
+      <div class="analyticsActions rv-actions">
+        <button id="rvBack" class="backButton sd-btn sd-btn--primary" type="button">BACK TO SHOWDOWN HOME</button>
+      </div>
+    </main>
+    <div class="nav-reserve" aria-hidden="true"></div>
+  </div>
+</section>
+<script src="../../../js/visualIdentity.js"></script>
+<script src="../shared/stage.js"></script>
+<script src="../shared/motion.js"></script>
+<script src="rivalry-statistics.js"></script>
+</body>
+</html>
