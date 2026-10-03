@@ -1,8 +1,8 @@
 # Status · JOB-07 · Career index Rules + client + emulator proofs
 
-State: IN PROGRESS
+State: WAITING ON CODEX
 Step: 8 of 9
-Updated: 2026-10-03 11:57 UTC
+Updated: 2026-10-03 11:58 UTC
 Chat: Sol Work mode
 Code branch: gameplay/job-07-career-index
 Head commit: 65a53ff692e789ffa1d3025b6e7efa1adc56bf00
@@ -110,3 +110,5 @@ Do not edit any test assertion to hide the phrase; only change the self-check li
 - Step 7 resumed: Lead qualified the budget gate and set IN PROGRESS. Re-read the exact live code head (65a53ff692e789ffa1d3025b6e7efa1adc56bf00), verified exact-head CI SUCCESS, confirmed the saved client/tests exist, and mechanically associated all limit diagnostics with denied case D13 only. Step 7 now PASS with the original test assertions unchanged. Proceeding to PR and Codex steps.
 
 - Step 8: Opened PR #325 into gameplay/recovery-v1 with the R1-R18 proof table, all ten changed files, exact-head CI URL and deploy-order statement. No merge or deployment.
+
+- Step 9 started: Posted exactly @codex review on PR #325 after verifying exact-head CI green. State WAITING ON CODEX; Step stays 8 until review handling is complete. Request time 2026-10-03T11:58:02.676Z.
