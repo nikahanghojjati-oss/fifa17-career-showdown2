@@ -20,7 +20,7 @@
 
   <div class="sd-stage__layer sd-stage__layer--ui">
     <header class="sj-header">
-      <span id="previewTag"></span>
+      <span id="previewTag" class="sj-preview sd-preview-tag"></span>
       <p id="screenEyebrow" class="sj-eyebrow sd-label"></p>
       <h1 id="screenTitle" class="sj-title sd-title">
         <span class="sd-visually-hidden">CONNECT PLAYERS</span>
@@ -74,7 +74,10 @@
               <p class="sj-role-kicker">CURRENT CONNECTION</p>
               <h2 id="currentHeading" class="sj-role-heading"></h2>
             </div>
-            <span id="currentStateBadge" class="sj-state-badge"></span>
+            <div class="sj-state-meta">
+              <span id="currentStateIcon" class="sj-state-icon" aria-hidden="true"></span>
+              <span id="currentStateBadge" class="sj-state-badge"></span>
+            </div>
           </div>
           <p id="currentStatusCopy" class="sj-current-copy" role="status" aria-live="polite"></p>
           <div id="currentCodeRow" class="sj-code-row" hidden>
