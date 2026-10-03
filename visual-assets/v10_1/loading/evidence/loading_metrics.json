@@ -79,13 +79,8 @@
         },
         {
           "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/loading.css",
-          "encodedBodySize": 6755,
-          "transferSize": 7055
-        },
-        {
-          "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/assets/LOGO_CM17_WORDMARK_LOADING_V1.webp",
-          "encodedBodySize": 102780,
-          "transferSize": 103080
+          "encodedBodySize": 6823,
+          "transferSize": 7123
         },
         {
           "name": "http://127.0.0.1:8765/assets/marco-reus-2015-cc-by.webp",
@@ -93,14 +88,14 @@
           "transferSize": 89308
         },
         {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/assets/LOGO_CM17_WORDMARK_LOADING_V1.webp",
+          "encodedBodySize": 102780,
+          "transferSize": 103080
+        },
+        {
           "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/loading.js",
           "encodedBodySize": 1416,
           "transferSize": 1716
-        },
-        {
-          "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/fixtures.json",
-          "encodedBodySize": 8844,
-          "transferSize": 9144
         },
         {
           "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/barlow-condensed-latin-600-normal.woff2",
@@ -108,19 +103,24 @@
           "transferSize": 22608
         },
         {
-          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/barlow-condensed-latin-700-normal.woff2",
-          "encodedBodySize": 22444,
-          "transferSize": 22744
-        },
-        {
           "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/kaushan-script-latin-400-normal.woff2",
           "encodedBodySize": 34748,
           "transferSize": 35048
         },
         {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/barlow-condensed-latin-700-normal.woff2",
+          "encodedBodySize": 22444,
+          "transferSize": 22744
+        },
+        {
           "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/barlow-latin-400-normal.woff2",
           "encodedBodySize": 22196,
           "transferSize": 22496
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/fixtures.json",
+          "encodedBodySize": 8844,
+          "transferSize": 9144
         }
       ],
       "keyboard": [
@@ -202,6 +202,11 @@
           "transferSize": 6372
         },
         {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/loading.css",
+          "encodedBodySize": 6823,
+          "transferSize": 7123
+        },
+        {
           "name": "http://127.0.0.1:8765/assets/marco-reus-2015-cc-by.webp",
           "encodedBodySize": 89008,
           "transferSize": 89308
@@ -210,11 +215,6 @@
           "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/assets/LOGO_CM17_WORDMARK_LOADING_V1.webp",
           "encodedBodySize": 102780,
           "transferSize": 103080
-        },
-        {
-          "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/loading.css",
-          "encodedBodySize": 6755,
-          "transferSize": 7055
         },
         {
           "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/loading.js",
@@ -237,14 +237,14 @@
           "transferSize": 35048
         },
         {
-          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/barlow-latin-400-normal.woff2",
-          "encodedBodySize": 22196,
-          "transferSize": 22496
-        },
-        {
           "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/barlow-condensed-latin-700-normal.woff2",
           "encodedBodySize": 22444,
           "transferSize": 22744
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/barlow-latin-400-normal.woff2",
+          "encodedBodySize": 22196,
+          "transferSize": 22496
         }
       ],
       "keyboard": [
@@ -321,14 +321,14 @@
           "transferSize": 4018
         },
         {
-          "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/loading.css",
-          "encodedBodySize": 6755,
-          "transferSize": 7055
-        },
-        {
           "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/stage.css",
           "encodedBodySize": 6072,
           "transferSize": 6372
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/loading.css",
+          "encodedBodySize": 6823,
+          "transferSize": 7123
         },
         {
           "name": "http://127.0.0.1:8765/assets/marco-reus-2015-cc-by.webp",
@@ -346,14 +346,14 @@
           "transferSize": 1716
         },
         {
-          "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/fixtures.json",
-          "encodedBodySize": 8844,
-          "transferSize": 9144
-        },
-        {
           "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/barlow-condensed-latin-600-normal.woff2",
           "encodedBodySize": 22308,
           "transferSize": 22608
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/kaushan-script-latin-400-normal.woff2",
+          "encodedBodySize": 34748,
+          "transferSize": 35048
         },
         {
           "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/barlow-condensed-latin-700-normal.woff2",
@@ -366,9 +366,9 @@
           "transferSize": 22496
         },
         {
-          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/kaushan-script-latin-400-normal.woff2",
-          "encodedBodySize": 34748,
-          "transferSize": 35048
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/fixtures.json",
+          "encodedBodySize": 8844,
+          "transferSize": 9144
         }
       ],
       "keyboard": [
@@ -440,9 +440,9 @@
           "transferSize": 4738
         },
         {
-          "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/loading.css",
-          "encodedBodySize": 6755,
-          "transferSize": 7055
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/showdown-type.css",
+          "encodedBodySize": 3718,
+          "transferSize": 4018
         },
         {
           "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/stage.css",
@@ -450,9 +450,9 @@
           "transferSize": 6372
         },
         {
-          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/showdown-type.css",
-          "encodedBodySize": 3718,
-          "transferSize": 4018
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/loading.css",
+          "encodedBodySize": 6823,
+          "transferSize": 7123
         },
         {
           "name": "http://127.0.0.1:8765/assets/marco-reus-2015-cc-by.webp",
@@ -480,14 +480,14 @@
           "transferSize": 35048
         },
         {
-          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/barlow-condensed-latin-700-normal.woff2",
-          "encodedBodySize": 22444,
-          "transferSize": 22744
-        },
-        {
           "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/barlow-latin-400-normal.woff2",
           "encodedBodySize": 22196,
           "transferSize": 22496
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/barlow-condensed-latin-700-normal.woff2",
+          "encodedBodySize": 22444,
+          "transferSize": 22744
         },
         {
           "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/fixtures.json",
@@ -564,19 +564,19 @@
           "transferSize": 4738
         },
         {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/stage.css",
+          "encodedBodySize": 6072,
+          "transferSize": 6372
+        },
+        {
           "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/showdown-type.css",
           "encodedBodySize": 3718,
           "transferSize": 4018
         },
         {
           "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/loading.css",
-          "encodedBodySize": 6755,
-          "transferSize": 7055
-        },
-        {
-          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/stage.css",
-          "encodedBodySize": 6072,
-          "transferSize": 6372
+          "encodedBodySize": 6823,
+          "transferSize": 7123
         },
         {
           "name": "http://127.0.0.1:8765/assets/marco-reus-2015-cc-by.webp",
@@ -599,14 +599,14 @@
           "transferSize": 9144
         },
         {
-          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/barlow-condensed-latin-600-normal.woff2",
-          "encodedBodySize": 22308,
-          "transferSize": 22608
-        },
-        {
           "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/kaushan-script-latin-400-normal.woff2",
           "encodedBodySize": 34748,
           "transferSize": 35048
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/barlow-condensed-latin-600-normal.woff2",
+          "encodedBodySize": 22308,
+          "transferSize": 22608
         },
         {
           "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/barlow-condensed-latin-700-normal.woff2",
@@ -699,13 +699,8 @@
         },
         {
           "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/loading.css",
-          "encodedBodySize": 6755,
-          "transferSize": 7055
-        },
-        {
-          "name": "http://127.0.0.1:8765/assets/marco-reus-2015-cc-by.webp",
-          "encodedBodySize": 89008,
-          "transferSize": 89308
+          "encodedBodySize": 6823,
+          "transferSize": 7123
         },
         {
           "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/assets/LOGO_CM17_WORDMARK_LOADING_V1.webp",
@@ -713,9 +708,19 @@
           "transferSize": 103080
         },
         {
+          "name": "http://127.0.0.1:8765/assets/marco-reus-2015-cc-by.webp",
+          "encodedBodySize": 89008,
+          "transferSize": 89308
+        },
+        {
           "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/loading.js",
           "encodedBodySize": 1416,
           "transferSize": 1716
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/fixtures.json",
+          "encodedBodySize": 8844,
+          "transferSize": 9144
         },
         {
           "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/barlow-condensed-latin-600-normal.woff2",
@@ -736,11 +741,6 @@
           "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/barlow-latin-400-normal.woff2",
           "encodedBodySize": 22196,
           "transferSize": 22496
-        },
-        {
-          "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/fixtures.json",
-          "encodedBodySize": 8844,
-          "transferSize": 9144
         }
       ],
       "keyboard": [
@@ -823,8 +823,8 @@
         },
         {
           "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/loading.css",
-          "encodedBodySize": 6755,
-          "transferSize": 7055
+          "encodedBodySize": 6823,
+          "transferSize": 7123
         },
         {
           "name": "http://127.0.0.1:8765/assets/marco-reus-2015-cc-by.webp",
@@ -840,11 +840,6 @@
           "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/loading.js",
           "encodedBodySize": 1416,
           "transferSize": 1716
-        },
-        {
-          "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/fixtures.json",
-          "encodedBodySize": 8844,
-          "transferSize": 9144
         },
         {
           "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/barlow-condensed-latin-600-normal.woff2",
@@ -865,6 +860,11 @@
           "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/barlow-latin-400-normal.woff2",
           "encodedBodySize": 22196,
           "transferSize": 22496
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/fixtures.json",
+          "encodedBodySize": 8844,
+          "transferSize": 9144
         }
       ],
       "keyboard": [
@@ -947,13 +947,8 @@
         },
         {
           "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/loading.css",
-          "encodedBodySize": 6755,
-          "transferSize": 7055
-        },
-        {
-          "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/assets/LOGO_CM17_WORDMARK_LOADING_V1.webp",
-          "encodedBodySize": 102780,
-          "transferSize": 103080
+          "encodedBodySize": 6823,
+          "transferSize": 7123
         },
         {
           "name": "http://127.0.0.1:8765/assets/marco-reus-2015-cc-by.webp",
@@ -961,24 +956,19 @@
           "transferSize": 89308
         },
         {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/assets/LOGO_CM17_WORDMARK_LOADING_V1.webp",
+          "encodedBodySize": 102780,
+          "transferSize": 103080
+        },
+        {
           "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/loading.js",
           "encodedBodySize": 1416,
           "transferSize": 1716
         },
         {
-          "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/fixtures.json",
-          "encodedBodySize": 8844,
-          "transferSize": 9144
-        },
-        {
           "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/barlow-condensed-latin-600-normal.woff2",
           "encodedBodySize": 22308,
           "transferSize": 22608
-        },
-        {
-          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/barlow-condensed-latin-700-normal.woff2",
-          "encodedBodySize": 22444,
-          "transferSize": 22744
         },
         {
           "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/kaushan-script-latin-400-normal.woff2",
@@ -989,6 +979,16 @@
           "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/barlow-latin-400-normal.woff2",
           "encodedBodySize": 22196,
           "transferSize": 22496
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/barlow-condensed-latin-700-normal.woff2",
+          "encodedBodySize": 22444,
+          "transferSize": 22744
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/fixtures.json",
+          "encodedBodySize": 8844,
+          "transferSize": 9144
         }
       ],
       "keyboard": [
@@ -1065,14 +1065,14 @@
           "transferSize": 4018
         },
         {
-          "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/loading.css",
-          "encodedBodySize": 6755,
-          "transferSize": 7055
-        },
-        {
           "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/stage.css",
           "encodedBodySize": 6072,
           "transferSize": 6372
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/loading.css",
+          "encodedBodySize": 6823,
+          "transferSize": 7123
         },
         {
           "name": "http://127.0.0.1:8765/assets/marco-reus-2015-cc-by.webp",
@@ -1090,9 +1090,9 @@
           "transferSize": 1716
         },
         {
-          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/kaushan-script-latin-400-normal.woff2",
-          "encodedBodySize": 34748,
-          "transferSize": 35048
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/fixtures.json",
+          "encodedBodySize": 8844,
+          "transferSize": 9144
         },
         {
           "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/barlow-condensed-latin-600-normal.woff2",
@@ -1100,9 +1100,9 @@
           "transferSize": 22608
         },
         {
-          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/barlow-condensed-latin-700-normal.woff2",
-          "encodedBodySize": 22444,
-          "transferSize": 22744
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/kaushan-script-latin-400-normal.woff2",
+          "encodedBodySize": 34748,
+          "transferSize": 35048
         },
         {
           "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/barlow-latin-400-normal.woff2",
@@ -1110,9 +1110,9 @@
           "transferSize": 22496
         },
         {
-          "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/fixtures.json",
-          "encodedBodySize": 8844,
-          "transferSize": 9144
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/barlow-condensed-latin-700-normal.woff2",
+          "encodedBodySize": 22444,
+          "transferSize": 22744
         }
       ],
       "keyboard": [
@@ -1123,7 +1123,7 @@
     }
   ],
   "pageWeight": {
-    "resourceBytes": 324727,
+    "resourceBytes": 324795,
     "limitBytes": 460800
   }
 }

@@ -2,7 +2,7 @@
 
 Screen: visual-assets/v10_1/loading
 Frames: LD1, LD2, LD6_UNAVAILABLE
-Generated: 2026-10-03T11:36:24.797Z
+Generated: 2026-10-03T11:39:53.289Z
 
 | Frame | Viewport | Result | Failing gates |
 | --- | --- | --- | --- |
