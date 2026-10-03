@@ -369,22 +369,9 @@ button:focus-visible { outline: 2px solid #FFF1B8; outline-offset: 3px; }
 .manager-marker--daniel { left: 25%; top: 24%; }
 .manager-marker--nik { left: 75%; top: 24%; }
 
-@media (max-width: 760px) and (max-height: 570px) {
-  .stage[data-mode="phone"] .button-row { flex-direction: row; gap: 6px; }
-  .stage[data-mode="phone"] .menuButton {
-    width: auto; min-width: 0; flex: 1 1 auto; padding: 0 8px; font-size: 15px;
-  }
-  .stage[data-mode="phone"] .backButton {
-    width: 92px; min-width: 92px; flex: 0 0 92px; padding: 0 8px; font-size: 16px;
-  }
-}
-
 .stage[data-frame="L2"] .wheelItem {
   background: rgba(7,8,10,.78);
   border-radius: 3px;
   padding-inline: 4px;
 }
 .menuButton:disabled { opacity: 1; }
-@media (max-width: 760px) and (max-height: 570px) {
-  .stage[data-mode="phone"] .stateNote { padding-block: 3px; line-height: 1.1; }
-}
