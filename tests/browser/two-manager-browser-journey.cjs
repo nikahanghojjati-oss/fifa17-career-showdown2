@@ -131,7 +131,20 @@ async function commitSeasonViaUi(daniel,nik,p1,p2,winner){
   await nik.page.locator("#sharedSeasonCommitAction").click({timeout:30000});
   for(const m of [daniel,nik]){
     await m.page.waitForFunction(()=>document.getElementById("sharedSeasonCommitAction")?.textContent==="SEASON COMMIT ACKNOWLEDGED ✓",null,{timeout:45000});
-    await m.page.locator("#sharedCanonicalScoringPanel").waitFor({state:"visible",timeout:45000});
+    try{
+      await m.page.waitForFunction(()=>window.CareerModeProductionSharedCanonicalScoring?.getState?.()?.phase==="SCORING_RECONCILED",null,{timeout:60000});
+    }catch(error){
+      const diag=await m.page.evaluate(()=>({
+        commit:window.CareerModeProductionSharedSeasonCommit?.getState?.()||null,
+        scoring:window.CareerModeProductionSharedCanonicalScoring?.getState?.()||null,
+        setup:window.CareerModeProductionSharedShowdownSetup?.getState?.()||null,
+        seasonEntryVisible:!document.getElementById("seasonEntry")?.classList.contains("hidden"),
+        scoringPanel:Boolean(document.getElementById("sharedCanonicalScoringPanel")),
+        visibility:document.visibilityState
+      }));
+      throw new Error(`J8_CANONICAL_SCORING_NOT_VISIBLE ${JSON.stringify(diag)}`,{cause:error});
+    }
+    await m.page.locator("#sharedCanonicalScoringPanel").waitFor({state:"visible",timeout:5000});
     assert.equal((await m.page.locator("#sharedCanonicalScoringTotals").textContent()).trim(),`Daniel: ${p1} · Nik: ${p2}`);
     assert.equal((await m.page.locator("#sharedCanonicalScoringWinner").textContent()).trim(),winner==="draw"?"Season result: Draw":`Season winner: ${winner}`);
     await m.page.locator("#sharedHistoryConvergencePanel").waitFor({state:"visible",timeout:45000});
