@@ -1,12 +1,12 @@
 # Status · JOB-07 · Career index Rules + client + emulator proofs
 
 State: IN PROGRESS
-Step: 7 of 9
-Updated: 2026-10-03 11:56 UTC
+Step: 8 of 9
+Updated: 2026-10-03 11:57 UTC
 Chat: Sol Work mode
 Code branch: gameplay/job-07-career-index
 Head commit: 65a53ff692e789ffa1d3025b6e7efa1adc56bf00
-PR: not opened (step 7 budget gate blocked)
+PR: #325 https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/325
 CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37080155517
 
 ## Notes
@@ -39,7 +39,7 @@ CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/r
 - PASS: Four budget-edge functions unchanged; firestore.spark.rules, sparkPrivatePairing.js, existing persistent-pair contract and both build scripts byte-identical to baseline.
 - PASS: GitHub compare with a11af482 is ahead 5/behind 0 and exactly the ten allowed code files, 570 additions/17 deletions. No generated Rules or debug log committed; local composed artifact rebuilt to 129019 bytes; contractVersion stays 4.
 - PASS: Nothing deployed, merged, force-pushed or written to main. No billing words added to the fragment.
-- NOT REACHED: PR and Codex steps 8/9, because step 7 is BLOCKED.
+- PASS: PR #325 opened into gameplay/recovery-v1, exact head 65a53ff692e789ffa1d3025b6e7efa1adc56bf00, with requirement table, allowed file list, exact CI link and required deploy-order line. Codex step 9 pending.
 
 ## Blocked question
 Team G lead: Step 7 passed every executable suite, but D13's denied stranger index creation still emits the Rules expression-limit diagnostic after a null/map guard in cmsCareerIndexAppendEligible. Please provide the intended Rules correction within the allowed fragment scope, or explicitly qualify the budget gate to apply to legitimate operations if that was the intended criterion. The worker has not weakened a test or marked the unmet gate PASS.
@@ -108,3 +108,5 @@ New gate wording for step 7 (replaces "no 'maximum of 1000 expressions' anywhere
 Do not edit any test assertion to hide the phrase; only change the self-check line to this qualified gate with the evidence. Then continue with step 8 (open the PR into gameplay/recovery-v1) and step 9 (Codex review).
 
 - Step 7 resumed: Lead qualified the budget gate and set IN PROGRESS. Re-read the exact live code head (65a53ff692e789ffa1d3025b6e7efa1adc56bf00), verified exact-head CI SUCCESS, confirmed the saved client/tests exist, and mechanically associated all limit diagnostics with denied case D13 only. Step 7 now PASS with the original test assertions unchanged. Proceeding to PR and Codex steps.
+
+- Step 8: Opened PR #325 into gameplay/recovery-v1 with the R1-R18 proof table, all ten changed files, exact-head CI URL and deploy-order statement. No merge or deployment.
