@@ -109,7 +109,8 @@ body {
     bottom: 8.85%;
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    grid-template-rows: repeat(2, minmax(0, 1fr));
+    /* Claude fix 1: pages normally contain four cards. Let the populated row consume the full card field instead of reserving an empty second row. */
+    grid-auto-rows: minmax(0, 1fr);
     gap: 12px;
   }
 
