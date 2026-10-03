@@ -2,7 +2,7 @@
 
 State: IN PROGRESS
 Step: 6 of 9
-Updated: 2026-10-02 23:55 UTC
+Updated: 2026-10-03 00:00 UTC
 Chat: Sol Work mode
 Code branch: gameplay/job-07-career-index
 Head commit:
@@ -23,3 +23,5 @@ CI run:
 - Step 5: Applied Appendix E and G fixture updates; kept Date.now() in G hunks to preserve JOB-02's approved clock fix. Both node --check PASS. Exact-head CI 37079528608: Persistent Nik and Daniel pair matrix SUCCESS; Two-manager journey fails on missing createDurableCreationWitness export as expected before step 6, so Career matrix is skipped. All previous assertions preserved except the chartered KNOWN GAP 2 replacement.
 
 - Step 6: Applied Appendix B unchanged: pure append/rollover plan, exact read-only memory index, reads-before-writes witnesses and exports, contractVersion 4. node --check client PASS; career-index contract PASS locally; unchanged persistent-pair contract PASS locally. Client saved on 524020edf2bce953127093ff8dc4a61929dadd90; full CI pending.
+
+- Step 7 first full proof: CI 37079798528 at 524020e passed 102/102 contracts, 73 operations (0 fail), all emulator steps and 58 index checks. Log budget gate FAILED: D13 stranger index forgery was denied, but its missing pair document caused eager .data.data evaluation and a maximum-of-1000 diagnostic. Scope-local correction: cmsCareerIndexAppendEligible now gets the pair resource, rejects null/non-map before accessing pair.data.data; no rivalry or budget-edge function change. Both standalone local contracts still PASS. Full proof re-run pending on 65a53ff692e789ffa1d3025b6e7efa1adc56bf00.
