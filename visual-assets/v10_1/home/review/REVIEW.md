@@ -5,6 +5,20 @@
 
 ## Scorecard
 
+| Criterion | Score | Evidence |
+| --- | ---: | --- |
+| 1 · Mockup fidelity | 3 | The Home keeps the mockup's stadium/manager scene and major hierarchy, but the title block is registered materially higher/left, the soundtrack composition is substantially different, and the required seven-destination band changes the mockup's proportions beyond small polish drift. |
+| 2 · Characters stand out of the menu | 3 | Daniel and Nik stay naturally embedded in the approved plate and keep the correct left/right order, but desktop has no character cut-out layer, rim-light layer or contact-shadow sandwich to let either manager overlap the UI as a foreground subject. |
+| 3 · Hands and contact | 4 | The plate preserves the original natural Daniel pointing hand and Nik chin-on-fist pose without a mirrored or synthetic hand, and the reviewed DOM/CSS adds no panel that visibly requires a hand/UI contact composite. |
+| 4 · Lighting and grade | 4 | The scene remains the approved dark stadium plate and the Home UI uses the shared black-glass/gold-edge treatment with warm top highlights; no flat grey cover panel is introduced in the reviewed Home CSS. |
+| 5 · Typography and title treatment | 4 | Home uses the gold brush wordmark asset with matching rivalry tagline and Barlow-family UI styling, but the lockup's measured position does not align closely enough with the goal image for a 5. |
+| 6 · Panel craft | 4 | Destination tiles use the shared cut-corner black-glass/gold panel language and original illustrated tile assets, with one solid-gold Continue primary action; the denser seven-column band is product-truth driven but visually less close to the goal. |
+| 7 · Information clarity and honesty | 4 | The screen exposes exactly the seven real destinations, makes unavailable history surfaces explicitly disabled with reasons, and keeps Daniel before Nik in rendered copy; it does not invent zero values or unsupported actions. |
+| 9 · Phone composition | 3 | Phone is a genuine recomposition with Daniel left, Nik right and 44 px targets, but its 40vh hero band is materially shorter than the quality bar's about-55% character stage and leaves seven destinations competing in the lower area. |
+| 10 · Polish and finish | 3 | Runtime sources avoid PNG masters and the code has no obvious lorem/debug UI, but desktop navigation is still product-truth incomplete and Claude has not yet supplied console, failed-request, mockup-diff or page-weight measurements. |
+
+Static-review average: **3.56 / 5** across criteria 1–7, 9 and 10. Pass line requires average ≥ 4.2, no criterion below 3, and every hard gate PASS.
+
 
 ## Hard gates
 
