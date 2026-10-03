@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Start / Join · Career Mode Showdown</title>
+<link rel="stylesheet" href="../shared/showdown-tokens.css">
+<link rel="stylesheet" href="../shared/showdown-type.css">
+<link rel="stylesheet" href="../shared/showdown-ui.css">
+<link rel="stylesheet" href="../shared/stage.css">
+<link rel="stylesheet" href="../shared/motion.css">
+<link rel="stylesheet" href="start-join.css">
+</head>
+<body>
+<div id="stage-root" class="stage" data-screen="start-join">
+  <div class="plateView" aria-hidden="true"><div class="plateLayer"></div></div>
+  <span class="managerPlateMarker" data-manager="daniel" role="presentation"></span>
+  <span class="managerPlateMarker" data-manager="nik" role="presentation"></span>
+
+  <header class="sj-header">
+    <span id="previewTag"></span>
+    <p id="screenEyebrow"></p>
+    <h1 id="screenTitle">START / JOIN</h1>
+  </header>
+
+  <main id="startJoinScreen">
+    <section aria-labelledby="stateHeading">
+      <h2 id="stateHeading"></h2>
+      <p id="stateMessage" role="status" aria-live="polite"></p>
+      <p id="stateError" role="alert"></p>
+    </section>
+
+    <section aria-label="Daniel host controls">
+      <h2>DANIEL</h2>
+      <div id="danielActions"></div>
+    </section>
+
+    <section aria-label="Nik join controls">
+      <h2>NIK</h2>
+      <label for="joinCodeInput">CODE</label>
+      <input id="joinCodeInput" type="text" autocomplete="off">
+      <div id="nikActions"></div>
+    </section>
+
+    <section aria-label="Current session">
+      <h2 id="sessionHeading">CURRENT SESSION</h2>
+      <output id="pairingCode"></output>
+      <p id="sessionStatus"></p>
+      <div id="sessionActions"></div>
+    </section>
+
+    <section aria-label="Fixture frame values">
+      <dl id="frameValues"></dl>
+    </section>
+  </main>
+  <div class="nav-reserve" aria-hidden="true"></div>
+</div>
+<script src="../shared/stage.js" defer></script>
+<script src="../shared/motion.js" defer></script>
+<script src="start-join.js" defer></script>
+</body>
+</html>
