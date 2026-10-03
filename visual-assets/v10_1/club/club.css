@@ -181,6 +181,8 @@ main { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
 .compact .clubAssignmentEyebrow { font-size: 13px; }
 .compact #clubPackStatus { font-size: 14px; }
 .compact .clubCardFace strong { font-size: 21px; line-height: 1.05; }
+/* Claude fix 1: restore the 768-style gap between the index/name row and card metadata without shrinking readable type. */
+.compact .clubRevealIndex, .compact .clubManager { transform: translateY(-8px); }
 .compact .clubCardEyebrow, .compact .clubCardState { font-size: 12px; line-height: 1.1; }
 .compact .clubRivalryMatchup, .compact .clubRivalryLockNote { display: none; }
 .compact #clubWheelScreen .menuButton, .compact #clubWheelScreen .backButton { height: calc(var(--s) * 56px); font-size: 18px; }
