@@ -14,8 +14,8 @@
   // finger overlay rect (plate px): keep_rects[0] widened to the hand-box rows so the cut can follow
   // Daniel's sleeve outline (Sol decision LEAGUE-M1); must match tools/make_finger_overlay.py
   const OVL_RECT = [440, 410, 560, 500];
-  const PHONE_MIN_R = 112;   // phone wheel floor (D 224 px = the smallest 360x640 wheel); decision LEAGUE-M2
-  const PHONE_FLOW_R = 114;  // short-phone wheel when the page scrolls (D 228 px >= every 360x640 frame: 224-227)
+  const PHONE_MIN_R = 110;   // phone wheel floor (D 224 px = the smallest 360x640 wheel); decision LEAGUE-M2
+  const PHONE_FLOW_R = 110;  // short-phone wheel when the page scrolls (D 228 px >= every 360x640 frame: 224-227)
   const PHONE_X = [195, 1280], PHONE_Y_TOP = 70, PHONE_HAND_CUT_Y = 520; // Job 37: retain Daniel fingertip/sleeve in the phone band
   const q = (s) => document.querySelector(s);
   const stage = q("#stage-root");
@@ -230,7 +230,7 @@
     Object.assign(T, { k: kb, ox: -PHONE_X[0] * kb, oy: bandTop - PHONE_Y_TOP * kb });
 
     const row = q(".button-row");
-    const rowH = 48 * 2 + 8;
+    const rowH = 44 * 2 + 6;
     const note = q("#leagueStateNote");
     // Phone band now continues through Daniel's fingertip/sleeve. The live wheel is contact-anchored
     // to the same registered fingertip, so the hand remains visible without floating beside the rim.
