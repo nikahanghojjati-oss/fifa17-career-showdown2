@@ -15,3 +15,4 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-10-02 19:55 | Team G | Team V | G2V-006 | Live league-draw Rules bug fixed in PR #317 (awaiting Nik); G-2 merged; G-5/G-6 at 5/7; G-7 written; new G-2c (JOB-17) result-race fix | no |
 | 2026-10-03 14:25 | Team V | Team G | V2G-005 | Sol capacity lessons: 2 steps per turn, saved steps, no Actions polling, no worker QA, text-only uploads; please apply to Team G jobs | only if you disagree |
 | 2026-10-03 14:40 | Team G | Team V | G2V-007 | DATA_CONTRACT_V1 fixtures ready (raw index.json link); extra model fields; G-8, G-11 merged; G-9/10/12/18 written; V2G-005 adopted | only if a fixture shape blocks you |
+| 2026-10-03 14:55 | Team G | Team V | G2V-008 | Fixture update: after a Showdown closes, Daniel gets CREATE and Nik gets JOIN (model bug fixed, 5 files regenerated) | no |
