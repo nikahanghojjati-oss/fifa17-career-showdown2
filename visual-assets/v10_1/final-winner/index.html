@@ -20,6 +20,17 @@
     <div class="finalWinnerConfettiLayer"></div>
   </div>
   <div class="sd-stage__layer sd-stage__layer--ui">
+    <nav class="finalWinnerTopbar" aria-label="Showdown navigation">
+      <span class="finalWinnerBrand" aria-label="Career Mode Showdown 17">CM 17</span>
+      <div class="finalWinnerNavTabs">
+        <button type="button" data-route="mainMenu">HOME</button>
+        <button type="button" data-route="career">CAREER</button>
+        <button type="button" data-route="standings">STANDINGS</button>
+        <button type="button" data-route="statistics">STATS</button>
+        <button type="button" data-route="ruleBook">RULES</button>
+      </div>
+      <button class="finalWinnerSettings" type="button" data-route="settings" aria-label="Settings">⚙</button>
+    </nav>
     <main id="finalWinnerScreen" class="screen" aria-labelledby="finalWinnerTitle">
       <header class="finalWinnerTitleBlock">
         <p class="finalWinnerEyebrow sd-eyebrow">CAREER MODE SHOWDOWN 17</p>
@@ -30,23 +41,35 @@
         <p class="finalWinnerTagline sd-tagline">TWO MANAGERS · ONE LEGACY</p>
       </header>
 
-      <div class="finalWinnerHeroCopySlot" aria-hidden="true"></div>
-      <div class="winnerTrophySlot" aria-hidden="true"></div>
+      <span id="previewLabel" class="finalWinnerPreview sd-preview-tag"></span>
+
+      <section class="finalWinnerHeroCopySlot" aria-labelledby="finalWinnerHeading">
+        <h2 id="finalWinnerHeading" class="finalWinnerStateHeading sd-label"></h2>
+        <p id="outcomeHeadline" class="finalWinnerOutcome"></p>
+        <div class="finalWinnerTotals" aria-label="Final Showdown points">
+          <span class="finalWinnerManager finalWinnerManager--daniel"><small id="danielName">Daniel</small><strong id="danielTotal" class="sd-number"></strong></span>
+          <span class="finalWinnerScoreDash" aria-hidden="true">–</span>
+          <span class="finalWinnerManager finalWinnerManager--nik"><small id="nikName">Nik</small><strong id="nikTotal" class="sd-number"></strong></span>
+        </div>
+        <p id="resultText" class="finalWinnerResultText"></p>
+        <span id="completionMark" class="finalWinnerCompletion sd-chip"></span>
+      </section>
+
+      <div class="winnerTrophySlot" aria-hidden="true">
+        <picture class="winnerTrophyPicture">
+          <source type="image/webp" srcset="../shared/trophies/TRO_SHOWDOWN_CHAMPION_V1_512.webp">
+          <img src="../shared/trophies/TRO_SHOWDOWN_CHAMPION_V1_512.webp" alt="" decoding="async">
+        </picture>
+        <span class="winnerTrophyGlow"></span>
+      </div>
       <section class="finalWinnerResultsPanel sd-panel" aria-label="Final Showdown result"></section>
       <div class="finalWinnerActionsSlot" aria-hidden="true"></div>
 
       <div class="fixtureProbe" aria-hidden="true">
-        <p id="previewLabel"></p>
         <p id="frameNote"></p>
-        <h2 id="finalWinnerHeading"></h2>
         <p id="finalWinnerMessage"></p>
         <p id="finalWinnerStatus"></p>
-        <p id="completionMark"></p>
-        <section aria-label="Final score">
-          <p><span id="danielName">Daniel</span> <span id="danielTotal"></span></p>
-          <p><span id="nikName">Nik</span> <span id="nikTotal"></span></p>
-          <p id="outcomeHeadline"></p>
-          <p id="resultText"></p>
+        <section aria-label="Final score fixture mirror">
           <p id="seasonsPlayed"></p>
         </section>
         <section aria-label="Trophies">

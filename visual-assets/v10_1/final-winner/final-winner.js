@@ -76,6 +76,7 @@
     root.dataset.frame = frameId;
     root.dataset.status = frame.status || "";
     root.dataset.state = frame.state || "";
+    root.dataset.winner = frame.winner || "unconfirmed";
 
     const heading = typeof frame.heading === "object" ? frame.heading.text : frame.heading;
     const message = typeof frame.message === "object" ? frame.message.text : frame.message;
@@ -95,6 +96,16 @@
     setText("nikTrophies", trophyLine("Nik", frame.trophies && frame.trophies.nik));
     renderActions(frame);
     setText("fixtureDump", JSON.stringify(frame, null, 2));
+
+    root.querySelectorAll(".finalWinnerNavTabs [data-route], .finalWinnerSettings[data-route]").forEach((control) => {
+      if (control.dataset.bound === "1") return;
+      control.dataset.bound = "1";
+      control.addEventListener("click", () => {
+        document.dispatchEvent(new CustomEvent("final-winner:intent", {
+          detail: { route: control.dataset.route }
+        }));
+      });
+    });
   }
 
   mountStage();

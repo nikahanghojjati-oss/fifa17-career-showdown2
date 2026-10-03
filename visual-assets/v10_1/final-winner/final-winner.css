@@ -148,3 +148,203 @@ body {
     overflow: hidden;
   }
 }
+
+/* STEP 5 · group A: shared top bar + final-result hero above the results panel. */
+.finalWinnerTopbar {
+  position: absolute;
+  z-index: 20;
+  inset: 0 0 auto;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  padding: 0 2.4vw;
+  box-sizing: border-box;
+  background: linear-gradient(90deg, rgb(5 8 11 / .94), rgb(8 11 15 / .78) 58%, rgb(8 11 15 / .42));
+  border-bottom: 1px solid rgb(242 196 91 / .28);
+}
+
+.finalWinnerBrand {
+  color: var(--sd-gold-300);
+  font: 800 24px/1 var(--sd-font-title);
+  letter-spacing: -.04em;
+}
+
+.finalWinnerNavTabs {
+  display: flex;
+  align-items: stretch;
+  height: 100%;
+}
+
+.finalWinnerNavTabs button,
+.finalWinnerSettings {
+  min-width: 44px;
+  min-height: 44px;
+  border: 0;
+  background: transparent;
+  color: rgb(255 255 255 / .78);
+  font: 700 12px/1 var(--sd-font-condensed);
+  letter-spacing: .14em;
+  cursor: pointer;
+}
+
+.finalWinnerNavTabs button {
+  padding: 0 18px;
+}
+
+.finalWinnerNavTabs button:hover,
+.finalWinnerSettings:hover,
+.finalWinnerNavTabs button:focus-visible,
+.finalWinnerSettings:focus-visible {
+  color: var(--sd-gold-300);
+}
+
+.finalWinnerNavTabs button:focus-visible,
+.finalWinnerSettings:focus-visible {
+  outline: 2px solid var(--sd-gold-300);
+  outline-offset: -4px;
+}
+
+.finalWinnerSettings {
+  margin-left: auto;
+  font-size: 18px;
+}
+
+/* Preview chip: x 617..749, y 57..85 on 1366×768
+   => left 45.17%, top 7.42%, width 9.66%, min height 3.65%. */
+.finalWinnerPreview {
+  position: absolute;
+  z-index: 8;
+  left: 45.17%;
+  top: 7.42%;
+  width: 9.66%;
+  min-height: 3.65%;
+  justify-content: center;
+  pointer-events: none;
+}
+
+/* Hero copy uses the Step 4 measured x/y slot. */
+.finalWinnerHeroCopySlot {
+  display: grid;
+  grid-template-rows: auto auto 1fr auto auto;
+  justify-items: center;
+  align-content: start;
+  gap: .25vh;
+  text-align: center;
+  color: var(--sd-text-primary);
+}
+
+.finalWinnerStateHeading {
+  margin: 0;
+  max-width: 100%;
+  color: var(--sd-text-warm);
+  font-size: clamp(11px, .88vw, 14px);
+  letter-spacing: .16em;
+  text-shadow: 0 2px 8px rgb(0 0 0 / .92);
+  white-space: nowrap;
+}
+
+.finalWinnerOutcome {
+  margin: .15vh 0 0;
+  color: var(--sd-gold-300);
+  font: 800 clamp(25px, 2.45vw, 42px)/.95 var(--sd-font-condensed);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  text-shadow: 0 3px 14px rgb(0 0 0 / .92), 0 0 22px rgb(242 196 91 / .18);
+}
+
+.finalWinnerTotals {
+  display: grid;
+  grid-template-columns: minmax(72px, 1fr) auto minmax(72px, 1fr);
+  align-items: end;
+  width: min(100%, 340px);
+  margin-top: .25vh;
+}
+
+.finalWinnerManager {
+  display: grid;
+  justify-items: center;
+  gap: 0;
+}
+
+.finalWinnerManager small {
+  color: var(--sd-text-secondary);
+  font: 700 clamp(10px, .82vw, 13px)/1 var(--sd-font-condensed);
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  text-shadow: 0 2px 7px rgb(0 0 0 / .92);
+}
+
+.finalWinnerManager .sd-number {
+  font-size: clamp(31px, 3.05vw, 52px);
+  line-height: .92;
+  text-shadow: 0 4px 15px rgb(0 0 0 / .88);
+}
+
+.finalWinnerScoreDash {
+  align-self: end;
+  padding: 0 .42em .18em;
+  color: var(--sd-text-warm);
+  font: 700 clamp(26px, 2.5vw, 44px)/1 var(--sd-font-condensed);
+}
+
+.finalWinnerResultText {
+  margin: .18vh 0 0;
+  color: var(--sd-text-primary);
+  font: 600 clamp(11px, .9vw, 14px)/1.1 var(--sd-font-condensed);
+  letter-spacing: .07em;
+  text-shadow: 0 2px 7px rgb(0 0 0 / .94);
+}
+
+.finalWinnerCompletion {
+  min-height: 24px;
+  margin-top: .2vh;
+  color: var(--sd-gold-300);
+  border-color: rgb(242 196 91 / .72);
+  background: rgb(8 9 12 / .88);
+}
+
+.finalWinnerCompletion:empty,
+.finalWinnerResultText:empty,
+.finalWinnerOutcome:empty,
+.finalWinnerStateHeading:empty {
+  display: none;
+}
+
+.winnerTrophySlot {
+  display: grid;
+  place-items: center;
+}
+
+.winnerTrophyPicture {
+  position: relative;
+  z-index: 2;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.winnerTrophyPicture img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 18px 24px rgb(0 0 0 / .66)) drop-shadow(0 0 22px rgb(242 196 91 / .22));
+}
+
+.winnerTrophyGlow {
+  position: absolute;
+  z-index: 1;
+  width: 72%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgb(242 196 91 / .22), rgb(242 196 91 / .06) 42%, transparent 72%);
+  filter: blur(12px);
+}
+
+#stage-root[data-status="loading"] .winnerTrophySlot,
+#stage-root[data-status="empty"] .winnerTrophySlot,
+#stage-root[data-status="unavailable"] .winnerTrophySlot {
+  opacity: .34;
+  filter: saturate(.35);
+}
