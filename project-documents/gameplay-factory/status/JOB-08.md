@@ -1,6 +1,6 @@
 # Status · JOB-08 · Completed-only read grant + session-free reader
 
-State: IN PROGRESS
+State: WAITING ON CODEX
 Step: 7 of 8
 Updated: 2026-10-03 13:11 UTC
 Chat: Sol Work mode
@@ -29,6 +29,8 @@ CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/r
 - Step 6: Full local and exact-head CI proof PASS; 103/103 contracts, operations 73/0, every emulator step green, completed-read 56 checks, journey updated, career-index Phase A 56 / Phase B 58. Qualified budget gate PASS (next ok is denied D14, stderr immediately follows denied D13; details in Self-check). Diff exactly nine allowed files.
 
 - Step 7: Opened PR #326 into gameplay/recovery-v1 on exact head e09a9f24f00f1a680b66e0dd942bcbb8a7df9176. Body contains both requirement/read-surface tables, all nine files, exact-head green CI link and required deploy-order statement. No merge or deploy.
+
+- Step 7: Step 8 started: Posted exactly @codex review on PR #326 after full green exact-head CI. Waiting for Codex and any one permitted fix round; step remains 7 until review is handled.
 
 ## Self-check
 - PASS: Tests-first CI 37124538984 at 0108614dd8c3f9d949b20fbac6722ccfa7401a4f: only new contract failed missing module (1/103); all prior emulator steps succeeded; completed matrix I0 failed 0 !== 1. Client-only CI 37124801380 at e827ace71bae43dc5f3cd41f5dfa9ddb20ed9a81: K1-K6 passed, K7 failed at data.connectionState == 'closed'; emulator I0 failed as expected.
