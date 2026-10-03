@@ -3,7 +3,20 @@
 (function () {
   "use strict";
   const PW = 1672, PH = 941;
+  const HOME_MOTION = Object.freeze({
+    manager: Object.freeze({
+      durationMs: 450,
+      easing: "cubic-bezier(.22,1,.36,1)",
+      danielSettlePx: 2
+    })
+  });
   let motionLoadPromise = null;
+
+  function applyHomeMotionConstants(root) {
+    root.style.setProperty("--home-manager-duration", HOME_MOTION.manager.durationMs + "ms");
+    root.style.setProperty("--home-manager-ease", HOME_MOTION.manager.easing);
+    root.style.setProperty("--home-daniel-settle", HOME_MOTION.manager.danielSettlePx + "px");
+  }
 
   function loadMotionKit() {
     if (typeof window.sdEnter === "function") return Promise.resolve(window.sdEnter);
@@ -384,6 +397,7 @@
     if (document.fonts && document.fonts.ready) await document.fonts.ready;
     layout(MAP);
     layout(MAP); // second pass: heading height settles after fonts and widths
+    applyHomeMotionConstants(stage);
     await runHomeEntrance(stage);
     addEventListener("resize", () => layout(MAP));
     // Visual-only routing: each tile names the existing product destination it opens (fixtures.routes); no data code runs.
