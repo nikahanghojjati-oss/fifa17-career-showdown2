@@ -351,6 +351,18 @@ button { font: inherit; color: inherit; }
   box-shadow: 0 0 0 1px rgba(201,155,69,.5), 0 6px 16px rgba(0,0,0,.6);
 }
 .vinyl i { position: absolute; inset: 14%; border-radius: 50%; box-shadow: inset 0 0 0 1px rgba(255,241,184,.08); }
+
+@keyframes home-vinyl-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.menuMusicTile[data-playback="playing"] .vinyl {
+  animation: home-vinyl-spin var(--home-vinyl-rotation, 2400ms) linear infinite;
+  will-change: transform;
+}
+.menuMusicTile:not([data-playback="playing"]) .vinyl {
+  animation: none;
+}
 .eq { display: flex; align-items: flex-end; gap: 3px; height: 12px; }
 .eq i { display: block; width: 4px; background: var(--gold); border-radius: 1px; }
 .eq i:nth-child(1) { height: 5px; } .eq i:nth-child(2) { height: 10px; } .eq i:nth-child(3) { height: 12px; } .eq i:nth-child(4) { height: 7px; } .eq i:nth-child(5) { height: 9px; }
