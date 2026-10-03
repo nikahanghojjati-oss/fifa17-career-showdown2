@@ -228,7 +228,26 @@ main { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
 .clubRivalryConfirmation { position: absolute; display: flex; flex-direction: column; align-items: center; text-align: center; }
 .clubRivalryHeadline { display: grid; grid-template-columns: auto auto; grid-template-rows: var(--tabH) auto; align-items: center; justify-content: center; column-gap: max(12px, calc(var(--s) * 12px)); }
 .clubRivalryHeadline small { grid-column: 1 / -1; }
-.clubRivalryHeadline span { font: 600 max(12px, calc(var(--s) * 12px))/1.25 var(--cond); letter-spacing: .3em; color: var(--gold); }
+.clubRivalryHeadline span {
+  position: relative;
+  font: 600 max(12px, calc(var(--s) * 12px))/1.25 var(--cond); letter-spacing: .3em; color: var(--gold);
+}
+.clubRivalryHeadline span::after {
+  content: ""; position: absolute; left: -.75em; right: -.42em; top: 50%; height: 1.9em;
+  border: 2px solid rgba(242,196,91,.96); border-radius: 2px;
+  box-shadow: 0 0 14px rgba(242,196,91,.34), inset 0 0 8px rgba(255,241,184,.12);
+  opacity: 0; transform: translateY(-50%) rotate(-6deg) scale(1.45);
+  pointer-events: none;
+}
+.clubRivalryHeadline span.is-lock-stamping::after {
+  animation: clubLockStamp var(--club-lock-ms, 420ms) var(--club-lock-ease, cubic-bezier(.2,.9,.28,1)) both;
+}
+@keyframes clubLockStamp {
+  0%, 24% { opacity: 0; transform: translateY(-50%) rotate(-6deg) scale(1.45); }
+  48% { opacity: 1; transform: translateY(-50%) rotate(-6deg) scale(.92); }
+  70% { opacity: .95; transform: translateY(-50%) rotate(-6deg) scale(1.04); }
+  100% { opacity: .72; transform: translateY(-50%) rotate(-6deg) scale(1); }
+}
 .clubRivalryHeadline strong { font: 700 calc(var(--s) * 22px)/1.15 var(--cond); letter-spacing: .05em; color: #FFF6DE; text-shadow: 0 2px 8px #000; }
 .clubRivalryHeadline small { font: 600 max(12px, calc(var(--s) * 13px))/1.2 var(--cond); letter-spacing: .12em; color: #CDBF9E; margin-top: calc(var(--s) * 3px); }
 .clubRivalryMatchup { display: flex; align-items: center; gap: max(12px, calc(var(--s) * 14px)); margin-top: calc(var(--s) * 4px); }
