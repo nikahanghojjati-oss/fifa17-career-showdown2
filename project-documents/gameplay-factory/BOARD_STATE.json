@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-03 11:10 AM Boston time (EDT)",
+ "generated": "2026-10-03 11:13 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 12,
@@ -368,9 +368,9 @@
    "type": "build",
    "plain": "Finished Showdowns flow into career totals and the Trophy Room.",
    "state": "IN PROGRESS",
-   "step": 2,
+   "step": 3,
    "steps_total": 7,
-   "pct": 28,
+   "pct": 42,
    "ready": false
   },
   {

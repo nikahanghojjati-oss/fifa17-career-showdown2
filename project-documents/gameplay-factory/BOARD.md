@@ -6,7 +6,7 @@
 Gameplay factory job NN. Read https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/RULES.md and obey the box in it as your rules, then read WORKER_HANDBOOK.md next to it and do job NN (repo nikahanghojjati-oss/fifa17-career-showdown2, branch factory/gameplay-v1). Ignore any older relay contract or memory.
 ```
 
-Branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-03 11:10 AM Boston time (EDT)
+Branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-03 11:13 AM Boston time (EDT)
 
 **Overall:** ███████░░░ 70 % · 13 of 20 jobs done
 
@@ -45,7 +45,7 @@ Waiting on: nobody (no reply owed)
 | 11 | G-11 | [Contract fixtures generated from the real model](jobs/JOB-11.md) | 2 Career model | test | work | 3, 5 |  | ██████████ 100 % | DONE |
 | 7 | G-7 | [Career index Rules + client + emulator proofs](jobs/JOB-07.md) | 3 Career history | rules | work | 1, 2 | yes | ██████████ 100 % | DONE |
 | 8 | G-8 | [Completed-only read grant + session-free reader](jobs/JOB-08.md) | 3 Career history | rules | work | 7 | yes | ██████████ 100 % | DONE |
-| 9 | G-9 | [Closed-Showdown adapter into the career model](jobs/JOB-09.md) | 3 Career history | build | work | 3, 8 |  | ██░░░░░░░░ 28 % | IN PROGRESS |
+| 9 | G-9 | [Closed-Showdown adapter into the career model](jobs/JOB-09.md) | 3 Career history | build | work | 3, 8 |  | ████░░░░░░ 42 % | IN PROGRESS |
 | 10 | G-10 | [Transfer history, completed only](jobs/JOB-10.md) | 3 Career history | rules | work | 8 | yes | ░░░░░░░░░░ 0 % | NOT STARTED |
 | 13 | G-13 | Remove the r43 containment, bind #trophyRoomButton | 4 Ship | build | work | 4, 5, 6, 9; approved Team V visual package |  | ░░░░░░░░░░ 0 % | NOT WRITTEN |
 | 14 | G-14 | Acceptance: directive §12 and Sol's 8 proofs on the emulator | 4 Ship | test | work | 13 |  | ░░░░░░░░░░ 0 % | NOT WRITTEN |
