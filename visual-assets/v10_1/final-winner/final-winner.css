@@ -1,1 +1,28 @@
-/* JOB-082 step 1 scaffold only. Visual styling begins in step 2. */
+/* JOB-082 desktop stage. The plate camera is owned only by shared/stage.js. */
+html,
+body {
+  margin: 0;
+  width: 100%;
+  min-width: 100%;
+  height: 100%;
+  min-height: 100%;
+  overflow: hidden;
+  background: #050505;
+}
+
+#stage-root {
+  width: 100vw;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+}
+
+.sd-stage__layer--ui {
+  pointer-events: auto;
+}
+
+.managerPlateMarker {
+  position: absolute;
+  pointer-events: none;
+  visibility: hidden;
+}
