@@ -1,0 +1,49 @@
+{
+  "job": "TEST",
+  "message": "Inbox test: good delivery",
+  "files": [
+    {
+      "bytes": 23964,
+      "sha256": "cccde87a5cd3f90f63bfb9c760cd3d2d029c71d049019a72dfe9576e711059aa",
+      "parts": [
+        "test.webp.b64.001",
+        "test.webp.b64.002"
+      ],
+      "part_sha256": [
+        "38beb704cecc9f4b4925fd88c26e654c0ac918b921c75d4a10a7eb6901ae6cb7",
+        "aebbde39f25814353b52cdebdef8a93f9a8e67e0dd76be5c0a90a03c11492274"
+      ],
+      "to": "project-documents/factory/inbox-test/test.webp"
+    },
+    {
+      "bytes": 50000,
+      "sha256": "b7157607774cd0ee3e6903c3efd512671c516f5c4cebf535db1388b45719a076",
+      "parts": [
+        "big.bin.b64.001",
+        "big.bin.b64.002",
+        "big.bin.b64.003",
+        "big.bin.b64.004"
+      ],
+      "part_sha256": [
+        "4da55676c384961e9d37a7b658bdad49eb9caf25707d87aee349d3aef3d03ab2",
+        "e03212f0bdd39cddeff015a48a096e55fa1e8d86d74f338941feaa4f5ae99b8c",
+        "89407f1d035611524d9052d8e4d90c8c0bd876baedd181d7f41b1988cf1b2f55",
+        "94db618ea7049d729179fbfefbaf56ff8f22e8499055f2623a871ad3792d8ac4"
+      ],
+      "to": "project-documents/factory/inbox-test/big.bin"
+    },
+    {
+      "bytes": 24347,
+      "sha256": "4dbcf844dda9b79f85f85f324b5d340737d208e613109671f092973901c0dcd9",
+      "parts": [
+        "JOB-TEST.zip.b64.001",
+        "JOB-TEST.zip.b64.002"
+      ],
+      "part_sha256": [
+        "da6adec5b38ccc83e4f6a7878ef3d5078a15fea28eaaa2fb579b271e53ede274",
+        "214b39a6d4207e3555a489357bda9d204262a9703816606ae0ec9cdcd1fd5572"
+      ],
+      "unzip": true
+    }
+  ]
+}
