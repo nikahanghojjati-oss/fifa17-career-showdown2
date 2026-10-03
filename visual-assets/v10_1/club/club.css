@@ -175,8 +175,8 @@ main { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
 .compact footer { display: none; }
 .compact .clubKicker { display: none; }
 .compact #clubWheelScreen h2 { font-size: calc(var(--s) * 36px); line-height: 1; }
-.compact .clubAssignmentHeader { display: grid; grid-template-columns: auto auto; column-gap: 12px; row-gap: 1px; align-items: center; justify-items: center; }
-.compact .stRow { grid-column: 1 / -1; }
+/* Claude fix 2: compact keeps the same stacked status hierarchy as 768px; league stays below LEAGUE CONFIRMED. */
+.compact .clubAssignmentHeader { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; }
 .compact #clubAssignmentLeague { font-size: calc(var(--s) * 20px); }
 .compact .clubAssignmentEyebrow { font-size: 13px; }
 .compact #clubPackStatus { font-size: 14px; }
