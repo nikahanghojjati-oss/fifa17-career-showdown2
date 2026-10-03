@@ -1,6 +1,6 @@
 # Showdown Factory board
 
-**68 of 135 jobs done and checked · 54 %** · updated Sat 5:34 p.m. Eastern
+**68 of 135 jobs done and checked · 54 %** · updated Sat 5:35 p.m. Eastern
 
 ✅ **Quality check:** a job counts as done only after Claude checks it against the quality bar (average 4.2 or more, nothing under 3, hard gates pass). Average score 4.24 over 18 scored jobs. 🔍 Nothing waiting for a check. 🔧 Sent back with a fix list: 39, 45.
 
@@ -8,11 +8,11 @@
 
 **Where to run:** 🟡 **project job** = new chat in the ChatGPT project "Showdown visual", type the number. 🟣 **image job** = its ticket in a ChatGPT **Temporary Chat** outside any project, then drop the picture in Claude's factory thread.
 
-🟡 **Type next:** 39 (fix), 45 (fix) · then 47, 92, 95, 114, 116, 117, 119, 120, 125
+🟡 **Type next:** 39 (fix), 45 (fix) · then 95, 114, 116, 117, 119, 120, 125
 
 🟣 **Image next:** 118
 
-**Working:** 35, 41, 77, 87, 115 · **Blocked:** -
+**Working:** 35, 41, 47, 77, 87, 92, 115 · **Blocked:** -
 
 ## Screens
 
@@ -51,13 +51,13 @@ Branch `factory/v1-wtt5ye`. 135 Team V jobs, plus 5 lines that track Team G. Two
 
 **Overall (Team V):** █████░░░░░ 54 % · 68 of 135 jobs done
 
-**Start now · project (type the number in Showdown visual):** 39 (fix), 45 (fix) · queued next: 47, 92, 95, 114, 116, 117, 119, 120, 125
+**Start now · project (type the number in Showdown visual):** 39 (fix), 45 (fix) · queued next: 95, 114, 116, 117, 119, 120, 125
 
 **Start now · fresh chat (image ticket, outside the project):** 118
 
 **Start now (Sol Work mode, press Use Work):** -
 
-**Working:** 35, 41, 77, 87, 115 · **Blocked:** -
+**Working:** 35, 41, 47, 77, 87, 92, 115 · **Blocked:** -
 
 **Team G tracking (never start these):** 98 (done), 99 (open), 100 (open), 101 (open), 102 (open). Claude marks them done when Team G delivers.
 
@@ -110,7 +110,7 @@ Branch `factory/v1-wtt5ye`. 135 Team V jobs, plus 5 lines that track Team G. Two
 | 44 | [Club: panels and short-laptop fit](jobs/JOB-044.md) | 4 Polish built screens | build | project (type number) | 43, 18 | ██████████ 100 % | DONE |  |
 | 45 | [Club: phone](jobs/JOB-045.md) | 4 Polish built screens | build | project (type number) | 44, 113 | ██████████ 100 % | IN PROGRESS · FIX |  |
 | 46 | [Club: review](jobs/JOB-046.md) | 4 Polish built screens | review | project (type number) | 45 | ██████████ 100 % | DONE |  |
-| 47 | [Club: fix round](jobs/JOB-047.md) | 4 Polish built screens | fix | project (type number) | 46, 124 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
+| 47 | [Club: fix round](jobs/JOB-047.md) | 4 Polish built screens | fix | project (type number) | 46, 124 | ██░░░░░░░░ 25 % | IN PROGRESS |  |
 | 48 | [Club: the pack rip](jobs/JOB-048.md) | 4 Polish built screens | build | project (type number) | 47, 16 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
 | 49 | [Transfer War: polish to the key art](jobs/JOB-049.md) | 4 Polish built screens | build | project (type number) | 1, 18 | ██████████ 100 % | DONE |  |
 | 50 | [Transfer War: phone polish](jobs/JOB-050.md) | 4 Polish built screens | build | project (type number) | 49, 114 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
@@ -155,7 +155,7 @@ Branch `factory/v1-wtt5ye`. 135 Team V jobs, plus 5 lines that track Team G. Two
 | 89 | [Start / Join: review](jobs/JOB-089.md) | 5 New screens | review | project (type number) | 88 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 90 | [Start / Join: fix round](jobs/JOB-090.md) | 5 New screens | fix | project (type number) | 89 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 91 | [Start / Join: motion](jobs/JOB-091.md) | 5 New screens | build | project (type number) | 90, 16 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
-| 92 | [Rule Book: build (desktop and phone)](jobs/JOB-092.md) | 5 New screens | build | project (type number) | 9, 29, 18, 121 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
+| 92 | [Rule Book: build (desktop and phone)](jobs/JOB-092.md) | 5 New screens | build | project (type number) | 9, 29, 18, 121 | █░░░░░░░░░ 16 % | IN PROGRESS |  |
 | 93 | [Rule Book: review](jobs/JOB-093.md) | 5 New screens | review | project (type number) | 92 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 94 | [Rule Book: fix round and motion](jobs/JOB-094.md) | 5 New screens | fix | project (type number) | 93, 16, 124 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
 | 95 | [Settings: build (desktop and phone)](jobs/JOB-095.md) | 5 New screens | build | project (type number) | 10, 29, 18, 121 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
