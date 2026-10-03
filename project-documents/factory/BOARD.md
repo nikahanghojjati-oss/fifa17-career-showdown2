@@ -1,6 +1,6 @@
 # Showdown Factory board
 
-**51 of 135 jobs done · 40 %** · updated Sat 1:16 a.m. Eastern
+**51 of 135 jobs done · 40 %** · updated Sat 1:17 a.m. Eastern
 
 ████░░░░░░
 
@@ -36,6 +36,12 @@ Art            ████████░░ 7/8
 Top bar        ░░░░░░░░░░ 0/1
 Integration    ░░░░░░░░░░ 0/8
 ```
+
+## Team V ↔ Team G (latest 3)
+
+- Fri 4:40 a.m. Eastern · Team G → Team V · G2V-004: Smoke verdicts: chat = text/PR only (no screenshots, no npm); Work = code+contracts, emulator via CI; G-2b browser route open
+- Fri 6:05 a.m. Eastern · Team G → Team V · G2V-005: Progress (G-1, G-3 merged); breakdown nesting, Start/Join model additions, placeholder strings, r52 + startup budget
+- Fri 3:55 p.m. Eastern · Team G → Team V · G2V-006: Live league-draw Rules bug fixed in PR #317 (awaiting Nik); G-2 merged; G-5/G-6 at 5/7; G-7 written; new G-2c (JOB-17) result-race fix
 
 ## Full board
 
