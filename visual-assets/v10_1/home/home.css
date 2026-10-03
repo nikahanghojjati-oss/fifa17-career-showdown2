@@ -323,7 +323,9 @@ footer {
   .fifaMenuHeading h2 { font-size: 16px; margin-bottom: 5px; padding-bottom: 4px; }
   .fifaMenuHeadingMeta { font-size: 14px; line-height: 1.3; }
   .fifaMenuHeadingMeta span { font-size: 28px; line-height: 1.12; margin-bottom: 3px; }
-  .fifaMenuGrid { position: static; height: auto; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px 5px; }\n  #continueCareer { grid-column: span 3; }\n  #newShowdown { grid-column: span 2; }
+  .fifaMenuGrid { position: static; height: auto; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px 5px; }
+  #continueCareer { grid-column: span 3; }
+  #newShowdown { grid-column: span 2; }
   .menuTileLegacy, .menuTileTrophy, .menuTileTrophyRoom, .menuTileRules, .menuTileSettings { padding: 7px 4px 7px 6px; min-height: 64px; gap: 2px; }
   #continueCareer, #newShowdown { padding-right: 10px; }
   .menuTileLegacy .menuTileLabel, .menuTileTrophy .menuTileLabel, .menuTileTrophyRoom .menuTileLabel, .menuTileRules .menuTileLabel, .menuTileSettings .menuTileLabel { font-size: 13px; padding-right: 0; }
