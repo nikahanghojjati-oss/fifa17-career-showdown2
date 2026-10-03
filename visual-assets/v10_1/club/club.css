@@ -218,7 +218,7 @@ main { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
   .clubPackStage { position: static; display: contents; }
   .clubPackDoor { position: absolute; inset: auto; }
   .clubVs { gap: 0; }
-  .clubVs span { font-size: 12px; letter-spacing: .3em; padding-left: .3em; }
+  .clubVs > span { font-size: 12px; letter-spacing: .3em; padding-left: .3em; }
   .clubVs strong, [data-club-reveal-stage="versus"] .clubVs strong, [data-club-reveal-stage="confirmation"] .clubVs strong { font-size: var(--vsFs, 32px); }
   .clubRevealIndex, .clubManager { position: static; }
   .clubRevealIndex { grid-row: 5; align-self: center; justify-self: start; font-size: 12px; padding: 2px 5px; }
