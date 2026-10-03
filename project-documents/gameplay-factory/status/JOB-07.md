@@ -1,8 +1,8 @@
 # Status · JOB-07 · Career index Rules + client + emulator proofs
 
-State: IN PROGRESS
+State: BLOCKED
 Step: 6 of 9
-Updated: 2026-10-03 00:00 UTC
+Updated: 2026-10-03 00:04 UTC
 Chat: Sol Work mode
 Code branch: gameplay/job-07-career-index
 Head commit:
@@ -25,3 +25,72 @@ CI run:
 - Step 6: Applied Appendix B unchanged: pure append/rollover plan, exact read-only memory index, reads-before-writes witnesses and exports, contractVersion 4. node --check client PASS; career-index contract PASS locally; unchanged persistent-pair contract PASS locally. Client saved on 524020edf2bce953127093ff8dc4a61929dadd90; full CI pending.
 
 - Step 7 first full proof: CI 37079798528 at 524020e passed 102/102 contracts, 73 operations (0 fail), all emulator steps and 58 index checks. Log budget gate FAILED: D13 stranger index forgery was denied, but its missing pair document caused eager .data.data evaluation and a maximum-of-1000 diagnostic. Scope-local correction: cmsCareerIndexAppendEligible now gets the pair resource, rejects null/non-map before accessing pair.data.data; no rivalry or budget-edge function change. Both standalone local contracts still PASS. Full proof re-run pending on 65a53ff692e789ffa1d3025b6e7efa1adc56bf00.
+
+- Step 7 BLOCKED after one correction: exact-head CI 37080155517 at 65a53ff692e789ffa1d3025b6e7efa1adc56bf00 is SUCCESS, with 102/102 contracts, 73 operations (0 fail) and all emulator groups including 58 career-index checks. However, the literal no-expression-limit log gate still FAILS at D13, the expected denial of a stranger creating an index for X2. The added null/map guard did not remove the diagnostic, so the eager-access hypothesis alone was insufficient. This repeats the same Step 7 budget-gate failure from 37079798528. Per handbook/Job §8, stopped here. Step stays 6 of 9 (last completed step). No PR or Codex request opened because step 7 is not complete.
+
+## Self-check
+- PASS: Tests-first CI 37079063991 at a16875b failed I0 (missing index match) and the contract failed undefined !== 500; both new files passed node --check.
+- PASS: New index contract and unchanged persistent-pair contract PASS locally. Local npm contract command exited 0; its captured output did not print the census summary, so 102/102 count is asserted from exact-head CI, not inferred from the local output. Local npm operations exited 0, pass 73/fail 0, last line duration_ms 643.322557.
+- PASS: Validate Gameplay Fast SUCCESS on exact head 65a53ff692e789ffa1d3025b6e7efa1adc56bf00, run 37080155517, both jobs and every emulator step SUCCESS.
+- PASS: PASS career index composed-Rules emulator: 58 numbered checks (A access, B creation, C redemption, D append-only, E idempotency, F races, H agreement, G paging, P provider).
+- PASS: PASS persistent pair Rules emulator: canonical roles, private exact reads, list/delete denial, registered-device writes, replacement/abandonment protections and atomic pairing witnesses enforced (full line in run 37080155517).
+- PASS: PASS two-manager journey Sections A-G (3 seasons main): main journey, stranger denial, privacy, idempotent retry, simultaneous taps, second Showdown known gaps, and persistent-provider abandon all proved. The test now asserts [R2], then [R2,R3], excludes R1, and removes only the chartered KNOWN GAP 2 assertion.
+- FAIL: No maximum of 1000 expressions anywhere in the emulator log. Two phrase occurrences on one D13 error line in final run, and the same case in the earlier full proof. D13 is correctly denied, and all legitimate creation/redemption/rollover/journey operations succeed. The literal job gate is nonetheless not satisfied.
+- PASS: Four budget-edge functions unchanged; firestore.spark.rules, sparkPrivatePairing.js, existing persistent-pair contract and both build scripts byte-identical to baseline.
+- PASS: GitHub compare with a11af482 is ahead 5/behind 0 and exactly the ten allowed code files, 570 additions/17 deletions. No generated Rules or debug log committed; local composed artifact rebuilt to 129019 bytes; contractVersion stays 4.
+- PASS: Nothing deployed, merged, force-pushed or written to main. No billing words added to the fragment.
+- NOT REACHED: PR and Codex steps 8/9, because step 7 is BLOCKED.
+
+## Blocked question
+Team G lead: Step 7 passed every executable suite, but D13's denied stranger index creation still emits the Rules expression-limit diagnostic after a null/map guard in cmsCareerIndexAppendEligible. Please provide the intended Rules correction within the allowed fragment scope, or explicitly qualify the budget gate to apply to legitimate operations if that was the intended criterion. The worker has not weakened a test or marked the unmet gate PASS.
+
+### Failing verification assertion
+```js
+assert.equal(emulatorJobLog.includes('maximum of 1000 expressions'), false);
+// actual true, expected false, in both runs 37079798528 and 37080155517
+```
+
+### Relevant emulator output
+```text
+2026-10-03T00:03:05.4125337Z ok 35 D12 Nik cannot write Daniel index
+2026-10-03T00:03:05.4126485Z false for 'create' @ L2614, false for 'create' @ L2758, false for 'update' @ L2616, false for 'update' @ L2758
+2026-10-03T00:03:05.4317506Z [2026-10-03T00:03:05.431Z]  @firebase/firestore: Firestore (12.17.0): GrpcConnection RPC 'Write' stream 0x13b959a0 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+2026-10-03T00:03:05.4322078Z evaluation error at L2614:24 for 'create' @ L2614, false for 'create' @ L2758, Unable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'update' @ L2616, Unable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'update' @ L2758, false for 'create' @ L2614, false for 'create' @ L2758
+2026-10-03T00:03:05.4325251Z ok 36 D13 stranger cannot create an index naming a rivalry they are not in
+2026-10-03T00:03:05.4506691Z ok 37 D14 head write with a skipped revision is denied
+2026-10-03T00:03:05.5036960Z ok 38 E1 pair-link reconfirm of the same rivalry without an index write succeeds
+```
+
+### Last 30 CI log lines
+```text
+2026-10-03T00:03:06.5259104Z ok 55 P3 both managers read the same ordered ids
+2026-10-03T00:03:06.5304420Z ok 56 P4 reading another account's index is unavailable, never empty
+2026-10-03T00:03:06.6853544Z ok 57 P5 second Showdown: both indexes are [P1, P2]; the pair link moved on, history stayed
+2026-10-03T00:03:06.7384055Z ok 58 P6 a missing sealed page makes the index unavailable, never shorter
+2026-10-03T00:03:06.7396865Z PASS career index composed-Rules emulator: 58 numbered checks (A access, B creation, C redemption, D append-only, E idempotency, F races, H agreement, G paging, P provider).
+2026-10-03T00:03:06.7757299Z [32m[1m✔ [22m[39m Script exited successfully (code 0)
+2026-10-03T00:03:07.2770835Z [36m[1mi  emulators:[22m[39m Shutting down emulators.
+2026-10-03T00:03:07.2774279Z [36m[1mi  firestore:[22m[39m Stopping Firestore Emulator
+2026-10-03T00:03:07.6189103Z [36m[1mi  hub:[22m[39m Stopping emulator hub
+2026-10-03T00:03:07.6195183Z [36m[1mi  logging:[22m[39m Stopping Logging Emulator
+2026-10-03T00:03:07.6710620Z Post job cleanup.
+2026-10-03T00:03:07.8107330Z Post job cleanup.
+2026-10-03T00:03:07.9471286Z (node:3302) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-03T00:03:07.9473106Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-03T00:03:07.9476175Z Cache hit occurred on the primary key node-cache-Linux-x64-npm-40541ada0448445b70f884ac7cd54804d21da5561a199b02d3e90981a4d06746, not saving cache.
+2026-10-03T00:03:07.9634057Z Post job cleanup.
+2026-10-03T00:03:08.0490890Z [command]/usr/bin/git version
+2026-10-03T00:03:08.0534358Z git version 2.55.0
+2026-10-03T00:03:08.0574181Z Temporarily overriding HOME='/home/runner/work/_temp/9faf5e0e-7d38-4bd0-a439-c2bcc3b18935' before making global git config changes
+2026-10-03T00:03:08.0576054Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-03T00:03:08.0585023Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/fifa17-career-showdown2/fifa17-career-showdown2
+2026-10-03T00:03:08.0630602Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-03T00:03:08.0668081Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-03T00:03:08.0921585Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-03T00:03:08.0951367Z http.https://github.com/.extraheader
+2026-10-03T00:03:08.0962724Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-10-03T00:03:08.0999132Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-03T00:03:08.1283604Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-03T00:03:08.1322964Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-03T00:03:08.1709121Z Cleaning up orphan processes
+```
