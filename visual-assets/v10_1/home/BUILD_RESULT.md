@@ -144,6 +144,25 @@ Job 31 replaced the broad seam blur/darken treatment with source-local repair pl
 - Final render QA: **33 shots, 0 failing**; all existing Home gates remain green. Current final-UI seam ridge maximum: **0.0 / 255**; no broad area mend remains.
 - Plate SHA gate: every current plate derivative is present in both `assets/intake_report.md` and `assets/platemap.json`.
 
+
+## Phone · Job 33 (2026-10-03)
+
+The Home hub uses a separate portrait composition at ≤760 px wide. The hero band is 40vh by the job's fit DEFAULT; the shared bottom bar reserve is `56px + env(safe-area-inset-bottom)`. The brush lockup and top status chrome overlay the hero and therefore consume no additional vertical row. There are no destination tabs on Home: all seven destinations remain visible together. The soundtrack track picker is the only sheet.
+
+### Height budget
+
+Arithmetic only; Claude performs the browser measurement at intake. To make the no-scroll check conservative for iPhone Safari, the table evaluates `env(safe-area-inset-bottom)` as 34 px. The CSS itself keeps the live `env()` value. The shortest target still has 21.8 px spare at that inset; equivalently, it can absorb a safe-area inset up to 55.8 px before reaching zero spare.
+
+| Viewport | Hero 40vh | Hero title/chrome | Hub padding | Soundtrack | Secondary rows | Continue | Grid gaps | Bottom bar + 34px safe area | Minimum used | Remaining |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 393 × 660 | 264.0 | 0 overlay | 14 | 60 | 88 | 52 | 18 | 90 | 586.0 | 74.0 |
+| 360 × 640 | 256.0 | 0 overlay | 14 | 60 | 88 | 52 | 18 | 90 | 578.0 | 62.0 |
+| 375 × 553 | 221.2 | 0 overlay | 11 | 56 | 88 | 50 | 15 | 90 | 531.2 | 21.8 |
+
+At 393 × 660 and 360 × 640, the two secondary grid rows are `minmax(44px, 1fr)`, so the 74 px / 62 px remainder is absorbed by those rows instead of becoming dead space. At 375 × 553 the short-height rules reduce only soundtrack/padding/gaps/Continue while keeping both secondary rows at the 44 px touch minimum, so the primary action remains visible above the reserved bar.
+
+Larger phones grow rather than float: at 390 × 844 the base main-area surplus is 218.4 px minus the actual safe-area inset; at 430 × 932 it is 271.2 px minus the inset. Those extra pixels are consumed by the two flexible secondary rows while the hero remains 40vh and Continue stays in the final pinned grid row.
+
 ## Known limits
 - The fonts have no italic Barlow Condensed file; `CM 17` uses synthesized oblique.
 - 375×553: the face band is 75 px tall (both faces whole, k = 0.22). Small, but no scroll and no cut face.
