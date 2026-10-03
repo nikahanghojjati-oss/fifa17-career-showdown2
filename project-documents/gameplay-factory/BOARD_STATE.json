@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-03 1:47 PM Boston time (EDT)",
+ "generated": "2026-10-03 1:53 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 12,
@@ -29,7 +29,7 @@
   "chat": 2,
   "work": 1
  },
- "overall": 81,
+ "overall": 82,
  "done": 15,
  "total": 20,
  "start": {
@@ -190,9 +190,9 @@
    "type": "test",
    "plain": "Re-proves the full production Rules after the new career-data Rules land.",
    "state": "IN PROGRESS",
-   "step": 4,
+   "step": 5,
    "steps_total": 8,
-   "pct": 50,
+   "pct": 62,
    "ready": false
   },
   {
