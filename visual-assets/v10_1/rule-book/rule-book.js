@@ -95,6 +95,7 @@
 
     stage.dataset.frame = frameId;
     stage.dataset.status = frame.status;
+    stage.dataset.previewMode = frameId === "RB2" ? "long-stress" : "standard";
 
     text("ruleBookPreview", frame.previewLabel);
     text("ruleBookFrameStatus", frame.status);
@@ -106,6 +107,9 @@
     text("ruleBookBack", strings.buttons.back);
 
     buildSections(strings);
+
+    const stressTarget = document.getElementById("rule-section-06");
+    if (stressTarget) stressTarget.dataset.stressTarget = String(frameId === "RB2");
 
     const preview = document.getElementById("ruleBookPreview");
     preview.hidden = !frame.previewLabel;
