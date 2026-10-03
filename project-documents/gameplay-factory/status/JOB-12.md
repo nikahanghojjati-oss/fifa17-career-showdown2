@@ -1,15 +1,16 @@
 # Status · JOB-12 · Composed production Rules regression
 
 State: IN PROGRESS
-Step: 4 of 8
-Updated: 2026-10-03 17:48 UTC
+Step: 5 of 8
+Updated: 2026-10-03 17:53 UTC
 Chat: Sol Work mode (job 12, 265263c2f906)
 Code branch: gameplay/job-12-composed-rules-regression
 Head commit: 5cd8ad6b40795de1779e163f2b50376ab5567fc2
 PR:
-CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37141758253 (IN PROGRESS, exact head 5cd8ad6b40795de1779e163f2b50376ab5567fc2)
+CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37141758253 (SUCCESS, all three jobs, exact head 5cd8ad6b40795de1779e163f2b50376ab5567fc2)
 
 ## Notes
+- Step 5 complete: single read finds exact-head 5cd8ad6 Gameplay Fast 37141758253 SUCCESS; Gameplay contracts, Composed Rules on the emulator and new Composed production Rules regression all green, every step SUCCESS. New job log checked for the final numbered regression PASS. Next step 6: local full proof, exact eight-file diff and literal matrix/budget evidence.
 - Step 5 CI single read (17:48 UTC): exact-head 5cd8ad6 Gameplay Fast run 37141758253 is IN PROGRESS. Run URL saved; no polling or dependent change. Next turn read once and check all three jobs plus the numbered matrix.
 - Step 5 saved, CI pending: appended Appendix F composed-rules-regression job last, preserving every existing job and step byte-for-byte. Uses Node 24 / Java 21, pinned emulator dependencies, explicit read-only main fetch and exactly one firestore-only emulators:exec with demo-cms-gameplay-fast-composed. Local composed Rules contract PASS 10 numbered checks (17 suites); runner/gap syntax PASS. Candidate unchanged a0a0d0b6 / 132878 bytes; checkout artifact untouched by contract. Next turn read exact-head CI once: require all three jobs green, final 49-check regression PASS and no not ok; if red inspect log per §8. Step remains 4 of 8 until step 5 CI evidence is verified. No CI polling, deploy, main write or existing proof changes.
 - Step 4 complete: Appendix C gap suite copied verbatim (69 planned numbered checks); Appendix D runner copied with only §4.7 G-10 additions: completed-transfer-history label, PHASE_B_FILES and M6/M7 evidence. Existing G-9 label retained. Both syntax checks PASS. Offline discovery verifies 17 deduplicated composed suites (includes G-9/G-10 and lifecycle 5/10), nine Phase B temporary-copy runs, and unchanged D13-only budget allowlist. Contract remains intentionally red at C2 missing composed-rules-regression CI job. No Rules/client/existing-suite changes, no local emulator/deploy execution. Files saved on head above; no CI polling. Next step 5: append Appendix F CI job and make offline contract green.
