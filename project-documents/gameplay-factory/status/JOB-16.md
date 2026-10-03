@@ -1,11 +1,11 @@
 # Status · JOB-16 · Two-manager browser journey (localhost-only emulator switch)
 
-State: IN PROGRESS
+State: BLOCKED
 Step: 8 of 9
-Updated: 2026-10-03 19:35 UTC
+Updated: 2026-10-03 21:40 UTC
 Chat: GPT-5.6 Sol normal chat
 Code branch: gameplay/job-16-browser-journey
-Head commit: eb14f81 (lead merge of recovery ca16956)
+Head commit: eb14f816fb261e1d37b13f2ba2749a16d74bccb2
 PR:
 CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37141913623
 
@@ -353,7 +353,11 @@ Nik errors: `[]`
   2. J12 after the terminal reload: the career entry overlay (#productionSharedJourneyEntryOverlay, "GET READY") opens on both pages for the closed Showdown. If it is visible, close it with its "Close career entry" button before tapping New Showdown. This is current product behaviour for a closed Showdown and is logged for the resume-after-reload job; do not change product code for it.
   Next: type continue, make those two test changes, and resume step 8 with the exact-head CI.
 
+
+- Worker-tool block after lead answer 2026-10-03 19:35 UTC: the lead product fixes are present on code head `eb14f81` and the exact required J5/J12 harness changes were prepared, but this chat's GitHub write safety rejected both the normal `update_file` save and a lower-level commit creation before any branch ref moved. No code-branch change occurred. The intended edits are exactly the lead's two test-only guards: (1) at J5 click `#continueClubAssignment` only if `#productionSharedCareerStartOverlay` is not already visible; (2) after the J12 terminal reload, if `#productionSharedJourneyEntryOverlay` is visible, click its `Close career entry` button and wait for it to hide before `#newShowdown`. No product file, scoring, provider call, direct refresh, seed, or acceptance condition is changed.
+- I did not rerun the unguarded branch because the lead explicitly said these two deterministic test changes are required and §8 forbids retry-until-lucky behaviour. Branch remains exactly `eb14f81`.
+
 ## Self-check
 
 ## Blocked question
-Lead: PR #334 lets the real Preview reach PREVIEW READY, but Terminal Close's own refresh path then calls Connected Rivalry initialize(), which clears observedEnvelope + preview authority and returns Local Reconciliation to WAITING_REMOTE before Final Reconciliation can stay published. Please fix this product interaction in gameplay/recovery-v1 (for example, preserve exact same-context observed/preview state across initialize, or stop Terminal Close from reinitializing an already exact attached rivalry) and merge it into this branch. Also review the post-terminal Shared Transfer Challenge read errors captured on Daniel, because JZ requires zero page errors. The worker must not bypass this by direct provider/refresh calls, repeated preview clicking, poll suppression, or weakening J10/JZ.
+Lead/next worker: apply the two exact test-only guards from the 2026-10-03 19:35 UTC lead answer to tests/browser/two-manager-browser-journey.cjs on top of eb14f81, then resume Step 8 exact-head CI. This worker could read and prepare the changes but the current chat's GitHub write safety blocked committing code; no branch ref was changed. Do not rerun eb14f81 unchanged just to seek a lucky pass.
