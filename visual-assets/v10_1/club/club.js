@@ -22,7 +22,9 @@
     particleCount: 42,
     cameraScale: 1.03,
     versusMs: 360,
-    versusEase: "cubic-bezier(.22,1,.36,1)"
+    versusEase: "cubic-bezier(.22,1,.36,1)",
+    lockMs: 420,
+    lockEase: "cubic-bezier(.2,.9,.28,1)"
   });
 
   const $ = (s, r = document) => r.querySelector(s);
@@ -687,6 +689,57 @@ $$(".handOv").forEach(d => { d.style.clipPath = "none"; });
     anims.push(markAnim, labelAnim, ringAnim);
   }
 
+  function runLockStamp(f) {
+    if (!PLAY || f.stage !== "confirmation") return;
+    const key = `${FRAME}:lock`;
+    if (stageRuns.has(key)) return;
+    stageRuns.add(key);
+
+    const step = $('[data-reveal-step="confirmation"]');
+    const ring = step ? $(".ring", step) : null;
+    const conf = $("#clubRivalryConfirmation");
+    const locked = conf ? $(".clubRivalryHeadline > span", conf) : null;
+    if (!step || !ring || !conf || !locked) return;
+
+    document.documentElement.style.setProperty("--club-lock-ms", CLUB_SIGNATURE.lockMs + "ms");
+    document.documentElement.style.setProperty("--club-lock-ease", CLUB_SIGNATURE.lockEase);
+
+    if (RM) {
+      [step, conf].forEach(node => {
+        const a = node.animate([{ opacity: 0 }, { opacity: 1 }], {
+          duration: 150, fill: "both", easing: "linear"
+        });
+        anims.push(a);
+      });
+      return;
+    }
+
+    locked.classList.remove("is-lock-stamping");
+    void locked.offsetWidth;
+    locked.classList.add("is-lock-stamping");
+
+    const ringAnim = ring.animate([
+      { offset: 0, opacity: .35, transform: "scale(.72) rotate(-8deg)" },
+      { offset: .38, opacity: 1, transform: "scale(1.24) rotate(3deg)", easing: CLUB_SIGNATURE.lockEase },
+      { offset: .68, opacity: 1, transform: "scale(.96) rotate(-1deg)" },
+      { offset: 1, opacity: 1, transform: "scale(1) rotate(0)" }
+    ], { duration: CLUB_SIGNATURE.lockMs, fill: "both", easing: "linear" });
+
+    const stepAnim = step.animate([
+      { offset: 0, opacity: .35, transform: "translateY(-5px) scale(.96)" },
+      { offset: .48, opacity: 1, transform: "translateY(1px) scale(1.04)", easing: CLUB_SIGNATURE.lockEase },
+      { offset: 1, opacity: 1, transform: "translateY(0) scale(1)" }
+    ], { duration: CLUB_SIGNATURE.lockMs, fill: "both", easing: "linear" });
+
+    const panelAnim = conf.animate([
+      { offset: 0, opacity: 0, transform: "translateY(10px) scale(.985)" },
+      { offset: .42, opacity: .55, transform: "translateY(3px) scale(.995)", easing: CLUB_SIGNATURE.lockEase },
+      { offset: 1, opacity: 1, transform: "translateY(0) scale(1)" }
+    ], { duration: CLUB_SIGNATURE.lockMs, fill: "both", easing: "linear" });
+
+    anims.push(ringAnim, stepAnim, panelAnim);
+  }
+
   function buildAnimations() {
     anims.forEach(a => a.cancel()); anims = [];
     const f = FX.frames[FRAME] || FX.frames.CL1;
@@ -718,6 +771,7 @@ $$(".handOv").forEach(d => { d.style.clipPath = "none"; });
       if (PLAY && i === activeSide) runWalkout(r, i, nameEl);
     });
     runVersusSlam(f);
+    runLockStamp(f);
   }
 
   function drawGrid() {
