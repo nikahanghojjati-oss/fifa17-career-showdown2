@@ -2,12 +2,12 @@
 
 State: IN PROGRESS
 Step: 2 of 8
-Updated: 2026-10-03 15:25 UTC
+Updated: 2026-10-03 15:26 UTC
 Chat: Sol Work mode
 Code branch: gameplay/job-10-transfer-history
 Head commit: 70e3ae03cd324938ac213d0c81604906de0a0d9e
 PR:
-CI run: CI pending on 70e3ae03cd324938ac213d0c81604906de0a0d9e
+CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37133168773
 
 ## Notes
 - Lead: JOB-08 (PR #326, merge 843e64e) is merged. Lead to create code branch gameplay/job-10-transfer-history from gameplay/recovery-v1 at 843e64e before Nik starts the job. Lead reference run on 843e64e: new contract PASS, contracts 104/104, ops 73/0, every rules-emulator step PASS including the new Completed transfer history matrix (73 checks) and Completed-only read 56 with B8/B9 flipped; only budget diagnostics are the two known career-index D13 denials. Jobs 9, 11, 16 and 18 also append registry entries (9 also a rules-emulator step, 16 a CI job): whoever merges later re-appends last. Ready to start.
@@ -27,6 +27,8 @@ CI run: CI pending on 70e3ae03cd324938ac213d0c81604906de0a0d9e
 - Step 3a saved: Appendix C/D copied verbatim and Completed transfer history matrix appended as the last rules-emulator step in one connector code commit ff74ab2f72b4c7beb847cf50ceb25fcb327ba7bd. Both node --check commands PASS; local contract fails MODULE_NOT_FOUND for js/sparkCompletedTransferHistoryReader.js as required. No reader, Rules or JOB-08 assertions changed. Next 3b: append registry and ops entries after JOB-11, then stop for exact-head red CI evidence.
 
 - Step 3b saved on 70e3ae03cd324938ac213d0c81604906de0a0d9e: G-10 registry entry and ops const/array appended last after JOB-11, preserving all existing entries and literal-dot regexes. Local full contracts fail exactly 1/105: only new contract MODULE_NOT_FOUND for js/sparkCompletedTransferHistoryReader.js; operations 73 pass / 0 fail; syntax checks and git diff --check PASS. All five step-3 files are on the code branch; no Appendix F or product code yet. CI pending on exact head; next turn read once for prior steps green and new matrix I0 0 !== 1. Step stays 2 until that CI evidence completes step 3.
+
+- Step 3 CI check (single read): Validate Gameplay Fast 37133168773 on exact 70e3ae03cd324938ac213d0c81604906de0a0d9e has Gameplay contracts completed/failure and Composed Rules on the emulator still in_progress. No polling; stopped per pace rule 4. Read results/logs once on the next continue; step 3 remains pending until expected I0 failure and all existing emulator steps are verified.
 
 ## Self-check
 - PASS local tests-first: both new tests syntax-check, new contract and full census fail only the absent reader (1/105); operations 73/0. Appendices C/D copied verbatim; CI new matrix is last in rules-emulator, registry/ops append after JOB-11.
