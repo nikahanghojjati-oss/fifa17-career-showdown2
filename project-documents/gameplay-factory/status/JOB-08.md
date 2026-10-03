@@ -1,11 +1,11 @@
 # Status · JOB-08 · Completed-only read grant + session-free reader
 
 State: IN PROGRESS
-Step: 4 of 8
+Step: 5 of 8
 Updated: 2026-10-03 13:05 UTC
 Chat: Sol Work mode
 Code branch: gameplay/job-08-completed-read
-Head commit: e827ace71bae43dc5f3cd41f5dfa9ddb20ed9a81
+Head commit: e09a9f24f00f1a680b66e0dd942bcbb8a7df9176
 PR:
 CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37124801380
 
@@ -23,6 +23,8 @@ CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/r
 - Step 3: Step 4 client saved verbatim from Appendix B on e827ace71bae43dc5f3cd41f5dfa9ddb20ed9a81. node --check PASS; local contract passes K1-K6 and fails K7: data.connectionState == 'closed', as required before Rules grant. Waiting for its exact-head emulator I0 failure before completing step 4.
 
 - Step 4: Appendix B reader saved on e827ace71bae43dc5f3cd41f5dfa9ddb20ed9a81. node --check PASS; local and CI contract pass K1-K6 and fail K7 at data.connectionState == 'closed'. CI 37124801380: every prior emulator step PASS, Completed-only read matrix still fails I0 0 !== 1, as expected before Rules.
+
+- Step 5: Applied Appendix A/F verbatim together in one code commit e09a9f24f00f1a680b66e0dd942bcbb8a7df9176. Both builds PASS, composed artifact 131462 bytes; season helper count 4, Showdown helper count 3. New local contract PASS; journey and injector node --check PASS. Exact-head CI pending.
 
 ## Self-check
 
