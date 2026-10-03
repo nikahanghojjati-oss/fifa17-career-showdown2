@@ -67,6 +67,9 @@ footer .foot-ver::before { content: "·"; margin-right: 8px; }
 .title-block, .subtitle-row, .stateNote, .button-row, .slogan { position: absolute; z-index: 20; }
 .wheel-bezel, .leagueWheel, .wheelPointer { position: absolute; z-index: 18; }
 .leagueWheel { z-index: 19; } .wheelPointer { z-index: 21; }
+.finger-contact { position: absolute; z-index: 29; pointer-events: none; border-radius: 50%;
+  background: rgba(0,0,0,.52); filter: blur(3px); transform: translate(1px, 2px) rotate(-7deg); }
+.stage[data-mode="phone"] .finger-contact { display: none; }
 .title-block { left: 0; right: 0; text-align: center; pointer-events: none; }
 .title-block > * { width: fit-content; margin-left: auto !important; margin-right: auto !important; }
 .kicker { font: 600 13px/1 var(--cond); letter-spacing: .5em; color: var(--cream); margin-right: -.5em; }
