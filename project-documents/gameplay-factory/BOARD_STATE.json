@@ -1,24 +1,23 @@
 {
- "generated": "2026-10-03 10:49 AM Boston time (EDT)",
+ "generated": "2026-10-03 10:50 AM Boston time (EDT)",
  "branch": "factory/gameplay-v1",
  "integration_branch": "gameplay/recovery-v1",
  "capacity": {
   "chat": 2,
   "work": 1
  },
- "overall": 64,
+ "overall": 65,
  "done": 12,
  "total": 20,
  "start": {
   "chat": [],
-  "work": [
-   9
-  ]
+  "work": []
  },
  "queued": [
   10
  ],
  "working": [
+  9,
   18
  ],
  "blocked": [
@@ -346,11 +345,11 @@
    "phase": "3 Career history",
    "type": "build",
    "plain": "Finished Showdowns flow into career totals and the Trophy Room.",
-   "state": "NOT STARTED",
-   "step": 0,
+   "state": "IN PROGRESS",
+   "step": 1,
    "steps_total": 7,
-   "pct": 0,
-   "ready": true
+   "pct": 14,
+   "ready": false
   },
   {
    "number": 10,
