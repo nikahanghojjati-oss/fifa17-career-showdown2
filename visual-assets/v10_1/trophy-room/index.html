@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="color-scheme" content="dark">
+  <title>Trophy Room · Career Mode Showdown</title>
+  <link rel="stylesheet" href="../shared/showdown-tokens.css">
+  <link rel="stylesheet" href="../shared/showdown-type.css">
+  <link rel="stylesheet" href="../shared/showdown-ui.css">
+  <link rel="stylesheet" href="../shared/stage.css">
+  <link rel="stylesheet" href="../shared/motion.css">
+  <link rel="stylesheet" href="trophy-room.css">
+</head>
+<body>
+  <main id="stage-root" class="trophyRoomStage" data-stage data-primary="trophyRoomBack">
+    <section id="trophyRoom" class="screen analyticsScreen" aria-labelledby="trophyRoomScreenTitle">
+      <div class="sd-stage trophyRoomScene" data-plate-width="1672" data-plate-height="941">
+        <div class="sd-stage__layer sd-stage__layer--plate"><div class="sd-stage__registered"><div class="sd-stage__plate"></div></div></div>
+        <div class="sd-stage__layer sd-stage__layer--atmosphere"></div>
+        <div class="sd-stage__layer sd-stage__layer--ui">
+          <div id="trophyRoomContent" class="trophyRoomContent sd-stage__ui-content" aria-live="polite"></div>
+        </div>
+        <div class="sd-stage__layer sd-stage__layer--cutout"><div class="sd-stage__registered"></div></div>
+        <div class="sd-stage__layer sd-stage__layer--light"><div class="sd-stage__registered"></div></div>
+      </div>
+    </section>
+  </main>
+  <script src="../shared/stage.js"></script>
+  <script src="../shared/motion.js"></script>
+  <script src="trophy-room.js"></script>
+</body>
+</html>
