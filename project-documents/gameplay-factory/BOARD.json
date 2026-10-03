@@ -328,6 +328,21 @@
    "phase": "4 Ship",
    "type": "nik",
    "plain": "One real game on two phones with Daniel, to sign it off."
+  },
+  {
+   "number": 18,
+   "key": "G-2d",
+   "title": "Nik's pair code survives the pair-panel re-render",
+   "lane": "chat",
+   "depends_on": [],
+   "steps": 5,
+   "code_branch": "gameplay/job-18-pair-code-race",
+   "codex_review": false,
+   "written": true,
+   "waits_on": null,
+   "phase": "1 Safety net",
+   "type": "build",
+   "plain": "When Nik pastes Daniel's code quickly, the app keeps it instead of wiping it and wrongly calling it invalid."
   }
  ]
 }

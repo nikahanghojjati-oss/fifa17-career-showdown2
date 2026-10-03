@@ -1,17 +1,18 @@
 {
- "generated": "2026-10-03 9:18 AM Boston time (EDT)",
+ "generated": "2026-10-03 9:19 AM Boston time (EDT)",
  "branch": "factory/gameplay-v1",
  "integration_branch": "gameplay/recovery-v1",
  "capacity": {
   "chat": 2,
   "work": 1
  },
- "overall": 57,
+ "overall": 55,
  "done": 11,
- "total": 19,
+ "total": 20,
  "start": {
   "chat": [
-   16
+   16,
+   18
   ],
   "work": []
  },
@@ -435,6 +436,26 @@
    "steps_total": 1,
    "pct": 0,
    "ready": false
+  },
+  {
+   "number": 18,
+   "key": "G-2d",
+   "title": "Nik's pair code survives the pair-panel re-render",
+   "lane": "chat",
+   "depends_on": [],
+   "steps": 5,
+   "code_branch": "gameplay/job-18-pair-code-race",
+   "codex_review": false,
+   "written": true,
+   "waits_on": null,
+   "phase": "1 Safety net",
+   "type": "build",
+   "plain": "When Nik pastes Daniel's code quickly, the app keeps it instead of wiping it and wrongly calling it invalid.",
+   "state": "NOT STARTED",
+   "step": 0,
+   "steps_total": 5,
+   "pct": 0,
+   "ready": true
   }
  ]
 }
