@@ -435,7 +435,7 @@
     // glass content), which lowers the camera and keeps more of the painted title. Controls keep k.
     var short = vh < 700;
     stage.classList.toggle("short", short);
-    var footerH = 0;
+    var footerH = short ? 30 : 36;
     var contentBottom = Math.max(map.keepVisible.contentBottom, +(stage.dataset.contentBottom || 0));
     var bottom = short ? contentBottom * k + footerH + 2 : map.keepVisible.panelBottom * k + footerH + 6;
     var offY = 0, offX = 0;
