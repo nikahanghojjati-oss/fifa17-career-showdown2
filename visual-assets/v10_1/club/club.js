@@ -16,7 +16,11 @@
     anticipationMs: 500,
     anticipationEase: "cubic-bezier(.2,.7,.3,1)",
     ripMs: RIP_MS,
-    ripEase: "cubic-bezier(.16,.78,.24,1)"
+    ripEase: "cubic-bezier(.16,.78,.24,1)",
+    walkoutMs: 520,
+    walkoutEase: "cubic-bezier(.18,.82,.24,1)",
+    particleCount: 42,
+    cameraScale: 1.03
   });
 
   const $ = (s, r = document) => r.querySelector(s);
@@ -50,6 +54,7 @@
   let FX, MAP, HANDS;
   let T = { k: 1, offX: 0, offY: 0, mode: "desktop", clip: [0, 0, 0, 0] };
   let anims = [];
+  const walkoutRuns = new Set();
 
   function plateToScreen(x, y, t = T) { return [t.offX + x * t.k, t.offY + y * t.k]; }
   function rectToScreen(r, t = T) {
@@ -198,6 +203,11 @@
       burst.innerHTML = `<defs><radialGradient id="${gid}r" gradientUnits="userSpaceOnUse" cx="${bx}" cy="${by}" r="230"><stop offset="0" stop-color="#FFF4C8" stop-opacity="1"/><stop offset=".35" stop-color="#F2C45B" stop-opacity=".75"/><stop offset="1" stop-color="#C99B45" stop-opacity="0"/></radialGradient>
         <radialGradient id="${gid}c" gradientUnits="userSpaceOnUse" cx="${bx}" cy="${by + 4}" r="70"><stop offset="0" stop-color="#FFF6D6"/><stop offset=".5" stop-color="#F7D46A" stop-opacity=".55"/><stop offset="1" stop-color="#F2C45B" stop-opacity="0"/></radialGradient></defs>
         <g fill="url(#${gid}r)">${rays}</g><ellipse cx="${bx}" cy="${by + 4}" rx="86" ry="34" fill="url(#${gid}c)"/>`;
+      const shockwave = el("div", "rvShockwave", inner);
+      const particles = el("canvas", "rvParticles", wrap);
+      particles.setAttribute("aria-hidden", "true");
+      const kitReveal = el("div", "rvKitReveal", wrap);
+      kitReveal.setAttribute("aria-hidden", "true");
       const voidLayer = worldSvg("rvVoid", inner);
       voidLayer.innerHTML = `<defs><radialGradient id="${gid}v" gradientUnits="userSpaceOnUse" cx="${bx}" cy="${r.tearY + 18}" r="210"><stop offset="0" stop-color="#6B430D" stop-opacity=".82"/><stop offset=".28" stop-color="#171006" stop-opacity=".96"/><stop offset="1" stop-color="#020202" stop-opacity=".99"/></radialGradient></defs><polygon points="${pts(r.body)}" fill="url(#${gid}v)"/>`;
       const halfLeft = el("div", "rvHalf rvHalfLeft plateDup", inner);
@@ -205,7 +215,7 @@
       const crest = el("div", "rvCrest", inner);
       crest.dataset.side = String(i);
       const flap = el("div", "rvFlap plateDup", inner);
-      r.els = { wrap, inner, dark, hole: holeS, edge, burst, voidLayer, halfLeft, halfRight, crest, flap };
+      r.els = { wrap, inner, dark, hole: holeS, edge, burst, shockwave, particles, kitReveal, voidLayer, halfLeft, halfRight, crest, flap };
     });
     // JOB-043: the derived contact shadow paints on the pack below the fingers.
 const contact = el("div", "handContact plateDup", world);
@@ -455,6 +465,8 @@ $$(".handOv").forEach(d => { d.style.clipPath = "none"; });
       place(E.inner, { left: -b[0] * k, top: -b[1] * k, width: PW * k, height: PH * k });
       const cs = r.crestSize;
       place(E.crest, { left: (r.crest[0] - cs / 2) * k, top: (r.crest[1] - cs / 2) * k, width: cs * k, height: cs * k });
+      const ring = cs * 1.3;
+      place(E.shockwave, { left: (r.crest[0] - ring / 2) * k, top: (r.crest[1] - ring / 2) * k, width: ring * k, height: ring * k });
       E.flap.style.clipPath = `polygon(${r.strip.map(([x, y]) => `${(x * k).toFixed(2)}px ${(y * k).toFixed(2)}px`).join(",")})`;
       const x0 = r.body[0][0], x1 = r.body[1][0], y0 = r.tearY, y1 = r.body[2][1], midX = (x0 + x1) / 2;
       E.halfLeft.style.clipPath = `polygon(${x0 * k}px ${y0 * k}px, ${midX * k}px ${y0 * k}px, ${midX * k}px ${y1 * k}px, ${x0 * k}px ${y1 * k}px)`;
@@ -480,6 +492,7 @@ $$(".handOv").forEach(d => { d.style.clipPath = "none"; });
         dark: [{ opacity: 0 }, { opacity: 1 }], voidLayer: [{ opacity: 0 }, { opacity: 1 }],
         halfLeft: [{ opacity: 0 }, { opacity: 0 }], halfRight: [{ opacity: 0 }, { opacity: 0 }],
         burst: [{ opacity: 0, transform: "scale(1)" }, { opacity: 0, transform: "scale(1)" }],
+        shockwave: [{ opacity: 0, transform: "scale(1)" }, { opacity: 0, transform: "scale(1)" }],
         crest: [{ opacity: 0, transform: "translate(0px,0px) scale(1)" }, { opacity: 1, transform: "translate(0px,0px) scale(1)" }],
       };
     }
@@ -521,15 +534,74 @@ $$(".handOv").forEach(d => { d.style.clipPath = "none"; });
         { offset: 0.34, opacity: 0.7, transform: "scale(.85)" }, { offset: 0.55, opacity: 0.62, transform: "scale(1.04)" },
         { offset: 1, opacity: 0.42, transform: "scale(1)" },
       ],
+      shockwave: [
+        { offset: 0, opacity: 0, transform: "scale(.2)" },
+        { offset: 0.34, opacity: 0, transform: "scale(.2)" },
+        { offset: 0.44, opacity: .92, transform: "scale(.48)", easing: CLUB_SIGNATURE.walkoutEase },
+        { offset: 0.76, opacity: 0, transform: "scale(1.65)" },
+        { offset: 1, opacity: 0, transform: "scale(1.65)" },
+      ],
       crest: [
         { offset: 0, opacity: 0, transform: `translate(${dx}px,${startY}px) scale(.22)` },
         { offset: 0.28, opacity: 0, transform: `translate(${dx}px,${startY}px) scale(.22)`, easing: "ease-out" },
-        { offset: 0.38, opacity: 1, transform: `translate(${dx * 0.85}px,${startY - 4 * k}px) scale(.42)`, easing: "cubic-bezier(.2,.7,.35,1)" },
+        { offset: 0.38, opacity: 1, transform: `translate(${dx * 0.85}px,${startY - 4 * k}px) scale(.42)`, easing: CLUB_SIGNATURE.walkoutEase },
         { offset: 0.62, opacity: 1, transform: `translate(${dx * 0.35}px,${peakY}px) scale(.8)`, easing: "cubic-bezier(.45,0,.3,1)" },
         { offset: 0.84, opacity: 1, transform: `translate(0px,${4 * k}px) scale(1.04)`, easing: "ease-out" },
         { offset: 1, opacity: 1, transform: "translate(0px,0px) scale(1)" },
       ],
     };
+  }
+
+  function walkoutNameKeyframes() {
+    if (RM) return [{ opacity: 0 }, { opacity: 1 }];
+    return [
+      { offset: 0, opacity: 0, transform: "translateY(8px) scale(.985)" },
+      { offset: 0.34, opacity: 0, transform: "translateY(8px) scale(.985)" },
+      { offset: 0.5, opacity: 1, transform: "translateY(0) scale(1.015)", easing: CLUB_SIGNATURE.walkoutEase },
+      { offset: 0.72, opacity: 1, transform: "translateY(0) scale(1)" },
+      { offset: 1, opacity: 1, transform: "translateY(0) scale(1)" },
+    ];
+  }
+
+  function runWalkout(r, i, nameEl) {
+    const key = `${FRAME}:${i}`;
+    if (walkoutRuns.has(key)) return;
+    walkoutRuns.add(key);
+    const E = r.els;
+    document.documentElement.style.setProperty("--club-walkout-ms", CLUB_SIGNATURE.walkoutMs + "ms");
+    document.documentElement.style.setProperty("--club-walkout-ease", CLUB_SIGNATURE.walkoutEase);
+    nameEl.classList.remove("clubNameWalkout");
+    void nameEl.offsetWidth;
+    nameEl.classList.add("clubNameWalkout");
+
+    if (typeof window.sdReveal === "function") void window.sdReveal(E.kitReveal);
+    if (RM) return;
+
+    const delay = Math.round(CLUB_SIGNATURE.walkoutMs * .34);
+    window.setTimeout(() => {
+      if (typeof window.sdBurst !== "function") return;
+      const x = (r.burst[0] - r.box[0]) * T.k;
+      const y = (r.burst[1] - r.box[1]) * T.k;
+      void window.sdBurst(E.particles, x, y, {
+        count: CLUB_SIGNATURE.particleCount,
+        duration: CLUB_SIGNATURE.walkoutMs,
+        spread: Math.PI * 1.45,
+        speedMin: 95,
+        speedMax: 250,
+        gravity: 520
+      });
+    }, delay);
+
+    const world = $("#world");
+    if (world) {
+      const camera = world.animate([
+        { offset: 0, transform: "scale(1)" },
+        { offset: .38, transform: "scale(1)" },
+        { offset: .78, transform: `scale(${CLUB_SIGNATURE.cameraScale})`, easing: CLUB_SIGNATURE.walkoutEase },
+        { offset: 1, transform: "scale(1)" },
+      ], { duration: CLUB_SIGNATURE.walkoutMs, fill: "both", easing: "linear" });
+      anims.push(camera);
+    }
   }
 
   function sideProgress(i) {
@@ -561,24 +633,32 @@ $$(".handOv").forEach(d => { d.style.clipPath = "none"; });
   function buildAnimations() {
     anims.forEach(a => a.cancel()); anims = [];
     const f = FX.frames[FRAME] || FX.frames.CL1;
+    const activeSide = f.stage === "manager-one" ? 0 : (f.stage === "manager-two" ? 1 : -1);
     setAnticipationState();
     RIP.forEach((r, i) => {
       const E = r.els, p = sideProgress(i);
+      const nameEl = i ? $("#clubNameTwo") : $("#clubNameOne");
       E.wrap.classList.toggle("on", p != null);
-      $$(".panelCrest")[i].classList.toggle("on", Boolean(f.revealed[i]));
+      $(".panelCrest")[i].classList.toggle("on", Boolean(f.revealed[i]));
       if (p == null) return;
       if (!E.crest.dataset.club) { E.crest.innerHTML = `<div class="crestRim">${crestMarkup(i ? FX.clubs.playerTwo : FX.clubs.playerOne)}</div>`; E.crest.dataset.club = "1"; }
       const kf = ripKeyframes(r), dur = RM ? RM_MS : RIP_MS;
       const opts = { duration: dur, fill: "both", easing: "linear" };
-      const list = [[E.flap, kf.flap], [E.hole, kf.hole], [E.edge, kf.edge], [E.dark, kf.dark], [E.voidLayer, kf.voidLayer], [E.halfLeft, kf.halfLeft], [E.halfRight, kf.halfRight], [E.burst, kf.burst], [E.crest, kf.crest]];
+      const list = [
+        [E.flap, kf.flap], [E.hole, kf.hole], [E.edge, kf.edge], [E.dark, kf.dark],
+        [E.voidLayer, kf.voidLayer], [E.halfLeft, kf.halfLeft], [E.halfRight, kf.halfRight],
+        [E.burst, kf.burst], [E.shockwave, kf.shockwave], [E.crest, kf.crest],
+        [nameEl, walkoutNameKeyframes()]
+      ];
       list.forEach(([node, frames]) => {
         const a = node.animate(frames, opts);
         if (PLAY) {
-          if (FRAME === "CL4" && i === 0 && f.revealed[0]) { a.pause(); a.currentTime = dur; }
-          else { a.currentTime = 0; }
+          if (i === activeSide) a.currentTime = 0;
+          else { a.pause(); a.currentTime = dur; }
         } else { a.pause(); a.currentTime = p * dur; }
         anims.push(a);
       });
+      if (PLAY && i === activeSide) runWalkout(r, i, nameEl);
     });
   }
 
