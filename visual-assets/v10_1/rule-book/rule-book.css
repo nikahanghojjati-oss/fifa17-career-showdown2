@@ -1,2 +1,37 @@
-/* JOB-092 step 1 scaffold.
-   Intentionally no screen styling yet; step 2 adds the shared stage. */
+/* JOB-092 · Rule Book */
+
+/* Stage: the system stadium is calm, centred and darkened more heavily than action screens. */
+html,
+body {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+}
+
+body {
+  overflow: hidden;
+  background: #050607;
+}
+
+#stage-root {
+  width: 100vw;
+  min-height: 100vh;
+}
+
+.ruleBookScrim {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(2, 4, 6, 0.72) 0%, rgba(2, 4, 6, 0.54) 31%, rgba(2, 4, 6, 0.74) 100%),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.28) 0%, rgba(0, 0, 0, 0.08) 48%, rgba(0, 0, 0, 0.34) 100%);
+}
+
+.sd-stage__layer--ui {
+  pointer-events: none;
+}
+
+.sd-stage__layer--ui button,
+.sd-stage__layer--ui a {
+  pointer-events: auto;
+}
