@@ -9,7 +9,7 @@
   const PANEL_ID="sharedTerminalClosePanel";
   const AMBIGUOUS_CODES=new Set(["unavailable","deadline-exceeded","aborted","internal","unknown","network-request-failed"]);
   let installed=false,busy=false,state=null,stateContextKey="",refreshPromise=null,closePromise=null,unsubscribeRemote=null;
-  let rememberedRequest=null;
+  let rivalryWakeRequested=false;
   let protocol=null,provider=null,finalApi=null,runtimeApi=null,accountApi=null,pairingApi=null,rivalryApi=null,remoteApi=null;
 
   function ptcFail(code,message){const error=new Error(message||code);error.code=code;throw error;}
@@ -19,18 +19,18 @@
   function ptcAmbiguous(value){return AMBIGUOUS_CODES.has(ptcCode(value));}
   function ptcShowdown(){try{return typeof currentShowdown!=="undefined"?currentShowdown:null;}catch(_error){return null;}}
   function ptcConfirmedSetupRivalry(){try{const s=root.CareerModeProductionSharedShowdownSetup?.getState?.();return s&&s.ready===true&&s.setup&&s.setup.phase==="SHOWDOWN_CONFIRMED"&&s.setup.revision===6&&s.rivalryId?String(s.rivalryId):"";}catch(_error){return "";}}
+  function ptcRivalryApi(){return rivalryApi||root.CareerModeSparkConnectedRivalry||null;}
+  function ptcAttachedRivalry(saveId,playerOneProfileId,playerTwoProfileId){try{const s=ptcRivalryApi()?.getState?.(),b=s&&s.binding;return s&&s.attached===true&&b&&b.saveId===saveId&&((b.managerRole==="playerOne"&&b.profileId===playerOneProfileId)||(b.managerRole==="playerTwo"&&b.profileId===playerTwoProfileId))&&s.rivalryId?String(s.rivalryId):"";}catch(_error){return "";}}
   function ptcRequest(){
     const showdown=ptcShowdown();
     if(!showdown||showdown.sharedJourney?.mode!=="shared")return null;
     const saveId=String(showdown.identity?.saveId||"").trim();
     const playerOneProfileId=String(showdown.identity?.managerProfileIds?.playerOne||"").trim();
     const playerTwoProfileId=String(showdown.identity?.managerProfileIds?.playerTwo||"").trim();
-    // Shared Setup stops being ready once the session closes, so the same save keeps the rivalry it already resolved; a different save or manager pair never inherits it.
-    const remembered=rememberedRequest&&rememberedRequest.saveId===saveId&&rememberedRequest.playerOneProfileId===playerOneProfileId&&rememberedRequest.playerTwoProfileId===playerTwoProfileId?rememberedRequest.rivalryId:"";
-    const rivalryId=String(showdown.sharedJourney?.rivalryId||ptcConfirmedSetupRivalry()||remembered||"").trim().toLowerCase();
+    // Shared Setup stops being ready once the session closes, so fall back to the durable Connected Rivalry binding of this exact save and manager (it survives reloads).
+    const rivalryId=String(showdown.sharedJourney?.rivalryId||ptcConfirmedSetupRivalry()||ptcAttachedRivalry(saveId,playerOneProfileId,playerTwoProfileId)||"").trim().toLowerCase();
     if(!/^pair_[0-9a-f]{64}$/.test(rivalryId)||!/^save_[0-9a-f]{24}$/.test(saveId)||!/^profile_[0-9a-f]{24}$/.test(playerOneProfileId)||!/^profile_[0-9a-f]{24}$/.test(playerTwoProfileId))return null;
-    rememberedRequest=Object.freeze({rivalryId,saveId,playerOneProfileId,playerTwoProfileId,key:`${saveId}|${rivalryId}|${playerOneProfileId}|${playerTwoProfileId}|terminal-close`});
-    return rememberedRequest;
+    return Object.freeze({rivalryId,saveId,playerOneProfileId,playerTwoProfileId,key:`${saveId}|${rivalryId}|${playerOneProfileId}|${playerTwoProfileId}|terminal-close`});
   }
   function ptcCurrentState(){const request=ptcRequest();return request&&state&&stateContextKey===request.key?state:null;}
   function ptcReport(context,error){if(typeof root.reportApplicationError==="function")root.reportApplicationError(context,error);else root.console?.error?.(context,error);}
@@ -181,7 +181,13 @@
   }
   function ptcWake(event){
     if(event?.type==="career-mode-save-library-authority-invalidated")return ptcClear();
-    const request=ptcRequest();if(!request){ptcClear();return;}
+    const request=ptcRequest();
+    if(!request){
+      ptcClear();
+      // After a reload the durable rivalry binding is only known once Connected Rivalry initializes; its state-change event wakes this module again.
+      const api=ptcRivalryApi();if(!rivalryWakeRequested&&ptcShowdown()?.sharedJourney?.mode==="shared"&&api&&typeof api.initialize==="function"&&api.getState?.()?.initialized!==true){rivalryWakeRequested=true;void Promise.resolve().then(()=>api.initialize()).catch(()=>{});}
+      return;
+    }
     if(stateContextKey&&stateContextKey!==request.key)ptcClear();
     if(busy||root.document?.visibilityState==="hidden")return;
     void ptcRefresh();

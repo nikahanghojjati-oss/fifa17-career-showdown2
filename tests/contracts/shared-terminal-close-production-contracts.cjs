@@ -65,11 +65,13 @@ const sessionLoad=bootstrap.indexOf('["private-session","js/sparkPrivateSession.
 assert.ok(sessionLoad>0&&providerLoad>sessionLoad,"the SSJR bootstrap must load the private-session protocol before the Terminal Close provider");
 const providerSource=fs.readFileSync("js/sparkTerminalClose.js","utf8");assert.match(providerSource,/root\.CareerModeSparkPrivateSession;/,"provider still binds the session protocol at load time");
 
-// After Terminal Close the session is closed, so Shared Setup is no longer ready; the same save must keep the rivalry it
-// already resolved or the other manager's page never reaches CLOSED (found by the two-manager browser journey, J10).
-assert.match(runtime,/rememberedRequest&&rememberedRequest\.saveId===saveId&&rememberedRequest\.playerOneProfileId===playerOneProfileId&&rememberedRequest\.playerTwoProfileId===playerTwoProfileId\?rememberedRequest\.rivalryId:""/,"only the same save and manager pair reuse a remembered rivalry");
-assert.match(runtime,/showdown\.sharedJourney\?\.rivalryId\|\|ptcConfirmedSetupRivalry\(\)\|\|remembered\|\|""/,"the journey marker and confirmed Setup still win over the remembered rivalry");
-assert.ok(runtime.indexOf("rememberedRequest=Object.freeze(")>runtime.indexOf("!/^pair_[0-9a-f]{64}$/.test(rivalryId)"),"only a fully validated request is remembered");
+// After Terminal Close the session is closed, so Shared Setup is no longer ready; the request must fall back to the durable
+// Connected Rivalry binding of this exact save and manager, which also survives reloads (found by the two-manager browser journey, J10).
+assert.match(runtime,/showdown\.sharedJourney\?\.rivalryId\|\|ptcConfirmedSetupRivalry\(\)\|\|ptcAttachedRivalry\(saveId,playerOneProfileId,playerTwoProfileId\)\|\|""/,"the journey marker and confirmed Setup still win over the attached rivalry");
+assert.ok(runtime.includes('s.attached===true&&b&&b.saveId===saveId&&((b.managerRole==="playerOne"&&b.profileId===playerOneProfileId)||(b.managerRole==="playerTwo"&&b.profileId===playerTwoProfileId))&&s.rivalryId'),"only an attached binding for this exact save and manager is used");
+assert.doesNotMatch(runtime,/rememberedRequest/,"page memory alone must not carry the rivalry binding");
+assert.match(runtime,/!rivalryWakeRequested&&ptcShowdown\(\)\?\.sharedJourney\?\.mode==="shared"&&api&&typeof api\.initialize==="function"&&api\.getState\?\.\(\)\?\.initialized!==true/,"after a reload Terminal Close asks Connected Rivalry to restore its durable binding once");
+assert.ok(runtime.includes('"career-mode-connected-rivalry-state-change"'),"the restored binding wakes Terminal Close");
 // Active-journey refreshers lose read access once the rivalry closes; their failures stay quiet only after a verified CLOSED read.
 assert.match(runtime,/reportUnlessClosed:ptcReportUnlessClosed/);
 assert.match(runtime,/if\(current\?\.phase!=="CLOSED"&&ptcRequest\(\)\)current=await ptcRefresh\(\);if\(current&&current\.phase==="CLOSED"\)return false;/);
