@@ -103,30 +103,6 @@ async function signIn(m,label){
   await m.page.waitForFunction(text=>document.getElementById("onlinePlayerIdentityBadge")?.textContent===text,label.toUpperCase(),{timeout:30000});
 }
 
-async function waitTransferPhase(m,phase){
-  await m.page.waitForFunction(expected=>document.getElementById("transferChallenge")?.dataset.transferPhase===expected,phase,{timeout:30000});
-}
-async function setCanonicalTransferValue(m,id,label){
-  const input=m.page.locator(`#${id}`);
-  await input.fill(label);
-  await m.page.waitForFunction(({id,label})=>{const node=document.getElementById(id);return node?.value===label&&Boolean(node?.dataset?.canonicalId);},{id,label},{timeout:5000});
-}
-async function fillTransferGuess(m,prefix){
-  await m.page.locator(`#${prefix}Guess1Type`).selectOption("league");
-  await setCanonicalTransferValue(m,`${prefix}Guess1Value`,"Premier League");
-}
-async function fillTransferSigning(m,prefix,name){
-  await m.page.locator(`#${prefix}Signing1Name`).fill(name);
-  await setCanonicalTransferValue(m,`${prefix}Signing1League`,"Premier League");
-  await setCanonicalTransferValue(m,`${prefix}Signing1Nationality`,"England");
-}
-async function renderedContains(m,token){
-  return m.page.evaluate(value=>{
-    const text=document.body?.innerText||"";
-    const values=[...document.querySelectorAll("input,textarea,select")].map(node=>String(node.value||"")).join("\n");
-    return `${text}\n${values}`.includes(value);
-  },token);
-}
 async function fillSeasonResult(m,prefix,result){
   await m.page.locator(`#${prefix}LeaguePosition`).fill(String(result.leaguePosition));
   await m.page.locator(`#${prefix}LeaguePoints`).fill(String(result.leaguePoints));
@@ -320,6 +296,10 @@ async function main(){
     await nik.page.locator("#p1Guess1Type").selectOption("nationality");
     await nik.page.locator("#p1Guess1Value").waitFor({state:"visible",timeout:5000});
     await fillTransferCombo(nik,"p1Guess1Value","Brazil");
+    assert.equal(await daniel.page.locator("#p1Guess1Type").inputValue(),"","Daniel cannot read Nik's unfinished guess type");
+    assert.equal(await nik.page.locator("#p2Guess1Type").inputValue(),"","Nik cannot read Daniel's unfinished guess type");
+    assert.equal(await daniel.page.locator("#p1Guess1Type").locator("xpath=ancestor::*[contains(@class,'transferGuessCard')]").isVisible(),false,"Daniel's rival guess card stays hidden");
+    assert.equal(await nik.page.locator("#p2Guess1Type").locator("xpath=ancestor::*[contains(@class,'transferGuessCard')]").isVisible(),false,"Nik's rival guess card stays hidden");
     await daniel.page.getByRole("button",{name:"LOCK MY GUESSES",exact:true}).click({timeout:30000});
     await nik.page.getByRole("button",{name:"LOCK MY GUESSES",exact:true}).click({timeout:30000});
     await waitTransferPhase(nik,"signing_entry");
@@ -353,58 +333,11 @@ async function main(){
     ok("J6.5","COMPLETED reveals both signings identically and enables Shared Season Results");
     await shot(daniel,"j6-transfers");await shot(nik,"j6-transfers");
 
-    // J6 season-1 transfers and privacy.
-    await daniel.page.locator("#startTransferTimer").waitFor({state:"visible",timeout:30000});
-    await daniel.page.locator("#startTransferTimer").click({timeout:30000});
-    for(const m of [daniel,nik])await waitTransferPhase(m,"window");
-    assert.match(await daniel.page.locator("#transferTimerDisplay").textContent(),/^1[34]:[0-5][0-9]$/,"Daniel sees the live shared timer");
-    assert.match(await nik.page.locator("#transferTimerDisplay").textContent(),/^1[34]:[0-5][0-9]$/,"Nik sees the live shared timer");
-    ok("J6.1","Daniel started one shared 15-minute transfer window and both managers saw it live");
-
-    await daniel.page.getByRole("button",{name:"REQUEST EARLY END",exact:true}).click({timeout:30000});
-    await daniel.page.getByRole("button",{name:"EARLY END REQUESTED ✓",exact:true}).waitFor({state:"visible",timeout:30000});
-    await nik.page.getByRole("button",{name:"REQUEST EARLY END",exact:true}).click({timeout:30000});
-    for(const m of [daniel,nik])await waitTransferPhase(m,"guess_entry");
-    ok("J6.2","both managers requested early end; the shared window advanced without waiting 15 minutes");
-
-    await fillTransferGuess(daniel,"p2");
-    await fillTransferGuess(nik,"p1");
-    await daniel.page.getByRole("button",{name:"LOCK MY GUESSES",exact:true}).click({timeout:30000});
-    await nik.page.getByRole("button",{name:"LOCK MY GUESSES",exact:true}).click({timeout:30000});
-    for(const m of [daniel,nik])await waitTransferPhase(m,"signing_entry");
-
-    const danielSigning="QWX Daniel Signing",nikSigning="ZPV Nik Signing";
-    await fillTransferSigning(daniel,"p1",danielSigning);
-    await fillTransferSigning(nik,"p2",nikSigning);
-    assert.equal(await renderedContains(nik,"QWX"),false,"Nik cannot see Daniel's unfinished signing token");
-    assert.equal(await renderedContains(daniel,"ZPV"),false,"Daniel cannot see Nik's unfinished signing token");
-    assert.equal(await nik.page.locator("#p1Signing1Name").inputValue(),"","Nik's rival signing input stays empty before completion");
-    assert.equal(await daniel.page.locator("#p2Signing1Name").inputValue(),"","Daniel's rival signing input stays empty before completion");
-    ok("J6.3","unfinished signing inputs remain private on both rendered pages");
-
-    await daniel.page.getByRole("button",{name:"LOCK MY SIGNINGS",exact:true}).click({timeout:30000});
-    assert.equal(await renderedContains(nik,"QWX"),false,"Daniel's locked signing remains private until both managers finish");
-    assert.equal(await renderedContains(daniel,"ZPV"),false,"Nik's unfinished signing remains private");
-    await nik.page.getByRole("button",{name:"LOCK MY SIGNINGS",exact:true}).click({timeout:30000});
-    if((await daniel.page.locator("#transferChallenge").getAttribute("data-transfer-phase"))!=="completed"){
-      const refresh=daniel.page.getByRole("button",{name:"REFRESH SHARED CHALLENGE",exact:true});
-      if(await refresh.isVisible().catch(()=>false))await refresh.click({timeout:30000});
-    }
-    for(const m of [daniel,nik])await waitTransferPhase(m,"completed");
-    assert.equal(await renderedContains(daniel,"ZPV"),true,"Daniel sees Nik's signing after completion");
-    assert.equal(await renderedContains(nik,"QWX"),true,"Nik sees Daniel's signing after completion");
-    const verdictD=(await daniel.page.locator("#transferChallengeResults").innerText()).replace(/\s+/g," ").trim();
-    const verdictN=(await nik.page.locator("#transferChallengeResults").innerText()).replace(/\s+/g," ").trim();
-    assert.equal(verdictD,verdictN,"both managers see the same revealed transfer verdicts");
-    ok("J6.4","completion reveals both private sides and both rendered verdicts agree");
-
+    // J7 season-1 results, privacy, and the exact raw facts that feed canonical scoring.
     for(const m of [daniel,nik]){
-      await m.page.getByRole("button",{name:"CONTINUE TO SHARED SEASON RESULTS",exact:true}).waitFor({state:"visible",timeout:30000});
       await m.page.getByRole("button",{name:"CONTINUE TO SHARED SEASON RESULTS",exact:true}).click({timeout:30000});
       await m.page.locator("#seasonEntry").waitFor({state:"visible",timeout:30000});
     }
-
-    // J7 season-1 results, privacy, and the exact raw facts that feed canonical scoring.
     const season1Daniel={leaguePosition:1,leaguePoints:87,leagueGoals:93,domesticCup:false,championsLeague:true,topScorer:true,topAssist:false};
     const season1Nik={leaguePosition:2,leaguePoints:84,leagueGoals:101,domesticCup:true,championsLeague:false,topScorer:false,topAssist:true};
     await fillSeasonResult(daniel,"p1",season1Daniel);
