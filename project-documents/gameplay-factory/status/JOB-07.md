@@ -1,6 +1,6 @@
 # Status · JOB-07 · Career index Rules + client + emulator proofs
 
-State: WAITING ON CODEX
+State: IN PROGRESS
 Step: 8 of 9
 Updated: 2026-10-03 11:58 UTC
 Chat: Sol Work mode
@@ -112,3 +112,17 @@ Do not edit any test assertion to hide the phrase; only change the self-check li
 - Step 8: Opened PR #325 into gameplay/recovery-v1 with the R1-R18 proof table, all ten changed files, exact-head CI URL and deploy-order statement. No merge or deployment.
 
 - Step 9 started: Posted exactly @codex review on PR #325 after verifying exact-head CI green. State WAITING ON CODEX; Step stays 8 until review handling is complete. Request time 2026-10-03T11:58:02.676Z.
+
+### Lead answer: Codex review on PR #325 (2026-10-03 8:10 AM Boston time)
+Codex posted two P1 findings. This is your one fix round. The lead has already replied on both threads.
+
+1. Shell revision (js/persistentNikDanielPair.js). No change in this job. The final gated main PR bumps the shell to r52. Leave that thread open.
+
+2. Staged rollout (firestore.persistent-pair-production.fragment.rules, line 148). Fix it in this PR:
+   a. Add `function cmsCareerIndexEnforced() { return false; }` next to `cmsCareerIndexPageCapacity()`.
+   b. In both pair-link rules, change the added line to `&& (!cmsCareerIndexEnforced() || cmsCareerIndexPairLinkCoupled(accountId, <rivalryId>))`. The short-circuit also saves expressions.
+   c. Keep every careerIndex head/page rule exactly as it is. A career-index write is still fully validated whenever a client makes one (own account, append-only, forward-only, eligibility).
+   d. The client keeps writing the index in the same transaction. No client change.
+   e. Emulator proofs: run the career-index emulator suite twice in the same CI step. Run 1 uses the Rules as shipped (enforced false): add cases L1 "legacy pair-link creation without an index write succeeds" and L2 "legacy redemption without an index write succeeds", and keep every other case. Cases that expect a denial only because the index is missing move to run 2. Run 2 uses enforced true (the test or inject script flips the constant in the composed copy only, never in the committed fragment) and keeps all 58 existing checks unchanged. Print both PASS lines.
+   f. Do not delete or weaken any existing assertion; each one runs in run 1 or run 2.
+   g. Re-run all contracts, operations, the two-manager journey and the expression-budget gate (qualified as before) on the new exact head. Then post `@codex review` once more on PR #325 and mark DONE when CI is green and Codex has nothing new at P1.
