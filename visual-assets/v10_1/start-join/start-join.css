@@ -1,4 +1,25 @@
-/* JOB-087 step 1 scaffold: intentionally unstyled.
-   Shared kit styles are linked in index.html; screen styling starts in later steps. */
+/* JOB-087 step 2: registered cinematic stage only.
+   Screen composition begins in later steps; no independent plate transform is allowed. */
 
-[hidden] { display: none !important; }
+html,
+body {
+  margin: 0;
+  min-width: 100%;
+  min-height: 100%;
+}
+
+body {
+  min-height: 100vh;
+}
+
+#stage-root {
+  min-height: 100vh;
+}
+
+.managerPlateMarker {
+  pointer-events: none;
+}
+
+[hidden] {
+  display: none !important;
+}
