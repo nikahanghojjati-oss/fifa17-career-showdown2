@@ -165,3 +165,21 @@ This section supersedes the earlier R2 phone fallback where it conflicts. Job 39
 - Height budget: the arithmetic table above reserves the 55svh hero band, 60 px state-note allowance, 6 px separation and a conservative 132 px action dock including a 34 px safe area. Remaining space is 99.0 px at 393 × 660, 90.0 px at 360 × 640, 50.8 px at 375 × 553, 181.8 px at 390 × 844 and 221.4 px at 430 × 932. The primary remains visible at 375 × 553 and larger phones gain free space rather than floating the action stack upward.
 - Phone asset path: the portrait background, both manager cut-outs and shared wheel rim are WebP references. No source/master plate PNG is referenced by the phone hero path. The existing desktop fingertip overlay PNG remains a desktop scene asset and that scene is hidden in phone mode.
 - Claude intake: render the committed phone composition and verify H5/H6/H7/H8/H9/H10/H11 plus the 393 × 660 fingertip/rim contact at zoom. If either Job 112 cut-out is absent in the branch checkout, run the existing `tools/MAKE_ASSETS.md` cutout recipes before render; no new design decision is required.
+
+## Fix round
+
+JOB-041 applied the League review fixes from JOB-040.
+
+Done:
+- Item 2: desktop header now shows the product-truth navigation set HOME / CAREER / STANDINGS / STATS / RULES plus settings only; SIGN IN and season chrome are hidden compatibility nodes and ABOUT/search/profile are not shown.
+- Item 3: desktop slogan registration uses `grow = 0`, returning both slogan panels to the plate-registered boxes.
+- Item 4: desktop `#spinLeague` is 285 × 58 px.
+- Item 5: desktop BACK is 208 × 58 px; the row uses a 10 px gap and an 11 px left offset, placing BACK at approximately x=800.5 on a 1536 px viewport.
+
+Blocked:
+- Item 1: `visual-assets/v10_1/shared/wordmarks/TITLE_LEAGUE_V1.webp` does not exist. Job 124's wordmark README states that the League crop was not made, so the TODO-WORDMARK fallback remains unchanged rather than inventing an asset.
+
+Claude re-measure:
+- H5 phone fit, H6 contrast/input size, H7 reduced motion, H8 keyboard/focus, H9 console/failed requests, H10 mockup diff, and H11 first-paint weight.
+- Re-check the desktop header and button-row visual registration against GOAL_LEAGUE.jpg.
+- Re-check title fidelity after TITLE_LEAGUE_V1.webp is supplied.
