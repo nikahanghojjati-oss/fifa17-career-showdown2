@@ -2,14 +2,15 @@
 
 State: IN PROGRESS
 Step: 4 of 8
-Updated: 2026-10-03 17:46 UTC
+Updated: 2026-10-03 17:48 UTC
 Chat: Sol Work mode (job 12, 265263c2f906)
 Code branch: gameplay/job-12-composed-rules-regression
 Head commit: 5cd8ad6b40795de1779e163f2b50376ab5567fc2
 PR:
-CI run: CI pending on 5cd8ad6b40795de1779e163f2b50376ab5567fc2 (new Composed production Rules regression job)
+CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37141758253 (IN PROGRESS, exact head 5cd8ad6b40795de1779e163f2b50376ab5567fc2)
 
 ## Notes
+- Step 5 CI single read (17:48 UTC): exact-head 5cd8ad6 Gameplay Fast run 37141758253 is IN PROGRESS. Run URL saved; no polling or dependent change. Next turn read once and check all three jobs plus the numbered matrix.
 - Step 5 saved, CI pending: appended Appendix F composed-rules-regression job last, preserving every existing job and step byte-for-byte. Uses Node 24 / Java 21, pinned emulator dependencies, explicit read-only main fetch and exactly one firestore-only emulators:exec with demo-cms-gameplay-fast-composed. Local composed Rules contract PASS 10 numbered checks (17 suites); runner/gap syntax PASS. Candidate unchanged a0a0d0b6 / 132878 bytes; checkout artifact untouched by contract. Next turn read exact-head CI once: require all three jobs green, final 49-check regression PASS and no not ok; if red inspect log per §8. Step remains 4 of 8 until step 5 CI evidence is verified. No CI polling, deploy, main write or existing proof changes.
 - Step 4 complete: Appendix C gap suite copied verbatim (69 planned numbered checks); Appendix D runner copied with only §4.7 G-10 additions: completed-transfer-history label, PHASE_B_FILES and M6/M7 evidence. Existing G-9 label retained. Both syntax checks PASS. Offline discovery verifies 17 deduplicated composed suites (includes G-9/G-10 and lifecycle 5/10), nine Phase B temporary-copy runs, and unchanged D13-only budget allowlist. Contract remains intentionally red at C2 missing composed-rules-regression CI job. No Rules/client/existing-suite changes, no local emulator/deploy execution. Files saved on head above; no CI polling. Next step 5: append Appendix F CI job and make offline contract green.
 - Step 3 complete: single read of exact 8a583b9 run 37140887220 shows expected failure. Gameplay contracts log contains AssertionError: validate-gameplay-fast.yml needs the composed-rules-regression job and census failed in 1/110 contracts, naming only tests/contracts/composed-production-rules-contracts.cjs; all eight preceding T/C checks pass. Composed Rules on the emulator and every one of its steps are SUCCESS, including career index, completed-read, G-9 adapter and G-10 transfer matrix. Local operations remain 73/0. Tests-first evidence saved before any emulator files/CI job. Next step 4: gap suite and runner with G-10 discovery labels/Phase B/evidence.
