@@ -2,6 +2,8 @@
 
 ## Verdict
 
+**FAIL** — static-review average is 3.78/5, below the required 4.2. H1–H4 pass from source reading; H5–H11 remain NOT MEASURED for Claude and are not treated as failures or fix items.
+
 ## Scorecard
 
 | Criterion | Score | Evidence |
@@ -88,3 +90,10 @@ DEFAULT: `visual-assets/v10_1/league/TRUTH.md`, named by JOB-040, is absent from
 - Missing truth sheet — NOTE — `visual-assets/v10_1/league/TRUTH.md` is absent. This does not create a product-truth contradiction because `PRODUCT_TRUTH.md` is binding and sufficient for this audit, but the missing per-screen file should be corrected in factory documentation if it was intended as a deliverable.
 
 ## Fix list
+
+1. `visual-assets/v10_1/league/index.html` + title styling in `league.css`: replace the visible 64 px Kaushan Script `TODO-WORDMARK` fallback with the League gold brush wordmark treatment while keeping the real `SELECT LEAGUE` text available to assistive technology; target the mockup's broad central title silhouette rather than the current narrow script line.
+2. `visual-assets/v10_1/league/index.html #topHeader`: replace the current SIGN IN / Season 1 / 5 desktop chrome with the product-truth navigation set `HOME / CAREER / STANDINGS / STATS / RULES` plus settings only; do not add the mockup's ABOUT, search or profile controls.
+3. `visual-assets/v10_1/league/league.js` desktop slogan-panel placement: remove the current `grow = 6` expansion so each slogan panel returns to the plate-registered mockup box, approximately x=40–283/y=648–771 left and x=1253–1496/y=648–771 right at 1536 × 864.
+4. `visual-assets/v10_1/league/league.css #spinLeague`: set the desktop primary control to approximately 285 × 58 px at the existing y≈746 reference line instead of the current 300 × 56 px.
+5. `visual-assets/v10_1/league/league.css .backButton` and the desktop action-row spacing: set BACK to approximately 208 × 58 px and tighten/reposition the two-button group so BACK begins around x≈800 at 1536 × 864, matching the mockup's compact gap instead of the current centered 516 px row.
+
