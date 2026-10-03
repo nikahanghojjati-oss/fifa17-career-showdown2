@@ -16,7 +16,7 @@
   const OVL_RECT = [440, 410, 560, 500];
   const PHONE_MIN_R = 112;   // phone wheel floor (D 224 px = the smallest 360x640 wheel); decision LEAGUE-M2
   const PHONE_FLOW_R = 114;  // short-phone wheel when the page scrolls (D 228 px >= every 360x640 frame: 224-227)
-  const PHONE_X = [195, 1280], PHONE_Y_TOP = 70, PHONE_HAND_CUT_Y = 400; // phone band crop (plate px)
+  const PHONE_X = [195, 1280], PHONE_Y_TOP = 70, PHONE_HAND_CUT_Y = 520; // Job 37: retain Daniel fingertip/sleeve in the phone band
   const q = (s) => document.querySelector(s);
   const stage = q("#stage-root");
   const params = new URLSearchParams(location.search);
@@ -233,9 +233,8 @@
     const row = q(".button-row");
     const rowH = 48 * 2 + 8;
     const note = q("#leagueStateNote");
-    // Phone band: plate y 70..400 keeps both faces whole and ends above Daniel's hand box (- 8 px),
-    // so the wheel can overlap the band's lower centre without touching any hand. The finger overlay
-    // is hidden on phone (W5: overlay cannot stay aligned with a 220-250 px wheel).
+    // Phone band now continues through Daniel's fingertip/sleeve. The live wheel is contact-anchored
+    // to the same registered fingertip, so the hand remains visible without floating beside the rim.
     const bandBottom = plateToScreen(0, PHONE_HAND_CUT_Y).y;
     const noteH = note.classList.contains("hidden") ? 0 : note.getBoundingClientRect().height;
     // The wheel hides the plate slot dome: its bezel must cover the slot circle (r 250) wherever it sits,
@@ -255,7 +254,7 @@
       if (noteH) note.style.top = px(btnTopFixed - 8 - noteH);
     } else {
       // 2) short phones (decision LEAGUE-M2): the wheel stays at the 360x640 size or larger; the note
-      //    overlaps the wheel's bottom rim below the labels (as on desktop) and the buttons follow it.
+      //    clears the full bezel and the buttons follow it.
       //    Largest R in [PHONE_FLOW_R .. PHONE_MIN_R] that fits without scroll, else PHONE_FLOW_R and the
       //    page scrolls; #spinLeague must stay in the first view either way (G4).
       flow = true;
@@ -263,7 +262,7 @@
         let c = null;
         for (let t = slotC.y - (r * BEZEL - slotR); t <= slotC.y + (r * BEZEL - slotR); t += 0.5) if (valid(r, t)) { c = t; break; }
         if (c === null) c = domeTop + r * BEZEL;
-        const nTop = c + r * LABEL_REACH + 2;
+        const nTop = c + r * BEZEL + 8;
         const bTop = noteH ? nTop + noteH + 8 : c + r * BEZEL + 8;
         return { r, c, nTop, bTop, end: bTop + rowH + 12 };
       };
@@ -274,7 +273,21 @@
       if (noteH) note.style.top = px(f.nTop);
     }
     row.style.top = px(btnTop);
-    placeWheel(slotC.x, cy, R);
+    const finger = plateToScreen(FINGER.x, FINGER.y);
+    // Keep the contact wheel, including its outer bezel, inside the phone viewport.
+    const maxContactR = (W - 4 - finger.x) / (1 + BEZEL);
+    R = Math.max(PHONE_MIN_R, Math.min(R, maxContactR));
+    const targetDist = Math.max(4, R - 3);
+    let dy = finger.y - cy;
+    if (Math.abs(dy) >= targetDist) {
+      cy = finger.y - Math.sign(dy || 1) * (targetDist - 1);
+      dy = finger.y - cy;
+    }
+    const dx = Math.sqrt(Math.max(1, targetDist * targetDist - dy * dy));
+    const wheelCx = finger.x + dx;
+    placeWheel(wheelCx, cy, R);
+    box(q(".finger-contact"), finger.x - 5, finger.y - 1, 12, 6);
+    stage.dataset.contactOverlap = (R - Math.hypot(finger.x - wheelCx, finger.y - cy)).toFixed(1);
     stage.dataset.phoneWheelD = String(Math.round(2 * R));
     stage.dataset.flow = String(flow);
     setPageScroll(flow ? btnTop + rowH + 12 : null);
@@ -284,9 +297,9 @@
     for (const el of [sc, st]) { el.style.webkitMaskImage = fade; el.style.maskImage = fade; }
     placePlateLayers({ x: 0, y: bandTop });
     q(".slot-veil").style.display = "";
-    q(".finger-ovl").style.display = "none";
+    q(".finger-ovl").style.display = "";
     stage.dataset.onSlot = "false";
-    stage.dataset.handVisible = "false";
+    stage.dataset.handVisible = "true";
     stage.dataset.band = [0, Math.round(bandTop), W, Math.round(bandBottom)].join(",");
     stage.dataset.bandPlateY = [PHONE_Y_TOP, Math.round((bandBottom - T.oy) / kb)].join(",");
   }
