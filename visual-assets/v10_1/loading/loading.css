@@ -7,7 +7,7 @@ body { overflow: hidden; font-family: var(--sd-font-body, system-ui, sans-serif)
 .startupAthleteFrame { position: absolute; inset: -4% auto -8% -1%; width: 52%; overflow: hidden; background: #0d0f13; clip-path: polygon(0 0,88% 0,100% 100%,0 100%); }
 .startupAthleteFrame > picture { display: block; width: 100%; height: 100%; }
 #startupAthlete { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 53% 0; filter: saturate(.86) contrast(1.08) brightness(.84); }
-.startupAthleteFrame::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(90deg, transparent 0 70%, rgba(7,8,10,.12) 82%, rgba(7,8,10,.62) 100%); }
+.startupAthleteFrame::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(90deg,rgba(18,24,28,.1),transparent 45%,#252b31 99%),linear-gradient(0deg,rgba(27,32,37,.34),transparent 33%); }
 .startupShard { position: absolute; display: block; background: rgba(7,8,10,.52); border-inline-end: 1px solid rgba(212,160,23,.24); transform: skewX(-18deg); }
 .startupShardOne { left: -8%; top: -10%; width: 22%; height: 34%; }
 .startupShardTwo { right: 14%; bottom: -18%; width: 16%; height: 52%; }
@@ -44,7 +44,7 @@ body { overflow: hidden; font-family: var(--sd-font-body, system-ui, sans-serif)
 
 @media (max-width: 700px) {
   .loadingUi::before { display: none; }
-  .startupAthleteFrame { inset: 0; }
+  .startupAthleteFrame { inset: 0; width: 100%; clip-path: none; }
   #startupAthlete { object-position: 50% 0%; filter: saturate(.86) contrast(1.08) brightness(.84); }
   .startupAthleteFrame::after { background: linear-gradient(180deg, transparent 0 42%, rgba(7,8,10,.22) 58%, #07080a 80%, #07080a 100%); }
   .startupGrid { opacity: .18; }
