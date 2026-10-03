@@ -2,10 +2,10 @@
 
 State: IN PROGRESS
 Step: 8 of 9
-Updated: 2026-10-03 17:07 UTC
+Updated: 2026-10-03 17:16 UTC
 Chat: GPT-5.6 Sol normal chat
 Code branch: gameplay/job-16-browser-journey
-Head commit: 3db37a9914e35d2e1d78009b79d67fb335e5e730
+Head commit: 273b0ae95e976086b198eb8863ed0d79a03b1f62
 PR:
 CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37139296591
 
@@ -232,6 +232,8 @@ Season Entry visible: true. Scoring panel exists: false. Document visibility: vi
 - Step 7 GREEN after stale-race fix: exact head f93584f is fully green in run 37138362188. Browser journey passed 28 numbered checks through J8.5 plus JZ. J9 printed exactly `J9 SKIPPED: resume after reload is a separate product job (lead decision 2026-10-03)` and was not counted as a pass. Season 2 simultaneous publish now converged strictly with no error banner; season 1 canonical score 9-3 Daniel, season 2 0-11 Nik, season 3 1-1 Daniel on league-position tiebreak. Artifact browser-journey-screens 11279682275. Supporting Gameplay contracts and Composed Rules emulator jobs also SUCCESS.
 
 - Step 8 implementation saved on 3db37a9: added J10 final 10-15/Nik-by-5 reconciliation plus UI Terminal Close and read-only terminalClose witness proof; J11 third-account replay denial with no pair link/index/private-token leak; J12 fresh R2 creation/join/private-session path and [R1,R2] career-index assertions. PASS line now says J0-J12. Exact-head Validate Gameplay Fast run 37139296591 was queued automatically; per factory pace rules, CI is read on the next continue.
+
+- Step 8 first J10 failure: exact-head run 37139296591 kept Gameplay contracts and Composed Rules green and passed J0-J8.5, including strict J8.3 simultaneous publish. J10 then timed out for 60s waiting for #sharedFinalReconciliationPanel; the panel existed but stayed hidden on Daniel, both page error arrays were empty. Added read-only diagnostics only (getState/currentShowdown/SaveLibrary readiness; no refresh/provider call, no seed) on head 273b0ae for the required diagnostic retry. If J10 repeats for the same authority reason, §8 requires BLOCKED.
 
 ## Self-check
 
