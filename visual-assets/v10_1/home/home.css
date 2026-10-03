@@ -303,14 +303,14 @@ footer {
 @media (max-width: 900px) and (orientation: portrait) {
   :root { --hdr: 48px; --gutter: 12px; }
   .stage { display: flex; flex-direction: column; overflow-x: hidden; overflow-y: auto; }
-  #topHeader { order: 0; } .plateView { order: 1; } main { order: 2; }
+  #topHeader { order: 0; } .plateView { order: 1; } main { order: 2; } .nav-reserve { order: 3; }
   .scrim, .dockBed, .hdrBg, .scriptLine, .footDeco, .homeLockup { display: none !important; }
-  #topHeader { position: relative; flex: none; padding: 0 10px 0 0; gap: 8px; background: linear-gradient(to bottom, rgba(6,7,9,.98), rgba(6,7,9,.9)); border-bottom: 1px solid var(--hair); }
+  #topHeader { position: relative; flex: none; padding: 0 10px 0 0; gap: 8px; overflow: hidden; max-width: 100%; background: linear-gradient(to bottom, rgba(6,7,9,.98), rgba(6,7,9,.9)); border-bottom: 1px solid var(--hair); }
   .cmBadge { font-size: 22px; line-height: 1.2; padding: 0 16px 0 14px; }
   .brand { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
   #onlinePlayerIdentityBadge, .seasonIndicator { min-height: 44px; min-width: 44px; justify-content: center; border-color: rgba(242,196,91,.9); padding: 0 10px; font-size: 14px; letter-spacing: .08em; }
   .plateView { position: relative; inset: auto; flex: 1 1 auto; min-height: 60px; border-bottom: 1px solid var(--hair); }
-  main { flex: none; }
+  main { flex: none; width: 100%; max-width: 100%; overflow: hidden; box-sizing: border-box; }
   .fifaMenuShell { display: flex; flex-direction: column; gap: 8px; padding: 8px 12px 10px; }
   .fifaMenuHeading { position: static; width: auto; max-width: none; }
   .fifaMenuHeading::before { display: none; }
@@ -318,8 +318,7 @@ footer {
   .fifaMenuHeading h2 { font-size: 16px; margin-bottom: 5px; padding-bottom: 4px; }
   .fifaMenuHeadingMeta { font-size: 14px; line-height: 1.3; }
   .fifaMenuHeadingMeta span { font-size: 28px; line-height: 1.12; margin-bottom: 3px; }
-  .fifaMenuGrid { position: static; height: auto; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px 6px; }
-  #continueCareer, #newShowdown { grid-column: span 2; }
+  .fifaMenuGrid { position: static; height: auto; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px 5px; }\n  #continueCareer { grid-column: span 3; }\n  #newShowdown { grid-column: span 2; }
   .menuTileLegacy, .menuTileTrophy, .menuTileTrophyRoom, .menuTileRules, .menuTileSettings { padding: 7px 4px 7px 6px; min-height: 64px; gap: 2px; }
   #continueCareer, #newShowdown { padding-right: 10px; }
   .menuTileLegacy .menuTileLabel, .menuTileTrophy .menuTileLabel, .menuTileTrophyRoom .menuTileLabel, .menuTileRules .menuTileLabel, .menuTileSettings .menuTileLabel { font-size: 13px; padding-right: 0; }
@@ -356,7 +355,11 @@ footer {
   #continueCareer .tileArt { width: 82px; height: 82px; right: -4px; bottom: -10px; }
   .tileChevron { right: 9px; bottom: 9px; }
   .menuBottomStrip, footer { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; padding: 0; border: 0; }
-  .nav-reserve { flex: 0 0 calc(56px + env(safe-area-inset-bottom)); height: calc(56px + env(safe-area-inset-bottom)); }
+  .nav-reserve { flex: 0 0 calc(56px + env(safe-area-inset-bottom)); width: 100%; max-width: 100%; height: calc(56px + env(safe-area-inset-bottom)); box-sizing: border-box; }
+  @media (max-height: 700px) {
+    .plateView { min-height: 52px; }
+    .fifaMenuShell { gap: 6px; padding-bottom: 4px; }
+  }
   @media (max-height: 600px) {
     .plateView { min-height: 48px; }
     .fifaMenuShell { gap: 4px; padding: 5px 12px 5px; }
