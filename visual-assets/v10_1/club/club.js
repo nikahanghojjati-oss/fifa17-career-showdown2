@@ -223,7 +223,7 @@ d.style.backgroundImage = `image-set(url(assets/${stem}_1X.webp) 1x, url(assets/
     const banner = [[xl + ch, 86], [xr - ch, 86], [xr, 86 + ch], [xr, py], [pr, py], [pr, 394 - ch], [pr - ch, 394], [pl + ch, 394], [pl, 394 - ch], [pl, py], [xl, py], [xl, 86 + ch]];
     const vs = L.vs, c = 12;
     const vsShape = [[vs[0] + c, vs[1]], [vs[2] - c, vs[1]], [vs[2], vs[1] + c], [vs[2], vs[3] - c], [vs[2] - c, vs[3]], [vs[0] + c, vs[3]], [vs[0], vs[3] - c], [vs[0], vs[1] + c]];
-    const top = pd[3] + m;                               // panel body top (clears both pack boxes)
+    const top = T.short ? 588 : pd[3] + m;               // short desktop raises the trapezoid into the viewport; full desktop clears both packs
     const tl = Math.max(pl, hds[2] + m), tr = Math.min(pr, hns[0] - m);
     const sl = hds[3] + m, sr = hns[3] + m;              // shoulder heights clear the side hands
     const panel = [[140, top], [pl, top], [tl, Math.min(top, sl)], [tl + 14, 566], [tr - 14, 566], [tr, Math.min(top, sr)], [pr, top], [1396, top], [1412, 750], [124, 750]];
@@ -315,7 +315,7 @@ d.style.backgroundImage = `image-set(url(assets/${stem}_1X.webp) 1x, url(assets/
     // desktop type scale: 1 at the 1366 Tier S reference; short desktops (height < 700) scale the UI down
     const shortF = !phone && innerHeight < 700 ? Math.max(0.8, Math.min(1, innerHeight / 768)) : 1;
     const s = phone ? 1 : (k / (1366 / PW)) * shortF;
-    document.documentElement.classList.toggle("scrolly", Boolean(T.short));
+    document.documentElement.classList.remove("scrolly");
     $("#stage").style.height = "";
     const root = document.documentElement;
     root.style.setProperty("--s", s.toFixed(4));
@@ -335,7 +335,7 @@ d.style.backgroundImage = `image-set(url(assets/${stem}_1X.webp) 1x, url(assets/
       // title block, centred between the faces
       const tx = plateToScreen(L.titleCx, 0)[0];
       let kTop = plateToScreen(0, L.kicker[0])[1];
-      const compact = kTop < HEADER_D + 6;
+      const compact = T.short || kTop < HEADER_D + 6;
       root.classList.toggle("compact", compact);
       const infoBottom = plateToScreen(0, L.info[1])[1];
       if (!compact) {
@@ -380,33 +380,24 @@ d.style.backgroundImage = `image-set(url(assets/${stem}_1X.webp) 1x, url(assets/
       let by = plateToScreen(0, L.buttonsY[0])[1];
       const cx = plateToScreen(768, 0)[0];
       if (T.short) {
-        // buttons directly under the packs (and the side hands), card faces + confirmation below them
-        const hb = ["hand_daniel_side", "hand_nik_side"].map(n => rectToScreen(HANDS.hands[n].box).bottom);
-        by = Math.ceil(Math.max(packs[0].bottom, packs[1].bottom, ...hb) + 10);
-        const panelTop = by + 56 * s + 16 * s;
+        // JOB-044: the 1366x640 tier is a contained composition, never a taller document.
+        // Keep the scene scale from JOB-043, raise the bottom trapezoid, and use the open
+        // centre lane for actions while the two club identities stay readable at the sides.
+        by = Math.floor(innerHeight - 56 * s - 8);
+        const panelTop = by - 66 * s;
         [["#clubCardOne", 0], ["#clubCardTwo", 1]].forEach(([sel, i]) => {
           const card = $(sel), fr = rectToScreen(L.faces[i]), pk = packs[i];
-          place($(".clubCardFace", card), { left: fr.left - pk.left, top: panelTop + 30 * s - pk.top, width: fr.width, height: 92 * s });
-          place($(".clubRevealIndex", card), { left: fr.left + 68 * s, top: panelTop + 6 * s });
-          place($(".clubManager", card), { left: fr.left + 68 * s + 30 * s, top: panelTop + 2 * s });
+          place($(".clubCardFace", card), { left: fr.left - pk.left, top: panelTop + 22 * s - pk.top, width: fr.width, height: 50 * s });
+          place($(".clubRevealIndex", card), { left: fr.left + 68 * s, top: panelTop + 5 * s });
+          place($(".clubManager", card), { left: fr.left + 68 * s + 30 * s, top: panelTop + 1 * s });
         });
-        place($(".panelDivider"), { left: c.left, top: panelTop, width: c.width, height: 110 * s });
-        place($("#clubRivalryConfirmation"), { left: c.left, top: panelTop - 4 * s, width: c.width, height: "auto" });
-        $("#clubRivalryConfirmation").style.height = "auto";
+        place($(".panelDivider"), { left: c.left, top: panelTop + 3 * s, width: c.width, height: 46 * s });
+        place($("#clubRivalryConfirmation"), { left: c.left, top: panelTop - 2 * s, width: c.width, height: Math.max(42, by - panelTop - 5) });
         root.style.setProperty("--noteBleedL", "0px"); root.style.setProperty("--noteBleedR", "0px");
-        root.style.setProperty("--tabH", (26 * s) + "px");
+        root.style.setProperty("--tabH", (24 * s) + "px");
       }
       root.style.setProperty("--btnTop", by + "px");
       root.style.setProperty("--btnCx", cx + "px");
-      if (T.short) {
-        // document height = everything placed + footer; the page scrolls, the faces never go under the header
-        const bottoms = [".clubCardFace", "#clubRivalryConfirmation:not(.hidden)", "#clubWheelScreen button:not(.hidden)"].flatMap(q => $$(q)).map(n => n.getBoundingClientRect().bottom);
-        const Hs = Math.ceil(Math.max(innerHeight, ...bottoms) + 18 + FOOTER_D);
-        $("#stage").style.height = Hs + "px";
-        T.clip = [0, 0, innerWidth, Hs];
-        place($(".plateClip"), { left: 0, top: 0, width: innerWidth, height: Hs });
-        drawCovers(k, phone);
-      }
     } else {
       root.classList.remove("compact");
       root.style.setProperty("--noteBleedL", "0px"); root.style.setProperty("--noteBleedR", "0px");
