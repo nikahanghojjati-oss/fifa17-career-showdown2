@@ -357,11 +357,18 @@ footer {
   .menuBottomStrip, footer { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; padding: 0; border: 0; }
   .nav-reserve { flex: 0 0 calc(56px + env(safe-area-inset-bottom)); width: 100%; max-width: 100%; height: calc(56px + env(safe-area-inset-bottom)); box-sizing: border-box; }
   @media (max-height: 700px) {
-    .plateView { min-height: 52px; }
-    .fifaMenuShell { gap: 6px; padding-bottom: 4px; }
+    .plateView { min-height: 48px; }
+    .fifaMenuShell { gap: 5px; padding: 5px 12px 3px; }
+    .menuMediaSelector { display: none; }
+    .menuMusicTile { grid-template-areas: "head head" "ctrl status"; }
+    #continueCareer .menuTileMeta, .stage.primary-new #newShowdown .menuTileMeta {
+      position: absolute !important; width: 1px !important; height: 1px !important; overflow: hidden !important;
+      clip: rect(0 0 0 0) !important; clip-path: inset(50%) !important; white-space: nowrap !important;
+    }
   }
   @media (max-height: 600px) {
-    .plateView { min-height: 48px; }
+    .plateView { min-height: 40px; }
+    .fifaMenuHeading h2, .homeHeadingCopy { display: none; }
     .fifaMenuShell { gap: 4px; padding: 5px 12px 5px; }
     .fifaMenuGrid { gap: 5px; }
     .fifaMenuHeading h2 { font-size: 14px; padding-bottom: 3px; }
