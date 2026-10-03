@@ -1,16 +1,16 @@
 # Showdown Factory board
 
-**53 of 135 jobs done · 40 %** · updated Sat 7:42 a.m. Eastern
+**53 of 135 jobs done · 40 %** · updated Sat 8:22 a.m. Eastern
 
 ████░░░░░░
 
 **Where to run:** 🟡 **project job** = new chat in the ChatGPT project "Showdown visual", type the number. 🟣 **image job** = its ticket in a ChatGPT **Temporary Chat** outside any project, then drop the picture in Claude's factory thread.
 
-🟡 **Type next:** 55, 57, 62, 67, 72 · then 77, 82, 87, 111, 112, 113, 114, 125
+🟡 **Type next:** 55, 62, 67, 72 · then 77, 82, 87, 111, 112, 113, 114, 125
 
 🟣 **Image next:** - · tickets not written yet: 115, 116, 117, 118, 119, 120, 121
 
-**Working:** - · **Blocked:** -
+**Working:** 57 · **Blocked:** -
 
 ## Screens
 
@@ -49,13 +49,13 @@ Branch `factory/v1-wtt5ye`. 135 Team V jobs, plus 5 lines that track Team G. Two
 
 **Overall (Team V):** ████░░░░░░ 40 % · 53 of 135 jobs done
 
-**Start now · project (type the number in Showdown visual):** 55, 57, 62, 67, 72 · queued next: 77, 82, 87, 111, 112, 113, 114, 125
+**Start now · project (type the number in Showdown visual):** 55, 62, 67, 72 · queued next: 77, 82, 87, 111, 112, 113, 114, 125
 
 **Start now · fresh chat (image ticket, outside the project):** - · waiting for Claude to write the ticket: 115, 116, 117, 118, 119, 120, 121
 
 **Start now (Sol Work mode, press Use Work):** -
 
-**Working:** - · **Blocked:** -
+**Working:** 57 · **Blocked:** -
 
 **Team G tracking (never start these):** 98 (done), 99 (open), 100 (open), 101 (open), 102 (open). Claude marks them done when Team G delivers.
 
@@ -118,7 +118,7 @@ Branch `factory/v1-wtt5ye`. 135 Team V jobs, plus 5 lines that track Team G. Two
 | 54 | [Loading: new look and Reus credit](jobs/JOB-054.md) | 4 Polish built screens | build | project (type number) | 11, 18 | ██████████ 100 % | DONE |  |
 | 55 | [Loading: review](jobs/JOB-055.md) | 4 Polish built screens | review | project (type number) | 54 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 56 | [Loading: fix round](jobs/JOB-056.md) | 4 Polish built screens | fix | project (type number) | 55 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
-| 57 | [Trophy Room: build (desktop)](jobs/JOB-057.md) | 5 New screens | build | project (type number) | 2, 23, 18, 130, 136, 19, 20, 21, 22 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
+| 57 | [Trophy Room: build (desktop)](jobs/JOB-057.md) | 5 New screens | build | project (type number) | 2, 23, 18, 130, 136, 19, 20, 21, 22 | █░░░░░░░░░ 11 % | IN PROGRESS |  |
 | 58 | [Trophy Room: phone](jobs/JOB-058.md) | 5 New screens | build | project (type number) | 57, 115 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 59 | [Trophy Room: review](jobs/JOB-059.md) | 5 New screens | review | project (type number) | 58 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 60 | [Trophy Room: fix round](jobs/JOB-060.md) | 5 New screens | fix | project (type number) | 59 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
