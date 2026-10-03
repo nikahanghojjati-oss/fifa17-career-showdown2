@@ -92,3 +92,65 @@ body {
 .fixture-dump[hidden] {
   display: none;
 }
+
+
+/* Desktop layout skeleton measured against the 1536x864 mockup.
+   scoring_panel: x 426..1109 => left 27.73%, width 44.47%; y 273..441 => top 31.60%, height 19.44%.
+   entry_daniel: x 210..759 => left 13.67%, width 35.74%; y 455..731 => top 52.66%, height 31.94%.
+   entry_nik: x 779..1325 => left 50.72%, width 35.55%; y 455..731 => top 52.66%, height 31.94%. */
+.season-layout {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.scoring-panel,
+.entry-panel {
+  position: absolute;
+  box-sizing: border-box;
+  min-width: 0;
+}
+
+.scoring-panel {
+  left: 27.73%;
+  top: 31.60%;
+  width: 44.47%;
+  height: 19.44%;
+}
+
+.entry-panel {
+  top: 52.66%;
+  height: 31.94%;
+}
+
+.entry-panel--daniel {
+  left: 13.67%;
+  width: 35.74%;
+  --manager-accent: var(--sd-gold, #f2c45b);
+}
+
+.entry-panel--nik {
+  left: 50.72%;
+  width: 35.55%;
+  --manager-accent: var(--sd-silver, #d8dde5);
+}
+
+/* Reserved score treatment for the live DOM added in the manager-content step.
+   The fill is always a ratio of the computed score to the immutable 11-point maximum. */
+.season-score-value {
+  color: var(--manager-accent);
+  font-size: 56px;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.season-score-fill {
+  width: calc((var(--season-score, 0) / 11) * 100%);
+  max-width: 100%;
+}
+
+@media (min-width: 1024px) {
+  .season-layout {
+    display: block;
+  }
+}
