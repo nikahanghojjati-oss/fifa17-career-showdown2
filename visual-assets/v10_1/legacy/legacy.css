@@ -1,4 +1,4 @@
-/* JOB-072 step 3 · registered stage + mockup title block. */
+/* JOB-072 step 4 · stage, title and measured desktop skeleton. */
 html,
 body {
   width: 100%;
@@ -72,4 +72,60 @@ body {
   text-align: center;
   letter-spacing: .24em;
   white-space: nowrap;
+}
+
+.fixtureDebug[hidden] {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  /* Mockup archive outer: x≈57..1590 / 1672 = 3.41%..95.10%; y≈382..755 / 941 = 40.60%..80.23%. */
+  .legacyArchivePanel {
+    position: absolute;
+    left: 3.41%;
+    top: 40.60%;
+    width: 91.69%;
+    height: 39.63%;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Mockup side rail: x≈58..327; relative to archive = left 0.07%, width 17.55%; full panel height. */
+  .legacySidePanel {
+    position: absolute;
+    left: .07%;
+    top: .5%;
+    width: 17.55%;
+    height: 99%;
+    margin: 0;
+  }
+
+  /* Mockup card field: x≈335..1559; y≈392..722. Relative to archive: left 18.13%, top 2.68%, right 2.02%, bottom 8.85%. */
+  .legacyCardGrid {
+    position: absolute;
+    left: 18.13%;
+    top: 2.68%;
+    right: 2.02%;
+    bottom: 8.85%;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .legacyCardSlot {
+    min-width: 0;
+    min-height: 0;
+  }
+
+  /* Product-truth override: only VIEW SEASON HISTORY remains below the archive.
+     Mockup action row begins near y≈760/941 = 80.77%; centred primary is placed at 82.1%. */
+  .legacyPrimaryAction {
+    position: absolute;
+    left: 50%;
+    top: 82.10%;
+    min-width: 280px;
+    min-height: 52px;
+    transform: translateX(-50%);
+  }
 }
