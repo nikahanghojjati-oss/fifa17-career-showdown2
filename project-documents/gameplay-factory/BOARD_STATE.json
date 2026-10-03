@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-03 8:55 AM Boston time (EDT)",
+ "generated": "2026-10-03 8:56 AM Boston time (EDT)",
  "branch": "factory/gameplay-v1",
  "integration_branch": "gameplay/recovery-v1",
  "capacity": {
@@ -315,9 +315,9 @@
    "type": "rules",
    "plain": "Finished Showdowns stay readable for both managers after they close.",
    "state": "IN PROGRESS",
-   "step": 1,
+   "step": 2,
    "steps_total": 8,
-   "pct": 12,
+   "pct": 25,
    "ready": false
   },
   {
