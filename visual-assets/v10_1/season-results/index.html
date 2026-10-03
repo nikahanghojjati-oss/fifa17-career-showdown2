@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Season Results · Career Mode Showdown</title>
+<link rel="stylesheet" href="../shared/showdown-tokens.css">
+<link rel="stylesheet" href="../shared/showdown-type.css">
+<link rel="stylesheet" href="../shared/showdown-ui.css">
+<link rel="stylesheet" href="../shared/stage.css">
+<link rel="stylesheet" href="../shared/motion.css">
+<link rel="stylesheet" href="season-results.css">
+</head>
+<body>
+<div id="stage-root" class="stage">
+  <main id="season-results-screen" aria-labelledby="screen-title">
+    <h1 id="screen-title">Season Results</h1>
+    <p id="frame-id" aria-live="polite"></p>
+    <section aria-labelledby="fixture-strings-heading">
+      <h2 id="fixture-strings-heading">Fixture strings</h2>
+      <div id="fixture-strings"></div>
+    </section>
+    <section aria-labelledby="frame-values-heading">
+      <h2 id="frame-values-heading">Frame values</h2>
+      <div id="frame-values"></div>
+    </section>
+  </main>
+</div>
+<script src="../shared/stage.js" defer></script>
+<script src="../shared/motion.js" defer></script>
+<script src="season-results.js" defer></script>
+</body>
+</html>
