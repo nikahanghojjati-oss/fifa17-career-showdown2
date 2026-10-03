@@ -646,6 +646,26 @@
         "^tests/contracts/browser-journey-emulator-switch-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/composed-production-rules-contracts.cjs",
+      "patterns": [
+        "^firestore\\.spark\\.rules$",
+        "^firestore\\.[a-z-]+-production\\.fragment\\.rules$",
+        "^scripts/build-production-firestore-rules(-with-persistent-pair)?\\.mjs$",
+        "^scripts/inject-persistent-pair-rules\\.mjs$",
+        "^scripts/assert-firestore-zero-billing-boundary\\.mjs$",
+        "^scripts/publish-firestore-rules-zero-billing\\.mjs$",
+        "^firebase\\.production\\.rules\\.json$",
+        "^data/transferOptions\\.js$",
+        "^\\.github/workflows/(deploy-firestore-rules-zero-billing|validate-gameplay-fast)\\.yml$",
+        "^tests/support/composed-production-rules\\.cjs$",
+        "^tests/fixtures/composed-production-rules/main-delta\\.json$",
+        "^tests/firebase/composed-production-rules-regression\\.cjs$",
+        "^tests/firebase/composed-rules-gap-emulator\\.cjs$",
+        "^tests/contracts/composed-production-rules-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
