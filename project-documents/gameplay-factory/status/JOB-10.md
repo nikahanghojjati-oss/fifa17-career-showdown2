@@ -2,12 +2,12 @@
 
 State: IN PROGRESS
 Step: 7 of 8
-Updated: 2026-10-03 16:09 UTC
+Updated: 2026-10-03 17:05 UTC
 Chat: Sol Work mode
 Code branch: gameplay/job-10-transfer-history
 Head commit: 6e1fe56f225c6f0a2d0430027bdea49022785dbd
 PR: #332
-CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37135253028
+CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37138421557
 
 ## Notes
 - Lead: JOB-08 (PR #326, merge 843e64e) is merged. Lead to create code branch gameplay/job-10-transfer-history from gameplay/recovery-v1 at 843e64e before Nik starts the job. Lead reference run on 843e64e: new contract PASS, contracts 104/104, ops 73/0, every rules-emulator step PASS including the new Completed transfer history matrix (73 checks) and Completed-only read 56 with B8/B9 flipped; only budget diagnostics are the two known career-index D13 denials. Jobs 9, 11, 16 and 18 also append registry entries (9 also a rules-emulator step, 16 a CI job): whoever merges later re-appends last. Ready to start.
@@ -62,7 +62,19 @@ CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/r
 
 - Lead (2026-10-03 16:58 UTC): the lead's season-results fix (PR #333) merged into recovery and touched the registry again, so the lead merged recovery 5a79fbd into your branch once more (ordinary merge, no force-push): new head 6e1fe56f225c6f0a2d0430027bdea49022785dbd. Your completedTransferHistoryContract is still last; your diff against recovery is still exactly your ten files; lead check: transfer history contract PASS, test:ops 73/73. Read the exact-head CI on 6e1fe56 instead of c09b8fb. Codex note: Codex reported its review usage limit at 16:43 UTC on another PR. If no Codex review appears on #332, write that in step 8 and set BLOCKED; do not wait in a loop.
 
+- Step 7 revalidated after lead reconciliation: PR #332 now mergeable=true/clean with exactly ten changed files; final head 6e1fe56f225c6f0a2d0430027bdea49022785dbd, baseline 5a79fbda108a5d5767cc6042f224d3b18ef49e99. Validate Gameplay Fast 37138421557 and Validate POS20 37138424757 both SUCCESS; every Gameplay Fast step green. Local final checkout: transfer contract PASS, full contracts 109/109, ops 73/0, both Rules builds PASS (132878 composed bytes), clean worktree and no generated Rules/log tracked. Qualified expression gate PASS: two diagnostic lines followed only by D14 and D13 denial checks. No branch mutations by this worker after the lead's merge. Ready for step 8.
+
 ## Self-check
+- PASS final exact-head CI: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37138421557 and https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37138424757 on 6e1fe56f225c6f0a2d0430027bdea49022785dbd.
+- PASS Shared Transfer fresh-session expiry emulator: fresh-session read + authority migration both succeed, then an old-session WINDOW_OPEN at 00:00 advances under the fresh ACTIVE session, preserves exact startedAt, writes timeout completion at server request time, and reaches GUESS_ENTRY without redraw or reset.
+- PASS two-manager journey Sections A-G (3 seasons main): main journey, stranger denial, privacy, idempotent retry, simultaneous taps, second Showdown, completed-only reads of closed Showdowns, and persistent-provider abandon all proved.
+- PASS career index composed-Rules emulator (Phase A shipped): 56 numbered checks (A access, B creation, C redemption, D append-only, E idempotency, F races, H agreement, G paging, P provider).
+- PASS career index composed-Rules emulator (Phase B enforced): 58 numbered checks (A access, B creation, C redemption, D append-only, E idempotency, F races, H agreement, G paging, P provider).
+- PASS completed-only read emulator: 56 numbered checks (I0, A completed reads, B denials, C closed writes, D abandoned, E forged witnesses, F active regressions, P session-free reader).
+- PASS closed-Showdown adapter emulator: 12 numbered checks (I0, A Terminal Close, B abandon rebuild, C three-Showdown career for both managers with cache, D stranger and unknown live state).
+- PASS completed-only transfer history emulator: 73 numbered checks (I0, A completed reads, B denials, C closed writes, D abandoned, E forged witnesses, G forged challenge states, F active regressions, P session-free reader).
+- PASS final local proof: 109/109 contracts, operations 73 pass / 0 fail, transfer history contract PASS; composed Rules 132878 bytes, ten-file diff against 5a79fbd, no generated artifacts tracked or deploy. Budget next-check labels: ok 36 D14 head write with a skipped revision is denied; ok 36 D13 stranger cannot create an index naming a rivalry they are not in.
+- PASS ancestry blocker resolved by lead: PR #332 mergeable/clean and exactly ten changed files; prior conflict question cleared.
 - PASS PR: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/332 targets recovery-v1 and includes both charter tables and deployment-order line; exact-head CI green.
 - PASS exact-head CI: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37135253028 on 6a698c38ab1c8b56a4361dba89642da8c36eb853, both jobs and all steps SUCCESS.
 - PASS Shared Transfer fresh-session expiry emulator: fresh-session read + authority migration both succeed, then an old-session WINDOW_OPEN at 00:00 advances under the fresh ACTIVE session, preserves exact startedAt, writes timeout completion at server request time, and reaches GUESS_ENTRY without redraw or reset.
