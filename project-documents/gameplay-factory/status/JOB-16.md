@@ -1,11 +1,11 @@
 # Status · JOB-16 · Two-manager browser journey (localhost-only emulator switch)
 
-State: BLOCKED
+State: IN PROGRESS
 Step: 8 of 9
-Updated: 2026-10-03 21:40 UTC
+Updated: 2026-10-03 21:50 UTC
 Chat: GPT-5.6 Sol normal chat
 Code branch: gameplay/job-16-browser-journey
-Head commit: eb14f816fb261e1d37b13f2ba2749a16d74bccb2
+Head commit: e93c6f9 (lead test guards on eb14f81)
 PR:
 CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37141913623
 
@@ -356,6 +356,8 @@ Nik errors: `[]`
 
 - Worker-tool block after lead answer 2026-10-03 19:35 UTC: the lead product fixes are present on code head `eb14f81` and the exact required J5/J12 harness changes were prepared, but this chat's GitHub write safety rejected both the normal `update_file` save and a lower-level commit creation before any branch ref moved. No code-branch change occurred. The intended edits are exactly the lead's two test-only guards: (1) at J5 click `#continueClubAssignment` only if `#productionSharedCareerStartOverlay` is not already visible; (2) after the J12 terminal reload, if `#productionSharedJourneyEntryOverlay` is visible, click its `Close career entry` button and wait for it to hide before `#newShowdown`. No product file, scoring, provider call, direct refresh, seed, or acceptance condition is changed.
 - I did not rerun the unguarded branch because the lead explicitly said these two deterministic test changes are required and §8 forbids retry-until-lucky behaviour. Branch remains exactly `eb14f81`.
+
+- Lead answer (2026-10-03 21:50 UTC): unblocked. The lead committed the two test-only guards exactly as specified (J5 Career Start tap only when the overlay is not already open; J12 closes the post-reload career entry overlay with its "Close career entry" button) on top of eb14f81: new head e93c6f9. Contracts PASS, test:ops 73/0. The same edits passed the full local journey twice (32 checks, zero page errors). Next: type continue and resume step 8 from the exact-head CI on e93c6f9, which started on the push.
 
 ## Self-check
 
