@@ -1,8 +1,8 @@
 # Status · JOB-10 · Transfer history, completed only
 
 State: IN PROGRESS
-Step: 2 of 8
-Updated: 2026-10-03 15:26 UTC
+Step: 3 of 8
+Updated: 2026-10-03 15:29 UTC
 Chat: Sol Work mode
 Code branch: gameplay/job-10-transfer-history
 Head commit: 70e3ae03cd324938ac213d0c81604906de0a0d9e
@@ -30,7 +30,10 @@ CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/r
 
 - Step 3 CI check (single read): Validate Gameplay Fast 37133168773 on exact 70e3ae03cd324938ac213d0c81604906de0a0d9e has Gameplay contracts completed/failure and Composed Rules on the emulator still in_progress. No polling; stopped per pace rule 4. Read results/logs once on the next continue; step 3 remains pending until expected I0 failure and all existing emulator steps are verified.
 
+- Step 3 complete: exact-head CI 37133168773 on 70e3ae03cd324938ac213d0c81604906de0a0d9e proves tests-first state. Gameplay contracts fail only missing js/sparkCompletedTransferHistoryReader.js (1/105); every existing emulator step SUCCESS including completed-only read (56 checks); new Completed transfer history matrix fails I0 with 0 !== 1 (no grant yet). Next step 4: copy Appendix B reader, syntax-check, confirm contract fails K9 before Rules grant.
+
 ## Self-check
+- PASS CI tests-first: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37133168773 exact 70e3ae0, only new contract missing-module and new emulator I0 0 !== 1; all existing emulator steps SUCCESS.
 - PASS local tests-first: both new tests syntax-check, new contract and full census fail only the absent reader (1/105); operations 73/0. Appendices C/D copied verbatim; CI new matrix is last in rules-emulator, registry/ops append after JOB-11.
 - PASS step 2: all listed read-first sources mapped. Only line drift is JOB-11 ops const/array insertion; existing transfer get seams each occur exactly once; JOB-08 K8 still 5, B8/B9 still deny and D6 untouched.
 - PASS baseline: exact current recovery head e44b6959310cfddf4bc1b4bd6275256f3e61ad41; contracts 104/104 (JOB-11 adds one), operations 73/0; CI https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37130995554 green including Completed-only read matrix. After adding G-10 expected contracts 105/105 unless another job merges.
