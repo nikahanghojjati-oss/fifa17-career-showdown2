@@ -22,3 +22,12 @@ Edit this image. Repaint every solid cyan area so it shows what would naturally 
 
 The big banners all read correctly. The small crowd-board ribbons carried garbled AI lettering, so Claude smeared those thin ribbon bands sideways (41 px horizontal blur, feathered, polygons kept clear of the empty stands). They now read as glowing ribbons with no letters. The 1X/2X files were re-exported; the table above has the new SHA-256.
 A ghost of the old centre banner's letters (left of centre, under the roof) was also cloned out with the truss beside it. The crowd is distant bokeh with no readable faces, which is what the ticket allows (no foreground people).
+
+## Phone portrait · job 121 (Claude, 2026-10-03)
+
+People-free 9:16 crop of `ENV_SYS_PLATE_V1_2X.png` (x 962–2021, full height; moved 180 px left of centre so no banner lettering is cut), resized to 1179 × 2096. No image request.
+
+| File | Size | SHA-256 |
+|---|---|---|
+| ENV_SYS_PHONE_V1.webp (q80) | 138228 | 734d1d147c80e48f3b3a4744f35ea255c47cd23adb5e451c1e2e98fff6b54882 |
+| ENV_SYS_PHONE_V1.png | master | 8f06708c32a227d9c8dd616585a760cb469ca5174d201744dbcab3ecb133a6ac |
