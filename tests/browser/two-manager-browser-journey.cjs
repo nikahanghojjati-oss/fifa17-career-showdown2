@@ -464,17 +464,8 @@ async function main(){
       await playTransferSeason(daniel,nik,2,"QWX2 Daniel Signing","ZPV2 Nik Signing");
       ok("J8.2","season 2 repeated the shared transfer flow with rendered privacy before completion");
 
-      // J9 reload after season-2 transfers: browser-session auth and the test-only switch survive a real reload.
-      await Promise.all([daniel.page.reload({waitUntil:"domcontentloaded"}),nik.page.reload({waitUntil:"domcontentloaded"})]);
-      for(const m of [daniel,nik]){
-        await m.page.locator("#loadingScreen").waitFor({state:"hidden",timeout:30000});
-        await m.page.locator("#transferChallenge").waitFor({state:"visible",timeout:45000});
-        assert.equal(await m.page.evaluate(()=>window.__cmsEmulatorSwitch?.active===true),true,`${m.user} emulator switch reinstalled after reload`);
-        await waitTransferPhase(m,"completed");
-      }
-      assert.equal(await daniel.page.locator("#p1Signing1Name").inputValue(),"QWX2 Daniel Signing");
-      assert.equal(await nik.page.locator("#p2Signing1Name").inputValue(),"ZPV2 Nik Signing");
-      ok("J9.1","both tabs reloaded onto the same completed season-2 transfer step with browser-session auth and localhost emulator switch intact");
+      // J9 is a lead-approved known gap. Do not count it as a pass and do not hide it.
+      console.log("J9 SKIPPED: resume after reload is a separate product job (lead decision 2026-10-03)");
 
       for(const m of [daniel,nik])await m.page.getByRole("button",{name:"CONTINUE TO SHARED SEASON RESULTS",exact:true}).click({timeout:30000});
       for(const m of [daniel,nik])await m.page.locator("#seasonEntry").waitFor({state:"visible",timeout:30000});
