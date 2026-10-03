@@ -76,3 +76,41 @@ jobs:
         run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-gameplay-fast-closed-adapter "node tests/firebase/closed-showdown-adapter-emulator.cjs"
       - name: Completed transfer history matrix
         run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-gameplay-fast-completed-transfer "node tests/firebase/completed-transfer-history-emulator.cjs"
+
+  browser-journey:
+    name: Two-manager browser journey
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 1
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '21'
+      - run: npm ci
+      - name: Install pinned Firebase emulator test dependencies
+        run: npm install --no-save --package-lock=false firebase@12.17.0 @firebase/rules-unit-testing@5.0.1 firebase-admin@14.2.0
+      - name: Build the composed production Rules
+        run: |
+          node scripts/build-production-firestore-rules.mjs
+          node scripts/build-production-firestore-rules-with-persistent-pair.mjs
+          node scripts/assert-firestore-zero-billing-boundary.mjs
+      - name: Two-manager browser journey
+        env:
+          CMS_CHROMIUM_MULTI_CONTEXT: '1'
+          CMS_BROWSER_JOURNEY_ARTIFACTS: ${{ runner.temp }}/browser-journey
+        run: npx --yes firebase-tools@15.28.1 emulators:exec --config tests/browser/support/firebase.browser-journey.json --only auth,firestore --project demo-cms-browser-journey "CMS_SHOWDOWN_LENGTH=3 node tests/browser/two-manager-browser-journey.cjs"
+      - name: Upload journey screenshots
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: browser-journey-screens
+          path: ${{ runner.temp }}/browser-journey
+          if-no-files-found: ignore
+          retention-days: 7
