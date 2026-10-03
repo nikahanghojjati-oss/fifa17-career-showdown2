@@ -194,6 +194,8 @@
     // at every desktop target and the cut-out layer remains above both rim and contact shadow.
     if (cy - finger.y >= R - 2) cy = finger.y + R - 2;
     if (finger.y - cy >= R - 2) cy = finger.y - R + 2;
+    // Contact correction must not re-introduce the old state-note/rim collision on short laptops.
+    if (noteTop !== null && cy + R > noteTop - 8) cy = noteTop - 8 - R;
     const contactOverlap = 3;
     const dx = Math.sqrt(Math.max(1, R * R - (finger.y - cy) * (finger.y - cy)));
     const cx = finger.x - contactOverlap + dx;
