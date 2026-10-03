@@ -151,7 +151,7 @@
     // They never enter protected faces, packs or hand polygons.
     const seamMend = el("div", "seamMend plateDup", world);
     seamMend.style.backgroundImage = "image-set(url(assets/OVL_CLUB_SEAM_MENDS_V1_1X.webp) 1x, url(assets/OVL_CLUB_SEAM_MENDS_V1_2X.webp) 2x)";
-    // intake-zone covers (desktop and phone): dark glass shapes that the live UI sits on
+    // Goal-faithful stage paint: only the bottom trapezoid plus the top-chrome shadow. Title, status, stepper and VS float directly on the scene.
     worldSvg("covers", world).id = "covers";
     // pack reveal per side
     RIP.forEach((r, i) => {
@@ -241,11 +241,6 @@ d.style.backgroundImage = `image-set(url(assets/${stem}_1X.webp) 1x, url(assets/
     const hdr = phone ? "" : s.hdr.map(([a, b]) => `<rect x="${a}" y="0" width="${b - a}" height="80" fill="url(#cvHdr)"/>`).join("");
     svgEl.innerHTML = `<defs>
       <linearGradient id="cvGlass" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0B0C0F" stop-opacity=".93"/><stop offset="1" stop-color="#07080A" stop-opacity=".96"/></linearGradient>
-      <linearGradient id="cvBanner" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0A0B0E" stop-opacity=".95"/><stop offset=".7" stop-color="#0D0E11" stop-opacity=".93"/><stop offset="1" stop-color="#090A0C" stop-opacity=".96"/></linearGradient>
-      <radialGradient id="cvBannerGlow" cx=".5" cy=".38" r=".6"><stop offset="0" stop-color="#C99B45" stop-opacity=".16"/><stop offset="1" stop-color="#C99B45" stop-opacity="0"/></radialGradient>
-      <linearGradient id="cvVs" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#121215" stop-opacity=".97"/><stop offset=".5" stop-color="#08090B" stop-opacity=".97"/><stop offset="1" stop-color="#141108" stop-opacity=".97"/></linearGradient>
-      <linearGradient id="cvDock" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#07080A" stop-opacity=".96"/><stop offset="1" stop-color="#050607" stop-opacity=".98"/></linearGradient>
-      <linearGradient id="cvApron" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#050607" stop-opacity=".97"/><stop offset="1" stop-color="#030304" stop-opacity="1"/></linearGradient>
       <linearGradient id="cvHdr" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#060709" stop-opacity=".9"/><stop offset=".7" stop-color="#060709" stop-opacity=".75"/><stop offset="1" stop-color="#060709" stop-opacity="0"/></linearGradient>
       <linearGradient id="cvGold" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#C99B45" stop-opacity="0"/><stop offset=".18" stop-color="#F2C45B"/><stop offset=".82" stop-color="#F2C45B"/><stop offset="1" stop-color="#C99B45" stop-opacity="0"/></linearGradient>
       <filter id="cvUnder" x="-10%" y="-40%" width="120%" height="180%"><feGaussianBlur stdDeviation="9"/></filter>
@@ -253,20 +248,9 @@ d.style.backgroundImage = `image-set(url(assets/${stem}_1X.webp) 1x, url(assets/
     </defs>
     ${hdr}
     ${FRAME === "CL2" ? RIP.map(r => `<polygon points="${pts(r.body)}" fill="none" stroke="#FFD97A" stroke-width="7" opacity=".35" filter="url(#cvPulse)"/><polygon points="${pts(r.body)}" fill="none" stroke="#FFE7A1" stroke-width="1.6" opacity=".85"/>`).join("") : ""}
-    <polygon points="${pts(s.apron)}" fill="url(#cvApron)"/>
-    <polygon points="${pts(s.dock)}" fill="url(#cvDock)"/>
-    <polygon points="${pts(s.panel)}" fill="#F2C45B" opacity=".22" filter="url(#cvUnder)" transform="translate(0 6)"/>
+    <polygon points="${pts(s.panel)}" fill="#F2C45B" opacity=".18" filter="url(#cvUnder)" transform="translate(0 6)"/>
     <polygon points="${pts(s.panel)}" fill="url(#cvGlass)"/>
-    <polyline points="${pts(s.panel.slice(0, 10))}" fill="none" stroke="url(#cvGold)" stroke-width="1.3"/>
-    <polygon points="${pts(s.banner)}" fill="url(#cvBanner)"/>
-    <polygon points="${pts(s.banner)}" fill="url(#cvBannerGlow)"/>
-    <polygon points="${pts(s.banner)}" fill="none" stroke="#C99B45" stroke-opacity=".55" stroke-width="1.1"/>
-    <polygon points="${pts(s.vs)}" fill="url(#cvVs)"/>
-    <polygon points="${pts(s.vs)}" fill="none" stroke="#F2C45B" stroke-opacity=".7" stroke-width="1.3"/>
-    <g opacity="${phone ? 0 : 0.5}" stroke="#F2C45B" stroke-width="1.2" fill="none">
-      <path d="M${L.vs[0] + 16} ${L.vs[3] - 26} L${L.vs[0] + 52} ${L.vs[1] + 30}"/><path d="M${L.vs[0] + 28} ${L.vs[3] - 20} L${L.vs[0] + 62} ${L.vs[1] + 40}"/>
-      <path d="M${L.vs[2] - 16} ${L.vs[1] + 26} L${L.vs[2] - 52} ${L.vs[3] - 30}"/><path d="M${L.vs[2] - 28} ${L.vs[1] + 20} L${L.vs[2] - 62} ${L.vs[3] - 40}"/>
-    </g>`;
+    <polyline points="${pts(s.panel.slice(0, 10))}" fill="none" stroke="url(#cvGold)" stroke-width="1.3"/>`;
   }
 
   /* ---------------- layout ---------------- */
