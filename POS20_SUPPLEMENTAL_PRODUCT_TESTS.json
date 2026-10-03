@@ -547,6 +547,25 @@
         "^tests/contracts/completed-showdown-read-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/data-contract-v1-fixtures-contracts.cjs",
+      "patterns": [
+        "^js/sharedActiveShowdownAdapter\\.js$",
+        "^js/sharedCareerAnalytics\\.js$",
+        "^js/startJoinViewModel\\.js$",
+        "^js/careerScreenSeam\\.js$",
+        "^js/sharedHistoryConvergence\\.js$",
+        "^js/sharedTerminalClose\\.js$",
+        "^js/sharedFinalReconciliation\\.js$",
+        "^data/clubs\\.js$",
+        "^tests/support/data-contract-v1-fixtures\\.cjs$",
+        "^tests/support/active-showdown-fixtures\\.cjs$",
+        "^tests/support/career-fixture-helpers\\.cjs$",
+        "^tests/fixtures/data-contract-v1/",
+        "^tests/contracts/data-contract-v1-fixtures-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
