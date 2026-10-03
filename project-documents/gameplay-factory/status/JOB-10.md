@@ -1,12 +1,12 @@
 # Status · JOB-10 · Transfer history, completed only
 
-State: IN PROGRESS
-Step: 6 of 8
-Updated: 2026-10-03 16:06 UTC
+State: BLOCKED
+Step: 7 of 8
+Updated: 2026-10-03 16:09 UTC
 Chat: Sol Work mode
 Code branch: gameplay/job-10-transfer-history
 Head commit: 6a698c38ab1c8b56a4361dba89642da8c36eb853
-PR:
+PR: #332
 CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37135253028
 
 ## Notes
@@ -56,7 +56,10 @@ CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/r
 
 - Step 6 complete: exact head 6a698c38ab1c8b56a4361dba89642da8c36eb853, CI 37135253028 SUCCESS with every step of both jobs green, including retained JOB-09 adapter journey. Local contracts 108/108, operations 73/0, completed-transfer contract PASS; both Rules builds 132878 composed bytes; ten chartered files only differ from current recovery 31360a0; unchanged safety boundaries and generated Rules untracked. Qualified expression-budget gate PASS: 2 diagnostic lines; each next numbered check is a denial (see evidence). Next step 7: PR into recovery-v1.
 
+- Step 7 complete: PR #332 opened into gameplay/recovery-v1, head 6a698c3, base 31360a0, required §4.1/§4.2 tables, ten chartered files, exact-head green CI URL and literal Rules-before-client line included. Effective base-to-head diff is ten files; GitHub merge-base diff shows 22 files because no-merge/no-force-push content syncing preserved upstream baseline without changing ancestry. Live mergeable=false, state=dirty. Next step 8: Codex review after mergeability is confirmed.
+
 ## Self-check
+- PASS PR: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/332 targets recovery-v1 and includes both charter tables and deployment-order line; exact-head CI green.
 - PASS exact-head CI: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37135253028 on 6a698c38ab1c8b56a4361dba89642da8c36eb853, both jobs and all steps SUCCESS.
 - PASS Shared Transfer fresh-session expiry emulator: fresh-session read + authority migration both succeed, then an old-session WINDOW_OPEN at 00:00 advances under the fresh ACTIVE session, preserves exact startedAt, writes timeout completion at server request time, and reaches GUESS_ENTRY without redraw or reset.
 - PASS two-manager journey Sections A-G (3 seasons main): main journey, stranger denial, privacy, idempotent retry, simultaneous taps, second Showdown, completed-only reads of closed Showdowns, and persistent-provider abandon all proved.
@@ -78,3 +81,4 @@ CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/r
 - PASS baseline: exact current recovery head e44b6959310cfddf4bc1b4bd6275256f3e61ad41; contracts 104/104 (JOB-11 adds one), operations 73/0; CI https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37130995554 green including Completed-only read matrix. After adding G-10 expected contracts 105/105 unless another job merges.
 
 ## Blocked question
+How should PR #332's ancestry be reconciled with recovery-v1 after Job 9, Job 18 and the rivalry-lookup fix, while honoring the explicit no-merge and no-force-push factory rules? All upstream contents are already preserved and direct base-to-head diff is exactly the ten chartered files, but GitHub reports mergeable=false (dirty). Lead branch reconciliation is needed before the job is merge-ready; no product input from Nik is needed.
