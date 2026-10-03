@@ -21,6 +21,8 @@
 <main>
 <section id="clubWheelScreen" class="screen" data-club-reveal-stage="ready">
 <span class="clubKicker" aria-hidden="true">CAREER MODE SHOWDOWN 17</span>
+<div class="phoneHeroStage" aria-hidden="true"></div>
+<div class="phoneControlDeck" aria-hidden="true"></div>
 <!-- TODO-WORDMARK: replace the display-font fallback with ../shared/wordmarks/TITLE_CLUB_V1.webp when job 124 lands. -->
 <h2><span class="sd-visually-hidden">CLUB ASSIGNMENT</span><span class="clubTitleFallback" aria-hidden="true">CLUB ASSIGNMENT</span></h2>
 <div class="clubAssignmentShell">
@@ -31,11 +33,11 @@
 </div>
 
 <div class="clubRevealProgress" aria-hidden="true">
-<span data-reveal-step="opening">01 DRAW</span>
-<span data-reveal-step="manager-one">02 PACK 1</span>
-<span data-reveal-step="manager-two">03 PACK 2</span>
-<span data-reveal-step="versus">04 VS</span>
-<span data-reveal-step="confirmation">05 LOCK</span>
+<span data-reveal-step="opening" data-phone-label="DRAW">01 DRAW</span>
+<span data-reveal-step="manager-one" data-phone-label="PACK 1">02 PACK 1</span>
+<span data-reveal-step="manager-two" data-phone-label="PACK 2">03 PACK 2</span>
+<span data-reveal-step="versus" data-phone-label="VS">04 VS</span>
+<span data-reveal-step="confirmation" data-phone-label="LOCK">05 LOCK</span>
 </div>
 
 <div class="clubRevealArena">
@@ -85,6 +87,7 @@
 <strong id="clubConfirmationShowdown">SHOWDOWN</strong>
 <small id="clubConfirmationMeta">League · 1 season</small>
 </div>
+<div class="sd-sheet" data-phone-sheet="matchup">
 <div class="clubRivalryMatchup">
 <div class="clubConfirmationSide">
 <span id="clubConfirmationManagerOne">Daniel</span>
@@ -94,6 +97,7 @@
 <div class="clubConfirmationSide">
 <span id="clubConfirmationManagerTwo">Nik</span>
 <strong id="clubConfirmationClubTwo">Club</strong>
+</div>
 </div>
 </div>
 <p class="clubRivalryLockNote">These clubs are permanent for the full showdown. Confirmation starts the rivalry and never rerolls either club.</p>
