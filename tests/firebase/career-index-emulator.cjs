@@ -10,7 +10,12 @@ const Pair=require(path.join(__dirname,'../../js/persistentNikDanielPair.js'));
 const Pairing=require(path.join(__dirname,'../../js/sparkPrivatePairing.js'));
 
 const PROJECT_ID='demo-cms-career-index';
-const RULES=fs.readFileSync('firestore.spark.generated.rules','utf8');
+const SHIPPED_RULES=fs.readFileSync('firestore.spark.generated.rules','utf8');
+const ENFORCED=process.env.CMS_CAREER_INDEX_ENFORCED==='1';
+const ENFORCEMENT_CONSTANT=/function cmsCareerIndexEnforced\(\) \{\s*return false;\s*\}/g;
+assert.equal((SHIPPED_RULES.match(ENFORCEMENT_CONSTANT)||[]).length,1,'exactly one shipped Phase A enforcement constant');
+// Phase B is a test-only composed copy; never change the committed fragment or generated file.
+const RULES=ENFORCED?SHIPPED_RULES.replace(ENFORCEMENT_CONSTANT,'function cmsCareerIndexEnforced() { return true; }'):SHIPPED_RULES;
 const CAP=500;
 const hash=seed=>`sha256:${String(seed).repeat(64).slice(0,64)}`;
 const deviceId=seed=>`device_${String(seed).repeat(32).slice(0,32)}`;
@@ -107,12 +112,12 @@ const note=(id,label)=>{step+=1;console.log(`ok ${step} ${id} ${label}`);};
   try{
     await env.clearFirestore();
     const t0=Date.now(),now=Timestamp.fromMillis(t0);
-    const D='acct_daniel',N='acct_nik',S='acct_stranger',O='acct_other';
-    const dev={[D]:deviceId('d'),[N]:deviceId('e'),[S]:deviceId('5'),[O]:deviceId('6')},dev2={[D]:deviceId('7'),[N]:deviceId('8')};
+    const D='acct_daniel',N='acct_nik',S='acct_stranger',O='acct_other',LD='acct_legacy_daniel',LN='acct_legacy_nik';
+    const dev={[D]:deviceId('d'),[N]:deviceId('e'),[S]:deviceId('5'),[O]:deviceId('6'),[LD]:deviceId('c'),[LN]:deviceId('f')},dev2={[D]:deviceId('7'),[N]:deviceId('8')};
     const OLD_ACTIVE=rid(0xdead1),OLD_CLOSED=rid(0xdead2),STALE=rid(0xdead3),FOREIGN=rid(0xdead4);
     await env.withSecurityRulesDisabled(async c=>{
       const db=c.firestore();
-      for(const uid of [D,N,S,O]){await setDoc(doc(db,'accounts',uid),accountEnvelope(uid,now));await setDoc(doc(db,'accounts',uid,'devices',dev[uid]),deviceEnvelope(uid,dev[uid],now));if(dev2[uid])await setDoc(doc(db,'accounts',uid,'devices',dev2[uid]),deviceEnvelope(uid,dev2[uid],now));}
+      for(const uid of [D,N,S,O,LD,LN]){await setDoc(doc(db,'accounts',uid),accountEnvelope(uid,now));await setDoc(doc(db,'accounts',uid,'devices',dev[uid]),deviceEnvelope(uid,dev[uid],now));if(dev2[uid])await setDoc(doc(db,'accounts',uid,'devices',dev2[uid]),deviceEnvelope(uid,dev2[uid],now));}
       // Pre-deployment development rivalries: they exist, Daniel and Nik are members, nobody ever indexed them.
       const mk=(id,state,a,b)=>envelope({objectType:'rivalry',objectId:id,updatedAt:now,accountId:a.accountId,deviceId:dev[D],data:{connectionState:state,connectionStateBeforeDeletion:null,managerSlots:[a,b],authorizedAccountIds:[a.accountId,b.accountId].filter(Boolean),createdByAccountId:a.accountId,createdAt:now}});
       await setDoc(doc(db,'rivalries',OLD_ACTIVE),mk(OLD_ACTIVE,'active',managerSlot('playerOne',D,'1'),managerSlot('playerTwo',N,'2')));
@@ -122,15 +127,25 @@ const note=(id,label)=>{step+=1;console.log(`ok ${step} ${id} ${label}`);};
       await setDoc(doc(db,'rivalries',STALE,'invites',STALE),envelope({objectType:'invite',objectId:STALE,updatedAt:now,accountId:D,deviceId:dev[D],data:{purpose:'rivalry-pairing',slotId:'playerTwo',createdByAccountId:D,createdAt:now,expiresAt:Timestamp.fromMillis(t0+600000),state:'open',redeemedByAccountId:null,redeemedAt:null,revokedAt:null}}));
       await setDoc(doc(db,'accounts',N,'pairLinks','current'),envelope({objectType:'pairLink',objectId:'current',updatedAt:now,accountId:N,deviceId:dev[N],data:{rivalryId:OLD_ACTIVE,managerRole:'playerTwo',managerId:'nik',linkedAt:now,lastConfirmedAt:now}}));
     });
-    const db={[D]:env.authenticatedContext(D).firestore(),[N]:env.authenticatedContext(N).firestore(),[S]:env.authenticatedContext(S).firestore()};
+    const db={[D]:env.authenticatedContext(D).firestore(),[N]:env.authenticatedContext(N).firestore(),[S]:env.authenticatedContext(S).firestore(),[LD]:env.authenticatedContext(LD).firestore(),[LN]:env.authenticatedContext(LN).firestore()};
     const anon=env.unauthenticatedContext().firestore();
     let t=t0+1000;const tick=()=>(t+=1000);
     const X1=rid(1),X2=rid(2),X3=rid(3),X4=rid(4),X5=rid(5);
     const headRef=(dbx,uid,id='current')=>doc(dbx,'accounts',uid,'careerIndex',id);
 
+    if(!ENFORCED){
+      const legacy=rid(0x1e9ac);
+      await check('L1','legacy pair-link creation without an index write succeeds',assertSucceeds(create(db[LD],{uid:LD,device:dev[LD],target:legacy,nowMs:tick(),index:false})));
+      assert.equal(await ids(env,LD),null,'L1 no index was written');
+      await check('L2','legacy redemption without an index write succeeds',assertSucceeds(redeem(db[LN],{uid:LN,device:dev[LN],target:legacy,nowMs:tick(),index:false})));
+      assert.equal(await ids(env,LN),null,'L2 no index was written');
+      const joined=await assertSucceeds(getDoc(doc(db[LN],'rivalries',legacy)));
+      assert.deepEqual(joined.data().data.authorizedAccountIds,[LD,LN],'L2 legacy pair is active');
+    }
+
     // B: creation by Daniel (first pair-link creation, then replacement)
-    await check('B1','creation without an index write is denied (first pair link)',assertFails(create(db[D],{uid:D,device:dev[D],target:X1,nowMs:tick(),index:false})));
-    assert.equal(await rivalryExists(env,X1),false,'B1 rolled back');
+    if(ENFORCED)await check('B1','creation without an index write is denied (first pair link)',assertFails(create(db[D],{uid:D,device:dev[D],target:X1,nowMs:tick(),index:false})));
+    if(ENFORCED)assert.equal(await rivalryExists(env,X1),false,'B1 rolled back');
     await check('B2','index create naming a different rivalry is denied',assertFails(create(db[D],{uid:D,device:dev[D],target:X1,nowMs:tick(),mutate:w=>{w[0][1].data.rivalryIds=[X2];}})));
     await check('B3','index create with two ids (backfill attempt) is denied',assertFails(create(db[D],{uid:D,device:dev[D],target:X1,nowMs:tick(),mutate:w=>{w[0][1].data.rivalryIds=[OLD_CLOSED,X1];}})));
     await check('B4','index create with sealedPageCount 1 is denied',assertFails(create(db[D],{uid:D,device:dev[D],target:X1,nowMs:tick(),mutate:w=>{w[0][1].data.sealedPageCount=1;}})));
@@ -149,7 +164,7 @@ const note=(id,label)=>{step+=1;console.log(`ok ${step} ${id} ${label}`);};
     await check('A7','owner get of a non-index id is denied',assertFails(getDoc(headRef(db[D],D,'backup'))));
 
     await expireInvite(env,X1);
-    await check('B8','replacement creation without an index append is denied',assertFails(create(db[D],{uid:D,device:dev[D],target:X2,nowMs:tick(),index:false})));
+    if(ENFORCED)await check('B8','replacement creation without an index append is denied',assertFails(create(db[D],{uid:D,device:dev[D],target:X2,nowMs:tick(),index:false})));
     await check('B9','replacement creation: pair link update + index append commit together',assertSucceeds(create(db[D],{uid:D,device:dev[D],target:X2,nowMs:tick()})));
     h=await ids(env,D);assert.deepEqual(h.data.rivalryIds,[X1,X2]);assert.equal(h.revision,1);
 
@@ -159,7 +174,7 @@ const note=(id,label)=>{step+=1;console.log(`ok ${step} ${id} ${label}`);};
     await check('C2','reconfirming a pre-deployment link alone still works (Continue is not import)',assertSucceeds(reconfirm(db[N],N,false)));
     assert.equal(await ids(env,N),null,'C2 a pre-deployment link never creates an index');
     await closeRivalry(env,OLD_ACTIVE);
-    await check('C3','redemption without an index write is denied',assertFails(redeem(db[N],{uid:N,device:dev[N],target:X2,nowMs:tick(),index:false})));
+    if(ENFORCED)await check('C3','redemption without an index write is denied',assertFails(redeem(db[N],{uid:N,device:dev[N],target:X2,nowMs:tick(),index:false})));
     await check('C4','stale pre-deployment invite (creator never indexed it) cannot be redeemed',assertFails(redeem(db[N],{uid:N,device:dev[N],target:STALE,nowMs:tick()})));
     await check('C5','redemption whose pair link claims the other role is denied',assertFails(redeem(db[N],{uid:N,device:dev[N],target:X2,nowMs:tick(),forgeRole:'playerOne'})));
     await check('C6','redemption whose index write is signed by another account is denied',assertFails(redeem(db[N],{uid:N,device:dev[N],target:X2,nowMs:tick(),mutate:w=>{w[0][1].updatedByAccountId=D;}})));
@@ -208,7 +223,7 @@ const note=(id,label)=>{step+=1;console.log(`ok ${step} ${id} ${label}`);};
     await closeRivalry(env,winner);
     const full=Array.from({length:CAP},(_,i)=>rid(0x100000+i));
     await env.withSecurityRulesDisabled(async c=>{const ref=doc(c.firestore(),'accounts',D,'careerIndex','current');const v=(await getDoc(ref)).data();await setDoc(ref,{...v,data:{rivalryIds:full,sealedPageCount:0}});});
-    await check('G1','creation at capacity without any index write is denied (never start unindexed)',assertFails(create(db[D],{uid:D,device:dev[D],target:X5,nowMs:tick(),index:false})));
+    if(ENFORCED)await check('G1','creation at capacity without any index write is denied (never start unindexed)',assertFails(create(db[D],{uid:D,device:dev[D],target:X5,nowMs:tick(),index:false})));
     await check('G2','a 501st entry without sealing a page is denied',assertFails(create(db[D],{uid:D,device:dev[D],target:X5,nowMs:tick(),mutate:w=>{w.splice(0,1);w[0][1].data={rivalryIds:[...full,X5],sealedPageCount:0};}})));
     await check('G3','sealing a page that drops an id is denied',assertFails(create(db[D],{uid:D,device:dev[D],target:X5,nowMs:tick(),mutate:w=>{w[0][1].data.rivalryIds=full.slice(1);}})));
     await check('G4','sealing into the wrong page number is denied',assertFails(create(db[D],{uid:D,device:dev[D],target:X5,nowMs:tick(),mutate:w=>{w[0][0]='page_2';w[0][1].objectId='page_2';w[0][1].data.pageNumber=2;w[1][1].data.sealedPageCount=2;}})));
@@ -243,7 +258,8 @@ const note=(id,label)=>{step+=1;console.log(`ok ${step} ${id} ${label}`);};
     for(const uid of [PD,PN]){r=await readIdx(uid,uid);assert.deepEqual(r.rivalryIds,[P1,P2]);}note('P5','second Showdown: both indexes are [P1, P2]; the pair link moved on, history stayed');
     await env.withSecurityRulesDisabled(async c=>{const ref=doc(c.firestore(),'accounts',PN,'careerIndex','current');const v=(await getDoc(ref)).data();await setDoc(ref,{...v,data:{...v.data,sealedPageCount:1}});});
     r=await readIdx(PN,PN);assert.deepEqual([r.status,r.rivalryIds],['unavailable',[]]);note('P6','a missing sealed page makes the index unavailable, never shorter');
-    console.log(`PASS career index composed-Rules emulator: ${step} numbered checks (A access, B creation, C redemption, D append-only, E idempotency, F races, H agreement, G paging, P provider).`);
+    assert.equal(step,ENFORCED?58:56,'every existing case remains in Phase B; only four missing-index denials move out of Phase A');
+    console.log(`PASS career index composed-Rules emulator (${ENFORCED?'Phase B enforced':'Phase A shipped'}): ${step} numbered checks (A access, B creation, C redemption, D append-only, E idempotency, F races, H agreement, G paging, P provider).`);
   }finally{
     try{await env.clearFirestore();}catch(_e){}
     await env.cleanup();

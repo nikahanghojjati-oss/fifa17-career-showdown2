@@ -17,6 +17,11 @@ const CAP=500;
   const fragment=read('firestore.persistent-pair-production.fragment.rules');
   assert.match(fragment,/function cmsCareerIndexPageCapacity\(\) \{\s*return 500;\s*\}/,'Rules capacity must equal the client constant');
 
+  assert.match(fragment,/function cmsCareerIndexEnforced\(\) \{\s*return false;\s*\}/,'Phase A ships with optional pair-link coupling');
+  for(const value of ['root.data.rivalryId','after.data.rivalryId']){
+    assert.ok(fragment.includes(`&& (!cmsCareerIndexEnforced() || cmsCareerIndexPairLinkCoupled(accountId, ${value}));`),'both pair-link rules gate coupling');
+  }
+
   // 2. pure append plan
   const at=ts(1);
   let w=await Pair.planCareerIndexAppend({headValue:null,rivalryId:rid(1),accountId:'acct',deviceId:'device_x',now:at});

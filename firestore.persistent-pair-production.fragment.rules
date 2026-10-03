@@ -145,7 +145,7 @@
         && validCreateEnvelope(root, 'pairLink', pairId)
         && root.updatedByAccountId == accountId
         && cmsPersistentPairDataValid(accountId, root.data)
-        && cmsCareerIndexPairLinkCoupled(accountId, root.data.rivalryId);
+        && (!cmsCareerIndexEnforced() || cmsCareerIndexPairLinkCoupled(accountId, root.data.rivalryId));
     }
 
     function cmsPersistentPairUpdateValid(accountId, pairId) {
@@ -159,11 +159,16 @@
         && cmsPersistentPairDataValid(accountId, after.data)
         && after.data.linkedAt == before.data.linkedAt
         && cmsPersistentPairCanReplace(before, after)
-        && cmsCareerIndexPairLinkCoupled(accountId, after.data.rivalryId);
+        && (!cmsCareerIndexEnforced() || cmsCareerIndexPairLinkCoupled(accountId, after.data.rivalryId));
     }
     // CMS_CAREER_INDEX (D1, JOB-07): own-account, append-only, forward-only career index.
     function cmsCareerIndexPageCapacity() {
       return 500;
+    }
+
+    // Phase A admits legacy clients. Enable only after both managers receive the new shell.
+    function cmsCareerIndexEnforced() {
+      return false;
     }
 
     function cmsCareerIndexRecordsNewRivalry(accountId, rivalryId) {
