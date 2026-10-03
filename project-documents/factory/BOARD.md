@@ -1,6 +1,6 @@
 # Showdown Factory board
 
-**56 of 135 jobs done and checked · 49 %** · updated Sat 12:55 p.m. Eastern
+**56 of 135 jobs done and checked · 49 %** · updated Sat 12:56 p.m. Eastern
 
 ✅ **Quality check:** a job counts as done only after Claude checks it against the quality bar (average 4.2 or more, nothing under 3, hard gates pass). Average score 4.28 over 10 scored jobs. 🔍 Waiting for Claude's check: 32, 33, 44, 72, 82, 111, 112. 
 
@@ -8,11 +8,11 @@
 
 **Where to run:** 🟡 **project job** = new chat in the ChatGPT project "Showdown visual", type the number. 🟣 **image job** = its ticket in a ChatGPT **Temporary Chat** outside any project, then drop the picture in Claude's factory thread.
 
-🟡 **Type next:** 113 · then 114, 125
+🟡 **Type next:** - · then 114, 125
 
 🟣 **Image next:** - · tickets not written yet: 115, 116, 117, 118, 119, 120, 121
 
-**Working:** 34, 39, 77, 87 · **Blocked:** -
+**Working:** 34, 39, 77, 87, 113 · **Blocked:** -
 
 ## Screens
 
@@ -51,13 +51,13 @@ Branch `factory/v1-wtt5ye`. 135 Team V jobs, plus 5 lines that track Team G. Two
 
 **Overall (Team V):** ████░░░░░░ 49 % · 56 of 135 jobs done
 
-**Start now · project (type the number in Showdown visual):** 113 · queued next: 114, 125
+**Start now · project (type the number in Showdown visual):** nothing (all slots busy or nothing ready) · queued next: 114, 125
 
 **Start now · fresh chat (image ticket, outside the project):** - · waiting for Claude to write the ticket: 115, 116, 117, 118, 119, 120, 121
 
 **Start now (Sol Work mode, press Use Work):** -
 
-**Working:** 34, 39, 77, 87 · **Blocked:** -
+**Working:** 34, 39, 77, 87, 113 · **Blocked:** -
 
 **Team G tracking (never start these):** 98 (done), 99 (open), 100 (open), 101 (open), 102 (open). Claude marks them done when Team G delivers.
 
@@ -176,7 +176,7 @@ Branch `factory/v1-wtt5ye`. 135 Team V jobs, plus 5 lines that track Team G. Two
 | 110 | [Package for Nik and handoff to GPT-5.6 Sol](jobs/JOB-110.md) | 7 Integration | integrate | project (type number) | 109 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
 | 111 | [Phone art: Home](jobs/JOB-111.md) | 3 Art | build | project (type number) | 14, 1 | ██████████ 100 % | DONE |  |
 | 112 | [Phone art: League](jobs/JOB-112.md) | 3 Art | build | project (type number) | 14, 1 | ██████████ 100 % | DONE |  |
-| 113 | [Phone art: Club Assignment](jobs/JOB-113.md) | 3 Art | build | project (type number) | 14, 1 | ██████░░░░ 66 % | NOT STARTED |  |
+| 113 | [Phone art: Club Assignment](jobs/JOB-113.md) | 3 Art | build | project (type number) | 14, 1 | ██████░░░░ 66 % | IN PROGRESS |  |
 | 114 | [Phone art: Transfer War](jobs/JOB-114.md) | 3 Art | build | project (type number) | 14, 1 | ██████░░░░ 66 % | NOT STARTED |  |
 | 115 | [Phone art: Trophy Room](jobs/JOB-115.md) | 3 Art | image | fresh chat (image) | 14, 23 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 116 | [Phone art: Career Statistics](jobs/JOB-116.md) | 3 Art | image | fresh chat (image) | 14, 24 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
