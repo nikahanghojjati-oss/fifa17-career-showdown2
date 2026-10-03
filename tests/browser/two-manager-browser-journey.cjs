@@ -312,7 +312,8 @@ async function main(){
 
     // J5 career start: each manager confirms only their own FIFA 17 career, then both continue.
     for(const m of [daniel,nik]){
-      await m.page.locator("#continueClubAssignment").click({timeout:30000});
+      // The Career Start overlay sometimes opens before this tap and would intercept it; the tap is only needed when it has not.
+      if(!await m.page.locator("#productionSharedCareerStartOverlay").isVisible())await m.page.locator("#continueClubAssignment").click({timeout:30000});
       await m.page.locator("#productionSharedCareerStartOverlay").waitFor({state:"visible",timeout:30000});
     }
     const careerTextD=await daniel.page.locator("#productionSharedCareerStartOverlay").innerText();
@@ -603,6 +604,9 @@ async function main(){
       await m.page.locator("#loadingScreen").waitFor({state:"hidden",timeout:30000});
       await m.page.locator("#mainMenu").waitFor({state:"visible",timeout:30000});
       assert.equal(await m.page.evaluate(()=>window.__cmsEmulatorSwitch?.active===true),true,`${m.user} localhost emulator switch remains test-only after terminal reload`);
+      // Current product behaviour: a closed Showdown reopens the career entry overlay after reload (logged for the resume-after-reload job). Close it as a player would.
+      const entryOverlay=m.page.locator("#productionSharedJourneyEntryOverlay");
+      if(await entryOverlay.isVisible())await entryOverlay.getByRole("button",{name:"Close career entry"}).click({timeout:30000});
     }
     await daniel.page.locator("#newShowdown").click({timeout:30000});
     await daniel.page.locator("#createShowdown").waitFor({state:"visible",timeout:30000});
