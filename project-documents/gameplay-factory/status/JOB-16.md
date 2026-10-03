@@ -1,13 +1,13 @@
 # Status · JOB-16 · Two-manager browser journey (localhost-only emulator switch)
 
 State: IN PROGRESS
-Step: 8 of 9
-Updated: 2026-10-03 21:50 UTC
+Step: 9 of 9
+Updated: 2026-10-03 21:55 UTC
 Chat: GPT-5.6 Sol normal chat
 Code branch: gameplay/job-16-browser-journey
-Head commit: e93c6f9 (lead test guards on eb14f81)
+Head commit: e93c6f9a4a4928d2c66d313cb7640d4c1f5c82f2
 PR:
-CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37141913623
+CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37156146934
 
 ## Notes
 - Step 1: JOB-02, JOB-07 and JOB-17 are DONE and merged; the provider journey exists on gameplay/recovery-v1. Recovery head 843e64e is green in Validate Gameplay Fast run 37125870168 (Gameplay contracts SUCCESS; Composed Rules on the emulator SUCCESS). Scanned all 117 js/*.js blobs on that exact tree: no connectAuthEmulator or connectFirestoreEmulator. validate-gameplay-fast.yml pins firebase@12.17.1; deploy-github-pages.yml copies only index/runtime files plus acceptance, assets, css, data and js, never tests/. The job branch was safely fast-forwarded from 889810f to current recovery 843e64e after JOB-08 merged; no force update and no product files changed.
@@ -358,6 +358,9 @@ Nik errors: `[]`
 - I did not rerun the unguarded branch because the lead explicitly said these two deterministic test changes are required and §8 forbids retry-until-lucky behaviour. Branch remains exactly `eb14f81`.
 
 - Lead answer (2026-10-03 21:50 UTC): unblocked. The lead committed the two test-only guards exactly as specified (J5 Career Start tap only when the overlay is not already open; J12 closes the post-reload career entry overlay with its "Close career entry" button) on top of eb14f81: new head e93c6f9. Contracts PASS, test:ops 73/0. The same edits passed the full local journey twice (32 checks, zero page errors). Next: type continue and resume step 8 from the exact-head CI on e93c6f9, which started on the push.
+
+- Job 16 step 8/9 GREEN on exact head e93c6f9 in Validate Gameplay Fast run 37156146934. Gameplay contracts SUCCESS (110/110 blocking contracts; browser switch contract PASS with startup gzip 37493/37500; operations pass 73 / fail 0), Composed Rules emulator SUCCESS, and Two-manager browser journey SUCCESS. Browser emitted 32 numbered checks through J12 plus JZ; J9 remained the approved SKIPPED line. Exact terminal evidence passed: J10.1 final Daniel 10 / Nik 15 / Nik wins by 5, J10.2 UI Terminal Close + terminalClose witness, J11.1 stranger denial, J12.1 distinct R2 with both indexes [R1,R2], JZ.1 zero production Firebase/runtime/page errors. Artifact browser-journey-screens 11285427691.
+- Job 16 step 9/9 started. GitHub compare gameplay/recovery-v1...gameplay/job-16-browser-journey is ahead 36 / behind 0 and lists exactly the seven permitted code/test/workflow files; no js/, index.html, service-worker.js, firebase.json, *.rules, package*.json, generated Rules, or firestore-debug.log change.
 
 ## Self-check
 
