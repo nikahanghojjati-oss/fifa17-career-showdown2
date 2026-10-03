@@ -1,13 +1,13 @@
-// START-JOIN-V1 · fixture-driven scaffold. Styling and stage registration are added in later steps.
+// START-JOIN-V1 · fixture-driven scaffold on the shared registered stage.
 (function () {
   "use strict";
 
   const qs = new URLSearchParams(location.search);
   const stage = document.getElementById("stage-root");
 
-  async function loadFixtures() {
-    const response = await fetch("fixtures.json", { cache: "no-store" });
-    if (!response.ok) throw new Error("fixtures.json " + response.status);
+  async function loadJSON(path) {
+    const response = await fetch(path, { cache: "no-store" });
+    if (!response.ok) throw new Error(path + " " + response.status);
     return response.json();
   }
 
@@ -97,11 +97,43 @@
     renderFrameValues(frame);
   }
 
+  function registerManagers(MAP) {
+    const boxes = MAP.protected_boxes || {};
+    [["daniel", boxes.face_daniel], ["nik", boxes.face_nik]].forEach(([manager, box]) => {
+      const marker = stage.querySelector('[data-manager="' + manager + '"]');
+      if (marker && box) marker.dataset.box = box.join(" ");
+    });
+  }
+
+  function mountStage(MAP) {
+    if (!window.ShowdownStage || typeof window.ShowdownStage.mount !== "function") {
+      throw new Error("Shared stage engine is unavailable.");
+    }
+    registerManagers(MAP);
+    stage.dataset.atmosphere = "on";
+    // Registration rule: 16:9 uses a single cover-centred camera, with no extra zoom or shift.
+    window.ShowdownStage.mount(stage, {
+      plate: {
+        width: 1672,
+        height: 941,
+        src1x: "assets/ENV_SJ_PLATE_V1_1X.webp",
+        src2x: "assets/ENV_SJ_PLATE_V1_2X.webp"
+      },
+      focal: { x: 836, y: 470.5 },
+      platemap: MAP
+    });
+  }
+
   async function main() {
-    const FX = await loadFixtures();
+    const [FX, MAP] = await Promise.all([
+      loadJSON("fixtures.json"),
+      loadJSON("assets/platemap.json")
+    ]);
     const ids = Object.keys(FX.frames);
     const requested = qs.get("frame");
     const frameId = FX.frames[requested] ? requested : ids[0];
+
+    mountStage(MAP);
     render(FX, frameId);
     window.__startJoinReady = true;
   }
