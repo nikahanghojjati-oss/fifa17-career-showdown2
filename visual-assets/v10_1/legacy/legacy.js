@@ -79,13 +79,15 @@
     });
   }
 
-  function renderCard(showdown, selected) {
-    const card = document.createElement("button");
-    card.type = "button";
+  function renderCard(showdown, selected, strings) {
+    const statusOnly = showdown.status === "abandoned" || showdown.status === "unavailable";
+    const card = document.createElement(statusOnly ? "div" : "button");
+    if (!statusOnly) card.type = "button";
     card.className = "legacyCard";
     card.dataset.showdown = String(showdown.number);
-    card.dataset.selected = String(showdown.number === selected);
-    card.setAttribute("aria-pressed", String(showdown.number === selected));
+    card.dataset.status = showdown.status || "completed";
+    card.dataset.selected = String(!statusOnly && showdown.number === selected);
+    if (!statusOnly) card.setAttribute("aria-pressed", String(showdown.number === selected));
 
     const title = document.createElement("span");
     title.className = "legacyCardTitle";
@@ -93,6 +95,18 @@
 
     const body = document.createElement("span");
     body.className = "legacyCardBody";
+
+    if (statusOnly) {
+      const status = document.createElement("span");
+      status.className = "legacyStatusOnly";
+      status.textContent = showdown.status === "abandoned"
+        ? strings.states.abandoned
+        : strings.states.unavailable;
+      body.appendChild(status);
+      card.append(title, body);
+      return card;
+    }
+
     ["daniel", "nik"].forEach((manager, index) => {
       if (index === 1) {
         const score = document.createElement("span");
@@ -130,6 +144,14 @@
     footer.className = "legacyCardFooter";
     footer.textContent = showdown.seasonsPlayed + " / " + showdown.totalSeasons + " Seasons";
     card.append(title, body, footer);
+    if (showdown.status === "completion-pending" || showdown.status === "in-progress") {
+      const state = document.createElement("span");
+      state.className = "legacyCardState";
+      state.textContent = showdown.status === "completion-pending"
+        ? strings.states.completionPending
+        : "In progress";
+      card.appendChild(state);
+    }
     return card;
   }
 
@@ -190,7 +212,11 @@
         records = records.slice((page - 1) * pageSize, page * pageSize);
       }
       records.forEach((item) => {
-        const card = renderCard(item, selected);
+        const card = renderCard(item, selected, strings);
+        if (item.status === "abandoned" || item.status === "unavailable") {
+          grid.appendChild(card);
+          return;
+        }
         card.addEventListener("click", () => {
           selected = item.number;
           frame.ui.selectedShowdown = selected;
@@ -223,6 +249,41 @@
       pager.appendChild(next);
     }
     paint();
+  }
+
+  function applyFrameState(frame, strings) {
+    const banner = document.getElementById("legacyStateBanner");
+    const preview = document.getElementById("legacyPreviewTag");
+    banner.replaceChildren();
+    banner.hidden = true;
+    preview.textContent = frame.previewLabel || strings.previewLabel;
+    preview.hidden = !frame.previewLabel;
+    stage.dataset.frameState = frame.status;
+
+    let message = "";
+    let icon = "•";
+    if (frame.status === "empty") { message = strings.states.empty; icon = "◇"; }
+    if (frame.status === "loading") { message = strings.states.loading; icon = "↻"; }
+    if (frame.status === "unavailable") { message = strings.states.unavailable; icon = "!"; }
+    if (frame.status === "partial") {
+      const coverage = frame.coverage || { readable: 0, indexed: 0 };
+      message = strings.states.partial
+        .replace("{READABLE}", coverage.readable)
+        .replace("{INDEXED}", coverage.indexed);
+      icon = "!";
+    }
+    if (frame.interimLabel) { message = frame.interimLabel; icon = "i"; }
+
+    if (message) {
+      const mark = document.createElement("span");
+      mark.className = "legacyStateIcon";
+      mark.textContent = icon;
+      const copy = document.createElement("p");
+      copy.className = "legacyStateCopy";
+      copy.textContent = message;
+      banner.append(mark, copy);
+      banner.hidden = false;
+    }
   }
 
   async function boot() {
@@ -274,11 +335,13 @@
     });
 
     renderSideMenu(fixtures.strings);
+    applyFrameState(frame, fixtures.strings);
     renderArchive(frame, fixtures.strings);
     const historyAction = document.getElementById("viewSeasonHistory");
     historyAction.textContent = fixtures.strings.actions.viewSeasonHistory;
     historyAction.dataset.route = "viewSeasonHistory";
-    historyAction.disabled = !(frame.ui && frame.ui.selectedShowdown);
+    const selectedRecord = (frame.showdowns || []).find((item) => item.number === (frame.ui && frame.ui.selectedShowdown));
+    historyAction.disabled = !selectedRecord || !Array.isArray(selectedRecord.seasons) || !selectedRecord.seasons.length;
     historyAction.addEventListener("click", () => {
       const selected = window.LegacyFixture && window.LegacyFixture.selectedShowdown;
       const drawer = document.getElementById("legacySeasonHistory");
