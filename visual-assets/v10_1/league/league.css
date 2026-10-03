@@ -173,7 +173,7 @@ button:focus-visible { outline: 2px solid #FFF1B8; outline-offset: 3px; }
     --phone-edge: 12px;
     --phone-hero-h: 55svh;
     --phone-wheel: clamp(240px, 64vw, 282px);
-    --phone-wheel-y: clamp(260px, 46.5svh, 440px);
+    --phone-wheel-y: clamp(300px, 54svh, 400px); /* Claude fix 3: use the lower interaction band instead of leaving a dead gap above BACK. */
     --phone-safe: max(8px, env(safe-area-inset-bottom));
     --phone-primary-h: 48px;
     --phone-secondary-h: 44px;
