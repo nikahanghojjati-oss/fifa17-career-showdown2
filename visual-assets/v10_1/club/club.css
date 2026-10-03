@@ -250,7 +250,7 @@ main { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
 
   .clubAssignmentShell, .clubRevealArena, .clubRevealArea { display: contents; }
   .clubRevealCard { display: flex; align-items: center; gap: 8px; }
-  .clubKicker { display: none; }
+  .clubKicker, .footSlogan, .footText { display: none !important; }
 
   #clubWheelScreen h2 {
     position: absolute; z-index: 5; top: max(8px, env(safe-area-inset-top)); left: 50%; transform: translateX(-50%);
