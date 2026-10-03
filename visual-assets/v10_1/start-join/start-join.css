@@ -1,0 +1,4 @@
+/* JOB-087 step 1 scaffold: intentionally unstyled.
+   Shared kit styles are linked in index.html; screen styling starts in later steps. */
+
+[hidden] { display: none !important; }
