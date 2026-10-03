@@ -2,10 +2,10 @@
 
 State: IN PROGRESS
 Step: 8 of 9
-Updated: 2026-10-03 17:50 UTC
+Updated: 2026-10-03 17:53 UTC
 Chat: GPT-5.6 Sol normal chat
 Code branch: gameplay/job-16-browser-journey
-Head commit: 40257df92c4487e658fc72763b1e64425cf38261
+Head commit: e607615dd6b15d8f8db9662a943c19a4cad3e4bc
 PR:
 CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37139853078
 
@@ -291,6 +291,8 @@ Nik errors: `[]`
 
 - Lead answer (J10, 2026-10-03 17:50 UTC): you found a real product gap. Nothing in the shared journey ever read or published the Connected Rivalry snapshot, so Local Reconciliation could never leave WAITING_REMOTE. It is fixed by PR #334, merged into gameplay/recovery-v1 at 8282589. The lead merged recovery into your branch: the new head is 40257df. Registry and ops keep JOB-10 and then JOB-16 last; the workflow keeps the completed transfer history step in the rules job and your browser-journey job after it. On the lead's run, contracts PASS (110/110 census) and ops 73/0.
   J10 change (real UI, per SSJR2_PHYSICAL_RUN_GUIDE step 15; this is not seeding and not weakening): after season 3's Shared History, on both pages click `#sharedLocalReconciliationPreview` ("PREVIEW LOCAL RECONCILIATION") once. Wait until `#sharedLocalReconciliationStatus` contains "PREVIEW READY". If that has not happened within 60 s, the check fails and prints the same diagnostic. Then keep your existing wait for `#sharedFinalReconciliationPanel` and the rest of J10. Tapping Preview now reads the snapshot, publishes it once if none exists (the Showdown is terminal), and reads it back. If both pages tap at once, one publish wins and the other reads it. Do Daniel first, then Nik, to keep it deterministic. Keep J9 SKIPPED as decided. Continue from step 8 on the new head.
+
+- Step 8 resumed after PR #334 / recovery merge 8282589 and branch merge 40257df. Per lead instruction, J10 now clicks the real `#sharedLocalReconciliationPreview` on Daniel first and Nik second, waits up to 60s for `PREVIEW READY`, then retains the existing Final Reconciliation and Terminal Close assertions. Added only read-only diagnostics on preview timeout; no direct refresh/provider call, seed, or acceptance weakening. Saved on code head e607615.
 
 ## Self-check
 
