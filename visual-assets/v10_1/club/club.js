@@ -620,7 +620,7 @@ $$(".handOv").forEach(d => { d.style.clipPath = "none"; });
 
   function setAnticipationState() {
     const f = FX.frames[FRAME] || FX.frames.CL1;
-    const stages = $(".clubPackStage");
+    const stages = $$(".clubPackStage");
     const dim = $(".clubAnticipationDim");
     stages.forEach(stage => stage.classList.remove("is-anticipating"));
     if (dim) dim.classList.remove("is-anticipating");
@@ -749,7 +749,7 @@ $$(".handOv").forEach(d => { d.style.clipPath = "none"; });
       const E = r.els, p = sideProgress(i);
       const nameEl = i ? $("#clubNameTwo") : $("#clubNameOne");
       E.wrap.classList.toggle("on", p != null);
-      $(".panelCrest")[i].classList.toggle("on", Boolean(f.revealed[i]));
+      $$(".panelCrest")[i].classList.toggle("on", Boolean(f.revealed[i]));
       if (p == null) return;
       if (!E.crest.dataset.club) { E.crest.innerHTML = `<div class="crestRim">${crestMarkup(i ? FX.clubs.playerTwo : FX.clubs.playerOne)}</div>`; E.crest.dataset.club = "1"; }
       const kf = ripKeyframes(r), dur = RM ? RM_MS : RIP_MS;
@@ -792,8 +792,8 @@ $$(".handOv").forEach(d => { d.style.clipPath = "none"; });
     const st = $("#clubPackStatus"); st.insertAdjacentHTML("beforebegin", `<span class="stRow"></span>`);
     const sr = $(".stRow"); sr.innerHTML = PACK; sr.appendChild(st);
     $$(".clubRevealProgress span").forEach(s => s.insertAdjacentHTML("afterbegin", `<i class="ring" aria-hidden="true">${svg(20, 20, '<path d="M5.5 10.4l3 3 6-6.4" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>', "ringCheck")}</i>`));
-    $(".clubCardFace").forEach((f, i) => f.insertAdjacentHTML("afterbegin", `<span class="shieldSlot" aria-hidden="true">${SEALED_SHIELD}<span class="panelCrest"><span class="crestRim">${crestMarkup(i ? FX.clubs.playerTwo : FX.clubs.playerOne)}</span></span></span>`));
-    $(".clubPackStage").forEach(stage => stage.insertAdjacentHTML("beforeend", '<span class="clubPackAnticipation" aria-hidden="true"></span>'));
+    $$(".clubCardFace").forEach((f, i) => f.insertAdjacentHTML("afterbegin", `<span class="shieldSlot" aria-hidden="true">${SEALED_SHIELD}<span class="panelCrest"><span class="crestRim">${crestMarkup(i ? FX.clubs.playerTwo : FX.clubs.playerOne)}</span></span></span>`));
+    $$(".clubPackStage").forEach(stage => stage.insertAdjacentHTML("beforeend", '<span class="clubPackAnticipation" aria-hidden="true"></span>'));
     $("#stage").insertAdjacentHTML("beforeend", '<div class="clubAnticipationDim" aria-hidden="true"></div>');
     $(".clubRevealArea").insertAdjacentHTML("beforeend", `<div class="panelDivider" aria-hidden="true"><i></i><b>VS</b><i></i></div>`);
     $(".clubRevealProgress").insertAdjacentHTML("afterend", `<div class="bandSlot" aria-hidden="true"></div>`);
