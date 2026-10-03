@@ -1,6 +1,6 @@
 # Showdown Factory board
 
-**56 of 135 jobs done · 43 %** · updated Sat 9:39 a.m. Eastern
+**56 of 135 jobs done · 43 %** · updated Sat 9:40 a.m. Eastern
 
 ████░░░░░░
 
@@ -128,7 +128,7 @@ Branch `factory/v1-wtt5ye`. 135 Team V jobs, plus 5 lines that track Team G. Two
 | 64 | [Career Statistics: review](jobs/JOB-064.md) | 5 New screens | review | project (type number) | 63 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 65 | [Career Statistics: fix round](jobs/JOB-065.md) | 5 New screens | fix | project (type number) | 64 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 66 | [Career Statistics: motion](jobs/JOB-066.md) | 5 New screens | build | project (type number) | 65, 16 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
-| 67 | [Rivalry Statistics: build (desktop)](jobs/JOB-067.md) | 5 New screens | build | project (type number) | 4, 25, 18, 135, 19, 20, 21, 22 | ████████░░ 88 % | IN PROGRESS |  |
+| 67 | [Rivalry Statistics: build (desktop)](jobs/JOB-067.md) | 5 New screens | build | project (type number) | 4, 25, 18, 135, 19, 20, 21, 22 | ██████████ 100 % | IN PROGRESS |  |
 | 68 | [Rivalry Statistics: phone](jobs/JOB-068.md) | 5 New screens | build | project (type number) | 67, 117 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 69 | [Rivalry Statistics: review](jobs/JOB-069.md) | 5 New screens | review | project (type number) | 68 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 70 | [Rivalry Statistics: fix round](jobs/JOB-070.md) | 5 New screens | fix | project (type number) | 69 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
