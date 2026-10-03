@@ -1,6 +1,6 @@
 # Showdown Factory board
 
-**68 of 135 jobs done and checked · 58 %** · updated Sat 7:32 p.m. Eastern
+**68 of 135 jobs done and checked · 58 %** · updated Sat 7:33 p.m. Eastern
 
 ✅ **Quality check:** a job counts as done only after Claude checks it against the quality bar (average 4.2 or more, nothing under 3, hard gates pass). Average score 4.24 over 18 scored jobs. 🔍 Waiting for Claude's check: 35, 39, 41, 45, 47, 77, 87, 115. 
 
@@ -155,7 +155,7 @@ Branch `factory/v1-wtt5ye`. 135 Team V jobs, plus 5 lines that track Team G. Two
 | 89 | [Start / Join: review](jobs/JOB-089.md) | 5 New screens | review | project (type number) | 88 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 90 | [Start / Join: fix round](jobs/JOB-090.md) | 5 New screens | fix | project (type number) | 89 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 91 | [Start / Join: motion](jobs/JOB-091.md) | 5 New screens | build | project (type number) | 90, 16 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
-| 92 | [Rule Book: build (desktop and phone)](jobs/JOB-092.md) | 5 New screens | build | project (type number) | 9, 29, 18, 121 | ████████░░ 83 % | IN PROGRESS |  |
+| 92 | [Rule Book: build (desktop and phone)](jobs/JOB-092.md) | 5 New screens | build | project (type number) | 9, 29, 18, 121 | █████████░ 91 % | IN PROGRESS |  |
 | 93 | [Rule Book: review](jobs/JOB-093.md) | 5 New screens | review | project (type number) | 92 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 94 | [Rule Book: fix round and motion](jobs/JOB-094.md) | 5 New screens | fix | project (type number) | 93, 16, 124 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
 | 95 | [Settings: build (desktop and phone)](jobs/JOB-095.md) | 5 New screens | build | project (type number) | 10, 29, 18, 121 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
