@@ -85,6 +85,22 @@
     document.getElementById("fixtureEyebrow").textContent = fixtures.strings.eyebrow;
     document.getElementById("legacyHeading").textContent = fixtures.strings.heading;
     document.getElementById("fixtureTagline").textContent = fixtures.strings.tagline;
+
+    const brand = document.getElementById("legacyBrand");
+    brand.textContent = fixtures.strings.decorative.wordmark;
+    document.getElementById("legacySlogan").textContent = fixtures.strings.decorative.moreThanAGame;
+    const topNav = document.getElementById("legacyTopNav");
+    topNav.replaceChildren();
+    fixtures.strings.topNav.forEach((label) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.textContent = label;
+      button.dataset.route = label.toLowerCase();
+      button.dataset.active = String(label === "CAREER");
+      if (label === "CAREER") button.setAttribute("aria-current", "page");
+      topNav.appendChild(button);
+    });
+
     renderObject(stringsRoot, fixtures.strings);
     renderObject(valuesRoot, frame);
 
