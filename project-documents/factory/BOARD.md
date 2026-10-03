@@ -1,6 +1,6 @@
 # Showdown Factory board
 
-**56 of 135 jobs done and checked · 49 %** · updated Sat 12:59 p.m. Eastern
+**56 of 135 jobs done and checked · 49 %** · updated Sat 1:02 p.m. Eastern
 
 ✅ **Quality check:** a job counts as done only after Claude checks it against the quality bar (average 4.2 or more, nothing under 3, hard gates pass). Average score 4.28 over 10 scored jobs. 🔍 Waiting for Claude's check: 32, 33, 39, 44, 72, 82, 111, 112. 
 
@@ -19,7 +19,7 @@
 ```
 Home           ██████░░░░ 5/8
 League         ██████░░░░ 5/8
-Club           ███░░░░░░░ 2/7
+Club           ████░░░░░░ 2/7
 Transfer       ██░░░░░░░░ 1/6
 Loading        ██████████ 4/4
 Trophy Room    █████░░░░░ 5/10
@@ -97,7 +97,7 @@ Branch `factory/v1-wtt5ye`. 135 Team V jobs, plus 5 lines that track Team G. Two
 | 31 | [Home: face edges and seams](jobs/JOB-031.md) | 4 Polish built screens | fix | project (type number) | 14, 1 | ██████████ 100 % | DONE |  |
 | 32 | [Home: seven destinations and premium tiles](jobs/JOB-032.md) | 4 Polish built screens | build | project (type number) | 31, 18, 20, 122 | ██████████ 100 % | DONE |  |
 | 33 | [Home: phone with seven destinations](jobs/JOB-033.md) | 4 Polish built screens | build | project (type number) | 32, 111 | ██████████ 100 % | DONE |  |
-| 34 | [Home: review](jobs/JOB-034.md) | 4 Polish built screens | review | project (type number) | 33 | ████░░░░░░ 42 % | IN PROGRESS |  |
+| 34 | [Home: review](jobs/JOB-034.md) | 4 Polish built screens | review | project (type number) | 33 | █████░░░░░ 57 % | IN PROGRESS |  |
 | 35 | [Home: fix round](jobs/JOB-035.md) | 4 Polish built screens | fix | project (type number) | 34 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 36 | [Home: motion pass](jobs/JOB-036.md) | 4 Polish built screens | build | project (type number) | 35, 16 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
 | 37 | [League: hands on the wheel](jobs/JOB-037.md) | 4 Polish built screens | build | project (type number) | 14, 1, 18, 123 | ██████████ 100 % | DONE |  |
@@ -176,7 +176,7 @@ Branch `factory/v1-wtt5ye`. 135 Team V jobs, plus 5 lines that track Team G. Two
 | 110 | [Package for Nik and handoff to GPT-5.6 Sol](jobs/JOB-110.md) | 7 Integration | integrate | project (type number) | 109 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
 | 111 | [Phone art: Home](jobs/JOB-111.md) | 3 Art | build | project (type number) | 14, 1 | ██████████ 100 % | DONE |  |
 | 112 | [Phone art: League](jobs/JOB-112.md) | 3 Art | build | project (type number) | 14, 1 | ██████████ 100 % | DONE |  |
-| 113 | [Phone art: Club Assignment](jobs/JOB-113.md) | 3 Art | build | project (type number) | 14, 1 | ██████░░░░ 66 % | IN PROGRESS |  |
+| 113 | [Phone art: Club Assignment](jobs/JOB-113.md) | 3 Art | build | project (type number) | 14, 1 | ████████░░ 83 % | IN PROGRESS |  |
 | 114 | [Phone art: Transfer War](jobs/JOB-114.md) | 3 Art | build | project (type number) | 14, 1 | ██████░░░░ 66 % | NOT STARTED |  |
 | 115 | [Phone art: Trophy Room](jobs/JOB-115.md) | 3 Art | image | fresh chat (image) | 14, 23 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 116 | [Phone art: Career Statistics](jobs/JOB-116.md) | 3 Art | image | fresh chat (image) | 14, 24 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
