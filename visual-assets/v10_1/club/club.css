@@ -200,82 +200,167 @@ main { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
 .compact #clubAssignmentBack { width: 120px; left: 24px; }
 .compact #continueClubAssignment { width: 430px; left: calc(var(--btnCx) - 215px); }
 
-/* =================== PHONE (C7 / K4) =================== */
+/* =================== PHONE · JOB-045 =================== */
+.phoneHeroStage, .phoneControlDeck { display: none; }
+.sd-sheet { display: contents; }
+
 @media (max-width: 760px) and (orientation: portrait) {
-  #topHeader { height: 48px; padding-right: 10px; gap: 8px; }
-  .cmBadge { padding: 0 14px; }
-  .cmBadge b { font-size: 22px; }
-  .brand { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
-  #onlinePlayerIdentityBadge, .seasonIndicator { min-height: 44px; font-size: 13px; padding: 0 10px; letter-spacing: .08em; }
-  footer { display: none; }
-  .plateClip { z-index: 1; }
-  main { pointer-events: auto; overflow: hidden; }
+  :root { --phone-hero-h: 52dvh; --phone-safe: max(8px, env(safe-area-inset-bottom)); }
+  html, body, .stage { width: 100%; height: 100%; min-height: 0; overflow: hidden; }
+  #topHeader, footer { display: none !important; }
+  main { position: absolute; inset: 0; overflow: hidden; pointer-events: auto; }
+  .plateClip { inset: 0; z-index: 0; }
+  .hairlineRepair { display: none !important; }
+
   #clubWheelScreen {
-    position: absolute; inset: 48px 0 0 0; display: grid; grid-template-columns: 1fr 1fr; column-gap: 10px; padding: 8px 14px 12px;
-    grid-template-rows: auto auto auto minmax(96px, 1fr) auto auto auto auto auto; align-content: start; row-gap: 6px;
+    position: fixed; inset: 0; overflow: hidden; padding: 0;
+    display: block; background: #050607;
   }
+  .phoneHeroStage {
+    display: block; position: absolute; inset: 0 0 auto; height: var(--phone-hero-h); z-index: 1;
+    overflow: hidden; pointer-events: none;
+    background:
+      radial-gradient(circle at 50% 74%, rgba(242,196,91,.15), transparent 42%),
+      linear-gradient(180deg, rgba(2,3,5,.03), rgba(2,3,5,.26) 70%, #08090b 100%);
+  }
+  .phoneControlDeck {
+    display: block; position: absolute; z-index: 2; left: 0; right: 0; top: calc(var(--phone-hero-h) - 8px); bottom: 0;
+    background: linear-gradient(180deg, rgba(9,10,12,.90), #08090b 22%, #050607 100%);
+    border-top: 1px solid rgba(242,196,91,.42);
+    box-shadow: 0 -14px 36px rgba(0,0,0,.55);
+    pointer-events: none;
+  }
+
+  .clubAssignmentShell, .clubRevealArena, .clubRevealArea { display: contents; }
+  .clubRevealCard { display: flex; align-items: center; gap: 8px; }
   .clubKicker { display: none; }
-  .clubKicker, #clubWheelScreen h2, .clubAssignmentHeader { position: static; transform: none; }
-  #clubWheelScreen h2 { grid-column: 1 / -1; grid-row: 1; justify-self: center; font-size: 34px; line-height: 1.32; }
-  .clubAssignmentHeader { grid-column: 1 / -1; grid-row: 2; gap: 3px; white-space: normal; }
-  .glyph { width: 16px; height: 16px; }
-  .clubAssignmentEyebrow { font-size: 13px; }
-  #clubAssignmentLeague { font-size: 20px; }
-  #clubPackStatus { font-size: 13px; letter-spacing: .14em; text-align: center; max-width: 300px; }
-  .clubRevealProgress { position: relative; grid-column: 1 / -1; grid-row: 3; height: 46px; margin: 0 20px; }
-  .clubRevealProgress::before { top: 12px; }
-  .clubRevealProgress span { font-size: 12px; letter-spacing: .06em; }
-  .ring { width: 24px; height: 24px; margin-bottom: 5px; }
-  .bandSlot { display: block; grid-column: 1 / -1; grid-row: 4; min-height: 96px; max-height: calc(100vw * .82); height: calc(100% - 12px); align-self: center; margin: 6px -14px 6px; }
-  .clubPackStage { position: static; display: contents; }
-  .clubPackDoor { position: absolute; inset: auto; }
-  .clubVs { gap: 0; }
-  .clubVs > span { font-size: 12px; letter-spacing: .3em; padding-left: .3em; }
-  .clubVs strong, [data-club-reveal-stage="versus"] .clubVs strong, [data-club-reveal-stage="confirmation"] .clubVs strong { font-size: var(--vsFs, 32px); }
-  .clubRevealIndex, .clubManager { position: static; }
-  .clubRevealIndex { grid-row: 5; align-self: center; justify-self: start; font-size: 12px; padding: 2px 5px; }
-  .clubManager { grid-row: 5; align-self: center; margin-left: 30px; font-size: 20px; }
-  #clubCardOne .clubRevealIndex, #clubCardOne .clubManager, #clubCardOne .clubCardFace { grid-column: 1; }
-  #clubCardTwo .clubRevealIndex, #clubCardTwo .clubManager, #clubCardTwo .clubCardFace { grid-column: 2; }
-  .clubCardFace { position: static; grid-row: 6; grid-template-columns: 40px 1fr; column-gap: 8px; }
-  .clubCardLabel { grid-column: 2; grid-row: 2; padding-left: 0; }
-  .clubCardFace strong { grid-column: 2; grid-row: 3; } .clubCardState { grid-column: 2; grid-row: 4; }
-  .shieldSlot { grid-row: 1 / span 4; }
-  .shieldSlot { width: 40px; height: 43px; margin-top: 0; }
-  .clubCardFace strong { font-size: 20px; }
-  .clubCardEyebrow, .clubCardState { font-size: 12px; letter-spacing: .1em; }
-  .panelDivider { display: none; }
-  .clubRivalryConfirmation { position: static; grid-column: 1 / -1; grid-row: 7; padding: 8px 10px 8px; background: rgba(8,9,11,.92); border-top: 1px solid rgba(242,196,91,.7); border-radius: 2px; }
-  .clubRivalryHeadline { grid-template-columns: auto; grid-template-rows: auto; row-gap: 1px; }
-  .clubRivalryHeadline small { grid-column: auto; }
+
+  #clubWheelScreen h2 {
+    position: absolute; z-index: 5; top: max(8px, env(safe-area-inset-top)); left: 50%; transform: translateX(-50%);
+    width: min(92vw, 360px); margin: 0; padding: 0; text-align: center; white-space: nowrap;
+    font-size: clamp(28px, 8.4vw, 34px); line-height: 1.05;
+  }
+
+  .clubRevealProgress {
+    position: absolute; z-index: 5; top: calc(var(--phone-hero-h) - 18px); left: 26px; right: 26px; height: 36px;
+    display: flex; align-items: flex-start; justify-content: space-between; margin: 0;
+  }
+  .clubRevealProgress::before {
+    left: 6px; right: 6px; top: 7px; height: 1px;
+    background: linear-gradient(90deg, rgba(242,196,91,.22), rgba(242,196,91,.75), rgba(242,196,91,.22));
+  }
+  .clubRevealProgress span {
+    width: 14px; min-width: 14px; height: 36px; overflow: visible; color: transparent; font-size: 0; letter-spacing: 0;
+  }
+  .clubRevealProgress span::before {
+    content: ""; position: relative; z-index: 1; display: block; width: 14px; height: 14px; border-radius: 50%;
+    border: 1px solid rgba(242,196,91,.72); background: #090a0c; box-shadow: 0 0 0 3px rgba(5,6,7,.72);
+  }
+  .clubRevealProgress span.done::before { background: #7b6029; border-color: var(--gold); }
+  .clubRevealProgress span.active::before {
+    background: var(--gold); border-color: var(--gold-hi); box-shadow: 0 0 12px rgba(242,196,91,.68), 0 0 0 3px rgba(5,6,7,.82);
+  }
+  .clubRevealProgress span.active::after {
+    content: attr(data-phone-label); position: absolute; top: 18px; left: 50%; transform: translateX(-50%);
+    color: var(--gold-hi); font: 700 11px/1 var(--cond); letter-spacing: .12em; white-space: nowrap;
+  }
+  .ring, .ringCheck { display: none !important; }
+
+  .clubAssignmentHeader {
+    position: absolute; z-index: 4; top: calc(var(--phone-hero-h) + 22px); left: 12px; right: 12px; transform: none;
+    display: grid; grid-template-columns: auto 1fr; grid-template-rows: auto auto; align-items: center;
+    gap: 0 8px; min-height: 42px; text-align: left; white-space: normal;
+  }
+  .clubAssignmentEyebrow { font-size: 11px; letter-spacing: .18em; }
+  #clubAssignmentLeague { font-size: 18px; line-height: 1.05; justify-self: end; text-align: right; }
+  #clubPackStatus {
+    grid-column: 1 / -1; margin-top: 3px; max-width: none; font-size: 11px; line-height: 1.1;
+    letter-spacing: .12em; text-align: left; color: #CFC4AB;
+  }
+
+  #clubCardOne, #clubCardTwo {
+    position: absolute; z-index: 4; left: 12px; right: 12px; height: 50px; padding: 4px 8px;
+    background: linear-gradient(90deg, rgba(13,15,18,.93), rgba(8,9,11,.80));
+    border-left: 2px solid rgba(242,196,91,.70); border-bottom: 1px solid rgba(242,196,91,.18);
+  }
+  #clubCardOne { top: calc(var(--phone-hero-h) + 70px); }
+  #clubCardTwo { top: calc(var(--phone-hero-h) + 124px); }
+  .clubRevealIndex {
+    position: static; flex: 0 0 auto; transform: none !important; padding: 3px 5px; font-size: 11px; line-height: 1;
+  }
+  .clubManager {
+    position: static; flex: 0 0 58px; transform: none !important; margin: 0; font-size: 17px; line-height: 1.1;
+    overflow: hidden; text-overflow: ellipsis;
+  }
+  .clubPackStage { position: absolute; inset: 0; pointer-events: none; }
+  .clubPackDoor { display: none; }
+  .clubCardFace {
+    position: static; flex: 1 1 auto; min-width: 0; display: grid; grid-template-columns: 38px 1fr;
+    grid-template-rows: 13px 20px 13px; column-gap: 8px; align-items: center; text-shadow: 0 2px 8px #000;
+  }
+  .shieldSlot { grid-column: 1; grid-row: 1 / span 3; width: 36px; height: 39px; margin: 0; }
+  .clubCardEyebrow { display: none; }
+  .clubCardLabel { grid-column: 2; grid-row: 1; padding: 0; font-size: 10px; letter-spacing: .13em; }
   .clubCardLabel::before { content: none; }
-  .clubRivalryHeadline small { margin-top: 3px; font-size: 13px; }
-  .clubRivalryMatchup { flex-wrap: wrap; justify-content: center; row-gap: 0; }
-  .clubConfirmationSide span { font-size: 14px; } .clubConfirmationSide strong { font-size: 18px; }
-  .clubRivalryLockNote { font-size: 14px; line-height: 1.28; margin-top: 4px; }
-  #clubWheelScreen .menuButton, #clubWheelScreen .backButton { position: static; width: auto !important; left: auto !important; grid-column: 1 / -1; font-size: 19px; }
-  #openClubPack, #continueClubAssignment { grid-row: 8; height: 52px; margin-top: 4px; }
-  #clubAssignmentBack { grid-row: 9; height: 44px; }
-  #clubWheelScreen > *, .bandSlot { position: relative; z-index: 2; }
-  .bandSlot { z-index: 0; }
+  .clubCardFace strong {
+    grid-column: 2; grid-row: 2; min-width: 0; overflow: hidden; text-overflow: ellipsis;
+    font-size: 18px; line-height: 1; white-space: nowrap;
+  }
+  .clubCardState { grid-column: 2; grid-row: 3; font-size: 10px; line-height: 1; letter-spacing: .14em; }
+  .panelDivider { display: none; }
+
+  .clubVs {
+    position: absolute; z-index: 5; top: calc(var(--phone-hero-h) - 76px); left: 50%; transform: translateX(-50%);
+    width: 64px; height: 54px; gap: 0; pointer-events: none;
+  }
+  .clubVs > span { font-size: 9px; letter-spacing: .22em; padding-left: .22em; }
+  .clubVs strong,
+  [data-club-reveal-stage="versus"] .clubVs strong,
+  [data-club-reveal-stage="confirmation"] .clubVs strong { font-size: 30px; line-height: 1; }
+
+  .clubRivalryConfirmation {
+    position: absolute; z-index: 4; top: calc(var(--phone-hero-h) + 180px); left: 12px; right: 12px;
+    min-height: 38px; padding: 4px 8px; background: transparent; border-top: 1px solid rgba(242,196,91,.45);
+  }
+  .clubRivalryHeadline { grid-template-columns: auto auto; grid-template-rows: auto auto; column-gap: 8px; }
+  .clubRivalryHeadline span { font-size: 10px; letter-spacing: .18em; }
+  .clubRivalryHeadline strong { font-size: 16px; }
+  .clubRivalryHeadline small { grid-column: 1 / -1; margin: 1px 0 0; font-size: 10px; }
+  .clubRivalryLockNote { margin: 3px 0 0; padding-top: 3px; font-size: 11px; line-height: 1.12; }
+  .sd-sheet { display: none; }
+
+  #clubWheelScreen .menuButton, #clubWheelScreen .backButton {
+    position: absolute; z-index: 6; top: auto; bottom: var(--phone-safe); height: 52px; min-height: 44px;
+    margin: 0; font-size: 16px; line-height: 1; padding: 0 12px;
+  }
+  #openClubPack, #continueClubAssignment {
+    left: 62px !important; right: 12px; width: auto !important;
+  }
+  #clubAssignmentBack {
+    left: 12px !important; width: 44px !important; padding: 0; overflow: hidden; color: transparent;
+  }
+  #clubAssignmentBack::before {
+    content: "‹"; color: #F4ECD8; font: 700 26px/1 var(--cond);
+  }
+
+  #clubWheelScreen > *, .clubRevealCard { box-sizing: border-box; }
+  .bandSlot { display: none !important; }
 }
-/* phone CL5/CL6: eyebrow + league share a row, the band holds the pack bodies only */
-@media (max-width: 760px) and (orientation: portrait) {
-  [data-club-reveal-stage="versus"] .clubAssignmentHeader, [data-club-reveal-stage="confirmation"] .clubAssignmentHeader { display: grid; grid-template-columns: auto auto; column-gap: 12px; row-gap: 2px; align-items: center; justify-content: center; justify-items: center; }
-  [data-club-reveal-stage="versus"] .stRow, [data-club-reveal-stage="confirmation"] .stRow { grid-column: 1 / -1; }
-  [data-club-reveal-stage="versus"] .bandSlot, [data-club-reveal-stage="confirmation"] .bandSlot { min-height: 80px; }
-  [data-club-reveal-stage="versus"] #clubWheelScreen, [data-club-reveal-stage="confirmation"] #clubWheelScreen { row-gap: 4px; padding-bottom: 6px; }
-  [data-club-reveal-stage="versus"] .clubRivalryHeadline, [data-club-reveal-stage="confirmation"] .clubRivalryHeadline { grid-template-columns: auto auto; column-gap: 10px; }
-  [data-club-reveal-stage="versus"] .clubRivalryHeadline small, [data-club-reveal-stage="confirmation"] .clubRivalryHeadline small { grid-column: 1 / -1; }
-}
+
 @media (max-width: 760px) and (orientation: portrait) and (max-height: 600px) {
-  #clubWheelScreen h2 { font-size: 30px; }
-  .bandSlot { min-height: 72px; }
-  #clubWheelScreen { grid-template-rows: auto auto auto minmax(72px, 1fr) auto auto auto auto auto; }
-  #clubWheelScreen { row-gap: 4px; padding-top: 6px; }
-  .clubRevealProgress { height: 42px; }
-  .shieldSlot { width: 34px; height: 37px; }
-  .clubCardFace { grid-template-columns: 34px 1fr; }
+  :root { --phone-hero-h: 50dvh; }
+  #clubWheelScreen h2 { font-size: 28px; }
+  .clubAssignmentHeader { top: calc(var(--phone-hero-h) + 18px); min-height: 38px; }
+  #clubCardOne { top: calc(var(--phone-hero-h) + 60px); }
+  #clubCardTwo { top: calc(var(--phone-hero-h) + 108px); }
+  #clubCardOne, #clubCardTwo { height: 44px; padding-block: 2px; }
+  .clubCardFace { grid-template-rows: 11px 18px 11px; }
+  .shieldSlot { width: 32px; height: 35px; }
+  .clubManager { font-size: 16px; }
+  .clubCardFace strong { font-size: 16px; }
+  .clubRivalryConfirmation { top: calc(var(--phone-hero-h) + 156px); min-height: 32px; padding-block: 2px; }
+  .clubRivalryLockNote { display: none; }
+  #clubWheelScreen .menuButton, #clubWheelScreen .backButton { height: 48px; }
 }
 
 /* evidence-only modes */
@@ -283,20 +368,3 @@ main { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
 .qa-noreveal .reveal { display: none !important; }
 .qa-notext #clubWheelScreen *, .qa-notext #topHeader *, .qa-notext footer * { color: transparent !important; -webkit-text-fill-color: transparent !important; text-shadow: none !important; }
 .qa-notext #clubWheelScreen h2, .qa-notext .clubVs strong { background: none !important; filter: none !important; }
-
-/* phone short (375x553): CL5/CL6 hide the duplicate matchup row (K2 allowance, listed for Sol) */
-@media (max-width: 760px) and (orientation: portrait) and (max-height: 600px) {
-  [data-club-reveal-stage="versus"] .clubRivalryMatchup, [data-club-reveal-stage="confirmation"] .clubRivalryMatchup { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
-  [data-club-reveal-stage="versus"] .clubAssignmentHeader, [data-club-reveal-stage="confirmation"] .clubAssignmentHeader { gap: 1px; }
-  [data-club-reveal-stage="versus"] #clubWheelScreen h2, [data-club-reveal-stage="confirmation"] #clubWheelScreen h2 { font-size: 28px; }
-  [data-club-reveal-stage="versus"] .bandSlot, [data-club-reveal-stage="confirmation"] .bandSlot { min-height: 60px; }
-  [data-club-reveal-stage="versus"] #clubWheelScreen, [data-club-reveal-stage="confirmation"] #clubWheelScreen { row-gap: 3px; padding-top: 4px; padding-bottom: 4px; }
-  [data-club-reveal-stage="versus"] .clubRevealProgress, [data-club-reveal-stage="confirmation"] .clubRevealProgress { height: 40px; }
-  [data-club-reveal-stage="versus"] .clubCardFace, [data-club-reveal-stage="confirmation"] .clubCardFace { line-height: 1.2; }
-  .clubRivalryConfirmation { padding: 4px 8px; }
-  .clubRivalryHeadline { grid-template-columns: auto auto; column-gap: 10px; }
-  .clubRivalryHeadline small { grid-column: 1 / -1; margin-top: 0; }
-  .clubManager { font-size: 18px; }
-  .clubCardFace strong { font-size: 18px; }
-  .clubRivalryLockNote { line-height: 1.22; }
-}
