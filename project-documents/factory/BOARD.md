@@ -1,6 +1,6 @@
 # Showdown Factory board
 
-**55 of 135 jobs done · 42 %** · updated Sat 9:11 a.m. Eastern
+**55 of 135 jobs done · 43 %** · updated Sat 9:12 a.m. Eastern
 
 ████░░░░░░
 
@@ -19,7 +19,7 @@ Home           ███░░░░░░░ 3/8
 League         ████░░░░░░ 3/8
 Club           ███░░░░░░░ 2/7
 Transfer       ██░░░░░░░░ 1/6
-Loading        ██████░░░░ 2/4
+Loading        ███████░░░ 2/4
 Trophy Room    █████░░░░░ 5/10
 Career Stats   █████░░░░░ 5/10
 Rivalry        ███░░░░░░░ 3/9
@@ -47,7 +47,7 @@ Integration    ░░░░░░░░░░ 0/8
 
 Branch `factory/v1-wtt5ye`. 135 Team V jobs, plus 5 lines that track Team G. Two kinds of job. **Project (type number):** open a new chat in the ChatGPT project "Showdown visual" and type the number (up to 5 at once). **Fresh chat (image):** run the job's ticket from [tickets/](tickets/README.md) in a ChatGPT Temporary Chat (no memory) outside any project, then drop the image in Claude's factory thread (up to 2 at once).
 
-**Overall (Team V):** ████░░░░░░ 42 % · 55 of 135 jobs done
+**Overall (Team V):** ████░░░░░░ 43 % · 55 of 135 jobs done
 
 **Start now · project (type the number in Showdown visual):** 72, 77, 82 · queued next: 87, 111, 112, 113, 114, 125
 
@@ -116,7 +116,7 @@ Branch `factory/v1-wtt5ye`. 135 Team V jobs, plus 5 lines that track Team G. Two
 | 52 | [Transfer War: fix round](jobs/JOB-052.md) | 4 Polish built screens | fix | project (type number) | 51, 124 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 53 | [Transfer War: motion](jobs/JOB-053.md) | 4 Polish built screens | build | project (type number) | 52, 16 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
 | 54 | [Loading: new look and Reus credit](jobs/JOB-054.md) | 4 Polish built screens | build | project (type number) | 11, 18 | ██████████ 100 % | DONE |  |
-| 55 | [Loading: review](jobs/JOB-055.md) | 4 Polish built screens | review | project (type number) | 54 | ██████░░░░ 62 % | IN PROGRESS |  |
+| 55 | [Loading: review](jobs/JOB-055.md) | 4 Polish built screens | review | project (type number) | 54 | ████████░░ 87 % | IN PROGRESS |  |
 | 56 | [Loading: fix round](jobs/JOB-056.md) | 4 Polish built screens | fix | project (type number) | 55 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
 | 57 | [Trophy Room: build (desktop)](jobs/JOB-057.md) | 5 New screens | build | project (type number) | 2, 23, 18, 130, 136, 19, 20, 21, 22 | ██████████ 100 % | DONE |  |
 | 58 | [Trophy Room: phone](jobs/JOB-058.md) | 5 New screens | build | project (type number) | 57, 115 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
@@ -128,7 +128,7 @@ Branch `factory/v1-wtt5ye`. 135 Team V jobs, plus 5 lines that track Team G. Two
 | 64 | [Career Statistics: review](jobs/JOB-064.md) | 5 New screens | review | project (type number) | 63 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 65 | [Career Statistics: fix round](jobs/JOB-065.md) | 5 New screens | fix | project (type number) | 64 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 66 | [Career Statistics: motion](jobs/JOB-066.md) | 5 New screens | build | project (type number) | 65, 16 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
-| 67 | [Rivalry Statistics: build (desktop)](jobs/JOB-067.md) | 5 New screens | build | project (type number) | 4, 25, 18, 135, 19, 20, 21, 22 | █░░░░░░░░░ 11 % | IN PROGRESS |  |
+| 67 | [Rivalry Statistics: build (desktop)](jobs/JOB-067.md) | 5 New screens | build | project (type number) | 4, 25, 18, 135, 19, 20, 21, 22 | ██░░░░░░░░ 22 % | IN PROGRESS |  |
 | 68 | [Rivalry Statistics: phone](jobs/JOB-068.md) | 5 New screens | build | project (type number) | 67, 117 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 69 | [Rivalry Statistics: review](jobs/JOB-069.md) | 5 New screens | review | project (type number) | 68 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 70 | [Rivalry Statistics: fix round](jobs/JOB-070.md) | 5 New screens | fix | project (type number) | 69 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
