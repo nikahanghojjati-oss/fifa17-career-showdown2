@@ -1,22 +1,22 @@
 {
- "generated": "2026-10-02 7:37 PM Boston time (EDT)",
+ "generated": "2026-10-02 8:13 PM Boston time (EDT)",
  "branch": "factory/gameplay-v1",
  "integration_branch": "gameplay/recovery-v1",
  "capacity": {
   "chat": 2,
   "work": 1
  },
- "overall": 47,
+ "overall": 50,
  "done": 9,
  "total": 19,
  "start": {
   "chat": [],
-  "work": [
-   7
-  ]
+  "work": []
  },
  "queued": [],
- "working": [],
+ "working": [
+  7
+ ],
  "blocked": [],
  "jobs": [
   {
@@ -292,11 +292,11 @@
    "phase": "3 Career history",
    "type": "rules",
    "plain": "A shared list of every Showdown the two of you played, protected by Rules.",
-   "state": "NOT STARTED",
-   "step": 0,
+   "state": "IN PROGRESS",
+   "step": 6,
    "steps_total": 9,
-   "pct": 0,
-   "ready": true
+   "pct": 66,
+   "ready": false
   },
   {
    "number": 8,
