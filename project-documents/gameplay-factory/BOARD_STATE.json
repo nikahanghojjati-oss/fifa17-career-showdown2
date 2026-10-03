@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-03 12:52 PM Boston time (EDT)",
+ "generated": "2026-10-03 1:03 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 12,
@@ -166,9 +166,9 @@
    "type": "test",
    "plain": "The same journey through the real app screens in a browser, test database only.",
    "state": "IN PROGRESS",
-   "step": 7,
+   "step": 8,
    "steps_total": 9,
-   "pct": 77,
+   "pct": 88,
    "ready": false
   },
   {
