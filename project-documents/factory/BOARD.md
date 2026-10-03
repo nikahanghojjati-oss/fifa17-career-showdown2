@@ -110,7 +110,7 @@ Branch `factory/v1-wtt5ye`. 135 Team V jobs, plus 5 lines that track Team G. Two
 | 44 | [Club: panels and short-laptop fit](jobs/JOB-044.md) | 4 Polish built screens | build | project (type number) | 43, 18 | ██████████ 100 % | DONE |  |
 | 45 | [Club: phone](jobs/JOB-045.md) | 4 Polish built screens | build | project (type number) | 44, 113 | ██████████ 100 % | IN PROGRESS · FIX |  |
 | 46 | [Club: review](jobs/JOB-046.md) | 4 Polish built screens | review | project (type number) | 45 | ██████████ 100 % | DONE |  |
-| 47 | [Club: fix round](jobs/JOB-047.md) | 4 Polish built screens | fix | project (type number) | 46, 124 | ██░░░░░░░░ 25 % | IN PROGRESS |  |
+| 47 | [Club: fix round](jobs/JOB-047.md) | 4 Polish built screens | fix | project (type number) | 46, 124 | █████░░░░░ 50 % | IN PROGRESS |  |
 | 48 | [Club: the pack rip](jobs/JOB-048.md) | 4 Polish built screens | build | project (type number) | 47, 16 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
 | 49 | [Transfer War: polish to the key art](jobs/JOB-049.md) | 4 Polish built screens | build | project (type number) | 1, 18 | ██████████ 100 % | DONE |  |
 | 50 | [Transfer War: phone polish](jobs/JOB-050.md) | 4 Polish built screens | build | project (type number) | 49, 114 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
