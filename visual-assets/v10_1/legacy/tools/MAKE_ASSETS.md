@@ -1,58 +1,21 @@
 # JOB-072 · Legacy depth assets
 
-Run from the repository root after the approved Legacy plate is present. These commands only derive registered overlays from the existing plate; they do not generate or repaint people.
+Run from the repository root after the approved Legacy plate is present.
 
 ## Daniel foreground
 
-```sh
-python3 visual-assets/v10_1/shared/tools/cutout.py \
-  --plate visual-assets/v10_1/legacy/assets/ENV_LG_PLATE_V1_2X.png \
-  --source-scale 2 \
-  --map visual-assets/v10_1/legacy/assets/platemap.json \
-  --key cutouts.daniel_foreground \
-  --output visual-assets/v10_1/legacy/assets/OVL_LG_DANIEL_FOREGROUND_V1 \
-  --rim
-```
+python3 visual-assets/v10_1/shared/tools/cutout.py --plate visual-assets/v10_1/legacy/assets/ENV_LG_PLATE_V1_2X.png --source-scale 2 --map visual-assets/v10_1/legacy/assets/platemap.json --key cutouts.daniel_foreground --output visual-assets/v10_1/legacy/assets/OVL_LG_DANIEL_FOREGROUND_V1 --rim
 
 ## Nik foreground
 
-```sh
-python3 visual-assets/v10_1/shared/tools/cutout.py \
-  --plate visual-assets/v10_1/legacy/assets/ENV_LG_PLATE_V1_2X.png \
-  --source-scale 2 \
-  --map visual-assets/v10_1/legacy/assets/platemap.json \
-  --key cutouts.nik_foreground \
-  --output visual-assets/v10_1/legacy/assets/OVL_LG_NIK_FOREGROUND_V1 \
-  --rim
-```
+python3 visual-assets/v10_1/shared/tools/cutout.py --plate visual-assets/v10_1/legacy/assets/ENV_LG_PLATE_V1_2X.png --source-scale 2 --map visual-assets/v10_1/legacy/assets/platemap.json --key cutouts.nik_foreground --output visual-assets/v10_1/legacy/assets/OVL_LG_NIK_FOREGROUND_V1 --rim
 
-## Runtime WebP exports
+## Runtime exports and review
 
-Keep the PNG outputs as lossless masters and make transparent runtime WebPs:
+Export every generated 1X/2X foreground and rim PNG master to the matching transparent WebP filename referenced by index.html, quality 92. Keep the PNGs as masters.
 
-```sh
-python3 - <<'PY'
-from pathlib import Path
-from PIL import Image
+Inspect both archive-edge silhouettes at 100%, 200% and 400%. Reject any background wedge over the panel, matte fringe, cut hand or visible artificial closure. Daniel stays LEFT and Nik stays RIGHT.
 
-assets = Path("visual-assets/v10_1/legacy/assets")
-stems = [
-    "OVL_LG_DANIEL_FOREGROUND_V1_1X",
-    "OVL_LG_DANIEL_FOREGROUND_V1_2X",
-    "OVL_LG_DANIEL_FOREGROUND_V1_RIM_1X",
-    "OVL_LG_DANIEL_FOREGROUND_V1_RIM_2X",
-    "OVL_LG_NIK_FOREGROUND_V1_1X",
-    "OVL_LG_NIK_FOREGROUND_V1_2X",
-    "OVL_LG_NIK_FOREGROUND_V1_RIM_1X",
-    "OVL_LG_NIK_FOREGROUND_V1_RIM_2X",
-]
-for stem in stems:
-    src = assets / f"{stem}.png"
-    dst = assets / f"{stem}.webp"
-    with Image.open(src) as im:
-        im.save(dst, "WEBP", quality=92, method=6, exact=True)
-    print(dst)
-PY
-```
+From visual-assets/v10_1/legacy, build the review page after the WebPs exist. The following command must remain the last line of this file.
 
-Claude: inspect the archive-edge silhouettes at 100%, 200% and 400%. Reject any background wedge over the panel, matte fringe, cut hand, or visible artificial closure. Daniel stays LEFT and Nik RIGHT.
+python3 tools/build_preview.py
