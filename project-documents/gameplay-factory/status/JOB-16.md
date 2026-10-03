@@ -1,12 +1,12 @@
 # Status · JOB-16 · Two-manager browser journey (localhost-only emulator switch)
 
-State: IN PROGRESS
+State: DONE
 Step: 9 of 9
-Updated: 2026-10-03 21:55 UTC
+Updated: 2026-10-03 22:07 UTC
 Chat: GPT-5.6 Sol normal chat
 Code branch: gameplay/job-16-browser-journey
 Head commit: e93c6f9a4a4928d2c66d313cb7640d4c1f5c82f2
-PR:
+PR: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/337
 CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37156146934
 
 ## Notes
@@ -362,7 +362,18 @@ Nik errors: `[]`
 - Job 16 step 8/9 GREEN on exact head e93c6f9 in Validate Gameplay Fast run 37156146934. Gameplay contracts SUCCESS (110/110 blocking contracts; browser switch contract PASS with startup gzip 37493/37500; operations pass 73 / fail 0), Composed Rules emulator SUCCESS, and Two-manager browser journey SUCCESS. Browser emitted 32 numbered checks through J12 plus JZ; J9 remained the approved SKIPPED line. Exact terminal evidence passed: J10.1 final Daniel 10 / Nik 15 / Nik wins by 5, J10.2 UI Terminal Close + terminalClose witness, J11.1 stranger denial, J12.1 distinct R2 with both indexes [R1,R2], JZ.1 zero production Firebase/runtime/page errors. Artifact browser-journey-screens 11285427691.
 - Job 16 step 9/9 started. GitHub compare gameplay/recovery-v1...gameplay/job-16-browser-journey is ahead 36 / behind 0 and lists exactly the seven permitted code/test/workflow files; no js/, index.html, service-worker.js, firebase.json, *.rules, package*.json, generated Rules, or firestore-debug.log change.
 
+- Job 16 step 9/9 complete. Report saved at `project-documents/gameplay-factory/reports/JOB-16-browser-journey.md` (factory commit 80751c7). PR #337 is open into `gameplay/recovery-v1` with 7 changed files, head e93c6f9, and has not been merged. Job 16 done: Two-manager browser journey (localhost-only emulator switch).
+
 ## Self-check
 
+- PASS — Tests-first evidence: run https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37126386490 failed on the new browser-journey switch contract with MODULE_NOT_FOUND before the switch existed.
+- PASS — Emulator-switch contract: `PASS browser journey emulator switch contracts: localhost+flag only, production runtime untouched, Pages excludes tests/, startup gzip 37493/37500, services parity.` Final Gameplay contracts census is 110/110; Operations audit is pass 73 / fail 0.
+- PASS — Exact-head Validate Gameplay Fast: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37156146934 is green on e93c6f9; Two-manager browser journey emitted `PASS two-manager browser journey: 32 numbered checks (J0-J12) on the Auth + Firestore emulators, composed production Rules, 3-season Showdown.`; artifact `browser-journey-screens` is 11285427691.
+- PASS — Rendered privacy/scoring: J6 and J7 privacy assertions passed; J7/J8/J10 showed the fixed scoring path exactly (9-3, 0-11, 1-1 Daniel by league position; final Daniel 10 / Nik 15, Nik by 5) on both manager pages.
+- PASS — Read-only terminal/security proof: J10 Terminal Close stored the `terminalClose` witness; J11 denied the stranger with no pair link/R1 index/private tokens; J12 proved distinct R2 and both career indexes `[R1,R2]`; the journey contains no admin write.
+- PASS — JZ hygiene: no production Firebase host was contacted, production runtime/config never loaded, and Daniel/Nik/stranger page-error arrays were empty.
+- PASS — Compare hygiene: `gameplay/recovery-v1...gameplay/job-16-browser-journey` is ahead 36 / behind 0 with exactly seven permitted files: `.github/workflows/validate-gameplay-fast.yml`, `POS20_SUPPLEMENTAL_PRODUCT_TESTS.json`, `tests/browser/support/emulator-runtime-switch.js`, `tests/browser/support/firebase.browser-journey.json`, `tests/browser/two-manager-browser-journey.cjs`, `tests/contracts/browser-journey-emulator-switch-contracts.cjs`, `tests/operations/pos20-control-plane.test.mjs`. No `js/`, `index.html`, `service-worker.js`, `firebase.json`, `*.rules`, `package*.json`, generated Rules, or `firestore-debug.log` change.
+- PASS — Report/PR: report is saved on `factory/gameplay-v1`; PR https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/337 is open into `gameplay/recovery-v1`; nothing was pushed to `main`, nothing was deployed, and the worker did not merge.
+
 ## Blocked question
-Lead/next worker: apply the two exact test-only guards from the 2026-10-03 19:35 UTC lead answer to tests/browser/two-manager-browser-journey.cjs on top of eb14f81, then resume Step 8 exact-head CI. This worker could read and prepare the changes but the current chat's GitHub write safety blocked committing code; no branch ref was changed. Do not rerun eb14f81 unchanged just to seek a lucky pass.
+None.
