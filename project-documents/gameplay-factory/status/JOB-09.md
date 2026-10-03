@@ -2,12 +2,12 @@
 
 State: IN PROGRESS
 Step: 5 of 7
-Updated: 2026-10-03 15:16 UTC
+Updated: 2026-10-03 15:21 UTC
 Chat: Sol Work mode (job 9, 04fd13bb5a42)
 Code branch: gameplay/job-09-closed-adapter
 Head commit: 7b735a7f5f6ed2b0c91c86817d7b096635ec2bf9
 PR:
-CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37132554539 (IN PROGRESS, exact head 7b735a7f5f6ed2b0c91c86817d7b096635ec2bf9)
+CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37132554539 (SUCCESS, exact head 7b735a7f5f6ed2b0c91c86817d7b096635ec2bf9; refresh required after JOB-18 merge)
 
 ## Notes
 - Lead: JOB-03 (PR #316) and JOB-08 (PR #326, merge 843e64e) are merged; JOB-05 and JOB-07 too. Lead to create code branch gameplay/job-09-closed-adapter from gameplay/recovery-v1 at 843e64e before Nik starts the job. Lead reference run on 843e64e: new contract 22/22, contracts 104/104, ops 73/0, every rules-emulator step PASS including the new Closed-Showdown adapter journey (12 checks); only budget diagnostics are the two known career-index D13 denials. Jobs 11, 16 and 18 also append registry entries: whoever merges later re-appends last. Ready to start.
@@ -37,6 +37,15 @@ CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/r
 - Step 5: Copied Appendix B loader verbatim; node --check PASS. PASS closed-Showdown adapter contracts (22/22 cases). npm run test:ops reports tests 73 / pass 73 / fail 0. npm run test:contracts returned exit 0 but its log ended at Final Reconciliation without a final census, so do not claim 105/105 locally; exact-head CI must supply that evidence (handbook section 7 fallback). Loader saved on 7b735a7f5f6ed2b0c91c86817d7b096635ec2bf9; all seven authorized code files now present. No CI polling after push; step 6 reads exact-head CI, budget gate and file compare.
 
 - Step 6 CI checkpoint: Exact-head run 37132554539 / 7b735a7 has Gameplay contracts SUCCESS: closed-Showdown adapter 22/22, full census 105/105, operations tests 73 / pass 73 / fail 0. Emulator job still running (lifecycle step); no polling. Step stays 5 until emulator/budget/file-scope proof complete.
+
+- Step 6 proof checkpoint: Validate Gameplay Fast 37132554539 SUCCESS on 7b735a7; both jobs and all steps green. Exact emulator final lines:
+- PASS two-manager journey Sections A-G (3 seasons main): main journey, stranger denial, privacy, idempotent retry, simultaneous taps, second Showdown, completed-only reads of closed Showdowns, and persistent-provider abandon all proved.
+- PASS career index composed-Rules emulator (Phase A shipped): 56 numbered checks (A access, B creation, C redemption, D append-only, E idempotency, F races, H agreement, G paging, P provider).
+- PASS career index composed-Rules emulator (Phase B enforced): 58 numbered checks (A access, B creation, C redemption, D append-only, E idempotency, F races, H agreement, G paging, P provider).
+- PASS completed-only read emulator: 56 numbered checks (I0, A completed reads, B denials, C closed writes, D abandoned, E forged witnesses, F active regressions, P session-free reader).
+- PASS closed-Showdown adapter emulator: 12 numbered checks (I0, A Terminal Close, B abandon rebuild, C three-Showdown career for both managers with cache, D stranger and unknown live state).
+- Step 6 budget PASS: exactly two diagnostic lines, each immediately followed by career-index D13 stranger cannot create an index naming a rivalry they are not in (Phase A / Phase B); no diagnostic in the new adapter journey. Compare lists exactly seven authorized files.
+- Step 6 integration drift: JOB-18 PR #329 merged as f7d18a1 while tests ran; its pair-code-entry-race registry/ops entry must precede JOB-09. Current job head already includes lead's fresh-start fix merge e44b695 (lead advanced job branch before step 3a save), but is four commits behind current recovery. DEFAULT: import approved JOB-18 baseline changes with ordinary fast-forward commits, preserving job history (no merge or force), then append JOB-09 last and repeat exact-head proof. Step 6 remains incomplete; next saved parts update registry/ops plus the two JOB-18 baseline files. No PR opened yet.
 
 ## Self-check
 
