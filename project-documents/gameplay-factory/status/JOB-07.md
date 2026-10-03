@@ -1,8 +1,8 @@
 # Status · JOB-07 · Career index Rules + client + emulator proofs
 
 State: IN PROGRESS
-Step: 6 of 9
-Updated: 2026-10-03 00:04 UTC
+Step: 7 of 9
+Updated: 2026-10-03 11:56 UTC
 Chat: Sol Work mode
 Code branch: gameplay/job-07-career-index
 Head commit: 65a53ff692e789ffa1d3025b6e7efa1adc56bf00
@@ -35,7 +35,7 @@ CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/r
 - PASS: PASS career index composed-Rules emulator: 58 numbered checks (A access, B creation, C redemption, D append-only, E idempotency, F races, H agreement, G paging, P provider).
 - PASS: PASS persistent pair Rules emulator: canonical roles, private exact reads, list/delete denial, registered-device writes, replacement/abandonment protections and atomic pairing witnesses enforced (full line in run 37080155517).
 - PASS: PASS two-manager journey Sections A-G (3 seasons main): main journey, stranger denial, privacy, idempotent retry, simultaneous taps, second Showdown known gaps, and persistent-provider abandon all proved. The test now asserts [R2], then [R2,R3], excludes R1, and removes only the chartered KNOWN GAP 2 assertion.
-- FAIL: No maximum of 1000 expressions anywhere in the emulator log. Two phrase occurrences on one D13 error line in final run, and the same case in the earlier full proof. D13 is correctly denied, and all legitimate creation/redemption/rollover/journey operations succeed. The literal job gate is nonetheless not satisfied.
+- PASS: Qualified expression-budget gate per Lead answer: mechanically inspected every diagnostic in run 37080155517. One log line contains two phrase occurrences; its next numbered ok line is case D13, which expects PERMISSION_DENIED (stranger cannot create an index naming a rivalry they are not in). No diagnostic is associated with an expected-success case; every creation/redemption/rollover/append/journey success case passes. No assertion changed.
 - PASS: Four budget-edge functions unchanged; firestore.spark.rules, sparkPrivatePairing.js, existing persistent-pair contract and both build scripts byte-identical to baseline.
 - PASS: GitHub compare with a11af482 is ahead 5/behind 0 and exactly the ten allowed code files, 570 additions/17 deletions. No generated Rules or debug log committed; local composed artifact rebuilt to 129019 bytes; contractVersion stays 4.
 - PASS: Nothing deployed, merged, force-pushed or written to main. No billing words added to the fragment.
@@ -106,3 +106,5 @@ New gate wording for step 7 (replaces "no 'maximum of 1000 expressions' anywhere
 - If the phrase ever appears next to a case that expects success, that is a FAIL and BLOCKED again.
 
 Do not edit any test assertion to hide the phrase; only change the self-check line to this qualified gate with the evidence. Then continue with step 8 (open the PR into gameplay/recovery-v1) and step 9 (Codex review).
+
+- Step 7 resumed: Lead qualified the budget gate and set IN PROGRESS. Re-read the exact live code head (65a53ff692e789ffa1d3025b6e7efa1adc56bf00), verified exact-head CI SUCCESS, confirmed the saved client/tests exist, and mechanically associated all limit diagnostics with denied case D13 only. Step 7 now PASS with the original test assertions unchanged. Proceeding to PR and Codex steps.
