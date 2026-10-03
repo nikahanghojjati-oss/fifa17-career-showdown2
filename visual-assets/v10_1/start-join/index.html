@@ -12,48 +12,61 @@
 <link rel="stylesheet" href="start-join.css">
 </head>
 <body>
-<div id="stage-root" class="stage" data-screen="start-join">
-  <div class="plateView" aria-hidden="true"><div class="plateLayer"></div></div>
-  <span class="managerPlateMarker" data-manager="daniel" role="presentation"></span>
-  <span class="managerPlateMarker" data-manager="nik" role="presentation"></span>
+<div id="stage-root" class="sd-stage" data-screen="start-join" data-plate-width="1672" data-plate-height="941">
+  <div class="sd-stage__layer sd-stage__layer--plate" aria-hidden="true">
+    <div class="sd-stage__registered"><div class="sd-stage__plate"></div></div>
+  </div>
+  <div class="sd-stage__layer sd-stage__layer--atmosphere" aria-hidden="true"></div>
 
-  <header class="sj-header">
-    <span id="previewTag"></span>
-    <p id="screenEyebrow"></p>
-    <h1 id="screenTitle">START / JOIN</h1>
-  </header>
+  <div class="sd-stage__layer sd-stage__layer--ui">
+    <header class="sj-header">
+      <span id="previewTag"></span>
+      <p id="screenEyebrow"></p>
+      <h1 id="screenTitle">START / JOIN</h1>
+    </header>
 
-  <main id="startJoinScreen">
-    <section aria-labelledby="stateHeading">
-      <h2 id="stateHeading"></h2>
-      <p id="stateMessage" role="status" aria-live="polite"></p>
-      <p id="stateError" role="alert"></p>
-    </section>
+    <main id="startJoinScreen">
+      <section aria-labelledby="stateHeading">
+        <h2 id="stateHeading"></h2>
+        <p id="stateMessage" role="status" aria-live="polite"></p>
+        <p id="stateError" role="alert"></p>
+      </section>
 
-    <section aria-label="Daniel host controls">
-      <h2>DANIEL</h2>
-      <div id="danielActions"></div>
-    </section>
+      <section aria-label="Daniel host controls">
+        <h2>DANIEL</h2>
+        <div id="danielActions"></div>
+      </section>
 
-    <section aria-label="Nik join controls">
-      <h2>NIK</h2>
-      <label for="joinCodeInput">CODE</label>
-      <input id="joinCodeInput" type="text" autocomplete="off">
-      <div id="nikActions"></div>
-    </section>
+      <section aria-label="Nik join controls">
+        <h2>NIK</h2>
+        <label for="joinCodeInput">CODE</label>
+        <input id="joinCodeInput" type="text" autocomplete="off">
+        <div id="nikActions"></div>
+      </section>
 
-    <section aria-label="Current session">
-      <h2 id="sessionHeading">CURRENT SESSION</h2>
-      <output id="pairingCode"></output>
-      <p id="sessionStatus"></p>
-      <div id="sessionActions"></div>
-    </section>
+      <section aria-label="Current session">
+        <h2 id="sessionHeading">CURRENT SESSION</h2>
+        <output id="pairingCode"></output>
+        <p id="sessionStatus"></p>
+        <div id="sessionActions"></div>
+      </section>
 
-    <section aria-label="Fixture frame values">
-      <dl id="frameValues"></dl>
-    </section>
-  </main>
-  <div class="nav-reserve" aria-hidden="true"></div>
+      <section aria-label="Fixture frame values">
+        <dl id="frameValues"></dl>
+      </section>
+    </main>
+    <div class="nav-reserve" aria-hidden="true"></div>
+  </div>
+
+  <div class="sd-stage__layer sd-stage__layer--cutout" aria-hidden="true">
+    <div class="sd-stage__registered">
+      <span class="managerPlateMarker" data-manager="daniel" role="presentation"></span>
+      <span class="managerPlateMarker" data-manager="nik" role="presentation"></span>
+    </div>
+  </div>
+  <div class="sd-stage__layer sd-stage__layer--light" aria-hidden="true">
+    <div class="sd-stage__registered"></div>
+  </div>
 </div>
 <script src="../shared/stage.js" defer></script>
 <script src="../shared/motion.js" defer></script>
