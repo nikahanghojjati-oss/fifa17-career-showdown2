@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-03 11:08 AM Boston time (EDT)",
+ "generated": "2026-10-03 11:10 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 12,
@@ -29,8 +29,8 @@
   "chat": 2,
   "work": 1
  },
- "overall": 69,
- "done": 12,
+ "overall": 70,
+ "done": 13,
  "total": 20,
  "start": {
   "chat": [],
@@ -40,8 +40,7 @@
   10
  ],
  "working": [
-  9,
-  18
+  9
  ],
  "blocked": [
   16
@@ -479,10 +478,10 @@
    "phase": "1 Safety net",
    "type": "build",
    "plain": "When Nik pastes Daniel's code quickly, the app keeps it instead of wiping it and wrongly calling it invalid.",
-   "state": "IN PROGRESS",
-   "step": 4,
+   "state": "DONE",
+   "step": 5,
    "steps_total": 5,
-   "pct": 80,
+   "pct": 100,
    "ready": false
   }
  ]
