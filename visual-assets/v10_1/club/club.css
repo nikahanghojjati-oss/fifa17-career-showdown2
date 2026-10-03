@@ -309,10 +309,10 @@ main { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
     position: static; flex: 0 0 58px; transform: none !important; margin: 0; font-size: 17px; line-height: 1.1;
     overflow: hidden; text-overflow: ellipsis;
   }
-  .clubPackStage { position: absolute; inset: 0; pointer-events: none; }
+  .clubPackStage { position: static; flex: 1 1 auto; min-width: 0; pointer-events: none; }
   .clubPackDoor { display: none; }
   .clubCardFace {
-    position: static; flex: 1 1 auto; min-width: 0; display: grid; grid-template-columns: 38px 1fr;
+    position: static; width: 100%; min-width: 0; display: grid; grid-template-columns: 38px minmax(0, 1fr);
     grid-template-rows: 13px 20px 13px; column-gap: 8px; align-items: center; text-shadow: 0 2px 8px #000;
   }
   .shieldSlot { grid-column: 1; grid-row: 1 / span 3; width: 36px; height: 39px; margin: 0; }
