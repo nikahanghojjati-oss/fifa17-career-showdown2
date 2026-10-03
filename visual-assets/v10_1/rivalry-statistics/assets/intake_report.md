@@ -22,3 +22,15 @@ Edit this image. Repaint every solid cyan area so it shows what would naturally 
 ## Text clean-up (Claude, 2026-10-02 22:30 UTC)
 
 The big banners all read correctly. The small crowd-board ribbons carried garbled AI lettering, so Claude smeared those thin ribbon bands sideways (41 px horizontal blur, feathered, polygons kept clear of both managers). They now read as glowing ribbons with no letters. The 1X/2X files were re-exported; the table above has the new SHA-256.
+
+## Title wordmark · Step 7
+
+- Method: Python crop from the ORIGINAL mockup; no image request.
+- Source crop: x=500..1190, y=118..220. The crop contains the brush screen name only; the eyebrow and tagline are outside it.
+- Key: HSV gold selection, connected components under 500 px removed, 0.75 px edge feather. The outer shadow is rebuilt as neutral black from a dilated letter mask so no stadium scene remains behind the lettering.
+- Export: trimmed transparent crop with 12 px source padding, then 2× Lanczos. PNG master and lossless transparent WebP.
+
+| File | Pixels | Bytes | SHA-256 |
+| --- | --- | --- | --- |
+| TITLE_RV_V1.png | 1380 × 204 | 329900 | a40576ae0484a225891fdb0b0d58ed5513af48f17344adf8543cedcda7203ae1 |
+| TITLE_RV_V1.webp | 1380 × 204 | 251714 | eae320e0604e221f749f9bff6d7c044bfde2fb1d9dbaa4f16a9321211fd3d554 |

@@ -22,3 +22,13 @@ Edit this image. Repaint every solid cyan area so it shows what would naturally 
 ## Text clean-up (Claude, 2026-10-02 22:30 UTC)
 
 The big banners all read correctly. The small crowd-board ribbons carried garbled AI lettering, so Claude smeared those thin ribbon bands sideways (41 px horizontal blur, feathered, polygons kept clear of both managers). They now read as glowing ribbons with no letters. The 1X/2X files were re-exported; the table above has the new SHA-256.
+
+## Step 7 title wordmark (GPT-5.6 Sol, Showdown visual)
+
+Method: Python crop/key from the ORIGINAL `MOCKUP_TROPHY_ROOM.png`; no image-generation request was needed. Crop source box was `[580, 126, 1075, 205]`. Gold brush components were keyed to transparency, tiny stadium/confetti components were rejected, and the dark outer shadow was rebuilt from the title alpha so no scene pixels remain behind the letters. The keyed crop was exported at 2X.
+
+| File | Bytes | SHA-256 |
+| --- | --- | --- |
+| TITLE_TR_V1.png | 204649 | 0cc1437fe0d028487f287da01b7153b96ffcc742090b009bc3251c881a190771 |
+| TITLE_TR_V1.webp | 147880 | 735bc4f176181b418becb54d699c2f19e80ac2e257b541cd5a1f4ebb39637b0c |
+| platemap.json | 1492 | 806e1a21529db27e5f9a461fa0461288b58f90cfe4118ed209661260627ea4ce |

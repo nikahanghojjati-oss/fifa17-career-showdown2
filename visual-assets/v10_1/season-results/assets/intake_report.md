@@ -22,3 +22,15 @@ Edit this image. Repaint every solid cyan area so it shows what would naturally 
 ## Text clean-up (Claude, 2026-10-02 22:30 UTC)
 
 The big banners all read correctly. The small crowd-board ribbons carried garbled AI lettering, so Claude smeared those thin ribbon bands sideways (41 px horizontal blur, feathered, polygons kept clear of both managers). They now read as glowing ribbons with no letters. The 1X/2X files were re-exported; the table above has the new SHA-256.
+
+## Title wordmark · TITLE_SR_V1
+
+- Method: original-mockup crop plus Python transparency key; no image-generation request was used.
+- Source crop: x=430..1098, y=145..236 from `MOCKUP_SEASON_RESULTS.jpg`; crown, eyebrow and tagline are excluded.
+- Keying: large connected gold brush strokes were selected, anti-aliased gold edges were recovered locally, the stadium was removed to full transparency, and a restrained dark outer shadow was retained.
+- Output: 2X transparent wordmark, 1232 × 182 px.
+
+| File | Bytes | SHA-256 |
+| --- | ---: | --- |
+| TITLE_SR_V1.png | 324727 | 3341721cea2d29c17fed7f406e1e0971c23bc4fc3d75bc300afdcf76eed0b1e3 |
+| TITLE_SR_V1.webp | 246218 | 2f81e4b2f188c98e60d8dbc3c8ba1ff90e6d8a8129b766fe655efc877dcabcfa |

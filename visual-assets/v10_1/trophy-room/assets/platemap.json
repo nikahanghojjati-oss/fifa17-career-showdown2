@@ -1,0 +1,85 @@
+{
+ "version": "PLATEMAP_TR_V1",
+ "units": "1X plate px (= mockup px)",
+ "plate_1x_size": [
+  1672,
+  941
+ ],
+ "plate_2x_size": [
+  3344,
+  1882
+ ],
+ "source_mockup": "project-documents/factory/mockups/MOCKUP_TROPHY_ROOM.png",
+ "source_zones": "visual-assets/v10_1/trophy-room/assets/plate_zones.json",
+ "protected_boxes": {
+  "face_daniel": [
+   318,
+   141,
+   472,
+   335
+  ],
+  "face_nik": [
+   1138,
+   130,
+   1309,
+   336
+  ],
+  "hand_daniel": [
+   366,
+   278,
+   476,
+   466
+  ],
+  "hand_nik": [
+   1337,
+   491,
+   1432,
+   560
+  ]
+ },
+ "phone_band": [
+  280,
+  85,
+  1450,
+  600
+ ],
+ "safe_ui": {
+  "title": [
+   570,
+   106,
+   1100,
+   238
+  ],
+  "hero_trophy": [
+   620,
+   225,
+   1055,
+   600
+  ],
+  "trophy_shelf": [
+   135,
+   598,
+   1540,
+   830
+  ],
+  "back_action": [
+   695,
+   825,
+   975,
+   886
+  ]
+ },
+ "focal": [
+  836,
+  350
+ ],
+ "cutouts": [],
+ "cutout_note": "No arm or hand crosses a mockup panel edge; no character cutout polygon is required for this plate.",
+ "sha256": {
+  "ENV_TR_PLATE_V1_SRC.png": "21ecf6481a22bd717f60171eb92381394ec198230e98c85ab53a79d275a7dd85",
+  "ENV_TR_PLATE_V1_1X.png": "21ecf6481a22bd717f60171eb92381394ec198230e98c85ab53a79d275a7dd85",
+  "ENV_TR_PLATE_V1_1X.webp": "abfbcb1884700ee0cddbfb0cbe4384dd31164745ab388d30f8f6128e67260b70",
+  "ENV_TR_PLATE_V1_2X.png": "aec2599b75430e8bddefdbef6ad80198924c2d199ebd1843e191eb4c2987bc72",
+  "ENV_TR_PLATE_V1_2X.webp": "a2c6badc9148094d880ab671e4b35298fe7d5cc65ecc9875f0228b151455f8cc"
+ }
+}

@@ -1,0 +1,186 @@
+{
+  "version": "PLATEMAP_SR_V1",
+  "units": "1X plate px (= mockup px)",
+  "plate_1x_size": [
+    1536,
+    864
+  ],
+  "plate_2x_size": [
+    3072,
+    1728
+  ],
+  "protected_boxes": {
+    "face_daniel": [
+      182,
+      88,
+      389,
+      365
+    ],
+    "face_nik": [
+      1118,
+      88,
+      1338,
+      355
+    ],
+    "hand_daniel": [
+      140,
+      360,
+      244,
+      500
+    ],
+    "hand_nik": [
+      1290,
+      345,
+      1410,
+      505
+    ]
+  },
+  "safe_ui": {
+    "title": [
+      430,
+      88,
+      1108,
+      266
+    ],
+    "scoring_panel": [
+      426,
+      273,
+      1109,
+      441
+    ],
+    "entry_daniel": [
+      210,
+      455,
+      759,
+      731
+    ],
+    "entry_nik": [
+      779,
+      455,
+      1325,
+      731
+    ],
+    "actions": [
+      440,
+      745,
+      1095,
+      804
+    ]
+  },
+  "cutouts": {
+    "daniel_hand_and_forearm": [
+      [
+        139,
+        359
+      ],
+      [
+        211,
+        351
+      ],
+      [
+        247,
+        381
+      ],
+      [
+        255,
+        433
+      ],
+      [
+        239,
+        494
+      ],
+      [
+        267,
+        548
+      ],
+      [
+        299,
+        653
+      ],
+      [
+        278,
+        730
+      ],
+      [
+        210,
+        730
+      ],
+      [
+        186,
+        650
+      ],
+      [
+        176,
+        560
+      ],
+      [
+        153,
+        505
+      ]
+    ],
+    "nik_hand_and_forearm": [
+      [
+        1289,
+        345
+      ],
+      [
+        1360,
+        340
+      ],
+      [
+        1408,
+        374
+      ],
+      [
+        1436,
+        431
+      ],
+      [
+        1431,
+        492
+      ],
+      [
+        1407,
+        548
+      ],
+      [
+        1368,
+        585
+      ],
+      [
+        1335,
+        560
+      ],
+      [
+        1310,
+        507
+      ],
+      [
+        1291,
+        452
+      ]
+    ]
+  },
+  "focal": {
+    "desktop": [
+      768,
+      432
+    ],
+    "phone_band": [
+      768,
+      292
+    ]
+  },
+  "phone_band": [
+    120,
+    45,
+    1450,
+    575
+  ],
+  "source_mockup": "project-documents/factory/mockups/MOCKUP_SEASON_RESULTS.jpg",
+  "notes": [
+    "Protected boxes keep both faces and raised fists clear for the mockup-diff gate.",
+    "Safe UI boxes follow the mockup title, scoring panel, manager entry panels and action row.",
+    "Cutout polygons cover the forearm/hand regions that overlap the manager panels so those limbs can render above live DOM."
+  ]
+}

@@ -1,0 +1,186 @@
+{
+  "version": "PLATEMAP_SJ_V1",
+  "units": "1X plate px (= mockup px)",
+  "plate_1x_size": [
+    1672,
+    941
+  ],
+  "plate_2x_size": [
+    3344,
+    1882
+  ],
+  "remove_rects": [
+    [
+      0,
+      0,
+      1005,
+      78
+    ],
+    [
+      1315,
+      12,
+      1505,
+      78
+    ],
+    [
+      1532,
+      8,
+      1672,
+      96
+    ],
+    [
+      450,
+      92,
+      1245,
+      256
+    ],
+    [
+      398,
+      266,
+      1278,
+      826
+    ],
+    [
+      0,
+      888,
+      1672,
+      941
+    ],
+    [
+      0,
+      535,
+      140,
+      705
+    ]
+  ],
+  "remove_circles_cx_cy_r": [],
+  "keep_rects": [],
+  "protected_boxes": {
+    "face_daniel": [
+      196,
+      76,
+      402,
+      328
+    ],
+    "face_nik": [
+      1252,
+      78,
+      1458,
+      330
+    ],
+    "hand_daniel": [
+      108,
+      347,
+      321,
+      557
+    ],
+    "hand_nik": [
+      1438,
+      704,
+      1524,
+      844
+    ]
+  },
+  "protected_box_notes": {
+    "hand_nik": "Nik's hand is not visibly exposed in the mockup; this conservative box protects the lower-right forearm/hand occlusion area at the edge of his suit."
+  },
+  "safe_ui": {
+    "top_nav": [
+      0,
+      0,
+      1672,
+      74
+    ],
+    "title_block": [
+      430,
+      92,
+      1245,
+      258
+    ],
+    "main_session_panel": [
+      398,
+      266,
+      1278,
+      826
+    ],
+    "footer_strip": [
+      0,
+      888,
+      1672,
+      941
+    ]
+  },
+  "phone_band": [
+    165,
+    58,
+    1490,
+    575
+  ],
+  "focal": [
+    836,
+    400
+  ],
+  "cutouts": {
+    "daniel_pointing_hand": [
+      [
+        107,
+        367
+      ],
+      [
+        137,
+        347
+      ],
+      [
+        187,
+        348
+      ],
+      [
+        233,
+        367
+      ],
+      [
+        271,
+        397
+      ],
+      [
+        304,
+        435
+      ],
+      [
+        315,
+        477
+      ],
+      [
+        296,
+        522
+      ],
+      [
+        265,
+        550
+      ],
+      [
+        220,
+        557
+      ],
+      [
+        169,
+        543
+      ],
+      [
+        132,
+        512
+      ],
+      [
+        113,
+        470
+      ]
+    ]
+  },
+  "sha256": {
+    "ENV_SJ_PLATE_V1_1X.png": "25fc1e5fd9d89c5182157ad6967f26449ae4144255eb9a75dea16d0bef504ca1",
+    "ENV_SJ_PLATE_V1_1X.webp": "69170e26033fc39d109a48eeb051f3b361a90d17bc0e462a8939b3b9fdb37bdc",
+    "ENV_SJ_PLATE_V1_2X.png": "eae74f8d2c37892be97a88970ddce87a69045fa4a6ad2cf6811ded0240713e39",
+    "ENV_SJ_PLATE_V1_2X.webp": "d71bf0f4da18fd92b45727e1c1ae955d8bb83fc35c9c16bf9988c938425db003"
+  },
+  "source_zones": "visual-assets/v10_1/start-join/assets/plate_zones.json"
+}

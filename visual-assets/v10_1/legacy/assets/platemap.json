@@ -1,0 +1,144 @@
+{
+  "version": "PLATEMAP_LEGACY_V1",
+  "units": "1X plate px (= mockup px)",
+  "plate_1x_size": [
+    1672,
+    941
+  ],
+  "plate_2x_size": [
+    3344,
+    1882
+  ],
+  "remove_rects": [
+    [
+      0,
+      0,
+      985,
+      72
+    ],
+    [
+      1295,
+      8,
+      1505,
+      74
+    ],
+    [
+      1532,
+      8,
+      1672,
+      96
+    ],
+    [
+      575,
+      74,
+      1090,
+      302
+    ],
+    [
+      30,
+      392,
+      1620,
+      770
+    ],
+    [
+      52,
+      766,
+      1620,
+      864
+    ],
+    [
+      0,
+      882,
+      1672,
+      941
+    ]
+  ],
+  "remove_circles_cx_cy_r": [],
+  "keep_rects": [],
+  "protected_boxes": {
+    "face_daniel": [
+      248,
+      86,
+      430,
+      304
+    ],
+    "face_nik": [
+      1196,
+      82,
+      1382,
+      307
+    ],
+    "hand_daniel": [
+      360,
+      274,
+      505,
+      389
+    ],
+    "hand_nik": [
+      1320,
+      315,
+      1495,
+      389
+    ]
+  },
+  "safe_ui": {
+    "top_nav": [
+      0,
+      0,
+      985,
+      72
+    ],
+    "top_tools": [
+      1295,
+      8,
+      1672,
+      96
+    ],
+    "title": [
+      575,
+      74,
+      1090,
+      302
+    ],
+    "archive_panel": [
+      30,
+      392,
+      1620,
+      770
+    ],
+    "bottom_actions": [
+      52,
+      766,
+      1620,
+      864
+    ],
+    "footer": [
+      0,
+      882,
+      1672,
+      941
+    ]
+  },
+  "phone_band": [
+    220,
+    55,
+    1500,
+    390
+  ],
+  "focal": [
+    836,
+    235
+  ],
+  "cutouts": {},
+  "notes": {
+    "hand_nik": "No Nik hand is visible in this mockup; this required box protects the lower right shoulder/arm where the archive panel meets the figure.",
+    "cutouts": "The archive panel begins below Daniel's hand/forearm and below Nik's visible torso edge, so no hand/arm cutout polygon is required for the mockup registration."
+  },
+  "sha256": {
+    "ENV_LG_PLATE_V1_1X.png": "39d0f4c0c477c258c8947e33d2924c40a83d01eb1b5b166d449d78cfc8059065",
+    "ENV_LG_PLATE_V1_1X.webp": "23a0ca4d5754484ed398b484563dd39f06ef889f177cd40cd6c155513aa5c200",
+    "ENV_LG_PLATE_V1_2X.png": "88b5dd85cd8ecd1fd5410242c1906c541024ef2101eadc95e7fbd0fde3be34fe",
+    "ENV_LG_PLATE_V1_2X.webp": "8717d782eb337b4f77f7596a76c36b0ab461a9bc319a8cc149d16d51a7a039a1"
+  },
+  "source_zones": "visual-assets/v10_1/legacy/assets/plate_zones.json"
+}

@@ -2,11 +2,11 @@
 
 Branch `factory/v1-wtt5ye`. 135 Team V jobs, plus 5 lines that track Team G. Two kinds of job. **Project (type number):** open a new chat in the ChatGPT project "Showdown visual" and type the number (up to 5 at once). **Fresh chat (image):** run the job's ticket from [tickets/](tickets/README.md) in a ChatGPT Temporary Chat (no memory) outside any project, then drop the image in Claude's factory thread (up to 2 at once).
 
-**Overall (Team V):** ███░░░░░░░ 33 % · 39 of 135 jobs done
+**Overall (Team V):** ███░░░░░░░ 36 % · 47 of 135 jobs done
 
-**Start now · project (type the number in Showdown visual):** 18, 23, 24, 25, 26 · queued next: 27, 28, 111, 112, 113, 114
+**Start now · project (type the number in Showdown visual):** 30, 37, 44, 49, 54 · queued next: 57, 62, 67, 72, 77, 82, 87, 111, 112, 113, 114, 125
 
-**Start now · fresh chat (image ticket, outside the project):** - · waiting for Claude to write the ticket: 121
+**Start now · fresh chat (image ticket, outside the project):** - · waiting for Claude to write the ticket: 115, 116, 117, 118, 119, 120, 121
 
 **Start now (Sol Work mode, press Use Work):** -
 
@@ -34,21 +34,21 @@ Branch `factory/v1-wtt5ye`. 135 Team V jobs, plus 5 lines that track Team G. Two
 | 15 | [Cinematic stage engine](jobs/JOB-015.md) | 2 Foundation | build | project (type number) | 12, 14 | ██████████ 100 % | DONE |  |
 | 16 | [Motion kit (pack-rip grade)](jobs/JOB-016.md) | 2 Foundation | build | project (type number) | 13 | ██████████ 100 % | DONE |  |
 | 17 | [Shared QA harness and compare sheets](jobs/JOB-017.md) | 2 Foundation | build | project (type number) | - | ██████████ 100 % | DONE |  |
-| 18 | [Foundation review](jobs/JOB-018.md) | 2 Foundation | review | project (type number) | 13, 15, 16, 14, 17 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
+| 18 | [Foundation review](jobs/JOB-018.md) | 2 Foundation | review | project (type number) | 13, 15, 16, 14, 17 | ██████████ 100 % | DONE | yes |
 | 19 | [Trophy art: Showdown Champion trophy](jobs/JOB-019.md) | 3 Art | image | fresh chat (image) | 0 | ██████████ 100 % | DONE |  |
 | 20 | [Trophy art: League Title trophy](jobs/JOB-020.md) | 3 Art | image | fresh chat (image) | 0 | ██████████ 100 % | DONE |  |
 | 21 | [Trophy art: Domestic Cup trophy](jobs/JOB-021.md) | 3 Art | image | fresh chat (image) | 0 | ██████████ 100 % | DONE |  |
 | 22 | [Trophy art: Champions League (continental) trophy](jobs/JOB-022.md) | 3 Art | image | fresh chat (image) | 0 | ██████████ 100 % | DONE |  |
-| 23 | [Plate: Trophy Room](jobs/JOB-023.md) | 3 Art | build | project (type number) | 0 | ███████░░░ 71 % | NOT STARTED |  |
-| 24 | [Plate: Career Statistics](jobs/JOB-024.md) | 3 Art | build | project (type number) | 0 | ███████░░░ 71 % | NOT STARTED |  |
-| 25 | [Plate: Rivalry Statistics](jobs/JOB-025.md) | 3 Art | build | project (type number) | 0 | ███████░░░ 71 % | NOT STARTED |  |
-| 26 | [Plate: Legacy](jobs/JOB-026.md) | 3 Art | build | project (type number) | 0 | ███████░░░ 71 % | NOT STARTED |  |
-| 27 | [Plate: Season Results](jobs/JOB-027.md) | 3 Art | build | project (type number) | 0 | ███████░░░ 71 % | NOT STARTED |  |
-| 28 | [Plate: Start / Join](jobs/JOB-028.md) | 3 Art | build | project (type number) | 0 | ███████░░░ 71 % | NOT STARTED |  |
+| 23 | [Plate: Trophy Room](jobs/JOB-023.md) | 3 Art | build | project (type number) | 0 | ██████████ 100 % | DONE |  |
+| 24 | [Plate: Career Statistics](jobs/JOB-024.md) | 3 Art | build | project (type number) | 0 | ██████████ 100 % | DONE |  |
+| 25 | [Plate: Rivalry Statistics](jobs/JOB-025.md) | 3 Art | build | project (type number) | 0 | ██████████ 100 % | DONE |  |
+| 26 | [Plate: Legacy](jobs/JOB-026.md) | 3 Art | build | project (type number) | 0 | ██████████ 100 % | DONE |  |
+| 27 | [Plate: Season Results](jobs/JOB-027.md) | 3 Art | build | project (type number) | 0 | ██████████ 100 % | DONE |  |
+| 28 | [Plate: Start / Join](jobs/JOB-028.md) | 3 Art | build | project (type number) | 0 | ██████████ 100 % | DONE |  |
 | 29 | [Plate: system stadium (no people)](jobs/JOB-029.md) | 3 Art | image | fresh chat (image) | 0 | ██████████ 100 % | DONE |  |
 | 30 | [Art review: trophies and plates](jobs/JOB-030.md) | 3 Art | review | project (type number) | 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
 | 31 | [Home: face edges and seams](jobs/JOB-031.md) | 4 Polish built screens | fix | project (type number) | 14, 1 | ██████████ 100 % | DONE |  |
-| 32 | [Home: seven destinations and premium tiles](jobs/JOB-032.md) | 4 Polish built screens | build | project (type number) | 31, 18, 20, 122 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
+| 32 | [Home: seven destinations and premium tiles](jobs/JOB-032.md) | 4 Polish built screens | build | project (type number) | 31, 18, 20, 122 | ██████████ 100 % | DONE |  |
 | 33 | [Home: phone with seven destinations](jobs/JOB-033.md) | 4 Polish built screens | build | project (type number) | 32, 111 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 34 | [Home: review](jobs/JOB-034.md) | 4 Polish built screens | review | project (type number) | 33 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 35 | [Home: fix round](jobs/JOB-035.md) | 4 Polish built screens | fix | project (type number) | 34 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
