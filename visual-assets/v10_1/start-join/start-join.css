@@ -22,7 +22,7 @@ body {
 
 /* Mockup title block measurements on the 1672 × 941 source frame:
    eyebrow centre x ≈ 50.3%, top ≈ 10.2%;
-   brush crop x 442..1241 = 47.8% wide, centre x 50.3%, top 132 = 14.0%;
+   title crop x 442..1241 = 47.8% wide, centre x 50.3%, top 132 = 14.0%;
    tagline centre x ≈ 50.3%, top ≈ 23.7%.
    No backing panel: this copy floats directly over the stadium scene. */
 .sj-header {
@@ -51,13 +51,19 @@ body {
   width: 47.8%;
   margin: 0;
   transform: translateX(-50%);
-  line-height: 0;
+  line-height: .82;
 }
 
-.sj-title-wordmark {
+/* TODO-WORDMARK: Claude replaces this CONNECT PLAYERS display-font fallback with ticket 124. */
+.sj-title-fallback {
   display: block;
   width: 100%;
-  height: auto;
+  font: inherit;
+  font-size: clamp(3.35rem, 6vw, 6.35rem);
+  font-style: italic;
+  letter-spacing: .015em;
+  white-space: nowrap;
+  text-align: center;
 }
 
 .sj-tagline {
