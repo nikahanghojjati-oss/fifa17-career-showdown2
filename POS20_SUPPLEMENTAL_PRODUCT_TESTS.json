@@ -577,6 +577,37 @@
       ]
     },
     {
+      "path": "tests/contracts/closed-showdown-adapter-contracts.cjs",
+      "patterns": [
+        "^js/sharedClosedShowdownAdapter\\.js$",
+        "^js/sparkClosedShowdownCareerLoader\\.js$",
+        "^js/sparkCompletedShowdownReader\\.js$",
+        "^js/persistentNikDanielPair\\.js$",
+        "^js/sharedActiveShowdownAdapter\\.js$",
+        "^js/sharedCareerAnalytics\\.js$",
+        "^js/sharedHistoryConvergence\\.js$",
+        "^js/sharedTerminalClose\\.js$",
+        "^js/sharedFinalReconciliation\\.js$",
+        "^tests/support/active-showdown-fixtures\\.cjs$",
+        "^tests/support/career-fixture-helpers\\.cjs$",
+        "^tests/contracts/closed-showdown-adapter-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/shared-journey-rivalry-lookup-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedCanonicalScoring\\.js$",
+        "^js/productionSharedHistoryConvergence\\.js$",
+        "^js/productionSharedMultiSeasonProgression\\.js$",
+        "^js/productionSharedTerminalClose\\.js$",
+        "^js/productionSharedFinalReconciliation\\.js$",
+        "^js/productionSharedJourneyEntry\\.js$",
+        "^tests/contracts/shared-journey-rivalry-lookup-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
       "path": "tests/contracts/completed-transfer-history-contracts.cjs",
       "patterns": [
         "^js/sparkCompletedTransferHistoryReader\\.js$",

@@ -17,10 +17,11 @@
   function ptcCode(value){return String(value&&value.code||"").split("/").pop().trim().toLowerCase();}
   function ptcAmbiguous(value){return AMBIGUOUS_CODES.has(ptcCode(value));}
   function ptcShowdown(){try{return typeof currentShowdown!=="undefined"?currentShowdown:null;}catch(_error){return null;}}
+  function ptcConfirmedSetupRivalry(){try{const s=root.CareerModeProductionSharedShowdownSetup?.getState?.();return s&&s.ready===true&&s.setup&&s.setup.phase==="SHOWDOWN_CONFIRMED"&&s.setup.revision===6&&s.rivalryId?String(s.rivalryId):"";}catch(_error){return "";}}
   function ptcRequest(){
     const showdown=ptcShowdown();
     if(!showdown||showdown.sharedJourney?.mode!=="shared")return null;
-    const rivalryId=String(showdown.sharedJourney?.rivalryId||"").trim().toLowerCase();
+    const rivalryId=String(showdown.sharedJourney?.rivalryId||ptcConfirmedSetupRivalry()||"").trim().toLowerCase();
     const saveId=String(showdown.identity?.saveId||"").trim();
     const playerOneProfileId=String(showdown.identity?.managerProfileIds?.playerOne||"").trim();
     const playerTwoProfileId=String(showdown.identity?.managerProfileIds?.playerTwo||"").trim();
