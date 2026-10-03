@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-03 10:17 AM Boston time (EDT)",
+ "generated": "2026-10-03 10:23 AM Boston time (EDT)",
  "branch": "factory/gameplay-v1",
  "integration_branch": "gameplay/recovery-v1",
  "capacity": {
@@ -278,9 +278,9 @@
    "type": "test",
    "plain": "Example data for Team V generated from the real model, so visuals and gameplay agree.",
    "state": "IN PROGRESS",
-   "step": 6,
+   "step": 7,
    "steps_total": 8,
-   "pct": 75,
+   "pct": 87,
    "ready": false
   },
   {
