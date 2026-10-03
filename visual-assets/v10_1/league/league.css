@@ -78,9 +78,10 @@ footer .foot-ver::before { content: "·"; margin-right: 8px; }
 .title-block { left: 0; right: 0; text-align: center; pointer-events: none; }
 .title-block > * { width: fit-content; margin-left: auto !important; margin-right: auto !important; }
 .kicker { font: 600 13px/1 var(--cond); letter-spacing: .5em; color: var(--cream); margin-right: -.5em; }
-#leagueWheelScreen h2 { margin: 0; font: italic 700 var(--title-size, 72px)/1.2 var(--cond); text-transform: uppercase; letter-spacing: .01em; padding: 0 .08em;
+/* TODO-WORDMARK: replace this display-font fallback with shared/wordmarks/TITLE_LEAGUE_V1.webp when job 124 adds it. */
+#leagueWheelScreen h2 { margin: 0; font: 400 var(--title-size, 72px)/1.05 "Kaushan Script", cursive; text-transform: uppercase; letter-spacing: .01em; padding: 0 .08em;
   background: linear-gradient(to bottom, #FFF1B8, #F2C45B 55%, #B98A2F); -webkit-background-clip: text; background-clip: text; color: transparent;
-  filter: url(#brush) drop-shadow(0 0 18px rgba(242,196,91,.35)); }
+  filter: drop-shadow(0 3px 1px rgba(0,0,0,.96)) drop-shadow(0 0 14px rgba(242,196,91,.28)); }
 .subtitle-row { left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 14px; white-space: nowrap; }
 .subtitle-row::before, .subtitle-row::after { content: ""; width: 92px; height: 1px; background: linear-gradient(to right, rgba(201,155,69,0), rgba(201,155,69,.9)); }
 .subtitle-row::after { transform: scaleX(-1); }
@@ -124,7 +125,7 @@ button:focus-visible { outline: 2px solid #FFF1B8; outline-offset: 3px; }
   /* presentation-only monochrome: pale gold family, internal tones kept */
   filter: grayscale(1) sepia(.32) brightness(1.32) contrast(1.02); }
 .wheelItem.is-top { color: #0B0D10; }
-.wheelItem.is-top::before { filter: grayscale(1) brightness(.62) contrast(1.75); }
+.wheelItem.is-top::before { filter: grayscale(1) brightness(1.9) contrast(1.15) drop-shadow(0 1px 2px rgba(0,0,0,.85)); }
 .wheel-rim { position: absolute; inset: 0; z-index: 3; pointer-events: none; }
 .wheel-rim svg, .wheel-hub svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
 .wheel-hub { position: absolute; inset: 0; z-index: 4; pointer-events: none; }
