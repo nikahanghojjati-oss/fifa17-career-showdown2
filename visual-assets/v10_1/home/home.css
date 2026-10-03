@@ -473,6 +473,34 @@ footer {
     height: 48vh;
     transform: translateX(-50%);
   }
+
+  /* Job 36 · manager signature entrance.
+     Preserve the authored -50% centering while the shared runtime owns the 150 ms start. */
+  .sd-motion-ready .phoneHeroDaniel[data-sd-enter="character-left"]:not(.sd-is-animating):not(.sd-entered) {
+    opacity: 0;
+    transform: translate3d(calc(-50% - 24px), 0, 0);
+  }
+  .sd-motion-ready .phoneHeroNik[data-sd-enter="character-right"]:not(.sd-is-animating):not(.sd-entered) {
+    opacity: 0;
+    transform: translate3d(calc(-50% + 24px), 0, 0);
+  }
+
+  @keyframes home-manager-in-daniel {
+    0% { opacity: 0; transform: translate3d(calc(-50% - 24px), 0, 0); }
+    82% { opacity: 1; transform: translate3d(calc(-50% + var(--home-daniel-settle, 2px)), 0, 0); }
+    100% { opacity: 1; transform: translate3d(-50%, 0, 0); }
+  }
+  @keyframes home-manager-in-nik {
+    from { opacity: 0; transform: translate3d(calc(-50% + 24px), 0, 0); }
+    to { opacity: 1; transform: translate3d(-50%, 0, 0); }
+  }
+
+  .sd-motion-ready .phoneHeroDaniel[data-sd-enter="character-left"].sd-is-animating {
+    animation: home-manager-in-daniel var(--home-manager-duration, 450ms) var(--home-manager-ease, cubic-bezier(.22,1,.36,1)) both;
+  }
+  .sd-motion-ready .phoneHeroNik[data-sd-enter="character-right"].sd-is-animating {
+    animation: home-manager-in-nik var(--home-manager-duration, 450ms) var(--home-manager-ease, cubic-bezier(.22,1,.36,1)) both;
+  }
   .phoneHeroGrade {
     position: absolute;
     z-index: 3;
