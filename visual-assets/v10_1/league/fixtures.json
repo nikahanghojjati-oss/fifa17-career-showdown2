@@ -68,20 +68,17 @@
       "spinDisabled": false,
       "note": null,
       "noteLocked": false,
-      "backDisabled": false,
-      "why": "renderLeagueWheelState: no selectedLeague, not busy -> rotation 0, 'Spin to select league', 'SPIN WHEEL', note hidden; BACK enabled (setLeagueWheelBusy(false))"
+      "backDisabled": false
     },
     "L2": {
       "state": "spinning",
-      "rotation": 522,
-      "rotationWhy": "2 x 360 - 3 x 72 + 18 (clearer mid-spin offset than the old +8 frame; stays away from the +31 label-straddle contrast failure documented in the build handoff).",
+      "rotation": 516,
       "selectedLeague": "SPINNING...",
       "spin": "SPINNING...",
       "spinDisabled": true,
       "note": null,
       "noteLocked": false,
-      "backDisabled": true,
-      "why": "spinLeagueWheel: setLeagueWheelBusy(true) disables BACK (+aria-disabled=true), spinButton.disabled=true, both texts 'SPINNING...', note.classList.add('hidden')"
+      "backDisabled": true
     },
     "L3": {
       "state": "selected",
@@ -92,8 +89,7 @@
       "spinDisabled": false,
       "note": "Bundesliga has been selected and locked. Press Continue to confirm the league and open Club Assignment.",
       "noteLocked": false,
-      "backDisabled": false,
-      "why": "renderLeagueWheelState: selectedLeague, no locked clubs, status 'League Selected' -> getLeagueRotation('bundesliga') = -144"
+      "backDisabled": false
     },
     "L4": {
       "state": "locked",
@@ -104,8 +100,7 @@
       "spinDisabled": true,
       "note": "League and clubs are permanent for this showdown.",
       "noteLocked": true,
-      "backDisabled": false,
-      "why": "renderLeagueWheelState: hasLockedClubAssignment() -> 'LEAGUE LOCKED', disabled, note.locked; BACK untouched (enabled)"
+      "backDisabled": false
     }
   }
 }
