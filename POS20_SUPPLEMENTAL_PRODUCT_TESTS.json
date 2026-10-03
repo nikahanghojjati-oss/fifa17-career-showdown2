@@ -608,6 +608,15 @@
       ]
     },
     {
+      "path": "tests/contracts/shared-season-results-stale-retry-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedSeasonResults\\.js$",
+        "^js/sparkSharedSeasonResults\\.js$",
+        "^tests/contracts/shared-season-results-stale-retry-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
       "path": "tests/contracts/browser-journey-emulator-switch-contracts.cjs",
       "patterns": [
         "^tests/browser/support/emulator-runtime-switch\\.js$",
