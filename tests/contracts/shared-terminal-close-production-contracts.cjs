@@ -65,4 +65,20 @@ const sessionLoad=bootstrap.indexOf('["private-session","js/sparkPrivateSession.
 assert.ok(sessionLoad>0&&providerLoad>sessionLoad,"the SSJR bootstrap must load the private-session protocol before the Terminal Close provider");
 const providerSource=fs.readFileSync("js/sparkTerminalClose.js","utf8");assert.match(providerSource,/root\.CareerModeSparkPrivateSession;/,"provider still binds the session protocol at load time");
 
+// After Terminal Close the session is closed, so Shared Setup is no longer ready; the request must fall back to the durable
+// Connected Rivalry binding of this exact save and manager, which also survives reloads (found by the two-manager browser journey, J10).
+assert.match(runtime,/showdown\.sharedJourney\?\.rivalryId\|\|ptcConfirmedSetupRivalry\(\)\|\|ptcAttachedRivalry\(saveId,playerOneProfileId,playerTwoProfileId\)\|\|""/,"the journey marker and confirmed Setup still win over the attached rivalry");
+assert.ok(runtime.includes('s.attached===true&&b&&b.saveId===saveId&&((b.managerRole==="playerOne"&&b.profileId===playerOneProfileId)||(b.managerRole==="playerTwo"&&b.profileId===playerTwoProfileId))&&s.rivalryId'),"only an attached binding for this exact save and manager is used");
+assert.doesNotMatch(runtime,/rememberedRequest/,"page memory alone must not carry the rivalry binding");
+assert.match(runtime,/!rivalryWakeRequested&&ptcShowdown\(\)\?\.sharedJourney\?\.mode==="shared"&&api&&typeof api\.initialize==="function"&&api\.getState\?\.\(\)\?\.initialized!==true/,"after a reload Terminal Close asks Connected Rivalry to restore its durable binding once");
+assert.ok(runtime.includes('"career-mode-connected-rivalry-state-change"'),"the restored binding wakes Terminal Close");
+// Active-journey refreshers lose read access once the rivalry closes; their failures stay quiet only after a verified CLOSED read.
+assert.match(runtime,/reportUnlessClosed:ptcReportUnlessClosed/);
+assert.match(runtime,/if\(current\?\.phase!=="CLOSED"&&ptcRequest\(\)\)current=await ptcRefresh\(\);if\(current&&current\.phase==="CLOSED"\)return false;/);
+assert.match(runtime,/\}catch\(_error\)\{\}\s*ptcReport\(context,error\);return true;/,"any other failure is still reported");
+for(const [file,prefix] of [["js/productionSharedCanonicalScoring.js","pcsc"],["js/productionSharedHistoryConvergence.js","phc"],["js/productionSharedMultiSeasonProgression.js","pmsp"],["js/productionSharedSeasonCommit.js","pssc"],["js/productionSharedTransferChallenge.js","pstc"],["js/productionSharedSeasonResults.js","pssr"]]){
+  const source=fs.readFileSync(file,"utf8");
+  assert.ok(source.includes(`function ${prefix}Report(context,error){const terminalClose=root.CareerModeProductionSharedTerminalClose;if(terminalClose&&typeof terminalClose.reportUnlessClosed==="function"){void terminalClose.reportUnlessClosed(context,error);return;}if(typeof root.reportApplicationError==="function")root.reportApplicationError(context,error);`),`${file} routes its errors through Terminal Close`);
+}
+
 console.log("PASS r18 production Terminal Close contracts: exact r17 final authority + exact ACTIVE session gate the sole terminal mutation; ambiguous outcomes retain one exact witness for retry; closed rivalry recovers by exact read after reload; storage/list/billing/compute authority remains absent; bootstrap and offline shell ordering are explicit.");
