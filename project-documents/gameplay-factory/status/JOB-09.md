@@ -2,7 +2,7 @@
 
 State: IN PROGRESS
 Step: 5 of 7
-Updated: 2026-10-03 15:15 UTC
+Updated: 2026-10-03 15:16 UTC
 Chat: Sol Work mode (job 9, 04fd13bb5a42)
 Code branch: gameplay/job-09-closed-adapter
 Head commit: 7b735a7f5f6ed2b0c91c86817d7b096635ec2bf9
@@ -35,6 +35,8 @@ CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/r
 - Step 4: Copied Appendix A pure adapter verbatim; node --check PASS. Local contract passes C1-C17 and fails exactly at L1 loader surface and source: Cannot find module /workspace/scratch/04fd13bb5a42/job9/js/sparkClosedShowdownCareerLoader.js. Saved adapter on bf69b3598ab3ea42c1b6ecee7768d8481c2b8dad. Loader remains absent; no existing source or assertion changed. No CI polling after this push.
 
 - Step 5: Copied Appendix B loader verbatim; node --check PASS. PASS closed-Showdown adapter contracts (22/22 cases). npm run test:ops reports tests 73 / pass 73 / fail 0. npm run test:contracts returned exit 0 but its log ended at Final Reconciliation without a final census, so do not claim 105/105 locally; exact-head CI must supply that evidence (handbook section 7 fallback). Loader saved on 7b735a7f5f6ed2b0c91c86817d7b096635ec2bf9; all seven authorized code files now present. No CI polling after push; step 6 reads exact-head CI, budget gate and file compare.
+
+- Step 6 CI checkpoint: Exact-head run 37132554539 / 7b735a7 has Gameplay contracts SUCCESS: closed-Showdown adapter 22/22, full census 105/105, operations tests 73 / pass 73 / fail 0. Emulator job still running (lifecycle step); no polling. Step stays 5 until emulator/budget/file-scope proof complete.
 
 ## Self-check
 
