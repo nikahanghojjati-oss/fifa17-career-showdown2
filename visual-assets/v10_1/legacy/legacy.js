@@ -53,6 +53,136 @@
     });
   }
 
+  function initials(name) {
+    return String(name || "").split(/\s+/).filter(Boolean).slice(0, 2).map((part) => part[0]).join("").toUpperCase();
+  }
+
+  function leagueLabel(id) {
+    return ({ premier_league: "PL", laliga: "LL", bundesliga: "BL", serie_a: "SA", ligue_1: "L1" })[id] || "LG";
+  }
+
+  function renderSideMenu(strings) {
+    const menu = document.getElementById("legacySideMenu");
+    menu.replaceChildren();
+    [
+      ["legacy", strings.sideMenu.legacy],
+      ["trophyRoom", strings.sideMenu.trophyRoom],
+      ["records", strings.sideMenu.records]
+    ].forEach(([route, label], index) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.dataset.route = route;
+      button.dataset.active = String(index === 0);
+      button.textContent = label;
+      if (index === 0) button.setAttribute("aria-current", "page");
+      menu.appendChild(button);
+    });
+  }
+
+  function renderCard(showdown, selected) {
+    const card = document.createElement("button");
+    card.type = "button";
+    card.className = "legacyCard";
+    card.dataset.showdown = String(showdown.number);
+    card.dataset.selected = String(showdown.number === selected);
+    card.setAttribute("aria-pressed", String(showdown.number === selected));
+
+    const title = document.createElement("span");
+    title.className = "legacyCardTitle";
+    title.textContent = "Showdown #" + showdown.number;
+
+    const body = document.createElement("span");
+    body.className = "legacyCardBody";
+    ["daniel", "nik"].forEach((manager, index) => {
+      if (index === 1) {
+        const score = document.createElement("span");
+        score.className = "legacyScoreBlock";
+        const league = document.createElement("span");
+        league.className = "legacyLeagueMark";
+        league.textContent = leagueLabel(showdown.leagueId);
+        const numbers = document.createElement("span");
+        numbers.className = "legacyScore";
+        numbers.textContent = showdown.totals ? showdown.totals.daniel + " – " + showdown.totals.nik : "";
+        const crown = document.createElement("span");
+        crown.className = "legacyWinner";
+        crown.textContent = showdown.winner && showdown.winner !== "draw" ? "♛" : "";
+        crown.dataset.winner = showdown.winner || "";
+        score.append(league, numbers, crown);
+        body.appendChild(score);
+      }
+
+      const side = document.createElement("span");
+      side.className = "legacyManager legacyManager--" + manager;
+      const crest = document.createElement("span");
+      crest.className = "legacyCrest";
+      crest.textContent = initials(showdown.clubs && showdown.clubs[manager]);
+      const who = document.createElement("span");
+      who.className = "legacyManagerName";
+      who.textContent = manager === "daniel" ? "Daniel" : "Nik";
+      const club = document.createElement("span");
+      club.className = "legacyClubName";
+      club.textContent = showdown.clubs ? showdown.clubs[manager] : "";
+      side.append(crest, who, club);
+      body.appendChild(side);
+    });
+
+    const footer = document.createElement("span");
+    footer.className = "legacyCardFooter";
+    footer.textContent = showdown.seasonsPlayed + " / " + showdown.totalSeasons + " Seasons";
+    card.append(title, body, footer);
+    return card;
+  }
+
+  function renderArchive(frame, strings) {
+    const grid = document.getElementById("legacyCardGrid");
+    const pager = document.getElementById("legacyPager");
+    let page = Math.max(1, Number(frame.ui && frame.ui.page) || 1);
+    const pages = Math.max(1, Number(frame.ui && frame.ui.totalPages) || 1);
+    const pageSize = Math.max(1, Number(frame.ui && frame.ui.pageSize) || 4);
+    let selected = frame.ui && frame.ui.selectedShowdown;
+
+    function paint() {
+      grid.replaceChildren();
+      let records = frame.showdowns || [];
+      if (frame.ui && Array.isArray(frame.ui.pageMap) && frame.ui.pageMap[page - 1]) {
+        const wanted = new Set(frame.ui.pageMap[page - 1]);
+        records = records.filter((item) => wanted.has(item.number));
+      } else {
+        records = records.slice((page - 1) * pageSize, page * pageSize);
+      }
+      records.forEach((item) => {
+        const card = renderCard(item, selected);
+        card.addEventListener("click", () => {
+          selected = item.number;
+          frame.ui.selectedShowdown = selected;
+          paint();
+        });
+        grid.appendChild(card);
+      });
+
+      pager.replaceChildren();
+      if (pages <= 1) return;
+      const prev = document.createElement("button");
+      prev.type = "button"; prev.textContent = "‹"; prev.setAttribute("aria-label", "Previous archive page");
+      prev.disabled = page === 1;
+      prev.addEventListener("click", () => { page -= 1; paint(); });
+      pager.appendChild(prev);
+      for (let i = 1; i <= pages; i += 1) {
+        const dot = document.createElement("button");
+        dot.type = "button"; dot.className = "legacyPageDot"; dot.dataset.active = String(i === page);
+        dot.setAttribute("aria-label", "Archive page " + i);
+        dot.addEventListener("click", () => { page = i; paint(); });
+        pager.appendChild(dot);
+      }
+      const next = document.createElement("button");
+      next.type = "button"; next.textContent = "›"; next.setAttribute("aria-label", "Next archive page");
+      next.disabled = page === pages;
+      next.addEventListener("click", () => { page += 1; paint(); });
+      pager.appendChild(next);
+    }
+    paint();
+  }
+
   async function boot() {
     const [fixtureResponse, mapResponse] = await Promise.all([
       fetch("./fixtures.json", { cache: "no-store" }),
@@ -101,6 +231,8 @@
       topNav.appendChild(button);
     });
 
+    renderSideMenu(fixtures.strings);
+    renderArchive(frame, fixtures.strings);
     renderObject(stringsRoot, fixtures.strings);
     renderObject(valuesRoot, frame);
 
