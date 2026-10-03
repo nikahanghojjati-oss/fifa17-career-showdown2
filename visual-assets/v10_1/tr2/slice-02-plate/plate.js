@@ -59,6 +59,13 @@
     return svg;
   }
 
+  function buildWordmark() {
+    var h = el("h1", { class: "transfer-wordmark sd-title--wordmark" });
+    h.appendChild(el("img", { src: "../../shared/wordmarks/TITLE_TRANSFER_V1.webp", alt: "", "aria-hidden": "true", decoding: "async" }));
+    h.appendChild(el("span", { class: "sd-visually-hidden", text: "TRANSFER WAR" }));
+    return h;
+  }
+
   // "A · B" -> <span>A</span><span class="sep"> · </span><span>B</span>. textContent stays exact.
   function splitDots(text, partClass) {
     var parts = text.split(" · ");
@@ -120,12 +127,12 @@
   function buildGuessColumn(i, prefix, rivalName, S) {
     var col = el("div", { class: "guess-col guessRow" });
     col.appendChild(el("span", { class: "guess-num", "aria-hidden": "true", text: "0" + i }));
-    var sel = el("select", { id: prefix + "Guess" + i + "Type", "data-transfer-field": true, "aria-label": "Guess " + i + " against " + rivalName + " type" }, [
+    var sel = el("select", { class: "sd-select", id: prefix + "Guess" + i + "Type", "data-transfer-field": true, "aria-label": "Guess " + i + " against " + rivalName + " type" }, [
       el("option", { value: "", text: S.selectPlaceholder }),
       el("option", { value: "league", text: S.selectLeague }),
       el("option", { value: "nationality", text: S.selectNationality })
     ]);
-    var inp = el("input", { type: "text", id: prefix + "Guess" + i + "Value", "data-transfer-field": true, autocomplete: "off",
+    var inp = el("input", { class: "sd-input", type: "text", id: prefix + "Guess" + i + "Value", "data-transfer-field": true, autocomplete: "off",
       "aria-label": "Guess " + i + " against " + rivalName + " value", placeholder: S.valuePlaceholder, disabled: true });
     sel.addEventListener("change", function () {
       var opt = sel.options[sel.selectedIndex];
@@ -241,7 +248,7 @@
         continue;
       }
       fields.forEach(function (f) {
-        row.appendChild(el("input", { type: "text", id: prefix + "Signing" + i + f[0], "data-transfer-field": true, autocomplete: "off",
+        row.appendChild(el("input", { class: "sd-input", type: "text", id: prefix + "Signing" + i + f[0], "data-transfer-field": true, autocomplete: "off",
           "aria-label": who + " signing " + i + " " + f[2], placeholder: f[1] }));
       });
       rows.appendChild(row);
@@ -382,7 +389,7 @@
 
   function buildFooter(S, activeIndex) {
     var f = el("footer", { class: "hud-footer" });
-    f.appendChild(el("button", { type: "button", id: "backToShowdownHome", class: "ghost", text: S.back }));
+    f.appendChild(el("button", { type: "button", id: "backToShowdownHome", class: "ghost sd-btn sd-btn--secondary", text: S.back }));
     var mid = el("div", { class: "hud-mid" });
     mid.appendChild(el("h2", { id: "transferChallengeTitle", class: "hud-title", text: S.title.replace("{season}", "1") }));
     var rail = el("ol", { id: "transferPhaseNavigator", class: "rail", "aria-label": S.railAriaLabel });
@@ -394,7 +401,7 @@
     });
     mid.appendChild(rail);
     f.appendChild(mid);
-    f.appendChild(el("button", { type: "button", id: "refreshSharedTransferChallenge", class: "ghost", text: S.refresh }));
+    f.appendChild(el("button", { type: "button", id: "refreshSharedTransferChallenge", class: "ghost sd-btn sd-btn--secondary", text: S.refresh }));
     return f;
   }
 
@@ -428,7 +435,7 @@
     // glass content), which lowers the camera and keeps more of the painted title. Controls keep k.
     var short = vh < 700;
     stage.classList.toggle("short", short);
-    var footerH = short ? 30 : 36;
+    var footerH = 0;
     var contentBottom = Math.max(map.keepVisible.contentBottom, +(stage.dataset.contentBottom || 0));
     var bottom = short ? contentBottom * k + footerH + 2 : map.keepVisible.panelBottom * k + footerH + 6;
     var offY = 0, offX = 0;
@@ -507,6 +514,7 @@
     plane.appendChild(pic);
     scene.appendChild(el("div", { class: "scene-atmos", "aria-hidden": "true" }));
     scene.appendChild(plane);
+    world.appendChild(buildWordmark());
     world.appendChild(scene);
 
     if (!cfg.plateOnly) {
