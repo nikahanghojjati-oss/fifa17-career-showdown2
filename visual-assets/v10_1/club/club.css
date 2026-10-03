@@ -350,8 +350,9 @@ main { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
   #openClubPack, #continueClubAssignment {
     left: 62px !important; right: 12px; width: auto !important; max-width: none;
   }
-  #clubAssignmentBack {
-    left: 12px !important; width: 44px !important; padding: 0; overflow: hidden; color: transparent;
+  #clubWheelScreen #clubAssignmentBack {
+    left: 12px !important; width: 44px !important; padding: 0; overflow: hidden;
+    color: transparent; font-size: 0;
   }
   #clubWheelScreen [data-phone-role="primary"]:focus-visible,
   #clubWheelScreen [data-phone-role="secondary"]:focus-visible {
