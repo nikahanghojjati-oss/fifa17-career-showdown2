@@ -259,7 +259,8 @@ button {
   font-family: var(--sd-font-condensed, "Barlow Condensed", "Arial Narrow", sans-serif);
   min-width: 0;
   min-height: 0;
-  padding: 10px 12px 9px;
+  /* Claude fix 4: keep the season-count footer visibly inside the card border at 1366×768. */
+  padding: 10px 12px 16px;
   border: 1px solid rgba(242,196,91,.46);
   background:
     linear-gradient(145deg, rgba(242,196,91,.055), transparent 42%),
@@ -355,9 +356,11 @@ button {
 
 .legacyCardFooter {
   display: block;
-  margin-top: 5px;
+  min-height: 1.35em;
+  margin-top: 7px;
   color: rgba(255,255,255,.64);
   font-size: .66rem;
+  line-height: 1.35;
   letter-spacing: .04em;
 }
 
