@@ -1050,3 +1050,12 @@ body {
   font-size: clamp(9px, .66vw, 11px);
   line-height: 1.15;
 }
+
+/* Claude intake fix 2026-10-03: start the result copy under the tagline, and keep the
+   redundant result sentence for screen readers only (it sat on the outcome and the trophy crown). */
+.finalWinnerHeroCopySlot { top: calc(14.8% + 99px); gap: .3vh; }
+.finalWinnerScoreDash { visibility: hidden; }
+.finalWinnerResultText {
+  position: absolute !important; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; transform: none; left: 0; top: 0;
+}
