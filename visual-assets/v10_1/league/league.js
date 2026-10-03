@@ -214,7 +214,9 @@
     const grow = 6, maxBottom = H - ftr - 8;
     for (const [sel, z] of [[".slogan-left", zl], [".slogan-right", zr]]) {
       const h = z.b - z.t + 2 * grow, t = Math.min(z.t - grow, maxBottom - h);
-      box(q(sel), z.l - grow, t, z.r - z.l + 2 * grow, h);
+      const w = Math.min(W - 16, z.r - z.l + 2 * grow);
+      const l = Math.min(Math.max(8, z.l - grow), W - 8 - w);
+      box(q(sel), l, t, w, h);
     }
   }
 
@@ -232,7 +234,8 @@
     Object.assign(T, { k: kb, ox: -PHONE_X[0] * kb, oy: bandTop - PHONE_Y_TOP * kb });
 
     const row = q(".button-row");
-    const rowH = 44 * 2 + 6;
+    const compactRow = H <= 570;
+    const rowH = compactRow ? 44 : 44 * 2 + 6;
     const note = q("#leagueStateNote");
     // Phone band now continues through Daniel's fingertip/sleeve. The live wheel is contact-anchored
     // to the same registered fingertip, so the hand remains visible without floating beside the rim.
@@ -263,8 +266,8 @@
         let c = null;
         for (let t = slotC.y - (r * BEZEL - slotR); t <= slotC.y + (r * BEZEL - slotR); t += 0.5) if (valid(r, t)) { c = t; break; }
         if (c === null) c = domeTop + r * BEZEL;
-        const nTop = c + r * BEZEL + 8;
-        const bTop = noteH ? nTop + noteH + 8 : c + r * BEZEL + 8;
+        const nTop = c + r + 8;
+        const bTop = noteH ? nTop + noteH + 6 : c + r + 8;
         return { r, c, nTop, bTop, end: bTop + rowH + 12 };
       };
       let f = null;

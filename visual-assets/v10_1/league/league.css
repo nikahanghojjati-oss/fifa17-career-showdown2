@@ -102,10 +102,10 @@ footer .foot-ver::before { content: "·"; margin-right: 8px; }
 .menuButton { min-width: 300px; color: var(--sd-text-on-gold); background: var(--sd-gold-500); border: 1px solid var(--sd-gold-800); box-shadow: 0 6px 18px rgba(0,0,0,.45), 0 0 18px rgba(245,197,24,.14); }
 .menuButton::before { content: ""; width: 22px; height: 22px; flex: none; background: currentColor; -webkit-mask: var(--spin-ico) center/contain no-repeat; mask: var(--spin-ico) center/contain no-repeat; }
 :root { --spin-ico: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 11a8 8 0 0 0-14.3-4.9L4 8'/%3E%3Cpath d='M4 3v5h5'/%3E%3Cpath d='M4 13a8 8 0 0 0 14.3 4.9L20 16'/%3E%3Cpath d='M20 21v-5h-5'/%3E%3C/svg%3E"); }
-.menuButton:disabled { cursor: default; color: #2a2418; background: linear-gradient(180deg, #CDB57A, #A98D4E); }
+.menuButton:disabled { cursor: default; opacity: 1; color: #17130d; background: linear-gradient(180deg, #D8C184, #B79A59); }
 .backButton { min-width: 200px; color: var(--sd-gold-300); background: rgba(8,9,12,.9); border: 1px solid var(--sd-edge); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
 .backButton::before { content: ""; width: 10px; height: 10px; border-left: 2.5px solid currentColor; border-bottom: 2.5px solid currentColor; transform: rotate(45deg); margin-right: 2px; }
-.backButton:disabled { cursor: default; color: #A79F8E; border-color: rgba(233,223,200,.42); }
+.backButton:disabled { cursor: default; opacity: 1; color: #D8CEBB; border-color: rgba(233,223,200,.52); }
 button:focus-visible { outline: 2px solid #FFF1B8; outline-offset: 3px; }
 
 /* ---------- wheel (sizes are fractions of the rim radius --R) ---------- */
@@ -192,3 +192,13 @@ button:focus-visible { outline: 2px solid #FFF1B8; outline-offset: 3px; }
 .manager-marker { position: absolute; z-index: 1; width: 1px; height: 1px; pointer-events: none; }
 .manager-marker--daniel { left: 25%; top: 24%; }
 .manager-marker--nik { left: 75%; top: 24%; }
+
+@media (max-width: 760px) and (max-height: 570px) {
+  .stage[data-mode="phone"] .button-row { flex-direction: row; gap: 6px; }
+  .stage[data-mode="phone"] .menuButton {
+    width: auto; min-width: 0; flex: 1 1 auto; padding: 0 8px; font-size: 15px;
+  }
+  .stage[data-mode="phone"] .backButton {
+    width: 92px; min-width: 92px; flex: 0 0 92px; padding: 0 8px; font-size: 16px;
+  }
+}
