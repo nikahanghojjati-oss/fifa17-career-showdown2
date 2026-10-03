@@ -248,6 +248,9 @@ button:focus-visible { outline: 2px solid #FFF1B8; outline-offset: 3px; }
     width: auto;
     height: 100%;
     max-width: none;
+    /* Claude fix 4: dissolve the lower body edge into the scene instead of ending on a hard crop line. */
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 74%, rgba(0,0,0,.92) 80%, rgba(0,0,0,.56) 90%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 0%, #000 74%, rgba(0,0,0,.92) 80%, rgba(0,0,0,.56) 90%, transparent 100%);
   }
   .stage[data-mode="phone"] .phone-hero-person--daniel { left: 30%; }
   .stage[data-mode="phone"] .phone-hero-person--nik { left: 70%; }
