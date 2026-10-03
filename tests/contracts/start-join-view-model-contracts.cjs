@@ -256,4 +256,17 @@ check("20. Pure and frozen",()=>{
   assert.equal(typeof context.CareerModeStartJoinViewModel.buildStartJoinViewModel,"function");
 });
 
-console.log("PASS Start/Join view model contracts (20/20 cases): lock table, status, pairing/session actions, confirms, privacy, purity and frozen outputs.");
+check("21. Closed Showdown offers a fresh start",()=>{
+  // Live: pairReadPairLink returns null for a closed rivalry and prepareFreshStart counts only active/pending-pair as live.
+  for(const status of ["waiting","paired","unpaired"]){
+    const daniel=build("daniel",pair("playerOne",{status,connectionState:"closed",rivalryId:pairId}));
+    assert.equal(daniel.status,"ready");assert.equal(daniel.pairing.state,"none");
+    assert.equal(daniel.pairing.actions.createCode.enabled,true);unavailable(daniel.pairing.actions.join);unavailable(daniel.pairing.actions.checkStatus);
+    unavailable(daniel.abandonShowdown);assert.deepEqual(daniel.primaryActions,["pairing.createCode"]);
+    const nik=build("nik",pair("playerTwo",{status,connectionState:"closed",rivalryId:pairId}));
+    assert.equal(nik.pairing.actions.join.enabled,true);unavailable(nik.pairing.actions.createCode);
+    unavailable(nik.abandonShowdown);assert.deepEqual(nik.primaryActions,["pairing.join"]);
+  }
+});
+
+console.log("PASS Start/Join view model contracts (21/21 cases): lock table, status, pairing/session actions, confirms, privacy, purity and frozen outputs.");

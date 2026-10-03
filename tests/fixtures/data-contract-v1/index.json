@@ -114,7 +114,7 @@
         "daniel": "completed",
         "nik": "completed"
       },
-      "sha256": "sha256:20bab23cdb532d57e11ba26ee25e3f1c8f205a2c93069ed8f3bfb43a953988c6"
+      "sha256": "sha256:c90c10fe06a92aaf333144a5bb99fafdc62deebc18066c5e5701ca0d1bd9a3ac"
     },
     {
       "id": "tiebreak-finish",
@@ -125,7 +125,7 @@
         "daniel": "completed",
         "nik": "completed"
       },
-      "sha256": "sha256:acc82e5341804e2cc0911a713b33cdf69999e782169e36bc74ef37dbe88072b9"
+      "sha256": "sha256:9de0a3a7687f6ca6d12bcacb7d54f6508c129c3fd7b45dbefb2ee667cadbeff4"
     },
     {
       "id": "equal-position-tiebreaks",
@@ -136,7 +136,7 @@
         "daniel": "completed",
         "nik": "completed"
       },
-      "sha256": "sha256:ad421a61813c15643c9c04c78db1c207a2e3807f3f30b090d8c266a6d1dd1b06"
+      "sha256": "sha256:9627162143ff59d13367be5ade08ea6e78c18fe5dd95fb9e0ea32b8f10de4b8f"
     },
     {
       "id": "abandoned",
@@ -147,7 +147,7 @@
         "daniel": "abandoned",
         "nik": "abandoned"
       },
-      "sha256": "sha256:dada5bf70fe2286500870838e940e5f8a8995d2b2f0e120e1067fd513f3d51a0"
+      "sha256": "sha256:90412cc82dd7c1ee9c1c50245a109b00db6fb2d5202f6ce4d4f7baa4c26d50bd"
     },
     {
       "id": "partial-career",

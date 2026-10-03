@@ -112,7 +112,8 @@
     const pairingState=ready?sjPairingState(pair,viewerRole):"none";
     const pairingCode=ready&&pairingState==="code-created"&&viewerRole==="daniel"?pair.capability:null;
     const retryMode=ready&&pair.status==="pair-link-retry";
-    const freshStart=ready&&!retryMode&&pair.connectionState!=="active"&&pair.connectionState!=="pending-pair"&&["unpaired","save-required","error"].includes(pair.status);
+    // A closed rivalry is no live pair (live productionSharedJourneyEntry.prepareFreshStart): a fresh Showdown may start.
+    const freshStart=ready&&!retryMode&&(pair.connectionState==="closed"||pair.connectionState!=="active"&&pair.connectionState!=="pending-pair"&&["unpaired","save-required","error"].includes(pair.status));
     const sessionLayer=ready&&pairingState==="paired"&&pair.status==="paired";
     const facts=sjSessionFacts(session,nowEpochMs);
     facts.pendingAction=Boolean(session.pendingAction);

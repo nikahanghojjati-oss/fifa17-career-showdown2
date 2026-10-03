@@ -549,7 +549,7 @@
         "status": "ready",
         "viewerRole": "daniel",
         "continue": {
-          "state": "waiting",
+          "state": "unpaired",
           "leagueId": null,
           "clubs": null,
           "season": null,
@@ -569,10 +569,12 @@
           "code": null,
           "actions": {
             "createCode": {
-              "available": false,
-              "enabled": false,
-              "provider": null,
-              "args": null,
+              "available": true,
+              "enabled": true,
+              "provider": "pair.startPairing",
+              "args": {
+                "managerRole": "playerOne"
+              },
               "confirm": null,
               "confirmedByProvider": false
             },
@@ -687,7 +689,9 @@
           "confirm": "Forget this device? This browser is signed out and must be set up again before it can play. Your Showdowns are not deleted.",
           "confirmedByProvider": false
         },
-        "primaryActions": [],
+        "primaryActions": [
+          "pairing.createCode"
+        ],
         "moreActions": []
       },
       "seasonResults": {
@@ -986,7 +990,7 @@
         "status": "ready",
         "viewerRole": "nik",
         "continue": {
-          "state": "waiting",
+          "state": "unpaired",
           "leagueId": null,
           "clubs": null,
           "season": null,
@@ -1014,10 +1018,12 @@
               "confirmedByProvider": false
             },
             "join": {
-              "available": false,
-              "enabled": false,
-              "provider": null,
-              "args": null,
+              "available": true,
+              "enabled": true,
+              "provider": "pair.joinPairing",
+              "args": {
+                "managerRole": "playerTwo"
+              },
               "confirm": null,
               "confirmedByProvider": false
             },
@@ -1124,7 +1130,9 @@
           "confirm": "Forget this device? This browser is signed out and must be set up again before it can play. Your Showdowns are not deleted.",
           "confirmedByProvider": false
         },
-        "primaryActions": [],
+        "primaryActions": [
+          "pairing.join"
+        ],
         "moreActions": []
       },
       "seasonResults": {
