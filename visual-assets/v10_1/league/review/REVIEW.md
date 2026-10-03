@@ -41,4 +41,21 @@ Reference: project file `GOAL_LEAGUE.jpg`, 1536 × 864. Code values are from `in
 - Nik area — mockup: Nik occupies the right side, facing inward with hand at chin; code: the same plate-registered 1:1 desktop scene preserves Nik on the right with no mirroring or replacement layer in the desktop composition.
 - Phone manager composition — mockup: no portrait-phone reference; code: PRODUCT_TRUTH intentionally replaces the desktop crop on phone with a portrait stadium plus dedicated Daniel-left/Nik-right cut-outs at 30%/70% and 56svh height. This is not scored as a desktop mockup mismatch.
 
+### Code audit
+
+DEFAULT: `visual-assets/v10_1/league/TRUTH.md`, named by JOB-040, is absent from the branch. The audit therefore uses binding `project-documents/factory/PRODUCT_TRUTH.md` already read in step 3, plus `fixtures.json`, `league.js`, and the HTML/CSS selectors already inspected in step 3.
+
+- Manager order — PASS — `index.html .manager-marker--daniel/.manager-marker--nik` and phone hero classes keep Daniel left and Nik right; `league.css` places desktop markers at 25%/75% and phone heroes at 30%/70%. `league.js layoutDesktop/layoutPhone` never mirrors either manager.
+- Invented stats — PASS — `fixtures.json` contains only league choices, chrome strings and wheel workflow states; `league.js applyFrame()` renders no career statistic or score.
+- Real buttons — PASS with product-truth caveat — `index.html #spinLeague`, `.backButton` and `#onlinePlayerIdentityBadge` are the only buttons. Spin/back are wheel actions and the identity button is source-anchored to production `js/onlinePlayerIdentity.js`; however the current desktop header still differs from PRODUCT_TRUTH's final locked five-tab top bar, already recorded under Mockup differences.
+- Workflow states — PASS — `fixtures.json frames.L1–L4` explicitly cover ready, spinning, selected and locked states; `league.js applyFrame()` applies selected text, disabled states and notes without exposing any rival/private input. History-style loading/empty/partial/unavailable states are not applicable to this fixed league-choice step.
+- Fixture-driven changing words — PASS — `league.js applyFrame()` sets every state-changing label from `FX`: `.wheelItem` league names, `#selectedLeague`, `#spinLeague`, `#leagueStateNote`, `#onlinePlayerIdentityBadge` and `#seasonIndicator`. Static title/back/decorative copy remains DOM text and does not change by frame.
+- Accessible names/status — PASS — `index.html #spinLeague`, `.backButton` and `#onlinePlayerIdentityBadge` have visible text names; `#selectedLeague` and `#leagueStateNote` use `role="status"`, `aria-live="polite"` and atomic status where appropriate; decorative scene layers are aria-hidden.
+- Focus order — PASS by source reading — DOM order is identity button, primary wheel action, then BACK; phone CSS hides the entire header, removing the identity button from phone focus order. `league.css button:focus-visible` supplies a 2 px light-gold outline with 3 px offset.
+- Phone touch targets — PASS by CSS reading — `league.css @media (max-width:760px) .menuButton,.backButton` sets `min-height:44px`; primary is 48 px and BACK is 44 px.
+- Phone input size — PASS / N/A — League has no form inputs. The phone rule still sets `input, select, textarea { font-size: max(16px, 1em); }` if any are introduced.
+- PNG master loading — PASS by source reading — `league.js main()` loads the desktop plate as `ENV_LEAGUE_PLATE_V1_1X.webp/2X.webp`; phone hero/background paths in `index.html` are WebP. The desktop `.finger-ovl` references derived transparent `OVL_DANIEL_FINGER_V1_1X/2X.png`, not a plate/master image.
+- Live data in images — PASS by source reading — league names, selection/status labels, buttons, identity and season indicator remain live DOM text from fixtures; image filenames contain no scores, codes, guesses or other live/private values. Original league marks are applied at runtime by `applyLeagueMark`, not baked as real league logos.
+- Missing truth sheet — NOTE — `visual-assets/v10_1/league/TRUTH.md` is absent. This does not create a product-truth contradiction because `PRODUCT_TRUTH.md` is binding and sufficient for this audit, but the missing per-screen file should be corrected in factory documentation if it was intended as a deliverable.
+
 ## Fix list
