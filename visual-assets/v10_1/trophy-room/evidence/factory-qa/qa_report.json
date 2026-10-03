@@ -1,6 +1,6 @@
 {
   "schema": "SHOWDOWN_FACTORY_QA_V1",
-  "generatedAt": "2026-10-03T12:32:06.128Z",
+  "generatedAt": "2026-10-03T12:35:33.049Z",
   "base": "http://127.0.0.1:8765/visual-assets/v10_1/trophy-room/",
   "screenFolder": "visual-assets/v10_1/trophy-room",
   "frames": [
@@ -246,13 +246,8 @@
           "runningAnimations": []
         }
       },
-      "consoleErrors": [
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-      ],
-      "failedRequests": [
-        "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_1X.webp"
-      ],
+      "consoleErrors": [],
+      "failedRequests": [],
       "screenshot": "TR1__1366x768.png",
       "gates": {
         "H1": {
@@ -323,17 +318,12 @@
           "details": []
         },
         "CONSOLE": {
-          "pass": false,
-          "details": [
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-          ]
+          "pass": true,
+          "details": []
         },
         "REQUESTS": {
-          "pass": false,
-          "details": [
-            "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_1X.webp"
-          ]
+          "pass": true,
+          "details": []
         },
         "FIXTURE_STRINGS": {
           "pass": true,
@@ -513,13 +503,8 @@
           "runningAnimations": []
         }
       },
-      "consoleErrors": [
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-      ],
-      "failedRequests": [
-        "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_1X.webp"
-      ],
+      "consoleErrors": [],
+      "failedRequests": [],
       "screenshot": "TR1__1440x900.png",
       "gates": {
         "H1": {
@@ -590,17 +575,12 @@
           "details": []
         },
         "CONSOLE": {
-          "pass": false,
-          "details": [
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-          ]
+          "pass": true,
+          "details": []
         },
         "REQUESTS": {
-          "pass": false,
-          "details": [
-            "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_1X.webp"
-          ]
+          "pass": true,
+          "details": []
         },
         "FIXTURE_STRINGS": {
           "pass": true,
@@ -780,13 +760,8 @@
           "runningAnimations": []
         }
       },
-      "consoleErrors": [
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-      ],
-      "failedRequests": [
-        "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_1X.webp"
-      ],
+      "consoleErrors": [],
+      "failedRequests": [],
       "screenshot": "TR1__1920x1080.png",
       "gates": {
         "H1": {
@@ -857,17 +832,12 @@
           "details": []
         },
         "CONSOLE": {
-          "pass": false,
-          "details": [
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-          ]
+          "pass": true,
+          "details": []
         },
         "REQUESTS": {
-          "pass": false,
-          "details": [
-            "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_1X.webp"
-          ]
+          "pass": true,
+          "details": []
         },
         "FIXTURE_STRINGS": {
           "pass": true,
@@ -1047,13 +1017,8 @@
           "runningAnimations": []
         }
       },
-      "consoleErrors": [
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-      ],
-      "failedRequests": [
-        "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_1X.webp"
-      ],
+      "consoleErrors": [],
+      "failedRequests": [],
       "screenshot": "TR1__1366x640.png",
       "gates": {
         "H1": {
@@ -1124,17 +1089,12 @@
           "details": []
         },
         "CONSOLE": {
-          "pass": false,
-          "details": [
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-          ]
+          "pass": true,
+          "details": []
         },
         "REQUESTS": {
-          "pass": false,
-          "details": [
-            "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_1X.webp"
-          ]
+          "pass": true,
+          "details": []
         },
         "FIXTURE_STRINGS": {
           "pass": true,
@@ -1330,13 +1290,8 @@
           "runningAnimations": []
         }
       },
-      "consoleErrors": [
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-      ],
-      "failedRequests": [
-        "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_2X.webp"
-      ],
+      "consoleErrors": [],
+      "failedRequests": [],
       "screenshot": "TR1__393x660@3x.png",
       "gates": {
         "H1": {
@@ -1422,17 +1377,12 @@
           ]
         },
         "CONSOLE": {
-          "pass": false,
-          "details": [
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-          ]
+          "pass": true,
+          "details": []
         },
         "REQUESTS": {
-          "pass": false,
-          "details": [
-            "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_2X.webp"
-          ]
+          "pass": true,
+          "details": []
         },
         "FIXTURE_STRINGS": {
           "pass": true,
@@ -1642,13 +1592,8 @@
           "runningAnimations": []
         }
       },
-      "consoleErrors": [
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-      ],
-      "failedRequests": [
-        "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_2X.webp"
-      ],
+      "consoleErrors": [],
+      "failedRequests": [],
       "screenshot": "TR1__360x640.png",
       "gates": {
         "H1": {
@@ -1748,17 +1693,12 @@
           ]
         },
         "CONSOLE": {
-          "pass": false,
-          "details": [
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-          ]
+          "pass": true,
+          "details": []
         },
         "REQUESTS": {
-          "pass": false,
-          "details": [
-            "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_2X.webp"
-          ]
+          "pass": true,
+          "details": []
         },
         "FIXTURE_STRINGS": {
           "pass": true,
@@ -1954,13 +1894,8 @@
           "runningAnimations": []
         }
       },
-      "consoleErrors": [
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-      ],
-      "failedRequests": [
-        "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_2X.webp"
-      ],
+      "consoleErrors": [],
+      "failedRequests": [],
       "screenshot": "TR1__375x553.png",
       "gates": {
         "H1": {
@@ -2046,17 +1981,12 @@
           ]
         },
         "CONSOLE": {
-          "pass": false,
-          "details": [
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-          ]
+          "pass": true,
+          "details": []
         },
         "REQUESTS": {
-          "pass": false,
-          "details": [
-            "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_2X.webp"
-          ]
+          "pass": true,
+          "details": []
         },
         "FIXTURE_STRINGS": {
           "pass": true,
@@ -2252,13 +2182,8 @@
           "runningAnimations": []
         }
       },
-      "consoleErrors": [
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-      ],
-      "failedRequests": [
-        "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_2X.webp"
-      ],
+      "consoleErrors": [],
+      "failedRequests": [],
       "screenshot": "TR1__390x844.png",
       "gates": {
         "H1": {
@@ -2344,17 +2269,12 @@
           ]
         },
         "CONSOLE": {
-          "pass": false,
-          "details": [
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-          ]
+          "pass": true,
+          "details": []
         },
         "REQUESTS": {
-          "pass": false,
-          "details": [
-            "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_2X.webp"
-          ]
+          "pass": true,
+          "details": []
         },
         "FIXTURE_STRINGS": {
           "pass": true,
@@ -2550,13 +2470,8 @@
           "runningAnimations": []
         }
       },
-      "consoleErrors": [
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-      ],
-      "failedRequests": [
-        "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_2X.webp"
-      ],
+      "consoleErrors": [],
+      "failedRequests": [],
       "screenshot": "TR1__430x932.png",
       "gates": {
         "H1": {
@@ -2642,17 +2557,12 @@
           ]
         },
         "CONSOLE": {
-          "pass": false,
-          "details": [
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-          ]
+          "pass": true,
+          "details": []
         },
         "REQUESTS": {
-          "pass": false,
-          "details": [
-            "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_2X.webp"
-          ]
+          "pass": true,
+          "details": []
         },
         "FIXTURE_STRINGS": {
           "pass": true,
@@ -2832,13 +2742,8 @@
           "runningAnimations": []
         }
       },
-      "consoleErrors": [
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-      ],
-      "failedRequests": [
-        "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_1X.webp"
-      ],
+      "consoleErrors": [],
+      "failedRequests": [],
       "screenshot": "TR2__1366x768.png",
       "gates": {
         "H1": {
@@ -2909,17 +2814,12 @@
           "details": []
         },
         "CONSOLE": {
-          "pass": false,
-          "details": [
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-          ]
+          "pass": true,
+          "details": []
         },
         "REQUESTS": {
-          "pass": false,
-          "details": [
-            "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_1X.webp"
-          ]
+          "pass": true,
+          "details": []
         },
         "FIXTURE_STRINGS": {
           "pass": true,
@@ -3099,13 +2999,8 @@
           "runningAnimations": []
         }
       },
-      "consoleErrors": [
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-      ],
-      "failedRequests": [
-        "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_1X.webp"
-      ],
+      "consoleErrors": [],
+      "failedRequests": [],
       "screenshot": "TR2__1440x900.png",
       "gates": {
         "H1": {
@@ -3176,17 +3071,12 @@
           "details": []
         },
         "CONSOLE": {
-          "pass": false,
-          "details": [
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-          ]
+          "pass": true,
+          "details": []
         },
         "REQUESTS": {
-          "pass": false,
-          "details": [
-            "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_1X.webp"
-          ]
+          "pass": true,
+          "details": []
         },
         "FIXTURE_STRINGS": {
           "pass": true,
@@ -3366,13 +3256,8 @@
           "runningAnimations": []
         }
       },
-      "consoleErrors": [
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-      ],
-      "failedRequests": [
-        "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_1X.webp"
-      ],
+      "consoleErrors": [],
+      "failedRequests": [],
       "screenshot": "TR2__1920x1080.png",
       "gates": {
         "H1": {
@@ -3443,17 +3328,12 @@
           "details": []
         },
         "CONSOLE": {
-          "pass": false,
-          "details": [
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-          ]
+          "pass": true,
+          "details": []
         },
         "REQUESTS": {
-          "pass": false,
-          "details": [
-            "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_1X.webp"
-          ]
+          "pass": true,
+          "details": []
         },
         "FIXTURE_STRINGS": {
           "pass": true,
@@ -3633,13 +3513,8 @@
           "runningAnimations": []
         }
       },
-      "consoleErrors": [
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-      ],
-      "failedRequests": [
-        "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_1X.webp"
-      ],
+      "consoleErrors": [],
+      "failedRequests": [],
       "screenshot": "TR2__1366x640.png",
       "gates": {
         "H1": {
@@ -3710,17 +3585,12 @@
           "details": []
         },
         "CONSOLE": {
-          "pass": false,
-          "details": [
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-          ]
+          "pass": true,
+          "details": []
         },
         "REQUESTS": {
-          "pass": false,
-          "details": [
-            "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_1X.webp"
-          ]
+          "pass": true,
+          "details": []
         },
         "FIXTURE_STRINGS": {
           "pass": true,
@@ -3916,13 +3786,8 @@
           "runningAnimations": []
         }
       },
-      "consoleErrors": [
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-      ],
-      "failedRequests": [
-        "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_2X.webp"
-      ],
+      "consoleErrors": [],
+      "failedRequests": [],
       "screenshot": "TR2__393x660@3x.png",
       "gates": {
         "H1": {
@@ -4008,17 +3873,12 @@
           ]
         },
         "CONSOLE": {
-          "pass": false,
-          "details": [
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-          ]
+          "pass": true,
+          "details": []
         },
         "REQUESTS": {
-          "pass": false,
-          "details": [
-            "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_2X.webp"
-          ]
+          "pass": true,
+          "details": []
         },
         "FIXTURE_STRINGS": {
           "pass": true,
@@ -4228,13 +4088,8 @@
           "runningAnimations": []
         }
       },
-      "consoleErrors": [
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-      ],
-      "failedRequests": [
-        "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_2X.webp"
-      ],
+      "consoleErrors": [],
+      "failedRequests": [],
       "screenshot": "TR2__360x640.png",
       "gates": {
         "H1": {
@@ -4334,17 +4189,12 @@
           ]
         },
         "CONSOLE": {
-          "pass": false,
-          "details": [
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-          ]
+          "pass": true,
+          "details": []
         },
         "REQUESTS": {
-          "pass": false,
-          "details": [
-            "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_2X.webp"
-          ]
+          "pass": true,
+          "details": []
         },
         "FIXTURE_STRINGS": {
           "pass": true,
@@ -4540,13 +4390,8 @@
           "runningAnimations": []
         }
       },
-      "consoleErrors": [
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-      ],
-      "failedRequests": [
-        "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_2X.webp"
-      ],
+      "consoleErrors": [],
+      "failedRequests": [],
       "screenshot": "TR2__375x553.png",
       "gates": {
         "H1": {
@@ -4632,17 +4477,12 @@
           ]
         },
         "CONSOLE": {
-          "pass": false,
-          "details": [
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-          ]
+          "pass": true,
+          "details": []
         },
         "REQUESTS": {
-          "pass": false,
-          "details": [
-            "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_2X.webp"
-          ]
+          "pass": true,
+          "details": []
         },
         "FIXTURE_STRINGS": {
           "pass": true,
@@ -4838,13 +4678,8 @@
           "runningAnimations": []
         }
       },
-      "consoleErrors": [
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-      ],
-      "failedRequests": [
-        "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_2X.webp"
-      ],
+      "consoleErrors": [],
+      "failedRequests": [],
       "screenshot": "TR2__390x844.png",
       "gates": {
         "H1": {
@@ -4930,17 +4765,12 @@
           ]
         },
         "CONSOLE": {
-          "pass": false,
-          "details": [
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-          ]
+          "pass": true,
+          "details": []
         },
         "REQUESTS": {
-          "pass": false,
-          "details": [
-            "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_2X.webp"
-          ]
+          "pass": true,
+          "details": []
         },
         "FIXTURE_STRINGS": {
           "pass": true,
@@ -5136,13 +4966,8 @@
           "runningAnimations": []
         }
       },
-      "consoleErrors": [
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-      ],
-      "failedRequests": [
-        "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_2X.webp"
-      ],
+      "consoleErrors": [],
+      "failedRequests": [],
       "screenshot": "TR2__430x932.png",
       "gates": {
         "H1": {
@@ -5228,17 +5053,12 @@
           ]
         },
         "CONSOLE": {
-          "pass": false,
-          "details": [
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-          ]
+          "pass": true,
+          "details": []
         },
         "REQUESTS": {
-          "pass": false,
-          "details": [
-            "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_2X.webp"
-          ]
+          "pass": true,
+          "details": []
         },
         "FIXTURE_STRINGS": {
           "pass": true,
@@ -5418,13 +5238,8 @@
           "runningAnimations": []
         }
       },
-      "consoleErrors": [
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-      ],
-      "failedRequests": [
-        "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_1X.webp"
-      ],
+      "consoleErrors": [],
+      "failedRequests": [],
       "screenshot": "TR3__1366x768.png",
       "gates": {
         "H1": {
@@ -5495,17 +5310,12 @@
           "details": []
         },
         "CONSOLE": {
-          "pass": false,
-          "details": [
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-          ]
+          "pass": true,
+          "details": []
         },
         "REQUESTS": {
-          "pass": false,
-          "details": [
-            "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_1X.webp"
-          ]
+          "pass": true,
+          "details": []
         },
         "FIXTURE_STRINGS": {
           "pass": true,
@@ -5685,13 +5495,8 @@
           "runningAnimations": []
         }
       },
-      "consoleErrors": [
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-      ],
-      "failedRequests": [
-        "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_1X.webp"
-      ],
+      "consoleErrors": [],
+      "failedRequests": [],
       "screenshot": "TR3__1440x900.png",
       "gates": {
         "H1": {
@@ -5762,17 +5567,12 @@
           "details": []
         },
         "CONSOLE": {
-          "pass": false,
-          "details": [
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-          ]
+          "pass": true,
+          "details": []
         },
         "REQUESTS": {
-          "pass": false,
-          "details": [
-            "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_1X.webp"
-          ]
+          "pass": true,
+          "details": []
         },
         "FIXTURE_STRINGS": {
           "pass": true,
@@ -5952,13 +5752,8 @@
           "runningAnimations": []
         }
       },
-      "consoleErrors": [
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-      ],
-      "failedRequests": [
-        "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_1X.webp"
-      ],
+      "consoleErrors": [],
+      "failedRequests": [],
       "screenshot": "TR3__1920x1080.png",
       "gates": {
         "H1": {
@@ -6029,17 +5824,12 @@
           "details": []
         },
         "CONSOLE": {
-          "pass": false,
-          "details": [
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-          ]
+          "pass": true,
+          "details": []
         },
         "REQUESTS": {
-          "pass": false,
-          "details": [
-            "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_1X.webp"
-          ]
+          "pass": true,
+          "details": []
         },
         "FIXTURE_STRINGS": {
           "pass": true,
@@ -6219,13 +6009,8 @@
           "runningAnimations": []
         }
       },
-      "consoleErrors": [
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-      ],
-      "failedRequests": [
-        "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_1X.webp"
-      ],
+      "consoleErrors": [],
+      "failedRequests": [],
       "screenshot": "TR3__1366x640.png",
       "gates": {
         "H1": {
@@ -6296,17 +6081,12 @@
           "details": []
         },
         "CONSOLE": {
-          "pass": false,
-          "details": [
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-          ]
+          "pass": true,
+          "details": []
         },
         "REQUESTS": {
-          "pass": false,
-          "details": [
-            "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_1X.webp"
-          ]
+          "pass": true,
+          "details": []
         },
         "FIXTURE_STRINGS": {
           "pass": true,
@@ -6502,13 +6282,8 @@
           "runningAnimations": []
         }
       },
-      "consoleErrors": [
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-      ],
-      "failedRequests": [
-        "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_2X.webp"
-      ],
+      "consoleErrors": [],
+      "failedRequests": [],
       "screenshot": "TR3__393x660@3x.png",
       "gates": {
         "H1": {
@@ -6594,17 +6369,12 @@
           ]
         },
         "CONSOLE": {
-          "pass": false,
-          "details": [
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-          ]
+          "pass": true,
+          "details": []
         },
         "REQUESTS": {
-          "pass": false,
-          "details": [
-            "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_2X.webp"
-          ]
+          "pass": true,
+          "details": []
         },
         "FIXTURE_STRINGS": {
           "pass": true,
@@ -6814,13 +6584,8 @@
           "runningAnimations": []
         }
       },
-      "consoleErrors": [
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-      ],
-      "failedRequests": [
-        "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_2X.webp"
-      ],
+      "consoleErrors": [],
+      "failedRequests": [],
       "screenshot": "TR3__360x640.png",
       "gates": {
         "H1": {
@@ -6920,17 +6685,12 @@
           ]
         },
         "CONSOLE": {
-          "pass": false,
-          "details": [
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-          ]
+          "pass": true,
+          "details": []
         },
         "REQUESTS": {
-          "pass": false,
-          "details": [
-            "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_2X.webp"
-          ]
+          "pass": true,
+          "details": []
         },
         "FIXTURE_STRINGS": {
           "pass": true,
@@ -7126,13 +6886,8 @@
           "runningAnimations": []
         }
       },
-      "consoleErrors": [
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-      ],
-      "failedRequests": [
-        "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_2X.webp"
-      ],
+      "consoleErrors": [],
+      "failedRequests": [],
       "screenshot": "TR3__375x553.png",
       "gates": {
         "H1": {
@@ -7218,17 +6973,12 @@
           ]
         },
         "CONSOLE": {
-          "pass": false,
-          "details": [
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-          ]
+          "pass": true,
+          "details": []
         },
         "REQUESTS": {
-          "pass": false,
-          "details": [
-            "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_2X.webp"
-          ]
+          "pass": true,
+          "details": []
         },
         "FIXTURE_STRINGS": {
           "pass": true,
@@ -7424,13 +7174,8 @@
           "runningAnimations": []
         }
       },
-      "consoleErrors": [
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-      ],
-      "failedRequests": [
-        "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_2X.webp"
-      ],
+      "consoleErrors": [],
+      "failedRequests": [],
       "screenshot": "TR3__390x844.png",
       "gates": {
         "H1": {
@@ -7516,17 +7261,12 @@
           ]
         },
         "CONSOLE": {
-          "pass": false,
-          "details": [
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-          ]
+          "pass": true,
+          "details": []
         },
         "REQUESTS": {
-          "pass": false,
-          "details": [
-            "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_2X.webp"
-          ]
+          "pass": true,
+          "details": []
         },
         "FIXTURE_STRINGS": {
           "pass": true,
@@ -7722,13 +7462,8 @@
           "runningAnimations": []
         }
       },
-      "consoleErrors": [
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-      ],
-      "failedRequests": [
-        "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_2X.webp"
-      ],
+      "consoleErrors": [],
+      "failedRequests": [],
       "screenshot": "TR3__430x932.png",
       "gates": {
         "H1": {
@@ -7814,17 +7549,12 @@
           ]
         },
         "CONSOLE": {
-          "pass": false,
-          "details": [
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-          ]
+          "pass": true,
+          "details": []
         },
         "REQUESTS": {
-          "pass": false,
-          "details": [
-            "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_2X.webp"
-          ]
+          "pass": true,
+          "details": []
         },
         "FIXTURE_STRINGS": {
           "pass": true,
@@ -8004,13 +7734,8 @@
           "runningAnimations": []
         }
       },
-      "consoleErrors": [
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-      ],
-      "failedRequests": [
-        "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_1X.webp"
-      ],
+      "consoleErrors": [],
+      "failedRequests": [],
       "screenshot": "TR4__1366x768.png",
       "gates": {
         "H1": {
@@ -8081,17 +7806,12 @@
           "details": []
         },
         "CONSOLE": {
-          "pass": false,
-          "details": [
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-          ]
+          "pass": true,
+          "details": []
         },
         "REQUESTS": {
-          "pass": false,
-          "details": [
-            "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_1X.webp"
-          ]
+          "pass": true,
+          "details": []
         },
         "FIXTURE_STRINGS": {
           "pass": true,
@@ -8271,13 +7991,8 @@
           "runningAnimations": []
         }
       },
-      "consoleErrors": [
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-      ],
-      "failedRequests": [
-        "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_1X.webp"
-      ],
+      "consoleErrors": [],
+      "failedRequests": [],
       "screenshot": "TR4__1440x900.png",
       "gates": {
         "H1": {
@@ -8348,17 +8063,12 @@
           "details": []
         },
         "CONSOLE": {
-          "pass": false,
-          "details": [
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-          ]
+          "pass": true,
+          "details": []
         },
         "REQUESTS": {
-          "pass": false,
-          "details": [
-            "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_1X.webp"
-          ]
+          "pass": true,
+          "details": []
         },
         "FIXTURE_STRINGS": {
           "pass": true,
@@ -8538,13 +8248,8 @@
           "runningAnimations": []
         }
       },
-      "consoleErrors": [
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-      ],
-      "failedRequests": [
-        "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_1X.webp"
-      ],
+      "consoleErrors": [],
+      "failedRequests": [],
       "screenshot": "TR4__1920x1080.png",
       "gates": {
         "H1": {
@@ -8615,17 +8320,12 @@
           "details": []
         },
         "CONSOLE": {
-          "pass": false,
-          "details": [
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-          ]
+          "pass": true,
+          "details": []
         },
         "REQUESTS": {
-          "pass": false,
-          "details": [
-            "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_1X.webp"
-          ]
+          "pass": true,
+          "details": []
         },
         "FIXTURE_STRINGS": {
           "pass": true,
@@ -8805,13 +8505,8 @@
           "runningAnimations": []
         }
       },
-      "consoleErrors": [
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-      ],
-      "failedRequests": [
-        "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_1X.webp"
-      ],
+      "consoleErrors": [],
+      "failedRequests": [],
       "screenshot": "TR4__1366x640.png",
       "gates": {
         "H1": {
@@ -8882,17 +8577,12 @@
           "details": []
         },
         "CONSOLE": {
-          "pass": false,
-          "details": [
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-          ]
+          "pass": true,
+          "details": []
         },
         "REQUESTS": {
-          "pass": false,
-          "details": [
-            "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_1X.webp"
-          ]
+          "pass": true,
+          "details": []
         },
         "FIXTURE_STRINGS": {
           "pass": true,
@@ -9088,13 +8778,8 @@
           "runningAnimations": []
         }
       },
-      "consoleErrors": [
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-      ],
-      "failedRequests": [
-        "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_2X.webp"
-      ],
+      "consoleErrors": [],
+      "failedRequests": [],
       "screenshot": "TR4__393x660@3x.png",
       "gates": {
         "H1": {
@@ -9180,17 +8865,12 @@
           ]
         },
         "CONSOLE": {
-          "pass": false,
-          "details": [
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-          ]
+          "pass": true,
+          "details": []
         },
         "REQUESTS": {
-          "pass": false,
-          "details": [
-            "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_2X.webp"
-          ]
+          "pass": true,
+          "details": []
         },
         "FIXTURE_STRINGS": {
           "pass": true,
@@ -9400,13 +9080,8 @@
           "runningAnimations": []
         }
       },
-      "consoleErrors": [
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-      ],
-      "failedRequests": [
-        "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_2X.webp"
-      ],
+      "consoleErrors": [],
+      "failedRequests": [],
       "screenshot": "TR4__360x640.png",
       "gates": {
         "H1": {
@@ -9506,17 +9181,12 @@
           ]
         },
         "CONSOLE": {
-          "pass": false,
-          "details": [
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-          ]
+          "pass": true,
+          "details": []
         },
         "REQUESTS": {
-          "pass": false,
-          "details": [
-            "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_2X.webp"
-          ]
+          "pass": true,
+          "details": []
         },
         "FIXTURE_STRINGS": {
           "pass": true,
@@ -9712,13 +9382,8 @@
           "runningAnimations": []
         }
       },
-      "consoleErrors": [
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-      ],
-      "failedRequests": [
-        "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_2X.webp"
-      ],
+      "consoleErrors": [],
+      "failedRequests": [],
       "screenshot": "TR4__375x553.png",
       "gates": {
         "H1": {
@@ -9804,17 +9469,12 @@
           ]
         },
         "CONSOLE": {
-          "pass": false,
-          "details": [
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-          ]
+          "pass": true,
+          "details": []
         },
         "REQUESTS": {
-          "pass": false,
-          "details": [
-            "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_2X.webp"
-          ]
+          "pass": true,
+          "details": []
         },
         "FIXTURE_STRINGS": {
           "pass": true,
@@ -10010,13 +9670,8 @@
           "runningAnimations": []
         }
       },
-      "consoleErrors": [
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-      ],
-      "failedRequests": [
-        "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_2X.webp"
-      ],
+      "consoleErrors": [],
+      "failedRequests": [],
       "screenshot": "TR4__390x844.png",
       "gates": {
         "H1": {
@@ -10102,17 +9757,12 @@
           ]
         },
         "CONSOLE": {
-          "pass": false,
-          "details": [
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-          ]
+          "pass": true,
+          "details": []
         },
         "REQUESTS": {
-          "pass": false,
-          "details": [
-            "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_2X.webp"
-          ]
+          "pass": true,
+          "details": []
         },
         "FIXTURE_STRINGS": {
           "pass": true,
@@ -10308,13 +9958,8 @@
           "runningAnimations": []
         }
       },
-      "consoleErrors": [
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-      ],
-      "failedRequests": [
-        "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_2X.webp"
-      ],
+      "consoleErrors": [],
+      "failedRequests": [],
       "screenshot": "TR4__430x932.png",
       "gates": {
         "H1": {
@@ -10400,17 +10045,12 @@
           ]
         },
         "CONSOLE": {
-          "pass": false,
-          "details": [
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-          ]
+          "pass": true,
+          "details": []
         },
         "REQUESTS": {
-          "pass": false,
-          "details": [
-            "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_2X.webp"
-          ]
+          "pass": true,
+          "details": []
         },
         "FIXTURE_STRINGS": {
           "pass": true,
@@ -10590,13 +10230,8 @@
           "runningAnimations": []
         }
       },
-      "consoleErrors": [
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-      ],
-      "failedRequests": [
-        "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_1X.webp"
-      ],
+      "consoleErrors": [],
+      "failedRequests": [],
       "screenshot": "TR5__1366x768.png",
       "gates": {
         "H1": {
@@ -10667,17 +10302,12 @@
           "details": []
         },
         "CONSOLE": {
-          "pass": false,
-          "details": [
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-          ]
+          "pass": true,
+          "details": []
         },
         "REQUESTS": {
-          "pass": false,
-          "details": [
-            "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_1X.webp"
-          ]
+          "pass": true,
+          "details": []
         },
         "FIXTURE_STRINGS": {
           "pass": true,
@@ -10857,13 +10487,8 @@
           "runningAnimations": []
         }
       },
-      "consoleErrors": [
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-      ],
-      "failedRequests": [
-        "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_1X.webp"
-      ],
+      "consoleErrors": [],
+      "failedRequests": [],
       "screenshot": "TR5__1440x900.png",
       "gates": {
         "H1": {
@@ -10934,17 +10559,12 @@
           "details": []
         },
         "CONSOLE": {
-          "pass": false,
-          "details": [
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-          ]
+          "pass": true,
+          "details": []
         },
         "REQUESTS": {
-          "pass": false,
-          "details": [
-            "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_1X.webp"
-          ]
+          "pass": true,
+          "details": []
         },
         "FIXTURE_STRINGS": {
           "pass": true,
@@ -11124,13 +10744,8 @@
           "runningAnimations": []
         }
       },
-      "consoleErrors": [
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-      ],
-      "failedRequests": [
-        "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_1X.webp"
-      ],
+      "consoleErrors": [],
+      "failedRequests": [],
       "screenshot": "TR5__1920x1080.png",
       "gates": {
         "H1": {
@@ -11201,17 +10816,12 @@
           "details": []
         },
         "CONSOLE": {
-          "pass": false,
-          "details": [
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-          ]
+          "pass": true,
+          "details": []
         },
         "REQUESTS": {
-          "pass": false,
-          "details": [
-            "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_1X.webp"
-          ]
+          "pass": true,
+          "details": []
         },
         "FIXTURE_STRINGS": {
           "pass": true,
@@ -11391,13 +11001,8 @@
           "runningAnimations": []
         }
       },
-      "consoleErrors": [
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-      ],
-      "failedRequests": [
-        "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_1X.webp"
-      ],
+      "consoleErrors": [],
+      "failedRequests": [],
       "screenshot": "TR5__1366x640.png",
       "gates": {
         "H1": {
@@ -11468,17 +11073,12 @@
           "details": []
         },
         "CONSOLE": {
-          "pass": false,
-          "details": [
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-          ]
+          "pass": true,
+          "details": []
         },
         "REQUESTS": {
-          "pass": false,
-          "details": [
-            "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_1X.webp"
-          ]
+          "pass": true,
+          "details": []
         },
         "FIXTURE_STRINGS": {
           "pass": true,
@@ -11674,13 +11274,8 @@
           "runningAnimations": []
         }
       },
-      "consoleErrors": [
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-      ],
-      "failedRequests": [
-        "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_2X.webp"
-      ],
+      "consoleErrors": [],
+      "failedRequests": [],
       "screenshot": "TR5__393x660@3x.png",
       "gates": {
         "H1": {
@@ -11766,17 +11361,12 @@
           ]
         },
         "CONSOLE": {
-          "pass": false,
-          "details": [
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-          ]
+          "pass": true,
+          "details": []
         },
         "REQUESTS": {
-          "pass": false,
-          "details": [
-            "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_2X.webp"
-          ]
+          "pass": true,
+          "details": []
         },
         "FIXTURE_STRINGS": {
           "pass": true,
@@ -11986,13 +11576,8 @@
           "runningAnimations": []
         }
       },
-      "consoleErrors": [
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-      ],
-      "failedRequests": [
-        "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_2X.webp"
-      ],
+      "consoleErrors": [],
+      "failedRequests": [],
       "screenshot": "TR5__360x640.png",
       "gates": {
         "H1": {
@@ -12092,17 +11677,12 @@
           ]
         },
         "CONSOLE": {
-          "pass": false,
-          "details": [
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-          ]
+          "pass": true,
+          "details": []
         },
         "REQUESTS": {
-          "pass": false,
-          "details": [
-            "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_2X.webp"
-          ]
+          "pass": true,
+          "details": []
         },
         "FIXTURE_STRINGS": {
           "pass": true,
@@ -12298,13 +11878,8 @@
           "runningAnimations": []
         }
       },
-      "consoleErrors": [
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-      ],
-      "failedRequests": [
-        "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_2X.webp"
-      ],
+      "consoleErrors": [],
+      "failedRequests": [],
       "screenshot": "TR5__375x553.png",
       "gates": {
         "H1": {
@@ -12390,17 +11965,12 @@
           ]
         },
         "CONSOLE": {
-          "pass": false,
-          "details": [
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-          ]
+          "pass": true,
+          "details": []
         },
         "REQUESTS": {
-          "pass": false,
-          "details": [
-            "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_2X.webp"
-          ]
+          "pass": true,
+          "details": []
         },
         "FIXTURE_STRINGS": {
           "pass": true,
@@ -12596,13 +12166,8 @@
           "runningAnimations": []
         }
       },
-      "consoleErrors": [
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-      ],
-      "failedRequests": [
-        "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_2X.webp"
-      ],
+      "consoleErrors": [],
+      "failedRequests": [],
       "screenshot": "TR5__390x844.png",
       "gates": {
         "H1": {
@@ -12688,17 +12253,12 @@
           ]
         },
         "CONSOLE": {
-          "pass": false,
-          "details": [
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-          ]
+          "pass": true,
+          "details": []
         },
         "REQUESTS": {
-          "pass": false,
-          "details": [
-            "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_2X.webp"
-          ]
+          "pass": true,
+          "details": []
         },
         "FIXTURE_STRINGS": {
           "pass": true,
@@ -12894,13 +12454,8 @@
           "runningAnimations": []
         }
       },
-      "consoleErrors": [
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-      ],
-      "failedRequests": [
-        "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_2X.webp"
-      ],
+      "consoleErrors": [],
+      "failedRequests": [],
       "screenshot": "TR5__430x932.png",
       "gates": {
         "H1": {
@@ -12986,17 +12541,12 @@
           ]
         },
         "CONSOLE": {
-          "pass": false,
-          "details": [
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-          ]
+          "pass": true,
+          "details": []
         },
         "REQUESTS": {
-          "pass": false,
-          "details": [
-            "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_2X.webp"
-          ]
+          "pass": true,
+          "details": []
         },
         "FIXTURE_STRINGS": {
           "pass": true,
@@ -13176,13 +12726,8 @@
           "runningAnimations": []
         }
       },
-      "consoleErrors": [
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-      ],
-      "failedRequests": [
-        "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_1X.webp"
-      ],
+      "consoleErrors": [],
+      "failedRequests": [],
       "screenshot": "TR6__1366x768.png",
       "gates": {
         "H1": {
@@ -13253,17 +12798,12 @@
           "details": []
         },
         "CONSOLE": {
-          "pass": false,
-          "details": [
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-          ]
+          "pass": true,
+          "details": []
         },
         "REQUESTS": {
-          "pass": false,
-          "details": [
-            "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_1X.webp"
-          ]
+          "pass": true,
+          "details": []
         },
         "FIXTURE_STRINGS": {
           "pass": true,
@@ -13443,13 +12983,8 @@
           "runningAnimations": []
         }
       },
-      "consoleErrors": [
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-      ],
-      "failedRequests": [
-        "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_1X.webp"
-      ],
+      "consoleErrors": [],
+      "failedRequests": [],
       "screenshot": "TR6__1440x900.png",
       "gates": {
         "H1": {
@@ -13520,17 +13055,12 @@
           "details": []
         },
         "CONSOLE": {
-          "pass": false,
-          "details": [
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-          ]
+          "pass": true,
+          "details": []
         },
         "REQUESTS": {
-          "pass": false,
-          "details": [
-            "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_1X.webp"
-          ]
+          "pass": true,
+          "details": []
         },
         "FIXTURE_STRINGS": {
           "pass": true,
@@ -13710,13 +13240,8 @@
           "runningAnimations": []
         }
       },
-      "consoleErrors": [
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-      ],
-      "failedRequests": [
-        "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_1X.webp"
-      ],
+      "consoleErrors": [],
+      "failedRequests": [],
       "screenshot": "TR6__1920x1080.png",
       "gates": {
         "H1": {
@@ -13787,17 +13312,12 @@
           "details": []
         },
         "CONSOLE": {
-          "pass": false,
-          "details": [
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-          ]
+          "pass": true,
+          "details": []
         },
         "REQUESTS": {
-          "pass": false,
-          "details": [
-            "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_1X.webp"
-          ]
+          "pass": true,
+          "details": []
         },
         "FIXTURE_STRINGS": {
           "pass": true,
@@ -13977,13 +13497,8 @@
           "runningAnimations": []
         }
       },
-      "consoleErrors": [
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-      ],
-      "failedRequests": [
-        "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_1X.webp"
-      ],
+      "consoleErrors": [],
+      "failedRequests": [],
       "screenshot": "TR6__1366x640.png",
       "gates": {
         "H1": {
@@ -14054,17 +13569,12 @@
           "details": []
         },
         "CONSOLE": {
-          "pass": false,
-          "details": [
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-          ]
+          "pass": true,
+          "details": []
         },
         "REQUESTS": {
-          "pass": false,
-          "details": [
-            "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_1X.webp"
-          ]
+          "pass": true,
+          "details": []
         },
         "FIXTURE_STRINGS": {
           "pass": true,
@@ -14260,13 +13770,8 @@
           "runningAnimations": []
         }
       },
-      "consoleErrors": [
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-      ],
-      "failedRequests": [
-        "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_2X.webp"
-      ],
+      "consoleErrors": [],
+      "failedRequests": [],
       "screenshot": "TR6__393x660@3x.png",
       "gates": {
         "H1": {
@@ -14352,17 +13857,12 @@
           ]
         },
         "CONSOLE": {
-          "pass": false,
-          "details": [
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-          ]
+          "pass": true,
+          "details": []
         },
         "REQUESTS": {
-          "pass": false,
-          "details": [
-            "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_2X.webp"
-          ]
+          "pass": true,
+          "details": []
         },
         "FIXTURE_STRINGS": {
           "pass": true,
@@ -14572,13 +14072,8 @@
           "runningAnimations": []
         }
       },
-      "consoleErrors": [
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-      ],
-      "failedRequests": [
-        "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_2X.webp"
-      ],
+      "consoleErrors": [],
+      "failedRequests": [],
       "screenshot": "TR6__360x640.png",
       "gates": {
         "H1": {
@@ -14678,17 +14173,12 @@
           ]
         },
         "CONSOLE": {
-          "pass": false,
-          "details": [
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-          ]
+          "pass": true,
+          "details": []
         },
         "REQUESTS": {
-          "pass": false,
-          "details": [
-            "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_2X.webp"
-          ]
+          "pass": true,
+          "details": []
         },
         "FIXTURE_STRINGS": {
           "pass": true,
@@ -14884,13 +14374,8 @@
           "runningAnimations": []
         }
       },
-      "consoleErrors": [
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-      ],
-      "failedRequests": [
-        "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_2X.webp"
-      ],
+      "consoleErrors": [],
+      "failedRequests": [],
       "screenshot": "TR6__375x553.png",
       "gates": {
         "H1": {
@@ -14976,17 +14461,12 @@
           ]
         },
         "CONSOLE": {
-          "pass": false,
-          "details": [
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-          ]
+          "pass": true,
+          "details": []
         },
         "REQUESTS": {
-          "pass": false,
-          "details": [
-            "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_2X.webp"
-          ]
+          "pass": true,
+          "details": []
         },
         "FIXTURE_STRINGS": {
           "pass": true,
@@ -15182,13 +14662,8 @@
           "runningAnimations": []
         }
       },
-      "consoleErrors": [
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-      ],
-      "failedRequests": [
-        "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_2X.webp"
-      ],
+      "consoleErrors": [],
+      "failedRequests": [],
       "screenshot": "TR6__390x844.png",
       "gates": {
         "H1": {
@@ -15274,17 +14749,12 @@
           ]
         },
         "CONSOLE": {
-          "pass": false,
-          "details": [
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-          ]
+          "pass": true,
+          "details": []
         },
         "REQUESTS": {
-          "pass": false,
-          "details": [
-            "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_2X.webp"
-          ]
+          "pass": true,
+          "details": []
         },
         "FIXTURE_STRINGS": {
           "pass": true,
@@ -15480,13 +14950,8 @@
           "runningAnimations": []
         }
       },
-      "consoleErrors": [
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-      ],
-      "failedRequests": [
-        "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_2X.webp"
-      ],
+      "consoleErrors": [],
+      "failedRequests": [],
       "screenshot": "TR6__430x932.png",
       "gates": {
         "H1": {
@@ -15572,17 +15037,12 @@
           ]
         },
         "CONSOLE": {
-          "pass": false,
-          "details": [
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-          ]
+          "pass": true,
+          "details": []
         },
         "REQUESTS": {
-          "pass": false,
-          "details": [
-            "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_2X.webp"
-          ]
+          "pass": true,
+          "details": []
         },
         "FIXTURE_STRINGS": {
           "pass": true,
@@ -15762,13 +15222,8 @@
           "runningAnimations": []
         }
       },
-      "consoleErrors": [
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-      ],
-      "failedRequests": [
-        "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_1X.webp"
-      ],
+      "consoleErrors": [],
+      "failedRequests": [],
       "screenshot": "TR7__1366x768.png",
       "gates": {
         "H1": {
@@ -15839,17 +15294,12 @@
           "details": []
         },
         "CONSOLE": {
-          "pass": false,
-          "details": [
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-          ]
+          "pass": true,
+          "details": []
         },
         "REQUESTS": {
-          "pass": false,
-          "details": [
-            "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_1X.webp"
-          ]
+          "pass": true,
+          "details": []
         },
         "FIXTURE_STRINGS": {
           "pass": true,
@@ -16029,13 +15479,8 @@
           "runningAnimations": []
         }
       },
-      "consoleErrors": [
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-      ],
-      "failedRequests": [
-        "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_1X.webp"
-      ],
+      "consoleErrors": [],
+      "failedRequests": [],
       "screenshot": "TR7__1440x900.png",
       "gates": {
         "H1": {
@@ -16106,17 +15551,12 @@
           "details": []
         },
         "CONSOLE": {
-          "pass": false,
-          "details": [
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-          ]
+          "pass": true,
+          "details": []
         },
         "REQUESTS": {
-          "pass": false,
-          "details": [
-            "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_1X.webp"
-          ]
+          "pass": true,
+          "details": []
         },
         "FIXTURE_STRINGS": {
           "pass": true,
@@ -16296,13 +15736,8 @@
           "runningAnimations": []
         }
       },
-      "consoleErrors": [
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-      ],
-      "failedRequests": [
-        "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_1X.webp"
-      ],
+      "consoleErrors": [],
+      "failedRequests": [],
       "screenshot": "TR7__1920x1080.png",
       "gates": {
         "H1": {
@@ -16373,17 +15808,12 @@
           "details": []
         },
         "CONSOLE": {
-          "pass": false,
-          "details": [
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-          ]
+          "pass": true,
+          "details": []
         },
         "REQUESTS": {
-          "pass": false,
-          "details": [
-            "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_1X.webp"
-          ]
+          "pass": true,
+          "details": []
         },
         "FIXTURE_STRINGS": {
           "pass": true,
@@ -16563,13 +15993,8 @@
           "runningAnimations": []
         }
       },
-      "consoleErrors": [
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-      ],
-      "failedRequests": [
-        "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_1X.webp"
-      ],
+      "consoleErrors": [],
+      "failedRequests": [],
       "screenshot": "TR7__1366x640.png",
       "gates": {
         "H1": {
@@ -16640,17 +16065,12 @@
           "details": []
         },
         "CONSOLE": {
-          "pass": false,
-          "details": [
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-          ]
+          "pass": true,
+          "details": []
         },
         "REQUESTS": {
-          "pass": false,
-          "details": [
-            "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_1X.webp"
-          ]
+          "pass": true,
+          "details": []
         },
         "FIXTURE_STRINGS": {
           "pass": true,
@@ -16846,13 +16266,8 @@
           "runningAnimations": []
         }
       },
-      "consoleErrors": [
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-      ],
-      "failedRequests": [
-        "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_2X.webp"
-      ],
+      "consoleErrors": [],
+      "failedRequests": [],
       "screenshot": "TR7__393x660@3x.png",
       "gates": {
         "H1": {
@@ -16938,17 +16353,12 @@
           ]
         },
         "CONSOLE": {
-          "pass": false,
-          "details": [
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-          ]
+          "pass": true,
+          "details": []
         },
         "REQUESTS": {
-          "pass": false,
-          "details": [
-            "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_2X.webp"
-          ]
+          "pass": true,
+          "details": []
         },
         "FIXTURE_STRINGS": {
           "pass": true,
@@ -17158,13 +16568,8 @@
           "runningAnimations": []
         }
       },
-      "consoleErrors": [
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-      ],
-      "failedRequests": [
-        "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_2X.webp"
-      ],
+      "consoleErrors": [],
+      "failedRequests": [],
       "screenshot": "TR7__360x640.png",
       "gates": {
         "H1": {
@@ -17264,17 +16669,12 @@
           ]
         },
         "CONSOLE": {
-          "pass": false,
-          "details": [
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-          ]
+          "pass": true,
+          "details": []
         },
         "REQUESTS": {
-          "pass": false,
-          "details": [
-            "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_2X.webp"
-          ]
+          "pass": true,
+          "details": []
         },
         "FIXTURE_STRINGS": {
           "pass": true,
@@ -17470,13 +16870,8 @@
           "runningAnimations": []
         }
       },
-      "consoleErrors": [
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-      ],
-      "failedRequests": [
-        "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_2X.webp"
-      ],
+      "consoleErrors": [],
+      "failedRequests": [],
       "screenshot": "TR7__375x553.png",
       "gates": {
         "H1": {
@@ -17562,17 +16957,12 @@
           ]
         },
         "CONSOLE": {
-          "pass": false,
-          "details": [
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-          ]
+          "pass": true,
+          "details": []
         },
         "REQUESTS": {
-          "pass": false,
-          "details": [
-            "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_2X.webp"
-          ]
+          "pass": true,
+          "details": []
         },
         "FIXTURE_STRINGS": {
           "pass": true,
@@ -17768,13 +17158,8 @@
           "runningAnimations": []
         }
       },
-      "consoleErrors": [
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-      ],
-      "failedRequests": [
-        "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_2X.webp"
-      ],
+      "consoleErrors": [],
+      "failedRequests": [],
       "screenshot": "TR7__390x844.png",
       "gates": {
         "H1": {
@@ -17860,17 +17245,12 @@
           ]
         },
         "CONSOLE": {
-          "pass": false,
-          "details": [
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-          ]
+          "pass": true,
+          "details": []
         },
         "REQUESTS": {
-          "pass": false,
-          "details": [
-            "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_2X.webp"
-          ]
+          "pass": true,
+          "details": []
         },
         "FIXTURE_STRINGS": {
           "pass": true,
@@ -18066,13 +17446,8 @@
           "runningAnimations": []
         }
       },
-      "consoleErrors": [
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-        "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-      ],
-      "failedRequests": [
-        "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_2X.webp"
-      ],
+      "consoleErrors": [],
+      "failedRequests": [],
       "screenshot": "TR7__430x932.png",
       "gates": {
         "H1": {
@@ -18158,17 +17533,12 @@
           ]
         },
         "CONSOLE": {
-          "pass": false,
-          "details": [
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-            "console: Failed to load resource: the server responded with a status of 404 (File not found)"
-          ]
+          "pass": true,
+          "details": []
         },
         "REQUESTS": {
-          "pass": false,
-          "details": [
-            "404 http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_2X.webp"
-          ]
+          "pass": true,
+          "details": []
         },
         "FIXTURE_STRINGS": {
           "pass": true,
@@ -18181,541 +17551,247 @@
   "failingRuns": [
     {
       "frame": "TR1",
-      "viewport": "1366x768",
-      "failingGates": [
-        "CONSOLE",
-        "REQUESTS"
-      ]
-    },
-    {
-      "frame": "TR1",
-      "viewport": "1440x900",
-      "failingGates": [
-        "CONSOLE",
-        "REQUESTS"
-      ]
-    },
-    {
-      "frame": "TR1",
-      "viewport": "1920x1080",
-      "failingGates": [
-        "CONSOLE",
-        "REQUESTS"
-      ]
-    },
-    {
-      "frame": "TR1",
-      "viewport": "1366x640",
-      "failingGates": [
-        "CONSOLE",
-        "REQUESTS"
-      ]
-    },
-    {
-      "frame": "TR1",
       "viewport": "393x660@3x",
       "failingGates": [
-        "CONTROL_BOUNDS",
-        "CONSOLE",
-        "REQUESTS"
+        "CONTROL_BOUNDS"
       ]
     },
     {
       "frame": "TR1",
       "viewport": "360x640",
       "failingGates": [
-        "CONTROL_BOUNDS",
-        "CONSOLE",
-        "REQUESTS"
+        "CONTROL_BOUNDS"
       ]
     },
     {
       "frame": "TR1",
       "viewport": "375x553",
       "failingGates": [
-        "CONTROL_BOUNDS",
-        "CONSOLE",
-        "REQUESTS"
+        "CONTROL_BOUNDS"
       ]
     },
     {
       "frame": "TR1",
       "viewport": "390x844",
       "failingGates": [
-        "CONTROL_BOUNDS",
-        "CONSOLE",
-        "REQUESTS"
+        "CONTROL_BOUNDS"
       ]
     },
     {
       "frame": "TR1",
       "viewport": "430x932",
       "failingGates": [
-        "CONTROL_BOUNDS",
-        "CONSOLE",
-        "REQUESTS"
-      ]
-    },
-    {
-      "frame": "TR2",
-      "viewport": "1366x768",
-      "failingGates": [
-        "CONSOLE",
-        "REQUESTS"
-      ]
-    },
-    {
-      "frame": "TR2",
-      "viewport": "1440x900",
-      "failingGates": [
-        "CONSOLE",
-        "REQUESTS"
-      ]
-    },
-    {
-      "frame": "TR2",
-      "viewport": "1920x1080",
-      "failingGates": [
-        "CONSOLE",
-        "REQUESTS"
-      ]
-    },
-    {
-      "frame": "TR2",
-      "viewport": "1366x640",
-      "failingGates": [
-        "CONSOLE",
-        "REQUESTS"
+        "CONTROL_BOUNDS"
       ]
     },
     {
       "frame": "TR2",
       "viewport": "393x660@3x",
       "failingGates": [
-        "CONTROL_BOUNDS",
-        "CONSOLE",
-        "REQUESTS"
+        "CONTROL_BOUNDS"
       ]
     },
     {
       "frame": "TR2",
       "viewport": "360x640",
       "failingGates": [
-        "CONTROL_BOUNDS",
-        "CONSOLE",
-        "REQUESTS"
+        "CONTROL_BOUNDS"
       ]
     },
     {
       "frame": "TR2",
       "viewport": "375x553",
       "failingGates": [
-        "CONTROL_BOUNDS",
-        "CONSOLE",
-        "REQUESTS"
+        "CONTROL_BOUNDS"
       ]
     },
     {
       "frame": "TR2",
       "viewport": "390x844",
       "failingGates": [
-        "CONTROL_BOUNDS",
-        "CONSOLE",
-        "REQUESTS"
+        "CONTROL_BOUNDS"
       ]
     },
     {
       "frame": "TR2",
       "viewport": "430x932",
       "failingGates": [
-        "CONTROL_BOUNDS",
-        "CONSOLE",
-        "REQUESTS"
-      ]
-    },
-    {
-      "frame": "TR3",
-      "viewport": "1366x768",
-      "failingGates": [
-        "CONSOLE",
-        "REQUESTS"
-      ]
-    },
-    {
-      "frame": "TR3",
-      "viewport": "1440x900",
-      "failingGates": [
-        "CONSOLE",
-        "REQUESTS"
-      ]
-    },
-    {
-      "frame": "TR3",
-      "viewport": "1920x1080",
-      "failingGates": [
-        "CONSOLE",
-        "REQUESTS"
-      ]
-    },
-    {
-      "frame": "TR3",
-      "viewport": "1366x640",
-      "failingGates": [
-        "CONSOLE",
-        "REQUESTS"
+        "CONTROL_BOUNDS"
       ]
     },
     {
       "frame": "TR3",
       "viewport": "393x660@3x",
       "failingGates": [
-        "CONTROL_BOUNDS",
-        "CONSOLE",
-        "REQUESTS"
+        "CONTROL_BOUNDS"
       ]
     },
     {
       "frame": "TR3",
       "viewport": "360x640",
       "failingGates": [
-        "CONTROL_BOUNDS",
-        "CONSOLE",
-        "REQUESTS"
+        "CONTROL_BOUNDS"
       ]
     },
     {
       "frame": "TR3",
       "viewport": "375x553",
       "failingGates": [
-        "CONTROL_BOUNDS",
-        "CONSOLE",
-        "REQUESTS"
+        "CONTROL_BOUNDS"
       ]
     },
     {
       "frame": "TR3",
       "viewport": "390x844",
       "failingGates": [
-        "CONTROL_BOUNDS",
-        "CONSOLE",
-        "REQUESTS"
+        "CONTROL_BOUNDS"
       ]
     },
     {
       "frame": "TR3",
       "viewport": "430x932",
       "failingGates": [
-        "CONTROL_BOUNDS",
-        "CONSOLE",
-        "REQUESTS"
-      ]
-    },
-    {
-      "frame": "TR4",
-      "viewport": "1366x768",
-      "failingGates": [
-        "CONSOLE",
-        "REQUESTS"
-      ]
-    },
-    {
-      "frame": "TR4",
-      "viewport": "1440x900",
-      "failingGates": [
-        "CONSOLE",
-        "REQUESTS"
-      ]
-    },
-    {
-      "frame": "TR4",
-      "viewport": "1920x1080",
-      "failingGates": [
-        "CONSOLE",
-        "REQUESTS"
-      ]
-    },
-    {
-      "frame": "TR4",
-      "viewport": "1366x640",
-      "failingGates": [
-        "CONSOLE",
-        "REQUESTS"
+        "CONTROL_BOUNDS"
       ]
     },
     {
       "frame": "TR4",
       "viewport": "393x660@3x",
       "failingGates": [
-        "CONTROL_BOUNDS",
-        "CONSOLE",
-        "REQUESTS"
+        "CONTROL_BOUNDS"
       ]
     },
     {
       "frame": "TR4",
       "viewport": "360x640",
       "failingGates": [
-        "CONTROL_BOUNDS",
-        "CONSOLE",
-        "REQUESTS"
+        "CONTROL_BOUNDS"
       ]
     },
     {
       "frame": "TR4",
       "viewport": "375x553",
       "failingGates": [
-        "CONTROL_BOUNDS",
-        "CONSOLE",
-        "REQUESTS"
+        "CONTROL_BOUNDS"
       ]
     },
     {
       "frame": "TR4",
       "viewport": "390x844",
       "failingGates": [
-        "CONTROL_BOUNDS",
-        "CONSOLE",
-        "REQUESTS"
+        "CONTROL_BOUNDS"
       ]
     },
     {
       "frame": "TR4",
       "viewport": "430x932",
       "failingGates": [
-        "CONTROL_BOUNDS",
-        "CONSOLE",
-        "REQUESTS"
-      ]
-    },
-    {
-      "frame": "TR5",
-      "viewport": "1366x768",
-      "failingGates": [
-        "CONSOLE",
-        "REQUESTS"
-      ]
-    },
-    {
-      "frame": "TR5",
-      "viewport": "1440x900",
-      "failingGates": [
-        "CONSOLE",
-        "REQUESTS"
-      ]
-    },
-    {
-      "frame": "TR5",
-      "viewport": "1920x1080",
-      "failingGates": [
-        "CONSOLE",
-        "REQUESTS"
-      ]
-    },
-    {
-      "frame": "TR5",
-      "viewport": "1366x640",
-      "failingGates": [
-        "CONSOLE",
-        "REQUESTS"
+        "CONTROL_BOUNDS"
       ]
     },
     {
       "frame": "TR5",
       "viewport": "393x660@3x",
       "failingGates": [
-        "CONTROL_BOUNDS",
-        "CONSOLE",
-        "REQUESTS"
+        "CONTROL_BOUNDS"
       ]
     },
     {
       "frame": "TR5",
       "viewport": "360x640",
       "failingGates": [
-        "CONTROL_BOUNDS",
-        "CONSOLE",
-        "REQUESTS"
+        "CONTROL_BOUNDS"
       ]
     },
     {
       "frame": "TR5",
       "viewport": "375x553",
       "failingGates": [
-        "CONTROL_BOUNDS",
-        "CONSOLE",
-        "REQUESTS"
+        "CONTROL_BOUNDS"
       ]
     },
     {
       "frame": "TR5",
       "viewport": "390x844",
       "failingGates": [
-        "CONTROL_BOUNDS",
-        "CONSOLE",
-        "REQUESTS"
+        "CONTROL_BOUNDS"
       ]
     },
     {
       "frame": "TR5",
       "viewport": "430x932",
       "failingGates": [
-        "CONTROL_BOUNDS",
-        "CONSOLE",
-        "REQUESTS"
-      ]
-    },
-    {
-      "frame": "TR6",
-      "viewport": "1366x768",
-      "failingGates": [
-        "CONSOLE",
-        "REQUESTS"
-      ]
-    },
-    {
-      "frame": "TR6",
-      "viewport": "1440x900",
-      "failingGates": [
-        "CONSOLE",
-        "REQUESTS"
-      ]
-    },
-    {
-      "frame": "TR6",
-      "viewport": "1920x1080",
-      "failingGates": [
-        "CONSOLE",
-        "REQUESTS"
-      ]
-    },
-    {
-      "frame": "TR6",
-      "viewport": "1366x640",
-      "failingGates": [
-        "CONSOLE",
-        "REQUESTS"
+        "CONTROL_BOUNDS"
       ]
     },
     {
       "frame": "TR6",
       "viewport": "393x660@3x",
       "failingGates": [
-        "CONTROL_BOUNDS",
-        "CONSOLE",
-        "REQUESTS"
+        "CONTROL_BOUNDS"
       ]
     },
     {
       "frame": "TR6",
       "viewport": "360x640",
       "failingGates": [
-        "CONTROL_BOUNDS",
-        "CONSOLE",
-        "REQUESTS"
+        "CONTROL_BOUNDS"
       ]
     },
     {
       "frame": "TR6",
       "viewport": "375x553",
       "failingGates": [
-        "CONTROL_BOUNDS",
-        "CONSOLE",
-        "REQUESTS"
+        "CONTROL_BOUNDS"
       ]
     },
     {
       "frame": "TR6",
       "viewport": "390x844",
       "failingGates": [
-        "CONTROL_BOUNDS",
-        "CONSOLE",
-        "REQUESTS"
+        "CONTROL_BOUNDS"
       ]
     },
     {
       "frame": "TR6",
       "viewport": "430x932",
       "failingGates": [
-        "CONTROL_BOUNDS",
-        "CONSOLE",
-        "REQUESTS"
-      ]
-    },
-    {
-      "frame": "TR7",
-      "viewport": "1366x768",
-      "failingGates": [
-        "CONSOLE",
-        "REQUESTS"
-      ]
-    },
-    {
-      "frame": "TR7",
-      "viewport": "1440x900",
-      "failingGates": [
-        "CONSOLE",
-        "REQUESTS"
-      ]
-    },
-    {
-      "frame": "TR7",
-      "viewport": "1920x1080",
-      "failingGates": [
-        "CONSOLE",
-        "REQUESTS"
-      ]
-    },
-    {
-      "frame": "TR7",
-      "viewport": "1366x640",
-      "failingGates": [
-        "CONSOLE",
-        "REQUESTS"
+        "CONTROL_BOUNDS"
       ]
     },
     {
       "frame": "TR7",
       "viewport": "393x660@3x",
       "failingGates": [
-        "CONTROL_BOUNDS",
-        "CONSOLE",
-        "REQUESTS"
+        "CONTROL_BOUNDS"
       ]
     },
     {
       "frame": "TR7",
       "viewport": "360x640",
       "failingGates": [
-        "CONTROL_BOUNDS",
-        "CONSOLE",
-        "REQUESTS"
+        "CONTROL_BOUNDS"
       ]
     },
     {
       "frame": "TR7",
       "viewport": "375x553",
       "failingGates": [
-        "CONTROL_BOUNDS",
-        "CONSOLE",
-        "REQUESTS"
+        "CONTROL_BOUNDS"
       ]
     },
     {
       "frame": "TR7",
       "viewport": "390x844",
       "failingGates": [
-        "CONTROL_BOUNDS",
-        "CONSOLE",
-        "REQUESTS"
+        "CONTROL_BOUNDS"
       ]
     },
     {
       "frame": "TR7",
       "viewport": "430x932",
       "failingGates": [
-        "CONTROL_BOUNDS",
-        "CONSOLE",
-        "REQUESTS"
+        "CONTROL_BOUNDS"
       ]
     }
   ]

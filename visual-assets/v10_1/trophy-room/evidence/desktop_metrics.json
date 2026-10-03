@@ -74,8 +74,8 @@
     },
     {
       "name": "http://127.0.0.1:8765/visual-assets/v10_1/trophy-room/trophy-room.js",
-      "encoded": 10173,
-      "transfer": 10473
+      "encoded": 10203,
+      "transfer": 10503
     },
     {
       "name": "http://127.0.0.1:8765/visual-assets/v10_1/trophy-room/fixtures.json",
@@ -88,9 +88,9 @@
       "transfer": 1792
     },
     {
-      "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_1X.webp",
-      "encoded": 335,
-      "transfer": 635
+      "name": "http://127.0.0.1:8765/visual-assets/v10_1/trophy-room/assets/ENV_TR_PLATE_V1_1X.webp",
+      "encoded": 319404,
+      "transfer": 319704
     },
     {
       "name": "http://127.0.0.1:8765/visual-assets/v10_1/trophy-room/assets/TITLE_TR_V1.webp",
@@ -118,19 +118,9 @@
       "transfer": 47072
     },
     {
-      "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/assets/ENV_TR_PLATE_V1_1X.webp",
-      "encoded": 335,
-      "transfer": 635
-    },
-    {
       "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/barlow-condensed-latin-700-normal.woff2",
       "encoded": 22444,
       "transfer": 22744
-    },
-    {
-      "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/barlow-latin-600-normal.woff2",
-      "encoded": 22772,
-      "transfer": 23072
     },
     {
       "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/barlow-condensed-latin-600-normal.woff2",
@@ -138,12 +128,17 @@
       "transfer": 22608
     },
     {
+      "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/barlow-latin-600-normal.woff2",
+      "encoded": 22772,
+      "transfer": 23072
+    },
+    {
       "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/barlow-latin-400-normal.woff2",
       "encoded": 22196,
       "transfer": 22496
     }
   ],
-  "bytes": 537168,
+  "bytes": 855932,
   "primary": {
     "left": 796.796875,
     "top": 954.09375,
@@ -152,10 +147,7 @@
     "width": 326.390625,
     "height": 46
   },
-  "consoleErrors": [
-    "Failed to load resource: the server responded with a status of 404 (File not found)",
-    "Failed to load resource: the server responded with a status of 404 (File not found)"
-  ],
+  "consoleErrors": [],
   "failedRequests": [],
   "exactTabs": true,
   "exactCards": true,
@@ -205,5 +197,5 @@
     }
   ],
   "keyboardPass": true,
-  "pass": false
+  "pass": true
 }
