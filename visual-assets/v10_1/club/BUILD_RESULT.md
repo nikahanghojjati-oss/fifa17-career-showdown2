@@ -206,3 +206,18 @@ The phone-art ceiling from JOB-113 is 348,506 bytes: 240,506-byte background plu
 ### Claude intake work
 
 Run `visual-assets/v10_1/club/tools/MAKE_ASSETS.md` to make the two transparent hero WebPs from the approved Club plate, keeping the held packs/hands inside the silhouettes and never mirroring either manager. Inspect hair, beard, suit, hands and pack contact at 400%, enforce the ≤54 KB per-hero cap, then render the 393×660 proof from `phonemap.json`. Claude's browser intake verifies H5, contrast, reduced motion, focus/tab order, request cleanliness, page weight and the final visual contact of hands to packs; this worker made only source/read checks per the factory handbook.
+
+## Fix round
+
+JOB-047 applied the independent review fixes that are possible from the current factory inputs.
+
+- Done: shared product-truth top bar now exposes only HOME / CAREER / STANDINGS / STATS / RULES plus Settings.
+- Done: fixture/platemap/handmap load failure now exposes a visible UNAVAILABLE state, disables and hides both primary actions, and keeps Back available.
+- Done: footer left branding is restored to CM17 / CAREER MODE SHOWDOWN 17 while the right FOOTBALL BRINGS US TOGETHER slogan and crown remain.
+- Blocked: CLUB ASSIGNMENT and VS still use semantic Kaushan fallbacks because the required final Showdown-authored Club and VS wordmark assets are absent from visual-assets/v10_1/shared/wordmarks/. No substitute art was improvised.
+
+Claude recheck:
+- Re-render the Club screen after the final Club and VS wordmark assets exist and replace the fallbacks.
+- Re-measure hard gates H5 through H11 from the committed code: phone fit/scroll, input-size/contrast applicability, reduced motion, keyboard/focus, console/failed requests, mockup diff, and first-paint weight.
+- Re-score mockup fidelity, typography/title treatment, information clarity and polish after the wordmark replacement and the completed source fixes.
+
