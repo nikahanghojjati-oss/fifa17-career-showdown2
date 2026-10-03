@@ -532,6 +532,21 @@
         "^tests/contracts/career-index-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/completed-showdown-read-contracts.cjs",
+      "patterns": [
+        "^js/sparkCompletedShowdownReader\\.js$",
+        "^js/sharedTerminalClose\\.js$",
+        "^js/sharedHistoryConvergence\\.js$",
+        "^firestore\\.persistent-pair-production\\.fragment\\.rules$",
+        "^firestore\\.spark\\.rules$",
+        "^firestore\\.(shared-setup|season-results|season-commit|terminal-close)-production\\.fragment\\.rules$",
+        "^scripts/inject-persistent-pair-rules\\.mjs$",
+        "^scripts/build-production-firestore-rules(-with-persistent-pair)?\\.mjs$",
+        "^tests/contracts/completed-showdown-read-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }

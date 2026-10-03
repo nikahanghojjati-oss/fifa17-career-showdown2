@@ -24,6 +24,7 @@ const TerminalProvider=require("../../js/sparkTerminalClose.js");
 const Sessions=require("../../js/sparkPrivateSession.js");
 const Pairing=require("../../js/sparkPrivatePairing.js");
 const PersistentPair=require("../../js/persistentNikDanielPair.js");
+const CompletedReader=require("../../js/sparkCompletedShowdownReader.js");
 
 const PROJECT_ID="demo-cms-two-manager-journey";
 const RULES=fs.readFileSync("firestore.spark.generated.rules","utf8");
@@ -160,6 +161,24 @@ async function assertCareerIndex(main,expected,label){
   }
 }
 
+async function assertCompletedShowdowns(env,expected,label,{indexed=null}={}){
+  const seen={};
+  for(const [who,uid] of [["Daniel",A],["Nik",B]]){
+    const db=env.authenticatedContext(uid).firestore();
+    let ids=Object.keys(expected);
+    if(indexed){const index=await PersistentPair.readCareerIndex({firestore:db,firebaseSdk:firestoreSdk,accountId:uid});assert.equal(index.status,"ready",`${label}: ${who} index`);assert.deepEqual(index.rivalryIds,indexed,`${label}: ${who} index ids`);ids=[...new Set([...index.rivalryIds,...ids])];}
+    for(const id of ids){
+      const result=await CompletedReader.readCompletedShowdown({firestore:db,firebaseSdk:firestoreSdk,user:{uid},rivalryId:id,cryptoImpl:crypto.webcrypto});
+      const want=expected[id];
+      assert.equal(result.status,want.status,`${label}: ${who} ${id.slice(0,9)} status ${JSON.stringify(result)}`);
+      if(want.status==="completed"){assert.deepEqual(result.final.totals,want.totals,`${label}: ${who} totals`);assert.equal(result.final.seasonsPlayed,want.seasonsPlayed);assert.equal(result.projection.seasonHistory.length,want.seasonsPlayed);}
+      else assert.equal(result.projection,null,`${label}: ${who} abandoned Showdown carries no seasons`);
+      if(seen[id])assert.deepEqual({projection:result.projection,final:result.final},seen[id],`${label}: both managers read the same ${id.slice(0,9)}`);
+      else seen[id]={projection:result.projection,final:result.final};
+    }
+  }
+}
+
 async function runSecondShowdownAndAbandon(env,main){
   const now2=Date.now();
   await pairFreshRivalry(env,{rivalryId:R2,sessionId:S2,nowMs:now2});
@@ -169,9 +188,10 @@ async function runSecondShowdownAndAbandon(env,main){
   await assertCareerIndex(main,[R2],"G-7 after Showdown 2 pairing (R1 predates the index: never backfilled)");
   assert.equal(pairB2.data.rivalryId,R2,"Nik current pair must also move to the new rivalry");
   for(const [who,db] of [["Daniel",main.dbA],["Nik",main.dbB]]){
-    await assertFails(getDoc(doc(db,"rivalries",R1,"sharedSetup","authoritative")),`KNOWN GAP 1 (fixed by G-8): ${who} cannot read Showdown 1 setup after close`);
-    await assertFails(getDoc(doc(db,"rivalries",R1,"seasonCommits","season_1")),`KNOWN GAP 1 (fixed by G-8): ${who} cannot read Showdown 1 season 1 after close`);
+    await assertSucceeds(getDoc(doc(db,"rivalries",R1,"sharedSetup","authoritative")),`G-8: ${who} reads closed Showdown 1 setup without a session`);
+    await assertSucceeds(getDoc(doc(db,"rivalries",R1,"seasonCommits","season_1")),`G-8: ${who} reads closed Showdown 1 season 1 without a session`);
   }
+  await assertCompletedShowdowns(env,{[R1]:{status:"completed",totals:main.finalA.managerTotals,seasonsPlayed:TOTAL_SEASONS}},"G-8 after Showdown 2 pairing");
   await playFreshSingleSeason(env,{rivalryId:R2,sessionId:S2,nowMs:now2+5000,closeAtEnd:true});
 
   const now3=Date.now();
@@ -193,6 +213,8 @@ async function runSecondShowdownAndAbandon(env,main){
   let storedCommit;
   await env.withSecurityRulesDisabled(async context=>{storedCommit=(await getDoc(doc(context.firestore(),"rivalries",R3,"seasonCommits","season_1"))).data();});
   await assertFails(setDoc(doc(fresh.dbA,"rivalries",R3,"seasonCommits","season_1"),storedCommit),"Further direct season writes must be denied after abandon");
+  // G-8: from fresh authenticated clients, the career index leads to R2 completed and R3 abandoned; closed R1 stays completed.
+  await assertCompletedShowdowns(env,{[R1]:{status:"completed",totals:main.finalA.managerTotals,seasonsPlayed:TOTAL_SEASONS},[R2]:{status:"completed",totals:{playerOne:5,playerTwo:0},seasonsPlayed:1},[R3]:{status:"abandoned"}},"G-8 after Showdown 3 abandon",{indexed:[R2,R3]});
 }
 
 async function playMainJourney(env){
@@ -270,4 +292,4 @@ async function playMainJourney(env){
   return {now,dbA,dbB,finalA};
 }
 
-(async()=>{const env=await initializeTestEnvironment({projectId:PROJECT_ID,firestore:{rules:RULES}});try{await env.clearFirestore();const main=await playMainJourney(env);await runSecondShowdownAndAbandon(env,main);process.stdout.write(`PASS two-manager journey Sections A-G (${TOTAL_SEASONS} season${TOTAL_SEASONS===1?"":"s"} main): main journey, stranger denial, privacy, idempotent retry, simultaneous taps, second Showdown known gaps, and persistent-provider abandon all proved.\n`);}finally{await env.cleanup();}})().catch(error=>{console.error(error.stack||error);process.exit(1);});
+(async()=>{const env=await initializeTestEnvironment({projectId:PROJECT_ID,firestore:{rules:RULES}});try{await env.clearFirestore();const main=await playMainJourney(env);await runSecondShowdownAndAbandon(env,main);process.stdout.write(`PASS two-manager journey Sections A-G (${TOTAL_SEASONS} season${TOTAL_SEASONS===1?"":"s"} main): main journey, stranger denial, privacy, idempotent retry, simultaneous taps, second Showdown, completed-only reads of closed Showdowns, and persistent-provider abandon all proved.\n`);}finally{await env.cleanup();}})().catch(error=>{console.error(error.stack||error);process.exit(1);});
