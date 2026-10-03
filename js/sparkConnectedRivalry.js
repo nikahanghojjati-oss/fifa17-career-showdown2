@@ -815,6 +815,8 @@
           crClearPairingActivationRetry();
         }
         const prefillRivalryId=pairingCandidate&&(!pointer||pointer.rivalryId!==pairingCandidate.rivalryId||!crSameBinding(binding,pairingCandidate.binding))?pairingCandidate.rivalryId:null;
+        const sameAttachedContext=Boolean(!autoAttached&&pointer&&crState.initialized===true&&crState.attached===true&&crState.rivalryId===pointer.rivalryId&&crState.accountId===context.accountId&&crState.deviceId===context.deviceId&&crSameBinding(crState.binding,binding));
+        if(sameAttachedContext)return crSetState({initialized:true,connected:true,attached:true,prefillRivalryId});
         return crSetState({
           status:pointer?"saved-link":prefillRivalryId?"pairing-link-ready":"ready",
           initialized:true,
