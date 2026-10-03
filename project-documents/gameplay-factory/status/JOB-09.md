@@ -1,13 +1,13 @@
 # Status · JOB-09 · Closed-Showdown adapter into the career model
 
 State: IN PROGRESS
-Step: 4 of 7
-Updated: 2026-10-03 15:13 UTC
+Step: 5 of 7
+Updated: 2026-10-03 15:15 UTC
 Chat: Sol Work mode (job 9, 04fd13bb5a42)
 Code branch: gameplay/job-09-closed-adapter
-Head commit: bf69b3598ab3ea42c1b6ecee7768d8481c2b8dad
+Head commit: 7b735a7f5f6ed2b0c91c86817d7b096635ec2bf9
 PR:
-CI run: CI pending on bf69b3598ab3ea42c1b6ecee7768d8481c2b8dad (adapter only; expected loader missing)
+CI run: CI pending on 7b735a7f5f6ed2b0c91c86817d7b096635ec2bf9 (loader complete; read once next turn)
 
 ## Notes
 - Lead: JOB-03 (PR #316) and JOB-08 (PR #326, merge 843e64e) are merged; JOB-05 and JOB-07 too. Lead to create code branch gameplay/job-09-closed-adapter from gameplay/recovery-v1 at 843e64e before Nik starts the job. Lead reference run on 843e64e: new contract 22/22, contracts 104/104, ops 73/0, every rules-emulator step PASS including the new Closed-Showdown adapter journey (12 checks); only budget diagnostics are the two known career-index D13 denials. Jobs 11, 16 and 18 also append registry entries: whoever merges later re-appends last. Ready to start.
@@ -33,6 +33,8 @@ CI run: CI pending on bf69b3598ab3ea42c1b6ecee7768d8481c2b8dad (adapter only; ex
 - Step 3: Tests-first CI proof complete on 88220a9293ca6f8ceab4b6c36d82bc47c4ba5eca / run 37132170119. Contract fails only the new contract (1/105) with missing js/sharedClosedShowdownAdapter.js. Every existing emulator step SUCCESS, including Two-manager journey, Career index Phase A 56 / Phase B 58 and Completed-only read 56. New Closed-Showdown adapter journey fails exactly Cannot find module '../../js/sparkClosedShowdownCareerLoader.js' (MODULE_NOT_FOUND). Red CI is intentional; step 4 may start.
 
 - Step 4: Copied Appendix A pure adapter verbatim; node --check PASS. Local contract passes C1-C17 and fails exactly at L1 loader surface and source: Cannot find module /workspace/scratch/04fd13bb5a42/job9/js/sparkClosedShowdownCareerLoader.js. Saved adapter on bf69b3598ab3ea42c1b6ecee7768d8481c2b8dad. Loader remains absent; no existing source or assertion changed. No CI polling after this push.
+
+- Step 5: Copied Appendix B loader verbatim; node --check PASS. PASS closed-Showdown adapter contracts (22/22 cases). npm run test:ops reports tests 73 / pass 73 / fail 0. npm run test:contracts returned exit 0 but its log ended at Final Reconciliation without a final census, so do not claim 105/105 locally; exact-head CI must supply that evidence (handbook section 7 fallback). Loader saved on 7b735a7f5f6ed2b0c91c86817d7b096635ec2bf9; all seven authorized code files now present. No CI polling after push; step 6 reads exact-head CI, budget gate and file compare.
 
 ## Self-check
 
