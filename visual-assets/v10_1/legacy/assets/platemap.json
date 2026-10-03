@@ -129,10 +129,143 @@
     836,
     235
   ],
-  "cutouts": {},
+  "cutouts": {
+    "daniel_foreground": {
+      "polygon": [
+        [
+          116,
+          397
+        ],
+        [
+          118,
+          370
+        ],
+        [
+          132,
+          347
+        ],
+        [
+          158,
+          329
+        ],
+        [
+          194,
+          315
+        ],
+        [
+          236,
+          306
+        ],
+        [
+          286,
+          310
+        ],
+        [
+          330,
+          328
+        ],
+        [
+          362,
+          351
+        ],
+        [
+          386,
+          371
+        ],
+        [
+          425,
+          372
+        ],
+        [
+          459,
+          364
+        ],
+        [
+          493,
+          364
+        ],
+        [
+          528,
+          371
+        ],
+        [
+          558,
+          384
+        ],
+        [
+          574,
+          397
+        ]
+      ]
+    },
+    "nik_foreground": {
+      "polygon": [
+        [
+          1030,
+          397
+        ],
+        [
+          1037,
+          366
+        ],
+        [
+          1054,
+          341
+        ],
+        [
+          1081,
+          321
+        ],
+        [
+          1118,
+          307
+        ],
+        [
+          1160,
+          299
+        ],
+        [
+          1208,
+          299
+        ],
+        [
+          1260,
+          312
+        ],
+        [
+          1315,
+          314
+        ],
+        [
+          1366,
+          302
+        ],
+        [
+          1416,
+          306
+        ],
+        [
+          1462,
+          324
+        ],
+        [
+          1502,
+          346
+        ],
+        [
+          1531,
+          371
+        ],
+        [
+          1546,
+          397
+        ]
+      ]
+    }
+  },
   "notes": {
     "hand_nik": "No Nik hand is visible in this mockup; this required box protects the lower right shoulder/arm where the archive panel meets the figure.",
-    "cutouts": "The archive panel begins below Daniel's hand/forearm and below Nik's visible torso edge, so no hand/arm cutout polygon is required for the mockup registration."
+    "cutouts": "Step 8 depth sandwich: polygons trace only the lower figure bands that cross the archive top edge. Their artificial upper closures stay above the panel, so they are hidden over identical plate pixels; Daniel's chin hand remains entirely above the archive edge and is never clipped by the panel."
   },
   "sha256": {
     "ENV_LG_PLATE_V1_1X.png": "39d0f4c0c477c258c8947e33d2924c40a83d01eb1b5b166d449d78cfc8059065",
