@@ -1,7 +1,7 @@
 /* Trophy Room desktop visual build · JOB-057 */
 :root{--tr-gold:var(--sd-gold-500,#d9ae53);--tr-gold-hi:#f4dc8b;--tr-ink:#050607;--tr-glass:rgba(7,8,10,.88);--tr-line:rgba(230,183,83,.78)}
 *{box-sizing:border-box}html,body{width:100%;height:100%;margin:0;overflow:hidden;background:#050607;color:#f4f1ea}body{font-family:var(--sd-font-body,"Barlow",Arial,sans-serif)}button{font:inherit}#stage-root,.screen,.trophyRoomScene{width:100%;height:100%;min-height:100%;overflow:hidden}.trophyRoomContent{position:relative;width:100%;height:100%;overflow:hidden;isolation:isolate}
-.visually-hidden{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0 0 0 0)!important;white-space:nowrap!important;border:0!important}.trophyPhoneSheet,.trophyPhoneMoreButton{display:none}.topbarReserve{position:absolute;z-index:25;inset:0 0 auto;height:52px;background:linear-gradient(180deg,rgba(2,3,4,.62),rgba(2,3,4,.16) 72%,transparent);border-bottom:1px solid rgba(217,174,83,.16);pointer-events:none}.phoneNavReserve{display:none}
+.visually-hidden{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0 0 0 0)!important;white-space:nowrap!important;border:0!important}.trophyPhoneArt,.trophyPhoneSheet,.trophyPhoneMoreButton{display:none}.topbarReserve{position:absolute;z-index:25;inset:0 0 auto;height:52px;background:linear-gradient(180deg,rgba(2,3,4,.62),rgba(2,3,4,.16) 72%,transparent);border-bottom:1px solid rgba(217,174,83,.16);pointer-events:none}.phoneNavReserve{display:none}
 .previewPill{position:absolute;z-index:28;right:2.2%;top:64px;padding:5px 9px;border:1px solid rgba(238,198,100,.55);background:rgba(4,5,6,.72);color:#f5d57f;font-size:11px;line-height:1;text-transform:uppercase;letter-spacing:.14em;box-shadow:0 8px 24px rgba(0,0,0,.22)}
 .managerRegistration{position:absolute;z-index:1;display:block;width:9.2%;height:20.6%;top:14%;pointer-events:none}.managerRegistration--daniel{left:19%}.managerRegistration--nik{left:68%}
 .trophyTitleBlock{position:absolute;z-index:9;left:34.7%;top:10.8%;width:29.6%;height:14.5%;text-align:center;pointer-events:none;text-shadow:0 2px 14px rgba(0,0,0,.9)}.trophyEyebrow,.trophyTagline{margin:0;color:#f4e5ba;text-transform:uppercase;letter-spacing:.24em;font-family:var(--sd-font-condensed,"Barlow Condensed",Arial,sans-serif);font-weight:600}.trophyEyebrow{font-size:clamp(10px,.72vw,14px)}.trophyBrushTitle{display:block;width:100%;height:auto;margin:.4vh auto .15vh;filter:drop-shadow(0 8px 14px rgba(0,0,0,.55))}.trophyTagline{font-size:clamp(9px,.62vw,12px);letter-spacing:.2em;color:#e8d7aa}
@@ -16,19 +16,28 @@
 @media (max-width:760px){
   .topbarReserve,.previewPill{display:none}
   .phoneMoreToggle{position:absolute!important;width:1px!important;height:1px!important;opacity:0!important;pointer-events:none!important}
-  .trophyRoomContent{overflow:hidden;background:linear-gradient(180deg,rgba(2,3,4,0) 0 28%,rgba(2,3,4,.16) 34%,rgba(2,3,4,.88) 48%,#050607 100%)}
+  .sd-stage__layer--plate{display:none}
+  .trophyPhoneArt{display:block;position:absolute;z-index:1;inset:0;overflow:hidden;pointer-events:none}
+  .trophyPhoneBackdrop{position:absolute;inset:0;display:block}
+  .trophyPhoneBackdrop img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 50%}
+  .trophyPhoneHero{position:absolute;z-index:2;top:1%;display:block;height:60%;width:auto;transform:translateX(-50%);filter:drop-shadow(0 12px 16px rgba(0,0,0,.58)) drop-shadow(0 0 7px rgba(235,190,92,.16))}
+  .trophyPhoneHero img{display:block;width:auto;height:100%;max-width:none;object-fit:contain}
+  .trophyPhoneHero--daniel{left:29%;top:1.5%;height:59%}
+  .trophyPhoneHero--nik{left:71%;top:1%;height:60%}
+  .trophyPhoneArtShade{position:absolute;z-index:3;inset:0;background:linear-gradient(180deg,transparent 0 47%,rgba(3,4,5,.24) 52%,rgba(3,4,5,.88) 66%,#050607 82%)}
+  .trophyRoomContent{z-index:4;overflow:hidden;background:linear-gradient(180deg,rgba(2,3,4,0) 0 31%,rgba(2,3,4,.08) 42%,rgba(2,3,4,.28) 48%,rgba(2,3,4,.82) 66%,#050607 100%)}
 
   /* Top cinematic band: title between the registered Daniel-left / Nik-right faces. */
-  .managerRegistration{z-index:6;top:3%;width:25%;height:31%}
-  .managerRegistration--daniel{left:7%}
-  .managerRegistration--nik{left:auto;right:7%}
+  .managerRegistration{z-index:6;top:1%;width:30%;height:54%}
+  .managerRegistration--daniel{left:14%}
+  .managerRegistration--nik{left:auto;right:14%}
   .trophyTitleBlock{z-index:12;top:3.5%;left:21%;width:58%;height:auto;text-align:center}
   .trophyEyebrow{font-size:8px;letter-spacing:.18em}
   .trophyBrushTitle{width:100%;margin:2px auto 0;filter:drop-shadow(0 5px 10px rgba(0,0,0,.72))}
   .trophyTagline{font-size:7px;line-height:1.15;letter-spacing:.13em}
 
   /* Compact hero trophy keeps the ceremony readable without swallowing the phone. */
-  .heroCeremony{display:block;z-index:10;top:15%;left:35%;width:30%;height:22%;opacity:1}
+  .heroCeremony{display:block;z-index:10;top:18%;left:35%;width:30%;height:22%;opacity:1}
   .heroCeremony.is-muted{opacity:.3}
   .heroSpotlight{left:0;top:-5%;width:100%;height:85%;filter:blur(3px)}
   .heroTrophyPicture{left:15%;top:0;width:70%;height:72%}
@@ -40,7 +49,7 @@
   .heroPlinth small{margin-top:2px;font-size:7px;letter-spacing:.12em}
 
   /* Lower content zone: chips plus a 1.5-card sideways shelf. */
-  .trophyShelf{z-index:14;left:0;right:0;top:34%;bottom:calc(116px + env(safe-area-inset-bottom));min-height:0}
+  .trophyShelf{z-index:14;left:0;right:0;top:48%;bottom:calc(116px + env(safe-area-inset-bottom));min-height:0}
   .trophyTabs{position:absolute;left:8px;right:8px;top:0;height:44px;display:flex;gap:6px;overflow-x:auto;overflow-y:hidden;padding:0 2px 4px;background:transparent;border:0;box-shadow:none;scrollbar-width:none;scroll-snap-type:x proximity}
   .trophyTabs::-webkit-scrollbar,.trophyGrid::-webkit-scrollbar{display:none}
   .trophyTab{flex:0 0 auto;min-width:88px;height:44px;padding:0 11px;border:1px solid rgba(217,174,83,.34);border-radius:999px;background:rgba(8,9,10,.86);font-size:9px;letter-spacing:.08em;scroll-snap-align:start}
@@ -67,7 +76,7 @@
 
   /* Secondary history lives in a compact sheet, not in the always-visible shelf. */
   .careerRanks,.recordRibbon{display:none}
-  .trophyPhoneSheet{display:none;position:absolute;z-index:30;left:10px;right:10px;top:36%;bottom:calc(116px + env(safe-area-inset-bottom));padding:14px 14px 52px;border:1px solid rgba(231,190,91,.62);background:linear-gradient(180deg,rgba(18,18,16,.98),rgba(4,5,6,.99));box-shadow:0 18px 36px rgba(0,0,0,.65);overflow:hidden}
+  .trophyPhoneSheet{display:none;position:absolute;z-index:30;left:10px;right:10px;top:48%;bottom:calc(116px + env(safe-area-inset-bottom));padding:14px 14px 52px;border:1px solid rgba(231,190,91,.62);background:linear-gradient(180deg,rgba(18,18,16,.98),rgba(4,5,6,.99));box-shadow:0 18px 36px rgba(0,0,0,.65);overflow:hidden}
   .trophyPhoneSheetTitle{display:block;color:var(--tr-gold-hi);font:700 15px/1 var(--sd-font-condensed,"Barlow Condensed",Arial,sans-serif);letter-spacing:.12em;text-transform:uppercase}
   .trophyPhoneSheetHint{display:block;margin-top:4px;color:#aa9f83;font-size:9px;letter-spacing:.08em;text-transform:uppercase}
   .trophyPhoneSheetClose{position:absolute;left:12px;right:12px;bottom:8px;height:44px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(237,196,98,.62);color:#f2deab;font:700 11px/1 var(--sd-font-condensed,"Barlow Condensed",Arial,sans-serif);letter-spacing:.14em;text-transform:uppercase;cursor:pointer}
