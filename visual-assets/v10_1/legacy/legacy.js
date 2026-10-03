@@ -149,7 +149,7 @@
       state.className = "legacyCardState";
       state.textContent = showdown.status === "completion-pending"
         ? strings.states.completionPending
-        : "In progress";
+        : showdown.status.replace("-", " ");
       card.appendChild(state);
     }
     return card;
@@ -256,6 +256,7 @@
     const preview = document.getElementById("legacyPreviewTag");
     banner.replaceChildren();
     banner.hidden = true;
+    banner.dataset.compact = String(frame.status === "partial" || !!frame.interimLabel);
     preview.textContent = frame.previewLabel || strings.previewLabel;
     preview.hidden = !frame.previewLabel;
     stage.dataset.frameState = frame.status;
@@ -316,7 +317,7 @@
     stage.dataset.frame = frameId;
     frameLabel.textContent = frameId;
     document.getElementById("fixtureEyebrow").textContent = fixtures.strings.eyebrow;
-    document.getElementById("legacyHeading").textContent = fixtures.strings.heading;
+    document.getElementById("legacyHeadingText").textContent = fixtures.strings.heading;
     document.getElementById("fixtureTagline").textContent = fixtures.strings.tagline;
 
     const brand = document.getElementById("legacyBrand");
