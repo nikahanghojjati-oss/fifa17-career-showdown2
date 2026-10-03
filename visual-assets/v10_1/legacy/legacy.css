@@ -603,3 +603,22 @@ body {
   height: 32px;
   font-size: 1rem;
 }
+
+
+/* Step 10 code-read fix: compact warnings sit above the archive content, not over cards. */
+.legacyStateBanner[data-compact="true"] {
+  top: -46px;
+  min-height: 38px;
+  grid-template-columns: 30px 1fr;
+  padding: 6px 12px;
+}
+
+.legacyStateBanner[data-compact="true"] .legacyStateIcon {
+  width: 26px;
+  height: 26px;
+  font-size: .82rem;
+}
+
+.legacyPreviewTag {
+  top: -78px;
+}
