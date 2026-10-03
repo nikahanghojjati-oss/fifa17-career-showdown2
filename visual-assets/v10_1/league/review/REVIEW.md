@@ -6,6 +6,21 @@
 
 ## Hard gates
 
+| Gate | Result | Evidence |
+| --- | --- | --- |
+| H1 · Daniel left, Nik right, never mirrored | PASS | `index.html` and `league.css` keep Daniel at the left marker/30% phone anchor and Nik at the right marker/70% anchor; `league.js` never mirrors either manager. |
+| H2 · Rights-safe imagery | PASS | Source audit finds no real club crests, real league logos, trophies, players or EA/FIFA art. League marks are applied by the original Showdown `applyLeagueMark` path; the scene contains only Daniel and Nik, who are allowed. |
+| H3 · No live/private data baked into images | PASS | All changing league, selection, status, identity and season strings stay in live DOM/fixtures; image paths contain only environment, manager overlay and wheel-rim art. |
+| H4 · Product truth | PASS | The screen exposes only real League-step controls and no invented statistics or editable score. Ready/spinning/selected/locked states are truthful. The desktop chrome still differs from the final shared top-bar requirement, but that does not introduce a fake League action/stat and is recorded as a fidelity/product-chrome fix candidate rather than an H4 violation. |
+| H5 · Phone fit | NOT MEASURED (Claude measures) | No Claude numeric scroll-height/button-rect result exists in the carried Evidence. |
+| H6 · Input size / contrast | NOT MEASURED (Claude measures) | No Claude contrast ratio or input-size measurement exists in the carried Evidence. |
+| H7 · Reduced motion | NOT MEASURED (Claude measures) | No Claude reduced-motion run is recorded in the carried Evidence. |
+| H8 · Keyboard / focus | NOT MEASURED (Claude measures) | No Claude tab-order/focus-ring run is recorded in the carried Evidence. |
+| H9 · Console / failed requests | NOT MEASURED (Claude measures) | Job 37 says the 1366 × 768 render was clean, but there is no explicit Claude console/network measurement. |
+| H10 · Mockup diff | NOT MEASURED (Claude measures) | Job 37 worker notes say H10 passed, but no Claude H10 scores are present and `scores.json` is absent. |
+| H11 · First-paint weight | NOT MEASURED (Claude measures) | Job 39 records worker-side hero payload data, not a Claude first-paint network measurement. |
+
+
 ## Evidence
 
 ### Claude measurement carryover
