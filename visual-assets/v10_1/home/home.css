@@ -18,7 +18,7 @@
   --cond: "Barlow Condensed", "Arial Narrow", sans-serif;
   --text: "Barlow", system-ui, sans-serif;
   --script: "Kaushan Script", cursive;
-  --hdr: 56px;
+  --hdr: 52px;
   --ftr: 28px;
   --tile-h: clamp(136px, 17.5vh, 158px);
   --tile-top: 600px;      /* set by home.js */
@@ -89,37 +89,82 @@ button { font: inherit; color: inherit; }
   -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 10px), transparent), linear-gradient(180deg, transparent, #000 14px, #000 calc(100% - 12px), transparent);
   mask-image: linear-gradient(90deg, #000 calc(100% - 10px), transparent), linear-gradient(180deg, transparent, #000 14px, #000 calc(100% - 12px), transparent); }
 
-/* ---------- header (C6) ---------- */
-.hdrBg { position: absolute; left: 0; right: 0; top: 0; height: var(--hdr); pointer-events: none; }
-.hdrBg i {
-  position: absolute; top: 0; bottom: 0; display: block;
-  background: linear-gradient(to bottom, rgba(6,7,9,.92), rgba(6,7,9,.70));
-  border-bottom: 1px solid var(--hair);
+/* ---------- shared desktop top bar ---------- */
+.hdrBg {
+  position: absolute;
+  z-index: 4;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: var(--hdr);
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(6,7,9,.97), rgba(6,7,9,.84));
+  border-bottom: 1px solid rgba(201,155,69,.42);
 }
 #topHeader {
-  position: absolute; left: 0; right: 0; top: 0; height: var(--hdr); z-index: 5;
-  display: flex; align-items: center; gap: 14px; padding: 0 16px 0 0; box-sizing: border-box;
+  position: absolute;
+  z-index: 12;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: var(--hdr);
+  box-sizing: border-box;
+  display: flex;
+  align-items: stretch;
+  padding: 0 18px 0 24px;
+  background: linear-gradient(180deg, rgba(6,7,9,.96), rgba(6,7,9,.78));
+  border-bottom: 1px solid rgba(201,155,69,.42);
 }
-.cmBadge {
-  position: relative; display: flex; align-items: center; height: 100%; padding: 0 22px 0 18px; margin-right: 14px;
-  font: italic 700 24px/1.15 var(--cond); color: var(--gold); letter-spacing: .02em;
+.topBarNav {
+  display: flex;
+  align-items: stretch;
+  gap: 2px;
+  min-width: 0;
 }
-.cmBadge::before {
-  content: ""; position: absolute; inset: 0 0 0 -20px; z-index: -1;
-  background: linear-gradient(180deg, #14161A, #0B0D10); border-right: 2px solid var(--gold);
-  transform: skewX(-14deg); transform-origin: 0 100%;
+.topBarTab,
+.topBarSettings {
+  position: relative;
+  min-width: 44px;
+  min-height: 44px;
+  margin: 0;
+  border: 0;
+  background: transparent;
+  color: var(--cream);
+  cursor: pointer;
 }
-.brand h1, .brand p { margin: 0; font: 600 13px/1.15 var(--cond); letter-spacing: .18em; color: var(--cream); text-transform: uppercase; }
-.brand p { color: var(--gold-deep); }
-#onlinePlayerIdentityBadge, .seasonIndicator {
-  min-height: 40px; box-sizing: border-box; display: inline-flex; align-items: center; padding: 0 14px;
-  background: rgba(10,12,15,.72); border: 1px solid rgba(201,155,69,.55); border-radius: 2px;
-  font: 600 14px/1 var(--cond); letter-spacing: .12em; color: var(--cream); white-space: nowrap;
+.topBarTab {
+  padding: 0 18px;
+  font: 600 13px/1 var(--cond);
+  letter-spacing: .18em;
 }
-#onlinePlayerIdentityBadge { margin-left: auto; cursor: pointer; color: var(--gold); }
-#onlinePlayerIdentityBadge:hover { border-color: var(--gold); }
-#topHeader.tight #onlinePlayerIdentityBadge, #topHeader.tight .seasonIndicator { padding: 0 9px; letter-spacing: .06em; }
-#topHeader.tight { gap: 8px; }
+.topBarTab::after {
+  content: "";
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 0;
+  height: 2px;
+  background: transparent;
+}
+.topBarTab:hover,
+.topBarTab:focus-visible,
+.topBarTab.isActive { color: var(--gold); }
+.topBarTab.isActive::after { background: var(--gold); }
+.topBarSettings {
+  margin-left: auto;
+  width: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.topBarSettings svg {
+  width: 19px;
+  height: 19px;
+  fill: currentColor;
+}
+.topBarSettings:hover,
+.topBarSettings:focus-visible { color: var(--gold); }
+.homeRuntimeStatus { display: none !important; }
 .scriptLine {
   position: absolute; z-index: 6; right: 30px; top: calc(var(--hdr) + 28px); pointer-events: none;
   font: 400 18px/1.7 var(--script); color: var(--gold); transform: rotate(-8deg); transform-origin: 100% 50%;
