@@ -352,9 +352,9 @@ body { overflow: hidden; font-family: var(--text); -webkit-font-smoothing: antia
 @media (max-width: 760px) and (orientation: portrait) {
   .m-only { display: inline-flex !important; }
   .d-only { display: none !important; }
-  .stage { --footer-h: 56px; --band-h: 28px; overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain; }
+  .stage { --footer-h: 0px; --band-h: 28px; overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain; }
   .world { position: relative; width: 100%; min-height: 100%; display: flex; flex-direction: column; gap: 8px;
-    padding: 0 12px calc(var(--footer-h) + 8px + env(safe-area-inset-bottom)); }
+    padding: 0 12px calc(8px + env(safe-area-inset-bottom)); }
 
   /* 1 · scene: flexes to the space the UI leaves */
   .scene { position: relative; inset: auto; order: 0; flex: 1 1 0; min-height: 118px; margin: 0 -12px -8px; overflow: hidden; }
@@ -543,3 +543,12 @@ body { overflow: hidden; font-family: var(--text); -webkit-font-smoothing: antia
 /* Product truth: Transfer War owns the full viewport; keep footer ids/strings in DOM for integration but no bottom bar is presented. */
 .hud-footer { display: none; }
 .stage { --footer-h: 0px; }
+
+@media (max-width: 760px) and (orientation: portrait) {
+  /* JOB-049 phone polish: full-height Transfer canvas, readable controls, compact physical dossier. */
+  .world { min-height: 100svh; }
+  .scene::after { opacity: .34; }
+  .panel.sealed .frost::before { width: 7px; top: 8%; bottom: 8%; }
+  .panel.sealed .seal { width: 38px; height: 38px; }
+  .btn-lock.sd-btn, .btn-end.sd-btn, .btn-continue.sd-btn { min-height: 44px; }
+}
