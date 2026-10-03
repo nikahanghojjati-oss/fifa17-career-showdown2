@@ -40,7 +40,7 @@
     const f = FX.frames[frameId] || FX.frames.L1;
     const track = q("#leagueWheel .wheelTrack");
     const items = [...track.querySelectorAll(".wheelItem")];
-    items.forEach((el, i) => { el.textContent = FX.leagues[i].name; });
+    items.forEach((el, i) => { el.textContent = FX.leagues[i].name; el.title = FX.leagues[i].id; });
     const missing = [];
     items.forEach((el, i) => {
       if (typeof window.applyLeagueMark === "function") window.applyLeagueMark(el, FX.leagues[i].id);
@@ -151,7 +151,7 @@
     placePlateLayers({ x: 0, y: 0 });
 
     const s = k / (1366 / PW);
-    q("#leagueWheelScreen h2").style.setProperty("--title-size", px(Math.round((short ? 60 : 72) * Math.min(Math.max(s, 1), 1.25))));
+    q("#leagueWheelScreen h2").style.setProperty("--title-size", px(Math.round((short ? 52 : 64) * Math.min(Math.max(s, 1), 1.25))));
     const tb = q(".title-block");
     const kickerTop = Math.max(hdr + (short ? 6 : 12), oy + 86 * k);
     tb.style.top = px(kickerTop);
