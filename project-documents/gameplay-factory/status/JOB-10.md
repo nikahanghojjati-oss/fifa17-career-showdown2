@@ -1,8 +1,8 @@
 # Status · JOB-10 · Transfer history, completed only
 
-State: WAITING ON CODEX
+State: BLOCKED
 Step: 7 of 8
-Updated: 2026-10-03 17:05 UTC
+Updated: 2026-10-03 17:06 UTC
 Chat: Sol Work mode
 Code branch: gameplay/job-10-transfer-history
 Head commit: 6e1fe56f225c6f0a2d0430027bdea49022785dbd
@@ -66,7 +66,11 @@ CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/r
 
 - Step 8 requested: PR #332 evidence updated for final 6e1fe56 head, current baseline, clean ten-file diff and 109/109 local contracts. Posted exactly @codex review after exact-head green CI; State WAITING ON CODEX saved. Observed prior Codex usage-limit comment 5970904031 (2026-10-03 16:07:55 UTC), no reviews/inline findings when checked before this request. Per lead's 16:58 instruction, next turn read once; if no Codex review and usage limit persists, record BLOCKED instead of waiting in a loop. Step 8 remains incomplete; no merge.
 
+- Step 8 single response check: @codex review request 5971411469 is present; no review and no inline findings. Codex bot comment 5970904031 explicitly reports review usage limits. Per lead's 2026-10-03 16:58 instruction, State BLOCKED saved instead of waiting/polling or marking DONE without review. PR #332 remains open, mergeable=true, ten files, exact final head 6e1fe56 unchanged. No review fix to apply; no merges, purchases, settings changes or extra review requests.
+
 ## Self-check
+- PASS final checklist: tests-first step 3 missing-reader/I0 red CI and step 4 K9/I0 red CI linked; final local contracts 109/109 and operations 73/0; final exact-head Gameplay Fast + POS20 green; transfer matrix 73, completed-read 56, career-index 56/58, journey/fresh-session/adapter PASS; qualified budget only denial checks; ten-file clean/mergeable PR with required tables and deploy-order line; JOB-08 privacy/scope assertions preserved, no deploy/main/scoring/write-rule changes.
+- BLOCKED final checklist / Codex: exact @codex review posted after green CI and WAITING ON CODEX was saved; one subsequent read finds no review/threads and an explicit usage-limit response. Mandatory Codex completion unavailable; lead instruction requires BLOCKED, not DONE.
 - PASS review request: exactly @codex review posted on PR #332 after CI 37138421557 passed on final head. Review completion pending; prior usage-limit response recorded.
 - PASS final exact-head CI: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37138421557 and https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37138424757 on 6e1fe56f225c6f0a2d0430027bdea49022785dbd.
 - PASS Shared Transfer fresh-session expiry emulator: fresh-session read + authority migration both succeed, then an old-session WINDOW_OPEN at 00:00 advances under the fresh ACTIVE session, preserves exact startedAt, writes timeout completion at server request time, and reaches GUESS_ENTRY without redraw or reset.
@@ -100,3 +104,4 @@ CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/r
 - PASS baseline: exact current recovery head e44b6959310cfddf4bc1b4bd6275256f3e61ad41; contracts 104/104 (JOB-11 adds one), operations 73/0; CI https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37130995554 green including Completed-only read matrix. After adding G-10 expected contracts 105/105 unless another job merges.
 
 ## Blocked question
+Team G lead: Codex code-review quota is exhausted (PR #332 bot comment 5970904031); review request 5971411469 is posted, but no review or finding threads exist after the single response check. How should the required step-8 review be supplied or authorized when Codex is available? All local/CI evidence is green on 6e1fe56 and the PR is mergeable with exactly ten files. Worker will not purchase credits, change account settings, keep polling, or merge.
