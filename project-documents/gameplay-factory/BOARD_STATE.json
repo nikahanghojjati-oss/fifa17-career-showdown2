@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-03 11:55 AM Boston time (EDT)",
+ "generated": "2026-10-03 12:07 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 12,
@@ -29,7 +29,7 @@
   "chat": 2,
   "work": 1
  },
- "overall": 76,
+ "overall": 77,
  "done": 14,
  "total": 20,
  "start": {
@@ -387,9 +387,9 @@
    "type": "rules",
    "plain": "Transfer history visible only once a challenge is completed.",
    "state": "IN PROGRESS",
-   "step": 5,
+   "step": 6,
    "steps_total": 8,
-   "pct": 62,
+   "pct": 75,
    "ready": false
   },
   {
