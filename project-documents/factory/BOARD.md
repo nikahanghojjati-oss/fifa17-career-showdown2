@@ -1,24 +1,24 @@
 # Showdown Factory board
 
-**49 of 135 jobs done · 38 %** · updated Fri 8:54 p.m. Eastern
+**50 of 135 jobs done · 39 %** · updated Fri 8:57 p.m. Eastern
 
 ███░░░░░░░
 
 **Where to run:** 🟡 **project job** = new chat in the ChatGPT project "Showdown visual", type the number. 🟣 **image job** = its ticket in a ChatGPT **Temporary Chat** outside any project, then drop the picture in Claude's factory thread.
 
-🟡 **Type next:** 54, 57 · then 62, 67, 72, 77, 82, 87, 111, 112, 113, 114, 125
+🟡 **Type next:** 54, 57, 62 · then 67, 72, 77, 82, 87, 111, 112, 113, 114, 125
 
 🟣 **Image next:** - · tickets not written yet: 115, 116, 117, 118, 119, 120, 121
 
-**Working:** 38, 44, 49 · **Blocked:** -
+**Working:** 38, 49 · **Blocked:** -
 
 ## Screens
 
 ```
 Home           ███░░░░░░░ 3/8
 League         ███░░░░░░░ 2/8
-Club           ███░░░░░░░ 1/7
-Transfer       █░░░░░░░░░ 0/6
+Club           ███░░░░░░░ 2/7
+Transfer       ██░░░░░░░░ 0/6
 Loading        ██░░░░░░░░ 1/4
 Trophy Room    ████░░░░░░ 4/10
 Career Stats   ████░░░░░░ 4/10
@@ -47,15 +47,15 @@ Integration    ░░░░░░░░░░ 0/8
 
 Branch `factory/v1-wtt5ye`. 135 Team V jobs, plus 5 lines that track Team G. Two kinds of job. **Project (type number):** open a new chat in the ChatGPT project "Showdown visual" and type the number (up to 5 at once). **Fresh chat (image):** run the job's ticket from [tickets/](tickets/README.md) in a ChatGPT Temporary Chat (no memory) outside any project, then drop the image in Claude's factory thread (up to 2 at once).
 
-**Overall (Team V):** ███░░░░░░░ 38 % · 49 of 135 jobs done
+**Overall (Team V):** ███░░░░░░░ 39 % · 50 of 135 jobs done
 
-**Start now · project (type the number in Showdown visual):** 54, 57 · queued next: 62, 67, 72, 77, 82, 87, 111, 112, 113, 114, 125
+**Start now · project (type the number in Showdown visual):** 54, 57, 62 · queued next: 67, 72, 77, 82, 87, 111, 112, 113, 114, 125
 
 **Start now · fresh chat (image ticket, outside the project):** - · waiting for Claude to write the ticket: 115, 116, 117, 118, 119, 120, 121
 
 **Start now (Sol Work mode, press Use Work):** -
 
-**Working:** 38, 44, 49 · **Blocked:** -
+**Working:** 38, 49 · **Blocked:** -
 
 **Team G tracking (never start these):** 98 (done), 99 (open), 100 (open), 101 (open), 102 (open). Claude marks them done when Team G delivers.
 
@@ -105,12 +105,12 @@ Branch `factory/v1-wtt5ye`. 135 Team V jobs, plus 5 lines that track Team G. Two
 | 41 | [League: fix round](jobs/JOB-041.md) | 4 Polish built screens | fix | project (type number) | 40, 124 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 42 | [League: spin feel](jobs/JOB-042.md) | 4 Polish built screens | build | project (type number) | 41, 16 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
 | 43 | [Club: scene registration, faces, hands and seams](jobs/JOB-043.md) | 4 Polish built screens | fix | project (type number) | 14, 1 | ██████████ 100 % | DONE |  |
-| 44 | [Club: panels and short-laptop fit](jobs/JOB-044.md) | 4 Polish built screens | build | project (type number) | 43, 18 | ███████░░░ 75 % | IN PROGRESS |  |
+| 44 | [Club: panels and short-laptop fit](jobs/JOB-044.md) | 4 Polish built screens | build | project (type number) | 43, 18 | ██████████ 100 % | DONE |  |
 | 45 | [Club: phone](jobs/JOB-045.md) | 4 Polish built screens | build | project (type number) | 44, 113 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 46 | [Club: review](jobs/JOB-046.md) | 4 Polish built screens | review | project (type number) | 45 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 47 | [Club: fix round](jobs/JOB-047.md) | 4 Polish built screens | fix | project (type number) | 46, 124 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 48 | [Club: the pack rip](jobs/JOB-048.md) | 4 Polish built screens | build | project (type number) | 47, 16 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
-| 49 | [Transfer War: polish to the key art](jobs/JOB-049.md) | 4 Polish built screens | build | project (type number) | 1, 18 | ██░░░░░░░░ 20 % | IN PROGRESS |  |
+| 49 | [Transfer War: polish to the key art](jobs/JOB-049.md) | 4 Polish built screens | build | project (type number) | 1, 18 | ██████░░░░ 60 % | IN PROGRESS |  |
 | 50 | [Transfer War: phone polish](jobs/JOB-050.md) | 4 Polish built screens | build | project (type number) | 49, 114 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 51 | [Transfer War: review](jobs/JOB-051.md) | 4 Polish built screens | review | project (type number) | 50 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 52 | [Transfer War: fix round](jobs/JOB-052.md) | 4 Polish built screens | fix | project (type number) | 51, 124 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
