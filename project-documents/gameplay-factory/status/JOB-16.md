@@ -5,7 +5,7 @@ Step: 9 of 9
 Updated: 2026-10-03 22:07 UTC
 Chat: GPT-5.6 Sol normal chat
 Code branch: gameplay/job-16-browser-journey
-Head commit: e93c6f9a4a4928d2c66d313cb7640d4c1f5c82f2
+Head commit: f37387b17352a19493baec2c20c2267d31384178 (merged as ab704a9)
 PR: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/337
 CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37156146934
 
@@ -363,6 +363,8 @@ Nik errors: `[]`
 - Job 16 step 9/9 started. GitHub compare gameplay/recovery-v1...gameplay/job-16-browser-journey is ahead 36 / behind 0 and lists exactly the seven permitted code/test/workflow files; no js/, index.html, service-worker.js, firebase.json, *.rules, package*.json, generated Rules, or firestore-debug.log change.
 
 - Job 16 step 9/9 complete. Report saved at `project-documents/gameplay-factory/reports/JOB-16-browser-journey.md` (factory commit 80751c7). PR #337 is open into `gameplay/recovery-v1` with 7 changed files, head e93c6f9, and has not been merged. Job 16 done: Two-manager browser journey (localhost-only emulator switch).
+
+- Lead (2026-10-03 22:35 UTC): MERGED into gameplay/recovery-v1 as PR #337 (merge ab704a9). Before merging, the lead answered Codex's P2 on #337: the journey now runs on the production Firebase SDK pin 12.17.0 (switch and browser CI job), with a contract check against drift (commit f37387b). Lead local journey on 12.17.0: PASS, 32 checks, zero page errors. All 15 checks were green on f37387b.
 
 ## Self-check
 

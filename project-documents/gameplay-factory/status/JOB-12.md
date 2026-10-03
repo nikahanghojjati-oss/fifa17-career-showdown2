@@ -5,7 +5,7 @@ Step: 5 of 8
 Updated: 2026-10-03 18:02 UTC
 Chat: Sol Work mode (job 12, 265263c2f906)
 Code branch: gameplay/job-12-composed-rules-regression
-Head commit: 93ea422 (lead merge of recovery ca16956)
+Head commit: 6dde19a (lead merge of recovery ab704a9)
 PR:
 CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37141758253 (SUCCESS, all three jobs, exact head 5cd8ad6b40795de1779e163f2b50376ab5567fc2)
 
@@ -48,6 +48,8 @@ CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/r
 - Lead (2026-10-03 18:02 UTC): synced recovery-v1 at 8282589 (PR #334) into this branch with a clean merge (no conflicts), giving head 454e6f4. The merge only adds #334's three files; all eight G-12 files and the Rules delta are unchanged, and the diff against recovery-v1 is exactly 8 files. On the lead's run, contracts PASS and ops 73/0. Revalidate on 454e6f4 and continue from step 5. From now on, the lead refreshes every open job branch right after each merge into recovery-v1, so you should not need to block on a refresh again.
 
 - Lead note (2026-10-03 19:35 UTC): branch refreshed again after PRs #335 and #336 merged into gameplay/recovery-v1 (Terminal Close fixes, no Rules change). Ordinary merge, no force-push; new head 93ea422; your registry entry stays last; contracts PASS and test:ops 73/0. Pull before your next step.
+
+- Lead note (2026-10-03 22:35 UTC): job 16 merged into gameplay/recovery-v1, so the lead merged recovery into your branch again (ordinary merge, no force-push): new head 6dde19a. The registry, ops list and workflow keep recovery's entries first (job 16's browserJourneySwitchContract and its browser-journey CI job) with your composedProductionRulesContract and composed-rules-regression job last. Contracts PASS, test:ops 73/0. Pull before your next step.
 
 ## Self-check
 - PASS step 6 tests: new contract 10/10, full contracts 110/110, operations 73/0, exact-head CI all three jobs SUCCESS; regression 49/49 with 17 suites and nine Phase B runs, E1 only S8/D13 and S9/D13. No not ok/NOTE or tracked generated/debug artifacts.
