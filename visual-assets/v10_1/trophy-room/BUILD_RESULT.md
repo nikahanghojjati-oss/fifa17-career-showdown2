@@ -68,3 +68,22 @@ Average for criteria 1–7 and 10: **4.5 / 5**.
 ## Known gaps
 
 No desktop blocking gap remains. Phone-only category-tab control fitting is intentionally deferred to the phone build/review lane; it does not affect the desktop acceptance recorded here.
+
+
+## Phone
+
+The ≤760 px layout is a separate portrait composition, not a scaled desktop view. The portrait stadium and large Daniel-left / Nik-right phone cut-outs occupy the upper scene, the brush title and compact hero trophy overlay that cinematic band, and the trophy categories/shelf occupy the lower content zone. Career Ranks and Career Records move behind the phone More sheet. BACK is pinned above the shared 56 px bottom-bar reserve.
+
+### Height budget
+
+This is a read-only CSS arithmetic check, not browser measurement. The additive flow uses the shelf boundary at 48% of viewport height. The title block and 22%-high compact hero ceremony are absolute overlays inside that upper band, so they consume 0 additional flow pixels. The shelf itself runs from 48% down to 116 px above the bottom; inside it, 44 px is the tab row, 6 px is the tab-to-card offset, and the rest is the swipe panel. Below the shelf are 8 px gap, 44 px pinned action, 8 px gap, and the 56 px shared nav reserve.
+
+| Viewport | Hero band to shelf, 48% | Title / hero overlays | Tabs | Shelf internal gap | Swipe panel | Shelf→action gap | Pinned BACK | Action→bar gap | Reserved bar | Total | Remaining |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 393 × 660 | 316.8 px | 0 px extra | 44 px | 6 px | 177.2 px | 8 px | 44 px | 8 px | 56 px | 660.0 px | 0.0 px |
+| 360 × 640 | 307.2 px | 0 px extra | 44 px | 6 px | 166.8 px | 8 px | 44 px | 8 px | 56 px | 640.0 px | 0.0 px |
+| 375 × 553 | 265.4 px | 0 px extra | 44 px | 6 px | 121.6 px | 8 px | 44 px | 8 px | 56 px | 553.0 px | 0.0 px |
+
+At 375 × 553 the BACK button spans y=445–489 px with the shared bar beginning at y=497 px, so the primary action remains fully visible. The table assumes a zero safe-area inset for easy arithmetic; when `env(safe-area-inset-bottom)` is nonzero, the same inset is added to the shelf bottom offset, button bottom offset and nav-reserve height, so it is absorbed inside the fixed viewport instead of creating page scroll. The swipe panel shrinks by exactly that inset.
+
+Larger phones grow the useful content area rather than floating the layout: at 390 × 844 the swipe panel is about 272.9 px tall, and at 430 × 932 it is about 318.6 px tall, while the action/bar stack stays anchored to the bottom.
