@@ -2,6 +2,8 @@
 
 ## Verdict
 
+FAIL. Static-review average is 3.56 / 5, below the 4.2 pass line, and H4 fails because the Home screen does not yet implement the binding shared desktop top bar from PRODUCT_TRUTH §7. H5–H11 remain NOT MEASURED where Claude has not supplied measurements and are not treated as failures.
+
 
 ## Scorecard
 
@@ -102,3 +104,8 @@ Source availability note: the requested Claude intake note is present only as JO
 
 ## Fix list
 
+1. `index.html #topHeader` and its Home header styles: replace the custom CM17 / SIGN IN / season-status-only desktop header with the binding shared top bar containing exactly HOME, CAREER, STANDINGS, STATS and RULES plus the settings control; keep Daniel/Nik content below it and do not add ABOUT or another invented destination.
+2. `home.css .homeLockup`: move the desktop title composition to the goal registration, targeting the brush wordmark at x ≈ 4%–35% of viewport width, the eyebrow top at y ≈ 14.8%, and the tagline baseline at y ≈ 40%; preserve the current brush asset and wording.
+3. `index.html` / `home.css` desktop manager stage: add foreground manager cut-out layers derived from the approved Home plate so Daniel remains LEFT and Nik RIGHT above the relevant panel plane, with a soft 1–3 px warm rim and contact shadow; target z-order plate → panels → cut-outs → light/grade, with no face coverage.
+4. `home.css .menuMusicTile` and existing phone soundtrack sheet: bring the desktop soundtrack card to the goal footprint x ≈ 64.5%, y ≈ 53.3%, w ≈ 33.5%, h ≈ 17%, keep only the now-playing hierarchy plus PLAY TRACK / MUTE in the main card, and keep track choices in the existing selector/sheet rather than expanding the card.
+5. `home.css` phone composition including `.phoneHeroDaniel`, `.phoneHeroNik` and `.fifaMenuGrid`: rebalance to an approximately 55vh manager stage / 45vh control zone while preserving all seven real destinations, Daniel LEFT, Nik RIGHT, ≥44 px targets, no page scroll at 393×660 and 360×640, and Continue visible at 375×553.
