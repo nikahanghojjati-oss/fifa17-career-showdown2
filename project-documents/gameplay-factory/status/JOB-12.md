@@ -1,8 +1,8 @@
 # Status · JOB-12 · Composed production Rules regression
 
-State: WAITING ON CODEX
-Step: 7 of 8
-Updated: 2026-10-03 23:23 UTC
+State: DONE
+Step: 8 of 8
+Updated: 2026-10-03 23:29 UTC
 Chat: Sol Work mode (job 12, 0374185e849b)
 Code branch: gameplay/job-12-composed-rules-regression
 Head commit: 6dde19a087b29a69d680c34fd55a2e3276974bb9
@@ -10,6 +10,7 @@ PR: #338 https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/338
 CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37158530069 (SUCCESS attempt 2, all four jobs, exact head 6dde19a087b29a69d680c34fd55a2e3276974bb9)
 
 ## Notes
+- Step 8 complete: Codex bot comment 5974589018 reports no major issues and reviewed exact 6dde19a087 (https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/338#issuecomment-5974589018). Reviews and inline comments lists are empty; no findings/fix round needed. Single final CI read confirms run 37158530069 attempt 2 SUCCESS on full head 6dde19a087b29a69d680c34fd55a2e3276974bb9. PR #338 remains open/unmerged into recovery, exactly eight files. DONE with full checklist below. Lead owns intake/POS20 and merge; worker made no merge, main write or deployment.
 - Step 8 request saved: PR #338 is open into gameplay/recovery-v1, unmerged, exact head remains 6dde19a. Posted exactly @codex review once after green exact-head CI (comment 5974566096: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/338#issuecomment-5974566096). State WAITING ON CODEX; Step remains 7 of 8 until review or recorded nonresponse is handled. Next turn read review/comments once, fix any real findings in the one permitted fix round, or record review quota/nonresponse per lead instruction; do not repeat the request. No code mutation, merge or deployment.
 - Step 7 complete: opened PR #338, Job 12: composed production Rules regression, from gameplay/job-12-composed-rules-regression into gameplay/recovery-v1. Returned head 6dde19a/base ab704a9, eight changed files, +1298/-1. Body includes the full requirement/proof table, nine hunk owners and line counts, both artifact identities, eight-file scope, exact-head successful CI and tests-first evidence, intermittent inherited browser failure, and required tests-only/no-deployment line. No merge. Next step 8: request Codex once, set WAITING ON CODEX and stop per handbook.
 - Step 6 complete: single read confirms run 37158530069 attempt 2 SUCCESS on exact 6dde19a; all four jobs SUCCESS (the three G-12 jobs retained their successful evidence, inherited browser retry PASS 32 numbered checks J0-J12). Browser failure on attempt 1 is intermittent on the unchanged commit; no fix or assertion change was made. Local composed contract 10/10, census 111/111, operations 73/0, exact eight-file diff against recovery ab704a9, clean worktree; prior literal T2/T3/T8/T9/E1 and 49-check final PASS are verified again from the successful job logs. Live code and recovery refs still 6dde19a/ab704a9. Qualified gate: E1 only S8/D13 and S9/D13; all 49 unique checks PASS, no not ok/NOTE. Next step 7: PR into recovery; no code change, merge or deployment.
@@ -75,6 +76,17 @@ CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/r
 - PASS step 2: deployment/parser/build/gate facts (18 steps, 47 needles, 12 contracts), publish blob algorithm, permanent zero-billing boundary, inherited workflow routes, both lead decisions and C2S denials, every existing composed suite and both single base-Rules seams mapped; nine-hunk G-7/G-8/G-10 delta reverse-applies exactly to pinned main. No existing code, Rules, deploy workflow or test modified.
 - PASS step 2a: support syntax; nine tool hunks unchanged; reverse-applied sha256 ce8abfe620696db7f8d8c3d20dcc35550901c7c3af082f2e1f775db0426f6a78; candidate sha256 a0a0d0b6412ab610666f7f94ac0e55d505a44afdfdcf83ea2a3eec52ab0cbff6 / blob 0f2cb384024281a64180721716a4684c2624f759 / 132878 bytes; Phase A and no broad grants.
 - PASS step 1 baseline: local contracts 109/109, operations 73 pass / 0 fail, npm ci successful, clean worktree, exact-head recovery CI SUCCESS at the URL above. No main writes, merges or deployment.
+
+## Final Done checklist
+- PASS tests-first: run 37140887220 on 8a583b9, only new missing composed-rules-regression job assertion failed; rules-emulator SUCCESS before implementation.
+- PASS reviewed G-10 delta: nine tool-generated hunks, -8/+228, owners G-7/G-8/G-10 and one genuine mixed helper hunk; main sha256 ce8abfe620696db7f8d8c3d20dcc35550901c7c3af082f2e1f775db0426f6a78; candidate a0a0d0b6412ab610666f7f94ac0e55d505a44afdfdcf83ea2a3eec52ab0cbff6. Full identities/hunk owners in Notes/fixture/PR.
+- PASS local checks on final head: composed contract 10/10; census 111/111; operations 73 pass, 0 fail. No code changed after local verification.
+- PASS exact-head Gameplay Fast: run 37158530069 attempt 2 SUCCESS on 6dde19a087b29a69d680c34fd55a2e3276974bb9, all four jobs green; regression 49 numbered checks, 17 suites/nine Phase B runs, no not ok/NOTE; T2=T3 git blob 0f2cb384024281a64180721716a4684c2624f759, T9 live main pin verified; career-index 56/58, completed-read 56. Inherited browser retry 32 checks; original intermittent failure remains recorded.
+- PASS qualified expression gate: mechanical numbered-log validation plus runner E1 over every suite log; exactly S8/D13 and S9/D13 (stranger cannot create an index naming a rivalry they are not in), unchanged denial-only allowlist, no successful case affected.
+- PASS scope: exact diff against recovery ab704a9 contains only eight chartered files, +1298/-1; clean local worktree, no generated Rules/debug logs committed; no existing Rules/client/build/deploy/suite edits.
+- PASS operational boundary: no deploy, main push, production write, billing/App Check/auth change; emulator runs only on CI with demo- project ids; main read-only.
+- PASS PR: #338 open into gameplay/recovery-v1, required proof table, delta owners/identities, eight-file scope, exact-head green CI URL and tests-only sentence in body.
+- PASS Codex: requested exactly once after green CI, WAITING ON CODEX saved; bot reviewed 6dde19a087 with no major issues, no inline findings requiring replies or fixes. Worker did not merge; Team G lead reviews intake and decides merge.
 
 ## Blocked question
 None.
