@@ -118,3 +118,18 @@ Metric summary (`seam_report.json` → `plate_seams_still_visible_in_render`): o
 7. **The fixed wedge is counter-rotated** inside `.wheelTrack::before` with a `--rot` custom property. Production sets only `style.transform`, so a production port must also set `--rot`, or draw the wedge outside the track with the labels in a separate layer.
 8. `data/leagues.js` was not touched. Its `logo` fields still point at non-existent real-logo files; that is flagged for Sol.
 9. Static checkpoint: nothing animates.
+
+
+## Job 37 polish · League: hands on the wheel
+
+Final factory pass: 2026-10-03 UTC on `factory/v1-wtt5ye`.
+
+- **Goal geometry:** `evidence/hands/MEASURE.md` records the 1536×864 goal at wheel centre (762.6, 495.0), radius 233.3 px, ≈10 px visible rim, and Daniel fingertip at ≈(532.5, 457.0).
+- **Fingertip contact:** `evidence/hands/qa_job37.json` measures ≈3.00 px overlap in L1–L4 at 1366×768, 1920×1080 and 1366×640. Daniel's cut-out remains above the wheel with the soft contact shadow beneath it.
+- **Short desktop:** L3/L4 at 1366×640 hold an 8 px note-to-wheel clearance with a 0.820 wheel scale and zero page scroll.
+- **Phone:** 393×660, 360×640 and 375×553 all keep Daniel's fingertip/contact visible. The tested 393×660 and 360×640 layouts have zero scroll; 375×553 keeps the primary action in the first view and, in the final compact layout, also reports zero scroll.
+- **Wheel polish:** shared `../shared/art/wheel/WHEEL_RIM_V1.webp` supplies the lit riveted outer rim over live DOM/SVG wedges. League marks remain live; L2 uses the final offset that keeps adjacent labels out of the gold-wedge contrast trap.
+- **Title / controls:** the League-specific wordmark is still absent from the branch, so the required `TODO-WORDMARK` Kaushan/shared display-font fallback remains. Buttons and slogan cards use the shared Showdown kit language.
+- **Factory QA:** `evidence/hands/factory-qa/qa_report.json` = **PASS**, no failing runs across L1–L4 and the factory viewport matrix.
+- **Mockup fidelity (H10):** `evidence/hands/mockup-diff/scores.json` = **PASS**. Build SSIM 0.662, coarse SSIM 0.638, mean ΔE 8.8; protected-box SSIM: Daniel face 0.992, Nik face 0.994, Daniel hand 0.788, Nik hand 0.994. The compare sheet and 4× fingertip proof are in `evidence/hands/COMPARE_GOAL_BUILD.png` and `evidence/hands/FINGERTIP_4X.png`.
+- The transient Job 37 QA workflow removed itself after committing the final evidence.
