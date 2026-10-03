@@ -96,7 +96,7 @@ jobs:
                   page.on('requestfailed',r=>failed.push(r.url()+' '+(r.failure()?.errorText||'')));
                   page.on('response',async r=>{
                     if(frame==='TR1'&&w===1920&&h===1080){
-                      const len=Number((await r.allHeaders()).['content-length']||0);
+                      const len=Number((await r.allHeaders())['content-length']||0);
                       if(len>0) responses.set(r.url(),len);
                     }
                   });
