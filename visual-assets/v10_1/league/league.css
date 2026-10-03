@@ -164,23 +164,199 @@ button:focus-visible { outline: 2px solid #FFF1B8; outline-offset: 3px; }
 .grid-layer > div { position: absolute; box-sizing: border-box; border: 1.5px dashed; font: 600 12px/1 var(--cond); padding: 2px; }
 .stage[data-grid="1"] .grid-layer { display: block; }
 
-/* ---------- phone (C7, W5) ---------- */
-.stage[data-mode="phone"] { --header-h: 48px; }
-.stage[data-mode="phone"] #topHeader { gap: 8px; padding-right: 10px; }
-.stage[data-mode="phone"] .brand { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
-.stage[data-mode="phone"] .script-tag, .stage[data-mode="phone"] footer { display: none; }
-.stage[data-mode="phone"] #onlinePlayerIdentityBadge, .stage[data-mode="phone"] #seasonIndicator { min-height: 44px; padding: 0 10px; font-size: 14px; letter-spacing: .08em; }
-.stage[data-mode="phone"] #leagueWheelScreen h2 { --title-size: 36px; margin-top: 0; line-height: 1.2; padding: .05em .1em .08em; }
-.stage[data-mode="phone"] .kicker { display: none; }
-.stage[data-mode="phone"] .subtitle-row::before, .stage[data-mode="phone"] .subtitle-row::after { width: 36px; }
-.stage[data-mode="phone"] #selectedLeague { font-size: 14px; letter-spacing: .28em; margin-right: -.28em; }
-.stage[data-mode="phone"][data-has-league="true"] #selectedLeague { font-size: 20px; letter-spacing: .2em; margin-right: -.2em; }
-.stage[data-mode="phone"] .button-row { flex-direction: column; gap: 6px; left: 16px; right: 16px; transform: none; }
-.stage[data-mode="phone"] .menuButton, .stage[data-mode="phone"] .backButton { width: 100%; min-width: 0; height: 44px; min-height: 44px; font-size: 18px; }
-.stage[data-mode="phone"] .slot-veil { background: radial-gradient(closest-side, rgba(6,7,9,.55) 0 60%, rgba(6,7,9,.9) 88%, rgba(6,7,9,.9) 96%, rgba(6,7,9,0) 100%); -webkit-mask-image: none; mask-image: none; }
-.stage[data-mode="phone"] .stateNote { left: 16px; right: 16px; width: auto; transform: none; max-width: none; padding: 4px 10px; line-height: 1.18; }
-.stage[data-mode="phone"] .wheelItem { width: calc(var(--R) * .76); margin-left: calc(var(--R) * -.38); font-size: max(12px, calc(var(--R) * 22 / 240)); line-height: 1.1; letter-spacing: 0; white-space: normal; gap: calc(var(--R) * .02); }
-.stage[data-mode="phone"] .wheelItem::before { width: calc(var(--R) * 50 / 240); height: calc(var(--R) * 50 / 240); }
+/* ---------- phone · JOB-039 portrait composition ---------- */
+@media (max-width: 760px) {
+  html, body { width: 100%; height: 100%; overflow: hidden; }
+  .stage[data-mode="phone"] {
+    --phone-edge: 12px;
+    --phone-hero-h: 55svh;
+    --phone-wheel: clamp(240px, 64vw, 282px);
+    --phone-wheel-y: clamp(300px, 54svh, 500px);
+    --phone-safe: max(8px, env(safe-area-inset-bottom));
+    min-height: 100svh;
+    overflow: hidden;
+  }
+
+  /* Wheels are a focused step: no hub bar or desktop chrome on phone. */
+  .stage[data-mode="phone"] #topHeader,
+  .stage[data-mode="phone"] footer,
+  .stage[data-mode="phone"] .slogan,
+  .stage[data-mode="phone"] .heal,
+  .stage[data-mode="phone"] .grid-layer {
+    display: none !important;
+  }
+
+  .stage[data-mode="phone"] main,
+  .stage[data-mode="phone"] .league-main,
+  .stage[data-mode="phone"] .league-screen,
+  .stage[data-mode="phone"] .wheelContainer {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Temporary phone face band from the registered plate. Job 39 step 3 replaces
+     this paint with the dedicated portrait stadium and whole-figure cut-outs. */
+  .stage[data-mode="phone"] .scene:not(.scene-top) {
+    display: block !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: var(--phone-hero-h) !important;
+    overflow: hidden;
+  }
+  .stage[data-mode="phone"] .scene:not(.scene-top) .plate {
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    background-size: cover;
+    background-position: 50% 25%;
+  }
+  .stage[data-mode="phone"] .slot-veil { display: none !important; }
+
+  .stage[data-mode="phone"] .title-block {
+    z-index: 34;
+    top: max(10px, env(safe-area-inset-top));
+    left: var(--phone-edge);
+    right: var(--phone-edge);
+  }
+  .stage[data-mode="phone"] .kicker { display: none; }
+  .stage[data-mode="phone"] #leagueWheelScreen h2 {
+    --title-size: clamp(30px, 8.6vw, 36px);
+    margin: 0;
+    padding: .04em .08em .08em;
+    line-height: 1.08;
+  }
+
+  .stage[data-mode="phone"] .wheel-bezel,
+  .stage[data-mode="phone"] .leagueWheel {
+    left: 50% !important;
+    top: var(--phone-wheel-y) !important;
+    width: var(--phone-wheel) !important;
+    height: var(--phone-wheel) !important;
+    transform: translate(-50%, -50%) !important;
+  }
+  .stage[data-mode="phone"] .wheel-bezel {
+    width: calc(var(--phone-wheel) + 26px) !important;
+    height: calc(var(--phone-wheel) + 26px) !important;
+  }
+  .stage[data-mode="phone"] .leagueWheel {
+    --R: calc(var(--phone-wheel) / 2) !important;
+    overflow: hidden;
+  }
+  .stage[data-mode="phone"] .wheelPointer {
+    left: 50% !important;
+    top: calc(var(--phone-wheel-y) - var(--phone-wheel) / 2 - 20px) !important;
+    width: 32px !important;
+    height: 45px !important;
+    transform: translateX(-50%) !important;
+  }
+
+  /* Keep the touch moment alive until the dedicated Daniel phone cut-out lands. */
+  .stage[data-mode="phone"] .scene-top {
+    display: block !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: var(--phone-hero-h) !important;
+    overflow: visible;
+  }
+  .stage[data-mode="phone"] .scene-top .finger-ovl {
+    position: absolute !important;
+    left: calc(50% - var(--phone-wheel) / 2 - 28px) !important;
+    top: calc(var(--phone-wheel-y) - 22px) !important;
+    width: clamp(58px, 17vw, 72px) !important;
+    height: auto !important;
+    transform: rotate(-5deg);
+    transform-origin: 80% 50%;
+  }
+  .stage[data-mode="phone"] .finger-contact {
+    display: block;
+    left: calc(50% - var(--phone-wheel) / 2 - 2px) !important;
+    top: calc(var(--phone-wheel-y) - 9px) !important;
+    width: 30px !important;
+    height: 11px !important;
+    transform: rotate(-8deg);
+  }
+
+  .stage[data-mode="phone"] .subtitle-row {
+    z-index: 32;
+    top: calc(var(--phone-wheel-y) - var(--phone-wheel) / 2 - 28px) !important;
+    left: 50%;
+    transform: translateX(-50%);
+    gap: 8px;
+  }
+  .stage[data-mode="phone"] .subtitle-row::before,
+  .stage[data-mode="phone"] .subtitle-row::after { width: 28px; }
+  .stage[data-mode="phone"] #selectedLeague {
+    font-size: 14px;
+    letter-spacing: .18em;
+    margin-right: -.18em;
+  }
+  .stage[data-mode="phone"][data-has-league="true"] #selectedLeague {
+    font-size: 18px;
+    letter-spacing: .14em;
+    margin-right: -.14em;
+  }
+
+  .stage[data-mode="phone"] .stateNote {
+    z-index: 33;
+    left: var(--phone-edge) !important;
+    right: var(--phone-edge) !important;
+    top: auto !important;
+    bottom: calc(var(--phone-safe) + 108px) !important;
+    width: auto;
+    max-width: none;
+    transform: none;
+    padding: 5px 9px;
+    font-size: 14px;
+    line-height: 1.18;
+  }
+
+  .stage[data-mode="phone"] .button-row {
+    z-index: 36;
+    left: var(--phone-edge) !important;
+    right: var(--phone-edge) !important;
+    top: auto !important;
+    bottom: var(--phone-safe) !important;
+    transform: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .stage[data-mode="phone"] .menuButton,
+  .stage[data-mode="phone"] .backButton {
+    min-width: 0;
+    min-height: 44px;
+    height: 44px;
+    font-size: 17px;
+  }
+  .stage[data-mode="phone"] .menuButton {
+    order: 2;
+    width: 100%;
+    height: 48px;
+  }
+  .stage[data-mode="phone"] .backButton {
+    order: 1;
+    width: 96px;
+    align-self: flex-start;
+    padding-inline: 12px;
+    font-size: 16px;
+  }
+
+  .stage[data-mode="phone"] .wheelItem {
+    width: calc(var(--R) * .76);
+    margin-left: calc(var(--R) * -.38);
+    font-size: max(12px, calc(var(--R) * 22 / 240));
+    line-height: 1.1;
+    letter-spacing: 0;
+    white-space: normal;
+    gap: calc(var(--R) * .02);
+  }
+  .stage[data-mode="phone"] .wheelItem::before {
+    width: calc(var(--R) * 50 / 240);
+    height: calc(var(--R) * 50 / 240);
+  }
+}
 
 /* Short-laptop composition: the decorative footer yields its 28 px to the wheel/note/action stack.
    This keeps the note fully below the rim while preserving a >44 px primary control. */
