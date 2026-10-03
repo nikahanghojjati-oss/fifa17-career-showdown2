@@ -68,11 +68,14 @@
 
       const card = document.createElement("article");
       card.id = "rule-section-" + number;
-      card.className = number === "04" ? "ruleSection scoringRuleSection" : "ruleSection";
+      card.className = number === "04"
+        ? "ruleSection scoringRuleSection sd-panel sd-panel--hero"
+        : "ruleSection sd-panel";
 
       const header = document.createElement("header");
       header.className = "ruleSectionHeader";
       const badge = document.createElement("span");
+      badge.className = "ruleSectionNumber";
       badge.textContent = number;
       const heading = document.createElement("h2");
       heading.textContent = section.title;
