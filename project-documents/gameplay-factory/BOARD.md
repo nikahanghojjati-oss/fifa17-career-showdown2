@@ -8,13 +8,15 @@ Gameplay factory job NN. Read https://raw.githubusercontent.com/nikahanghojjati-
 
 Branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-03 9:11 AM Boston time (EDT)
 
-**Overall:** █████░░░░░ 56 % · 10 of 19 jobs done
+**Overall:** █████░░░░░ 57 % · 10 of 19 jobs done
 
 **Start now in a normal chat (press Stay in Chat):** 16
 
 **Start now in Sol Work mode (press Use Work, paste the starter line from RULES.md):** -
 
-**Working:** 8 · **Blocked:** -
+**Working:** - · **Blocked:** -
+
+**Waiting:** 8 (waiting on codex)
 
 | # | G id | Job | Phase | Type | Lane | Depends on | Codex | Progress | State |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -31,7 +33,7 @@ Branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generate
 | 6 | G-6 | [Start/Join view model + nav.locked](jobs/JOB-06.md) | 2 Career model | build | chat | - |  | ██████████ 100 % | DONE |
 | 11 | G-11 | Contract fixtures generated from the real model | 2 Career model | test | work | 3, 5 |  | ░░░░░░░░░░ 0 % | NOT WRITTEN |
 | 7 | G-7 | [Career index Rules + client + emulator proofs](jobs/JOB-07.md) | 3 Career history | rules | work | 1, 2 | yes | ██████████ 100 % | DONE |
-| 8 | G-8 | [Completed-only read grant + session-free reader](jobs/JOB-08.md) | 3 Career history | rules | work | 7 | yes | ███████░░░ 75 % | IN PROGRESS |
+| 8 | G-8 | [Completed-only read grant + session-free reader](jobs/JOB-08.md) | 3 Career history | rules | work | 7 | yes | ████████░░ 87 % | WAITING ON CODEX |
 | 9 | G-9 | Closed-Showdown adapter into the career model | 3 Career history | build | work | 3, 8 |  | ░░░░░░░░░░ 0 % | NOT WRITTEN |
 | 10 | G-10 | Transfer history, completed only | 3 Career history | rules | work | 8 | yes | ░░░░░░░░░░ 0 % | NOT WRITTEN |
 | 13 | G-13 | Remove the r43 containment, bind #trophyRoomButton | 4 Ship | build | work | 4, 5, 6, 9; approved Team V visual package |  | ░░░░░░░░░░ 0 % | NOT WRITTEN |
