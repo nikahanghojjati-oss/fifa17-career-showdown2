@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-03 7:24 PM Boston time (EDT)",
+ "generated": "2026-10-03 7:29 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 12,
@@ -29,8 +29,8 @@
   "chat": 2,
   "work": 1
  },
- "overall": 84,
- "done": 16,
+ "overall": 85,
+ "done": 17,
  "total": 20,
  "start": {
   "chat": [],
@@ -186,10 +186,10 @@
    "phase": "1 Safety net",
    "type": "test",
    "plain": "Re-proves the full production Rules after the new career-data Rules land.",
-   "state": "WAITING ON CODEX",
-   "step": 7,
+   "state": "DONE",
+   "step": 8,
    "steps_total": 8,
-   "pct": 87,
+   "pct": 100,
    "ready": false
   },
   {
