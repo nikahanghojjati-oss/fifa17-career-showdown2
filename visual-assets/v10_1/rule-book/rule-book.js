@@ -60,7 +60,10 @@
     Object.entries(strings.sections).forEach(([number, section]) => {
       const anchor = document.createElement("a");
       anchor.href = "#rule-section-" + number;
+      anchor.className = "ruleBookIndexChip";
       anchor.textContent = number;
+      anchor.setAttribute("aria-label", number + " " + section.title);
+      anchor.setAttribute("aria-controls", "rule-section-" + number);
       index.appendChild(anchor);
 
       const card = document.createElement("article");
