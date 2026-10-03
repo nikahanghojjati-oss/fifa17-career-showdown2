@@ -103,7 +103,7 @@ main { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
 
 /* VS medallion */
 .clubVs { position: absolute; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: calc(var(--s) * 2px); }
-.clubVs span { font: 600 max(12px, calc(var(--s) * 14px))/1.25 var(--cond); letter-spacing: .5em; padding-left: .5em; color: #F4ECD8; }
+.clubVs > span { font: 600 max(12px, calc(var(--s) * 14px))/1.25 var(--cond); letter-spacing: .5em; padding-left: .5em; color: #F4ECD8; }
 .clubVs strong {
   display: block; font: 700 calc(var(--s) * 96px)/1.02 "Kaushan Script", "Brush Script MT", cursive; padding: 0 .12em;
   letter-spacing: -.055em; color: #F2C45B; -webkit-text-stroke: .04em #F2C45B;
