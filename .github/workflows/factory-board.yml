@@ -1,0 +1,54 @@
+name: Factory board auto-update
+
+# Rebuilds project-documents/factory/BOARD.md whenever a job status or BOARD.json changes
+# on the factory branch, so Nik always sees a current board without asking Claude.
+# Factory branch only; it never runs on main.
+on:
+  push:
+    branches: [factory/v1-wtt5ye]
+    paths:
+      - project-documents/factory/status/**
+      - project-documents/factory/BOARD.json
+      - project-documents/factory/tickets/**
+      - project-documents/factory/tools/board.py
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: factory-board
+  cancel-in-progress: false
+
+jobs:
+  board:
+    # Loop guard: the bot's own commit never re-runs this (GITHUB_TOKEN pushes do not trigger workflows either).
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: factory/v1-wtt5ye
+          fetch-depth: 50
+      - name: Read the Team V / Team G relay feed (read-only)
+        run: |
+          git fetch --depth=1 origin leads/relay:refs/remotes/origin/leads/relay || true
+          git show origin/leads/relay:project-documents/leads-relay/FEED.md > "$RUNNER_TEMP/FEED.md" || true
+      - name: Rebuild and commit BOARD.md if it changed
+        env:
+          FEED_MD: ${{ runner.temp }}/FEED.md
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          for i in 1 2 3 4; do
+            git fetch origin factory/v1-wtt5ye
+            git reset --hard origin/factory/v1-wtt5ye
+            python3 project-documents/factory/tools/board.py
+            if git diff --quiet -- project-documents/factory/BOARD.md; then echo "Board unchanged"; exit 0; fi
+            git add project-documents/factory/BOARD.md
+            git commit -m "factory: board auto-update [skip ci]"
+            git push origin HEAD:factory/v1-wtt5ye && exit 0
+            sleep $((2**i))
+          done
+          exit 1

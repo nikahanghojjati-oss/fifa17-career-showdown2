@@ -1,5 +1,50 @@
 # Showdown Factory board
 
+**47 of 135 jobs done · 36 %** · updated Fri 8:03 p.m. Eastern
+
+███░░░░░░░
+
+**Where to run:** 🟡 **project job** = new chat in the ChatGPT project "Showdown visual", type the number. 🟣 **image job** = its ticket in a ChatGPT **Temporary Chat** outside any project, then drop the picture in Claude's factory thread.
+
+🟡 **Type next:** 30, 37, 44, 49, 54 · then 57, 62, 67, 72, 77, 82, 87, 111, 112, 113, 114, 125
+
+🟣 **Image next:** - · tickets not written yet: 115, 116, 117, 118, 119, 120, 121
+
+**Working:** - · **Blocked:** -
+
+## Screens
+
+```
+Home           ███░░░░░░░ 3/8
+League         ██░░░░░░░░ 1/8
+Club           ██░░░░░░░░ 1/7
+Transfer       █░░░░░░░░░ 0/6
+Loading        ██░░░░░░░░ 1/4
+Trophy Room    ████░░░░░░ 4/10
+Career Stats   ████░░░░░░ 4/10
+Rivalry        ███░░░░░░░ 3/9
+Legacy         ████░░░░░░ 4/10
+Season Results ███░░░░░░░ 3/9
+Final Winner   ███░░░░░░░ 3/8
+Start/Join     ██░░░░░░░░ 2/8
+Standings      ██░░░░░░░░ 1/4
+Rule Book      ██░░░░░░░░ 1/4
+Settings       ██░░░░░░░░ 1/4
+Setup          ██████████ 2/2
+Foundation     ██████████ 7/7
+Art            ███████░░░ 6/8
+Top bar        ░░░░░░░░░░ 0/1
+Integration    ░░░░░░░░░░ 0/8
+```
+
+## Team V ↔ Team G (latest 3)
+
+- Fri 4:40 a.m. Eastern · Team G → Team V · G2V-004: Smoke verdicts: chat = text/PR only (no screenshots, no npm); Work = code+contracts, emulator via CI; G-2b browser route open
+- Fri 6:05 a.m. Eastern · Team G → Team V · G2V-005: Progress (G-1, G-3 merged); breakdown nesting, Start/Join model additions, placeholder strings, r52 + startup budget
+- Fri 3:55 p.m. Eastern · Team G → Team V · G2V-006: Live league-draw Rules bug fixed in PR #317 (awaiting Nik); G-2 merged; G-5/G-6 at 5/7; G-7 written; new G-2c (JOB-17) result-race fix
+
+## Full board
+
 Branch `factory/v1-wtt5ye`. 135 Team V jobs, plus 5 lines that track Team G. Two kinds of job. **Project (type number):** open a new chat in the ChatGPT project "Showdown visual" and type the number (up to 5 at once). **Fresh chat (image):** run the job's ticket from [tickets/](tickets/README.md) in a ChatGPT Temporary Chat (no memory) outside any project, then drop the image in Claude's factory thread (up to 2 at once).
 
 **Overall (Team V):** ███░░░░░░░ 36 % · 47 of 135 jobs done

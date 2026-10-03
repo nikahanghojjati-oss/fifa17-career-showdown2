@@ -72,7 +72,70 @@ blocked = [j["number"] for j in jobs if info[j["number"]][0].startswith("BLOCKED
 waiting = [j for j in jobs if info[j["number"]][0].startswith("WAITING ON NIK")]
 team_g = [j for j in vjobs if info[j["number"]][0].startswith("WAITING ON TEAM G")]
 
-L = ["# Showdown Factory board", "",
+# ---- phone summary (Nik reads this on his iPhone; mirrors the Custom view) ----
+import subprocess, datetime
+try:
+    from zoneinfo import ZoneInfo
+    ET = ZoneInfo("America/New_York")
+except Exception:
+    ET = None
+def eastern(ts):
+    d = datetime.datetime.fromtimestamp(ts, ET) if ET else datetime.datetime.utcfromtimestamp(ts)
+    h = d.hour % 12 or 12
+    return f"{d:%a} {h}:{d:%M} {'a.m.' if d.hour < 12 else 'p.m.'}" + (" Eastern" if ET else " UTC")
+def last_change():
+    try:
+        out = subprocess.run(["git", "log", "-1", "--format=%ct", "--", "status", "BOARD.json"], cwd=F, capture_output=True, text=True).stdout.strip()
+        return int(out) if out else None
+    except Exception:
+        return None
+def rng(a, b): return list(range(a, b + 1))
+SCREENS = [("Home", rng(31, 36) + [111, 122]), ("League", rng(37, 42) + [112, 123]), ("Club", rng(43, 48) + [113]),
+           ("Transfer", rng(49, 53) + [114]), ("Loading", [11] + rng(54, 56)), ("Trophy Room", [2, 23] + rng(57, 61) + [115, 130, 136]),
+           ("Career Stats", [3, 24] + rng(62, 66) + [116, 131, 137]), ("Rivalry", [4, 25] + rng(67, 71) + [117, 135]),
+           ("Legacy", [5, 26] + rng(72, 76) + [118, 132, 138]), ("Season Results", [6, 27] + rng(77, 81) + [119, 133]),
+           ("Final Winner", [7] + rng(82, 86) + [134, 139]), ("Start/Join", [8, 28] + rng(87, 91) + [120]),
+           ("Standings", rng(126, 129)), ("Rule Book", [9] + rng(92, 94)), ("Settings", [10] + rng(95, 97)),
+           ("Setup", [0, 1]), ("Foundation", rng(12, 18)), ("Art", rng(19, 22) + [29, 30, 121, 124]), ("Top bar", [125]), ("Integration", rng(103, 110))]
+def feed_rows(n=3):
+    path = os.environ.get("FEED_MD") or os.path.join(F, "..", "leads-relay", "FEED.md")
+    if not os.path.exists(path):
+        return []
+    rows = [r for r in open(path).read().splitlines() if re.match(r"^\| 20\d\d-", r)]
+    out = []
+    for r in rows[-n:]:
+        c = [x.strip() for x in r.strip("|").split("|")]
+        try:
+            t = datetime.datetime.strptime(c[0], "%Y-%m-%d %H:%M").replace(tzinfo=datetime.timezone.utc).timestamp()
+            when = eastern(t)
+        except Exception:
+            when = c[0]
+        out.append(f"- {when} · {c[1]} → {c[2]} · {c[3]}: {c[4]}")
+    return out
+known = {j["number"] for j in vjobs}
+lc = last_change()
+P = ["# Showdown Factory board", "",
+     f"**{done} of {len(vjobs)} jobs done · {overall} %** · updated {eastern(lc) if lc else 'now'}", "",
+     f"{bar(overall)}", "",
+     "**Where to run:** 🟡 **project job** = new chat in the ChatGPT project \"Showdown visual\", type the number. 🟣 **image job** = its ticket in a ChatGPT **Temporary Chat** outside any project, then drop the picture in Claude's factory thread.", "",
+     f"🟡 **Type next:** {', '.join(map(str, startable)) or '-'}" + (f" · then {', '.join(map(str, later))}" if later else ""), "",
+     f"🟣 **Image next:** {', '.join(map(str, img_now)) or '-'}" + (f" · then {', '.join(map(str, img_later))}" if img_later else "") + (f" · tickets not written yet: {', '.join(map(str, img_noticket))}" if img_noticket else ""), "",
+     f"**Working:** {', '.join(map(str, working)) or '-'} · **Blocked:** {', '.join(map(str, blocked)) or '-'}", "",
+     "## Screens", "", "```"]
+for name, nums in SCREENS:
+    nums = [n for n in nums if n in known]
+    if not nums:
+        continue
+    p_ = sum(pct(n) for n in nums) // len(nums)
+    d_ = sum(1 for n in nums if info[n][0] in FINISHED)
+    P.append(f"{name:<15}{bar(p_)} {d_}/{len(nums)}")
+P += ["```", ""]
+fr = feed_rows()
+if fr:
+    P += ["## Team V ↔ Team G (latest 3)", ""] + fr + [""]
+P += ["## Full board", ""]
+L = P + [
+
      f"Branch `{board['branch']}`. {len(vjobs)} Team V jobs, plus {len(tracked)} lines that track Team G. Two kinds of job. **Project (type number):** open a new chat in the ChatGPT project \"Showdown visual\" and type the number (up to 5 at once). **Fresh chat (image):** run the job's ticket from [tickets/](tickets/README.md) in a ChatGPT Temporary Chat (no memory) outside any project, then drop the image in Claude's factory thread (up to 2 at once).", "",
      f"**Overall (Team V):** {bar(overall)} {overall} % · {done} of {len(vjobs)} jobs done", "",
      f"**Start now · project (type the number in Showdown visual):** {', '.join(map(str, startable)) or 'nothing (all slots busy or nothing ready)'}" + (f" · queued next: {', '.join(map(str, later))}" if later else ""), "",
