@@ -26,5 +26,38 @@
         [1083,278],[1074,245],[1080,203],[1095,160],[1119,116]
       ]
     }
+  },
+  "phone_frame": {
+    "frame_px": [393, 660],
+    "placement_basis": "transparent-trimmed alpha bbox; height_pct is visible figure height",
+    "background": {
+      "asset": "ENV_LEAGUE_PHONE_V1.webp",
+      "fit": "cover",
+      "position_x_pct": 50,
+      "position_y_pct": 44
+    },
+    "hero_zone_end_y_pct": 55,
+    "daniel": {
+      "asset": "OVL_LEAGUE_DANIEL_PHONE_V1.webp",
+      "side": "left",
+      "x_center_pct": 30,
+      "top_pct": 0.5,
+      "height_pct": 56,
+      "z_index": 3
+    },
+    "nik": {
+      "asset": "OVL_LEAGUE_NIK_PHONE_V1.webp",
+      "side": "right",
+      "x_center_pct": 70,
+      "top_pct": 0.5,
+      "height_pct": 56,
+      "z_index": 3
+    },
+    "bottom_gradient": {
+      "start_y_pct": 48,
+      "end_y_pct": 70,
+      "from": "rgba(7,8,10,0)",
+      "to": "rgba(7,8,10,0.94)"
+    }
   }
 }
