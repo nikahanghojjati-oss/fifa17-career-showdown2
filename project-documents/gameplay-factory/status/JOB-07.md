@@ -5,9 +5,9 @@ Step: 6 of 9
 Updated: 2026-10-03 00:04 UTC
 Chat: Sol Work mode
 Code branch: gameplay/job-07-career-index
-Head commit:
-PR:
-CI run:
+Head commit: 65a53ff692e789ffa1d3025b6e7efa1adc56bf00
+PR: not opened (step 7 budget gate blocked)
+CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37080155517
 
 ## Notes
 - Lead: JOB-02 merged (4491e36). Code branch gameplay/job-07-career-index created from gameplay/recovery-v1. Ready to start.
