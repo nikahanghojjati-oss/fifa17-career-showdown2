@@ -519,3 +519,64 @@ body {
 #stage-root[data-status="unavailable"] .finalWinnerResultsPanel {
   opacity: .62;
 }
+
+/* STEP 7 · group C: lower status + exact live Terminal Close actions.
+   The Step 4 action reserve remains x 34.33..65.66%, y 89.97..96.22%.
+   Status floats one line immediately above that reserve so the measured button
+   row is preserved and the read-only result strip is not reflowed. */
+.finalWinnerActionsSlot {
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+
+.finalWinnerTerminalStatus {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + .45vh);
+  width: min(69vw, 946px);
+  margin: 0;
+  transform: translateX(-50%);
+  color: var(--sd-text-secondary);
+  font: 600 clamp(8px, .62vw, 10px)/1.15 var(--sd-font-condensed);
+  letter-spacing: .055em;
+  text-align: center;
+  text-transform: uppercase;
+  text-shadow: 0 2px 8px rgb(0 0 0 / .95);
+  white-space: nowrap;
+}
+
+.finalWinnerTerminalStatus:empty {
+  display: none;
+}
+
+.finalWinnerActionRow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 44px;
+  pointer-events: auto;
+}
+
+.finalWinnerActionRow:empty {
+  display: none;
+}
+
+.finalWinnerActionRow .sd-btn {
+  min-width: 220px;
+  min-height: 44px;
+  box-shadow: 0 9px 24px rgb(0 0 0 / .42);
+}
+
+.finalWinnerActionRow .sd-btn:focus-visible {
+  outline: 2px solid var(--sd-gold-300);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 2px #050505, 0 0 22px rgb(242 196 91 / .38);
+}
+
+/* Closed Final Winner states intentionally expose no local completion-hub buttons. */
+#stage-root[data-state="completed"] .finalWinnerActionRow {
+  display: none;
+}

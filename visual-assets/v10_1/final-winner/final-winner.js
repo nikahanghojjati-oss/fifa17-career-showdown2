@@ -85,13 +85,36 @@
     setMetricValue("panelNikTrophies", n && n.total);
   }
 
-  function renderActions(frame) {
-    const host = document.getElementById("winnerActions");
+  function renderActions(frame, fixtures) {
+    const host = document.getElementById("sharedTerminalCloseActions");
     host.replaceChildren();
+
+    const allowed = new Map([
+      [fixtures.strings.terminalClose.closeAction, {
+        id: fixtures.ids.terminalClose.closeAction,
+        intent: "close",
+        className: "sd-btn sd-btn--primary"
+      }],
+      [fixtures.strings.terminalClose.retryAction, {
+        id: fixtures.ids.terminalClose.retryAction,
+        intent: "retry",
+        className: "sd-btn sd-btn--primary"
+      }]
+    ]);
+
     (frame.actions || []).forEach((label) => {
+      const spec = allowed.get(label);
+      if (!spec) return;
       const button = document.createElement("button");
+      button.id = spec.id;
       button.type = "button";
+      button.className = spec.className;
       button.textContent = label;
+      button.addEventListener("click", () => {
+        document.dispatchEvent(new CustomEvent("final-winner:intent", {
+          detail: { route: "terminalClose", action: spec.intent }
+        }));
+      });
       host.appendChild(button);
     });
   }
@@ -111,6 +134,7 @@
     setText("finalWinnerHeading", heading);
     setText("finalWinnerMessage", message);
     setText("finalWinnerStatus", frame.terminalStatus);
+    setText("sharedTerminalCloseStatus", frame.terminalStatus);
     setText("completionMark", frame.completionMark);
     setText("danielTotal", frame.totals && frame.totals.daniel);
     setText("nikTotal", frame.totals && frame.totals.nik);
@@ -120,7 +144,7 @@
     setText("danielTrophies", trophyLine("Daniel", frame.trophies && frame.trophies.daniel));
     setText("nikTrophies", trophyLine("Nik", frame.trophies && frame.trophies.nik));
     renderResultPanel(frame);
-    renderActions(frame);
+    renderActions(frame, fixtures);
     setText("fixtureDump", JSON.stringify(frame, null, 2));
 
     root.querySelectorAll(".finalWinnerNavTabs [data-route], .finalWinnerSettings[data-route]").forEach((control) => {

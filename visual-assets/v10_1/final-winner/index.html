@@ -116,7 +116,10 @@
           </div>
         </div>
       </section>
-      <div class="finalWinnerActionsSlot" aria-hidden="true"></div>
+      <section class="finalWinnerActionsSlot" aria-label="Final result status and actions">
+        <p id="sharedTerminalCloseStatus" class="finalWinnerTerminalStatus" role="status" aria-live="polite"></p>
+        <div id="sharedTerminalCloseActions" class="finalWinnerActionRow"></div>
+      </section>
 
       <div class="fixtureProbe" aria-hidden="true">
         <p id="frameNote"></p>
@@ -129,7 +132,7 @@
           <p id="danielTrophies"></p>
           <p id="nikTrophies"></p>
         </section>
-        <div id="winnerActions" aria-label="Actions"></div>
+        <div id="fixtureActionsMirror" aria-label="Fixture actions"></div>
         <pre id="fixtureDump" aria-label="Current preview fixture"></pre>
       </div>
     </main>
