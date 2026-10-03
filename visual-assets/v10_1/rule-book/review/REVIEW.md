@@ -4,6 +4,20 @@
 
 ## Scorecard
 
+| Criterion | Score | Evidence |
+| --- | ---: | --- |
+| 1 · Mockup fidelity | 4/5 | There is no dedicated Rule Book mockup; against the Career Statistics style reference, the code preserves the centred gold-brush title hierarchy and gold-on-black panel language, but the Rule Book title is materially narrower and the six-panel composition is necessarily different. |
+| 2 · Characters stand out | 5/5 | No manager art is rendered on this screen by design, so there is no pasted-behind-UI, halo, seam or depth-order defect to penalize. |
+| 3 · Hands and contact | 5/5 | No people or hands are present on the Rule Book screen, so there is no hand/contact compositing defect. |
+| 4 · Lighting and grade | 4/5 | `.ruleBookScrim`, `.ruleSection` and `.scoringRuleSection` use black depth, warm gold edge light and layered gradients rather than flat grey panels; no contradictory light treatment is evident in authored CSS. |
+| 5 · Typography and title | 4/5 | The screen uses the approved Rule Book brush wordmark with a visually hidden real H1, eyebrow and tagline, but the lockup is narrower than the style reference and scoring values are only modestly emphasized. |
+| 6 · Panel craft | 4/5 | Six consistent gold-edged glass panels use corner cuts, warm inset highlights, aligned two-column geometry and a stronger scoring treatment; the layout is coherent but highly uniform compared with the richer asymmetric reference. |
+| 7 · Information clarity and honesty | 3/5 | All six rule sections and scoring values are truthful and fixture-driven, but six interactive section anchors add controls that `TRUTH.md` explicitly does not authorize, making the screen less product-honest. |
+| 9 · Phone composition | 4/5 | Authored CSS creates a dedicated portrait composition with a resized title, horizontal 44 px index, internal rule scroll region and pinned Back action; actual no-scroll/viewport fit remains unmeasured by Claude. |
+| 10 · Polish and finish | 4/5 | The screen uses shared tokens, type, stage and motion systems, WebP display assets, explicit focus styling and fixture-driven text, with no placeholder/debug copy; runtime errors and first-paint measurements are still unverified. |
+
+Static-review average: 4.11/5 across criteria 1–7, 9 and 10. Static pass line requires ≥ 4.2, no criterion below 3 and every hard gate PASS.
+
 ## Hard gates
 
 | Gate | Result | Evidence |
