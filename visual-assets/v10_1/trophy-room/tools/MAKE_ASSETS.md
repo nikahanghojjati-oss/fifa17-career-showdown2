@@ -10,3 +10,12 @@ python3 visual-assets/v10_1/shared/tools/cutout.py --plate visual-assets/v10_1/t
 After edge refinement, export each runtime transparent WebP at about 1000 px tall, quality 85. Keep the lossless PNG masters and the rim outputs for Claude's proof/intake check.
 
 # proof: Claude composites PHONE_PROOF.png (393 × 660 at 3×) from phone_frame
+
+
+## Job 58 runtime wiring
+
+The phone page references the two cutout WebPs before generation, as allowed by the job. Claude should create `OVL_TR_DANIEL_PHONE_V1.webp` and `OVL_TR_NIK_PHONE_V1.webp` with the recipes above.
+
+Use `phonemap.json` placement exactly: Daniel at x 29%, top 1.5%, visible height 59%; Nik at x 71%, top 1%, visible height 60%. Daniel stays left and Nik stays right. Keep both heads inside the top 55% and let the lower bodies cross the 48% dark-gradient boundary.
+
+The phone-art maximum is 253,986 bytes: 133,986 background plus at most 60,000 bytes per cutout.
