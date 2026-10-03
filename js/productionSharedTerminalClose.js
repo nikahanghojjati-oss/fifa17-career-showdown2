@@ -9,6 +9,7 @@
   const PANEL_ID="sharedTerminalClosePanel";
   const AMBIGUOUS_CODES=new Set(["unavailable","deadline-exceeded","aborted","internal","unknown","network-request-failed"]);
   let installed=false,busy=false,state=null,stateContextKey="",refreshPromise=null,closePromise=null,unsubscribeRemote=null;
+  let rivalryWakeRequested=false;
   let protocol=null,provider=null,finalApi=null,runtimeApi=null,accountApi=null,pairingApi=null,rivalryApi=null,remoteApi=null;
 
   function ptcFail(code,message){const error=new Error(message||code);error.code=code;throw error;}
@@ -18,13 +19,16 @@
   function ptcAmbiguous(value){return AMBIGUOUS_CODES.has(ptcCode(value));}
   function ptcShowdown(){try{return typeof currentShowdown!=="undefined"?currentShowdown:null;}catch(_error){return null;}}
   function ptcConfirmedSetupRivalry(){try{const s=root.CareerModeProductionSharedShowdownSetup?.getState?.();return s&&s.ready===true&&s.setup&&s.setup.phase==="SHOWDOWN_CONFIRMED"&&s.setup.revision===6&&s.rivalryId?String(s.rivalryId):"";}catch(_error){return "";}}
+  function ptcRivalryApi(){return rivalryApi||root.CareerModeSparkConnectedRivalry||null;}
+  function ptcAttachedRivalry(saveId,playerOneProfileId,playerTwoProfileId){try{const s=ptcRivalryApi()?.getState?.(),b=s&&s.binding;return s&&s.attached===true&&b&&b.saveId===saveId&&((b.managerRole==="playerOne"&&b.profileId===playerOneProfileId)||(b.managerRole==="playerTwo"&&b.profileId===playerTwoProfileId))&&s.rivalryId?String(s.rivalryId):"";}catch(_error){return "";}}
   function ptcRequest(){
     const showdown=ptcShowdown();
     if(!showdown||showdown.sharedJourney?.mode!=="shared")return null;
-    const rivalryId=String(showdown.sharedJourney?.rivalryId||ptcConfirmedSetupRivalry()||"").trim().toLowerCase();
     const saveId=String(showdown.identity?.saveId||"").trim();
     const playerOneProfileId=String(showdown.identity?.managerProfileIds?.playerOne||"").trim();
     const playerTwoProfileId=String(showdown.identity?.managerProfileIds?.playerTwo||"").trim();
+    // Shared Setup stops being ready once the session closes, so fall back to the durable Connected Rivalry binding of this exact save and manager (it survives reloads).
+    const rivalryId=String(showdown.sharedJourney?.rivalryId||ptcConfirmedSetupRivalry()||ptcAttachedRivalry(saveId,playerOneProfileId,playerTwoProfileId)||"").trim().toLowerCase();
     if(!/^pair_[0-9a-f]{64}$/.test(rivalryId)||!/^save_[0-9a-f]{24}$/.test(saveId)||!/^profile_[0-9a-f]{24}$/.test(playerOneProfileId)||!/^profile_[0-9a-f]{24}$/.test(playerTwoProfileId))return null;
     return Object.freeze({rivalryId,saveId,playerOneProfileId,playerTwoProfileId,key:`${saveId}|${rivalryId}|${playerOneProfileId}|${playerTwoProfileId}|terminal-close`});
   }
@@ -130,6 +134,11 @@
     if(refreshPromise)return refreshPromise;busy=true;ptcRender();
     const run=ptcRefreshNow().catch(error=>{ptcReport("Unable to refresh Shared Showdown Terminal Close",error);return ptcCurrentState();}).finally(()=>{if(refreshPromise===run)refreshPromise=null;busy=false;ptcRender();});refreshPromise=run;return run;
   }
+  async function ptcReportUnlessClosed(context,error){
+    // Active-journey refreshers lose read access once the rivalry closes; a verified CLOSED state makes their failure expected, anything else is still reported.
+    try{let current=ptcCurrentState();if(current?.phase!=="CLOSED"&&ptcRequest())current=await ptcRefresh();if(current&&current.phase==="CLOSED")return false;}catch(_error){}
+    ptcReport(context,error);return true;
+  }
   function ptcCloseOptions(context,intent){return {user:context.user,firestore:context.services.firestore,firebaseSdk:context.services.firestoreSdk,rivalryId:context.request.rivalryId,sessionId:intent.sessionId,deviceId:context.deviceId,intent,nowEpochMs:Date.now(),cryptoImpl:root.crypto};}
   function ptcAccepted(request,intent,result){
     const closed=protocol.closeResult(intent,result);try{remoteApi?.forgetSession?.();}catch(_error){}
@@ -172,7 +181,13 @@
   }
   function ptcWake(event){
     if(event?.type==="career-mode-save-library-authority-invalidated")return ptcClear();
-    const request=ptcRequest();if(!request){ptcClear();return;}
+    const request=ptcRequest();
+    if(!request){
+      ptcClear();
+      // After a reload the durable rivalry binding is only known once Connected Rivalry initializes; its state-change event wakes this module again.
+      const api=ptcRivalryApi();if(!rivalryWakeRequested&&ptcShowdown()?.sharedJourney?.mode==="shared"&&api&&typeof api.initialize==="function"&&api.getState?.()?.initialized!==true){rivalryWakeRequested=true;void Promise.resolve().then(()=>api.initialize()).catch(()=>{});}
+      return;
+    }
     if(stateContextKey&&stateContextKey!==request.key)ptcClear();
     if(busy||root.document?.visibilityState==="hidden")return;
     void ptcRefresh();
@@ -191,6 +206,6 @@
     contractVersion:1,feature:"ssjr-production-shared-terminal-close",productionEnabled:true,runtimeRevision:"1.9.1-r18",pollIntervalMs:POLL_MS,
     requiresFinalReconciliation:true,requiresExactActiveSessionToClose:true,sameWitnessRetry:true,terminalReadAfterReload:true,terminalSessionResurrection:false,
     canonicalStorageMutation:false,listPermissionRequired:false,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,
-    install:ptcInstall,refresh:ptcRefresh,close:ptcClose,retry:ptcRetry,getState:ptcCurrentState,isBusy:()=>busy
+    install:ptcInstall,refresh:ptcRefresh,reportUnlessClosed:ptcReportUnlessClosed,close:ptcClose,retry:ptcRetry,getState:ptcCurrentState,isBusy:()=>busy
   });
 });
