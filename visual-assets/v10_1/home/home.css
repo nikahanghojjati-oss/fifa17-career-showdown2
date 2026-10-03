@@ -278,6 +278,13 @@ button { font: inherit; color: inherit; }
 #continueCareer .tileArt { right: -6px; bottom: -30px; width: 190px; height: 190px; opacity: .82; filter: brightness(.28) saturate(.45) drop-shadow(0 10px 12px rgba(0,0,0,.38)); }
 #trophyRoomButton .tileArt { right: -12px; bottom: -24px; width: 108px; height: 128px; }
 #continueCareer { background: var(--sd-gold-500, #F2C45B); border-color: var(--sd-gold-100, #FFF1B8); box-shadow: 0 10px 28px rgba(0,0,0,.45); }
+/* Job 36 · Continue is the final visual beat. The shared runtime adds the pulse class at 760 ms;
+   Home delays the visible pulse by 40 ms and shortens it to 260 ms so it completes before cleanup. */
+#continueCareer[data-sd-enter="button"].sd-is-pulsing {
+  animation: sd-button-pulse var(--home-continue-pulse-duration, 260ms) var(--home-continue-pulse-ease, cubic-bezier(.22,1,.36,1)) both;
+  animation-delay: var(--home-continue-pulse-delay, 40ms);
+}
+#continueCareer:disabled.sd-is-pulsing { animation: none; }
 #continueCareer .menuTileCode { color: #3B2C0C; }
 #continueCareer .menuTileLabel { color: var(--ink); }
 #continueCareer .menuTileMeta { color: #2A2008; }
