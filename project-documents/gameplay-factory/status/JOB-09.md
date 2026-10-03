@@ -1,13 +1,13 @@
 # Status · JOB-09 · Closed-Showdown adapter into the career model
 
 State: IN PROGRESS
-Step: 5 of 7
-Updated: 2026-10-03 15:27 UTC
+Step: 6 of 7
+Updated: 2026-10-03 15:30 UTC
 Chat: Sol Work mode (job 9, 04fd13bb5a42)
 Code branch: gameplay/job-09-closed-adapter
 Head commit: 744e9a0db9550be8cf74632edcb0f988c2e08ada
 PR:
-CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37133244137 (IN PROGRESS, exact refreshed head 744e9a0db9550be8cf74632edcb0f988c2e08ada)
+CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37133244137 (SUCCESS, exact head 744e9a0db9550be8cf74632edcb0f988c2e08ada)
 
 ## Notes
 - Lead: JOB-03 (PR #316) and JOB-08 (PR #326, merge 843e64e) are merged; JOB-05 and JOB-07 too. Lead to create code branch gameplay/job-09-closed-adapter from gameplay/recovery-v1 at 843e64e before Nik starts the job. Lead reference run on 843e64e: new contract 22/22, contracts 104/104, ops 73/0, every rules-emulator step PASS including the new Closed-Showdown adapter journey (12 checks); only budget diagnostics are the two known career-index D13 denials. Jobs 11, 16 and 18 also append registry entries: whoever merges later re-appends last. Ready to start.
@@ -52,6 +52,14 @@ CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/r
 - Lead answer (2026-10-03 15:35 UTC): done. Merged gameplay/recovery-v1 at f7d18a1 (job 18) into gameplay/job-09-closed-adapter with an ordinary merge commit, no force-push: new head 744e9a0db9550be8cf74632edcb0f988c2e08ada. Registry and ops list keep pairCodeEntryRaceContract before closedShowdownAdapterContract (job 9 last). Lead local check on 744e9a0: pair-code race PASS, closed adapter 22/22 PASS, test:ops 73/73. Diff against recovery is still exactly your seven files. Pushing to gameplay/** starts Validate Gameplay Fast on 744e9a0 by itself; continue with step 6 by reading that exact-head run once, then step 7 (PR into gameplay/recovery-v1).
 
 - Step 6 resumed: Lead completed integration refresh and resolved registry order at 744e9a0. Exact-head run 37133244137 is IN PROGRESS; read once, no polling. Prior green proof at 7b735a7 is historical; finish requires fresh exact-head emulator/budget/file-scope evidence.
+
+- Step 6: Full proof complete on refreshed 744e9a0db9550be8cf74632edcb0f988c2e08ada / Validate Gameplay Fast 37133244137 SUCCESS. Contracts 106/106 (JOB-18 adds the additional baseline contract), closed adapter 22/22, operations 73/0. All emulator steps PASS; final lines:
+- PASS two-manager journey Sections A-G (3 seasons main): main journey, stranger denial, privacy, idempotent retry, simultaneous taps, second Showdown, completed-only reads of closed Showdowns, and persistent-provider abandon all proved.
+- PASS career index composed-Rules emulator (Phase A shipped): 56 numbered checks (A access, B creation, C redemption, D append-only, E idempotency, F races, H agreement, G paging, P provider).
+- PASS career index composed-Rules emulator (Phase B enforced): 58 numbered checks (A access, B creation, C redemption, D append-only, E idempotency, F races, H agreement, G paging, P provider).
+- PASS completed-only read emulator: 56 numbered checks (I0, A completed reads, B denials, C closed writes, D abandoned, E forged witnesses, F active regressions, P session-free reader).
+- PASS closed-Showdown adapter emulator: 12 numbered checks (I0, A Terminal Close, B abandon rebuild, C three-Showdown career for both managers with cache, D stranger and unknown live state).
+- Step 6 qualified budget gate PASS on the refreshed emulator log: exactly two maximum-of-1000 diagnostic lines, followed immediately by denied career-index D13 in Phase A and Phase B; none in the new adapter journey. Compare with recovery f7d18a1 is ahead, behind 0, exactly seven authorized files. Current-head registry has JOB-18 then JOB-09 last; ops ordered likewise; regex dots correct; CI new step last in rules-emulator; persistent pair contractVersion still 4. No worker merge, force-push or deploy.
 
 ## Self-check
 
