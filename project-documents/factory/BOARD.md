@@ -8,11 +8,11 @@
 
 **Where to run:** 🟡 **project job** = new chat in the ChatGPT project "Showdown visual", type the number. 🟣 **image job** = its ticket in a ChatGPT **Temporary Chat** outside any project, then drop the picture in Claude's factory thread.
 
-🟡 **Type next:** 35 · then 114, 125
+🟡 **Type next:** - · then 114, 125
 
 🟣 **Image next:** - · tickets not written yet: 115, 116, 117, 118, 119, 120, 121
 
-**Working:** 40, 45, 77, 87 · **Blocked:** -
+**Working:** 35, 40, 45, 77, 87 · **Blocked:** -
 
 ## Screens
 
@@ -51,13 +51,13 @@ Branch `factory/v1-wtt5ye`. 135 Team V jobs, plus 5 lines that track Team G. Two
 
 **Overall (Team V):** █████░░░░░ 51 % · 56 of 135 jobs done
 
-**Start now · project (type the number in Showdown visual):** 35 · queued next: 114, 125
+**Start now · project (type the number in Showdown visual):** nothing (all slots busy or nothing ready) · queued next: 114, 125
 
 **Start now · fresh chat (image ticket, outside the project):** - · waiting for Claude to write the ticket: 115, 116, 117, 118, 119, 120, 121
 
 **Start now (Sol Work mode, press Use Work):** -
 
-**Working:** 40, 45, 77, 87 · **Blocked:** -
+**Working:** 35, 40, 45, 77, 87 · **Blocked:** -
 
 **Team G tracking (never start these):** 98 (done), 99 (open), 100 (open), 101 (open), 102 (open). Claude marks them done when Team G delivers.
 
@@ -98,12 +98,12 @@ Branch `factory/v1-wtt5ye`. 135 Team V jobs, plus 5 lines that track Team G. Two
 | 32 | [Home: seven destinations and premium tiles](jobs/JOB-032.md) | 4 Polish built screens | build | project (type number) | 31, 18, 20, 122 | ██████████ 100 % | DONE |  |
 | 33 | [Home: phone with seven destinations](jobs/JOB-033.md) | 4 Polish built screens | build | project (type number) | 32, 111 | ██████████ 100 % | DONE |  |
 | 34 | [Home: review](jobs/JOB-034.md) | 4 Polish built screens | review | project (type number) | 33 | ██████████ 100 % | DONE |  |
-| 35 | [Home: fix round](jobs/JOB-035.md) | 4 Polish built screens | fix | project (type number) | 34 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
+| 35 | [Home: fix round](jobs/JOB-035.md) | 4 Polish built screens | fix | project (type number) | 34 | ██░░░░░░░░ 25 % | IN PROGRESS |  |
 | 36 | [Home: motion pass](jobs/JOB-036.md) | 4 Polish built screens | build | project (type number) | 35, 16 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
 | 37 | [League: hands on the wheel](jobs/JOB-037.md) | 4 Polish built screens | build | project (type number) | 14, 1, 18, 123 | ██████████ 100 % | DONE |  |
 | 38 | [League: swap in the new league marks](jobs/JOB-038.md) | 4 Polish built screens | build | project (type number) | 37 | ██████████ 100 % | DONE |  |
 | 39 | [League: phone with the hand in frame](jobs/JOB-039.md) | 4 Polish built screens | build | project (type number) | 37, 112 | ██████████ 100 % | DONE |  |
-| 40 | [League: review](jobs/JOB-040.md) | 4 Polish built screens | review | project (type number) | 39 | ███████░░░ 71 % | IN PROGRESS |  |
+| 40 | [League: review](jobs/JOB-040.md) | 4 Polish built screens | review | project (type number) | 39 | ████████░░ 85 % | IN PROGRESS |  |
 | 41 | [League: fix round](jobs/JOB-041.md) | 4 Polish built screens | fix | project (type number) | 40, 124 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 42 | [League: spin feel](jobs/JOB-042.md) | 4 Polish built screens | build | project (type number) | 41, 16 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
 | 43 | [Club: scene registration, faces, hands and seams](jobs/JOB-043.md) | 4 Polish built screens | fix | project (type number) | 14, 1 | ██████████ 100 % | DONE |  |
