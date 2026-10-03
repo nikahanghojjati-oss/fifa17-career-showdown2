@@ -4,6 +4,20 @@
 
 ## Scorecard
 
+| Criterion | Score | Evidence |
+| --- | ---: | --- |
+| 1 · Mockup fidelity | 4 | The source comparison keeps the 1536 × 864 plate, wheel center/radius, manager placement and button-row height close to GOAL_LEAGUE.jpg, but the narrower fallback title and different desktop chrome are visible fidelity misses. |
+| 2 · Characters stand out of the menu | 4 | JOB-037's Claude intake says the 1366 × 768 render is clean with no seams, while the plate/overlay stack keeps the managers in the stadium scene; no fresh review screenshot exists to justify a 5. |
+| 3 · Hands and contact | 4 | Claude's JOB-037 intake confirms Daniel's fingertip touches the wheel rim and reports no seams; Nik's chin-on-hand pose remains the untouched plate pose, but this review has no independent zoom image to justify a perfect score. |
+| 4 · Lighting and grade | 4 | The build preserves the reference plate's gold stadium lighting and uses gold/dark-glass UI treatment; source evidence shows no conflicting light system, but this review lacks a fresh graded screenshot for a 5. |
+| 5 · Typography and title treatment | 3 | The code still uses a 64 px Kaushan Script `TODO-WORDMARK` fallback instead of the required gold brush wordmark image, making the title visibly cleaner and narrower than the mockup. |
+| 6 · Panel craft | 4 | The live wheel geometry, slogan plates, dark-glass state strip and primary/secondary controls follow the premium treatment, but the slogan boxes are 12 px larger overall and the desktop button group does not match the reference proportions exactly. |
+| 7 · Information clarity and honesty | 4 | The screen exposes one clear primary wheel action, BACK, truthful ready/spinning/selected/locked states and no invented stats; the desktop header still carries nonfinal chrome that adds avoidable hierarchy noise. |
+| 9 · Phone composition | 4 | Source reading shows a dedicated 55svh portrait hero band, Daniel left/Nik right, a ≥240 px wheel, 44 px targets and safe-area-pinned primary action; Claude has not yet supplied the measured H5 phone render, so this cannot score 5. |
+| 10 · Polish and finish | 3 | JOB-037 reports a clean desktop render, but the visible `TODO-WORDMARK` fallback and desktop top-bar mismatch leave obvious unfinished presentation details. |
+
+Static-review average: **3.78 / 5** over criteria 1–7, 9 and 10. Pass line is ≥4.2 with no criterion below 3 and every hard gate PASS.
+
 ## Hard gates
 
 | Gate | Result | Evidence |
