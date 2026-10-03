@@ -230,9 +230,10 @@ button:focus-visible { outline: 2px solid #FFF1B8; outline-offset: 3px; }
   }
   .stage[data-mode="phone"] .phone-hero-person {
     position: absolute;
-    top: .5svh;
+    /* Claude fix 2: reserve a clean title strip above both heads. */
+    top: calc(max(8px, env(safe-area-inset-top)) + 46px);
     z-index: 30;
-    height: 56svh;
+    height: 52svh;
     transform: translateX(-50%);
     filter: drop-shadow(0 -1px 1px rgba(255,211,77,.28))
             drop-shadow(0 8px 10px rgba(0,0,0,.48));
