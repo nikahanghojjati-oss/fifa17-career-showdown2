@@ -1,12 +1,12 @@
 {
- "generated": "2026-10-03 10:14 AM Boston time (EDT)",
+ "generated": "2026-10-03 10:16 AM Boston time (EDT)",
  "branch": "factory/gameplay-v1",
  "integration_branch": "gameplay/recovery-v1",
  "capacity": {
   "chat": 2,
   "work": 1
  },
- "overall": 60,
+ "overall": 61,
  "done": 11,
  "total": 20,
  "start": {
@@ -148,9 +148,9 @@
    "type": "test",
    "plain": "The same journey through the real app screens in a browser, test database only.",
    "state": "IN PROGRESS",
-   "step": 5,
+   "step": 6,
    "steps_total": 9,
-   "pct": 55,
+   "pct": 66,
    "ready": false
   },
   {
