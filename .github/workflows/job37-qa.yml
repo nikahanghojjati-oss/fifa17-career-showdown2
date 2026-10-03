@@ -20,7 +20,7 @@ jobs:
           node-version: '20'
       - run: npm install --no-save playwright@1.55.0
       - run: npx playwright install --with-deps chromium
-      - run: python3 -m pip install pillow
+      - run: python3 -m pip install pillow numpy scikit-image
       - name: Start local server
         run: |
           python3 -m http.server 8765 >/tmp/job37-http.log 2>&1 &
@@ -30,6 +30,20 @@ jobs:
           NODE_PATH: ${{ github.workspace }}/node_modules
         run: |
           node visual-assets/v10_1/league/tools/render-qa.cjs
+      - name: Factory QA
+        env:
+          NODE_PATH: ${{ github.workspace }}/node_modules
+          FACTORY_QA_OUT: visual-assets/v10_1/league/evidence/hands/factory-qa
+        run: |
+          node visual-assets/v10_1/shared/tools/factory-qa.cjs             http://127.0.0.1:8765/visual-assets/v10_1/league/             visual-assets/v10_1/league L1,L2,L3,L4
+          python3 - <<'PY'
+          import json
+          p='visual-assets/v10_1/league/evidence/hands/factory-qa/qa_report.json'
+          r=json.load(open(p))
+          if not r.get('pass'):
+              raise SystemExit('factory-qa failed: '+json.dumps(r.get('failingRuns',[])))
+          print('factory-qa PASS')
+          PY
       - name: Job 37 contact and layout gates
         env:
           NODE_PATH: ${{ github.workspace }}/node_modules
@@ -98,10 +112,28 @@ jobs:
                   await p.waitForFunction(()=>window.__leagueReady===true);
                   const m=await p.evaluate(()=>{
                     const spin=document.getElementById('spinLeague').getBoundingClientRect();
-                    return {scroll:document.documentElement.scrollHeight-innerHeight,spinBottom:spin.bottom,spinVisible:spin.top>=0&&spin.bottom<=innerHeight};
+                    const stage=document.getElementById('stage-root');
+                    const bezel=document.querySelector('.wheel-bezel').getBoundingClientRect();
+                    const note=document.getElementById('leagueStateNote');
+                    const nb=note.classList.contains('hidden')?null:note.getBoundingClientRect();
+                    const wheel=document.getElementById('leagueWheel').getBoundingClientRect();
+                    return {
+                      scroll:document.documentElement.scrollHeight-innerHeight,
+                      spinBottom:spin.bottom,spinVisible:spin.top>=0&&spin.bottom<=innerHeight,
+                      handVisible:stage.dataset.handVisible,
+                      fingerDisplay:getComputedStyle(document.querySelector('.finger-ovl')).display,
+                      contactDisplay:getComputedStyle(document.querySelector('.finger-contact')).display,
+                      contactOverlap:+stage.dataset.contactOverlap,
+                      bezel:{left:bezel.left,right:bezel.right},
+                      noteClear:nb?nb.top-wheel.bottom:null
+                    };
                   });
                   if((w===393||w===360) && m.scroll>1) throw new Error(frame+' '+w+'x'+h+' unexpected scroll '+m.scroll);
                   if(w===375 && !m.spinVisible) throw new Error(frame+' 375x553 primary action not visible');
+                  if(m.handVisible!=='true'||m.fingerDisplay==='none'||m.contactDisplay==='none') throw new Error(frame+' '+w+' phone hand/contact missing');
+                  if(m.contactOverlap<1.9||m.contactOverlap>4.1) throw new Error(frame+' '+w+' phone contact '+m.contactOverlap);
+                  if(m.bezel.left<-1||m.bezel.right>w+1) throw new Error(frame+' '+w+' phone bezel out of bounds '+JSON.stringify(m.bezel));
+                  if(m.noteClear!==null&&m.noteClear<7) throw new Error(frame+' '+w+' phone note/rim clearance '+m.noteClear);
                   result.phone.push({frame,viewport:[w,h],...m});
                   await p.close();
                 }
@@ -130,6 +162,15 @@ jobs:
           bc=build.crop((int(bx-62),int(by-57),int(bx+50),int(by+53))).resize((448,440),Image.Resampling.NEAREST)
           z=Image.new('RGB',(gc.width+bc.width,440),'black'); z.paste(gc,(0,0)); z.paste(bc,(gc.width,0))
           z.save(out/'FINGERTIP_4X.png')
+          PY
+          python3 visual-assets/v10_1/shared/tools/mockup_diff.py             --mockup visual-assets/v10_1/league/assets/REF_GOAL_LEAGUE.jpg             --build visual-assets/v10_1/league/evidence/hands/L1_1920x1080.png             --plate visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_1X.webp             --platemap visual-assets/v10_1/league/assets/platemap.json             --out visual-assets/v10_1/league/evidence/hands/mockup-diff
+          python3 - <<'PY'
+          import json
+          p='visual-assets/v10_1/league/evidence/hands/mockup-diff/scores.json'
+          r=json.load(open(p))
+          if not r.get('gate',{}).get('PASS'):
+              raise SystemExit('H10 failed: '+json.dumps(r))
+          print('H10 PASS')
           PY
       - name: Commit evidence and remove transient workflow
         run: |
