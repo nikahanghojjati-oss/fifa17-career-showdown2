@@ -1,0 +1,147 @@
+name: Job 32 final QA
+on:
+  push:
+    branches: [factory/v1-wtt5ye]
+    paths:
+      - '.github/workflows/job32-proof.yml'
+permissions:
+  contents: write
+jobs:
+  qa:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: factory/v1-wtt5ye
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm install --no-save playwright@1.55.0
+      - run: npx playwright install --with-deps chromium
+      - run: python3 -m pip install pillow
+      - name: Start local server
+        run: |
+          python3 -m http.server 8765 >/tmp/job32-http.log 2>&1 &
+          sleep 2
+      - name: Factory QA
+        env:
+          NODE_PATH: ${{ github.workspace }}/node_modules
+          FACTORY_QA_OUT: visual-assets/v10_1/home/evidence/factory-qa
+        run: |
+          node visual-assets/v10_1/shared/tools/factory-qa.cjs \
+            http://127.0.0.1:8765/visual-assets/v10_1/home/ \
+            visual-assets/v10_1/home HM2
+          python3 - <<'PY'
+          import json
+          p='visual-assets/v10_1/home/evidence/factory-qa/qa_report.json'
+          r=json.load(open(p))
+          if not r.get('pass'):
+              raise SystemExit('factory-qa failed: '+json.dumps(r.get('failingRuns',[])))
+          print('factory-qa PASS across desktop and phone viewports')
+          PY
+      - name: Seven-destination desktop contract
+        run: |
+          node <<'NODE'
+          const { chromium } = require('playwright');
+          const fs = require('fs');
+          const VIEWS=[[1366,768],[1440,900],[1920,1080],[1366,640]];
+          const EXPECTED_IDS=['continueCareer','newShowdown','legacyButton','careerStatisticsButton','trophyRoomButton','ruleBookButton','settingsButton'];
+          const EXPECTED_ROUTES=['continueCareer','newShowdown','legacyButton','careerStatisticsButton','trophyRoom','ruleBookButton','settingsButton'];
+          const intersects=(a,b)=>a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top;
+          (async()=>{
+            const browser=await chromium.launch({headless:true});
+            const metrics={views:[],availability:null,hover:null,focus:null};
+            try {
+              for(const [w,h] of VIEWS){
+                const page=await browser.newPage({viewport:{width:w,height:h}});
+                const errors=[]; page.on('console',m=>{if(m.type()==='error') errors.push(m.text())});
+                await page.goto('http://127.0.0.1:8765/visual-assets/v10_1/home/index.html?frame=HM2',{waitUntil:'networkidle'});
+                await page.waitForFunction(()=>window.__homeReady===true);
+                const row=await page.evaluate(({EXPECTED_IDS,EXPECTED_ROUTES})=>{
+                  const rect=e=>{const r=e.getBoundingClientRect();return {left:r.left,top:r.top,right:r.right,bottom:r.bottom,width:r.width,height:r.height}};
+                  const inside=r=>r.left>=-.5&&r.top>=-.5&&r.right<=innerWidth+.5&&r.bottom<=innerHeight+.5;
+                  const tiles=[...document.querySelectorAll('.fifaMenuGrid > button.menuTile')];
+                  const protectedNames=['face_daniel','face_nik','hand_daniel','hand_nik'];
+                  const protectedBoxes={};
+                  protectedNames.forEach(n=>protectedBoxes[n]=window.HomePlate.rectToScreen(window.HomePlate.MAP.protected_boxes[n]));
+                  const targets=[...document.querySelectorAll('.homeLockup,.fifaMenuHeading,.menuMusicTile,.menuTile,#onlinePlayerIdentityBadge,.seasonIndicator,.brand,.cmBadge')]
+                    .filter(e=>{const s=getComputedStyle(e),r=e.getBoundingClientRect();return s.display!=='none'&&s.visibility!=='hidden'&&r.width>0&&r.height>0})
+                    .map(e=>({id:e.id||e.className,rect:rect(e)}));
+                  const overlaps=[];
+                  for(const [name,p] of Object.entries(protectedBoxes)) for(const t of targets){
+                    if(t.id==='managerPlateMarker') continue;
+                    if(p.left < t.rect.right && p.right > t.rect.left && p.top < t.rect.bottom && p.bottom > t.rect.top) overlaps.push({protected:name,target:t.id});
+                  }
+                  window.__routeIntents=[];
+                  document.addEventListener('home:intent',e=>window.__routeIntents.push(e.detail.route));
+                  return {
+                    ids:tiles.map(x=>x.id),
+                    labels:tiles.map(x=>({id:x.id,font:parseFloat(getComputedStyle(x.querySelector('.menuTileLabel')).fontSize),rect:rect(x),inside:inside(rect(x)),art:x.querySelector('.tileArt')?.getAttribute('src')})),
+                    overlaps, protectedBoxes,
+                    stageScroll:{w:document.getElementById('stage-root').scrollWidth,cw:document.getElementById('stage-root').clientWidth,h:document.getElementById('stage-root').scrollHeight,ch:document.getElementById('stage-root').clientHeight}
+                  };
+                },{EXPECTED_IDS,EXPECTED_ROUTES});
+                if(JSON.stringify(row.ids)!==JSON.stringify(EXPECTED_IDS)) throw new Error(w+'x'+h+' wrong destination ids '+JSON.stringify(row.ids));
+                if(row.labels.some(x=>x.font<18)) throw new Error(w+'x'+h+' label below 18px '+JSON.stringify(row.labels));
+                if(row.labels.some(x=>!x.inside)) throw new Error(w+'x'+h+' tile outside viewport');
+                if(row.overlaps.length) throw new Error(w+'x'+h+' protected likeness overlap '+JSON.stringify(row.overlaps));
+                if(errors.length) throw new Error(w+'x'+h+' console errors '+errors.join(' | '));
+                for(const id of EXPECTED_IDS) await page.click('#'+id);
+                const intents=await page.evaluate(()=>window.__routeIntents);
+                if(JSON.stringify(intents)!==JSON.stringify(EXPECTED_ROUTES)) throw new Error(w+'x'+h+' route mismatch '+JSON.stringify(intents));
+                row.routes=intents; row.consoleErrors=errors; metrics.views.push({viewport:[w,h],...row});
+                if(w===1366&&h===768){
+                  const before=await page.locator('#legacyButton').boundingBox();
+                  await page.hover('#legacyButton'); await page.waitForTimeout(80);
+                  const after=await page.locator('#legacyButton').boundingBox();
+                  const dy=after.y-before.y;
+                  if(Math.abs(dy+3)>.6) throw new Error('hover lift is '+dy+', expected -3');
+                  metrics.hover={beforeY:before.y,afterY:after.y,deltaY:dy};
+                  await page.screenshot({path:'visual-assets/v10_1/home/evidence/FINAL_HM2_1366.png'});
+                }
+                await page.close();
+              }
+
+              const p=await browser.newPage({viewport:{width:1366,height:768}});
+              await p.goto('http://127.0.0.1:8765/visual-assets/v10_1/home/index.html?frame=HM1',{waitUntil:'networkidle'});
+              await p.waitForFunction(()=>window.__homeReady===true);
+              metrics.availability=await p.evaluate(()=>['legacyButton','careerStatisticsButton','trophyRoomButton'].map(id=>{
+                const b=document.getElementById(id); return {id,disabled:b.disabled,available:b.dataset.available,reason:b.dataset.reason,message:b.querySelector('.menuTileMeta').textContent.trim(),visible:getComputedStyle(b).display!=='none'};
+              }));
+              if(metrics.availability.some(x=>!x.disabled||x.available!=='false'||x.reason!=='not-paired'||x.message!=="Pair with your rival first"||!x.visible)) throw new Error('availability contract failed '+JSON.stringify(metrics.availability));
+
+              await p.reload({waitUntil:'networkidle'}); await p.waitForFunction(()=>window.__homeReady===true);
+              for(let i=0;i<20;i++){
+                await p.keyboard.press('Tab');
+                const id=await p.evaluate(()=>document.activeElement && document.activeElement.id);
+                if(id==='newShowdown') break;
+              }
+              metrics.focus=await p.evaluate(()=>{
+                const e=document.activeElement,s=getComputedStyle(e);
+                return {id:e.id,outlineWidth:s.outlineWidth,outlineStyle:s.outlineStyle,boxShadow:s.boxShadow};
+              });
+              if(metrics.focus.id!=='newShowdown'||metrics.focus.outlineStyle==='none'||parseFloat(metrics.focus.outlineWidth)<2) throw new Error('focus ring failed '+JSON.stringify(metrics.focus));
+              await p.close();
+
+              fs.writeFileSync('visual-assets/v10_1/home/evidence/final_desktop_metrics.json',JSON.stringify(metrics,null,2)+'\n');
+            } finally { await browser.close(); }
+          })().catch(e=>{console.error(e);process.exit(1)});
+          NODE
+      - name: Compare to Home goal
+        run: |
+          python3 visual-assets/v10_1/shared/tools/compare_sheet.py \
+            project-documents/factory/mockups/GOAL_HOME.jpg \
+            visual-assets/v10_1/home/evidence/FINAL_HM2_1366.png \
+            visual-assets/v10_1/home/evidence/COMPARE_1366.png
+      - name: Commit QA evidence
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add visual-assets/v10_1/home/evidence/factory-qa \
+                  visual-assets/v10_1/home/evidence/FINAL_HM2_1366.png \
+                  visual-assets/v10_1/home/evidence/final_desktop_metrics.json \
+                  visual-assets/v10_1/home/evidence/COMPARE_1366.png
+          git commit -m "Job 32 step 6/6: QA evidence"
+          git push origin HEAD:factory/v1-wtt5ye
