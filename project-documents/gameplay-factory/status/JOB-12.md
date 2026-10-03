@@ -2,14 +2,15 @@
 
 State: IN PROGRESS
 Step: 4 of 8
-Updated: 2026-10-03 17:45 UTC
+Updated: 2026-10-03 17:46 UTC
 Chat: Sol Work mode (job 12, 265263c2f906)
 Code branch: gameplay/job-12-composed-rules-regression
-Head commit: c8f080170c46aa364e238586ef33956dc5ddbd88
+Head commit: 5cd8ad6b40795de1779e163f2b50376ab5567fc2
 PR:
-CI run: CI pending on c8f080170c46aa364e238586ef33956dc5ddbd88; tests-first evidence https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37140887220
+CI run: CI pending on 5cd8ad6b40795de1779e163f2b50376ab5567fc2 (new Composed production Rules regression job)
 
 ## Notes
+- Step 5 saved, CI pending: appended Appendix F composed-rules-regression job last, preserving every existing job and step byte-for-byte. Uses Node 24 / Java 21, pinned emulator dependencies, explicit read-only main fetch and exactly one firestore-only emulators:exec with demo-cms-gameplay-fast-composed. Local composed Rules contract PASS 10 numbered checks (17 suites); runner/gap syntax PASS. Candidate unchanged a0a0d0b6 / 132878 bytes; checkout artifact untouched by contract. Next turn read exact-head CI once: require all three jobs green, final 49-check regression PASS and no not ok; if red inspect log per §8. Step remains 4 of 8 until step 5 CI evidence is verified. No CI polling, deploy, main write or existing proof changes.
 - Step 4 complete: Appendix C gap suite copied verbatim (69 planned numbered checks); Appendix D runner copied with only §4.7 G-10 additions: completed-transfer-history label, PHASE_B_FILES and M6/M7 evidence. Existing G-9 label retained. Both syntax checks PASS. Offline discovery verifies 17 deduplicated composed suites (includes G-9/G-10 and lifecycle 5/10), nine Phase B temporary-copy runs, and unchanged D13-only budget allowlist. Contract remains intentionally red at C2 missing composed-rules-regression CI job. No Rules/client/existing-suite changes, no local emulator/deploy execution. Files saved on head above; no CI polling. Next step 5: append Appendix F CI job and make offline contract green.
 - Step 3 complete: single read of exact 8a583b9 run 37140887220 shows expected failure. Gameplay contracts log contains AssertionError: validate-gameplay-fast.yml needs the composed-rules-regression job and census failed in 1/110 contracts, naming only tests/contracts/composed-production-rules-contracts.cjs; all eight preceding T/C checks pass. Composed Rules on the emulator and every one of its steps are SUCCESS, including career index, completed-read, G-9 adapter and G-10 transfer matrix. Local operations remain 73/0. Tests-first evidence saved before any emulator files/CI job. Next step 4: gap suite and runner with G-10 discovery labels/Phase B/evidence.
 - Step 3 CI latest single read (17:34 UTC): run 37140887220 on exact 8a583b9 remains IN PROGRESS. No polling in this turn; expected tests-first evidence is not complete yet.
@@ -31,6 +32,7 @@ CI run: CI pending on c8f080170c46aa364e238586ef33956dc5ddbd88; tests-first evid
 - Lead: JOB-07 (PR #325) and JOB-08 (PR #326, merge 843e64e) are merged. Lead decision: G-12 runs after JOB-10 merges (depends_on 7, 8, 10) so the reviewed Rules delta is written once against the final pre-gate Rules; §4.7 re-bases the delta fixture on G-10. Lead to create code branch gameplay/job-12-composed-rules-regression from gameplay/recovery-v1 after JOB-10 merges. Lead reference run on 843e64e: new contract 10/10, contracts 104/104, ops 73/0; composed regression PASS 46 numbered checks (15 composed suites incl. lifecycle 5/10, 8 Phase B temp-copy runs, gap suite 69/69 in both phases) on sha256 cdae7f5d…b38ac141, git blob 2be6c0c5…62fb2b52f6; production main 2e0bd45 composes sha256 ce8abfe6…0426f6a78 (git blob 6fe04a8e…94c1cc65); delta 7 hunks, -6 +204 lines, all G-7/G-8; only budget diagnostics are the two known career-index D13 denials. Jobs 9, 10, 11, 16 and 18 also append registry entries or CI steps: whoever merges later re-appends last. Waits for job 10.
 
 ## Self-check
+- PASS step 5 local: composed production Rules contracts 10 numbered checks; C2 confirms one emulator execution and main fetch; C3 discovers all 17 suites; Appendix F CI job is an append-only change. Exact-head runtime proof pending.
 - PASS step 4 static verification: both new emulator files syntax-check; discovery 17 suites / nine Phase B copy runs; G-10 mapped into M6/M7; BUDGET_ALLOWED stays exactly career-index D13. Runtime emulator evidence awaits step 5 CI.
 - PASS tests-first evidence: exact-head run 37140887220; Gameplay contracts fails only the new missing-job assertion (1/110); Composed Rules on the emulator entirely green. Expected red occurred before step 4/5 implementation.
 - PASS step 2: deployment/parser/build/gate facts (18 steps, 47 needles, 12 contracts), publish blob algorithm, permanent zero-billing boundary, inherited workflow routes, both lead decisions and C2S denials, every existing composed suite and both single base-Rules seams mapped; nine-hunk G-7/G-8/G-10 delta reverse-applies exactly to pinned main. No existing code, Rules, deploy workflow or test modified.
