@@ -324,6 +324,29 @@
     box(d, c.x - rr * T.k, c.y - rr * T.k, 2 * rr * T.k, 2 * rr * T.k); d.style.borderRadius = "50%"; d.style.borderColor = "#7cd4ff"; g.appendChild(d);
   }
 
+  let entranceStarted = false;
+  async function runStandardEntrance() {
+    if (entranceStarted || window.LEAGUE_PREVIEW) return;
+    entranceStarted = true;
+    if (typeof window.sdEnter !== "function") {
+      await new Promise((resolve) => {
+        const script = document.createElement("script");
+        script.src = "../shared/motion.js";
+        script.async = true;
+        script.onload = resolve;
+        script.onerror = () => {
+          stage.dataset.motionLoad = "failed";
+          resolve();
+        };
+        document.head.appendChild(script);
+      });
+    }
+    if (typeof window.sdEnter === "function") {
+      window.sdEnter(stage);
+      stage.dataset.motionLoad = "ready";
+    }
+  }
+
   function layout() {
     // viewport in the prototype (the stage may grow taller than it on short phones); stage box in the preview
     const W = window.LEAGUE_PREVIEW ? stage.clientWidth : innerWidth, H = window.LEAGUE_PREVIEW ? stage.clientHeight : innerHeight;
@@ -344,6 +367,7 @@
     layout();
     addEventListener("resize", layout);
     if (window.LEAGUE_PREVIEW) { window.__leagueReady = true; return; }
+    await runStandardEntrance();
     const img = new Image();
     img.onload = img.onerror = () => { window.__leagueReady = true; };
     img.src = devicePixelRatio > 1 ? "assets/ENV_LEAGUE_PLATE_V1_2X.webp" : "assets/ENV_LEAGUE_PLATE_V1_1X.webp";
