@@ -374,6 +374,42 @@ async function main(){
     assert.equal(await daniel.page.locator("#sharedCanonicalScoringPanel").isVisible().catch(()=>false),false,"canonical scoring remains locked until Shared Season Commit is acknowledged");
     ok("J7.2","RESULTS_READY reveals the same raw season facts on both pages; canonical scoring correctly remains locked until commit");
 
+    // J8 season 1 commit, canonical scoring, and advance to Season 2.
+    await daniel.page.getByRole("button",{name:"COMMIT SHARED SEASON",exact:true}).waitFor({state:"visible",timeout:30000});
+    await nik.page.getByRole("button",{name:"WAITING FOR COORDINATOR",exact:true}).waitFor({state:"visible",timeout:30000});
+    await daniel.page.getByRole("button",{name:"COMMIT SHARED SEASON",exact:true}).click({timeout:30000});
+    for(const m of [daniel,nik])await m.page.getByRole("button",{name:"ACKNOWLEDGE SHARED SEASON",exact:true}).waitFor({state:"visible",timeout:30000});
+    await daniel.page.getByRole("button",{name:"ACKNOWLEDGE SHARED SEASON",exact:true}).click({timeout:30000});
+    await daniel.page.waitForFunction(()=>document.getElementById("sharedSeasonCommitAction")?.textContent==="ACKNOWLEDGED ✓ · WAITING FOR RIVAL",null,{timeout:30000});
+    await nik.page.getByRole("button",{name:"ACKNOWLEDGE SHARED SEASON",exact:true}).click({timeout:30000});
+    for(const m of [daniel,nik])await m.page.waitForFunction(()=>document.getElementById("sharedSeasonCommitAction")?.textContent==="SEASON COMMIT ACKNOWLEDGED ✓",null,{timeout:30000});
+    for(const m of [daniel,nik])await m.page.locator("#sharedCanonicalScoringPanel").waitFor({state:"visible",timeout:30000});
+    const scoreTotalsD=(await daniel.page.locator("#sharedCanonicalScoringTotals").textContent()).trim();
+    const scoreTotalsN=(await nik.page.locator("#sharedCanonicalScoringTotals").textContent()).trim();
+    const scoreWinnerD=(await daniel.page.locator("#sharedCanonicalScoringWinner").textContent()).trim();
+    const scoreWinnerN=(await nik.page.locator("#sharedCanonicalScoringWinner").textContent()).trim();
+    assert.equal(scoreTotalsD,"Daniel: 9 · Nik: 3");
+    assert.equal(scoreTotalsN,scoreTotalsD,"both pages show identical canonical season-1 totals");
+    assert.equal(scoreWinnerD,"Season winner: Daniel");
+    assert.equal(scoreWinnerN,scoreWinnerD,"both pages show the same season-1 winner");
+    ok("J8.1","season 1 commit was acknowledged by both managers and canonical scoring converged 9-3 to Daniel");
+
+    if(LENGTH>1){
+      for(const m of [daniel,nik])await m.page.getByRole("button",{name:"CONTINUE TO SEASON 2",exact:true}).waitFor({state:"visible",timeout:30000});
+      await daniel.page.getByRole("button",{name:"CONTINUE TO SEASON 2",exact:true}).click({timeout:30000});
+      await nik.page.getByRole("button",{name:"CONTINUE TO SEASON 2",exact:true}).click({timeout:30000});
+      for(const m of [daniel,nik])await m.page.locator("#dashboard").waitFor({state:"visible",timeout:30000});
+      for(const m of [daniel,nik]){
+        assert.equal((await m.page.locator("#dashboardScoreOne").textContent()).trim(),"9");
+        assert.equal((await m.page.locator("#dashboardScoreTwo").textContent()).trim(),"3");
+        assert.equal((await m.page.locator("#dashboardRound").textContent()).trim(),`Season 2 of ${LENGTH}`);
+        assert.equal((await m.page.locator("#seasonIndicator").textContent()).trim(),`Season 2 / ${LENGTH}`);
+        assert.equal((await m.page.locator("#dashboardClubOne").textContent()).trim(),clubsD[0]);
+        assert.equal((await m.page.locator("#dashboardClubTwo").textContent()).trim(),clubsD[1]);
+      }
+      ok("J8.2","both Showdown Home pages show 9-3 and Season 2 of 3 with the original permanent clubs");
+    }
+
     // J4..J12: added by the worker, one section per step (JOB-16 §4).
 
     for(const m of managers){
