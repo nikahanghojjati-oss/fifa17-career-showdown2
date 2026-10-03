@@ -1,2 +1,21 @@
-/* JOB-072 step 1 scaffold: intentionally unstyled.
-   Visual layout begins in later steps. */
+/* JOB-072 step 2 · stage registration only. */
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  overflow: hidden;
+}
+
+#stage-root {
+  width: 100vw;
+  height: 100vh;
+}
+
+/* Plate registration is owned entirely by ShowdownStage: cover + centred focal point. */
+.managerPlateMarker {
+  pointer-events: none;
+}
