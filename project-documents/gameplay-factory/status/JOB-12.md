@@ -2,14 +2,24 @@
 
 State: IN PROGRESS
 Step: 5 of 8
-Updated: 2026-10-03 18:02 UTC
-Chat: Sol Work mode (job 12, 265263c2f906)
+Updated: 2026-10-03 23:11 UTC
+Chat: Sol Work mode (job 12, 0374185e849b)
 Code branch: gameplay/job-12-composed-rules-regression
-Head commit: 6dde19a (lead merge of recovery ab704a9)
+Head commit: 6dde19a087b29a69d680c34fd55a2e3276974bb9
 PR:
-CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37141758253 (SUCCESS, all three jobs, exact head 5cd8ad6b40795de1779e163f2b50376ab5567fc2)
+CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37158530069 (attempt 1: three G-12 jobs SUCCESS, inherited browser journey FAIL; failed-job retry requested, CI pending on exact head 6dde19a)
 
 ## Notes
+- Step 6a resumed on refreshed exact head 6dde19a: npm ci PASS; standalone composed contract PASS 10 numbered checks; full contracts PASS 111/111; operations 73 pass / 0 fail. git diff --stat against current recovery ab704a9 lists exactly the eight chartered files (1298 insertions, 1 deletion); worktree clean, no generated Rules/debug logs staged or committed. Prior scope failure is resolved by the lead's ordinary merges; no code edits made in this turn.
+- Step 6a CI single read: run 37158530069 attempt 1 has Gameplay contracts, Composed Rules on the emulator and Composed production Rules regression SUCCESS. Regression has 49 unique numbered passes, 17 suites, nine Phase B runs, no not ok and no NOTE. Career-index Phase A 56 / Phase B 58; completed-read 56. Mechanical log check confirms T2=T3 git blob, pinned T9 and E1 exactly S8/D13, S9/D13; no literal budget diagnostic in the outer regression log because the runner gates suite logs internally.
+- Step 6a inherited CI blocker: fourth job Two-manager browser journey fails after J12.1 passed (distinct R2 and both managers at league wheel), at tests/browser/two-manager-browser-journey.cjs:660:14: AssertionError [ERR_ASSERTION]: nik page errors; actual contains "[Career Mode Showdown] Unable to check Shared Season Commit: Error: Both managers must finish Shared Setup before the Transfer Challenge."; expected []. This test/client is outside G-12 edit scope. Recovery ab704a9 has exact-head green run 37158455451. DEFAULT: retry only the failed browser job once on unchanged 6dde19a to distinguish an intermittent inherited failure; retry accepted by GitHub. No existing assertion weakened, no browser run locally, no merge or deployment. If the same failure repeats, BLOCKED with its output for the lead. Step stays 5 of 8 until overall exact-head Gameplay Fast is green. Next turn: read retry result once, then finish step 6 and save; no polling.
+- Step 6a exact-head literal CI evidence:
+- ok 2 T2 temp composition with the deploy workflow's own build commands is deterministic :: sha256 a0a0d0b6412ab610666f7f94ac0e55d505a44afdfdcf83ea2a3eec52ab0cbff6 gitBlob 0f2cb384024281a64180721716a4684c2624f759 132878 bytes
+- ok 3 T3 deploy-path replay in this checkout (build, pair build, gate, deploy contracts) leaves the byte-identical artifact :: gitBlob 0f2cb384024281a64180721716a4684c2624f759 (= PROVIDER_FIRESTORE_RULES_EXACT_SOURCE_PASS value at the next deploy)
+- ok 8 T8 completed-only grant is get-only on exactly four lines, and candidate minus the reviewed delta is production main :: 9 hunks, -8 +228 lines vs main 2e0bd45
+- ok 9 T9 production main composed with main's own deploy workflow and scripts equals the reviewed pin :: origin/main 2e0bd45 sha256 ce8abfe62069 gitBlob 6fe04a8e5211629919d29a5f2940274794c1cc65
+- ok 37 E1 qualified 1,000-expression gate: the phrase appears only before allowed denial cases :: 2 occurrence(s): S8/D13, S9/D13
+- PASS composed production Rules regression: 49 numbered checks (T artifact identity and provenance, S 17 composed suites on the deploy artifact, B Phase B readiness, E qualified expression budget, M 12 promises) on sha256 a0a0d0b6412ab610666f7f94ac0e55d505a44afdfdcf83ea2a3eec52ab0cbff6.
 - Step 6 verification saved: exact head 5cd8ad6 local composed contract PASS 10 checks; full contracts 110/110; operations 73 pass / 0 fail. Clean exact-head detached proof worktree; no generated Rules or debug logs tracked/staged. CI 37141758253 all three jobs SUCCESS, 49 numbered checks, no not ok and no NOTE. T2/T3 git blob identical; T9 pins live main; gap suite and G-10 pass both phases. Standalone Rules step summaries: career index Phase A 56, Phase B 58; completed-read 56. Mechanical outer-log check validates all 49 numbered passes and E1's exact two allowed D13 entries; no embedded budget-error phrase in the outer regression log because suite logs are scanned internally. Separate rules-emulator raw diagnostics both precede D14 head write with a skipped revision is denied; both are denial cases, while regression E1 is strictly S8/D13, S9/D13.
 - Step 6 scope FAIL / lead synchronization needed: live recovery-v1 advanced from 854bd3f to 82825892dc60adeb57b8ef71a8d7095dc7cfe373 via PR #334 (local reconciliation observe fix). Against original baseline, G-12 changes exactly its eight chartered files. Against current recovery, diff lists eleven because branch lacks inherited changes in js/productionSharedLocalReconciliation.js, js/sparkConnectedRivalry.js and tests/contracts/shared-local-reconciliation-production-contracts.cjs. Those are explicitly outside this tests-only job's edit scope; worker made no attempt to copy, weaken or revert them. Lead must synchronize the branch, then worker re-runs step 6 on the new exact head and verifies eight files/current-baseline CI. Step remains 5 of 8, PR step 7 and Codex step 8 not started. No merges/force-pushes/main writes/deployment.
 - Step 6 literal CI evidence:
@@ -53,7 +63,9 @@ CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/r
 
 ## Self-check
 - PASS step 6 tests: new contract 10/10, full contracts 110/110, operations 73/0, exact-head CI all three jobs SUCCESS; regression 49/49 with 17 suites and nine Phase B runs, E1 only S8/D13 and S9/D13. No not ok/NOTE or tracked generated/debug artifacts.
-- FAIL step 6 current-baseline scope: eleven files vs current recovery 8282589, eight chartered files vs starting recovery 854bd3f. Three extra paths are inherited PR #334 changes absent from this branch, not worker edits. Awaiting lead synchronization and re-validation.
+- PASS step 6a refreshed scope: exactly eight chartered files against recovery ab704a9; clean worktree. Prior eleven-file failure on 5cd8ad6 was resolved by lead merges.
+- PASS step 6a local/evidence on 6dde19a: composed contract 10/10, census 111/111, ops 73/0, regression 49/49, E1 S8/D13 and S9/D13, career index 56/58, completed-read 56.
+- PENDING step 6 exact-head overall CI: inherited browser job failed attempt 1; failed-job-only retry requested. Three G-12 jobs already green. Do not start PR/Codex steps until overall CI is green.
 - PASS step 5 local: composed production Rules contracts 10 numbered checks; C2 confirms one emulator execution and main fetch; C3 discovers all 17 suites; Appendix F CI job is an append-only change. Exact-head runtime proof pending.
 - PASS step 4 static verification: both new emulator files syntax-check; discovery 17 suites / nine Phase B copy runs; G-10 mapped into M6/M7; BUDGET_ALLOWED stays exactly career-index D13. Runtime emulator evidence awaits step 5 CI.
 - PASS tests-first evidence: exact-head run 37140887220; Gameplay contracts fails only the new missing-job assertion (1/110); Composed Rules on the emulator entirely green. Expected red occurred before step 4/5 implementation.
