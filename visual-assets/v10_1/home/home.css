@@ -352,6 +352,15 @@ footer {
   .menuMusicStatus { font-size: 12px; }
   .menuTile { padding: 9px 10px 9px 11px; min-height: 72px; height: auto; gap: 2px; justify-content: flex-start; }
   .menuTileLabel { font-size: 18px; line-height: 1.12; padding-right: 34px; }
+  /* Claude fix 2: primary phone titles get explicit text lanes so no word is clipped by art or the panel edge. */
+  #continueCareer .menuTileLabel {
+    max-width: calc(100% - 72px); padding-right: 0; font-size: 17px; line-height: 1.06;
+    white-space: normal; overflow-wrap: normal; word-break: normal;
+  }
+  #newShowdown .menuTileLabel {
+    max-width: calc(100% - 48px); padding-right: 0; font-size: 16px; line-height: 1.06;
+    white-space: normal; overflow-wrap: normal; word-break: normal;
+  }
   .menuTileMeta { font-size: 14px; line-height: 1.25; }
   .menuTile .menuTileMeta { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
   .menuTile[data-available="false"] .menuTileMeta { position: relative !important; width: auto; height: auto; overflow: visible; clip: auto; clip-path: none; white-space: normal; font-size: 10px; line-height: 1.05; margin-top: 2px; }
