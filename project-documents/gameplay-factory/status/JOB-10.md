@@ -1,13 +1,13 @@
 # Status · JOB-10 · Transfer history, completed only
 
 State: IN PROGRESS
-Step: 5 of 8
-Updated: 2026-10-03 16:00 UTC
+Step: 6 of 8
+Updated: 2026-10-03 16:06 UTC
 Chat: Sol Work mode
 Code branch: gameplay/job-10-transfer-history
 Head commit: 6a698c38ab1c8b56a4361dba89642da8c36eb853
 PR:
-CI run: CI pending on 6a698c38ab1c8b56a4361dba89642da8c36eb853
+CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37135253028
 
 ## Notes
 - Lead: JOB-08 (PR #326, merge 843e64e) is merged. Lead to create code branch gameplay/job-10-transfer-history from gameplay/recovery-v1 at 843e64e before Nik starts the job. Lead reference run on 843e64e: new contract PASS, contracts 104/104, ops 73/0, every rules-emulator step PASS including the new Completed transfer history matrix (73 checks) and Completed-only read 56 with B8/B9 flipped; only budget diagnostics are the two known career-index D13 denials. Jobs 9, 11, 16 and 18 also append registry entries (9 also a rules-emulator step, 16 a CI job): whoever merges later re-appends last. Ready to start.
@@ -54,7 +54,19 @@ CI run: CI pending on 6a698c38ab1c8b56a4361dba89642da8c36eb853
 
 - Step 6f saved: current recovery 31360a0 preserved; JOB-09 Closed-Showdown adapter journey retained and G-10 Completed transfer history matrix appended as last rules-emulator step. Local completed-transfer contract PASS; full census 108/108 contracts; operations 73 pass / 0 fail; both Rules builds PASS (132878 composed bytes); exactly ten chartered files differ from current recovery; no generated Rules/log tracked. Final code head 6a698c38ab1c8b56a4361dba89642da8c36eb853; step 6 awaits exact-head CI and qualified budget gate, then PR step 7.
 
+- Step 6 complete: exact head 6a698c38ab1c8b56a4361dba89642da8c36eb853, CI 37135253028 SUCCESS with every step of both jobs green, including retained JOB-09 adapter journey. Local contracts 108/108, operations 73/0, completed-transfer contract PASS; both Rules builds 132878 composed bytes; ten chartered files only differ from current recovery 31360a0; unchanged safety boundaries and generated Rules untracked. Qualified expression-budget gate PASS: 2 diagnostic lines; each next numbered check is a denial (see evidence). Next step 7: PR into recovery-v1.
+
 ## Self-check
+- PASS exact-head CI: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37135253028 on 6a698c38ab1c8b56a4361dba89642da8c36eb853, both jobs and all steps SUCCESS.
+- PASS Shared Transfer fresh-session expiry emulator: fresh-session read + authority migration both succeed, then an old-session WINDOW_OPEN at 00:00 advances under the fresh ACTIVE session, preserves exact startedAt, writes timeout completion at server request time, and reaches GUESS_ENTRY without redraw or reset.
+- PASS two-manager journey Sections A-G (3 seasons main): main journey, stranger denial, privacy, idempotent retry, simultaneous taps, second Showdown, completed-only reads of closed Showdowns, and persistent-provider abandon all proved.
+- PASS career index composed-Rules emulator (Phase A shipped): 56 numbered checks (A access, B creation, C redemption, D append-only, E idempotency, F races, H agreement, G paging, P provider).
+- PASS career index composed-Rules emulator (Phase B enforced): 58 numbered checks (A access, B creation, C redemption, D append-only, E idempotency, F races, H agreement, G paging, P provider).
+- PASS completed-only read emulator: 56 numbered checks (I0, A completed reads, B denials, C closed writes, D abandoned, E forged witnesses, F active regressions, P session-free reader).
+- PASS closed-Showdown adapter emulator: 12 numbered checks (I0, A Terminal Close, B abandon rebuild, C three-Showdown career for both managers with cache, D stranger and unknown live state).
+- PASS completed-only transfer history emulator: 73 numbered checks (I0, A completed reads, B denials, C closed writes, D abandoned, E forged witnesses, G forged challenge states, F active regressions, P session-free reader).
+- PASS qualified expression-budget gate: ok 36 D14 head write with a skipped revision is denied; ok 37 D14 head write with a skipped revision is denied; no occurrence adjacent to an expected-success case. Only career-index denial diagnostics; all required successful creation, redemption, rollover, append, transfer and completed-read cases PASS.
+- PASS scope/privacy: JOB-08 only K8/B8/B9 flipped; D6 and all other assertions untouched, still 56 checks. Get-only transfer grant, both-role lock/COMPLETED gating; abandoned and unfinished remain denied. No write rules or budget-edge functions altered; JOB-08 reader, pair contractVersion 4, startup shell/SW, shared fragments and builds unchanged against current recovery. No deploy, main mutation or billing words in fragment.
 - PASS final local proof on 31360a0 baseline: 108/108 contracts, operations 73/0, new transfer contract PASS, composed Rules 132878 bytes; ten-file diff, inherited fixes/registries preserved, G-10 registry/ops/CI last.
 - PASS step 6b local: 106/106 contracts and operations 73/0 with merged JOB-18 preserved, ten-file diff against f7d18a1; both Rules builds PASS and generated Rules uncommitted.
 - PASS step 5 local: completed-only transfer history contract and existing completed-only read contract both PASS; composed artifact 132878 bytes, transfer helper calls 2/2. Four Rules/test files saved atomically; no writes changed or deploy.
