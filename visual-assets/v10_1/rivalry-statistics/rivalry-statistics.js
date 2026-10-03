@@ -19,6 +19,17 @@ function val(frame,key,side){
  }
  return "—";
 }
+function mountStage(map){
+ if(!window.ShowdownStage || window.rvStage) return;
+ const stage=document.getElementById("stage-root");
+ window.rvStage=window.ShowdownStage.mount(stage,{
+   plate:{width:1672,height:941,src1x:"assets/ENV_RV_PLATE_V1_1X.webp",src2x:"assets/ENV_RV_PLATE_V1_2X.webp"},
+   platemap:map,
+   focal:{x:836,y:470.5},
+   dustCount:24,
+   phoneBandRatio:.46
+ });
+}
 function render(data){
  const frame=data.frames?.[frameName]||data.frames?.RV1||fallback.frames.RV1;
  document.documentElement.dataset.frame=frameName;
@@ -45,7 +56,13 @@ function render(data){
    state.textContent=(data.strings?.stateCopy?.[frame.status]?.text)||"";
  }
 }
-function boot(data){ window.RivalryFixtures=data; render(data); }
-if(window.RIVALRY_BOOT?.fixtures){boot(window.RIVALRY_BOOT.fixtures);}
-else fetch("fixtures.json").then(r=>r.json()).then(boot).catch(()=>boot(fallback));
+function boot(data,map){ window.RivalryFixtures=data; mountStage(map); render(data); }
+if(window.RIVALRY_BOOT?.fixtures){
+ boot(window.RIVALRY_BOOT.fixtures,window.RIVALRY_BOOT.platemap||null);
+}else{
+ Promise.all([
+   fetch("fixtures.json").then(r=>r.json()),
+   fetch("assets/platemap.json").then(r=>r.json())
+ ]).then(([data,map])=>boot(data,map)).catch(()=>boot(fallback,null));
+}
 })();
