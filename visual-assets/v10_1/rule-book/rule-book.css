@@ -72,3 +72,90 @@ body {
   line-height: 1.35;
   text-align: center;
 }
+
+
+/* Step 4 · desktop layout, system-derived because Rule Book has no dedicated mockup.
+   Reference frame: 1366×768.
+   Content field: left 6.2%, top 29.4%, width 87.9%, bottom 13.3%.
+   Left index: 4.6% of frame width. Panel field: two equal columns with a 1.2% frame gap.
+   These positions preserve the Trophy Room title band above and the hub action zone below. */
+.ruleBookScreen {
+  position: absolute;
+  inset: 0;
+  min-width: 0;
+  min-height: 0;
+  padding-top: 52px;
+  overflow: hidden;
+}
+
+#ruleBookFrameStatus,
+#ruleBookFrameNote,
+#ruleBookPreview {
+  display: none;
+}
+
+#ruleBookIndex {
+  position: absolute;
+  z-index: 11;
+  left: 6.2%;
+  top: 29.4%;
+  width: 4.6%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 8px;
+}
+
+#ruleBookIndex a {
+  min-height: 44px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(222, 179, 79, 0.5);
+  background: rgba(5, 6, 7, 0.72);
+  color: var(--sd-text-warm);
+  font: 700 clamp(12px, 0.9vw, 15px)/1 var(--sd-font-condensed);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  box-shadow: inset 0 1px rgba(255, 230, 157, 0.06), 0 8px 22px rgba(0, 0, 0, 0.26);
+}
+
+.ruleBookBlanks,
+.ruleBookGrid {
+  position: absolute;
+  left: 12.4%;
+  right: 5.9%;
+  top: 29.4%;
+  bottom: 13.3%;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(3, minmax(0, 1fr));
+  gap: 12px 16px;
+}
+
+.ruleBookBlanks {
+  z-index: 8;
+  display: grid;
+}
+
+.ruleBookBlank {
+  min-width: 0;
+  min-height: 0;
+  border: 1px solid rgba(222, 179, 79, 0.62);
+  background:
+    linear-gradient(180deg, rgba(16, 16, 15, 0.84), rgba(5, 6, 7, 0.9));
+  box-shadow:
+    inset 0 1px rgba(255, 231, 161, 0.08),
+    0 18px 34px rgba(0, 0, 0, 0.38);
+  clip-path: polygon(2% 0, 98% 0, 100% 7%, 100% 100%, 0 100%, 0 7%);
+}
+
+.ruleBookGrid {
+  z-index: 9;
+  display: grid;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.ruleBookActions {
+  visibility: hidden;
+}
