@@ -39,7 +39,7 @@ Phone layout: any portrait viewport up to 760 px wide. Same URL, same DOM.
 | --- | --- | --- |
 | H0 source check | DONE | `fixtures.json` = main@2de2373 strings + the Audius exception (default track `WHAT YOU GOT — Valentino Khan & NITTI`) + owner tile change + route table |
 | H1 desktop stage + lockup | DONE | Wordmark from intake (`LOGO_CM17_WORDMARK_V1.webp`), ≈32 % width, capped before Daniel's face (+9 px). Header background opens over Nik's face box (like the goal's nav bar). Left scrim ends before the protected boxes. |
-| H2 action tiles | DONE, **changed by owner**: six tiles, not four | Inline SVG icons redrawn from the goal: 17-shirt player, tactics clipboard, cup, rising bars, spiral notebook, disc case |
+| H2 action tiles | DONE, Job 32 final | Seven destinations: Continue is double width; Start / Join, History, Statistics, Trophy Room, Rule Book and Settings are equal tiles. Approved Home art replaces thin SVG icons; Trophy Room uses the original Showdown League Title trophy. |
 | H3 Audius card | DONE | Goal position at ≥1366×768; **the vinyl shrank 60 → 44 px to fit at 1366×768** (as the brief allows). On short desktops (1366×640) the card moves beside Nik's hand (+9 px), bottom-anchored over the tiles. |
 | Checkpoint commit + push | DONE | `cab9ed9` |
 | H4 phone | DONE | header 48 → face band → heading → soundtrack strip → tiles (see the handoff for the order change) |
@@ -70,29 +70,45 @@ Viewports:
 | G13 chrome | header/footer boxes, fonts, colours, segments recorded per shot |
 | ROUTE (owner) | each enabled tile emits exactly one `home:intent` naming its destination |
 
-## Owner change: full tile set (Nik, 2026-10-01)
-- **Tiles shown:**
-  - `#continueCareer` (primary, gold);
-  - `#newShowdown` (Start / Join);
-  - `#legacyButton` (History · Legacy);
-  - `#careerStatisticsButton` (Data · Statistics), carrying a visible gold **TROPHY ROOM** tag;
-  - `#ruleBookButton`;
-  - `#settingsButton`.
+## Home final · Job 32 (2026-10-02)
 
-  Desktop: one row of six, as in Nik's mockup. Continue and Start/Join are 1.72× wider (their labels and state lines are longer). Phone: Continue + Start/Join on top, then a compact row of four.
-- The r43 containment style (`#legacyButton`, `#careerStatisticsButton` `display:none`, injected by `js/onlinePlayerIdentity.js`) is **not applied in this prototype**. Production is untouched, so main still hides both tiles.
-- **Routing (visual only, no data code):** each tile dispatches `home:intent` with its existing destination (`fixtures.json → routes`):
-  - Legacy → `#legacy` (`js/legacy.js`);
-  - Statistics → lazy module `careerStatistics` (`js/analytics.js`);
-  - Trophy Room → through Statistics: `#careerStatisticsTrophyButton` (`js/statistics.js`) → `openTrophyRoom()` (`js/trophyRoom.js`).
+OWNER-5 is now the rendered Home information architecture:
 
-### Destinations that still read LOCAL-ONLY data (do not show to players until moved onto the online data)
-1. **Legacy** (`#legacyButton` → `#legacy`, `js/legacy.js`): `loadLegacyShowdowns()` + `loadSavedShowdown()` from `js/storage.js`, i.e. `localStorage` `careerModeShowdown.legacyShowdowns` and `careerModeShowdown.activeShowdown`.
-2. **Statistics** (`#careerStatisticsButton` → `careerStatistics`, `js/analytics.js`): `loadLegacyShowdowns()` + `loadSavedShowdown()` + `currentShowdown`. Same localStorage keys.
-3. **Trophy Room** (via `#careerStatisticsTrophyButton`, `js/trophyRoom.js`): `getLegacyStorageRevision()` (legacy localStorage) + `currentShowdown`.
-4. Check, not confirmed local-only: **Continue Career**'s meta (`getSavedShowdownMenuMeta`, `js/menuExperience.js`) uses `currentShowdown` and falls back to `loadSavedShowdown()` (localStorage) when no online showdown is in memory.
+- `#continueCareer` — Continue, dominant solid-gold tile.
+- `#newShowdown` — Start / Join.
+- `#legacyButton` — History / Legacy.
+- `#careerStatisticsButton` — Statistics.
+- `#trophyRoomButton` — Trophy Room as its own first-class Home destination.
+- `#ruleBookButton` — Rule Book.
+- `#settingsButton` — Settings.
 
-Rule Book (static rules) and Settings (account/device) were not found to read showdown data.
+Rivalry Statistics remains reached through Statistics and the active Showdown; it is not an eighth Home tile.
+
+Desktop geometry is one band: Continue = 2fr, then six equal 1fr tiles with an 8 px gap. At 1366 × 768 the Continue tile is 313 px wide and every secondary tile is about 157 px wide; the seven labels are 20 px or larger. The same contract passes 1440 × 900, 1920 × 1080 and 1366 × 640.
+
+Tile art uses the approved transparent assets in `shared/art/home-tiles/`: anonymous 17-shirt figure, tactics board, History object, Statistics bars, Rule Book and Settings object. Trophy Room uses `shared/trophies/TRO_LEAGUE_TITLE_V1_512.webp`. Secondary art shares the same approximately 116 px visual box; the Trophy Room trophy is optically balanced at 108 × 128 px; Continue deliberately uses a larger 190 px silhouette, like the goal.
+
+The three history-backed Home tiles follow DATA_CONTRACT_V1 §1. In HM1 they remain visible but disabled with `available=false`, `reason=not-paired` and the message “Pair with your rival first”. The fixture also owns the closed-set copy for `loading`, `reconnecting` and `unavailable`. HM2/HM3 expose the routes normally.
+
+Shared craft:
+- Home buttons opt into the shared `sd-panel` treatment with cut corners.
+- Hover lift is measured at exactly −3 px with gold glow.
+- Focus uses a visible 2 px gold ring plus black separation ring.
+- Continue is solid Showdown gold with black copy.
+- The hero lockup uses `sd-label`, `sd-title--wordmark`, `sd-tagline` and hidden live title text; HOME / RIVALRY HEADQUARTERS uses shared label/body classes.
+- The Audius soundtrack card remains in the goal position.
+- The phone hub keeps a `56px + env(safe-area-inset-bottom)` nav reserve for job 125.
+
+### Job 32 desktop QA
+
+Factory QA on HM2 passes every gate at the four desktop targets: 1366 × 768, 1440 × 900, 1920 × 1080 and 1366 × 640. `final_desktop_metrics.json` confirms all seven buttons are visible, inside the viewport and reachable, every desktop label is at least 20 px, route intents match the seven destination routes, protected face/hand overlap arrays are empty, and console errors are empty. The generic factory-qa sweep also retained phone diagnostics; Job 32’s blocking step-6 gate is desktop QA exactly as specified by the job.
+
+Evidence:
+- `evidence/COMPARE_1366.png` — GOAL_HOME comparison sheet.
+- `evidence/FINAL_HM2_1366.png` — final 1366 × 768 Home.
+- `evidence/FINAL_VISUAL_REVIEW.jpg` — compact goal/final review pair.
+- `evidence/factory-qa/` — factory QA screenshots, report and summary.
+- `evidence/final_desktop_metrics.json` — seven-route/label/overlap/hover/focus measurements.
 
 ## Seams: intake tone-match zones (owner instruction to cover them with UI layers)
 Method:
