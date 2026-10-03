@@ -2,11 +2,11 @@
 
 State: IN PROGRESS
 Step: 7 of 8
-Updated: 2026-10-03 14:22 UTC
+Updated: 2026-10-03 14:24 UTC
 Chat: Sol Work mode (job 11, 83d4f3e64efe)
 Code branch: gameplay/job-11-contract-fixtures
 Head commit: 554c5b6cafd3362143f7363b75f842bca09e4c45
-PR: 
+PR: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/327
 CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37129084547
 
 ## Notes
@@ -21,6 +21,7 @@ CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/r
 - Step 7 checkpoint: Operations 73 pass / 0 fail; adapter 19/19; generator and contract 31 checks PASS. Full local contract run log ended before the census despite session reporting exit 0; rerunning sequentially to collect actual final evidence. Generator/contract byte-identical to appendices; generated hashes identical; local and GitHub comparison show exactly the authorized 21 files. Only JS diff is the one guard condition; prior registry entries retained. Awaiting final exact-head CI on 554c5b6cafd3362143f7363b75f842bca09e4c45.
 - Step 7 exact-head Gameplay contracts job 111220560648 SUCCESS: PASS data contract v1 fixtures contracts (31 checks, 14 scenarios + nav); PASS POS10 selected deterministic census (104/104 current blocking contracts: frozen POS10 floor + POS20 supplements); adapter 19/19; operations tests 73/pass 73/fail 0. Local full-suite sessions twice returned exit 0 before a complete census log; no further local reruns, CI supplies full-suite evidence under handbook section 7. Local focused checks and operations complete normally.
 - Step 7: Validate Gameplay Fast https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37129084547 is SUCCESS on exact head 554c5b6cafd3362143f7363b75f842bca09e4c45. Gameplay contracts 111220560648 and Composed Rules on the emulator 111220560767 both SUCCESS; all demo-project matrices passed. Full proof complete, 104/104 contracts and ops 73/0; fixture 31 checks, adapter 19/19, all 21 files confirmed. No code changes during final validation.
+- Step 8 checkpoint: PR #327 open, ready for review, mergeable, exact head 554c5b6cafd3362143f7363b75f842bca09e4c45, base gameplay/recovery-v1 843e64e, exactly 21 files; required scenario and proof tables plus regenerate line included. Creating the PR also started POS20 validation run https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37129397528 . All fast CI checks are green; awaiting the PR checks before final DONE so the lead need not re-test. Codex review is not required.
 
 ## Self-check
 
