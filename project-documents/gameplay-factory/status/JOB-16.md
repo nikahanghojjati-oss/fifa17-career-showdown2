@@ -1,13 +1,13 @@
 # Status · JOB-16 · Two-manager browser journey (localhost-only emulator switch)
 
 State: IN PROGRESS
-Step: 7 of 9
-Updated: 2026-10-03 16:10 UTC
+Step: 8 of 9
+Updated: 2026-10-03 17:02 UTC
 Chat: GPT-5.6 Sol normal chat
 Code branch: gameplay/job-16-browser-journey
 Head commit: f93584f92061b5b3df2a16344f05c532e0b72982
 PR:
-CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37135149889
+CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37138362188
 
 ## Notes
 - Step 1: JOB-02, JOB-07 and JOB-17 are DONE and merged; the provider journey exists on gameplay/recovery-v1. Recovery head 843e64e is green in Validate Gameplay Fast run 37125870168 (Gameplay contracts SUCCESS; Composed Rules on the emulator SUCCESS). Scanned all 117 js/*.js blobs on that exact tree: no connectAuthEmulator or connectFirestoreEmulator. validate-gameplay-fast.yml pins firebase@12.17.1; deploy-github-pages.yml copies only index/runtime files plus acceptance, assets, css, data and js, never tests/. The job branch was safely fast-forwarded from 889810f to current recovery 843e64e after JOB-08 merged; no force update and no product files changed.
@@ -228,6 +228,8 @@ Season Entry visible: true. Scoring panel exists: false. Document visibility: vi
 - Lead (2026-10-03 16:20 UTC): BLOCKED received; right call. Two failures in a row is a real bug, so J8.3 stays strict. The lead is fixing it now: a bounded stale-base retry in productionSharedSeasonResults.js, the same pattern Season Commit already uses, with its own contract. When the fix is merged the lead will merge it into your branch and write the commit here. Keep State BLOCKED and do nothing until then.
 
 - Lead answer (2026-10-03 16:55 UTC): unblocked. The stale-race fix is merged into gameplay/recovery-v1 (PR #333, merge 5a79fbd): a simultaneous publish now re-reads once and retries with the fresh revision, the same pattern Season Commit uses; any other error or a second stale still surfaces. Lead local browser runs: J8.3 failed 2 of 2 with the old file and passed 3 of 3 with the fix. The lead merged recovery 5a79fbd into your branch (ordinary merge, no force-push): new head f93584f92061b5b3df2a16344f05c532e0b72982, your browserJourneySwitchContract still last. J8.3 stays strict, unchanged. Rule 3 above now covers only the permission-denied acknowledge error; a STALE_BASE_REVISION failure at J8.3 is now a real failure (set BLOCKED). One more known transient seen once locally: "Career Start could not be read" during the Season Commit check; treat it like rule 3 (record, one re-run). Next: type continue and resume step 7 with the exact-head CI on f93584f, which starts by itself.
+
+- Step 7 GREEN after stale-race fix: exact head f93584f is fully green in run 37138362188. Browser journey passed 28 numbered checks through J8.5 plus JZ. J9 printed exactly `J9 SKIPPED: resume after reload is a separate product job (lead decision 2026-10-03)` and was not counted as a pass. Season 2 simultaneous publish now converged strictly with no error banner; season 1 canonical score 9-3 Daniel, season 2 0-11 Nik, season 3 1-1 Daniel on league-position tiebreak. Artifact browser-journey-screens 11279682275. Supporting Gameplay contracts and Composed Rules emulator jobs also SUCCESS.
 
 ## Self-check
 
