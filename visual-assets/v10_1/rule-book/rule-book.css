@@ -249,3 +249,11 @@ body {
 .ruleSection ul{margin:0;padding:0;list-style:none;display:grid;gap:4px}
 .ruleSection li{position:relative;margin:0;padding-left:12px;color:rgba(244,241,234,.88);font:500 clamp(10px,.72vw,12px)/1.22 var(--sd-font-body)}
 .ruleSection li::before{content:"";position:absolute;left:0;top:.52em;width:5px;height:1px;background:var(--sd-gold-300);box-shadow:0 0 6px rgba(242,196,91,.35)}
+
+
+/* Step 6b · Season Results scoring material, adapted to Rule Book. */
+.scoringRuleSection{overflow:hidden;border-color:rgba(242,196,91,.86);background:linear-gradient(115deg,rgba(4,6,8,.90),rgba(13,14,15,.76)),linear-gradient(90deg,rgba(242,196,91,.09),transparent 45%);box-shadow:inset 0 0 0 1px rgba(255,224,135,.08),0 18px 40px rgba(0,0,0,.32)}
+.ruleScoreTable{display:grid;grid-template-columns:1fr 1fr;gap:4px 18px;padding-top:1px}
+.ruleScoreRow,.ruleScoreMaximum{min-width:0;display:flex;align-items:baseline;justify-content:space-between;gap:10px;color:#f4f4f2;font:650 clamp(9px,.66vw,11px)/1.12 var(--sd-font-condensed)}
+.ruleScoreRow strong,.ruleScoreMaximum strong{flex:0 0 auto;color:var(--sd-gold-300);font-size:1.18em;font-variant-numeric:tabular-nums;white-space:nowrap}
+.ruleScoreMaximum{grid-column:1/-1;margin-top:2px;padding-top:5px;border-top:1px solid rgba(242,196,91,.42);color:var(--sd-gold-300);letter-spacing:.07em;text-transform:uppercase}
