@@ -6,6 +6,20 @@
 
 ## Hard gates
 
+| Gate | Result | Evidence |
+| --- | --- | --- |
+| H1 · Daniel left, Nik right, never mirrored | PASS | `club.js: L.faces/renderFrame()` assigns Daniel/playerOne to the left face box and Nik/playerTwo to the right; phone CSS fixes Daniel at 31% and Nik at 69%, with Daniel as the first stacked row. |
+| H2 · rights | PASS | Club runtime uses Showdown plate/manager art and generated `getClubCrestSvg` crests; the reviewed HTML/CSS/JS contains no real club crest, league logo, trophy, player photo or EA/FIFA art reference. |
+| H3 · no live/private data baked into images | PASS | League, manager names, club names, reveal status and confirmation metadata are populated as live DOM text from `fixtures.json`; runtime scene images contain only scene/decorative art. |
+| H4 · product truth | PASS | The screen exposes only the real open-packs, confirm/start and Back actions; it introduces no unrecorded stats, keeps clubs sealed until their reveal frame, and does not expose rival data early. |
+| H5 · phone fit / scroll | NOT MEASURED (Claude measures) | `visual-assets/v10_1/club/evidence/QA_SUMMARY.md` does not exist; JOB-045 records arithmetic only and explicitly defers browser geometry to Claude. |
+| H6 · input size / contrast | NOT MEASURED (Claude measures) | `visual-assets/v10_1/club/evidence/QA_SUMMARY.md` does not exist; JOB-045 records a static target-size check but no measured contrast result. |
+| H7 · reduced motion | NOT MEASURED (Claude measures) | No Claude measurement in `status/JOB-044.md`, `status/JOB-045.md`, or Club evidence files. |
+| H8 · keyboard / focus | NOT MEASURED (Claude measures) | No Claude tab-through measurement in `status/JOB-044.md`, `status/JOB-045.md`, or Club evidence files. |
+| H9 · console / failed requests | NOT MEASURED (Claude measures) | No browser log measurement in `status/JOB-044.md`, `status/JOB-045.md`, or Club evidence files. |
+| H10 · mockup-diff | NOT MEASURED (Claude measures) | `visual-assets/v10_1/club/evidence/scores.json` does not exist; JOB-044 notes fresh browser screenshots were not fabricated. |
+| H11 · first-paint weight | NOT MEASURED (Claude measures) | No network measurement exists; JOB-045 records only a 348,506-byte planned phone-art ceiling before CSS/font overhead. |
+
 ## Evidence
 
 ### Claude measurements carried forward
