@@ -384,3 +384,68 @@ body {
   background: #f2c45b;
   box-shadow: 0 0 9px rgba(242,196,91,.5);
 }
+
+
+/* Step 7: single retained product action and lazy season-history drawer. */
+.legacyPrimaryAction {
+  min-width: 280px;
+  min-height: 52px;
+}
+
+.legacyPrimaryAction:focus-visible {
+  outline: 3px solid #ffe36c;
+  outline-offset: 3px;
+}
+
+.legacySeasonHistory {
+  position: absolute;
+  z-index: 9;
+  left: 50%;
+  bottom: 3.2%;
+  width: min(72%, 980px);
+  max-height: 31%;
+  overflow: auto;
+  transform: translateX(-50%);
+  padding: 14px 18px;
+  border-color: rgba(242,196,91,.72);
+  background: rgba(4,6,7,.96);
+  box-shadow: 0 18px 54px rgba(0,0,0,.52);
+}
+
+.legacySeasonHistory[hidden] {
+  display: none;
+}
+
+.legacyHistoryHeading {
+  margin: 0 0 10px;
+  color: #f2c45b;
+  letter-spacing: .07em;
+}
+
+.legacyHistoryRows {
+  display: grid;
+  gap: 6px;
+}
+
+.legacyHistoryRow {
+  display: grid;
+  grid-template-columns: 72px 1fr auto 1fr;
+  gap: 12px;
+  align-items: center;
+  min-height: 44px;
+  padding: 6px 10px;
+  border-top: 1px solid rgba(255,255,255,.1);
+  font-variant-numeric: tabular-nums;
+}
+
+.legacyHistoryRow .daniel {
+  text-align: right;
+}
+
+.legacyHistoryRow .nik {
+  text-align: left;
+}
+
+.nav-reserve {
+  display: none;
+}
