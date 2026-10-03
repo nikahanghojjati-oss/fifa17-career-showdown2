@@ -78,6 +78,69 @@ body {
   white-space: nowrap;
 }
 
+.sj-main {
+  position: absolute;
+  inset: 0;
+}
+
+/* Mockup central shell: x ≈ 23.7%, y ≈ 28.9%, w ≈ 51.3%, h ≈ 57.0%. */
+.sj-main-panel {
+  position: absolute;
+  left: 23.7%;
+  top: 28.9%;
+  width: 51.3%;
+  height: 57%;
+  box-sizing: border-box;
+  padding: 1.05% 1%;
+  display: grid;
+  grid-template-rows: 43.2% 43.4% 1fr;
+  row-gap: 2.1%;
+}
+
+/* Mockup role cards: host x ≈ 24.8%, join x ≈ 49.7%, y ≈ 30.9%;
+   each w ≈ 24.2% of frame, h ≈ 23.4%. */
+.sj-role-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  column-gap: 1.55%;
+  min-height: 0;
+}
+
+.sj-role-panel,
+.sj-current-panel {
+  min-width: 0;
+  min-height: 0;
+}
+
+/* Mockup current-session box: x ≈ 24.8%, y ≈ 55.5%, w ≈ 49.2%, h ≈ 23.5%. */
+.sj-current-panel {
+  width: 100%;
+  height: 100%;
+}
+
+.sj-lock-slot {
+  min-height: 0;
+}
+
+/* Reserved component measurements for the live code row added in later element steps. */
+.sj-code-field {
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 32px;
+  font-weight: 600;
+  letter-spacing: .08em;
+}
+
+.sj-copy-button {
+  width: 44px;
+  min-width: 44px;
+  height: 44px;
+}
+
+/* Keep the step-1 fixture plumbing alive while step 4 intentionally shows empty panel shells. */
+.sj-step1-scaffold {
+  display: none !important;
+}
+
 [hidden] {
   display: none !important;
 }
