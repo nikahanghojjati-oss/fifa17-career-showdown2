@@ -2,7 +2,7 @@
 
 State: IN PROGRESS
 Step: 8 of 9
-Updated: 2026-10-03 11:58 UTC
+Updated: 2026-10-03 12:13 UTC
 Chat: Sol Work mode
 Code branch: gameplay/job-07-career-index
 Head commit: 65a53ff692e789ffa1d3025b6e7efa1adc56bf00
@@ -126,3 +126,5 @@ Codex posted two P1 findings. This is your one fix round. The lead has already r
    e. Emulator proofs: run the career-index emulator suite twice in the same CI step. Run 1 uses the Rules as shipped (enforced false): add cases L1 "legacy pair-link creation without an index write succeeds" and L2 "legacy redemption without an index write succeeds", and keep every other case. Cases that expect a denial only because the index is missing move to run 2. Run 2 uses enforced true (the test or inject script flips the constant in the composed copy only, never in the committed fragment) and keeps all 58 existing checks unchanged. Print both PASS lines.
    f. Do not delete or weaken any existing assertion; each one runs in run 1 or run 2.
    g. Re-run all contracts, operations, the two-manager journey and the expression-budget gate (qualified as before) on the new exact head. Then post `@codex review` once more on PR #325 and mark DONE when CI is green and Codex has nothing new at P1.
+
+- Step 9 fix round in progress: Codex reviewed 65a53ff and found two P1 rollout issues. Read the lead's 2026-10-03 reply and exact fix instructions. Shell r52 stays with the gated main PR; staged coupling is being implemented here with cmsCareerIndexEnforced false, unchanged head/page Rules and client, and both shipped/enforced emulator runs. Full exact-head CI and a second Codex request are required before DONE.
