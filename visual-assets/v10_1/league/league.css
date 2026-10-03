@@ -181,3 +181,10 @@ button:focus-visible { outline: 2px solid #FFF1B8; outline-offset: 3px; }
 .stage[data-mode="phone"] .stateNote { left: 16px; right: 16px; width: auto; transform: none; max-width: none; padding: 6px 12px; }
 .stage[data-mode="phone"] .wheelItem { width: calc(var(--R) * .76); margin-left: calc(var(--R) * -.38); font-size: max(12px, calc(var(--R) * 22 / 240)); line-height: 1.1; letter-spacing: 0; white-space: normal; gap: calc(var(--R) * .02); }
 .stage[data-mode="phone"] .wheelItem::before { width: calc(var(--R) * 50 / 240); height: calc(var(--R) * 50 / 240); }
+
+/* Short-laptop composition: the decorative footer yields its 28 px to the wheel/note/action stack.
+   This keeps the note fully below the rim while preserving a >44 px primary control. */
+@media (min-width: 761px) and (max-height: 699px) {
+  footer { display: none; }
+  .menuButton, .backButton { height: 52px; }
+}
