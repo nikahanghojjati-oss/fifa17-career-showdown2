@@ -1,4 +1,4 @@
-/* HOME-V1 · Rivalry Headquarters on the Home plate. Static checkpoint: nothing animates. */
+/* HOME-V1 · Rivalry Headquarters on the Home plate. Motion pass: shared kit + Home signature moments. */
 @font-face { font-family: "Barlow Condensed"; font-weight: 600; font-display: block; src: url(../tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-600-normal.woff2) format("woff2"); }
 @font-face { font-family: "Barlow Condensed"; font-weight: 700; font-display: block; src: url(../tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-700-normal.woff2) format("woff2"); }
 @font-face { font-family: "Barlow"; font-weight: 400; font-display: block; src: url(../tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2) format("woff2"); }
@@ -23,6 +23,8 @@
   --tile-h: clamp(136px, 17.5vh, 158px);
   --tile-top: 600px;      /* set by home.js */
   --gutter: 2.4vw;
+  --home-lockup-wipe-duration: 450ms;
+  --home-lockup-wipe-ease: cubic-bezier(.22,1,.36,1);
 }
 html, body { margin: 0; height: 100%; background: #060709; color: var(--cream); }
 body { overflow: hidden; font-family: var(--text); -webkit-font-smoothing: antialiased; }
@@ -189,7 +191,15 @@ button { font: inherit; color: inherit; }
 }
 .lockupKicker { padding-left: .2em; }
 .lockupLegacy { align-self: center; letter-spacing: .42em; }
-.lockupWordmarkWrap { display: block; width: 100%; max-width: none; margin: 0; filter: drop-shadow(0 6px 18px rgba(0,0,0,.55)); }
+.lockupWordmarkWrap {
+  display: block;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  filter: drop-shadow(0 6px 18px rgba(0,0,0,.55));
+  --sd-duration-title: var(--home-lockup-wipe-duration);
+  --sd-ease-out: var(--home-lockup-wipe-ease);
+}
 .lockupWordmark { display: block; width: 100%; height: auto; }
 .fifaMenuHeading {
   position: absolute; z-index: 3; left: var(--gutter); bottom: calc(100% - var(--tile-top) + clamp(12px, 2.4vh, 22px));
