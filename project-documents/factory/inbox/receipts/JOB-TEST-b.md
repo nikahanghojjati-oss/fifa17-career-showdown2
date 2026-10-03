@@ -1,11 +1,11 @@
 # Inbox receipt: JOB-TEST-b
 
-Result: FAILED
+Result: OK
 Time: 2026-10-03 00:09 UTC
 Job: TEST
 
-Nothing was written. Fix these, then save MANIFEST.json again to retry:
+Files written:
 
-- project-documents/factory/inbox-test/bad.bin: part 2 of 4 (big.bin.b64.002) changed on the way (checksum differs); save it again exactly as packed
+- `project-documents/factory/inbox-test/bad.bin` (50000 bytes)
 
-The delivery folder was kept.
+The delivery folder was removed.
