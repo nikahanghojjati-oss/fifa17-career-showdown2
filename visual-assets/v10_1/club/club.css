@@ -192,10 +192,16 @@ main { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
 .clubCardFace { position: absolute; display: grid; grid-template-columns: calc(var(--s) * 56px) auto auto 1fr; grid-template-rows: auto auto auto; column-gap: max(12px, calc(var(--s) * 12px)); align-content: start; text-shadow: 0 2px 8px rgba(0,0,0,.92); }
 #clubCardTwo .clubCardFace { }
 .shieldSlot { grid-row: 1 / span 3; position: relative; width: calc(var(--s) * 56px); height: calc(var(--s) * 60px); margin-top: calc(var(--s) * -24px); }
-.shieldSlot .sealedShield { width: 100%; height: 100%; display: block; }
-.panelCrest { position: absolute; inset: 0; display: none; }
-.panelCrest.on { display: block; }
-.is-revealed .sealedShield { display: none !important; }
+.shieldSlot .sealedShield {
+  width: 100%; height: 100%; display: block; opacity: 1;
+  transition: opacity 120ms ease-out;
+}
+.panelCrest {
+  position: absolute; inset: 0; display: block; opacity: 0;
+  transition: opacity 120ms ease-out;
+}
+.panelCrest.on { opacity: 1; }
+.is-revealed .sealedShield { opacity: 0; pointer-events: none; }
 .clubCardEyebrow, .clubCardLabel { font: 600 max(12px, calc(var(--s) * 12px))/1.2 var(--cond); letter-spacing: .16em; color: #B9AE95; white-space: nowrap; }
 .clubCardEyebrow { grid-column: 2; grid-row: 1; }
 .clubCardLabel { grid-column: 3; grid-row: 1; padding-left: calc(var(--s) * 6px); }
@@ -274,6 +280,62 @@ main { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
 .btnGlyph.chevron { margin-left: auto; } .btnGlyph.chevron svg { width: 14px; height: 14px; }
 #openClubPack .btnLabel { margin-left: auto; }
 #openClubPack:disabled .btnGlyph { opacity: .5; }
+
+/* JOB-048 Step 4: tactile controls and state cross-fades. All transitions stay <= 120 ms. */
+#clubWheelScreen button,
+#clubWheelScreen [role="button"],
+#clubWheelScreen [role="tab"],
+#clubWheelScreen [aria-pressed],
+#topHeader button,
+#onlinePlayerIdentityBadge {
+  transition:
+    opacity 100ms ease-out,
+    transform 100ms ease-out,
+    filter 100ms ease-out,
+    background-color 100ms ease-out,
+    border-color 100ms ease-out,
+    box-shadow 100ms ease-out,
+    color 100ms ease-out;
+}
+@media (hover: hover) {
+  #clubWheelScreen button:hover:not(:disabled),
+  #clubWheelScreen [role="button"]:hover,
+  #clubWheelScreen [role="tab"]:hover,
+  #clubWheelScreen [aria-pressed]:hover,
+  #topHeader button:hover:not(:disabled),
+  #onlinePlayerIdentityBadge:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.06);
+  }
+}
+#clubWheelScreen button:active:not(:disabled),
+#clubWheelScreen [role="button"]:active,
+#clubWheelScreen [role="tab"]:active,
+#clubWheelScreen [aria-pressed]:active,
+#topHeader button:active:not(:disabled),
+#onlinePlayerIdentityBadge:active {
+  transform: translateY(1px) scale(.985);
+  filter: brightness(.96);
+  transition-duration: 80ms;
+}
+#clubWheelScreen button:disabled { transition-duration: 100ms; }
+
+.clubRevealProgress span,
+.clubRevealProgress .ring,
+.clubCardState,
+.clubCardFace strong,
+.clubRivalryHeadline,
+.clubRivalryConfirmation,
+#clubWheelScreen [role="tab"],
+#clubWheelScreen [aria-selected],
+#clubWheelScreen [aria-pressed] {
+  transition:
+    opacity 120ms ease-out,
+    color 120ms ease-out,
+    background-color 120ms ease-out,
+    border-color 120ms ease-out,
+    box-shadow 120ms ease-out;
+}
 
 /* short desktop (1366x640): fit the complete decision surface inside the viewport.
    Footer chrome yields first; labels keep readable sizes and the page never scrolls. */
@@ -477,6 +539,87 @@ main { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
   .clubRivalryConfirmation { top: calc(var(--phone-hero-h) + 156px); min-height: 32px; padding-block: 2px; }
   .clubRivalryLockNote { display: none; }
   #clubWheelScreen .menuButton, #clubWheelScreen .backButton { height: 48px; }
+}
+
+/* JOB-048 Step 4: reduced motion. System preference and shared app datasets both collapse to fades only. */
+@media (prefers-reduced-motion: reduce) {
+  .clubPackStage.is-anticipating .clubPackAnticipation,
+  .clubAnticipationDim.is-anticipating,
+  .clubVs.is-vs-slamming::before,
+  .clubRivalryHeadline span.is-lock-stamping::after,
+  .clubCardFace strong.clubNameWalkout::before {
+    animation: none !important;
+  }
+  .rvHalf, .rvBurst, .rvShockwave, .rvKitReveal, .rvCrest,
+  .panelCrest, .shieldSlot .sealedShield, .clubCardFace strong,
+  #clubRivalryConfirmation, .clubRevealProgress span, .clubRevealProgress .ring {
+    animation: none !important;
+    transition: opacity 120ms ease-out !important;
+  }
+  #clubWheelScreen button,
+  #clubWheelScreen [role="button"],
+  #clubWheelScreen [role="tab"],
+  #clubWheelScreen [aria-pressed],
+  #topHeader button,
+  #onlinePlayerIdentityBadge {
+    transform: none !important;
+    filter: none !important;
+    transition: opacity 100ms ease-out !important;
+  }
+}
+
+html[data-motion-reduced="true"] .clubPackStage.is-anticipating .clubPackAnticipation,
+html[data-motion-reduced="true"] .clubAnticipationDim.is-anticipating,
+html[data-motion-reduced="true"] .clubVs.is-vs-slamming::before,
+html[data-motion-reduced="true"] .clubRivalryHeadline span.is-lock-stamping::after,
+html[data-motion-reduced="true"] .clubCardFace strong.clubNameWalkout::before,
+[data-sd-motion-reduced="true"] .clubPackStage.is-anticipating .clubPackAnticipation,
+[data-sd-motion-reduced="true"] .clubAnticipationDim.is-anticipating,
+[data-sd-motion-reduced="true"] .clubVs.is-vs-slamming::before,
+[data-sd-motion-reduced="true"] .clubRivalryHeadline span.is-lock-stamping::after,
+[data-sd-motion-reduced="true"] .clubCardFace strong.clubNameWalkout::before {
+  animation: none !important;
+}
+html[data-motion-reduced="true"] .rvHalf,
+html[data-motion-reduced="true"] .rvBurst,
+html[data-motion-reduced="true"] .rvShockwave,
+html[data-motion-reduced="true"] .rvKitReveal,
+html[data-motion-reduced="true"] .rvCrest,
+html[data-motion-reduced="true"] .panelCrest,
+html[data-motion-reduced="true"] .shieldSlot .sealedShield,
+html[data-motion-reduced="true"] .clubCardFace strong,
+html[data-motion-reduced="true"] #clubRivalryConfirmation,
+html[data-motion-reduced="true"] .clubRevealProgress span,
+html[data-motion-reduced="true"] .clubRevealProgress .ring,
+[data-sd-motion-reduced="true"] .rvHalf,
+[data-sd-motion-reduced="true"] .rvBurst,
+[data-sd-motion-reduced="true"] .rvShockwave,
+[data-sd-motion-reduced="true"] .rvKitReveal,
+[data-sd-motion-reduced="true"] .rvCrest,
+[data-sd-motion-reduced="true"] .panelCrest,
+[data-sd-motion-reduced="true"] .shieldSlot .sealedShield,
+[data-sd-motion-reduced="true"] .clubCardFace strong,
+[data-sd-motion-reduced="true"] #clubRivalryConfirmation,
+[data-sd-motion-reduced="true"] .clubRevealProgress span,
+[data-sd-motion-reduced="true"] .clubRevealProgress .ring {
+  animation: none !important;
+  transition: opacity 120ms ease-out !important;
+}
+html[data-motion-reduced="true"] #clubWheelScreen button,
+html[data-motion-reduced="true"] #clubWheelScreen [role="button"],
+html[data-motion-reduced="true"] #clubWheelScreen [role="tab"],
+html[data-motion-reduced="true"] #clubWheelScreen [aria-pressed],
+html[data-motion-reduced="true"] #topHeader button,
+html[data-motion-reduced="true"] #onlinePlayerIdentityBadge,
+[data-sd-motion-reduced="true"] #clubWheelScreen button,
+[data-sd-motion-reduced="true"] #clubWheelScreen [role="button"],
+[data-sd-motion-reduced="true"] #clubWheelScreen [role="tab"],
+[data-sd-motion-reduced="true"] #clubWheelScreen [aria-pressed],
+[data-sd-motion-reduced="true"] #topHeader button,
+[data-sd-motion-reduced="true"] #onlinePlayerIdentityBadge {
+  transform: none !important;
+  filter: none !important;
+  transition: opacity 100ms ease-out !important;
 }
 
 /* evidence-only modes */
