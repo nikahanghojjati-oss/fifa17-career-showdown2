@@ -16,3 +16,8 @@ Use the PNG masters from the cut-out tool to make the runtime transparent WebP f
 Use `assets/phonemap.json > phone_frame` as the composition authority. Background is cover-fit; character placement percentages apply to each cut-out's transparent-trimmed alpha bounds so the visible figure heights match the map.
 
 # proof: Claude composites PHONE_PROOF.png (393 × 660 at 3×) from phone_frame
+
+
+## Job 39 phone integration
+
+The League phone build references the two WebP cut-outs above directly from `index.html`. Keep the `phone_frame` placement authority unchanged: Daniel visible bbox center 30%, Nik 70%, both 56% viewport height from 0.5% top, with no mirroring. The runtime hero-art ceiling is 185,618 bytes from `assets/phone_intake.md`, leaving 264,382 bytes inside the 450 KB first-paint gate for the pre-existing live wheel, CSS and fonts. Claude confirms the complete H11 network total at intake.
