@@ -144,6 +144,14 @@ Chat: GPT-5.6 Sol, Showdown visual
 
 `State` is exactly one of: `NOT STARTED`, `IN PROGRESS`, `DONE`, `SKIPPED`, `BLOCKED`, `WAITING ON NIK`, `WAITING ON TEAM G`. `Step: k of n` is the last finished step (the board turns it into a percent). One note line per step, short and factual.
 
+## 5b. Claude's quality check (2026-10-03)
+
+When you set `State: DONE`, the board lists the job as "waiting for Claude's check". Claude renders and scores it against QUALITY_BAR.md (average 4.2 or more, no criterion under 3, hard gates pass) and writes one line under `Chat:`:
+- `Claude check: PASS 4.4`: the job counts as done.
+- `Claude check: FIX 3.8`: the state becomes `IN PROGRESS · FIX` and the status file gets a `## Claude fix list`. The board lists it under Type next as `N (fix)`. The next chat does only those items, two per turn, saves after each, then sets `State: DONE` again (keep `Step:` as it is). Never edit or delete the `Claude check:` line or the fix list yourself.
+
+Aim to pass the first time: before DONE, re-read your self-check against QUALITY_BAR criteria and fix what you can.
+
 ## 6. The gate: may I start?
 
 Check these in order. Stop at the first one that applies and reply with exactly that line.
@@ -158,6 +166,7 @@ Check these in order. Stop at the first one that applies and reply with exactly 
 | State `BLOCKED` | `Job N is blocked on a question for Claude: <the blocked question>.` |
 | A dependency's status is not `DONE` or `SKIPPED` | `Job N waits for job X, Y (not done yet).` |
 | Wrong kind of chat for the lane | see §4 |
+| State `IN PROGRESS · FIX` | Claude's quality check sent the job back. Do ONLY the numbered items under `## Claude fix list` in the status file (§5b), then set `State: DONE`. |
 | State `IN PROGRESS` | Continue from the step after `Step: k`. Read the notes first; re-check the last step's files exist before building on them. |
 | State `NOT STARTED` | Start at step 1. |
 

@@ -1,5 +1,7 @@
 # Quality bar: the Showdown scorecard
 
+> **Board gate (2026-10-03):** a job counts as done only after Claude's intake check writes `Claude check: PASS <score>` into its status file (tools/check.py). A FIX verdict sends it back with a numbered fix list (WORKER_HANDBOOK §5b).
+
 Nik wants AAA game menus. Think FIFA 17's Career Mode and The Journey: a dark stadium at night, gold light, the two managers standing in front of the menu like real people in a real place, and every panel, number and transition feeling expensive. Not a website with a background photo. A game.
 
 Every build job checks itself against this page before it says "done". Every review job scores with it. Nobody passes a screen because "it works". It must **feel** like the mockup.

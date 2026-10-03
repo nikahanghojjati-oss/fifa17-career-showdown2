@@ -15,10 +15,18 @@ def read_status(n):
     sp = re.search(r"^Step:\s*(\d+)\s*of\s*(\d+)", txt, re.M)
     state = st.group(1).strip() if st else "NOT STARTED"
     k, total = (int(sp.group(1)), int(sp.group(2))) if sp else (0, 1)
+    ck = re.search(r"^Claude check:\s*(PASS|FIX)\b\s*([0-9]+(?:\.[0-9]+)?)?", txt, re.M)
+    CHECK[n] = (ck.group(1), float(ck.group(2)) if ck.group(2) else None) if ck else None
     return state, k, total
 
+# Quality gate (Nik, 2026-10-03): a job counts as done on the board only after Claude's intake check
+# writes "Claude check: PASS <score>" into its status file. "Claude check: FIX" sends it back with a fix list
+# (state "IN PROGRESS · FIX"); it then shows under Type next as "N (fix)". DONE jobs keep unblocking their
+# dependents while they wait for the check, so work never stalls on Claude.
+CHECK = {}
 info = {j["number"]: read_status(j["number"]) for j in jobs}
 FINISHED = ("DONE", "SKIPPED")
+passed = lambda n: info[n][0] == "SKIPPED" or (info[n][0] == "DONE" and CHECK.get(n) is not None and CHECK[n][0] == "PASS")
 
 def pct(n):
     state, k, total = info[n]
@@ -35,7 +43,10 @@ def ready(j):
 # Lane "team-g" lines only track Team G's jobs (G2V-001R2); they are not Team V work and are not counted.
 tracked = [j for j in jobs if j.get("lane") == "team-g"]
 vjobs = [j for j in jobs if j.get("lane") != "team-g"]
-done = sum(1 for j in vjobs if info[j["number"]][0] in FINISHED)
+done = sum(1 for j in vjobs if passed(j["number"]))
+awaiting = [j["number"] for j in vjobs if info[j["number"]][0] == "DONE" and not passed(j["number"])]
+scored = [(j["number"], CHECK[j["number"]][1]) for j in vjobs if passed(j["number"]) and CHECK.get(j["number"]) and CHECK[j["number"]][1] is not None]
+avg_score = round(sum(v for _, v in scored) / len(scored), 2) if scored else None
 overall = sum(pct(j["number"]) for j in vjobs) // len(vjobs)
 ready_all = [j for j in jobs if ready(j)]
 # Capacity (Nik, 2026-10-02 07:31): plain GPT-5.6 Sol chats are unlimited in number but Nik runs about 5 at once,
@@ -43,7 +54,8 @@ ready_all = [j for j in jobs if ready(j)]
 MAX_CHATS, MAX_IMAGE, MAX_WORK = 5, 2, 2
 # "IN PROGRESS · RESUME" = work started but no chat is on it now (Claude answered a block or ran a fix);
 # Nik types the number in a new chat, which carries on from the status file. Listed first under Type next.
-resume = lambda n: info[n][0].startswith("IN PROGRESS") and "RESUME" in info[n][0].upper()
+resume = lambda n: info[n][0].startswith("IN PROGRESS") and ("RESUME" in info[n][0].upper() or "FIX" in info[n][0].upper())
+fixing = lambda n: info[n][0].startswith("IN PROGRESS") and "FIX" in info[n][0].upper()
 busy = [j for j in jobs if info[j["number"]][0].startswith("IN PROGRESS") and not resume(j["number"])]
 # Image jobs (lane IMG) run from tickets in a plain new ChatGPT chat outside the project (Nik, 2026-10-02 14:53);
 # one can start only once Claude has written its ticket in tickets/.
@@ -120,10 +132,11 @@ def feed_rows(n=3):
 known = {j["number"] for j in vjobs}
 lc = last_change()
 P = ["# Showdown Factory board", "",
-     f"**{done} of {len(vjobs)} jobs done · {overall} %** · updated {eastern(lc) if lc else 'now'}", "",
+     f"**{done} of {len(vjobs)} jobs done and checked · {overall} %** · updated {eastern(lc) if lc else 'now'}", "",
+     "✅ **Quality check:** a job counts as done only after Claude checks it against the quality bar (average 4.2 or more, nothing under 3, hard gates pass). " + (f"Average score {avg_score} over {len(scored)} scored jobs. " if scored else "") + (f"🔍 Waiting for Claude's check: {', '.join(map(str, awaiting))}. " if awaiting else "🔍 Nothing waiting for a check. ") + (f"🔧 Sent back with a fix list: {', '.join(str(n) for n in resumable if fixing(n))}." if any(fixing(n) for n in resumable) else ""), "",
      f"{bar(overall)}", "",
      "**Where to run:** 🟡 **project job** = new chat in the ChatGPT project \"Showdown visual\", type the number. 🟣 **image job** = its ticket in a ChatGPT **Temporary Chat** outside any project, then drop the picture in Claude's factory thread.", "",
-     f"🟡 **Type next:** {', '.join([f'{n} (resume)' for n in resumable] + list(map(str, startable))) or '-'}" + (f" · then {', '.join(map(str, later))}" if later else ""), "",
+     f"🟡 **Type next:** {', '.join([f'{n} (fix)' if fixing(n) else f'{n} (resume)' for n in resumable] + list(map(str, startable))) or '-'}" + (f" · then {', '.join(map(str, later))}" if later else ""), "",
      f"🟣 **Image next:** {', '.join(map(str, img_now)) or '-'}" + (f" · then {', '.join(map(str, img_later))}" if img_later else "") + (f" · tickets not written yet: {', '.join(map(str, img_noticket))}" if img_noticket else ""), "",
      f"**Working:** {', '.join(map(str, working)) or '-'} · **Blocked:** {', '.join(map(str, blocked)) or '-'}", "",
      "## Screens", "", "```"]
@@ -143,7 +156,7 @@ L = P + [
 
      f"Branch `{board['branch']}`. {len(vjobs)} Team V jobs, plus {len(tracked)} lines that track Team G. Two kinds of job. **Project (type number):** open a new chat in the ChatGPT project \"Showdown visual\" and type the number (up to 5 at once). **Fresh chat (image):** run the job's ticket from [tickets/](tickets/README.md) in a ChatGPT Temporary Chat (no memory) outside any project, then drop the image in Claude's factory thread (up to 2 at once).", "",
      f"**Overall (Team V):** {bar(overall)} {overall} % · {done} of {len(vjobs)} jobs done", "",
-     f"**Start now · project (type the number in Showdown visual):** {', '.join([f'{n} (resume)' for n in resumable] + list(map(str, startable))) or 'nothing (all slots busy or nothing ready)'}" + (f" · queued next: {', '.join(map(str, later))}" if later else ""), "",
+     f"**Start now · project (type the number in Showdown visual):** {', '.join([f'{n} (fix)' if fixing(n) else f'{n} (resume)' for n in resumable] + list(map(str, startable))) or 'nothing (all slots busy or nothing ready)'}" + (f" · queued next: {', '.join(map(str, later))}" if later else ""), "",
      f"**Start now · fresh chat (image ticket, outside the project):** {', '.join(map(str, img_now)) or '-'}" + (f" · queued next: {', '.join(map(str, img_later))}" if img_later else "") + (f" · waiting for Claude to write the ticket: {', '.join(map(str, img_noticket))}" if img_noticket else ""), "",
      f"**Start now (Sol Work mode, press Use Work):** {', '.join(map(str, work_now)) or '-'}", "",
      f"**Working:** {', '.join(map(str, working)) or '-'} · **Blocked:** {', '.join(map(str, blocked)) or '-'}", ""]
