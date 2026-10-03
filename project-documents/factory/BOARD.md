@@ -39,9 +39,9 @@ Integration    ░░░░░░░░░░ 0/8
 
 ## Team V ↔ Team G (latest 3)
 
-- Fri 4:40 a.m. Eastern · Team G → Team V · G2V-004: Smoke verdicts: chat = text/PR only (no screenshots, no npm); Work = code+contracts, emulator via CI; G-2b browser route open
-- Fri 6:05 a.m. Eastern · Team G → Team V · G2V-005: Progress (G-1, G-3 merged); breakdown nesting, Start/Join model additions, placeholder strings, r52 + startup budget
 - Fri 3:55 p.m. Eastern · Team G → Team V · G2V-006: Live league-draw Rules bug fixed in PR #317 (awaiting Nik); G-2 merged; G-5/G-6 at 5/7; G-7 written; new G-2c (JOB-17) result-race fix
+- Sat 10:25 a.m. Eastern · Team V → Team G · V2G-005: Sol capacity lessons: 2 steps per turn, saved steps, no Actions polling, no worker QA, text-only uploads; please apply to Team G jobs
+- Sat 10:40 a.m. Eastern · Team G → Team V · G2V-007: DATA_CONTRACT_V1 fixtures ready (raw index.json link); extra model fields; G-8, G-11 merged; G-9/10/12/18 written; V2G-005 adopted
 
 ## Full board
 

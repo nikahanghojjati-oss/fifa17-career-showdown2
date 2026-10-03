@@ -567,7 +567,7 @@
    "type": "build",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "lane": "project (type number)",
-   "steps": 7,
+   "steps": 6,
    "waits_on_nik": null,
    "waits_on_team_g": null,
    "needs_claude_look": false
@@ -584,7 +584,7 @@
    "type": "review",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "lane": "project (type number)",
-   "steps": 8,
+   "steps": 7,
    "waits_on_nik": null,
    "waits_on_team_g": null,
    "needs_claude_look": false
@@ -601,7 +601,7 @@
    "type": "fix",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "lane": "project (type number)",
-   "steps": 5,
+   "steps": 4,
    "waits_on_nik": null,
    "waits_on_team_g": null,
    "needs_claude_look": false
@@ -619,7 +619,7 @@
    "type": "build",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "lane": "project (type number)",
-   "steps": 7,
+   "steps": 5,
    "waits_on_nik": null,
    "waits_on_team_g": null,
    "needs_claude_look": true
@@ -691,7 +691,7 @@
    "type": "review",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "lane": "project (type number)",
-   "steps": 8,
+   "steps": 7,
    "waits_on_nik": null,
    "waits_on_team_g": null,
    "needs_claude_look": false
@@ -709,7 +709,7 @@
    "type": "fix",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "lane": "project (type number)",
-   "steps": 5,
+   "steps": 4,
    "waits_on_nik": null,
    "waits_on_team_g": null,
    "needs_claude_look": false
@@ -727,7 +727,7 @@
    "type": "build",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "lane": "project (type number)",
-   "steps": 7,
+   "steps": 5,
    "waits_on_nik": null,
    "waits_on_team_g": null,
    "needs_claude_look": true
@@ -798,7 +798,7 @@
    "type": "review",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "lane": "project (type number)",
-   "steps": 8,
+   "steps": 7,
    "waits_on_nik": null,
    "waits_on_team_g": null,
    "needs_claude_look": false
@@ -816,7 +816,7 @@
    "type": "fix",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "lane": "project (type number)",
-   "steps": 5,
+   "steps": 4,
    "waits_on_nik": null,
    "waits_on_team_g": null,
    "needs_claude_look": false
@@ -834,7 +834,7 @@
    "type": "build",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "lane": "project (type number)",
-   "steps": 7,
+   "steps": 5,
    "waits_on_nik": null,
    "waits_on_team_g": null,
    "needs_claude_look": true
@@ -887,7 +887,7 @@
    "type": "review",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "lane": "project (type number)",
-   "steps": 8,
+   "steps": 7,
    "waits_on_nik": null,
    "waits_on_team_g": null,
    "needs_claude_look": false
@@ -905,7 +905,7 @@
    "type": "fix",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "lane": "project (type number)",
-   "steps": 5,
+   "steps": 4,
    "waits_on_nik": null,
    "waits_on_team_g": null,
    "needs_claude_look": false
@@ -923,7 +923,7 @@
    "type": "build",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "lane": "project (type number)",
-   "steps": 7,
+   "steps": 5,
    "waits_on_nik": null,
    "waits_on_team_g": null,
    "needs_claude_look": true
@@ -1018,7 +1018,7 @@
    "type": "build",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "lane": "project (type number)",
-   "steps": 7,
+   "steps": 6,
    "waits_on_nik": null,
    "waits_on_team_g": null,
    "needs_claude_look": false
@@ -1035,7 +1035,7 @@
    "type": "review",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "lane": "project (type number)",
-   "steps": 8,
+   "steps": 7,
    "waits_on_nik": null,
    "waits_on_team_g": null,
    "needs_claude_look": false
@@ -1052,7 +1052,7 @@
    "type": "fix",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "lane": "project (type number)",
-   "steps": 5,
+   "steps": 4,
    "waits_on_nik": null,
    "waits_on_team_g": null,
    "needs_claude_look": false
@@ -1070,7 +1070,7 @@
    "type": "build",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "lane": "project (type number)",
-   "steps": 7,
+   "steps": 5,
    "waits_on_nik": null,
    "waits_on_team_g": null,
    "needs_claude_look": true
@@ -1113,7 +1113,7 @@
    "type": "build",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "lane": "project (type number)",
-   "steps": 7,
+   "steps": 6,
    "waits_on_nik": null,
    "waits_on_team_g": null,
    "needs_claude_look": false
@@ -1130,7 +1130,7 @@
    "type": "review",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "lane": "project (type number)",
-   "steps": 8,
+   "steps": 7,
    "waits_on_nik": null,
    "waits_on_team_g": null,
    "needs_claude_look": false
@@ -1147,7 +1147,7 @@
    "type": "fix",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "lane": "project (type number)",
-   "steps": 5,
+   "steps": 4,
    "waits_on_nik": null,
    "waits_on_team_g": null,
    "needs_claude_look": false
@@ -1165,7 +1165,7 @@
    "type": "build",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "lane": "project (type number)",
-   "steps": 7,
+   "steps": 5,
    "waits_on_nik": null,
    "waits_on_team_g": null,
    "needs_claude_look": true
@@ -1207,7 +1207,7 @@
    "type": "build",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "lane": "project (type number)",
-   "steps": 7,
+   "steps": 6,
    "waits_on_nik": null,
    "waits_on_team_g": null,
    "needs_claude_look": false
@@ -1224,7 +1224,7 @@
    "type": "review",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "lane": "project (type number)",
-   "steps": 8,
+   "steps": 7,
    "waits_on_nik": null,
    "waits_on_team_g": null,
    "needs_claude_look": false
@@ -1241,7 +1241,7 @@
    "type": "fix",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "lane": "project (type number)",
-   "steps": 5,
+   "steps": 4,
    "waits_on_nik": null,
    "waits_on_team_g": null,
    "needs_claude_look": false
@@ -1259,7 +1259,7 @@
    "type": "build",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "lane": "project (type number)",
-   "steps": 7,
+   "steps": 5,
    "waits_on_nik": null,
    "waits_on_team_g": null,
    "needs_claude_look": true
@@ -1284,7 +1284,7 @@
    "type": "build",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "lane": "project (type number)",
-   "steps": 9,
+   "steps": 11,
    "waits_on_nik": null,
    "waits_on_team_g": null,
    "needs_claude_look": false
@@ -1302,7 +1302,7 @@
    "type": "build",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "lane": "project (type number)",
-   "steps": 7,
+   "steps": 6,
    "waits_on_nik": null,
    "waits_on_team_g": null,
    "needs_claude_look": false
@@ -1319,7 +1319,7 @@
    "type": "review",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "lane": "project (type number)",
-   "steps": 8,
+   "steps": 7,
    "waits_on_nik": null,
    "waits_on_team_g": null,
    "needs_claude_look": false
@@ -1336,7 +1336,7 @@
    "type": "fix",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "lane": "project (type number)",
-   "steps": 5,
+   "steps": 4,
    "waits_on_nik": null,
    "waits_on_team_g": null,
    "needs_claude_look": false
@@ -1354,7 +1354,7 @@
    "type": "build",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "lane": "project (type number)",
-   "steps": 7,
+   "steps": 5,
    "waits_on_nik": null,
    "waits_on_team_g": null,
    "needs_claude_look": true
@@ -1378,7 +1378,7 @@
    "type": "build",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "lane": "project (type number)",
-   "steps": 9,
+   "steps": 11,
    "waits_on_nik": null,
    "waits_on_team_g": null,
    "needs_claude_look": false
@@ -1413,7 +1413,7 @@
    "type": "review",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "lane": "project (type number)",
-   "steps": 8,
+   "steps": 7,
    "waits_on_nik": null,
    "waits_on_team_g": null,
    "needs_claude_look": false
@@ -1430,7 +1430,7 @@
    "type": "fix",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "lane": "project (type number)",
-   "steps": 5,
+   "steps": 4,
    "waits_on_nik": null,
    "waits_on_team_g": null,
    "needs_claude_look": false
@@ -1448,7 +1448,7 @@
    "type": "build",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "lane": "project (type number)",
-   "steps": 7,
+   "steps": 5,
    "waits_on_nik": null,
    "waits_on_team_g": null,
    "needs_claude_look": true
@@ -1473,7 +1473,7 @@
    "type": "build",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "lane": "project (type number)",
-   "steps": 9,
+   "steps": 11,
    "waits_on_nik": null,
    "waits_on_team_g": null,
    "needs_claude_look": false
@@ -1508,7 +1508,7 @@
    "type": "review",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "lane": "project (type number)",
-   "steps": 8,
+   "steps": 7,
    "waits_on_nik": null,
    "waits_on_team_g": null,
    "needs_claude_look": false
@@ -1526,7 +1526,7 @@
    "type": "fix",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "lane": "project (type number)",
-   "steps": 5,
+   "steps": 4,
    "waits_on_nik": null,
    "waits_on_team_g": null,
    "needs_claude_look": false
@@ -1544,7 +1544,7 @@
    "type": "build",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "lane": "project (type number)",
-   "steps": 7,
+   "steps": 5,
    "waits_on_nik": null,
    "waits_on_team_g": null,
    "needs_claude_look": true
@@ -1567,7 +1567,7 @@
    "type": "build",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "lane": "project (type number)",
-   "steps": 9,
+   "steps": 11,
    "waits_on_nik": null,
    "waits_on_team_g": null,
    "needs_claude_look": false
@@ -1585,7 +1585,7 @@
    "type": "build",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "lane": "project (type number)",
-   "steps": 7,
+   "steps": 6,
    "waits_on_nik": null,
    "waits_on_team_g": null,
    "needs_claude_look": false
@@ -1602,7 +1602,7 @@
    "type": "review",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "lane": "project (type number)",
-   "steps": 8,
+   "steps": 7,
    "waits_on_nik": null,
    "waits_on_team_g": null,
    "needs_claude_look": false
@@ -1619,7 +1619,7 @@
    "type": "fix",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "lane": "project (type number)",
-   "steps": 5,
+   "steps": 4,
    "waits_on_nik": null,
    "waits_on_team_g": null,
    "needs_claude_look": false
@@ -1637,7 +1637,7 @@
    "type": "build",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "lane": "project (type number)",
-   "steps": 7,
+   "steps": 5,
    "waits_on_nik": null,
    "waits_on_team_g": null,
    "needs_claude_look": true
@@ -1657,7 +1657,7 @@
    "type": "build",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "lane": "project (type number)",
-   "steps": 10,
+   "steps": 12,
    "waits_on_nik": null,
    "waits_on_team_g": null,
    "needs_claude_look": false
@@ -1674,7 +1674,7 @@
    "type": "review",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "lane": "project (type number)",
-   "steps": 8,
+   "steps": 7,
    "waits_on_nik": null,
    "waits_on_team_g": null,
    "needs_claude_look": false
@@ -1713,7 +1713,7 @@
    "type": "build",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "lane": "project (type number)",
-   "steps": 10,
+   "steps": 12,
    "waits_on_nik": null,
    "waits_on_team_g": null,
    "needs_claude_look": false
@@ -1730,7 +1730,7 @@
    "type": "review",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "lane": "project (type number)",
-   "steps": 8,
+   "steps": 7,
    "waits_on_nik": null,
    "waits_on_team_g": null,
    "needs_claude_look": false
@@ -2250,7 +2250,7 @@
    "type": "build",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "lane": "project (type number)",
-   "steps": 5,
+   "steps": 6,
    "waits_on_nik": null,
    "waits_on_team_g": null,
    "needs_claude_look": false
@@ -2289,7 +2289,7 @@
    "type": "build",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "lane": "project (type number)",
-   "steps": 6,
+   "steps": 10,
    "waits_on_nik": null,
    "waits_on_team_g": null,
    "needs_claude_look": false
@@ -2306,7 +2306,7 @@
    "type": "review",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
    "lane": "project (type number)",
-   "steps": 8,
+   "steps": 7,
    "waits_on_nik": null,
    "waits_on_team_g": null,
    "needs_claude_look": false
