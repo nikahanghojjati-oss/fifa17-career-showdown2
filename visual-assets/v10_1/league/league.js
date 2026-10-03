@@ -211,7 +211,7 @@
 
     // slogan boxes cover the goal's slogan zones (remove_rects 4 and 5) at their goal positions
     const zl = plateRect(MAP.remove_rects[4]), zr = plateRect(MAP.remove_rects[5]);
-    const grow = 6, maxBottom = H - ftr - 8;
+    const grow = 0, maxBottom = H - ftr - 8;
     for (const [sel, z] of [[".slogan-left", zl], [".slogan-right", zr]]) {
       const h = z.b - z.t + 2 * grow, t = Math.min(z.t - grow, maxBottom - h);
       const w = Math.min(W - 16, z.r - z.l + 2 * grow);
