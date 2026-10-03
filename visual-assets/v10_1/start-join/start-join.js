@@ -168,9 +168,35 @@
     });
   }
 
+  function stateTone(frame) {
+    if (frame.error) return "error";
+    if (frame.status === "loading") return "loading";
+    if (frame.status === "partial") return "partial";
+    if (frame.status === "unavailable") return "unavailable";
+    if (frame.pairing?.state === "paired") return "paired";
+    if (frame.pairing?.state === "waiting-for-nik") return "waiting";
+    if (frame.status === "empty") return "empty";
+    return "ready";
+  }
+
   function stateLabel(frame) {
+    if (frame.error) return "CODE ERROR";
     const raw = frame.session?.state || frame.pairing?.state || frame.status || "";
     return String(raw).replace(/-/g, " ").toUpperCase();
+  }
+
+  function renderStatePresentation(frame) {
+    const tone = stateTone(frame);
+    const current = document.querySelector(".sj-current-panel");
+    const daniel = document.querySelector(".sj-role-panel--daniel");
+    const nik = document.querySelector(".sj-role-panel--nik");
+
+    current.dataset.state = tone;
+    stage.dataset.stateTone = tone;
+    daniel.classList.toggle("is-read-pending", tone === "loading");
+    nik.classList.toggle("is-read-pending", tone === "loading");
+    daniel.classList.toggle("is-read-unavailable", tone === "unavailable");
+    nik.classList.toggle("is-read-unavailable", tone === "unavailable");
   }
 
   function renderMainPanels(frame, strings) {
@@ -223,6 +249,7 @@
     codeRow.hidden = !hostCode;
     setText("currentPairingCode", hostCode);
     setText("privacyLine", strings.privacy.plain);
+    renderStatePresentation(frame);
     renderMainActions(frame, strings);
 
     const danielPanel = document.querySelector(".sj-role-panel--daniel");
