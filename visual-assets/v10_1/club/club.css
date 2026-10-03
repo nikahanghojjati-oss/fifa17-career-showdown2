@@ -37,6 +37,16 @@ html:not(.ready) .stage { visibility: hidden; }
 .handCore, .handOv { pointer-events: none; }
 .gridSvg { pointer-events: none; }
 
+/* Compact-only repair for the tiny source-title remnant on Nik's hairline.
+   It clones clean pixels from the same accepted plate and feathers the patch edge. */
+.hairlineRepair {
+  position: absolute; display: none; pointer-events: none; z-index: 1;
+  background-image: var(--plate); background-repeat: no-repeat;
+  -webkit-mask-image: radial-gradient(ellipse at center, #000 58%, transparent 100%);
+  mask-image: radial-gradient(ellipse at center, #000 58%, transparent 100%);
+}
+.compact .hairlineRepair { display: block; }
+
 /* ---------- header (C6) ---------- */
 #topHeader {
   position: absolute; left: 0; right: 0; top: 0; height: 56px; z-index: 5; display: flex; align-items: center; gap: 14px;
