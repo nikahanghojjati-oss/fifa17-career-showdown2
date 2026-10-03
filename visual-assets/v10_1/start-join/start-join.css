@@ -427,6 +427,44 @@ body { min-height: 100vh; }
   border-radius: 6px 6px 0 0;
 }
 
+.sj-more-menu {
+  position: relative;
+}
+
+.sj-more-menu > summary {
+  min-height: 44px;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  list-style: none;
+}
+
+.sj-more-menu > summary::-webkit-details-marker {
+  display: none;
+}
+
+.sj-more-popover {
+  position: absolute;
+  z-index: 8;
+  right: 0;
+  bottom: calc(100% + 7px);
+  min-width: 210px;
+  padding: 7px;
+  display: grid;
+  gap: 6px;
+  border: 1px solid rgba(240, 200, 75, .48);
+  border-radius: 4px;
+  background: rgba(5, 7, 10, .96);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, .42);
+}
+
+.sj-more-popover .sd-btn {
+  width: 100%;
+  justify-content: flex-start;
+  text-align: left;
+}
+
 .sj-step1-scaffold {
   display: none !important;
 }
