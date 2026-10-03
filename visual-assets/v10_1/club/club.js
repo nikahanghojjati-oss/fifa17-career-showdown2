@@ -11,10 +11,12 @@
   const T_PARAM = qs.has("t") ? Math.max(0, Math.min(1, parseFloat(qs.get("t")))) : null;
   const PLAY = qs.get("play") === "1";
   const RM = qs.get("rm") === "1" || matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const RIP_MS = 1500, RM_MS = 600;
+  const RIP_MS = 600, RM_MS = 600;
   const CLUB_SIGNATURE = Object.freeze({
     anticipationMs: 500,
-    anticipationEase: "cubic-bezier(.2,.7,.3,1)"
+    anticipationEase: "cubic-bezier(.2,.7,.3,1)",
+    ripMs: RIP_MS,
+    ripEase: "cubic-bezier(.16,.78,.24,1)"
   });
 
   const $ = (s, r = document) => r.querySelector(s);
@@ -196,10 +198,14 @@
       burst.innerHTML = `<defs><radialGradient id="${gid}r" gradientUnits="userSpaceOnUse" cx="${bx}" cy="${by}" r="230"><stop offset="0" stop-color="#FFF4C8" stop-opacity="1"/><stop offset=".35" stop-color="#F2C45B" stop-opacity=".75"/><stop offset="1" stop-color="#C99B45" stop-opacity="0"/></radialGradient>
         <radialGradient id="${gid}c" gradientUnits="userSpaceOnUse" cx="${bx}" cy="${by + 4}" r="70"><stop offset="0" stop-color="#FFF6D6"/><stop offset=".5" stop-color="#F7D46A" stop-opacity=".55"/><stop offset="1" stop-color="#F2C45B" stop-opacity="0"/></radialGradient></defs>
         <g fill="url(#${gid}r)">${rays}</g><ellipse cx="${bx}" cy="${by + 4}" rx="86" ry="34" fill="url(#${gid}c)"/>`;
+      const voidLayer = worldSvg("rvVoid", inner);
+      voidLayer.innerHTML = `<defs><radialGradient id="${gid}v" gradientUnits="userSpaceOnUse" cx="${bx}" cy="${r.tearY + 18}" r="210"><stop offset="0" stop-color="#6B430D" stop-opacity=".82"/><stop offset=".28" stop-color="#171006" stop-opacity=".96"/><stop offset="1" stop-color="#020202" stop-opacity=".99"/></radialGradient></defs><polygon points="${pts(r.body)}" fill="url(#${gid}v)"/>`;
+      const halfLeft = el("div", "rvHalf rvHalfLeft plateDup", inner);
+      const halfRight = el("div", "rvHalf rvHalfRight plateDup", inner);
       const crest = el("div", "rvCrest", inner);
       crest.dataset.side = String(i);
       const flap = el("div", "rvFlap plateDup", inner);
-      r.els = { wrap, inner, dark, hole: holeS, edge, burst, crest, flap };
+      r.els = { wrap, inner, dark, hole: holeS, edge, burst, voidLayer, halfLeft, halfRight, crest, flap };
     });
     // JOB-043: the derived contact shadow paints on the pack below the fingers.
 const contact = el("div", "handContact plateDup", world);
@@ -450,7 +456,13 @@ $$(".handOv").forEach(d => { d.style.clipPath = "none"; });
       const cs = r.crestSize;
       place(E.crest, { left: (r.crest[0] - cs / 2) * k, top: (r.crest[1] - cs / 2) * k, width: cs * k, height: cs * k });
       E.flap.style.clipPath = `polygon(${r.strip.map(([x, y]) => `${(x * k).toFixed(2)}px ${(y * k).toFixed(2)}px`).join(",")})`;
+      const x0 = r.body[0][0], x1 = r.body[1][0], y0 = r.tearY, y1 = r.body[2][1], midX = (x0 + x1) / 2;
+      E.halfLeft.style.clipPath = `polygon(${x0 * k}px ${y0 * k}px, ${midX * k}px ${y0 * k}px, ${midX * k}px ${y1 * k}px, ${x0 * k}px ${y1 * k}px)`;
+      E.halfRight.style.clipPath = `polygon(${midX * k}px ${y0 * k}px, ${x1 * k}px ${y0 * k}px, ${x1 * k}px ${y1 * k}px, ${midX * k}px ${y1 * k}px)`;
       E.flap.style.transformOrigin = `${r.flapPivot[0] * k}px ${r.flapPivot[1] * k}px`;
+      E.edge.style.transformOrigin = `${r.stripX[0] * k}px ${r.tearY * k}px`;
+      E.halfLeft.style.transformOrigin = `${midX * k}px ${y0 * k}px`;
+      E.halfRight.style.transformOrigin = `${midX * k}px ${y0 * k}px`;
       E.burst.style.transformOrigin = `${r.burst[0] * k}px ${r.burst[1] * k}px`;
     });
     // animations hold px offsets: rebuild them on every layout
@@ -464,8 +476,10 @@ $$(".handOv").forEach(d => { d.style.clipPath = "none"; });
     const dx = (r.burst[0] - r.crest[0]) * k, startY = (r.burst[1] + 6 - r.crest[1]) * k, peakY = (400 - r.crest[1]) * k;
     if (RM) {
       return {
-        flap: [{ opacity: 1 }, { opacity: 0 }], hole: [{ opacity: 0 }, { opacity: 1 }], edge: [{ opacity: 0 }, { opacity: 1 }],
-        dark: [{ opacity: 0 }, { opacity: 1 }], burst: [{ opacity: 0, transform: "scale(1)" }, { opacity: 0.42, transform: "scale(1)" }],
+        flap: [{ opacity: 0 }, { opacity: 0 }], hole: [{ opacity: 0 }, { opacity: 1 }], edge: [{ opacity: 0 }, { opacity: 0 }],
+        dark: [{ opacity: 0 }, { opacity: 1 }], voidLayer: [{ opacity: 0 }, { opacity: 1 }],
+        halfLeft: [{ opacity: 0 }, { opacity: 0 }], halfRight: [{ opacity: 0 }, { opacity: 0 }],
+        burst: [{ opacity: 0, transform: "scale(1)" }, { opacity: 0, transform: "scale(1)" }],
         crest: [{ opacity: 0, transform: "translate(0px,0px) scale(1)" }, { opacity: 1, transform: "translate(0px,0px) scale(1)" }],
       };
     }
@@ -482,8 +496,26 @@ $$(".handOv").forEach(d => { d.style.clipPath = "none"; });
         { offset: 1, transform: `translate(${34 * d * k}px,${150 * k}px) rotate(${52 * d}deg) scaleY(-.3)`, opacity: 0 },
       ],
       hole: [{ offset: 0, opacity: 0 }, { offset: 0.14, opacity: 0 }, { offset: 0.26, opacity: 1 }, { offset: 1, opacity: 1 }],
-      edge: [{ offset: 0, opacity: 0 }, { offset: 0.22, opacity: 0 }, { offset: 0.32, opacity: 1 }, { offset: 1, opacity: 1 }],
+      edge: [
+        { offset: 0, opacity: 0, transform: "scaleX(.02)" },
+        { offset: 0.18, opacity: 0, transform: "scaleX(.02)" },
+        { offset: 0.34, opacity: 1, transform: "scaleX(1)", easing: CLUB_SIGNATURE.ripEase },
+        { offset: 1, opacity: 1, transform: "scaleX(1)" },
+      ],
       dark: [{ offset: 0, opacity: 0 }, { offset: 0.24, opacity: 0 }, { offset: 0.5, opacity: 1 }, { offset: 1, opacity: 1 }],
+      voidLayer: [{ offset: 0, opacity: 0 }, { offset: 0.28, opacity: 0 }, { offset: 0.42, opacity: 1 }, { offset: 1, opacity: 1 }],
+      halfLeft: [
+        { offset: 0, opacity: 1, transform: "translate(0,0) rotate(0deg)" },
+        { offset: 0.28, opacity: 1, transform: "translate(0,0) rotate(0deg)" },
+        { offset: 0.72, opacity: .18, transform: `translate(${-34 * k}px,${92 * k}px) rotate(-11deg)`, easing: CLUB_SIGNATURE.ripEase },
+        { offset: 1, opacity: 0, transform: `translate(${-44 * k}px,${128 * k}px) rotate(-14deg)` },
+      ],
+      halfRight: [
+        { offset: 0, opacity: 1, transform: "translate(0,0) rotate(0deg)" },
+        { offset: 0.28, opacity: 1, transform: "translate(0,0) rotate(0deg)" },
+        { offset: 0.72, opacity: .18, transform: `translate(${34 * k}px,${92 * k}px) rotate(11deg)`, easing: CLUB_SIGNATURE.ripEase },
+        { offset: 1, opacity: 0, transform: `translate(${44 * k}px,${128 * k}px) rotate(14deg)` },
+      ],
       burst: [
         { offset: 0, opacity: 0, transform: "scale(.2)" }, { offset: 0.2, opacity: 0, transform: "scale(.25)" },
         { offset: 0.34, opacity: 0.7, transform: "scale(.85)" }, { offset: 0.55, opacity: 0.62, transform: "scale(1.04)" },
@@ -538,11 +570,13 @@ $$(".handOv").forEach(d => { d.style.clipPath = "none"; });
       if (!E.crest.dataset.club) { E.crest.innerHTML = `<div class="crestRim">${crestMarkup(i ? FX.clubs.playerTwo : FX.clubs.playerOne)}</div>`; E.crest.dataset.club = "1"; }
       const kf = ripKeyframes(r), dur = RM ? RM_MS : RIP_MS;
       const opts = { duration: dur, fill: "both", easing: "linear" };
-      const list = [[E.flap, kf.flap], [E.hole, kf.hole], [E.edge, kf.edge], [E.dark, kf.dark], [E.burst, kf.burst], [E.crest, kf.crest]];
+      const list = [[E.flap, kf.flap], [E.hole, kf.hole], [E.edge, kf.edge], [E.dark, kf.dark], [E.voidLayer, kf.voidLayer], [E.halfLeft, kf.halfLeft], [E.halfRight, kf.halfRight], [E.burst, kf.burst], [E.crest, kf.crest]];
       list.forEach(([node, frames]) => {
         const a = node.animate(frames, opts);
-        if (PLAY) { a.currentTime = 0; if (i === 1 && f.revealed[0] && FRAME === "CL4") a.currentTime = 0; }
-        else { a.pause(); a.currentTime = p * dur; }
+        if (PLAY) {
+          if (FRAME === "CL4" && i === 0 && f.revealed[0]) { a.pause(); a.currentTime = dur; }
+          else { a.currentTime = 0; }
+        } else { a.pause(); a.currentTime = p * dur; }
         anims.push(a);
       });
     });
