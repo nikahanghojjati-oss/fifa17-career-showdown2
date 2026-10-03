@@ -6,7 +6,7 @@
 Gameplay factory job NN. Read https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/RULES.md and obey the box in it as your rules, then read WORKER_HANDBOOK.md next to it and do job NN (repo nikahanghojjati-oss/fifa17-career-showdown2, branch factory/gameplay-v1). Ignore any older relay contract or memory.
 ```
 
-Branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-03 10:32 AM Boston time (EDT)
+Branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-03 10:34 AM Boston time (EDT)
 
 **Overall:** ██████░░░░ 63 % · 12 of 20 jobs done
 
@@ -16,7 +16,7 @@ Branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generate
 
 **Ready but no free slot yet:** 10
 
-**Working:** 16 · **Blocked:** -
+**Working:** - · **Blocked:** 16
 
 | # | G id | Job | Phase | Type | Lane | Depends on | Codex | Progress | State |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -25,7 +25,7 @@ Branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generate
 | 1 | G-1 | [Fast regression CI on every gameplay push](jobs/JOB-01.md) | 0 Setup | build | work | - |  | ██████████ 100 % | DONE |
 | 2 | G-2 | [Two-manager journey on the emulator (provider level)](jobs/JOB-02.md) | 1 Safety net | test | chat | 1 |  | ██████████ 100 % | DONE |
 | 17 | G-2c | [Simultaneous result taps: loser gets stale, not denied](jobs/JOB-17.md) | 1 Safety net | fix | chat | 2 |  | ██████████ 100 % | DONE |
-| 16 | G-2b | [Two-manager browser journey (localhost-only emulator switch)](jobs/JOB-16.md) | 1 Safety net | test | chat | 2, 7, 17 |  | ██████░░░░ 66 % | IN PROGRESS |
+| 16 | G-2b | [Two-manager browser journey (localhost-only emulator switch)](jobs/JOB-16.md) | 1 Safety net | test | chat | 2, 7, 17 |  | ███████░░░ 77 % | BLOCKED |
 | 12 | G-12 | [Composed production Rules regression](jobs/JOB-12.md) | 1 Safety net | test | work | 7, 8, 10 | yes | ░░░░░░░░░░ 0 % | NOT STARTED |
 | 3 | G-3 | [Pure shared career model + tests](jobs/JOB-03.md) | 2 Career model | build | work | - |  | ██████████ 100 % | DONE |
 | 5 | G-5 | [Active Showdown adapter (Rivalry, Continue, tiebreak, final state)](jobs/JOB-05.md) | 2 Career model | build | work | 3 |  | ██████████ 100 % | DONE |

@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-03 10:32 AM Boston time (EDT)",
+ "generated": "2026-10-03 10:34 AM Boston time (EDT)",
  "branch": "factory/gameplay-v1",
  "integration_branch": "gameplay/recovery-v1",
  "capacity": {
@@ -20,10 +20,10 @@
  "queued": [
   10
  ],
- "working": [
+ "working": [],
+ "blocked": [
   16
  ],
- "blocked": [],
  "jobs": [
   {
    "number": 0,
@@ -147,10 +147,10 @@
    "phase": "1 Safety net",
    "type": "test",
    "plain": "The same journey through the real app screens in a browser, test database only.",
-   "state": "IN PROGRESS",
-   "step": 6,
+   "state": "BLOCKED",
+   "step": 7,
    "steps_total": 9,
-   "pct": 66,
+   "pct": 77,
    "ready": false
   },
   {
