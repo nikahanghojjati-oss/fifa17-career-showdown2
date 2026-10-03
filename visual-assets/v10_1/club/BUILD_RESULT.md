@@ -164,3 +164,22 @@ Static code QA also passed: `club.js` parses, CSS braces balance, no `html.scrol
 
 ### Visual-QA limitation
 The supplied GOAL image was available for direct inspection, but this worker's browser sandbox does not have the current connector-only GitHub checkout/assets materialized, so a fresh rendered screenshot sheet could not be produced without inventing evidence. The prior R1/Job-043 screenshot evidence remains in `evidence/`; JOB-044 records only the checks actually run here.
+
+
+## Phone (JOB-045)
+
+### Height budget
+
+Static arithmetic from the committed portrait CSS. The title and five-dot stepper are overlays inside the hero band, so they consume no additional vertical rows. The bottom action uses the CSS fallback safe reserve of 8 px; Claude measures the resolved browser safe-area value at intake.
+
+| Viewport | Hero band | Deck stack after hero | Gap before primary | Primary | Safe reserve | Total | Remaining |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 393×660 | 363.0 px (55vh) | 218 px | 19.0 px | 52 px | 8 px | 660.0 px | 0 px |
+| 360×640 | 352.0 px (55vh) | 218 px | 10.0 px | 52 px | 8 px | 640.0 px | 0 px |
+| 375×553 | 293.1 px (53vh short tier) | 188 px | 15.9 px | 48 px | 8 px | 553.0 px | 0 px |
+| 390×844 | 464.2 px (55vh) | 218 px | 101.8 px | 52 px | 8 px | 844.0 px | 0 px |
+| 430×932 | 512.6 px (55vh) | 218 px | 141.4 px | 52 px | 8 px | 932.0 px | 0 px |
+
+Deck-stack arithmetic, normal tier: 22 header offset + 42 header + 6 gap + 50 Daniel row + 4 gap + 50 Nik row + 6 gap + 38 confirmation = 218 px. Short tier: 18 + 38 + 4 + 44 + 4 + 44 + 4 + 32 = 188 px. At 375×553 the primary begins at y=497 and ends at y=545, so it is visible before the 8 px safe reserve. At 393×660 it occupies y=600–652; at 360×640, y=580–632. The stage/body are fixed and overflow-hidden, so the arithmetic produces no document scroll path.
+
+The two larger phones deliberately grow instead of floating a fixed composition: the hero band remains proportional at 55vh, the manager cut-outs remain proportional to viewport height, the content deck follows the hero boundary, and only the breathing gap before the safe-area-pinned primary action expands.
