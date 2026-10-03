@@ -1432,6 +1432,8 @@
     attachRivalry:crAttachRivalry,
     readSharedState:crReadSharedState,
     publishSharedState:crPublishSharedState,
+    refreshAttachedSharedState:crHandleRefresh,
+    publishAttachedSharedState:crHandlePublish,
     previewLocalReconciliation:crHandleReconciliationPreview,
     applyLocalReconciliation:crHandleReconciliationApply,
     verifyLiveSharedStateIntegrity:crAssertLiveSharedStateIntegrity,
