@@ -20,6 +20,7 @@ Run at most two tickets at once. A ticket's job number is the same number as on 
 | 112 | [112 · League phone background (no people)](TICKET-112_1_OF_1_ENV_LEAGUE_PHONE_RAW.md) | GUIDE_LEAGUE_PHONE.png |
 | 113 | [113 · Club Assignment phone background (no people)](TICKET-113_1_OF_1_ENV_CLUB_PHONE_RAW.md) | GUIDE_CLUB_PHONE.png |
 | 114 | [114 · Transfer War phone background (no people)](TICKET-114_1_OF_1_ENV_TRANSFER_PHONE_RAW.md) | GUIDE_TRANSFER_PHONE.png |
+| 118 | [118 · Legacy phone background (no people)](TICKET-118_1_OF_1_ENV_LG_PHONE_RAW.md) | GUIDE_LG_PHONE.png |
 | 122 | [122-TILE_TACTICS · Home tile: tactics clipboard](TICKET-122_1_OF_6_TILE_TACTICS.md) | - |
 | 122 | [122-TILE_HISTORY · Home tile: collector cards (History)](TICKET-122_2_OF_6_TILE_HISTORY.md) | - |
 | 122 | [122-TILE_STATISTICS · Home tile: gold bars (Statistics)](TICKET-122_3_OF_6_TILE_STATISTICS.md) | - |
