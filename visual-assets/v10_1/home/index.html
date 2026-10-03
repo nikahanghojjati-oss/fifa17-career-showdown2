@@ -57,7 +57,11 @@
 </div>
 <small class="menuMusicSource">AUDIUS</small>
 </div>
-<div id="menuMediaSelector" class="menuMediaSelector" role="group" aria-label="Choose Audius soundtrack"></div>
+<input id="phoneTrackSheetToggle" class="phoneSheetToggle" type="checkbox" aria-label="Open soundtrack choices">
+<label class="phoneTrackSheetOpen" for="phoneTrackSheetToggle" aria-hidden="true">TRACKS</label>
+<div id="menuMediaSelector" class="menuMediaSelector sd-sheet" role="group" aria-label="Choose Audius soundtrack"></div>
+<label class="phoneTrackSheetBackdrop" for="phoneTrackSheetToggle" aria-hidden="true"></label>
+<label class="phoneTrackSheetClose" for="phoneTrackSheetToggle">CLOSE</label>
 <div id="menuMusicPlayer" class="menuMusicPlayer">
 <div class="vinylDeck" aria-hidden="true"><span class="vinyl"><i></i></span><span class="eq"><i></i><i></i><i></i><i></i><i></i></span></div>
 </div>
