@@ -3,7 +3,11 @@
 (() => {
   "use strict";
   const PW = 1536, PH = 864;
-  const SLOT = { cx: 762, cy: 496, r: 240 };          // wheel slot centre + rim radius (plate px)
+  const SLOT = { cx: 762, cy: 496, r: 240 };          // intake slot centre + radius (plate px)
+  // Job 37 measured goal geometry. The visible wheel follows this target; the fingertip is the
+  // invariant desktop contact anchor so short-laptop fitting cannot detach the rim from Daniel.
+  const GOAL_WHEEL = { cx: 762.6, cy: 495.0, r: 233.3 };
+  const FINGER = { x: 532.5, y: 457.0 };
   const BEZEL = 268 / 240, POINTER = 36 / 240;         // bezel outer radius / pointer rise, as fractions of R
   const LABEL_REACH = 0.78;                            // lowest live label pixel below centre, fraction of R
   const VEIL_R = 272;                                  // slot veil radius (plate px)
@@ -170,21 +174,37 @@
       note.style.top = px(noteTop);
     }
 
-    const Rfull = SLOT.r * k, c = plateToScreen(SLOT.cx, SLOT.cy);
+    const Rfull = GOAL_WHEEL.r * k, c = plateToScreen(GOAL_WHEEL.cx, GOAL_WHEEL.cy);
+    const finger = plateToScreen(FINGER.x, FINGER.y);
     const topLimit = titleBottom + 4;
-    const fits = (cy, R) => cy - R * (1 + POINTER) >= topLimit && cy + R <= btnTop - 4 && (noteTop === null || cy + R * LABEL_REACH <= noteTop - 2);
+    // Notes must sit completely below the rim; the old build only cleared the live labels.
+    const fits = (cy, R) => cy - R * (1 + POINTER) >= topLimit &&
+      cy + R <= btnTop - 4 &&
+      (noteTop === null || cy + R <= noteTop - 8);
     let R = Rfull, cy = c.y;
     if (!fits(cy, R)) {
-      const spanA = (btnTop - 4 - topLimit) / (2 + POINTER);
-      const spanB = noteTop === null ? Infinity : (noteTop - 2 - topLimit) / (1 + POINTER + LABEL_REACH);
-      R = Math.max(0.8 * Rfull, Math.min(Rfull, spanA, spanB));
-      const lo = topLimit + R * (1 + POINTER), hi = Math.min(btnTop - 4 - R, noteTop === null ? Infinity : noteTop - 2 - R * LABEL_REACH);
-      cy = hi >= lo ? Math.min(Math.max(c.y, lo), hi) : lo;
+      const bottomLimit = noteTop === null ? btnTop - 4 : noteTop - 8;
+      const span = (bottomLimit - topLimit) / (2 + POINTER);
+      // Keep the short-laptop wheel heavy; shift its centre before shrinking it into a small disc.
+      R = Math.max(0.88 * Rfull, Math.min(Rfull, span));
+      const lo = topLimit + R * (1 + POINTER), hi = bottomLimit - R;
+      cy = hi >= lo ? Math.min(Math.max(c.y, lo), hi) : (lo + hi) / 2;
     }
-    placeWheel(c.x, cy, R);
-    const onSlot = Math.abs(R - Rfull) < 0.5 && Math.abs(cy - c.y) < 0.5;
+
+    // Solve the circle against the registered fingertip. The fingertip sits 3 CSS px over the rim
+    // at every desktop target and the cut-out layer remains above both rim and contact shadow.
+    if (cy - finger.y >= R - 2) cy = finger.y + R - 2;
+    if (finger.y - cy >= R - 2) cy = finger.y - R + 2;
+    const contactOverlap = 3;
+    const dx = Math.sqrt(Math.max(1, R * R - (finger.y - cy) * (finger.y - cy)));
+    const cx = finger.x - contactOverlap + dx;
+    placeWheel(cx, cy, R);
+    box(q(".finger-contact"), finger.x - 5, finger.y - 1, 12, 6);
+
+    const onSlot = Math.abs(R - Rfull) < 0.5 && Math.abs(cy - c.y) < 0.5 && Math.abs(cx - c.x) < 8;
     stage.dataset.onSlot = String(onSlot);
     stage.dataset.wheelScale = (R / Rfull).toFixed(3);
+    stage.dataset.contactOverlap = contactOverlap.toFixed(1);
     q(".slot-veil").style.display = onSlot ? "none" : "";
     q(".finger-ovl").style.display = "";
 
