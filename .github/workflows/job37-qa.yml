@@ -111,7 +111,6 @@ jobs:
                     const overlap=fx-edge;
                     const rim=document.querySelector('.wheel-rim-art img');
                     const title=getComputedStyle(document.querySelector('#leagueWheelScreen h2'));
-                    const selected=document.querySelector('.wheelItem.is-top::before');
                     return {
                       overlap, wheel:{left:wheel.left,top:wheel.top,right:wheel.right,bottom:wheel.bottom,width:wheel.width},
                       note:nb?{top:nb.top,bottom:nb.bottom}:null,
