@@ -5,7 +5,7 @@ body { overflow: hidden; font-family: var(--sd-font-body, system-ui, sans-serif)
 
 .startupScene { background: #07080a; }
 .startupAthleteFrame { position: absolute; inset: -4% auto -8% -1%; width: 52%; overflow: hidden; background: #0d0f13; clip-path: polygon(0 0,88% 0,100% 100%,0 100%); }
-.startupAthleteFrame > picture { display: block; width: 100%; height: 100%; }
+.startupAthleteFrame > picture { display: contents; }
 #startupAthlete { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 53% 0; filter: saturate(.86) contrast(1.08) brightness(.84); }
 .startupAthleteFrame::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(90deg,rgba(18,24,28,.1),transparent 45%,#252b31 99%),linear-gradient(0deg,rgba(27,32,37,.34),transparent 33%); }
 .startupShard { position: absolute; display: block; background: rgba(7,8,10,.52); border-inline-end: 1px solid rgba(212,160,23,.24); transform: skewX(-18deg); }
@@ -22,7 +22,7 @@ body { overflow: hidden; font-family: var(--sd-font-body, system-ui, sans-serif)
 .startupEyebrow::before { display: none; }
 .startupKicker { margin: 0 0 10px; color: var(--sd-text-warm, #e9dfc8); letter-spacing: .46em; text-shadow: 0 2px 12px rgba(0,0,0,.9); }
 .loadingWordmark { width: min(100%, 560px); margin: 0; filter: drop-shadow(0 8px 22px rgba(0,0,0,.72)); }
-.loadingWordmark > picture { display: block; width: 100%; }
+.loadingWordmark > picture { display: contents; }
 .loadingWordmark img { display: block; width: 100%; height: auto; }
 .startupEdition { margin-top: 10px; text-align: left; font-size: clamp(12px, 1vw, 16px); letter-spacing: .28em; }
 .startupStatus { position: absolute; left: 54%; bottom: 108px; width: min(39vw, 610px); }
