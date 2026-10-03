@@ -161,7 +161,7 @@
     body.appendChild(cols);
     var act = el("div", { class: "action-row" });
     act.appendChild(el("p", { id: "transferGuessPrivacyNote", class: "privacy-note", text: viewerIsNik ? S.privacyNoteNikViewer : S.privacyNoteDanielViewer }));
-    act.appendChild(el("button", { type: "button", id: "completeTransferChallenge", class: "btn-lock", text: S.primary }));
+    act.appendChild(el("button", { type: "button", id: "completeTransferChallenge", class: "btn-lock sd-btn sd-btn--primary", text: S.primary }));
     body.appendChild(act);
     body.appendChild(el("p", { id: "transferChallengeError", class: "error-line", role: "alert" }));
     sec.appendChild(body);
@@ -183,7 +183,7 @@
     var body = placeRect(el("div", { class: "panel-body window-body" }), p.content);
     body.appendChild(el("p", { id: "transferWindowBrief", class: "f1-brief", text: S.f1Intro }));
     var act = el("div", { class: "end-row" });
-    var btn = el("button", { type: "button", id: "endTransferTimer", class: "btn-end", text: S.f1Action });
+    var btn = el("button", { type: "button", id: "endTransferTimer", class: "btn-end sd-btn sd-btn--secondary", text: S.f1Action });
     function setRequested() {
       btn.textContent = S.f1ActionRequested;
       btn.disabled = true;
@@ -253,7 +253,7 @@
     var err = el("p", { id: "transferChallengeError", class: "error-line", role: "alert" });
     act.appendChild(err);
     if (!locked) {
-      var btn = el("button", { type: "button", id: "completeTransferChallenge", class: "btn-lock", text: S.signingPrimary });
+      var btn = el("button", { type: "button", id: "completeTransferChallenge", class: "btn-lock sd-btn sd-btn--primary", text: S.signingPrimary });
       btn.addEventListener("click", function () {
         var out = [];
         for (var n = 1; n <= 3; n++) {
@@ -365,7 +365,7 @@
     }
     if (cfg.phase === "COMPLETED") {
       card.classList.add("with-continue");
-      inner.appendChild(el("button", { type: "button", id: "continueFromTransfers", class: "btn-continue", disabled: true, text: S.continueLabel }));
+      inner.appendChild(el("button", { type: "button", id: "continueFromTransfers", class: "btn-continue sd-btn sd-btn--secondary", disabled: true, text: S.continueLabel }));
     }
     card.appendChild(inner);
     return card;
