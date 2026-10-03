@@ -2,12 +2,12 @@
 
 State: IN PROGRESS
 Step: 5 of 8
-Updated: 2026-10-03 15:49 UTC
+Updated: 2026-10-03 15:55 UTC
 Chat: Sol Work mode
 Code branch: gameplay/job-10-transfer-history
-Head commit: a74c2acad418684fdbd8fba92dbb810968f6a4f2
+Head commit: d021b9f3b9bdb697960a5f0d3ae733c225296b71
 PR:
-CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37134529126 (pending)
+CI run: CI pending on d021b9f3b9bdb697960a5f0d3ae733c225296b71
 
 ## Notes
 - Lead: JOB-08 (PR #326, merge 843e64e) is merged. Lead to create code branch gameplay/job-10-transfer-history from gameplay/recovery-v1 at 843e64e before Nik starts the job. Lead reference run on 843e64e: new contract PASS, contracts 104/104, ops 73/0, every rules-emulator step PASS including the new Completed transfer history matrix (73 checks) and Completed-only read 56 with B8/B9 flipped; only budget diagnostics are the two known career-index D13 denials. Jobs 9, 11, 16 and 18 also append registry entries (9 also a rules-emulator step, 16 a CI job): whoever merges later re-appends last. Ready to start.
@@ -45,6 +45,8 @@ CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/r
 - Step 6b saved: JOB-18 registry entry and ops const retained; G-10 entry/const/array item appended last after JOB-18. Local completed-transfer contract PASS, full contracts 106/106, ops 73 pass / 0 fail, both builds PASS (132878 composed bytes), git diff vs current recovery lists exactly the ten chartered files, generated Rules/logs untracked, contractVersion 4. Saved on a74c2acad418684fdbd8fba92dbb810968f6a4f2; step 6 remains pending until next turn reads final exact-head CI once and records named matrix outputs plus qualified expression-budget gate. No merge or force-push.
 
 - Step 6 CI check (single read): Validate Gameplay Fast 37134529126 on exact a74c2acad418684fdbd8fba92dbb810968f6a4f2 is pending; no polling. Recovery-v1 now 87f4f9183c7424da535383af2735a627b226fa26; reconcile new merged baseline and registry ordering before final step 6 evidence on the next continue.
+
+- Step 6c saved: preserve merged Job 9 readers byte-for-byte from recovery-v1 87f4f9183c7424da535383af2735a627b226fa26; inherited files js/sharedClosedShowdownAdapter.js, js/sparkClosedShowdownCareerLoader.js retained on d021b9f3b9bdb697960a5f0d3ae733c225296b71. Remaining: sync merged registry/ops and re-append G-10 last; preserve JOB-09 Closed-Showdown adapter journey CI step before G-10. Previous a74c2ac CI 37134529126 SUCCESS, transfer 73 and completed-read 56 PASS; next-check budget labels mechanically D14 denials (logged after D13, no success budget failure).
 
 ## Self-check
 - PASS step 6b local: 106/106 contracts and operations 73/0 with merged JOB-18 preserved, ten-file diff against f7d18a1; both Rules builds PASS and generated Rules uncommitted.
