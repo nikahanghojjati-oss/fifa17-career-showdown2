@@ -112,12 +112,13 @@
    "lane": "work",
    "depends_on": [
     7,
-    8
+    8,
+    10
    ],
-   "steps": null,
-   "code_branch": null,
+   "steps": 8,
+   "code_branch": "gameplay/job-12-composed-rules-regression",
    "codex_review": true,
-   "written": false,
+   "written": true,
    "waits_on": null,
    "phase": "1 Safety net",
    "type": "test",

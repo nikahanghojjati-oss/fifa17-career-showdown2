@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-03 10:23 AM Boston time (EDT)",
+ "generated": "2026-10-03 10:25 AM Boston time (EDT)",
  "branch": "factory/gameplay-v1",
  "integration_branch": "gameplay/recovery-v1",
  "capacity": {
@@ -160,19 +160,20 @@
    "lane": "work",
    "depends_on": [
     7,
-    8
+    8,
+    10
    ],
-   "steps": null,
-   "code_branch": null,
+   "steps": 8,
+   "code_branch": "gameplay/job-12-composed-rules-regression",
    "codex_review": true,
-   "written": false,
+   "written": true,
    "waits_on": null,
    "phase": "1 Safety net",
    "type": "test",
    "plain": "Re-proves the full production Rules after the new career-data Rules land.",
-   "state": "NOT WRITTEN",
+   "state": "NOT STARTED",
    "step": 0,
-   "steps_total": 1,
+   "steps_total": 8,
    "pct": 0,
    "ready": false
   },
