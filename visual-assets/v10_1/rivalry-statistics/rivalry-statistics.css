@@ -45,3 +45,6 @@ html,body{margin:0;width:100%;height:100%;background:#07080a;overflow:hidden}bod
 .rv-readState::before{content:"◇";display:block;margin:0 auto 10px;color:var(--sd-gold-300);font:700 34px/1 var(--sd-font-condensed)}
 .rv-readState.loading::before{content:"◌";animation:rv-state-spin 1s linear infinite}@keyframes rv-state-spin{to{transform:rotate(360deg)}}
 .rv-bottom.isState .rv-headGrid,.rv-bottom.isState .rv-seasonTable,.rv-bottom.isState .rv-trophyGrid{display:none}.rv-bottom.isState .rv-emptyInline{height:76%}
+
+/* Short-laptop safety: keep the primary action comfortably inside 1366×640. */
+@media (min-width:1024px) and (max-height:700px){.rv-actions{top:86.5%}}
