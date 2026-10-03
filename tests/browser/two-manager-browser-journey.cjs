@@ -507,6 +507,103 @@ async function main(){
       }
     }
 
+    // J10 final reconciliation and Terminal Close through the real UI.
+    for(const m of [daniel,nik]){
+      await m.page.locator("#sharedFinalReconciliationPanel").waitFor({state:"visible",timeout:60000});
+      assert.equal((await m.page.locator("#sharedFinalReconciliationHeading").textContent()).trim(),"SHOWDOWN FINAL RECONCILED");
+      assert.equal((await m.page.locator("#sharedFinalReconciliationWinner").textContent()).trim(),"Daniel 10 · Nik 15 · Nik WINS");
+      await m.page.locator("#sharedTerminalCloseAction").waitFor({state:"visible",timeout:60000});
+      assert.equal((await m.page.locator("#sharedTerminalCloseAction").textContent()).trim(),"CLOSE SHARED SHOWDOWN");
+    }
+    ok("J10.1","both pages reconcile the three-season final as Daniel 10, Nik 15, Nik wins by 5");
+
+    await daniel.page.locator("#sharedTerminalCloseAction").click({timeout:30000});
+    for(const m of [daniel,nik]){
+      await m.page.waitForFunction(()=>document.getElementById("sharedTerminalCloseHeading")?.textContent==="SHARED SHOWDOWN CLOSED",null,{timeout:60000});
+      assert.match((await m.page.locator("#sharedTerminalCloseStatus").textContent()).trim(),/TERMINAL · NO NEW SESSION · NO NEW SEASON/);
+    }
+    const closedR1=await admin(`rivalries/${R1}`);
+    assert.ok(closedR1,"closed R1 rivalry root exists");
+    assert.equal(field(closedR1,"data","connectionState").stringValue,"closed","R1 root is closed");
+    const terminalWitness=field(closedR1,"data","terminalClose");
+    assert.ok(terminalWitness?.mapValue,"R1 root stores terminalClose witness");
+    assert.equal(field(terminalWitness,"winner").stringValue,"playerTwo","terminal witness records Nik as winner");
+    assert.equal(field(terminalWitness,"managerTotals","playerOne").integerValue,"10","terminal witness Daniel total");
+    assert.equal(field(terminalWitness,"managerTotals","playerTwo").integerValue,"15","terminal witness Nik total");
+    ok("J10.2","Terminal Close completed through the UI and R1 root is closed with a terminalClose witness");
+    await shot(daniel,"j10-terminal");await shot(nik,"j10-terminal");
+
+    // J11 stranger: redeemed R1 capability never grants a third account access or leaks private content.
+    const stranger=await openManager(browser,"stranger",{width:375,height:650});managers.push(stranger);
+    await signIn(stranger,"Nik");
+    const uidS=await accountId(stranger);
+    assert.ok(uidS&&uidS!==uidD&&uidS!==uidN,"stranger has a third account");
+    await stranger.page.locator("#newShowdown").click({timeout:30000});
+    await pairPanel(stranger).locator("#persistentNikDanielPairCode").waitFor({state:"visible",timeout:30000});
+    await pairPanel(stranger).locator("#persistentNikDanielPairCode").fill(pairCode);
+    await pairPanel(stranger).getByRole("button",{name:"JOIN DANIEL'S SHOWDOWN",exact:true}).click({timeout:30000});
+    await stranger.page.waitForFunction(()=>{const s=window.CareerModePersistentNikDanielPair?.getState?.();return Boolean(s&&s.busy===false&&s.status!=="joining");},null,{timeout:30000});
+    const strangerPanel=(await pairPanel(stranger).innerText()).replace(/\s+/g," ").trim();
+    assert.doesNotMatch(strangerPanel,/CAREER READY/i,"stranger never reaches CAREER READY");
+    assert.equal(await admin(`accounts/${uidS}/pairLinks/current`),null,"stranger gets no pair link");
+    const strangerIndex=await admin(`accounts/${uidS}/careerIndex/current`);
+    assert.equal(ids(field(strangerIndex,"data","rivalryIds")).includes(R1),false,"stranger career index never names R1");
+    const strangerText=await stranger.page.locator("body").innerText();
+    for(const secret of [R1,"QWX","ZPV"])assert.equal(strangerText.includes(secret),false,`stranger rendered text never contains ${secret}`);
+    ok("J11.1","third account cannot redeem closed R1 and receives no pair link, career index entry, rivalry id, or private transfer tokens");
+    await shot(stranger,"j11-stranger");
+
+    // J12 second Showdown: terminal authority is durable; Daniel and Nik can start a fresh R2 from Home.
+    for(const m of [daniel,nik]){
+      await m.page.reload({waitUntil:"domcontentloaded"});
+      await m.page.locator("#loadingScreen").waitFor({state:"hidden",timeout:30000});
+      await m.page.locator("#mainMenu").waitFor({state:"visible",timeout:30000});
+      assert.equal(await m.page.evaluate(()=>window.__cmsEmulatorSwitch?.active===true),true,`${m.user} localhost emulator switch remains test-only after terminal reload`);
+    }
+    await daniel.page.locator("#newShowdown").click({timeout:30000});
+    await daniel.page.locator("#createShowdown").waitFor({state:"visible",timeout:30000});
+    await daniel.page.locator("#roundAmount").selectOption(String(LENGTH));
+    await daniel.page.locator("#startShowdown").click({timeout:30000});
+    await entry(daniel).getByRole("button",{name:"CONNECT PLAYERS"}).click({timeout:30000});
+    await pairPanel(daniel).getByRole("button",{name:"CREATE CODE FOR NIK"}).click({timeout:30000});
+    await pairPanel(daniel).locator("code").waitFor({timeout:30000});
+    const pairCode2=(await pairPanel(daniel).locator("code").innerText()).trim();
+    assert.match(pairCode2,/^CMS17-pair_/,"R2 pair code shape");
+
+    await nik.page.locator("#newShowdown").click({timeout:30000});
+    await pairPanel(nik).locator("#persistentNikDanielPairCode").waitFor({state:"visible",timeout:30000});
+    await pairPanel(nik).locator("#persistentNikDanielPairCode").fill(pairCode2);
+    await pairPanel(nik).getByRole("button",{name:"JOIN DANIEL'S SHOWDOWN",exact:true}).click({timeout:30000});
+    for(const m of [nik,daniel]){
+      if(m===daniel)await pairPanel(daniel).getByRole("button",{name:"CHECK STATUS"}).click().catch(()=>{});
+      await m.page.waitForFunction(()=>/CAREER READY/.test(document.getElementById("persistentNikDanielPairPanel")?.innerText||""),null,{timeout:30000});
+    }
+    const linkD2=await admin(`accounts/${uidD}/pairLinks/current`),linkN2=await admin(`accounts/${uidN}/pairLinks/current`);
+    const R2=field(linkD2,"data","rivalryId").stringValue;
+    assert.ok(R2&&R2!==R1,"R2 is distinct from R1");
+    assert.equal(field(linkN2,"data","rivalryId").stringValue,R2,"both managers are paired to R2");
+    assert.deepEqual(ids(field(await admin(`accounts/${uidD}/careerIndex/current`),"data","rivalryIds")),[R1,R2],"Daniel career index [R1,R2]");
+    assert.deepEqual(ids(field(await admin(`accounts/${uidN}/careerIndex/current`),"data","rivalryIds")),[R1,R2],"Nik career index [R1,R2]");
+
+    for(const m of [daniel,nik]){
+      await pairPanel(m).getByRole("button",{name:"CONTINUE CAREER"}).first().click({timeout:30000});
+      await entry(m).filter({hasText:"CONNECTED"}).getByRole("button",{name:"CONTINUE",exact:true}).click({timeout:30000});
+      await remote(m).waitFor({state:"visible",timeout:30000});
+    }
+    await remote(daniel).getByRole("button",{name:"HOST PRIVATE SESSION"}).click({timeout:30000});
+    await daniel.page.waitForFunction(()=>/session_[A-Za-z0-9_-]{16,}/.test(document.body.innerText),null,{timeout:30000});
+    const sessionCode2=await daniel.page.evaluate(()=>document.body.innerText.match(/session_[A-Za-z0-9_-]{16,}/)[0]);
+    await remote(nik).getByRole("textbox",{name:"Exact private session code"}).fill(sessionCode2);
+    await remote(nik).getByRole("button",{name:"JOIN PRIVATE SESSION"}).click({timeout:30000});
+    await entry(nik).getByRole("button",{name:"START CAREER"}).waitFor({state:"visible",timeout:30000});
+    if(await remote(daniel).isVisible())await remote(daniel).getByRole("button",{name:"REFRESH / READ"}).click({timeout:30000});
+    for(const m of [daniel,nik]){
+      await entry(m).getByRole("button",{name:"START CAREER"}).click({timeout:30000});
+      await m.page.locator("#leagueWheelScreen").waitFor({state:"visible",timeout:30000});
+    }
+    ok("J12.1","after terminal R1, Daniel and Nik created distinct R2, both indexes are [R1,R2], and both reached R2 league wheel");
+    await shot(daniel,"j12-r2");await shot(nik,"j12-r2");
+
     // J4..J12: added by the worker, one section per step (JOB-16 §4).
 
     for(const m of managers){
@@ -515,7 +612,7 @@ async function main(){
       assert.deepEqual(m.log.errors,[],`${m.user} page errors`);
     }
     ok("JZ.1","no production Firebase host, no production runtime/config load, no page errors in either context");
-    console.log(`PASS two-manager browser journey: ${checks} numbered checks (J0-J3 so far) on the Auth + Firestore emulators, composed production Rules, ${LENGTH}-season Showdown.`);
+    console.log(`PASS two-manager browser journey: ${checks} numbered checks (J0-J12) on the Auth + Firestore emulators, composed production Rules, ${LENGTH}-season Showdown.`);
   }catch(error){
     for(const m of managers){console.log(`--- ${m.user}: ${await describe(m).catch(e=>e.message)}`);console.log(`--- ${m.user} errors: ${JSON.stringify(m.log.errors.slice(-10))}`);await shot(m,"failure");}
     throw error;
