@@ -37,3 +37,58 @@ body {
   display: block;
   pointer-events: none;
 }
+
+
+/* Title block measured from MOCKUP_SEASON_RESULTS.jpg (1536x864).
+   Eyebrow centre x ≈ 50.0%, top y ≈ 10.9%.
+   Brush crop x = 430..1098 (left 27.99%, width 43.49%), y = 145..236 (top 16.78%).
+   Tagline centre x ≈ 50.0%, top y ≈ 27.7%. */
+#season-results-screen {
+  position: absolute;
+  inset: 0;
+}
+
+.season-title-block {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.season-eyebrow {
+  position: absolute;
+  top: 10.9%;
+  left: 50%;
+  margin: 0;
+  transform: translateX(-50%);
+  letter-spacing: 0.42em;
+  white-space: nowrap;
+}
+
+#screen-title {
+  position: absolute;
+  top: 16.78%;
+  left: 27.99%;
+  width: 43.49%;
+  margin: 0;
+}
+
+.season-title-wordmark {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 5px 8px rgb(0 0 0 / 0.42));
+}
+
+.season-tagline {
+  position: absolute;
+  top: 27.7%;
+  left: 50%;
+  margin: 0;
+  transform: translateX(-50%);
+  letter-spacing: 0.34em;
+  white-space: nowrap;
+}
+
+.fixture-dump[hidden] {
+  display: none;
+}
