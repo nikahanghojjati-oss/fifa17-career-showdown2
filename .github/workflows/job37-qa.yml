@@ -1,5 +1,5 @@
 name: Job 37 League QA
-# rerun-final-gates-2026-10-03-0036
+# rerun-evidence-safe-2026-10-03-0037
 # rerun after compact-phone and overflow fixes
 on:
   push:
@@ -179,13 +179,7 @@ jobs:
       - name: Preserve contact diagnostics
         if: always()
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          if test -f visual-assets/v10_1/league/evidence/hands/qa_job37.json; then
-            git add visual-assets/v10_1/league/evidence/hands/qa_job37.json
-            git diff --cached --quiet || git commit -m "Job 37 step 7/7: contact diagnostics"
-            git push origin HEAD:factory/v1-wtt5ye
-          fi
+          test -f visual-assets/v10_1/league/evidence/hands/qa_job37.json || true
       - name: Goal compare and 4x fingertip proof
         run: |
           python3 - <<'PY'
@@ -223,4 +217,5 @@ jobs:
           rm .github/workflows/job37-qa.yml
           git add -A .github/workflows/job37-qa.yml visual-assets/v10_1/league/evidence
           git commit -m "Job 37 step 7/7: QA evidence"
+          git pull --rebase origin factory/v1-wtt5ye
           git push origin HEAD:factory/v1-wtt5ye
