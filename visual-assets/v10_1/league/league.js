@@ -15,6 +15,8 @@
   const SPIN_DEMO_DELAY_MS = 650;
   const POINTER_TICK_MS = 96;
   const POINTER_TICK_EASE = "cubic-bezier(.22,.86,.30,1)";
+  const WINNER_PAYOFF_MS = 520;
+  const WINNER_BURST_PARTICLES = 42;
   const SLOT = { cx: 762, cy: 496, r: 240 };          // intake slot centre + radius (plate px)
   // Job 37 measured goal geometry. The visible wheel follows this target; the fingertip is the
   // invariant desktop contact anchor so short-laptop fitting cannot detach the rim from Daniel.
@@ -46,6 +48,7 @@
   let spinPresentationTimer = null;
   let pointerTickRaf = null;
   let pointerTickAnimation = null;
+  let winnerPayoffTimer = null;
   const px = (v) => `${v}px`;
   // measurements relative to the stage (equal to viewport coords in the prototype, where the stage is at 0,0)
   function rel(el) { const b = el.getBoundingClientRect(), o = stage.getBoundingClientRect(); return { top: b.top - o.top, bottom: b.bottom - o.top, height: b.height }; }
@@ -187,7 +190,79 @@
     pointerTickRaf = requestAnimationFrame(sample);
   }
 
+  function ensureWinnerEffects() {
+    const wheel = q("#leagueWheel");
+    if (!wheel) return {};
+    let flash = wheel.querySelector(".winner-wedge-flash");
+    if (!flash) {
+      flash = document.createElement("div");
+      flash.className = "winner-wedge-flash";
+      flash.setAttribute("aria-hidden", "true");
+      wheel.appendChild(flash);
+    }
+    let canvas = wheel.querySelector(".spin-burst-canvas");
+    if (!canvas) {
+      canvas = document.createElement("canvas");
+      canvas.className = "spin-burst-canvas";
+      canvas.setAttribute("aria-hidden", "true");
+      wheel.appendChild(canvas);
+    }
+    return { flash, canvas };
+  }
+
+  function cancelWinnerPayoff() {
+    if (winnerPayoffTimer) {
+      clearTimeout(winnerPayoffTimer);
+      winnerPayoffTimer = null;
+    }
+    const track = q("#leagueWheel .wheelTrack:not(.wheelTrack--blur)");
+    if (track) track.querySelectorAll(".is-winner-payoff").forEach((el) => el.classList.remove("is-winner-payoff"));
+    const flash = q("#leagueWheel .winner-wedge-flash");
+    if (flash) flash.classList.remove("is-active");
+  }
+
+  function runWinnerPayoff() {
+    const f = FX.frames[frameId] || FX.frames.L1;
+    if (f.state !== "selected" || !f.selected || reducedSpinPreferred()) return false;
+    const track = q("#leagueWheel .wheelTrack:not(.wheelTrack--blur)");
+    if (!track) return false;
+    const winner = [...track.querySelectorAll(".wheelItem")].find((el) => el.title === f.selected);
+    if (!winner) return false;
+    const { flash, canvas } = ensureWinnerEffects();
+    if (!flash || !canvas) return false;
+
+    cancelWinnerPayoff();
+    void flash.offsetWidth;
+    flash.classList.add("is-active");
+    winner.classList.add("is-winner-payoff");
+    window.setTimeout(() => {
+      flash.classList.remove("is-active");
+      winner.classList.remove("is-winner-payoff");
+    }, WINNER_PAYOFF_MS + 40);
+
+    if (typeof window.sdBurst === "function") {
+      const rect = canvas.getBoundingClientRect();
+      window.sdBurst(canvas, rect.width / 2, rect.height * .14, {
+        count: WINNER_BURST_PARTICLES,
+        duration: 700,
+        spread: Math.PI * 1.35,
+        speedMin: 95,
+        speedMax: 270
+      });
+    }
+    return true;
+  }
+
+  function scheduleWinnerPayoff(delay = 120) {
+    cancelWinnerPayoff();
+    winnerPayoffTimer = window.setTimeout(() => {
+      winnerPayoffTimer = null;
+      runWinnerPayoff();
+    }, Math.max(0, Number(delay) || 0));
+  }
+
   function cancelSpinPresentation() {
+    cancelWinnerPayoff();
     if (spinPresentationTimer) {
       window.clearTimeout(spinPresentationTimer);
       spinPresentationTimer = null;
@@ -529,7 +604,9 @@
     addEventListener("resize", layout);
     if (window.LEAGUE_PREVIEW) { window.__leagueReady = true; return; }
     await runStandardEntrance();
-    if ((FX.frames[frameId] || {}).state === "spinning") scheduleSpinPresentation();
+    const activeFrame = FX.frames[frameId] || FX.frames.L1;
+    if (activeFrame.state === "spinning") scheduleSpinPresentation();
+    if (activeFrame.state === "selected") scheduleWinnerPayoff(820);
     const img = new Image();
     img.onload = img.onerror = () => { window.__leagueReady = true; };
     img.src = devicePixelRatio > 1 ? "assets/ENV_LEAGUE_PLATE_V1_2X.webp" : "assets/ENV_LEAGUE_PLATE_V1_1X.webp";
@@ -540,8 +617,10 @@
     stage.dataset.frame = id;
     applyFrame();
     layout();
-    if ((FX.frames[frameId] || {}).state === "spinning") scheduleSpinPresentation(50);
+    const nextFrame = FX.frames[frameId] || FX.frames.L1;
+    if (nextFrame.state === "spinning") scheduleSpinPresentation(50);
+    if (nextFrame.state === "selected") scheduleWinnerPayoff(120);
   }
-  window.LeagueV1 = { plateToScreen, T, SLOT, OVL_RECT, main, setFrame, layout, runSpinPresentation };
+  window.LeagueV1 = { plateToScreen, T, SLOT, OVL_RECT, main, setFrame, layout, runSpinPresentation, runWinnerPayoff };
   if (!window.LEAGUE_DEFER_MAIN) main();
 })();
