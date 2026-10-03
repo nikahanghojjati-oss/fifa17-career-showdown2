@@ -1,80 +1,70 @@
-# Trophy Room desktop build result · JOB-057
+# Trophy Room · BUILD RESULT
+
+Job: JOB-057 · Trophy Room: build (desktop)  
+Branch: `factory/v1-wtt5ye`
 
 ## Run
 
-Serve the repository root and open:
+From the repository root:
 
-`visual-assets/v10_1/trophy-room/index.html?frame=TR1`
+```bash
+python3 -m http.server 8765
+```
 
-The review switcher is `visual-assets/v10_1/trophy-room/preview.html`. Rebuild it with:
-
-`python3 visual-assets/v10_1/trophy-room/tools/build_preview.py`
+Open `http://127.0.0.1:8765/visual-assets/v10_1/trophy-room/preview.html` for the frame switcher, or open `index.html?frame=TR1` through `TR7` directly.
 
 ## Frames
 
-The build renders every authoritative fixture frame from `fixtures.json`:
-
-- **TR1** — ready history, both managers have trophies, ALL category.
-- **TR2** — empty career; all four trophy families remain visible, dark, and say `Not won yet`.
-- **TR3** — partial provider history; readable values remain visible with the exact coverage warning and `AVAILABLE RECORDS`.
-- **TR4** — ready history with `LEAGUE TITLES` selected.
-- **TR5** — unavailable provider history; no invented numeric trophy values.
-- **TR6** — loading provider history; stable designed shell with no invented zeroes.
-- **TR7** — ready history with Nik leading; Daniel remains left/first and rank communicates the lead.
+| Frame | Contract state | Review purpose |
+| --- | --- | --- |
+| TR1 | ready · ALL | Main ready career history with both managers holding trophies. |
+| TR2 | empty · ALL | New career; all four trophy families stay visible, dark, with `Not won yet`. |
+| TR3 | partial · ALL | Readable-history values plus explicit 2-of-3 coverage and `AVAILABLE RECORDS`. |
+| TR4 | ready · LEAGUE TITLES | League Titles category selected without changing Daniel-left/Nik-right identity order. |
+| TR5 | unavailable | Honest unavailable treatment; no invented numeric history. |
+| TR6 | loading | Stable shell while provider history is in flight; no fake zero values. |
+| TR7 | ready · ALL | Nik leads, while Daniel remains the first/left manager and rank communicates the result. |
 
 ## What changed from the mockup
 
-The visual ceremony stays faithful to the supplied mockup: night stadium plate, Daniel left, Nik right, brush `TROPHY ROOM` title, centered hero trophy/plinth, gold-edged shelf and centered Back control.
+The approved 1672×941 Trophy Room plate remains the scene authority and is mounted through the shared stage engine with its platemap. The brush title is the approved `TITLE_TR_V1.webp` image with real hidden heading text. The central ceremony keeps one bright hero trophy on a black/gold plinth with DOM nameplate, spotlight, reflection and grounded shadow.
 
-Product truth intentionally replaces the mockup where required:
+Product truth intentionally changes the mockup's unsupported competition-specific shelf. The six mockup cups become the four original Showdown trophy families: Showdown Champion, League Title, Domestic Cup and Champions League. Categories are exactly `ALL · SHOWDOWN · LEAGUE TITLES · DOMESTIC CUPS · CHAMPIONS LEAGUE`; duplicate ABOUT, SPECIAL, unsupported competition trophies and unrecorded stats are absent. Counts, manager names, ranks, records, categories and state copy are live DOM data from `fixtures.json`, never baked into imagery.
 
-- Real competition trophies and logos were replaced by the four approved original assets: Showdown Champion, League Title, Domestic Cup and Champions League.
-- The mockup's competition-specific/special cards were replaced by the exact recorded categories: `ALL · SHOWDOWN · LEAGUE TITLES · DOMESTIC CUPS · CHAMPIONS LEAGUE`.
-- Counts, manager names, ranks, state copy and record values are live DOM text from fixtures; nothing changeable is baked into imagery.
-- Unsupported ABOUT/SPECIAL destinations and unrecorded legacy stats were dropped.
-- The original plate's manager pixels remain authoritative; `platemap.json` explicitly has no cutout polygons because no arm or hand crosses the shelf panel edge.
+The authoritative platemap contains no cutout polygons and explicitly records that no hand/arm crosses a panel edge, so no fake arm cutout was fabricated. Protected faces and hands remain plate pixels.
 
 ## Desktop QA
 
-Evidence is committed under `visual-assets/v10_1/trophy-room/evidence/`.
+- Factory QA: **28/28 desktop frame × viewport runs PASS** at 1366×768, 1440×900, 1920×1080 and 1366×640. Desktop H1, H5, H6, H7, control bounds, console, requests and fixture-string checks are all green.
+- Browser contract audit: all seven states, four trophy families, five categories, rights allowlist and keyboard focus behavior pass.
+- Keyboard: every enabled category tab and BACK is reachable; visible focus outline is 3 px.
+- First-paint encoded bytes: **855,932 bytes (~835.9 KiB), PASS under the 900 KiB desktop limit**. The workflow's response-header measurement was 837.5 KiB.
+- Runtime raster assets are WebP; no PNG/JPEG masters are referenced by the page.
+- Console/page errors: none. Failed requests: none.
+- Mockup-diff gate: **PASS**.
+  - build SSIM 0.512 vs plate SSIM 0.527
+  - build mean ΔE 12.1 vs plate 13.5
+  - Daniel face 0.976; Nik face 0.982
+  - Daniel hand 0.979; Nik hand 0.972
+- Evidence: `evidence/desktop_gate.json`, `evidence/desktop_metrics.json`, `evidence/factory-qa/QA_SUMMARY.md`, `evidence/diff/scores.json`, and the committed compare imagery.
 
-- Factory QA: **28/28 desktop frame × viewport runs PASS** for TR1–TR7 at 1366×768, 1440×900, 1920×1080 and 1366×640.
-- H1 manager order, H5 no-scroll/primary visibility, H6 inputs, H7 reduced motion, control bounds, console, requests and fixture-string gates all pass on desktop.
-- Keyboard: all five category tabs and BACK are reachable by Tab and show a 3 px visible focus ring.
-- First paint: **855,932 bytes**, below the 900 KB desktop limit.
-- Runtime imagery is WebP; PNG masters are not requested by the screen.
-- Mockup-diff: **PASS**. Build SSIM 0.512 vs plate 0.527; mean ΔE 12.1 vs plate 13.5; Daniel face 0.976, Nik face 0.982, Daniel hand 0.979, Nik hand 0.972.
-- Primary evidence: `evidence/FINAL_TR1_1920.png`, `evidence/diff/scores.json`, `evidence/diff/side_by_side.jpg`, `evidence/diff/heatmap.jpg`, `evidence/desktop_gate.json`, `evidence/desktop_metrics.json`.
+The generic shared harness also captures phone sizes. Its phone-only category-tab control-bounds failures are outside this desktop job; the screen already reserves the shared phone bottom-bar space, while phone composition/control fitting belongs to the phone-specific follow-up.
 
 ## Own scorecard
 
 | Criterion | Score | Evidence |
 | --- | ---: | --- |
-| 1. Mockup fidelity | **5/5** | `FINAL_TR1_1920.png` preserves the mockup camera/manager positions, and the required mockup-diff gate passes with SSIM/ΔE inside the plate-relative limits. |
-| 2. Characters stand out of the menu | **4/5** | Daniel and Nik remain the approved plate pixels with faces unobscured; shelf/hero UI sits between the scene and foreground reading without fabricated character edits. |
-| 3. Hands and contact | **5/5** | Protected-hand SSIM is 0.979/0.972 and the authoritative platemap confirms no hand crosses a panel edge, so no seam-prone synthetic cutout was introduced. |
-| 4. Lighting and grade | **4/5** | The plate keeps its warm gold stadium grade; hero art adds only a soft gold spotlight, rim/glow, reflection and grounded plinth shadow. |
-| 5. Typography and title treatment | **5/5** | The approved `TITLE_TR_V1.webp` brush wordmark is used with hidden semantic text; UI uses shared Barlow/Barlow Condensed and tabular numeric styling. |
-| 6. Panel craft | **4/5** | Shelf, tabs and plinth use black/gold glass/metal craft, original trophy art and measured mockup geometry without cover-up panels. |
-| 7. Information clarity and honesty | **5/5** | Daniel is always left, Nik right; ready/empty/partial/loading/unavailable states are explicit and failed reads never appear as zero trophies. |
-| 10. Polish and finish | **5/5** | Desktop QA has zero console/request errors, WebP runtime assets, crisp original trophy art, reduced-motion support and consistent shared kit styling. |
+| 1. Mockup fidelity | 5 | The mockup-diff gate passes with build SSIM 0.512 against plate 0.527, ΔE 12.1, and every protected face/hand box above 0.97. |
+| 2. Characters stand out of the menu | 4 | Daniel and Nik remain the approved plate likenesses framing the hero/shelf; protected regions are unobscured and the platemap confirms no cutout edge is required. |
+| 3. Hands and contact | 5 | Daniel/Nik hand protected-box scores are 0.979/0.972, with no UI cutting through either hand and the original chin/crossed-arm contact retained. |
+| 4. Lighting and grade | 4 | The original warm-gold stadium grade remains the plate authority; hero spotlight, rim/glow, glass top edges and plinth shadow use the shared gold system without flattening the scene. |
+| 5. Typography and title treatment | 5 | The approved brush wordmark image is used with visually-hidden real text; eyebrow/tagline and UI typography use the shared Showdown type system. |
+| 6. Panel craft | 4 | The shelf/plinth/tabs use gold-edged dark glass, cut corners, original trophy art and measured mockup proportions; unsupported mockup objects were removed rather than replaced by placeholders. |
+| 7. Information clarity and honesty | 5 | All seven authoritative states render contract truth, including empty/partial/loading/unavailable honesty, fixed Daniel-left/Nik-right identity and visible career ranks. |
+| 10. Polish and finish | 4 | All desktop browser runs are clean, keyboard/focus passes, 1×/2× WebP plate handling is active, and first paint remains below 900 KiB. |
 
-Every required JOB-057 score is at least 4.
+Average for criteria 1–7 and 10: **4.5 / 5**.
 
-## Hard gates for this desktop job
+## Known gaps
 
-| Gate | Result | Evidence |
-| --- | --- | --- |
-| H1 Daniel left / Nik right | **PASS** | 28/28 desktop runs; protected manager markers remain left/right. |
-| H2 rights-safe art | **PASS** | Only approved original Trophy Room plate/title and four original trophy assets are requested; no real crests, league logos, trophies or player art. |
-| H3 no live/private data baked into images | **PASS** | All names, counts, ranks, records, state copy and categories are fixture-driven DOM text. |
-| H4 product truth | **PASS** | Exact four trophy families, five categories, five-state history model and Daniel-first identity order match `TRUTH.md` / fixtures. |
-| H6 input/font safety | **PASS** | No failing desktop H6 result; no undersized visible form input exists. |
-| H8 keyboard/focus | **PASS** | Five category tabs + BACK all reachable and each has a 3 px focus ring. |
-| H9 console/requests | **PASS** | All 28 desktop runs have zero console errors and zero failed requests. |
-| H10 mockup diff | **PASS** | All face/hand, SSIM and ΔE thresholds pass in `evidence/diff/scores.json`. |
-| H11 desktop page weight | **PASS** | 855,932 bytes ≤ 900 KB. |
-
-## Known gap / next owner
-
-Phone is intentionally not accepted by JOB-057. The shared full-matrix harness records phone `CONTROL_BOUNDS` failures from the horizontally scrolling category strip. **JOB-058 · Trophy Room: phone** owns the 393×660/360×640 recomposition, phone art and phone-specific acceptance. No desktop gate is left open.
+No desktop blocking gap remains. Phone-only category-tab control fitting is intentionally deferred to the phone build/review lane; it does not affect the desktop acceptance recorded here.
