@@ -151,6 +151,10 @@
     // They never enter protected faces, packs or hand polygons.
     const seamMend = el("div", "seamMend plateDup", world);
     seamMend.style.backgroundImage = "image-set(url(assets/OVL_CLUB_SEAM_MENDS_V1_1X.webp) 1x, url(assets/OVL_CLUB_SEAM_MENDS_V1_2X.webp) 2x)";
+    // Claude fix 3: the 1366x640 crop exposes a tiny likeness-locked remnant of the
+    // source brush title on Nik's hairline. Patch only that compact-only spot with
+    // nearby pixels from the same accepted plate; normal desktop keeps JOB-043's face pixels untouched.
+    el("div", "hairlineRepair", world);
     // Goal-faithful stage paint: only the bottom trapezoid plus the top-chrome shadow. Title, status, stepper and VS float directly on the scene.
     worldSvg("covers", world).id = "covers";
     // pack reveal per side
@@ -324,6 +328,16 @@ d.style.backgroundImage = `image-set(url(assets/${stem}_1X.webp) 1x, url(assets/
     const clip = $(".plateClip");
     place(clip, { left: T.clip[0], top: T.clip[1], width: T.clip[2], height: T.clip[3] });
     place($("#world"), { left: T.offX - T.clip[0], top: T.offY - T.clip[1], width: PW * k, height: PH * k });
+
+    // Compact-only hairline repair: target plate x1038..1078 / y124..188 and
+    // sample 36 plate px to the right, where the accepted plate has clean hair/skin.
+    const hairFix = $(".hairlineRepair");
+    if (hairFix) {
+      const hx = 1038, hy = 124, hw = 40, hh = 64, sampleDx = 36;
+      place(hairFix, { left: hx * k, top: hy * k, width: hw * k, height: hh * k });
+      hairFix.style.backgroundSize = `${PW * k}px ${PH * k}px`;
+      hairFix.style.backgroundPosition = `${-(hx + sampleDx) * k}px ${-hy * k}px`;
+    }
 
     drawCovers(k, phone);
     layoutReveal();
