@@ -1,22 +1,22 @@
 {
- "generated": "2026-10-03 8:51 AM Boston time (EDT)",
+ "generated": "2026-10-03 8:55 AM Boston time (EDT)",
  "branch": "factory/gameplay-v1",
  "integration_branch": "gameplay/recovery-v1",
  "capacity": {
   "chat": 2,
   "work": 1
  },
- "overall": 52,
+ "overall": 53,
  "done": 10,
  "total": 19,
  "start": {
   "chat": [],
-  "work": [
-   8
-  ]
+  "work": []
  },
  "queued": [],
- "working": [],
+ "working": [
+  8
+ ],
  "blocked": [],
  "jobs": [
   {
@@ -314,11 +314,11 @@
    "phase": "3 Career history",
    "type": "rules",
    "plain": "Finished Showdowns stay readable for both managers after they close.",
-   "state": "NOT STARTED",
-   "step": 0,
+   "state": "IN PROGRESS",
+   "step": 1,
    "steps_total": 8,
-   "pct": 0,
-   "ready": true
+   "pct": 12,
+   "ready": false
   },
   {
    "number": 9,
