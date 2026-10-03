@@ -183,3 +183,40 @@ Claude re-measure:
 - H5 phone fit, H6 contrast/input size, H7 reduced motion, H8 keyboard/focus, H9 console/failed requests, H10 mockup diff, and H11 first-paint weight.
 - Re-check the desktop header and button-row visual registration against GOAL_LEAGUE.jpg.
 - Re-check title fidelity after TITLE_LEAGUE_V1.webp is supplied.
+
+## Motion · Job 42
+
+Code-read finish-line pass: 2026-10-03 UTC on `factory/v1-wtt5ye`. Claude records the requested motion evidence at intake; this worker pass does not create frame strips or recordings.
+
+### Entrance timeline
+
+| Element | Delay | Duration | Easing | Code evidence |
+| --- | ---: | ---: | --- | --- |
+| scene layers | 0 ms | 400 ms | `cubic-bezier(.22,1,.36,1)` | shared `sdEnter` scene timing |
+| Daniel + Nik character entrances | 150 ms | 450 ms | `cubic-bezier(.22,1,.36,1)` | shared character timing; both settle by 600 ms |
+| title brush wipe | 250 ms | 450 ms | `cubic-bezier(.22,1,.36,1)` | shared title timing |
+| wheel interaction panel | 400 ms | 500 ms | `cubic-bezier(.22,1,.36,1)` | panel `--i:0` |
+| left slogan panel | 460 ms | 500 ms | `cubic-bezier(.22,1,.36,1)` | panel `--i:1`, 60 ms stagger |
+| right slogan panel | 520 ms | 500 ms | `cubic-bezier(.22,1,.36,1)` | panel `--i:2`, 60 ms stagger |
+| title gold glint | 640 ms | 420 ms | `cubic-bezier(.22,1,.36,1)` | one shared `sd-glint` pass |
+| primary SPIN control pulse | 760 ms | 320 ms | `cubic-bezier(.22,1,.36,1)` | shared button payoff |
+
+Entrance choreography ends at 1080 ms; shared cleanup remains capped at 1200 ms. The frame is usable by 600 ms: scene and characters have settled, and Job 42 does not add any interaction lock to the real controls.
+
+### Signature motion
+
+| Element | Delay / trigger | Duration | Easing | Code evidence |
+| --- | --- | ---: | --- | --- |
+| live rotor + duplicate blur track | L2: 650 ms demo delay on first load, 50 ms after `setFrame` | 4000 ms | `cubic-bezier(.16,.76,.16,1)`, then final creep `cubic-bezier(.30,.78,.20,1)` | mirrors main's 4000 ms spin; final 18° occupies the last 300 ms |
+| pointer tick | every live 72° sector crossing | 96 ms | `cubic-bezier(.22,.86,.30,1)` | requestAnimationFrame sampler reads the animated transform |
+| winner wedge + mark | selected-frame payoff | 520 ms | `cubic-bezier(.22,1,.36,1)` | fixed top-wedge flash; winning mark peaks at 1.15 scale |
+| gold burst | selected-frame payoff | 700 ms | particle ballistic motion from shared `sdBurst` | 42 particles, below the kit cap of 60 |
+| league result brush + shared reveal | selected-frame payoff | 460 ms brush; shared reveal settles over 810 ms | brush `cubic-bezier(.22,1,.36,1)`; shared reveal kit easings | `#selectedLeague` custom brush plus `sdReveal` |
+| control hover / press | direct interaction | 100 ms | `cubic-bezier(.22,1,.36,1)` + linear fades | all League controls stay below the 120 ms quality-bar limit |
+
+Reduced motion preserves main's 80 ms wheel timing and suppresses pointer ticks, motion blur, particles and brush travel. Shared/app preference handling uses the product motion preference plus `data-motion-reduced="true"` / `data-reduced-motion="true"`; OS `prefers-reduced-motion: reduce` has the same fade-only result.
+
+### Criterion 8 self-score
+
+`5 / 5` by code read. Evidence: ordered scene → characters → title → 60 ms panel stagger → primary payoff; total entrance 1.08 s; control feedback 100 ms; transform/opacity animation with filter limited to the small duplicate blur layer; product spin remains 4000 ms (80 ms reduced); both app and OS reduced-motion routes remove travel/particles and retain short fades. Claude intake owns the visual/60 fps verification and motion recording.
+
