@@ -168,10 +168,14 @@ main { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
 #openClubPack .btnLabel { margin-left: auto; }
 #openClubPack:disabled .btnGlyph { opacity: .5; }
 
-/* short desktop (1366x640): title block compacts under the header */
+/* short desktop (1366x640): preserve the composition, then let the page extend
+   vertically rather than crushing/cropping the assignment panel and controls. */
+.compact body { overflow-x: hidden; overflow-y: auto; min-height: 100%; }
+.compact .stage { position: relative; min-height: 100vh; overflow: hidden; }
+.compact footer { position: absolute; }
 .compact .clubKicker { display: none; }
-.compact #clubWheelScreen h2 { font-size: calc(var(--s) * 38px); }
-.compact .clubAssignmentHeader { display: grid; grid-template-columns: auto auto; column-gap: 14px; row-gap: 2px; align-items: center; justify-items: center; }
+.compact #clubWheelScreen h2 { font-size: calc(var(--s) * 36px); line-height: 1; }
+.compact .clubAssignmentHeader { display: grid; grid-template-columns: auto auto; column-gap: 12px; row-gap: 1px; align-items: center; justify-items: center; }
 .compact .stRow { grid-column: 1 / -1; }
 .compact #clubAssignmentLeague { font-size: calc(var(--s) * 20px); }
 .compact .clubAssignmentEyebrow { font-size: 13px; }
