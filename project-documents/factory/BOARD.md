@@ -1,6 +1,6 @@
 # Showdown Factory board
 
-**56 of 135 jobs done and checked · 46 %** · updated Sat 12:11 p.m. Eastern
+**56 of 135 jobs done and checked · 46 %** · updated Sat 12:16 p.m. Eastern
 
 ✅ **Quality check:** a job counts as done only after Claude checks it against the quality bar (average 4.2 or more, nothing under 3, hard gates pass). Average score 4.28 over 10 scored jobs. 🔍 Waiting for Claude's check: 32, 44. 
 
@@ -8,16 +8,16 @@
 
 **Where to run:** 🟡 **project job** = new chat in the ChatGPT project "Showdown visual", type the number. 🟣 **image job** = its ticket in a ChatGPT **Temporary Chat** outside any project, then drop the picture in Claude's factory thread.
 
-🟡 **Type next:** 111 · then 112, 113, 114, 125
+🟡 **Type next:** - · then 112, 113, 114, 125
 
 🟣 **Image next:** - · tickets not written yet: 115, 116, 117, 118, 119, 120, 121
 
-**Working:** 72, 77, 82, 87 · **Blocked:** -
+**Working:** 72, 77, 82, 87, 111 · **Blocked:** -
 
 ## Screens
 
 ```
-Home           ███░░░░░░░ 3/8
+Home           ████░░░░░░ 3/8
 League         ████░░░░░░ 3/8
 Club           ███░░░░░░░ 2/7
 Transfer       ██░░░░░░░░ 1/6
@@ -51,13 +51,13 @@ Branch `factory/v1-wtt5ye`. 135 Team V jobs, plus 5 lines that track Team G. Two
 
 **Overall (Team V):** ████░░░░░░ 46 % · 56 of 135 jobs done
 
-**Start now · project (type the number in Showdown visual):** 111 · queued next: 112, 113, 114, 125
+**Start now · project (type the number in Showdown visual):** nothing (all slots busy or nothing ready) · queued next: 112, 113, 114, 125
 
 **Start now · fresh chat (image ticket, outside the project):** - · waiting for Claude to write the ticket: 115, 116, 117, 118, 119, 120, 121
 
 **Start now (Sol Work mode, press Use Work):** -
 
-**Working:** 72, 77, 82, 87 · **Blocked:** -
+**Working:** 72, 77, 82, 87, 111 · **Blocked:** -
 
 **Team G tracking (never start these):** 98 (done), 99 (open), 100 (open), 101 (open), 102 (open). Claude marks them done when Team G delivers.
 
@@ -174,7 +174,7 @@ Branch `factory/v1-wtt5ye`. 135 Team V jobs, plus 5 lines that track Team G. Two
 | 108 | [Final package review (Codex)](jobs/JOB-108.md) | 7 Integration | review | codex | 107 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 109 | [Final fixes](jobs/JOB-109.md) | 7 Integration | fix | project (type number) | 108 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 110 | [Package for Nik and handoff to GPT-5.6 Sol](jobs/JOB-110.md) | 7 Integration | integrate | project (type number) | 109 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
-| 111 | [Phone art: Home](jobs/JOB-111.md) | 3 Art | build | project (type number) | 14, 1 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
+| 111 | [Phone art: Home](jobs/JOB-111.md) | 3 Art | build | project (type number) | 14, 1 | ███░░░░░░░ 33 % | IN PROGRESS |  |
 | 112 | [Phone art: League](jobs/JOB-112.md) | 3 Art | build | project (type number) | 14, 1 | ██████░░░░ 66 % | NOT STARTED |  |
 | 113 | [Phone art: Club Assignment](jobs/JOB-113.md) | 3 Art | build | project (type number) | 14, 1 | ██████░░░░ 66 % | NOT STARTED |  |
 | 114 | [Phone art: Transfer War](jobs/JOB-114.md) | 3 Art | build | project (type number) | 14, 1 | ██████░░░░ 66 % | NOT STARTED |  |
