@@ -4,6 +4,20 @@
 
 ## Scorecard
 
+| Criterion | Score | Evidence |
+| --- | ---: | --- |
+| 1 · Mockup fidelity | 3 | The accepted plate preserves the central Daniel/Nik/pack scene and the five-step rail matches the goal, but the title and VS are still font fallbacks, the top bar is not yet the required shared bar, and the assignment/footer copy/layout diverges from GOAL_CLUB.jpg. |
+| 2 · Characters stand out of the menu | 3 | Desktop correctly lets the plate own the managers and phone uses separate foreground hero cut-outs with shadow/rim treatment, but there is no Claude render evidence yet to prove seam-free edges, face sharpness or the final depth sandwich at review scale. |
+| 3 · Hands and contact | 4 | The pack reveal geometry is registered to protected hand/pack regions and the runtime keeps hand overlays above reveal layers, with no source-read evidence of UI cutting through either held pack; visual micro-defects still await Claude measurement. |
+| 4 · Lighting and grade | 4 | The scene uses the accepted dark stadium plate plus the Showdown gold family, warm glows, shadows and dark-to-gold panel treatments consistently; no code-level colour conflict with the reference was found. |
+| 5 · Typography and title treatment | 3 | Barlow/Barlow Condensed and letter-spaced labels are present, but the required gold brush title and brush VS remain `TODO-WORDMARK` Kaushan fallbacks rather than final wordmark assets. |
+| 6 · Panel craft | 4 | The screen keeps the goal-faithful bottom trapezoid, 44 px progress nodes, one gold primary plus outlined Back, and stateful club rows without extra cover boxes; the structure is premium but not yet visually verified by Claude. |
+| 7 · Information clarity and honesty | 3 | Reveal progression, sealed states, live club/manager values and privacy are explicit and truthful, but a fixture/map load failure leaves the whole stage hidden instead of presenting an honest unavailable/error state. |
+| 9 · Phone composition | 4 | Phone is a dedicated 55/45 composition with Daniel at 31%, Nik at 69%, stacked club rows and ≥44 px controls with a pinned primary; the actual no-scroll/375×553 fit is still awaiting Claude measurement. |
+| 10 · Polish and finish | 3 | WebP runtime art, focus-visible styles and compact-height rules are present, but final wordmarks/shared top bar are unfinished and console/network/render checks are still unmeasured, so it cannot yet rate as shipped-level finish. |
+
+Static-review average: **3.44 / 5** across criteria 1–7, 9 and 10. QUALITY_BAR requires **≥ 4.2**, no criterion below 3, and every hard gate PASS.
+
 ## Hard gates
 
 | Gate | Result | Evidence |
