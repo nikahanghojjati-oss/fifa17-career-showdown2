@@ -36,8 +36,8 @@
       plate: {
         width: PLATE.width,
         height: PLATE.height,
-        src1x: "../trophy-room/assets/ENV_FW_PLATE_V1_1X.webp",
-        src2x: "../trophy-room/assets/ENV_FW_PLATE_V1_2X.webp"
+        src1x: "../trophy-room/assets/ENV_TR_PLATE_V1_1X.webp",
+        src2x: "../trophy-room/assets/ENV_TR_PLATE_V1_2X.webp"
       },
       // Registration rule: 16:9 uses a cover-centred camera with no extra zoom or authored shift.
       focal: { x: PLATE.width / 2, y: PLATE.height / 2 },
