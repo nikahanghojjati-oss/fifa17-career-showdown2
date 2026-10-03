@@ -1,11 +1,11 @@
 # Status · JOB-11 · Contract fixtures generated from the real model
 
 State: IN PROGRESS
-Step: 5 of 8
-Updated: 2026-10-03 14:14 UTC
+Step: 6 of 8
+Updated: 2026-10-03 14:17 UTC
 Chat: Sol Work mode (job 11, 83d4f3e64efe)
 Code branch: gameplay/job-11-contract-fixtures
-Head commit: d959605adeb2ebe6f8a1ff13b4be9e55849eb2c4
+Head commit: 554c5b6cafd3362143f7363b75f842bca09e4c45
 PR: 
 CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37128651006
 
@@ -16,6 +16,8 @@ CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/r
 - Step 4: Applied Appendix C's one condition only. Syntax PASS. Existing adapter contract PASS (19/19 cases). Step 2 reproduction now prints none. New contract reaches the expected MODULE_NOT_FOUND: Cannot find module '/workspace/scratch/83d4f3e64efe/job11/tests/support/data-contract-v1-fixtures.cjs'. Saved fcfed2edff5c2e9cfe0d51d0fdbf2c6fdd53dd5f.
 - Step 4 CI: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37128872589 on fcfed2edff5c2e9cfe0d51d0fdbf2c6fdd53dd5f reproduces only the expected missing-generator failure (1/104 failed).
 - Step 5: Appendix A generator copied exactly; node --check PASS. Contract reaches FAIL K2 committed fixtures equal a fresh run of the generator: fixtures drifted from the model. Generator --check reports DRIFT missing index.json plus nav and 14 scenarios (all 16 absent, as intended). Saved generator head d959605adeb2ebe6f8a1ff13b4be9e55849eb2c4.
+- Step 5 CI: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37128943248 on d959605adeb2ebe6f8a1ff13b4be9e55849eb2c4 fails only the expected K2 missing-fixtures assertion (1/104 failed).
+- Step 6: --write WROTE 16 fixture files. --check OK 16 fixture files match the model. Contract PASS (31 checks, 14 scenarios + nav). index.json and all 15 SHA256 rows exactly match Appendix E despite JOB-08 base. Saved 15 scenario/nav files byte-exact through connector blobs, then index.json last. Generated head 554c5b6cafd3362143f7363b75f842bca09e4c45. No fixture hand edits.
 
 ## Self-check
 
