@@ -496,7 +496,7 @@ footer {
     height: 100%;
     min-height: 0;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    grid-template-rows: 60px 52px repeat(2, minmax(44px, 1fr));
+    grid-template-rows: 60px repeat(2, minmax(44px, 1fr)) 52px;
     gap: 6px;
   }
 
@@ -582,19 +582,25 @@ footer {
   }
 
   .phoneSheetToggle {
-    position: absolute !important;
-    width: 1px;
-    height: 1px;
-    margin: -1px;
+    grid-area: tracks;
+    position: relative !important;
+    z-index: 3;
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    margin: 0;
     padding: 0;
-    overflow: hidden;
-    clip: rect(0 0 0 0);
-    clip-path: inset(50%);
-    white-space: nowrap;
+    opacity: 0;
+    cursor: pointer;
     border: 0;
+  }
+  .phoneSheetToggle:focus-visible + .phoneTrackSheetOpen {
+    outline: 2px solid var(--gold-hi);
+    outline-offset: 2px;
   }
   .phoneTrackSheetOpen {
     grid-area: tracks;
+    z-index: 2;
     display: inline-flex;
     width: 44px;
     height: 44px;
@@ -608,6 +614,7 @@ footer {
     font: 700 10px/1 var(--cond);
     letter-spacing: .04em;
     text-transform: uppercase;
+    pointer-events: none;
   }
   .menuMediaSelector {
     display: none;
@@ -670,9 +677,18 @@ footer {
   }
   #continueCareer {
     grid-column: 1 / -1;
-    grid-row: 2;
+    grid-row: 4;
+    align-self: end;
+    width: 100%;
+    min-height: 52px;
     padding: 5px 68px 5px 12px;
   }
+  #newShowdown { grid-column: 1; grid-row: 2; }
+  #legacyButton { grid-column: 2; grid-row: 2; }
+  #careerStatisticsButton { grid-column: 3; grid-row: 2; }
+  #trophyRoomButton { grid-column: 1; grid-row: 3; }
+  #ruleBookButton { grid-column: 2; grid-row: 3; }
+  #settingsButton { grid-column: 3; grid-row: 3; }
   #continueCareer .menuTileLabel {
     max-width: calc(100% - 44px);
     padding: 0;
@@ -760,7 +776,7 @@ footer {
     .lockupKicker, .lockupLegacy { display: none; }
     .homeLockup { top: 54px; width: min(54vw, 202px); }
     .fifaMenuShell { padding-top: 5px; padding-bottom: 6px; }
-    .fifaMenuGrid { grid-template-rows: 56px 50px repeat(2, minmax(44px, 1fr)); gap: 5px; }
+    .fifaMenuGrid { grid-template-rows: 56px repeat(2, minmax(44px, 1fr)) 50px; gap: 5px; }
     .menuMusicTile { height: 56px !important; padding-top: 5px; padding-bottom: 5px; }
     .menuMusicArtist { display: none; }
     #menuMusicMute { display: none; }
