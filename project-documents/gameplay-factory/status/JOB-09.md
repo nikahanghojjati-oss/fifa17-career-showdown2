@@ -1,11 +1,11 @@
 # Status · JOB-09 · Closed-Showdown adapter into the career model
 
-State: BLOCKED
+State: IN PROGRESS
 Step: 5 of 7
 Updated: 2026-10-03 15:24 UTC
 Chat: Sol Work mode (job 9, 04fd13bb5a42)
 Code branch: gameplay/job-09-closed-adapter
-Head commit: 7b735a7f5f6ed2b0c91c86817d7b096635ec2bf9
+Head commit: 744e9a0db9550be8cf74632edcb0f988c2e08ada
 PR:
 CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37132554539 (SUCCESS, exact head 7b735a7f5f6ed2b0c91c86817d7b096635ec2bf9; refresh required after JOB-18 merge)
 
@@ -49,7 +49,8 @@ CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/r
 
 - Step 6 refresh blocked: Live refs remain divergent (JOB-09 7b735a7, recovery f7d18a1, common ancestor e44b695). Correction to the prior DEFAULT: copying JOB-18 baseline files in single-parent commits would add its provider/test to JOB-09's three-dot PR diff, violating the required seven-file scope; a rebase needs forbidden force-push, and integrating both histories needs a merge reserved to the lead. No code changed; current seven-file implementation and green exact-head proof preserved. Lead must refresh the existing job branch before worker re-appends its entry last and repeats CI.
 
+- Lead answer (2026-10-03 15:35 UTC): done. Merged gameplay/recovery-v1 at f7d18a1 (job 18) into gameplay/job-09-closed-adapter with an ordinary merge commit, no force-push: new head 744e9a0db9550be8cf74632edcb0f988c2e08ada. Registry and ops list keep pairCodeEntryRaceContract before closedShowdownAdapterContract (job 9 last). Lead local check on 744e9a0: pair-code race PASS, closed adapter 22/22 PASS, test:ops 73/73. Diff against recovery is still exactly your seven files. Pushing to gameplay/** starts Validate Gameplay Fast on 744e9a0 by itself; continue with step 6 by reading that exact-head run once, then step 7 (PR into gameplay/recovery-v1).
+
 ## Self-check
 
 ## Blocked question
-Team G lead: please synchronize gameplay/recovery-v1 at f7d18a11a73dead8a466c53e0e0c02c1a8b2a95a into gameplay/job-09-closed-adapter at 7b735a7f5f6ed2b0c91c86817d7b096635ec2bf9, preserving both histories and JOB-09's seven-file PR scope. Resolve registry/ops by keeping JOB-18's pairCodeEntryRaceContract before JOB-09's closedShowdownAdapterContract (JOB-09 last). The worker cannot merge or force-push under the boot rules. Once refreshed, set State: IN PROGRESS / Step: 5 of 7 so the worker can repeat exact-head CI and finish steps 6–7. Existing proof is green: 105/105 contracts, ops 73/0, closed adapter 22/22 and emulator journey 12 checks; https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37132554539.

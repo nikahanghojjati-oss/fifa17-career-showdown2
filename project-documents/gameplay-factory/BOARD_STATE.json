@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-03 11:24 AM Boston time (EDT)",
+ "generated": "2026-10-03 11:26 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 12,
@@ -38,11 +38,11 @@
  },
  "queued": [],
  "working": [
+  9,
   10
  ],
  "blocked": [
-  16,
-  9
+  16
  ],
  "jobs": [
   {
@@ -366,7 +366,7 @@
    "phase": "3 Career history",
    "type": "build",
    "plain": "Finished Showdowns flow into career totals and the Trophy Room.",
-   "state": "BLOCKED",
+   "state": "IN PROGRESS",
    "step": 5,
    "steps_total": 7,
    "pct": 71,
