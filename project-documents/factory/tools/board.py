@@ -41,7 +41,10 @@ ready_all = [j for j in jobs if ready(j)]
 # Capacity (Nik, 2026-10-02 07:31): plain GPT-5.6 Sol chats are unlimited in number but Nik runs about 5 at once,
 # at most 2 of them image jobs; Sol Work mode has a couple of workers. Jobs already IN PROGRESS count against the limits.
 MAX_CHATS, MAX_IMAGE, MAX_WORK = 5, 2, 2
-busy = [j for j in jobs if info[j["number"]][0].startswith("IN PROGRESS")]
+# "IN PROGRESS · RESUME" = work started but no chat is on it now (Claude answered a block or ran a fix);
+# Nik types the number in a new chat, which carries on from the status file. Listed first under Type next.
+resume = lambda n: info[n][0].startswith("IN PROGRESS") and "RESUME" in info[n][0].upper()
+busy = [j for j in jobs if info[j["number"]][0].startswith("IN PROGRESS") and not resume(j["number"])]
 # Image jobs (lane IMG) run from tickets in a plain new ChatGPT chat outside the project (Nik, 2026-10-02 14:53);
 # one can start only once Claude has written its ticket in tickets/.
 IMG = "fresh chat (image)"
@@ -51,6 +54,8 @@ slots = max(0, MAX_CHATS - sum(1 for j in busy if j.get("lane") not in ("work", 
 img_slots = max(0, MAX_IMAGE - sum(1 for j in busy if j.get("lane") == IMG))
 work_slots = max(0, MAX_WORK - sum(1 for j in busy if j.get("lane") == "work"))
 startable, later, work_now, img_now, img_later, img_noticket = [], [], [], [], [], []
+resumable = [j["number"] for j in jobs if resume(j["number"])]
+slots = max(0, slots - len(resumable))
 for j in ready_all:
     if j.get("lane") == IMG:
         if not has_ticket(j["number"]):
@@ -67,7 +72,7 @@ for j in ready_all:
         startable.append(j["number"])
     else:
         later.append(j["number"])
-working = [j["number"] for j in jobs if info[j["number"]][0].startswith("IN PROGRESS")]
+working = [j["number"] for j in busy]
 blocked = [j["number"] for j in jobs if info[j["number"]][0].startswith("BLOCKED")]
 waiting = [j for j in jobs if info[j["number"]][0].startswith("WAITING ON NIK")]
 team_g = [j for j in vjobs if info[j["number"]][0].startswith("WAITING ON TEAM G")]
@@ -118,7 +123,7 @@ P = ["# Showdown Factory board", "",
      f"**{done} of {len(vjobs)} jobs done · {overall} %** · updated {eastern(lc) if lc else 'now'}", "",
      f"{bar(overall)}", "",
      "**Where to run:** 🟡 **project job** = new chat in the ChatGPT project \"Showdown visual\", type the number. 🟣 **image job** = its ticket in a ChatGPT **Temporary Chat** outside any project, then drop the picture in Claude's factory thread.", "",
-     f"🟡 **Type next:** {', '.join(map(str, startable)) or '-'}" + (f" · then {', '.join(map(str, later))}" if later else ""), "",
+     f"🟡 **Type next:** {', '.join([f'{n} (resume)' for n in resumable] + list(map(str, startable))) or '-'}" + (f" · then {', '.join(map(str, later))}" if later else ""), "",
      f"🟣 **Image next:** {', '.join(map(str, img_now)) or '-'}" + (f" · then {', '.join(map(str, img_later))}" if img_later else "") + (f" · tickets not written yet: {', '.join(map(str, img_noticket))}" if img_noticket else ""), "",
      f"**Working:** {', '.join(map(str, working)) or '-'} · **Blocked:** {', '.join(map(str, blocked)) or '-'}", "",
      "## Screens", "", "```"]
@@ -138,7 +143,7 @@ L = P + [
 
      f"Branch `{board['branch']}`. {len(vjobs)} Team V jobs, plus {len(tracked)} lines that track Team G. Two kinds of job. **Project (type number):** open a new chat in the ChatGPT project \"Showdown visual\" and type the number (up to 5 at once). **Fresh chat (image):** run the job's ticket from [tickets/](tickets/README.md) in a ChatGPT Temporary Chat (no memory) outside any project, then drop the image in Claude's factory thread (up to 2 at once).", "",
      f"**Overall (Team V):** {bar(overall)} {overall} % · {done} of {len(vjobs)} jobs done", "",
-     f"**Start now · project (type the number in Showdown visual):** {', '.join(map(str, startable)) or 'nothing (all slots busy or nothing ready)'}" + (f" · queued next: {', '.join(map(str, later))}" if later else ""), "",
+     f"**Start now · project (type the number in Showdown visual):** {', '.join([f'{n} (resume)' for n in resumable] + list(map(str, startable))) or 'nothing (all slots busy or nothing ready)'}" + (f" · queued next: {', '.join(map(str, later))}" if later else ""), "",
      f"**Start now · fresh chat (image ticket, outside the project):** {', '.join(map(str, img_now)) or '-'}" + (f" · queued next: {', '.join(map(str, img_later))}" if img_later else "") + (f" · waiting for Claude to write the ticket: {', '.join(map(str, img_noticket))}" if img_noticket else ""), "",
      f"**Start now (Sol Work mode, press Use Work):** {', '.join(map(str, work_now)) or '-'}", "",
      f"**Working:** {', '.join(map(str, working)) or '-'} · **Blocked:** {', '.join(map(str, blocked)) or '-'}", ""]
