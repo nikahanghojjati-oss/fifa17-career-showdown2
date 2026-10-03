@@ -25,8 +25,8 @@
 html, body { margin: 0; height: 100%; background: #070604; color: var(--cream); }
 body { overflow: hidden; font-family: var(--text); -webkit-font-smoothing: antialiased; }
 
-.stage { position: fixed; inset: 0; overflow: hidden; --footer-h: 36px; }
-.stage.short { --footer-h: 30px; }
+.stage { position: fixed; inset: 0; overflow: hidden; --footer-h: 0px; }
+.stage.short { --footer-h: 0px; }
 .world { position: absolute; --k: 0.817; }
 .scene, .plane { position: absolute; inset: 0; }
 .plate, .plate img { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
@@ -40,6 +40,7 @@ body { overflow: hidden; font-family: var(--text); -webkit-font-smoothing: antia
 }
 .m-only { display: none !important; }
 .scene-atmos { display: none; }
+.transfer-wordmark { display: none; }
 
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
@@ -121,11 +122,11 @@ body { overflow: hidden; font-family: var(--text); -webkit-font-smoothing: antia
 .guess-col select, .guess-col input, .signing-row input {
   width: 100%; min-width: 0; height: calc(var(--k) * 38px); margin: 0;
   font-family: var(--cond); font-weight: 600; font-size: max(12.5px, calc(var(--k) * 16px)); letter-spacing: 0.01em;
-  color: var(--cream); background-color: rgba(6, 5, 2, 0.46);
+  color: var(--cream); background-color: color-mix(in srgb, var(--sd-black) 76%, transparent);
   border: 0; border-radius: calc(var(--k) * 2px);
   box-shadow:
     inset 0 calc(var(--k) * 2px) calc(var(--k) * 4px) rgba(0, 0, 0, 0.55),
-    inset 0 0 0 1px rgba(242, 196, 91, 0.24),
+    inset 0 0 0 1px var(--sd-edge),
     inset 0 calc(var(--k) * -1px) 0 rgba(255, 210, 120, 0.42),
     0 0 calc(var(--k) * 6px) rgba(255, 190, 80, 0.10);
   padding: 0 calc(var(--k) * 8px);
@@ -157,8 +158,8 @@ body { overflow: hidden; font-family: var(--text); -webkit-font-smoothing: antia
   flex: none; height: calc(var(--k) * 40px); padding: 0 calc(var(--k) * 12px);
   font-family: var(--cond); font-weight: 700; font-size: max(13px, calc(var(--k) * 17px)); letter-spacing: 0.1em;
   color: var(--ink); border: 0; border-radius: calc(var(--k) * 3px); cursor: pointer;
-  background: linear-gradient(180deg, #FFE08F 0%, var(--gold) 45%, var(--gold-deep) 100%);
-  box-shadow: 0 0 calc(var(--k) * 14px) rgba(255, 196, 80, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.55);
+  background: var(--sd-gold-500);
+  box-shadow: var(--sd-shadow-glow), inset 0 1px 0 rgba(255, 255, 255, 0.42);
 }
 .btn-lock:hover { filter: brightness(1.06); }
 .error-line:empty { display: none; }
@@ -196,6 +197,7 @@ body { overflow: hidden; font-family: var(--text); -webkit-font-smoothing: antia
 
 /* ---------- screen-aligned HUD footer (FIFA-style hint bar) --------------- */
 .hud-footer {
+  display: none !important;
   position: absolute; left: 0; right: 0; bottom: 0; height: var(--footer-h);
   display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 0 16px;
   background: linear-gradient(to top, rgba(6, 5, 3, 0.9) 0%, rgba(6, 5, 3, 0.72) 65%, rgba(6, 5, 3, 0) 100%);
@@ -235,11 +237,11 @@ body { overflow: hidden; font-family: var(--text); -webkit-font-smoothing: antia
 .btn-end {
   flex: none; height: calc(var(--k) * 40px); padding: 0 calc(var(--k) * 16px);
   font-family: var(--cond); font-weight: 700; font-size: max(13px, calc(var(--k) * 17px)); letter-spacing: 0.12em;
-  color: var(--gold-hot); background: rgba(8, 6, 3, 0.5); border: 0; border-radius: calc(var(--k) * 3px); cursor: pointer;
-  box-shadow: inset 0 0 0 1.5px rgba(242, 196, 91, 0.8), inset 0 calc(var(--k) * -1px) 0 rgba(255, 210, 120, 0.5), 0 0 calc(var(--k) * 12px) rgba(255, 190, 80, 0.28);
+  color: var(--sd-gold-300); background: rgba(8, 9, 12, 0.9); border: 1px solid var(--sd-edge); border-radius: 0; cursor: pointer; clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+  box-shadow: var(--sd-shadow-glow), inset 0 1px 0 var(--sd-edge-inner);
   text-shadow: 0 0 calc(var(--k) * 6px) rgba(255, 196, 80, 0.5);
 }
-.btn-end:hover:not(:disabled) { background: rgba(242, 196, 91, 0.14); }
+.btn-end:hover:not(:disabled) { background: rgba(245, 197, 24, 0.08); }
 .btn-end:focus-visible { outline: 2px solid var(--gold-hot); outline-offset: 2px; }
 .btn-end.requested { color: var(--cream-dim); cursor: default; text-shadow: none;
   box-shadow: inset 0 0 0 1px rgba(242, 196, 91, 0.35); background: rgba(8, 6, 3, 0.35); }
@@ -306,7 +308,7 @@ body { overflow: hidden; font-family: var(--text); -webkit-font-smoothing: antia
 .btn-continue {
   width: 100%; min-height: calc(var(--k) * 40px); padding: calc(var(--k) * 3px) calc(var(--k) * 6px);
   font-family: var(--cond); font-weight: 700; font-size: max(11.5px, calc(var(--k) * 13px)); letter-spacing: 0.1em; line-height: 1.1;
-  color: var(--cream-dim); background: rgba(8, 6, 3, 0.35); border: 0; border-radius: calc(var(--k) * 3px); cursor: not-allowed;
+  color: var(--cream-dim); background: rgba(8, 9, 12, 0.76); border: 1px solid var(--sd-edge); border-radius: 0; cursor: not-allowed; clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
   box-shadow: inset 0 0 0 1px rgba(242, 196, 91, 0.35);
 }
 
@@ -355,6 +357,13 @@ body { overflow: hidden; font-family: var(--text); -webkit-font-smoothing: antia
   .stage { --footer-h: 0px; --band-h: 28px; overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain; }
   .world { position: relative; width: 100%; min-height: 100%; display: flex; flex-direction: column; gap: 8px;
     padding: 0 12px calc(8px + env(safe-area-inset-bottom)); }
+
+  .transfer-wordmark {
+    display: block; order: -1; flex: none; position: relative; z-index: 4;
+    width: min(74vw, 320px); height: auto; margin: 7px auto 0; padding: 0;
+    filter: drop-shadow(0 3px 3px rgba(0,0,0,.9)) drop-shadow(0 0 10px rgba(242,196,91,.22));
+  }
+  .transfer-wordmark img { display: block; width: 100%; height: auto; }
 
   /* 1 · scene: flexes to the space the UI leaves */
   .scene { position: relative; inset: auto; order: 0; flex: 1 1 0; min-height: 118px; margin: 0 -12px -8px; overflow: hidden; }
