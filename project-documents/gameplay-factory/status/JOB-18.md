@@ -16,6 +16,8 @@ CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/r
 - Step 4: Validate Gameplay Fast is fully green on f2706e4b0b650be5f6e68b240044ca983359485d (run 37131831101). Race contract PASS; dynamic static release reports startup 162809/37493; POS10 selected census 105/105; persistent pair Rules emulator PASS; two-manager journey Sections A-G PASS.
 - Step 5: Opened PR #329 from gameplay/job-18-pair-code-race into gameplay/recovery-v1. No Codex review required.
 
+- Lead (2026-10-03 15:25 UTC): reviewed and merged PR #329 into gameplay/recovery-v1 at f7d18a1 (14/14 checks green on f2706e4). Job closed; nothing more to do in this chat.
+
 ## Self-check
 - PASS — Tests first: old code failed with "AssertionError [ERR_ASSERTION]: 2b the code Nik typed survives the pair-panel re-render" and actual ''. New code prints "PASS pair code entry race contracts: typed code survives re-render, empty never invalid, malformed still rejected."
 - PASS — Validate Gameplay Fast is green on exact head f2706e4b0b650be5f6e68b240044ca983359485d; persistent pair Rules emulator PASS and two-manager journey Sections A-G PASS.
