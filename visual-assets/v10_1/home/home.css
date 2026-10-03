@@ -581,28 +581,16 @@ footer {
     min-width: 0;
   }
   .menuMusicHeader span {
-    position: absolute !important;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip: rect(0 0 0 0);
-    clip-path: inset(50%);
+    display: block;
+    overflow: visible;
+    color: var(--gold);
+    font: 700 12px/1 var(--cond);
+    letter-spacing: .08em;
     white-space: nowrap;
   }
-  .menuMusicHeader strong {
-    overflow: hidden;
-    font-size: 16px;
-    line-height: 1.05;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
+  .menuMusicHeader strong,
   .menuMusicArtist {
-    overflow: hidden;
-    margin: 2px 0 0;
-    font-size: 11px;
-    line-height: 1.05;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    display: none;
   }
   .menuMusicControls {
     grid-area: ctrl;
@@ -832,7 +820,6 @@ footer {
     .fifaMenuShell { padding: 4px 8px; }
     .fifaMenuGrid { grid-template-rows: 44px 56px repeat(2, minmax(44px, 1fr)); gap: 4px; }
     .menuMusicTile { height: 44px !important; padding-top: 2px; padding-bottom: 2px; }
-    .menuMusicArtist { display: none; }
     #menuMusicMute { display: none; }
   }
 }
