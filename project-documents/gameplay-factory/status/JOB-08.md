@@ -1,8 +1,8 @@
 # Status · JOB-08 · Completed-only read grant + session-free reader
 
-State: WAITING ON CODEX
-Step: 7 of 8
-Updated: 2026-10-03 13:11 UTC
+State: DONE
+Step: 8 of 8
+Updated: 2026-10-03 13:18 UTC
 Chat: Sol Work mode
 Code branch: gameplay/job-08-completed-read
 Head commit: e09a9f24f00f1a680b66e0dd942bcbb8a7df9176
@@ -32,6 +32,8 @@ CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/r
 
 - Step 7: Step 8 started: Posted exactly @codex review on PR #326 after full green exact-head CI. Waiting for Codex and any one permitted fix round; step remains 7 until review is handled.
 
+- Step 8: Codex review arrived during final verification: no major issues on the exact code head, no threads to answer. Gameplay Fast and POS20 are both SUCCESS; PR remains open, mergeable, unmerged. All Done checks PASS; no worker merge or deployment. Team G lead reviews and merges.
+
 ## Self-check
 - PASS: Tests-first CI 37124538984 at 0108614dd8c3f9d949b20fbac6722ccfa7401a4f: only new contract failed missing module (1/103); all prior emulator steps succeeded; completed matrix I0 failed 0 !== 1. Client-only CI 37124801380 at e827ace71bae43dc5f3cd41f5dfa9ddb20ed9a81: K1-K6 passed, K7 failed at data.connectionState == 'closed'; emulator I0 failed as expected.
 - PASS: Local completed-only contract; full contracts 103/103; operations 73 pass / 0 fail. node --check reader, new tests, journey and injector PASS.
@@ -46,6 +48,8 @@ CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/r
 - PASS: Four budget-edge functions and all write rules unchanged; firestore.spark.rules, six other fragments and both build scripts byte-identical. Grant added to exactly four get seams; no transfer, draft, session, invite, careerStart or leagueProjection grant.
 - PASS: Diff against origin/gameplay/recovery-v1: exactly nine permitted code files, 610 insertions / 5 deletions. Local staged content equals remote e09a9f2. Generated Rules rebuilt to 131462 bytes, not committed; no debug log; persistent pair contractVersion 4; index.html/service-worker/deploy workflows unchanged.
 - PASS: No deployment, merge, force push or main mutation. No billing words in fragment.
-- PENDING: PR and Codex review (steps 7-8).
+- PASS: PR #326 open and mergeable into gameplay/recovery-v1; exact head e09a9f24f00f1a680b66e0dd942bcbb8a7df9176. Both required tables, nine-file scope, green exact-head CI link and deploy-order statement are in the body.
+- PASS: Posted @codex review only after green CI; status was WAITING ON CODEX. Codex answered at 2026-10-03T13:17:24Z, comment 5969536902: no major issues on e09a9f24f0. No finding threads, no fix needed.
+- PASS: Validate POS20 run 37125327579 SUCCESS on the same exact head; all 11 jobs green, including gameplay lifecycle 1/3/5/10, selected contracts, operations, benchmark, and all inherited heavy proofs. https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/37125327579
 
 ## Blocked question
