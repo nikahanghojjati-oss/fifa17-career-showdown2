@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rule Book · Career Mode Showdown</title>
+<link rel="stylesheet" href="../shared/showdown-tokens.css">
+<link rel="stylesheet" href="../shared/showdown-type.css">
+<link rel="stylesheet" href="../shared/showdown-ui.css">
+<link rel="stylesheet" href="../shared/stage.css">
+<link rel="stylesheet" href="../shared/motion.css">
+<link rel="stylesheet" href="rule-book.css">
+</head>
+<body>
+<div id="stage-root" class="stage" data-screen="rule-book">
+  <main id="ruleBook" class="ruleBookScreen" aria-labelledby="ruleBookHeading">
+    <div id="ruleBookPreview" class="sd-preview-tag" hidden></div>
+
+    <header class="ruleBookHero">
+      <p id="ruleBookEyebrow" class="sd-label"></p>
+      <h1 id="ruleBookHeading" class="sd-title"></h1>
+      <p id="ruleBookHeroTitle" class="sd-tagline"></p>
+      <p id="ruleBookSummary" class="sd-body"></p>
+    </header>
+
+    <p id="ruleBookFrameStatus" aria-live="polite"></p>
+    <p id="ruleBookFrameNote"></p>
+
+    <nav id="ruleBookIndex" aria-label="Rule Book sections"></nav>
+    <section id="ruleBookSections" class="ruleBookGrid" aria-label="Competition rules"></section>
+
+    <div class="ruleBookActions">
+      <button id="ruleBookBack" class="backButton" type="button" data-smart-back></button>
+    </div>
+  </main>
+  <div class="nav-reserve" aria-hidden="true"></div>
+</div>
+
+<script src="../shared/stage.js" defer></script>
+<script src="../shared/motion.js" defer></script>
+<script src="rule-book.js" defer></script>
+</body>
+</html>
