@@ -109,6 +109,43 @@ main { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
 /* packs: the painted packs are the doors */
 .clubPackStage { position: absolute; pointer-events: none; }
 .clubPackDoor { position: absolute; inset: 0; background: transparent; border: 0; }
+.clubPackAnticipation {
+  position: absolute;
+  inset: -2px;
+  pointer-events: none;
+  opacity: 0;
+  transform: scale(.985);
+  border: 1px solid rgba(255,229,146,.9);
+  box-shadow: 0 0 10px rgba(242,196,91,.45), inset 0 0 10px rgba(255,229,146,.18);
+  will-change: opacity, transform;
+}
+.clubPackStage.is-anticipating .clubPackAnticipation {
+  animation: clubPackAnticipation var(--club-anticipation-ms, 500ms) var(--club-anticipation-ease, cubic-bezier(.2,.7,.3,1)) both;
+}
+.clubAnticipationDim {
+  position: fixed;
+  inset: 0;
+  z-index: 6;
+  pointer-events: none;
+  background: #000;
+  opacity: 0;
+  will-change: opacity;
+}
+.clubAnticipationDim.is-anticipating {
+  animation: clubScreenAnticipation var(--club-anticipation-ms, 500ms) var(--club-anticipation-ease, cubic-bezier(.2,.7,.3,1)) both;
+}
+@keyframes clubScreenAnticipation {
+  0% { opacity: 0; }
+  42% { opacity: .24; }
+  72% { opacity: .18; }
+  100% { opacity: 0; }
+}
+@keyframes clubPackAnticipation {
+  0% { opacity: .18; transform: scale(.985); }
+  44% { opacity: .95; transform: scale(1.018); }
+  72% { opacity: .62; transform: scale(1.006); }
+  100% { opacity: 0; transform: scale(1); }
+}
 .clubPackDoor > span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
 
 /* VS medallion */
