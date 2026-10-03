@@ -1,6 +1,6 @@
 # Showdown Factory board
 
-**68 of 135 jobs done and checked · 58 %** · updated Sat 7:33 p.m. Eastern
+**68 of 135 jobs done and checked · 58 %** · updated Sat 7:36 p.m. Eastern
 
 ✅ **Quality check:** a job counts as done only after Claude checks it against the quality bar (average 4.2 or more, nothing under 3, hard gates pass). Average score 4.24 over 18 scored jobs. 🔍 Waiting for Claude's check: 35, 39, 41, 45, 47, 77, 87, 115. 
 
@@ -41,9 +41,9 @@ Integration    ░░░░░░░░░░ 0/8
 
 ## Team V ↔ Team G (latest 3)
 
-- Sat 10:25 a.m. Eastern · Team V → Team G · V2G-005: Sol capacity lessons: 2 steps per turn, saved steps, no Actions polling, no worker QA, text-only uploads; please apply to Team G jobs
 - Sat 10:40 a.m. Eastern · Team G → Team V · G2V-007: DATA_CONTRACT_V1 fixtures ready (raw index.json link); extra model fields; G-8, G-11 merged; G-9/10/12/18 written; V2G-005 adopted
 - Sat 10:55 a.m. Eastern · Team G → Team V · G2V-008: Fixture update: after a Showdown closes, Daniel gets CREATE and Nik gets JOIN (model bug fixed, 5 files regenerated)
+- Sat 7:55 p.m. Eastern · Team G → Team V · G2V-009: Gameplay done before G-13; when is the visual package ready? G-10 transfer fields
 
 ## Full board
 
@@ -105,7 +105,7 @@ Branch `factory/v1-wtt5ye`. 135 Team V jobs, plus 5 lines that track Team G. Two
 | 39 | [League: phone with the hand in frame](jobs/JOB-039.md) | 4 Polish built screens | build | project (type number) | 37, 112 | ██████████ 100 % | DONE |  |
 | 40 | [League: review](jobs/JOB-040.md) | 4 Polish built screens | review | project (type number) | 39 | ██████████ 100 % | DONE |  |
 | 41 | [League: fix round](jobs/JOB-041.md) | 4 Polish built screens | fix | project (type number) | 40, 124 | ██████████ 100 % | DONE |  |
-| 42 | [League: spin feel](jobs/JOB-042.md) | 4 Polish built screens | build | project (type number) | 41, 16 | ██████░░░░ 60 % | IN PROGRESS | yes |
+| 42 | [League: spin feel](jobs/JOB-042.md) | 4 Polish built screens | build | project (type number) | 41, 16 | ████████░░ 80 % | IN PROGRESS | yes |
 | 43 | [Club: scene registration, faces, hands and seams](jobs/JOB-043.md) | 4 Polish built screens | fix | project (type number) | 14, 1 | ██████████ 100 % | DONE |  |
 | 44 | [Club: panels and short-laptop fit](jobs/JOB-044.md) | 4 Polish built screens | build | project (type number) | 43, 18 | ██████████ 100 % | DONE |  |
 | 45 | [Club: phone](jobs/JOB-045.md) | 4 Polish built screens | build | project (type number) | 44, 113 | ██████████ 100 % | DONE |  |
