@@ -7,22 +7,23 @@
 <link rel="stylesheet" href="../shared/showdown-tokens.css">
 <link rel="stylesheet" href="../shared/showdown-ui.css">
 <link rel="stylesheet" href="../shared/showdown-type.css">
+<link rel="stylesheet" href="../shared/motion.css">
 <link rel="stylesheet" href="home.css">
 </head>
 <body>
 <div id="stage-root" class="stage">
-<div class="plateView" aria-hidden="true">
+<div class="plateView" aria-hidden="true" data-sd-enter="scene">
 <picture class="phoneHeroBackground">
 <source media="(max-width: 760px) and (orientation: portrait)" srcset="assets/ENV_HOME_PHONE_V1.webp" type="image/webp">
 <img alt="" aria-hidden="true" decoding="async">
 </picture>
 <div class="plateLayer"></div>
 </div>
-<picture class="phoneHeroCutout phoneHeroDaniel" aria-hidden="true">
+<picture class="phoneHeroCutout phoneHeroDaniel" aria-hidden="true" data-sd-enter="character-left">
 <source media="(max-width: 760px) and (orientation: portrait)" srcset="assets/OVL_HOME_DANIEL_PHONE_V1.webp" type="image/webp">
 <img alt="" aria-hidden="true" decoding="async">
 </picture>
-<picture class="phoneHeroCutout phoneHeroNik" aria-hidden="true">
+<picture class="phoneHeroCutout phoneHeroNik" aria-hidden="true" data-sd-enter="character-right">
 <source media="(max-width: 760px) and (orientation: portrait)" srcset="assets/OVL_HOME_NIK_PHONE_V1.webp" type="image/webp">
 <img alt="" aria-hidden="true" decoding="async">
 </picture>
@@ -57,7 +58,7 @@
 <div class="fifaMenuShell">
 <div class="homeLockup">
 <p class="lockupKicker sd-label">THE RIVALRY STARTS HERE</p>
-<div class="lockupWordmarkWrap sd-title sd-title--wordmark">
+<div class="lockupWordmarkWrap sd-title sd-title--wordmark sd-glint" data-sd-enter="title">
 <span class="sd-visually-hidden">CAREER MODE SHOWDOWN 17</span>
 <img class="lockupWordmark" src="assets/LOGO_CM17_WORDMARK_V1.webp" alt="" aria-hidden="true" width="2078" height="755" decoding="async">
 </div>
@@ -73,7 +74,7 @@
 </div>
 
 <div class="fifaMenuGrid">
-<section class="menuMusicTile" aria-label="Menu media" data-media-kind="music">
+<section class="menuMusicTile" aria-label="Menu media" data-media-kind="music" data-sd-enter="panel">
 <div class="menuMusicHeader">
 <div>
 <span>AUDIUS SOUNDTRACK</span>
@@ -97,37 +98,37 @@
 </div>
 </section>
 
-<button class="menuTile menuTilePrimary sd-panel sd-panel--hero" id="continueCareer" type="button">
+<button class="menuTile menuTilePrimary sd-panel sd-panel--hero" id="continueCareer" type="button" data-sd-enter="button">
 <span class="menuTileCode">CAREER</span><span class="menuTileLabel">CONTINUE CAREER</span><span class="menuTileMeta">Loading active showdown...</span>
 <img class="tileArt" src="../shared/art/home-tiles/TILE_CONTINUE_V1.webp" alt="" aria-hidden="true" decoding="async">
 <svg class="tileChevron" aria-hidden="true" focusable="false" viewBox="0 0 12 20"><path d="M2 2l8 8-8 8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
 </button>
-<button class="menuTile menuTileNew sd-panel" id="newShowdown" type="button">
+<button class="menuTile menuTileNew sd-panel" id="newShowdown" type="button" data-sd-enter="panel">
 <span class="menuTileCode">NEW</span><span class="menuTileLabel">START A SHOWDOWN</span><span class="menuTileMeta">Begin a new rivalry</span>
 <img class="tileArt" src="../shared/art/home-tiles/TILE_TACTICS_V1.webp" alt="" aria-hidden="true" decoding="async">
 <svg class="tileChevron" aria-hidden="true" focusable="false" viewBox="0 0 12 20"><path d="M2 2l8 8-8 8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
 </button>
-<button class="menuTile menuTileLegacy sd-panel" id="legacyButton" type="button">
+<button class="menuTile menuTileLegacy sd-panel" id="legacyButton" type="button" data-sd-enter="panel">
 <span class="menuTileCode">HISTORY</span><span class="menuTileLabel">LEGACY</span><span class="menuTileMeta">Completed rivalries and season history</span>
 <img class="tileArt" src="../shared/art/home-tiles/TILE_HISTORY_V1.webp" alt="" aria-hidden="true" decoding="async">
 <svg class="tileChevron" aria-hidden="true" focusable="false" viewBox="0 0 12 20"><path d="M2 2l8 8-8 8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
 </button>
-<button class="menuTile menuTileTrophy sd-panel" id="careerStatisticsButton" type="button">
+<button class="menuTile menuTileTrophy sd-panel" id="careerStatisticsButton" type="button" data-sd-enter="panel">
 <span class="menuTileCode">DATA</span><span class="menuTileLabel">STATISTICS</span><span class="menuTileMeta">Career totals, manager comparison and honours</span>
 <img class="tileArt" src="../shared/art/home-tiles/TILE_STATISTICS_V1.webp" alt="" aria-hidden="true" decoding="async">
 <svg class="tileChevron" aria-hidden="true" focusable="false" viewBox="0 0 12 20"><path d="M2 2l8 8-8 8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
 </button>
-<button class="menuTile menuTileTrophyRoom sd-panel" id="trophyRoomButton" type="button" data-route-key="trophyRoom">
+<button class="menuTile menuTileTrophyRoom sd-panel" id="trophyRoomButton" type="button" data-route-key="trophyRoom" data-sd-enter="panel">
 <span class="menuTileCode">HONOURS</span><span class="menuTileLabel">TROPHY ROOM</span><span class="menuTileMeta">Career trophies, standings and records</span>
 <img class="tileArt" src="../shared/trophies/TRO_LEAGUE_TITLE_V1_512.webp" alt="" aria-hidden="true" decoding="async">
 <svg class="tileChevron" aria-hidden="true" focusable="false" viewBox="0 0 12 20"><path d="M2 2l8 8-8 8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
 </button>
-<button class="menuTile menuTileRules sd-panel" id="ruleBookButton" type="button">
+<button class="menuTile menuTileRules sd-panel" id="ruleBookButton" type="button" data-sd-enter="panel">
 <span class="menuTileCode">RULES</span><span class="menuTileLabel">RULE BOOK</span><span class="menuTileMeta">Scoring and competition rules</span>
 <img class="tileArt" src="../shared/art/home-tiles/TILE_RULEBOOK_V1.webp" alt="" aria-hidden="true" decoding="async">
 <svg class="tileChevron" aria-hidden="true" focusable="false" viewBox="0 0 12 20"><path d="M2 2l8 8-8 8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
 </button>
-<button class="menuTile menuTileSettings sd-panel" id="settingsButton" type="button">
+<button class="menuTile menuTileSettings sd-panel" id="settingsButton" type="button" data-sd-enter="panel">
 <span class="menuTileCode">SETTINGS</span><span class="menuTileLabel">SETTINGS</span><span class="menuTileMeta">Account, device and preferences</span>
 <img class="tileArt" src="../shared/art/home-tiles/TILE_SETTINGS_V1.webp" alt="" aria-hidden="true" decoding="async">
 <svg class="tileChevron" aria-hidden="true" focusable="false" viewBox="0 0 12 20"><path d="M2 2l8 8-8 8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
