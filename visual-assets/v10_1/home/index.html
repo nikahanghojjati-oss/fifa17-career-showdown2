@@ -34,12 +34,22 @@
 <div class="dockBed" aria-hidden="true"></div>
 <div class="hdrBg" aria-hidden="true"></div>
 
-<header id="topHeader">
-<span class="cmBadge" aria-hidden="true"><span>CM 17</span></span>
-<div class="brand"><h1>CAREER MODE</h1><p>SHOWDOWN // 17</p></div>
-<button id="onlinePlayerIdentityBadge" type="button">SIGN IN</button>
-<div class="seasonIndicator" id="seasonIndicator">No Active Showdown</div>
+<header id="topHeader" class="sharedTopBar">
+<nav class="topBarNav" aria-label="Primary">
+<button class="topBarTab isActive" type="button" aria-current="page">HOME</button>
+<button class="topBarTab" type="button">CAREER</button>
+<button class="topBarTab" type="button">STANDINGS</button>
+<button class="topBarTab" type="button">STATS</button>
+<button class="topBarTab" type="button">RULES</button>
+</nav>
+<button class="topBarSettings" type="button" aria-label="Settings">
+<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 8.2a3.8 3.8 0 1 0 0 7.6 3.8 3.8 0 0 0 0-7.6Zm9 4.8v-2l-2.2-.7a7.4 7.4 0 0 0-.7-1.7l1-2.1-1.4-1.4-2.1 1a7.4 7.4 0 0 0-1.7-.7L13 3h-2l-.7 2.4a7.4 7.4 0 0 0-1.7.7l-2.1-1-1.4 1.4 1 2.1a7.4 7.4 0 0 0-.7 1.7L3 11v2l2.4.7c.2.6.4 1.2.7 1.7l-1 2.1 1.4 1.4 2.1-1c.5.3 1.1.5 1.7.7L11 21h2l.7-2.4c.6-.2 1.2-.4 1.7-.7l2.1 1 1.4-1.4-1-2.1c.3-.5.5-1.1.7-1.7L21 13Z"/></svg>
+</button>
 </header>
+<div class="homeRuntimeStatus" hidden>
+<button id="onlinePlayerIdentityBadge" type="button" tabindex="-1">SIGN IN</button>
+<span id="seasonIndicator">No Active Showdown</span>
+</div>
 <span class="scriptLine" aria-hidden="true"><span>More Than A Game</span></span>
 
 <main>
