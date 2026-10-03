@@ -118,6 +118,41 @@ async function publishSeasonResult(m){
   await m.page.waitForFunction(()=>/YOUR RESULT IS PUBLISHED|BOTH MANAGERS PUBLISHED/.test(document.getElementById("seasonReviewHeading")?.textContent||""),null,{timeout:30000});
 }
 
+async function commitScoreAndConverge(daniel,nik,{season,danielScore,nikScore,winner}){
+  const actionD=daniel.page.locator("#sharedSeasonCommitAction"),actionN=nik.page.locator("#sharedSeasonCommitAction");
+  await actionD.waitFor({state:"visible",timeout:30000});await actionN.waitFor({state:"visible",timeout:30000});
+  await daniel.page.waitForFunction(()=>document.getElementById("sharedSeasonCommitAction")?.textContent==="COMMIT SHARED SEASON",null,{timeout:30000});
+  assert.equal(await actionN.textContent(),"WAITING FOR COORDINATOR",`season ${season} Nik waits for coordinator commit`);
+  await actionD.click({timeout:30000});
+  await daniel.page.waitForFunction(()=>document.getElementById("sharedSeasonCommitAction")?.textContent==="ACKNOWLEDGE SHARED SEASON",null,{timeout:30000});
+  await nik.page.waitForFunction(()=>document.getElementById("sharedSeasonCommitAction")?.textContent==="ACKNOWLEDGE SHARED SEASON",null,{timeout:45000});
+  await actionD.click({timeout:30000});
+  await daniel.page.waitForFunction(()=>/ACKNOWLEDGED/.test(document.getElementById("sharedSeasonCommitAction")?.textContent||""),null,{timeout:30000});
+  await actionN.click({timeout:30000});
+  for(const m of [daniel,nik])await m.page.waitForFunction(()=>document.getElementById("sharedSeasonCommitAction")?.textContent==="SEASON COMMIT ACKNOWLEDGED ✓",null,{timeout:45000});
+  for(const m of [daniel,nik]){
+    await m.page.locator("#sharedCanonicalScoringPanel").waitFor({state:"visible",timeout:45000});
+    const totals=(await m.page.locator("#sharedCanonicalScoringTotals").textContent()).trim();
+    const winnerText=(await m.page.locator("#sharedCanonicalScoringWinner").textContent()).trim();
+    assert.equal(totals,`Daniel: ${danielScore} · Nik: ${nikScore}`,`season ${season} canonical totals`);
+    assert.equal(winnerText,`Season winner: ${winner}`,`season ${season} canonical winner`);
+    await m.page.locator("#sharedHistoryConvergencePanel").waitFor({state:"visible",timeout:45000});
+  }
+}
+async function continueToSeason(daniel,nik,nextSeason,totalSeasons,scoreD,scoreN){
+  for(const m of [daniel,nik]){
+    const action=m.page.locator("#sharedMultiSeasonContinueAction");
+    await m.page.waitForFunction(label=>document.getElementById("sharedMultiSeasonContinueAction")?.textContent===label,`CONTINUE TO SEASON ${nextSeason}`,{timeout:45000});
+    assert.equal(await action.isEnabled(),true,`${m.user} can continue to season ${nextSeason}`);
+    await action.click({timeout:30000});
+    await m.page.locator("#dashboard").waitFor({state:"visible",timeout:30000});
+    assert.equal((await m.page.locator("#dashboardScoreOne").textContent()).trim(),String(scoreD));
+    assert.equal((await m.page.locator("#dashboardScoreTwo").textContent()).trim(),String(scoreN));
+    assert.equal((await m.page.locator("#dashboardRound").textContent()).trim(),`Season ${nextSeason} of ${totalSeasons}`);
+    assert.equal((await m.page.locator("#seasonIndicator").textContent()).trim(),`Season ${nextSeason} / ${totalSeasons}`);
+  }
+}
+
 async function prepareSeasonReview(m){
   await m.page.locator("#completeSeason").click({timeout:30000});
   await m.page.waitForFunction(()=>document.getElementById("seasonReviewHeading")?.textContent==="REVIEW YOUR SEASON RESULT",null,{timeout:30000});
@@ -618,6 +653,13 @@ async function main(){
       await waitTransferPhase(m,"completed");
     }
     ok("J9.1","both tabs reloaded and resumed the same completed Season 2 Transfer Challenge step");
+
+    // J8 season-1 commit, canonical scoring, history convergence, then the real Season 2 transition.
+    await commitScoreAndConverge(daniel,nik,{season:1,danielScore:9,nikScore:3,winner:"Daniel"});
+    ok("J8.1","season 1 commit was acknowledged by both managers and canonical scoring is Daniel 9 - Nik 3");
+    await continueToSeason(daniel,nik,2,LENGTH,9,3);
+    ok("J8.2","both dashboards show 9-3 and Season 2 of 3 before the next transfer challenge");
+    await shot(daniel,"j8-season2-dashboard");await shot(nik,"j8-season2-dashboard");
 
     // J4..J12: added by the worker, one section per step (JOB-16 §4).
 
