@@ -161,7 +161,24 @@ main { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
 .clubPackDoor > span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
 
 /* VS medallion */
-.clubVs { position: absolute; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: calc(var(--s) * 2px); }
+.clubVs {
+  position: absolute; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: calc(var(--s) * 2px);
+  isolation: isolate;
+}
+.clubVs::before {
+  content: ""; position: absolute; z-index: -1; left: 50%; top: 50%; width: 46%; aspect-ratio: 1;
+  border-radius: 50%; border: 2px solid rgba(255,231,161,.88);
+  box-shadow: 0 0 18px rgba(242,196,91,.52), inset 0 0 12px rgba(255,241,184,.22);
+  opacity: 0; transform: translate(-50%,-50%) scale(.2); pointer-events: none;
+}
+.clubVs.is-vs-slamming::before {
+  animation: clubVsImpact var(--club-vs-ms, 360ms) var(--club-vs-ease, cubic-bezier(.22,1,.36,1)) both;
+}
+@keyframes clubVsImpact {
+  0%, 30% { opacity: 0; transform: translate(-50%,-50%) scale(.2); }
+  48% { opacity: .9; transform: translate(-50%,-50%) scale(.62); }
+  100% { opacity: 0; transform: translate(-50%,-50%) scale(1.65); }
+}
 .clubVs > span { font: 600 max(12px, calc(var(--s) * 14px))/1.25 var(--cond); letter-spacing: .5em; padding-left: .5em; color: #F4ECD8; }
 .clubVs strong {
   display: block; font: 700 calc(var(--s) * 96px)/1.02 "Kaushan Script", "Brush Script MT", cursive; padding: 0 .12em;
