@@ -164,6 +164,8 @@ button:focus-visible { outline: 2px solid #FFF1B8; outline-offset: 3px; }
 .grid-layer > div { position: absolute; box-sizing: border-box; border: 1.5px dashed; font: 600 12px/1 var(--cond); padding: 2px; }
 .stage[data-grid="1"] .grid-layer { display: block; }
 
+.phone-hero-band { display: none; }
+
 /* ---------- phone · JOB-039 portrait composition ---------- */
 @media (max-width: 760px) {
   html, body { width: 100%; height: 100%; overflow: hidden; }
@@ -171,7 +173,7 @@ button:focus-visible { outline: 2px solid #FFF1B8; outline-offset: 3px; }
     --phone-edge: 12px;
     --phone-hero-h: 55svh;
     --phone-wheel: clamp(240px, 64vw, 282px);
-    --phone-wheel-y: clamp(300px, 54svh, 500px);
+    --phone-wheel-y: clamp(260px, 46.5svh, 326px);
     --phone-safe: max(8px, env(safe-area-inset-bottom));
     min-height: 100svh;
     overflow: hidden;
@@ -196,21 +198,58 @@ button:focus-visible { outline: 2px solid #FFF1B8; outline-offset: 3px; }
     height: 100%;
   }
 
-  /* Temporary phone face band from the registered plate. Job 39 step 3 replaces
-     this paint with the dedicated portrait stadium and whole-figure cut-outs. */
-  .stage[data-mode="phone"] .scene:not(.scene-top) {
-    display: block !important;
-    inset: 0 !important;
-    width: 100% !important;
-    height: var(--phone-hero-h) !important;
+  /* Dedicated portrait stadium + whole-figure heroes from Job 112. */
+  .stage[data-mode="phone"] .scene:not(.scene-top),
+  .stage[data-mode="phone"] .scene-top {
+    display: none !important;
+  }
+  .stage[data-mode="phone"] .phone-hero-band {
+    display: block;
+    position: absolute;
+    inset: 0 0 auto;
+    width: 100%;
+    height: var(--phone-hero-h);
+    overflow: visible;
+    pointer-events: none;
+  }
+  .stage[data-mode="phone"] .phone-hero-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
     overflow: hidden;
   }
-  .stage[data-mode="phone"] .scene:not(.scene-top) .plate {
-    inset: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-    background-size: cover;
-    background-position: 50% 25%;
+  .stage[data-mode="phone"] .phone-hero-bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 44%;
+  }
+  .stage[data-mode="phone"] .phone-hero-person {
+    position: absolute;
+    top: .5svh;
+    z-index: 30;
+    height: 56svh;
+    transform: translateX(-50%);
+    filter: drop-shadow(0 -1px 1px rgba(255,211,77,.28))
+            drop-shadow(0 8px 10px rgba(0,0,0,.48));
+  }
+  .stage[data-mode="phone"] .phone-hero-person img {
+    display: block;
+    width: auto;
+    height: 100%;
+    max-width: none;
+  }
+  .stage[data-mode="phone"] .phone-hero-person--daniel { left: 30%; }
+  .stage[data-mode="phone"] .phone-hero-person--nik { left: 70%; }
+  .stage[data-mode="phone"] .phone-hero-gradient {
+    position: absolute;
+    z-index: 14;
+    left: 0;
+    right: 0;
+    top: 48svh;
+    height: 22svh;
+    background: linear-gradient(to bottom, rgba(7,8,10,0), rgba(7,8,10,.94));
+    pointer-events: none;
   }
   .stage[data-mode="phone"] .slot-veil { display: none !important; }
 
@@ -252,29 +291,14 @@ button:focus-visible { outline: 2px solid #FFF1B8; outline-offset: 3px; }
     transform: translateX(-50%) !important;
   }
 
-  /* Keep the touch moment alive until the dedicated Daniel phone cut-out lands. */
-  .stage[data-mode="phone"] .scene-top {
-    display: block !important;
-    inset: 0 !important;
-    width: 100% !important;
-    height: var(--phone-hero-h) !important;
-    overflow: visible;
-  }
-  .stage[data-mode="phone"] .scene-top .finger-ovl {
-    position: absolute !important;
-    left: calc(50% - var(--phone-wheel) / 2 - 28px) !important;
-    top: calc(var(--phone-wheel-y) - 22px) !important;
-    width: clamp(58px, 17vw, 72px) !important;
-    height: auto !important;
-    transform: rotate(-5deg);
-    transform-origin: 80% 50%;
-  }
+  /* Contact shadow sits under Daniel's phone cut-out and over the live wheel. */
   .stage[data-mode="phone"] .finger-contact {
     display: block;
-    left: calc(50% - var(--phone-wheel) / 2 - 2px) !important;
-    top: calc(var(--phone-wheel-y) - 9px) !important;
+    z-index: 29;
+    left: calc(60% - 14px) !important;
+    top: calc(var(--phone-wheel-y) - var(--phone-wheel) * .47) !important;
     width: 30px !important;
-    height: 11px !important;
+    height: 10px !important;
     transform: rotate(-8deg);
   }
 
