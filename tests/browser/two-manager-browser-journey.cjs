@@ -156,6 +156,49 @@ async function main(){
     ok("J3.1","private session hosted by Daniel, joined by Nik; both reached the league wheel");
     await shot(daniel,"j3-setup");await shot(nik,"j3-setup");
 
+    // J4 shared setup through the real league wheel and club-pack screens.
+    assert.match(await nik.page.locator("#spinLeague").textContent(),/WAITING FOR HOST/i,"Nik waits for Daniel on the league wheel");
+    assert.equal(await nik.page.locator("#spinLeague").isDisabled(),true,"Nik cannot draw shared setup authority");
+    ok("J4.1","Nik is visibly waiting for the host and cannot draw the shared league");
+
+    await daniel.page.locator("#spinLeague").click({timeout:30000});
+    await daniel.page.waitForFunction(()=>document.getElementById("spinLeague")?.textContent==="CONTINUE TO CLUB PACKS",null,{timeout:30000});
+    const sharedLeague=(await daniel.page.locator("#selectedLeague").textContent()).trim();
+    assert.ok(sharedLeague&&!/Spin|ready|Pair managers/i.test(sharedLeague),`authoritative league revealed: ${sharedLeague}`);
+    await nik.page.waitForFunction(league=>document.getElementById("selectedLeague")?.textContent===league,sharedLeague,{timeout:30000});
+    assert.equal((await nik.page.locator("#selectedLeague").textContent()).trim(),sharedLeague,"both managers see the same authoritative league");
+    ok("J4.2","Daniel drew the authoritative league and Nik followed it without drawing");
+
+    // Both devices witness the real league screen; only Daniel performs the authoritative club draw.
+    await daniel.page.locator("#spinLeague").click({timeout:30000});
+    await daniel.page.locator("#clubWheelScreen").waitFor({state:"visible",timeout:30000});
+    await nik.page.waitForFunction(()=>document.getElementById("spinLeague")?.textContent==="CONTINUE TO CLUB PACKS",null,{timeout:30000});
+    await nik.page.locator("#spinLeague").click({timeout:30000});
+    await nik.page.locator("#clubWheelScreen").waitFor({state:"visible",timeout:30000});
+    assert.match(await nik.page.locator("#openClubPack").textContent(),/WAITING FOR HOST/i,"Nik waits for host pack reveal");
+    assert.equal(await nik.page.locator("#openClubPack").isDisabled(),true,"Nik cannot draw the clubs");
+    await daniel.page.locator("#openClubPack").click({timeout:30000});
+    await daniel.page.waitForFunction(()=>document.getElementById("clubCardTwo")?.classList.contains("is-revealed")&&document.getElementById("clubNameOne")?.textContent!=="?"&&document.getElementById("clubNameTwo")?.textContent!=="?",null,{timeout:30000});
+    const clubsD=await daniel.page.evaluate(()=>[document.getElementById("clubNameOne")?.textContent?.trim(),document.getElementById("clubNameTwo")?.textContent?.trim()]);
+    await nik.page.waitForFunction(clubs=>document.getElementById("clubNameOne")?.textContent?.trim()===clubs[0]&&document.getElementById("clubNameTwo")?.textContent?.trim()===clubs[1],clubsD,{timeout:30000});
+    const clubsN=await nik.page.evaluate(()=>[document.getElementById("clubNameOne")?.textContent?.trim(),document.getElementById("clubNameTwo")?.textContent?.trim()]);
+    assert.deepEqual(clubsN,clubsD,"both managers see the same two clubs");
+    assert.ok(clubsD[0]&&clubsD[1]&&clubsD[0]!==clubsD[1],"two distinct clubs");
+    for(const m of [daniel,nik]){
+      assert.equal((await m.page.locator("#clubPlayerOne").textContent()).trim(),"Daniel","Daniel remains the LEFT/playerOne slot");
+      assert.equal((await m.page.locator("#clubNameOne").textContent()).trim(),clubsD[0],"Daniel's left club agrees on both pages");
+    }
+    ok("J4.3","host opened the real club packs; both pages agree on two clubs with Daniel in the LEFT slot");
+
+    // Daniel's original season count is auto-locked; each manager only confirms their own device.
+    for(const m of [daniel,nik])await m.page.getByRole("button",{name:"CONFIRM SHARED SHOWDOWN"}).waitFor({state:"visible",timeout:30000});
+    await daniel.page.getByRole("button",{name:"CONFIRM SHARED SHOWDOWN"}).click({timeout:30000});
+    await nik.page.getByRole("button",{name:"CONFIRM SHARED SHOWDOWN"}).click({timeout:30000});
+    await nik.page.locator("#productionSharedCareerStartOverlay").waitFor({state:"visible",timeout:30000});
+    await daniel.page.waitForFunction(()=>document.getElementById("continueClubAssignment")?.textContent==="CONTINUE TO CAREER START",null,{timeout:30000});
+    ok("J4.4","both managers confirmed the identical shared setup; peer authority advanced automatically");
+    await shot(daniel,"j4-setup");await shot(nik,"j4-setup");
+
     // J4..J12: added by the worker, one section per step (JOB-16 §4).
 
     for(const m of managers){
