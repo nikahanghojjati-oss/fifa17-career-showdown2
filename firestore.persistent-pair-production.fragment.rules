@@ -214,12 +214,15 @@
     }
 
     function cmsCareerIndexAppendEligible(accountId, rivalryId) {
-      let pairData = getAfter(/databases/$(database)/documents/accounts/$(accountId)/pairLinks/current).data.data;
+      let pair = getAfter(/databases/$(database)/documents/accounts/$(accountId)/pairLinks/current);
       return rivalryId is string
         && rivalryId.matches('^pair_[0-9a-f]{64}$')
-        && pairData.rivalryId == rivalryId
-        && cmsPersistentPairManagerValid(pairData.managerRole, pairData.managerId)
-        && cmsPersistentPairRivalryMembership(accountId, rivalryId, pairData.managerRole)
+        && pair != null
+        && pair.data is map
+        && pair.data.data is map
+        && pair.data.data.rivalryId == rivalryId
+        && cmsPersistentPairManagerValid(pair.data.data.managerRole, pair.data.data.managerId)
+        && cmsPersistentPairRivalryMembership(accountId, rivalryId, pair.data.data.managerRole)
         && (
           cmsCareerIndexCreationEligible(accountId, rivalryId)
           || (
