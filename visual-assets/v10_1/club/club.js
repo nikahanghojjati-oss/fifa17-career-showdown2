@@ -20,7 +20,9 @@
     walkoutMs: 520,
     walkoutEase: "cubic-bezier(.18,.82,.24,1)",
     particleCount: 42,
-    cameraScale: 1.03
+    cameraScale: 1.03,
+    versusMs: 360,
+    versusEase: "cubic-bezier(.22,1,.36,1)"
   });
 
   const $ = (s, r = document) => r.querySelector(s);
@@ -55,6 +57,7 @@
   let T = { k: 1, offX: 0, offY: 0, mode: "desktop", clip: [0, 0, 0, 0] };
   let anims = [];
   const walkoutRuns = new Set();
+  const stageRuns = new Set();
 
   function plateToScreen(x, y, t = T) { return [t.offX + x * t.k, t.offY + y * t.k]; }
   function rectToScreen(r, t = T) {
@@ -630,6 +633,60 @@ $$(".handOv").forEach(d => { d.style.clipPath = "none"; });
     if (dim) dim.classList.add("is-anticipating");
   }
 
+  function runVersusSlam(f) {
+    if (!PLAY || f.stage !== "versus") return;
+    const key = `${FRAME}:versus`;
+    if (stageRuns.has(key)) return;
+    stageRuns.add(key);
+
+    const vs = $(".clubVs");
+    const mark = vs ? $("strong", vs) : null;
+    const label = vs ? $("span", vs) : null;
+    const step = $('[data-reveal-step="versus"]');
+    const ring = step ? $(".ring", step) : null;
+    if (!vs || !mark || !step || !ring) return;
+
+    document.documentElement.style.setProperty("--club-vs-ms", CLUB_SIGNATURE.versusMs + "ms");
+    document.documentElement.style.setProperty("--club-vs-ease", CLUB_SIGNATURE.versusEase);
+
+    if (RM) {
+      [vs, step].forEach(node => {
+        const a = node.animate([{ opacity: 0 }, { opacity: 1 }], {
+          duration: 150, fill: "both", easing: "linear"
+        });
+        anims.push(a);
+      });
+      return;
+    }
+
+    vs.classList.remove("is-vs-slamming");
+    void vs.offsetWidth;
+    vs.classList.add("is-vs-slamming");
+
+    const markAnim = mark.animate([
+      { offset: 0, opacity: 0, transform: "translateY(-28px) scale(1.55)" },
+      { offset: .46, opacity: 1, transform: "translateY(5px) scale(.93)", easing: CLUB_SIGNATURE.versusEase },
+      { offset: .72, opacity: 1, transform: "translateY(-2px) scale(1.05)" },
+      { offset: 1, opacity: 1, transform: "translateY(0) scale(1)" }
+    ], { duration: CLUB_SIGNATURE.versusMs, fill: "both", easing: "linear" });
+
+    const labelAnim = label.animate([
+      { offset: 0, opacity: 0, transform: "translateY(-10px)" },
+      { offset: .42, opacity: 0, transform: "translateY(-10px)" },
+      { offset: .72, opacity: 1, transform: "translateY(1px)", easing: CLUB_SIGNATURE.versusEase },
+      { offset: 1, opacity: 1, transform: "translateY(0)" }
+    ], { duration: CLUB_SIGNATURE.versusMs, fill: "both", easing: "linear" });
+
+    const ringAnim = ring.animate([
+      { offset: 0, opacity: .3, transform: "scale(.7)" },
+      { offset: .46, opacity: 1, transform: "scale(1.28)", easing: CLUB_SIGNATURE.versusEase },
+      { offset: .72, opacity: 1, transform: "scale(.94)" },
+      { offset: 1, opacity: 1, transform: "scale(1)" }
+    ], { duration: CLUB_SIGNATURE.versusMs, fill: "both", easing: "linear" });
+
+    anims.push(markAnim, labelAnim, ringAnim);
+  }
+
   function buildAnimations() {
     anims.forEach(a => a.cancel()); anims = [];
     const f = FX.frames[FRAME] || FX.frames.CL1;
@@ -660,6 +717,7 @@ $$(".handOv").forEach(d => { d.style.clipPath = "none"; });
       });
       if (PLAY && i === activeSide) runWalkout(r, i, nameEl);
     });
+    runVersusSlam(f);
   }
 
   function drawGrid() {
