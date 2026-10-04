@@ -542,16 +542,15 @@ body {
 .season-preview-tag {
   position: absolute;
   z-index: 9;
-  /* Claude fix round 2: keep the whole chip inside the active manager card.
-     Daniel panel starts at 19.14%; Nik panel starts at 50.72%. */
-  left: 20.4%;
+  /* Claude fix round 3: use the empty top-right corner instead of the name area. */
+  left: 41.5%;
   top: 53.1%;
   margin: 0;
   pointer-events: none;
 }
 
 .season-preview-tag[data-owner="nik"] {
-  left: 52.0%;
+  left: 78.3%;
 }
 
 .season-review-panel {
