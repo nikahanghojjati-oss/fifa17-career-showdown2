@@ -2,7 +2,7 @@
 
 | Lane | Depends on | Code branch | PR into | Budget |
 | --- | --- | --- | --- | --- |
-| **lead** (helper in the lead thread; Nik 2026-10-04: no cloud sessions) | job 24 merged | `gameplay/job-25-v10-home` | `gameplay/recovery-v1` | STOP_BUDGET $6 |
+| **codex** (Nik pastes the lead's box into the Codex app; the lead checks in a browser and merges) | job 24 merged | `gameplay/job-25-v10-home` | `gameplay/recovery-v1` | one Codex task |
 
 Read `jobs/G13_PART2_COMMON.md` first, then job 24's PR body for the loader API (`js/v10Screens.js`).
 
