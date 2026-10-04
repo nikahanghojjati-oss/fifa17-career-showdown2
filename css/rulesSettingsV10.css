@@ -75,3 +75,20 @@
 
 #ruleBook.v10RuleBook .ruleScoreRow,
 #ruleBook.v10RuleBook .ruleScoreMaximum { background:transparent; border-left:0; padding-inline:0; }
+
+/* Legacy app.css/settings.css paint these hosts with !important and give every .screen
+   contain:layout, which traps the fixed stage under the top header. Undo only those. */
+#ruleBook.v10RuleBook { contain:none; position:fixed; inset:0; z-index:30; margin:0; }
+#ruleBook.v10RuleBook [data-football-visual-screen] { display:none; }
+#ruleBook.v10RuleBook .ruleBookHero { color:inherit!important; background:none!important; border:0!important; box-shadow:none!important; }
+#ruleBook.v10RuleBook .ruleBookHero > span,
+#ruleBook.v10RuleBook .ruleBookHero strong,
+#ruleBook.v10RuleBook .ruleBookHero p { color:inherit!important; }
+#ruleBook.v10RuleBook .ruleSection { color:var(--sd-text-warm,#f4f1ea)!important; background:linear-gradient(180deg,rgba(17,17,17,.88),rgba(6,7,8,.91))!important; border:1px solid rgba(222,179,79,.62)!important; box-shadow:inset 0 1px rgba(255,231,161,.07),0 18px 34px rgba(0,0,0,.34)!important; }
+#settingsOverlay.v10Settings .settingsAudioRow { color:#f5f1e8; background:rgba(255,255,255,.025)!important; border-color:rgba(219,178,94,.4)!important; }
+#settingsOverlay.v10Settings .settingsFooter { background:transparent!important; box-shadow:none!important; }
+#ruleBook.v10RuleBook .ruleScoreTable > .ruleScoreRow { min-width:0; min-height:0; display:flex; align-items:baseline; justify-content:space-between; gap:10px; padding:0; color:#f4f4f2; font:650 clamp(9px,.66vw,11px)/1.12 var(--sd-font-condensed); }
+#ruleBook.v10RuleBook .ruleScoreTable span,
+#ruleBook.v10RuleBook .ruleScoreMaximum span { color:inherit; font:inherit; }
+#ruleBook.v10RuleBook .ruleScoreRow strong { flex:0 0 auto; color:var(--sd-gold-300); font-size:1.18em; font-variant-numeric:tabular-nums; white-space:nowrap; }
+#ruleBook.v10RuleBook .ruleScoreMaximum { color:var(--sd-gold-300); }
