@@ -1440,3 +1440,25 @@ body {
     width: 80vw;
   }
 }
+
+/* Claude fix 2026-10-04 (JOB-172 intake): the shared stage starts the phone UI layer below the art band,
+   but the phone tabs, panels and sheet are placed in % of the whole screen. Start the UI layer at the top
+   so 55% means 55% of the screen (the actions stay pinned to the bottom). */
+@media (max-width: 900px) {
+  .sd-stage[data-sd-mode="phone"] .sd-stage__layer--ui { top: 0; }
+  /* The phone art is a 55/45 composition: the art band runs to the tabs, no dark strip between. */
+  .sd-stage[data-sd-mode="phone"] .sd-stage__layer--plate,
+  .sd-stage[data-sd-mode="phone"] .sd-stage__layer--atmosphere,
+  .sd-stage[data-sd-mode="phone"] .sd-stage__layer--cutout,
+  .sd-stage[data-sd-mode="phone"] .sd-stage__layer--light { height: 55%; }
+  /* Three field rows must fit above the preview score at 393x660, 360x640 and 375x553. */
+  .entry-panel .manager-fields { gap: 4px 10px; }
+  .entry-panel .field-row input[type="number"] { min-height: 28px; height: 28px; padding: 2px 8px; box-sizing: border-box; }
+  .entry-panel .field-row { min-height: 0; align-items: center; }
+  .entry-panel .field-row label { white-space: nowrap; font-size: 10px; line-height: 1.1; }
+}
+@media (max-width: 900px) and (max-height: 600px) {
+  .entry-panel .manager-fields { gap: 2px 8px; }
+  .entry-panel .field-row input[type="number"] { min-height: 22px; height: 22px; padding: 1px 6px; }
+  .entry-panel .manager-card-header { padding-bottom: 2px; }
+}
