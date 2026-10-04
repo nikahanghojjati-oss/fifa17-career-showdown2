@@ -1594,3 +1594,10 @@ button {
   .legacyPhoneHero--daniel { left: 9%; top: 2%; height: 53%; }
 }
 
+/* CC-008 B5: the eyebrow sat on the LEGACY letters (touching at 375x553). Lift it to clear the title by >= 4 px. */
+@media (max-width: 900px) {
+  .legacyEyebrow { top: calc(50% - 11px); }
+}
+@media (max-width: 900px) and (max-height: 600px) {
+  .legacyEyebrow { top: calc(50% - 19px); }
+}
