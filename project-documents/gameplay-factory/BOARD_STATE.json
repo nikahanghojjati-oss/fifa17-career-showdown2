@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-03 8:26 PM Boston time (EDT)",
+ "generated": "2026-10-03 8:57 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 13,
@@ -29,8 +29,8 @@
   "chat": 2,
   "work": 1
  },
- "overall": 84,
- "done": 18,
+ "overall": 86,
+ "done": 19,
  "total": 22,
  "start": {
   "chat": [],
@@ -492,10 +492,10 @@
    "phase": "1 Safety net",
    "type": "fix",
    "plain": "After a reload both players land on Home, rejoin a fresh session and pick up on the right season, instead of starting over at season 1.",
-   "state": "IN REVIEW",
-   "step": 2,
+   "state": "DONE",
+   "step": 3,
    "steps_total": 3,
-   "pct": 66,
+   "pct": 100,
    "ready": false
   },
   {
