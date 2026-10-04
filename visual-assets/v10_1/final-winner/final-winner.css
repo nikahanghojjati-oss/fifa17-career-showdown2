@@ -1957,3 +1957,22 @@ html[data-motion-reduced="true"] .finalWinnerActionsSlot button, html[data-reduc
 @media (min-width: 901px) {
   .finalWinnerHeroCopySlot { top: max(calc(14.8% + 99px), calc(26.5% + 6px)); gap: calc(.3vh + 4px); }
 }
+
+/* CC-008 B2 · short desktop (1366x640): DANIEL WINS touched the trophy crown and the TERMINAL line ran across the
+   trophy stem. The trophy sits a little lower and smaller and is clipped at its slot, which ends under the panel. */
+@media (min-width: 1024px) and (max-height: 700px) {
+  .winnerTrophySlot { overflow: hidden; translate: 0 48px; scale: .82; transform-origin: 50% 0; }
+  /* The preview tag sat half under the 52 px top bar; seat it at the right, below the bar. */
+  #stage-root .finalWinnerPreview,
+  #stage-root[data-winner] .finalWinnerPreview { left: auto; right: 2.2%; top: 62px; transform: none; }
+}
+
+/* CC-008 B2 · phone: the closed-state TERMINAL note was centred on the action slot, which starts above the panel's
+   bottom edge, so it touched the edge at 393x660 and crossed it at 375x553. Seat it at the slot's foot. */
+@media (max-width: 760px) {
+  #stage-root[data-state="completed"] .finalWinnerTerminalStatus {
+    top: auto;
+    bottom: 6px;
+    transform: none;
+  }
+}
