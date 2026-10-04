@@ -50,25 +50,16 @@
         "leagueId": "premier_league",
         "clubs": {
           "daniel": "Arsenal",
-          "nik": "Tottenham Hotspur"
+          "nik": "Chelsea"
         },
         "season": 3,
         "totalSeasons": 5,
         "score": {
-          "daniel": 9,
-          "nik": 8
+          "daniel": 4,
+          "nik": 9
         },
         "managerRecords": {
           "daniel": {
-            "seasonWins": 1,
-            "seasonDraws": 0,
-            "seasonLosses": 1,
-            "championsLeagues": 1,
-            "leagueTitles": 1,
-            "domesticCups": 0,
-            "totalTrophies": 2
-          },
-          "nik": {
             "seasonWins": 1,
             "seasonDraws": 0,
             "seasonLosses": 1,
@@ -76,9 +67,43 @@
             "leagueTitles": 1,
             "domesticCups": 1,
             "totalTrophies": 2
+          },
+          "nik": {
+            "seasonWins": 1,
+            "seasonDraws": 0,
+            "seasonLosses": 1,
+            "championsLeagues": 1,
+            "leagueTitles": 1,
+            "domesticCups": 0,
+            "totalTrophies": 2
           }
         }
-      }
+      },
+      "bind": {
+        "model.status": "viewers.daniel.rivalry.status",
+        "model.leagueId": "viewers.daniel.rivalry.leagueId",
+        "model.season": "viewers.daniel.rivalry.season",
+        "model.totalSeasons": "viewers.daniel.rivalry.totalSeasons",
+        "model.clubs.daniel": "viewers.daniel.rivalry.clubs.daniel",
+        "model.score.daniel": "viewers.daniel.rivalry.score.daniel",
+        "model.managerRecords.daniel.seasonWins": "viewers.daniel.rivalry.managers.daniel.seasonWins",
+        "model.managerRecords.daniel.seasonDraws": "viewers.daniel.rivalry.managers.daniel.seasonDraws",
+        "model.managerRecords.daniel.seasonLosses": "viewers.daniel.rivalry.managers.daniel.seasonLosses",
+        "model.managerRecords.daniel.championsLeagues": "viewers.daniel.rivalry.managers.daniel.championsLeagues",
+        "model.managerRecords.daniel.leagueTitles": "viewers.daniel.rivalry.managers.daniel.leagueTitles",
+        "model.managerRecords.daniel.domesticCups": "viewers.daniel.rivalry.managers.daniel.domesticCups",
+        "model.managerRecords.daniel.totalTrophies": "viewers.daniel.rivalry.managers.daniel.totalTrophies",
+        "model.clubs.nik": "viewers.daniel.rivalry.clubs.nik",
+        "model.score.nik": "viewers.daniel.rivalry.score.nik",
+        "model.managerRecords.nik.seasonWins": "viewers.daniel.rivalry.managers.nik.seasonWins",
+        "model.managerRecords.nik.seasonDraws": "viewers.daniel.rivalry.managers.nik.seasonDraws",
+        "model.managerRecords.nik.seasonLosses": "viewers.daniel.rivalry.managers.nik.seasonLosses",
+        "model.managerRecords.nik.championsLeagues": "viewers.daniel.rivalry.managers.nik.championsLeagues",
+        "model.managerRecords.nik.leagueTitles": "viewers.daniel.rivalry.managers.nik.leagueTitles",
+        "model.managerRecords.nik.domesticCups": "viewers.daniel.rivalry.managers.nik.domesticCups",
+        "model.managerRecords.nik.totalTrophies": "viewers.daniel.rivalry.managers.nik.totalTrophies"
+      },
+      "bindScenario": "active-mid-season · daniel"
     },
     "SD2": {
       "view": "career",
@@ -88,27 +113,47 @@
         "status": "ready",
         "standings": {
           "daniel": {
-            "careerPoints": 22,
-            "seasonWins": 2,
+            "careerPoints": 17,
+            "seasonWins": 3,
+            "seasonDraws": 0,
+            "seasonLosses": 3,
+            "championsLeagues": 1,
+            "leagueTitles": 3,
+            "domesticCups": 1,
+            "totalTrophies": 5
+          },
+          "nik": {
+            "careerPoints": 19,
+            "seasonWins": 3,
             "seasonDraws": 0,
             "seasonLosses": 3,
             "championsLeagues": 1,
             "leagueTitles": 3,
             "domesticCups": 2,
             "totalTrophies": 6
-          },
-          "nik": {
-            "careerPoints": 27,
-            "seasonWins": 3,
-            "seasonDraws": 0,
-            "seasonLosses": 2,
-            "championsLeagues": 2,
-            "leagueTitles": 2,
-            "domesticCups": 3,
-            "totalTrophies": 7
           }
         }
-      }
+      },
+      "bind": {
+        "model.status": "career.status",
+        "model.standings.daniel.careerPoints": "career.trophyRoom.standings[1].careerPoints",
+        "model.standings.daniel.seasonWins": "career.trophyRoom.standings[1].seasonWins",
+        "model.standings.daniel.seasonDraws": "career.managers.daniel.seasonDraws",
+        "model.standings.daniel.seasonLosses": "career.managers.daniel.seasonLosses",
+        "model.standings.daniel.championsLeagues": "career.managers.daniel.championsLeagues",
+        "model.standings.daniel.leagueTitles": "career.managers.daniel.leagueTitles",
+        "model.standings.daniel.domesticCups": "career.managers.daniel.domesticCups",
+        "model.standings.daniel.totalTrophies": "career.managers.daniel.totalTrophies",
+        "model.standings.nik.careerPoints": "career.trophyRoom.standings[0].careerPoints",
+        "model.standings.nik.seasonWins": "career.trophyRoom.standings[0].seasonWins",
+        "model.standings.nik.seasonDraws": "career.managers.nik.seasonDraws",
+        "model.standings.nik.seasonLosses": "career.managers.nik.seasonLosses",
+        "model.standings.nik.championsLeagues": "career.managers.nik.championsLeagues",
+        "model.standings.nik.leagueTitles": "career.managers.nik.leagueTitles",
+        "model.standings.nik.domesticCups": "career.managers.nik.domesticCups",
+        "model.standings.nik.totalTrophies": "career.managers.nik.totalTrophies"
+      },
+      "bindScenario": "multi-showdown-career"
     },
     "SD3": {
       "view": "this-showdown",
@@ -116,10 +161,10 @@
       "note": "Successful first-season read, nothing played; real confirmed zeros, no winner.",
       "model": {
         "status": "empty",
-        "leagueId": "premier_league",
+        "leagueId": "laliga",
         "clubs": {
-          "daniel": "Arsenal",
-          "nik": "Tottenham Hotspur"
+          "daniel": "Valencia",
+          "nik": "Villarreal"
         },
         "season": 1,
         "totalSeasons": 3,
@@ -147,7 +192,32 @@
             "totalTrophies": 0
           }
         }
-      }
+      },
+      "bind": {
+        "model.status": "viewers.daniel.rivalry.status",
+        "model.leagueId": "viewers.daniel.rivalry.leagueId",
+        "model.season": "viewers.daniel.rivalry.season",
+        "model.totalSeasons": "viewers.daniel.rivalry.totalSeasons",
+        "model.clubs.daniel": "viewers.daniel.rivalry.clubs.daniel",
+        "model.score.daniel": "viewers.daniel.rivalry.score.daniel",
+        "model.managerRecords.daniel.seasonWins": "viewers.daniel.rivalry.managers.daniel.seasonWins",
+        "model.managerRecords.daniel.seasonDraws": "viewers.daniel.rivalry.managers.daniel.seasonDraws",
+        "model.managerRecords.daniel.seasonLosses": "viewers.daniel.rivalry.managers.daniel.seasonLosses",
+        "model.managerRecords.daniel.championsLeagues": "viewers.daniel.rivalry.managers.daniel.championsLeagues",
+        "model.managerRecords.daniel.leagueTitles": "viewers.daniel.rivalry.managers.daniel.leagueTitles",
+        "model.managerRecords.daniel.domesticCups": "viewers.daniel.rivalry.managers.daniel.domesticCups",
+        "model.managerRecords.daniel.totalTrophies": "viewers.daniel.rivalry.managers.daniel.totalTrophies",
+        "model.clubs.nik": "viewers.daniel.rivalry.clubs.nik",
+        "model.score.nik": "viewers.daniel.rivalry.score.nik",
+        "model.managerRecords.nik.seasonWins": "viewers.daniel.rivalry.managers.nik.seasonWins",
+        "model.managerRecords.nik.seasonDraws": "viewers.daniel.rivalry.managers.nik.seasonDraws",
+        "model.managerRecords.nik.seasonLosses": "viewers.daniel.rivalry.managers.nik.seasonLosses",
+        "model.managerRecords.nik.championsLeagues": "viewers.daniel.rivalry.managers.nik.championsLeagues",
+        "model.managerRecords.nik.leagueTitles": "viewers.daniel.rivalry.managers.nik.leagueTitles",
+        "model.managerRecords.nik.domesticCups": "viewers.daniel.rivalry.managers.nik.domesticCups",
+        "model.managerRecords.nik.totalTrophies": "viewers.daniel.rivalry.managers.nik.totalTrophies"
+      },
+      "bindScenario": "active-first-season · daniel"
     },
     "SD4": {
       "view": "career",
@@ -158,25 +228,16 @@
         "leagueId": "premier_league",
         "clubs": {
           "daniel": "Arsenal",
-          "nik": "Tottenham Hotspur"
+          "nik": "Chelsea"
         },
         "season": 3,
         "totalSeasons": 5,
         "score": {
-          "daniel": 9,
-          "nik": 8
+          "daniel": 4,
+          "nik": 9
         },
         "managerRecords": {
           "daniel": {
-            "seasonWins": 1,
-            "seasonDraws": 0,
-            "seasonLosses": 1,
-            "championsLeagues": 1,
-            "leagueTitles": 1,
-            "domesticCups": 0,
-            "totalTrophies": 2
-          },
-          "nik": {
             "seasonWins": 1,
             "seasonDraws": 0,
             "seasonLosses": 1,
@@ -184,10 +245,45 @@
             "leagueTitles": 1,
             "domesticCups": 1,
             "totalTrophies": 2
+          },
+          "nik": {
+            "seasonWins": 1,
+            "seasonDraws": 0,
+            "seasonLosses": 1,
+            "championsLeagues": 1,
+            "leagueTitles": 1,
+            "domesticCups": 0,
+            "totalTrophies": 2
           }
         },
         "interimLabel": "Current Showdown only. Career history is not yet available."
-      }
+      },
+      "bind": {
+        "model.status": "viewers.daniel.rivalry.status",
+        "model.leagueId": "viewers.daniel.rivalry.leagueId",
+        "model.season": "viewers.daniel.rivalry.season",
+        "model.totalSeasons": "viewers.daniel.rivalry.totalSeasons",
+        "model.clubs.daniel": "viewers.daniel.rivalry.clubs.daniel",
+        "model.score.daniel": "viewers.daniel.rivalry.score.daniel",
+        "model.managerRecords.daniel.seasonWins": "viewers.daniel.rivalry.managers.daniel.seasonWins",
+        "model.managerRecords.daniel.seasonDraws": "viewers.daniel.rivalry.managers.daniel.seasonDraws",
+        "model.managerRecords.daniel.seasonLosses": "viewers.daniel.rivalry.managers.daniel.seasonLosses",
+        "model.managerRecords.daniel.championsLeagues": "viewers.daniel.rivalry.managers.daniel.championsLeagues",
+        "model.managerRecords.daniel.leagueTitles": "viewers.daniel.rivalry.managers.daniel.leagueTitles",
+        "model.managerRecords.daniel.domesticCups": "viewers.daniel.rivalry.managers.daniel.domesticCups",
+        "model.managerRecords.daniel.totalTrophies": "viewers.daniel.rivalry.managers.daniel.totalTrophies",
+        "model.clubs.nik": "viewers.daniel.rivalry.clubs.nik",
+        "model.score.nik": "viewers.daniel.rivalry.score.nik",
+        "model.managerRecords.nik.seasonWins": "viewers.daniel.rivalry.managers.nik.seasonWins",
+        "model.managerRecords.nik.seasonDraws": "viewers.daniel.rivalry.managers.nik.seasonDraws",
+        "model.managerRecords.nik.seasonLosses": "viewers.daniel.rivalry.managers.nik.seasonLosses",
+        "model.managerRecords.nik.championsLeagues": "viewers.daniel.rivalry.managers.nik.championsLeagues",
+        "model.managerRecords.nik.leagueTitles": "viewers.daniel.rivalry.managers.nik.leagueTitles",
+        "model.managerRecords.nik.domesticCups": "viewers.daniel.rivalry.managers.nik.domesticCups",
+        "model.managerRecords.nik.totalTrophies": "viewers.daniel.rivalry.managers.nik.totalTrophies",
+        "model.interimLabel": "careerInterim.interimLabel"
+      },
+      "bindScenario": "active-mid-season · daniel"
     },
     "SD5": {
       "view": "career",
@@ -195,7 +291,11 @@
       "note": "Read pending; no numeric model data, no zeros or leader.",
       "model": {
         "status": "loading"
-      }
+      },
+      "bind": {
+        "model.status": "career.status"
+      },
+      "bindScenario": "loading"
     },
     "SD6": {
       "view": "career",
@@ -203,7 +303,11 @@
       "note": "Read failed; explicit unavailable message, no empty career or zero totals.",
       "model": {
         "status": "unavailable"
-      }
+      },
+      "bind": {
+        "model.status": "career.status"
+      },
+      "bindScenario": "unavailable"
     },
     "SD7": {
       "view": "career",
@@ -217,27 +321,49 @@
         },
         "standings": {
           "daniel": {
-            "careerPoints": 17,
+            "careerPoints": 3,
             "seasonWins": 1,
             "seasonDraws": 0,
-            "seasonLosses": 2,
+            "seasonLosses": 0,
             "championsLeagues": 0,
-            "leagueTitles": 3,
-            "domesticCups": 2,
-            "totalTrophies": 5
+            "leagueTitles": 1,
+            "domesticCups": 0,
+            "totalTrophies": 1
           },
           "nik": {
-            "careerPoints": 17,
-            "seasonWins": 2,
+            "careerPoints": 1,
+            "seasonWins": 0,
             "seasonDraws": 0,
             "seasonLosses": 1,
-            "championsLeagues": 2,
+            "championsLeagues": 0,
             "leagueTitles": 0,
             "domesticCups": 1,
-            "totalTrophies": 3
+            "totalTrophies": 1
           }
         }
-      }
+      },
+      "bind": {
+        "model.status": "career.status",
+        "model.coverage.readable": "career.coverage.readable",
+        "model.coverage.indexed": "career.coverage.indexed",
+        "model.standings.daniel.careerPoints": "career.trophyRoom.standings[0].careerPoints",
+        "model.standings.daniel.seasonWins": "career.trophyRoom.standings[0].seasonWins",
+        "model.standings.daniel.seasonDraws": "career.managers.daniel.seasonDraws",
+        "model.standings.daniel.seasonLosses": "career.managers.daniel.seasonLosses",
+        "model.standings.daniel.championsLeagues": "career.managers.daniel.championsLeagues",
+        "model.standings.daniel.leagueTitles": "career.managers.daniel.leagueTitles",
+        "model.standings.daniel.domesticCups": "career.managers.daniel.domesticCups",
+        "model.standings.daniel.totalTrophies": "career.managers.daniel.totalTrophies",
+        "model.standings.nik.careerPoints": "career.trophyRoom.standings[1].careerPoints",
+        "model.standings.nik.seasonWins": "career.trophyRoom.standings[1].seasonWins",
+        "model.standings.nik.seasonDraws": "career.managers.nik.seasonDraws",
+        "model.standings.nik.seasonLosses": "career.managers.nik.seasonLosses",
+        "model.standings.nik.championsLeagues": "career.managers.nik.championsLeagues",
+        "model.standings.nik.leagueTitles": "career.managers.nik.leagueTitles",
+        "model.standings.nik.domesticCups": "career.managers.nik.domesticCups",
+        "model.standings.nik.totalTrophies": "career.managers.nik.totalTrophies"
+      },
+      "bindScenario": "partial-career"
     },
     "SD8": {
       "view": "career",
@@ -245,8 +371,49 @@
       "note": "Successful provider read, new career; no records. Distinct from SD6 read failure.",
       "model": {
         "status": "empty",
-        "standings": {}
-      }
+        "standings": {
+          "daniel": {
+            "careerPoints": 0,
+            "seasonWins": 0,
+            "seasonDraws": 0,
+            "seasonLosses": 0,
+            "championsLeagues": 0,
+            "leagueTitles": 0,
+            "domesticCups": 0,
+            "totalTrophies": 0
+          },
+          "nik": {
+            "careerPoints": 0,
+            "seasonWins": 0,
+            "seasonDraws": 0,
+            "seasonLosses": 0,
+            "championsLeagues": 0,
+            "leagueTitles": 0,
+            "domesticCups": 0,
+            "totalTrophies": 0
+          }
+        }
+      },
+      "bind": {
+        "model.status": "career.status",
+        "model.standings.daniel.careerPoints": "career.trophyRoom.standings[0].careerPoints",
+        "model.standings.daniel.seasonWins": "career.trophyRoom.standings[0].seasonWins",
+        "model.standings.daniel.seasonDraws": "career.managers.daniel.seasonDraws",
+        "model.standings.daniel.seasonLosses": "career.managers.daniel.seasonLosses",
+        "model.standings.daniel.championsLeagues": "career.managers.daniel.championsLeagues",
+        "model.standings.daniel.leagueTitles": "career.managers.daniel.leagueTitles",
+        "model.standings.daniel.domesticCups": "career.managers.daniel.domesticCups",
+        "model.standings.daniel.totalTrophies": "career.managers.daniel.totalTrophies",
+        "model.standings.nik.careerPoints": "career.trophyRoom.standings[1].careerPoints",
+        "model.standings.nik.seasonWins": "career.trophyRoom.standings[1].seasonWins",
+        "model.standings.nik.seasonDraws": "career.managers.nik.seasonDraws",
+        "model.standings.nik.seasonLosses": "career.managers.nik.seasonLosses",
+        "model.standings.nik.championsLeagues": "career.managers.nik.championsLeagues",
+        "model.standings.nik.leagueTitles": "career.managers.nik.leagueTitles",
+        "model.standings.nik.domesticCups": "career.managers.nik.domesticCups",
+        "model.standings.nik.totalTrophies": "career.managers.nik.totalTrophies"
+      },
+      "bindScenario": "empty-career"
     },
     "SD9": {
       "view": "career",
@@ -278,5 +445,12 @@
         }
       }
     }
-  }
+  },
+  "nav": {
+    "active": "standings",
+    "locked": false,
+    "reason": null,
+    "source": "nav.json screens.statistics"
+  },
+  "bindingSource": "visual-assets/v10_1/shared/fixtures/data-contract-v1 (Team G G-11, gameplay/recovery-v1 @ dc78ed7b)"
 }

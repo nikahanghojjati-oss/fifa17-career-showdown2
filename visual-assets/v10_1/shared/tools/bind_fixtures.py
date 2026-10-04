@@ -344,6 +344,9 @@ def trophy_room(fr: Frame, ref: dict) -> None:
     if "showdowns" in fr.f:
         for m in M:
             fr.b(f"showdowns.{m}.wins", f"{r}.managers.{m}.showdowns.wins")
+    cov = fr.f.get("coverage")
+    if isinstance(fr.f.get("stateMessage"), str) and cov and re.search(r"\d+ of \d+", fr.f["stateMessage"]):
+        fr.f["stateMessage"] = re.sub(r"\d+ of \d+", f"{cov['readable']} of {cov['indexed']}", fr.f["stateMessage"])
     if "checkSource" in fr.f:
         fr.f["checkSource"] = {"rendered": False, "source": "checkSource of G-11 scenario " + ref["scenario"]}
 
