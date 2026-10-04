@@ -148,7 +148,7 @@
     const scoreBar = document.createElement("div");
     scoreBar.className = "season-score";
     scoreBar.style.setProperty("--season-score", score);
-    scoreBar.innerHTML = '<span class="season-score-label"></span><span class="season-score-track"><i class="season-score-fill"></i></span><strong class="season-score-value"></strong>';
+    scoreBar.innerHTML = '<span class="season-score-label"></span><span class="season-score-track"><i class="season-score-fill"></i></span><strong class="season-score-value sd-number sd-number--small"></strong>';
     scoreBar.querySelector(".season-score-label").textContent =
       canonical ? "CANONICAL SCORE" : "PREVIEW SCORE";
     scoreBar.querySelector(".season-score-value").textContent = String(score);
