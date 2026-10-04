@@ -19,6 +19,19 @@
     platemap: { phone_band: [120, 45, 1450, 575] }
   });
 
+  const SR_MOTION = Object.freeze({
+    tick: 120, roll: 320, cap: 120, reduced: 150,
+    ease: "cubic-bezier(.22,1,.36,1)"
+  });
+  function reducedMotion() {
+    return window.ShowdownMotion?.isReducedMotion() || matchMedia("(prefers-reduced-motion: reduce)").matches;
+  }
+  function feedbackMotion(node, frames, duration) {
+    if (!node || typeof node.animate !== "function") return;
+    return node.animate(reducedMotion() ? [{ opacity: .65 }, { opacity: 1 }] : frames,
+      { duration: reducedMotion() ? SR_MOTION.reduced : duration, easing: SR_MOTION.ease });
+  }
+
   function appendValue(parent, key, value) {
     if (value && typeof value === "object") {
       const group = document.createElement("section");
@@ -144,6 +157,12 @@
 
     body.append(stats, achievements);
     panel.append(header, hint, body);
+    panel.addEventListener("change", event => {
+      const input = event.target;
+      if (input.matches('input[type="checkbox"]') && !input.disabled && input.checked) {
+        feedbackMotion(input, [{ transform: "scale(1.4)", opacity: .55 }, { transform: "scale(1)", opacity: 1 }], SR_MOTION.tick);
+      }
+    });
 
     const canonical =
       frame.scoringState === "SCORING_RECONCILED"
