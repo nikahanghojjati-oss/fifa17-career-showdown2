@@ -9,7 +9,7 @@
   const witnessEnabled=acceptanceEnabled&&params.get("ssjr-witness")==="1";
   const physicalEnabled=acceptanceEnabled&&!witnessEnabled&&params.get("ssjr-physical")==="1";
   // JOB-24: Team V's screen loader and navigation bar, once the browser is idle (independent of the chain below).
-  const v10=()=>load("v10-screens","js/v10Screens.js",()=>root.CareerModeV10Screens).then(()=>root.CareerModeV10Screens.install()).catch(error=>root.console?.warn?.("[Career Mode Showdown] Team V screens unavailable.",error));
+  const v10=()=>load("v10-screens","js/v10Screens.js",()=>root.CareerModeV10Screens).then(()=>root.CareerModeV10Screens.install()).then(()=>load("v10-home-screens","js/homeScreensV10.js",()=>root.CareerModeHomeScreensV10)).then(()=>root.CareerModeHomeScreensV10.install()).catch(error=>root.console?.warn?.("[Career Mode Showdown] Team V screens unavailable.",error));
   if(typeof root.requestIdleCallback==="function")root.requestIdleCallback(v10,{timeout:2500});else root.setTimeout?.(v10,600);
   // JOB-27: Team V's Transfer War skin for the shared Transfer Challenge (registers with the loader above).
   const v10Transfer=()=>load("v10-transfer","js/transferScreenV10.js",()=>root.CareerModeTransferScreenV10).then(()=>root.CareerModeTransferScreenV10.install()).catch(error=>root.console?.warn?.("[Career Mode Showdown] Transfer War visuals unavailable.",error));
