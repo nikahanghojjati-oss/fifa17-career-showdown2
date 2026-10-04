@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-04 12:26 PM Boston time (EDT)",
+ "generated": "2026-10-04 12:27 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 15,
@@ -246,7 +246,7 @@
   }
  ],
  "next_move": [
-  "**Nothing for you to start.** Everything that can run is running or done."
+  "**Nothing for you to start right now.**"
  ],
  "jobs": [
   {

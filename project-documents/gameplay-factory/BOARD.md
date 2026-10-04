@@ -1,10 +1,10 @@
 # Team G gameplay board
 
-19 of 22 jobs done (86 %) ████████░░ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-04 12:26 PM Boston time (EDT)
+19 of 22 jobs done (86 %) ████████░░ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-04 12:27 PM Boston time (EDT)
 
 ## Your next move
 
-1. **Nothing for you to start.** Everything that can run is running or done.
+1. **Nothing for you to start right now.**
 
 _Moving now:_ bug hunt 1 (job 21, PR #344: retry once quietly). _Next up:_ G-13 Remove the r43 containment, bind #trophyRoomButton, waits on approved Team V visual package.
 

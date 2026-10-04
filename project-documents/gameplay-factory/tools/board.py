@@ -141,7 +141,7 @@ if relay and relay["open_for_g"]:
     if owed:
         move.append("**Team G lead owes Team V a reply:** " + ", ".join(m["id"] for m in owed) + " (no action for you).")
 if not move:
-    move.append("**Nothing for you to start.** Everything that can run is running or done.")
+    move.append("**Nothing for you to start right now.**")
 who_busy = []
 for j in lead_jobs:
     who_busy.append(f"{job_ref(j)}")
