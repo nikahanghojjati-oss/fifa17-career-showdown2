@@ -971,3 +971,9 @@ body { overflow: hidden; font-family: var(--text); -webkit-font-smoothing: antia
 /* With interactive-widget=resizes-content, a 300px software keyboard reduces the
    layout viewport; the fixed primary action remains anchored to that resized
    viewport instead of sitting underneath the keyboard. */
+
+/* Claude fix 2026-10-04 (JOB-052 intake): the shared desktop top bar is fixed over the stage, so the painted
+   TRANSFER WAR title sat under it. Desktop stage starts below the bar; plate.js fits to the stage size. */
+@media (min-width: 901px) {
+  .stage { top: var(--sd-nav-top-h, 52px); }
+}
