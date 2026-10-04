@@ -1,8 +1,8 @@
 # Showdown Factory board
 
-**197 of 238 jobs done and checked · 83 %** · updated Sun 12:55 p.m. Eastern
+**197 of 238 jobs done and checked · 83 %** · updated Sun 12:58 p.m. Eastern
 
-✅ **Quality check:** a job counts as done only after Claude checks it against the quality bar (average 4.2 or more, nothing under 3, hard gates pass). Average score 4.26 over 70 scored jobs. 🔍 Waiting for Claude's check: 76. 
+✅ **Quality check:** a job counts as done only after Claude checks it against the quality bar (average 4.2 or more, nothing under 3, hard gates pass). Average score 4.26 over 70 scored jobs. 🔍 Waiting for Claude's check: 76, 170. 
 
 <img src="board-meter.svg" alt="Football progress meter" width="640">
 
@@ -12,7 +12,7 @@
 
 🟣 **Image next:** -
 
-**Working:** 103, 104, 170, 171, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220 · **Blocked:** -
+**Working:** 103, 104, 171, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220 · **Blocked:** -
 
 ## Screens
 
@@ -25,7 +25,7 @@ Loading        ██████████ 4/4
 Trophy Room    ██████████ 10/10
 Career Stats   ██████████ 17/17
 Rivalry        ██████████ 19/19
-Legacy         ████████░░ 17/19
+Legacy         █████████░ 18/19
 Season Results ██████████ 19/19
 Final Winner   ██████████ 12/12
 Start/Join     ██████████ 18/18
@@ -57,7 +57,7 @@ Branch `factory/v1-wtt5ye`. 238 Team V jobs, plus 5 lines that track Team G. Two
 
 **Start now (Sol Work mode, press Use Work):** -
 
-**Working:** 103, 104, 170, 171, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220 · **Blocked:** -
+**Working:** 103, 104, 171, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220 · **Blocked:** -
 
 **Team G tracking (never start these):** 98 (done), 99 (done), 100 (done), 101 (done), 102 (done). Claude marks them done when Team G delivers.
 
@@ -233,7 +233,7 @@ Branch `factory/v1-wtt5ye`. 238 Team V jobs, plus 5 lines that track Team G. Two
 | 167 | [Legacy (History): review (part 4 of 4)](jobs/JOB-167.md) | 5 New screens | review | project (type number) | 166 | ██████████ 100 % | DONE |  |
 | 168 | [Legacy (History): fix round (part 2 of 3)](jobs/JOB-168.md) | 5 New screens | fix | project (type number) | 75 | ██████████ 100 % | DONE |  |
 | 169 | [Legacy (History): fix round (part 3 of 3)](jobs/JOB-169.md) | 5 New screens | fix | project (type number) | 168 | ██████████ 100 % | DONE |  |
-| 170 | [Legacy (History): motion (part 2 of 3)](jobs/JOB-170.md) | 5 New screens | build | project (type number) | 76 | ░░░░░░░░░░ 0 % | IN PROGRESS · ASTRA |  |
+| 170 | [Legacy (History): motion (part 2 of 3)](jobs/JOB-170.md) | 5 New screens | build | project (type number) | 76 | ██████████ 100 % | DONE |  |
 | 171 | [Legacy (History): motion (part 3 of 3)](jobs/JOB-171.md) | 5 New screens | build | project (type number) | 170 | ░░░░░░░░░░ 0 % | IN PROGRESS · ASTRA | yes |
 | 172 | [Season Results: phone (part 2 of 3)](jobs/JOB-172.md) | 5 New screens | build | project (type number) | 78 | ██████████ 100 % | DONE |  |
 | 173 | [Season Results: phone (part 3 of 3)](jobs/JOB-173.md) | 5 New screens | build | project (type number) | 172 | ██████████ 100 % | DONE |  |
