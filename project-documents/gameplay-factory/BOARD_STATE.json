@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-03 8:16 PM Boston time (EDT)",
+ "generated": "2026-10-03 8:26 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 13,
@@ -29,8 +29,8 @@
   "chat": 2,
   "work": 1
  },
- "overall": 83,
- "done": 17,
+ "overall": 84,
+ "done": 18,
  "total": 22,
  "start": {
   "chat": [],
@@ -512,10 +512,10 @@
    "phase": "1 Safety net",
    "type": "fix",
    "plain": "When both players press acknowledge at the same moment, the second one is retried instead of showing a permission error.",
-   "state": "IN REVIEW",
-   "step": 2,
+   "state": "DONE",
+   "step": 3,
    "steps_total": 3,
-   "pct": 66,
+   "pct": 100,
    "ready": false
   }
  ]
