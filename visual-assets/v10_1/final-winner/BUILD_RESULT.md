@@ -61,8 +61,27 @@ That leaves 290,234 B inside the 900,000 B desktop budget for the four DPR1 near
 
 The arm and rim WebPs are deliberately not committed by this worker. `preview.html` is also recipe output and is not generated here. Browser rendering, screenshot QA, H10 mockup comparison, H5–H11 and 404/jank checks are Claude intake work after asset generation.
 
-The desktop build is complete. Phone recomposition belongs to the separate phone job.
+The desktop build is complete. Phone recomposition is documented below.
 
 ## Claude intake recipe
 
 Run every command in `tools/MAKE_ASSETS.md`. It creates the registered Daniel/Nik arm and rim WebPs, then builds `preview.html`. Inspect the generated silhouettes at 100, 200 and 400 percent, render every FW frame on a real server, run the remaining quality gates, and keep Daniel left / Nik right with no mirroring.
+
+
+## Phone
+
+### Height budget
+
+The phone CSS uses one full-viewport composition with no bottom bar. The title, trophy and winner copy are overlays inside the hero band, so they do not add stacked height. The tab row is included inside the results-panel height.
+
+| Viewport | Hero band 55% | Transition gap 2% | Results panel | Tabs inside panel | Results body after tabs | Gap to pinned action | Pinned action | Additive total | Remaining |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 393 × 660 | 363.0 px | 13.2 px | 221.8 px | 44 px | 177.8 px | 8 px | 54 px | 660.0 px | 0.0 px |
+| 360 × 640 | 352.0 px | 12.8 px | 213.2 px | 44 px | 169.2 px | 8 px | 54 px | 640.0 px | 0.0 px |
+| 375 × 553 | 304.2 px | 11.1 px | 175.8 px | 44 px | 131.8 px | 8 px | 54 px | 553.0 px | 0.0 px |
+
+Arithmetic comes directly from the media query: results start at 57% of viewport height and end 62 px above the safe-area edge; the pinned action is 54 px high, leaving the deliberate 8 px gap. A positive `env(safe-area-inset-bottom)` moves both the panel bottom and action upward together rather than creating page scroll. At 375 × 553 the primary action remains in the final 54 px pinned slot and is therefore visible.
+
+The title is internally budgeted inside the hero band: its top is `clamp(24px, 4.8svh, 34px)`; the trophy starts at `clamp(112px, 19svh, 136px)`; the hero copy starts at `clamp(245px, 42svh, 282px)`. These overlays do not consume additional stacked height.
+
+Growth check: at 390 × 844 the results panel grows to 300.9 px; at 430 × 932 it grows to 338.8 px. The 55% hero band and 57% panel start scale with viewport height, so larger phones gain usable hero and panel space instead of leaving the composition floating in a fixed-height island.
