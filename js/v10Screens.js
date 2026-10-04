@@ -208,6 +208,9 @@
     return true;
   }
   function vsHide(id){vsUnmount(id);vsSyncStyles();}
+  // The app rewrote the screen's host (e.g. its old renderer ran): forget the drawn frame so the next show() draws
+  // again even when the frame is unchanged. A screen the app is not showing is simply closed.
+  function vsInvalidate(id){if(!vsIsShown(id)){vsHide(id);return;}mounted.delete(id);}
   const vsIsMounted=id=>mounted.has(id);
 
   // ---- navigation bar ----
@@ -297,7 +300,7 @@
 
   const api=Object.freeze({
     contractVersion:1,BASE,EVENT,UI_KEY,KIT,NAV,NAV_SCREENS,ROUTES,
-    install:vsInstall,ensureKit:vsEnsureKit,register:vsRegister,show:vsShow,hide:vsHide,isMounted:vsIsMounted,
+    install:vsInstall,ensureKit:vsEnsureKit,register:vsRegister,show:vsShow,hide:vsHide,invalidate:vsInvalidate,isMounted:vsIsMounted,
     navFor:vsNavFor,navigate:vsNavigate,setNavRoute:vsSetNavRoute,getUiPreference:vsGetUiPreference,setUiPreference:vsSetUiPreference
   });
   return api;

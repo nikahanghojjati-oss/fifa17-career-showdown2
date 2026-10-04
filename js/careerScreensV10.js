@@ -159,8 +159,8 @@
     }
     return true;
   }
-  // The old render paths keep running (they hold the model); a mounted V10 screen is redrawn after them
-  // when the model changed.
+  // The old render paths keep running (they hold the model) and rewrite the host, so a V10 screen is always
+  // redrawn after them, as in job 13.
   function v10WrapRender(screen){
     const name=screen==="careerStatistics"?"renderCareerStatistics":"renderTrophyRoom";
     const original=root[name];
@@ -174,7 +174,8 @@
         if(typeof open==="function")open();
         return result;
       }
-      v10Screens().show(screen).catch(v10Fail);
+      const screens=v10Screens();screens.invalidate(screen);
+      screens.show(screen).catch(v10Fail);
       return result;
     };
     wrapped.careerScreensV10=true;root[name]=wrapped;

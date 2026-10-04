@@ -6,9 +6,11 @@ const CACHE_NAME = `${CACHE_PREFIX}${RUNTIME_REVISION}`;
 const PREVIOUS_CACHE_NAME = PREVIOUS_RUNTIME_REVISION ? `${CACHE_PREFIX}${PREVIOUS_RUNTIME_REVISION}` : "";
 const MODE_CACHE_NAME = `${MODE_CACHE_PREFIX}${RUNTIME_REVISION}`;
 // JOB-24: Team V images are not precached on install (about 20 MB in all). They load on first view into
-// this cache-first runtime cache, keyed by RUNTIME_REVISION and cleared with old revisions on activate.
+// this cache-first runtime cache, keyed by RUNTIME_REVISION. Activate keeps it and the retained recovery
+// revision's image cache (for rollback) and clears the others.
 const V10_IMAGE_CACHE_PREFIX = "career-mode-showdown-v10-images-";
 const V10_IMAGE_CACHE_NAME = `${V10_IMAGE_CACHE_PREFIX}${RUNTIME_REVISION}`;
+function v10ImageCacheName(revision){ return revision ? `${V10_IMAGE_CACHE_PREFIX}${revision}` : ""; }
 const V10_IMAGE_PATH = /^visual-assets\/v10_1\/.+\.(?:webp|png|jpe?g|avif|gif|svg)$/i;
 const NETWORK_PROBE_TIMEOUT_MS = 1800;
 const RUNTIME_CONFIG_PATH = "firebase.runtime-config.json";
@@ -262,12 +264,16 @@ self.addEventListener("message",event=>{
     if(type==="CMS_ROLLBACK_TO_PREVIOUS"){ event.waitUntil((async()=>{ try{ const recovery=await findRecoveryRuntime(); if(!recovery.ok){throw new Error("No verified previous application shell is available for rollback.");} await writeForcedRevision(recovery.revision); replyToClient(event,{type:"CMS_ROLLBACK_ACCEPTED",ok:true,revision:recovery.revision}); }catch(error){ replyToClient(event,{type:"CMS_ROLLBACK_REJECTED",ok:false,error:error?.message||String(error)}); } })()); return; }
     if(type==="CMS_CLEAR_ROLLBACK"){ event.waitUntil((async()=>{ await clearForcedRevision(); replyToClient(event,{type:"CMS_ROLLBACK_CLEARED",ok:true,revision:RUNTIME_REVISION}); })()); }
 });
-self.addEventListener("activate",event=>{ event.waitUntil((async()=>{ const status=await verifyCache(RUNTIME_REVISION); if(!status.ok){throw new Error(`Refusing activation with incomplete application shell: ${status.missing.join(", ")}`);} await clearForcedRevision(); const recovery=await findRecoveryRuntime(); const keepShellCaches=new Set([CACHE_NAME,recovery.ok?recovery.cacheName:""] .filter(Boolean)); const cacheNames=await caches.keys(); await Promise.all(cacheNames.map(name=>{if(name.startsWith(CACHE_PREFIX)&&!keepShellCaches.has(name)){return caches.delete(name);}if(name.startsWith(MODE_CACHE_PREFIX)&&name!==MODE_CACHE_NAME){return caches.delete(name);}if(name.startsWith(V10_IMAGE_CACHE_PREFIX)&&name!==V10_IMAGE_CACHE_NAME){return caches.delete(name);}return Promise.resolve(false);})); await self.clients.claim(); })()); });
+self.addEventListener("activate",event=>{ event.waitUntil((async()=>{ const status=await verifyCache(RUNTIME_REVISION); if(!status.ok){throw new Error(`Refusing activation with incomplete application shell: ${status.missing.join(", ")}`);} await clearForcedRevision(); const recovery=await findRecoveryRuntime(); const keepShellCaches=new Set([CACHE_NAME,recovery.ok?recovery.cacheName:""] .filter(Boolean)); const keepImageCaches=new Set([V10_IMAGE_CACHE_NAME,recovery.ok?v10ImageCacheName(recovery.revision):""].filter(Boolean)); const cacheNames=await caches.keys(); await Promise.all(cacheNames.map(name=>{if(name.startsWith(CACHE_PREFIX)&&!keepShellCaches.has(name)){return caches.delete(name);}if(name.startsWith(MODE_CACHE_PREFIX)&&name!==MODE_CACHE_NAME){return caches.delete(name);}if(name.startsWith(V10_IMAGE_CACHE_PREFIX)&&!keepImageCaches.has(name)){return caches.delete(name);}return Promise.resolve(false);})); await self.clients.claim(); })()); });
 async function cachedShellResponse(path,revision){ const cacheName=cacheNameForRevision(revision); if(!cacheName||!(await cacheExists(cacheName))){return null;} const cache=await caches.open(cacheName); return cache.match(versionedShellUrl(path,revision)); }
 function isV10ImagePath(path){ return V10_IMAGE_PATH.test(path); }
+// Images follow the shell the page runs: after a rollback they come from the retained revision's own image cache
+// (or its shell cache, for revisions that precached them), so an offline rollback keeps its art and generations never mix.
+async function v10ImageRevision(){ const forced=await readForcedRevision(); return forced&&forced!==RUNTIME_REVISION&&await cacheExists(cacheNameForRevision(forced))?forced:RUNTIME_REVISION; }
 async function v10ImageResponse(event,request,path){
-    const cache=await caches.open(V10_IMAGE_CACHE_NAME); const key=scopeUrl(path).href;
+    const revision=await v10ImageRevision(); const cache=await caches.open(v10ImageCacheName(revision)); const key=scopeUrl(path).href;
     const cached=await cache.match(key); if(cached){ return cached; }
+    if(revision!==RUNTIME_REVISION){ const retained=await cachedShellResponse(path,revision); if(retained){ return retained; } }
     const response=await fetch(request);
     if(response&&response.ok&&response.type==="basic"){ event.waitUntil(cache.put(key,response.clone()).catch(()=>{})); }
     return response;

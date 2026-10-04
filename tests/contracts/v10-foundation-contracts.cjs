@@ -177,7 +177,7 @@ const V10=require(path.join(ROOT,"js/v10Screens.js"));
 const KIT_STYLES=V10.KIT.styles.map(file=>V10.BASE+file);
 
 check("F1 the loader API is small and fixed",()=>{
-  for(const name of ["install","ensureKit","register","show","hide","isMounted","navFor","navigate","setNavRoute","getUiPreference","setUiPreference"])assert.equal(typeof V10[name],"function",name);
+  for(const name of ["install","ensureKit","register","show","hide","invalidate","isMounted","navFor","navigate","setNavRoute","getUiPreference","setUiPreference"])assert.equal(typeof V10[name],"function",name);
   assert.equal(V10.BASE,"visual-assets/v10_1/");
   assert.equal(V10.EVENT,EVENT);
   assert.equal(V10.UI_KEY,"cms.v10.ui");
@@ -214,6 +214,17 @@ check("F2 registry: kit, CSS, JS and prepare load once; mount on screen change, 
   assert.equal(await V.show("dashboard"),false,"show() never mounts a screen the app is not showing");
   root.showScreen("dashboard");await flush();
   assert.equal(mounts.length,3,"remounted on return");
+  V.invalidate("dashboard");
+  assert.equal(V.isMounted("dashboard"),false,"invalidate forgets the drawn frame");
+  assert.equal(await V.show("dashboard"),true);
+  assert.deepEqual(mounts.at(-1),[2,"dashboard"],"after invalidate the same frame draws again");
+  assert.equal(mounts.length,4);
+  root.showScreen("mainMenu");await flush();
+  assert.equal(unmounts,2);
+  V.invalidate("dashboard");
+  assert.equal(await V.show("dashboard"),false,"invalidate never draws a screen the app is not showing");
+  root.showScreen("dashboard");await flush();
+  assert.equal(mounts.length,5);
   assert.equal(prepared,1);
   assert.equal(root.scripts.filter(s=>s.startsWith("v10-test-dash|")).length,1,"screen JS loaded once");
   for(const key of ["career-v10-stage","career-v10-motion","v10-navbar","start-join-view-model"])assert.equal(root.scripts.filter(s=>s.startsWith(key+"|")).length,1,`${key} loaded once`);
@@ -374,9 +385,58 @@ check("F9 images use a runtime cache keyed by RUNTIME_REVISION; the precache kee
   assert.match(imageFn,/cache\.put\(/,"filled on first view");
   assert.match(imageFn,/response\.ok/,"only good responses are kept");
   const activate=/self\.addEventListener\("activate"[\s\S]*?\n/.exec(sw)[0];
-  assert.match(activate,/name\.startsWith\(V10_IMAGE_CACHE_PREFIX\)&&name!==V10_IMAGE_CACHE_NAME/,"old revisions' image caches are cleared");
+  assert.match(activate,/name\.startsWith\(V10_IMAGE_CACHE_PREFIX\)&&!keepImageCaches\.has\(name\)/,"other revisions' image caches are cleared");
+  assert.match(activate,/keepImageCaches=new Set\(\[V10_IMAGE_CACHE_NAME,recovery\.ok\?v10ImageCacheName\(recovery\.revision\):""\]/,"the recovery revision's image cache is kept");
   assert.ok(activate.includes("!keepShellCaches.has(name)"),"shell cleanup unchanged");
   for(const p of shell)assert.ok(fs.existsSync(path.join(ROOT,p)),`shell path exists ${p}`);
+});
+
+// Runs the real service worker against in-memory caches.
+function swWorld(){
+  const SCOPE="https://cms.test/app/",store=new Map(),listeners={},net=new Map();let online=true;
+  const keyOf=k=>typeof k==="string"?k:k.url;
+  const caches={
+    keys:async()=>[...store.keys()],
+    delete:async name=>store.delete(name),
+    open:async name=>{if(!store.has(name))store.set(name,new Map());const m=store.get(name);return{match:async k=>{const r=m.get(keyOf(k));return r?r.clone():undefined;},put:async(k,r)=>{m.set(keyOf(k),r);}};}
+  };
+  const fetch=async request=>{if(!online)throw new TypeError("offline");const body=net.get(new URL(keyOf(request)).pathname);const r=body===undefined?new Response("",{status:404}):new Response(body,{status:200});return Object.defineProperty(r,"type",{value:"basic"});};
+  const self={registration:{scope:SCOPE},clients:{claim:async()=>{}},addEventListener:(type,fn)=>{listeners[type]=fn;}};
+  const context=vm.createContext({self,caches,fetch,URL,Request,Response,console,setTimeout,clearTimeout});
+  vm.runInContext(read("service-worker.js"),context,{filename:"service-worker.js"});
+  const diag=self.__CMS_SERVICE_WORKER_DIAGNOSTICS__;
+  const fill=revision=>{const m=new Map();for(const p of diag.shellPaths){const u=new URL(p,SCOPE);u.searchParams.set("v",revision);m.set(u.href,new Response(p,{status:200}));}store.set("career-mode-showdown-shell-"+revision,m);return m;};
+  const dispatch=async(type,event)=>{const waits=[];listeners[type]({waitUntil:p=>waits.push(p),...event});await Promise.all(waits);};
+  const image=async path=>{let reply,waits=[];listeners.fetch({request:new Request(SCOPE+path),respondWith:p=>{reply=p;},waitUntil:p=>waits.push(p)});assert.ok(reply,"the worker answers "+path);const r=await reply;await Promise.all(waits);return r.type==="error"?null:{status:r.status,body:await r.text()};};
+  return{SCOPE,store,net,diag,fill,dispatch,image,setOnline:v=>{online=v;}};
+}
+
+check("F9b a rollback keeps its own Team V images (offline too); other old image caches are cleared",async()=>{
+  const w=swWorld(),cur=w.diag.revision,prev=w.diag.previousRevision,IMG="career-mode-showdown-v10-images-";
+  assert.equal(cur,"1.9.1-r53");assert.equal(prev,"1.9.1-r52");
+  w.fill(cur);const prevShell=w.fill(prev);
+  const art="visual-assets/v10_1/trophy-room/assets/ENV_TR_PHONE_V1.webp",only="visual-assets/v10_1/career-statistics/assets/ENV_CS_PLATE_V1_1X.webp";
+  // An older revision precached the art in its shell; the retained shell still has it.
+  const legacyKey=new URL(only,w.SCOPE);legacyKey.searchParams.set("v",prev);prevShell.set(legacyKey.href,new Response("prev-shell-art",{status:200}));
+  const put=(revision,p,body)=>{if(!w.store.has(IMG+revision))w.store.set(IMG+revision,new Map());w.store.get(IMG+revision).set(w.SCOPE+p,new Response(body,{status:200}));};
+  put(cur,art,"r53-art");put(prev,art,"r52-art");put("1.9.1-r50",art,"r50-art");
+  await w.dispatch("activate",{});
+  const names=[...w.store.keys()];
+  assert.ok(names.includes(IMG+cur),"current image cache kept");
+  assert.ok(names.includes(IMG+prev),"recovery image cache kept with its retained shell");
+  assert.ok(!names.includes(IMG+"1.9.1-r50"),"other old image caches cleared");
+  w.net.set("/app/"+art,"network-art");w.net.set("/app/"+only,"network-art");
+  assert.deepEqual(await w.image(art),{status:200,body:"r53-art"},"current revision: its own image cache first");
+  let reply;await w.dispatch("message",{data:{type:"CMS_ROLLBACK_TO_PREVIOUS"},ports:[{postMessage:m=>{reply=m;}}]});
+  assert.equal(reply&&reply.ok,true,"rollback accepted");assert.equal(reply.revision,prev);
+  w.setOnline(false);
+  assert.deepEqual(await w.image(art),{status:200,body:"r52-art"},"offline rollback: the retained revision's art, not the newer one");
+  assert.deepEqual(await w.image(only),{status:200,body:"prev-shell-art"},"offline rollback: art the retained shell precached");
+  w.setOnline(true);
+  const fresh="visual-assets/v10_1/trophy-room/assets/NEW_ONLY.webp";w.net.set("/app/"+fresh,"net-fresh");
+  assert.deepEqual(await w.image(fresh),{status:200,body:"net-fresh"});
+  assert.ok(w.store.get(IMG+prev).has(w.SCOPE+fresh),"a rollback fills its own revision's image cache");
+  assert.ok(!w.store.get(IMG+cur).has(w.SCOPE+fresh),"generations never mix");
 });
 
 check("F10 index.html is unchanged and the startup line is not higher",()=>{
@@ -431,7 +491,9 @@ check("F13 job 13's Career Statistics and Trophy Room run on the registry and sh
   assert.doesNotMatch(binder,/MutationObserver/,"style switching moved to the registry");
   const root=await installed();
   root.run("js/careerScreenSeam.js");
-  root.renderCareerStatistics=function(){return "cs";};root.renderTrophyRoom=function(){return "tr";};
+  // Like the app's renderers, the old renderers rewrite the screen's host.
+  const legacy=(id,value)=>function(){const host=root.document.getElementById(id);if(host)host.innerHTML="<p>legacy</p>";return value;};
+  root.renderCareerStatistics=legacy("careerStatistics","cs");root.renderTrophyRoom=legacy("trophyRoom","tr");
   root.CareerModeOnlinePlayerIdentity={getState:()=>({registered:true,managerId:"daniel"})};
   await root.loadRuntimeScript("career-screens-v10","js/careerScreensV10.js",()=>Boolean(root.CareerModeCareerScreensV10));
   const CS=root.CareerModeCareerScreensV10,V=root.CareerModeV10Screens;
@@ -444,8 +506,13 @@ check("F13 job 13's Career Statistics and Trophy Room run on the registry and sh
   assert.equal(root.document.getElementById("careerStatistics").dataset.careerV10,"1");
   assert.equal(V.isMounted("careerStatistics"),true);
   assert.equal(await CS.mount("careerStatistics",()=>model),true);
-  root.renderCareerStatistics();await flush();
-  assert.equal(root.boots.length,1,"same model: no second draw");
+  assert.equal(root.boots.length,1,"same model and untouched host: no second draw");
+  assert.equal(root.renderCareerStatistics(),"cs","the old renderer's result is kept");
+  root.showScreen("careerStatistics");await flush();
+  assert.equal(root.boots.length,2,"the old renderer rewrote the host: V10 draws once again, even with the same model");
+  assert.equal(root.boots[1][1],root.boots[0][1],"same frame");
+  assert.notEqual(root.document.getElementById("careerStatistics").innerHTML,"<p>legacy</p>","no legacy markup left in a V10 host");
+  assert.equal(V.isMounted("careerStatistics"),true);
   assert.equal(linkFor(root,V10.BASE+"career-statistics/career-statistics.css").disabled,false);
   root.showScreen("trophyRoom");await flush();
   assert.equal(V.isMounted("careerStatistics"),false);
@@ -458,7 +525,7 @@ check("F13 job 13's Career Statistics and Trophy Room run on the registry and sh
   assert.equal(V.isMounted("trophyRoom"),false);
   for(const file of [...KIT_STYLES.slice(1),V10.BASE+"trophy-room/trophy-room.css"])assert.equal(linkFor(root,file).disabled,true,file);
   root.showScreen("trophyRoom");await flush();
-  assert.equal(root.boots.length,3,"returning to the screen draws it again");
+  assert.equal(root.boots.length,4,"returning to the screen draws it again");
   const loads=root.scripts.filter(s=>/career-v10-trophy-room|career-v10-career-statistics/.test(s));
   assert.equal(loads.length,2,"each screen's JS loaded once");
   assert.deepEqual(root.errors,[]);
