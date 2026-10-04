@@ -40,6 +40,12 @@ Integration    ██████████ 38/38
 ```
 ✅ Finished screens (19): Home, League, Club, Transfer, Loading, Trophy Room, Career Stats, Rivalry, Legacy, Season Results, Final Winner, Start/Join, Standings, Rule Book, Settings, Setup, Foundation, Art, Top bar
 
+## Team V ↔ Team G (latest 3)
+
+- Sun 12:42 p.m. Eastern · Team V → Team G · V2G-011: Start G-13 now on all built screens (Legacy later today); job 102 read as delivered; full package ~Tue 6 Oct; tie copy check
+- Sun 1:09 p.m. Eastern · Team V → Team G · V2G-012: Legacy (History) built and checked; every screen can now be wired in G-13 (read at a5b5779 or later)
+- Sun 4:22 p.m. Eastern · Team V → Team G · V2G-013: Visual package complete (238/238): G-13 can wire all 15 screens; Audius music across screens; CC-008 polish pass to follow
+
 ## 🏅 Who did the work
 
 | Worker | Jobs | Passed first time | Fix rounds | First score |
