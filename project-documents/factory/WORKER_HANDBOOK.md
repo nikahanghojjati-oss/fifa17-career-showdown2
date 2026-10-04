@@ -9,19 +9,19 @@ Raw link pattern (works without the GitHub connector):
 
 ---
 
-## Pace rules: short turns that always finish (2026-10-03, these beat anything below)
+## Pace rules: one number is one turn (2026-10-04, these beat anything below)
 
-Long ChatGPT turns stall in "thinking" and Nik has to press stop and continue. So every turn is short and ends cleanly:
+Every job is sized so that one normal chat turn does all of it. Nik types a number once; the chat finishes, saves and ends with one line. Nobody types "continue".
 
-1. **At most TWO steps per turn.** After your second finished step (or one heavy step: a build, a cut-out, a long CSS pass), save, then stop with exactly: `Step k of n done and saved. Type continue for step k+1.` Never start a third step in the same turn.
-2. **Every step ends saved.** Step files plus the status file (`Step: k of n`, one note line) are on the branch before you say anything else. A stopped or broken chat then loses nothing: `continue` in this chat, or the job number in a new chat, resumes from the status file at step k+1.
-3. **Resume from the status file, not from memory.** On `continue` or on the number, re-read only `status/JOB-NNN.md` and the job file, then do the next step. Also look at the branch's newest commits: if any say `Job N step k+1/...` (a half-saved step from a chat that was cut off), keep those files, write only the missing ones, then save the status file. Do not re-read papers you already used unless the step needs them.
+1. **One job = one turn.** Do every step of the job in this turn, then stop with exactly one line: `Job N done: <what>. Next: <numbers it unlocks>.` Never stop between steps, never say "type continue", never start a second job. A job that was too big is now several numbers ("part 1 of 3", "part 2 of 3", ...): each part is its own job with its own status file and waits for the part before it. (A job file that still says "two steps per turn" was started before 04 Oct: finish it the way its file says.)
+2. **Save as you go, status last.** Save each file when it is finished (commit `Job N step k/n: <step name>`). The status file goes last: `State: DONE`, `Step: n of n`, one note line per step, commit `Job N done: <title>`. A stopped or broken chat then loses nothing.
+3. **A new chat on the same number resumes from the branch, not from memory.** Before writing, look at the branch's newest commits for `Job N`: keep every file already saved, write only what is missing, then save the status file. That is the whole recovery: no "continue", no "take over".
 4. **Read only what the step needs.** Read the handbook, the job file and the status file at the start; read each other paper (PRODUCT_TRUTH, QUALITY_BAR, CRAFT_GUIDE, mockups, code) when a step actually uses it, and only the sections it uses. Never fetch whole folders.
 5. **Never trigger, wait on or poll GitHub Actions, CI or workflow logs.** No "waiting 60 seconds", no re-reading run logs. Save and move on.
 6. **No browser QA, no screenshots.** Even if a step asks for them, do not run them; check by reading the code and write what you checked. Claude renders and checks every screen from the committed code. Never retry a failing tool more than once.
-7. **Sol capacity (the size of one step).** A step is right-sized when it reads at most 4 files (only the sections it needs), writes or edits at most 3 files and about 150 lines, and makes at most ONE decision. If a step is bigger, split it yourself into parts (5a, 5b, ...) and save after each part; the status note names the part. Never hold a whole screen in one answer.
+7. **The size of one job.** A job is right-sized when it reads the job file, the status file and at most 5 other files (only the sections named), writes at most 3 work files plus the status file, changes about 200 lines and makes ONE decision (the job names the DEFAULT for everything else). If a step still turns out big, finish it in this turn anyway: save it in pieces (5a, 5b) and name the piece in the note. Never hold a whole screen in one answer.
 8. **Default, don't stop.** If something is unclear, pick the most reasonable option that keeps product truth, write `DEFAULT: <what you chose and why>` in the notes, and keep going. Use BLOCKED only for a real product-truth contradiction or a missing input you cannot work around (for example a mockup missing from project Files). Words on a mockup or an existing asset that differ from TRUTH.md are NOT a contradiction: TRUTH.md wins; for a title image with the wrong words, set TRUTH.md's words in the kit's display font with the comment `TODO-WORDMARK` and keep going.
-9. **If GitHub refuses a write, stop at once.** ChatGPT's write guard sometimes refuses a save partway through a step (seen on job 72, 03 Oct; other chats saved 4 files in a row fine, so it is not a fixed limit). Do not retry it, do not write the file another way, do not start the next step. Reply exactly: `Job N paused: GitHub refused a save in step k. Type N in a new chat.` The new chat finishes the half-saved step (rule 3) and goes on. Always save the status file last in a step, so a refused save never marks a step done early.
+9. **If GitHub refuses a write, stop at once.** ChatGPT's write guard sometimes refuses a save partway through a step (seen on job 72, 03 Oct; other chats saved 4 files in a row fine, so it is not a fixed limit). Do not retry it, do not write the file another way, do not start the next step. Reply exactly: `Job N paused: GitHub refused a save. Type N in a new chat.` The new chat keeps the files already saved and writes only the missing ones (rule 3).
 
 ---
 
@@ -32,10 +32,10 @@ Long ChatGPT turns stall in "thinking" and Nik has to press stop and continue. S
 3. First reply line: `Job N · <title> · <State>`.
 4. Decide with the gate table in §6 whether you may start. If not, say why in one line and stop.
 5. Read every paper the job lists under "Read first" (always PRODUCT_TRUTH.md and QUALITY_BAR.md; CRAFT_GUIDE.md for build, polish, review and fix jobs).
-6. Do the steps in order, one at a time, at most two per turn (Pace rules). Never skip, merge or reorder steps.
-7. After each step, save: update the status file and save that step's files (§7).
+6. Do the steps in order, all in this turn (Pace rule 1). Never skip, merge or reorder steps.
+7. Save each step's files when they are finished; the status file last (Pace rule 2, §7).
 8. Run the self-check from the job file. Fix anything that fails.
-9. Set `State: DONE`, save it yourself (§7), and send Nik one line: what you made and which job numbers it unlocks. No zip, ever.
+9. Set `State: DONE`, save it yourself (§7), and end with the one line: `Job N done: <what>. Next: <numbers it unlocks>.` No zip, ever.
 10. Never start a second job in the same chat. One chat, one job.
 
 ---
@@ -89,7 +89,7 @@ The chat cannot decode images it reads from GitHub. Every mockup and goal image 
 
 `BOARD.md` starts with:
 - **Overall (Team V)**: the progress bar.
-- **Start now**: job numbers whose dependencies are all done, limited to the free chat slots (at most 4 worker chats at once, at most 2 of them image jobs). Nik picks from here.
+- **Start now**: job numbers whose dependencies are all done, limited to the free chat slots (up to 5 project chats at once, at most 2 image chats). Nik picks from here.
 - **Working / Blocked / Waiting on Nik / Waiting on Team G / Team G tracking**.
 
 Then one row per job: number, title (linked), phase, type, lane, depends on, progress bar (step k of n), state, and whether Claude looks at the end.
@@ -98,14 +98,12 @@ Lanes say what kind of chat should run the job:
 
 | Lane | Meaning |
 | --- | --- |
-| `plain` | Any GPT-5.6 Sol chat in Showdown visual. |
-| `plain-image` | A chat that can generate images. At most 2 at once. |
-| `plain (work if job 0 says no screenshots)` | Plain chat, unless job 0 found plain chats cannot render screenshots; then Sol Work mode. |
-| `work` | Sol Work mode (terminal, browser). |
+| `project (type number)` | A normal GPT-5.6 Sol chat in the ChatGPT project Showdown visual, one new chat per number. Every build, review, fix, motion and integration job. Sol Work mode is not used for factory jobs (04 Oct: its turns are too short and it has no browser). |
+| `fresh chat (image)` | Nik runs the job's ticket in a Temporary Chat outside the project. At most 2 at once. |
 | `codex` | Codex review (job 108). |
 | `team-g` | Tracks Team G. Never start it. |
 
-If you are in the wrong kind of chat for the lane (for example a `work` job in a chat with no terminal), say so in your first reply and stop: `Job N needs Sol Work mode (lane work). Open it there with the starter line.`
+If you are in the wrong kind of chat for the lane (a `codex` job in a Sol chat, a project job in Work mode), say so in your first reply and stop: `Job N runs in lane <lane>; open it there.`
 
 ## 5. The job file and the status file
 
@@ -149,7 +147,7 @@ Chat: GPT-5.6 Sol, Showdown visual
 
 When you set `State: DONE`, the board lists the job as "waiting for Claude's check". Claude renders and scores it against QUALITY_BAR.md (average 4.2 or more, no criterion under 3, hard gates pass) and writes one line under `Chat:`:
 - `Claude check: PASS 4.4`: the job counts as done.
-- `Claude check: FIX 3.8`: the state becomes `IN PROGRESS · FIX` and the status file gets a `## Claude fix list`. The board lists it under Type next as `N (fix)`. The next chat does only those items, two per turn, saves after each, then sets `State: DONE` again (keep `Step:` as it is). Never edit or delete the `Claude check:` line or the fix list yourself.
+- `Claude check: FIX 3.8`: the state becomes `IN PROGRESS · FIX` and the status file gets a `## Claude fix list`. The board lists it under Type next as `N (fix)`. The next chat (`N (fix)` on the board) does all those items in one turn, saves, then sets `State: DONE` again (keep `Step:` as it is). Claude keeps each fix list to at most 3 items per pass; a longer list becomes pass 2 after Claude's recheck. Never edit or delete the `Claude check:` line or the fix list yourself.
 
 Aim to pass the first time: before DONE, re-read your self-check against QUALITY_BAR criteria and fix what you can.
 
@@ -168,7 +166,7 @@ Check these in order. Stop at the first one that applies and reply with exactly 
 | A dependency's status is not `DONE` or `SKIPPED` | `Job N waits for job X, Y (not done yet).` |
 | Wrong kind of chat for the lane | see §4 |
 | State `IN PROGRESS · FIX` | Claude's quality check sent the job back. Do ONLY the numbered items under `## Claude fix list` in the status file (§5b), then set `State: DONE`. |
-| State `IN PROGRESS` | Continue from the step after `Step: k`. Read the notes first; re-check the last step's files exist before building on them. |
+| State `IN PROGRESS` | Another chat started it and stopped (stall, refused save). Pace rule 3: check the branch's newest commits for `Job N`, keep what is saved, do the rest in this turn. |
 | State `NOT STARTED` | Start at step 1. |
 
 To check dependencies, open each `status/JOB-XXX.md` named under "Depends on" and read its `State:` line. Do not trust the board's progress column for this; the status files are the truth.
@@ -231,27 +229,23 @@ Older job files may still say "zip", "inbox" or "upload". Read them as this sect
 
 | Chat | Can usually | Use it for |
 | --- | --- | --- |
-| Plain GPT-5.6 Sol chat in Showdown visual | Read the repo (connector or raw links), run Python in a sandbox, generate images, give file downloads | Truth sheets, image jobs, papers, builds when job 0 says screenshots work |
-| Sol Work mode | Terminal, browser, Playwright screenshots | Lane `work`, and builds and reviews if plain chats cannot take screenshots |
+| Normal GPT-5.6 Sol chat in Showdown visual | Read the repo (connector or raw links), save text to the branch, run Python in a sandbox | Every project job (type the number) |
+| Sol Work mode | Terminal; no browser (job 1); turns of 10–20 s that ask for Continue | Not used for factory jobs (04 Oct) |
 | Codex | Code review | Job 108 only |
 
-Job 0 records what plain chats can really do in `project-documents/factory/smoke/CAPABILITIES.md`. Read it when a job needs screenshots or images.
 
 ## 12. How to talk to Nik
 
 - Plain, short sentences. He reads on a phone between other things.
 - First reply: the handshake line `Job N · <title> · <State>`, then one line on what you are doing first.
 - During work: one line per finished step at most.
-- Finish: one line, what you made and what it unlocks, and that it is saved. Example: `Job 7 done and saved: the Final Winner truth sheet and fixtures. It feeds the Final Winner build (job 82).`
-- Never ask him to decide product questions. Never ask "should I continue?". The only stop line between steps is the Pace rules one: `Step k of n done and saved. Type continue for step k+1.`
+- Finish: one line, what you made and what it unlocks, and that it is saved. Example: `Job 7 done: the Final Winner truth sheet and fixtures. Next: 82.`
+- Never ask him to decide product questions, never ask "should I continue?" and never ask him to type continue: a turn ends only with the done line, a gate line (§6) or the paused line (Pace rule 9).
 
 ## 13. Examples
 
 **"0" in a fresh chat with the connector on:**
 `Job 0 · Factory smoke test · NOT STARTED` / `Starting step 1: reading the board.`
-
-**"job 12" while job 0 is not done:**
-`Job 12 · Showdown tokens and type system · NOT STARTED` / `Job 12 waits for job 0 (not done yet).`
 
 **"98":**
 `Job 98 · Team G G-3: the pure career model · WAITING ON TEAM G` / `Job 98 tracks Team G's work; workers never start it. Pick a number from "Start now" on the board.`
@@ -271,9 +265,9 @@ Job 0 records what plain chats can really do in `project-documents/factory/smoke
 | --- | --- |
 | The connector can't see the repo or branch | Use the raw links (pattern at the top). Branch names with a slash work in raw links. |
 | A raw link returns 404 | Check the three-digit number and the exact path; the file may not exist yet (then the job is not ready). |
-| GitHub refused a save ("write guard") partway through a step | Pace rule 9: stop, reply `Job N paused: GitHub refused a save in step k. Type N in a new chat.` The new chat keeps the files already saved and writes only the missing ones. |
-| The chat stalls in "thinking" or Nik pressed stop | Nothing is lost if you saved per step. On `continue` (or the number in a new chat), re-read the status file and do the next unsaved step. |
-| You run out of room mid-job | Save (your files and the status at the last finished step, §7) and tell Nik: `Open a new chat and type N; it continues from step k+1.` |
+| GitHub refused a save ("write guard") | Pace rule 9: stop, reply `Job N paused: GitHub refused a save. Type N in a new chat.` The new chat keeps the saved files and writes only the missing ones. |
+| The chat stalls in "thinking" or Nik pressed stop | Nothing is lost: the files saved so far are on the branch. Nik types N in a new chat; it keeps them and does the rest (Pace rule 3). |
+| You run out of room mid-job | Save what is finished (§7), then reply `Job N paused: out of room. Type N in a new chat.` |
 | Two chats on the same job | The status file decides. If it already says IN PROGRESS with a recent `Updated:` time from another chat, reply `Job N is already being worked on in another chat.` and stop. |
 | Mockup and PRODUCT_TRUTH disagree | PRODUCT_TRUTH wins. Write the difference in the notes. |
 | PRODUCT_TRUTH and the live code on `main` disagree about behaviour | `main` wins. Write it as a NOTE. |
