@@ -514,3 +514,175 @@ body {
 .settingsFooter .sd-btn--primary {
   min-width: 142px;
 }
+
+
+/* STEP 8 · fixture states */
+#settingsDialog [hidden] {
+  display: none !important;
+}
+
+.settingsStateRail {
+  position: absolute;
+  top: 24.2%;
+  left: 7.6%;
+  right: 7.6%;
+  min-height: 34px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  pointer-events: none;
+}
+
+#previewTag,
+#frameNote,
+#contractState,
+#interimLabel {
+  visibility: visible;
+  margin: 0;
+}
+
+#previewTag {
+  display: inline-flex;
+  min-height: 28px;
+  align-items: center;
+  padding: 0 9px;
+  border: 1px solid rgba(219, 178, 94, 0.52);
+  background: rgba(6, 6, 6, 0.72);
+  color: #e8c678;
+  font: 700 0.58rem/1 var(--sd-font-condensed, sans-serif);
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+#frameNote,
+#contractState,
+#interimLabel {
+  display: none;
+}
+
+#stage-root:not([data-status="ready"]) #frameNote,
+#stage-root:not([data-status="ready"]) #contractState {
+  display: inline-flex;
+  min-height: 28px;
+  align-items: center;
+}
+
+#contractState {
+  padding: 0 9px;
+  border: 1px solid rgba(236, 201, 121, 0.44);
+  background: rgba(13, 13, 13, 0.78);
+  color: #f0cf80;
+  font: 700 0.6rem/1 var(--sd-font-condensed, sans-serif);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+#contractState::before {
+  margin-right: 7px;
+  font-size: 0.8rem;
+  line-height: 1;
+}
+
+#stage-root[data-status="loading"] #contractState::before { content: "◌"; }
+#stage-root[data-status="empty"] #contractState::before { content: "◇"; }
+#stage-root[data-status="unavailable"] #contractState::before { content: "!"; }
+#stage-root[data-status="partial"] #contractState::before { content: "◐"; }
+
+#frameNote {
+  color: rgba(245, 241, 232, 0.76);
+  font-size: 0.66rem;
+  line-height: 1.25;
+}
+
+#stage-root[data-status="partial"] #interimLabel {
+  display: inline-flex;
+  min-height: 28px;
+  align-items: center;
+  padding: 0 9px;
+  border-left: 2px solid #d9b15f;
+  background: rgba(0, 0, 0, 0.50);
+  color: rgba(245, 241, 232, 0.78);
+  font-size: 0.64rem;
+  line-height: 1.25;
+}
+
+#stage-root[data-status="unavailable"] #contractState {
+  border-color: rgba(214, 75, 75, 0.78);
+  color: #ffd0d0;
+}
+
+#stage-root[data-status="loading"] .settingsPanel--data {
+  background:
+    linear-gradient(180deg, rgba(18, 18, 18, 0.82), rgba(7, 7, 7, 0.76)),
+    repeating-linear-gradient(110deg, rgba(219,178,94,.03) 0 12px, transparent 12px 24px);
+}
+
+#stage-root[data-status="empty"] .settingsPanel--data {
+  border-color: rgba(219, 178, 94, 0.42);
+}
+
+#stage-root[data-status="unavailable"] .settingsPanel--data {
+  border-color: rgba(214, 75, 75, 0.62);
+}
+
+#stage-root[data-status="partial"] .settingsPanel--data {
+  border-color: rgba(219, 178, 94, 0.80);
+}
+
+#confirmDialog {
+  visibility: visible;
+  position: absolute;
+  z-index: 20;
+  top: 50%;
+  left: 50%;
+  width: min(560px, 76vw);
+  transform: translate(-50%, -50%);
+  padding: clamp(22px, 2.2vw, 34px);
+  border: 1px solid rgba(214, 75, 75, 0.88);
+  background:
+    linear-gradient(180deg, rgba(22, 10, 10, 0.98), rgba(6, 6, 6, 0.98)),
+    radial-gradient(circle at 100% 0%, rgba(188, 55, 55, 0.16), transparent 48%);
+  box-shadow: 0 28px 90px rgba(0, 0, 0, 0.72);
+}
+
+#confirmMessage {
+  margin: 0 0 20px;
+  color: #f6eee8;
+  font-size: clamp(0.82rem, 0.92vw, 0.98rem);
+  line-height: 1.52;
+}
+
+#confirmDialog button {
+  min-height: 44px;
+  margin-right: 9px;
+}
+
+#confirmDialog [data-confirm="delete"] {
+  border: 1px solid rgba(214, 75, 75, 0.92);
+  padding: 0 14px;
+  background: rgba(116, 20, 20, 0.38);
+  color: #ffd9d9;
+  font: 700 0.68rem/1 var(--sd-font-condensed, sans-serif);
+  letter-spacing: 0.07em;
+}
+
+#confirmDialog button:focus-visible {
+  outline: 2px solid #f0c96d;
+  outline-offset: 3px;
+}
+
+#stage-root[data-confirm-open="true"] #settingsContent,
+#stage-root[data-confirm-open="true"] .settingsFooter,
+#stage-root[data-confirm-open="true"] .settingsHeader,
+#stage-root[data-confirm-open="true"] .settingsStateRail {
+  filter: brightness(0.52);
+}
+
+#stage-root[data-confirm-open="true"]::after {
+  content: "";
+  position: absolute;
+  z-index: 19;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.42);
+  pointer-events: none;
+}
