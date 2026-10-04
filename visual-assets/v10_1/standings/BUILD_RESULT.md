@@ -16,3 +16,21 @@ Depth cut-outs over the board edge, motion, review and fix rounds.
 
 ## QA
 Rendered at 1366 × 768, 1366 × 640, 393 × 660, 360 × 640 and 375 × 553: no page scroll and no script errors on SD1, SD2, SD3, SD4, SD6, SD7, SD9. Daniel is left and Nik right in every frame.
+
+## Phone (JOB-203, JOB-204)
+
+Phone is `max-width: 900px`: Rivalry phone art on top (positions from `phonemap.json`: Daniel left -3% / top 1% / height 61%, Nik left 48% / height 63%), the brush title, the toggle (44 px), the scoreboard and seven rows below, the 56 px bar reserved as `.nav-reserve`. Club names are hidden on phone (crest and name stay). In the longest states the board scrolls inside itself.
+
+### Height budget (stage = viewport − 56 px bar − safe area)
+
+| Phone | Stage | Header | Board | Gaps and padding | Art zone left | Page scroll |
+| --- | ---: | ---: | ---: | ---: | ---: | --- |
+| 393 × 660 | 604 | 78 | 290 | 18 | 218 | none |
+| 360 × 640 | 584 | 78 | 270 | 18 | 218 | none; last row scrolls in the board |
+| 375 × 553 | 497 | 78 | 220 (floor) | 18 | 181 | none; toggle and scoreboard visible |
+
+Measured in a real browser on SD1 to SD9: no page scroll at all three sizes, Daniel left in every frame.
+
+### Check by reading (criteria 1-7, 9, 10: aim 4 or more)
+
+Every number and name is live DOM text from fixtures.json; Daniel is first and left in the markup and on screen. First paint by file size: phone about 425 KB (ENV 120 + heroes 110 + title 120 + kit and code 75), desktop about 440 KB at 1x (plate 244 + title 120 + kit and code 75), under the 450 KB and 900 KB caps. Claude re-scores the visual criteria at intake.
