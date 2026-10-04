@@ -4,6 +4,21 @@
 
 ## Scorecard
 
+Static score: 38 / 45 = 4.22 average. No scored criterion is below 3.
+
+| Criterion | Score | Evidence |
+| --- | ---: | --- |
+| 1 · Mockup fidelity | 4 | There is no dedicated Settings mockup; against the Career Statistics system-style reference, Settings preserves the centred brush-title/dark-glass/gold-edge language, though its title sits earlier/narrower and its four-panel composition is necessarily Settings-specific. |
+| 2 · Characters stand out | 5 | Settings truth requires no manager cut-outs, and the implementation leaves the cutout/light layers empty rather than introducing pasted, mirrored or low-quality character art. |
+| 3 · Hands and contact | 5 | No hands or character-contact illustration belongs on Settings, so the implementation avoids the entire contact-compositing failure class rather than faking it. |
+| 4 · Lighting and grade | 4 | `settings.css` uses a dark stadium plate, soft heavy scrim, warm gold panel edges and subtle radial gold spill with no flat grey cover panel. |
+| 5 · Typography and title | 4 | `TITLE_SETTINGS_V1.webp` supplies the visible gold brush title with hidden accessible `SETTINGS`; eyebrow/tagline and condensed uppercase UI type follow the shared system, with only the narrower/earlier title geometry keeping it below a 5. |
+| 6 · Panel craft | 4 | Four purpose-built dark-glass panels use thin gold borders, warm highlights, aligned grid placement, one gold DONE primary action, outlined secondary controls and a distinct red danger treatment. |
+| 7 · Information clarity and honesty | 4 | Account, Application, Motion & Feedback and Showdown Data are clearly separated; ST1–ST7 distinguish ready/loading/empty/unavailable/partial states and expose only truth-approved actions and data. |
+| 9 · Phone composition | 4 | The portrait media query replaces the desktop grid with a dedicated single-column composition, portrait stadium, pinned 44px DONE action and reserved 56px bottom bar; H5 remains unmeasured, so this cannot score 5. |
+| 10 · Polish and finish | 4 | Code uses WebP assets, fixture-driven states, visible focus styling, 44px controls and no placeholders/debug copy; browser-only console/network/render verification is still absent, preventing a 5. |
+
+
 ## Hard gates
 
 | Gate | Result | Evidence |
