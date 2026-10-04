@@ -1154,9 +1154,11 @@ body {
 
   #creditAuthor,
   #creditLicense {
-    display: inline-block;
-    min-height: 24px;
-    padding: 6px 2px;
+    /* Job 235 item 8: 44 px touch target */
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 2px;
   }
 }
 

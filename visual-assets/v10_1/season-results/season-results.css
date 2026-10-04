@@ -1452,13 +1452,13 @@ body {
   .sd-stage[data-sd-mode="phone"] .sd-stage__layer--light { height: 55%; }
   /* Three field rows must fit above the preview score at 393x660, 360x640 and 375x553. */
   .entry-panel .manager-fields { gap: 2px 10px; }
-  .entry-panel .field-row input[type="number"] { min-height: 40px; height: 40px; padding: 2px 8px; box-sizing: border-box; }
+  .entry-panel .field-row input[type="number"] { min-height: 44px; height: 44px; padding: 2px 8px; box-sizing: border-box; } /* Job 235 item 7: 44 px touch target */
   .entry-panel .field-row { min-height: 0; align-items: center; }
   .entry-panel .field-row label { white-space: nowrap; font-size: 10px; line-height: 1.1; }
 }
 @media (max-width: 900px) and (max-height: 600px) {
   .entry-panel .manager-fields { gap: 2px 8px; }
-  .entry-panel .field-row input[type="number"] { min-height: 40px; height: 40px; padding: 1px 6px; }
+  .entry-panel .field-row input[type="number"] { min-height: 44px; height: 44px; padding: 1px 6px; }
   .entry-panel .manager-card-header { padding-bottom: 2px; }
 }
 

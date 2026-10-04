@@ -190,3 +190,28 @@ Most important first. Jobs 109 (items 1-3), 234 (items 4-6) and 235 (items 7-9).
 8. **Settings credit links.** `visual-assets/v10_1/settings/settings.css`: `#creditAuthor, #creditLicense` (69x36 and 46x36 px on phone): `display: inline-flex; align-items: center; min-height: 44px`. Target: 44 px tall touch targets, credit still on one line, H5 still passing.
 9. **Re-measure.** No code change: Claude re-runs this job's script (`evidence-claude-check/108/qa.json` method) on all 15 screens after items 1-8. Target: H9 0 errors everywhere, Home loads under 900 KB of images, every phone size still fits.
 
+
+## Fix round
+
+Jobs 109, 234 and 235, all done by Claude in the same thread on 04 Oct 2026 and Claude-checked PASS.
+
+| Item | Job | Result |
+| --- | --- | --- |
+| 1 Home wordmark weight | 109 | done: 1.8 MB -> 140 KB; Home loads 953 KB in total at 1366x768 (was 2.6 MB) |
+| 2 Home hero copy | 109 | done: copy back to 16 px on 2 lines; heading clears the tagline at 1366x768 and 1366x640 |
+| 3 Club phone console errors | 109 | done: 0 errors at all three phone sizes |
+| 4 Top bar on three hub screens | 234 | done: Trophy Room (active CAREER, per NAV_CONTRACT rather than this list's "stats"), Rivalry (STATS), Start / Join (CAREER); Rivalry's preview chip moved clear of the bar |
+| 5 Season Results tagline | 234 | done: 4-6 px clear of letters and panel at 1366x768, 1920x1080, 1366x640 |
+| 6 Final Winner heading stack | 234 | done: >= 6 px between tagline, closed line and outcome at all three desktop sizes |
+| 7 Season Results phone inputs | 235 | done: 44 px tall; every phone size still fits |
+| 8 Settings credit links | 235 | done: 44 px tall |
+| 9 Re-measure | 235 | done: all 15 screens x 5 sizes: 0 scroll, 0 console errors, 0 failed requests, primary in view, reduced motion clean (`evidence-claude-check/108/qa_after_fixes.json`) |
+
+Blocked: none. Every hard gate now passes on every screen.
+
+### Left for pass 2
+
+No fix-list items after number 9. Observations for the CC-008 final polish pass, not fixes:
+- Season Results at 375x553: the manager card header is clipped at the top of the entry panel (already so before item 7).
+- Final Winner status copy is main's Terminal Close wording (`TERMINAL · NO NEW SESSION ...`); a friendlier line is Team G's call.
+- Most criteria score a solid 4; lifting them toward 4.4+ is polish, not a gate.
