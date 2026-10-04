@@ -81,3 +81,27 @@ Area: shared showcase screen-to-screen navigation.
 3. Phone-preview frame selection remains an in-place iframe update and is intentionally not treated as a full screen navigation.
 4. Reduced motion uses a plain 350 ms opacity fade and suppresses the gold wipe for both `prefers-reduced-motion` and the app's reduced-motion attributes.
 5. This part changes no per-screen entrance timing, easing, manager staging, imagery or data.
+
+
+## Part 5 · Job 232
+
+Scope: align the previously documented motion outliers against `visual-assets/v10_1/shared/MOTION.md`, using the shared contract as the DEFAULT. This part inspected runtime timing sources for three outlier screens only; the fourth remains in the fix list below.
+
+| Screen | Runtime finding | Alignment in Job 232 | Current status |
+| --- | --- | --- | --- |
+| Legacy (History) | `LEGACY_MOTION.fade` was 120 ms for the local reduced-motion fade while the shared contract requires 150 ms. | Changed only that timing constant from 120 ms to 150 ms. Signature deal/page/parallax timings are unchanged because they are screen-specific payoff motion, not the shared entrance. | ALIGNED |
+| Final Winner | The current CSS already uses a one-shot `fwShine 120ms ... 1`; the earlier repeating-shine finding is stale. The confetti canvas was retired at `burstAtMs + 1000` (300 + 1000 = 1300 ms), leaving cleanup after the shared 1200 ms ceiling. | Changed only the cleanup timing from +1000 ms to +900 ms, so retirement lands at 1200 ms. The shared `sdBurst` duration is capped at 900 ms, so visual burst motion remains inside the same ceiling. | ALIGNED |
+| Start / Join | Runtime calls `window.sdEnter(stage)` and has no local entrance-duration override. Its `SJ_PAIR_MOTION` constants govern host/pairing state choreography after entry, not the screen entrance. | No timing change. Entrance inherits scene 0–400 ms, characters 150–600 ms, title from 250 ms, panels from 400 ms with 60 ms stagger, usable by 600 ms, cleanup by 1200 ms, and the shared 150 ms reduced-motion fade. | ALIGNED; documentation/verifiability finding resolved by runtime source |
+| Loading | Part 1 recorded a documentation/verifiability outlier. This is the fourth outlier and was not opened in Part 5 because the job caps runtime source inspection at three outlier screens. | No change in Part 5. | FIX LIST |
+
+### Part 5 findings
+
+1. DEFAULT: `MOTION.md` wins for every shared entrance/reduced-motion timing.
+2. Legacy now uses the shared 150 ms reduced-motion fade.
+3. Final Winner has no repeating trophy-shine idle loop in the current branch source; its one-shot shine remains 120 ms, and its burst canvas cleanup now lands exactly at the 1200 ms entrance ceiling.
+4. Start / Join already inherits the shared entrance through `sdEnter(stage)`; its local pairing constants are reasoned state choreography rather than entrance deviations.
+5. No manager staging, imagery, live data, product behavior, easing family or new effect was changed.
+
+### Fix list carried to Part 6
+
+1. Loading: inspect its runtime motion source, document the actual entrance total / first usable / stagger / easing / reduced-motion path, and align any timing constant that deviates from `MOTION.md`. This remains the only unresolved outlier from Parts 1–5.
