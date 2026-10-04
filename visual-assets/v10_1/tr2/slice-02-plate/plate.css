@@ -997,3 +997,77 @@ body { overflow: hidden; font-family: var(--text); -webkit-font-smoothing: antia
 @media (min-width: 901px) {
   .stage { top: var(--sd-nav-top-h, 52px); }
 }
+
+
+/* JOB-145 moment 1: presentation-only transfer-window clock hand. */
+.window-clock-hand {
+  position: absolute;
+  right: calc(var(--k) * 13px);
+  top: calc(var(--k) * 9px);
+  width: calc(var(--k) * 22px);
+  height: calc(var(--k) * 22px);
+  pointer-events: none;
+  opacity: .86;
+  transform: rotate(var(--tw-clock-angle, 0deg));
+  transform-origin: 50% 50%;
+}
+.window-clock-hand::after {
+  content: "";
+  position: absolute;
+  inset: calc(var(--k) * -7px);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 211, 77, .30), rgba(255, 211, 77, 0) 68%);
+  opacity: 0;
+  pointer-events: none;
+}
+.window-clock-hand-line {
+  position: absolute;
+  left: 50%;
+  top: 12%;
+  width: max(1px, calc(var(--k) * 1.5px));
+  height: 42%;
+  background: var(--sd-gold-300);
+  transform: translateX(-50%);
+  transform-origin: 50% 100%;
+}
+.window-clock-hand-hub {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: calc(var(--k) * 4px);
+  height: calc(var(--k) * 4px);
+  border-radius: 50%;
+  background: var(--sd-gold-300);
+  transform: translate(-50%, -50%);
+}
+@keyframes tw-clock-hand-tick {
+  0% { transform: rotate(calc(var(--tw-clock-angle, 0deg) - 4deg)) scale(.985); }
+  72% { transform: rotate(calc(var(--tw-clock-angle, 0deg) + 1deg)) scale(1.015); }
+  100% { transform: rotate(var(--tw-clock-angle, 0deg)) scale(1); }
+}
+@keyframes tw-clock-hand-glow {
+  0%, 100% { opacity: 0; }
+  42% { opacity: .92; }
+}
+.window-clock-hand.is-ticking {
+  animation: tw-clock-hand-tick var(--tw-clock-tick-ms, 280ms) var(--tw-clock-ease, cubic-bezier(.22,1,.36,1)) both;
+}
+.window-clock-hand.is-ticking::after {
+  animation: tw-clock-hand-glow var(--tw-clock-tick-ms, 280ms) var(--tw-clock-ease, cubic-bezier(.22,1,.36,1)) both;
+}
+html[data-motion-reduced="true"] .window-clock-hand,
+html[data-reduced-motion="true"] .window-clock-hand {
+  animation: none !important;
+}
+html[data-motion-reduced="true"] .window-clock-hand::after,
+html[data-reduced-motion="true"] .window-clock-hand::after {
+  animation: none !important;
+  opacity: 0 !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .window-clock-hand,
+  .window-clock-hand::after {
+    animation: none !important;
+  }
+  .window-clock-hand::after { opacity: 0 !important; }
+}
