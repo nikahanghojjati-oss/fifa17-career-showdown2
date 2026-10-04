@@ -822,7 +822,7 @@
    "number": 25,
    "key": "G-13b",
    "title": "Part 2b: Home, music (Audius) and Loading",
-   "lane": "lead",
+   "lane": "codex",
    "depends_on": [
     24
    ],
@@ -833,7 +833,7 @@
    "waits_on": "job 24 merged",
    "phase": "WAITING",
    "type": "build",
-   "plain": "Home in Team V's style with Nik's Audius playlist playing across screens; Loading keeps the Reus credit. Built in the lead thread by a helper.",
+   "plain": "Home in Team V's style with Nik's Audius playlist playing across screens; Loading keeps the Reus credit. Built in the lead thread by a helper. Codex builds (Nik pastes the lead's box into the Codex app); the lead checks it in a browser and merges.",
    "state": "NOT STARTED",
    "step": 0,
    "steps_total": 7,
@@ -844,7 +844,7 @@
    "number": 26,
    "key": "G-13c",
    "title": "Part 2c: Start/Join, League wheel and Club packs",
-   "lane": "lead",
+   "lane": "codex",
    "depends_on": [
     24
    ],
@@ -855,7 +855,7 @@
    "waits_on": "job 24 merged",
    "phase": "WAITING",
    "type": "build",
-   "plain": "Setup screens skinned without touching pairing, session or draw logic. Built in the lead thread by a helper.",
+   "plain": "Setup screens skinned without touching pairing, session or draw logic. Built in the lead thread by a helper. Codex builds (Nik pastes the lead's box into the Codex app); the lead checks it in a browser and merges.",
    "state": "NOT STARTED",
    "step": 0,
    "steps_total": 7,
@@ -866,7 +866,7 @@
    "number": 27,
    "key": "G-13d",
    "title": "Part 2d: Transfer War",
-   "lane": "lead",
+   "lane": "codex",
    "depends_on": [
     24
    ],
@@ -877,7 +877,7 @@
    "waits_on": "job 24 merged",
    "phase": "WAITING",
    "type": "build",
-   "plain": "Transfer window skinned; private inputs stay private; lock confirm and quiet retries kept. Built in the lead thread by a helper.",
+   "plain": "Transfer window skinned; private inputs stay private; lock confirm and quiet retries kept. Built in the lead thread by a helper. Codex builds (Nik pastes the lead's box into the Codex app); the lead checks it in a browser and merges.",
    "state": "NOT STARTED",
    "step": 0,
    "steps_total": 7,
@@ -888,7 +888,7 @@
    "number": 28,
    "key": "G-13e",
    "title": "Part 2e: Rivalry Statistics and Legacy (History)",
-   "lane": "lead",
+   "lane": "codex",
    "depends_on": [
     24
    ],
@@ -899,7 +899,7 @@
    "waits_on": "job 24 merged",
    "phase": "WAITING",
    "type": "build",
-   "plain": "Same pattern as job 13 on the real career model; un-hides the last two Statistics buttons. Lead helper (Opus), Codex reviews the PR.",
+   "plain": "Same pattern as job 13 on the real career model; un-hides the last two Statistics buttons. Codex builds (Nik pastes the lead's box into the Codex app); the lead checks it in a browser and merges.",
    "state": "NOT STARTED",
    "step": 0,
    "steps_total": 7,
@@ -910,7 +910,7 @@
    "number": 29,
    "key": "G-13f",
    "title": "Part 2f: Season Results, Final Winner and Standings",
-   "lane": "lead",
+   "lane": "codex",
    "depends_on": [
     24
    ],
@@ -921,7 +921,7 @@
    "waits_on": "job 24 merged",
    "phase": "WAITING",
    "type": "build",
-   "plain": "Results and commit skinned (clash warning kept); winner reveal uses the reconciliation exactly. Lead helper (Opus), Codex reviews the PR.",
+   "plain": "Results and commit skinned (clash warning kept); winner reveal uses the reconciliation exactly. Codex builds (Nik pastes the lead's box into the Codex app); the lead checks it in a browser and merges.",
    "state": "NOT STARTED",
    "step": 0,
    "steps_total": 7,
@@ -932,7 +932,7 @@
    "number": 30,
    "key": "G-13g",
    "title": "Part 2g: Rule Book and Settings",
-   "lane": "lead",
+   "lane": "codex",
    "depends_on": [
     24
    ],
@@ -943,7 +943,7 @@
    "waits_on": "job 24 merged",
    "phase": "WAITING",
    "type": "build",
-   "plain": "Rules copy unchanged, Settings controls kept, credits added. Lead helper (Sonnet), Codex reviews the PR.",
+   "plain": "Rules copy unchanged, Settings controls kept, credits added. Codex builds (Nik pastes the lead's box into the Codex app); the lead checks it in a browser and merges.",
    "state": "NOT STARTED",
    "step": 0,
    "steps_total": 7,

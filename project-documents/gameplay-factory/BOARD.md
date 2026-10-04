@@ -6,7 +6,7 @@
 
 1. **Nothing for you to start right now.**
 
-_Moving now:_ G-13a Part 2a: foundation (loader, top bar, shared kit, caching); G-13b Part 2b: Home, music (Audius) and Loading; G-13c Part 2c: Start/Join, League wheel and Club packs; G-13d Part 2d: Transfer War; G-13e Part 2e: Rivalry Statistics and Legacy (History); G-13f Part 2f: Season Results, Final Winner and Standings; G-13g Part 2g: Rule Book and Settings; workers on jobs 24; bug hunt 5 (The 4-hour private session ends long games). _Next up:_ G-13 Part 1: Trophy Room and Career Statistics on the real career model, waits on nothing.
+_Moving now:_ G-13a Part 2a: foundation (loader, top bar, shared kit, caching); workers on jobs 24; bug hunt 5 (The 4-hour private session ends long games). _Next up:_ G-13 Part 1: Trophy Room and Career Statistics on the real career model, waits on nothing.
 
 **Sol Work mode starter line** (copy it, change both `NN` to the job number, paste it as the first message):
 
@@ -28,7 +28,7 @@ From the read-only bug hunt on r52 (4 Oct; [report](https://github.com/nikahangh
 
 Small extras (cheap, optional): DONE in job 21: 'scoring remains locked' text now says SEASON COMMITTED · SCORE BELOW; NOT A BUG: Daniel/Nik fallbacks match the fixed roles (Daniel = Player One, Nik = Player Two); OPEN: raw error codes in the Setup settle text.
 
-Live fix jobs open: [G-13a Part 2a: foundation (loader, top bar, shared kit, caching)](jobs/JOB-24.md) (in progress), [G-13b Part 2b: Home, music (Audius) and Loading](jobs/JOB-25.md) (not started), [G-13c Part 2c: Start/Join, League wheel and Club packs](jobs/JOB-26.md) (not started), [G-13d Part 2d: Transfer War](jobs/JOB-27.md) (not started), [G-13e Part 2e: Rivalry Statistics and Legacy (History)](jobs/JOB-28.md) (not started), [G-13f Part 2f: Season Results, Final Winner and Standings](jobs/JOB-29.md) (not started), [G-13g Part 2g: Rule Book and Settings](jobs/JOB-30.md) (not started)
+Live fix jobs open: [G-13a Part 2a: foundation (loader, top bar, shared kit, caching)](jobs/JOB-24.md) (in progress)
 
 ## Team V relay
 
@@ -50,12 +50,12 @@ Waiting on Team V: nothing.
 | G-14 | Acceptance: directive §12 and Sol's 8 proofs on the emulator | work | job 13 | NOT WRITTEN |
 | G-15 | One real two-device run with Nik | nik | job 14 | NOT WRITTEN |
 | G-13a | [Part 2a: foundation (loader, top bar, shared kit, caching)](jobs/JOB-24.md) | lead | job 13 | IN PROGRESS |
-| G-13b | [Part 2b: Home, music (Audius) and Loading](jobs/JOB-25.md) | lead | job 24, job 24 merged | NOT STARTED |
-| G-13c | [Part 2c: Start/Join, League wheel and Club packs](jobs/JOB-26.md) | lead | job 24, job 24 merged | NOT STARTED |
-| G-13d | [Part 2d: Transfer War](jobs/JOB-27.md) | lead | job 24, job 24 merged | NOT STARTED |
-| G-13e | [Part 2e: Rivalry Statistics and Legacy (History)](jobs/JOB-28.md) | lead | job 24, job 24 merged | NOT STARTED |
-| G-13f | [Part 2f: Season Results, Final Winner and Standings](jobs/JOB-29.md) | lead | job 24, job 24 merged | NOT STARTED |
-| G-13g | [Part 2g: Rule Book and Settings](jobs/JOB-30.md) | lead | job 24, job 24 merged | NOT STARTED |
+| G-13b | [Part 2b: Home, music (Audius) and Loading](jobs/JOB-25.md) | codex | job 24, job 24 merged | NOT STARTED |
+| G-13c | [Part 2c: Start/Join, League wheel and Club packs](jobs/JOB-26.md) | codex | job 24, job 24 merged | NOT STARTED |
+| G-13d | [Part 2d: Transfer War](jobs/JOB-27.md) | codex | job 24, job 24 merged | NOT STARTED |
+| G-13e | [Part 2e: Rivalry Statistics and Legacy (History)](jobs/JOB-28.md) | codex | job 24, job 24 merged | NOT STARTED |
+| G-13f | [Part 2f: Season Results, Final Winner and Standings](jobs/JOB-29.md) | codex | job 24, job 24 merged | NOT STARTED |
+| G-13g | [Part 2g: Rule Book and Settings](jobs/JOB-30.md) | codex | job 24, job 24 merged | NOT STARTED |
 | G-2h | [Ten-season games: session expiry, long-game limits, 10-season emulator run](jobs/JOB-31.md) | lead | - | NOT WRITTEN |
 | G-2i | [Fewer taps: audit the flow for steps we can safely drop](jobs/JOB-32.md) | lead | - | NOT WRITTEN |
 | G-2j | [Fewer taps: auto-refresh while waiting, skip hops, drop duplicate banners](jobs/JOB-33.md) | lead | job 32 | NOT WRITTEN |
