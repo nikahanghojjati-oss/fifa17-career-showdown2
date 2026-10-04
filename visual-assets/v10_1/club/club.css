@@ -629,9 +629,8 @@ html[data-motion-reduced="true"] #onlinePlayerIdentityBadge,
 .qa-notext #clubWheelScreen h2, .qa-notext .clubVs strong { background: none !important; filter: none !important; }
 
 
-/* C2W-005 extra 5: phone plate edge cleanup */
+/* C2W-005 extra 5 (Claude rework at intake): the stray gold letter was the desktop "VS" text fallback
+   pushed off the top-left corner on phone, not the plate. The phone composition has no VS mark, so hide it. */
 @media (max-width: 760px) and (orientation: portrait) {
-  .phoneSceneBackground img {
-    object-position: 50% 50%;
-  }
+  .clubVsFallback { display: none; }
 }

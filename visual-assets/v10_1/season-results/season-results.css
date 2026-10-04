@@ -1615,19 +1615,12 @@ html[data-motion-reduced="true"] .season-layout *::after {
 }
 
 
-/* C2W-005 extra 3: short desktop scoring fit */
+/* C2W-005 extra 3 (Claude rework at intake): short desktop keeps the panel box and compacts its contents
+   so all three scoring rows show and nothing overlaps. */
 @media (min-width: 901px) and (max-height: 700px) {
-  .scoring-panel {
-    top: 32.05%;
-    height: 19.22%;
-  }
-
-  .scoring-grid {
-    row-gap: 2px;
-  }
-
-  .scoring-rule {
-    font-size: 12px;
-    line-height: 1.05;
-  }
+  .scoring-panel { padding: .8% 2%; }
+  .scoring-trophy { max-height: 92px; }
+  #scoring-heading { margin: 0 0 3px; font-size: 16px; }
+  .scoring-grid { gap: 1px 20px; padding-top: 4px; }
+  .scoring-rule { font-size: 11px; line-height: 1.1; }
 }
