@@ -1114,10 +1114,10 @@ button {
   }
 
   .legacyCardGrid {
-    grid-auto-columns: min(292px, calc(100% - 56px));
+    grid-auto-columns: min(292px, calc(100% - 60px));
     gap: 8px;
     padding: 2px 0;
-    scroll-padding-inline: 0 56px;
+    scroll-padding-inline: 0 60px;
     touch-action: pan-x;
   }
 
