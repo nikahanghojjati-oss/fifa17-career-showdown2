@@ -60,7 +60,7 @@
   }
 
   function buildWordmark() {
-    var h = el("h1", { class: "transfer-wordmark sd-title--wordmark" });
+    var h = el("h1", { class: "transfer-wordmark sd-title--wordmark", "data-sd-enter": "title" });
     h.appendChild(el("img", { src: "../../shared/wordmarks/TITLE_TRANSFER_V1.webp", alt: "", "aria-hidden": "true", decoding: "async" }));
     h.appendChild(el("span", { class: "sd-visually-hidden", text: "TRANSFER WAR" }));
     return h;
@@ -90,7 +90,7 @@
   }
 
   function buildSign(map, cfg, S) {
-    var wrap = placeRect(el("div", { class: "sign-screen" }), signRect(map));
+    var wrap = placeRect(el("div", { class: "sign-screen", "data-sd-enter": "panel" }), signRect(map));
     wrap.style.setProperty("--rot", map.signScreen.boardAngleDeg + "deg");
     if (cfg.phase === "WINDOW_OPEN") {
       wrap.classList.add("is-live");
@@ -104,7 +104,7 @@
 
   // Separate node so portrait can move it to a lower-third; desktop registers it to the sign too.
   function buildStatus(map, cfg, S) {
-    var st = placeRect(el("p", { id: "transferPhaseStatus", class: "sign-status", role: "status", "aria-live": "polite" }), signRect(map));
+    var st = placeRect(el("p", { id: "transferPhaseStatus", class: "sign-status", role: "status", "aria-live": "polite", "data-sd-enter": "panel" }), signRect(map));
     st.style.setProperty("--rot", map.signScreen.boardAngleDeg + "deg");
     splitDots(phaseStatus(cfg, S)).forEach(function (n) { st.appendChild(n); });
     if (cfg.phase === "WINDOW_OPEN") st.classList.add("two-line");
@@ -145,7 +145,7 @@
   }
 
   function panelShell(p, viewerIsNik, labelledBy, phaseClass) {
-    var sec = el("section", { class: "panel own " + phaseClass, "aria-labelledby": labelledBy, "data-panel": viewerIsNik ? "A" : "B" });
+    var sec = el("section", { class: "panel own " + phaseClass, "aria-labelledby": labelledBy, "data-panel": viewerIsNik ? "A" : "B", "data-sd-enter": "panel" });
     sec.style.setProperty("--pa", (p.angleDeg || 0) + "deg");
     return sec;
   }
@@ -168,7 +168,7 @@
     body.appendChild(cols);
     var act = el("div", { class: "action-row" });
     act.appendChild(el("p", { id: "transferGuessPrivacyNote", class: "privacy-note", text: viewerIsNik ? S.privacyNoteNikViewer : S.privacyNoteDanielViewer }));
-    act.appendChild(el("button", { type: "button", id: "completeTransferChallenge", class: "btn-lock sd-btn sd-btn--primary", text: S.primary }));
+    act.appendChild(el("button", { type: "button", id: "completeTransferChallenge", class: "btn-lock sd-btn sd-btn--primary", "data-sd-enter": "button", text: S.primary }));
     body.appendChild(act);
     body.appendChild(el("p", { id: "transferChallengeError", class: "error-line", role: "alert" }));
     sec.appendChild(body);
@@ -190,7 +190,7 @@
     var body = placeRect(el("div", { class: "panel-body window-body" }), p.content);
     body.appendChild(el("p", { id: "transferWindowBrief", class: "f1-brief", text: S.f1Intro }));
     var act = el("div", { class: "end-row" });
-    var btn = el("button", { type: "button", id: "endTransferTimer", class: "btn-end sd-btn sd-btn--secondary", text: S.f1Action });
+    var btn = el("button", { type: "button", id: "endTransferTimer", class: "btn-end sd-btn sd-btn--secondary", "data-sd-enter": "button", text: S.f1Action });
     function setRequested() {
       btn.textContent = S.f1ActionRequested;
       btn.disabled = true;
@@ -260,7 +260,7 @@
     var err = el("p", { id: "transferChallengeError", class: "error-line", role: "alert" });
     act.appendChild(err);
     if (!locked) {
-      var btn = el("button", { type: "button", id: "completeTransferChallenge", class: "btn-lock sd-btn sd-btn--primary", text: S.signingPrimary });
+      var btn = el("button", { type: "button", id: "completeTransferChallenge", class: "btn-lock sd-btn sd-btn--primary", "data-sd-enter": "button", text: S.signingPrimary });
       btn.addEventListener("click", function () {
         var out = [];
         for (var n = 1; n <= 3; n++) {
@@ -286,7 +286,7 @@
     var nik = role === "playerTwo";
     var rival = nik ? "playerOne" : "playerTwo";
     var name = fx.managers[role], club = fx.clubs[role];
-    var sec = el("section", { class: "panel verdict" + (isViewer ? " own" : " rival"), id: nik ? "transferResultsTwo" : "transferResultsOne",
+    var sec = el("section", { class: "panel verdict" + (isViewer ? " own" : " rival"), id: nik ? "transferResultsTwo" : "transferResultsOne", "data-sd-enter": "panel",
       "aria-labelledby": (nik ? "transferResultsTwo" : "transferResultsOne") + "Heading", "data-panel": nik ? "A" : "B" });
     sec.style.setProperty("--pa", (p.angleDeg || 0) + "deg");
     var title = placeRect(el("div", { class: "panel-title" }), p.title);
@@ -337,7 +337,7 @@
 
   // Constant for every phase and state: never reads or reflects rival data.
   function buildSealedPanel(p, rivalName, S, panelKey) {
-    var sec = el("section", { class: "panel sealed", "aria-label": rivalName + " " + S.tagSealed, "data-panel": panelKey });
+    var sec = el("section", { class: "panel sealed", "aria-label": rivalName + " " + S.tagSealed, "data-panel": panelKey, "data-sd-enter": "panel" });
     var title = placeRect(el("div", { class: "panel-title" }), p.title);
     title.appendChild(el("span", { class: "rival-name", text: rivalName.toUpperCase() }));
     title.appendChild(el("span", { class: "chip chip-sealed", text: S.tagSealed }));
@@ -350,7 +350,7 @@
   }
 
   function buildRulesCard(p, cfg, S) {
-    var card = el("aside", { class: "rules-card" + (cfg.phase === "WINDOW_OPEN" ? " with-line" : ""), "aria-label": "Rules" });
+    var card = el("aside", { class: "rules-card" + (cfg.phase === "WINDOW_OPEN" ? " with-line" : ""), "aria-label": "Rules", "data-sd-enter": "panel" });
     var inner = placeRect(el("div", { class: "rules-inner" }), p.content);
     if (cfg.phase === "WINDOW_OPEN") {
       var line = el("p", { class: "rules-line transferRulesLine" });
@@ -372,7 +372,7 @@
     }
     if (cfg.phase === "COMPLETED") {
       card.classList.add("with-continue");
-      inner.appendChild(el("button", { type: "button", id: "continueFromTransfers", class: "btn-continue sd-btn sd-btn--secondary", disabled: true, text: S.continueLabel }));
+      inner.appendChild(el("button", { type: "button", id: "continueFromTransfers", class: "btn-continue sd-btn sd-btn--secondary", "data-sd-enter": "button", disabled: true, text: S.continueLabel }));
     }
     card.appendChild(inner);
     return card;
@@ -388,7 +388,7 @@
   }
 
   function buildFooter(S, fx, activeIndex) {
-    var f = el("footer", { class: "hud-footer" });
+    var f = el("footer", { class: "hud-footer", "data-sd-enter": "panel" });
     f.appendChild(el("button", { type: "button", id: "backToShowdownHome", class: "ghost sd-btn sd-btn--secondary", text: S.back }));
     var mid = el("div", { class: "hud-mid" });
     mid.appendChild(el("h2", { id: "transferChallengeTitle", class: "hud-title", text: S.title.replace("{season}", String(fx.seasonNumber)) }));
@@ -501,7 +501,7 @@
     else delete stage.dataset.contentBottom;
 
     var world = el("div", { class: "world" });
-    var scene = el("div", { class: "scene" });
+    var scene = el("div", { class: "scene", "data-sd-enter": "scene" });
     var plane = el("div", { class: "plane" });
     var pic = el("picture", { class: "plate" });
     var base = "assets/ENV_TR2_PLATE_G_LOCKED_V1_";
@@ -578,6 +578,13 @@
     } };
     return (img.decode ? img.decode() : Promise.resolve()).catch(function () {}).then(function () {
       return document.fonts ? document.fonts.ready : null;
+    }).then(function () {
+      var root = document;
+      if (typeof window.sdEnter !== "function") return null;
+      var entrance = window.sdEnter(root);
+      return new Promise(function (resolve) {
+        window.setTimeout(resolve, entrance && entrance.duration ? entrance.duration : 0);
+      });
     });
   }
   window.TWPlate = { render: render, frames: null };
