@@ -1,10 +1,10 @@
 # 🏭 Showdown Factory board
 
-**237 of 238 jobs done and checked · 99 %** · updated Sun 4:19 p.m. Eastern
+**238 of 238 jobs done and checked · 100 %** · updated Sun 4:20 p.m. Eastern
 
 <img src="board-meter.svg" alt="Football progress meter" width="640">
 
-⏱ **Estimated finish: Sun 4:50 p.m. Eastern** (about 31 min from now at today's pace)
+🏁 Every job is finished.
 
 ## 🔴 Now
 
@@ -12,7 +12,7 @@
 
 ## 🟢 Next (start these)
 
-- **237** Package for Nik and handoff to GPT-5.6 Sol (3/5) · type the number in a new chat in project Showdown visual
+- Nothing ready right now.
 
 ## ⚪ Then
 
@@ -22,7 +22,7 @@
 
 | Tool | Where | Resets (Eastern) | Jobs left |
 | --- | --- | --- | --- |
-| 🟡 GPT-5.6 Sol chat | ChatGPT, project "Showdown visual", new normal chat: type the job number | unknown | 1 |
+| 🟡 GPT-5.6 Sol chat | ChatGPT, project "Showdown visual", new normal chat: type the job number | unknown | 0 |
 | 🟠 GPT-6.1 Sol Work mode | ChatGPT, Work mode (press Use Work). Not used for factory jobs now | Sun 4:18 p.m. Eastern (passed, update LANES.json) | 0 |
 | 🔵 Astra | ChatGPT Work mode (Astra): paste the bundle prompt from handoffs/C2W-*.md | Sun 4:18 p.m. Eastern (passed, update LANES.json) | 0 |
 | 🟣 Claude threads | Claude project threads and claude.ai/code cloud sessions (no typing by Nik) | Thu 8:00 p.m. Eastern | 0 |
@@ -31,12 +31,12 @@
 
 _Resets live in [LANES.json](LANES.json) (hand-edited; "unknown" means nobody has told the board yet)._
 
-_Estimate only. Method: the longest chain of jobs still to do (1 left) × the median real time per step (Claude jobs 3 min, set by hand in LANES.json from the hard-jobs thread (8 parts in about 15 min); GPT chat jobs 31 min; real gaps from jobs finished in the last 3 days, so they include waiting). Codex job assumed 45 min. It ignores usage limits and resets, so it can only slip, and it does not include Claude's quality check or Nik's own approval._
+_Estimate only. Method: the longest chain of jobs still to do (0 left) × the median real time per step (Claude jobs 3 min, set by hand in LANES.json from the hard-jobs thread (8 parts in about 15 min); GPT chat jobs 31 min; real gaps from jobs finished in the last 3 days, so they include waiting). Codex job assumed 45 min. It ignores usage limits and resets, so it can only slip, and it does not include Claude's quality check or Nik's own approval._
 
 ## 📊 Screens
 
 ```
-Integration    █████████░ 37/38
+Integration    ██████████ 38/38
 ```
 ✅ Finished screens (19): Home, League, Club, Transfer, Loading, Trophy Room, Career Stats, Rivalry, Legacy, Season Results, Final Winner, Start/Join, Standings, Rule Book, Settings, Setup, Foundation, Art, Top bar
 
@@ -291,7 +291,7 @@ Quality bar: average 4.2 or more, nothing under 3. Average so far 4.26 over 76 s
 | 234 | [Final fixes (part 2 of 3)](jobs/JOB-234.md) | project (type number) | 109 | 100 % | DONE |
 | 235 | [Final fixes (part 3 of 3)](jobs/JOB-235.md) | project (type number) | 234 | 100 % | DONE |
 | 236 | [Package for Nik and handoff to GPT-5.6 Sol (part 2 of 5)](jobs/JOB-236.md) | project (type number) | 110 | 100 % | DONE |
-| 237 | [Package for Nik and handoff to GPT-5.6 Sol (part 3 of 5)](jobs/JOB-237.md) | project (type number) | 236 | 0 % | NOT STARTED |
+| 237 | [Package for Nik and handoff to GPT-5.6 Sol (part 3 of 5)](jobs/JOB-237.md) | project (type number) | 236 | 100 % | DONE |
 | 238 | [Package for Nik and handoff to GPT-5.6 Sol (part 4 of 5)](jobs/JOB-238.md) | project (type number) | 237 | 100 % | DONE |
 | 239 | [Package for Nik and handoff to GPT-5.6 Sol (part 5 of 5)](jobs/JOB-239.md) | project (type number) | 238 | 100 % | DONE |
 | 240 | [Standings: review (part 2 of 4)](jobs/JOB-240.md) | project (type number) | 128 | 100 % | DONE |
