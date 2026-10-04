@@ -730,3 +730,43 @@ body { overflow: hidden; font-family: var(--text); -webkit-font-smoothing: antia
   }
 }
 
+/* JOB-050 step 2b: per-frame phone composition */
+@media (max-width: 760px) and (orientation: portrait) {
+  .stage { --phone-action-h: 48px; --phone-action-gap: 6px; }
+  .world { padding-bottom: calc(var(--phone-footer) + var(--phone-action-h) + (var(--phone-action-gap) * 2)); }
+  .world:has(.panel.verdict) .transfer-wordmark { display: block; width: min(52vw, 210px); margin-bottom: -3px; }
+  .window-body { min-height: 0; gap: 6px; }
+  .f1-brief { font-size: clamp(16px, 4.5vw, 19px); line-height: 1.08; text-wrap: balance; }
+  .phase-guess .panel.own, .phase-signing .panel.own { min-height: 0; }
+  .phase-guess .guess-cols, .phase-signing .signing-rows { gap: 5px; }
+  .phase-guess .guess-col { grid-template-columns: 18px minmax(0, .92fr) minmax(0, 1.08fr); gap: 6px; }
+  .phase-guess .privacy-note { display: block; margin-right: 0; font-size: 12px; line-height: 1.12; }
+  .phase-signing .signing-row { grid-template-columns: 16px minmax(0, 1.04fr) minmax(0, 1.08fr) minmax(64px, .88fr); gap: 5px; }
+  .phase-signing .lock-summary { margin: 0; font-size: 12px; line-height: 1.12; }
+  .stage[data-phase="COMPLETED"] .panel.verdict { min-height: 0; }
+  .stage[data-phase="COMPLETED"] .panel-title { min-height: 22px; margin-top: 2px; }
+  .stage[data-phase="COMPLETED"] .verdict-body { padding: 2px 12px 8px; gap: 2px; }
+  .stage[data-phase="COMPLETED"] .verdict-rows { gap: 1px; }
+  .stage[data-phase="COMPLETED"] .verdict-row { min-height: 0; padding: 0; }
+  .stage[data-phase="COMPLETED"] .guess-reveal { line-height: 1.08; }
+  .btn-end, .phase-guess .btn-lock, .phase-signing .btn-lock, .btn-continue {
+    position: fixed; z-index: 7; left: var(--phone-side); right: var(--phone-side);
+    bottom: calc(var(--phone-footer) + var(--phone-action-gap)); width: auto;
+    height: var(--phone-action-h); min-height: var(--phone-action-h); margin: 0;
+    box-shadow: 0 8px 24px rgba(0,0,0,.58), var(--sd-shadow-glow);
+  }
+  .rules-card.with-continue { min-height: 0; margin-bottom: 0; }
+  .hud-footer { z-index: 8; }
+}
+
+@media (max-width: 760px) and (orientation: portrait) and (max-height: 600px) {
+  .transfer-wordmark, .world:has(.panel.verdict) .transfer-wordmark { display: block; width: min(42vw, 164px); margin: 0 auto -4px; }
+  .stage { --phone-action-h: 44px; --phone-action-gap: 4px; }
+  .stage[data-phase="COMPLETED"] { --band-h: 32px; }
+  .stage[data-phase="COMPLETED"] .scene { min-height: 104px; max-height: 40svh; }
+  .stage[data-phase="COMPLETED"] .verdict-heading { font-size: 14px !important; }
+  .stage[data-phase="COMPLETED"] .vr-meta,
+  .stage[data-phase="COMPLETED"] .vr-why,
+  .stage[data-phase="COMPLETED"] .guess-reveal { font-size: 10.5px; }
+  .phase-guess .privacy-note, .phase-signing .lock-summary { font-size: 11px; }
+}
