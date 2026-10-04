@@ -1151,6 +1151,13 @@ body {
   #confirmDialog button:last-child {
     margin-bottom: 0;
   }
+
+  #creditAuthor,
+  #creditLicense {
+    display: inline-block;
+    min-height: 24px;
+    padding: 6px 2px;
+  }
 }
 
 /* JOB-196 motion: entrance comes from the shared kit (data-sd-enter + sdEnter).
