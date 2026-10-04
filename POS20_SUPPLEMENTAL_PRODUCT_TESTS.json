@@ -725,6 +725,24 @@
         "^tests/contracts/career-screens-v10-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/fewer-taps-contracts.cjs",
+      "patterns": [
+        "^js/persistentNikDanielPair\\.js$",
+        "^js/sparkRemoteJoining\\.js$",
+        "^js/productionSharedJourneyEntry\\.js$",
+        "^js/productionSharedShowdownPresentation\\.js$",
+        "^js/productionSharedCareerStart\\.js$",
+        "^js/productionSharedTransferChallenge\\.js$",
+        "^js/productionSharedSeasonResults\\.js$",
+        "^js/productionSharedSeasonCommit\\.js$",
+        "^js/productionSharedCanonicalScoring\\.js$",
+        "^js/productionSharedHistoryConvergence\\.js$",
+        "^js/productionSharedMultiSeasonProgression\\.js$",
+        "^tests/contracts/fewer-taps-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
