@@ -24,7 +24,7 @@ const flush=async(times=12)=>{for(let i=0;i<times;i+=1)await new Promise(resolve
 const EVENT="career-mode-screen-shown";
 const LOCK_TEXT="Finish this step first";
 const APP_SCREENS=["mainMenu","createShowdown","leagueWheelScreen","clubWheelScreen","dashboard","transferChallenge","seasonEntry","seasonSummary","statistics","careerStatistics","trophyRoom","legacy","ruleBook"];
-// NAV_CONTRACT.md (Team V bde2172): screen -> active key and where the phone bar shows.
+// NAV_CONTRACT.md (Team V 5e05a1f): screen -> active key and where the phone bar shows.
 const NAV_TABLE={
   mainMenu:["home","hub"],createShowdown:["career","hub"],legacy:["career","hub"],trophyRoom:["career","hub"],
   careerStatistics:["stats","hub"],statistics:["stats","hub"],ruleBook:["rules","hub"],
@@ -439,6 +439,59 @@ check("F9b a rollback keeps its own Team V images (offline too); other old image
   assert.ok(!w.store.get(IMG+cur).has(w.SCOPE+fresh),"generations never mix");
 });
 
+// The image cache fills lazily, so a retained revision may later fetch art it never cached. That is only safe
+// because a Team V image path names one generation: the file name carries _V<n> and its bytes never change.
+// Changed art must ship under a new name (e.g. _V2), and a new image is added here with its hash.
+const V10_IMAGES={
+    "visual-assets/v10_1/career-statistics/assets/ENV_CS_PHONE_V1.webp":"6d1610bba1d480681ef5191ac78b9bf8f6f579e3931f26e444985d65e8d582fa",
+    "visual-assets/v10_1/career-statistics/assets/ENV_CS_PLATE_V1_1X.webp":"77759cb0ff818bb674ae45f5431f6e5976b3724de98923f47521b0f59fcec352",
+    "visual-assets/v10_1/career-statistics/assets/ENV_CS_PLATE_V1_2X.webp":"740e753cd4a6360a42658f5a1cd7c70ba848c05ed580a906f0333ecbd29149b9",
+    "visual-assets/v10_1/career-statistics/assets/OVL_CS_DANIEL_CROSSED_ARMS_V1_1X.webp":"a9bf051efc756f37fff4b2836f3f67a2f205e12054779e633f8c0cba4708fbb1",
+    "visual-assets/v10_1/career-statistics/assets/OVL_CS_DANIEL_CROSSED_ARMS_V1_2X.webp":"0f4802b0aa50f6f932d2ed18a49b90decb567dfb7d4f9abd73c52e23c52a992d",
+    "visual-assets/v10_1/career-statistics/assets/OVL_CS_DANIEL_CROSSED_ARMS_V1_RIM_1X.webp":"e51ce1190a73458dfab2c51e8663834be8e1ff831e8e915c9e3061fea732775a",
+    "visual-assets/v10_1/career-statistics/assets/OVL_CS_DANIEL_CROSSED_ARMS_V1_RIM_2X.webp":"a64f2bfebadef2966c59b1f598d0d5abe955888aa5b22c6c17116ee04c936148",
+    "visual-assets/v10_1/career-statistics/assets/OVL_CS_DANIEL_PHONE_V1.webp":"4c6a1a06ea9933d7c695b30dcf1ef1a12be9fa7461356d759f2a9521d793563f",
+    "visual-assets/v10_1/career-statistics/assets/OVL_CS_NIK_PHONE_V1.webp":"570e96e38af9be0d4be10f647a3f23cad81fd26bcae7e091f3e61469fed7afeb",
+    "visual-assets/v10_1/career-statistics/assets/TITLE_CS_V1.webp":"7dbc3041a3b79684b5d28babfce2bb3aaf51138be820b4f7a4d4fcd7a68b4a04",
+    "visual-assets/v10_1/shared/trophies/TRO_CONTINENTAL_V1_512.webp":"15f47694e512f5f1555f3f1b919b0ab0203edd8544cd65b249c98277a28c2175",
+    "visual-assets/v10_1/shared/trophies/TRO_DOMESTIC_CUP_V1_512.webp":"78280e1c2ef82e1945d029f5bccb537c28670fbb92ae19a662fd3611af377d08",
+    "visual-assets/v10_1/shared/trophies/TRO_LEAGUE_TITLE_V1_512.webp":"39c65012fa627c67371fa5676a6d696a81dbb54b80621730d83b2b15ae5b6796",
+    "visual-assets/v10_1/shared/trophies/TRO_SHOWDOWN_CHAMPION_V1_512.webp":"c3ba71260b758a1a437d32a73fe44d367f05d177a0687468cf28fdb25172bad5",
+    "visual-assets/v10_1/trophy-room/assets/ENV_TR_PHONE_V1.webp":"40eaa9d2ef35dacca131285f4b3a83dcf5556927ff82e6e92dda732daa780fda",
+    "visual-assets/v10_1/trophy-room/assets/ENV_TR_PLATE_V1_1X.webp":"abfbcb1884700ee0cddbfb0cbe4384dd31164745ab388d30f8f6128e67260b70",
+    "visual-assets/v10_1/trophy-room/assets/ENV_TR_PLATE_V1_2X.webp":"a2c6badc9148094d880ab671e4b35298fe7d5cc65ecc9875f0228b151455f8cc",
+    "visual-assets/v10_1/trophy-room/assets/OVL_TR_DANIEL_PHONE_V1.webp":"ba883f14116d1257ba8876fd18b92847b7955536e31c6e3154b743089036d7d6",
+    "visual-assets/v10_1/trophy-room/assets/OVL_TR_NIK_PHONE_V1.webp":"850352f3eb1db2f79c0ba8e5df447cde9b5a3371e7fa29e14dee1e3e989e3959",
+    "visual-assets/v10_1/trophy-room/assets/TITLE_TR_V1.webp":"735bc4f176181b418becb54d699c2f19e80ac2e257b541cd5a1f4ebb39637b0c",
+    // job 26 (Start/Join, League wheel, Club packs): Team V 5e05a1f, unchanged
+    "visual-assets/v10_1/club/assets/ENV_CLUB_PHONE_V1.webp":"b31092d3eac35a9851d9c51406dd0cf7972e2dd9a5a8adb83c78d4a27497ba2a",
+    "visual-assets/v10_1/club/assets/ENV_CLUB_PLATE_V1_1X.webp":"398e74faeb18ab2df655122fa0f78e9737aad4c1eff1ba16d019a305f275c255",
+    "visual-assets/v10_1/club/assets/ENV_CLUB_PLATE_V1_2X.webp":"fed849bbb2c9f239ae1561f57eb5b145e0e33a518fb7bfd0e424691c00cfd6ca",
+    "visual-assets/v10_1/club/assets/OVL_CLUB_DANIEL_PHONE_V1.webp":"6836d6b85c87fdc0d73e18d106b1a6bf98c102d1f8e0fe5eacdb81c7bf95dc2d",
+    "visual-assets/v10_1/club/assets/OVL_CLUB_NIK_PHONE_V1.webp":"2f509a89aa6485eac3ae8f7892dfb2c79e7733bed066eb3371dec9a2aa9c28bc",
+    "visual-assets/v10_1/league/assets/ENV_LEAGUE_PHONE_V1.webp":"b0eecfe1a5d4f79e847170a787f5c8805b0630b0508732fd19302fdd66804a0b",
+    "visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_1X.webp":"d9fd67a604ed9e2a1e9dd202826c664aed22061fa53b127a6a6b8cd50060fae9",
+    "visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_2X.webp":"fcb07fa4c01b07ef86b238d07d7584e476ba3e780bb76ac561cb0167661057b4",
+    "visual-assets/v10_1/league/assets/OVL_LEAGUE_DANIEL_PHONE_V1.webp":"0748bd50eed0b6f9267a2368977f43f4706b0692daf642c2f6dddc51708c734f",
+    "visual-assets/v10_1/league/assets/OVL_LEAGUE_NIK_PHONE_V1.webp":"c6001bdc93978e24914bdc08f95674d4ecd4d52ccb7dc3ed82846d02fff057b3",
+    "visual-assets/v10_1/shared/art/wheel/WHEEL_RIM_V1.webp":"cbc0328e9f8fa03e697e4825a0c5eea24d669faadaf2aa3bc674646290047878",
+    "visual-assets/v10_1/start-join/assets/ENV_SJ_PHONE_V1.webp":"b77f010b6b590705b9d031c9e3a00159f0677813d87c81ba2a8a601fb7141a55",
+    "visual-assets/v10_1/start-join/assets/ENV_SJ_PLATE_V1_1X.webp":"69170e26033fc39d109a48eeb051f3b361a90d17bc0e462a8939b3b9fdb37bdc",
+    "visual-assets/v10_1/start-join/assets/ENV_SJ_PLATE_V1_2X.webp":"d71bf0f4da18fd92b45727e1c1ae955d8bb83fc35c9c16bf9988c938425db003",
+    "visual-assets/v10_1/start-join/assets/OVL_SJ_DANIEL_PHONE_V1.webp":"f5fdb5eedc90b83acd5225cc6b18078ddfcf9031c9b40128f91db3314c34a3cd",
+    "visual-assets/v10_1/start-join/assets/OVL_SJ_NIK_PHONE_V1.webp":"7564a129eccae2bbaf1a6b5280f0073dbba5770190c2547ae245b1bb07dc5b75"
+};
+check("F9c every shipped Team V image path names one generation (versioned name, pinned bytes)",()=>{
+  const found=[];
+  const walk=dir=>{for(const entry of fs.readdirSync(path.join(ROOT,dir),{withFileTypes:true})){const rel=dir+"/"+entry.name;if(entry.isDirectory())walk(rel);else if(/\.(?:webp|png|jpe?g|avif|gif|svg)$/i.test(entry.name))found.push(rel);}};
+  walk("visual-assets/v10_1");
+  assert.deepEqual(found.sort(),Object.keys(V10_IMAGES).sort(),"every shipped Team V image is listed with its hash");
+  for(const [file,hash] of Object.entries(V10_IMAGES)){
+    assert.match(path.basename(file),/_V\d+(?:_[^.]+)?\./,`${file} carries a _V<n> generation in its name`);
+    assert.equal(sha256(file),hash,`${file} bytes changed: ship changed art under a new _V<n> name instead`);
+  }
+});
+
 check("F10 index.html is unchanged and the startup line is not higher",()=>{
   assert.equal(sha256("index.html"),"234683bf0deb273fc085af78d9c942e1c6a052e8ffb5dc6e2edcae9de55dbc6a","index.html byte-identical to gameplay/recovery-v1 (r53)");
   const html=read("index.html");
@@ -455,9 +508,11 @@ check("F10 index.html is unchanged and the startup line is not higher",()=>{
 check("F11 Team V files are copied unchanged; no docs, previews or images are copied for the bar",()=>{
   const pinned={
     "visual-assets/v10_1/shared/navbar/navbar.css":"19e3aec81f0de27d2a893c1019587c3157952c9ea8801c19276ce942938c208b",
-    "visual-assets/v10_1/shared/navbar/navbar.js":"7fbfebd85f7739e32557b4b903e8139b7ec59d28f51abdb0a615d6dfb3295b1c"
+    "visual-assets/v10_1/shared/navbar/navbar.js":"7fbfebd85f7739e32557b4b903e8139b7ec59d28f51abdb0a615d6dfb3295b1c",
+    // Re-copied from the final Team V pin (phone layout); job 13's only file that changed upstream.
+    "visual-assets/v10_1/career-statistics/career-statistics.css":"20c472e0da172fc65167c598b890f9e53a057c08276e6e5efb7763161d558323"
   };
-  for(const [file,hash] of Object.entries(pinned))assert.equal(sha256(file),hash,`${file} equals Team V bde2172`);
+  for(const [file,hash] of Object.entries(pinned))assert.equal(sha256(file),hash,`${file} equals Team V 5e05a1f`);
   assert.deepEqual(fs.readdirSync(path.join(ROOT,"visual-assets/v10_1/shared/navbar")).sort(),["navbar.css","navbar.js"]);
   const src=read("js/v10Screens.js");
   assert.ok(!src.includes("fixtures.json")&&!src.includes("Preview data"),"no fixtures in production");

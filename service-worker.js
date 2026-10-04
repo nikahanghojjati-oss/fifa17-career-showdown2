@@ -270,7 +270,8 @@ self.addEventListener("activate",event=>{ event.waitUntil((async()=>{ const stat
 async function cachedShellResponse(path,revision){ const cacheName=cacheNameForRevision(revision); if(!cacheName||!(await cacheExists(cacheName))){return null;} const cache=await caches.open(cacheName); return cache.match(versionedShellUrl(path,revision)); }
 function isV10ImagePath(path){ return V10_IMAGE_PATH.test(path); }
 // Images follow the shell the page runs: after a rollback they come from the retained revision's own image cache
-// (or its shell cache, for revisions that precached them), so an offline rollback keeps its art and generations never mix.
+// (or its shell cache, for revisions that precached them), so an offline rollback keeps the art it had viewed. A miss is
+// fetched by path: each Team V image path names one generation (_V<n> name, bytes pinned by v10-foundation F9c).
 async function v10ImageRevision(){ const forced=await readForcedRevision(); return forced&&forced!==RUNTIME_REVISION&&await cacheExists(cacheNameForRevision(forced))?forced:RUNTIME_REVISION; }
 async function v10ImageResponse(event,request,path){
     const revision=await v10ImageRevision(); const cache=await caches.open(v10ImageCacheName(revision)); const key=scopeUrl(path).href;
