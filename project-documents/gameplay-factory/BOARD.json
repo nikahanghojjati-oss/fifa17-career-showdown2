@@ -279,7 +279,7 @@
   {
    "number": 13,
    "key": "G-13",
-   "title": "Remove the r43 containment, bind #trophyRoomButton",
+   "title": "Part 1: Trophy Room and Career Statistics on the real career model",
    "lane": "work",
    "depends_on": [
     4,
@@ -287,14 +287,14 @@
     6,
     9
    ],
-   "steps": null,
-   "code_branch": null,
+   "steps": 7,
+   "code_branch": "gameplay/job-13-career-screens",
    "codex_review": false,
-   "written": false,
-   "waits_on": "approved Team V visual package",
+   "written": true,
+   "waits_on": null,
    "phase": "4 Ship",
    "type": "build",
-   "plain": "Turns on the Trophy Room button and the new career screens with Team V's approved visuals."
+   "plain": "Career Statistics and a Trophy Room button come back, drawn in Team V's new style and filled from your real career. Legacy and Rivalry Statistics wait for part 2 and Nik's approval of the full visual package."
   },
   {
    "number": 14,
