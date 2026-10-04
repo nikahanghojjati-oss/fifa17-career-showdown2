@@ -1,0 +1,77 @@
+/* JOB-30: adapt Team V's standalone system composition to existing app hosts.
+   Modal controls stay in settingsDialog, under the original focus/containment owner. */
+#ruleBook.v10RuleBook { padding:0; width:100%; height:100dvh; overflow:hidden; }
+#ruleBook.v10RuleBook .v10SystemStage,
+#settingsOverlay.v10Settings .v10SystemStage { position:fixed; inset:0; width:100vw; height:100dvh; }
+#ruleBook.v10RuleBook .ruleBookHero > .sd-eyebrow,
+#ruleBook.v10RuleBook .ruleBookHero > .sd-tagline { display:block; }
+#ruleBook.v10RuleBook .ruleSectionHeader h3 { margin:0; color:var(--sd-text-warm); font:700 clamp(12px,1vw,18px)/1.1 var(--sd-font-condensed); letter-spacing:.1em; }
+#ruleBook.v10RuleBook .ruleScoreTable { display:block; }
+#ruleBook.v10RuleBook .ruleSection { border-top:1px solid rgba(222,179,79,.62); }
+#ruleBook.v10RuleBook .ruleBookActions { pointer-events:auto; }
+#ruleBook.v10RuleBook .ruleBookGrid { pointer-events:auto; }
+#settingsOverlay.v10Settings { padding:0; background:#050505; backdrop-filter:none; color:#f5f1e8; }
+#settingsOverlay.v10Settings #settingsDialog { width:100%; max-height:none; height:100%; display:block; border:0; background:transparent; box-shadow:none; color:#f5f1e8; animation:none; }
+#settingsOverlay.v10Settings .settingsHeader { min-height:0; padding:0; border:0; background:transparent; }
+#settingsOverlay.v10Settings .settingsTitleBlock { display:block; }
+#settingsOverlay.v10Settings #settingsClose { z-index:20; border:1px solid #d9b15f; color:#f5f1e8; background:rgba(0,0,0,.7); }
+#settingsOverlay.v10Settings #settingsContent { padding:0 5px 8px; overflow-y:auto; overscroll-behavior:contain; align-content:start; grid-template-rows:auto auto; scrollbar-color:#d9b15f #151515; }
+#settingsOverlay.v10Settings .settingsPanel,
+#settingsOverlay.v10Settings .settingsConnectedAccountPanel { border:1px solid rgba(219,178,94,.58); padding:16px; color:#f5f1e8; background:linear-gradient(180deg,rgba(18,18,18,.9),rgba(7,7,7,.85)); box-shadow:inset 0 1px rgba(255,231,179,.1),0 18px 42px rgba(0,0,0,.28); overflow:visible; }
+#settingsOverlay.v10Settings .settingsConnectedAccountPanel { grid-column:1/4; grid-row:1; }
+#settingsOverlay.v10Settings .settingsPanelHeading { margin:0 0 12px; padding:0 0 10px; border-bottom:1px solid rgba(219,178,94,.25); }
+#settingsOverlay.v10Settings .settingsPanelEyebrow { color:#d9b15f; font:700 11px/1.2 var(--sd-font-condensed); letter-spacing:.2em; }
+#settingsOverlay.v10Settings .settingsPanelHeading h3 { color:#f5f1e8; font:700 22px/1.1 var(--sd-font-display); }
+#settingsOverlay.v10Settings .settingsPanelHeading p,
+#settingsOverlay.v10Settings .settingsDataNote,
+#settingsOverlay.v10Settings .settingsOfflineNote { color:rgba(245,241,232,.78); font:400 12px/1.45 var(--sd-font-body); }
+#settingsOverlay.v10Settings .settingsInfoGrid { grid-template-columns:1fr; }
+#settingsOverlay.v10Settings .settingsInfoRow { background:rgba(255,255,255,.025); border-left:0; border-top:1px solid rgba(255,255,255,.1); min-height:40px; }
+#settingsOverlay.v10Settings .settingsInfoRow span { color:#c1b9aa; }
+#settingsOverlay.v10Settings .settingsInfoRow strong { color:#f5f1e8; font-family:var(--sd-font-condensed); }
+#settingsOverlay.v10Settings .settingsMotionSummary { grid-template-columns:1fr 1fr; }
+#settingsOverlay.v10Settings .settingsMotionMarker { border-color:#d9b15f; background:#151515; box-shadow:none; }
+#settingsOverlay.v10Settings .settingsMotionCopy strong,
+#settingsOverlay.v10Settings .settingsAudioCopy strong { color:#f5f1e8; }
+#settingsOverlay.v10Settings .settingsMotionCopy small,
+#settingsOverlay.v10Settings .settingsAudioCopy small { color:#c1b9aa; }
+#settingsOverlay.v10Settings .settingsMotionChoice.selected { background:rgba(225,184,89,.2); border-color:#d9b15f; }
+#settingsOverlay.v10Settings .settingsStatus { color:#f5f1e8; background:#403318; }
+#settingsOverlay.v10Settings .settingsAudioToggleTrack { display:none; }
+#settingsOverlay.v10Settings .menuButton { min-height:44px; color:#f5f1e8; background:rgba(0,0,0,.58); border:1px solid rgba(219,178,94,.66); font-family:var(--sd-font-condensed); }
+#settingsOverlay.v10Settings .settingsDeleteCurrentShowdown { color:#ffd9d9; background:rgba(95,15,15,.28); border-color:#d64b4b; }
+#settingsOverlay.v10Settings .settingsFooter { padding:0; border:0; background:transparent; visibility:visible; }
+#settingsOverlay.v10Settings .settingsFooter button { color:#161009; background:var(--sd-gold-metal,#d9b15f); border-color:#d9b15f; min-width:142px; }
+#settingsOverlay.v10Settings a:focus-visible,
+#settingsOverlay.v10Settings button:focus-visible { outline:2px solid #f0c96d; outline-offset:3px; }
+@media (max-width:760px) and (orientation:portrait) {
+  #settingsOverlay.v10Settings #settingsContent { display:flex; flex-direction:column; top:130px; bottom:calc(74px + env(safe-area-inset-bottom)); height:auto; width:calc(100% - 28px); left:14px; gap:12px; }
+  #settingsOverlay.v10Settings .settingsPanel { flex:0 0 auto; }
+  #settingsOverlay.v10Settings .settingsTitleBlock { top:18px; width:240px; }
+  #settingsOverlay.v10Settings .settingsHeader { display:block; }
+  #settingsOverlay.v10Settings #settingsClose { top:12px; right:12px; }
+  #settingsOverlay.v10Settings .settingsFooter { bottom:calc(14px + env(safe-area-inset-bottom)); right:14px; left:14px; }
+  #settingsOverlay.v10Settings .settingsFooter button { width:100%; }
+  #ruleBook.v10RuleBook .ruleSectionHeader h3 { font-size:15px; }
+}
+
+/* Neutralize only the old visual declarations; nodes, copy and handlers stay intact. */
+#ruleBook.v10RuleBook .ruleBookHero { display:block; margin:0; padding:0; border:0; background:none; box-shadow:none; }
+#ruleBook.v10RuleBook .ruleBookGrid { width:auto; margin:0; }
+#ruleBook.v10RuleBook .ruleSection::before { display:none; }
+#ruleBook.v10RuleBook .ruleBookHero > span { color:var(--sd-gold); font-family:var(--sd-font-condensed); }
+#ruleBook.v10RuleBook .ruleBookHero > strong { color:var(--sd-text-warm); font-family:var(--sd-font-condensed); }
+#ruleBook.v10RuleBook .ruleBookHero > p { color:rgba(244,241,234,.78); }
+#ruleBook.v10RuleBook .ruleScoreTable > div { border-left:0; }
+#ruleBook.v10RuleBook .ruleSectionHeader { display:grid; }
+#ruleBook.v10RuleBook .ruleSectionHeader > span { background:rgba(219,178,94,.15); color:var(--sd-gold); }
+#ruleBook.v10RuleBook .ruleScoreTable strong,
+#ruleBook.v10RuleBook .ruleScoreMaximum strong { color:var(--sd-gold); }
+@media (max-width:760px) {
+  #ruleBook.v10RuleBook .sd-stage[data-sd-mode="phone"] .sd-stage__layer--ui,
+  #ruleBook.v10RuleBook .sd-stage[data-sd-mode="phone"] .sd-stage__layer--plate,
+  #ruleBook.v10RuleBook .sd-stage[data-sd-mode="phone"] .sd-stage__layer--atmosphere { top:0; bottom:0; height:100%; }
+}
+
+#ruleBook.v10RuleBook .ruleScoreRow,
+#ruleBook.v10RuleBook .ruleScoreMaximum { background:transparent; border-left:0; padding-inline:0; }
