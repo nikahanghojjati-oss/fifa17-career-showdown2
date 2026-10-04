@@ -89,7 +89,16 @@ class FakeDocument{
     this.documentElement=new FakeElement(this,"html");this.head=new FakeElement(this,"head");this.body=new FakeElement(this,"body");
     this.documentElement.appendChild(this.head);this.documentElement.appendChild(this.body);
   }
-  connected(node){if(node.tagName==="LINK"&&!node.fired){node.fired=true;queueMicrotask(()=>node.fire("load"));}}
+  connected(node){
+    if(node.tagName!=="LINK"||node.fired)return;
+    node.fired=true;
+    if(!this.slowLinks){node.sheet={};queueMicrotask(()=>node.fire("load"));return;}
+    // Like Chromium: a stylesheet disabled while it is still loading drops its request and never loads.
+    let disabled=node.disabled;node.sheet=null;node.dropped=false;
+    Object.defineProperty(node,"disabled",{get:()=>disabled,set:value=>{if(value&&!node.sheet)node.dropped=true;disabled=Boolean(value);}});
+    this.pendingLinks.push(node);
+  }
+  settleLinks(){const list=this.pendingLinks.splice(0);for(const node of list)if(!node.dropped){node.sheet={};node.fire("load");}return list;}
   createElement(tag){return new FakeElement(this,tag);}
   getElementById(id){const walk=el=>{for(const child of el.children){if(child.id===id)return child;const found=walk(child);if(found)return found;}return null;};return walk(this.documentElement);}
   querySelector(selector){return selector==="body"?this.body:this.documentElement.querySelector(selector);}
@@ -250,6 +259,27 @@ check("F3 Team V styles are on only while a mounted Team V screen is visible",as
   root.showScreen("mainMenu");await flush();
   for(const file of [...KIT_STYLES.filter(f=>!always.includes(f)),V10.BASE+"test/dash.css"])assert.equal(linkFor(root,file).disabled,true,`${file} off after leaving`);
   for(const file of always)assert.equal(linkFor(root,file).disabled,false,`${file} stays on`);
+});
+
+check("F3b a stylesheet toggled while loading is never dropped; it ends with the wanted state and its sheet",async()=>{
+  const root=await installed();
+  const V=root.CareerModeV10Screens,doc=root.document;
+  doc.slowLinks=true;doc.pendingLinks=[];
+  V.register("dashboard",{css:["test/dash.css"],frame:()=>({}),mount(){},unmount(){}});
+  root.showScreen("dashboard");await flush();
+  const kit=KIT_STYLES.filter(file=>file!==V10.BASE+"shared/showdown-tokens.css");
+  for(const file of kit)assert.ok(doc.pendingLinks.includes(linkFor(root,file)),`${file} still loading`);
+  root.showScreen("mainMenu");await flush();
+  root.showScreen("seasonEntry");await flush();
+  for(const file of kit){const link=linkFor(root,file);assert.equal(link.dropped,false,`${file} not dropped by a screen change`);assert.equal(link.disabled,false,`${file} left alone while loading`);}
+  doc.settleLinks();await flush();
+  for(const file of kit){const link=linkFor(root,file);assert.ok(link.sheet,`${file} loaded`);assert.equal(link.disabled,true,`${file} off once loaded: no Team V screen shows`);}
+  while(doc.pendingLinks.length){doc.settleLinks();await flush();}
+  root.showScreen("dashboard");await flush();
+  while(doc.pendingLinks.length){doc.settleLinks();await flush();}
+  assert.equal(V.isMounted("dashboard"),true);
+  for(const file of [...kit,V10.BASE+"test/dash.css"]){const link=linkFor(root,file);assert.equal(link.dropped,false,file);assert.ok(link.sheet,`${file} sheet loaded`);assert.equal(link.disabled,false,`${file} on while shown`);}
+  assert.deepEqual(root.errors,[]);
 });
 
 check("F4 one showScreen hook dispatches career-mode-screen-shown; the app's result is unchanged",async()=>{

@@ -122,15 +122,18 @@
     if(styles.has(file))return styles.get(file).ready;
     const doc=vsDoc(),link=doc.createElement("link");
     link.rel="stylesheet";link.href=vsAssetUrl(file);link.setAttribute("data-v10-style",file);
-    const ready=new Promise(resolve=>{
+    // A link is left alone until it settles (load, error or timeout): disabling a stylesheet that is still loading
+    // makes Chromium drop the request, and enabling it later never reloads it. On settling, the wanted state applies.
+    const entry={link,ready:null,settled:false};
+    entry.ready=new Promise(resolve=>{
       let timer=null;
-      const done=()=>{if(timer!==null)root.clearTimeout(timer);timer=null;resolve(true);};
+      const done=()=>{if(timer!==null)root.clearTimeout(timer);timer=null;if(!entry.settled){entry.settled=true;vsSyncStyles();}resolve(true);};
       link.addEventListener("load",done,{once:true});link.addEventListener("error",done,{once:true});
       timer=root.setTimeout(done,STYLE_TIMEOUT_MS);
     });
-    styles.set(file,{link,ready});
+    styles.set(file,entry);
     doc.head.appendChild(link);
-    return ready;
+    return entry.ready;
   }
   function vsEnsureKit(){
     if(!kitPromise)kitPromise=(async()=>{
@@ -165,7 +168,8 @@
   // Team V stylesheets style more than their own markup, so they are on only while a mounted Team V screen shows.
   function vsSyncStyles(){
     const live=[...mounted.keys()].filter(vsIsShown).map(id=>registry.get(id));
-    for(const [file,{link}] of styles){
+    for(const [file,{link,settled}] of styles){
+      if(!settled)continue;
       let on=ALWAYS_ON.includes(file);
       if(!on&&live.length)on=KIT.styles.some(kit=>BASE+kit===file)||live.some(def=>def.css.some(css=>BASE+css===file));
       if(link.disabled!==!on)link.disabled=!on;
