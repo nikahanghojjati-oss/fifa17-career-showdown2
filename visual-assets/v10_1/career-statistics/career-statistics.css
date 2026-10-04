@@ -325,6 +325,7 @@ button:focus-visible { outline: 3px solid #fff1b8; outline-offset: 3px; }
     opacity: 0;
     clip-path: inset(50%);
     pointer-events: auto;
+    font-size: 16px;
   }
 
   .phoneTabs {
@@ -436,7 +437,16 @@ button:focus-visible { outline: 3px solid #fff1b8; outline-offset: 3px; }
     gap: 6px;
   }
 
-  .actionRow .actionButton { min-height: 44px; height: auto; padding: 0 7px; grid-template-columns: 22px 1fr 10px; gap: 4px; font-size: 9px; }
+  .actionRow .actionButton {
+    min-height: 44px;
+    height: auto;
+    padding: 0 7px;
+    grid-template-columns: 22px 1fr 10px;
+    gap: 4px;
+    font-size: 9px;
+    touch-action: manipulation;
+  }
+  .actionRow .secondary .actionLabel { white-space: normal; line-height: 1.05; }
   .actionRow .actionButton:nth-child(1) { grid-area: rivalry; }
   .actionRow .actionButton:nth-child(2) { grid-area: trophy; }
   .actionRow .actionButton:nth-child(3) { grid-area: back; }
@@ -484,4 +494,25 @@ button:focus-visible { outline: 3px solid #fff1b8; outline-offset: 3px; }
   .contentGrid > .statePanel:not([hidden]) { display: grid; }
 
   .armCutout, .armRim, .contactShadow { display: none !important; }
+}
+
+@media (max-width: 760px) and (orientation: portrait) and (max-height: 600px) {
+  .titleBlock { top: 4px; height: 82px; }
+  .titleBlock .sd-eyebrow { display: none; }
+  .titleWordmark { top: 16px; }
+  .titleBlock .sd-tagline { top: 62px; }
+
+  .phoneHub {
+    top: 42%;
+    grid-template-rows: 56px 44px minmax(0,1fr);
+    gap: 4px;
+  }
+
+  .partialBanner { top: calc(42% - 22px); }
+  .headlineIcon { width: 18px; height: 18px; }
+  .headlineIcon img { max-width: 18px; max-height: 21px; }
+  .headlineNumber { font-size: 18px; }
+  .headlinePair b { font-size: 14px; }
+  .headlineLabel { font-size: 6px; }
+  .actionRow .actionButton { font-size: 8px; }
 }
