@@ -122,3 +122,28 @@ Larger phones grow the content region instead of leaving the composition floatin
 
 The scoring sheet is an overlay from 44% of viewport height to 8 px above the bottom edge, so opening it does not alter document height. Phone scene art remains at most 342,974 bytes from part 1 before shared CSS/type resources.
 
+
+
+## Fix round
+
+Jobs 80, 177 and 178 apply the nine REVIEW.md items in order.
+
+| Item | Result | File / target |
+| --- | --- | --- |
+| 1 | Done (80) | fixtures.json SR4/SR5 Champions League flags: one winner per season |
+| 2 | Done (80) | season-results.js .season-score only at SCORING_RECONCILED |
+| 3 | Done (80) | fixtures.json SR2_REVIEW unpublished-review frame with Publish/Edit |
+| 4 | Done (177) | renderActions / renderWorkflowState: unpublished review uses draft copy and Publish/Edit, entry Review hidden |
+| 5 | Done (177) | sharedCommitPresentation: seven exact action/status states with proper disabled states |
+| 6 | Done (177) | numeric maxima use frame.teamCount and frame.maxPoints; old frames normalized from DATA_CONTRACT_V1 §0 |
+| 7 | Done (178) | fixture sealedWaitingTemplate, canonicalScoring.reconciled and scoreLabel replace renderer literals |
+| 8 | Done (178) | desktop #screen-title left 27.99%, top 16.78%, width 43.49% |
+| 9 | Done (178) | .entry-panel--daniel left 13.67%, top 52.66%, width 35.74% |
+
+Blocked items: none. Item 7 necessarily binds the new fixture keys in season-results.js; the renderer change is part of making fixtures the single source. The phone whole-screen UI-layer / 55% art-band correction is preserved.
+
+DEFAULT (177): original fixtures have no teamCount/maxPoints, so normalize their league bounds at the renderer boundary: Bundesliga 18, others 20, maxPoints (teams−1)×6. Commit variants are reachable in labelled previews via SR4&commitState=checking|retry|coordinator|peer|committed|own-acknowledged|acknowledged, without changing production state.
+
+Read checks pass for all changed targets and the seven commit mapping outputs; JS parses. H1–H3 source guardrails are retained. H5–H11 remain NOT MEASURED: Claude must measure phone fit/scroll and primary visibility at the three mandatory floors, input sizes/body contrast, both motion paths, keyboard/focus, console/requests, protected-art mockup diff and first-paint weight. Recheck title/tagline/scoring-panel spacing and Daniel fist contact against the restored review geometry. No browser, screenshots or runtime gate results were produced by this bundle worker.
+
+Carried fixture issue for motion intake: the old SR5 nested breakdown/winner was not recomputed by fix item 1 when its Champions League flag changed, and SR5 omits scoringState. The motion part that reads authoritative numeric targets must reconcile these labelled preview facts before animating them; until then the reconciliation gate keeps canonical output hidden.
