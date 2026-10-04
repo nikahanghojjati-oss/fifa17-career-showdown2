@@ -413,9 +413,9 @@
   {
    "id": "BH-3",
    "title": "Nobody cross-checks the two managers' season results",
-   "plain": "Both can publish position 1 or both tick Champions League, and a published result cannot be corrected.",
+   "plain": "Both can publish position 1 or both tick Champions League. Nik chose (2026-10-04): show a clear clash warning on the commit screen; committing stays allowed. Being built on gameplay/job-23-result-clash-warning.",
    "likelihood": "medium",
-   "status": "TO PLAN WITH LEAD",
+   "status": "IN PROGRESS",
    "owner": "lead"
   },
   {
