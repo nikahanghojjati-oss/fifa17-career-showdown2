@@ -228,3 +228,17 @@ At 390 × 844 and 430 × 932 the hero minimum itself grows from `31svh` (262/289
 - Touch targets: PASS. Primary frame actions and HOME / REFRESH are at least 44px; the primary action is fixed inside the safe-area slot.
 - Asset loading: PASS. `index.html` loads the phone background and both manager overlays as WebP through `<picture>`; no PNG master is referenced by the phone hero markup.
 - Phone content policy: own content stays first; the sealed rival dossier follows until reveal; F4 rule prose is omitted on short phone layouts; no extra tabs or sheets were invented.
+
+## Fix round
+
+JOB-052 / JOB-143 / JOB-144 close the Transfer War review fix list.
+
+- Item 1 — DONE in JOB-052: `plate.js · buildFooter() / #transferChallengeTitle` now binds the season token to `String(fx.seasonNumber)` instead of hardcoding Season 1.
+- Item 2 — DONE in JOB-052: `index.html · before #stage-root` mounts the shared locked desktop top navigation with HOME / CAREER / STANDINGS / STATS / RULES plus Settings; Transfer War keeps the app navigation hidden on phone.
+- Item 3 — no review item exists.
+- Items 4–6 — no review items exist; JOB-143 made no screen-file changes.
+- Items 7–9 — no review items exist; JOB-144 made no screen-file changes.
+- Blocked items — none.
+
+Claude re-measure at intake: H5 phone fit at 393 × 660 and 360 × 640 plus primary-action visibility at 375 × 553; H6 contrast/input size; H7 reduced motion; H8 keyboard/focus; H9 console and failed requests; H10 mockup diff; H11 first-paint/network weight. Also re-check the carried 1366 × 640 desktop title-top crop after the locked 52 px navigation was mounted.
+
