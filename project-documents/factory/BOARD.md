@@ -1,18 +1,18 @@
 # Showdown Factory board
 
-**102 of 238 jobs done and checked · 44 %** · updated Sat 10:05 p.m. Eastern
+**105 of 238 jobs done and checked · 45 %** · updated Sat 10:11 p.m. Eastern
 
-✅ **Quality check:** a job counts as done only after Claude checks it against the quality bar (average 4.2 or more, nothing under 3, hard gates pass). Average score 4.25 over 45 scored jobs. 🔍 Waiting for Claude's check: 50. 🔧 Sent back with a fix list: 77, 95.
+✅ **Quality check:** a job counts as done only after Claude checks it against the quality bar (average 4.2 or more, nothing under 3, hard gates pass). Average score 4.25 over 46 scored jobs. 🔍 Waiting for Claude's check: 50, 61. 🔧 Sent back with a fix list: 77, 95.
 
 ████░░░░░░
 
 **Where to run:** 🟡 **project job** = new chat in the ChatGPT project "Showdown visual", type the number; one number is one turn (no Continue), and a job in parts shows its later parts only when the earlier part is done. 🟣 **image job** = its ticket in a ChatGPT **Temporary Chat** outside any project, then drop the picture in Claude's factory thread.
 
-🟡 **Type next:** 77 (fix), 95 (fix), 68, 85 · then 88, 127, 140, 147, 194
+🟡 **Type next:** 77 (fix), 95 (fix), 68, 86, 88 · then 127, 140, 147, 194
 
 🟣 **Image next:** 118
 
-**Working:** 61 · **Blocked:** -
+**Working:** - · **Blocked:** -
 
 ## Screens
 
@@ -22,12 +22,12 @@ League         ██████████ 8/8
 Club           ██████████ 7/7
 Transfer       ███░░░░░░░ 4/13
 Loading        ██████████ 4/4
-Trophy Room    █████████░ 9/10
+Trophy Room    ██████████ 10/10
 Career Stats   ████░░░░░░ 8/17
 Rivalry        ███░░░░░░░ 6/19
 Legacy         ██░░░░░░░░ 5/19
 Season Results ███░░░░░░░ 5/19
-Final Winner   █████░░░░░ 6/12
+Final Winner   ███████░░░ 9/12
 Start/Join     ██░░░░░░░░ 5/18
 Standings      ░░░░░░░░░░ 1/15
 Rule Book      ██████████ 4/4
@@ -49,15 +49,15 @@ Integration    ░░░░░░░░░░ 0/38
 
 Branch `factory/v1-wtt5ye`. 238 Team V jobs, plus 5 lines that track Team G. Two kinds of job. **Project (type number):** open a new chat in the ChatGPT project "Showdown visual" and type the number (up to 5 at once). **Fresh chat (image):** run the job's ticket from [tickets/](tickets/README.md) in a ChatGPT Temporary Chat (no memory) outside any project, then drop the image in Claude's factory thread (up to 2 at once).
 
-**Overall (Team V):** ████░░░░░░ 44 % · 102 of 238 jobs done
+**Overall (Team V):** ████░░░░░░ 45 % · 105 of 238 jobs done
 
-**Start now · project (type the number in Showdown visual):** 77 (fix), 95 (fix), 68, 85 · queued next: 88, 127, 140, 147, 194
+**Start now · project (type the number in Showdown visual):** 77 (fix), 95 (fix), 68, 86, 88 · queued next: 127, 140, 147, 194
 
 **Start now · fresh chat (image ticket, outside the project):** 118
 
 **Start now (Sol Work mode, press Use Work):** -
 
-**Working:** 61 · **Blocked:** -
+**Working:** - · **Blocked:** -
 
 **Team G tracking (never start these):** 98 (done), 99 (open), 100 (open), 101 (open), 102 (open). Claude marks them done when Team G delivers.
 
@@ -124,7 +124,7 @@ Branch `factory/v1-wtt5ye`. 238 Team V jobs, plus 5 lines that track Team G. Two
 | 58 | [Trophy Room: phone](jobs/JOB-058.md) | 5 New screens | build | project (type number) | 57, 115 | ██████████ 100 % | DONE |  |
 | 59 | [Trophy Room: review](jobs/JOB-059.md) | 5 New screens | review | project (type number) | 58 | ██████████ 100 % | DONE |  |
 | 60 | [Trophy Room: fix round](jobs/JOB-060.md) | 5 New screens | fix | project (type number) | 59 | ██████████ 100 % | DONE |  |
-| 61 | [Trophy Room: motion](jobs/JOB-061.md) | 5 New screens | build | project (type number) | 60, 16 | ████████░░ 80 % | IN PROGRESS | yes |
+| 61 | [Trophy Room: motion](jobs/JOB-061.md) | 5 New screens | build | project (type number) | 60, 16 | ██████████ 100 % | DONE | yes |
 | 62 | [Career Statistics: build (desktop)](jobs/JOB-062.md) | 5 New screens | build | project (type number) | 3, 24, 18, 131, 137, 19, 20, 21, 22 | ██████████ 100 % | DONE |  |
 | 63 | [Career Statistics: phone](jobs/JOB-063.md) | 5 New screens | build | project (type number) | 62, 116 | ██████████ 100 % | DONE |  |
 | 64 | [Career Statistics: review (part 1 of 4)](jobs/JOB-064.md) | 5 New screens | review | project (type number) | 63 | ██████████ 100 % | DONE |  |
@@ -148,7 +148,7 @@ Branch `factory/v1-wtt5ye`. 238 Team V jobs, plus 5 lines that track Team G. Two
 | 82 | [Final Winner: build (desktop)](jobs/JOB-082.md) | 5 New screens | build | project (type number) | 7, 23, 18, 134, 139, 19, 20, 21, 22 | ██████████ 100 % | DONE |  |
 | 83 | [Final Winner: phone](jobs/JOB-083.md) | 5 New screens | build | project (type number) | 82, 115 | ██████████ 100 % | DONE |  |
 | 84 | [Final Winner: review](jobs/JOB-084.md) | 5 New screens | review | project (type number) | 83 | ██████████ 100 % | DONE |  |
-| 85 | [Final Winner: fix round (part 1 of 3)](jobs/JOB-085.md) | 5 New screens | fix | project (type number) | 84, 124 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
+| 85 | [Final Winner: fix round (part 1 of 3)](jobs/JOB-085.md) | 5 New screens | fix | project (type number) | 84, 124 | ██████████ 100 % | DONE |  |
 | 86 | [Final Winner: motion (part 1 of 3)](jobs/JOB-086.md) | 5 New screens | build | project (type number) | 182, 16 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 87 | [Start / Join: build (desktop)](jobs/JOB-087.md) | 5 New screens | build | project (type number) | 8, 28, 18, 19, 20, 21, 22 | ██████████ 100 % | DONE |  |
 | 88 | [Start / Join: phone (part 1 of 3)](jobs/JOB-088.md) | 5 New screens | build | project (type number) | 87, 209 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
@@ -244,8 +244,8 @@ Branch `factory/v1-wtt5ye`. 238 Team V jobs, plus 5 lines that track Team G. Two
 | 178 | [Season Results: fix round (part 3 of 3)](jobs/JOB-178.md) | 5 New screens | fix | project (type number) | 177 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 179 | [Season Results: motion (part 2 of 3)](jobs/JOB-179.md) | 5 New screens | build | project (type number) | 81 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 180 | [Season Results: motion (part 3 of 3)](jobs/JOB-180.md) | 5 New screens | build | project (type number) | 179 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
-| 181 | [Final Winner: fix round (part 2 of 3)](jobs/JOB-181.md) | 5 New screens | fix | project (type number) | 85 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
-| 182 | [Final Winner: fix round (part 3 of 3)](jobs/JOB-182.md) | 5 New screens | fix | project (type number) | 181 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
+| 181 | [Final Winner: fix round (part 2 of 3)](jobs/JOB-181.md) | 5 New screens | fix | project (type number) | 85 | ██████████ 100 % | DONE |  |
+| 182 | [Final Winner: fix round (part 3 of 3)](jobs/JOB-182.md) | 5 New screens | fix | project (type number) | 181 | ██████████ 100 % | DONE |  |
 | 183 | [Final Winner: motion (part 2 of 3)](jobs/JOB-183.md) | 5 New screens | build | project (type number) | 86 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 184 | [Final Winner: motion (part 3 of 3)](jobs/JOB-184.md) | 5 New screens | build | project (type number) | 183 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
 | 185 | [Start / Join: phone (part 2 of 3)](jobs/JOB-185.md) | 5 New screens | build | project (type number) | 88 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
