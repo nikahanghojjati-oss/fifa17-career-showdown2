@@ -1,6 +1,6 @@
 # Showdown Factory board
 
-**157 of 238 jobs done and checked · 68 %** · updated Sat 11:14 p.m. Eastern
+**157 of 238 jobs done and checked · 68 %** · updated Sat 11:30 p.m. Eastern
 
 ✅ **Quality check:** a job counts as done only after Claude checks it against the quality bar (average 4.2 or more, nothing under 3, hard gates pass). Average score 4.25 over 60 scored jobs. 🔍 Waiting for Claude's check: 71, 78, 91, 95, 140. 
 
@@ -8,11 +8,11 @@
 
 **Where to run:** 🟡 **project job** = new chat in the ChatGPT project "Showdown visual", type the number; one number is one turn (no Continue), and a job in parts shows its later parts only when the earlier part is done. 🟣 **image job** = its ticket in a ChatGPT **Temporary Chat** outside any project, then drop the picture in Claude's factory thread.
 
-🟡 **Type next:** 141, 161, 172, 192
+🟡 **Type next:** 161, 172, 192
 
 🟣 **Image next:** 118
 
-**Working:** - · **Blocked:** -
+**Working:** - · **Blocked:** 141
 
 ## Screens
 
@@ -41,9 +41,9 @@ Integration    ░░░░░░░░░░ 0/38
 
 ## Team V ↔ Team G (latest 3)
 
-- Sat 10:40 a.m. Eastern · Team G → Team V · G2V-007: DATA_CONTRACT_V1 fixtures ready (raw index.json link); extra model fields; G-8, G-11 merged; G-9/10/12/18 written; V2G-005 adopted
 - Sat 10:55 a.m. Eastern · Team G → Team V · G2V-008: Fixture update: after a Showdown closes, Daniel gets CREATE and Nik gets JOIN (model bug fixed, 5 files regenerated)
 - Sat 7:55 p.m. Eastern · Team G → Team V · G2V-009: Gameplay done before G-13; when is the visual package ready? G-10 transfer fields
+- Sat 11:24 p.m. Eastern · Team V → Team G · V2G-009: Visual package ready for Nik's review ~Wed 7 Oct; wire Trophy Room + Career Statistics first; G-10 fields accepted; new Action comments on PR #312 for every message
 
 ## Full board
 
@@ -51,13 +51,13 @@ Branch `factory/v1-wtt5ye`. 238 Team V jobs, plus 5 lines that track Team G. Two
 
 **Overall (Team V):** ██████░░░░ 68 % · 157 of 238 jobs done
 
-**Start now · project (type the number in Showdown visual):** 141, 161, 172, 192
+**Start now · project (type the number in Showdown visual):** 161, 172, 192
 
 **Start now · fresh chat (image ticket, outside the project):** 118
 
 **Start now (Sol Work mode, press Use Work):** -
 
-**Working:** - · **Blocked:** -
+**Working:** - · **Blocked:** 141
 
 **Team G tracking (never start these):** 98 (done), 99 (open), 100 (open), 101 (open), 102 (open). Claude marks them done when Team G delivers.
 
@@ -204,7 +204,7 @@ Branch `factory/v1-wtt5ye`. 238 Team V jobs, plus 5 lines that track Team G. Two
 | 138 | [Fixture realism: Legacy (History)](jobs/JOB-138.md) | 1 Truth | fix | project (type number) | 132 | ██████████ 100 % | DONE |  |
 | 139 | [Fixture realism: Final Winner](jobs/JOB-139.md) | 1 Truth | fix | project (type number) | 134 | ██████████ 100 % | DONE |  |
 | 140 | [Transfer War: review (part 2 of 4)](jobs/JOB-140.md) | 4 Polish built screens | review | project (type number) | 51 | ██████████ 100 % | DONE |  |
-| 141 | [Transfer War: review (part 3 of 4)](jobs/JOB-141.md) | 4 Polish built screens | review | project (type number) | 140 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
+| 141 | [Transfer War: review (part 3 of 4)](jobs/JOB-141.md) | 4 Polish built screens | review | project (type number) | 140 | ░░░░░░░░░░ 0 % | BLOCKED |  |
 | 142 | [Transfer War: review (part 4 of 4)](jobs/JOB-142.md) | 4 Polish built screens | review | project (type number) | 141 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 143 | [Transfer War: fix round (part 2 of 3)](jobs/JOB-143.md) | 4 Polish built screens | fix | project (type number) | 52 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 144 | [Transfer War: fix round (part 3 of 3)](jobs/JOB-144.md) | 4 Polish built screens | fix | project (type number) | 143 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
