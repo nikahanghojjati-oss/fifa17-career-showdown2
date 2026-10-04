@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-04 6:46 PM Boston time (EDT)",
+ "generated": "2026-10-04 6:47 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 23,
@@ -253,11 +253,11 @@
  },
  "queued": [],
  "working": [
-  24
+  24,
+  30
  ],
  "blocked": [
-  28,
-  29
+  28
  ],
  "bug_hunt": [
   {
@@ -934,7 +934,7 @@
    "phase": "READY",
    "type": "build",
    "plain": "Results and commit skinned (clash warning kept); winner reveal uses the reconciliation exactly. Sol Work mode; starts from job 24's branch; the lead checks each screen in a browser and merges.",
-   "state": "BLOCKED",
+   "state": "NOT STARTED",
    "step": 0,
    "steps_total": 4,
    "pct": 0,
@@ -956,10 +956,10 @@
    "phase": "READY",
    "type": "build",
    "plain": "Rules copy unchanged, Settings controls kept, credits added. Sol 6.1 Work mode, High; starts from job 24's branch; the lead checks each screen in a browser and merges.",
-   "state": "NOT STARTED",
-   "step": 0,
-   "steps_total": 7,
-   "pct": 0,
+   "state": "IN PROGRESS",
+   "step": 1,
+   "steps_total": 6,
+   "pct": 16,
    "ready": false
   },
   {
