@@ -122,15 +122,18 @@
     if(styles.has(file))return styles.get(file).ready;
     const doc=vsDoc(),link=doc.createElement("link");
     link.rel="stylesheet";link.href=vsAssetUrl(file);link.setAttribute("data-v10-style",file);
-    const ready=new Promise(resolve=>{
+    // A link is left alone until it settles (load, error or timeout): disabling a stylesheet that is still loading
+    // makes Chromium drop the request, and enabling it later never reloads it. On settling, the wanted state applies.
+    const entry={link,ready:null,settled:false};
+    entry.ready=new Promise(resolve=>{
       let timer=null;
-      const done=()=>{if(timer!==null)root.clearTimeout(timer);timer=null;resolve(true);};
+      const done=()=>{if(timer!==null)root.clearTimeout(timer);timer=null;if(!entry.settled){entry.settled=true;vsSyncStyles();}resolve(true);};
       link.addEventListener("load",done,{once:true});link.addEventListener("error",done,{once:true});
       timer=root.setTimeout(done,STYLE_TIMEOUT_MS);
     });
-    styles.set(file,{link,ready});
+    styles.set(file,entry);
     doc.head.appendChild(link);
-    return ready;
+    return entry.ready;
   }
   function vsEnsureKit(){
     if(!kitPromise)kitPromise=(async()=>{
@@ -165,7 +168,8 @@
   // Team V stylesheets style more than their own markup, so they are on only while a mounted Team V screen shows.
   function vsSyncStyles(){
     const screen=vsActiveScreen(),live=screen&&mounted.has(screen)?registry.get(screen):null;
-    for(const [file,{link}] of styles){
+    for(const [file,{link,settled}] of styles){
+      if(!settled)continue;
       let on=ALWAYS_ON.includes(file);
       if(!on&&live)on=KIT.styles.some(kit=>BASE+kit===file)||live.css.some(css=>BASE+css===file);
       if(link.disabled!==!on)link.disabled=!on;
@@ -267,7 +271,7 @@
   // ---- screen-change hook ----
   function vsOnScreenShown(){
     try{
-      const screen=vsActiveScreen();
+      const screen=vsActiveScreen();lastScreen=screen;
       for(const id of [...mounted.keys()])if(id!==screen)vsUnmount(id);
       vsSyncStyles();
       vsPaintNav(screen);
@@ -289,11 +293,24 @@
     wrapped.v10Screens=true;wrapped.original=original;
     root.showScreen=wrapped;
   }
+  // Some flows (Shared Setup's ssjpForceScreen) switch screens by toggling "hidden" on the
+  // .screen sections directly, without showScreen. Watch those class changes too, so the bar's
+  // active tab and setup lock follow every screen change.
+  let lastScreen=null;
+  function vsWatchScreenClasses(){
+    const doc=vsDoc(),main=doc&&(doc.querySelector?.("main")||doc.body);
+    if(typeof root.MutationObserver!=="function"||!main)return;
+    new root.MutationObserver(records=>{
+      if(!records.some(r=>r.target&&r.target.classList&&r.target.classList.contains("screen")))return;
+      if(vsActiveScreen()!==lastScreen)vsOnScreenShown();
+    }).observe(main,{subtree:true,attributes:true,attributeFilter:["class"]});
+  }
   function vsInstall(){
     if(installed||!vsDoc())return api;
     installed=true;
     vsHookShowScreen();
     vsDoc().addEventListener(EVENT,vsOnScreenShown);
+    vsWatchScreenClasses();
     vsWhenStarted(()=>{vsMountNav().catch(error=>{if(root.console&&typeof root.console.warn==="function")root.console.warn("[Career Mode Showdown] Navigation bar unavailable.",error);});});
     return api;
   }
