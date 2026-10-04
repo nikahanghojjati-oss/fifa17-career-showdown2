@@ -56,6 +56,7 @@
       ["careerStatisticsTrophyButton", fx.strings.buttons.trophyRoom]
     ];
     map.forEach(([id,label]) => { const el=document.getElementById(id); const span=el?.querySelector(".actionLabel"); if(span) span.textContent=label; });
+    const backLabel=document.querySelector(".backButton .actionLabel"); if(backLabel && fx.strings.buttons.back) backLabel.textContent=fx.strings.buttons.back;
     const back=document.querySelector(".backButton .actionLabel"); if(back) back.textContent=fx.strings.buttons.back;
   }
   function setPreview(frame, fx) {
