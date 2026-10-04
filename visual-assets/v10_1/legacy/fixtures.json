@@ -35,6 +35,27 @@
       "moreThanAGame": "More Than A Game",
       "leftBanner": "TWO MANAGERS ONE LEGACY",
       "rightBanner": "FOOTBALL BRINGS US TOGETHER"
+    },
+    "ui": {
+      "managers": {
+        "daniel": "Daniel",
+        "nik": "Nik"
+      },
+      "showdown": "Showdown #{number}",
+      "score": "{daniel} – {nik}",
+      "seasons": "{played} / {total} Seasons",
+      "season": "Season {number}",
+      "managerScore": "{manager}: {score}",
+      "seasonDetail": "#{position} · {points} league pts · {goals} goals",
+      "historyHeading": "{showdown} · {action}",
+      "inProgress": "In progress",
+      "close": "Close season history",
+      "previous": "Previous archive item",
+      "next": "Next archive item",
+      "page": "Archive page {number} of {total}",
+      "winner": "{manager} wins",
+      "draw": "Draw",
+      "unavailableFallback": "Your Showdown history could not be loaded."
     }
   },
   "ids": {

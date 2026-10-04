@@ -53,13 +53,22 @@
     });
   }
 
-  function initials(name) {
-    return String(name || "").split(/\s+/).filter(Boolean).slice(0, 2).map((part) => part[0]).join("").toUpperCase();
+  // Original SVGs are loaded only by this optional screen, never app startup.
+  function identityMark(host, svg, league = false) {
+    if (!svg) return;
+    host.innerHTML = svg;
+    host.setAttribute("aria-hidden", "true");
+    host.style.cssText = "clip-path:none;background:none;border:0;padding:0";
+    const image = host.querySelector("svg");
+    image.style.cssText = league ? "display:block;width:24px;height:24px" : "display:block;width:100%;height:100%";
   }
 
-  function leagueLabel(id) {
-    return ({ premier_league: "PL", laliga: "LL", bundesliga: "BL", serie_a: "SA", ligue_1: "L1" })[id] || "LG";
+  function copy(strings, key, values = {}) {
+    return strings.ui[key].replace(/\{(\w+)\}/g, (_, name) => String(values[name] ?? ""));
   }
+
+  // Minimal bootstrap copy remains usable if the dictionary itself cannot load.
+  let screenStrings;
 
   function renderSideMenu(strings) {
     const menu = document.getElementById("legacySideMenu");
@@ -91,7 +100,7 @@
 
     const title = document.createElement("span");
     title.className = "legacyCardTitle";
-    title.textContent = "Showdown #" + showdown.number;
+    title.textContent = copy(strings, "showdown", { number: showdown.number });
 
     const body = document.createElement("span");
     body.className = "legacyCardBody";
@@ -113,14 +122,24 @@
         score.className = "legacyScoreBlock";
         const league = document.createElement("span");
         league.className = "legacyLeagueMark";
-        league.textContent = leagueLabel(showdown.leagueId);
+        identityMark(league, window.getLeagueMark(showdown.leagueId)?.svg, true);
         const numbers = document.createElement("span");
         numbers.className = "legacyScore";
-        numbers.textContent = showdown.totals ? showdown.totals.daniel + " – " + showdown.totals.nik : "";
+        numbers.textContent = showdown.totals ? copy(strings, "score", showdown.totals) : "";
         const crown = document.createElement("span");
         crown.className = "legacyWinner";
-        crown.textContent = showdown.winner && showdown.winner !== "draw" ? "♛" : "";
-        crown.dataset.winner = showdown.winner || "";
+        const finalResult = ["completed", "completion-pending"].includes(showdown.status);
+        const winner = finalResult ? showdown.winner : "";
+        crown.dataset.winner = winner || "";
+        crown.style.cssText = "height:auto;min-height:14px;font-size:.6875rem;line-height:1.2";
+        if (winner === "draw") crown.textContent = strings.ui.draw;
+        else if (["daniel", "nik"].includes(winner)) {
+          const icon = document.createElement("span");
+          icon.className = "legacyWinnerCrown";
+          icon.textContent = "♛";
+          icon.setAttribute("aria-hidden", "true");
+          crown.append(icon, document.createTextNode(" " + copy(strings, "winner", { manager: strings.ui.managers[winner] })));
+        }
         score.append(league, numbers, crown);
         body.appendChild(score);
       }
@@ -129,10 +148,10 @@
       side.className = "legacyManager legacyManager--" + manager;
       const crest = document.createElement("span");
       crest.className = "legacyCrest";
-      crest.textContent = initials(showdown.clubs && showdown.clubs[manager]);
+      identityMark(crest, window.getClubCrestSvg(showdown.clubs && showdown.clubs[manager]));
       const who = document.createElement("span");
       who.className = "legacyManagerName";
-      who.textContent = manager === "daniel" ? "Daniel" : "Nik";
+      who.textContent = strings.ui.managers[manager];
       const club = document.createElement("span");
       club.className = "legacyClubName";
       club.textContent = showdown.clubs ? showdown.clubs[manager] : "";
@@ -142,14 +161,14 @@
 
     const footer = document.createElement("span");
     footer.className = "legacyCardFooter";
-    footer.textContent = showdown.seasonsPlayed + " / " + showdown.totalSeasons + " Seasons";
+    footer.textContent = copy(strings, "seasons", { played: showdown.seasonsPlayed, total: showdown.totalSeasons });
     card.append(title, body, footer);
     if (showdown.status === "completion-pending" || showdown.status === "in-progress") {
       const state = document.createElement("span");
       state.className = "legacyCardState";
       state.textContent = showdown.status === "completion-pending"
         ? strings.states.completionPending
-        : showdown.status.replace("-", " ");
+        : strings.ui.inProgress;
       card.appendChild(state);
     }
     return card;
@@ -178,20 +197,20 @@
     const close = document.createElement("button");
     close.type = "button";
     close.className = "sd-btn";
-    close.textContent = "Close season history";
+    close.textContent = strings.ui.close;
     close.style.cssText = "position:sticky;top:0;z-index:2;min-height:44px;min-width:44px;background:#0d0f13;color:#f4f1ea";
     close.addEventListener("click", () => closeHistory(true));
     const heading = document.createElement("h2");
     heading.id = "legacyHistoryHeading";
     heading.className = "legacyHistoryHeading sd-label";
-    heading.textContent = "Showdown #" + showdown.number + " · " + strings.actions.viewSeasonHistory;
+    heading.textContent = copy(strings, "historyHeading", { showdown: copy(strings, "showdown", { number: showdown.number }), action: strings.actions.viewSeasonHistory });
     const rows = document.createElement("div");
     rows.className = "legacyHistoryRows";
     showdown.seasons.forEach((season) => {
       const row = document.createElement("div");
       row.className = "legacyHistoryRow";
       const label = document.createElement("span");
-      label.textContent = "Season " + season.season;
+      label.textContent = copy(strings, "season", { number: season.season });
       row.appendChild(label);
       ["daniel", "nik"].forEach((manager, index) => {
         if (index) {
@@ -201,10 +220,10 @@
         }
         const side = document.createElement("span");
         side.className = manager;
-        side.textContent = (manager === "daniel" ? "Daniel" : "Nik") + ": " + season.score[manager];
+        side.textContent = copy(strings, "managerScore", { manager: strings.ui.managers[manager], score: season.score[manager] });
         const detail = document.createElement("span");
         detail.style.cssText = "display:block;line-height:1.4;color:#b9b3a4";
-        detail.textContent = "#" + season.leaguePosition[manager] + " · " + season.leaguePoints[manager] + " league pts · " + season.leagueGoals[manager] + " goals";
+        detail.textContent = copy(strings, "seasonDetail", { position: season.leaguePosition[manager], points: season.leaguePoints[manager], goals: season.leagueGoals[manager] });
         side.appendChild(detail);
         row.appendChild(side);
       });
@@ -272,7 +291,7 @@
           button.type = "button";
           button.dataset.direction = String(direction);
           button.textContent = direction < 0 ? "‹" : "›";
-          button.setAttribute("aria-label", direction < 0 ? "Previous archive item" : "Next archive item");
+          button.setAttribute("aria-label", direction < 0 ? strings.ui.previous : strings.ui.next);
           button.addEventListener("click", () => {
             if (phone.matches) {
               const index = records.findIndex((item) => item.number === selected);
@@ -408,6 +427,8 @@
     if (!mapResponse.ok) throw new Error("platemap.json " + mapResponse.status);
 
     const fixtures = await fixtureResponse.json();
+    screenStrings = fixtures.strings;
+    if (!window.getClubCrestSvg || !window.getLeagueMark) await loadScreenResource("../../../js/visualIdentity.js");
     const platemap = await mapResponse.json();
     const ids = Object.keys(fixtures.frames || {});
     const requested = new URLSearchParams(location.search).get("frame");
@@ -481,11 +502,11 @@
     const copy = document.createElement("p");
     copy.className = "legacyStateCopy";
     // Bootstrap fallback must remain available even when fixtures.json cannot be read.
-    copy.textContent = "Your Showdown history could not be loaded.";
+    copy.textContent = screenStrings?.ui.unavailableFallback || "Your Showdown history could not be loaded.";
     banner.appendChild(copy);
     banner.hidden = false;
-    document.getElementById("fixtureEyebrow").textContent = "CAREER MODE SHOWDOWN 17";
-    document.getElementById("viewSeasonHistory").textContent = "VIEW SEASON HISTORY";
+    document.getElementById("fixtureEyebrow").textContent = screenStrings?.eyebrow || "CAREER MODE SHOWDOWN 17";
+    document.getElementById("viewSeasonHistory").textContent = screenStrings?.actions.viewSeasonHistory || "VIEW SEASON HISTORY";
     document.getElementById("viewSeasonHistory").disabled = true;
     document.getElementById("legacyCardGrid").replaceChildren();
     document.getElementById("legacyPager").replaceChildren();
