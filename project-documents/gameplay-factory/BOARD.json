@@ -344,6 +344,36 @@
    "phase": "1 Safety net",
    "type": "build",
    "plain": "When Nik pastes Daniel's code quickly, the app keeps it instead of wiping it and wrongly calling it invalid."
+  },
+  {
+   "number": 19,
+   "key": "G-2e",
+   "title": "Resume a Shared Showdown after reload; closed Showdowns stay on Home",
+   "lane": "lead",
+   "depends_on": [],
+   "steps": 3,
+   "code_branch": "gameplay/job-19-reload-resume",
+   "codex_review": false,
+   "written": true,
+   "waits_on": null,
+   "phase": "1 Safety net",
+   "type": "fix",
+   "plain": "After a reload both players land on Home, rejoin a fresh session and pick up on the right season, instead of starting over at season 1."
+  },
+  {
+   "number": 20,
+   "key": "G-2f",
+   "title": "A late season acknowledgement retries instead of failing",
+   "lane": "lead",
+   "depends_on": [],
+   "steps": 3,
+   "code_branch": "gameplay/job-20-season-ack-race",
+   "codex_review": false,
+   "written": true,
+   "waits_on": null,
+   "phase": "1 Safety net",
+   "type": "fix",
+   "plain": "When both players press acknowledge at the same moment, the second one is retried instead of showing a permission error."
   }
  ]
 }

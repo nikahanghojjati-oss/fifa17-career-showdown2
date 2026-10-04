@@ -90,6 +90,7 @@ button { font: inherit; cursor: pointer; }
 .tag.lane-work { color: var(--run); border-color: var(--run-soft); background: var(--run-soft); }
 .tag.lane-chat { color: var(--accent); border-color: var(--accent-soft); background: var(--accent-soft); }
 .tag.lane-nik { color: var(--warn); border-color: var(--warn-soft); background: var(--warn-soft); }
+.lane-lead { color: var(--muted); }
 .tag.codex { color: var(--gold); background: var(--gold-soft); border-color: var(--gold-soft); }
 .tag.dep-done { text-decoration: line-through; opacity: .7; }
 .status { display: grid; gap: 6px; justify-items: end; text-align: right; }
@@ -150,8 +151,8 @@ const $ = id => document.getElementById(id);
 const pad = n => String(n).padStart(2, "0");
 const FIN = ["DONE", "SKIPPED"];
 const byNum = Object.fromEntries(DATA.jobs.map(j => [j.number, j]));
-const laneName = { chat: "Normal chat", work: "Sol Work mode", nik: "Nik on two phones" };
-const laneStart = { chat: "Start in: normal chat (Stay in Chat, type the number)", work: "Start in: Sol Work mode (Use Work, paste the starter line)", nik: "Nik and Daniel on two phones" };
+const laneName = { chat: "Normal chat", work: "Sol Work mode", nik: "Nik on two phones", lead: "Built by the lead" };
+const laneStart = { chat: "Start in: normal chat (Stay in Chat, type the number)", work: "Start in: Sol Work mode (Use Work, paste the starter line)", nik: "Nik and Daniel on two phones", lead: "Nothing to start: the lead built it" };
 
 function pillFor(j) {
   const s = j.state;

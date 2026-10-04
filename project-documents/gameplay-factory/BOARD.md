@@ -6,9 +6,9 @@
 Gameplay factory job NN. Read https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/RULES.md and obey the box in it as your rules, then read WORKER_HANDBOOK.md next to it and do job NN (repo nikahanghojjati-oss/fifa17-career-showdown2, branch factory/gameplay-v1). Ignore any older relay contract or memory.
 ```
 
-Branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-03 7:37 PM Boston time (EDT)
+Branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-03 8:16 PM Boston time (EDT)
 
-**Overall:** ████████░░ 85 % · 17 of 20 jobs done
+**Overall:** ████████░░ 83 % · 17 of 22 jobs done
 
 **Start now in a normal chat (press Stay in Chat):** -
 
@@ -49,6 +49,8 @@ Waiting on: Team V (G2V-009: reply yes (item 1))
 | 14 | G-14 | Acceptance: directive §12 and Sol's 8 proofs on the emulator | 4 Ship | test | work | 13 |  | ░░░░░░░░░░ 0 % | NOT WRITTEN |
 | 15 | G-15 | One real two-device run with Nik | 4 Ship | nik | nik | 14 |  | ░░░░░░░░░░ 0 % | NOT WRITTEN |
 | 18 | G-2d | [Nik's pair code survives the pair-panel re-render](jobs/JOB-18.md) | 1 Safety net | build | chat | - |  | ██████████ 100 % | DONE |
+| 19 | G-2e | [Resume a Shared Showdown after reload; closed Showdowns stay on Home](jobs/JOB-19.md) | 1 Safety net | fix | lead | - |  | ██████░░░░ 66 % | IN REVIEW |
+| 20 | G-2f | [A late season acknowledgement retries instead of failing](jobs/JOB-20.md) | 1 Safety net | fix | lead | - |  | ██████░░░░ 66 % | IN REVIEW |
 
 Lanes: **chat** = normal GPT-5.6 Sol chat (text and PRs only: no npm, no screenshots); **work** = Sol Work mode (terminal and npm; emulator proofs run on GitHub CI); **nik** = Nik on his real devices. NOT WRITTEN = the lead has not written the job file yet; never start it.
 
