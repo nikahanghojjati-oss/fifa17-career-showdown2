@@ -85,12 +85,12 @@
     loader.register('ruleBook',{css:['rule-book/rule-book.css'],prepare:()=>root.loadRuntimeStyle('rules-settings-v10','css/rulesSettingsV10.css'),frame:()=>true,mount:mountRuleBook,unmount:unmountRuleBook});
     loader.register('settingsOverlay',{css:['settings/settings.css'],prepare:()=>root.loadRuntimeStyle('rules-settings-v10','css/rulesSettingsV10.css'),overlay:true,auto:false,frame:()=>true,mount:mountSettings,unmount:unmountSettings});
   }
-  async function install(){
+  async function rsInstall(){
     await root.loadRuntimeScript('v10-screens','js/v10Screens.js',()=>Boolean(root.CareerModeV10Screens));register();
     if(root.getActiveScreenName?.()==='ruleBook')await root.CareerModeV10Screens.show('ruleBook');
     const overlay=doc().getElementById('settingsOverlay');if(overlay&&!overlay.classList.contains('hidden'))await root.CareerModeV10Screens.show('settingsOverlay');
   }
   function rsOpenSettings(){if(registered)void root.CareerModeV10Screens.show('settingsOverlay').catch(()=>{});}
   function rsCloseSettings(){root.CareerModeV10Screens?.hide('settingsOverlay');}
-  return Object.freeze({install,register,openSettings:rsOpenSettings,closeSettings:rsCloseSettings,refreshSettings,mountRuleBook,unmountRuleBook,mountSettings,unmountSettings});
+  return Object.freeze({install:rsInstall,register,openSettings:rsOpenSettings,closeSettings:rsCloseSettings,refreshSettings,mountRuleBook,unmountRuleBook,mountSettings,unmountSettings});
 });
