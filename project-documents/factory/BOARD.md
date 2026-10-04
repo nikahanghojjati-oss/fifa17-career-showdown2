@@ -36,7 +36,7 @@ Setup          ██████████ 2/2
 Foundation     ██████████ 7/7
 Art            ██████████ 8/8
 Top bar        ██████████ 3/3
-Integration    ░░░░░░░░░░ 3/38
+Integration    █░░░░░░░░░ 3/38
 ```
 
 ## Team V ↔ Team G (latest 3)
@@ -275,7 +275,7 @@ Branch `factory/v1-wtt5ye`. 238 Team V jobs, plus 5 lines that track Team G. Two
 | 209 | [Phone art: Start / Join (part 2 of 2)](jobs/JOB-209.md) | 3 Art | build | project (type number) | 120 | ██████████ 100 % | DONE |  |
 | 210 | [Showcase: every screen in one place (part 2 of 5)](jobs/JOB-210.md) | 7 Integration | integrate | project (type number) | 103 | ██████████ 100 % | DONE |  |
 | 211 | [Showcase: every screen in one place (part 3 of 5)](jobs/JOB-211.md) | 7 Integration | integrate | project (type number) | 210 | ██████████ 100 % | DONE |  |
-| 212 | [Showcase: every screen in one place (part 4 of 5)](jobs/JOB-212.md) | 7 Integration | integrate | project (type number) | 211 | █████░░░░░ 50 % | IN PROGRESS |  |
+| 212 | [Showcase: every screen in one place (part 4 of 5)](jobs/JOB-212.md) | 7 Integration | integrate | project (type number) | 211 | ██████████ 100 % | IN PROGRESS |  |
 | 213 | [Showcase: every screen in one place (part 5 of 5)](jobs/JOB-213.md) | 7 Integration | integrate | project (type number) | 212 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 214 | [Showcase: screens read Team G's model-true fixtures (part 2 of 8)](jobs/JOB-214.md) | 7 Integration | integrate | project (type number) | 104 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 215 | [Showcase: screens read Team G's model-true fixtures (part 3 of 8)](jobs/JOB-215.md) | 7 Integration | integrate | project (type number) | 214 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
