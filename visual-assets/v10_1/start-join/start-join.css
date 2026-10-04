@@ -762,3 +762,77 @@ html[data-reduced-motion="true"] .sj-current-panel.is-host-open .sj-state-badge:
     transform: none !important;
   }
 }
+
+
+/* JOB-192 · pairing signature: a registered gold link draws Daniel LEFT → Nik RIGHT, then the kit burst lands at centre. */
+.sj-pair-moment {
+  position: absolute;
+  inset: 0;
+  z-index: 7;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.sj-pair-moment.is-pairing {
+  opacity: 1;
+}
+
+.sj-pair-link {
+  position: absolute;
+  left: 46.6%;
+  top: 42.2%;
+  width: 6.8%;
+  height: 2px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(240,200,75,.18), #f0c84b 34%, #fff1ae 50%, #f0c84b 66%, rgba(240,200,75,.18));
+  box-shadow: 0 0 10px rgba(240,200,75,.52);
+  opacity: 0;
+  transform: scaleX(0);
+  transform-origin: center;
+}
+
+.sj-pair-moment.is-linking .sj-pair-link {
+  animation: sj-pair-link-draw var(--sj-pair-link-ms, 260ms) var(--sj-pair-ease, cubic-bezier(.22,1,.36,1)) both;
+  will-change: transform, opacity;
+}
+
+@keyframes sj-pair-link-draw {
+  0% { opacity: 0; transform: scaleX(0); }
+  24% { opacity: 1; transform: scaleX(.18); }
+  100% { opacity: 1; transform: scaleX(1); }
+}
+
+.sj-pair-burst {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  pointer-events: none;
+}
+
+html[data-motion-reduced="true"] .sj-pair-moment.is-linking .sj-pair-link,
+html[data-reduced-motion="true"] .sj-pair-moment.is-linking .sj-pair-link {
+  animation: sd-reduced-fade var(--sd-duration-reduced, 150ms) linear both;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sj-pair-moment.is-linking .sj-pair-link {
+    animation: sd-reduced-fade var(--sd-duration-reduced, 150ms) linear both !important;
+    transform: none !important;
+  }
+}
+
+@media (max-width: 900px) {
+  .sj-pair-moment {
+    z-index: 4;
+  }
+
+  .sj-pair-link {
+    left: 34%;
+    top: 28%;
+    width: 32%;
+    height: 2px;
+  }
+}
