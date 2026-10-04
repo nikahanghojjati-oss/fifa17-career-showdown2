@@ -54,3 +54,32 @@ The Daniel/Nik foreground and rim WebPs referenced by `index.html` are recipe ou
 ## Claude must make
 
 Run `tools/MAKE_ASSETS.md`: generate both registered foreground overlays and rim masks, export their transparent WebPs, build `preview.html`, inspect the archive-edge silhouettes at 100%, 200% and 400%, then run H10 and the remaining factory QA/hard gates.
+
+
+## Phone · JOB-073 part 1
+
+### Phone fate plan
+
+| Desktop element | 393 × 660 fate |
+| --- | --- |
+| Registered 16:9 stadium plate | Hidden at ≤900 px; replaced by `ENV_LG_PHONE_V1.webp` in a responsive `<picture>` with `object-position: 50% 36%`. |
+| Desktop Daniel/Nik plate markers, foregrounds and rim layers | Hidden at ≤900 px; replaced by the approved large phone cut-outs. Daniel stays LEFT at `left:-6%; top:4%; height:49%`; Nik stays RIGHT at `left:47%; top:3%; height:50%`. |
+| Desktop top bar, CM17 brand, five text tabs, Settings and slogan | Hidden on phone. Legacy is a hub, so `.nav-reserve` holds 56 px + safe-area space for job 125's shared bottom bar. |
+| Eyebrow, brush LEGACY wordmark and tagline | Stay in the hero band with no backing box; wordmark remains image art with hidden semantic heading text. |
+| Frame label / fixture debug DOM | Stay semantic/hidden; no visual phone budget. |
+| Legacy archive panel | Stays, recomposed into the lower 45% above the shared-nav reserve. |
+| LEGACY ARCHIVE / TROPHY ROOM / RECORDS side rail | Moves into three 44 px horizontal tabs. |
+| Showdown card grid | Stays as live DOM inside the active archive tab and becomes a horizontal snap shelf; no vertical page scroll. |
+| Preview tag | Stays as a compact live label above the archive surface. |
+| Empty/loading/unavailable/partial state banner | Stays in the archive surface as compact live DOM; it replaces the shelf when the state requires it. |
+| Pager | Stays as compact dots/controls below the shelf so existing pagination remains real. |
+| VIEW SEASON HISTORY | Stays as the single primary action, pinned 12 px above the shared-nav reserve. |
+| Season-history drawer | Moves into a `.sd-sheet` bottom sheet with its own internal overflow; opening it never creates page scroll. |
+| Desktop archive-edge contact shadows | Replaced on phone by cut-out drop/contact shadows and a warm rim treatment at the hero/content seam. |
+| `.nav-reserve` | Becomes visible at ≤900 px and reserves `56px + env(safe-area-inset-bottom)`. |
+
+### Height budget
+
+The hub viewport is split before the shared bottom bar. At 393 × 660, the reserve is 56 px, leaving 604 px usable: hero band 55% = 332 px and lower content 45% = 272 px. The lower band budgets 44 px tabs, a flexible 152 px archive/shelf region, 24 px pager/spacing, and a 48 px primary action with 4 px of residual breathing room. At 360 × 640 the same percentages leave 584 px usable (321 px hero / 263 px lower). At 375 × 553 they leave 497 px usable (273 px hero / 224 px lower), and the 48 px primary action remains pinned inside that usable area above the 56 px reserve.
+
+Phone first-paint art by approved file sizes is 409,118 bytes: background 206,320 B + Daniel 54,334 B + Nik 54,664 B + brush title 93,800 B. This is below the 450 KB H11 phone cap before any non-art CSS/DOM payload; PNG masters are not referenced.
