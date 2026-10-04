@@ -203,7 +203,9 @@ await check("15. Seam loaded late",async()=>{
 });
 await check("16. Containment untouched",()=>{
   const identity=source("js/onlinePlayerIdentity.js");
-  for(const selector of ["#legacyButton:not([data-test-surface='internal-audit'])","#careerStatisticsButton:not([data-test-surface='internal-audit'])","#rivalryStatisticsButton:not([data-test-surface='internal-audit'])","display:none!important"])assert.ok(identity.includes(selector),selector);
+  for(const selector of ["#legacyButton:not([data-test-surface='internal-audit'])","#rivalryStatisticsButton:not([data-test-surface='internal-audit'])","display:none!important"])assert.ok(identity.includes(selector),selector);
+  // JOB-13 (G-13 part 1) un-hides Career Statistics online on Team V's screens; Legacy and Rivalry Statistics stay hidden.
+  assert.equal(identity.includes("#careerStatisticsButton"),false,"Career Statistics is reachable online");
   assert.equal(source("index.html").includes("trophyRoomButton"),false);
   assert.ok(source("service-worker.js").includes('    "js/analytics.js",\n    "js/careerScreenSeam.js",'));
 });

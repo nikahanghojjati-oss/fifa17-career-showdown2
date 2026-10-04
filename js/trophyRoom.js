@@ -269,6 +269,7 @@ function openTrophyRoom(request = false){
     createTrophyRoomScreen();
     renderTrophyRoom(request);
     showScreen("trophyRoom");
+    if(typeof openCareerScreensV10 === "function"){ openCareerScreensV10("trophyRoom"); }
 }
 
 window.renderTrophyRoom = renderTrophyRoom;
