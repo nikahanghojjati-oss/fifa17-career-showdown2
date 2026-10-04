@@ -113,6 +113,31 @@ Product source: `js/menuFeedback.js` on `main`; Team V source: `visual-assets/v1
 - The shared Team V motion runtime contains no audio calls and does not invoke `playMenuFeedbackCue()`; motion choreography therefore cannot create duplicate menu sounds.
 - DEFAULT: Team V adds no new sounds. Existing product-owned feedback remains the sole menu-feedback sound path.
 
-### Fix list carried to Part 6
+## Final screen verdicts
 
-1. Loading: inspect its runtime motion source, document the actual entrance total / first usable / stagger / easing / reduced-motion path, and align any timing constant that deviates from `MOTION.md`. This remains the only unresolved outlier from Parts 1–5.
+Verdict basis: the shared `MOTION.md` entrance contract, the runtime alignments completed in Parts 1–5, and the sound behavior recorded above. `PASS` means the screen is aligned or has a documented screen-specific reason; `FIX` means one source-level verification/change remains.
+
+| Screen | Verdict | Evidence |
+| --- | --- | --- |
+| Home | PASS | Shared entrance budget/cadence; desktop plate-baked managers are a documented staging reason, with phone characters on shared timing. |
+| League | PASS | Shared entrance; the 4 s wheel spin is product-owned interaction after entrance. |
+| Club Assignment | PASS | Shared entrance; pack/reveal state choreography is separate from the 600 ms usable point. |
+| Transfer War | PASS | Shared entrance and capped 60 ms panel cadence; desktop managers are intentionally plate-baked. |
+| Loading | FIX | Reduced-motion suppression is documented, but entrance total, first usable point, stagger and easing remain unverified from runtime. |
+| Trophy Room | PASS | Shared entrance; trophy payoff remains bounded inside the 1.2 s ceiling. |
+| Career Statistics | PASS | Shared entrance; bars, sweep and crown payoff remain inside the 1.2 s ceiling. |
+| Rivalry Statistics | PASS | Shared entrance; 40 ms row stagger is signature choreography, not a panel-cadence override. |
+| Legacy (History) | PASS | Job 232 aligned the local reduced-motion fade to the shared 150 ms value. |
+| Season Results | PASS | Shared 60 ms panel cadence and 1.2 s cleanup; score feedback is post-entry state choreography. |
+| Final Winner | PASS | Current shine is one-shot; Job 232 moved burst-canvas retirement to the shared 1.2 s cleanup boundary. |
+| Start / Join | PASS | Runtime calls `sdEnter(stage)` with no local entrance-duration override; pairing constants are post-entry state choreography. |
+| Standings | PASS | Delegates entrance to shared `sdEnter`; no local timing override documented. |
+| Rule Book | PASS | Six-panel sequence lands exactly on the 1.2 s cap with shared 60 ms cadence and 150 ms reduced-motion fade. |
+| Settings | PASS | Shared kit timings, 60 ms panel cadence and 150 ms reduced-motion fade with no local entrance override. |
+
+Overall verdict: FIX REQUIRED only for Loading runtime verification/documentation. All other screens are motion-consistent under the shared contract or have a documented screen-specific reason. Sound is product-owned and remains outside Team V motion code.
+
+## Numbered fix list
+
+1. `visual-assets/v10_1/loading/BUILD_RESULT.md`: add a Motion section sourced from the current Loading runtime that records entrance total, first usable point, stagger, easing and reduced-motion path against `shared/MOTION.md`; if that inspection finds a timing deviation, record it there for the owning fix job rather than inventing a Team V sound or motion override in this pass.
+
