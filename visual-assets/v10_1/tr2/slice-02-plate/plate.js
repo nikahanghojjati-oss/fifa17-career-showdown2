@@ -387,11 +387,11 @@
     return chip;
   }
 
-  function buildFooter(S, activeIndex) {
+  function buildFooter(S, fx, activeIndex) {
     var f = el("footer", { class: "hud-footer" });
     f.appendChild(el("button", { type: "button", id: "backToShowdownHome", class: "ghost sd-btn sd-btn--secondary", text: S.back }));
     var mid = el("div", { class: "hud-mid" });
-    mid.appendChild(el("h2", { id: "transferChallengeTitle", class: "hud-title", text: S.title.replace("{season}", "1") }));
+    mid.appendChild(el("h2", { id: "transferChallengeTitle", class: "hud-title", text: S.title.replace("{season}", String(fx.seasonNumber)) }));
     var rail = el("ol", { id: "transferPhaseNavigator", class: "rail", "aria-label": S.railAriaLabel });
     ["window", "guess_entry", "signing_entry", "completed"].forEach(function (key, i) {
       var st = i < activeIndex ? "done" : (i === activeIndex ? "active" : "upcoming");
@@ -546,7 +546,7 @@
     }
     if (opts.grid) plane.appendChild(buildGrid(map));
     stage.appendChild(world);
-    if (!cfg.plateOnly) stage.appendChild(buildFooter(S, ["WINDOW_OPEN", "GUESS_ENTRY", "SIGNING_ENTRY", "COMPLETED"].indexOf(cfg.phase)));
+    if (!cfg.plateOnly) stage.appendChild(buildFooter(S, fx, ["WINDOW_OPEN", "GUESS_ENTRY", "SIGNING_ENTRY", "COMPLETED"].indexOf(cfg.phase)));
     world.style.setProperty("--glass", "url(" + map.mobile.glass.file + ")");
     world.style.setProperty("--plate-url", "url(" + base + "1672.webp)");
 
