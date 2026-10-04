@@ -1,6 +1,6 @@
 # JOB-21 status
 
-Status: DONE
+State: DONE
 Lane: lead
 PR: #344 into gameplay/recovery-v1 (branch gameplay/job-21-tap-races)
 
