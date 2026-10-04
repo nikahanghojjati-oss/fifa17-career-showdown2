@@ -1,6 +1,6 @@
 # Status · JOB-25 · G-13 part 2b: Home, music and Loading
 
-State: DONE
+State: MERGED
 Step: done
 Updated: 2026-10-04 23:37 UTC
 Chat: Team G lead helper (Claude Code)
@@ -25,3 +25,7 @@ CI: all 16 green on the exact head: Validate Gameplay Fast (Gameplay contracts, 
 
 ## Model gaps
 - Loading not skinned. Continue tile keeps Reus. No Trophy Room tile, and Legacy/Statistics stay contained. The offline line still says YOUTUBE. No entrance motion. Playback against real Audius was not run (stubbed).
+
+## Lead merge
+
+Merged into gameplay/recovery-v1 at 7b32ad9d (PR #360, exact head 77ed05d5, 16/16 checks), Sun 4 Oct 2026, 7:40 p.m. Boston time. The lead checked the phone and desktop screenshots.
