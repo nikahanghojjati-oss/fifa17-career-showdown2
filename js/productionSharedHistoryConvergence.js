@@ -15,7 +15,7 @@
   function phcField(id){return root.document&&root.document.getElementById(id);}
   function phcHidden(node,hidden){if(node)node.classList.toggle("hidden",Boolean(hidden));}
   function phcText(node,value){if(node&&node.textContent!==String(value??""))node.textContent=String(value??"");}
-  function phcReport(context,error){if(typeof root.reportApplicationError==="function")root.reportApplicationError(context,error);else root.console?.error?.(context,error);}
+  function phcReport(context,error){const terminalClose=root.CareerModeProductionSharedTerminalClose;if(terminalClose&&typeof terminalClose.reportUnlessClosed==="function"){void terminalClose.reportUnlessClosed(context,error);return;}if(typeof root.reportApplicationError==="function")root.reportApplicationError(context,error);else root.console?.error?.(context,error);}
   function phcLoadScript(key,path,ready){if(ready())return Promise.resolve(ready());if(typeof root.loadRuntimeScript!=="function")return Promise.reject(new Error("Release-owned runtime loader is unavailable."));return root.loadRuntimeScript(key,path,ready).then(()=>{const api=ready();if(!api)throw new Error(`${path} loaded without its expected API.`);return api;});}
   async function phcEnsureDependencies(){
     if(typeof root.ensureGameplayModules==="function")await root.ensureGameplayModules();
@@ -37,11 +37,12 @@
     if(!provider||typeof provider.read!=="function")phcFail("HISTORY_CONVERGENCE_PROVIDER_UNAVAILABLE");
   }
   function phcSeason(){const progression=root.CareerModeProductionSharedMultiSeasonProgression,fallback=phcShowdown()?.currentRound,season=Number(phcSharedMarker()&&progression&&typeof progression.resolveSeason==="function"?progression.resolveSeason(fallback):fallback);if(!Number.isInteger(season)||season<1||season>10)return null;return season;}
-  function phcSetup(){try{return setupApi?.getState?.()||null;}catch(_error){return null;}}
+  function phcSetup(){try{return (setupApi||root.CareerModeProductionSharedShowdownSetup)?.getState?.()||null;}catch(_error){return null;}}
+  function phcConfirmedSetupRivalry(s){return s&&s.ready===true&&s.setup&&s.setup.phase==="SHOWDOWN_CONFIRMED"&&s.setup.revision===6&&s.rivalryId?String(s.rivalryId):"";}
   function phcCommit(){try{return commitApi?.getState?.()||null;}catch(_error){return null;}}
   function phcScoring(){try{return scoringApi?.getState?.()||null;}catch(_error){return null;}}
   function phcRequest(){
-    const showdown=phcShowdown(),setup=phcSetup(),throughSeason=phcSeason(),rivalryId=String(showdown?.sharedJourney?.rivalryId||setup?.rivalryId||"").trim(),saveId=String(showdown?.id||showdown?.saveId||"").trim();
+    const showdown=phcShowdown(),setup=phcSetup(),throughSeason=phcSeason(),rivalryId=String(showdown?.sharedJourney?.rivalryId||phcConfirmedSetupRivalry(setup)||"").trim(),saveId=String(showdown?.id||showdown?.saveId||"").trim();
     if(!rivalryId||!throughSeason)return null;return Object.freeze({rivalryId,throughSeason,key:`${saveId||"shared"}|${rivalryId}|history:${throughSeason}`});
   }
   function phcContextMatches(request){const current=phcRequest();return Boolean(request&&current&&request.key===current.key);}

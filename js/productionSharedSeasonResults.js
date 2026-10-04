@@ -13,7 +13,7 @@
   function pssrFail(code,message){const error=new Error(message||code);error.code=code;throw error;}
   function pssrShowdown(){try{return typeof currentShowdown!=="undefined"?currentShowdown:null;}catch(_error){return null;}}
   function pssrSharedMarker(){const showdown=pssrShowdown();return Boolean(showdown&&showdown.sharedJourney&&showdown.sharedJourney.mode==="shared");}
-  function pssrReport(context,error){if(typeof root.reportApplicationError==="function")root.reportApplicationError(context,error);else root.console?.error?.(context,error);}
+  function pssrReport(context,error){const terminalClose=root.CareerModeProductionSharedTerminalClose;if(terminalClose&&typeof terminalClose.reportUnlessClosed==="function"){void terminalClose.reportUnlessClosed(context,error);return;}if(typeof root.reportApplicationError==="function")root.reportApplicationError(context,error);else root.console?.error?.(context,error);}
   function pssrField(id){return root.document&&root.document.getElementById(id);}
   function pssrText(id,value){const node=pssrField(id);if(node)node.textContent=String(value??"");return node;}
   function pssrHidden(node,hidden){if(node)node.classList.toggle("hidden",Boolean(hidden));}
@@ -133,11 +133,16 @@
     try{
       return await pssrQueueProvider(async()=>{
         const ctx=await pssrProviderContext(request);if(!pssrContextMatches(request))return false;
-        const current=pssrResultError(await provider.read(ctx.options),"Shared Season Results could not be refreshed before publishing.");if(!pssrContextMatches(request))return false;
-        if(current.ownResult){view={...current,setup:ctx.setup.setup,rivalryId:ctx.setup.rivalryId};contextKey=request.key;draft=null;pssrRender();return true;}
-        draft.operationId=draft.operationId||pssrRandomOperationId();draft.baseRevision=Number(current.revision||0);
-        const result=pssrResultError(await provider.publishResult({...ctx.options,operationId:draft.operationId,baseRevision:draft.baseRevision,result:draft.result}),"Your shared Season Result could not be published.");if(!pssrContextMatches(request))return true;
-        view={...result,setup:ctx.setup.setup,rivalryId:ctx.setup.rivalryId};contextKey=request.key;draft=null;await pssrRefreshNow(request);return true;
+        let current=pssrResultError(await provider.read(ctx.options),"Shared Season Results could not be refreshed before publishing.");if(!pssrContextMatches(request))return false;
+        for(let attempt=0;attempt<2;attempt+=1){
+          if(current.ownResult){view={...current,setup:ctx.setup.setup,rivalryId:ctx.setup.rivalryId};contextKey=request.key;draft=null;pssrRender();return true;}
+          draft.operationId=draft.operationId||pssrRandomOperationId();draft.baseRevision=Number(current.revision||0);
+          const published=await provider.publishResult({...ctx.options,operationId:draft.operationId,baseRevision:draft.baseRevision,result:draft.result});
+          if(published?.code==="SEASON_RESULTS_STALE_BASE_REVISION"&&attempt===0){current=pssrResultError(await provider.read(ctx.options),"Shared Season Results could not be refreshed before publishing.");if(!pssrContextMatches(request))return false;continue;}
+          const result=pssrResultError(published,"Your shared Season Result could not be published.");if(!pssrContextMatches(request))return true;
+          view={...result,setup:ctx.setup.setup,rivalryId:ctx.setup.rivalryId};contextKey=request.key;draft=null;await pssrRefreshNow(request);return true;
+        }
+        return false;
       });
     }catch(error){if(pssrContextMatches(request)){pssrSetError(error.message||error.code||"Shared Season Result publication failed.");pssrReport("Unable to publish Shared Season Result",error);}return false;}
     finally{busy=false;if(pssrContextMatches(request))pssrRender();}

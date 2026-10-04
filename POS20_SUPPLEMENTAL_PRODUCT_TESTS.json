@@ -463,6 +463,231 @@
         "^tests/contracts/shared-setup-no-dropped-taps-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/shared-career-analytics-contracts.cjs",
+      "patterns": [
+        "^js/sharedCareerAnalytics\\.js$",
+        "^js/sharedHistoryConvergence\\.js$",
+        "^tests/support/career-fixture-helpers\\.cjs$",
+        "^tests/contracts/shared-career-analytics-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/shared-active-showdown-adapter-contracts.cjs",
+      "patterns": [
+        "^js/sharedActiveShowdownAdapter\\.js$",
+        "^js/sharedCareerAnalytics\\.js$",
+        "^js/sharedHistoryConvergence\\.js$",
+        "^js/sharedTerminalClose\\.js$",
+        "^js/sharedFinalReconciliation\\.js$",
+        "^tests/support/active-showdown-fixtures\\.cjs$",
+        "^tests/support/career-fixture-helpers\\.cjs$",
+        "^tests/contracts/shared-active-showdown-adapter-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/start-join-view-model-contracts.cjs",
+      "patterns": [
+        "^js/startJoinViewModel\\.js$",
+        "^js/persistentNikDanielPair\\.js$",
+        "^js/sparkRemoteJoining\\.js$",
+        "^js/onlinePlayerIdentity\\.js$",
+        "^js/screens\\.js$",
+        "^tests/contracts/start-join-view-model-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/career-screen-seam-contracts.cjs",
+      "patterns": [
+        "^js/careerScreenSeam\\.js$",
+        "^js/statistics\\.js$",
+        "^js/trophyRoom\\.js$",
+        "^js/legacy\\.js$",
+        "^js/sharedCareerAnalytics\\.js$",
+        "^tests/support/fake-dom\\.cjs$",
+        "^tests/contracts/career-screen-seam-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/shared-season-results-race-contracts.cjs",
+      "patterns": [
+        "^js/sparkSharedSeasonResults\\.js$",
+        "^tests/contracts/shared-season-results-race-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/career-index-contracts.cjs",
+      "patterns": [
+        "^js/persistentNikDanielPair\\.js$",
+        "^js/sparkPrivatePairing\\.js$",
+        "^firestore\\.persistent-pair-production\\.fragment\\.rules$",
+        "^scripts/inject-persistent-pair-rules\\.mjs$",
+        "^scripts/build-production-firestore-rules(-with-persistent-pair)?\\.mjs$",
+        "^tests/contracts/career-index-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/completed-showdown-read-contracts.cjs",
+      "patterns": [
+        "^js/sparkCompletedShowdownReader\\.js$",
+        "^js/sharedTerminalClose\\.js$",
+        "^js/sharedHistoryConvergence\\.js$",
+        "^firestore\\.persistent-pair-production\\.fragment\\.rules$",
+        "^firestore\\.spark\\.rules$",
+        "^firestore\\.(shared-setup|season-results|season-commit|terminal-close)-production\\.fragment\\.rules$",
+        "^scripts/inject-persistent-pair-rules\\.mjs$",
+        "^scripts/build-production-firestore-rules(-with-persistent-pair)?\\.mjs$",
+        "^tests/contracts/completed-showdown-read-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/data-contract-v1-fixtures-contracts.cjs",
+      "patterns": [
+        "^js/sharedActiveShowdownAdapter\\.js$",
+        "^js/sharedCareerAnalytics\\.js$",
+        "^js/startJoinViewModel\\.js$",
+        "^js/careerScreenSeam\\.js$",
+        "^js/sharedHistoryConvergence\\.js$",
+        "^js/sharedTerminalClose\\.js$",
+        "^js/sharedFinalReconciliation\\.js$",
+        "^data/clubs\\.js$",
+        "^tests/support/data-contract-v1-fixtures\\.cjs$",
+        "^tests/support/active-showdown-fixtures\\.cjs$",
+        "^tests/support/career-fixture-helpers\\.cjs$",
+        "^tests/fixtures/data-contract-v1/",
+        "^tests/contracts/data-contract-v1-fixtures-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/pair-code-entry-race-contracts.cjs",
+      "patterns": [
+        "^js/persistentNikDanielPair\\.js$",
+        "^js/onlinePlayerIdentity\\.js$",
+        "^tests/contracts/pair-code-entry-race-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/closed-showdown-adapter-contracts.cjs",
+      "patterns": [
+        "^js/sharedClosedShowdownAdapter\\.js$",
+        "^js/sparkClosedShowdownCareerLoader\\.js$",
+        "^js/sparkCompletedShowdownReader\\.js$",
+        "^js/persistentNikDanielPair\\.js$",
+        "^js/sharedActiveShowdownAdapter\\.js$",
+        "^js/sharedCareerAnalytics\\.js$",
+        "^js/sharedHistoryConvergence\\.js$",
+        "^js/sharedTerminalClose\\.js$",
+        "^js/sharedFinalReconciliation\\.js$",
+        "^tests/support/active-showdown-fixtures\\.cjs$",
+        "^tests/support/career-fixture-helpers\\.cjs$",
+        "^tests/contracts/closed-showdown-adapter-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/shared-journey-rivalry-lookup-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedCanonicalScoring\\.js$",
+        "^js/productionSharedHistoryConvergence\\.js$",
+        "^js/productionSharedMultiSeasonProgression\\.js$",
+        "^js/productionSharedTerminalClose\\.js$",
+        "^js/productionSharedFinalReconciliation\\.js$",
+        "^js/productionSharedJourneyEntry\\.js$",
+        "^tests/contracts/shared-journey-rivalry-lookup-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/shared-season-results-stale-retry-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedSeasonResults\\.js$",
+        "^js/sparkSharedSeasonResults\\.js$",
+        "^tests/contracts/shared-season-results-stale-retry-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/completed-transfer-history-contracts.cjs",
+      "patterns": [
+        "^js/sparkCompletedTransferHistoryReader\\.js$",
+        "^js/sparkCompletedShowdownReader\\.js$",
+        "^js/sharedTransferChallenge\\.js$",
+        "^js/sharedTerminalClose\\.js$",
+        "^data/transferOptions\\.js$",
+        "^firestore\\.persistent-pair-production\\.fragment\\.rules$",
+        "^firestore\\.spark\\.rules$",
+        "^firestore\\.(transfer-challenge|terminal-close)-production\\.fragment\\.rules$",
+        "^scripts/inject-persistent-pair-rules\\.mjs$",
+        "^scripts/build-production-firestore-rules(-with-persistent-pair)?\\.mjs$",
+        "^tests/contracts/completed-transfer-history-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/browser-journey-emulator-switch-contracts.cjs",
+      "patterns": [
+        "^tests/browser/support/emulator-runtime-switch\\.js$",
+        "^tests/browser/support/firebase\\.browser-journey\\.json$",
+        "^js/[^/]+\\.js$",
+        "^index\\.html$",
+        "^service-worker\\.js$",
+        "^manifest\\.webmanifest$",
+        "^\\.github/workflows/deploy-github-pages\\.yml$",
+        "^tests/contracts/browser-journey-emulator-switch-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/composed-production-rules-contracts.cjs",
+      "patterns": [
+        "^firestore\\.spark\\.rules$",
+        "^firestore\\.[a-z-]+-production\\.fragment\\.rules$",
+        "^scripts/build-production-firestore-rules(-with-persistent-pair)?\\.mjs$",
+        "^scripts/inject-persistent-pair-rules\\.mjs$",
+        "^scripts/assert-firestore-zero-billing-boundary\\.mjs$",
+        "^scripts/publish-firestore-rules-zero-billing\\.mjs$",
+        "^firebase\\.production\\.rules\\.json$",
+        "^data/transferOptions\\.js$",
+        "^\\.github/workflows/(deploy-firestore-rules-zero-billing|validate-gameplay-fast)\\.yml$",
+        "^tests/support/composed-production-rules\\.cjs$",
+        "^tests/fixtures/composed-production-rules/main-delta\\.json$",
+        "^tests/firebase/composed-production-rules-regression\\.cjs$",
+        "^tests/firebase/composed-rules-gap-emulator\\.cjs$",
+        "^tests/contracts/composed-production-rules-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/shared-season-commit-concurrent-acknowledge-contracts.cjs",
+      "patterns": [
+        "^js/sparkSharedSeasonCommit\\.js$",
+        "^js/productionSharedSeasonCommit\\.js$",
+        "^tests/firebase/shared-season-commit-concurrent-acknowledge-emulator\\.cjs$",
+        "^tests/contracts/shared-season-commit-concurrent-acknowledge-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/shared-journey-reload-resume-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedJourneyReconnect\\.js$",
+        "^js/productionSharedJourneyEntry\\.js$",
+        "^js/productionSharedMultiSeasonProgression\\.js$",
+        "^js/persistentNikDanielPair\\.js$",
+        "^js/sparkRemoteJoining\\.js$",
+        "^tests/contracts/shared-journey-reload-resume-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
