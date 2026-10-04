@@ -4,6 +4,22 @@
 
 ## Scorecard
 
+Static pass line: average ≥ 4.2 across criteria 1–7, 9 and 10, no criterion below 3, and every hard gate PASS.
+
+| Criterion | Score | Evidence |
+| --- | ---: | --- |
+| 1 · Mockup fidelity | 3 | The manager face boxes are registered to the mockup, but the brush title is 4.48 percentage points too high, the Daniel entry card is 5.47 points right and narrower, and the central scoring panel is 2.55 points high and 2.78 points taller. |
+| 2 · Characters stand out of the menu | 4 | The Daniel and Nik manager areas use the measured mockup face-box percentages while full-canvas depth/rim overlays stay registered at `inset: 0` with no mirroring or independent scaling, preserving the intended plate-to-UI-to-character depth order. |
+| 3 · Hands and contact | 4 | The audited composition preserves the original manager plate registration and introduces no hand-to-control interaction or panel crossing in the reviewed Season Results layout, so no synthetic contact point is created by the UI. |
+| 4 · Lighting and grade | 4 | The build keeps the fixed Showdown stage WebP plates and its own gold trophy replacement rather than external competition art, preserving the dark stadium / warm-gold presentation direction used by the screen package. |
+| 5 · Typography and title treatment | 3 | The brush-title treatment and eyebrow/tagline wording are present, but the title sits 4.48 points above the mockup, is 3.49 points narrower, and the tagline is 2.3 points high, making the lockup visibly less faithful. |
+| 6 · Panel craft | 3 | The central panel is taller and higher than the mockup, Daniel's entry panel is 5.47 points narrower and shifted right, and the visible scoring grid drops the two explanatory shared-bonus note lines. |
+| 7 · Information clarity and honesty | 2 | SR4/SR5 contain impossible dual Champions League winners, the unpublished Publish/Edit path and several commit states are unreachable, bounds are hard-coded, and a non-authoritative preview score appears before canonical reconciliation. |
+| 9 · Phone composition | 3 | Claude intake records that the phone hero composition exists, but the review has no measured 393 × 660 / 360 × 640 fit evidence and therefore cannot establish the required no-scroll and primary-action placement. |
+| 10 · Polish and finish | 2 | Claude intake notes a clipped final scoring row at 1366 × 640, while the source audit also finds unreachable state variants and state-changing visible copy hard-coded outside `fixtures.json`. |
+
+Average: 28 / 9 = 3.11 / 5. Static verdict by score alone: FAIL.
+
 ## Hard gates
 
 | Gate | Result | Evidence |
