@@ -38,7 +38,7 @@
   }
 
   function titleBlock(strings) {
-    return `<header class="trophyTitleBlock"><p class="sd-eyebrow trophyEyebrow">CAREER MODE SHOWDOWN 17</p><h2 id="trophyRoomScreenTitle" class="visually-hidden" tabindex="-1" data-route-focus-target="true">${esc(strings.heading)}</h2><img class="trophyBrushTitle" src="assets/TITLE_TR_V1.webp" alt="" aria-hidden="true"><p class="sd-tagline trophyTagline">TWO MANAGERS. ONE LEGACY.</p></header>`;
+    return `<header class="trophyTitleBlock" data-sd-enter="title"><p class="sd-eyebrow trophyEyebrow">CAREER MODE SHOWDOWN 17</p><h2 id="trophyRoomScreenTitle" class="visually-hidden" tabindex="-1" data-route-focus-target="true">${esc(strings.heading)}</h2><img class="trophyBrushTitle" src="assets/TITLE_TR_V1.webp" alt="" aria-hidden="true"><p class="sd-tagline trophyTagline">TWO MANAGERS. ONE LEGACY.</p></header>`;
   }
 
   function ranking(frame) {
@@ -49,13 +49,13 @@
       if (!s || !m) return "";
       return `<div class="careerRank careerRank--${manager}" data-rank-manager="${manager}"><strong>${esc(s.rank)}</strong><span>${esc(m.displayName)}</span><b>${m.careerPoints}</b><small>CAREER POINTS · ${m.seasonWins} SEASON WINS</small></div>`;
     }).join("");
-    return `<div class="careerRanks" aria-label="Career standings">${rows}</div>`;
+    return `<div class="careerRanks" data-sd-enter="panel" aria-label="Career standings">${rows}</div>`;
   }
 
   function hero(strings, frame) {
     const active = TROPHIES[0];
     const dim = frame.status === "loading" || frame.status === "unavailable";
-    return `<div class="heroCeremony ${dim ? "is-muted" : ""}" aria-hidden="${dim ? "true" : "false"}"><div class="heroSpotlight"></div>${picture(active.asset, strings.trophyTypes.showdown, "heroTrophyPicture")}<div class="heroReflection"></div><div class="heroPlinth"><span>${esc(strings.trophyTypes.showdown.toUpperCase())}</span><small>CAREER MODE SHOWDOWN</small></div></div>`;
+    return `<div class="heroCeremony ${dim ? "is-muted" : ""}" data-sd-enter="panel" aria-hidden="${dim ? "true" : "false"}"><div class="heroSpotlight"></div>${picture(active.asset, strings.trophyTypes.showdown, "heroTrophyPicture")}<div class="heroReflection"></div><div class="heroPlinth"><span>${esc(strings.trophyTypes.showdown.toUpperCase())}</span><small>CAREER MODE SHOWDOWN</small></div></div>`;
   }
 
   function tabs(strings, frame) {
@@ -76,27 +76,27 @@
   function recordRibbon(strings, frame) {
     if (!Array.isArray(frame.records) || !frame.records.length) return "";
     const heading = frame.status === "partial" ? strings.stateCopy.partialRecordsHeading.text : strings.recordsReadyHeading;
-    return `<div class="recordRibbon" aria-label="${esc(heading)}"><span class="recordRibbonHeading">${esc(heading)}</span>${frame.records.map(record => {
+    return `<div class="recordRibbon" data-sd-enter="panel" aria-label="${esc(heading)}"><span class="recordRibbonHeading">${esc(heading)}</span>${frame.records.map(record => {
       const manager = record.manager === "shared" ? "Shared" : (frame.managers?.[record.manager]?.displayName || record.manager);
       return `<div class="recordItem"><small>${esc(record.label)}</small><strong>${esc(record.value)}</strong><span>${esc(manager)}</span></div>`;
     }).join("")}</div>`;
   }
 
   function statePanel(strings, frame) {
-    if (frame.status === "loading") return `<div class="statePanel statePanel--loading"><i class="stateGlyph" aria-hidden="true"></i><strong>${esc(strings.stateCopy.loading.text)}</strong></div>`;
-    if (frame.status === "unavailable") return `<div class="statePanel statePanel--unavailable"><i class="stateGlyph" aria-hidden="true">!</i><strong>${esc(strings.stateCopy.unavailable.text)}</strong></div>`;
-    if (frame.status === "partial") return `<div class="stateNotice"><span class="stateNoticeIcon" aria-hidden="true">!</span><span>${esc(frame.stateMessage || strings.stateCopy.partial.text.replace("{READABLE}", frame.coverage.readable).replace("{INDEXED}", frame.coverage.indexed))}</span><b>${frame.coverage.readable} of ${frame.coverage.indexed} Showdowns readable</b></div>`;
+    if (frame.status === "loading") return `<div class="statePanel statePanel--loading" data-sd-enter="panel"><i class="stateGlyph" aria-hidden="true"></i><strong>${esc(strings.stateCopy.loading.text)}</strong></div>`;
+    if (frame.status === "unavailable") return `<div class="statePanel statePanel--unavailable" data-sd-enter="panel"><i class="stateGlyph" aria-hidden="true">!</i><strong>${esc(strings.stateCopy.unavailable.text)}</strong></div>`;
+    if (frame.status === "partial") return `<div class="stateNotice" data-sd-enter="panel"><span class="stateNoticeIcon" aria-hidden="true">!</span><span>${esc(frame.stateMessage || strings.stateCopy.partial.text.replace("{READABLE}", frame.coverage.readable).replace("{INDEXED}", frame.coverage.indexed))}</span><b>${frame.coverage.readable} of ${frame.coverage.indexed} Showdowns readable</b></div>`;
     return "";
   }
 
   function shelf(strings, frame) {
     const noData = frame.status === "loading" || frame.status === "unavailable";
     const chosen = state.activeCategory === "ALL" ? TROPHIES : TROPHIES.filter(t => t.category === state.activeCategory);
-    return `<section class="trophyShelf ${chosen.length === 1 ? "is-filtered" : ""}" aria-label="${esc(strings.managerCabinetsHeading)}">${tabs(strings, frame)}<div class="shelfGlass"><div class="shelfTopEdge"></div>${statePanel(strings, frame)}${noData ? "" : `<div class="trophyGrid">${chosen.map(t => trophyCard(t, strings, frame)).join("")}</div>${recordRibbon(strings, frame)}`}</div></section>`;
+    return `<section class="trophyShelf ${chosen.length === 1 ? "is-filtered" : ""}" data-sd-enter="panel" aria-label="${esc(strings.managerCabinetsHeading)}">${tabs(strings, frame)}<div class="shelfGlass"><div class="shelfTopEdge"></div>${statePanel(strings, frame)}${noData ? "" : `<div class="trophyGrid">${chosen.map(t => trophyCard(t, strings, frame)).join("")}</div>${recordRibbon(strings, frame)}`}</div></section>`;
   }
 
   function back(strings) {
-    return `<button id="trophyRoomBack" type="button" class="backButton trophyBack" data-primary-action>${esc(strings.back)}</button>`;
+    return `<button id="trophyRoomBack" type="button" class="backButton trophyBack" data-primary-action data-sd-enter="button">${esc(strings.back)}</button>`;
   }
 
   function render() {
@@ -136,6 +136,8 @@
       phoneBandRatio:.45
     });
     render();
+    const root = document.getElementById("trophyRoom");
+    if (typeof window.sdEnter === "function") window.sdEnter(root);
     document.documentElement.dataset.trophyReady = "1";
     window.__trophyRoomReady = true;
     window.__trophyRoomFrame = state.frame;
