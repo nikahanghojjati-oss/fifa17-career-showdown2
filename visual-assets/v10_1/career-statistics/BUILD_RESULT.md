@@ -79,6 +79,24 @@ Conservative desktop first-paint estimate: 642,050 bytes, under the 900 KB limit
 
 All required scored criteria are at least 4/5.
 
+## Phone
+
+### Height budget
+
+Arithmetic is from the committed CSS only; Claude performs the real-browser H5 measurement at intake. The shared bottom bar reserve is 56 px plus any safe-area inset. Values below assume a zero extra safe-area inset, so a device inset is added to the reserve and removed from `.careerScreen` by the same amount without changing the internal sum.
+
+The phone hero art visually occupies 55% of `.careerScreen`, and the title is contained inside that hero band (94 px normally, 82 px at ≤600 px height). Those are overlay layers, so they are not added again to the vertical flow. Normal-height phones begin the data hub at 48% of `.careerScreen`; the 375 × 553 short-height rule begins it at 42% to preserve a useful active panel.
+
+| Viewport | Nav reserve | Career screen | Top allocation to data start | Headlines | Tabs | Hub gaps | Active panel remainder | Gap to actions | Action stack | Bottom pad | Sum | Remaining |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 393 × 660 | 56.0 | 604.0 | 289.9 | 72.6 | 44 | 12 | 77.5 | 6 | 96 | 6 | 660.0 | 0.0 |
+| 360 × 640 | 56.0 | 584.0 | 280.3 | 70.4 | 44 | 12 | 69.3 | 6 | 96 | 6 | 640.0 | 0.0 |
+| 375 × 553 | 56.0 | 497.0 | 208.7 | 56.0 | 44 | 8 | 72.3 | 6 | 96 | 6 | 553.0 | 0.0 |
+
+At 375 × 553 the primary occupies the lower 46 px of the 96 px action stack, whose bottom is 6 px above the end of `.careerScreen`; the entire action stack therefore remains above the 56 px reserved bottom bar and the primary is visible.
+
+Larger phones grow the active panel rather than leaving the controls floating: at 390 × 844 the computed active panel is 159.8 px; at 430 × 932 it is 205.5 px. The hero/title remains anchored to the top composition while the hub's `minmax(0,1fr)` panel absorbs the extra height.
+
 ## Known gaps
 
 Final phone recomposition is intentionally left to the dedicated Career Statistics phone job. This desktop build includes the required `nav-reserve` placeholder without attempting to replace the shared bottom navigation. Motion choreography is also left to the later motion job.
