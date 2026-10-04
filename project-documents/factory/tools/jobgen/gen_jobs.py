@@ -1530,7 +1530,7 @@ def bind_parts_v3():
 PP = "project-documents/factory/reviews/PHONE_PASS.md"
 def phonepass_parts_v3():
     def collect(g):
-        return S(f"Claude's phone measurements: {_names(g)}", [f"{f}/evidence/qa/QA_SUMMARY.md" for _, f in g], [PP + " (per-screen table)"],
+        return S(f"Claude's phone measurements: {_names(g)}", [f"{f}/evidence/qa/QA_SUMMARY.md (if it exists; if not, that screen's BUILD_RESULT.md Phone section and the Claude check lines in its status files)" for _, f in g], [PP + " (per-screen table)"],
                  "Copy per screen and frame: scroll at 393 × 660, 360 × 640, 375 × 553, 390 × 844, 430 × 932, primary visible at 375 × 553, 44 px targets, input sizes, errors, each with its source path. Do not run factory-qa: Claude measured these at each intake; write NOT MEASURED where a number is missing (Claude measures).",
                  "the table has one row per screen and frame of this group.")
     def consist(g):
@@ -1742,3 +1742,5 @@ for n, j in enumerate(JOBS):
                       part_of=(num(j["part_of"]) if j.get("part_of") else None), part=(list(j["part"]) if j.get("part") else None)))
 json.dump(dict(branch=BR, generated="2026-10-02", jobs=board), open(F + "/BOARD.json", "w"), indent=1)
 print(len(JOBS), "jobs; waves:", max(wave.values()))
+import subprocess  # lint: missing read files and unfilled placeholders (check_jobs.py)
+subprocess.run([sys.executable, os.path.join(os.path.dirname(os.path.abspath(__file__)), "check_jobs.py")])
