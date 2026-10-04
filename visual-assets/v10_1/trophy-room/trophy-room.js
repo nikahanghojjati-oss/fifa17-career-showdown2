@@ -9,7 +9,7 @@
     { key: "championsLeague", category: "CHAMPIONS LEAGUE", asset: "../shared/trophies/TRO_CONTINENTAL_V1_512.webp", value: f => f.managers && ({daniel:f.managers.daniel.championsLeagues, nik:f.managers.nik.championsLeagues}) }
   ];
 
-  const state = { fixtures:null, frame:null, frameKey:"TR1", map:null, activeCategory:"ALL", stage:null, spotlightLit:false, heroSettled:false, heroGlintPlayed:false, shelfRevealed:false, countsRevealed:false };
+  const state = { fixtures:null, frame:null, frameKey:"TR1", map:null, activeCategory:"ALL", stage:null, spotlightLit:false, heroSettled:false, heroGlintPlayed:false, shelfRevealed:false, countsRevealed:false, shimmeredTrophies:new Set() };
   const qs = new URLSearchParams(location.search);
   state.frameKey = qs.get("frame") || "TR1";
 
@@ -27,7 +27,9 @@
     cardStaggerMs:60,
     cardFlipEase:"cubic-bezier(.16,1,.3,1)",
     countUpDelayMs:760,
-    countUpMs:300
+    countUpMs:300,
+    winningShimmerDelayMs:760,
+    winningShimmerMs:420
   });
 
   const esc = value => String(value == null ? "" : value).replace(/[&<>\"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
@@ -91,7 +93,10 @@
     const right = rightCount == null ? "—" : (rightCount === 0 ? "—" : String(state.countsRevealed ? rightCount : 0));
     const leftAttr = leftCount > 0 ? ` class="has-count" data-count-value="${leftCount}"` : "";
     const rightAttr = rightCount > 0 ? ` class="has-count" data-count-value="${rightCount}"` : "";
-    return `<article class="trophyCard ${empty ? "is-unwon" : ""} ${state.shelfRevealed ? "tr-card-revealed" : ""}" data-trophy="${trophy.key}"><div class="trophyCardGlow"></div>${picture(trophy.asset, strings.trophyTypes[trophy.key], "trophyCardPicture")}<h3>${esc(strings.trophyTypes[trophy.key])}</h3><div class="managerCounts"><div data-side="daniel"><span>${esc(dName)}</span><strong${leftAttr}>${esc(left)}</strong></div><div data-side="nik"><span>${esc(nName)}</span><strong${rightAttr}>${esc(right)}</strong></div></div>${empty ? `<p class="notWonYet">${esc(strings.notWonYet)}</p>` : ""}</article>`;
+    const hasWin = (leftCount || 0) > 0 || (rightCount || 0) > 0;
+    const shimmerClass = hasWin ? "sd-glint" : "";
+    const shimmerAttr = hasWin ? ` data-winning-card="true"` : "";
+    return `<article class="trophyCard ${empty ? "is-unwon" : ""} ${state.shelfRevealed ? "tr-card-revealed" : ""} ${shimmerClass}" data-trophy="${trophy.key}"${shimmerAttr}><div class="trophyCardGlow"></div>${picture(trophy.asset, strings.trophyTypes[trophy.key], "trophyCardPicture")}<h3>${esc(strings.trophyTypes[trophy.key])}</h3><div class="managerCounts"><div data-side="daniel"><span>${esc(dName)}</span><strong${leftAttr}>${esc(left)}</strong></div><div data-side="nik"><span>${esc(nName)}</span><strong${rightAttr}>${esc(right)}</strong></div></div>${empty ? `<p class="notWonYet">${esc(strings.notWonYet)}</p>` : ""}</article>`;
   }
 
   function recordRibbon(strings, frame) {
@@ -177,6 +182,19 @@
     }, TR_MOTION.countUpDelayMs);
   }
 
+  function playWinningCardShimmer(root) {
+    const cards = [...root.querySelectorAll('.trophyCard[data-winning-card="true"]')]
+      .filter(card => !state.shimmeredTrophies.has(card.dataset.trophy));
+    if (!cards.length) return;
+    window.setTimeout(() => {
+      cards.forEach(card => {
+        state.shimmeredTrophies.add(card.dataset.trophy);
+        card.classList.add("sd-is-glinting");
+        window.setTimeout(() => card.classList.remove("sd-is-glinting"), TR_MOTION.winningShimmerMs);
+      });
+    }, TR_MOTION.winningShimmerDelayMs);
+  }
+
   function render() {
     const frame = state.frame;
     const strings = state.fixtures.strings;
@@ -220,6 +238,7 @@
     playHeroTrophyMoment(root);
     playShelfCardFlip(root);
     playCountUps(root);
+    playWinningCardShimmer(root);
     document.documentElement.dataset.trophyReady = "1";
     window.__trophyRoomReady = true;
     window.__trophyRoomFrame = state.frame;
