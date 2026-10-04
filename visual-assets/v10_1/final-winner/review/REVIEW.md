@@ -6,6 +6,20 @@
 
 ## Hard gates
 
+| Gate | Result | Evidence |
+| --- | --- | --- |
+| H1 · Daniel left, Nik right, never mirrored | PASS | `final-winner.js` FACE_BOXES and every fixture `presentation.managerOrder` keep Daniel left and Nik right; no mirrored manager order is authored. |
+| H2 · Rights-safe assets only | PASS | The audited Final Winner code references Showdown-owned Trophy Room/Final Winner presentation assets only; no real crest, league logo, player art or EA/FIFA asset is introduced by this screen. |
+| H3 · No live/private data baked into images | PASS | `applyFrame()`, `setText()` and `setMetricValue()` put names, result copy, totals, status and trophy values in DOM text; image assets are presentation-only. |
+| H4 · Product truth: real buttons/stats/scoring | PASS | `renderActions()` allows only CLOSE/RETRY Terminal Close actions, and `renderResultPanel()` reads only §4 seasons, margin and trophy fields; no editable score/scoring-table UI exists. |
+| H5 · phone fit / scroll | NOT MEASURED (Claude measures) | `project-documents/factory/status/JOB-082.md`; no evidence directory |
+| H6 · input size / contrast | NOT MEASURED (Claude measures) | `project-documents/factory/status/JOB-082.md`; no evidence directory |
+| H7 · reduced motion | NOT MEASURED (Claude measures) | `project-documents/factory/status/JOB-082.md`; no evidence directory |
+| H8 · keyboard / focus | NOT MEASURED (Claude measures) | `project-documents/factory/status/JOB-082.md`; no evidence directory |
+| H9 · console / requests | NOT MEASURED (Claude measures) | `project-documents/factory/status/JOB-082.md`; no evidence directory |
+| H10 · mockup diff | NOT MEASURED (Claude measures) | `project-documents/factory/status/JOB-082.md`; no evidence directory |
+| H11 · page weight | NOT MEASURED (Claude measures) | `project-documents/factory/status/JOB-082.md`; no evidence directory |
+
 ## Evidence
 
 ### Claude measurement carry-forward
