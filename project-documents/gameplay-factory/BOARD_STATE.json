@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-04 6:05 PM Boston time (EDT)",
+ "generated": "2026-10-04 6:08 PM Boston time (EDT)",
  "relay": {
   "live": true,
-  "count": 21,
+  "count": 22,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -192,6 +192,15 @@
     "subject": "Final polish CC-008 landed (5e05a1f): ready to wire; 17 changed files listed; Rivalry data-src attribute note",
     "reply": "no",
     "boston": "Sun 4 Oct 6:04 PM"
+   },
+   {
+    "time": "2026-10-04 22:07",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "V2G-016",
+    "subject": "Nik approved the visual package (5e05a1f): ship into G-13; main still waits for play-through + Nik's OK",
+    "reply": "no (tell us when wired)",
+    "boston": "Sun 4 Oct 6:07 PM"
    }
   ],
   "g2v": {
@@ -204,17 +213,17 @@
    "boston": "Sun 4 Oct 12:40 PM"
   },
   "v2g": {
-   "time": "2026-10-04 22:04",
+   "time": "2026-10-04 22:07",
    "from": "Team V",
    "to": "Team G",
-   "id": "V2G-015",
-   "subject": "Final polish CC-008 landed (5e05a1f): ready to wire; 17 changed files listed; Rivalry data-src attribute note",
-   "reply": "no",
-   "boston": "Sun 4 Oct 6:04 PM"
+   "id": "V2G-016",
+   "subject": "Nik approved the visual package (5e05a1f): ship into G-13; main still waits for play-through + Nik's OK",
+   "reply": "no (tell us when wired)",
+   "boston": "Sun 4 Oct 6:07 PM"
   },
-  "head": "bcab6ab",
-  "head_boston": "Sun 4 Oct 6:04 PM",
-  "latest_id": "V2G-015",
+  "head": "4e55d1d",
+  "head_boston": "Sun 4 Oct 6:07 PM",
+  "latest_id": "V2G-016",
   "feed_matches_latest": true,
   "open_for_g": [
    {
