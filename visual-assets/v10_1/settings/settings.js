@@ -72,6 +72,7 @@
     stage.dataset.frame = frameId;
     stage.dataset.status = V.status;
     stage.dataset.viewerRole = V.viewerRole;
+    stage.dataset.confirmOpen = String(Boolean(V.confirmDialog.open));
 
     setText("settingsEyebrow", S.shell.eyebrow);
     setText("settingsTitle", S.shell.heading);
@@ -126,7 +127,14 @@
     renderActions(S, frame);
 
     const confirm = document.getElementById("confirmDialog");
-    confirm.hidden = !V.confirmDialog.open;
+    const confirmOpen = Boolean(V.confirmDialog.open);
+    confirm.hidden = !confirmOpen;
+    const settingsContent = document.getElementById("settingsContent");
+    const settingsFooter = document.querySelector(".settingsFooter");
+    const settingsHeader = document.querySelector(".settingsHeader");
+    settingsContent.inert = confirmOpen;
+    settingsFooter.inert = confirmOpen;
+    settingsHeader.inert = confirmOpen;
     setText("confirmMessage", V.confirmDialog.message || "");
     const deleteConfirm = confirm.querySelector("[data-confirm='delete']");
     if (deleteConfirm) deleteConfirm.textContent = S.dataActions.deleteCurrent;
