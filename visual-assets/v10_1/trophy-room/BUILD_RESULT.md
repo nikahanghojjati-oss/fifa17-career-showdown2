@@ -108,3 +108,11 @@ Runtime phone art references WebP only:
 No PNG master is loaded by the page. The two cut-out WebPs are intentionally referenced before they exist on the branch, per JOB-058's DEFAULT. Claude must run the existing `tools/MAKE_ASSETS.md` cutout recipes, refine edges, generate both WebPs, fill their SHA-256/actual sizes in `assets/phone_intake.md`, and composite the proof image. Claude then measures H5, H6 contrast, H7, H8, H9, H10 and H11 in a real browser at intake.
 
 The phone-art maximum before the title/UI resources is 253,986 bytes, leaving 196,014 bytes under the 450,000-byte phone first-paint gate for the remaining first-paint resources.
+
+## Fix round
+
+- Done · Item 1: desktop `.phoneMoreToggle` is `display:none`; the ≤760 px rule restores the 78 × 44 px visually hidden, focusable MORE / CLOSE checkbox.
+- Done · Item 2: category activation rerenders and then restores focus to the recreated active `.trophyTab` for the selected category.
+- Done · Item 3: `#trophyPhoneMoreToggle[aria-controls]` now targets `#trophyRoomContent`, which actually owns the career-rank and record details exposed by MORE / CLOSE.
+- Blocked · none.
+- Claude re-measure · H5 phone fit, H6 contrast, H7 reduced motion, H8 keyboard/focus, H9 console/requests and H11 full phone first-paint weight. Reconfirm H10 remains PASS after this behavior-only fix round.
