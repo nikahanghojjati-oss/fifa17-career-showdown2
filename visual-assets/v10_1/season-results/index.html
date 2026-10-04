@@ -43,7 +43,16 @@
       </header>
 
       <section class="season-layout" aria-label="Season results layout">
+        <input id="season-phone-tab-daniel" class="season-phone-tab-input" type="radio" name="season-phone-manager" aria-label="Show Daniel season result">
+        <input id="season-phone-tab-nik" class="season-phone-tab-input" type="radio" name="season-phone-manager" aria-label="Show Nik season result">
+        <input id="season-phone-scoring-toggle" class="season-phone-sheet-toggle" type="checkbox" aria-label="Show season scoring rules">
+        <div class="season-phone-toolbar" aria-label="Season result view">
+          <label class="season-phone-tab season-phone-tab--daniel" for="season-phone-tab-daniel"><span>DANIEL</span></label>
+          <label class="season-phone-tab season-phone-tab--nik" for="season-phone-tab-nik"><span>NIK</span></label>
+          <label class="season-phone-scoring-open" for="season-phone-scoring-toggle">HOW SCORING WORKS</label>
+        </div>
         <section id="scoring-panel" class="scoring-panel sd-panel" aria-labelledby="scoring-heading" aria-describedby="scoring-rules-text">
+          <label class="season-phone-sheet-close" for="season-phone-scoring-toggle" aria-label="Close scoring rules">CLOSE</label>
           <img class="scoring-trophy" src="../shared/trophies/TRO_SHOWDOWN_CHAMPION_V1_512.webp" alt="" aria-hidden="true" decoding="async" loading="lazy">
           <div class="scoring-copy">
             <h2 id="scoring-heading" class="sd-label">SEASON SCORING SYSTEM</h2>
