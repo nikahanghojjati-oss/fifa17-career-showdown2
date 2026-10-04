@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-04 12:27 PM Boston time (EDT)",
+ "generated": "2026-10-04 12:28 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 15,
@@ -191,9 +191,9 @@
   "chat": 2,
   "work": 1
  },
- "overall": 86,
+ "overall": 82,
  "done": 19,
- "total": 22,
+ "total": 23,
  "start": {
   "chat": [],
   "work": []
@@ -209,16 +209,16 @@
    "likelihood": "likely",
    "status": "IN PROGRESS",
    "owner": "lead",
-   "note": "job 21, PR #344: retry once quietly"
+   "note": "job 21, PR #344: retry once quietly (checks running)"
   },
   {
    "id": "BH-2",
    "title": "A tied season is decided by league position",
    "plain": "Code and old notes disagree on equal non-zero scores.",
    "likelihood": "likely",
-   "status": "DECIDED",
+   "status": "DONE",
    "owner": "lead",
-   "note": "Nik chose league position; fix the notes and docs that say draw"
+   "note": "Nik chose league position; docs fixed in PR #343 (merged)"
   },
   {
    "id": "BH-3",
@@ -233,8 +233,9 @@
    "title": "Lock buttons have no confirm",
    "plain": "One stray tap on LOCK MY GUESSES or LOCK MY SIGNINGS locks an empty list for the season; the helpful error text is hidden behind a code.",
    "likelihood": "medium-low",
-   "status": "TO PLAN WITH LEAD",
-   "owner": "lead"
+   "status": "PART DONE",
+   "owner": "lead",
+   "note": "job 21 shows the helpful error text and caps names at 80; the confirm step is still to plan"
   },
   {
    "id": "BH-5",
@@ -726,6 +727,26 @@
    "steps_total": 3,
    "pct": 100,
    "ready": false
+  },
+  {
+   "number": 21,
+   "key": "G-2g",
+   "title": "Same-moment taps retry quietly (bug hunt 1)",
+   "lane": "lead",
+   "depends_on": [],
+   "steps": 3,
+   "code_branch": "gameplay/job-21-tap-races",
+   "codex_review": false,
+   "written": true,
+   "waits_on": null,
+   "phase": "1 Safety net",
+   "type": "fix",
+   "plain": "When both players tap START, a lock button, early end or Setup confirm at the same moment, or the transfer timer hits 0:00 on both phones, the slower phone retries once instead of showing an error.",
+   "state": "NOT STARTED",
+   "step": 0,
+   "steps_total": 3,
+   "pct": 0,
+   "ready": true
   }
  ]
 }

@@ -1,12 +1,12 @@
 # Team G gameplay board
 
-19 of 22 jobs done (86 %) ████████░░ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-04 12:27 PM Boston time (EDT)
+19 of 23 jobs done (82 %) ████████░░ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-04 12:28 PM Boston time (EDT)
 
 ## Your next move
 
 1. **Nothing for you to start right now.**
 
-_Moving now:_ bug hunt 1 (job 21, PR #344: retry once quietly). _Next up:_ G-13 Remove the r43 containment, bind #trophyRoomButton, waits on approved Team V visual package.
+_Moving now:_ G-2g Same-moment taps retry quietly (bug hunt 1); bug hunt 1 (job 21, PR #344: retry once quietly (checks running)). _Next up:_ G-13 Remove the r43 containment, bind #trophyRoomButton, waits on approved Team V visual package.
 
 **Sol Work mode starter line** (copy it, change both `NN` to the job number, paste it as the first message):
 
@@ -20,13 +20,15 @@ From the read-only bug hunt on r52 (4 Oct; [report](https://github.com/nikahangh
 
 | # | Problem in plain words | How likely | Status | Who |
 | --- | --- | --- | --- | --- |
-| 1 | **Both managers tap at the same second and the slower one sees an error.** Hits Career Start, the Transfer Challenge locks and timer, and Setup confirm. Nothing is corrupted, but the loser must tap again. | likely | IN PROGRESS · job 21, PR #344: retry once quietly | lead |
-| 2 | **A tied season is decided by league position.** Code and old notes disagree on equal non-zero scores. | likely | DECIDED · Nik chose league position; fix the notes and docs that say draw | lead |
+| 1 | **Both managers tap at the same second and the slower one sees an error.** Hits Career Start, the Transfer Challenge locks and timer, and Setup confirm. Nothing is corrupted, but the loser must tap again. | likely | IN PROGRESS · job 21, PR #344: retry once quietly (checks running) | lead |
+| 2 | **A tied season is decided by league position.** Code and old notes disagree on equal non-zero scores. | likely | DONE · Nik chose league position; docs fixed in PR #343 (merged) | lead |
 | 3 | **Nobody cross-checks the two managers' season results.** Both can publish position 1 or both tick Champions League, and a published result cannot be corrected. | medium | TO PLAN WITH LEAD | lead |
-| 4 | **Lock buttons have no confirm.** One stray tap on LOCK MY GUESSES or LOCK MY SIGNINGS locks an empty list for the season; the helpful error text is hidden behind a code. | medium-low | TO PLAN WITH LEAD | lead |
+| 4 | **Lock buttons have no confirm.** One stray tap on LOCK MY GUESSES or LOCK MY SIGNINGS locks an empty list for the season; the helpful error text is hidden behind a code. | medium-low | PART DONE · job 21 shows the helpful error text and caps names at 80; the confirm step is still to plan | lead |
 | 5 | **The 4-hour private session ends long games.** A 5 or 10 season game outlives one session, so both managers must open a fresh one. Needs one retest mid-season. | low | TO PLAN WITH LEAD | lead |
 
-Small extras (cheap, optional): stale 'scoring remains locked' text after season commit; hard-coded Daniel/Nik name fallbacks; raw error codes in the Setup settle text.
+Small extras (cheap, optional): DONE in job 21: 'scoring remains locked' text now says SEASON COMMITTED · SCORE BELOW; NOT A BUG: Daniel/Nik fallbacks match the fixed roles (Daniel = Player One, Nik = Player Two); OPEN: raw error codes in the Setup settle text.
+
+Live fix jobs open: [G-2g Same-moment taps retry quietly (bug hunt 1)](jobs/JOB-21.md) (not started)
 
 ## Team V relay
 
@@ -48,12 +50,13 @@ Waiting on Team V: nothing.
 | G-13 | Remove the r43 containment, bind #trophyRoomButton | work | approved Team V visual package | NOT WRITTEN |
 | G-14 | Acceptance: directive §12 and Sol's 8 proofs on the emulator | work | job 13 | NOT WRITTEN |
 | G-15 | One real two-device run with Nik | nik | job 14 | NOT WRITTEN |
+| G-2g | [Same-moment taps retry quietly (bug hunt 1)](jobs/JOB-21.md) | lead | - | NOT STARTED |
 
 <details>
 <summary><b>Finished work: 19 jobs</b> (click to open)</summary>
 
 - 0 Setup: 3 of 3 done
-- 1 Safety net: 7 of 7 done
+- 1 Safety net: 7 of 8 done
 - 2 Career model: 5 of 5 done
 - 3 Career history: 4 of 4 done
 
