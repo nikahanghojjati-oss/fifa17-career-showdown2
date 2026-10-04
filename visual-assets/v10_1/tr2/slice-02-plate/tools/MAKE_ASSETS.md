@@ -20,3 +20,19 @@ Claude tightens the generous contours to the real person before final export. Pr
 Use `assets/phonemap.json > phone_frame` as the composition authority: portrait background cover, Daniel left at 62% frame height, Nik right at 64% frame height, both heads fully visible, and the lower scrim beginning at 46% frame height.
 
 # proof: Claude composites PHONE_PROOF.png (393 × 660 at 3×) from phone_frame
+
+
+## JOB-050 step 3 · Runtime consumption contract
+
+The cut-out commands above are also the JOB-050 fallback recipe if either runtime WebP is absent when Claude intakes the screen. No additional binary is produced by the worker chat.
+
+CSS consumes `assets/phonemap.json > phone_frame` exactly:
+
+- background: cover, 50% x / 43% y, hero zone through 55% of the frame
+- Daniel: left, center x 26%, top 0%, height 62%
+- Nik: right, center x 68%, top 0.5%, height 64%
+- lower scrim: begins at 46% and is opaque by 72%
+- neither hero is mirrored; both heads remain fully visible
+- the `--rim` cut-out recipe supplies the edge light; CSS adds only a soft contact shadow
+
+Phone first-paint art budget uses the intake caps: `233,908 + 61,440 + 61,440 = 356,788 bytes` (348.43 KiB), below both the 350 KiB JOB-114 intake cap and JOB-050's 450 KB ceiling.
