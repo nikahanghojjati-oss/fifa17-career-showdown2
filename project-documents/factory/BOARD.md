@@ -1,31 +1,32 @@
 # 🏭 Showdown Factory board
 
-**227 of 238 jobs done and checked · 95 %** · updated Sun 3:34 p.m. Eastern
+**227 of 238 jobs done and checked · 95 %** · updated Sun 3:37 p.m. Eastern
 
 <img src="board-meter.svg" alt="Football progress meter" width="640">
 
-⏱ **Estimated finish: Sun 9:40 p.m. Eastern** (about 6 h 05 min from now at today's pace)
+⏱ **Estimated finish: Sun 9:13 p.m. Eastern** (about 5 h 36 min from now at today's pace)
 
 ## 🔴 Now
 
-- Nothing running.
+- **232** Motion and sound consistency pass (5/6) · In progress · step 1/1 · type the number in a new chat in project Showdown visual
 
 ## 🟢 Next (start these)
 
-- **232** Motion and sound consistency pass (5/6) · type the number in a new chat in project Showdown visual
+- Nothing ready right now.
 
 ## ⚪ Then
 
 - **233** Motion and sound consistency pass (6/6) · after 232 · type the number in a new chat in project Showdown visual
+- **239** Package for Nik and handoff to GPT-5.6 Sol (5/5) · after 238 · type the number in a new chat in project Showdown visual
 
 ## 🧰 Where to type and when it resets
 
 | Tool | Where | Resets (Eastern) | Jobs left |
 | --- | --- | --- | --- |
-| 🟡 GPT-5.6 Sol chat | ChatGPT, project "Showdown visual", new normal chat: type the job number | unknown | 10 |
+| 🟡 GPT-5.6 Sol chat | ChatGPT, project "Showdown visual", new normal chat: type the job number | unknown | 9 |
 | 🟠 GPT-6.1 Sol Work mode | ChatGPT, Work mode (press Use Work). Not used for factory jobs now | Sun 4:18 p.m. Eastern | 0 |
 | 🔵 Astra | ChatGPT Work mode (Astra): paste the bundle prompt from handoffs/C2W-*.md | Sun 4:18 p.m. Eastern | 0 |
-| 🟣 Claude threads | Claude project threads and claude.ai/code cloud sessions (no typing by Nik) | Thu 8:00 p.m. Eastern | 0 |
+| 🟣 Claude threads | Claude project threads and claude.ai/code cloud sessions (no typing by Nik) | Thu 8:00 p.m. Eastern | 1 |
 | ⚫ Codex | Codex: final package review (job 108), paste the job file | unknown | 1 |
 | 🖼️ Image tickets | ChatGPT Temporary Chat, paste the ticket from tickets/ | unknown | 0 |
 
@@ -286,13 +287,13 @@ Quality bar: average 4.2 or more, nothing under 3. Average so far 4.26 over 75 s
 | 229 | [Motion and sound consistency pass (part 2 of 6)](jobs/JOB-229.md) | project (type number) | 107 | 100 % | DONE |
 | 230 | [Motion and sound consistency pass (part 3 of 6)](jobs/JOB-230.md) | project (type number) | 229 | 100 % | DONE |
 | 231 | [Motion and sound consistency pass (part 4 of 6)](jobs/JOB-231.md) | project (type number) | 230 | 100 % | DONE |
-| 232 | [Motion and sound consistency pass (part 5 of 6)](jobs/JOB-232.md) | project (type number) | 231 | 0 % | NOT STARTED |
+| 232 | [Motion and sound consistency pass (part 5 of 6)](jobs/JOB-232.md) | project (type number) | 231 | 100 % | IN PROGRESS |
 | 233 | [Motion and sound consistency pass (part 6 of 6)](jobs/JOB-233.md) | project (type number) | 232 | 0 % | NOT STARTED |
 | 234 | [Final fixes (part 2 of 3)](jobs/JOB-234.md) | project (type number) | 109 | 0 % | NOT STARTED |
 | 235 | [Final fixes (part 3 of 3)](jobs/JOB-235.md) | project (type number) | 234 | 0 % | NOT STARTED |
 | 236 | [Package for Nik and handoff to GPT-5.6 Sol (part 2 of 5)](jobs/JOB-236.md) | project (type number) | 110 | 0 % | NOT STARTED |
 | 237 | [Package for Nik and handoff to GPT-5.6 Sol (part 3 of 5)](jobs/JOB-237.md) | project (type number) | 236 | 0 % | NOT STARTED |
-| 238 | [Package for Nik and handoff to GPT-5.6 Sol (part 4 of 5)](jobs/JOB-238.md) | project (type number) | 237 | 0 % | NOT STARTED |
+| 238 | [Package for Nik and handoff to GPT-5.6 Sol (part 4 of 5)](jobs/JOB-238.md) | project (type number) | 237 | 0 % | IN PROGRESS · CLAUDE |
 | 239 | [Package for Nik and handoff to GPT-5.6 Sol (part 5 of 5)](jobs/JOB-239.md) | project (type number) | 238 | 0 % | NOT STARTED |
 | 240 | [Standings: review (part 2 of 4)](jobs/JOB-240.md) | project (type number) | 128 | 100 % | DONE |
 | 241 | [Standings: review (part 3 of 4)](jobs/JOB-241.md) | project (type number) | 240 | 100 % | DONE |
