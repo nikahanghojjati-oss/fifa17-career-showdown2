@@ -6,6 +6,22 @@
 
 ## Hard gates
 
+Static-source review only for H1–H4; PASS is limited to inspected DOM/CSS/fixture references, not an assertion about uninspected raster pixels.
+
+| Gate | Result | Evidence |
+| --- | --- | --- |
+| H1 | PASS (code scope) | renderCard/renderSeasonHistory preserve Daniel left, Nik right; phone CSS final Daniel left 4%, Nik 47%; no mirror transforms. Raster alignment remains Claude's check. |
+| H2 | PASS (code scope) | Screen references only original Legacy WebP assets; club initials and league abbreviations contain no real logos; no player photo references. Original identity requirement is a separate fix. |
+| H3 | PASS (code scope) | Changing names, numbers and states are inserted with textContent; image sources are static scene/title/cutouts. Asset pixels not independently inspected. |
+| H4 | FAIL | Audit A07–A14: inert/wrong route controls, off-page selection and incomplete/inaccessible season disclosure do not fulfil TRUTH's retained real actions. |
+| H5 | NOT MEASURED (Claude measures) | Evidence has no measured scroll/button rectangles. |
+| H6 | NOT MEASURED (Claude measures) | Evidence has no measured body contrast; no current inputs. |
+| H7 | NOT MEASURED (Claude measures) | Evidence has no emulated reduced-motion result. |
+| H8 | NOT MEASURED (Claude measures) | Evidence has no keyboard traversal result. Code defects are separately listed, not a fabricated measurement. |
+| H9 | NOT MEASURED (Claude measures) | Evidence has no browser request/console log. |
+| H10 | NOT MEASURED (Claude measures) | evidence/scores.json absent; no numeric mockup-diff scores. |
+| H11 | NOT MEASURED (Claude measures) | Evidence has no first-paint network measurement. |
+
 ## Evidence
 
 Sources checked for Claude-carried measurements:
