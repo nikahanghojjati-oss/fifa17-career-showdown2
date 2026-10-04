@@ -85,3 +85,13 @@ Three simple rules:
 1. **Two FIX rounds on one job means change the worker**, not a third round.
 2. **Anything with pixels goes to a model that renders and looks**, or gets a Claude check before it counts.
 3. **Write down cost for every cloud session** (the CC-006 number was lost) and note which model did each fix, so the next scorecard can include cost per job.
+
+## What this report itself cost (estimate)
+
+Built by one Claude Sonnet 5.5 thread, about 45 tool calls, no sub-agents, covering the report, the PDF, the board table, the scorecard script and the Team G note. A thread cannot read its own bill, so this is **my estimate from the work done, not a measured number.**
+
+- Prices used (Sonnet 5.5 API, from the claude-api reference, cached 25 Sep 2026): $2 per million input tokens, $10 per million output tokens, cache reads $0.20, cache writes about $2.50 (1.25 times input; that last rate is the standard multiplier, not listed there).
+- Rough usage: about 170,000 new tokens added to the conversation (files, command output, my writing), about 20,000 of them output; the growing conversation was re-read from cache on each of about 45 calls, roughly 4.5 million cache-read tokens in total.
+- Estimate: output about $0.20, cache reads about $0.90, cache writes about $0.45, so **about $1.50 in API terms (plausible range $1 to $2.50).**
+- Against Nik's limit: his Claude plan limit is not shown in dollars, so how much of it this used **cannot be measured from here.** It ran on Sonnet, the cheapest Claude model offered here, and a one-off report this size is small next to the Opus and cloud sessions on the board.
+- Not included: the coordinator thread's own routing, and the GPT side (unmeasurable).
