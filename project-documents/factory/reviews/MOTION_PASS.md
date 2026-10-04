@@ -102,6 +102,17 @@ Scope: align the previously documented motion outliers against `visual-assets/v1
 4. Start / Join already inherits the shared entrance through `sdEnter(stage)`; its local pairing constants are reasoned state choreography rather than entrance deviations.
 5. No manager staging, imagery, live data, product behavior, easing family or new effect was changed.
 
+
+## Sound
+
+Product source: `js/menuFeedback.js` on `main`; Team V source: `visual-assets/v10_1/shared/motion.js`.
+
+- The product uses one original Web Audio micro-feedback cue per accepted `playMenuFeedbackCue()` invocation: a 64 ms synthesized triangle/sine cue, with no recorded or third-party asset.
+- The cue respects the product sound setting through `window.isMenuFeedbackEnabled()`; it is also suppressed while the page is hidden or menu media is already playing.
+- A 110 ms cooldown prevents duplicate rapid-fire cue emission, and a resumed AudioContext emits only if it becomes available within 180 ms of the request.
+- The shared Team V motion runtime contains no audio calls and does not invoke `playMenuFeedbackCue()`; motion choreography therefore cannot create duplicate menu sounds.
+- DEFAULT: Team V adds no new sounds. Existing product-owned feedback remains the sole menu-feedback sound path.
+
 ### Fix list carried to Part 6
 
 1. Loading: inspect its runtime motion source, document the actual entrance total / first usable / stagger / easing / reduced-motion path, and align any timing constant that deviates from `MOTION.md`. This remains the only unresolved outlier from Parts 1–5.
