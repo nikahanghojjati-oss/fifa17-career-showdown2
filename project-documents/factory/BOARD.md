@@ -1,10 +1,10 @@
 # 🏭 Showdown Factory board
 
-**221 of 238 jobs done and checked · 93 %** · updated Sun 2:57 p.m. Eastern
+**222 of 238 jobs done and checked · 93 %** · updated Sun 2:58 p.m. Eastern
 
 <img src="board-meter.svg" alt="Football progress meter" width="640">
 
-⏱ **Estimated finish: Mon 2:13 a.m. Eastern** (about 11 h 15 min from now at today's pace)
+⏱ **Estimated finish: Mon 2:14 a.m. Eastern** (about 11 h 15 min from now at today's pace)
 
 ## 🔴 Now
 
@@ -17,10 +17,6 @@
 ## ⚪ Then
 
 - **107** Motion and sound consistency pass (1/6) · after 228 · type the number in a new chat in project Showdown visual
-
-## ⚠️ Needs attention
-
-- Waiting for Claude's check: 227
 
 ## 🧰 Where to type and when it resets
 
