@@ -627,3 +627,11 @@ html[data-motion-reduced="true"] #onlinePlayerIdentityBadge,
 .qa-noreveal .reveal { display: none !important; }
 .qa-notext #clubWheelScreen *, .qa-notext #topHeader *, .qa-notext footer * { color: transparent !important; -webkit-text-fill-color: transparent !important; text-shadow: none !important; }
 .qa-notext #clubWheelScreen h2, .qa-notext .clubVs strong { background: none !important; filter: none !important; }
+
+
+/* C2W-005 extra 5: phone plate edge cleanup */
+@media (max-width: 760px) and (orientation: portrait) {
+  .phoneSceneBackground img {
+    object-position: 50% 50%;
+  }
+}
