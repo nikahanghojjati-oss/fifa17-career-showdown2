@@ -75,7 +75,7 @@ ready_all = [j for j in jobs if ready(j)]
 MAX_CHATS, MAX_IMAGE, MAX_WORK = 5, 2, 2
 # "IN PROGRESS · RESUME" = work started but no chat is on it now (Claude answered a block or ran a fix);
 # Nik types the number in a new chat, which carries on from the status file. Listed first under Type next.
-resume = lambda n: info[n][0].startswith("IN PROGRESS") and ("RESUME" in info[n][0].upper() or "FIX" in info[n][0].upper())
+resume = lambda n: info[n][0].startswith("IN PROGRESS") and "CLAUDE" not in info[n][0].upper() and ("RESUME" in info[n][0].upper() or "FIX" in info[n][0].upper())
 fixing = lambda n: info[n][0].startswith("IN PROGRESS") and "FIX" in info[n][0].upper()
 busy = [j for j in jobs if info[j["number"]][0].startswith("IN PROGRESS") and not resume(j["number"])]
 # Image jobs (lane IMG) run from tickets in a plain new ChatGPT chat outside the project (Nik, 2026-10-02 14:53);
