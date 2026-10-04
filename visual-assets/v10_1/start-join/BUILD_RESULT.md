@@ -136,3 +136,24 @@ Measured in a real browser on SJ1 to SJ8: scrollHeight equals the viewport at al
 ## Fix round (JOBS 90, 190, 191)
 
 Four review items applied, none blocked: main panel moved up and made taller so the privacy line clears the buttons; the Nik card shows the neutral "need to connect" text unless Nik is the viewer; the preview chip sits higher; the tagline is spaced and fits one line. Phone layout unchanged.
+
+
+## Motion (JOB-091 part 1)
+
+The standard entrance uses the shared JOB-016 motion contract. Desktop Daniel and Nik remain baked into the approved plate, so their likeness and registration move only with the scene settle; the separate phone hero cutouts receive the character slides. No state-specific reveal helper is introduced in part 1.
+
+| Order | Time | Target selector | Shared role | Motion |
+| ---: | --- | --- | --- | --- |
+| 1 | 0–400 ms | `.sd-stage__layer--plate` | `scene` | Stadium fades from black and settles from the shared scene scale. |
+| 2 | 150–600 ms | `.sj-phoneHero--daniel` | `character-left` | Daniel enters from the left on phone; desktop Daniel stays registered in the plate. |
+| 3 | 150–600 ms | `.sj-phoneHero--nik` | `character-right` | Nik enters from the right on phone; desktop Nik stays registered in the plate. |
+| 4 | 250–700 ms | `.sj-title` | `title` | CONNECT PLAYERS wipes on and receives the shared one-shot glint. |
+| 5 | 400–900 ms | `.sj-role-panel--daniel` | `panel` | Daniel · Start card rises first. |
+| 6 | 460–960 ms | `.sj-role-panel--nik` | `panel` | Nik · Join card follows at the shared 60 ms stagger. |
+| 7 | 520–1020 ms | `.sj-current-panel` | `panel` | Current Connection rises after both role cards. |
+| 8 | 580–1080 ms | `.sj-lock-slot` | `panel` | Privacy line arrives as the final supporting panel beat. |
+| 9 | 760–1080 ms | live `.sd-btn--primary` created by `makeActionButton()` | `button` | The real state-specific primary action pulses once as the payoff. |
+
+`sdEnter(stage)` assigns panel `--i` values from DOM order, caps the stagger inside the 1.2 s budget, and collapses the whole entrance to the shared 150 ms fade when reduced motion is requested.
+
+DEFAULT: JOB-091 part 1 defines no additional state-specific reveal helper, so this part wires only the standard entrance and leaves connection/reveal moments untouched for the later motion parts.
