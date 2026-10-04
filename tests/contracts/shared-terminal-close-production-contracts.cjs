@@ -70,8 +70,7 @@ const providerSource=fs.readFileSync("js/sparkTerminalClose.js","utf8");assert.m
 assert.match(runtime,/showdown\.sharedJourney\?\.rivalryId\|\|ptcConfirmedSetupRivalry\(\)\|\|ptcAttachedRivalry\(saveId,playerOneProfileId,playerTwoProfileId\)\|\|""/,"the journey marker and confirmed Setup still win over the attached rivalry");
 assert.ok(runtime.includes('s.attached===true&&b&&b.saveId===saveId&&((b.managerRole==="playerOne"&&b.profileId===playerOneProfileId)||(b.managerRole==="playerTwo"&&b.profileId===playerTwoProfileId))&&s.rivalryId'),"only an attached binding for this exact save and manager is used");
 assert.doesNotMatch(runtime,/rememberedRequest/,"page memory alone must not carry the rivalry binding");
-assert.ok(runtime.includes('!rivalryWakeRequested&&ptcShowdown()?.sharedJourney?.mode==="shared"&&api&&typeof api.initialize==="function"&&(rivalryState?.initialized!==true||(rivalryState.attached!==true&&rivalryState.status==="unavailable"))'),"after a reload Terminal Close asks Connected Rivalry to restore its durable binding, and retries while it is unavailable and unattached");
-assert.ok(runtime.includes('api.initialize()).catch(()=>{}).finally(()=>{rivalryWakeRequested=false;})'),"one initialize at a time; a failed or finished attempt allows the next wake to retry");
+assert.match(runtime,/!rivalryWakeRequested&&ptcShowdown\(\)\?\.sharedJourney\?\.mode==="shared"&&api&&typeof api\.initialize==="function"&&api\.getState\?\.\(\)\?\.initialized!==true/,"after a reload Terminal Close asks Connected Rivalry to restore its durable binding once");
 assert.ok(runtime.includes('"career-mode-connected-rivalry-state-change"'),"the restored binding wakes Terminal Close");
 // Active-journey refreshers lose read access once the rivalry closes; their failures stay quiet only after a verified CLOSED read.
 assert.match(runtime,/reportUnlessClosed:ptcReportUnlessClosed/);
