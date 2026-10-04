@@ -50,6 +50,7 @@
     if (compact) button.title = label;
     if (meta.id) button.id = meta.id;
     if (meta.hook) button.dataset.productAction = meta.hook;
+    if (primary) button.dataset.sdEnter = "button";
     return button;
   }
 
@@ -347,6 +348,7 @@
     mountStage(MAP);
     wireBack(FX.strings);
     render(FX, frameId);
+    window.sdEnter(stage);
     window.__startJoinReady = true;
   }
 
