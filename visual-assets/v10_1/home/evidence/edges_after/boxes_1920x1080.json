@@ -1,0 +1,330 @@
+[
+  {
+    "name": "face_daniel",
+    "type": "protected",
+    "left": 832.5358851674641,
+    "top": 97.60765550239235,
+    "right": 1044.9760765550238,
+    "bottom": 459.33014354066984
+  },
+  {
+    "name": "face_nik",
+    "type": "protected",
+    "left": 1205.7416267942583,
+    "top": 34.44976076555024,
+    "right": 1492.822966507177,
+    "bottom": 453.58851674641147
+  },
+  {
+    "name": "hand_daniel",
+    "type": "protected",
+    "left": 711.9617224880383,
+    "top": 442.10526315789474,
+    "right": 918.6602870813397,
+    "bottom": 625.8373205741627
+  },
+  {
+    "name": "area_left-column zones 3-5",
+    "type": "areaMend",
+    "left": 25.84375,
+    "top": 115.421875,
+    "right": 697.5625,
+    "bottom": 800.921875
+  },
+  {
+    "name": "area_top-right zones 1-2",
+    "type": "areaMend",
+    "left": 1504.890625,
+    "top": 0,
+    "right": 1920,
+    "bottom": 123.421875
+  },
+  {
+    "name": "zone0_top",
+    "type": "mend",
+    "left": 0,
+    "top": 7.46875,
+    "right": 1122.46875,
+    "bottom": 43.015625
+  },
+  {
+    "name": "zone0_bottom",
+    "type": "mend",
+    "left": 0,
+    "top": 78.671875,
+    "right": 834.234375,
+    "bottom": 114.21875
+  },
+  {
+    "name": "zone0_bottom",
+    "type": "mend",
+    "left": 1043.265625,
+    "top": 78.671875,
+    "right": 1122.453125,
+    "bottom": 114.21875
+  },
+  {
+    "name": "zone0_bottom",
+    "type": "mend",
+    "left": 826.234375,
+    "top": 78.671875,
+    "right": 1051.265625,
+    "bottom": 99.296875
+  },
+  {
+    "name": "zone0_right",
+    "type": "mend",
+    "left": 1093.796875,
+    "top": 14.359375,
+    "right": 1129.34375,
+    "bottom": 107.328125
+  },
+  {
+    "name": "zone1_top",
+    "type": "mend",
+    "left": 1491.109375,
+    "top": 7.46875,
+    "right": 1756.328125,
+    "bottom": 43.015625
+  },
+  {
+    "name": "zone1_top",
+    "type": "mend",
+    "left": 1487.671875,
+    "top": 7.46875,
+    "right": 1499.109375,
+    "bottom": 36.125
+  },
+  {
+    "name": "zone1_bottom",
+    "type": "mend",
+    "left": 1491.109375,
+    "top": 83.265625,
+    "right": 1756.328125,
+    "bottom": 118.8125
+  },
+  {
+    "name": "zone1_left",
+    "type": "mend",
+    "left": 1480.78125,
+    "top": 14.359375,
+    "right": 1516.328125,
+    "bottom": 36.125
+  },
+  {
+    "name": "zone1_left",
+    "type": "mend",
+    "left": 1491.109375,
+    "top": 28.140625,
+    "right": 1516.328125,
+    "bottom": 111.921875
+  },
+  {
+    "name": "zone1_right",
+    "type": "mend",
+    "left": 1727.671875,
+    "top": 14.359375,
+    "right": 1763.21875,
+    "bottom": 111.921875
+  },
+  {
+    "name": "zone2_top",
+    "type": "mend",
+    "left": 1736.859375,
+    "top": 0,
+    "right": 1919.390625,
+    "bottom": 22.375
+  },
+  {
+    "name": "zone2_bottom",
+    "type": "mend",
+    "left": 1736.859375,
+    "top": 78.671875,
+    "right": 1919.390625,
+    "bottom": 114.21875
+  },
+  {
+    "name": "zone2_left",
+    "type": "mend",
+    "left": 1729.96875,
+    "top": 0,
+    "right": 1765.515625,
+    "bottom": 107.34375
+  },
+  {
+    "name": "zone2_right",
+    "type": "mend",
+    "left": 1890.734375,
+    "top": 0,
+    "right": 1920,
+    "bottom": 107.34375
+  },
+  {
+    "name": "zone3_top",
+    "type": "mend",
+    "left": 35.03125,
+    "top": 117.71875,
+    "right": 705.609375,
+    "bottom": 153.265625
+  },
+  {
+    "name": "zone3_bottom",
+    "type": "mend",
+    "left": 35.03125,
+    "top": 439.25,
+    "right": 705.609375,
+    "bottom": 474.796875
+  },
+  {
+    "name": "zone3_left",
+    "type": "mend",
+    "left": 28.140625,
+    "top": 124.609375,
+    "right": 63.6875,
+    "bottom": 467.90625
+  },
+  {
+    "name": "zone3_right",
+    "type": "mend",
+    "left": 676.953125,
+    "top": 124.609375,
+    "right": 712.5,
+    "bottom": 467.90625
+  },
+  {
+    "name": "zone4_top",
+    "type": "mend",
+    "left": 149.875,
+    "top": 439.25,
+    "right": 619.5,
+    "bottom": 474.796875
+  },
+  {
+    "name": "zone4_bottom",
+    "type": "mend",
+    "left": 149.875,
+    "top": 602.3125,
+    "right": 619.5,
+    "bottom": 637.859375
+  },
+  {
+    "name": "zone4_left",
+    "type": "mend",
+    "left": 142.984375,
+    "top": 446.140625,
+    "right": 178.53125,
+    "bottom": 630.96875
+  },
+  {
+    "name": "zone4_right",
+    "type": "mend",
+    "left": 590.828125,
+    "top": 446.140625,
+    "right": 626.375,
+    "bottom": 630.96875
+  },
+  {
+    "name": "zone5_top",
+    "type": "mend",
+    "left": 29.296875,
+    "top": 596.5625,
+    "right": 619.484375,
+    "bottom": 632.109375
+  },
+  {
+    "name": "zone5_bottom",
+    "type": "mend",
+    "left": 29.296875,
+    "top": 760.78125,
+    "right": 619.484375,
+    "bottom": 796.328125
+  },
+  {
+    "name": "zone5_left",
+    "type": "mend",
+    "left": 22.40625,
+    "top": 603.453125,
+    "right": 57.953125,
+    "bottom": 789.4375
+  },
+  {
+    "name": "zone5_right",
+    "type": "mend",
+    "left": 590.828125,
+    "top": 603.453125,
+    "right": 626.375,
+    "bottom": 789.4375
+  },
+  {
+    "name": "zone6_top",
+    "type": "mend",
+    "left": 1215.515625,
+    "top": 547.1875,
+    "right": 1889.53125,
+    "bottom": 582.734375
+  },
+  {
+    "name": "zone6_bottom",
+    "type": "mend",
+    "left": 1215.515625,
+    "top": 742.40625,
+    "right": 1889.53125,
+    "bottom": 777.953125
+  },
+  {
+    "name": "zone6_left",
+    "type": "mend",
+    "left": 1208.625,
+    "top": 554.078125,
+    "right": 1244.171875,
+    "bottom": 771.0625
+  },
+  {
+    "name": "zone6_right",
+    "type": "mend",
+    "left": 1860.875,
+    "top": 554.078125,
+    "right": 1896.421875,
+    "bottom": 771.0625
+  },
+  {
+    "name": "zone7_top",
+    "type": "mend",
+    "left": 23.546875,
+    "top": 767.671875,
+    "right": 1894.125,
+    "bottom": 803.21875
+  },
+  {
+    "name": "zone7_bottom",
+    "type": "mend",
+    "left": 23.546875,
+    "top": 976.65625,
+    "right": 1894.125,
+    "bottom": 1012.203125
+  },
+  {
+    "name": "zone7_left",
+    "type": "mend",
+    "left": 16.65625,
+    "top": 774.5625,
+    "right": 52.203125,
+    "bottom": 1005.328125
+  },
+  {
+    "name": "zone7_right",
+    "type": "mend",
+    "left": 1865.46875,
+    "top": 774.5625,
+    "right": 1901.015625,
+    "bottom": 1005.328125
+  },
+  {
+    "name": "zone8_top",
+    "type": "mend",
+    "left": 0,
+    "top": 988.140625,
+    "right": 1920,
+    "bottom": 1023.6875
+  }
+]

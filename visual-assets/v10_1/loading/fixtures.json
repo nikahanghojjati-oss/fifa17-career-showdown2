@@ -1,0 +1,329 @@
+{
+  "version": "LOADING_V1_FIXTURES",
+  "authority": "main@2de237391e17c7de2c6deb606b102b68ee640212 (#loadingScreen in index.html; startup lifecycle in js/app.js / js/screens.js) + PRODUCT_TRUTH.md §6–7 + DATA_CONTRACT_V1.md §0",
+  "previewOnly": true,
+  "strings": {
+    "live": {
+      "roundel": [
+        "CM",
+        "17"
+      ],
+      "kicker": "THE RIVALRY STARTS HERE",
+      "title": [
+        "CAREER MODE",
+        "SHOWDOWN 17"
+      ],
+      "edition": "TWO MANAGERS · ONE LEGACY",
+      "loadingStatus": "PREPARING CAREER MODE SHOWDOWN",
+      "support": "TWO MANAGERS · ONE SHOWDOWN",
+      "ariaLabel": "Career Mode Showdown is starting"
+    },
+    "productTruth": {
+      "photoCredit": "Marco Reus photo: Tim Reckmann · CC BY 2.0 · Cropped for display",
+      "photographerUrl": "https://www.flickr.com/photos/foto_db/16204330530/",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    "stateCopy": {
+      "loading": {
+        "text": "Getting Career Mode Showdown ready.",
+        "source": "new"
+      },
+      "empty": {
+        "text": "Nothing is ready to open yet.",
+        "source": "new"
+      },
+      "partial": {
+        "text": "Some startup data is still loading. Continuing with what is available.",
+        "source": "new"
+      },
+      "unavailable": {
+        "text": "Career Mode Showdown cannot finish loading right now. Try again.",
+        "source": "new"
+      },
+      "ready": {
+        "text": "Career Mode Showdown is ready.",
+        "source": "new"
+      }
+    },
+    "interimLabel": "Current Showdown only. Career history is not yet available."
+  },
+  "ids": {
+    "screen": "loadingScreen",
+    "app": "app",
+    "athlete": "startupAthlete",
+    "statusText": "loadingText",
+    "classes": [
+      "startupScene",
+      "startupShard",
+      "startupShardOne",
+      "startupShardTwo",
+      "startupGrid",
+      "startupAthleteFrame",
+      "startupIdentity",
+      "startupRoundel",
+      "startupKicker",
+      "startupEdition",
+      "startupStatus",
+      "startupPulse",
+      "startupSaveNote",
+      "startupPhotoCredit",
+      "is-ready",
+      "is-exiting",
+      "hidden"
+    ]
+  },
+  "frames": {
+    "LD1": {
+      "status": "loading",
+      "previewLabel": "Preview data",
+      "note": "Live startup presentation in progress.",
+      "values": {
+        "statusText": "GETTING CAREER MODE SHOWDOWN READY.",
+        "stateCopySource": "new",
+        "showLiveIdentity": true,
+        "showPhotoCredit": true
+      },
+      "context": {
+        "shown": false
+      },
+      "validationScenario": "VAL_NIK_LEADS"
+    },
+    "LD2": {
+      "status": "ready",
+      "previewLabel": "Preview data",
+      "note": "Live ready/exiting handoff to Home.",
+      "values": {
+        "statusText": "CAREER MODE SHOWDOWN IS READY.",
+        "stateCopySource": "new",
+        "handoffTarget": "mainMenu",
+        "showPhotoCredit": true
+      },
+      "context": {
+        "shown": false
+      },
+      "validationScenario": "VAL_NIK_LEADS"
+    },
+    "LD4_EMPTY": {
+      "status": "empty",
+      "previewLabel": "Preview data",
+      "contractOnly": true,
+      "note": "Contract-only preview; not a distinct live Loading state.",
+      "values": {
+        "statusText": "NOTHING IS READY TO OPEN YET.",
+        "stateCopySource": "new",
+        "showPhotoCredit": true
+      },
+      "context": {
+        "shown": false
+      },
+      "validationScenario": "VAL_NIK_LEADS"
+    },
+    "LD5_PARTIAL": {
+      "status": "partial",
+      "previewLabel": "Preview data",
+      "contractOnly": true,
+      "note": "Contract-only preview; not a distinct live Loading state.",
+      "values": {
+        "statusText": "SOME STARTUP DATA IS STILL LOADING. CONTINUING WITH WHAT IS AVAILABLE.",
+        "stateCopySource": "new",
+        "showPhotoCredit": true
+      },
+      "context": {
+        "shown": false
+      },
+      "validationScenario": "VAL_NIK_LEADS"
+    },
+    "LD6_UNAVAILABLE": {
+      "status": "unavailable",
+      "previewLabel": "Preview data",
+      "contractOnly": true,
+      "note": "Contract-only preview; not a distinct live Loading state.",
+      "values": {
+        "statusText": "CAREER MODE SHOWDOWN CANNOT FINISH LOADING RIGHT NOW. TRY AGAIN.",
+        "stateCopySource": "new",
+        "showPhotoCredit": true
+      },
+      "context": {
+        "shown": false
+      },
+      "validationScenario": "VAL_NIK_LEADS"
+    },
+    "LD7_READY": {
+      "status": "ready",
+      "previewLabel": "Preview data",
+      "contractOnly": true,
+      "note": "Contract ready token alias for the real handoff state.",
+      "values": {
+        "statusText": "CAREER MODE SHOWDOWN IS READY.",
+        "stateCopySource": "new",
+        "handoffTarget": "mainMenu",
+        "showPhotoCredit": true
+      },
+      "context": {
+        "shown": false
+      },
+      "validationScenario": "VAL_NIK_LEADS",
+      "validationOnlyRows": [
+        {
+          "manager": "daniel",
+          "rank": "#2",
+          "rendered": false
+        },
+        {
+          "manager": "nik",
+          "rank": "#1",
+          "rendered": false
+        }
+      ]
+    }
+  },
+  "validationScenarios": {
+    "VAL_NIK_LEADS": {
+      "rendered": false,
+      "previewLabel": "Preview data",
+      "note": "Validation-only fictional data. Loading never renders these gameplay/history values.",
+      "context": {
+        "season": 3,
+        "totalSeasons": 3,
+        "leagueId": "premier_league",
+        "clubs": {
+          "daniel": "Northbridge FC",
+          "nik": "Riverside Athletic"
+        }
+      },
+      "managerOrder": [
+        "daniel",
+        "nik"
+      ],
+      "seasons": [
+        {
+          "season": 1,
+          "daniel": {
+            "leaguePosition": 1,
+            "leaguePoints": 102,
+            "leagueGoals": 105,
+            "domesticCup": true,
+            "championsLeague": false,
+            "topScorer": false,
+            "topAssist": true
+          },
+          "nik": {
+            "leaguePosition": 2,
+            "leaguePoints": 94,
+            "leagueGoals": 98,
+            "domesticCup": false,
+            "championsLeague": true,
+            "topScorer": true,
+            "topAssist": false
+          },
+          "expected": {
+            "score": {
+              "daniel": 6,
+              "nik": 6
+            },
+            "winner": "daniel",
+            "tiebreak": "league-position"
+          }
+        },
+        {
+          "season": 2,
+          "daniel": {
+            "leaguePosition": 3,
+            "leaguePoints": 90,
+            "leagueGoals": 88,
+            "domesticCup": true,
+            "championsLeague": false,
+            "topScorer": false,
+            "topAssist": true
+          },
+          "nik": {
+            "leaguePosition": 1,
+            "leaguePoints": 101,
+            "leagueGoals": 92,
+            "domesticCup": false,
+            "championsLeague": true,
+            "topScorer": true,
+            "topAssist": false
+          },
+          "expected": {
+            "score": {
+              "daniel": 2,
+              "nik": 10
+            },
+            "winner": "nik",
+            "tiebreak": "none"
+          }
+        },
+        {
+          "season": 3,
+          "daniel": {
+            "leaguePosition": 2,
+            "leaguePoints": 98,
+            "leagueGoals": 99,
+            "domesticCup": false,
+            "championsLeague": true,
+            "topScorer": false,
+            "topAssist": false
+          },
+          "nik": {
+            "leaguePosition": 1,
+            "leaguePoints": 100,
+            "leagueGoals": 101,
+            "domesticCup": true,
+            "championsLeague": false,
+            "topScorer": false,
+            "topAssist": true
+          },
+          "expected": {
+            "score": {
+              "daniel": 5,
+              "nik": 6
+            },
+            "winner": "nik",
+            "tiebreak": "none"
+          }
+        }
+      ],
+      "expected": {
+        "showdownTotals": {
+          "daniel": 13,
+          "nik": 22
+        },
+        "finalWinner": "nik",
+        "margin": 9,
+        "careerTotals": {
+          "daniel": 13,
+          "nik": 22
+        },
+        "trophies": {
+          "daniel": {
+            "championsLeague": 1,
+            "leagueTitles": 1,
+            "domesticCups": 2,
+            "total": 4
+          },
+          "nik": {
+            "championsLeague": 2,
+            "leagueTitles": 2,
+            "domesticCups": 1,
+            "total": 5
+          }
+        }
+      }
+    }
+  },
+  "routes": {
+    "entry": {
+      "type": "automatic-startup",
+      "source": "document startup",
+      "screen": "loadingScreen"
+    },
+    "exit": {
+      "type": "automatic-handoff",
+      "target": "mainMenu"
+    },
+    "back": null,
+    "bottomBar": false,
+    "slowNetworkRoute": null
+  }
+}

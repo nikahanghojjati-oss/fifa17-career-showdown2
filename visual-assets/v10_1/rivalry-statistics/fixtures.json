@@ -1,0 +1,911 @@
+{
+  "version": "RIVALRY_STATISTICS_V1_FIXTURES",
+  "authority": "main@2de237391e17c7de2c6deb606b102b68ee640212 + DATA_CONTRACT_V1 §0/§5/§9 + PRODUCT_TRUTH.md + JOB-004",
+  "strings": {
+    "heading": "RIVALRY STATISTICS",
+    "back": "BACK TO SHOWDOWN HOME",
+    "previewLabel": "Preview data",
+    "interimLabel": "Current Showdown only. Career history is not yet available.",
+    "heroScoreLabel": "SHOWDOWN POINTS",
+    "sections": {
+      "rivalryTotals": "RIVALRY TOTALS",
+      "headToHead": "HEAD-TO-HEAD",
+      "seasonBySeason": "SEASON-BY-SEASON",
+      "trophyCabinet": "TROPHY CABINET"
+    },
+    "comparisonRows": [
+      "Showdown Points",
+      "Season Wins",
+      "Total Trophies",
+      "Champions Leagues",
+      "League Titles",
+      "Domestic Cups",
+      "Transfer Signings"
+    ],
+    "seasonLabelTemplate": "SEASON {SEASON}",
+    "draw": "Draw",
+    "unavailable": "Unavailable",
+    "emptySeasonHistory": "No season has been completed yet. Statistics will build automatically as seasons are finished.",
+    "noActiveShowdown": "No active showdown is available.",
+    "leagueFallback": "League not selected",
+    "clubFallback": "Club",
+    "stringsNotOnMain": {
+      "note": "Factory strings with no text on main: TROPHY CABINET comes from the mockup, Unavailable from JOB-004. On main, HEAD-TO-HEAD heads the comparison table, not a W/D/L block.",
+      "values": [
+        "TROPHY CABINET",
+        "Unavailable"
+      ]
+    },
+    "decorativeCopy": {
+      "eyebrow": {
+        "text": "CAREER MODE SHOWDOWN 17",
+        "source": "mockup"
+      },
+      "tagline": {
+        "text": "TWO MANAGERS • ONE LEGACY",
+        "source": "mockup"
+      },
+      "leftBanner": {
+        "text": "FOOTBALL BRINGS US TOGETHER",
+        "source": "mockup"
+      },
+      "rightBanner": {
+        "text": "DIFFERENT MANAGERS SAME PASSION",
+        "source": "mockup"
+      }
+    },
+    "seasonTableHeaders": [
+      {
+        "text": "SEASON",
+        "source": "new"
+      },
+      {
+        "text": "DANIEL",
+        "source": "new",
+        "role": "daniel"
+      },
+      {
+        "text": "NIK",
+        "source": "new",
+        "role": "nik"
+      },
+      {
+        "text": "WINNER",
+        "source": "new"
+      }
+    ],
+    "trophyLabels": {
+      "showdownChampion": {
+        "text": "Showdown Champion",
+        "source": "new"
+      },
+      "leagueTitle": {
+        "text": "League Title",
+        "source": "new"
+      },
+      "domesticCup": {
+        "text": "Domestic Cup",
+        "source": "new"
+      },
+      "championsLeague": {
+        "text": "Champions League",
+        "source": "new"
+      }
+    },
+    "stateCopy": {
+      "loading": {
+        "text": "Loading rivalry statistics…",
+        "source": "new"
+      },
+      "unavailable": {
+        "text": "Rivalry statistics are unavailable right now.",
+        "source": "new"
+      },
+      "partial": {
+        "text": "Partial rivalry history. Totals reflect available seasons only.",
+        "source": "new"
+      },
+      "coverage": {
+        "text": "{readable} of {indexed} recorded seasons available.",
+        "source": "new"
+      },
+      "transferUnavailable": {
+        "text": "Transfer history is unavailable.",
+        "source": "new"
+      }
+    }
+  },
+  "ids": {
+    "screen": "statistics",
+    "content": "rivalryStatisticsContent",
+    "dashboardEntryButton": "rivalryStatisticsButton",
+    "careerEntryButton": "careerStatisticsRivalryButton",
+    "backClass": "backButton",
+    "screenTitle": "statisticsScreenTitle"
+  },
+  "frames": {
+    "RV1": {
+      "note": "Active five-season Showdown after two completed seasons. All values are fictional preview data.",
+      "previewLabel": "Preview data",
+      "interimLabel": "Current Showdown only. Career history is not yet available.",
+      "status": "ready",
+      "ui": {
+        "lifecycle": "active",
+        "viewer": "either"
+      },
+      "managerOrder": [
+        "daniel",
+        "nik"
+      ],
+      "leagueId": "premier_league",
+      "clubs": {
+        "daniel": "Northbridge FC",
+        "nik": "Harbor City"
+      },
+      "season": 3,
+      "totalSeasons": 5,
+      "score": {
+        "daniel": 13,
+        "nik": 12
+      },
+      "managerRecords": {
+        "daniel": {
+          "seasonWins": 1,
+          "seasonDraws": 0,
+          "seasonLosses": 1,
+          "championsLeagues": 1,
+          "leagueTitles": 1,
+          "domesticCups": 2,
+          "totalTrophies": 4,
+          "hundredPointSeasons": 1,
+          "hundredGoalSeasons": 0,
+          "topScorerSeasons": 1,
+          "topAssistSeasons": 1,
+          "perfectSeasons": 1,
+          "bestSeasonScore": 11
+        },
+        "nik": {
+          "seasonWins": 1,
+          "seasonDraws": 0,
+          "seasonLosses": 1,
+          "championsLeagues": 1,
+          "leagueTitles": 1,
+          "domesticCups": 0,
+          "totalTrophies": 2,
+          "hundredPointSeasons": 1,
+          "hundredGoalSeasons": 2,
+          "topScorerSeasons": 1,
+          "topAssistSeasons": 1,
+          "perfectSeasons": 0,
+          "bestSeasonScore": 10
+        }
+      },
+      "seasons": [
+        {
+          "season": 1,
+          "score": {
+            "daniel": 11,
+            "nik": 2
+          },
+          "winner": "daniel",
+          "leaguePosition": {
+            "daniel": 1,
+            "nik": 2
+          },
+          "leaguePoints": {
+            "daniel": 101,
+            "nik": 88
+          },
+          "leagueGoals": {
+            "daniel": 92,
+            "nik": 105
+          }
+        },
+        {
+          "season": 2,
+          "score": {
+            "daniel": 2,
+            "nik": 10
+          },
+          "winner": "nik",
+          "leaguePosition": {
+            "daniel": 3,
+            "nik": 1
+          },
+          "leaguePoints": {
+            "daniel": 82,
+            "nik": 104
+          },
+          "leagueGoals": {
+            "daniel": 75,
+            "nik": 112
+          }
+        }
+      ],
+      "transfers": {
+        "status": "ready",
+        "fixtureOnlyShape": true,
+        "contractNote": "Temporary visual-only per-season summary shape until Team G G-10/G-11 publishes exact nested field names.",
+        "previewPerSeasonSummary": [
+          {
+            "season": 1,
+            "signings": {
+              "daniel": 3,
+              "nik": 4
+            },
+            "guesses": {
+              "daniel": {
+                "correct": 1,
+                "total": 4
+              },
+              "nik": {
+                "correct": 2,
+                "total": 3
+              }
+            }
+          },
+          {
+            "season": 2,
+            "signings": {
+              "daniel": 2,
+              "nik": 3
+            },
+            "guesses": {
+              "daniel": {
+                "correct": 2,
+                "total": 3
+              },
+              "nik": {
+                "correct": 1,
+                "total": 3
+              }
+            }
+          }
+        ]
+      }
+    },
+    "RV2": {
+      "note": "Completed three-season Showdown including a season level on points and decided by league position (Daniel 4th, Nik 5th). A drawn season needs equal league positions, which two managers in one league cannot have. All values are fictional preview data.",
+      "previewLabel": "Preview data",
+      "interimLabel": "Current Showdown only. Career history is not yet available.",
+      "status": "ready",
+      "ui": {
+        "lifecycle": "completed",
+        "viewer": "either"
+      },
+      "managerOrder": [
+        "daniel",
+        "nik"
+      ],
+      "leagueId": "premier_league",
+      "clubs": {
+        "daniel": "Northbridge FC",
+        "nik": "Harbor City"
+      },
+      "season": 3,
+      "totalSeasons": 3,
+      "score": {
+        "daniel": 16,
+        "nik": 15
+      },
+      "managerRecords": {
+        "daniel": {
+          "seasonWins": 2,
+          "seasonDraws": 0,
+          "seasonLosses": 1,
+          "championsLeagues": 1,
+          "leagueTitles": 1,
+          "domesticCups": 3,
+          "totalTrophies": 5,
+          "hundredPointSeasons": 1,
+          "hundredGoalSeasons": 1,
+          "topScorerSeasons": 1,
+          "topAssistSeasons": 2,
+          "perfectSeasons": 1,
+          "bestSeasonScore": 11
+        },
+        "nik": {
+          "seasonWins": 1,
+          "seasonDraws": 0,
+          "seasonLosses": 2,
+          "championsLeagues": 1,
+          "leagueTitles": 1,
+          "domesticCups": 1,
+          "totalTrophies": 3,
+          "hundredPointSeasons": 1,
+          "hundredGoalSeasons": 3,
+          "topScorerSeasons": 2,
+          "topAssistSeasons": 1,
+          "perfectSeasons": 0,
+          "bestSeasonScore": 10
+        }
+      },
+      "seasons": [
+        {
+          "season": 1,
+          "score": {
+            "daniel": 11,
+            "nik": 2
+          },
+          "winner": "daniel",
+          "leaguePosition": {
+            "daniel": 1,
+            "nik": 2
+          },
+          "leaguePoints": {
+            "daniel": 101,
+            "nik": 88
+          },
+          "leagueGoals": {
+            "daniel": 92,
+            "nik": 105
+          }
+        },
+        {
+          "season": 2,
+          "score": {
+            "daniel": 2,
+            "nik": 10
+          },
+          "winner": "nik",
+          "leaguePosition": {
+            "daniel": 3,
+            "nik": 1
+          },
+          "leaguePoints": {
+            "daniel": 82,
+            "nik": 104
+          },
+          "leagueGoals": {
+            "daniel": 75,
+            "nik": 112
+          }
+        },
+        {
+          "season": 3,
+          "score": {
+            "daniel": 3,
+            "nik": 3
+          },
+          "winner": "daniel",
+          "leaguePosition": {
+            "daniel": 4,
+            "nik": 5
+          },
+          "leaguePoints": {
+            "daniel": 70,
+            "nik": 70
+          },
+          "leagueGoals": {
+            "daniel": 100,
+            "nik": 110
+          }
+        }
+      ],
+      "transfers": {
+        "status": "ready",
+        "fixtureOnlyShape": true,
+        "contractNote": "Temporary visual-only per-season summary shape until Team G G-10/G-11 publishes exact nested field names.",
+        "previewPerSeasonSummary": [
+          {
+            "season": 1,
+            "signings": {
+              "daniel": 3,
+              "nik": 4
+            },
+            "guesses": {
+              "daniel": {
+                "correct": 1,
+                "total": 4
+              },
+              "nik": {
+                "correct": 2,
+                "total": 3
+              }
+            }
+          },
+          {
+            "season": 2,
+            "signings": {
+              "daniel": 2,
+              "nik": 3
+            },
+            "guesses": {
+              "daniel": {
+                "correct": 2,
+                "total": 3
+              },
+              "nik": {
+                "correct": 1,
+                "total": 3
+              }
+            }
+          },
+          {
+            "season": 3,
+            "signings": {
+              "daniel": 1,
+              "nik": 2
+            },
+            "guesses": {
+              "daniel": {
+                "correct": 1,
+                "total": 2
+              },
+              "nik": {
+                "correct": 1,
+                "total": 2
+              }
+            }
+          }
+        ]
+      }
+    },
+    "RV3": {
+      "note": "First season with no completed season result. The read succeeded and the rivalry result history is honestly empty.",
+      "previewLabel": "Preview data",
+      "interimLabel": "Current Showdown only. Career history is not yet available.",
+      "status": "empty",
+      "ui": {
+        "lifecycle": "active",
+        "viewer": "either"
+      },
+      "managerOrder": [
+        "daniel",
+        "nik"
+      ],
+      "leagueId": "laliga",
+      "clubs": {
+        "daniel": "Old Town CF",
+        "nik": "Riverside Athletic"
+      },
+      "season": 1,
+      "totalSeasons": 1,
+      "score": {
+        "daniel": 0,
+        "nik": 0
+      },
+      "managerRecords": {
+        "daniel": {
+          "seasonWins": 0,
+          "seasonDraws": 0,
+          "seasonLosses": 0,
+          "championsLeagues": 0,
+          "leagueTitles": 0,
+          "domesticCups": 0,
+          "totalTrophies": 0,
+          "hundredPointSeasons": 0,
+          "hundredGoalSeasons": 0,
+          "topScorerSeasons": 0,
+          "topAssistSeasons": 0,
+          "perfectSeasons": 0,
+          "bestSeasonScore": null
+        },
+        "nik": {
+          "seasonWins": 0,
+          "seasonDraws": 0,
+          "seasonLosses": 0,
+          "championsLeagues": 0,
+          "leagueTitles": 0,
+          "domesticCups": 0,
+          "totalTrophies": 0,
+          "hundredPointSeasons": 0,
+          "hundredGoalSeasons": 0,
+          "topScorerSeasons": 0,
+          "topAssistSeasons": 0,
+          "perfectSeasons": 0,
+          "bestSeasonScore": null
+        }
+      },
+      "seasons": [],
+      "transfers": {
+        "status": "empty",
+        "fixtureOnlyShape": true,
+        "previewPerSeasonSummary": []
+      }
+    },
+    "RV4": {
+      "note": "Rivalry history is readable after one Bundesliga season, but transfer history failed independently. Non-transfer values remain visible.",
+      "previewLabel": "Preview data",
+      "interimLabel": "Current Showdown only. Career history is not yet available.",
+      "status": "ready",
+      "ui": {
+        "lifecycle": "active",
+        "viewer": "either"
+      },
+      "managerOrder": [
+        "daniel",
+        "nik"
+      ],
+      "leagueId": "bundesliga",
+      "clubs": {
+        "daniel": "Westfalen 04",
+        "nik": "Rhine City"
+      },
+      "season": 2,
+      "totalSeasons": 3,
+      "score": {
+        "daniel": 2,
+        "nik": 5
+      },
+      "managerRecords": {
+        "daniel": {
+          "seasonWins": 0,
+          "seasonDraws": 0,
+          "seasonLosses": 1,
+          "championsLeagues": 0,
+          "leagueTitles": 0,
+          "domesticCups": 1,
+          "totalTrophies": 1,
+          "hundredPointSeasons": 0,
+          "hundredGoalSeasons": 0,
+          "topScorerSeasons": 1,
+          "topAssistSeasons": 0,
+          "perfectSeasons": 0,
+          "bestSeasonScore": 2
+        },
+        "nik": {
+          "seasonWins": 1,
+          "seasonDraws": 0,
+          "seasonLosses": 0,
+          "championsLeagues": 0,
+          "leagueTitles": 1,
+          "domesticCups": 0,
+          "totalTrophies": 1,
+          "hundredPointSeasons": 0,
+          "hundredGoalSeasons": 1,
+          "topScorerSeasons": 0,
+          "topAssistSeasons": 1,
+          "perfectSeasons": 0,
+          "bestSeasonScore": 5
+        }
+      },
+      "seasons": [
+        {
+          "season": 1,
+          "score": {
+            "daniel": 2,
+            "nik": 5
+          },
+          "winner": "nik",
+          "leaguePosition": {
+            "daniel": 2,
+            "nik": 1
+          },
+          "leaguePoints": {
+            "daniel": 90,
+            "nik": 95
+          },
+          "leagueGoals": {
+            "daniel": 80,
+            "nik": 104
+          }
+        }
+      ],
+      "transfers": {
+        "status": "unavailable",
+        "fixtureOnlyShape": true,
+        "contractNote": "No transfer counts are present because an unavailable transfer read must never be represented as zero."
+      }
+    },
+    "RV5": {
+      "note": "Fictional preview setup. Read in flight: no stale or fabricated result values.",
+      "previewLabel": "Preview data",
+      "interimLabel": "Current Showdown only. Career history is not yet available.",
+      "status": "loading",
+      "ui": {
+        "lifecycle": "active",
+        "viewer": "either",
+        "messageKey": "loading"
+      },
+      "managerOrder": [
+        "daniel",
+        "nik"
+      ],
+      "leagueId": "premier_league",
+      "clubs": {
+        "daniel": "Northbridge FC",
+        "nik": "Harbor City"
+      },
+      "season": 3,
+      "totalSeasons": 5,
+      "transfers": {
+        "status": "loading",
+        "fixtureOnlyShape": true
+      }
+    },
+    "RV6": {
+      "note": "Fictional preview setup. Failed result read: no zero score, empty-history claim or trophy count. Known setup can remain visible.",
+      "previewLabel": "Preview data",
+      "interimLabel": "Current Showdown only. Career history is not yet available.",
+      "status": "unavailable",
+      "ui": {
+        "lifecycle": "active",
+        "viewer": "either",
+        "messageKey": "unavailable"
+      },
+      "managerOrder": [
+        "daniel",
+        "nik"
+      ],
+      "leagueId": "premier_league",
+      "clubs": {
+        "daniel": "Northbridge FC",
+        "nik": "Harbor City"
+      },
+      "season": 3,
+      "totalSeasons": 5,
+      "transfers": {
+        "status": "unavailable",
+        "fixtureOnlyShape": true
+      }
+    },
+    "RV7": {
+      "note": "Fictional partial current-Showdown read: season 1 readable, season 2 unreadable. Fixture coverage counts recorded season segments (readable/indexed), not career Showdowns; final provider coverage binding remains Team G adapter work. Display visible coverage and available-subset totals, never complete/final totals.",
+      "previewLabel": "Preview data",
+      "interimLabel": "Current Showdown only. Career history is not yet available.",
+      "status": "partial",
+      "ui": {
+        "lifecycle": "active",
+        "viewer": "either",
+        "messageKey": "partial",
+        "coverageKey": "coverage"
+      },
+      "managerOrder": [
+        "daniel",
+        "nik"
+      ],
+      "leagueId": "premier_league",
+      "clubs": {
+        "daniel": "Northbridge FC",
+        "nik": "Harbor City"
+      },
+      "season": 3,
+      "totalSeasons": 5,
+      "score": {
+        "daniel": 11,
+        "nik": 2
+      },
+      "managerRecords": {
+        "daniel": {
+          "seasonWins": 1,
+          "seasonDraws": 0,
+          "seasonLosses": 0,
+          "championsLeagues": 1,
+          "leagueTitles": 1,
+          "domesticCups": 1,
+          "totalTrophies": 3,
+          "hundredPointSeasons": 1,
+          "hundredGoalSeasons": 0,
+          "topScorerSeasons": 1,
+          "topAssistSeasons": 0,
+          "perfectSeasons": 1,
+          "bestSeasonScore": 11
+        },
+        "nik": {
+          "seasonWins": 0,
+          "seasonDraws": 0,
+          "seasonLosses": 1,
+          "championsLeagues": 0,
+          "leagueTitles": 0,
+          "domesticCups": 0,
+          "totalTrophies": 0,
+          "hundredPointSeasons": 0,
+          "hundredGoalSeasons": 1,
+          "topScorerSeasons": 1,
+          "topAssistSeasons": 0,
+          "perfectSeasons": 0,
+          "bestSeasonScore": 2
+        }
+      },
+      "seasons": [
+        {
+          "season": 1,
+          "score": {
+            "daniel": 11,
+            "nik": 2
+          },
+          "winner": "daniel",
+          "leaguePosition": {
+            "daniel": 1,
+            "nik": 2
+          },
+          "leaguePoints": {
+            "daniel": 101,
+            "nik": 88
+          },
+          "leagueGoals": {
+            "daniel": 92,
+            "nik": 105
+          }
+        }
+      ],
+      "transfers": {
+        "status": "unavailable",
+        "fixtureOnlyShape": true
+      },
+      "coverage": {
+        "readable": 1,
+        "indexed": 2
+      }
+    }
+  },
+  "routes": {
+    "dashboard": {
+      "from": "dashboard",
+      "controlId": "rivalryStatisticsButton",
+      "controlText": "RIVALRY STATISTICS",
+      "flow": "openOptionalModule('statistics') -> openRivalryStatistics() -> showScreen('statistics')"
+    },
+    "careerStatistics": {
+      "from": "careerStatistics",
+      "controlId": "careerStatisticsRivalryButton",
+      "controlText": "CURRENT RIVALRY STATISTICS",
+      "flow": "openRivalryStatistics() -> showScreen('statistics')",
+      "visibleWhen": "currentShowdown exists"
+    },
+    "completedShowdown": {
+      "from": "dashboard completion hub",
+      "controlText": "RIVALRY STATISTICS",
+      "flow": "openOptionalModule('statistics') -> openRivalryStatistics() -> showScreen('statistics')"
+    },
+    "screen": "statistics",
+    "back": {
+      "controlClass": "backButton",
+      "controlText": "BACK TO SHOWDOWN HOME",
+      "handler": "navigateBackSmart()",
+      "safeTargets": [
+        "dashboard",
+        "mainMenu"
+      ]
+    },
+    "topNavigation": {
+      "tab": "STATS",
+      "tabs": [
+        "HOME",
+        "CAREER",
+        "STANDINGS",
+        "STATS",
+        "RULES"
+      ],
+      "settingsIcon": true
+    }
+  },
+  "fixtureAudit": {
+    "fixtureOnly": true,
+    "note": "Published fictional scoring inputs for arithmetic verification only; not DATA_CONTRACT_V1 §5 runtime fields. League title and threshold bonuses are derived from each completed season row. Never expose unpublished rival inputs. Active/partial outcomes below describe readable-subset leads, not final winners. No outcome exists for loading, unavailable or successful-empty reads.",
+    "seasonInputs": {
+      "RV1": {
+        "1": {
+          "daniel": {
+            "domesticCup": true,
+            "championsLeague": true,
+            "topScorer": true,
+            "topAssist": false
+          },
+          "nik": {
+            "domesticCup": false,
+            "championsLeague": false,
+            "topScorer": true,
+            "topAssist": false
+          }
+        },
+        "2": {
+          "daniel": {
+            "domesticCup": true,
+            "championsLeague": false,
+            "topScorer": false,
+            "topAssist": true
+          },
+          "nik": {
+            "domesticCup": false,
+            "championsLeague": true,
+            "topScorer": false,
+            "topAssist": true
+          }
+        }
+      },
+      "RV2": {
+        "1": {
+          "daniel": {
+            "domesticCup": true,
+            "championsLeague": true,
+            "topScorer": true,
+            "topAssist": false
+          },
+          "nik": {
+            "domesticCup": false,
+            "championsLeague": false,
+            "topScorer": true,
+            "topAssist": false
+          }
+        },
+        "2": {
+          "daniel": {
+            "domesticCup": true,
+            "championsLeague": false,
+            "topScorer": false,
+            "topAssist": true
+          },
+          "nik": {
+            "domesticCup": false,
+            "championsLeague": true,
+            "topScorer": false,
+            "topAssist": true
+          }
+        },
+        "3": {
+          "daniel": {
+            "domesticCup": true,
+            "championsLeague": false,
+            "topScorer": false,
+            "topAssist": true
+          },
+          "nik": {
+            "domesticCup": true,
+            "championsLeague": false,
+            "topScorer": true,
+            "topAssist": false
+          }
+        }
+      },
+      "RV3": {},
+      "RV4": {
+        "1": {
+          "daniel": {
+            "domesticCup": true,
+            "championsLeague": false,
+            "topScorer": true,
+            "topAssist": false
+          },
+          "nik": {
+            "domesticCup": false,
+            "championsLeague": false,
+            "topScorer": false,
+            "topAssist": true
+          }
+        }
+      },
+      "RV5": {},
+      "RV6": {},
+      "RV7": {
+        "1": {
+          "daniel": {
+            "domesticCup": true,
+            "championsLeague": true,
+            "topScorer": true,
+            "topAssist": false
+          },
+          "nik": {
+            "domesticCup": false,
+            "championsLeague": false,
+            "topScorer": true,
+            "topAssist": false
+          }
+        }
+      }
+    },
+    "scoreOutcomes": {
+      "RV1": {
+        "winner": "daniel",
+        "margin": 1,
+        "final": false
+      },
+      "RV2": {
+        "winner": "daniel",
+        "margin": 1,
+        "final": true
+      },
+      "RV4": {
+        "winner": "nik",
+        "margin": 3,
+        "final": false
+      },
+      "RV7": {
+        "winner": "daniel",
+        "margin": 9,
+        "final": false
+      }
+    }
+  }
+}

@@ -1,0 +1,292 @@
+{
+  "version": "HOME_V2_SEVEN_DESTINATIONS",
+  "authority": "origin/main@2de237391e17c7de2c6deb606b102b68ee640212 (index.html #mainMenu/#topHeader, js/menuExperience.js getSavedShowdownMenuMeta + media selector, js/onlinePlayerIdentity.js configureOnlineProductSurface + ensureOnlineIdentityBadge) + explicit Sol/owner Audius exception (CLOUD_BRIEF_HOME_V1_R3 section S, D5). Audius strings follow the direction reference visual/r9-audius-home-player (read-only, never merged).",
+  "strings": {
+    "brandTitle": "CAREER MODE",
+    "brandSub": "SHOWDOWN // 17",
+    "eyebrow": "CAREER MODE // SHOWDOWN 17",
+    "heading": "HOME",
+    "headingMetaStrong": "RIVALRY HEADQUARTERS",
+    "headingMetaText": "Build the rivalry, play every season, and carry each trophy into your Legacy.",
+    "tiles": {
+      "continueCareer": {
+        "code": "CAREER",
+        "label": "CONTINUE CAREER"
+      },
+      "newShowdown": {
+        "code": "NEW",
+        "label": "START A SHOWDOWN",
+        "meta": "Choose seasons and create the code"
+      },
+      "newShowdownNik": {
+        "code": "JOIN",
+        "label": "JOIN DANIEL'S SHOWDOWN",
+        "meta": "Paste Daniel's code"
+      },
+      "legacyButton": {
+        "code": "HISTORY",
+        "label": "LEGACY",
+        "meta": "Completed rivalries and season history"
+      },
+      "careerStatisticsButton": {
+        "code": "DATA",
+        "label": "STATISTICS",
+        "meta": "Career totals, manager comparison and honours"
+      },
+      "ruleBookButton": {
+        "code": "RULES",
+        "label": "RULE BOOK",
+        "meta": "Scoring and competition rules"
+      },
+      "settingsButton": {
+        "code": "SETTINGS",
+        "label": "SETTINGS",
+        "meta": "Account, device and preferences"
+      },
+      "trophyRoomButton": {
+        "code": "HONOURS",
+        "label": "TROPHY ROOM",
+        "meta": "Career trophies, standings and records"
+      }
+    },
+    "media": {
+      "sectionLabel": "Menu media",
+      "selectorLabel": "Choose Audius soundtrack",
+      "category": "AUDIUS SOUNDTRACK",
+      "source": "AUDIUS",
+      "toggle": "PLAY TRACK",
+      "mute": "MUTE",
+      "statusTemplate": "{TITLE} · AUDIUS · READY",
+      "tracks": [
+        {
+          "key": "whatYouGot",
+          "title": "WHAT YOU GOT",
+          "artist": "Valentino Khan & NITTI"
+        },
+        {
+          "key": "snowGlobe",
+          "title": "SNOW GLOBE",
+          "artist": "Hadji Gaviota"
+        },
+        {
+          "key": "nasty",
+          "title": "NASTY",
+          "artist": "grouptherapy."
+        },
+        {
+          "key": "imAlwaysRight",
+          "title": "I'M ALWAYS RIGHT",
+          "artist": "The Holdup"
+        }
+      ],
+      "defaultTrack": "whatYouGot"
+    },
+    "bottomStrip": [
+      [
+        "01",
+        "TWO MANAGER CAREER COMPETITION"
+      ],
+      [
+        "02",
+        "FIFA 17 ERA RULESET"
+      ]
+    ],
+    "bottomStripState": "READY",
+    "footer": [
+      "Career Mode Showdown",
+      "v1.9.1"
+    ]
+  },
+  "decorative": [
+    "THE RIVALRY STARTS HERE",
+    "TWO MANAGERS · ONE LEGACY",
+    "CM 17",
+    "More Than A Game",
+    "FOOTBALL BRINGS US TOGETHER"
+  ],
+  "frames": {
+    "HM1": {
+      "tier": "S",
+      "note": "signed out, no save",
+      "badge": "SIGN IN",
+      "indicator": "No Active Showdown",
+      "save": {
+        "hasSave": false,
+        "label": "CONTINUE CAREER",
+        "meta": "No active showdown saved"
+      },
+      "newTile": "newShowdown",
+      "primary": "newShowdown",
+      "tiles": {
+        "history": {
+          "available": false,
+          "reason": "not-paired"
+        },
+        "statistics": {
+          "available": false,
+          "reason": "not-paired"
+        },
+        "trophyRoom": {
+          "available": false,
+          "reason": "not-paired"
+        },
+        "rivalry": {
+          "available": false,
+          "reason": "not-paired"
+        }
+      }
+    },
+    "HM2": {
+      "note": "Nik signed in, active save (season 2 of 3)",
+      "badge": "NIK",
+      "indicator": "Season 2 / 3",
+      "save": {
+        "hasSave": true,
+        "label": "CONTINUE CAREER",
+        "meta": "Daniel vs Nik · Season 2 of 3"
+      },
+      "newTile": "newShowdownNik",
+      "primary": "continueCareer",
+      "tiles": {
+        "history": {
+          "available": true,
+          "reason": null
+        },
+        "statistics": {
+          "available": true,
+          "reason": null
+        },
+        "trophyRoom": {
+          "available": true,
+          "reason": null
+        },
+        "rivalry": {
+          "available": true,
+          "reason": null
+        }
+      }
+    },
+    "HM3": {
+      "note": "Daniel signed in, completed showdown",
+      "badge": "DANIEL",
+      "indicator": "Showdown Complete",
+      "save": {
+        "hasSave": true,
+        "label": "VIEW COMPLETED SHOWDOWN",
+        "meta": "Daniel vs Nik · Showdown complete"
+      },
+      "newTile": "newShowdown",
+      "primary": "continueCareer",
+      "tiles": {
+        "history": {
+          "available": true,
+          "reason": null
+        },
+        "statistics": {
+          "available": true,
+          "reason": null
+        },
+        "trophyRoom": {
+          "available": true,
+          "reason": null
+        },
+        "rivalry": {
+          "available": true,
+          "reason": null
+        }
+      }
+    },
+    "S0": {
+      "plateOnly": true,
+      "note": "plate only (seam evidence)"
+    }
+  },
+  "ownerChange": {
+    "when": "2026-10-01",
+    "by": "Nik (relayed in session)",
+    "summary": "OWNER-5: Home is seven destinations. Trophy Room is now its own Home tile; Rivalry Statistics remains reached through Statistics and the active Showdown."
+  },
+  "routes": {
+    "continueCareer": {
+      "opens": "active showdown (dashboard / completed view)",
+      "productBinding": "js/menuExperience.js + app navigation",
+      "data": "currentShowdown, falls back to loadSavedShowdown() = localStorage careerModeShowdown.activeShowdown"
+    },
+    "newShowdown": {
+      "opens": "#createShowdown (Daniel) / join flow (Nik)",
+      "productBinding": "js/onlinePlayerIdentity.js configureOnlineProductSurface",
+      "data": "online pairing flow"
+    },
+    "legacyButton": {
+      "opens": "#legacy",
+      "productBinding": "js/optionalModules.js getOptionalModuleButton('legacy') -> js/legacy.js",
+      "data": "LOCAL ONLY: loadLegacyShowdowns() + loadSavedShowdown() (js/storage.js, localStorage careerModeShowdown.legacyShowdowns / careerModeShowdown.activeShowdown)"
+    },
+    "careerStatisticsButton": {
+      "opens": "career statistics (lazy module careerStatistics)",
+      "productBinding": "js/optionalModules.js bindOptionalModuleButton(#careerStatisticsButton,'careerStatistics') -> js/analytics.js",
+      "data": "LOCAL ONLY: loadLegacyShowdowns() + loadSavedShowdown() + currentShowdown (js/analytics.js)"
+    },
+    "trophyRoom": {
+      "opens": "Trophy Room (standalone Home destination; js/trophyRoom.js openTrophyRoom())",
+      "productBinding": "standalone Home tile -> js/trophyRoom.js openTrophyRoom()",
+      "data": "Authoritative online history adapter (DATA_CONTRACT_V1 §7; until ready, use unavailable state rather than local-only data)"
+    },
+    "ruleBookButton": {
+      "opens": "Rule Book (lazy module ruleBook)",
+      "productBinding": "js/optionalModules.js",
+      "data": "static rules"
+    },
+    "settingsButton": {
+      "opens": "Settings (lazy module settings)",
+      "productBinding": "js/optionalModules.js",
+      "data": "account/device settings"
+    }
+  },
+  "availabilityMessages": {
+    "loading": "Loading…",
+    "reconnecting": "Reconnecting…",
+    "not-paired": "Pair with your rival first",
+    "unavailable": "Not available right now"
+  },
+  "destinations": [
+    {
+      "id": "continueCareer",
+      "labelKey": "continueCareer",
+      "route": "continueCareer"
+    },
+    {
+      "id": "newShowdown",
+      "labelKey": "newShowdown",
+      "route": "newShowdown"
+    },
+    {
+      "id": "legacyButton",
+      "labelKey": "legacyButton",
+      "route": "legacyButton",
+      "availabilityKey": "history"
+    },
+    {
+      "id": "careerStatisticsButton",
+      "labelKey": "careerStatisticsButton",
+      "route": "careerStatisticsButton",
+      "availabilityKey": "statistics"
+    },
+    {
+      "id": "trophyRoomButton",
+      "labelKey": "trophyRoomButton",
+      "route": "trophyRoom",
+      "availabilityKey": "trophyRoom"
+    },
+    {
+      "id": "ruleBookButton",
+      "labelKey": "ruleBookButton",
+      "route": "ruleBookButton"
+    },
+    {
+      "id": "settingsButton",
+      "labelKey": "settingsButton",
+      "route": "settingsButton"
+    }
+  ]
+}

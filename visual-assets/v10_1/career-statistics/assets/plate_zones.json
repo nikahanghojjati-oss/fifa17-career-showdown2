@@ -1,0 +1,71 @@
+{
+ "source": "project-documents/factory/mockups/MOCKUP_CAREER_STATISTICS.png",
+ "size": [
+  1672,
+  941
+ ],
+ "format": "rectangles [x0, y0, x1, y1] in source pixels, inclusive, already include the margin",
+ "zones": [
+  [
+   0,
+   0,
+   1515,
+   100
+  ],
+  [
+   1530,
+   8,
+   1672,
+   94
+  ],
+  [
+   530,
+   108,
+   1145,
+   268
+  ],
+  [
+   405,
+   268,
+   1265,
+   388
+  ],
+  [
+   372,
+   392,
+   985,
+   594
+  ],
+  [
+   980,
+   392,
+   1345,
+   612
+  ],
+  [
+   250,
+   616,
+   1425,
+   776
+  ],
+  [
+   265,
+   780,
+   1405,
+   850
+  ],
+  [
+   0,
+   882,
+   1672,
+   941
+  ],
+  [
+   0,
+   540,
+   140,
+   700
+  ]
+ ],
+ "made_by": "Claude, 2026-10-02"
+}

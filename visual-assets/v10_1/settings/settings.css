@@ -1,0 +1,923 @@
+/* JOB-095 · Settings stage.
+   The shared stage engine owns cover geometry; this screen only supplies the
+   calm system-stadium treatment required for settings copy. */
+
+html,
+body {
+  width: 100%;
+  min-width: 100%;
+  height: 100%;
+  min-height: 100%;
+  margin: 0;
+}
+
+body {
+  overflow: hidden;
+  background: #050505;
+  /* Claude FIX 3: inherit the kit body face globally so unclassed fixture copy
+     never falls back to the browser's Times serif default. */
+  font-family: var(--sd-font-body, system-ui, sans-serif);
+}
+
+#stage-root {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+/* Heavy settings scrim: the stadium remains legible as atmosphere, but text
+   panels get a quieter field than gameplay-facing screens. */
+.settingsStageScrim {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(2, 2, 2, 0.50) 0%, rgba(2, 2, 2, 0.68) 100%),
+    radial-gradient(circle at 50% 44%, rgba(0, 0, 0, 0.12) 0%, rgba(0, 0, 0, 0.34) 72%);
+}
+
+.sd-stage__layer--ui {
+  min-width: 0;
+  min-height: 0;
+}
+
+.settingsVisuallyHidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.settingsHeader {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* Trophy Room title reference, 1664 × 936:
+   centre x ≈ 50%; eyebrow top ≈ 11.8%; title top ≈ 13.6%;
+   title width ≈ 30.7%; tagline top ≈ 21.4%.
+   Settings intentionally inherits only this title geometry. */
+.settingsTitleBlock {
+  position: absolute;
+  top: 11.8%;
+  left: 50%;
+  width: min(34vw, 566px);
+  transform: translateX(-50%);
+  text-align: center;
+  pointer-events: none;
+}
+
+.settingsEyebrow {
+  margin: 0 0 0.4rem;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+}
+
+.settingsWordmark {
+  display: block;
+  width: 90.3%; /* ≈30.7% viewport width inside a 34% title block. */
+  height: auto;
+  margin: 0 auto;
+  object-fit: contain;
+}
+
+.settingsTagline {
+  margin: 0.15rem 0 0;
+  letter-spacing: 0.36em;
+  text-transform: uppercase;
+}
+
+#settingsClose {
+  position: absolute;
+  top: calc(52px + 1rem);
+  right: 2rem;
+  min-width: 44px;
+  min-height: 44px;
+  pointer-events: auto;
+}
+
+.settingsDialog {
+  position: absolute;
+  inset: 0;
+  padding-top: 52px;
+}
+
+/* No Settings mockup exists. These are DEFAULT system-grid measurements rather
+   than borrowed mockup coordinates. Claude FIX 2 moves the grid below the
+   complete SETTINGS wordmark + tagline: x≈7.6%, y≈34.0%, w≈84.8%, h≈56.0%. */
+#settingsContent {
+  position: absolute;
+  top: 34%;
+  left: 7.6%;
+  width: 84.8%;
+  height: 56%;
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  /* Claude FIX 1: give the upper cards a real content-sized row so their
+     44px actions remain inside the gold frame at desktop heights. */
+  grid-template-rows: minmax(235px, 0.54fr) minmax(190px, 0.46fr);
+  gap: 1.35vw;
+}
+
+/* DEFAULT: account x≈7.6%, y≈34.0%, w≈20.1%; height follows the content-sized upper track. */
+.settingsPanel--account {
+  grid-column: 1 / 4;
+  grid-row: 1;
+}
+
+/* DEFAULT: application x≈29.0%, y≈34.0%, w≈27.4%; height follows the content-sized upper track. */
+.settingsPanel--application {
+  grid-column: 4 / 8;
+  grid-row: 1;
+}
+
+/* DEFAULT: motion x≈57.8%, y≈34.0%, w≈34.6%, h≈56.0%. */
+.settingsPanel--motion {
+  grid-column: 8 / 13;
+  grid-row: 1 / 3;
+}
+
+/* DEFAULT: data x≈7.6%; second row begins after the enlarged upper track. */
+.settingsPanel--data {
+  grid-column: 1 / 8;
+  grid-row: 2;
+}
+
+.settingsPanel {
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* Claude intake fix 2026-10-04: removed the step-4 rule that hid every panel's content
+   (#settingsContent > .settingsPanel > * { visibility: hidden }); its id selector beat the step-5 reveal rules. */
+
+#previewTag,
+#frameNote,
+#contractState,
+#interimLabel,
+.settingsFooter,
+#confirmDialog {
+  visibility: hidden;
+}
+
+
+/* STEP 5 · upper settings group */
+.settingsPanel--account,
+.settingsPanel--application {
+  padding: clamp(15px, 1.25vw, 20px);
+  border: 1px solid rgba(219, 178, 94, 0.58);
+  background:
+    linear-gradient(180deg, rgba(18, 18, 18, 0.86), rgba(7, 7, 7, 0.78)),
+    radial-gradient(circle at 15% 0%, rgba(216, 173, 78, 0.10), transparent 46%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 231, 179, 0.10),
+    0 18px 42px rgba(0, 0, 0, 0.28);
+}
+
+.settingsPanel--account > *,
+.settingsPanel--application > * {
+  visibility: visible;
+}
+
+.settingsPanel--account > p:first-child,
+.settingsPanel--application > p:first-child {
+  margin: 0 0 7px;
+  font-size: 0.68rem;
+  line-height: 1;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--sd-gold, #d9b15f);
+}
+
+.settingsPanel--account h2,
+.settingsPanel--application h2 {
+  margin: 0;
+  font: 700 clamp(1rem, 1.26vw, 1.35rem)/1.05 var(--sd-font-display, sans-serif);
+  letter-spacing: 0.035em;
+  text-transform: uppercase;
+  color: #f5f1e8;
+}
+
+#accountDescription,
+#applicationDescription {
+  margin: 6px 0 9px;
+  max-width: 42ch;
+  font-size: clamp(0.7rem, 0.76vw, 0.82rem);
+  line-height: 1.38;
+  color: rgba(245, 241, 232, 0.72);
+}
+
+.settingsPanel--account dl,
+.settingsPanel--application dl {
+  display: grid;
+  gap: 4px;
+  margin: 0 0 8px;
+}
+
+.settingsPanel--account dl > div,
+.settingsPanel--application dl > div {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 5px;
+  border-top: 1px solid rgba(255, 255, 255, 0.09);
+}
+
+.settingsPanel--account dt,
+.settingsPanel--application dt {
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(245, 241, 232, 0.56);
+}
+
+.settingsPanel--account dd,
+.settingsPanel--application dd {
+  margin: 0;
+  font: 700 0.78rem/1 var(--sd-font-condensed, sans-serif);
+  letter-spacing: 0.05em;
+  color: #f5f1e8;
+}
+
+#accountActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+#accountActions button,
+.settingsApplicationUpdateButton {
+  min-height: 44px;
+  border: 1px solid rgba(219, 178, 94, 0.66);
+  padding: 0 13px;
+  background: rgba(0, 0, 0, 0.58);
+  color: #f5f1e8;
+  font: 700 0.67rem/1 var(--sd-font-condensed, sans-serif);
+  letter-spacing: 0.075em;
+  text-transform: uppercase;
+}
+
+#accountActions button:focus-visible,
+.settingsApplicationUpdateButton:focus-visible {
+  outline: 2px solid #f0c96d;
+  outline-offset: 3px;
+}
+
+#applicationUpdateStatus,
+#photoCredit {
+  margin: 7px 0 0;
+  font-size: 0.64rem;
+  line-height: 1.32;
+  color: rgba(245, 241, 232, 0.61);
+}
+
+#photoCredit a {
+  color: #e5bd69;
+  text-underline-offset: 2px;
+}
+
+
+/* STEP 6 · main Motion & Feedback panel */
+.settingsPanel--motion {
+  padding: clamp(20px, 1.7vw, 30px);
+  border: 1px solid rgba(219, 178, 94, 0.72);
+  background:
+    linear-gradient(180deg, rgba(16, 16, 16, 0.92), rgba(5, 5, 5, 0.86)),
+    radial-gradient(circle at 80% 10%, rgba(221, 177, 77, 0.12), transparent 44%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 235, 194, 0.12),
+    0 22px 48px rgba(0, 0, 0, 0.34);
+}
+
+.settingsPanel--motion > * {
+  visibility: visible;
+}
+
+#motionEyebrow {
+  margin: 0 0 7px;
+  font-size: 0.68rem;
+  line-height: 1;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--sd-gold, #d9b15f);
+}
+
+#motionTitle {
+  margin: 0;
+  font: 700 clamp(1.22rem, 1.65vw, 1.7rem)/1 var(--sd-font-display, sans-serif);
+  letter-spacing: 0.035em;
+  text-transform: uppercase;
+  color: #f7f3e9;
+}
+
+#motionDescription {
+  margin: 9px 0 14px;
+  max-width: 54ch;
+  font-size: clamp(0.72rem, 0.78vw, 0.85rem);
+  line-height: 1.42;
+  color: rgba(247, 243, 233, 0.70);
+}
+
+#motionBadge {
+  display: inline-flex;
+  min-height: 26px;
+  align-items: center;
+  margin: 0 0 13px;
+  padding: 0 10px;
+  border: 1px solid rgba(219, 178, 94, 0.58);
+  background: rgba(219, 178, 94, 0.10);
+  color: #edc873;
+  font: 700 0.64rem/1 var(--sd-font-condensed, sans-serif);
+  letter-spacing: 0.16em;
+}
+
+.settingsPanel--motion dl {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin: 0 0 14px;
+}
+
+.settingsPanel--motion dl > div {
+  padding: 9px 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.10);
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.settingsPanel--motion dt {
+  margin-bottom: 5px;
+  font-size: 0.59rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: rgba(247, 243, 233, 0.50);
+}
+
+.settingsPanel--motion dd {
+  margin: 0;
+  font: 700 0.78rem/1.15 var(--sd-font-condensed, sans-serif);
+  color: #f7f3e9;
+}
+
+#motionChoices {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 0 0 14px;
+}
+
+.settingsMotionChoice {
+  min-height: 86px;
+  padding: 12px 13px;
+  border: 1px solid rgba(219, 178, 94, 0.36);
+  background: rgba(0, 0, 0, 0.48);
+  color: #f5f0e6;
+  text-align: left;
+  font: 700 0.72rem/1.2 var(--sd-font-condensed, sans-serif);
+  letter-spacing: 0.08em;
+}
+
+.settingsMotionChoice span {
+  display: inline-block;
+  margin-top: 7px;
+  font: 400 0.66rem/1.35 var(--sd-font-body, sans-serif);
+  letter-spacing: 0;
+  color: rgba(245, 240, 230, 0.62);
+}
+
+.settingsMotionChoice[aria-checked="true"] {
+  border-color: #e0b95f;
+  background:
+    linear-gradient(135deg, rgba(225, 184, 89, 0.20), rgba(0, 0, 0, 0.55));
+  box-shadow: inset 3px 0 0 #e0b95f;
+}
+
+.settingsMotionChoice:focus-visible,
+.settingsAudioToggle:focus-visible {
+  outline: 2px solid #f0c96d;
+  outline-offset: 3px;
+}
+
+#feedbackRow {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 18px;
+  align-items: center;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.11);
+}
+
+#feedbackLabel {
+  margin: 0 0 4px;
+  font: 700 0.72rem/1 var(--sd-font-condensed, sans-serif);
+  letter-spacing: 0.10em;
+  color: #f7f3e9;
+}
+
+#feedbackDescription {
+  margin: 0;
+  max-width: 48ch;
+  font-size: 0.64rem;
+  line-height: 1.34;
+  color: rgba(247, 243, 233, 0.58);
+}
+
+.settingsAudioToggle {
+  min-width: 58px;
+  min-height: 44px;
+  border: 1px solid rgba(219, 178, 94, 0.56);
+  background: rgba(0, 0, 0, 0.62);
+  color: rgba(247, 243, 233, 0.72);
+  font: 700 0.7rem/1 var(--sd-font-condensed, sans-serif);
+  letter-spacing: 0.08em;
+}
+
+.settingsAudioToggle[aria-checked="true"] {
+  border-color: #e0b95f;
+  background: rgba(224, 185, 95, 0.18);
+  color: #f0cf80;
+}
+
+
+/* STEP 7 · Showdown Data and action row */
+.settingsPanel--data {
+  padding: clamp(18px, 1.55vw, 26px);
+  border: 1px solid rgba(219, 178, 94, 0.58);
+  background:
+    linear-gradient(180deg, rgba(18, 18, 18, 0.88), rgba(7, 7, 7, 0.82)),
+    radial-gradient(circle at 8% 100%, rgba(216, 173, 78, 0.09), transparent 48%);
+  box-shadow: inset 0 1px 0 rgba(255, 231, 179, 0.10), 0 18px 42px rgba(0,0,0,.28);
+}
+
+.settingsPanel--data > * { visibility: visible; }
+#dataEyebrow {
+  margin: 0 0 7px;
+  font-size: .68rem;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  color: var(--sd-gold, #d9b15f);
+}
+#dataTitle {
+  margin: 0;
+  font: 700 clamp(1rem,1.28vw,1.4rem)/1.05 var(--sd-font-display,sans-serif);
+  color: #f5f1e8;
+}
+#dataDescription {
+  margin: 8px 0 9px;
+  max-width: 72ch;
+  font-size: clamp(.68rem,.74vw,.8rem);
+  line-height: 1.38;
+  color: rgba(245,241,232,.70);
+}
+#dataNote {
+  margin: 0 0 12px;
+  font-size: .64rem;
+  line-height: 1.35;
+  color: rgba(245,241,232,.56);
+}
+#dataActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+}
+#dataActions button,
+.settingsFooter button {
+  min-height: 44px;
+}
+.settingsDangerButton {
+  min-height: 44px;
+  border: 1px solid rgba(214,75,75,.85);
+  padding: 0 14px;
+  background: rgba(95,15,15,.28);
+  color: #ffd9d9;
+  font: 700 .68rem/1 var(--sd-font-condensed,sans-serif);
+  letter-spacing: .07em;
+}
+.settingsDangerButton:focus-visible,
+#dataActions button:focus-visible,
+.settingsFooter button:focus-visible {
+  outline: 2px solid #f0c96d;
+  outline-offset: 3px;
+}
+.settingsFooter {
+  visibility: visible;
+  position: absolute;
+  right: 7.6%;
+  bottom: 4.4%;
+}
+.settingsFooter .sd-btn--primary {
+  min-width: 142px;
+}
+
+
+/* STEP 8 · fixture states */
+#settingsDialog [hidden] {
+  display: none !important;
+}
+
+.settingsStateRail {
+  position: absolute;
+  top: 24.2%;
+  left: 7.6%;
+  right: 7.6%;
+  min-height: 34px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  pointer-events: none;
+}
+
+#previewTag,
+#frameNote,
+#contractState,
+#interimLabel {
+  visibility: visible;
+  margin: 0;
+}
+
+#previewTag {
+  display: inline-flex;
+  min-height: 28px;
+  align-items: center;
+  padding: 0 9px;
+  border: 1px solid rgba(219, 178, 94, 0.52);
+  background: rgba(6, 6, 6, 0.72);
+  color: #e8c678;
+  font: 700 0.58rem/1 var(--sd-font-condensed, sans-serif);
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+#frameNote,
+#contractState,
+#interimLabel {
+  display: none;
+}
+
+#stage-root:not([data-status="ready"]) #frameNote,
+#stage-root:not([data-status="ready"]) #contractState {
+  display: inline-flex;
+  min-height: 28px;
+  align-items: center;
+}
+
+#contractState {
+  padding: 0 9px;
+  border: 1px solid rgba(236, 201, 121, 0.44);
+  background: rgba(13, 13, 13, 0.78);
+  color: #f0cf80;
+  font: 700 0.6rem/1 var(--sd-font-condensed, sans-serif);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+#contractState::before {
+  margin-right: 7px;
+  font-size: 0.8rem;
+  line-height: 1;
+}
+
+#stage-root[data-status="loading"] #contractState::before { content: "◌"; }
+#stage-root[data-status="empty"] #contractState::before { content: "◇"; }
+#stage-root[data-status="unavailable"] #contractState::before { content: "!"; }
+#stage-root[data-status="partial"] #contractState::before { content: "◐"; }
+
+#frameNote {
+  color: rgba(245, 241, 232, 0.76);
+  font-size: 0.66rem;
+  line-height: 1.25;
+}
+
+#stage-root[data-status="partial"] #interimLabel {
+  display: inline-flex;
+  min-height: 28px;
+  align-items: center;
+  padding: 0 9px;
+  border-left: 2px solid #d9b15f;
+  background: rgba(0, 0, 0, 0.50);
+  color: rgba(245, 241, 232, 0.78);
+  font-size: 0.64rem;
+  line-height: 1.25;
+}
+
+#stage-root[data-status="unavailable"] #contractState {
+  border-color: rgba(214, 75, 75, 0.78);
+  color: #ffd0d0;
+}
+
+#stage-root[data-status="loading"] .settingsPanel--data {
+  background:
+    linear-gradient(180deg, rgba(18, 18, 18, 0.82), rgba(7, 7, 7, 0.76)),
+    repeating-linear-gradient(110deg, rgba(219,178,94,.03) 0 12px, transparent 12px 24px);
+}
+
+#stage-root[data-status="empty"] .settingsPanel--data {
+  border-color: rgba(219, 178, 94, 0.42);
+}
+
+#stage-root[data-status="unavailable"] .settingsPanel--data {
+  border-color: rgba(214, 75, 75, 0.62);
+}
+
+#stage-root[data-status="partial"] .settingsPanel--data {
+  border-color: rgba(219, 178, 94, 0.80);
+}
+
+#confirmDialog {
+  visibility: visible;
+  position: absolute;
+  z-index: 20;
+  top: 50%;
+  left: 50%;
+  width: min(560px, 76vw);
+  transform: translate(-50%, -50%);
+  padding: clamp(22px, 2.2vw, 34px);
+  border: 1px solid rgba(214, 75, 75, 0.88);
+  background:
+    linear-gradient(180deg, rgba(22, 10, 10, 0.98), rgba(6, 6, 6, 0.98)),
+    radial-gradient(circle at 100% 0%, rgba(188, 55, 55, 0.16), transparent 48%);
+  box-shadow: 0 28px 90px rgba(0, 0, 0, 0.72);
+}
+
+#confirmMessage {
+  margin: 0 0 20px;
+  color: #f6eee8;
+  font-size: clamp(0.82rem, 0.92vw, 0.98rem);
+  line-height: 1.52;
+}
+
+#confirmDialog button {
+  min-height: 44px;
+  margin-right: 9px;
+}
+
+#confirmDialog [data-confirm="delete"] {
+  border: 1px solid rgba(214, 75, 75, 0.92);
+  padding: 0 14px;
+  background: rgba(116, 20, 20, 0.38);
+  color: #ffd9d9;
+  font: 700 0.68rem/1 var(--sd-font-condensed, sans-serif);
+  letter-spacing: 0.07em;
+}
+
+#confirmDialog button:focus-visible {
+  outline: 2px solid #f0c96d;
+  outline-offset: 3px;
+}
+
+#stage-root[data-confirm-open="true"] #settingsContent,
+#stage-root[data-confirm-open="true"] .settingsFooter,
+#stage-root[data-confirm-open="true"] .settingsHeader,
+#stage-root[data-confirm-open="true"] .settingsStateRail {
+  filter: brightness(0.52);
+}
+
+#stage-root[data-confirm-open="true"]::after {
+  content: "";
+  position: absolute;
+  z-index: 19;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.42);
+  pointer-events: none;
+}
+
+
+/* STEP 9 · portrait phone composition */
+.settingsPhonePlate,
+.nav-reserve {
+  display: none;
+}
+
+@media (max-width: 760px) and (orientation: portrait) {
+  /* Claude FIX 4: Settings is a full-screen hub. The shared stage's generic
+     phone mode reserves a character face band and pushes UI into the lower
+     54%; override that here so the single panel scroller owns the full
+     viewport above DONE + the 56px bottom-nav reserve. */
+  #stage-root.sd-stage[data-sd-mode="phone"] .sd-stage__layer--ui {
+    top: 0;
+    bottom: 0;
+    height: 100%;
+    overflow: visible;
+  }
+
+  #stage-root.sd-stage[data-sd-mode="phone"] .sd-stage__layer--plate,
+  #stage-root.sd-stage[data-sd-mode="phone"] .sd-stage__layer--atmosphere {
+    top: 0;
+    bottom: 0;
+    height: 100%;
+  }
+
+  :root {
+    --settings-phone-nav: calc(56px + env(safe-area-inset-bottom));
+    --settings-phone-title: 112px;
+    --settings-phone-state: 34px;
+    --settings-phone-gap: 8px;
+    --settings-phone-action: 44px;
+    --settings-phone-action-gap: 10px;
+  }
+
+  .sd-stage__layer--plate .sd-stage__registered {
+    display: none;
+  }
+
+  .settingsPhonePlate {
+    display: block;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .settingsPhonePlate img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 50%;
+  }
+
+  .settingsStageScrim {
+    background:
+      linear-gradient(180deg, rgba(2,2,2,.48), rgba(2,2,2,.74)),
+      radial-gradient(circle at 50% 28%, rgba(0,0,0,.08), rgba(0,0,0,.38) 74%);
+  }
+
+  .settingsDialog {
+    inset: 0;
+    padding: 0;
+  }
+
+  .settingsTitleBlock {
+    top: 12px;
+    width: min(66vw, 250px);
+  }
+
+  .settingsEyebrow {
+    margin-bottom: 2px;
+    font-size: 0.58rem;
+    letter-spacing: 0.28em;
+  }
+
+  .settingsWordmark {
+    width: 86%;
+    max-height: 58px;
+  }
+
+  .settingsTagline {
+    margin-top: 0;
+    font-size: 0.52rem;
+    letter-spacing: 0.23em;
+  }
+
+  #settingsClose {
+    z-index: 30;
+    top: 12px;
+    right: 12px;
+    min-width: 44px;
+    min-height: 44px;
+    font-size: 1.15rem;
+  }
+
+  .settingsStateRail {
+    top: var(--settings-phone-title);
+    left: 12px;
+    right: 12px;
+    min-height: var(--settings-phone-state);
+    gap: 6px;
+    overflow: hidden;
+  }
+
+  #previewTag,
+  #contractState {
+    flex: 0 0 auto;
+  }
+
+  #frameNote,
+  #interimLabel {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  #settingsContent {
+    top: calc(var(--settings-phone-title) + var(--settings-phone-state) + var(--settings-phone-gap));
+    left: 12px;
+    right: 12px;
+    bottom: calc(
+      var(--settings-phone-nav) +
+      var(--settings-phone-action) +
+      var(--settings-phone-action-gap) +
+      18px
+    );
+    width: auto;
+    height: auto;
+    display: block;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    overscroll-behavior-y: contain;
+    touch-action: pan-y;
+    -webkit-overflow-scrolling: touch;
+    padding: 0 4px 18px 0;
+    scrollbar-gutter: stable;
+  }
+
+  .settingsPanel {
+    width: auto;
+    min-height: 0;
+    margin: 0 0 10px;
+    padding: 14px;
+    overflow: visible;
+  }
+
+  .settingsPanel--motion dl,
+  #motionChoices {
+    grid-template-columns: 1fr;
+  }
+
+  .settingsMotionChoice {
+    min-height: 72px;
+  }
+
+  #feedbackRow {
+    gap: 10px;
+  }
+
+  #accountActions,
+  #dataActions {
+    flex-direction: column;
+  }
+
+  #accountActions button,
+  #dataActions button,
+  .settingsApplicationUpdateButton,
+  .settingsAudioToggle,
+  #confirmDialog button,
+  .settingsFooter button {
+    min-height: 44px;
+  }
+
+  #dataActions button,
+  .settingsApplicationUpdateButton {
+    width: 100%;
+  }
+
+  .settingsPanel--data {
+    border-color: rgba(214,75,75,.68);
+    box-shadow:
+      inset 3px 0 0 rgba(214,75,75,.60),
+      0 16px 34px rgba(0,0,0,.28);
+  }
+
+  .settingsFooter {
+    z-index: 25;
+    left: 12px;
+    right: 12px;
+    bottom: calc(var(--settings-phone-nav) + var(--settings-phone-action-gap));
+    height: var(--settings-phone-action);
+  }
+
+  .settingsFooter .sd-btn--primary {
+    width: 100%;
+    height: var(--settings-phone-action);
+    min-width: 0;
+  }
+
+  .nav-reserve {
+    display: block;
+    position: absolute;
+    z-index: 5;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: var(--settings-phone-nav);
+    pointer-events: none;
+  }
+
+  #confirmDialog {
+    width: auto;
+    left: 16px;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 20px;
+  }
+
+  #confirmDialog button {
+    width: 100%;
+    margin: 0 0 8px;
+  }
+
+  #confirmDialog button:last-child {
+    margin-bottom: 0;
+  }
+}
