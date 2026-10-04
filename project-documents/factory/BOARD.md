@@ -1,14 +1,14 @@
 # Showdown Factory board
 
-**205 of 238 jobs done and checked · 86 %** · updated Sun 1:48 p.m. Eastern
+**205 of 238 jobs done and checked · 86 %** · updated Sun 1:50 p.m. Eastern
 
-✅ **Quality check:** a job counts as done only after Claude checks it against the quality bar (average 4.2 or more, nothing under 3, hard gates pass). Average score 4.26 over 72 scored jobs. 🔍 Waiting for Claude's check: 104. 
+✅ **Quality check:** a job counts as done only after Claude checks it against the quality bar (average 4.2 or more, nothing under 3, hard gates pass). Average score 4.26 over 72 scored jobs. 🔍 Nothing waiting for a check. 🔧 Sent back with a fix list: 104.
 
 <img src="board-meter.svg" alt="Football progress meter" width="640">
 
 **Where to run:** 🟡 **project job** = new chat in the ChatGPT project "Showdown visual", type the number; one number is one turn (no Continue), and a job in parts shows its later parts only when the earlier part is done. 🟣 **image job** = its ticket in a ChatGPT **Temporary Chat** outside any project, then drop the picture in Claude's factory thread.
 
-🟡 **Type next:** 214
+🟡 **Type next:** 104 (fix)
 
 🟣 **Image next:** -
 
@@ -36,7 +36,7 @@ Setup          ██████████ 2/2
 Foundation     ██████████ 7/7
 Art            ██████████ 8/8
 Top bar        ██████████ 3/3
-Integration    █░░░░░░░░░ 6/38
+Integration    █░░░░░░░░░ 5/38
 ```
 
 ## Team V ↔ Team G (latest 3)
@@ -51,7 +51,7 @@ Branch `factory/v1-wtt5ye`. 238 Team V jobs, plus 5 lines that track Team G. Two
 
 **Overall (Team V):** ████████░░ 86 % · 205 of 238 jobs done
 
-**Start now · project (type the number in Showdown visual):** 214
+**Start now · project (type the number in Showdown visual):** 104 (fix)
 
 **Start now · fresh chat (image ticket, outside the project):** -
 
@@ -167,7 +167,7 @@ Branch `factory/v1-wtt5ye`. 238 Team V jobs, plus 5 lines that track Team G. Two
 | 101 | [Team G G-9 and G-10: Trophy Room standings and records, transfer history](jobs/JOB-101.md) | 6 Online history | tracking | team-g | 100 | ██████████ 100 % | DONE |  |
 | 102 | [Team G G-5, G-6 and G-11: active adapter, nav lock fields, model-true fixtures](jobs/JOB-102.md) | 6 Online history | tracking | team-g | 98 | ██████████ 100 % | DONE |  |
 | 103 | [Showcase: every screen in one place (part 1 of 5)](jobs/JOB-103.md) | 7 Integration | integrate | project (type number) | 36, 42, 48, 146, 56, 61, 153, 162, 171, 180, 184, 193, 94, 196, 199 | ██████████ 100 % | DONE |  |
-| 104 | [Showcase: screens read Team G's model-true fixtures (part 1 of 8)](jobs/JOB-104.md) | 7 Integration | integrate | project (type number) | 213, 102 | ██████████ 100 % | DONE |  |
+| 104 | [Showcase: screens read Team G's model-true fixtures (part 1 of 8)](jobs/JOB-104.md) | 7 Integration | integrate | project (type number) | 213, 102 | ██████████ 100 % | IN PROGRESS · FIX |  |
 | 105 | [Full phone pass (part 1 of 7)](jobs/JOB-105.md) | 7 Integration | review | project (type number) | 220 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 106 | [Full phone pass: fixes (part 1 of 3)](jobs/JOB-106.md) | 7 Integration | fix | project (type number) | 226 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 107 | [Motion and sound consistency pass (part 1 of 6)](jobs/JOB-107.md) | 7 Integration | review | project (type number) | 228 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
