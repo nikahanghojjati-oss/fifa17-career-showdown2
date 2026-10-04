@@ -14,3 +14,9 @@ python3 visual-assets/v10_1/shared/tools/cutout.py --plate visual-assets/v10_1/t
 ```
 
 Claude tightens the generous contours to the real person before final export. Preserve original pixels, Daniel left, Nik right, and never mirror either figure.
+
+## Step 5 · 393 × 660 phone proof
+
+Use `assets/phonemap.json > phone_frame` as the composition authority: portrait background cover, Daniel left at 62% frame height, Nik right at 64% frame height, both heads fully visible, and the lower scrim beginning at 46% frame height.
+
+# proof: Claude composites PHONE_PROOF.png (393 × 660 at 3×) from phone_frame
