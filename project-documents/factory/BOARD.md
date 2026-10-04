@@ -1,6 +1,6 @@
 # Showdown Factory board
 
-**78 of 135 jobs done and checked · 67 %** · updated Sat 8:47 p.m. Eastern
+**78 of 135 jobs done and checked · 67 %** · updated Sat 8:48 p.m. Eastern
 
 ✅ **Quality check:** a job counts as done only after Claude checks it against the quality bar (average 4.2 or more, nothing under 3, hard gates pass). Average score 4.24 over 26 scored jobs. 🔍 Waiting for Claude's check: 47, 58, 60, 77, 83, 87, 94, 95, 114, 115, 116. 
 
@@ -147,7 +147,7 @@ Branch `factory/v1-wtt5ye`. 135 Team V jobs, plus 5 lines that track Team G. Two
 | 81 | [Season Results: motion](jobs/JOB-081.md) | 5 New screens | build | project (type number) | 80, 16 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
 | 82 | [Final Winner: build (desktop)](jobs/JOB-082.md) | 5 New screens | build | project (type number) | 7, 23, 18, 134, 139, 19, 20, 21, 22 | ██████████ 100 % | DONE |  |
 | 83 | [Final Winner: phone](jobs/JOB-083.md) | 5 New screens | build | project (type number) | 82, 115 | ██████████ 100 % | DONE |  |
-| 84 | [Final Winner: review](jobs/JOB-084.md) | 5 New screens | review | project (type number) | 83 | ███████░░░ 71 % | IN PROGRESS |  |
+| 84 | [Final Winner: review](jobs/JOB-084.md) | 5 New screens | review | project (type number) | 83 | ████████░░ 85 % | IN PROGRESS |  |
 | 85 | [Final Winner: fix round](jobs/JOB-085.md) | 5 New screens | fix | project (type number) | 84, 124 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 86 | [Final Winner: motion](jobs/JOB-086.md) | 5 New screens | build | project (type number) | 85, 16 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
 | 87 | [Start / Join: build (desktop)](jobs/JOB-087.md) | 5 New screens | build | project (type number) | 8, 28, 18, 19, 20, 21, 22 | ██████████ 100 % | DONE |  |
