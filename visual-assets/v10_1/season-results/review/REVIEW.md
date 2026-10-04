@@ -1,6 +1,8 @@
-# Season Results review · Job 79 · Part 1 of 4
+# Season Results review · Jobs 79, 174, 175, 176 · Parts 1–4
 
 ## Verdict
+
+FAIL. Static score is 3.11 / 5, criteria 7 and 10 are below 3, and H4 fails product truth. H5–H11 are not failures, but remain NOT MEASURED until Claude supplies qualifying measurements.
 
 ## Scorecard
 
@@ -118,3 +120,15 @@ Evidence basis: direct reading of `TRUTH.md`, `fixtures.json` and `season-result
 | PASS | `season-results.js :: ShowdownStage.mount(); renderManagerPanel(); renderWorkflowState(); renderPreviewTag()` | Live/changing values are written into DOM text, input values, checked states and data attributes; no manager result, score, club value or workflow state is interpolated into an image URL. |
 
 ## Fix list
+
+1. `visual-assets/v10_1/season-results/fixtures.json` · `frames.SR4/SR5.managers.*.championsLeague`: replace the two dual-winner pairs with mutually exclusive flags — SR4 Daniel `true`, Nik `false`; SR5 Daniel `false`, Nik `true` — so each season has exactly one Champions League winner.
+2. `visual-assets/v10_1/season-results/season-results.js` · `renderManagerPanel()`: do not render `.season-score` or the `PREVIEW SCORE` label before `frame.scoringState === "SCORING_RECONCILED"`; before reconciliation the score row is hidden.
+3. `visual-assets/v10_1/season-results/fixtures.json` · `frames`: add an explicit unpublished-review fixture state after entry and before publish, with the real action labels `PUBLISH MY SEASON RESULT` and `EDIT MY RESULT`, so the draft-review path is represented instead of being reachable only through an error frame.
+4. `visual-assets/v10_1/season-results/season-results.js` · review-state branch in `renderActions()` / `renderWorkflowState()`: recognize the unpublished-review fixture state and show Publish + Edit with the TRUTH review copy; hide the entry action in that state.
+5. `visual-assets/v10_1/season-results/season-results.js` · `renderActions() #sharedSeasonCommitAction`: map retry, coordinator, commit, acknowledge and own-acknowledged-waiting states to `strings.buttons.commitRetry`, `commit`, `waitCoordinator`, `acknowledge` and `acknowledgedWaiting` so every documented Shared Season Commit state is reachable.
+6. `visual-assets/v10_1/season-results/season-results.js` · `renderManagerPanel() numeric`: replace the hard-coded position max `20` and points max `114` with the fixture/contract values `frame.teamCount` and `frame.maxPoints`.
+7. `visual-assets/v10_1/season-results/fixtures.json` · visible workflow strings: add fixture strings for the sealed waiting copy and `Authoritative scoring reconciled.`, then make them the single source for those state-changing messages; no state-changing visible copy should remain hard-coded.
+8. `visual-assets/v10_1/season-results/season-results.css` · desktop brush-title rule: set the Season Results title to the measured mockup geometry `left: 27.99%`, `top: 16.78%`, `width: 43.49%`.
+9. `visual-assets/v10_1/season-results/season-results.css` · Daniel desktop entry-card rule: set the panel to `left: 13.67%`, `top: 52.66%`, `width: 35.74%` to restore the mockup column width and alignment while keeping Daniel on the left.
+
+Claude-only H5–H11 measurements are intentionally not fix items until Claude measures them.
