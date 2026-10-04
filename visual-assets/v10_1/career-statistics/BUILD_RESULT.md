@@ -135,6 +135,28 @@ Source: review fix list (REVIEW.md, JOB-149), 6 items.
 - Blocked: none. Job 151 had no items (list has 6).
 - Claude must re-measure: H5-H11 (phone fit at 393x660, 360x640, 375x553; contrast; reduced motion; keyboard; console and requests; first-paint weight), mockup diff of the tiles and action row.
 
+## Motion
+
+Shared kit: `data-sd-enter` on the title, tiles, three panels and OPEN TROPHY ROOM; `sdEnter(stage)` runs once after the first render and fonts. Transform and opacity only.
+
+| Element | Delay | Duration | Easing |
+| --- | --- | --- | --- |
+| Brush title wipe | 250 ms | 450 ms | shared ease-out |
+| Headline tiles (4) | 400 ms, 60 ms stagger | 16 px rise + fade | shared ease-out |
+| Table, Comparison, Leaders panels | after the tiles, 60 ms stagger (kit caps at 6) | same | same |
+| Headline count-up | 450 ms | 500 ms | kit `sdCountUp` |
+| Comparison bars grow from centre | 650 ms | 450 ms | cubic-bezier(.22,1,.36,1) |
+| Leader row gold sweep | 700 ms | 520 ms | ease-out |
+| Rank crown pop (0.6 to 1.14 to 1) | 820 ms | 320 ms | cubic-bezier(.34,1.56,.64,1) |
+| OPEN TROPHY ROOM pulse | after panels begin | kit pulse | kit |
+| Hover and press on buttons, tab colour | 0 | 100 ms | ease-out / linear |
+
+Everything ends by about 1.15 s; the screen is usable at 0.6 s. Reduced motion (system block and `html[data-motion-reduced]` / `[data-reduced-motion]`): kit fade only, bar grow, sweep, crown pop and transitions off, no count-up.
+
+Criterion 8 self-score: 4. Evidence: shared entrance order, three screen-specific moments inside the budget, no layout properties animated. Claude records frame strips at intake.
+
+Phone layout fix (job 66): the shared stage pushed the UI layer down on phone; `.scene.sd-stage[data-sd-mode="phone"] .sd-stage__layer--ui { top: 0 }` and `top: auto` on the phone action row restore the full composition.
+
 ## Known gaps
 
 Final phone recomposition is intentionally left to the dedicated Career Statistics phone job. This desktop build includes the required `nav-reserve` placeholder without attempting to replace the shared bottom navigation. Motion choreography is also left to the later motion job.

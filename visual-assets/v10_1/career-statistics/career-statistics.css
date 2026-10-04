@@ -531,3 +531,23 @@ button:focus-visible { outline: 3px solid #fff1b8; outline-offset: 3px; }
 .careerTable tr.leaderRow td::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(100deg,transparent 30%,rgba(255,236,150,.55) 50%,transparent 70%); transform: translate3d(-110%,0,0); opacity: 0; }
 .careerStage.sd-motion-ready .careerTable tr.leaderRow td::after { animation: csRowSweep 520ms ease-out 700ms both; }
 .careerStage.sd-motion-ready .rankCrown { display: inline-block; animation: csCrownPop 320ms cubic-bezier(.34,1.56,.64,1) 820ms both; }
+
+/* JOB-153 feel: feedback <= 120 ms, no layout shift; reduced motion = fades only (system setting and the app's own setting). */
+.actionButton { transition: transform 100ms ease-out, filter 100ms ease-out; }
+.actionButton:hover { filter: brightness(1.1); }
+.actionButton:active { transform: scale(.985); }
+.phoneTabs label { transition: background-color 100ms linear, color 100ms linear; }
+@media (prefers-reduced-motion: reduce) {
+  .careerStage .compareTrack i, .careerStage .careerTable tr.leaderRow td::after, .careerStage .rankCrown { animation: none !important; }
+  .actionButton, .phoneTabs label { transition: none; }
+  .actionButton:active { transform: none; }
+}
+html[data-motion-reduced="true"] .careerStage .compareTrack i,
+html[data-reduced-motion="true"] .careerStage .compareTrack i,
+html[data-motion-reduced="true"] .careerStage .careerTable tr.leaderRow td::after,
+html[data-reduced-motion="true"] .careerStage .careerTable tr.leaderRow td::after,
+html[data-motion-reduced="true"] .careerStage .rankCrown,
+html[data-reduced-motion="true"] .careerStage .rankCrown { animation: none !important; }
+html[data-motion-reduced="true"] .actionButton, html[data-reduced-motion="true"] .actionButton,
+html[data-motion-reduced="true"] .phoneTabs label, html[data-reduced-motion="true"] .phoneTabs label { transition: none; }
+html[data-motion-reduced="true"] .actionButton:active, html[data-reduced-motion="true"] .actionButton:active { transform: none; }
