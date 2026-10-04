@@ -245,6 +245,47 @@
       "winner": null,
       "tiebreak": null
     },
+    "SR2_REVIEW": {
+      "note": "Daniel device, unpublished review after entry and before publish. Daniel's reviewed result is read-only for review; Nik remains sealed.",
+      "previewLabel": "Preview data",
+      "status": "ready",
+      "phase": "unpublished-review",
+      "viewer": "daniel",
+      "managerOrder": [
+        "daniel",
+        "nik"
+      ],
+      "sealed": [
+        "nik"
+      ],
+      "managers": {
+        "daniel": {
+          "leaguePosition": 1,
+          "leaguePoints": 96,
+          "leagueGoals": 94,
+          "domesticCup": true,
+          "championsLeague": true,
+          "topScorer": false,
+          "topAssist": true
+        }
+      },
+      "actionLabels": {
+        "primary": "PUBLISH MY SEASON RESULT",
+        "secondary": "EDIT MY RESULT"
+      },
+      "context": {
+        "season": 1,
+        "totalSeasons": 3,
+        "leagueId": "premier_league",
+        "clubs": {
+          "daniel": "arsenal",
+          "nik": "chelsea"
+        }
+      },
+      "breakdown": null,
+      "winner": null,
+      "tiebreak": null
+    },
     "SR3": {
       "note": "Daniel has published first; own result is read-only and Nik remains sealed. The same privacy rule applies symmetrically when Nik publishes first.",
       "previewLabel": "Preview data",
