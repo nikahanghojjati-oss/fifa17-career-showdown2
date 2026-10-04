@@ -121,6 +121,7 @@ button:focus-visible { outline: 3px solid #fff1b8; outline-offset: 3px; }
 }
 /* JOB-063 phone structure: portrait is a separate composition, not a scaled desktop. */
 .phoneFaceBand { display: contents; }
+.phoneSceneArt { display: none; }
 .phoneTabControl, .phoneTabs { display: none; }
 .nav-reserve { display: none; }
 
@@ -139,6 +140,84 @@ button:focus-visible { outline: 3px solid #fff1b8; outline-offset: 3px; }
 }
 
 @media (max-width: 760px) and (orientation: portrait) {
+  .scene .sd-stage__layer--plate { display: none; }
+
+  .phoneSceneArt {
+    display: block;
+    position: absolute;
+    z-index: 2;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .phoneBackground {
+    position: absolute;
+    z-index: 0;
+    inset: 0;
+    overflow: hidden;
+  }
+
+  .phoneBackground img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    object-position: 50% 36%;
+  }
+
+  .phoneSceneArt::after {
+    content: "";
+    position: absolute;
+    z-index: 4;
+    inset: 48% 0 0;
+    background: linear-gradient(180deg, rgba(5,6,8,0) 0%, rgba(5,6,8,.72) 50%, rgba(5,6,8,.96) 100%);
+  }
+
+  .phoneHero {
+    position: absolute;
+    z-index: 3;
+    top: 0;
+    height: 62%;
+    width: auto;
+    filter: drop-shadow(0 10px 12px rgba(0,0,0,.5)) drop-shadow(0 0 3px rgba(255,211,77,.32));
+  }
+
+  .phoneHero img {
+    width: auto;
+    height: 100%;
+    display: block;
+    object-fit: contain;
+    object-position: top left;
+  }
+
+  .phoneHeroDaniel {
+    left: -3%;
+    top: 1%;
+    height: 61%;
+  }
+
+  .phoneHeroNik {
+    left: 48%;
+    top: 0;
+    height: 62%;
+  }
+
+  .phoneHeroContact {
+    position: absolute;
+    z-index: 2;
+    top: 52%;
+    width: 30%;
+    height: 8%;
+    border-radius: 50%;
+    background: rgba(0,0,0,.48);
+    filter: blur(12px);
+    opacity: .7;
+  }
+
+  .phoneHeroContactDaniel { left: 2%; transform: rotate(-7deg); }
+  .phoneHeroContactNik { right: 2%; transform: rotate(7deg); }
+
   .careerStage {
     --phone-nav: calc(56px + env(safe-area-inset-bottom));
     --phone-gutter: 12px;
@@ -204,7 +283,7 @@ button:focus-visible { outline: 3px solid #fff1b8; outline-offset: 3px; }
     z-index: 7;
     left: var(--phone-gutter);
     right: var(--phone-gutter);
-    top: 42%;
+    top: 48%;
     bottom: 108px;
     display: grid;
     grid-template-rows: clamp(68px, 11svh, 86px) 44px minmax(0,1fr);
@@ -367,7 +446,7 @@ button:focus-visible { outline: 3px solid #fff1b8; outline-offset: 3px; }
   .partialBanner {
     left: var(--phone-gutter);
     right: var(--phone-gutter);
-    top: calc(42% - 24px);
+    top: calc(48% - 24px);
     width: auto;
     min-height: 22px;
     grid-template-columns: auto 1fr;
