@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-nav="hub">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="../shared/showdown-ui.css">
 <link rel="stylesheet" href="../shared/stage.css">
 <link rel="stylesheet" href="../shared/motion.css">
+<link rel="stylesheet" href="../shared/navbar/navbar.css">
 <link rel="stylesheet" href="start-join.css">
 </head>
 <body>
@@ -157,6 +158,8 @@
 </div>
 <script src="../shared/stage.js" defer></script>
 <script src="../shared/motion.js" defer></script>
+<script src="../shared/navbar/navbar.js"></script>
+<script>SDNav.mount({nav:{active:"career",locked:false,reason:null},routes:{home:"../home/index.html",career:"index.html",standings:"../standings/index.html",stats:"../career-statistics/index.html",rules:"../rule-book/index.html",settings:"../settings/index.html"}});</script>
 <script src="start-join.js" defer></script>
 <script>
 /* Phone tabs (<=900px): one step at a time. The tab follows the frame until the player picks one; desktop shows every panel and hides the tabs. */

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-nav="hub">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="../shared/showdown-ui.css">
   <link rel="stylesheet" href="../shared/stage.css">
   <link rel="stylesheet" href="../shared/motion.css">
+  <link rel="stylesheet" href="../shared/navbar/navbar.css">
   <link rel="stylesheet" href="trophy-room.css">
 </head>
 <body>
@@ -51,6 +52,8 @@
   </main>
   <script src="../shared/stage.js"></script>
   <script src="../shared/motion.js"></script>
+  <script src="../shared/navbar/navbar.js"></script>
+  <script>SDNav.mount({nav:{active:"career",locked:false,reason:null},routes:{home:"../home/index.html",career:"../start-join/index.html",standings:"../standings/index.html",stats:"../career-statistics/index.html",rules:"../rule-book/index.html",settings:"../settings/index.html"}});</script>
   <script src="trophy-room.js"></script>
 </body>
 </html>

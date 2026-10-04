@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-nav="hub">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="../shared/showdown-ui.css">
 <link rel="stylesheet" href="../shared/stage.css">
 <link rel="stylesheet" href="../shared/motion.css">
+<link rel="stylesheet" href="../shared/navbar/navbar.css">
 <link rel="stylesheet" href="rivalry-statistics.css">
 </head>
 <body>
@@ -99,6 +100,8 @@
 <script src="../../../js/visualIdentity.js"></script>
 <script src="../shared/stage.js"></script>
 <script src="../shared/motion.js"></script>
+<script src="../shared/navbar/navbar.js"></script>
+<script>SDNav.mount({nav:{active:"stats",locked:false,reason:null},routes:{home:"../home/index.html",career:"../start-join/index.html",standings:"../standings/index.html",stats:"../career-statistics/index.html",rules:"../rule-book/index.html",settings:"../settings/index.html"}});</script>
 <script src="rivalry-statistics.js"></script>
 <script>
 /* Phone tabs (<=900px): show one rivalry panel at a time. Desktop ignores data-tab and shows every panel. */

@@ -1951,3 +1951,9 @@ html[data-motion-reduced="true"] #stage-root.fwAnticipate::after, html[data-redu
 html[data-motion-reduced="true"] #stage-root .winnerTrophyGlow, html[data-reduced-motion="true"] #stage-root .winnerTrophyGlow { animation: none !important; }
 html[data-motion-reduced="true"] .finalWinnerNavTabs button, html[data-reduced-motion="true"] .finalWinnerNavTabs button,
 html[data-motion-reduced="true"] .finalWinnerActionsSlot button, html[data-reduced-motion="true"] .finalWinnerActionsSlot button { transition: none; }
+
+/* Job 234 (final review item 6): on tall desktops the tagline grows past the fixed 99 px offset and
+   touched SHARED SHOWDOWN CLOSED; start the result copy at least 6 px under the tagline and open the stack. */
+@media (min-width: 901px) {
+  .finalWinnerHeroCopySlot { top: max(calc(14.8% + 99px), calc(26.5% + 6px)); gap: calc(.3vh + 4px); }
+}

@@ -305,3 +305,10 @@ html[data-motion-reduced="true"] .rv-shell[data-tab="trophies"] .rv-bottom--trop
     transform:none!important;
   }
 }
+
+/* Job 234 (final review item 4): the shared top bar now mounts here, so keep the preview chip and interim line clear of it. */
+.rv-preview{top:60px;left:auto;right:2.4%;transform:none}
+.rv-interim{top:58px}
+@media(max-width:900px){
+  .rv-preview{left:8px;right:auto}
+}

@@ -1624,3 +1624,14 @@ html[data-motion-reduced="true"] .season-layout *::after {
   .scoring-grid { gap: 1px 20px; padding-top: 4px; }
   .scoring-rule { font-size: 11px; line-height: 1.1; }
 }
+
+/* Job 234 (final review item 5): the tagline sat on the brush letters. Raise and slightly shrink the
+   wordmark (still centred on the mockup axis) and hang the tagline 4 px under it, clear of the scoring panel. */
+@media (min-width: 901px) {
+  #screen-title { top: 14.6%; left: 29.74%; width: 40%; }
+  .season-tagline { top: calc(14.6vh + 5.92vw + 4px); }
+}
+@media (min-width: 901px) and (min-aspect-ratio: 2/1) {
+  #screen-title { left: 33.74%; width: 32%; }
+  .season-tagline { top: calc(14.6vh + 4.74vw + 4px); }
+}
