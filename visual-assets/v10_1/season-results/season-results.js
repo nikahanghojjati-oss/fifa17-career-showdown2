@@ -20,7 +20,7 @@
   });
 
   const SR_MOTION = Object.freeze({
-    tick: 120, roll: 320, cap: 120, reduced: 150,
+    tick: 120, rollDelay: 550, roll: 320, cap: 120, reduced: 150,
     ease: "cubic-bezier(.22,1,.36,1)"
   });
   function reducedMotion() {
@@ -157,6 +157,35 @@
 
     body.append(stats, achievements);
     panel.append(header, hint, body);
+    const capTags = document.createElement("span");
+    capTags.className = "sr-cap-tags";
+    capTags.setAttribute("aria-hidden", "true");
+    ["performance", "awards"].forEach(bonus => {
+      const tag = document.createElement("span");
+      tag.className = "sr-max-tag";
+      tag.dataset.bonus = bonus;
+      tag.textContent = "MAX";
+      tag.hidden = true;
+      capTags.appendChild(tag);
+    });
+    header.appendChild(capTags);
+    function refreshCaps() {
+      const points = Number(panel.querySelector("#" + fields.leaguePoints).value);
+      const goals = Number(panel.querySelector("#" + fields.leagueGoals).value);
+      const caps = {
+        performance: (points >= 100 && points <= frame.maxPoints) || (goals >= 100 && goals <= 300),
+        awards: panel.querySelector("#" + fields.topScorer).checked || panel.querySelector("#" + fields.topAssist).checked
+      };
+      capTags.querySelectorAll("[data-bonus]").forEach(tag => {
+        const show = !!caps[tag.dataset.bonus];
+        const newlyReached = tag.hidden && show;
+        tag.hidden = !show;
+        if (newlyReached) feedbackMotion(tag,
+          [{ transform: "scale(1.4)", opacity: 0 }, { transform: "scale(1)", opacity: 1 }], SR_MOTION.cap);
+      });
+    }
+    refreshCaps();
+    panel.addEventListener("input", refreshCaps);
     panel.addEventListener("change", event => {
       const input = event.target;
       if (input.matches('input[type="checkbox"]') && !input.disabled && input.checked) {
@@ -467,7 +496,7 @@
     });
     if (document.fonts) await document.fonts.ready;
     if (typeof window.sdEnter === "function") window.sdEnter(stage);
-    animateCanonicalScores(frame);
+    window.setTimeout(() => animateCanonicalScores(frame), reducedMotion() ? 0 : SR_MOTION.rollDelay);
   }
 
   init().catch((error) => {
