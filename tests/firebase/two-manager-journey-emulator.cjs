@@ -334,7 +334,9 @@ async function playMainJourney(env){
   const finalB=Final.reconcile({sharedActive:true,multiSeason:lastMulti,history:lastHistory,localReconciliation:localAuthority("playerTwo")});
   assert.deepEqual(finalA,finalB,"Both managers must derive the same final Showdown");assert.deepEqual(finalA.managerTotals,totals);assert.equal(finalA.phase,"FINAL_SEASON_RECONCILED");
   const intent=Terminal.prepare(finalA,{sessionId:sid});
-  const closed=await TerminalProvider.close({...a(TOTAL_SEASONS*10000+2000),intent});assert.equal(closed.ok,true,JSON.stringify(closed));assert.equal(closed.rivalryState,"closed");assert.equal(closed.sessionState,"closed");
+  // The journey's synthetic clock (now + per-step offsets) runs ~100s ahead after 10 seasons on a fast runner; the session
+  // close stamps lastActivityAt from nowEpochMs and the Rules allow at most request.time + 1m, so close on the real clock.
+  const closed=await TerminalProvider.close({...a(TOTAL_SEASONS*10000+2000),nowEpochMs:Date.now(),intent});assert.equal(closed.ok,true,JSON.stringify(closed));assert.equal(closed.rivalryState,"closed");assert.equal(closed.sessionState,"closed");
   const rootA=await assertSucceeds(getDoc(doc(dbA,"rivalries",R1))),rootB=await assertSucceeds(getDoc(doc(dbB,"rivalries",R1)));assert.deepEqual(rootA.data().data.terminalClose,rootB.data().data.terminalClose);assert.equal(rootA.data().data.connectionState,"closed");await assertStrangerDenied(env,dbA,dbB,"after Terminal Close");
   return {now,dbA,dbB,finalA};
 }
