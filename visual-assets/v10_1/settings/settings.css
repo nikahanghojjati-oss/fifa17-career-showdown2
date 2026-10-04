@@ -14,6 +14,9 @@ body {
 body {
   overflow: hidden;
   background: #050505;
+  /* Claude FIX 3: inherit the kit body face globally so unclassed fixture copy
+     never falls back to the browser's Times serif default. */
+  font-family: var(--sd-font-body, system-ui, sans-serif);
 }
 
 #stage-root {
